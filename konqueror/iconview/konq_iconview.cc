@@ -41,6 +41,7 @@
 #include <klibloader.h>
 #include <klineeditdlg.h>
 #include <kmimetype.h>
+#include <konqsettings.h>
 #include <konqiconviewwidget.h>
 #include <krun.h>
 #include <kurl.h>
@@ -143,7 +144,7 @@ KonqKfmIconView::KonqKfmIconView()
   // (copying the default values)
   m_pProps = new KonqPropsView( * KonqPropsView::defaultProps() );
 
-  m_pIconView = new KonqIconViewWidget( this, "qiconview" );
+  m_pIconView = new KonqIconViewWidget( KonqSettings::defaultFMSettings(), this, "qiconview" );
 
   m_extension = new IconEditExtension( m_pIconView );
 
@@ -255,9 +256,6 @@ KonqKfmIconView::KonqKfmIconView()
   actions()->append( BrowserView::ViewAction( m_paUnselect, BrowserView::MenuEdit ) );
   actions()->append( BrowserView::ViewAction( m_paSelectAll, BrowserView::MenuEdit ) );
   actions()->append( BrowserView::ViewAction( m_paUnselectAll, BrowserView::MenuEdit ) );
-
-
-  m_pIconView->initConfig();
 
   QObject::connect( m_pIconView, SIGNAL( doubleClicked( QIconViewItem * ) ),
                     this, SLOT( slotReturnPressed( QIconViewItem * ) ) );
