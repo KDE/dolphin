@@ -189,7 +189,7 @@ void addBackEnd::activatedAddMenu(int id)
 
 				if (!myFile.isEmpty())
 				{
-					kdDebug() <<"trying to save to file: "<<myFile;
+					kdDebug() <<"trying to save to file: "<<myFile << endl;
 					KSimpleConfig scf(myFile,false);
 					scf.setGroup("Desktop Entry");
 					for (QMap<QString,QString>::ConstIterator it = map.begin(); it != map.end(); ++it) {
