@@ -42,8 +42,10 @@ konqueror_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 konqueror_LDADD = libkonqueror.la $(LIB_KIMGIO)
 
 messages:
-	$(XGETTEXT) -C  -ktranslate -kaliasLocal -ki18n -x $(includedir)/kde.pot \
-  *.h *.cc *view/*h *view/*cc && mv messages.po $(podir)/konqueror.pot 
+	$(EXTRACTRC) *.rc > partrc.cc
+	$(XGETTEXT) -C -kaliasLocal -ki18n -x $(includedir)/kde.pot \
+  -o $(podir)/konqueror.pot *.h *.cc *view/*h *view/*cc partrc.cc
+	rm partrc.cc
 
 check_PROGRAMS = linktest
 #using $(konqueror_SOURCES) below doesn't work (am_edit)
