@@ -222,7 +222,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
                                      "proxy information.<p> This automatic "
                                      "lookup works by searching for the "
                                      "following common variable names:</p>"
-                                     "<p><u>For Http: </u>%1</p>"
+                                     "<p><u>For HTTP: </u>%1</p>"
                                      "<p><u>For Secure: </u>%2</p>"
                                      "<p><u>For FTP: </u>%3</p>"
                                      "<p><u>For Gopher: </u>%4</p></qt>").arg(ENV_HTTP_PROXY).arg(ENV_SECURE_PROXY).arg(ENV_FTP_PROXY).arg(ENV_GOPHER_PROXY) );
@@ -364,7 +364,7 @@ void KEnvVarProxyDlg::verifyPressed()
                                "environment variable name rather than the "
                                "address of the proxy server.  For example, "
                                "if the set variable name used to specify the "
-                               "http proxy server is <b>HTTP_PROXY</b>, then "
+                               "HTTP proxy server is <b>HTTP_PROXY</b>, then "
                                "you need to enter <b>HTTP_PROXY</b> instead "
                                "of the actual address specified by the "
                                "variable.</qt>");
@@ -600,7 +600,7 @@ void KEnvVarProxyDlg::accept()
                                "environment variable name rather than the "
                                "adrdress of the proxy server.  For example, "
                                "if the set variable name used to specify the "
-                               "http proxy server is <b>HTTP_PROXY</b>, then "
+                               "HTTP proxy server is <b>HTTP_PROXY</b>, then "
                                "you need to enter <b>HTTP_PROXY</b> instead "
                                "of the actual address specified by the "
                                "variable.</qt>");

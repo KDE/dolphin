@@ -82,12 +82,11 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
                                   "rb_verify" );
     QWhatsThis::add( rb_verify, i18n("Select this if you want to verify "
                                      "whether the page cached in your hard "
-                                     "disk is still valid.  If this is disabled"
-                                     ", a cached copy of remote files will be "
-                                     "used whenever possible. You can still "
-                                     "can still use the reload button to "
-                                     "synchronize the cache with the remote "
-                                     "host.") );
+                                     "disk is still valid.  If this is disabled, "
+                                     "a cached copy of remote files will be "
+                                     "used whenever possible.  You can still "
+                                     "use the reload button to synchronize the "
+				     "cache with the remote host.") );
     hlay->addWidget( rb_verify );
     spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
                               QSizePolicy::Minimum );
@@ -116,7 +115,7 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
 
     rb_offlineMode = new QRadioButton( i18n("&Offline browsing mode"),
                                        gb_Cache_policy, "rb_offlineMode" );
-    QWhatsThis::add( rb_offlineMode, i18n("Enable this to prevent http "
+    QWhatsThis::add( rb_offlineMode, i18n("Enable this to prevent HTTP "
                                           "requests by KDE applications "
                                           "by default.") );
     hlay->addWidget( rb_offlineMode );
