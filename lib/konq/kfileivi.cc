@@ -56,7 +56,8 @@ KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KFileItem* fileitem, int size 
     d->m_animated = false;
 
     // iconName() requires the mimetype to be known
-    setMouseOverAnimation( fileitem->isMimeTypeKnown() ? fileitem->iconName() : QString::null );
+    if ( fileitem->isMimeTypeKnown() )
+        setMouseOverAnimation( fileitem->iconName() );
 }
 
 KFileIVI::~KFileIVI()
