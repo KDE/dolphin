@@ -66,7 +66,7 @@ private:
     QPushButton*  pb_domPolicyImport;
     QPushButton*  pb_domPolicyExport;
 
-    QMap<QListViewItem*, QString> domainPolicy;
+    QMap<QListViewItem*, const char *> domainPolicy;
 };
 
 #endif // __KCOOKIESPOLICIES_H

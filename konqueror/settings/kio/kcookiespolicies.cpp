@@ -36,13 +36,13 @@ enum KCookieAdvice {
     KCookieAsk
 };
 
-static QString adviceToStr(KCookieAdvice _advice)
+static const char * adviceToStr(KCookieAdvice _advice)
 {
     switch( _advice ) {
     case KCookieAccept: return I18N_NOOP("Accept");
     case KCookieReject: return I18N_NOOP("Reject");
     case KCookieAsk: return I18N_NOOP("Ask");
-    default: return QString::null;
+    default: return 0;
     }
 }
 
@@ -51,11 +51,11 @@ static KCookieAdvice strToAdvice(const QString& _str)
     if (!_str)
         return KCookieDunno;
 
-    if (strcasecmp(_str, "Accept") == 0)
+    if (_str.lower() == QString::fromLatin1("accept"))
         return KCookieAccept;
-    else if (strcasecmp(_str, "Reject") == 0)
+    else if (_str.lower() == QString::fromLatin1("reject"))
         return KCookieReject;
-    else if (strcasecmp(_str, "Ask") == 0)
+    else if (_str.lower() == QString::fromLatin1("ask"))
         return KCookieAsk;
 
     return KCookieDunno;
@@ -275,7 +275,7 @@ void KCookiesPolicies::changePressed()
     if( pDlg.exec() )
     {
       domainPolicy[index] = adviceToStr((KCookieAdvice)pDlg.policyAdvice());
-      index->setText(1, i18n(domainPolicy[index]).utf8());
+      index->setText(1, i18n(domainPolicy[index]));
       changed();
     }
 }
@@ -315,7 +315,7 @@ void KCookiesPolicies::updateDomainList(const QStringList &domainConfig)
       QString domain;
       KCookieAdvice advice;
       splitDomainAdvice(*it, domain, advice);
-      QString advStr = adviceToStr(advice);
+      QCString advStr = adviceToStr(advice);
       QListViewItem *index =
         new QListViewItem( lb_domainPolicy, domain, i18n(advStr) );
       domainPolicy[index] = advStr;
