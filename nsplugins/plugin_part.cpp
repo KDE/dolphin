@@ -96,8 +96,7 @@ PluginPart::PluginPart(QWidget *parent, const char *name)
   canvas = new PluginCanvasWidget(parent);
   canvas->setFocusPolicy(QWidget::ClickFocus);
   setWidget(canvas);
-  QObject::connect(canvas, SIGNAL(resized(int,int)),
-		   this, SLOT(pluginResized(int,int)));
+  QObject::connect(canvas, SIGNAL(resized(int,int)), this, SLOT(pluginResized(int,int)));
 }
 
 
@@ -142,9 +141,9 @@ bool PluginPart::closeURL()
 void PluginPart::pluginResized(int w, int h)
 {
   if (widget)
-    {
-      widget->resize(w,h);
-    }
+    widget->resize(w,h);
+
+  kdDebug() << "PluginPart::pluginResized()" << endl;
 }
 
 

@@ -9,6 +9,8 @@
 class KInstance;
 class PluginBrowserExtension;
 class QLabel;
+class NSPluginInstance;
+
 
 class PluginFactory : public KLibFactory
 {
@@ -79,7 +81,7 @@ protected slots:
 
 private:
 
-  QWidget *widget;
+  NSPluginInstance *widget;
   PluginCanvasWidget *canvas;
   PluginBrowserExtension *m_extension;
 

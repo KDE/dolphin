@@ -31,10 +31,36 @@
 #include <qdict.h>
 #include <qobject.h>
 #include <qwidget.h>
+#include <qxembed.h>
+
+
+#include "NSPluginClassIface_stub.h"
 
 
 class KProcess;
 class PluginPrivateData;
+
+
+class NSPluginInstance : public QXEmbed, virtual public NSPluginInstanceIface_stub
+{
+  Q_OBJECT
+
+public:
+
+  NSPluginInstance(QWidget *parent, PluginPrivateData *data, const QCString& app, const QCString& id);
+  ~NSPluginInstance();
+
+
+protected:
+
+  void resizeEvent(QResizeEvent *event);
+
+
+private:
+
+  PluginPrivateData *_data;
+
+};
 
 
 class NSPluginLoader : public QObject
@@ -47,8 +73,8 @@ public:
   ~NSPluginLoader();
 
 
-  QWidget *NewInstance(QWidget *parent, QString url, QString mimeType, int type, 
-		       QStringList argn, QStringList argv);
+  NSPluginInstance *NewInstance(QWidget *parent, QString url, QString mimeType, int type, 
+				QStringList argn, QStringList argv);
 
 
   static NSPluginLoader *instance();

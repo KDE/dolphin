@@ -131,6 +131,8 @@ public:
 
   int setWindow(int remove=0);
 
+  virtual void resizePlugin(int w, int h);
+
 
 signals:
 
@@ -169,13 +171,13 @@ public:
   // shutdown method
   void Shutdown();
 
-  int NewInstance(QString mimeType, int mode, QStringList argn, QStringList argv);
+  DCOPRef NewInstance(QString mimeType, int mode, QStringList argn, QStringList argv);
   void DestroyInstance(int winid);
 
   NSPluginInstance *New(const char *mimeType, uint16 mode=NP_EMBED, int16 argc=0,
   		        char *argn[]=0, char *argv[]=0, NPSavedData *saved=0);
   
-
+  
 private:
   KLibrary *_handle;
   QString  _libname;

@@ -32,6 +32,7 @@
 #include <kglobal.h>
 #include <kstddirs.h>
 #include <dcopclient.h>
+#include <dcopstub.h>
 #include <qobject.h>
 #include <qxembed.h>
 #include <qtextstream.h>
@@ -59,28 +60,24 @@ public:
 NSPluginLoader *NSPluginLoader::_instance = 0;
 
 
-class PluginWidget : public QXEmbed
+NSPluginInstance::NSPluginInstance(QWidget *parent, PluginPrivateData *data, const QCString& app, const QCString& id)
+  : QXEmbed(parent), DCOPStub(app, id), NSPluginInstanceIface_stub(app, id), _data(data)
 {
-public:
-  PluginWidget( PluginPrivateData *data, int winid, QWidget * parent=0, const char * name=0, WFlags f=0 );
-  virtual ~PluginWidget();
-
-private:
-  PluginPrivateData *_data;
-  int _winid;
-};
-
-
-PluginWidget::PluginWidget( PluginPrivateData *data, int winid,
-			    QWidget * parent, const char * name, WFlags f )
-  : QXEmbed( parent, name, f ), _data(data), _winid(winid)
-{
+  embed(NSPluginInstanceIface_stub::winId());
 }
 
 
-PluginWidget::~PluginWidget()
+NSPluginInstance::~NSPluginInstance()
 {
-  _data->stub->DestroyInstance(_winid);
+  _data->stub->DestroyInstance(NSPluginInstanceIface_stub::winId());
+}
+
+
+void NSPluginInstance::resizeEvent(QResizeEvent *event)
+{
+  QXEmbed::resizeEvent(event);
+  resizePlugin(width(), height());
+  kdDebug() << "NSPluginInstance(client)::resizeEvent" << endl;
 }
 
 
@@ -320,8 +317,8 @@ void NSPluginLoader::processTerminated(KProcess *proc)
 
 
 
-QWidget *NSPluginLoader::NewInstance(QWidget *parent, QString url, QString mimeType, int type,
-				     QStringList argn, QStringList argv)
+NSPluginInstance *NSPluginLoader::NewInstance(QWidget *parent, QString url, QString mimeType, int type,
+					      QStringList argn, QStringList argv)
 {
   // check the mime type
   QString mime = mimeType;
@@ -341,7 +338,7 @@ QWidget *NSPluginLoader::NewInstance(QWidget *parent, QString url, QString mimeT
   unsigned int width = 0;
   unsigned int height = 0;
   int argc = argn.count();
-  for (unsigned int i=0; i<argc; i++)
+  for (int i=0; i<argc; i++)
     {
        if (!stricmp(argn[i], "width")) width = argv[i].toUInt();
        if (!stricmp(argn[i], "height")) height = argv[i].toUInt();
@@ -366,18 +363,9 @@ QWidget *NSPluginLoader::NewInstance(QWidget *parent, QString url, QString mimeT
   
   kdDebug() << data->stub->GetMIMEDescription() << endl;
 
-  int winid = data->stub->NewInstance(mime, type, argn, argv);
-  if (winid)
-    {
-      kdDebug() << "Window id = " << winid << endl;
-      QXEmbed *win = new PluginWidget(data, winid, parent);
-
-      if (width) win->setFixedSize(width, win->height());
-      if (height) win->setFixedSize(win->width(), height);
-
-      win->embed(winid);
-      return win;
-    }
+  DCOPRef ref = data->stub->NewInstance(mime, type, argn, argv);
+  if (!ref.isNull())
+    return new NSPluginInstance(parent, data, ref.app(), ref.object());
 
   return 0;
 }

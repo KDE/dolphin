@@ -41,6 +41,7 @@
 #include <kurl.h>
 #include <kio/netaccess.h>
 #include <ktempfile.h>
+#include <dcopclient.h>
 
 #include <X11/Intrinsic.h>
 #include <X11/Composite.h>
@@ -48,7 +49,7 @@
 
 
 NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs, KLibrary *handle, int width, int height)
-  : _handle(handle), _width(width), _height(height)
+  : QObject(), DCOPObject(), _handle(handle), _width(width), _height(height)
 {
   _npp = privateData;
   _npp->ndata = this;
@@ -145,6 +146,23 @@ int NSPluginInstance::setWindow(int remove)
   NPError error = SetWindow(win);
 
   return error;
+}
+
+
+void NSPluginInstance::resizePlugin(int w, int h)
+{
+  _width = w;
+  _height = h;
+
+  Arg args[5];
+  Cardinal nargs=0;
+  XtSetArg(args[nargs], XmNwidth, _width); nargs++;
+  XtSetArg(args[nargs], XmNheight, _height); nargs++;
+
+  XtSetValues(_form, args, nargs);
+  XtSetValues(_area, args, nargs);
+
+  setWindow();
 }
 
 
@@ -332,7 +350,7 @@ void NSPluginClass::Shutdown()
 }
 
 
-int NSPluginClass::NewInstance(QString mimeType, int mode, QStringList argn, QStringList argv)
+DCOPRef NSPluginClass::NewInstance(QString mimeType, int mode, QStringList argn, QStringList argv)
 {
   kdDebug() << "NSPluginClass::NewInstance" << endl;
 
@@ -352,7 +370,7 @@ int NSPluginClass::NewInstance(QString mimeType, int mode, QStringList argn, QSt
   NSPluginInstance *inst = New(mimeType.ascii(), mode, argc, _argn, _argv, 0);
   kdDebug() << "Instance: " << inst << endl;
   if (!inst)
-    return 0;
+    return DCOPRef();
 
   if (!src.isEmpty())
   {
@@ -363,7 +381,7 @@ int NSPluginClass::NewInstance(QString mimeType, int mode, QStringList argn, QSt
   } else
       kdDebug() << "No src stream" << endl;
 
-  return inst->winId();
+  return DCOPRef(kapp->dcopClient()->appId(), inst->objId());
 }
 
 
