@@ -347,17 +347,24 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   vbl->addLayout(grid);
   int curRow = 0;
 
-  if (isDesktopFile(properties->item()) ||
-      properties->item()->mimetype() == "inode/directory") {
+  bool bDesktopFile = isDesktopFile(properties->item());
+  if (bDesktopFile || properties->item()->mimetype() == "inode/directory") {
 
     KIconLoaderButton *iconButton = new KIconLoaderButton(KGlobal::iconLoader(), this);
     iconButton->setFixedSize(50, 50);
     iconButton->setIconType("icon");
-    QString iconStr;
-    KMimeType::pixmapForURL(properties->kurl(),
-                            properties->item()->mode(),
-                            KIconLoader::Medium,
-                            &iconStr);
+    // This works for everything except Device icons on unmounted devices
+    // So we have to really open .desktop files
+    QString iconStr = KMimeType::findByURL( properties->kurl(),
+					properties->item()->mode(),
+					true )->icon( properties->kurl(),
+                                                      properties->kurl().isLocalFile() );
+    if ( bDesktopFile )
+    {
+      KSimpleConfig config( path );
+      config.setDesktopGroup();
+      iconStr = config.readEntry( "Icon" );
+    }
     iconButton->setIcon(iconStr);
     iconArea = iconButton;
   } else {
@@ -533,6 +540,8 @@ void FilePropsPage::applyChanges()
     QString sIcon;
     if ( str != iconButton->icon() )
       sIcon = iconButton->icon();
+    debug(QString("sIcon = '%1'").arg(sIcon));
+    debug(QString("str = '%1'").arg(str));
     // (otherwise write empty value)
     cfg.writeEntry( "Icon", sIcon );
     //cfg.writeEntry( "MiniIcon", sIcon ); // deprecated
@@ -1496,6 +1505,7 @@ void DevicePropsPage::applyChanges()
   }
 
   config.writeEntry( "UnmountIcon", unmounted->icon() );
+  debug(QString("unmounted->icon() = '%1'").arg(unmounted->icon()));
 
   config.writeEntry( "ReadOnly", readonly->isChecked() );
 
