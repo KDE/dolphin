@@ -95,36 +95,27 @@ public:
                        bool useMiscURLData = true, const QString &serviceName = QString::null );
 
   /**
-   * Call this to prevent next makeHistory() call from changing history lists
-   * This must be called before the first call to makeHistory().
+   * Call this to prevent next openURL() call from changing history lists
+   * Used when the same URL is reloaded (for instance with another view mode)
    */
-  void lockHistory() { m_bHistoryLock = true; }
-
-  /**
-   * Fills m_lstBack and m_lstForward - better comment needed, I'm clueless here (David)
-   */
-  void makeHistory( bool pushEntry );
+  void lockHistory() { m_bLockHistory = true; }
 
   /**
    * @return true if view can go back
    */
-  bool canGoBack() { return m_lstBack.count() != 0; }
-  /**
-   * Go back
-   */
-  void goBack( int steps = 1 );
+  bool canGoBack() { return m_lstHistory.at() != 0; }
 
   /**
    * @return true if view can go forward
    */
-  bool canGoForward() { return m_lstForward.count() != 0; }
-  /**
-   * Go forward
-   */
-  void goForward( int steps = 1 );
+  bool canGoForward() { return m_lstHistory.at() != ((int)m_lstHistory.count())-1; }
 
-  const QList<HistoryEntry> backHistory() { return m_lstBack; }
-  const QList<HistoryEntry> forwardHistory() { return m_lstForward; }
+  /**
+   * Move in history. +1 is "forward", -1 is "back", you can guess the rest.
+   */
+  void go( int steps );
+
+  const QList<HistoryEntry> & history() { return m_lstHistory; }
 
   /**
    * Set the KonqRun instance that is running something for this view
@@ -238,7 +229,10 @@ protected:
 
 ////////////////// protected members ///////////////
 
-  void go( QList<HistoryEntry> &stack, int steps );
+  /**
+   * Updates the current entry in the history.
+   */
+  void updateHistoryEntry();
 
   void sendOpenURLEvent( const KURL &url );
 
@@ -246,16 +240,16 @@ protected:
 
   QString m_sLocationBarURL;
 
-  bool m_bBack;
-  bool m_bForward;
+  /**
+   * The full history (back + current + forward)
+   */
+  QList<HistoryEntry> m_lstHistory;
 
-  QList<HistoryEntry> m_lstBack;
-  QList<HistoryEntry> m_lstForward;
-
-  HistoryEntry *m_pCurrentHistoryEntry;
-
-  /** If true, next call to makeHistory won't change the history */
-  bool m_bHistoryLock;
+  /**
+   * A pointer to the current position in the history
+   ... is now m_lstHistory.current()
+   */
+  //QList<HistoryEntry>::Iterator m_currentHistoryEntry;
 
   unsigned long m_ulTotalDocumentSize;
 
@@ -274,6 +268,7 @@ protected:
   KTrader::OfferList m_serviceOffers;
   KService::Ptr m_service;
   QString m_serviceType;
+  bool m_bLockHistory;
 };
 
 #endif

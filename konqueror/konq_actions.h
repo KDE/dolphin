@@ -73,14 +73,12 @@ public:
     // Otherwise uses popup - useful for existing toolbar menu
     void fillHistoryPopup( const QList<HistoryEntry> &history,
                            QPopupMenu * popup = 0L,
-                           bool reverseOrder = false,
-                           uint maxItems = 10,
-                           bool checkItem = false );
+                           bool onlyBack = false,
+                           bool onlyForward = false,
+                           bool checkCurrentItem = false,
+                           uint startPos = 0 );
 
-    void fillGoMenu( const QList<HistoryEntry> &history,
-                     const KURL & currentURL,
-                     const QString & serviceType,
-                     const QList<HistoryEntry> &forwardHistory );
+    void fillGoMenu( const QList<HistoryEntry> &history );
 
     virtual void setEnabled( bool b );
 
@@ -98,8 +96,8 @@ signals:
 
 private:
     uint m_firstIndex; // first index in the Go menu
-    uint m_nItemsBack;
-    uint m_nItemsForward;
+    int m_startPos;
+    int m_currentPos; // == history.at()
     bool m_goMenuDone; // hack 1 : only do this once
     QPopupMenu *m_popup; // hack 2 :)
     QPopupMenu *m_goMenu; // hack 3 :)

@@ -164,11 +164,9 @@ int KonqHistoryAction::plug( QWidget *widget, int index )
   return KAction::plug( widget, index );
 }
 
-void KonqHistoryAction::fillGoMenu( const QList<HistoryEntry> &backHistory,
-                                    const KURL & currentURL,
-                                    const QString & serviceType,
-                                    const QList<HistoryEntry> &forwardHistory )
+void KonqHistoryAction::fillGoMenu( const QList<HistoryEntry> & history )
 {
+    kdDebug(1202) << "fillGoMenu position: " << history.at() << endl;
     // Tricky. The first time, the menu doesn't contain history
     // (but contains the other actions) -> store count at that point
     if ( m_firstIndex == 0 )
@@ -183,43 +181,24 @@ void KonqHistoryAction::fillGoMenu( const QList<HistoryEntry> &backHistory,
     // TODO perhaps smarter algorithm (rename existing items, create new ones only if not enough) ?
 
     // Ok, we want to show 10 items in all, among which the current url...
-    // First case: limited history in both directions -> show it all
-    if ( forwardHistory.count() + backHistory.count() <= 9 )
+
+    if ( history.count() <= 9 )
     {
-        m_nItemsBack = backHistory.count();
-        m_nItemsForward = forwardHistory.count();
+        // First case: limited history in both directions -> show it all
+        m_startPos = history.count() - 1; // Start right from the end
     } else
     // Second case: big history, in one or both directions
     {
         // Assume both directions first (in this case we place the current URL in the middle)
-        m_nItemsBack = 5;
-        m_nItemsForward = 4;
-        // Back not big enough ?
-        if ( backHistory.count() < 5 )
-        {
-          m_nItemsBack = backHistory.count();
-          m_nItemsForward += 5-backHistory.count();
-        }
-        // Forward not big enough ?
-        if ( forwardHistory.count() < 4 )
-        {
-          m_nItemsForward = forwardHistory.count();
-          m_nItemsBack += 4-forwardHistory.count();
-        }
-    }
-    assert( m_nItemsBack + m_nItemsForward <= 9 ); // We've done all we could to arrive to this ! :)
+        m_startPos = history.at() + 4;
 
-    // Forward history in reverse order
-    fillHistoryPopup( forwardHistory, m_goMenu, true /* reverse order */, m_nItemsForward );
-    // Current url
-    HistoryEntry entry;
-    entry.url = currentURL;
-    entry.strServiceType = serviceType;
-    QList<HistoryEntry> list;
-    list.append( &entry );
-    fillHistoryPopup( list, m_goMenu, false, 1, true /*check item */ );
-    // Back history
-    fillHistoryPopup( backHistory, m_goMenu, false, m_nItemsBack );
+        // Forward not big enough ?
+        if ( history.at() > (int)history.count() - 4 )
+          m_startPos = history.count() - 1;
+    }
+    assert( m_startPos >= 0 && (uint)m_startPos < history.count() );
+    m_currentPos = history.at(); // for slotActivated
+    fillHistoryPopup( history, m_goMenu, false, false, true, m_startPos );
 }
 
 void KonqHistoryAction::slotActivated( int id )
@@ -228,7 +207,7 @@ void KonqHistoryAction::slotActivated( int id )
   uint index = m_goMenu->indexOf(id) - m_firstIndex + 1;
   kdDebug(1202) << "Item clicked has index " << index << endl;
   // -1 for one step back, 0 for don't move, +1 for one step forward, etc.
-  int steps = ( m_nItemsForward+1 ) - index; // make a drawing to understand this :-)
+  int steps = ( m_startPos+1 ) - index - m_currentPos; // make a drawing to understand this :-)
   kdDebug(1202) << "Emit activated with steps = " << steps << endl;
   emit activated( steps );
 }
@@ -255,30 +234,40 @@ void KonqHistoryAction::unplug( QWidget *widget )
 
 void KonqHistoryAction::fillHistoryPopup( const QList<HistoryEntry> &history,
                                           QPopupMenu * popup,
-                                          bool reverseOrder,
-                                          uint maxItems,
-                                          bool checkItem )
+                                          bool onlyBack,
+                                          bool onlyForward,
+                                          bool checkCurrentItem,
+                                          uint startPos )
 {
   if ( !popup )
     popup = popupMenu();
 
+  kdDebug(1202) << "fillHistoryPopup position: " << history.at() << endl;
+  HistoryEntry * current = history.current();
   QListIterator<HistoryEntry> it( history );
-  if (reverseOrder) it.toLast();
+  if (onlyBack || onlyForward)
+  {
+      it += history.at(); // Jump to current item
+      if ( !onlyForward ) --it; else ++it; // And move off it
+  } else if ( startPos )
+      it += startPos; // Jump to specified start pos
+
   uint i = 0;
   while ( it.current() )
   {
       QString text = it.current()->url.decodedURL(); // perhaps the caption would look even better ?
-      if ( checkItem )
+      if ( checkCurrentItem && it.current() == current )
       {
           int id = popup->insertItem( text ); // no pixmap if checked
           popup->setItemChecked( id, true );
       } else
           popup->insertItem( KMimeType::mimeType( it.current()->strServiceType )->pixmap( KIconLoader::Small ),
                              text );
-      if ( ++i > maxItems )
+      if ( ++i > 10 )
           break;
-      if (reverseOrder) --it; else ++it;
+      if ( !onlyForward ) --it; else ++it;
   }
+  kdDebug(1202) << "After fillHistoryPopup position: " << history.at() << endl;
 }
 
 void KonqHistoryAction::setEnabled( bool b )

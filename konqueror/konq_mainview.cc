@@ -489,7 +489,6 @@ void KonqMainView::slotViewModeToggle( bool toggle )
   if ( m_currentView->service()->name() == modeName )
     return;
 
-  m_currentView->lockHistory();
   m_currentView->changeViewMode( m_currentView->serviceType(), m_currentView->url(),
                                  false, modeName );
 }
@@ -579,12 +578,12 @@ void KonqMainView::slotUp()
 
 void KonqMainView::slotBack()
 {
-  m_currentView->goBack();
+  m_currentView->go( -1 );
 }
 
 void KonqMainView::slotForward()
 {
-  m_currentView->goForward();
+  m_currentView->go( 1 );
 }
 
 void KonqMainView::slotHome()
@@ -1142,21 +1141,18 @@ void KonqMainView::slotUpAboutToShow()
 void KonqMainView::slotBackAboutToShow()
 {
   m_paBack->popupMenu()->clear();
-  m_paBack->fillHistoryPopup( m_currentView->backHistory() );
+  m_paBack->fillHistoryPopup( m_currentView->history(), 0L, true, false );
 }
 
 void KonqMainView::slotForwardAboutToShow()
 {
   m_paForward->popupMenu()->clear();
-  m_paForward->fillHistoryPopup( m_currentView->forwardHistory() );
+  m_paForward->fillHistoryPopup( m_currentView->history(), 0L, false, true );
 }
 
 void KonqMainView::slotGoMenuAboutToShow()
 {
-  m_paBack->fillGoMenu( m_currentView->backHistory(),
-                        m_currentView->url(),
-                        m_currentView->serviceType(),
-                        m_currentView->forwardHistory());
+  m_paBack->fillGoMenu( m_currentView->history() );
 }
 
 void KonqMainView::slotUpActivated( int id )
@@ -1168,20 +1164,17 @@ void KonqMainView::slotUpActivated( int id )
 
 void KonqMainView::slotGoHistoryActivated( int steps )
 {
-    if ( steps < 0 )
-        m_currentView->goBack( -steps );
-    else if ( steps > 0 )
-        m_currentView->goForward( steps );
+  m_currentView->go( steps );
 }
 
 void KonqMainView::slotBackActivated( int id )
 {
-  m_currentView->goBack( m_paBack->popupMenu()->indexOf( id ) + 1 );
+  m_currentView->go( -(m_paBack->popupMenu()->indexOf( id ) + 1) );
 }
 
 void KonqMainView::slotForwardActivated( int id )
 {
-  m_currentView->goForward( m_paForward->popupMenu()->indexOf( id ) + 1 );
+  m_currentView->go( m_paForward->popupMenu()->indexOf( id ) + 1 );
 }
 
 void KonqMainView::slotComboPlugged()

@@ -46,9 +46,7 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
   m_pKonqFrame->setChildView( this );
 
   m_sLocationBarURL = "";
-  m_bBack = false;
-  m_bForward = false;
-  m_bHistoryLock = false;
+  m_bLockHistory = false;
   m_pMainView = mainView;
   m_pRun = 0L;
   m_pView = 0L;
@@ -60,8 +58,7 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
   m_serviceType = serviceType;
 
   m_bAllowHTML = KonqPropsView::defaultProps()->isHTMLAllowed();
-  m_lstBack.setAutoDelete( true );
-  m_lstForward.setAutoDelete( true );
+  m_lstHistory.setAutoDelete( true );
   m_bReloadURL = false;
   m_iXOffset = 0;
   m_iYOffset = 0;
@@ -70,7 +67,6 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
   m_iProgress = -1;
   m_bPassiveMode = false;
   m_bProgressSignals = true;
-  m_pCurrentHistoryEntry = 0L;
 }
 
 KonqChildView::~KonqChildView()
@@ -108,6 +104,30 @@ void KonqChildView::openURL( const KURL &url, bool useMiscURLData  )
   m_pMainView->setLocationBarURL( this, url.decodedURL() );
 
   sendOpenURLEvent( url );
+
+  if ( !m_bLockHistory )
+  {
+      // Update the history with this new URL
+      // First, remove any forward history
+      HistoryEntry * current = m_lstHistory.current();
+      if (current)
+      {
+          kdDebug(1202) << "Truncating history" << endl;
+          m_lstHistory.at( m_lstHistory.count() - 1 ); // go to last one
+          for ( ; m_lstHistory.current() != current ; )
+          {
+              if ( !m_lstHistory.removeLast() ) // and remove from the end (faster and easier)
+                  assert(0);
+          }
+          // Now current is the current again.
+      }
+      // Append a new entry
+      kdDebug(1202) << "Append a new entry" << endl;
+      m_lstHistory.append( new HistoryEntry ); // made current
+  } else
+      m_bLockHistory = false;
+  updateHistoryEntry();
+  kdDebug(1202) << "Current position : " << m_lstHistory.at() << endl;
 }
 
 void KonqChildView::switchView( KonqViewFactory &viewFactory )
@@ -136,8 +156,6 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
 {
   if ( m_bViewStarted )
     stop();
-
-  makeHistory( false );
 
   if ( !m_service->serviceTypes().contains( serviceType ) ||
        ( !serviceName.isEmpty() && serviceName != m_service->name() ) )
@@ -204,8 +222,6 @@ void KonqChildView::slotStarted( KIO::Job * job )
 {
   m_bLoading = true;
   setViewStarted( true );
-
-  makeHistory( true );
 
   if ( m_pMainView->currentChildView() == this )
   {
@@ -275,8 +291,9 @@ void KonqChildView::slotCanceled( const QString & )
   slotCompleted();
 }
 
-void KonqChildView::makeHistory( bool pushEntry )
+void KonqChildView::updateHistoryEntry()
 {
+  /*
   if ( pushEntry )
   {
     if ( !m_bHistoryLock )
@@ -306,47 +323,47 @@ void KonqChildView::makeHistory( bool pushEntry )
 
   if ( pushEntry || !m_pCurrentHistoryEntry )
     m_pCurrentHistoryEntry = new HistoryEntry;
+  */
+
+  HistoryEntry * current = m_lstHistory.current();
+  assert( current ); // let's see if this happens
+  if ( current == 0L) // empty history
+  {
+    kdDebug(1202) << "Creating item because history is empty !" << endl;
+    current = new HistoryEntry;
+    m_lstHistory.append( current );
+  }
 
   kDebugInfo("looking for extension");
   if ( browserExtension() )
   {
     kDebugInfo("creating stream");
-    QDataStream stream( m_pCurrentHistoryEntry->buffer, IO_WriteOnly );
+    QDataStream stream( current->buffer, IO_WriteOnly );
 
     kDebugInfo("saving");
     browserExtension()->saveState( stream );
   }
 
   kDebugInfo("storing stuff");
-  m_pCurrentHistoryEntry->url = m_pView->url();
-  m_pCurrentHistoryEntry->strServiceType = m_serviceType;
-  m_pCurrentHistoryEntry->strServiceName = m_service->name();
+  current->url = m_pView->url();
+  current->strServiceType = m_serviceType;
+  current->strServiceName = m_service->name();
 }
 
-void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
+void KonqChildView::go( int steps )
 {
-  assert( (int)stack.count() >= steps );
-
-  for ( int i = 0; i < steps-1; i++ )
-    stack.removeFirst();
-
-  HistoryEntry *h = stack.first();
-
+  kdDebug(1202) << "go : " << steps << endl;
+  int newPos = m_lstHistory.at() + steps;
+  assert( newPos >= 0 && (uint)newPos < m_lstHistory.count() );
+  // Yay, we can move there without a loop !
+  HistoryEntry *h = m_lstHistory.at( newPos ); // sets current item
   assert( h );
-
-//  m_bReloadURL = false;
-//  m_iXOffset = h->xOffset;
-//  m_iYOffset = h->yOffset;
-//  changeViewMode( h->strServiceType, h->strURL, true, h->strServiceName );
-
-  stack.setAutoDelete( false );
-  stack.removeFirst();
-  stack.setAutoDelete( true );
+  assert( newPos == m_lstHistory.at() ); // check we moved (i.e. if I understood the docu)
+  assert( h == m_lstHistory.current() );
+  kdDebug(1202) << "New position " << m_lstHistory.at() << endl;
 
   if ( m_bViewStarted )
     stop();
-
-  makeHistory( false );
 
   if ( !m_service->serviceTypes().contains( h->strServiceType ) ||
        h->strServiceName != m_service->name() )
@@ -378,22 +395,11 @@ void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
 
   m_pMainView->setLocationBarURL( this, h->url.decodedURL() );
 
-  delete h;
-
   if ( m_pMainView->currentChildView() == this )
     m_pMainView->updateToolBarActions();
-}
 
-void KonqChildView::goBack( int steps )
-{
-  m_bBack = true;
-  go( m_lstBack, steps );
-}
-
-void KonqChildView::goForward( int steps )
-{
-  m_bForward = true;
-  go( m_lstForward, steps );
+  //updateHistoryEntry(); // do we really need that here ?
+  kdDebug(1202) << "New position (2) " << m_lstHistory.at() << endl;
 }
 
 KURL KonqChildView::url()
@@ -426,9 +432,7 @@ void KonqChildView::stop()
 
 void KonqChildView::reload()
 {
-  m_bForward = false;
-  m_bBack = false;
-  lockHistory();
+  //lockHistory();
   if ( browserExtension() )
   {
     KParts::URLArgs args(true, browserExtension()->xOffset(), browserExtension()->yOffset());
