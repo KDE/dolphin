@@ -1056,8 +1056,10 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
       m_combo->completionObject()->addItem( view->locationBarURL() );
 
       // it's already in the combo, so we better make it the current item
+      // ... _if_ the user didn't change the url while we were loading
       for ( int i = 0; i < m_combo->count(); i++ ) {
-          if ( m_combo->text( i ) == view->locationBarURL() ) {
+          if ( m_combo->text( i ) == view->locationBarURL() &&
+               m_combo->text( i ) == m_combo->currentText() ) {
               m_combo->setCurrentItem( i );
           }
       }
