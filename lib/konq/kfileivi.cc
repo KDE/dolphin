@@ -317,10 +317,17 @@ void KFileIVI::setKey( const QString &key )
 
     QVariant sortDirProp = iconView()->property( "sortDirectoriesFirst" );
 
-    if ( S_ISDIR( m_fileitem->mode() ) && ( !sortDirProp.isValid() || ( sortDirProp.type() == QVariant::Bool && sortDirProp.toBool() ) ) )
-      theKey.prepend( iconView()->sortDirection() ? '0' : '1' );
-    else
-      theKey.prepend( iconView()->sortDirection() ? '1' : '0' );
+    bool isdir = ( S_ISDIR( m_fileitem->mode() ) && ( !sortDirProp.isValid() || ( sortDirProp.type() == QVariant::Bool && sortDirProp.toBool() ) ) );
+
+    // The order is: .dir (0), dir (1), .file (2), file (3)
+    int sortChar = isdir ? 1 : 3;
+    if ( m_fileitem->text()[0] == '.' )
+        --sortChar;
+
+    if ( !iconView()->sortDirection() ) // reverse sorting
+        sortChar = 3 - sortChar;
+
+    theKey.prepend( QChar( sortChar + '0' ) );
 
     QIconViewItem::setKey( theKey );
 }
