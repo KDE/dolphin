@@ -24,7 +24,6 @@
 #include <qlayout.h>
 #include <qpopupmenu.h>
 #include <qpushbutton.h>
-#include <qspinbox.h>
 
 #include <kaction.h>
 #include <kapp.h>
@@ -33,6 +32,7 @@
 #include <kdialogbase.h>
 #include <kfontdialog.h>
 #include <klocale.h>
+#include <knuminput.h>
 #include <kprotocolinfo.h>
 #include <kstaticdeleter.h>
 #include <kwin.h>
@@ -378,11 +378,11 @@ KonqHistoryDialog::KonqHistoryDialog( KonqHistorySettings *settings,
 {
     m_settings->m_activeDialog = this;
 
-    spinEntries->setRange( 0, INT_MAX );
-    spinExpire->setRange( 1, INT_MAX );
+    spinEntries->setRange( 0, INT_MAX, 1, false );
+    spinExpire->setRange(  1, INT_MAX, 1, false );
 
-    spinNewer->setRange( 0, INT_MAX );
-    spinOlder->setRange( 0, INT_MAX );
+    spinNewer->setRange( 0, INT_MAX, 1, false );
+    spinOlder->setRange( 0, INT_MAX, 1, false );
 
     comboNewer->insertItem( i18n("minutes"), KonqHistorySettings::MINUTES );
     comboNewer->insertItem( i18n("days"), KonqHistorySettings::DAYS );
