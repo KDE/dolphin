@@ -157,10 +157,11 @@ private:
 private:
     QString m_string;
     QTextStream m_out;
+    int m_level;
 };
 
 HTMLExporter::HTMLExporter() : m_out(&m_string, IO_WriteOnly) {
-    ;
+    m_level = 0;
 }
 
 void HTMLExporter::write( const KBookmarkGroup &grp, QString filename ) {
@@ -176,27 +177,29 @@ void HTMLExporter::write( const KBookmarkGroup &grp, QString filename ) {
     fstream << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">" << endl;
     fstream << "<HTML><HEAD><TITLE>My Bookmarks</TITLE></HEAD>" << endl;
     fstream << "<BODY>" << endl;
-    fstream << "<TABLE>" << endl;
     fstream << m_string;
-    fstream << "</TABLE>" << endl;
     fstream << "</BODY></HTML>" << endl;
 }
 
 void HTMLExporter::visit( const KBookmark &bk ) {
     // kdDebug() << "visit(" << bk.text() << ")" << endl;
-    m_out << "<TR><TD></TD><TD><A href=\"" << bk.url().url().utf8() << "\">"
-          << bk.fullText() << "</A></TD></TR>" << endl;
+    m_out << "<A href=\"" << bk.url().url().utf8() << "\">";
+    m_out << bk.fullText() << "</A><BR>" << endl;
 }
 
 void HTMLExporter::visitEnter( const KBookmarkGroup &grp ) {
     // kdDebug() << "visitEnter(" << grp.text() << ")" << endl;
-    m_out << "<TR><TD></TD><TD><H3>" << grp.fullText() << "</H3></TD></TR>" << endl;
-    m_out << "<TABLE><TR><TD width=20></TD><TD><P></TD></TR>" << endl;
+    m_out << "<H3>" << grp.fullText() << "</H3>" << endl;
+    m_out << "<P style=\"margin-left: " << (m_level * 3) << "em\">" << endl;
+    m_level++;
 } 
 
 void HTMLExporter::visitLeave( const KBookmarkGroup & ) {
     // kdDebug() << "visitLeave()" << endl;
-    m_out << "<TR><TD></P></TD></TR></TABLE>" << endl;
+    m_out << "</P>" << endl;
+    m_level--;
+    if (m_level != 0)
+      m_out << "<P style=\"left-margin: " << (m_level * 3) << "em\">" << endl;
 }
 
 void CurrentMgr::doExport(ExportType type) {
