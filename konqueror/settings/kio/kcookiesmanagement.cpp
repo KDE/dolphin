@@ -113,20 +113,20 @@ KCookiesManagement::KCookiesManagement(QWidget *parent, const char *name)
 
   btn_reload = new QPushButton( i18n("&Reload List"), bbox );
   vlay->addWidget(btn_reload);
-
   vlay->addStretch( 1 );
-
 
   // Cookie details layout
   grp_details = new QGroupBox( i18n("Cookie Details"), this);
-  grp_details->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)5, (QSizePolicy::SizeType)0,grp_details ->sizePolicy().hasHeightForWidth() ) );
+  grp_details->setSizePolicy( QSizePolicy(QSizePolicy::Expanding,
+                                          QSizePolicy::Fixed,
+                                          grp_details ->sizePolicy().hasHeightForWidth()));
   grp_details->setColumnLayout(0, Qt::Vertical );
   grp_details->layout()->setSpacing( 0 );
   grp_details->layout()->setMargin( 0 );
   QGridLayout* d_lay = new QGridLayout( grp_details->layout() );
   d_lay->setAlignment( Qt::AlignTop );
-  d_lay->setSpacing( 6  );
-  d_lay->setMargin( 11 );
+  d_lay->setSpacing( 2*KDialog::spacingHint()  );
+  d_lay->setMargin( 2*KDialog::marginHint() );
 
   QLabel* label = new QLabel(i18n("Name:"), grp_details);
   d_lay->addWidget(label,1,0);
@@ -152,13 +152,13 @@ KCookiesManagement::KCookiesManagement(QWidget *parent, const char *name)
   le_path->setReadOnly(true);
   d_lay->addWidget(le_path,4,1);
 
-  label = new QLabel(i18n("Expires On:"), grp_details);
+  label = new QLabel(i18n("Expires:"), grp_details);
   d_lay->addWidget(label,5,0);
   le_expires = new QLineEdit( grp_details );
   le_expires->setReadOnly(true);
   d_lay->addWidget(le_expires,5,1);
 
-  label = new QLabel(i18n("Is Secure:"), grp_details);
+  label = new QLabel(i18n("Secure:"), grp_details);
   d_lay->addWidget(label,6,0);
   le_isSecure = new QLineEdit( grp_details );
   le_isSecure->setReadOnly(true);
