@@ -55,17 +55,6 @@ KonqTextViewWidget::KonqTextViewWidget( KonqListView *parent, QWidget *parentWid
    colors[KTVI_CHARDEV]=Qt::blue;
    colors[KTVI_BLOCKDEV]=Qt::blue;
 
-   highlight[KTVI_REGULAR]=Qt::white;
-   highlight[KTVI_EXEC]=colors[KTVI_EXEC].light(200);
-   highlight[KTVI_REGULARLINK]=Qt::white;
-   highlight[KTVI_DIR]=Qt::white;
-   highlight[KTVI_DIRLINK]=Qt::white;
-   highlight[KTVI_BADLINK]=colors[KTVI_BADLINK].light();
-   highlight[KTVI_SOCKET]=colors[KTVI_SOCKET].light();
-   highlight[KTVI_FIFO]=colors[KTVI_FIFO].light();
-   highlight[KTVI_UNKNOWN]=colors[KTVI_UNKNOWN].light();
-   highlight[KTVI_CHARDEV]=colors[KTVI_CHARDEV].light(180);
-   highlight[KTVI_BLOCKDEV]=colors[KTVI_BLOCKDEV].light(180);
    m_showIcons=FALSE;
 }
 

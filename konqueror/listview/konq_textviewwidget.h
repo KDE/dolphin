@@ -49,7 +49,6 @@ class KonqTextViewWidget : public KonqBaseListViewWidget
       virtual void createColumns();
 
       QColor colors[11];
-      QColor highlight[11];
 };
 
 #endif
