@@ -127,7 +127,6 @@ public slots:
    void slotSaveOnClose();
    void slotConfigureKeyBindings();
    void slotConfigureToolbars();
-   void slotSearchTextChanged(const QString & url);
 
 protected slots:
    void slotClipboardDataChanged();

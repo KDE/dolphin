@@ -49,7 +49,6 @@
 #include "importers.h"
 #include "favicons.h"
 #include "testlink.h"
-#include "search.h"
 #include "listview.h"
 
 #include "actionsimpl.h"
@@ -162,25 +161,6 @@ void ActionsImpl::slotTestSelection() {
 
 void ActionsImpl::slotUpdateFavIcon() {
    FavIconsItrHolder::self()->insertItr(new FavIconsItr(ListView::self()->selectedBookmarksExpanded()));
-}
-
-#include <kfinddialog.h>
-
-// TODO
-// also, need to think about limiting size of itr list to <= 1
-// or, generically. itr's shouldn't overlap. difficult problem...
-
-void ActionsImpl::slotSearch() {
-   KFindDialog dlg(KEBApp::self());
-   if (dlg.exec() == KDialogBase::Accepted) {
-      SearchItr* itr = new SearchItr(ListView::self()->allBookmarks());
-      itr->setSearch(dlg.options(), dlg.pattern());
-      SearchItrHolder::self()->insertItr(itr);
-   }
-}
-
-void ActionsImpl::slotNextHit() {
-   emit SearchItrHolder::self()->slotFindNext();
 }
 
 /* -------------------------------------- */

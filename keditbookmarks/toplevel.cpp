@@ -45,6 +45,7 @@
 #include "listview.h"
 #include "actionsimpl.h"
 #include "dcop.h"
+#include "search.h"
 
 #include "toplevel.h"
 
@@ -197,88 +198,6 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
    updateActions();
 }
 
-class KBookmarkTextMap : private KBookmarkGroupTraverser {
-public:
-   KBookmarkTextMap(KBookmarkManager *);
-   void update();
-   QValueList<KBookmark> find(const QString &text) const;
-private:
-   virtual void visit(const KBookmark &);
-   virtual void visitEnter(const KBookmarkGroup &);
-   virtual void visitLeave(const KBookmarkGroup &) { ; }
-private:
-   typedef QValueList<KBookmark> KBookmarkList;
-   QMap<QString, KBookmarkList> m_bk_map;
-   KBookmarkManager *m_manager;
-};
-
-static KBookmarkTextMap *s_bk_map = 0;
-
-KBookmarkTextMap::KBookmarkTextMap( KBookmarkManager *manager ) {
-   m_manager = manager;
-}
-
-void KBookmarkTextMap::update()
-{
-   m_bk_map.clear();
-   KBookmarkGroup root = m_manager->root();
-   traverse(root);
-}
-
-void KBookmarkTextMap::visit(const KBookmark &bk) {
-   if (!bk.isSeparator()) {
-      // todo - comment field
-      QString text = bk.url().url() + " " + bk.text();
-      m_bk_map[text].append(bk);
-   }
-}
-
-void KBookmarkTextMap::visitEnter(const KBookmarkGroup &grp) {
-   visit(grp);
-}
-
-QValueList<KBookmark> KBookmarkTextMap::find(const QString &text) const
-{
-   QValueList<KBookmark> matches;
-   QValueList<QString> keys = m_bk_map.keys();
-   for (QValueList<QString>::iterator it = keys.begin();
-         it != keys.end(); ++it )
-   {
-      if ((*it).find(text,0,false) != -1) {
-         matches += m_bk_map[(*it)];
-      }
-   }
-   return matches;
-}
-
-static KBookmark s_last_search_result;
-
-void KEBApp::slotSearchTextChanged(const QString & text)
-{
-   if (!s_bk_map)
-      s_bk_map = new KBookmarkTextMap(CurrentMgr::self()->mgr());
-   s_bk_map->update(); // TODO - should make update only when dirty
-
-   QValueList<KBookmark> list = s_bk_map->find(text);
-   for ( QValueList<KBookmark>::iterator it = list.begin();
-         it != list.end(); ++it 
-   ) {
-      kdDebug() << (*it).address() << endl;
-      if (!s_last_search_result.isNull()) {
-         KEBListViewItem *item 
-            = ListView::self()->getItemAtAddress(s_last_search_result.address());
-         item->setSelected(false);
-         item->repaint();
-      }
-      KEBListViewItem *item 
-         = ListView::self()->getItemAtAddress((*it).address());
-      ListView::self()->setCurrent(item);
-      item->setSelected(true);
-      s_last_search_result = (*it);
-      break;
-   }
-}
-
 void KEBApp::construct() {
    CurrentMgr::self()->createManager(m_bookmarksFilename);
 
@@ -286,7 +205,7 @@ void KEBApp::construct() {
    ListView::self()->updateListView();
 
    connect(m_iSearchLineEdit, SIGNAL( textChanged(const QString &) ),
-                              SLOT( slotSearchTextChanged(const QString &) ));
+           Searcher::self(),  SLOT( slotSearchTextChanged(const QString &) ));
 
    slotClipboardDataChanged();
 
@@ -318,8 +237,6 @@ void KEBApp::createActions() {
    (void) KStdAction::cut(actn, SLOT( slotCut() ), actionCollection());
    (void) KStdAction::copy(actn, SLOT( slotCopy() ), actionCollection());
    (void) KStdAction::paste(actn, SLOT( slotPaste() ), actionCollection());
-   (void) KStdAction::find(actn, SLOT( slotSearch() ), actionCollection(), "search");
-   (void) KStdAction::findNext(actn, SLOT( slotNextHit() ), actionCollection(), "nexthit");
 
    (void) new KToggleAction(
                       i18n("&Auto-Save on Program Close"), 0,
@@ -419,12 +336,6 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
    KActionCollection * coll = actionCollection();
 
 #define ENABLE(a) coll->action(a)->setEnabled(true);
-
-   ENABLE("nexthit");
-
-   if (!sa.multiSelect) {
-      ENABLE("search");
-   }
 
    if (sa.itemSelected) {
       ENABLE("edit_copy");

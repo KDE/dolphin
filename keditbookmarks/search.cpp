@@ -28,157 +28,84 @@
 #include "toplevel.h"
 #include "listview.h"
 #include "search.h"
-#include "bookmarkiterator.h"
 
-SearchItrHolder *SearchItrHolder::s_self = 0;
+class KBookmarkTextMap : private KBookmarkGroupTraverser {
+public:
+   KBookmarkTextMap(KBookmarkManager *);
+   void update();
+   QValueList<KBookmark> find(const QString &text) const;
+private:
+   virtual void visit(const KBookmark &);
+   virtual void visitEnter(const KBookmarkGroup &);
+   virtual void visitLeave(const KBookmarkGroup &) { ; }
+private:
+   typedef QValueList<KBookmark> KBookmarkList;
+   QMap<QString, KBookmarkList> m_bk_map;
+   KBookmarkManager *m_manager;
+};
 
-SearchItrHolder::SearchItrHolder() 
-   : BookmarkIteratorHolder() {
-   ;
+KBookmarkTextMap::KBookmarkTextMap( KBookmarkManager *manager ) {
+   m_manager = manager;
 }
 
-void SearchItrHolder::doItrListChanged() {
-   ;
+void KBookmarkTextMap::update()
+{
+   m_bk_map.clear();
+   KBookmarkGroup root = m_manager->root();
+   traverse(root);
 }
 
-void SearchItrHolder::slotFindNext() {
-   KEBListViewItem *item = m_foundlist.next();
-   if (!item) {
-      return;
+void KBookmarkTextMap::visit(const KBookmark &bk) {
+   if (!bk.isSeparator()) {
+      // todo - comment field
+      QString text = bk.url().url() + " " + bk.text();
+      m_bk_map[text].append(bk);
    }
-   ListView::self()->clearSelection();
-   ListView::self()->setCurrent(item);
-   item->setSelected(true);
 }
 
-void SearchItrHolder::addFind(KEBListViewItem *item) {
-   bool wasEmpty = m_foundlist.isEmpty();
-   if (wasEmpty) {
-      ListView::self()->clearSelection();
+void KBookmarkTextMap::visitEnter(const KBookmarkGroup &grp) {
+   visit(grp);
+}
+
+QValueList<KBookmark> KBookmarkTextMap::find(const QString &text) const
+{
+   QValueList<KBookmark> matches;
+   QValueList<QString> keys = m_bk_map.keys();
+   for (QValueList<QString>::iterator it = keys.begin();
+         it != keys.end(); ++it )
+   {
+      if ((*it).find(text,0,false) != -1) {
+         matches += m_bk_map[(*it)];
+      }
+   }
+   return matches;
+}
+
+Searcher* Searcher::s_self = 0;
+
+void Searcher::slotSearchTextChanged(const QString & text)
+{
+   if (!m_bktextmap)
+      m_bktextmap = new KBookmarkTextMap(CurrentMgr::self()->mgr());
+   m_bktextmap->update(); // TODO - should make update only when dirty
+
+   QValueList<KBookmark> list = m_bktextmap->find(text);
+   for ( QValueList<KBookmark>::iterator it = list.begin();
+         it != list.end(); ++it 
+   ) {
+      if (!m_last_search_result.isNull()) {
+         KEBListViewItem *item 
+            = ListView::self()->getItemAtAddress(m_last_search_result.address());
+         item->setSelected(false);
+         item->repaint();
+      }
+      KEBListViewItem *item 
+         = ListView::self()->getItemAtAddress((*it).address());
       ListView::self()->setCurrent(item);
       item->setSelected(true);
-   };
-   m_foundlist.append(item);
-   m_foundlist.first();
-}
-
-/* -------------------------------------- */
-
-SearchItr::SearchItr(QValueList<KBookmark> bks)
-   : BookmarkIterator(bks), m_showstatuscounter(0), m_statusitem(0)  {
-   ListView::self()->clearSelection();
-}
-
-SearchItr::~SearchItr() {
-   if (m_statusitem) {
-      m_statusitem->restoreStatus();
+      m_last_search_result = (*it);
+      break;
    }
-}
-
-#include <kfind.h>
-#include <kfinddialog.h>
-
-void SearchItr::setSearch(int options, const QString& pattern) {
-   m_options = options;
-   m_text = pattern;
-   /*
-   m_find = new KFind( pattern, options, this );
-
-   connect(m_find, SIGNAL( highlight(const QString &, int, int) ),
-           this,   SLOT( searchHighlight( const QString &, int, int) ));
-   connect(m_find, SIGNAL( findNext() ), 
-           this, SLOT( slotFindNext() ) );
-
-   m_findItem = (BugLVI *)m_listBugs->firstChild();
-
-   if (options & KFindDialog::FromCursor 
-    && m_listBugs->currentItem() ) {
-      m_findItem = (BugLVI *)m_listBugs->currentItem();
-   }
-
-   slotFindNext();
-   */
-}
-
-/* 
-slotFindNext::
-    KFind::Result res = KFind::NoMatch;
-    while(res == KFind::NoMatch && m_findItem) {
-       if (m_find->needData()) {
-          m_find->setData(m_findItem->text(1));
-       }
-
-       // Let KFind inspect the text fragment, 
-       // and display a dialog if a match is found
-       res = m_find->find();
-
-       if (res == KFind::NoMatch) {
-          if (m_find->options() & KFindDialog::FindBackwards) {
-             m_findItem = (BugLVI*)m_findItem->itemAbove();
-          } else {
-             m_findItem = (BugLVI*)m_findItem->itemBelow();
-          }
-       }
-    }
-    if (res == KFind::NoMatch) {
-      // i.e. at end
-      if (m_find->shouldRestart()) {
-         m_findItem = (BugLVI*)m_listBugs->firstChild();
-         slotFindNext();
-      } else {
-         delete m_find;
-         m_find = 0L;
-      }
-    }
-
-*/
-
-/*
-searchHighlight::
-    if (m_findItem) {
-       m_listBugs->clearSelection();
-       m_listBugs->setSelected(m_findItem, true);
-       m_listBugs->ensureItemVisible(m_findItem);
-    }
-*/
-
-bool SearchItr::isApplicable(const KBookmark &bk) const {
-   return (!bk.isSeparator());
-}
-
-void SearchItr::doAction() {
-   // kdDebug() << "doAction()" << m_statusitem << endl;
-
-   KEBListViewItem* new_statusitem = 0;
-   KEBListViewItem* openparent = ListView::self()->findOpenParent(curItem());
-   if (openparent != curItem()->parent()) {
-      new_statusitem = openparent;
-   } else if ((m_showstatuscounter++ % 4) == 0) {
-      new_statusitem = curItem();
-   }
-
-   if (new_statusitem && new_statusitem != m_statusitem) {
-      if (m_statusitem) {
-         m_statusitem->restoreStatus();
-      }
-      m_statusitem = new_statusitem;
-      m_statusitem->setTmpStatus(i18n("Searching..."));
-   }
-
-   QString text = curBk().url().url() + curBk().fullText();
-   if (text.find(m_text, 0, FALSE) != -1) {
-      // kdDebug() << curBk().url().url() << endl;
-      SearchItrHolder::self()->addFind(curItem());
-      // curItem()->setSelected(true); // only if no current selection?
-      ListView::self()->openParents(curItem());
-      // WTF - ListView::self()->updateListView(); ???
-      // set paintstyle also, thats most important, but will require 
-      // refactoring stuff from items/testlink into itr base
-   }
-
-   // statusbar stuff???
-
-   delayedEmitNextOne();
 }
 
 #include "search.moc"

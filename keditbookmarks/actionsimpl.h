@@ -47,8 +47,6 @@ public slots:
    void slotUpdateFavIcon();
    void slotUpdateAllFavIcons();
    void slotCancelFavIconUpdates();
-   void slotSearch();
-   void slotNextHit();
    void slotExpandAll();
    void slotCollapseAll();
    void slotImport();

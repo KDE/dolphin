@@ -34,9 +34,6 @@
   <Separator/><!-- Stuff for folders -->
   <Action name="sort"/>
   <Action name="setastoolbar"/>
-  <Separator/><!-- Searching -->
-  <Action name="search"/>
-  <Action name="nexthit"/>
   <Separator/><!-- Expand/collapse -->
   <Action name="expandall"/>
   <Action name="collapseall"/>
@@ -168,7 +165,6 @@
     <Action name="nexthit"/>
     <Action name="openlink"/>
     <Action name="rename"/>
-    <Action name="search"/>
     <Action name="setastoolbar"/>
     <Action name="settings_saveonclose"/>
     <Action name="settings_showNS"/>

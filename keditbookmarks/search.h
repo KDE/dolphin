@@ -22,50 +22,21 @@
 #include <qobject.h>
 #include <kbookmark.h>
 
-#include "bookmarkiterator.h"
-#include "listview.h"
+class KBookmarkTextMap;
 
-class SearchItrHolder : public BookmarkIteratorHolder {
-public:
-   static SearchItrHolder* self() { 
-      if (!s_self) { s_self = new SearchItrHolder(); }; return s_self; 
-   }
-   void addFind(KEBListViewItem *item);
-   void slotFindNext();
-protected:
-   virtual void doItrListChanged();
-private:
-   SearchItrHolder();
-   static SearchItrHolder *s_self;
-   QPtrList<KEBListViewItem> m_foundlist;
-};
-
-class KFind;
-
-class SearchItr : public BookmarkIterator
-{
+class Searcher : public QObject {
    Q_OBJECT
-
+protected slots:
+   void slotSearchTextChanged(const QString & text);
 public:
-   SearchItr(QValueList<KBookmark> bks);
-   ~SearchItr();
-   
-   virtual BookmarkIteratorHolder* holder() const { return SearchItrHolder::self(); }
-   void setSearch(int options, const QString& pattern);
-
-protected:
-   virtual void doAction();
-   virtual bool isApplicable(const KBookmark &bk) const;
-
+   static Searcher* self() { 
+      if (!s_self) { s_self = new Searcher(); }; return s_self; 
+   }
 private:
-   int m_options;
-   QString m_text;
-
-   int m_showstatuscounter;
-   KEBListViewItem *m_statusitem;
-
-   KFind *m_find;
-   KEBListViewItem *m_finditem;
+   Searcher() { m_bktextmap = 0; }
+   static Searcher *s_self;
+   KBookmark m_last_search_result;
+   KBookmarkTextMap *m_bktextmap;
 };
 
 #endif
