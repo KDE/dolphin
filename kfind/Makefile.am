@@ -31,21 +31,22 @@ uninstall-local:
 	(cd doc && $(MAKE) uninstall)
 	(cd pics && $(MAKE) uninstall)
 
+
 mkfdird.cpp: kfdird.h
-	$(MOC) kfdird.h -o $@
+	$(MOC) kfdird.h -o mkfdird.cpp
 
 mkfwin.cpp: kfwin.h
-	$(MOC) kfwin.h -o $@
+	$(MOC) kfwin.h -o mkfwin.cpp
 
 mkfindtop.cpp: kfindtop.h
-	$(MOC) kfindtop.h -o $@
+	$(MOC) kfindtop.h -o mkfindtop.cpp
 
 mkftabdlg.cpp: kftabdlg.h
-	$(MOC) kftabdlg.h -o $@
+	$(MOC) kftabdlg.h -o mkftabdlg.cpp
 
 mkfoptions.cpp: kfoptions.h
-	$(MOC) kfoptions.h -o $@
+	$(MOC) kfoptions.h -o mkfoptions.cpp
 
 mkfind.cpp: kfind.h
-	$(MOC) kfind.h -o $@
+	$(MOC) kfind.h -o mkfind.cpp
 
