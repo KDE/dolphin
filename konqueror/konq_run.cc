@@ -167,7 +167,9 @@ void KonqRun::scanFile()
   //set referrer if request not manual.
   // ### TODO: turn this off optionally.
   if (m_req.typedURL.isEmpty())
-      job->addMetaData("Referer", m_req.args.metaData()["referrer"]);
+      // ###this does not work for some strange reason:
+      // job->addMetaData("Referer", m_req.args.metaData()["referrer"]);
+      job->addMetaData( m_req.args.metaData());
   job->setWindow((KMainWindow *)m_pMainWindow);
   connect( job, SIGNAL( result( KIO::Job *)),
            this, SLOT( slotKonqScanFinished(KIO::Job *)));
