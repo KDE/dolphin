@@ -2077,9 +2077,15 @@ void KonqMainWindow::slotSplitViewVertical()
 
 void KonqMainWindow::slotAddTab()
 {
-  KonqView* newView = m_pViewManager->addTab();
+  KConfig *config = KGlobal::config();
+  KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+  bool openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
+  KonqView* newView = m_pViewManager->addTab(QString::null,
+                                             QString::null,
+                                             false,
+                                             openAfterCurrentPage);
   if (newView == 0L) return;
-  openURL( newView, KURL("about:blank") );
+  openURL( newView, KURL("about:blank"),QString::null);
   m_pViewManager->showTab( newView );
   focusLocationBar();
   m_pWorkingTab = 0L;

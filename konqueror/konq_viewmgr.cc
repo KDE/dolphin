@@ -1079,6 +1079,10 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   if ( !forcedURL.isEmpty())
   {
       KonqOpenURLRequest _req(req);
+      KConfig *config = KGlobal::config();
+      KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+      _req.openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
+
       m_pMainWindow->openURL( nextChildView /* can be 0 for an empty profile */,
                               forcedURL, _req.args.serviceType, _req, _req.args.trustedSource );
 
@@ -1381,6 +1385,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
 
     KonqFrameTabs *newContainer = new KonqFrameTabs( parent->widget(), parent, this );
     connect(newContainer,SIGNAL(ctrlTabPressed()),m_pMainWindow,SLOT(slotCtrlTabPressed()));
+
     parent->insertChildFrame( newContainer );
     m_pDocContainer = newContainer;
 
