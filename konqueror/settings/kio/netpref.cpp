@@ -63,10 +63,12 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
 
     sb_socketRead = new QSpinBox( gb_Timeout, "sb_socketRead" );
     sb_socketRead->setSuffix( i18n( "    sec" ) );
+    connect(sb_socketRead, SIGNAL(valueChanged ( int )),this, SLOT(configChanged()));
     vlay_firstColumnSpinBox->addWidget( sb_socketRead );
 
     sb_proxyConnect = new QSpinBox( gb_Timeout, "sb_proxyConnect" );
     sb_proxyConnect->setSuffix( i18n( "    sec" ) );
+    connect(sb_proxyConnect, SIGNAL(valueChanged ( int )),this, SLOT(configChanged()));
     vlay_firstColumnSpinBox->addWidget( sb_proxyConnect );
 
     grid_firstColumn->addLayout( vlay_firstColumnSpinBox, 0, 2 );
@@ -97,11 +99,12 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
     sb_serverConnect = new QSpinBox( gb_Timeout, "sb_serverConnect" );
     sb_serverConnect->setSuffix( i18n( "    secs" ) );
     vlay_secondColumnSpinBox->addWidget( sb_serverConnect );
+    connect(sb_serverConnect, SIGNAL(valueChanged ( int )),this, SLOT(configChanged()));
 
     sb_serverResponse = new QSpinBox( gb_Timeout, "sb_serverResponse" );
     sb_serverResponse->setSuffix( i18n( "    secs" ) );
     vlay_secondColumnSpinBox->addWidget( sb_serverResponse );
-
+    connect(sb_serverResponse, SIGNAL(valueChanged ( int )),this, SLOT(configChanged()));
     grid_secondColumn->addLayout( vlay_secondColumnSpinBox, 0, 2 );
 
     spacer = new QSpacerItem( 16, 20, QSizePolicy::Fixed, QSizePolicy::Minimum );
@@ -116,6 +119,7 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
     gb_Ftp = new QGroupBox( 1, Qt::Vertical, i18n( "FTP Options" ), this, "gb_Ftp" );
     cb_ftpDisablePasv = new QCheckBox( i18n( "Disable Passive &Mode (PASV)" ), gb_Ftp );
     mainLayout->addWidget( gb_Ftp );
+    connect(cb_ftpDisablePasv, SIGNAL(toggled ( bool  )),this,SLOT(configChanged()));
 
     mainLayout->addStretch();
 

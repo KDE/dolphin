@@ -29,7 +29,7 @@ signals:
 
 protected slots:
     virtual void timeoutChanged(int val);
-
+ void configChanged(){emit changed(true);}
 private:
     QGroupBox* gb_Timeout;
     QSpinBox* sb_socketRead;
