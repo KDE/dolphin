@@ -1170,7 +1170,7 @@ void KonqMainView::slotPrint()
 
 void KonqMainView::slotClose()
 {
-  // TODO
+  delete this;
 }
 
 void KonqMainView::slotCopy()

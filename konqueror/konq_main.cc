@@ -151,7 +151,7 @@ void KonqApp::start()
     home += QDir::homeDirPath();
     KonqMainWindow *m_pShell = new KonqMainWindow( home.data() );
     
-    m_pShell->show(); // seems to call init, so we need it first
+    m_pShell->show();
 
     /* BUGGY
     // Add a tree view on the right. Probably temporary.
@@ -375,6 +375,7 @@ int main( int argc, char **argv )
   app.exec();
 
   cerr << "============ BACK from event loop ===========" << endl;
+  sig_term_handler(0);
 
   return 0;
 }
@@ -400,7 +401,7 @@ void sig_handler( int )
 
 void sig_term_handler( int )
 {
-  printf("###################### TERM: Deleting sockets ###################\n");
+  // printf("###################### SIG TERM ###################\n");
 
   /*
   if ( pkfm->isGoingDown() )
@@ -410,6 +411,10 @@ void sig_term_handler( int )
   pkfm->slotSave();
   pkfm->slotShutDown();
   */
+
+  QFile iorFile( kapp->localkdedir() + "/share/apps/konqueror/konqueror.ior" );
+  if ( iorFile.exists() )
+    iorFile.remove();
 
   exit(1);
 }

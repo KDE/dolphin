@@ -143,7 +143,7 @@ void KonqKfmIconView::stop()
 
 char *KonqKfmIconView::url()
 {
-  QString u = m_strWorkingURL.c_str();
+  QString u= m_sWorkingURL;
   if ( u.isEmpty() )
     u = m_strURL;
   return CORBA::string_dup( u.ascii() );
@@ -384,16 +384,16 @@ void KonqKfmIconView::openURL( const char *_url )
   QObject::connect( job, SIGNAL( sigError( int, int, const char* ) ),
 	   this, SLOT( slotError( int, int, const char* ) ) );
 
-  m_strWorkingURL = _url;
-  m_workingURL = url;
+  m_sWorkingURL = _url;
+  //m_workingURL = url;
 
   m_buffer.clear();
 
   m_jobId = job->id();
   job->listDir( url.url() );
 
-  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)m_strWorkingURL.c_str(), 0 ) );
-  m_vMainWindow->setPartCaption( id(), m_strWorkingURL.c_str() );
+  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)m_sWorkingURL, 0 ) );
+  m_vMainWindow->setPartCaption( id(), m_sWorkingURL );
 }
 
 void KonqKfmIconView::slotError( int /*_id*/, int _errid, const char *_errortext )
@@ -428,12 +428,17 @@ void KonqKfmIconView::slotBufferTimeout()
 
   list<UDSEntry>::iterator it = m_buffer.begin();
 
-  clear();
-  m_strURL = m_strWorkingURL.c_str();
-  m_strWorkingURL = "";
-  m_url = m_strURL.data();
-  KURL u( m_url );
-  m_bIsLocalURL = u.isLocalFile();
+  
+  //The first entry in the toplevel ?
+  if ( !m_sWorkingURL.isEmpty() ) 
+  { 
+    clear();
+    m_strURL = m_sWorkingURL;
+    m_sWorkingURL = "";
+    m_url = m_strURL.data();
+    KURL u( m_url );
+    m_bIsLocalURL = u.isLocalFile();
+  }
 
   for( ; it != m_buffer.end(); it++ )
   {
@@ -448,11 +453,7 @@ void KonqKfmIconView::slotBufferTimeout()
     assert( !name.empty() );
     if ( m_isShowingDotFiles || name[0]!='.' )
     {
-
       //cerr << "Processing " << name << endl;
-
-      // The first entry in the toplevel ?
-      //  if ( !m_strWorkingURL.empty() ) { }
 
       KURL u( m_url );
       u.addPath( name.c_str() );

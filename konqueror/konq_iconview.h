@@ -27,7 +27,7 @@
 #include <qtimer.h>
 #include <qstrlist.h>
 
-#include <string>
+#include <list>
 
 class KonqKfmIconView;
 class KonqKfmIconViewItem;
@@ -109,8 +109,8 @@ protected:
   int m_jobId;
 
   bool m_bComplete;
-  string m_strWorkingURL;
-  KURL m_workingURL;
+  QString m_sWorkingURL;
+  //KURL m_workingURL;
 
   list<UDSEntry> m_buffer;
   QTimer m_bufferTimer;
