@@ -286,6 +286,15 @@ void KonqMainView::initGui()
   QObject::connect( &m_animatedLogoTimer, SIGNAL( timeout() ), this, SLOT( slotAnimatedLogoTimeout() ) );
 }
 
+void KonqMainView::checkPrintingExtension()
+{
+  if ( m_currentView )
+  {
+    Browser::View_var view = m_currentView->view();
+    setItemEnabled( m_vMenuFile, MFILE_PRINT_ID, view->supportsInterface( "IDL:Browser/PrintingExtension:1.0" ) );
+  }
+}
+
 bool KonqMainView::event( const char* event, const CORBA::Any& value )
 {
   EVENT_MAPPER( event, value );
@@ -336,6 +345,8 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
     return true;
   }
 
+  OpenPartsUI::Pixmap_var pix;
+
   KStdAccel stdAccel;
 
   CORBA::WString_var text = Q2C( i18n("&File") );
@@ -364,8 +375,9 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   text = Q2C( i18n("&Find") );
   m_vMenuFile->insertItem4( text, this, "slotToolFind", stdAccel.find(), MFILE_FIND_ID, -1 );
   m_vMenuFile->insertSeparator( -1 );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "fileprint.xpm" ) );
   text = Q2C( i18n("&Print...") );
-  m_vMenuFile->insertItem4( text, this, "slotPrint", stdAccel.print(), MFILE_PRINT_ID, -1 );
+  m_vMenuFile->insertItem6( pix, text, this, "slotPrint", stdAccel.print(), MFILE_PRINT_ID, -1 );
 
   menuBar->setFileMenu( m_idMenuFile );
 
@@ -472,12 +484,8 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   m_vMenuOptions->setItemChecked( MOPTIONS_SHOWTOOLBAR_ID, true );
   m_vMenuOptions->setItemChecked( MOPTIONS_SHOWLOCATIONBAR_ID, true );
 
-  if ( m_currentView )
-  {
-    Browser::View_var view = m_currentView->view();
-    setItemEnabled( m_vMenuFile, MFILE_PRINT_ID, view->supportsInterface( "IDL:Browser/PrintingExtension:1.0" ) );
-  }
-      
+  checkPrintingExtension();
+
   return true;
 }
 
@@ -539,6 +547,11 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   toolTip = Q2C( i18n("Paste") );
   m_vToolBar->insertButton2( pix, MEDIT_PASTE_ID, SIGNAL(clicked()),
                              this, "slotPaste", true, toolTip, -1);
+
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "fileprint.xpm" ) );
+  toolTip = Q2C( i18n( "Print" ) );
+  m_vToolBar->insertButton2( pix, MFILE_PRINT_ID, SIGNAL(clicked()),
+                             this, "slotPrint", true, toolTip, -1 );
  				
   m_vToolBar->insertSeparator( -1 );				
 
@@ -594,6 +607,8 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   m_vLocationBar->setBarPos( (OpenPartsUI::BarPosition)(m_Props->m_locationBarPos) );
   m_vLocationBar->enable( m_Props->m_bShowLocationBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
   */
+
+  checkPrintingExtension();
 
   kdebug(0,1202,"KonqMainView::mappingCreateToolbar : done !");
   return true;

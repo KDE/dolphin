@@ -154,6 +154,7 @@ KfmViewSettings::KfmViewSettings( const KConfig * config )
 
   m_underlineLink = config->readBoolEntry( "UnderlineLink", true );
   
+  KConfigGroupSaver cgs(config, "Misc Defaults" );
   m_bAutoLoadImages = config->readBoolEntry( "AutoLoadImages", true );
 }
 

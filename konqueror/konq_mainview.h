@@ -198,6 +198,8 @@ private:
   void initConfig();
   void initGui();
 
+  void checkPrintingExtension();
+
   struct RowInfo
   {
     QList<KonqChildView> children;
