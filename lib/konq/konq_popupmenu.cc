@@ -345,12 +345,14 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
 
           if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) )
           {
-              bool ok = !m_sMimeType.isNull() && cfg.readListEntry( "ServiceTypes" ).contains( m_sMimeType );
+              QStringList types = cfg.readListEntry( "ServiceTypes" );
+              bool ok = !m_sMimeType.isNull() && types.contains( m_sMimeType );
               if ( !ok ) {
-                  QString st = cfg.readEntry( "ServiceTypes" );
-                  ok = (st == "all/all" || st == "allfiles" /*compat with KDE up to 3.0.3*/);
-                  if ( !ok && st == "all/allfiles" ) {
-                      ok = m_sMimeType != "inode/directory"; // ## or inherits from it
+                  ok = (types[0] == "all/all" || 
+                        types[0] == "allfiles" /*compat with KDE up to 3.0.3*/);
+                  if ( !ok && types[0] == "all/allfiles" ) 
+                  {
+                      ok = (m_sMimeType != "inode/directory"); // ## or inherits from it
                   }
               }
               if ( ok )
