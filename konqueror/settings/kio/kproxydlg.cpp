@@ -394,14 +394,28 @@ void KProxyDialog::save()
     {
       if ( m_data->type != KProtocolManager::ManualProxy )
       {
-        QString msg = i18n("<qt>Proxy information was not setup "
-                           "properly! Please click on the <em>"
-                           "Setup...</em> button to correct this "
-                           "problem before proceeding! Otherwise "
-                           "the changes you made will be ignored!"
-                           "</qt>");
-        KMessageBox::error( this, msg, i18n("Invalid Proxy Setup") );
-        return;
+        // Let's try a bit harder to determine if the previous
+        // proxy setting was indeed a manual proxy
+        KURL u = m_data->httpProxy;
+        bool validProxy = (u.isValid() && u.port() != 0);
+        u= m_data->httpsProxy;
+        validProxy |= (u.isValid() && u.port() != 0);       
+        u= m_data->ftpProxy;
+        validProxy |= (u.isValid() && u.port() != 0);        
+          
+        if (!validProxy)
+        {
+          QString msg = i18n("<qt>Proxy information was not setup "
+                             "properly! Please click on the <em>"
+                             "Setup...</em> button to correct this "
+                             "problem before proceeding. Otherwise "
+                             "the changes you made will be ignored!"
+                             "</qt>");
+          KMessageBox::error( this, msg, i18n("Invalid Proxy Setup") );
+          return;
+        }
+        
+        m_data->type = KProtocolManager::ManualProxy;
       }
 
       KSaveIOConfig::setProxyType( KProtocolManager::ManualProxy );
@@ -413,7 +427,7 @@ void KProxyDialog::save()
         QString msg = i18n("<qt>Proxy information was not setup "
                            "properly! Please click on the <em>"
                            "Setup...</em> button to correct this "
-                           "problem before proceeding! Otherwise "
+                           "problem before proceeding. Otherwise "
                            "the changes you made will be ignored!"
                            "</qt>");
         KMessageBox::error( this, msg, i18n("Invalid Proxy Setup") );

@@ -33,7 +33,8 @@
 #include "kproxyexceptiondlg.h"
 
 KProxyExceptionDlg::KProxyExceptionDlg( QWidget* parent,  const char* name,
-                                        bool modal, const QString &caption)
+                                        bool modal, const QString &caption,
+                                        const QString &msg)
                    :KDialogBase( parent, name, modal, caption, Ok|Cancel )
 {
     QWidget *page = new QWidget( this );
@@ -42,9 +43,7 @@ KProxyExceptionDlg::KProxyExceptionDlg( QWidget* parent,  const char* name,
     QVBoxLayout* mainLayout = new QVBoxLayout( page, KDialog::marginHint(),
                                                KDialog::spacingHint() );
 
-    QLabel* label = new QLabel( i18n("Enter address (URL) that should be "
-                                     "excluded from using a proxy server:"),
-                                page, "lb_excpetions" );
+    QLabel* label = new QLabel(msg, page, "lb_excpetions" );
     label->setSizePolicy( QSizePolicy( QSizePolicy::Preferred,
                                        QSizePolicy::Fixed,
                                        label->sizePolicy().hasHeightForWidth() ) );
@@ -215,7 +214,18 @@ bool KExceptionBox::handleDuplicate( const QString& site )
 
 void KExceptionBox::newPressed()
 {
-    KProxyExceptionDlg* dlg = new KProxyExceptionDlg( this );
+    QString msg;
+    
+    // Specify the appropriate message...    
+    if ( m_cbReverseproxy->isChecked() )
+        msg = i18n("Enter the address or URL for which the above proxy server "
+                   "should be used: ");
+    else
+        msg = i18n("Enter the address or URL that should be excluded from using "
+                   "the above proxy server:");
+                   
+    KProxyExceptionDlg* dlg = new KProxyExceptionDlg( this, "proxyexception", 
+                                                      true, QString::null, msg );
     dlg->setCaption( i18n("New Exception") );
     if ( dlg->exec() == QDialog::Accepted )
     {
@@ -232,7 +242,18 @@ void KExceptionBox::newPressed()
 
 void KExceptionBox::changePressed()
 {
-    KProxyExceptionDlg* dlg = new KProxyExceptionDlg( this );
+    QString msg;
+    
+    // Specify the appropriate message...    
+    if ( m_cbReverseproxy->isChecked() )
+        msg = i18n("Enter the address or URL for which the above proxy server "
+                   "should be used: ");
+    else
+        msg = i18n("Enter the address or URL that should be excluded from using "
+                   "the above proxy server:");
+                   
+    KProxyExceptionDlg* dlg = new KProxyExceptionDlg( this, "proxyexception", 
+                                                      true, QString::null, msg );
     dlg->setCaption( i18n("Change Exception") );
     QString currentItem = m_lvExceptions->currentItem()->text(0);
     dlg->setException( currentItem );

@@ -386,15 +386,15 @@ bool KManualProxyDlg::validate()
 
     if ( !m_bHasValidData )
     {
-        QString msg = i18n("The highlighted input field(s) contain an invalid "
-                           "proxy address.");
+        QString msg = i18n("You must specify at least one proxy address.");
 
-        QString details = i18n("<qt>Make sure the proxy address you "
-                               "provided is valid. Note that you <b>must</b> "
-                               "supply a fully qualified address such as "
-                               "<b>http://192.168.20.1</b>. All addresses "
-                               "specified without their protocols (eg: "
-                               "\"http\") will be rejected as invalid.</qt>");
+        QString details = i18n("<qt>Make sure that you have specified at least one "
+                               "or more valid proxy addresses. Note that you <b>must"
+                               "</b> supply a fully qualified address such as "
+                               "<b>http://192.168.20.1</b> or <b>http://proxy.foo."
+                               "com</b>. All addresses that do not start with a "
+                               "protocol (eg: http://) will be rejected as invalid "
+                               "proxy address.</qt>");
 
         KMessageBox::detailedError( this, msg, details,
                                     i18n("Invalid Proxy Setup") );

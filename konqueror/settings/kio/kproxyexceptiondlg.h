@@ -74,8 +74,9 @@ class KProxyExceptionDlg : public KDialogBase
   Q_OBJECT
 
 public:
-    KProxyExceptionDlg( QWidget* parent = 0, const char* name = 0,
-                        bool modal = true, const QString &caption = QString::null );
+    KProxyExceptionDlg( QWidget* parent = 0, const char* name = 0, 
+                        bool modal = true, const QString &caption = QString::null,
+                        const QString &msg = QString::null );
     ~KProxyExceptionDlg();
 
     QString exception() const;

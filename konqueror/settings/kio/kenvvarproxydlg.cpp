@@ -333,15 +333,15 @@ void KEnvVarProxyDlg::verifyPressed()
 {
   if ( !validate() )
   {
-    QString msg = i18n("The highlighted input field(s) contains an unknown or "
-                       "invalid proxy environment variable.");
-
+    QString msg = i18n("You must specify at least one valid proxy "
+                       "environment variable.");
+  
     QString details = i18n("<qt>Make sure you entered the actual environment "
                            "variable name rather than its value. For "
                            "example, if the environment variable is <br><b>"
                            "HTTP_PROXY=http://localhost:3128</b><br> you need "
                            "to enter <b>HTTP_PROXY</b> here instead of the "
-                           "actual address specified by the variable.</qt>");
+                           "actual value http://localhost:3128.</qt>");
 
     KMessageBox::detailedSorry( this, msg, details,
                                 i18n("Invalid Proxy Setup") );
@@ -528,18 +528,16 @@ void KEnvVarProxyDlg::slotOk()
 {
   if ( !validate() )
   {
-    QString msg = i18n("The highlighted input field(s) contains an unknown or "
-                       "invalid environment variable.");
-
-    QString details = i18n("<qt>Make sure you entered the actual "
-                           "environment variable name rather than the "
-                           "address of the proxy server. For example, "
-                           "if the set variable name used to specify the "
-                           "HTTP proxy server is <b>HTTP_PROXY</b>, then "
-                           "you need to enter <b>HTTP_PROXY</b> instead "
-                           "of the actual address specified by the "
-                           "variable.</qt>");
-
+    QString msg = i18n("You must specify at least one valid proxy "
+                       "environment variable.");
+    
+    QString details = i18n("<qt>Make sure you entered the actual environment "
+                           "variable name rather than its value. For "
+                           "example, if the environment variable is <br><b>"
+                           "HTTP_PROXY=http://localhost:3128</b><br> you need "
+                           "to enter <b>HTTP_PROXY</b> here instead of the "
+                           "actual value http://localhost:3128.</qt>");
+    
     KMessageBox::detailedError( this, msg, details,
                                 i18n("Invalid Proxy Setup") );
     return;
