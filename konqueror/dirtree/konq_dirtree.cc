@@ -513,16 +513,17 @@ void KonqDirTree::contentsMouseMoveEvent( QMouseEvent *e )
   if ( !item || !item->isSelectable() )
     return;
 
-  QStringList lst;
-  lst << static_cast<KonqDirTreeItem *>( item )->fileItem()->url().url();
+  QStrList lst;
+  lst.append(static_cast<KonqDirTreeItem *>( item )->fileItem()->url().url().local8Bit().data());
 
-  QUriDrag *drag = new QUriDrag( viewport() );
-  drag->setUnicodeUris( lst );
+  KonqDrag *drag = new KonqDrag( viewport() );
+  drag->setUris( lst );
   QPoint hotspot;
   hotspot.setX( item->pixmap( 0 )->width() / 2 );
   hotspot.setY( item->pixmap( 0 )->height() / 2 );
   drag->setPixmap( *(item->pixmap( 0 )), hotspot );
   drag->drag();
+
 }
 
 void KonqDirTree::contentsMouseReleaseEvent( QMouseEvent *e )
