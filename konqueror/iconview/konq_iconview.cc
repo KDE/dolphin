@@ -573,10 +573,11 @@ void KonqKfmIconView::slotBackgroundImage()
     }
 }
 
-void KonqKfmIconView::closeURL()
+bool KonqKfmIconView::closeURL()
 {
     debug("KonqKfmIconView::stop()");
     if ( m_dirLister ) m_dirLister->stop();
+    return true;
 }
 
 void KonqKfmIconView::saveState( QDataStream &stream )

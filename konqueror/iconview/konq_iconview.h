@@ -49,7 +49,7 @@ public:
   virtual ~KonqKfmIconView();
 
   virtual bool openURL( const KURL &_url );
-  virtual void closeURL();
+  virtual bool closeURL();
 
   virtual bool openFile() { return true; }
 
