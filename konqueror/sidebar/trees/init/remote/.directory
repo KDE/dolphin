@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=Network
 Name[af]=netwerk
+Name[ar]=الشبكة
 Name[az]=Şəbəkə
 Name[bg]=Мрежа
 Name[br]=Rouedad
@@ -52,5 +53,6 @@ Name[xh]=Umsebenzi womtya
 Name[xx]=xx
 Name[zh_CN.GB2312]=网络
 Name[zh_TW.Big5]=網路
+Name[zu]=Umsebenzi wokuxhumanisa
 Icon=network
 Open=false
