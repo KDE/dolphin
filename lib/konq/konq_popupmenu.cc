@@ -301,18 +301,11 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   }
 
   KTrader::OfferList offers;
-  if ( m_sMimeType.isNull() )  // if no common mimetype is set set it to all for applications
-  {      
+      // if check m_sMimeType.isNull (no commom mime type) set it to all/all 
       // 3 - Query for applications
-      offers = KTrader::self()->query( m_sMimeType,
+      offers = KTrader::self()->query( m_sMimeType.isNull( ) ? QString::fromLatin1( "all/all" ) : m_sMimeType ,
    "Type == 'Application' and DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'" );
-
-  }
-  else {  // common mimetype among all URLs
-      // 3 - Query for applications
-      offers = KTrader::self()->query( m_sMimeType,
-   "Type == 'Application' and DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'" );
-  }
+   
 
   //// Ok, we have everything, now insert
 
@@ -558,13 +551,7 @@ void KonqPopupMenu::addPlugins( ){
 	// search for Konq_PopupMenuPlugins inspired by simons kpropsdlg
 	//search for a plugin with the right protocol
 	KTrader::OfferList plugin_offers;
-	if (m_sMimeType.isNull( ) ) // the mimetype is not comman query for all/all
-	{
-	    plugin_offers = KTrader::self()->query( QString::fromLatin1( "all/all" ), "'KonqPopupMenu/Plugin' in ServiceTypes");
-	}
-	else {  
-	    plugin_offers = KTrader::self()->query(m_sMimeType, "'KonqPopupMenu/Plugin' in ServiceTypes");
-	}
+	plugin_offers = KTrader::self()->query( m_sMimeType.isNull() ? QString::fromLatin1( "all/all" ) : m_sMimeType , "'KonqPopupMenu/Plugin' in ServiceTypes");
 	KTrader::OfferList::ConstIterator iterator = plugin_offers.begin( );
 	KTrader::OfferList::ConstIterator end = plugin_offers.end( );
 	// travers the offerlist
