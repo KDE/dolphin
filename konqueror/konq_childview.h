@@ -62,7 +62,8 @@ public:
                  Konqueror::NewViewPosition newViewPosition,
                  OpenParts::Part_ptr parent,
                  QWidget * parentWidget,
-                 OpenParts::MainWindow_ptr mainWindow
+                 OpenParts::MainWindow_ptr mainWindow,
+		 const QString &serviceType
                );
 
   ~KonqChildView();
@@ -107,8 +108,10 @@ public:
   /**
    * Create a view
    * @param viewName the type of view to be created (e.g. "KonqKfmIconView") 
+   *
+   * urgh, the serviceType string pointer is ugly... , David - do you have a good idea how to make this better?
    */
-  Konqueror::View_ptr createViewByName( const char *viewName );
+  Konqueror::View_ptr createViewByName( const char *viewName, QString *serviceType = 0L );
   
   /**
    * Call this to prevent next makeHistory() call from changing history lists
@@ -180,6 +183,11 @@ public:
    */
   void setLocationBarURL( const QString locationBarURL ) { m_sLocationBarURL = locationBarURL; }
 
+  /**
+   * Returns the Servicetype this view is currently displaying
+   */
+  QString serviceType() { return m_strServiceType; }
+
 signals:
 
   /**
@@ -237,6 +245,7 @@ protected:
   Row * m_row;
   QVBoxLayout * m_pLayout;
   bool m_bBuiltin;
+  QString m_strServiceType;
 };
 
 #endif

@@ -17,6 +17,9 @@
    Boston, MA 02111-1307, USA.
 */     
 
+#include <kded_instance.h>
+#include <ktrader.h>
+
 #include "kfmrun.h"
 #include "konq_mainview.h"
 #include "konq_mainwindow.h"
@@ -82,7 +85,7 @@ void KfmRun::foundMimeType( const char *_type )
     kdebug(0,1202,"found plugin for %s", _type);
 
     Konqueror::ViewFactory_var factory = Konqueror::ViewFactory::_narrow( obj );
-    Konqueror::View_var v = Konqueror::View::_duplicate( factory->create() );
+    Konqueror::View_var v = factory->create();
     KonqPlugins::associate( v->viewName(), _type );
     m_pView->openPluginView( m_strURL, v );
     m_pView = 0L;
@@ -90,7 +93,7 @@ void KfmRun::foundMimeType( const char *_type )
     m_timer.start( 0, true );
     return;
   }
-  
+    
   kdebug(0,1202,"Nothing special to do here");
 
   KRun::foundMimeType( _type );

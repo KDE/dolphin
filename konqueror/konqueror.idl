@@ -213,7 +213,7 @@ module Konqueror
   interface MainView : OpenParts::Part
   {
     // Position is relative to activeView(); above and below create a new row
-    void insertView( in View view, in NewViewPosition newViewPosition);
+    void insertView( in View view, in NewViewPosition newViewPosition, in string serviceType );
     void setActiveView( in OpenParts::Id id );
     View activeView();
     ViewList viewList();

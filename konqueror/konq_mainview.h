@@ -69,7 +69,7 @@ public:
 
   //IDL
   // Position is relative to activeView(); above and below create a new row
-  virtual void insertView( Konqueror::View_ptr view, Konqueror::NewViewPosition newViewPosition);
+  virtual void insertView( Konqueror::View_ptr view, Konqueror::NewViewPosition newViewPosition, const char *serviceType );
   virtual void setActiveView( OpenParts::Id id );
   virtual Konqueror::View_ptr activeView();
   virtual Konqueror::ViewList *viewList();

@@ -29,6 +29,7 @@
 #include <kio_cache.h>
 
 #include <kded_instance.h>
+#include <ktrader.h> //for KTraderServiceProvider
 
 #include <kimgio.h>
 #include <kapp.h>
@@ -56,7 +57,6 @@
 #include "konq_partview.h"
 #include "konq_treeview.h"
 #include "konq_txtview.h"
-#include "konq_plugins.h"
 
 void sig_handler( int signum );
 void sig_term_handler( int signum );
@@ -307,9 +307,14 @@ int main( int argc, char **argv )
   // Kudos to Nikita V. Youshchenko !
   QApplication::setColorSpec( QApplication::ManyColor ); 
 
+  KonqApp app( argc, argv );
+  
+  // create a KdedInstance object, which takes care about connecting to kded
+  // and providing a trader and an activator
+  KdedInstance kded( argc, argv, komapp_orb );
+  
   KonqBoot boot( "IDL:Konqueror/Application:1.0", "App" );
   
-  KonqApp app( argc, argv );
   KGlobal::locale()->insertCatalogue("libkonq"); // needed for apps using libkonq
 
   int i = 1;
@@ -326,30 +331,15 @@ int main( int argc, char **argv )
   KIOCache::initStatic();
   
   KonqFileManager fm;
+  KTraderServiceProvider sp;
 
   testLocalInstallation();
   
-  /* Create an application interface, for kfmclient */
-  KonqApplicationIf * pApp = new KonqApplicationIf();
-  CORBA::String_var s = opapp_orb->object_to_string( pApp );
-  QFile iorFile( kapp->localkdedir() + "/share/apps/konqueror/konqueror.ior" );
-  if ( iorFile.open( IO_WriteOnly ) )
-  {
-    iorFile.writeBlock( s, strlen( s ) );
-    iorFile.close();
-  }
-
   KRegistry registry;
   registry.addFactory( new KServiceTypeFactory );
   // registry.addFactory( new KServiceFactory ); // not needed anymore - we use kded
   registry.load( );
 
-  // create a KdedInstance object, which takes care about connecting to kded
-  // and providing a trader and an activator
-  KdedInstance kded( argc, argv, komapp_orb );
-
-  KonqPlugins::init();
-  
   kdebug(0, 1202, "===================== mime stuff finished ==============");
 
   kimgioRegister();
@@ -396,10 +386,6 @@ void sig_term_handler( int )
 
   KonqTopWidget::getKonqTopWidget()->slotSave();
   KonqTopWidget::getKonqTopWidget()->slotShutDown();
-
-  QFile iorFile( kapp->localkdedir() + "/share/apps/konqueror/konqueror.ior" );
-  if ( iorFile.exists() )
-    iorFile.remove();
 
   exit(1);
 }

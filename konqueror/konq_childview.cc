@@ -55,7 +55,8 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
                               Konqueror::NewViewPosition newViewPosition,
                               OpenParts::Part_ptr parent,
                               QWidget * ,
-                              OpenParts::MainWindow_ptr mainWindow
+                              OpenParts::MainWindow_ptr mainWindow,
+			      const QString &serviceType
                               )
   : m_row( row )
 {
@@ -83,6 +84,7 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
   attach( view );
 
   m_sLastViewName = viewName();
+  m_strServiceType = serviceType;
 }
 
 KonqChildView::~KonqChildView()
@@ -213,15 +215,16 @@ void KonqChildView::changeViewMode( const char *viewName )
   if ( strcmp( viewName, this->viewName() ) != 0L )
   {
     QString sViewURL = url(); // store current URL
-    Konqueror::View_var vView = createViewByName( viewName ); 
+    Konqueror::View_var vView = createViewByName( viewName, &m_strServiceType ); 
     switchView( vView );
     openURL( sViewURL );
   }
 }
 
-Konqueror::View_ptr KonqChildView::createViewByName( const char *viewName )
+Konqueror::View_ptr KonqChildView::createViewByName( const char *viewName, QString *serviceType = 0L )
 {
   Konqueror::View_var vView;
+  QString sType;
 
   kdebug(0,1202,"void KonqChildView::createViewByName( %s )", viewName);
 
@@ -230,39 +233,44 @@ Konqueror::View_ptr KonqChildView::createViewByName( const char *viewName )
   {
     KonqKfmIconView * v = new KonqKfmIconView;
     vView = Konqueror::View::_duplicate( v );
+    sType = "inode/directory";
   }
   else if ( strcmp( viewName, "KonquerorKfmTreeView" ) == 0 )
   {
     KonqKfmTreeView * v = new KonqKfmTreeView;
     vView = Konqueror::View::_duplicate( v );
+    sType = "inode/directory";
   }
   else if ( strcmp( viewName, "KonquerorHTMLView" ) == 0 )
   {
     KonqHTMLView * v = new KonqHTMLView;
     vView = Konqueror::View::_duplicate( v );
+    sType = "text/html";
   }
   else if ( strcmp( viewName, "KonquerorPartView" ) == 0 )
   {
     KonqPartView * v = new KonqPartView;
     vView = Konqueror::View::_duplicate( v );
+    sType = "part"; //????????? ;-)
   }
   else if ( strcmp( viewName, "KonquerorTxtView" ) == 0 )
   {
     KonqTxtView * v = new KonqTxtView;
     vView = Konqueror::View::_duplicate( v );
+    sType = "text/plain";
   }
   else
   {
-    QString serviceType = KonqPlugins::getServiceType( viewName );
-    assert( !serviceType.isNull() );
+    sType = KonqPlugins::getServiceType( viewName );
+    assert( !sType.isNull() );
     
-    CORBA::Object_var obj = KonqPlugins::lookupViewServer( serviceType );
+    CORBA::Object_var obj = KonqPlugins::lookupViewServer( sType );
     assert( !CORBA::is_nil( obj ) );
     
     Konqueror::ViewFactory_var factory = Konqueror::ViewFactory::_narrow( obj );
     assert( !CORBA::is_nil( obj ) );
     
-    vView = Konqueror::View::_duplicate( factory->create() );
+    vView = factory->create();
     assert( !CORBA::is_nil( vView ) );
   }
 
@@ -271,6 +279,9 @@ Konqueror::View_ptr KonqChildView::createViewByName( const char *viewName )
 		   //sense in the constructor and in attach() .
 		   //Nevertheless it works fine this way and it helps us to
 		   //make sure that we're also "owner" of the view.
+    
+  if ( serviceType )
+    *serviceType = sType;
     
   return Konqueror::View::_duplicate( vView );
 }

@@ -320,7 +320,7 @@ void KonqMainView::initView()
 {
   KonqKfmIconView * pView = new KonqKfmIconView ;
   kdebug(0, 1202, "pView is %p", pView);
-  insertView( pView, Konqueror::left );
+  insertView( pView, Konqueror::left, "inode/directory" );
 
   MapViews::Iterator it = m_mapViews.find( pView->id() );
   it.data()->lockHistory(); // first URL won't go into history
@@ -657,7 +657,8 @@ bool KonqMainView::mappingNewTransfer( Konqueror::EventNewTransfer transfer )
 }
 
 void KonqMainView::insertView( Konqueror::View_ptr view,
-                                       Konqueror::NewViewPosition newViewPosition )
+                               Konqueror::NewViewPosition newViewPosition,
+			       const char *serviceType )
 {
   Row * currentRow;
   if ( m_currentView )
@@ -675,7 +676,7 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
   }
 
   KonqChildView *v = new KonqChildView( view, currentRow, newViewPosition,
-                                        this, this, m_vMainWindow );
+                                        this, this, m_vMainWindow, QString( serviceType ) );
   QObject::connect( v, SIGNAL(sigIdChanged( KonqChildView *, OpenParts::Id, OpenParts::Id )), 
                     this, SLOT(slotIdChanged( KonqChildView * , OpenParts::Id, OpenParts::Id ) ));
 
@@ -723,7 +724,7 @@ void KonqMainView::setActiveView( OpenParts::Id id )
 Konqueror::View_ptr KonqMainView::activeView()
 {
   if ( m_currentView )
-    return Konqueror::View::_duplicate( m_currentView->view() );
+    return m_currentView->view(); //KonqChildView does the necessary duplicate already
   else
     return Konqueror::View::_nil();
 }
@@ -740,6 +741,7 @@ Konqueror::ViewList *KonqMainView::viewList()
   {
     seq->length( i++ );
     (*seq)[ i ] = it.data()->view(); // no duplicate here ?
+                                     // no, because view() does it already :)
   }
 
   return seq;
@@ -893,7 +895,10 @@ void KonqMainView::openDirectory( const char *url )
   // a directory. We need a generic way to know if the current view
   // can handle a given mimetype or not... or at least if it can handle
   // a directory...
-  m_currentView->changeViewMode( "KonquerorKfmIconView" );  
+  
+  // I think this should solve it :-) (Simon)
+  if ( m_currentView->serviceType() != "inode/directory" )
+    m_currentView->changeViewMode( "KonquerorKfmIconView" );  
 
   //TODO: check for html index file and stuff (Simon)
     
@@ -939,8 +944,9 @@ void KonqMainView::splitView ( Konqueror::NewViewPosition newViewPosition )
   QString url = m_currentView->url();
   QString viewName = m_currentView->viewName();
 
-  Konqueror::View_var vView = m_currentView->createViewByName( viewName );
-  insertView( vView, newViewPosition );
+  QString sType;
+  Konqueror::View_var vView = m_currentView->createViewByName( viewName, &sType );
+  insertView( vView, newViewPosition, sType.ascii() );
   MapViews::Iterator it = m_mapViews.find( vView->id() );
   it.data()->openURL( url );
 }
@@ -1142,7 +1148,8 @@ void KonqMainView::slotLargeIcons()
   //this must never fail... 
   //(but it's quite sure that doesn't fail ;) 
   //(we could also ask via supportsInterface() ...anyway)
-  Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( m_currentView->view() );
+  Konqueror::View_var v = m_currentView->view();
+  Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( v );
   
   iv->slotLargeIcons();
 }
@@ -1151,7 +1158,8 @@ void KonqMainView::slotSmallIcons()
 {
   m_currentView->changeViewMode( "KonquerorKfmIconView" );
   
-  Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( m_currentView->view() );
+  Konqueror::View_var v = m_currentView->view();
+  Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( v );
   
   iv->slotSmallIcons();
 }
