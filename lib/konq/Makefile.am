@@ -33,12 +33,12 @@ libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc \
 
 kdirnotify_DIR = $(kde_includes)
 
-$(srcdir)/uiserver.kidl: $(kde_includes)/kio/uiserver.h $(DCOPIDL_DEPENDENCIES)
+uiserver.kidl: $(kde_includes)/kio/uiserver.h $(DCOPIDL_DEPENDENCIES)
 	$(DCOPIDL) $(kde_includes)/kio/uiserver.h > uiserver.kidl || rm -f uiserver.kidl
 
 $(srcdir)/konq_undo.cc: uiserver_stub.h
 
-uiserver_stub.h: $(srcdir)/uiserver.kidl 
+uiserver_stub.h: uiserver.kidl 
 	$(DCOPIDL2CPP) --c++-suffix cpp --no-skel uiserver.kidl
 
 directory_DATA = directory_bookmarkbar.desktop
