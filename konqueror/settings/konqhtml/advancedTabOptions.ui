@@ -106,6 +106,17 @@
                 </widget>
                 <widget class="QCheckBox">
                     <property name="name">
+                       <cstring>m_pTabCloseActivatePrevious</cstring>
+                    </property>
+                   <property name="text">
+                       <string>Activate previous used tab when closing the current tab</string>
+                   </property>
+                   <property name="whatsThis" stdset="0">
+                       <string>When checking this the previous used or opened tab will be activated when you close the current active tab instead of the one right to the current tab.</string>
+                   </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
                         <cstring>m_pKonquerorTabforExternalURL</cstring>
                     </property>
                     <property name="text">
