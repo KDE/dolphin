@@ -514,29 +514,50 @@ int32 NPN_Write(NPP /*instance*/, NPStream */*stream*/, int32 /*len*/, void */*b
   return 0;
 }
 
-NPError     NPN_DestroyStream(NPP /*instance*/, NPStream* /*stream*/,
-						                  NPReason /*reason*/)
+NPError NPN_DestroyStream(NPP /*instance*/, NPStream* /*stream*/,
+			  NPReason /*reason*/)
 {
   kDebugInfo("NPN_DestroyStream() [unimplemented]");
 
   return NPERR_GENERIC_ERROR;
 }
 
+
 // URL functions
-NPError NPN_GetURL(NPP /*instance*/, const char */*url*/, const char */*target*/)
+NPError NPN_GetURL(NPP /*instance*/, const char *url, const char *target)
 {
-  kDebugInfo("NPN_GetURL() [unimplemented]");
+  kdDebug() << "NPN_GetURL: url=" << url << " target=" << target << endl;
+
+  // TODO: Implement other targets!
+
+  if (!strcmp(target, "_blank") || !strcmp(target, "_new"))
+    {
+      kapp->invokeBrowser(url);
+      return NPERR_NO_ERROR;
+    }
 
   return NPERR_GENERIC_ERROR;
 }
 
 
-NPError NPN_GetURLNotify(NPP /*instance*/, const char */*url*/, const char */*target*/,
-												 void* /*notifyData*/)
+NPError NPN_GetURLNotify(NPP instance, const char *url, const char *target,
+			 void* notifyData)
 {
-  kDebugInfo("NPN_GetURLNotify() [unimplemented]");
+  NPError error = NPN_GetURL(instance, url, target);
 
-  return NPERR_GENERIC_ERROR;
+  if (!instance)
+    return error;
+
+  NSPluginInstance *inst = (NSPluginInstance*) instance->pdata;
+  if (inst)
+    {
+      if (error == NPERR_GENERIC_ERROR)
+	inst->URLNotify(url, NPRES_NETWORK_ERR, notifyData);
+      else
+	inst->URLNotify(url, NPRES_DONE, notifyData);
+    }
+
+  return error;
 }
 
 
