@@ -105,6 +105,13 @@ public:
     void lineupIcons();
 
     /**
+     * Line up the icons to a regular grid horizontally or vertically.
+     *
+     * @param isVertical
+     */
+    void lineupIcons( QIconView::Arrangement arrangement );
+
+    /**
      * Sets the icons of all items, and stores the @p size
      * This doesn't touch thumbnails, except if @p stopImagePreviewFor is set.
      * Takes care of the grid, when changing the size.
@@ -128,6 +135,19 @@ public:
      * (whether or not a grid has been given to QIconView)
      */
     int gridXValue() const;
+
+    /**
+     * Calculate the geometry of the fixed grid that is used to line up the
+     * icons, for example when using the lineupIcons() method.
+     *
+     * @param x
+     * @param y
+     * @param dx Cell width
+     * @param dy Cell height
+     * @param nx Number of columns
+     * @param ny Number of rows
+     */
+    void gridValues( int* x, int* y, int* dx, int* dy, int* nx, int* ny );
 
     /**
      * Start generating the previews.

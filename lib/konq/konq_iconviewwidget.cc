@@ -984,6 +984,43 @@ void KonqIconViewWidget::setItemTextPos( ItemTextPos pos )
     KIconView::setItemTextPos( pos );
 }
 
+void KonqIconViewWidget::gridValues( int* x, int* y, int* dx, int* dy,
+                                     int* nx, int* ny )
+{
+    int previewSize = previewIconSize( m_size );
+    int iconSize = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+
+    // Grid size
+    *dx = QMAX( iconSize + d->desktopGridSpacing.x(),
+                   previewSize + spacing() );
+    int textHeight = QMIN( iconTextHeight(), 2 ) * fontMetrics().height();
+    *dy = textHeight + 2 +
+        QMAX( iconSize + d->desktopGridSpacing.y(), previewSize );
+
+    // Icon Area
+    int x1, x2, y1, y2;
+    int yOffset = QMAX( 0, *dy - ( previewSize + textHeight ) );
+    if ( m_IconRect.isValid() ) {
+        *x = x1 = m_IconRect.left(); x2 = m_IconRect.right();
+        y1 = m_IconRect.top(); y2 = m_IconRect.bottom();
+    }
+    else {
+        *x = x1 = 0; x2 = viewport()->width();
+        y1 = 0; y2 = viewport()->height();
+    }
+    *y = y1 -= yOffset / 2;
+    y2 -= yOffset / 2;
+
+    *nx = (x2 - x1) / *dx;
+    *ny = (y2 - y1) / *dy;
+    // TODO: Check that items->count() <= nx * ny
+
+    // Let have exactly nx columns and ny rows
+    *dx = (x2 - x1) / *nx;
+    *dy = (y2 - y1) / *ny;
+    kdDebug(1203) << "dx = " << *dx << ", dy = " << *dy << "\n";
+}
+
 void KonqIconViewWidget::calculateGridX()
 {
     if ( m_bSetGridX )
@@ -1655,42 +1692,11 @@ void KonqIconViewWidget::lineupIcons()
     for ( QIconViewItem* item = firstItem(); item; item = item->nextItem() )
         items.append(item);
 
-    int previewSize = previewIconSize( m_size );
     int iconSize = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
 
-    // Grid size
-    int dx = QMAX( iconSize + d->desktopGridSpacing.x(),
-                   previewSize + spacing() );
-    int textHeight = QMIN( iconTextHeight(), 2 ) * fontMetrics().height();
-    int dy = textHeight + 2 +
-        QMAX( iconSize + d->desktopGridSpacing.y(), previewSize );
-
-    // Icon Area
-    int x1, x2, y1, y2;
-    int yOffset = QMAX( 0, dy - ( previewSize + textHeight ) );
-    if ( m_IconRect.isValid() ) {
-        x1 = m_IconRect.left(); x2 = m_IconRect.right();
-        y1 = m_IconRect.top(); y2 = m_IconRect.bottom();
-    }
-    else {
-        x1 = 0; x2 = viewport()->width();
-        y1 = 0; y2 = viewport()->height();
-    }
-    y1 -= yOffset / 2;
-    y2 -= yOffset / 2;
-
-    int nx = (x2 - x1) / dx;
-    int ny = (y2 - y1) / dy;
-    // TODO: Check that items->count() <= nx * ny
-
-    // Let have exactly nx columns and ny rows
-    dx = (x2 - x1) / nx;
-    dy = (y2 - y1) / ny;
-    kdDebug(1203) << "dx = " << dx << ", dy = " << dy << "\n";
-
-    int itemWidth = dx - 2 * spacing();
-
     // Create a grid of (ny x nx) bins.
+    int x0, y0, dx, dy, nx, ny;
+    gridValues( &x0, &y0, &dx, &dy, &nx, &ny );
     typedef QValueList<QIconViewItem*> Bin;
     Bin* bins[nx][ny];
     int i;
@@ -1701,12 +1707,13 @@ void KonqIconViewWidget::lineupIcons()
     }
 
     // Insert items into grid
+    int textHeight = QMIN( iconTextHeight(), 2 ) * fontMetrics().height();
     QValueList<QIconViewItem*>::Iterator it;
     for ( it = items.begin(); it != items.end(); it++ ) {
         QIconViewItem* item = *it;
-        int x = item->x() + item->width() / 2 - x1;
+        int x = item->x() + item->width() / 2 - x0;
         int y = item->pixmapRect( false ).bottom() - iconSize / 2
-                - ( dy - ( iconSize + textHeight ) ) / 2 - y1;
+                - ( dy - ( iconSize + textHeight ) ) / 2 - y0;
         int posX = QMIN( nx-1, QMAX( 0, x / dx ) );
         int posY = QMIN( ny-1, QMAX( 0, y / dy ) );
 
@@ -1837,8 +1844,8 @@ void KonqIconViewWidget::lineupIcons()
                 continue;
             if ( !bin->isEmpty() ) {
                 QIconViewItem* item = bin->first();
-                int newX = x1 + i*dx + ( dx - item->width() ) / 2;
-                int newY = y1 + j*dy + dy - ( item->pixmapRect().bottom() + textHeight + 2 );
+                int newX = x0 + i*dx + ( dx - item->width() ) / 2;
+                int newY = y0 + j*dy + dy - ( item->pixmapRect().bottom() + textHeight + 2 );
                 if ( item->x() != newX || item->y() != newY ) {
                     QRect oldRect = item->rect();
                     movedItems.prepend( item );
@@ -1853,6 +1860,7 @@ void KonqIconViewWidget::lineupIcons()
     }
 
     // repaint
+    int itemWidth = dx - 2 * spacing();
     if ( maxItemWidth() != itemWidth ) {
         setMaxItemWidth( itemWidth );
         setFont( font() );  // Force calcRect()
@@ -1871,6 +1879,57 @@ void KonqIconViewWidget::lineupIcons()
             repaintItem( movedItems.first() );
             movedItems.remove( movedItems.first() );
         }
+    }
+}
+
+void KonqIconViewWidget::lineupIcons( QIconView::Arrangement arrangement )
+{
+    int x0, y0, dx, dy, nxmax, nymax;
+    gridValues( &x0, &y0, &dx, &dy, &nxmax, &nymax );
+    int textHeight = QMIN( iconTextHeight(), 2 ) * fontMetrics().height();
+
+    QRegion repaintRegion;
+    QValueList<QIconViewItem*> movedItems;
+    int nx = 0, ny = 0;
+
+    QIconViewItem* item;
+    for ( item = firstItem(); item; item = item->nextItem() ) {
+        int newX = x0 + nx * dx + ( dx - item->width() ) / 2;
+        int newY = y0 + ny * dy + dy - ( item->pixmapRect().bottom() + textHeight + 2 );
+        if ( item->x() != newX || item->y() != newY ) {
+            QRect oldRect = item->rect();
+            movedItems.prepend( item );
+            item->move( newX, newY );
+            if ( item->rect() != oldRect )
+                repaintRegion = repaintRegion.unite( oldRect );
+        }
+        if ( arrangement == QIconView::LeftToRight ) {
+            nx++;
+            if ( nx >= nxmax ) {
+                ny++;
+                nx = 0;
+            }
+        }
+        else {
+            ny++;
+            if ( ny >= nymax ) {
+                nx++;
+                ny = 0;
+            }
+        }
+    }
+
+    // Repaint only repaintRegion...
+    QMemArray<QRect> rects = repaintRegion.rects();
+    for ( uint l = 0; l < rects.count(); l++ ) {
+        kdDebug( 1203 ) << "Repainting (" << rects[l].x() << ","
+                        << rects[l].y() << ")\n";
+        repaintContents( rects[l], false );
+    }
+    // Repaint icons that were moved
+    while ( !movedItems.isEmpty() ) {
+        repaintItem( movedItems.first() );
+        movedItems.remove( movedItems.first() );
     }
 }
 
