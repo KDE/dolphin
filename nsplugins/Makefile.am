@@ -10,20 +10,20 @@ NSPluginClassIface.h:
 	ln -s viewer/NSPluginClassIface.h .
 
 
-lib_LTLIBRARIES = libplugin.la
-libplugin_la_SOURCES = plugin_part.cpp nspluginloader.cpp NSPluginClassIface.stub \
+lib_LTLIBRARIES = libnsplugin.la
+libnsplugin_la_SOURCES = plugin_part.cpp nspluginloader.cpp NSPluginClassIface.stub \
 			NSPluginCallbackIface.skel
 
-libplugin_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module -no-undefined
-libplugin_la_LIBADD  = -lkparts
+libnsplugin_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module -no-undefined
+libnsplugin_la_LIBADD  = -lkparts
 
 
-bin_PROGRAMS = pluginscan
-pluginscan_SOURCES = pluginscan.cpp
-pluginscan_LDFLAGS = $(all_libraries)
-pluginscan_LDADD = $(LIB_KDEUI) -lXt
+bin_PROGRAMS = nspluginscan
+nspluginscan_SOURCES = pluginscan.cpp
+nspluginscan_LDFLAGS = $(all_libraries)
+nspluginscan_LDADD = $(LIB_KDEUI) -lXt
 
 check_PROGRAMS = test
 test_SOURCES = main.cpp
 test_LDFLAGS = $(all_libraries)
-test_LDADD = $(LIB_KDEUI) -lplugin
+test_LDADD = $(LIB_KDEUI) -lnsplugin

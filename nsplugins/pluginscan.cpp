@@ -225,7 +225,7 @@ int main(int argc, char *argv[])
       ts << "Type=Service" << endl;
       ts << "Icon=netscape" << endl;
       ts << "Comment=Netscape plugin viewer" << endl;
-      ts << "X-KDE-Library=libplugin" << endl;
+      ts << "X-KDE-Library=libnsplugin" << endl;
       ts << "ServiceTypes=KParts/ReadOnlyPart,Browser/View" << endl;
 
       if (mimeTypes.count() > 0)
