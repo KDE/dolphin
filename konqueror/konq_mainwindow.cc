@@ -2824,7 +2824,7 @@ void KonqMainWindow::initActions()
   m_paAnimatedLogo = new KonqLogoAction( i18n("Animated Logo"), 0, this, SLOT( slotDuplicateWindow() ), actionCollection(), "animated_logo" );
 
   // Location bar
-  (void)new KonqLabelAction( i18n( "L&ocation: " ), 0, this, SLOT( slotLocationLabelActivated() ), actionCollection(), "location_label" );
+  (void)new KonqLabelAction( i18n( "L&ocation: " ), Key_F6, this, SLOT( slotLocationLabelActivated() ), actionCollection(), "location_label" );
 
   m_paURLCombo = new KonqComboAction( i18n( "Location Bar" ), 0, this, SLOT( slotURLEntered( const QString & ) ), actionCollection(), "toolbar_url_combo" );
   m_paURLCombo->setShortcutConfigurable( false );
@@ -3755,8 +3755,10 @@ void KonqMainWindow::goURL()
 
 void KonqMainWindow::slotLocationLabelActivated()
 {
-    if ( m_combo )
+    if ( m_combo ) {
         m_combo->setFocus();
+        m_combo->lineEdit()->selectAll();
+    }
 }
 
 void KonqMainWindow::slotOpenURL( const KURL& url )
