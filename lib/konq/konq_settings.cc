@@ -67,10 +67,11 @@ void KonqFMSettings::init( KConfig * config )
   m_normalTextColor = config->readColorEntry( "NormalTextColor", &m_normalTextColor );
   m_highlightedTextColor = KGlobalSettings::highlightedTextColor();
   m_highlightedTextColor = config->readColorEntry( "HighlightedTextColor", &m_highlightedTextColor );
+  m_itemTextBackground = config->readColorEntry( "ItemTextBackground" );
   m_bWordWrapText = config->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT );
+  m_underlineLink = config->readBoolEntry( "UnderlineLinks", DEFAULT_UNDERLINELINKS );
 
   // Behaviour
-  m_underlineLink = config->readBoolEntry( "UnderlineLinks", DEFAULT_UNDERLINELINKS );
   m_alwaysNewWin = config->readBoolEntry( "AlwaysNewWin", FALSE );
 
   m_homeURL = config->readEntry("HomeURL", "~");

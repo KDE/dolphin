@@ -85,8 +85,6 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     m_pImagePreviewJob = 0L;
     m_bMousePressed = false;
     m_LineupMode = LineupBoth;
-    // configurable settings
-    initConfig();
     // emit our signals
     slotSelectionChanged();
     m_iconPositionGroupPrefix = QString::fromLatin1( "IconPosition::" );
@@ -176,6 +174,15 @@ void KonqIconViewWidget::initConfig()
     // Color settings
     QColor normalTextColor       = m_pSettings->normalTextColor();
     setItemColor( normalTextColor );
+
+    if (m_bDesktop)
+    {
+      QColor itemTextBg = m_pSettings->itemTextBackground();
+      if ( itemTextBg.isValid() )
+          setItemTextBackground( itemTextBg );
+      else
+          setItemTextBackground( NoBrush );
+    }
 
     // Font settings
     QFont font( m_pSettings->standardFont() );

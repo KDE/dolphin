@@ -83,6 +83,7 @@ public:
   // Color settings
   const QColor& normalTextColor() const { return m_normalTextColor; }
   const QColor& highlightedTextColor() const { return m_highlightedTextColor; }
+  const QColor& itemTextBackground() const { return m_itemTextBackground; }
 
 private:
 
@@ -98,6 +99,7 @@ private:
 
   QColor m_normalTextColor;
   QColor m_highlightedTextColor;
+  QColor m_itemTextBackground;
 
   bool m_bWordWrapText;
 
