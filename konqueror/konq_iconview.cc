@@ -389,12 +389,12 @@ void KonqKfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStr
 void KonqKfmIconView::slotStarted( const QString & url )
 {
   SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char*)url.ascii(), 0 ) );
+  bSetupNeeded = false;
 }
 
 void KonqKfmIconView::slotCompleted()
 {
   SIGNAL_CALL1( "completed", id() );
-  viewport()->update();
 }
 
 void KonqKfmIconView::slotCanceled()
@@ -405,7 +405,11 @@ void KonqKfmIconView::slotCanceled()
 void KonqKfmIconView::slotUpdate()
 {
   kdebug( KDEBUG_INFO, 1202, "KonqKfmIconView::slotUpdate()");
-  setup();
+  if ( bSetupNeeded )
+  {
+    bSetupNeeded = false;
+    setup();
+  }
   viewport()->update();
 }
   
@@ -420,6 +424,7 @@ void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
   //kdebug( KDEBUG_INFO, 1202, "KonqKfmIconView::slotNewItem(...)");
   KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, _fileitem );
   insert( item, -1, -1, false );
+  bSetupNeeded = true;
 }
 
 void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
@@ -431,6 +436,8 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
     if ( ((KonqKfmIconViewItem*)*it)->item() == _fileitem ) // compare the pointers
     {
       remove( (*it), false /* don't refresh yet */ );
+      // bSetupNeeded not set to true, so that simply deleting a file leaves
+      // a blank space. Well that's just my preference (David)
       break;
     }
 }

@@ -123,6 +123,9 @@ protected:
   
   /** The view menu */
   OpenPartsUI::Menu_var m_vViewMenu;
+
+  /** Set to true if the next slotUpdate needs to call setup() */
+  bool bSetupNeeded;
   
   KonqMainView *m_pMainView;
 };
