@@ -59,8 +59,10 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
     QVGroupBox* globalGB = new QVGroupBox( i18n( "Global Settings" ), this );
     toplevel->addWidget( globalGB );
     enablePluginsGloballyCB = new QCheckBox( i18n( "&Enable plugins globally" ), globalGB );
+    enableHTTPOnly = new QCheckBox( i18n( "Only allow &HTTP and HTTPS URLs for plugins" ), globalGB );
     connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
     connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotTogglePluginsEnabled() ) );
+    connect( enableHTTPOnly, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
 
     QFrame *hrule = new QFrame(globalGB);
     hrule->setFrameStyle(QFrame::HLine | QFrame::Sunken);
@@ -166,6 +168,7 @@ void KPluginOptions::load()
   m_widget->dirRemove->setEnabled( false );
   m_widget->dirUp->setEnabled( false );
   m_widget->dirDown->setEnabled( false );
+  enableHTTPOnly->setChecked( config->readBoolEntry("HTTP URLs Only", false) );
 
   dirLoad( config );
   pluginLoad( config );
@@ -179,6 +182,7 @@ void KPluginOptions::defaults()
 {
     global_policies.defaults();
     enablePluginsGloballyCB->setChecked( global_policies.isFeatureEnabled() );
+    enableHTTPOnly->setChecked(false);
 
 /***********************************************************************************/
 
@@ -221,6 +225,7 @@ void KPluginOptions::save()
 
     config->setGroup("Misc");
     config->writeEntry( "startkdeScan", m_widget->scanAtStartup->isChecked() );
+    config->writeEntry( "HTTP URLs Only", enableHTTPOnly->isChecked() );
     config->sync();
     delete config;
 
