@@ -1589,13 +1589,13 @@ void KonqViewManager::setLoading( KonqView *view, bool loading ) {
   if ( m_pDocContainer->frameType() == "Tabs" ) {
     QColor color;
     if ( loading )
-      color = QColor( "red" );
+      color = KGlobalSettings::inactiveTitleColor();
     else
     {
       if ( m_pMainWindow->currentView() != view )
-        color = QColor( "blue" );
+        color = KGlobalSettings::linkColor();
       else
-        color = QColor( "black" );
+        color = KGlobalSettings::textColor();
     }
     static_cast<KonqFrameTabs*>( docContainer())->setTabColor( view->frame(), color );
   }
