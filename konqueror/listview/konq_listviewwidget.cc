@@ -338,10 +338,7 @@ void KonqBaseListViewWidget::contentsMousePressEvent( QMouseEvent *e )
 
    delete m_selected;
    m_selected = new QPtrList<KonqBaseListViewItem>;
-   // Store list of selected items at mouse-press time.
-   // This is used when autoscrolling (why?)
-   // and during dnd (the target item is temporarily selected)
-   selectedItems( m_selected );
+
    QPoint vp = contentsToViewport( e->pos() );
    KonqBaseListViewItem *item = isExecuteArea( vp ) ?
          (KonqBaseListViewItem*)itemAt( vp ) : 0L;
@@ -358,6 +355,10 @@ void KonqBaseListViewWidget::contentsMousePressEvent( QMouseEvent *e )
 
       QListView::contentsMousePressEvent( e );
    }
+   // Store list of selected items at mouse-press time.
+   // This is used when autoscrolling (why?)
+   // and during dnd (the target item is temporarily selected)
+   selectedItems( m_selected );
 }
 
 void KonqBaseListViewWidget::contentsMouseReleaseEvent( QMouseEvent *e )
