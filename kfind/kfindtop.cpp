@@ -109,13 +109,13 @@ void KfindTop::menuInit()
     "Special thanks to Stephan Kulow\n<coolo@kde.org>").arg(KFIND_VERSION);
   _mainMenu->insertItem( i18n("&Help"), helpMenu(aboutAuthor) );
 
-  _accel->connectItem(KAccel::Find, _kfind, SLOT(startSearch()));
-  _accel->connectItem(KAccel::Open, this,   SIGNAL(open()));
-  _accel->connectItem(KAccel::Save, this,   SIGNAL(saveResults()));
-  _accel->connectItem(KAccel::Undo, this,   SIGNAL(undo()));
-  _accel->connectItem(KAccel::Copy, this,   SLOT(copySelection()));
-  _accel->connectItem(KAccel::Cut,  this,   SIGNAL(cut()));
-  _accel->connectItem(KAccel::Quit, kapp,   SLOT(quit()));
+  _accel->connectItem(KStdAccel::Find, _kfind, SLOT(startSearch()));
+  _accel->connectItem(KStdAccel::Open, this,   SIGNAL(open()));
+  _accel->connectItem(KStdAccel::Save, this,   SIGNAL(saveResults()));
+  _accel->connectItem(KStdAccel::Undo, this,   SIGNAL(undo()));
+  _accel->connectItem(KStdAccel::Copy, this,   SLOT(copySelection()));
+  _accel->connectItem(KStdAccel::Cut,  this,   SIGNAL(cut()));
+  _accel->connectItem(KStdAccel::Quit, kapp,   SLOT(quit()));
   _accel->insertItem(i18n("Stop Search"), "search", Key_Escape);
   _accel->insertItem(i18n("Delete"),      "delete", Key_Delete);
 
@@ -123,7 +123,7 @@ void KfindTop::menuInit()
 
   fileStart = _fileMenu->insertItem(i18n("&Start search"), _kfind,
 				    SLOT(startSearch()));
-  _accel->changeMenuAccel(_fileMenu, fileStart, KAccel::Find);
+  _accel->changeMenuAccel(_fileMenu, fileStart, KStdAccel::Find);
   fileStop = _fileMenu->insertItem(i18n("S&top search"), _kfind,
 				   SLOT(stopSearch()));
   _accel->changeMenuAccel(_fileMenu, fileStop, "search");
@@ -131,7 +131,7 @@ void KfindTop::menuInit()
   _fileMenu->insertSeparator();
 
   openWithM = _fileMenu->insertItem(i18n("&Open"), this, SIGNAL(open()));
-  _accel->changeMenuAccel(_fileMenu, openWithM, KAccel::Open);
+  _accel->changeMenuAccel(_fileMenu, openWithM, KStdAccel::Open);
   toArchM = _fileMenu->insertItem(i18n("&Add to archive"),
 				  this,SIGNAL(addToArchive()));
   _fileMenu->insertSeparator();
@@ -149,24 +149,24 @@ void KfindTop::menuInit()
 
   saveSearchM = _fileMenu->insertItem(i18n("&Save Search"),
 				      this, SIGNAL(saveResults()));
-  _accel->changeMenuAccel(_fileMenu, saveSearchM, KAccel::Save);
+  _accel->changeMenuAccel(_fileMenu, saveSearchM, KStdAccel::Save);
   _fileMenu->insertSeparator();
 
   quitM = _fileMenu->insertItem(i18n("&Quit"), kapp, SLOT(quit()));
-  _accel->changeMenuAccel(_fileMenu, quitM, KAccel::Quit);
+  _accel->changeMenuAccel(_fileMenu, quitM, KStdAccel::Quit);
   for(int i=openWithM;i>quitM;i--)
     _fileMenu->setItemEnabled(i,FALSE);
 
   int undo = _editMenu->insertItem(i18n("&Undo"),
 				   this, SIGNAL(undo()));
-  _accel->changeMenuAccel(_editMenu, undo, KAccel::Undo);
+  _accel->changeMenuAccel(_editMenu, undo, KStdAccel::Undo);
   _editMenu->insertSeparator();
   int cut = _editMenu->insertItem(i18n("&Cut"),
 				  this, SIGNAL(cut()));
-  _accel->changeMenuAccel(_editMenu, cut, KAccel::Cut);
+  _accel->changeMenuAccel(_editMenu, cut, KStdAccel::Cut);
   editCopy =  _editMenu->insertItem(i18n("&Copy"),
 				    this, SLOT(copySelection()));
-  _accel->changeMenuAccel(_editMenu, editCopy, KAccel::Copy);
+  _accel->changeMenuAccel(_editMenu, editCopy, KStdAccel::Copy);
   _editMenu->insertSeparator();
   editSelectAll = _editMenu->insertItem(i18n("&Select All"),
 					this,SIGNAL(selectAll()) );

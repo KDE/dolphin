@@ -1230,8 +1230,6 @@ void KonqMainView::setUpEnabled( const KURL &url )
 
 void KonqMainView::initActions()
 {
-  KStdAccel stdAccel;
-
   // File menu
   /*
     TODO in the next kparts
@@ -1244,14 +1242,14 @@ void KonqMainView::initActions()
   QObject::connect( m_pMenuNew->popupMenu(), SIGNAL(aboutToShow()),
                     this, SLOT(slotFileNewAboutToShow()) );
 
-  m_paNewWindow = new KAction( i18n( "New &Window" ), QIconSet( BarIcon( "filenew",  KonqFactory::instance() ) ), stdAccel.openNew(), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
+	m_paNewWindow = new KAction( i18n( "New &Window" ), QIconSet( BarIcon( "filenew",  KonqFactory::instance() ) ), KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
 
   QPixmap execpix = KGlobal::iconLoader()->loadIcon( "exec", KIconLoader::Small );
   m_paRun = new KAction( i18n( "&Run..." ), execpix, 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
   QPixmap terminalpix = KGlobal::iconLoader()->loadIcon( "terminal", KIconLoader::Small );
   m_paOpenTerminal = new KAction( i18n( "Open &Terminal..." ), terminalpix, CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
-  m_paOpenLocation = new KAction( i18n( "&Open Location..." ), QIconSet( BarIcon( "fileopen", KonqFactory::instance() ) ), stdAccel.open(), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
-  m_paToolFind = new KAction( i18n( "&Find" ), QIconSet( BarIcon( "find",  KonqFactory::instance() ) ), 0 /*not stdAccel.find()!*/, this, SLOT( slotToolFind() ), actionCollection(), "find" );
+	m_paOpenLocation = new KAction( i18n( "&Open Location..." ), QIconSet( BarIcon( "fileopen", KonqFactory::instance() ) ), KStdAccel::key(KStdAccel::Open), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
+  m_paToolFind = new KAction( i18n( "&Find" ), QIconSet( BarIcon( "find",  KonqFactory::instance() ) ), 0 /*not KStdAccel::find!*/, this, SLOT( slotToolFind() ), actionCollection(), "find" );
 
   m_paPrint = KStdAction::print( 0L, 0, actionCollection(), "print" );
 
@@ -1317,7 +1315,7 @@ void KonqMainView::initActions()
   m_paAbout = new KAction( i18n( "&About Konqueror..." ), konqpix, 0, this, SLOT( slotAbout() ), actionCollection(), "about" );
   m_paReportBug = new KAction( i18n( "&Report bug..." ), QIconSet( BarIcon( "pencil", KonqFactory::instance() ) ), 0, this, SLOT( slotReportBug() ), actionCollection(), "reportbug" );
 
-  m_paReload = new KAction( i18n( "&Reload" ), QIconSet( BarIcon( "reload", KonqFactory::instance() ) ), Key_F5, this, SLOT( slotReload() ), actionCollection(), "reload" );
+	m_paReload = new KAction( i18n( "&Reload" ), QIconSet( BarIcon( "reload", KonqFactory::instance() ) ), KStdAccel::key(KStdAccel::Reload), this, SLOT( slotReload() ), actionCollection(), "reload" );
 
   m_paCut = KStdAction::cut( this, SLOT( slotCut() ), actionCollection(), "cut" );
   m_paCopy = KStdAction::copy( this, SLOT( slotCopy() ), actionCollection(), "copy" );
