@@ -195,8 +195,6 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     setWidget( m_pIconView );
 
-    //m_ulTotalFiles = 0;
-
     // Don't repaint on configuration changes during construction
     m_bInit = true;
 
@@ -816,10 +814,6 @@ void KonqKfmIconView::slotNewItems( const KonqFileItemList& entries )
 
     item->setKey( key );
 
-    // old method
-    //if ( m_ulTotalFiles > 0 )
-    //  emit m_extension->loadingProgress( ( m_pIconView->count() * 100 ) / m_ulTotalFiles );
-
     m_lstPendingMimeIconItems.append( item );
   }
 }
@@ -853,13 +847,6 @@ void KonqKfmIconView::slotClear()
     m_pIconView->clear();
     m_lstPendingMimeIconItems.clear();
 }
-
-/*
-void KonqKfmIconView::slotTotalFiles( int, unsigned long files )
-{
-    m_ulTotalFiles = files;
-}
-*/
 
 static QString displayString(int items, int files, long size, int dirs)
 {
@@ -917,10 +904,14 @@ void KonqKfmIconView::slotProcessMimeIcons()
     if ( m_lstPendingMimeIconItems.count() == 0 ) {
 
 	if ( m_bNeedAlign )
+        {
+            m_bNeedAlign = false;
 	    m_pIconView->arrangeItemsInGrid();
+        }
 	return;
     }
 
+    kdDebug() << "KonqKfmIconView::slotProcessMimeIcons()" << endl;
     // Find an icon that's visible.
     //
     // We only find mimetypes for icons that are visible. When more
@@ -957,6 +948,7 @@ void KonqKfmIconView::slotProcessMimeIcons()
 
     if ( currentIcon->serialNumber() != newIcon.serialNumber() )
     {
+        kdDebug() << "currentIcon->serialNumber() != newIcon.serialNumber()" << endl;
 	item->QIconViewItem::setPixmap( newIcon );
 	if ( item->width() > m_pIconView->gridX() )
 	    m_pIconView->setGridX( item->width() );
@@ -994,12 +986,6 @@ bool KonqKfmIconView::openURL( const KURL &_url )
     // Store url in the icon view
     m_pIconView->setURL( _url );
 
-    // When our viewport is adjusted (resized or scrolled) we need
-    // to get the mime types for any newly visible icons. (Rikkus)
-    connect(
-      m_pIconView,  SIGNAL(viewportAdjusted()),
-      this,         SLOT(slotProcessMimeIcons()));
-
     // and in the part :-)
     m_url = _url;
 
@@ -1007,17 +993,6 @@ bool KonqKfmIconView::openURL( const KURL &_url )
     m_dirLister->openURL( url(), m_pProps->m_bShowDot );
     // Note : we don't store the url. KDirLister does it for us.
 
-    /*
-      // should be possible to it without this now
-    KIO::Job *job = m_dirLister->job();
-    if ( job )
-    {
-	connect( job, SIGNAL( totalSize( KIO::Job *, unsigned long ) ),
-	         this, SLOT( slotTotalFiles( KIO::Job *, unsigned long ) ) );
-    }
-    */
-
-    //m_ulTotalFiles = 0;
     m_bNeedAlign = false;
 
     // do it after starting the dir lister to avoid changing bgcolor of the
