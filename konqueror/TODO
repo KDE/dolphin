@@ -1,20 +1,3 @@
-kpropsdlg (kfile):
-======
-- Bug #2717: turning off all read permissions
-
-- Add support (in kpropsdlg probably) for user defined actions in .desktop
-files, like :
-...
-Actions=Eject
-[Desktop Action Eject]
-Name=Eject
-Name[fr]=Ejecter
-Exec=eject /mnt/cdrom #
-(Works fine BTW, we just need the GUI for it !)
-Hmm, that last line is a hack (the url is appended).
-In fact we miss %D or something like that, in the desktop entry
-standard, for "the device in the Type=FSDevice .desktop file"...
-
 kio:
 ====
 - Nice ftp dialog for users who do not know how to put their
@@ -25,6 +8,8 @@ warning.)
 
 khtml:
 ======
+- Don't change URL until the new page is actually showing up.
+Otherwise, relative links are broken if we abort loading early.
 - (if local dir) : drop should copy to parent dir (for Antonio :)
 - many bugs :(
 - implement search functionality in KonqHTMLView -> wait until khtml catched
@@ -101,6 +86,13 @@ dirtree:
 ========
 
 - KDirWatch on subdirs of the configuration dir
+
+kpropsdlg (kfile):
+======
+- Bug #2717: turning off all read permissions
+
+- Maybe add GUI (in kpropsdlg probably) for user defined actions in .desktop
+files (example: see eject action in the CDROM template) ?
 
 And more:
 =========
