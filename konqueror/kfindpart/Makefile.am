@@ -1,7 +1,7 @@
 
 INCLUDES= $(all_includes)
 
-lib_LTLIBRARIES = libkfindpart.la
+kde_module_LTLIBRARIES = libkfindpart.la
 
 ####### Files
 
