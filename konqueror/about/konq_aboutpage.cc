@@ -92,6 +92,7 @@ QString KonqAboutPageFactory::intro()
     KIconLoader *iconloader = KGlobal::iconLoader();
     QString back_icon_path = QApplication::reverseLayout()?iconloader->iconPath("forward", KIcon::Small ):iconloader->iconPath("back", KIcon::Small );
     QString gohome_icon_path = iconloader->iconPath("gohome", KIcon::Small );
+    QString continue_icon_path = QApplication::reverseLayout()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
 
     res = res.arg( i18n("Conquer your Desktop!") )
 	.arg( i18n( "Konqueror" ) )
@@ -120,8 +121,9 @@ QString KonqAboutPageFactory::intro()
 			" you can turn off this information screen by clicking <a href=\"%1\">here</a>. You can re-enable it"
 			" by choosing the Help -> Konqueror Introduction menu option, and then pressing "
 			"Settings -> Save View Profile \"Web Browsing\".").arg("config:/disable_overview") )
-          .arg( i18n( "Continue" ) )
-          ;
+	  .arg( i18n( "<img width='16' height='16' src=\"%1\">" ).arg( continue_icon_path ) )
+	  .arg( i18n( "Continue" ) )
+	;
 
 
     s_intro_html = new QString( res );
@@ -134,7 +136,9 @@ QString KonqAboutPageFactory::specs()
     if ( s_specs_html )
         return *s_specs_html;
 
+    KIconLoader *iconloader = KGlobal::iconLoader();
     QString res = loadFile( locate( "data", kapp->reverseLayout() ? "konqueror/about/specs_rtl.html" : "konqueror/about/specs.html" ));
+    QString continue_icon_path = QApplication::reverseLayout()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
     if ( res.isEmpty() )
 	return res;
 
@@ -192,7 +196,8 @@ QString KonqAboutPageFactory::specs()
           .arg( i18n("Manual"))
 	  .arg( i18n("Popup"))
 	  .arg( i18n("(Short-) Automatic"))
-          .arg( i18n("<A HREF=\"%1\">Back</A> to the Introduction").arg(kapp->reverseLayout() ? "intro_rtl.html" : "intro.html") )
+	  .arg( i18n( "<img width='16' height='16' src=\"%1\">" ).arg( continue_icon_path ) )
+	  .arg( i18n("<A HREF=\"%1\">Back</A> to the Introduction").arg(kapp->reverseLayout() ? "intro_rtl.html" : "intro.html") )
 
           ;
 
@@ -225,6 +230,7 @@ QString KonqAboutPageFactory::tips()
 	    iconloader->iconPath("window_fullscreen", KIcon::Small );
     QString view_left_right_icon_path = 
 	    iconloader->iconPath("view_left_right", KIcon::Small );
+    QString continue_icon_path = QApplication::reverseLayout()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
 
     res = res.arg( i18n("Conquer your Desktop!") )
 	.arg( i18n( "Konqueror" ) )
@@ -268,6 +274,7 @@ QString KonqAboutPageFactory::tips()
  		      "Terminal Emulator).").arg(openterm_icon_path))
 	  .arg( i18n( "Thanks to <a href=\"%1\">DCOP</a> you can have full control over Konqueror using a script."
 ).arg("exec:/kdcop") )
+	  .arg( i18n( "<img width='16' height='16' src=\"%1\">" ).arg( continue_icon_path ) )
 	  .arg( i18n( "Continue" ) )
           ;
 
