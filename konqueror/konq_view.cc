@@ -948,7 +948,7 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
         bool ok = KURLDrag::decode( ev, lstDragURLs );
 
         KParts::BrowserExtension *ext = browserExtension();
-        if ( ok && ext )
+        if ( ok && ext && lstDragURLs.first().isValid() )
             emit ext->openURLRequest( lstDragURLs.first() ); // this will call m_pMainWindow::slotOpenURLRequest delayed
     }
     if ( m_bBackRightClick )
