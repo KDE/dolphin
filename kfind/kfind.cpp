@@ -24,6 +24,7 @@
 #include <qlayout.h>
 
 #include <klocale.h>
+#include <kglobal.h>
 #include <kprocess.h>
 
 #include "kftabdlg.h"
@@ -102,7 +103,7 @@ void Kfind::startSearch() {
   
   // Reset count
   QString str = i18n("%1 file(s) found").arg(0);
-  emit statusChanged(str.ascii());
+  emit statusChanged(str);
 
   emit resultSelected(false);
   emit haveResults(false);
@@ -171,8 +172,8 @@ void Kfind::handleStdout(KProcess *, char *buffer, int buflen) {
   }
   
   // Update count
-  QString str = i18n("%1 file(s) found").arg(win->childCount());
-  emit statusChanged(str.ascii());
+  QString str = i18n("%1 file(s) found").arg(KGlobal::locale()->formatNumber(win->childCount(), 0));
+  emit statusChanged(str);
 }
 
 void Kfind::setExpanded(bool expand) {
