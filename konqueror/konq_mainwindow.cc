@@ -3976,22 +3976,12 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
   // Those actions go into the PopupMenuGUIClient, since that's the one defining them.
   KAction *actNewWindow = 0L, *actNewTab = 0L;
-  if ( openedForViewURL )
+  if( !openedForViewURL && !isIntoTrash )
   {
-    actNewWindow = new KAction( i18n( "Duplicate in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), konqyMenuClient->actionCollection(), "newview" );
-    actNewWindow->setStatusText( i18n( "Duplicate the document in a new window" ) );
-    actNewTab = new KAction( i18n( "Duplicate in &New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), konqyMenuClient->actionCollection(), "openintab" );
-    actNewTab->setStatusText( i18n( "Duplicate the document in a new tab" ) );
-  }
-  else
-  {
-    if( !isIntoTrash )
-      {
-	actNewWindow = new KAction( i18n( "Open in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), konqyMenuClient->actionCollection(), "newview" );
-	actNewWindow->setStatusText( i18n( "Open the document in a new window" ) );
-	actNewTab = new KAction( i18n( "Open in &New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), konqyMenuClient->actionCollection(), "openintab" );
-	actNewTab->setStatusText( i18n( "Open the document in a new tab" ) );
-      }
+      actNewWindow = new KAction( i18n( "Open in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), konqyMenuClient->actionCollection(), "newview" );
+      actNewWindow->setStatusText( i18n( "Open the document in a new window" ) );
+      actNewTab = new KAction( i18n( "Open in &New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), konqyMenuClient->actionCollection(), "openintab" );
+      actNewTab->setStatusText( i18n( "Open the document in a new tab" ) );
   }
 
   if (m_currentView->isHierarchicalView())
