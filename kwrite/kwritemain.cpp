@@ -84,7 +84,6 @@ TopLevel::TopLevel (Kate::Document *doc)
 TopLevel::~TopLevel()
 {
   if (kateView->isLastView()) docList.remove((Kate::Document*)kateView->getDoc());
-  delete factory;
 }
 
 
