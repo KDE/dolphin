@@ -80,7 +80,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   KConfigGroupSaver cgs(config, "Settings");
 
   d = new Private;
-  d->previewsToShow = 0;    
+  d->previewsToShow = 0;
   d->caseInsensitiveSort=config->readBoolEntry( "CaseInsensitiveSort", false );
 
   m_iIconSize = config->readNumEntry( "IconSize", 0 );
@@ -88,7 +88,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bShowDirectoryOverlays = config->readBoolEntry( "ShowDirectoryOverlays", false );
   m_dontPreview = config->readListEntry( "DontPreview" );
-  d->previewsEnabled = config->readBoolEntry( "PreviewsEnabled", true );       
+  d->previewsEnabled = config->readBoolEntry( "PreviewsEnabled", true );
 
   m_textColor = config->readColorEntry( "TextColor" ); // will be set to QColor() if not found
   m_bgColor = config->readColorEntry( "BgColor" ); // will be set to QColor() if not found
@@ -194,7 +194,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_bgColor = config->readColorEntry( "BgColor", &m_bgColor );
     m_bgPixmapFile = config->readEntry( "BgImage", m_bgPixmapFile );
     //kdDebug(1203) << "KonqPropsView::enterDir m_bgPixmapFile=" << m_bgPixmapFile << endl;
-    d->previewsEnabled = config->readBoolEntry( "PreviewsEnabled", d->previewsEnabled );       
+    d->previewsEnabled = config->readBoolEntry( "PreviewsEnabled", d->previewsEnabled );
     delete config;
   }
   //if there is or was a .directory then the settings probably have changed
@@ -313,7 +313,7 @@ void KonqPropsView::setShowingPreview( const QString &preview, bool show )
         currentConfig()->writeEntry( "DontPreview", m_dontPreview );
         currentConfig()->sync();
     }
-    
+
     delete d->previewsToShow;
     d->previewsToShow = 0;
 }
@@ -321,11 +321,11 @@ void KonqPropsView::setShowingPreview( const QString &preview, bool show )
 void KonqPropsView::setShowingPreview( bool show )
 {
     d->previewsEnabled = show;
-    
+
     if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
     {
         kdDebug(1203) << "Saving in default properties" << endl;
-        m_defaultProps-> setShowingPreview( show );         
+        m_defaultProps-> setShowingPreview( show );
     }
     else if (currentConfig())
     {
@@ -334,9 +334,9 @@ void KonqPropsView::setShowingPreview( bool show )
         currentConfig()->writeEntry( "PreviewsEnabled", d->previewsEnabled );
         currentConfig()->sync();
     }
-    
+
     delete d->previewsToShow;
-    d->previewsToShow = 0; 
+    d->previewsToShow = 0;
 }
 
 bool KonqPropsView::isShowingPreview()
@@ -437,14 +437,12 @@ void KonqPropsView::applyColors(QWidget * widget) const
 
     if ( m_bgPixmapFile.isEmpty() )
     {
-        if ( m_bgColor.isValid() )
-        {
-            a.setColor( QColorGroup::Base, m_bgColor );
-            d.setColor( QColorGroup::Base, m_bgColor );
-            i.setColor( QColorGroup::Base, m_bgColor );
-            widget->setBackgroundColor( m_bgColor );
-            setPaletteNeeded = true;
-        }
+        QColor col = bgColor(widget);
+        a.setColor( QColorGroup::Base, col );
+        d.setColor( QColorGroup::Base, col );
+        i.setColor( QColorGroup::Base, col );
+        widget->setBackgroundColor( col );
+        setPaletteNeeded = true;
     }
     else
     {
@@ -470,7 +468,7 @@ const QStringList& KonqPropsView::previewSettings()
     if ( ! d->previewsToShow )
     {
         d->previewsToShow = new QStringList;
-    
+
         if (d->previewsEnabled) {
             KTrader::OfferList plugins = KTrader::self()->query( "ThumbCreator" );
             for ( KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it )
@@ -483,6 +481,6 @@ const QStringList& KonqPropsView::previewSettings()
             d->previewsToShow->append( "audio/" );
         }
     }
-    
+
     return *(d->previewsToShow);
 }
