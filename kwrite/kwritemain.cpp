@@ -55,7 +55,7 @@
 #include "kwritemain.h"
 #include "kwritemain.moc"
 
-#include "katefiledialog.h"
+#include "../utils/filedialog.h"
 #include "kwritedialogs.h"
 #include <qtimer.h>
 
@@ -240,8 +240,8 @@ void KWrite::slotOpen()
 {
   if (KTextEditor::encodingInterface(kateView->document()))
   {
-	  KateFileDialog *dialog = new KateFileDialog (QString::null,KTextEditor::encodingInterface(kateView->document())->encoding(), this, i18n ("Open File"));
-		KateFileDialogData data = dialog->exec ();
+	  Kate::FileDialog *dialog = new Kate::FileDialog (QString::null,KTextEditor::encodingInterface(kateView->document())->encoding(), this, i18n ("Open File"));
+		Kate::FileDialogData data = dialog->exec ();
 		delete dialog;
 
 		for (KURL::List::Iterator i=data.urls.begin(); i != data.urls.end(); ++i)
