@@ -95,19 +95,18 @@ QString KonqTreeViewItem::text( int _column ) const
 
 const char* KonqTreeViewItem::makeNumericString( const KUDSAtom &_atom ) const
 {
-  static char buffer[ 100 ];
-  sprintf( buffer, "%i", (int)_atom.m_long );
+  static char buffer[100];
+  QDateTime dt; dt.setTime_t((uint) _atom.m_long);
+  snprintf( buffer, 100, KGlobal::locale()->formatNumber((int) _atom.m_long, 0));
   return buffer;
 }
 
 const char* KonqTreeViewItem::makeTimeString( const KUDSAtom &_atom ) const
 {
-  static char buffer[ 100 ];
+  static char buffer[100];
+  QDateTime dt; dt.setTime_t((time_t) _atom.m_long);
 
-  time_t t = (time_t)_atom.m_long;
-  struct tm* t2 = localtime( &t );
-
-  strftime( buffer, 100, "%c", t2 );
+  snprintf( buffer, 100, KGlobal::locale()->formatDateTime(dt) );
 
   return buffer;
 }
