@@ -29,7 +29,7 @@
 #include <kinstance.h>
 #include <ktrader.h>
 
-#include <kpart.h>
+#include <kparts/part.h>
 
 class BrowserView;
 class KonqBookmarkManager;

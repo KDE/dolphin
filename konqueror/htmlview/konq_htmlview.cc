@@ -49,7 +49,7 @@
 #include <kfileitem.h>
 
 #include <kaction.h>
-#include <kpartmanager.h>
+#include <kparts/partmanager.h>
 
 
 class KonqHTMLViewFactory : public KLibFactory

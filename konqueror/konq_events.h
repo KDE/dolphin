@@ -1,7 +1,7 @@
 #ifndef __konq_events_h__
 #define __konq_events_h__ $Id$
 
-#include <kevent.h>
+#include <kparts/event.h>
 
 class KonqURLEnterEvent : public KParts::Event
 {

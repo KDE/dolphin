@@ -47,7 +47,7 @@
 #include <krun.h>
 #include <kstdaction.h>
 #include <kurl.h>
-#include <kpartsmainwindow.h>
+#include <kparts/mainwindow.h>
 
 #include <qmessagebox.h>
 #include <qfile.h>

@@ -30,7 +30,7 @@
 #include <kdebug.h>
 #include <konq_propsview.h>
 #include <kaction.h>
-#include <kpartsmainwindow.h>
+#include <kparts/mainwindow.h>
 
 #include <assert.h>
 #include <string.h>

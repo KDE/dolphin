@@ -27,10 +27,10 @@
 
 #include <kfileitem.h>
 
-#include <kpartsmainwindow.h>
+#include <kparts/mainwindow.h>
 #include <kbookmark.h>
 #include <dcopobject.h>
-#include <kxmlgui.h>
+#include <kparts/xmlgui.h>
 #include <ktrader.h>
 
 class QAction;

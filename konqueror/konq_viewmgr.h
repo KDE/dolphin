@@ -29,7 +29,7 @@
 
 #include <ktrader.h>
 
-#include <kpartmanager.h>
+#include <kparts/partmanager.h>
 
 class QString;
 class QStringList;

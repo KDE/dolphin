@@ -68,7 +68,7 @@
 #include <kbookmarkmenu.h>
 #include <kstdaction.h>
 #include <khelpmenu.h>
-#include <kpart.h>
+#include <kparts/part.h>
 #include <kmenubar.h>
 
 #include <kbugreport.h>
