@@ -25,6 +25,7 @@
 
 #include <kurldrag.h>
 #include <kiconeffect.h>
+#include <kfileitem.h>
 
 #undef Bool
 
@@ -39,7 +40,7 @@ struct KFileIVI::Private
     int	     state; // Currently displayed state of the icon
 };
 
-KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KonqFileItem* fileitem, int size )
+KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KFileItem* fileitem, int size )
     : KIconViewItem( iconview, fileitem->text(),
 		     fileitem->pixmap( size, KIcon::DefaultState ) ),
   m_size(size), m_state( KIcon::DefaultState ),

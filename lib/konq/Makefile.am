@@ -27,7 +27,7 @@ libkonq_la_SOURCES = konq_popupmenu.cc knewmenu.cc \
    kbookmarkmenu.cc kbookmark.cc kbookmarkbar.cc kbookmarkimporter.cc \
    kbookmarkexporter.cc kbookmarkmanager.cc kbookmarkmanager.skel \
    kbookmarkdrag.cc kbookmarklistener.stub kbookmarklistener.signals \
-   konq_dirlister.cc konq_xmlguiclient.cc\
+   konq_xmlguiclient.cc\
    kfileivi.cc konq_iconviewwidget.cc konq_imagepreviewjob.cc \
    konq_settings.cc konq_drag.cc  \
    konq_operations.cc \
@@ -50,7 +50,7 @@ METASOURCES = AUTO
 include_HEADERS = konq_popupmenu.h knewmenu.h kbookmarklistener.h \
     kbookmark.h kbookmarkmenu.h kbookmarkbar.h kbookmarkimporter.h \
     kbookmarkexporter.h kbookmarkmanager.h kbookmarkdrag.h kbookmarklistener_signals.h kbookmarklistener_stub.h \
-    konq_dirlister.h konq_fileitem.h konq_mimetyperesolver.h \
+    konq_mimetyperesolver.h \
     kfileivi.h konq_drag.h konq_iconviewwidget.h konq_imagepreviewjob.h \
     konq_defaults.h konq_settings.h \
     konq_operations.h \

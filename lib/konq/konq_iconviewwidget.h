@@ -22,8 +22,8 @@
 #include <kiconloader.h>
 #include <kiconview.h>
 #include <kurl.h>
-#include <konq_fileitem.h>
 #include <qguardedptr.h>
+#include <kfileitem.h>
 
 class KonqFMSettings;
 class KFileIVI;
@@ -125,7 +125,7 @@ public:
 
     void setURL ( const KURL & kurl );
     const KURL & url() { return m_url; }
-    void setRootItem ( const KonqFileItem * item ) { m_rootItem = item; }
+    void setRootItem ( const KFileItem * item ) { m_rootItem = item; }
 
     /**
      * Get list of selected KFileItems
@@ -236,7 +236,7 @@ protected:
     virtual void backgroundPixmapChange( const QPixmap & );
 
     KURL m_url;
-    const KonqFileItem * m_rootItem;
+    const KFileItem * m_rootItem;
 
     KURL::List m_lstDragURLs;
 

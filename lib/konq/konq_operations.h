@@ -22,10 +22,10 @@
 #include <kurl.h>
 #include <qobject.h>
 #include <qevent.h>
-#include <konq_fileitem.h>
 
 namespace KIO { class Job; }
 class QWidget;
+class KFileItem;
 class KonqMainWindow;
 
 /**
@@ -57,14 +57,14 @@ public:
     static void copy( QWidget * parent, int method, const KURL::List & selectedURLs, const KURL& destUrl );
     /**
      * Drop
-     * @param destItem destination KonqFileItem for the drop (background or item)
+     * @param destItem destination KFileItem for the drop (background or item)
      * @param destURL destination URL for the drop.
      * @param ev the drop event
      * @param parent parent widget (for error dialog box if any)
      *
      * If destItem is 0L, doDrop will stat the URL to determine it.
      */
-    static void doDrop( const KonqFileItem * destItem, const KURL & destURL, QDropEvent * ev, QWidget * parent );
+    static void doDrop( const KFileItem * destItem, const KURL & destURL, QDropEvent * ev, QWidget * parent );
 
     /**
      * Paste the clipboard contents

@@ -796,7 +796,7 @@ void KonqIconViewWidget::slotSaveIconPositions()
   while ( it )
   {
     KFileIVI *ivi = static_cast<KFileIVI *>( it );
-    KonqFileItem *item = ivi->item();
+    KFileItem *item = ivi->item();
 
     dotDirectory.setGroup( QString( m_iconPositionGroupPrefix ).append( item->url().fileName() ) );
     kdDebug(1214) << "KonqIconViewWidget::slotSaveIconPositions " << item->url().fileName() << " " << it->x() << " " << it->y() << endl;

@@ -18,8 +18,6 @@ konq_xmlguiclient.* : general purpose xmlgui manipulating class
 knewmenu.*      : implements the 'new' menu (file templates)
 
 2) files
-konq_fileitem.* : item representing a file and all the information associated
-konq_dirlister.*: directory lister (handles the job and kfileitems for any view)
 konq_operations.*: common operations to all views, like deleting files, and
                   dropping files.
 konq_undo.*     : undo feature for file operations

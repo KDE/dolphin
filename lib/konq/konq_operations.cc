@@ -33,6 +33,7 @@
 #include <assert.h>
 #include <kapplication.h>
 #include <kdebug.h>
+#include <kfileitem.h>
 #include <kdesktopfile.h>
 #include <kurldrag.h>
 #include <kglobalsettings.h>
@@ -321,7 +322,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
 }
 
 //static
-void KonqOperations::doDrop( const KonqFileItem * destItem, const KURL & dest, QDropEvent * ev, QWidget * parent )
+void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDropEvent * ev, QWidget * parent )
 {
     kdDebug(1203) << "dest : " << dest.url() << endl;
     KURL::List lst;
@@ -514,7 +515,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
         }
     } else
     {
-        // (If this fails, there is a bug in KonqFileItem::acceptsDrops)
+        // (If this fails, there is a bug in KFileItem::acceptsDrops)
         assert( dest.isLocalFile() );
         if ( destItem->mimetype() == "application/x-desktop")
         {
@@ -536,7 +537,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
         } else
         {
             // Should be a local executable
-            // (If this fails, there is a bug in KonqFileItem::acceptsDrops)
+            // (If this fails, there is a bug in KFileItem::acceptsDrops)
             kdDebug(1203) << "KonqOperations::doDrop " << dest.path() << "should be an executable" << endl;
             Q_ASSERT ( access( QFile::encodeName(dest.path()), X_OK ) == 0 );
             KProcess proc;
