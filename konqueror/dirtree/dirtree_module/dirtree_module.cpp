@@ -295,14 +295,48 @@ void KonqDirTreeModule::slotListingStopped()
         listDirectory( m_lstPendingOpenings.first() );
 
     kdDebug(1201) << "m_selectAfterOpening " << m_selectAfterOpening.prettyURL() << endl;
-    if ( !m_selectAfterOpening.isEmpty() && m_selectAfterOpening.upURL() == url )
+    if ( !m_selectAfterOpening.isEmpty() && m_selectAfterOpening.upURL().cmp(url,true) )
     {
         kdDebug(1201) << "Selecting m_selectAfterOpening " << m_selectAfterOpening.prettyURL() << endl;
-        /// ### TODO followURL( m_selectAfterOpening );
+        followURL( m_selectAfterOpening );
         m_selectAfterOpening = KURL();
     }
 
     m_pTree->stopAnimation( item );
+}
+
+void KonqDirTreeModule::followURL( const KURL & url )
+{
+    // Check if we already know this URL
+    KonqTreeItem * item = m_dictSubDirs[ url.url(-1) ];
+    if (item) // found it  -> ensure visible, select, return.
+    {
+        m_pTree->ensureItemVisible( item );
+        m_pTree->setSelected( item, true );
+        return;
+    }
+
+    KURL uParent( url.upURL() );
+    KonqTreeItem * parentItem = m_dictSubDirs[ uParent.url(-1) ];
+    if (!parentItem)
+        return;
+
+    // That's the parent directory. Open if not open...
+    if ( !parentItem->isOpen() )
+    {
+        parentItem->setOpen( true );
+        if ( parentItem->childCount() )
+        {
+            // Immediate opening, if the dir was already listed
+            followURL( url );
+            return;
+        } else
+        {
+            m_selectAfterOpening = url;
+            kdDebug(1202) << "KonqDirTreeModule::followURL: m_selectAfterOpening=" << m_selectAfterOpening.url() << endl;
+            return; // We know we won't find it
+        }
+    }
 }
 
 #include "dirtree_module.moc"

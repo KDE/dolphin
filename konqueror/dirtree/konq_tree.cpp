@@ -104,58 +104,27 @@ void KonqTree::clearTree()
     setRootIsDecorated( true );
 }
 
-void KonqTree::followURL( const KURL &_url )
+void KonqTree::followURL( const KURL &url )
 {
-#if 0 // TODO - move to KonqDirTreeModule and find the right module to call ( ???????? )
     // Maybe we're there already ?
     KonqTreeItem *selection = static_cast<KonqTreeItem *>( selectedItem() );
-    if (selection && selection->externalURL().cmp( _url, true ))
+    if (selection && selection->externalURL().cmp( url, true ))
     {
         ensureItemVisible( selection );
         return;
     }
 
-    kdDebug(1202) << "KonqDirTree::followURL: " << _url.url() << endl;
-    KURL uParent( _url.upURL() );
-
-    QValueList<TopLevelItem>::ConstIterator it = m_topLevelItems.begin();
-    QValueList<TopLevelItem>::ConstIterator end = m_topLevelItems.end();
-    for (; it != end; ++it )
+    kdDebug(1202) << "KonqDirTree::followURL: " << url.url() << endl;
+    QListIterator<KonqTreeTopLevelItem> topItem ( m_topLevelItems );
+    for (; topItem.current(); ++topItem )
     {
-        QMap<KURL, KonqDirTreeItem *>::ConstIterator dirIt = (*it).m_mapSubDirs->begin();
-        QMap<KURL, KonqDirTreeItem *>::ConstIterator dirEnd = (*it).m_mapSubDirs->end();
-        for (; dirIt != dirEnd; ++dirIt )
+        if ( topItem.current()->externalURL().isParentOf( url ) )
         {
-            // That's the URL we want to follow -> ensure visible, select, return.
-            if ( _url.cmp( dirIt.key(), true ) )
-            {
-                ensureItemVisible( dirIt.data() );
-                setSelected( dirIt.data(), true );
-                return;
-            }
-            // That's the parent directory. Open if not open...
-            if ( uParent.cmp( dirIt.key(), true ) )
-            {
-                if ( !dirIt.data()->isOpen() )
-                {
-                    dirIt.data()->setOpen( true );
-                    if ( dirIt.data()->childCount() )
-                    {
-                        // Immediate opening, if the dir was already listed
-                        followURL( _url );
-                        return;
-                    } else
-                    {
-                        m_selectAfterOpening = _url;
-                        kdDebug(1202) << "KonqDirTree::followURL: m_selectAfterOpening=" << m_selectAfterOpening.url() << endl;
-                        return; // We know we won't find it
-                    }
-                }
-            }
+            topItem.current()->module()->followURL( url );
+            return; // done
         }
     }
     kdDebug(1202) << "KonqDirTree::followURL: Not found" << endl;
-#endif
 }
 
 void KonqTree::contentsDragEnterEvent( QDragEnterEvent *ev )
@@ -477,6 +446,8 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
     name = cfg.readEntry( "Name", name );
     KonqTreeModule * module = 0L;
 
+    // Here's where we need to create the right module...
+    // ### TODO: make this KTrader/KLibrary based.
     QString moduleName = cfg.readEntry( "X-KDE-TreeModule" );
     kdDebug(1202) << "##### Loading module: " << moduleName << " file: " << filename << endl;
     if ( moduleName == "History" ) {
@@ -486,9 +457,6 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
 	module = new KonqDirTreeModule( this );
     }
 
-    /////////// ####### !!!!!!!!! @@@@@@@@ here's where we need to create the right module...
-#warning TODO
-
     KonqTreeTopLevelItem *item;
     if ( parent )
         item = new KonqTreeTopLevelItem( parent, module, path );
@@ -497,15 +465,13 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
 
     item->setText( 0, name );
 
-    if (module) // shouldn't be necessary
-        module->addTopLevelItem( item );
+    module->addTopLevelItem( item );
 
     m_topLevelItems.append( item );
 
-    bool open = cfg.readBoolEntry( "Open", false /* targetURL.isLocalFile() sucks a bit IMHO - DF */ );
+    bool open = cfg.readBoolEntry( "Open", false );
     if ( open && item->isExpandable() )
         item->setOpen( true );
-
 }
 
 void KonqTree::slotAnimation()

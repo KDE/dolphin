@@ -48,6 +48,10 @@ public:
     // Clear all items
     virtual void clearAll() = 0;
 
+    // Follow a URL opened in another view - only implement if the module
+    // has anything to do with URLs
+    virtual void followURL( const KURL & ) {}
+
     // Used by copy() and cut()
     virtual void paste() {}
     virtual void trash() {}

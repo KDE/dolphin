@@ -41,7 +41,8 @@ public:
 
     virtual void clearAll();
 
-    // Used by copy() and cut()
+    virtual void followURL( const KURL & url );
+
     virtual void paste();
     virtual void trash();
     virtual void del();
