@@ -1,0 +1,51 @@
+[Desktop Entry]
+Type=Application
+DocPath=kcontrol/kcmkio/kio-5.html
+Icon=kfm
+Exec=kcmshell Browsing/Web/cookies
+
+X-KDE-ModuleType=Library
+X-KDE-LibraryName=kio
+X-KDE-FactoryName=cookie
+X-KDE-ControlModuleType=User
+X-KDE-HideFromPanel=true
+
+Name=Cookies
+Name[eo]=Kuketoj
+Name[fi]=Evästeet
+Name[he]=תויגוע
+Name[hu]=Cookie-k
+Name[ja]=クッキー
+Name[no_NY]='Cookie'
+Name[sl]=Pi�koti
+Name[sv]=Kakor
+Name[ta]=ÀÉ¢Â¡Ãí¸û
+
+Comment=You can configure your Cookie configuration here
+Comment[ca]=Aquí podeu canviar la configuració de cookies
+Comment[cs]=Zde je možné nastavit Cookie
+Comment[de]=Hier können Sie die Regeln für Cookies festlegen
+Comment[eo]=Agordaĵo de kuketoj
+Comment[fi]=Muokkaa selaimen evästeiden asetuksia
+Comment[fr]=Vous pouvez configurer ici l'utilisation des cookies
+Comment[he]=תויגועה תורדגה תרדגה
+Comment[hu]=Itt lehet beállítani a sütiket :)
+Comment[it]=Qui puoi configurare le impostazioni dei cookie
+Comment[ja]=ここでクッキーを設定します
+Comment[no]=Her kan du konfigurere kakekonfigurasjonen din
+Comment[no_NY]=Du kan setja opp 'cookie'-innstillingane dine her
+Comment[pt]=Configuração das propriedades dos "cookies"
+Comment[ro]=Configurează <cookies> pentru navigatorul de web
+Comment[sl]=Tu lahko nastavite obna�anje pi�kotov
+Comment[sv]=Här kan du ändra dina kakinställningar
+Comment[ta]=­í§¸ ¯í¸û ÀÉ¢Â¡Ã ÅÊÅ¨ÁôÒ¸¨Ç ÅÊÅ¨Áì¸Ä¡õ
+
+Keywords=Cookies,Browsing,Internet,WWW,Network
+Keywords[ca]=Cookies,fullejar,Internet,WWW,Xarxa
+Keywords[de]=cookies,browsen,surfen,internet,www,netz
+Keywords[hu]=Cookies,böngészés,internet,WWW,hálózat
+Keywords[no]=Cookies,Kaker,Nettlos,los,Internet,Internett,WWW,Nettverk,vev,verdensveven
+Keywords[no_NY]=Cookies,informasjonskapslar,surfing,internett,Internet,WWW,nettverk
+Keywords[pt]=cookies,navegação,internet,WWW,rede
+Keywords[ro]=cookies,navigare,Internet,WWW,reţea
+Keywords[sl]=pi�koti,brkljanje,internet,splet,WWW,omre�je

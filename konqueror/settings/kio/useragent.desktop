@@ -1,0 +1,56 @@
+[Desktop Entry]
+Type=Application
+DocPath=kcontrol/kcmkio/kio-4.html
+# New icon needed !
+Icon=konqueror
+Exec=kcmshell Browsing/Web/useragent
+
+X-KDE-ModuleType=Library
+X-KDE-LibraryName=kio
+X-KDE-FactoryName=useragent
+X-KDE-ControlModuleType=User
+X-KDE-HideFromPanel=true
+
+Name=User Agent
+Name[ca]=Agent d'usuari
+Name[cs]=Uživatelský agent
+Name[eo]=Uzantoagento
+Name[fi]=Käyttäjäagentti
+Name[he]=ןפדפד יוהיז
+Name[hu]=Böngésző típus
+Name[ja]=ユーザエージェント
+Name[no]=Brukeragent
+Name[no_NY]='User Agent'
+Name[pt]=Agente do Utilizador
+Name[ro]=Agent utilizator
+Name[sl]=Uporabni�ki agent
+Name[sv]=Användaragent
+Name[ta]=ÀÂÉ÷ ¯¾Å¢Â¡Ç÷
+
+Comment=You can control what your Browser's "User Agent" is reported as here
+Comment[ca]=Aquí podeu controlar com s'informarà de "l'agent d'usuari" del vostre fullejador
+Comment[cs]=Zde je možné provést nastavení "Uživatelského agenta"
+Comment[de]=Hier können Sie die "User Agent"-Kennung des Browsers einstellen
+Comment[eo]=Vi povas indiki tie ĉi, kiel prezentu sin la uzantoagento de via TTT-legilo
+Comment[fi]=Muokkaa selaimen käyttäjäagentin asetuksia
+Comment[he]=(User Agent) ןפדפדה יוהיזכ חוודי המ ןאכ עובקל ךתורשפאב
+Comment[hu]=Itt lehet módosítani, hogy a böngésző hogyan azonosísa magát
+Comment[it]=Qui puoi controllare l'"user agent" del tuo browser
+Comment[ja]=ここであなたのブラウザ"ユーザエージェント"を設定します
+Comment[no]=Her kan du bestemme hva nettlosens brukeragent skal kalle seg.
+Comment[no_NY]=Her kan du setja opp kva som vert rapportert som "User Agent"frå nettlesaren
+Comment[pt]=Configuração de como é que o navegador se identifica ao exterior
+Comment[ro]=Controlaţi ce "Agent utilizator" este declarat de navigatorul de web
+Comment[sl]=Tu lahko dolo�ite kot kateri "Uporabni�ki agent" se bo predstavil va� brkljalnik
+Comment[sv]=Här kan du ändra dina användaragentinställningar
+Comment[ta]=­í§¸ ¯í¸û ¯Ä¡Å¢Â¢ý "User Agent" ±ýÉ ±ýÀ¨¾ ¸ðÎÀÎò¾Ä¡õ
+
+Keywords=User Agent,Browser,Internet,WWW,Network
+Keywords[ca]=Agent d'usuari,Fullejador,Internet,WWW,Xarxa
+Keywords[de]=user agent,internetprogramm,browser,internet,www,netz
+Keywords[hu]=Felhasználói ügyfél,böngésző,internet,www,hálózat
+Keywords[no]=Brukeragent,Nettlos,Internet,Internett,vev,WWW,Nettverk
+Keywords[no_NY]=User Agent,nettlesar,internett,WWW,nettverk
+Keywords[pt]=agente do utilizador,naveggador,internet,WWW,rede
+Keywords[ro]=agent utilizator,User Agent,navigator,browser,Internet,WWW,reţea
+Keywords[sl]=uporabni�ki agent,brkljalnik,internet,WWW,splet,omre�je

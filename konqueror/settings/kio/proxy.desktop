@@ -1,0 +1,58 @@
+[Desktop Entry]
+Type=Application
+DocPath=kcontrol/kcmkio/kio-1.html
+Icon=kfm
+Exec=kcmshell Browsing/Web/proxy
+
+X-KDE-ModuleType=Library
+X-KDE-LibraryName=kio
+X-KDE-FactoryName=proxy
+X-KDE-ControlModuleType=User
+X-KDE-HideFromPanel=true
+
+Name=Proxies
+Name[ca]=Procuració
+Name[cs]=Proxy
+Name[de]=Proxy-Server
+Name[eo]=Prokuriloj
+Name[fi]=Välityspalvelimet
+Name[he]=יסקורפ יתרש
+Name[hu]=Proxy-k
+Name[it]=Proxy
+Name[ja]=プロキシ
+Name[no]=Proksier
+Name[no_NY]='Proxy'
+Name[ro]=Proxy
+Name[sl]=Posredniki
+Name[sv]=Mellanservrar
+Name[ta]=À¢É¡Á¢¸û
+
+Comment=You can configure your proxy server configuration here
+Comment[ca]=Aquí podeu configurar el vostre servidor de procuració
+Comment[cs]=Zde je možné provést nastavení vašeho proxy serveru
+Comment[de]=Hier können Sie Einstellungen zum Proxy-Server vornehmen
+Comment[eo]=Agordaĵo pri prokurilo
+Comment[fi]=Muokkaa välityspalvelimen asetuksia
+Comment[fr]=Vous pouvez configurer ici votre serveur proxy
+Comment[he]=יסקורפ יתרש תורדגה תרדגה
+Comment[hu]=Itt lehet beállítani a proxy kiszolgálót
+Comment[it]=Qui puoi configurare il proxy server
+Comment[ja]=ここでプロキシサーバーを設定します
+Comment[no]=Her kan du konfigurere din proxy-tjenerkonfigurasjon
+Comment[no_NY]=Du kan setja opp 'proxy'-innstillingane dine her
+Comment[pt]=Configuração das propriedades dos "proxies"
+Comment[ro]=Configurează <proxy> pentru navigatorul de web
+Comment[sl]=Tu lahko nastavite va� posredovalni stre�nik
+Comment[sv]=Här kan du ändra dina proxyinställningar
+Comment[ta]=­í§¸ ¯í¸û À¢É¡Á¢ §º¨ÅÂ¸ ÅÊÅ¨ÁôÒ¸¨Ç ÅÊÅ¨Áì¸Ä¡õ
+
+Keywords=Proxy,Proxy server,WWW,Internet,Browsing,HTTP,FTP,Network
+Keywords[ca]=Procuració,servidor de procuració,WWW,Internet,Navegació,HTTP,FTP,Xarxa
+Keywords[de]=proxy,proxy server,www,internet,browsen,http,ftp,netz
+Keywords[hu]=proxy,proxy kiszolgáló,WWW,internet,böngészés,HTTP,FTP,hálózat
+Keywords[no]=Proxy,Proksi,Proxy-tjener,Proksi-tjener,WWW,vev,Internet,InternettNettlosing,HTTP,FTP,Nettverk
+Keywords[no_NY]=proxy,proxy-tenar,WWW,Internett,surfing,HTTP,FTP,nettverk
+Keywords[pt]=proxy,servidor proxy,WWW,internet,navegação,HTTP,FTP,rede
+Keywords[ro]=proxy,server proxy,WWW,Internet,navigare,HTTP,FTP,reţea
+Keywords[sl]=nadomestnik,proxy,nadomestni stre�nik,WWW,splet,internet,brkljanje,HTTP,FTP,omre�je
+
