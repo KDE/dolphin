@@ -517,6 +517,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   {
       serviceType = "KonqAboutPage"; // not KParts/ReadOnlyPart, it fills the Location menu ! :)
       serviceName = "konq_aboutpage";
+      originalURL = QString::null;
   }
 
   // Look for which view mode to use, if a directory - not if view locked
@@ -2418,6 +2419,10 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
 {
   kdDebug(1202) << "KonqMainWindow::setLocationBarURL : url = " << url << endl;
   ASSERT( !url.isEmpty());
+  static const QString & aboutkonq = KGlobal::staticQString("about:konqueror");
+  if ( url == aboutkonq )
+    return;
+
   // FIXME, change the current pixmap of the combo, using
   // QComboBox::setCurrentPixmap() (in Qt 2.2 as Reggie promised :) (pfeiffer)
   // grmbl, it's not in 2.2, so we have to hack around this limitation by
