@@ -158,18 +158,37 @@ void KonqDirPart::slotBackgroundImage()
 
 void KonqDirPart::mmbClicked( KFileItem * fileItem )
 {
-    // Optimisation to avoid KRun to call kfmclient that then tells us
-    // to open a window :-)
-    KService::Ptr offer = KServiceTypeProfile::preferredService(fileItem->mimetype(), true);
-    //if (offer) kdDebug(1203) << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
-    if ( offer && offer->desktopEntryName().startsWith("kfmclient") )
+    if ( fileItem )
     {
-        KParts::URLArgs args;
-        args.serviceType = fileItem->mimetype();
-        emit m_extension->createNewWindow( fileItem->url(), args );
+        // Optimisation to avoid KRun to call kfmclient that then tells us
+        // to open a window :-)
+        KService::Ptr offer = KServiceTypeProfile::preferredService(fileItem->mimetype(), true);
+        //if (offer) kdDebug(1203) << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
+        if ( offer && offer->desktopEntryName().startsWith("kfmclient") )
+        {
+            KParts::URLArgs args;
+            args.serviceType = fileItem->mimetype();
+            emit m_extension->createNewWindow( fileItem->url(), args );
+        }
+        else
+            fileItem->run();
     }
     else
-        fileItem->run();
+    {
+        // MMB on background, try opening clipboard URL
+        QMimeSource *data = QApplication::clipboard()->data();
+        if ( data->provides("text/plain") )
+        {
+            QString url;
+            if ( QTextDrag::decode( data, url ) )
+            {
+                KURL u(url);
+                if ( !u.isMalformed() )
+                    emit m_extension->openURLRequest( u );
+            }
+        }
+
+    }
 }
 
 void KonqDirPart::saveNameFilter( QDataStream &stream )
