@@ -5,7 +5,8 @@ services_DATA = ie401onwinnt4.desktop ie501onwinnt5.desktop ie50onppc.desktop \
                 nn475oncurrent.desktop nn476onppc.desktop op403onwinnt4.desktop \
                 lynxoncurrent.desktop w3moncurrent.desktop wgetoncurrent.desktop \
                 ie45onwinnt5.desktop safari.desktop mozoncurrent16.desktop \
-                moz16oncurrent.desktop ns71oncurrent.desktop ns71onwinnt51.desktop op75oncurrent.desktop
+                moz16oncurrent.desktop ns71oncurrent.desktop ns71onwinnt51.desktop op75oncurrent.desktop \
+		googlebot.desktop
 
 servicesdir = $(kde_servicesdir)/useragentstrings
 
