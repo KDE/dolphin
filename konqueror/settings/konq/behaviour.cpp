@@ -35,17 +35,18 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
     if (m_bFileManager)
     {
       row++;
-      cbNewWin = new QCheckBox(i18n("&Open directories in separate windows"), this);
-      QWhatsThis::add( cbNewWin, i18n("If this option is checked, Konqueror will open a new window when "
-         "you open a directory, rather than showing that directory's contents in the current window."));
-      lay->addMultiCellWidget(cbNewWin, row, row, 0, 1, Qt::AlignLeft);
-      connect(cbNewWin, SIGNAL(clicked()), this, SLOT(changed()));
-
-
       winPixmap = new QLabel(this);
       winPixmap->setPixmap(QPixmap(locate("data",
 					"kcontrol/pics/onlyone.png")));
-      lay->addWidget(winPixmap, row, 2);
+      lay->addMultiCellWidget(winPixmap, row, row, 1, 2);
+
+      // ----
+      row++;
+      cbNewWin = new QCheckBox(i18n("&Open directories in separate windows"), this);
+      QWhatsThis::add( cbNewWin, i18n("If this option is checked, Konqueror will open a new window when "
+         "you open a directory, rather than showing that directory's contents in the current window."));
+      lay->addMultiCellWidget(cbNewWin, row, row, 0, 2, Qt::AlignLeft);
+      connect(cbNewWin, SIGNAL(clicked()), this, SLOT(changed()));
       connect(cbNewWin, SIGNAL(toggled(bool)), SLOT(updateWinPixmap(bool)));
 
       // ----
