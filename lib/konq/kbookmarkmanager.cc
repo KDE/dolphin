@@ -50,7 +50,7 @@ KBookmarkManager::KBookmarkManager( const QString & bookmarksFile, bool bImportD
         delete s_pSelf;
     s_pSelf = this;
 
-    if (m_bookmarksFile.isEmpty())
+    if (bookmarksFile.isEmpty())
         m_bookmarksFile = locateLocal("data", QString::fromLatin1("konqueror/bookmarks.xml"));
     else
         m_bookmarksFile = bookmarksFile;
