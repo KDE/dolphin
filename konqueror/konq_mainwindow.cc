@@ -1803,8 +1803,8 @@ void KonqMainWindow::initActions()
 
   m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection(), "showmenubar" );
   m_paShowToolBar = KStdAction::showToolbar( this, SLOT( slotShowToolBar() ), actionCollection(), "showtoolbar" );
-  m_paShowLocationBar = new KToggleAction( i18n( "Show &Locationbar" ), 0, actionCollection(), "showlocationbar" );
-  m_paShowBookmarkBar = new KToggleAction( i18n( "Show &Bookmarkbar" ), 0, actionCollection(), "showbookmarkbar" );
+  m_paShowLocationBar = new KToggleAction( i18n( "Show &Location Toolbar" ), 0, actionCollection(), "showlocationbar" );
+  m_paShowBookmarkBar = new KToggleAction( i18n( "Show &Bookmark Toolbar" ), 0, actionCollection(), "showbookmarkbar" );
 
   m_paShowLocationBar->setChecked( true );
   m_paShowBookmarkBar->setChecked( true );
