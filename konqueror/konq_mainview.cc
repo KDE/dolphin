@@ -124,6 +124,8 @@ KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, cons
 
   initActions();
   initPlugins();
+  
+  setInstance( KonqFactory::instance() );
 
   connect( KSycoca::self(), SIGNAL( databaseChanged() ),
            this, SLOT( slotDatabaseChanged() ) );
