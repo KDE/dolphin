@@ -264,6 +264,8 @@ public:
 
   KonqView* activeChildView() { return m_pView; }
 
+  QString title() const { return m_title; }
+
 public slots:
 
   /**
@@ -290,6 +292,8 @@ protected:
 
   KSeparator *m_separator;
   KonqFrameStatusBar* m_pStatusBar;
+
+  QString m_title;
 };
 
 class KonqFrameContainerBase : public KonqFrameBase

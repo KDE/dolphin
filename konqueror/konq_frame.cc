@@ -421,6 +421,7 @@ void KonqFrame::setView( KonqView* child )
 void KonqFrame::setTitle( const QString &title , QWidget* /*sender*/)
 {
   //kdDebug(1202) << "KonqFrame::setTitle( " << title << " )" << endl;
+  m_title = title;
   if (m_pParentContainer) m_pParentContainer->setTitle( title , this);
 }
 

@@ -37,13 +37,15 @@
 
 #include <konq_pixmapprovider.h>
 #include <kstdaccel.h>
+#include <qtabbar.h>
+#include <qstyle.h>
 
 #define BREAKOFF_ID 5
 
 //###################################################################
 
 KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer, KonqViewManager* viewManager, const char * name)
-  : KTabWidget(parent, name)
+  : KTabWidget(parent, name), m_CurrentMaxLength(30)
 {
   //kdDebug(1202) << "KonqFrameTabs::KonqFrameTabs()" << endl;
 
@@ -159,20 +161,80 @@ void KonqFrameTabs::reparentFrame( QWidget* parent, const QPoint & p, bool showI
   QWidget::reparent( parent, p, showIt );
 }
 
+uint KonqFrameTabs::tabBarWidthForMaxChars( uint maxLength )
+{
+  int hframe, overlap;
+  hframe  = tabBar()->style().pixelMetric( QStyle::PM_TabBarTabHSpace, this );
+  overlap = tabBar()->style().pixelMetric( QStyle::PM_TabBarTabOverlap, this );
+
+  QFontMetrics fm = tabBar()->fontMetrics();
+  int x = 0;
+  for( int i=0; i < count(); ++i ) {
+    QString newTitle = static_cast<KonqFrame*>( page(i) )->title();
+    if ( newTitle.length() > maxLength )
+      newTitle = newTitle.left( maxLength-3 ) + "...";
+    newTitle.replace( '&' , "&&" );
+
+    int lw = fm.width( newTitle );
+    lw -= newTitle.contains( '&' ) * fm.width( '&' );
+    lw += newTitle.contains( "&&" ) * fm.width( '&' );
+
+    QTab* tab = tabBar()->tabAt( i );
+    int iw = 0;
+    if ( tab->iconSet() )
+      iw = tab->iconSet()->pixmap( QIconSet::Small, QIconSet::Normal ).width() + 4;
+    x += ( tabBar()->style().sizeFromContents( QStyle::CT_TabBarTab, this,
+                   QSize( QMAX( lw + hframe + iw, QApplication::globalStrut().width() ), 0 ),
+                   QStyleOption( tab ) ) ).width() - overlap;
+  }
+  return x;
+}
+
 void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
 {
   // kdDebug(1202) << "KonqFrameTabs::setTitle( " << title << " , " << sender << " )" << endl;
-  QString newTitle = title;
-  newTitle.replace('&', "&&");
-
   removeTabToolTip( sender );
-  if (newTitle.length() > 30)
+
+  uint maxTabBarWidth = width();
+#if QT_VERSION >= 0x030200
+  if ( cornerWidget( TopLeft ) )
+    maxTabBarWidth -= cornerWidget( TopLeft )->width();
+  if ( cornerWidget( TopRight ) )
+    maxTabBarWidth -= cornerWidget( TopRight )->width();
+#endif
+  // kdDebug(1202) << "maxTabBarWidth=" << maxTabBarWidth << endl;
+
+  uint newMaxLength=30;
+  for ( ; newMaxLength > 5; newMaxLength-- ) {
+    // kdDebug(1202) << "tabBarWidthForMaxChars(" << newMaxLength << ")=" << tabBarWidthForMaxChars( newMaxLength ) << endl;
+    if ( tabBarWidthForMaxChars( newMaxLength ) < maxTabBarWidth )
+      break;
+  }
+  // kdDebug(1202) << "newMaxLength=" << newMaxLength << endl;
+
+  QString newTitle = title;
+  newTitle.replace( '&', "&&" );
+  if ( newTitle.length() > newMaxLength )
     {
       setTabToolTip( sender, newTitle );
-      newTitle = newTitle.left(27) + "...";
+      newTitle = newTitle.left( newMaxLength-3 ) + "...";
     }
-  if (tabLabel( sender ) != newTitle)
-    changeTab( sender , newTitle );
+  if ( tabLabel( sender ) != newTitle )
+    changeTab( sender, newTitle );
+
+  if( newMaxLength != m_CurrentMaxLength )
+    {
+      for( int i = 0; i < count(); ++i)
+        {
+          newTitle = static_cast<KonqFrame*>( page(i) )->title();
+          newTitle.replace( '&', "&&" );
+          if ( newTitle.length() > newMaxLength )
+            newTitle = newTitle.left( newMaxLength-3 ) + "...";
+          if ( newTitle != tabLabel( page( i ) ) )
+            changeTab( page( i ), newTitle );
+        }
+      m_CurrentMaxLength = newMaxLength;
+    }
 }
 
 void KonqFrameTabs::setTabIcon( const QString &url, QWidget* sender )

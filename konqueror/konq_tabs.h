@@ -91,6 +91,8 @@ signals:
   void ctrlTabPressed();
 
 protected:
+  uint tabBarWidthForMaxChars( uint );
+
   QPtrList<KonqFrameBase>* m_pChildFrameList;
 
 private slots:
@@ -102,6 +104,7 @@ private slots:
 private:
   KonqViewManager* m_pViewManager;
   QPopupMenu* m_pPopupMenu;
+  uint m_CurrentMaxLength;
 };
 
 #endif
