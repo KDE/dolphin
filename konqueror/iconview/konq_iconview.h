@@ -53,8 +53,6 @@ public:
   KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode );
   virtual ~KonqKfmIconView();
 
-  virtual void restoreState( QDataStream &stream );
-
   virtual const KFileItem * currentItem();
   virtual KFileItemList selectedFileItems() {return m_pIconView->selectedFileItems();};
 
@@ -190,8 +188,6 @@ protected:
   KonqIconViewWidget *m_pIconView;
 
   QPtrDict<KFileIVI> m_itemDict; // maps KFileItem * -> KFileIVI *
-
-  int m_xOffset, m_yOffset;
 
   KMimeTypeResolver<KFileIVI,KonqKfmIconView> * m_mimeTypeResolver;
 

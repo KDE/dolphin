@@ -158,8 +158,7 @@ void IconViewBrowserExtension::setNameFilter( QString nameFilter )
 }
 
 KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode  )
-    : KonqDirPart( parent, name ), m_itemDict( 43 ),
-      m_xOffset( 0 ), m_yOffset( 0 )
+    : KonqDirPart( parent, name ), m_itemDict( 43 )
 {
     kdDebug(1202) << "+KonqKfmIconView" << endl;
 
@@ -356,12 +355,6 @@ KonqKfmIconView::~KonqKfmIconView()
     delete m_pProps;
     //no need for that, KParts deletes our widget already ;-)
     //    delete m_pIconView;
-}
-
-void KonqKfmIconView::restoreState( QDataStream & )
-{
-    m_xOffset = m_extension->urlArgs().xOffset;
-    m_yOffset = m_extension->urlArgs().yOffset;
 }
 
 const KFileItem * KonqKfmIconView::currentItem()
@@ -708,8 +701,10 @@ void KonqKfmIconView::slotCompleted()
         // but it appears on focusin... qiconview bug, Reggie acknowledged it LONG ago (07-2000).
         m_pIconView->setCurrentItem( m_pIconView->firstItem() );
 
-    if ( m_bUpdateContentsPosAfterListing )
-        m_pIconView->setContentsPos( m_xOffset, m_yOffset );
+    if ( m_bUpdateContentsPosAfterListing ) {
+         m_pIconView->setContentsPos( extension()->urlArgs().xOffset,
+                                      extension()->urlArgs().yOffset );
+    }
 
     m_bUpdateContentsPosAfterListing = false;
 
@@ -949,8 +944,10 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
     // clear() and QIconView::clear() calls setContentsPos(0,0)!
     if ( m_extension->urlArgs().reload )
     {
-        m_xOffset = m_pIconView->contentsX();
-        m_yOffset = m_pIconView->contentsY();
+        KParts::URLArgs args = m_extension->urlArgs();
+        args.xOffset = m_pIconView->contentsX();
+        args.yOffset = m_pIconView->contentsY();
+        m_extension->setURLArgs( args );
     }
 
     m_dirLister->setShowingDotFiles( m_pProps->isShowingDotFiles() );
