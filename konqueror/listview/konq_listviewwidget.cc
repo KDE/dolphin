@@ -1026,6 +1026,14 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
       emit selectionChanged();
       return;
     }
+
+  if ( !viewport()->isUpdatesEnabled() )
+  {
+    viewport()->setUpdatesEnabled( true );
+    setUpdatesEnabled( true );
+    triggerUpdate();
+  }
+  slotUpdateBackground();
 }
 
 void KonqBaseListViewWidget::slotRefreshItems( const KFileItemList & entries )
