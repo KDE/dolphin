@@ -2131,7 +2131,7 @@ void KonqMainWindow::slotMakeCompletion( const QString& text )
 
       // some special handling necessary for CompletionPopup
       if ( m_combo->completionMode() == KGlobalSettings::CompletionPopup )
-        m_combo->setCompletedItems( s_pCompletion->allMatches() );
+        m_combo->setCompletedItems( historyPopupCompletionItems( text ) );
 
       else if ( !completion.isNull() )
         m_combo->setCompletedText( completion );
@@ -2195,7 +2195,7 @@ void KonqMainWindow::slotMatch( const QString &match )
     // some special handling necessary for CompletionPopup
     if ( m_combo->completionMode() == KGlobalSettings::CompletionPopup ) {
       QStringList items = m_pURLCompletion->allMatches();
-      items += s_pCompletion->allMatches( m_combo->currentText() );
+      items += historyPopupCompletionItems( m_combo->currentText() );
       // items.sort(); // should we?
       m_combo->setCompletedItems( items );
     }
@@ -3622,8 +3622,8 @@ void KonqMainWindow::slotOpenURL( const KURL& url )
 
 void KonqMainWindow::bookmarksIntoCompletion( const KBookmarkGroup& group )
 {
-    const QString& http = KGlobal::staticQString( "http" );
-    const QString& ftp = KGlobal::staticQString( "ftp" );
+    static const QString& http = KGlobal::staticQString( "http" );
+    static const QString& ftp = KGlobal::staticQString( "ftp" );
 
     if ( !group.isNull() ) {
         for ( KBookmark bm = group.first();
@@ -3665,6 +3665,22 @@ void KonqMainWindow::disconnectActionCollection( KActionCollection *coll )
                 this, SLOT( slotActionStatusText( const QString & ) ) );
     disconnect( coll, SIGNAL( clearStatusText() ),
                 this, SLOT( slotClearStatusText() ) );
+}
+
+QStringList KonqMainWindow::historyPopupCompletionItems( const QString& s)
+{
+    QString http = "http://";
+    QString www = "http://www.";
+    
+    QStringList items = s_pCompletion->allMatches( s );
+    if ( items.isEmpty() && !s.startsWith( http ) ) {
+        items = s_pCompletion->allMatches( http + s );
+        
+        if ( items.isEmpty() && !s.startsWith( www ) )
+            items = s_pCompletion->allMatches( www + s );
+    }
+    
+    return items;
 }
 
 #include "konq_mainwindow.moc"

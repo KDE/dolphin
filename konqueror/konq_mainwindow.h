@@ -410,7 +410,15 @@ private:
    * Adds all children of @p group to the static completion object
    */
   void bookmarksIntoCompletion( const KBookmarkGroup& group );
-
+    
+  /**
+   * Returns all matches of the url-history for @p s. If there are no direct
+   * matches, it will try completing with http:// prepended, and if there's
+   * still no match, then http://www. Due to that, this is only usable for
+   * popupcompletion and not for manual or auto-completion.
+   */
+  static QStringList historyPopupCompletionItems( const QString& s = QString::null);
+    
   void startAnimation();
   void stopAnimation();
 
