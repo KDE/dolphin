@@ -1,0 +1,281 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+   <TITLE>kfind Help  </TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0Gold (X11; I; Linux 2.0.27 i586) [Netscape]">
+</HEAD>
+<BODY>
+
+<H1 ALIGN=CENTER>kfind help </H1>
+
+<CENTER><P><I>This help documentation is updated on Apr. 6, 1997 for kfind
+0.3</I></P></CENTER>
+
+<CENTER><P>
+<HR WIDTH="100%"></P></CENTER>
+
+<H2 ALIGN=CENTER>Contents</H2>
+
+<UL TYPE=CIRCLE>
+<LI>Introduction</LI>
+
+<LI>Installation</LI>
+
+<LI>Using <TT>kfind</TT></LI>
+
+<LI>Configuring k<TT>find</TT></LI>
+
+<LI>Changes</LI>
+
+<LI>Bugs</LI>
+
+<LI>ToDo</LI>
+
+<LI>Author</LI>
+</UL>
+
+<H2 ALIGN=CENTER>Introduction</H2>
+
+<P><TT>Kfind </TT>is a frontend for the find utility inspired by the find
+utility from NT. At this time it is fully functional (except &quot;Open
+with ...&quot; function) and all in kfind available options are working.
+You can save, delete, change properties of found files/dirs, store them
+to archives and ask kfm for opening dir containing this file.</P>
+
+<P>Form version 0.2.9 kfind uses libkde0.7 and is KDE AWARE application.</P>
+
+<H2 ALIGN=CENTER>Installation</H2>
+
+<P>Requirements: You have to set the environment variables <TT>QTDIR and
+KDEDIR </TT>first. Then you have to install libkde(&gt;=0.7) and kfm(&gt;=0.5.8)!!
+It is also necessary to patch ktabctl widget in libkde (otherwise there
+could be sometimes problems by resizing!). Appropriate patch is available
+in file ktabctl.patch. Finally you can simply type <TT>./configure</TT>,
+<TT>make </TT>and <TT>make install</TT>. Then you should copy file $KDEDIR/lib/kfind/config/kfindrc
+to file ~/.kfindrc (this will enable you to store files to tar archive).</P>
+
+<H2 ALIGN=CENTER>Using kfind</H2>
+
+<P>At the program start the most of the menu bar options are disabled,
+because these actions base are files which are found. </P>
+
+<P>The finding of files and directories is now very easy. You can specify
+your search in the three dialogs <B>Name&amp;Location</B>, <B>Date Modified</B>
+and <B>Advanced</B>.</P>
+
+<P><B>Name&amp;Location</B>: specify the filename and the folders to search
+in. After specifying the filename you <B>HAVE TO</B> push enter before
+pushing <B>Find Now </B>button otherwise this filename will not be taken
+in account by search.</P>
+
+<P><B>Date Modified</B>: here you can select those files that are created
+in a special time period</P>
+
+<P><B>Advanced</B>: a special file type like Postscript-documents, jpegs
+or Wav -Files. You can also specify the file size here.</P>
+
+<P>The pushbutton <B>Find Now</B> starts the search and beyond the window
+the results are displayed. The <B>Stop</B> button stops the current search.
+</P>
+
+<P>When some found file/directory is selected, the items in <B>File</B>
+menu will be enabled. It is then possible to delete, store to archive or
+change properties of selected file or call <TT>KFM </TT>to open folder
+containing selected file. You can save results of search by invoking menu
+entry <B>Save Search</B>. </P>
+
+<P>When you doubleclick on file or select <B>Open </B>in <B>File </B>menu
+<TT>kfind </TT>will call <TT>kfm </TT>to open this file with default binding
+(in case you click on directory it will be opened by <TT>kfm</TT>)</P>
+
+<P>The filename for storing results is specified in <B>Preferences </B>dialog.
+This dialog is accessible per <B>Option</B> menu entry. In <B>Preferences
+</B>dialog you can not only specify filename for result storing. There
+is possible to look at filetypes a archivers definitions (in future version
+it will be possible to edit them).</P>
+
+<H2 ALIGN=CENTER>Configuring</H2>
+
+<P>As of version 0.2.8 <TT>kfind</TT> is configurable. It reads from config
+files information about file for saving search results and about available
+archives.</P>
+
+<P><B>Saving configuration:</B> In configuration file is stored filename
+and format of file used for saving search results. This <TT>kfind </TT>parameters
+can be configured using <B>Preferences</B> dialog. This parameter are stored
+within .<I>kfindrc</I> file in entry <TT>[Saving] </TT>as follows:</P>
+
+<PRE>[Saving]
+Format=HTML
+Filename=/root/result.html</PRE>
+
+<P>Where <TT>Format</TT> entry can have values <TT>HTML </TT>or <TT>Plain
+Text. </TT></P>
+
+<P><B>Archiver configuration: </B>Archiver parameters are not configurable
+using<TT> <B>Preferences </B></TT>dialog at this time. Archivers available
+for <TT>kfind </TT>are specified if <I>.kfindrc</I> entry <TT>[Archiver
+Types]</TT> as follows:</P>
+
+<PRE><TT>[Archiver Types]
+Archivers=tar;zip;zoo;</TT></PRE>
+
+<P>And each archiver is detaily described by its own entry:</P>
+
+<PRE><TT>[tar]
+ExecOnCreate=tar cf %a -C %d %n
+ExecOnUpdate=tar uf %a -C %d %n
+Comment=Tar</TT></PRE>
+
+<P>The first line contains command executed when creating new archive and
+the second one is for updating of existing archive. The third one is comment
+used for archiver description in <B>Preferences </B>dialog. In commands
+are used variables <TT>%a %f %n %d</TT> with following meaning:</P>
+
+<P><TT>%a </TT>The complete name of the archive</P>
+
+<P><TT>%f </TT>The normal file name</P>
+
+<P><TT>%d </TT>The parent directory. If the given argument is a file (
+not a directory ) then this will give you the directory this file is in.
+</P>
+
+<P><TT>%n </TT>The name of the file. If the given argument is a directory
+then this is the name of this directory.<TT> </TT></P>
+
+<P>
+<HR WIDTH="100%"></P>
+
+<H2 ALIGN=CENTER>Changes</H2>
+
+<P>Version 0.3</P>
+
+<UL TYPE=CIRCLE>
+<LI>entry Open in File menu or doubleclick on file executes default binding</LI>
+
+<LI>removed bug causing segfaults</LI>
+</UL>
+
+<P>Version 0.2.9</P>
+
+<UL TYPE=CIRCLE>
+<LI>uses autoconf</LI>
+
+<LI>you can specify searched directory as kfind argument</LI>
+
+<LI>added Icon entry in all provided filetypes (some were missing this
+entry and kfm didn't liked it)</LI>
+</UL>
+
+<P>Version 0.2.8</P>
+
+<UL TYPE=CIRCLE>
+<LI>kfind is now KDE AWARE application</LI>
+
+<LI>uses libkde0.7 (=&gt; kmsgbox and ktabctl removed from kfind distribution)</LI>
+
+<LI>uses filetypes introduced by Torben Weis for kfm (kfind installs some
+more filetypes)</LI>
+
+<LI>it is possible to store files in archives</LI>
+
+<LI>preferences dialog added </LI>
+
+<UL TYPE=CIRCLE>
+<LI>it is possible to determine filename for results saving</LI>
+
+<LI>it is possible to browse available filetypes details (in next version
+will be able to change the details)</LI>
+
+<LI>it is possible to browse available archivers details (in next version
+will be able to change the details)</LI>
+</UL>
+
+<LI>calls kfm for properties dialog</LI>
+
+<LI>menu entry &quot;remove&quot; removed (kfm properties dialog does the
+job)</LI>
+
+<LI>removed some bugs</LI>
+</UL>
+
+<P>Version 0.2.6</P>
+
+<UL TYPE=CIRCLE>
+<LI>reflects changes made by Martin Hartig in version 0.2.1</LI>
+</UL>
+
+<P>Version 0.2.5</P>
+
+<UL TYPE=CIRCLE>
+<LI>implemented dir selection box (it is actually a littlebit changed and
+striped down version of QFileDialog)</LI>
+
+<LI>delete, rename, properties functions are implemented o function &quot;Open
+containing folder&quot; implemented (it calls KFM) </LI>
+
+<LI>search results are now saved in file ~/.kfind-results.html (I finaly
+recognized this is better choise than plain text file)</LI>
+
+<LI>removed nasty bug causing segfaults when compiler optimization were
+used</LI>
+
+<LI>improved Makefile</LI>
+</UL>
+
+<P>Version 0.2.1 (Martin Hartig)</P>
+
+<UL TYPE=CIRCLE>
+<LI>usage of the <TT>kdehelp</TT>-browser</LI>
+
+<LI>KDE - Filesystem standard</LI>
+</UL>
+
+<P>Version 0.2.0</P>
+
+<UL TYPE=CIRCLE>
+<LI>all in <TT>kfind </TT>available options work now</LI>
+
+<LI>better calling of <TT>kfind</TT></LI>
+</UL>
+
+<P><TT>Version 0.1.0</TT></P>
+
+<UL TYPE=CIRCLE>
+<LI><TT>first official release</TT></LI>
+</UL>
+
+<H2 ALIGN=CENTER>Bugs</H2>
+
+<P>Please report bugs to the kde-mailing list </P>
+
+<CENTER><P><TT>kde@fiwi2.wiwi.uni-tuebingen.de</TT></P></CENTER>
+
+<P><TT>or to the </TT><A HREF="mailto:flidr@kky.zcu.cz">author</A> </P>
+
+<H2 ALIGN=CENTER>ToDo</H2>
+
+<UL TYPE=CIRCLE>
+<LI>finish function &quot;Open with ...&quot; </LI>
+
+<LI>enable changing filetypes and archivers details in preference dialog</LI>
+
+<LI>write better widget for viewing results which would enable multiple
+selection</LI>
+
+<LI>and more ...</LI>
+</UL>
+
+<H2 ALIGN=CENTER>Author</H2>
+
+<P><TT>kfind</TT> is written by <A HREF="mailto:flidr@kky.zcu.cz">Miroslav
+Flídr</A> </P>
+
+<CENTER><P>
+<HR WIDTH="100%"></P></CENTER>
+
+<P>This help file is written by <A HREF="mailto:hartig@mathematik.uni-kl.de">Martin
+Hartig</A> and <A HREF="mailto:flidr@kky.zcu.cz">Miroslav Flídr</A> </P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,7 @@
+[Archiver Types]
+Archivers=tar;zip;zoo;
+[tar]
+ExecOnCreate=tar cf %a -C %d %n
+ExecOnUpdate=tar uf %a -C %d %n
+Pattern=*.tar;
+Comment=Tar

@@ -1,0 +1,86 @@
+###################################
+VERSION = 0.3
+
+INSTALL = @INSTALL@ -m 0755 -s
+INSTALL_DIR = @mkinstalldirs@
+INSTALL_DATA = @INSTALL@ -m 0644
+
+prefix  = @prefix@
+BINDIR  = $(prefix)/bin
+LIBDIR  = $(prefix)/lib
+PICSDIR = $(LIBDIR)/pics
+DOCSDIR = $(prefix)/doc/HTML/
+
+INCLDIR	= @all_includes@ -I..
+
+
+CXXFLAGS+= -DVERSION=\"$(VERSION)\" -DDOCSDIR=\"$(DOCSDIR)/\" -DHAVE_CONFIG_H 
+LDFLAGS	+= @all_libraries@ -lqt -lXext -lX11 -lkfm -lkdeui -lkdecore @LIBSOCKET@
+CXX 	= @CXX@
+MOC 	= @MOC@
+
+####### Files
+
+SOURCES	  =  kfarch.cpp kfdird.cpp kfmenu.cpp  kftabdlg.cpp \
+	     kfsave.cpp kftypes.cpp kfoptions.cpp kfwin.cpp kfind.cpp \
+	     main.cpp 
+OBJECTS	  =  kfarch.o kfdird.o kfmenu.o kftabdlg.o kfwin.o \
+             kfsave.o kftypes.o kfoptions.o kfind.o main.o
+SRCMETA   =  mkfdird.cpp mkfwin.cpp mkfmenu.cpp \
+             mkftabdlg.cpp mkfoptions.cpp mkfind.cpp
+OBJMETA   =  mkfdird.o mkfwin.o mkfmenu.o mkftabdlg.o \
+             mkfoptions.o mkfind.o
+TARGET	  =  kfind
+HEADERS	  =  kfarch.h kfdird.h kfmenu.h kftabdlg.h kfwin.h kfind.h \
+             kfsave.h kftypes.h kfoptions.h
+DISTFILES =  $(SOURCES) $(HEADERS) $(TARGET) Makefile README LICENCE\
+             .kde.html kfind.xpm kfind.kdelnk kfind.html ktabctl.patch kfindrc
+DISTDIR   =  kfind-$(VERSION)
+
+####### Implicit rules
+
+.SUFFIXES: .cpp
+
+.cpp.o:
+	$(CXX) -c $(CXXFLAGS) $(INCLDIR) $<
+
+####### Build rules
+
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS) $(OBJMETA)
+	$(CXX) $(OBJECTS) $(OBJMETA) -o $(TARGET) $(LDFLAGS)
+
+depend:
+	@makedepend -I$(INCDIR) $(SOURCES) 2> /dev/null
+
+showfiles:
+	@echo $(SOURCES) Makefile
+
+clean:
+	-rm -f *.o *.bak *~ *% *.tar.gz #*
+	-rm -f $(SRCMETA) $(TARGET)
+
+install:
+	$(INSTALL_DIR) $(BINDIR)
+	$(INSTALL) $(TARGET) $(BINDIR)
+	$(INSTALL_DIR) $(PICSDIR)
+	$(INSTALL_DATA) $(TARGET).xpm $(PICSDIR)
+	$(INSTALL_DATA) kfind.html $(DOCSDIR)
+	$(INSTALL_DIR) $(LIBDIR)/kfind/config
+	$(INSTALL_DATA) ./kfindrc $(LIBDIR)/kfind/config
+
+dist:
+	-mkdir $(DISTDIR)
+	-mkdir $(DISTDIR)/filetypes
+	for i in $(DISTFILES); do ln -f $$i $(DISTDIR)/$$i; done
+	for i in ./filetypes/*; do ln -f $$i $(DISTDIR)/$$i; done
+	tar czf $(DISTDIR).tar.gz $(DISTDIR)
+
+####### Explicit dependencies
+
+
+m%.cpp: %.h
+	$(MOC) $< -o $@  
+
+# DO NOT DELETE THIS LINE -- make depend depends on it.

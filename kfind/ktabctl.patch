@@ -1,0 +1,11 @@
+--- ui/ktabctl.cpp	Fri Mar 21 19:28:53 1997
++++ ktabctl.cpp	Fri Mar 21 19:52:09 1997
+@@ -189,7 +189,7 @@
+ QRect KTabCtl::getChildRect() const
+ {
+     return QRect(2, tabs->height(), width() - 4,
+-		  height() - bh - tabs->height() - 4);
++		  height()  - tabs->height() - 4);
+ }
+ 
+ /*
