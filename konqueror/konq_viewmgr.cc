@@ -18,13 +18,11 @@
 */ 
 
 #include "konq_viewmgr.h"
-
 #include "konq_mainview.h"
 #include "konq_childview.h"
 #include "konq_factory.h"
 #include "konq_frame.h"
 
-#include <qsplitter.h>
 #include <qstringlist.h>
 
 #include <kconfig.h>
@@ -36,352 +34,331 @@ KonqViewManager::KonqViewManager( KonqMainView *mainView )
 {
   m_pMainView = mainView;
 
-  m_lstRows.setAutoDelete( true );
-  
-  m_pMainSplitter = new QSplitter( Qt::Vertical, m_pMainView );
-  m_pMainSplitter->setOpaqueResize();
-  m_pMainSplitter->show();
-  
-  // exclude the splitter and all child widgets from the part focus handling
-  m_pMainView->addSeparatedWidget( m_pMainSplitter );
+  m_pMainContainer = 0L;
 }
 
 KonqViewManager::~KonqViewManager()
 {
   clear();
-  m_pMainView->removeSeparatedWidget( m_pMainSplitter );
-  delete m_pMainSplitter;
+
+  m_pMainView->removeSeparatedWidget( m_pMainContainer );
+  delete m_pMainContainer;
+}
+
+void KonqViewManager::splitView ( Qt::Orientation orientation ) 
+{
+  kdebug(0, 1202, "KonqViewManager::splitview(default)" );
+  KonqChildView* currentChildView = m_pMainView->currentChildView();
+  QString url = currentChildView->url();
+  const QString serviceType = currentChildView->serviceTypes().first();
+
+  Browser::View_var vView;
+  QStringList serviceTypes;
+  
+  // KonqFactory::createView() ignores this if the servicetypes is
+  // not inode/directory
+  Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons;
+  
+  if ( currentChildView->supportsServiceType( "inode/directory" ) )
+  {
+    if ( currentChildView->view()->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
+      dirMode = Konqueror::TreeView;
+    else
+    {
+      Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( currentChildView->view() );
+      dirMode = iv->viewMode();
+    }
+  }
+  
+  if ( CORBA::is_nil( ( vView = KonqFactory::createView( serviceType, serviceTypes, m_pMainView, dirMode ) ) ) )
+    return; //do not split the view at all if we can't clone the current view
+
+  splitView( orientation, vView, serviceTypes );
+
+  m_pMainView->childView( vView->id() )->openURL( url );
+}
+
+void KonqViewManager::splitView ( Qt::Orientation orientation, 
+			       Browser::View_ptr newView,
+			       const QStringList &newViewServiceTypes )
+{
+  kdebug(0, 1202, "KonqViewManager::splitview" );
+  
+  if( m_pMainContainer )
+  {
+    KonqChildView* currentChildView = m_pMainView->currentChildView();
+    KonqFrame* viewFrame = currentChildView->frame();
+    KonqFrameContainer* parentContainer = viewFrame->parentContainer();
+    bool moveNewContainer = (parentContainer->idAfter( viewFrame ) != 0);
+
+    if( moveNewContainer )       
+      kdebug(0, 1202, "Move new splitter: Yes %d",parentContainer->idAfter( viewFrame ) );
+    else
+      kdebug(0, 1202, "Move new splitter: No %d",parentContainer->idAfter( viewFrame ) );
+    
+    QValueList<int> sizes;
+    sizes = parentContainer->sizes();
+
+    QPoint pos = viewFrame->pos();
+
+    viewFrame->hide();
+    viewFrame->reparent( m_pMainView, 0, pos );
+    
+    KonqFrameContainer *newContainer = new KonqFrameContainer( orientation, parentContainer );
+    if( moveNewContainer )
+      parentContainer->moveToFirst( newContainer );
+
+    viewFrame->reparent( newContainer, 0, pos, true );
+
+    setupView( newContainer, newView, newViewServiceTypes );
+
+    //have to to something about the flickering. Well, actually these 
+    //adjustments shouldn't be neccessary. I'm not sure wether this is a 
+    //QSplitter problem or not. Michael.
+    QValueList<int> sizesNew;
+    sizesNew.append(100);
+    sizesNew.append(100);
+    newContainer->setSizes( sizesNew );
+
+    parentContainer->setSizes( sizes );
+
+    newContainer->show();
+
+  }
+  else {
+    m_pMainContainer = new KonqFrameContainer( orientation, m_pMainView );
+    m_pMainContainer->setOpaqueResize();
+
+    setupView( m_pMainContainer, newView, newViewServiceTypes );
+
+    // exclude the splitter and all child widgets from the part focus handling
+    m_pMainView->addSeparatedWidget( m_pMainContainer );
+    m_pMainContainer->show();
+  }
+}
+
+void KonqViewManager::removeView( KonqChildView *view )
+{
+  KonqFrameContainer* parentContainer = view->frame()->parentContainer();
+  KonqFrameContainer* grandParentContainer = parentContainer->parentContainer();
+  bool moveOtherChild = (grandParentContainer->idAfter( parentContainer ) != 0);
+
+  KonqFrameBase* otherFrame = parentContainer->otherChild( view->frame() );
+
+  if( otherFrame == 0L ) {
+    warning("KonqViewManager::removeView: This shouldn't happen!");
+    return;
+  }
+  
+  QPoint pos = otherFrame->widget()->pos();
+
+  QValueList<int> sizes;
+  sizes = grandParentContainer->sizes();
+
+  //otherFrame->widget()->hide();
+  otherFrame->reparent( m_pMainView, 0, pos );
+
+  m_pMainView->removeChildView( view->id() );
+
+  //temporarily commented out. Michael.
+  //if ( isLinked( view ) )
+  //  removeLink( view );
+
+  //triggering QObject::childEvent manually
+  parentContainer->removeChild( view->frame() );
+  delete view;
+
+  //triggering QObject::childEvent manually
+  grandParentContainer->removeChild( parentContainer );
+  delete parentContainer;
+
+  otherFrame->reparent( grandParentContainer, 0, pos, true );
+  if( moveOtherChild )
+    grandParentContainer->moveToFirst( otherFrame->widget() );
+
+  //have to to something about the flickering. Well, actually these 
+  //adjustments shouldn't be neccessary. I'm not sure wether this is a 
+  //QSplitter problem or not. Michael.
+  grandParentContainer->setSizes( sizes );
 }
 
 void KonqViewManager::saveViewProfile( KConfig &cfg )
 {
-  QList<KonqChildView> viewList;
-  
-  cfg.writeEntry( "MainSplitterSizes", QVariant( m_pMainSplitter->sizes() ) );
-
-  cfg.writeEntry( "NumberOfRows", m_lstRows.count() );
- 
-  QListIterator<Konqueror::RowInfo> rowIt( m_lstRows );
-  
-  for ( int i = 0; rowIt.current(); ++rowIt, ++i )
-  {
-  
-    QString rowStr = QString::fromLatin1( "Row%1" ).arg( i );    
-
-    cfg.writeEntry( QString::fromLatin1( "SplitterSizes" ).prepend( rowStr ), QVariant( rowIt.current()->splitter->sizes() ) );
-
-    QStringList strlst;
-    QListIterator<KonqChildView> viewIt( rowIt.current()->children );
-    
-    for (; viewIt.current(); ++viewIt )
-    {
-      strlst.append( QString::number( viewList.count() ) );
-      viewList.append( viewIt.current() );
-    }
-    
-    cfg.writeEntry( QString::fromLatin1( "ChildViews" ).prepend( rowStr ), strlst );
-  }
-  
-  QListIterator<KonqChildView> viewIt( viewList );
-  for (int i = 0; viewIt.current(); ++viewIt, ++i )
-  {
-
-    QString viewStr = QString::fromLatin1( "View%1" ).arg( i );
-    
-    cfg.writeEntry( QString::fromLatin1( "URL" ).prepend( viewStr ), viewIt.current()->url() );
-    cfg.writeEntry( QString::fromLatin1( "ServiceType" ).prepend( viewStr ), viewIt.current()->serviceTypes().first() );
-
-    if ( viewIt.current()->supportsServiceType( "inode/directory" ) )
-    {
-      QString strDirMode;
-    
-      Browser::View_ptr pView = viewIt.current()->view();
-      
-      if ( pView->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
-        strDirMode = "TreeView";
-      else
-      {
-        Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( pView );
-	
-        Konqueror::DirectoryDisplayMode dirMode = iv->viewMode();
-	
-	switch ( dirMode )
-	{
-	  case Konqueror::LargeIcons:
-	    strDirMode = "LargeIcons";
-	    break;
-	  case Konqueror::SmallIcons:
-	    strDirMode = "SmallIcons";
-	    break;
-	  case Konqueror::SmallVerticalIcons:
-	    strDirMode = "SmallVerticalIcons";
-	    break;
-	  default: assert( 0 );
-	}
-      }
-      
-      cfg.writeEntry( QString::fromLatin1( "DirectoryMode" ).prepend( viewStr ),
-                      strDirMode );
-    }
-    
-  }
+  kdebug(0, 1202, "KonqViewManager::saveViewProfile");  
+  if( m_pMainContainer->firstChild() ) {
+    cfg.writeEntry( "RootItem", m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 ) );
+    cfg.setGroup(  m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 ) );
+    m_pMainContainer->firstChild()->saveConfig( &cfg, 0, 1 );
+  } 
   
   cfg.sync();
 }
 
 void KonqViewManager::loadViewProfile( KConfig &cfg )
 {
-  bool bFirstViewActivated = false;
-
+  kdebug(0, 1202, "KonqViewManager::loadViewProfile");  
   clear();
 
-  QValueList<int> mainSplitterSizes = 
-    QVariant( cfg.readPropertyEntry( "MainSplitterSizes", QVariant::IntList ) )
-    .intListValue();
-  
-  int rowCount = cfg.readNumEntry( "NumberOfRows" );
+  QString rootItem = cfg.readEntry( "RootItem" );
 
-  for ( int i = 0; i < rowCount; ++i )
-  {
-    QString rowStr = QString::fromLatin1( "Row%1" ).arg( i );    
+  if( !rootItem.isNull() ) {
+    kdebug(0, 1202, "Load RootItem %s", rootItem.data());  
 
-    QValueList<int> rowSplitterSizes = 
-      QVariant( cfg.readPropertyEntry( 
-       QString::fromLatin1( "SplitterSizes" ).prepend( rowStr ), QVariant::IntList ) )
-      .intListValue();
+    m_pMainContainer = new KonqFrameContainer( Qt::Horizontal, m_pMainView );
+    m_pMainContainer->setOpaqueResize();
+    m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
+    m_pMainContainer->show();
 
-    Konqueror::RowInfo *rowInfo = new Konqueror::RowInfo;
+    loadItem( cfg, m_pMainContainer, rootItem );
+
+    OpenParts::MainWindow_var vMainWindow = m_pMainView->mainWindow();
     
-    QSplitter *rowSplitter = new QSplitter( Qt::Horizontal, m_pMainSplitter );
-    rowSplitter->setOpaqueResize();
-    rowSplitter->show();
-    
-    rowInfo->splitter = rowSplitter;
+    if ( vMainWindow->activePartId() == m_pMainView->id() )
+      vMainWindow->setActivePart( viewIdByNumber( 0 ) );
+  }
+  else
+    warning("Profile Loading Error: RootItem not specified" );
+}
 
-    QStringList childList = cfg.readListEntry( 
-      QString::fromLatin1( "ChildViews" ).prepend( rowStr ) );
+void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent, 
+				const QString &name )
+{
+  cfg.setGroup( name );
+  kdebug(0, 1202, "begin loadItem: %s",name.data() );  
 
-    QStringList::ConstIterator cIt = childList.begin();
-    QStringList::ConstIterator cEnd = childList.end();
-    for (; cIt != cEnd; ++cIt  )
+  if( name.find("View") != -1 ) {
+    kdebug(0, 1202, "Item is View");  
+    //load view config
+    QString url = cfg.readEntry( QString::fromLatin1( "URL" ) );
+    kdebug(0, 1202, "URL: %s",url.data());  
+    QString serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ));
+    kdebug(0, 1202, "ServiceType: %s", serviceType.data());  
+
+    Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons;
+
+    if ( serviceType == "inode/directory" )
     {
-      QString viewStr = QString::fromLatin1( "View" ).append( *cIt );
+      QString strDirMode = cfg.readEntry( QString::fromLatin1( "DirectoryMode" ), "LargeIcons" );
 
-      QString url = cfg.readEntry( QString::fromLatin1( "URL" ).prepend( viewStr ) );
-      QString serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ).prepend( viewStr ) );
-
-      Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons;
-
-      if ( serviceType == "inode/directory" )
-      {
-        QString strDirMode = cfg.readEntry( QString::fromLatin1( "DirectoryMode" ).prepend( viewStr ),
-	                                    "LargeIcons" );
-
-        if ( strDirMode == "LargeIcons" )
-	  dirMode = Konqueror::LargeIcons;
-	else if ( strDirMode == "SmallIcons" )
-	  dirMode = Konqueror::SmallIcons;
-	else if ( strDirMode == "SmallVerticalIcons" )
-	  dirMode = Konqueror::SmallVerticalIcons;
-	else if ( strDirMode == "TreeView" )
-	  dirMode = Konqueror::TreeView;
-	else assert( 0 );
+      if ( strDirMode == "LargeIcons" )
+	dirMode = Konqueror::LargeIcons;
+      else if ( strDirMode == "SmallIcons" )
+	dirMode = Konqueror::SmallIcons;
+      else if ( strDirMode == "SmallVerticalIcons" )
+	dirMode = Konqueror::SmallVerticalIcons;
+      else if ( strDirMode == "TreeView" )
+	dirMode = Konqueror::TreeView;
+      else assert( 0 );
 	
-      }
-      
-      Browser::View_var vView;
-      QStringList serviceTypes;
-
-      QString savedGroup = cfg.group();
-      
-      //Simon TODO: error handling
-      vView = KonqFactory::createView( serviceType, serviceTypes, m_pMainView, dirMode );
-      
-      cfg.setGroup( savedGroup );
-      
-      setupView( rowInfo, vView, serviceTypes );
-      
-      m_pMainView->childView( vView->id() )->openURL( url );
-
-      if ( !bFirstViewActivated )
-      {
-        OpenParts::MainWindow_var vMainWindow = m_pMainView->mainWindow();
-	
-	if ( vMainWindow->activePartId() == m_pMainView->id() )
-	  vMainWindow->setActivePart( vView->id() );
-	
-        bFirstViewActivated = true;
-      }
-      
     }
 
-    rowInfo->splitter->setSizes( rowSplitterSizes );
-    
-    m_lstRows.append( rowInfo );
-    
+    Browser::View_var vView;
+    QStringList serviceTypes;
+
+    //Simon TODO: error handling
+    vView = KonqFactory::createView( serviceType, serviceTypes, m_pMainView, dirMode);
+    if( !CORBA::is_nil( vView )	) {
+      kdebug(0, 1202, "Creating View Stuff");  
+      setupView( parent, vView, serviceTypes);
+
+      m_pMainView->childView( vView->id() )->openURL( url );
+    }
+    else
+      warning("Profile Loading Error: View creation failed" );
+  }
+  else if( name.find("Container") != -1 ) {
+    kdebug(0, 1202, "Item is Container");  
+
+    //load container config
+    QString ostr = cfg.readEntry( QString::fromLatin1( "Orientation" ));
+    kdebug(0, 1202, "Orientation: ",ostr.data());  
+    Qt::Orientation o;
+    if( ostr == "Vertical" )
+      o = Qt::Vertical;
+    else if( ostr == "Horizontal" )
+      o = Qt::Horizontal;
+    else {
+      warning("Profile Loading Error: No orientation specified in %s", name.data());
+      o = Qt::Horizontal;
+    }
+
+    QValueList<int> sizes = 
+      QVariant( cfg.readPropertyEntry( QString::fromLatin1( "SplitterSizes" ), 
+				       QVariant::IntList ) ).intListValue();
+
+    QStrList childList;
+    if( cfg.readListEntry( QString::fromLatin1( "Children" ), childList ) < 2 )
+      warning("Profile Loading Error: Less than two children in %s", name.data());
+
+    KonqFrameContainer *newContainer = new KonqFrameContainer( o, parent );
+    newContainer->setOpaqueResize();
+    newContainer->show();
+
+    loadItem( cfg, newContainer, childList.at(0) );
+    loadItem( cfg, newContainer, childList.at(1) );
+
+    newContainer->setSizes( sizes );
   }  
-
-  m_pMainSplitter->setSizes( mainSplitterSizes );  
-}
-
-void KonqViewManager::insertView ( Qt::Orientation orientation, 
-			          Browser::View_ptr newView,
-			          const QStringList &newViewServiceTypes )
-{
-/*
-  The splitter layout looks like this:
-  
-  the mainsplitter is a vertical splitter, holding only horizontal splitters
-  
-  the horizontal splitters, childs of the mainsplitter, actually hold the
-  views (viewframes) as children
- */
-
-  QSplitter *parentSplitter;
-  Konqueror::RowInfo *rowInfo;
-
-  if ( orientation == Qt::Horizontal )
-    rowInfo = m_pMainView->currentChildView()->rowInfo();
   else
-  {
-    parentSplitter = new QSplitter( Qt::Horizontal, m_pMainSplitter );
-    parentSplitter->setOpaqueResize();
-    parentSplitter->show();
-    
-    rowInfo = new Konqueror::RowInfo;
-    rowInfo->splitter = parentSplitter;
-    m_lstRows.append( rowInfo );
-  }
+    warning("Profile Loading Error: Unknown item %s", name.data());
 
-  setupView( rowInfo, newView, newViewServiceTypes );
-
-  QValueList<int> sizes = rowInfo->splitter->sizes();
-  QValueList<int>::Iterator it = sizes.begin();
-  QValueList<int>::Iterator end = sizes.end();
-  
-  for (; it != end; ++it )
-    (*it) = 100;
-    
-  rowInfo->splitter->setSizes( sizes );
-
-  if ( orientation == Qt::Vertical )
-  {
-    sizes = m_pMainSplitter->sizes();
-    it = sizes.begin();
-    end = sizes.end();
-
-    for (; it != end; ++it )
-      (*it) = 100;
-
-    m_pMainSplitter->setSizes( sizes );
-  }
-}
-
-void KonqViewManager::removeView( KonqChildView *view )
-{
-  bool deleteParentSplitter = false;
-  QSplitter *parentSplitter = view->frame()->parentSplitter();
-
-  Konqueror::RowInfo *row = view->rowInfo();
-  row->children.removeRef( view );
-
-  if ( row->children.count() == 0 )
-  {  
-    m_lstRows.removeRef( row );
-    deleteParentSplitter = true;
-  }	  
-
-  m_pMainView->removeChildView( view->id() );
-  
-  if ( isLinked( view ) )
-    removeLink( view );
-
-  delete view;
-  
-  if ( deleteParentSplitter )
-    delete parentSplitter;
+  kdebug(0, 1202, "end loadItem: %s",name.data());  
 }
 
 void KonqViewManager::clear()
 {
-  QListIterator<Konqueror::RowInfo> it( m_lstRows );
+  QList<KonqChildView> viewList;
+  QListIterator<KonqChildView> it( viewList );
+
+  m_pMainContainer->listViews( &viewList );
+
+  for ( ; it.current(); ++it ) {
+    m_pMainView->removeChildView( it.current()->id() );
+    delete it.current();
+  }    
   
-  while ( it.current() )
-    clearRow( it.current() );
+  delete m_pMainContainer;
+  m_pMainContainer = 0L;
 }
 
 void KonqViewManager::doGeometry( int width, int height )
 {
-  m_pMainSplitter->setGeometry( 0, 0, width, height );
+  m_pMainContainer->setGeometry( 0, 0, width, height );
 }
 
 KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
 {
+  QList<KonqChildView> viewList;
+
+  m_pMainContainer->listViews( &viewList );
+
   if ( !view )
-    return m_lstRows.getFirst()->children.getFirst();
-    
-  Konqueror::RowInfo *row = view->rowInfo();
-  KonqChildView *next = 0L;
-  
-  if ( m_lstRows.count() == 1 && row->children.count() == 1 )
-    return view;
-    
-  if ( row->children.count() > 1 )
-  {
-    KonqChildView *savedCurrentChild = row->children.current();
-    
-    row->children.findRef( view );
-    
-    next = row->children.next();
-    if ( !next )
-    {
-      row->children.findRef( view );
-      next = row->children.prev();
-    }
-    
-    row->children.findRef( savedCurrentChild );
-  }
-  else
-  {
-    Konqueror::RowInfo *savedCurrentRow = m_lstRows.current();
-  
-    m_lstRows.findRef( row );
-    
-    Konqueror::RowInfo *nextRow = m_lstRows.next();
-    if ( !nextRow )
-    {
-      m_lstRows.findRef( row );
-      nextRow = m_lstRows.prev();
-    }
-    
-    if ( nextRow && nextRow->children.count() > 0 )
-      next = nextRow->children.getFirst();
-    
-    m_lstRows.findRef( savedCurrentRow );
-  }
-  
-  return next;
+    return viewList.first();
+
+  int pos = viewList.find( view ) + 1;
+  if( pos >= viewList.count() )
+    pos = 0;
+  kdebug(0, 1202, "next view: %d", pos );  
+
+  return viewList.at( pos );
 }
 
-unsigned long KonqViewManager::viewIdByNumber( int num )
+unsigned long KonqViewManager::viewIdByNumber( int number )
 {
-  QListIterator<Konqueror::RowInfo> rowIt( m_lstRows );
-  while ( rowIt.current() )
-  {
-    QListIterator<KonqChildView> childIt( rowIt.current()->children );
-    while ( childIt.current() )
-    {
-      if ( --num == 0 )
-        return childIt.current()->id();
-      ++childIt;
-    }
-      
-    ++rowIt;
-  }
-  
-  return 0;
+  kdebug(0, 1202, "KonqViewManager::viewIdByNumber( %d )", number );  
+  QList<KonqChildView> viewList;
+
+  m_pMainContainer->listViews( &viewList );
+
+  KonqChildView* view = viewList.at( number );
+  if( view != 0L )
+    return view->id();
+  else
+    return 0L;
 }
 
+//temporarily commented out. Michael.
+/*
 void KonqViewManager::createLink( KonqChildView *source, KonqChildView *destination )
 {
   if ( isLinked( source ) )
@@ -453,24 +430,13 @@ KonqChildView *KonqViewManager::linkableViewHorizontal( KonqChildView *view, boo
   
   return dest;
 }
-
-void KonqViewManager::clearRow( Konqueror::RowInfo *row )
+*/
+void KonqViewManager::setupView( KonqFrameContainer *parentContainer, Browser::View_ptr view, const QStringList &serviceTypes )
 {
-  QListIterator<KonqChildView> it( row->children );
-  
-  while ( it.current() )
-    removeView( it.current() );
-}
-
-void KonqViewManager::setupView( Konqueror::RowInfo *row, Browser::View_ptr view, const QStringList &serviceTypes )
-{
-  KonqFrame* newViewFrame = new KonqFrame( row->splitter );
+  KonqFrame* newViewFrame = new KonqFrame( parentContainer );
 
   KonqChildView *v = new KonqChildView( view, newViewFrame, 
 					m_pMainView, serviceTypes );
-
-  v->setRowInfo( row );
-  row->children.append( v );
 
   QObject::connect( v, SIGNAL( sigIdChanged( KonqChildView *, OpenParts::Id, OpenParts::Id ) ), 
                     m_pMainView, SLOT( slotIdChanged( KonqChildView * , OpenParts::Id, OpenParts::Id ) ) );
@@ -478,4 +444,6 @@ void KonqViewManager::setupView( Konqueror::RowInfo *row, Browser::View_ptr view
   m_pMainView->insertChildView( v );
 
   v->lockHistory();
+
+  //if (isVisible()) v->show();
 }

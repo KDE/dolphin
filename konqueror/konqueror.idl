@@ -78,6 +78,7 @@ module Konqueror
     void setActiveView( in OpenParts::Id id );
     Browser::View activeView();
     OpenParts::Id activeViewId();
+    void selectViewByNumber( in long number );
 
     slot void openURL( in OpenParts::Id id, in Browser::URLRequest url );    
     

@@ -16,6 +16,8 @@
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 */
+#include <math.h>
+
 #include <qpainter.h>
 #include <qimage.h>
 #include <qlayout.h>
@@ -29,6 +31,7 @@
 #include <opFrame.h>
 
 #include "konq_frame.h"
+#include "konq_childview.h"
 
 #define DEFAULT_HEADER_HEIGHT 11
 
@@ -370,12 +373,14 @@ KonqFrameHeader::mousePressEvent( QMouseEvent* event )
   update();
 }
 
- KonqFrame::KonqFrame( QSplitter *_parentSplitter, const char *_name )
-                    : QWidget( _parentSplitter, _name),
-		      m_pParentSplitter( _parentSplitter )
+//###################################################################
+
+KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
+                    : QWidget( _parentContainer, _name)
 {
   m_pOPFrame = 0L;
   m_pLayout = 0L;
+  m_pChildView = 0L;
 
   // add the frame header to the layout
   m_pHeader = new KonqFrameHeader( this, "KonquerorFrameHeader");
@@ -388,20 +393,50 @@ KonqFrame::view( void )
   return Browser::View::_duplicate( m_vView ); 
 }
 
-void
-KonqFrame::slotHeaderClicked()
+void 
+KonqFrame::listViews( ChildViewList *viewList )
 {
-  if ( !CORBA::is_nil( m_vView ) )
-  {
-    OpenParts::MainWindow_var mainWindow = m_vView->mainWindow();
-    mainWindow->setActivePart( m_vView->id() );
-  }    
+  kdebug(0, 1202, "listViews: Append ChildView");
+  viewList->append( childView() );
 }
 
 void 
-KonqFrame::paintEvent( QPaintEvent* event )
+KonqFrame::saveConfig( KConfig* config, int id, int depth )
 {
-  m_pHeader->repaint();
+  config->writeEntry( QString::fromLatin1( "URL" ), childView()->url() );
+  config->writeEntry( QString::fromLatin1( "ServiceType" ), childView()->serviceTypes().first() );
+    
+  if ( childView()->supportsServiceType( "inode/directory" ) )
+  {
+    QString strDirMode;
+    
+    Browser::View_ptr pView = childView()->view();
+      
+    if ( pView->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
+      strDirMode = "TreeView";
+    else
+    {
+      Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( pView );
+      
+      Konqueror::DirectoryDisplayMode dirMode = iv->viewMode();
+      
+      switch ( dirMode )
+      {
+      case Konqueror::LargeIcons:
+	strDirMode = "LargeIcons";
+	break;
+      case Konqueror::SmallIcons:
+	strDirMode = "SmallIcons";
+	break;
+      case Konqueror::SmallVerticalIcons:
+	strDirMode = "SmallVerticalIcons";
+	break;
+      default: assert( 0 );
+      }
+    }
+      
+    config->writeEntry( QString::fromLatin1( "DirectoryMode" ), strDirMode );
+  }
 }
 
 void
@@ -449,6 +484,194 @@ KonqFrame::detach( void )
     delete m_pOPFrame;
     m_pOPFrame = 0L;
   }
+}
+
+KonqFrameContainer* 
+KonqFrame::parentContainer()
+{
+  kdebug(0, 1202, "KonqFrame::parentContainer: %s", 
+	 parentWidget()->className());
+  if( parentWidget()->isA("KonqFrameContainer") )
+    return (KonqFrameContainer*)parentWidget();
+  else
+    return 0L;
+}
+
+void 
+KonqFrame::reparent( QWidget* parent, WFlags f, const QPoint & p, bool showIt=FALSE )
+{
+  kdebug(0, 1202, "KonqFrame::reparent(QWidget) %s", parent->className());
+
+  QWidget::reparent( parent, f, p, showIt );
+  kdebug(0, 1202, "KonqFrame::reparent(QWidget) %s done", parent->className());
+}
+
+void
+KonqFrame::slotHeaderClicked()
+{
+  if ( !CORBA::is_nil( m_vView ) )
+  {
+    OpenParts::MainWindow_var mainWindow = m_vView->mainWindow();
+    mainWindow->setActivePart( m_vView->id() );
+  }    
+}
+
+void 
+KonqFrame::paintEvent( QPaintEvent* event )
+{
+  m_pHeader->repaint();
+}
+
+//###################################################################
+
+KonqFrameContainer::KonqFrameContainer( Orientation o, 
+					QWidget* parent=0L, 
+					const char * name=0L)
+  : QSplitter( o, parent, name)
+{
+  m_pFirstChild = 0L;
+  m_pSecondChild = 0L;   
+}
+
+void 
+KonqFrameContainer::listViews( ChildViewList *viewList )
+{
+  kdebug(0, 1202, "begin listViews");  
+  
+  if( firstChild() ) {
+      kdebug(0, 1202, "listViews: List FirstChild");  
+      firstChild()->listViews( viewList );
+    }
+
+  if( secondChild() ) {
+      kdebug(0, 1202, "listViews: List SecondChild");  
+      secondChild()->listViews( viewList );
+    }
+  kdebug(0, 1202, "end listViews");  
+}
+
+void 
+KonqFrameContainer::saveConfig( KConfig* config, int id, int depth )
+{
+  int idSecond = id + pow( 2, depth );
+
+  //write own config
+
+  //write children sizes
+  config->writeEntry( QString::fromLatin1( "SplitterSizes" ), QVariant( sizes() ) );
+
+  //write children 
+  QStringList strlst;
+  if( firstChild() )
+    strlst.append( firstChild()->frameType() + QString("%1").arg(idSecond - 1) );
+  if( secondChild() )
+    strlst.append( secondChild()->frameType() + QString("%1").arg( idSecond ) );
+
+  config->writeEntry( QString::fromLatin1( "Children" ), strlst );
+
+  //write orientation
+  QString o;
+  if( orientation() == Qt::Horizontal )
+    o = QString::fromLatin1("Horizontal");
+  else if( orientation() == Qt::Vertical )
+    o = QString::fromLatin1("Vertical");
+  config->writeEntry( QString::fromLatin1( "Orientation" ), o );
+
+
+  //write child configs
+  if( firstChild() ) {
+    config->setGroup( firstChild()->frameType() + QString("%1").arg(idSecond - 1) );
+    firstChild()->saveConfig( config, id, depth + 1 );
+  } 
+
+  if( secondChild() ) {
+    config->setGroup( secondChild()->frameType() + QString("%1").arg( idSecond ) );
+    secondChild()->saveConfig( config, idSecond, depth + 1 );
+  }
+}
+
+KonqFrameBase*
+KonqFrameContainer::otherChild( KonqFrameBase* child )
+{
+  if( firstChild() == child )
+    return secondChild();
+  else if( secondChild() == child )
+    return firstChild();
+  else 
+    return 0L;
+}
+
+KonqFrameContainer* 
+KonqFrameContainer::parentContainer()
+{
+  kdebug(0, 1202, "KonqFrameContainer::parentContainer: %s", 
+	 parentWidget()->className());
+
+  if( parentWidget()->isA("KonqFrameContainer") )
+    return (KonqFrameContainer*)parentWidget();
+  else
+    return 0L;
+}
+
+void 
+KonqFrameContainer::reparent( QWidget* parent, WFlags f, const QPoint & p, bool showIt=FALSE )
+{
+  kdebug(0, 1202, "KonqFrameContainer::reparent(QWidget) %s", parent->className() );
+
+  QWidget::reparent( parent, f, p, showIt );
+}
+
+void 
+KonqFrameContainer::childEvent( QChildEvent * ce )
+{
+//   kdebug(0, 1202, "firstChild %ld", firstChild());	
+//   kdebug(0, 1202, "secondChild %ld", secondChild());	
+//   kdebug(0, 1202, "event %ld", ce->child());	
+
+  KonqFrameBase* castChild = 0L;
+    
+  if( ce->child()->isA("KonqFrame") )
+    castChild = ( KonqFrame* )ce->child();
+  else if( ce->child()->isA("KonqFrameContainer") )
+    castChild = ( KonqFrameContainer* )ce->child();
+  //kdebug(0, 1202, "castChild %ld", castChild);	
+
+  if( ce->type() == QEvent::ChildInserted ) {
+    kdebug(0, 1202, "New Child: %s", ce->child()->className());
+
+    if( castChild ) 
+      if( !firstChild() ) {
+	kdebug(0, 1202, "Insert FirstChild");	
+	setFirstChild( castChild );
+      }
+      else if( !secondChild() ) {
+	kdebug(0, 1202, "Insert SecondChild");	
+	setSecondChild( castChild );
+      }
+  
+  } 
+  else if( ce->type() == QEvent::ChildRemoved ) {
+    kdebug(0, 1202, "Remove Child: %s", ce->child()->className());
+
+    if( castChild ) {
+      //kdebug(0, 1202, "remChild %ld", ( KonqFrameBase* )castChild);	
+      if( firstChild() == ( KonqFrameBase* )castChild ) {
+	kdebug(0, 1202, "Remove FirstChild");	
+	setFirstChild( 0L );
+      }
+      else if( secondChild() == ( KonqFrameBase* )castChild ) {
+	kdebug(0, 1202, "Remove SecondChild");	
+	setSecondChild( 0L );
+      }
+    }
+  }
+
+//   kdebug(0, 1202, "firstChild %ld", firstChild());	
+//   kdebug(0, 1202, "secondChild %ld", secondChild());	
+//   kdebug(0, 1202, "event %ld", ce->child());	
+  kdebug(0, 1202, "QSplitter::childEvent");	
+  QSplitter::childEvent( ce );
+  kdebug(0, 1202, "ChildEvent done");	
 }
 
 #include "konq_frame.moc"

@@ -21,6 +21,7 @@
 
 #include <qcolor.h>
 #include <qwidget.h>
+#include <qsplitter.h>
 
 #include <kpixmap.h>
 #include <kpixmapeffect.h>
@@ -30,15 +31,17 @@
 class QPixmap;
 class QVBoxLayout;
 class OPFrame;
-class QSplitter;
+class KonqChildView;
+class KonqFrameBase;
 class KonqFrame;
+class KonqFrameContainer;
 
 enum KonqFrameHeaderLook{ Plain,  HORIZ, VERT, DIAG, CROSSDIAG, PYRAM,
 			  RECT, PIPE, ELLIP, XPixmap };
 
 /**
  * The KonqFrameHeader indicates wether a view is active or not. It uses the 
- * same colors a KWM does.
+ * same colors and shading a KWM does.
  */
 class KonqFrameHeader : public QWidget
 {
@@ -74,6 +77,26 @@ protected:
   QColor frameHeaderBlendInactive;
 };
 
+typedef QList<KonqChildView> ChildViewList;
+
+class KonqFrameBase
+{
+ public:
+  virtual void saveConfig( KConfig* config, int id = 0, int depth = 0 ) = 0;
+
+  virtual void reparent( QWidget* parent, Qt::WFlags f, 
+			 const QPoint & p, bool showIt=FALSE ) = 0;
+
+  virtual QWidget* widget() = 0;
+
+  virtual void listViews( ChildViewList *viewList ) = 0;
+  virtual QString frameType() = 0;
+
+ protected:
+  KonqFrameBase() {}
+ ~KonqFrameBase() {}
+};
+
 /**
  * The KonqFrame is the actual container for the views. It takes care of the 
  * widget handling i.e. it attaches/detaches the view widget and activates 
@@ -86,12 +109,13 @@ protected:
  * widget of the layout
  */
 
-class KonqFrame : public QWidget
+class KonqFrame : public QWidget, public KonqFrameBase
 {
   Q_OBJECT
 
 public:
-  KonqFrame( QSplitter *_parentSplitter = 0L, const char *_name = 0L );
+  KonqFrame( KonqFrameContainer *_parentContainer = 0L, 
+	     const char *_name = 0L );
   ~KonqFrame() {}
  
   /**
@@ -110,10 +134,19 @@ public:
    */
   Browser::View_ptr view( void );
 
-  QSplitter* parentSplitter() { return m_pParentSplitter; }
-  void setParentSplitter( QSplitter* newParent ) { m_pParentSplitter = newParent; }
+  KonqChildView* childView() { return m_pChildView; }
+  void setChildView( KonqChildView* child ) { m_pChildView = child; }
+  void listViews( ChildViewList *viewList );
 
+  void saveConfig( KConfig* config, int id = 0, int depth = 0 );
+
+  void reparent(QWidget * parent, WFlags f, 
+		const QPoint & p, bool showIt=FALSE );
   
+  KonqFrameContainer* parentContainer();
+  QWidget* widget() { return this; }
+  virtual QString frameType() { return QString("View"); }
+
 public slots:  
 
   /**
@@ -126,9 +159,58 @@ protected:
 
   OPFrame *m_pOPFrame;
   QVBoxLayout *m_pLayout;
-  KonqFrameHeader* m_pHeader;
+  KonqChildView *m_pChildView;
+
   Browser::View_var m_vView;
-  QSplitter *m_pParentSplitter;
+
+  KonqFrameHeader* m_pHeader;
+};
+
+/**
+ * With KonqFrameContainers and @refKonqFrames we can create a flexible 
+ * storage structure for the views. The top most element is a 
+ * KonqFrameContainer. It's a direct child of the MainView. We can then 
+ * build up a binary tree of containers. KonqFrameContainers are the nodes. 
+ * That means that they always have two childs. Which are either again 
+ * KonqFrameContainers or, as leaves, KonqFrames.
+ */
+
+class KonqFrameContainer : public QSplitter, public KonqFrameBase
+{
+  Q_OBJECT
+
+public:
+  KonqFrameContainer( Orientation o, 
+		      QWidget* parent=0, 
+		      const char * name=0);
+  ~KonqFrameContainer() {}
+
+  void listViews( ChildViewList *viewList );
+
+  void saveConfig( KConfig* config, int id = 0, int depth = 0 );
+
+  KonqFrameBase* firstChild() { return m_pFirstChild; }
+  void setFirstChild( KonqFrameBase* child ) { m_pFirstChild = child; }
+  KonqFrameBase* secondChild() { return m_pSecondChild; }
+  void setSecondChild( KonqFrameBase* child ) { m_pSecondChild = child; }
+  KonqFrameBase* otherChild( KonqFrameBase* child );
+
+  KonqFrameContainer* parentContainer();
+  virtual QWidget* widget() { return this; }
+  virtual QString frameType() { return QString("Container"); }
+
+  //inherited
+  void reparent(QWidget * parent, WFlags f, 
+		const QPoint & p, bool showIt=FALSE );
+
+  //make this one public
+  int idAfter( QWidget* w ){ return QSplitter::idAfter( w ); }
+
+protected:
+  void childEvent( QChildEvent * ce );
+
+  KonqFrameBase* m_pFirstChild;
+  KonqFrameBase* m_pSecondChild;
 };
 
 #endif

@@ -55,6 +55,7 @@ KonqChildView::KonqChildView( Browser::View_ptr view,
                               )
 {
   m_pKonqFrame = viewFrame;
+  m_pKonqFrame->setChildView( this );
 
   m_sLocationBarURL = "";
   m_bBack = false;
@@ -63,7 +64,6 @@ KonqChildView::KonqChildView( Browser::View_ptr view,
   m_pMainView = mainView;
   m_vMainWindow = mainView->mainWindow();
   m_pRun = 0L;
-  m_pRow = 0L;
 
   attach( view );
 
@@ -80,6 +80,7 @@ KonqChildView::KonqChildView( Browser::View_ptr view,
 
 KonqChildView::~KonqChildView()
 {
+  kdebug(0,1202,"KonqChildView::~KonqChildView");
   detach();
   delete m_pKonqFrame;
   if ( m_pRun )

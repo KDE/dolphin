@@ -187,9 +187,6 @@ public:
   int xOffset() const { return m_iXOffset; }
   int yOffset() const { return m_iYOffset; }
 
-  void setRowInfo( Konqueror::RowInfo *rowInfo ) { m_pRow = rowInfo; }
-  Konqueror::RowInfo *rowInfo() const { return m_pRow; }
-
   void setLoading( bool b ) { m_bLoading = b; }
   bool isLoading() const { return m_bLoading; }
   
@@ -251,7 +248,6 @@ protected:
   int m_iXOffset;
   int m_iYOffset;
   KonqFrame* m_pKonqFrame;
-  Konqueror::RowInfo *m_pRow;
   bool m_bLoading;
   int m_iProgress;
 };

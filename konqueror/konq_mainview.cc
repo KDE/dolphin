@@ -95,7 +95,9 @@ enum _ids {
     MOPTIONS_CONFIGUREKEYS_ID,
     MOPTIONS_RELOADPLUGINS_ID,
     
-    MWINDOW_SPLITHOR_ID, MWINDOW_SPLITVER_ID, MWINDOW_REMOVEVIEW_ID,
+    MWINDOW_SPLITVIEWHOR_ID, MWINDOW_SPLITVIEWVER_ID, 
+    MWINDOW_SPLITWINHOR_ID, MWINDOW_SPLITWINVER_ID, 
+    MWINDOW_REMOVEVIEW_ID,
     MWINDOW_DEFAULTPROFILE_ID, 
     MWINDOW_PROFILEDLG_ID,
     MWINDOW_LINKVIEW_ID,
@@ -472,10 +474,14 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   text = Q2C( i18n( "&Window" ) );
   m_vMenuBar->insertMenu( text, m_vMenuWindow, -1, -1 );
   
+  text = Q2C( i18n( "Split View &Horizontally" ) );
+  m_vMenuWindow->insertItem4( text, this, "slotSplitViewHorizontal", 0, MWINDOW_SPLITVIEWHOR_ID, -1 );
+  text = Q2C( i18n( "Split View &Vertically" ) );
+  m_vMenuWindow->insertItem4( text, this, "slotSplitViewVertical", 0, MWINDOW_SPLITVIEWVER_ID, -1 );
   text = Q2C( i18n( "Split Window &Horizontally" ) );
-  m_vMenuWindow->insertItem4( text, this, "slotSplitViewHorizontal", 0, MWINDOW_SPLITHOR_ID, -1 );
+  m_vMenuWindow->insertItem4( text, this, "slotSplitWindowHorizontal", 0, MWINDOW_SPLITWINHOR_ID, -1 );
   text = Q2C( i18n( "Split Window &Vertically" ) );
-  m_vMenuWindow->insertItem4( text, this, "slotSplitViewVertical", 0, MWINDOW_SPLITVER_ID, -1 );
+  m_vMenuWindow->insertItem4( text, this, "slotSplitWindowVertical", 0, MWINDOW_SPLITWINVER_ID, -1 );
   text = Q2C( i18n( "Remove Active View" ) );
   m_vMenuWindow->insertItem4( text, this, "slotRemoveView", CTRL+Key_R, MWINDOW_REMOVEVIEW_ID, -1 );
   
@@ -703,8 +709,10 @@ bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )
   kdebug(0, 1202, "bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )");
   setActiveView( child->id() );
 
-  setItemEnabled( m_vMenuView, MWINDOW_SPLITHOR_ID, true );
-  setItemEnabled( m_vMenuView, MWINDOW_SPLITVER_ID, true );
+  setItemEnabled( m_vMenuWindow, MWINDOW_SPLITVIEWHOR_ID, true );
+  setItemEnabled( m_vMenuWindow, MWINDOW_SPLITVIEWVER_ID, true );
+  setItemEnabled( m_vMenuWindow, MWINDOW_SPLITWINHOR_ID, true );
+  setItemEnabled( m_vMenuWindow, MWINDOW_SPLITWINVER_ID, true );
   setItemEnabled( m_vMenuWindow, MWINDOW_REMOVEVIEW_ID, ( m_mapViews.count() > 1 ) );
 
   setItemEnabled( m_vMenuView, MVIEW_SHOWDOT_ID, true );
@@ -750,8 +758,10 @@ bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr  )
   setUpEnabled( "/", 0 );
   setItemEnabled( m_vMenuGo, MGO_BACK_ID, false );
   setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, false );
-  setItemEnabled( m_vMenuView, MWINDOW_SPLITHOR_ID, false );
-  setItemEnabled( m_vMenuView, MWINDOW_SPLITVER_ID, false );
+  setItemEnabled( m_vMenuWindow, MWINDOW_SPLITVIEWHOR_ID, false );
+  setItemEnabled( m_vMenuWindow, MWINDOW_SPLITVIEWVER_ID, false );
+  setItemEnabled( m_vMenuWindow, MWINDOW_SPLITWINHOR_ID, false );
+  setItemEnabled( m_vMenuWindow, MWINDOW_SPLITWINVER_ID, false );
   setItemEnabled( m_vMenuWindow, MWINDOW_REMOVEVIEW_ID, false );
   
   setItemEnabled( m_vMenuView, MVIEW_SHOWDOT_ID, false );
@@ -858,13 +868,20 @@ OpenParts::Id KonqMainView::activeViewId()
   return m_currentId;
 }
 
+void KonqMainView::selectViewByNumber( CORBA::Long number )
+{
+  OpenParts::Id viewId = m_pViewManager->viewIdByNumber( number );
+  if ( viewId != 0 )
+    m_vMainWindow->setActivePart( viewId );
+}
+
 void KonqMainView::openURL( OpenParts::Id id, const Browser::URLRequest &_urlreq )
 {
   KonqChildView *view = 0L;
   MapViews::ConstIterator it = m_mapViews.find( id );
   if ( it != m_mapViews.end() )
     view = it.data();
-  
+
   openURL( _urlreq.url.in(), (bool)_urlreq.reload, (int)_urlreq.xOffset,
           (int)_urlreq.yOffset, view );
 }
@@ -940,8 +957,9 @@ void KonqMainView::openURL( const char * _url, bool reload, int xOffset, int yOf
   if ( !view )
     view = m_currentView;
 
-  if ( view && m_pViewManager->isLinked( view ) )
-    view = m_pViewManager->readLink( view );
+  //temporarily commented out. Michael.
+  //if ( view && m_pViewManager->isLinked( view ) )
+  //  view = m_pViewManager->readLink( view );
 
   if ( view )
   {
@@ -1056,7 +1074,7 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url, Kon
     else if ( CORBA::is_nil( ( vView = KonqFactory::createView( serviceType, serviceTypes, this ) ) ) )
       return false;
       
-    m_pViewManager->insertView( Qt::Vertical, vView, serviceTypes );
+    m_pViewManager->splitView( Qt::Horizontal, vView, serviceTypes );
 
     MapViews::Iterator it = m_mapViews.find( vView->id() );
     it.data()->openURL( m_sInitialURL );
@@ -1267,12 +1285,23 @@ void KonqMainView::slotDelete()
 
 void KonqMainView::slotSplitViewHorizontal()
 {
-  splitView( Qt::Horizontal );
+  m_pViewManager->splitView( Qt::Horizontal );
 }
  
 void KonqMainView::slotSplitViewVertical()
 {
-  splitView( Qt::Vertical );
+  m_pViewManager->splitView( Qt::Vertical );
+}
+
+void KonqMainView::slotSplitWindowHorizontal()
+{
+  //TODO Just want to have it working at all! Multiple inheritence is
+  //evil!! But it saves a lot of code:) Michael.
+}
+ 
+void KonqMainView::slotSplitWindowVertical()
+{
+  //TODO
 }
 
 void KonqMainView::slotRemoveView()
@@ -1964,76 +1993,6 @@ void KonqMainView::checkEditExtension()
   setItemEnabled( m_vMenuEdit, MEDIT_DELETE_ID, bMove );
 }
 
-void KonqMainView::slotSelectView1()
-{
-  OpenParts::Id viewId = m_pViewManager->viewIdByNumber( 1 );
-  if ( viewId != 0 )
-    m_vMainWindow->setActivePart( viewId );
-}
-
-void KonqMainView::slotSelectView2()
-{
-  OpenParts::Id viewId = m_pViewManager->viewIdByNumber( 2 );
-  if ( viewId != 0 )
-    m_vMainWindow->setActivePart( viewId );
-}
-
-void KonqMainView::slotSelectView3()
-{
-  OpenParts::Id viewId = m_pViewManager->viewIdByNumber( 3 );
-  if ( viewId != 0 )
-    m_vMainWindow->setActivePart( viewId );
-}
-
-void KonqMainView::slotSelectView4()
-{
-  OpenParts::Id viewId = m_pViewManager->viewIdByNumber( 4 );
-  if ( viewId != 0 )
-    m_vMainWindow->setActivePart( viewId );
-}
-
-void KonqMainView::slotSelectView5()
-{
-  OpenParts::Id viewId = m_pViewManager->viewIdByNumber( 5 );
-  if ( viewId != 0 )
-    m_vMainWindow->setActivePart( viewId );
-}
-
-void KonqMainView::slotSelectView6()
-{
-  OpenParts::Id viewId = m_pViewManager->viewIdByNumber( 6 );
-  if ( viewId != 0 )
-    m_vMainWindow->setActivePart( viewId );
-}
-
-void KonqMainView::slotSelectView7()
-{
-  OpenParts::Id viewId = m_pViewManager->viewIdByNumber( 7 );
-  if ( viewId != 0 )
-    m_vMainWindow->setActivePart( viewId );
-}
-
-void KonqMainView::slotSelectView8()
-{
-  OpenParts::Id viewId = m_pViewManager->viewIdByNumber( 8 );
-  if ( viewId != 0 )
-    m_vMainWindow->setActivePart( viewId );
-}
-
-void KonqMainView::slotSelectView9()
-{
-  OpenParts::Id viewId = m_pViewManager->viewIdByNumber( 9 );
-  if ( viewId != 0 )
-    m_vMainWindow->setActivePart( viewId );
-}
-
-void KonqMainView::slotSelectView10()
-{
-  OpenParts::Id viewId = m_pViewManager->viewIdByNumber( 10 );
-  if ( viewId != 0 )
-    m_vMainWindow->setActivePart( viewId );
-}
-
 void KonqMainView::resizeEvent( QResizeEvent * )
 {
   if ( m_pViewManager )
@@ -2107,38 +2066,6 @@ void KonqMainView::checkPrintingExtension()
 {
   if ( m_currentView )
     setItemEnabled( m_vMenuFile, MFILE_PRINT_ID, m_currentView->view()->supportsInterface( "IDL:Browser/PrintingExtension:1.0" ) );
-}
-
-void KonqMainView::splitView ( Orientation orientation ) 
-{
-  QString url = m_currentView->url();
-  const QString serviceType = m_currentView->serviceTypes().first();
-
-  Browser::View_var vView;
-  QStringList serviceTypes;
-  
-  // KonqFactory::createView() ignores this if the servicetypes is
-  // not inode/directory
-  Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons;
-  
-  if ( m_currentView->supportsServiceType( "inode/directory" ) )
-  {
-    if ( m_currentView->view()->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
-      dirMode = Konqueror::TreeView;
-    else
-    {
-      Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( m_currentView->view() );
-      dirMode = iv->viewMode();
-    }
-  }
-  
-  if ( CORBA::is_nil( ( vView = KonqFactory::createView( serviceType, serviceTypes, this, dirMode ) ) ) )
-    return; //do not split the view at all if we can't clone the current view
-
-  m_pViewManager->insertView( orientation, vView, serviceTypes );
-
-  MapViews::Iterator it = m_mapViews.find( vView->id() );
-  it.data()->openURL( url );
 }
 
 void KonqMainView::setItemEnabled( OpenPartsUI::Menu_ptr menu, int id, bool enable )

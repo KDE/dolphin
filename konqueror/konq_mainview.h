@@ -70,6 +70,7 @@ public:
   virtual void setActiveView( OpenParts::Id id );
   virtual Browser::View_ptr activeView();
   virtual OpenParts::Id activeViewId();
+  virtual void selectViewByNumber( CORBA::Long number );
 
   virtual void openURL( OpenParts::Id id, const Browser::URLRequest &_urlreq );
   virtual void openURL( const char * _url, bool _reload = false, int xOffset = 0,
@@ -162,6 +163,8 @@ public:
   // Window menu
   virtual void slotSplitViewHorizontal();
   virtual void slotSplitViewVertical();
+  virtual void slotSplitWindowVertical();
+  virtual void slotSplitWindowHorizontal();
   virtual void slotRemoveView();
   virtual void slotSaveDefaultProfile();
   virtual void slotProfileDlg();
@@ -224,16 +227,16 @@ public slots:
 
   void checkEditExtension();
 
-  void slotSelectView1();
-  void slotSelectView2();
-  void slotSelectView3();
-  void slotSelectView4();
-  void slotSelectView5();
-  void slotSelectView6();
-  void slotSelectView7();
-  void slotSelectView8();
-  void slotSelectView9();
-  void slotSelectView10();
+  void slotSelectView1() { selectViewByNumber( 0 ); }
+  void slotSelectView2() { selectViewByNumber( 1 ); }
+  void slotSelectView3() { selectViewByNumber( 2 ); }
+  void slotSelectView4() { selectViewByNumber( 3 ); }
+  void slotSelectView5() { selectViewByNumber( 4 ); }
+  void slotSelectView6() { selectViewByNumber( 5 ); }
+  void slotSelectView7() { selectViewByNumber( 6 ); }
+  void slotSelectView8() { selectViewByNumber( 7 ); }
+  void slotSelectView9() { selectViewByNumber( 8 ); }
+  void slotSelectView10(){ selectViewByNumber( 9 ); }
 
   void slotStop2();
 
@@ -247,13 +250,6 @@ private:
   void initGui();
 
   void checkPrintingExtension();
-
-  /**
-   * Splits the view, depending on orientation, either horizontally or 
-   * vertically. The first of the resulting views will contain the initial 
-   * view, the other will be a new one with the same URL and the same view type
-   */
-  void splitView( Orientation orientation );
 
   /**
    * Enable menu item and related toolbar button if present
