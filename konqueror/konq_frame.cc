@@ -116,7 +116,7 @@ bool KonqFrameHeader::eventFilter(QObject*,QEvent *e)
    {
       emit headerClicked();
       update();
-      if (((QMouseEvent*)e)->type()==RightButton)
+      if ( ((QMouseEvent*)e)->button()==RightButton)
          splitFrameMenu();
       return TRUE;
    };
