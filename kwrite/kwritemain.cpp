@@ -25,8 +25,9 @@
 #include <ktexteditor/printinterface.h>
 #include <ktexteditor/encodinginterface.h>
 #include <ktexteditor/editorchooser.h>
-	
+
 #include <dcopclient.h>
+#include <kurldrag.h>
 #include <kfiledialog.h>
 #include <kiconloader.h>
 #include <kaboutdata.h>
@@ -382,14 +383,12 @@ void KWrite::dropEvent( QDropEvent *event )
 
 void KWrite::slotDropEvent( QDropEvent *event )
 {
-  QStrList  urls;
+  KURL::List textlist;
+  if (!KURLDrag::decode(event, textlist)) return;
 
-  if (QUriDrag::decode(event, urls)) {
-    kdDebug(13000) << "KWrite:Handling QUriDrag..." << endl;
-		QPtrListIterator<char> it(urls);
-		for( ; it.current(); ++it ) {
-      slotOpen( (*it) );
-    }
+  for (KURL::List::Iterator i=textlist.begin(); i != textlist.end(); ++i)
+  {
+    slotOpen (*i);
   }
 }
 
