@@ -36,10 +36,14 @@
 #include <stdlib.h>
 #include "../../config.h"
 
+#if QT_VERSION < 0x030100
 #include "kxt.h"
-
 #include <X11/Intrinsic.h>
 #include <X11/Shell.h>
+#else
+#include "qxteventloop.h"
+#endif
+
 
 
 /**
@@ -64,13 +68,6 @@ static int x_errhandler(Display *dpy, XErrorEvent *error)
  */
 
 static QCString g_dcopId;
-static XtAppContext g_appcon;
-static bool g_quit = false;
-
-void quitXt()
-{
-   g_quit = true;
-}
 
 /**
  * parseCommandLine - get command line parameters
@@ -86,6 +83,16 @@ void parseCommandLine(int argc, char *argv[])
          i++;
       }
    }
+}
+
+#if QT_VERSION < 0x030100
+
+static XtAppContext g_appcon;
+static bool g_quit = false;
+
+void quitXt()
+{
+   g_quit = true;
 }
 
 
@@ -186,20 +193,27 @@ bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
 
   return TRUE;
 }
+#endif
 
 
 int main(int argc, char** argv)
 {
+#if QT_VERSION < 0x030100
     // hack to avoid segfault in qapp's session manager routines
     setenv( "SESSION_MANAGER", "", 1 );
+#endif
 
    // trap X errors
    kdDebug(1430) << "1 - XSetErrorHandler" << endl;
    XSetErrorHandler(x_errhandler);
    setvbuf( stderr, NULL, _IONBF, 0 );
 
+   kdDebug(1430) << "2 - parseCommandLine" << endl;
+   parseCommandLine(argc, argv);
+
+#if QT_VERSION < 0x030100
    // Create application
-   kdDebug(1430) << "2 - XtToolkitInitialize" << endl;
+   kdDebug(1430) << "3 - XtToolkitInitialize" << endl;
    XtToolkitInitialize();
    g_appcon = XtCreateApplicationContext();
    Display *dpy = XtOpenDisplay(g_appcon, NULL, "nspluginviewer", "nspluginviewer",
@@ -209,11 +223,18 @@ int main(int argc, char** argv)
    _notifiers[1].setAutoDelete( TRUE );
    _notifiers[2].setAutoDelete( TRUE );
 
-   kdDebug(1430) << "3 - parseCommandLine" << endl;
-   parseCommandLine(argc, argv);
    kdDebug(1430) << "4 - KXtApplication app" << endl;
    KLocale::setMainCatalogue("nsplugin");
    KXtApplication app(dpy, argc, argv, "nspluginviewer");
+#else
+   kdDebug(1430) << "3 - create QXtEventLoop" << endl;
+   QXtEventLoop integrator( "nspluginviewer" );
+   parseCommandLine(argc, argv);
+   KLocale::setMainCatalogue("nsplugin");
+
+   kdDebug(1430) << "4 - create KApplication" << endl;
+   KApplication app( argc,  argv, "nspluginviewer" );
+#endif
 
    // initialize the dcop client
    kdDebug(1430) << "5 - app.dcopClient" << endl;
@@ -240,9 +261,14 @@ int main(int argc, char** argv)
    NSPluginViewer *viewer = new NSPluginViewer( "viewer", 0 );
 
    // start main loop
+#if QT_VERSION < 0x030100
    kdDebug(1430) << "8 - XtAppProcessEvent" << endl;
    while (!g_quit)
      XtAppProcessEvent( g_appcon, XtIMAll);
+#else
+   kdDebug(1430) << "8 - app.exec()" << endl;
+   app.exec();
+#endif
 
    // delete viewer
    delete viewer;

@@ -369,7 +369,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
 
    // What exactly does widget mapping mean? Without this call the widget isn't
    // embedded correctly. With it the viewer doesn't show anything in standalone mode.
-   //if (embed) 
+   //if (embed)
       XtSetMappedWhenManaged(_toplevel, False);
    XtRealizeWidget(_toplevel);
 
@@ -801,7 +801,11 @@ void NSPluginViewer::shutdown()
 {
    kdDebug(1431) << "NSPluginViewer::shutdown" << endl;
    _classes.clear();
+#if QT_VERSION < 0x030100
    quitXt();
+#else
+   qApp->quit();
+#endif
 }
 
 
@@ -993,7 +997,7 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
    char mime[256];
    strncpy(mime, mimeType.ascii(), 255);
    mime[255] = 0;
-   NPP npp = (NPP)malloc(sizeof(NPP_t));   // I think we should be using 
+   NPP npp = (NPP)malloc(sizeof(NPP_t));   // I think we should be using
                                            // malloc here, just to be safe,
                                            // since the nsplugin plays with
                                            // this thing
@@ -1075,7 +1079,7 @@ void NSPluginStreamBase::inform()
         _informed = true;
 
         // inform the plugin
-        _instance->NPNewStream( _mimeType.isEmpty() ? (char *) "text/plain" :  (char*)_mimeType.ascii(), 
+        _instance->NPNewStream( _mimeType.isEmpty() ? (char *) "text/plain" :  (char*)_mimeType.ascii(),
                     _stream, false, &_streamType );
         kdDebug(1431) << "NewStream stype=" << _streamType << " url=" << _url << " mime=" << _mimeType << endl;
 

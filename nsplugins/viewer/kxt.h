@@ -1,7 +1,7 @@
 /*
 
   kxt.h  -  Xt enabled Qt classed (derived from Qt Extension QXt)
-  
+
   Copyright (c) 2000 Stefan Schimanski <1Stein@gmx.de>
 
   This program is free software; you can redistribute it and/or modify
@@ -43,9 +43,12 @@
 ** information about the Professional Edition licensing, or see
 ** http://www.trolltech.com/qpl/ for QPL licensing information.
 **
-*****************************************************************************/ 
+*****************************************************************************/
 #ifndef KXT_H
 #define KXT_H
+
+#include <qglobal.h>
+#if QT_VERSION < 0x030100
 
 #include <kapplication.h>
 #include <qwidget.h>
@@ -75,7 +78,7 @@ class KXtWidget : public QWidget {
 		    bool managed);
     friend void qwidget_realize( Widget widget, XtValueMask* mask,
 				 XSetWindowAttributes* attributes );
-    
+
 public:
     KXtWidget(const char* name, Widget parent, bool managed=FALSE);
     KXtWidget(const char* name, WidgetClass widget_class,
@@ -93,4 +96,5 @@ protected:
     bool x11Event( XEvent * );
 };
 
+#endif
 #endif

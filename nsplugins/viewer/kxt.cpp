@@ -45,6 +45,9 @@
 **
 *****************************************************************************/
 
+#include <qglobal.h>
+#if QT_VERSION < 0x030100
+
 #include <kapplication.h>
 #include <qwidget.h>
 #include <qobjectlist.h>
@@ -623,3 +626,5 @@ void KXtWidget::resizeEvent( QResizeEvent* )
 }
 
 #include "kxt.moc"
+
+#endif
