@@ -1264,14 +1264,14 @@ void KonqViewManager::setActivePart( KParts::Part *part, bool immediate )
     }
 
     // Don't activate when part changed in non-active tab
-    if (m_pMainWindow && m_pMainWindow->currentView())
+    KonqView* partView = m_pMainWindow->childView((KParts::ReadOnlyPart*)part);
+    if (partView)
     {
-      KonqFrameContainerBase* currentContainer = m_pMainWindow->currentView()->frame()->parentContainer();
-      if (currentContainer->frameType()=="Tabs")
+      KonqFrameContainerBase* parentContainer = partView->frame()->parentContainer();
+      if (parentContainer->frameType()=="Tabs")
       {
-        QWidget* currentContainerFrame = static_cast<KonqFrameTabs*>(currentContainer)->currentPage();
-        KonqView* partView = m_pMainWindow->childView((KParts::ReadOnlyPart*)part);
-        if (partView && partView->frame()!=currentContainerFrame)
+        KonqFrameTabs* parentFrameTabs = static_cast<KonqFrameTabs*>(parentContainer);
+        if (partView->frame() != parentFrameTabs->currentPage())
            return;
       }
     }
