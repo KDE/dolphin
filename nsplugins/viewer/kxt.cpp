@@ -39,9 +39,6 @@
 **
 *****************************************************************************/
 
-// horrible hack that is the only way to combine motif and qt event handling correctly
-#define private public
-
 #include <kapp.h>
 #include <qwidget.h>
 #include <qobjcoll.h>
