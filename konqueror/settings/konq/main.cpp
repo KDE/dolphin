@@ -47,7 +47,8 @@
 #include "main.moc"
 
 #include <X11/Xlib.h>
-
+#undef CallSucceeded
+#undef Status
 
 // for multihead
 int konq_screen_number = 0;
