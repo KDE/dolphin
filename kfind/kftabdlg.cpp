@@ -378,7 +378,7 @@ void KfindTabWidget::setURL( const KURL & url )
   KConfig *conf = KGlobal::config();
   conf->setGroup("History");
   m_url = url;
-  QStringList sl = conf->readListEntry("Directories", ',');
+  QStringList sl = conf->readPathListEntry("Directories");
   dirBox->clear(); // make sure there is no old Stuff in there
 
   if(!sl.isEmpty()) {
@@ -456,13 +456,13 @@ void KfindTabWidget::loadHistory()
   // Load pattern history
   KConfig *conf = KGlobal::config();
   conf->setGroup("History");
-  QStringList sl = conf->readListEntry("Patterns", ',');
+  QStringList sl = conf->readListEntry("Patterns");
   if(!sl.isEmpty())
     nameBox->insertStringList(sl);
   else
     nameBox->insertItem("*");
 
-  sl = conf->readListEntry("Directories", ',');
+  sl = conf->readPathListEntry("Directories");
   if(!sl.isEmpty()) {
     dirBox->insertStringList(sl);
     // If the _searchPath already exists in the list we do not
@@ -848,7 +848,7 @@ static void save_pattern(QComboBox *obj,
 
   KConfig *conf = KGlobal::config();
   conf->setGroup(group);
-  conf->writeEntry(entry, sl, ',');
+  conf->writePathEntry(entry, sl);
 }
 
 #include "kftabdlg.moc"
