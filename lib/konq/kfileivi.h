@@ -130,6 +130,12 @@ public:
      */
     bool isThumbnail() const { return m_bThumbnail; }
 
+    /**
+     * Sets an icon to be shown over the bottom left corner of the icon.
+     * Currently used for directory overlays.
+     * setOverlay(QString()) to remove icon.
+     */
+
 	void setOverlay( const QString & iconName);
 
     /**
@@ -170,8 +176,12 @@ public:
     /** Called when the mouse is over the icon */
     void setActive( bool active );
 
-	void setShowDirectoryOverlay( bool );
-	bool showDirectoryOverlay( );
+    /**
+     * Sets showing of directory overlays. Does nothing if this does 
+     * not represent a folder.
+     */
+    void setShowDirectoryOverlay( bool );
+    bool showDirectoryOverlay( );
 
 protected:
     virtual void dropped( QDropEvent *e, const QValueList<QIconDragItem> &  );
