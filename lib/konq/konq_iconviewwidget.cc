@@ -25,7 +25,6 @@
 #include <qpainter.h>
 
 #include <kapplication.h>
-#include <kcursor.h>
 #include <kdebug.h>
 #include <kio/previewjob.h>
 #include <kfileivi.h>

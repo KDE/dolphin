@@ -23,10 +23,9 @@
 
 #include <kaction.h>
 #include <kdatastream.h>
-#include <kcolordlg.h>
+#include <kcolordialog.h>
 #include <kdebug.h>
 #include <kiconloader.h>
-#include <kglobal.h>
 #include <klocale.h>
 #include <konq_drag.h>
 #include <kparts/browserextension.h>

@@ -25,13 +25,11 @@
 #include <kdebug.h>
 #include <kopenwith.h>
 #include <kprotocolinfo.h>
-#include <ktrader.h>
 #include <kiconloader.h>
 #include <kglobalsettings.h>
 #include <kstandarddirs.h>
 #include <kxmlguifactory.h>
 #include <kxmlguibuilder.h>
-#include <klibloader.h>
 #include <kparts/componentfactory.h>
 
 #include <assert.h>

@@ -21,7 +21,6 @@
 
 #include <kapplication.h>
 #include <kiconloader.h>
-#include <kglobal.h>
 #include <kmimetype.h>
 #include <kprotocolinfo.h>
 

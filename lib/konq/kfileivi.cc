@@ -24,7 +24,6 @@
 #include <qpainter.h>
 
 #include <kurldrag.h>
-#include <kstaticdeleter.h>
 #include <kiconeffect.h>
 
 #undef Bool
