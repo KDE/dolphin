@@ -693,7 +693,7 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
   {
     if ( ((KFileIVI*)it)->item() == _fileitem ) // compare the pointers
     {
-      m_pIconView->removeItem( it );
+      m_pIconView->takeItem( it );
       break;
     }
     it = it->nextItem();
