@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui><kpartgui name="Konqueror">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror">
 <MenuBar>
  <Menu name="file"><text>&amp;Location</text>
   <Action name="new_window"/>

@@ -112,9 +112,12 @@ void KonqView::openURL( const KURL &url )
       m_bLockHistory = false;
 
   KParts::BrowserExtension *ext = browserExtension();
-  if ( m_bAborted && ext && m_pPart && m_pPart->url() == url )
+  KParts::URLArgs args;
+  if ( ext )
+    args = ext->urlArgs();
+  
+  if ( m_bAborted && m_pPart && m_pPart->url() == url )
   {
-    KParts::URLArgs args = ext->urlArgs();
     args.reload = true;
     ext->setURLArgs( args );
   }
@@ -123,7 +126,7 @@ void KonqView::openURL( const KURL &url )
 
   m_pPart->openURL( url );
 
-  sendOpenURLEvent( url );
+  sendOpenURLEvent( url, args );
 
   //update metaviews!
   if ( m_metaView )
@@ -294,6 +297,9 @@ void KonqView::connectPart(  )
   connect( ext, SIGNAL( speedProgress( int ) ),
            m_pKonqFrame->statusbar(), SLOT( slotSpeedProgress( int ) ) );
 
+  connect( ext, SIGNAL( infoMessage( const QString & ) ),
+	   m_pKonqFrame->statusbar(), SLOT( message( const QString & ) ) );
+  
   connect( ext, SIGNAL( selectionInfo( const KFileItemList & ) ),
 	   this, SLOT( slotSelectionInfo( const KFileItemList & ) ) );
 
@@ -332,8 +338,8 @@ void KonqView::slotSpeed( KIO::Job *, unsigned long bytesPerSecond )
 
 void KonqView::slotInfoMessage( KIO::Job *, const QString &msg )
 {
-  m_pKonqFrame->statusbar()->message( msg ); 
-} 
+  m_pKonqFrame->statusbar()->message( msg );
+}
 
 void KonqView::slotCompleted()
 {
@@ -548,9 +554,9 @@ void KonqView::setLinkedView( bool mode )
   frame()->statusbar()->setLinkedView( mode );
 }
 
-void KonqView::sendOpenURLEvent( const KURL &url )
+void KonqView::sendOpenURLEvent( const KURL &url, const KParts::URLArgs &args )
 {
-  KParts::OpenURLEvent ev( m_pPart, url );
+  KParts::OpenURLEvent ev( m_pPart, url, args );
   QApplication::sendEvent( m_pMainWindow, &ev );
 }
 

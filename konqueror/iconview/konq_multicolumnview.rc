@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui>
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd" >
 <kpartgui name="KonqIconView">
 <MenuBar>
  <Menu name="edit">

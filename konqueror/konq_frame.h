@@ -86,9 +86,8 @@ class KonqFrameStatusBar : public QWidget
        */
       void showLinkedViewIndicator( bool b );
 
-      void message( const QString &msg );
-
    public slots:
+      void message( const QString &msg );
       void slotConnectToNewView(KonqView *, KParts::ReadOnlyPart *oldOne,KParts::ReadOnlyPart *newOne);
       void slotLoadingProgress( int percent );
       void slotSpeedProgress( int bytesPerSecond );

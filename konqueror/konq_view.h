@@ -280,7 +280,7 @@ protected:
    */
   void updateHistoryEntry();
 
-  void sendOpenURLEvent( const KURL &url );
+  void sendOpenURLEvent( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
 
   void setServiceTypeInExtension();
 
