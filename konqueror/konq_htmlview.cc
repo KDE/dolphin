@@ -21,6 +21,7 @@
 #include "konq_propsview.h"
 #include "konq_mainview.h"
 #include "konq_childview.h"
+#include "konq_factory.h"
 #include "konq_txtview.h"
 #include "konq_defaults.h"
 #include "konq_progressproxy.h"
@@ -58,6 +59,8 @@ KonqHTMLView::KonqHTMLView( KonqMainView *mainView )
 
   SIGNAL_IMPL( "loadingProgress" );
   SIGNAL_IMPL( "speedProgress" );
+  
+  SIGNAL_IMPL( "selectionChanged" ); //part of the EditExtension (Simon)
   
   setWidget( this );
 
@@ -225,6 +228,9 @@ void KonqHTMLView::slotFrameInserted( KBrowser *frame )
   QObject::connect( frame, SIGNAL( newWindow( const QString & ) ),
                     this, SLOT( slotNewWindow( const QString & ) ) );
 
+  QObject::connect( frame, SIGNAL( textSelected( KHTMLView *, bool ) ),
+                    this, SLOT( slotSelectionChanged() ) );
+
   KfmViewSettings *settings = KfmViewSettings::defaultHTMLSettings();
   KHTMLWidget* htmlWidget = frame->getKHTMLWidget();
 
@@ -345,6 +351,10 @@ void KonqHTMLView::slotSetTitle( QString title )
 {
   QString decodedTitle = title;
   KURL::decode( decodedTitle );
+  
+  if ( m_pMainView ) //builtin view?
+    decodedTitle.prepend( "Konqueror: " );
+  
   CORBA::WString_var ctitle = Q2C( decodedTitle );
   m_vMainWindow->setPartCaption( id(), ctitle );
 }
@@ -373,6 +383,11 @@ void KonqHTMLView::slotCanceled()
 void KonqHTMLView::slotNewWindow( const QString &url )
 {
   SIGNAL_CALL1( "createNewWindow", CORBA::Any::from_string( (char *)url.ascii(), 0 ) );
+}
+
+void KonqHTMLView::slotSelectionChanged()
+{
+  SIGNAL_CALL0( "selectionChanged" );
 }
 
 // #include "kfmicons.h"
@@ -548,7 +563,7 @@ void KonqHTMLView::openTxtView( const QString &url )
     if ( childView )
     {
       QStringList serviceTypes;
-      Browser::View_var vView = KonqChildView::createView( "text/plain", serviceTypes, m_pMainView );
+      Browser::View_var vView = KonqFactory::createView( "text/plain", serviceTypes, m_pMainView );
       childView->makeHistory( false );
       childView->changeView( vView, serviceTypes );
     }

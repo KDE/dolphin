@@ -820,6 +820,14 @@ void KonqKfmTreeView::openURL( const char *_url, int xOffset, int yOffset )
   // Note : we don't store the url. KDirLister does it for us.
   // Simon: We do! see comment in KonqKfmTreeView::url() to find out why :-)
   m_strURL = url.url();
+  
+  QString caption = m_strURL;
+  
+  if ( m_pMainView ) //builtin view?
+    caption.prepend( "Konqueror: " );
+    
+  CORBA::WString_var wcaption = Q2C( caption );
+  m_vMainWindow->setPartCaption( id(), wcaption );
 }
 
 void KonqKfmTreeView::setComplete()

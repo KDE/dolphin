@@ -172,7 +172,7 @@ public:
    */
   QStringList serviceTypes() { return m_lstServiceTypes; }
   
-  bool supportsServiceType( const QString &serviceType );
+  bool supportsServiceType( const QString &serviceType ) { return m_lstServiceTypes.contains( serviceType ); }
 
   void setKfmRun( KfmRun *run ) { m_pRun = run; }
   KfmRun *kfmRun() const { return m_pRun; }

@@ -21,6 +21,7 @@
 
 #include "konq_mainview.h"
 #include "konq_childview.h"
+#include "konq_factory.h"
 #include "konq_frame.h"
 
 #include <qsplitter.h>
@@ -28,6 +29,8 @@
 
 #include <kconfig.h>
 #include <browser.h>
+
+#include <opApplication.h>
 
 KonqViewManager::KonqViewManager( KonqMainView *mainView )
 {
@@ -38,11 +41,13 @@ KonqViewManager::KonqViewManager( KonqMainView *mainView )
   m_pMainSplitter = new QSplitter( Qt::Vertical, m_pMainView );
   m_pMainSplitter->setOpaqueResize();
   m_pMainSplitter->show();
+  opapp->addIndependendWidget( m_pMainSplitter );
 }
 
 KonqViewManager::~KonqViewManager()
 {
   clear();
+  opapp->removeIndependendWidget( m_pMainSplitter );
   delete m_pMainSplitter;
 }
 
@@ -188,7 +193,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
       QString savedGroup = cfg.group();
       
       //Simon TODO: error handling
-      vView = KonqChildView::createView( serviceType, serviceTypes, m_pMainView, dirMode );
+      vView = KonqFactory::createView( serviceType, serviceTypes, m_pMainView, dirMode );
       
       cfg.setGroup( savedGroup );
       

@@ -101,9 +101,6 @@ module Konqueror
     slot void slotDelete();
 
     // View menu
-    slot void slotSplitViewHorizontal();
-    slot void slotSplitViewVertical();
-    slot void slotRemoveView();
     slot void slotShowHTML();
     slot void slotLargeIcons();
     slot void slotSmallIcons();
@@ -134,8 +131,13 @@ module Konqueror
     slot void slotConfigureBrowser();
     slot void slotConfigureKeys();
     slot void slotReloadPlugins();
+
+    // Window menu
+    slot void slotSplitViewHorizontal();
+    slot void slotSplitViewVertical();
+    slot void slotRemoveView();
     slot void slotSaveDefaultProfile();
-    slot void slotSaveViewProfile();
+    slot void slotProfileDlg();
     slot void slotViewProfileActivated( in long id );
 
     // Help menu
@@ -170,6 +172,8 @@ module Konqueror
     slot void slotSpeedProgress( in OpenParts::Id id, in long bytesPerSecond );
     
     slot void slotSelectionChanged();
+    
+    slot void slotItemHighlighted( in long id );
   };
   
   interface MainWindow : OpenParts::MainWindow

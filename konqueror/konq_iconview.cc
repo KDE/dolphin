@@ -525,8 +525,13 @@ void KonqKfmIconView::openURL( const char *_url, int xOffset, int yOffset )
   m_dirLister->openURL( KURL( _url ), m_pProps->m_bShowDot );
   // Note : we don't store the url. KDirLister does it for us.
 
-  CORBA::WString_var caption = Q2C( _url );
-  m_vMainWindow->setPartCaption( id(), caption );
+  QString caption = _url;
+  
+  if ( m_pMainView ) //builtin view?
+    caption.prepend( "Konqueror: " );
+    
+  CORBA::WString_var wcaption = Q2C( caption );
+  m_vMainWindow->setPartCaption( id(), wcaption );
 }
 
 void KonqKfmIconView::can( CORBA::Boolean &copy, CORBA::Boolean &paste, CORBA::Boolean &move )

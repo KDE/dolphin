@@ -105,6 +105,8 @@ protected slots:
   
   void slotNewWindow( const QString &url );
   
+  void slotSelectionChanged();
+  
 protected:
 
   virtual KHTMLEmbededWidget* newEmbededWidget( QWidget* _parent, const char *_name,

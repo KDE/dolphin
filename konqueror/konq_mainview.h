@@ -110,7 +110,6 @@ public:
   void saveProperties( KConfig *config );
   void readProperties( KConfig *config );  
 
-public slots:  // IDL
   // File menu
   virtual void slotNewWindow();
   virtual void slotRun();
@@ -126,9 +125,6 @@ public slots:  // IDL
   virtual void slotDelete();
 
   // View menu
-  virtual void slotSplitViewHorizontal();
-  virtual void slotSplitViewVertical();
-  virtual void slotRemoveView();
   virtual void slotShowHTML();
   virtual void slotLargeIcons();
   virtual void slotSmallIcons();
@@ -136,13 +132,14 @@ public slots:  // IDL
   virtual void slotTreeView();
   virtual void slotReload();
   virtual void slotStop();
-  
-  void slotStop2();
 
+public slots:  
   // Go menu
   virtual void slotUp();
   virtual void slotBack();
   virtual void slotForward();
+public:
+  
   virtual void slotHome();
   virtual void slotShowCache();
   virtual void slotShowHistory();
@@ -161,9 +158,15 @@ public slots:  // IDL
   virtual void slotConfigureBrowser();
   virtual void slotConfigureKeys();
   virtual void slotReloadPlugins();
+
+  // Window menu
+  virtual void slotSplitViewHorizontal();
+  virtual void slotSplitViewVertical();
+  virtual void slotRemoveView();
   virtual void slotSaveDefaultProfile();
-  virtual void slotSaveViewProfile();
+  virtual void slotProfileDlg();
   virtual void slotViewProfileActivated( CORBA::Long id );
+
 
   // Help menu
   virtual void slotHelpContents();    
@@ -205,6 +208,9 @@ public slots:  // IDL
 
   virtual void slotSelectionChanged();
   
+  virtual void slotItemHighlighted( CORBA::Long id );
+  
+public slots:
   /////////////////////////
   // Animated Logo
   /////////////////////////
@@ -229,6 +235,8 @@ public slots:  // IDL
   void slotSelectView8();
   void slotSelectView9();
   void slotSelectView10();
+
+  void slotStop2();
 
 protected:
 
@@ -280,9 +288,6 @@ private:
    */
   void createEditMenu();
 
-  void clearStatusBar();
-  void setupStatusBar( bool loadItem, bool speedItem );
-
   /**
    * Tries to find a index.html (.kde.html) file in the specified directory
    */
@@ -300,7 +305,8 @@ private:
   OpenPartsUI::Menu_var m_vMenuGo;
   OpenPartsUI::Menu_var m_vMenuBookmarks;
   OpenPartsUI::Menu_var m_vMenuOptions;
-  OpenPartsUI::Menu_var m_vMenuOptionsProfiles;
+  OpenPartsUI::Menu_var m_vMenuWindow;
+  OpenPartsUI::Menu_var m_vMenuWindowProfiles;
   OpenPartsUI::Menu_var m_vMenuHelp;
 
   OpenPartsUI::ToolBar_var m_vToolBar;
