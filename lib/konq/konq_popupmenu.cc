@@ -402,8 +402,6 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
         if ( sDeleting ) {
             addAction( "del" );
-            //if ( m_sViewURL.isLocalFile() )
-            //    addAction( "shred" );
         }
     }
   }
