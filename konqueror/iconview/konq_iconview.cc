@@ -669,7 +669,10 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 
         item->setKey( key );
 
-        m_mimeTypeResolver->m_lstPendingMimeIconItems.append( item );
+        //kdDebug() << "KonqKfmIconView::slotNewItems " << _fileitem->url().url() << " " << _fileitem->mimeTypePtr()->name() << endl;
+        if ( !_fileitem->isMimeTypeKnown() )
+            m_mimeTypeResolver->m_lstPendingMimeIconItems.append( item );
+
         m_itemDict.insert( _fileitem, item );
     }
     KonqDirPart::newItems( entries );

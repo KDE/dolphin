@@ -766,7 +766,8 @@ void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
                selectCurrentItemAndEnableSelectedBySimpleMoveMode();
                m_itemFound=true;
             };
-      m_pBrowserView->lstPendingMimeIconItems().append( tmp );
+      if ( !(*kit)->isMimeTypeKnown() )
+          m_pBrowserView->lstPendingMimeIconItems().append( tmp );
    }
    m_pBrowserView->newItems( entries );
 }
