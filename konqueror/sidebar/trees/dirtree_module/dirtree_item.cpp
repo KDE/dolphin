@@ -162,7 +162,7 @@ void KonqSidebarDirTreeItem::middleButtonPressed()
     // Duplicated from KonqDirPart :(
     // Optimisation to avoid KRun to call kfmclient that then tells us
     // to open a window :-)
-    KService::Ptr offer = KServiceTypeProfile::preferredService(m_fileItem->mimetype(), true);
+    KService::Ptr offer = KServiceTypeProfile::preferredService(m_fileItem->mimetype(), "Application");
     if (offer) kdDebug(1201) << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
     if ( offer && offer->desktopEntryName().startsWith("kfmclient") )
     {
