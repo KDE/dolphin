@@ -4,9 +4,11 @@ Name[cs]=FTP servery
 Name[de]=FTP-Server
 Name[eo]=FTP-serviloj
 Name[fi]=FTP-palvelimet
+Name[fr]=Serveurs FTP
 Name[hu]=FTP Kiszolgálók
 Name[ja]=FTPサーバー
 Name[no]=FTP-tjenere
+Name[ro]=Server-e FTP
 Name[sl]=Strežniki FTP
 Icon=ftp
 
