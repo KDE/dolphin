@@ -1,0 +1,15 @@
+<!DOCTYPE kpartgui>
+<kpartgui name="testnsplugin">
+
+<MenuBar>
+ <Menu name="file"><text>&amp;File</text>
+ </Menu>
+</MenuBar>
+
+<ToolBar noMerge="1" name="mainToolBar"> 
+ <Action name="file_new"/>
+ <Action name="file_close"/>	
+ <Action name="file_quit"/>
+</ToolBar>
+
+</kpartgui>
