@@ -103,6 +103,10 @@ void ImportCommand::execute() {
       delete m_cleanUpCmd;
       m_cleanUpCmd = DeleteCommand::deleteAll(bkGroup);
 
+      KMacroCommand *mcmd = (KMacroCommand*) m_cleanUpCmd;
+      mcmd->addCommand(new DeleteCommand(bkGroup.address(), 
+                       true /* contentOnly */));
+ 
       // unselect current item, it doesn't exist anymore
       ListView::self()->clearSelection();
       m_cleanUpCmd->execute();

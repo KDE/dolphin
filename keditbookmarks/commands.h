@@ -137,8 +137,8 @@ private:
 class DeleteCommand : public KCommand
 {
 public:
-   DeleteCommand(const QString &from)
-      : KCommand(), m_from(from), m_cmd(0L), m_subCmd(0L)
+   DeleteCommand(const QString &from, bool contentOnly = false)
+      : KCommand(), m_from(from), m_cmd(0L), m_subCmd(0L), m_contentOnly(contentOnly)
    { ; }
    virtual ~DeleteCommand() { delete m_cmd; }
    virtual void execute();
@@ -152,6 +152,7 @@ private:
    QString m_from;
    KCommand *m_cmd;
    KMacroCommand *m_subCmd;
+   bool m_contentOnly;
 };
 
 class MoveCommand : public KCommand, public FinalAddressCommand

@@ -188,7 +188,7 @@ void NodeEditCommand::execute() {
 }
 
 void NodeEditCommand::unexecute() {
-   // code reuse
+   // reuse code 
    NodeEditCommand cmd(m_address, m_oldText, m_nodename);
    cmd.execute();
    // get the old text back from it, in case they changed (hmm, shouldn't happen)
@@ -203,6 +203,23 @@ void DeleteCommand::execute() {
    KBookmark bk = CurrentMgr::bookmarkAt(m_from);
    Q_ASSERT(!bk.isNull());
 
+   if (m_contentOnly) {
+      QDomElement groupRoot = bk.internalElement();
+
+      QDomNode n = groupRoot.firstChild();
+      while (!n.isNull()) {
+         QDomElement e = n.toElement();
+         if (!e.isNull()) {
+            kdDebug() << e.tagName() << endl;
+         }
+         QDomNode next = n.nextSibling();
+         groupRoot.removeChild(n);
+         n = next;
+      }
+      return;
+   }
+
+   // TODO - bug - unparsed xml is lost after undo, we must store it all therefore
    if (!m_cmd) {
       if (bk.isGroup()) {
          m_cmd = new CreateCommand(
@@ -222,6 +239,13 @@ void DeleteCommand::execute() {
 }
 
 void DeleteCommand::unexecute() {
+   // kdDebug() << "DeleteCommand::unexecute " << m_from << endl;
+
+   if (m_contentOnly) {
+      // TODO - recover saved metadata
+      return;
+   }
+
    m_cmd->execute();
 
    if (m_subCmd) {
@@ -239,7 +263,6 @@ KMacroCommand* DeleteCommand::deleteAll(const KBookmarkGroup & parentGroup) {
    for (QStringList::Iterator it = lstToDelete.begin(); it != lstToDelete.end(); ++it) {
       cmd->addCommand(new DeleteCommand((*it)));
    }
-   // TODO - remove all metadata here???
    return cmd;
 }
 
