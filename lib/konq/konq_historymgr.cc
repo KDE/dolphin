@@ -124,7 +124,7 @@ bool KonqHistoryManager::loadHistory()
 	    KonqHistoryEntry::marshalURLAsStrings = false;
 	}
 
-	if ( version < 3 )
+	if ( version != 0 && version < 3 ) //Versions 1,2 (but not 0) are also valid
 	{
 	    //Turn on backwards compatibility mode..
 	    KonqHistoryEntry::marshalURLAsStrings = true;
