@@ -65,6 +65,7 @@
 #include <kprocess.h>
 #include <kpropsdlg.h>
 #include <kstdaccel.h>
+#include <kstddirs.h>
 #include <kwm.h>
 
 #include <assert.h>
@@ -1392,9 +1393,9 @@ void KonqMainView::slotSaveLocalSettings()
 void KonqMainView::slotConfigureFileManager()
 {
   if (fork() == 0) {
-    // execute 'kcmkfm' with file manager options pages
-    execl(kapp->kde_bindir()+"/kcmkfm","kcmkfm","font","color","misc",0);
-    warning("Error launching kcmkfm !");
+    // execute 'kcmkonq' 
+    execl(locate("exe", "/kcmkonq"), 0);
+    warning("Error launching kcmkonq !");
     exit(1);
   }             
 }
@@ -1402,9 +1403,9 @@ void KonqMainView::slotConfigureFileManager()
 void KonqMainView::slotConfigureBrowser()
 {
   if (fork() == 0) {
-    // execute 'kcmkfm' with browser options pages
-    execl(kapp->kde_bindir()+"/kcmkfm","kcmkfm","proxy","http","smb","useragent","cookies",0);
-    warning("Error launching kcmkfm !");
+    // execute 'kcmkio' 
+    execl(locate("exe", "kcmkio"), 0);
+    warning("Error launching kcmkio !");
     exit(1);
   }                          
 }
