@@ -115,7 +115,6 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    setSelectionModeExt( FileManager );
    setDragEnabled(true);
    setItemsMovable(false);
-   setShadeSortColumn(true);
 
    initConfig();
 #if 0
@@ -505,6 +504,13 @@ void KonqBaseListViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
    }
 
    KListView::contentsMouseMoveEvent( e );
+}
+
+void KonqBaseListViewWidget::contentsWheelEvent( QWheelEvent * e )
+{
+   // when scrolling with mousewheel, stop possible pending filetip
+   m_fileTip->setItem( 0 );
+   KListView::contentsWheelEvent( e );
 }
 
 void KonqBaseListViewWidget::drawRubber()

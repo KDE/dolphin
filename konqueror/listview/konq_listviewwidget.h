@@ -211,6 +211,7 @@ protected:
    virtual void contentsMousePressEvent( QMouseEvent *e );
    virtual void contentsMouseReleaseEvent( QMouseEvent *e );
    virtual void contentsMouseMoveEvent( QMouseEvent *e );
+   virtual void contentsWheelEvent( QWheelEvent * e );
 
    virtual void leaveEvent( QEvent * );
 
