@@ -1,0 +1,13 @@
+[Desktop Entry]
+Icon=nsplugin
+Type=Application
+Exec=kcmshell Browsing/Files/nsplugin
+
+X-KDE-ModuleType=Library
+X-KDE-Library=nsplugin
+
+Name=Netscape Plugins
+
+Comment=Netscape Plugin Configuration
+
+Keywords=Filetypes,File Associations,Mime Types,Netscape,Plugins,Flash
