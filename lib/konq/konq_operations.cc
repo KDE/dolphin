@@ -357,7 +357,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
             konq_config.writeEntry( keyName, false );
          }
       }
-      return (result == KMessageBox::Yes);
+      return (result == KMessageBox::Continue);
     }
     return true;
 }
