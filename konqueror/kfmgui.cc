@@ -147,13 +147,11 @@ void KfmGui::init()
 
   m_bInit = false;
 
-  //m_rightView.m_pView->setViewMode(  m_Props->rightViewMode() ); will do it by itself
   m_rightView.m_pView->fetchFocus();
   m_rightView.m_pView->openURL( m_strTmpURL.data() );
 
   if ( m_Props->isSplitView() )
   {
-    //    m_leftView.m_pView->setViewMode( m_Props->leftViewMode() );
     m_leftView.m_pView->openURL( m_strTmpURL.data() );
   }
 
@@ -763,10 +761,6 @@ void KfmGui::initView()
 
   fillCurrentView( m_rightView );
 
-  KConfig *config = kapp->getConfig();
-  config->setGroup( "Settings" );
-  m_rightView.m_pView->setHTMLAllowed( config->readBoolEntry( "AllowHTML", true ) );
-
   m_rightView.m_pView->show();
   m_rightView.m_pView->fetchFocus();
   
@@ -788,8 +782,6 @@ void KfmGui::initView()
   if ( m_Props->isSplitView() )
   {
     m_leftView.m_pView = new KfmView( this, m_pPannerChild0 );
-    m_leftView.m_pView->setHTMLAllowed( config->readBoolEntry( "AllowHTML", true ) );
-    
     m_leftView.m_pView->show();
     
     QObject::connect( m_leftView.m_pView, SIGNAL( canceled() ) , 
@@ -993,12 +985,13 @@ void KfmGui::slotSaveGeometry()
   KConfig *config = kapp->getConfig();
   config->setGroup( "Settings" );
 
-  // Update the values in m_Props, if necessary :
+  // Shouldn't we save BOTH views, on save geometry ? (David)
   if ( m_currentView.m_pView == m_leftView.m_pView )
     saveCurrentView( m_leftView );
   else
     saveCurrentView( m_rightView );
 
+  // Update the values in m_Props, if necessary :
   m_Props->m_width = this->width();
   m_Props->m_height = this->height();
 //  m_Props->m_toolBarPos = m_pToolbar->barPos();
