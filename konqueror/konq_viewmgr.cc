@@ -209,7 +209,6 @@ void KonqViewManager::removeView( KonqView *view )
     // Ensure this is not the active view anymore
     //kdDebug(1202) << "Setting part " << nextView->part() << " as active" << endl;
     nextView->part()->widget()->setFocus(); // Will set the part as active
-    //setActivePart( nextView->part() );
   }
 
   KonqFrameContainer* parentContainer = view->frame()->parentContainer();
@@ -264,13 +263,27 @@ void KonqViewManager::removePart( KParts::Part * part )
   // If we were called by PartManager::slotObjectDestroyed, then the inheritance has
   // been deleted already... Can't use inherits().
 
-  KonqView * cv = m_pMainWindow->childView( static_cast<KParts::ReadOnlyPart *>(part) );
-  if ( cv ) // the child view still exists, so we are in case 1
+  KonqView * view = m_pMainWindow->childView( static_cast<KParts::ReadOnlyPart *>(part) );
+  if ( view ) // the child view still exists, so we are in case 1
   {
       //kdDebug(1202) << "Found a child view" << endl;
-      cv->partDeleted(); // tell the child view that the part auto-deletes itself
-      removeView( cv );
-      //kdDebug(1202) << "removeView returned" << endl;
+      view->partDeleted(); // tell the child view that the part auto-deletes itself
+      if (m_pMainWindow->viewCount() == 1)
+      {
+        kdDebug(1202) << "Deleting last view -> closing the window" << endl;
+        m_pMainWindow->removeChildView( view );
+        delete view->frame();
+        // This deletes the widgets inside, including the part's widget, so tell the child view
+        view->partDeleted();
+        kdDebug(1202) << "Deleting view " << view << endl;
+        delete view;
+        delete m_pMainContainer;
+        m_pMainContainer = 0L;
+        delete m_pMainWindow;
+        return;
+      }
+      else // normal case
+        removeView( view );
   }
 
   //kdDebug(1202) << "Calling KParts::PartManager::removePart " << part << endl;
@@ -297,7 +310,7 @@ void KonqViewManager::viewCountChanged()
 }
 void KonqViewManager::clear()
 {
-  kdDebug(1202) << "KonqViewManager::clear: " << endl;
+  kdDebug(1202) << "KonqViewManager::clear" << endl;
   QList<KonqView> viewList;
   QListIterator<KonqView> it( viewList );
 
