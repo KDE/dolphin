@@ -22,6 +22,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <signal.h>
+#include <stdlib.h>
 
 #include <qsocketnotifier.h>
 
@@ -72,7 +73,11 @@ int KShellCommandExecutor::exec()
    args+=m_command.latin1();
    //kdDebug()<<"------- executing: "<<m_command.latin1()<<endl;
 
-   int ret = m_shellProcess->exec("sh", args);
+   QCString shell( getenv("SHELL") );
+   if (shell.isEmpty())
+      shell = "sh";
+
+   int ret = m_shellProcess->exec(shell, args);
    if (ret < 0)
    {
       //kdDebug()<<"could not execute"<<endl;
