@@ -1406,7 +1406,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       if ( m_currentView->partServiceOffers().count() > 1 && m_viewModeMenu )
         plugViewModeActions();
 
-    m_pMenuNew->popupMenu()->setEnabled( m_currentView->serviceType() == QString::fromLatin1( "inode/directory" ) );
+    m_pMenuNew->setEnabled( m_currentView->serviceType() == QString::fromLatin1( "inode/directory" ) );
   }
 
   m_bViewModeToggled = false;
