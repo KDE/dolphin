@@ -98,3 +98,24 @@ void KonqViewIface::enablePopupMenu( bool b )
 {
   m_pView->enablePopupMenu( b );
 }
+
+uint KonqViewIface::historyLength()const
+{
+    return m_pView->historyLength();
+}
+
+bool KonqViewIface::allowHTML() const
+{
+    return m_pView->allowHTML();
+}
+
+void KonqViewIface::goForward()
+{
+    m_pView->go(-1);
+}
+
+void KonqViewIface::goBack()
+{
+    m_pView->go(+1);
+}
+
