@@ -67,14 +67,13 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
   // Hmmm, we need to add a QWidget in the splitter, not a simple layout
   // (moveToFirst needs a widget, and a layout can't be a splitter child I think)
   m_pWidget = new QWidget( row );
-  m_pLayout = new QVBoxLayout( m_pWidget );
 
   // add the frame header to the layout
   m_pHeader = new KonqFrameHeader( view, m_pWidget, "KonquerorFrameHeader");
-  m_pLayout->addWidget( m_pHeader );
   QObject::connect(m_pHeader, SIGNAL(headerClicked()), this, SLOT(slotHeaderClicked()));
 
   m_pFrame = 0L;
+  m_pLayout = 0L;
   m_sLocationBarURL = "";
   m_bBack = false;
   m_bForward = false;
@@ -113,7 +112,10 @@ void KonqChildView::attach( Konqueror::View_ptr view )
   m_vView->setParent( m_vParent );
   connectView( );
   if (m_pFrame) delete m_pFrame;
+  if (m_pLayout) delete m_pLayout;
 
+  m_pLayout = new QVBoxLayout( m_pWidget );
+  m_pLayout->addWidget( m_pHeader );
 #ifdef USE_QXEMBED
   m_pFrame = new OPFrame( m_pWidget );
   m_pLayout->addWidget( m_pFrame );
@@ -126,9 +128,6 @@ void KonqChildView::attach( Konqueror::View_ptr view )
 #else 
     QWidget * localWidget = localView->widget();
     localWidget->reparent( m_pWidget, 0, QPoint(0, 0) );
-    delete m_pLayout;
-    m_pLayout = new QVBoxLayout( m_pWidget );
-    m_pLayout->addWidget( m_pHeader );
     m_pLayout->addWidget( localWidget ); 
     m_pFrame = 0L;
 #endif
@@ -427,6 +426,7 @@ void KonqChildView::goForward()
 
 QString KonqChildView::url()
 {
+  assert( m_vView );
   CORBA::String_var u = m_vView->url();
   QString url( u.in() );
   return url;
