@@ -1263,6 +1263,19 @@ void KonqViewManager::setActivePart( KParts::Part *part, bool immediate )
       return;
     }
 
+    // Don't activate when part changed in non-active tab
+    if (m_pMainWindow && m_pMainWindow->currentView())
+    {
+      KonqFrameContainerBase* currentContainer = m_pMainWindow->currentView()->frame()->parentContainer();
+      if (currentContainer->frameType()=="Tabs")
+      {
+        QWidget* currentContainerFrame = static_cast<KonqFrameTabs*>(currentContainer)->currentPage();
+        KonqView* partView = m_pMainWindow->childView((KParts::ReadOnlyPart*)part);
+        if (partView && partView->frame()!=currentContainerFrame)
+           return;
+      }
+    }
+
     if (m_pMainWindow && m_pMainWindow->currentView())
       m_pMainWindow->currentView()->setLocationBarURL(m_pMainWindow->locationBarURL());
 
