@@ -58,9 +58,8 @@ public:
 
 protected:
     void determineNextIcon();
-    void determineThumbnailURL();
     void getOrCreateThumbnail();
-    bool statResultThumbnail( KIO::StatJob * );
+    bool statResultThumbnail( KIO::StatJob *job = 0 );
     void createThumbnail( QString );
 
 protected slots:
@@ -73,8 +72,9 @@ private:
     void saveThumbnail(const QByteArray &imgData);
 
 private:
-    enum { STATE_STATORIG, STATE_STATTHUMB, STATE_STATXV, STATE_GETTHUMB, // if the thumbnail exists
-           STATE_CREATEDIR1, STATE_CREATEDIR2, STATE_GETORIG, STATE_PUTTHUMB, // if we create it
+    enum { STATE_STATXVDIR, // one-time check for .xvpics dir
+           STATE_STATORIG, STATE_STATXV, STATE_GETTHUMB, // if the thumbnail exists
+           STATE_GETORIG, // if we create it
            STATE_CREATETHUMB // thumbnail:/ slave
     } m_state;
 
@@ -85,16 +85,16 @@ private:
     KFileIVI *m_currentItem;
     // The URL of the current item (always equivalent to m_items.first()->item()->url())
     KURL m_currentURL;
+    // true if an .xvpics subdir exists
+    bool m_bHasXvpics;
     // The modification time of that URL
     time_t m_tOrig;
-    // The URL where we find (or create) the thumbnail for the current URL
-    KURL m_thumbURL;
+    // Path to thumbnail cache for this directory
+    QString m_thumbPath;
     // Size of thumbnail
     int m_extent;
     // Whether we can save the thumbnail
     bool m_bCanSave;
-    // Set to true if we created the dirs - caching
-    bool m_bDirsCreated;
     // If the file to create a thumb for was a temp file, this is its name
     QString m_tempName;
 
@@ -109,6 +109,11 @@ private:
     int m_transparency;
     // Plugin service cache
     PluginMap m_plugins;
+	// Shared memory segment Id. The segment is allocated to a size
+	// of extent x extent x 4 (32 bit image) on first need.
+	int m_shmid;
+	// And the data area
+	uchar *m_shmaddr;
 };
 
 #endif
