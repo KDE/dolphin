@@ -68,41 +68,11 @@ void ListView::initListViews() {
    }
 }
 
-void KEBListView::init() {
-   setRootIsDecorated(false);
-   if (!m_folderList) {
-      addColumn(i18n("Bookmark"), 300);
-      addColumn(i18n("URL"), 300);
-      addColumn(i18n("Comment"), 300);
-      addColumn(i18n("Status/Last Modified"), 300);
-#ifdef DEBUG_ADDRESSES
-      addColumn(i18n("Address"), 100);
-#endif
-   } else {
-      addColumn(i18n("Folder"), 300);
-   }
-   setRenameable(KEBListView::NameColumn);
-   setRenameable(KEBListView::UrlColumn);
-   setRenameable(KEBListView::CommentColumn);
-   setTabOrderedRenaming(false);
-   setSorting(-1, false);
-   setDragEnabled(true);
-   setSelectionModeExt((!m_folderList) ? KListView::Extended: KListView::Single);
-   setAllColumnsShowFocus(true);
-}
-
 void ListView::updateListViewSetup(bool readonly) {
    self()->m_listView->readonlyFlagInit(readonly);
    if (m_splitView) {
       self()->m_folderListView->readonlyFlagInit(readonly);
    }
-}
-
-void KEBListView::readonlyFlagInit(bool readonly) {
-   setItemsMovable(readonly); // we move items ourselves (for undo)
-   setItemsRenameable(!readonly);
-   setAcceptDrops(!readonly);
-   setDropVisualizer(!readonly);
 }
 
 void ListView::setInitialAddress(QString address) {
@@ -117,54 +87,6 @@ void ListView::connectSignals() {
 }
 
 // forwards - fixme - this should actually be used :)
-
-void KEBListView::slotSelectionChanged() { 
-   ListView::self()->handleSelectionChanged(this); 
-}
-
-void KEBListView::slotCurrentChanged(QListViewItem *a) { 
-   ListView::self()->handleCurrentChanged(this, a); 
-}
-
-void KEBListView::slotContextMenu(KListView *a, QListViewItem *b, const QPoint &c) {
-   ListView::self()->handleContextMenu(this, a,b,c); 
-}
-
-void KEBListView::slotItemRenamed(QListViewItem *a, const QString &b, int c) { 
-   ListView::self()->handleItemRenamed(this, a,b,c); 
-}
-
-void KEBListView::slotDoubleClicked(QListViewItem *a, const QPoint &b, int c) { 
-   ListView::self()->handleDoubleClicked(this, a,b,c); 
-}
-
-void KEBListView::slotDropped(QDropEvent *a, QListViewItem *b, QListViewItem *c) { 
-   ListView::self()->handleDropped(this, a,b,c); 
-}
-
-void KEBListView::startDrag() {
-   QDragObject *drag = dragObject();
-
-   if (!drag) {
-      return;
-   }
-
-   /*bool moved = */ drag->drag();
-
-   /*
-   kdDebug() << "1" << endl;
-   if (moved) {
-      kdDebug() << moved << ", " << drag->target() << ", " << viewport() << endl;
-      kdDebug() << "cooool, gonna delete it!" << endl;
-      if (drag->target() != viewport()) {
-         KMacroCommand *mcmd = CmdGen::self()->deleteItems( i18n("Moved Items"), 
-                                                            ListView::self()->selectedItems());
-         CmdHistory::self()->didCommand(mcmd);
-      }
-   }
-   kdDebug() << "2" << endl;
-   */
-}
 
 void ListView::connectSignals(KEBListView *listview) {
    connect(listview, SIGNAL( selectionChanged() ),
@@ -658,6 +580,73 @@ void ListView::renameNextCell(bool fwd) {
 }
 
 /* -------------------------------------- */
+
+void KEBListView::init() {
+   setRootIsDecorated(false);
+   if (!m_folderList) {
+      addColumn(i18n("Bookmark"), 300);
+      addColumn(i18n("URL"), 300);
+      addColumn(i18n("Comment"), 300);
+      addColumn(i18n("Status/Last Modified"), 300);
+#ifdef DEBUG_ADDRESSES
+      addColumn(i18n("Address"), 100);
+#endif
+   } else {
+      addColumn(i18n("Folder"), 300);
+   }
+   setRenameable(KEBListView::NameColumn);
+   setRenameable(KEBListView::UrlColumn);
+   setRenameable(KEBListView::CommentColumn);
+   setTabOrderedRenaming(false);
+   setSorting(-1, false);
+   setDragEnabled(true);
+   setSelectionModeExt((!m_folderList) ? KListView::Extended: KListView::Single);
+   setAllColumnsShowFocus(true);
+}
+
+void KEBListView::readonlyFlagInit(bool readonly) {
+   setItemsMovable(readonly); // we move items ourselves (for undo)
+   setItemsRenameable(!readonly);
+   setAcceptDrops(!readonly);
+   setDropVisualizer(!readonly);
+}
+
+void KEBListView::slotSelectionChanged() 
+   { ListView::self()->handleSelectionChanged(this); }
+void KEBListView::slotCurrentChanged(QListViewItem *a) 
+   { ListView::self()->handleCurrentChanged(this, a); }
+void KEBListView::slotContextMenu(KListView *a, QListViewItem *b, const QPoint &c) 
+   { ListView::self()->handleContextMenu(this, a,b,c); }
+void KEBListView::slotItemRenamed(QListViewItem *a, const QString &b, int c) 
+   { ListView::self()->handleItemRenamed(this, a,b,c); }
+void KEBListView::slotDoubleClicked(QListViewItem *a, const QPoint &b, int c) 
+   { ListView::self()->handleDoubleClicked(this, a,b,c); }
+void KEBListView::slotDropped(QDropEvent *a, QListViewItem *b, QListViewItem *c) 
+   { ListView::self()->handleDropped(this, a,b,c); }
+
+void KEBListView::startDrag() {
+   QDragObject *drag = dragObject();
+
+   if (!drag) {
+      return;
+   }
+
+   /*bool moved = */ drag->drag();
+
+   /*
+   kdDebug() << "1" << endl;
+   if (moved) {
+      kdDebug() << moved << ", " << drag->target() << ", " << viewport() << endl;
+      kdDebug() << "cooool, gonna delete it!" << endl;
+      if (drag->target() != viewport()) {
+         KMacroCommand *mcmd = CmdGen::self()->deleteItems( i18n("Moved Items"), 
+                                                            ListView::self()->selectedItems());
+         CmdHistory::self()->didCommand(mcmd);
+      }
+   }
+   kdDebug() << "2" << endl;
+   */
+}
 
 class KeyPressEater : public QObject {
 public:
