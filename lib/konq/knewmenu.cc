@@ -158,8 +158,8 @@ void KNewMenu::parseFiles()
                     templatePath = config.readPathEntry("URL");
                     if ( templatePath[0] != '/' )
                     {
-                        if ( templatePath.left(6) == "file:/" )
-                            templatePath = templatePath.right( templatePath.length() - 6 );
+                        if ( templatePath.startsWith("file:/") )
+                            templatePath = KURL(templatePath).path();
                         else
                         {
                             // A relative path, then (that's the default in the files we ship)
@@ -183,9 +183,9 @@ void KNewMenu::parseFiles()
             if (text.isEmpty())
             {
                 text = KURL(filePath).fileName();
-                if ( text.right(8) == ".desktop" )
+                if ( text.endsWith(".desktop") )
                     text.truncate( text.length() - 8 );
-                else if ( text.right(7) == ".kdelnk" )
+                else if ( text.endsWith(".kdelnk") )
                     text.truncate( text.length() - 7 );
             }
             (*templ).text = text;
