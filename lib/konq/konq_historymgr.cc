@@ -20,7 +20,6 @@
 #include "konq_historymgr.h"
 
 #include <qcstring.h>
-#include <qtimer.h>
 
 #include <dcopclient.h>
 
@@ -44,13 +43,13 @@ KonqHistoryManager * KonqHistoryManager::self()
 }
 
 KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
-    : QObject( parent, name ),
+    : KParts::HistoryProvider( parent, name ),
       KonqHistoryComm( "KonqHistoryManager" )
 {
     // defaults
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cs( config, "HistorySettings" );
-    m_maxCount = config->readNumEntry( "Maximum of History entries", 300 );
+    m_maxCount = config->readNumEntry( "Maximum of History entries", 500 );
     m_maxAgeDays = config->readNumEntry( "Maximum age of History entries", 90);
 
     m_history.setAutoDelete( true );
@@ -67,15 +66,6 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
 
     // and load the history
     loadHistory();
-
-    // we need to notice when the day changes. We can't check the current
-    // time and install a timer from current -> midnight, because we might
-    // get SIGSTOP'ed in the middle.
-
-// not yet
-//     m_lastDate = QDate::currentDate();
-//     m_timer = new QTimer( this, SLOT( slotCheckDayChanged() ));
-//     m_timer->start( 60 * 1000 ); // once a minute is enough
 }
 
 
@@ -85,14 +75,6 @@ KonqHistoryManager::~KonqHistoryManager()
     clearPending();
 }
 
-
-void KonqHistoryManager::slotCheckDayChanged()
-{
-    if ( m_lastDate < QDate::currentDate() ) {
-	m_lastDate = QDate::currentDate();
-	// FIXME
-    }
-}
 
 // loads the entire history
 bool KonqHistoryManager::loadHistory()
@@ -140,6 +122,9 @@ bool KonqHistoryManager::loadHistory()
 				    entry->numberOfTimesVisited );
  	    m_pCompletion->addItem( entry->typedURL,
 				    entry->numberOfTimesVisited );
+	
+	    // and fill our baseclass
+	    KParts::HistoryProvider::insert( entry->url.url() );
 	}
 	
 	kdDebug(1203) << "## loaded: " << m_history.count() << " entries." << endl;
@@ -158,7 +143,6 @@ bool KonqHistoryManager::loadHistory()
 // saves the entire history
 bool KonqHistoryManager::saveHistory()
 {
-    // file not open yet
     KSaveFile file( m_filename );
     if ( file.status() != 0 ) {
 	kdWarning() << "Can't open " << file.name() << endl;
@@ -188,6 +172,8 @@ void KonqHistoryManager::adjustSize()
     while ( m_history.count() > m_maxCount || isExpired( entry ) ) {
 	m_pCompletion->removeItem( entry->url.url() );
 	m_pCompletion->removeItem( entry->typedURL );
+
+	KParts::HistoryProvider::remove( entry->url.url() );
 
 	emit entryRemoved( m_history.getFirst() );
 	m_history.removeFirst(); // deletes the entry
@@ -375,6 +361,8 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
     m_pCompletion->addItem( entry->url.url() );
     m_pCompletion->addItem( entry->typedURL );
 
+    KParts::HistoryProvider::insert( entry->url.url() );
+
     adjustSize();
 
     if ( saveId == objId() ) // we are the sender of the broadcast, so we save
@@ -420,6 +408,8 @@ void KonqHistoryManager::notifyClear( QCString saveId )
     if ( saveId == objId() ) // we are the sender of the broadcast
 	saveHistory();
 
+    KParts::HistoryProvider::clear();
+
     emit cleared();
 }
 
@@ -431,6 +421,9 @@ void KonqHistoryManager::notifyRemove( KURL url, QCString saveId )
     if ( entry ) { // entry is now the current item
 	m_pCompletion->removeItem( entry->url.url() );
 	m_pCompletion->removeItem( entry->typedURL );
+	
+	KParts::HistoryProvider::remove( entry->url.url() );
+	
 	m_history.take(); // does not delete
 	emit entryRemoved( entry );
 	delete entry;
@@ -451,6 +444,9 @@ void KonqHistoryManager::notifyRemove( KURL::List urls, QCString saveId )
 	if ( entry ) { // entry is now the current item
 	    m_pCompletion->removeItem( entry->url.url() );
 	    m_pCompletion->removeItem( entry->typedURL );
+	
+	    KParts::HistoryProvider::remove( entry->url.url() );
+	
 	    m_history.take(); // does not delete
 	    emit entryRemoved( entry );
 	    delete entry;
@@ -483,6 +479,8 @@ bool KonqHistoryManager::loadFallback()
 	    m_history.append( entry );
 	    m_pCompletion->addItem( entry->url.url(),
 				    entry->numberOfTimesVisited );
+	
+	    KParts::HistoryProvider::insert( entry->url.url() );
    	}
 	++it;
     }
@@ -524,7 +522,7 @@ KonqHistoryEntry * KonqHistoryManager::createFallbackEntry(const QString& item) 
 	// to make it not expire immediately...
 	entry->lastVisited = QDateTime::currentDateTime();
     }
-    
+
     return entry;
 }
 

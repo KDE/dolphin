@@ -30,10 +30,10 @@
 
 #include <kcompletion.h>
 #include <kurl.h>
+#include <kparts/historyprovider.h>
 
 #include "konq_historycomm.h"
 
-class QTimer;
 class KCompletion;
 
 
@@ -68,7 +68,8 @@ protected:
  *
  * It keeps the history in sync with one KCompletion object
  */
-class KonqHistoryManager : public QObject, public KonqHistoryComm
+class KonqHistoryManager : public KParts::HistoryProvider, 
+			   public KonqHistoryComm
 {
     Q_OBJECT
 
@@ -110,7 +111,7 @@ public:
      * The history is saved after receiving the DCOP call.
      */
     void emitRemoveFromHistory( const KURL::List& urls );
-    
+
     /**
      * @returns the current maximum number of history entries.
      */
@@ -164,6 +165,11 @@ public:
      * (oldest entries first)
      */
     const KonqHistoryList& entries() const { return m_history; }
+
+    // HistoryProvider interfae, let konq handle this
+    virtual void insert( const QString& ) {}
+    virtual void remove( const QString& ) {}
+    virtual void clear() {}
 
 
 public slots:
@@ -270,7 +276,7 @@ protected:
      * The instance where saveId == objId() has to save the history.
      */
     virtual void notifyRemove( KURL::List urls, QCString saveId );
-    
+
     /**
      * Does the work for @ref addPending() and @ref confirmPending().
      *
@@ -285,9 +291,6 @@ protected:
     void addToHistory( bool pending, const KURL& url,
 		       const QString& typedURL = QString::null,
 		       const QString& title = QString::null );
-
-private slots:
-    void slotCheckDayChanged();
 
 
 private:
@@ -315,9 +318,6 @@ private:
 
     Q_UINT32 m_maxCount;   // maximum of history entries
     Q_UINT32 m_maxAgeDays; // maximum age of a history entry
-
-    QTimer *m_timer;
-    QDate m_lastDate;
 
     KCompletion *m_pCompletion; // the completion object we sync with
 
