@@ -21,7 +21,6 @@
 
 
 #include <dcopclient.h>
-#include <dcopref.h>
 
 #include <kapplication.h>
 #include <kdebug.h>
@@ -339,8 +338,12 @@ void KonqHistoryManager::insert( const QString& url )
 
 void KonqHistoryManager::emitAddToHistory( const KonqHistoryEntry& entry )
 {
-    DCOPRef("konqueror*", "KonqHistoryManager")
-      .send("notifyHistoryEntry", entry, objId());
+    QByteArray data;
+    QDataStream stream( data, IO_WriteOnly );
+    stream << entry << objId();
+    kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
+			      "notifyHistoryEntry(KonqHistoryEntry, QCString)",
+			      data );
 }
 
 
@@ -377,32 +380,47 @@ void KonqHistoryManager::clearPending()
 
 void KonqHistoryManager::emitRemoveFromHistory( const KURL& url )
 {
-    DCOPRef("konqueror*", "KonqHistoryManager")
-      .send("notifyRemove", url, objId());
+    QByteArray data;
+    QDataStream stream( data, IO_WriteOnly );
+    stream << url << objId();
+    kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
+			      "notifyRemove(KURL, QCString)", data );
 }
 
 void KonqHistoryManager::emitRemoveFromHistory( const KURL::List& urls )
 {
-    DCOPRef("konqueror*", "KonqHistoryManager")
-      .send("notifyRemove", urls, objId());
+    QByteArray data;
+    QDataStream stream( data, IO_WriteOnly );
+    stream << urls << objId();
+    kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
+			      "notifyRemove(KURL::List, QCString)", data );
 }
 
 void KonqHistoryManager::emitClear()
 {
-    DCOPRef("konqueror*", "KonqHistoryManager")
-      .send("notifyClear", objId());
+    QByteArray data;
+    QDataStream stream( data, IO_WriteOnly );
+    stream << objId();
+    kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
+			      "notifyClear(QCString)", data );
 }
 
 void KonqHistoryManager::emitSetMaxCount( Q_UINT32 count )
 {
-    DCOPRef("konqueror*", "KonqHistoryManager")
-      .send("notifyMaxCount", count, objId());
+    QByteArray data;
+    QDataStream stream( data, IO_WriteOnly );
+    stream << count << objId();
+    kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
+			      "notifyMaxCount(Q_UINT32, QCString)", data );
 }
 
 void KonqHistoryManager::emitSetMaxAge( Q_UINT32 days )
 {
-    DCOPRef("konqueror*", "KonqHistoryManager")
-      .send("notifyMaxAge", days, objId());
+    QByteArray data;
+    QDataStream stream( data, IO_WriteOnly );
+    stream << days << objId();
+    kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
+			      "notifyMaxAge(Q_UINT32, QCString)", data );
 }
 
 ///////////////////////////////////////////////////////////////////
