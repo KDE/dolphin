@@ -737,8 +737,25 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
                                           const KParts::WindowArgs &windowArgs, KParts::ReadOnlyPart *&part )
 {
     kdDebug(1202) << "KonqMainWindow::slotCreateNewWindow(4 args) url=" << url.prettyURL()
-                  << " args.serviceType=" << args.serviceType << endl;
-    KonqMainWindow *mainWindow = new KonqMainWindow( KURL(), false );
+                  << " args.serviceType=" << args.serviceType
+                  << " args.frameName=" << args.frameName << endl;
+
+    KonqMainWindow *mainWindow = 0L;
+    KonqView * view = 0L;
+    if ( !args.frameName.isEmpty() && args.frameName != "_blank" ) // TODO _parent and _top (?)
+    {
+        KParts::BrowserHostExtension *hostExtension = 0;
+        view = findChildView( args.frameName, &mainWindow, &hostExtension );
+        kdDebug() << " frame=" << args.frameName << " -> found view=" << view << endl;
+        if ( view )
+        {
+            // Found a view. If url isn't empty, we should open it - but this never happens currently
+            part = view->part();
+            return;
+        }
+    }
+
+    mainWindow = new KonqMainWindow( KURL(), false );
     mainWindow->setInitialFrameName( args.frameName );
 
     KonqOpenURLRequest req;
@@ -757,7 +774,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
     // cannot use activePart/currentView, because the activation through the partmanager
     // is delayed by a singleshot timer (see KonqViewManager::setActivePart)
     MapViews::ConstIterator it = mainWindow->viewMap().begin();
-    KonqView *view = it.data();
+    view = it.data();
     part = it.key();
 
     // activate the view _now_ in order to make the menuBar() hide call work
