@@ -31,10 +31,10 @@
 
 
 KBookmarkBar::KBookmarkBar( KBookmarkOwner *_owner, KToolBar *_toolBar,
-                            KActionCollection *,
+                            KActionCollection *coll,
                             QObject *parent, const char *name )
     : QObject( parent, name ), m_pOwner(_owner), m_toolBar(_toolBar),
-      m_actionCollection( 0L /* see KBookmarkMenu */ )
+      m_actionCollection( coll )
 {
     m_lstSubMenus.setAutoDelete( true );
 
