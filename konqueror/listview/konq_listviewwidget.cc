@@ -450,8 +450,13 @@ void KonqBaseListViewWidget::slotOnViewport()
 
 void KonqBaseListViewWidget::slotMouseButtonPressed(int _button, QListViewItem* _item, const QPoint&, int col)
 {
-  if(_item && _button == MidButton && col < 2)
-    m_pBrowserView->mmbClicked( static_cast<KonqBaseListViewItem*>(_item)->item() );
+    if ( _button == MidButton )
+    {
+        if(_item && col < 2)
+            m_pBrowserView->mmbClicked( static_cast<KonqBaseListViewItem*>(_item)->item() );
+        else // MMB on background
+            m_pBrowserView->mmbClicked( 0L );
+    }
 }
 
 void KonqBaseListViewWidget::slotExecuted( QListViewItem* item )
