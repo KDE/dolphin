@@ -26,6 +26,7 @@
 #include <qsocketnotifier.h>
 
 #include <kinputdialog.h>
+#include <kglobalsettings.h>
 #include <kdesu/process.h>
 #include <klocale.h>
 
@@ -37,8 +38,7 @@ KShellCommandExecutor::KShellCommandExecutor(const QString& command, QWidget* pa
 ,m_writeNotifier(0)
 {
    setTextFormat(PlainText);
-   QFont f("Courier", 12); // DF: This should use the standard fixed font from KGlobalSettings
-   setFont( f );
+   setFont( KGlobalSettings::fixedFont() );
 };
 
 KShellCommandExecutor::~KShellCommandExecutor()
