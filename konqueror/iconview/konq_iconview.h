@@ -254,6 +254,7 @@ public slots:
 
   void refreshMimeTypes() { m_iconView->iconViewWidget()->refreshMimeTypes(); }
 
+  void rename() { m_iconView->iconViewWidget()->renameSelectedItem(); }
   void cut() { m_iconView->iconViewWidget()->cutSelection(); }
   void copy() { m_iconView->iconViewWidget()->copySelection(); }
   void paste() { m_iconView->iconViewWidget()->pasteSelection(); }
