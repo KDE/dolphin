@@ -10,6 +10,10 @@ test_SOURCES = main.cpp
 test_LDFLAGS = $(all_libraries)
 test_LDADD = $(LIB_KDEUI) -lplugin
 
+plugin_part.cpp: NSPluginClassIface_stub.h
+
+NSPluginClassIface_stub.h: NSPluginClassIface.h
+
 NSPluginClassIface.h:
 	ln -s viewer/NSPluginClassIface.h .
 

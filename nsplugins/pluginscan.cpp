@@ -79,6 +79,8 @@ void generateMimeType(QString mime, QString extensions, QString description)
       if (!description.isEmpty())
 	ts << "Comment=" << description << endl;
 
+      ts << "X-KDE-AutoEmbed=true" << endl;
+
       f.close();
     }
 }

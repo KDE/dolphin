@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
   NSPluginLoader *loader = NSPluginLoader::instance();
   
   //QString src = "file:/home/sschimanski/kimble_themovie.swf";
-  QString src = "file:/home/sschimanski/autsch.swf";
+  QString src = "file:/home/mhk/autsch.swf";
   QString mime = "application/x-shockwave-flash";
 
   //QString src = "file:/opt/kde/share/Circuit.jpg";
