@@ -25,6 +25,7 @@
 #include <kapplication.h>
 #include <kstdaction.h>
 #include <kaction.h>
+#include <dcopclient.h>
 
 #include <kkeydialog.h>
 #include <kedittoolbar.h>
@@ -375,11 +376,14 @@ void KEBApp::slotDocumentRestored() {
 }
 
 void KEBApp::slotBookmarksChanged(const QString &, const QString &caller) {
-   // this is called when someone changes bookmarks in konqueror....
-   kdDebug() << "FIXME: " << caller << " == " << kapp->name() << "?" << endl;
+   /*
+   kdDebug() << "caller == " << caller << ", " 
+             << "kapp->name() == " << kapp->name() << ", " 
+             << "kapp->dcopClient()->appId() == " << kapp->dcopClient()->appId() << endl;
+   */
    // TODO umm.. what happens if a readonly gets a update for a non-readonly???
    // the non-readonly maybe has a pretty much random kapp->name() ??? umm...
-   if ((caller != kapp->name()) && !m_modified) {
+   if ((caller.latin1() != kapp->dcopClient()->appId()) && !m_modified) {
       kdDebug() << "KEBApp::slotBookmarksChanged" << endl;
       // DESIGN - is this logic really unique?
       clearHistory();

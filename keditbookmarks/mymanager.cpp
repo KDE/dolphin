@@ -21,7 +21,9 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kapplication.h>
+
 #include <dcopref.h>
+#include <dcopclient.h>
 
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
@@ -30,6 +32,8 @@
 #include "toplevel.h"
 
 #include "mymanager.h"
+
+// DESIGN - file too small. solve, somehow, umm... but how...
 
 CurrentMgr *CurrentMgr::s_mgr = 0;
 
@@ -50,7 +54,7 @@ void CurrentMgr::createManager(QObject *top, QString filename) {
 void CurrentMgr::notifyManagers() {
    QCString objId("KBookmarkManager-");
    objId += mgr()->path().utf8();
-   DCOPRef("*", objId).send("notifyCompleteChange", QString::fromLatin1(kapp->name()));
+   DCOPRef("*", objId).send("notifyCompleteChange", QString::fromLatin1(kapp->dcopClient()->appId()));
 }
 
 void CurrentMgr::doExport(bool moz) {
