@@ -433,33 +433,33 @@ KMacroCommand* CmdGen::insertMimeSource(const QString &cmdName, QMimeSource *dat
 KMacroCommand* CmdGen::itemsMoved(QPtrList<KEBListViewItem> *items, const QString &newAddress, bool copy) {
    KMacroCommand *mcmd = new KMacroCommand(copy ? i18n("Copy Items") : i18n("Move Items"));
 
-   QString currentPos = newAddress;
+   QString bkInsertAddr = newAddress;
 
    for (QPtrListIterator<KEBListViewItem> it(*items); it.current() != 0; ++it) {
-      // make *it and inline it?
-      KEBListViewItem *item = it.current();
       KCommand *cmd;
       if (copy) {
          cmd = new CreateCommand(
-                     currentPos,
-                     item->bookmark().internalElement().cloneNode(true).toElement(),
-                     item->bookmark().text());
+                     bkInsertAddr,
+                     (*it)->bookmark().internalElement().cloneNode(true).toElement(),
+                     (*it)->bookmark().text());
 
-      } else /* !copy (== move) */ {
-         QString oldAddress = item->bookmark().address();
+      } else /* if (move) */ {
+         QString oldAddress = (*it)->bookmark().address();
 
-         if (currentPos.startsWith(oldAddress)) {
+         if (bkInsertAddr.startsWith(oldAddress)) {
             continue;
          }
 
-         cmd = new MoveCommand(oldAddress, currentPos,
-                               item->bookmark().text());
+         cmd = new MoveCommand(oldAddress, bkInsertAddr,
+                               (*it)->bookmark().text());
       }
+
+      cmd->execute();
+      mcmd->addCommand(cmd);
+      
       FinalAddressCommand *addrcmd = dynamic_cast<FinalAddressCommand*>(cmd);
       assert(addrcmd);
-      cmd->execute();
-      currentPos = KBookmark::nextAddress(addrcmd->finalAddress());
-      mcmd->addCommand(cmd);
+      bkInsertAddr = KBookmark::nextAddress(addrcmd->finalAddress());
    }
 
    return mcmd;
