@@ -805,12 +805,13 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 
     KSimpleConfig cfg( locate( "data", QString::fromLatin1( "konqueror/profiles/webbrowsing" ) ), true );
     cfg.setGroup( "Profile" );
-    QSize size = KonqViewManager::readConfigSize( cfg );
 
     if ( windowArgs.x != -1 )
         mainWindow->move( windowArgs.x, mainWindow->y() );
     if ( windowArgs.y != -1 )
         mainWindow->move( mainWindow->x(), windowArgs.y );
+
+    QSize size = KonqViewManager::readConfigSize( cfg, mainWindow );
 
     int width;
     if ( windowArgs.width != -1 )

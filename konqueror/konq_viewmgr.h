@@ -194,7 +194,10 @@ public:
 
   void showProfileDlg( const QString & preselectProfile );
 
-  static QSize readConfigSize( KConfig &cfg );
+  /**
+   *   The widget is the one which you are referring to.
+   */
+  static QSize readConfigSize( KConfig &cfg, QWidget *widget = NULL);
 
 protected slots:
   void emitActivePartChanged();

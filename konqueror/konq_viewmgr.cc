@@ -622,7 +622,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   // Window size
  if ( !m_pMainWindow->initialGeometrySet() )
  {
-     QSize size = readConfigSize( cfg );
+     QSize size = readConfigSize( cfg, m_pMainWindow );
      if ( size.isValid() )
          m_pMainWindow->resize( size );
  }
@@ -674,7 +674,8 @@ void KonqViewManager::emitActivePartChanged()
     m_pMainWindow->slotPartActivated( activePart() );
 }
 
-QSize KonqViewManager::readConfigSize( KConfig &cfg )
+
+QSize KonqViewManager::readConfigSize( KConfig &cfg, QWidget *widget )
 {
     bool ok;
 
@@ -688,8 +689,11 @@ QSize KonqViewManager::readConfigSize( KConfig &cfg )
     {
         widthStr.truncate( widthStr.length() - 1 );
         int relativeWidth = widthStr.toInt( &ok );
-        if ( ok )
-            width = relativeWidth * QApplication::desktop()->width() / 100;
+        if ( ok ) {
+            int screen = widget ? QApplication::desktop()->screenNumber(widget)
+                                : -1;
+            width = relativeWidth * QApplication::desktop()->screenGeometry(screen).width() / 100;
+        }
     }
     else
     {
@@ -702,8 +706,11 @@ QSize KonqViewManager::readConfigSize( KConfig &cfg )
     {
         heightStr.truncate( heightStr.length() - 1 );
         int relativeHeight = heightStr.toInt( &ok );
-        if ( ok )
-            height = relativeHeight * QApplication::desktop()->height() / 100;
+        if ( ok ) {
+            int screen = widget ? QApplication::desktop()->screenNumber(widget)
+                                : -1;
+            height = relativeHeight * QApplication::desktop()->screenGeometry(screen).height() / 100;
+        }
     }
     else
     {
