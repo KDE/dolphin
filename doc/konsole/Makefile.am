@@ -13,7 +13,7 @@
 # kde_wallpaperdir  Where general wallpapers should go to.
 
 doc_DATA = index-1.html index-2.html index-3.html \
-	index-4.html index-5.html index.html logotp3.gif
+	index-4.html index-5.html index.html logotp3.png
 
 docdir = $(kde_htmldir)/en/konsole
 
