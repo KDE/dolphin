@@ -1,10 +1,7 @@
 #! /bin/sh
 
-echo >/tmp/cat.txt
-
 while read ln; do
     if (echo $ln | grep -v "^StartNewKonqueror="); then
-        echo skipping $ln >>/tmp/cat.txt
         continue
     fi
     if test "$ln" = "StartNewKonqueror=Local only"; then
