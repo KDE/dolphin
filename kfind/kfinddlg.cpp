@@ -26,9 +26,9 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
   : KDialogBase( Plain, QString::null,
 	User1 | User2 | User3 | Apply | Close | Help, User1,
         parent, name, true, true,
-	KGuiItem(i18n("&Find"), "find"), 
+	KGuiItem(i18n("&Find"), "find"),
 	KGuiItem(i18n("Stop"), "stop"),
-	KGuiItem(i18n("Save As..."), "filesaveas"))
+	KStdGuiItem::saveAs())
 {
   QWidget::setCaption( i18n("Find Files" ) );
   setButtonBoxOrientation(Vertical);
