@@ -2577,7 +2577,6 @@ void KonqMainWindow::initCombo()
            SLOT ( slotClearHistory() ) );
   connect( m_pURLCompletion, SIGNAL( match(const QString&) ),
            SLOT( slotMatch(const QString&) ));
-  connect( m_combo, SIGNAL( cleared() ), SLOT ( slotClearHistory() ) );
 
   m_combo->lineEdit()->installEventFilter(this);
 
