@@ -386,10 +386,8 @@ void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLeve
   else  if ( !topLevelItem.m_lstPendingURLs->contains( u ) )
     topLevelItem.m_lstPendingURLs->append( u );
 
-  /* ??????????????
-     if ( !topLevel )
-     return;
-     */
+  if ( !topLevel ) // No animation for toplevel items (breaks the icon)
+    return;
 
   kdDebug(1202) << "m_mapCurrentOpeningFolders.insert( " << u.prettyURL() << " )" << endl;
   m_mapCurrentOpeningFolders.insert( u, item );
@@ -774,23 +772,24 @@ void KonqDirTree::slotListingStopped()
     topLevelItem.m_dirLister->openURL( topLevelItem.m_lstPendingURLs->first(), false, true );
   }
 
+  kdDebug(1202) << "m_selectAfterOpening " << m_selectAfterOpening.prettyURL() << endl;
+  if ( !m_selectAfterOpening.isEmpty() && m_selectAfterOpening.upURL() == url )
+  {
+    kdDebug(1202) << "Selecting m_selectAfterOpening " << m_selectAfterOpening.prettyURL() << endl;
+    followURL( m_selectAfterOpening );
+    m_selectAfterOpening = KURL();
+  }
+
   QMap<KURL, QListViewItem *>::Iterator oIt = m_mapCurrentOpeningFolders.find( url );
   if ( oIt != m_mapCurrentOpeningFolders.end() )
   {
     oIt.data()->setPixmap( 0, m_folderPixmap );
-    kdDebug() << " m_selectAfterOpening " << m_selectAfterOpening.prettyURL() << endl;
-    if ( !m_selectAfterOpening.isEmpty() && m_selectAfterOpening.upURL() == url )
-    {
-      kdDebug() << " ** Selecting m_selectAfterOpening " << m_selectAfterOpening.prettyURL() << endl;
-      followURL( m_selectAfterOpening );
-      m_selectAfterOpening = KURL();
-    }
 
     m_mapCurrentOpeningFolders.remove( oIt );
 
     if ( m_mapCurrentOpeningFolders.count() == 0 )
       m_animationTimer->stop();
-  } else kdDebug() << url.prettyURL() << "not found in m_mapCurrentOpeningFolders" << endl;
+  }// else kdDebug(1202) << url.prettyURL() << "not found in m_mapCurrentOpeningFolders" << endl;
 }
 
 void KonqDirTree::slotAnimation()
@@ -862,9 +861,13 @@ void KonqDirTree::scanDir( KonqDirTreeItem *parent, const QString &path, bool is
     return;
 
   kdDebug(1202) << "scanDir " << path << endl;
-  QStringList entries = dir.entryList( QDir::Files );
 
-  if ( isRoot && entries.count() == 0 )
+  QStringList entries = dir.entryList( QDir::Files );
+  QStringList dirEntries = dir.entryList( QDir::Dirs );
+  dirEntries.remove( "." );
+  dirEntries.remove( ".." );
+
+  if ( isRoot && entries.count() == 0 && dirEntries.count() == 0 )
   {
     // we will copy over the entire contents of the dirtree directory.
     // to do this, we assume that home.desktop exists..
@@ -877,9 +880,12 @@ void KonqDirTree::scanDir( KonqDirTreeItem *parent, const QString &path, bool is
                                                     path.local8Bit().data() );
       system( cp.data() );
     }
-
-    dir.setPath( path ); //hack to make QDir to consider the dir to be dirty and re-read it
+    // hack to make QDir refresh the lists
+    dir.setPath(path);
     entries = dir.entryList( QDir::Files );
+    dirEntries = dir.entryList( QDir::Dirs );
+    dirEntries.remove( "." );
+    dirEntries.remove( ".." ); 
   }
 
   QStringList::ConstIterator eIt = entries.begin();
@@ -894,15 +900,14 @@ void KonqDirTree::scanDir( KonqDirTreeItem *parent, const QString &path, bool is
       loadTopLevelItem( parent, filePath );
   }
 
-  entries = dir.entryList( QDir::Dirs );
-  eIt = entries.begin();
-  eEnd = entries.end();
+  eIt = dirEntries.begin();
+  eEnd = dirEntries.end();
 
   for (; eIt != eEnd; eIt++ )
   {
     QString newPath = QString( path ).append( *eIt ).append( '/' );
 
-    if ( *eIt == "." || *eIt == ".." || newPath == KGlobalSettings::autostartPath() )
+    if ( newPath == KGlobalSettings::autostartPath() )
       continue;
 
     scanDir2( parent, newPath );
