@@ -216,7 +216,8 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& url,
 {
     kdDebug(1203) << "## addToHistory: " << url.url() << "Typed URL: " << typedURL << ", Title: " << title << endl;
 
-    if ( url.isLocalFile() ) // we only want remote URLs
+    // we only want remote URLs
+    if ( url.isLocalFile() || url.host().isEmpty() )
 	return;
 
     KonqHistoryEntry entry;
