@@ -288,8 +288,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parent, const char *name )
 		
     QObject::connect( m_pIconView, SIGNAL( mouseButtonPressed(int, QIconViewItem*, const QPoint&)),
 		      this, SLOT( slotMouseButtonPressed(int, QIconViewItem*, const QPoint&)) );
-    QObject::connect( m_pIconView, SIGNAL( viewportRightPressed() ),
-		      this, SLOT( slotViewportRightClicked() ) );
+    QObject::connect( m_pIconView, SIGNAL( rightButtonPressed( QIconViewItem *, const QPoint &) ),
+		      this, SLOT( slotViewportRightClicked( QIconViewItem * ) ) );
 
     // Now we may react to configuration changes
     m_bInit = false;
@@ -648,8 +648,10 @@ void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, 
     }
 }
 
-void KonqKfmIconView::slotViewportRightClicked()
+void KonqKfmIconView::slotViewportRightClicked( QIconViewItem *i )
 {
+    if ( i )
+	return;
     KURL bgUrl( m_dirLister->url() );
 
     // This is a directory. Always.
