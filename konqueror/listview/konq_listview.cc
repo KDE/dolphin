@@ -295,6 +295,10 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
                      m_extension, SLOT( updateActions() ) );
    connect(m_pListView->header(),SIGNAL(indexChange(int,int,int)),this,SLOT(headerDragged(int,int,int)));
    connect(m_pListView->header(),SIGNAL(clicked(int)),this,SLOT(slotHeaderClicked(int)));
+
+   // signals from konqdirpart (for BC reasons)
+   connect( this, SIGNAL( findOpened( KonqDirPart * ) ), SLOT( slotKFindOpened() ) );
+   connect( this, SIGNAL( findClosed( KonqDirPart * ) ), SLOT( slotKFindClosed() ) );
 }
 
 KonqListView::~KonqListView()
@@ -581,6 +585,17 @@ void KonqListView::slotSaveAfterHeaderDrag()
    config->sync();
 }
 
+void KonqListView::slotKFindOpened()
+{
+    if ( m_pListView->m_dirLister )
+        m_pListView->m_dirLister->setAutoUpdate( false );
+}
+
+void KonqListView::slotKFindClosed()
+{
+    if ( m_pListView->m_dirLister )
+        m_pListView->m_dirLister->setAutoUpdate( true );
+}
 
 void KonqListView::setupActions()
 {

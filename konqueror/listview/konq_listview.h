@@ -132,6 +132,10 @@ protected slots:
   virtual void slotClear() { m_pListView->slotClear(); }
   virtual void slotRedirection( const KURL & u ) { m_pListView->slotRedirection( u ); }
 
+  // Connected to KonqDirPart
+  void slotKFindOpened();
+  void slotKFindClosed();
+
   void slotViewportAdjusted() { m_mimeTypeResolver->slotViewportAdjusted(); }
   void slotProcessMimeIcons() { m_mimeTypeResolver->slotProcessMimeIcons(); }
 
