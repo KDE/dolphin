@@ -306,9 +306,9 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     // Extract 3 icon sizes from the icon theme. Use 16,32,48 as default.
     int i;
-    m_iIconSize[0] = 16;
-    m_iIconSize[1] = 32;
-    m_iIconSize[2] = 48;
+    m_iIconSize[0] = KIcon::SizeSmall; // 16
+    m_iIconSize[1] = KIcon::SizeMedium; // 32
+    m_iIconSize[2] = KIcon:::SizeLarge; // 48
     KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
     QValueList<int> avSizes = root->querySizes(KIcon::Desktop);
     QValueList<int>::Iterator it;
@@ -359,6 +359,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
 KonqKfmIconView::~KonqKfmIconView()
 {
+    m_timer->stop();
     kdDebug(1202) << "-KonqKfmIconView" << endl;
     delete m_dirLister;
     delete m_pProps;
@@ -1087,14 +1088,13 @@ bool KonqKfmIconView::openURL( const KURL &_url )
     // and in the part :-)
     m_url = _url;
 
-    if ( m_pProps->enterDir( _url ) )
-    {
-      m_pIconView->setImagePreviewAllowed ( m_pProps->isShowingImagePreview() );
-    }
+    // Check for new properties in the new dir
+    // newProps returns true the first time, and any time something might
+    // have changed.
+    bool newProps = m_pProps->enterDir( _url );
 
     // Start the directory lister !
-    m_dirLister->openURL( url(), m_pProps->isShowingDotFiles() );
-    // Note : we don't store the url. KonqDirLister does it for us.
+    m_dirLister->openURL( _url, m_pProps->isShowingDotFiles() );
 
     m_bNeedAlign = false;
     m_bUpdateContentsPosAfterListing = true;
@@ -1102,29 +1102,33 @@ bool KonqKfmIconView::openURL( const KURL &_url )
     // Apply properties and reflect them on the actions
     // do it after starting the dir lister to avoid changing the properties
     // of the old view
+    if ( newProps )
+    {
+      int size = m_pProps->iconSize();
+      m_pIconView->setIcons( size );
+      m_paDefaultIcons->setChecked( size == 0 );
+      m_paLargeIcons->setChecked( size == m_iIconSize[2] );
+      m_paMediumIcons->setChecked( size == m_iIconSize[1] );
+      m_paSmallIcons->setChecked( size == m_iIconSize[0] );
+      //m_paNoIcons->setChecked( false );
 
-    int size = m_pProps->iconSize();
-    m_pIconView->setIcons( size );
-    m_paDefaultIcons->setChecked( size == 0 );
-    m_paLargeIcons->setChecked( size == m_iIconSize[2] );
-    m_paMediumIcons->setChecked( size == m_iIconSize[1] );
-    m_paSmallIcons->setChecked( size == m_iIconSize[0] );
-    //m_paNoIcons->setChecked( false );
+      /*QIconView::ItemTextPos textPos = (QIconView::ItemTextPos) m_pProps->itemTextPos();
+        m_pIconView->setItemTextPos( textPos );
+        m_paBottomText->setChecked( textPos == QIconView::Bottom );
+        m_paRightText->setChecked( textPos == QIconView::Right );*/
 
-    /*QIconView::ItemTextPos textPos = (QIconView::ItemTextPos) m_pProps->itemTextPos();
-    m_pIconView->setItemTextPos( textPos );
-    m_paBottomText->setChecked( textPos == QIconView::Bottom );
-    m_paRightText->setChecked( textPos == QIconView::Right );*/
+      m_paDotFiles->setChecked( m_pProps->isShowingDotFiles() );
+      m_paImagePreview->setChecked( m_pProps->isShowingImagePreview() );
+      m_pIconView->setImagePreviewAllowed ( m_pProps->isShowingImagePreview() );
 
-    m_paDotFiles->setChecked( m_pProps->isShowingDotFiles() );
-    m_paImagePreview->setChecked( m_pProps->isShowingImagePreview() );
+      m_pIconView->viewport()->setBackgroundColor( m_pProps->bgColor(m_pIconView) );
+      m_pIconView->viewport()->setBackgroundPixmap( m_pProps->bgPixmap() );
 
-    m_pIconView->viewport()->setBackgroundColor( m_pProps->bgColor(m_pIconView) );
-    m_pIconView->viewport()->setBackgroundPixmap( m_pProps->bgPixmap() );
+      calculateGridX();
+    }
 
     emit setWindowCaption( _url.prettyURL() );
 
-    calculateGridX();
     return true;
 }
 
