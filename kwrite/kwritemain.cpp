@@ -80,7 +80,7 @@ KWrite::KWrite (KTextEditor::Document *doc)
 
   if (!doc)
   {
-    doc=KTextEditor::EditorChooser::createDocument(this,"KTextEditor::Document");
+    doc=KTextEditor::EditorChooser::createDocument(0,"KTextEditor::Document");
     docList.append(doc);
   }
 
@@ -549,7 +549,7 @@ void KWrite::restore()
   {
      buf = QString("Document %1").arg(z);
      config->setGroup(buf);
-     doc = KTextEditor::createDocument ("libkatepart");
+     doc=KTextEditor::EditorChooser::createDocument(0,"KTextEditor::Document");
 
      if (KTextEditor::configInterface(doc))
        KTextEditor::configInterface(doc)->readSessionConfig(config);
