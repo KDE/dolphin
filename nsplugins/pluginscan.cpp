@@ -136,7 +136,7 @@ void generateMimeType( QString mime, QString extensions, QString pluginName, QSt
         if (!description.isEmpty())
             ts << "Name=" << description << endl;
         else
-            ts << "Name=Netscape plugin mimeinfo" << endl;
+            ts << "Name=" << i18n("Netscape plugin mimeinfo") << endl;
 
         f.close();
     }
@@ -197,7 +197,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
         }
 
         // ask for name and description
-        QString name = "Unnamed plugin";
+        QString name = i18n("Unnamed plugin");
         QString description;
 
         NPError (*func_GetValue)(void *, NPPVariable, void *) =
@@ -340,10 +340,10 @@ void writeServicesFile( QStringList mimeTypes )
         QTextStream ts(&f);
 
         ts << "[Desktop Entry]" << endl;
-        ts << "Name=Netscape plugin viewer" << endl;
+        ts << "Name=" << i18n("Netscape plugin viewer") << endl;
         ts << "Type=Service" << endl;
         ts << "Icon=netscape" << endl;
-        ts << "Comment=Netscape plugin viewer" << endl;
+        ts << "Comment=" << i18n("Netscape plugin viewer") << endl;
         ts << "X-KDE-Library=libnsplugin" << endl;
         ts << "InitialPreference=0" << endl;
         ts << "ServiceTypes=KParts/ReadOnlyPart,Browser/View" << endl;
@@ -381,8 +381,9 @@ int main( int argc, char **argv )
 {
     KAboutData aboutData( "nspluginscan", I18N_NOOP("nspluginscan"),
                           "0.3", "nspluginscan", KAboutData::License_GPL,
-                          I18N_NOOP("(c) 2000,2001 by Stefan Schimanski") );
+                          "(c) 2000,2001 by Stefan Schimanski" );
 
+    KLocale::setMainCatalogue("nsplugin");
     KCmdLineArgs::init( argc, argv, &aboutData );
     KApplication app;
 

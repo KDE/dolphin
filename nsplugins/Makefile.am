@@ -22,3 +22,11 @@ bin_PROGRAMS = nspluginscan
 nspluginscan_SOURCES = pluginscan.cpp
 nspluginscan_LDFLAGS =  $(KDE_RPATH) $(all_libraries)
 nspluginscan_LDADD = $(MOTIF_LIBS) $(LIB_KDEUI) $(LIB_KSYCOCA) -lXt
+
+
+messages:
+	$(EXTRACTRC) `find . -name *.ui` > rc.cpp
+	$(EXTRACTRC) `find . -name *.rc` >> rc.cpp
+	$(XGETTEXT) *.cpp control/*.cpp viewer/*.cpp -o $(podir)/nsplugin.pot
+
+

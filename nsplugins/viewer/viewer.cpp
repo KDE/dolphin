@@ -214,6 +214,7 @@ int main(int argc, char** argv)
    kdDebug(1430) << "3 - parseCommandLine" << endl;
    parseCommandLine(argc, argv);
    kdDebug(1430) << "4 - KXtApplication app" << endl;
+   KLocale::setMainCatalogue("nsplugin");
    KXtApplication app(dpy, argc, argv, "nspluginviewer");
 
    // initialize the dcop client

@@ -11,8 +11,5 @@ noinst_HEADERS = nsconfig.h
 
 DISTCLEANFILES = $(libkcm_nsplugin_la_METASOURCES)
 
-messages: rc.cpp
-	$(XGETTEXT) *.cpp -o $(podir)/nsplugin.pot
-
 data_DATA = nsplugin.desktop
 datadir = $(kde_appsdir)/Settings/WebBrowsing
