@@ -53,14 +53,15 @@ class ColumnInfo
 {
    public:
       ColumnInfo();
-      ColumnInfo(const QString& n,const QString& desktopName,int kioUds,int count,bool enabled,KToggleAction* someAction);
-      void setData(const QString& n,const QString& desktopName,int kioUds,int count,bool enabled,KToggleAction* someAction);
+      ColumnInfo(const QString& n,const QString& desktopName,int kioUds,int count,bool enabled,KToggleAction* someAction,int theWidth=-1);
+      void setData(const QString& n,const QString& desktopName,int kioUds,int count,bool enabled,KToggleAction* someAction,int theWith=-1);
       int displayInColumn;
       QString name;
       QString desktopFileName;
       int udsId;
       bool displayThisOne;
       KToggleAction *toggleThisOne;
+      int width;
 };
 
 /**
@@ -169,6 +170,10 @@ class KonqBaseListViewWidget : public KListView
       virtual void slotRedirection( const KURL & );
       void slotPopupMenu(QListViewItem*, const QPoint&, int);
 
+      // column width changed
+      void slotHeaderSizeChanged();
+      void slotSaveColumnWidths();  // delayed
+      
       // forces a repaint on column size changes / branch expansion
       // when there is a background pixmap
       void slotUpdateBackground();
@@ -243,11 +248,13 @@ class KonqBaseListViewWidget : public KListView
       bool m_restored:1;
 
       int m_filenameColumn;
+      int m_filenameColumnWidth;
 
       KURL m_url;
 
       QString m_itemToGoTo;
       QTimer *m_backgroundTimer;
+      QTimer *m_headerTimer;
 };
 
 #endif

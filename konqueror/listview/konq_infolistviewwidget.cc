@@ -75,7 +75,7 @@ void KonqInfoListViewWidget::createColumns()
    {
         // we can only create the minimum columns here, because we don't get the
         // items, from which we determine the columns yet.
-        addColumn(i18n("Filename"));
+        addColumn(i18n("Filename"), m_filenameColumnWidth);
    }
 }
 
@@ -131,10 +131,6 @@ void KonqInfoListViewWidget::createFavoriteColumns()
     else
     {
         KonqBaseListViewWidget::createColumns();
-//        addColumn(i18n("Blah"));
-//        addColumn(i18n("Blu"));
-//        addColumn(i18n("Bli"));
-//        addColumn(i18n("Blubb"));
     }
 
 }

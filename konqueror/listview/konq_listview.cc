@@ -479,6 +479,9 @@ void KonqListView::slotColumnToggled()
    }
    config->writeEntry("Columns",lstColumns);
    config->sync();
+
+   // Update column sizes
+   m_pListView->slotHeaderSizeChanged();
 }
 
 void KonqListView::slotHeaderClicked(int sec)
@@ -533,33 +536,25 @@ void KonqListView::slotSaveAfterHeaderDrag()
    config->setGroup( groupName );
    QStringList lstColumns;
 
-   int oldCurrentColumn(-1);
-   for (int i=0; i<m_pListView->NumberOfAtoms; i++)
+   for ( int i=0; i < m_pListView->columns(); i++ )
    {
-      int currentColumn(1000);
-      for (int j=0; j<m_pListView->NumberOfAtoms; j++)
+      int section = m_pListView->header()->mapToSection( i );
+      
+      // look for section
+      for ( int j=0; j < m_pListView->NumberOfAtoms; j++ )
       {
-         int tmp=m_pListView->header()->mapToIndex(m_pListView->confColumns[j].displayInColumn);
-         if ((tmp>oldCurrentColumn) && (tmp<currentColumn))
-            currentColumn=tmp;
-      };
-      kdDebug(1202)<<"currentColumn: "<<currentColumn<<endl;
-      //everything done
-      if (currentColumn==1000) break;
-      for (int j=0; j<m_pListView->NumberOfAtoms; j++)
-      {
-         int tmp=m_pListView->header()->mapToIndex(m_pListView->confColumns[j].displayInColumn);
-         if (tmp==currentColumn)
+         if ( m_pListView->confColumns[j].displayInColumn == section )
          {
-            oldCurrentColumn=currentColumn;
-            lstColumns.append(m_pListView->confColumns[j].name);
-            kdDebug(1202)<<"appending: "<<m_pListView->confColumns[j].name<<endl;
+            lstColumns.append( m_pListView->confColumns[j].name );
+            break;
          }
       }
-
    }
    config->writeEntry("Columns",lstColumns);
    config->sync();
+
+   // Update column sizes
+   m_pListView->slotHeaderSizeChanged();
 }
 
 void KonqListView::slotKFindOpened()

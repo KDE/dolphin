@@ -53,16 +53,17 @@ ColumnInfo::ColumnInfo()
 {}
 
 
-ColumnInfo::ColumnInfo(const QString& n, const QString& desktopName, int kioUds,int count,bool enabled,KToggleAction* someAction)
+ColumnInfo::ColumnInfo(const QString& n, const QString& desktopName, int kioUds,int count,bool enabled,KToggleAction* someAction, int theWidth)
    :displayInColumn(count)
    ,name(n)
    ,desktopFileName(desktopName)
    ,udsId(kioUds)
    ,displayThisOne(enabled)
    ,toggleThisOne(someAction)
+   ,width(theWidth)
 {}
 
-void ColumnInfo::setData(const QString& n, const QString& desktopName, int kioUds,int count,bool enabled,KToggleAction* someAction)
+void ColumnInfo::setData(const QString& n, const QString& desktopName, int kioUds,int count,bool enabled,KToggleAction* someAction, int theWidth)
 {
    displayInColumn=count;
    name=n;
@@ -70,6 +71,7 @@ void ColumnInfo::setData(const QString& n, const QString& desktopName, int kioUd
    udsId=kioUds;
    displayThisOne=enabled;
    toggleThisOne=someAction;
+   width=theWidth;
 }
 
 
@@ -92,6 +94,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,m_filenameColumn(0)
 ,m_itemToGoTo("")
 ,m_backgroundTimer(0)
+,m_headerTimer(0)
 {
    kdDebug(1202) << "+KonqBaseListViewWidget" << endl;
 
@@ -156,6 +159,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
             m_pBrowserView->extension(), SIGNAL( speedProgress( int ) ) );
 
    connect( header(), SIGNAL( sizeChange( int, int, int ) ), SLOT( slotUpdateBackground() ) );
+   connect( header(), SIGNAL( sizeChange( int, int, int ) ), SLOT( slotHeaderSizeChanged() ) );
 
    viewport()->setMouseTracking( true );
    viewport()->setFocusPolicy( QWidget::WheelFocus );
@@ -189,8 +193,13 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
    sortedByColumn=config->readEntry("SortBy","FileName");
    m_bAscending=config->readBoolEntry("SortOrder",TRUE);
 
+   // width of filename column
+   m_filenameColumnWidth=config->readNumEntry("FileNameColumnWidth",
+      25*fontMetrics().width( "m" ) );
+   
    bool defaultColumns = false;
    QStringList lstColumns = config->readListEntry( "Columns" );
+   QValueList<int> lstColumnWidths;
    if (lstColumns.isEmpty())
    {
       // Default column selection
@@ -203,6 +212,9 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
       lstColumns.append( "Group" );
       lstColumns.append( "Link" );
    }
+   else
+       lstColumnWidths = config->readIntListEntry( "ColumnWidths" );
+   
    // Default number of columns
    NumberOfAtoms = 11;
    int extraIndex = NumberOfAtoms;
@@ -253,6 +265,23 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
             if ( confColumns[j].toggleThisOne )
                 confColumns[j].toggleThisOne->setChecked(TRUE);
             currentColumn++;
+            
+            if (i < lstColumnWidths.count())
+                confColumns[j].width = *lstColumnWidths.at(i);
+            else {
+                QString colName = confColumns[j].name;
+                int colWidth = fontMetrics().width( "a shorter string" );
+                
+                // Default Column widths
+                if ( colName == "Filename" || colName == "Link" )
+                    colWidth = fontMetrics().width( "the default width for filenames is long enough" );
+                else if (colName == "Size" )
+                    colWidth = fontMetrics().width( "0 000 000 000" );
+                else if (colName == "Modified" )
+                    colWidth = fontMetrics().width( "00/00/0000 00:00   " );
+                
+                confColumns[j].width = colWidth;
+            }
             break;
          }
       }
@@ -288,7 +317,8 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
 void KonqBaseListViewWidget::createColumns()
 {
    //this column is always required, so add it
-   if (columns()<1) addColumn(i18n("Name"));
+   if (columns()<1)
+       addColumn( i18n("Name"), m_filenameColumnWidth );
    setSorting(0,TRUE);
 
    //remove all but the first column
@@ -300,7 +330,7 @@ void KonqBaseListViewWidget::createColumns()
    {
       if ((confColumns[i].displayThisOne) && (confColumns[i].displayInColumn==currentColumn))
       {
-         addColumn(i18n(confColumns[i].name.utf8() ));
+         addColumn(i18n(confColumns[i].name.utf8() ), confColumns[i].width);
          if (sortedByColumn == confColumns[i].desktopFileName)
             setSorting(currentColumn,m_bAscending);
          if (confColumns[i].udsId==KIO::UDS_SIZE)
@@ -1203,6 +1233,56 @@ void KonqBaseListViewWidget::restoreState( QDataStream & ds )
 
    m_bTopLevelComplete = false;
    m_itemFound = false;
+}
+
+void KonqBaseListViewWidget::slotSaveColumnWidths()
+{
+   QString protocol = url().protocol();
+   KConfig * config = KGlobal::config();
+   if ( config->hasGroup( "ListView_" + protocol ) )
+      config->setGroup( "ListView_" + protocol );
+   else
+      config->setGroup( "ListView_default" );
+
+   QValueList<int> lstColumnWidths;
+   
+   for ( int i=0; i < columns(); i++ )
+   {
+      int section = header()->mapToSection( i );
+      
+      // look for section
+      for ( int j=0; j < NumberOfAtoms; j++ )
+      {
+         // Save size only if the column is found
+         if ( confColumns[j].displayInColumn == section )
+         {
+            confColumns[j].width = columnWidth(section);
+            lstColumnWidths.append( confColumns[j].width );
+            break;
+         }
+      }
+   }
+   config->writeEntry( "ColumnWidths", lstColumnWidths );
+   
+   // size of current filename column
+   if ( m_filenameColumn >= 0 )
+      config->writeEntry( "FileNameColumnWidth",
+                          columnWidth(m_filenameColumn) );
+   
+   config->sync();
+}
+
+void KonqBaseListViewWidget::slotHeaderSizeChanged()
+{
+   if ( !m_headerTimer )
+   {
+      m_headerTimer = new QTimer( this );
+      connect( m_headerTimer, SIGNAL( timeout() ), this, SLOT( slotSaveColumnWidths() ) );
+   }
+   else
+      m_headerTimer->stop();
+
+   m_headerTimer->start( 250, true );
 }
 
 void KonqBaseListViewWidget::slotUpdateBackground()
