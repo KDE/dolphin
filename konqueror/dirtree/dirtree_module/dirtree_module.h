@@ -20,13 +20,12 @@
 #define dirtree_module_h
 
 #include <konq_treemodule.h>
-#include <kdirnotify_stub.h>
 
 class KonqTree;
 class KonqTreeItem;
 class KonqDirTreeItem;
 
-class KonqDirTreeModule : public KonqTreeModule, public KDirNotify
+class KonqDirTreeModule : public KonqTreeModule
 {
     Q_OBJECT
 public:
@@ -48,11 +47,6 @@ public:
     virtual void slotSelectionChanged();
 
     virtual void mmbClicked( KonqTreeItem * item );
-
-    // Reimplemented from KDirNotify
-    void FilesAdded( const KURL & dir );
-    void FilesRemoved( const KURL::List & urls );
-    void FilesChanged( const KURL::List & urls );
 
     // Called by KonqDirTreeItem
     void openSubFolder( KonqTreeItem *item, KonqTreeItem *topLevel );

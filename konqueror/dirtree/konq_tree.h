@@ -21,6 +21,7 @@
 
 #include <klistview.h>
 #include "konq_treetoplevelitem.h"
+#include <kdirnotify.h>
 #include <qmap.h>
 #include <qstrlist.h>
 #include <qpixmap.h>
@@ -35,7 +36,7 @@ class QTimer;
  * a toplevel item, and creates the modules that will handle the contents
  * of those items.
  */
-class KonqTree : public KListView
+class KonqTree : public KListView, public KDirNotify
 {
     Q_OBJECT
 public:
@@ -51,6 +52,11 @@ public:
 
     void startAnimation( KonqTreeItem * item, const char * iconBaseName );
     void stopAnimation( KonqTreeItem * item );
+
+    // Reimplemented from KDirNotify
+    void FilesAdded( const KURL & dir );
+    void FilesRemoved( const KURL::List & urls );
+    void FilesChanged( const KURL::List & urls );
 
 protected:
     virtual void contentsDragEnterEvent( QDragEnterEvent *e );

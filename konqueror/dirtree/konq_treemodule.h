@@ -23,6 +23,7 @@
 #include <konq_tree.h>
 class QDragObject;
 class KonqTreeItem;
+class KonqTree;
 
 /**
  * The base class for KonqTree Modules. It defines the interface

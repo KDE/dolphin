@@ -17,10 +17,14 @@
 */
 
 #include "konq_treepart.h"
+#include "konq_treemodule.h"
 #include "konq_tree.h"
 #include <qheader.h>
+#include <qdir.h>
+#include <qfile.h>
 #include <qtimer.h>
 #include <kdebug.h>
+#include <kdesktopfile.h>
 #include <kdirnotify_stub.h>
 #include <kglobalsettings.h>
 #include <kio/global.h>
@@ -325,7 +329,7 @@ void KonqTree::slotRightButtonPressed( QListViewItem *_item )
     if ( !_item )
         return;
 
-    item->setSelected( true );
+    _item->setSelected( true );
     KonqTreeItem * item = static_cast<KonqTreeItem *>(_item);
     if ( item->isTopLevelGroup() )
     {
@@ -354,10 +358,10 @@ void KonqTree::slotAnimation()
 {
     QPixmap gearPixmap = SmallIcon( QString::fromLatin1( "kde" ).append( QString::number( m_animationCounter ) ), KonqTreeFactory::instance() );
 
-    ListCurrentOpeningFolders::ConstIterator it = m_listCurrentOpeningFolders.begin();
-    ListCurrentOpeningFolders::ConstIterator end = m_listCurrentOpeningFolders.end();
+    MapCurrentOpeningFolders::ConstIterator it = m_mapCurrentOpeningFolders.begin();
+    MapCurrentOpeningFolders::ConstIterator end = m_mapCurrentOpeningFolders.end();
     for (; it != end; ++it )
-        (*it)->setPixmap( 0, gearPixmap );
+        it.key()->setPixmap( 0, gearPixmap );
 
     m_animationCounter++;
     if ( m_animationCounter == 7 )
