@@ -49,7 +49,7 @@
 NSPluginInstance::NSPluginInstance(NPP _privateData, NPPluginFuncs *pluginFuncs, KLibrary *handle, int width, int height)
   : _handle(handle), _width(width), _height(height)
 {
-  _npp = (NPP) malloc(sizeof(NPP));
+  _npp = (NPP) malloc(sizeof(NPP_t));
   *_npp = *_privateData;
   _npp->ndata = this;
   memcpy(&_pluginFuncs, pluginFuncs, sizeof(_pluginFuncs));
@@ -66,14 +66,13 @@ NSPluginInstance::NSPluginInstance(NPP _privateData, NPPluginFuncs *pluginFuncs,
 
   String n, c;
   XtGetApplicationNameAndClass(qt_xdisplay(), &n, &c);
-  _toplevel = XtAppCreateShell(n, c, topLevelShellWidgetClass, qt_xdisplay(), 0, 0);
+  _toplevel = XtAppCreateShell("form", c, applicationShellWidgetClass, qt_xdisplay(), 0, 0);
   XtSetMappedWhenManaged(_toplevel, False);
   XtRealizeWidget(_toplevel);
-  XSync(qt_xdisplay(), False);    // I want all windows to be created now
-	
-  _area = XmCreateDrawingArea(_toplevel, "area", args, nargs);
-
+        	
+  _area = XmCreateDrawingArea(_toplevel, "drawingArea", args, nargs);
   XtRealizeWidget(_area);
+  XtManageChild(_area);
   XtMapWidget(_area);
 
   setWindow();
@@ -123,10 +122,10 @@ NPError NSPluginInstance::setWindow(bool remove)
   kdDebug() << "Window ID = " << win->window << endl;
 
   win_info->type = NP_SETWINDOW;
-  win_info->display = qt_xdisplay();
-  win_info->visual = (Visual*) DefaultVisual(qt_xdisplay(), DefaultScreen(qt_xdisplay()));
-  win_info->colormap = DefaultColormap(qt_xdisplay(), DefaultScreen(qt_xdisplay()));
-  win_info->depth = DefaultDepth(qt_xdisplay(), DefaultScreen(qt_xdisplay()));
+  win_info->display = XtDisplay(_area);
+  win_info->visual = DefaultVisualOfScreen(XtScreen(_area));
+  win_info->colormap = DefaultColormapOfScreen(XtScreen(_area));
+  win_info->depth = DefaultDepthOfScreen(XtScreen(_area));
   
   win->ws_info = win_info;
 
