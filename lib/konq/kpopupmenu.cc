@@ -6,7 +6,6 @@
 #include <kio_job.h>
 #include <kio_openwith.h>
 #include <kio_paste.h>
-#include <kio_propsdlg.h>
 #include <kpixmapcache.h>
 #include <kprotocolmanager.h>
 #include <krun.h>
@@ -15,6 +14,7 @@
 #include <kuserprofile.h>
 #include <userpaths.h>
 
+#include "kpropsdlg.h"
 #include "knewmenu.h"
 #include "kpopupmenu.h"
 

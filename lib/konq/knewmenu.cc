@@ -27,11 +27,11 @@
 
 #include <kio_interface.h>
 #include <kio_job.h>
-#include <kio_propsdlg.h>
 #include <userpaths.h>
 
 #include <opUIUtils.h>
 
+#include "kpropsdlg.h"
 #include "knewmenu.h"
 
 QStringList * KNewMenu::templatesList = 0L;

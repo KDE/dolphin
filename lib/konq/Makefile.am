@@ -24,7 +24,7 @@ libkonq_la_LIBADD = $(LIB_KFILE) -lkpartsui
 
 libkonq_la_SOURCES = kbookmark.cc knewmenu.cc kpopupmenu.cc kpropsdlg.cc
 
-libkonq_la_METASOURCES = knewmenu.moc kpopupmenu.moc kpropsdlg.moc
+METASOURCES = kbookmark.moc knewmenu.moc kpopupmenu.moc kpropsdlg.moc
 
 include_HEADERS = kbookmark.h knewmenu.h kpopupmenu.h kpropsdlg.h
 
