@@ -3,19 +3,18 @@
 
 #include <qcheckbox.h>
 #include <qgroupbox.h>
-#include <qslider.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qlineedit.h>
+#include <qslider.h>
 #include <qwhatsthis.h>
 #include <kconfig.h>
+#include <kdialog.h>
 #include <kglobal.h>
-#include <kstddirs.h>
 #include <kiconloader.h>
 #include <klocale.h>
-#include <kdialog.h>
 #include <konqdefaults.h>
-
+#include <kstddirs.h>
 
 #include "behaviour.h"
 
@@ -26,7 +25,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
     int row = 0;
 
 #define N_COLS 2
-#define N_ROWS 9
+#define N_ROWS 8
     QGridLayout *lay = new QGridLayout(this,N_ROWS,N_COLS, // rows, cols
                                        KDialog::marginHint(),
 				       KDialog::spacingHint());     // border, space
@@ -36,14 +35,6 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
     // - only for konqueror, not for kdesktop --
     if (m_bFileManager)
     {
-      row++;
-      cbTreeFollow = new QCheckBox( i18n( "Tree follows navigation in other views" ), this );
-      QWhatsThis::add( cbTreeFollow, i18n("Checking this option only affects Konqueror's behaviour if "
-         "you have several views open, one of which is a tree view. Then, when you change directories "
-         "in one view, the tree view will automatically update to highlight the current directory."));
-      lay->addMultiCellWidget( cbTreeFollow, row, row, 0, N_COLS, Qt::AlignLeft );
-      connect( cbTreeFollow, SIGNAL( clicked() ), this, SLOT( changed() ) );
-
       row++;
       cbNewWin = new QCheckBox(i18n("&Open directories in separate windows"), this);
       QWhatsThis::add( cbNewWin, i18n("If this option is checked, Konqueror will open a new window when "
@@ -113,8 +104,6 @@ void KBehaviourOptions::load()
         cbNewWin->setChecked( g_pConfig->readBoolEntry("AlwaysNewWin", false) );
         updateWinPixmap(cbNewWin->isChecked());
 
-        cbTreeFollow->setChecked( g_pConfig->readBoolEntry( "TreeFollowsNavigation", DEFAULT_TREEFOLLOW ) );
-
         homeURL->setText(g_pConfig->readEntry("HomeURL", "~"));
         bool embedText = g_pConfig->readBoolEntry("EmbedText", true);
         bool embedImage = g_pConfig->readBoolEntry("EmbedImage", true);
@@ -131,7 +120,6 @@ void KBehaviourOptions::defaults()
     if (m_bFileManager)
     {
         cbNewWin->setChecked(false);
-        cbTreeFollow->setChecked( DEFAULT_TREEFOLLOW );
 
         homeURL->setText("~");
 
@@ -147,8 +135,6 @@ void KBehaviourOptions::save()
 
     if (m_bFileManager)
     {
-        g_pConfig->writeEntry( "TreeFollowsNavigation", cbTreeFollow->isChecked() );
-
         g_pConfig->writeEntry( "AlwaysNewWin", cbNewWin->isChecked() );
         g_pConfig->writeEntry( "HomeURL", homeURL->text() );
         g_pConfig->writeEntry( "EmbedText", cbEmbedText->isChecked() );

@@ -3,13 +3,12 @@
 
 
 #include <kcmodule.h>
-#include <kconfig.h>
 
 
 class QCheckBox;
-class QSlider;
 class QLabel;
 class QLineEdit;
+class KConfig;
 
 //-----------------------------------------------------------------------------
 
@@ -38,8 +37,6 @@ private:
   KConfig *g_pConfig;
   QString groupname;
   bool m_bFileManager;
-
-  QCheckBox *cbTreeFollow;
 
   QCheckBox *cbNewWin;
 
