@@ -101,7 +101,7 @@ public:
 
   KonqViewManager *viewManager() const { return m_pViewManager; }
 
-  virtual QWidget *createContainer( QWidget *parent, int index, const QDomElement &element, const QByteArray &containerStateBuffer, int &id );
+  virtual QWidget *createContainer( QWidget *parent, int index, const QDomElement &element, int &id );
 
   void attachToolbars( KonqFrame *frame );
 

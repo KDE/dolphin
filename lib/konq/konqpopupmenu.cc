@@ -60,13 +60,13 @@ public:
   }
 
   virtual QWidget *createContainer( QWidget *parent, int index,
-          const QDomElement &element, const QByteArray &containerStateBuffer,
+          const QDomElement &element, 
           int &id )
   {
     if ( !parent && element.attribute( "name" ) == "popupmenu" )
       return m_menu;
 
-    return KXMLGUIBuilder::createContainer( parent, index, element, containerStateBuffer, id );
+    return KXMLGUIBuilder::createContainer( parent, index, element, id );
   }
 
   QPopupMenu *m_menu;

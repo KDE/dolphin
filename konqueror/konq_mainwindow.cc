@@ -236,12 +236,12 @@ KonqMainWindow::~KonqMainWindow()
   kdDebug(1202) << "KonqMainWindow::~KonqMainWindow done" << endl;
 }
 
-QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDomElement &element, const QByteArray &containerStateBuffer, int &id )
+QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDomElement &element, int &id )
 {
   static QString nameBookmarkBar = QString::fromLatin1( "bookmarkToolBar" );
   static QString tagToolBar = QString::fromLatin1( "ToolBar" );
 
-  QWidget *res = KParts::MainWindow::createContainer( parent, index, element, containerStateBuffer, id );
+  QWidget *res = KParts::MainWindow::createContainer( parent, index, element, id );
 
   if ( element.tagName() == tagToolBar && element.attribute( "name" ) == nameBookmarkBar )
   {
