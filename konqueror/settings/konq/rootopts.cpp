@@ -49,7 +49,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
     : KCModule( parent, name ), g_pConfig(config)
 {
   QLabel * tmpLabel;
-#define RO_LASTROW 13   // 3 cb, 1 line, 3 combo, 1 line, 3 paths and 1 label + last row
+#define RO_LASTROW 14   // 3 cb, 1 line, 3 combo, 1 line, 4 paths and 1 label + last row
 #define RO_LASTCOL 2
   int row = 0;
   QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, 10);
@@ -262,6 +262,18 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   QWhatsThis::add( leAutostart, wtstr );
 
   row++;
+  tmpLabel = new QLabel(i18n("&Documents path:"), this);
+  lay->addWidget(tmpLabel, row, 0);
+  leDocument = new QLineEdit(this);
+  tmpLabel->setBuddy( leDocument );
+  lay->addMultiCellWidget(leDocument, row, row, 1, RO_LASTCOL);
+  connect(leDocument, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
+  wtstr = i18n("This directory will be used by default to"
+               "load or save documents to or from.");
+  QWhatsThis::add( tmpLabel, wtstr );
+  QWhatsThis::add( leDocument, wtstr );
+
+  row++;
   // TODO (post message freeze) : the message below is true only for local dirs.
   tmpLabel = new QLabel(i18n("Note that changing a path automatically moves"
                              " the contents of the directory.\nMoving them manually is not necessary."), this);
@@ -317,6 +329,7 @@ void KRootOptions::load()
     leDesktop->setText( KGlobalSettings::desktopPath() );
     leTrash->setText( KGlobalSettings::trashPath() );
     leAutostart->setText( KGlobalSettings::autostartPath() );
+    leDocument->setText( KGlobalSettings::documentPath() );
 }
 
 void KRootOptions::defaults()
@@ -334,6 +347,7 @@ void KRootOptions::defaults()
     leDesktop->setText( QDir::homeDirPath() + "/Desktop/" );
     leTrash->setText( QDir::homeDirPath() + "/Desktop/Trash/" );
     leAutostart->setText( KGlobal::dirs()->localkdedir() + "Autostart/" );
+    leDocument->setText( QDir::homeDirPath() );
 }
 
 void KRootOptions::save()
@@ -356,6 +370,7 @@ void KRootOptions::save()
     bool pathChanged = false;
     bool trashMoved = false;
     bool autostartMoved = false;
+    bool documentsMoved = false;
 
     KURL desktopURL;
     desktopURL.setPath( KGlobalSettings::desktopPath() );
@@ -371,6 +386,11 @@ void KRootOptions::save()
     autostartURL.setPath( KGlobalSettings::autostartPath() );
     KURL newAutostartURL;
     newAutostartURL.setPath(leAutostart->text());
+
+    KURL documentURL;
+    documentURL.setPath( KGlobalSettings::documentPath() );
+    KURL newDocumentURL;
+    newDocumentURL.setPath(leDocument->text());
 
     if ( !newDesktopURL.cmp( desktopURL, true ) )
     {
@@ -456,6 +476,12 @@ void KRootOptions::save()
             config->writeEntry( "Autostart", leAutostart->text(), true, true );
             pathChanged = true;
         }
+    }
+
+    if ( !newDocumentURL.cmp( documentURL, true ) )
+    {
+        config->writeEntry( "Documents", leDocument->text(), true, true );
+        pathChanged = true;
     }
 
     config->sync();

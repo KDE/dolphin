@@ -65,6 +65,7 @@ private:
         QLineEdit *leDesktop;
         QLineEdit *leTrash;
         QLineEdit *leAutostart;
+        QLineEdit *leDocument;
 
         bool moveDir( const KURL & src, const KURL & dest );
         bool m_ok;
