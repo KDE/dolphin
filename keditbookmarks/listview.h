@@ -60,7 +60,6 @@ public:
 
    bool isEmptyFolderPadder() const { return m_emptyFolderPadder; }
    KBookmark bookmark() const { return m_bookmark; }
-   const QString url() const;
 
    typedef enum { TempStyle, BoldStyle, DefaultStyle } PaintStyle;
 

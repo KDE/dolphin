@@ -204,7 +204,6 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
         self()->setOldMod(url, oldModStr);
 
     } else if (!newModStr.isNull()) {
-        // umm... nsGet not called here, missing optimisation?
         oldModStr = self()->getOldMod(url);
 
     } else { 
@@ -272,17 +271,6 @@ static void parseNsInfo(const QString &nsinfo, QString &nCreate, QString &nAcces
     }
 }
 
-/* -------------------------- */
-
-const QString KEBListViewItem::nsGet() const {
-    QString nCreate, nAccess, nModify;
-    QString nsinfo = m_bookmark.internalElement().attribute("netscapeinfo");
-    parseNsInfo(nsinfo, nCreate, nAccess, nModify);
-    return nModify;
-}
-
-/* -------------------------- */
-
 static const QString updateNsInfoMod(const QString &_nsinfo, const QString &nm) {
     QString nCreate, nAccess, nModify;
     parseNsInfo(_nsinfo, nCreate, nAccess, nModify);
@@ -298,37 +286,29 @@ static const QString updateNsInfoMod(const QString &_nsinfo, const QString &nm) 
     return tmp;
 }
 
-static const QString NetscapeInfoAttribute = "netscapeinfo";
-
-static const QString Bk_getNsInfo(const KBookmark &bk) { 
-    return bk.internalElement().attribute(NetscapeInfoAttribute);
-}
-
-static void Bk_setBkNsInfo(KBookmark bk, const QString &info) { 
-    bk.internalElement().setAttribute(NetscapeInfoAttribute, info);
-}
-
-/* -------------------------- */
-
 void KEBListViewItem::nsPut(const QString &newModDate) {
-    const QString info = Bk_getNsInfo(m_bookmark);
-    Bk_setBkNsInfo(m_bookmark, updateNsInfoMod(info, newModDate));
-    TestLinkItrHolder::self()->setMod(url(), newModDate);
+    static const QString NetscapeInfoAttribute = "netscapeinfo";
+    const QString info = m_bookmark.internalElement().attribute(NetscapeInfoAttribute);
+    QString blah = updateNsInfoMod(info, newModDate);
+    m_bookmark.internalElement().setAttribute(NetscapeInfoAttribute, blah);
+    TestLinkItrHolder::self()->setMod(m_bookmark.url().url(), newModDate);
     setText(KEBListView::StatusColumn, newModDate);
     KEBApp::self()->setModifiedFlag(true);
 }
 
 void KEBListViewItem::modUpdate() {
+    QString nCreate, nAccess, nModify;
+    QString nsinfo = m_bookmark.internalElement().attribute("netscapeinfo");
+    if (nsinfo.isEmpty())
+        return; // don't call calcPaintStyle when nsinfo isn't interesting in any case
+    parseNsInfo(nsinfo, nCreate, nAccess, nModify);
     QString statusLine;
-    statusLine = TestLinkItrHolder::calcPaintStyle(url(), m_paintStyle, nsGet());
-    if (statusLine != "Error") {
+    statusLine = TestLinkItrHolder::calcPaintStyle(m_bookmark.url().url(), m_paintStyle, nModify);
+    if (statusLine != "Error")
         setText(KEBListView::StatusColumn, statusLine);
-    }
 }
 
-const QString KEBListViewItem::url() const {
-    return m_bookmark.url().url();
-}
+/* -------------------------- */
 
 void KEBListViewItem::setOldStatus(const QString &oldStatus) {
     kdDebug() << "KEBListViewItem::setOldStatus" << endl;
@@ -344,7 +324,7 @@ void KEBListViewItem::setTmpStatus(const QString &status) {
 void KEBListViewItem::restoreStatus() {
     if (!m_oldStatus.isNull()) {
         kdDebug() << "KEBListViewItem::restoreStatus" << endl;
-        TestLinkItrHolder::self()->resetToValue(url(), m_oldStatus);
+        TestLinkItrHolder::self()->resetToValue(m_bookmark.url().url(), m_oldStatus);
         modUpdate();
     }
 }
