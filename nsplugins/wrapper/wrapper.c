@@ -130,6 +130,7 @@ static
 NPError MyNPP_SetWindow(NPP instance, NPWindow* window)
 {
 	NPError err;	
+	NPSetWindowCallbackStruct *win_info;
 	DEB(ef, "-> NPP_SetWindow( %x, 0x%x )\n", instance, window);
 	
 	DEB(ef, "window->window = 0x%x\n", window->window);
@@ -139,6 +140,13 @@ NPError MyNPP_SetWindow(NPP instance, NPWindow* window)
 	DEB(ef, "window->height = %d\n", window->height);
 	DEB(ef, "window->ws_info = 0x%x\n", window->ws_info);
 	DEB(ef, "window->type = 0x%x\n", window->type);
+		
+	win_info = (NPSetWindowCallbackStruct*)window->ws_info;
+	DEB(ef, "win_info->type = %d\n", win_info->type);
+	DEB(ef, "win_info->display = 0x%x\n", win_info->display);
+	DEB(ef, "win_info->visual = 0x%x\n", win_info->visual);
+ 	DEB(ef, "win_info->colormap = 0x%x\n", win_info->colormap);
+  	DEB(ef, "win_info->depth = %d\n", win_info->depth);
 	
 	err = gPluginFuncs.setwindow( instance, window );	
 	DEB(ef, "<- NPP_SetWindow = %d\n", err);
