@@ -51,13 +51,15 @@ private:
 
     QComboBox* m_pUnderlineCombo;
     QComboBox* m_pAnimationsCombo;
-    QCheckBox* cbCursor;
+    QCheckBox* m_cbCursor;
     QCheckBox* m_pAutoLoadImagesCheckBox;
     QCheckBox* m_pAutoRedirectCheckBox;
     QCheckBox* m_pBackRightClick;
     QCheckBox* m_pShowMMBInTabs;
     QCheckBox* m_pFormCompletionCheckBox;
     QCheckBox* m_pDynamicTabbarHide;
+    QCheckBox* m_pAdvancedAddBookmarkCheckBox;
+    QCheckBox* m_pOnlyMarkedBookmarksCheckBox;
     KIntNumInput* m_pMaxFormCompletionItems;
 };
 

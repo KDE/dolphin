@@ -137,8 +137,6 @@ public:
 
 public slots:
     void slotSaveOnClose();
-    void slotAdvancedAddBookmark();
-    void slotFilteredToolbar();
     void slotSplitView();
 
     void slotConfigureKeyBindings();
@@ -179,10 +177,8 @@ private:
     bool m_canPaste:1;
     bool m_readOnly:1;
 
-    bool m_advancedAddBookmark:1;
     bool m_splitView:1;
     bool m_browser:1;
-    bool m_filteredToolbar:1;
 };
 
 #endif

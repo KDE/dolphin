@@ -264,10 +264,6 @@ void KEBApp::resetActions() {
 
     getToggleAction("settings_saveonclose")
         ->setChecked(m_saveOnClose);
-    getToggleAction("settings_advancedaddbookmark")
-        ->setChecked(m_advancedAddBookmark);
-    getToggleAction("settings_filteredtoolbar")
-        ->setChecked(m_filteredToolbar);
     // getToggleAction("settings_splitview")
     //      ->setChecked(m_splitView);
     getToggleAction("settings_showNS")
@@ -275,14 +271,6 @@ void KEBApp::resetActions() {
 }
 
 void KEBApp::readConfig() {
-    if (m_browser) {
-        KConfig config("kbookmarkrc", false, false);
-        config.setGroup("Bookmarks");
-        m_advancedAddBookmark 
-            = config.readBoolEntry("AdvancedAddBookmarkDialog", false);
-        m_filteredToolbar = config.readBoolEntry("FilteredToolbar", false);
-    }
-
     KConfig appconfig("keditbookmarksrc", false, false);
     appconfig.setGroup("General");
     m_saveOnClose = appconfig.readBoolEntry("Save On Close", false);
@@ -298,23 +286,6 @@ static void writeConfigBool(
     config.writeEntry(entry, flag);
     config.sync();
     CurrentMgr::self()->reloadConfig();
-}
-
-void KEBApp::slotAdvancedAddBookmark() {
-    Q_ASSERT(m_browser);
-    m_advancedAddBookmark = getToggleAction("settings_advancedaddbookmark")
-                                ->isChecked();
-    writeConfigBool("kbookmarkrc", "Bookmarks", 
-                    "AdvancedAddBookmarkDialog", m_advancedAddBookmark);
-}
-
-void KEBApp::slotFilteredToolbar() {
-    m_filteredToolbar = 
-        getToggleAction("settings_filteredtoolbar")->isChecked();
-    writeConfigBool("kbookmarkrc", "Bookmarks", 
-                    "FilteredToolbar", m_filteredToolbar);
-    // KMessageBox::sorry(p, "<qt>After enabling this option right click actions "
-    //                       "on the bookmark toolbar will be disabled<br></qt>");
 }
 
 void KEBApp::slotSplitView() {

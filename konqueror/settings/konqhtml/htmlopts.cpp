@@ -37,6 +37,22 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     int row = 0;
     QGridLayout *lay = new QGridLayout(this, 10, 2, 0, KDialog::spacingHint());
 
+    // Bookmarks
+
+    QVGroupBox *bgBookmarks = new QVGroupBox( i18n("Boo&kmarks"), this );
+    m_pAdvancedAddBookmarkCheckBox = new QCheckBox(i18n( "Ask for name and folder when adding bookmarks" ), bgBookmarks);
+    QWhatsThis::add( m_pAdvancedAddBookmarkCheckBox, i18n( "If this box is checked, Konqueror will allow you to"
+                                                        " change the bookmark title and choose a folder to store it within if you add a bookmark." ) );
+    connect(m_pAdvancedAddBookmarkCheckBox, SIGNAL(clicked()), this, SLOT(slotChanged()));
+
+    m_pOnlyMarkedBookmarksCheckBox = new QCheckBox(i18n( "Show only marked bookmarks in bookmark toolbar" ), bgBookmarks);
+    QWhatsThis::add( m_pOnlyMarkedBookmarksCheckBox, i18n( "If this box is checked, Konqueror will show only those"
+                                                         " bookmarks in the bookmark toolbar which you have marked to do so in the bookmark editor." ) );
+    connect(m_pOnlyMarkedBookmarksCheckBox, SIGNAL(clicked()), this, SLOT(slotChanged()));
+
+    lay->addMultiCellWidget( bgBookmarks, row, row, 0, 1 );
+    row++;
+
      // Form completion
 
     QVGroupBox *bgForm = new QVGroupBox( i18n("Form Com&pletion"), this );
@@ -82,14 +98,14 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
 
     // Misc
 
-    cbCursor = new QCheckBox(i18n("Chan&ge cursor over links"), this);
-    lay->addMultiCellWidget(cbCursor, row, row, 0, 1);
+    m_cbCursor = new QCheckBox(i18n("Chan&ge cursor over links"), this);
+    lay->addMultiCellWidget(m_cbCursor, row, row, 0, 1);
     row++;
 
-    QWhatsThis::add( cbCursor, i18n("If this option is set, the shape of the cursor will change "
+    QWhatsThis::add( m_cbCursor, i18n("If this option is set, the shape of the cursor will change "
        "(usually to a hand) if it is moved over a hyperlink.") );
 
-    connect(cbCursor, SIGNAL(clicked()), this, SLOT(slotChanged()));
+    connect(m_cbCursor, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
     m_pBackRightClick = new QCheckBox( i18n( "Right click goes &back in history" ), this );
     QWhatsThis::add( m_pBackRightClick, i18n(
@@ -188,7 +204,7 @@ void KMiscHTMLOptions::load()
     bool bAutoRedirect = m_pConfig->readBoolEntry( "AutoDelayedActions", true );
 
     // *** apply to GUI ***
-    cbCursor->setChecked( changeCursor );
+    m_cbCursor->setChecked( changeCursor );
     m_pAutoLoadImagesCheckBox->setChecked( bAutoLoadImages );
     m_pAutoRedirectCheckBox->setChecked( bAutoRedirect );
     m_pBackRightClick->setChecked( bBackRightClick );
@@ -221,6 +237,11 @@ void KMiscHTMLOptions::load()
     m_pConfig->setGroup("FMSettings");
     m_pShowMMBInTabs->setChecked( m_pConfig->readBoolEntry( "MMBOpensTab", false ) );
     m_pDynamicTabbarHide->setChecked( ! (m_pConfig->readBoolEntry( "AlwaysTabbedMode", false )) );
+
+    KConfig config("kbookmarkrc", true, false);
+    config.setGroup("Bookmarks");
+    m_pAdvancedAddBookmarkCheckBox->setChecked( config.readBoolEntry("AdvancedAddBookmarkDialog", false) );
+    m_pOnlyMarkedBookmarksCheckBox->setChecked( config.readBoolEntry("FilteredToolbar", false) );
 }
 
 void KMiscHTMLOptions::defaults()
@@ -229,6 +250,8 @@ void KMiscHTMLOptions::defaults()
     m_pConfig->setReadDefaults(true);
     load();
     m_pConfig->setReadDefaults(old);
+    m_pAdvancedAddBookmarkCheckBox->setChecked(false);
+    m_pOnlyMarkedBookmarksCheckBox->setChecked(false);
 }
 
 void KMiscHTMLOptions::save()
@@ -236,7 +259,7 @@ void KMiscHTMLOptions::save()
     m_pConfig->setGroup( "MainView Settings" );
     m_pConfig->writeEntry( "BackRightClick", m_pBackRightClick->isChecked() );
     m_pConfig->setGroup( "HTML Settings" );
-    m_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
+    m_pConfig->writeEntry( "ChangeCursor", m_cbCursor->isChecked() );
     m_pConfig->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
     m_pConfig->writeEntry( "AutoDelayedActions", m_pAutoRedirectCheckBox->isChecked() );
     switch(m_pUnderlineCombo->currentItem())
@@ -274,6 +297,12 @@ void KMiscHTMLOptions::save()
     m_pConfig->writeEntry( "MMBOpensTab", m_pShowMMBInTabs->isChecked() );
     m_pConfig->writeEntry( "AlwaysTabbedMode", !(m_pDynamicTabbarHide->isChecked()) );
     m_pConfig->sync();
+
+    KConfig config("kbookmarkrc", false, false);
+    config.setGroup("Bookmarks");
+    config.writeEntry("AdvancedAddBookmarkDialog", m_pAdvancedAddBookmarkCheckBox->isChecked());
+    config.writeEntry("FilteredToolbar", m_pOnlyMarkedBookmarksCheckBox->isChecked());
+    config.sync();
 
   QByteArray data;
   if ( !kapp->dcopClient()->isAttached() )

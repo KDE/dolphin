@@ -71,8 +71,8 @@
 
 ActionsImpl* ActionsImpl::s_self = 0;
 
-// decoupled from resetActions in toplevel.cpp 
-// as resetActions simply uses the action groups 
+// decoupled from resetActions in toplevel.cpp
+// as resetActions simply uses the action groups
 // specified in the ui.rc file
 void KEBApp::createActions() {
 
@@ -103,25 +103,16 @@ void KEBApp::createActions() {
     // settings menu
     (void) new KToggleAction(
         i18n("&Auto-Save on Program Close"), 0,
-        this, SLOT( slotSaveOnClose() ), actionCollection(), 
+        this, SLOT( slotSaveOnClose() ), actionCollection(),
         "settings_saveonclose");
-    (void) new KToggleAction(
-        i18n("Advanced Add Bookmark in Konqueror"), 0,
-        this, SLOT( slotAdvancedAddBookmark() ), actionCollection(), 
-        "settings_advancedaddbookmark");
 
-    // these options should be in a kcontrol thing
-    (void) new KToggleAction(
-        i18n("Display Only Marked Bookmarks in Konqueror Bookmark Toolbar"), 
-        0, this, SLOT( slotFilteredToolbar() ), actionCollection(), 
-        "settings_filteredtoolbar");
     /* (void) new KToggleAction(
             i18n("Split View (Very Experimental!)"), 0,
-            this, SLOT( slotSplitView() ), actionCollection(), 
+            this, SLOT( slotSplitView() ), actionCollection(),
             "settings_splitview"); */
     (void) new KToggleAction(
-        i18n("&Show Netscape Bookmarks in Konqueror Windows"), 0,
-        actn, SLOT( slotShowNS() ), actionCollection(), 
+        i18n("&Show Netscape Bookmarks in Konqueror"), 0,
+        actn, SLOT( slotShowNS() ), actionCollection(),
         "settings_showNS");
 
     // actions
@@ -154,7 +145,7 @@ void KEBApp::createActions() {
         actn, SLOT( slotNewBookmark() ), actionCollection(), "newbookmark");
     (void) new KAction(
         i18n("&Insert Separator"), CTRL+Key_I,
-        actn, SLOT( slotInsertSeparator() ), actionCollection(), 
+        actn, SLOT( slotInsertSeparator() ), actionCollection(),
         "insertseparator");
     (void) new KAction(
         i18n("&Sort Alphabetically"), 0,
@@ -183,14 +174,14 @@ void KEBApp::createActions() {
         actn, SLOT( slotTestAll() ), actionCollection(), "testall" );
     (void) new KAction(
         i18n("Update All &Favicons"), 0,
-        actn, SLOT( slotUpdateAllFavIcons() ), actionCollection(), 
+        actn, SLOT( slotUpdateAllFavIcons() ), actionCollection(),
         "updateallfavicons" );
     (void) new KAction(
         i18n("Cancel &Checks"), 0,
         actn, SLOT( slotCancelAllTests() ), actionCollection(), "canceltests" );
     (void) new KAction(
         i18n("Cancel &Favicon Updates"), 0,
-        actn, SLOT( slotCancelFavIconUpdates() ), actionCollection(), 
+        actn, SLOT( slotCancelFavIconUpdates() ), actionCollection(),
         "cancelfaviconupdates" );
     (void) new KAction(
         i18n("Import &Netscape Bookmarks..."), "netscape", 0,
@@ -263,7 +254,7 @@ bool ActionsImpl::queryClose() {
 void ActionsImpl::slotLoad() {
     if (!queryClose())
         return;
-    QString bookmarksFile 
+    QString bookmarksFile
         = KFileDialog::getOpenFileName(QString::null, "*.xml", KEBApp::self());
     if (bookmarksFile.isNull())
         return;
@@ -277,7 +268,7 @@ void ActionsImpl::slotSave() {
 }
 
 void ActionsImpl::slotSaveAs() {
-    QString saveFilename 
+    QString saveFilename
         = KFileDialog::getSaveFileName(QString::null, "*.xml", KEBApp::self());
     if (!saveFilename.isEmpty())
         CurrentMgr::self()->saveAs(saveFilename);
@@ -295,7 +286,7 @@ void CurrentMgr::doExport(ExportType type, const QString & _path) {
 
     } else if (type == HTMLExport) {
         if (path.isNull())
-            path = KFileDialog::getSaveFileName( 
+            path = KFileDialog::getSaveFileName(
                         QDir::homeDirPath(),
                         i18n("*.html|HTML Bookmark Listing") );
         HTMLExporter exporter;
@@ -326,7 +317,7 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
     KActionCollection * coll = actionCollection();
 
     QStringList toEnable;
-    
+
     if (sa.itemSelected && !sa.root) {
         toEnable << "edit_copy";
         if (!sa.urlIsEmpty && !sa.group && !sa.separator)
@@ -364,7 +355,7 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
         .arg(sa.tbShowState ? i18n("Hide") : i18n("Show"));
     coll->action("showintoolbar")->setText(stbString);
 
-    for ( QStringList::Iterator it = toEnable.begin(); 
+    for ( QStringList::Iterator it = toEnable.begin();
             it != toEnable.end(); ++it )
     {
         coll->action((*it).ascii())->setEnabled(true);
@@ -382,8 +373,8 @@ void KEBApp::setCancelTestsEnabled(bool enabled) {
 
 void ActionsImpl::slotCut() {
     slotCopy();
-    KMacroCommand *mcmd 
-        = CmdGen::self()->deleteItems(i18n("Cut Items"), 
+    KMacroCommand *mcmd
+        = CmdGen::self()->deleteItems(i18n("Cut Items"),
                                       ListView::self()->selectedItems());
     CmdHistory::self()->didCommand(mcmd);
 }
@@ -391,17 +382,17 @@ void ActionsImpl::slotCut() {
 void ActionsImpl::slotCopy() {
     // this is not a command, because it can't be undone
     Q_ASSERT(ListView::self()->selectedItems()->count() != 0);
-    QValueList<KBookmark> bookmarks 
+    QValueList<KBookmark> bookmarks
         = ListView::self()->itemsToBookmarks(ListView::self()->selectedItems());
     KBookmarkDrag* data = KBookmarkDrag::newDrag(bookmarks, 0 /* not this ! */);
     kapp->clipboard()->setData(data, QClipboard::Clipboard);
 }
 
 void ActionsImpl::slotPaste() {
-    KMacroCommand *mcmd = 
+    KMacroCommand *mcmd =
         CmdGen::self()->insertMimeSource(
-                            i18n("Paste"), 
-                            kapp->clipboard()->data(QClipboard::Clipboard), 
+                            i18n("Paste"),
+                            kapp->clipboard()->data(QClipboard::Clipboard),
                             ListView::self()->userAddress());
     CmdHistory::self()->didCommand(mcmd);
 }
@@ -434,10 +425,10 @@ void ActionsImpl::slotInsertSeparator() {
     CmdHistory::self()->addCommand(cmd);
 }
 
-void ActionsImpl::slotImport() { 
-    // kdDebug() << "ActionsImpl::slotImport() where sender()->name() == " 
+void ActionsImpl::slotImport() {
+    // kdDebug() << "ActionsImpl::slotImport() where sender()->name() == "
     //           << sender()->name() << endl;
-    ImportCommand* import 
+    ImportCommand* import
         = ImportCommand::performImport(sender()->name()+6, KEBApp::self());
     if (!import)
         return;
@@ -458,7 +449,7 @@ void ActionsImpl::slotExportNS() {
     CurrentMgr::self()->doExport(CurrentMgr::NetscapeExport); }
 void ActionsImpl::slotExportMoz() {
     CurrentMgr::self()->doExport(CurrentMgr::MozillaExport); }
-   
+
 /* -------------------------------------- */
 
 static QCString s_appId, s_objId;
@@ -492,7 +483,7 @@ void ActionsImpl::slotPrint() {
 
 void ActionsImpl::slotDelayedPrint() {
     Q_ASSERT(s_part);
-    DCOPRef(s_appId, s_objId).send("print", false); 
+    DCOPRef(s_appId, s_objId).send("print", false);
     // delete s_part;  -- dies horribly atm
     // TODO - is this a leak?
     s_part = 0;

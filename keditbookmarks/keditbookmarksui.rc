@@ -71,8 +71,6 @@
   <Action name="settings_saveonclose" append="save_merge"/>
 <!--  <Action name="settings_splitview" append="save_merge"/> -->
   <Action name="settings_showNS" append="save_merge"/>
-  <Action name="settings_advancedaddbookmark" append="save_merge"/>
-  <Action name="settings_filteredtoolbar" append="save_merge"/>
 </Menu>
 
 </MenuBar>
@@ -148,8 +146,6 @@
     <Action name="importMoz"/>
     <Action name="settings_showNS"/>
     <Action name="settings_saveonclose"/>
-    <Action name="settings_advancedaddbookmark"/>
-    <Action name="settings_filteredtoolbar"/>
   </Enable>
 </State>
 
@@ -204,8 +200,6 @@
     <Action name="updatefavicon"/>
     <Action name="settings_showNS"/>
     <Action name="settings_saveonclose"/>
-    <Action name="settings_advancedaddbookmark"/>
-    <Action name="settings_filteredtoolbar"/>
   </Disable>
 </State>
 
