@@ -161,7 +161,8 @@ void KonqTextViewItem::updateContents()
             setText(tmpColumn->displayInColumn,m_fileitem->url().prettyURL());
             break;
          case KIO::UDS_SIZE:
-            setText(tmpColumn->displayInColumn,KGlobal::locale()->formatNumber(size, 0)+" ");
+            //setText(tmpColumn->displayInColumn,KGlobal::locale()->formatNumber(size, 0)+" ");
+            setText(tmpColumn->displayInColumn,KIO::convertSize(size)+" ");
             break;
          case KIO::UDS_ACCESS:
             setText(tmpColumn->displayInColumn,makeAccessString(m_fileitem->permissions()));

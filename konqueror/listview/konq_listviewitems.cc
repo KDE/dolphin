@@ -85,7 +85,8 @@ void KonqListViewItem::init()
             setText(tmpColumn->displayInColumn,m_fileitem->linkDest());
             break;
          case KIO::UDS_SIZE:
-            setText(tmpColumn->displayInColumn,KGlobal::locale()->formatNumber( m_fileitem->size(),0)+" ");
+             // setText(tmpColumn->displayInColumn,KGlobal::locale()->formatNumber( m_fileitem->size(),0)+" ");
+             setText(tmpColumn->displayInColumn,KIO::convertSize(m_fileitem->size())+" ");
             break;
          case KIO::UDS_ACCESS:
             setText(tmpColumn->displayInColumn,makeAccessString(m_fileitem->permissions()));
@@ -142,10 +143,11 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
   if ( _column == 0 )
   {
      _painter->setFont( m_pListViewWidget->itemFont() );
-     cg.setColor( QColorGroup::Text, m_pListViewWidget->itemColor() );
   }
-  else
-     _painter->setPen( m_pListViewWidget->color() );
+  //else
+  //   _painter->setPen( m_pListViewWidget->color() );
+
+  cg.setColor( QColorGroup::Text, m_pListViewWidget->itemColor() );
 
   if (!m_pListViewWidget->props()->bgPixmap().isNull())
   {
@@ -176,7 +178,7 @@ const char* KonqBaseListViewItem::makeAccessString( mode_t mode)
       uxbit = 'x';
    else
       uxbit = '-';
-	
+
    if ( (mode & (S_IXGRP|S_ISGID)) == (S_IXGRP|S_ISGID) )
       gxbit = 's';
    else if ( (mode & (S_IXGRP|S_ISGID)) == S_ISGID )

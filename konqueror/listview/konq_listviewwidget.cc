@@ -504,6 +504,7 @@ void KonqBaseListViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
 
    if ( m_pressed && m_pressedItem )
    {
+      kdDebug() << "KonqBaseListViewWidget::viewportMouseMoveEvent : m_pressed=" << m_pressed << endl;
       int x = _mouse->pos().x();
       int y = _mouse->pos().y();
 
@@ -733,7 +734,7 @@ void KonqBaseListViewWidget::popupMenu( const QPoint& _global )
        rootItem = new KFileItem( S_IFDIR, (mode_t)-1, url() );
      }
 
-     lstItems.append( m_dirLister->rootItem() );
+     lstItems.append( rootItem );
    }
    emit m_pBrowserView->extension()->popupMenu( _global, lstItems );
 

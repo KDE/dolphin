@@ -115,8 +115,8 @@ class KonqBaseListViewWidget : public KListView
       QFont itemFont() const { return m_itemFont; }
       void setItemColor( const QColor &c ) { m_itemColor = c; }
       QColor itemColor() const { return m_itemColor; }
-      void setColor( const QColor &c ) { m_color = c; }
-      QColor color() const { return m_color; }
+    //void setColor( const QColor &c ) { m_color = c; }
+    // QColor color() const { return m_color; }
       int iconSize() const {return props()->iconSize(); }
 
    public slots:
@@ -184,8 +184,8 @@ class KonqBaseListViewWidget : public KListView
       virtual bool isSingleClickArea( const QPoint& _point );
 
       virtual void drawContentsOffset( QPainter*, int _offsetx, int _offsety,
-				   int _clipx, int _clipy,
-				   int _clipw, int _cliph );
+                                   int _clipx, int _clipy,
+                                   int _clipw, int _cliph );
 
       virtual void focusInEvent( QFocusEvent* _event );
 
