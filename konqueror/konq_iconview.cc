@@ -429,6 +429,9 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
 
 void KonqKfmIconView::openURL( const char *_url )
 {
+  if ( m_dirLister )
+    delete m_dirLister;
+
   // Create the directory lister
   m_dirLister = new KDirLister();
 

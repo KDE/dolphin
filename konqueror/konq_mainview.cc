@@ -788,7 +788,7 @@ void KonqMainView::openURL( const Konqueror::URLRequest &url )
   openURL( u.in(), url.reload );
 }
 
-void KonqMainView::openURL( const char * _url, CORBA::Boolean )
+void KonqMainView::openURL( const char * _url, CORBA::Boolean, KonqChildView *_view )
 {
   /////////// First, modify the URL if necessary (adding protocol, ...) //////
   QString url = _url;
@@ -833,10 +833,14 @@ void KonqMainView::openURL( const char * _url, CORBA::Boolean )
   //(for example: obey the reload flag...)
   
   slotStop(); //hm....
+  
+  KonqChildView *view = _view;
+  if ( !view )
+    view = m_currentView;
     
-  KfmRun *run = new KfmRun( this, m_currentView, url, 0, false, false );
-  if ( m_currentView )
-    m_currentView->setKfmRun( run );
+  KfmRun *run = new KfmRun( this, view, url, 0, false, false );
+  if ( view )
+    view->setKfmRun( run );
 }
 
 void KonqMainView::setStatusBarText( const CORBA::WChar *_text )
