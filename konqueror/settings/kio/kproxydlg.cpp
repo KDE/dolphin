@@ -1,6 +1,7 @@
 // File kproxydlg.cpp by Lars Hoss <Lars.Hoss@munich.netsurf.de>
 // Port to KControl by David Faure <faure@kde.org>
 // designer dialog and usage by Daniel Molkentin <molkentin@kde.org>
+// Proxy autoconfig by Malte Starostik <malte@kde.org>
 
 #include <qlayout.h>
 #include <qwhatsthis.h>
@@ -29,6 +30,8 @@
 #include <dcopclient.h>
 #include <kurlrequester.h>
 #include <kio/http_slave_defaults.h>
+#include <klistview.h>
+#include <kdebug.h>
 
 #include <kproxydlgui.h>
 
@@ -43,6 +46,77 @@
 #undef MAX_CACHE_AGE
 
 
+// ############################################################
+
+KProxySetDlgBase::KProxySetDlgBase(QWidget *parent, const char *name)
+ : KDialogBase(parent, name, true, QString::null, Ok|Cancel, Ok)
+{
+
+  QWidget *page = new QWidget(this);
+  setMainWidget(page);
+
+  QBoxLayout *topLay = new QVBoxLayout(page, 0, spacingHint());
+
+  title = new QLabel(i18n("&Host / IP address:"),page);
+  input = new QLineEdit(page);
+  title->setBuddy(input);
+
+  topLay->addSpacing(10);
+  topLay->addWidget(title);
+  topLay->addWidget(input);
+  topLay->addSpacing(10);
+}
+
+KAddHostDlg::KAddHostDlg(QWidget *parent, const char* name)
+ : KProxySetDlgBase(parent, name)
+{
+  setCaption(i18n("Add new host / IP address"));
+
+  QString wstr = i18n("<qt>Here you can add a new hostname or IP address that"
+                               " should be directly accessed by Konqueror. Valid examples are:"
+                               "<ul><li>192.168.0.1 <i>(Exclude IP address)</i></li>"
+                               "<li>192.168.0.* <i>(Exclude Subnet)</i></li>"
+                               "<li>localhost <i>(Exclude host)</i></li>"
+                               "<li>*.kde.org <i>(Exclude all hosts in a domain)</i></li>"
+                               "</ul></qt>");
+
+  QWhatsThis::add(title, wstr);
+  QWhatsThis::add(input, wstr);
+}
+
+void KAddHostDlg::accept()
+{
+  emit sigHaveNewHost(input->text());
+  QDialog::accept();
+}
+
+KEditHostDlg::KEditHostDlg(const QString &host, QWidget *parent, const char* name)
+ : KProxySetDlgBase(parent, name)
+{
+  setCaption(i18n("Edit host / IP address"));
+  input->setText(host);
+
+  QString wstr = i18n("<qt>Here you can edit the hostname or IP address that"
+                               " should be directly accessed by Konqueror. Valid examples are:"
+                               "<ul><li>192.168.0.1 <i>(Exclude IP address)</i></li>"
+                               "<li>192.168.0.* <i>(Exclude Subnet)</i></li>"
+                               "<li>localhost <i>(Exclude host)</i></li>"
+                               "<li>*.kde.org <i>(Exclude all hosts in a domain)</i></li>"
+                               "</ul></qt>");
+
+  QWhatsThis::add(title, wstr);
+  QWhatsThis::add(input, wstr);
+
+}
+
+void KEditHostDlg::accept()
+{
+  emit sigHaveChangedHost(input->text());
+  QDialog::accept();
+}
+
+// ############################################################
+
 KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   : KCModule(parent, name)
 {
@@ -51,6 +125,18 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
 
   ui = new KProxyDlgUI(this);
   layout->addWidget(ui);
+
+  ui->klv_no_prx->addColumn(i18n("Host / IP Address"));
+  ui->klv_no_prx->setFullWidth();
+
+  ui->pb_rmHost->setEnabled(false);
+  ui->pb_editHost->setEnabled(false);
+
+  connect(ui->pb_addHost, SIGNAL(clicked()), SLOT(slotAddHost()));
+  connect(ui->pb_rmHost, SIGNAL(clicked()), SLOT(slotRemoveHost()));
+  connect(ui->pb_editHost, SIGNAL(clicked()), SLOT(slotEditHost()));
+
+  connect(ui->klv_no_prx, SIGNAL(selectionChanged()), SLOT(slotEnableButtons()));
 
   connect( ui->cb_useProxy, SIGNAL( clicked() ), SLOT( changeProxy() ) );
   connect( ui->cb_useProxy, SIGNAL( clicked() ), this, SLOT( changed() ) );
@@ -63,7 +149,6 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   connect( ui->le_ftp_url, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
   connect( ui->sb_ftp_port, SIGNAL(valueChanged(int)), this, SLOT(changed()));
  // connect( ui->sb_ftp_port->editor(), SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-  connect( ui->mle_no_prx, SIGNAL(textChanged()), this, SLOT(changed()));
   connect( ui->cb_useCache, SIGNAL( clicked() ), SLOT( changeCache() ) );
   connect( ui->cb_useCache, SIGNAL( clicked() ), this, SLOT( changed() ) );
   connect( ui->rb_verify, SIGNAL( clicked() ), SLOT( changeCache() ) );
@@ -131,7 +216,8 @@ void KProxyOptions::defaults() {
   ui->sb_http_port->setValue(3128);
   ui->le_ftp_url->setText("");
   ui->sb_ftp_port->setValue(3128);
-  ui->mle_no_prx->setText("");
+  ui->klv_no_prx->clear();
+  ui->klv_no_prx->insertItem(new QListViewItem(ui->klv_no_prx, "localhost"));
   setProxy();
   ui->cb_useCache->setChecked(true);
   setCache();
@@ -180,8 +266,13 @@ void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy,
   ui->url_autoProxy->setURL(autoProxy);
   setProxy();
 
-  ui->mle_no_prx->setText( noProxyFor );
+  QStringList list = QStringList::split(QRegExp("\\s"), noProxyFor);
 
+  for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it )
+	  ui->klv_no_prx->insertItem( new QListViewItem( ui->klv_no_prx, *it));
+
+  if (!ui->klv_no_prx->childCount())
+      ui->klv_no_prx->insertItem(new QListViewItem(ui->klv_no_prx, "localhost"));
 }
 
 void KProxyOptions::save()
@@ -218,7 +309,18 @@ void KProxyOptions::save()
     }
     else
         KProtocolManager::setProxyType( KProtocolManager::NoProxy );
-    KProtocolManager::setNoProxyFor( ui->mle_no_prx->text() );
+
+
+    QListViewItemIterator it( ui->klv_no_prx );
+
+    QString noProxyFor;
+
+    for ( ; it.current(); ++it ) {
+        noProxyFor += it.current()->text(0);
+        if (it.current()->nextSibling()) noProxyFor += " ";
+    }
+
+    KProtocolManager::setNoProxyFor( noProxyFor );
     KProtocolManager::setProxyConfigScript( ui->url_autoProxy->url() );
 
     // Cache stuff.  TODO:needs to be separated from proxy post 2.0 (DA)
@@ -311,5 +413,49 @@ void KProxyOptions::changed()
   emit KCModule::changed(true);
 }
 
+void KProxyOptions::slotEnableButtons()
+{
+  ui->pb_rmHost->setEnabled(true);
+  ui->pb_editHost->setEnabled(true);
+}
+
+void KProxyOptions::slotAddHost()
+{
+ KAddHostDlg *dlg = new KAddHostDlg(this);
+ connect(dlg, SIGNAL(sigHaveNewHost(QString)), SLOT(slotAddToList(QString)));
+ dlg->exec();
+}
+
+void KProxyOptions::slotRemoveHost()
+{
+  if(ui->klv_no_prx->selectedItem()) {
+    ui->klv_no_prx->takeItem(ui->klv_no_prx->selectedItem());
+    emit changed();
+  }
+}
+
+void KProxyOptions::slotEditHost()
+{
+ if(ui->klv_no_prx->selectedItem())
+ {
+   KEditHostDlg *dlg = new KEditHostDlg(ui->klv_no_prx->selectedItem()->text(0),this);
+   connect(dlg, SIGNAL(sigHaveChangedHost(QString)), SLOT(slotModifyActiveListEntry(QString)));
+   dlg->exec();
+ }
+}
+
+void KProxyOptions::slotAddToList(QString host)
+{
+  ui->klv_no_prx->insertItem(new QListViewItem(ui->klv_no_prx, host));
+  emit changed();
+}
+
+void KProxyOptions::slotModifyActiveListEntry(QString host)
+{
+  if(ui->klv_no_prx->selectedItem()) {
+    ui->klv_no_prx->selectedItem()->setText(0, host);
+    emit changed();
+  }
+}
 
 #include "kproxydlg.moc"

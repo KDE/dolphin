@@ -9,6 +9,8 @@
 //
 // designer dialog and usage
 // (c) Daniel Molkentin <molkentin@kde.org> 2000
+// Proxy autoconfig
+// (c) Malte Starostik <malte@kde.org> 2000
 
 #ifndef __KPROXYDLG_H
 #define __KPROXYDLG_H "$Id"
@@ -27,6 +29,10 @@ class KProxyDlgUI;
 
 #include <kcmodule.h>
 #include <kprotocolmanager.h>
+#include <kdialogbase.h>
+
+
+// ##############################################################
 
 class KMySpinBox : public QSpinBox
 {
@@ -46,6 +52,49 @@ public:
       return QSpinBox::value();
    }
 };
+
+// ##############################################################
+
+// Abstract class for the Proxy settings dialogs.
+class KProxySetDlgBase : public KDialogBase
+{
+Q_OBJECT
+public:
+  KProxySetDlgBase(QWidget *parent = 0L, const char *name = 0L);
+//  ~KProxySetDlgBase();
+
+  QLabel *title;
+  QLineEdit *input;
+
+};
+
+class KAddHostDlg : public KProxySetDlgBase
+{
+Q_OBJECT
+public:
+  KAddHostDlg(QWidget *parent = 0L, const char *name = 0L);
+//  ~KAddHostDlg();
+
+  virtual void accept();
+
+signals:
+   void sigHaveNewHost(QString);
+};
+
+class KEditHostDlg : public KProxySetDlgBase
+{
+Q_OBJECT
+public:
+  KEditHostDlg(const QString &host, QWidget *parent = 0L, const char *name = 0L);
+//  ~KEditHostDlg();
+
+    virtual void accept();
+
+signals:
+   void sigHaveChangedHost(QString);
+};
+
+// ######################################################
 
 class KProxyOptions : public KCModule
 {
@@ -83,6 +132,15 @@ Q_OBJECT
     void updateGUI(QString httpProxy, QString ftpProxy,
                    KProtocolManager::ProxyType proxyType,
                    QString noProxyFor, QString autoProxy);
+
+    void slotEnableButtons();
+
+    void slotAddHost();
+    void slotRemoveHost();
+    void slotEditHost();
+
+    void slotAddToList(QString host);
+    void slotModifyActiveListEntry(QString host);
 };
 
 #endif // __KPROXYDLG_H
