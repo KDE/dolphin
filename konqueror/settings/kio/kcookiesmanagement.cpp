@@ -485,10 +485,12 @@ void KCookiesManagement::deleteCookie()
 	{
 		deletedDomains.append(itm->domain());
 		delete itm;
+		if (cLV->currentItem())
+		    cLV->setSelected(cLV->currentItem(), true);
 	}
 
 	clearCookieDetails();
-	delBT->setEnabled(false);
+	delBT->setEnabled(cLV->selectedItem());
 	delAllBT->setEnabled(cLV->childCount());
 	changed();
 }
