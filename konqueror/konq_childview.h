@@ -28,7 +28,6 @@
 #include <qobject.h>
 
 #include <list>
-#include <string>
 
 class QSplitter;
 class KonqFrame;
@@ -87,6 +86,11 @@ public:
    * @param viewName the type of view to be created (e.g. "KonqKfmIconView") 
    */
   Konqueror::View_ptr createViewByName( const char *viewName );
+  
+  /*
+   * Fills m_lstBack and m_lstForward - better comment needed, I'm clueless here (David)
+   */
+  void makeHistory();
 
   //  bool mappingGotFocus( OpenParts::Part_ptr child );
   //  bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
@@ -109,7 +113,7 @@ public: // temporary !!
   struct InternalHistoryEntry
   {
     bool bHasHistoryEntry;
-    string strURL;
+    QString strURL;
     Konqueror::View::HistoryEntry entry;
     CORBA::String_var strViewName;
   };
@@ -118,7 +122,7 @@ public: // temporary !!
     
   Konqueror::View_var m_vView;
     
-  /* ? */
+  /* Used by makeHistory, to store the URL _previously_ opened in this view */
   QString m_strLastURL;
     
   /* ? */

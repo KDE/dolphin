@@ -238,4 +238,50 @@ void KonqChildView::connectView(  )
 
 }
 
+void KonqChildView::makeHistory()
+{
+  InternalHistoryEntry h;
+
+  if ( !m_bCompleted )
+  {
+    if ( m_iHistoryLock == 0 ) // no lock
+    {
+      if ( m_bBack )
+      {
+        m_bBack = false;
+        m_lstForward.push_front( m_tmpInternalHistoryEntry );
+      }
+      else if ( m_bForward )
+      {
+        m_bForward = false;
+        m_lstBack.push_back( m_tmpInternalHistoryEntry );
+      }
+      else
+      {
+        m_lstForward.clear();
+        m_lstBack.push_back( m_tmpInternalHistoryEntry );
+      }	
+    }
+    else
+      m_iHistoryLock--;
+  
+    h.bHasHistoryEntry = false;
+    h.strURL = m_strLastURL;
+    h.strViewName = m_vView->viewName();
+    
+    m_tmpInternalHistoryEntry = h;
+  }
+  else
+  {
+    h = m_tmpInternalHistoryEntry;
+      
+    h.bHasHistoryEntry = true;
+    Konqueror::View::HistoryEntry_var state = m_vView->saveState();
+    h.entry = state;
+
+    m_tmpInternalHistoryEntry = h;
+  }
+  
+}
+
 #include "konq_childview.moc"

@@ -595,67 +595,6 @@ void KonqMainView::changeViewMode( const char *viewName )
   }
 }
 
-void KonqMainView::makeHistory( KonqChildView *v )
-{
-  KonqChildView::InternalHistoryEntry h;
-
-  if ( !v->m_bCompleted )
-  {
-    if ( v->m_iHistoryLock == 0 )
-    {
-      if ( v->m_bBack )
-      {
-        v->m_bBack = false;
-
-        v->m_lstForward.push_front( v->m_tmpInternalHistoryEntry );
-      
-        if ( !CORBA::is_nil( m_vToolBar ) && ( m_currentId == v->m_vView->id() ) )
-          setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, true );
-      }
-      else if ( v->m_bForward )
-      {
-        v->m_bForward = false;
-      
-        v->m_lstBack.push_back( v->m_tmpInternalHistoryEntry );
-      
-        if ( !CORBA::is_nil( m_vToolBar ) && ( m_currentId == v->m_vView->id() ) )
-          setItemEnabled( m_vMenuGo, MGO_BACK_ID, true );
-
-      }
-      else
-      {
-        v->m_lstForward.clear();
-        v->m_lstBack.push_back( v->m_tmpInternalHistoryEntry );
-      
-        if ( !CORBA::is_nil( m_vToolBar ) && ( m_currentId == v->m_vView->id() ) )
-        {
-          setItemEnabled( m_vMenuGo, MGO_BACK_ID, true );
-          setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, false );
-        }
-      }	
-    }
-    else
-      v->m_iHistoryLock--;
-  
-    h.bHasHistoryEntry = false;
-    h.strURL = v->m_strLastURL;
-    h.strViewName = v->m_vView->viewName();
-    
-    v->m_tmpInternalHistoryEntry = h;
-  }
-  else
-  {
-    h = v->m_tmpInternalHistoryEntry;
-      
-    h.bHasHistoryEntry = true;
-    Konqueror::View::HistoryEntry_var state = v->m_vView->saveState();
-    h.entry = state;
-
-    v->m_tmpInternalHistoryEntry = h;
-  }
-  
-}
-
 void KonqMainView::openURL( const Konqueror::URLRequest &url )
 {
   openURL( url.url, url.reload );
@@ -1402,7 +1341,7 @@ void KonqMainView::slotBack()
     m_currentView->m_vView->restoreState( h.entry );
   else
   {
-    m_currentView->openURL( h.strURL.c_str() );
+    m_currentView->openURL( h.strURL );
   }
 }
 
@@ -1424,7 +1363,7 @@ void KonqMainView::slotForward()
     m_currentView->m_vView->restoreState( h.entry );
   else
   {
-    m_currentView->openURL( h.strURL.c_str() );
+    m_currentView->openURL( h.strURL );
   }
 }
 
@@ -1494,9 +1433,12 @@ void KonqMainView::slotURLStarted( OpenParts::Id id, const char *url )
     slotStartAnimation();
 
   it->second->m_bCompleted = false;    
-    
-  makeHistory( it->second );
-  
+  it->second->makeHistory();
+  if ( id == m_currentId )
+  {
+    setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->m_lstBack.size() != 0 );
+    setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->m_lstForward.size() != 0 );
+  }
   it->second->m_strLastURL = url;
 }
 
@@ -1513,7 +1455,12 @@ void KonqMainView::slotURLCompleted( OpenParts::Id id )
 
   it->second->m_bCompleted = true;
 
-  makeHistory( it->second );
+  it->second->makeHistory();
+  if ( id == m_currentId )
+  {
+    setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->m_lstBack.size() != 0 );
+    setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->m_lstForward.size() != 0 );
+  }
 }
 
 void KonqMainView::slotAnimatedLogoTimeout()
@@ -1724,11 +1671,11 @@ void KonqMainView::initView()
   insertView( vView2, Konqueror::right );
 
   map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( vView1->id() );
-  it->second->m_iHistoryLock = 1;
+  it->second->m_iHistoryLock = 1; // first URL won't go into history
   it->second->openURL( m_strTempURL.c_str() );
 
   it = m_mapViews.find( vView2->id() );
-  it->second->m_iHistoryLock = 1;
+  it->second->m_iHistoryLock = 1; // first URL won't go into history
   it->second->openURL( m_strTempURL.c_str() );
 
   setActiveView( vView1->id() );
