@@ -61,13 +61,20 @@ QPixmap KonqPixmapProvider::pixmapFor( const QString& url, int size )
 	    return loadIcon( url, icon, size );
     }
 
-    KURL u;
-    if ( url.at(0) == '/' )
-	u.setPath( url );
+    if ( url.isEmpty() ) {
+        // Use the folder icon for the empty URL
+        icon = KMimeType::mimeType( "inode/directory" )->KServiceType::icon();
+    }
     else
-	u = url;
+    {
+        KURL u;
+        if ( url.at(0) == '/' )
+	    u.setPath( url );
+        else
+	    u = url;
 
-    icon = KMimeType::iconForURL( u );
+        icon = KMimeType::iconForURL( u );
+    }
 
     Q_ASSERT( !icon.isEmpty() );
 
