@@ -21,8 +21,9 @@
 #define SHELLCOMMANDDIALOG_H
 
 #include <qstring.h>
+
+#include <kpushbutton.h>
 #include <kdialog.h>
-#include <qpushbutton.h>
 class QPushButton;
 class KShellCommandExecutor;
 
@@ -37,7 +38,8 @@ class KShellCommandDialog:public KDialog
    protected:
 
       KShellCommandExecutor *m_shell;
-      QPushButton *stopButton;
+      KPushButton *cancelButton;
+      KPushButton *closeButton;
    protected slots:
       void disableStopButton();
       void slotClose();

@@ -22,6 +22,8 @@
 #include <qlabel.h>
 
 #include <klocale.h>
+#include <kstdguiitem.h>
+#include <kpushbutton.h>
 
 #include "kshellcmddialog.h"
 #include "kshellcmdexecutor.h"
@@ -37,15 +39,14 @@ KShellCommandDialog::KShellCommandDialog(const QString& title, const QString& co
    QHBox *buttonsBox=new QHBox(this);
    buttonsBox->setSpacing(spacingHint());
 
-   stopButton=new QPushButton(i18n("Cancel"),buttonsBox);
-   QPushButton *closeButton=new QPushButton(i18n("Close"),buttonsBox);
+   cancelButton= new KPushButton(KStdGuiItem::cancel(), buttonsBox);
+   closeButton= new KPushButton(KStdGuiItem::close(), buttonsBox);
    closeButton->setDefault(true);
-
 
    label->resize(label->sizeHint());
    m_shell->resize(m_shell->sizeHint());
    closeButton->setFixedSize(closeButton->sizeHint());
-   stopButton->setFixedSize(stopButton->sizeHint());
+   cancelButton->setFixedSize(cancelButton->sizeHint());
 
    box->addWidget(label,0);
    box->addWidget(m_shell,1);
@@ -53,7 +54,7 @@ KShellCommandDialog::KShellCommandDialog(const QString& title, const QString& co
 
    m_shell->setFocus();
 
-   connect(stopButton, SIGNAL(clicked()), m_shell, SLOT(slotFinished()));
+   connect(cancelButton, SIGNAL(clicked()), m_shell, SLOT(slotFinished()));
    connect(m_shell, SIGNAL(finished()), this, SLOT(disableStopButton()));
    connect(closeButton,SIGNAL(clicked()), this, SLOT(slotClose()));
 };
@@ -66,7 +67,7 @@ KShellCommandDialog::~KShellCommandDialog()
 
 void KShellCommandDialog::disableStopButton()
 {
-   stopButton->setEnabled(false);
+   cancelButton->setEnabled(false);
 };
 
 void KShellCommandDialog::slotClose()
