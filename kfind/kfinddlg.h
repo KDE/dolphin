@@ -64,8 +64,6 @@ private:
   KStatusBar *mStatusBar;
   KDirLister *dirlister;
   KDirWatch *dirwatch;
-  //If true, disable dirlister's newItems slot...
-  int depth;
 };
 
 #endif

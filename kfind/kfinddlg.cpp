@@ -86,10 +86,6 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
 	  SLOT(addFile(const KFileItem*,const QString&)));
   connect(query, SIGNAL(result(int)), SLOT(slotResult(int)));
   aboutWin = new KAboutApplication(this, "about", true);
-
-  //dirlister=new KDirLister();
-  //connect(dirlister, SIGNAL( deleteItem ( KFileItem* )), this, SLOT(slotDeleteItem(KFileItem*)));
-  //connect(dirlister, SIGNAL( newItems ( const KFileItemList& )), this, SLOT(slotNewItems( const KFileItemList& )));
   dirwatch=NULL;
 }
 
@@ -130,8 +126,6 @@ void KfindDlg::startSearch()
   enableButton(User2, true); // Enable "Stop"
   enableButton(User3, false); // Disable "Save..."
 
-//  dirlister->openURL(query->url());
-
   if(dirwatch!=NULL)
     delete dirwatch;
   dirwatch=new KDirWatch();
@@ -142,11 +136,9 @@ void KfindDlg::startSearch()
   //Getting a list of all subdirs
   if(tabWidget->isSearchRecursive())
   {
-    depth=0;
     QStringList subdirs=getAllSubdirs(query->url().path());
     for(QStringList::Iterator it = subdirs.begin(); it != subdirs.end(); ++it)
-    dirwatch->addDir(*it,true);
-//      dirlister->openURL(KURL(*it),true);
+      dirwatch->addDir(*it,true);
   }
   
   win->beginSearch(query->url());
@@ -290,9 +282,7 @@ QStringList KfindDlg::getAllSubdirs(QDir d)
     if((*it==".")||(*it==".."))
       continue;
     subdirs.append(d.path()+"/"+*it);
-    depth++;
     subdirs+=getAllSubdirs(d.path()+"/"+*it);
   }
-
   return subdirs;
 }
