@@ -8,6 +8,9 @@
 #include <qlayout.h>
 #include <qradiobutton.h>
 #include <kconfig.h>
+#include <kglobal.h>
+#include <kstddirs.h>
+#include <kiconloader.h>
 #include <klocale.h>
 #include <kdialog.h>
 #include <konqdefaults.h>
@@ -68,8 +71,15 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showBu
 
     row++;
     cbNewWin = new QCheckBox(i18n("&Open directories in separate windows"), this);
-    lay->addMultiCellWidget(cbNewWin, row, row, 0, N_COLS, Qt::AlignLeft);
+    lay->addMultiCellWidget(cbNewWin, row, row, 0, N_COLS-1, Qt::AlignLeft);
     connect(cbNewWin, SIGNAL(clicked()), this, SLOT(changed()));
+
+    
+    winPixmap = new QLabel(this);
+    winPixmap->setPixmap(QPixmap(locate("data", 
+					"kcontrol/pics/onlyone.png")));
+    lay->addWidget(winPixmap, row, N_COLS);
+    connect(cbNewWin, SIGNAL(toggled(bool)), SLOT(updateWinPixmap(bool)));
 
     // ----
     if (m_bShowBuiltinGroup)
@@ -116,6 +126,7 @@ void KBehaviourOptions::load()
     cbCursor->setChecked( changeCursor );
     cbUnderline->setChecked( underlineLinks );
     cbNewWin->setChecked(g_pConfig->readBoolEntry("AlwaysNewWin", false));
+    updateWinPixmap(cbNewWin->isChecked());
 
     if (m_bShowBuiltinGroup)
     {
@@ -172,8 +183,6 @@ void KBehaviourOptions::slotClick()
 {
   g_pConfig->setGroup("KDE");
   bool singleClick =  g_pConfig->readBoolEntry("SingleClick", true);
-  if (singleClick)
-    qDebug("single click mode");
   g_pConfig->setGroup( groupname );
   // Autoselect has a meaning only in single-click mode
   cbAutoSelect->setEnabled(singleClick);
@@ -183,6 +192,15 @@ void KBehaviourOptions::slotClick()
   lDelay->setEnabled( bDelay );
 }
 
+void KBehaviourOptions::updateWinPixmap(bool b)
+{
+  if (b)
+    winPixmap->setPixmap(QPixmap(locate("data", 
+					"kcontrol/pics/overlapping.png")));
+  else
+    winPixmap->setPixmap(QPixmap(locate("data", 
+					"kcontrol/pics/onlyone.png")));
+}
 
 void KBehaviourOptions::changed()
 {

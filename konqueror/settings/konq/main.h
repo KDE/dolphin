@@ -51,11 +51,6 @@ public:
   void defaults();
 
 
-protected:
-
-  void resizeEvent(QResizeEvent *e);
-
-
 protected slots:
 
   void moduleChanged(bool state);

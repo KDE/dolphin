@@ -32,7 +32,7 @@ protected slots:
 
   virtual void slotClick();
   void changed();
-
+  void updateWinPixmap(bool);
 
 private:
 
@@ -52,6 +52,8 @@ private:
   QCheckBox *cbEmbedText;
   QCheckBox *cbEmbedImage;
   QCheckBox *cbEmbedOther;
+
+  QLabel *winPixmap;
 };
 
 

@@ -24,6 +24,7 @@
 
 #include <unistd.h>
 
+#include <qlayout.h>
 
 #include <kapp.h>
 #include <dcopclient.h>
@@ -32,7 +33,7 @@
 #include <kstddirs.h>
 #include <kmessagebox.h>
 #include <kconfig.h>
-
+#include <kdialog.h>
 
 #include "rootopts.h"
 #include "behaviour.h"
@@ -48,7 +49,9 @@ KonqyModule::KonqyModule(QWidget *parent, const char *name)
 {
   KConfig *config = new KConfig("konquerorrc", false, true);
 
+  QVBoxLayout *layout = new QVBoxLayout(this);
   tab = new QTabWidget(this);
+  layout->addWidget(tab);
 
   QString groupName = "Icon Settings";
   behaviour = new KBehaviourOptions(config, groupName, true, this);
@@ -99,12 +102,6 @@ void KonqyModule::defaults()
 void KonqyModule::moduleChanged(bool state)
 {
   emit changed(state);
-}
-
-
-void KonqyModule::resizeEvent(QResizeEvent *)
-{
-  tab->setGeometry(0,0,width(),height());
 }
 
 
