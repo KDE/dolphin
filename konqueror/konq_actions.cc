@@ -23,6 +23,7 @@
 
 #include <qapplication.h>
 #include <qwhatsthis.h>
+#include <qstyle.h>
 
 #include <kurldrag.h>
 #include <ktoolbarbutton.h>
@@ -34,7 +35,7 @@
 #include "konq_view.h"
 #include <kiconloader.h>
 #include <kpopupmenu.h>
-#include <qlabel.h> // HistoryEntry
+#include <qtoolbutton.h> // HistoryEntry
 
 template class QPtrList<KonqHistoryEntry>;
 
@@ -319,12 +320,16 @@ int KonqLogoAction::plug( QWidget *widget, int index )
 ///////////
 
 
-class KonqDraggableLabel : public QLabel
+// Use a toolbutton instead of a label so it is styled correctly. (gallium)
+class KonqDraggableLabel : public QToolButton
 {
 public:
     KonqDraggableLabel( KonqMainWindow * mw, const QString & text, QWidget * parent = 0, const char * name = 0 )
-        : QLabel( text, parent, name ), m_mw(mw)
-    { validDrag = false; }
+        : QToolButton( parent, name ), m_mw(mw)
+    { 
+	setText(text);
+        validDrag = false;
+    }
 protected:
     void mousePressEvent( QMouseEvent * ev )
     {
@@ -350,6 +355,23 @@ protected:
     {
         validDrag = false;
     }
+    QSize sizeHint() const
+    {
+    	int w = fontMetrics().width( text() );
+	int h = fontMetrics().height();
+	return QSize( w, h );
+    }
+    void drawButton( QPainter * p )
+    {
+        // Draw the background
+        style().drawComplexControl( QStyle::CC_ToolButton, p, this, rect(), colorGroup(),
+                                    QStyle::Style_Enabled, QStyle::SC_ToolButton );
+        // Draw the label
+        style().drawControl( QStyle::CE_ToolButtonLabel, p, this, rect(), colorGroup(), 
+                             QStyle::Style_Enabled );
+    }
+    void enterEvent( QEvent* ) {};
+    void leaveEvent( QEvent* ) {};
 private:
     QPoint startDragPos;
     bool validDrag;
@@ -372,8 +394,6 @@ int KonqLabelAction::plug( QWidget *widget, int index )
     int id = KAction::getToolButtonID();
 
     m_label = new KonqDraggableLabel( static_cast<KonqMainWindow *>(tb->mainWindow()), text(), widget );
-    m_label->setAlignment( Qt::AlignLeft | Qt::AlignVCenter | Qt::ShowPrefix );
-    m_label->adjustSize();
     tb->insertWidget( id, m_label->width(), m_label, index );
 
     addContainer( tb, id );

@@ -29,7 +29,7 @@
 class KBookmarkOwner;
 class KonqCombo;
 class HistoryEntry;
-class QLabel;
+class QToolButton;
 class QPopupMenu;
 
 class KonqComboAction : public KAction
@@ -127,9 +127,9 @@ public:
 
   virtual int plug( QWidget *widget, int index = -1 );
   virtual void unplug( QWidget *widget );
-  QLabel * label() { return m_label; }
+  QToolButton * label() { return m_label; }
 private:
-  QLabel * m_label;
+  QToolButton * m_label;
 };
 
 class KonqViewModeAction : public KRadioAction

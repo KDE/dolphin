@@ -2058,10 +2058,13 @@ void KonqMainWindow::slotComboPlugged()
   KAction * act = actionCollection()->action("location_label");
   if (act && act->inherits("KonqLabelAction") )
   {
-      QLabel * label = static_cast<KonqLabelAction *>(act)->label();
-      if (label)
-          label->setBuddy( m_combo );
-      else
+      QToolButton * label = static_cast<KonqLabelAction *>(act)->label();
+      if (label) {
+          // When the location label's toolbutton accelerator gets activated,
+          // focus the URI combo. This is meant to do a similar task to QLabel->setBuddy();
+          connect( (const QObject*)label, SIGNAL(clicked()), (const QObject*)m_combo, SLOT(setFocus()) );
+          connect( (const QObject*)label, SIGNAL(clicked()), m_combo->lineEdit(), SLOT(selectAll()) );
+      } else
           kdError() << "Label not constructed yet!" << endl;;
   } else kdError() << "Not a KonqLabelAction !" << endl;;
 
