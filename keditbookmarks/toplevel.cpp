@@ -535,10 +535,14 @@ void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText,
     KBookmark bk = kebItem->bookmark();
     switch (column) {
         case 0:
-            if ( (bk.fullText() != newText) )
+            if ( (bk.fullText() != newText) && !newText.isEmpty())
             {
                 RenameCommand * cmd = new RenameCommand( i18n("Renaming"), bk.address(), newText );
                 m_commandHistory.addCommand( cmd );
+            }
+            else if(newText.isEmpty())
+            {
+                item->setText ( 0, bk.fullText() );
             }
             break;
         case 1:
