@@ -28,14 +28,14 @@ class clientApp : public KApplication
   Q_OBJECT
 public:
 
-  clientApp( int &argc, char **argv, const QCString& rAppName )
-    : KApplication ( argc, argv, rAppName, false /* non-GUI */ )
+  clientApp( )
+    : KApplication ( false, false /* non-GUI */ )
     { }
 
   ~clientApp() {}
 
   /** Parse command-line arguments and "do it" */
-  int doIt( int argc, char **argv );
+  int doIt();
 
   /** Make konqueror open a window for @p url */
   bool openFileManagerWindow(const KURL & url);

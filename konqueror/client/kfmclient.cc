@@ -47,10 +47,29 @@
 #include "KonquerorIface_stub.h"
 #include "KDesktopIface_stub.h"
 
+static const char *appName = "kfmclient";
+
+static const char *description = I18N_NOOP("KDE tool for opening URLs from the command line");
+
+static const char *version = "2.0";
+
+static const KCmdLineOptions options[] =
+{
+   { "commands", I18N_NOOP("Show available commands."), 0},
+   { "+command", I18N_NOOP("Command (see --commands)."), 0},
+   { "+[URL(s)]", I18N_NOOP("Arguments for command."), 0},
+   {0,0,0}
+};
+
 int main( int argc, char **argv )
 {
-  clientApp a( argc, argv, "kfmclient" );
-  if ( argc == 1 )
+  KCmdLineArgs::init(argc, argv, appName, description, version, false);
+  
+  KCmdLineArgs::addCmdLineOptions( options );
+  
+  KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+
+  if ( args->isSet("commands") )
   {
     printf(i18n("\nSyntax:\n").local8Bit());
     printf(i18n("  kfmclient openURL 'url'\n"
@@ -108,10 +127,10 @@ int main( int argc, char **argv )
     return 0;
   }
 
-
+  clientApp a;
   a.dcopClient()->attach();
 
-  return a.doIt( argc, argv );
+  return a.doIt();
 }
 
 bool clientApp::openFileManagerWindow(const KURL & url)
@@ -196,181 +215,142 @@ void clientApp::slotAppRegistered( const QCString &appId )
     }
 }
 
-int clientApp::doIt( int argc, char **argv )
+static void checkArgumentCount(int count, int min, int max)
 {
-  if ( argc < 2 )
-  {
-    fprintf( stderr, i18n("Syntax Error: Too few arguments\n").local8Bit() );
-    return 1;
-  }
+   if (count < min)
+   {
+      fprintf( stderr, i18n("Syntax Error: Not enough arguments\n").local8Bit() );
+      ::exit(1);
+   }
+   if (max && (count > max))
+   {
+      fprintf( stderr, i18n("Syntax Error: Too many arguments\n").local8Bit() );
+      ::exit(1);
+   }
+}
 
-  QCString currentDir = QDir::currentDirPath().local8Bit(); // keep on stack
-  KCmdLineArgs::setCwd( currentDir.data() ); // shallow copy
+int clientApp::doIt()
+{
+  KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+  int argc = args->count();
+  checkArgumentCount(argc, 1, 0);
 
-  if ( strcmp( argv[1], "openURL" ) == 0 )
+  QCString command = args->arg(0);
+
+  if ( command == "openURL" )
   {
-    if ( argc == 2 )
+    checkArgumentCount(argc, 1, 2);
+    if ( argc == 1 )
     {
       return openFileManagerWindow( QDir::homeDirPath() );
     }
-    else if ( argc == 3 )
-    {
-      return openFileManagerWindow( KCmdLineArgs::makeURL(argv[2]) );
-    }
-    else
-    {
-      fprintf( stderr, i18n("Syntax Error: Too many arguments\n").local8Bit() );
-      return 1;
-    }
-  }
-  else if ( strcmp( argv[1], "openProfile" ) == 0 )
-  {
     if ( argc == 2 )
     {
-      fprintf( stderr, i18n("Syntax Error: Not enough arguments\n").local8Bit() );
-      return 1;
-    }
-    else if ( argc == 3 )
-    {
-      return openProfile( QFile::decodeName(argv[2]), QString::null );
-    }
-    else
-    {
-      fprintf( stderr, i18n("Syntax Error: Too many arguments\n").local8Bit() );
-      return 1;
+      return openFileManagerWindow( args->url(1) );
     }
   }
-  else if ( strcmp( argv[1], "openProperties" ) == 0 )
+  else if ( command == "openProfile" )
   {
-    if ( argc == 3 )
+    checkArgumentCount(argc, 2, 2);
+    if (!args->url(1).isLocalFile())
     {
-      KPropertiesDialog * p = new KPropertiesDialog( KCmdLineArgs::makeURL(argv[2]) );
-      QObject::connect( p, SIGNAL( propertiesClosed() ), this, SLOT( quit() ));
-      exec();
+       fprintf( stderr, i18n("Syntax Error: Profile must be a local file\n").local8Bit() );
+       return 1;
     }
-    else
-    {
-      fprintf( stderr, i18n("Syntax Error: Wrong number of arguments\n").local8Bit() );
-      return 1;
-    }
+    return openProfile( args->url(1).path(), QString::null );
   }
-  else if ( strcmp( argv[1], "exec" ) == 0 )
+  else if ( command == "openProperties" )
   {
-    if ( argc == 2 )
+    checkArgumentCount(argc, 2, 2);
+    KPropertiesDialog * p = new KPropertiesDialog( args->url(1) );
+    QObject::connect( p, SIGNAL( propertiesClosed() ), this, SLOT( quit() ));
+    exec();
+  }
+  else if ( command == "exec" )
+  {
+    checkArgumentCount(argc, 1, 3);
+    if ( argc == 1 )
     {
       KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
       kdesky.popupExecuteCommand();
     }
-    else if ( argc == 3 )
+    else if ( argc == 2 )
     {
       KFileOpenWithHandler fowh;
-      KRun * run = new KRun( KCmdLineArgs::makeURL(argv[2]) );
+      KRun * run = new KRun( args->url(1) );
       QObject::connect( run, SIGNAL( finished() ), this, SLOT( quit() ));
       QObject::connect( run, SIGNAL( error() ), this, SLOT( quit() ));
       exec();
     }
-    else if ( argc == 4 )
+    else if ( argc == 3 )
     {
-      QStringList urls;
-      urls.append( KCmdLineArgs::makeURL(argv[2]).url() );
-      KService::Ptr serv = (*KTrader::self()->query( QString::fromLocal8Bit(argv[ 3 ]) ).begin());
+      KURL::List urls;
+      urls.append( args->url(1) );
+      KService::Ptr serv = (*KTrader::self()->query( QString::fromLocal8Bit(args->arg(2)) ).begin());
       if (!serv) return 1;
       KFileOpenWithHandler fowh;
       bool ret = KRun::run( *serv, urls );
       if (!ret) return 1;
     }
-    else
-    {
-      fprintf( stderr, i18n("Syntax Error: Wrong number of arguments\n").local8Bit() );
-      return 1;
-    }
   }
-  else if ( strcmp( argv[1], "move" ) == 0 )
+  else if ( command == "move" )
   {
-    if ( argc <= 3 )
-    {
-      fprintf( stderr, i18n("Syntax Error: Too few arguments\n").local8Bit() );
-      return 1;
-    }
+    checkArgumentCount(argc, 2, 0);
     KURL::List srcLst;
-    for ( int i = 2; i <= argc - 2; i++ )
-      srcLst.append( KCmdLineArgs::makeURL(argv[i]) );
+    for ( int i = 1; i <= argc - 2; i++ )
+      srcLst.append( args->url(i) );
 
-    KIO::Job * job = KIO::move( srcLst, KCmdLineArgs::makeURL(argv[ argc - 1 ]) );
+    KIO::Job * job = KIO::move( srcLst, args->url(argc - 1) );
     connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
     exec();
   }
-  else if ( strcmp( argv[1], "copy" ) == 0 )
+  else if ( command == "copy" )
   {
-    if ( argc <= 3 )
-    {
-      fprintf( stderr, i18n("Syntax Error: Too few arguments\n").local8Bit() );
-      return 1;
-    }
+    checkArgumentCount(argc, 2, 0);
     KURL::List srcLst;
-    for ( int i = 2; i <= argc - 2; i++ )
-      srcLst.append( KCmdLineArgs::makeURL(argv[i]) );
+    for ( int i = 1; i <= argc - 2; i++ )
+      srcLst.append( args->url(i) );
 
-    KIO::Job * job = KIO::copy( srcLst, KCmdLineArgs::makeURL(argv[ argc - 1 ]) );
+    KIO::Job * job = KIO::copy( srcLst, args->url(argc - 1) );
     connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
     exec();
   }
-  else if ( strcmp( argv[1], "sortDesktop" ) == 0 )
+  else if ( command == "sortDesktop" )
   {
-    if ( argc != 2 )
-    {
-      fprintf( stderr, i18n("Syntax Error: Too many arguments\n").local8Bit() );
-      return 1;
-    }
+    checkArgumentCount(argc, 1, 1);
 
     KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
     kdesky.rearrangeIcons( (int)false );
 
     return true;
   }
-  else if ( strcmp( argv[1], "selectDesktopIcons" ) == 0 )
+  else if ( command == "selectDesktopIcons" )
   {
-    if ( argc == 7 )
-    {
-      int x = atoi( argv[2] );
-      int y = atoi( argv[3] );	
-      int w = atoi( argv[4] );
-      int h = atoi( argv[5] );
-      // bool bAdd = (bool) atoi( argv[6] ); /* currently unused */ // TODO
-      KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
-      kdesky.selectIconsInRect( x, y, w, h );
-    }
-    else
-    {
-      fprintf( stderr, i18n("Syntax Error: Wrong number of arguments\n").local8Bit() );
-      return 1;
-    }
+    checkArgumentCount(argc, 6, 6);
+    int x = atoi( args->arg(1) );
+    int y = atoi( args->arg(2) );	
+    int w = atoi( args->arg(3) );
+    int h = atoi( args->arg(4) );
+    // bool bAdd = (bool) atoi( args->arg(5) ); /* currently unused */ // TODO
+    KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
+    kdesky.selectIconsInRect( x, y, w, h );
   }
-  else if ( strcmp( argv[1], "configure" ) == 0 )
+  else if ( command == "configure" )
   {
-    if ( argc != 2 )
-    {
-      fprintf( stderr, i18n("Syntax Error: Too many arguments\n").local8Bit() );
-      return 1;
-    }
+    checkArgumentCount(argc, 1, 1);
     QByteArray data;
     kapp->dcopClient()->send( "*", "KonqMainViewIface", "reparseConfiguration()", data );
     // Warning. In case something is added/changed here, keep kcontrol/konq/main.cpp in sync.
   }
-  else if ( strcmp( argv[1], "configureDesktop" ) == 0 )
+  else if ( command == "configureDesktop" )
   {
-    if ( argc != 2 )
-    {
-      fprintf( stderr, i18n("Syntax Error: Too many arguments\n").local8Bit() );
-      return 1;
-    }
-
+    checkArgumentCount(argc, 1, 1);
     KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
     kdesky.configure();
   }
   else
   {
-    fprintf( stderr, i18n("Syntax Error: Unknown command '%1'\n").arg(QString::fromLocal8Bit(argv[1])).local8Bit() );
+    fprintf( stderr, i18n("Syntax Error: Unknown command '%1'\n").arg(QString::fromLocal8Bit(command)).local8Bit() );
     return 1;
   }
   return 0;
