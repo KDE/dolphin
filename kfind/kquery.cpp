@@ -54,7 +54,6 @@ void KQuery::slotCanceled( KIO::Job * _job )
 
   emit result(KIO::ERR_USER_CANCELED);
 }
-#include <kdebug.h>
 void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 {
   KFileItem * file = 0;
@@ -179,7 +178,6 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 
        // FIXME: doesn't work with non local files
        QString filename = file->url().path();
-       QFileInfo fileInfo( filename );
        if(filename.startsWith("/dev/") || S_ISFIFO( file->mode() ))
           continue;
        QFile qf(filename);
