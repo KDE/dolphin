@@ -176,7 +176,7 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
   QListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 }
 
-const char* KonqBaseListViewItem::makeAccessString( mode_t mode)
+const char* KonqBaseListViewItem::makeAccessString( const mode_t mode)
 {
    static char buffer[ 12 ];
 
