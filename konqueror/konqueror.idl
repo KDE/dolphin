@@ -8,6 +8,7 @@
 
 module Konqueror
 {
+  const string KONQ_NAMING = "KBase/Konqueror/Application";
 
   typedef sequence<string> StrList;
 
@@ -190,7 +191,6 @@ module Konqueror
     slot void slotOpenLocation();
     slot void slotToolFind();
     slot void slotPrint();
-    slot void slotClose();
 
     // Edit menu
     slot void slotCopy();

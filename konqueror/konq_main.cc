@@ -22,6 +22,7 @@
 #include <opApplication.h>
 #include <komApplication.h>
 #include <komBase.h>
+#include <komShutdownManager.h>
 
 #include <kservices.h>
 #include <kregistry.h>
@@ -30,6 +31,7 @@
 
 #include <kded_instance.h>
 #include <ktrader.h> //for KTraderServiceProvider
+#include <knaming.h>
 
 #include <kimgio.h>
 #include <kapp.h>
@@ -65,6 +67,8 @@ void sig_pipe_handler( int signum );
 
 bool g_bWithGUI = true;
 
+bool g_bUseNaming = false;
+
 /**********************************************
  *
  * KonqApplicationIf
@@ -87,46 +91,74 @@ KonqApplicationIf::KonqApplicationIf( CORBA::Object_ptr _obj ) :
 {
 }
 
+KonqMainView *KonqApplicationIf::allocMainView()
+{
+  KonqMainView *mainView = new KonqMainView;
+  KOMShutdownManager::self()->watchObject( mainView );
+  return mainView;
+}
+
+KonqMainWindow *KonqApplicationIf::allocMainWindow( const char *url )
+{
+  KonqMainWindow * mw = new KonqMainWindow( url );
+  mw->show(); // ahah, it won't show up, otherwise !
+  KOMShutdownManager::self()->watchObject( mw->interface() );
+  return mw;
+}
+
 OpenParts::Part_ptr KonqApplicationIf::createPart()
 {
-  return OpenParts::Part::_duplicate( new KonqMainView );
+  return OpenParts::Part::_duplicate( allocMainView() );
+}
+
+OpenParts::MainWindow_ptr KonqApplicationIf::createWindow()
+{
+  return OpenParts::MainWindow::_duplicate( allocMainWindow()->interface() );
 }
 
 Konqueror::MainWindow_ptr KonqApplicationIf::createMainWindow( const char* url )
 {
-  KonqMainWindow * mw = new KonqMainWindow( url );
-  mw->show(); // ahah, it won't show up, otherwise !
-  return Konqueror::MainWindow::_duplicate( mw->konqInterface() );
+  return Konqueror::MainWindow::_duplicate( allocMainWindow( url )->konqInterface() );
 }
 
 Konqueror::MainView_ptr KonqApplicationIf::createMainView()
 {
-  return Konqueror::MainView::_duplicate( new KonqMainView );
+  return Konqueror::MainView::_duplicate( allocMainView() );
 }
 
 Konqueror::KfmIconView_ptr KonqApplicationIf::createKfmIconView()
 {
-  return Konqueror::KfmIconView::_duplicate( new KonqKfmIconView );
+  KonqKfmIconView *iconView = new KonqKfmIconView;
+  KOMShutdownManager::self()->watchObject( iconView );
+  return Konqueror::KfmIconView::_duplicate( iconView );
 }
 
 Konqueror::HTMLView_ptr KonqApplicationIf::createHTMLView()
 {
-  return Konqueror::HTMLView::_duplicate( new KonqHTMLView );
+  KonqHTMLView *htmlView = new KonqHTMLView;
+  KOMShutdownManager::self()->watchObject( htmlView );
+  return Konqueror::HTMLView::_duplicate( htmlView );
 }
 
 Konqueror::KfmTreeView_ptr KonqApplicationIf::createKfmTreeView()
 {
-  return Konqueror::KfmTreeView::_duplicate( new KonqKfmTreeView );
+  KonqKfmTreeView *treeView = new KonqKfmTreeView;
+  KOMShutdownManager::self()->watchObject( treeView );
+  return Konqueror::KfmTreeView::_duplicate( treeView );
 }
 
 Konqueror::PartView_ptr KonqApplicationIf::createPartView()
 {
-  return Konqueror::PartView::_duplicate( new KonqPartView );
+  KonqPartView *partView = new KonqPartView;
+  KOMShutdownManager::self()->watchObject( partView );
+  return Konqueror::PartView::_duplicate( partView );
 }
 
 Konqueror::TxtView_ptr KonqApplicationIf::createTxtView()
 {
-  return Konqueror::TxtView::_duplicate( new KonqTxtView );
+  KonqTxtView *txtView = new KonqTxtView;
+  KOMShutdownManager::self()->watchObject( txtView );
+  return Konqueror::TxtView::_duplicate( txtView );
 }
 
 /**********************************************
@@ -339,8 +371,15 @@ int main( int argc, char **argv )
   QString path = KGlobal::dirs()->getSaveLocation("data", "kfm/bookmarks", true);
   KonqBookmarkManager bm ( path );
 
-  app.connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) ); 
-  
+  KNaming *naming = kded.knaming();
+  CORBA::Object_var obj = naming->resolve( Konqueror::KONQ_NAMING );
+  if ( CORBA::is_nil( obj ) )
+  {
+    KonqApplicationIf *appIf = new KonqApplicationIf;
+    appIf->incRef(); //prevent anyone from destroying us
+    g_bUseNaming = naming->bind( Konqueror::KONQ_NAMING, appIf );
+  }
+
   app.exec();
 
   kdebug(0, 1202, "============ BACK from event loop ===========");

@@ -75,7 +75,7 @@ enum _ids {
 
 ////// menu items //////
     MFILE_NEW_ID, MFILE_NEWWINDOW_ID, MFILE_RUN_ID, MFILE_OPENTERMINAL_ID,
-    MFILE_OPENLOCATION_ID, MFILE_FIND_ID, MFILE_PRINT_ID, MFILE_CLOSE_ID,
+    MFILE_OPENLOCATION_ID, MFILE_FIND_ID, MFILE_PRINT_ID,
 
     MEDIT_COPY_ID, MEDIT_PASTE_ID, MEDIT_TRASH_ID, MEDIT_DELETE_ID, MEDIT_SELECT_ID,
     MEDIT_SELECTALL_ID, // MEDIT_FINDINPAGE_ID, MEDIT_FINDNEXT_ID,
@@ -107,14 +107,14 @@ enum _ids {
 QList<KonqMainView>* KonqMainView::s_lstWindows = 0L;
 QList<OpenPartsUI::Pixmap>* KonqMainView::s_lstAnimatedLogo = 0L;
 
-KonqMainView::KonqMainView( const char *url, QWidget *_parent ) : QWidget( _parent )
+KonqMainView::KonqMainView( const char *url, QWidget *parent ) : QWidget( parent )
 {
   ADD_INTERFACE( "IDL:Konqueror/MainView:1.0" );
 
   setWidget( this );
 
   OPPartIf::setFocusPolicy( OpenParts::Part::ClickFocus );
-
+  
   m_vMenuFile = 0L;
   m_vMenuFileNew = 0L;
   m_vMenuEdit = 0L;
@@ -166,12 +166,13 @@ KonqMainView::KonqMainView( const char *url, QWidget *_parent ) : QWidget( _pare
 
 KonqMainView::~KonqMainView()
 {
+  kdebug(0,1202,"KonqMainView::~KonqMainView()");
   cleanUp();
+  kdebug(0,1202,"KonqMainView::~KonqMainView() done");
 }
 
 void KonqMainView::init()
 {
-
   OpenParts::MenuBarManager_var menuBarManager = m_vMainWindow->menuBarManager();
   if ( !CORBA::is_nil( menuBarManager ) )
     menuBarManager->registerClient( id(), this );
@@ -201,6 +202,10 @@ void KonqMainView::cleanUp()
   if ( m_bIsClean )
     return;
 
+  kdebug(0,1202,"void KonqMainView::cleanUp()");
+
+  m_vStatusBar = 0L;
+
   OpenParts::MenuBarManager_var menuBarManager = m_vMainWindow->menuBarManager();
   if ( !CORBA::is_nil( menuBarManager ) )
     menuBarManager->unregisterClient( id() );
@@ -215,8 +220,8 @@ void KonqMainView::cleanUp()
 
   delete m_pAccel;
 
-  if ( m_vMainWindow->activePartId() == m_currentId )
-    m_vMainWindow->setActivePart( 0 );
+//  if ( m_vMainWindow->activePartId() == m_currentId )
+//    m_vMainWindow->setActivePart( 0 );
     
   MapViews::Iterator it = m_mapViews.begin();
   for (; it != m_mapViews.end(); it++ )
@@ -239,6 +244,8 @@ void KonqMainView::cleanUp()
   s_lstWindows->removeRef( this );
 
   OPPartIf::cleanUp();
+
+  kdebug(0,1202,"void KonqMainView::cleanUp() done");
 }
 
 void KonqMainView::initConfig()
@@ -391,9 +398,6 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   m_vMenuFile->insertSeparator( -1 );
   text = Q2C( i18n("&Print...") );
   m_vMenuFile->insertItem4( text, this, "slotPrint", stdAccel.print(), MFILE_PRINT_ID, -1 );
-  m_vMenuFile->insertSeparator( -1 );
-  text = Q2C( i18n("&Close") );
-  m_vMenuFile->insertItem4( text, this, "slotClose", stdAccel.close(), MFILE_CLOSE_ID, -1 );
 
   menuBar->setFileMenu( m_idMenuFile );
 
@@ -1127,11 +1131,6 @@ void KonqMainView::slotPrint()
     Konqueror::PrintingExtension_var printExt = Konqueror::PrintingExtension::_narrow( obj );
     printExt->print();
   }
-}
-
-void KonqMainView::slotClose()
-{
-  delete this;
 }
 
 void KonqMainView::slotCopy()

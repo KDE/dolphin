@@ -54,7 +54,7 @@ class KonqMainView : public QWidget,
   Q_OBJECT
 public:
   //C++
-  KonqMainView( const char *url = 0L, QWidget *_parent = 0L );
+  KonqMainView( const char *url = 0L, QWidget *parent = 0L );
   ~KonqMainView();
 
   //inherited
@@ -114,7 +114,6 @@ public slots:  // IDL
   virtual void slotOpenLocation();
   virtual void slotToolFind();
   virtual void slotPrint();
-  virtual void slotClose();
 
   // Edit menu
   virtual void slotCopy();

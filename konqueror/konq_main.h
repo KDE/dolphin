@@ -25,6 +25,9 @@
 #include "konqueror.h"
 #include "kbookmark.h"
 
+class KonqMainWindow;
+class KonqMainView;
+
 class KonqApp : public OPApplication
 {
   Q_OBJECT
@@ -43,7 +46,11 @@ public:
   KonqApplicationIf( const CORBA::BOA::ReferenceData &refdata );
   KonqApplicationIf( CORBA::Object_ptr _obj );
 
-  OpenParts::Part_ptr createPart();
+  KonqMainView   *allocMainView();
+  KonqMainWindow *allocMainWindow( const char *url = 0L );
+
+  virtual OpenParts::Part_ptr createPart();
+  virtual OpenParts::MainWindow_ptr createWindow();
 
   Konqueror::MainWindow_ptr createMainWindow( const char* url );
   Konqueror::MainView_ptr createMainView();
