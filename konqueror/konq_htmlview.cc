@@ -529,15 +529,24 @@ void KonqHTMLView::saveDocument()
   }
   else
   {
-    QString destFile = KFileDialog::getOpenFileName( QDir::currentDirPath() );
-    if ( !destFile.isEmpty() )
-    {
-      KURL u( destFile );
-      Konqueror::EventNewTransfer transfer;
-      transfer.source = getKHTMLWidget()->getDocumentURL().url();
-      transfer.destination = u.url();
-      EMIT_EVENT( m_vParent, Konqueror::eventNewTransfer, transfer );
-    }
+    KURL srcURL( getKHTMLWidget()->getDocumentURL().url() );
+
+    if ( srcURL.filename().isEmpty() )
+      srcURL.setFileName( "index.html" );
+
+    KFileDialog *dlg = new KFileDialog( QDir::currentDirPath(), "*\n*.html\n*.htm",
+					this , i18n("Save As..."), true, false );
+    dlg->setSelection( QDir::currentDirPath() + "/" + srcURL.filename() );
+    if ( dlg->exec() )
+      {
+	KURL destURL( dlg->selectedFileURL() );
+	Konqueror::EventNewTransfer transfer;
+	transfer.source = srcURL.url();
+	transfer.destination = destURL.url();
+	EMIT_EVENT( m_vParent, Konqueror::eventNewTransfer, transfer );
+      }
+
+    delete dlg;
   }
 }
 
@@ -546,15 +555,24 @@ void KonqHTMLView::saveFrame()
   KHTMLView *v = getSelectedView();
   if ( v )
   {
-    QString destFile = KFileDialog::getOpenFileName( QDir::currentDirPath() );
-    if ( !destFile.isEmpty() )
+    KURL srcURL( v->getKHTMLWidget()->getDocumentURL().url() );
+
+    if ( srcURL.filename().isEmpty() )
+      srcURL.setFileName( "index.htm" );
+
+    KFileDialog *dlg = new KFileDialog( QDir::currentDirPath(), "*\n*.html\n*.htm",
+					this , i18n("Save Frameset As..."), true, false );
+    dlg->setSelection( QDir::currentDirPath() + "/" + srcURL.filename() );
+    if ( dlg->exec() )
     {
-      KURL u( destFile );
+      KURL destURL( dlg->selectedFileURL() );
       Konqueror::EventNewTransfer transfer;
-      transfer.source = v->getKHTMLWidget()->getDocumentURL().url();
-      transfer.destination = u.url();
+      transfer.source = srcURL.url();
+      transfer.destination = destURL.url();
       EMIT_EVENT( m_vParent, Konqueror::eventNewTransfer, transfer );
     }
+
+    delete dlg;
   }
 }
 
