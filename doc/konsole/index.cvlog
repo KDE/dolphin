@@ -1,0 +1,31 @@
+=== LinuxDoc conversion errors ===================
+-> Check if any important attributes have been left behind.
+    INPUT                     OUTPUT
+Line Tag                  Line Tag
+  10 `HTMLURL'               0 `<affiliation><address><email><ulink>'
+  12 `'                      0 `'
+! Check the authorname (<collab><collabname> instead of <author><name>?)
+  17 `TOC'                   0 `'
+ 218 `REF'                   0 `<link>'
+ 228 `'                      0 `'
+! check if reference ID probPack was meant for a section (if not, change manually)
+ 301 `TT'                    0 `<literal remap="tt">'
+! Check and correct manually
+ 301 `TT'                    0 `<literal remap="tt">'
+! Check and correct manually
+ 301 `TT'                    0 `<literal remap="tt">'
+! Check and correct manually
+ 301 `TT'                    0 `<literal remap="tt">'
+! Check and correct manually
+ 301 `TT'                    0 `<literal remap="tt">'
+! Check and correct manually
+ 320 `&nbsp;'                0 ` '
+! if you really want an non-breaking space, you should encode it as in entity
+ 334 `&nbsp;'                0 ` '
+! if you really want an non-breaking space, you should encode it as in entity
+ 386 `VERB'                  0 `<programlisting>'
+! Because it contains a newline character
+ 392 `VERB'                  0 `<literal remap="verb">'
+! Check and correct manually
+=== NIF conversion errors ========================
+Unknown META NAME value: keywords
