@@ -70,12 +70,12 @@ expressions within files.
 <para>
 When starting &kfind;, you will see a quite simple window. Type in the
 name of the file you are searching in the textbox labeled
-<guilabel>Named:</guilabel>, choose a folder where you want to search
+<guilabel>Named:</guilabel>. Choose a folder where you want to search
 by typing it in the field <guilabel>Look in:</guilabel>
-or by clicking <guibutton>Browse...</guibutton> and hit
+or by clicking <guibutton>Browse...</guibutton> and press
 <keycap>Enter</keycap> or click <guibutton>Find</guibutton>. If
-<guilabel>Include subfolders</guilabel> is checked, all
-subfolders starting from your chosen folder will be searched,
+<guilabel>Include subfolders</guilabel> is checked all
+subfolders starting from your chosen folder will be searched
 too. The results will be displayed in the box below.
 </para>
 
@@ -103,9 +103,9 @@ files <filename>marc</filename>, <filename>marc.png</filename> and
 <term>The Question Mark <quote><keycap>?</keycap></quote></term>
 <listitem>
 <para>
-In contrast to the asterisk, the question mark stands for exacly one
+In contrast to the asterisk, the question mark stands for exactly one
 character, so <userinput>mar?</userinput> will find
-<filename>marc</filename>, but <userinput>marc?</userinput> won't find
+<filename>marc</filename>, but <userinput>marc?</userinput> will not find
 anything, as our files are called <filename>marc</filename> and
 <filename>marc.png</filename>. You can put as many question marks in the
 term as you want, it will find exactly that number of characters.
@@ -150,7 +150,7 @@ under <guilabel>File type</guilabel>. Only the following file types
 are supported:
 
 <itemizedlist>
-<listitem><para>Text files, &eg; source code and <filename>REAMDE</filename> files</para></listitem>
+<listitem><para>Text files, &eg; source code and <filename>README</filename> files</para></listitem>
 <listitem><para>KWord &gt;= 1.2</para></listitem>
 <listitem><para>KPresenter &gt;= 1.2</para></listitem>
 <listitem><para>KSpread &gt;= 1.2</para></listitem>
