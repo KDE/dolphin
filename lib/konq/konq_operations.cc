@@ -560,7 +560,7 @@ void KonqOperations::doFileCopy()
     {
         if ( (*it).path(1) == KGlobalSettings::trashPath())
             newTrashPath=m_destURL.path()+(*it).path().right((*it).path().length()-(*it).directory().length());
-        if ( KProtocolInfo::supportsDeleting( *it ) && (!(*it).isLocalFile() || QFileInfo((*it).path()).isWritable() ))
+        if ( KProtocolInfo::supportsDeleting( *it ) && (!(*it).isLocalFile() || QFileInfo((*it).directory()).isWritable() ))
             mlst.append(*it);
     }
 
@@ -632,9 +632,7 @@ void KonqOperations::doFileCopy()
     KIO::Job * job = 0;
     switch ( action ) {
     case QDropEvent::Move :
-        if (mlst.isEmpty())
-            return;
-        job = KIO::move( mlst, m_destURL );
+        job = KIO::move( lst, m_destURL );
         job->setMetaData( m_info->metaData );
         setOperation( job, MOVE, lst, m_destURL );
         if ( !newTrashPath.isEmpty() )
