@@ -16,6 +16,7 @@
 #include <qstring.h>
 #include <kurl.h>
 #include <kcmodule.h>
+#include <kio/global.h>
 
 class QPushButton;
 class KConfig;
@@ -95,7 +96,7 @@ public:
 
 private slots:
 	void changed();
-
+    void slotEntries( KIO::Job * job, const KIO::UDSEntryList& list);
 
 private:
         // Desktop Paths
@@ -106,6 +107,8 @@ private:
 
         bool moveDir( const KURL & src, const KURL & dest, const QString & type );
         bool m_ok;
+        KURL m_copyToDest; // used when the destination directory already exists
+        KURL m_copyFromSrc;
 
 private slots:
         void slotResult( KIO::Job * job );

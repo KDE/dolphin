@@ -23,6 +23,7 @@
 
 #include <kapplication.h>
 #include <kdebug.h>
+#include <kfileitem.h>
 #include <kglobalsettings.h>
 #include <klistview.h>
 #include <klocale.h>
@@ -815,13 +816,56 @@ bool DesktopPathConfig::moveDir( const KURL & src, const KURL & dest, const QStr
                               arg(type).arg(src.path()).arg(dest.path()), i18n("Confirmation required") )
             == KMessageBox::Yes )
     {
-        KIO::Job * job = KIO::move( src, dest );
-        connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
-        // wait for job
-        qApp->enter_loop();
+        bool destExists = QFile::exists(dest.path());
+        if (destExists)
+        {
+            m_copyToDest = dest;
+            m_copyFromSrc = src;
+            KIO::ListJob* job = KIO::listDir( src );
+            connect( job, SIGNAL( entries( KIO::Job *, const KIO::UDSEntryList& ) ),
+                     this, SLOT( slotEntries( KIO::Job *, const KIO::UDSEntryList& ) ) );
+            qApp->enter_loop();
+
+            if (m_ok)
+            {
+                KIO::del( src );
+            }
+        }
+        else
+        {
+            KIO::Job * job = KIO::move( src, dest );
+            connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
+            // wait for job
+            qApp->enter_loop();
+        }
     }
     kdDebug() << "DesktopPathConfig::slotResult returning " << m_ok << endl;
     return m_ok;
+}
+
+void DesktopPathConfig::slotEntries( KIO::Job * job, const KIO::UDSEntryList& list)
+{
+    if (job->error())
+    {
+        job->showErrorDialog(this);
+        return;
+    }
+
+    KIO::UDSEntryListConstIterator it = list.begin();
+    KIO::UDSEntryListConstIterator end = list.end();
+    for (; it != end; ++it)
+    {
+        KFileItem file(*it, m_copyFromSrc, true, true);
+        if (file.url() == m_copyFromSrc || file.url().filename() == "..")
+        {
+            continue;
+        }
+
+        KIO::Job * moveJob = KIO::move( file.url(), m_copyToDest );
+        connect( moveJob, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
+        qApp->enter_loop();
+    }
+    qApp->exit_loop();
 }
 
 void DesktopPathConfig::slotResult( KIO::Job * job )
