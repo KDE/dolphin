@@ -849,10 +849,10 @@ void KonqKfmTreeView::openSubFolder( const char *_url, KfmTreeViewDir* _dir )
   KURL url( _url );
   if ( url.isMalformed() )
   {
-    string tmp = i18n( "Malformed URL" ).ascii();;
+    QString tmp = i18n( "Malformed URL" );
     tmp += "\n";
     tmp += _url;
-    QMessageBox::critical( this, i18n( "Error" ), tmp.c_str(), i18n( "OK" ) );
+    QMessageBox::critical( this, i18n( "Error" ), tmp, i18n( "OK" ) );
     return;
   }
 
