@@ -203,6 +203,7 @@ protected slots:
     void slotIconChanged(int);
     void slotOnItem(QIconViewItem *);
     void slotOnViewport();
+    void slotStartSoundPreview();
 
 protected:
     virtual QDragObject *dragObject();
@@ -252,7 +253,7 @@ protected:
     bool m_bSetGridX;
 
 private:
-    KFileIVI * m_pActiveItem;
+    struct KonqIconViewWidgetPrivate *d;
 
 };
 

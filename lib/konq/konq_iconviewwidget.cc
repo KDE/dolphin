@@ -25,6 +25,7 @@
 #include <qdragobject.h>
 #include <qlist.h>
 #include <qregion.h>
+#include <qtimer.h>
 
 #include <kapp.h>
 #include <kcursor.h>
@@ -45,9 +46,19 @@
 #include <kipc.h>
 #include <kiconeffect.h>
 #include <kurldrag.h>
+#include <klibloader.h>
 
 #include <assert.h>
 #include <unistd.h>
+
+struct KonqIconViewWidgetPrivate
+{
+    KFileIVI *pActiveItem;
+    bool bSoundPreviews;
+    KFileIVI *pSoundItem;
+    QObject *pSoundPlayer;
+    QTimer *pSoundTimer;
+};
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f, bool kdesktop )
     : KIconView( parent, name, f ),
@@ -55,6 +66,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
       m_bDesktop( kdesktop ),
       m_bSetGridX( !kdesktop ) /* No line breaking on the desktop */
 {
+    d = new KonqIconViewWidgetPrivate;
     connect( this, SIGNAL( dropped( QDropEvent *, const QValueList<QIconDragItem> & ) ),
              this, SLOT( slotDropped( QDropEvent*, const QValueList<QIconDragItem> & ) ) );
 
@@ -81,7 +93,11 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     setAutoArrange( true );
     setSorting( true, sortDirection() );
     m_bSortDirsFirst = true;
-    m_pActiveItem = 0;
+    d->pActiveItem = 0;
+    d->bSoundPreviews = false;
+    d->pSoundItem = 0;
+    d->pSoundPlayer = 0;
+    d->pSoundTimer = 0;
     m_pImagePreviewJob = 0L;
     m_bMousePressed = false;
     m_LineupMode = LineupBoth;
@@ -95,6 +111,8 @@ KonqIconViewWidget::~KonqIconViewWidget()
 {
     stopImagePreview();
     KonqUndoManager::decRef();
+    delete d->pSoundPlayer;
+    delete d;
 }
 
 void KonqIconViewWidget::slotItemRenamed(QIconViewItem *item, const QString &name)
@@ -118,42 +136,86 @@ void KonqIconViewWidget::slotIconChanged( int group )
 void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
 {
     // Reset icon of previous item
-    if (m_pActiveItem != 0L)
-        m_pActiveItem->setIcon( m_size, KIcon::DefaultState, false, true );
+    if (d->pActiveItem != 0L)
+        d->pActiveItem->setIcon( m_size, KIcon::DefaultState, false, true );
 
     if ( !m_bMousePressed &&
          !static_cast<KFileIVI *>(item)->isThumbnail() &&
          (KGlobal::iconLoader()->iconEffect()->fingerprint(KIcon::Desktop, KIcon::DefaultState) !=
           KGlobal::iconLoader()->iconEffect()->fingerprint(KIcon::Desktop, KIcon::ActiveState) ) )
     {
-      m_pActiveItem = static_cast<KFileIVI *>(item);
-      m_pActiveItem->setIcon( m_size, KIcon::ActiveState, false, true );
+      d->pActiveItem = static_cast<KFileIVI *>(item);
+      d->pActiveItem->setIcon( m_size, KIcon::ActiveState, false, true );
       //kdDebug(1203) << "desktop;defaultstate=" << KGlobal::iconLoader()->iconEffect()->fingerprint(KIcon::Desktop, KIcon::DefaultState) << endl;
       //kdDebug(1203) << "desktop;activestate=" << KGlobal::iconLoader()->iconEffect()->fingerprint(KIcon::Desktop, KIcon::ActiveState) << endl;
     } else
       // Feature disabled during mouse clicking, e.g. rectangular selection
       // also disabled if the item is a thumbnail
-      m_pActiveItem = 0L;
+      d->pActiveItem = 0L;
+    if (d->bSoundPreviews && static_cast<KFileIVI *>(item)->item()->mimetype().startsWith("audio/"))
+    {
+      d->pSoundItem = static_cast<KFileIVI *>(item);
+      if (!d->pSoundTimer)
+      {
+        d->pSoundTimer = new QTimer(this);
+        connect(d->pSoundTimer, SIGNAL(timeout()), SLOT(slotStartSoundPreview()));
+      }
+      if (d->pSoundTimer->isActive())
+        d->pSoundTimer->stop();
+      d->pSoundTimer->start(500, true);
+    }
+    else
+    {
+      if (d->pSoundPlayer)
+      {
+        delete d->pSoundPlayer;
+        d->pSoundPlayer = 0;
+      }
+      d->pSoundItem = 0;
+      if (d->pSoundTimer && d->pSoundTimer->isActive())
+        d->pSoundTimer->stop();
+    }
 }
 
 void KonqIconViewWidget::slotOnViewport()
 {
-    if (m_pActiveItem == 0L)
+    if (d->pActiveItem == 0L)
         return;
-    m_pActiveItem->setIcon( m_size, KIcon::DefaultState, false, true );
-    m_pActiveItem = 0L;
+    d->pActiveItem->setIcon( m_size, KIcon::DefaultState, false, true );
+    d->pActiveItem = 0L;
+    if (d->pSoundPlayer)
+    {
+      delete d->pSoundPlayer;
+      d->pSoundPlayer = 0;
+    }
+    d->pSoundItem = 0;
+    if (d->pSoundTimer && d->pSoundTimer->isActive())
+      d->pSoundTimer->stop();
+}
+
+void KonqIconViewWidget::slotStartSoundPreview()
+{
+  if (!d->pSoundItem)
+    return;
+  KLibFactory *factory = KLibLoader::self()->factory("libkonqsound");
+  if (factory)
+  {
+    QStringList args;
+    args << d->pSoundItem->item()->url().url();
+    d->pSoundPlayer = factory->create(this, 0, "KPlayObject", args);
+  }
 }
 
 void KonqIconViewWidget::clear()
 {
     KIconView::clear();
-    m_pActiveItem = 0L;
+    d->pActiveItem = 0L;
 }
 
 void KonqIconViewWidget::takeItem( QIconViewItem *item )
 {
-    if ( m_pActiveItem == static_cast<KFileIVI *>(item) )
-        m_pActiveItem = 0L;
+    if ( d->pActiveItem == static_cast<KFileIVI *>(item) )
+        d->pActiveItem = 0L;
 
     if ( m_pImagePreviewJob )
       m_pImagePreviewJob->itemRemoved( static_cast<KFileIVI *>(item) );
@@ -165,8 +227,8 @@ void KonqIconViewWidget::setThumbnailPixmap( KFileIVI * item, const QPixmap & pi
 {
     if ( item )
     {
-        if ( m_pActiveItem == item )
-            m_pActiveItem = 0L;
+        if ( d->pActiveItem == item )
+            d->pActiveItem = 0L;
         item->setThumbnailPixmap( pixmap );
         if ( m_bSetGridX &&  item->width() > gridX() )
         {
@@ -286,6 +348,7 @@ void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, 
     connect( m_pImagePreviewJob, SIGNAL( result( KIO::Job * ) ),
              this, SIGNAL( imagePreviewFinished() ) );
     m_pImagePreviewJob->startImagePreview();
+    d->bSoundPreviews = previewSettings.contains( "audio/" );
 }
 
 void KonqIconViewWidget::stopImagePreview()
