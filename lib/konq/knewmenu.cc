@@ -38,6 +38,7 @@
 
 #include <kpropsdlg.h>
 //#include <konq_dirwatcher_stub.h>
+#include "konq_undo.h"
 #include "knewmenu.h"
 
 QValueList<KNewMenu::Entry> * KNewMenu::s_templatesList = 0L;
@@ -330,6 +331,9 @@ void KNewMenu::slotNewFile()
                 KIO::Job * job = KIO::copyAs( uSrc, dest );
                 connect( job, SIGNAL( result( KIO::Job * ) ),
                          SLOT( slotResult( KIO::Job * ) ) );
+                KURL::List lst;
+                lst.append( uSrc );
+                (void)new KonqCommandRecorder( KonqCommand::COPY, lst, dest, job );
             }
         //}
     }
