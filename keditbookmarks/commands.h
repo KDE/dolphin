@@ -38,6 +38,7 @@ public:
     virtual ~MoveCommand() {}
     virtual void execute();
     virtual void unexecute();
+    QString finalAddress();
 private:
     QString m_from;
     QString m_to;
@@ -76,6 +77,7 @@ public:
     virtual ~CreateCommand() {}
     virtual void execute();
     virtual void unexecute();
+    QString finalAddress();
 private:
     QString m_to;
     QString m_text;

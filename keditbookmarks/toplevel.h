@@ -109,7 +109,15 @@ public:
 
     void setModified( bool modified = true );
 
+    void updateSelection();
+
+    static int numSelected();
+    static QPtrList<QListViewItem> * selectedItems();
+    static QListViewItem* firstSelectedItem();
+
+    QPtrList<KBookmark>* selectedBookmarks() const;
     KBookmark selectedBookmark() const;
+    QValueList<KBookmark> getBookmarkSelection();
 
     // @return where to insert a new item - depending on the selected item
     QString insertionAddress() const;
@@ -177,13 +185,15 @@ protected:
     virtual bool queryClose();
     void fillListView();
     void pasteData( const QString & cmdName, QMimeSource * data, const QString & insertionAddress );
-    void itemMoved(QListViewItem * item, const QString & newAddress, bool copy);
+    void itemMoved(QPtrList<QListViewItem> *_items, const QString & newAddress, bool copy);
     QString correctAddress(QString address);
+    void deleteSelection(QString commandName);
 
     bool m_bModified;
     bool m_bCanPaste;
     bool m_bReadOnly;
     bool m_bUnique;
+
     KToggleAction * m_taShowNS;
     KListView * m_pListView;
     KCommandHistory m_commandHistory;

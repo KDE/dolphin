@@ -74,6 +74,12 @@ void MoveCommand::execute()
     kdDebug() << "MoveCommand::execute : new addresses from=" << m_from << " to=" << m_to << endl;
 }
 
+QString MoveCommand::finalAddress()
+{
+    // AK - assert( alreadyExecuted ); ???
+    return m_to;
+}
+
 void MoveCommand::unexecute()
 {
     // Let's not duplicate code.
@@ -127,6 +133,12 @@ void CreateCommand::execute()
         parentGroup.internalElement().setAttribute( "folded", "no" );
     }
     Q_ASSERT( bk.address() == m_to );
+}
+
+QString CreateCommand::finalAddress()
+{
+    // AK - assert( alreadyExecuted ); ???
+    return m_to;
 }
 
 void CreateCommand::unexecute()
