@@ -138,7 +138,7 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   lay->addWidget(lb_no_prx,ROW_NOPROXY,1);
 
   wtstr = i18n("Here you can provide a list of hosts or domains that will be directly accessed without"
-    "asking a proxy first. Usually, this will be hosts on your local network.");
+    " asking a proxy first. Usually, this will be hosts on your local network.");
   QWhatsThis::add( le_no_prx, wtstr );
   QWhatsThis::add( lb_no_prx, wtstr );
 
