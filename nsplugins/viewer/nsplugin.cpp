@@ -26,7 +26,6 @@
 #include "NSPluginCallbackIface_stub.h"
 
 
-#include <stream.h>
 #include <stdlib.h>
 #include <unistd.h>
 
