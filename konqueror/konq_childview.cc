@@ -47,6 +47,9 @@ void VeryBadHackToFixCORBARefCntBug( CORBA::Object_ptr obj )
   while ( obj->_refcnt() > 1 ) obj->_deref();
 }
 
+// Let's do without it while it's broken ...
+// #define USE_QXEMBED
+
 KonqChildView::KonqChildView( Konqueror::View_ptr view, 
                               Row * row, 
                               Konqueror::NewViewPosition newViewPosition,
@@ -104,18 +107,31 @@ void KonqChildView::attach( Konqueror::View_ptr view )
   connectView( );
   if (m_pFrame) delete m_pFrame;
 
+#ifdef USE_QXEMBED
   m_pFrame = new OPFrame( m_pWidget );
   m_pLayout->addWidget( m_pFrame );
+#endif
   if ( localView )
-{
-kdebug(0, 1202, " ************* LOCAL VIEW ! *************");
+  {
+    kdebug(0, 1202, " ************* LOCAL VIEW ! *************");
+#ifdef USE_QXEMBED
     m_pFrame->attachLocal( localView );
-}
+#else 
+    QWidget * localWidget = localView->widget();
+    localWidget->reparent( m_pWidget, 0, QPoint(0, 0) );
+    m_pLayout->addWidget( localWidget ); 
+    m_pFrame = 0L;
+#endif
+  }
   else
-{
-kdebug(0, 1202, " ************* NOT LOCAL :( *************");
+  {
+#ifndef USE_QXEMBED
+    m_pFrame = new OPFrame( m_pWidget );
+    m_pLayout->addWidget( m_pFrame );
+#endif
+    kdebug(0, 1202, " ************* NOT LOCAL :( *************");
     m_pFrame->attach( view );
-}
+  }
 
   KonqPlugins::installKOMPlugins( view );
   m_pLayout->activate();
@@ -123,10 +139,13 @@ kdebug(0, 1202, " ************* NOT LOCAL :( *************");
 
 void KonqChildView::detach()
 {
-  m_pFrame->hide();
-  m_pFrame->detach();
-  delete m_pFrame;
-  m_pFrame = 0L;
+  if ( m_pFrame )
+  {
+    m_pFrame->hide();
+    m_pFrame->detach();
+    delete m_pFrame;
+    m_pFrame = 0L;
+  }
   m_vView->disconnectObject( m_vParent );
   m_vView->decRef(); //die view, die ... (cruel world, isn't it?) ;)
   VeryBadHackToFixCORBARefCntBug( m_vView );
