@@ -123,7 +123,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
 		       " useful for quickly accessing applications if you like to keep the"
 		       " panel (also known as \"Kicker\") hidden from view.</li></ul>");
   QWhatsThis::add( tmpLabel, wtstr );
- QWhatsThis:.add( leftComboBox );
+  QWhatsThis::add( leftComboBox, wtstr );
 
   row++;
   tmpLabel = new QLabel( i18n("M&iddle button"), this );
