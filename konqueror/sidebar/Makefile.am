@@ -25,7 +25,7 @@ konq_sidebar_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
 konq_sidebar_la_LIBADD  = $(LIB_KPARTS) $(LIB_KIO) ../../libkonq/libkonq.la ./libkonqsidebarplugin.la ../../kate/lib/libkmultitabbar.la
 
 libkonqsidebarplugin_la_SOURCES=konqsidebarplugin.cpp
-libkonqsidebarplugin_la_LDFLAGS = $(all_libraries) -no-undefined
+libkonqsidebarplugin_la_LDFLAGS = -version-info 3:0:2 $(all_libraries) -no-undefined
 libkonqsidebarplugin_la_LIBADD = $(LIB_KPARTS)
 
 # this is where the desktop file will go 
