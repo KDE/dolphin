@@ -107,7 +107,6 @@ class KonqBaseListViewWidget : public KListView
 
       virtual void setShowIcons( bool enable ) { m_showIcons = enable; }
       virtual bool showIcons() { return m_showIcons; }
-      virtual void updateSelectedFilesInfo();
 
 //      bool underlineLink()            {return m_bUnderlineLink;}
 //      bool singleClick()              {return m_bSingleClick;}
@@ -122,6 +121,7 @@ class KonqBaseListViewWidget : public KListView
 
    public slots:
       //virtual void slotOnItem( KonqBaseListViewItem* _item );
+      virtual void updateSelectedFilesInfo();
       void slotMouseButtonPressed(int _button, QListViewItem* _item, const QPoint&, int col);
       virtual void slotOnItem( QListViewItem* _item );
       virtual void slotOnViewport();

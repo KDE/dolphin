@@ -346,7 +346,7 @@ void KonqListView::slotSelect()
             it->setSelected( TRUE);
 
       m_pListView->blockSignals( false );
-      m_pListView->repaintContents(0,0,m_pListView->width(),m_pListView->height());
+      //m_pListView->repaintContents(0,0,m_pListView->width(),m_pListView->height());
       //m_pListView->updateSelectedFilesInfo();
 
       // do this once, not for each item
@@ -354,7 +354,8 @@ void KonqListView::slotSelect()
       //slotDisplayFileSelectionInfo();
    }
    emit m_pListView->selectionChanged();
-   m_pListView->updateSelectedFilesInfo();
+   m_pListView->viewport()->update();
+   //m_pListView->updateSelectedFilesInfo();
 }
 
 void KonqListView::slotUnselect()
@@ -375,7 +376,7 @@ void KonqListView::slotUnselect()
             it->setSelected(FALSE);
 
       m_pListView->blockSignals(FALSE);
-      m_pListView->repaintContents(0,0,m_pListView->width(),m_pListView->height());
+      //m_pListView->repaintContents(0,0,m_pListView->width(),m_pListView->height());
 
       // do this once, not for each item
       //m_pListView.slotSelectionChanged();
@@ -383,30 +384,32 @@ void KonqListView::slotUnselect()
       //m_pListView->updateSelectedFilesInfo();
    }
    emit m_pListView->selectionChanged();
-   m_pListView->updateSelectedFilesInfo();
+   m_pListView->viewport()->update();
+   //m_pListView->updateSelectedFilesInfo();
 }
 
 void KonqListView::slotSelectAll()
 {
    m_pListView->selectAll(TRUE);
    emit m_pListView->selectionChanged();
-   m_pListView->updateSelectedFilesInfo();
+   //m_pListView->updateSelectedFilesInfo();
 }
 
 void KonqListView::slotUnselectAll()
 {
     m_pListView->selectAll(FALSE);
     emit m_pListView->selectionChanged();
-    m_pListView->updateSelectedFilesInfo();
+    //m_pListView->updateSelectedFilesInfo();
 }
 
 
 void KonqListView::slotInvertSelection()
 {
     m_pListView->invertSelection();
-    m_pListView->repaintContents(0,0,m_pListView->width(),m_pListView->height());
+    //m_pListView->repaintContents(0,0,m_pListView->width(),m_pListView->height());
     emit m_pListView->selectionChanged();
-    m_pListView->updateSelectedFilesInfo();
+    m_pListView->viewport()->update();
+    //m_pListView->updateSelectedFilesInfo();
 }
 
 void KonqListView::slotIconSizeToggled( bool)

@@ -50,7 +50,7 @@ KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, Kon
 
 void KonqListViewItem::init()
 {
-   setPixmap( 0/*m_PListViewWidget->m_filenameColumn*/, m_fileitem->pixmap( m_pListViewWidget->iconSize(), false /*no image preview*/ ) );
+   setPixmap( 0, m_fileitem->pixmap( m_pListViewWidget->iconSize(), false /*no image preview*/ ) );
    // Set the text of each column
 
    if (S_ISDIR(m_fileitem->mode()))
@@ -96,7 +96,8 @@ void KonqListViewItem::init()
             {
                QDateTime dt;
                dt.setTime_t( m_fileitem->time( tmpColumn->udsId ) );
-               setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDateTime(dt));
+               setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDate(dt.date(),TRUE)+" "+KGlobal::locale()->formatTime(dt.time())+" ");
+               //setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDateTime(dt));
             }
             break;
          default:

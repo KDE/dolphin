@@ -21,7 +21,7 @@
 
 #include "konq_listviewwidget.h"
 
-#include <qtimer.h>
+//#include <qtimer.h>
 #include <kurl.h>
 #include <konq_fileitem.h>
 
@@ -41,7 +41,7 @@ class KonqTextViewWidget : public KonqBaseListViewWidget
 
    protected slots:
       // slots connected to the directory lister
-      virtual void slotStarted( const QString & );
+      //virtual void slotStarted( const QString & );
       //virtual void slotCompleted();
       virtual void slotNewItems( const KFileItemList & );
    protected:
@@ -51,7 +51,7 @@ class KonqTextViewWidget : public KonqBaseListViewWidget
       virtual void setComplete();
 
       //this timer is only for testing, can be reomved
-      QTime timer;
+      //QTime timer;
       QColor colors[11];
       QColor highlight[11];
 };

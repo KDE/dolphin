@@ -105,6 +105,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    connect(this,SIGNAL(onItem(QListViewItem*)),this,SLOT(slotOnItem(QListViewItem*)));
    connect(this,SIGNAL(onViewport()),this,SLOT(slotOnViewport()));
    connect(this,SIGNAL(menuShortCutPressed (KListView* , QListViewItem* )),this,SLOT(slotPopupMenu(KListView*,QListViewItem*)));
+   connect(this,SIGNAL(selectionChanged()),this,SLOT(updateSelectedFilesInfo()));
 
    viewport()->setAcceptDrops( true );
    viewport()->setMouseTracking( true );
@@ -239,7 +240,7 @@ void KonqBaseListViewWidget::createColumns()
       }
    }
    if (sortedByColumn=="FileName")
-      setSorting(m_filenameColumn,ascending);
+      setSorting(0,ascending);
    for (unsigned int i=0; i<NumberOfAtoms; i++)
       kdDebug(1202)<<"i: "<<i<<" name: "<<confColumns[i].name<<" disp: "<<confColumns[i].displayInColumn<<" on: "<<confColumns[i].displayThisOne<<endl;
 }
@@ -296,7 +297,7 @@ void KonqBaseListViewWidget::updateSelectedFilesInfo()
          m_selectedFilesStatusText+= i18n("%1 Directories").arg(dirCount);
    }
    emit m_pBrowserView->setStatusBarText(m_selectedFilesStatusText);
-   //cerr<<"KonqTextViewWidget::updateSelectedFilesInfo"<<endl;
+   //kdDebug(1202)<<"KonqTextViewWidget::updateSelectedFilesInfo"<<endl;
 }
 
 /*QStringList KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
@@ -860,8 +861,7 @@ void KonqBaseListViewWidget::slotClear()
 void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
 {
    kdDebug(1202) << "KonqBaseListViewWidget::slotNewItems " << entries.count() << endl;
-   QListIterator<KFileItem> kit ( entries );
-   for( ; kit.current(); ++kit )
+   for (QListIterator<KFileItem> kit ( entries ); kit.current(); ++kit )
       new KonqListViewItem( this, static_cast<KonqFileItem *>(*kit) );
 }
 

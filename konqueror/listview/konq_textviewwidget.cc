@@ -40,7 +40,7 @@
 
 KonqTextViewWidget::KonqTextViewWidget( KonqListView *parent, QWidget *parentWidget )
 :KonqBaseListViewWidget(parent,parentWidget)
-,timer()
+//,timer()
 {
    kdDebug(1202) << "+KonqTextViewWidget" << endl;
    m_filenameColumn=1;
@@ -71,7 +71,7 @@ KonqTextViewWidget::KonqTextViewWidget( KonqListView *parent, QWidget *parentWid
    highlight[KTVI_UNKNOWN]=colors[KTVI_UNKNOWN].light();
    highlight[KTVI_CHARDEV]=colors[KTVI_CHARDEV].light(180);
    highlight[KTVI_BLOCKDEV]=colors[KTVI_BLOCKDEV].light(180);
-   timer.start();
+   //timer.start();
    m_showIcons=FALSE;
 }
 
@@ -117,7 +117,9 @@ void KonqTextViewWidget::createColumns()
                   || (tmpColumn->udsId==KIO::UDS_CREATION_TIME))
          {
             QDateTime dt(QDate(2000,10,10),QTime(20,20,20));
-            addColumn(i18n(tmpName),fontMetrics().width(KGlobal::locale()->formatDateTime(dt)+"--"));
+            //addColumn(i18n(tmpName),fontMetrics().width(KGlobal::locale()->formatDateTime(dt)+"--"));
+            addColumn(i18n(tmpName),fontMetrics().width(KGlobal::locale()->formatDate(dt.date(),TRUE)+KGlobal::locale()->formatTime(dt.time())+"----"));
+            setColumnAlignment(currentColumn,AlignCenter);
          }
          else if (tmpColumn->udsId==KIO::UDS_ACCESS)
             addColumn(i18n(tmpName),fontMetrics().width("--Permissions--"));
@@ -139,16 +141,16 @@ void KonqTextViewWidget::createColumns()
       };
    };
    if (sortedByColumn=="FileName")
-      setSorting(m_filenameColumn,ascending);
+      setSorting(0,ascending);
 
 };
 
-void KonqTextViewWidget::slotStarted( const QString & url )
+/*void KonqTextViewWidget::slotStarted( const QString & url )
 {
    KonqBaseListViewWidget::slotStarted( url );
    //setUpdatesEnabled(FALSE);
-   timer.restart();
-}
+   //timer.restart();
+}*/
 
 void KonqTextViewWidget::setComplete()
 {
@@ -157,11 +159,8 @@ void KonqTextViewWidget::setComplete()
    //setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset, m_pBrowserView->extension()->urlArgs().yOffset );
    //setUpdatesEnabled(TRUE);
    //repaintContents(0,0,width(),height());
-   if (firstChild()!=0)
-   {
-      setCurrentItem(firstChild());
-      ensureItemVisible(currentItem());
-   };
+   setCurrentItem(firstChild());
+   ensureItemVisible(currentItem());
    emit selectionChanged();
    //setContentsPos( m_iXOffset, m_iYOffset );
 //   show();
