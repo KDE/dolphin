@@ -1,31 +1,38 @@
 //
 //
-// "Root Options" Tab for KFM configuration
+// "Root Options" Tab for KDesktop configuration
 //
 // (c) Martin R. Jones 1996
 // (c) Bernd Wuebben 1998
 //
 // Layouts
 // (c) Christian Tibirna 1998
-// Port to KControl, split from Misc Tab
+// Port to KControl, split from Misc Tab, Port to KControl2
 // (c) David Faure 1998
+
+#include <config.h>
 
 #include <qlabel.h>
 #include <qgroupbox.h>
 #include <qcheckbox.h>
-#include <qlayout.h>//CT - 12Nov1998
-#include <kapp.h>
-#include <kconfig.h>
+#include <qlayout.h>
 #include <klocale.h>
+#include <kmessagebox.h>
+#include <kstddirs.h>
+#include <kglobal.h>
+#include <kconfig.h>
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 
 #include "rootopts.h"
 
-#include <konqdefaults.h> // include default values directly from kfm
+#include <konqdefaults.h> // include default values directly from libkonq
 
 //-----------------------------------------------------------------------------
 
 KRootOptions::KRootOptions( QWidget *parent, const char *name )
-    : KConfigWidget( parent, name )
+    : KCModule( parent, name )
 {
 #define RO_ROWS 3
 #define RO_COLS 1
@@ -46,35 +53,50 @@ KRootOptions::KRootOptions( QWidget *parent, const char *name )
 
   lay->activate();
 
-  loadSettings();
+  load();
 }
 
-void KRootOptions::loadSettings()
+void KRootOptions::load()
 {
-    // Root Icons settings
-    g_pConfig->setGroup( "Desktop Icons" );
-    bool bShowHidden = g_pConfig->readBoolEntry("ShowHidden", DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
+    KConfig *config = KGlobal::config();
+    config->setGroup( "Desktop Icons" );
+    bool bShowHidden = config->readBoolEntry("ShowHidden", DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
     showHiddenBox->setChecked(bShowHidden);
 }
 
-void KRootOptions::defaultSettings()
+void KRootOptions::defaults()
 {
-    // Root Icons Settings
     showHiddenBox->setChecked(DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
 }
 
-void KRootOptions::saveSettings()
+void KRootOptions::save()
 {
-    // Root Icons Settings
-    g_pConfig->setGroup( "KFM Root Icons" );
-    g_pConfig->writeEntry("ShowHidden", showHiddenBox->isChecked());
+    KConfig *config = KGlobal::config();
+    config->setGroup( "Desktop Icons" );
+    config->writeEntry("ShowHidden", showHiddenBox->isChecked());
 
-    g_pConfig->sync();
+    config->sync();
+
+    QString exeloc = locate("exe","kfmclient");
+    if ( exeloc.isEmpty() ) {
+      KMessageBox::error( 0L,
+                          i18n( "Can't find the kfmclient program - can't apply configuration dynamically" ), i18n( "Error" ) );
+      return;
+    }
+    if ( fork() == 0 )
+    {
+      execl(exeloc, "kfmclient", "configureDesktop", 0L);
+      warning("Error launching 'kfmclient configureDesktop' !");
+    }
 }
 
-void KRootOptions::applySettings()
+extern "C"
 {
-    saveSettings();
+  KCModule *create_icons(QWidget *parent, const char *name)
+  {
+    KGlobal::locale()->insertCatalogue("kcmkonq");
+    return new KRootOptions(parent, name);
+  };
 }
 
 #include "rootopts.moc"

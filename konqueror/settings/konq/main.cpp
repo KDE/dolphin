@@ -16,7 +16,6 @@
 #include "khttpoptdlg.h"
 #include "miscopts.h"
 #include "behaviour.h"
-#include "rootopts.h"
 
 KConfig *g_pConfig = 0;
 
@@ -36,7 +35,6 @@ private:
   KHTTPOptions  *m_pHTTPOptions;
   KMiscOptions  *m_pMiscOptions;
   KBehaviourOptions *m_pBehaviourOptions;
-  KRootOptions *m_pRootOptions;
 };
 
 KonqControlApplication::KonqControlApplication( int &argc, char **argv )
@@ -48,7 +46,6 @@ KonqControlApplication::KonqControlApplication( int &argc, char **argv )
   m_pHtmlOptions = 0L;
   m_pHTTPOptions  = 0L;
   m_pMiscOptions  = 0L;
-  m_pRootOptions  = 0L;
 
   bool _desktop = argc > 1 && !strcmp(argv[1], "desktop");
   g_pConfig = new KConfig( _desktop ? "kdesktoprc" : "konquerorrc", false, false );
@@ -64,11 +61,13 @@ KonqControlApplication::KonqControlApplication( int &argc, char **argv )
   QString groupname = "HTML Settings"; // default group
 
   // Only do this if called explicitely with the "desktop" argument
+  /*
   if ( ( !pages || pages->contains( "desktop" ) ) && ( argc > 1 ) )
   {
    addPage( m_pRootOptions = new KRootOptions( dialog, "desktop" ), i18n( "&Desktop Icons" ), "kdesktop-1.html" );
    groupname = "Desktop Settings"; // group for kdesktop
   }
+  */
 
   if ( !pages || pages->contains( "behaviour" ) )
     addPage( m_pBehaviourOptions = new KBehaviourOptions( dialog, "behaviour" ), i18n( "&Behaviour" ), "konq-1.html" );
@@ -89,7 +88,7 @@ KonqControlApplication::KonqControlApplication( int &argc, char **argv )
   if ( !pages || pages->contains( "misc" ) )
     addPage( m_pMiscOptions = new KMiscOptions( dialog, "misc" ), i18n( "&Other" ), "konq-5.html" );
 
-  if ( m_pRootOptions || m_pFontOptions || m_pColorOptions || m_pHTTPOptions || m_pMiscOptions || m_pBehaviourOptions )
+  if ( m_pFontOptions || m_pColorOptions || m_pHTTPOptions || m_pMiscOptions || m_pBehaviourOptions )
      dialog->show();
   else
   {
@@ -100,9 +99,6 @@ KonqControlApplication::KonqControlApplication( int &argc, char **argv )
 
 void KonqControlApplication::init()
 {
-  if ( m_pRootOptions )
-    m_pRootOptions->loadSettings();
-
   if ( m_pBehaviourOptions )
     m_pBehaviourOptions->loadSettings();
 
@@ -124,9 +120,6 @@ void KonqControlApplication::init()
 
 void KonqControlApplication::defaultValues()
 {
-  if ( m_pRootOptions )
-    m_pRootOptions->defaultSettings();
-
   if ( m_pBehaviourOptions )
     m_pBehaviourOptions->defaultSettings();
 
@@ -148,9 +141,6 @@ void KonqControlApplication::defaultValues()
 
 void KonqControlApplication::apply()
 {
-  if ( m_pRootOptions )
-    m_pRootOptions->applySettings();
-
   if ( m_pBehaviourOptions )
     m_pBehaviourOptions->applySettings();
 
@@ -180,17 +170,10 @@ void KonqControlApplication::apply()
 
   if ( fork() == 0 )
   {
-	  // execute 'kfmclient configure' or 'kfmclient configureDesktop'
-	  if ( m_pRootOptions )
-	  {
-		  execl(exeloc, "kfmclient", "configureDesktop", 0L);
-		  warning("Error launching 'kfmclient configureDesktop' !");
-	  } else
-	  {
-		  execl(exeloc, "kfmclient", "configure", 0L);
-		  warning("Error launching 'kfmclient configure' !");
-	  }
-	  exit(1);
+    // execute 'kfmclient configure'
+    execl(exeloc, "kfmclient", "configure", 0L);
+    warning("Error launching 'kfmclient configure' !");
+    exit(1);
   }
 }
 
