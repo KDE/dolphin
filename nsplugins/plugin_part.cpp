@@ -15,6 +15,11 @@
 class PluginBrowserExtension : public KParts::BrowserExtension
 {
   friend class PluginPart;
+public:
+  PluginBrowserExtension( KParts::ReadOnlyPart *parent,
+                          const char *name = 0L )
+     : KParts::BrowserExtension( parent, name ) {}
+  ~PluginBrowserExtension() {}
 };
 
 
