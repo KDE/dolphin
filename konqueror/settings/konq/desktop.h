@@ -25,6 +25,7 @@
 class QSpinBox;
 class QLabel;
 class KLineEdit;
+class KIntNumInput;
 
 class KDesktopConfig : public KCModule
 {
@@ -45,8 +46,7 @@ class KDesktopConfig : public KCModule
   void slotTextChanged(const QString&);
     
  private:
-  QSlider    *_numSlider;
-  QLabel     *_numLabel;
+  KIntNumInput *_numInput;
   QLabel     *_nameLabel[16];
   KLineEdit  *_nameInput[16];
 };

@@ -27,6 +27,8 @@
 #include <klocale.h>
 #include <kdialog.h>
 #include <klineedit.h>
+#include <knuminput.h>
+
 #include <netwm.h>
 
 #include "desktop.h"
@@ -59,22 +61,18 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char *name)
                      KDialog::marginHint(),
                      KDialog::spacingHint());
 
-  QLabel *label = new QLabel(i18n("N&umber of Desktops: "), number_group);
-  _numLabel = new QLabel("4", number_group);
-  _numSlider = new QSlider(1, 16, 1, 4, Horizontal, number_group);
-  connect(_numSlider, SIGNAL(valueChanged(int)), SLOT(slotValueChanged(int)));
-  label->setBuddy( _numSlider );
+  QLabel *label = new QLabel(i18n("N&umber of desktops: "), number_group);
+  _numInput = new KIntNumInput(4, number_group);
+  _numInput->setRange(1, 16, 1, true);
+  connect(_numInput, SIGNAL(valueChanged(int)), SLOT(slotValueChanged(int)));
+  label->setBuddy( _numInput );
   QString wtstr = i18n( "Here you can set how many virtual desktops you want on your KDE desktop. Move the slider to change the value." );
   QWhatsThis::add( label, wtstr );
-  QWhatsThis::add( _numLabel, wtstr );
-  QWhatsThis::add( _numSlider, wtstr );
+  QWhatsThis::add( _numInput, wtstr );
 
   lay->addWidget(label);
-  lay->addWidget(_numLabel);
-  lay->addWidget(_numSlider);
-
-  lay->setStretchFactor(_numLabel, 2);
-  lay->setStretchFactor(_numSlider, 3);
+  lay->addWidget(_numInput);
+  lay->setStretchFactor(_numInput, 1);
 
   layout->addWidget(number_group);
 
@@ -123,7 +121,7 @@ void KDesktopConfig::load()
   NETRootInfo info( qt_xdisplay(), NET::NumberOfDesktops | NET::DesktopNames );
   int n = info.numberOfDesktops();
 
-  _numSlider->setValue(n);
+  _numInput->setValue(n);
 
   for(int i = 1; i <= 16; i++)
     _nameInput[i-1]->setText(QString::fromUtf8(info.desktopName(i)));
@@ -137,7 +135,7 @@ void KDesktopConfig::save()
 {
   // set number of desktops
   NETRootInfo info( qt_xdisplay(), NET::NumberOfDesktops | NET::DesktopNames );
-  info.setNumberOfDesktops(_numSlider->value());
+  info.setNumberOfDesktops(_numInput->value());
   XSync(qt_xdisplay(), FALSE);
   info.activate();
 
@@ -151,8 +149,7 @@ void KDesktopConfig::save()
 void KDesktopConfig::defaults()
 {
   int n = 4;
-  _numSlider->setValue(n);
-  _numLabel->setText(QString("%1").arg(n));
+  _numInput->setValue(n);
 
   for(int i = 0; i < 16; i++)
     _nameInput[i]->setText(i18n("Desktop %1").arg(i+1));
@@ -175,7 +172,6 @@ void KDesktopConfig::slotValueChanged(int n)
     if(i<n && _nameInput[i]->text().isEmpty())
       _nameInput[i]->setText(i18n("Desktop %1").arg(i+1));
   }
-  _numLabel->setText(QString("%1").arg(n));
   emit changed(true);
 }
 
