@@ -196,6 +196,8 @@ public:
   void emitStatus( const QString &message);
   void requestURL( const QString &url, const QString &mime,
 		   const QString &target, void *notify );
+  void delayedRequestURL( const QString &url, const QString &mime,
+		   const QString &target, void *notify );
 
   void postURL( const QString &url, const QByteArray& data, const QString &mime,
              const QString &target, void *notify, const KParts::URLArgs& args );
@@ -204,6 +206,7 @@ public:
 
 public slots:
   void streamFinished( NSPluginStreamBase *strm );
+  void processDelayedRequests();
 
 private slots:
   void timer();
@@ -256,7 +259,7 @@ private:
 
   NPWindow _win;
   NPSetWindowCallbackStruct _win_info;
-  QPtrQueue<Request> _waitingRequests;
+  QPtrQueue<Request> _waitingRequests, _delayedRequests;
   QMap<int, Request*> _jsrequests;
 };
 

@@ -507,6 +507,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    _tempFiles.setAutoDelete( true );
    _streams.setAutoDelete( true );
    _waitingRequests.setAutoDelete( true );
+   _delayedRequests.setAutoDelete( true );
    _callback = new NSPluginCallbackIface_stub( appId.latin1(), callbackId.latin1() );
 
    KURL base(src);
@@ -589,6 +590,7 @@ void NSPluginInstance::destroy()
 
         kdDebug(1431) << "delete streams" << endl;
         _waitingRequests.clear();
+        _delayedRequests.clear();
 
 	shutdown();
 
@@ -632,7 +634,9 @@ void NSPluginInstance::destroy()
         XtDestroyWidget(_toplevel);
 	_toplevel = 0;
 
-        ::free(_npp);   // matched with malloc() in newInstance
+        if (_npp) {
+            ::free(_npp);   // matched with malloc() in newInstance
+        }
 
         _destroyed = true;
     }
@@ -654,7 +658,7 @@ void NSPluginInstance::timer()
          return;
     }
 
-    _streams.clear();
+    //_streams.clear();
 
     // start queued requests
     kdDebug(1431) << "looking for waiting requests" << endl;
@@ -712,9 +716,9 @@ void NSPluginInstance::timer()
                 } else if (url.lower().startsWith("javascript:")){
                     if (_callback) {
                         static int _jsrequestid = 0;
-                        _callback->evalJavaScript( _jsrequestid, url.mid(11) );
                         if ( req.notify )
-                            _jsrequests.insert(_jsrequestid++, new Request( req ));
+                            _jsrequests.insert(_jsrequestid, new Request(req));
+                        _callback->evalJavaScript(_jsrequestid++, url.mid(11));
                     } else {
                         kdDebug() << "No callback for javascript: url!" << endl;
                     }
@@ -731,7 +735,7 @@ void NSPluginInstance::timer()
                     s->get( url, req.mime, req.notify );
                 }
 
-                break;
+                //break;
             }
         }
     }
@@ -768,9 +772,26 @@ void NSPluginInstance::requestURL( const QString &url, const QString &mime,
 
     kdDebug(1431) << "NSPluginInstance::requestURL url=" << nurl << " target=" << target << " notify=" << notify << endl;
     _waitingRequests.enqueue( new Request( nurl, mime, target, notify ) );
-    if ( _streams.count() == 0 ) {
-        _timer->start( 0, true );
+    _timer->start( 100, true );
+}
+
+
+void NSPluginInstance::processDelayedRequests()
+{
+    while (_delayedRequests.head()) {
+        Request req(*_delayedRequests.head());
+        _delayedRequests.remove();
+        requestURL(req.url, req.mime, req.target, req.notify);
     }
+}
+
+
+void NSPluginInstance::delayedRequestURL( const QString &url, const QString &mime,
+                                   const QString &target, void *notify )
+{
+    kdDebug(1431) << "NSPluginInstance::delayedRequestURL url=" << url << " target=" << target << " notify=" << notify << endl;
+    _delayedRequests.enqueue(new Request(url, mime, target, notify));
+    QTimer::singleShot(10, this, SLOT(processDelayedRequests()));
 }
 
 
@@ -787,9 +808,7 @@ void NSPluginInstance::postURL( const QString &url, const QByteArray& data,
 
     kdDebug(1431) << "NSPluginInstance::postURL url=" << nurl << " target=" << target << " notify=" << notify << endl;
     _waitingRequests.enqueue( new Request( nurl, data, mime, target, notify, args) );
-    if ( _streams.count() == 0 ) {
-        _timer->start( 0, true );
-    }
+    _timer->start( 100, true );
 }
 
 
@@ -804,7 +823,7 @@ void NSPluginInstance::streamFinished( NSPluginStreamBase* /*strm*/ )
 {
    kdDebug(1431) << "-> NSPluginInstance::streamFinished" << endl;
    emitStatus( QString::null );
-   _timer->start( 0, true );
+   _timer->start( 100, true );
 }
 
 
@@ -1342,7 +1361,7 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
 
    // create source stream
    if ( !src.isEmpty() )
-      inst->requestURL( src, mimeType, QString::null, 0 );
+      inst->delayedRequestURL( src, mimeType, QString::null, 0 );
 
    _instances.append( inst );
    return DCOPRef(kapp->dcopClient()->appId(), inst->objId());
@@ -1363,6 +1382,7 @@ NSPluginStreamBase::NSPluginStreamBase( NSPluginInstance *instance )
    : QObject( instance ), _instance(instance), _stream(0), _tempFile(0L),
      _pos(0), _queue(0), _queuePos(0), _error(false)
 {
+   _informed = false;
 }
 
 
