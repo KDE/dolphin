@@ -147,23 +147,28 @@ void KonqControlApplication::apply()
     m_pMiscOptions->applySettings();
 
   QString exeloc = locate("exe","kfmclient");
-  if ( exeloc.isEmpty() )
-    KMessageBox::error( 0L, i18n( "Can't find the kfmclient program - can't apply configuration dynamically" ), i18n( "Error" ) );
-  else
-    if ( fork() == 0 )
-    {
-      // execute 'kfmclient configure' or 'kfmclient configureDesktop'
-      if ( m_pRootOptions )
-      {
-        execl(exeloc, "kfmclient", "configureDesktop", 0L);
-        warning("Error launching 'kfmclient configureDesktop' !");
-      } else
-      {
-        execl(exeloc, "kfmclient", "configure", 0L);
-        warning("Error launching 'kfmclient configure' !");
-      }
-      exit(1);
-    }
+  if ( exeloc.isEmpty() ) {
+  	  KMessageBox::error( 0L, 
+	  i18n( "Can't find the kfmclient program - can't apply configuration dynamically" ), i18n( "Error" ) );
+	return;
+  }
+
+  QApplication::flushX();
+
+  if ( fork() == 0 )
+  {
+	  // execute 'kfmclient configure' or 'kfmclient configureDesktop'
+	  if ( m_pRootOptions )
+	  {
+		  execl(exeloc, "kfmclient", "configureDesktop", 0L);
+		  warning("Error launching 'kfmclient configureDesktop' !");
+	  } else
+	  {
+		  execl(exeloc, "kfmclient", "configure", 0L);
+		  warning("Error launching 'kfmclient configure' !");
+	  }
+	  exit(1);
+  }
 }
 
 int main(int argc, char **argv )
