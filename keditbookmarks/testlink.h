@@ -55,8 +55,6 @@ class TestLinkItr : public BookmarkIterator
 public:
    TestLinkItr(QValueList<KBookmark> bks);
    ~TestLinkItr();
-   // DESIGN - move to listview
-   static void paintCellHelper(QPainter *p, QColorGroup &cg, KEBListViewItem::PaintStyle style);
    virtual BookmarkIteratorHolder* holder() const { return TestLinkItrHolder::self(); }
 
 public slots:

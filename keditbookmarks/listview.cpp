@@ -741,9 +741,26 @@ void KEBListViewItem::setOpen(bool open) {
 void KEBListViewItem::paintCell(QPainter *p, const QColorGroup &ocg, int col, int w, int a) {
    QColorGroup cg(ocg);
 
-   // DESIGN - ugly as sin, some pattern must answer this problem
    if (col == KEBListView::StatusColumn) {
-      TestLinkItr::paintCellHelper(p, cg, m_paintStyle);
+      switch (m_paintStyle) {
+         case KEBListViewItem::TempStyle: 
+         {
+            int h, s, v;
+            cg.background().hsv(&h,&s,&v);
+            QColor color = (v > 180 && v < 220) ? (Qt::darkGray) : (Qt::gray);
+            cg.setColor(QColorGroup::Text, color);
+            break;
+         }
+         case KEBListViewItem::BoldStyle:
+         {
+            QFont font = p->font();
+            font.setBold(true);
+            p->setFont(font);
+            break;
+         }
+         case KEBListViewItem::DefaultStyle:
+            break;
+      }
    }
 
    QListViewItem::paintCell(p, cg, col, w,a);

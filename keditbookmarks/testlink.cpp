@@ -137,28 +137,6 @@ void TestLinkItr::slotJobResult(KIO::Job *job) {
    delayedEmitNextOne();
 }
 
-void TestLinkItr::paintCellHelper(QPainter *p, QColorGroup &cg, KEBListViewItem::PaintStyle style) {
-   switch (style) {
-      case KEBListViewItem::TempStyle: 
-      {
-         int h, s, v;
-         cg.background().hsv(&h,&s,&v);
-         QColor color = (v > 180 && v < 220) ? (Qt::darkGray) : (Qt::gray);
-         cg.setColor(QColorGroup::Text, color);
-         break;
-      }
-      case KEBListViewItem::BoldStyle:
-      {
-         QFont font = p->font();
-         font.setBold(true);
-         p->setFont(font);
-         break;
-      }
-      case KEBListViewItem::DefaultStyle:
-         break;
-   }
-}
-
 /* -------------------------- */
 
 static QString mkTimeStr(int b) {
