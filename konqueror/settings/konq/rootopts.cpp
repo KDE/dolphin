@@ -370,7 +370,7 @@ void KRootOptions::defaults()
 
     // Desktop Paths - keep defaults in sync with kglobalsettings.cpp
     leDesktop->setText( QDir::homeDirPath() + "/Desktop/" );
-    leTrash->setText( QDir::homeDirPath() + "/Desktop/Trash/" );
+    leTrash->setText( QDir::homeDirPath() + "/Desktop/" + i18n("Trash") + '/' );
     leAutostart->setText( KGlobal::dirs()->localkdedir() + "Autostart/" );
     leDocument->setText( QDir::homeDirPath() );
 }
