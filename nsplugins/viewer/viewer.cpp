@@ -63,13 +63,13 @@ static int x_errhandler(Display *dpy, XErrorEvent *error)
  * the "old style" and keep lot's of global vars. :-)
  */
 
-static QCString dcopId;
-static XtAppContext appcon;
-static bool quit = false;
+static QCString g_dcopId;
+static XtAppContext g_appcon;
+static bool g_quit = false;
 
 void quitXt()
 {
-   quit = true;
+   g_quit = true;
 }
 
 /**
@@ -82,7 +82,7 @@ void parseCommandLine(int argc, char *argv[])
    {
       if (!strcmp(argv[i], "-dcopid") && (i+1 < argc))
       {
-         dcopId = argv[i+1];
+         g_dcopId = argv[i+1];
          i++;
       }
    }
@@ -176,7 +176,7 @@ bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
     socknot->sock = sockfd;
     socknot->type = type;
     socknot->obj = obj;
-    socknot->id = XtAppAddInput( appcon, sockfd, inpMask, socketCallback, socknot );
+    socknot->id = XtAppAddInput( g_appcon, sockfd, inpMask, socketCallback, socknot );
     notifiers->insert( sockfd, socknot );
   } else
       if (socknot)
@@ -204,8 +204,8 @@ int main(int argc, char** argv)
    // Create application
    kdDebug() << "2 - XtToolkitInitialize" << endl;
    XtToolkitInitialize();
-   appcon = XtCreateApplicationContext();
-   Display *dpy = XtOpenDisplay(appcon, NULL, "nspluginviewer", "nspluginviewer", 0, 0, &argc, argv);
+   g_appcon = XtCreateApplicationContext();
+   Display *dpy = XtOpenDisplay(g_appcon, NULL, "nspluginviewer", "nspluginviewer", 0, 0, &argc, argv);
 
    kdDebug() << "3 - parseCommandLine" << endl;
    parseCommandLine(argc, argv);
@@ -227,10 +227,10 @@ int main(int argc, char** argv)
    }
 
    kdDebug() << "6 - dcop->registerAs" << endl;
-   if (dcopId)
-      dcopId = dcop->registerAs(dcopId, false);
+   if (g_dcopId)
+      g_dcopId = dcop->registerAs( g_dcopId, false );
    else
-      dcopId = dcop->registerAs("nspluginviewer");
+      g_dcopId = dcop->registerAs("nspluginviewer");
 
    // create dcop interface
    kdDebug() << "7 - new NSPluginViewer" << endl;
@@ -239,9 +239,9 @@ int main(int argc, char** argv)
    // start main loop
    kdDebug() << "8 - XtAppNextEvent" << endl;
    XEvent xe;
-   while (!quit)
+   while (!g_quit)
    {
-      XtAppNextEvent( appcon, &xe );
+      XtAppNextEvent( g_appcon, &xe );
       XtDispatchEvent( &xe );
    }
 

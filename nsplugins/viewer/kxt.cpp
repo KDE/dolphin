@@ -1,7 +1,7 @@
 /*
 
   kxt.cpp  -  Xt enabled Qt classed (derived from Qt Extension QXt)
-  
+
   Copyright (c) 2000 Stefan Schimanski <1Stein@gmx.de>
 
   This program is free software; you can redistribute it and/or modify
@@ -41,7 +41,7 @@
 **
 ** See http://www.trolltech.com/pricing.html or email sales@trolltech.com for
 ** information about the Professional Edition licensing, or see
-** http://www.trolltech.com/qpl/ for QPL licensing information. 
+** http://www.trolltech.com/qpl/ for QPL licensing information.
 **
 *****************************************************************************/
 
@@ -88,25 +88,25 @@ extern XtEventDispatchProc
 void            qt_reset_color_avail();       // defined in qcolor_x11.cpp
 int             qt_activate_timers();         // defined in qapplication_x11.cpp
 timeval        *qt_wait_timer();              // defined in qapplication_x11.cpp
-void		qt_x11SendPostedEvents();     // defined in qapplication_x11.cpp
-int	qt_event_handler( XEvent* event );    // defined in qnpsupport.cpp
+void            qt_x11SendPostedEvents();     // defined in qapplication_x11.cpp
+int     qt_event_handler( XEvent* event );    // defined in qnpsupport.cpp
 extern int      qt_np_count;                  // defined in qnpsupport.cpp
 void qt_np_timeout( void* p, void* id );      // defined in qnpsupport.cpp
 void qt_np_add_timeoutcb(
-	SameAsXtTimerCallbackProc cb );       // defined in qnpsupport.cpp
+        SameAsXtTimerCallbackProc cb );       // defined in qnpsupport.cpp
 void qt_np_remove_timeoutcb(
-	SameAsXtTimerCallbackProc cb );       // defined in qnpsupport.cpp
+        SameAsXtTimerCallbackProc cb );       // defined in qnpsupport.cpp
 void qt_np_add_timer_setter(
-	IntervalSetter is );                  // defined in qnpsupport.cpp
+        IntervalSetter is );                  // defined in qnpsupport.cpp
 void qt_np_remove_timer_setter(
-	IntervalSetter is );                  // defined in qnpsupport.cpp
+        IntervalSetter is );                  // defined in qnpsupport.cpp
 extern XtIntervalId qt_np_timerid;            // defined in qnpsupport.cpp
 extern void (*qt_np_leave_cb)
               (XLeaveWindowEvent*);           // defined in qnpsupport.cpp
 void qt_np_add_event_proc(
-	    ForeignEventProc fep );           // defined in qnpsupport.cpp
+            ForeignEventProc fep );           // defined in qnpsupport.cpp
 void qt_np_remove_event_proc(
-	    ForeignEventProc fep );           // defined in qnpsupport.cpp
+            ForeignEventProc fep );           // defined in qnpsupport.cpp
 
 
 typedef struct {
@@ -114,8 +114,8 @@ typedef struct {
 } QWidgetClassPart;
 
 typedef struct _QWidgetClassRec {
-    CoreClassPart	core_class;
-    QWidgetClassPart	qwidget_class;
+    CoreClassPart       core_class;
+    QWidgetClassPart    qwidget_class;
 } QWidgetClassRec;
 
 //static QWidgetClassRec qwidgetClassRec;
@@ -128,8 +128,8 @@ typedef struct {
 } QWidgetPart;
 
 typedef struct _QWidgetRec {
-    CorePart	core;
-    QWidgetPart	qwidget;
+    CorePart    core;
+    QWidgetPart qwidget;
 } QWidgetRec;
 
 
@@ -138,34 +138,34 @@ void reparentChildrenOf(QWidget* parent)
 {
 
     if ( !parent->children() )
-	return; // nothing to do
+        return; // nothing to do
 
     for ( QObjectListIt it( *parent->children() ); it.current(); ++it ) {
-	if ( it.current()->isWidgetType() ) {
-	    QWidget* widget = (QWidget*)it.current();
-	    XReparentWindow( qt_xdisplay(),
-			     widget->winId(),
-			     parent->winId(),
-			     widget->x(),
-			     widget->y() );
-	    if ( widget->isVisible() )
-		XMapWindow( qt_xdisplay(), widget->winId() );
-	}
+        if ( it.current()->isWidgetType() ) {
+            QWidget* widget = (QWidget*)it.current();
+            XReparentWindow( qt_xdisplay(),
+                             widget->winId(),
+                             parent->winId(),
+                             widget->x(),
+                             widget->y() );
+            if ( widget->isVisible() )
+                XMapWindow( qt_xdisplay(), widget->winId() );
+        }
     }
 
 }
 
 void qwidget_realize(
-	Widget                widget,
-	XtValueMask*          mask,
-	XSetWindowAttributes* attributes
+        Widget                widget,
+        XtValueMask*          mask,
+        XSetWindowAttributes* attributes
     )
 {
     widgetClassRec.core_class.realize(widget, mask, attributes);
     KXtWidget* qxtw = ((QWidgetRec*)widget)->qwidget.qxtwidget;
     if (XtWindow(widget) != qxtw->winId()) {
-	qxtw->create(XtWindow(widget), FALSE, FALSE);
-	reparentChildrenOf(qxtw);
+        qxtw->create(XtWindow(widget), FALSE, FALSE);
+        reparentChildrenOf(qxtw);
     }
     qxtw->show();
     XMapWindow( qt_xdisplay(), qxtw->winId() );
@@ -174,41 +174,41 @@ void qwidget_realize(
 static
 QWidgetClassRec qwidgetClassRec = {
   { /* core fields */
-    /* superclass		*/	(WidgetClass) &widgetClassRec,
-    /* class_name		*/	(char*)"QWidget",
-    /* widget_size		*/	sizeof(QWidgetRec),
-    /* class_initialize		*/	0,
-    /* class_part_initialize	*/	0,
-    /* class_inited		*/	FALSE,
-    /* initialize		*/	0,
-    /* initialize_hook		*/	0,
-    /* realize			*/	qwidget_realize,
-    /* actions			*/	0,
-    /* num_actions		*/	0,
-    /* resources		*/	0,
-    /* num_resources		*/	0,
-    /* xrm_class		*/	NULLQUARK,
-    /* compress_motion		*/	TRUE,
-    /* compress_exposure	*/	TRUE,
-    /* compress_enterleave	*/	TRUE,
-    /* visible_interest		*/	FALSE,
-    /* destroy			*/	0,
-    /* resize			*/	XtInheritResize,
-    /* expose			*/	XtInheritExpose,
-    /* set_values		*/	0,
-    /* set_values_hook		*/	0,
-    /* set_values_almost	*/	XtInheritSetValuesAlmost,
-    /* get_values_hook		*/	0,
-    /* accept_focus		*/	XtInheritAcceptFocus,
-    /* version			*/	XtVersion,
-    /* callback_private		*/	0,
-    /* tm_table			*/	XtInheritTranslations,
-    /* query_geometry		*/	XtInheritQueryGeometry,
-    /* display_accelerator	*/	XtInheritDisplayAccelerator,
-    /* extension		*/	0
+    /* superclass               */      (WidgetClass) &widgetClassRec,
+    /* class_name               */      (char*)"QWidget",
+    /* widget_size              */      sizeof(QWidgetRec),
+    /* class_initialize         */      0,
+    /* class_part_initialize    */      0,
+    /* class_inited             */      FALSE,
+    /* initialize               */      0,
+    /* initialize_hook          */      0,
+    /* realize                  */      qwidget_realize,
+    /* actions                  */      0,
+    /* num_actions              */      0,
+    /* resources                */      0,
+    /* num_resources            */      0,
+    /* xrm_class                */      NULLQUARK,
+    /* compress_motion          */      TRUE,
+    /* compress_exposure        */      TRUE,
+    /* compress_enterleave      */      TRUE,
+    /* visible_interest         */      FALSE,
+    /* destroy                  */      0,
+    /* resize                   */      XtInheritResize,
+    /* expose                   */      XtInheritExpose,
+    /* set_values               */      0,
+    /* set_values_hook          */      0,
+    /* set_values_almost        */      XtInheritSetValuesAlmost,
+    /* get_values_hook          */      0,
+    /* accept_focus             */      XtInheritAcceptFocus,
+    /* version                  */      XtVersion,
+    /* callback_private         */      0,
+    /* tm_table                 */      XtInheritTranslations,
+    /* query_geometry           */      XtInheritQueryGeometry,
+    /* display_accelerator      */      XtInheritDisplayAccelerator,
+    /* extension                */      0
   },
   { /* qwidget fields */
-    /* empty			*/	0
+    /* empty                    */      0
   }
 };
 static WidgetClass qWidgetClass = (WidgetClass)&qwidgetClassRec;
@@ -242,7 +242,7 @@ void removeXtEventFilters()
     // We aren't needed any more... slink back into the shadows.
     for (int et=2; et < LASTEvent; et++) {
         XtSetEventDispatcher(
-            qt_xdisplay(), et, qt_np_cascade_event_handler[et] );  	
+            qt_xdisplay(), et, qt_np_cascade_event_handler[et] );
     }
     filters_installed = FALSE;
 }
@@ -254,8 +254,8 @@ void np_event_proc( XEvent* e )
 {
     Widget xtw = XtWindowToWidget( e->xany.display, e->xany.window );
     if ( xtw && qApp->loopLevel() > 0 ) {
-	// Allow Xt to process the event
-	qt_np_cascade_event_handler[e->type]( e );
+        // Allow Xt to process the event
+        qt_np_cascade_event_handler[e->type]( e );
     }
 }
 
@@ -264,10 +264,10 @@ static void np_set_timer( int interval )
     // Ensure we only have one timeout in progress - QApplication is
     // computing the one amount of time we need to wait.
     if ( qt_np_timerid ) {
-	XtRemoveTimeOut( qt_np_timerid );
+        XtRemoveTimeOut( qt_np_timerid );
     }
     qt_np_timerid = XtAppAddTimeOut(appcon, interval,
-	(XtTimerCallbackProc)qt_np_timeout, 0);
+        (XtTimerCallbackProc)qt_np_timeout, 0);
 }
 
 static void np_do_timers( void*, void* )
@@ -279,8 +279,8 @@ static void np_do_timers( void*, void* )
     timeval *tm = qt_wait_timer();
 
     if (tm) {
-	int interval = QMIN(tm->tv_sec,INT_MAX/1000)*1000 + tm->tv_usec/1000;
-	np_set_timer( interval );
+        int interval = QMIN(tm->tv_sec,INT_MAX/1000)*1000 + tm->tv_usec/1000;
+        np_set_timer( interval );
     }
 }
 
@@ -308,9 +308,9 @@ static bool my_xt;
   needs to use some existing Xt/Motif widgets.
 */
 KXtApplication::KXtApplication(int& argc, char** argv,
-	const QCString& rAppName, bool allowStyles, bool GUIenabled,
-	XrmOptionDescRec *options, int num_options,
-	char** resources)
+        const QCString& rAppName, bool allowStyles, bool GUIenabled,
+        XrmOptionDescRec *options, int num_options,
+        char** resources)
   : KApplication(argc, argv, rAppName, allowStyles, GUIenabled)
 {
     my_xt = TRUE;
@@ -319,7 +319,7 @@ KXtApplication::KXtApplication(int& argc, char** argv,
     appcon = XtCreateApplicationContext();
     if (resources) XtAppSetFallbackResources(appcon, (char**)resources);
     XtDisplayInitialize(appcon, qt_xdisplay(), name(), rAppName, options,
-    	num_options, &argc, argv);
+        num_options, &argc, argv);
     init();
 }
 
@@ -331,7 +331,7 @@ KXtApplication::KXtApplication(int& argc, char** argv,
   Xt/Motif application.
 */
 KXtApplication::KXtApplication(Display* dpy, int& argc, char** argv,
-	const QCString& rAppName, bool allowStyles, bool GUIenabled)
+        const QCString& rAppName, bool allowStyles, bool GUIenabled)
    : KApplication(dpy, argc, argv, rAppName, allowStyles, GUIenabled)
 {
     my_xt = FALSE;
@@ -351,7 +351,7 @@ KXtApplication::~KXtApplication()
     // the manpage says: "or just exit", that's what we do to avoid
     // double closing of the display
 //     if (my_xt) {
-//  	XtDestroyApplicationContext(appcon);
+//      XtDestroyApplicationContext(appcon);
 //      }
 }
 
@@ -382,54 +382,54 @@ void KXtApplication::init()
 */
 
 void KXtWidget::init(const char* name, WidgetClass widget_class,
-		    Widget parent, QWidget* qparent,
-		    ArgList args, Cardinal num_args,
-		    bool managed)
+                    Widget parent, QWidget* qparent,
+                    ArgList args, Cardinal num_args,
+                    bool managed)
 {
     need_reroot=FALSE;
     xtparent = 0;
     if (parent ) {
-	ASSERT(!qparent);
-	xtw = XtCreateWidget(name, widget_class, parent, args, num_args);
-	if ( widget_class == qWidgetClass )
-	    ((QWidgetRec*)xtw)->qwidget.qxtwidget = this;
-	xtparent = parent;
-	if (managed)
-	    XtManageChild(xtw);
+        ASSERT(!qparent);
+        xtw = XtCreateWidget(name, widget_class, parent, args, num_args);
+        if ( widget_class == qWidgetClass )
+            ((QWidgetRec*)xtw)->qwidget.qxtwidget = this;
+        xtparent = parent;
+        if (managed)
+            XtManageChild(xtw);
     } else {
-	ASSERT(!managed);
+        ASSERT(!managed);
 
-	String n, c;
-	XtGetApplicationNameAndClass(qt_xdisplay(), &n, &c);
-	xtw = XtAppCreateShell(n, c, widget_class, qt_xdisplay(),
-			       args, num_args);
-	if ( widget_class == qWidgetClass )
-	    ((QWidgetRec*)xtw)->qwidget.qxtwidget = this;
+        String n, c;
+        XtGetApplicationNameAndClass(qt_xdisplay(), &n, &c);
+        xtw = XtAppCreateShell(n, c, widget_class, qt_xdisplay(),
+                               args, num_args);
+        if ( widget_class == qWidgetClass )
+            ((QWidgetRec*)xtw)->qwidget.qxtwidget = this;
     }
 
     if ( qparent ) {
-	XtResizeWidget( xtw, 100, 100, 0 );
-	XtSetMappedWhenManaged(xtw, False);
-	XtRealizeWidget(xtw);
-	XSync(qt_xdisplay(), False);    // I want all windows to be created now
-	XReparentWindow(qt_xdisplay(), XtWindow(xtw), qparent->winId(), x(), y());
-	XtSetMappedWhenManaged(xtw, True);
-	need_reroot=TRUE;
+        XtResizeWidget( xtw, 100, 100, 0 );
+        XtSetMappedWhenManaged(xtw, False);
+        XtRealizeWidget(xtw);
+        XSync(qt_xdisplay(), False);    // I want all windows to be created now
+        XReparentWindow(qt_xdisplay(), XtWindow(xtw), qparent->winId(), x(), y());
+        XtSetMappedWhenManaged(xtw, True);
+        need_reroot=TRUE;
     }
 
     Arg reqargs[20];
     Cardinal nargs=0;
-    XtSetArg(reqargs[nargs], XtNx, x());	nargs++;
-    XtSetArg(reqargs[nargs], XtNy, y());	nargs++;
-    XtSetArg(reqargs[nargs], XtNwidth, width());	nargs++;
-    XtSetArg(reqargs[nargs], XtNheight, height());	nargs++;
-    //XtSetArg(reqargs[nargs], "mappedWhenManaged", False);	nargs++;
+    XtSetArg(reqargs[nargs], XtNx, x());        nargs++;
+    XtSetArg(reqargs[nargs], XtNy, y());        nargs++;
+    XtSetArg(reqargs[nargs], XtNwidth, width());        nargs++;
+    XtSetArg(reqargs[nargs], XtNheight, height());      nargs++;
+    //XtSetArg(reqargs[nargs], "mappedWhenManaged", False);     nargs++;
     XtSetValues(xtw, reqargs, nargs);
 
     //#### destroy();   MLK
 
     if (!parent || XtIsRealized(parent))
-	XtRealizeWidget(xtw);
+        XtRealizeWidget(xtw);
 }
 
 
@@ -469,16 +469,16 @@ KXtWidget::KXtWidget(const char* name, Widget parent, bool managed) :
   XtManageChild it used to manage the child.
 */
 KXtWidget::KXtWidget(const char* name, WidgetClass widget_class,
-		     QWidget *parent, ArgList args, Cardinal num_args,
-		     bool managed) :
+                     QWidget *parent, ArgList args, Cardinal num_args,
+                     bool managed) :
     QWidget( parent, name, WResizeNoErase )
 {
     if ( !parent )
-	init(name, widget_class, 0, 0, args, num_args, managed);
+        init(name, widget_class, 0, 0, args, num_args, managed);
     else if ( parent->inherits("KXtWidget") )
-	init(name, widget_class, ( (KXtWidget*)parent)->xtw , 0, args, num_args, managed);
+        init(name, widget_class, ( (KXtWidget*)parent)->xtw , 0, args, num_args, managed);
     else
-	init(name, widget_class, 0, parent, args, num_args, managed);
+        init(name, widget_class, 0, parent, args, num_args, managed);
     create(XtWindow(xtw), FALSE, FALSE);
 }
 
@@ -491,7 +491,7 @@ KXtWidget::~KXtWidget()
     //
     QObjectList* list = queryList("QWidget", 0, FALSE, FALSE);
     if ( list ) {
-	QWidget* c;
+        QWidget* c;
         QObjectListIt it( *list );
         while ( (c = (QWidget*)it.current()) ) {
             delete c;
@@ -501,9 +501,9 @@ KXtWidget::~KXtWidget()
     }
 
     if ( need_reroot ) {
-	hide();
-	XReparentWindow(qt_xdisplay(), winId(), qApp->desktop()->winId(),
-	    x(), y());
+        hide();
+        XReparentWindow(qt_xdisplay(), winId(), qApp->desktop()->winId(),
+            x(), y());
     }
 
     XtDestroyWidget(xtw);
@@ -524,8 +524,8 @@ KXtWidget::~KXtWidget()
 bool KXtWidget::x11Event( XEvent * e )
 {
     if ( e->type == EnterNotify ) {
-	if  ( xtparent )
-	    setActiveWindow();
+        if  ( xtparent )
+            setActiveWindow();
     }
     return QWidget::x11Event( e );
 }
@@ -537,16 +537,16 @@ bool KXtWidget::x11Event( XEvent * e )
 void KXtWidget::setActiveWindow()
 {
     if  ( xtparent ) {
-	if ( !QWidget::isActiveWindow() && isActiveWindow() ) {
-	    XFocusChangeEvent e;
-	    e.type = FocusIn;
-	    e.window = winId();
-	    e.mode = NotifyNormal;
-	    e.detail = NotifyInferior;
-	    XSendEvent( qt_xdisplay(), e.window, TRUE, NoEventMask, (XEvent*)&e );
-	}
+        if ( !QWidget::isActiveWindow() && isActiveWindow() ) {
+            XFocusChangeEvent e;
+            e.type = FocusIn;
+            e.window = winId();
+            e.mode = NotifyNormal;
+            e.detail = NotifyInferior;
+            XSendEvent( qt_xdisplay(), e.window, TRUE, NoEventMask, (XEvent*)&e );
+        }
     } else {
-	QWidget::setActiveWindow();
+        QWidget::setActiveWindow();
     }
 }
 
@@ -563,21 +563,21 @@ bool KXtWidget::isActiveWindow() const
 
     QWidget *w = find( (WId)win );
     if ( w ) {
-	// We know that window
-	return w->topLevelWidget() == topLevelWidget();
+        // We know that window
+        return w->topLevelWidget() == topLevelWidget();
     } else {
-	// Window still may be a parent (if top-level is foreign window)
-	Window root, parent;
-	Window cursor = winId();
-	Window *ch;
-	unsigned int nch;
-	while ( XQueryTree(qt_xdisplay(), cursor, &root, &parent, &ch, &nch) ) {
-	    if (ch) XFree( (char*)ch);
-	    if ( parent == win ) return TRUE;
-	    if ( parent == root ) return FALSE;
-	    cursor = parent;
-	}
-	return FALSE;
+        // Window still may be a parent (if top-level is foreign window)
+        Window root, parent;
+        Window cursor = winId();
+        Window *ch;
+        unsigned int nch;
+        while ( XQueryTree(qt_xdisplay(), cursor, &root, &parent, &ch, &nch) ) {
+            if (ch) XFree( (char*)ch);
+            if ( parent == win ) return TRUE;
+            if ( parent == root ) return FALSE;
+            cursor = parent;
+        }
+        return FALSE;
     }
 }
 
@@ -586,7 +586,7 @@ bool KXtWidget::isActiveWindow() const
 void KXtWidget::moveEvent( QMoveEvent* )
 {
     if ( xtparent )
-	return;
+        return;
     XConfigureEvent c;
     c.type = ConfigureNotify;
     c.event = winId();
@@ -605,7 +605,7 @@ void KXtWidget::moveEvent( QMoveEvent* )
 void KXtWidget::resizeEvent( QResizeEvent* )
 {
     if ( xtparent )
-	return;
+        return;
     XtWidgetGeometry preferred;
     (void ) XtQueryGeometry( xtw, 0, &preferred );
     XConfigureEvent c;
