@@ -75,6 +75,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     setSorting( true, sortDirection() );
     m_bSortDirsFirst = true;
     m_size = 0; // default is DesktopIcon size
+    m_pActiveItem = 0;
     // configurable settings
     initConfig();
     // emit our signals
@@ -103,7 +104,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
     m_pActiveItem = static_cast<KFileIVI *>(item);
     m_pActiveItem->setIcon( m_size, KIcon::ActiveState, m_bImagePreviewAllowed );
 }
-    
+
 void KonqIconViewWidget::slotOnViewport()
 {
     if (m_pActiveItem == 0L)
