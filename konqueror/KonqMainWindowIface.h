@@ -61,7 +61,7 @@ k_dcop:
   /**
    * Used by kfmclient when searching a window to open a tab within
    */
-  bool windowCanBeUsedForTab( int screen );
+  bool windowCanBeUsedForTab();
 
 public:
     virtual QCStringList functionsDynamic();

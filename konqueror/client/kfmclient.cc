@@ -46,6 +46,7 @@
 #include "kfmclient.h"
 #include "KonquerorIface_stub.h"
 #include "KDesktopIface_stub.h"
+#include "kwin.h"
 
 #include <X11/Xlib.h>
 
@@ -281,14 +282,13 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
 
     KConfig cfg( QString::fromLatin1( "konquerorrc" ), true );
     cfg.setGroup( "FMSettings" );
-    if ( cfg.readBoolEntry( "MMBOpensTab", false ) )
+    if ( cfg.readBoolEntry( "KonquerorTabforExternalURL", false ) )
     {
         QCString foundApp, foundObj;
         QByteArray data;
         QDataStream str( data, IO_WriteOnly );
-        str << currentScreen();
         if( KApplication::dcopClient()->findObject( "konqueror*", "konqueror-mainwindow*",
-            "windowCanBeUsedForTab( int )", data, foundApp, foundObj, false, 3000 ) )
+            "windowCanBeUsedForTab()", data, foundApp, foundObj, false, 3000 ) )
         {
             DCOPRef ref( foundApp, foundObj );
             DCOPReply reply = ref.call( "newTab", url.url() );

@@ -111,14 +111,16 @@ bool KonqMainWindowIface::processDynamic( const QCString &fun, const QByteArray 
     return DCOPObject::processDynamic( fun, data, replyType, replyData );
 }
 
-bool KonqMainWindowIface::windowCanBeUsedForTab( int screen )
+bool KonqMainWindowIface::windowCanBeUsedForTab()
 {
-    KGlobal::config()->setGroup("BonusFeatures");
-    if( !KGlobal::config()->readBoolEntry("MakeLifeInteresting", false) )
-        return false; // don't make the tab appear in a random location
-    if( qt_xscreen() != screen )
-        return false; // this window shows on different screen
+    KWin::WindowInfo winfo = KWin::windowInfo( m_pMainWindow->winId(), NET::WMDesktop );
+    if( !winfo.isOnCurrentDesktop() )
+        return false; // this window shows on different desktop
     if( KonqMainWindow::isPreloaded() )
         return false; // we want a tab in an already shown window
-    return !( m_pMainWindow->isMinimized() );
+    if ( m_pMainWindow->isMinimized() )
+        return false;
+
+    m_pMainWindow->raise();
+    return true;
 }

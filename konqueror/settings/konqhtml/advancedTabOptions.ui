@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>510</width>
-            <height>183</height>
+            <width>644</width>
+            <height>208</height>
         </rect>
     </property>
     <property name="caption">
@@ -96,6 +96,17 @@
                         <string>This will display close buttons inside each tab instead of websites' icons.</string>
                     </property>
                 </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>m_pKonquerorTabforExternalURL</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Open as tab in existing Konqueror when URL is called externally</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>When you click an URL in another KDE program or call kfmclient to open an URL the current desktop will be searched for a non-minimized Konqueror and if found the URL opened as a new tab within it. Otherwise a new Konqueror window will be opened with the wanted URL.</string>
+                    </property>
+                </widget>
             </vbox>
         </widget>
         <spacer>
@@ -118,7 +129,6 @@
     </vbox>
 </widget>
 <includes>
-    <include location="global" impldecl="in declaration">knuminput.h</include>
     <include location="local" impldecl="in implementation">kdialog.h</include>
 </includes>
 <layoutdefaults spacing="3" margin="6"/>
