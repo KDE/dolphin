@@ -127,7 +127,7 @@ void KBgndDialogPage::slotBrowse( )
     KURL url = KFileDialog::getImageOpenURL( QString::null, this, 
                                              i18n("Select Image" ) );
 
-    if (url.isMalformed())
+    if (!url.isValid())
       return;
 
     if (!url.isLocalFile()) {

@@ -633,7 +633,7 @@ KonqHistoryEntry * KonqHistoryManager::createFallbackEntry(const QString& item) 
 
     KonqHistoryEntry *entry = 0L;
     KURL u( item.left( len ));
-    if ( !u.isMalformed() ) {
+    if ( u.isValid() ) {
 	entry = new KonqHistoryEntry;
 	// that's the only entries we know about...
 	entry->url = u;
