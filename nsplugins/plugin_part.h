@@ -3,6 +3,8 @@
 
 #include <kparts/browserextension.h>
 #include <klibloader.h>
+#include <qwidget.h>
+
 
 class KInstance;
 class PluginBrowserExtension;
@@ -31,6 +33,28 @@ private:
 };
 
 
+class PluginCanvasWidget : public QWidget
+{
+  Q_OBJECT
+
+public:
+
+  PluginCanvasWidget(QWidget *parent=0, const char *name=0) 
+    : QWidget(parent,name) {};
+    
+
+protected:
+
+  void resizeEvent(QResizeEvent *e);
+
+  
+signals:
+
+  void resized(int,int);
+
+};
+
+
 class PluginPart: public KParts::ReadOnlyPart
 {
   Q_OBJECT
@@ -48,9 +72,15 @@ protected:
   virtual bool openFile() { return false; }; 
 
 
+protected slots:
+    
+  void pluginResized(int,int);
+
+
 private:
 
-  QWidget *widget, *canvas;
+  QWidget *widget;
+  PluginCanvasWidget *canvas;
   PluginBrowserExtension *m_extension;
 
 };

@@ -66,18 +66,18 @@ KInstance *PluginFactory::instance()
 
 
 PluginPart::PluginPart(QWidget *parent, const char *name)
-  : KParts::ReadOnlyPart(parent, name)
+  : KParts::ReadOnlyPart(parent, name), widget(0)
 {
   setInstance(PluginFactory::instance());
   
   m_extension = new PluginBrowserExtension(this);
  
   // create a canvas to insert our widget
-  canvas = new QWidget(parent);
+  canvas = new PluginCanvasWidget(parent);
   canvas->setFocusPolicy(QWidget::ClickFocus);
   setWidget(canvas);
- 
-  widget = 0;
+  QObject::connect(canvas, SIGNAL(resized(int,int)),
+		   this, SLOT(pluginResized(int,int)));
 }
 
 
@@ -89,6 +89,8 @@ PluginPart::~PluginPart()
 
 bool PluginPart::openURL(const KURL &url)
 {
+  delete widget;
+
   NSPluginLoader *loader = NSPluginLoader::instance();
 
   QStringList _argn, _argv;
@@ -108,7 +110,19 @@ bool PluginPart::openURL(const KURL &url)
 
 bool PluginPart::closeURL()
 {
+  delete widget;
+  widget = 0;
+
   return true;
+}
+
+
+void PluginPart::pluginResized(int w, int h)
+{
+  if (widget)
+    {
+      widget->resize(w,h);
+    }
 }
 
 
@@ -120,4 +134,11 @@ PluginBrowserExtension::PluginBrowserExtension(PluginPart *parent)
 
 PluginBrowserExtension::~PluginBrowserExtension()
 {
+}
+
+
+void PluginCanvasWidget::resizeEvent(QResizeEvent *ev)
+{
+  QWidget::resizeEvent(ev);
+  emit resized(width(), height());
 }
