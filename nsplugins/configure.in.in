@@ -133,6 +133,8 @@ ac_cv_motif_libraries=
 # Other directories are just guesses.
 for dir in "$x_libraries" "${prefix}/lib" /usr/lib /usr/local/lib \
            /usr/lib/Motif2.0 /usr/lib/Motif1.2 /usr/lib/Motif1.1 \
+	   /usr/X11R6/LessTif/Motif1.2/lib \
+	   /usr/X11R6/LessTif/Motif2.0/lib \
            /usr/lib/X11R6 /usr/lib/X11R5 /usr/lib/X11R4 /usr/lib/X11 \
            /usr/dt/lib /usr/openwin/lib \
            /usr/dt/*/lib /opt/*/lib /usr/lib/Motif* \
