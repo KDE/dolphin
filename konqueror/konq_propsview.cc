@@ -91,7 +91,7 @@ KonqPropsView::KonqPropsView( KConfig * config )
   // Default background color is the one from the settings, i.e. configured in kcmkonq
   m_bgColor = KonqFMSettings::settings()->bgColor();
 
-  m_bgPixmap = 0L;
+  m_bgPixmap.resize(0,0);
   QString pix = config->readEntry( "BackgroundPixmap", "" );
   if ( !pix.isEmpty() )
   {
