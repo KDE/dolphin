@@ -105,6 +105,9 @@ KonqPropsView::~KonqPropsView()
 
 bool KonqPropsView::enterDir( const KURL & dir )
 {
+  // Revert to default setting first
+  m_bgPixmap = m_pDefaultProps->m_bgPixmap;
+  m_bgColor = m_pDefaultProps->m_bgColor;
   // Check for .directory
   KURL u ( dir );
   u.addPath(".directory");
@@ -114,7 +117,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
     KSimpleConfig config( u.path(), true);
     config.setDesktopGroup();
     // TODO add support for setting both of those in konqueror !
-    m_bgColor = config.readColorEntry( "BgColor", &m_pDefaultProps->m_bgColor );
+    m_bgColor = config.readColorEntry( "BgColor", &m_bgColor );
     QString pix = config.readEntry( "BgImage", "" );
     if ( !pix.isEmpty() )
     {
@@ -123,14 +126,9 @@ bool KonqPropsView::enterDir( const KURL & dir )
       if ( !p.isNull() )
         m_bgPixmap = p;
       else debug("Wallpaper not found");
-    } else
-    { // No background pixmap here, revert to default setting
-      m_bgPixmap = m_pDefaultProps->m_bgPixmap;
     }
-    return true;
   }
-  else
-    return false;
+  return true;
 }
 
 void KonqPropsView::saveProps( KConfig * config )
