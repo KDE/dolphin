@@ -227,6 +227,8 @@ void KBookmarkMenu::fillBookmarkMenu()
   bool separatorInserted = false;
   for ( KBookmark bm = parentBookmark.first(); !bm.isNull();  bm = parentBookmark.next(bm) )
   {
+    QString text = bm.text();
+    text.replace( QRegExp( "&" ), "&&" );
     if ( !separatorInserted ) { // inserted before the first konq bookmark, to avoid the separator if no konq bookmark
       m_parentMenu->insertSeparator();
       separatorInserted = true;
@@ -239,10 +241,8 @@ void KBookmarkMenu::fillBookmarkMenu()
       }
       else
       {
-        //kdDebug(1203) << "Creating URL bookmark menu item for " << bm.text() << endl;
+        // kdDebug(1203) << "Creating URL bookmark menu item for " << bm.text() << endl;
         // create a normal URL item, with ID as a name
-        QString text = bm.text();
-        text.replace( QRegExp( "&" ), "&&" );
         KAction * action = new KAction( text, bm.icon(), 0,
                                         this, SLOT( slotBookmarkSelected() ),
                                         m_actionCollection, bm.url().url().utf8() );
@@ -255,8 +255,8 @@ void KBookmarkMenu::fillBookmarkMenu()
     }
     else
     {
-      //kdDebug(1203) << "Creating bookmark submenu named " << bm.text() << endl;
-      KActionMenu * actionMenu = new KActionMenu( bm.text(), bm.icon(),
+      // kdDebug(1203) << "Creating bookmark submenu named " << bm.text() << endl;
+      KActionMenu * actionMenu = new KActionMenu( text, bm.icon(),
                                                   m_actionCollection, 0L );
       actionMenu->plug( m_parentMenu );
       m_actions.append( actionMenu );
@@ -378,7 +378,9 @@ void KBookmarkMenuNSImporter::openNSBookmarks()
 void KBookmarkMenuNSImporter::newBookmark( const QString & text, const QCString & url, const QString & )
 {
   QCString actionLink = "bookmark" + url;
-  KAction * action = new KAction( text, "html", 0, m_menu, SLOT( slotNSBookmarkSelected() ),
+  QString _text = text;
+  _text.replace( QRegExp( "&" ), "&&" );
+  KAction * action = new KAction( _text, "html", 0, m_menu, SLOT( slotNSBookmarkSelected() ),
                                   m_actionCollection, actionLink.data());
   action->setStatusText( url );
   action->plug( mstack.top()->m_parentMenu );
@@ -387,7 +389,9 @@ void KBookmarkMenuNSImporter::newBookmark( const QString & text, const QCString 
 
 void KBookmarkMenuNSImporter::newFolder( const QString & text, bool, const QString & )
 {
-  KActionMenu * actionMenu = new KActionMenu( text, "folder", m_actionCollection, 0L );
+  QString _text = text;
+  _text.replace( QRegExp( "&" ), "&&" );
+  KActionMenu * actionMenu = new KActionMenu( _text, "folder", m_actionCollection, 0L );
   actionMenu->plug( mstack.top()->m_parentMenu );
   mstack.top()->m_actions.append( actionMenu );
   KBookmarkMenu *subMenu = new KBookmarkMenu( m_menu->m_pOwner, actionMenu->popupMenu(),

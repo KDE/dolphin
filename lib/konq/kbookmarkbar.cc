@@ -17,6 +17,8 @@
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 */
+#include <qregexp.h>
+
 #include <kbookmarkbar.h>
 
 #include <kaction.h>
@@ -96,6 +98,8 @@ void KBookmarkBar::fillBookmarkBar(KBookmarkGroup & parent)
 
     for (KBookmark bm = parent.first(); !bm.isNull(); bm = parent.next(bm))
     {
+		QString text = bm.text();
+        text.replace( QRegExp( "&" ), "&&" );
         if (!bm.isGroup())
         {
             if ( bm.isSeparator() )
@@ -104,7 +108,7 @@ void KBookmarkBar::fillBookmarkBar(KBookmarkGroup & parent)
             {
                 KAction *action;
                 // create a normal URL item, with ID as a name
-                action = new KAction(bm.text(), bm.icon(), 0,
+                action = new KAction(text, bm.icon(), 0,
                                      this, SLOT(slotBookmarkSelected()),
                                      m_actionCollection,
                                      bm.url().url().utf8());
@@ -114,7 +118,7 @@ void KBookmarkBar::fillBookmarkBar(KBookmarkGroup & parent)
         }
         else
         {
-            KActionMenu *action = new KActionMenu(bm.text(), bm.icon(),
+            KActionMenu *action = new KActionMenu(text, bm.icon(),
                                                   m_actionCollection, "bookmarkbar-actionmenu");
             action->setDelayed(false);
 
