@@ -41,7 +41,7 @@
 #include "kcookiespolicies.h"
 
 KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
-                 :KCModule(parent, name)
+                 :QWidget(parent, name)
 {
     QVBoxLayout *mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
                                         KDialog::spacingHint() );

@@ -59,7 +59,7 @@ private:
     bool mCookiesLoaded;
 };
 
-class KCookiesManagement : public KCModule
+class KCookiesManagement : public QWidget
 {
     Q_OBJECT
 
@@ -71,6 +71,9 @@ public:
     virtual void save();
     virtual void defaults();
     virtual QString quickHelp() const;
+
+signals:
+    void changed(bool);
 
 private slots:
     void changed();

@@ -91,7 +91,7 @@ QString CookieListViewItem::text(int f) const
 }
 
 KCookiesManagement::KCookiesManagement(QWidget *parent, const char *name)
-                   :KCModule(parent, name)
+                   :QWidget(parent, name)
 {
   // Toplevel layout
   QVBoxLayout *layout = new QVBoxLayout( this, 2*KDialog::marginHint(),
@@ -338,7 +338,7 @@ QString KCookiesManagement::quickHelp() const
 
 void KCookiesManagement::changed()
 {
-  emit KCModule::changed(true);
+  emit changed(true);
 }
 
 void KCookiesManagement::getDomains()

@@ -41,7 +41,7 @@ KCookiesMain::KCookiesMain(QWidget *parent, const char *name)
 
     if(managerOK)
     {
-        management = new KCookiesManagement(this, "Management");
+        management = new KCookiesManagement(this);
         tab->addTab(management, i18n("&Management"));
         connect(management, SIGNAL(changed(bool)), this, SLOT(moduleChanged()));
     }
