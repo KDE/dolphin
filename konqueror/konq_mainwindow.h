@@ -404,8 +404,6 @@ private:
 
   QString m_title;
 
-  QGuardedPtr<KProgress> m_progressBar;
-
   bool m_bURLEnterLock;
 
   QGuardedPtr<KHistoryCombo> m_combo;
