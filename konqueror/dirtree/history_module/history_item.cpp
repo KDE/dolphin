@@ -120,12 +120,15 @@ void KonqHistoryGroupItem::remove()
 KonqHistoryItem * KonqHistoryGroupItem::findChild(const KonqHistoryEntry *entry) const
 {
     const KURL& url = entry->url;
-    KonqHistoryItem *child = static_cast<KonqHistoryItem *>( firstChild() );
+    QListViewItem *child = firstChild();
+    KonqHistoryItem *item = 0L;
+    
     while ( child ) {
-	if ( child->url() == url )
-	    return child;
+	item = static_cast<KonqHistoryItem *>( child );
+	if ( item->url() == url )
+	    return item;
 
-	child = static_cast<KonqHistoryItem *>( child->nextSibling() );
+	child = child->nextSibling();
     }
 
     return 0L;
