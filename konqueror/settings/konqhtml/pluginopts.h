@@ -113,7 +113,7 @@ private:
     KConfig* m_pConfig;
     QString  m_groupname;
 
-    QCheckBox *enablePluginsGloballyCB, *enableHTTPOnly;
+    QCheckBox *enablePluginsGloballyCB, *enableHTTPOnly, *enableUserDemand;
 
 
  protected slots:

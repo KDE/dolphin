@@ -59,11 +59,13 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
     toplevel->addWidget( globalGB );
     enablePluginsGloballyCB = new QCheckBox( i18n( "&Enable plugins globally" ), globalGB );
     enableHTTPOnly = new QCheckBox( i18n( "Only allow &HTTP and HTTPS URLs for plugins" ), globalGB );
+    enableUserDemand = new QCheckBox( i18n( "&Load plugins on demand only" ), globalGB );
     priorityLabel = new QLabel(i18n("CPU priority for plugins: %1").arg(QString::null), globalGB);
     priority = new QSlider(5, 100, 5, 100, Horizontal, globalGB);
     connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
     connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotTogglePluginsEnabled() ) );
     connect( enableHTTPOnly, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
+    connect( enableUserDemand, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
     connect( priority, SIGNAL( valueChanged(int) ), this, SLOT( slotChanged() ) );
     connect( priority, SIGNAL( valueChanged(int) ), this, SLOT( updatePLabel(int) ) );
 
@@ -192,6 +194,7 @@ void KPluginOptions::load()
   m_widget->dirUp->setEnabled( false );
   m_widget->dirDown->setEnabled( false );
   enableHTTPOnly->setChecked( config->readBoolEntry("HTTP URLs Only", false) );
+  enableUserDemand->setChecked( config->readBoolEntry("demandLoad", false) );
   priority->setValue(100 - KCLAMP(config->readNumEntry("Nice Level", 0), 0, 19) * 5);
   updatePLabel(priority->value());
 
@@ -208,6 +211,7 @@ void KPluginOptions::defaults()
     global_policies.defaults();
     enablePluginsGloballyCB->setChecked( global_policies.isFeatureEnabled() );
     enableHTTPOnly->setChecked(false);
+    enableUserDemand->setChecked(false);
     priority->setValue(100);
 
 /*****************************************************************************/
@@ -252,6 +256,7 @@ void KPluginOptions::save()
     config->setGroup("Misc");
     config->writeEntry( "startkdeScan", m_widget->scanAtStartup->isChecked() );
     config->writeEntry( "HTTP URLs Only", enableHTTPOnly->isChecked() );
+    config->writeEntry( "demandLoad", enableUserDemand->isChecked() );
     config->writeEntry("Nice Level", (int)(100 - priority->value()) / 5);
     config->sync();
     delete config;
