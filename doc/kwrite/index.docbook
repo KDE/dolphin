@@ -55,7 +55,7 @@
 </copyright>
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>14/12/2000</date>
+<date>15/02/2000</date>
 <releaseinfo>2.0</releaseinfo>
 
 <abstract>
@@ -348,10 +348,11 @@ directories as well as an up arrow button for moving up the directory tree. The
 button with the little house takes the user to his or her home directory and the one
 with the two arrows curved in on each other updates the view of the current
 directory. The flag button lets the user set a new bookmark at the current directory
-or go to  one that was previously set. The button with the wrench (spanner) icon even
-permits the user to change a few basic settings for the dialog box. Finally  there is
-dropdown box on the toolbar with a list of some commonly frequented
-directories.</para> </listitem>
+or go to  one that was previously set. <!-- The button with the wrench (spanner) -->
+<!-- icon even permits the user to change a few basic settings for the dialog -->
+<!-- box.  --> The last button on the toolbar allows you to create a new
+directory, and finally  there is dropdown box with a list of some commonly
+frequented directories.</para> </listitem>
 </varlistentry>  
   
 <varlistentry>  
@@ -594,7 +595,7 @@ cursor.</para></listitem>
 to a particular line (specified by number) in the document.  The line number may  
 be entered directly into the text box or graphically by clicking on the up or  
 down arrow spin controls at the side of the text box. The little up arrow will  
-decrease the line number and the down arrow increase it.  There is also a slide  
+increase the line number and the down arrow decrease it.  There is also a slide  
 control to the right of the text box which allows the user to move the goto  
 point in the document in an analog manner.</para>  
 </listitem>  
@@ -635,7 +636,7 @@ list of markers which is appended at the  bottom of this menu item.</para>
 </varlistentry>  
 </variablelist>  
   
-<para>At the bottom of this menu, a submenu of markers appears if any  
+<para>At the bottom of this menu, a list of markers appears if any  
 markers are available for this window.</para>
 </sect1>  
   
