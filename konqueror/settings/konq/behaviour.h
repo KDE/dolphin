@@ -27,6 +27,7 @@ class QLineEdit;
 class KConfig;
 class QVButtonGroup;
 class QRadioButton;
+class QSpinBox;
 
 //-----------------------------------------------------------------------------
 
@@ -64,6 +65,9 @@ private:
                 *rbOPLocal,
                 *rbOPWeb,
                 *rbOPAlways;
+
+  QSpinBox  *sbToolTip;
+  QCheckBox *cbShowTips;
 };
 
 #endif		// __BEHAVIOUR_H__

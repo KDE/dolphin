@@ -78,6 +78,9 @@ public:
   bool fileSizeInBytes() const { return m_fileSizeInBytes; }
   bool alwaysNewWin() const { return m_alwaysNewWin; }
   const QString & homeURL() const { return m_homeURL; }
+  
+  bool showFileTips() const {return m_showFileTips; }
+  int numFileTips() const {return m_numFileTips; }
 
   // Font settings
   const QFont& standardFont() const { return m_standardFont; }
@@ -109,6 +112,8 @@ private:
   bool m_bWordWrapText;
 
   QString m_homeURL;
+  bool m_showFileTips;
+  int  m_numFileTips;
 
   // used for the textpreview
   int m_iconTransparency;

@@ -78,6 +78,9 @@ void KonqFMSettings::init( KConfig * config )
   m_alwaysNewWin = config->readBoolEntry( "AlwaysNewWin", FALSE );
 
   m_homeURL = config->readEntry("HomeURL", "~");
+  
+  m_showFileTips = config->readBoolEntry("ShowFileTips", true);
+  m_numFileTips = config->readNumEntry("FileTipsItems", 6);
 
   m_embedMap = config->entryMap( "EmbedSettings" );
 }

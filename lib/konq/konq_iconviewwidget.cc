@@ -44,19 +44,31 @@
 class KFileTip: public QToolTip
 {
 public:
-    KFileTip(KIconView* parent)    : QToolTip(parent) {m_view = parent;};
+    KFileTip(KIconView* parent) : QToolTip(parent)
+    {
+        m_view = parent;
+    }
+
+    void setOptions( bool on, int num)
+    {
+        m_num = num;
+        m_on = on;
+    }
 
 protected:
     virtual void maybeTip ( const QPoint & p );
     KIconView* m_view;
+    int        m_num;
+    bool       m_on;
 };
 
 void KFileTip::maybeTip (const QPoint & p)
 {
+    if (!m_on) return;
     QPoint point = m_view->viewportToContents( p );
     KFileIVI* ivi = static_cast<KFileIVI *>(m_view->findItem( point ));
     if ( ivi ) {
-  	    QString text = ivi->item()->getToolTipText();
+  	    QString text = ivi->item()->getToolTipText(m_num);
         QRect rect = ivi->rect();
         rect.moveBy( -m_view->contentsX(), -m_view->contentsY() );
         if ( !text.isEmpty() )
@@ -105,6 +117,8 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     // hardcoded settings
     setSelectionMode( QIconView::Extended );
     setItemTextPos( QIconView::Bottom );
+    
+    d->pFileTip = new KFileTip(this);
 
     calculateGridX();
     setAutoArrange( true );
@@ -124,7 +138,6 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     slotSelectionChanged();
     m_iconPositionGroupPrefix = QString::fromLatin1( "IconPosition::" );
     KonqUndoManager::incRef();
-    d->pFileTip = new KFileTip(this);
 }
 
 KonqIconViewWidget::~KonqIconViewWidget()
@@ -329,6 +342,10 @@ void KonqIconViewWidget::initConfig( bool bInit )
       else
           setItemTextBackground( NoBrush );
     }
+    
+    
+    d->pFileTip->setOptions(m_pSettings->showFileTips(),
+                            m_pSettings->numFileTips());
 
     // Font settings
     QFont font( m_pSettings->standardFont() );
@@ -339,6 +356,7 @@ void KonqIconViewWidget::initConfig( bool bInit )
 
     if (!bInit)
         updateContents();
+    
 }
 
 void KonqIconViewWidget::setIcons( int size, const char * stopImagePreviewFor )

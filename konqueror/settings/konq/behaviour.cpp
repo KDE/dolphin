@@ -23,6 +23,7 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qlineedit.h>
+#include <qspinbox.h>
 #include <qslider.h>
 #include <qwhatsthis.h>
 #include <qvbuttongroup.h>
@@ -74,6 +75,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     connect(cbNewWin, SIGNAL(toggled(bool)), SLOT(updateWinPixmap(bool)));
 
     // ----
+    
     row++;
     cbListProgress = new QCheckBox( i18n( "&Show network operations in a single window" ), this );
     lay->addMultiCellWidget(cbListProgress, row, row, 0, 2, Qt::AlignLeft);
@@ -85,7 +87,33 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
                                           " separate window.") );
 
 
-    // ----
+    // --
+
+    row++;
+    cbShowTips = new QCheckBox( i18n( "&Show file tips" ), this );
+    lay->addMultiCellWidget(cbShowTips, row, row, 0, 1, Qt::AlignLeft);
+    connect(cbShowTips, SIGNAL(clicked()), this, SLOT(changed()));
+
+    QWhatsThis::add( cbShowTips, i18n("Here you can control if, when moving the mouse over a file, you want to see a "
+                                    "small popup window with additional information about that file"));
+    
+    label = new QLabel(i18n("Number of file tip entries:"), this);
+    lay->addWidget(label, row, 2);
+
+    sbToolTip = new QSpinBox(this);
+    lay->addWidget(sbToolTip, row, 3);
+    connect(sbToolTip, SIGNAL(valueChanged(int)), this, SLOT(changed()));
+    connect(cbShowTips, SIGNAL(toggled(bool)), sbToolTip, SLOT(setEnabled(bool)));
+    label->setBuddy(sbToolTip);
+
+    QString tipstr = i18n("If you move the mouse over a file, you usually see a small popup window that shows some "
+                          "additional information about that file. Here, you can set how many items of information "
+                          "are displayed");
+    QWhatsThis::add( label, tipstr );
+    QWhatsThis::add( sbToolTip, tipstr );
+    
+    // --
+    
     row++;
     label = new QLabel(i18n("Home &URL:"), this);
     lay->addWidget(label, row, 0);
@@ -154,6 +182,13 @@ void KBehaviourOptions::load()
     updateWinPixmap(cbNewWin->isChecked());
 
     homeURL->setText(g_pConfig->readEntry("HomeURL", "~"));
+    
+    bool stips = g_pConfig->readBoolEntry( "ShowFileTips", true );
+    cbShowTips->setChecked( stips );
+
+    if (!stips) sbToolTip->setEnabled( false );
+
+    sbToolTip->setValue( g_pConfig->readNumEntry( "FileTipItems", 6 ) );
 
     QString val = kfmclientConfig->readEntry( QString::fromLatin1("StartNewKonqueror"),
                                               QString::fromLatin1("Web only") );
@@ -184,6 +219,10 @@ void KBehaviourOptions::defaults()
     rbOPLocal->setChecked(true);
 
     cbListProgress->setChecked( false );
+    
+    cbShowTips->setChecked( true );
+    sbToolTip->setEnabled( true );
+    sbToolTip->setValue( 6 );
 }
 
 void KBehaviourOptions::save()
@@ -192,6 +231,9 @@ void KBehaviourOptions::save()
 
     g_pConfig->writeEntry( "AlwaysNewWin", cbNewWin->isChecked() );
     g_pConfig->writeEntry( "HomeURL", homeURL->text().isEmpty()? "~" : homeURL->text() );
+    
+    g_pConfig->writeEntry( "ShowFileTips", cbShowTips->isChecked() );
+    g_pConfig->writeEntry( "FileTipsItems", sbToolTip->value() );
 
     QString val = QString::fromLatin1("Web only");
     if (rbOPWeb->isChecked())
