@@ -68,8 +68,11 @@ class KonqDirLister;
 class KonqDirTreeItem : public QListViewItem
 {
 public:
-  KonqDirTreeItem( KonqDirTree *parent, QListViewItem *parentItem, KonqDirTreeItem *topLevelItem, KonqFileItem *item );
+  KonqDirTreeItem( KonqDirTree *parent, KonqDirTreeItem *parentItem, KonqDirTreeItem *topLevelItem, KonqFileItem *item );
+  KonqDirTreeItem( KonqDirTree *parent, KonqDirTreeItem *topLevelItem, KonqFileItem *item );
 
+  void initItem( KonqDirTree *parent, KonqDirTreeItem *topLevelItem, KonqFileItem *item );
+    
   virtual ~KonqDirTreeItem();
 
   virtual void setOpen( bool open );
@@ -132,9 +135,9 @@ private slots:
 
 private:
   void clearTree();
-  void scanDir( QListViewItem *parent, const QString &path, bool isRoot = false );
-  void scanDir2( QListViewItem *parent, const QString &path );
-  void loadTopLevelItem( QListViewItem *parent, const QString &filename );
+  void scanDir( KonqDirTreeItem *parent, const QString &path, bool isRoot = false );
+  void scanDir2( KonqDirTreeItem *parent, const QString &path );
+  void loadTopLevelItem( KonqDirTreeItem *parent, const QString &filename );
 
   void stripIcon( QString &icon );
 
@@ -152,8 +155,6 @@ private:
 
   TopLevelItem findTopLevelByItem( KonqDirTreeItem *item );
   TopLevelItem findTopLevelByDirLister( const KonqDirLister *lister );
-
-  QListViewItem *m_root;
 
   QValueList<TopLevelItem> m_topLevelItems;
 

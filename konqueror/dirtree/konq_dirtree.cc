@@ -223,8 +223,19 @@ bool KonqDirTreePart::closeURL()
   return true;
 }
 
-KonqDirTreeItem::KonqDirTreeItem( KonqDirTree *parent, QListViewItem *parentItem, KonqDirTreeItem *topLevelItem, KonqFileItem *item )
-  : QListViewItem( parentItem )
+KonqDirTreeItem::KonqDirTreeItem( KonqDirTree *parent, KonqDirTreeItem *parentItem, KonqDirTreeItem *topLevelItem, KonqFileItem *item )
+    : QListViewItem( parentItem )
+{
+  initItem( parent, topLevelItem, item );
+}
+
+KonqDirTreeItem::KonqDirTreeItem( KonqDirTree *parent, KonqDirTreeItem *topLevelItem, KonqFileItem *item )
+    : QListViewItem( parent )
+{
+    initItem( parent, topLevelItem, item );
+}
+
+void KonqDirTreeItem::initItem( KonqDirTree *parent, KonqDirTreeItem *topLevelItem, KonqFileItem *item )
 {
   m_item = item;
   m_topLevelItem = topLevelItem;
@@ -288,10 +299,6 @@ KonqDirTree::KonqDirTree( KonqDirTreePart *parent, QWidget *parentWidget )
   connect( m_autoOpenTimer, SIGNAL( timeout() ),
 	   this, SLOT( slotAutoOpenFolder() ) );
 
-  m_root = new QListViewItem( this, i18n( "Desktop" ) );
-  m_root->setPixmap( 0, SmallIcon("desktop") );
-  m_root->setSelectable( false );
-
   connect( this, SIGNAL( doubleClicked( QListViewItem * ) ),
 	   this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
   connect( this, SIGNAL( rightButtonPressed( QListViewItem *, const QPoint &, int ) ),
@@ -333,6 +340,7 @@ void KonqDirTree::clearTree()
   m_topLevelItems.clear();
   m_groupItems.clear();
   m_mapCurrentOpeningFolders.clear();
+  setRootIsDecorated( true );
 }
 
 void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLevel )
@@ -732,9 +740,7 @@ void KonqDirTree::rescanConfiguration()
   kdDebug() << "KonqDirTree::rescanConfiguration()" << endl;
   m_autoOpenTimer->stop();
   clearTree();
-  m_unselectableItems.append( m_root );
-  scanDir( m_root, m_dirtreeDir.path(), true);
-  m_root->setOpen( true );
+  scanDir( 0, m_dirtreeDir.path(), true);
 }
 
 void KonqDirTree::FilesAdded( const KURL & dir )
@@ -759,7 +765,7 @@ void KonqDirTree::FilesRemoved( const KURL::List & urls )
   }
 }
 
-void KonqDirTree::scanDir( QListViewItem *parent, const QString &path, bool isRoot )
+void KonqDirTree::scanDir( KonqDirTreeItem *parent, const QString &path, bool isRoot )
 {
   QDir dir( path );
 
@@ -812,7 +818,7 @@ void KonqDirTree::scanDir( QListViewItem *parent, const QString &path, bool isRo
   }
 }
 
-void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
+void KonqDirTree::scanDir2( KonqDirTreeItem *parent, const QString &path )
 {
   QDir dir( path );
   QString name = dir.dirName();
@@ -837,7 +843,11 @@ void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
   QString url = QString( path ).prepend( "file:" );
 
   KonqFileItem *fileItem = new KonqFileItem( -1, -1, KURL( url ) );
-  KonqDirTreeItem *item = new KonqDirTreeItem( this, parent, 0, fileItem );
+  KonqDirTreeItem *item;
+  if ( parent )
+    item = new KonqDirTreeItem( this, parent, 0, fileItem );
+  else
+    item = new KonqDirTreeItem( this, 0, fileItem );
   item->setText( 0, name );
   item->setPixmap( 0, SmallIcon( icon ) );
   item->setListable( false );
@@ -856,7 +866,7 @@ void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
     item->setExpandable( false );
 }
 
-void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filename )
+void KonqDirTree::loadTopLevelItem( KonqDirTreeItem *parent,  const QString &filename )
 {
   KDesktopFile cfg( filename, true );
 
@@ -896,7 +906,11 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
     kurl.setPath( "/" );
 
   KonqFileItem *fileItem = new KonqFileItem( -1, -1, kurl );
-  KonqDirTreeItem *item = new KonqDirTreeItem( this, parent, 0, fileItem );
+  KonqDirTreeItem *item;
+  if ( parent )
+      item = new KonqDirTreeItem( this, parent, 0, fileItem );
+  else
+      item = new KonqDirTreeItem( this, 0, fileItem );
 
   //  m_unselectableItems.append( item );
 
