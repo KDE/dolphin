@@ -3814,6 +3814,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
   delete konqyMenuClient;
   m_popupEmbeddingServices.clear();
+  popupItems.clear();
 
   //kdDebug(1202) << "-------- KonqMainWindow::slotPopupMenu() - m_oldView = " << m_oldView << ", currentView = " << currentView
   //<< ", m_currentView = " << m_currentView << endl;
@@ -4142,7 +4143,7 @@ void KonqMainWindow::plugViewModeActions()
   lst.append( m_viewModeMenu );
   plugActionList( "viewmode", lst );
   // display the toolbar viewmode icons only for inode/directory, as here we have dedicated icons
-  if ( m_currentView->serviceType() == "inode/directory" )
+  if ( m_currentView && m_currentView->serviceType() == "inode/directory" )
     plugActionList( "viewmode_toolbar", m_toolBarViewModeActions );
 }
 
