@@ -215,7 +215,7 @@ KonqKfmIconView::KonqKfmIconView()
 
   m_paSelect = new KAction( i18n( "&Select" ), 0, this, SLOT( slotSelect() ), this );
   m_paUnselect = new KAction( i18n( "&Unselect" ), 0, this, SLOT( slotUnselect() ), this );
-  m_paSelectAll = new KAction( i18n( "Select &All" ), 0, this, SLOT( slotSelectAll() ), this );
+  m_paSelectAll = new KAction( i18n( "Select &All" ), CTRL+Key_A, this, SLOT( slotSelectAll() ), this );
   m_paUnselectAll = new KAction( i18n( "U&nselect All" ), 0, this, SLOT( slotUnselectAll() ), this );
 
   m_paLargeIcons = new KToggleAction( i18n( "&Large View" ), 0, this );
@@ -243,8 +243,8 @@ KonqKfmIconView::KonqKfmIconView()
   m_paBottomText->setChecked( true );
   m_paRightText->setChecked( false );
 
-  KAction * paBackgroundColor = new KAction( i18n( "Background Color" ), 0, this, SLOT( slotBackgroundColor() ), this );
-  KAction * paBackgroundImage = new KAction( i18n( "Background Image" ), 0, this, SLOT( slotBackgroundImage() ), this );
+  KAction * paBackgroundColor = new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), this );
+  KAction * paBackgroundImage = new KAction( i18n( "Background Image..." ), 0, this, SLOT( slotBackgroundImage() ), this );
 
   //
   
