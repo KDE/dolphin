@@ -342,13 +342,7 @@ int clientApp::doIt( int argc, char **argv )
 
 void clientApp::getKonqy()
 {
-  /**
-   * Wellwell, this is not the nice way to solve connecting to Konqy, but
-   * unless we finished the keep-IMR-in-sync-with-services problem we'll have
-   * to go this way...although it's ugly ;)
-   */
-
-  KTrader::OfferList offers = trader->query( "FileManager" );
+  KTrader::OfferList offers = trader->query( "FileManager", "'IDL:Konqueror/Application:1.0#App' in RepoIds" );
 
   if ( offers.count() != 1 )
   {
@@ -357,17 +351,7 @@ void clientApp::getKonqy()
     return;
   }
 
-  KTrader::ServicePtr s = offers.getFirst();
-
-//  activator->registerService( s->name(), s->activationMode(), s->repoIds(),
-//                              s->CORBAExec() );
-// Register server manually since it seems KConfig doesn't read the repoid list
-// properly from the .desktop file :-((
-  QStringList repoIds;
-  repoIds.append( "IDL:Konqueror/Application:1.0#App" );
-  activator->registerService( s->name(), s->activationMode(), repoIds, s->CORBAExec() );
-
-  CORBA::Object_var obj = activator->activateService( "Konqueror", "IDL:Konqueror/Application:1.0", "App" );
+  CORBA::Object_var obj = activator->activateService( offers.getFirst()->name(), "IDL:Konqueror/Application:1.0", "App" );
 
   if ( CORBA::is_nil( obj ) )
   {
