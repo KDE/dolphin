@@ -549,6 +549,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    XtRealizeWidget(_form);
 
    // Create widget that is passed to the plugin
+   XtInitializeWidgetClass(xmDrawingAreaWidgetClass);
    _area = XmCreateDrawingArea( _form, (char*)("drawingArea"), args, nargs);
    XtRealizeWidget(_area);
    XtMapWidget(_area);
