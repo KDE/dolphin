@@ -49,9 +49,11 @@
 // #define DEBUG_ADDRESSES
 
 ListView* ListView::s_self = 0;
-QStringList ListView::s_selected_addresses;
+
 int ListView::s_myrenamecolumn = -1;
 KEBListViewItem *ListView::s_myrenameitem = 0;
+
+QStringList ListView::s_selected_addresses; // UGLY
 bool ListView::s_listview_is_dirty = false;
 
 ListView::ListView() {
@@ -389,10 +391,12 @@ void ListView::updateListView() {
          s_selected_addresses << it.current()->bookmark().address();
       }
    }
+   int lastCurrentY = m_listView->contentsY();
    updateTree();
-   if (selectedItems()->isEmpty()) {
+   if (selectedItems()->isEmpty())
       m_listView->setSelected(m_listView->currentItem(), true);
-   }
+   m_listView->ensureVisible(0, lastCurrentY, 0, 0);
+   m_listView->ensureVisible(0, lastCurrentY + m_listView->visibleHeight(), 0, 0);
 }
 
 void ListView::updateTree(bool updateSplitView) {
@@ -407,11 +411,13 @@ void ListView::updateTree(bool updateSplitView) {
 }
 
 void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewItem *parentItem) {
+   static bool currentAlreadyChosen = false;
    KEBListViewItem *lastItem = 0;
    if (!parentItem) {
       lv->clear();
       if (!m_splitView || lv->isFolderList()) {
          KEBListViewItem *tree = new KEBListViewItem(lv, group);
+         currentAlreadyChosen = false;
          fillWithGroup(lv, group, tree);
          tree->QListViewItem::setOpen(true);
          return;
@@ -450,8 +456,9 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
          lastItem = item;
       }
       QString addr = CurrentMgr::self()->correctAddress(m_last_selection_address);
-      if (bk.address() == addr) {
+      if (bk.address() == addr && !currentAlreadyChosen) {
          setCurrent(item);
+         currentAlreadyChosen = true;
       }
       if (s_selected_addresses.contains(bk.address())) {
          lv->setSelected(item, true);
@@ -489,7 +496,7 @@ void ListView::handleSelectionChanged(KEBListView *) {
    s_listview_is_dirty = true;
    KEBApp::self()->updateActions();
    updateSelectedItems();
-   if (selectedItems()->count() == 1) {
+   if (selectedItems()->count() >= 1) {
       KEBApp::self()->bkInfo()->showBookmark(firstSelected()->bookmark());
    }
 }
