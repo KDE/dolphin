@@ -3,14 +3,9 @@ INCLUDES = -I$(top_srcdir)/libltdl $(all_includes)
 METASOURCES = AUTO
 noinst_HEADERS = NSPluginClassIface.h NSPluginCallbackIface.h nspluginloader.h
 
-plugin_part.cpp: NSPluginClassIface_stub.h
-
 NSPluginClassIface_stub.h: NSPluginClassIface.h
 
-NSPluginClassIface.h:
-	-rm -f ./NSPluginClassIface.h
-	-ln -s $(srcdir)/viewer/NSPluginClassIface.h .
-
+NSPluginClassIface_DIR = $(srcdir)/viewer
 
 lib_LTLIBRARIES = libnsplugin.la
 libnsplugin_la_SOURCES = plugin_part.cpp nspluginloader.cpp NSPluginClassIface.stub \
@@ -23,10 +18,8 @@ nspluginscan_SOURCES = pluginscan.cpp
 nspluginscan_LDFLAGS =  $(KDE_RPATH) $(all_libraries)
 nspluginscan_LDADD = $(MOTIF_LIBS) $(LIB_KDEUI) $(LIB_KSYCOCA) -lXt
 
-
 messages:
 	$(EXTRACTRC) `find . -name *.ui` > rc.cpp
 	$(EXTRACTRC) `find . -name *.rc` >> rc.cpp
 	$(XGETTEXT) *.cpp control/*.cpp viewer/*.cpp -o $(podir)/nsplugin.pot
-
 

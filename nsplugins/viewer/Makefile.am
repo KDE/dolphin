@@ -8,11 +8,5 @@ nspluginviewer_SOURCES = NSPluginCallbackIface.stub NSPluginClassIface.skel \
 nspluginviewer_LDFLAGS = $(all_libraries) $(KDE_RPATH) -export-dynamic
 nspluginviewer_LDADD = $(MOTIF_LIBS) $(LIB_KIO) -lXt
 
-NSPluginCallbackIface.h:
-	-rm -f ./NSPluginCallbackIface.h
-	-ln -s $(srcdir)/../NSPluginCallbackIface.h .
-
-viewer.cpp: NSPluginCallbackIface_stub.h
-nsplugin.cpp: NSPluginCallbackIface_stub.h
-
+NSPluginCallbackIface_DIR = $(srcdir)/..
 
