@@ -1,4 +1,4 @@
-SUBDIRS = viewer wrapper
+SUBDIRS = viewer 
 INCLUDES = $(all_includes) -I$(top_srcdir)/libltdl
 METASOURCES = AUTO
 
