@@ -273,9 +273,11 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	m_menu->insertItem(i18n("Multiple Views"), 1);
 	m_menu->insertItem(i18n("Show Tabs Left"), 2);
 	m_menu->insertItem(i18n("Show Configuration Button"), 3);
-	m_menu->insertSeparator();
-	m_menu->insertItem(SmallIconSet("remove"), i18n("Close Navigation Panel"),
-			par, SLOT(deleteLater()));
+	if (!m_universalMode) {
+		m_menu->insertSeparator();
+		m_menu->insertItem(SmallIconSet("remove"), i18n("Close Navigation Panel"),
+				par, SLOT(deleteLater()));
+	}
         connect(m_menu, SIGNAL(aboutToShow()),
 		this, SLOT(aboutToShowConfigMenu()));
 	connect(m_menu, SIGNAL(activated(int)),
