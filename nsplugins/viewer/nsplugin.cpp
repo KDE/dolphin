@@ -5,7 +5,7 @@
 
   Copyright (c) 2000 Matthias Hoelzer-Kluepfel <hoelzer@kde.org>
                      Stefan Schimanski <1Stein@gmx.de>
-                2003 George Staikos <staikos@kde.org>
+                2003-2005 George Staikos <staikos@kde.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by

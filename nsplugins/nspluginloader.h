@@ -5,6 +5,7 @@
 
   Copyright (c) 2000 Matthias Hoelzer-Kluepfel <hoelzer@kde.org>
                      Stefan Schimanski <1Stein@gmx.de>
+  Copyright (c) 2002-2005 George Staikos <staikos@kde.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -39,6 +40,8 @@
 #define EMBEDCLASS QXEmbed
 
 class KProcess;
+class QPushButton;
+class QGridLayout;
 
 class NSPluginInstance : public EMBEDCLASS, virtual public NSPluginInstanceIface_stub
 {
@@ -48,11 +51,16 @@ public:
     NSPluginInstance(QWidget *parent, const QCString& app, const QCString& id);
     ~NSPluginInstance();
 
+private slots:
+    void doLoadPlugin();
+
 protected:
     void resizeEvent(QResizeEvent *event);
     void windowChanged(WId w);
     class NSPluginLoader *_loader;
     bool shown;
+    QPushButton *_button;
+    QGridLayout *_layout;
 };
 
 

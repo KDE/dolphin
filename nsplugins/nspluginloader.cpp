@@ -5,6 +5,7 @@
 
   Copyright (c) 2000 Matthias Hoelzer-Kluepfel <hoelzer@kde.org>
                      Stefan Schimanski <1Stein@gmx.de>
+  Copyright (c) 2002-2005 George Staikos <staikos@kde.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -30,11 +31,14 @@
 #include <kprocess.h>
 #include <kdebug.h>
 #include <kglobal.h>
+#include <klocale.h>
 #include <kstandarddirs.h>
 #include <kconfig.h>
 #include <dcopclient.h>
 #include <dcopstub.h>
+#include <qlayout.h>
 #include <qobject.h>
+#include <qpushbutton.h>
 #include <qxembed.h>
 #include <qtextstream.h>
 #include <qregexp.h>
@@ -53,14 +57,35 @@ int NSPluginLoader::s_refCount = 0;
 NSPluginInstance::NSPluginInstance(QWidget *parent, const QCString& app, const QCString& id)
   : DCOPStub(app, id), NSPluginInstanceIface_stub(app, id), EMBEDCLASS(parent)
 {
+    _loader = 0L;
     shown = false;
-    _loader = NSPluginLoader::instance();
-    setBackgroundMode(QWidget::NoBackground);
-    setProtocol(QXEmbed::XPLAIN);
-    embed( NSPluginInstanceIface_stub::winId() );
-    displayPlugin();
-    show();
-    shown = true;
+    QGridLayout *_layout = new QGridLayout(this, 1, 1);
+    KConfig cfg("kcmnspluginrc", false);
+    cfg.setGroup("Misc");
+    if (cfg.readBoolEntry("demandLoad", false)) {
+        _button = new QPushButton(i18n("Start Plugin"), dynamic_cast<EMBEDCLASS*>(this));
+        _layout->addWidget(_button, 0, 0);
+        connect(_button, SIGNAL(clicked()), this, SLOT(doLoadPlugin()));
+        show();
+    } else {
+        _button = 0L;
+        doLoadPlugin();
+    }
+}
+
+
+void NSPluginInstance::doLoadPlugin() {
+    if (!_loader) {
+        delete _button;
+        _button = 0L;
+        _loader = NSPluginLoader::instance();
+        setBackgroundMode(QWidget::NoBackground);
+        setProtocol(QXEmbed::XPLAIN);
+        embed( NSPluginInstanceIface_stub::winId() );
+        displayPlugin();
+        show();
+        shown = true;
+    }
 }
 
 
@@ -443,3 +468,4 @@ NSPluginInstance *NSPluginLoader::newInstance(QWidget *parent, QString url,
    return plugin;
 }
 
+// vim: ts=4 sw=4 et
