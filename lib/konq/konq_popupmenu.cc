@@ -23,7 +23,7 @@
 #include <klocale.h>
 #include <kbookmarkmanager.h>
 #include <kdebug.h>
-#include <kopenwith.h>
+#include <krun.h>
 #include <kprotocolinfo.h>
 #include <kiconloader.h>
 #include <klineeditdlg.h>
@@ -484,7 +484,7 @@ void KonqPopupMenu::slotPopupEmptyTrashBin()
 
 void KonqPopupMenu::slotPopupOpenWith()
 {
-  KOpenWithHandler::getOpenWithHandler()->displayOpenWithDialog( m_lstPopupURLs );
+  KRun::displayOpenWithDialog( m_lstPopupURLs );
 }
 
 void KonqPopupMenu::slotPopupAddToBookmark()
