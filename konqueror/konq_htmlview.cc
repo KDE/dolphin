@@ -538,9 +538,9 @@ void KonqHTMLView::openTxtView( const QString &url )
     KonqChildView *childView = m_pMainView->childView( id() );
     if ( childView )
     {
-      Konqueror::View_var vView = Konqueror::View::_duplicate( new KonqTxtView( m_pMainView ) );
+      Konqueror::View_var vView;
       QStringList serviceTypes;
-      serviceTypes.append( "text/plain" );
+      KonqChildView::createView( "text/plain", vView, serviceTypes, m_pMainView );
       childView->makeHistory( false );
       childView->changeView( vView, serviceTypes );
     }
