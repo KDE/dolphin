@@ -146,6 +146,7 @@ KExceptionBox::KExceptionBox( QWidget* parent, const char* name )
                                           "Otherwise, the proxy servers are "
                                           "bypassed for this list.</qt>") );
 
+    connect( m_lvExceptions, SIGNAL(doubleClicked (QListViewItem *)), SLOT(changePressed()));
     glay->addMultiCellWidget( m_lvExceptions, 0, 1, 0, 0 );
     spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum,
                               QSizePolicy::MinimumExpanding );
@@ -174,8 +175,8 @@ bool KExceptionBox::handleDuplicate( const QString& site )
 void KExceptionBox::newPressed()
 {
     QString msg;
-    
-    // Specify the appropriate message...    
+
+    // Specify the appropriate message...
     if ( m_cbReverseproxy->isChecked() )
         msg = i18n("Enter the address or URL for which the above proxy server "
                    "should be used: ");
@@ -198,6 +199,8 @@ void KExceptionBox::newPressed()
 
 void KExceptionBox::changePressed()
 {
+    if( !m_lvExceptions->currentItem() )
+        return;
     QString msg;
 
     // Specify the appropriate message...
@@ -207,7 +210,7 @@ void KExceptionBox::changePressed()
     else
         msg = i18n("Enter the address or URL that should be excluded from using "
                    "the above proxy server:");
-                   
+
     QString currentItem = m_lvExceptions->currentItem()->text(0);
     KProxyExceptionDlg dlg( this, msg, currentItem, i18n("Change Exception") );
     if ( dlg.exec() )
@@ -225,7 +228,7 @@ void KExceptionBox::changePressed()
 void KExceptionBox::deletePressed()
 {
     QListViewItem* item = m_lvExceptions->selectedItem()->itemBelow();
-    
+
     if ( !item )
         item = m_lvExceptions->selectedItem()->itemAbove();
 
