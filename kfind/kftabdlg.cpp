@@ -323,7 +323,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid3->addMultiCellWidget( metainfoEdit, 0, 0, 1, 3 );
     grid3->addMultiCellWidget( metainfokeyEdit, 1, 1, 1, 3 );
 
-    addTab( pages[3], i18n(" Metainfo (files' tags) ") );
+    addTab( pages[3], i18n(" &Metainfo ") );
 
 
     fixLayout();
