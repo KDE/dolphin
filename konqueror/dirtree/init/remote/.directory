@@ -1,6 +1,5 @@
 [Desktop Entry]
 Name=Network
-Name[bg]=Ìðåæà
 Name[ca]=Xarxa
 Name[cs]=Síť
 Name[da]=Netværk
@@ -20,20 +19,5 @@ Name[it]=Rete
 Name[ja]=ネットワーク
 Name[mk]=Мрежа
 Name[nl]=Netwerk
-Name[no]=Nettverk
-Name[no_NY]=Nettverk
-Name[pl]=Sieć
-Name[pt]=Rede
-Name[pt_BR]=Rede
-Name[ro]=Reţea
-Name[ru]=Сеть
-Name[sk]=Sieť
-Name[sl]=Omrežje
-Name[sr]=Mreža
-Name[sv]=Nätverk
-Name[ta]=வைலயைமபஂபு
-Name[tr]=Ağ
-Name[uk]=Мережа
-Name[zh_CN.GB2312]=网络
 Icon=kfm_network
 Open=false
