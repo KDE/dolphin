@@ -37,7 +37,7 @@
 
 #include "NSPluginClassIface_stub.h"
 
-#define EMBEDCLASS KJavaEmbed
+#define EMBEDCLASS KNSPluginEmbed
 
 class KProcess;
 

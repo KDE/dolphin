@@ -19,20 +19,20 @@
     Boston, MA 02111-1307, USA.
 *****************************************************************************/
 
-#ifndef KJAVAEMBED_H
-#define KJAVAEMBED_H
+#ifndef KNSPLUGINEMBED_H
+#define KNSPLUGINEMBED_H
 
 #include <qwidget.h>
 
-class KJavaEmbedPrivate;
-class KJavaEmbed : public QWidget
+class KNSPluginEmbedPrivate;
+class KNSPluginEmbed : public QWidget
 {
     Q_OBJECT
 
 public:
 
-    KJavaEmbed( QWidget *parent=0, const char *name=0, WFlags f = 0 );
-    ~KJavaEmbed();
+    KNSPluginEmbed( QWidget *parent=0, const char *name=0, WFlags f = 0 );
+    ~KNSPluginEmbed();
 
     void embed( WId w );
     bool embedded() { if( window != 0 ) return true; else return false; }
@@ -58,7 +58,7 @@ protected:
 
 private:
     WId window;
-    KJavaEmbedPrivate* d;
+    KNSPluginEmbedPrivate* d;
 };
 
 
