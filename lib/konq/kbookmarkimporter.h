@@ -33,6 +33,12 @@ class KBookmarkImporter
 {
 public:
     KBookmarkImporter( QDomDocument * doc ) : m_pDoc(doc) {}
+
+    // Usual place for NS bookmarks
+    static QString netscapeBookmarksFile();
+    // Usual place for Mozilla bookmarks
+    static QString mozillaBookmarksFile();
+
     void import( const QString & path );
 
 private:

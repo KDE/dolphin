@@ -192,4 +192,14 @@ void KNSBookmarkImporter::parseNSBookmarks()
     }
 }
 
+QString KBookmarkImporter::netscapeBookmarksFile()
+{
+    return QDir::homeDirPath() + "/.netscape/bookmarks.html";
+}
+
+QString KBookmarkImporter::mozillaBookmarksFile()
+{
+    return QDir::homeDirPath() + "/.mozilla/default/bookmarks.html";
+}
+
 #include "kbookmarkimporter.moc"
