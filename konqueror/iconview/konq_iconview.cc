@@ -147,7 +147,7 @@ void IconViewBrowserExtension::reparseConfiguration()
     KonqFMSettings::reparseConfiguration();
     // m_pProps is a problem here (what is local, what is global ?)
     // but settings is easy :
-    m_iconView->iconViewWidget()->initConfig();
+    m_iconView->iconViewWidget()->initConfig( false );
 }
 
 void IconViewBrowserExtension::properties()
@@ -185,7 +185,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_pProps = new KonqPropsView( KonqIconViewFactory::instance(), KonqIconViewFactory::defaultViewProps() );
 
     m_pIconView = new KonqIconViewWidget( parentWidget, "qiconview" );
-    m_pIconView->initConfig();
+    m_pIconView->initConfig( true );
 
     QTimer * timer = new QTimer( this );
     connect( timer, SIGNAL( timeout() ), this, SLOT( slotProcessMimeIcons() ) );
