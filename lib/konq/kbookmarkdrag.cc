@@ -20,6 +20,7 @@
 #include <kurl.h>
 #include <kurldrag.h>
 #include <kdebug.h>
+#include <qfont.h>
 
 KBookmarkDrag * KBookmarkDrag::newDrag( const KBookmark & bookmark, QWidget * dragSource, const char * name )
 {
