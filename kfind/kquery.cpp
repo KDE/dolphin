@@ -1,6 +1,7 @@
 #include <stdlib.h>
 
 #include <qfileinfo.h>
+#include <kdebug.h>
 #include <kfileitem.h>
 #include <kfilemetainfo.h>
 #include <kmessagebox.h>
@@ -215,6 +216,17 @@ void KQuery::processQuery( KFileItem* file)
           return;
     }
 
+    // PLEASE update the documentation when you add another
+    // file type here:
+    QStringList ooo_mimetypes;     // OpenOffice.org mimetypes
+    ooo_mimetypes.append("application/vnd.sun.xml.writer");
+    ooo_mimetypes.append("application/vnd.sun.xml.calc");
+    ooo_mimetypes.append("application/vnd.sun.xml.impress");
+    QStringList koffice_mimetypes;
+    koffice_mimetypes.append("application/x-kword");
+    koffice_mimetypes.append("application/x-kspread");
+    koffice_mimetypes.append("application/x-kpresenter");
+
     // match contents...
     QString matchingLine;
     if (!m_context.isEmpty())
@@ -231,9 +243,9 @@ void KQuery::processQuery( KFileItem* file)
        QRegExp xmlTags;
        QByteArray zippedXmlFileContent;
     
-       //KWord's files are compressed...
-       if( file->mimetype()=="application/x-kword" || file->mimetype()=="application/vnd.sun.xml.writer"
-           || file->mimetype()=="application/x-oowriter" )
+       // KWord's and OpenOffice.org's files are zipped...
+       if( ooo_mimetypes.findIndex(file->mimetype()) != -1 ||
+           koffice_mimetypes.findIndex(file->mimetype()) != -1 )
        {
          KZip zipfile(file->url().path());
          KZipFileEntry *zipfileEntry;
@@ -242,20 +254,24 @@ void KQuery::processQuery( KFileItem* file)
          {
            const KArchiveDirectory *zipfileContent = zipfile.directory();
 
-           if(file->mimetype()=="application/x-kword")
-             zipfileEntry=(KZipFileEntry*)zipfileContent->entry("maindoc.xml");
+           if( koffice_mimetypes.findIndex(file->mimetype()) != -1 )
+             zipfileEntry = (KZipFileEntry*)zipfileContent->entry("maindoc.xml");
            else
-             zipfileEntry=(KZipFileEntry*)zipfileContent->entry("content.xml"); //for OpenOffice.org
+             zipfileEntry = (KZipFileEntry*)zipfileContent->entry("content.xml"); //for OpenOffice.org
 
-           if(!zipfileEntry)
+           if(!zipfileEntry) {
+             kdWarning() << "Expected XML file not found in ZIP archive " << file->url() << endl;
              return;
+           }
 
-           zippedXmlFileContent=zipfileEntry->data();
+           zippedXmlFileContent = zipfileEntry->data();
            xmlTags.setPattern("<.*>");
            xmlTags.setMinimal(true);
            stream = new QTextStream(zippedXmlFileContent, IO_ReadOnly);
            stream->setEncoding(QTextStream::UnicodeUTF8);
-           isZippedOfficeDocument=true;
+           isZippedOfficeDocument = true;
+         } else {
+           kdWarning() << "Cannot open supposed ZIP file " << file->url() << endl;
          }
        }
        if(!isZippedOfficeDocument) //any other file or non-compressed KWord
