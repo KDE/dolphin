@@ -166,7 +166,9 @@ void KDesktopConfig::load()
   config->setGroup("Mouse Buttons");
   _wheelOption->setChecked(config->readBoolEntry("WheelSwitchesWorkspace",false));
 
-  if (config->entryIsImmutable("WheelSwitchesWorkspace"))
+  _wheelOptionImmutable = config->entryIsImmutable("WheelSwitchesWorkspace");
+
+  if (_wheelOptionImmutable || n<2)
      _wheelOption->setEnabled(false);
 
   delete config;
@@ -223,6 +225,8 @@ void KDesktopConfig::defaults()
     _nameInput[i]->setEnabled(i < n);
 
   _wheelOption->setChecked(false);
+  if (!_wheelOptionImmutable)
+    _wheelOption->setEnabled(true);
 
   emit changed(false);
 }
@@ -240,6 +244,8 @@ void KDesktopConfig::slotValueChanged(int n)
     if(i<n && _nameInput[i]->text().isEmpty())
       _nameInput[i]->setText(i18n("Desktop %1").arg(i+1));
   }
+  if (!_wheelOptionImmutable)
+    _wheelOption->setEnabled(n>1);
   emit changed(true);
 }
 
