@@ -523,6 +523,11 @@ void ActionsImpl::slotUpdateAllFavIcons() {
             new FavIconsItr(ListView::self()->allBookmarks()));
 }
 
+ActionsImpl::~ActionsImpl() {
+    delete FavIconsItrHolder::self();
+    delete TestLinkItrHolder::self();
+}
+
 /* -------------------------------------- */
 
 void ActionsImpl::slotTestSelection() {

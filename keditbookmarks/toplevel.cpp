@@ -245,6 +245,7 @@ void KEBApp::construct() {
 KEBApp::~KEBApp() {
     s_topLevel = 0;
     delete m_dcopIface;
+    delete ActionsImpl::self();
     delete ListView::self();
 }
 

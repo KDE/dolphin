@@ -64,42 +64,44 @@ void FavIconUpdater::downloadIcon(const KBookmark &bk) {
     }
 }
 
-FavIconUpdater::~FavIconUpdater()
-{
+FavIconUpdater::~FavIconUpdater() {
+    kdDebug() << "~FavIconUpdater" << endl;
+    delete m_browserIface;
+    delete m_webGrabber;
     delete m_part;
 }
 
 void FavIconUpdater::downloadIconActual(const KBookmark &bk) {
     m_bk = bk;
 
-    KParts::ReadOnlyPart *part 
-        = KParts::ComponentFactory
-        ::createPartInstanceFromQuery<KParts::ReadOnlyPart>("text/html", QString::null);
+    if (!m_part) {
+        KParts::ReadOnlyPart *part 
+            = KParts::ComponentFactory
+            ::createPartInstanceFromQuery<KParts::ReadOnlyPart>("text/html", QString::null);
 
-    part->setProperty("pluginsEnabled", QVariant(false, 1));
-    part->setProperty("javaScriptEnabled", QVariant(false, 1));
-    part->setProperty("javaEnabled", QVariant(false, 1));
-    part->setProperty("autoloadImages", QVariant(false, 1));
+        part->setProperty("pluginsEnabled", QVariant(false, 1));
+        part->setProperty("javaScriptEnabled", QVariant(false, 1));
+        part->setProperty("javaEnabled", QVariant(false, 1));
+        part->setProperty("autoloadImages", QVariant(false, 1));
 
-    m_part = part;
+        connect(part, SIGNAL( canceled(const QString &) ),
+                this, SLOT( slotCompleted() ));
+        connect(part, SIGNAL( completed() ),
+                this, SLOT( slotCompleted() ));
 
-    connect(part, SIGNAL( canceled(const QString &) ),
-            this, SLOT( slotCompleted() ));
-    connect(part, SIGNAL( completed() ),
-            this, SLOT( slotCompleted() ));
+        KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(part);
+        assert(ext);
 
-    KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(m_part);
-    if (!ext) {
-        return;
+        m_browserIface = new FavIconBrowserInterface(this, "browseriface");
+        ext->setBrowserInterface(m_browserIface);
+
+        connect(ext, SIGNAL( setIconURL(const KURL &) ),
+                this, SLOT( setIconURL(const KURL &) ));
+
+        m_part = part;
     }
 
-    m_browserIface = new FavIconBrowserInterface(this, "browseriface");
-    ext->setBrowserInterface(m_browserIface);
-
-    connect(ext, SIGNAL( setIconURL(const KURL &) ),
-            this, SLOT( setIconURL(const KURL &) ));
-
-    new FavIconWebGrabber(part, bk.url());
+    m_webGrabber = new FavIconWebGrabber(m_part, bk.url());
 }
 
 // khtml callback

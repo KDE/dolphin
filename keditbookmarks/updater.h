@@ -29,7 +29,7 @@
 
 class FavIconWebGrabber : public QObject
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     FavIconWebGrabber(KParts::ReadOnlyPart *part, const KURL &url);
     ~FavIconWebGrabber() {}
@@ -68,6 +68,7 @@ signals:
 private:
     KParts::ReadOnlyPart *m_part;
     FavIconBrowserInterface *m_browserIface;
+    FavIconWebGrabber *m_webGrabber;
     KBookmark m_bk;
 };
 
