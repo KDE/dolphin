@@ -27,6 +27,7 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kstringhandler.h>
+#include <ktempfile.h>
 
 #include <assert.h>
 #include <iostream.h>
@@ -79,15 +80,10 @@ void KonqRun::foundMimeType( const QString & _type )
   if ( m_req.followMode )
       m_bFinished = true;
 
-  // If we were in a POST and we didn't embed a viewer, we MUST save.
-  // We can't fire an external application, that's impossible.
-  if ( !m_bFinished && m_req.args.doPost() )
-  {
-      kdDebug(1203) << "KonqRun: saving directly" << endl;
-      save( m_strURL, m_suggestedFilename );
-      m_bFinished = true;
-      m_bFault = true; // make Konqueror think there was an error, in order to stop the spinning wheel
-  }
+  // Note: all the code below is very related to KHTMLRun::foundMimeType
+  // It can't be moved to KRun though, since KRun doesn't know about the URLArgs,
+  // and should never ask "do you want to save" in other apps.
+  // Maybe we need a KBrowserRun in kparts...
 
   // Support for saving remote files.
   if ( !m_bFinished && // couldn't embed
@@ -103,6 +99,28 @@ void KonqRun::foundMimeType( const QString & _type )
           m_bFinished = true;
           m_bFault = true; // make Konqueror think there was an error, in order to stop the spinning wheel
       }
+      else // false: open app (done by KRun::foundMimeType at the end of this method)
+      {
+          // If we were in a POST, we can't just pass a URL to an external application.
+          // We must save the data to a tempfile first.
+          if ( m_req.args.doPost() )
+          {
+              kdDebug(1203) << "KonqRun: request comes from a POST, can't pass a URL to another app, need to save" << endl;
+              m_sMimeType = mimeType;
+              QString extension;
+              QString fileName = m_suggestedFilename.isEmpty() ? m_strURL.fileName() : m_suggestedFilename;
+              int extensionPos = fileName.findRev( '.' );
+              if ( extensionPos != -1 )
+                  extension = fileName.mid( extensionPos ); // keep the '.'
+              KTempFile tempFile( QString::null, extension );
+              KURL destURL;
+              destURL.setPath( tempFile.name() );
+              KIO::Job *job = KIO::file_copy( m_strURL, destURL, 0600, true /*overwrite*/, false /*no resume*/, true /*progress info*/ );
+              connect( job, SIGNAL( result( KIO::Job *)),
+                       this, SLOT( slotCopyToTempFileResult(KIO::Job *)) );
+              return; // We'll continue after the job has finished
+          }
+      }
   }
 
   // Check if running is allowed
@@ -115,11 +133,11 @@ void KonqRun::foundMimeType( const QString & _type )
     }
 
   if ( m_bFinished )
-    {
+  {
       m_pMainWindow = 0L;
       m_timer.start( 0, true );
       return;
-    }
+  }
   KIO::SimpleJob::removeOnHold(); // Kill any slave that was put on hold.
   kdDebug(1202) << "Nothing special to do in KonqRun, falling back to KRun" << endl;
 
@@ -140,6 +158,19 @@ void KonqRun::foundMimeType( const QString & _type )
   }
 
   KRun::foundMimeType( mimeType );
+}
+
+void KonqRun::slotCopyToTempFileResult(KIO::Job *job)
+{
+    if ( job->error() ) {
+        job->showErrorDialog( m_pMainWindow );
+    } else {
+        // Same as KRun::foundMimeType but with a different URL
+        (void) (KRun::runURL( static_cast<KIO::FileCopyJob *>(job)->destURL(), m_sMimeType ));
+    }
+    m_bFault = true; // see above
+    m_bFinished = true;
+    m_timer.start( 0, true );
 }
 
 void KonqRun::scanFile()
@@ -295,10 +326,18 @@ bool KonqRun::isExecutable( const QString &serviceType )
 bool KonqRun::askSave( const KURL & url, KService::Ptr offer, const QString& mimeType, const QString & suggestedFilename )
 {
     QString surl = KStringHandler::csqueeze( url.prettyURL() );
-    // Inspired from kmail
-    QString question = offer ? i18n("Open '%1' using '%2'?").
-                               arg( surl ).arg(offer->name())
-                       : i18n("Open '%1' ?").arg( surl );
+    QString question;
+    if ( suggestedFilename.isEmpty() )
+    {
+        // Inspired from kmail
+        question = offer ? i18n("Open '%1' using '%2'?").
+                   arg( surl ).arg(offer->name())
+                   : i18n("Open '%1' ?").arg( surl );
+    } else {
+        question = offer ? i18n("Open '%1' (%2) using '%3'?").
+                   arg( surl ).arg(suggestedFilename).arg(offer->name())
+                   : i18n("Open '%1' (%2) ?").arg( surl ).arg(suggestedFilename);
+    }
     int choice = KMessageBox::questionYesNoCancel(
         0L, question, QString::null,
         i18n("Save to disk"), i18n("Open"),

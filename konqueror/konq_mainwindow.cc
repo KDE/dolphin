@@ -740,7 +740,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 
     KonqMainWindow *mainWindow = 0L;
     KonqView * view = 0L;
-    if ( !args.frameName.isEmpty() && args.frameName != "_blank" ) // TODO _parent and _top (?)
+    if ( !args.frameName.isEmpty() && args.frameName != "_blank" )
     {
         KParts::BrowserHostExtension *hostExtension = 0;
         view = findChildView( args.frameName, &mainWindow, &hostExtension );

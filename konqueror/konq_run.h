@@ -72,6 +72,7 @@ protected:
 protected slots:
   void slotKonqScanFinished(KIO::Job *job);
   void slotKonqMimetype(KIO::Job *job, const QString &type);
+  void slotCopyToTempFileResult(KIO::Job *job);
 
 protected:
   QGuardedPtr<KonqMainWindow> m_pMainWindow;
@@ -80,6 +81,7 @@ protected:
   KonqOpenURLRequest m_req;
   bool m_bTrustedSource;
   QString m_suggestedFilename;
+  QString m_sMimeType;
 };
 
 #endif
