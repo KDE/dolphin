@@ -235,8 +235,8 @@ QPixmap KonqFileItem::pixmap( int _size, int _state,
                       KIO::NetAccess::upload( tmpFile, thumbURL );
                       (void) ::unlink( tmpFile );
                   }
-              return pix;
           }
+          return pix;
       }
   }
 
