@@ -13,7 +13,7 @@
 
 #include <qlayout.h>
 #include <qwhatsthis.h>
-#include <qhgroupbox.h>
+#include <qvgroupbox.h>
 #include <kconfig.h>
 #include <klistview.h>
 #include <kdebug.h>
@@ -42,7 +42,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   QVBoxLayout* toplevel = new QVBoxLayout( this, 10, 5 );
 
   // the global checkbox
-  QHGroupBox* globalGB = new QHGroupBox( i18n( "Global Settings" ), this );
+  QVGroupBox* globalGB = new QVGroupBox( i18n( "Global Settings" ), this );
   toplevel->addWidget( globalGB );
 
   enableJavaScriptGloballyCB = new QCheckBox( i18n( "Ena&ble JavaScript globally" ), globalGB );
@@ -52,7 +52,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
   connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChangeJSEnabled() ) );
 
-  reportErrorsCB = new QCheckBox( i18n( "Report errors" ), globalGB );
+  reportErrorsCB = new QCheckBox( i18n( "Report &errors" ), globalGB );
   QWhatsThis::add( reportErrorsCB, i18n("Enables the reporting of errors that occur when JavaScript "
 	"code is executed.") );
   connect( reportErrorsCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
