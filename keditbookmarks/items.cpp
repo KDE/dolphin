@@ -105,7 +105,7 @@ KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, 
 
 // empty folder item
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after )
-    : QListViewItem(parent, after, i18n("The empty folder, not to empty", "Empty folder") )
+    : QListViewItem(parent, after, i18n("The empty folder, not 'to empty'", "Empty folder") )
 {
    m_emptyFolder = true;
    setPixmap(0, SmallIcon("bookmark"));
