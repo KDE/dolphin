@@ -281,7 +281,7 @@ void KAppearanceOptions::slotCharset( const QString &n )
 void KAppearanceOptions::load()
 {
     m_pConfig->setGroup(m_groupname);
-    fSize = m_pConfig->readNumEntry( "FontSize", 1 ); // medium
+    fSize = m_pConfig->readNumEntry( "FontSize", 0 ); // small
     fMinSize = m_pConfig->readNumEntry( "MinimumFontSize", HTML_DEFAULT_MIN_FONT_SIZE );
 
     defaultFonts = QStringList();

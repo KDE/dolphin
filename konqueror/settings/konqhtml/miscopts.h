@@ -26,7 +26,7 @@
 
 #include <qstring.h>
 #include <kconfig.h>
-
+class KURLRequester;
 
 class KMiscHTMLOptions : public KCModule
 {
@@ -49,6 +49,9 @@ private:
         QCheckBox *cbCursor;
         QCheckBox *cbUnderline;
         QCheckBox *m_pAutoLoadImagesCheckBox;
+
+    QCheckBox *userSheet;
+    KURLRequester *userSheetLocation;
 };
 
 #endif
