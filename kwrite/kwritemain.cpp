@@ -65,7 +65,7 @@ KWrite::KWrite (KTextEditor::Document *doc)
      resize(640,400); 
 
   if (!doc) {
-    doc = KTextEditor::createDocument ("katepart");
+    doc = KTextEditor::createDocument ("katepart");//libqeditorpart"); //katepart");
     docList.append(doc);
   }
   setupEditWidget(doc);
@@ -194,14 +194,26 @@ void KWrite::slotNew()
 
 void KWrite::slotOpen()
 {
-  KateFileDialog *dialog = new KateFileDialog (QString::null,KTextEditor::encodingInterface(kateView->document())->encoding(), this, i18n ("Open File"));
-	KateFileDialogData data = dialog->exec ();
-	delete dialog;
-
-	for (KURL::List::Iterator i=data.urls.begin(); i != data.urls.end(); ++i)
+  if (KTextEditor::encodingInterface(kateView->document()))
   {
-	  encoding = data.encoding;
-    slotOpen ( *i );
+	  KateFileDialog *dialog = new KateFileDialog (QString::null,KTextEditor::encodingInterface(kateView->document())->encoding(), this, i18n ("Open File"));
+		KateFileDialogData data = dialog->exec ();
+		delete dialog;
+
+		for (KURL::List::Iterator i=data.urls.begin(); i != data.urls.end(); ++i)
+	  	{
+		  encoding = data.encoding;
+		  slotOpen ( *i );
+		}
+  }
+  else
+  {
+    		KURL::List l=KFileDialog::getOpenURLs(QString::null,QString::null,this,QString::null);
+		for (KURL::List::Iterator i=l.begin(); i != l.end(); ++i)
+	  	{
+		  slotOpen ( *i );
+		}
+
   }
 }
 
@@ -212,14 +224,14 @@ void KWrite::slotOpen( const KURL& url )
   if (kateView->document()->isModified() || !kateView->document()->url().isEmpty())
   {
     KWrite *t = new KWrite();
-    KTextEditor::encodingInterface(kateView->document())->setEncoding(encoding);
+    if (KTextEditor::encodingInterface(kateView->document())) KTextEditor::encodingInterface(kateView->document())->setEncoding(encoding);
     t->readConfig();
     t->init();
     t->loadURL(url);
   }
   else
 	{
-	  KTextEditor::encodingInterface(kateView->document())->setEncoding(encoding);
+	  if (KTextEditor::encodingInterface(kateView->document())) KTextEditor::encodingInterface(kateView->document())->setEncoding(encoding);
     loadURL(url);
   }
 }
@@ -382,7 +394,8 @@ void KWrite::readConfig() {
   config->setGroup("General Options");
   readConfig(config);
 
-  KTextEditor::configInterface(kateView->document())->readConfig();
+  KTextEditor::ConfigInterface *cfgIf=KTextEditor::configInterface(kateView->document());
+  if (cfgIf) cfgIf->readConfig();
 }
 
 
@@ -395,7 +408,7 @@ void KWrite::writeConfig()
   config->setGroup("General Options");
   writeConfig(config);
 
-  KTextEditor::configInterface(kateView->document())->writeConfig();
+  if (KTextEditor::configInterface(kateView->document())) KTextEditor::configInterface(kateView->document())->writeConfig();
 }
 
 // session management
@@ -404,7 +417,7 @@ void KWrite::restore(KConfig *config, int n)
   if ((kateView->document()->views().count() == 1) && !kateView->document()->url().isEmpty()) { //in this case first view
     loadURL(kateView->document()->url());
   }
-  readPropertiesInternal(config, n);
+ readPropertiesInternal(config, n);
   init();
 }
 
