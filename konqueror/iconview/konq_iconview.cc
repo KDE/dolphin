@@ -869,11 +869,11 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
 
     m_dirLister->setShowingDotFiles( m_pProps->isShowingDotFiles() );
 
-    // Start the directory lister !
-    m_dirLister->openURL( url, false, m_extension->urlArgs().reload );
-
     m_bNeedAlign = false;
     m_bUpdateContentsPosAfterListing = true;
+
+    // Start the directory lister !
+    m_dirLister->openURL( url, false, m_extension->urlArgs().reload );
 
     // Apply properties and reflect them on the actions
     // do it after starting the dir lister to avoid changing the properties
