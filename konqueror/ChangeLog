@@ -1,3 +1,10 @@
+2000-12-28  Simon Hausmann  <simon@kde.org>
+
+	* konq_viewmgr.cc (loadViewProfile): When loading an empty profile
+	(in particular the webbrowsing one) , activate the clear_location
+	action. This gives the focus to the location bar -> the user can
+	type in an url right away when loading the webbrowsing profile
+
 2000-12-27  Simon Hausmann  <simon@kde.org>
 
 	* konq_mainwindow.cc (enableAllActions): for iterating over all actions
