@@ -359,10 +359,10 @@ void KonqKfmIconView::slotDoubleClicked( KIconContainerItem *_item, const QPoint
 
 void KonqKfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStringList &_formats )
 {
-  QStrList lst;
+  QStringList lst;
 
   // Try to decode to the data you understand...
-  if ( QUrlDrag::decode( _ev, lst ) )
+  if ( QUrlDrag::decodeToUnicodeUris( _ev, lst ) )
   {
     if( lst.count() == 0 )
     {
