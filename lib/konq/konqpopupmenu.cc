@@ -327,7 +327,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
         QCString nam;
 	nam.setNum( id );
 
-        act = new KAction( (*it)->name(), (*it)->pixmap( KIconLoader::Small ), 0,
+        act = new KAction( (*it)->name(), (*it)->pixmap( KIcon::Small ), 0,
 			   this, SLOT( slotRunService() ),
 			   &m_ownActions, nam.prepend( "appservice_" ) );
 	addAction( act, menu );

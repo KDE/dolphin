@@ -432,7 +432,8 @@ QString KBookmark::pixmapFile( )
     QString url = m_file;
     KURL::encode( url );
     // Get the full path to the Small icon and store it into m_sPixmap
-    KMimeType::pixmapForURL( KURL( url ), buff.st_mode, KIconLoader::Small, &m_sPixmap );
+    KMimeType::pixmapForURL( KURL( url ), buff.st_mode, KIcon::Small, 
+	    0, KIcon::DefaultState, &m_sPixmap );
   }
   return m_sPixmap;
 }
