@@ -649,7 +649,7 @@ void KonqBaseListViewWidget::startDrag()
    // Calculate hotspot
    QPoint hotspot;
 
-   QUriDrag *d = KURLDrag::newDrag( urls, viewport() );
+   KURLDrag *d = KURLDrag::newDrag( urls, viewport() );
    if ( !pixmap2.isNull())
    {
       hotspot.setX( pixmap2.width() / 2 );

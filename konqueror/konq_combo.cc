@@ -442,7 +442,7 @@ void KonqCombo::mouseMoveEvent( QMouseEvent *e )
         {
             KURL::List list;
             list.append( url );
-            QUriDrag *drag = KURLDrag::newDrag( list, this );
+            KURLDrag *drag = KURLDrag::newDrag( list, this );
             QPixmap pix = KonqPixmapProvider::self()->pixmapFor( currentText(),
                                                                  KIcon::SizeMedium );
             if ( !pix.isNull() )

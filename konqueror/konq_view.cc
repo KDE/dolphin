@@ -1064,7 +1064,7 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
     {
         QDragEnterEvent *ev = static_cast<QDragEnterEvent *>( e );
 
-        if ( QUriDrag::canDecode( ev ) )
+        if ( KURLDrag::canDecode( ev ) )
         {
             KURL::List lstDragURLs;
             bool ok = KURLDrag::decode( ev, lstDragURLs );

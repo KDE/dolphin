@@ -217,7 +217,7 @@ void KonqDraggableLabel::mouseReleaseEvent( QMouseEvent * )
 
 void KonqDraggableLabel::dragEnterEvent( QDragEnterEvent *ev )
 {
-  if ( QUriDrag::canDecode( ev ) )
+  if ( KURLDrag::canDecode( ev ) )
     ev->acceptAction();
 }
 
