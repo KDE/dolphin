@@ -1086,13 +1086,12 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
     //kdDebug(1203) << "KonqIconViewWidget::konqDragObject" << endl;
 
     KonqIconDrag * drag = new KonqIconDrag( dragSource );
-    // Position of the item clicked in the view
-    QPoint itempos = currentItem()->pixmapRect( FALSE ).topLeft();
-    // Set pixmap, with the correct offset
-    drag->setPixmap( *currentItem()->pixmap(), m_mousePos - itempos );
+    QIconViewItem *primaryItem = currentItem();
     // Append all items to the drag object
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
         if ( it->isSelected() ) {
+          if (!primaryItem)
+             primaryItem = it;
           KURL url = (static_cast<KFileIVI *>(it))->item()->url();
           QString itemURL = KURLDrag::urlToString(url);
           kdDebug(1203) << "itemURL=" << itemURL << endl;
@@ -1106,6 +1105,15 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
                         itemURL );
         }
     }
+
+    if (primaryItem)
+    {
+       // Position of the item clicked in the view
+       QPoint itempos = primaryItem->pixmapRect( FALSE ).topLeft();
+       // Set pixmap, with the correct offset
+       drag->setPixmap( *primaryItem->pixmap(), m_mousePos - itempos );
+    }
+
     return drag;
 }
 
