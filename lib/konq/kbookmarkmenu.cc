@@ -132,7 +132,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
 
     KAction * paNewFolder = new KAction( i18n( "&New Folder " ),
                                               "filenew", //"folder",
-                                              m_bIsRoot ? KStdAccel::openNew() : 0,
+                                              0,
                                               this,
                                               SLOT( slotBookmarkSelected() ),
                                               m_actionCollection,
