@@ -19,6 +19,7 @@
 #include <qwhatsthis.h>
 #include <qlineedit.h>
 #include <kglobal.h>
+#include <kglobalsettings.h>
 #include <kconfig.h>
 #include <X11/Xlib.h>
 
@@ -286,8 +287,8 @@ void KAppearanceOptions::load()
 void KAppearanceOptions::defaults()
 {
     fSize=4;
-    stdName = KGlobal::generalFont().family();
-    fixedName = KGlobal::fixedFont().family();
+    stdName = KGlobalSettings::generalFont().family();
+    fixedName = KGlobalSettings::fixedFont().family();
     charsetName = "";
 
     bgColor = HTML_DEFAULT_BG_COLOR;
@@ -307,9 +308,9 @@ void KAppearanceOptions::defaults()
 void KAppearanceOptions::updateGUI()
 {
     if ( stdName.isEmpty() )
-        stdName = KGlobal::generalFont().family();
+        stdName = KGlobalSettings::generalFont().family();
     if ( fixedName.isEmpty() )
-        fixedName = KGlobal::fixedFont().family();
+        fixedName = KGlobalSettings::fixedFont().family();
 
     QStrListIterator sit( standardFonts );
     int i;

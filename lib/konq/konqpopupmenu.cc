@@ -91,7 +91,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   m_lstPopupURLs.clear();
   int id;
 
-  setFont(KGlobal::menuFont());
+  setFont(KGlobalSettings::menuFont());
 
   attrName = QString::fromLatin1( "name" );
 

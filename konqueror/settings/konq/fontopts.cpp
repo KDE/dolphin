@@ -26,6 +26,7 @@
 #include <qradiobutton.h>
 #include <qwhatsthis.h>
 #include <kglobal.h>
+#include <kglobalsettings.h>
 #include <kdialog.h>
 #include <kconfig.h>
 #include <X11/Xlib.h>
@@ -247,7 +248,7 @@ void KonqFontOptions::load()
 void KonqFontOptions::defaults()
 {
     fSize=4;
-    stdName = KGlobal::generalFont().family();
+    stdName = KGlobalSettings::generalFont().family();
     m_stdFont = QFont(stdName, 12);
 
     normalTextColor = FM_DEFAULT_TXT_COLOR;
@@ -264,7 +265,7 @@ void KonqFontOptions::defaults()
 void KonqFontOptions::updateGUI()
 {
     if ( stdName.isEmpty() )
-        stdName = KGlobal::generalFont().family();
+        stdName = KGlobalSettings::generalFont().family();
 
     QStrListIterator sit( standardFonts );
     int i;
