@@ -235,7 +235,12 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
 void KonqMainView::openURL( const QString &url, bool reload, int xOffset,
                             int yOffset )
 {
-  openURL( 0L, url, reload, xOffset, yOffset );
+  KonqChildView *childV = 0L;
+  
+  if ( sender() )
+    childV = childView( (BrowserView *)sender() );
+  
+  openURL( childV, url, reload, xOffset, yOffset );
 }
 
 void KonqMainView::slotNewWindow()
@@ -584,12 +589,17 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url, Kon
 
 void KonqMainView::setActiveView( BrowserView *view )
 {
+  KonqChildView *newView = m_mapViews.find( view ).data();
+  
+  if ( newView->passiveMode() )
+    return;
+  
   KonqChildView *oldView = m_currentView;
 
   if ( m_currentView )
     unPlugViewGUI( m_currentView->view() );
 
-  m_currentView = m_mapViews.find( view ).data();
+  m_currentView = newView;
 
   m_currentView->frame()->header()->repaint();
   
