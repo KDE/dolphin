@@ -276,6 +276,8 @@ public:
   void enablePopupMenu( bool b );
   bool isPopupMenuEnabled() const { return m_bPopupMenuEnabled; }
 
+  void reparseConfiguration();
+
   QStringList frameNames() const;
 
   KonqViewIface * dcopObject();
@@ -349,7 +351,8 @@ protected slots:
   void slotMoveTopLevelWidget( int x, int y );
   void slotResizeTopLevelWidget( int w, int h );
 
-protected:
+private:
+  void enableBackRightClick( bool b );
   /**
    * Replace the current view with a new view, created by @p viewFactory.
    */
@@ -379,7 +382,7 @@ protected:
 
   virtual bool eventFilter( QObject *obj, QEvent *e );
 
-////////////////// protected members ///////////////
+////////////////// private members ///////////////
 
   KParts::ReadOnlyPart *m_pPart;
 

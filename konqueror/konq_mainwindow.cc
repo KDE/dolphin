@@ -4097,10 +4097,15 @@ void KonqMainWindow::slotReconfigure()
 void KonqMainWindow::reparseConfiguration()
 {
   kdDebug(1202) << "KonqMainWindow::reparseConfiguration() !" << endl;
+
+  KConfig *config = KGlobal::config();
+  KConfigGroupSaver cgs(config,"MainView Settings");
+  m_bBackRightClick = config->readBoolEntry( "BackRightClick", false );
+
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
-    (*it)->callExtensionMethod( "reparseConfiguration()" );
+      (*it)->reparseConfiguration();
 }
 
 void KonqMainWindow::saveProperties( KConfig *config )

@@ -1055,15 +1055,12 @@ void KonqView::enablePopupMenu( bool b )
   if ( !ext )
     return;
 
-  // enable context popup
-  if ( !m_bPopupMenuEnabled && b ) {
-    m_bPopupMenuEnabled = true;
+  if ( m_bPopupMenuEnabled == b )
+      return;
 
-    if ( m_bBackRightClick )
-    {
-      connect( this, SIGNAL( backRightClick() ),
-               m_pMainWindow, SLOT( slotBack() ) );
-    }
+  // enable context popup
+  if ( b ) {
+    m_bPopupMenuEnabled = true;
 
     connect( ext, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
              m_pMainWindow, SLOT( slotPopupMenu( const QPoint &, const KFileItemList & ) ) );
@@ -1083,16 +1080,9 @@ void KonqView::enablePopupMenu( bool b )
     connect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const KParts::URLArgs &, KParts::BrowserExtension::PopupFlags, mode_t ) ),
              m_pMainWindow, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const KParts::URLArgs &, KParts::BrowserExtension::PopupFlags, mode_t ) ) );
   }
-
-  // disable context popup
-  if ( m_bPopupMenuEnabled && !b ) {
+  else // disable context popup
+  {
     m_bPopupMenuEnabled = false;
-
-    if ( m_bBackRightClick )
-    {
-      disconnect( this, SIGNAL( backRightClick() ),
-               m_pMainWindow, SLOT( slotBack() ) );
-    }
 
     disconnect( ext, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
              m_pMainWindow, SLOT( slotPopupMenu( const QPoint &, const KFileItemList & ) ) );
@@ -1106,6 +1096,33 @@ void KonqView::enablePopupMenu( bool b )
     disconnect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const QString &, mode_t ) ),
              m_pMainWindow, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const QString &, mode_t ) ) );
   }
+  enableBackRightClick( m_bBackRightClick );
+}
+
+// caller should ensure that this is called only when b changed, or for new parts
+void KonqView::enableBackRightClick( bool b )
+{
+    m_bBackRightClick = b;
+    if ( b )
+        connect( this, SIGNAL( backRightClick() ),
+                 m_pMainWindow, SLOT( slotBack() ) );
+    else
+        disconnect( this, SIGNAL( backRightClick() ),
+                    m_pMainWindow, SLOT( slotBack() ) );
+}
+
+void KonqView::reparseConfiguration()
+{
+    callExtensionMethod( "reparseConfiguration()" );
+    bool b = m_pMainWindow->isBackRightClickEnabled();
+    if ( m_bBackRightClick != b )
+    {
+        if (m_bBackRightClick && m_pPart->widget()->inherits("QScrollView") )
+        {
+            (static_cast<QScrollView *>(m_pPart->widget()))->viewport()->installEventFilter( this );
+        }
+        enableBackRightClick( b );
+    }
 }
 
 KonqViewIface * KonqView::dcopObject()
@@ -1158,7 +1175,7 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
         if ( e->type() == QEvent::ContextMenu )
         {
             QContextMenuEvent *ev = static_cast<QContextMenuEvent *>( e );
-            if (  ev->reason() == QContextMenuEvent::Mouse )
+            if ( ev->reason() == QContextMenuEvent::Mouse )
             {
                 return true;
             }
