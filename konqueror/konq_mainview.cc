@@ -936,9 +936,15 @@ void KonqMainView::openURL( const char * _url, bool reload, int xOffset, int yOf
 
   if ( view )
   {
-    view->stop();
-    if ( view->kfmRun() )
-      delete view->kfmRun();
+    if ( view->id() == m_currentId )
+      //will do all the stuff below plus GUI stuff
+      slotStop();
+    else
+    {
+      view->stop();
+      if ( view->kfmRun() )
+        delete view->kfmRun();
+    }	
   }
 
   KfmRun *run = new KfmRun( this, view, url, 0, false, false );
