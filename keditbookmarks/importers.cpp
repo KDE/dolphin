@@ -235,13 +235,10 @@ void XBELImportCommand::doExecute(const KBookmarkGroup &/*bkGroup*/) {
 
       // clear attributes
       QStringList tags;
-      for (uint i = 0; i < subDoc.attributes().count(); i++) {
+      for (uint i = 0; i < subDoc.attributes().count(); i++)
          tags << subDoc.attributes().item(i).toAttr().name();
-      }
-
-      for (QStringList::Iterator it = tags.begin(); it != tags.end(); ++it) {
+      for (QStringList::Iterator it = tags.begin(); it != tags.end(); ++it)
          subDoc.attributes().removeNamedItem((*it));
-      }
 
       subDoc.toElement().setAttribute("icon", m_icon);
 
@@ -266,17 +263,15 @@ void XBELImportCommand::doExecute(const KBookmarkGroup &/*bkGroup*/) {
       QDomNode n = subDoc.firstChild().toElement();
       while (!n.isNull()) {
          QDomElement e = n.toElement();
-         if (!e.isNull()) {
+         if (!e.isNull())
             childList.append(e);
-         }
          n = n.nextSibling();
       }
 
       QValueList<QDomElement>::Iterator it = childList.begin();
       QValueList<QDomElement>::Iterator end = childList.end();
-      for (; it!= end ; ++it) {
+      for (; it!= end ; ++it)
          root.appendChild((*it));
-      }
    }
 }
 
