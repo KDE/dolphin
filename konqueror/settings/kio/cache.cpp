@@ -196,6 +196,7 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent )
     // buddies
     lb_max_cache_size->setBuddy( sb_max_cache_size );
     load();
+    setChanged(false);
 }
 
 KCacheConfigDialog::~KCacheConfigDialog()

@@ -232,6 +232,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   m_pFonts[5]->setFonts( m_families );
 
   load();
+  setChanged(false);
 }
 
 KAppearanceOptions::~KAppearanceOptions()
@@ -347,6 +348,7 @@ void KAppearanceOptions::defaults()
     fonts.append(QString::null);
 
   updateGUI();
+  setChanged(true);
 }
 
 void KAppearanceOptions::updateGUI()
@@ -388,6 +390,7 @@ void KAppearanceOptions::save()
     kapp->dcopClient()->attach();
   kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
 
+  setChanged(false);
 }
 
 

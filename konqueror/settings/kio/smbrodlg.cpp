@@ -82,6 +82,8 @@ SMBRoOptions::SMBRoOptions(QWidget *parent)
 
    // finaly read the options
    load();
+
+   setChanged(false);
 }
 
 SMBRoOptions::~SMBRoOptions()
@@ -150,6 +152,7 @@ void SMBRoOptions::save()
    cfg->writeEntry( "Password", scrambled);
 
    delete cfg;
+   setChanged(false);
 }
 
 void SMBRoOptions::defaults()
@@ -158,6 +161,7 @@ void SMBRoOptions::defaults()
    m_passwordLe->setText("");
    m_workgroupLe->setText("");
    m_showHiddenShares->setChecked(false);
+   setChanged(true);
 }
 
 void SMBRoOptions::changed()

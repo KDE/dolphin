@@ -159,6 +159,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     lay->setRowStretch(row, 1);
 
     load();
+    setChanged(false);
 }
 
 KMiscHTMLOptions::~KMiscHTMLOptions()
@@ -279,6 +280,7 @@ void KMiscHTMLOptions::save()
     kapp->dcopClient()->attach();
   kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
 
+    setChanged(false);
 }
 
 

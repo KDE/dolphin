@@ -70,6 +70,8 @@ KIOPreferences::KIOPreferences( QWidget* parent )
     mainLayout->addStretch();
 
     load();
+
+    setChanged(false);
 }
 
 KIOPreferences::~KIOPreferences()
