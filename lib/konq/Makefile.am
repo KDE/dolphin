@@ -16,8 +16,6 @@
 #    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 #    Boston, MA 02111-1307, USA.
 
-CXXFLAGS = $(USE_RTTI)
-
 INCLUDES = $(all_includes)
 
 lib_LTLIBRARIES = libkonq.la
@@ -31,7 +29,7 @@ libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc konqpopupmenu.cc 
 
 METASOURCES = kbookmark.moc kbookmarkmenu.moc knewmenu.moc konqpopupmenu.moc \
 	kpropsdlg.moc \
-	kdirlister.moc kfileivi.moc
+	kdirlister.moc kfileivi.moc 
 
 include_HEADERS = kbookmark.h kbookmarkmenu.h knewmenu.h konqpopupmenu.h \
 	kpropsdlg.h \
