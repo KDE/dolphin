@@ -174,7 +174,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
   
   vlay->addWidget( m_pbDetect );
   
-  m_pbShowValue = new QPushButton( i18n("Show &values"), m_gbHostnames,
+  m_pbShowValue = new QPushButton( i18n("Show &Values"), m_gbHostnames,
                                     "m_pbDetect" );
   m_pbShowValue->setToggleButton ( true );
   
@@ -427,7 +427,7 @@ void KEnvVarProxyDlg::showValue( bool enable )
     
     m_lstEnvVars.clear();
     txt = m_leEnvHttp->text();
-    m_pbShowValue->setText ( i18n ("Hide &values  ") );
+    m_pbShowValue->setText ( i18n ("Hide &Values  ") );
         
     if (!txt.isEmpty())
     {
