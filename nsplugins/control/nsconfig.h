@@ -25,6 +25,7 @@
 
 class QCheckBox;
 class QListView;
+class KProcess;
 
 class NSPluginConfig : public KCModule
 {
@@ -50,6 +51,7 @@ protected slots:
 private:
   QCheckBox *m_startkdeScan;
   QListView *m_pluginList;
+  KProcess *m_nspluginscan;
 };
 
 #endif

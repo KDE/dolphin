@@ -30,9 +30,13 @@
 #include <klocale.h>
 #include <kdialog.h>
 #include <kdebug.h>
+#include <kapp.h>
 #include <kfile.h>
 #include <qtextstream.h>
 #include <kiconloader.h>
+#include <kprocess.h>
+#include <kmessagebox.h>
+#include <qprogressdialog.h> 
 
 #include "nsconfig.h"
 
@@ -51,7 +55,7 @@ NSPluginConfig::NSPluginConfig(QWidget *parent, const char *name)
   // start in startkde?
   m_startkdeScan = new QCheckBox( i18n("Scan for new plugins at KDE startup"), scanGrp );
   scanLayout->addWidget( m_startkdeScan );
-  connect( m_startkdeScan, SIGNAL(clicked(int)), this, SLOT(configChanged()) );
+  connect( m_startkdeScan, SIGNAL(clicked()), this, SLOT(configChanged()) );
 
   // scan buttons
   QHBoxLayout *butLayout = new QHBoxLayout( scanLayout, 5 );
@@ -60,10 +64,10 @@ NSPluginConfig::NSPluginConfig(QWidget *parent, const char *name)
   butLayout->addWidget( scanButton );
   connect( scanButton, SIGNAL(clicked()), this, SLOT(scan()) );
 
-  QPushButton *dirButton = new QPushButton( i18n("Scan &Directories..."), scanGrp );
+  /*QPushButton *dirButton = new QPushButton( i18n("Scan &Directories..."), scanGrp );
   butLayout->addWidget( dirButton );
   connect( dirButton, SIGNAL(clicked()), this, SLOT(changeDirs()) );
-  connect( dirButton, SIGNAL(clicked()), this, SLOT(configChanged()) );
+  connect( dirButton, SIGNAL(clicked()), this, SLOT(configChanged()) );*/
 
   // plugin list
   QGroupBox *listGrp = new QGroupBox( i18n("Registered Plugins"), this );
@@ -204,7 +208,38 @@ void NSPluginConfig::changeDirs()
 
 void NSPluginConfig::scan()
 {
-   fillPluginList();
+      QProgressDialog progress( i18n("Scanning for plugins"), i18n("Cancel"), 4, this );
+      m_nspluginscan = new KProcess;
+      QString scanExe = KGlobal::dirs()->findExe("nspluginscan");
+      if (!scanExe)
+      {
+	 kdDebug() << "can't find nspluginviewer" << endl;
+	 delete m_nspluginscan;
+
+	 KMessageBox::sorry ( this,  
+			      i18n("The nspluginscan executable can't be found."
+				   "Netscape plugins won't be scanned.") ); 
+	 return;
+      }
+      progress.setProgress( 1 );
+
+      
+      *m_nspluginscan << scanExe;
+      kdDebug() << "Running nspluginscan" << endl;
+      m_nspluginscan->start();
+      progress.setProgress( 2 );
+      
+      while ( m_nspluginscan->isRunning() )
+      {          	 
+	 if ( progress.wasCancelled() ) break;	 
+	 kapp->processEvents();
+      }
+      progress.setProgress( 2 );
+      
+      delete m_nspluginscan;
+
+      fillPluginList();
+      progress.setProgress( 4 );
 }
 
 extern "C"
