@@ -353,12 +353,8 @@ void KonqDirTree::followURL( const KURL &_url )
     for (; dirIt != dirEnd; ++dirIt )
       if ( u.cmp( dirIt.key(), true ) )
       {
-        if ( !dirIt.data()->isOpen() )
-	  dirIt.data()->setOpen( true );
-	
 	ensureItemVisible( dirIt.data() );
         setSelected( dirIt.data(), true );
-	
         return;
       }
   }
