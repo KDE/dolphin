@@ -28,6 +28,7 @@
 #include <kstddirs.h>
 #include <kipc.h>
 #include <ktrader.h>
+#include <kseparator.h>
 #include <qcheckbox.h>
 #include <qcombobox.h>
 #include <qlabel.h>
@@ -137,8 +138,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
                                         " enable preview images"));
 
   row++;
-  QFrame * hLine2 = new QFrame(this);
-  hLine2->setFrameStyle(QFrame::Sunken|QFrame::HLine);
+  KSeparator * hLine2 = new KSeparator(KSeparator::HLine, this);
   lay->addMultiCellWidget(hLine2, row, row, 0, RO_LASTCOL);
 
   row++;
@@ -238,8 +238,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   // Desktop Paths
 
   row++;
-  QFrame * hLine = new QFrame(this);
-  hLine->setFrameStyle(QFrame::Sunken|QFrame::HLine);
+  KSeparator* hLine = new KSeparator(KSeparator::HLine, this);
   lay->addMultiCellWidget(hLine, row, row, 0, RO_LASTCOL);
 
   row++;
