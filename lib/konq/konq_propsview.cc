@@ -139,7 +139,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
 
     m_textColor = config->readColorEntry( "TextColor", &m_textColor );
     m_bgColor = config->readColorEntry( "BgColor", &m_bgColor );
-    m_bgPixmapFile = config->readEntry( "BgImage", "" );
+    m_bgPixmapFile = config->readEntry( "BgImage", m_bgPixmapFile );
     loadPixmap();
     delete config;
   }
