@@ -612,7 +612,7 @@ void KonqViewManager::viewCountChanged()
   for (  ; it != end ; ++it )
   {
       it.data()->frame()->statusbar()->showActiveViewIndicator(bShowActiveViewIndicator && !it.data()->isPassiveMode());
-      it.data()->frame()->statusbar()->showLinkedViewIndicator( bShowLinkedViewIndicator );
+      it.data()->frame()->statusbar()->showLinkedViewIndicator( bShowLinkedViewIndicator && (!it.data()->isFollowActive()));
   }
 
 }

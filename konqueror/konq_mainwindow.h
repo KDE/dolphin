@@ -420,8 +420,10 @@ protected:
 
   void fillHistoryPopup( QPopupMenu *menu, const QPtrList<HistoryEntry> &history );
 
+  enum MakeViewsFollowMode{MakeLinkedViewsFollow=0,MakeFollowActiveFollow,MakeActiveViewFollow};
+
   bool makeViewsFollow( const KURL & url, const KParts::URLArgs &args, const QString & serviceType,
-                        KonqView * senderView );
+                        KonqView * senderView ,MakeViewsFollowMode followType);
 
   void applyKonqMainWindowSettings();
 

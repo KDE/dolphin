@@ -480,7 +480,13 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   bool bOthersFollowed = false;
   // If linked view and if we are not already following another view (and if we are not reloading)
   if ( childView && childView->isLinkedView() && !req.followMode && !req.args.reload && !m_pViewManager->isLoadingProfile() )
-    bOthersFollowed = makeViewsFollow( _url, req.args, serviceType, childView );
+    bOthersFollowed = makeViewsFollow( _url, req.args, serviceType, childView ,MakeLinkedViewsFollow);
+  else
+  if (childView && childView->isFollowActive() && !req.followMode && !req.args.reload && !m_pViewManager->isLoadingProfile())
+	makeViewsFollow(_url,req.args,serviceType,childView,MakeActiveViewFollow);
+
+  if (childView && !req.followMode && !req.args.reload)
+      makeViewsFollow(_url,req.args,serviceType,childView,MakeFollowActiveFollow);
 
   if ( childView && childView->isLockedLocation() && !req.args.reload /* allow to reload a locked view*/ )
     return bOthersFollowed;
@@ -716,9 +722,26 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
 
 // Linked-views feature
 bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &args,
-                                      const QString & serviceType, KonqView * senderView )
+                                      const QString & serviceType, KonqView * senderView , MakeViewsFollowMode followType)
 {
   bool res = false;
+
+  if ((followType==MakeFollowActiveFollow) && ( senderView !=m_currentView)) return false;
+
+  if (followType==MakeActiveViewFollow)
+  {
+	if  (senderView == m_currentView) return false;
+	else
+	{
+          abortLoading();
+          setLocationBarURL( url.prettyURL() );
+	  KonqOpenURLRequest req;
+	  req.followMode = true;
+	  req.args = args;
+	  return  openView( serviceType, url, m_currentView, req );
+	}
+  }
+
 
   kdDebug(1202) << "makeViewsFollow " << senderView->className() << " url=" << url.url() << " serviceType=" << serviceType << endl;
   KonqOpenURLRequest req;
@@ -751,7 +774,12 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
 
       res = openView( serviceType, url, view, req ) || res;
     }
-  }
+    else
+	if ((view!=senderView) && (view->isFollowActive()))
+	{
+	    res=openView(serviceType,url,view,req) || res;
+	}
+  } 
 
   return res;
 }
@@ -2171,7 +2199,9 @@ void KonqMainWindow::slotGoHistoryDelayed()
   if ( m_currentView->isLinkedView() )
       // make other views follow
       /*bOthersFollowed = */makeViewsFollow( m_currentView->url(), KParts::URLArgs(),
-                                             m_currentView->serviceType(), m_currentView );
+                                             m_currentView->serviceType(), m_currentView, MakeLinkedViewsFollow );
+  makeViewsFollow(m_currentView->url(), KParts::URLArgs(),m_currentView->serviceType(),m_currentView,MakeFollowActiveFollow);
+					     
 }
 
 void KonqMainWindow::slotBackAboutToShow()

@@ -84,6 +84,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bPopupMenuEnabled = true;
   m_browserIface = new KonqBrowserInterface( this, "browseriface" );
   m_bBackRightClick = m_pMainWindow->isBackRightClickEnabled();
+  m_bFollowActive=false;
 
   switchView( viewFactory );
 }
@@ -183,6 +184,13 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
       setPassiveMode( true ); // set as passive
     }
 
+     prop = m_service->property( "X-KDE-BrowserView-FollowActive");
+    if (prop.isValid() && prop.toBool())
+    {
+      kdDebug(1202) << "KonqView::switchView X-KDE-BroswerView-FollowActive -> setFollowActive" <<endl;
+      setFollowActive(true);
+    }
+   
     // Honour "linked view"
     prop = m_service->property( "X-KDE-BrowserView-LinkedView");
     if ( prop.isValid() && prop.toBool() )

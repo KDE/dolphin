@@ -528,11 +528,18 @@ void KonqFrame::slotStatusBarClicked()
 
 void KonqFrame::slotLinkedViewClicked( bool mode )
 {
+  bool oneFollowActive=false;
   if (m_pView->mainWindow()->viewCount() == 2)
   {
     // Two views : link both
     KonqMainWindow::MapViews mapViews = m_pView->mainWindow()->viewMap();
     KonqMainWindow::MapViews::Iterator it = mapViews.begin();
+    oneFollowActive=(*it)->isFollowActive();
+    ++it;
+    oneFollowActive |=(*it)->isFollowActive();
+    if (oneFollowActive) mode=false;
+
+    it=mapViews.begin();
     (*it)->setLinkedView( mode );
     ++it;
     (*it)->setLinkedView( mode );
