@@ -63,7 +63,7 @@ void KonqSidebarTree::loadModuleFactories()
                                                 {
 							getModule func=(getModule)create;
 							plugins.insert(name,func);
-							kdDebug()<<"Added a mdoule"<<endl;
+							kdDebug()<<"Added a module"<<endl;
                                                 }
 					 else {kdWarning()<<"No create function found in"<<lib_name<<endl;}
                                 }
