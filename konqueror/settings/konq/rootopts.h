@@ -45,7 +45,7 @@ private:
 
         void fillMenuCombo( QComboBox * combo );
         QCheckBox *showHiddenBox;
-        QComboBox *leftComboBox;
+        //QComboBox *leftComboBox;
         QComboBox *middleComboBox;
         QComboBox *rightComboBox;
         typedef enum { NOTHING = 0, WINDOWLISTMENU, DESKTOPMENU, APPMENU } menuChoice;

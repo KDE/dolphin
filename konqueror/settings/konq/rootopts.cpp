@@ -41,7 +41,7 @@ KRootOptions::KRootOptions(KConfig *config, QString group, QWidget *parent, cons
     : KCModule( parent, name ), g_pConfig(config), groupname(group)
 {
   QLabel * tmpLabel;
-#define RO_ROWS 7
+#define RO_ROWS 6
 #define RO_COLS 3
   int row = 0;
   QGridLayout *lay = new QGridLayout(this, RO_ROWS, RO_COLS, 10);
@@ -71,6 +71,8 @@ KRootOptions::KRootOptions(KConfig *config, QString group, QWidget *parent, cons
   tmpLabel = new QLabel( i18n("Clicks on the desktop"), this );
   lay->addMultiCellWidget( tmpLabel, row, row, 0, RO_COLS );
   
+  /*
+    Bad idea, screws up the icon view
   row++;
   tmpLabel = new QLabel( i18n("Left button"), this );
   lay->addWidget( tmpLabel, row, 0 );
@@ -78,6 +80,7 @@ KRootOptions::KRootOptions(KConfig *config, QString group, QWidget *parent, cons
   lay->addWidget( leftComboBox, row, 1 );
   fillMenuCombo( leftComboBox );
   connect(leftComboBox, SIGNAL(activated(int)), this, SLOT(changed()));
+  */
 
   row++;
   tmpLabel = new QLabel( i18n("Middle button"), this );
@@ -98,7 +101,7 @@ KRootOptions::KRootOptions(KConfig *config, QString group, QWidget *parent, cons
   row++;
   lay->addMultiCellWidget( new QWidget(this), row, row, 0, RO_COLS );
 
-  assert( row == RO_ROWS - 1 );
+  assert( row == RO_ROWS - 1 ); // if it fails here, check the row++ and RO_ROWS above
   lay->activate();
 
   load();
@@ -119,10 +122,13 @@ void KRootOptions::load()
     showHiddenBox->setChecked(bShowHidden);
     //
     g_pConfig->setGroup( "Mouse Buttons" );
-    QString s = g_pConfig->readEntry( "Left", "None" );
+    QString s;
+    /*
+    s = g_pConfig->readEntry( "Left", "None" );
     for ( int c = 0 ; c < 4 ; c ++ )
       if (s == s_choices[c])
       { leftComboBox->setCurrentItem( c ); break; } 
+    */
     s = g_pConfig->readEntry( "Middle", "WindowListMenu" );
     for ( int c = 0 ; c < 4 ; c ++ )
       if (s == s_choices[c])
@@ -136,7 +142,7 @@ void KRootOptions::load()
 void KRootOptions::defaults()
 {
     showHiddenBox->setChecked(DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
-    leftComboBox->setCurrentItem( NOTHING );
+    //leftComboBox->setCurrentItem( NOTHING );
     middleComboBox->setCurrentItem( WINDOWLISTMENU );
     rightComboBox->setCurrentItem( DESKTOPMENU );
 }
@@ -146,7 +152,7 @@ void KRootOptions::save()
     g_pConfig->setGroup( "Desktop Icons" );
     g_pConfig->writeEntry("ShowHidden", showHiddenBox->isChecked());
     g_pConfig->setGroup( "Mouse Buttons" );
-    g_pConfig->writeEntry("Left", s_choices[ leftComboBox->currentItem() ]);
+    g_pConfig->writeEntry("Left", "" /* s_choices[ leftComboBox->currentItem() ]*/);
     g_pConfig->writeEntry("Middle", s_choices[ middleComboBox->currentItem() ]);
     g_pConfig->writeEntry("Right", s_choices[ rightComboBox->currentItem() ]);
 
