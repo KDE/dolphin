@@ -736,6 +736,7 @@ void KonqIconViewWidget::slotReenableAnimation()
 
 void KonqIconViewWidget::clear()
 {
+    stopImagePreview(); // Just in case
     KIconView::clear();
     d->pActiveItem = 0L;
 }
