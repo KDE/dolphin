@@ -49,9 +49,12 @@ QPixmap KonqFileItem::pixmap( int _size, bool bImagePreviewAllowed ) const
 
   if ( m_pMimeType->name().left(6) == "image/" && m_bIsLocalURL && bImagePreviewAllowed )
   {
-      warning("Requested thumbnail size: %d", _size);
-      if(_size == 0) // hack!
-          _size = 48;
+      kdDebug(1203) << "Requested thumbnail size: " << _size << endl;
+      if(_size == 0) // default size requested
+      {
+          KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
+          _size = root->defaultSize( KIcon::Desktop );
+      }
       // Check if pixie thumbnail of any size is there first
       struct stat buff;
       bool bAvail = false;
@@ -208,7 +211,7 @@ QPixmap KonqFileItem::pixmap( int _size, bool bImagePreviewAllowed ) const
       }
   }
 
-  QPixmap p = m_pMimeType->pixmap( m_url, _size );
+  QPixmap p = m_pMimeType->pixmap( m_url, KIcon::Desktop, _size );
   if (p.isNull())
     warning("Pixmap not found for mimetype %s",m_pMimeType->name().latin1());
   return p;

@@ -72,6 +72,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     setAutoArrange( true );
     setSorting( true, sortDirection() );
     m_bSortDirsFirst = true;
+    m_size = 0; // default is DesktopIcon size
     // configurable settings
     initConfig();
     // emit our signals
