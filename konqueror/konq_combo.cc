@@ -58,7 +58,6 @@ KonqCombo::~KonqCombo()
 
 void KonqCombo::setURL( const QString& url )
 {
-    // kdDebug(1002) << "*** setURL: " << url << endl;
     setTemporary( url );
 
     if ( m_returnPressed ) { // really insert
@@ -81,10 +80,16 @@ void KonqCombo::setTemporary( const QString& url, const QPixmap& pix )
 {
     // kdDebug(1002) << "*** setTemporary: " << url << endl;
 
-    if ( url != temporaryItem() )
-	applyPermanent();
+    if ( count() == 0 ) // insert a temporary item when we don't have one yet
+	insertItem( pix, url, temporary );
 	
-    updateItem( pix, url, temporary );
+    else {
+	if ( url != temporaryItem() )
+	    applyPermanent();
+	
+	updateItem( pix, url, temporary );
+    }
+	
     setCurrentItem( temporary );
 }
 
@@ -103,7 +108,7 @@ void KonqCombo::insertPermanent( const QString& url )
 // insert an item that was marked permanent properly at position 1.
 void KonqCombo::applyPermanent()
 {
-    if ( m_permanent ) {
+    if ( m_permanent && !temporaryItem().isEmpty() ) {
 	// remove as many items as needed to honour maxCount()
 	int i = count();
 	while ( count() >= maxCount() )
@@ -111,7 +116,6 @@ void KonqCombo::applyPermanent()
 
 	QString url = temporaryItem();
 	insertItem( KonqPixmapProvider::self()->pixmapFor( url ), url, 1 );
-	// setCurrentItem( 1 );
 
 	// remove all dupes, if available
 	for ( i = 2; i < count(); i++ ) {
@@ -216,6 +220,7 @@ void KonqCombo::slotReturnPressed()
 
 void KonqCombo::clearTemporary( bool makeCurrent )
 {
+    applyPermanent();
     changeItem( QString::null, temporary ); // ### default pixmap?
     if ( makeCurrent )
 	setCurrentItem( temporary );
