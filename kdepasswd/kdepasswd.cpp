@@ -29,7 +29,7 @@ static KCmdLineOptions options[] =
 int main(int argc, char **argv)
 {
     KAboutData aboutData("kdepasswd", I18N_NOOP("KDE passwd"),
-            VERSION, I18N_NOOP("Changes a Unix password."),
+            VERSION, I18N_NOOP("Changes a UNIX password."),
             KAboutData::License_Artistic, "Copyright (c) 2000 Geert Jansen");
     aboutData.addAuthor("Geert Jansen", I18N_NOOP("Maintainer"),
             "jansen@kde.org", "http://www.stack.nl/~geertj/");
