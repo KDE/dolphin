@@ -8,18 +8,17 @@
 #define KFTABDLG_H
 
 #include <qtabwidget.h>  
+#include <qcombobox.h>
 #include <qvalidator.h>  
 
 class QButtonGroup;
 class QPushButton;
 class QRadioButton;
 class QLabel;
-class QComboBox;
 class QCheckBox;
 class QLineEdit;
 class QString;
 class QDate;
-class QSize;
 class QRegExp;
 
 class KfDirDialog;
@@ -29,7 +28,7 @@ class KfindTabWidget: public QTabWidget
   Q_OBJECT
 
 public:
-  KfindTabWidget(QWidget * parent = 0,const char * name = 0,const char*searchPath=0);
+  KfindTabWidget(QWidget * parent = 0, const char *name=0, const char *searchPath=0);
   virtual ~KfindTabWidget();
   QString createQuery();      
   void setDefaults();
@@ -69,7 +68,7 @@ private:
 
   // for second page
   QButtonGroup *bg[2];
-  QRadioButton *rb1[2],*rb2[3];
+  QRadioButton *rb1[2], *rb2[3];
   QLineEdit *le[4];
   QLabel *andL;
   QLabel *monthL;
@@ -101,6 +100,21 @@ public:
   
  private:
   QRegExp *r;
+};
+
+class KfComboBox: public QComboBox
+{
+  Q_OBJECT
+
+public:
+  KfComboBox(QWidget * parent, const char *name = 0 );
+  ~KfComboBox();
+  
+  void keyPressEvent(QKeyEvent *e);
+
+signals:
+  void returnPressed();
+
 };
 
 #endif

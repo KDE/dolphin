@@ -24,7 +24,6 @@
 #include <qmessagebox.h>
 #include <qlist.h>
 #include <qsize.h>
-#include <qdict.h>
 #include <qvalidator.h>
        
 #include <kdebug.h>
@@ -40,9 +39,10 @@
 
 extern QList<KfFileType> *types;
 
-KfindTabWidget::KfindTabWidget( QWidget *parent, const char *name, const char *searchPath )
-    : QTabWidget( parent, name )
-  {
+KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name, 
+			       const char *searchPath)
+  : QTabWidget( parent, name )
+{
     _searchPath = searchPath;
     
     // This validator will be used for all numeric edit fields
@@ -52,9 +52,9 @@ KfindTabWidget::KfindTabWidget( QWidget *parent, const char *name, const char *s
 
     pages[0] = new QWidget( this, "page1" );
     
-    nameBox    = new QComboBox(TRUE, pages[0], "combo1");
+    nameBox    = new KfComboBox(pages[0], "combo1");
     namedL     = new QLabel(nameBox, i18n("&Named:"), pages[0], "named");
-    dirBox     = new QComboBox(TRUE, pages[0], "combo2");
+    dirBox     = new KfComboBox(pages[0], "combo2");
     lookinL    = new QLabel(dirBox, i18n("&Look in:"), pages[0], "named");
     subdirsCb  = new QCheckBox(i18n("Include &subfolders"), pages[0]);
     browseB    = new QPushButton(i18n("&Browse ..."), pages[0]);
@@ -63,8 +63,6 @@ KfindTabWidget::KfindTabWidget( QWidget *parent, const char *name, const char *s
     
     nameBox->setInsertionPolicy (QComboBox::AtTop);
     dirBox ->setInsertionPolicy (QComboBox::AtTop);
-    nameBox->setMaxCount(15);
-    dirBox ->setMaxCount(15);
     subdirsCb->setChecked ( TRUE );
     
     // Layout
@@ -81,9 +79,13 @@ KfindTabWidget::KfindTabWidget( QWidget *parent, const char *name, const char *s
     
     // Signals
 
-    connect( browseB,  SIGNAL(clicked()),
+    connect( browseB, SIGNAL(clicked()),
              this, SLOT(getDirectory()) );   
-
+    connect( nameBox, SIGNAL(returnPressed()),
+    	     parent, SLOT(startSearch()) );
+    connect( dirBox, SIGNAL(returnPressed()),
+    	     parent, SLOT(startSearch()) );
+    
     addTab( pages[0], i18n(" Name& Location ") );
     
     // ************ Page Two
@@ -239,14 +241,50 @@ KfindTabWidget::KfindTabWidget( QWidget *parent, const char *name, const char *s
 }
 
 KfindTabWidget::~KfindTabWidget()
-  {
-    delete pages[0];
-    delete pages[1];
-    delete pages[2];
-  };
+{
+  delete pages[0];
+  delete pages[1];
+  delete pages[2];
+}
 
-void KfindTabWidget::loadHistory() {
-  // load pattern history
+static void save_pattern(QComboBox *obj, const QString new_item,
+			 const char *group, const char *entry) 
+{ 
+  int i;
+  for(i=0; i<obj->count(); i++)
+    if(new_item == obj->text(i))
+      break;
+  
+  // If we could not finish the loop item already exists
+  // Nothing to save
+  if(i < obj->count())
+    return;
+  
+  // New item. Add it to the combo and save
+  obj->insertItem(new_item);
+  
+  // QComboBox allows insertion of items more than specified by
+  // maxCount() (QT bug?). This API call will truncate list if needed.
+  obj->setMaxCount(15);
+
+  QStrList sl;
+  for(i=0; i<obj->count(); i++)
+    sl.append(obj->text(i).ascii());
+  
+  KConfig *conf = kapp->getConfig();
+  conf->setGroup(group);
+  conf->writeEntry(entry, sl, ',');
+}
+
+void KfindTabWidget::saveHistory() 
+{
+  save_pattern(nameBox, nameBox->currentText(), "History", "Patterns");
+  save_pattern(dirBox, dirBox->currentText(), "History", "Directories");
+}
+
+void KfindTabWidget::loadHistory() 
+{
+  // Load pattern history
   KConfig *conf = kapp->getConfig();
   QStrList sl;
   conf->setGroup("History");
@@ -254,19 +292,24 @@ void KfindTabWidget::loadHistory() {
     nameBox->insertStrList(&sl);
   else
     nameBox->insertItem("*");
-
-  if(conf->readListEntry("Directories", sl, ','))
-    {
-      dirBox ->insertItem( _searchPath );
-      dirBox->insertStrList(&sl);
-    }
+  
+  if(conf->readListEntry("Directories", sl, ',')) {
+    dirBox->insertStrList(&sl);
+    // If the _searchPath already exists in the list we do not 
+    // want to add it again
+    int indx = sl.find(_searchPath);
+    if(indx == -1)
+      dirBox->insertItem(_searchPath);
+    else
+      dirBox->setCurrentItem(indx);
+  }
   else {
     QDir m_dir("/lib");
     dirBox ->insertItem( _searchPath );
     dirBox ->insertItem( "/" );
     dirBox ->insertItem( "/usr" );
     if (m_dir.exists())
-	    dirBox ->insertItem( "/lib" );
+      dirBox ->insertItem( "/lib" );
     dirBox ->insertItem( "/home" );
     dirBox ->insertItem( "/etc" );
     dirBox ->insertItem( "/var" );
@@ -274,34 +317,8 @@ void KfindTabWidget::loadHistory() {
   }
 }
 
-void KfindTabWidget::saveHistory() {
-  // save pattern history
-  QStrList sl;
-  QDict<char> dict(17, FALSE);
-  sl.append(nameBox->currentText().ascii());
-  for(int i = 0; i < nameBox->count(); i++) {   
-    if(!dict.find(nameBox->text(i))) {
-      dict.insert(nameBox->text(i), "dummy");
-      sl.append(nameBox->text(i).ascii());
-    }
-  }
-  KConfig *conf = kapp->getConfig();
-  conf->setGroup("History");
-  conf->writeEntry("Patterns", sl, ',');
-
-  dict.clear();
-  sl.clear();
-  sl.append(dirBox->currentText().ascii());
-  for(int i = 0; i < dirBox->count(); i++) {
-    if(!dict.find(dirBox->text(i))) {
-      dict.insert(dirBox->text(i), "dummy");
-      sl.append(dirBox->text(i).ascii());
-    }
-  }
-  conf->writeEntry("Directories", sl, ',');
-}
-
-void KfindTabWidget::slotSizeBoxChanged(int index) {
+void KfindTabWidget::slotSizeBoxChanged(int index) 
+{
   sizeEdit->setEnabled((bool)(index != 0));
 }
 
@@ -327,7 +344,7 @@ void KfindTabWidget::setEnabled(bool enabled)
   QObject * obj;
   while ( (obj=it.current()) != 0 ) {
     ++it;
-    if(strcmp("QGridLayout", obj->className()))
+    if(!obj->isA("QGridLayout"))
       ((QWidget*)obj)->setEnabled( enabled );
   }
   
@@ -375,226 +392,224 @@ bool KfindTabWidget::isDateValid()
   return TRUE;
 }
 
-QString KfindTabWidget::createQuery()
-  {
-    // If some of the dates are invalid, return NULL
-    if(!isDateValid())
-      return NULL;
-
-    QString str,pom;
-    int month;
-    char *type;
-
-    str = FIND_PROGRAM;
-    str += " ";
-
-    str += dirBox->currentText();
-
-    QString str1;
-    str1 += " \"(\" -name \"";
-
-    if(nameBox->currentText().isEmpty())
-      str1 += "*";
-    else
-      str1 += nameBox->currentText();
-    str1 += "\" \")\"";
-    str1 += " ";
-	
-    switch(typeBox->currentItem()) {
-    case 0: // all files
-      break;
-
-    case 1: // files
-      str1 += "-type f";
-      break;
-      
-    case 2: // folders
-      str1 += "-type d";
-      break;
-      
-    case 3: // symlink
-      str1 += "-type l";
-      break;
-      
-    case 4: // special file
-      str1 += "-type p -or -type s -or -type b or -type c";
-      break;
-      
-    case 5: // executables
-      str1 += "-perm +111 -type f";
-      break;
-      
-    case 6: // suid binaries
-      str1 += "-perm +6000 -type f";
-      break;
-      
-    default: {
-	str1 = "";
-	KfFileType *typ;
-	
-	typ = types->first();
-	for (int i=SPECIAL_TYPES; i<typeBox->currentItem(); i++ )
-	  typ = types->next();
-	//      printf("Take filetype: %s\n",typ->getComment("").ascii());
-	
-	QStrList& pats = typ->getPattern();
-	bool firstpattern = FALSE;
-	str += " \"(\" ";
-	for (QString pattern=pats.first(); pattern!=0L; 
-	     pattern=pats.next())
-	  {
-	    if (!firstpattern)
-	      {
-		str += " -name ";
-		firstpattern=TRUE;
-	      }
-	    else
-	      str += " -o -name ";
-	    
-	    if ( pattern.find("*",0)==0 )
-	      {
-		str += nameBox->text(nameBox->currentItem());
-		str += "\"" + pattern + "\"";
-	      }
-	    else
-	      {
-		str += "\"" + pattern + "\"";
-		str += nameBox->text(nameBox->currentItem());
-	      };
-	  };                                             
-	str += " \")\"";
+QString KfindTabWidget::createQuery() {
+  // If some of the dates are invalid, return NULL
+  if(!isDateValid())
+    return NULL;
+  
+  QString str,pom;
+  int month;
+  char *type;
+  
+  str = FIND_PROGRAM;
+  str += " ";
+  
+  str += dirBox->currentText();
+  
+  QString str1;
+  str1 += " \"(\" -name \"";
+  
+  if(nameBox->currentText().isEmpty())
+    str1 += "*";
+  else
+    str1 += nameBox->currentText();
+  str1 += "\" \")\"";
+  str1 += " ";
+  
+  switch(typeBox->currentItem()) {
+  case 0: // all files
+    break;
+    
+  case 1: // files
+    str1 += "-type f";
+    break;
+    
+  case 2: // folders
+    str1 += "-type d";
+    break;
+    
+  case 3: // symlink
+    str1 += "-type l";
+    break;
+    
+  case 4: // special file
+    str1 += "-type p -or -type s -or -type b or -type c";
+    break;
+    
+  case 5: // executables
+    str1 += "-perm +111 -type f";
+    break;
+    
+  case 6: // suid binaries
+    str1 += "-perm +6000 -type f";
+    break;
+    
+  default: 
+    str1 = "";
+    KfFileType *typ;
+    
+    typ = types->first();
+    for (int i=SPECIAL_TYPES; i<typeBox->currentItem(); i++ )
+      typ = types->next();
+    
+    QStrList& pats = typ->getPattern();
+    bool firstpattern = FALSE;
+    str += " \"(\" ";
+    for (QString pattern=pats.first(); pattern!=0L; 
+	 pattern=pats.next()) {
+      if (!firstpattern) {
+	str += " -name ";
+	firstpattern=TRUE;
       }
-    }
-    
-    str += str1;
-    
-    if (!subdirsCb->isChecked())
-      str.append(" -maxdepth 1 ");
-    
-    if (rb1[1]->isChecked()) // Modified
-      {
-	if (rb2[0]->isChecked()) // Between dates
-	  {
-	    QDate q1, q2;
-	    str.append(pom.sprintf(" -daystart -mtime -%d -mtime +%d",
-		       (string2Date(le[0]->text(),&q1)).daysTo(QDate::currentDate()),
-		       (string2Date(le[1]->text(),&q2)).daysTo(QDate::currentDate()) ));
-	  }
-	else
-	  if (rb2[1]->isChecked()) // Previous mounth
-	    {
-	      sscanf(le[2]->text().ascii(),"%d",&month);
-	      str.append(pom = QString(" -daystart -mtime -%1 ")
-			 .arg((int)(month*30.416667)));
-	    }
-	else
-	  if (rb2[2]->isChecked()) // Previous day
-	    str.append(pom = QString(" -daystart -mtime -%1").arg(le[3]->text()));
-	
-
-        if (sizeBox->currentItem() !=  0)
-          {
-            switch(sizeBox->currentItem())
-              {
-	      case 1: {type=(char *)(sizeEdit->text().toInt()==0?"":"+");break;}
-	      case 2: {type=(char *)(sizeEdit->text().toInt()==0?"":"-"); break;}
-	      default: {type=(char *)(sizeEdit->text().toInt()==0?"":" ");} 
-              }
-            str.append(pom = QString(" -size  %1%2k ").arg(type).arg(sizeEdit->text()));
-          }
-      }
-
-    if(!textEdit->text().isEmpty()) {
-      str += "|xargs egrep -l";
-      if(caseCb->isChecked())
-	str += " \"";
       else
-	str += " -i \"";
-      str += textEdit->text();
-      str += "\"";
+	str += " -o -name ";
+      
+      if ( pattern.find("*",0) == 0 ) {
+	str += nameBox->text(nameBox->currentItem());
+	str += "\"" + pattern + "\"";
+      }
+      else {
+	str += "\"" + pattern + "\"";
+	str += nameBox->text(nameBox->currentItem());
+      }
+    }                                             
+    str += " \")\"";
+  }
+    
+  str += str1;
+  
+  if (!subdirsCb->isChecked())
+    str.append(" -maxdepth 1 ");
+  
+  if (rb1[1]->isChecked()) { // Modified
+    if (rb2[0]->isChecked()) { // Between dates
+      QDate q1, q2;
+      str.append(pom.sprintf(" -daystart -mtime -%d -mtime +%d",
+			     (string2Date(le[0]->text(),&q1)).daysTo(QDate::currentDate()),
+			     (string2Date(le[1]->text(),&q2)).daysTo(QDate::currentDate()) ));
     }
-
-    kdebug(KDEBUG_INFO, 1903, "QUERY=%s\n", str.ascii());    
-
-    return(str);
-  };        
+    else
+      if (rb2[1]->isChecked()) { // Previous mounth
+	sscanf(le[2]->text().ascii(),"%d",&month);
+	str.append(pom = QString(" -daystart -mtime -%1 ")
+		   .arg((int)(month*30.416667)));
+      }
+      else
+	if (rb2[2]->isChecked()) // Previous day
+	  str.append(pom = QString(" -daystart -mtime -%1").arg(le[3]->text()));
+    
+    
+    if (sizeBox->currentItem() !=  0) {
+      switch(sizeBox->currentItem()) {
+      case 1: 
+	type=(char *)(sizeEdit->text().toInt()==0 ? "" : "+");
+	break;
+      case 2: 
+	type=(char *)(sizeEdit->text().toInt()==0? "" : "-");
+	break;
+      default: 
+	type=(char *)(sizeEdit->text().toInt()==0? "" : " ");
+      }
+      str.append(pom = QString(" -size  %1%2k ").arg(type).arg(sizeEdit->text()));
+    }
+  }
+  
+  if(!textEdit->text().isEmpty()) {
+    str += "|xargs egrep -l";
+    if(caseCb->isChecked())
+      str += " \"";
+    else
+      str += " -i \"";
+    str += textEdit->text();
+    str += "\"";
+  }
+  
+  kdebug(KDEBUG_INFO, 1903, "QUERY=%s\n", str.ascii());    
+  
+  return(str);
+}        
 
  
-QString KfindTabWidget::date2String(QDate date)
-  {
-    QString str;
-
-    str.sprintf("%.2d/%.2d/%4d",date.day(),date.month(),date.year());
-    return(str);
-  }
-
-QDate &KfindTabWidget::string2Date(QString str, QDate *qd)
-{   
-    int year,month,day;
-
-    // If we can not scan exactly 3 integers do not try to parse
-    if(sscanf(str.ascii(),"%2d/%2d/%4d",&day,&month,&year) == 3)
-      qd->setYMD(year, month, day);
-    return *qd; 
-
+QString KfindTabWidget::date2String(QDate date) {
+  QString str;
+  
+  str.sprintf("%.2d/%.2d/%4d",date.day(),date.month(),date.year());
+  return(str);
 }
 
-void  KfindTabWidget::getDirectory()
-  {
-    QString result;
+QDate &KfindTabWidget::string2Date(QString str, QDate *qd) {   
+  int year,month,day;
+  
+  // If we can not scan exactly 3 integers do not try to parse
+  if(sscanf(str.ascii(),"%2d/%2d/%4d",&day,&month,&year) == 3)
+    qd->setYMD(year, month, day);
 
-    dirselector = new KfDirDialog(dirBox->text(dirBox->currentItem()),
-                                  this,"dirselector",TRUE);
-    CHECK_PTR(dirselector);
+  return *qd; 
+}
 
-    if ( dirselector->exec() == QDialog::Accepted )
-              result = dirselector->selectedDir();
-    delete dirselector;
+void  KfindTabWidget::getDirectory() {
+  QString result;
+  
+  dirselector = new KfDirDialog(dirBox->text(dirBox->currentItem()),
+				this,"dirselector",TRUE);
+  CHECK_PTR(dirselector);
+  
+  if ( dirselector->exec() == QDialog::Accepted )
+    result = dirselector->selectedDir();
+  delete dirselector;
+  
+  if (!result.isNull()) {
+    //printf("Dir: %s\n",result.ascii());
+    dirBox->insertItem(result,0);
+    dirBox->setCurrentItem(0);
+  }
+}
 
-    if (!result.isNull())
-      {
-        //printf("Dir: %s\n",result.ascii());
-        dirBox->insertItem(result,0);
-        dirBox->setCurrentItem(0);
-      };
-  };
-
-void KfindTabWidget::beginSearch() {
+void KfindTabWidget::beginSearch() 
+{
   saveHistory();
   setEnabled( FALSE );
 }
 
-void KfindTabWidget::endSearch() {
+void KfindTabWidget::endSearch() 
+{
   setEnabled( TRUE );
-  loadHistory();
 }
 
 /*
   Disables/enables all edit fields depending on their 
   respective check buttons.
 */
-void KfindTabWidget::fixLayout() {
-  // If "All files" is checked - disable all edits on page two
-  if(rb1[0]->isChecked()) 
-    { 
-      for (int i=0;i<4;i++)
-	le[i]->setEnabled(FALSE);
-    }
-  else
-    {
-      le[0]->setEnabled(rb2[0]->isChecked());
-      le[1]->setEnabled(rb2[0]->isChecked());
-      le[2]->setEnabled(rb2[1]->isChecked());
-      le[3]->setEnabled(rb2[2]->isChecked());
-    }
+void KfindTabWidget::fixLayout() 
+{
+  int i;
+  // If "All files" is checked - disable all edits 
+  // and second radio group on page two
+  
+  if(rb1[0]->isChecked())  { 
+    for(i=0; i<4; i++)
+      le[i]->setEnabled(FALSE);
+    
+    for(i=0; i<3; i++)
+      rb2[i]->setEnabled(FALSE);
+  }
+  else {
+    for(i=0; i<3; i++)
+      rb2[i]->setEnabled(TRUE);
+    
+    le[0]->setEnabled(rb2[0]->isChecked());
+    le[1]->setEnabled(rb2[0]->isChecked());
+    le[2]->setEnabled(rb2[1]->isChecked());
+    le[3]->setEnabled(rb2[2]->isChecked());
+  }
   
   // Size box on page three
   sizeEdit->setEnabled(sizeBox->currentItem() != 0);
 }
 
-/*
-  Digit validator. Allows only digits to be typed.
-*/
+/**
+   Digit validator. Allows only digits to be typed.
+**/
 KDigitValidator::KDigitValidator( QWidget * parent, const char *name )
   : QValidator( parent, name )
 {
@@ -602,17 +617,34 @@ KDigitValidator::KDigitValidator( QWidget * parent, const char *name )
 }
 
 KDigitValidator::~KDigitValidator()
-{
-}
+{}
  
 QValidator::State KDigitValidator::validate( QString & input, int & ) const
 {
-  if ( r->match( input ) < 0 ) 
-    {
-      // Beep on user if he enters non-digit
-      QApplication::beep();
-      return QValidator::Invalid;
-    }
+  if (r->match(input) < 0) {
+    // Beep on user if he enters non-digit
+    QApplication::beep();
+    return QValidator::Invalid;
+  }
   else
     return QValidator::Acceptable;
+}
+
+/**
+   Special editable ComboBox. Invokes search if return key is pressed 
+   and _does not_ save newly typed item in its list.
+**/
+KfComboBox::KfComboBox(QWidget * parent, const char *name)
+  : QComboBox( TRUE, parent, name )
+{}
+
+KfComboBox::~KfComboBox()
+{}
+
+void KfComboBox::keyPressEvent(QKeyEvent *e)
+{
+  if(e->key() == Key_Return)
+    emit returnPressed();
+  else
+    QComboBox::keyPressEvent(e);
 }
