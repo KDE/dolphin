@@ -39,9 +39,7 @@
 #include <qmetaobject.h>
 #include <qobjectlist.h>
 #include <config.h>
-#if QT_VERSION >= 300
 #include <private/qucomextra_p.h>
-#endif
 
 //#define DEBUG_HISTORY
 
