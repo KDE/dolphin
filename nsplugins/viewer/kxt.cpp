@@ -622,5 +622,3 @@ void KXtWidget::resizeEvent( QResizeEvent* )
     XtResizeWidget( xtw, width(), height(), preferred.border_width );
 }
 
-#include "kxt.moc"
-
