@@ -1,0 +1,6 @@
+Note: increase the version in konq_tree.cpp when you add 
+      new .desktop files, otherwise they won't get used
+      when the user already has old versions.
+
+i.e.
+const int currentVersion = 5; <-- change this in konq_tree.cpp
