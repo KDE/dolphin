@@ -95,7 +95,7 @@ void KonqFMSettings::init( KConfig * config )
   // Behaviour
   m_alwaysNewWin = config->readBoolEntry( "AlwaysNewWin", FALSE );
 
-  m_homeURL = config->readEntry("HomeURL", "~");
+  m_homeURL = config->readPathEntry("HomeURL", "~");
 
   m_showFileTips = config->readBoolEntry("ShowFileTips", true);
   d->showPreviewsInFileTips = config->readBoolEntry("ShowPreviewsInFileTips", true);

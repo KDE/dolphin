@@ -542,7 +542,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
                 return;
             }
             else if ( desktopFile.hasLinkType() && desktopFile.hasKey("URL") ) {
-                m_destURL = desktopFile.readEntry("URL");
+                m_destURL = desktopFile.readPathEntry("URL");
                 doFileCopy();
                 return;
             }
@@ -673,7 +673,7 @@ void KonqOperations::doFileCopy()
             kdDebug(1203) << "Update trash path" <<newTrashPath<< endl;
             KConfig *globalConfig = KGlobal::config();
             KConfigGroupSaver cgs( globalConfig, "Paths" );
-            globalConfig->writeEntry("Trash" , newTrashPath, true, true );
+            globalConfig->writePathEntry("Trash" , newTrashPath, true, true );
             globalConfig->sync();
             KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
         }
@@ -717,7 +717,7 @@ void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const KURL& 
             kdDebug(1203) << "That rename was the Trashcan, updating config files" << endl;
             KConfig *globalConfig = KGlobal::config();
             KConfigGroupSaver cgs( globalConfig, "Paths" );
-            globalConfig->writeEntry("Trash" , newurl.path(), true, true );
+            globalConfig->writePathEntry("Trash" , newurl.path(), true, true );
             globalConfig->sync();
             KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
         }
@@ -727,12 +727,12 @@ void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const KURL& 
             kdDebug(1203) << "That rename was the Desktop path, updating config files" << endl;
             KConfig *globalConfig = KGlobal::config();
             KConfigGroupSaver cgs( globalConfig, "Paths" );
-            globalConfig->writeEntry("Desktop" , newurl.path(), true, true );
+            globalConfig->writePathEntry("Desktop" , newurl.path(), true, true );
             if ( KGlobalSettings::trashPath().startsWith(oldurl.path(1) ))
             {
                 QString newTrashPath = newurl.path()+KGlobalSettings::trashPath().right(KGlobalSettings::trashPath().length()-KURL(KGlobalSettings::trashPath()).directory().length());
 
-                globalConfig->writeEntry("Trash" , newTrashPath, true, true );
+                globalConfig->writePathEntry("Trash" , newTrashPath, true, true );
             }
             globalConfig->sync();
             KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);

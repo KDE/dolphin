@@ -142,7 +142,7 @@ void KNewMenu::parseFiles()
                 QString type = config.readEntry( "Type" );
                 if ( type == "Link" )
                 {
-                    templatePath = config.readEntry("URL");
+                    templatePath = config.readPathEntry("URL");
                     if ( templatePath[0] != '/' )
                     {
                         if ( templatePath.left(6) == "file:/" )
@@ -416,7 +416,7 @@ void KNewMenu::slotResult( KIO::Job * job )
                 kdDebug(1203) << " destURL=" << destURL.path() << " " << " d->m_destPath=" << d->m_destPath << endl;
                 KDesktopFile df( d->m_destPath );
                 df.writeEntry( "Icon", KProtocolInfo::icon( KURL(m_linkURL).protocol() ) );
-                df.writeEntry( "URL", m_linkURL );
+                df.writePathEntry( "URL", m_linkURL );
                 df.sync();
             }
             else
