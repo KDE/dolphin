@@ -201,9 +201,11 @@ void KFindPart::restoreState( QDataStream& stream )
   {
     KFileItem* item = new KFileItem( KFileItem::Unknown, KFileItem::Unknown, KURL() );
     stream >> *item;
-    addFile(item, "");
+    m_lstFileItems.append(item);
   }
-    emit finished();
+  emit newItems(m_lstFileItems);
+
+  emit finished();
 }
 
 #include "kfindpart.moc"
