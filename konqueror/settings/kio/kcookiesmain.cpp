@@ -25,7 +25,7 @@ KCookiesMain::KCookiesMain(QWidget *parent, const char *name)
     QByteArray replyData;
     QDataStream args(data, IO_WriteOnly);
     args << QCString("kcookiejar");
-                             
+
     kapp->dcopClient()->call("kded", "kded", "loadModule(QCString)", data, replyType, replyData);
     if (replyType == "bool")
     {
@@ -44,13 +44,13 @@ KCookiesMain::KCookiesMain(QWidget *parent, const char *name)
     tab = new QTabWidget(this);
     layout->addWidget(tab);
 
-    policies = new KCookiesPolicies(this);
+    policies = new KCookiesPolicies(this, "cookies_policies");
     tab->addTab(policies, i18n("&Policy"));
     connect(policies, SIGNAL(changed(bool)), this, SLOT(moduleChanged()));
 
     if(managerOK)
     {
-        management = new KCookiesManagement(this);
+        management = new KCookiesManagement(this, "cookies_management");
         tab->addTab(management, i18n("&Management"));
         connect(management, SIGNAL(changed(bool)), this, SLOT(moduleChanged()));
     }
