@@ -205,7 +205,7 @@ void KonqOperations::_del( int method, const KURL::List & selectedURLs, int conf
         job = KIO::del( selectedURLs, true );
         break;
       default:
-        ASSERT(0);
+        Q_ASSERT(0);
         delete this;
         return;
     }
@@ -527,7 +527,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
             // Should be a local executable
             // (If this fails, there is a bug in KonqFileItem::acceptsDrops)
             kdDebug(1203) << "KonqOperations::doDrop " << dest.path() << "should be an executable" << endl;
-            ASSERT ( access( QFile::encodeName(dest.path()), X_OK ) == 0 );
+            Q_ASSERT ( access( QFile::encodeName(dest.path()), X_OK ) == 0 );
             KProcess proc;
             proc << dest.path() ;
             // Launch executable for each of the files

@@ -74,7 +74,7 @@ QPixmap KonqPixmapProvider::pixmapFor( const QString& url, int size )
     if ( icon.isEmpty() )
 	icon = KMimeType::iconForURL( u );
 
-    ASSERT( !icon.isEmpty() );
+    Q_ASSERT( !icon.isEmpty() );
 
     // cache the icon found for url
     iconMap.insert( url, icon );

@@ -109,7 +109,7 @@ KBookmark KBookmarkDrag::decode( const QMimeSource * e )
         doc.setContent( s );
         QDomElement elem = doc.documentElement();
         QDomNodeList children = elem.childNodes();
-        ASSERT(children.count()==1);
+        Q_ASSERT(children.count()==1);
         return KBookmark( children.item(0).toElement() );
     }
     if ( e->provides("text/uri-list") )

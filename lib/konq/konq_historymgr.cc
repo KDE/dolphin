@@ -133,7 +133,7 @@ bool KonqHistoryManager::loadHistory()
 
         while ( !stream->atEnd() ) {
 	    KonqHistoryEntry *entry = new KonqHistoryEntry;
-	    CHECK_PTR( entry );
+	    Q_CHECK_PTR( entry );
             *stream >> *entry;
 
 	    // kdDebug(1203) << "## loaded entry: " << entry->url << ",  Title: " << entry->title << endl;

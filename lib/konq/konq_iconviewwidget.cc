@@ -631,7 +631,7 @@ void KonqIconViewWidget::renameSelectedItem()
         }
     if (!item)
     {
-        ASSERT(item);
+        Q_ASSERT(item);
         return;
     }
     item->rename();

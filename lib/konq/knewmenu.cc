@@ -206,7 +206,7 @@ void KNewMenu::fillMenu()
                 act->plug( popupMenu() );
             }
         } else { // Separate system from personal templates
-            ASSERT( (*templ).entryType != 0 );
+            Q_ASSERT( (*templ).entryType != 0 );
 
             KActionSeparator * act = new KActionSeparator();
             act->plug( popupMenu() );

@@ -241,7 +241,7 @@ void KonqImagePreviewJob::itemRemoved( KFileIVI * item )
 void KonqImagePreviewJob::slotResult( KIO::Job *job )
 {
   subjobs.remove( job );
-  ASSERT ( subjobs.isEmpty() ); // We should have only one job at a time ...
+  Q_ASSERT ( subjobs.isEmpty() ); // We should have only one job at a time ...
   switch ( m_state ) {
     case STATE_STATXVDIR:
     {

@@ -235,7 +235,7 @@ void KBookmarkMenu::fillBookmarkMenu()
   }
 
   KBookmarkGroup parentBookmark = KBookmarkManager::self()->findByAddress( m_parentAddress ).toGroup();
-  ASSERT(!parentBookmark.isNull());
+  Q_ASSERT(!parentBookmark.isNull());
   for ( KBookmark bm = parentBookmark.first(); !bm.isNull();  bm = parentBookmark.next(bm) )
   {
     if ( !bm.isGroup() )
@@ -296,7 +296,7 @@ void KBookmarkMenu::slotAddBookmark()
     title = url;
 
   KBookmarkGroup parentBookmark = KBookmarkManager::self()->findByAddress( m_parentAddress ).toGroup();
-  ASSERT(!parentBookmark.isNull());
+  Q_ASSERT(!parentBookmark.isNull());
   // If this title is already used, we'll try to find something unused.
   KBookmark ch = parentBookmark.first();
   int count = 1;
@@ -333,7 +333,7 @@ void KBookmarkMenu::slotNewFolder()
 {
   if ( !m_pOwner ) return; // this view doesn't handle bookmarks...
   KBookmarkGroup parentBookmark = KBookmarkManager::self()->findByAddress( m_parentAddress ).toGroup();
-  ASSERT(!parentBookmark.isNull());
+  Q_ASSERT(!parentBookmark.isNull());
   KBookmarkGroup group = parentBookmark.createNewFolder();
   if ( !group.isNull() )
   {

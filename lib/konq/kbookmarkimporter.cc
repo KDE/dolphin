@@ -38,7 +38,7 @@
 void KBookmarkImporter::import( const QString & path )
 {
     QDomElement elem = m_pDoc->documentElement();
-    ASSERT(!elem.isNull());
+    Q_ASSERT(!elem.isNull());
     scanIntern( elem, path );
 }
 
@@ -159,7 +159,7 @@ void KNSBookmarkImporter::parseNSBookmarks( bool utf8 )
     QRegExp lt("&lt;");
     QRegExp gt("&gt;");
     QTextCodec * codec = utf8 ? QTextCodec::codecForName("UTF-8") : QTextCodec::codecForLocale();
-    ASSERT(codec);
+    Q_ASSERT(codec);
     if (!codec)
         return;
 

@@ -404,7 +404,7 @@ void KonqDirPart::slotIncIconSize()
     for ( int idx=1; idx < 5 ; ++idx )
         if (s == m_iIconSize[idx])
             sizeIndex = idx;
-    ASSERT( sizeIndex != 0 && sizeIndex < 4 );
+    Q_ASSERT( sizeIndex != 0 && sizeIndex < 4 );
     setIconSize( m_iIconSize[sizeIndex + 1] );
 }
 
@@ -416,7 +416,7 @@ void KonqDirPart::slotDecIconSize()
     for ( int idx=1; idx < 5 ; ++idx )
         if (s == m_iIconSize[idx])
             sizeIndex = idx;
-    ASSERT( sizeIndex > 1 );
+    Q_ASSERT( sizeIndex > 1 );
     setIconSize( m_iIconSize[sizeIndex - 1] );
 }
 

@@ -100,7 +100,7 @@ KBookmarkGroup KBookmarkGroup::createNewFolder( const QString & text )
             return KBookmarkGroup();
     }
 
-    ASSERT(!element.isNull());
+    Q_ASSERT(!element.isNull());
     QDomDocument doc = element.ownerDocument();
     QDomElement groupElem = doc.createElement( "folder" );
     element.appendChild( groupElem );
@@ -112,9 +112,9 @@ KBookmarkGroup KBookmarkGroup::createNewFolder( const QString & text )
 
 KBookmark KBookmarkGroup::createNewSeparator()
 {
-    ASSERT(!element.isNull());
+    Q_ASSERT(!element.isNull());
     QDomDocument doc = element.ownerDocument();
-    ASSERT(!doc.isNull());
+    Q_ASSERT(!doc.isNull());
     QDomElement sepElem = doc.createElement( "separator" );
     element.appendChild( sepElem );
     return KBookmark(sepElem);
@@ -252,7 +252,7 @@ KBookmarkGroup KBookmark::parentGroup() const
 
 KBookmarkGroup KBookmark::toGroup() const
 {
-    ASSERT( isGroup() );
+    Q_ASSERT( isGroup() );
     return KBookmarkGroup(element);
 }
 
@@ -266,7 +266,7 @@ QString KBookmark::address() const
         QDomElement parent = element.parentNode().toElement();
         if(parent.isNull())
         {
-          ASSERT(!parent.isNull());
+          Q_ASSERT(!parent.isNull());
           return "ERROR"; // Avoid an infinite loop
         }
         KBookmarkGroup group( parent );

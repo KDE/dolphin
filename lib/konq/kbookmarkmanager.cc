@@ -226,12 +226,12 @@ KBookmark KBookmarkManager::findByAddress( const QString & address )
     {
         uint number = (*it).toUInt();
         //kdDebug(1203) << "KBookmarkManager::findByAddress " << number << endl;
-        ASSERT(result.isGroup());
+        Q_ASSERT(result.isGroup());
         KBookmarkGroup group = result.toGroup();
         KBookmark bk = group.first();
         for ( uint i = 0 ; i < number ; ++i )
             bk = group.next(bk);
-        ASSERT(!bk.isNull());
+        Q_ASSERT(!bk.isNull());
         result = bk;
     }
     if (result.isNull())
@@ -277,7 +277,7 @@ void KBookmarkManager::notifyChanged( QString groupAddress ) // DCOP call
 
     //kdDebug(1203) << "KBookmarkManager::notifyChanged " << groupAddress << endl;
     //KBookmarkGroup group = findByAddress( groupAddress ).toGroup();
-    //ASSERT(!group.isNull());
+    //Q_ASSERT(!group.isNull());
     emit changed( groupAddress, QString::null );
 }
 
