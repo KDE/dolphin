@@ -142,8 +142,7 @@ void KonqApp::start()
   if ( g_bWithGUI )
   {
     QString home = "file:";
-    //home.detach();
-    home += QDir::homeDirPath().data();
+    home += QDir::homeDirPath();
     KonqMainWindow *m_pShell = new KonqMainWindow( home.data() );
     m_pShell->show();
   }

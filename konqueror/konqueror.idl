@@ -50,12 +50,12 @@ module Konqueror
      * has a structure EventOpenURL as parameter)
      *
      * In addition it may implement/emit the following signals:
-     *      - signal void openURL( in Konqueror::URLRequest url );
-     *      - signal void started( in string url );
-     *      - signal void completed();
-     *      - signal void canceled();
+     *      - signal void openURL( in URLRequest url );
+     *      - signal void started( in OpenParts::Id id, in string url );
+     *      - signal void completed( in OpenParts::Id id );
+     *      - signal void canceled( in OpenParts::Id id );
      *      - signal void setStatusBarText( in string text );
-     *      - signal void setLocationBarURL( in string url );
+     *      - signal void setLocationBarURL( in OpenParts::Id id, in string url );
      *      - signal void createNewWindow( in string url );
      *      - signal void popupMenu( in MenuPopupRequest popup );
      */
@@ -64,6 +64,10 @@ module Konqueror
     
     void stop();
 
+    /*
+     * Note: Call saveState() only if the view signalled that it's finished
+     *       (signal "completed")
+     */
     HistoryEntry saveState();
     void restoreState( in HistoryEntry history );
     
@@ -145,6 +149,7 @@ module Konqueror
     
   interface KfmTreeView : View
   {
+    slot void slotReloadTree();
   };
   
   interface HTMLView : View
@@ -174,13 +179,11 @@ module Konqueror
     slot void openURL( in URLRequest url );    
     
     slot void setStatusBarText( in string text );
-    slot void setLocationBarURL( in string url );
-    slot void setUpURL( in string url );
+    slot void setLocationBarURL( in OpenParts::Id id, in string url );
     
     slot void createNewWindow( in string url );
     slot void popupMenu( in View::MenuPopupRequest popup );
 
-    string currentTitle();
     string currentURL();
         
     slot void slotSplitView();
@@ -214,9 +217,8 @@ module Konqueror
     slot void slotBookmarkSelected( in long id );
     slot void slotEditBookmarks();
     
-    slot void slotURLStarted( in string url );
-    
-    slot void slotStopAnimation();
+    slot void slotURLStarted( in OpenParts::Id id, in string url );
+    slot void slotURLCompleted( in OpenParts::Id id );
   };
   
   interface MainWindow : OpenParts::MainWindow

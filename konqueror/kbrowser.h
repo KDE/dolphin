@@ -118,6 +118,9 @@ signals:
   void canceled();
   void mousePressed( const char* _url, const QPoint& _point, int _button);
 
+  void frameInserted( KBrowser *frame );
+  void urlClicked( const char *url );
+  
 protected slots:
   void slotFinished( int _id );
   void slotData( int _id, const char*, int _len );

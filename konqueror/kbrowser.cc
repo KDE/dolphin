@@ -18,9 +18,9 @@
 */     
 
 #include "kbrowser.h"
-#include "kio_job.h"
-#include "kio_cache.h"
-#include "kio_error.h"
+#include <kio_job.h>
+#include <kio_cache.h>
+#include <kio_error.h>
 
 #include <assert.h>
 #include <string.h>
@@ -57,7 +57,6 @@ KBrowser::KBrowser( QWidget *parent, const char *name, KBrowser *_parent_browser
   connect( this, SIGNAL( cancelImageRequest( const char * ) ),
 	   this, SLOT( slotCancelURLRequest( const char * ) ) );
   connect( this, SIGNAL( documentDone( KHTMLView* ) ), this, SLOT( slotDocumentFinished( KHTMLView* ) ) );
-  connect( this, SIGNAL( onURL( KHTMLView*, const char* ) ), this, SLOT( slotOnURL( KHTMLView*, const char* ) ) );
   
   m_lstChildren.setAutoDelete( true );
 
@@ -74,6 +73,9 @@ KHTMLView* KBrowser::newView( QWidget *_parent, const char *_name, int )
   KBrowser *v = createFrame( _parent, _name );
   
   m_lstChildren.append( new Child( v, false ) );
+  
+  emit frameInserted( v );
+  
   return v;
 }
 
@@ -328,12 +330,14 @@ void KBrowser::slotURLSelected( const char *_url, int _button, const char *_targ
       if ( !v )
 	v = this;
       v->openURL( url );
+      emit urlClicked( url );
       return;
     }
     else if ( strcmp( _target, "_top" ) == 0 )
     {
       cerr << "OPENING top " << url << endl;
       topView()->openURL( url );
+      emit urlClicked( url );
       cerr << "OPENED top" << endl;
       return;
     }
@@ -345,6 +349,7 @@ void KBrowser::slotURLSelected( const char *_url, int _button, const char *_targ
     else if ( strcmp( _target, "_self" ) == 0 )
     {
       openURL( url );
+      emit urlClicked( url );
       return;
     }
     
@@ -354,6 +359,7 @@ void KBrowser::slotURLSelected( const char *_url, int _button, const char *_targ
     if ( v )
     {
       v->openURL( url );
+      emit urlClicked( url );
       return;
     }
     else
@@ -390,10 +396,12 @@ void KBrowser::slotURLSelected( const char *_url, int _button, const char *_targ
       KURL::decode( anchor );
       cerr << "Going to anchor " << anchor << endl;
       gotoAnchor( anchor );
+      emit urlClicked( url );
       return;
     }
     
     openURL( url );
+    emit urlClicked( url );
   }
 }
 

@@ -123,6 +123,14 @@ void KonqKfmIconView::stop()
   //TODO
 }
 
+char *KonqKfmIconView::url()
+{
+  QString u = m_strWorkingURL.c_str();
+  if ( u.isEmpty() )
+    u = m_strURL;
+  return CORBA::string_dup( u.ascii() );
+}
+
 void KonqKfmIconView::initConfig()
 {
   QPalette p          = viewport()->palette();
@@ -194,7 +202,10 @@ void KonqKfmIconView::slotReturnPressed( KIconContainerItem *_item, const QPoint
     return;
 
   KonqKfmIconViewItem *item = (KonqKfmIconViewItem*)_item;
-  item->returnPressed();
+  //sorry for hacking, but I just want my "browser" back :)
+  //->just temporary, ok? (Simon)
+   openURLRequest( ((KonqKfmIconViewItem*)item)->url().ascii() );
+//  item->returnPressed();
 }
 
 void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint &_global, int _button )
@@ -241,7 +252,10 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
     }
   }
   else if ( _button == LeftButton )
-    ((KonqKfmIconViewItem*)_item)->returnPressed();
+  //sorry for hacking, but I just want my "browser" back :)
+  //->just temporary, ok? (Simon)
+   openURLRequest( ((KonqKfmIconViewItem*)_item)->url().ascii() );
+//    ((KonqKfmIconViewItem*)_item)->returnPressed();
   else if ( _button == RightButton )
   {
     Konqueror::View::MenuPopupRequest popupRequest;
@@ -283,7 +297,10 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
 void KonqKfmIconView::slotDoubleClicked( KIconContainerItem *_item, const QPoint &_global, int _button )
 {
   if ( _button == LeftButton )
-    ((KonqKfmIconViewItem*)_item)->returnPressed();
+  //sorry for hacking, but I just want my "browser" back :)
+  //->just temporary, ok? (Simon)
+   openURLRequest( ((KonqKfmIconViewItem*)_item)->url().ascii() );
+//    ((KonqKfmIconViewItem*)_item)->returnPressed();
 }
 
 void KonqKfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStrList &_formats )
@@ -366,8 +383,7 @@ void KonqKfmIconView::openURL( const char *_url )
   m_jobId = job->id();
   job->listDir( url.url() );
 
-//  emit started( m_strWorkingURL.c_str() );
-  SIGNAL_CALL1( "started", CORBA::Any::from_string( (char *)m_strWorkingURL.c_str(), 0 ) );
+  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)m_strWorkingURL.c_str(), 0 ) );
   m_vMainWindow->setPartCaption( id(), m_strWorkingURL.c_str() );
 }
 
@@ -389,8 +405,7 @@ void KonqKfmIconView::slotCloseURL( int /*_id*/ )
   m_jobId = 0;
   m_bComplete = true;
 
-//  emit completed();
-  SIGNAL_CALL0( "completed" );
+  SIGNAL_CALL1( "completed", id() );
 }
 
 void KonqKfmIconView::slotListEntry( int /*_id*/, UDSEntry& _entry )
@@ -481,8 +496,7 @@ void KonqKfmIconView::updateDirectory()
   m_jobId = job->id();
   job->listDir( m_strURL.data() );
 
-//  emit started( 0 );
-  SIGNAL_CALL1( "started", CORBA::Any::from_string( 0L, 0 ) );
+  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( 0L, 0 ) );
 }
 
 void KonqKfmIconView::openURLRequest( const char *_url )
@@ -576,8 +590,7 @@ void KonqKfmIconView::slotUpdateFinished( int /*_id*/ )
 
   m_buffer.clear();
 
-//  emit completed();
-  SIGNAL_CALL0( "completed" );
+  SIGNAL_CALL1( "completed", id() );
 }
 
 void KonqKfmIconView::slotUpdateListEntry( int /*_id*/, UDSEntry& _entry )

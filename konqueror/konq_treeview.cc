@@ -127,9 +127,37 @@ bool KonqKfmTreeView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
   return true;
 }
 
+bool KonqKfmTreeView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu )
+{
+  OpenPartsUI::Menu_var menu = OpenPartsUI::Menu::_duplicate( viewMenu.menu );
+  
+  if ( !CORBA::is_nil( menu ) )
+  {
+    menu->insertItem( i18n("Rel&oad Tree"), this, "slotReloadTree", 0 );
+  }
+  
+  return true;
+}
+
 void KonqKfmTreeView::stop()
 {
   //TODO
+}
+
+char *KonqKfmTreeView::url()
+{
+  QString u = m_strWorkingURL.c_str();
+  if ( u.isEmpty() )
+    u = m_strURL;
+  return CORBA::string_dup( u.ascii() );
+}
+
+void KonqKfmTreeView::slotReloadTree()
+{
+  QString u = m_strWorkingURL.c_str();
+  if ( u.isEmpty() )
+    u = m_strURL;
+  openURL( u.ascii() );
 }
 
 void KonqKfmTreeView::openURLRequest( const char *_url )
@@ -792,8 +820,7 @@ void KonqKfmTreeView::openURL( const char *_url )
   m_jobId = job->id();
   job->listDir( _url );
 
-//  emit started( m_strWorkingURL.c_str() );
-  SIGNAL_CALL1( "started", CORBA::Any::from_string( (char *)m_strWorkingURL.c_str(), 0 ) );
+  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)m_strWorkingURL.c_str(), 0 ) );
 }
 
 void KonqKfmTreeView::slotError( int /*_id*/, int _errid, const char* _errortext )
@@ -812,8 +839,7 @@ void KonqKfmTreeView::slotCloseURL( int /*_id*/ )
   m_jobId = 0;
   m_bTopLevelComplete = true;
 
-//  emit completed();
-  SIGNAL_CALL0( "completed" );
+  SIGNAL_CALL1( "completed", id() );
 }
 
 void KonqKfmTreeView::openSubFolder( const char *_url, KfmTreeViewDir* _dir )
@@ -868,8 +894,7 @@ void KonqKfmTreeView::openSubFolder( const char *_url, KfmTreeViewDir* _dir )
   m_jobId = job->id();
   job->listDir( _url );
 
-//  emit started( 0L );
-  SIGNAL_CALL1( "started", CORBA::Any::from_string( (char *)0L, 0 ) );
+  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)0L, 0 ) );
 }
 
 void KonqKfmTreeView::slotCloseSubFolder( int /*_id*/ )
@@ -887,8 +912,7 @@ void KonqKfmTreeView::slotCloseSubFolder( int /*_id*/ )
   m_pWorkingDir = 0L;
   m_jobId = 0;
 
-//  emit completed();
-  SIGNAL_CALL0( "completed" );
+  SIGNAL_CALL1( "completed", id() );
 }
 
 void KonqKfmTreeView::slotListEntry( int /*_id*/, UDSEntry& _entry )
@@ -1049,8 +1073,7 @@ void KonqKfmTreeView::updateDirectory( KfmTreeViewDir *_dir, const char *_url )
   m_jobId = job->id();
   job->listDir( _url );
 
-//  emit started( 0 );
-  SIGNAL_CALL1( "started", CORBA::Any::from_string( (char *)0L, 0 ) );
+  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)0L, 0 ) );
 }
 
 void KonqKfmTreeView::slotUpdateError( int /*_id*/, int _errid, const char *_errortext )
@@ -1191,8 +1214,7 @@ void KonqKfmTreeView::slotUpdateFinished( int /*_id*/ )
   m_buffer.clear();
   m_pWorkingDir = 0L;
 
-//  emit completed();
-  SIGNAL_CALL0( "completed" );
+  SIGNAL_CALL1( "completed", id() );
 }
 
 void KonqKfmTreeView::slotUpdateListEntry( int /*_id*/, UDSEntry& _entry )

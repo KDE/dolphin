@@ -51,7 +51,7 @@ class KonqHTMLView : public KBrowser,
   Q_OBJECT  
 
 public:
-  KonqHTMLView( QWidget *_parent = 0L, const char *_name = 0L, KBrowser *_parent_browser = 0L );
+  KonqHTMLView();
   virtual ~KonqHTMLView();
 
   virtual bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
@@ -73,9 +73,11 @@ public:
       
 public slots:
   virtual void slotMousePressed( const char*, const QPoint&, int );
+  void slotFrameInserted( KBrowser *frame );
+  void slotURLClicked( const char *url );
 
 protected slots:
-  void slotOnURL( const char *_url );
+  void slotShowURL( KHTMLView *view, const char *_url );
   void slotSetTitle( const char *title );
   void slotStarted( const char *url );
   void slotCompleted();
@@ -84,14 +86,6 @@ protected slots:
 protected:
 
   virtual void initConfig();
-
-  /**
-   * For internal use only
-   *
-   * Overrides @ref KBrowser::createFrame. It just creates a new instance
-   * of KonqHTMLView. These instances are used as frames.
-   */
-  virtual KBrowser* createFrame( QWidget *_parent, const char *_name );
 
   virtual bool mousePressedHook( const char* _url, const char *_target, QMouseEvent *_ev,
 				 bool _isselected);

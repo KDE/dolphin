@@ -388,7 +388,6 @@ void
 KonqFrame::slotHeaderClicked()
 {
   part()->parent()->mainWindow()->setActivePart( part()->id() );
-  part()->setFocus( true );
 }
 
 void 
@@ -407,6 +406,5 @@ KonqFrame::resizeEvent( QResizeEvent* )
   if ( win != 0)
     XMoveResizeWindow(qt_xdisplay(), win, 0, m_pHeader->height() , width(), height() - m_pHeader->height() );
 }
-
 
 #include "konq_frame.moc"

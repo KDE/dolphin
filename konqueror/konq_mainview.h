@@ -63,13 +63,9 @@ class KonqMainView : public QWidget,
   Q_OBJECT
 public:
   //C++
-  KonqMainView( QWidget *_parent = 0L );
+  KonqMainView( const char *url = 0L, QWidget *_parent = 0L );
   ~KonqMainView();
 
-  // two friends which need to access m_bStackLock :)
-  friend class KonqMainWindow;
-  friend class KonqApplicationIf;
-  
   //inherited
   virtual void init();
   virtual void cleanUp();
@@ -93,13 +89,12 @@ public:
   virtual void openURL( const char * _url, CORBA::Boolean _reload );
   
   virtual void setStatusBarText( const char *_text );
-  virtual void setLocationBarURL( const char *_url );
-  virtual void setUpURL( const char *_url );
+  virtual void setLocationBarURL( OpenParts::Id id, const char *_url );
+  void setUpURL( const char *_url );
   
   virtual void createNewWindow( const char *url );
   virtual void popupMenu( const Konqueror::View::MenuPopupRequest &popup );
 
-  virtual char *currentTitle() { return ""; }
   virtual char *currentURL() { return ""; }
 
   void openDirectory( const char *url );
@@ -146,21 +141,16 @@ public slots:
   virtual void slotBookmarkSelected( CORBA::Long id );
   virtual void slotEditBookmarks();  
   
-  virtual void slotURLStarted( const char *url );
-  
-  /////////////////////////
-  // Accel
-  /////////////////////////
-  void slotFocusLeftView();
-  void slotFocusRightView();
+  virtual void slotURLStarted( OpenParts::Id id, const char *url );
+  virtual void slotURLCompleted( OpenParts::Id id );
   
   /////////////////////////
   // Animated Logo
   /////////////////////////
   void slotAnimatedLogoTimeout();
   void slotStartAnimation();
-  virtual void slotStopAnimation();
-
+  void slotStopAnimation();
+  
   void slotPopupNewView();
   void slotPopupEmptyTrashBin();
   void slotPopupCopy();
@@ -187,9 +177,13 @@ protected:
   void changeViewMode( const char *viewName );
   /* Create a view
    * @param viewName the type of view to be created (e.g. "KonqKfmIconView") */
-  Konqueror::View_var createViewByName( const char *viewName );
+  Konqueror::View_ptr createViewByName( const char *viewName );
   /* Create a new view from the current view (same URL, same view type) */
   void splitView ( Konqueror::NewViewPosition newViewPosition );
+
+  struct View;
+  
+  void makeHistory( View *v );
 
   void createViewMenu();
   void setupViewMenus();
@@ -216,18 +210,35 @@ protected:
 
   struct InternalHistoryEntry
   {
+    bool bHasHistoryEntry;
+    string strURL;
     Konqueror::View::HistoryEntry entry;
-    CORBA::String_var viewName;
+    CORBA::String_var strViewName;
   };
     
   struct View
   {
     View();
+    
+    bool m_bCompleted;
+    
     Konqueror::View_var m_vView;
-    KonqFrame *m_pFrame;
+    
     QString m_strUpURL;
+    QString m_strLocationBarURL;
+    
+    string m_strLastURL;
+
+    bool m_bBack;
+    bool m_bForward;
+    int m_iHistoryLock;
+  
+    InternalHistoryEntry m_tmpInternalHistoryEntry;
+    
     list<InternalHistoryEntry> m_lstBack;
     list<InternalHistoryEntry> m_lstForward;
+    
+    KonqFrame *m_pFrame;
     Row * row;
   };
 
@@ -240,6 +251,7 @@ protected:
   map<OpenParts::Id,View*> m_mapViews;
   
   View *m_currentView;
+  OpenParts::Id m_currentId;
   // current row is currentView->row, no need for a member
 
   Row * newRow( bool append );
@@ -263,10 +275,6 @@ protected:
   unsigned int m_animatedLogoCounter;
   QTimer m_animatedLogoTimer;
 
-  int m_iStackLock;
-  bool m_bBack;
-  bool m_bForward;
-
   KAccel* m_pAccel;
 
   KfmGuiProps *m_Props;
@@ -276,7 +284,9 @@ protected:
   map<int,KDELnkMimeType::Service> m_mapPopup2;
 
   KfmRun *m_pRun;
-      
+
+  string m_strTempURL;      
+
   static QList<OpenPartsUI::Pixmap>* s_lstAnimatedLogo;
   static QList<KonqMainView>* s_lstWindows;
 };

@@ -40,8 +40,7 @@
 #include <kurl.h>
 #include <kio_error.h>
 
-KonqHTMLView::KonqHTMLView( QWidget *_parent, const char *_name, KBrowser *_parent_browser )
-  : KBrowser( _parent, _name, _parent_browser )
+KonqHTMLView::KonqHTMLView()
 {
   ADD_INTERFACE( "IDL:Konqueror/HTMLView:1.0" );
 
@@ -51,20 +50,18 @@ KonqHTMLView::KonqHTMLView( QWidget *_parent, const char *_name, KBrowser *_pare
 
   QWidget::setFocusPolicy( StrongFocus );
 
-  initConfig();
+//  initConfig();
 
-  QObject::connect( this, SIGNAL( onURL( KHTMLView*, const char* ) ), this, SLOT( slotOnURL( KHTMLView*, const char* ) ) );
-
-  QObject::connect( this, SIGNAL( mousePressed( const char*, const QPoint&, int ) ),
-                    this, SLOT( slotMousePressed( const char*, const QPoint&, int ) ) );
   QObject::connect( this, SIGNAL( setTitle( const char* ) ),
                     this, SLOT( slotSetTitle( const char * ) ) );
-  QObject::connect( this, SIGNAL( started( const char * ) ),
-                    this, SLOT( slotStarted( const char * ) ) );
   QObject::connect( this, SIGNAL( completed() ),
                     this, SLOT( slotCompleted() ) );
+//  QObject::connect( this, SIGNAL( started( const char * ) ),
+//                    this, SLOT( slotStarted( const char * ) ) );
 //  QObject::connect( this, SIGNAL( canceled() ),
-//                    this, SLOT( slotCanceled() ) );
+//                    this, SLOT( canceled() ) );
+		    
+  slotFrameInserted( this );
 }
 
 KonqHTMLView::~KonqHTMLView()
@@ -98,45 +95,11 @@ void KonqHTMLView::slotNewWindow( const char *_url )
 }
 */
 
-KBrowser* KonqHTMLView::createFrame( QWidget *_parent, const char *_name )
-{
-  KBrowser *m_pBrowser = new KBrowser( _parent, _name, this );
-
-  KConfig *config = kapp->getConfig();
-  config->setGroup("Settings");
-
-  KfmViewSettings *settings = KfmViewSettings::defaultHTMLSettings();
-
-  KHTMLWidget* htmlWidget = m_pBrowser->getKHTMLWidget();
-
-  htmlWidget->setDefaultBGColor( settings->bgColor() );
-  htmlWidget->setDefaultTextColors( settings->textColor(),
-				    settings->linkColor(),
-				    settings->vLinkColor() );
-  htmlWidget->setStandardFont( settings->stdFontName() );
-  htmlWidget->setFixedFont( settings->fixedFontName() );
-
-  htmlWidget->setUnderlineLinks( settings->underlineLink() );
-
-  if ( settings->changeCursor() )
-    htmlWidget->setURLCursor( KCursor().handCursor() );
-  else
-    htmlWidget->setURLCursor( KCursor().arrowCursor() );
-
-  QObject::connect( m_pBrowser, SIGNAL( onURL( KHTMLView*, const char* ) ), this, SLOT( slotOnURL( KHTMLView*, const char* ) ) );
-  QObject::connect( m_pBrowser, SIGNAL( mousePressed( const char*, const QPoint&, int ) ),
-	   this, SLOT( slotMousePressed( const char*, const QPoint&, int ) ) );
-  QObject::connect( m_pBrowser, SIGNAL( setTitle( const char* ) ),
-                    this, SLOT( slotSetTitle( const char * ) ) );
-	
-  return m_pBrowser;
-}
-
 bool KonqHTMLView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 {
   KonqBaseView::mappingOpenURL(eventURL);
   openURL( eventURL.url, (bool)eventURL.reload ); // implemented by kbrowser
-
+  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)eventURL.url, 0 ) );
   return true;
 }
 
@@ -189,7 +152,44 @@ void KonqHTMLView::slotMousePressed( const char* _url, const QPoint &_global, in
   }
 }
 
-void KonqHTMLView::slotOnURL( const char *_url )
+void KonqHTMLView::slotFrameInserted( KBrowser *frame )
+{
+  QObject::connect( frame, SIGNAL( onURL( KHTMLView*, const char* ) ), 
+                    this, SLOT( slotShowURL( KHTMLView*, const char* ) ) );
+
+  QObject::connect( frame, SIGNAL( mousePressed( const char*, const QPoint&, int ) ),
+                    this, SLOT( slotMousePressed( const char*, const QPoint&, int ) ) );
+		    
+  QObject::connect( frame, SIGNAL( frameInserted( KBrowser * ) ),
+                    this, SLOT( slotFrameInserted( KBrowser * ) ) );		    
+
+  QObject::connect( frame, SIGNAL( urlClicked( const char * ) ),
+                    this, SLOT( slotURLClicked( const char * ) ) );		    
+
+  KfmViewSettings *settings = KfmViewSettings::defaultHTMLSettings();
+  KHTMLWidget* htmlWidget = frame->getKHTMLWidget();
+
+  htmlWidget->setDefaultBGColor( settings->bgColor() );
+  htmlWidget->setDefaultTextColors( settings->textColor(),
+				    settings->linkColor(),
+				    settings->vLinkColor() );
+  htmlWidget->setStandardFont( settings->stdFontName() );
+  htmlWidget->setFixedFont( settings->fixedFontName() );
+
+  htmlWidget->setUnderlineLinks( settings->underlineLink() );
+
+  if ( settings->changeCursor() )
+    htmlWidget->setURLCursor( KCursor().handCursor() );
+  else
+    htmlWidget->setURLCursor( KCursor().arrowCursor() );		    
+}
+
+void KonqHTMLView::slotURLClicked( const char *url )
+{
+  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)url, 0 ) );
+}
+
+void KonqHTMLView::slotShowURL( KHTMLView *view, const char *_url )
 {
   if ( !_url )
   {
@@ -275,10 +275,10 @@ void KonqHTMLView::slotOnURL( const char *_url )
       text += "  ";
       text += com.data();
     }
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)text.data(), 0 ) );
+    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)text.ascii(), 0 ) );
   }
   else
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)url.url(), 0 ) );
+    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)url.url().ascii(), 0 ) );
 }
 
 void KonqHTMLView::slotSetTitle( const char *title )
@@ -288,17 +288,17 @@ void KonqHTMLView::slotSetTitle( const char *title )
 
 void KonqHTMLView::slotStarted( const char *url )
 {
-  SIGNAL_CALL1( "started", CORBA::Any::from_string( (char *)url, 0 ) );
+  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)url, 0 ) );
 }
 
 void KonqHTMLView::slotCompleted()
 {
-  SIGNAL_CALL0( "completed" );
+  SIGNAL_CALL1( "completed", id() );
 }
 
 void KonqHTMLView::slotCanceled()
 {
-  SIGNAL_CALL0( "canceled" );
+  SIGNAL_CALL1( "canceled", id() );
 }
 
 bool KonqHTMLView::mousePressedHook( const char *_url, const char *_target, QMouseEvent *_mouse, bool _isselected )
@@ -338,7 +338,10 @@ void KonqHTMLView::stop()
 
 char *KonqHTMLView::url()
 {
-  return CORBA::string_dup( KBrowser::m_strURL.data() );
+  QString u = m_strWorkingURL;
+  if ( u.isEmpty() )
+    u = KBrowser::m_strURL;
+  return CORBA::string_dup( u.ascii() );
 }
 
 Konqueror::View::HistoryEntry *KonqHTMLView::saveState()
@@ -542,7 +545,7 @@ void KonqHTMLView::testIgnore()
 void KonqHTMLView::openURL( const char *_url, bool _reload, int _xoffset, int _yoffset, const char *_post_data )
 {
   KBrowser::openURL( _url, _reload, _xoffset, _yoffset, _post_data );
-  SIGNAL_CALL1( "setLocationBarURL", CORBA::Any::from_string( (char *)_url, 0 ) );
+  SIGNAL_CALL2( "setLocationBarURL", id(), CORBA::Any::from_string( (char *)_url, 0 ) );
 }
 
 /**********************************************
