@@ -33,6 +33,7 @@
 #include <kparts/browserextension.h>
 #include <kurldrag.h>
 #include <kuserprofile.h>
+#include <kurifilter.h>
 
 #include <qapplication.h>
 #include <qclipboard.h>
@@ -226,31 +227,21 @@ void KonqDirPart::mmbClicked( KFileItem * fileItem )
     }
     else
     {
-        // MMB on background, try opening clipboard URL
-        QMimeSource *data = QApplication::clipboard()->data(QClipboard::Selection);
-        if ( data->provides("text/plain") )
+        QCString plain("plain");
+        QString url = QApplication::clipboard()->text(plain,QClipboard::Selection).stripWhiteSpace();
+
+        // Check if it's a URL
+        KURIFilterData m_filterData;
+        m_filterData.setData( url );
+        if (KURIFilter::self()->filterURI(m_filterData))
         {
-            QString url;
-            if ( QTextDrag::decode( data, url ) )
+            int uriType = m_filterData.uriType();
+            if ( uriType == KURIFilterData::LOCAL_FILE
+               || uriType == KURIFilterData::LOCAL_DIR
+               || uriType == KURIFilterData::NET_PROTOCOL )
             {
-                url = url.stripWhiteSpace();
-                KURL u(url);
-                if ( u.isMalformed() ) {
-                    // some half-baked guesses for incomplete urls
-                    // (the same code is in khtml/khtml_part.cpp)
-                    if ( url.startsWith( "ftp." ) )
-                    {
-                        url.prepend( "ftp://" );
-                        u = url;
-                    }
-                    else
-                    {
-                        url.prepend( "http://" );
-                        u = url;
-                    }
-                }
-                if ( !u.isMalformed() )
-                    emit m_extension->openURLRequest( u );
+              KURL u = m_filterData.uri();
+              emit m_extension->openURLRequest( u );
             }
         }
     }
