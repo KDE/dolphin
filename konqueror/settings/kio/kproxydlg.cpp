@@ -37,6 +37,8 @@
 class KMySpinBox : public QSpinBox
 {
 public:
+   KMySpinBox( QWidget* parent )
+    : QSpinBox(parent) { }
    KMySpinBox( int minValue, int maxValue, int step, QWidget* parent)
     : QSpinBox(minValue, maxValue, step, parent) { }
    QLineEdit *editor() const { return QSpinBox::editor(); }
@@ -131,8 +133,9 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   connect( cb_useCache, SIGNAL( clicked() ), SLOT( changeCache() ) );
   connect( cb_useCache, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
-  sb_max_cache_size = new QSpinBox(100, 2000000, 100, this);
+  sb_max_cache_size = new KMySpinBox(100, 2000000, 100, this);
   connect(sb_max_cache_size, SIGNAL(valueChanged(int)), this, SLOT(changed()));
+  connect(sb_max_cache_size->editor(), SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
   lb_max_cache_size = new QLabel(sb_max_cache_size, i18n("Average Cache &Size:"), this);
   lb_max_cache_size->setAlignment(AlignVCenter);
@@ -141,8 +144,9 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   QWhatsThis::add( lb_max_cache_size, wtstr );
 
 #ifdef MAX_CACHE_AGE
-  sb_max_cache_age = new QSpinBox(this);
+  sb_max_cache_age = new KMySpinBox(this);
   connect(sb_max_cache_age, SIGNAL(valueChanged(int)), this, SLOT(changed()));
+  connect(sb_max_cache_age->editor(), SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
   lb_max_cache_age = new QLabel( sb_max_cache_age, XXXi18n("Maximum Cache &Age:"), this);
   lb_max_cache_age->setAlignment(AlignVCenter);

@@ -65,11 +65,11 @@ Q_OBJECT
 
     // Maximum Cache Size
     QLabel *lb_max_cache_size;
-    QSpinBox *sb_max_cache_size;
+    KMySpinBox *sb_max_cache_size;
 
     // Maximum Cache Age
     QLabel *lb_max_cache_age;
-    QSpinBox *sb_max_cache_age;
+    KMySpinBox *sb_max_cache_age;
 
     // Clear Cache
     QPushButton *pb_clearCache;
