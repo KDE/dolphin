@@ -32,7 +32,16 @@
 #include "konq_actions.h"
 
 #include <pwd.h>
+// we define STRICT_ANSI to get rid of some warnings in glibc
+#ifndef __STRICT_ANSI__
+#define __STRICT_ANSI__
+#define _WE_DEFINED_IT_
+#endif
 #include <netdb.h>
+#ifdef _WE_DEFINED_IT_
+#undef __STRICT_ANSI__
+#undef _WE_DEFINED_IT_
+#endif
 #include <assert.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -133,8 +142,7 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
 
   // hide if empty
   KToolBar * bar = (KToolBar *)child( "bookmarkToolBar", "KToolBar" );
-  assert(bar);
-  if ( bar->count() <= 1 ) // there is always a separator
+  if ( bar && bar->count() <= 1 ) // there is always a separator
   {
     m_paShowBookmarkBar->setChecked( false );
     bar->hide();
@@ -1251,11 +1259,13 @@ void KonqMainView::slotFullScreenStart()
 void KonqMainView::attachToolbars( KonqFrame *frame )
 {
   QWidget *toolbar = guiFactory()->container( "locationToolBar", this );
+  ((KToolBar*)toolbar)->setEnableContextMenu(false);
   if ( toolbar->parentWidget() != frame )
     toolbar->recreate( frame, 0, QPoint( 0,0 ), true );
   frame->layout()->insertWidget( 0, toolbar );
 
   toolbar = guiFactory()->container( "mainToolBar", this );
+  ((KToolBar*)toolbar)->setEnableContextMenu(false);
   if ( toolbar->parentWidget() != frame )
     toolbar->recreate( frame, 0, QPoint( 0, 0 ), true );
   frame->layout()->insertWidget( 0, toolbar );
@@ -1265,6 +1275,9 @@ void KonqMainView::slotFullScreenStop()
 {
   QWidget *toolbar1 = guiFactory()->container( "mainToolBar", this );
   QWidget *toolbar2 = guiFactory()->container( "locationToolBar", this );
+
+  ((KToolBar*)toolbar1)->setEnableContextMenu(true);
+  ((KToolBar*)toolbar2)->setEnableContextMenu(true);
 
   KonqFrame *widget = m_currentView->frame();
   widget->close( false );
