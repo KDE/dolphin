@@ -138,12 +138,15 @@ void KonqTextViewWidget::createColumns()
          currentColumn++;
       };
    };
+
+   if (sortedByColumn=="FileName")
+      setSorting(m_filenameColumn,ascending);
 };
 
 void KonqTextViewWidget::slotStarted( const QString & url )
 {
    KonqBaseListViewWidget::slotStarted( url );
-   setUpdatesEnabled(FALSE);
+   //setUpdatesEnabled(FALSE);
    timer.restart();
 }
 
@@ -152,7 +155,7 @@ void KonqTextViewWidget::setComplete()
    m_bTopLevelComplete = true;
 
    setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset, m_pBrowserView->extension()->urlArgs().yOffset );
-   setUpdatesEnabled(TRUE);
+   //setUpdatesEnabled(TRUE);
    repaintContents(0,0,width(),height());
    emit selectionChanged();
    //setContentsPos( m_iXOffset, m_iYOffset );
