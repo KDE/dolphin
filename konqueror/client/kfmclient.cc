@@ -51,6 +51,7 @@
 #include <X11/Xlib.h>
 
 static const char appName[] = "kfmclient";
+static const char programName[] = I18N_NOOP("kfmclient");
 
 static const char description[] = I18N_NOOP("KDE tool for opening URLs from the command line");
 
@@ -69,7 +70,7 @@ static const KCmdLineOptions options[] =
 
 extern "C" int kdemain( int argc, char **argv )
 {
-  KCmdLineArgs::init(argc, argv, appName, description, version, false);
+  KCmdLineArgs::init(argc, argv, appName, programName, description, version, false);
 
   KCmdLineArgs::addCmdLineOptions( options );
 
