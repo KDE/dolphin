@@ -28,7 +28,7 @@ namespace KIO { class Job; }
 
 //-----------------------------------------------------------------------------
 // The "Path" Tab contains :
-// The paths for Desktop, Trash and Autostart
+// The paths for Desktop, Autostart and Documents
 
 class DesktopPathConfig : public KCModule
 {
@@ -47,7 +47,6 @@ private slots:
 private:
         // Desktop Paths
         KURLRequester *urDesktop;
-        KURLRequester *urTrash;
         KURLRequester *urAutostart;
         KURLRequester *urDocument;
 
