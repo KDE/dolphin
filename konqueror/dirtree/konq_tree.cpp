@@ -27,6 +27,7 @@
 #include <kdebug.h>
 #include <kdesktopfile.h>
 #include <kdirnotify_stub.h>
+#include <konq_operations.h>
 #include <kglobalsettings.h>
 #include <kio/global.h>
 #include <kmimetype.h>
@@ -144,6 +145,15 @@ void KonqTree::contentsDragMoveEvent( QDragMoveEvent *e )
 {
     QListViewItem *item = itemAt( contentsToViewport( e->pos() ) );
 
+    // Accept drops on the background, if URLs
+    if ( !item && m_lstDropFormats.contains("text/uri-list") )
+    {
+        m_dropItem = 0;
+        e->acceptAction();
+        if (selectedItem())
+        setSelected( selectedItem(), false ); // no item selected
+        return;
+    }
     if ( !item || !item->isSelectable() || !static_cast<KonqTreeItem*>(item)->acceptsDrops( m_lstDropFormats ))
     {
         m_dropItem = 0;
@@ -154,7 +164,7 @@ void KonqTree::contentsDragMoveEvent( QDragMoveEvent *e )
 
     e->acceptAction();
 
-    setSelected( item, true );
+    item->setSelected( true );
 
     if ( item != m_dropItem )
     {
@@ -180,11 +190,15 @@ void KonqTree::contentsDropEvent( QDropEvent *ev )
 {
     m_autoOpenTimer->stop();
 
-    KonqTreeItem *selection = static_cast<KonqTreeItem *>( selectedItem() );
-
-    assert( selection );
-
-    selection->drop( ev );
+    if ( !selectedItem() )
+    {
+        KonqOperations::doDrop( 0L, m_dirtreeDir, ev, this );
+    }
+    else
+    {
+        KonqTreeItem *selection = static_cast<KonqTreeItem *>( selectedItem() );
+        selection->drop( ev );
+    }
 }
 
 void KonqTree::contentsMousePressEvent( QMouseEvent *e )
@@ -247,7 +261,7 @@ void KonqTree::leaveEvent( QEvent *e )
 
 void KonqTree::slotDoubleClicked( QListViewItem *item )
 {
-    kdDebug(1201) << "KonqTree::slotDoubleClicked " << item << endl;
+    //kdDebug(1201) << "KonqTree::slotDoubleClicked " << item << endl;
     if ( !item )
         return;
 
@@ -260,7 +274,7 @@ void KonqTree::slotDoubleClicked( QListViewItem *item )
 
 void KonqTree::slotClicked( QListViewItem *item )
 {
-    kdDebug(1201) << "KonqTree::slotClicked " << item << endl;
+    //kdDebug(1201) << "KonqTree::slotClicked " << item << endl;
     if ( !item )
         return;
 
