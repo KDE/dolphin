@@ -300,13 +300,15 @@ KEBListViewItem * KEBTopLevel::findByAddress( const QString & address ) const
 void KEBTopLevel::slotRename()
 {
     ASSERT( m_pListView->selectedItem() );
-    m_pListView->rename( m_pListView->selectedItem(), 0 );
+    if ( m_pListView->selectedItem() )
+      m_pListView->rename( m_pListView->selectedItem(), 0 );
 }
 
 void KEBTopLevel::slotChangeURL()
 {
     ASSERT( m_pListView->selectedItem() );
-    m_pListView->rename( m_pListView->selectedItem(), 1 );
+    if ( m_pListView->selectedItem() )
+      m_pListView->rename( m_pListView->selectedItem(), 1 );
 }
 
 void KEBTopLevel::slotDelete()
@@ -323,6 +325,11 @@ void KEBTopLevel::slotDelete()
 
 void KEBTopLevel::slotNewFolder()
 {
+    if( !m_pListView->selectedItem() )
+    {
+        kdWarning() << "KEBTopLevel::slotNewFolder no selected item !" << endl;
+        return;
+    }
     // EVIL HACK
     // We need to ask for the folder name before creating the command, in case of "Cancel".
     // But in message-freeze time, impossible to add i18n()s. So... we have to call the existing code :
@@ -537,6 +544,7 @@ void KEBTopLevel::slotChangeIcon()
 {
     KBookmark bk = selectedBookmark();
     ASSERT(!bk.isNull());
+    if (bk.isNull()) return;
     KIconDialog dlg(this);
     QString newIcon = dlg.selectIcon(KIcon::Small, KIcon::FileSystem);
     if ( !newIcon.isEmpty() ) {
