@@ -19,6 +19,7 @@
 
 #include "konq_htmlsettings.h"
 #include "konqdefaults.h"
+#include "mousedefaults.h"
 #include <kconfig.h>
 #include <kapp.h>
 

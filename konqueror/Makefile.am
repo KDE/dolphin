@@ -1,5 +1,5 @@
 
-INCLUDES = -I$(srcdir)/../libkonq $(all_includes)
+INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/kcontrol/input $(all_includes) 
 
 SUBDIRS = . plugins kfmexec client iconview dirtree listview textview pics
 
