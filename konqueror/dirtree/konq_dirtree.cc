@@ -562,12 +562,9 @@ void KonqDirTree::contentsDropEvent( QDropEvent *ev )
   else
   {
       if (selection->isLink())
-           fileItem = new KFileItem( -1, -1, selection->externalURL() );
+          fileItem = 0L; // doDrop will take care of creating it correctly
 
-      KonqOperations::doDrop( fileItem, ev, this );
-
-      if (selection->isLink())
-           delete fileItem;
+      KonqOperations::doDrop( fileItem, selection->externalURL(), ev, this );
   }
 }
 

@@ -1,3 +1,9 @@
+2000-11-06  David Faure  <faure@kde.org>
+
+	* KonqOperations::statURL, calls a slot when it stat'ed
+	the url and created a kfileitem for it.
+	Used in doDrop when the destination's kfileitem is unknown. Fixes #14739.
+
 2000-11-05  David Faure  <faure@kde.org>
 
 	* konqueror.rc: Moved the "open with" actions to the Location menu,

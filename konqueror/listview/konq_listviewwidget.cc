@@ -441,15 +441,7 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
        isExecuteArea( ev->pos() ) ? (KonqBaseListViewItem*)itemAt( ev->pos() ) : 0;
 
    KonqFileItem * destItem = (item) ? item->item() : static_cast<KonqFileItem *>(m_dirLister->rootItem());
-   if ( !destItem )
-   {
-      // Maybe we want to do a stat to get full info about the root item
-      // (when we use permissions). For now create a dummy one.
-      destItem = new KonqFileItem( S_IFDIR, (mode_t)-1, url() );
-   }
-   KonqOperations::doDrop( destItem, ev, this );
-   if ( !item && !m_dirLister->rootItem() )
-     delete destItem; // we just created it
+   KonqOperations::doDrop( destItem /*may be 0L*/, destItem ? destItem->url() : url(), ev, this );
 }
 
 void KonqBaseListViewWidget::startDrag()
