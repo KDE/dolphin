@@ -1011,7 +1011,7 @@ void KEBTopLevel::slotDocumentRestored()
 
 void KEBTopLevel::slotDoubleClicked(QListViewItem *item, const QPoint &, int column)
 {
-   if (item) {
+   if (item && ((column == COL_URL) || (column == COL_NAME))) {
       m_pListView->rename(item, column);
    }
 }
