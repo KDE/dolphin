@@ -24,30 +24,6 @@
 #include "konq_factory.h"
 #include "kfmrun.h"
 
-/*
- This is a _very_ bad hack to fix some buggy reference count handling somewhere
- in Konqy. We call this hack when we want to destroy a view, I mean really
- destroy. For remote views this bug is no real problem since the reference 
- counter on the server's side (the remote view) is not affected by our buggy 
- referencing. But for local views, where proxy/stub == server, this _is_ a 
- problem. So that's why we "kill" the CORBA reference counter this way, which
- helps us to make sure that the object will really die.
- Please don't misunderstand, this is meant to be a hack, not a solution or
- a simple workaround. We NEED/SHOULD fix the real bug instead ASAP.
- Simon
- */
-void VeryBadHackToFixCORBARefCntBug( CORBA::Object_ptr obj )
-{
-  if ( obj->_refcnt() > 1 )
-  {
-    while ( obj->_refcnt() > 1 ) obj->_deref();
-  }
-  else
-  {
-    cerr << "the refcount bug disappeard! please tell kfm-devel@kde.org!" << endl;
-  }    
-}
-
 KonqChildView::KonqChildView( Browser::View_ptr view, 
 			      KonqFrame* viewFrame,
 			      KonqMainView *mainView,
@@ -76,6 +52,7 @@ KonqChildView::KonqChildView( Browser::View_ptr view,
   m_iYOffset = 0;
   m_bLoading = false;
   m_iProgress = 0;
+  m_bPassiveMode = false;
 }
 
 KonqChildView::~KonqChildView()
@@ -115,7 +92,6 @@ void KonqChildView::detach()
   
   m_vView->disconnectObject( m_pMainView );
   m_vView->decRef(); //die view, die ... (cruel world, isn't it?) ;)
-  VeryBadHackToFixCORBARefCntBug( m_vView );
   m_vView = 0L; //now it _IS_ dead
 }
 

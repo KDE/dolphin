@@ -22,6 +22,7 @@
 #include <qimage.h>
 #include <qlayout.h>
 #include <qsplitter.h>
+#include <qcheckbox.h>
 
 #include <kapp.h>
 #include <kdebug.h>
@@ -134,7 +135,12 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
       startTimer(options.TitleAnimation);
   */
 
+  m_pPassiveModeCheckBox = new QCheckBox( this );
+
   setFixedHeight( DEFAULT_HEADER_HEIGHT );
+  
+  connect( m_pPassiveModeCheckBox, SIGNAL( toggled( bool ) ),
+           this, SIGNAL( passiveModeChange( bool ) ) );
 }
 
 enum KPixmapEffect::GradientType 
@@ -165,6 +171,9 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
   }
 
   bool hasFocus = m_pParentKonqFrame->isActivePart();
+  
+  if ( m_pParentKonqFrame->childView()->passiveMode() )
+    hasFocus = false;
   
   QRect r = rect();
   //bool double_buffering = false;
@@ -367,8 +376,16 @@ void
 KonqFrameHeader::mousePressEvent( QMouseEvent* event )
 {
   QWidget::mousePressEvent( event );
-  emit headerClicked();
-  update();
+  if ( !m_pParentKonqFrame->childView()->passiveMode() )
+  {
+    emit headerClicked();
+    update();
+  }    
+}
+
+void KonqFrameHeader::resizeEvent( QResizeEvent * )
+{
+  m_pPassiveModeCheckBox->setGeometry( 0, 0, m_pPassiveModeCheckBox->sizeHint().width(), height() );
 }
 
 //###################################################################
@@ -384,6 +401,7 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
   // add the frame header to the layout
   m_pHeader = new KonqFrameHeader( this, "KonquerorFrameHeader");
   QObject::connect(m_pHeader, SIGNAL(headerClicked()), this, SLOT(slotHeaderClicked()));
+  connect( m_pHeader, SIGNAL( passiveModeChange( bool ) ), this, SLOT( slotPassiveModeChange( bool ) ) );
 }
 
 Browser::View_ptr 
@@ -532,6 +550,11 @@ KonqFrame::slotHeaderClicked()
     OpenParts::MainWindow_var mainWindow = m_vView->mainWindow();
     mainWindow->setActivePart( m_vView->id() );
   }    
+}
+
+void KonqFrame::slotPassiveModeChange( bool mode )
+{
+  m_pChildView->setPassiveMode( mode );
 }
 
 void 

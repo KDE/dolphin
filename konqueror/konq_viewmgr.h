@@ -75,17 +75,6 @@ public:
   KonqChildView *chooseNextView( KonqChildView *view );
   unsigned long viewIdByNumber( int number );
 
-  //bool isLinked( KonqChildView *source ) { return m_mapViewLinks.contains( source ); }
-  
-  //void createLink( KonqChildView *source, KonqChildView *destination );
-  
-  //KonqChildView * readLink( KonqChildView *view );
-  
-  //void removeLink( KonqChildView *source );
-  
-  //KonqChildView *linkableViewVertical( KonqChildView *view, bool above );
-  //KonqChildView *linkableViewHorizontal( KonqChildView *view, bool left );
-  
 private:
 
   /**
@@ -97,8 +86,6 @@ private:
   KonqMainView *m_pMainView;
   
   KonqFrameContainer *m_pMainContainer;
-
-  //QMap<KonqChildView *, KonqChildView*> m_mapViewLinks;
 };
 
 #endif

@@ -101,7 +101,6 @@ enum _ids {
     MWINDOW_REMOVEVIEW_ID,
     MWINDOW_DEFAULTPROFILE_ID, 
     MWINDOW_PROFILEDLG_ID,
-    MWINDOW_LINKVIEW_ID,
 
     MHELP_CONTENTS_ID,
     MHELP_ABOUT_ID
@@ -721,7 +720,15 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
 bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )
 {
   kdebug(0, 1202, "bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )");
-  setActiveView( child->id() );
+  
+  OpenParts::Id id = child->id();
+  
+  MapViews::ConstIterator it = m_mapViews.find( child->id() );
+  
+  assert( it != m_mapViews.end() );
+  
+  if ( !it.data()->passiveMode() )
+    setActiveView( id );
 
   setItemEnabled( m_vMenuWindow, MWINDOW_SPLITVIEWHOR_ID, true );
   setItemEnabled( m_vMenuWindow, MWINDOW_SPLITVIEWVER_ID, true );
@@ -975,12 +982,8 @@ void KonqMainView::openURL( const char * _url, bool reload, int xOffset, int yOf
   }
 
   KonqChildView *view = _view;
-  if ( !view )
+  if ( !view || view->passiveMode() )
     view = m_currentView;
-
-  //temporarily commented out. Michael.
-  //if ( view && m_pViewManager->isLinked( view ) )
-  //  view = m_pViewManager->readLink( view );
 
   if ( view )
   {

@@ -193,6 +193,9 @@ public:
   void setProgress( int percent ) { m_iProgress = percent; }
   int progress() const { return m_iProgress; }
 
+  bool passiveMode() const { return m_bPassiveMode; }
+  void setPassiveMode( bool mode ) { m_bPassiveMode = mode; }
+
   static Browser::View_ptr createView( const QString &serviceType, 
 			               QStringList &serviceTypes, 
 			               KonqMainView *mainView,
@@ -250,6 +253,7 @@ protected:
   KonqFrame* m_pKonqFrame;
   bool m_bLoading;
   int m_iProgress;
+  bool m_bPassiveMode;
 };
 
 #endif

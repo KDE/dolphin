@@ -35,6 +35,7 @@ class KonqChildView;
 class KonqFrameBase;
 class KonqFrame;
 class KonqFrameContainer;
+class QCheckBox;
 
 enum KonqFrameHeaderLook{ Plain,  HORIZ, VERT, DIAG, CROSSDIAG, PYRAM,
 			  RECT, PIPE, ELLIP, XPixmap };
@@ -57,11 +58,14 @@ signals:
    */
   void headerClicked();
 
+  void passiveModeChange( bool mode );
+
 protected: 
   enum KPixmapEffect::GradientType mapShade( KonqFrameHeaderLook look);
 
   virtual void paintEvent( QPaintEvent* );
   virtual void mousePressEvent( QMouseEvent* );
+  virtual void resizeEvent( QResizeEvent * );
 
   KonqFrame* m_pParentKonqFrame;
 
@@ -75,6 +79,7 @@ protected:
   KPixmap inactiveShadePm;
   QColor frameHeaderBlendActive;
   QColor frameHeaderBlendInactive;
+  QCheckBox *m_pPassiveModeCheckBox;
 };
 
 typedef QList<KonqChildView> ChildViewList;
@@ -155,6 +160,8 @@ public slots:
    * Is called when the frame header has been clicked
    */
   void slotHeaderClicked();
+  
+  void slotPassiveModeChange( bool mode );
 
 protected:
   virtual void paintEvent( QPaintEvent* );
