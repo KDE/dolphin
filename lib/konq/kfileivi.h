@@ -62,7 +62,9 @@ public:
     /** */
     virtual void setIcon( int size,
                           int state=KIcon::DefaultState,
-                          bool bImagePreviewAllowed=false );
+                          bool bImagePreviewAllowed=false,
+                          bool recalc=false,
+                          bool redraw=false);
 
     /**
      * Return the current state of the icon

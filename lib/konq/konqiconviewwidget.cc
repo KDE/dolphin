@@ -110,16 +110,16 @@ void KonqIconViewWidget::slotIconChanged( int group )
 void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
 {
     if (m_pActiveItem != 0L)
-	m_pActiveItem->setIcon( m_size, KIcon::DefaultState, m_bImagePreviewAllowed );
+	m_pActiveItem->setIcon( m_size, KIcon::DefaultState, m_bImagePreviewAllowed, false, true );
     m_pActiveItem = static_cast<KFileIVI *>(item);
-    m_pActiveItem->setIcon( m_size, KIcon::ActiveState, m_bImagePreviewAllowed );
+    m_pActiveItem->setIcon( m_size, KIcon::ActiveState, m_bImagePreviewAllowed, false, true );
 }
 
 void KonqIconViewWidget::slotOnViewport()
 {
     if (m_pActiveItem == 0L)
 	return;
-    m_pActiveItem->setIcon( m_size, KIcon::DefaultState, m_bImagePreviewAllowed );
+    m_pActiveItem->setIcon( m_size, KIcon::DefaultState, m_bImagePreviewAllowed, false, true );
     m_pActiveItem = 0L;
 }
 
@@ -475,19 +475,19 @@ void KonqIconViewWidget::insertInGrid(QIconViewItem *item)
     QRegion r(m_IconRect);
     QIconViewItem *i = firstItem();
     int y = -1;
-    for (; i; i = i->nextItem() ) 
+    for (; i; i = i->nextItem() )
     {
 	r = r.subtract(i->rect());
 	y = QMAX(y, i->y() + i->height());
     }
- 
+
     QArray<QRect> rects = r.rects();
     QArray<QRect>::Iterator it = rects.begin();
     bool foundPlace = FALSE;
-    for (; it != rects.end(); ++it) 
+    for (; it != rects.end(); ++it)
     {
 	QRect rect = *it;
-	if (rect.width() >= item->width() && rect.height() >= item->height()) 
+	if (rect.width() >= item->width() && rect.height() >= item->height())
 	{
 	    int sx = 0, sy = 0;
 	    if (rect.width() >= item->width() + spacing())
@@ -499,11 +499,11 @@ void KonqIconViewWidget::insertInGrid(QIconViewItem *item)
 	    break;
 	}
     }
- 
+
     if (!foundPlace)
 	item->move(m_IconRect.topLeft());
- 
-    //item->dirty = false; 
+
+    //item->dirty = false;
     return;
 }
 
@@ -609,10 +609,10 @@ QIconViewItem *QIVItemBin::right()
     mData.remove(item);
     return item;
 }
-	    
+	
 
-/* 
- * The algorithm used for lineing up the icons could be called 
+/*
+ * The algorithm used for lineing up the icons could be called
  * "beating flat the icon field". Imagine the icon field to be some height
  * field on a regular grid, with the height being the number of icons in
  * each grid element. Now imagine slamming on the field with a shovel or
@@ -623,18 +623,18 @@ QIconViewItem *QIVItemBin::right()
  * First, the icons are binned to a grid of the desired size. If all bins
  * are containing at most one icon, we're done, of course. We just have to
  * move all icons to the center of each grid element.
- * For each bin which has more than one icon in it, we calculate 4 
- * "friction coefficients", one for each cardinal direction. The friction 
- * coefficient of a direction is the number of icons adjacent in that 
- * direction. The idea is that this number is somewhat a measure in which 
- * direction the icons should flow: icons flow in the direction of lowest 
- * friction coefficient. We move a maximum of one icon per bin and loop over 
- * all bins. This procedure is repeated some maximum number of times or until 
+ * For each bin which has more than one icon in it, we calculate 4
+ * "friction coefficients", one for each cardinal direction. The friction
+ * coefficient of a direction is the number of icons adjacent in that
+ * direction. The idea is that this number is somewhat a measure in which
+ * direction the icons should flow: icons flow in the direction of lowest
+ * friction coefficient. We move a maximum of one icon per bin and loop over
+ * all bins. This procedure is repeated some maximum number of times or until
  * no icons are moved anymore.
- * 
- * I don't know if this algorithm is good or bad, I don't even know if it will 
- * work all the time. It seems a correct thing to do, however, and it seems to 
- * work particularly well. In any case, the number of runs is limited so there 
+ *
+ * I don't know if this algorithm is good or bad, I don't even know if it will
+ * work all the time. It seems a correct thing to do, however, and it seems to
+ * work particularly well. In any case, the number of runs is limited so there
  * can be no races.
  */
 
@@ -745,7 +745,7 @@ void KonqIconViewWidget::lineupIcons()
 		    rf += infinity;
 
 		// If we are stuck between walls, continue
-		if ( (tf >= infinity) && (bf >= infinity) && 
+		if ( (tf >= infinity) && (bf >= infinity) &&
 		     (lf >= infinity) && (rf >= infinity)
 		   )
 		    continue;
@@ -760,26 +760,26 @@ void KonqIconViewWidget::lineupIcons()
 		    lf += infinity;
 		    rf += infinity;
 		}
-		    
+		
 		// Move one item in the direction of the least friction.
 		if (tf <= MIN3(bf,lf,rf))
 		{
-		    if (!bins[j-1][i]) 
+		    if (!bins[j-1][i])
 			bins[j-1][i] = new QIVItemBin;
 		    bins[j-1][i]->add(bins[j][i]->top());
 		} else if (bf <= MIN3(tf,lf,rf))
 		{
-		    if (!bins[j+1][i]) 
+		    if (!bins[j+1][i])
 			bins[j+1][i] = new QIVItemBin;
 		    bins[j+1][i]->add(bins[j][i]->bottom());
 		} else if (lf <= MIN3(tf,bf,rf))
 		{
-		    if (!bins[j][i-1]) 
+		    if (!bins[j][i-1])
 			bins[j][i-1] = new QIVItemBin;
 		    bins[j][i-1]->add(bins[j][i]->left());
 		} else
 		{
-		    if (!bins[j][i+1]) 
+		    if (!bins[j][i+1])
 			bins[j][i+1] = new QIVItemBin;
 		    bins[j][i+1]->add(bins[j][i]->right());
 		}

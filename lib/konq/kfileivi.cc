@@ -35,12 +35,13 @@ KFileIVI::KFileIVI( QIconView *iconview, KonqFileItem* fileitem, int size, bool 
     setDropEnabled( S_ISDIR( m_fileitem->mode() ) );
 }
 
-void KFileIVI::setIcon( int size, int state, bool bImagePreviewAllowed )
+void KFileIVI::setIcon( int size, int state, bool bImagePreviewAllowed,
+                        bool recalc, bool redraw )
 {
     m_size = size;
     m_state = state;
     m_bpreview = bImagePreviewAllowed;
-    QIconViewItem::setPixmap( m_fileitem->pixmap( m_size, m_state, m_bpreview ) );
+    QIconViewItem::setPixmap( m_fileitem->pixmap( m_size, m_state, m_bpreview ), recalc, redraw );
 }
 
 void KFileIVI::refreshIcon( bool redraw )
