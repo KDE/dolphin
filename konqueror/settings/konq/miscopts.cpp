@@ -46,12 +46,6 @@ KMiscOptions::KMiscOptions(KConfig *config, QString group, QWidget *parent, cons
     grid->addWidget(leTerminal, 1, 1);
     connect(leTerminal, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
-    m_pHaveBiiigToolBarCheckBox = new QCheckBox( i18n( "Display big toolbar" ),
-                                                 this );
-    connect(m_pHaveBiiigToolBarCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
-						
-    lay->addWidget( m_pHaveBiiigToolBarCheckBox );
-
     m_pConfirmDestructive = new QCheckBox(i18n("Confirm destructive actions"),
 					  this);
     connect(m_pConfirmDestructive, SIGNAL(clicked()), this, SLOT(changed()));
@@ -69,13 +63,11 @@ void KMiscOptions::load()
     g_pConfig->setGroup( groupname );
     bool bUrlprops = g_pConfig->readBoolEntry( "EnablePerURLProps", false);
     QString sTerminal = g_pConfig->readEntry( "Terminal", DEFAULT_TERMINAL );
-    bool bHaveBigToolBar = g_pConfig->readBoolEntry( "HaveBigToolBar", false );
-    
+
     // *** apply to GUI ***
 
     urlpropsbox->setChecked(bUrlprops);
     leTerminal->setText(sTerminal);
-    m_pHaveBiiigToolBarCheckBox->setChecked( bHaveBigToolBar );
     m_pConfirmDestructive->setChecked(g_pConfig->readBoolEntry("ConfirmDestructive", true));
 
 }
@@ -84,7 +76,6 @@ void KMiscOptions::defaults()
 {
     urlpropsbox->setChecked(false);
     leTerminal->setText(DEFAULT_TERMINAL);
-    m_pHaveBiiigToolBarCheckBox->setChecked( false );
     m_pConfirmDestructive->setChecked(true);
 }
 
@@ -93,7 +84,6 @@ void KMiscOptions::save()
     g_pConfig->setGroup( groupname );
     g_pConfig->writeEntry( "EnablePerURLProps", urlpropsbox->isChecked());
     g_pConfig->writeEntry( "Terminal", leTerminal->text());
-    g_pConfig->writeEntry( "HaveBigToolBar", m_pHaveBiiigToolBarCheckBox->isChecked() );
     g_pConfig->writeEntry( "ConfirmDestructive", m_pConfirmDestructive->isChecked());
     g_pConfig->sync();
 }
