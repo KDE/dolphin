@@ -122,11 +122,12 @@ public:
    * @return the pixmap
    */
   QPixmap pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) const;
+
   /**
    * @return the text of the file item
    * It's not exactly the filename since some decoding happens ('%2F'->'/')
    */
-  QString text() const { return m_strText; }
+  QString text() const;
 
   /**
    * @return the mimetype of the file item

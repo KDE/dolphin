@@ -34,6 +34,7 @@
 #include <klocale.h>
 #include <kmimetype.h>
 #include <krun.h>
+#include <kdesktopfile.h>
 
 KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url ) :
   m_entry( _entry ),
@@ -361,6 +362,17 @@ QString KFileItem::mimeComment() const
 QString KFileItem::iconName() const
 {
   return m_pMimeType->icon(m_url, false);
+}
+
+QString KFileItem::text() const
+{
+    if (m_bIsLocalURL && KDesktopFile::isDesktopFile(m_url.url()))
+    {
+        KDesktopFile desktop(m_url.path(), true);
+        return desktop.readName();
+    }
+    else
+        return m_strText;
 }
 
 void KFileItem::run()
