@@ -18,7 +18,7 @@ libkonqueror_la_METASOURCES = AUTO
 
 libkonqueror_la_LDFLAGS = -version-info 1:0:0
 
-libkonqueror_la_LIBADD = ../lib/kparts/libkparts.la -lkded -lkonq $(LIB_KIO) $(LIB_KDEUI) $(LIB_QT)
+libkonqueror_la_LIBADD = -lkparts -lkonq $(LIB_KIO) $(LIB_KDEUI) $(LIB_QT)
 
 bin_PROGRAMS = konqueror
 
@@ -26,5 +26,5 @@ konqueror_SOURCES = konq_main.cc
 
 konqueror_LDFLAGS = $(KDE_RPATH)
 
-konqueror_LDADD = libkonqueror.la $(LIBMICO)
+konqueror_LDADD = libkonqueror.la -lkded $(LIBMICO)
 
