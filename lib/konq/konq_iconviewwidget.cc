@@ -1387,6 +1387,7 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
     }
     else
         d->renameItem= false;
+    m_mousePos = e->pos();
     mousePressChangeValue();
     KIconView::contentsMousePressEvent( e );
 
