@@ -32,6 +32,7 @@ class KfmPart;
 #include <openparts_ui.h>
 #include <opMenu.h>
 #include <opToolBar.h>
+#include <opStatusBar.h>
 
 #include <qwidget.h>
 
@@ -48,6 +49,7 @@ public:
   virtual void init();
   virtual void cleanUp();
 
+  virtual void slotURLEntered();
   virtual void bookmarkSelected( CORBA::Long id );
   
   /////////////////////////
@@ -71,8 +73,29 @@ protected:
   
   virtual bool event( const char* _event, const CORBA::Any& _value );
   virtual bool mappingCreateMenubar( OpenPartsUI::MenuBar_ptr _menubar );
+  virtual bool mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory );
 
   OpenPartsUI::Menu_var m_vMenuEdit;
+
+  OpenPartsUI::Menu_var m_vMenuView;
+  OpenPartsUI::Menu_var m_vMenuOptions;
+
+  OpenPartsUI::ToolBar_var m_vMainToolBar;
+
+  OpenPartsUI::ToolBar_var m_vLocationToolBar;
+    
+  OpenPartsUI::StatusBar_var m_vStatusBar;
+
+  static const int ID_LOCATION = 1;
+  static const int ID_UP       = 2;
+  static const int ID_BACK     = 3;
+  static const int ID_FORWARD  = 4;
+  static const int ID_HOME     = 5;
+  static const int ID_RELOAD   = 6;
+  static const int ID_COPY     = 7;
+  static const int ID_PASTE    = 8;
+  static const int ID_HELP     = 9;
+  static const int ID_STOP     = 10;
 
   KfmView* m_pView;
 };

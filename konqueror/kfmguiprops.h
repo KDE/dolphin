@@ -105,6 +105,7 @@ public:
   
   // A KfmGui can read/write the values directly.
   friend class KfmGui;
+  friend class KfmPart;
   
 protected:
 

@@ -3,3 +3,10 @@
 	* kfmguiprops.* : New design of the properties storage for a KfmGui.
 	Now stored in KfmGuiProps, see explanations in the header file
 
+Tue Feb 9 17:57:01 1999 Simon Hausmann <tronical@gmx.net>
+
+        * kfm_part.* kfmguiprops.h kfm.idl : started work on KFM's OpenPart
+          GUI. 
+          - Added dummy menu and toolbar entries
+          - fixed segfault due to missing kfmguiprops in KfmPart
+        

@@ -28,6 +28,8 @@ module KFM
 {
 	interface Part : OpenParts::Part
 	{
+	        slot void slotURLEntered();
+		slot void bookmarkSelected( in long ID );
 	};
 	
 	interface MainWindow : OpenParts::MainWindow
