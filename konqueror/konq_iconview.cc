@@ -29,6 +29,7 @@
 
 #include <kapp.h>
 #include <kdirlister.h>
+#include <kfileici.h>
 #include <kfileitem.h>
 #include <kio_error.h>
 #include <kio_job.h>
@@ -282,7 +283,7 @@ void KonqKfmIconView::slotReturnPressed( KIconContainerItem *_item, const QPoint
   if ( !_item )
     return;
 
-  KFileItem *fileItem = ((KonqKfmIconViewItem*)_item)->item();
+  KFileItem *fileItem = ((KFileICI*)_item)->item();
   openURLRequest( fileItem->url().ascii() );
 }
 
@@ -344,7 +345,7 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
     {
       // Cast the iconcontainer item into an icon item
       // and get the file item out of it
-      KFileItem * item = ((KonqKfmIconViewItem *)*icit)->item();
+      KFileItem * item = ((KFileICI *)*icit)->item();
       lstPopupURLs.append( item->url() );
       
       // get common mode among all urls, if there is
@@ -434,7 +435,7 @@ void KonqKfmIconView::slotClear()
 void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
 {
   //kdebug( KDEBUG_INFO, 1202, "KonqKfmIconView::slotNewItem(...)");
-  KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, _fileitem );
+  KFileICI* item = new KFileICI( this, _fileitem );
   insert( item, -1, -1, false );
   bSetupNeeded = true;
 }
@@ -445,7 +446,7 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
   // we need to find out the iconcontainer item containing the fileitem
   iterator it = KIconContainer::begin();
   for( ; *it; ++it )
-    if ( ((KonqKfmIconViewItem*)*it)->item() == _fileitem ) // compare the pointers
+    if ( ((KFileICI*)*it)->item() == _fileitem ) // compare the pointers
     {
       remove( (*it), false /* don't refresh yet */ );
       // bSetupNeeded not set to true, so that simply deleting a file leaves
@@ -489,49 +490,11 @@ void KonqKfmIconView::slotOnItem( KIconContainerItem *_item )
   QString s;
   if ( _item )
   {
-    KFileItem * fileItem = ((KonqKfmIconViewItem *)_item)->item();
+    KFileItem * fileItem = ((KFileICI *)_item)->item();
     s = fileItem->getStatusBarInfo();
   }
   CORBA::WString_var ws = Q2C( s );
   SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( ws.out(), 0 ) );
-}
-
-///////// KonqKfmIconViewItem ////////
-// This class is STRONGLY related (almost identical) to KDesktopIcon
-
-KonqKfmIconViewItem::KonqKfmIconViewItem( KIconContainer *_parent, KFileItem* _fileitem )
-  : KIconContainerItem( _parent ), // parent constructor
-    m_parent( _parent ), // members
-    m_fileitem( _fileitem )
-{
-  // Set the item text (the one displayed) from the text computed by KFileItem
-  setText( m_fileitem->getText() );
-  // Set the item name from the url hold by KFileItem
-  setName( m_fileitem->url() );
-  // Determine the item pixmap from one determined by KFileItem
-  QPixmap *p = m_fileitem->getPixmap( m_parent->displayMode() == KIconContainer::Vertical );
-  if (p) setPixmap( *p );
-}
-
-void KonqKfmIconViewItem::refresh()
-{
-  // No idea if this is ever called currently.
-  QPixmap *p = m_fileitem->getPixmap( m_parent->displayMode() == KIconContainer::Vertical ); // determine the pixmap (KFileItem)
-  if (p) setPixmap( *p ); // store it in the item (KIconContainerItem)
-
-  KIconContainerItem::refresh();
-}
-
-void KonqKfmIconViewItem::paint( QPainter* _painter, bool _drag )
-{
-  if ( m_fileitem->isLink() )
-  {
-    QFont f = _painter->font();
-    f.setItalic( true );
-    _painter->setFont( f );
-  }
-
-  KIconContainerItem::paint( _painter, _drag );
 }
 
 #include "konq_iconview.moc"

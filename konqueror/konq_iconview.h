@@ -27,38 +27,18 @@
 
 class KonqMainView;
 class KonqKfmIconView;
-class KonqKfmIconViewItem;
 class KonqPropsView;
-class KMimeType;
 class KDirLister;
 class KFileItem;
 
-// This class is STRONGLY related (almost identical) to KDesktopIcon
-// Should we move it it libkonq ? Problem is to find a name ! :)
-class KonqKfmIconViewItem : public KIconContainerItem
-{
-public:
-  /** Create an icon, within an iconcontainer, representing a file
-   * @param _parent the parent widget, a konqueror icon view
-   * @param _fileitem the file item created by KDirLister
-   */
-  KonqKfmIconViewItem( KIconContainer *_parent, KFileItem* _fileitem);
-  virtual ~KonqKfmIconViewItem() { }
-
-  /** @return the file item held by this KDesktopIcon */
-  KFileItem * item() { return m_fileitem; }
-
-protected:
-  virtual void paint( QPainter* _painter, bool _drag );
-  virtual void refresh();
-  
-  KIconContainer* m_parent;
-  KFileItem* m_fileitem; // pointer to the file item in KDirLister's list
-};
-
+/**
+ * The Icon View for konqueror. Handles big icons (Horizontal mode) and
+ * small icons (Vertical mode).
+ * The "Kfm" in the name stands for file management since it shows files :)
+ */
 class KonqKfmIconView : public KIconContainer,
-                     public KonqBaseView,
-		     virtual public Konqueror::KfmIconView_skel
+                        public KonqBaseView,
+                        virtual public Konqueror::KfmIconView_skel
 {
   Q_OBJECT
 public:
