@@ -45,7 +45,7 @@ bool KNewMenu::s_filesParsed = false;
 KDirWatch * KNewMenu::s_pDirWatch = 0L;
 
 KNewMenu::KNewMenu( KActionCollection * _collec, const char *name ) :
-  KActionMenu( i18n( "Create &new..." ), "filenew", _collec, name ), m_actionCollection( _collec ),
+  KActionMenu( i18n( "Create &new" ), "filenew", _collec, name ), m_actionCollection( _collec ),
   menuItemsVersion( 0 )
 {
   // Don't fill the menu yet
