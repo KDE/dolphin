@@ -1,31 +1,15 @@
-khtml:
-======
-- (if local dir) : drop should copy to parent dir (for Antonio :)
-  more generic approach (idea by lars) : konq installs an eventfilter
-  on the part's widget and looks for uri-dnd'events. configurable
-  via a bool property on the part (or in the BE)
-  that reminds me: dropping urls in the lineedit doesn't work, for
-  some strange reason (qlineedit supports it and calls insert())
-
-- #3490, stop animated gifs
-
-libkonq:
-========
-
-- Dialog box for choosing bookmark name :
-   ( ) [ <Title> ]   (editable)
-   ( ) [ <URL> ]     (editable)
- and option in kcmkonqhtml for showing this dialog (on by default ?)
+KIconView:
+==========
 
 - When you are adding to the selection (eg. by shift + LMB)
   then change the mouse cursor to indicate this. Several drawing programs do
   this by adding a '+' to the normal mouse cursor and it makes them a lot more usable.
   [ I'm not sure this is necessary, and if yes it's a QIconView issue anyway - David ]
 
-- #3350 when moving a file to a directory the box with copy/move/link pops up
-even in this box the cursor icon is "forbidden" (_sometimes_). And add Cancel.
+libkonq:
+========
 
-- delete file : if image, remove from .xvpics and .mospics/*/
+- delete file : if image, remove from thumbnails dir
 
 - ordering templates: Find a way to use KServiceGroup for this,
   or "borrow" the code...
@@ -37,17 +21,6 @@ konqueror framework:
 
 - Do we want "[X] Use directory properties" ?
 
-- Action for enabling/disabling javascript, in Settings.
-
-- the 'shared lib' or interface problem for plugins.
-
-- Bug #2760 and other problems with splitter sizes
-
-- Minicli's current directory (Dawit's last post on kde-cvs was confused I think.
-  All we need is chdir() so that apps can find files from the current dir).
-
-- persistent history? as part of profiles?
-
 iconview+listviews:
 ===================
 
@@ -56,17 +29,6 @@ iconview+listviews:
 - if we keep "background color for this directory" should we have "text color for
 this directory" too... ?
 
-- (iconview) : Idea by Torsten: Provide (very delayed (in order not to act
-               to aggressive)) tooltips for icons, showing delayed information
-               like filesize, etc.
-
-listviews:
-==========
-
-- textview: dragging from there and dropping in another view crashes, I'm told.
-
-- grep for TODO in the .rc files: missing sorting options: dir firsts, case [in]sensitive
-
 dirtree:
 ========
 
@@ -74,10 +36,10 @@ dirtree:
 
 kpropsdlg (kfile):
 ======
-- Bug #2717: turning off all read permissions
 
-- Maybe add GUI (in kpropsdlg probably) for user defined actions in .desktop
+- Maybe add GUI (in kpropertiesdialog probably) for user defined actions in .desktop
 files (example: see eject action in the CDROM template) ?
+
 - Maybe a checkbox for the appstart-notification thing ?
 
 kdesktop:
@@ -85,19 +47,3 @@ kdesktop:
 
 - Different icons on different desktops (i.e. different directories, Desktop[1-N],
 the Desktop one being the 'sticky' icons)
-
-- Dropping an image could offer "set as background pixmap" in the popup
-
-And more:
-=========
-
-- Show caitoo in the RMB on links - this is different from usual services,
-since it's not associated to a mimetype, but to non-local protocols...
-
-- Action for clearing the location bar (for shortcut)
-
-
-- see grep TODO *.cc *.h
-
-- see http://bugs.kde.org/db/pa/lkfm.html and http://bugs.kde.org/db/pa/lkonqueror.html
-
