@@ -11,7 +11,7 @@ Name[fi]=FTP-palvelimet
 Name[fr]=Serveurs FTP
 Name[he]=FTP יתרש
 Name[hr]=FTP poslužitelji
-Name[hu]=FTP Kiszolgálók
+Name[hu]=FTP-kiszolgálók
 Name[is]=FTP miðlarar
 Name[it]=Server FTP
 Name[ja]=FTPサーバー
@@ -28,6 +28,6 @@ Name[sr]=FTP Serveri
 Name[sv]=FTP-servrar
 Name[ta]=FTP ேசைவயகஙஂகளஂ
 Name[tr]=FTP Sunucuları
-Name[uk]=FTP-Первери
+Name[uk]=FTP-Сервери
 Icon=ftp
 
