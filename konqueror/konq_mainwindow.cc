@@ -173,6 +173,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
     KonqHistoryManager *mgr = new KonqHistoryManager( kapp, "history mgr" );
     s_pCompletion = mgr->completionObject();
 
+
     // setup the completion object before createGUI(), so that the combo
     // picks up the correct mode from the HistoryManager (in slotComboPlugged)
     KConfigGroupSaver cs( config, QString::fromLatin1("Settings") );
@@ -180,6 +181,8 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 				     KGlobalSettings::completionMode() );
     s_pCompletion->setCompletionMode( (KGlobalSettings::Completion) mode );
   }
+  connect(KParts::HistoryProvider::self(), SIGNAL(cleared()), SLOT(slotClearComboHistory()));
+
   KonqPixmapProvider *prov = KonqPixmapProvider::self();
   if ( !s_comboConfig ) {
       s_comboConfig = new KConfig( "konq_history", false, false );
@@ -2569,6 +2572,8 @@ void KonqMainWindow::initCombo()
            SLOT( slotSubstringcompletion( const QString& )));
   connect( m_combo, SIGNAL( textRotation( KCompletionBase::KeyBindingType) ),
            SLOT( slotRotation( KCompletionBase::KeyBindingType )));
+  connect( m_combo, SIGNAL( cleared() ), 
+           SLOT ( slotClearHistory() ) );
   connect( m_pURLCompletion, SIGNAL( match(const QString&) ),
            SLOT( slotMatch(const QString&) ));
 
@@ -2711,6 +2716,17 @@ void KonqMainWindow::slotCtrlTabPressed()
    if ( view )
       m_pViewManager->setActivePart( view->part() );
 };
+
+void KonqMainWindow::slotClearHistory()
+{
+   KonqHistoryManager::kself()->emitClear();
+}
+
+void KonqMainWindow::slotClearComboHistory()
+{
+   if (m_combo && m_combo->count())
+      m_combo->clearHistory();
+}
 
 bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
 {

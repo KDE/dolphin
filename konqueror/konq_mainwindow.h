@@ -450,6 +450,8 @@ protected slots:
   void slotSubstringcompletion( const QString& );
   void slotRotation( KCompletionBase::KeyBindingType );
   void slotMatch( const QString& );
+  void slotClearHistory();
+  void slotClearComboHistory();
 
   void slotClipboardDataChanged();
   void slotCheckComboSelection();
