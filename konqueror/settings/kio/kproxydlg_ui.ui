@@ -194,7 +194,7 @@ Environment variables such as &lt;b&gt;HTTP_PROXY&lt;/b&gt; and &lt;b&gt;NO_PROX
                                 <string>Setup...</string>
                             </property>
                             <property name="whatsThis" stdset="0">
-                                <string>Show the proxy enviroment variable configuration dialog.</string>
+                                <string>Show the proxy environment variable configuration dialog.</string>
                             </property>
                         </widget>
                     </hbox>
