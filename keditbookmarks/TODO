@@ -1,13 +1,3 @@
-TODO
-----
-
-bookmarklets: add some examples!
-main bookmark config:
-   make the keditbookmarks prefs persistant
-   and make a simple include selector using
-   for example kautoconfig, including a 
-   simple dynamic menu config gui
-
 BUGS
 ----
 
@@ -18,6 +8,17 @@ proper readonly support - rmb should work but things should be disabled?  no add
 multi selection deletion then shift down selects roots
 clicking in the increm. search text field selects the root item in the list view
 tips dialog - fixes bugs - shortcuts for keyboard selection are wierd
+selecting a closed folder should selected all items inside - i.e, the outer parent
+
+TODO
+----
+
+bookmarklets: add some examples!
+main bookmark config:
+   make the keditbookmarks prefs persistant
+   and make a simple include selector using
+   for example kautoconfig, including a 
+   simple dynamic menu config gui
 
 THINGS FOR 3.3+
 ------------------

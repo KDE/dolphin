@@ -185,7 +185,7 @@ void ListView::updateSelectedItems() {
     // deselect empty folders if there is a real selection
     for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); 
             it.current() != 0; ++it) {
-        if (VALID_ITEM(it.current())) {
+        if (!VALID_ITEM(it.current())) {
             it.current()->setSelected(false); }
     }
 }
