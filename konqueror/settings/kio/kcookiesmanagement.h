@@ -101,7 +101,7 @@ private:
     bool m_bDeleteAll;
 
     QStringList deletedDomains;
-    typedef QList<CookieProp> CookiePropList;
+    typedef QPtrList<CookieProp> CookiePropList;
     QDict<CookiePropList> deletedCookies;
 };
 

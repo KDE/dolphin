@@ -257,7 +257,7 @@ void KCookiesManagement::save()
   while(cookiesDom.current())
   {
     CookiePropList *list = cookiesDom.current();
-    QListIterator<CookieProp> cookie(*list);
+    QPtrListIterator<CookieProp> cookie(*list);
     while(*cookie)
     {
       QByteArray call;

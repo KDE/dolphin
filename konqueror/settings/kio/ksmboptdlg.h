@@ -9,7 +9,7 @@
 #include <qlineedit.h>
 #include <qhbuttongroup.h>
 #include <qradiobutton.h>
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qlistbox.h>
 
 #include <kcmodule.h>
@@ -85,7 +85,7 @@ private:
 		Item(const QString &e, const QString& h, const QString& l, const QString& p);
 	};
 	friend class Item;
-	QList<Item> bindings;
+	QPtrList<Item> bindings;
 };
 
 #endif // __KSMBOPTDLG_H
