@@ -928,9 +928,11 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   // Set an active part first so that we open the URL in the current view
   // (to set the location bar correctly and asap)
   KonqView *nextChildView = 0L;
+#if 0
   nextChildView = m_pMainWindow->activeChildView();
   if (nextChildView == 0L) nextChildView = chooseNextView( 0L );
   setActivePart( nextChildView ? nextChildView->part() : 0L, true /* immediate */);
+#endif
 
   if ( !forcedURL.isEmpty())
   {
