@@ -112,7 +112,7 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     le[3]  = new QLineEdit(          pages[1], "lineEdit4" );
 
     rb1[0]->setText( trans->translate("&All files") );
-    rb1[1]->setText( trans->translate("Find all files created or &modified:") );
+    rb1[1]->setText( trans->translate("Find all files created or &modified:"));
     rb2[0]->setText( trans->translate("&between") );
     rb2[1]->setText( trans->translate("during the previou&s ") );
     rb2[2]->setText( trans->translate("&during the previous ") );
@@ -213,6 +213,13 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
 
     addTab( pages[2], trans->translate(" Advanced ") );  
   }
+
+KfindTabDialog::~KfindTabDialog()
+  {
+    delete pages[0];
+    delete pages[1];
+    delete pages[2];
+  };
 
 void KfindTabDialog::resizeEvent( QResizeEvent *ev )
   {
@@ -477,7 +484,7 @@ QString KfindTabDialog::createQuery()
           {
             str += " ( -name ";
             str += nameBox->text(nameBox->currentItem());
-           str += " )";
+	    str += " )";
           };
 
         if (!subdirsCb->isChecked())
@@ -544,7 +551,6 @@ void  KfindTabDialog::getDirectory()
 
     dirselector = new KfDirDialog(dirBox->text(dirBox->currentItem()),
                                   this,"dirselector",TRUE);
-    //    dirselector = new KfDirDialog(this,"dirselector",TRUE);
     CHECK_PTR(dirselector);
 
     if ( dirselector->exec() == QDialog::Accepted )

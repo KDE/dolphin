@@ -59,6 +59,11 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
             this, SLOT( openBinding()) );
    };
 
+KfindWindow::~KfindWindow()
+  {
+    delete lbx;
+  };
+
 void KfindWindow::resizeEvent( QResizeEvent * )
   {
     lbx->setGeometry(0,0,width(),height());    
@@ -254,9 +259,10 @@ void KfindWindow::deleteFiles()
 		    KFM *kfm= new KFM();
 		    /* QFileInfo *fileInfo = new QFileInfo(lbx->text(
 					      lbx->currentItem()));
-		  */ 
+		    */ 
 		    kfm->refreshDirectory(lbx->text(lbx->currentItem()));
 		    lbx->removeItem(lbx->currentItem());
+		    delete kfm;
                   };
             };
 
@@ -280,6 +286,7 @@ void KfindWindow::fileProperties()
 	tmp.append(lbx->text(lbx->currentItem()));
 	kfm->openProperties(tmp.data());
       };
+    delete kfm;
   };
 
 void KfindWindow::openFolder()
@@ -295,6 +302,7 @@ void KfindWindow::openFolder()
 
 
     kfm->openURL(tmp.data());
+    delete kfm;
   };
 
 void KfindWindow::openBinding()
@@ -313,6 +321,7 @@ void KfindWindow::openBinding()
 	tmp.append(lbx->text(lbx->currentItem()));
 	kfm->exec(tmp.data(),0L);
       };
+    delete kfm;
   };
 
 void KfindWindow::addToArchive()

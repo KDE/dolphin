@@ -24,7 +24,7 @@ class KfindTop: public KTopLevelWidget
 
 public:
   KfindTop(const char *);
-  //    ~Kfind();
+  virtual ~KfindTop();
   void menuInit();
   void toolBarInit();
 
@@ -59,7 +59,6 @@ signals:
   void keys();
 
 protected:
-//  void resizeEvent( QResizeEvent * );
 
 private:
   KMenuBar       *_mainMenu;
@@ -72,7 +71,6 @@ private:
   KToolBar       *_toolBar;
   KStatusBar     *_statusBar;
   Kfind          *_kfind;
-  KfindTabDialog *_kfindTabDialog;
 
   int        openWithM;
   int        toArchM;

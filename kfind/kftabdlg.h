@@ -27,7 +27,7 @@ class KfindTabDialog: public KTabCtl
 
 public:
   KfindTabDialog(QWidget * parent = 0,const char * name = 0,const char*searchPath=0);
-  //    ~KfindTabDialog();
+  virtual ~KfindTabDialog();
   QString createQuery();      
   QSize sizeHint();
   void setDefaults();

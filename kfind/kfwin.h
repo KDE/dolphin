@@ -26,7 +26,7 @@ class KfindWindow: public QWidget
   
 public:
   KfindWindow( QWidget * parent = 0, const char * name = 0 );
-  //    ~KfindWindow();
+  virtual ~KfindWindow();
   void updateResults(const char * );
   void clearList();
 

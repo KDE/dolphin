@@ -29,7 +29,7 @@ class KfOptions: public QTabDialog
  
 public:
   KfOptions( QWidget *parent=0, const char *name=0 );
-  //    ~KfOptions();
+  virtual ~KfOptions();
   
 private slots:
   void applyChanges();
@@ -38,7 +38,7 @@ private slots:
   void setFileSelecting();
   
   //Slots for second page
-  void fillFiletypeDetail(int);
+  //void fillFiletypeDetail(int);
 
   //Slots for third page
   void fillArchiverDetail(int);
@@ -48,7 +48,7 @@ private:
   void insertPages();
 
   /// Store pointers to dialog pages
-  QWidget *pages[3]; 
+  QWidget *pages[1]; 
   
   // First page of tab preferences dialog
   QLabel *formatL, *fileL, *kfindfileL;
@@ -60,13 +60,13 @@ private:
   
   void initFileSelecting(); //initialize first page of dialog
 
-  // Second page of tab preferences dialog
-  QListBox *filetypesLBox, *paternsLBox;
-  QLabel *typeL, *iconL, *paternsL, *defappsL;
-  QLineEdit *typeE, *iconE, *paternsE, *defappsE, *commentE;
-  QPushButton *addTypeB, *removeTypeB;
+/*   // Second page of tab preferences dialog */
+/*   QListBox *filetypesLBox, *paternsLBox; */
+/*   QLabel *typeL, *iconL, *paternsL, *defappsL; */
+/*   QLineEdit *typeE, *iconE, *paternsE, *defappsE, *commentE; */
+/*   QPushButton *addTypeB, *removeTypeB; */
 
-  void fillFiletypesLBox();
+/*   void fillFiletypesLBox(); */
 
   // Third page of tab preferences dialog
   QListBox *archiversLBox, *paternsLBox2;

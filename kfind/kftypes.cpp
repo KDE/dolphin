@@ -61,34 +61,34 @@ void KfFileType::initFileTypes( const char* _path )
                 QString defapp = config.readEntry( "DefaultApp" );
                 QString comment = config.readEntry( "Comment" );
 
-               // Take this type only of it has pattern
-               if ( (!pats.isNull() && pats!="") &&  pats!=";" )
-                 {
-                   // Is this file type already registered ?
-                   KfFileType *t = KfFileType::findByName( ext.data() );
-                   // If not then create a new type, 
-                   //but only if we have an icon
-                   if ( t == 0L && !icon.isNull() )
-                     types->append( t = new KfFileType(ext.data()));
-                   
-                   // Set the default binding
-                   if ( !defapp.isNull() && t != 0L )
-                     t->setDefaultBinding( defapp.data() );
-                   if ( t != 0L )
-                     t->setComment( comment.data() );
+		// Take this type only of it has pattern
+		if ( (!pats.isNull() && pats!="") &&  pats!=";" )
+		  {
+		    // Is this file type already registered ?
+		    KfFileType *t = KfFileType::findByName( ext.data() );
+		    // If not then create a new type, 
+		    //but only if we have an icon
+		    if ( t == 0L && !icon.isNull() )
+		      types->append( t = new KfFileType(ext.data()));
+		    
+		    // Set the default binding
+		    if ( !defapp.isNull() && t != 0L )
+		      t->setDefaultBinding( defapp.data() );
+		    if ( t != 0L )
+		      t->setComment( comment.data() );
 
-                   int pos2 = 0;
-                   int old_pos2 = 0;
-                   while ( ( pos2 = pats.find( ";", pos2 ) ) != - 1 )
-                     {
-                       // Read a pattern from the list
-                       QString name = pats.mid( old_pos2, pos2 - old_pos2 );
-                       if ( t != 0L )
-                         t->addPattern( name.data() );
-                       pos2++;
-                       old_pos2 = pos2;
-                     }
-                 };
+		    int pos2 = 0;
+		    int old_pos2 = 0;
+		    while ( ( pos2 = pats.find( ";", pos2 ) ) != - 1 )
+		      {
+			// Read a pattern from the list
+			QString name = pats.mid( old_pos2, pos2 - old_pos2 );
+			if ( t != 0L )
+			  t->addPattern( name.data() );
+			pos2++;
+			old_pos2 = pos2;
+		      }
+		  };
                 f.close();
             }
         }
@@ -137,8 +137,6 @@ KfFileType* KfFileType::findByPattern( const char *_pattern )
 KfFileType::KfFileType( const char *_name)
 {
     name = _name;
-
-    //    HTMLImage::cacheImage( pixmap_file.data() );
 };
 
 

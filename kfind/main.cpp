@@ -2,6 +2,7 @@
 
 #include <qdir.h>
 #include <kapp.h>
+#include <kiconloader.h>
 #include <qfileinf.h>
 #include "kftypes.h"
 #include "kfarch.h"
@@ -15,70 +16,62 @@ int main( int argc, char ** argv )
     int i;
     QString searchPath;
 
-    KApplication *app = new KApplication( argc, argv, "kfind" );
+    KApplication app( argc, argv, "kfind" );
 
-//      QFont default_font("-*-helvetica-medium-r-*-*-*-*-*-*-*-*-iso8859-2");
-//      default_font.setRawMode( TRUE );
-//      QApplication::setFont(default_font );
-     
+     QString path = app.kdedir();   
+     app.getIconLoader()->insertDirectory(3, path + "/share/icons");
+     app.getIconLoader()->insertDirectory(4, path + "/share/icons/mini"); 
+  
+    //Scan for saving options in kfind resource file
+    saving = new KfSaveOptions();
 
-// Kalle Dalheimer, 31.08.97: no longer needed, now handled by KProcess
-//    (void)signal(SIGCHLD, SIG_DFL);
+    // Scan for available filetypes
+    KfFileType::init();   
 
-     //Scan for saving options in kfind resource file
-     saving = new KfSaveOptions();
-
-     // Scan for available filetypes
-     KfFileType::init();   
-
-     // Scan for avaiable archivers in kfind resource file
-     KfArchiver::init();
+    // Scan for avaiable archivers in kfind resource file
+    KfArchiver::init();
  
     
-     for( i=1; i<argc; i++)
-       {
+    for( i=1; i<argc; i++)
+      {
  	if (argv[i][0]=='-')
  	  continue;
 	
  	searchPath = argv[i];
  	break;
-       };
+      };
 
-     if (i==argc) 
-        searchPath = QDir::currentDirPath();
+    if (i==argc) 
+      searchPath = QDir::currentDirPath();
 
-     if ( searchPath.isNull() )
-       searchPath = getenv( "HOME" );
+    if ( searchPath.isNull() )
+      searchPath = getenv( "HOME" );
 
-     if ( strchr(searchPath.data(),':') )
-       {
+    if ( strchr(searchPath.data(),':') )
+      {
  	if (searchPath.left(searchPath.find(":"))=="file")
  	  searchPath.remove(0,5);
  	else
  	  searchPath = getenv( "HOME" );
-       };
+      };
     
-     QFileInfo filename(searchPath);
-     if ( filename.exists() )
-       {
+    QFileInfo filename(searchPath);
+    if ( filename.exists() )
+      {
  	if ( filename.isDir() )
  	  searchPath = filename.filePath();
  	else
  	  searchPath = filename.dirPath(TRUE);
-       }
-     else
-       searchPath = getenv( "HOME" );
+      }
+    else
+      searchPath = getenv( "HOME" );
 
     KfindTop *kfind= new KfindTop(searchPath); 
-
-    app->setMainWidget( kfind );
     kfind->show();
 
-    int ret =  app->exec();
-    
-    delete kfind;
-    delete app;
+    int ret =  app.exec();
 
+    delete kfind;
     return ret;
   };
  

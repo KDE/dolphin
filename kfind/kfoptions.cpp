@@ -60,6 +60,12 @@ KfOptions::KfOptions( QWidget *parent=0, const char *name=0 ):QTabDialog( parent
  
   };
 
+KfOptions::~KfOptions()
+  {
+    delete pages[0];
+    delete pages[1];
+  };
+
 void KfOptions::insertPages()
   {
     setFocusPolicy(QWidget::StrongFocus);    
@@ -118,83 +124,24 @@ void KfOptions::insertPages()
 
     addTab(pages[0],trans->translate("Saving"));
 
-    // Second page of tab preferences dialog
-    pages[1]= new QWidget(this,"page2");
-
-    filetypesLBox = new QListBox(                     pages[1],"filetypesLBox");
-    typeL         = new QLabel(trans->translate("Type Description:"),pages[1],"typeL");
-    iconL         = new QLabel(trans->translate("Icon:"),pages[1],"iconL");
-    paternsL      = new QLabel(trans->translate("Patterns:"),pages[1],"paternsL");
-    defappsL      = new QLabel(trans->translate("Default Application:"),pages[1],"defappsL");
-    typeE         = new QLineEdit(                    pages[1],"typeE");
-    iconE         = new QLineEdit(                    pages[1],"iconE");
-    //    paternsE      = new QLineEdit(                    pages[1],"paternsE");
-    paternsLBox   = new QListBox(                     pages[1],"paternsLBox");
-    defappsE      = new QLineEdit(                    pages[1],"defappsE");
-    addTypeB      = new QPushButton(trans->translate("Add New"),pages[1],"addTypeB");
-    removeTypeB   = new QPushButton(trans->translate("Remove"),pages[1],"removeTypeB");
-
-    defappsE   ->setEnabled(FALSE);
-    addTypeB   ->setEnabled(FALSE);
-    removeTypeB->setEnabled(FALSE);
-    iconE      ->setEnabled(FALSE);
-    typeE      ->setEnabled(FALSE);
-
-    filetypesLBox->setFixedSize(120,240);
-    defappsL     ->setFixedSize((defappsL->sizeHint()).width(),25);
-    typeL        ->setFixedSize(defappsL->width(),25);
-    iconL        ->setFixedSize(defappsL->width(),25);
-    paternsL     ->setFixedSize(defappsL->width(),25);
-    defappsL     ->setFixedSize(defappsL->width(),25);
-    typeE        ->setFixedSize(110,25);
-    iconE        ->setFixedSize(110,25);
-    //    paternsE     ->setFixedSize(110,25);
-    paternsLBox  ->setFixedSize(110,100);
-    defappsE     ->setFixedSize(110,25);
-
-    int tmpP = filetypesLBox->x()+filetypesLBox->width()+10;
-
-    filetypesLBox->move(10,10);
-    typeL        ->move(tmpP+15,15);
-    iconL        ->move(tmpP+15,typeL->y()+30);
-    paternsL     ->move(tmpP+15,iconL->y()+30);
-    defappsL     ->move(tmpP+15,paternsL->y()+5+100);
-    addTypeB     ->move(tmpP+10,
-                        10+filetypesLBox->height()-removeTypeB->height());
-    removeTypeB  ->move(addTypeB->x()+addTypeB->width()+35,
-                        10+filetypesLBox->height()-removeTypeB->height());
-
-    tmpP = defappsL->x()+defappsL->width()+10;
-
-    typeE        ->move(tmpP,15);
-    iconE        ->move(tmpP,typeL->y()+30);
-    //    paternsE     ->move(tmpP,iconL->y()+30);
-    paternsLBox  ->move(tmpP,iconL->y()+30);
-    defappsE     ->move(tmpP,paternsLBox->y()+5+100);
-
-    fillFiletypesLBox();
-    fillFiletypeDetail(0);
-
-    connect(filetypesLBox,SIGNAL(highlighted(int)),
-             this, SLOT(fillFiletypeDetail(int)) );
-
-    addTab(pages[1],trans->translate("Filetypes"));
 
     // Third page of tab preferences dialog
-    pages[2]= new QWidget(this,"page3");
+    pages[1]= new QWidget(this,"page3");
 
-    archiversLBox   = new QListBox(                pages[2],"archivesLBox");
+    archiversLBox   = new QListBox(                pages[1],"archivesLBox");
     createL         = new QLabel(trans->translate("Create Archive:"),
-				 pages[2],"createL");
+				 pages[1],"createL");
     addL            = new QLabel(trans->translate("Add to Archive:"),
-				 pages[2],"addL");
-    createE         = new QLineEdit(               pages[2],"createE");
-    addE            = new QLineEdit(               pages[2],"addE");
+				 pages[1],"addL");
+    createE         = new QLineEdit(               pages[1],"createE");
+    addE            = new QLineEdit(               pages[1],"addE");
     paternsL2       = new QLabel(trans->translate("Patterns:"),
-				 pages[2],"paternsL2");
-    paternsLBox2    = new QListBox(                pages[2],"paternsLBox2");
-    addArchiverB    = new QPushButton(trans->translate("Add New"), pages[2],"addArchiverB");
-    removeArchiverB = new QPushButton(trans->translate("Remove"),pages[2],"removeArchiverB");
+				 pages[1],"paternsL2");
+    paternsLBox2    = new QListBox(                pages[1],"paternsLBox2");
+    addArchiverB    = new QPushButton(trans->translate("Add New"),
+				      pages[1],"addArchiverB");
+    removeArchiverB = new QPushButton(trans->translate("Remove"),
+				      pages[1],"removeArchiverB");
 
     createE        ->setEnabled(FALSE);
     addE           ->setEnabled(FALSE);
@@ -209,16 +156,16 @@ void KfOptions::insertPages()
     paternsL2    ->setFixedSize(createL->width(),25);
     paternsLBox2 ->setFixedSize(130,100);
 
-    tmpP = archiversLBox->x()+archiversLBox->width()+10;
+    int tmpP = archiversLBox->x()+archiversLBox->width()+10;
 
-    archiversLBox   ->move(10,10);
-    createL         ->move(tmpP+15,15);
-    addL            ->move(tmpP+15,typeL->y()+30);
-    paternsL2       ->move(tmpP+15,addL->y()+30);
-    addArchiverB    ->move(tmpP+10,
-                           10+archiversLBox->height()-removeTypeB->height());
-    removeArchiverB ->move(addArchiverB->x()+addArchiverB->width()+35,
-                           10+archiversLBox->height()-removeTypeB->height());
+    archiversLBox ->move(10,10);
+    createL       ->move(tmpP+15,15);
+    addL          ->move(tmpP+15,createL->y()+30);
+    paternsL2     ->move(tmpP+15,addL->y()+30);
+    addArchiverB  ->move(tmpP+10,
+			 10+archiversLBox->height()-removeArchiverB->height());
+    removeArchiverB->move(addArchiverB->x()+addArchiverB->width()+35,
+			 10+archiversLBox->height()-removeArchiverB->height());
 
     tmpP = createL->x()+createL->width()+10;
 
@@ -232,7 +179,7 @@ void KfOptions::insertPages()
      connect(archiversLBox,SIGNAL(highlighted(int)),
 	     this, SLOT(fillArchiverDetail(int)) );
 
-    addTab(pages[2],trans->translate("Archivers"));
+    addTab(pages[1],trans->translate("Archivers"));
   };
 
 void KfOptions::selectFile()
@@ -272,40 +219,6 @@ void KfOptions::initFileSelecting()
     formatBox->setCurrentItem(1);
 
   setFileSelecting();
-};
-
-void KfOptions::fillFiletypesLBox()
-  {
-    KfFileType *typ;
-
-    for ( typ = types->first(); typ != 0L; typ = types->next() )
-      if (typ->getComment("")!="")
-          filetypesLBox->insertItem(typ->getComment(""));
-        else
-          filetypesLBox->insertItem(typ->getName());
-  };
-
-void KfOptions::fillFiletypeDetail(int filetypesLBoxItem)
-{
-  KfFileType *typ;
-  QString comment(filetypesLBox->text(filetypesLBoxItem));
-  
-  typ = types->first();
-  for (int i=0; i<filetypesLBoxItem; i++ )
-    typ = types->next();
-
-  if (typ!=0L) 
-    {
-      typeE ->setText(typ->getComment("")); 
-      // iconE->setText(arch->); 
-
-      QStrList& pats = typ->getPattern();
-      paternsLBox->clear();
-      for (QString pattern=pats.first(); pattern!=0L; pattern = pats.next() )
-	paternsLBox->insertItem( pattern.data() );
-      
-      defappsE->setText(typ->getDefaultBinding()); 
-    };
 };
 
 void KfOptions::fillArchiverLBox()

@@ -51,6 +51,14 @@ appreciate any suggestions and comments.
 
 CHANGES
 -------
+ver. 0.3.4:
+
+ o removed some resizing problems
+ o kfinds icons now uses only 16 color
+ o mimetype browser removed from preferences 
+   (something like that should be in kcc)
+ o kfind sets icon for kwmII
+
 ver. 0.3.3:
 
  o uses KProcess
