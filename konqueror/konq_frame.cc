@@ -26,6 +26,9 @@
 #include <qptrlist.h>
 #include <qpopupmenu.h>
 #include <qkeysequence.h>
+#if QT_VERSION < 0x030100
+#include <qregexp.h>
+#endif
 
 #include <kapplication.h>
 #include <kdebug.h>
@@ -884,7 +887,7 @@ void KonqFrameTabs::setTitle( QString title , QWidget* sender)
   // kdDebug(1202) << "KonqFrameTabs::setTitle( " << title << " , " << sender << " )" << endl;
   QString newTitle = title;
 #if QT_VERSION < 0x030100
-  newTitle.replace(QRegExp("&", "&&"));
+  newTitle.replace(QRegExp("&"), "&&");
 #else
   newTitle.replace('&', "&&");
 #endif
