@@ -73,6 +73,9 @@ Kfind::Kfind(QWidget *parent, const char *name)
   QPushButton * mClose = new QPushButton( i18n("&Close"), mButtonBox );
   connect( mClose, SIGNAL(clicked()), this, SIGNAL( destroyMe() ) );
 
+  // react to search requests from widget
+  connect( tabWidget, SIGNAL(startSearch()), this, SLOT( startSearch() ) );
+
   mSearch->setEnabled(true); // Enable "Search"
   mStop->setEnabled(false);  // Disable "Stop"
   mSave->setEnabled(false);  // Disable "Save..."

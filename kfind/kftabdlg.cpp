@@ -119,6 +119,9 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     connect( browseB, SIGNAL(clicked()),
              this, SLOT(getDirectory()) );
 
+    connect( nameBox, SIGNAL(activated(int)),
+             this, SIGNAL(startSearch()));
+
     // ************ Page Two
 
     pages[1] = new QWidget( this, "page2" );

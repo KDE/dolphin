@@ -57,6 +57,7 @@ private slots:
   void slotEditRegExp();
 
 signals:
+    void startSearch();
 
 protected:
 public:
