@@ -106,11 +106,11 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     QWhatsThis::add(nameBox,nameWhatsThis);
     QWhatsThis::add(namedL,nameWhatsThis);
     const QString whatsfileindex
-      = i18n("<qt>This lets you use the files' index created by the <i>slocate</i> "
-	     "package to speed-up the search. Don't forget to update the index from time to time "
-       "(using <i>updatedb</i>)."
-	     "</qt>");
-    QToolTip::add(useLocateCb,whatsfileindex);
+        = i18n("<qt>This lets you use the files' index created by the <i>slocate</i> "
+               "package to speed-up the search. Don't forget to update the index from time to time "
+               "(using <i>updatedb</i>)."
+               "</qt>");
+    QWhatsThis::add(useLocateCb,whatsfileindex);
 
     // Layout
 
@@ -237,7 +237,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     connect( bg,  SIGNAL(clicked(int)), this,   SLOT(fixLayout()) );
     connect( sizeBox, SIGNAL(highlighted(int)), this, SLOT(slotSizeBoxChanged(int)));
 
-    
+
     // ************ Page Three
 
     pages[2] = new QWidget( this, "page3" );
@@ -410,7 +410,7 @@ void KfindTabWidget::initMimeTypes()
           it != tmp.end(); ++it )
     {
       KMimeType * type = *it;
-      if ((!type->comment().isEmpty()) 
+      if ((!type->comment().isEmpty())
          && (!type->name().startsWith("kdedevice/"))
          && (!type->name().startsWith("all/")))
         sortedList.append(type);
@@ -681,7 +681,7 @@ void KfindTabWidget::setQuery(KQuery *query)
   //Use locate to speed-up search ?
   query->setUseFileIndex(useLocateCb->isChecked());
 
-  query->setContext(textEdit->text(), caseContextCb->isChecked(), 
+  query->setContext(textEdit->text(), caseContextCb->isChecked(),
   	binaryContextCb->isChecked(), regexpContentCb->isChecked());
 }
 
@@ -762,7 +762,7 @@ bool KfindTabWidget::isSearchRecursive()
   return subdirsCb->isChecked();
 }
 
-  
+
 /**
    Digit validator. Allows only digits to be typed.
 **/
