@@ -81,19 +81,9 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
 
    construct();
 
-   ListView::self()->setInitialItem(address);
+   ListView::self()->setInitialAddress(address);
 
    updateActions();
-}
-
-void ListView::setInitialItem(QString address) {
-   KEBListViewItem *item = getItemAtAddress(address);
-   if (!item) {
-      // !!!
-      item = m_listView->getFirstChild();
-   }
-   setCurrent(item);
-   item->setSelected(true);
 }
 
 void KEBApp::construct() {

@@ -98,6 +98,15 @@ void KEBListView::readonlyFlagInit(bool readonly) {
    setDropVisualizer(!readonly);
 }
 
+void ListView::setInitialAddress(QString address) {
+   KEBListViewItem *item = getItemAtAddress(address);
+   if (!item) {
+      item = typ->getFirstChild();
+   }
+   setCurrent(item);
+   item->setSelected(true);
+}
+
 void ListView::connectSignals() {
    connectSignals(m_listView);
    // connectSignals(m_listView2);

@@ -98,6 +98,8 @@ public:
    // init stuff
    void initListViews();
 
+   void setInitialAddress(QString address);
+
    void updateListViewSetup(bool readOnly);
 
    void connectSignals();
@@ -140,8 +142,6 @@ public:
    QWidget *widget() const { return m_listView; }
    void rename(int);
    void clearSelection();
-
-   void setInitialItem(QString address);
 
 protected slots:
    void slotDropped(QDropEvent *, QListViewItem *, QListViewItem *);
