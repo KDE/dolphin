@@ -14,6 +14,7 @@
 #include <klocale.h>
 #include <kcmdlineargs.h>
 #include <version.h>
+#include <kaboutdata.h>
 
 static const char *description = 
 	I18N_NOOP("KDE File find utility.");
@@ -28,10 +29,20 @@ KfSaveOptions *saving;
 
 int main( int argc, char ** argv ) 
 {
-    KCmdLineArgs::init(argc, argv, "kfind", description, KFIND_VERSION);
-
-    KCmdLineArgs::addCmdLineOptions( options );
-
+	KAboutData aboutData( "kfind", I18N_NOOP("KFind"), 
+		KFIND_VERSION, description, KAboutData::GPL, 
+		"(c) 1998-2000, The KDE Developers");
+	aboutData.addAuthor("Martin Hartig");
+	aboutData.addAuthor("Mario Weilguni",0, "mweilguni@sime.com");
+	aboutData.addAuthor("Alex Zepeda",0, "jazepeda@pacbell.net");
+	aboutData.addAuthor("Miroslav Flídr",0, "flidr@kky.zcu.cz");
+	aboutData.addAuthor("Harri Porten",0, "porten@kde.org");
+	aboutData.addAuthor("Dima Rogozin",0, "dima@mercury.co.il");
+	aboutData.addAuthor("Carsten Pfeiffer",0, "pfeiffer@kde.org");
+	
+	KCmdLineArgs::init( argc, argv, &aboutData );
+	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
+  
     KApplication app;
 
     //Scan for saving options in kfind resource file
