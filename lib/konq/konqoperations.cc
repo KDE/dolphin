@@ -30,20 +30,21 @@
 #include "konqdefaults.h"
 
 // For doDrop
-#include <qpopupmenu.h>
-#include <qdir.h>
-#include <kio/paste.h>
-#include <kio/job.h>
-#include <klocale.h>
-#include <kdebug.h>
-#include <kprocess.h>
-#include <kapp.h>
-#include <kstddirs.h>
-#include <konqfileitem.h>
-#include <konqdrag.h>
+#include <qdir.h>//first
 #include <assert.h>
-#include <unistd.h>
+#include <kapp.h>
+#include <kdebug.h>
+#include <kdesktopfile.h>
 #include <kglobalsettings.h>
+#include <kio/job.h>
+#include <kio/paste.h>
+#include <klocale.h>
+#include <konqdrag.h>
+#include <konqfileitem.h>
+#include <kprocess.h>
+#include <kstddirs.h>
+#include <qpopupmenu.h>
+#include <unistd.h>
 #include <X11/Xlib.h>
 
 KonqOperations::KonqOperations( QWidget *parent )
@@ -255,16 +256,21 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWi
             assert( dest.isLocalFile() );
             if ( destItem->mimetype() == "application/x-desktop")
             {
-                // Local .desktop file
-                QString error;
-                QStringList stringList;
-                KURL::List::Iterator it = lst.begin();
-                for ( ; it != lst.end() ; it++ )
+                // Local .desktop file. What type ?
+                KDesktopFile desktopFile( dest.path() );
+                if ( desktopFile.hasApplicationType() )
                 {
-                    stringList.append((*it).url());
+                    QString error;
+                    QStringList stringList;
+                    KURL::List::Iterator it = lst.begin();
+                    for ( ; it != lst.end() ; it++ )
+                    {
+                        stringList.append((*it).url());
+                    }
+                    if ( KApplication::startServiceByDesktopPath( dest.path(), stringList, &error ) > 0 )
+                        KMessageBox::error( 0L, error );
                 }
-                if ( KApplication::startServiceByDesktopPath( dest.path(), stringList, &error ) > 0 )
-                    KMessageBox::error( 0L, error );
+                // else, well: mimetype, link, .directory, device. Can't really drop anything on those.
             } else
             {
                 // Should be a local executable
