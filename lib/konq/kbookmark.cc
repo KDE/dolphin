@@ -36,6 +36,7 @@
 #include <kmessagebox.h>
 #include <krun.h>
 #include <kstringhandler.h>
+#include <kprotocolinfo.h>
 
 #include <kmimetype.h>
 #include <kio/global.h>
@@ -361,7 +362,12 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
     icon = KMimeType::findByURL( url, buff.st_mode, true )->icon( url, true );
   }
   else
+  {
     icon = KMimeType::findByURL( url )->icon( url, false );
+    static const QString& unknown = KGlobal::staticQString("unknown");
+    if ( icon == unknown )
+        icon = KProtocolInfo::icon( url.protocol() );
+  }
 
   m_id = g_id++;
   m_pManager = _bm;
