@@ -89,7 +89,7 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
     
   if ( url.protocol() == "file" &&
        url.path(1) == UserPaths::trashPath() )
-    isTrash = true;
+    isCurrentTrash = true;
 
   //check if url is current directory
   if ( m_lstPopupURLs.count() == 1 )
