@@ -29,6 +29,7 @@
 
 #include <qdir.h>
 #include <qstring.h>
+#include <qtimer.h>
 
 #include <kio/job.h>
 #include <kcmdlineargs.h>
@@ -226,6 +227,19 @@ void clientApp::slotAppRegistered( const QCString &appId )
     }
 }
 
+void clientApp::delayedQuit()
+{
+    // Quit in 2 seconds. This leaves time for KRun to pop up
+    // "app not found" in KProcessRunner, if that was the case.
+    QTimer::singleShot( 2000, this, SLOT(slotDeref()) );
+}
+
+void clientApp::slotDeref()
+{
+    // Damn, I should have made kapp::deref a slot.....
+    deref();
+}
+
 static void checkArgumentCount(int count, int min, int max)
 {
    if (count < min)
@@ -287,8 +301,8 @@ bool clientApp::doIt()
     {
       KFileOpenWithHandler fowh;
       KRun * run = new KRun( args->url(1) );
-      QObject::connect( run, SIGNAL( finished() ), this, SLOT( quit() ));
-      QObject::connect( run, SIGNAL( error() ), this, SLOT( quit() ));
+      QObject::connect( run, SIGNAL( finished() ), this, SLOT( delayedQuit() ));
+      QObject::connect( run, SIGNAL( error() ), this, SLOT( delayedQuit() ));
       exec();
       return m_ok;
     }

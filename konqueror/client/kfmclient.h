@@ -46,6 +46,8 @@ public:
 protected slots:
   void slotResult( KIO::Job * );
   void slotAppRegistered( const QCString & );
+  void slotDeref();
+  void delayedQuit();
 
 private:
   QString m_profileName;
