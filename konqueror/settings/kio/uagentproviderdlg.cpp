@@ -137,6 +137,7 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   a->connectItem( a->insertItem(Qt::Key_Escape), btn, SLOT(animateClick()) );
   setBaseSize( minimumSizeHint() );
   init();
+  m_leSite->setFocus();
 }
 
 UAProviderDlg::~UAProviderDlg()
@@ -167,19 +168,9 @@ void UAProviderDlg::init()
 {
   if ( !m_provider )
     m_provider = new FakeUASProvider();
-#if 0
-  QStringList list = KProtocolManager::userAgentList();
-  if ( list.count() )
-  {
-    QStringList::ConstIterator it = list.begin();
-    for( ; it != list.end(); ++it )
-      m_provider->createNewUAProvider( (*it) );
-  }
-#endif
   m_cbIdentity->clear();
   m_cbIdentity->insertStringList( m_provider->userAgentStringList() );
   m_cbIdentity->insertItem( "", 0 );
-  m_leSite->setFocus();
 }
 
 void UAProviderDlg::updateInfo()
