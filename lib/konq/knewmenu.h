@@ -107,14 +107,14 @@ private:
      */
     enum { LINKTOTEMPLATE = 1, TEMPLATE, SEPARATOR };
 
-    typedef struct {
+    struct Entry {
         QString text;
         QString filePath; // empty for SEPARATOR
         QString templatePath; // same as filePath for TEMPLATE
         QString icon;
         int entryType;
         QString comment;
-    } Entry;
+    };
     // NOTE: only filePath is known before we call parseFiles
 
     /**
