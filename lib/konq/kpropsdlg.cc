@@ -44,7 +44,6 @@
 
 #include <qfile.h>
 #include <qdir.h>
-#include <qdict.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qcheckbox.h>
@@ -562,22 +561,30 @@ void FilePropsPage::applyChanges()
     }
   }
 
+
   // If we launched a job, wait for it to finish
   // Otherwise, we can go on straight away
-  if (!job)
+  if (job)
+    // wait for job
+    qApp->enter_loop();
+  else
     slotRenameFinished( 0L );
-
 }
 
 void FilePropsPage::slotRenameFinished( KIO::Job * job )
 {
-  if (job && job->error())
+  if (job)
   {
-    /*KMessageBox::sorry(this,
-                     i18n("Could not rename file or directory to\n%1\n")
-                     .arg(properties->kurl().url()));*/
-    job->showErrorDialog();
-    return;
+    // allow apply() to return
+    qApp->exit_loop();
+    if ( job->error() )
+    {
+      /*KMessageBox::sorry(this,
+        i18n("Could not rename file or directory to\n%1\n")
+        .arg(properties->kurl().url()));*/
+      job->showErrorDialog();
+      return;
+    }
   }
 
   assert( properties->item() );
@@ -938,12 +945,14 @@ void FilePermissionsPropsPage::applyChanges()
     KIO::Job * job = KIO::chmod( properties->kurl(), p );
     connect( job, SIGNAL( result( KIO::Job * ) ),
              SLOT( slotChmodResult( KIO::Job * ) ) );
+    // Wait for job
+    qApp->enter_loop();
   }
-
 }
 
 void FilePermissionsPropsPage::slotChmodResult( KIO::Job * job )
 {
+  kdDebug(1203) << "FilePermissionsPropsPage::slotChmodResult" << endl;
   if (job->error())
     job->showErrorDialog();
   else
@@ -951,6 +960,8 @@ void FilePermissionsPropsPage::slotChmodResult( KIO::Job * job )
     // Force refreshing information about that file if displayed.
     KDirWatch::self()->setFileDirty( properties->kurl().path() );
   }
+  // allow apply() to return
+  qApp->exit_loop();
 }
 
 ExecPropsPage::ExecPropsPage( PropertiesDialog *_props )
