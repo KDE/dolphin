@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="keditbookmarks" version="23">
+<kpartgui name="keditbookmarks" version="24">
 
 <MenuBar>
 
@@ -14,26 +14,32 @@
 </Menu>
 
 <Menu name="edit"><text>&amp;Edit</text>
-  <!-- undo/redo/cut/copy/paste stuff is 
+  <!-- undo/redo/cut/copy/paste stuff is
        merged (?) at this point (ui_standards.rc) -->
   <!-- Various things -->
-  <Action name="rename"/>
+  <Action name="rename" append="edit_paste_merge"/>
+  <Action name="delete" append="edit_paste_merge"/>
+  <Separator/>
   <Action name="changeurl"/>
   <Action name="changecomment"/>
   <Action name="changeicon"/>
-  <Action name="delete"/>
-  <Separator/><!-- Stuff for folders -->
-  <Action name="sort"/>
-  <Action name="recursivesort"/>
-  <Separator/><!-- Expand/collapse -->
+</Menu>
+
+<Menu name="view"><text>&amp;View</text>
   <Action name="expandall"/>
   <Action name="collapseall"/>
 </Menu>
 
-<Menu name="insert"><text>&amp;Insert</text>
-  <Action name="newbookmark"/>
+<Menu name="folder"><text>&amp;Folder</text>
   <Action name="newfolder"/>
   <Action name="insertseparator"/>
+  <Separator/>
+  <Action name="sort"/>
+  <Action name="recursivesort"/>
+  </Menu>
+
+<Menu name="bookmark"><text>&amp;Bookmark</text>
+  <Action name="newbookmark"/>
 </Menu>
 
 <Menu name="settings"><text>&amp;Settings</text>
@@ -45,8 +51,10 @@
 
 <ToolBar name="mainToolBar" noMerge="1" fullWidth="true"><text>Main Toolbar</text>
   <Action name="file_save"/>
+  <Separator/>
   <Action name="edit_undo"/>
   <Action name="edit_redo"/>
+  <Separator/>
   <Action name="newbookmark"/>
   <Action name="newfolder"/>
 </ToolBar>
@@ -56,6 +64,8 @@
   <Action name="setastoolbar"/>
   <Action name="sort"/>
   <Action name="recursivesort"/>
+   <Separator/>
+  <Action name="testlink"/>
   <Separator/><!-- Clipboard -->
   <Action name="edit_undo"/>
   <Action name="edit_redo"/>
