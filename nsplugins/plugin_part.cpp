@@ -102,7 +102,7 @@ NSPluginLoader *PluginFactory::loader()
 
 
 PluginPart::PluginPart(QWidget *parent, const char *name)
-  : KParts::ReadOnlyPart(parent, name), widget(0)
+  : KParts::ReadOnlyPart(parent, name), widget(0), callback(0)
 {
   setInstance(PluginFactory::instance());
   kDebugInfo("PluginPart");
@@ -127,9 +127,9 @@ PluginPart::~PluginPart()
 
 bool PluginPart::openURL(const KURL &url)
 {
-  delete widget;
-
   kDebugInfo("PluginPart::openURL");
+
+  if (widget) delete widget;
 
   QStringList _argn, _argv;
   _argn << "SRC" << "TYPE";
@@ -142,7 +142,7 @@ bool PluginPart::openURL(const KURL &url)
       widget->show();
     }
 
-  delete callback;
+  if (callback) delete callback;
   callback = new NSPluginCallback(this);
   widget->setCallback(kapp->dcopClient()->appId(), callback->objId());
 
@@ -153,8 +153,10 @@ bool PluginPart::openURL(const KURL &url)
 bool PluginPart::closeURL()
 {
   kDebugInfo("PluginPart::closeURL");
-  delete widget;
+  if (widget) delete widget;
+  if (callback) delete callback;
   widget = 0;
+  callback = 0;
 
   return true;
 }
