@@ -306,11 +306,11 @@ QString KonqAboutPageFactory::tips()
 	.arg( i18n( "Tips" ) )
 	.arg( i18n( "Specifications" ) )
 	  .arg( i18n( "Tips" ) )
-	  .arg( i18n( "Use Internet-Keywords and Web-Shortcuts! By typing \"gg: KDE\" one can search the Internet, "
+	  .arg( i18n( "Use Internet-Keywords and Web-Shortcuts: by typing \"gg: KDE\" one can search the Internet, "
 		      "using Google, for the search phrase \"KDE\". There are a lot of "
 		      "Web-Shortcuts predefined to make searching for software or looking "
 		      "up certain words in an encyclopedia a breeze. You can even "
-                      "<a href=\"%1\">create your own</a> Web-Shortcuts!" ).arg("exec:/kcmshell ebrowsing") )
+                      "<a href=\"%1\">create your own</a> Web-Shortcuts." ).arg("exec:/kcmshell ebrowsing") )
 	  .arg( i18n( "Use the magnifier button <img width='16' height='16' src=\"%1\"> &nbsp; in the"
 		      " toolbar to increase the font size on your web page.").arg(viewmag_icon_path) )
 	  .arg( i18n( "When you want to paste a new address into the Location toolbar you might want to "
