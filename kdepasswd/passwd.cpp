@@ -116,6 +116,12 @@ int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass,
 	    return -1;
 	}
 
+        if (state == 0 && isPrompt(line, "new"))
+            // If root is changing a user's password,
+            // passwd can't prompt for the original password.
+            // Therefore, we have to start at state=2.
+            state=2;
+
 	switch (state) 
 	{
 	case 0:
