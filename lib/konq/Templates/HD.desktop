@@ -3,7 +3,6 @@ Encoding=UTF-8
 MountPoint=
 Dev=
 ReadOnly=0
-FSType=Default
 Type=FSDevice
 Icon=hdd_mount
 UnmountIcon=hdd_unmount
