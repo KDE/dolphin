@@ -1153,7 +1153,10 @@ void KonqMainView::slotForwardAboutToShow()
 
 void KonqMainView::slotGoMenuAboutToShow()
 {
-  m_paBack->fillGoMenu( m_currentView->backHistory() );
+  m_paBack->fillGoMenu( m_currentView->backHistory(),
+                        m_currentView->url(),
+                        m_currentView->serviceType(),
+                        m_currentView->forwardHistory());
 }
 
 void KonqMainView::slotUpActivated( int id )
@@ -1165,7 +1168,10 @@ void KonqMainView::slotUpActivated( int id )
 
 void KonqMainView::slotGoHistoryActivated( int steps )
 {
-  m_currentView->goBack( steps );
+    if ( steps < 0 )
+        m_currentView->goBack( -steps );
+    else if ( steps > 0 )
+        m_currentView->goForward( steps );
 }
 
 void KonqMainView::slotBackActivated( int id )
@@ -1764,7 +1770,7 @@ void ViewModeGUIClient::update( const KTrader::OfferList &services )
   QDomElement textElement = m_doc.createElement( "text" );
   textElement.appendChild( m_doc.createTextNode( i18n( "View Mode..." ) ) );
   m_menuElement.appendChild( textElement );
-  
+
   KTrader::OfferList::ConstIterator it = services.begin();
   KTrader::OfferList::ConstIterator end = services.end();
   for (; it != end; ++it )
