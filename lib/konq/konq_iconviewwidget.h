@@ -159,12 +159,9 @@ public:
 
     bool isDesktop() const { return m_bDesktop; }
 
+    void disableIcons( const QStrList & lst );
+
 public slots:
-    /**
-     * Called when the clipboard's data changes, to update the 'cut' icons
-     * Call this when the directory's listing is finished, to draw icons as cut.
-     */
-    virtual void slotClipboardDataChanged();
     /**
      * Checks the new selection and emits enableAction() signals
      */

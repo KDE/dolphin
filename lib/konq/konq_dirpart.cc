@@ -27,11 +27,16 @@
 #include <kcolordlg.h>
 #include <kdebug.h>
 #include <kuserprofile.h>
+#include <konqdrag.h>
+
+#include <qapplication.h>
+#include <qclipboard.h>
 
 KonqDirPart::KonqDirPart( QObject *parent, const char *name )
   : KParts::ReadOnlyPart( parent, name ),
     m_pProps( 0L )
 {
+    connect( QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()) );
 }
 
 KonqDirPart::~KonqDirPart()
@@ -93,6 +98,17 @@ void KonqDirPart::restoreState( QDataStream &stream )
     // Warning: see comment in IconViewBrowserExtension::restoreState about order
     //kdDebug(1203) << "void KonqDirPart::restoreState( QDataStream &stream )" << endl;
     stream >> m_nameFilter;
+}
+
+void KonqDirPart::slotClipboardDataChanged()
+{
+    QStrList lst;
+    QMimeSource *data = QApplication::clipboard()->data();
+    if ( data->provides( "application/x-kde-cutselection" ) && data->provides( "text/uri-list" ) )
+        if ( KonqDrag::decodeIsCutSelection( data ) )
+            (void) QUriDrag::decode( data, lst );
+
+    disableIcons( lst );
 }
 
 #include "konq_dirpart.moc"

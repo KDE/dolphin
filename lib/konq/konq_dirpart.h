@@ -55,9 +55,19 @@ public:
 
     KonqPropsView * props() const { return m_pProps; }
 
+    /**
+     * "Cut" icons : disable those whose URL is in lst, enable the others
+     */
+    virtual void disableIcons( const QStrList & lst ) = 0;
+
 public slots:
     void slotBackgroundColor();
     void slotBackgroundImage();
+    /**
+     * Called when the clipboard's data changes, to update the 'cut' icons
+     * Call this when the directory's listing is finished, to draw icons as cut.
+     */
+    void slotClipboardDataChanged();
 
 protected:
     QString m_nameFilter;

@@ -393,39 +393,24 @@ QColor KonqIconViewWidget::itemColor() const
     return iColor;
 }
 
-void KonqIconViewWidget::slotClipboardDataChanged()
+void KonqIconViewWidget::disableIcons( const QStrList & lst )
 {
-  // Re-enable everything
-  for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
+  for ( QIconViewItem *kit = firstItem(); kit; kit = kit->nextItem() )
   {
-    static_cast<KFileIVI *>( it )->setDisabled( false );
-  }
-
-  QMimeSource *data = QApplication::clipboard()->data();
-  if ( data->provides( "application/x-kde-cutselection" ) && data->provides( "text/uri-list" ) )
-    if ( KonqDrag::decodeIsCutSelection( data ) )
-    {
-      QStrList lst;
-      if ( QUriDrag::decode( data, lst ) )
+      bool bFound = false;
+      // Wow. This is ugly. Matching two lists together....
+      // Some sorting to optimise this would be a good idea ?
+      for (QStrListIterator it(lst); !bFound && *it; ++it)
       {
-        // Ok, those uris have been cut. Do we show them ?
-
-        // Wow. This is ugly. Matching two lists together....
-        // Some sorting to optimise this would be a good idea ?
-        for (QStrListIterator it(lst); *it; ++it)
-        {
-            for ( QIconViewItem *kit = firstItem(); kit; kit = kit->nextItem() )
-            {
-              QString itemURL = static_cast<KFileIVI *>( kit )->item()->url().url();
-              if ( itemURL == QString::fromLatin1( *it ) ) // *it is encoded already
-              {
-                static_cast<KFileIVI *>( kit )->setDisabled( true );
-                break;
-              }
-            }
-        }
+          QString itemURL = static_cast<KFileIVI *>( kit )->item()->url().url();
+          if ( itemURL == QString::fromLatin1( *it ) ) // *it is encoded already
+          {
+              bFound = true;
+              // maybe remove "it" from lst here ?
+          }
       }
-    }
+      static_cast<KFileIVI *>( kit )->setDisabled( bFound );
+  }
 }
 
 void KonqIconViewWidget::slotSelectionChanged()
