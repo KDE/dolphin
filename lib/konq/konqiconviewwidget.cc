@@ -31,6 +31,7 @@
 #include <kfileivi.h>
 #include <kfileitem.h>
 #include <kmessagebox.h>
+#include <konqdefaults.h>
 #include <konqsettings.h>
 #include <konqdrag.h>
 #include <kuserpaths.h>
