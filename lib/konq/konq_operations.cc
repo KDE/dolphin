@@ -547,11 +547,15 @@ void KonqOperations::doFileCopy()
     assert(m_info); // setDropInfo - and asyncDrop - should have been called before asyncDrop
     KURL::List lst = m_info->lst;
     QDropEvent::Action action = m_info->action;
-
+    bool moveTrash = false;
     KURL::List mlst;
     for (KURL::List::ConstIterator it = lst.begin(); it != lst.end(); ++it)
+    {
+        if ( (*it).path(1) == KGlobalSettings::trashPath())
+            moveTrash = true;
         if ( KProtocolInfo::supportsDeleting( *it ) )
-             mlst.append(*it);
+            mlst.append(*it);
+    }
 
     if ( !mlst.isEmpty() && m_destURL.path( 1 ) == KGlobalSettings::trashPath() )
     {
@@ -588,12 +592,12 @@ void KonqOperations::doFileCopy()
             delete this;
             return;
         }
-        bool sTrash = url.path(1) == KGlobalSettings::trashPath();
+        //bool sTrash = url.path(1) == KGlobalSettings::trashPath();
         // Nor control nor shift are pressed => show popup menu
         QPopupMenu popup;
         if ( sReading )
             popup.insertItem(SmallIconSet("editcopy"), i18n( "&Copy Here" ), 1 );
-        if ( (sMoving || (sReading && sDeleting)) && !sTrash)
+        if ( (sMoving || (sReading && sDeleting)) /*&& !sTrash*/)
             popup.insertItem( i18n( "&Move Here" ), 2 );
         popup.insertItem(SmallIconSet("www"), i18n( "&Link Here" ), 3 );
         if (bSetWallpaper)
@@ -626,6 +630,16 @@ void KonqOperations::doFileCopy()
         job = KIO::move( mlst, m_destURL );
         job->setMetaData( m_info->metaData );
         setOperation( job, MOVE, lst, m_destURL );
+        if ( moveTrash )
+        {
+            kdDebug(1203) << "Update trash path" <<m_destURL.path()<< endl;
+            KConfig *globalConfig = KGlobal::config();
+            KConfigGroupSaver cgs( globalConfig, "Paths" );
+            globalConfig->writeEntry("Trash" , m_destURL.path(), true, true );
+            globalConfig->sync();
+            KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
+        }
+
         (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, m_destURL, job );
         return; // we still have stuff to do -> don't delete ourselves
     case QDropEvent::Copy :
@@ -675,8 +689,10 @@ void KonqOperations::setOperation( KIO::Job * job, int method, const KURL::List 
   //m_srcURLs = src;
   m_destURL = dest;
   if ( job )
+  {
     connect( job, SIGNAL( result( KIO::Job * ) ),
              SLOT( slotResult( KIO::Job * ) ) );
+  }
   else // for link
     slotResult( 0L );
 }
