@@ -232,23 +232,7 @@ void KonqDirPart::mmbClicked( KFileItem * fileItem )
     }
     else
     {
-        QCString plain("plain");
-        QString url = QApplication::clipboard()->text(plain,QClipboard::Selection).stripWhiteSpace();
-
-        // Check if it's a URL
-        KURIFilterData m_filterData;
-        m_filterData.setData( url );
-        if (KURIFilter::self()->filterURI(m_filterData))
-        {
-            int uriType = m_filterData.uriType();
-            if ( uriType == KURIFilterData::LOCAL_FILE
-               || uriType == KURIFilterData::LOCAL_DIR
-               || uriType == KURIFilterData::NET_PROTOCOL )
-            {
-              KURL u = m_filterData.uri();
-              emit m_extension->openURLRequest( u );
-            }
-        }
+        m_extension->pasteRequest();
     }
 }
 
