@@ -544,7 +544,11 @@ void KonqView::goHistory( int steps )
 void KonqView::go( int steps )
 {
   if ( !steps ) // [WildFox] i bet there are sites on the net with stupid devs who do that :)
-    return;
+  {
+      // [David] and you're right. And they expect that it reloads, apparently.
+      m_pMainWindow->slotReload();
+      return;
+  }
 
   stop();
 
@@ -837,7 +841,7 @@ bool KonqView::callExtensionStringMethod( const char *methodName, QString value 
 
 void KonqView::setViewName( const QString &name )
 {
-    //kdDebug() << "KonqView::setViewName this=" << this << " name=" << name << endl;
+    //kdDebug() << "KonqView::setViewName this=" << this << " name=" << name << " part=" << m_pPart << endl;
     if ( m_pPart )
         m_pPart->setName( name.local8Bit().data() );
 }
@@ -865,7 +869,7 @@ void KonqView::enablePopupMenu( bool b )
       connect( this, SIGNAL( backRightClick() ),
                m_pMainWindow, SLOT( slotBack() ) );
     }
-		
+
     connect( ext, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
              m_pMainWindow, SLOT( slotPopupMenu( const QPoint &, const KFileItemList & ) ) );
 
