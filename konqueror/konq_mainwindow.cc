@@ -3402,7 +3402,7 @@ void KonqMainWindow::slotMoveTabRight()
 
 void KonqMainWindow::updateToolBarActions( bool pendingAction /*=false*/)
 {
-  // Enables/disables actions that depend on the current view (mostly toolbar)
+  // Enables/disables actions that depend on the current view & url (mostly toolbar)
   // Up, back, forward, the edit extension, stop button, wheel
   setUpEnabled( m_currentView->url() );
   m_paBack->setEnabled( m_currentView->canGoBack() );
@@ -3417,10 +3417,27 @@ void KonqMainWindow::updateToolBarActions( bool pendingAction /*=false*/)
     m_paAnimatedLogo->stop();
     m_paStop->setEnabled( pendingAction );  //enable/disable based on any pending actions...
   }
+
+  if ( m_currentView && m_currentView->part() &&
+       m_currentView->part()->inherits("KonqDirPart") )
+  {
+    m_ptaUseHTML->setEnabled( m_currentView->url().isLocalFile() &&
+                              !m_currentView->isLockedViewMode() );
+  }
+  else
+  {
+    m_ptaUseHTML->setEnabled( false );
+  }
 }
 
 void KonqMainWindow::updateViewActions()
 {
+  // Update actions that depend on the current view and its mode, or on the number of views etc.
+
+  // Don't do things in this method that depend on m_currentView->url().
+  // When going 'back' in history this will be called before opening the url.
+  // Use updateToolBarActions instead.
+
   slotUndoAvailable( KonqUndoManager::self()->undoAvailable() );
 
   // Can lock a view only if there is a next view
@@ -3504,13 +3521,18 @@ void KonqMainWindow::updateViewActions()
       plugActionList( "operations", lst );
     }
   }
-  else if (m_paCopyFiles)
+  else
   {
-    unplugActionList( "operations" );
-    delete m_paCopyFiles;
-    m_paCopyFiles = 0L;
-    delete m_paMoveFiles;
-    m_paMoveFiles = 0L;
+      m_paFindFiles->setEnabled( false );
+
+      if (m_paCopyFiles)
+      {
+          unplugActionList( "operations" );
+          delete m_paCopyFiles;
+          m_paCopyFiles = 0L;
+          delete m_paMoveFiles;
+          m_paMoveFiles = 0L;
+      }
   }
 }
 
