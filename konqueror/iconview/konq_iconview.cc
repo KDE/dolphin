@@ -903,55 +903,56 @@ void KonqKfmIconView::slotProcessMimeIcons()
 {
     // kdDebug() << "KonqKfmIconView::slotProcessMimeIcons() "
     //             << m_lstPendingMimeIconItems.count() << endl;
-    if ( m_lstPendingMimeIconItems.count() == 0 ) {
-        if ( m_bNeedEmitCompleted )
-        {
-            kdDebug() << "KonqKfmIconView completed()" << endl;
-            emit completed();
-            m_bNeedEmitCompleted = false;
-        }
-	if ( m_bNeedAlign )
-        {
-            m_bNeedAlign = false;
-	    m_pIconView->arrangeItemsInGrid();
-        }
-	return;
-    }
-
-    // Find an icon that's visible.
-    //
-    // We only find mimetypes for icons that are visible. When more
-    // of our viewport is exposed, we'll get a signal and then get
-    // the mimetypes for the newly visible icons. (Rikkus)
     KFileIVI * item = 0L;
 
-    QListIterator<KFileIVI> it(m_lstPendingMimeIconItems);
+    if ( m_lstPendingMimeIconItems.count() > 0 ) {
 
-    QRect visibleContentsRect
-    (
-      m_pIconView->viewportToContents(QPoint(0, 0)),
-      m_pIconView->viewportToContents
-      (
-        QPoint(m_pIconView->visibleWidth(), m_pIconView->visibleHeight())
-      )
-    );
+        // Find an icon that's visible.
+        //
+        // We only find mimetypes for icons that are visible. When more
+        // of our viewport is exposed, we'll get a signal and then get
+        // the mimetypes for the newly visible icons. (Rikkus)
 
-    for (; it.current(); ++it)
-      if (visibleContentsRect.intersects(it.current()->rect())) {
-        item = it.current();
-        break;
-      }
+        QListIterator<KFileIVI> it(m_lstPendingMimeIconItems);
+
+        QRect visibleContentsRect
+            (
+        m_pIconView->viewportToContents(QPoint(0, 0)),
+        m_pIconView->viewportToContents
+        (
+            QPoint(m_pIconView->visibleWidth(), m_pIconView->visibleHeight())
+            )
+        );
+
+        for (; it.current(); ++it)
+            if (visibleContentsRect.intersects(it.current()->rect())) {
+                item = it.current();
+                break;
+            }
+    }
 
     // No more visible items.
     if (0 == item)
     {
-      if ( m_bNeedEmitCompleted )
-      {
-        kdDebug() << "KonqKfmIconView completed()" << endl;
-        emit completed();
-        m_bNeedEmitCompleted = false;
-      }
-      return;
+        // Do the unvisible ones, then
+        if ( m_lstPendingMimeIconItems.count() > 0 ) {
+            item = m_lstPendingMimeIconItems.first();
+        }
+        else
+        {
+            if ( m_bNeedEmitCompleted )
+            {
+                kdDebug() << "KonqKfmIconView completed()" << endl;
+                emit completed();
+                m_bNeedEmitCompleted = false;
+            }
+            if ( m_bNeedAlign )
+            {
+                m_bNeedAlign = false;
+                m_pIconView->arrangeItemsInGrid();
+            }
+            return;
+        }
     }
 
     QPixmap *currentIcon = item->pixmap();
