@@ -78,7 +78,7 @@
 <para>&kwrite; is more than a text editor for the KDE Desktop. It is meant
 to be a programmer's editor, and could be considered as at least a partial
 alternative to more powerful editors.  It may be best used in conjunction
-with &konqueror for source file browsing for
+with &konqueror; for source file browsing for
 different languages. &kwrite; also works very well as a simple text editor.
 One of &kwrite;'s main features is the colorized syntax, customized for
 many different programming languages such as: C/C++, &Java;, Python, Perl,
