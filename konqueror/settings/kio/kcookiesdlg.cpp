@@ -15,30 +15,29 @@
 
 #define ROW_ENABLE_COOKIES 1
 #define ROW_DEFAULT_ACCEPT 3
-#define ROW_CHANGE_DOMAIN 6
+#define ROW_CHANGE_DOMAIN 5
 #define ROW_BOTTOM 7
 
 KCookiesOptions::KCookiesOptions(QWidget *parent, const char *name)
   : KCModule(parent, name)
 {
 
-  QGridLayout *lay = new QGridLayout(this,ROW_BOTTOM+1,5,10,5);
+  QGridLayout *lay = new QGridLayout(this,ROW_BOTTOM,5,10,5);
   lay->addRowSpacing(0,10);
   lay->addRowSpacing(2,10);
   lay->addRowSpacing(4,10);
-  lay->addRowSpacing(5,30); // no idea why 10 isn't enough... David.
+  lay->addRowSpacing(6,10); 
   lay->addColSpacing(0,10);
   lay->addColSpacing(2,10);
   lay->addColSpacing(4,10);
 
   lay->setRowStretch(0,0);
   lay->setRowStretch(1,0); // ROW_ENABLE_COOKIES
-  lay->setRowStretch(2,1);
+  lay->setRowStretch(2,0);
   lay->setRowStretch(3,1); // ROW_DEFAULT_ACCEPT
-  lay->setRowStretch(4,1);
-  lay->setRowStretch(5,0);
-  lay->setRowStretch(6,1); // ROW_CHANGE_DOMAIN
-  lay->setRowStretch(7,10); // ROW_BOTTOM
+  lay->setRowStretch(4,0);
+  lay->setRowStretch(5,1); // ROW_CHANGE_DOMAIN
+  lay->setRowStretch(6,10); 
 
   lay->setColStretch(0,0);
   lay->setColStretch(1,1);
