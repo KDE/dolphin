@@ -93,16 +93,16 @@ KfFileLVI::KfFileLVI(QListView* lv, QString file)
   // maybe we should use the concrete icon associated with the mimetype
   // in the future, but for now, this must suffice
   if (!folderPixmap) // don't use IconLoader to always get the same icon
-    folderPixmap = new QPixmap(locate("mini", "folder.xpm"));
+    folderPixmap = new QPixmap(locate("mini", "folder.png"));
 
   if (!lockedFolderPixmap)
-    lockedFolderPixmap = new QPixmap(locate("mini", "lockedfolder.xpm"));
+    lockedFolderPixmap = new QPixmap(locate("mini", "lockedfolder.png"));
 
   if (!filePixmap)
-    filePixmap = new QPixmap(locate("mini", "unknown.xpm"));
+    filePixmap = new QPixmap(locate("mini", "unknown.png"));
 
   if (!lockedFilePixmap)
-    lockedFilePixmap = new QPixmap(locate("mini", "locked.xpm"));
+    lockedFilePixmap = new QPixmap(locate("mini", "locked.png"));
 
   const int column = 0; // place the icons in leftmost column
   if (fileInfo->isDir()) {

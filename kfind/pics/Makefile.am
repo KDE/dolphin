@@ -1,5 +1,5 @@
 
-data_DATA = archive.xpm save.xpm delete.xpm info.xpm idea.xpm search.xpm openfile.xpm
+data_DATA = archive.png save.png delete.png info.png idea.png search.png openfile.png
 
 datadir = $(kde_datadir)/kfind/toolbar
 
