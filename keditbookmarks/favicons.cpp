@@ -196,3 +196,4 @@ void FavIconUpdater::notifyChange( bool isHost, QString hostOrURL, QString iconN
    KEBTopLevel::self()->slotCommandExecuted();
 }
 
+#include "favicons.moc"
