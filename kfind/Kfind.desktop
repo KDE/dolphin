@@ -1,13 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
-BinaryPattern=kfind;
-Protocols=file;
 Exec=kfind -caption "%c" %i %m %f
 Icon=kfind
 DocPath=kfind/index.html
 TerminalOptions=
 Path=
-Extensions=
 Type=Application
 Terminal=0
 Name=Find Files
