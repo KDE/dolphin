@@ -126,7 +126,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
                                             "browsers other than Netscape Navigator or Internet Explorer even "
                                             "when they are perfectly capable of rendering them properly. "
                                             "<br/>Use the buttons on the right to add a new site-specific "
-                                            "identifier, change and/or delete an exisiting one.</qt>" ) );
+                                            "identifier, change and/or delete an existing one.</qt>" ) );
   QVBox* vbox = new QVBox( gb_siteSpecific );
   vbox->setSpacing( KDialog::spacingHint() );
   pb_add = new QPushButton( i18n("&New..."), vbox );
@@ -156,7 +156,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
                                          "and or set a site (ex:www.kde.org) or a domain (ex:kde.org) "
                                          "specific identification string.<p>  To add a new agent string, "
                                          "simply click the <i>Add...</i> button and supply the necessary "
-                                         "information requested by the dialog box. To change an exisiting "
+                                         "information requested by the dialog box. To change an existing "
                                          "string, click on the <i>Change...</i> button.  Clicking the <i>Delete</i> "
                                          "will remove the selected policy causing the default setting to be "
                                          "used for that site or domain. The <i>Import</i> and <i>Export</i> "

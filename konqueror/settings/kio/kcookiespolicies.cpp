@@ -183,7 +183,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     pb_domPolicyImport = new QPushButton( i18n("Import..."), vbox );
     QWhatsThis::add( pb_domPolicyImport, i18n("Click this button to choose the file that contains "
                                               "the cookie policies.  These policies will be merged "
-                                              "with the exisiting ones.  Duplicate enteries are ignored.") );
+                                              "with the existing ones.  Duplicate entries are ignored.") );
     connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
     pb_domPolicyImport->hide();
 
@@ -199,7 +199,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     QWhatsThis::add( gb_domainSpecific, i18n("Here you can set specific cookie policies for any particular "
                                              "domain. To add a new policy, simply click the <i>Add...</i> "
                                              "button and supply the necessary information requested by the "
-                                             "dialog box. To change an exisiting policy, click on the <i>Change...</i> "
+                                             "dialog box. To change an existing policy, click on the <i>Change...</i> "
                                              "button and choose the new policy from the policy dialog box.  Clicking "
                                              "on the <i>Delete</i> will remove the selected policy causing the default "
                                              "policy setting to be used for that domain. The <i>Import</i> and <i>Export</i> "
