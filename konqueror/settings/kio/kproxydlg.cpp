@@ -240,6 +240,11 @@ void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy,
       port_num = DEFAULT_PROXY_PORT;
     sb_http_port->setValue(port_num);
   }
+  else
+  {
+    le_http_url->setText( QString::null );
+    sb_http_port->setValue(DEFAULT_PROXY_PORT);
+  }
 
   if( !ftpProxy.isEmpty() )
   {
@@ -249,6 +254,11 @@ void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy,
     if( port_num == 0 )
       port_num = DEFAULT_PROXY_PORT;
     sb_ftp_port->setValue(port_num);
+  }
+  else
+  {
+    le_ftp_url->setText( QString::null );
+    sb_ftp_port->setValue(DEFAULT_PROXY_PORT);
   }
 
   cb_useProxy->setChecked(bUseProxy);
