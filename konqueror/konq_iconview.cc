@@ -75,8 +75,8 @@ KonqKfmIconView::KonqKfmIconView( KonqMainView *mainView )
 	   this, SLOT( slotDoubleClicked( KIconContainerItem*, const QPoint&, int ) ) );
   QObject::connect( this, SIGNAL( returnPressed( KIconContainerItem*, const QPoint& ) ),
 	   this, SLOT( slotReturnPressed( KIconContainerItem*, const QPoint& ) ) );
-  QObject::connect( this, SIGNAL( drop( QDropEvent*, KIconContainerItem*, QStrList& ) ),
-	   this, SLOT( slotDrop( QDropEvent*, KIconContainerItem*, QStrList& ) ) );
+  QObject::connect( this, SIGNAL( drop( QDropEvent*, KIconContainerItem*, QStringList& ) ),
+	   this, SLOT( slotDrop( QDropEvent*, KIconContainerItem*, QStringList& ) ) );
   QObject::connect( this, SIGNAL( onItem( KIconContainerItem* ) ), this, SLOT( slotOnItem( KIconContainerItem* ) ) );
   //  connect( m_pView->gui(), SIGNAL( configChanged() ), SLOT( initConfig() ) );
 
