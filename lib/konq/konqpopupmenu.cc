@@ -382,12 +382,15 @@ void KonqPopupMenu::slotPopupNewView()
 void KonqPopupMenu::slotPopupEmptyTrashBin()
 {
   QDir trashDir( KUserPaths::trashPath() );
-  //  QStringList files = trashDir.entryList( QDir::Files && QDir::Dirs );
-  QStringList files = trashDir.entryList( QDir::Files );
+  QStringList files = trashDir.entryList( QDir::Files && QDir::Dirs );
+  files.remove(QString("."));
+  files.remove(QString(".."));
   
   QStringList::Iterator it(files.begin());
   for (; it != files.end(); ++it )
+  {
     (*it).prepend( KUserPaths::trashPath() );
+  }
   
   KIOJob *job = new KIOJob;
   job->del( files );
