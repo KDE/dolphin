@@ -234,7 +234,7 @@ void KonqMainView::openFilteredURL( KonqChildView */*_view*/, const QString &_ur
 }
 
 void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool reload, int xOffset,
-                            int yOffset )
+                            int yOffset, const QString &serviceType )
 {
   debug("%s", QString("KonqMainView::openURL : _url = '%1'").arg(_url).latin1());
 
@@ -265,9 +265,13 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
     }	
 
     //kdebug( KDEBUG_INFO, 1202, "%s", QString("view->run for %1").arg(url).latin1() );
-    view->run( url );
-    setLocationBarURL( view, url );
-    view->setMiscURLData( reload, xOffset, yOffset );
+     setLocationBarURL( view, url );
+     view->setMiscURLData( reload, xOffset, yOffset );
+    if ( !serviceType.isEmpty() )
+      openView( serviceType, url, view );
+    else
+      view->run( url );
+          
   }
   else
   {
@@ -275,10 +279,13 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
     if ( m_combo )
       m_combo->setEditText( url );
 
-    (void) new KonqRun( this, 0L, url, 0, false, true );
+    if ( !serviceType.isEmpty() )
+      openView( serviceType, url, 0L );
+    else
+      (void) new KonqRun( this, 0L, url, 0, false, true );
   }
 
-  if ( view && view == m_currentView )
+  if ( view && view == m_currentView && serviceType.isEmpty() )
   {
     view->setLoading( true );
     startAnimation();
@@ -286,14 +293,14 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
 }
 
 void KonqMainView::openURL( const QString &url, bool reload, int xOffset,
-                            int yOffset )
+                            int yOffset, const QString &serviceType )
 {
   KonqChildView *childV = 0L;
 
   if ( sender() )
     childV = childView( (BrowserView *)sender() );
 
-  openURL( childV, url, reload, xOffset, yOffset );
+  openURL( childV, url, reload, xOffset, yOffset, serviceType );
 }
 
 void KonqMainView::slotCreateNewWindow( const QString &url )

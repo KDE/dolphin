@@ -190,8 +190,8 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
 void KonqChildView::connectView(  )
 {
 
-  connect( m_pView, SIGNAL( openURLRequest( const QString &, bool, int, int ) ),
-           m_pMainView, SLOT( openURL( const QString &, bool, int, int ) ) );
+  connect( m_pView, SIGNAL( openURLRequest( const QString &, bool, int, int, const QString & ) ),
+           m_pMainView, SLOT( openURL( const QString &, bool, int, int, const QString & ) ) );
 
   connect( m_pView, SIGNAL( started() ),
            m_pMainView, SLOT( slotStarted() ) );
@@ -348,7 +348,7 @@ void KonqChildView::run( const QString & url )
 	   mainView(), SLOT( slotRunFinished() ) );
   connect( m_pRun, SIGNAL( error() ),
 	   mainView(), SLOT( slotRunFinished() ) );
-  
+
   // stop() will get called by KonqMainView::openView or the KonqRun will
   // be destroyed upon completion (autodelete)
 }

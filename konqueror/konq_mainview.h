@@ -61,7 +61,7 @@ public:
   void openFilteredURL( KonqChildView *_view, const QString &_url );
 
   void openURL( KonqChildView *_view, const QString &_url, bool reload = false,
-                int xOffset = 0, int yOffset = 0 );
+                int xOffset = 0, int yOffset = 0, const QString &serviceType = QString::null );
 
   KonqViewManager *viewManager() const { return m_pViewManager; }
 
@@ -69,7 +69,7 @@ public slots:
 
   void slotPopupMenu( const QPoint &_global, const KFileItemList &_items );
 
-  void openURL( const QString &url, bool reload, int xOffset, int yOffset );
+  void openURL( const QString &url, bool reload, int xOffset, int yOffset, const QString &serviceType );
 
   void slotCreateNewWindow( const QString &url );
 

@@ -616,7 +616,14 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
   if (m_pSettings->alwaysNewWin() && fileItem->mode() & S_IFDIR) {
     fileItem->run();
   } else {
-    emit openURLRequest( fileItem->url().url(), false, 0, 0 );
+    QString serviceType = QString::null;
+    
+    KURL u( fileItem->url() );
+    
+    if ( u.isLocalFile() )
+      serviceType = fileItem->mimetype();
+    
+    emit openURLRequest( u.url(), false, 0, 0, fileItem->mimetype() );
   }
 }
 
