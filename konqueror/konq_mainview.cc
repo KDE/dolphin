@@ -1663,12 +1663,12 @@ void KonqMainView::slotShowHistory()
 
 void KonqMainView::slotEditMimeTypes()
 {
-    openURL( kapp->kde_mimedir() );
+    openURL( KGlobal::dirs()->getSaveLocation("mime") );
 }
 
 void KonqMainView::slotEditApplications()
 {
-    openURL( kapp->kde_appsdir() );
+    openURL( KGlobal::dirs()->getSaveLocation("apps") );
 }
 
 void KonqMainView::slotShowMenubar()

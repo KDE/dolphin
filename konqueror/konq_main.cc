@@ -224,8 +224,8 @@ void copyDirectoryFile(const char *filename, const QString& dir, bool force)
 {
   if (force || !QFile::exists(dir + "/.directory")) {
     QString cmd;
-    cmd.sprintf( "cp %s/konqueror/%s %s/.directory", kapp->kde_datadir().data(),
-                 filename, dir.data() );
+    cmd.sprintf( "cp %s %s/.directory", locate("data", QString("konqueror/") + filename).ascii,
+                 dir.ascii() );
     system( cmd.data() );
   }
 }
@@ -313,11 +313,13 @@ void testLocalInstallation()
 
   if (copyTemplates)
   {
-    QString cmd;
-    cmd.sprintf("cp %s/konqueror/Templates/* %s",
-                kapp->kde_datadir().data(),
-                UserPaths::templatesPath().data() );
-    system( cmd.data() );
+    // uniquq
+    QStringList list = KGlobal::dirs()->findAllResources("data", "konqueror/Templates/*", false, true);
+    QString cmd = "cp ";
+    for (QStringList::ConstIterator it = list.begin(); it = list.end(); it++)
+      cmd << *it << " ";
+    cmd << UserPaths::templatesPath();
+    system( cmd.ascii() );
     KWM::sendKWMCommand("krootwm:refreshNew");
   }
 }
