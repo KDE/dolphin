@@ -234,16 +234,16 @@ Mouse Button Actions</title>
 
 <listitem><para><mousebutton>Left</mousebutton> click on an icon in the Toolbar
 to do whatever that icon is supposed to do. </para></listitem>
-<listitem<para><mousebutton>Left</mousebutton> click on an item in the Menubar
+<listitem><para><mousebutton>Left</mousebutton> click on an item in the Menubar
 to make that menu drop down.</para></listitem>
-<listitem<para><mousebutton>Left</mousebutton> click on a menu item to do that
+<listitem><para><mousebutton>Left</mousebutton> click on a menu item to do that
 thing.</para></listitem> 
-<listitem<para><mousebutton>Left</mousebutton> click on a link in a web page to
+<listitem><para><mousebutton>Left</mousebutton> click on a link in a web page to
 make &konqueror; follow that link.</para></listitem>
-<listitem<para><mousebutton>Left</mousebutton> click on a directory icon or name
+<listitem><para><mousebutton>Left</mousebutton> click on a directory icon or name
 and &konqueror; will descend into (show the contents of) that
 directory.</para></listitem>
-<listitem<para><mousebutton>Left</mousebutton> click on a file name or icon and
+<listitem><para><mousebutton>Left</mousebutton> click on a file name or icon and
 &konqueror; will do whatever it thinks appropriate, based on the file type. In
 general this means opening <acronym>HTML</acronym> pages, or previewing text, image or
 <application>KOffice</application> files, embedding them within &konqueror;'s
@@ -749,7 +749,7 @@ presented with a menu choice of <guimenuitem>Copy</guimenuitem> or
 <guimenuitem>Move</guimenuitem>.</para></step> 
 </procedure>
 
-<para>You can also set up &konqueror; to show more than one directory and drag &
+<para>You can also set up &konqueror; to show more than one directory and drag &amp;
 drop between them.</para>
 
 <mediaobject>
@@ -1373,7 +1373,7 @@ click on the <guimenuitem>Set As Toolbar Folder</guimenuitem> in the
 <title>Saving Settings &amp; Profiles</title>
 
 <para>Your current <guimenu>View</guimenu> menu settings (such as the
-<Guimenuitem> View Mode</guimenuitem>, <guimenuitem>Use index.html</guimenuitem>
+<guimenuitem> View Mode</guimenuitem>, <guimenuitem>Use index.html</guimenuitem>
 and <guimenuitem>Show Hidden Files</guimenuitem> items) are automatically saved
 by &konqueror; as the default options.</para>
 
@@ -2109,7 +2109,7 @@ viewing in &konqueror; with Netscape as well.</action></para></listitem>
 <title>The <guimenu>Edit</guimenu> Menu</title>
 
 <note><para>Most items in the Toolbar <guimenu>Edit</guimenu> menu can also be
-found by &RMB; clicking on a free area of a view.</para></Note>
+found by &RMB; clicking on a free area of a view.</para></note>
 
 <variablelist>
 
@@ -2174,7 +2174,7 @@ open the <guimenuitem>Properties...</guimenuitem> dialog box.
 <term><menuchoice>
 <shortcut><keycap>Del</keycap></shortcut>
 <guimenu><accel>E</accel>dit</guimenu>
-<guimenuitem><accel>M</Accel>ove to Trash</guimenuitem>
+<guimenuitem><accel>M</accel>ove to Trash</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Move selected item(s) to the Trash
 directory.</action></para></listitem>
