@@ -37,7 +37,8 @@ bool Widgets::inputBox(QWidget *parent, const QString& title, const QString& tex
 
   dlg.setCaption(title);
   bool retcode = (dlg.exec() == QDialog::Accepted);
-  result = dlg.text();
+  if ( retcode )
+    result = dlg.text();
   return retcode;
 }
 
@@ -48,7 +49,8 @@ bool Widgets::passwordBox(QWidget *parent, const QString& title, const QString& 
   dlg.setCaption(title);
   dlg.setPrompt(text);
   bool retcode = (dlg.exec() == QDialog::Accepted);
-  result = dlg.password();
+  if ( retcode )
+    result = dlg.password();
   return retcode;
 }
 
@@ -93,7 +95,8 @@ bool Widgets::listBox(QWidget *parent, const QString& title, const QString& text
   }
 
   bool retcode = (box.exec() == QDialog::Accepted);
-  result = args[ box.currentItem()*2 ];
+  if ( retcode )
+    result = args[ box.currentItem()*2 ];
   return retcode;
 }
 
@@ -126,15 +129,17 @@ bool Widgets::checkList(QWidget *parent, const QString& title, const QString& te
 
   bool retcode = (box.exec() == QDialog::Accepted);
 
-  if (separateOutput) {
-    for (unsigned int i=0; i<table.count(); i++)
-      if (table.isSelected(i))
-        result.append(tags[i]);
-  } else {
-    for (unsigned int i=0; i<table.count(); i++)
-      if (table.isSelected(i))
-        rs += QString::fromLatin1("\"") + tags[i] + QString::fromLatin1("\" ");
-    result.append(rs);
+  if ( retcode ) {
+    if (separateOutput) {
+      for (unsigned int i=0; i<table.count(); i++)
+        if (table.isSelected(i))
+          result.append(tags[i]);
+    } else {
+      for (unsigned int i=0; i<table.count(); i++)
+        if (table.isSelected(i))
+          rs += QString::fromLatin1("\"") + tags[i] + QString::fromLatin1("\" ");
+      result.append(rs);
+    }
   }
   return retcode;
 }
@@ -162,6 +167,7 @@ bool Widgets::radioBox(QWidget *parent, const QString& title, const QString& tex
   }
 
   bool retcode = (box.exec() == QDialog::Accepted);
-  result = tags[ table.currentItem() ];
+  if ( retcode )
+    result = tags[ table.currentItem() ];
   return retcode;
 }
