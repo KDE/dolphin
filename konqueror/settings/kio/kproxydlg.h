@@ -65,7 +65,8 @@ public:
 
   QLabel *title;
   QLineEdit *input;
-
+public slots:
+    void textChanged ( const QString & );
 };
 
 class KAddHostDlg : public KProxySetDlgBase

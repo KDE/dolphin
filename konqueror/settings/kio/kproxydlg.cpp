@@ -65,7 +65,15 @@ KProxySetDlgBase::KProxySetDlgBase(QWidget *parent, const char *name)
   topLay->addWidget(title);
   topLay->addWidget(input);
   topLay->addSpacing(10);
+  connect(input,SIGNAL(textChanged ( const QString & )),this,SLOT(textChanged ( const QString & )));
+  enableButtonOK(false);
 }
+
+void KProxySetDlgBase::textChanged ( const QString &text )
+{
+     enableButtonOK( !text.isEmpty() );
+}
+
 
 KAddHostDlg::KAddHostDlg(QWidget *parent, const char* name)
  : KProxySetDlgBase(parent, name)
@@ -135,6 +143,7 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   connect(ui->pb_addHost, SIGNAL(clicked()), SLOT(slotAddHost()));
   connect(ui->pb_rmHost, SIGNAL(clicked()), SLOT(slotRemoveHost()));
   connect(ui->pb_editHost, SIGNAL(clicked()), SLOT(slotEditHost()));
+  connect(ui->klv_no_prx, SIGNAL(doubleClicked ( QListViewItem * )), SLOT(slotEditHost()));
 
   connect(ui->klv_no_prx, SIGNAL(selectionChanged()), SLOT(slotEnableButtons()));
 
