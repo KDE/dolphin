@@ -56,12 +56,13 @@ ListView::ListView() {
 }
 
 void ListView::createListViews(QWidget *parent) {
-   s_self = new ListView();
+   self()->m_listView2 = new KEBListView(parent);
    self()->m_listView = new KEBListView(parent);
 }
 
 void ListView::initListViews() {
    self()->m_listView->init();
+   self()->m_listView2->init();
 }
 
 void KEBListView::init() {
@@ -85,6 +86,7 @@ void KEBListView::init() {
 
 void ListView::updateListViewSetup(bool readonly) {
    self()->m_listView->readonlyFlagInit(readonly);
+   self()->m_listView2->readonlyFlagInit(readonly);
 }
 
 void KEBListView::readonlyFlagInit(bool readonly) {
@@ -96,6 +98,7 @@ void KEBListView::readonlyFlagInit(bool readonly) {
 
 void ListView::connectSignals() {
    connectSignals(m_listView);
+   // connectSignals(m_listView2);
 }
 
 void ListView::connectSignals(KEBListView *listview) {
@@ -111,10 +114,12 @@ void ListView::connectSignals(KEBListView *listview) {
            this,     SLOT( slotDropped(QDropEvent*, QListViewItem*, QListViewItem*) ));
 }
 
+/* MOVE */
 KEBListViewItem* ListView::getFirstChild() {
    return static_cast<KEBListViewItem *>(m_listView->firstChild());
 }
 
+/* MOVE */
 QPtrList<KEBListViewItem>* ListView::itemList() {
    QPtrList<KEBListViewItem> *items = new QPtrList<KEBListViewItem>();
    for (QListViewItemIterator it(m_listView); it.current(); it++) {
@@ -264,6 +269,7 @@ QString ListView::userAddress() {
         : KBookmark::nextAddress(current.address());
 }
 
+/* MOVE */
 void ListView::setCurrent(KEBListViewItem *item) {
    m_listView->setCurrentItem(item);
    m_listView->ensureItemVisible(item);
@@ -318,6 +324,7 @@ SelcAbilities ListView::getSelectionAbilities() {
    return sa;
 }
 
+/* MOVE */
 void ListView::slotDropped(QDropEvent *e, QListViewItem *newParent, QListViewItem *itemAfterQLVI) {
    if (!newParent) {
       // drop before root item
@@ -350,6 +357,7 @@ void ListView::slotDropped(QDropEvent *e, QListViewItem *newParent, QListViewIte
 }
 
 
+/* MOVE */
 void ListView::updateListView() {
    // get address list for selected items, make a function?
    QStringList addressList;
@@ -383,6 +391,7 @@ void ListView::updateListView() {
    setCurrent(item);
 }
 
+/* MOVE */
 void ListView::fillWithGroup(KBookmarkGroup group, KEBListViewItem *parentItem) {
    if (!parentItem) {
       m_listView->clear();
@@ -434,6 +443,7 @@ void ListView::slotContextMenu(KListView *, QListViewItem *qitem, const QPoint &
    }
 }
 
+/* MOVE */
 void ListView::slotDoubleClicked(QListViewItem *item, const QPoint &, int column) {
    m_listView->rename(item, column);
 }
@@ -471,11 +481,13 @@ void ListView::slotItemRenamed(QListViewItem *item, const QString &newText, int 
    KEBApp::self()->addCommand(cmd);
 }
 
+/* MOVE */
 // used by f2 and f3 shortcut slots - see actionsimpl
 void ListView::rename(int column) {
    m_listView->rename(firstSelected(), column);
 }
 
+/* MOVE */
 void ListView::clearSelection() {
    m_listView->clearSelection();
 }
@@ -492,6 +504,7 @@ protected:
 static int myrenamecolumn = -1;
 static KEBListViewItem *myrenameitem = 0;
 
+/* MOVE */
 void ListView::renameNextCell(bool fwd) {
    while (1) {
       if (fwd && myrenamecolumn < KEBListView::CommentColumn) {
