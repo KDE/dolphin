@@ -176,14 +176,14 @@ void KonqIconViewWidget::initConfig()
     setWordWrapIconText( m_pSettings->wordWrapText() );
 }
 
-void KonqIconViewWidget::setIcons( int size )
+void KonqIconViewWidget::setIcons( int size, bool stopImagePreview )
 {
     bool sizeChanged = (m_size != size);
     m_size = size;
     // Do this even if size didn't change, since this is used by refreshMimeTypes...
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
         KFileIVI * ivi = static_cast<KFileIVI *>( it );
-        if ( !ivi->isThumbnail() )
+        if ( stopImagePreview || !ivi->isThumbnail() )
           ivi->setIcon( size, ivi->state(),
                         true, true /* perhaps we should do one big redraw instead ? */);
     }

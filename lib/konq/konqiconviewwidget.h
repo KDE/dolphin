@@ -88,8 +88,9 @@ public:
 
     /**
      * Sets the icons of all items, and stores the @p size
+     * This doesn't touch thumbnails, except @p stopImagePreview is set to true
      */
-    void setIcons( int size );
+    void setIcons( int size, bool stopImagePreview = false );
 
     /**
      * Called on databaseChanged
