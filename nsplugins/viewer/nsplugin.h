@@ -97,7 +97,7 @@ class NSPluginInstance : QObject
 public:
 
   // constructor, destructor
-  NSPluginInstance(NPP _privateData, NPPluginFuncs *pluginFuncs,
+  NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
 		   KLibrary *handle, int width, int height);
   ~NSPluginInstance();
 
@@ -137,6 +137,10 @@ signals:
 
 
 private:
+  friend class NSPluginStream;
+  void addTempFile(KTempFile *tmpFile);
+  QList<KTempFile> _tempFiles;
+
   NPP      _npp;
   KLibrary *_handle;
   NPPluginFuncs _pluginFuncs;

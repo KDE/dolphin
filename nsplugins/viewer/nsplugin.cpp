@@ -25,7 +25,7 @@
 
 #include <stream.h>
 #include <stdlib.h>
-
+#include <unistd.h>
 
 #include <qdir.h>
 #include <qdict.h>
@@ -47,13 +47,13 @@
 #include <Xm/DrawingA.h>
 
 
-NSPluginInstance::NSPluginInstance(NPP _privateData, NPPluginFuncs *pluginFuncs, KLibrary *handle, int width, int height)
+NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs, KLibrary *handle, int width, int height)
   : _handle(handle), _width(width), _height(height)
 {
-  _npp = (NPP) malloc(sizeof(NPP_t));
-  *_npp = *_privateData;
+  _npp = privateData;
   _npp->ndata = this;
   memcpy(&_pluginFuncs, pluginFuncs, sizeof(_pluginFuncs));
+  _tempFiles.setAutoDelete( true );
 
   kDebugInfo("NSPluginInstance::NSPluginInstance");
   kDebugInfo("pdata = %p", _npp->pdata);
@@ -204,6 +204,12 @@ void NSPluginInstance::URLNotify(const char *url, NPReason reason, void *notifyD
 }
 
 
+void NSPluginInstance::addTempFile(KTempFile *tmpFile)
+{
+  _tempFiles.append(tmpFile);
+}
+
+
 NSPluginClass::NSPluginClass(const QString &library, QCString dcopId)
   : DCOPObject(dcopId), _libname(library), _constructed(false),  _initialized(false)
 {
@@ -233,14 +239,14 @@ NSPluginClass::NSPluginClass(const QString &library, QCString dcopId)
     kDebugInfo("Could not get symbol NP_Initialize");
     return;
   } else
-    kDebugInfo("Resolved NP_Initialize to %p", _NP_Initialize);
+      kDebugInfo("Resolved NP_Initialize to %p", _NP_Initialize);
 
   if (!_NP_Shutdown)
   {
     kDebugInfo("Could not get symbol NP_Shutdown");
     return;
   } else
-     kDebugInfo("Resolved NP_Shutdown to %p", _NP_Shutdown);
+      kDebugInfo("Resolved NP_Shutdown to %p", _NP_Shutdown);
 
   kDebugInfo("Plugin library %s loaded!", library.ascii());
   _constructed = true;
@@ -357,7 +363,6 @@ NSPluginInstance *NSPluginClass::New(const char *mimeType, uint16 mode, int16 ar
 		           char *argn[], char *argv[], NPSavedData *saved)
 {
   int width=300, height=300;
-  NPP_t _npp;
 
   kdDebug() << "New(" << mimeType << "," << mode << "," << argc << endl;
 
@@ -373,15 +378,20 @@ NSPluginInstance *NSPluginClass::New(const char *mimeType, uint16 mode, int16 ar
 
   char mime[256];
   strcpy(mime, mimeType);
+  NPP npp = new NPP_t;
+  npp->ndata = NULL;
 
-  NPError error = _pluginFuncs.newp(mime, &_npp, mode, argc, argn, argv, saved);
+  NPError error = _pluginFuncs.newp(mime, npp, mode, argc, argn, argv, saved);
   
   kDebugInfo("Result of NPP_New: %d", error);
 
-  if (error == NPERR_NO_ERROR)
-    return new NSPluginInstance(&_npp, &_pluginFuncs, _handle, width, height);
+  if (error != NPERR_NO_ERROR)
+  {
+    delete npp;
+    return 0;
+  }
 
-  return 0;
+  return new NSPluginInstance(npp, &_pluginFuncs, _handle, width, height);
 }
 
 
@@ -630,7 +640,7 @@ NSPluginStream::~NSPluginStream()
 
   if (_stream)
     {
-      _instance->DestroyStream(_stream, NPRES_DONE);
+      _instance->DestroyStream(_stream, NPRES_USER_BREAK);
       delete _stream;
     }
 
@@ -696,7 +706,7 @@ void NSPluginStream::get(QString url, QString mimeType)
       return;
     } else if (_streamType == NP_ASFILE)
     {
-       _tempFile = new KTempFile( ); // TODO: keep file extension of original file
+       _tempFile = new KTempFile( QString::null, ".swf" ); // TODO: keep file extension of original file
        _tempFile->setAutoDelete( TRUE );
     } else
     {
@@ -773,38 +783,52 @@ unsigned int NSPluginStream::process( const QByteArray &data, int start )
       sent = _instance->Write(_stream, _pos, len, d);
       kDebugInfo("<- Feeding stream: sent = %d", sent);
 
+      if (sent==0) // interrupt the stream for a few ms
+        break;
+
       if (_tempFile)
-      {
-      	kDebugInfo("Write to temp file");
-      	//fwrite(fstream, d, sent);
-      	_tempFile->dataStream()->writeBytes( d, sent );
+      {      	 	
+      	_tempFile->dataStream()->writeRawBytes( d, sent );      	
       }
       
       to_sent -= sent;
       _pos += sent;
       d += sent;
-
-
-      if (sent==0) // interrupt the stream for a few ms
-        break;
     }
 
   return data.size()-to_sent;
 }
 
-void NSPluginStream::result(KIO::Job */*job*/)
+void NSPluginStream::result(KIO::Job *job)
 {
-  kDebugInfo("NSPluginStream::result");
+  int err = job->error();
+  kDebugInfo("NSPluginStream::result = %d", err);
 
   if (_tempFile)
   {
     _tempFile->close();
-    _instance->StreamAsFile(_stream, _tempFile->name().ascii());
-    _instance->DestroyStream(_stream, NPRES_DONE);
-    delete _tempFile;
+
+    if (!err)
+    {
+      _instance->StreamAsFile(_stream, _tempFile->name().ascii());
+      _instance->DestroyStream(_stream, NPRES_DONE);
+      _instance->addTempFile(_tempFile);
+    } else
+    {
+      _tempFile->close();
+      _instance->DestroyStream(_stream, NPRES_NETWORK_ERR);
+      delete _tempFile;
+    }
+
     _tempFile = 0;
   } else
+  {
+    if (!err)
       _instance->DestroyStream(_stream, NPRES_DONE);
+    else
+      _instance->DestroyStream(_stream, NPRES_NETWORK_ERR);
+  }
+
   delete _stream;
   _stream = 0;
 }
