@@ -1,4 +1,4 @@
-x/* This file is part of the KDE project
+/* This file is part of the KDE project
    Copyright (C) 1998, 1999 Michael Reiher <michael.reiher@gmx.de>
 
    This program is free software; you can redistribute it and/or
