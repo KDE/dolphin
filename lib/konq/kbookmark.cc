@@ -347,12 +347,10 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
     struct stat buff;
     QCString path = QFile::encodeName( url.path());
     stat( path.data(), &buff );
-    icon = KMimeType::findByURL( url, buff.st_mode, true )->icon( url.path(), true );
+    icon = KMimeType::findByURL( url, buff.st_mode, true )->icon( url, true );
   }
-  else if ( url.protocol() == "ftp" )
-    icon = "ftp";
   else
-    icon = "www";
+    icon = KMimeType::findByURL( url )->icon( url, false );
 
   m_id = g_id++;
   m_pManager = _bm;
