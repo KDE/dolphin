@@ -281,8 +281,9 @@ void KJavaOptions::toggleJavaControls()
     javaSecurityManagerCB->setEnabled( isEnabled );
     addArgED->setEnabled( isEnabled );
     pathED->setEnabled( isEnabled );
+    enableShutdownCB->setEnabled( isEnabled );
 
-    serverTimeoutSB->setEnabled( enableShutdownCB->isChecked() );
+    serverTimeoutSB->setEnabled( enableShutdownCB->isChecked() && isEnabled );
 }
 
 void KJavaOptions::addPressed()
