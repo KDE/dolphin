@@ -233,6 +233,10 @@ protected:
 ////////////////// protected members ///////////////
 
   /**
+   * Creates a new entry in the history.
+   */
+  void createHistoryEntry();
+  /**
    * Updates the current entry in the history.
    */
   void updateHistoryEntry();

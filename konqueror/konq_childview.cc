@@ -116,26 +116,14 @@ void KonqChildView::openURL( const KURL &url, bool useMiscURLData  )
 
   if ( !m_bLockHistory )
   {
-      // Update the history with this new URL
-      // First, remove any forward history
-      HistoryEntry * current = m_lstHistory.current();
-      if (current)
-      {
-          kdDebug(1202) << "Truncating history" << endl;
-          m_lstHistory.at( m_lstHistory.count() - 1 ); // go to last one
-          for ( ; m_lstHistory.current() != current ; )
-          {
-              if ( !m_lstHistory.removeLast() ) // and remove from the end (faster and easier)
-                  assert(0);
-          }
-          // Now current is the current again.
-      }
-      // Append a new entry
-      kdDebug(1202) << "Append a new entry" << endl;
-      m_lstHistory.append( new HistoryEntry ); // made current
+      // Store this new URL in the history, removing any existing forward history
+      createHistoryEntry();
   } else
+  {
       m_bLockHistory = false;
-  updateHistoryEntry();
+      // History was locked, just update the current record with the new URL
+      updateHistoryEntry();
+  }
   kdDebug(1202) << "Current position : " << m_lstHistory.at() << endl;
 }
 
@@ -318,40 +306,30 @@ void KonqChildView::slotCanceled( const QString & )
   slotCompleted();
 }
 
+void KonqChildView::createHistoryEntry()
+{
+    // First, remove any forward history
+    HistoryEntry * current = m_lstHistory.current();
+    if (current)
+    {
+        kdDebug(1202) << "Truncating history" << endl;
+        m_lstHistory.at( m_lstHistory.count() - 1 ); // go to last one
+        for ( ; m_lstHistory.current() != current ; )
+        {
+            if ( !m_lstHistory.removeLast() ) // and remove from the end (faster and easier)
+                assert(0);
+        }
+        // Now current is the current again.
+    }
+    // Append a new entry
+    kdDebug(1202) << "Append a new entry" << endl;
+    m_lstHistory.append( new HistoryEntry ); // made current
+    // Fill it
+    updateHistoryEntry();
+}
+
 void KonqChildView::updateHistoryEntry()
 {
-  /*
-  if ( pushEntry )
-  {
-    if ( !m_bHistoryLock )
-    {
-      if ( m_bBack )
-      {
-        m_bBack = false;
-//        kdDebug(1202) << "pushing into forward history : " << m_pCurrentHistoryEntry->strURL << endl;
-        m_lstForward.insert( 0, m_pCurrentHistoryEntry );
-      }
-      else if ( m_bForward )
-      {
-        m_bForward = false;
-//        kdDebug(1202) << "pushing into backward history : " << m_pCurrentHistoryEntry->strURL << endl;
-        m_lstBack.insert( 0, m_pCurrentHistoryEntry );
-      }
-      else
-      {
-        m_lstForward.clear();
-//        kdDebug(1202) << "pushing into backward history : " << m_pCurrentHistoryEntry->strURL << endl;
-        m_lstBack.insert( 0, m_pCurrentHistoryEntry );
-      }
-    }
-    else
-      m_bHistoryLock = false;
-  }
-
-  if ( pushEntry || !m_pCurrentHistoryEntry )
-    m_pCurrentHistoryEntry = new HistoryEntry;
-  */
-
   HistoryEntry * current = m_lstHistory.current();
   assert( current ); // let's see if this happens
   if ( current == 0L) // empty history
