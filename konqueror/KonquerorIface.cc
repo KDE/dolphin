@@ -145,6 +145,11 @@ void KonquerorIface::addToCombo( QString url, QCString objId )
     KonqMainWindow::comboAction( KonqMainWindow::ComboAdd, url, objId );
 }
 
+void KonquerorIface::removeFromCombo( QString url, QCString objId )
+{
+  KonqMainWindow::comboAction( KonqMainWindow::ComboRemove, url, objId );
+}
+
 void KonquerorIface::comboCleared( QCString objId )
 {
     KonqMainWindow::comboAction( KonqMainWindow::ComboClear,

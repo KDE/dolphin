@@ -83,8 +83,8 @@ class KonqMainWindow : public KParts::MainWindow,
 {
   Q_OBJECT
 public:
-  enum ComboAction { ComboClear, ComboAdd };
-  
+  enum ComboAction { ComboClear, ComboAdd, ComboRemove };
+
   KonqMainWindow( const KURL &initialURL = KURL(), bool openInitialURL = true, const char *name = 0 );
   ~KonqMainWindow();
 
@@ -209,7 +209,7 @@ public:
 
   // operates on all combos of all mainwindows of this instance
   // up to now adds an entry or clears all entries
-  static void comboAction( int action, const QString& url, 
+  static void comboAction( int action, const QString& url,
 			   const QCString& objId );
 
 signals:

@@ -51,6 +51,7 @@ public:
   KonqView *childView() const { return m_pView; }
 
   const QString & typedURL() const { return m_req.typedURL; }
+  KURL url() const { return m_strURL; }
 
   static bool allowExecution( const QString &serviceType, const KURL &url );
   static bool isExecutable( const QString &serviceType );

@@ -97,7 +97,7 @@ void KonqCombo::setTemporary( const QString& url, const QPixmap& pix )
 // called via DCOP in all instances
 void KonqCombo::insertPermanent( const QString& url )
 {
-    // kdDebug << "### insertPermanent!" << endl;
+    // kdDebug(1002) << "### insertPermanent!" << endl;
 
     saveState();
     setTemporary( url );
@@ -249,6 +249,20 @@ void KonqCombo::slotCleared()
     s << kapp->dcopClient()->defaultObject();
     kapp->dcopClient()->send( "konqueror*", "KonquerorIface",
 			      "comboCleared(QCString)", data);
+}
+
+void KonqCombo::removeURL( const QString& url )
+{
+    setUpdatesEnabled( false );
+    lineEdit()->setUpdatesEnabled( false );
+
+    removeFromHistory( url );
+    applyPermanent();
+    setTemporary( currentText() );
+
+    setUpdatesEnabled( true );
+    lineEdit()->setUpdatesEnabled( true );
+    repaint();
 }
 
 void KonqCombo::setConfig( KConfig *kc )

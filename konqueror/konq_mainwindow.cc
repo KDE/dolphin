@@ -1330,6 +1330,14 @@ void KonqMainWindow::slotRunFinished()
   if ( run == m_initialKonqRun )
       m_initialKonqRun = 0L;
 
+  if ( run->hasError() ) { // we had an error
+      QByteArray data;
+      QDataStream s( data, IO_WriteOnly );
+      s << run->url().prettyURL() << kapp->dcopClient()->defaultObject();
+      kapp->dcopClient()->send( "konqueror*", "KonquerorIface",
+				"removeFromCombo(QString,QCString)", data);
+  }
+
   KonqView *childView = run->childView();
 
   // Check if we found a mimetype _and_ we got no error (example: cancel in openwith dialog)
@@ -2451,7 +2459,7 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
 }
 
 // called via DCOP from KonquerorIface
-void KonqMainWindow::comboAction( int action, const QString& url, 
+void KonqMainWindow::comboAction( int action, const QString& url,
 				  const QCString& objId )
 {
     if (!s_lstViews) // this happens in "konqueror --silent"
@@ -2469,6 +2477,9 @@ void KonqMainWindow::comboAction( int action, const QString& url,
 		break;
 	    case ComboClear:
 		combo->clearHistory();
+		break;
+	    case ComboRemove:
+		combo->removeURL( url );
 		break;
 	    default:
 		;

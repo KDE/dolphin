@@ -42,6 +42,7 @@ public:
     void setTemporary( const QString& );
     void setTemporary( const QString&, const QPixmap& );
     void clearTemporary( bool makeCurrent = true );
+    void removeURL( const QString& url );
 
     void insertPermanent( const QString& );
 

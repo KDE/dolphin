@@ -115,6 +115,11 @@ k_dcop:
   ASYNC addToCombo( QString, QCString );
 
   /**
+   * Called internall as broadcast when a URL has to be removed from the combo.
+   */
+  ASYNC removeFromCombo( QString, QCString );
+    
+  /**
    * Called internally as a broadcast when the combobox was cleared.
    */
   ASYNC comboCleared( QCString );
