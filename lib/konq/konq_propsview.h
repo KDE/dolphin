@@ -22,28 +22,25 @@
 
 #include <qpixmap.h>
 
-#include <kconfig.h>
 #include <kurl.h>
 
 class KInstance;
-class KonqKfmIconView;
-class KonqTreeViewWidget;
+class KConfigBase;
+class KConfig;
 
 /**
  * The class KonqPropsView holds the properties for a Konqueror View
  *
  * Separating them from the view class allows to store the default
- * values (the one read from konquerorrc) in a static instance of this class
+ * values (the one read from <kinstance>rc) in one instance of this class
  * and to have another instance of this class in each view, storing the
  * current values of the view.
  *
- * The local values can be read from a desktop entry, if any (.directory, bookmark, ...).
+ * The local values can be read from a desktop entry, if any (.directory,
+ * bookmark, ...). [ .directory is implemented, bookmark isn't ].
  */
 class KonqPropsView
 {
-  // A View can read/write the values directly.
-
-  // This is not a QObject because we need a copy constructor.
 public:
 
   /**
@@ -68,10 +65,14 @@ public:
   /**
    * Called when entering a directory
    * Checks for a .directory, read it.
+   * Don't do this on the default properties instance
    */
   void enterDir( const KURL & dir );
 
-
+  /**
+   * Turn on/off saving properties locally
+   * Don't do this on the default properties instance
+   */
   void setSaveViewPropertiesLocally( bool value );
 
 
@@ -84,14 +85,15 @@ public:
   void setHTMLAllowed( bool allowed );
   bool isHTMLAllowed() const { return m_bHTMLAllowed; }
 
-  // TODO : window size
-
   const QColor& bgColor() const { return m_bgColor; }
   const QPixmap& bgPixmap() const { return m_bgPixmap; }
   const QString& bgPixmapFile() const { return m_bgPixmapFile; }
   // TODO: make those protected
   QColor m_bgColor;
   QPixmap m_bgPixmap;
+
+  // TODO : window size - hmm, that applies only if there is only ONE view...
+  // .. and if we open that dir in a new window...
 
 protected:
 
@@ -130,7 +132,6 @@ protected:
   KonqPropsView * m_defaultProps;
 
 private:
-
   KonqPropsView( const KonqPropsView & );
   KonqPropsView();
 };
