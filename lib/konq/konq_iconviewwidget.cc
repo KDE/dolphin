@@ -1516,6 +1516,15 @@ void KonqIconViewWidget::lineupIcons()
     // Create a grid of (ny x nx) bins.
     int x0, y0, dx, dy, nx, ny;
     gridValues( &x0, &y0, &dx, &dy, &nx, &ny );
+
+    int itemWidth = dx - spacing();
+    bool newItemWidth = false;
+    if ( maxItemWidth() != itemWidth ) {
+        newItemWidth = true;
+        setMaxItemWidth( itemWidth );
+        setFont( font() );  // Force calcRect()
+    }
+
     typedef QValueList<QIconViewItem*> Bin;
     Bin*** bins = new Bin**[nx];
     int i;
@@ -1681,12 +1690,8 @@ void KonqIconViewWidget::lineupIcons()
     }
 
     // repaint
-    int itemWidth = dx - spacing();
-    if ( maxItemWidth() != itemWidth ) {
-        setMaxItemWidth( itemWidth );
-        setFont( font() );  // Force calcRect()
+    if ( newItemWidth )
         updateContents();
-    }
     else {
         // Repaint only repaintRegion...
         QMemArray<QRect> rects = repaintRegion.rects();
