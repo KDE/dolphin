@@ -18,8 +18,7 @@ libkfindpart_la_LIBADD = libkfind_common.la $(LIB_KPARTS) $(top_builddir)/libkon
 
 noinst_HEADERS	= kftabdlg.h kfind.h version.h kquery.h  kdatecombo.h
 
-kfind_data_DATA = Kfind.desktop
-kfind_datadir = $(kde_appsdir)
+xdg_apps_DATA = Kfind.desktop
 
 kde_services_DATA = kfindpart.desktop
 kde_servicetypes_DATA = findpart.desktop
