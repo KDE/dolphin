@@ -1,9 +1,9 @@
-<!DOCTYPE book PUBLIC  "-//KDE//DTD DocBook V3.1-Based Variant V1.0//EN" [
+<?xml version="1.0" ?><!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN" "dtd/kdex.dtd" [
   <!ENTITY kappname "&konqueror;">
-  <!ENTITY % English "INCLUDE" -- change language only here -->
+  <!ENTITY % English "INCLUDE" > <!-- change language only here -->
   <!ENTITY % addindex "IGNORE">
-  <!ENTITY % ents PUBLIC "-//KDE//ENTITIES Documentation V1.0//EN">
-  %ents;
+  
+  
 ]>
 
 <book lang="&language;"> 
@@ -126,7 +126,7 @@ to single-clicking.</para></caution>
 <para>A brief look at the main parts of &konqueror;'s window:</para>
 
 <mediaobject>
-<imageobject><imagedata format="PNG" fileref="parts.png"></imageobject>
+<imageobject><imagedata format="PNG" fileref="parts.png"/></imageobject>
 <textobject>
 <phrase>Here's a screenshot of &konqueror;</phrase>
 </textobject>
@@ -481,7 +481,7 @@ restricts itself to more sensible suggestions.</para></listitem> </varlistentry>
 <sect2 id="sidebar">
 <title>The Sidebar</title>
 <mediaobject>
-<imageobject><imagedata format="PNG" fileref="dirtree.png"></imageobject>
+<imageobject><imagedata format="PNG" fileref="dirtree.png"/></imageobject>
 <textobject>
 <phrase>With the Sidebar</phrase>  
 </textobject>
@@ -754,7 +754,7 @@ presented with a menu choice of <guimenuitem>Copy</guimenuitem> or
 drop between them.</para>
 
 <mediaobject>
-<imageobject><imagedata format="PNG" fileref="dragdrop.png"></imageobject>
+<imageobject><imagedata format="PNG" fileref="dragdrop.png"/></imageobject>
 <textobject>
 <phrase>Split Views for Drag &amp; Drop</phrase>
 </textobject>
@@ -1049,7 +1049,7 @@ right corner of each view, the terminal will follow any directory changes you
 make in the normal file manager view.</para>
 
 <mediaobject>
-<imageobject><imagedata format="PNG" fileref="cmndline.png"></imageobject>
+<imageobject><imagedata format="PNG" fileref="cmndline.png"/></imageobject>
 <textobject>
 <phrase>Including the terminal emulator</phrase>
 </textobject>
@@ -1072,7 +1072,7 @@ Locationbar.</para></note>
 <title>Connecting to the Internet</title>
 
 <mediaobject>
-<imageobject><imagedata format="PNG" fileref="konqorg.png"></imageobject>
+<imageobject><imagedata format="PNG" fileref="konqorg.png"/></imageobject>
 <textobject>
 <phrase>Browsing www.konqueror.org</phrase>
 </textobject>
@@ -1574,7 +1574,7 @@ type.</para>
 box.</para>
 
 <mediaobject>
-<imageobject><imagedata format="PNG" fileref="filetype1.png"></imageobject>
+<imageobject><imagedata format="PNG" fileref="filetype1.png"/></imageobject>
 <textobject>
 <phrase><guimenuitem>Edit File Type</guimenuitem> dialog,
 <guimenu>General</guimenu> tab</phrase>
@@ -1629,7 +1629,7 @@ the <guilabel>Type name</guilabel> Text Box, and press
 <guibutton>OK</guibutton>.</para>
 
 <mediaobject>
-<imageobject><imagedata format="PNG" fileref="filetype3.png"></imageobject>
+<imageobject><imagedata format="PNG" fileref="filetype3.png"/></imageobject>
 <textobject>
 <phrase>Adding the Targa type, step 2</phrase>
 </textobject>
@@ -1653,7 +1653,7 @@ Preference Order</guilabel> area, click on the <guibutton>Add...</guibutton>
 button bring up the following Dialog Box.</para>
 
 <mediaobject>
-<imageobject><imagedata format="PNG" fileref="filetype4.png"></imageobject>
+<imageobject><imagedata format="PNG" fileref="filetype4.png"/></imageobject>
 <textobject>
 <phrase>Adding the Targa type, step 3</phrase>
 </textobject>
@@ -3256,7 +3256,7 @@ url="http://www.kde.org">http://www.kde.org</ulink>.</para>
 </appendix>
 
 
-<![ %addindex; [ &documentation.index; ]]>
+&documentation.index; 
 </book>
 
 <!--
@@ -3268,4 +3268,5 @@ sgml-minimize-attributes: nil
 sgml-general-insert-case: lower
 End:
 -->
+
 

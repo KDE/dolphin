@@ -1,9 +1,9 @@
-<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook V3.1-Based Variant V1.0//EN" [
+<?xml version="1.0" ?><!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN" "dtd/kdex.dtd" [
  <!ENTITY kappname "&konsole;">
  <!ENTITY % English "INCLUDE">
  <!ENTITY % addindex "IGNORE">
- <!ENTITY % ents PUBLIC "-//KDE//ENTITIES Documentation V1.0//EN">
- %ents;
+ 
+ 
 ]>
 
 <book lang="&language;">
@@ -134,7 +134,7 @@ the window. Simply type at the prompt.</para>
 <screeninfo>&konsole; Screen</screeninfo>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="konsole.png" format="PNG">
+            <imagedata fileref="konsole.png" format="PNG"/>
           </imageobject>
           <textobject>
             <phrase>&konsole; Screen</phrase>
@@ -693,7 +693,7 @@ from other Unix platforms.</para>
 </appendix>
 
   
-<![ %addindex; [ &documentation.index; ]]>
+&documentation.index; 
 
 </book>
 
@@ -706,3 +706,4 @@ sgml-shorttag: t
 sgml-general-insert-case: lower
 End:
 -->
+
