@@ -1315,7 +1315,7 @@ void KonqMainView::plugInViewGUI( BrowserView *view )
 
   }
 
-  m_paPrint->setEnabled( view->child( 0L, "PrintingExtension" ) != (QObject *)0L );
+  updateExtensionDependendActions( view );
 }
 
 void KonqMainView::unPlugViewGUI( BrowserView *view )
@@ -1359,6 +1359,15 @@ void KonqMainView::updateStatusBar()
   m_statusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
 
   m_statusBar->changeItem( 0L, STATUSBAR_MSG_ID );
+}
+
+void KonqMainView::updateExtensionDependendActions( BrowserView *view )
+{
+  m_paPrint->setEnabled( view->child( 0L, "PrintingExtension" ) != (QObject *)0L );
+  
+  bool bViewPropExt = view->child( 0L, "ViewPropertiesExtension" ) != (QObject *)0L;
+  m_paSaveSettings->setEnabled( bViewPropExt );
+  m_paSaveSettingsPerURL->setEnabled( bViewPropExt );
 }
 
 QString KonqMainView::findIndexFile( const QString &dir )

@@ -200,6 +200,7 @@ private:
   void unPlugViewGUI( BrowserView *view );
 
   void updateStatusBar();
+  void updateExtensionDependendActions( BrowserView *view );
 
   QString konqFilteredURL( const QString &url );
 
