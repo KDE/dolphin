@@ -33,7 +33,7 @@
 #include <konq_operations.h>
 #include <konqbookmarkmanager.h>
 #include <klineeditdlg.h>
-
+#include <kzip.h>
 #include <config.h>
 #include <pwd.h>
 // we define STRICT_ANSI to get rid of some warnings in glibc
@@ -57,6 +57,7 @@
 #include <qmetaobject.h>
 #include <qvbox.h>
 #include <qlayout.h>
+#include <qfileinfo.h>
 
 #include <dcopclient.h>
 #include <kaboutdata.h>
@@ -1030,8 +1031,28 @@ void KonqMainWindow::slotSendFile()
   for ( KURL::List::Iterator it = lst.begin() ; it != lst.end() ; ++it )
   {
     if ( !fileNameList.isEmpty() ) fileNameList += ", ";
-    fileNameList += (*it).fileName();
-    urls.append( (*it).url() );
+    if ( (*it).isLocalFile() && QFileInfo((*it).path()).isDir() )
+    {
+        // Create a temp dir, so that we can put the ZIP file in it with a proper name
+        KTempFile zipFile;
+        QString zipFileName = zipFile.name();
+        zipFile.unlink();
+
+        QDir().mkdir(zipFileName,true);
+        zipFileName = zipFileName+"/"+(*it).fileName()+".zip";
+        KZip zip( zipFileName );
+        if ( !zip.open( IO_WriteOnly ) )
+            continue; // TODO error message
+        compressDirectory( zip, (*it).path() );
+        zip.close();
+        fileNameList += (*it).fileName()+".zip";
+        urls.append( zipFileName );
+    }
+    else
+    {
+        fileNameList += (*it).fileName();
+        urls.append( (*it).url() );
+    }
   }
   QString subject;
   if ( m_currentView && !m_currentView->part()->inherits("KonqDirPart") )
@@ -1042,6 +1063,33 @@ void KonqMainWindow::slotSendFile()
                      QString::null, //body
                      QString::null,
                      urls); // attachments
+}
+
+// TODO after 3.1: move to KArchive, with a wrapper method that takes a list of paths to add into the archive
+void KonqMainWindow::compressDirectory( KZip &zip, const QString & path )
+{
+    QDir dir( path );
+    QStringList files = dir.entryList();
+    for ( QStringList::Iterator it = files.begin(); it != files.end(); ++it )
+    {
+        if ( *it !="." && *it !="..")
+        {
+            QString fileName = path + "/" + *it;
+            QFileInfo fileInfo( fileName );
+            //kdDebug() << "file :"<<(path + "/" +*it) <<endl;
+
+            if ( fileInfo.isDir() )
+                compressDirectory( zip, fileName );
+            else if ( fileInfo.isFile())
+            {
+                QFile tmp( fileName );
+                tmp.open(IO_ReadOnly);
+                QByteArray buf = tmp.readAll();
+                tmp.close();
+                zip.writeFile( fileName, fileInfo.owner(), fileInfo.group(), buf.size(), buf.data());
+            }
+        }
+    }
 }
 
 void KonqMainWindow::slotRun()

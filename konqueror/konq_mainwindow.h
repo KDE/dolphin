@@ -37,7 +37,6 @@
 #include <kxmlguifactory.h>
 #include <kxmlguiclient.h>
 #include <ktrader.h>
-
 #include "konq_combo.h"
 #include "konq_frame.h"
 
@@ -71,6 +70,7 @@ class KonqMainWindowIface;
 class KonqDirPart;
 class KonqRun;
 class KURLRequester;
+class KZip;
 struct HistoryEntry;
 
 namespace KParts {
@@ -279,6 +279,7 @@ public:
   bool isMimeTypeAssociatedWithSelf( const QString &mimeType );
   bool isMimeTypeAssociatedWithSelf( const QString &mimeType, const KService::Ptr &offer );
 
+    void compressDirectory( KZip &zip, const QString & path );
 signals:
   void viewAdded( KonqView *view );
   void viewRemoved( KonqView *view );
