@@ -9,7 +9,7 @@
 <book lang="&language;">  
   
 <bookinfo>  
-<title>The KWrite Handbook</title>  
+<title>The kwrite; Handbook</title>  
 <authorgroup>  
 <author>  
 <firstname>Thad</firstname><surname>McGinnis</surname>  
@@ -55,7 +55,7 @@
 </copyright>
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>26/11/2000</date>
+<date>14/12/2000</date>
 <releaseinfo>2.0</releaseinfo>
 
 <abstract>
@@ -84,16 +84,8 @@ One of &kwrite;'s main features is the colorized syntax, customized for
 many different programming languages such as: C/C++, &Java;, Python, Perl,
 Bash, Modula 2, <acronym>HTML</acronym>, and Ada.</para>
 
-<sect1 id="installation">
-<title>Installation</title>
+</chapter>
 
-<para>&kwrite; is packaged as part of the kdebase package.  For more information
-on installing and compiling KDE please see <ulink url="http://www.kde.org">
-www.kde.org</ulink>.</para>
-
-</sect1>  
-</chapter>  
-  
 <chapter id="on-screen-fundamentals">  
 <title>Some Fundamentals</title>  
   
@@ -580,9 +572,9 @@ confirmation before each replacement.</para> </listitem>
 <menuchoice>
 <guimenu><accel>E</accel>dit</guimenu><guimenuitem><accel>I</accel>nsert File</guimenuitem></menuchoice></term>
 <listitem>
-<para><action>This opens the <guimenu>File</guimenu> <link
+<para>This <action>opens</action> the <guimenu>File</guimenu> <link
 linkend="open"><guimenuitem>Open</guimenuitem></link> dialog box whereby the
-user can insert a complete file in the open document.</action>  The the contents of
+user can insert a complete file in the open document.  The the contents of
 the file will be entered at the position of the blinking text
 cursor.</para></listitem>
 </varlistentry>
@@ -1515,6 +1507,18 @@ the <guilabel>Defaults</guilabel> tab.</para></listitem>
 &underFDL;
 &underGPL;      
 </chapter>  
+
+<appendix id="installation">
+<title>Installation</title>
+
+<para>&kwrite; is packaged as part of the kdebase package.  For more information
+on installing and compiling KDE please see <ulink url="http://www.kde.org">
+www.kde.org</ulink>.</para>
+
+</appendix>  
+  
+  
+
   
 <![ %addindex; [ &kdedocindex; ]]>  
 </book>  
