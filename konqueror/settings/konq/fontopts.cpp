@@ -47,7 +47,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     QString wtstr;
     int row = 0;
 
-    int LASTLINE = m_bDesktop ? 8 : 9; // this can be different :)
+    int LASTLINE = m_bDesktop ? 7 : 8; // this can be different :)
 #define LASTCOLUMN 2
     QGridLayout *lay = new QGridLayout(this,LASTLINE+1,LASTCOLUMN+1,KDialog::marginHint(),
                                        KDialog::spacingHint());
@@ -172,11 +172,6 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
                                               " being displayed in bytes. Otherwise file sizes are"
                                               " being displayed in kilobytes or megabytes if appropriate.") );
     }
-
-    row++;
-    QPushButton* pbIconSize = new QPushButton( i18n("Icon Preferences"), this);
-    connect( pbIconSize, SIGNAL(clicked()), this, SLOT(slotConfigureIconSize()) );
-    lay->addMultiCellWidget( pbIconSize, row, row, 0, LASTCOLUMN, hAlign );
 
     assert( row == LASTLINE-1 );
     // The last line is empty and grows if resized
@@ -358,13 +353,6 @@ void KonqFontOptions::slotTextBackgroundColorChanged( const QColor &col )
         textBackgroundColor = col;
         changed();
     }
-}
-
-void KonqFontOptions::slotConfigureIconSize()
-{
-    KProcess proc;
-    proc << "kcmshell" << "icons";
-    proc.start(KProcess::DontCare);
 }
 
 QString KonqFontOptions::quickHelp() const

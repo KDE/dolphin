@@ -66,7 +66,6 @@ public slots:
   void slotNormalTextColorChanged( const QColor &col );
   //void slotHighlightedTextColorChanged( const QColor &col );
   void slotTextBackgroundColorChanged( const QColor &col );
-  void slotConfigureIconSize();
 
 private slots:
 
