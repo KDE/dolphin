@@ -303,8 +303,11 @@ void KBookmarkMenu::slotNewFolder()
   KBookmarkGroup parentBookmark = KBookmarkManager::self()->findByAddress( m_parentAddress ).toGroup();
   ASSERT(!parentBookmark.isNull());
   KBookmarkGroup group = parentBookmark.createNewFolder();
-  KBookmarkGroup parentGroup = group.parentGroup();
-  KBookmarkManager::self()->emitChanged( parentGroup );
+  if ( !group.isNull() )
+  {
+    KBookmarkGroup parentGroup = group.parentGroup();
+    KBookmarkManager::self()->emitChanged( parentGroup );
+  }
 }
 
 void KBookmarkMenu::slotBookmarkSelected()

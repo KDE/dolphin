@@ -225,7 +225,11 @@ QString KBookmark::address() const
     {
         // Use keditbookmarks's DEBUG_ADDRESSES flag to debug this code :)
         QDomElement parent = element.parentNode().toElement();
-        ASSERT(!parent.isNull());
+        if(parent.isNull())
+        {
+          ASSERT(!parent.isNull());
+          return "ERROR"; // Avoid an infinite loop
+        }
         KBookmarkGroup group( parent );
         QString parentAddress = group.address();
         uint counter = 0;
