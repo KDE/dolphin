@@ -78,7 +78,7 @@ class KonqBaseListViewWidget : public KListView
    public:
       KonqBaseListViewWidget( KonqListView *parent, QWidget *parentWidget);
       virtual ~KonqBaseListViewWidget();
-      int NumberOfAtoms;
+      unsigned int NumberOfAtoms;
 
       virtual void stop();
       const KURL & url();

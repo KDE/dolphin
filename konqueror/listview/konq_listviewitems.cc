@@ -172,7 +172,7 @@ void KonqListViewItem::setPixmap( int column, const QPixmap& pm )
    int oldWidth = current ? current->width() : 0;
    int oldHeight = current ? current->height() : 0;
 
-   if ( m_pixmaps.size() <= column )
+   if ( (int)m_pixmaps.size() <= column )
       m_pixmaps.resize( column+1 );
 
    delete current;
@@ -209,7 +209,7 @@ void KonqListViewItem::setPixmap( int column, const QPixmap& pm )
 const QPixmap* KonqListViewItem::pixmap( int column ) const
 {
    bool ok;
-   if (m_pixmaps.count() <= column)
+   if ((int)m_pixmaps.count() <= column)
       return 0;
 
    QPixmap *pm = m_pixmaps.at( column, &ok );

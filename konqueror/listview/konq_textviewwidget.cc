@@ -218,8 +218,8 @@ void KonqTextViewWidget::viewportDropEvent( QDropEvent *ev  )
    KonqBaseListViewItem *item =
        isNameColumn( ev->pos() ) ? (KonqBaseListViewItem*)itemAt( ev->pos() ) : 0;
 
-   KFileItem * destItem = (item) ? item->item() : m_dirLister->rootItem();
-   KonqOperations::doDrop( destItem /*may be 0L/, destItem ? destItem->url() : url(), ev, this );
+   KFileItem * destItem = (item) ? item->item() : m_dirLister->rootItem(); // may be 0
+   KonqOperations::doDrop( destItem, destItem ? destItem->url() : url(), ev, this );
 }*/
 
 

@@ -436,14 +436,14 @@ void KonqListView::slotCaseInsensitive()
 void KonqListView::slotColumnToggled()
 {
    kdDebug(1202) << "::slotColumnToggled" << endl;
-   for (int i=0; i<m_pListView->NumberOfAtoms; i++)
+   for (uint i=0; i<m_pListView->NumberOfAtoms; i++)
    {
       m_pListView->confColumns[i].displayThisOne=m_pListView->confColumns[i].toggleThisOne->isChecked()&&m_pListView->confColumns[i].toggleThisOne->isEnabled();
       //this column has been enabled, the columns after it slide one column back
       if ((m_pListView->confColumns[i].displayThisOne) && (m_pListView->confColumns[i].displayInColumn==-1))
       {
          int maxColumn(0);
-         for (int j=0; j<m_pListView->NumberOfAtoms; j++)
+         for (uint j=0; j<m_pListView->NumberOfAtoms; j++)
             if ((m_pListView->confColumns[j].displayInColumn>maxColumn) && (m_pListView->confColumns[j].displayThisOne))
                maxColumn=m_pListView->confColumns[j].displayInColumn;
          m_pListView->confColumns[i].displayInColumn=maxColumn+1;
@@ -451,7 +451,7 @@ void KonqListView::slotColumnToggled()
       //this column has been disabled, the columns after it slide one column
       if ((!m_pListView->confColumns[i].displayThisOne) && (m_pListView->confColumns[i].displayInColumn!=-1))
       {
-         for (int j=0; j<m_pListView->NumberOfAtoms; j++)
+         for (uint j=0; j<m_pListView->NumberOfAtoms; j++)
             if (m_pListView->confColumns[j].displayInColumn>m_pListView->confColumns[i].displayInColumn)
                m_pListView->confColumns[j].displayInColumn--;
          m_pListView->confColumns[i].displayInColumn=-1;
@@ -468,7 +468,7 @@ void KonqListView::slotColumnToggled()
    config->setGroup( groupName );
    QStringList lstColumns;
    int currentColumn(m_pListView->m_filenameColumn+1);
-   for (int i=0; i<m_pListView->NumberOfAtoms; i++)
+   for (int i=0; i<(int)m_pListView->NumberOfAtoms; i++)
    {
       kdDebug(1202)<<"checking: -"<<m_pListView->confColumns[i].name<<"-"<<endl;
       if ((m_pListView->confColumns[i].displayThisOne) && (currentColumn==m_pListView->confColumns[i].displayInColumn))
@@ -490,7 +490,7 @@ void KonqListView::slotHeaderClicked(int sec)
 {
    kdDebug(1202)<<"section: "<<sec<<" clicked"<<endl;
    int clickedColumn(-1);
-   for (int i=0; i<m_pListView->NumberOfAtoms; i++)
+   for (uint i=0; i<m_pListView->NumberOfAtoms; i++)
       if (m_pListView->confColumns[i].displayInColumn==sec) clickedColumn=i;
    kdDebug(1202)<<"atom index "<<clickedColumn<<endl;
    QString nameOfSortColumn;
@@ -541,9 +541,9 @@ void KonqListView::slotSaveAfterHeaderDrag()
    for ( int i=0; i < m_pListView->columns(); i++ )
    {
       int section = m_pListView->header()->mapToSection( i );
-      
+
       // look for section
-      for ( int j=0; j < m_pListView->NumberOfAtoms; j++ )
+      for ( uint j=0; j < m_pListView->NumberOfAtoms; j++ )
       {
          if ( m_pListView->confColumns[j].displayInColumn == section )
          {
@@ -566,13 +566,13 @@ void KonqListView::slotSaveColumnWidths()
    config->setGroup( "ListView_" + protocol );
 
    QValueList<int> lstColumnWidths;
-   
+
    for ( int i=0; i < m_pListView->columns(); i++ )
    {
       int section = m_pListView->header()->mapToSection( i );
-      
+
       // look for section
-      for ( int j=0; j < m_pListView->NumberOfAtoms; j++ )
+      for ( uint j=0; j < m_pListView->NumberOfAtoms; j++ )
       {
          // Save size only if the column is found
          if ( m_pListView->confColumns[j].displayInColumn == section )
@@ -584,10 +584,10 @@ void KonqListView::slotSaveColumnWidths()
       }
    }
    config->writeEntry( "ColumnWidths", lstColumnWidths );
-   
+
    // size of current filename column
    config->writeEntry( "FileNameColumnWidth", m_pListView->columnWidth(0) );
-   
+
    config->sync();
 }
 

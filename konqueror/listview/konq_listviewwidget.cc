@@ -194,7 +194,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
    // width of filename column
    m_filenameColumnWidth=config->readNumEntry("FileNameColumnWidth",
       25*fontMetrics().width( "m" ) );
-   
+
    bool defaultColumns = false;
    QStringList lstColumns = config->readListEntry( "Columns" );
    QValueList<int> lstColumnWidths = config->readIntListEntry( "ColumnWidths" );
@@ -210,7 +210,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
       lstColumns.append( "Group" );
       lstColumns.append( "Link" );
    }
-   
+
    // Default number of columns
    NumberOfAtoms = 11;
    int extraIndex = NumberOfAtoms;
@@ -260,7 +260,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
             if ( confColumns[j].toggleThisOne )
                 confColumns[j].toggleThisOne->setChecked(TRUE);
             currentColumn++;
-            
+
             if (i < lstColumnWidths.count())
                 confColumns[j].width = *lstColumnWidths.at(i);
             else {
@@ -294,7 +294,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
                 }
                 else
                     str = "it_is_the_default_width";
-                
+
                 confColumns[j].width = fontMetrics().width(str);
             }
             break;
@@ -339,10 +339,10 @@ void KonqBaseListViewWidget::createColumns()
    //remove all columns that will be re-added
    for ( int i=columns()-1; i>m_filenameColumn; i--)
         removeColumn(i);
-      
+
    //now add the checked columns
    int currentColumn = m_filenameColumn+1;
-   for (int i=0; i<NumberOfAtoms; i++)
+   for (int i=0; i<(int)NumberOfAtoms; i++)
    {
       if ((confColumns[i].displayThisOne) && (confColumns[i].displayInColumn==currentColumn))
       {
