@@ -137,7 +137,7 @@
 <ToolBar noEdit="true" iconText="icontextright" fullWidth="true" name="bookmarkToolBar" newline="true"><text>Bookmark Toolbar</text>
 </ToolBar>
 <ActionProperties>
-  <Action accel="F9" name="konq_sidebartng" />
+  <Action shortcut="F9" name="konq_sidebartng" />
 </ActionProperties>
 
 </kpartgui>
