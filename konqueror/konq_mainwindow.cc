@@ -76,6 +76,7 @@
 #include <kparts/part.h>
 #include <kpopupmenu.h>
 #include <kprocess.h>
+#include <kprotocolinfo.h>
 #include <kstdaccel.h>
 #include <kstdaction.h>
 #include <kstddirs.h>
@@ -306,8 +307,13 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
 
   if ( url.isMalformed() )
   {
-    QString tmp = i18n("Malformed URL\n%1").arg(url.url());
-    KMessageBox::error(0, tmp);
+    KMessageBox::error(0, i18n("Malformed URL\n%1").arg(url.url()));
+    return;
+  }
+  if ( !KProtocolInfo::isKnownProtocol( url.protocol() ) )
+  {
+    // after message freeze QString tmp = i_18_n("Protocol not supported\n%1").arg(url.protocol());
+    KMessageBox::error(0, i18n("Malformed URL\n%1").arg(url.url()));
     return;
   }
 

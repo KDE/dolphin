@@ -2,7 +2,6 @@ kio:
 ====
 - Nice ftp dialog for users who do not know how to put their
   user name in a URL. (i.e. autodetect when passwd needed)
-- Implement KIO::link as a job
 
 kio_http:
 =========
@@ -13,8 +12,6 @@ kio_http:
 khtml:
 ======
 - (if local dir) : drop should copy to parent dir (for Antonio :)
-- meta-equiv redirections not supported #3051
-- many bugs in the buglist :(
 - #3490, stop animated gifs
 
 libkonq:
@@ -35,8 +32,8 @@ even in this box the cursor icon is "forbidden" (_sometimes_). And add Cancel.
 
 - delete file : if image, remove from .xvpics and .mospics/*/
 
-- ordering templates: I'll wait for a kicker solution (.directory, .order...)
-  and borrow it. This is not called stealing, it's called consistency :)
+- ordering templates: Find a way to use KServiceGroup for this,
+  or "borrow" the code...
 
 konqueror framework:
 ====================
