@@ -2,21 +2,14 @@ INCLUDES= -I$(top_srcdir)/libkonq $(all_includes)
 
 METASOURCES = AUTO
 
-lib_LTLIBRARIES = keditbookmarks.la
+bin_PROGRAMS =
+lib_LTLIBRARIES =
+kdeinit_LTLIBRARIES = keditbookmarks.la
 
 keditbookmarks_la_SOURCES = main.cpp listview.cpp toplevel.cpp actionsimpl.cpp commands.cpp importers.cpp dcop.skel dcop.cpp bookmarkiterator.cpp testlink.cpp favicons.cpp updater.cpp search.cpp kbookmarknotifier.stub
 kbookmarknotifier_DIR = $(includedir)
 keditbookmarks_la_LIBADD  = $(top_builddir)/libkonq/libkonq.la
 keditbookmarks_la_LDFLAGS = $(all_libraries) -module -avoid-version
-
-bin_PROGRAMS = keditbookmarks
-
-keditbookmarks_SOURCES = dummy.cpp
-keditbookmarks_LDADD = keditbookmarks.la
-keditbookmarks_LDFLAGS = $(all_libraries)
-
-dummy.cpp:
-	echo > dummy.cpp
 
 rcdir = $(kde_datadir)/keditbookmarks
 rc_DATA = keditbookmarksui.rc  keditbookmarks-genui.rc
