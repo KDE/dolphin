@@ -112,6 +112,7 @@ public:
 
     /**
      * @return the bookmark designated by @p address
+     * @param tolerate when true tries to find the most tolerable bookmark position
      * @see KBookmark::address
      */
     KBookmark findByAddress( const QString & address, bool tolerate = false );
