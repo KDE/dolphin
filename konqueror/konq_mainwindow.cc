@@ -2433,18 +2433,18 @@ void KonqMainWindow::initActions()
 
   // Configure submenu
 
-  new KAction( i18n( "File &Manager..." ), 0, this, SLOT( slotConfigureFileManager() ), actionCollection(), "configurefilemanager" );
-  new KAction( i18n( "File &Associations..." ), 0, this, SLOT( slotConfigureFileTypes() ), actionCollection(), "configurefiletypes" );
+  new KAction( i18n( "File &Manager..." ), "kfm", 0, this, SLOT( slotConfigureFileManager() ), actionCollection(), "configurefilemanager" );
+  new KAction( i18n( "File &Associations..." ), "filetypes", 0, this, SLOT( slotConfigureFileTypes() ), actionCollection(), "configurefiletypes" );
 
-  new KAction( i18n( "&Browser..." ), 0, this, SLOT( slotConfigureBrowser() ), actionCollection(), "configurebrowser" );
-  new KAction( i18n( "&Internet Keywords..." ), 0, this, SLOT( slotConfigureEBrowsing() ), actionCollection(), "configureebrowsing" );
-  new KAction( i18n( "&Cookies..." ), 0, this, SLOT( slotConfigureCookies() ), actionCollection(), "configurecookies" );
-  new KAction( i18n( "&Proxies..." ), 0, this, SLOT( slotConfigureProxies() ), actionCollection(), "configureproxies" );
-  new KAction( i18n( "Cr&yptography..." ), 0, this, SLOT( slotConfigureCrypto() ), actionCollection(), "configurecrypto" );
-  new KAction( i18n( "&User Agent..." ), 0, this, SLOT( slotConfigureUserAgent() ), actionCollection(), "configureuseragent" );
+  new KAction( i18n( "&Browser..." ), "konqueror", 0, this, SLOT( slotConfigureBrowser() ), actionCollection(), "configurebrowser" );
+  new KAction( i18n( "&Internet Keywords..." ), "enhanced_browsing", 0, this, SLOT( slotConfigureEBrowsing() ), actionCollection(), "configureebrowsing" );
+  new KAction( i18n( "&Cookies..." ), "cookie", 0, this, SLOT( slotConfigureCookies() ), actionCollection(), "configurecookies" );
+  new KAction( i18n( "&Proxies..." ), "proxy", 0, this, SLOT( slotConfigureProxies() ), actionCollection(), "configureproxies" );
+  new KAction( i18n( "Cr&yptography..." ), "lock", 0, this, SLOT( slotConfigureCrypto() ), actionCollection(), "configurecrypto" );
+  new KAction( i18n( "&User Agent..." ), "agent", 0, this, SLOT( slotConfigureUserAgent() ), actionCollection(), "configureuseragent" );
 
-  new KAction( i18n( "&Key Bindings..." ), 0, this, SLOT( slotConfigureKeys() ), actionCollection(), "configurekeys" );
-  new KAction( i18n( "&Toolbars..." ), 0, this, SLOT( slotConfigureToolbars() ), actionCollection(), "configuretoolbars" );
+  new KAction( i18n( "&Key Bindings..." ), "key_bindings", 0, this, SLOT( slotConfigureKeys() ), actionCollection(), "configurekeys" );
+  new KAction( i18n( "&Toolbars..." ), "style", 0, this, SLOT( slotConfigureToolbars() ), actionCollection(), "configuretoolbars" );
 
   // Window menu
   m_paSplitViewHor = new KAction( i18n( "Split View &Left/Right" ), "view_left_right", CTRL+SHIFT+Key_L, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
