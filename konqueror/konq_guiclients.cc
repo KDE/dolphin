@@ -101,7 +101,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainView *mainView, const KTrader::O
       menu.removeChild( menu.namedItem( "menu" ) );
   }
 
-  setDocument( m_doc );
+  setDOMDocument( m_doc );
 }
 
 PopupMenuGUIClient::~PopupMenuGUIClient()
