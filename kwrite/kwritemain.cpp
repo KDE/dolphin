@@ -53,7 +53,7 @@ QPtrList<KateDocument> docList; //documents
 
 TopLevel::TopLevel (KateDocument *doc)
 {
-  setMinimumSize(180,120);
+  setMinimumSize(200,200);
 
   statusbarTimer = new QTimer(this);
   connect(statusbarTimer,SIGNAL(timeout()),this,SLOT(timeout()));
