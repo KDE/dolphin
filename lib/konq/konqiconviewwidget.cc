@@ -41,8 +41,8 @@
 #include <kmessagebox.h>
 #include <errno.h>
 
-KonqIconViewWidget::KonqIconViewWidget( KonqSettings *settings, QWidget * parent, const char * name, WFlags f )
-  : QIconView( parent, name, f ), m_pSettings( settings )
+KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f )
+  : QIconView( parent, name, f )
 {
   QObject::connect( this, SIGNAL( dropped( QDropEvent * ) ),
 	            this, SLOT( slotDrop( QDropEvent* ) ) );
@@ -59,10 +59,12 @@ KonqIconViewWidget::KonqIconViewWidget( KonqSettings *settings, QWidget * parent
 
 void KonqIconViewWidget::initConfig()
 {
+  m_pSettings = KonqFMSettings::defaultIconSettings();
+
   // Color settings
-  QColor textColor         = m_pSettings->textColor();
-  QColor linkColor         = m_pSettings->linkColor();
-  setItemColor( textColor );
+  QColor normalTextColor         = m_pSettings->normalTextColor();
+  QColor highlightedTextColor    = m_pSettings->highlightedTextColor();
+  setItemColor( normalTextColor );
 
   /*
     // What does this do ? (David)
@@ -79,7 +81,8 @@ void KonqIconViewWidget::initConfig()
 
   // Behaviour (single click/double click, autoselect, ...)
   bool bChangeCursor = m_pSettings->changeCursor();
-  setSingleClickConfiguration( new QFont(font), new QColor(textColor), new QFont(font), new QColor(linkColor),
+  setSingleClickConfiguration( new QFont(font), new QColor(normalTextColor), 
+                               new QFont(font), new QColor(highlightedTextColor),
                     new QCursor(bChangeCursor ? KCursor().handCursor() : KCursor().arrowCursor()),
                     m_pSettings->autoSelect() );
   setUseSingleClickMode( m_pSettings->singleClick() );

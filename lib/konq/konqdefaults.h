@@ -51,13 +51,18 @@
 #define DEFAULT_UNDERLINELINKS true
 #define DEFAULT_WORDWRAPTEXT true // kfm-like, sorry Reggie :-)
 
-// browser/tree window color defaults -- Bernd
+// browser window color defaults -- Bernd
 #define HTML_DEFAULT_BG_COLOR Qt::white
 #define HTML_DEFAULT_LNK_COLOR Qt::blue
 #define HTML_DEFAULT_TXT_COLOR Qt::black
 #define HTML_DEFAULT_VLNK_COLOR Qt::magenta
 
-// icon spacing defaults
+// FM colors
+#define FM_DEFAULT_BG_COLOR Qt::white
+#define FM_DEFAULT_TXT_COLOR Qt::black
+#define FM_DEFAULT_HIGHLIGHTED_TXT_COLOR Qt::blue
+
+// icon spacing defaults (is it used ?)
 #define DEFAULT_ICON_SPACING 5
 
 // root window icon text transparency default -- stefan@space.twc.de

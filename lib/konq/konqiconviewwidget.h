@@ -25,7 +25,7 @@
 #include <kurl.h>
 #include <kfileitem.h>
 
-class KonqSettings;
+class KonqFMSettings;
 class KFileIVI;
 
 /**
@@ -39,10 +39,9 @@ class KonqIconViewWidget : public QIconView
 public:
   /**
    * Constructor
-   * @param settings An instance of KonqSettings, see static methods in konqsettings.h
+   * @param settings An instance of KonqFMSettings, see static methods in konqsettings.h
    */
-  KonqIconViewWidget( KonqSettings *settings, 
-                      QWidget *parent = 0L, const char *name = 0L, WFlags f = 0 );
+  KonqIconViewWidget( QWidget *parent = 0L, const char *name = 0L, WFlags f = 0 );
   virtual ~KonqIconViewWidget() {}
 
   void initConfig();
@@ -80,7 +79,7 @@ protected:
   KIconLoader::Size m_size;
 
   /** Konqueror settings */
-  KonqSettings * m_pSettings;
+  KonqFMSettings * m_pSettings;
 };
 
 /**

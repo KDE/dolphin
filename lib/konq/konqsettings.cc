@@ -25,68 +25,95 @@
 // We have to handle three instances of this class in the code
 // Everything's handled by arrays to avoid code duplication
 
-KonqSettings * KonqSettings::s_pSettings[] = { 0L, 0L, 0L };
+KonqFMSettings * KonqFMSettings::s_pSettings[] = { 0L, 0L };
 
-static const char * s_sGroupName[] = { "HTML Settings", "HTML Settings", "Desktop Settings" };
-// TODO : update second group name to FM Settings if we decide to have
-// a separate icon/html config
-// (but then has to be done in kcmkonq of course)
+static const char * s_sGroupName[] = { "Icon Settings", "Tree Settings" };
 
-#define KS_HTML 0
-#define KS_FM 1
-#define KS_DESKTOP 2
+#define KS_ICON 0
+#define KS_TREE 1
 
-KonqSettings * KonqSettings::getInstance( int nr )
+KonqFMSettings * KonqFMSettings::getInstance( int nr )
 {
   if (!s_pSettings[nr])
   {
-    KConfig *config = kapp->config();
-    KConfigGroupSaver cgs(config, s_sGroupName[nr]);
-    s_pSettings[nr] = new KonqSettings(config);
+    KConfig config ( "konquerorrc", true );
+    config.setGroup( s_sGroupName[nr] );
+    s_pSettings[nr] = new KonqFMSettings(&config);
   }
   return s_pSettings[nr];
 }
 
 //static
-inline KonqSettings * KonqSettings::defaultDesktopSettings()
+KonqFMSettings * KonqFMSettings::defaultTreeSettings()
 {
-  return getInstance( KS_DESKTOP );
+  return getInstance( KS_TREE );
 }
 
 //static
-inline KonqSettings * KonqSettings::defaultFMSettings()
+KonqFMSettings * KonqFMSettings::defaultIconSettings()
 {
-  return getInstance( KS_FM );
+  return getInstance( KS_ICON );
 }
 
 //static
-inline KonqSettings * KonqSettings::defaultHTMLSettings()
+void KonqFMSettings::reparseConfiguration()
 {
-  return getInstance( KS_HTML );
-}
-
-//static
-void KonqSettings::reparseConfiguration()
-{
-  KConfig *config = kapp->config();
-  config->reparseConfiguration();
+  KConfig config ( "konquerorrc", true );
   for (int i = 0 ; i < 3 ; i++ )
   {
     if (s_pSettings[i])
     {
-      KConfigGroupSaver cgs(config, s_sGroupName[i]);
-      s_pSettings[i]->init( config );
+      config.setGroup( s_sGroupName[i]) ;
+      s_pSettings[i]->init( &config );
     }
   }
 }
 
-KonqSettings::KonqSettings( KConfig * config )
+KonqFMSettings::KonqFMSettings( KConfig * config )
 {
   init( config );
 }
 
-void KonqSettings::init( KConfig * config )
+void KonqFMSettings::init( KConfig * config )
 {
+  // Fonts and colors
+  m_iFontSize = config->readNumEntry( "FontSize", DEFAULT_VIEW_FONT_SIZE );
+  if ( m_iFontSize < 8 )
+    m_iFontSize = 8;
+  else if ( m_iFontSize > 24 )
+    m_iFontSize = 24;
+
+  m_strStdFontName = config->readEntry( "StandardFont" );
+  if ( m_strStdFontName.isEmpty() )
+    m_strStdFontName = DEFAULT_VIEW_FONT;
+
+  m_bgColor = config->readColorEntry( "BgColor", &FM_DEFAULT_BG_COLOR );
+  m_normalTextColor = config->readColorEntry( "NormalTextColor", &FM_DEFAULT_TXT_COLOR );
+  m_highlightedTextColor = config->readColorEntry( "HighlightedTextColor", &FM_DEFAULT_HIGHLIGHTED_TXT_COLOR );
+
+  // Behaviour
+  KConfigGroupSaver cgs( config, "Behaviour" );
+  m_bSingleClick = config->readBoolEntry("SingleClick", DEFAULT_SINGLECLICK);
+  m_iAutoSelect = config->readNumEntry("AutoSelect", DEFAULT_AUTOSELECT);
+  m_bChangeCursor = config->readBoolEntry( "ChangeCursor", DEFAULT_CHANGECURSOR );
+  m_underlineLink = config->readBoolEntry( "UnderlineLink", DEFAULT_UNDERLINELINKS );
+  m_bWordWrapText = config->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT );
+
+}
+
+
+KonqHTMLSettings * KonqHTMLSettings::s_HTMLSettings = 0L;
+
+KonqHTMLSettings::KonqHTMLSettings()
+{
+  KConfig config ( "konquerorrc", true );
+  config.setGroup( "HTML Settings" );
+  init( & config );
+}
+
+void KonqHTMLSettings::init( KConfig * config )
+{
+  // Fonts and colors
   m_iFontSize = config->readNumEntry( "FontSize", DEFAULT_VIEW_FONT_SIZE );
   if ( m_iFontSize < 8 )
     m_iFontSize = 8;
@@ -107,12 +134,8 @@ void KonqSettings::init( KConfig * config )
   m_vLinkColor = config->readColorEntry( "VLinkColor", &HTML_DEFAULT_VLNK_COLOR);
 
   // Behaviour
-  KConfigGroupSaver cgs( config, "Behaviour" );
-  m_bSingleClick = config->readBoolEntry("SingleClick", DEFAULT_SINGLECLICK);
-  m_iAutoSelect = config->readNumEntry("AutoSelect", DEFAULT_AUTOSELECT);
   m_bChangeCursor = config->readBoolEntry( "ChangeCursor", DEFAULT_CHANGECURSOR );
   m_underlineLink = config->readBoolEntry( "UnderlineLink", DEFAULT_UNDERLINELINKS );
-  m_bWordWrapText = config->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT );
 
   // Other
   config->setGroup( "HTML Settings" ); // group will be restored by cgs anyway
@@ -123,6 +146,21 @@ void KonqSettings::init( KConfig * config )
 
 }
 
-KonqSettings::~KonqSettings()
+//static
+KonqHTMLSettings * KonqHTMLSettings::defaultHTMLSettings()
 {
+  if (!s_HTMLSettings)
+    s_HTMLSettings = new KonqHTMLSettings();
+  return s_HTMLSettings;
+}
+
+//static
+void KonqHTMLSettings::reparseConfiguration()
+{
+  if ( s_HTMLSettings )
+  {
+    KConfig config ( "konquerorrc", true );
+    config.setGroup( "HTML Settings" );
+    s_HTMLSettings->init( &config );
+  }
 }
