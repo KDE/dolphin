@@ -153,7 +153,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
 void KonqPropsView::setSaveViewPropertiesLocally( bool value )
 {
     assert( !isDefaultProperties() );
-    kdDebug(1203) << "KonqPropsView::setSaveViewPropertiesLocally " << value << endl;
+    //kdDebug(1203) << "KonqPropsView::setSaveViewPropertiesLocally " << value << endl;
 
     if ( m_bSaveViewPropertiesLocally )
         delete m_currentConfig; // points to a KSimpleConfig
