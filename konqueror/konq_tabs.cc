@@ -52,7 +52,7 @@
 
 KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer,
                              KonqViewManager* viewManager, const char * name)
-  : KTabWidget(parent, name), m_CurrentMaxLength(30)
+  : KTabWidget(parent, name), m_CurrentMaxLength(30), m_rightWidget(0)
 {
   //kdDebug(1202) << "KonqFrameTabs::KonqFrameTabs()" << endl;
 
@@ -366,9 +366,8 @@ void KonqFrameTabs::insertChildFrame( KonqFrameBase* frame, int index )
       frame->setParentContainer(this);
       if (index == -1) m_pChildFrameList->append(frame);
       else m_pChildFrameList->insert(index, frame);
-#if QT_VERSION >= 0x030200
-      m_rightWidget->setEnabled( m_pChildFrameList->count()>1 );
-#endif
+      if (m_rightWidget)
+        m_rightWidget->setEnabled( m_pChildFrameList->count()>1 );
       KonqView* activeChildView = frame->activeChildView();
       if (activeChildView != 0L) {
         activeChildView->setCaption( activeChildView->caption() );
@@ -385,9 +384,8 @@ void KonqFrameTabs::removeChildFrame( KonqFrameBase * frame )
   if (frame) {
     removePage(frame->widget());
     m_pChildFrameList->remove(frame);
-#if QT_VERSION >= 0x030200
-    m_rightWidget->setEnabled( m_pChildFrameList->count()>1 );
-#endif
+    if (m_rightWidget)
+      m_rightWidget->setEnabled( m_pChildFrameList->count()>1 );
   }
   else
     kdWarning(1202) << "KonqFrameTabs " << this << ": removeChildFrame(0L) !" << endl;
