@@ -76,25 +76,14 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     if (! KonqFMSettings::defaultIconSettings()->shouldEmbed( mimeTypeGroup ) )
       return KonqViewFactory();
 
-  bool createKROP = false;
-
   // Then query the trader
-  static QString browserViewConstraint = QString::fromLatin1( "('Browser/View' in ServiceTypes)" );
+  static QString browserViewConstraint = QString::fromLatin1( "('Browser/View' in ServiceTypes) or ('KParts/ReadOnlyPart' in ServiceTypes)" );
 
   KTrader::OfferList offers = KTrader::self()->query( serviceType, browserViewConstraint );
 
-  if ( offers.count() == 0 ) //no results? try with KROP
-  {
-    static QString kropContstraint = QString::fromLatin1( "('KParts/ReadOnlyPart' in ServiceTypes)" );
-
-    offers = KTrader::self()->query( serviceType, kropContstraint );
-
-    if ( offers.count() == 0 )
-      return KonqViewFactory();
-
-    createKROP = true;
-  }
-
+  if ( offers.count() == 0 )
+    return KonqViewFactory();
+  
   KService::Ptr service = offers.first();
 
   if ( !serviceName.isEmpty() )
@@ -144,7 +133,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     args = QStringList::split( " ", argStr );
   }
 
-  return KonqViewFactory( factory, args, createKROP );
+  return KonqViewFactory( factory, args, service->serviceTypes().contains( "KParts/ReadOnlyPart" ) );
 }
 
 void KonqFactory::instanceRef()
