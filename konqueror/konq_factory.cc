@@ -106,7 +106,6 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
   if ( !serviceName.isEmpty() )
   {
       KTrader::OfferList::Iterator it = offers.begin();
-      // Remove irrelevant entries (non parts)
       for ( ; it != offers.end() && !service ; ++it )
       {
           if ( (*it)->desktopEntryName() == serviceName )
