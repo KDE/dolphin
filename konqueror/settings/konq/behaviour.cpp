@@ -102,7 +102,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 
     // ----
     row++;
-    QString opstrg = i18n("With this option is activated, only one instance of Konqueror "
+    QString opstrg = i18n("With this option activated, only one instance of Konqueror "
                           "will exist in the memory of your computer at any moment, "
                           "no matter how many browsing windows you open, "
                           "thus reducing resource requirements."
