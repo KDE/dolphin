@@ -89,6 +89,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   bool sMoving        = true;
   m_sMimeType         = m_lstItems.first()->mimetype();
   mode_t mode         = m_lstItems.first()->mode();
+  bool bTrashIncluded = false;
   m_lstPopupURLs.clear();
   int id;
 
@@ -116,6 +117,11 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     if ( m_sMimeType != (*it)->mimetype() )
       m_sMimeType = QString::null; // mimetypes are different => null
 
+    if ( !bTrashIncluded &&
+         (*it)->url().isLocalFile() &&
+         (*it)->url().path( 1 ) == KGlobalSettings::trashPath() )
+        bTrashIncluded = true;
+
     QString protocol = url.protocol();
 
     if ( sReading )
@@ -129,6 +135,12 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
     if ( sMoving )
       sMoving = KProtocolInfo::supportsMoving( protocol );
+  }
+  // Be on the safe side when including the trash
+  if ( bTrashIncluded )
+  {
+      sMoving = false;
+      sDeleting = false;
   }
 
   //check if current url is trash
@@ -161,8 +173,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   m_paNewView = new KAction( i18n( "New Window" ), 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
 
   if ( ( isCurrentTrash && currentDir ) ||
-       ( m_lstItems.count() == 1 && m_lstItems.first()->url().isLocalFile() &&
-         m_lstItems.first()->url().path( 1 ) == KGlobalSettings::trashPath() ) )
+       ( m_lstItems.count() == 1 && bTrashIncluded ) )
   {
     addAction( m_paNewView );
     addSeparator();

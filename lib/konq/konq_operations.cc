@@ -179,7 +179,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs )
 void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWidget * parent )
 {
     KURL dest = destItem->url();
-    //kdDebug(1203) << "dest : " << dest.url() << endl;
+    kdDebug(1203) << "dest : " << dest.url() << endl;
     KURL::List lst;
     if ( KonqDrag::decode( ev, lst ) ) // Are they urls ?
     {
