@@ -1,5 +1,5 @@
 echo "yesno box:"
-./kdialog --title --geometry 400x300+100+50 "This is a yesno box" --yesno "Choose: yes or no"
+./kdialog --geometry 400x300+100+50 --title "This is a yesno box" --yesno "Choose: yes or no"
 if [ $? = 0 ]; then
   echo " your choice was: yes"
 else
@@ -7,7 +7,7 @@ else
 fi
 
 echo "continue or cancel warning box:"
-./kdialog --title --geometry 200x300+100-50 "This is a warningcontinuecancel box" --warningcontinuecancel "Choose: continue or cancel"
+./kdialog --geometry 200x300+100-50 --title "This is a warningcontinuecancel box" --warningcontinuecancel "Choose: continue or cancel"
 if [ $? = 0 ]; then
   echo " your choice was: continue"
 else
