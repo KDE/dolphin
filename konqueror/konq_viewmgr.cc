@@ -589,7 +589,7 @@ void KonqViewManager::slotProfileActivated( int id )
   if ( nameIt == m_mapProfileNames.end() )
     return;
 
-  KConfig cfg( *nameIt, true );
+  KConfig cfg( KIO::encodeFileName( *nameIt ), true );
   cfg.setGroup( "Profile" );
   loadViewProfile( cfg );
 }
@@ -610,7 +610,7 @@ void KonqViewManager::slotProfileListAboutToShow()
   for (; pIt != pEnd; ++pIt )
   {
     QFileInfo info( *pIt );
-    QString profileName = info.baseName();
+    QString profileName = KIO::decodeFileName( info.baseName() );
     KSimpleConfig cfg( *pIt, true );
     cfg.setGroup( "Profile" );
     if ( cfg.hasKey( "Name" ) )

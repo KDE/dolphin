@@ -10,7 +10,7 @@ kio_http:
 - switching to proxy http as soon as settings are changed (not after killall kio_http) #3588
 - auto-unzipping of tar.gz files downloaded (some time ago)
 - cache expiration (I think of the "non implemented" line-edit in kcontrol)
-- and of course better SSL security as Waldo discovered  #3443  
+- and of course better SSL security as Waldo discovered  #3443
 
 khtml:
 ======
@@ -65,6 +65,7 @@ before pasting another one ?
 - New window -> empty one (uses profile) and Duplicate window -> duplicates
  everything, including history and layout.
 
+- Renaming a profile
 
 iconview:
 ========
@@ -87,7 +88,7 @@ this directory" too... ?
 - select files to be shown using shell globs (file:/home/dfaure/*.txt)
 
 - Better handling of multiple selections (eg. try selecting
-  several images then invoking kview - you get loads of kview 
+  several images then invoking kview - you get loads of kview
   processes rather than just one).  => KRun
 
 - Undo functionality

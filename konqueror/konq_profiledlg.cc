@@ -29,6 +29,7 @@
 #include <qpushbutton.h>
 
 #include <kglobal.h>
+#include <kio/global.h>
 #include <kstddirs.h>
 #include <klocale.h>
 #include <ksimpleconfig.h>
@@ -51,7 +52,7 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, QWidget *parent )
     QFileInfoListIterator eIt( *entries );
     for (; eIt.current(); ++eIt )
       if ( eIt.current()->isWritable() )
-        m_mapEntries.insert( eIt.current()->baseName(), eIt.current()->absFilePath() );
+        m_mapEntries.insert( KIO::decodeFileName( eIt.current()->baseName() ), eIt.current()->absFilePath() );
   }
 
   m_pGrid = new QGridLayout( this, 8, 3, KDialog::marginHint(), KDialog::spacingHint() );
@@ -117,8 +118,9 @@ void KonqProfileDlg::slotEnableSave( const QString &text )
 
 void KonqProfileDlg::slotSave()
 {
+  QString name = KIO::encodeFileName( m_pProfileNameLineEdit->text() ); // in case of '/'
   QString fileName = locateLocal( "data", QString::fromLatin1( "konqueror/profiles/" ) +
-                                          m_pProfileNameLineEdit->text(), KonqFactory::instance() );
+                                          name, KonqFactory::instance() );
 					
   if ( QFile::exists( fileName ) )
     QFile::remove( fileName );
