@@ -4023,6 +4023,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   // We will need these if we call the newTab slot
   popupItems = _items;
   popupUrlArgs = _args;
+  popupUrlArgs.serviceType = QString::null; // Reset so that Open in New Window/Tab does mimetype detection
 
   connectActionCollection( pPopupMenu->actionCollection() );
 
