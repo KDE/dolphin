@@ -79,16 +79,13 @@ KfindTop::KfindTop(const char *searchPath)
 	  this,SLOT(enableSearchButton(bool)));
   connect(_kfind ,SIGNAL(enableStatusBar(bool)),
 	  this,SLOT(enableStatusBar(bool)));
+  
+  _prefs = NULL;
 }
 
 
 KfindTop::~KfindTop()
-{
-  delete _kfind;
-  delete _mainMenu;
-  delete _toolBar;
-  delete _statusBar;
-};
+{}
 
 void KfindTop::menuInit()
 {
@@ -299,8 +296,9 @@ void KfindTop::keyBindings()
 
 void KfindTop::prefs()
 {
-  KfOptions *prefs = new KfOptions(this,0L);
-  prefs->show();
+  if(_prefs == NULL)
+    _prefs = new KfOptions(this, 0L);
+  _prefs->show();
 }
 
 void KfindTop::copySelection()

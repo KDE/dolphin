@@ -19,6 +19,7 @@ class QPushButton;
 class KfindTabDialog;
 class KAccel;
 class KHelpMenu;
+class KfOptions;
 
 class KfindTop: public KTMainWindow
 {
@@ -78,7 +79,9 @@ private:
   Kfind          *_kfind;
 
   KAccel         *_accel;
-
+  
+  KfOptions      *_prefs;
+  
   int        fileStart;
   int        fileStop;
   int        openWithM;

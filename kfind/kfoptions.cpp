@@ -4,33 +4,22 @@
  *
  **********************************************************************/
 
-#include <qapplication.h>
+#include <stdlib.h>
+
 #include <qtabdialog.h>
-#include <qmultilineedit.h>
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
 #include <qlabel.h>
 #include <qcombobox.h>
 #include <qlayout.h>
-#include <stdio.h>
-#include <qstring.h>
-#include <qfont.h>
-#include <qtooltip.h>
 #include <qlineedit.h>
 #include <qcheckbox.h>
 #include <qpushbutton.h>
 #include <qfiledialog.h>
-#include <qdir.h>
-#include <qregexp.h>
-#include <qdatetime.h>
-#include <qlistbox.h>
 #include <qstrlist.h>
+
 #include <kfiledialog.h>
-
-#include <stdlib.h>
-#include <string.h>
-
-#include <klocale.h>
+#include <kdialog.h>
 #include <kconfig.h>
 #include <kapp.h>
 
@@ -42,72 +31,62 @@ extern KfSaveOptions *saving;
 extern QList<KfArchiver> *archivers;
 
 KfOptions::KfOptions( QWidget *parent, const char *name ):QTabDialog( parent, name)
-  {
-    resize(400,330);
-    insertPages();
+{
+  insertPages();
+  
+  setOkButton(i18n("OK"));
+  setCancelButton(i18n("Cancel"));
+  setCaption(i18n("Preferences"));
+  
+  connect(this,SIGNAL(applyButtonPressed()),
+          this,SLOT(applyChanges()));
+}
 
-    setOkButton( i18n("OK"));
-    setCancelButton( i18n("Cancel"));
-    setCaption(i18n("Preferences"));
-
-    connect(this,SIGNAL(applyButtonPressed()),this,SLOT(applyChanges()));
-
-  };
-
-KfOptions::~KfOptions()
-  {
-    delete pages[0];
-    delete pages[1];
-  };
+KfOptions::~KfOptions() 
+{
+  delete bg;
+}
 
 void KfOptions::insertPages()
-  {
+{
     setFocusPolicy(QWidget::StrongFocus);
-
+    
     // First page of tab preferences dialog
-    pages[0]= new QWidget(this,"page1");
-
-    formatL     = new QLabel(i18n("File format:"),
-			     pages[0],"formatL");
-    fileL       = new QLabel(i18n("Save results to file:"),
-			     pages[0],"fileL");
-    kfindfileL  = new QLabel(i18n(
-			      "Save results to file ~/.kfind-results.html"),
-			     pages[0],"kfindfileL");
-    browseB     = new QPushButton(i18n("Browse"),
-			     pages[0],"browseB");
-    formatBox   = new QComboBox(                     pages[0],"formatBox");
-    fileE       = new QLineEdit(                     pages[0],"fileE");
-    kfindfileB  = new QRadioButton(                  pages[0]);
-    selectfileB = new QRadioButton(                  pages[0]);
+    QWidget *page1 = new QWidget(this, "page1");
+    
+    formatL     = new QLabel(i18n("File format:"), page1);
+    browseB     = new QPushButton(i18n("Browse"), page1);
+    formatBox   = new QComboBox(page1);
+    fileE       = new QLineEdit(page1);
+    kfindfileB  = new QRadioButton("Save results to file ~/.kfind-results.html",
+                                   page1);
+    selectfileB = new QRadioButton("Save results to file:", 
+                                   page1);
     bg          = new QButtonGroup();
 
     bg->insert(kfindfileB);
     bg->insert(selectfileB);
     bg->setExclusive(TRUE);
-
+    
     formatBox->insertItem("HTML");
     formatBox->insertItem(i18n("Plain Text"));
-    formatBox->setFixedSize(formatBox    ->sizeHint());
-
-    formatL    ->setFixedSize(formatL    ->sizeHint());
-    fileL      ->setFixedSize(fileL      ->sizeHint());
-    kfindfileL ->setFixedSize(kfindfileL ->sizeHint());
-    kfindfileB ->setFixedSize(kfindfileB ->sizeHint());
-    selectfileB->setFixedSize(selectfileB->sizeHint());
-    browseB    ->setFixedSize(browseB    ->sizeHint());
-    fileE      ->setFixedSize(344-(10+10+fileL->width()+browseB->width()),25);
-
-    kfindfileB ->move(10,20);
-    selectfileB->move(10,50);
-    kfindfileL ->move(30,20);
-    fileL      ->move(30,50);
-    fileE      ->move(fileL->x()+fileL->width()+10,fileL->y()-5);
-    browseB    ->move(fileE->x()+fileE->width()+10,fileL->y()-5);
-    formatL    ->move(30,fileL->y()+fileL->height()+20);
-    formatBox  ->move(formatL->x()+formatL->width()+20,formatL->y()-5);
-
+    
     initFileSelecting();
+
+    QVBoxLayout *topL = new QVBoxLayout(page1, 
+                                        KDialog::marginHint(), 
+                                        KDialog::spacingHint());
+    topL->addSpacing(15);
+    topL->addWidget(kfindfileB);
+    QHBoxLayout *l1 = new QHBoxLayout(topL);
+    l1->addWidget(selectfileB);
+    l1->addWidget(fileE);
+    l1->addWidget(browseB);
+    QHBoxLayout *l2 = new QHBoxLayout(topL);
+    l2->addWidget(formatL);
+    l2->addWidget(formatBox);
+    l2->addStretch(1);
+    topL->addStretch(1);
 
     connect( kfindfileB  ,SIGNAL(clicked()),
              this, SLOT(setFileSelecting()) );
@@ -115,66 +94,49 @@ void KfOptions::insertPages()
              this, SLOT(setFileSelecting()) );
     connect( browseB     ,SIGNAL(clicked()),
              this, SLOT(selectFile()) );
-
-    addTab(pages[0],i18n("Saving"));
-
-
+    
+    addTab(page1, i18n("Saving"));
+    
     // Third page of tab preferences dialog
-    pages[1]= new QWidget(this,"page3");
+    QWidget *page2 = new QWidget(this);
 
-    archiversLBox   = new QListBox(                pages[1],"archivesLBox");
-    createL         = new QLabel(i18n("Create Archive:"),
-				 pages[1],"createL");
-    addL            = new QLabel(i18n("Add to Archive:"),
-				 pages[1],"addL");
-    createE         = new QLineEdit(               pages[1],"createE");
-    addE            = new QLineEdit(               pages[1],"addE");
-    paternsL2       = new QLabel(i18n("Patterns:"),
-				 pages[1],"paternsL2");
-    paternsLBox2    = new QListBox(                pages[1],"paternsLBox2");
-    addArchiverB    = new QPushButton(i18n("Add New"),
-				      pages[1],"addArchiverB");
-    removeArchiverB = new QPushButton(i18n("Remove"),
-				      pages[1],"removeArchiverB");
-
+    archiversLBox   = new QListBox(page2);
+    createL         = new QLabel(i18n("Create Archive:"), page2);
+    addL            = new QLabel(i18n("Add to Archive:"), page2);
+    createE         = new QLineEdit(page2);
+    addE            = new QLineEdit(page2);
+    paternsL2       = new QLabel(i18n("Patterns:"), page2);
+    paternsLBox2    = new QListBox(page2);
+    addArchiverB    = new QPushButton(i18n("Add New"), page2);
+    removeArchiverB = new QPushButton(i18n("Remove"), page2);
+    
     createE        ->setEnabled(FALSE);
     addE           ->setEnabled(FALSE);
     addArchiverB   ->setEnabled(FALSE);
     removeArchiverB->setEnabled(FALSE);
+    
+    fillArchiverLBox();
+    fillArchiverDetail(0);
+    
+    QGridLayout *topG = new QGridLayout(page2, 6, 3,
+                                        KDialog::marginHint(), 
+                                        KDialog::spacingHint());
+    topG->addMultiCellWidget(archiversLBox, 0, 5, 0, 0);
+    topG->addWidget(createL, 0, 1);
+    topG->addWidget(addL, 1, 1);
+    topG->addWidget(paternsL2, 2, 1);
+    topG->addWidget(createE, 0, 2);
+    topG->addWidget(addE, 1, 2);
+    topG->addMultiCellWidget(paternsLBox2, 2, 3, 2, 2);
+    topG->addWidget(addArchiverB, 4, 2);
+    topG->addWidget(removeArchiverB, 5, 2);
+    topG->setRowStretch(3, 1);
 
-    archiversLBox->setFixedSize(120,240);
-    createL      ->setFixedSize((createL->sizeHint()).width(),25);
-    addL         ->setFixedSize(createL->width(),25);
-    createE      ->setFixedSize(130,25);
-    addE         ->setFixedSize(130,25);
-    paternsL2    ->setFixedSize(createL->width(),25);
-    paternsLBox2 ->setFixedSize(130,100);
-
-    int tmpP = archiversLBox->x()+archiversLBox->width()+10;
-
-    archiversLBox ->move(10,10);
-    createL       ->move(tmpP+15,15);
-    addL          ->move(tmpP+15,createL->y()+30);
-    paternsL2     ->move(tmpP+15,addL->y()+30);
-    addArchiverB  ->move(tmpP+10,
-			 10+archiversLBox->height()-removeArchiverB->height());
-    removeArchiverB->move(addArchiverB->x()+addArchiverB->width()+35,
-			 10+archiversLBox->height()-removeArchiverB->height());
-
-    tmpP = createL->x()+createL->width()+10;
-
-    createE     ->move(tmpP,15);
-    addE        ->move(tmpP,createL->y()+30);
-    paternsLBox2->move(tmpP,addL->y()+30);
-
-     fillArchiverLBox();
-     fillArchiverDetail(0);
-
-     connect(archiversLBox,SIGNAL(highlighted(int)),
-	     this, SLOT(fillArchiverDetail(int)) );
-
-    addTab(pages[1],i18n("Archivers"));
-  };
+    connect(archiversLBox, SIGNAL(highlighted(int)),
+            this, SLOT(fillArchiverDetail(int)) );
+    
+    addTab(page2, i18n("Archivers"));
+}
 
 void KfOptions::selectFile()
   {

@@ -47,9 +47,6 @@ private:
   /// Inserts all pages in the dialog.
   void insertPages();
 
-  /// Store pointers to dialog pages
-  QWidget *pages[1]; 
-  
   // First page of tab preferences dialog
   QLabel *formatL, *fileL, *kfindfileL;
   QPushButton *browseB;
