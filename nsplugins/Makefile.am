@@ -1,4 +1,4 @@
-SUBDIRS = viewer #wrapper
+SUBDIRS = viewer wrapper
 
 INCLUDES = $(all_includes) -I$(top_srcdir)/libltdl
 
