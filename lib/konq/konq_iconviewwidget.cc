@@ -1248,9 +1248,10 @@ void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
           && ev->source() && ev->source() == viewport())
   {
     // First we need to call QIconView though, to clear the drag shape
+    bool bMovable = itemsMovable();
     setItemsMovable(false); // hack ? call it what you want :-)
     KIconView::contentsDropEvent( ev );
-    setItemsMovable(true);
+    setItemsMovable(bMovable);
 
     QValueList<QIconDragItem> lst;
     slotDropped(ev, lst);
