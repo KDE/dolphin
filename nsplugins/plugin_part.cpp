@@ -67,7 +67,7 @@ QString PluginLiveConnectExtension::evalJavaScript( const QString & script )
     kdDebug(1432) << "PLUGIN:LiveConnect::evalJavaScript " << script << endl;
     ArgList args;
     QString jscode;
-    jscode.sprintf("this.__nsplugin=eval(\"%s\")", script.latin1());
+    jscode.sprintf("this.__nsplugin=eval(\"%s\")",  QString(script).replace('\\', "\\\\").replace('"', "\\\"").latin1());
     args.push_back(qMakePair(KParts::LiveConnectExtension::TypeString, jscode));
     emit partEvent(0, "eval", args);
     return __nsplugin;
@@ -315,11 +315,6 @@ void PluginPart::requestURL(const QString& url, const QString& target)
 {
     kdDebug(1432) << "PluginPart::requestURL( url=" << url
                   << ", target=" << target << endl;
-
-    if (url.startsWith("javascript:history.back")) {
-        _extension->browserInterface()->callMethod("goHistory(int)", -1);
-        return;
-    }
 
     KURL new_url(this->url(), url);
     KParts::URLArgs args;

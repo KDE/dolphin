@@ -710,11 +710,21 @@ void NSPluginInstance::timer()
                     QByteArray buf;
                     buf.setRawData( _baseURL.latin1(), _baseURL.length()+1 );
                     s->get( url, "text/html", buf, req.notify, true );
-                } else if (url.lower().startsWith("javascript:history.back")){
+                } else if (url.lower().startsWith("javascript:")){
                     if (_callback) {
-                        _callback->requestURL( url, req.target );
-                        if ( req.notify )
-                            NPURLNotify( req.url, NPRES_DONE, req.notify );
+                        QString result = _callback->evalJavaScript( url.mid(11) );
+                        if ( req.notify ) {
+                            NSPluginStream *s = new NSPluginStream( this );
+                            s->create( url, QString("text/plain"), req.notify );
+                            int len = result.length();
+                            QByteArray data( len + 1 );
+                            if (len)
+                                memcpy( data.data(), result.latin1(), len );
+                            data[len] = 0;
+                            s->process( data, 0 );
+                            s->finish( false );
+                            delete s;
+                        }
                     }
                 } else {
                     // create stream

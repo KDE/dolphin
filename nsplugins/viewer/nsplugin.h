@@ -63,7 +63,7 @@ class QTimer;
 class NSPluginStreamBase : public QObject
 {
 Q_OBJECT
-
+friend class NSPluginInstance;
 public:
   NSPluginStreamBase( class NSPluginInstance *instance );
   ~NSPluginStreamBase();
