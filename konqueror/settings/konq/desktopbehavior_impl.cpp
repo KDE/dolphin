@@ -87,10 +87,10 @@ private:
 };
 
 
-class DesktopBehaviorDevicesItem : public QCheckListItem
+class DesktopBehaviorMediaItem : public QCheckListItem
 {
 public:
-    DesktopBehaviorDevicesItem(DesktopBehavior *rootOpts, QListView *parent,
+    DesktopBehaviorMediaItem(DesktopBehavior *rootOpts, QListView *parent,
                 const QString name, const QString mimetype, bool on)
         : QCheckListItem(parent, name, CheckBox),
           m_rootOpts(rootOpts),m_mimeType(mimetype){setOn(on);}
@@ -121,7 +121,7 @@ DesktopBehavior::DesktopBehavior(KConfig *config, QWidget *parent, const char * 
    */
   bool leftHandedMouse = ( KGlobalSettings::mouseSettings().handed == KGlobalSettings::KMouseSettings::LeftHanded);
 
-  m_bHasDevices = KProtocolInfo::isKnownProtocol(QString::fromLatin1("devices"));
+  m_bHasMedia = KProtocolInfo::isKnownProtocol(QString::fromLatin1("media"));
 
   connect(desktopMenuGroup, SIGNAL(clicked(int)), this, SIGNAL(changed()));
   connect(iconsEnabledBox, SIGNAL(clicked()), this, SLOT(enableChanged()));
@@ -213,9 +213,9 @@ DesktopBehavior::DesktopBehavior(KConfig *config, QWidget *parent, const char * 
   QWhatsThis::add( rightLabel, wtstr );
   QWhatsThis::add( rightComboBox, wtstr );
 
-  if (m_bHasDevices)
+  if (m_bHasMedia)
   {
-     connect(enableDevicesBox, SIGNAL(clicked()), this, SLOT(enableChanged()));
+     connect(enableMediaBox, SIGNAL(clicked()), this, SLOT(enableChanged()));
   }
   else
   {
@@ -225,36 +225,35 @@ DesktopBehavior::DesktopBehavior(KConfig *config, QWidget *parent, const char * 
   load();
 }
 
-void DesktopBehavior::fillDevicesListView()
+void DesktopBehavior::fillMediaListView()
 {
-    devicesListView->clear();
-    devicesListView->setRootIsDecorated(false);
+    mediaListView->clear();
+    mediaListView->setRootIsDecorated(false);
     KMimeType::List mimetypes = KMimeType::allMimeTypes();
     QValueListIterator<KMimeType::Ptr> it2(mimetypes.begin());
-    g_pConfig->setGroup( "Devices" );
-    enableDevicesBox->setChecked(g_pConfig->readBoolEntry("enabled",false));
-    QString excludedDevices=g_pConfig->readEntry("exclude","kdedevice/hdd_mounted,kdedevice/hdd_unmounted,kdedevice/floppy_unmounted,kdedevice/cdrom_unmounted,kdedevice/floppy5_unmounted");
+    g_pConfig->setGroup( "Media" );
+    enableMediaBox->setChecked(g_pConfig->readBoolEntry("enabled",false));
+    QString excludedMedia=g_pConfig->readEntry("exclude","media/hdd_mounted,media/hdd_unmounted,media/floppy_unmounted,media/cdrom_unmounted,media/floppy5_unmounted");
     for (; it2 != mimetypes.end(); ++it2) {
-       if ( ((*it2)->name().startsWith("kdedevice/")) ||
-          ((*it2)->name()=="print/printer") )
+       if ( ((*it2)->name().startsWith("media/")) )
 	{
-    	    bool ok=excludedDevices.contains((*it2)->name())==0;
-		new DesktopBehaviorDevicesItem (this, devicesListView, (*it2)->comment(), (*it2)->name(),ok);
+    	    bool ok=excludedMedia.contains((*it2)->name())==0;
+		new DesktopBehaviorMediaItem (this, mediaListView, (*it2)->comment(), (*it2)->name(),ok);
 
         }
     }
 }
 
-void DesktopBehavior::saveDevicesListView()
+void DesktopBehavior::saveMediaListView()
 {
-    if (!m_bHasDevices)
+    if (!m_bHasMedia)
         return;
 
-    g_pConfig->setGroup( "Devices" );
-    g_pConfig->writeEntry("enabled",enableDevicesBox->isChecked());
+    g_pConfig->setGroup( "Media" );
+    g_pConfig->writeEntry("enabled",enableMediaBox->isChecked());
     QStringList exclude;
-    for (DesktopBehaviorDevicesItem *it=static_cast<DesktopBehaviorDevicesItem *>(devicesListView->firstChild());
-     	it; it=static_cast<DesktopBehaviorDevicesItem *>(it->nextSibling()))
+    for (DesktopBehaviorMediaItem *it=static_cast<DesktopBehaviorMediaItem *>(mediaListView->firstChild());
+     	it; it=static_cast<DesktopBehaviorMediaItem *>(it->nextSibling()))
     	{
 		if (!it->isOn()) exclude << it->mimeType();
 	    }
@@ -320,8 +319,8 @@ void DesktopBehavior::load()
       { rightComboBox->setCurrentItem( c ); break; }
 
     comboBoxChanged();
-    if (m_bHasDevices)
-        fillDevicesListView();
+    if (m_bHasMedia)
+        fillMediaListView();
     enableChanged();
 }
 
@@ -339,8 +338,8 @@ void DesktopBehavior::defaults()
     iconsEnabledBox->setChecked(true);
     autoLineupIconsBox->setChecked(false);
     toolTipBox->setChecked(true);
-    if (m_bHasDevices)
-        fillDevicesListView();
+    if (m_bHasMedia)
+        fillMediaListView();
 
     comboBoxChanged();
     enableChanged();
@@ -381,7 +380,7 @@ void DesktopBehavior::save()
     g_pConfig->writeEntry( "Enabled", iconsEnabledBox->isChecked() );
     g_pConfig->writeEntry( "AutoLineUpIcons", autoLineupIconsBox->isChecked() );
 
-    saveDevicesListView();
+    saveMediaListView();
     g_pConfig->sync();
 
     // Tell kdesktop about the new config file
@@ -407,11 +406,11 @@ void DesktopBehavior::enableChanged()
     behaviorTab->setTabEnabled(behaviorTab->page(1), enabled);
     vrootBox->setEnabled(enabled);
 
-    if (m_bHasDevices)
+    if (m_bHasMedia)
     {
         behaviorTab->setTabEnabled(behaviorTab->page(2), enabled);
-        enableDevicesBox->setEnabled(enabled);
-        devicesListView->setEnabled(enableDevicesBox->isChecked());
+        enableMediaBox->setEnabled(enabled);
+        mediaListView->setEnabled(enableMediaBox->isChecked());
     }
 
     changed();

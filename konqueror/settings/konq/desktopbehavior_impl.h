@@ -35,7 +35,7 @@ public:
         virtual void defaults();
         virtual QString quickHelp() const;
         friend class DesktopBehaviorPreviewItem;
-	friend class DesktopBehaviorDevicesItem;
+	friend class DesktopBehaviorMediaItem;
 
 signals:
         void changed();
@@ -48,14 +48,14 @@ private slots:
 private:
         KConfig *g_pConfig;
 
-	void fillDevicesListView();
-	void saveDevicesListView();
+	void fillMediaListView();
+	void saveMediaListView();
 
         // Combo for the menus
         void fillMenuCombo( QComboBox * combo );
 
         typedef enum { NOTHING = 0, WINDOWLISTMENU, DESKTOPMENU, APPMENU } menuChoice;
-        bool m_bHasDevices;
+        bool m_bHasMedia;
 };
 
 class DesktopBehaviorModule : public KCModule
