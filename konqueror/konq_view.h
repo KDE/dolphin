@@ -383,7 +383,7 @@ protected:
   bool m_doPost;
 
   KonqMainWindow *m_pMainWindow;
-  QGuardedPtr<KonqRun> m_pRun;
+  KonqRun *m_pRun;
   KonqFrame *m_pKonqFrame;
 
   uint m_bAllowHTML:1;

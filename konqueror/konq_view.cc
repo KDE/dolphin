@@ -425,7 +425,6 @@ void KonqView::slotStarted( KIO::Job * job )
 {
   //kdDebug(1202) << "KonqView::slotStarted"  << job << endl;
   setLoading( true );
-  frame()->unsetCursor();
 
   if ( m_pMainWindow->currentView() == this )
     m_pMainWindow->updateToolBarActions();
@@ -440,13 +439,6 @@ void KonqView::slotStarted( KIO::Job * job )
 
 void KonqView::setLoading( bool b )
 {
-    if( b )
-    {
-        if( !m_bLoading )
-            frame()->setCursor( KCursor::workingCursor());
-    }
-    else
-        frame()->unsetCursor();
     m_bLoading = b;
 }
 
@@ -767,7 +759,11 @@ void KonqView::setRun( KonqRun * run )
     // finish() will be emitted later (when back to event loop)
     // and we don't want it to call slotRunFinished (which stops the animation and stop button).
     m_pRun->disconnect( m_pMainWindow );
+    if ( !run )
+        frame()->unsetCursor();
   }
+  else if ( run )
+      frame()->setCursor( KCursor::workingCursor() );
   m_pRun = run;
 }
 

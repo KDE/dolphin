@@ -46,6 +46,8 @@ KonqRun::KonqRun( KonqMainWindow* mainWindow, KonqView *_childView,
 KonqRun::~KonqRun()
 {
   //kdDebug(1202) << "KonqRun::~KonqRun() " << this << endl;
+  if (m_pView)
+    m_pView->setRun(0L);
 }
 
 void KonqRun::foundMimeType( const QString & _type )
@@ -122,7 +124,7 @@ void KonqRun::handleError( KIO::Job *job )
      m_timer.start( 0, true );
      return;
   }
- 
+
   if (job->error() == KIO::ERR_NO_CONTENT)
   {
      KParts::BrowserRun::handleError(job);
@@ -156,7 +158,7 @@ void KonqRun::handleError( KIO::Job *job )
 void KonqRun::scanFile()
 {
     KParts::BrowserRun::scanFile();
-    // could be a static cast as of now, but who would notify when 
+    // could be a static cast as of now, but who would notify when
     // BrowserRun changes
     KIO::TransferJob *job = dynamic_cast<KIO::TransferJob*>( m_job );
     if ( job && !job->error() )
@@ -170,7 +172,7 @@ void KonqRun::slotRedirection( KIO::Job *job, const KURL& redirectedToURL )
     kdDebug(1202) << "KonqRun::slotRedirection from " <<
         redirectFromURL.prettyURL() << " to " << redirectedToURL.prettyURL() << endl;
     KonqHistoryManager::kself()->confirmPending( redirectFromURL );
-    
+
     if (redirectedToURL.protocol() == "mailto")
     {
        m_mailto = redirectedToURL;
