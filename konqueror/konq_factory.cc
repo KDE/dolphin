@@ -45,8 +45,19 @@ KonqFactory::KonqFactory()
 {
   s_instance = 0L;
   QString path = instance()->dirs()->saveLocation("data", "kfm/bookmarks", true);
-  (void)new KonqBookmarkManager( path );
-  (void)new KonqFileManager;
+  m_bookmarkManager = new KonqBookmarkManager( path );
+  m_fileManager = new KonqFileManager;
+}
+
+KonqFactory::~KonqFactory()
+{
+  delete m_bookmarkManager;
+  delete m_fileManager;
+
+  if ( s_instance )
+    delete s_instance;
+
+  s_instance = 0L;
 }
 
 BrowserView *KonqFactory::createView( const QString &serviceType,

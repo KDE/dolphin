@@ -59,7 +59,9 @@ public:
   
   virtual QObject* create( QObject*, const char*, const char* )
   {
-    return new KonqTreeView;
+    QObject *obj = new KonqTreeView;
+    emit objectCreated( obj );
+    return obj;
   }
   
 };

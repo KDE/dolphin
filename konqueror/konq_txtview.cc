@@ -54,7 +54,9 @@ public:
   
   virtual QObject* create( QObject*, const char*, const char* )
   {
-    return new KonqTxtView;
+    QObject *obj = new KonqTxtView;
+    emit objectCreated( obj );
+    return obj;
   }
   
 };

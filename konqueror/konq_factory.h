@@ -31,12 +31,15 @@
 #include <kinstance.h>
 
 class BrowserView;
+class KonqBookmarkManager;
+class KonqFileManager;
 
 class KonqFactory : public KLibFactory
 {
   Q_OBJECT
 public:
   KonqFactory();
+  virtual ~KonqFactory();
 
   static BrowserView *createView( const QString &serviceType,
 			          QStringList &serviceTypes,
@@ -48,6 +51,8 @@ public:
 
 private:
   static KInstance *s_instance;
+  KonqBookmarkManager *m_bookmarkManager;
+  KonqFileManager *m_fileManager;
 };
 
 #endif
