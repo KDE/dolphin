@@ -609,6 +609,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
 
     bool passiveMode = cfg.readBoolEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), false );
     bool linkedView = cfg.readBoolEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), false );
+    bool toggleView = cfg.readBoolEntry( QString::fromLatin1( "ToggleView" ).prepend( prefix ), false );
 
     KService::Ptr service;
     KTrader::OfferList partServiceOffers, appServiceOffers;
@@ -624,6 +625,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     KonqView *childView = setupView( parent, viewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode );
 
     childView->setLinkedView( linkedView );
+    childView->setToggleView( linkedView );
 
     //QCheckBox *checkBox = childView->frame()->statusbar()->passiveModeCheckBox();
     //checkBox->setChecked( passiveMode );
