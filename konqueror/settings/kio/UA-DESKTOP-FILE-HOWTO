@@ -1,15 +1,15 @@
-Mini HOWTO: Creating a "User-Agent" description file for KDE
-=============================================================
+Mini HOWTO create a "User-Agent" description file for KDE
+=========================================================
 
-This HOWTO describes the procedures for creating a user-agent description
-file to extend the ones that come pre-packaged with KDE.  The user-agent
-description desktop files are used to create list of addresses for sites
-which unfortunately require "faked" identities in order to be displayed
-properly.
+This mini HOWTO describes the procedure for creating a new user-agent 
+description file to extend the ones that come pre-packaged with KDE. 
+The purpose of a user agent description file is to fake/spoof sites 
+that refuse to render pages when the default user-agent identification 
+string is used.
 
-In order to create new user-agent description files, simply follow the normal
-the specification set by the "DESKTOP ENTRY STANDARD" augmented with the
-following entries and requirements:
+In order to create new user-agent description files, simply follow the
+normal desktop file specifications set by the "DESKTOP ENTRY STANDARD"
+augmented with the following requirements and optional entries:
 
 REQUIREMENTS:
 =============
@@ -20,11 +20,11 @@ Name=UADescription (XXXX)
 Type=Service
 ServiceTypes=UserAgentStrings
 
-Though the (XXXX) value show above can be any text, it is a good idea to make
-it a short identification of the browser being emulated.  However, there is NO 
-requirement on what the text should be.  It can even be left out.  It is only 
-meant to give people a quick idea which browser is being emulated by your 
-desktop file.
+Though the (XXXX) value show above can be any text, it is a good idea 
+to make it a short identification of the browser being emulated.  However,
+there is NO requirement on what the text should be.  It can even be left 
+out.  It is only meant to give people a quick idea which browser is being
+emulated by your desktop file.
 
 NEW PROPERTIES:
 ===============
@@ -126,9 +126,11 @@ X-KDE-UA-VERSION=4.76
 X-KDE-UA-DYNAMIC-ENTRY=1
 
 The first entry is a description file for Internet Explorer running on
-a Windows 98 machine while the second one is an example of "keyword"
-usage to describe fields that should be replaced dynamically based on
-the current system settings.
+a Windows 98 machine while the second one is an example of a description
+file for Netscape browser using the "keyword" based approach to describe 
+the fields that should be replaced dynamically based on the current system 
+settings. Note that all "keyword" based desktop files should always set
+X-KDE-UA-DYNAMIC-ENTRY to 1.
 
 Enjoy,
 Dawit A.
