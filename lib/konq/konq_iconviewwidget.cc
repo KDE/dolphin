@@ -18,6 +18,7 @@
 */
 #include "konq_iconviewwidget.h"
 #include "konq_undo.h"
+#include "konq_sound.h"
 
 #include <qapplication.h>
 #include <qclipboard.h>
@@ -59,7 +60,7 @@ struct KonqIconViewWidgetPrivate
     bool bSoundPreviews;
     KFileIVI *pSoundItem;
     bool bSoundItemClicked;
-    QObject *pSoundPlayer;
+    KonqSoundPlayer *pSoundPlayer;
     QTimer *pSoundTimer;
     KIO::PreviewJob *pPreviewJob;
 };
@@ -116,7 +117,6 @@ KonqIconViewWidget::~KonqIconViewWidget()
 {
     stopImagePreview();
     KonqUndoManager::decRef();
-    delete d->pSoundPlayer;
     delete d;
 }
 
@@ -158,8 +158,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
     // Stop sound
     if (d->pSoundPlayer != 0 && static_cast<KFileIVI *>(item) != d->pSoundItem)
     {
-	delete d->pSoundPlayer;
-	d->pSoundPlayer = 0;
+	d->pSoundPlayer->stop();
 
 	d->pSoundItem = 0;
 	if (d->pSoundTimer && d->pSoundTimer->isActive())
@@ -196,7 +195,8 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
       d->pActiveItem = 0L;
     }
 
-    if (d->bSoundPreviews && static_cast<KFileIVI *>(item)->item()->mimetype().startsWith("audio/"))
+    if (d->bSoundPreviews && d->pSoundPlayer->mimeTypes().contains(
+        static_cast<KFileIVI *>(item)->item()->mimetype()))
     {
       d->pSoundItem = static_cast<KFileIVI *>(item);
       d->bSoundItemClicked = false;
@@ -211,8 +211,8 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
     }
     else
     {
-      delete d->pSoundPlayer;
-      d->pSoundPlayer = 0;
+      if (d->pSoundPlayer)
+        d->pSoundPlayer->stop();
       d->pSoundItem = 0;
       if (d->pSoundTimer && d->pSoundTimer->isActive())
         d->pSoundTimer->stop();
@@ -221,8 +221,8 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
 
 void KonqIconViewWidget::slotOnViewport()
 {
-    delete d->pSoundPlayer;
-    d->pSoundPlayer = 0;
+    if (d->pSoundPlayer)
+      d->pSoundPlayer->stop();
     d->pSoundItem = 0;
     if (d->pSoundTimer && d->pSoundTimer->isActive())
       d->pSoundTimer->stop();
@@ -238,13 +238,8 @@ void KonqIconViewWidget::slotStartSoundPreview()
 {
   if (!d->pSoundItem || d->bSoundItemClicked)
     return;
-  KLibFactory *factory = KLibLoader::self()->factory("libkonqsound");
-  if (factory)
-  {
-    QStringList args;
-    args << d->pSoundItem->item()->url().url();
-    d->pSoundPlayer = factory->create(this, 0, "KPlayObject", args);
-  }
+
+  d->pSoundPlayer->play(d->pSoundItem->item()->url().url());
 }
 
 void KonqIconViewWidget::slotPreview(const KFileItem *item, const QPixmap &pix)
@@ -427,7 +422,14 @@ void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, 
              this, SIGNAL( imagePreviewFinished() ) );
     connect( d->pPreviewJob, SIGNAL( result( KIO::Job * ) ),
              this, SLOT( slotPreviewResult() ) );
-    d->bSoundPreviews = previewSettings.contains( "audio/" );
+    if ((d->bSoundPreviews = previewSettings.contains( "audio/" )) &&
+        !d->pSoundPlayer)
+    {
+      KLibFactory *factory = KLibLoader::self()->factory("libkonqsound");
+      if (factory)
+	d->pSoundPlayer = static_cast<KonqSoundPlayer *>(
+          factory->create(this, 0, "KonqSoundPlayer"));
+    }
 }
 
 void KonqIconViewWidget::stopImagePreview()
@@ -731,8 +733,8 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
   //kdDebug(1203) << "KonqIconViewWidget::contentsMousePressEvent" << endl;
   m_mousePos = QCursor::pos();
   m_bMousePressed = true;
-  delete d->pSoundPlayer;
-  d->pSoundPlayer = 0;
+  if (d->pSoundPlayer)
+    d->pSoundPlayer->stop();
   d->bSoundItemClicked = true;
   KIconView::contentsMousePressEvent( e );
 }

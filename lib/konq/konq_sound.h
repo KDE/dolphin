@@ -24,12 +24,16 @@
 #include <qobject.h>
 
 #include <klibloader.h>
-#include <soundserver.h>
-#include <kartsdispatcher.h>
 
-class KURL;
-class KPlayObject;
-class KPlayObjectFactory;
+class KonqSoundPlayer : public QObject
+{
+public:
+	virtual const QStringList &mimeTypes() const = 0;
+	virtual void play(const QString &fileName) = 0;
+	virtual void stop() = 0;
+};
+
+class KonqSoundPlayerImpl;
 
 class KonqSoundFactory : public KLibFactory
 {
@@ -43,9 +47,7 @@ protected:
 		const char *className = "QObject", const QStringList &args = QStringList());
 
 private:
-	KArtsDispatcher     m_dispatcher;
-	Arts::SoundServerV2 m_soundServer;
-	KPlayObjectFactory *m_factory;
+	KonqSoundPlayerImpl *m_player;
 };
 
 #endif
