@@ -115,7 +115,7 @@
                         <cstring>cb_preload_on_startup</cstring>
                     </property>
                     <property name="text">
-                        <string>Load one instance after KDE startup</string>
+                        <string>Preload an instance after KDE startup</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox">
@@ -123,7 +123,7 @@
                         <cstring>cb_always_have_preloaded</cstring>
                     </property>
                     <property name="text">
-                        <string>Try to have always at least one preloaded instance</string>
+                        <string>Always try to have at least one preloaded instance</string>
                     </property>
                 </widget>
             </vbox>

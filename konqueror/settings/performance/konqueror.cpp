@@ -55,7 +55,7 @@ Konqueror::Konqueror( QWidget* parent_P )
     connect( rb_file_browsing_reuse, SIGNAL( clicked()), SIGNAL( changed()));
     connect( rb_always_reuse, SIGNAL( clicked()), SIGNAL( changed()));
     rb_file_browsing_reuse->setChecked( true );
-    
+
     QString tmp =
         i18n( "If non-zero, this option allows keeping Konqueror instances "
               "in memory after all their windows have been closed, up to the "
@@ -66,18 +66,18 @@ Konqueror::Konqueror( QWidget* parent_P )
     QWhatsThis::add( sb_preload_count, tmp );
     QWhatsThis::add( lb_preload_count, tmp );
     QWhatsThis::add( cb_preload_on_startup,
-	i18n( "If enabled, one Konqueror instance will be preloaded after KDE "
-	      "startup."
-	      "<p>This will make also the first Konqueror window opening faster, "
-	      "at the expense of KDE startup taking longer (but Konqueror will "
-	      "be started at the end of KDE startup, allowing you to work meanwhile, "
-	      "so it's possible you even won't notice it's taking longer." ));
+        i18n( "If enabled, an instance of Konqueror will be preloaded after the ordinary KDE "
+              "startup sequence."
+              "<p>This will make the first Konqueror window open faster, but "
+              "at the expense of longer KDE startup times (but you'll be able to work "
+              "while it's loading "
+              "so it's possible that you even won't notice that it's taking longer)." ));
     QWhatsThis::add( cb_always_have_preloaded,
-	i18n( "If enabled, KDE will try to have always one preloaded Konqueror instance ready, "
-	      "preloading new instance in the background whenever there's none available, "
-	      "so that opening Konqueror windows should always be fast."
-	      "<p><b>WARNING:</b> It's possible this option will in some cases actually "
-	      "have negative effect on the perceived performance." ));
+        i18n( "If enabled, KDE will always try to have one preloaded Konqueror instance ready; "
+              "preloading a new instance in the background whenever there isn't one available, "
+              "so that windows will always open quickly."
+              "<p><b>WARNING:</b> In some cases, it's actually possible that this will "
+              "reduce perceived performance." ));
     connect( sb_preload_count, SIGNAL( valueChanged( int )), SLOT( preload_count_changed( int )));
     connect( sb_preload_count, SIGNAL( valueChanged( int )), SIGNAL( changed()));
     connect( cb_preload_on_startup, SIGNAL( clicked()), SIGNAL( changed()));
@@ -94,7 +94,7 @@ void Konqueror::preload_count_changed( int count )
     // "quits" konqueror, one of the instances will have to be terminated
     cb_always_have_preloaded->setEnabled( count >= 2 );
     }
-        
+
 void Konqueror::load()
     {
     KConfig cfg( "konquerorrc", true );
@@ -110,7 +110,7 @@ void Konqueror::load()
     cb_always_have_preloaded->setChecked( cfg.readBoolEntry( "AlwaysHavePreloaded", false ));
     cb_preload_on_startup->setChecked( cfg.readBoolEntry( "PreloadOnStartup", false ));
     }
-    
+
 void Konqueror::save()
     {
     KConfig cfg( "konquerorrc" );
@@ -136,7 +136,7 @@ void Konqueror::save()
     DCOPRef ref2( "kded", "konqy_preloader" );
     ref2.send( "reconfigure()" );
     }
-    
+
 void Konqueror::defaults()
     {
     rb_file_browsing_reuse->setChecked( true );
@@ -146,7 +146,7 @@ void Konqueror::defaults()
     cb_always_have_preloaded->setChecked( false );
     preload_count_changed( sb_preload_count->value());
     }
-    
+
 } // namespace
 
 #include "konqueror.moc"
