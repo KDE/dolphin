@@ -6,6 +6,6 @@
 // to look for the "Mozilla/4.0" before serving up pages!!!  If you
 // dislike this, you can change yours from the control-panel under
 // "Browsing/Web/UserAgent." (DA)
-#define DEFAULT_USERAGENT_STRING QString("Mozilla/4.0 (compatiable; Konqueror/")+KDE_VERSION_STRING+QString("; X11)")
+#define DEFAULT_USERAGENT_STRING QString("Mozilla/4.0 (compatible; Konqueror/")+KDE_VERSION_STRING+QString("; X11)")
 
 #endif
