@@ -1138,8 +1138,8 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 // well. If the WM has support for _NET_WM_USER_TIME, it will be just set to 0 (=don't focus on show),
 // and the WM should take care of it itself.
     bool wm_usertime_support = false;
-    extern Time qt_x_last_input_time;
-    Time saved_last_input_time = qt_x_last_input_time;
+    extern Time qt_x_user_time;
+    Time saved_last_input_time = qt_x_user_time;
     if ( windowArgs.lowerWindow )
     {
         NETRootInfo wm_info( qt_xdisplay(), NET::Supported );
@@ -1149,7 +1149,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
         // *sigh*, and I thought nobody would need QWidget::dontFocusOnShow().
         // Avoid Qt's support for user time by setting it to 0, and
         // set the property ourselves.
-            qt_x_last_input_time = 0;
+            qt_x_user_time = 0;
             KWin::setUserTime( mainWindow->winId(), 0 );
         }
         // Put below the current window before showing, in case that actually works with the WM.
@@ -1162,7 +1162,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 
     if ( windowArgs.lowerWindow )
     {
-        qt_x_last_input_time = saved_last_input_time;
+        qt_x_user_time = saved_last_input_time;
         if( !wm_usertime_support )
         { // No WM support. Let's try ugly tricks.
             mainWindow->lower();
@@ -4904,8 +4904,8 @@ void KonqMainWindow::resetWindow()
     static Atom atom = XInternAtom( qt_xdisplay(), "_KDE_NET_WM_USER_CREATION_TIME", False );
     XChangeProperty( qt_xdisplay(), winId(), atom, XA_CARDINAL, 32,
 		     PropModeReplace, (unsigned char *) &x_time, 1);
-    extern Time qt_x_last_input_time;   // reset also user time, so that this window
-    qt_x_last_input_time = CurrentTime; // won't have _NET_WM_USER_TIME set
+    extern Time qt_x_user_time;   // reset also user time, so that this window
+    qt_x_user_time = CurrentTime; // won't have _NET_WM_USER_TIME set
 #if !KDE_IS_VERSION( 3, 2, 90 ) // _KDE_NET_USER_TIME is obsolete
     static Atom atom2 = XInternAtom( qt_xdisplay(), "_KDE_NET_USER_TIME", False );
     timeval tv;
