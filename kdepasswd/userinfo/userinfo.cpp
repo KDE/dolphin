@@ -36,6 +36,7 @@
 #include <kimageio.h>
 #include <kconfig.h>
 #include <kurldrag.h>
+#include <kuser.h>
 
 #include "userinfo.h"
 #include "chfnproc.h"
@@ -281,12 +282,11 @@ void KUserInfoConfig::save()
 void KUserInfoConfig::load()
 {
   // Get face dirs
-  QString m_kdmDir = KGlobal::dirs()->resourceDirs("data").last() + "kdm/";
-  m_userPicsDir = m_kdmDir + KDM_USER_FACES_DIR;
-  m_facesDir = m_kdmDir + KDM_FACES_DIR;
+  m_facesDir =  KGlobal::dirs()->resourceDirs("data").last() + "kdm/" + KDM_FACES_DIR;
 
   KConfig *kdmconfig = new KConfig("kdm/kdmrc", true);
   kdmconfig->setGroup("X-*-Greeter");
+  m_userPicsDir = kdmconfig->readEntry( "FaceDir", KGlobal::dirs()->resourceDirs("data").last() + "kdm/faces" ) + '/';
   QString fs = kdmconfig->readEntry( "FaceSource" );
   if (fs == QString::fromLatin1("UserOnly"))
     m_FaceSource = FACE_SRC_USERONLY;
@@ -299,19 +299,13 @@ void KUserInfoConfig::load()
   delete kdmconfig;
 
   // Read user information
-  char *user = getlogin();
-  if (user == 0) user = getenv( "LOGNAME" );
-  m_UserName = user;
+  KUser user;
+  m_UserName = user.loginName();
 
-  //Get Extended User info from passwd
-  setpwent(); // Reset passwd
-  struct passwd *ps = getpwnam( user );
-  m_FullName = QFile::decodeName( ps->pw_gecos );
-  m_FullName = m_FullName.left(m_FullName.find(","));
-  m_HomeDir = ps->pw_dir;
-  m_Shell = ps->pw_shell;
-  m_UserID = m_UserID.setNum( ps->pw_uid );
-  endpwent();// Done
+  m_FullName = user.fullName();
+  m_HomeDir = user.homeDir();
+  m_Shell = user.shell();
+  m_UserID = m_UserID.setNum( user.uid() );
 
   m_HeaderText = m_FullName.isEmpty() ?
 			"<font size=\"7\"><b>" + m_UserName + "</b></font>" :
@@ -325,7 +319,7 @@ void KUserInfoConfig::load()
   if ( m_FaceSource == FACE_SRC_ADMINFIRST )
   {
     // If the administrator's choice takes preference
-    m_FacePixmap = QPixmap( m_userPicsDir + m_UserName + ".png" );
+    m_FacePixmap = QPixmap( m_userPicsDir + m_UserName + ".face.icon" );
     if ( m_FacePixmap.isNull() )
       m_FaceSource = FACE_SRC_USERONLY;
     else
@@ -336,7 +330,7 @@ void KUserInfoConfig::load()
     // If the user's choice takes preference
     m_FacePixmap = QPixmap( m_HomeDir + USER_FACE_FILE );
     if ( m_FacePixmap.isNull() && m_FaceSource == FACE_SRC_USERFIRST ) // The user has no face, should we check for the admin's setting?
-       m_FacePixmap = QPixmap( m_userPicsDir + m_UserName + ".png" );
+       m_FacePixmap = QPixmap( m_userPicsDir + m_UserName + ".face.icon" );
     if ( m_FacePixmap.isNull() )
       m_FacePixmap = QPixmap( m_userPicsDir + SYS_DEFAULT_FILE );
 
@@ -345,7 +339,7 @@ void KUserInfoConfig::load()
   else if ( m_FaceSource <= FACE_SRC_ADMINONLY )
   {
     // Admin only
-    m_FacePixmap = QPixmap( m_userPicsDir + m_UserName + ".png" );
+    m_FacePixmap = QPixmap( m_userPicsDir + m_UserName + ".face.icon" );
     if ( m_FacePixmap.isNull() )
       m_FacePixmap = QPixmap( m_userPicsDir + SYS_DEFAULT_FILE );
     m_pFaceButton->setPixmap( m_FacePixmap );

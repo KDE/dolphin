@@ -19,9 +19,9 @@
 #define USER_CUSTOM_FILE   "/Custom.png"   // An image set by this program, UserFacesDir+this
 #define USER_CUSTOM_KEY    "Zz_custom"     // Do not change
 
-#define SYS_DEFAULT_FILE   "/default1.png"  // The system-wide default image
-#define KDM_FACES_DIR      "/pics/faces/"  // Directory where system-wide faces are stored (KDMDIR+this)
-#define KDM_USER_FACES_DIR   "/pics/users/"// Directory where kdm stores user pics (KDMDIR+this)
+#define SYS_DEFAULT_FILE   ".default.face.icon"  // The system-wide default image
+#define KDM_FACES_DIR      "pics/users/"         // Directory where system-wide faces are stored (KDMDIR+this)
+#define KDM_USER_FACES_DIR "faces/"              // Directory where kdm stores user pics (KDMDIR+this)
 
 #define FACE_PIX_SIZE      64              // Default Size for faces is 60x60
 #define FACE_BTN_SIZE      FACE_PIX_SIZE+10// Size for the Face button in the main dialog
