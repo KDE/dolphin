@@ -13,8 +13,11 @@
 <title>The &konsole; Handbook</title>
 <authorgroup>
 <author>&Jonathan.Singer; &Jonathan.Singer.mail;</author>
-<author><personname><firstname>Kurt</firstname><surname>Hindenburg</surname></personname><email>kurt.hindenburg@kdemail.net</email>
-</author>
+<author>&Kurt.Hindenburg; &Kurt.Hindenburg.mail;</author>
+
+<othercredit role="developer">
+&Kurt.Hindenburg; &Kurt.Hindenburg.mail;
+</othercredit>
 
 <othercredit role="developer">
 &Waldo.Bastian; &Waldo.Bastian.mail;
@@ -1389,7 +1392,9 @@ echo $*</programlisting>
 <chapter id="credits">
 <title>Credits and Copyright</title>
 
-<para>&konsole; is maintained by &Waldo.Bastian; &Waldo.Bastian.mail;</para>
+<para>As of &kde; 3.4, &konsole; is maintained by &Kurt.Hindenburg; &Kurt.Hindenburg.mail;</para>
+
+<para>Previously, &konsole; was maintained by &Waldo.Bastian; &Waldo.Bastian.mail;</para>
 
 <para>The application &konsole; Copyright &copy; 1997-2005
 &Lars.Doelle; &Lars.Doelle.mail;</para>
@@ -1397,9 +1402,8 @@ echo $*</programlisting>
 <para>This document was written by &Jonathan.Singer;
 &Jonathan.Singer.mail;</para>
 
-<para>This document was updated for KDE 3.4 by
-<author><personname><firstname>Kurt</firstname><surname>Hindenburg</surname></personname><email>kurt.hindenburg@kdemail.net</email></author>
-( kurt.hindenburg AT kdemail.net )</para>
+<para>This document was updated for &kde; 3.4 by
+&Kurt.Hindenburg; &Kurt.Hindenburg.mail;</para>
 
 <para>Originally converted to DocBook <acronym>SGML</acronym> by
 &Mike.McBride; and &Lauri.Watts;</para>
