@@ -39,7 +39,7 @@
 QStringList * KNewMenu::templatesList = 0L;
 int KNewMenu::templatesVersion = 0;
 
-KNewMenu::KNewMenu( QActionCollection * _collec, const char *name ) : 
+KNewMenu::KNewMenu( QActionCollection * _collec, const char *name ) :
   KActionMenu( i18n( "&New" ), _collec, name ), m_actionCollection( _collec ), menuItemsVersion(0)
 {
     fillMenu();
@@ -66,7 +66,7 @@ void KNewMenu::fillMenu()
         fillTemplates();
         menuItemsVersion = templatesVersion;
     }
-    
+
     popupMenu()->clear();
     KAction * act = new KAction( i18n( "Folder" ), 0, this, SLOT( slotNewFile() ),
                                  m_actionCollection, QString("newmenu1") );
@@ -75,7 +75,7 @@ void KNewMenu::fillMenu()
 
     int i = 2;
     QStringList::Iterator templ = templatesList->begin(); // skip 'Folder'
-    for ( ++templ; templ != templatesList->end(); ++templ, ++i)
+    for ( ++templ; templ != templatesList->end(); ++templ)
     {
         KSimpleConfig config(KUserPaths::templatesPath() + *templ, true);
         config.setDesktopGroup();
@@ -83,11 +83,31 @@ void KNewMenu::fillMenu()
         if ( name.right(8) == ".desktop" )
             name.truncate( name.length() - 8 );
         if ( name.right(7) == ".kdelnk" )
+        {
             name.truncate( name.length() - 7 );
+        }
         name = config.readEntry("Name", name );
-        KAction * act = new KAction( name, 0, this, SLOT( slotNewFile() ),
-                                 m_actionCollection, QString("newmenu%1").arg( i ) );
-        act->plug( popupMenu() );
+
+        // There might be a .desktop for that one already
+        bool bSkip = false;
+
+        QValueList<QAction*> actions = m_actionCollection->actions();
+        QValueListIterator<QAction*> it = actions.begin();
+        for( ; it != actions.end(); ++it )
+        {
+          if ( (*it)->text() == name )
+          {
+            debug("skipping %s",(*templ).ascii());
+            bSkip = true;
+          }
+        }
+
+        if ( !bSkip )
+        {
+          KAction * act = new KAction( name, 0, this, SLOT( slotNewFile() ),
+                                       m_actionCollection, QString("newmenu%1").arg( i++ ) );
+          act->plug( popupMenu() );
+        }
     }
 }
 
@@ -131,7 +151,7 @@ void KNewMenu::slotNewFile()
 
     QString sFile = *(templatesList->at( id - 1 ));
     kdebug(0, 1203, QString("sFile = %1").arg(sFile));
-      
+
     QString sName ( sFile );
     QString text, value;
 
