@@ -23,6 +23,7 @@
 #include <klocale.h>
 #include <kprotocolinfo.h>
 #include <konq_faviconmgr.h>
+#include <qpainter.h>
 
 #include "history_item.h"
 #include "history_module.h"

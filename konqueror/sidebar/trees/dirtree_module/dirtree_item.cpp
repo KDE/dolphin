@@ -30,6 +30,7 @@
 #include <qclipboard.h>
 #include <kio/paste.h>
 #include <qfile.h>
+#include <qpainter.h>
 
 #define MYMODULE static_cast<KonqSidebarDirTreeModule*>(module())
 
