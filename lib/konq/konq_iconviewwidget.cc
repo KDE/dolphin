@@ -194,7 +194,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
       // selection
       d->pActiveItem = 0L;
     }
-    
+
     if (d->bSoundPreviews && static_cast<KFileIVI *>(item)->item()->mimetype().startsWith("audio/"))
     {
       d->pSoundItem = static_cast<KFileIVI *>(item);
@@ -233,7 +233,7 @@ void KonqIconViewWidget::slotOnViewport()
 
     if (d->pActiveItem == 0L)
         return;
-				
+
     d->pActiveItem->setEffect( KIcon::Desktop, KIcon::DefaultState );
     d->pActiveItem = 0L;
 }
@@ -654,17 +654,7 @@ void KonqIconViewWidget::copySelection()
 
 void KonqIconViewWidget::pasteSelection()
 {
-    KURL::List lst = selectedUrls();
-
-    // nonsense.
-    //assert ( lst.count() <= 1 );
-    /*KURL pasteURL;
-    if ( lst.count() == 1 )
-      pasteURL = lst.first();
-    else
-      pasteURL = url(); */
-
-    KonqOperations::doPaste( this, /*pasteURL*/url() );
+    KonqOperations::doPaste( this, url() );
 }
 
 KURL::List KonqIconViewWidget::selectedUrls()
@@ -734,7 +724,10 @@ void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
     KIconView::contentsDropEvent( ev );
     emit dropped(); // What is this for ? (David)
   }
-  slotSaveIconPositions();
+  // Don't do this here, it's too early !
+  // slotSaveIconPositions();
+  // If we want to save after the new file gets listed, though,
+  // we could reimplement contentsDropEvent in KDIconView and set m_bNeedSave. Bah.
 }
 
 void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
@@ -755,7 +748,7 @@ void KonqIconViewWidget::slotSaveIconPositions()
 {
   if ( m_dotDirectoryPath.isEmpty() )
     return;
-  //kdDebug(1203) << "KonqIconViewWidget::slotSaveIconPositions" << endl;
+  kdDebug(1214) << "KonqIconViewWidget::slotSaveIconPositions" << endl;
   KSimpleConfig dotDirectory( m_dotDirectoryPath );
   QIconViewItem *it = firstItem();
   if ( !it )
@@ -766,7 +759,7 @@ void KonqIconViewWidget::slotSaveIconPositions()
     KonqFileItem *item = ivi->item();
 
     dotDirectory.setGroup( QString( m_iconPositionGroupPrefix ).append( item->url().fileName() ) );
-    //kdDebug(1203) << "KonqIconViewWidget::slotSaveIconPositions " << item->url().fileName() << " " << it->x() << " " << it->y() << endl;
+    kdDebug(1214) << "KonqIconViewWidget::slotSaveIconPositions " << item->url().fileName() << " " << it->x() << " " << it->y() << endl;
     dotDirectory.writeEntry( "X", it->x() );
     dotDirectory.writeEntry( "Y", it->y() );
     dotDirectory.writeEntry( "Exists", true );
@@ -784,7 +777,10 @@ void KonqIconViewWidget::slotSaveIconPositions()
       if ( dotDirectory.hasKey( "Exists" ) )
         dotDirectory.deleteEntry( "Exists", false );
       else
+      {
+        kdDebug(1214) << "KonqIconViewWidget::slotSaveIconPositions deleting group " << *gIt << endl;
         dotDirectory.deleteGroup( *gIt );
+      }
     }
 
   dotDirectory.sync();
