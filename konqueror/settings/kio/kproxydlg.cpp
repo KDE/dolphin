@@ -3,7 +3,6 @@
 
 #include <qlayout.h> //CT
 
-#include <ktablistbox.h>
 #include <klocale.h>
 #include <kapp.h>
 #include <kurl.h>
@@ -120,7 +119,7 @@ KProxyOptions::~KProxyOptions()
 
 void KProxyOptions::loadSettings()
 {
-  g_pConfig->setGroup( QString::null );
+  g_pConfig->setGroup( "Proxy Settings" );
   updateGUI (
       g_pConfig->readEntry( "HttpProxy" ),
       g_pConfig->readEntry( "FtpProxy" ),
@@ -136,21 +135,18 @@ void KProxyOptions::defaultSettings() {
 void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy, bool bUseProxy,
                QString noProxyFor)
 {
-  QString port;
   KURL url;
 
   if( !httpProxy.isEmpty() ) {
     url = httpProxy;
-    port.setNum( url.port() );
     le_http_url->setText( url.host() );
-    le_http_port->setText( port ); 
+    le_http_port->setText( QString::number( url.port() ) ); 
   }
 
   if( !ftpProxy.isEmpty() ) {
     url = ftpProxy;
-    port.setNum( url.port() );
     le_ftp_url->setText( url.host() );
-    le_ftp_port->setText( port ); 
+    le_ftp_port->setText( QString::number( url.port() ) ); 
   }
 
   useProxy = bUseProxy;
@@ -164,23 +160,25 @@ void KProxyOptions::saveSettings()
 {
     QString url;
 
-    g_pConfig->setGroup( QString::null );
+    g_pConfig->setGroup( "Proxy Settings" );
   
     url = le_http_url->text();
     if( !url.isEmpty() ) {
-        url = "http://";
-        url += le_http_url->text();     // host
-        url += ":";
-        url += le_http_port->text();    // and port
+      if ( url.left( 7 ) != "http://" )
+        url.prepend( "http://" );
+      
+      url += ":";
+      url += le_http_port->text();    // port
     }
     g_pConfig->writeEntry( "HttpProxy", url );
 
     url = le_ftp_url->text();
     if( !url.isEmpty() ) {
-        url = "ftp://";
-        url += le_ftp_url->text();       // host
-        url += ":";
-        url += le_ftp_port->text();      // and port
+      if ( url.left( 6 ) != "ftp://" )
+        url.prepend( "ftp://" );
+	
+      url += ":";
+      url += le_ftp_port->text();      // port
     }
     g_pConfig->writeEntry( "FtpProxy", url );
 
