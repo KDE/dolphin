@@ -36,6 +36,7 @@
 #include <kurldrag.h>
 #include <qptrlist.h>
 #include <kdebug.h>
+#include <kiconloader.h>
 
 #include "kfwin.h"
 
@@ -285,7 +286,7 @@ void KfindWindow::deleteFiles()
 {
   QString tmp = i18n("Do you really want to delete the selected file?",
                      "Do you really want to delete the %n selected files?",selectedItems().count());
-  if (KMessageBox::questionYesNo(parentWidget(), tmp) == KMessageBox::No)
+  if (KMessageBox::warningContinueCancel(parentWidget(), tmp, "", KGuiItem( i18n("&Delete"), "editdelete")) == KMessageBox::Cancel)
     return;
 
   // Iterate on all selected elements
@@ -407,19 +408,21 @@ void KfindWindow::slotContextMenu(KListView *,QListViewItem *item,const QPoint&p
   {
      //menu = new KPopupMenu(item->text(0), this);
      m_menu->insertTitle(item->text(0));
-     m_menu->insertItem(i18n("Copy"), this, SLOT(copySelection()));
-     m_menu->insertItem(i18n("Delete"), this, SLOT(deleteFiles()));
-     m_menu->insertItem(i18n("Open Folder"), this, SLOT(openFolder()));
+     m_menu->insertItem(SmallIcon("fileopen"),i18n("Open"), this, SLOT(openBinding()));
+     m_menu->insertItem(SmallIcon("window_new"),i18n("Open Folder"), this, SLOT(openFolder()));
+     m_menu->insertSeparator();
+     m_menu->insertItem(SmallIcon("editcopy"),i18n("Copy"), this, SLOT(copySelection()));
+     m_menu->insertItem(SmallIcon("editdelete"),i18n("Delete"), this, SLOT(deleteFiles()));
+     m_menu->insertSeparator();
      m_menu->insertItem(i18n("Open With..."), this, SLOT(slotOpenWith()));
-     m_menu->insertItem(i18n("Open"), this, SLOT(openBinding()));
      m_menu->insertSeparator();
      m_menu->insertItem(i18n("Properties"), this, SLOT(fileProperties()));
   }
   else
   {
      m_menu->insertTitle(i18n("Selected Files"));
-     m_menu->insertItem(i18n("Copy"), this, SLOT(copySelection()));
-     m_menu->insertItem(i18n("Delete"), this, SLOT(deleteFiles()));
+     m_menu->insertItem(SmallIcon("editcopy"),i18n("Copy"), this, SLOT(copySelection()));
+     m_menu->insertItem(SmallIcon("editdelete"),i18n("Delete"), this, SLOT(deleteFiles()));
   }
   m_menu->popup(p, 1);
 }
