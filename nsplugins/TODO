@@ -1,5 +1,5 @@
-- add plugin initiated streams
 - use Konqui's cache
-- become asynchronous
-- mozilla plugin support when they are available.
+- asynchronous integration with konqi (no freezing!)
+- implement the new plugin schema
+- XEmbed plugin support
 ...
