@@ -1,7 +1,7 @@
 [Desktop Entry]
 Icon=desktop
 Type=Application
-Exec=kcmshell LookNFeel/Desktop/virtualdesktops
+Exec=kcmshell LookNFeel/virtualdesktops
 DocPath=kcontrol/numbername.html
 
 X-KDE-ModuleType=Library

@@ -3,7 +3,7 @@ Type=Application
 DocPath=kcontrol/desktop.html
 # Needs another icon !
 Icon=desktop
-Exec=kcmshell LookNFeel/Desktop/desktop
+Exec=kcmshell LookNFeel/desktop
 
 X-KDE-ModuleType=Library
 X-KDE-Library=konq
