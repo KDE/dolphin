@@ -2,7 +2,6 @@
 Encoding=UTF-8
 Icon=launch
 Type=Application
-DocPath=kcontrol/kcmperformance/index.html
 Exec=kcmshell kcmkonqyperformance
 
 X-KDE-ModuleType=Library
@@ -45,7 +44,7 @@ Name[sk]=Výkon
 Name[sl]=Zmogljivost
 Name[sr]=Перформансе
 Name[sv]=Prestanda
-Name[ta]=செயலாக்கம்
+Name[ta]=செயல்திறன்
 Name[tg]=Амалкард
 Name[th]=ประสิทธิภาพ
 Name[tr]=Performans
@@ -127,7 +126,7 @@ Keywords[nl]=konqueror,hergebruik,preloading
 Keywords[nn]=Konqueror,gjenbruk,førehandslasting
 Keywords[pl]=konqueror,ponowne użycie,wstępne wczytywanie
 Keywords[pt]=konqueror,reutilização,pré-carregamento
-Keywords[pt_BR]=konqueror,reuso,pre-carregamento
+Keywords[pt_BR]=konqueror,reuso,pré-carregamento
 Keywords[ro]=konqueror,reutilizare,preîncărcare
 Keywords[sl]=konqueror,recikliranje,prednalaganje
 Keywords[sr]=konqueror,reuse,preloading,поново коришћење,преучитавање

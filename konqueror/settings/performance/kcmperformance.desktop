@@ -2,7 +2,6 @@
 Encoding=UTF-8
 Icon=launch
 Type=Application
-DocPath=kcontrol/kcmperformance/index.html
 Exec=kcmshell kcmperformance
 
 X-KDE-ModuleType=Library
