@@ -63,8 +63,9 @@ static QPixmap wallpaperPixmap( const QString & _wallpaper )
 
 struct KonqPropsView::Private
 {
-    QStringList* previewsToShow;
-    bool previewsEnabled;
+   QStringList* previewsToShow;
+   bool previewsEnabled:1;
+   bool caseInsensitiveSort:1;
 };
 
 KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps )
@@ -79,6 +80,9 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
 
   KConfig *config = instance->config();
   KConfigGroupSaver cgs(config, "Settings");
+
+  d=new Private();
+  d->caseInsensitiveSort=config->readBoolEntry( "CaseInsensitiveSort", false );
 
   m_iIconSize = config->readNumEntry( "IconSize", 0 );
   m_iItemTextPos = config->readNumEntry( "ItemTextPos", QIconView::Bottom );
@@ -109,6 +113,12 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
                                    KGlobal::dirs()->kde_default("data") + "konqueror/tiles/");
 }
 
+bool KonqPropsView::isCaseInsensitiveSort() const
+{
+   return d->caseInsensitiveSort;
+};
+
+
 KConfigBase * KonqPropsView::currentConfig()
 {
     if ( !m_currentConfig )
@@ -136,8 +146,9 @@ KConfigBase * KonqPropsView::currentColorConfig()
 
 KonqPropsView::~KonqPropsView()
 {
-    delete d->previewsToShow;
-    delete d;
+   delete d->previewsToShow;
+   delete d;
+   d=0;
 }
 
 bool KonqPropsView::enterDir( const KURL & dir )
@@ -159,6 +170,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_iIconSize = m_defaultProps->iconSize();
     m_iItemTextPos = m_defaultProps->itemTextPos();
     m_bShowDot = m_defaultProps->isShowingDotFiles();
+    d->caseInsensitiveSort=m_defaultProps->isCaseInsensitiveSort();
     m_dontPreview = m_defaultProps->m_dontPreview;
     m_textColor = m_defaultProps->m_textColor;
     m_bgColor = m_defaultProps->m_bgColor;
@@ -174,6 +186,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_iIconSize = config->readNumEntry( "IconSize", m_iIconSize );
     m_iItemTextPos = config->readNumEntry( "ItemTextPos", m_iItemTextPos );
     m_bShowDot = config->readBoolEntry( "ShowDotFiles", m_bShowDot );
+    d->caseInsensitiveSort=config->readBoolEntry("CaseInsensitiveSort",d->caseInsensitiveSort);
     m_bShowDirectoryOverlays = config->readBoolEntry( "ShowDirectoryOverlays", m_bShowDirectoryOverlays );
     if (config->hasKey( "DontPreview" ))
         m_dontPreview = config->readListEntry( "DontPreview" );
@@ -245,6 +258,24 @@ void KonqPropsView::setShowingDotFiles( bool show )
         kdDebug(1203) << "Saving in current config" << endl;
         KConfigGroupSaver cgs(currentConfig(), currentGroup());
         currentConfig()->writeEntry( "ShowDotFiles", m_bShowDot );
+        currentConfig()->sync();
+    }
+}
+
+void KonqPropsView::setCaseInsensitiveSort( bool on )
+{
+    kdDebug(1203) << "KonqPropsView::setCaseInsensitiveSort " << on << endl;
+    d->caseInsensitiveSort = on;
+    if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
+    {
+        kdDebug(1203) << "Saving in default properties" << endl;
+        m_defaultProps->setCaseInsensitiveSort( on );
+    }
+    else if (currentConfig())
+    {
+        kdDebug(1203) << "Saving in current config" << endl;
+        KConfigGroupSaver cgs(currentConfig(), currentGroup());
+        currentConfig()->writeEntry( "CaseInsensitiveSort", d->caseInsensitiveSort );
         currentConfig()->sync();
     }
 }

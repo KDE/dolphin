@@ -89,6 +89,9 @@ public:
   void setShowingDotFiles( bool show );
   bool isShowingDotFiles() const { return m_bShowDot; }
 
+  void setCaseInsensitiveSort( bool show );
+  bool isCaseInsensitiveSort() const;
+
   void setShowingDirectoryOverlays( bool show );
   bool isShowingDirectoryOverlays() const { return m_bShowDirectoryOverlays; }
 
