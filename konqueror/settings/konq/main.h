@@ -80,6 +80,7 @@ public:
   void load();
   void save();
   void defaults();
+  QString quickHelp() const;
 
 
 protected:

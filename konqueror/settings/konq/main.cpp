@@ -202,6 +202,10 @@ void KDesktopModule::resizeEvent(QResizeEvent *)
   tab->setGeometry(0,0,width(),height());
 }
 
+QString KDesktopModule::quickHelp() const
+{
+  return root->quickHelp();
+}
 
 extern "C"
 {
