@@ -25,6 +25,7 @@
 
 #include <klibloader.h>
 #include <soundserver.h>
+#include <kartsdispatcher.h>
 
 class KURL;
 class KPlayObject;
@@ -42,6 +43,7 @@ protected:
 		const char *className = "QObject", const QStringList &args = QStringList());
 
 private:
+	KArtsDispatcher     m_dispatcher;
 	Arts::SoundServerV2 m_soundServer;
 	KPlayObjectFactory *m_factory;
 };

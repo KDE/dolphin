@@ -19,7 +19,6 @@
 // $Id$
 
 #include <kurl.h>
-#include <kartsdispatcher.h>
 #include <kplayobjectfactory.h>
 
 #include "konq_sound.moc"
@@ -27,7 +26,6 @@
 KonqSoundFactory::KonqSoundFactory(QObject *parent, const char *name)
 	: KLibFactory(parent, name)
 {
-	KArtsDispatcher::init();
 	m_soundServer = Arts::Reference("global:Arts_SoundServerV2");
 	m_factory = new KPlayObjectFactory(m_soundServer);
 }
@@ -35,7 +33,6 @@ KonqSoundFactory::KonqSoundFactory(QObject *parent, const char *name)
 KonqSoundFactory::~KonqSoundFactory()
 {
 	delete m_factory;
-	KArtsDispatcher::free();
 }
 
 QObject *KonqSoundFactory::createObject(QObject *, const char *,
