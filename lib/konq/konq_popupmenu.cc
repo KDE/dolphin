@@ -540,18 +540,30 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
             if ( m_lstItems.count() == 1 && sMoving )
                 addAction( "rename" );
 
+            bool addTrash = false;
+            bool addDel = false;
+
             if ( sMoving && !isIntoTrash && !isTrashLink )
-                addAction( "trash" );
+                addTrash = true;
 
             if ( sDeleting ) {
                 if ( !isLocal )
-                    addAction( "del" );
+                    addDel = true;
+                else if (KApplication::keyboardMouseState() & Qt::ShiftButton) {
+                    addTrash = false;
+                    addDel = true;
+                }
                 else {
                     KConfigGroup configGroup( kapp->config(), "KDE" );
                     if ( configGroup.readBoolEntry( "ShowDeleteCommand", false ) )
-                        addAction( "del" );
+                        addDel = true;
                 }
             }
+
+            if ( addTrash )
+                addAction( "trash" );
+            if ( addDel )
+                addAction( "del" );
         }
     }
     if ( isCurrentTrash )
