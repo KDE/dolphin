@@ -22,14 +22,10 @@
 
 #include <qlistview.h>
 #include <qstring.h>
-#include <kio/global.h>
-#include <klocale.h>
 #include <kicontheme.h>
 #include <konq_fileitem.h>
-//#include "konq_listviewwidget.h"
 
 class KonqBaseListViewWidget;
-class KMimeType;
 class KonqListViewDir;
 class QPainter;
 class KonqBaseListViewItem;

@@ -22,21 +22,17 @@
 #include "konq_listviewwidget.h"
 #include "konq_propsview.h"
 
-#include <qdragobject.h>
-#include <qheader.h>
-#include <qcursor.h>
-
-#include <kcursor.h>
-#include <kdebug.h>
 #include <konq_dirlister.h>
+#include <konq_operations.h>
+#include <konq_settings.h>
+
+#include <kdebug.h>
 #include <kglobal.h>
 #include <kglobalsettings.h>
 #include <kio/job.h>
-#include <konq_operations.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kprotocolinfo.h>
-#include <konq_settings.h>
 #include <kaction.h>
 #include <kurldrag.h>
 
@@ -127,23 +123,23 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
             this, SIGNAL(viewportAdjusted()));
 
    // Connect the directory lister
-   QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ),
-                     this, SLOT( slotStarted() ) );
-   QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
-   QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
-   QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
-   QObject::connect( m_dirLister, SIGNAL( newItems( const KFileItemList & ) ),
-                     this, SLOT( slotNewItems( const KFileItemList & ) ) );
-   QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
-                     this, SLOT( slotDeleteItem( KFileItem * ) ) );
-   QObject::connect( m_dirLister, SIGNAL( refreshItems( const KFileItemList & ) ),
-                     this, SLOT( slotRefreshItems( const KFileItemList & ) ) );
-   QObject::connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
-                     this, SLOT( slotRedirection( const KURL & ) ) );
-   QObject::connect( m_dirLister, SIGNAL( closeView() ),
-                     this, SLOT( slotCloseView() ) );
-   QObject::connect( m_dirLister, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ),
-                     m_pBrowserView, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ) );
+   connect( m_dirLister, SIGNAL( started( const QString & ) ),
+            this, SLOT( slotStarted() ) );
+   connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
+   connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
+   connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
+   connect( m_dirLister, SIGNAL( newItems( const KFileItemList & ) ),
+            this, SLOT( slotNewItems( const KFileItemList & ) ) );
+   connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
+            this, SLOT( slotDeleteItem( KFileItem * ) ) );
+   connect( m_dirLister, SIGNAL( refreshItems( const KFileItemList & ) ),
+            this, SLOT( slotRefreshItems( const KFileItemList & ) ) );
+   connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
+            this, SLOT( slotRedirection( const KURL & ) ) );
+   connect( m_dirLister, SIGNAL( closeView() ),
+            this, SLOT( slotCloseView() ) );
+   connect( m_dirLister, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ),
+            m_pBrowserView, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ) );
 
    viewport()->setAcceptDrops( true );
    viewport()->setMouseTracking( true );
