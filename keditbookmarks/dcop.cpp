@@ -38,8 +38,6 @@
 
 #include "dcop.h"
 
-#define top KEBTopLevel::self()
-
 KBookmarkEditorIface::KBookmarkEditorIface()
  : QObject(), DCOPObject("KBookmarkEditor") {
 
@@ -48,25 +46,24 @@ KBookmarkEditorIface::KBookmarkEditorIface()
 }
 
 void KBookmarkEditorIface::slotDcopCreatedNewFolder(QString filename, QString text, QString address) {
-   if (top->modified() && filename == MyManager::self()->path()) {
+   if (KEBTopLevel::self()->modified() && filename == MyManager::self()->path()) {
       kdDebug() << "slotDcopCreatedNewFolder(" << text << "," << address << ")" << endl;
       CreateCommand *cmd = new CreateCommand( 
                                   MyManager::self()->correctAddress(address), 
                                   text, QString::null, 
                                   true /*open*/, true /*indirect*/);
-      top->addCommand(cmd);
+      KEBTopLevel::self()->addCommand(cmd);
    }
 }
 
 void KBookmarkEditorIface::slotDcopAddedBookmark(QString filename, QString url, QString text, QString address, QString icon) {
-   if (top->modified() && filename == MyManager::self()->path()) {
+   if (KEBTopLevel::self()->modified() && filename == MyManager::self()->path()) {
       kdDebug() << "slotDcopAddedBookmark(" << url << "," << text << "," << address << "," << icon << ")" << endl;
       CreateCommand *cmd = new CreateCommand(
                                   MyManager::self()->correctAddress(address), 
                                   text, icon, KURL(url), true /*indirect*/);
-      top->addCommand(cmd);
+      KEBTopLevel::self()->addCommand(cmd);
    }
 }
 
-#undef top
 #include "dcop.moc"
