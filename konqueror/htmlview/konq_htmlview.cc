@@ -378,7 +378,7 @@ void KonqHTMLView::slotShowURL( const QString &_url )
     return;
   }
 
-  KURL url( _url );
+  KURL url( m_pBrowser->url(), _url );
   QString com;
 
   KMimeType::Ptr typ = KMimeType::findByURL( url );
