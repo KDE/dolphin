@@ -57,6 +57,9 @@ data2dir = $(kde_appsdir)
 data3_DATA = konqbrowser.desktop
 data3dir = $(kde_appsdir)/Internet
 
+data4_DATA = konqfilemgr.desktop
+data4dir = $(kde_appsdir)/.hidden
+
 profiledir = $(kde_datadir)/konqueror/profiles
 install-data-local:
 	$(mkinstalldirs) $(profiledir)
