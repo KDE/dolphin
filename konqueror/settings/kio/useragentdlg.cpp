@@ -553,7 +553,6 @@ QString UserAgentOptions::quickHelp() const
 
 void UserAgentOptions::selectionChanged ()
 {
-  int itemCount;
   QListViewItem* item;
 
   d_itemsSelected = 0;

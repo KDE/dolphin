@@ -84,7 +84,7 @@ KIOPreferences::~KIOPreferences()
 {
 }
 
-void KIOPreferences::timeoutChanged(int val)
+void KIOPreferences::timeoutChanged(int /*val*/)
 {
   emit changed(true);
 }
