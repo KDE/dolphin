@@ -246,7 +246,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     connect( aSortByDate, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByDate( bool ) ) );
 
     //enable menu item representing the saved sorting criterion
-    QString sortcrit=KonqIconViewFactory::defaultViewProps()->getSortCriterion();
+    QString sortcrit = KonqIconViewFactory::defaultViewProps()->sortCriterion();
     KRadioAction *sort_action = dynamic_cast<KRadioAction *>(actionCollection()->action(sortcrit.latin1()));
     if(sort_action!=NULL) sort_action->activate();
 
