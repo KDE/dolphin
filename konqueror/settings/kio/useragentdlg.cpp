@@ -29,34 +29,14 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   KCModule( parent, name )
 {
   QString wtstr;
-  QGridLayout *lay = new QGridLayout(this,7,5,10,5);
-  lay->addRowSpacing(0,10);
-  lay->addRowSpacing(3,25);
-  lay->addRowSpacing(6,10);
-  lay->addColSpacing(0,10);
-  lay->addColSpacing(4,10);
-
-  lay->setRowStretch(0,0);
-  lay->setRowStretch(1,0);
-  lay->setRowStretch(2,0);
-  lay->setRowStretch(3,0);
-  lay->setRowStretch(4,0);
-  lay->setRowStretch(5,1);
-  lay->setRowStretch(6,0);
-
-  lay->setColStretch(0,0);
-  lay->setColStretch(1,0);
-  lay->setColStretch(2,1);
-  lay->setColStretch(3,0);
-  lay->setColStretch(4,0);
+  QVBoxLayout *lay = new QVBoxLayout(this,10,5);
 
   onserverLA = new QLabel( i18n( "On &server:" ), this );
-  onserverLA->setAlignment( AlignRight|AlignVCenter );
-  lay->addWidget(onserverLA,1,1);
+  lay->addWidget(onserverLA);
 
   onserverED = new QLineEdit( this );
   onserverLA->setBuddy( onserverED );
-  lay->addWidget(onserverED,1,2);
+  lay->addWidget(onserverED);
 
   wtstr = i18n( "Enter the server (or a domain) you want to fool about Konqueror's identity here."
     " Wildcard syntax (e.g. *.cnn.com) is allowed.");
@@ -66,15 +46,15 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   connect( onserverED, SIGNAL( textChanged(const QString&) ),
            SLOT( textChanged( const QString&) ) );
 
-  loginasLA = new QLabel( i18n( "&login as:" ), this );
-  loginasLA->setAlignment( AlignRight|AlignVCenter );
-  lay->addWidget(loginasLA,2,1);
+  loginasLA = new QLabel( i18n( "&Login as:" ), this );
+  lay->addWidget(loginasLA);
 
   loginasED = new QComboBox( true, this );
   loginasED->setInsertionPolicy( QComboBox::AtTop );
-  lay->addWidget(loginasED,2,2);
+  lay->addWidget(loginasED);
   loginasLA->setBuddy( loginasED );
   loginasED->insertItem( DEFAULT_USERAGENT_STRING );
+
   // this is the one that proofed to fool many "clever" browser detections
   // to detect the IE 5.0 which is most of the time the best for khtml (Dirk)
   loginasED->insertItem( QString("Mozilla/5.0 (Konqueror/") + QString(KDE_VERSION_STRING)
@@ -109,8 +89,15 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   connect( loginasED, SIGNAL( textChanged(const QString&) ),
            SLOT( textChanged(const QString&) ) );
 
+  QHBoxLayout *box = new QHBoxLayout(this,0,0);
+  lay->addSpacing(5);
+  lay->addLayout(box);
+  lay->addSpacing(5);
+
   addPB = new QPushButton( i18n( "&Add" ), this );
-  lay->addWidget(addPB,1,3);
+  box->addStretch(1);
+  box->addWidget(addPB);
+  box->addStretch(1);
   QWhatsThis::add( addPB, i18n("Adds the agent binding you've specified to the list of agent bindings."
     " This is not enabled if you haven't provided server <em>and</em> login information.") );
 
@@ -119,7 +106,9 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   connect( addPB, SIGNAL( clicked() ), SLOT( changed() ) );
 
   deletePB = new QPushButton( i18n( "&Delete" ), this );
-  lay->addWidget(deletePB,2,3);
+  box->addWidget(deletePB);
+  box->addStretch(1);
+//  lay->addWidget(deletePB,2,3);
 
   QWhatsThis::add( deletePB, i18n("Removes the selected binding from the list of agent bindings.") );
 
@@ -128,18 +117,18 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   connect( deletePB, SIGNAL( clicked() ), SLOT( changed() ) );
 
   bindingsLA = new QLabel( i18n( "Configured agent bindings:" ), this );
-  lay->addMultiCellWidget(bindingsLA,4,4,2,3);
+  lay->addWidget(bindingsLA);
 
   bindingsLV = new QListView( this );
   bindingsLV->setShowSortIndicator(true);
   bindingsLV->setAllColumnsShowFocus(true);
   bindingsLV->addColumn( i18n( "Server Mask" ));
   bindingsLV->addColumn( i18n( "User Agent" ));
-  bindingsLV->setColumnAlignment(0, Qt::AlignRight);
+  bindingsLV->setColumnAlignment(0, Qt::AlignLeft);
   bindingsLV->setColumnAlignment(1, Qt::AlignLeft);
   bindingsLV->setTreeStepSize(0);
   bindingsLV->setSorting(0);
-  lay->addMultiCellWidget(bindingsLV,5,5,2,3);
+  lay->addWidget(bindingsLV);
 
   wtstr = i18n( "This box contains a list of agent bindings, i.e. information on how"
     " Konqueror will identify itself to a server. You might want to set up bindings"
@@ -148,8 +137,6 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
     " Select a binding to change or delete it." );
   QWhatsThis::add( bindingsLA, wtstr );
   QWhatsThis::add( bindingsLV, wtstr );
-
-  lay->activate();
 
   connect( bindingsLV, SIGNAL( selectionChanged() ),
            SLOT( bindingsSelected() ) );
