@@ -794,7 +794,7 @@ bool KonqKfmIconView::openURL( const KURL & url )
         // Create the directory lister
         m_dirLister = new KonqDirLister( true );
 
-        QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ),
+        QObject::connect( m_dirLister, SIGNAL( started( const KURL & ) ),
                           this, SLOT( slotStarted() ) );
         QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
         QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );

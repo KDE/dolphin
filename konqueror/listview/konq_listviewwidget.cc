@@ -125,7 +125,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
             this, SIGNAL(viewportAdjusted()));
 
    // Connect the directory lister
-   connect( m_dirLister, SIGNAL( started( const QString & ) ),
+   connect( m_dirLister, SIGNAL( started( const KURL & ) ),
             this, SLOT( slotStarted() ) );
    connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
    connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
