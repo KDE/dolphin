@@ -926,10 +926,12 @@ void Sidebar_Widget::collapseExpandSidebar()
 		m_somethingVisible = false;
 		parentWidget()->setMaximumWidth(minimumSizeHint().width());
 		updateGeometry();
+		emit panelHasBeenExpanded(false);
 	} else {
 		m_somethingVisible = true;
 		parentWidget()->setMaximumWidth(32767);
 		updateGeometry();
+		emit panelHasBeenExpanded(true);
 	}
 }
 

@@ -199,6 +199,9 @@ private:
 	QStringList m_openViews; // The views that should be opened
 
 	static bool s_skipInitialCopy;
+
+signals:
+	void panelHasBeenExpanded(bool);
 };
 
 #endif
