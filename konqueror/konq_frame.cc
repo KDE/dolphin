@@ -160,6 +160,7 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
   Browser::View_var vView = m_pParentKonqFrame->view();
   if ( !CORBA::is_nil( vView ) )
     hasFocus = vView->hasFocus();
+  vView = 0L;
 
 //  kdebug(0, 1202, "KonqFrameHeader::paintEvent( QPaintEvent* ) : part()->hasFocus()=%d",hasFocus);
   if (!isVisible())
