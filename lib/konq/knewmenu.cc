@@ -46,24 +46,24 @@ KNewMenu::KNewMenu( KActionCollection * _collec, const char *name ) :
   KActionMenu( i18n( "Create &New" ), "filenew", _collec, name ), m_actionCollection( _collec ),
   menuItemsVersion( 0 )
 {
-    kdDebug(1203) << "KNewMenu::KNewMenu " << this << endl;
+    //kdDebug(1203) << "KNewMenu::KNewMenu " << this << endl;
   // Don't fill the menu yet
   // We'll do that in slotCheckUpToDate (should be connected to abouttoshow)
 }
 
 KNewMenu::~KNewMenu()
 {
-    kdDebug(1203) << "KNewMenu::~KNewMenu " << this << endl;
+    //kdDebug(1203) << "KNewMenu::~KNewMenu " << this << endl;
 }
 
 void KNewMenu::slotCheckUpToDate( )
 {
-    kdDebug(1203) << "KNewMenu::slotCheckUpToDate() " << this
-                  << " : menuItemsVersion=" << menuItemsVersion
-                  << " s_templatesVersion=" << s_templatesVersion << endl;
+    //kdDebug(1203) << "KNewMenu::slotCheckUpToDate() " << this
+    //              << " : menuItemsVersion=" << menuItemsVersion
+    //              << " s_templatesVersion=" << s_templatesVersion << endl;
     if (menuItemsVersion < s_templatesVersion || s_templatesVersion == 0)
     {
-        kdDebug(1203) << "KNewMenu::slotCheckUpToDate() : recreating actions" << endl;
+        //kdDebug(1203) << "KNewMenu::slotCheckUpToDate() : recreating actions" << endl;
         // We need to clean up the action collection
         // We look for our actions using the group
         QValueList<KAction*> actions = m_actionCollection->actions( "KNewMenu" );
@@ -92,7 +92,7 @@ void KNewMenu::slotCheckUpToDate( )
 
 void KNewMenu::parseFiles()
 {
-    kdDebug(1203) << "KNewMenu::parseFiles()" << endl;
+    //kdDebug(1203) << "KNewMenu::parseFiles()" << endl;
     s_filesParsed = true;
     QValueList<Entry>::Iterator templ = s_templatesList->begin();
     for ( /*++templ*/; templ != s_templatesList->end(); ++templ)
@@ -160,7 +160,7 @@ void KNewMenu::parseFiles()
 
 void KNewMenu::fillMenu()
 {
-    kdDebug(1203) << "KNewMenu::fillMenu()" << endl;
+    //kdDebug(1203) << "KNewMenu::fillMenu()" << endl;
     popupMenu()->clear();
     //KAction * act = new KAction( i18n( "Folder" ), 0, this, SLOT( slotNewFile() ),
     //                              m_actionCollection, QString("newmenu1") );
@@ -211,7 +211,7 @@ void KNewMenu::fillMenu()
 
 void KNewMenu::slotFillTemplates()
 {
-    kdDebug(1203) << "KNewMenu::slotFillTemplates()" << endl;
+    //kdDebug(1203) << "KNewMenu::slotFillTemplates()" << endl;
     // Ensure any changes in the templates dir will call this
     if ( ! s_pDirWatch )
     {
@@ -244,7 +244,11 @@ void KNewMenu::slotFillTemplates()
             Entry e;
             e.filePath = *it;
             e.entryType = 0; // not parsed yet
-            s_templatesList->append( e );
+            // put Directory first in the list (a bit hacky)
+            if ( (*it).endsWith( "Directory.desktop" ) )
+                s_templatesList->prepend( e );
+            else
+                s_templatesList->append( e );
         }
     }
 }
