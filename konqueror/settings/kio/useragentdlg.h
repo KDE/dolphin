@@ -28,7 +28,6 @@
 #include <kcmodule.h>
 #include <kconfig.h>
 
-class QLabel;
 class QCheckBox;
 class QGroupBox;
 class QPushButton;
@@ -36,6 +35,7 @@ class QStringList;
 class QButtonGroup;
 
 class KListView;
+class KLineEdit;
 class FakeUASProvider;
 
 class UserAgentOptions : public KCModule
@@ -79,7 +79,7 @@ private:
   QCheckBox*      cb_sendUAString;
 
   // Default User-agent settings
-  QLabel*         lb_default;
+  KLineEdit*       lb_default;
   QButtonGroup*   bg_default;
   QCheckBox*      cb_showPlatform;
   QCheckBox*      cb_showLanguage;
