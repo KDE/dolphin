@@ -111,10 +111,10 @@ int askUser(KApplication &app, QString extension) {
 int main(int argc, char ** argv)
 {
   KLocale::setMainCatalogue("konqueror");
-  KAboutData aboutData( "keditbookmarks", I18N_NOOP("KEditBookmarks"), "1.0",
+  KAboutData aboutData( "keditbookmarks", I18N_NOOP("KEditBookmarks"), "1.1",
                         I18N_NOOP("Konqueror Bookmarks Editor"),
                         KAboutData::License_GPL,
-                        I18N_NOOP("(c) 2000, KDE developers") );
+                        I18N_NOOP("(c) 2000 - 2002, KDE developers") );
   aboutData.addAuthor("David Faure",0, "faure@kde.org");
 
   KCmdLineArgs::init( argc, argv, &aboutData );
