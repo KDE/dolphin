@@ -813,25 +813,36 @@ void Sidebar_Widget::popupMenu( KXMLGUIClient *client,
 
 void Sidebar_Widget::connectModule(QObject *mod)
 {
-	connect(mod,SIGNAL(started(KIO::Job *)),this, SIGNAL(started(KIO::Job*)));
-	connect(mod,SIGNAL(completed()),this,SIGNAL(completed()));
-	connect(mod,SIGNAL(popupMenu( const QPoint &, const KURL &,
-		const QString &, mode_t)),this,SLOT(popupMenu( const
-		QPoint &, const KURL&, const QString &, mode_t)));
-        // No such signal defined
-	/*connect(mod,SIGNAL(popupMenu( KXMLGUIClient *, const QPoint &,
-		const KURL &,const QString &, mode_t)),this,
-		SLOT(popupMenu( KXMLGUIClient *, const QPoint &,
-		const KURL &,const QString &, mode_t)));*/
+        if ((mod->metaObject()->findSignal("started(KIO::Job*)"))!=-1)
+		connect(mod,SIGNAL(started(KIO::Job *)),this, SIGNAL(started(KIO::Job*)));
 
-	connect(mod,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )),
-		this,SLOT(popupMenu( const QPoint &, const KFileItemList & )));
+        if ((mod->metaObject()->findSignal("completed()"))!=-1)
+		connect(mod,SIGNAL(completed()),this,SIGNAL(completed()));
 
-	connect(mod,SIGNAL(openURLRequest( const KURL &, const KParts::URLArgs &)),
-		this,SLOT(openURLRequest( const KURL &, const KParts::URLArgs &)));
 
-	connect(mod,SIGNAL(enableAction( const char *, bool)),
-		this,SLOT(enableAction(const char *, bool)));
+
+        if ((mod->metaObject()->findSignal("popupMenu(const QPoint&,const KURL&,const QString&,mode_t)"))!=-1)
+		connect(mod,SIGNAL(popupMenu( const QPoint &, const KURL &,
+			const QString &, mode_t)),this,SLOT(popupMenu( const
+			QPoint &, const KURL&, const QString &, mode_t)));
+
+        if ((mod->metaObject()->findSignal("popupMenu(KXMLGUIClient*,const QPoint&,const KURL&,const QString&,mode_t)"))!=-1)
+		connect(mod,SIGNAL(popupMenu( KXMLGUIClient *, const QPoint &,
+			const KURL &,const QString &, mode_t)),this,
+			SLOT(popupMenu( KXMLGUIClient *, const QPoint &,
+			const KURL &,const QString &, mode_t)));
+
+        if ((mod->metaObject()->findSignal("popupMenu(const QPoint&,const KFileItemList&)"))!=-1)
+		connect(mod,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )),
+			this,SLOT(popupMenu( const QPoint &, const KFileItemList & )));
+
+        if ((mod->metaObject()->findSignal("openURLRequest(const KURL&,const KParts::URLArgs&)"))!=-1)
+		connect(mod,SIGNAL(openURLRequest( const KURL &, const KParts::URLArgs &)),
+			this,SLOT(openURLRequest( const KURL &, const KParts::URLArgs &)));
+
+        if ((mod->metaObject()->findSignal("enableAction(const char*,bool)"))!=-1)
+		connect(mod,SIGNAL(enableAction( const char *, bool)),
+			this,SLOT(enableAction(const char *, bool)));
 
 #if 0
 /*?????*/
