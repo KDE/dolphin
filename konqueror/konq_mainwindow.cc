@@ -519,16 +519,13 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
       req.newTab = false;
   }
 
+  const QString oldLocationBarURL = m_combo->currentText();
   if ( view )
   {
     if ( view == m_currentView )
     {
       //will do all the stuff below plus GUI stuff
       abortLoading();
-      // Show it for now in the location bar, but we'll need to store it in the view
-      // later on (can't do it yet since either view == 0 or updateHistoryEntry will be called).
-      kdDebug(1202) << "setLocationBarURL : url = " << url.prettyURL() << endl;
-      setLocationBarURL( url.prettyURL() );
     }
     else
     {
@@ -536,8 +533,6 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
       // Don't change location bar if not current view
     }
   }
-  else if (!req.newTab) // startup with argument
-    setLocationBarURL( url.prettyURL() );
 
   // Fast mode for local files: do the stat ourselves instead of letting KRun do it.
   if ( serviceType.isEmpty() && url.isLocalFile() )
@@ -589,6 +584,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
                 if ( ( trustedSource || KonqRun::allowExecution( serviceType, url ) ) &&
                      ( KonqRun::isExecutable( serviceType ) || !offer || !KRun::run( *offer, lst ) ) )
                 {
+                    setLocationBarURL( oldLocationBarURL ); // Revert to previous locationbar URL
                     (void)new KRun( url, this );
                 }
             }
@@ -597,6 +593,15 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   }
   else // no known serviceType, use KonqRun
   {
+      if ( ( view && view == m_currentView ) ||
+              ( !view && !req.newTab ) ) // startup with argument
+      {
+          // Show it for now in the location bar, but we'll need to store it in the view
+          // later on (can't do it yet since either view == 0 or updateHistoryEntry will be called).
+          kdDebug(1202) << "setLocationBarURL : url = " << url.prettyURL() << endl;
+          setLocationBarURL( url.prettyURL() );
+      }
+
       kdDebug(1202) << "Creating new konqrun for " << url.url() << " req.typedURL=" << req.typedURL << endl;
 
       KonqRun * run = new KonqRun( this, view /* can be 0L */, url, req, trustedSource );
