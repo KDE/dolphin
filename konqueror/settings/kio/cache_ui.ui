@@ -77,9 +77,6 @@
             <property name="text">
                 <string>C&amp;lear Cache</string>
             </property>
-            <property name="accel">
-                <string>Alt+L</string>
-            </property>
         </widget>
         <spacer row="2" column="4">
             <property name="name">
@@ -104,9 +101,6 @@
             </property>
             <property name="text">
                 <string>&amp;Use cache</string>
-            </property>
-            <property name="accel">
-                <string>Alt+U</string>
             </property>
             <property name="whatsThis" stdset="0">
                 <string>Check this box if you want the web pages you visit to be stored on your hard disk for quicker access. The stored pages will only be updated as needed instead of on every visit to that site. This is especially useful if you have a slow connection to the Internet.</string>
@@ -133,9 +127,6 @@
                     <property name="text">
                         <string>&amp;Keep cache in sync</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+K</string>
-                    </property>
                     <property name="whatsThis" stdset="0">
                         <string>Verify whether the cached web page is valid before attempting to fetch the web page again.</string>
                     </property>
@@ -147,9 +138,6 @@
                     <property name="text">
                         <string>Use cache whenever &amp;possible</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+P</string>
-                    </property>
                     <property name="whatsThis" stdset="0">
                         <string>Always use documents from the cache when available. You can still use the reload button to synchronize the cache with the remote host.</string>
                     </property>
@@ -160,9 +148,6 @@
                     </property>
                     <property name="text">
                         <string>O&amp;ffline browsing mode</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+F</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>Do not fetch web pages that are not already stored in the cache. Offline mode prevents you from viewing pages that you have not previously visited.</string>

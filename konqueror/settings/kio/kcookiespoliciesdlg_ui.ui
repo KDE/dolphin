@@ -23,9 +23,6 @@
             <property name="text">
                 <string>Enable coo&amp;kies</string>
             </property>
-            <property name="accel">
-                <string>Alt+K</string>
-            </property>
             <property name="whatsThis" stdset="0">
                 <string>&lt;qt&gt;
 Enable cookie support. Normally you will want to have cookie support enabled and customize it to suit your privacy needs.&lt;p&gt;
@@ -51,9 +48,6 @@ Please note that disabling cookie support might make many web sites unbrowsable.
                     <property name="text">
                         <string>Only acce&amp;pt cookies from originating server</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+P</string>
-                    </property>
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;
 Reject the so called third-party cookies. These are cookies that originate from a site other than the one you are currently browsing. For example, if you visit &lt;b&gt;www.foobar.com&lt;/b&gt; while this option is on, only cookies that originate from www.foobar.com will be processed per your settings. Cookies from any other site will be rejected. This reduces the chances of site operators compiling a profile about your daily browsing habits.
@@ -66,9 +60,6 @@ Reject the so called third-party cookies. These are cookies that originate from 
                     </property>
                     <property name="text">
                         <string>Automaticall&amp;y accept session cookies</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+Y</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;
@@ -83,9 +74,6 @@ Automatically accept temporary cookies meant to expire at the end of the current
                     </property>
                     <property name="text">
                         <string>Treat &amp;all cookies as session cookies</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+A</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;
@@ -177,9 +165,6 @@ To add a new policy, simply click on the &lt;b&gt;Add...&lt;/b&gt; button and su
                             </property>
                             <property name="text">
                                 <string>&amp;New...</string>
-                            </property>
-                            <property name="accel">
-                                <string>Alt+N</string>
                             </property>
                         </widget>
                         <widget class="QPushButton">

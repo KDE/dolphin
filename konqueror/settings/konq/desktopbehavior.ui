@@ -55,9 +55,6 @@
                         <property name="text">
                             <string>&amp;Show icons on desktop</string>
                         </property>
-                        <property name="accel">
-                            <string>Alt+S</string>
-                        </property>
                         <property name="whatsThis" stdset="0">
                             <string>Uncheck this option if you do not want to have icons on the desktop. Without icons the desktop will be somewhat faster but you will no longer be able to drag files to the desktop.</string>
                         </property>
@@ -72,9 +69,6 @@
                         <property name="text">
                             <string>Allow pro&amp;grams in desktop window</string>
                         </property>
-                        <property name="accel">
-                            <string>Alt+G</string>
-                        </property>
                         <property name="whatsThis" stdset="0">
                             <string>Check this option if you want to run X11 programs that draw into the desktop such as xsnow, xpenguin or xmountain. If you have problems with applications like netscape that check the root window for running instances, disable this option.</string>
                         </property>
@@ -85,9 +79,6 @@
                         </property>
                         <property name="text">
                             <string>Show &amp;tooltips</string>
-                        </property>
-                        <property name="accel">
-                            <string>Alt+T</string>
                         </property>
                     </widget>
                     <widget class="QButtonGroup">
@@ -108,9 +99,6 @@
                                 <property name="text">
                                     <string>&amp;None</string>
                                 </property>
-                                <property name="accel">
-                                    <string>Alt+N</string>
-                                </property>
                                 <property name="whatsThis" stdset="0">
                                     <string>If this option is selected, there is no menu bar at the top of the screen.</string>
                                 </property>
@@ -122,9 +110,6 @@
                                 <property name="text">
                                     <string>&amp;Desktop menu bar</string>
                                 </property>
-                                <property name="accel">
-                                    <string>Alt+D</string>
-                                </property>
                                 <property name="whatsThis" stdset="0">
                                     <string>If this option is selected, there is one menu bar at the top of the screen which shows the desktop menus.</string>
                                 </property>
@@ -135,9 +120,6 @@
                                 </property>
                                 <property name="text">
                                     <string>&amp;Current application's menu bar (Mac OS-style)</string>
-                                </property>
-                                <property name="accel">
-                                    <string>Alt+C</string>
                                 </property>
                                 <property name="whatsThis" stdset="0">
                                     <string>If this option is selected, applications won't have their menu bar attached to their own window anymore. Instead, there is one menu bar at the top of the screen which shows the menus of the currently active application. You might recognize this behavior from Mac OS.</string>
@@ -308,9 +290,6 @@
                         <property name="text">
                             <string>Automatically &amp;line up icons</string>
                         </property>
-                        <property name="accel">
-                            <string>Alt+L</string>
-                        </property>
                         <property name="whatsThis" stdset="0">
                             <string>Check this option if you want to see your icons automatically aligned to the grid when you move them.</string>
                         </property>
@@ -321,9 +300,6 @@
                         </property>
                         <property name="text">
                             <string>Show &amp;hidden files</string>
-                        </property>
-                        <property name="accel">
-                            <string>Alt+H</string>
                         </property>
                         <property name="whatsThis" stdset="0">
                             <string>&lt;p&gt;If you check this option, any files in your desktop directory that begin with a period (.) will be shown. Usually, such files contain configuration information, and remain hidden from view.&lt;/p&gt;
@@ -371,9 +347,6 @@
                         </property>
                         <property name="text">
                             <string>&amp;Show device icons:</string>
-                        </property>
-                        <property name="accel">
-                            <string>Alt+S</string>
                         </property>
                     </widget>
                     <widget class="KListView">

@@ -178,9 +178,6 @@ The actual browser identification text that will be sent to the remote machine.
                     <property name="text">
                         <string>Update &amp;List</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+L</string>
-                    </property>
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;
 Refresh the browser identification list.&lt;p&gt;

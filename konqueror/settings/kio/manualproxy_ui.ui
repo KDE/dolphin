@@ -174,9 +174,6 @@
                     <property name="text">
                         <string>&amp;Use the same proxy server for all protocols</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+U</string>
-                    </property>
                 </widget>
                 <widget class="QPushButton" row="0" column="3">
                     <property name="name">
@@ -230,9 +227,6 @@ Reverse the use of the exception list. Checking this box will result in the prox
                             <property name="text">
                                 <string>De&amp;lete</string>
                             </property>
-                            <property name="accel">
-                                <string>Alt+L</string>
-                            </property>
                             <property name="whatsThis" stdset="0">
                                 <string>Remove the selected proxy exception address from the list.</string>
                             </property>
@@ -264,9 +258,6 @@ Reverse the use of the exception list. Checking this box will result in the prox
                             <property name="text">
                                 <string>D&amp;elete All</string>
                             </property>
-                            <property name="accel">
-                                <string>Alt+E</string>
-                            </property>
                             <property name="whatsThis" stdset="0">
                                 <string>Remove all proxy exception addresses from the list.</string>
                             </property>
@@ -281,9 +272,6 @@ Reverse the use of the exception list. Checking this box will result in the prox
                             <property name="text">
                                 <string>C&amp;hange...</string>
                             </property>
-                            <property name="accel">
-                                <string>Alt+H</string>
-                            </property>
                             <property name="whatsThis" stdset="0">
                                 <string>Change the selected proxy exception address.</string>
                             </property>
@@ -294,9 +282,6 @@ Reverse the use of the exception list. Checking this box will result in the prox
                             </property>
                             <property name="text">
                                 <string>&amp;New...</string>
-                            </property>
-                            <property name="accel">
-                                <string>Alt+N</string>
                             </property>
                             <property name="whatsThis" stdset="0">
                                 <string>Add new proxy exception address to the list.</string>

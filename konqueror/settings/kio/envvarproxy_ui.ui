@@ -82,9 +82,6 @@ Alternatively, you can click on the &lt;b&gt;"Auto Detect"&lt;/b&gt; button to a
             <property name="text">
                 <string>Show the &amp;value of the environment variables</string>
             </property>
-            <property name="accel">
-                <string>Alt+V</string>
-            </property>
         </widget>
         <widget class="QPushButton" row="0" column="2">
             <property name="name">
@@ -92,9 +89,6 @@ Alternatively, you can click on the &lt;b&gt;"Auto Detect"&lt;/b&gt; button to a
             </property>
             <property name="text">
                 <string>&amp;Verify</string>
-            </property>
-            <property name="accel">
-                <string>Alt+V</string>
             </property>
             <property name="whatsThis" stdset="0">
                 <string>&lt;qt&gt;Verify whether or not the environment variable names you supplied are valid. If an environment variable is not found, the associated labels will be &lt;b&gt;highlighted&lt;/b&gt; to indicate that they are invalid.&lt;/qt&gt;</string>
@@ -106,9 +100,6 @@ Alternatively, you can click on the &lt;b&gt;"Auto Detect"&lt;/b&gt; button to a
             </property>
             <property name="text">
                 <string>Auto &amp;Detect</string>
-            </property>
-            <property name="accel">
-                <string>Alt+D</string>
             </property>
             <property name="whatsThis" stdset="0">
                 <string>&lt;qt&gt;Attempt automatic discovery of the environment variables used for setting system wide proxy information.&lt;p&gt; This feature works by searching for commonly used variable names such as HTTP_PROXY, FTP_PROXY and NO_PROXY.&lt;/qt&gt;</string>
