@@ -520,6 +520,11 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
   kdDebug(1202) << "------------- KonqViewManager::removeTab done --------------" << endl;
 }
 
+void KonqViewManager::showTab( KonqView *view )
+{
+  static_cast<KonqFrameTabs*>( docContainer() )->showPage( view->frame() );
+}
+
 void KonqViewManager::removeView( KonqView *view )
 {
   kdDebug(1202) << "---------------- removeView --------------" << view << endl;

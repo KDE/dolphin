@@ -126,6 +126,12 @@ public:
   void removeTab( KonqFrameBase* tab = 0L );
 
   /**
+   * Brings the tab specified by @p view to the front of the stack
+   *
+   */
+  void showTab( KonqView *view );
+
+  /**
    * Saves the current view layout to a config file.
    * Remove config file before saving, especially if saveURLs is false.
    * @param cfg the config file

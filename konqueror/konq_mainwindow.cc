@@ -1957,8 +1957,8 @@ void KonqMainWindow::slotAddTab()
 {
   KonqView* newView = m_pViewManager->addTab();
   if (newView == 0L) return;
-  static_cast<KonqFrameTabs*>(m_pViewManager->docContainer())->showPage( newView->frame() );
   openURL( newView, KURL("about:blank") );
+  m_pViewManager->showTab( newView );
   focusLocationBar();
   m_pWorkingTab = 0L;
 }
@@ -1999,8 +1999,8 @@ void KonqMainWindow::slotPopupNewTab()
     newView = m_pViewManager->addTab(mimeType, mimeComment);
     if (newView != 0L)
     {
+      m_pViewManager->showTab( newView );
       newView->openURL( url, url.prettyURL() );
-      static_cast<KonqFrameTabs*>(m_pViewManager->docContainer())->showPage( newView->frame() );
     }
   }
 }
