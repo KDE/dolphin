@@ -249,7 +249,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
       KURL::List::ConstIterator it = selectedURLs.begin();
       QStringList prettyList;
       for ( ; it != selectedURLs.end(); ++it )
-        prettyList.append( (*it).prettyURL() );
+        prettyList.append( (*it).pathOrURL() );
 
       int result;
       switch(m_method)
@@ -643,7 +643,7 @@ void KonqOperations::doFileCopy()
 
 void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const KURL& newurl )
 {
-    kdDebug(1203) << "KonqOperations::rename oldurl=" << oldurl.prettyURL() << " newurl=" << newurl.prettyURL() << endl;
+    kdDebug(1203) << "KonqOperations::rename oldurl=" << oldurl << " newurl=" << newurl << endl;
     if ( oldurl == newurl )
         return;
 
@@ -741,7 +741,7 @@ void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const QStrin
 {
     KURL newurl( oldurl );
     newurl.setPath( oldurl.directory(false, true) + name );
-    kdDebug(1203) << "KonqOperations::rename("<<name<<") called. newurl=" << newurl.prettyURL() << endl;
+    kdDebug(1203) << "KonqOperations::rename("<<name<<") called. newurl=" << newurl << endl;
     rename( parent, oldurl, newurl );
 }
 
