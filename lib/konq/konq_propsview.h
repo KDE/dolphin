@@ -24,6 +24,7 @@
 #include <qstringlist.h>
 
 #include <kurl.h>
+#include <libkonq_export.h>
 
 class KInstance;
 class KConfigBase;
@@ -40,7 +41,7 @@ class KConfig;
  * The local values can be read from a desktop entry, if any (.directory,
  * bookmark, ...). [ .directory is implemented, bookmark isn't ].
  */
-class KonqPropsView
+class LIBKONQ_EXPORT KonqPropsView
 {
 public:
 

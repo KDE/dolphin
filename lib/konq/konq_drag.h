@@ -24,6 +24,8 @@
 #include <qstring.h>
 #include <qiconview.h>
 
+#include <libkonq_export.h>
+
 #include <kurl.h>
 
 /*****************************************************************************
@@ -33,7 +35,7 @@
  *****************************************************************************/
 
 // Clipboard/dnd data for: Icons + URLS + isCut
-class KonqIconDrag : public QIconDrag
+class LIBKONQ_EXPORT KonqIconDrag : public QIconDrag
 {
     Q_OBJECT
 
@@ -57,7 +59,7 @@ protected:
 };
 
 // Clipboard/dnd data for: URLS + isCut
-class KonqDrag : public QUriDrag
+class LIBKONQ_EXPORT KonqDrag : public QUriDrag
 {
 public:
     static KonqDrag * newDrag( const KURL::List & urls, bool move, QWidget * dragSource = 0, const char* name = 0 );

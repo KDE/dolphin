@@ -26,6 +26,7 @@
 #include <qguardedptr.h>
 #include <kfileitem.h>
 #include <kio/jobclasses.h>
+#include <libkonq_export.h>
 
 class KonqFMSettings;
 class KFileIVI;
@@ -38,7 +39,7 @@ namespace KIO { class Job; }
  * Used by kdesktop and konq_iconview.
  *
  */
-class KonqIconViewWidget : public KIconView
+class LIBKONQ_EXPORT KonqIconViewWidget : public KIconView
 {
     Q_OBJECT
     Q_PROPERTY( bool sortDirectoriesFirst READ sortDirectoriesFirst WRITE setSortDirectoriesFirst )

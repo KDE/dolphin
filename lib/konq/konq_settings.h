@@ -26,6 +26,8 @@ class KConfig;
 #include <qfont.h>
 #include <qmap.h>
 
+#include <libkonq_export.h>
+
 /**
  * The class KonqFMSettings holds the general settings for the
  * icon/tree views in konqueror/kdesktop.
@@ -39,7 +41,7 @@ class KConfig;
  * it's called from.
  */
 
-class KonqFMSettings
+class LIBKONQ_EXPORT KonqFMSettings
 {
 protected:
   /**

@@ -110,7 +110,7 @@ static int askUser(KApplication &app, QString filename, bool &readonly) {
 
 #include <kactioncollection.h>
 
-extern "C" int kdemain(int argc, char **argv) {
+extern "C" KDE_EXPORT int kdemain(int argc, char **argv) {
     KLocale::setMainCatalogue("konqueror");
     KAboutData aboutData("keditbookmarks", I18N_NOOP("Bookmark Editor"), "1.2",
             I18N_NOOP("Konqueror Bookmarks Editor"),

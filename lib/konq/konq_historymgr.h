@@ -35,13 +35,15 @@
 
 #include "konq_historycomm.h"
 
+#include <libkonq_export.h>
+
 class KCompletion;
 
 
 typedef QPtrList<KonqHistoryEntry> KonqBaseHistoryList;
 typedef QPtrListIterator<KonqHistoryEntry> KonqHistoryIterator;
 
-class KonqHistoryList : public KonqBaseHistoryList
+class LIBKONQ_EXPORT KonqHistoryList : public KonqBaseHistoryList
 {
 public:
     /**
@@ -69,7 +71,7 @@ protected:
  *
  * It keeps the history in sync with one KCompletion object
  */
-class KonqHistoryManager : public KParts::HistoryProvider,
+class LIBKONQ_EXPORT KonqHistoryManager : public KParts::HistoryProvider,
 			   public KonqHistoryComm
 {
     Q_OBJECT

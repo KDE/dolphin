@@ -3,6 +3,7 @@
 
 #include <kparts/event.h>
 #include <qptrlist.h>
+#include <libkonq_export.h>
 
 namespace KParts
 {
@@ -13,7 +14,7 @@ class KConfig;
 class KFileItem;
 typedef QPtrList<KFileItem> KFileItemList;
 
-class KonqFileSelectionEvent : public KParts::Event
+class LIBKONQ_EXPORT KonqFileSelectionEvent : public KParts::Event
 {
 public:
   KonqFileSelectionEvent( const KFileItemList &selection, KParts::ReadOnlyPart *part ) : KParts::Event( s_fileItemSelectionEventName ), m_selection( selection ), m_part( part ) {}
@@ -30,7 +31,7 @@ private:
   KParts::ReadOnlyPart *m_part;
 };
 
-class KonqFileMouseOverEvent : public KParts::Event
+class LIBKONQ_EXPORT KonqFileMouseOverEvent : public KParts::Event
 {
 public:
   KonqFileMouseOverEvent( const KFileItem *item, KParts::ReadOnlyPart *part ) : KParts::Event( s_fileItemMouseOverEventName ), m_item( item ), m_part( part ) {}
@@ -47,7 +48,7 @@ private:
   KParts::ReadOnlyPart *m_part;
 };
 
-class KonqConfigEvent : public KParts::Event
+class LIBKONQ_EXPORT KonqConfigEvent : public KParts::Event
 {
 public:
   KonqConfigEvent( KConfig *config, const QString &prefix, bool save ) : KParts::Event( s_configEventName ), m_config( config ), m_prefix( prefix ), m_save( save ) {}

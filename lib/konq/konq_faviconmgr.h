@@ -22,12 +22,13 @@
 
 #include <dcopobject.h>
 #include <kurl.h>
+#include <libkonq_export.h>
 
 /**
  * Maintains a list of custom icons per URL. This is only a stub
  * for the "favicons" KDED Module
  */
-class KonqFavIconMgr : public QObject, public DCOPObject
+class LIBKONQ_EXPORT KonqFavIconMgr : public QObject, public DCOPObject
 {
     Q_OBJECT
     K_DCOP

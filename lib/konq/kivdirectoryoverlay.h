@@ -21,13 +21,14 @@
 #define _KIVDIRECTORYOVERLAY_H_
 
 #include <kfileitem.h>
+#include <libkonq_export.h>
 
 #include <qdict.h>
 
 class KDirLister;
 class KFileIVI;
 
-class KIVDirectoryOverlay : public QObject
+class LIBKONQ_EXPORT KIVDirectoryOverlay : public QObject
 {
     Q_OBJECT
 public:

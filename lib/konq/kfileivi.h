@@ -22,6 +22,7 @@
 
 #include <kiconview.h>
 #include <kiconloader.h>
+#include <libkonq_export.h>
 
 class KFileItem;
 class KonqIconViewWidget;
@@ -34,7 +35,7 @@ class KIVDirectoryOverlay;
  * All the information about the file is contained in the KFileItem
  * pointer.
  */
-class KFileIVI : public KIconViewItem
+class LIBKONQ_EXPORT KFileIVI : public KIconViewItem
 {
 public:
     /**

@@ -26,6 +26,7 @@
 #include <dcopobject.h>
 
 #include <kurl.h>
+#include <libkonq_export.h>
 
 namespace KIO
 {
@@ -85,7 +86,7 @@ private:
   KonqCommandRecorderPrivate *d;
 };
 
-class KonqUndoManager : public QObject, public DCOPObject
+class LIBKONQ_EXPORT KonqUndoManager : public QObject, public DCOPObject
 {
   Q_OBJECT
   K_DCOP

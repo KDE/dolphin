@@ -3,8 +3,9 @@
 
 #include <kbookmarkmanager.h>
 #include <kstandarddirs.h>
+#include <libkonq_export.h>
 
-class KonqBookmarkManager
+class LIBKONQ_EXPORT KonqBookmarkManager
 {
 public:
     static KBookmarkManager * self() {

@@ -25,9 +25,11 @@
 #include <kpixmapprovider.h>
 #include "konq_faviconmgr.h"
 
+#include <libkonq_export.h>
+
 class KConfig;
 
-class KonqPixmapProvider : public KonqFavIconMgr, virtual public KPixmapProvider
+class LIBKONQ_EXPORT KonqPixmapProvider : public KonqFavIconMgr, virtual public KPixmapProvider
 {
 public:
     static KonqPixmapProvider * self();

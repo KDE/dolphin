@@ -92,7 +92,7 @@ private:
 	QWidget *m_parent;
 };
 
-class Sidebar_Widget: public QWidget
+class KDE_EXPORT Sidebar_Widget: public QWidget
 {
 	Q_OBJECT
 public:
