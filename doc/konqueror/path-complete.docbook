@@ -1,0 +1,80 @@
+<chapter id="path-complete">
+
+<chapterinfo>
+<authorgroup>
+<author>
+<firstname>Pamela</firstname>
+<surname>Roberts</surname>
+<affiliation><jobtitle>Handbook maintainer</jobtitle>
+<address><email>pamroberts@blueyonder.co.uk</email></address>
+</affiliation>
+</author>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+</authorgroup>
+<date>2002-09-22</date>
+<releaseinfo>3.1</releaseinfo>
+</chapterinfo>
+
+<title>Automatic Text Completion</title> 
+
+<para>You can get &konqueror; to help you enter a path or &URL; into the
+Location Toolbar by enabling one of the <guimenuitem>Text Completion</guimenuitem>
+features. To do this <mousebutton>right</mousebutton>
+ click on a clear part of the Location Toolbar text entry box and select 
+<guisubmenu>Text Completion</guisubmenu> from the pop up menu. This will let you 
+choose between the following options:</para>
+
+<variablelist>
+
+<varlistentry>
+<term><guimenuitem>None</guimenuitem></term>
+<listitem><para>What you get is what you type.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Manual</guimenuitem></term>
+<listitem><para>When you have typed part of a path or &URL;, pressing 
+<keycombo>&Ctrl;<keycap>E</keycap></keycombo> will complete the entry if it is 
+possible to do so unambiguously.</para></listitem> 
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Automatic</guimenuitem></term>
+<listitem><para>As you type into the Location Toolbar window &konqueror; will 
+automatically extend what you type to complete one possible path or &URL;,  
+highlighting the characters it has added. Continue typing if that's not what 
+you wanted or press <keycap>Enter</keycap> to accept it.</para></listitem>
+ </varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Dropdown List</guimenuitem></term>
+<listitem><para>A drop-down window will appear as you type, showing the
+possible matches to what you have typed so far. When the path or &URL; that 
+you want appears in the window double click on it with the &LMB;. 
+You can also use the 
+<keysym>Down Arrow</keysym> and <keysym>Up Arrow</keysym>
+keys to select it then press <keycap>Enter</keycap>.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Short Automatic</guimenuitem></term>
+<listitem><para>This is like Automatic mode except that it only extends 
+what you have typed as far as the next <keycap>/</keycap> symbol in the path 
+or &URL;. Press <keycombo>&Ctrl;<keycap>E</keycap></keycombo> to accept the 
+suggestion, <keycap>Enter</keycap> when the complete path or &URL; is 
+shown.</para></listitem>
+</varlistentry>
+
+</variablelist>
+<para>You should try out these different modes and pick the one that suits you
+ best.</para>
+<para>The history of recently visited &URL;s that &konqueror; uses for the 
+Text Completion function can be viewed and edited in the <guilabel>History
+</guilabel> page of the <link linkend="sidebar">Navigation Panel</link>.</para>
+
+<para>This section written by:
+Pamela Roberts <email>pamroberts@blueyonder.co.uk</email>.</para>
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+</chapter>

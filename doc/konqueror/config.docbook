@@ -1,0 +1,136 @@
+<chapter id="config">
+
+<chapterinfo>
+<authorgroup>
+<author>
+<firstname>Pamela</firstname>
+<surname>Roberts</surname>
+<affiliation><jobtitle>Handbook maintainer</jobtitle>
+<address><email>pamroberts@blueyonder.co.uk</email></address>
+</affiliation>
+</author>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+</authorgroup>
+<date>2002-09-22</date>
+<releaseinfo>3.1</releaseinfo>
+</chapterinfo>
+
+<title>Configuring &konqueror;</title>
+
+<para>In common with the rest of &kde;, &konqueror; is highly configurable, so
+you can really get the look and feel that best fits your needs and
+wishes.</para>
+
+<sect1 id="configure-bars">
+<title>Toolbars</title>
+
+<para>When &kde; is newly installed, &konqueror;'s window contains a Menubar, 
+Main and Location Toolbars and possibly a Bookmark Toolbar.</para>
+
+<para>Maybe you don't need all these toolbars. To hide one of them, go into 
+the <menuchoice><guimenu>Settings</guimenu><guisubmenu>Toolbars</guisubmenu>
+</menuchoice> menu and uncheck its box. To show a hidden toolbar, just check 
+the box.</para> 
+
+<para>The Menubar itself can be toggled on and off with the shortcut key 
+combination <keycombo action="simul">&Ctrl;<keycap>M</keycap></keycombo>.
+</para>
+
+<para>On the left hand end of each bar you can see some vertical 
+lines. By &LMB; clicking on them, you <quote>flatten</quote> the bar, meaning 
+that it is hidden but can be quickly restored by clicking on the now 
+horizontal lines. You can also drag a bar into a new position with these 
+lines.</para>
+
+<para>If you <mousebutton>right</mousebutton> click on a Toolbar, you 
+will get a menu to configure this bar. You can choose the orientation, text 
+position and icon size</para>
+
+<para>The icons shown in the various bars can be changed by using the 
+<menuchoice><guimenu>Settings</guimenu> <guimenuitem>Configure 
+Toolbars...</guimenuitem></menuchoice> option, which brings up the 
+<guilabel>Configure Toolbars</guilabel> dialog box. The Main and Extra Toolbars
+are divided into sections, such as Main Toolbar &lt;&konqueror;&gt;, Main
+Toolbar &lt;khtmlpart&gt; and Extra Toolbar &lt;khtmlsettingsplugin&gt;. The
+number and type of these sections will depend on whether &konqueror; is in Web
+Browser or File Manager mode and whether you have &konqueror; plugins
+installed.</para>
+
+</sect1>
+
+<sect1 id="configshort">
+<title>Shortcuts</title>
+<para>To change the shortcut key arrangements used by &konqueror; select 
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Shortcuts...
+</guimenuitem></menuchoice>. This will launch a dialog box as shown below.
+</para>
+<mediaobject>
+<imageobject>
+<imagedata fileref="shortcut1.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Shortcut config screenshot 1</phrase>
+</textobject>
+</mediaobject>
+<para>Search through the combo box to find the action you want to add or 
+change the shortcut keys for and select it by <mousebutton>left</mousebutton> 
+clicking on the name. You will then be able to change the shortcut by 
+selecting the <guilabel>None</guilabel>, <guilabel>Default</guilabel> or 
+<guilabel>Custom</guilabel> radio button or by clicking on the large button in 
+the <guilabel>Shortcut for Selected Action</guilabel> area.</para>
+<para>The <guilabel>Define Shortcut</guilabel> dialog box will then open.
+</para>
+<mediaobject>
+<imageobject>
+<imagedata fileref="shortcut2.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Shortcut config screenshot 2</phrase>
+</textobject>
+</mediaobject>
+<para>Choose whether you want to change the <guilabel>Primary</guilabel> or 
+<guilabel>Alternate</guilabel> shortcut then press the key combination you 
+want to act as the shortcut, for example <keycombo action="simul">
+&Ctrl;&Shift;<keycap>S</keycap></keycombo>. 
+If the <guilabel>Auto-Close</guilabel> box is checked the dialog will vanish 
+as soon as you enter the key combination, otherwise it will remain until you 
+press <guibutton>OK</guibutton> or <guibutton>Cancel</guibutton>. Clicking on 
+the little black icon with a white cross in it clears the shortcut.</para>
+
+<sect2 id="userdefmenus">
+<title>User Defined Menus</title>
+<para>You can add your own pop up menu to &konqueror; so that pressing one key 
+combination will make the menu appear then pressing a second key, or using the 
+<keysym>Up arrow</keysym> and <keysym>Down arrow</keysym> keys and pressing 
+<keycap>Enter</keycap>, will select an item from it.</para>
+<para>To do this add a <guilabel>Custom</guilabel> shortcut for each of the 
+actions you want to appear in the menu and in the <guilabel>Define Shortcut
+</guilabel> dialog check the <guilabel>Multi-Key</guilabel> box, press the 
+key combination that you want to bring up your new menu then, separately, 
+press the key that will choose that item from the menu.</para>
+</sect2>
+</sect1>
+
+<sect1 id="othersettings">
+<title>Other Settings</title>
+<para>Selecting <menuchoice><guimenu>Settings</guimenu><guimenuitem>
+Configure Konqueror...</guimenuitem></menuchoice> brings up a dialog box 
+which you can use to control most aspects of &konqueror;'s behavior. 
+It contains several sections which are selected by <mousebutton>left
+</mousebutton> clicking on one of the icons at the left of the dialog 
+box.</para>
+<para>Pressing the <guibutton>Help</guibutton> button will give you 
+detailed instructions about how to use each of these sections, or you can 
+use the <link linkend="bubble">What's This?</link> feature.</para>
+</sect1>
+
+<sect1 id="config-authors">
+<title>Section Authors</title>
+
+<para>This section written by:
+Pamela Roberts <email>pamroberts@blueyonder.co.uk</email>.</para>
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+</sect1>
+</chapter>

@@ -1,0 +1,66 @@
+<chapter id="introduction">
+
+<chapterinfo>
+<authorgroup>
+<author>
+<firstname>Pamela</firstname>
+<surname>Roberts</surname>
+<affiliation><jobtitle>Handbook maintainer</jobtitle>
+<address><email>pamroberts@blueyonder.co.uk</email></address>
+</affiliation>
+</author>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+</authorgroup>
+<date>2002-09-22</date>
+<releaseinfo>3.1</releaseinfo>
+</chapterinfo>
+
+<title>Overview</title>
+
+<para><emphasis>&konqueror;</emphasis> is an advanced 
+<link linkend="filemanager"> file manager</link> for the 
+K Desktop Environment, providing file management functions ranging from simple 
+cut/copy and paste operations to advanced local and remote network file 
+browsing. Directory contents can be displayed in a variety of text and icon 
+<link linkend="viewmode">view modes</link>, which can include thumbnail 
+preview images of file contents. File and directory properties can easily be 
+examined and changed and applications launched with a simple click of the 
+&LMB;.</para>
+
+<para><emphasis>&konqueror;</emphasis> is an <acronym>HTML</acronym> 4.01 
+compliant <link linkend="browser">web browser</link> with built in support 
+for JavaScript (ECMA-262), 
+<acronym>CSS</acronym> (Cascading Style Sheets) and bidirectional scripts 
+(arabic and hebrew). It provides support for the secure running of &Java; 
+applets, &Netscape; plugins for viewing Flash, RealAudio and RealVideo and 
+<acronym>SSL</acronym> for secure communications. Advanced features include 
+automatic <acronym>URL</acronym> and form completion, the ability to import 
+bookmarks from other browsers and tabbed browsing.
+</para>
+
+<para><emphasis>&konqueror;</emphasis> is also an excellent full featured 
+<link linkend="ftp">FTP</link> client.</para>
+
+<para><emphasis>&konqueror;</emphasis> is a universal viewing application, 
+capable of displaying images and documents without having to launch another 
+application. It does this by embedding components (&kde; Parts) provided by 
+other applications; from &kview; for image viewing, &kdvi; for 
+<acronym>DVI</acronym> viewing, &kghostview; for &PostScript; documents and 
+from the various &koffice; applications for their document types.
+</para>
+
+<para><emphasis>&konqueror;</emphasis> is a fully customizable application 
+which anyone can <link linkend="config">configure</link> to suit their own 
+needs, from changing the overall style and the sizes of text and icons to 
+selecting which items appear in the Menubar, changing the number and 
+positions of the toolbars and even defining new shortcut key combinations. 
+Different configuration <link linkend="save-settings">profiles</link> can be 
+saved for easy recall as needed.
+</para>
+
+<para>This section written by:
+Pamela Roberts <email>pamroberts@blueyonder.co.uk</email>.</para>
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+</chapter>

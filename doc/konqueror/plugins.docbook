@@ -1,0 +1,163 @@
+<chapter id="plugins">
+
+<chapterinfo>
+<authorgroup>
+<author>
+<firstname>Pamela</firstname>
+<surname>Roberts</surname>
+<affiliation><jobtitle>Handbook maintainer</jobtitle>
+<address><email>pamroberts@blueyonder.co.uk</email></address>
+</affiliation>
+</author>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+</authorgroup>
+<date>2002-09-22</date>
+<releaseinfo>3.1</releaseinfo>
+</chapterinfo>
+
+<title>Plugins</title>
+
+<sect1 id="netscape-plugin">
+<title>&Netscape; Plugins</title>
+
+<para>Currently, &konqueror; supports &Netscape; 4.x plugins.</para>
+
+<para>Selecting <menuchoice><guimenu>Settings</guimenu><guisubmenu>
+Configure Konqueror...</guisubmenu><guimenuitem>Plugins</guimenuitem>
+</menuchoice> will give you a dialog box with two tabbed pages;
+<guilabel>Scan</guilabel> and <guilabel>Plugins</guilabel>.</para>
+
+<para>The <guilabel>Scan</guilabel> page controls how &kde; scans for new
+&Netscape; plugins, either manually by pressing the <guibutton>Scan for New
+Plugins</guibutton> button or automatically each time &kde; starts up.</para>
+	
+<para>The scan is done by looking through the directories listed in the
+<guilabel>Scan Directories</guilabel> list for <literal
+role="extension">.so</literal> files containing plugin code. It examines every
+such file to find out which <acronym>MIME</acronym> types the plugin
+supports. It then creates <acronym>MIME</acronym> type definitions for &kde; in
+the user's <filename class="directory"> ~/.kde/share/mimelnk</filename>
+directory to make other applications aware of them.</para>
+
+<para>The <guilabel>Plugins</guilabel> page shows you the &Netscape; plugins
+that &kde; has found, and for each plugin it lists the <acronym>MIME</acronym>
+types and the filename suffixes it uses to recognise them.</para>
+
+<para>The dialog box also contains a checkbox <guilabel>
+Enable plugins globally</guilabel> which you can use to enable or disable 
+plugins that can be contained in <acronym>HTML</acronym> pages (these can 
+be considered a security risk).</para>
+
+</sect1>
+
+<sect1 id="konq-plugin">
+<title>&konqueror; Plugins</title>
+
+<para>The package kdeaddons contains several useful plugins that interact with
+&konqueror; in various ways. These are explained briefly below, more detailed 
+information may be obtained by looking through the <guimenuitem>Konqueror 
+Plugins</guimenuitem> section in the &kde; Help Center.</para>
+
+<variablelist>
+
+<varlistentry>
+<term>Web Page Translation</term>
+<listitem><para>This uses AltaVista's BabelFish site to translate the current
+<acronym>HTML</acronym> page to whatever language you want (within reason). It
+can be launched with <menuchoice><guimenu>Tools</guimenu><guisubmenu>Translate
+Web Page</guisubmenu></menuchoice>.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Directory View Filter</term>
+<listitem><para>This is controlled by
+<menuchoice><guimenu>Tools</guimenu><guisubmenu>View
+Filter</guisubmenu></menuchoice> and allows you to choose which types of item
+are displayed in a directory.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>DOM Tree Viewer</term>
+<listitem><para>Selecting <menuchoice><guimenu>Tools</guimenu><guisubmenu>Show
+DOM Tree</guisubmenu></menuchoice> opens a new window which displays the
+document object model (DOM) of the current <acronym>HTML</acronym>
+page.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>HTML Validator</term>
+<listitem><para>This is started with
+<menuchoice><guimenu>Tools</guimenu><guisubmenu>Validate Web
+Page</guisubmenu><guimenuitem>Validate HTML</guimenuitem></menuchoice>. It
+uses the W3C HTML validator to validate the current page, very useful when
+creating web pages.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>CSS Validator</term>
+<listitem><para>Started with
+<menuchoice><guimenu>Tools</guimenu><guisubmenu>Validate Web
+Page</guisubmenu><guimenuitem>Validate CSS</guimenuitem></menuchoice>, it uses
+the W3C CSS validator to validate the current page's Cascading Style
+Sheets.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>HTML Settings</term>
+<listitem><para>Select <menuchoice><guimenu>Tools</guimenu><guisubmenu>HTML
+Settings</guisubmenu></menuchoice> to enable or disable a number of HTML
+settings without going through the <guimenu>Settings</guimenu> dialog.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Image Gallery</term>
+<listitem><para>In File Manager mode, you can select
+<menuchoice><guimenu>Tools</guimenu><guisubmenu>Create Image
+Gallery</guisubmenu></menuchoice> to create an HTML page with
+thumbnails of all the images in the current directory. By default the HTML page
+is called <filename>images.html</filename> and the thumbnails are put into a
+new <filename>thumbs</filename> directory.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>User Agent Changer</term>
+<listitem><para>Select <menuchoice><guimenu>Tools</guimenu><guisubmenu>Change
+Browser Indentification</guisubmenu></menuchoice> to get a menu that allows
+you to change the User Agent string without going through the <guimenu>Settings
+</guimenu> dialog procedure.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Archive Web Page</term>
+<listitem><para>Invoked with <menuchoice><guimenu>Tools</guimenu><guisubmenu>
+Archive Web Page</guisubmenu></menuchoice>, this tool creates an archive 
+(<literal role="extension">.war</literal> ) file containing the web page being 
+viewed including the images. <mousebutton>Left</mousebutton> click on the 
+archive file name to view the saved page.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Navigation Panel Media Player</term>
+<listitem><para>This is a simple media player, embedded as a tab page in the
+Navigation Panel. You can drag songs or videos onto this page to play them.
+</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="plugins-authors">
+<title>Section Authors</title>
+
+<para>This section written by:
+Pamela Roberts <email>pamroberts@blueyonder.co.uk</email>.</para>
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+</sect1>
+</chapter>

@@ -1,0 +1,176 @@
+<chapter id="credits">
+
+<chapterinfo>
+<authorgroup>
+<author>
+<firstname>Pamela</firstname>
+<surname>Roberts</surname>
+<affiliation><jobtitle>Handbook maintainer</jobtitle>
+<address><email>pamroberts@blueyonder.co.uk</email></address>
+</affiliation>
+</author>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+</authorgroup>
+<date>2002-09-22</date>
+<releaseinfo>3.1</releaseinfo>
+</chapterinfo>
+
+<title>Credits and License</title>
+
+<para>&konqueror;. Program copyright 1999-2002, the &konqueror;
+ developers:</para>
+
+<variablelist>
+
+<varlistentry>
+<term>David Faure <email>faure@kde.org</email></term>
+<listitem><para>developer (parts, I/O lib) and maintainer</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Simon Hausmann <email>hausmann@kde.org</email></term>
+<listitem><para>developer (framework, parts)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Michael Reiher <email>michael.reiher@gmx.de</email></term>
+<listitem><para>developer (framework)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Mattias Welk <email>welk@fokus.gmd.de</email></term>
+<listitem><para>developer</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Alexander Neundorf <email>neundorf@kde.org</email></term>
+<listitem><para>developer (list views)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Michael Brade <email>brade@kde.org</email></term>
+<listitem><para>developer (list views, I/O lib)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Lars Knoll <email>knoll@kde.org</email></term>
+<listitem><para>developer (<acronym>HTML</acronym> rendering
+engine)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Antti Koivisto <email>koivisto@kde.org</email></term>
+<listitem><para>developer (<acronym>HTML</acronym> rendering
+engine)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Dirk Mueller <email>mueller@kde.org</email></term>
+<listitem><para>developer (<acronym>HTML</acronym> rendering
+engine)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Peter Kelly <email>pmk@post.com</email></term>
+<listitem><para>developer (<acronym>HTML</acronym> rendering engine,
+JavaScript)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Waldo Bastian <email>bastian@kde.org</email></term>
+<listitem><para>developer (<acronym>HTML</acronym> rendering engine, I/O
+lib)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Matt Koss <email>koss@miesto.sk</email></term>
+<listitem><para>developer (I/O lib)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Alex Zepeda <email>jazepeda@pacbell.net</email></term>
+<listitem><para>developer (I/O lib)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Stephan Kulow <email>coolo@kde.org</email></term>
+<listitem><para>developer (I/O lib)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Richard Moore <email>rich@kde.org</email></term>
+<listitem><para>developer (&Java; applet support)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Dima Rogozin <email>dima@mercury.co.il</email></term>
+<listitem><para>developer (&Java; applet support)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Wynn Wilkes <email>wynnw@calderasystems.com</email></term>
+<listitem><para>developer (&Java;2 manager support and other major improvements
+to applet support)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Harri Porten <email>porten@kde.org</email></term>
+<listitem><para>developer (JavaScript)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Stefan Schimanski <email>schimmi@kde.org</email></term>
+<listitem><para>developer (&Netscape; plugin support)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Carsten Pfeiffer <email>pfeiffer@kde.org</email></term>
+<listitem><para>developer (framework)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>George Staikos <email>staikos@kde.org</email></term>
+<listitem><para>developer (SSL support)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Dawit Alemayehu <email>adawit@kde.org</email></term>
+<listitem><para>developer (I/O lib, Authentication support)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Carsten Pfeiffer <email>pfeiffer@kde.org</email></term>
+<listitem><para>developer (Framework)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Torsten Rahn <email>torsten@kde.org</email></term>
+<listitem><para>Graphics / icons</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Torben Weis <email>weis@kde.org</email></term>
+<listitem><para>kfm author</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Joseph Wenninger <email>jowenn@kde.org</email></term>
+<listitem><para>developer (navigation panel framework)</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para>Documentation copyright 2000-2002</para>
+
+<itemizedlist>
+<listitem><para>Erwan Loisant
+<email>erwan@loisant.org</email></para></listitem>
+<listitem><para>Pamela Roberts
+<email>pamroberts@blueyonder.co.uk</email></para></listitem>
+</itemizedlist>
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+&underFDL;
+&underGPL;
+
+</chapter>

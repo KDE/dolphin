@@ -1,0 +1,200 @@
+<chapter id="sidebar">
+
+<chapterinfo>
+<authorgroup>
+<author>
+<firstname>Pamela</firstname>
+<surname>Roberts</surname>
+<affiliation><jobtitle>Handbook maintainer</jobtitle>
+<address><email>pamroberts@blueyonder.co.uk</email></address>
+</affiliation>
+</author>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+</authorgroup>
+<date>2002-09-22</date>
+<releaseinfo>3.1</releaseinfo>
+</chapterinfo>
+
+<title>The Navigation Panel</title>
+
+<para>The Navigation Panel appears as a separate view at the left of 
+&konqueror;'s window. It can be invoked with <menuchoice><guimenu>Window
+</guimenu><guimenuitem>Show Navigation Panel</guimenuitem></menuchoice> or 
+toggled on and off with the <keycap>F9</keycap> key.</para>
+
+<mediaobject>
+<imageobject><imagedata format="PNG" fileref="dirtree.png"/></imageobject>
+<textobject>
+<phrase>With the Navigation Panel</phrase>  
+</textobject>
+</mediaobject>
+
+<para>It contains a number of tabbed pages; <mousebutton>left</mousebutton> 
+click on a tab's icon to view that page. <mousebutton>Left</mousebutton> 
+clicking on the icon for the visible page will collapse the Navigation Panel 
+so that only the tab icons are visible.</para>
+<variablelist>
+
+<varlistentry>
+<term><guilabel>Bookmarks</guilabel></term>
+<listitem><para>This page shows a tree view of your Bookmarks. <mousebutton>
+Left</mousebutton> click on an item to open it in the main view.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>History</guilabel></term>
+<listitem><para>This page shows a tree view of your browsing History. 
+<mousebutton>Left</mousebutton> clicking on an item will open it in the main 
+view, or you can open it in a new &konqueror; window by <mousebutton>right
+</mousebutton> clicking and selecting <guimenuitem>New Window</guimenuitem> 
+from the pop up menu.</para>
+<para>You can remove an item from the history by <mousebutton>right
+</mousebutton> clicking on it and selecting <guimenuitem>Remove Entry
+</guimenuitem>. Selecting <guimenuitem>Clear History...</guimenuitem> will 
+clear out the entire history.</para>
+<para>The pop up menu you get when you <mousebutton>right</mousebutton> click 
+on any entry in the History page also gives you the option of choosing 
+whether the entire history is sorted by name or by date.</para>
+<para>Selecting <guimenuitem>Preferences...</guimenuitem> from this pop up 
+menu brings up the <guilabel>History Sidebar</guilabel> control module. This 
+can be used to set the maximum size of your history and set a time after which 
+items are automatically removed. You can also set different fonts for new and 
+old &URL;s. 
+The <guilabel>Detailed tooltips</guilabel> checkbox controls how much 
+information is displayed when you hover the mouse pointer over an item in the 
+history page.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Home Directory</guilabel></term>
+<listitem><para>This page shows a tree view of the sub directories your home 
+directory. Note that <quote>hidden</quote> directories (those with names 
+beginning with a dot) are not shown.
+<mousebutton>Left</mousebutton> click on an item to open it in the 
+main view, or <mousebutton>right</mousebutton> click to display a pop up 
+menu allowing you to open the sub directory in a new window or as a new tab 
+page of the main view.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Network</guilabel></term>
+<listitem><para>This page is intended to show a tree view of your important 
+network connections, although local directories can also be included. Again, 
+you can <mousebutton>left</mousebutton> click on an item to open it in the 
+main view or <mousebutton>right</mousebutton> click to bring up a menu with 
+a wider range of possibilities.</para>
+<para>The folders shown in the <guilabel>Network</guilabel> page are held in 
+the folder <filename class="directory">
+~/.kde/share/apps/konqsidebartng/virtual_folders/remote/</filename>, and you can make 
+new ones just as you would make any other sub directory. The items within 
+these folders are held as <literal role="extension">.desktop</literal> files 
+and can be created with &konqueror;'s <menuchoice><guisubmenu>Create New</guisubmenu>
+<guimenuitem>Link to Location (URL)...</guimenuitem></menuchoice> option.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Root Directory</guilabel></term>
+<listitem><para>The Root Directory tree has the path <filename
+class="directory">/</filename>, and is the base directory of your system's
+local files. If you expand the <quote>Root</quote> directory you will find 
+another directory called <filename class="directory">root</filename>. This 
+belongs to the system administrator or Super User and is her home directory. 
+You will also find a directory called 
+<filename class="directory">home</filename>, in which you should be able to 
+find your own <quote>Home</quote> directory again.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Services</guilabel></term>
+<listitem><para>This page provides quick access to the following services:
+</para>
+<para>The <guilabel>Audio CD Browser</guilabel>.</para>
+<para><guilabel>Devices</guilabel>. This is tree view of your hard disc 
+partitions, floppy and &CD-ROM;. <mousebutton>Left</mousebutton> click on 
+a device or partition name to mount it and display its contents in the main 
+view.  A mounted device or partition can be unmounted by <mousebutton>right
+</mousebutton> clicking on the device name and selecting <guimenuitem>Unmount
+</guimenuitem> from the pop up menu.
+</para>
+<para>The <guilabel>LAN Browser</guilabel> allows you to browse other 
+machines connected to your Local Area Network.</para>
+<para>The <guilabel>Print System Browser</guilabel> tree gives you quick 
+access to &kde;'s print manager <application>Kprinter</application>.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para>The Navigation Panel configuration can be changed by <mousebutton>right
+</mousebutton> clicking on the empty area below the bottom tab icon or by 
+<mousebutton>left</mousebutton> clicking on the <guilabel>Configuration 
+Button</guilabel> icon (the top icon in the previous screenshot, it may not 
+be present in your setup). Doing this brings up a menu with the following 
+options:</para>
+<variablelist>
+
+<varlistentry>
+<term><guisubmenu>Add New</guisubmenu></term>
+<listitem><para>This option lets you add a new tab page to the Navigation 
+Panel. The new page can contain the <guimenuitem>Sidebar Media Player
+</guimenuitem> (a <link linkend="konq-plugin">&konqueror; Plugin</link> 
+feature) or a new 
+<guimenuitem>Folder/Directory</guimenuitem> tree view.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Multiple Views</guimenuitem></term>
+<listitem><para>Selecting this option splits the Navigation Panel so that 
+two tab pages can be seen at once.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Show Tabs Left</guimenuitem></term>
+<listitem><para>This option lets you choose whether the tab icons are shown at 
+the left or right of the Navigation Panel.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Show Configuration Button</guimenuitem></term>
+<listitem><para>Use this option to show or hide the <guilabel>Configuration 
+Button</guilabel> icon.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+<para><mousebutton>Right</mousebutton> clicking on a tab icon brings up a 
+menu with the following options:</para>
+
+<variablelist>
+<varlistentry>
+<term><guimenuitem>Set URL</guimenuitem></term>
+<listitem><para>Only available for directory pages, this option lets you 
+change the &URL; (path) of the directory viewed in that page.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Set Icon</guimenuitem></term>
+<listitem><para>To change the tab icon.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Remove</guimenuitem></term>
+<listitem><para>To remove the tab page from the Navigation Panel.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+<para>This section written by:
+Pamela Roberts <email>pamroberts@blueyonder.co.uk</email>.</para>
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+</chapter>

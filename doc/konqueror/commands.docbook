@@ -1,0 +1,1137 @@
+<chapter id="commands">
+
+<chapterinfo>
+<authorgroup>
+<author>
+<firstname>Pamela</firstname>
+<surname>Roberts</surname>
+<affiliation><jobtitle>Handbook maintainer</jobtitle>
+<address><email>pamroberts@blueyonder.co.uk</email></address>
+</affiliation>
+</author>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+</authorgroup>
+<date>2002-09-22</date>
+<releaseinfo>3.1</releaseinfo>
+</chapterinfo>
+
+<title>Command Reference</title>
+
+<note><para>The shortcut key combinations shown in this chapter are the 
+default ones. They can of course be <link linkend="configshort">changed</link>.
+</para></note>
+
+<sect1 id="specshort">
+<title>Special Shortcuts</title>
+<para>There are some useful shortcuts that are not shown in any of the menus:</para>
+<variablelist>
+
+<varlistentry>
+<term><keycap>F6</keycap></term>
+<listitem>
+<para>Sets the focus to the text entry box in the Location Toolbar.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>]</keycap></keycombo></term>
+<listitem>
+<para>Activate the next tab page.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>[</keycap></keycombo></term>
+<listitem>
+<para>Activate the previous tab page.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+
+</sect1>
+
+<sect1 id="menubar">
+<title>The Menubar</title>
+
+<sect2 id="menu-location">
+<title>The <guimenu>Location</guimenu> Menu</title>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
+</shortcut>
+<guimenu>Location</guimenu>
+<guimenuitem>New Window</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open another &konqueror;
+window.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>D</keycap></keycombo>
+</shortcut>
+<guimenu>Location</guimenu>
+<guimenuitem>Duplicate Window</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open another &konqueror; window, duplicating the
+current
+one.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo>
+</shortcut>
+<guimenu>Location</guimenu>
+<guimenuitem>Open Location...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open a directory or file by entering its path
+ (for example <filename class="directory">/home/pam</filename> or
+<filename>/home/pam/fred.txt</filename>) in a simple dialog
+box.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>L</keycap></keycombo>
+</shortcut>
+<guimenu>Location</guimenu>
+<guimenuitem>Send Link</guimenuitem>
+</menuchoice></term>
+<listitem><para>Send an email containing a link to the current
+location.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Location</guimenu>
+<guimenuitem>Send File</guimenuitem>
+</menuchoice></term>
+<listitem><para>Send an email containing the selected file as an
+attachment.</para></listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Location</guimenu>
+<guimenuitem>Save Background Image As...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>Only applies if you are viewing a web page with a background image. Opens
+the <guilabel>Save As dialog</guilabel> box  to let you save the background
+image file to your own computer.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo>
+</shortcut>
+<guimenu>Location</guimenu>
+<guimenuitem>Save As...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Only applies if you are viewing a document or web page, uses
+the
+<guilabel>Save As...</guilabel> dialog box to let you save a copy to your own
+computer.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Location</guimenu>
+<guimenuitem>Save Frame As...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Similar to <guimenuitem>Save As...</guimenuitem> but for
+use with a web site that uses frames.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>P</keycap></keycombo>
+</shortcut>
+<guimenu>Location</guimenu>
+<guimenuitem>Print...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Print.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Location</guimenu>
+<guimenuitem>Print Frame</guimenuitem>
+</menuchoice></term>
+<listitem><para>Print selected frame of a Web
+page.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Location</guimenu>
+<guimenuitem>Open With Netscape</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open the web page you are 
+viewing in &konqueror; with Netscape as well.</para></listitem> 
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo>
+</shortcut>
+<guimenu>Location</guimenu>
+<guimenuitem>Quit</guimenuitem>
+</menuchoice></term>
+<listitem><para>Close down this instance of
+&konqueror;.</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-edit">
+<title>The <guimenu>Edit</guimenu> Menu</title>
+
+<note><para>Most items in the Menubar <guimenu>Edit</guimenu> menu can also be
+found by &RMB; clicking on a free area of a view.</para></note>
+
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>Z</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Undo</guimenuitem>
+</menuchoice></term>
+<listitem><para>Sometimes lets you reverse a mistaken
+action.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>X</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Cut</guimenuitem>
+</menuchoice></term>
+<listitem><para>Puts selected item(s) into the clipboard.  If
+you then do a  a <guimenuitem>Paste</guimenuitem> the item(s) will be moved
+from the original location to the new one.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>C</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Copy</guimenuitem>
+</menuchoice></term>
+<listitem><para>Copy selected item(s) to the
+clipboard.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>V</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Paste</guimenuitem>
+</menuchoice></term>
+<listitem><para>Paste item(s) from clipboard to the currently viewed
+directory.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycap>F2</keycap>
+</shortcut><guimenu>Edit</guimenu>
+<guimenuitem>Rename</guimenuitem>
+</menuchoice></term>
+<listitem><para>Lets you rename a file or directory without
+ having to
+open the <guimenuitem>Properties...</guimenuitem> dialog box.
+</para></listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycap>Delete</keycap></shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Move to Trash</guimenuitem>
+</menuchoice></term>
+<listitem><para>Move selected item(s) to the Trash
+directory.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Shift;<keycap>Delete</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Delete</guimenuitem>
+</menuchoice></term>
+<listitem><para>Delete the selected item(s).</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>Delete</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Shred</guimenuitem>
+</menuchoice></term>
+<listitem><para>Shred the selected item(s).</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycap>F7</keycap></shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Copy Files</guimenuitem>
+</menuchoice></term>
+<listitem><para>Copy the selected item(s) to another
+directory.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycap>F8</keycap></shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Move Files</guimenuitem>
+</menuchoice></term>
+<listitem><para>Move the selected item(s) to another
+directory.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycap>F10</keycap></shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>New Directory...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Create a new sub directory.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Edit</guimenu>
+<guimenuitem>Create New</guimenuitem>
+</menuchoice></term>
+<listitem><para>Create a link to an application,
+<acronym>URL</acronym>, Floppy or &CD-ROM; device, or create a new Directory or
+text or <acronym>HTML</acronym> file. See the <link linkend="making">Create
+New...</link>section for more details.</para></listitem> 
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Edit</guimenu>
+<guimenuitem>Edit File Type...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open the <guilabel>Edit File Type</guilabel>
+dialog box</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Edit</guimenu>
+<guimenuitem>Properties..</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open the <guilabel>Edit Properties</guilabel>
+dialog box</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>+</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Select...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Together with the <guimenuitem>Unselect...</guimenuitem>,
+<guimenuitem>Unselect All</guimenuitem> and <guimenuitem>Invert</guimenuitem>
+Selection commands, this provides an easy and powerful way of selecting
+multiple
+files.</para>
+<para>It brings up a simple dialog box where you can enter a file
+name using the wild card characters * and ?, for example entering
+<literal role="extension">*.html</literal> will select all files ending with
+<literal role="extension">.html</literal> while <filename>?a*</filename> will
+select all files which have the letter a as the second character in their
+filename.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>-</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Unselect...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Unselect file or folder.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>U</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Unselect All</guimenuitem>
+</menuchoice></term>
+<listitem><para>Unselect all selected files or
+folders.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>*</keycap></keycombo>
+</shortcut><guimenu>Edit</guimenu>
+<guimenuitem>Invert Selection</guimenuitem>
+</menuchoice></term>
+<listitem><para>Invert current selection.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>U</keycap></keycombo>
+</shortcut><guimenu>Edit</guimenu>
+<guimenuitem>Select All</guimenuitem>
+</menuchoice></term>
+<listitem><para>Selects all text in a HTML 
+page or in a text page being previewed, you can then 
+<guimenuitem>Copy</guimenuitem> it and <guimenuitem>Paste</guimenuitem> it into 
+a text editor.</para></listitem> </varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>
+</shortcut><guimenu>Edit</guimenu>
+<guimenuitem>Find</guimenuitem>
+</menuchoice></term>
+<listitem><para>Find a text string in a text
+page you are previewing or in an <acronym>HTML</acronym>
+page.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Find in Frame</guimenuitem>
+</menuchoice></term>
+<listitem><para>Find a text string in an
+<acronym>HTML</acronym> frame.</para></listitem> 
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycap>F3</keycap></shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Find Next</guimenuitem>
+</menuchoice></term>
+<listitem><para>Find the next occurrence of the text string 
+in the text or <acronym>HTML</acronym> page.</para></listitem> 
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Edit</guimenu>
+<guimenuitem>Go to Line...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Go to a particular line number in a text
+page you are previewing.</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-view">
+
+<title>The <guimenu>View</guimenu> Menu</title>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guisubmenu>View Mode...</guisubmenu>
+</menuchoice></term>
+<listitem><para>Selects <guimenuitem>Icon</guimenuitem>,
+<guimenuitem>MultiColumn</guimenuitem>, <guimenuitem>Tree</guimenuitem>,
+<guimenuitem>Detailed List</guimenuitem> 
+or <guimenuitem>Text</guimenuitem> view mode.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Use index.html</guimenuitem>
+</menuchoice></term>
+<listitem><para>If a selected directory contains a file 
+<filename>index.html</filename>, it will be opened as a web
+page rather than showing the directory as a list of
+files.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Lock to current location</guimenuitem>
+</menuchoice></term>
+<listitem><para>Lock to current location.
+</para></listitem>
+</varlistentry>
+	  
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Unlock all views</guimenuitem>
+</menuchoice></term>
+<listitem><para>Unlock all views.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Link View</guimenuitem>
+</menuchoice></term>
+<listitem><para>Link current view to others in a multiple view
+window.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycap>F5</keycap></shortcut>
+<guimenu>View</guimenu>
+<guimenuitem>Reload</guimenuitem>
+</menuchoice></term>
+<listitem><para>Reload.</para></listitem>
+</varlistentry>
+	  
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycap>Esc</keycap></shortcut>
+<guimenu>View</guimenu>
+<guimenuitem>Stop</guimenuitem>
+</menuchoice></term>
+<listitem><para>Stop load (particularly useful when web
+browsing).</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Icon Size</guimenuitem>
+</menuchoice></term>
+<listitem><para>Select size of icons used when
+wiewing a directory in Icon Mode.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Sort...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Choose order in which items are presented in the
+window when in Icon or MultiColumn View mode.</para></listitem>
+</varlistentry>
+	  
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Case Insensitive Sort</guimenuitem>
+</menuchoice></term>
+<listitem><para>Choose whether the sort order in Tree, Detailed List
+or Text View modes is case sensitive.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>View Document Source</guimenuitem>
+</menuchoice></term>
+<listitem><para>View document source text.</para>
+<para>Only available if you are viewing a document or <acronym>HTML</acronym>
+page.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>View Frame Source</guimenuitem>
+</menuchoice></term>
+<listitem><para>View frame source text</para>
+<para>Only applies if you are viewing a web site that uses frames. Similar to 
+<guimenuitem>View Document Source</guimenuitem>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Security...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Tells you whether the current browser connection is
+secured with <acronym>SSL</acronym> and lets you bring up the
+<guilabel>Cryptography Configuration...</guilabel> dialog
+box. <mousebutton>Left</mousebutton> clicking on the Menubar padlock icon does
+the same thing.</para></listitem> </varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Set Encoding</guimenuitem>
+</menuchoice></term>
+<listitem><para>Set encoding</para>
+<para>Allows you to choose the character encoding used to display
+<acronym>HTML</acronym> pages. <guimenuitem>Auto</guimenuitem> is usually the
+ best
+choice.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guisubmenu>Preview</guisubmenu>
+</menuchoice></term>
+<listitem><para>Lets you choose to show thumbnails of images, text
+files
+or HTML pages instead of the normal icons in Icon or
+MultiColumn View modes.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Show Hidden Files</guimenuitem>
+</menuchoice></term>
+<listitem><para>Show hidden (dot) files.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Show details...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Lets you choose which file and directory details are
+shown in Tree, Detailed List and Text views.</para></listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Background Color...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Select background color for the File Manager mode.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Background Image...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Select background image for the File Manager mode.
+</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-go">
+<title>The <guimenu>Go</guimenu> Menu</title>
+
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Alt;<keysym>Up Arrow</keysym></keycombo>
+</shortcut><guimenu>Go</guimenu>
+<guimenuitem>Up</guimenuitem>
+</menuchoice></term>
+<listitem><para>Go up a level in the directory
+hierarchy.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Alt;<keysym>Left Arrow</keysym></keycombo>
+</shortcut><guimenu>Go</guimenu>
+<guimenuitem>Back</guimenuitem>
+</menuchoice></term>
+<listitem><para>Go back to the previous
+view.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Alt;<keysym>Right Arrow</keysym></keycombo>
+</shortcut><guimenu>Go</guimenu>
+<guimenuitem>Forward</guimenuitem>
+</menuchoice></term>
+<listitem><para>You can only go forward if you've just gone 
+back.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>Home</keycap></keycombo>
+</shortcut><guimenu>Go</guimenu>
+<guimenuitem>Home URL</guimenuitem>
+</menuchoice></term>
+<listitem><para>Go to your home directory.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Go</guimenu>
+<guimenuitem>Applications</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open the directory holding your
+applications.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Go</guimenu>
+<guimenuitem>Trash</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open your <filename
+ class="directory">Trash</filename>
+directory in a separate window.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Go</guimenu>
+<guimenuitem>Templates</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open the <filename
+class="directory">Templates</filename> directory  in a separate
+window.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Go</guimenu>
+<guimenuitem>Autostart</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open your <filename
+class="directory">Autostart</filename> directory in a separate
+window.</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-bookmarks">
+<title>The <guimenu>Bookmarks</guimenu> Menu</title>
+
+<note><para>See the section <link linkend="bookmarks">Using Bookmarks</link>
+in this manual for a fuller description of these menu items.
+</para></note>
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>B</keycap></keycombo>
+</shortcut>
+<guimenu>Bookmarks</guimenu>
+<guimenuitem>Add Bookmark</guimenuitem>
+</menuchoice></term>
+<listitem><para>Add current selection to your
+bookmarks.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Bookmarks</guimenu>
+<guimenuitem>Edit Bookmarks...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open the <link linkend="bookmarks">Bookmark Editor</link>.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Bookmarks</guimenu>
+<guimenuitem>New Folder</guimenuitem>
+</menuchoice></term>
+<listitem><para>Create a new folder in your Bookmarks
+dirctory.</para></listitem>
+</varlistentry>
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-tools">
+<title>The <guimenu>Tools</guimenu> Menu</title>
+
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Alt;<keycap>F2</keycap></keycombo></shortcut>
+<guimenu>Tools</guimenu>
+<guimenuitem>Run Command...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Run a program by entering its name in a 
+simple dialog box.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>T</keycap></keycombo></shortcut>
+<guimenu>Tools</guimenu>
+<guimenuitem>Open Terminal...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open a &konsole; terminal
+ window.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Tools</guimenu>
+<guimenuitem>Find File...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open the &kfind; application.</para></listitem>
+</varlistentry>
+</variablelist>
+
+<para>If you have &konqueror; plugins installed there will be additional
+entries in the <guimenu>Tools</guimenu> menu. See the <link
+linkend="konq-plugin">&konqueror; Plugins</link> chapter for further
+details.</para>
+</sect2>
+
+<sect2 id="menu-settings">
+<title>The <guimenu>Settings</guimenu> Menu</title>
+
+<note><para>See also the section <link linkend="save-settings">Saving Settings
+and Profiles</link>.</para></note>
+
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>M</keycap></keycombo></shortcut>
+<guimenu>Settings</guimenu>
+<guimenuitem>Show Menubar</guimenuitem>
+</menuchoice></term>
+<listitem><para>Show/Hide the menubar.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Toolbars</guimenuitem>
+</menuchoice></term>
+<listitem><para>Opens a sub menu where you can choose to show or hide 
+the various Toolbars.</para></listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>View Properties Saved in Directory</guimenuitem>
+</menuchoice></term>
+<listitem><para>Save View properties to current
+ directory.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Remove Directory Properties</guimenuitem>
+</menuchoice></term>
+<listitem><para>Remove directory properties.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Save View Profile "File Management"</guimenuitem>
+</menuchoice></term>
+<listitem><para>Save the current view profile as the default one for
+ File Management mode.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Save View Profile "Web Browsing"</guimenuitem>
+</menuchoice></term>
+<listitem><para>Save the current view profile as the default one for
+Web Browsing mode.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Configure View Profiles...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Lets you change an existing view profile or create a
+new one.</para></listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Load View Profile</guimenuitem>
+</menuchoice></term>
+<listitem><para>Load a View Profile.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice> <guimenu>Settings</guimenu>
+<guimenuitem>Configure Shortcuts...</guimenuitem>
+</menuchoice></term> <listitem><para>Lets you
+see and change &konqueror;'s shortcut key bindings, i.e. the
+associations between actions such as <guimenuitem>Copy</guimenuitem> and keys
+or combinations of keys such a <keycombo
+action="simul">&Ctrl;<keycap>V</keycap></keycombo>. If you do 
+this take care not to duplicate an existing shortcut.</para>
+</listitem></varlistentry>
+
+<varlistentry>
+<term><menuchoice> <guimenu>Settings</guimenu>
+<guimenuitem>Configure Toolbars...</guimenuitem>
+</menuchoice></term> <listitem><para>
+Lets you configure the Main, Extra and Location Toolbars. See the
+section <link linkend="configure-bars">Changing Bars</link>. 
+</para></listitem> </varlistentry>
+
+<varlistentry>
+<term><menuchoice> <guimenu>Settings</guimenu>
+<guimenuitem>Configure &konqueror;...</guimenuitem> </menuchoice></term>
+<listitem><para>Lets you configure the File manager, File Associations,
+Browser, Internet Keywords, Cookies, Proxies, Cryptography, User Agent, or
+Toolbars by bringing up the appropriate dialog box.</para></listitem>
+</varlistentry>
+
+
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-window">
+<title>The <guimenu>Window</guimenu> Menu</title>
+
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>L</keycap></keycombo></shortcut>
+<guimenu>Window</guimenu>
+<guimenuitem>Split View Left/Right</guimenuitem>
+</menuchoice></term>
+<listitem><para>Split View Left/Right.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo
+action="simul">&Ctrl;&Shift;<keycap>T</keycap></keycombo></shortcut>
+<guimenu>Window</guimenu>
+<guimenuitem>Split View Top/Bottom</guimenuitem>
+</menuchoice></term>
+<listitem><para>Split View Top/Bottom.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo
+action="simul">&Ctrl;&Shift;<keycap>R</keycap></keycombo></shortcut>
+<guimenu>Window</guimenu>
+<guimenuitem>Remove Active View</guimenuitem>
+</menuchoice></term>
+<listitem><para>Remove Active View.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Window</guimenu>
+<guimenuitem>Show Terminal Emulator</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open a small text terminal view at the bottom of the
+ main 
+window.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>N</keycap></keycombo></shortcut>
+<guimenu>Window</guimenu>
+<guimenuitem>New Tab</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open a new, empty, tab page.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>D</keycap></keycombo></shortcut>
+<guimenu>Window</guimenu>
+<guimenuitem>Duplicate Tab</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open a duplicate tab page.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>B</keycap></keycombo></shortcut>
+<guimenu>Window</guimenu>
+<guimenuitem>Detach Current Tab</guimenuitem>
+</menuchoice></term>
+<listitem><para>Show the current tab page in a new instance of 
+&konqueror;.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>W</keycap></keycombo></shortcut>
+<guimenu>Window</guimenu>
+<guimenuitem>Close Current Tab</guimenuitem>
+</menuchoice></term>
+<listitem><para>Close the current tab page.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>F</keycap></keycombo></shortcut>
+<guimenu>Window</guimenu>
+<guimenuitem>Fullscreen Mode</guimenuitem>
+</menuchoice></term>
+<listitem><para>Fullscreen Mode.</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-help">
+<title>The <guimenu>Help</guimenu> Menu</title>
+
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Help</guimenu>
+<guimenuitem>&konqueror; Handbook</guimenuitem>
+</menuchoice></term>
+<listitem><para>View this document.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo
+ action="simul">&Shift;<keycap>F1</keycap></keycombo></shortcut>
+<guimenu>Help</guimenu>
+<guimenuitem>What's This?</guimenuitem>
+</menuchoice></term>
+<listitem><para>Draws a question mark (?) beside the mouse
+pointer, clicking on a window item such as the
+<guiicon>Stop</guiicon> button will then display a brief explanation. See
+<link linkend="bubble">Tooltips and What's This ?</link> .</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Help</guimenu>
+<guimenuitem>&konqueror; Introduction</guimenuitem>
+</menuchoice></term>
+<listitem><para>Revisit the introductory pages that you got when
+&konqueror; was first started.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Help</guimenu>
+<guimenuitem>Report Bug...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Report bug.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Help</guimenu>
+<guimenuitem>About &konqueror;...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Display some brief information about
+&konqueror;'s version number, authors and license agreement.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Help</guimenu>
+<guimenuitem>About KDE...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Show some information about the version of &kde; that
+you are running.</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect2>
+</sect1>
+
+<sect1 id="commands-authors">
+<title>Section Authors</title>
+
+<para>This section written by:
+Pamela Roberts <email>pamroberts@blueyonder.co.uk</email>.</para>
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+</sect1>
+</chapter>

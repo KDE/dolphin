@@ -1,0 +1,139 @@
+<chapter id="faq">
+
+<chapterinfo>
+<authorgroup>
+<author>
+<firstname>Pamela</firstname>
+<surname>Roberts</surname>
+<affiliation><jobtitle>Handbook maintainer</jobtitle>
+<address><email>pamroberts@blueyonder.co.uk</email></address>
+</affiliation>
+</author>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+</authorgroup>
+<date>2002-09-22</date>
+<releaseinfo>3.1</releaseinfo>
+</chapterinfo>
+
+<title>Questions and Answers</title>
+
+<qandaset>
+
+<qandaentry>
+<question><para>How can I browse web sites using non latin
+ scripts?</para></question>
+<answer><para>Detailed instructions can be found at <ulink
+url="http://www.konqueror.org/i18n.html">http://www.konqueror.org/i18n.html</ulink></para></answer>
+</qandaentry>
+
+<qandaentry>
+<question><para>Can I run &konqueror; from another window
+manager?</para></question>
+
+<answer><para>Just install &Qt;, kdelibs and kdebase, and from your favourite
+window manager, just launch &konqueror;. It should work just fine, but if it
+doesn't (&kde; developers don't test that case often), report it to <ulink
+url="http://bugs.kde.org">http://bugs.kde.org</ulink> and try running
+<application>kdeinit</application> before running &konqueror;, it usually
+helps.</para></answer>
+</qandaentry>
+
+<qandaentry>
+<question><para>Where does &konqueror; keep all its configuration
+data?</para></question>
+<answer><para>Generally in the <filename>~/.kde</filename> directory (this may 
+be <filename>~/.kde3</filename> on your system, depending on how &kde; 3 
+was installed). Don't alter these files unless you really know what you are 
+doing.</para>
+
+<itemizedlist>
+
+<listitem><para>The <filename
+class="directory">~/.kde/share/apps/konqueror/profiles</filename> directory
+holds individual files containing settings for each of your <link
+linkend="save-settings">profiles.  </link></para></listitem>
+
+<listitem><para>Your bookmarks are held in <filename
+class="directory">~/.kde/share/apps/konqueror/bookmarks.xml</filename></para></listitem>
+<listitem><para>Cookies are held in <filename
+class="directory">~/.kde/share/apps/kcookiejar/cookies</filename></para></listitem>
+<listitem><para>Your history, as used for the auto-completion feature,  is in
+<filename>~/.kde/share/config/konq_history</filename></para></listitem>
+
+<listitem><para>In the directory <filename
+class="directory">~/.kde/share/config/</filename> the files
+<filename>konqiconviewrc</filename>, <filename>konqlistviewrc</filename> and
+<filename>konquerorrc</filename> hold a whole lot of general configuration
+settings.</para></listitem>
+
+<listitem><para>The directory
+<filename class="directory">~/.kde/share/cache/http/</filename> 
+contains the browser cache.</para></listitem>
+
+<listitem><para>The Navigation Panel uses the files and subdirectories in
+<filename
+class="directory">~/.kde/share/apps/konqsidebartng</filename></para></listitem>
+</itemizedlist>
+
+<para>Any directory specific view settings are put into <literal
+role="extension">.directory</literal> files in the individual
+directories.</para></answer>
+</qandaentry>
+
+<qandaentry>
+<question><para>How do I clear out the history file?</para></question>
+<answer><para>There are two <quote>histories</quote>:</para>
+<itemizedlist>
+<listitem><para>One is used for text completion in the Location Toolbar text entry
+box. To clear this <mousebutton>right</mousebutton> click on the text entry
+box and select <guimenuitem>Empty Contents
+</guimenuitem>.</para></listitem>
+<listitem><para>The other is the log of visited locations. Select the History
+page in the Navigation Panel, 
+<mousebutton>right</mousebutton> click on an entry and choose
+<guimenuitem>Remove Entry</guimenuitem> to remove just that entry or
+<guimenuitem>Clear History</guimenuitem> to delete all
+entries.</para></listitem>
+
+</itemizedlist>
+
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question><para>How do I enable, disable or clear the browser
+cache?</para></question> <answer>
+<para>If you select <guimenuitem>Cache</guimenuitem> dialog launched by 
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Konqueror
+</guimenuitem></menuchoice> you will be presented with a dialog box that lets 
+you disable the cache, clear it or set its size, and change the cacheing 
+policy.</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question><para>How can I change the timeout values used by &konqueror; 
+when web browsing?</para></question> <answer>
+<para>In the Control Center <menuchoice><guimenu>Network</guimenu>
+<guimenuitem>Preferences</guimenuitem></menuchoice> page.</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question><para>I can't find the answer to my question here.</para></question> 
+<answer>
+<para>Take a look at <ulink url="http://www.konqueror.org/faq.html">
+http://www.konqueror.org/faq.html</ulink> or 
+<ulink url="http://www.konqueror.org/konq-java.html">
+http://www.konqueror.org/konq-java.html</ulink>.</para>
+</answer>
+</qandaentry>
+
+</qandaset>
+
+<para>This section written by:
+Pamela Roberts <email>pamroberts@blueyonder.co.uk</email>.</para>
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+</chapter>
