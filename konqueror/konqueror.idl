@@ -43,7 +43,7 @@ module Konqueror
     DirectoryDisplayMode viewMode();
   };
 
-  interface KfmTreeView : Browser::View
+  interface KfmTreeView : Browser::View, Browser::EditExtension
   {
     slot void slotShowDot();
     slot void slotReloadTree();

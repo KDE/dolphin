@@ -92,6 +92,7 @@ KonqKfmIconView::KonqKfmIconView( KonqMainView *mainView )
   m_bInit = false;
 
   m_dirLister = 0L;
+  m_bLoading = false;
 }
 
 KonqKfmIconView::~KonqKfmIconView()
@@ -437,13 +438,18 @@ void KonqKfmIconView::slotSelectionChanged()
 void KonqKfmIconView::slotStarted( const QString & url )
 {
   unselectAll();
-  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char*)url.ascii(), 0 ) );
+  if ( m_bLoading )
+    SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char*)url.ascii(), 0 ) );
   bSetupNeeded = false;
 }
 
 void KonqKfmIconView::slotCompleted()
 {
-  SIGNAL_CALL1( "completed", id() );
+  if ( m_bLoading )
+  {
+    SIGNAL_CALL1( "completed", id() );
+    m_bLoading = false;
+  }    
   setContentsPos( m_iXOffset, m_iYOffset );
 }
 
@@ -513,6 +519,7 @@ void KonqKfmIconView::openURL( const char *_url, int xOffset, int yOffset )
 
   m_iXOffset = xOffset;
   m_iYOffset = yOffset;
+  m_bLoading = true;
 
   // Start the directory lister !
   m_dirLister->openURL( KURL( _url ), m_pProps->m_bShowDot );

@@ -117,6 +117,8 @@ protected:
    * @ref #initConfig needs to know about that.
    */
   bool m_bInit;
+
+  bool m_bLoading;
   
   /** The view menu */
   OpenPartsUI::Menu_var m_vViewMenu;

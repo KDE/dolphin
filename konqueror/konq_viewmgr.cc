@@ -22,7 +22,6 @@
 #include "konq_mainview.h"
 #include "konq_childview.h"
 #include "konq_frame.h"
-#include "konq_treeview.h"
 
 #include <qsplitter.h>
 #include <qstringlist.h>

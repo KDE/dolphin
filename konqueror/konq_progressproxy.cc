@@ -26,6 +26,12 @@ KonqProgressProxy::KonqProgressProxy( OPPartIf *part, KIOJob *job )
   job->insertChild( this ); //let's make sure we get deleted when the job dies
   
   m_dctSignals = part->signalImplementations();
+
+  if ( !part->supportsInterface( "IDL:Browser/View:1.0" ) ||
+       !(*m_dctSignals)[ "loadingProgress" ] ||
+       !(*m_dctSignals)[ "speedProgress" ] )
+    assert( 0 );
+
   m_partId = part->id();
   
   connect( job, SIGNAL( sigTotalSize( int, unsigned long ) ), this, SLOT( slotTotalSize( int, unsigned long ) ) );
@@ -42,14 +48,15 @@ void KonqProgressProxy::slotTotalSize( int, unsigned long size )
 
 void KonqProgressProxy::slotProcessedSize( int, unsigned long size )
 {
-  if ( m_ulTotalDocumentSize > 0 )
+  if ( m_ulTotalDocumentSize > 0 && (*m_dctSignals)[ "loadingProgress" ] )
     signal_call2( "loadingProgress", m_dctSignals, m_partId, 
                   (CORBA::Long)( size * 100 / m_ulTotalDocumentSize ) );
 }
 
 void KonqProgressProxy::slotSpeed( int, unsigned long bytesPerSecond )
 {
-  signal_call2( "speedProgress", m_dctSignals, m_partId, (CORBA::Long)bytesPerSecond );
+  if ( (*m_dctSignals)[ "speedProgress" ] )
+    signal_call2( "speedProgress", m_dctSignals, m_partId, (CORBA::Long)bytesPerSecond );
 }
 
 #include "konq_progressproxy.moc"

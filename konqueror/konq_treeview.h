@@ -140,7 +140,8 @@ protected:
  */
 class KonqKfmTreeView : public QListView,
                         public KonqBaseView,
-			virtual public Konqueror::KfmTreeView_skel
+			virtual public Konqueror::KfmTreeView_skel,
+			virtual public Browser::EditExtension_skel
 {
   friend KfmTreeViewItem;
   friend KfmTreeViewDir;
@@ -159,6 +160,11 @@ public:
   virtual char *url();
   virtual CORBA::Long xOffset();
   virtual CORBA::Long yOffset();
+
+  virtual void can( CORBA::Boolean &copy, CORBA::Boolean &paste, CORBA::Boolean &move );
+  virtual void copySelection();
+  virtual void pasteSelection();
+  virtual void moveSelection( const char *destinationURL );
 
   virtual void slotReloadTree();
   virtual void slotShowDot();
@@ -227,6 +233,8 @@ protected slots:
   virtual void slotReturnPressed( QListViewItem *_item );
   virtual void slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int _column );
 
+  void slotSelectionChanged();
+
   // slots connected to the directory lister
   virtual void slotStarted( const QString & );
   virtual void slotCompleted();
@@ -240,18 +248,14 @@ protected slots:
 
 protected:
   virtual void initConfig();
-  virtual void dragMoveEvent( QDragMoveEvent *_ev );
-  virtual void dragEnterEvent( QDragEnterEvent *_ev );
-  virtual void dragLeaveEvent( QDragLeaveEvent *_ev );
-  virtual void dropEvent( QDropEvent *_ev );
-  /**
-   * Needed to get drop events of the viewport.
-   */
-  virtual bool eventFilter( QObject *o, QEvent *e );
+  virtual void viewportDragMoveEvent( QDragMoveEvent *_ev );
+  virtual void viewportDragEnterEvent( QDragEnterEvent *_ev );
+  virtual void viewportDragLeaveEvent( QDragLeaveEvent *_ev );
+  virtual void viewportDropEvent( QDropEvent *_ev );
 
-  virtual void mousePressEvent( QMouseEvent *_ev );
-  virtual void mouseMoveEvent( QMouseEvent *_ev );
-  virtual void mouseReleaseEvent( QMouseEvent *_ev );
+  virtual void viewportMousePressEvent( QMouseEvent *_ev );
+  virtual void viewportMouseMoveEvent( QMouseEvent *_ev );
+  virtual void viewportMouseReleaseEvent( QMouseEvent *_ev );
   virtual void keyPressEvent( QKeyEvent *_ev );
 
   virtual void addSubDir( const KURL & _url, KfmTreeViewDir* _dir );
@@ -322,6 +326,8 @@ protected:
 
   int m_iXOffset;
   int m_iYOffset;
+  
+  CORBA::Long m_idShowDot;
   
   KonqMainView *m_pMainView;
 };

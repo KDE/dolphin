@@ -27,6 +27,7 @@
 #include <kfileitem.h>
 #include <kio_error.h>
 #include <kio_job.h>
+#include <kio_paste.h>
 #include <kmimetypes.h>
 #include <kpixmapcache.h>
 #include <kprotocolmanager.h>
@@ -46,6 +47,7 @@
 #include <qkeycode.h>
 #include <qlist.h>
 #include <qdragobject.h>
+#include <qclipboard.h>
 #include <klocale.h>
 
 #include <opUIUtils.h>
@@ -54,6 +56,9 @@ KonqKfmTreeView::KonqKfmTreeView( KonqMainView *mainView )
 {
   kdebug(0, 1202, "+KonqKfmTreeView");
   ADD_INTERFACE( "IDL:Konqueror/KfmTreeView:1.0" );
+  ADD_INTERFACE( "IDL:Browser/EditExtension:1.0" );
+
+  SIGNAL_IMPL( "selectionChanged" );
 
   setWidget( this );
 
@@ -95,13 +100,14 @@ KonqKfmTreeView::KonqKfmTreeView( KonqMainView *mainView )
 	   this, SLOT( slotReturnPressed( QListViewItem* ) ) );
   QObject::connect( this, SIGNAL( currentChanged( QListViewItem* ) ),
 	   this, SLOT( slotCurrentChanged( QListViewItem* ) ) );
+  QObject::connect( this, SIGNAL( selectionChanged() ),
+                    this, SLOT( slotSelectionChanged() ) );
 
   //  connect( m_pView->gui(), SIGNAL( configChanged() ), SLOT( initConfig() ) );
 
-  // Qt 1.41 hack to get drop events
-  viewport()->installEventFilter( this );
   viewport()->setAcceptDrops( true );
   viewport()->setMouseTracking( true );
+  setAcceptDrops( true );
 
   m_dragOverItem = 0L;
 
@@ -111,7 +117,6 @@ KonqKfmTreeView::KonqKfmTreeView( KonqMainView *mainView )
 KonqKfmTreeView::~KonqKfmTreeView()
 {
   kdebug(0, 1202, "-KonqKfmTreeView");
-  // viewport()->removeEventFilter( this );
 
   if ( m_dirLister ) delete m_dirLister;
   delete m_pProps;
@@ -131,17 +136,13 @@ bool KonqKfmTreeView::mappingOpenURL( Browser::EventOpenURL eventURL )
 
 bool KonqKfmTreeView::mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu )
 {
-#define MVIEW_SHOWDOT_ID_TREEVIEW 1484 // yes, Simon, I need an id since I want
-  // to enable/disable the item. How do I do ? :)
-  
   if ( !CORBA::is_nil( viewMenu ) )
   {
     CORBA::WString_var text = Q2C( i18n("Rel&oad Tree") );
     viewMenu->insertItem4( text, this, "slotReloadTree", 0, -1 , -1 );
     text = Q2C( i18n("Show &Dot Files") );
-    viewMenu->insertItem4( text, this, "slotShowDot" , 0, 
-                                MVIEW_SHOWDOT_ID_TREEVIEW, -1 );
-    viewMenu->setItemChecked( MVIEW_SHOWDOT_ID_TREEVIEW, m_pProps->m_bShowDot );
+    m_idShowDot = viewMenu->insertItem4( text, this, "slotShowDot" , 0, -1, -1 );
+    viewMenu->setItemChecked( m_idShowDot, m_pProps->m_bShowDot );
     m_vViewMenu = OpenPartsUI::Menu::_duplicate( viewMenu );
   }
   
@@ -161,8 +162,13 @@ void KonqKfmTreeView::stop()
 
 char *KonqKfmTreeView::url()
 {
+// Simon: We cannot use the dirlister to find out about our current url since
+//        it's also used for sub-folders! use KonqBaseView::m_strURL instead
+  return CORBA::string_dup( m_strURL.ascii() );
+/*
   assert( m_dirLister );
   return CORBA::string_dup( m_dirLister->url().ascii() );
+*/  
 }
 
 CORBA::Long KonqKfmTreeView::xOffset()
@@ -175,6 +181,61 @@ CORBA::Long KonqKfmTreeView::yOffset()
   return (CORBA::Long)contentsX();
 }
 
+void KonqKfmTreeView::can( CORBA::Boolean &copy, CORBA::Boolean &paste, CORBA::Boolean &move )
+{
+  QValueList<KfmTreeViewItem*> selection;
+  selectedItems( selection );
+  
+  move = copy = (CORBA::Boolean) ( selection.count() != 0 );
+  
+  // we don't allow paste because it might be confusing to the user, since he/she
+  // doesn't really know *where* (url) the data is pasted then (IMHO)
+  // Simon
+  paste = false;
+}
+
+void KonqKfmTreeView::copySelection()
+{
+  QValueList<KfmTreeViewItem*> selection;
+  selectedItems( selection );
+  
+  QStringList lstURLs;
+  
+  QValueList<KfmTreeViewItem*>::ConstIterator it = selection.begin();
+  QValueList<KfmTreeViewItem*>::ConstIterator end = selection.end();
+  for (; it != end; ++it )
+    lstURLs.append( (*it)->item()->url().url() );
+    
+  QUriDrag *urlData = new QUriDrag;
+  urlData->setUnicodeUris( lstURLs );
+  QApplication::clipboard()->setData( urlData );
+}
+
+void KonqKfmTreeView::pasteSelection()
+{
+  assert( 0 );
+}
+
+void KonqKfmTreeView::moveSelection( const char *destinationURL )
+{
+  QValueList<KfmTreeViewItem*> selection;
+  selectedItems( selection );
+  
+  QStringList lstURLs;
+  
+  QValueList<KfmTreeViewItem*>::ConstIterator it = selection.begin();
+  QValueList<KfmTreeViewItem*>::ConstIterator end = selection.end();
+  for (; it != end; ++it )
+    lstURLs.append( (*it)->item()->url().url() );
+    
+  KIOJob *job = new KIOJob;
+  
+  if ( destinationURL )
+    job->move( lstURLs, destinationURL );
+  else
+    job->del( lstURLs );
+}
+
 void KonqKfmTreeView::slotReloadTree()
 {
   openURL( url(), contentsX(), contentsY() );
@@ -185,7 +246,7 @@ void KonqKfmTreeView::slotShowDot()
   kdebug(0, 1202, "KonqKfmTreeView::slotShowDot()");
   m_pProps->m_bShowDot = !m_pProps->m_bShowDot;
   m_dirLister->setShowingDotFiles( m_pProps->m_bShowDot );
-  m_vViewMenu->setItemChecked( MVIEW_SHOWDOT_ID_TREEVIEW, m_pProps->m_bShowDot );
+  m_vViewMenu->setItemChecked( m_idShowDot, m_pProps->m_bShowDot );
 }
 
 void KonqKfmTreeView::initConfig()
@@ -307,36 +368,7 @@ void KonqKfmTreeView::setUnderlineLink( bool _underlineLink )
   update();
 }
 
-bool KonqKfmTreeView::eventFilter( QObject *o, QEvent *e )
-{
-  if ( o != viewport() )
-     return false;
-
-  if ( e->type() == QEvent::Drop )
-  {
-    dropEvent( (QDropEvent*)e );
-    return true;
-  }
-  else if ( e->type() == QEvent::DragEnter )
-  {
-    dragEnterEvent( (QDragEnterEvent*)e );
-    return true;
-  }
-  else if ( e->type() == QEvent::DragLeave )
-  {
-    dragLeaveEvent( (QDragLeaveEvent*)e );
-    return true;
-  }
-  else if ( e->type() == QEvent::DragMove )
-  {
-    dragMoveEvent( (QDragMoveEvent*)e );
-    return true;
-  }
-
-  return QListView::eventFilter( o, e );
-}
-
-void KonqKfmTreeView::dragMoveEvent( QDragMoveEvent *_ev )
+void KonqKfmTreeView::viewportDragMoveEvent( QDragMoveEvent *_ev )
 {
   KfmTreeViewItem *item = (KfmTreeViewItem*)itemAt( _ev->pos() );
   if ( !item )
@@ -367,7 +399,7 @@ void KonqKfmTreeView::dragMoveEvent( QDragMoveEvent *_ev )
   return;
 }
 
-void KonqKfmTreeView::dragEnterEvent( QDragEnterEvent *_ev )
+void KonqKfmTreeView::viewportDragEnterEvent( QDragEnterEvent *_ev )
 {
   m_dragOverItem = 0L;
 
@@ -384,7 +416,7 @@ void KonqKfmTreeView::dragEnterEvent( QDragEnterEvent *_ev )
   _ev->accept();
 }
 
-void KonqKfmTreeView::dragLeaveEvent( QDragLeaveEvent * )
+void KonqKfmTreeView::viewportDragLeaveEvent( QDragLeaveEvent * )
 {
   if ( m_dragOverItem != 0L )
     setSelected( m_dragOverItem, false );
@@ -395,11 +427,28 @@ void KonqKfmTreeView::dragLeaveEvent( QDragLeaveEvent * )
   /** End DEBUG CODE */
 }
 
-void KonqKfmTreeView::dropEvent( QDropEvent *  )
+void KonqKfmTreeView::viewportDropEvent( QDropEvent *_ev  )
 {
   if ( m_dragOverItem != 0L )
     setSelected( m_dragOverItem, false );
   m_dragOverItem = 0L;
+  
+  KfmTreeViewItem *item = (KfmTreeViewItem*)itemAt( _ev->pos() );
+  
+  QStringList lst;
+
+  QString dest = ( item ) ? item->item()->url().url() : m_dirLister->url();
+  
+  if ( QUrlDrag::decodeToUnicodeUris( _ev, lst ) )
+  {
+    if ( lst.count() == 0 )
+      return;
+    
+    KIOJob *job = new KIOJob;
+    job->copy( lst, dest );
+  }
+  else if ( m_lstDropFormats.count() >= 1 )
+    pasteData( dest, _ev->data( m_lstDropFormats.first() ) );
 }
 
 void KonqKfmTreeView::addSubDir( const KURL & _url, KfmTreeViewDir* _dir )
@@ -444,82 +493,67 @@ void KonqKfmTreeView::keyPressEvent( QKeyEvent *_ev )
   popupMenu( p );
 }
 
-void KonqKfmTreeView::mousePressEvent( QMouseEvent *_ev )
+void KonqKfmTreeView::viewportMousePressEvent( QMouseEvent *_ev )
 {
-  m_pressed = true;
-  m_pressedPos = _ev->pos();
-  m_pressedItem = (KfmTreeViewItem*)itemAt( _ev->pos() );
 
-//  if ( !hasFocus() )
-//    setFocus();
-
-  if ( m_pressedItem )
+  QPoint globalPos = mapToGlobal( _ev->pos() );
+  m_pressed = false;
+  
+  if ( m_mouseMode == Konqueror::SingleClick )
   {
-    if ( m_mouseMode == Konqueror::SingleClick )
+    KfmTreeViewItem *item = (KfmTreeViewItem*)itemAt( _ev->pos() );
+    if ( item )
     {
-      if ( _ev->button() == LeftButton && !( _ev->state() & ControlButton ) )
+      if ( m_overItem )
       {
-	if ( !m_overItem )
+        //reset to standard cursor
+        setCursor( m_stdCursor );
+	m_overItem = 0;
+      }
+      
+      if ( ( _ev->state() & ControlButton ) && _ev->button() == LeftButton )
+      {
+        setSelected( item, !item->isSelected() );
+	return;
+      }
+      
+      if ( _ev->button() == RightButton && !item->isSelected() )
+      {
+        clearSelection();
+	setSelected( item, true );
+      }
+      else if ( _ev->button() == LeftButton || _ev->button() == MidButton )
+      {
+        if ( !item->isSelected() )
 	{
-	  //reset to standard cursor
-	  setCursor(m_stdCursor);
-	  m_overItem = 0L;
+	  clearSelection();
+	  setSelected( item, true );
 	}
 	
-	iterator it = begin();
-	for( ; it != end(); it++ )
-	  if ( it->isSelected() )
-	    QListView::setSelected( &*it, false );
-	
-	QListView::setSelected( m_pressedItem, true );
-	//      m_pressedItem->returnPressed();
-	//	QListView::mousePressEvent( _ev );
+	m_pressed = true;
+	m_pressedPos = _ev->pos();
+	m_pressedItem = item;
 	return;
       }
+      popupMenu( globalPos );
+      return;
     }
-    else if ( m_mouseMode == Konqueror::DoubleClick )
+    else if ( _ev->button() == RightButton )
     {
-      if ( !m_pressedItem->isSelected() && _ev->button() == LeftButton && !( _ev->state() & ControlButton ) )
-      {
-	iterator it = begin();
-	for( ; it != end(); it++ )
-	  if ( it->isSelected() )
-	    QListView::setSelected( &*it, false );
-	
-	QListView::mousePressEvent( _ev );
-	return;
-      }
-      else if ( m_pressedItem->isSelected() && _ev->button() == LeftButton && !( _ev->state() & ControlButton ) )
-      {
-	QListView::mousePressEvent( _ev );
-	// Fix what Qt destroyed :-)
-	setSelected( m_pressedItem, true );
-	return;
-      }
+      popupMenu( globalPos );
+      return;
     }
-
-    if ( _ev->button() == RightButton )
-    {
-      m_pressed = false;
-      m_pressedItem = 0L;
-    }
-  }
-  /*
-  else
-    assert( 0 );
-    */
-
-   QListView::mousePressEvent( _ev );
+  }    
 }
 
-void KonqKfmTreeView::mouseReleaseEvent( QMouseEvent *_mouse )
+void KonqKfmTreeView::viewportMouseReleaseEvent( QMouseEvent *_mouse )
 {
   if ( !m_pressed )
     return;
 
   if ( m_mouseMode == Konqueror::SingleClick &&
        _mouse->button() == LeftButton &&
-       !( _mouse->state() & ControlButton ) &&
+       !( ( _mouse->state() & ControlButton ) == ControlButton ) &&
        isSingleClickArea( _mouse->pos() ) )
   {
     if ( m_pressedItem->isExpandable() )
@@ -532,14 +566,13 @@ void KonqKfmTreeView::mouseReleaseEvent( QMouseEvent *_mouse )
   m_pressedItem = 0L;
 }
 
-void KonqKfmTreeView::mouseMoveEvent( QMouseEvent *_mouse )
+void KonqKfmTreeView::viewportMouseMoveEvent( QMouseEvent *_mouse )
 {
   if ( !m_pressed || !m_pressedItem )
   {
+    KfmTreeViewItem* item = (KfmTreeViewItem*)itemAt( _mouse->pos() );
     if ( isSingleClickArea( _mouse->pos() ) )
     {
-      KfmTreeViewItem* item = (KfmTreeViewItem*)itemAt( _mouse->pos() );
-
       if ( m_overItem != item ) // we are on another item than before
       {
 	slotOnItem( item );
@@ -549,7 +582,7 @@ void KonqKfmTreeView::mouseMoveEvent( QMouseEvent *_mouse )
 	  setCursor( m_handCursor );
       }
     }
-    else if ( !m_overItem )
+    else if ( !item )
     {
       slotOnItem( 0L );
 
@@ -665,16 +698,17 @@ void KonqKfmTreeView::slotRightButtonPressed( QListViewItem *_item, const QPoint
     QListView::setSelected( _item, true );
   }
 
-  if ( !_item )
-  {
-    // Popup menu for m_url
-    // Torben: I think this is impossible in the treeview, or ?
-    //         Perhaps if the list is smaller than the window height.
-  }
-  else
-  {
-    popupMenu( _global );
-  }
+  // Popup menu for m_url
+  // Torben: I think this is impossible in the treeview, or ?
+  //         Perhaps if the list is smaller than the window height.
+  // Simon: Yes, I think so. This happens easily if using the treeview
+  //        with small directories.
+  popupMenu( _global );
+}
+
+void KonqKfmTreeView::slotSelectionChanged()
+{
+  SIGNAL_CALL0( "selectionChanged" );
 }
 
 void KonqKfmTreeView::popupMenu( const QPoint& _global )
@@ -688,6 +722,17 @@ void KonqKfmTreeView::popupMenu( const QPoint& _global )
   QValueList<KfmTreeViewItem*>::Iterator it = items.begin();
   for( ; it != items.end(); ++it )
     lstItems.append( (*it)->item() );
+
+  if ( lstItems.count() == 0 )
+  {
+    mode_t mode = S_IFDIR;
+    KURL url( m_dirLister->url() );
+    
+    KFileItem item( "foobarbazzboom", mode, url );
+    lstItems.append( &item );
+    m_pMainView->popupMenu( _global, lstItems );
+    return;
+  }
 
   m_pMainView->popupMenu( _global, lstItems );
 }
@@ -772,6 +817,8 @@ void KonqKfmTreeView::openURL( const char *_url, int xOffset, int yOffset )
   // Start the directory lister !
   m_dirLister->openURL( url, m_pProps->m_bShowDot, false /* new url */ );
   // Note : we don't store the url. KDirLister does it for us.
+  // Simon: We do! see comment in KonqKfmTreeView::url() to find out why :-)
+  m_strURL = url.url();
 }
 
 void KonqKfmTreeView::setComplete()
@@ -791,13 +838,15 @@ void KonqKfmTreeView::setComplete()
 
 void KonqKfmTreeView::slotStarted( const QString & url )
 {
-  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char*)url.ascii(), 0 ) );
+  if ( !m_bTopLevelComplete )
+    SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char*)url.ascii(), 0 ) );
 }
 
 void KonqKfmTreeView::slotCompleted()
 {
+  if ( !m_bTopLevelComplete )
+    SIGNAL_CALL1( "completed", id() );
   setComplete();
-  SIGNAL_CALL1( "completed", id() );
 }
 
 void KonqKfmTreeView::slotCanceled()
@@ -846,6 +895,7 @@ void KonqKfmTreeView::slotNewItem( KFileItem * _fileitem )
 
 void KonqKfmTreeView::slotDeleteItem( KFileItem * _fileitem )
 {
+  kdebug(0,1202,"removing %s from tree!", _fileitem->url().url().ascii() );
   iterator it = begin();
   for( ; it != end(); ++it )
     if ( (*it).item() == _fileitem )

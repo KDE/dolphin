@@ -101,8 +101,8 @@ void KonqChildView::attach( Browser::View_ptr view )
   m_vView->setParent( m_pMainView );
   connectView( );
 
-  m_pKonqFrame->attach( view );
   m_pKonqFrame->show();
+  m_pKonqFrame->attach( view );
 
   KonqPlugins::installKOMPlugins( view );
 }
@@ -182,6 +182,9 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
   QString url = _url;
   if ( url.isEmpty() )
     url = KonqChildView::url();
+
+  if ( m_bLoading )
+    stop();
 
   //no need to change anything if we are able to display this servicetype
   if ( m_lstServiceTypes.find( serviceType ) != m_lstServiceTypes.end() &&
