@@ -9,6 +9,8 @@ class QCheckBox;
 class QLabel;
 class QLineEdit;
 class KConfig;
+class QVButtonGroup;
+class QRadioButton;
 
 //-----------------------------------------------------------------------------
 
@@ -35,6 +37,7 @@ protected slots:
 private:
 
   KConfig *g_pConfig;
+  KConfig *kfmclientConfig;
   QString groupname;
   bool m_bFileManager;
 
@@ -43,6 +46,12 @@ private:
   QLabel *winPixmap;
 
   QLineEdit *homeURL;
+ 
+  QVButtonGroup *bgOneProcess;
+  QRadioButton  *rbOPNever, 
+                *rbOPLocal, 
+                *rbOPWeb, 
+                *rbOPAlways;
 };
 
 
