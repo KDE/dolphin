@@ -40,7 +40,7 @@
 
 
 #define XP_UNIX
-#include <npupp.h>
+#include "sdk/npupp.h"
 
 typedef char* NP_GetMIMEDescriptionUPP(void);
 typedef NPError NP_InitializeUPP(NPNetscapeFuncs*, NPPluginFuncs*);
