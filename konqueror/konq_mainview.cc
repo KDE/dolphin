@@ -1358,7 +1358,7 @@ void KonqMainView::initActions()
   m_paHome = new KAction( i18n("&Home" ), QIconSet( BarIcon( "home", KonqFactory::instance() ) ), Key_Home, this, SLOT( slotHome() ), actionCollection(), "home" );
 
   m_paCache = new KAction( i18n( "&Cache" ), 0, this, SLOT( slotShowCache() ), actionCollection(), "cache" );
-  m_paHistory = new KAction( i18n( "&History" ), 0, this, SLOT( slotShowHistory() ), actionCollection(), "history" );
+  //m_paHistory = new KAction( i18n( "&History" ), 0, this, SLOT( slotShowHistory() ), actionCollection(), "history" );
   m_paMimeTypes = new KAction( i18n( "File &Types" ), 0, this, SLOT( slotEditMimeTypes() ), actionCollection(), "mimetypes" );
   m_paApplications = new KAction( i18n( "App&lications" ), 0, this, SLOT( slotEditApplications() ), actionCollection(), "applications" );
   m_paDirTree = new KAction( i18n( "Directory Tree" ), 0, this, SLOT( slotEditDirTree() ), actionCollection(), "dirtree" );
