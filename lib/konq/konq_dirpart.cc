@@ -193,7 +193,7 @@ void KonqDirPart::lmbClicked( KFileItem * fileItem )
     args.trustedSource = true;
 
     if ( fileItem->isLink() && fileItem->isLocalFile() ) // see KFileItem::run
-        url = KURL( url, fileItem->linkDest() );
+        url = KURL( url, KURL::encode_string( fileItem->linkDest() ) );
 
     if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->isDir()) {
         //args.frameName = "_blank"; // open new window
