@@ -11,7 +11,7 @@
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -37,52 +37,52 @@
 #include <kapplication.h>
 
 KBookmarkEditorIface::KBookmarkEditorIface()
- : QObject(), DCOPObject("KBookmarkEditor") {
-   // connect(KBookmarkNotifier_stub, SIGNAL( updatedAccessMetadata(QString,QString) ), 
-   //         this,                   SLOT( slotDcopUpdatedAccessMetadata(QString,QString) ));
-   connectDCOPSignal(0, "KBookmarkNotifier", "updatedAccessMetadata(QString,QString)", "slotDcopUpdatedAccessMetadata(QString,QString)", false);
-   connectDCOPSignal(0, "KBookmarkNotifier", "addedBookmark(QString,QString,QString,QString,QString)", "slotDcopAddedBookmark(QString,QString,QString,QString,QString)", false);
-   connectDCOPSignal(0, "KBookmarkNotifier", "createdNewFolder(QString,QString,QString)", "slotDcopCreatedNewFolder(QString,QString,QString)", false);
+    : QObject(), DCOPObject("KBookmarkEditor") {
+    // connect(KBookmarkNotifier_stub, SIGNAL( updatedAccessMetadata(QString,QString) ), 
+    //         this,                   SLOT( slotDcopUpdatedAccessMetadata(QString,QString) ));
+    connectDCOPSignal(0, "KBookmarkNotifier", "updatedAccessMetadata(QString,QString)", "slotDcopUpdatedAccessMetadata(QString,QString)", false);
+    connectDCOPSignal(0, "KBookmarkNotifier", "addedBookmark(QString,QString,QString,QString,QString)", "slotDcopAddedBookmark(QString,QString,QString,QString,QString)", false);
+    connectDCOPSignal(0, "KBookmarkNotifier", "createdNewFolder(QString,QString,QString)", "slotDcopCreatedNewFolder(QString,QString,QString)", false);
 }
 
 void KBookmarkEditorIface::slotDcopUpdatedAccessMetadata(QString filename, QString url) {
-   // evil hack, konqi gets updates by way of historymgr,
-   // therefore konqi does'nt want "save" notification,
-   // unfortunately to stop konqi getting it is difficult
-   // and probably not needed until more notifier events
-   // are added. therefore, we always updateaccessmetadata
-   // without caring about our modified state like normal
-   // and thusly there is no need to the bkmgr to do a "save"
+    // evil hack, konqi gets updates by way of historymgr,
+    // therefore konqi does'nt want "save" notification,
+    // unfortunately to stop konqi getting it is difficult
+    // and probably not needed until more notifier events
+    // are added. therefore, we always updateaccessmetadata
+    // without caring about our modified state like normal
+    // and thusly there is no need to the bkmgr to do a "save"
 
-   // TODO - i'm not sure this is really true :)
+    // TODO - i'm not sure this is really true :)
 
-   if (/*KEBApp::self()->modified() &&*/ filename == CurrentMgr::self()->path()) {
-      kdDebug() << "slotDcopUpdatedAccessMetadata(" << url << ")" << endl;
-      // no undo
-      CurrentMgr::self()->mgr()->updateAccessMetadata(url, false);
-      // notice - no save here! see! :)
-   }
+    if (/*KEBApp::self()->modified() &&*/ filename == CurrentMgr::self()->path()) {
+        kdDebug() << "slotDcopUpdatedAccessMetadata(" << url << ")" << endl;
+        // no undo
+        CurrentMgr::self()->mgr()->updateAccessMetadata(url, false);
+        // notice - no save here! see! :)
+    }
 }
 
 void KBookmarkEditorIface::slotDcopAddedBookmark(QString filename, QString url, QString text, QString address, QString icon) {
-   if (KEBApp::self()->modified() && filename == CurrentMgr::self()->path()) {
-      kdDebug() << "slotDcopAddedBookmark(" << url << "," << text << "," << address << "," << icon << ")" << endl;
-      CreateCommand *cmd = new CreateCommand(
-                                  CurrentMgr::self()->correctAddress(address), 
-                                  text, icon, KURL(url), true /*indirect*/);
-      CmdHistory::self()->addCommand(cmd);
-   }
+    if (KEBApp::self()->modified() && filename == CurrentMgr::self()->path()) {
+        kdDebug() << "slotDcopAddedBookmark(" << url << "," << text << "," << address << "," << icon << ")" << endl;
+        CreateCommand *cmd = new CreateCommand(
+                CurrentMgr::self()->correctAddress(address), 
+                text, icon, KURL(url), true /*indirect*/);
+        CmdHistory::self()->addCommand(cmd);
+    }
 }
 
 void KBookmarkEditorIface::slotDcopCreatedNewFolder(QString filename, QString text, QString address) {
-   if (KEBApp::self()->modified() && filename == CurrentMgr::self()->path()) {
-      kdDebug() << "slotDcopCreatedNewFolder(" << text << "," << address << ")" << endl;
-      CreateCommand *cmd = new CreateCommand( 
-                                  CurrentMgr::self()->correctAddress(address), 
-                                  text, QString::null, 
-                                  true /*open*/, true /*indirect*/);
-      CmdHistory::self()->addCommand(cmd);
-   }
+    if (KEBApp::self()->modified() && filename == CurrentMgr::self()->path()) {
+        kdDebug() << "slotDcopCreatedNewFolder(" << text << "," << address << ")" << endl;
+        CreateCommand *cmd = new CreateCommand( 
+                CurrentMgr::self()->correctAddress(address), 
+                text, QString::null, 
+                true /*open*/, true /*indirect*/);
+        CmdHistory::self()->addCommand(cmd);
+    }
 }
 
 #include "dcop.moc"

@@ -10,7 +10,7 @@
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -32,53 +32,53 @@
 FavIconsItrHolder *FavIconsItrHolder::s_self = 0;
 
 FavIconsItrHolder::FavIconsItrHolder() 
-   : BookmarkIteratorHolder() {
-   // do stuff
-}
+    : BookmarkIteratorHolder() {
+        // do stuff
+    }
 
 void FavIconsItrHolder::doItrListChanged() {
-   KEBApp::self()->setCancelFavIconUpdatesEnabled(count() > 0);
+    KEBApp::self()->setCancelFavIconUpdatesEnabled(count() > 0);
 }
 
 /* -------------------------- */
 
 FavIconsItr::FavIconsItr(QValueList<KBookmark> bks)
-   : BookmarkIterator(bks) {
+    : BookmarkIterator(bks) {
 
-   m_updater = 0;
-   m_done = true;
-}
+        m_updater = 0;
+        m_done = true;
+    }
 
 FavIconsItr::~FavIconsItr() {
-   delete m_updater;
-   if (curItem()) {
-      curItem()->restoreStatus();
-   }
+    delete m_updater;
+    if (curItem()) {
+        curItem()->restoreStatus();
+    }
 }
 
 void FavIconsItr::slotDone(bool succeeded) {
-   kdDebug() << "FavIconsItr::slotDone()" << endl;
-   m_done = true;
-   curItem()->setTmpStatus(succeeded ? i18n("OK") : i18n("No favicon found"));
-   delayedEmitNextOne();
+    kdDebug() << "FavIconsItr::slotDone()" << endl;
+    m_done = true;
+    curItem()->setTmpStatus(succeeded ? i18n("OK") : i18n("No favicon found"));
+    delayedEmitNextOne();
 }
 
-bool FavIconsItr::isApplicable(const KBookmark &bk) const {
-   return (!bk.isGroup() && !bk.isSeparator() 
-       && (bk.url().protocol().startsWith("http")) );
-}
+    bool FavIconsItr::isApplicable(const KBookmark &bk) const {
+        return (!bk.isGroup() && !bk.isSeparator() 
+                && (bk.url().protocol().startsWith("http")) );
+    }
 
 void FavIconsItr::doAction() {
-   kdDebug() << "FavIconsItr::doAction()" << endl;
-   m_done = false;
-   curItem()->setTmpStatus(i18n("Updating favicon..."));
-   if (!m_updater) {
-      m_updater = new FavIconUpdater(kapp, "FavIconUpdater");
-      connect(m_updater, SIGNAL( done(bool) ),
-              this,      SLOT( slotDone(bool) ) );
-   }
-   m_updater->downloadIcon(curBk());
-   // TODO - a single shot timeout?
+    kdDebug() << "FavIconsItr::doAction()" << endl;
+    m_done = false;
+    curItem()->setTmpStatus(i18n("Updating favicon..."));
+    if (!m_updater) {
+        m_updater = new FavIconUpdater(kapp, "FavIconUpdater");
+        connect(m_updater, SIGNAL( done(bool) ),
+                this,      SLOT( slotDone(bool) ) );
+    }
+    m_updater->downloadIcon(curBk());
+    // TODO - a single shot timeout?
 }
 
 #include "favicons.moc"

@@ -11,7 +11,7 @@
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -29,77 +29,77 @@
 #include <qtimer.h>
 
 BookmarkIterator::BookmarkIterator(QValueList<KBookmark> bks) : m_bklist(bks) {
-   connect(this, SIGNAL( deleteSelf(BookmarkIterator *) ), 
-                 SLOT( slotCancelTest(BookmarkIterator *) ));
-   delayedEmitNextOne();
+    connect(this, SIGNAL( deleteSelf(BookmarkIterator *) ), 
+            SLOT( slotCancelTest(BookmarkIterator *) ));
+    delayedEmitNextOne();
 }
 
 BookmarkIterator::~BookmarkIterator() {
-   ;
+    ;
 }
 
 void BookmarkIterator::delayedEmitNextOne() {
-   QTimer::singleShot(1, this, SLOT( nextOne() ));
+    QTimer::singleShot(1, this, SLOT( nextOne() ));
 }
 
 void BookmarkIterator::slotCancelTest(BookmarkIterator *test) {
-   holder()->removeItr(test);
+    holder()->removeItr(test);
 }
 
 KEBListViewItem* BookmarkIterator::curItem() const {
-   return ListView::self()->getItemAtAddress(m_bk.address());
+    return ListView::self()->getItemAtAddress(m_bk.address());
 }
 
 const KBookmark BookmarkIterator::curBk() const {
-   return m_bk;
+    return m_bk;
 }
 
 void BookmarkIterator::nextOne() {
-   // kdDebug() << "BookmarkIterator::nextOne" << endl;
+    // kdDebug() << "BookmarkIterator::nextOne" << endl;
 
-   if (m_bklist.isEmpty()) {
-      emit deleteSelf(this);
-      return;
-   }
+    if (m_bklist.isEmpty()) {
+        emit deleteSelf(this);
+        return;
+    }
 
-   QValueListIterator<KBookmark> head = m_bklist.begin();
-   KBookmark bk = (*head);
+    QValueListIterator<KBookmark> head = m_bklist.begin();
+    KBookmark bk = (*head);
 
-   bool viable = bk.hasParent() && isApplicable(bk);
+    bool viable = bk.hasParent() && isApplicable(bk);
 
-   if (viable) {
-      m_bk = bk;
-      doAction();
-   }
+    if (viable) {
+        m_bk = bk;
+        doAction();
+    }
 
-   m_bklist.remove(head);
+    m_bklist.remove(head);
 
-   if (!viable) {
-      emit nextOne();
-   }
+    if (!viable) {
+        emit nextOne();
+    }
 }
 
 /* --------------------------- */
 
 BookmarkIteratorHolder::BookmarkIteratorHolder() {
-   m_itrs.setAutoDelete(true);
+    m_itrs.setAutoDelete(true);
 }
 
 void BookmarkIteratorHolder::insertItr(BookmarkIterator *itr) {
-   m_itrs.insert(0, itr);
-   doItrListChanged();
+    m_itrs.insert(0, itr);
+    doItrListChanged();
 }
 
 void BookmarkIteratorHolder::removeItr(BookmarkIterator *itr) {
-   m_itrs.remove(itr);
-   doItrListChanged();
+    m_itrs.remove(itr);
+    doItrListChanged();
 }
 
 void BookmarkIteratorHolder::cancelAllItrs() {
-   BookmarkIterator *itr;
-   for (itr = m_itrs.first(); itr != 0; itr = m_itrs.next()) {
-      removeItr(itr);
-   }
+    BookmarkIterator *itr;
+    for (itr = m_itrs.first(); itr != 0; itr = m_itrs.next()) {
+        removeItr(itr);
+    }
 }
 
 #include "bookmarkiterator.moc"

@@ -10,7 +10,7 @@
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -27,52 +27,52 @@
 #include <qfile.h>
 
 HTMLExporter::HTMLExporter() 
-   : m_out(&m_string, IO_WriteOnly) {
-   m_level = 0;
-}
+    : m_out(&m_string, IO_WriteOnly) {
+        m_level = 0;
+    }
 
 void HTMLExporter::write(const KBookmarkGroup &grp, const QString &filename) {
-   QFile file(filename);
-   if (!file.open(IO_WriteOnly)) {
-      kdError(7043) << "Can't write to file " << filename << endl;
-      return;
-   }
-   QTextStream tstream(&file);
-   tstream.setEncoding(QTextStream::UnicodeUTF8);
-   tstream << toString(grp);
+    QFile file(filename);
+    if (!file.open(IO_WriteOnly)) {
+        kdError(7043) << "Can't write to file " << filename << endl;
+        return;
+    }
+    QTextStream tstream(&file);
+    tstream.setEncoding(QTextStream::UnicodeUTF8);
+    tstream << toString(grp);
 }
 
 QString HTMLExporter::toString(const KBookmarkGroup &grp)
 {
-   traverse(grp);
-   return
-      "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"
-      "<HTML><HEAD><TITLE>My Bookmarks</TITLE></HEAD>\n"
-      "<BODY>\n"
-      + m_string +
-      "</BODY></HTML>\n";
+    traverse(grp);
+    return
+        "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"
+        "<HTML><HEAD><TITLE>My Bookmarks</TITLE></HEAD>\n"
+        "<BODY>\n"
+        + m_string +
+        "</BODY></HTML>\n";
 }
 
 void HTMLExporter::visit(const KBookmark &bk) {
-   // kdDebug() << "visit(" << bk.text() << ")" << endl;
-   m_out << "<A href=\"" << bk.url().url().utf8() << "\">";
-   m_out << bk.fullText() << "</A><BR>" << endl;
+    // kdDebug() << "visit(" << bk.text() << ")" << endl;
+    m_out << "<A href=\"" << bk.url().url().utf8() << "\">";
+    m_out << bk.fullText() << "</A><BR>" << endl;
 }
 
 void HTMLExporter::visitEnter(const KBookmarkGroup &grp) {
-   // kdDebug() << "visitEnter(" << grp.text() << ")" << endl;
-   m_out << "<H3>" << grp.fullText() << "</H3>" << endl;
-   m_out << "<P style=\"margin-left: " 
-         << (m_level * 3) << "em\">" << endl;
-   m_level++;
+    // kdDebug() << "visitEnter(" << grp.text() << ")" << endl;
+    m_out << "<H3>" << grp.fullText() << "</H3>" << endl;
+    m_out << "<P style=\"margin-left: " 
+        << (m_level * 3) << "em\">" << endl;
+    m_level++;
 } 
 
 void HTMLExporter::visitLeave(const KBookmarkGroup &) {
-   // kdDebug() << "visitLeave()" << endl;
-   m_out << "</P>" << endl;
-   m_level--;
-   if (m_level != 0)
-      m_out << "<P style=\"left-margin: " 
+    // kdDebug() << "visitLeave()" << endl;
+    m_out << "</P>" << endl;
+    m_level--;
+    if (m_level != 0)
+        m_out << "<P style=\"left-margin: " 
             << (m_level * 3) << "em\">" << endl;
 }
 
