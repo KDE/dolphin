@@ -10,6 +10,24 @@
 
 class KonqDirTree;
 class QTimer;
+class KonqDirTree;
+
+class KonqDirTreeEditExtension : public EditExtension
+{
+  Q_OBJECT
+public:
+  KonqDirTreeEditExtension( QObject *parent, KonqDirTree *dirTree );
+
+  virtual void can( bool &cut, bool &copy, bool &paste, bool &move );
+
+  virtual void cutSelection();
+  virtual void copySelection();
+  virtual void pasteSelection( bool move = false );
+  virtual void moveSelection( const QString &destinationURL = QString::null );
+
+private:
+  KonqDirTree *m_tree;
+};
 
 class KonqDirTreeBrowserView : public BrowserView
 {
@@ -66,6 +84,8 @@ public:
   void addSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const QString &url );
   void removeSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const QString &url );
 
+  QList<KonqDirTreeItem> selectedItems();
+
 protected:
   virtual void contentsDragEnterEvent( QDragEnterEvent *e );
   virtual void contentsDragMoveEvent( QDragMoveEvent *e );
@@ -101,8 +121,6 @@ private:
   void removeGroup( const QString &path, QListViewItem *item );
 
   KonqDirTreeItem *findDir( const QDict<KonqDirTreeItem> &dict, const QString &url );
-
-  QList<KonqDirTreeItem> selectedItems();
 
   void unselectAll();
 

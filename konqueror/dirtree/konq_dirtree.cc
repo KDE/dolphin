@@ -8,6 +8,8 @@
 #include <qfileinfo.h>
 #include <qtimer.h>
 #include <qdragobject.h>
+#include <qapplication.h>
+#include <qclipboard.h>
 
 #include <ksimpleconfig.h>
 #include <kstddirs.h>
@@ -62,11 +64,87 @@ extern "C"
   }
 };
 
+KonqDirTreeEditExtension::KonqDirTreeEditExtension( QObject *parent, KonqDirTree *dirTree )
+ : EditExtension( parent, "KonqDirTreeEditExtension" )
+{
+  m_tree = dirTree; 
+}
+
+void KonqDirTreeEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move )
+{
+  bool bInTrash = false;
+
+  QList<KonqDirTreeItem> selection = m_tree->selectedItems();
+  QListIterator<KonqDirTreeItem> it( selection );
+
+  for (; it.current(); ++it )
+    if ( it.current()->fileItem()->url().directory(false) == KUserPaths::trashPath() )
+      bInTrash = true;
+
+  cut = move = copy = selection.count() > 0;
+  move = move && !bInTrash;
+
+  bool bKIOClipboard = !isClipboardEmpty();
+  QMimeSource *data = QApplication::clipboard()->data();
+  paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
+    (selection.count() <= 1); // We can't paste to more than one destination, can we ?
+  // TODO : if only one url, check that it's a dir
+} 
+
+void KonqDirTreeEditExtension::cutSelection()
+{
+  //TODO: grey out item
+  copySelection(); 
+}
+
+void KonqDirTreeEditExtension::copySelection()
+{
+  QStringList lst;
+  
+  QList<KonqDirTreeItem> selection = m_tree->selectedItems();
+  QListIterator<KonqDirTreeItem> it( selection );
+  
+  for (; it.current(); ++it )
+    lst.append( it.current()->fileItem()->url().url() );
+  
+  QUriDrag *drag = new QUriDrag( m_tree->viewport() );
+  drag->setUnicodeUris( lst );
+  QApplication::clipboard()->setData( drag );
+}
+
+void KonqDirTreeEditExtension::pasteSelection( bool move )
+{
+  QList<KonqDirTreeItem> selection = m_tree->selectedItems();
+  
+  assert( selection.count() == 1 );
+  
+  pasteClipboard( selection.first()->fileItem()->url().url(), move );
+}
+
+void KonqDirTreeEditExtension::moveSelection( const QString &destinationURL )
+{
+  QStringList lst;
+  
+  QList<KonqDirTreeItem> selection = m_tree->selectedItems();
+  QListIterator<KonqDirTreeItem> it( selection );
+  
+  for (; it.current(); ++it )
+    lst.append( it.current()->fileItem()->url().url() );
+
+  KIOJob *job = new KIOJob;
+  
+  if ( !destinationURL.isEmpty() )
+    job->move( lst, destinationURL );
+  else
+    job->del( lst );
+} 
 
 KonqDirTreeBrowserView::KonqDirTreeBrowserView( QWidget *parent, const char *name )
   : BrowserView( parent, name )
 {
   m_pTree = new KonqDirTree( this );
+  
+  (void)new KonqDirTreeEditExtension( this, m_pTree );
 }
 
 KonqDirTreeBrowserView::~KonqDirTreeBrowserView()
