@@ -26,6 +26,7 @@
 #include <kdebug.h>
 #include <kstdaction.h>
 #include <klocale.h>
+#include <kglobal.h>
 #include <kmessagebox.h>
 #include <klistview.h>
 #include <krun.h>
@@ -192,6 +193,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     setModified(false); // for a nice caption
 
     s_topLevel = this;
+    KGlobal::locale()->insertCatalogue("libkonq");
 }
 
 KEBTopLevel::~KEBTopLevel()
