@@ -2271,6 +2271,17 @@ KonqView * KonqMainWindow::childView( KParts::ReadOnlyPart *callingPart, const Q
     QString viewName = view->viewName();
     kdDebug() << "       - viewName=" << viewName << "   "
               << "frame names:" << view->frameNames().join( "," ) << endl;
+
+    // First look for a hostextension containing this frame name
+    KParts::BrowserHostExtension *ext = KParts::BrowserHostExtension::childObject( view->part() );
+    if ( ext )
+    {
+      ext = ext->findFrameParent(callingPart, name);
+      kdDebug() << "BrowserHostExtension found part " << ext << endl;
+      if (!ext)
+         continue; // Don't use this window
+    }
+
     if ( !viewName.isEmpty() && viewName == name )
     {
       kdDebug() << "found existing view by name: " << view << endl;
@@ -2279,13 +2290,6 @@ KonqView * KonqMainWindow::childView( KParts::ReadOnlyPart *callingPart, const Q
       if ( part )
         *part = view->part();
       return view;
-    }
-
-    // First look for a hostextension containing this frame name
-    KParts::BrowserHostExtension *ext = KParts::BrowserHostExtension::childObject( view->part() );
-    if ( ext )
-    {
-      ext = ext->findFrameParent(callingPart, name);
     }
 
 //    KParts::BrowserHostExtension* ext = KonqView::hostExtension( view->part(), name );
