@@ -19,6 +19,7 @@
 #include <kcmodule.h>
 #include <kconfig.h>
 
+class DCOPClient;
 
 class KCookiesOptions : public KCModule
 {
@@ -31,10 +32,14 @@ Q_OBJECT
     virtual void save();
     virtual void defaults();
 
+  public slots:
+    void changeCookiesEnabled();
+    void changePressed();
+    void deletePressed();
+    void updateDomain( int );
+
   private slots:
-
     void changed();
-
 
   private:
     void removeDomain(const QString& domain);
@@ -62,11 +67,7 @@ Q_OBJECT
     QPushButton  *b1;
 
     QStringList domainConfig;
-public slots:
-    void changeCookiesEnabled();
-    void changePressed();
-    void deletePressed();
-    void updateDomain(int id);
+
 };
 
 #endif // __KCOOKIESDLG_H

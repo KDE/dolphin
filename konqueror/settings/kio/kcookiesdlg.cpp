@@ -10,6 +10,9 @@
 #include <kapp.h>
 #include <kbuttonbox.h>
 #include <kmessagebox.h>
+#include <kprocess.h>
+#include <kdebug.h>
+#include <dcopclient.h>
 
 #include "kcookiesdlg.h"
 
@@ -339,14 +342,17 @@ void KCookiesOptions::updateDomainList()
 
 void KCookiesOptions::load()
 {
-  KConfig *g_pConfig = new KConfig("kioslaverc", false, false);
+  KConfig *g_pConfig = new KConfig("kcookiejarrc", false, false);
 
   QString tmp;
-  g_pConfig->setGroup( "Browser Settings/HTTP" );
-
+  // Backwards compatiable reading of domain specific settings
+  if( g_pConfig->hasGroup( "Browser Settings/HTTP" ) &&
+      !g_pConfig->hasGroup( "Cookie Policy" ) )
+     g_pConfig->setGroup( "Browser Settings/HTTP" );
+  else
+     g_pConfig->setGroup( "Cookie Policy" );
   tmp = g_pConfig->readEntry("CookieGlobalAdvice", "Ask");
   KCookieAdvice globalAdvice = strToAdvice(tmp);
-
   cb_enableCookies->setChecked( g_pConfig->readBoolEntry( "Cookies", true ));
 
   rb_gbPolicyAccept->setChecked( globalAdvice == KCookieAccept );
@@ -364,10 +370,13 @@ void KCookiesOptions::load()
 
 void KCookiesOptions::save()
 {
-  KConfig *g_pConfig = new KConfig("kioslaverc", false, false);
+  KConfig *g_pConfig = new KConfig("kcookiejarrc", false, false);
+  // Create a dcop client object to communicate with the cookiejar
+  // if it is alive :)
+  DCOPClient *m_dcopClient = new DCOPClient();
 
   const char *advice;
-  g_pConfig->setGroup( "Browser Settings/HTTP" );
+  g_pConfig->setGroup( "Cookie Policy" );
   g_pConfig->writeEntry( "Cookies", cb_enableCookies->isChecked() );
 
   if (rb_gbPolicyAccept->isChecked())
@@ -382,6 +391,18 @@ void KCookiesOptions::save()
   g_pConfig->sync();
 
   delete g_pConfig;
+
+  if( m_dcopClient->attach() )
+  {
+     if( !m_dcopClient->send( "kcookiejar", "kcookiejar", "reloadPolicy", QString::null ) )
+     {
+	kdDebug(7104) << "Can't communicate with the cookiejar!" << endl;
+     }
+  }
+  else
+     kdDebug(7103) << "Can't connect with the DCOP server." << endl;
+
+  delete m_dcopClient;
 }
 
 
