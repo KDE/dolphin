@@ -30,8 +30,9 @@ libkonq_la_SOURCES = konq_popupmenu.cc knewmenu.cc \
 	kfileivi.cc konq_iconviewwidget.cc konq_imagepreviewjob.cc \
 	konq_settings.cc konq_drag.cc  \
 	konq_operations.cc \
-        konq_dirpart.cc konq_propsview.cc konq_events.cc konq_bgnddlg.cc \
-        konq_undo.cc konq_undo.skel kpixmapsplitter.cc
+    konq_dirpart.cc konq_propsview.cc konq_events.cc konq_bgnddlg.cc \
+    konq_undo.cc konq_undo.skel kpixmapsplitter.cc \
+    konq_history.cc konq_historycomm.cc konq_historycomm.skel
 
 kdirnotify_DIR = $(kde_includes)
 
@@ -47,8 +48,8 @@ include_HEADERS = konq_popupmenu.h knewmenu.h \
 	kfileivi.h konq_drag.h konq_iconviewwidget.h konq_imagepreviewjob.h \
 	konq_defaults.h konq_settings.h \
 	konq_operations.h \
-        konq_dirpart.h konq_propsview.h konq_events.h konq_bgnddlg.h \
-	konq_undo.h kpixmapsplitter.h
+    konq_dirpart.h konq_propsview.h konq_events.h konq_bgnddlg.h \
+	konq_undo.h kpixmapsplitter.h konq_history.h konq_historycomm.h
 
 messages:
 	$(XGETTEXT) *.cc *.h -o $(podir)/libkonq.pot
