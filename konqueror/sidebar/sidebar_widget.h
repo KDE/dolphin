@@ -73,7 +73,7 @@ class addBackEnd: public QObject
 
 };
 
-class Sidebar_Widget: public QWidget, public KonqSidebar_PluginInterface
+class Sidebar_Widget: public QWidget
 {
   Q_OBJECT
   public:
@@ -136,9 +136,9 @@ class Sidebar_Widget: public QWidget, public KonqSidebar_PluginInterface
                 void completed();
   public:
 	/* interface KonqSidebar_PluginInterface*/
-	virtual KInstance  *getInstance();
-        virtual void showError(QString &);      //for later extension
-        virtual void showMessage(QString &);    //for later extension
+	KInstance  *getInstance();
+//        virtual void showError(QString &);      for later extension
+//        virtual void showMessage(QString &);    for later extension
 	/* end of interface implementation */
 	
 

@@ -17,7 +17,7 @@ class KonqSidebar_Tree: public KonqSidebarPlugin
         {
                 Q_OBJECT
                 public:
-                KonqSidebar_Tree(QObject *parent,QWidget *widgetParent, QString &desktopName_, const char* name=0);
+                KonqSidebar_Tree(KInstance *instance,QObject *parent,QWidget *widgetParent, QString &desktopName_, const char* name=0);
                 ~KonqSidebar_Tree();
                 virtual void *provides(const QString &);
 //		void emitStatusBarText (const QString &);

@@ -7,8 +7,8 @@
 #include <qclipboard.h>
 #include <qdragobject.h>
 
-KonqSidebar_Tree::KonqSidebar_Tree(QObject *parent,QWidget *widgetParent, QString &desktopName_, const char* name):
-                   KonqSidebarPlugin(parent,widgetParent,desktopName_,name)
+KonqSidebar_Tree::KonqSidebar_Tree(KInstance *instance,QObject *parent,QWidget *widgetParent, QString &desktopName_, const char* name):
+                   KonqSidebarPlugin(instance,parent,widgetParent,desktopName_,name)
 	{
 		KSimpleConfig ksc(desktopName_);
 		ksc.setGroup("Desktop Entry");
@@ -99,9 +99,9 @@ void KonqSidebar_Tree::rename()
 
 extern "C"
 {
-    void* create_konqsidebar_tree(QObject *par,QWidget *widp,QString &desktopname,const char *name)
+    void* create_konqsidebar_tree(KInstance *inst,QObject *par,QWidget *widp,QString &desktopname,const char *name)
     {
-        return new KonqSidebar_Tree(par,widp,desktopname,name);
+        return new KonqSidebar_Tree(inst,par,widp,desktopname,name);
     }
 };
 

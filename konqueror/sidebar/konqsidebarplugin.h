@@ -25,21 +25,27 @@
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
 #include <kio/job.h>
+#include <qguardedptr.h>
 
-class KonqSidebar_PluginInterface;
+class KonqSidebarPluginPrivate;
 
 class KonqSidebarPlugin : public QObject
 {
 	Q_OBJECT
 	public:
-		KonqSidebarPlugin(QObject *parent,QWidget *widgetParent,QString &desktopName_, const char* name=0):QObject(parent,name),desktopName(desktopName_){;}
+		KonqSidebarPlugin(KInstance *instance,QObject *parent,QWidget *widgetParent,QString &desktopName_, const char* name=0):QObject(parent,name),desktopName(desktopName_){m_parentInstance=instance;}
 		~KonqSidebarPlugin(){;}
 		virtual QWidget *getWidget()=0;
 		virtual void *provides(const QString &)=0;
-		QObject *getInterfaces();
+		KInstance *parentInstance(){return m_parentInstance;}
 	protected:
 		virtual void handleURL(const KURL &url)=0;
 		QString desktopName;
+		KInstance* m_parentInstance;
+
+	private:
+		KonqSidebarPluginPrivate *d;
+
 	signals:
 		void requestURL(KURL&);
 		void started(KIO::Job *);
@@ -53,6 +59,10 @@ class KonqSidebarPlugin : public QObject
 			void openURLPreview(const KURL& url);
 		if your plugin supports a setup dialog, instead (replaces the url menu entry in the popup) (not supported yet)
 			void setup(QWidget *parent);
+		for further extension: 
+		void showError(QString &)=0;	//for later extension
+		void showMessage(QString &)=0;	//for later extension
+
 	 */
 
 	/* signals, which could be, but need not to be added
@@ -72,16 +82,5 @@ class KonqSidebarPlugin : public QObject
 	*/
 
 };
-
-class KonqSidebar_PluginInterface
-	{
-		public:
-		KonqSidebar_PluginInterface(){}
-		virtual ~KonqSidebar_PluginInterface(){;}
-
-		virtual KInstance *getInstance()=0;
-		virtual void showError(QString &)=0;	//for later extension
-		virtual void showMessage(QString &)=0;	//for later extension
-	};
 
 #endif

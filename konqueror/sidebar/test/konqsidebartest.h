@@ -24,8 +24,8 @@ class SidebarTest : public KonqSidebarPlugin
 	{
 		Q_OBJECT
 		public:
-		SidebarTest(QObject *parent,QWidget *widgetParent, QString &desktopName_, const char* name=0):
-                   KonqSidebarPlugin(parent,widgetParent,desktopName_,name)
+		SidebarTest(KInstance *inst,QObject *parent,QWidget *widgetParent, QString &desktopName_, const char* name=0):
+                   KonqSidebarPlugin(inst,widgetParent,desktopName_,name)
 		{
 			widget=new QLabel("Init Value",widgetParent);			
 		}

@@ -149,7 +149,7 @@ void addBackEnd::activatedAddMenu(int id)
 /**************************************************************/
 
 Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char *name)
-	:QWidget(parent,name),KonqSidebar_PluginInterface()
+	:QWidget(parent,name)
 {
 	m_initial=true;
 	deleting=false;
@@ -614,10 +614,10 @@ KonqSidebarPlugin *Sidebar_Widget::loadModule(QWidget *par,QString &desktopName,
             					{
 				        	   	// create the module
 
-					              	KonqSidebarPlugin* (*func)(QObject *, QWidget*, QString&, const char *);
-					              	func = (KonqSidebarPlugin* (*)(QObject *, QWidget *, QString&, const char *)) create;
+					              	KonqSidebarPlugin* (*func)(KInstance*,QObject *, QWidget*, QString&, const char *);
+					              	func = (KonqSidebarPlugin* (*)(KInstance*,QObject *, QWidget *, QString&, const char *)) create;
 							QString fullPath(PATH+desktopName);
-					              	return  (KonqSidebarPlugin*)func(bi,par,fullPath,0);
+					              	return  (KonqSidebarPlugin*)func(getInstance(),bi,par,fullPath,0);
 					            }
 			        }
 			    	else
@@ -932,9 +932,6 @@ void Sidebar_Widget::connectModule(QObject *mod)
 #endif
 }
 
-
-void Sidebar_Widget::showError(QString &){;}
-void Sidebar_Widget::showMessage(QString &){;}
 
 
 Sidebar_Widget::~Sidebar_Widget()
