@@ -210,6 +210,7 @@ const KAboutData *KonqFactory::aboutData()
     s_aboutData->addAuthor( "Dima Rogozin", I18N_NOOP("developer (Java applet support)"), "dima@mercury.co.il" );
     s_aboutData->addAuthor( "Harri Porten", I18N_NOOP("developer (JavaScript)"), "porten@kde.org" );
     s_aboutData->addAuthor( "Stefan Schimanski", I18N_NOOP("developer (Netscape plugin support)"), "1Stein@gmx.de" );
+    s_aboutData->addAuthor( "George Staikos", I18N_NOOP("developer (SSL support)"), "staikos@kde.org" );
   }
   return s_aboutData;
 }
