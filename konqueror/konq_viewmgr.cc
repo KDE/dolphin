@@ -272,6 +272,10 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     kdebug(0, 1202, "Item is View");  
     //load view config
     QString url = cfg.readEntry( QString::fromLatin1( "URL" ).prepend( prefix ), QDir::homeDirPath() );
+
+    if ( url == "file:$HOME" ) // HACK
+      url = QDir::homeDirPath().prepend( "file:" );
+
     kdebug(0, 1202, "URL: %s",url.data());  
     QString serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), "inode/directory");
     kdebug(0, 1202, "ServiceType: %s", serviceType.data());  
