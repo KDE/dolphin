@@ -191,8 +191,17 @@ void KonqOperations::copy( QWidget * parent, int method, const KURL::List & sele
      (void) new KonqCommandRecorder( method==MOVE?KonqCommand::MOVE:KonqCommand::LINK, selectedURLs, destUrl, job );
 };
 
-void KonqOperations::_del( int method, const KURL::List & selectedURLs, int confirmation )
+void KonqOperations::_del( int method, const KURL::List & _selectedURLs, int confirmation )
 {
+    KURL::List selectedURLs;
+    for (KURL::List::ConstIterator it = _selectedURLs.begin(); it != _selectedURLs.end(); ++it)
+        if (KProtocolInfo::supportsDeleting(*it))
+            selectedURLs.append(*it);
+    if (selectedURLs.isEmpty()) {
+        delete this;
+        return;
+    }
+
   m_method = method;
   if ( confirmation == SKIP_CONFIRMATION || askDeleteConfirmation( selectedURLs, confirmation ) )
   {
@@ -538,9 +547,15 @@ void KonqOperations::doFileCopy()
     assert(m_info); // setDropInfo - and asyncDrop - should have been called before asyncDrop
     KURL::List lst = m_info->lst;
     QDropEvent::Action action = m_info->action;
-    if ( m_destURL.path( 1 ) == KGlobalSettings::trashPath() )
+
+    KURL::List mlst;
+    for (KURL::List::ConstIterator it = lst.begin(); it != lst.end(); ++it)
+        if ( KProtocolInfo::supportsDeleting( *it ) )
+             mlst.append(*it);
+
+    if ( !mlst.isEmpty() && m_destURL.path( 1 ) == KGlobalSettings::trashPath() )
     {
-        if ( askDeleteConfirmation( lst, DEFAULT_CONFIRMATION ) )
+        if ( askDeleteConfirmation( mlst, DEFAULT_CONFIRMATION ) )
             action = QDropEvent::Move;
         else
         {
@@ -606,7 +621,9 @@ void KonqOperations::doFileCopy()
     KIO::Job * job = 0;
     switch ( action ) {
     case QDropEvent::Move :
-        job = KIO::move( lst, m_destURL );
+        if (mlst.isEmpty())
+            return;
+        job = KIO::move( mlst, m_destURL );
         job->setMetaData( m_info->metaData );
         setOperation( job, MOVE, lst, m_destURL );
         (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, m_destURL, job );
