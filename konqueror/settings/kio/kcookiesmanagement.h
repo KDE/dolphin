@@ -73,7 +73,6 @@ public:
     virtual QString quickHelp() const;
 
 private slots:
-    void configChanged();
     void deleteCookie();
     void deleteAllCookies();
     void getDomains();
@@ -81,8 +80,8 @@ private slots:
     void showCookieDetails(QListViewItem*);
     void doPolicy();
 
-
 private:
+    void reset ();
     bool cookieDetails(CookieProp *cookie);
     void clearCookieDetails();
     bool policyenabled();

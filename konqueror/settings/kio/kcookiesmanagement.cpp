@@ -128,9 +128,8 @@ KCookiesManagement::~KCookiesManagement()
 
 void KCookiesManagement::load()
 {
-  defaults();
+  reset();
   getDomains();
-  emit changed( false );
 }
 
 void KCookiesManagement::save()
@@ -207,6 +206,13 @@ void KCookiesManagement::save()
 
 void KCookiesManagement::defaults()
 {
+  reset();
+  getDomains();
+  emit changed (false);
+}
+
+void KCookiesManagement::reset()
+{
   m_bDeleteAll = false;
   clearCookieDetails();
   dlg->lvCookies->clear();
@@ -215,7 +221,6 @@ void KCookiesManagement::defaults()
   dlg->pbDelete->setEnabled(false);
   dlg->pbDeleteAll->setEnabled(false);
   dlg->pbPolicy->setEnabled(false);
-  emit changed( true );
 }
 
 void KCookiesManagement::clearCookieDetails()
@@ -233,12 +238,6 @@ QString KCookiesManagement::quickHelp() const
   return i18n("<h1>Cookies Management Quick Help</h1>" );
 }
 
-void KCookiesManagement::configChanged()
-{
-  kdDebug() << "Config changed..." << endl;
-  emit changed(true);
-}
-
 void KCookiesManagement::getDomains()
 {
   DCOPReply reply = DCOPRef("kded", "kcookiejar").call("findDomains");
@@ -249,7 +248,7 @@ void KCookiesManagement::getDomains()
 
     if ( dlg->lvCookies->childCount() )
     {
-      defaults();
+      reset();
       dlg->lvCookies->setCurrentItem( 0L );
     }
 
@@ -443,17 +442,15 @@ void KCookiesManagement::deleteCookie()
   dlg->pbDeleteAll->setEnabled(dlg->lvCookies->childCount());
   dlg->pbPolicy->setEnabled(dlg->lvCookies->selectedItem());
 
-  configChanged();
+  emit changed( true );
 }
 
 void KCookiesManagement::deleteAllCookies()
 {
-  defaults();
   m_bDeleteAll = true;
-  dlg->pbDelete->setEnabled(false);
-  dlg->pbDeleteAll->setEnabled(false);
-  dlg->pbPolicy->setEnabled(false);
-  configChanged();
+  reset();  
+  
+  emit changed( true );
 }
 
 #include "kcookiesmanagement.moc"
