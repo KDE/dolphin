@@ -143,6 +143,7 @@ void KonqCombo::updateItem(const QPixmap& pix, const QString& t, int index)
 
     removeItem( index );
     insertItem( pix, t, index );
+    setCurrentItem( index );
 
     setUpdatesEnabled( true );
     lineEdit()->setUpdatesEnabled( true );
