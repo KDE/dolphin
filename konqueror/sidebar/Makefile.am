@@ -11,10 +11,6 @@ noinst_HEADERS = konqsidebar.h sidebar_widget.h
 # let automoc handle all of the meta source files (moc)
 METASOURCES = AUTO
 
-messages: rc.cpp
-	$(XGETTEXT) *.cpp -o $(podir)/kpartapp.pot
-
-
 lib_LTLIBRARIES = libkonqsidebarplugin.la libkonqsidebar.la
 
 # the Part's source, library search path, and link libraries

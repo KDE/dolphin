@@ -59,7 +59,8 @@ dummy.cc:
 messages: rc.cpp
 	$(EXTRACTRC) */*.rc >> rc.cpp
 	$(EXTRACTRC) dirtree/history_module/*.ui >> rc.cpp
-	$(XGETTEXT) -kaliasLocal rc.cpp *.h *.cc *view/*h *view/*cc dirtree/*.cpp dirtree/*h dirtree/*/*.cpp dirtree/*/*.h kedit*/*.cpp about/*.h about/*.cc shellcmdplugin/*.cpp -o $(podir)/konqueror.pot
+	$(EXTRACTRC) sidebar/trees/history_module/history_dlg.ui >> rc.cpp
+	$(XGETTEXT) -kaliasLocal rc.cpp *.h *.cc *view/*h *view/*cc dirtree/*.cpp dirtree/*h dirtree/*/*.cpp dirtree/*/*.h kedit*/*.cpp about/*.h about/*.cc shellcmdplugin/*.cpp -o `find sidebar -name "*.cpp"` $(podir)/konqueror.pot
 
 data_DATA = konquerorsu.desktop kfmclient.desktop kfmclient_dir.desktop kfmclient_html.desktop
 datadir = $(kde_appsdir)/System

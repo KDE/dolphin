@@ -11,10 +11,6 @@ noinst_HEADERS = konqsidebar_classic_wrap.h
 # let automoc handle all of the meta source files (moc)
 METASOURCES = AUTO
 
-messages: rc.cpp
-	$(XGETTEXT) *.cpp -o $(podir)/kpartapp.pot
-
-
 kde_module_LTLIBRARIES = libkonqsidebar_classic_wrap.la
 
 # the Part's source, library search path, and link libraries
