@@ -121,6 +121,7 @@ protected slots:
   	void dockWidgetHasUndocked(KDockWidget*);
 	void aboutToShowConfigMenu();
 	void saveConfig();
+	void delayedResize();
 
 signals:
 	void started(KIO::Job *);
@@ -179,6 +180,7 @@ private:
 	
 	KConfig *m_config;
 	QTimer m_configTimer;
+	QTimer m_resizeTimer;
 	
 	KURL m_storedUrl;
 	int m_savedWidth;
