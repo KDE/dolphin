@@ -50,6 +50,7 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent *event);
+    void windowChanged(WId w);
     class NSPluginLoader *_loader;
     bool shown;
 };
