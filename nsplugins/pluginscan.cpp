@@ -145,8 +145,12 @@ int main(int argc, char *argv[])
 
 	  func_GetMIMEDescription = _handle->symbol("NP_GetMIMEDescription");
 	  
-	  if (!func_GetMIMEDescription)                        
+	  if (!func_GetMIMEDescription)
+	  {
+	    kDebugInfo(" not a plugin");
+            KLibLoader::self()->unloadLibrary(*it+"/"+files[i]);
 	    continue;
+          }
 
 	  char *(*fp)();
 	  fp = (char *(*)()) func_GetMIMEDescription;
@@ -155,11 +159,11 @@ int main(int argc, char *argv[])
 
 	  // check the mimeInformation
 	  if (!mimeInfo)
-	    {
-	      kDebugInfo("  not a plugin");
-	      delete _handle;
-	      continue;
-	    }
+	  {
+            kDebugInfo("  not a plugin");
+	    KLibLoader::self()->unloadLibrary(*it+"/"+files[i]);
+	    continue;
+	  }
 
 	  // FIXME: Some plugins will not work, e.g. because they
 	  // use JAVA. These should be filtered out here!
@@ -183,8 +187,8 @@ int main(int argc, char *argv[])
 	    }
 	  
 	  kDebugInfo("  is a plugin");
-
-	  delete _handle;
+	  
+	  KLibLoader::self()->unloadLibrary(*it+"/"+files[i]);	  
 	}
     }
   
