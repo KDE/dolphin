@@ -483,12 +483,16 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
                                   QString::null,
                                   false,
                                   openAfterCurrentPage);
-    view->frame()->setTitle( _url.host() , 0L);
+    if (view) {
+      view->frame()->setTitle( _url.host() , 0L);
 
-    if ( req.newTabInFront )
-      m_pViewManager->showTab( view );
+      if ( req.newTabInFront )
+        m_pViewManager->showTab( view );
 
-    updateViewActions(); //A new tab created -- we may need to enable the "remove tab" button (#56318)
+        updateViewActions(); //A new tab created -- we may need to enable the "remove tab" button (#56318)
+    }
+    else
+      req.newTab = false;
   }
 
   if ( view )
