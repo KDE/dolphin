@@ -340,7 +340,7 @@ KEBTopLevel * KEBTopLevel::s_topLevel = 0L;
 KBookmarkManager * KEBTopLevel::s_pManager = 0L;
 
 KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
-    : KMainWindow(), m_commandHistory( actionCollection() )
+    : KMainWindow(), m_commandHistory( actionCollection() ), m_dcopIface(NULL)
 {
     // Create the bookmark manager.
     s_pManager = KBookmarkManager::managerForFile( bookmarksFile, false );
@@ -502,6 +502,8 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
 KEBTopLevel::~KEBTopLevel()
 {
     s_topLevel = 0L;
+    if (m_dcopIface)
+        delete m_dcopIface;
 }
 
 void KEBTopLevel::slotConfigureKeyBindings()
