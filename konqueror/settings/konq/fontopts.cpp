@@ -21,6 +21,7 @@
 #include <qcheckbox.h>
 #include <qcolor.h>
 #include <qcombobox.h>
+#include <qspinbox.h>
 #include <qlabel.h>
 #include <qlayout.h>//CT - 12Nov1998
 #include <qradiobutton.h>
@@ -57,31 +58,6 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     lay->setColStretch(LASTCOLUMN,10);
 
     row++;
-    QButtonGroup *bg = new QButtonGroup( i18n("Font Size"), this );
-    QWhatsThis::add( bg, i18n("This option allows you to roughly control the size"
-                              " of text in Konqueror windows.") );
-    QGridLayout *bgLay = new QGridLayout(bg,2,3,10,5);
-    bgLay->addRowSpacing(0,10);
-    bgLay->setRowStretch(0,0);
-    bgLay->setRowStretch(1,1);
-    bg->setExclusive( TRUE );
-    connect(bg, SIGNAL(clicked(int)), this, SLOT(changed()));
-
-    connect( bg, SIGNAL( clicked( int ) ), SLOT( slotFontSize( int ) ) );
-
-    m_pSmall = new QRadioButton( i18n("Small"), bg );
-    bgLay->addWidget(m_pSmall,1,0);
-
-    m_pMedium = new QRadioButton( i18n("Medium"), bg );
-    bgLay->addWidget(m_pMedium,1,1);
-
-    m_pLarge = new QRadioButton( i18n("Large"), bg );
-    bgLay->addWidget(m_pLarge,1,2);
-
-    bgLay->activate();
-    lay->addMultiCellWidget(bg,row,row,0,LASTCOLUMN);
-    row += 2;
-
     label = new QLabel( i18n("Standard Font"), this );
     lay->addWidget(label,row,0);
 
@@ -92,6 +68,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     QWhatsThis::add( label, wtstr );
     QWhatsThis::add( m_pStandard, wtstr );
 
+    row++;
     KFontChooser::getFontList(standardFonts, false);
     m_pStandard->insertStringList( standardFonts );
     connect( m_pStandard, SIGNAL( activated(const QString&) ),
@@ -99,7 +76,20 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     connect( m_pStandard, SIGNAL( activated(const QString&) ),
              SLOT(changed() ) );
 
-    row++;
+
+    label = new QLabel( "Font Size", this );
+    lay->addWidget(label,row,0);
+
+    m_pSize = new QSpinBox( 4,18,1,this );
+    lay->addMultiCellWidget(m_pSize,row,row,1,1);
+
+    connect( m_pSize, SIGNAL( valueChanged(int) ),
+             this, SLOT( slotFontSize(int) ) );
+    row+=2;
+
+    wtstr = i18n("This is the font size used to display text in Konqueror windows.");
+    QWhatsThis::add( label, wtstr );
+    QWhatsThis::add( m_pSize, wtstr );
 
     //
 #define COLOR_BUTTON_COL 1
@@ -196,9 +186,10 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     load();
 }
 
-void KonqFontOptions::slotFontSize( int i )
+void KonqFontOptions::slotFontSize(int i)
 {
-    fSize = i+3;
+    fSize = i;
+    changed();
 }
 
 void KonqFontOptions::slotStandardFont(const QString& n )
@@ -209,27 +200,10 @@ void KonqFontOptions::slotStandardFont(const QString& n )
 void KonqFontOptions::load()
 {
     g_pConfig->setGroup(groupname);
-    QString fs = g_pConfig->readEntry( "BaseFontSize" );
-    if ( !fs.isEmpty() )
-    {
-        fSize = fs.toInt();
-        if ( fSize < 3 )
-            fSize = 3;
-        else if ( fSize > 5 )
-            fSize = 5;
-    }
-    else
-        fSize = 3;
 
     m_stdFont = g_pConfig->readFontEntry( "StandardFont" );
     stdName = m_stdFont.family();
-    fSize = 4;
-    if (m_stdFont.pointSizeFloat() == 10.0)
-       fSize = 3;
-    else if (m_stdFont.pointSizeFloat() == 12.0)
-       fSize = 4;
-    else if (m_stdFont.pointSizeFloat() == 14.0)
-       fSize = 5;
+    fSize = m_stdFont.pointSize();
 
     normalTextColor = KGlobalSettings::textColor();
     normalTextColor = g_pConfig->readColorEntry( "NormalTextColor", &normalTextColor );
@@ -262,7 +236,9 @@ void KonqFontOptions::load()
 
 void KonqFontOptions::defaults()
 {
-    fSize=4;
+		// Should grab from the configurable location (Oliveri).
+    fSize=8;
+
     stdName = KGlobalSettings::generalFont().family();
     m_stdFont = QFont(stdName, 12);
 
@@ -298,23 +274,15 @@ void KonqFontOptions::updateGUI()
         if ( stdName == (*sit) )
             m_pStandard->setCurrentItem( i );
     }
-
-    m_pSmall->setChecked( fSize == 3 );
-    m_pMedium->setChecked( fSize == 4 );
-    m_pLarge->setChecked( fSize == 5 );
+    m_pSize->setValue( fSize );
 }
 
 void KonqFontOptions::save()
 {
     g_pConfig->setGroup(groupname);
-    if ( fSize == 3 )
-       m_stdFont.setPointSize(10);
-    else if ( fSize == 4 )
-       m_stdFont.setPointSize(12);
-    else if ( fSize == 5 )
-       m_stdFont.setPointSize(14);
-    else
-       kdWarning() << "Unhandled size : " << fSize << endl;
+
+ 		// fSize set via signal (Oliveri)
+    m_stdFont.setPointSize(fSize);
 
     m_stdFont.setFamily( stdName );
     g_pConfig->writeEntry( "StandardFont", m_stdFont );

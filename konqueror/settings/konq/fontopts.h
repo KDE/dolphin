@@ -35,6 +35,7 @@
 #define __KONQFONT_OPTIONS_H__
 
 #include <qstringlist.h>
+#include <qspinbox.h>
 #include <kcmodule.h>
 
 class KConfig;
@@ -57,7 +58,7 @@ public:
   virtual void defaults();
 
 public slots:
-  void slotFontSize( int );
+  void slotFontSize(int i);
   void slotStandardFont(const QString& n);
   void slotTextBackgroundClicked();
 
@@ -78,10 +79,13 @@ private:
   QString groupname;
   bool m_bDesktop;
 
+  /*
   QRadioButton* m_pSmall;
   QRadioButton* m_pMedium;
   QRadioButton* m_pLarge;
+  */
   QComboBox* m_pStandard;
+  QSpinBox* m_pSize;
 
   int fSize;
   QString stdName;
