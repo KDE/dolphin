@@ -252,7 +252,7 @@ void Sidebar_Widget::initialCopy()
                 dirEntries.remove( ".." );
 
                 QDir globalDir( dirtree_dir );
-                ASSERT( globalDir.isReadable() );
+                Q_ASSERT( globalDir.isReadable() );
                 // Only copy the entries that don't exist yet in the local dir
                 QStringList globalDirEntries = globalDir.entryList();
                 QStringList::ConstIterator eIt = globalDirEntries.begin();

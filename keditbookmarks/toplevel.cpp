@@ -322,20 +322,20 @@ KEBListViewItem * KEBTopLevel::findByAddress( const QString & address ) const
             item = item->nextSibling();
         }
     }
-    ASSERT(item);
+    Q_ASSERT(item);
     return static_cast<KEBListViewItem *>(item);
 }
 
 void KEBTopLevel::slotRename()
 {
-    ASSERT( m_pListView->selectedItem() );
+    Q_ASSERT( m_pListView->selectedItem() );
     if ( m_pListView->selectedItem() )
       m_pListView->rename( m_pListView->selectedItem(), 0 );
 }
 
 void KEBTopLevel::slotChangeURL()
 {
-    ASSERT( m_pListView->selectedItem() );
+    Q_ASSERT( m_pListView->selectedItem() );
     if ( m_pListView->selectedItem() )
       m_pListView->rename( m_pListView->selectedItem(), 1 );
 }
@@ -440,7 +440,7 @@ void KEBTopLevel::slotExportMoz()
 void KEBTopLevel::slotCut()
 {
     KBookmark bk = selectedBookmark();
-    ASSERT(!bk.isNull());
+    Q_ASSERT(!bk.isNull());
     slotCopy();
     // Very much like slotDelete, except for the name
     DeleteCommand * cmd = new DeleteCommand( i18n("Cut item"), bk.address() );
@@ -450,7 +450,7 @@ void KEBTopLevel::slotCut()
 void KEBTopLevel::slotCopy()
 {
     KBookmark bk = selectedBookmark();
-    ASSERT(!bk.isNull());
+    Q_ASSERT(!bk.isNull());
     // This is not a command, because it can't be undone
 
     KBookmarkDrag* data = KBookmarkDrag::newDrag( bk, 0L /* not this ! */ );
@@ -477,8 +477,8 @@ void KEBTopLevel::pasteData( const QString & cmdName,  QMimeSource * data, const
 void KEBTopLevel::slotSort()
 {
     KBookmark bk = selectedBookmark();
-    ASSERT(!bk.isNull());
-    ASSERT(bk.isGroup());
+    Q_ASSERT(!bk.isNull());
+    Q_ASSERT(bk.isGroup());
 
     ////
 
@@ -501,7 +501,7 @@ void KEBTopLevel::slotSetAsToolbar()
     }
 
     KBookmark bk = selectedBookmark();
-    ASSERT( bk.isGroup() );
+    Q_ASSERT( bk.isGroup() );
     QValueList<EditCommand::Edition> lst;
     lst.append(EditCommand::Edition( "toolbar", "yes" ));
     lst.append(EditCommand::Edition( "icon", "bookmark_toolbar" ));
@@ -514,7 +514,7 @@ void KEBTopLevel::slotSetAsToolbar()
 void KEBTopLevel::slotOpenLink()
 {
     KBookmark bk = selectedBookmark();
-    ASSERT( !bk.isGroup() );
+    Q_ASSERT( !bk.isGroup() );
     (void) new KRun( bk.url() );
 }
 
@@ -548,14 +548,14 @@ void KEBTopLevel::slotDocumentRestored()
 KBookmark KEBTopLevel::selectedBookmark() const
 {
     QListViewItem * item = m_pListView->selectedItem();
-    ASSERT(item);
+    Q_ASSERT(item);
     KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(item);
     return kebItem->bookmark();
 }
 
 void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText, int column)
 {
-    ASSERT(item);
+    Q_ASSERT(item);
     KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(item);
     KBookmark bk = kebItem->bookmark();
     switch (column) {
@@ -587,7 +587,7 @@ void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText,
 void KEBTopLevel::slotChangeIcon()
 {
     KBookmark bk = selectedBookmark();
-    ASSERT(!bk.isNull());
+    Q_ASSERT(!bk.isNull());
     if (bk.isNull()) return;
     KIconDialog dlg(this);
     QString newIcon = dlg.selectIcon(KIcon::Small, KIcon::FileSystem);
@@ -618,7 +618,7 @@ void KEBTopLevel::slotDropped (QDropEvent* e, QListViewItem * _newParent, QListV
         // Now a simplified version of movableDropEvent
         //movableDropEvent (parent, afterme);
         QListViewItem * i = m_pListView->selectedItem();
-        ASSERT(i);
+        Q_ASSERT(i);
         if (i && i != _afterNow)
         {
             // sanity check - don't move a item into it's own child structure
@@ -703,7 +703,7 @@ void KEBTopLevel::update()
         kdDebug() << "KEBTopLevel::update item=" << address << endl;
         fillListView();
         KEBListViewItem * newItem = findByAddress( address );
-        ASSERT(newItem);
+        Q_ASSERT(newItem);
         if (newItem)
         {
             m_pListView->setCurrentItem(newItem);

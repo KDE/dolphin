@@ -43,8 +43,8 @@ void KonqSidebarBookmarkModule::slotBookmarksChanged( const QString & groupAddre
     // update the right part of the tree
     KBookmarkGroup group = KBookmarkManager::self()->findByAddress( groupAddress ).toGroup();
     KonqSidebarBookmarkItem * item = findByAddress( groupAddress );
-    ASSERT(!group.isNull());
-    ASSERT(item);
+    Q_ASSERT(!group.isNull());
+    Q_ASSERT(item);
     if (!group.isNull() && item)
     {
         // Delete all children of item
@@ -101,7 +101,7 @@ KonqSidebarBookmarkItem * KonqSidebarBookmarkModule::findByAddress( const QStrin
         for ( uint i = 0 ; i < number ; ++i )
             item = item->nextSibling();
     }
-    ASSERT(item);
+    Q_ASSERT(item);
     return static_cast<KonqSidebarBookmarkItem *>(item);
 }
 

@@ -681,7 +681,7 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
             case NameCaseInsensitive: key = item->text().lower(); break;
             case Size: key = makeSizeKey( item ); break;
             case Type: key = item->item()->mimetype(); break; // ### slows down listing :-(
-            default: ASSERT(0);
+            default: Q_ASSERT(0);
         }
 
         item->setKey( key );
@@ -702,7 +702,7 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
     //kdDebug(1202) << "KonqKfmIconView::slotDeleteItem(...)" << endl;
     // we need to find out the iconcontainer item containing the fileitem
     KFileIVI * ivi = m_itemDict[ _fileitem ];
-    ASSERT(ivi);
+    Q_ASSERT(ivi);
     if (ivi)
     {
         m_pIconView->takeItem( ivi );
@@ -720,7 +720,7 @@ void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
     for (; rit.current(); ++rit)
     {
         KFileIVI * ivi = m_itemDict[ rit.current() ];
-        ASSERT(ivi);
+        Q_ASSERT(ivi);
         kdDebug() << "KonqKfmIconView::slotRefreshItems ivi=" << ivi << endl;
         if (ivi)
         {

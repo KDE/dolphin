@@ -111,7 +111,7 @@ void KonqTreeViewWidget::slotCompleted( const KURL & _url )
     if( m_url.cmp( _url, true ) ) // ignore trailing slash
         return;
     KonqListViewDir *dir = m_dictSubDirs[ _url.url(-1) ];
-    ASSERT( dir );
+    Q_ASSERT( dir );
     if ( dir )
         dir->setComplete( true );
     else

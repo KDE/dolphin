@@ -1006,8 +1006,8 @@ void KonqMainWindow::slotToolFind()
 void KonqMainWindow::slotFindOpen( KonqDirPart * dirPart )
 {
     kdDebug(1202) << "KonqMainWindow::slotFindOpen " << dirPart << endl;
-    ASSERT( m_currentView );
-    ASSERT( m_currentView->part() == dirPart );
+    Q_ASSERT( m_currentView );
+    Q_ASSERT( m_currentView->part() == dirPart );
     slotToolFind(); // lazy me
 }
 
@@ -1015,7 +1015,7 @@ void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
 {
     kdDebug(1202) << "KonqMainWindow::slotFindClosed " << dirPart << endl;
     KonqView * dirView = m_mapViews.find( dirPart ).data();
-    ASSERT(dirView);
+    Q_ASSERT(dirView);
     kdDebug(1202) << "dirView=" << dirView << endl;
     if ( dirView && dirView == m_currentView )
         m_paFindFiles->setEnabled( true );
@@ -1204,7 +1204,7 @@ void KonqMainWindow::slotShowHTML()
 
 void KonqMainWindow::slotUnlockView()
 {
-  ASSERT(m_currentView->isLockedLocation());
+  Q_ASSERT(m_currentView->isLockedLocation());
   m_currentView->setLockedLocation( false );
   m_paLockView->setEnabled( true );
   m_paUnlockView->setEnabled( false );
@@ -1212,7 +1212,7 @@ void KonqMainWindow::slotUnlockView()
 
 void KonqMainWindow::slotLockView()
 {
-  ASSERT(!m_currentView->isLockedLocation());
+  Q_ASSERT(!m_currentView->isLockedLocation());
   m_currentView->setLockedLocation( true );
   m_paLockView->setEnabled( false );
   m_paUnlockView->setEnabled( true );
@@ -1507,7 +1507,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
     for ( ; it != itEnd ; ++it )
     {
       KAction * act = actionCollection()->action( it.key() );
-      ASSERT(act);
+      Q_ASSERT(act);
       if (act)
         act->setEnabled( false );
     }
@@ -1847,7 +1847,7 @@ void KonqMainWindow::slotRemoveLocalProperties()
           slotReload();
       } else
       {
-         ASSERT( QFile::exists(u.path()) ); // The action shouldn't be enabled, otherwise.
+         Q_ASSERT( QFile::exists(u.path()) ); // The action shouldn't be enabled, otherwise.
          KMessageBox::sorry( this, i18n("No permissions to write to %1").arg(u.path()) );
       }
   }
@@ -3515,7 +3515,7 @@ void KonqMainWindow::updateViewModeActions()
   }
 
 #ifndef NDEBUG
-  ASSERT( preferredServiceMap.isEmpty() );
+  Q_ASSERT( preferredServiceMap.isEmpty() );
   QMap<QString,QString>::Iterator debugIt = preferredServiceMap.begin();
   QMap<QString,QString>::Iterator debugEnd = preferredServiceMap.end();
   for ( ; debugIt != debugEnd ; ++debugIt )

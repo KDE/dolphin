@@ -200,7 +200,7 @@ void ListViewBrowserExtension::rename()
 {
   QValueList<KonqBaseListViewItem*> selection;
   m_listView->listViewWidget()->selectedItems( selection );
-  ASSERT ( selection.count() == 1 );
+  Q_ASSERT ( selection.count() == 1 );
   m_listView->listViewWidget()->rename( selection.first(), 0 );
 }
 

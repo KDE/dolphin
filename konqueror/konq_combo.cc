@@ -41,7 +41,7 @@ KonqCombo::KonqCombo( QWidget *parent, const char *name )
     setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed ));
     setDuplicatesEnabled( false );
 
-    ASSERT( s_config );
+    Q_ASSERT( s_config );
 
     KConfigGroupSaver cs( s_config, "Location Bar" );
     setMaxCount( s_config->readNumEntry("Maximum of URLs in combo", 20 ));

@@ -200,7 +200,7 @@ void KonqBidiHistoryAction::fillGoMenu( const QList<HistoryEntry> & history )
         if ( history.at() > (int)history.count() - 4 )
           m_startPos = history.count() - 1;
     }
-    ASSERT( m_startPos >= 0 && (uint)m_startPos < history.count() );
+    Q_ASSERT( m_startPos >= 0 && (uint)m_startPos < history.count() );
     if ( m_startPos < 0 || (uint)m_startPos >= history.count() )
     {
         kdWarning() << "m_startPos=" << m_startPos << " history.count()=" << history.count() << endl;
@@ -606,7 +606,7 @@ void KonqMostOftenURLSAction::slotClearMenu()
 
 void KonqMostOftenURLSAction::slotActivated( int id )
 {
-    ASSERT( s_mostEntries ); // can basically not happen
+    Q_ASSERT( s_mostEntries ); // can basically not happen
 
     const KonqHistoryEntry *entry = s_mostEntries->at( id );
     KURL url = entry ? entry->url : KURL();

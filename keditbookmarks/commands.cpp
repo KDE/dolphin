@@ -31,7 +31,7 @@ void MoveCommand::execute()
 
     // Look for m_from in the QDom tree
     KBookmark bk = KBookmarkManager::self()->findByAddress( m_from );
-    ASSERT( !bk.isNull() );
+    Q_ASSERT( !bk.isNull() );
     //kdDebug() << "BEFORE:" << KBookmarkManager::self()->internalDocument().toString() << endl;
     int posInOldParent = KBookmark::positionInParent( m_from );
     KBookmark oldParent = KBookmarkManager::self()->findByAddress( KBookmark::parentAddress( m_from ) );
@@ -43,8 +43,8 @@ void MoveCommand::execute()
     QString parentAddress = KBookmark::parentAddress( m_to );
     //kdDebug() << "MoveCommand::execute parentAddress=" << parentAddress << " posInNewParent=" << posInNewParent << endl;
     KBookmark newParentBk = KBookmarkManager::self()->findByAddress( parentAddress );
-    ASSERT( !newParentBk.isNull() );
-    ASSERT( newParentBk.isGroup() );
+    Q_ASSERT( !newParentBk.isNull() );
+    Q_ASSERT( newParentBk.isGroup() );
 
     if ( posInNewParent == 0 ) // First child
     {
@@ -55,9 +55,9 @@ void MoveCommand::execute()
         QString afterAddress = KBookmark::previousAddress( m_to );
         kdDebug() << "MoveCommand::execute afterAddress=" << afterAddress << endl;
         KBookmark afterNow = KBookmarkManager::self()->findByAddress( afterAddress );
-        ASSERT(!afterNow.isNull());
+        Q_ASSERT(!afterNow.isNull());
         bool result = newParentBk.toGroup().moveItem( bk, afterNow );
-        ASSERT(result);
+        Q_ASSERT(result);
         kdDebug() << "MoveCommand::execute after moving in the dom tree : item=" << bk.address() << endl;
     }
 
@@ -101,7 +101,7 @@ void CreateCommand::execute()
         else
             if (m_group)
             {
-                ASSERT( !m_text.isEmpty() );
+                Q_ASSERT( !m_text.isEmpty() );
                 bk = parentGroup.createNewFolder( m_text );
 
                 kdDebug() << "CreateCommand::execute " << m_group << " open : " << m_open << endl;
@@ -122,15 +122,15 @@ void CreateCommand::execute()
         // Open the parent (useful if it was empty) - only for manual commands
         parentGroup.internalElement().setAttribute( "folded", "no" );
     }
-    ASSERT( bk.address() == m_to );
+    Q_ASSERT( bk.address() == m_to );
 }
 
 void CreateCommand::unexecute()
 {
     kdDebug() << "CreateCommand::unexecute deleting " << m_to << endl;
     KBookmark bk = KBookmarkManager::self()->findByAddress( m_to );
-    ASSERT( !bk.isNull() );
-    ASSERT( !bk.parentGroup().isNull() );
+    Q_ASSERT( !bk.isNull() );
+    Q_ASSERT( !bk.parentGroup().isNull() );
     // Update GUI
     // but first we need to select a valid item
     KListView * lv = KEBTopLevel::self()->listView();
@@ -166,7 +166,7 @@ void DeleteCommand::execute()
 {
     kdDebug() << "DeleteCommand::execute " << m_from << endl;
     KBookmark bk = KBookmarkManager::self()->findByAddress( m_from );
-    ASSERT(!bk.isNull());
+    Q_ASSERT(!bk.isNull());
     if ( !m_cmd )
         if ( bk.isGroup() )
         {
@@ -211,7 +211,7 @@ KMacroCommand * DeleteCommand::deleteAll( const KBookmarkGroup & parentGroup )
 void EditCommand::execute()
 {
     KBookmark bk = KBookmarkManager::self()->findByAddress( m_address );
-    ASSERT( !bk.isNull() );
+    Q_ASSERT( !bk.isNull() );
     m_reverseEditions.clear();
     QValueList<Edition>::Iterator it = m_editions.begin();
     for ( ; it != m_editions.end() ; ++it )
@@ -235,7 +235,7 @@ void EditCommand::unexecute()
 void RenameCommand::execute()
 {
     KBookmark bk = KBookmarkManager::self()->findByAddress( m_address );
-    ASSERT( !bk.isNull() );
+    Q_ASSERT( !bk.isNull() );
 
     QDomText domtext = bk.internalElement().elementsByTagName("title").item(0).firstChild().toText();
 
@@ -279,7 +279,7 @@ void SortCommand::execute()
     if ( m_commands.isEmpty() )
     {
         KBookmarkGroup grp = KBookmarkManager::self()->findByAddress( m_groupAddress ).toGroup();
-        ASSERT( !grp.isNull() );
+        Q_ASSERT( !grp.isNull() );
         SortItem firstChild( grp.first() );
         // This will call moveAfter, which will add the subcommands for moving the items
         kInsertionSort<SortItem, SortByName, QString, SortCommand> ( firstChild, *this );

@@ -490,7 +490,7 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
             if ( !dirtree_dir.isEmpty() && dirtree_dir != path )
             {
                 QDir globalDir( dirtree_dir );
-                ASSERT( globalDir.isReadable() );
+                Q_ASSERT( globalDir.isReadable() );
                 // Only copy the entries that don't exist yet in the local dir
                 QStringList globalDirEntries = globalDir.entryList();
                 QStringList::ConstIterator eIt = globalDirEntries.begin();
@@ -701,7 +701,7 @@ void KonqSidebarTree::setContentsPos( int x, int y )
 
 void KonqSidebarTree::slotItemRenamed(QListViewItem* item, const QString &name, int col)
 {
-    ASSERT(col==0);
+    Q_ASSERT(col==0);
     if (col != 0) return;
     assert(item);
     KonqSidebarTreeItem * treeItem = static_cast<KonqSidebarTreeItem *>(item);

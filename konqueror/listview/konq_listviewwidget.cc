@@ -670,7 +670,7 @@ void KonqBaseListViewWidget::slotOnItem( QListViewItem* _item)
 
 void KonqBaseListViewWidget::slotItemRenamed(QListViewItem* item, const QString &name, int col)
 {
-   ASSERT(col==0);
+   Q_ASSERT(col==0);
    if (col != 0) return;
    assert(item);
    KFileItem * fileItem = static_cast<KonqBaseListViewItem*>(item)->item();

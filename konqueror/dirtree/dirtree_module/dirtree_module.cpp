@@ -195,7 +195,7 @@ void KonqDirTreeModule::slotNewItems( const KFileItemList& entries )
 {
     //kdDebug(1201) << this << " KonqDirTreeModule::slotNewItems " << entries.count() << endl;
 
-    ASSERT(entries.count());
+    Q_ASSERT(entries.count());
     KFileItem * firstItem = const_cast<KFileItemList&>(entries).first(); // qlist sucks for constness
 
     // Find parent item - it's the same for all the items
@@ -275,13 +275,13 @@ void KonqDirTreeModule::slotRefreshItems( const KFileItemList &entries )
 
 void KonqDirTreeModule::slotDeleteItem( KFileItem *fileItem )
 {
-    ASSERT( fileItem->isDir() );
+    Q_ASSERT( fileItem->isDir() );
 
     kdDebug(1201) << "KonqDirTreeModule::slotDeleteItem( " << fileItem->url().url(-1) << " )" << endl;
 
     // All items are in m_dictSubDirs, so look it up fast
     KonqTreeItem * item = m_dictSubDirs[ fileItem->url().url(-1) ];
-    ASSERT(item);
+    Q_ASSERT(item);
     if (item)
     {
         removeSubDir( item );
@@ -294,7 +294,7 @@ void KonqDirTreeModule::slotRedirection( const KURL & oldUrl, const KURL & newUr
     kdDebug(1201) << "KonqDirTreeModule::slotRedirection(" << newUrl.prettyURL() << ")" << endl;
 
     KonqTreeItem * item = m_dictSubDirs[ oldUrl.url(-1) ];
-    ASSERT( item );
+    Q_ASSERT( item );
 
     if (!item)
         kdWarning(1201) << "NOT FOUND   oldUrl=" << oldUrl.prettyURL() << endl;
@@ -313,7 +313,7 @@ void KonqDirTreeModule::slotListingStopped()
     KURL url = lister->url();
     KonqTreeItem * item = m_dictSubDirs[ url.url(-1) ];
 
-    ASSERT(item);
+    Q_ASSERT(item);
 
     kdDebug(1201) << "KonqDirTree::slotListingStopped " << url.prettyURL() << endl;
 

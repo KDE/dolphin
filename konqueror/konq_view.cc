@@ -485,7 +485,7 @@ void KonqView::createHistoryEntry()
 
 void KonqView::updateHistoryEntry( bool saveLocationBarURL )
 {
-  ASSERT( !m_bLockHistory ); // should never happen
+  Q_ASSERT( !m_bLockHistory ); // should never happen
 
   HistoryEntry * current = m_lstHistory.current();
   if ( !current )
@@ -833,7 +833,7 @@ QString KonqView::viewName() const
 
 void KonqView::enablePopupMenu( bool b )
 {
-  ASSERT( m_pMainWindow );
+  Q_ASSERT( m_pMainWindow );
 
   KParts::BrowserExtension *ext = browserExtension();
 

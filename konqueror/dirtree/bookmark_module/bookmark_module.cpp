@@ -43,8 +43,8 @@ void KonqBookmarkModule::slotBookmarksChanged( const QString & groupAddress )
     // update the right part of the tree
     KBookmarkGroup group = KBookmarkManager::self()->findByAddress( groupAddress ).toGroup();
     KonqBookmarkItem * item = findByAddress( groupAddress );
-    ASSERT(!group.isNull());
-    ASSERT(item);
+    Q_ASSERT(!group.isNull());
+    Q_ASSERT(item);
     if (!group.isNull() && item)
     {
         // Delete all children of item
@@ -101,7 +101,7 @@ KonqBookmarkItem * KonqBookmarkModule::findByAddress( const QString & address ) 
         for ( uint i = 0 ; i < number ; ++i )
             item = item->nextSibling();
     }
-    ASSERT(item);
+    Q_ASSERT(item);
     return static_cast<KonqBookmarkItem *>(item);
 }
 

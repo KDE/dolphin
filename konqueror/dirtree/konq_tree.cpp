@@ -425,7 +425,7 @@ void KonqTree::scanDir( KonqTreeItem *parent, const QString &path, bool isRoot )
             if ( !dirtree_dir.isEmpty() && dirtree_dir != path )
             {
                 QDir globalDir( dirtree_dir );
-                ASSERT( globalDir.isReadable() );
+                Q_ASSERT( globalDir.isReadable() );
                 // Only copy the entries that don't exist yet in the local dir
                 QStringList globalDirEntries = globalDir.entryList();
                 QStringList::ConstIterator eIt = globalDirEntries.begin();
@@ -634,7 +634,7 @@ void KonqTree::setContentsPos( int x, int y )
 
 void KonqTree::slotItemRenamed(QListViewItem* item, const QString &name, int col)
 {
-    ASSERT(col==0);
+    Q_ASSERT(col==0);
     if (col != 0) return;
     assert(item);
     KonqTreeItem * treeItem = static_cast<KonqTreeItem *>(item);
