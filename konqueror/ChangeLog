@@ -1,3 +1,9 @@
+2000-10-22  David Faure  <faure@kde.org>
+
+	* listview/konq_textviewwidget.cc: Only the Name column is now
+	selected, and used as a drop area - like in other listviews.
+	This requires the fix in KListView to work properly.
+
 2000-10-21  David Faure  <faure@kde.org>
 
 	* Fix for linked views saved in profile, introducing isLoadingProfile().
