@@ -60,7 +60,7 @@ public:
   }
 
   virtual QWidget *createContainer( QWidget *parent, int index,
-          const QDomElement &element, 
+          const QDomElement &element,
           int &id )
   {
     if ( !parent && element.attribute( "name" ) == "popupmenu" )
@@ -76,7 +76,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
                               KURL viewURL,
                               KActionCollection & actions,
                               KNewMenu * newMenu,
-		  bool showPropertiesAndFileType )
+                  bool showPropertiesAndFileType )
   : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_pMenuNew( newMenu ),
     m_sViewURL(viewURL), m_lstItems(items)
 {
@@ -162,7 +162,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
   if ( ( isCurrentTrash && currentDir ) ||
        ( m_lstItems.count() == 1 && m_lstItems.first()->url().isLocalFile() &&
-	 m_lstItems.first()->url().path( 1 ) == KGlobalSettings::trashPath() ) )
+         m_lstItems.first()->url().path( 1 ) == KGlobalSettings::trashPath() ) )
   {
     addAction( m_paNewView );
     addSeparator();
@@ -189,7 +189,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
         addAction( "up" );
         addAction( "back" );
         addAction( "forward" );
-	addAction( "reload" );
+        addAction( "reload" );
         addGroup( "reload" );
         addSeparator();
       }
@@ -263,13 +263,13 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       QStringList entries = dir.entryList( QDir::Files );
       QStringList::ConstIterator eIt = entries.begin();
       QStringList::ConstIterator eEnd = entries.end();
-	
+
       for (; eIt != eEnd; ++eIt )
       {
         KSimpleConfig cfg( *dIt + *eIt, true );
-	
+
         cfg.setDesktopGroup();
-	
+
         if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) &&
              cfg.readListEntry( "ServiceTypes" ).contains( m_sMimeType ) )
         {
@@ -277,14 +277,14 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
           u.setPath( *dIt + *eIt );
           user += KDEDesktopMimeType::userDefinedServices( u );
         }
-	
+
       }
-	
+
     }
 
     // 4 - Query for applications
     KTrader::OfferList offers = KTrader::self()->query( m_sMimeType,
-      "Type == 'Application' and DesktopEntryPath != 'Home.desktop'" );
+      "Type == 'Application' and DesktopEntryName != 'kfmclient'" );
 
     //// Ok, we have everything, now insert
 
@@ -319,19 +319,19 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       for( ; it != offers.end(); it++ )
       {
         QCString nam;
-	nam.setNum( id );
+        nam.setNum( id );
 
         act = new KAction( (*it)->name(), (*it)->pixmap( KIcon::Small ), 0,
-			   this, SLOT( slotRunService() ),
-			   &m_ownActions, nam.prepend( "appservice_" ) );
-	addAction( act, menu );
-	
-	m_mapPopup[ id++ ] = *it;
+                           this, SLOT( slotRunService() ),
+                           &m_ownActions, nam.prepend( "appservice_" ) );
+        addAction( act, menu );
+
+        m_mapPopup[ id++ ] = *it;
       }
 
       if ( menu != m_menuElement ) // submenu
       {
-	addSeparator( menu );
+        addSeparator( menu );
         KAction *openWithAct = new KAction( i18n( "Other..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
         addAction( openWithAct, menu ); // Other...
       }
@@ -358,17 +358,17 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
         if ((*it2).m_display == true)
         {
           QCString nam;
-   	  nam.setNum( id );
-	  act = new KAction( (*it2).m_strName, 0, this, SLOT( slotRunService() ), &m_ownActions, nam.prepend( "userservice_" ) );
-			
+          nam.setNum( id );
+          act = new KAction( (*it2).m_strName, 0, this, SLOT( slotRunService() ), &m_ownActions, nam.prepend( "userservice_" ) );
+
           if ( !(*it2).m_strIcon.isEmpty() )
           {
             QPixmap pix = SmallIcon( (*it2).m_strIcon );
-	    act->setIconSet( pix );
+            act->setIconSet( pix );
           }
-	
-	  addAction( act, m_menuElement ); // Add to toplevel menu
-	
+
+          addAction( act, m_menuElement ); // Add to toplevel menu
+
           m_mapPopupServices[ id++ ] = *it2;
           insertedOffer = true;
         }
@@ -384,20 +384,20 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       for( ; it2 != builtin.end(); ++it2 )
       {
         QCString nam;
-	nam.setNum( id );
-	
+        nam.setNum( id );
+
         act = new KAction( (*it2).m_strName, 0, this, SLOT( slotRunService() ), &m_ownActions, nam.prepend( "builtinservice_" ) );
-	
+
         if ( !(*it2).m_strIcon.isEmpty() )
         {
           QPixmap pix = SmallIcon( (*it2).m_strIcon );
-	  act->setIconSet( pix );
+          act->setIconSet( pix );
         }
-	
-	addAction( act, m_menuElement );
-	
+
+        addAction( act, m_menuElement );
+
         m_mapPopupServices[ id++ ] = *it2;
-	insertedOffer = true;
+        insertedOffer = true;
       }
 
       if ( insertedOffer )
@@ -410,7 +410,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
       //  or "File Type Properties" ?
       act = new KAction( i18n( "Edit File Type..." ), 0, this, SLOT( slotPopupMimeType() ),
-		       &m_ownActions, "editfiletype" );
+                       &m_ownActions, "editfiletype" );
       addAction( act );
     }
   }
@@ -420,7 +420,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     if ( !bLastSepInserted ) addSeparator();
 
     act = new KAction( i18n( "Properties..." ), 0, this, SLOT( slotPopupProperties() ),
-		       &m_ownActions, "properties" );
+                       &m_ownActions, "properties" );
     addAction( act );
   }
 
