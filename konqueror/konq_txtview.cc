@@ -39,6 +39,10 @@
 #include <opUIUtils.h>
 #include <kapp.h>
 #include <kglobal.h>
+#include <kpixmapcache.h>
+
+#define TOOLBAR_SEARCH_ID Browser::View::TOOLBAR_ITEM_ID_BEGIN
+#define TOOLBAR_EDITOR_ID Browser::View::TOOLBAR_ITEM_ID_BEGIN + 1
 
 KonqTxtView::KonqTxtView( KonqMainView *mainView )
 {
@@ -121,6 +125,31 @@ bool KonqTxtView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu
                            this, "slotSearch", 0, -1, -1 );
   }
 
+  return true;
+}
+
+bool KonqTxtView::mappingFillToolBar( Browser::View::EventFillToolBar toolBar )
+{
+  if ( CORBA::is_nil( toolBar.toolBar ) )
+    return false;
+    
+  if ( toolBar.create )
+  {
+    CORBA::WString_var toolTip = Q2C( i18n( "Search" ) );
+    OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "search.xpm" ) );
+    toolBar.toolBar->insertButton2( pix, TOOLBAR_SEARCH_ID, SIGNAL(clicked()),
+                                    this, "slotSearch", true, toolTip, toolBar.startIndex++ );
+    toolTip = Q2C( i18n( "Launch Editor" ) );
+    pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "pencil.xpm" ) );
+    toolBar.toolBar->insertButton2( pix, TOOLBAR_EDITOR_ID, SIGNAL(clicked()),
+                                    this, "slotEdit", true, toolTip, toolBar.startIndex++ );
+  }
+  else
+  {
+    toolBar.toolBar->removeItem( TOOLBAR_SEARCH_ID );
+    toolBar.toolBar->removeItem( TOOLBAR_EDITOR_ID );
+  }
+    
   return true;
 }
 

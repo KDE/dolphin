@@ -161,6 +161,9 @@ module Konqueror
 
     slot void slotFileNewActivated( in long id );
     slot void slotFileNewAboutToShow();	
+    
+    slot void slotMenuEditAboutToShow();
+    slot void slotMenuViewAboutToShow();
   
     slot void slotBookmarkSelected( in long id );
     slot void slotEditBookmarks();

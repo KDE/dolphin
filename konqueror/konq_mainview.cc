@@ -316,6 +316,8 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   {
     m_vMenuFileNew->disconnect("activated", this, "slotFileNewActivated");
     m_vMenuFileNew->disconnect("aboutToShow", this, "slotFileNewAboutToShow");
+    m_vMenuEdit->disconnect("aboutToShow", this, "slotMenuEditAboutToShow");
+    m_vMenuView->disconnect("aboutToShow", this, "slotMenuViewAboutToShow");
     m_vMenuOptionsProfiles->disconnect( "activated", this, "slotViewProfileActivated" );
 
     if ( m_pMenuNew )
@@ -381,10 +383,16 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   text = Q2C( i18n("&Edit") );
   menuBar->insertMenu( text, m_vMenuEdit, -1, -1 );
 
+  m_vMenuEdit->connect("aboutToShow", this, "slotMenuEditAboutToShow");
+  m_bEditMenuDirty = true;
+  
   createEditMenu();
 
   text = Q2C( i18n("&View") );
   menuBar->insertMenu( text, m_vMenuView, -1, -1 );  
+
+  m_vMenuView->connect("aboutToShow", this, "slotMenuViewAboutToShow");
+  m_bViewMenuDirty = true;
   
   createViewMenu();
   
@@ -679,8 +687,8 @@ void KonqMainView::setActiveView( OpenParts::Id id )
     m_vLocationBar->changeComboItem( TOOLBAR_URL_ID, text, 0 );
   }    
 
-  createEditMenu();
-  createViewMenu();
+  m_bEditMenuDirty = true;
+  m_bViewMenuDirty = true;
   createViewToolBar( m_currentView );
   if ( isVisible() )
   {
@@ -1279,7 +1287,7 @@ void KonqMainView::setupView( RowInfo *row, Browser::View_ptr view, const QStrin
 
 void KonqMainView::createViewMenu()
 {
-  if ( !CORBA::is_nil( m_vMenuView ) )
+  if ( !CORBA::is_nil( m_vMenuView ) && m_bViewMenuDirty )
   {
     m_vMenuView->clear();
   
@@ -1327,12 +1335,13 @@ void KonqMainView::createViewMenu()
       EMIT_EVENT( m_currentView->view(), Browser::View::eventFillMenuView, m_vMenuView );
     }
 
+    m_bViewMenuDirty = false;
   }
 }
 
 void KonqMainView::createEditMenu()
 {
-  if ( !CORBA::is_nil( m_vMenuEdit ) )
+  if ( !CORBA::is_nil( m_vMenuEdit ) && m_bEditMenuDirty )
   {
     m_vMenuEdit->clear();
 
@@ -1351,6 +1360,7 @@ void KonqMainView::createEditMenu()
     if ( m_currentView )
       EMIT_EVENT( m_currentView->view(), Browser::View::eventFillMenuEdit, m_vMenuEdit );
 
+    m_bEditMenuDirty = false;
   }
 }
 
@@ -1953,6 +1963,15 @@ void KonqMainView::slotFileNewAboutToShow()
     m_pMenuNew->slotCheckUpToDate();
 }
 
+void KonqMainView::slotMenuEditAboutToShow()
+{
+  createEditMenu();
+}
+
+void KonqMainView::slotMenuViewAboutToShow()
+{
+  createViewMenu();
+}
 
 void KonqMainView::resizeEvent( QResizeEvent * )
 {

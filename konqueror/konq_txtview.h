@@ -41,6 +41,7 @@ public:
   virtual bool mappingOpenURL( Browser::EventOpenURL eventURL );
   virtual bool mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu );
   virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu );
+  virtual bool mappingFillToolBar( Browser::View::EventFillToolBar toolBar );
 
   virtual CORBA::Long xOffset();
   virtual CORBA::Long yOffset();

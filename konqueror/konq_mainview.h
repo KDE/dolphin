@@ -171,6 +171,9 @@ public slots:  // IDL
   virtual void slotFileNewActivated( CORBA::Long id );
   virtual void slotFileNewAboutToShow();
   
+  virtual void slotMenuEditAboutToShow();
+  virtual void slotMenuViewAboutToShow();
+  
   virtual void slotBookmarkSelected( CORBA::Long id );
   virtual void slotEditBookmarks();  
   
@@ -338,6 +341,9 @@ private:
   QString m_sInitialURL;
   
   CORBA::Long m_lToolBarViewStartIndex;
+
+  bool m_bEditMenuDirty;
+  bool m_bViewMenuDirty;
 
   static QList<OpenPartsUI::Pixmap>* s_lstAnimatedLogo;
   static QList<KonqMainView>* s_lstWindows;
