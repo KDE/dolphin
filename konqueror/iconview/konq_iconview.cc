@@ -382,6 +382,15 @@ void KonqKfmIconView::slotImagePreview( bool toggle )
 	}
     }
     m_pIconView->arrangeItemsInGrid( TRUE );
+
+    if ( toggle )
+      if ( m_lstPendingMimeIconItems.count() == 0 )
+      {
+        QIconViewItem *i = m_pIconView->firstItem();
+        for ( ; i; i = i->nextItem() ) {
+          m_lstPendingMimeIconItems.append( static_cast<KFileIVI*>(i) );
+        }
+      }
 }
 
 void KonqKfmIconView::calculateGridX()
@@ -1063,7 +1072,7 @@ void KonqKfmIconView::slotProcessMimeIcons()
 	item->QIconViewItem::setPixmap( newIcon );
 	if ( item->width() > m_pIconView->gridX() )
 	    m_pIconView->setGridX( item->width() );
-	if ( m_pProps->isShowingImagePreview() )
+	if ( item->item()->isThumbnail() )
 	    m_bNeedAlign = true;
     }
 
