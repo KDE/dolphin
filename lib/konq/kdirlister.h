@@ -20,7 +20,7 @@
 #ifndef __kdirlister_h__
 #define __kdirlister_h__
 
-#include "kfileitem.h"
+#include "konqfileitem.h"
 
 #include <qtimer.h>
 #include <qstringlist.h>

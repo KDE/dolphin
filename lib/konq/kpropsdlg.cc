@@ -69,7 +69,7 @@
 #include <kmimetype.h>
 #include <kmessagebox.h>
 #include <kservice.h>
-#include <kfileitem.h>
+#include <konqfileitem.h>
 #include <kuserpaths.h>
 #include <kglobal.h>
 #include <kcompletion.h>

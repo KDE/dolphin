@@ -29,7 +29,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kprocess.h>
-#include <kfileitem.h>
+#include <konqfileitem.h>
 #include <assert.h>
 #include <unistd.h>
 #include <kuserpaths.h>

@@ -18,7 +18,7 @@
 */
 
 #include "kfileivi.h"
-#include "kfileitem.h"
+#include "konqfileitem.h"
 #include "konqdrag.h"
 #include "konqiconviewwidget.h"
 

@@ -44,7 +44,7 @@
 
 #include <kurl.h>
 #include <klocale.h>
-#include <kfileitem.h>
+#include <konqfileitem.h>
 
 class QLineEdit;
 class QCheckBox;

@@ -23,7 +23,7 @@
 #include <assert.h>
 #include <unistd.h>
 
-#include "kfileitem.h"
+#include "konqfileitem.h"
 
 #include <qdir.h>
 #include <qfile.h>

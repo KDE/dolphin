@@ -22,7 +22,7 @@
 #include <kiconloader.h>
 #include <kiconview.h>
 #include <kurl.h>
-#include <kfileitem.h>
+#include <konqfileitem.h>
 
 class KonqFMSettings;
 class KFileIVI;

@@ -29,7 +29,7 @@
 #include <kio/paste.h>
 #include <klocale.h>
 #include <kfileivi.h>
-#include <kfileitem.h>
+#include <konqfileitem.h>
 #include <kmessagebox.h>
 #include <konqdefaults.h>
 #include <konqsettings.h>

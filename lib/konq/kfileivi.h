@@ -26,7 +26,7 @@
 class KonqFileItem;
 
 /**
- * KFileIVI (short form of "K - File - IconViewItem")
+ * KFileIVI (short form of "Konq - File - IconViewItem")
  * is, as expected, an improved QIconViewItem, because
  * it represents a file.
  * All the information about the file is contained in the KonqFileItem

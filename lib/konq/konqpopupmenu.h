@@ -27,7 +27,7 @@
 #include <kaction.h>
 #include <qstringlist.h>
 
-#include <kfileitem.h>
+#include <konqfileitem.h>
 #include <kmimetype.h> // for KDEDesktopMimeType
 
 class KNewMenu;
