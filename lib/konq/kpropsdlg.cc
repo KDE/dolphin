@@ -1,29 +1,29 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
- 
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
- 
+
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-*/     
+*/
 
 /*
  * kpropsdlg.cpp
  * View/Edit Properties of files, locally or remotely
  *
- * some FilePermissionsPropsPage-changes by 
+ * some FilePermissionsPropsPage-changes by
  *  Henner Zeller <zeller@think.de>
- * some layout management by 
+ * some layout management by
  *  Bertrand Leconte <B.Leconte@mail.dotcom.fr>
  * the rest of the layout management, bug fixes, adaptation to libkio,
  * template feature by
@@ -48,7 +48,6 @@
 #include <qstrlist.h>
 #include <qstringlist.h>
 #include <qpainter.h>
-#include <qlabel.h>
 
 #include <kdirwatch.h>
 #include <kdebug.h>
@@ -92,9 +91,9 @@ PropertiesDialog::PropertiesDialog( const QString& _url, mode_t _mode ) :
   init();
 }
 
-PropertiesDialog::PropertiesDialog( const QString& _tempUrl, const QString& 
+PropertiesDialog::PropertiesDialog( const QString& _tempUrl, const QString&
                                     _currentDir, const QString& _defaultName )
-  : m_singleUrl( _tempUrl ), m_bMustDestroyItems( true ), 
+  : m_singleUrl( _tempUrl ), m_bMustDestroyItems( true ),
     m_defaultName( _defaultName ), m_currentDir( _currentDir )
 {
   if ( m_currentDir.right(1) != "/" )
@@ -107,7 +106,7 @@ PropertiesDialog::PropertiesDialog( const QString& _tempUrl, const QString&
 void PropertiesDialog::init()
 {
   pageList.setAutoDelete( true );
-    
+
   tab = new QTabDialog( 0L, 0L );
 
   // Matthias: let the dialog look like a modal dialog
@@ -117,19 +116,19 @@ void PropertiesDialog::init()
 
   insertPages();
 
-  tab->setOKButton(i18n("OK")); 
+  tab->setOKButton(i18n("OK"));
   tab->setCancelButton(i18n("Cancel"));
 
   connect( tab, SIGNAL( applyButtonPressed() ), this, SLOT( slotApply() ) );
   connect( tab, SIGNAL( cancelButtonPressed() ), this, SLOT( slotCancel() ) );
-    
-  tab->show();
+
+  // tab->show();
 }
 
 
 PropertiesDialog::~PropertiesDialog()
 {
-  pageList.clear();    
+  pageList.clear();
   // HACK
   if ( m_bMustDestroyItems ) delete m_items.first();
 }
@@ -164,18 +163,20 @@ void PropertiesDialog::slotApply()
     KDirWatch::self()->setFileDirty( kurl().path() );
   }
 
+  emit applied();
   emit propertiesClosed();
   delete this;
 }
 
 void PropertiesDialog::slotCancel()
 {
-  emit propertiesClosed();
-  delete this;
+    emit canceled();
+    emit propertiesClosed();
+    delete this;
 }
 
 void PropertiesDialog::insertPages()
-{ 
+{
     if ( FilePropsPage::supports( m_items ) )
     {
 	PropsPage *p = new FilePropsPage( this );
@@ -242,7 +243,7 @@ void PropertiesDialog::rename( const QString& _name )
     else
     {
       QString tmpurl = m_singleUrl.url();
-      if ( tmpurl.at(tmpurl.length() - 1) == '/') 
+      if ( tmpurl.at(tmpurl.length() - 1) == '/')
 	  // It's a directory, so strip the trailing slash first
 	  tmpurl.truncate( tmpurl.length() - 1);
       newUrl = tmpurl;
@@ -287,7 +288,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
       filename = properties->kurl().filename();
     else
       m_bFromTemplate = true;
-    
+
     // Make it human-readable (%2F => '/', ...)
     filename = KFileItem::decodeFileName( filename );
 
@@ -299,7 +300,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
       // is it the trash bin ?
       if ( properties->kurl().isLocalFile() && tmp == KUserPaths::trashPath())
         isTrash = true;
-    
+
       // Extract the full name, but without file: for local files
       if ( properties->kurl().isLocalFile() )
         path = properties->kurl().path();
@@ -310,13 +311,13 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
       path = properties->currentDir() + properties->defaultName();
 
     QLabel *l;
- 
-    layout = new QBoxLayout(this, QBoxLayout::TopToBottom, SEPARATION); 
+
+    layout = new QBoxLayout(this, QBoxLayout::TopToBottom, SEPARATION);
 
     l = new QLabel( i18n("File Name"), this );
     l->setFixedSize(l->sizeHint());
     layout->addWidget(l, 0, AlignLeft);
-    
+
     name = new QLineEdit( this );
     name->setMinimumSize(200, fontHeight);
     name->setMaximumSize(QLayout::unlimited, fontHeight);
@@ -330,7 +331,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     l = new QLabel( i18n("Full Name"), this );
     l->setFixedSize(l->sizeHint());
     layout->addWidget(l, 0, AlignLeft);
-    
+
     QLabel *fname = new QLabel( this );
     fname->setText( path );
     fname->setMinimumSize(200, fontHeight);
@@ -338,7 +339,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     fname->setLineWidth(1);
     fname->setFrameStyle(QFrame::Box | QFrame::Raised);
     layout->addWidget(fname, 0, AlignLeft);
-    
+
     layout->addSpacing(SEPARATION);
 
     if ( isTrash )
@@ -358,7 +359,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 	l = new QLabel( i18n( "Points to" ), this );
 	l->setFixedSize(l->sizeHint());
 	layout->addWidget(l, 0, AlignLeft);
-    
+
         QLabel *lname = new QLabel( this );
         lname->setMinimumSize(200, fontHeight);
         lname->setMaximumSize(QLayout::unlimited, fontHeight);
@@ -386,7 +387,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 	l->setFixedSize(l->sizeHint());
 	layout->addWidget(l, 0, AlignLeft);
     }
-    
+
     QString tempstr = i18n("Mimetype: %1").arg( properties->item()->mimetype() );
     l = new QLabel( tempstr, this );
     l->setFixedSize(l->sizeHint());
@@ -426,9 +427,9 @@ void FilePropsPage::applyChanges()
         properties->rename( n );
 
         // Don't remove the template !!
-        if ( !m_bFromTemplate ) 
+        if ( !m_bFromTemplate )
         {
-          if ( oldpath.at(oldpath.length() - 1) == '/') 
+          if ( oldpath.at(oldpath.length() - 1) == '/')
             // It's a directory, so strip the trailing slash (in case it's a symlink)
             oldpath.truncate( oldpath.length() - 1);
           if ( rename( oldpath, properties->kurl().path() ) != 0 ) {
@@ -440,7 +441,7 @@ void FilePropsPage::applyChanges()
     }
 }
 
-FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props ) 
+FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
 : PropsPage( _props )
 {
     QString path = properties->kurl().path();
@@ -467,13 +468,13 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
     if ( user != 0L )
     {
 	strOwner = user->pw_name;
-    }    
+    }
     if ( ge != 0L )
     {
 	strGroup = ge->gr_name;
 	if (strGroup.isEmpty())
 	    strGroup.sprintf("%d",ge->gr_gid);
-    } else 
+    } else
 	strGroup.sprintf("%d",buff.st_gid);
 
     QBoxLayout *box = new QVBoxLayout( this, SEPARATION );
@@ -495,7 +496,7 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
     l->setMinimumSize( l->sizeHint() );
     gl->addWidget (l, 0, 1);
 
-    if (IsDir) 
+    if (IsDir)
 	    l = new QLabel( i18n("Write\nEntries"), gb );
     else
 	    l = new QLabel( i18n("Write"), gb );
@@ -541,9 +542,9 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
 		    case S_ISVTX : desc = i18n("Sticky"); break;
 		    default      : desc = "";
 		    }
-		    
+		
 		    cb = new QCheckBox (desc, gb);
-		    cb->setChecked ((buff.st_mode & fperm[row][col]) 
+		    cb->setChecked ((buff.st_mode & fperm[row][col])
 				    == fperm[row][col]);
 		    cb->setEnabled ((IsMyFile || IamRoot) && (!IsLink));
 		    cb->setMinimumSize (cb->sizeHint());
@@ -565,7 +566,7 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
     l = new QLabel( i18n("Owner"), gb );
     l->setMinimumSize( l->sizeHint() );
     gl->addWidget (l, 1, 0);
-    
+
     /* maybe this should be a combo-box, but this isn't handy
      * if there are 2000 Users (tiny scrollbar!)
      * anyone developing a combo-box with incremental search .. ?
@@ -599,7 +600,7 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
 	}
       }
       endgrent();
-      
+
       /* add the effective Group to the list .. */
       ge = getgrgid (getegid());
       if (ge) {
@@ -607,29 +608,29 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
 	  if (name.isEmpty())
 	      name.sprintf("%d",ge->gr_gid);
 	if (groupList->find (name) < 0)
-	  groupList->inSort (name); 
+	  groupList->inSort (name);
       }
     }
-    
+
     /* add the group the file currently belongs to ..
-     * .. if its not there already 
+     * .. if its not there already
      */
-    if (groupList->find (strGroup) < 0) 
+    if (groupList->find (strGroup) < 0)
 	groupList->inSort (strGroup);
-    
+
     l = new QLabel( i18n("Group"), gb );
     l->setMinimumSize( l->sizeHint() );
     gl->addWidget (l, 2, 0);
 
-    if (groupList->count() > 1 && 
-	(IamRoot || IsMyFile)) { 
+    if (groupList->count() > 1 &&
+	(IamRoot || IsMyFile)) {
       /* Combo-Box .. if there is anything to change */
       if (groupList->count() <= 10)
 	/* Motif-Style looks _much_ nicer for few items */
-	grp = new QComboBox( gb ); 
+	grp = new QComboBox( gb );
       else
 	grp = new QComboBox( false, gb );
-      
+
       grp->insertStrList ( groupList );
       grp->setCurrentItem (groupList->find ( strGroup ));
       grp->setMinimumSize( grp->sizeHint().width(), fontHeight );
@@ -645,7 +646,7 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
       gl->addWidget (e, 2, 1);
       grp = 0L;
     }
-    
+
     delete groupList;
 
     gl->setColStretch(2, 10);
@@ -676,14 +677,14 @@ void FilePermissionsPropsPage::applyChanges()
 
     // First update group / owner
     // (permissions have to set after, in case of suid and sgid)
-    if ( owner->text() != strOwner || 
+    if ( owner->text() != strOwner ||
 	 (grp && grp->text(grp->currentItem()) != strGroup ))
     {
 	struct passwd* pw = getpwnam( owner->text() );
 	struct group* g;
 	if (grp)
 	    g = getgrnam( grp->text(grp->currentItem()) );
-	else 
+	else
 	    g = 0L;
 	
 	if ( pw == 0L )
@@ -699,7 +700,7 @@ void FilePermissionsPropsPage::applyChanges()
 	}
 	if ( chown( path, pw->pw_uid, g->gr_gid ) != 0 )
 	    KMessageBox::sorry( 0, i18n( "Could not change owner/group\nPerhaps access denied." ));
-    }    
+    }
 
     if ( p != permissions )
     {
@@ -759,7 +760,7 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     QVBoxLayout * grouplayout;
     grouplayout = new QVBoxLayout(tmpQGroupBox, SEPARATION);
 
-    grouplayout->addSpacing( fontMetrics().height() ); 
+    grouplayout->addSpacing( fontMetrics().height() );
 
     hlayout = new QHBoxLayout(SEPARATION);
     grouplayout->addLayout(hlayout, 0);
@@ -824,7 +825,7 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     QString path = _props->kurl().path();
     QFile f( path );
     if ( !f.open( IO_ReadOnly ) )
-	return;    
+	return;
     f.close();
 
     m_sRelativePath = "";
@@ -869,8 +870,8 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 
     if ( iconStr.isNull() )
         iconStr = KMimeType::mimeType("")->KServiceType::icon(); // default icon
-    
-    iconBox->setIcon( iconStr ); 
+
+    iconBox->setIcon( iconStr );
 
     connect( execBrowse, SIGNAL( clicked() ), this, SLOT( slotBrowseExec() ) );
     connect( terminalCheck, SIGNAL( clicked() ), this,  SLOT( enableCheckedEdit() ) );
@@ -886,12 +887,16 @@ void ExecPropsPage::enableCheckedEdit()
 
 bool ExecPropsPage::supports( KFileItemList _items )
 {
+    qDebug("1");
   KFileItem * item = _items.first();
   // check if desktop file
   if ( !PropsPage::isDesktopFile( item ) )
     return false;
+  qDebug("2");
   // open file and check type
   KDesktopFile config( item->url().path(), true /* readonly */ );
+  if (config.hasApplicationType())
+      qDebug("3");
   return config.hasApplicationType();
 }
 
@@ -899,7 +904,8 @@ void ExecPropsPage::applyChanges()
 {
     // Save the file where we can -> usually in ~/.kde/...
     QString path = locateLocal( "apps", m_sRelativePath );
-
+    properties->updateUrl( KURL( path ) );
+    
     QFile f( path );
 
     if ( !f.open( IO_ReadWrite ) )
@@ -952,7 +958,7 @@ URLPropsPage::URLPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     URLEdit->setMinimumSize( URLEdit->sizeHint() );
     URLEdit->setFixedHeight( fontHeight );
     layout->addWidget(URLEdit);
-    
+
     iconBox->setFixedSize( 50, 50 );
     layout->addWidget(iconBox, 0, AlignLeft);
 
@@ -1032,13 +1038,13 @@ DirPropsPage::DirPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     applyButton = new QPushButton( i18n("Apply") , this );
     applyButton->adjustSize();
     connect( applyButton, SIGNAL( clicked() ), this, SLOT( slotApply() ) );
-    
+
     globalButton = new QPushButton( i18n("Apply global"), this );
     globalButton->adjustSize();
     connect( globalButton, SIGNAL( clicked() ), this, SLOT( slotApplyGlobal() ) );
 
     QString tmp = _props->kurl().path();
-    
+
     if ( tmp.at(tmp.length() - 1) != '/' )
 	tmp += "/.directory";
     else
@@ -1057,12 +1063,12 @@ DirPropsPage::DirPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 
     if ( iconStr.isEmpty() )
 	iconStr = KMimeType::findByURL( properties->kurl(), properties->item()->mode(), true )->KServiceType::icon();
-    
+
     iconBox->setIcon( iconStr );
 
     QStringList list = KGlobal::dirs()->findAllResources("wallpaper");
     wallBox->insertItem(  i18n("(Default)"), 0 );
-    
+
     for (QStringList::ConstIterator it = list.begin(); it != list.end(); it++)
         wallBox->insertItem( ( (*it).at(0)=='/' ) ?        // if absolute path
                              KURL( *it ).filename() :    // then only filename
@@ -1071,7 +1077,7 @@ DirPropsPage::DirPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     showSettings( wallStr );
 
     wallBox->adjustSize();
-    
+
     browseButton = new QPushButton( i18n("&Browse..."), this );
     browseButton->adjustSize();
     connect( browseButton, SIGNAL( clicked() ), SLOT( slotBrowse() ) );
@@ -1091,7 +1097,7 @@ bool DirPropsPage::supports( KFileItemList _items )
 
   // Is it the trash bin ?
   QString path = item->url().path( 1 ); // adds trailing slash
-    
+
   if ( item->url().isLocalFile() && path == KUserPaths::trashPath() )
     return false;
 
@@ -1136,7 +1142,7 @@ void DirPropsPage::applyChanges()
     // (otherwise write empty value)
     config.writeEntry( "Icon", sIcon );
     config.writeEntry( "MiniIcon", sIcon );
-    
+
     config.sync();
 }
 
@@ -1151,7 +1157,7 @@ void DirPropsPage::showSettings( QString filename )
           return;
         }
     }
- 
+
   if ( !filename.isEmpty() )
     {
       wallBox->insertItem( filename );
@@ -1191,7 +1197,7 @@ void DirPropsPage::loadWallPaper()
                 wallFile = file;
                 wallPixmap.load( file );
             }
-            
+
             if ( wallPixmap.isNull() )
                 warning("Could not load wallpaper %s\n",file.ascii());
         }
@@ -1226,7 +1232,7 @@ void DirPropsPage::slotApplyGlobal()
     KConfig *config = new KConfig( "konquerorrc", false, false );
 
     config->setGroup( "HTML Settings" ); // TODO : FM Settings when done in kcmkonq
-    
+
     int i = wallBox->currentItem();
     if ( i != -1 )
     {
@@ -1296,7 +1302,7 @@ ApplicationPropsPage::ApplicationPropsPage( PropertiesDialog *_props ) : PropsPa
 
     layoutH = new QBoxLayout(QBoxLayout::LeftToRight);
     layout->addLayout(layoutH, 10);
-    
+
     layoutH->addWidget(extensionsList, 10);
 
     layoutV = new QBoxLayout(QBoxLayout::TopToBottom);
@@ -1305,29 +1311,45 @@ ApplicationPropsPage::ApplicationPropsPage( PropertiesDialog *_props ) : PropsPa
     addExtensionButton->setFixedSize(40, 40);
     layoutV->addWidget(addExtensionButton, 0);
     layoutV->addStretch(3);
-    connect( addExtensionButton, SIGNAL( pressed() ), 
+    connect( addExtensionButton, SIGNAL( pressed() ),
 	     this, SLOT( slotAddExtension() ) );
     delExtensionButton->setFixedSize(40, 40);
     layoutV->addWidget(delExtensionButton, 0);
     layoutV->addStretch(3);
-    connect( delExtensionButton, SIGNAL( pressed() ), 
+    connect( delExtensionButton, SIGNAL( pressed() ),
 	     this, SLOT( slotDelExtension() ) );
     layoutH->addWidget(availableExtensionsList, 10);
 
     layout->activate();
 
     QString path = _props->kurl().path() ;
-    //KURL::decodeURL( path );	    
+    //KURL::decodeURL( path );	
     QFile f( path );
     if ( !f.open( IO_ReadOnly ) )
 	return;
     f.close();
 
+    m_sRelativePath = "";
+    // now let's make it relative
+    QStringList appsdirs = KGlobal::dirs()->resourceDirs("apps");
+    QStringList::ConstIterator it = appsdirs.begin();
+    for ( ; it != appsdirs.end() && m_sRelativePath.isEmpty(); ++it )
+    {
+      // might need canonicalPath() ...
+      if ( path.find( *it ) == 0 ) // path is appsdirs + relativePath
+        m_sRelativePath = path.mid( (*it).length() ); // skip appsdirs
+    }
+    if ( m_sRelativePath.isEmpty() )
+      kdebug( KDEBUG_FATAL, 1203, QString("Couldn't find %1 in any apps dir !!!").arg( path ) );
+
+    while ( m_sRelativePath.left( 1 ) == '/' ) m_sRelativePath.remove( 0, 1 );
+    kdebug( KDEBUG_INFO, 1203, QString("m_sRelativePath = '%1' ").arg( m_sRelativePath ) );
+
     KConfig config( path );
     config.setDesktopGroup();
     commentStr = config.readEntry( "Comment" );
     binaryPatternStr = config.readEntry( "BinaryPattern" );
-    extensionsStr = config.readEntry( "MimeType" );
+    extensions = config.readListEntry( "MimeType" );
     nameStr = config.readEntry( "Name" );
     // Use the file name if no name is specified
     if ( nameStr.isEmpty() )
@@ -1339,31 +1361,24 @@ ApplicationPropsPage::ApplicationPropsPage( PropertiesDialog *_props ) : PropsPa
 	    nameStr.truncate( nameStr.length() - 7 );
 	//KURL::decodeURL( nameStr );
     }
-    
+
     if ( !commentStr.isNull() )
 	commentEdit->setText( commentStr );
     if ( !nameStr.isNull() )
 	nameEdit->setText( nameStr );
     if ( !binaryPatternStr.isNull() )
 	binaryPatternEdit->setText( binaryPatternStr );
-    if ( !extensionsStr.isNull() )
-    {
-	int pos = 0;
-	int pos2 = 0;
-	while ( ( pos2 = extensionsStr.find( ';', pos ) ) != -1 )
-	{
-	    extensionsList->inSort( extensionsStr.mid( pos, pos2 - pos ) );
-	    pos = pos2 + 1;
-	}
-    }
+    QStringList::Iterator sit = extensions.begin();
+    for( ; sit != extensions.end(); ++sit )
+	extensionsList->inSort( *sit );
 
     addMimeType( "all" );
     addMimeType( "alldirs" );
     addMimeType( "allfiles" );
 
-    QDictIterator<KMimeType> it ( KMimeType::mimeTypes() );
-    for ( ; it.current(); ++it )
-        addMimeType ( it.currentKey() );
+    QDictIterator<KMimeType> it2 ( KMimeType::mimeTypes() );
+    for ( ; it2.current(); ++it2 )
+        addMimeType ( it2.currentKey() );
 }
 
 void ApplicationPropsPage::addMimeType( const char * name )
@@ -1388,152 +1403,20 @@ bool ApplicationPropsPage::supports( KFileItemList _items )
 
 void ApplicationPropsPage::applyChanges()
 {
-#ifdef SVEN
-// --- Sven's editable global settings changes start ---
-    int i = 0;
-    bool err = false;
-// --- Sven's editable global settings changes end ---
-#endif
-    
-    QString path = properties->kurl().path();
+    // Save the file where we can -> usually in ~/.kde/...
+    QString path = locateLocal( "apps", m_sRelativePath );
+    properties->updateUrl( KURL( path ) );
 
     QFile f( path );
-    
-#ifdef SVEN
-    QDir lDir (kapp->localkdedir() + "/share/applnk/"); // I know it exists
 
-    //debug (path.ascii());
-    //debug (kapp->kde_appsdir().ascii());
-#endif
-    
     if ( !f.open( IO_ReadWrite ) )
     {
-#ifdef SVEN
-      // path = /usr/local/kde/share/applnk/network/netscape.kdelnk
-
-      //Does path contain kde_appsdir?
-      if (path.find(kapp->kde_appsdir()) == 0) // kde_appsdir on start of path
-      {
-	path.remove(0, strlen(kapp->kde_appsdir())); //remove kde_appsdir
-
-	if (path[0] == '/')
-	  path.remove(0, 1); // remove /
-
-	while (path.contains('/'))
-	{
-	  i = path.find('/'); // find separator
-	  if (!lDir.cd(path.left(i)))  // exists?
-	  {
-	    lDir.mkdir((path.left(i)));  // no, create
-	    if (!lDir.cd((path.left(i)))) // can cd to?
-	    {
-	      err = true;                 // no flag it...
-	      // debug ("Can't cd to  %s in %s", path.left(i).ascii(),
-	      //	 lDir.absPath().ascii());
-	      break;                      // and exit while
-	    }
-	    // Begin copy .directory if exists here.
-	    // This block can be commented out without problems
-	    // in case of problems.
-	    {
-	      QFile tmp(kapp->kde_appsdir() +
-			'/' + path.left(i) + "/.directory");
-	      //debug ("---- looking for: %s", tmp.name());
-	      if (tmp.open( IO_ReadOnly))
-	      {
-		//debug ("--- opened RO");
-		char *buff = new char[tmp.size()+10];
-		if (buff != 0)
-		{
-		  if (tmp.readBlock(buff, tmp.size()) != -1)
-		  {
-		    size_t tmpsize = tmp.size();
-		    //debug ("--- read");
-		    tmp.close();
-		    tmp.setName(lDir.absPath() + "/.directory");
-		    //debug ("---- copying to: %s", tmp.name());
-		    if (tmp.open(IO_ReadWrite))
-		    {
-		      //debug ("--- opened RW");
-		      if (tmp.writeBlock(buff, tmpsize) != -1)
-		      {
-			//debug ("--- wrote");
-			tmp.close();
-		      }
-		      else
-		      {
-                        //debug ("--- removed");
-			tmp.remove();
-		      }
-		    }                 // endif can open to write
-		  }                   // endif can read
-		  else     //coulnd't read
-		    tmp.close();
-
-		  delete[] buff;
-		}                     // endif is alocated
-	      }                       // can open to write
-	    }
-	    // End coping .directory file
-	    
-	  }
-	  path.remove (0, i);           // cded to;
-	  if (path[0] == '/')
-	    path.remove(0, 1); // remove / from path
-	}
-      }
-      else // path didn't contain kde_appsdir - this is an error
-	err = true;
-
-      // we created all subdirs or failed
-      if (!err) // if we didn't fail try to make file just for check
-      {
-	path.prepend('/'); // be sure to have /netscape.kdelnk
-	path.prepend(lDir.absPath());
-	f.setName(path);
-	//debug("path = %s", path.ascii());
-	if ( f.open( IO_ReadWrite ) )
-	{
-	  // we must first copy whole kdelnk to local dir
-	  // and then change it. Trust me.
-	  QFile s(properties->kurl().path());
-	  s.open(IO_ReadOnly);
-	  //char *buff = (char *) malloc (s.size()+10);   CHANGE TO NEW!
-	  char *buff = new char[s.size()+10];           // Done.
-	  if (buff != 0)
-	  {
-	    //debug ("********About to copy");
-	    if (s.readBlock(buff, s.size()) != -1 &&
-		f.writeBlock(buff, s.size()) != -1)
-	      ; // ok
-	    else
-	    {
-	      err = true;
-	      f.remove();
-	    }
-	    //free ((void *) buff);                      CHANGE TO DELETE!
-	    delete[] buff;                            // Done.
-	  }
-	  else
-	    err = true;
-	}
-	else
-	  err = true;
-      }
-      if (err)
-      {
-	//debug ("************Cannot save");
-#endif
-
 	KMessageBox::sorry( 0, i18n("Could not save properties\nPerhaps permissions denied"));
 	return;
-#ifdef SVEN
-      }
-#endif
     }
-    
-    f.close(); // kalle
-    KConfig config( path ); // kalle
+
+    f.close();
+    KSimpleConfig config( path );
     config.setDesktopGroup();
     config.writeEntry( "Type", "Application");
     config.writeEntry( "Comment", commentEdit->text(), true, false, true );
@@ -1544,15 +1427,13 @@ void ApplicationPropsPage::applyChanges()
 	    tmp += ';';
     config.writeEntry( "BinaryPattern", tmp );
 
-    extensionsStr = "";
+    extensions.clear();
     for ( uint i = 0; i < extensionsList->count(); i++ )
-    {
-	extensionsStr += extensionsList->text( i );
-	extensionsStr += ';';
-    }
-    config.writeEntry( "MimeType", extensionsStr );
+	extensions.append( extensionsList->text( i ) );
+
+    config.writeEntry( "MimeType", extensions );
     config.writeEntry( "Name", nameEdit->text(), true, false, true );
-    
+
     config.sync();
     f.close();
 }
@@ -1560,10 +1441,10 @@ void ApplicationPropsPage::applyChanges()
 void ApplicationPropsPage::slotAddExtension()
 {
     int pos = availableExtensionsList->currentItem();
-   
+
     if ( pos == -1 )
 	return;
-    
+
     extensionsList->inSort( availableExtensionsList->text( pos ) );
     availableExtensionsList->removeItem( pos );
 }
@@ -1571,10 +1452,10 @@ void ApplicationPropsPage::slotAddExtension()
 void ApplicationPropsPage::slotDelExtension()
 {
     int pos = extensionsList->currentItem();
-   
+
     if ( pos == -1 )
 	return;
-    
+
     availableExtensionsList->inSort( extensionsList->text( pos ) );
     extensionsList->removeItem( pos );
 }
@@ -1673,9 +1554,9 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
         iconStr = KMimeType::mimeType("")->KServiceType::icon(); // default icon
     if ( !m_sMimeStr.isEmpty() )
 	mimeEdit->setText( m_sMimeStr );
-    
+
     iconBox->setIcon( iconStr );
-    
+
     // Get list of all applications
     QStringList applist;
     QString currApp;
@@ -1686,12 +1567,12 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
 	currApp = it.current()->name();
 
 	// list every app only once
-	if ( applist.find( currApp ) == applist.end() ) { 
+	if ( applist.find( currApp ) == applist.end() ) {
 	    appBox->insertItem( currApp );
 	    applist.append( currApp );
 	}
     }
-    
+
     // TODO: Torben: No default app any more here.
     // Set the default app (DefaultApp=... is the kdelnk name)
     // QStringList::Iterator it = applist.find( appStr );
@@ -1731,7 +1612,7 @@ void BindingPropsPage::applyChanges()
     KConfig config( path );
     config.setDesktopGroup();
     config.writeEntry( "Type", "MimeType" );
-    
+
     QString tmp = patternEdit->text();
     if ( tmp.length() > 1 )
 	if ( tmp.at(tmp.length() - 1) != ';' )
@@ -1761,11 +1642,11 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
     tmpQLabel->move( 10, 10 );
     tmpQLabel->setText(  i18n("Device ( /dev/fd0 )") );
     tmpQLabel->adjustSize();
-    
+
     device = new QLineEdit( this, "LineEdit_1" );
     device->setGeometry( 10, 40, 180, 30 );
     device->setText( "" );
-    
+
     tmpQLabel = new QLabel( this, "Label_2" );
     tmpQLabel->move( 10, 80 );
     tmpQLabel->setText(  i18n("Mount Point ( /floppy )") );
@@ -1776,13 +1657,13 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
     mountpoint->setText( "" );
     if ( !IamRoot )
 	mountpoint->setEnabled( false );
-    
+
     readonly = new QCheckBox( this, "CheckBox_1" );
     readonly->setGeometry( 220, 40, 130, 30 );
     readonly->setText(  i18n("Readonly") );
     if ( !IamRoot )
 	readonly->setEnabled( false );
-    
+
     tmpQLabel = new QLabel( this, "Label_4" );
     tmpQLabel->move( 10, 150 );
     tmpQLabel->setText(  i18n("Filesystems ( iso9660,msdos,minix,default )") );
@@ -1803,17 +1684,17 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
     tmpQLabel->move( 170, 220 );
     tmpQLabel->setText(  i18n("Unmounted Icon") );
     tmpQLabel->adjustSize();
-    
+
     mounted = new KIconLoaderButton( KGlobal::iconLoader(), this );
     mounted->setIconType("icon"); // Choose from app icons
     mounted->setGeometry( 10, 250, 50, 50 );
-    
+
     unmounted = new KIconLoaderButton( KGlobal::iconLoader(), this );
     unmounted->setIconType("icon"); // Choose from app icons
     unmounted->setGeometry( 170, 250, 50, 50 );
 
     QString path( _props->kurl().path() );
-    
+
     QFile f( path );
     if ( !f.open( IO_ReadOnly ) )
 	return;
@@ -1843,8 +1724,8 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
     if ( unmountedStr.isEmpty() )
         unmountedStr = KMimeType::mimeType("")->KServiceType::icon(); // default icon
 
-    mounted->setIcon( mountedStr ); 
-    unmounted->setIcon( unmountedStr ); 
+    mounted->setIcon( mountedStr );
+    unmounted->setIcon( unmountedStr );
 }
 
 bool DevicePropsPage::supports( KFileItemList _items )
@@ -1872,14 +1753,14 @@ void DevicePropsPage::applyChanges()
     KConfig config( path );
     config.setDesktopGroup();
     config.writeEntry( "Type", "FSDev" );
-    
+
     config.writeEntry( "Dev", device->text() );
     config.writeEntry( "MountPoint", mountpoint->text() );
     config.writeEntry( "FSType", fstype->text() );
-    
+
     config.writeEntry( "Icon", mounted->icon() );
     config.writeEntry( "UnmountIcon", unmounted->icon() );
-    
+
     if ( readonly->isChecked() )
 	config.writeEntry( "ReadOnly", "1" );
     else

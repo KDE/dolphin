@@ -1,21 +1,21 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
- 
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
- 
+
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-*/     
+*/
 
 /*
  * This file holds the definitions for all classes used to
@@ -68,7 +68,7 @@ public:
    * @return whether there are any property pages available for the given file items
    */
   static bool canDisplay( KFileItemList _items );
-  
+
   /**
    * Bring up a Properties dialog. Normal constructor for file-manager-like applications.
    * @param _items list of file items whose properties should be displayed
@@ -98,7 +98,7 @@ public:
    * This looks very much like a destructor :)
    */
   ~PropertiesDialog();
-  
+
   /**
    * @return a parsed URL.
    * Valid only if dialog shown for one file/url.
@@ -114,13 +114,13 @@ public:
    */
   QTabDialog* tabDialog() const { return tab; }
   /**
-   * If we are building this dialog from a template, 
+   * If we are building this dialog from a template,
    * @return the current directory
    * QString::null means no template used
    */
   const QString& currentDir() const { return m_currentDir; }
   /**
-   * If we are building this dialog from a template, 
+   * If we are building this dialog from a template,
    * @return the default name (see 3rd constructor)
    * QString::null means no template used
    */
@@ -136,20 +136,22 @@ public:
    * @param _name new filename, encoded.
    */
   void rename( const QString& _name );
-  
+
 public slots:
   /**
    * Called when the user presses 'Ok'.
    */
   void slotApply();      // Deletes the PropertiesDialog instance
   void slotCancel();     // Deletes the PropertiesDialog instance
-  
+
 signals:
-  /** 
+  /**
    * Notify that we have finished with the properties (be it Apply or Cancel)
    */
   void propertiesClosed();
-
+  void applied();
+  void canceled();
+    
 protected:
 
   /**
@@ -197,7 +199,7 @@ public:
    * Constructor
    */
   PropsPage( PropertiesDialog *_props );
-  
+
   /**
    * @return the name that should appear in the tab.
    */
@@ -208,7 +210,7 @@ public:
    * is called first.
    */
   virtual void applyChanges() { }
-    
+
   /**
    * Convenience method for most ::supports methods
    * @return true if the file is a local, regular, readable, desktop file
@@ -220,7 +222,7 @@ protected:
    * Pointer to the dialog
    */
   PropertiesDialog *properties;
-  
+
   int fontHeight;
 };
 
@@ -247,12 +249,12 @@ public:
    * function is the last one called.
    */
   virtual void applyChanges();
-    
+
   /**
    * Tests whether the files specified by _items need a 'General' page.
    */
   static bool supports( KFileItemList _items );
-    
+
 protected:
   QLineEdit *name;
 
@@ -286,12 +288,12 @@ public:
    * Tests whether the file specified by _items needs a 'Permissions' page.
    */
   static bool supports( KFileItemList _items );
-    
+
 protected:
   QCheckBox *permBox[3][4];
   QComboBox *grp;
   QLineEdit *owner;
-  
+
   /**
    * Old permissions
    */
@@ -326,7 +328,7 @@ public:
    * Constructor
    */
   ExecPropsPage( PropertiesDialog *_props );
-  
+
   virtual QString tabName() const { return i18n("E&xecute"); }
   virtual void applyChanges();
 
@@ -334,12 +336,12 @@ public:
 
 public slots:
   void slotBrowseExec();
-    
+
 private slots:
   void enableCheckedEdit();
-    
+
 protected:
-    
+
     QLineEdit *execEdit;
     KIconLoaderButton *iconBox;
     QCheckBox *terminalCheck;
@@ -381,10 +383,10 @@ public:
 protected:
   QLineEdit *URLEdit;
   KIconLoaderButton *iconBox;
-  
+
   QString URLStr;
   QString iconStr;
-  
+
   QPixmap pixmap;
   QString pixmapFile;
 };
@@ -404,30 +406,30 @@ public:
 
   virtual QString tabName() const { return i18n("&Dir"); }
   virtual void applyChanges();
-  
+
   static bool supports( KFileItemList _items );
 
 public slots:
   void slotWallPaperChanged( int );
-  void slotBrowse(); 
+  void slotBrowse();
   void slotApply();
   void slotApplyGlobal();
-  
+
 protected:
   void showSettings(QString filename);
   void loadWallPaper();
   virtual void resizeEvent ( QResizeEvent *);
-    
+
   QPushButton *applyButton;
   QPushButton *globalButton;
   QPushButton *browseButton;
-  
+
   KIconLoaderButton *iconBox;
   QComboBox *wallBox;
-  
+
   QString wallStr;
   QString iconStr;
-  
+
   QWidget * wallWidget;
   QPixmap wallPixmap;
   QString wallFile;
@@ -449,7 +451,7 @@ public:
    * Constructor
    */
   ApplicationPropsPage( PropertiesDialog *_props );
-  
+
   virtual QString tabName() const { return i18n("&Application"); }
   virtual void applyChanges();
 
@@ -457,12 +459,12 @@ public:
 
 public slots:
   void slotDelExtension();
-  void slotAddExtension();    
+  void slotAddExtension();
 
 protected:
 
   void addMimeType( const char * name );
-  
+
   QLineEdit *binaryPatternEdit;
   QLineEdit *commentEdit;
   QLineEdit *nameEdit;
@@ -470,13 +472,14 @@ protected:
   QListBox  *availableExtensionsList;
   QPushButton *addExtensionButton;
   QPushButton *delExtensionButton;
-  
+
   QBoxLayout *layout, *layoutH, *layoutV;
-  
+
   QString nameStr;
-  QString extensionsStr;
+  QStringList extensions;
   QString binaryPatternStr;
   QString commentStr;
+  QString m_sRelativePath;
 };
 
 /**
@@ -492,21 +495,21 @@ public:
    * Constructor
    */
   BindingPropsPage( PropertiesDialog *_props );
-  
+
   virtual QString tabName() const { return i18n("&Binding"); }
   virtual void applyChanges();
 
   static bool supports( KFileItemList _items );
 
 protected:
-    
+
   QLineEdit *commentEdit;
   QLineEdit *patternEdit;
   QLineEdit *mimeEdit;
   KIconLoaderButton *iconBox;
   QComboBox *appBox;
   QString m_sMimeStr;
-  
+
   QPixmap pixmap;
   QString pixmapFile;
 };
@@ -523,9 +526,9 @@ public:
 
   virtual QString tabName() const { return i18n("De&vice"); }
   virtual void applyChanges();
-  
+
   static bool supports( KFileItemList _items );
-    
+
 protected:
   QLineEdit* device;
   QLineEdit* mountpoint;
@@ -533,10 +536,10 @@ protected:
   QLineEdit* fstype;
   KIconLoaderButton* mounted;
   KIconLoaderButton* unmounted;
-  
+
   QPixmap pixmap;
   QString pixmapFile;
-  
+
   QString deviceStr;
   QString mountPointStr;
   QString mountedStr;
