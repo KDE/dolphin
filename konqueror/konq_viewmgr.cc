@@ -966,8 +966,16 @@ KonqViewFactory KonqViewManager::createView( const QString &serviceType,
   if( serviceType.isEmpty() && m_pMainWindow->currentView() ) {
     //clone current view
     KonqView *cv = m_pMainWindow->currentView();
+    QString _serviceType, _serviceName;
+    if ( cv->service()->desktopEntryName() == "konq_sidebartng" ) {
+      _serviceType = "text/html";
+    }
+    else {
+      _serviceType = cv->serviceType();
+      _serviceName = cv->service()->desktopEntryName();
+    }
 
-    viewFactory = KonqFactory::createView( cv->serviceType(), cv->service()->desktopEntryName(),
+    viewFactory = KonqFactory::createView( _serviceType, _serviceName,
                                            &service, &partServiceOffers, &appServiceOffers, forceAutoEmbed );
   }
   else {
