@@ -79,10 +79,13 @@ private slots:
     void getDomains();
     void getCookies(QListViewItem*);
     void showCookieDetails(QListViewItem*);
+    void doPolicy();
+
 
 private:
-    bool getCookieDetails(CookieProp *cookie);
+    bool cookieDetails(CookieProp *cookie);
     void clearCookieDetails();
+    bool policyenabled();
 
     KLineEdit* le_name;
     KLineEdit* le_value;
@@ -96,6 +99,10 @@ private:
     QPushButton* btn_delete;
     QPushButton* btn_reload;
     QPushButton* btn_deleteAll;
+
+    QPushButton* btn_policy;
+
+    QWidget* mainWidget;
 
     DCOPClient* dcop;
     bool m_bDeleteAll;

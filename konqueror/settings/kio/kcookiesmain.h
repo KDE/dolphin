@@ -20,17 +20,19 @@ public:
     KCookiesMain(QWidget *parent = 0L, const char *name = 0L);
     ~KCookiesMain();
 
+    KCookiesPolicies* policyDlg() { return policies; }
+
     virtual void load();
     virtual void save();
     virtual void defaults();
     virtual QString quickHelp() const;
-    
+
 private slots:
     void moduleChanged();
-    
+
 private:
-  
-    QTabWidget* tab;    
+
+    QTabWidget* tab;
     KCookiesPolicies* policies;
     KCookiesManagement* management;
 };

@@ -29,6 +29,7 @@
 #include <qdatetime.h>
 
 #include <kidna.h>
+#include <kdebug.h>
 #include <klocale.h>
 #include <kdialog.h>
 #include <klineedit.h>
@@ -36,7 +37,10 @@
 #include <dcopclient.h>
 #include <kiconloader.h>
 
+#include "kcookiesmain.h"
+#include "kcookiespolicies.h"
 #include "kcookiesmanagement.h"
+
 
 struct CookieProp
 {
@@ -126,8 +130,16 @@ KCookiesManagement::KCookiesManagement(QWidget *parent)
   btn_deleteAll->setEnabled(false);
   vlay->addWidget(btn_deleteAll);
 
+
+  btn_policy = new QPushButton( i18n("&Policy"), bbox );
+  btn_policy->setEnabled(false);
+  vlay->addWidget(btn_policy);
+
+
   btn_reload = new QPushButton( i18n("&Reload List"), bbox );
   vlay->addWidget(btn_reload);
+
+
   vlay->addStretch( 1 );
 
   // Cookie details layout
@@ -184,6 +196,7 @@ KCookiesManagement::KCookiesManagement(QWidget *parent)
   connect(btn_delete, SIGNAL(clicked()), SLOT(deleteCookie()));
   connect(btn_deleteAll, SIGNAL(clicked()), SLOT(deleteAllCookies()));
   connect(btn_reload, SIGNAL(clicked()), SLOT(getDomains()));
+  connect(btn_policy, SIGNAL(clicked()), SLOT(doPolicy()));
 
   deletedCookies.setAutoDelete(true);
   m_bDeleteAll = false;
@@ -198,6 +211,8 @@ KCookiesManagement::KCookiesManagement(QWidget *parent)
     //TODO: Do something here!!  Like disabling the whole
     // management tab after giving a nice feedback to user.
   }
+
+  mainWidget = parent;
 }
 
 KCookiesManagement::~KCookiesManagement()
@@ -301,6 +316,7 @@ void KCookiesManagement::defaults()
   deletedCookies.clear();
   btn_delete->setEnabled(false);
   btn_deleteAll->setEnabled(false);
+  btn_policy->setEnabled(false);
 }
 
 void KCookiesManagement::clearCookieDetails()
@@ -355,6 +371,7 @@ void KCookiesManagement::getDomains()
     // TODO
   }
 
+  // are ther any cookies?
   btn_deleteAll->setEnabled(lv_cookies->childCount());
 }
 
@@ -402,7 +419,7 @@ void KCookiesManagement::getCookies(QListViewItem *cookieDom)
   }
 }
 
-bool KCookiesManagement::getCookieDetails(CookieProp *cookie)
+bool KCookiesManagement::cookieDetails(CookieProp *cookie)
 {
   QByteArray call;
   QByteArray reply;
@@ -449,7 +466,7 @@ void KCookiesManagement::showCookieDetails(QListViewItem* item)
   CookieProp *cookie = static_cast<CookieListViewItem*>(item)->cookie();
   if( cookie )
   {
-    if( cookie->allLoaded || getCookieDetails(cookie) )
+    if( cookie->allLoaded || cookieDetails(cookie) )
     {
       le_name->validateAndSet(cookie->name,0,0,0);
       le_value->validateAndSet(cookie->value,0,0,0);
@@ -458,12 +475,51 @@ void KCookiesManagement::showCookieDetails(QListViewItem* item)
       le_expires->validateAndSet(cookie->expireDate,0,0,0);
       le_isSecure->validateAndSet(cookie->secure,0,0,0);
     }
+
+    btn_policy->setEnabled (true);
   }
   else
+  {
     clearCookieDetails();
+    btn_policy->setEnabled(false);
+  }
 
   btn_delete->setEnabled(true);
 }
+
+void KCookiesManagement::doPolicy()
+{
+  // Get current item
+  CookieListViewItem *item = static_cast<CookieListViewItem*>( lv_cookies->currentItem() );
+
+  if( item )
+  {
+    CookieProp *cookie = item->cookie();
+    assert (cookie);
+
+    QString domain = cookie->domain;
+
+    if( domain.isEmpty() )
+    {
+      CookieListViewItem *parent = static_cast<CookieListViewItem*>( item->parent() );
+
+      if ( parent )
+        domain = parent->domain ();
+    }
+
+    KCookiesMain* mainDlg =static_cast<KCookiesMain*>( mainWidget );
+    // must be present or something is really wrong.
+    assert (mainDlg);
+
+    KCookiesPolicies* policyDlg = mainDlg->policyDlg();
+    // must be present unless someone rewrote the widget in which case
+    // this needs to be re-written as well.
+    assert (policyDlg);
+    kdDebug () << "Changing policy for: " << domain << endl;
+    policyDlg->addNewPolicy(domain);
+  }
+}
+
 
 void KCookiesManagement::deleteCookie()
 {
@@ -501,6 +557,8 @@ void KCookiesManagement::deleteCookie()
 
   btn_delete->setEnabled(lv_cookies->selectedItem());
   btn_deleteAll->setEnabled(lv_cookies->childCount());
+  btn_policy->setEnabled(lv_cookies->selectedItem());
+
   slotChanged();
 }
 
@@ -510,6 +568,7 @@ void KCookiesManagement::deleteAllCookies()
   m_bDeleteAll = true;
   btn_delete->setEnabled(false);
   btn_deleteAll->setEnabled(false);
+  btn_policy->setEnabled(false);
   slotChanged();
 }
 

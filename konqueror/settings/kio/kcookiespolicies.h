@@ -54,13 +54,15 @@ public:
     virtual void save();
     virtual void defaults();
     virtual QString quickHelp() const;
-    
+
+    void addNewPolicy(const QString& domain);
+
 protected slots:
     void autoAcceptSessionCookies ( bool );
     void ignoreCookieExpirationDate ( bool );
     void cookiesEnabled( bool );
-    void emitChanged();    
-        
+    void emitChanged();
+
     void selectionChanged();
     void updateButtons();
 

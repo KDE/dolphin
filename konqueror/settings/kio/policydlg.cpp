@@ -56,23 +56,18 @@ KCookiePolicyDlg::KCookiePolicyDlg (const QString& caption, QWidget *parent,
                                     const char *name)
                  :KDialog(parent, name, true)
 {
-  QVBoxLayout *vlay;
-  QLabel* label;
-  QString help;
-
   setCaption( caption );
 
-  vlay = new QVBoxLayout(this, marginHint(), spacingHint());
+  QVBoxLayout* vlay = new QVBoxLayout(this, marginHint(), spacingHint());
   vlay->setAutoAdd( true );
 
-  label = new QLabel(i18n("Domain name:"), this);
+  QLabel* label = new QLabel(i18n("Domain name:"), this);
   m_leDomain = new KLineEdit(this);
   m_leDomain->setValidator(new DomainLineValidator(m_leDomain));
   connect(m_leDomain, SIGNAL(textChanged(const QString&)), SLOT(slotTextChanged(const QString&)));
   QString wstr = i18n("Enter the host or domain to "
                       "which this policy applies. "
                       "E.g. <i>www.kde.org</i> or <i>.kde.org</i>");
-  QWhatsThis::add (label, help);
   QWhatsThis::add( m_leDomain, wstr );
 
   label = new QLabel(i18n("Policy:"), this);
@@ -83,7 +78,6 @@ KCookiePolicyDlg::KCookiePolicyDlg (const QString& caption, QWidget *parent,
               "cookie</li><li><b>Reject</b> - Refuse all cookies "
               "sent from this site</li><li><b>Ask</b> - Prompt "
               "when cookies are received from this site</li></ul>");
-  QWhatsThis::add (label, help);
   QWhatsThis::add( m_cbPolicy, wstr );
 
   QWidget* bbox = new QWidget( this );

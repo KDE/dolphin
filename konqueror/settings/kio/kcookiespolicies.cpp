@@ -280,31 +280,39 @@ void KCookiesPolicies::autoAcceptSessionCookies ( bool enable )
     m_gbDomainSpecific->setEnabled( !enable );
 }
 
+void KCookiesPolicies::addNewPolicy(const QString& domain)
+{
+    KCookiePolicyDlg* dlg = new KCookiePolicyDlg (i18n("New Cookie Policy"), this);
+    kdDebug () << "I am here !" << endl;
+    dlg->setEnableHostEdit (true, domain);
+
+    //KCookieAdvice::Accept
+    //KCookieAdvice::Reject
+    dlg->setPolicy(m_rbPolicyAccept->isChecked() ? KCookieAdvice::Reject:KCookieAdvice::Accept);
+
+    if( dlg->exec() && !dlg->domain().isEmpty())
+    {
+      QString domain = KIDNA::toUnicode(dlg->domain());
+      int advice = dlg->advice();
+
+      if ( !handleDuplicate(domain, advice) )
+      {
+          const char* strAdvice = KCookieAdvice::adviceToStr(advice);
+          QListViewItem* index = new QListViewItem (m_lvDomainPolicy, domain,
+                                                i18n(strAdvice));
+          m_pDomainPolicy.insert (index, strAdvice);
+          //m_lvDomainPolicy->setCurrentItem (index);
+          changed( true );
+      }
+    }
+
+    delete dlg;
+}
+
+
 void KCookiesPolicies::addPressed()
 {
-  int globalPolicy;
-  KCookiePolicyDlg* dlg;
-
-  globalPolicy = m_bgDefault->id (m_bgDefault->selected());
-  dlg = new KCookiePolicyDlg (i18n("New Cookie Policy"), this);
-
-  if( dlg->exec() && !dlg->domain().isEmpty())
-  {
-    QString domain = KIDNA::toUnicode(dlg->domain());
-    int advice = dlg->advice();
-
-    if ( !handleDuplicate(domain, advice) )
-    {
-      const char* strAdvice = KCookieAdvice::adviceToStr(advice);
-      QListViewItem* index = new QListViewItem (m_lvDomainPolicy, domain,
-                                                i18n(strAdvice));
-      m_pDomainPolicy.insert (index, strAdvice);
-      m_lvDomainPolicy->setCurrentItem (index);
-      changed( true );
-    }
-  }
-
-  delete dlg;
+  addNewPolicy (QString::null);
 }
 
 void KCookiesPolicies::changePressed()
