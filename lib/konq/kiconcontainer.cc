@@ -1564,7 +1564,7 @@ void KIconContainerItem::paint( QPainter* _painter, bool _drag )
       QPixmap pix( m_pixmap );
       QPainter painter;
       painter.begin( &pix );
-      QBrush b( QApplication::palette().normal().highlight(), Qt::Dense4Pattern );
+      QBrush b( QApplication::palette()->normal().highlight(), Qt::Dense4Pattern );
       painter.fillRect( 0, 0, pix.width(), pix.height(), b );
       painter.end();
       _painter->drawPixmap( ( w - m_pixmap.width() ) / 2, 0, pix );
@@ -1656,7 +1656,7 @@ void KIconContainerItem::setSelected( bool _selected, bool _refresh = true )
 {
   if ( _selected == isSelected() )
     return;
-  m_flags = (Flags) ( m_flags & Invisible ) | ( _selected ? Selected : NoFlags );
+  m_flags = (Flags) (( m_flags & Invisible ) | ( _selected ? Selected : NoFlags ));
 
   if ( _refresh )
     m_pContainer->setSelected( this, _selected );
@@ -1664,7 +1664,7 @@ void KIconContainerItem::setSelected( bool _selected, bool _refresh = true )
 
 void KIconContainerItem::setVisible( bool _visible )
 {
-  m_flags = (Flags) ( m_flags & Selected ) | ( _visible ? NoFlags : Invisible );
+  m_flags = (Flags) (( m_flags & Selected ) | ( _visible ? NoFlags : Invisible ));
 }
 
 #include "kiconcontainer.moc"
