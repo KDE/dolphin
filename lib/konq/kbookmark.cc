@@ -72,6 +72,7 @@ KBookmarkManager* KBookmarkManager::self()
 
 KBookmarkManager::KBookmarkManager( QString _path ) : m_sPath( _path )
 {
+  m_Toolbar = 0;
   m_Root = new KBookmark( this, 0L, QString::null );
   if ( s_pSelf )
     delete s_pSelf;
@@ -134,6 +135,8 @@ void KBookmarkManager::emitChanged()
 void KBookmarkManager::scan( const char * _path )
 {
   m_Root->clear();
+  if (m_Toolbar)
+    m_Toolbar->clear();
 
   // Do not emit 'changed' signals here.
   m_bAllowSignalChanged = false;
@@ -178,6 +181,8 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
       if ( res->mimeType() == "inode/directory" )
       {
         KBookmark* bm = new KBookmark( this, _bm, KFileItem::decodeFileName( ep->d_name ) );
+        if ( KFileItem::decodeFileName( ep->d_name ) == "Toolbar" )
+            m_Toolbar = bm;
         scanIntern( bm, file );
       }
       else if ( res->mimeType() == "application/x-desktop" )
@@ -284,7 +289,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text )
   QString directory_file( m_file + "/.directory" );
   if ( QFile::exists( directory_file ) )
   {
-    KSimpleConfig cfg( directory_file, true );
+    KSimpleConfig cfg( directory_file );
     cfg.setDesktopGroup();
 
     //CT having all directories named "Bookmark entries" is completely useless
@@ -434,6 +439,11 @@ QString KBookmark::stringSqueeze( const QString & str, unsigned int maxlen )
     return QString(str.left(part) + "..." + str.right(part));
   }
   else return str;
+}
+
+void KBookmarkOwner::openBookmarkURL(const QString& url)
+{
+  (void) new KRun(url);
 }
 
 #include "kbookmark.moc"

@@ -182,6 +182,14 @@ public:
   KBookmark* root() { return m_Root; }
 
   /**
+   * This will return the root bookmark of the toolbar menu.  It is
+   * used in a manner similar to @ref root
+   *
+   * @return the root bookmark of the toolbar subdir
+   */
+  KBookmark* toolbar() { return m_Toolbar; }
+
+  /**
    * @internal
    * Used by KBookmarkManager when a bookmark is selected
    */
@@ -224,6 +232,7 @@ protected:
   bool m_bNotify;
   QString m_sPath;
   KBookmark * m_Root;
+  KBookmark * m_Toolbar;
 
   /**
    * This list is to prevent infinite looping while
@@ -232,6 +241,57 @@ protected:
   QList<QString> m_lstParsedDirs;
 
   static KBookmarkManager* s_pSelf;
+};
+
+/**
+ * The @ref KBookmarkMenu and @ref KBookmarkBar classes gives the user
+ * the ability to either edit bookmarks or add their own.  In the
+ * first case, the app may want to open the bookmark in a special way.
+ * In the second case, the app <em>must</em> supply the name and the
+ * URL for the bookmark.
+ *
+ * This class gives the app this callback-like ability.
+ *
+ * If your app does not give the user the ability to add bookmarks and
+ * you don't mind using the default bookmark editor to edit your
+ * bookmarks, then you don't need to overload this class at all.
+ * Rather, just use something like:
+ *
+ * <CODE>
+ * bookmarks = new KBookmarkMenu(new KBookmarkOwner(), ...)
+ * </CODE>
+ *
+ * If you wish to use your own editor or allow the user to add
+ * bookmarks, you must overload this class.
+ */
+class KBookmarkOwner
+{
+public:
+  /**
+   * This function is called if the user selects a bookmark.  It will
+   * open up the bookmark in a default fashion unless you override it.
+   */
+  virtual void openBookmarkURL(const QString& _url);
+  
+  /**
+   * This function is called whenever the user wants to add the
+   * current page to the bookmarks list.  The title will become the
+   * "name" of the bookmark.  You must overload this function if you
+   * wish to give your users the ability to add bookmarks.
+   *
+   * @return the title of the current page.
+   */
+  virtual QString currentTitle() { return QString::null; }
+
+  /**
+   * This function is called whenever the user wants to add the
+   * current page to the bookmarks list.  The URL will become the URL
+   * of the bookmark.  You must overload this function if you wish to
+   * give your users the ability to add bookmarks.
+   *
+   * @return the URL of the current page.
+   */
+  virtual QString currentURL() { return QString::null; }
 };
 
 #endif

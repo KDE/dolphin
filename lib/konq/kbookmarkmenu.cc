@@ -44,7 +44,6 @@
 #include <kmessagebox.h>
 #include <kurl.h>
 #include <kwm.h>
-#include <krun.h>
 
 #include <kmimetype.h>
 
@@ -169,11 +168,6 @@ void KBookmarkMenu::slotBookmarkSelected()
   }
   else
     debug("Bookmark not found !");
-}
-
-void KBookmarkOwner::openBookmarkURL( const QString & url )
-{
-  (void) new KRun( url );
 }
 
 #include "kbookmarkmenu.moc"
