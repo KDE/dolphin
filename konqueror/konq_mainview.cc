@@ -299,7 +299,7 @@ void KonqMainView::openFilteredURL( KonqChildView * /*_view*/, const QString &_u
 void KonqMainView::openURL( KonqChildView *_view, const KURL &url, bool reload, int xOffset,
                             int yOffset, const QString &serviceType )
 {
-  kDebugStringArea( 1202, QString("KonqMainView::openURL : _url = '%1'").arg(url.url()) );
+  kDebugInfo( 1202, QString("KonqMainView::openURL : _url = '%1'").arg(url.url()).ascii() );
 
   /////////// First, modify the URL if necessary (adding protocol, ...) //////
 
