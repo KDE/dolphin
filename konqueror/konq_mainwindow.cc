@@ -2520,7 +2520,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   KonqPopupMenu pPopupMenu ( _items,
                              m_currentView->url(),
                              popupMenuCollection,
-			     0,
+			     m_pMenuNew,
                              showPropsAndFileType );
 
   pPopupMenu.factory()->addClient( konqyMenuClient );
