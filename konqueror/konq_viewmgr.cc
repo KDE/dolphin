@@ -480,7 +480,6 @@ void KonqViewManager::breakOffTab( KonqFrameBase* tab )
   currentFrame->saveConfig( &config, prefix, true, 0L, 0, 1);
 
   removeTab( currentFrame );
-  delete currentFrame;
 
   KonqMainWindow *mainWindow = new KonqMainWindow( KURL(), false );
   if (mainWindow == 0L) return;
