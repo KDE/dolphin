@@ -5,7 +5,7 @@ METASOURCES = AUTO
 lib_LTLIBRARIES = keditbookmarks.la
 
 keditbookmarks_la_SOURCES = main.cpp toplevel.cpp commands.cpp kbookmarklistener.skel
-kbookmarklistener_DIR = ../../libkonq
+kbookmarklistener_DIR = $(top_srcdir)/libkonq
 
 keditbookmarks_la_LIBADD  = $(top_builddir)/libkonq/libkonq.la
 keditbookmarks_la_LDFLAGS = $(all_libraries) -module -avoid-version
