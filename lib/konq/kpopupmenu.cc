@@ -136,8 +136,8 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
   {
     KURL firstPopupURL ( m_lstItems.first()->url() );
     firstPopupURL.cleanPath();
-    kdebug(0, 1203, "View path is %s",url.path(1).ascii());
-    kdebug(0, 1203, "First popup path is %s",firstPopupURL.path(1).ascii());
+    //kdebug(0, 1203, "View path is %s",url.path(1).ascii());
+    //kdebug(0, 1203, "First popup path is %s",firstPopupURL.path(1).ascii());
     if ( firstPopupURL.protocol() == url.protocol()
          && url.path(1) == firstPopupURL.path(1) )
     {
@@ -151,6 +151,8 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
   QObject::disconnect( m_popupMenu, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
 
   m_popupMenu->clear();
+
+  //////////////////////////////////////////////////////////////////////////
 
   // check if menubar is hidden and if yes add "Show Menubar"
   if (isMenubarHidden)
@@ -170,8 +172,6 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
   } 
   else if ( S_ISDIR( mode ) ) // all URLs are directories
   {
-    //we don't want to use OpenParts here, because of "missing" interface 
-    //methods for the popup menu (wouldn't make much sense imho) (Simon)    
     m_pMenuNew = new KNewMenu(); 
     id = m_popupMenu->insertItem( i18n("&New"), m_pMenuNew->popupMenu() );
     m_popupMenu->insertSeparator();
@@ -274,6 +274,8 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
 
   if ( m_pMenuNew ) m_pMenuNew->setPopupFiles( m_lstPopupURLs );
 
+  //////////////////////////////////////////////////////
+
   bool bLastSepInserted = false;
 
   if ( !m_sMimeType.isNull() ) // common mimetype among all URLs ?
@@ -285,8 +287,9 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
 
     QValueList<KDEDesktopMimeType::Service> builtin;
     QValueList<KDEDesktopMimeType::Service> user;
-    if ( m_sMimeType == "application/x-desktop" ) // .desktop file (???)
+    if ( m_sMimeType == "application/x-desktop" ) // .desktop file
     {
+      // get builtin services, like mount/unmount
       builtin = KDEDesktopMimeType::builtinServices( m_lstItems.first()->url() );
       user = KDEDesktopMimeType::userDefinedServices( m_lstItems.first()->url() );
     }
