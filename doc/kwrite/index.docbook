@@ -1071,8 +1071,8 @@ linkend="pref-dialog">settings</link> may be adjusted.
 <!-- 
 <varlistentry>  
 <term>
-<menuchoice><guimenu><accel>S</accel>ettings</guimenu><guimenuitem>Configure
-Highlighti<accel>n</accel>g</guimenuitem></menuchoice></term>  
+<menuchoice><guimenu>>Settings</guimenu><guimenuitem>Configure
+Highlighting</guimenuitem></menuchoice></term>  
 <listitem><para>Opens a dialog box allowing configuration of the syntax  
 highlighting.  The dialog is described in <xref  
 linkend="pref-highlighting"/>.</para></listitem>  
