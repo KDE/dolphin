@@ -158,6 +158,11 @@ public:
   /// Overloaded of KMainWindow
   virtual void setCaption( const QString &caption );
 
+  /**
+   * Reimplemented for internal reasons. The API is not affected.
+   */
+  virtual void show();
+
   /// Overloaded functions of KBookmarkOwner
   virtual void openBookmarkURL( const QString & _url );
   virtual QString currentTitle() const;

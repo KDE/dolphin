@@ -212,21 +212,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   // Read basic main-view settings, and set to autosave
   setAutoSaveSettings( "KonqMainWindow", false );
 
-  m_paShowMenuBar->setChecked( !menuBar()->isHidden() );
-  KToolBar *tb = toolBarByName("mainToolBar");
-  if (tb) m_paShowToolBar->setChecked( !tb->isHidden() );
-    else m_paShowToolBar->setEnabled(false);
-  tb = toolBarByName("extraToolBar");
-  if (tb) m_paShowExtraToolBar->setChecked( !tb->isHidden() );
-    else m_paShowExtraToolBar->setEnabled(false);
-  tb = toolBarByName("locationToolBar");
-  if (tb) m_paShowLocationBar->setChecked( !tb->isHidden() );
-    else m_paShowLocationBar->setEnabled(false);
-  tb = toolBarByName("bookmarkToolBar");
-  if (tb) m_paShowBookmarkBar->setChecked( !tb->isHidden() );
-    else m_paShowBookmarkBar->setEnabled(false);
-  updateBookmarkBar(); // hide if empty
-
   KConfigGroupSaver cgs(config,"MainView Settings");
   m_bSaveViewPropertiesLocally = config->readBoolEntry( "SaveViewPropertiesLocally", false );
   m_paSaveViewPropertiesLocally->setChecked( m_bSaveViewPropertiesLocally );
@@ -3043,6 +3028,31 @@ void KonqMainWindow::setCaption( const QString &caption )
     m_currentView->setCaption( caption );
     KParts::MainWindow::setCaption( caption );
   }
+}
+
+void KonqMainWindow::show()
+{
+  // We need to check if our toolbars are shown/hidden here, and set
+  // our menu items accordingly. We can't do it in the constructor because
+  // view profiles store toolbar info, and that info is read after
+  // construct time.
+  m_paShowMenuBar->setChecked( !menuBar()->isHidden() );
+  KToolBar *tb = toolBarByName("mainToolBar");
+  if (tb) m_paShowToolBar->setChecked( !tb->isHidden() );
+    else m_paShowToolBar->setEnabled(false);
+  tb = toolBarByName("extraToolBar");
+  if (tb) m_paShowExtraToolBar->setChecked( !tb->isHidden() );
+    else m_paShowExtraToolBar->setEnabled(false);
+  tb = toolBarByName("locationToolBar");
+  if (tb) m_paShowLocationBar->setChecked( !tb->isHidden() );
+    else m_paShowLocationBar->setEnabled(false);
+  tb = toolBarByName("bookmarkToolBar");
+  if (tb) m_paShowBookmarkBar->setChecked( !tb->isHidden() );
+    else m_paShowBookmarkBar->setEnabled(false);
+  updateBookmarkBar(); // hide if empty
+
+  // Call parent method
+  KMainWindow::show();
 }
 
 QString KonqMainWindow::currentURL() const
