@@ -318,6 +318,7 @@ protected slots:
 
   void slotShowMenuBar();
   void slotShowToolBar();
+  void slotShowExtraToolBar();
   void slotShowLocationBar();
   void slotShowBookmarkBar();
 
@@ -366,7 +367,7 @@ private:
    */
   QString findIndexFile( const QString &directory );
 
-  void connectExtension( KonqView * view, KParts::BrowserExtension *ext );
+  void connectExtension( KParts::BrowserExtension *ext );
   void disconnectExtension( KParts::BrowserExtension *ext );
 
   void plugViewModeActions();
@@ -430,6 +431,7 @@ private:
   KToggleAction *m_paShowMenuBar;
   KToggleAction *m_paShowStatusBar;
   KToggleAction *m_paShowToolBar;
+  KToggleAction *m_paShowExtraToolBar;
   KToggleAction *m_paShowLocationBar;
   KToggleAction *m_paShowBookmarkBar;
 

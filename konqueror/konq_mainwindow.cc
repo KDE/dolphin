@@ -191,6 +191,9 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   KToolBar *tb = toolBarByName("mainToolBar");
   if (tb) m_paShowToolBar->setChecked( !tb->isHidden() );
      else tb->setEnabled(false);
+  tb = toolBarByName("extraToolBar");
+  if (tb) m_paShowExtraToolBar->setChecked( !tb->isHidden() );
+     else tb->setEnabled(false);
   tb = toolBarByName("locationToolBar");
   if (tb) m_paShowLocationBar->setChecked( !tb->isHidden() );
      else tb->setEnabled(false);
@@ -776,13 +779,16 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 
     if ( !windowArgs.toolBarsVisible )
     {
+        // Maybe we could get all KToolBar children at once ?
         static_cast<KToolBar *>( mainWindow->child( "mainToolBar", "KToolBar" ) )->hide();
+        static_cast<KToolBar *>( mainWindow->child( "extraToolBar", "KToolBar" ) )->hide();
         static_cast<KToolBar *>( mainWindow->child( "locationToolBar", "KToolBar" ) )->hide();
         static_cast<KToolBar *>( mainWindow->child( "bookmarkToolBar", "KToolBar" ) )->hide();
 
         mainWindow->m_paShowToolBar->setChecked( false );
         mainWindow->m_paShowLocationBar->setChecked( false );
         mainWindow->m_paShowBookmarkBar->setChecked( false );
+        mainWindow->m_paShowExtraToolBar->setChecked( false );
     }
 
     if ( view && !windowArgs.statusBarVisible )
@@ -1434,8 +1440,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   if ( ext )
   {
-    //kdDebug() << "Connecting extension for view " << newView << endl;
-    connectExtension( m_currentView, ext );
+    connectExtension( ext );
     createGUI( part );
   }
   else
@@ -2282,6 +2287,11 @@ void KonqMainWindow::slotShowToolBar()
   toggleBar( "mainToolBar" );
 }
 
+void KonqMainWindow::slotShowExtraToolBar()
+{
+  toggleBar( "extraToolBar" );
+}
+
 void KonqMainWindow::slotShowLocationBar()
 {
   toggleBar( "locationToolBar" );
@@ -2554,6 +2564,7 @@ void KonqMainWindow::initActions()
 
   m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection(), "showmenubar" );
   m_paShowToolBar = KStdAction::showToolbar( this, SLOT( slotShowToolBar() ), actionCollection(), "showtoolbar" );
+  m_paShowExtraToolBar = new KToggleAction( i18n( "Show &Extra Toolbar" ), 0, this, SLOT( slotShowExtraToolBar() ), actionCollection(), "showextratoolbar" );
   m_paShowLocationBar = new KToggleAction( i18n( "Show &Location Toolbar" ), 0, this, SLOT( slotShowLocationBar() ), actionCollection(), "showlocationbar" );
   m_paShowBookmarkBar = new KToggleAction( i18n( "Show &Bookmark Toolbar" ), 0, this, SLOT( slotShowBookmarkBar() ),actionCollection(), "showbookmarkbar" );
 
@@ -2665,7 +2676,7 @@ QString KonqMainWindow::findIndexFile( const QString &dir )
   return QString::null;
 }
 
-void KonqMainWindow::connectExtension( KonqView * view, KParts::BrowserExtension *ext )
+void KonqMainWindow::connectExtension( KParts::BrowserExtension *ext )
 {
   //kdDebug(1202) << "Connecting extension " << ext << endl;
   KParts::BrowserExtension::ActionSlotMap * actionSlotMap = KParts::BrowserExtension::actionSlotMapPtr();
@@ -2895,7 +2906,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
     if ( m_oldView->browserExtension() )
       disconnectExtension( m_oldView->browserExtension() );
     if ( m_currentView->browserExtension() )
-      connectExtension( m_currentView, m_currentView->browserExtension() );
+      connectExtension( m_currentView->browserExtension() );
   }
 
   kdDebug(1202) << "KonqMainWindow::slotPopupMenu( " << client << "...)" << " current view=" << m_currentView << " " << m_currentView->part()->className() << endl;
@@ -2973,7 +2984,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
     if ( m_currentView->browserExtension() )
       disconnectExtension( m_currentView->browserExtension() );
     if ( m_oldView->browserExtension() )
-      connectExtension( m_oldView, m_oldView->browserExtension() );
+      connectExtension( m_oldView->browserExtension() );
   }
 
   m_currentView = m_oldView;
@@ -3112,7 +3123,7 @@ void KonqMainWindow::updateViewModeActions()
        !m_viewModeToolBarServices.begin().data()->serviceTypes().contains( m_currentView->serviceType() ) )
       m_viewModeToolBarServices.clear();
 
-  KTrader::OfferList services =  m_currentView->partServiceOffers();
+  KTrader::OfferList services = m_currentView->partServiceOffers();
 
   if ( services.count() <= 1 )
     return;
