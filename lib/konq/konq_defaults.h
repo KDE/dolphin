@@ -1,6 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
-   Copyright (C) 1999 David Faure <faure@kde.org>
+   Copyright (C) 1999 - 2002 David Faure <faure@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -59,15 +59,10 @@
 #define DEFAULT_SHOW_HIDDEN_ROOT_ICONS false
 #define DEFAULT_VERT_ALIGN true
 
-// Default terminal for Open Terminal and for 'run in terminal'
+// Default terminal for "Open Terminal" in konqueror
 #define DEFAULT_TERMINAL "konsole"
 
 // Confirmations for deletions
 #define DEFAULT_CONFIRMTRASH true
 #define DEFAULT_CONFIRMDELETE true
 #define DEFAULT_CONFIRMSHRED true
-
-#define DEFAULT_DESKTOP_IMAGEPREVIEW false
-#define DEFAULT_DESKTOP_TEXTPREVIEW false
-
-#define DEFAULT_DESKTOP_DYNDEV true
