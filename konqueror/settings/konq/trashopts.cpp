@@ -1,3 +1,21 @@
+/* This file is part of the KDE libraries
+    Copyright (C) 2000 David Faure <faure@kde.org>
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+
+    You should have received a copy of the GNU Library General Public License
+    along with this library; see the file COPYING.LIB.  If not, write to
+    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+    Boston, MA 02111-1307, USA.
+*/
 //
 //
 // "Trash" configuration
@@ -8,7 +26,6 @@
 #include <qbuttongroup.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
-#include <qradiobutton.h>
 #include <qwhatsthis.h>
 
 #include "trashopts.h"
@@ -24,52 +41,41 @@
 KTrashOptions::KTrashOptions(KConfig *config, QString group, QWidget *parent, const char *name )
     : KCModule( parent, name ), g_pConfig(config), groupname(group)
 {
-    QGridLayout *lay = new QGridLayout(this, 3, 2,
+    QGridLayout *lay = new QGridLayout(this, 2 /* rows */, 2,
                                        KDialog::marginHint(),
                                        KDialog::spacingHint());
-    lay->setRowStretch(2,1); // last row
+    lay->setRowStretch(1,1); // last row
     lay->setColStretch(1,1); // last col
 
-    QButtonGroup *bg = new QButtonGroup( i18n("On delete:"), this );
+    QButtonGroup *bg = new QButtonGroup( i18n("Ask confirmation for:"), this );
+    bg->setMinimumWidth( bg->fontMetrics().width( bg->title() ) + 50 );
     QVBoxLayout *bgLay = new QVBoxLayout(bg, KDialog::marginHint(),
 				       KDialog::spacingHint());
-    bg->setExclusive( TRUE );
-
-    QWhatsThis::add( bg, i18n("This option tells Konqueror what to do"
-       " by default when you \"delete\" a file."
+    QWhatsThis::add( bg, i18n("This option tells Konqueror whether to ask"
+       " for a confirmation when you \"delete\" a file."
        " <ul><li><em>Move To Trash:</em> moves the file to your trash directory,"
        " from where it can be recovered very easily.</li>"
        " <li><em>Delete:</em> simply deletes the file.</li>"
        " <li><em>Shred:</em> not only deletes the file, but overwrites"
        " the area on the disk where the file is stored, making recovery impossible."
-       " You should only use this method as the default if you routinely work with"
-       " very confidential information.</li></ul>") );
+       " You should not remove confirmation for this method unless you routinely work"
+       " with very confidential information.</li></ul>") );
 
     connect(bg, SIGNAL( clicked( int ) ), SLOT( changed() ));
     connect(bg, SIGNAL( clicked( int ) ), SLOT( slotDeleteBehaviourChanged( int ) ));
 
     bgLay->addSpacing(10);
 
-    rbMoveToTrash = new QRadioButton( i18n("Move To Trash"), bg );
-    bgLay->addWidget(rbMoveToTrash);
+    cbMoveToTrash = new QCheckBox( i18n("Move To Trash"), bg );
+    bgLay->addWidget(cbMoveToTrash);
 
-    rbDelete = new QRadioButton( i18n("Delete"), bg );
-    bgLay->addWidget(rbDelete);
+    cbDelete = new QCheckBox( i18n("Delete"), bg );
+    bgLay->addWidget(cbDelete);
 
-    rbShred = new QRadioButton( i18n("Shred"), bg );
-    bgLay->addWidget(rbShred);
+    cbShred = new QCheckBox( i18n("Shred"), bg );
+    bgLay->addWidget(cbShred);
 
     lay->addWidget(bg, 0, 0);
-
-    m_pConfirmDestructive = new QCheckBox(i18n("Confirm destructive actions"),
-					  this);
-    connect(m_pConfirmDestructive, SIGNAL(clicked()), this, SLOT(changed()));
-    lay->addWidget(m_pConfirmDestructive, 1, 0);
-
-    QWhatsThis::add( m_pConfirmDestructive, i18n("If you uncheck this option,"
-       " Konqueror will not ask you for confirmation before deleting a file."
-       " If the file is not in your trash directory, recovery may not be"
-       " possible, so be careful!") );
 
     load();
 }
@@ -78,26 +84,24 @@ void KTrashOptions::load()
 {
     // *** load and apply to GUI ***
     g_pConfig->setGroup( groupname );
-    deleteAction = g_pConfig->readNumEntry("DeleteAction", DEFAULT_DELETEACTION);
-    rbMoveToTrash->setChecked( deleteAction == 1 );
-    rbDelete->setChecked( deleteAction == 2 );
-    rbShred->setChecked( deleteAction == 3 );
-    m_pConfirmDestructive->setChecked(g_pConfig->readBoolEntry("ConfirmDestructive", true));
+    cbMoveToTrash->setChecked( g_pConfig->readBoolEntry("ConfirmTrash", DEFAULT_CONFIRMTRASH) );
+    cbDelete->setChecked( g_pConfig->readBoolEntry("ConfirmDelete", DEFAULT_CONFIRMDELETE) );
+    cbShred->setChecked( g_pConfig->readBoolEntry("ConfirmShred", DEFAULT_CONFIRMSHRED) );
 }
 
 void KTrashOptions::defaults()
 {
-    rbMoveToTrash->setChecked( DEFAULT_DELETEACTION == 1 );
-    rbDelete->setChecked( DEFAULT_DELETEACTION == 2 );
-    rbShred->setChecked( DEFAULT_DELETEACTION == 3 );
-    m_pConfirmDestructive->setChecked(true);
+    cbMoveToTrash->setChecked( DEFAULT_CONFIRMTRASH );
+    cbDelete->setChecked( DEFAULT_CONFIRMDELETE );
+    cbShred->setChecked( DEFAULT_CONFIRMSHRED );
 }
 
 void KTrashOptions::save()
 {
     g_pConfig->setGroup( groupname );
-    g_pConfig->writeEntry( "DeleteAction", deleteAction );
-    g_pConfig->writeEntry( "ConfirmDestructive", m_pConfirmDestructive->isChecked());
+    g_pConfig->writeEntry( "ConfirmTrash", cbMoveToTrash->isChecked());
+    g_pConfig->writeEntry( "ConfirmDelete", cbDelete->isChecked());
+    g_pConfig->writeEntry( "ConfirmShred", cbShred->isChecked());
     g_pConfig->sync();
 }
 

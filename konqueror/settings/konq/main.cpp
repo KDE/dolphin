@@ -121,7 +121,7 @@ QString KonqyModule::quickHelp()
     " This tab contains options customizing the appearance of Konqueror windows,"
     " such as the font and color of text, background color, etc."
     " <h2>Trash</h2>"
-    " This tab contains options for customizing the default behavior of"
+    " This tab contains options for customizing the behavior of"
     " Konqueror when you \"delete\" a file."
     " <h2>Other</h2>"
     " This tab contains a couple of miscellaneous options.");

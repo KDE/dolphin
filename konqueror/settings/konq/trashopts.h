@@ -27,12 +27,10 @@
 
 The "Trash" Tab contains :
 
-On delete:
-(o) Move To Trash
-( ) Delete
-( ) Shred
-
-[ ] Ask for confirmation
+Ask confirmation for:
+[x] Move To Trash
+[x] Delete
+[x] Shred
 
 */
 
@@ -65,10 +63,9 @@ private:
 	QString groupname;
         int deleteAction;
 
-        QRadioButton *rbMoveToTrash;
-        QRadioButton *rbDelete;
-        QRadioButton *rbShred;
-	QCheckBox *m_pConfirmDestructive;
+        QCheckBox *cbMoveToTrash;
+        QCheckBox *cbDelete;
+        QCheckBox *cbShred;
 };
 
 #endif
