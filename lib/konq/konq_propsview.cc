@@ -36,7 +36,7 @@
 
 #include <ksimpleconfig.h>
 
-QPixmap wallpaperPixmap( const char *_wallpaper )
+static QPixmap wallpaperPixmap( const QString & _wallpaper )
 {
     QString key = "wallpapers/";
     key += _wallpaper;
@@ -50,11 +50,11 @@ QPixmap wallpaperPixmap( const char *_wallpaper )
     {
       pix.load( path, 0, KPixmap::LowColor ); // ?
       if ( pix.isNull() )
-        debug("Wallpaper %s couldn't be loaded",path.ascii());
+        kdWarning(1203) << "Could not load wallpaper " << path << endl;
       else
         QPixmapCache::insert( key, pix );
       return pix;
-    } else debug("Wallpaper %s not found",_wallpaper);
+    } else kdWarning(1203) << "Couldn't locate wallpaper " << _wallpaper << endl;
     return QPixmap();
 }
 
@@ -73,11 +73,8 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bImagePreview = config->readBoolEntry( "ImagePreview", false );
 
-  // Default background color is the one from the settings, i.e. configured in kcmkonq
-  // TODO: remove it from there ?
-  m_bgColor = KonqFMSettings::settings()->bgColor();
-
-  m_bgPixmapFile = config->readEntry( "BackgroundPixmap", "" );
+  m_bgColor = config->readColorEntry( "BgColor", & Qt::white );
+  m_bgPixmapFile = config->readEntry( "BgImage", "" );
   loadPixmap();
 }
 

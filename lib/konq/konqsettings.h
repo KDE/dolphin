@@ -80,7 +80,6 @@ public:
   const QFont& standardFont() const { return m_standardFont; }
 
   // Color settings
-  const QColor& bgColor() const { return m_bgColor; }
   const QColor& normalTextColor() const { return m_normalTextColor; }
   const QColor& highlightedTextColor() const { return m_highlightedTextColor; }
 
@@ -102,7 +101,6 @@ private:
 
   QFont m_standardFont;
 
-  QColor m_bgColor;
   QColor m_normalTextColor;
   QColor m_highlightedTextColor;
 

@@ -24,19 +24,22 @@
 #include <qstring.h>
 #include <qpixmap.h>
 
-#include <kurl.h>
 #include <kdialogbase.h>
 
-class KonqFileItem;
 class QComboBox;
 class QPushButton;
 
-class DirPropsPage : public QWidget
+/**
+ * Reuseable widget that is the core of the background-image dialog.
+ * It features a combobox with a list of available 'wallpaper' pixmaps,
+ * and an area to show the image, auto-sizing.
+ */
+class KBgndDialogPage : public QWidget
 {
   Q_OBJECT
 public:
-  DirPropsPage( QWidget * parent, const KURL & dirURL, KInstance *instance );
-  virtual ~DirPropsPage();
+  KBgndDialogPage( QWidget * parent, const QString & pixmapFile, KInstance *instance );
+  virtual ~KBgndDialogPage();
 
   QPixmap pixmap() { return m_wallPixmap; }
   QString pixmapFile() { return m_wallFile; }
@@ -44,17 +47,13 @@ public:
 public slots:
   void slotWallPaperChanged( int );
   void slotBrowse();
-  void slotApply();
-  void slotApplyGlobal();
 
 protected:
   void showSettings( QString filename );
   void loadWallPaper();
   virtual void resizeEvent ( QResizeEvent * );
 
-  const KURL & m_url;
   QPushButton * m_browseButton;
-  KonqFileItem * m_fileitem;
   QComboBox * m_wallBox;
   QWidget * m_wallWidget;
   QPixmap m_wallPixmap;
@@ -65,7 +64,7 @@ protected:
 
 
 /**
- * Dialog for configuring the background image for a directory
+ * Dialog for configuring the background image
  */
 class KonqBgndDialog : public KDialogBase
 {
@@ -74,14 +73,14 @@ public:
   /**
    * Constructor
    */
-  KonqBgndDialog( const KURL & dirURL, KInstance *instance );
+  KonqBgndDialog( const QString & pixmapFile, KInstance *instance );
   ~KonqBgndDialog();
 
   QPixmap pixmap() { return m_propsPage->pixmap(); }
   QString pixmapFile() { return m_propsPage->pixmapFile(); }
 
 private:
-  DirPropsPage * m_propsPage;
+  KBgndDialogPage * m_propsPage;
 };
 
 #endif
