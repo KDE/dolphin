@@ -130,9 +130,9 @@ void KonqSidebarBookmarkModule::showPopupMenu()
         m_collection->action("create_folder")->plug(menu);
         m_collection->action("delete_folder")->plug(menu);
     } else {
+        m_collection->action("open_window")->plug(menu);
         if (tabSupported)
             m_collection->action("open_tab")->plug(menu);
-        m_collection->action("open_window")->plug(menu);
         m_collection->action("copy_location")->plug(menu);
         menu->insertSeparator();
         m_collection->action("create_folder")->plug(menu);
