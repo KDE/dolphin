@@ -5,8 +5,8 @@ libkonqaboutpage_la_SOURCES = konq_aboutpage.cc
 libkonqaboutpage_la_LDFLAGS = $(all_libraries) $(KDE_PLUGIN)
 libkonqaboutpage_la_LIBADD = ../konqueror.la $(LIB_KHTML)
 
-kdelnkdir = $(kde_servicesdir)
-kdelnk_DATA = konq_aboutpage.desktop
+kde_services_DATA = konq_aboutpage.desktop
+kde_servicetypes_DATA = konqaboutpage.desktop
 
 METASOURCES = AUTO
 

@@ -211,9 +211,8 @@ QString KonqAboutPageFactory::tips()
 	  .arg( i18n( "Use Internet-Keywords! By typing \"gg:KDE\" one can search the internet "
 		      "using google for the search phrase \"KDE\". There are a lot of "
 		      "internet-shortcuts predefined to make searching for software or looking "
-		      "up certain words in an encyclopedia a breeze. And you can even " ) )
-	  .arg( i18n( "create your own" ) )
-	  .arg( i18n( "internet-keywords!" ) )
+		      "up certain words in an encyclopedia a breeze. And you can even "
+                      "<A HREF=\"%1\">create your own</A> internet-keywords!" ).arg("exec:/kcmshell ebrowsing") )
 	  .arg( i18n( "Use the magnifier toolbar-buttons to increase the fontsize on your webpage." ) )
 	  .arg( i18n( "When you want to paste a new address into the URL-bar you might want to "
 		      "clear the current entry by pressing the white-crossed black arrow in the "
@@ -224,10 +223,9 @@ QString KonqAboutPageFactory::tips()
 		      "into two Parts (e.g. Window -> Split View Left/Right) you can make konqueror "
 		      "appear the way you like. You can even Load some example view-profiles "
 		      "(e.g. Midnight-Commander), or create your own ones." ) )
-	  .arg( i18n( "Use the " ) )
-	  .arg( i18n( "user-agent" ) )
-	  .arg( i18n( "feature if the website you're visiting asks you to use a different browser "
-		      "(and don't forget to send a complaint to the webmaster!)" ) )
+	  .arg( i18n( "Use the <A HREF=\"%1\">user-agent</A> feature if the website you're visiting "
+                      "asks you to use a different browser "
+		      "(and don't forget to send a complaint to the webmaster!)" ).arg("exec:/kcmshell useragent") )
 	  .arg( i18n( "The History in your Sidebar makes sure that you will keep track of the "
 		      "pages you have visited recently." ) )
 	  .arg( i18n( "Use a caching proxy to speed up your internet-connection." ) )

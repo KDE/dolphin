@@ -16,5 +16,5 @@ Name[ru]=Страница сведений о Konqueror
 Name[sk]=Stránka o programe Konqueror
 Name[sv]=Om-sida för Konqueror
 Name[uk]=Сторінка "Про" для Konqueror
-ServiceTypes=KParts/ReadOnlyPart
+ServiceTypes=KonqAboutPage,KParts/ReadOnlyPart
 X-KDE-Library=libkonqaboutpage
