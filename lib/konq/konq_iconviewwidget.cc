@@ -985,16 +985,33 @@ void KonqIconViewWidget::lineupIcons()
 
     // Perform the actual moving
     n = 0;
-    int x, y;
-    for (j=0; j<ny; j++)
+    int x, y, max_icon_x, min_icon_x, dx_max_min;
+    QIconViewItem *its[ny];
+    for (i=0; i<nx; i++)
     {
-        for (i=0; i<nx; i++)
+        max_icon_x = 0; min_icon_x=0;
+       for (j=0; j<ny; j++)
         {
+           its[j] = NULL;
             if (!bins[j][i] || !bins[j][i]->count())
                 continue;
 
-            item = bins[j][i]->top();
-            x = x1 + i*dx + spacing(); y = y1 + j*dy + spacing();
+            item = its[j] = bins[j][i]->top();
+            if ( max_icon_x < item->width() )
+               max_icon_x = item->width();
+           if ( min_icon_x > item->width() || min_icon_x == 0 )
+               min_icon_x = item->width();
+       };
+       dx_max_min = (max_icon_x-min_icon_x)/2;
+
+       for (j=0; j<ny; j++)
+       {
+           if ( its[j] == NULL )
+                continue;
+
+           item = its[j];
+           x = x1 + i*dx + spacing() + ( item->pixmap()->width() - item->width() )/2 + dx_max_min;
+           y = y1 + j*dy + spacing();
             if (item->pos() != QPoint(x, y))
             {
                 item->move(x, y);
