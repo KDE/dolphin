@@ -420,10 +420,15 @@ void KonqFrameTabs::moveTabForward( int index )
 
 void KonqFrameTabs::slotMovedTab( int from, int to )
 {
-  KonqFrameBase* currentFrame = m_pChildFrameList->at( from );
-  kdDebug()<<" currentFrame: "<<currentFrame<<" index: "<<from<<endl;
-  m_pChildFrameList->remove( currentFrame );
-  m_pChildFrameList->insert( to, currentFrame );
+  KonqFrameBase* fromFrame = m_pChildFrameList->at( from );
+  m_pChildFrameList->remove( fromFrame );
+  m_pChildFrameList->insert( to, fromFrame );
+
+  KonqFrameBase* currentFrame = dynamic_cast<KonqFrameBase*>( currentPage() );
+  if ( currentFrame && !m_pViewManager->isLoadingProfile() ) {
+    m_pActiveChild = currentFrame;
+    currentFrame->activateChild();
+  }
 }
 
 void KonqFrameTabs::slotContextMenu( QWidget *w, const QPoint &p )
