@@ -324,7 +324,7 @@ folder.</para></listitem>
 </menuchoice></term>
 <listitem><para>Create a link to an application,
 <acronym>URL</acronym>, Floppy or &CD-ROM; device, or create a new Folder or
-text or <acronym>HTML</acronym> file. See the <link linkend="making">Create
+text or &HTML; file. See the <link linkend="making">Create
 New...</link>section for more details.</para></listitem> 
 </varlistentry>
 
@@ -420,7 +420,7 @@ folders.</para></listitem>
 <guisubmenu>Selection</guisubmenu>
 <guimenuitem>Select All</guimenuitem>
 </menuchoice></term>
-<listitem><para>Selects all text in a HTML 
+<listitem><para>Selects all text in an &HTML; 
 page or in a text page being previewed, you can then 
 <guimenuitem>Copy</guimenuitem> it and <guimenuitem>Paste</guimenuitem> it into 
 a text editor.</para></listitem> </varlistentry>
@@ -437,7 +437,7 @@ a text editor.</para></listitem> </varlistentry>
 <guimenuitem>Find...</guimenuitem>
 </menuchoice></term>
 <listitem><para>Find a text string in a text
-page you are previewing or in an <acronym>HTML</acronym>
+page you are previewing or in an &HTML;
 page.</para></listitem>
 </varlistentry>
 
@@ -448,7 +448,7 @@ page.</para></listitem>
 <guimenuitem>Find Next</guimenuitem>
 </menuchoice></term>
 <listitem><para>Find the next occurrence of the text string 
-in the text or <acronym>HTML</acronym> page.</para></listitem> 
+in the text or &HTML; page.</para></listitem> 
 </varlistentry>
 
 <varlistentry>
@@ -573,7 +573,7 @@ or Text View modes is case sensitive.</para></listitem>
 <guimenuitem>View Document Source</guimenuitem>
 </menuchoice></term>
 <listitem><para>View document source text.</para>
-<para>Only available if you are viewing a document or <acronym>HTML</acronym>
+<para>Only available if you are viewing a document or &HTML;
 page.</para>
 </listitem>
 </varlistentry>
@@ -599,7 +599,7 @@ page.</para>
 </menuchoice></term>
 <listitem><para>View document information, such as title, &URL;, and &HTTP;
 headers used in retrieving the document.</para>
-<para>Only available if you are viewing an <acronym>HTML</acronym>
+<para>Only available if you are viewing an &HTML;
 page.</para>
 </listitem>
 </varlistentry>
@@ -622,7 +622,7 @@ the same thing.</para></listitem> </varlistentry>
 </menuchoice></term>
 <listitem><para>Set encoding</para>
 <para>Allows you to choose the character encoding used to display
-<acronym>HTML</acronym> pages. <guimenuitem>Auto</guimenuitem> is usually the
+&HTML; pages. <guimenuitem>Auto</guimenuitem> is usually the
  best
 choice.</para></listitem>
 </varlistentry>
@@ -634,7 +634,7 @@ choice.</para></listitem>
 </menuchoice></term>
 <listitem><para>Lets you choose to show thumbnails of images, text
 files
-or HTML pages instead of the normal icons in Icon or
+or &HTML; pages instead of the normal icons in Icon or
 MultiColumn View modes.</para></listitem>
 </varlistentry>
 

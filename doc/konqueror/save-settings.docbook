@@ -16,8 +16,12 @@
 <para>When you close down &konqueror; your current <guimenu>View</guimenu> 
 menu settings (such as the <guimenuitem>View Mode</guimenuitem>, 
 <guimenuitem>Use index.html</guimenuitem> and <guimenuitem>Show Hidden Files
-</guimenuitem> items) are automatically saved as the default options to be 
-used next time &konqueror; is started.</para>
+</guimenuitem> items) are not automatically saved as the default
+options; however, you can have &konqueror; remember these settings by
+selecting <menuchoice><guimenu>Settings</guimenu><guimenuitem>Save View
+Profile "Web Browsing"...</guimenuitem></menuchoice> and the current
+setting will become the default option to be used the next time
+&konqueror; is started.</para>
 
 <para>But you can also specify different <guimenu>View</guimenu> menu settings
 for an individual folder. To do this check the <guimenuitem>View Properties

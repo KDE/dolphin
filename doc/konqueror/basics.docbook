@@ -243,7 +243,13 @@ in a new &konqueror; window, unless the <guilabel>Open links in new tab instead
 of in new window</guilabel> box has been checked in the
 <guimenuitem>Behavior</guimenuitem> page of the
 <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure
-Konqueror...</guimenuitem></menuchoice> dialog.</para>
+
+Konqueror...</guimenuitem></menuchoice> dialog. &konqueror; can open
+links on pages and <menuchoice><guimenu>Bookmarks</guimenu></menuchoice>,
+as well as the
+<guibutton>Home</guibutton>, <guibutton>Up</guibutton>,
+<guibutton>Back</guibutton> and <guibutton>Forward</guibutton>
+entries in a new tab or window.</para>
 
 <para>Holding the &Shift; key down while pressing the &MMB; will open the link 
 in the background.</para>

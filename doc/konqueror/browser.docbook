@@ -131,7 +131,11 @@ across the top of the view, one tab for each page. <mousebutton>Left
 </mousebutton> click on a tab to view that page, or you can use the shortcuts 
 <keycombo action="simul">&Ctrl;<keycap>[</keycap></keycombo> and 
 <keycombo action="simul">&Ctrl;<keycap>]</keycap></keycombo> to cycle through 
-the tab pages.</para>
+the tab pages. Alternatively, you can scroll through the tabs using
+the mouse <mousebutton>wheel</mousebutton> while the mouse pointer is
+over the tab bar (presuming that your mouse has one). Also,
+double-clicking over the empty tab bar space will open a new
+tab.</para>
 
 <para>The <guimenuitem>Open in Background Tab</guimenuitem> option in the 
 &RMB; menu also downloads the page and shows a new tab for it, but the new 
@@ -199,7 +203,9 @@ this list makes it the active tab.</para>
 </sect1>
 
 <sect1 id="enhanced-browsing">
-<title>Web Shortcuts</title> <para>If enabled, &konqueror;'s Web Shortcuts
+<title>Web Shortcuts</title> 
+
+<para>If enabled, &konqueror;'s Web Shortcuts
 feature lets you submit a query directly to a search engine or similar web site
 without having to visit the site first.</para> <para>For example, entering
 <userinput>gg:konqueror</userinput> into the Location Bar and pressing &Enter;
@@ -209,6 +215,88 @@ add your own, use <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure
 Konqueror...</guimenuitem></menuchoice> to open the <guilabel>Settings
 </guilabel> dialog box and click on the <guiicon>Web Shortcuts</guiicon>
 icon.</para>
+
+<para>Once there, to make a new Web Shortcut select
+<guibutton>New...</guibutton> and you will now have a new dialog
+requesting the options and specifications of your new Web
+Shortcut. The first field is for the human readable name of the search
+provider; that is, simply the name of the Search provider. For
+example, <trademark>Google</trademark>.</para>
+
+<para>In the next field you should enter the URI that is used to do a
+search on the search engine. The whole text to be searched for can be
+specified as <userinput>\{@}</userinput> or
+<userinput>\{0}</userinput>. The recommended version is
+<userinput>\{@}</userinput> since it removes all query variables
+(<replaceable>name</replaceable>=<replaceable>value</replaceable>)
+from the resulting string whereas <userinput>\{0}</userinput> will be
+substituted with the unmodified query string. </para>
+
+<para>You can use <userinput>\{1}</userinput>
+... <userinput>\{n}</userinput> to specify certain words from the
+query and
+<userinput>\{<varname><replaceable>name</replaceable></varname>}</userinput>
+to specify a value given by
+<userinput><varname><replaceable>name</replaceable></varname>=<replaceable>value</replaceable></userinput>
+in the user query. In addition it is possible to specify multiple
+references (names, numbers and strings) at once, like
+<userinput>(\{<varname><replaceable>name1</replaceable></varname>,<varname><replaceable>name2</replaceable></varname>,...,"<replaceable>string</replaceable>"})</userinput>. The first
+matching value (from the left) will be used as substitution value for
+the resulting &URI;. A quoted string can be used as the default value if
+nothing matches from the left of the reference list.</para>
+
+<para>To make a basic Web Shortcut here however, all that is required
+is the &URI; that is used to do a search on the search
+engine. Following our previous example with
+<trademark>Google</trademark>, we would enter
+<userinput>http://www.google.com/search?q=\{@}&amp;ie=UTF-8&amp;oe=UTF-8</userinput>. You
+can often easily find where to place the <userinput>\{@}</userinput>
+by doing a search on the search engine in question, and then analysing
+the &URL; address. For example, doing a <trademark>Google</trademark>
+search for &konqueror; produces the &URL;: <ulink
+url="http://www.google.com/search?q=konqueror&amp;ie=UTF-8&amp;oe=UTF-8">http://www.google.com/search?q=konqueror&amp;ie=UTF-8&amp;oe=UTF-8</ulink>. Now
+you need to merely replace &konqueror; with
+<userinput>\{@}</userinput> in this example to find the approrpriate
+&URI; to be entered.</para>
+
+<para>In the third field you need to enter the &URI; shortcut. For
+example, the <userinput>gg</userinput> in
+<userinput>gg:konqueror</userinput>. In the next option &mdash; the
+drop-down menu &mdash; you have the option to select the character set that
+will be used to encode the search query. Once you have entered all the
+options corectly to your satisfaction, press &Enter; and your new Web
+Shortcut should now be available in &konqueror;.</para>
+
+</sect1>
+
+<sect1 id="accesskeys">
+
+<title>Access Keys</title>
+
+<para>&konqueror; has full support for the
+<sgmltag class="attribute">accesskey</sgmltag> &HTML; attribute in
+forms and links. Access keys allow you to use
+the keyboard keys for functions which would perhaps normally be done
+with the mouse, such as following links. The benefit of this is, quite
+simply, that users can interact with a page with devices other than a
+pointing device.</para>
+
+<para>To activate the access keys in &konqueror;, press and release
+&Ctrl;. Once this is pressed, if a particular link on the website has
+the <literal>accesskey</literal> attribute in the given link, then the
+character(s) should appear over the link, identifying what needs to be
+pressed. Then, you can enter the character(s) associated with the link
+as an alternative to following the link with the mouse. To disable the
+access keys once activated you can press &Ctrl; again.</para>
+
+<note><para>The proper use of this feature requires that the web
+designer of the page has specifically assigned, using the
+<sgmltag class="attribute">accesskey</sgmltag> attribute, an access key for the
+link. Many web designers might not include the
+<sgmltag class="attribute">accesskey</sgmltag> in their links and forms, and
+consequently this feature will be unusable on the given
+webpage.</para></note>
+
 </sect1>
 
 <sect1 id="useragent">
@@ -238,7 +326,7 @@ check that they have been enabled in the <guiicon>Java &amp; JavaScript
 <title>Saving and Printing Web Items</title>
 
 <para>When you are viewing a web page you can save it (or at least the basic
-<acronym>HTML</acronym> or similar source text) to your local disk with 
+&HTML; or similar source text) to your local disk with 
 <menuchoice><guimenu>Location</guimenu><guimenuitem>Save
 As...</guimenuitem></menuchoice>. If the page
 you are viewing uses frames, then you will also be given the
@@ -259,7 +347,7 @@ way for anything other than your own viewing pleasure.</para>
 
 <para>If you <mousebutton>right</mousebutton> click on a link (which may be a 
 picture) and select <guimenuitem>Save Link As...</guimenuitem> from the pop 
-up menu the basic <acronym>HTML</acronym> or similar source text will be 
+up menu the basic &HTML; or similar source text will be 
 downloaded and saved on your local disk.</para>
 
 <para><mousebutton>Right</mousebutton> clicking on a link (which may be a 

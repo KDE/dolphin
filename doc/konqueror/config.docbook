@@ -75,7 +75,9 @@ clicking on the name. You will then be able to change the shortcut by
 selecting the <guilabel>None</guilabel>, <guilabel>Default</guilabel> or 
 <guilabel>Custom</guilabel> radio button or by clicking on the large button in 
 the <guilabel>Shortcut for Selected Action</guilabel> area.</para>
-<para>The <guilabel>Define Shortcut</guilabel> dialog box will then open.
+
+<para>If you select <guilabel>Define Shortcut</guilabel>, and then
+select <guilabel>Advanced</guilabel>, the dialog box below will be shown:
 </para>
 <mediaobject>
 <imageobject>
