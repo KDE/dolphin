@@ -95,7 +95,7 @@ void KonqRun::foundMimeType( const QString & _type )
        !m_strURL.isLocalFile() ) // ... and remote URL
   {
       kdDebug(1203) << "KonqRun: ask for saving" << endl;
-      KService::Ptr offer = KServiceTypeProfile::preferredService(mimeType, true);
+      KService::Ptr offer = KServiceTypeProfile::preferredService(mimeType, "Application");
       if ( askSave( m_strURL, offer, mimeType, m_suggestedFilename ) ) // ... -> ask whether to save
       { // true: saving done or canceled
           m_bFinished = true;
@@ -128,7 +128,7 @@ void KonqRun::foundMimeType( const QString & _type )
   // Prevention against user stupidity : if the associated app for this mimetype
   // is konqueror/kfmclient, then we'll loop forever. So we have to check what KRun
   // is going to do before calling it.
-  KService::Ptr offer = KServiceTypeProfile::preferredService( mimeType, true /*need app*/ );
+  KService::Ptr offer = KServiceTypeProfile::preferredService( mimeType, "Application" );
   if ( offer && ( offer->desktopEntryName() == "konqueror" || offer->desktopEntryName().startsWith("kfmclient") ) )
   {
     KMessageBox::error( m_pMainWindow, i18n("There appears to be a configuration error. You have associated Konqueror with %1, but it can't handle this file type.").arg(mimeType));
