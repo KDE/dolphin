@@ -3821,8 +3821,9 @@ void KonqMainWindow::initActions()
 
   m_paDelete = new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, actionCollection(), "del" );
 
-  KConfigGroup configSettings( KGlobal::config(), "FMSettings" );
-  m_bShowDelete = configSettings.readBoolEntry( "ShowDeleteCommand", false );
+  KConfig config("kdeglobals", true, false);
+  config.setGroup( "KDE" );
+  m_bShowDelete = config.readBoolEntry( "ShowDeleteCommand", false );
 
   m_paAnimatedLogo = new KonqLogoAction( i18n("Animated Logo"), 0, this, SLOT( slotDuplicateWindow() ), actionCollection(), "animated_logo" );
 
@@ -4766,8 +4767,9 @@ void KonqMainWindow::reparseConfiguration()
   m_sViewModeForDirectory = config->readEntry( "ViewMode" );
 
   // Update display of "Delete" command if necessary
-  config->setGroup( "FMSettings" );  // cgs' destructor will reset
-  m_bShowDelete = config->readBoolEntry( "ShowDeleteCommand", false );
+  KConfig globalconfig("kdeglobals", true, false);
+  globalconfig.setGroup( "KDE" );
+  m_bShowDelete = globalconfig.readBoolEntry( "ShowDeleteCommand", false );
 
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();

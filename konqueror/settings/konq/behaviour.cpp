@@ -195,7 +195,10 @@ void KBehaviourOptions::load()
     cbShowPreviewsInTips->setChecked( showPreviewsIntips );
 
     cbRenameDirectlyIcon->setChecked( g_pConfig->readBoolEntry("RenameIconDirectly",  DEFAULT_RENAMEICONDIRECTLY ) );
-    cbShowDeleteCommand->setChecked( g_pConfig->readBoolEntry("ShowDeleteCommand", false) );
+    
+    KConfig globalconfig("kdeglobals", true, false);
+    globalconfig.setGroup( "KDE" );
+    cbShowDeleteCommand->setChecked( globalconfig.readBoolEntry("ShowDeleteCommand", false) );
 
 //    if (!stips) sbToolTip->setEnabled( false );
     if (!stips) cbShowPreviewsInTips->setEnabled( false );
@@ -246,8 +249,12 @@ void KBehaviourOptions::save()
 //    g_pConfig->writeEntry( "FileTipsItems", sbToolTip->value() );
 
     g_pConfig->writeEntry( "RenameIconDirectly", cbRenameDirectlyIcon->isChecked());
-    g_pConfig->writeEntry( "ShowDeleteCommand", cbShowDeleteCommand->isChecked());
-
+    
+    KConfig globalconfig("kdeglobals", false, false);
+    globalconfig.setGroup( "KDE" );
+    globalconfig.writeEntry( "ShowDeleteCommand", cbShowDeleteCommand->isChecked());
+    globalconfig.sync();
+    
     g_pConfig->setGroup( "Trash" );
     g_pConfig->writeEntry( "ConfirmTrash", cbMoveToTrash->isChecked());
     g_pConfig->writeEntry( "ConfirmDelete", cbDelete->isChecked());
