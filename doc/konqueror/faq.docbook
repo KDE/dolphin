@@ -118,6 +118,33 @@ when web browsing?</para></question> <answer>
 </qandaentry>
 
 <qandaentry>
+<question><para>How do I set my <quote>home</quote> page - the page loaded
+on startup?</para></question>
+<answer><para>Start &konqueror; with the <guiicon>Web Browser</guiicon> icon
+on the panel.  Open the page you want to be loaded in any new <quote>Web
+Browser</quote> window and select <guimenuitem>Save View Profile "Web
+Browsing"</guimenuitem> from the <guimenu>Settings</guimenu> menu.</para>
+
+<para>All new &konqueror; windows that are started with the <guiicon>Web
+Browser</guiicon> icon on the panel, or from the <guimenu>location</guimenu>
+menu, and new empty tabs, will now start at this page.</para>
+
+<note><para>This does not change the behaviour of the
+<guiicon>Home</guiicon> button on the &konqueror; toolbar, which will
+continue to take you to the &URI; defined in the &konqueror; configuration
+module. You can reach that module from within &konqueror;, via
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure
+Konqueror</guimenuitem><guilabel>Behavior</guilabel></menuchoice>.  By
+default this is set to <userinput>~</userinput>, which is your Home folder.
+You may set this to any &URI;, either local or remote, and pressing the
+<guiicon>Home</guiicon> icon on the toolbar will display it.</para></note>
+
+<para>To have &konqueror; start up with no page loaded, use
+<userinput>about:blank</userinput></para>
+</answer>
+</qandaentry>
+
+<qandaentry>
 <question><para>I can't find the answer to my question here.</para></question> 
 <answer>
 <para>Take a look at <ulink url="http://www.konqueror.org/faq.html">
