@@ -580,8 +580,9 @@ History As...</guimenuitem></menuchoice></term>
 <varlistentry>
 <term><menuchoice><guimenu>View</guimenu><guimenuitem>Detach
 Session</guimenuitem></menuchoice></term>
-<listitem><para><action>Open the current session in a separate window.</action> The name is displayed
-on the session tab. Close the new window to restore the session to its original place, 
+<listitem><para><action>Open the current session in a separate window.</action> 
+The name of the session is displayed on the titlebar of the new window. Close 
+the new window to restore the session to its original place, 
 or <mousebutton>right</mousebutton>-click on the new window and select <guimenuitem>Attach Session</guimenuitem>.
 Note that if the main window is closed, any detached sessions will be closed with it.
 </para></listitem>
@@ -996,7 +997,8 @@ default.</action></para></listitem>
 
 <varlistentry>
 <term><option>--keytab</option> <parameter>file</parameter></term>
-<listitem><para><action>Start &konsole; using a specified .keytab file</action> to customize key bindings.</para></listitem>
+<listitem><para><action>Start &konsole; using a specified .keytab 
+file</action> to customize key bindings.</para></listitem>
 </varlistentry>
 
 <varlistentry>
