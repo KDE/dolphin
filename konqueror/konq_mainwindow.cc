@@ -931,7 +931,6 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   if ( !bQuickViewModeChange )
   {
     m_currentView->changeViewMode( m_currentView->serviceType(), modeName );
-
     QString locURL( locationBarURL );
     QString nameFilter = detectNameFilter( locURL );
     m_currentView->openURL( locURL, locationBarURL, nameFilter );
@@ -1460,8 +1459,6 @@ void KonqMainWindow::insertChildView( KonqView *childView )
 
   connect( childView, SIGNAL( viewCompleted( KonqView * ) ),
            this, SLOT( slotViewCompleted( KonqView * ) ) );
-
-  childView->callExtensionBoolMethod( "setSaveViewPropertiesLocally(bool)", m_bSaveViewPropertiesLocally );
 
   if ( !m_pViewManager->isLoadingProfile() ) // see KonqViewManager::loadViewProfile
       viewCountChanged();
@@ -2420,7 +2417,7 @@ void KonqMainWindow::initActions()
   // Settings menu
 
   m_paSaveViewProfile = new KAction( i18n( "Save View Profile %1" ).arg(QString::null), 0, this, SLOT( slotSaveViewProfile() ), actionCollection(), "saveviewprofile" );
-  m_paSaveViewPropertiesLocally = new KToggleAction( i18n( "Sa&ve View Properties In Directory" ), 0, this, SLOT( slotSaveViewPropertiesLocally() ), actionCollection(), "saveViewPropertiesLocally" );
+  m_paSaveViewPropertiesLocally = new KToggleAction( i18n( "View Properties Saved In &Directory" ), 0, this, SLOT( slotSaveViewPropertiesLocally() ), actionCollection(), "saveViewPropertiesLocally" );
    // "Remove" ? "Reset" ? The former is more correct, the latter is more kcontrol-like...
   m_paRemoveLocalProperties = new KAction( i18n( "Remove Directory Properties" ), 0, this, SLOT( slotRemoveLocalProperties() ), actionCollection(), "removeLocalProperties" );
 
@@ -2569,7 +2566,7 @@ void KonqMainWindow::updateViewActions()
 
   // Can lock a view only if there is a next view
   m_paLockView->setEnabled(m_pViewManager->chooseNextView(m_currentView) != 0L );
-  kdDebug() << "KonqMainWindow::updateViewActions m_paLockView enabled ? " << m_paLockView->isEnabled() << endl;
+  //kdDebug() << "KonqMainWindow::updateViewActions m_paLockView enabled ? " << m_paLockView->isEnabled() << endl;
 
   // Can remove view if we'll still have a main view after that
   m_paRemoveView->setEnabled( mainViewsCount() > 1 ||

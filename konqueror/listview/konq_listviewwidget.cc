@@ -712,6 +712,8 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
       }
       m_pBrowserView->m_paShowDot->setChecked( m_pBrowserView->m_pProps->isShowingDotFiles() );
 
+      // It has to be "viewport()" - this is what KonqDirPart's slots act upon,
+      // and otherwise we get a color/pixmap in the square between the scrollbars.
       m_pBrowserView->m_pProps->applyColors( viewport() );
    }
 
@@ -873,7 +875,7 @@ void KonqBaseListViewWidget::drawContentsOffset( QPainter* _painter, int _offset
 void KonqBaseListViewWidget::paintEmptyArea( QPainter *p, const QRect &r )
 {
     //kdDebug() << "KonqBaseListViewWidget::paintEmptyArea" << endl;
-    const QPixmap *pm = backgroundPixmap();
+    const QPixmap *pm = backgroundPixmap(); // should never be set...
     bool hasPixmap = pm && !pm->isNull();
     if ( !hasPixmap ) {
         pm = viewport()->backgroundPixmap();

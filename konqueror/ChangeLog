@@ -1,3 +1,17 @@
+2000-11-05  David Faure  <faure@kde.org>
+
+	* konq_view.cc (connectPart): moved call to setSaveViewPropertiesLocally
+	(used to be in various places in KonqMW) so that the flag is
+	also correct when switching views.
+
+	* konq_dirpart.cc and directory views: apply background color and pixmap
+	to the viewport(), and updated konq_iconview to do the same. This fixes
+	many inconsistencies, and makes resizing a window much faster & smoother.
+	Note that it has to be the viewport and not the widget, otherwise in the
+	listview, the box between the scrollbars appears colored/pixmap-ed.
+
+	* konq_mainwindow.cc: action renamed View Properties Saved In Directory
+
 2000-11-04  David Faure  <faure@kde.org>
 
 	* konq_viewmgr.cc: now takes care of enableAllActions.

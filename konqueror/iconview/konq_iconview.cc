@@ -1003,7 +1003,9 @@ bool KonqKfmIconView::openURL( const KURL & url )
       // Done after listing now
       //m_pIconView->setImagePreviewAllowed ( m_pProps->isShowingImagePreview() );
 
-      m_pProps->applyColors( m_pIconView );
+      // It has to be "viewport()" - this is what KonqDirPart's slots act upon,
+      // and otherwise we get a color/pixmap in the square between the scrollbars.
+      m_pProps->applyColors( m_pIconView->viewport() );
     }
 
     emit setWindowCaption( url.prettyURL() );

@@ -180,6 +180,8 @@ public:
    */
   bool isHTMLAllowed() const { return m_bHTMLAllowed; }
 
+  bool saveViewPropertiesLocally() const { return m_bSaveViewPropertiesLocally; }
+
   static QList<KonqMainWindow> *mainWindowList() { return s_lstViews; }
 
   // public for konq_guiclients

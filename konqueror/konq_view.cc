@@ -300,6 +300,9 @@ void KonqView::connectPart(  )
 
   connect( ext, SIGNAL( openURLNotify() ),
            this, SLOT( slotOpenURLNotify() ) );
+
+  callExtensionBoolMethod( "setSaveViewPropertiesLocally(bool)", m_pMainWindow->saveViewPropertiesLocally() );
+
 }
 
 void KonqView::slotStarted( KIO::Job * job )
