@@ -300,12 +300,16 @@ void KBookmarkMenu::openNSBookmarks()
     while(f.readLine(s.data(), 1024) >= 0 && !s.contains("<DL>"));
 
     while(f.readLine(s.data(), 1024)>=0) {
-      QCString t  = s.stripWhiteSpace();
-      if(t.left(12) == "<DT><A HREF=") {
-        QCString link = t.mid(13, t.find('"', 13)-13);
+      QCString t = s.stripWhiteSpace();
+      if(t.left(12) == "<DT><A HREF=" ||
+         t.left(16) == "<DT><H3><A HREF=") {
+        int firstQuotes = t.find('"')+1;
+        QCString link = t.mid(firstQuotes, t.find('"', firstQuotes)-firstQuotes);
         QCString name = t.mid(t.find('>', 15)+1);
 
         name = name.left(name.findRev('<'));
+        if ( name.right(4) == "</A>" )
+           name = name.left( name.length() - 4 );
 
         KAction * action = new KAction( KStringHandler::csqueeze(QString(name)), 0, 0,
                                         this, SLOT( slotNSBookmarkSelected() ),
@@ -315,7 +319,7 @@ void KBookmarkMenu::openNSBookmarks()
 	mstack.top()->m_actions.append( action );
       }
       else if(t.left(7) == "<DT><H3") {
-        QCString name = t.mid(t.find('>', 8)+1);
+        QCString name = t.mid(t.find('>', 7)+1);
         name = name.left(name.findRev('<'));
 
         KActionMenu * actionMenu = new KActionMenu( KStringHandler::csqueeze(QString(name)), "folder",
