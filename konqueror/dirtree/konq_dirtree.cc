@@ -309,6 +309,7 @@ KonqDirTree::KonqDirTree( KonqDirTreePart *parent, QWidget *parentWidget )
            this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
 
   m_lastItem = 0L;
+  m_bDrag = false;
 
   QString dirtreeDir = KonqDirTreeFactory::instance()->dirs()->saveLocation( "data", "konqueror/dirtree/" );
   m_dirtreeDir.setPath( dirtreeDir );
