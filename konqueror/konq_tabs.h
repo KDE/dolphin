@@ -102,6 +102,7 @@ protected:
   QPtrList<KonqFrameBase>* m_pChildFrameList;
 
 private slots:
+  void slotContextMenu( const QPoint& );
   void slotContextMenu( QWidget*, const QPoint& );
   void slotCloseRequest( QWidget* );
   void slotMovedTab( int, int );

@@ -45,10 +45,11 @@
 #include <qwhatsthis.h>
 #include <qstyle.h>
 
+#define DUPLICATE_ID 3
+#define RELOAD_ID 4
 #define BREAKOFF_ID 5
 #define CLOSETAB_ID 6
-#define RELOAD_ALL_ID 7
-#define OTHERTABS_ID 8
+#define OTHERTABS_ID 7
 
 //###################################################################
 
@@ -80,30 +81,31 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
                             m_pViewManager->mainWindow(),
                             SLOT( slotAddTab() ),
                             m_pViewManager->mainWindow()->action("newtab")->shortcut() );
-  m_pPopupMenu->insertItem( SmallIcon( "tab_duplicate" ),
+  m_pPopupMenu->insertItem( SmallIconSet( "tab_duplicate" ),
                             i18n("&Duplicate Tab"),
                             m_pViewManager->mainWindow(),
                             SLOT( slotDuplicateTabPopup() ),
-                            m_pViewManager->mainWindow()->action("duplicatecurrenttab")->shortcut() );
-  m_pPopupMenu->insertItem( SmallIcon( "reload" ),
+                            m_pViewManager->mainWindow()->action("duplicatecurrenttab")->shortcut(), 
+                            DUPLICATE_ID );
+  m_pPopupMenu->insertItem( SmallIconSet( "reload" ),
                             i18n( "&Reload Tab" ),
                             m_pViewManager->mainWindow(),
                             SLOT( slotReloadPopup() ),
-                            m_pViewManager->mainWindow()->action("reload")->shortcut() );
+                            m_pViewManager->mainWindow()->action("reload")->shortcut(), RELOAD_ID );
   m_pPopupMenu->insertSeparator();
   m_pSubPopupMenuTab = new QPopupMenu( this );
   m_pPopupMenu->insertItem( i18n("Other Tabs" ), m_pSubPopupMenuTab, OTHERTABS_ID );
   connect( m_pSubPopupMenuTab, SIGNAL( activated ( int ) ),
            this, SLOT( slotSubPopupMenuTabActivated( int ) ) );
   m_pPopupMenu->insertSeparator();
-  m_pPopupMenu->insertItem( SmallIcon( "tab_breakoff" ),
+  m_pPopupMenu->insertItem( SmallIconSet( "tab_breakoff" ),
                             i18n("D&etach Tab"),
                             m_pViewManager->mainWindow(),
                             SLOT( slotBreakOffTabPopup() ),
                             m_pViewManager->mainWindow()->action("breakoffcurrenttab")->shortcut(),
                             BREAKOFF_ID );
   m_pPopupMenu->insertSeparator();
-  m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ),
+  m_pPopupMenu->insertItem( SmallIconSet( "tab_remove" ),
                             i18n("&Close Tab"),
                             m_pViewManager->mainWindow(),
                             SLOT( slotRemoveTabPopup() ),
@@ -111,6 +113,8 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
                             CLOSETAB_ID );
   connect( this, SIGNAL( contextMenu( QWidget *, const QPoint & ) ),
            SLOT(slotContextMenu( QWidget *, const QPoint & ) ) );
+  connect( this, SIGNAL( contextMenu( const QPoint & ) ),
+           SLOT(slotContextMenu( const QPoint & ) ) );
 
   KConfig *config = KGlobal::config();
   KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
@@ -144,7 +148,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
     m_rightWidget = new QToolButton( this );
     connect( m_rightWidget, SIGNAL( clicked() ),
              m_pViewManager->mainWindow(), SLOT( slotRemoveTab() ) );
-    m_rightWidget->setIconSet( SmallIcon( "tab_remove" ) );
+    m_rightWidget->setIconSet( SmallIconSet( "tab_remove" ) );
     m_rightWidget->adjustSize();
     QToolTip::add(m_rightWidget, i18n("Close the current tab"));
     setCornerWidget( m_rightWidget, TopRight );
@@ -353,21 +357,37 @@ void KonqFrameTabs::slotMovedTab( int from, int to )
   }
 }
 
+void KonqFrameTabs::slotContextMenu( const QPoint &p )
+{
+  refreshSubPopupMenuTab();
+  
+  m_pPopupMenu->setItemEnabled( RELOAD_ID, false );
+  m_pPopupMenu->setItemEnabled( DUPLICATE_ID, false );
+  m_pPopupMenu->setItemEnabled( BREAKOFF_ID, false );
+  m_pPopupMenu->setItemEnabled( CLOSETAB_ID, false );
+  m_pPopupMenu->setItemEnabled( OTHERTABS_ID, true );
+  m_pSubPopupMenuTab->setItemEnabled( m_closeOtherTabsId, false );
+ 
+  m_pPopupMenu->exec( p );
+}
+
 void KonqFrameTabs::slotContextMenu( QWidget *w, const QPoint &p )
 {
+  refreshSubPopupMenuTab();
+  
   uint tabCount = m_pChildFrameList->count();
+  m_pPopupMenu->setItemEnabled( RELOAD_ID, true );
+  m_pPopupMenu->setItemEnabled( DUPLICATE_ID, true );
   m_pPopupMenu->setItemEnabled( BREAKOFF_ID, tabCount>1 );
   m_pPopupMenu->setItemEnabled( CLOSETAB_ID, tabCount>1 );
-  m_pPopupMenu->setItemEnabled( RELOAD_ALL_ID, tabCount>1 );
-  m_pPopupMenu->setItemEnabled( m_closeOtherTabsId, tabCount>1 );
   m_pPopupMenu->setItemEnabled( OTHERTABS_ID, tabCount>1 );
+  m_pSubPopupMenuTab->setItemEnabled( m_closeOtherTabsId, true );
 
   // Yes, I know this is an unchecked dynamic_cast - I'm casting sideways in a
   // class hierarchy and it could crash one day, but I haven't checked
   // setWorkingTab so I don't know if it can handle nulls.
 
   m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
-  refreshSubPopupMenuTab();
   m_pPopupMenu->exec( p );
 }
 
@@ -379,8 +399,7 @@ void KonqFrameTabs::refreshSubPopupMenuTab()
                                     i18n( "&Reload All Tabs" ),
                                     m_pViewManager->mainWindow(),
                                     SLOT( slotReloadAllTabs() ),
-                                    m_pViewManager->mainWindow()->action("reload_all_tabs")->shortcut(),
-                                    RELOAD_ALL_ID );
+                                    m_pViewManager->mainWindow()->action("reload_all_tabs")->shortcut() );
     m_pSubPopupMenuTab->insertSeparator();
     for (KonqFrameBase* it = m_pChildFrameList->first(); it; it = m_pChildFrameList->next())
     {
@@ -398,7 +417,7 @@ void KonqFrameTabs::refreshSubPopupMenuTab()
     }
     m_pSubPopupMenuTab->insertSeparator();
     m_closeOtherTabsId =
-      m_pSubPopupMenuTab->insertItem( SmallIcon( "tab_remove" ),
+      m_pSubPopupMenuTab->insertItem( SmallIconSet( "tab_remove" ),
 				      i18n( "Close &Other Tabs" ),
 				      m_pViewManager->mainWindow(),
 				      SLOT( slotRemoveOtherTabsPopup() ),
