@@ -43,7 +43,7 @@ messages:
 
 check_PROGRAMS = linktest
 #using $(konqueror_SOURCES) below doesn't work (am_edit)
-linktest_SOURCES = konq_main.cc KonquerorIface.skel
+linktest_SOURCES = konq_main.cc KonquerorIface.skel KonqMainViewIface.skel
 linktest_LDADD = $(lib_LTLIBRARIES) \
 	$(top_builddir)/konqueror/htmlview/libkonqhtmlview.la \
 	$(top_builddir)/konqueror/iconview/libkonqiconview.la \
