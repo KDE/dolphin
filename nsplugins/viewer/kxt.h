@@ -21,7 +21,6 @@
 */
 
 /****************************************************************************
-** $Id$
 **
 ** Definition of Qt extension classes for Xt/Motif support.
 **

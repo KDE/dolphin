@@ -23,7 +23,7 @@
 */
 
 #ifndef _USERAGENTDLG_H
-#define _USERAGENTDLG_H "$Id$"
+#define _USERAGENTDLG_H
 
 #include <kcmodule.h>
 

@@ -2,7 +2,7 @@
 // code adapted from other option dialogs
 
 #ifndef __KSMBOPTDLG_H
-#define __KSMBOPTDLG_H "$Id$"
+#define __KSMBOPTDLG_H
 
 #include <qwidget.h>
 #include <qlabel.h>

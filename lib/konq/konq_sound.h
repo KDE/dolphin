@@ -16,8 +16,6 @@
    Boston, MA 02111-1307, USA.
 */
 
-// $Id$
-
 #ifndef __konq_sound_h__
 #define __konq_sound_h__
 

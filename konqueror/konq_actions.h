@@ -18,7 +18,7 @@
 */
 
 #ifndef __konq_actions_h__
-#define __konq_actions_h__ "$Id$"
+#define __konq_actions_h__
 
 #include <konq_historymgr.h>
 #include <kaction.h>

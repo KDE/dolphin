@@ -18,7 +18,7 @@
 */
 
 #ifndef _KIVDIRECTORYOVERLAY_H_
-#define _KIVDIRECTORYOVERLAY_H_ "$Id$"
+#define _KIVDIRECTORYOVERLAY_H_
 
 #include <kfileitem.h>
 

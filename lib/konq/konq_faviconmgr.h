@@ -18,7 +18,7 @@
 */
 
 #ifndef __konq_faviconmgr_h__
-#define __konq_faviconmgr_h__ "$Id$"
+#define __konq_faviconmgr_h__ 
 
 #include <dcopobject.h>
 #include <kurl.h>

@@ -17,8 +17,6 @@
     Boston, MA 02111-1307, USA.
 */
 
-// $Id$
-
 #include <qdict.h>
 #include <qpixmap.h>
 #include <qpainter.h>

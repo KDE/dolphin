@@ -2,8 +2,6 @@
  *  This file is part of the KDE project
  *  Copyright (C) 1998, 1999 David Faure <faure@kde.org>
  *
- *  $Id$
- *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -20,7 +18,7 @@
  **/
 
 #ifndef __konq_view_h__
-#define __konq_view_h__ "$Id$"
+#define __konq_view_h__
 
 #include "konq_mainwindow.h"
 #include "konq_factory.h"

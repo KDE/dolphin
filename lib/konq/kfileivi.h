@@ -17,8 +17,6 @@
    Boston, MA 02111-1307, USA.
 */
 
-// $Id: kfileivi.h,v 1.23 2000/06/29 19:45:34 faure Exp
-
 #ifndef __kfileivi_h__
 #define __kfileivi_h__
 

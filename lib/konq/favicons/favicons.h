@@ -16,8 +16,6 @@
    Boston, MA 02111-1307, USA.
 */
 
-// $Id$
-
 #ifndef _FAVICONS_H_
 #define _FAVICONS_H_
 
@@ -43,7 +41,6 @@ namespace KIO { class Job; }
  *
  * @short KDED Module for favicons
  * @author Malte Starostik <malte@kde.org>
- * @version $Id$
  */
 class FaviconsModule : public KDEDModule
 {

@@ -21,7 +21,6 @@
 */
 
 /****************************************************************************
-** $Id$
 **
 ** Implementation of Qt extension classes for Xt/Motif support.
 **

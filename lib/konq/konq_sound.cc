@@ -16,8 +16,6 @@
    Boston, MA 02111-1307, USA.
 */
 
-// $Id$
-
 #include <kartsdispatcher.h>
 #include <kdebug.h>
 #include <kplayobjectfactory.h>

@@ -20,7 +20,7 @@
 */
 
 #ifndef __konq_factory_h__
-#define __konq_factory_h__ "$Id$"
+#define __konq_factory_h__
 
 #include <qstring.h>
 #include <qstringlist.h>
