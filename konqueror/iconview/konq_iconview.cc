@@ -811,7 +811,7 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
 	}
 
     if ( lst.count() > 0 ) {
-        emit m_extension->setStatusBarText( displayString(lst.count(),
+        emit setStatusBarText( displayString(lst.count(),
 							  fileCount,
 							  fileSizeSum,
 							  dirCount));
@@ -897,8 +897,7 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 	m_pIconView->viewport()->setBackgroundPixmap( m_pProps->m_bgPixmap );
     }
 
-    if (manager())
-	manager()->setWindowCaption( u.decodedURL() );
+    emit setWindowCaption( u.decodedURL() );
 
     m_pIconView->show(); // ?
     return true;
@@ -906,7 +905,7 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 
 void KonqKfmIconView::slotOnItem( QIconViewItem *item )
 {
-  emit m_extension->setStatusBarText( ((KFileIVI *)item)->item()->getStatusBarInfo() );
+  emit setStatusBarText( ((KFileIVI *)item)->item()->getStatusBarInfo() );
 }
 
 void KonqKfmIconView::slotOnViewport()
@@ -919,7 +918,7 @@ void KonqKfmIconView::slotOnViewport()
 	    return;
 	}
 
-    emit m_extension->setStatusBarText(
+    emit setStatusBarText(
 				       displayString(m_pIconView->count(),
 						     m_lFileCount,
 						     m_lDirSize,

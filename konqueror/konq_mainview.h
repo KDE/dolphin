@@ -40,7 +40,6 @@ class KSelectAction;
 class KToggleAction;
 class KonqChildView;
 class KonqViewManager;
-class KStatusBar;
 class KNewMenu;
 class KProgress;
 class KonqPart;
@@ -117,7 +116,8 @@ public slots:
 
   void slotRunFinished();
 
-  void slotSetStatusBarText( const QString &text );
+  // reimplement from KParts::MainWindow
+  virtual void slotSetStatusBarText( const QString &text );
 
 public:
 k_dcop:
@@ -315,7 +315,7 @@ private:
 
   KonqViewManager *m_pViewManager;
 
-  QGuardedPtr<KStatusBar> m_statusBar;
+  KStatusBar * m_statusBar;
 
   QGuardedPtr<KProgress> m_progressBar;
 

@@ -226,8 +226,7 @@ bool KonqTreeView::openURL( const KURL &url )
 
   KURL u( url );
 
-  if (manager())
-    manager()->setWindowCaption( u.decodedURL() );
+  emit setWindowCaption( u.decodedURL() );
 
   return m_pTreeView->openURL( url );
 }

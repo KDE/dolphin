@@ -669,9 +669,7 @@ void KonqMainView::slotRunFinished()
 
 void KonqMainView::slotSetStatusBarText( const QString &text )
 {
-  if ( !m_statusBar )
-    return;
-
+  assert(m_statusBar);
   m_statusBar->changeItem( text, STATUSBAR_MSG_ID );
 }
 
@@ -951,7 +949,7 @@ void KonqMainView::slotSaveDefaultProfile()
 void KonqMainView::speedProgress( int bytesPerSecond )
 {
   // We assume this was called from the current view (see KonqChildView::slotSpeedProgress)
-  if ( !m_statusBar || !m_currentView->isLoading() )
+  if ( !m_currentView->isLoading() )
     return;
 
   QString sizeStr;
@@ -961,6 +959,7 @@ void KonqMainView::speedProgress( int bytesPerSecond )
   else
     sizeStr = i18n( "stalled" );
 
+  assert(m_statusBar);
   m_statusBar->changeItem( sizeStr, STATUSBAR_SPEED_ID );
 }
 
@@ -1375,7 +1374,7 @@ void KonqMainView::initPlugins()
 
 void KonqMainView::updateStatusBar()
 {
-  if ( !m_progressBar || !m_statusBar )
+  if ( !m_progressBar )
     return;
 
   int progress = m_currentView->progress();
@@ -1390,6 +1389,7 @@ void KonqMainView::updateStatusBar()
 
   m_progressBar->setValue( progress );
 
+  assert(m_statusBar);
   m_statusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
   m_statusBar->changeItem( 0L, STATUSBAR_MSG_ID );
 }

@@ -392,7 +392,7 @@ void KonqHTMLView::slotShowURL( const QString &_url )
 {
   if ( !_url )
   {
-    emit m_extension->setStatusBarText( QString::null );
+    emit setStatusBarText( QString::null );
     return;
   }
 
@@ -408,12 +408,14 @@ void KonqHTMLView::slotShowURL( const QString &_url )
   {
     QString decodedURL = _url;
     KURL::decode( decodedURL );
-    emit m_extension->setStatusBarText( decodedURL );
+    emit setStatusBarText( decodedURL );
     return;
   }
 
   if ( url.isLocalFile() )
   {
+    // TODO : use KIO::stat() and create a KFileItem out of its result,
+   // to use KFileItem::statusBarText()
     QString decodedPath( url.path() );
     QString decodedName( url.filename( true ) );
 	
@@ -440,7 +442,7 @@ void KonqHTMLView::slotShowURL( const QString &_url )
       {
         text2 += "  ";
         text2 += tmp;
-	emit m_extension->setStatusBarText( text2 );
+	emit setStatusBarText( text2 );
 	return;
       }
       buff_two[n] = 0;
@@ -471,19 +473,18 @@ void KonqHTMLView::slotShowURL( const QString &_url )
       text += "  ";
       text += com;
     }
-    emit m_extension->setStatusBarText( text );
+    emit setStatusBarText( text );
   }
   else
-    emit m_extension->setStatusBarText( url.decodedURL() );
+    emit setStatusBarText( url.decodedURL() );
 }
 
 void KonqHTMLView::slotSetTitle( const QString & title )
 {
+ // IMHO the caller should use myurl.decodedURL() instead (David)
   QString decodedTitle = title;
   KURL::decode( decodedTitle );
-
-  if ( manager() )
-    manager()->setWindowCaption( decodedTitle );
+  emit setWindowCaption( decodedTitle );
 }
 
 void KonqHTMLView::slotDocumentRedirection( int, const char *url )

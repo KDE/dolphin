@@ -445,7 +445,7 @@ void KonqTreeViewWidget::slotOnItem( KonqTreeViewItem* _item)
   QString s;
   if ( _item )
     s = _item->item()->getStatusBarInfo();
-  emit m_pBrowserView->extension()->setStatusBarText( s );
+  emit m_pBrowserView->setStatusBarText( s );
 }
 
 void KonqTreeViewWidget::selectedItems( QValueList<KonqTreeViewItem*>& _list )
