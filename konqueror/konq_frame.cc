@@ -97,19 +97,15 @@ void KonqFrameHeader::mousePressEvent( QMouseEvent* event )
 
 void KonqFrameHeader::splitFrameMenu()
 {
-   for (  // Find the REAL MainView for Konq.  It has no parent.
-      KonqMainView *mainview=(KonqMainView*)m_pParentKonqFrame;
-      mainview->parent();
-      mainview=(KonqMainView*)mainview->parent()
-      );
-   // Assemble a menu, and display it
-      
+   QActionCollection *actionColl = m_pParentKonqFrame->childView()->mainView()->actionCollection(); 
+
    QPopupMenu menu;
-   menu.insertItem(i18n("Split View &Horizontally"), mainview, SLOT(slotSplitViewHorizontal()));
-   menu.insertItem(i18n("Split View &Vertically"),  mainview, SLOT(slotSplitViewVertical()) );
-   menu.insertItem(i18n("Split Window Horizontally"),  mainview, SLOT( slotSplitWindowHorizontal() ));
-   menu.insertItem(i18n("Split Window Vertically"), mainview, SLOT( slotSplitWindowVertical() ));
-   menu.insertItem(i18n("Remove Active View"),  mainview, SLOT( slotRemoveView() ));
+   
+   actionColl->action( "splitviewh" )->plug( &menu );
+   actionColl->action( "splitviewv" )->plug( &menu );
+   actionColl->action( "splitwindowh" )->plug( &menu );
+   actionColl->action( "splitwindowv" )->plug( &menu );
+   actionColl->action( "removeview" )->plug( &menu );
    
    menu.exec(QCursor::pos());
 }
