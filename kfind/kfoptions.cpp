@@ -113,7 +113,7 @@ void KfOptions::insertPages()
     filetypesLBox = new QListBox(                     pages[1],"filetypesLBox");
     typeL         = new QLabel("Type Description:",pages[1],"typeL");
     iconL         = new QLabel("Icon:"               ,pages[1],"iconL");
-    paternsL      = new QLabel("Paterns:"            ,pages[1],"paternsL");
+    paternsL      = new QLabel("Patterns:"           ,pages[1],"paternsL");
     defappsL      = new QLabel("Default Application:",pages[1],"defappsL");
     typeE         = new QLineEdit(                    pages[1],"typeE");
     iconE         = new QLineEdit(                    pages[1],"iconE");

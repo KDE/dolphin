@@ -1,5 +1,5 @@
 ###################################
-KFIND_VERSION = 0.3
+KFIND_VERSION = 0.31
 
 INSTALL = @INSTALL@ -m 0755 
 INSTALL_DIR = @INSTALL@ -d -m 0755 
@@ -9,12 +9,11 @@ prefix  = @prefix@
 BINDIR  = $(prefix)/bin
 LIBDIR  = $(prefix)/lib
 PICSDIR = $(LIBDIR)/pics
-DOCSDIR = $(prefix)/doc/HTML/
 
 INCLDIR	= @all_includes@ -I..
 
 
-CXXFLAGS= @CXXFLAGS@ -DKFIND_VERSION=\"$(KFIND_VERSION)\" -DDOCSDIR=\"$(DOCSDIR)/\" -DHAVE_CONFIG_H -I../kfm/libkfm
+CXXFLAGS= @CXXFLAGS@ -DKFIND_VERSION=\"$(KFIND_VERSION)\" -DHAVE_CONFIG_H -I../kfm/libkfm
 LDFLAGS	= @LDFLAGS@ @all_libraries@ -lkfm -lkdeui -lkdecore -lqt -lXext -lX11 @LIBSOCKET@ -L../kfm/libkfm
 CXX 	= @CXX@
 MOC 	= @MOC@
@@ -34,7 +33,7 @@ TARGET	  =  kfind
 HEADERS	  =  kfarch.h kfdird.h kfmenu.h kftabdlg.h kfwin.h kfind.h \
              kfsave.h kftypes.h kfoptions.h
 DISTFILES =  $(SOURCES) $(HEADERS) $(TARGET) Makefile README LICENCE\
-             .kde.html kfind.xpm kfind.kdelnk kfind.html ktabctl.patch kfindrc
+             .kde.html kfind.xpm kfind.kdelnk ktabctl.patch kfindrc
 DISTDIR   =  kfind-$(KFIND_VERSION)
 
 ####### Implicit rules
@@ -69,18 +68,18 @@ install: all
 	$(INSTALL) $(TARGET) $(BINDIR)
 	$(INSTALL_DIR) $(PICSDIR)
 	$(INSTALL_DATA) $(TARGET).xpm $(PICSDIR)
-	$(INSTALL_DATA) kfind.html $(DOCSDIR)
 	$(INSTALL_DIR) $(prefix)/apps/Utilities
 	$(INSTALL_DATA) kfind.kdelnk $(prefix)/apps/Utilities
 	$(INSTALL_DIR) $(LIBDIR)/kfind/config
 	$(INSTALL_DATA) ./kfindrc $(LIBDIR)/kfind/config
+	(cd doc && $(MAKE) install)
 
 uninstall:
 	rm -f $(BINDIR)/$(TARGET)
 	rm -f $(PICSDIR)/$(TARGET).xpm
-	rm -f $(DOCSDIR)/kfind.html
 	rm -f $(prefix)/apps/Utility/kfind.kdelnk
 	rm -f $(LIBDIR)/kfind/config/kfindrc
+	(cd doc && $(MAKE) uninstall)
 
 dist:
 	-mkdir $(DISTDIR)

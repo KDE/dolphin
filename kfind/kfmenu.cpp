@@ -112,15 +112,5 @@ void KfindMenu::enableMenuItems(bool enable)
 
 void KfindMenu::kfind_help()
   {
-    if ( fork() == 0 )
-      {
-	QString helpurl = getenv("KDEDIR");
-	if ( helpurl.isNull() )
-	  helpurl = DOCSDIR;
-
-	helpurl += "/doc/HTML/kfind.html";
-
-        execlp( "kdehelp", "kdehelp", helpurl.data(), 0 );
-        exit( 1 );
-      }
+	kapp->invokeHTMLHelp("kfind/kfind.html","");
   }; 
