@@ -19,7 +19,7 @@ METASOURCES = AUTO
 include_HEADERS = KonquerorIface.h
 
 libkonqueror_la_SOURCES = \
-			  konq_propsview.cc konq_propsmainview.cc konq_htmlsettings.cc \
+			  konq_propsview.cc konq_htmlsettings.cc \
 			  konq_events.cc \
 			  konq_bgnddlg.cc \
 		          konq_factory.cc
@@ -37,7 +37,8 @@ konqueror_la_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel \
                     konq_misc.cc \
 		    konq_frame.cc \
 		    konq_actions.cc \
-		    konq_profiledlg.cc
+		    konq_profiledlg.cc \
+		    konq_propsmainview.cc
 
 konqueror_la_LDFLAGS = $(KDE_RPATH) $(all_libraries) -module -avoid-version
 konqueror_la_LIBADD = libkonqueror.la $(LIB_KIMGIO)
