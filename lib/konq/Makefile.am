@@ -20,7 +20,7 @@ INCLUDES = -I$(top_srcdir)/kcontrol/input $(all_includes)
 
 lib_LTLIBRARIES = libkonq.la
 libkonq_la_LDFLAGS = $(all_libraries) -version-info 3:0 -no-undefined
-libkonq_la_LIBADD = $(LIB_KFILE)
+libkonq_la_LIBADD = $(LIB_KPARTS)
 
 libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc konqpopupmenu.cc \
 	kdirlister.cc konqfileitem.cc kfileivi.cc \
