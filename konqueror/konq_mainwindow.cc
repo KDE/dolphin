@@ -1281,6 +1281,7 @@ void KonqMainWindow::slotUndoAvailable( bool avail )
 
 void KonqMainWindow::slotPartChanged( KonqView *childView, KParts::ReadOnlyPart *oldPart, KParts::ReadOnlyPart *newPart )
 {
+  kdDebug(1202) << "KonqMainWindow::slotPartChanged" << endl;
   m_mapViews.remove( oldPart );
   m_mapViews.insert( newPart, childView );
 
@@ -1498,7 +1499,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   updateOpenWithActions();
   updateLocalPropsActions();
-  updateViewActions(); // undo, lock and link
+  updateViewActions(); // undo, lock, link and other view-dependent actions
 
   if ( !m_bViewModeToggled ) // if we just toggled the view mode via the view mode actions, then
                              // we don't need to do all the time-taking stuff below (Simon)
@@ -1552,6 +1553,7 @@ void KonqMainWindow::insertChildView( KonqView *childView )
 // Called by KonqViewManager, internal
 void KonqMainWindow::removeChildView( KonqView *childView )
 {
+  kdDebug(1202) << "KonqMainWindow::removeChildView childView " << childView << endl;
   disconnect( childView, SIGNAL( viewCompleted( KonqView * ) ),
               this, SLOT( slotViewCompleted( KonqView * ) ) );
 
@@ -1634,7 +1636,7 @@ void KonqMainWindow::viewsChanged()
           break;
       }
   m_paUnlockAll->setEnabled( locked );
-  updateViewActions(); // undo, lock and link
+  updateViewActions(); // undo, lock, link and other view-dependent actions
 }
 
 KonqView * KonqMainWindow::childView( KParts::ReadOnlyPart *view )
@@ -2684,6 +2686,13 @@ void KonqMainWindow::updateViewActions()
   m_paRemoveView->setEnabled( mainViewsCount() > 1 ||
                               ( m_currentView && m_currentView->isToggleView() ) );
 
+  // Can split a view if it's not a toggle view (because a toggle view can be here only once)
+  bool isNotToggle = m_currentView && !m_currentView->isToggleView();
+  m_paSplitViewHor->setEnabled( isNotToggle );
+  m_paSplitViewVer->setEnabled( isNotToggle );
+  m_paSplitWindowVer->setEnabled( isNotToggle );
+  m_paSplitWindowHor->setEnabled( isNotToggle );
+
   m_paLinkView->setChecked( m_currentView && m_currentView->isLinkedView() );
 
   if ( m_currentView && m_currentView->part()->inherits("KonqDirPart") )
@@ -2822,7 +2831,7 @@ void KonqMainWindow::enableAllActions( bool enable )
 
       currentProfileChanged();
 
-      updateViewActions(); // undo, lock and link
+      updateViewActions(); // undo, lock, link and other view-dependent actions
 
       m_paStop->setEnabled( m_currentView && m_currentView->isLoading() );
 
