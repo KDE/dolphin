@@ -88,9 +88,6 @@ void KNewMenu::fillMenu()
         }
         name = config.readEntry("Name", name );
 
-        // There might be a .desktop for that one already
-        bool bSkip = false;
-	
 	QAction *act = 0L;
 
         QValueList<QAction*> actions = m_actionCollection->actions();
@@ -101,16 +98,14 @@ void KNewMenu::fillMenu()
           {
             debug("skipping %s",(*templ).ascii());
 	    act = *it;
-            bSkip = true;
           }
         }
 
-        if ( !bSkip )
+        if ( !act )
           act = new KAction( name, 0, this, SLOT( slotNewFile() ),
                              m_actionCollection, QString("newmenu%1").arg( i ) );
      
-	if ( act )
-          act->plug( popupMenu() );
+        act->plug( popupMenu() );
     }
 }
 
