@@ -273,6 +273,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
       editRegExp->setEnabled(false);
       connect( editRegExp, SIGNAL(clicked()), this, SLOT( slotEditRegExp() ) );
     }
+    else
+        regexpContentCb->hide();
 
     // Layout
     tmp = sizeEdit->fontMetrics().width(" 00000 ");
