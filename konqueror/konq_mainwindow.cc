@@ -1990,7 +1990,8 @@ void KonqMainWindow::slotRotation( KCompletionBase::KeyBindingType type )
 
 bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
 {
-  if ( ( ev->type()==QEvent::FocusIn || ev->type()==QEvent::FocusOut ) && m_currentView )
+  if ( ( ev->type()==QEvent::FocusIn || ev->type()==QEvent::FocusOut ) && 
+       m_combo && m_combo->lineEdit() == obj )
   {
     kdDebug() << "KonqMainWindow::eventFilter " << obj << " " << obj->className() << " " << obj->name() << endl;
 
@@ -2000,7 +2001,9 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
       return KParts::MainWindow::eventFilter( obj, ev );
     }
 
-    KParts::BrowserExtension * ext = m_currentView->browserExtension();
+    KParts::BrowserExtension * ext = 0;
+    if ( m_currentView )
+        ext = m_currentView->browserExtension();
     QStrList slotNames;
     if (ext)
       slotNames = ext->metaObject()->slotNames();
