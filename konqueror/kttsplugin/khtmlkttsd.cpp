@@ -27,6 +27,7 @@
 #include <qmessagebox.h>
 #include <klocale.h>
 #include <qstring.h>
+#include <qtimer.h>
 
 #include <kapplication.h>
 #include <dcopclient.h>
@@ -34,7 +35,7 @@
 KHTMLPluginKTTSD::KHTMLPluginKTTSD( QObject* parent, const char* name )
     : Plugin( parent, name )
 {
-    (void) new KAction( "&Read Out Page",
+    (void) new KAction( "&Speak Text",
                         "kttsd", 0,
                         this, SLOT(slotReadOut()),
                         actionCollection(), "tools_kttsd" );
@@ -62,6 +63,19 @@ void KHTMLPluginKTTSD::slotReadOut()
           query = part->htmlDocument().body().innerText().string();
 
         DCOPClient *client = kapp->dcopClient();
+        // If KTTSD not running, start it.
+        if (!client->isApplicationRegistered("kttsd"))
+        {
+            QString error;
+            if (kapp->startServiceByName("KTTSD", QStringList(), &error))
+                QMessageBox::warning(0, i18n( "Starting KTTSD failed"), error );
+            else
+            {
+                // Give KTTSD time to load.
+                QTimer::singleShot(1000, this, SLOT(slotReadOut()));
+                return;
+            }
+        }
         QByteArray  data;
         QByteArray  data2;
         QCString    replyType;
