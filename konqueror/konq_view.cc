@@ -277,9 +277,6 @@ void KonqView::connectPart(  )
   connect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const QString &, mode_t ) ),
            m_pMainWindow, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const QString &, mode_t ) ) );
 
-  connect( ext, SIGNAL( goHistory( int ) ),
-           this, SLOT( goHistory( int ) ) );
-
   connect( ext, SIGNAL( setLocationBarURL( const QString & ) ),
            this, SLOT( setLocationBarURL( const QString & ) ) );
 
@@ -503,7 +500,7 @@ void KonqView::updateHistoryEntry( bool saveLocationBarURL )
 
 void KonqView::goHistory( int steps )
 {
-  // This is called by the browser's extension goHistory signal
+  // This is called by KonqBrowserInterface
   if ( m_pMainWindow->currentView() == this )
     m_pMainWindow->viewManager()->setActivePart( part() );
 
