@@ -39,9 +39,9 @@ class KHTMLSideBar : public KHTMLPart
 
 			_linkMenu = new KPopupMenu(widget(),
 						"link context menu");
-			_linkMenu->insertItem(i18n("&Load Page"),
+			_linkMenu->insertItem(i18n("&Open Link"),
 					this, SLOT(loadPage()));
-			_linkMenu->insertItem(i18n("&Load in new window"),
+			_linkMenu->insertItem(i18n("Open in New &Window"),
 					this, SLOT(loadNewWindow()));
 
 			_menu = new KPopupMenu(widget(), "context menu");
