@@ -23,6 +23,7 @@
 #include <kinputdialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <knotifyclient.h>
 #include <krun.h>
 #include <kshell.h>
 #include <kshortcut.h>
@@ -205,6 +206,7 @@ void KonqOperations::_del( int method, const KURL::List & _selectedURLs, int con
         QDataStream stream( packedArgs, IO_WriteOnly );
         stream << (int)1;
         job = KIO::special( "trash:/", packedArgs );
+        KNotifyClient::event(0, "Trash: emptied");
         break;
       }
       case DEL:
