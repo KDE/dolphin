@@ -118,7 +118,9 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
         m_pActiveItem->setIcon( m_size, KIcon::DefaultState, false, true );
 
     if ( !m_bMousePressed &&
-         !static_cast<KFileIVI *>(item)->isThumbnail() )
+         !static_cast<KFileIVI *>(item)->isThumbnail() &&
+         (KGlobal::iconLoader()->iconEffect()->fingerprint(KIcon::Desktop, KIcon::DefaultState) !=
+          KGlobal::iconLoader()->iconEffect()->fingerprint(KIcon::Desktop, KIcon::ActiveState) ) )
     {
       m_pActiveItem = static_cast<KFileIVI *>(item);
       m_pActiveItem->setIcon( m_size, KIcon::ActiveState, false, true );
@@ -163,7 +165,7 @@ void KonqIconViewWidget::setThumbnailPixmap( KFileIVI * item, const QPixmap & pi
         if ( item->width() > gridX() )
         {
           setGridX( item->width() );
-          arrangeItemsInGrid(); // Does nothing apparently... iconview too busy
+          arrangeItemsInGrid();
         }
     }
 }
@@ -313,7 +315,7 @@ QDragObject * KonqIconViewWidget::dragObject()
 
 KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
 {
-    kdDebug() << "KonqIconViewWidget::konqDragObject" << endl;
+    //kdDebug() << "KonqIconViewWidget::konqDragObject" << endl;
 
     KonqIconDrag * drag = new KonqIconDrag( dragSource );
     // Position of the mouse in the view
@@ -550,7 +552,7 @@ void KonqIconViewWidget::contentsDropEvent( QDropEvent *e )
 
 void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
 {
-  kdDebug() << "KonqIconViewWidget::contentsMousePressEvent" << endl;
+  //kdDebug() << "KonqIconViewWidget::contentsMousePressEvent" << endl;
   m_mousePos = QCursor::pos();
   m_bMousePressed = true;
   KIconView::contentsMousePressEvent( e );
@@ -566,6 +568,7 @@ void KonqIconViewWidget::slotSaveIconPositions()
 {
   if ( m_dotDirectoryPath.isEmpty() )
     return;
+  //kdDebug(1203) << "KonqIconViewWidget::slotSaveIconPositions" << endl;
   KSimpleConfig dotDirectory( m_dotDirectoryPath );
   QIconViewItem *it = firstItem();
   while ( it )
@@ -574,6 +577,7 @@ void KonqIconViewWidget::slotSaveIconPositions()
     KonqFileItem *item = ivi->item();
 
     dotDirectory.setGroup( QString( m_iconPositionGroupPrefix ).append( item->url().fileName() ) );
+    //kdDebug() << "KonqIconViewWidget::slotSaveIconPositions " << item->url().fileName() << " " << it->x() << " " << it->y() << endl;
     dotDirectory.writeEntry( "X", it->x() );
     dotDirectory.writeEntry( "Y", it->y() );
     dotDirectory.writeEntry( "Exists", true );
