@@ -26,19 +26,23 @@
 
 /**
  * This class implements the reading/writing of bookmarks in XML.
- * The bookmarks file is defined this way :
- * <BOOKMARKS>
- *   <BOOKMARK URL="http://developer.kde.org">Developer Web Site</BOOKMARK>
- *   <GROUP>
- *     <BOOKMARK URL="http://www.kde.org">KDE Web Site</BOOKMARK>
- *     <GROUP>
- *       <TEXT>My own bookmarks</TEXT>
- *       <BOOKMARK URL="http://www.koffice.org">KOffice Web Site</BOOKMARK>
- *       <SEPARATOR/>
- *       <BOOKMARK URL="http://www.kdevelop.org">KDevelop Web Site</BOOKMARK>
- *     </GROUP>
- *   </GROUP>
- * </BOOKMARKS>
+ * The bookmarks file is read and written using the XBEL standard
+ * (http://pyxml.sourceforge.net/topics/xbel/)
+ *
+ * A sample file looks like this :
+ * <xbel>
+ *   <bookmark href="http://developer.kde.org"><title>Developer Web Site</title></bookmark>
+ *   <folder folded="no">
+ *     <title>Title of this folder</title>
+ *     <bookmark icon="kde" href="http://www.kde.org"><title>KDE Web Site</title></bookmark>
+ *     <folder toolbar="yes">
+ *       <title>My own bookmarks</title>
+ *       <bookmark href="http://www.koffice.org"><title>KOffice Web Site</title></bookmark>
+ *       <separator/>
+ *       <bookmark href="http://www.kdevelop.org"><title>KDevelop Web Site</title></bookmark>
+ *     </folder>
+ *   </folder>
+ * </xbel>
  */
 class KBookmarkManager : public QObject, public DCOPObject
 {
