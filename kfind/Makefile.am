@@ -26,9 +26,10 @@ install-data-local:
 	(cd pics && $(MAKE) install)
 
 uninstall-local:
-	rm -f $(PICSDIR)/$(TARGET).xpm
+	rm -f $(PICSDIR)/kfind.xpm
 	rm -f '$(prefix)/apps/Utilities/KDE Find Tool.kdelnk'
 	(cd doc && $(MAKE) uninstall)
+	(cd pics && $(MAKE) uninstall)
 
 mkfdird.cpp: kfdird.h
 	$(MOC) kfdird.h -o $@

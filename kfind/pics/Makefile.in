@@ -1,20 +1,24 @@
 FILES = archive.xpm save.xpm delete.xpm info.xpm reload.xpm stop.xpm \
           contents.xpm fileopen.xpm idea.xpm exit.xpm viewzoom.xpm
 
-PICSDIR = @prefix@/lib/pics
-INSTALL_DIR = @INSTALL@ -d -m 0755
+top_srcdir = @top_srcdir@
+PICSDIR = @prefix@/lib/pics/toolbar
 INSTALL_DATA = @INSTALL@ -m 644
+mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 
 all:
 
+Makefile: Makefile.in
+	cd $(top_srcdir) && CONFIG_FILES=kfind/pics/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
 install:
-	$(INSTALL_DIR) $(PICSDIR)
+	$(mkinstalldirs) $(PICSDIR)
 	@for i in $(FILES); do \
-	 echo "$(INSTALL_DATA) $$i $(PICSDIR)/toolbar"; \
-	 $(INSTALL_DATA) "$$i" $(PICSDIR)/toolbar; \
+	 echo "$(INSTALL_DATA) $$i $(PICSDIR)"; \
+	 $(INSTALL_DATA) "$$i" $(PICSDIR); \
 	done
 
 uninstall:
 	for i in $(FILES); do \
-	 rm -f $(PICSDIR)/toolbar/$$i ; \
+	 rm -f $(PICSDIR)/$$i ; \
 	done
