@@ -286,10 +286,6 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
              SLOT( autoDiscoverChecked() ) );
     connect( m_rbAutoScript, SIGNAL( toggled(bool) ),
              SLOT( autoScriptChecked( bool ) ) );
-    /*connect( m_rbManual, SIGNAL( toggled(bool) ),
-             SLOT( manualChecked() ) ); */
-    /*connect( m_rbEnvVar, SIGNAL( toggled(bool) ),
-             SLOT( envVarChecked() ) ); */
 
     connect( m_rbPrompt, SIGNAL( toggled(bool) ),
              SLOT( promptChecked() ) );

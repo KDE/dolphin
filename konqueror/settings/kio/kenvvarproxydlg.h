@@ -25,6 +25,7 @@
 
 #include "kproxydlgbase.h"
 
+class QLabel;
 class QCheckBox;
 class QGroupBox;
 class QPushButton;
@@ -39,28 +40,28 @@ class KEnvVarProxyDlg : public KProxyDialogBase
 public:
     KEnvVarProxyDlg( QWidget* parent = 0, const char* name = 0 );
     ~KEnvVarProxyDlg();
-
-    virtual void setProxyData( const KProxyData &data );
+    
     virtual const KProxyData data() const;
+    virtual void setProxyData( const KProxyData &data );
 
 protected slots:
+    virtual void slotOk();    
+    
     void showValue( bool );
     void sameProxy( bool );
-    void setChecked( bool );
 
     void verifyPressed();
     void autoDetectPressed();
-
-    virtual void slotOk();
 
 protected:
     void init();
     bool validate();
 
 private:
-    QCheckBox *m_cbEnvFtp;
-    QCheckBox *m_cbEnvHttp;
-    QCheckBox *m_cbEnvHttps;
+    QLabel *m_lbEnvFtp;
+    QLabel *m_lbEnvHttp;
+    QLabel *m_lbEnvHttps;
+    
     QCheckBox *m_cbEnvGopher;
     QCheckBox *m_cbSameProxy;
 

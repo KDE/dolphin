@@ -29,18 +29,24 @@
 class DomainLineValidator : public QValidator
 {
 public:
-  DomainLineValidator(QObject *parent):QValidator(parent, "domainValidator"){}
+  DomainLineValidator(QObject *parent)
+  :QValidator(parent, "domainValidator")
+  {
+  }
 
-  State validate(QString &input, int &pos) const
+  State validate(QString &input, int &) const
   {
     if (input.isEmpty() || (input == "."))
       return Intermediate;
-
-    for(int i = 0 ; i < input.length(); i++)
+    
+    int length = input.length();
+        
+    for(int i = 0 ; i < length; i++)
     {
       if (!input[i].isLetterOrNumber() && input[i] != '.' && input[i] != '-')
         return Invalid;
     }
+    
     return Acceptable;
   }
 };

@@ -21,6 +21,7 @@
 
 #include <stdlib.h>
 
+#include <qlabel.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
 #include <qwhatsthis.h>
@@ -71,12 +72,10 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
   glay->setSpacing( KDialog::spacingHint() );
   glay->setMargin( 0 );
 
-  m_cbEnvHttp = new QCheckBox( i18n("H&TTP:"), m_gbHostnames, "m_cbEnvHttp" );
-  QWhatsThis::add( m_cbEnvHttp, i18n("Check this box to enable environment "
-                                     "variable based proxy setup for HTTP "
-                                     "connections.") );
+  m_lbEnvHttp = new QLabel( i18n("H&TTP:"), m_gbHostnames, "lbl_envHttp" );
+  glay->addWidget( m_lbEnvHttp, 0, 0 );
+    
   m_leEnvHttp = new KLineEdit( m_gbHostnames, "m_leEnvHttp" );
-  m_leEnvHttp->setEnabled( false );
   m_leEnvHttp->setMinimumWidth( m_leEnvHttp->fontMetrics().width('W') * 20 );
   m_leEnvHttp->setSizePolicy( QSizePolicy(QSizePolicy::MinimumExpanding,
                                          QSizePolicy::Fixed,
@@ -88,15 +87,13 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
                                      "click on the <tt>\"Auto Detect\"</tt> "
                                      "button to attempt automatic discovery "
                                      "of this variable.</qt>") );
-  glay->addWidget( m_cbEnvHttp, 0, 0 );
+  m_lbEnvHttp->setBuddy ( m_leEnvHttp );
   glay->addWidget( m_leEnvHttp, 0, 1 );
 
-  m_cbEnvHttps = new QCheckBox( i18n("HTTP&S:"), m_gbHostnames, "m_cbEnvHttps" );
-  QWhatsThis::add( m_cbEnvHttps, i18n("Check this box to enable environment "
-                                      "variable based proxy setup for HTTPS "
-                                      "connections.") );
+  m_lbEnvHttps = new QLabel( i18n("HTTP&S:"), m_gbHostnames, "lbl_envHttps" );
+  glay->addWidget( m_lbEnvHttps, 1, 0 );
+    
   m_leEnvHttps = new KLineEdit( m_gbHostnames, "m_leEnvHttps" );
-  m_leEnvHttps->setEnabled( false );
   m_leEnvHttps->setSizePolicy( QSizePolicy(QSizePolicy::MinimumExpanding,
                                           QSizePolicy::Fixed,
                                           m_leEnvHttps->sizePolicy().hasHeightForWidth()) );
@@ -108,17 +105,13 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
                                       "<tt>\"Auto Detect\"</tt> button "
                                       "to attempt an automatic discovery of "
                                       "this variable.</qt>") );
-
-  glay->addWidget( m_cbEnvHttps, 1, 0 );
+  m_lbEnvHttps->setBuddy ( m_leEnvHttps );
   glay->addWidget( m_leEnvHttps, 1, 1 );
 
-  m_cbEnvFtp = new QCheckBox( i18n("&FTP:"), m_gbHostnames, "m_cbEnvFtp" );
-  QWhatsThis::add( m_cbEnvFtp, i18n("Check this box to enable environment "
-                                   "variable based proxy setup for FTP "
-                                   "connections.") );
-
+  m_lbEnvFtp = new QLabel( i18n("&FTP:"), m_gbHostnames, "lbl_envFtp" );
+  glay->addWidget( m_lbEnvFtp, 2, 0 );
+  
   m_leEnvFtp = new KLineEdit( m_gbHostnames, "m_leEnvFtp" );
-  m_leEnvFtp->setEnabled( false );
   m_leEnvFtp->setSizePolicy( QSizePolicy(QSizePolicy::MinimumExpanding,
                                         QSizePolicy::Fixed,
                                         m_leEnvFtp->sizePolicy().hasHeightForWidth()) );
@@ -129,7 +122,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
                                    "click on the <tt>\"Auto Detect\"</tt> "
                                    "button to attempt an automatic discovery "
                                    "of this variable.</qt>") );
-  glay->addWidget( m_cbEnvFtp, 2, 0 );
+  m_lbEnvFtp->setBuddy ( m_leEnvFtp );  
   glay->addWidget( m_leEnvFtp, 2, 1 );
 
   serverLayout->addLayout( glay, 0, 0 );
@@ -220,23 +213,14 @@ KEnvVarProxyDlg::~KEnvVarProxyDlg ()
 
 void KEnvVarProxyDlg::init()
 {
-  connect( m_cbEnvHttp, SIGNAL( toggled(bool) ), m_leEnvHttp,
-           SLOT( setEnabled(bool) ) );
-  connect( m_cbEnvHttps, SIGNAL( toggled(bool) ), m_leEnvHttps,
-           SLOT( setEnabled(bool) ) );
-  connect( m_cbEnvFtp, SIGNAL( toggled(bool) ), m_leEnvFtp,
-           SLOT( setEnabled(bool) ) );
-
-  connect( m_cbEnvHttp, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
-  connect( m_cbEnvHttps, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
-  connect( m_cbEnvFtp, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
+  m_bHasValidData = false;
+  
   connect( m_pbShowValue, SIGNAL( toggled(bool) ), SLOT( showValue(bool) ) );                                                                             
   connect( m_cbSameProxy, SIGNAL( toggled(bool) ), SLOT( sameProxy(bool) ) );                                                                             
-
+  
   connect( m_pbVerify, SIGNAL( clicked() ), SLOT( verifyPressed() ) );
   connect( m_pbDetect, SIGNAL( clicked() ), SLOT( autoDetectPressed() ) );
-
-  setChecked( true );
+  connect( m_cbSameProxy, SIGNAL( toggled(bool) ), SLOT( sameProxy(bool) ) );  
 }
 
 void KEnvVarProxyDlg::setProxyData( const KProxyData& data )
@@ -245,23 +229,15 @@ void KEnvVarProxyDlg::setProxyData( const KProxyData& data )
   {
     m_leEnvHttp->setText( data.httpProxy );
     m_leEnvHttps->setText( data.httpsProxy );
-    m_leEnvFtp->setText( data.ftpProxy );
-    
-    m_cbEnvHttp->setChecked( !data.httpProxy.isEmpty() );
-    
-    bool useSameProxy = (m_cbEnvHttp->isChecked() &&
-                         data.httpProxy == data.httpsProxy &&
+    m_leEnvFtp->setText( data.ftpProxy );    
+   
+    bool useSameProxy = (data.httpProxy == data.httpsProxy &&
                          data.httpProxy == data.ftpProxy);
     
     m_cbSameProxy->setChecked ( useSameProxy );
         
     if ( useSameProxy )
       sameProxy ( true );
-    else
-    {
-      m_cbEnvHttps->setChecked( !data.httpsProxy.isEmpty() );
-      m_cbEnvFtp->setChecked( !data.ftpProxy.isEmpty() );
-    }         
   }
   else if ( data.type == KProtocolManager::NoProxy )
   {
@@ -274,21 +250,18 @@ void KEnvVarProxyDlg::setProxyData( const KProxyData& data )
     {
       envVar = QString::fromLocal8Bit( getenv(data.httpProxy.local8Bit()) );
       if ( !envVar.isEmpty() )
-      {
         m_leEnvHttp->setText( data.httpProxy );
-        m_cbEnvHttp->setChecked ( true );
-      }
     }
     
-    bool useSameProxy = ( m_cbEnvHttp->isChecked() &&
-                         data.httpProxy == data.httpsProxy &&
+    bool useSameProxy = (data.httpProxy == data.httpsProxy &&
                          data.httpProxy == data.ftpProxy);
-    m_cbSameProxy->setChecked ( useSameProxy ); 
     
+    m_cbSameProxy->setChecked ( useSameProxy );
+        
     if (useSameProxy)
     {
-      m_leEnvHttps->setText ( data.httpProxy );
-      m_leEnvFtp->setText ( data.httpProxy );
+      m_leEnvHttps->setText ( m_leEnvHttp->text () );
+      m_leEnvFtp->setText ( m_leEnvHttp->text () );
       sameProxy ( true );
     }
     else
@@ -298,10 +271,7 @@ void KEnvVarProxyDlg::setProxyData( const KProxyData& data )
       {
         envVar = QString::fromLocal8Bit( getenv(data.httpsProxy.local8Bit()) );
         if ( !envVar.isEmpty() )
-        {
           m_leEnvHttps->setText( data.httpsProxy );
-          m_cbEnvHttps->setChecked ( true );
-        }
       }
       
       u = data.ftpProxy;
@@ -309,12 +279,9 @@ void KEnvVarProxyDlg::setProxyData( const KProxyData& data )
       {
         envVar = QString::fromLocal8Bit( getenv(data.ftpProxy.local8Bit()) );
         if ( !envVar.isEmpty() )
-        {
           m_leEnvFtp->setText( data.ftpProxy );
-          m_cbEnvFtp->setChecked ( true );
-        }
       }
-    }    
+    }
   }
   
   m_gbExceptions->fillExceptions( data.noProxyFor );
@@ -326,15 +293,12 @@ const KProxyData KEnvVarProxyDlg::data() const
   KProxyData data;
 
   if (!m_bHasValidData)
-  return data;
+    return data;
 
-  if ( m_cbEnvHttp->isChecked() )
-  {
-    if ( !m_pbShowValue->isOn() )        
-      data.httpProxy = m_leEnvHttp->text();
-    else
-      data.httpProxy = m_lstEnvVars.count() > 0 ? m_lstEnvVars[0]: "";     
-  }
+  if ( !m_pbShowValue->isOn() )
+    data.httpProxy = m_leEnvHttp->text();
+  else
+    data.httpProxy = m_lstEnvVars.count() > 0 ? m_lstEnvVars[0]: "";
   
   if ( m_cbSameProxy->isChecked () )
   {
@@ -343,29 +307,23 @@ const KProxyData KEnvVarProxyDlg::data() const
   }
   else
   {
-    if ( m_cbEnvHttps->isChecked() )
-    {
-      if ( !m_pbShowValue->isOn() )
-        data.httpsProxy = m_leEnvHttps->text();
-      else
-        data.httpsProxy = m_lstEnvVars.count() > 1 ? m_lstEnvVars[1]: "";
-    }
+    if ( !m_pbShowValue->isOn() )
+      data.httpsProxy = m_leEnvHttps->text();
+    else
+      data.httpsProxy = m_lstEnvVars.count() > 1 ? m_lstEnvVars[1]: "";
     
-    if ( m_cbEnvFtp->isChecked() )
-    {
-      if ( !m_pbShowValue->isOn() )        
-        data.ftpProxy = m_leEnvFtp->text();
-      else
-        data.ftpProxy = m_lstEnvVars.count() > 2 ? m_lstEnvVars[2]: "";
-    }
+    if ( !m_pbShowValue->isOn() )
+      data.ftpProxy = m_leEnvFtp->text();
+    else
+      data.ftpProxy = m_lstEnvVars.count() > 2 ? m_lstEnvVars[2]: "";
   }
 
   QStringList list = m_gbExceptions->exceptions();
   if ( list.count() )
     data.noProxyFor = list;
-
-  data.useReverseProxy = m_gbExceptions->isReverseProxyChecked();
+  
   data.type = KProtocolManager::EnvVarProxy;
+  data.useReverseProxy = m_gbExceptions->isReverseProxyChecked();
 
   return data;
 }
@@ -403,54 +361,46 @@ void KEnvVarProxyDlg::autoDetectPressed()
 
   bool found = false;
 
-  if ( m_cbEnvHttp->isChecked() )
+  list = QStringList::split( ',', QString::fromLatin1(ENV_HTTP_PROXY) );
+  it = list.begin();
+  
+  for( ; it != list.end(); ++it )
   {
-    list = QStringList::split( ',', QString::fromLatin1(ENV_HTTP_PROXY) );
-    it = list.begin();
-    for( ; it != list.end(); ++it )
+    env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
+    if ( !env.isEmpty() )
     {
-        env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
-        if ( !env.isEmpty() )
-        {
-            m_leEnvHttp->setText( (m_pbShowValue->isOn()?env:*it) );
-            found |= true;
-            break;
-        }
+      m_leEnvHttp->setText( (m_pbShowValue->isOn()?env:*it) );
+      found |= true;
+      break;
     }
   }
 
-  if ( m_cbEnvHttps->isChecked() )
+  list = QStringList::split( ',', QString::fromLatin1(ENV_HTTPS_PROXY));
+  it = list.begin();
+  for( ; it != list.end(); ++it )
   {
-    list = QStringList::split( ',', QString::fromLatin1(ENV_HTTPS_PROXY));
-    it = list.begin();
-    for( ; it != list.end(); ++it )
+    env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
+    if ( !env.isEmpty() )
     {
-        env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
-        if ( !env.isEmpty() )
-        {
-            m_leEnvHttps->setText( (m_pbShowValue->isOn()?env:*it) );
-            found |= true;
-            break;
-        }
+      m_leEnvHttps->setText( (m_pbShowValue->isOn()?env:*it) );
+      found |= true;
+      break;
     }
   }
-
-  if ( m_cbEnvFtp->isChecked() )
+  
+  list = QStringList::split( ',', QString::fromLatin1(ENV_FTP_PROXY) );
+  it = list.begin();
+  for( ; it != list.end(); ++it )
   {
-    list = QStringList::split( ',', QString::fromLatin1(ENV_FTP_PROXY) );
-    it = list.begin();
-    for( ; it != list.end(); ++it )
+    env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
+    if ( !env.isEmpty() )
     {
-        env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
-        if ( !env.isEmpty() )
-        {
-            m_leEnvFtp->setText( (m_pbShowValue->isOn()?env:*it) );
-            found |= true;
-            break;
-        }
+      m_leEnvFtp->setText( (m_pbShowValue->isOn()?env:*it) );
+      found |= true;
+      break;
     }
   }
-
+  
   if ( !found )
   {
     QString msg = i18n("Did not detect any environment variables "
@@ -476,66 +426,50 @@ void KEnvVarProxyDlg::showValue( bool enable )
     QString txt, env;
     
     m_lstEnvVars.clear();
-    if ( m_cbEnvHttp->isChecked() )
+    txt = m_leEnvHttp->text();
+    m_pbShowValue->setText ( i18n ("Hide &values  ") );
+        
+    if (!txt.isEmpty())
     {
-        txt = m_leEnvHttp->text();
-        if (!txt.isEmpty());
-        {
-            env = QString::fromLocal8Bit( getenv( txt.local8Bit() ) );
-            m_leEnvHttp->setText( env );
-            m_lstEnvVars << txt;
-        }
+      env = QString::fromLocal8Bit( getenv( txt.local8Bit() ) );
+      m_leEnvHttp->setText( env );
+      m_lstEnvVars << txt;
     }
-    if ( m_cbEnvHttps->isChecked() )
+    
+    txt = m_leEnvHttps->text();
+    if (!txt.isEmpty())
     {
-        txt = m_leEnvHttps->text();
-        if (!txt.isEmpty());
-        {
-            env = QString::fromLocal8Bit( getenv( txt.local8Bit() ) );
-            m_leEnvHttps->setText( env );
-            m_lstEnvVars << txt;
-        }
+      env = QString::fromLocal8Bit( getenv( txt.local8Bit() ) );
+      m_leEnvHttps->setText( env );
+      m_lstEnvVars << txt;
     }
-    if ( m_cbEnvFtp->isChecked() )
+    
+    txt = m_leEnvFtp->text();
+    if (!txt.isEmpty());
     {
-        txt = m_leEnvFtp->text();
-        if (!txt.isEmpty());
-        {
-            env = QString::fromLocal8Bit( getenv( txt.local8Bit() ) );
-            m_leEnvFtp->setText( env );
-            m_lstEnvVars << txt;
-        }
+      env = QString::fromLocal8Bit( getenv( txt.local8Bit() ) );
+      m_leEnvFtp->setText( env );
+      m_lstEnvVars << txt;
     }
   }
   else
   {
-    int count = 0;
-    if ( m_cbEnvHttp->isChecked() )
-        m_leEnvHttp->setText( m_lstEnvVars[count++] );
-
-    if ( m_cbEnvHttps->isChecked() )
-        m_leEnvHttps->setText( m_lstEnvVars[count++] );
-
-    if ( m_cbEnvFtp->isChecked() )
-        m_leEnvFtp->setText( m_lstEnvVars[count++] );
+    int count = m_lstEnvVars.count ();
+    m_pbShowValue->setText ( i18n ("Show &values") );
+    
+    if ( count > 0 )
+      m_leEnvHttp->setText( m_lstEnvVars[0] );
+    if ( count > 1 )
+      m_leEnvHttps->setText( m_lstEnvVars[1] );
+    if ( count > 2 )    
+      m_leEnvFtp->setText( m_lstEnvVars[2] );
   }
 }
 
 void KEnvVarProxyDlg::sameProxy( bool enable )
 {
-  m_cbEnvHttps->setEnabled (!enable);
-  m_cbEnvFtp->setEnabled (!enable);    
-}
-
-void KEnvVarProxyDlg::setChecked( bool )
-{
-  bool checked;
-
-  checked = (m_cbEnvHttp->isChecked() || m_cbEnvHttps->isChecked() ||
-           m_cbEnvFtp->isChecked());
-
-  m_pbVerify->setEnabled( checked );
-  m_pbDetect->setEnabled( checked );
+  m_leEnvHttps->setEnabled (!enable);
+  m_leEnvFtp->setEnabled (!enable);
 }
 
 bool KEnvVarProxyDlg::validate()
@@ -545,52 +479,45 @@ bool KEnvVarProxyDlg::validate()
   
   m_bHasValidData = true;
   
-  if ( m_cbEnvHttp->isChecked() )
-  {
-    if ( !m_pbShowValue->isOn() )        
-      value = m_leEnvHttp->text();
-    else
-      value = m_lstEnvVars.count() > 0 ? m_lstEnvVars[0]: "";     
+  if ( !m_pbShowValue->isOn() )
+    value = m_leEnvHttp->text();
+  else
+    value = m_lstEnvVars.count() > 0 ? m_lstEnvVars[0]: "";     
 
-    if ( value.isEmpty() || getenv( value.local8Bit() ) == 0L )
-    {
-        f = m_cbEnvHttp->font();
-        f.setBold( true );
-        m_cbEnvHttp->setFont( f );
-        m_bHasValidData = false;
-    }
+  if ( value.isEmpty() || getenv( value.local8Bit() ) == 0L )
+  {
+    f = m_lbEnvHttp->font();
+    f.setBold( true );
+    m_lbEnvHttp->setFont( f );
+    m_bHasValidData = false;
   }
-
-  if ( m_cbEnvHttps->isChecked() )
+  
+  if (!m_cbSameProxy->isChecked())
   {
-    if ( !m_pbShowValue->isOn() )        
+    if ( !m_pbShowValue->isOn() )
       value = m_leEnvHttps->text();
     else
       value = m_lstEnvVars.count() > 1 ? m_lstEnvVars[1]: "";
-
+  
     if ( value.isEmpty() || getenv( value.local8Bit() ) == 0L )
     {
-        f = m_cbEnvHttps->font();
-        f.setBold( true );
-        m_cbEnvHttps->setFont( f );
-        m_bHasValidData = false;
+      f = m_lbEnvHttps->font();
+      f.setBold( true );
+      m_lbEnvHttps->setFont( f );
+      m_bHasValidData = false;
     }
-
-  }
-
-  if ( m_cbEnvFtp->isChecked() )
-  {
-    if ( !m_pbShowValue->isOn() )        
+  
+    if ( !m_pbShowValue->isOn() )
       value = m_leEnvFtp->text();
     else
       value = m_lstEnvVars.count() > 2 ? m_lstEnvVars[2]: "";
   
     if ( value.isEmpty() || getenv( value.local8Bit() ) == 0L )
     {
-        f = m_cbEnvFtp->font();
-        f.setBold( true );
-        m_cbEnvFtp->setFont( f );
-        m_bHasValidData = false;
+      f = m_lbEnvFtp->font();
+      f.setBold( true );
+      m_lbEnvFtp->setFont( f );
+      m_bHasValidData = false;
     }
   }
 

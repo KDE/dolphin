@@ -34,7 +34,7 @@
 
 KProxyExceptionDlg::KProxyExceptionDlg( QWidget* parent,  const char* name,
                                         bool modal, const QString &caption)
-                   :KDialogBase( parent, name, true, caption, Ok|Cancel )
+                   :KDialogBase( parent, name, modal, caption, Ok|Cancel )
 {
     QWidget *page = new QWidget( this );
     setMainWidget (page);
@@ -81,7 +81,7 @@ KProxyExceptionDlg::~KProxyExceptionDlg()
 {
 }
 
-void KProxyExceptionDlg::slotTextChanged( const QString& text )
+void KProxyExceptionDlg::slotTextChanged( const QString& )
 {
 }
 
