@@ -470,8 +470,8 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   m_vMenuOptions->insertItem4( text, this, "slotConfigureBrowser", 0, MOPTIONS_CONFIGUREBROWSER_ID, -1 );
   text = Q2C( i18n("Configure &keys") );
   m_vMenuOptions->insertItem4( text, this, "slotConfigureKeys", 0, MOPTIONS_CONFIGUREKEYS_ID, -1 );
-//  text = Q2C( i18n("Reload Plugins") );
-//  m_vMenuOptions->insertItem4( text, this, "slotReloadPlugins", 0, MOPTIONS_RELOADPLUGINS_ID, -1 );
+  text = Q2C( i18n("Reload Plugins") );
+  m_vMenuOptions->insertItem4( text, this, "slotReloadPlugins", 0, MOPTIONS_RELOADPLUGINS_ID, -1 );
   text = Q2C( i18n("Configure Plugins...") );
   m_vMenuOptions->insertItem4( text, this, "slotConfigurePlugins", 0, MOPTIONS_CONFIGUREPLUGINS_ID, -1 );
 
@@ -1595,9 +1595,10 @@ void KonqMainView::slotReloadPlugins()
 {
   KonqPlugins::reload();
 
-  KOM::Component::PluginInfoSeq_var plugins = describePlugins();
-  for ( CORBA::ULong k = 0; k < plugins->length(); ++k )
-    removePlugin( plugins[ k ].id );
+  KOM::Base::EventFilterSeq_var filters = describeEventFilters();
+
+  for ( CORBA::ULong k = 0; k < filters->length(); ++k )
+    uninstallFilter( filters[ k ].receiver );
 
   KonqPlugins::installKOMPlugins( this );
 
@@ -1609,9 +1610,9 @@ void KonqMainView::slotReloadPlugins()
   {
     pView = (*it)->view();
 
-    plugins = pView->describePlugins();
-    for ( CORBA::ULong k = 0; k < plugins->length(); ++k )
-      pView->removePlugin( plugins[ k ].id );
+    filters = pView->describeEventFilters();
+    for ( CORBA::ULong k = 0; k < filters->length(); ++k )
+      pView->uninstallFilter( filters[ k ].receiver );
 
     KonqPlugins::installKOMPlugins( pView );
   }
@@ -1620,6 +1621,10 @@ void KonqMainView::slotReloadPlugins()
 void KonqMainView::slotConfigurePlugins()
 {
   KonqPlugins::configure( this );
+  
+  QListIterator<KonqMainView> it( *s_lstWindows );
+  for (; it.current(); ++it )
+    it.current()->slotReloadPlugins();
 }
 
 void KonqMainView::slotSaveDefaultProfile()

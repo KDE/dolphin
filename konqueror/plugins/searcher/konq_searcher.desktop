@@ -7,3 +7,4 @@ X-KDE-RepoIds=IDL:KOM/PluginFactory:1.0#KonqSearcher
 ServiceTypes=Konqueror/EventFilter
 RequiredInterface=IDL:Konqueror/MainView:1.0
 Events=Konqueror/GUI/URLEntered
+SupportsGUIConfig=true

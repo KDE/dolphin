@@ -293,10 +293,14 @@ void KonqPluginConfigDialog::slotSelectionChanged( QListViewItem *item )
     
     if ( m_pEntry->m_bActive )
     {
-      m_pProcess = new KProcess;
-      (*m_pProcess) << m_pEntry->m_pService->exec();
-      (*m_pProcess) << QString::fromLatin1( "-embed" ) << QString::number( m_pEmbed->winId() );
-      m_pProcess->start();
+      KService::PropertyPtr prop = m_pEntry->m_pService->property( "SupportsGUIConfig" );
+      if ( prop && prop->boolValue() )
+      {
+        m_pProcess = new KProcess;
+        (*m_pProcess) << m_pEntry->m_pService->exec();
+        (*m_pProcess) << QString::fromLatin1( "-embed" ) << QString::number( m_pEmbed->winId() );
+        m_pProcess->start();
+      }	
     }
     
     m_pCheckBox->setEnabled( true );
@@ -317,10 +321,14 @@ void KonqPluginConfigDialog::slotActivate( bool enable )
   
   if ( enable )
   {
-    m_pProcess = new KProcess;
-    (*m_pProcess) << m_pEntry->m_pService->exec();
-    (*m_pProcess) << QString::fromLatin1( "-embed" ) << QString::number( m_pEmbed->winId() );
-    m_pProcess->start();
+    KService::PropertyPtr prop = m_pEntry->m_pService->property( "SupportsGUIConfig" );
+    if ( prop && prop->boolValue() )
+    {
+      m_pProcess = new KProcess;
+      (*m_pProcess) << m_pEntry->m_pService->exec();
+      (*m_pProcess) << QString::fromLatin1( "-embed" ) << QString::number( m_pEmbed->winId() );
+      m_pProcess->start();
+    }      
   }
 }
 

@@ -6,3 +6,6 @@ Type=QStringList
 
 [PropertyDef::Events]
 Type=QStringList
+
+[PropertyDef::SupportsGUIConfig]
+Type=bool
