@@ -56,6 +56,9 @@ konqueror framework:
 
 - Duplicate window -> should duplicate history too.
 
+- Minicli's current directory (Dawit's last post on kde-cvs was confused I think.
+  All we need is chdir() so that apps can find files from the current dir).
+
 iconview:
 ========
 
@@ -98,6 +101,14 @@ kpropsdlg (kfile):
 - Maybe add GUI (in kpropsdlg probably) for user defined actions in .desktop
 files (example: see eject action in the CDROM template) ?
 - Maybe a checkbox for the appstart-notification thing ?
+
+kdesktop:
+=========
+
+- Different icons on different desktops (a bit late for this new feature, but
+  the scheme for it is ready)
+
+- Dropping an image could offer "set as background pixmap" in the popup
 
 And more:
 =========
