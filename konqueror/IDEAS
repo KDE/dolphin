@@ -131,7 +131,7 @@ which are both ACTIVE, that
   means i do not need to click the parts before they start repsonding.
 
 
-Konquerer Views
+Konqueror Views
 ===============
 When an embedded part gets the focus (e.g. when the users clicks on it)
 the mainwindow (shell) gets notified about this (the focus change).
