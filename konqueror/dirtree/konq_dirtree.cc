@@ -756,7 +756,11 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
   else
     return;
 
-  KonqFileItem *fileItem = new KonqFileItem( -1, -1, KURL( url ) );
+  KURL kurl( url );
+  if ( kurl.path().isEmpty() )
+    kurl.setPath( "/" );
+
+  KonqFileItem *fileItem = new KonqFileItem( -1, -1, kurl );
   KonqDirTreeItem *item = new KonqDirTreeItem( this, parent, 0, fileItem );
 
   //  m_unselectableItems.append( item );
