@@ -40,6 +40,7 @@
 
 #include <kurl.h>
 #include <kio_error.h>
+#include <klocale.h>
 
 KonqHTMLView::KonqHTMLView()
 {
