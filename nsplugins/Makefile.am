@@ -21,10 +21,10 @@ libnsplugin_la_LIBADD  = -lkparts
 
 bin_PROGRAMS = nspluginscan
 nspluginscan_SOURCES = pluginscan.cpp
-nspluginscan_LDFLAGS = $(all_libraries)
+nspluginscan_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 nspluginscan_LDADD = $(LIB_KDEUI) -lXt
 
 check_PROGRAMS = test
 test_SOURCES = main.cpp
-test_LDFLAGS = $(all_libraries)
+test_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 test_LDADD = $(LIB_KDEUI) -lnsplugin
