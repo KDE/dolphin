@@ -28,8 +28,8 @@
 #include <kfileivi.h>
 
 class KonqPropsView;
-class KonqDirLister;
-class KonqFileItem;
+class KFileItem;
+class KDirLister;
 class KAction;
 class KToggleAction;
 class KActionMenu;
@@ -140,7 +140,7 @@ protected:
   QString makeSizeKey( KFileIVI *item );
 
   /** The directory lister for this URL */
-  KonqDirLister* m_dirLister;
+  KDirLister* m_dirLister;
 
   /**
    * Set to true while the constructor is running.

@@ -28,7 +28,7 @@
 
 #include <kaction.h>
 #include <kdebug.h>
-#include <konq_dirlister.h>
+#include <kdirlister.h>
 #include <kio/job.h>
 #include <klineeditdlg.h>
 #include <kmessagebox.h>
@@ -39,6 +39,7 @@
 #include <ktrader.h>
 #include <klocale.h>
 
+#include <qregexp.h>
 
 #include <config.h>
 
@@ -322,9 +323,9 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
 KonqKfmIconView::~KonqKfmIconView()
 {
-    delete m_mimeTypeResolver;
     kdDebug(1202) << "-KonqKfmIconView" << endl;
     delete m_dirLister;
+    delete m_mimeTypeResolver;
     delete m_pProps;
     //no need for that, KParts deletes our widget already ;-)
     //    delete m_pIconView;
@@ -523,7 +524,7 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
     item->setSelected( false, true );
     m_pIconView->visualActivate(item);
 
-    KonqFileItem *fileItem = (static_cast<KFileIVI*>(item))->item();
+    KFileItem *fileItem = (static_cast<KFileIVI*>(item))->item();
     if ( !fileItem )
         return;
     if ( !fileItem->isReadable() )
@@ -614,7 +615,7 @@ void KonqKfmIconView::slotCanceled()
 void KonqKfmIconView::slotCompleted()
 {
     // Root item ? Store root item in konqiconviewwidget (whether 0L or not)
-    m_pIconView->setRootItem( static_cast<KonqFileItem *>(m_dirLister->rootItem()) );
+    m_pIconView->setRootItem( m_dirLister->rootItem() );
 
     if ( m_bUpdateContentsPosAfterListing )
         m_pIconView->setContentsPos( m_xOffset, m_yOffset );
@@ -645,11 +646,8 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 {
     for (KFileItemListIterator it(entries); it.current(); ++it)
     {
-        KonqFileItem * _fileitem = static_cast<KonqFileItem *>(it.current());
-
         //kdDebug(1202) << "KonqKfmIconView::slotNewItem(...)" << _fileitem->url().url() << endl;
-        KFileIVI* item = new KFileIVI( m_pIconView, _fileitem,
-                                       m_pIconView->iconSize() );
+        KFileIVI* item = new KFileIVI( m_pIconView, *it, m_pIconView->iconSize() );
         item->setRenameEnabled( false );
 
         QString key;
@@ -666,10 +664,10 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
         item->setKey( key );
 
         //kdDebug() << "KonqKfmIconView::slotNewItems " << _fileitem->url().url() << " " << _fileitem->mimeTypePtr()->name() << endl;
-        if ( !_fileitem->isMimeTypeKnown() )
+        if ( !(*it)->isMimeTypeKnown() )
             m_mimeTypeResolver->m_lstPendingMimeIconItems.append( item );
 
-        m_itemDict.insert( _fileitem, item );
+        m_itemDict.insert( *it, item );
     }
     KonqDirPart::newItems( entries );
 }
@@ -791,7 +789,7 @@ bool KonqKfmIconView::openURL( const KURL & url )
     if ( !m_dirLister )
     {
         // Create the directory lister
-        m_dirLister = new KonqDirLister( true );
+        m_dirLister = new KDirLister( true );
 
         QObject::connect( m_dirLister, SIGNAL( started( const KURL & ) ),
                           this, SLOT( slotStarted() ) );
