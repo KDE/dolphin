@@ -174,7 +174,7 @@ KonqBaseListViewWidget::~KonqBaseListViewWidget()
 {
    kdDebug(1202) << "-KonqBaseListViewWidget" << endl;
 
-   delete m_selected;
+   delete m_selected; m_selected = 0;
 
    // TODO: this is a hack, better fix the connections of m_dirLister if possible!
    m_dirLister->disconnect( this );
