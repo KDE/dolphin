@@ -8,20 +8,14 @@ Last modified: 8 May 1999
 Overall design of konqueror :
 =============================
 
-The design of konqueror is based on the parent/child part mechanism
-(basically, a part, i.e. what can be embedded in another application, 
-can have several child parts which are, in the case of konqueror, 
-the different views shown : icon views, tree views, html views...)
-
-The parent part is called the "main view", implemented in KonqMainView,
-which derives from OPPartIf.
-
-The win
-KonqMainWindow, which derives from OPMainWindowIf.
+The design of konqueror is based on the KParts part/mainwindow mechanism
+(basically, konqueror can embed several views (parts) :
+icon views, tree views, html views...)
 
 The main(), including all the startup mechanism is in konq_main.*
-Among other things, it creates a KonqTopWidget in order to handle session
-management - and create the initial KonqMainWindows.
+
+[not anymore  Among other things, it creates a KonqTopWidget in order to handle
+ session management - and create the initial KonqMainWindows.]
 
 The main view contains several "child views", in order to view several URLs 
 at once, possibly using several modes. Each child view is a KonqChildView
@@ -30,17 +24,8 @@ frame header on top of the view (KonqFrameHeader), ...
 The KonqChildView contains the child part, which can be :
 - an icon view (KonqKfmIconView)
 - a tree view (KonqKfmTreeView)
-- an HTML view (KonqHTMLView) - inherits KBrowser (??)
-- a text view (KonqTxtView)
-- a part view (KonqPartView) - to make it possible for other applications to
-  embed a full-flegded part in them mainview. In fact this view does _not_ have
-  the functionality of a real Konqueror::View ! It is _no_ visual representation
-  of a resource, addressed by an URL.
-
-At this point, it would be interesting to read the IDL. It details most of
-the classes above, defining an interface for it.
-
-All of those classes inherit from KonqBaseView, the base class for the child views.
+- an HTML view (KonqHTMLView)
+- any ReadOnlyPart with or without Browserextension
 
 Additionnally, the icon and tree view define items (one per file) :
 KonqIconViewItem and KonqTreeViewItem, which both inherit KFileIcon 
@@ -49,8 +34,7 @@ KonqIconViewItem and KonqTreeViewItem, which both inherit KFileIcon
 Where to find those classes
 ===========================
 
-kbrowser.* : KBrowser
-kfmrun.* : Re-implementation of KRun (see libkio) for konqueror. Treats
+konq_run.* : Re-implementation of KRun (see libkio) for konqueror. Treats
            HTML and directory in a special way compared to KRun and is also
 	   responsible for finding appropriate view<->mimetype bindings with
 	   the help of KonqPlugins.
@@ -59,23 +43,19 @@ konq_childview.* : KonqChildView, class used by KonqMainView to handle child vie
 konq_frame.* : KonqFrame - not used anymore for now - and KonqFrameHeader.
 konq_htmlview.* : KonqHTMLView, html view
 konq_iconview.* : KonqKfmIconView and KonqKfmIconViewItem, for icon views
-konq_main.* : The main() and the definition of KonqApp and KonqApplicationIf
+konq_main.* : The main()
 konq_mainview.* : KonqMainView, main view, one per main window
-konq_mainwindow.* : KonqMainWindow, konqueror window
-konq_partview.* : KonqPartView, embeds parts
 konq_plugins.* : KonqPlugins, used to parse .desktop files looking for plugins,
                  creating the approriate entries in the IMR and forcing the
 		 activation of the plugin servers if they're requested.
 konq_propsmainview.* : -- main view properties stuff, not sure it will remain as is --
 konq_propsview.* : -- view properties stuff, not sure it will remain as is --
-konq_topwidget.* : KonqTopWidget, the hidden widget used for session management
+#konq_topwidget.* : KonqTopWidget, the hidden widget used for session management
 konq_treeview.* : KonqKfmTreeView and KonqKfmTreeViewItem, for tree views
 konq_txtview.* : KonqTxtView, a builtin text viewer
 konqueror.cc, konqueror.h : Files generated from konqueror.idl
 
 konq_defaults.h : Default configuration values, used by konqueror and kcmkonq (todo!)  - problem is to share or not to share those values with kdesktop
-mousemode.h : Needed by kiconcontainer, to choose between single and double 
-              click - we have a problem with it - it's needed everywhere
 
 Libs used by konqueror
 ======================
