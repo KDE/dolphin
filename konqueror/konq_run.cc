@@ -29,7 +29,7 @@
 
 KonqRun::KonqRun( KonqMainWindow* mainWindow, KonqView *_childView,
                   const KURL & _url, const KonqOpenURLRequest & req )
-  : KRun( _url, 0 /*mode*/, false/*_is_local_file*/, true /*_auto_delete*/ ),
+  : KRun( _url, 0 /*mode*/, false/*_is_local_file*/, false /* no GUI */ ),
     m_req( req )
 {
   m_pMainWindow = mainWindow;
