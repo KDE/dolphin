@@ -1,5 +1,5 @@
 
-INCLUDES= $(all_includes)
+INCLUDES=-I$(top_srcdir)/libkonq $(all_includes)
 
 kde_module_LTLIBRARIES = libkfindpart.la
 
