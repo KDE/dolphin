@@ -8,7 +8,7 @@ INCLUDES = $(all_includes)
 # these are the headers for your project
 noinst_HEADERS = konqsidebar.h sidebar_widget.h
 
-include_HEADERS = konqsidebarplugin.h
+#include_HEADERS = konqsidebarplugin.h
 
 # let automoc handle all of the meta source files (moc)
 METASOURCES = AUTO
