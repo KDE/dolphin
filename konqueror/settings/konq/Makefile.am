@@ -5,8 +5,8 @@ METASOURCES = AUTO
 
 lib_LTLIBRARIES = libkcm_konq.la
 
-libkcm_konq_la_SOURCES = rootopts.cpp main.cpp behaviour.cpp fontopts.cpp \
-			miscopts.cpp trashopts.cpp
+libkcm_konq_la_SOURCES = behaviour.cpp rootopts.cpp main.cpp \
+			miscopts.cpp trashopts.cpp fontopts.cpp
 
 libkcm_konq_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
 libkcm_konq_la_LIBADD = $(LIB_KIO) $(LIB_KDEUI)
