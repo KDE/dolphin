@@ -167,7 +167,7 @@ public:
 public slots:
   virtual void slotCloseSubFolder( int _id );
   virtual void slotCloseURL( int _id );
-  virtual void slotListEntry( int _id, UDSEntry& _entry );
+  virtual void slotListEntry( int _id, const UDSEntry& _entry );
   virtual void slotError( int _id, int _errid, const char *_errortext );
 
   virtual void slotBufferTimeout();
@@ -180,7 +180,7 @@ protected slots:
 
   virtual void slotUpdateError( int _id, int _errid, const char *_errortext );
   virtual void slotUpdateFinished( int _id );
-  virtual void slotUpdateListEntry( int _id, UDSEntry& _entry );
+  virtual void slotUpdateListEntry( int _id, const UDSEntry& _entry );
   virtual void slotDirectoryDirty( const char *_url );
   virtual void slotCurrentChanged( QListViewItem* _item ) { slotOnItem( (KfmTreeViewItem*)_item ); }
 

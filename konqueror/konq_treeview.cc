@@ -812,7 +812,7 @@ void KonqKfmTreeView::openURL( const char *_url )
   m_bTopLevelComplete = false;
 
   KIOJob* job = new KIOJob;
-  QObject::connect( job, SIGNAL( sigListEntry( int, UDSEntry& ) ), this, SLOT( slotListEntry( int, UDSEntry& ) ) );
+  QObject::connect( job, SIGNAL( sigListEntry( int, const UDSEntry& ) ), this, SLOT( slotListEntry( int, const UDSEntry& ) ) );
   QObject::connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotCloseURL( int ) ) );
   QObject::connect( job, SIGNAL( sigError( int, int, const char* ) ),
 	   this, SLOT( slotError( int, int, const char* ) ) );
@@ -886,7 +886,7 @@ void KonqKfmTreeView::openSubFolder( const char *_url, KfmTreeViewDir* _dir )
   m_workingURL = url;
 
   KIOJob* job = new KIOJob;
-  QObject::connect( job, SIGNAL( sigListEntry( int, UDSEntry& ) ), this, SLOT( slotListEntry( int, UDSEntry& ) ) );
+  QObject::connect( job, SIGNAL( sigListEntry( int, const UDSEntry& ) ), this, SLOT( slotListEntry( int, const UDSEntry& ) ) );
   QObject::connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotCloseSubFolder( int ) ) );
   QObject::connect( job, SIGNAL( sigError( int, int, const char* ) ),
 	   this, SLOT( slotError( int, int, const char* ) ) );
@@ -915,7 +915,7 @@ void KonqKfmTreeView::slotCloseSubFolder( int /*_id*/ )
   SIGNAL_CALL1( "completed", id() );
 }
 
-void KonqKfmTreeView::slotListEntry( int /*_id*/, UDSEntry& _entry )
+void KonqKfmTreeView::slotListEntry( int /*_id*/, const UDSEntry& _entry )
 {
   m_buffer.push_back( _entry );
   if ( !m_bufferTimer.isActive() )
@@ -1064,8 +1064,8 @@ void KonqKfmTreeView::updateDirectory( KfmTreeViewDir *_dir, const char *_url )
   m_strWorkingURL = _url;
 
   KIOJob* job = new KIOJob;
-  QObject::connect( job, SIGNAL( sigListEntry( int, UDSEntry& ) ), this,
-	   SLOT( slotUpdateListEntry( int, UDSEntry& ) ) );
+  QObject::connect( job, SIGNAL( sigListEntry( int, const UDSEntry& ) ), this,
+	   SLOT( slotUpdateListEntry( int, const UDSEntry& ) ) );
   QObject::connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotUpdateFinished( int ) ) );
   QObject::connect( job, SIGNAL( sigError( int, int, const char* ) ),
 	   this, SLOT( slotUpdateError( int, int, const char* ) ) );
@@ -1217,7 +1217,7 @@ void KonqKfmTreeView::slotUpdateFinished( int /*_id*/ )
   SIGNAL_CALL1( "completed", id() );
 }
 
-void KonqKfmTreeView::slotUpdateListEntry( int /*_id*/, UDSEntry& _entry )
+void KonqKfmTreeView::slotUpdateListEntry( int /*_id*/, const UDSEntry& _entry )
 {
   m_buffer.push_back( _entry );
 }

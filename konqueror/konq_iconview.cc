@@ -370,7 +370,7 @@ void KonqKfmIconView::openURL( const char *_url )
   m_bComplete = false;
 
   KIOJob* job = new KIOJob;
-  QObject::connect( job, SIGNAL( sigListEntry( int, UDSEntry& ) ), this, SLOT( slotListEntry( int, UDSEntry& ) ) );
+  QObject::connect( job, SIGNAL( sigListEntry( int, const UDSEntry& ) ), this, SLOT( slotListEntry( int, const UDSEntry& ) ) );
   QObject::connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotCloseURL( int ) ) );
   QObject::connect( job, SIGNAL( sigError( int, int, const char* ) ),
 	   this, SLOT( slotError( int, int, const char* ) ) );
@@ -408,7 +408,7 @@ void KonqKfmIconView::slotCloseURL( int /*_id*/ )
   SIGNAL_CALL1( "completed", id() );
 }
 
-void KonqKfmIconView::slotListEntry( int /*_id*/, UDSEntry& _entry )
+void KonqKfmIconView::slotListEntry( int /*_id*/, const UDSEntry& _entry )
 {
   m_buffer.push_back( _entry );
   if ( !m_bufferTimer.isActive() )
@@ -488,7 +488,7 @@ void KonqKfmIconView::updateDirectory()
   m_buffer.clear();
 
   KIOJob* job = new KIOJob;
-  QObject::connect( job, SIGNAL( sigListEntry( int, UDSEntry& ) ), this, SLOT( slotUpdateListEntry( int, UDSEntry& ) ) );
+  QObject::connect( job, SIGNAL( sigListEntry( int, const UDSEntry& ) ), this, SLOT( slotUpdateListEntry( int, const UDSEntry& ) ) );
   QObject::connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotUpdateFinished( int ) ) );
   QObject::connect( job, SIGNAL( sigError( int, int, const char* ) ),
 	   this, SLOT( slotUpdateError( int, int, const char* ) ) );
@@ -593,7 +593,7 @@ void KonqKfmIconView::slotUpdateFinished( int /*_id*/ )
   SIGNAL_CALL1( "completed", id() );
 }
 
-void KonqKfmIconView::slotUpdateListEntry( int /*_id*/, UDSEntry& _entry )
+void KonqKfmIconView::slotUpdateListEntry( int /*_id*/, const UDSEntry& _entry )
 {
   m_buffer.push_back( _entry );
 }
