@@ -1376,17 +1376,28 @@ void KonqIconViewWidget::mousePressChangeValue()
 void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
 {
      QIconViewItem* item = findItem( e->pos() );
-    if ( !KGlobalSettings::singleClick() && m_pSettings->renameIconDirectly() && e->button() == LeftButton && item && item->textRect( false ).contains(e->pos())&& !d->firstClick )
-    {
-        d->firstClick = true;
-        d->mousePos = e->pos();
-        d->mouseState = e->state();
-        QTimer::singleShot(QApplication::doubleClickInterval(),this,SLOT(doubleClickTimeout()));
-        d->releaseMouseEvent = false;
-        return;
-    }
-    else
-        d->renameItem= false;
+
+     KURL url;
+     if ( item )
+     {
+         url = ( static_cast<KFileIVI *>( item ) )->item()->url();
+         bool brenameTrash =false;
+         if ( url.isLocalFile() && (url.directory(false) == KGlobalSettings::trashPath() || url.path(1).startsWith(KGlobalSettings::trashPath())))
+             brenameTrash = true;
+         if ( !brenameTrash && !KGlobalSettings::singleClick() && m_pSettings->renameIconDirectly() && e->button() == LeftButton && item->textRect( false ).contains(e->pos())&& !d->firstClick )
+         {
+             d->firstClick = true;
+             d->mousePos = e->pos();
+             d->mouseState = e->state();
+             QTimer::singleShot(QApplication::doubleClickInterval(),this,SLOT(doubleClickTimeout()));
+             d->releaseMouseEvent = false;
+             return;
+         }
+         else
+             d->renameItem= false;
+     }
+     else
+         d->renameItem= false;
     m_mousePos = e->pos();
     mousePressChangeValue();
     KIconView::contentsMousePressEvent( e );
@@ -1397,13 +1408,21 @@ void KonqIconViewWidget::contentsMouseReleaseEvent( QMouseEvent *e )
 {
     d->releaseMouseEvent = true;
     QIconViewItem* item = findItem( e->pos() );
-    if ( d->renameItem && m_pSettings->renameIconDirectly() && e->button() == LeftButton && item && item->textRect( false ).contains(e->pos()))
+    KURL url;
+    if ( item )
     {
-        item->rename();
-        m_bMousePressed = false;
-        return;
-    }
+        url= ( static_cast<KFileIVI *>( item ) )->item()->url();
+        bool brenameTrash =false;
+        if ( url.isLocalFile() && (url.directory(false) == KGlobalSettings::trashPath() || url.path(1).startsWith(KGlobalSettings::trashPath())))
+         brenameTrash = true;
 
+        if ( !brenameTrash && d->renameItem && m_pSettings->renameIconDirectly() && e->button() == LeftButton && item->textRect( false ).contains(e->pos()))
+        {
+            item->rename();
+            m_bMousePressed = false;
+            return;
+        }
+    }
   m_bMousePressed = false;
   KIconView::contentsMouseReleaseEvent( e );
 }
