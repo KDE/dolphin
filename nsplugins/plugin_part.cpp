@@ -237,7 +237,7 @@ void PluginPart::requestURL(const QString& url, const QString& target)
     kdDebug(1432) << "PluginPart::requestURL( url=" << url
                   << ", target=" << target << endl;
 
-    if (url == "javascript:history.back();") {
+    if (url.startsWith("javascript:history.back")) {
         _extension->browserInterface()->callMethod("goHistory(int)", -1);
         return;
     }
