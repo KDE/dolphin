@@ -85,7 +85,7 @@
                                 </property>
                                 <property>
                                     <name>whatsThis</name>
-                                    <string>Click here to scan for newly installed netscape plugins now.</string>
+                                    <string>Click here to scan for newly installed Netscape plugins now.</string>
                                 </property>
                             </widget>
                             <spacer>
@@ -123,7 +123,7 @@
                         </property>
                         <property>
                             <name>whatsThis</name>
-                            <string>If this option is enabled, KDE will look for new netscape plugins everytime it starts up. This makes it easier for you if you often install new plugins, but it may also slow down KDE startup. You might want to disable this option, especially if you seldom install plugins.</string>
+                            <string>If this option is enabled, KDE will look for new Netscape plugins everytime it starts up. This makes it easier for you if you often install new plugins, but it may also slow down KDE startup. You might want to disable this option, especially if you seldom install plugins.</string>
                         </property>
                     </widget>
                     <widget>
@@ -335,7 +335,7 @@
                         </property>
                         <property>
                             <name>whatsThis</name>
-                            <string>Here you can see a list of the netscape plugins KDE has found.</string>
+                            <string>Here you can see a list of the Netscape plugins KDE has found.</string>
                         </property>
                     </widget>
                     <widget row="0"  column="0" >
