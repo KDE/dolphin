@@ -180,11 +180,13 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
     {
         kdDebug() << "clientApp::createNewWindow using existing konqueror" << endl;
         KonquerorIface_stub konqy( appId, appObj );
-        konqy.createNewWindow( url.url(), mimetype );
-        // TODO this is just a temporary hack <l.lunak@kde.org> 
+        konqy.createNewWindowASN( url.url(), mimetype, kapp->startupId());
         KStartupInfoId id;
         id.initId( kapp->startupId());
-        KStartupInfo::sendFinish( id );
+        KStartupInfoData data;
+        data.addPid( 0 );   // say there's another process for this ASN with unknown PID
+        data.setHostname(); // ( no need to bother to get this konqy's PID )
+        KStartupInfo::sendChange( id, data );
     }
     else
     {
@@ -256,17 +258,19 @@ void clientApp::slotAppRegistered( const QCString &appId )
         }
         KonquerorIface_stub konqy( appId, "KonquerorIface" );
         if ( m_url.isEmpty() )
-            konqy.createBrowserWindowFromProfile( profile, m_profileName );
+            konqy.createBrowserWindowFromProfileASN( profile, m_profileName, kapp->startupId());
         else if ( m_mimetype.isEmpty() )
-            konqy.createBrowserWindowFromProfileAndURL( profile, m_profileName, m_url );
+            konqy.createBrowserWindowFromProfileAndURLASN( profile, m_profileName, m_url, kapp->startupId());
         else
-            konqy.createBrowserWindowFromProfileAndURL( profile, m_profileName, m_url, m_mimetype );
+            konqy.createBrowserWindowFromProfileAndURLASN( profile, m_profileName, m_url, m_mimetype, kapp->startupId());
         sleep(2); // Martin Schenk <martin@schenk.com> says this is necessary to let the server read from the socket
-        // TODO this is just a temporary hack <l.lunak@kde.org> 
         KStartupInfoId id;
         id.initId( kapp->startupId());
-        KStartupInfo::sendFinish( id );
-        ::exit( 0 );
+        KStartupInfoData data;
+        data.addPid( 0 );   // say there's another process for this ASN with unknown PID
+        data.setHostname(); // ( no need to bother to get this konqy's PID )
+        KStartupInfo::sendChange( id, data );
+        kapp->quit();        
     }
 }
 

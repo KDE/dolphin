@@ -48,23 +48,44 @@ k_dcop:
    * Opens a new window for the given @p url (using createSimpleWindow, i.e. a single view)
    */
   ASYNC openBrowserWindow( const QString &url );
+  /**
+   * Like @ref openBrowserWindow , with setting the application startup notification ( ASN )
+   * property on the window.
+   */
+  ASYNC openBrowserWindowASN( const QString &url, const QCString &startup_id );
 
   /**
    * Opens a new window for the given @p url (using createNewWindow, i.e. with an appropriate profile)
    */
   ASYNC createNewWindow( const QString &url );
+  /**
+   * Like @ref createNewWindow , with setting the application startup notification ( ASN )
+   * property on the window.
+   */
+  ASYNC createNewWindowASN( const QString &url, const QCString &startup_id );
 
   /**
    * Opens a new window for the given @p url (using createNewWindow, i.e. with an appropriate profile)
    * @param mimetype to speed it up.
    */
   ASYNC createNewWindow( const QString &url, const QString & mimetype );
+  /**
+   * Like @ref createNewWindow , with setting the application startup notification ( ASN )
+   * property on the window.
+   */
+  ASYNC createNewWindowASN( const QString &url, const QString & mimetype,
+      const QCString &startup_id );
 
   /**
    * As the name says, this creates a window from a profile.
    * Used for instance by khelpcenter.
    */
   ASYNC createBrowserWindowFromProfile( const QString &path );
+  /**
+   * Like @ref createBrowserWindowFromProfile , with setting the application startup
+   * notification ( ASN ) property on the window.
+   */
+  ASYNC createBrowserWindowFromProfileASN( const QString &path, const QCString &startup_id );
 
   /**
    * As the name says, this creates a window from a profile.
@@ -73,6 +94,12 @@ k_dcop:
    * @param filename name of the profile file, if under the profiles dir
    */
   ASYNC createBrowserWindowFromProfile( const QString &path, const QString &filename );
+  /**
+   * Like @ref createBrowserWindowFromProfile , with setting the application startup
+   * notification ( ASN ) property on the window.
+   */
+  ASYNC createBrowserWindowFromProfileASN( const QString &path, const QString &filename,
+      const QCString &startup_id );
 
   /**
    * Creates a window from a profile and a URL.
@@ -83,6 +110,12 @@ k_dcop:
    * @param url the URL to open
    */
   ASYNC createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url );
+  /**
+   * Like @ref createBrowserWindowFromProfileAndURL , with setting the application startup
+   * notification ( ASN ) property on the window.
+   */
+  ASYNC createBrowserWindowFromProfileAndURLASN( const QString &path, const QString &filename, const QString &url,
+      const QCString &startup_id );
 
   /**
    * Creates a window the fastest way : the caller has to provide
@@ -93,6 +126,12 @@ k_dcop:
    * @param mimetype the mimetype that the URL we want to open has
    */
   ASYNC createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype );
+  /**
+   * Like @ref createBrowserWindowFromProfileAndURL , with setting the application startup
+   * notification ( ASN ) property on the window.
+   */
+  ASYNC createBrowserWindowFromProfileAndURLASN( const QString &path, const QString &filename, const QString &url, const QString &mimetype,
+      const QCString& startup_id );
 
   /**
    * Called by kcontrol when the global configuration changes
