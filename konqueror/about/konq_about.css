@@ -60,6 +60,7 @@ body {margin: 0px; padding: 0px; background-color: #7ea0cb;}
 #bar {
   width: 100%;
   background-color: #6785ac;
+  border-bottom: 1px solid black;
 }
 
 #barT {
@@ -91,7 +92,28 @@ body {margin: 0px; padding: 0px; background-color: #7ea0cb;}
 
 #barCenter {
   text-align: center;
-  color: white;
+  color: #282828;
+  font-weight: bold;
+  font-size: small;
+}
+
+#barCenter a.selected, #barCenter a.selected:hover {
+  color: #282828;
+  text-decoration: none;
+  text-shadow: #c8c8c8 0px 0px 5px;
+}
+
+
+#barCenter li a:link, #barCenter li a:visited, #barCenter li a:active {
+  color: #282828;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+#barCenter li a:hover {
+  color: #282828;
+  text-decoration: none;
+  text-shadow: #fff 0px 0px 6px;
 }
 
 #barCenter ul {
@@ -142,6 +164,7 @@ body {margin: 0px; padding: 0px; background-color: #7ea0cb;}
   width: 90%;
   margin-left: 5%;
   margin-right: 5%;
+  margin-top: 1ex;
 }
 
 #boxT {
