@@ -22,7 +22,7 @@
 
 #include <klocale.h>
 #include <kdebug.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kglobal.h>
 #include <konq_pixmapprovider.h>
 
@@ -127,7 +127,7 @@ void KonqSideBarWebModule::pageLoaded() {
 extern "C" {
 	KonqSidebarPlugin* create_konqsidebar_web(KInstance *instance, QObject *parent, QWidget *widget, QString &desktopName, const char *name) {
 		return new KonqSideBarWebModule(instance, parent, widget, desktopName, name);
-	} 
+	}
 }
 
 

@@ -790,4 +790,4 @@ void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const QStrin
     rename( parent, oldurl, newurl );
 }
 
-#include <konq_operations.moc>
+#include "konq_operations.moc"

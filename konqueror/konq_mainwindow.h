@@ -26,7 +26,7 @@
 #include <qguardedptr.h>
 
 #include <kfileitem.h>
-#include <konq_openurlrequest.h>
+#include "konq_openurlrequest.h"
 
 #include <kparts/mainwindow.h>
 #include <kbookmarkmanager.h>

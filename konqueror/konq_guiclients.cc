@@ -20,10 +20,10 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmenubar.h>
-#include <konq_view.h>
-#include <konq_frame.h>
-#include <konq_guiclients.h>
-#include <konq_viewmgr.h>
+#include "konq_view.h"
+#include "konq_frame.h"
+#include "konq_guiclients.h"
+#include "konq_viewmgr.h"
 #include <kiconloader.h>
 
 PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
