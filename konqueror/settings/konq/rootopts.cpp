@@ -46,7 +46,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
     : KCModule( parent, name ), g_pConfig(config)
 {
   QLabel * tmpLabel;
-#define RO_LASTROW 11   // 2 cb, 1 line, 2 combo, 1 line, 3 paths and 1 label + last row
+#define RO_LASTROW 12   // 3 cb, 1 line, 2 combo, 1 line, 3 paths and 1 label + last row
 #define RO_LASTCOL 2
   int row = 0;
   QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, 10);
@@ -80,6 +80,15 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
     " displaying a directory, the order in which files should be sorted, etc."
     " You should not change or delete these files unless you know what you"
     " are doing!") );
+
+  row++;
+  topLevelBox = new QCheckBox(i18n("Enable Top Level Desktop &Menu"), this);
+  lay->addMultiCellWidget(topLevelBox, row, row, 0, 1);
+  connect(topLevelBox, SIGNAL(clicked()), this, SLOT(changed()));
+  QWhatsThis::add( topLevelBox, i18n("Check this option if you want the"
+    " desktop popup menus to appear on the top of the screen in the style"
+    " of Macintosh.  This setting is independent of the global top-level"
+    " menu setting that applys to KDE applications.") );
 
   row++;
   QFrame * hLine2 = new QFrame(this);
@@ -216,6 +225,10 @@ void KRootOptions::load()
     bool bVertAlign = g_pConfig->readNumEntry("VertAlign", DEFAULT_VERT_ALIGN);
     VertAlignBox->setChecked(bVertAlign);
     //
+    g_pConfig->setGroup( "Menubar" );
+    bool bTopLevel = g_pConfig->readBoolEntry("TopLevel", true);
+    topLevelBox->setChecked(bTopLevel);
+    //
     g_pConfig->setGroup( "Mouse Buttons" );
     QString s;
     /*
@@ -243,6 +256,7 @@ void KRootOptions::defaults()
 {
     showHiddenBox->setChecked(DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
     VertAlignBox->setChecked(true);
+    topLevelBox->setChecked(true);
     //leftComboBox->setCurrentItem( NOTHING );
     middleComboBox->setCurrentItem( WINDOWLISTMENU );
     rightComboBox->setCurrentItem( DESKTOPMENU );
@@ -258,6 +272,8 @@ void KRootOptions::save()
     g_pConfig->setGroup( "Desktop Icons" );
     g_pConfig->writeEntry("ShowHidden", showHiddenBox->isChecked());
     g_pConfig->writeEntry("VertAlign",VertAlignBox->isChecked());
+    g_pConfig->setGroup( "Menubar" );
+    g_pConfig->writeEntry("TopLevel",topLevelBox->isChecked());
     g_pConfig->setGroup( "Mouse Buttons" );
     g_pConfig->writeEntry("Left", "" /* s_choices[ leftComboBox->currentItem() ]*/);
     g_pConfig->writeEntry("Middle", s_choices[ middleComboBox->currentItem() ]);
