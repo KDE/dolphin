@@ -1,4 +1,4 @@
 SUBDIRS = ftp web
 
-data_DATA = .directory
-datadir = $(kde_datadir)/konqsidebartng/virtual_folders/remote
+konq_sidebartree_virtuals_remote_data_DATA = .directory
+konq_sidebartree_virtuals_remote_datadir = $(kde_datadir)/konqsidebartng/virtual_folders/remote

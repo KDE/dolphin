@@ -15,21 +15,21 @@ kcm_konq_la_LIBADD = $(LIB_KIO) $(LIB_KDEUI) $(LIB_KSYCOCA)
 kcm_konq_la_DATA = overlapping.png onlyone.png
 kcm_konq_ladir = $(kde_datadir)/kcontrol/pics
 
-data_DATA = filebehavior.desktop fileappearance.desktop filepreviews.desktop
-datadir = $(kde_appsdir)/.hidden
+kcmkonq_data_DATA = filebehavior.desktop fileappearance.desktop filepreviews.desktop
+kcmkonq_datadir = $(kde_appsdir)/.hidden
 
-datadesk_DATA = desktopbehavior.desktop desktop.desktop
-datadeskdir = $(kde_appsdir)/Settings/Desktop
+kcmkonq_datadesk_DATA = desktopbehavior.desktop desktop.desktop
+kcmkonq_datadeskdir = $(kde_appsdir)/Settings/Desktop
 
-data2_DATA = desktoppath.desktop
-data2dir = $(kde_appsdir)/Settings/System
+kcmkonq_data2_DATA = desktoppath.desktop
+kcmkonq_data2dir = $(kde_appsdir)/Settings/System
 
-data3_DATA = filebrowser.desktop
-data3dir = $(kde_appsdir)/Settings/Components
+kcmkonq_data3_DATA = filebrowser.desktop
+kcmkonq_data3dir = $(kde_appsdir)/Settings/Components
 
 uiserver_DIR = $(kde_includes)/kio
 
-EXTRA_DIST = $(kcm_konq_la_DATA) $(data_DATA)
+EXTRA_DIST = $(kcm_konq_la_DATA) $(kcmkonq_data_DATA)
 
 messages:
 	$(XGETTEXT) *.cpp -o $(podir)/kcmkonq.pot

@@ -75,11 +75,11 @@ messages: rc.cpp
 xdg_apps_DATA = kfmclient.desktop kfmclient_dir.desktop kfmclient_html.desktop \
 	kfmclient_war.desktop konqbrowser.desktop konquerorsu.desktop
 
-data2_DATA = Home.desktop
-data2dir = $(kde_appsdir)
+konq_data2_DATA = Home.desktop
+konq_data2dir = $(kde_appsdir)
 
-data4_DATA = konqfilemgr.desktop
-data4dir = $(kde_appsdir)/.hidden
+konq_data4_DATA = konqfilemgr.desktop
+konq_data4dir = $(kde_appsdir)/.hidden
 
 # Use a hand-made rule for profiles because they are renamed upon installation
 profiledir = $(kde_datadir)/konqueror/profiles

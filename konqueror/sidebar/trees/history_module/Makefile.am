@@ -13,5 +13,5 @@ kcm_history_la_SOURCES = kcmhistory.cpp history_dlg.ui history_settings.cpp hist
 kcm_history_la_LDFLAGS = $(all_libraries) -module -avoid-version -no-undefined
 kcm_history_la_LIBADD = -lkdeui $(top_builddir)/libkonq/libkonq.la
 
-data_DATA = kcmhistory.desktop
-datadir = $(kde_appsdir)/Settings/Network/WebBrowsing/
+konq_sidebartree_history_data_DATA = kcmhistory.desktop
+konq_sidebartree_history_datadir = $(kde_appsdir)/Settings/Network/WebBrowsing/
