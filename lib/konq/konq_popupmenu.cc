@@ -345,8 +345,15 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
 
           if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) )
           {
-              if ( ( !m_sMimeType.isNull() && cfg.readListEntry( "ServiceTypes" ).contains( m_sMimeType ) )
-                   || ( cfg.readEntry( "ServiceTypes" ) == "allfiles" ) )
+              bool ok = !m_sMimeType.isNull() && cfg.readListEntry( "ServiceTypes" ).contains( m_sMimeType );
+              if ( !ok ) {
+                  QString st = cfg.readEntry( "ServiceTypes" );
+                  ok = (st == "all/all" || st == "allfiles" /*compat with KDE up to 3.0.3*/);
+                  if ( !ok && st == "all/allfiles" ) {
+                      ok = m_sMimeType != "inode/directory"; // ## or inherits from it
+                  }
+              }
+              if ( ok )
               {
                   user += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, url.isLocalFile() );
               }
