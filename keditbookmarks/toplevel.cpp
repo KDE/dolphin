@@ -354,7 +354,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
     m_pListView->addColumn( i18n("URL"), 300 );
     m_pListView->addColumn( i18n("Status/Last Modified"), 300 );
 #ifdef DEBUG_ADDRESSES
-    m_pListView->addColumn( "Address", 100 );
+    m_pListView->addColumn( i18n("Address"), 100 );
 #endif
 
     m_bReadOnly = readonly;
