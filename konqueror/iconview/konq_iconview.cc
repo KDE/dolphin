@@ -768,11 +768,6 @@ void KonqKfmIconView::slotCompleted()
       m_pIconView->setRootItem( m_dirLister->rootItem() );
 
     m_pIconView->setContentsPos( m_extension->urlArgs().xOffset, m_extension->urlArgs().yOffset );
-    if ( m_bLoading )
-    {
-	emit completed();
-	m_bLoading = false;
-    }
     //m_paKOfficeMode->setEnabled( m_dirLister->kofficeDocsFound() );
 
     slotOnViewport();
@@ -901,8 +896,16 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
 
 void KonqKfmIconView::slotProcessMimeIcons()
 {
+    //kdDebug() << "KonqKfmIconView::slotProcessMimeIcons() " <<
+    //    m_lstPendingMimeIconItems.count() << endl;
     if ( m_lstPendingMimeIconItems.count() == 0 ) {
 
+        if ( m_bLoading )
+        {
+            kdDebug() << "KonqKfmIconView completed()" << endl;
+            emit completed();
+            m_bLoading = false;
+        }
 	if ( m_bNeedAlign )
         {
             m_bNeedAlign = false;
@@ -910,8 +913,9 @@ void KonqKfmIconView::slotProcessMimeIcons()
         }
 	return;
     }
+    else
+        m_bLoading = true;
 
-    kdDebug() << "KonqKfmIconView::slotProcessMimeIcons()" << endl;
     // Find an icon that's visible.
     //
     // We only find mimetypes for icons that are visible. When more
@@ -948,7 +952,6 @@ void KonqKfmIconView::slotProcessMimeIcons()
 
     if ( currentIcon->serialNumber() != newIcon.serialNumber() )
     {
-        kdDebug() << "currentIcon->serialNumber() != newIcon.serialNumber()" << endl;
 	item->QIconViewItem::setPixmap( newIcon );
 	if ( item->width() > m_pIconView->gridX() )
 	    m_pIconView->setGridX( item->width() );
