@@ -91,8 +91,9 @@ signals:
 
 private:
     int m_firstIndex; // first index in the Go menu
-    QPopupMenu *m_popup; // hack 1 :)
-    QPopupMenu *m_goMenu; // hack 2 :)
+    bool m_goMenuDone; // hack 1 : only do this once
+    QPopupMenu *m_popup; // hack 2 :)
+    QPopupMenu *m_goMenu; // hack 3 :)
 };
 
 class KonqLogoAction : public KAction

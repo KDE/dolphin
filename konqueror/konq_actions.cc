@@ -84,6 +84,7 @@ KonqHistoryAction::KonqHistoryAction( const QString& text, int accel, QObject* p
 {
   m_popup = 0;
   m_firstIndex = 0;
+  m_goMenuDone = false;
 }
 
 KonqHistoryAction::KonqHistoryAction( const QString& text, int accel,
@@ -92,6 +93,7 @@ KonqHistoryAction::KonqHistoryAction( const QString& text, int accel,
 {
   m_popup = 0;
   m_firstIndex = 0;
+  m_goMenuDone = false;
 }
 
 KonqHistoryAction::KonqHistoryAction( const QString& text, const QIconSet& pix, int accel, QObject* parent, const char* name )
@@ -99,6 +101,7 @@ KonqHistoryAction::KonqHistoryAction( const QString& text, const QIconSet& pix, 
 {
   m_popup = 0;
   m_firstIndex = 0;
+  m_goMenuDone = false;
 }
 
 KonqHistoryAction::KonqHistoryAction( const QString& text, const QIconSet& pix,int accel, QObject* receiver, const char* slot, QObject* parent, const char* name )
@@ -106,6 +109,7 @@ KonqHistoryAction::KonqHistoryAction( const QString& text, const QIconSet& pix,i
 {
   m_popup = 0;
   m_firstIndex = 0;
+  m_goMenuDone = false;
 }
 
 KonqHistoryAction::KonqHistoryAction( QObject* parent, const char* name )
@@ -113,6 +117,7 @@ KonqHistoryAction::KonqHistoryAction( QObject* parent, const char* name )
 {
   m_popup = 0;
   m_firstIndex = 0;
+  m_goMenuDone = false;
 }
 
 KonqHistoryAction::~KonqHistoryAction()
@@ -140,8 +145,12 @@ int KonqHistoryAction::plug( QWidget *widget, int index )
 
     return containerCount() - 1;
   }
-  if ( widget->inherits("QPopupMenu") )
+  // Go menu
+  if ( widget->inherits("QPopupMenu") && !m_goMenuDone )
   {
+        // Remember we did that already, so that when plugging this action into a QPopupMenu,
+        // we don't get the history !
+        m_goMenuDone = true;
 	m_goMenu = (QPopupMenu*)widget;
         // Forward signal (to main view)
         connect( m_goMenu, SIGNAL( aboutToShow() ),
