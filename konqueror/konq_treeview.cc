@@ -774,7 +774,7 @@ void KonqKfmTreeView::openURL( const char *_url )
   KURL url( _url );
   if ( url.isMalformed() )
   {
-    QString tmp = i18n( "Malformed URL\n%s" ).arg( _url );
+    QString tmp = i18n( "Malformed URL\n%1" ).arg( _url );
     QMessageBox::critical( this, i18n( "Error" ), tmp, i18n( "OK" ) );
     return;
   }
@@ -792,7 +792,7 @@ void KonqKfmTreeView::openURL( const char *_url )
     QStringList listing = KProtocolManager::self().listing( url.protocol() );
     if ( listing.isEmpty() )
     {
-      QString tmp = i18n( "Unknown Protocol %s" ).arg( url.protocol());
+      QString tmp = i18n( "Unknown Protocol %1" ).arg( url.protocol());
       QMessageBox::critical( this, i18n( "Error" ), tmp, i18n( "OK" ) );
       return;
     }
