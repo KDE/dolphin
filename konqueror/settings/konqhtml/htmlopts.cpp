@@ -62,9 +62,9 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
                           "such as choosing a link or a folder with the middle mouse button.") );
     connect(m_pShowMMBInTabs, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
-    m_pNewTabsInFront = new QCheckBox( i18n( "Au&tomatically activate new opened tabs" ), bgTabbedBrowsing );
-    QWhatsThis::add( m_pNewTabsInFront, i18n("This will open a new tab in front otherwise as background tab.") );
-    connect(m_pNewTabsInFront, SIGNAL(clicked()), this, SLOT(slotChanged()));
+    m_pNewTabsInBackground = new QCheckBox( i18n( "&Open new tabs in the background" ), bgTabbedBrowsing );
+    QWhatsThis::add( m_pNewTabsInBackground, i18n("This will open a new tab in background otherwise as foreground tab.") );
+    connect(m_pNewTabsInBackground, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
     m_pOpenAfterCurrentPage = new QCheckBox( i18n( "Open new tab after current tab" ), bgTabbedBrowsing );
     QWhatsThis::add( m_pOpenAfterCurrentPage, i18n("This will open a new tab after the current tab, instead of after the last tab.") );
@@ -211,7 +211,7 @@ void KMiscHTMLOptions::load()
 
     m_pConfig->setGroup("FMSettings");
     m_pShowMMBInTabs->setChecked( m_pConfig->readBoolEntry( "MMBOpensTab", false ) );
-    m_pNewTabsInFront->setChecked( m_pConfig->readBoolEntry( "NewTabsInFront", true ) );
+    m_pNewTabsInBackground->setChecked( ! (m_pConfig->readBoolEntry( "NewTabsInFront", false )) );
     m_pOpenAfterCurrentPage->setChecked( m_pConfig->readBoolEntry( "OpenAfterCurrentPage", false ) );
 
     m_pConfig->setGroup("Notification Messages");
@@ -228,7 +228,7 @@ void KMiscHTMLOptions::defaults()
     m_pFormCompletionCheckBox->setChecked(true);
     m_pMaxFormCompletionItems->setEnabled( true );
     m_pShowMMBInTabs->setChecked( false );
-    m_pNewTabsInFront->setChecked( true );
+    m_pNewTabsInBackground->setChecked( true );
     m_pTabConfirm->setChecked( true );
     m_pBackRightClick->setChecked( false );
     m_pOpenAfterCurrentPage->setChecked( false );
@@ -276,7 +276,7 @@ void KMiscHTMLOptions::save()
 
     m_pConfig->setGroup("FMSettings");
     m_pConfig->writeEntry( "MMBOpensTab", m_pShowMMBInTabs->isChecked() );
-    m_pConfig->writeEntry( "NewTabsInFront", m_pNewTabsInFront->isChecked() );
+    m_pConfig->writeEntry( "NewTabsInFront", !(m_pNewTabsInBackground->isChecked()) );
     m_pConfig->writeEntry( "OpenAfterCurrentPage", m_pOpenAfterCurrentPage->isChecked() );
 
     // It only matters wether the key is present, its value has no meaning

@@ -936,7 +936,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
     if ( args.newTab() || config->readBoolEntry( "MMBOpensTab", false ) ) {
       KonqOpenURLRequest req;
       req.newTab = true;
-      req.newTabInFront = config->readBoolEntry( "NewTabsInFront", true );
+      req.newTabInFront = config->readBoolEntry( "NewTabsInFront", false );
       req.args = args;
       openURL( 0L, url, QString::null, req );
     }

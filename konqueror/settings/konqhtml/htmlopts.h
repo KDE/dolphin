@@ -55,7 +55,7 @@ private:
     QCheckBox* m_pAutoRedirectCheckBox;
     QCheckBox* m_pBackRightClick;
     QCheckBox* m_pShowMMBInTabs;
-    QCheckBox* m_pNewTabsInFront;
+    QCheckBox* m_pNewTabsInBackground;
     QCheckBox* m_pTabConfirm;
     QCheckBox* m_pFormCompletionCheckBox;
     QCheckBox* m_pOpenAfterCurrentPage;
