@@ -30,6 +30,7 @@
 #include <ktexteditor/printinterface.h>
 #include <ktexteditor/encodinginterface.h>
 #include <ktexteditor/editorchooser.h>
+
 #include <kate/document.h>
 
 #include <dcopclient.h>
@@ -589,7 +590,7 @@ extern "C" int kdemain(int argc, char **argv)
   KCmdLineArgs::init( argc, argv, s_about );
   KCmdLineArgs::addCmdLineOptions( options );
 
-  KApplication *a = new KApplication();
+  KApplication a;
 
   KGlobal::locale()->insertCatalogue("katepart");
 
@@ -601,10 +602,15 @@ extern "C" int kdemain(int argc, char **argv)
   }
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-  if (kapp->isRestored()) {
+
+  if (kapp->isRestored())
+  {
     KWrite::restore();
-  } else {
+  }
+  else
+  {
     KWrite *t;
+
     if ( args->count() == 0 )
     {
         t = new KWrite;
@@ -633,14 +639,21 @@ extern "C" int kdemain(int argc, char **argv)
         for ( int i = 0; i < args->count(); ++i )
         {
             t = new KWrite();
+
+	    if (Kate::document (t->kateView()->document()))
+	      Kate::Document::setOpenErrorDialogsActivated (false);
+
             t->readConfig();
             t->loadURL( args->url( i ) );
             t->init();
-        }
+
+	    if (Kate::document (t->kateView()->document()))
+	      Kate::Document::setOpenErrorDialogsActivated (true);
+	}
     }
   }
 
-  int r = a->exec();
+  int r = a.exec();
 
   args->clear();
   return r;
