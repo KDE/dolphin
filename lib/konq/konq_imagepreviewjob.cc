@@ -28,7 +28,6 @@
 #include <kapp.h>
 #include <ktempfile.h>
 #include <ktrader.h>
-#include <assert.h>
 
 /**
  * A job that determines the thumbnails for the images in the current directory
@@ -149,7 +148,7 @@ void KonqImagePreviewJob::itemRemoved( KFileIVI * item )
 void KonqImagePreviewJob::slotResult( KIO::Job *job )
 {
   subjobs.remove( job );
-  assert ( subjobs.isEmpty() ); // We should have only one job at a time ...
+  ASSERT ( subjobs.isEmpty() ); // We should have only one job at a time ...
   switch ( m_state ) {
     case STATE_STATORIG:
     {
