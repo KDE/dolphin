@@ -252,12 +252,7 @@ int clientApp::doIt()
   else if ( command == "openProfile" )
   {
     checkArgumentCount(argc, 2, 2);
-    if (!args->url(1).isLocalFile())
-    {
-       fprintf( stderr, i18n("Syntax Error: Profile must be a local file\n").local8Bit() );
-       return 1;
-    }
-    return openProfile( args->url(1).path(), QString::null );
+    return openProfile( QString::fromLocal8Bit(args->arg(1)), QString::null );
   }
   else if ( command == "openProperties" )
   {
