@@ -174,7 +174,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_bookmarkBarActionCollection = 0L;
   KonqExtendedBookmarkOwner *extOwner = new KonqExtendedBookmarkOwner( this );
   m_pBookmarksOwner = extOwner;
-  connect( extOwner, 
+  connect( extOwner,
            SIGNAL( signalFillBookmarksList(KExtendedBookmarkOwner::QStringPairList &) ),
            extOwner,
            SLOT( slotFillBookmarksList(KExtendedBookmarkOwner::QStringPairList &) ) );
@@ -801,7 +801,8 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   }
   else // We know the child view
   {
-      ok = childView->changeViewMode( serviceType, serviceName );
+      if ( !childView->isLockedViewMode() )
+          ok = childView->changeViewMode( serviceType, serviceName );
   }
 
   if (ok)
@@ -905,7 +906,7 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
                                       const QString & serviceType, KonqView * senderView )
 {
   if ( !senderView->isLinkedView() && senderView != m_currentView )
-      return false; // none of those features apply -> return
+    return false; // none of those features apply -> return
 
   bool res = false;
   kdDebug(1202) << "makeViewsFollow " << senderView->className() << " url=" << url.url() << " serviceType=" << serviceType << endl;
@@ -922,6 +923,7 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
 
   for ( KonqView * view = listViews.first() ; view ; view = listViews.next() )
   {
+    bool followed = false;
     // Views that should follow this URL as both views are linked
     if ( (view != senderView) && view->isLinkedView() && senderView->isLinkedView())
     {
@@ -930,25 +932,35 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
       // XXX duplicate code from ::openURL
       if ( view == m_currentView )
       {
-          abortLoading();
-          setLocationBarURL( url.prettyURL() );
+        abortLoading();
+        setLocationBarURL( url.prettyURL() );
       }
       else
-          view->stop();
+        view->stop();
 
-      res = openView( serviceType, url, view, req ) || res;
+      followed = openView( serviceType, url, view, req );
     }
     else
     {
-        // Make the sidebar follow the URLs opened in the active view
-        if ((view!=senderView) && view->isFollowActive() && senderView == m_currentView)
-        {
-            // Note that the return value is ignored. When clicking on a file it's not enough
-            // that the dirtree follows, to mean "the other views followed".
-            // We still want to see that file (e.g. in a separate viewer).
-            (void)openView(serviceType,url,view,req);
-        }
+      // Make the sidebar follow the URLs opened in the active view
+      if ((view!=senderView) && view->isFollowActive() && senderView == m_currentView)
+      {
+        followed = openView(serviceType, url, view, req);
+      }
     }
+
+    // Ignore return value if the view followed but doesn't really
+    // show the file contents. We still want to see that
+    // file, e.g. in a separate viewer.
+    // This happens in views locked to a directory mode,
+    // like sidebar and konsolepart (#52161).
+    bool ignore = view->isLockedViewMode() && view->supportsServiceType("inode/directory");
+    //kdDebug(1202) << "View " << view->service()->name()
+    //              << " supports dirs: " << view->supportsServiceType( "inode/directory" )
+    //              << " is locked-view-mode:" << view->isLockedViewMode()
+    //              << " ignore=" << ignore << endl;
+    if ( !ignore )
+      res = followed || res;
   }
 
   return res;
@@ -3727,7 +3739,7 @@ void KonqMainWindow::show()
   KParts::MainWindow::show();
 }
 
-QString KonqExtendedBookmarkOwner::currentURL() const 
+QString KonqExtendedBookmarkOwner::currentURL() const
 {
    return m_pKonqMainWindow->currentURL();
 }
@@ -3772,7 +3784,7 @@ void KonqExtendedBookmarkOwner::slotFillBookmarksList( KExtendedBookmarkOwner::Q
   }
 }
 
-QString KonqExtendedBookmarkOwner::currentTitle() const 
+QString KonqExtendedBookmarkOwner::currentTitle() const
 {
    return m_pKonqMainWindow->currentTitle();
 }

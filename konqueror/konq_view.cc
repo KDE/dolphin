@@ -254,14 +254,14 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
     prop = m_service->property( "X-KDE-BrowserView-HierarchicalView");
     if ( prop.isValid() && prop.toBool() )
     {
-      kdDebug() << "KonqView::switchView X-KDE-BrowserView-HierarchicalView -> setHierarchicalView" << endl;	    
+      kdDebug() << "KonqView::switchView X-KDE-BrowserView-HierarchicalView -> setHierarchicalView" << endl;
       setHierarchicalView( true );  // set as hierarchial
     }
     else
     {
 	    setHierarchicalView( false );
     }
-    
+
     // Honour "linked view"
     prop = m_service->property( "X-KDE-BrowserView-LinkedView");
     if ( prop.isValid() && prop.toBool() )
@@ -291,14 +291,11 @@ bool KonqView::changeViewMode( const QString &serviceType,
   if ( m_serviceType == serviceType && (serviceName.isEmpty() || serviceName == m_service->desktopEntryName()) )
     return true;
 
-  // Special hack for sidebar views. They are isLockedViewMode(), but we want
-  // to be able to follow directory changes. So, pretend we changed the view
-  // mode instead of returning false.
-  if ( isLockedViewMode() && m_serviceType == "Browser/View" && serviceType == "inode/directory" )
-    return true;
-
   if ( isLockedViewMode() )
+  {
+    //kdDebug(1202) << "This view's mode is locked - can't change" << endl;
     return false; // we can't do that if our view mode is locked
+  }
 
   kdDebug(1202) << "Switching view modes..." << endl;
   KTrader::OfferList partServiceOffers, appServiceOffers;
@@ -322,12 +319,13 @@ bool KonqView::changeViewMode( const QString &serviceType,
   if ( m_service && m_service->desktopEntryPath() == service->desktopEntryPath() )
   {
     kdDebug( 1202 ) << "KonqView::changeViewMode. Reusing service. Service type set to " << m_serviceType << endl;
-    if ( m_pMainWindow->currentView() == this )
-        m_pMainWindow->updateViewModeActions();
+    if (  m_pMainWindow->currentView() == this )
+      m_pMainWindow->updateViewModeActions();
   }
   else
   {
     m_service = service;
+
     switchView( viewFactory );
   }
 
@@ -341,7 +339,6 @@ bool KonqView::changeViewMode( const QString &serviceType,
     kdDebug(1202) << "Giving focus to new part " << m_pPart << endl;
     m_pMainWindow->viewManager()->setActivePart( m_pPart );
   }
-
   return true;
 }
 
@@ -874,7 +871,7 @@ void KonqView::setHierarchicalView( bool mode )
 {
  m_bHierarchicalView=mode;
 }
-		
+
 
 
 void KonqView::setLinkedView( bool mode )
