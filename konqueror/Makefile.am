@@ -45,11 +45,9 @@ konqueror_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel \
 konqueror_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 konqueror_LDADD = libkonqueror.la $(LIB_KIMGIO)
 
-messages:
-	$(EXTRACTRC) *.rc */*.rc > partrc.cc
-	$(XGETTEXT) -kaliasLocal \
-  -o $(podir)/konqueror.pot *.h *.cc *view/*h *view/*cc partrc.cc
-	rm partrc.cc
+messages: rc.cpp
+	$(EXTRACTRC) */*.rc >> rc.cpp
+	$(XGETTEXT) -kaliasLocal -o $(podir)/konqueror.pot rc.cpp *.h *.cc *view/*h *view/*cc 
 
 check_PROGRAMS = linktest
 #using $(konqueror_SOURCES) below doesn't work (am_edit)
