@@ -465,15 +465,14 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
             // (If this fails, there is a bug in KonqFileItem::acceptsDrops)
             kdDebug(1203) << "KonqOperations::doDrop " << dest.path() << "should be an executable" << endl;
             ASSERT ( access( QFile::encodeName(dest.path()), X_OK ) == 0 );
+            KProcess proc;
+            proc << dest.path() ;
             // Launch executable for each of the files
             KURL::List::Iterator it = lst.begin();
             for ( ; it != lst.end() ; it++ )
-            {
-                KProcess proc;
-                proc << dest.path() << (*it).path(); // assume local files
-                kdDebug(1203) << "starting " << dest.path() << " " << (*it).path() << endl;
-                proc.start( KProcess::DontCare );
-            }
+                proc << (*it).path(); // assume local files
+            kdDebug(1203) << "starting " << dest.path() << " with " << lst.count() << " arguments" << endl;
+            proc.start( KProcess::DontCare );
         }
     }
     delete this;
