@@ -25,7 +25,7 @@
 
 #include <dcopobject.h>
 
-class KonqSidebarHistorySettings : public QObject, virtual public DCOPObject
+class KonqSidebarHistorySettings : public QObject, public DCOPObject
 {
     K_DCOP
     Q_OBJECT
