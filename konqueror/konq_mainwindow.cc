@@ -1252,24 +1252,26 @@ void KonqMainWindow::slotConfigureKeys()
 void KonqMainWindow::slotConfigureToolbars()
 {
   saveMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
-
   QString savedURL = m_combo ? m_combo->currentText() : QString::null;
-  KEditToolbar edit(factory());
-  if ( edit.exec() )
+  KEditToolbar dlg(factory());
+  connect(&dlg,SIGNAL(newToolbarConfig()),this,SLOT(slotNewToolbarConfig()));
+  if ( dlg.exec() )
   {
+    if ( m_combo )
+      m_combo->setTemporary(savedURL);
+  }
+}
+
+void KonqMainWindow::slotNewToolbarConfig() // This is called when OK or Apply is clicked
+{
     if ( m_toggleViewGUIClient )
       plugActionList( QString::fromLatin1( "toggleview" ), m_toggleViewGUIClient->actions() );
     if ( m_currentView && m_currentView->appServiceOffers().count() > 0 )
       plugActionList( "openwith", m_openWithActions );
-
+ 
     plugViewModeActions();
-
+ 
     applyMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
-    //updateBookmarkBar();
-
-    if ( m_combo )
-      m_combo->setTemporary(savedURL);
-  }
 }
 
 void KonqMainWindow::slotUndoAvailable( bool avail )

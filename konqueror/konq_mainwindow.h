@@ -267,6 +267,7 @@ public slots:
   void slotConfigure();
   void slotConfigureKeys();
   void slotConfigureToolbars();
+  void slotNewToolbarConfig();
 
   void slotUndoAvailable( bool avail );
 
