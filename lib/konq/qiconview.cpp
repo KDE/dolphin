@@ -185,10 +185,10 @@ QIconViewItemLineEdit::QIconViewItemLineEdit( const QString &text, QWidget *pare
 					      QIconViewItem *theItem, const char *name )
     : QMultiLineEdit( parent, name ), item( theItem ), startText( text )
 {
-    setWordWrap( QMultiLineEdit::FixedWidthWrap | QMultiLineEdit::BreakWithinWords );
-    setWrapColumnOrWidth( item->iconView()->maxItemWidth() - ( item->iconView()->itemTextPos() == QIconView::Bottom ?
-			  0 : item->iconRect().width() ) );
-    setMaxLength( item->iconView()->maxItemTextLength() );
+//     setWordWrap( QMultiLineEdit::FixedWidthWrap | QMultiLineEdit::BreakWithinWords );
+//     setWrapColumnOrWidth( item->iconView()->maxItemWidth() - ( item->iconView()->itemTextPos() == QIconView::Bottom ?
+// 			  0 : item->iconRect().width() ) );
+//     setMaxLength( item->iconView()->maxItemTextLength() );
     setAlignment( Qt::AlignCenter );
     setText( text );
     clearTableFlags();
