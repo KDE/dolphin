@@ -67,6 +67,8 @@ protected:
     void selectWord(QKeyEvent *e);
 
 signals:
+    // note: listen to this signal, not activated( const QString& )!
+    // The latter is not emitted reliably.
     void activated( const QString &, ButtonState );
 
 private slots:
