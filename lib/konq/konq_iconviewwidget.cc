@@ -385,8 +385,7 @@ void KonqIconViewWidget::slotPreviewResult()
     if (autoArrange() && d->updateAfterPreview ) {
         arrangeItemsInGrid();
         d->updateAfterPreview = false;
-}
-
+    }
     emit imagePreviewFinished();
 }
 
@@ -568,6 +567,14 @@ void KonqIconViewWidget::setURL( const KURL &kurl )
 void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, bool force )
 {
     stopImagePreview(); // just in case
+
+    // Check config
+    KConfigGroup group( KGlobal::config(), "PreviewSettings" );
+    if ( !group.readBoolEntry( url().protocol(), true ) ) {
+        kdDebug(1203) << "Previews disabled for protocol " << url().protocol() << endl;
+        emit imagePreviewFinished();
+        return;
+    }
 
     if ((d->bSoundPreviews = previewSettings.contains( "audio/" )) &&
         !d->pSoundPlayer)
