@@ -1,13 +1,9 @@
 #include <qgrid.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qspinbox.h>
-#include <qvgroupbox.h>
 #include <qtooltip.h>
 #include <qcheckbox.h>
 #include <qwhatsthis.h>
-#include <qtooltip.h>
-#include <qgrid.h>
 #include <qvgroupbox.h>
 
 #include <kio/ioslave_defaults.h>
@@ -28,9 +24,10 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
     QVBoxLayout* mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
                                                KDialog::spacingHint() );
     gb_Timeout = new QVGroupBox( i18n("Timeout Values"), this, "gb_Timeout" );
-    QWhatsThis::add( gb_Timeout, i18n( "Here you can set timeout values. "
-				       "You might want to tweak them if "
-				       "your connection is very slow." ) );
+    QWhatsThis::add( gb_Timeout, i18n("Here you can set timeout values. "
+                                      "You might want to tweak them if your "
+                                      "connection is very slow. The maximum "
+                                      "allowed value is %1 seconds.").arg(MAX_TIMEOUT_VALUE));
 
 
     QGrid *grid = new QGrid(4, Qt::Vertical, gb_Timeout);
@@ -62,13 +59,10 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
     sb_serverResponse->setSuffix( i18n( " sec" ) );
     connect(sb_serverResponse, SIGNAL(valueChanged ( int )),this, SLOT(timeoutChanged(int)));
 
-	 QWidget *spacer = new QWidget(grid);
+    QWidget *spacer = new QWidget(grid);
     spacer->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
 
-
     mainLayout->addWidget( gb_Timeout );
-
-
 
     gb_Ftp = new QVGroupBox( i18n( "FTP Options" ), this, "gb_Ftp" );
     cb_ftpEnablePasv = new QCheckBox( i18n( "Enable passive &mode (PASV)" ), gb_Ftp );
@@ -135,8 +129,10 @@ void KIOPreferences::save()
   QByteArray data;
   QDataStream stream( data, IO_WriteOnly );
   stream << QString::null;
+
   if ( !kapp->dcopClient()->isAttached() )
     kapp->dcopClient()->attach();
+
   kapp->dcopClient()->send( "*", "KIO::Scheduler",
                             "reparseSlaveConfiguration(QString)", data );
 }
@@ -159,8 +155,8 @@ QString KIOPreferences::quickHelp() const
   return i18n("<h1>Network Preferences</h1>Here you can define"
               " the behavior of KDE programs when using Internet"
               " and network connections. If you experience timeouts"
-              " and problems or sit behind a modem, you might want"
-              " to adjust these values." );
+              " or use a modem to connect to the internet, you might"
+              " want to adjust these settings." );
 }
 
 #include "netpref.moc"

@@ -23,6 +23,7 @@ public:
     void load();
     void save();
     void defaults();
+
     QString quickHelp() const;
 
 signals:
@@ -30,7 +31,7 @@ signals:
 
 protected slots:
     void timeoutChanged(int) { configChanged(); }
-    void configChanged(){emit changed(true);}
+    void configChanged() { emit changed(true); }
 
 private:
     QGroupBox* gb_Ftp;
