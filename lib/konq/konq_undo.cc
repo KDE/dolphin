@@ -200,7 +200,7 @@ void KonqUndoManager::undo()
 
   if ( d->m_current.m_type == KonqCommand::COPY )
     d->m_dirStack.clear();
-  
+
   undoStep();
 }
 
@@ -220,8 +220,8 @@ void KonqUndoManager::slotResult( KIO::Job *job )
 
 void KonqUndoManager::undoStep()
 {
-  d->m_currentJob = 0; 
-  
+  d->m_currentJob = 0;
+
   if ( d->m_undoState == MAKINGDIRS )
   {
     if ( !d->m_dirStack.isEmpty() )
@@ -232,13 +232,13 @@ void KonqUndoManager::undoStep()
     else
       d->m_undoState = MOVINGFILES;
   }
-  
+
   if ( d->m_undoState == MOVINGFILES )
   {
     if ( !d->m_current.m_opStack.isEmpty() )
     {
       KonqBasicOperation op = d->m_current.m_opStack.pop();
-    
+
       assert( op.m_valid );
       if ( op.m_directory )
       {
@@ -251,7 +251,7 @@ void KonqUndoManager::undoStep()
           d->m_currentJob = new KIO::SimpleJob( op.m_dst, KIO::CMD_RENAME, packedArgs, false );
         }
         else
-  	  assert( 0 ); // this should not happen!  
+  	  assert( 0 ); // this should not happen!
       }
       else
         d->m_currentJob = KIO::file_move( op.m_dst, op.m_src, -1, true );
@@ -259,7 +259,7 @@ void KonqUndoManager::undoStep()
     else
       d->m_undoState = REMOVINGDIRS;
    }
-  
+
   if ( d->m_undoState == REMOVINGDIRS )
   {
     if ( !d->m_dirCleanupStack.isEmpty() )
@@ -274,7 +274,7 @@ void KonqUndoManager::undoStep()
       broadcastUnlock();
     }
   }
-  
+
   if ( d->m_currentJob )
     connect( d->m_currentJob, SIGNAL( result( KIO::Job * ) ),
 	     this, SLOT( slotResult( KIO::Job * ) ) );
@@ -303,14 +303,14 @@ void KonqUndoManager::pop()
 
 void KonqUndoManager::lock()
 {
-  assert( !d->m_lock );
+//  assert( !d->m_lock );
   d->m_lock = true;
   emit undoAvailable( undoAvailable() );
 }
 
 void KonqUndoManager::unlock()
 {
-  assert( d->m_lock );
+//  assert( d->m_lock );
   d->m_lock = false;
   emit undoAvailable( undoAvailable() );
 }
@@ -348,7 +348,7 @@ void KonqUndoManager::broadcastPop()
 
 void KonqUndoManager::broadcastLock()
 {
-  assert( !d->m_lock );
+//  assert( !d->m_lock );
 
   if ( !d->m_syncronized )
   {
@@ -362,7 +362,7 @@ void KonqUndoManager::broadcastLock()
 
 void KonqUndoManager::broadcastUnlock()
 {
-  assert( d->m_lock );
+//  assert( d->m_lock );
 
   if ( !d->m_syncronized )
   {
