@@ -207,7 +207,6 @@ else
   DO_NOT_COMPILE="$DO_NOT_COMPILE nsplugins"
 fi
 
-AC_REQUIRE([K_PATH_X])
 AC_CHECK_LIB(Xp, XpStartPage, [MOTIF_LIBS="$MOTIF_LIBS -lXp"
 AC_SUBST(MOTIF_LIBS)
 ], [], [$all_libraries -lXext -lX11 $LIBSOCKET])
