@@ -109,7 +109,6 @@ class KonqFrameStatusBar : public KStatusBar
       void slotLoadingProgress( int percent );
       void slotSpeedProgress( int bytesPerSecond );
       void slotDisplayStatusText(const QString& text);
-      void slotFontChanged();
 
       void slotClear();
       void message ( const QString & message );
@@ -134,7 +133,10 @@ class KonqFrameStatusBar : public KStatusBar
        */
       virtual void splitFrameMenu();
 
-      void adjustHeight();
+      /**
+       * Takes care of the statusbars size 
+       **/
+      virtual void fontChanged();
 
    private:
       KonqFrame* m_pParentKonqFrame;

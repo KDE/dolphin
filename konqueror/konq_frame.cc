@@ -28,7 +28,6 @@
 #include <qkeysequence.h>
 
 #include <kapplication.h>
-#include <kipc.h>
 #include <kdebug.h>
 #include <kiconloader.h>
 #include <kprogress.h>
@@ -96,17 +95,14 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
     m_progressBar->setSizePolicy(QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ));
     addWidget( m_progressBar, 0, true /*permanent->right align*/ );
 
-    //kapp->addKipcEventMask(KIPC::FontChanged);
-    connect(kapp, SIGNAL(kdisplayFontChanged()), this, SLOT(slotFontChanged()));
-
-    adjustHeight();
+	fontChanged();
 }
 
 KonqFrameStatusBar::~KonqFrameStatusBar()
 {
 }
 
-void KonqFrameStatusBar::adjustHeight()
+void KonqFrameStatusBar::fontChanged()
 {
     int h = fontMetrics().height();
     if ( h < DEFAULT_HEADER_HEIGHT ) h = DEFAULT_HEADER_HEIGHT;
@@ -201,11 +197,6 @@ void KonqFrameStatusBar::slotDisplayStatusText(const QString& text)
 void KonqFrameStatusBar::slotClear()
 {
     slotDisplayStatusText( m_savedMessage );
-}
-
-void KonqFrameStatusBar::slotFontChanged()
-{
-    adjustHeight();
 }
 
 void KonqFrameStatusBar::slotLoadingProgress( int percent )
