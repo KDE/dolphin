@@ -93,9 +93,12 @@ private slots:
     void slotData(KIO::Job *, const QByteArray &);
     void slotResult(KIO::Job *);
     void slotInfoMessage(KIO::Job *, const QString &);
+    void slotKill();
 
 private:
     struct FaviconsModulePrivate *d;
 };
 
 #endif
+
+// vim: ts=4 sw=4 et

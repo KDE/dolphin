@@ -24,6 +24,7 @@
 #include <qfile.h>
 #include <qimage.h>
 #include <qmap.h>
+#include <qtimer.h>
 
 #include <kdatastream.h> // DO NOT REMOVE, otherwise bool marshalling breaks
 #include <kglobal.h>
@@ -48,6 +49,7 @@ struct FaviconsModulePrivate
     QMap<KIO::Job *, DownloadInfo> downloads;
     QStringList failedDownloads;
     KSimpleConfig *config;
+	QList<KIO::Job> killJobs;
 };
 
 FaviconsModule::FaviconsModule(const QCString &obj)
@@ -57,6 +59,7 @@ FaviconsModule::FaviconsModule(const QCString &obj)
     (void) KGlobal::dirs()->saveLocation( "icon", "favicons" );
     d = new FaviconsModulePrivate;
     d->config = new KSimpleConfig(locateLocal("data", "konqueror/faviconrc"));
+	d->killJobs.setAutoDelete(true);
 }
 
 FaviconsModule::~FaviconsModule()
@@ -158,6 +161,11 @@ void FaviconsModule::slotData(KIO::Job *job, const QByteArray &data)
 {
     FaviconsModulePrivate::DownloadInfo &download = d->downloads[job];
     unsigned int oldSize = download.iconData.size();
+    if (oldSize > 0x10000)
+    {
+        d->killJobs.append(job);
+        QTimer::singleShot(0, this, SLOT(slotKill()));
+    }
     download.iconData.resize(oldSize + data.size());
     memcpy(download.iconData.data() + oldSize, data.data(), data.size());
 }
@@ -219,6 +227,11 @@ void FaviconsModule::slotInfoMessage(KIO::Job *job, const QString &msg)
   emitDCOPSignal("infoMessage(KURL,QString)", data);
 }
 
+void FaviconsModule::slotKill()
+{
+    d->killJobs.clear();
+}
+
 extern "C" {
     KDEDModule *create_favicons(const QCString &obj)
     {
@@ -226,3 +239,5 @@ extern "C" {
         return new FaviconsModule(obj);
     }
 };
+
+// vim: ts=4 sw=4 et
