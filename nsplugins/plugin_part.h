@@ -24,8 +24,7 @@ public:
 
   NSPluginCallback(PluginPart *part);
 
-  void requestURL(QCString url);
-
+  virtual void requestURL(QCString url, QCString target);
 
 private:
 
@@ -92,7 +91,7 @@ public:
              const char *name, const QStringList &args = QStringList());
   virtual ~PluginPart();
 
-  void requestURL(QCString url);
+  void requestURL(QCString url, QCString target);
 
   
 protected:
@@ -116,19 +115,6 @@ private:
   QStringList _args;
   class NSPluginLoader *_loader;
   static int s_loaderRef;
-};
-
-
-class PluginBrowserExtension : public KParts::BrowserExtension
-{
-  Q_OBJECT
-  
-  friend class PluginPart;
-
-public:
-  
-  PluginBrowserExtension(PluginPart *parent);
-  virtual ~PluginBrowserExtension();
 };
 
 

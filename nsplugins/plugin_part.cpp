@@ -1,9 +1,7 @@
 #include "plugin_part.h"
 #include "plugin_part.moc"
 
-
 #include "nspluginloader.h"
-
 
 #include <kapp.h>
 #include <klocale.h>
@@ -11,8 +9,14 @@
 #include <kdebug.h>
 #include <dcopclient.h>
 
-
 #include <qlabel.h>
+
+
+class PluginBrowserExtension : public KParts::BrowserExtension
+{
+  friend class PluginPart;
+};
+
 
 
 extern "C"
@@ -29,7 +33,6 @@ extern "C"
 };
 
 
-
 NSPluginCallback::NSPluginCallback(PluginPart *part)
   : DCOPObject()
 {
@@ -37,9 +40,9 @@ NSPluginCallback::NSPluginCallback(PluginPart *part)
 }
 
 
-void NSPluginCallback::requestURL(QCString url)
+void NSPluginCallback::requestURL(QCString url, QCString target)
 {
-  _part->requestURL(url);
+  _part->requestURL(url, target);
 }
 
 
@@ -74,7 +77,7 @@ QObject *PluginFactory::create(QObject *parent, const char *name, const char* cl
 
 KParts::Part * PluginFactory::createPart(QWidget *parentWidget, const char *widgetName,
   	                  	         QObject *parent, const char *name,
-  			                 const char *classname, const QStringList &args)
+  			                 const char */*classname*/, const QStringList &args)
 {
   kDebugInfo("PluginFactory::create");
   KParts::Part *obj = new PluginPart(parentWidget, widgetName, parent, name, args);
@@ -102,7 +105,8 @@ PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *p
   setInstance(PluginFactory::instance());
   kDebugInfo("PluginPart::PluginPart");
 
-  _extension = new PluginBrowserExtension(this);
+  // we have to keep the class name of KParts::PluginBrowserExtension to let khtml find it
+  _extension = (PluginBrowserExtension *)new KParts::BrowserExtension(this);
 
   // create loader
   _loader = NSPluginLoader::instance();
@@ -221,11 +225,13 @@ bool PluginPart::closeURL()
 }
 
 
-void PluginPart::requestURL(QCString url)
+void PluginPart::requestURL(QCString url, QCString target)
 {
+  kdDebug() << "PluginPart::requestURL( url=" << url << ", target=" << target << endl;
   KURL new_url(this->url(), url);
-
-  emit _extension->openURLRequest( new_url );
+  KParts::URLArgs args;
+  args.frameName = target;
+  emit _extension->openURLRequest( new_url, args );
 }
 
 
@@ -235,17 +241,6 @@ void PluginPart::pluginResized(int w, int h)
     _widget->resize(w,h);
 
   kdDebug() << "PluginPart::pluginResized()" << endl;
-}
-
-
-PluginBrowserExtension::PluginBrowserExtension(PluginPart *parent)
-  : KParts::BrowserExtension(parent, "PluginBrowserExtension")
-{
-}
-
-
-PluginBrowserExtension::~PluginBrowserExtension()
-{
 }
 
 
