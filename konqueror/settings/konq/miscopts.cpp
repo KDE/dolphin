@@ -31,9 +31,10 @@ KMiscOptions::KMiscOptions(KConfig *config, QString group, QWidget *parent, cons
     lay->addWidget(urlpropsbox);
     connect(urlpropsbox, SIGNAL(clicked()), this, SLOT(changed()));
 
-    QWhatsThis::add( urlpropsbox, i18n("This allows you to save different settings "
-       "depending on the URL. This way, you can configure konqueror to display certain "
-       "URLs differently.") );
+    QWhatsThis::add( urlpropsbox, i18n("Checking this option allows you to customize"
+       " Konqueror settings separately for each URL. For example, you can configure"
+       " different views for different directories. (Note that you need to have"
+       " write access in those directories in order to save settings.)") );
 
     QGroupBox *gbox = new QGroupBox(i18n("Preferred Programs"), this);
     lay->addWidget(gbox);
@@ -51,8 +52,10 @@ KMiscOptions::KMiscOptions(KConfig *config, QString group, QWidget *parent, cons
     grid->addWidget(leTerminal, 1, 1);
     connect(leTerminal, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
-    QString wtstr = i18n("Enter here your favourite terminal program, e.g. konsole or xterm. This "
-       "program will be used when you select \"Open Terminal ...\".");
+    QString wtstr = i18n("Enter the name of your favourite terminal program here,"
+       " for example, konsole or xterm. This program will be used when you open"
+       " a terminal window from Konqueror by selecting \"Open Terminal ...\","
+       " or by using the Ctrl+T shortcut.");
     QWhatsThis::add( label, wtstr );
     QWhatsThis::add( leTerminal, wtstr );
 

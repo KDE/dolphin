@@ -35,11 +35,15 @@ KTrashOptions::KTrashOptions(KConfig *config, QString group, QWidget *parent, co
 				       KDialog::spacingHint());
     bg->setExclusive( TRUE );
 
-    QWhatsThis::add( bg, i18n("This option tells konqueror what to do if you chose \"delete\" "
-       "in a file context menu. <ul><li><em>Move To Trash</em> moves the file to your trash directory, "
-       "where it can be recovered very easily</li><li><em>Delete</em> simply deletes the file</li><li><em>Shred</em> "
-       "will overwrite the file with certain bit patterns before deleting it. This makes recovery impossible "
-       "and should only be used if you have very confidential information (e.g. work for the CIA)") );
+    QWhatsThis::add( bg, i18n("This option tells Konqueror what to do"
+       " by default when you \"delete\" a file."
+       " <ul><li><em>Move To Trash:</em> moves the file to your trash directory,"
+       " from where it can be recovered very easily.</li>"
+       " <li><em>Delete:</em> simply deletes the file.</li>"
+       " <li><em>Shred:</em> not only deletes the file, but overwrites"
+       " the area on the disk where the file is stored, making recovery impossible."
+       " You should only use this method as the default if you routinely work with"
+       " very confidential information.</li></ul>") );
 
     connect(bg, SIGNAL( clicked( int ) ), SLOT( changed() ));
     connect(bg, SIGNAL( clicked( int ) ), SLOT( slotDeleteBehaviourChanged( int ) ));
@@ -62,8 +66,10 @@ KTrashOptions::KTrashOptions(KConfig *config, QString group, QWidget *parent, co
     connect(m_pConfirmDestructive, SIGNAL(clicked()), this, SLOT(changed()));
     lay->addWidget(m_pConfirmDestructive, 1, 0);
 
-    QWhatsThis::add( m_pConfirmDestructive, i18n("Please check this option if you want "
-       "konqueror to ask you for confirmation before doing dangerous things (e.g. deleting a file).") );
+    QWhatsThis::add( m_pConfirmDestructive, i18n("If you uncheck this option,"
+       " Konqueror will not ask you for confirmation before deleting a file."
+       " If the file is not in your trash directory, recovery may not be"
+       " possible, so be careful!") );
 
     load();
 }

@@ -54,7 +54,8 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent
 
     row++;
     QButtonGroup *bg = new QButtonGroup( i18n("Font Size"), this );
-    QWhatsThis::add( bg, i18n("This is the font size konqueror uses to display icon text (e.g. filenames).") );
+    QWhatsThis::add( bg, i18n("This option allows you to roughly control the size"
+          " of text in Konqueror windows.") );
     QGridLayout *bgLay = new QGridLayout(bg,2,3,10,5);
     bgLay->addRowSpacing(0,10);
     bgLay->setRowStretch(0,0);
@@ -83,7 +84,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent
     m_pStandard = new QComboBox( false, this );
     lay->addMultiCellWidget(m_pStandard,row,row,1,1);
 
-    wtstr = i18n("This is the font konqueror uses to display icon text (e.g. filenames).");
+    wtstr = i18n("This is the font used to display text in Konqueror windows.");
     QWhatsThis::add( label, wtstr );
     QWhatsThis::add( m_pStandard, wtstr );
 
@@ -105,7 +106,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent
     m_pBg = new KColorButton( bgColor, this );
     lay->addWidget(m_pBg,row,COLOR_BUTTON_COL,Qt::AlignLeft);
 
-    wtstr = i18n("This is the background color for konqueror's icon view.");
+    wtstr = i18n("This is the default background color used in Konqueror windows.");
     QWhatsThis::add( label, wtstr );
     QWhatsThis::add( m_pBg, wtstr );
 
@@ -119,7 +120,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent
     m_pNormalText = new KColorButton( normalTextColor, this );
     lay->addWidget(m_pNormalText,row,COLOR_BUTTON_COL,Qt::AlignLeft);
 
-    wtstr = i18n("This is the color konqueror uses to display icon text (e.g. filenames).");
+    wtstr = i18n("This is the color used to display text in Konqueror windows.");
     QWhatsThis::add( label, wtstr );
     QWhatsThis::add( m_pNormalText, wtstr );
 
@@ -133,7 +134,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent
     m_pHighlightedText = new KColorButton( highlightedTextColor, this );
     lay->addWidget(m_pHighlightedText,row,COLOR_BUTTON_COL,Qt::AlignLeft);
 
-    wtstr = i18n("This is the color used to display highlighted text (e.g. for selected files).");
+    wtstr = i18n("This is the color used to display selected text in Konqueror windows.");
     QWhatsThis::add( label, wtstr );
     QWhatsThis::add( m_pHighlightedText, wtstr );
 
@@ -146,15 +147,21 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent
     lay->addMultiCellWidget(m_pWordWrap,row,row,0,LASTCOLUMN);
     connect( m_pWordWrap, SIGNAL(clicked()), this, SLOT(changed()) );
 
-    QWhatsThis::add( m_pWordWrap, i18n("This option tells konqueror to wrap long filenames "
-       "rather than just display what fits into one line.") );
+    QWhatsThis::add( m_pWordWrap, i18n("Checking this option will wrap long filenames"
+       " to multiple lines, rather than showing only the part of the filename"
+       " that fits on a single line.<p>"
+       " Hint: if you uncheck this option, you can still see the word-wrapped filename"
+       " by pausing the mouse pointer over the icon.") );
 
     row++;
     cbUnderline = new QCheckBox(i18n("&Underline filenames"), this);
     lay->addMultiCellWidget(cbUnderline,row,row,0,LASTCOLUMN,Qt::AlignLeft);
     connect(cbUnderline, SIGNAL(clicked()), this, SLOT(changed()));
 
-    QWhatsThis::add( cbUnderline, i18n("Check this if you want filenames to be underlined.") );
+    QWhatsThis::add( cbUnderline, i18n("Checking this option will result in filenames"
+       " being underlined, so that they look like links on a web page. Note:"
+       " to complete the analogy, make sure that single click activation is"
+       " enabled in the mouse control module.") );
 
     assert( row == LASTLINE-1 );
     // The last line is empty and grows if resized

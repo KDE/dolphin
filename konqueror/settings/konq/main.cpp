@@ -108,15 +108,23 @@ void KonqyModule::defaults()
 
 QString KonqyModule::quickHelp()
 {
-  return i18n("<h1>File Manager</h1> Here you can configure konqueror's "
-    "file manager functionality. Please note that the browser functionality has to be "
-    "configured using the \"Konqueror Browser\" configuration module. "
-    "<h2>Behavior</h2>Here you can configure how konqueror will react "
-    "on mouse clicks etc. "
-    "<h2>Appearance</h2>On this tab you can configure the way konqueror "
-    "displays directories. "
-    "<h2>Trash</h2>This determines the way konqueror \"deletes\" files. "
-    "<h2>Other</h2>Here you can set some miscellaneous options. ");
+  return i18n("<h1>File Manager</h1> In this module, you can configure various"
+    " aspects of Konqueror's file manager functionality. Please note that the"
+    " Konqueror's web browser functionality has its own configuration module.<p>"
+    " The configuration options for the file manager are organized under"
+    " four tabs as described below:"
+    " <h2>Behavior</h2>"
+    " This tab contains global options for Konqueror, such as the directory"
+    " tree's reaction to changes in adjoining views, whether directories are"
+    " opened in new windows, etc."
+    " <h2>Appearance</h2>"
+    " This tab contains options customizing the appearance of Konqueror windows,"
+    " such as the font and color of text, background color, etc."
+    " <h2>Trash</h2>"
+    " This tab contains options for customizing the default behavior of"
+    " Konqueror when you \"delete\" a file."
+    " <h2>Other</h2>"
+    " This tab contains a couple of miscellaneous options.");
 }
 
 

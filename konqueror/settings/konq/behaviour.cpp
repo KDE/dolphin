@@ -38,17 +38,16 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
     {
       row++;
       cbTreeFollow = new QCheckBox( i18n( "Tree follows navigation in other views" ), this );
-      QWhatsThis::add( cbTreeFollow, i18n("This option only affects konqueror's behaviour if "
+      QWhatsThis::add( cbTreeFollow, i18n("Checking this option only affects Konqueror's behaviour if "
          "you have several views open, one of which is a tree view. Then, when you change directories "
-         "in one view, the tree view will always highlight the current directory in the other view. This "
-         "is a behaviour similar to what you may know from other file managers.") );
+         "in one view, the tree view will automatically update to highlight the current directory."));
       lay->addMultiCellWidget( cbTreeFollow, row, row, 0, N_COLS, Qt::AlignLeft );
       connect( cbTreeFollow, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
       row++;
       cbNewWin = new QCheckBox(i18n("&Open directories in separate windows"), this);
-      QWhatsThis::add( cbNewWin, i18n("If this option is checked, konqueror will open a new window when "
-         "you click on a directory, rather than changing to that directory in your old window."));
+      QWhatsThis::add( cbNewWin, i18n("If this option is checked, Konqueror will open a new window when "
+         "you open a directory, rather than showing that directory's contents in the current window."));
       lay->addMultiCellWidget(cbNewWin, row, row, 0, N_COLS-1, Qt::AlignLeft);
       connect(cbNewWin, SIGNAL(clicked()), this, SLOT(changed()));
 
@@ -77,9 +76,9 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
       row++;
       QGroupBox *gbox = new QGroupBox(i18n("Use builtin viewer for"), this);
       lay->addMultiCellWidget(gbox,row,row,0,N_COLS,Qt::AlignLeft);
-      QWhatsThis::add( gbox, i18n("These options determine whether certain content "
-         "will be displayed in konqueror itself or if a separate application should be "
-         "launched instead.") );
+      QWhatsThis::add( gbox, i18n("These options determine whether certain types of content "
+         "should be displayed in Konqueror itself. If unchecked, Konqueror will launch the "
+         "application associated with the file type.") );
 
       QGridLayout *grid = new QGridLayout(gbox, 4, 0,
                                           KDialog::marginHint(),
