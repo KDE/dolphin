@@ -3129,9 +3129,9 @@ void KonqMainWindow::updateViewActions()
     {
       // F5 is the default key binding for Reload.... a la Windows.
       // mc users want F5 for Copy and F6 for move, but I can't make that default.
-      m_paCopyFiles = new KAction( i18n("Copy &Files"), Key_F7, this, SLOT( slotCopyFiles() ), actionCollection(), "copyfiles" );
-      m_paMoveFiles = new KAction( i18n("M&ove Files"), Key_F8, this, SLOT( slotMoveFiles() ), actionCollection(), "movefiles" );
-      m_paNewDir    = new KAction( i18n("Ne&w Directory"), Key_F10, this, SLOT( slotNewDir() ), actionCollection(), "newdir" );
+      m_paCopyFiles = new KAction( i18n("Copy &Files..."), Key_F7, this, SLOT( slotCopyFiles() ), actionCollection(), "copyfiles" );
+      m_paMoveFiles = new KAction( i18n("M&ove Files..."), Key_F8, this, SLOT( slotMoveFiles() ), actionCollection(), "movefiles" );
+      m_paNewDir    = new KAction( i18n("Ne&w Directory..."), Key_F10, this, SLOT( slotNewDir() ), actionCollection(), "newdir" );
       QPtrList<KAction> lst;
       lst.append( m_paCopyFiles );
       lst.append( m_paMoveFiles );

@@ -245,7 +245,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
       }
       else
       {
-        KAction *actNewDir = new KAction( i18n( "Create Directory" ), "folder_new", 0, this, SLOT( slotPopupNewDir() ), &m_ownActions, "newdir" );
+        KAction *actNewDir = new KAction( i18n( "Create Directory..." ), "folder_new", 0, this, SLOT( slotPopupNewDir() ), &m_ownActions, "newdir" );
         addAction( actNewDir );
         addSeparator();
       }
