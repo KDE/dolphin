@@ -165,6 +165,7 @@ KonqView* KonqViewManager::split (KonqFrameBase* splitFrame,
   else // We had no main container, create one
   {
     m_pMainContainer = new KonqFrameContainer( orientation, m_pMainWindow );
+    kdDebug(1202) << "Created main container " << m_pMainContainer << endl;
     m_pMainWindow->setView( m_pMainContainer );
     m_pMainContainer->setOpaqueResize();
     m_pMainContainer->setGeometry( 0, 0, m_pMainWindow->width(), m_pMainWindow->height() );
@@ -267,8 +268,10 @@ void KonqViewManager::removePart( KParts::Part * part )
         view->partDeleted();
         kdDebug(1202) << "Deleting view " << view << endl;
         delete view;
+        kdDebug(1202) << "Deleting m_pMainContainer " << m_pMainContainer << endl;
         delete m_pMainContainer;
         m_pMainContainer = 0L;
+        kdDebug(1202) << "Deleting m_pMainWindow " << m_pMainWindow << endl;
         delete m_pMainWindow;
         return;
       }
@@ -312,7 +315,7 @@ void KonqViewManager::clear()
       delete it.current();
     }
 
-    //kdDebug(1202) << "deleting m_pMainContainer " << endl;
+    kdDebug(1202) << "deleting m_pMainContainer " << endl;
     delete m_pMainContainer;
     m_pMainContainer = 0L;
   }
@@ -525,10 +528,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const KURL & forcedURL )
   if ( width > -1 && height > -1 )
     m_pMainWindow->resize( width, height );
 
-  // Careful, this may not be accurate. ChildEvents to KonqFrame have
-  // not been sent yet. Yeah, this childEvent stuff makes it harder to debug.
-  // TODO for 2.1: replace them with an explicit insertChildFrame.
-  //printFullHierarchy( m_pMainContainer );
+  printFullHierarchy( m_pMainContainer );
 
   kdDebug(1202) << "KonqViewManager::loadViewProfile done" << endl;
 }
