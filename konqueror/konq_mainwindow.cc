@@ -2447,7 +2447,7 @@ void KonqMainWindow::initActions()
   // Location bar
   (void)new KonqLabelAction( i18n( "Location " ), actionCollection(), "location_label" );
 
-  m_paURLCombo = new KonqComboAction( i18n( "Location " ), 0, this, SLOT( slotURLEntered( const QString & ) ), actionCollection(), "toolbar_url_combo" );
+  m_paURLCombo = new KonqComboAction( i18n( "Location Bar" ), 0, this, SLOT( slotURLEntered( const QString & ) ), actionCollection(), "toolbar_url_combo" );
   connect( m_paURLCombo, SIGNAL( plugged() ),
            this, SLOT( slotComboPlugged() ) );
 
