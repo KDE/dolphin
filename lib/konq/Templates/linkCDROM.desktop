@@ -2,4 +2,4 @@
 Name=CDROM Device
 Type=Link
 URL=.source/CDROM-Device.desktop
-Icon=cdrom
+Icon=cdrom_unmount
