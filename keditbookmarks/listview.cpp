@@ -63,6 +63,10 @@ ListView::ListView() {
     m_splitView = KEBApp::self()->splitView();
 }
 
+ListView::~ListView() {
+    self()->m_listView->saveColumnSetting();
+}
+
 void ListView::createListViews(QSplitter *splitter) {
     (void) self();
     self()->m_folderListView = self()->m_splitView ? new KEBListView(splitter, true) : 0;
@@ -591,19 +595,53 @@ bool KeyPressEater::eventFilter(QObject *, QEvent *pe) {
 
 /* -------------------------------------- */
 
+#include <qheader.h>
+
+void KEBListView::loadColumnSetting() 
+{
+    KConfig config("keditbookmarksrc", false, false);
+    config.setGroup("Columns");
+    header()->resizeSection(KEBListView::NameColumn, config.readNumEntry("Name", 300));
+    header()->resizeSection(KEBListView::UrlColumn, config.readNumEntry("URL", 300));
+    header()->resizeSection(KEBListView::CommentColumn, config.readNumEntry("Comment", 300));
+#ifdef DEBUG_ADDRESSES
+    header()->resizeSection(KEBListView::AddressColumn, config.readNumEntry("Address", 300));
+#endif
+    m_widthsDirty = false;
+}
+
+void KEBListView::saveColumnSetting () 
+{
+    if (m_widthsDirty) {
+        KConfig config("keditbookmarksrc", false, false);
+        config.setGroup("Columns");
+        config.writeEntry("Name", header()->sectionSize(KEBListView::NameColumn));
+        config.writeEntry("URL", header()->sectionSize(KEBListView::UrlColumn));
+        config.writeEntry("Comment", header()->sectionSize(KEBListView::CommentColumn));
+#ifdef DEBUG_ADDRESSES
+        config.writeEntry("Address", header()->sectionSize(KEBListView::AddressColumn));
+#endif
+    }
+}
+
+void KEBListView::slotColumnSizeChanged(int, int, int)
+{
+    m_widthsDirty = true;
+}
+
 void KEBListView::init() {
     setRootIsDecorated(false);
     if (!m_folderList) {
-        addColumn(i18n("Bookmark"), 300);
-        addColumn(i18n("URL"), 300);
-        addColumn(i18n("Comment"), 300);
-        addColumn(i18n("Status/Last Modified"), 300);
+        addColumn(i18n("Bookmark"), 0); // KEBListView::NameColumn
+        addColumn(i18n("URL"), 0);
+        addColumn(i18n("Comment"), 0);
 #ifdef DEBUG_ADDRESSES
-        addColumn(i18n("Address"), 100);
+        addColumn(i18n("Address"), 0);
 #endif
     } else {
-        addColumn(i18n("Folder"), 300);
+        addColumn(i18n("Folder"), 0);
     }
+    loadColumnSetting();
     setRenameable(KEBListView::NameColumn);
     setRenameable(KEBListView::UrlColumn);
     setRenameable(KEBListView::CommentColumn);
@@ -612,6 +650,8 @@ void KEBListView::init() {
     setDragEnabled(true);
     setSelectionModeExt((!m_folderList) ? KListView::Extended: KListView::Single);
     setAllColumnsShowFocus(true);
+    connect(header(), SIGNAL(sizeChange(int, int, int)),
+            this, SLOT(slotColumnSizeChanged(int, int, int)));
 }
 
 void KEBListView::makeConnections() {

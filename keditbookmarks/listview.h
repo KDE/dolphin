@@ -93,6 +93,9 @@ public:
    void makeConnections();
    void readonlyFlagInit(bool);
 
+   void loadColumnSetting();
+   void saveColumnSetting();
+
    bool isFolderList() const { return m_folderList; }
 
    KEBListViewItem* rootItem() const;
@@ -107,6 +110,7 @@ public slots:
    void slotItemRenamed(QListViewItem *, const QString &, int);
    void slotDoubleClicked(QListViewItem *, const QPoint &, int);
    void slotDropped(QDropEvent*, QListViewItem*, QListViewItem*);
+   void slotColumnSizeChanged(int, int, int);
 
 protected:
    virtual bool acceptDrag(QDropEvent *e) const;
@@ -114,6 +118,7 @@ protected:
 
 private:
    bool m_folderList;
+   bool m_widthsDirty;
 };
 
 // DESIGN - make some stuff private if possible
@@ -175,12 +180,13 @@ public:
 
    static void startRename(int column, KEBListViewItem *item);
 
+   ~ListView();
+
 private:
    void updateTree(bool updateSplitView = true);
    void fillWithGroup(KEBListView *, KBookmarkGroup, KEBListViewItem * = 0);
  
    ListView();
-
    enum Which { NoChildren, SomeChildren, AllChildren };
    static Which whichChildrenSelected(KEBListViewItem *item);
    static void deselectParents(KEBListViewItem *item);

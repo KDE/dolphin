@@ -2,17 +2,11 @@ multi selection deletion then shift down selects roots
 clicking in the increm. search text field selects the root item in the list view
 tips dialog - fixes bugs - shortcuts for keyboard selection are wierd
 --
-49470 
-fails to open bookmarks 
-
 60032 
 Bookmarks Import IE Error with Solution 
 
 63874
 Cannot create Bookmark from URLs -directly- pointing to a file!
-
-57245
-Columns size doesn't store 
 
 37055 
 export favicons with Mozilla bookmark export 

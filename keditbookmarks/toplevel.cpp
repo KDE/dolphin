@@ -243,6 +243,7 @@ void KEBApp::construct() {
 KEBApp::~KEBApp() {
     s_topLevel = 0;
     delete m_dcopIface;
+    delete ListView::self();
 }
 
 KToggleAction* KEBApp::getToggleAction(const char *action) const {
