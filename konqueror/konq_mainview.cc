@@ -606,16 +606,6 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   m_vLocationBar->enable( m_Props->m_bShowLocationBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
   */
 
-  // The toolbar is created AFTER the initial view is built and made active
-  // So we need this :
-  /*  if ( m_currentView )
-  {
-    setUpEnabled( m_currentView->url(), m_currentId );
-    setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
-    setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
-  }
-  */  
-  
   kdebug(0,1202,"KonqMainView::mappingCreateToolbar : done !");
   return true;
 }
@@ -1099,7 +1089,9 @@ void KonqMainView::slotToolFind()
   KShellProcess proc;
   proc << "kfind";
   
-  KURL url ( currentURL() );
+  KURL url;
+  if ( m_currentView )
+    url = m_currentView->url();
 
   if( url.isLocalFile() )
     proc << url.directory();
@@ -1275,8 +1267,7 @@ void KonqMainView::slotUp()
   KURL u( url );
   u.cd(".."); // KURL does it for us
   
-//  m_currentView->openURL( u.url() );
-  openURL( u.url(), false ); //is this ok, David?
+  openURL( u.url(), false ); // not m_currentView->openURL since the view mode might be different
 }
 
 void KonqMainView::slotBack()

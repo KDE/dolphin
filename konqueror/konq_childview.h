@@ -153,7 +153,7 @@ public:
   void reload();
 
   /**
-   * Get view's URL
+   * Get view's URL - slow method, avoid using it if possible
    */
   QString url();
   /**
