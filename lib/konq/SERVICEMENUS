@@ -16,9 +16,15 @@ Create a file ~/.kde/share/apps/konqueror/servicemenus/something.desktop
 and write into it something like (without the comments) :
 
 [Desktop Entry]
-ServiceTypes=text/html,text/plain # use allfiles (alone) for all files
+ServiceTypes=text/html,text/plain # use all/all for all entries
+                                  # all/allfiles for files only
                                   # and use inode/directory for dirs only
+                                  # you can also do things like image/* for all
+                                  # image mimetypes
 Actions=gzip;mail                 # those are ';' separated, per the standard !
+X-KDE-Submenu=Menuname            # this optional entry allows grouping the 
+                                  # entries in this servicemenu file into a
+                                  # common submenu, in this case "Menuname"
 
 [Desktop Action gzip]            # One "Desktop Action <name>" group per Action
 Name=GZip this file
