@@ -36,7 +36,7 @@
 #include <kiconloader.h>
 #include <kprocess.h>
 #include <kmessagebox.h>
-#include <qprogressdialog.h> 
+#include <qprogressdialog.h>
 
 #include "nsconfig.h"
 
@@ -48,7 +48,7 @@ NSPluginConfig::NSPluginConfig(QWidget *parent, const char *name)
   // plugin scan
   QGroupBox *scanGrp = new QGroupBox( i18n("Plugin Scan"), this );
   topLayout->addWidget( scanGrp );
-  QBoxLayout *scanLayout = 
+  QBoxLayout *scanLayout =
      new QVBoxLayout( scanGrp, KDialog::marginHint(), KDialog::spacingHint());
   scanLayout->addSpacing( fontMetrics().lineSpacing() );
 
@@ -60,7 +60,7 @@ NSPluginConfig::NSPluginConfig(QWidget *parent, const char *name)
   // scan buttons
   QHBoxLayout *butLayout = new QHBoxLayout( scanLayout, 5 );
 
-  QPushButton *scanButton = new QPushButton( i18n("&Scan"), scanGrp );  
+  QPushButton *scanButton = new QPushButton( i18n("&Scan"), scanGrp );
   butLayout->addWidget( scanButton );
   connect( scanButton, SIGNAL(clicked()), this, SLOT(scan()) );
 
@@ -72,16 +72,16 @@ NSPluginConfig::NSPluginConfig(QWidget *parent, const char *name)
   // plugin list
   QGroupBox *listGrp = new QGroupBox( i18n("Registered Plugins"), this );
   topLayout->addWidget( listGrp, 1 );
-  QBoxLayout *listLayout = 
+  QBoxLayout *listLayout =
      new QVBoxLayout( listGrp, KDialog::marginHint(), KDialog::spacingHint());
   listLayout->addSpacing( fontMetrics().lineSpacing() );
- 
+
   m_pluginList = new QListView( listGrp );
   listLayout->addWidget( m_pluginList );
   m_pluginList->addColumn( i18n("Information") );
   m_pluginList->addColumn( i18n("Value") );
- 
-  load();  
+
+  load();
 }
 
 NSPluginConfig::~NSPluginConfig() {}
@@ -94,7 +94,7 @@ void NSPluginConfig::configChanged()
 void NSPluginConfig::load()
 {
   KConfig *config = new KConfig("kcmnspluginrc", true);
-  
+
   config->setGroup("Misc");
   m_startkdeScan->setChecked( config->readBoolEntry( "startkdeScan", true ) );
   delete config;
@@ -174,14 +174,14 @@ void NSPluginConfig::fillPluginList()
 
 	 continue;
       }
-     
+
       QStringList desc = QStringList::split(':', line, TRUE);
       QString mime = desc[0].stripWhiteSpace();
       QString name = desc[2];
-      QString suffixes = desc[1];      
+      QString suffixes = desc[1];
 
       if (!mime.isEmpty())
-      {	 
+      {	
 	 kdDebug() << "mime=" << mime << " desc=" << name << " suffix=" << suffixes << endl;
 	 lastMIME = new QListViewItem( next, lastMIME, i18n("MIME type"), mime );
 	 lastMIME->setOpen( true );
@@ -198,7 +198,7 @@ void NSPluginConfig::fillPluginList()
 	 last->setSelectable( false );
 	 last->setExpandable( false );
       }
-   } 
+   }
    kdDebug() << "<- NSPluginConfig::fillPluginList" << endl;
 }
 
@@ -209,33 +209,33 @@ void NSPluginConfig::changeDirs()
 void NSPluginConfig::scan()
 {
       QProgressDialog progress( i18n("Scanning for plugins"), i18n("Cancel"), 4, this );
-      nspluginscan = new KProcess;
+      KProcess* nspluginscan = new KProcess;
       QString scanExe = KGlobal::dirs()->findExe("nspluginscan");
       if (!scanExe)
       {
 	 kdDebug() << "can't find nspluginviewer" << endl;
 	 delete nspluginscan;
 
-	 KMessageBox::sorry ( this,  
+	 KMessageBox::sorry ( this,
 			      i18n("The nspluginscan executable can't be found."
-				   "Netscape plugins won't be scanned.") ); 
+				   "Netscape plugins won't be scanned.") );
 	 return;
       }
       progress.setProgress( 1 );
 
-      
+
       *nspluginscan << scanExe;
       kdDebug() << "Running nspluginscan" << endl;
       nspluginscan->start();
       progress.setProgress( 2 );
-      
+
       while ( nspluginscan->isRunning() )
-      {          	 
-	 if ( progress.wasCancelled() ) break;	 
+      {          	
+	 if ( progress.wasCancelled() ) break;	
 	 kapp->processEvents();
       }
       progress.setProgress( 2 );
-      
+
       delete nspluginscan;
 
       fillPluginList();
