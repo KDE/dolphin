@@ -21,7 +21,7 @@ EXTRA_DIST = $(data_DATA) $(service_DATA) $(servicetype_DATA)
 bin_PROGRAMS = konqueror
 
 # Source files, please keep sorted.
-konqueror_SOURCES =  browser.idl konq_mainwindow.cc  kbrowser.cc kfmrun.cc \
+konqueror_SOURCES =  browser.idl konq_mainwindow.cc kfmrun.cc \
 	konq_baseview.cc konq_childview.cc konq_frame.cc \
 	konq_htmlview.cc konq_iconview.cc \
 	konq_main.cc konq_mainview.cc \
@@ -30,7 +30,7 @@ konqueror_SOURCES =  browser.idl konq_mainwindow.cc  kbrowser.cc kfmrun.cc \
 	konq_topwidget.cc konq_treeview.cc konq_txtview.cc \
 	ksplitter.cc konqueror.idl
 
-noinst_HEADERS = browser.h kbrowser.h kfmrun.h \
+noinst_HEADERS = browser.h kfmrun.h \
 	konq_baseview.h konq_childview.h konq_frame.h \
         konq_htmlview.h konq_iconview.h \
         konq_main.h konq_mainview.h konq_mainwindow.h \
@@ -40,7 +40,7 @@ noinst_HEADERS = browser.h kbrowser.h kfmrun.h \
         konqueror.h \
 	ksplitter.h mousemode.h konq_defaults.h
 
-METASOURCES = kbrowser.moc kfmrun.moc \
+METASOURCES = kfmrun.moc \
 	konq_childview.moc konq_frame.moc \
 	konq_htmlview.moc konq_iconview.moc \
 	konq_main.moc konq_mainview.moc konq_mainwindow.moc \
