@@ -126,6 +126,7 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name ) : QWid
 void
 KonqFrameHeader::paintEvent( QPaintEvent* )
 {
+  kdebug(0, 1202, "KonqFrameHeader::paintEvent( QPaintEvent* )");
   bool hasFocus = m_pParentKonqFrame->part()->hasFocus();
 
   QRect r = rect();
@@ -391,9 +392,18 @@ KonqFrame::paintEvent( QPaintEvent* event )
   m_pHeader->repaint();
 }
 
+bool
+KonqFrame::attach( OpenParts::Part_ptr _part )
+{
+  bool ret = OPFrame::attach( _part );
+  if (ret) resizeEvent( 0L );
+  return ret;
+}
+
 void 
 KonqFrame::resizeEvent( QResizeEvent* )
 {
+  kdebug(0, 1202, "KonqFrame::resizeEvent( QResizeEvent* )");
   m_pHeader->setGeometry( 0, 0, width(), DEFAULT_HEADER_HEIGHT);
 
   Window win = (Window)part()->window();

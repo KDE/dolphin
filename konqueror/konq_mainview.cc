@@ -819,7 +819,7 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
 //      emit error( ERR_MALFORMED_URL, s );
       return;
     }
-    if (strcmp( protocol, "http" )) bHttp = false; // not HTTP
+    if ( url.protocol() != "http" ) bHttp = false; // not HTTP
 
     // check if all urls are in the trash
     if ( isTrash )

@@ -641,7 +641,7 @@ void KonqKfmIconViewItem::init( UDSEntry& _entry )
 
   bool mini = m_pIconView->displayMode() == KIconContainer::Vertical;
   QPixmap * p = KPixmapCache::pixmapForMimeType( m_pMimeType, m_url, m_bIsLocalURL, mini );
-  if (!p) warning("Pixmap not found for mimetype %s",m_pMimeType->mimeType());
+  if (!p) warning("Pixmap not found for mimetype %s",m_pMimeType->mimeType().ascii());
   else setPixmap( *p );
 
 }

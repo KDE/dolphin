@@ -77,6 +77,8 @@ public:
   KonqFrame( QWidget *_parent = 0L, const char *_name = 0L );
   ~KonqFrame() {}
  
+  virtual bool attach( OpenParts::Part_ptr _part );
+
 public slots:  
 
   /**
