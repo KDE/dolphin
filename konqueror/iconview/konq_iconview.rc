@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="KonqIconView" version="2">
+<kpartgui name="KonqIconView" version="3">
 <MenuBar>
  <Menu name="edit">
   <Action name="select"/>
@@ -20,6 +20,7 @@
    <Action name="sort_nc"/>
    <Action name="sort_nci"/>
    <Action name="sort_size"/>
+   <Action name="sort_type"/>
    <Separator/>
    <Action name="sort_descend"/>
    <Separator/>

@@ -51,7 +51,7 @@ class KonqKfmIconView : public KonqDirPart
   Q_PROPERTY( QString viewMode READ viewMode WRITE setViewMode );
 public:
 
-  enum SortCriterion { NameCaseSensitive, NameCaseInsensitive, Size };
+  enum SortCriterion { NameCaseSensitive, NameCaseInsensitive, Size, Type };
 
   KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode );
   virtual ~KonqKfmIconView();
@@ -85,6 +85,7 @@ public slots:
   void slotSortByNameCaseSensitive( bool toggle );
   void slotSortByNameCaseInsensitive( bool toggle );
   void slotSortBySize( bool toggle );
+  void slotSortByType( bool toggle );
   void slotSortDescending();
   void slotSortDirsFirst();
 

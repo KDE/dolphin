@@ -72,24 +72,24 @@ DCOPRef KonqMainWindowIface::currentPart()
   return view->dcopObject()->part();
 }
 
-DCOPRef KonqMainWindowIface::action( const QString &name )
+DCOPRef KonqMainWindowIface::action( const QCString &name )
 {
   return DCOPRef( kapp->dcopClient()->appId(), m_dcopActionProxy->actionObjectId( name ) );
 }
 
-QStringList KonqMainWindowIface::actions()
+QCStringList KonqMainWindowIface::actions()
 {
-  QStringList res;
+  QCStringList res;
   QValueList<KAction *> lst = m_dcopActionProxy->actions();
   QValueList<KAction *>::ConstIterator it = lst.begin();
   QValueList<KAction *>::ConstIterator end = lst.end();
   for (; it != end; ++it )
-    res.append( QString::fromLatin1( (*it)->name() ) );
+    res.append( (*it)->name() );
 
   return res;
 }
 
-QMap<QString,DCOPRef> KonqMainWindowIface::actionMap()
+QMap<QCString,DCOPRef> KonqMainWindowIface::actionMap()
 {
   return m_dcopActionProxy->actionMap();
 }

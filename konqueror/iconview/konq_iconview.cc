@@ -218,18 +218,22 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     KToggleAction *aSortByNameCS = new KRadioAction( i18n( "by Name (Case Sensitive)" ), 0, actionCollection(), "sort_nc" );
     KToggleAction *aSortByNameCI = new KRadioAction( i18n( "by Name (Case Insensitive)" ), 0, actionCollection(), "sort_nci" );
     KToggleAction *aSortBySize = new KRadioAction( i18n( "by Size" ), 0, actionCollection(), "sort_size" );
+    KToggleAction *aSortByType = new KRadioAction( i18n( "by Type" ), 0, actionCollection(), "sort_type" );
 
     aSortByNameCS->setExclusiveGroup( "sorting" );
     aSortByNameCI->setExclusiveGroup( "sorting" );
     aSortBySize->setExclusiveGroup( "sorting" );
+    aSortByType->setExclusiveGroup( "sorting" );
 
     aSortByNameCS->setChecked( true );
     aSortByNameCI->setChecked( false );
     aSortBySize->setChecked( false );
+    aSortByType->setChecked( false );
 
     connect( aSortByNameCS, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByNameCaseSensitive( bool ) ) );
     connect( aSortByNameCS, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByNameCaseInsensitive( bool ) ) );
     connect( aSortBySize, SIGNAL( toggled( bool ) ), this, SLOT( slotSortBySize( bool ) ) );
+    connect( aSortByType, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByType( bool ) ) );
 
     m_paSortDirsFirst = new KToggleAction( i18n( "Directories first" ), 0, actionCollection(), "sort_directoriesfirst" );
     KToggleAction *aSortDescending = new KToggleAction( i18n( "Descending" ), 0, actionCollection(), "sort_descend" );
@@ -473,6 +477,14 @@ void KonqKfmIconView::slotSortBySize( bool toggle )
 
     setupSorting( Size );
 }
+
+void KonqKfmIconView::slotSortByType( bool toggle )
+{
+  if ( !toggle )
+    return;
+  
+  setupSorting( Type );
+} 
 
 void KonqKfmIconView::setupSorting( SortCriterion criterion )
 {
@@ -729,6 +741,7 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
     case NameCaseSensitive: key = item->text(); break;
     case NameCaseInsensitive: key = item->text().lower(); break;
     case Size: key = makeSizeKey( item ); break;
+    case Type: key = item->item()->mimetype(); break; // ### slows down listing :-(
     default: ASSERT(0);
     }
 
@@ -1112,6 +1125,10 @@ void KonqKfmIconView::setupSortKeys()
     case Size:
 	for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
 	    it->setKey( makeSizeKey( (KFileIVI *)it ) );
+	break;
+     case Type:
+        for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
+	    it->setKey( static_cast<KFileIVI *>( it )->item()->mimetype() );
 	break;
     }
 }

@@ -54,9 +54,9 @@ k_dcop:
    */
   DCOPRef currentPart();
 
-  DCOPRef action( const QString &name );
-  QStringList actions();
-  QMap<QString,DCOPRef> actionMap();
+  DCOPRef action( const QCString &name );
+  QCStringList actions();
+  QMap<QCString,DCOPRef> actionMap();
 
 private:
 
