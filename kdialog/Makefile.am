@@ -10,4 +10,4 @@ kdialog_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 METASOURCES = AUTO
 
 messages:        
-	$(XGETTEXT) $(kdialog_SOURCES) -o $(podir)/kdialog.pot 
+	$(XGETTEXT) *.cpp -o $(podir)/kdialog.pot 
