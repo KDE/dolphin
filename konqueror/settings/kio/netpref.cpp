@@ -52,7 +52,7 @@ KIOPreferences::KIOPreferences( QWidget* parent )
     sb_serverResponse = new KIntNumInput( sb_serverConnect, 0, gb_Timeout,
             10, "sb_serverResponse" );
     sb_serverResponse->setSuffix( i18n( " sec" ) );
-    sb_serverResponse->setLabel( i18n("Server &response:"), AlignVCenter);
+    sb_serverResponse->setLabel( i18n("&Server response:"), AlignVCenter);
     connect(sb_serverResponse, SIGNAL(valueChanged ( int )),
             this, SLOT(timeoutChanged(int)));
 
