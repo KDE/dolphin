@@ -25,7 +25,7 @@ class KURLRequester;
 class KProxyDlgUI;
 
 #include <kcmodule.h>
-
+#include <kprotocolmanager.h>
 
 class KMySpinBox;
 
@@ -62,8 +62,9 @@ Q_OBJECT
     void changeProxy();
     void changeCache();
     void clearCache();
-    void updateGUI(QString httpProxy, QString ftpProxy, bool bUseProxy,
-                   bool bAutoProxy, QString noProxyFor, QString autoProxy);
+    void updateGUI(QString httpProxy, QString ftpProxy,
+                   KProtocolManager::ProxyType proxyType,
+                   QString noProxyFor, QString autoProxy);
 };
 
 #endif // __KPROXYDLG_H

@@ -126,8 +126,7 @@ void KProxyOptions::load()
 {
   updateGUI ( KProtocolManager::proxyFor( "http" ),
               KProtocolManager::proxyFor( "ftp" ),
-              KProtocolManager::useProxy(),
-              KProtocolManager::hasProxyConfigScript(),
+              KProtocolManager::proxyType(),
               KProtocolManager::noProxyFor(),
               KProtocolManager::proxyConfigScript() );
 
@@ -161,7 +160,7 @@ void KProxyOptions::defaults() {
 }
 
 void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy,
-                              bool bUseProxy, bool bAutoProxy,
+                              KProtocolManager::ProxyType proxyType,
                               QString noProxyFor, QString autoProxy)
 {
   KURL url;
@@ -196,8 +195,8 @@ void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy,
     ui->sb_ftp_port->setValue(DEFAULT_PROXY_PORT);
   }
 
-  ui->cb_useProxy->setChecked(bUseProxy);
-  ui->cb_autoProxy->setChecked(bAutoProxy);
+  ui->cb_useProxy->setChecked(proxyType != KProtocolManager::NoProxy);
+  ui->cb_autoProxy->setChecked(proxyType > KProtocolManager::ManualProxy);
   ui->url_autoProxy->setURL(autoProxy);
   setProxy();
 
@@ -230,12 +229,17 @@ void KProxyOptions::save()
       url += QString::number(ui->sb_ftp_port->value());
     }
     KProtocolManager::setProxyFor( "ftp", url );
-    KProtocolManager::setUseProxy( ui->cb_useProxy->isChecked() );
-    KProtocolManager::setNoProxyFor( ui->mle_no_prx->text() );
-    if ( ui->cb_autoProxy->isChecked() )
-      KProtocolManager::setProxyConfigScript( ui->url_autoProxy->url() );
+    if ( ui->cb_useProxy->isChecked() )
+    {
+        if ( ui->cb_autoProxy->isChecked() )
+            KProtocolManager::setProxyType( KProtocolManager::PACProxy );
+        else
+            KProtocolManager::setProxyType( KProtocolManager::ManualProxy );
+    }
     else
-      KProtocolManager::setProxyConfigScript( QString::null );
+        KProtocolManager::setProxyType( KProtocolManager::NoProxy );
+    KProtocolManager::setNoProxyFor( ui->mle_no_prx->text() );
+    KProtocolManager::setProxyConfigScript( ui->url_autoProxy->url() );
 
     // Cache stuff.  TODO:needs to be separated from proxy post 2.0 (DA)
     KProtocolManager::setUseCache( ui->cb_useCache->isChecked() );
