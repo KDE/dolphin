@@ -13,7 +13,7 @@ servicedir = $(kde_servicesdir)
 service_DATA = konq_dirtree.desktop
 
 dirtreestuffdir = $(kde_datadir)/konqueror/dirtree
-dirtreestuff_DATA = home.desktop
+dirtreestuff_DATA = home.desktop root.desktop
 #dirtreestuff_DATA = root.desktop home.desktop
 
 #dirtreeftpstuffdir = $(kde_datadir)/konqueror/dirtree/FTPs

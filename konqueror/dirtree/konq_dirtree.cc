@@ -665,10 +665,19 @@ void KonqDirTree::scanDir( QListViewItem *parent, const QString &path, bool isRo
       QCString cp;
       cp.sprintf( "cp %s %s", homeLnk.local8Bit().data(), path.local8Bit().data() );
       system( cp.data() );
-
-      dir.setPath( path ); //hack to make QDir to consider the dir to be dirty and re-read it
-      entries = dir.entryList( QDir::Files );
     }
+    
+    QString rootLnk = locate( "data", "konqueror/dirtree/root.desktop", KonqFactory::instance() );
+    
+    if ( !rootLnk.isEmpty() )
+    {
+      QCString cp;
+      cp.sprintf( "cp %s %s", rootLnk.local8Bit().data(), path.local8Bit().data() );
+      system( cp.data() );
+    }
+    
+    dir.setPath( path ); //hack to make QDir to consider the dir to be dirty and re-read it
+    entries = dir.entryList( QDir::Files );
   }
 
   QStringList::ConstIterator eIt = entries.begin();
