@@ -17,6 +17,7 @@
 */
 
 #include <kparts/browserextension.h>
+#include <konq_drag.h>
 
 #include "konq_treepart.h"
 #include "history_item.h"
@@ -38,7 +39,7 @@ KonqHistoryItem::~KonqHistoryItem()
 {
 }
 
-void KonqHistoryItem::update( const KonqHistoryEntry *entry )
+void KonqHistoryItem::update( const KonqHistoryEntry */*entry*/ )
 {
     setText( 0, m_entry->url );
 }
@@ -61,4 +62,19 @@ void KonqHistoryItem::setOpen( bool open )
 
 void KonqHistoryItem::rightButtonPressed()
 {
+}
+
+QDragObject * KonqHistoryItem::dragObject( QWidget * parent, bool move )
+{
+    KURL::List lst;
+    lst.append( externalURL() );
+
+    QDragObject * drag = KonqDrag::newDrag( lst, false, parent );
+
+    QPoint hotspot;
+    hotspot.setX( pixmap( 0 )->width() / 2 );
+    hotspot.setY( pixmap( 0 )->height() / 2 );
+    drag->setPixmap( *(pixmap( 0 )), hotspot );
+
+    return drag;
 }

@@ -79,36 +79,10 @@ void KonqHistoryModule::slotEntryRemoved( const KonqHistoryEntry *entry )
     m_dict.remove( (void*) entry );
 }
 
-
-
-QDragObject * KonqHistoryModule::dragObject( QWidget * parent, bool move )
-{
-    KonqHistoryItem *item = static_cast<KonqHistoryItem*>( tree()->selectedItem() );
-
-    if ( !item )
-        return 0L;
-
-    KURL::List lst;
-    lst.append( item->externalURL() );
-
-    QDragObject * drag = KonqDrag::newDrag( lst, false, parent );
-
-    QPoint hotspot;
-    hotspot.setX( item->pixmap( 0 )->width() / 2 );
-    hotspot.setY( item->pixmap( 0 )->height() / 2 );
-    drag->setPixmap( *(item->pixmap( 0 )), hotspot );
-
-    return drag;
-}
-
 void KonqHistoryModule::addTopLevelItem( KonqTreeTopLevelItem * item )
 {
     m_topLevelItem = item;
     slotCreateItems(); // hope this is correct here, but it should
-    
-//    KDesktopFile cfg( item->path(), true );
-//     QString icon = cfg.readIcon();
-//     stripIcon( icon );
 }
 
 #include "history_module.moc"

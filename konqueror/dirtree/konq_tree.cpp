@@ -499,15 +499,11 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
 
     QString moduleName = cfg.readEntry( "X-KDE-TreeModule" );
     kdDebug(1202) << "##### Loading module: " << moduleName << " file: " << filename << endl;
-    if ( moduleName == "Directory" ) {
-	module = new KonqDirTreeModule( this );
-    }
-    else if ( moduleName == "History" ) {
+    if ( moduleName == "History" ) {
 	module = new KonqHistoryModule( this );
     }
-    else {
-	kdDebug(1202) << "Unknown module found: " << moduleName << " file: " << filename << endl;
-	return;
+    else { // defaulting to Directory module
+	module = new KonqDirTreeModule( this );
     }
 	
     /////////// ####### !!!!!!!!! @@@@@@@@ here's where we need to create the right module...

@@ -51,6 +51,8 @@ public:
 
     void update( const KonqHistoryEntry *entry );
 
+    virtual QDragObject * dragObject( QWidget * parent, bool move = false );
+    
 private:
     const KonqHistoryEntry *m_entry;
 

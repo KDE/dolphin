@@ -32,15 +32,12 @@ class KonqTreeItem;
 class KonqHistoryModule : public QObject, public KonqTreeModule
 {
     Q_OBJECT
-    
+
 public:
     KonqHistoryModule( KonqTree * parentTree, const char * name = 0 );
     virtual ~KonqHistoryModule() {}
 
     virtual void addTopLevelItem( KonqTreeTopLevelItem * item );
-
-    // Used by copy() and cut()
-    virtual QDragObject * dragObject( QWidget * parent, bool move = false );
 
 public slots:
     virtual void clearAll();
