@@ -80,14 +80,13 @@ void KonqFavIconMgr::changed(const QString &url)
 QString KonqFavIconMgr::iconForURL(const QString &url)
 {
     QMapConstIterator<QString, URLInfo> it(self()->m_knownURLs.find(url));
-    bool hostDefault = it == self()->m_knownURLs.end();
-    if (hostDefault) 
+    if (it == self()->m_knownURLs.end())
     {
         KURL _url(url);
         _url.setPath("/");
         it = self()->m_knownURLs.find(_url.url());
     }
-    if (it != self()->m_knownURLs.end() && (*it).hostDefault == hostDefault)
+    if (it != self()->m_knownURLs.end())
         return self()->m_knownIcons[(*it).iconURL];
 
     return QString::null;
