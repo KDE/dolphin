@@ -207,6 +207,8 @@ public:
   void updateViewModeActions();
   void updateViewActions();
 
+  bool sidebarVisible() const;
+
   void setShowHTML( bool b );
 
   bool fullScreenMode() const { return m_bFullScreen; }

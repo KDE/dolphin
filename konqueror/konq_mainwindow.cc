@@ -4224,6 +4224,12 @@ void KonqMainWindow::slotOpenURL( const KURL& url )
     openURL( 0L, url );
 }
 
+bool KonqMainWindow::sidebarVisible() const
+{
+KAction *a = m_toggleViewGUIClient->action("konq_sidebartng");
+return (a && static_cast<KToggleAction*>(a)->isChecked());
+}
+
 void KonqMainWindow::slotAddWebSideBar(const KURL& url, const QString& name)
 {
     if (url.url().isEmpty() && name.isEmpty())
