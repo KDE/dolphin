@@ -139,9 +139,10 @@ void KonqHTMLView::slotMousePressed( const char* _url, const QPoint &_global, in
 
   if ( _button == RightButton )
   {
+    Konqueror::View::MenuPopupRequest popupRequest;
     K2URL u( url );
-    QStrList lst;
-    lst.append( url );
+    popupRequest.urls.length( 1 );
+    popupRequest.urls[0] = url;
 
     mode_t mode = 0;
     if ( u.isLocalFile() )
@@ -155,6 +156,11 @@ void KonqHTMLView::slotMousePressed( const char* _url, const QPoint &_global, in
 	mode = buff.st_mode;
       }
 
+    popupRequest.x = _global.x();
+    popupRequest.y = _global.y();
+    popupRequest.mode = mode;
+    popupRequest.isLocalFile = (CORBA::Boolean)u.isLocalFile();
+    SIGNAL_CALL1( "popupMenu", popupRequest );
     // TODO m_pView->popupMenu( _global, lst, mode, u.isLocalFile() );
   }
 }

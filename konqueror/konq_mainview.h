@@ -25,6 +25,8 @@
 #include <kmenubar.h>
 #include <kpanner.h>
 #include <kaccel.h>
+#include <kservices.h>
+#include <kmimetypes.h>
 
 #include "konqueror.h"
 #include "kfmpopup.h"
@@ -224,6 +226,8 @@ protected:
   KfmGuiProps *m_Props;
 
   QStrList m_lstPopupURLs;
+  map<int,KService*> m_mapPopup;
+  map<int,KDELnkMimeType::Service> m_mapPopup2;
     
   static QList<OpenPartsUI::Pixmap>* s_lstAnimatedLogo;
   static QList<KonqMainView>* s_lstWindows;

@@ -40,7 +40,12 @@
 #include <kiconloader.h>
 #include <k2url.h>
 #include <kconfig.h>
+#include <kmimemagic.h>
+#include <kuserprofile.h>
+#include <kregistry.h>
 #include <kio_cache.h>
+#include <kio_manager.h>
+#include <kio_paste.h>
 #include <kurlcompletion.h>
 #include <kpixmapcache.h>
 #include <kio_linedit_dlg.h>
@@ -819,8 +824,7 @@ void KonqMainView::createNewWindow( const char *url )
 
 void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
 {
-/*
-  assert( popup.urls->length() >= 1 );
+  assert( popup.urls.length() >= 1 );
 
   QPopupMenu *m_popupMenu = new QPopupMenu;  
   bool bHttp          = true;
@@ -832,29 +836,28 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
   bool sDeleting      = true;
   bool sMoving        = true;
   int id;
+  KNewMenu *m_menuNew = new KNewMenu;
 
   ProtocolManager* pManager = ProtocolManager::self();
   
   K2URL url;
-
-*/  // Check wether all URLs are correct
-/*  const char *s;
-  int i = 0;
-  s = (*popup.urls)[i].in();
-  for ( ; i < popup.urls->length(); s = (*popup.urls)[++i].in() )
+  CORBA::ULong i;
+  // Check wether all URLs are correct
+  for ( i = 0; i < popup.urls.length(); i++ )
   {
-    url = K2URL( s );
+    url = K2URL( popup.urls[i] );
     const char* protocol = url.protocol();
 
     if ( url.isMalformed() )
     {
-      emit error( ERR_MALFORMED_URL, s );
+//FIXME?
+//      emit error( ERR_MALFORMED_URL, s );
       return;
     }
     if (strcmp( protocol, "http" )) bHttp = false; // not HTTP
 
-*/    // check if all urls are in the trash
-/*    if ( isTrash )
+    // check if all urls are in the trash
+    if ( isTrash )
     {
       QString path = url.path();
       if ( path.right(1) != "/" )
@@ -878,8 +881,8 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
       sMoving = pManager->supportsMoving( protocol );
   }
 
-*/  //check if current url is trash
-/*  url = K2URL( m_strURL );
+  //check if current url is trash
+  url = K2URL( m_currentView->m_vView->url() );
   QString path = url.path();
   if ( path.right(1) != "/" )
     path += "/";
@@ -888,20 +891,20 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
        path == KfmPaths::trashPath() )
     isTrash = true;
 
-*/  //check if url is current directory
-/*  if ( _urls.count() == 1 )
-    if ( strcmp( m_strURL.c_str(), _urls.first() ) == 0 )
+  //check if url is current directory
+  if ( popup.urls.length() == 1 )
+    if ( strcmp( m_currentView->m_vView->url(), ((popup.urls)[0]) ) == 0 )
       currentDir = true;
 
   m_lstPopupURLs.setAutoDelete( true );
   m_lstPopupURLs.clear();
-  for ( i = 0; i < popup.urls->length(); i++ )
-    m_lstPopupURLS.append( new QString( (*popup.urls)[i].in() ) );
+  for ( i = 0; i < popup.urls.length(); i++ )
+    m_lstPopupURLs.append( (popup.urls)[i] );
       
-  disconnect( m_popupMenu, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
+  QObject::disconnect( m_popupMenu, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
 
   m_popupMenu->clear();
-*/
+
 //   //---------- Sven --------------
 //   // check if menubar is hidden and if yes add "Show Menubar"
 //   if (view->getGUI()->isMenuBarHidden())
@@ -913,13 +916,13 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
 //   }
 //   //------------------------------
 
-/*  if ( isTrash )
+  if ( isTrash )
   {
-*/    /* Commented out. Left click does it. Why have it on right click menu ?. David.
+    /* Commented out. Left click does it. Why have it on right click menu ?. David.
        id = popupMenu->insertItem( klocale->getAlias(ID_STRING_CD), 
        view, SLOT( slotPopupCd() ) );
     */
-/*    id = m_popupMenu->insertItem( i18n( "New view" ), 
+    id = m_popupMenu->insertItem( i18n( "New view" ), 
 				  this, SLOT( slotPopupNewView() ) );
     m_popupMenu->insertSeparator();    
     id = m_popupMenu->insertItem( i18n( "Empty Trash Bin" ), 
@@ -931,15 +934,15 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
     m_popupMenu->insertSeparator();
 
     id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "up.xpm" ), i18n( "Up" ), this, SLOT( slotUp() ), 100 );
-    if ( !m_pGui->hasUpURL() )
+    if ( !m_currentView->m_strUpURL.isEmpty() )
       m_popupMenu->setItemEnabled( id, false );
 
     id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "back.xpm" ), i18n( "Back" ), this, SLOT( slotBack() ), 101 );
-    if ( !m_pGui->hasBackHistory() )
+    if ( m_currentView->m_lstBack.size() == 0 )
       m_popupMenu->setItemEnabled( id, false );
 
     id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "forward.xpm" ), i18n( "Forward" ), this, SLOT( slotForward() ), 102 );
-    if ( !m_pGui->hasForwardHistory() )
+    if ( m_currentView->m_lstForward.size() == 0 )
       m_popupMenu->setItemEnabled( id, false );
 
     m_popupMenu->insertSeparator();  
@@ -962,8 +965,8 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
   {
     if ( bHttp )
     {
-*/      /* Should be for http URLs (HTML pages) only ... */
-/*      id = m_popupMenu->insertItem( i18n( "New View"), this, SLOT( slotPopupNewView() ) );
+      /* Should be for http URLs (HTML pages) only ... */
+      id = m_popupMenu->insertItem( i18n( "New View"), this, SLOT( slotPopupNewView() ) );
     }
     id = m_popupMenu->insertItem( i18n( "Open with" ), this, SLOT( slotPopupOpenWith() ) );
     m_popupMenu->insertSeparator();
@@ -972,31 +975,32 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
       id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editcopy.xpm" ), i18n( "Copy" ), this, SLOT( slotPopupCopy() ) );
     if ( sMoving && !isCurrentTrash && !currentDir )
       id = m_popupMenu->insertItem( *KPixmapCache::pixmap( "kfm_trash.xpm", true ), i18n( "Move to trash" ), this, SLOT( slotPopupTrash() ) );
-    if ( sDeleting */ /* && !_current_dir *//*)
+    if ( sDeleting /* && !_current_dir */)
       id = m_popupMenu->insertItem( i18n( "Delete" ), this, SLOT( slotPopupDelete() ) );
   }
 
   id = m_popupMenu->insertItem( i18n( "Add To Bookmarks" ), this, SLOT( slotPopupBookmarks() ) );
 
-  m_menuNew->setPopupFiles( _urls );
+  m_menuNew->setPopupFiles( m_lstPopupURLs );
 
-*/  // Do all URLs have the same mimetype ?
-/*  url = K2URL( _urls.first() );  
+  // Do all URLs have the same mimetype ?
+  url = K2URL( m_lstPopupURLs.first() );
 
   KMimeType* mime = KMimeType::findByURL( url, (mode_t)popup.mode, (bool)popup.isLocalFile );
   assert( mime );
-  for( s = _urls.next(); mime != 0L && s != 0L; s = _urls.next() )
+  const char *s;
+  for( s = m_lstPopupURLs.next(); mime != 0L && s != 0L; s = m_lstPopupURLs.next() )
   {
     K2URL u( s );  
-    KMimeType* m = KMimeType::findByURL( u, _mode, _is_local_file );
+    KMimeType* m = KMimeType::findByURL( u, (mode_t)popup.mode, (bool)popup.isLocalFile );
     if ( m != mime )
       mime = 0L;
   }
   
   if ( mime )
   {
-*/    // Get all services for this mime type
-/*    list<KService::Offer> offers;
+    // Get all services for this mime type
+    list<KService::Offer> offers;
     KService::findServiceByServiceType( mime->mimeType(), offers );
 
     list<KDELnkMimeType::Service> builtin;
@@ -1008,7 +1012,7 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
     }
   
     if ( !offers.empty() || !user.empty() || !builtin.empty() )
-      connect( m_popupMenu, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
+      QObject::connect( m_popupMenu, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
 
     if ( !offers.empty() || !user.empty() )
       m_popupMenu->insertSeparator();
@@ -1047,16 +1051,16 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
     }
   }
   
-  if ( _urls.count() == 1 )
+  if ( m_lstPopupURLs.count() == 1 )
   {
     m_popupMenu->insertSeparator();
     m_popupMenu->insertItem( i18n("Properties"), this, SLOT( slotPopupProperties() ) );
   }
   
-  m_popupMenu->popup( _global );
+  m_popupMenu->exec( QPoint( popup.x, popup.y ) );
   
   delete m_popupMenu;
-*/  
+  delete m_menuNew;
 }
 
 void KonqMainView::slotSplitView()

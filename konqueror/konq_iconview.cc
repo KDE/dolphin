@@ -174,18 +174,19 @@ void KonqKfmIconView::slotReturnPressed( KIconContainerItem *_item, const QPoint
 
 void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint &_global, int _button )
 {
-  //  cerr << "void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint &_global, int _button )" << endl;
+  cerr << "void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint &_global, int _button )" << endl;
 
   if ( !_item )
   {
     if ( _button == RightButton )
     {
-      QStrList urls;
+      Konqueror::View::MenuPopupRequest popupRequest;
       QString cURL = m_url.url( 1 ).c_str();
       int i = cURL.length();
 
       mode_t mode = 0;
-      urls.append( cURL );
+      popupRequest.urls.length( 1 );
+      popupRequest.urls[0] = cURL.ascii();
 
       // A url ending with '/' is always a directory
       if ( i >= 1 && cURL[ i - 1 ] == '/' )
@@ -206,7 +207,13 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
 	mode = buff.st_mode;
       }
 
+      popupRequest.x = _global.x();
+      popupRequest.y = _global.y();
+      popupRequest.mode = mode;
+      popupRequest.isLocalFile = (CORBA::Boolean)m_bIsLocalURL;
+      
 //      m_pView->popupMenu( _global, urls, mode, m_bIsLocalURL );
+      SIGNAL_CALL1( "popupMenu", popupRequest );
       //emit signal here... TODO
     }
   }
@@ -214,16 +221,19 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
     ((KonqKfmIconViewItem*)_item)->returnPressed();
   else if ( _button == RightButton )
   {
-    QStrList urls;
+    Konqueror::View::MenuPopupRequest popupRequest;
+    popupRequest.urls.length( 0 );
 
     list<KonqKfmIconViewItem*> icons;
     selectedItems( icons );
     mode_t mode = 0;
     bool first = true;
     list<KonqKfmIconViewItem*>::iterator icit = icons.begin();
+    int i = 0;
     for( ; icit != icons.end(); ++icit )
     {
-      urls.append( (*icit)->url() );
+      popupRequest.urls.length( i + 1 );
+      popupRequest.urls[ i++ ] = (*icit)->url();
 
       UDSEntry::iterator it = (*icit)->udsEntry().begin();
       for( ; it != (*icit)->udsEntry().end(); it++ )
@@ -239,6 +249,11 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
 	}
     }
 
+    popupRequest.x = _global.x();
+    popupRequest.y = _global.y();
+    popupRequest.mode = mode;
+    popupRequest.isLocalFile = (CORBA::Boolean)m_bIsLocalURL;
+    SIGNAL_CALL1( "popupMenu", popupRequest );
 //    m_pView->popupMenu( _global, urls, mode, m_bIsLocalURL );
     //emit signal here ..TODO
   }

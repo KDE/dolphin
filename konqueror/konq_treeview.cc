@@ -750,16 +750,20 @@ void KonqKfmTreeView::slotRightButtonPressed( QListViewItem *_item, const QPoint
 
 void KonqKfmTreeView::popupMenu( const QPoint& _global )
 {
-  QStrList urls;
+  Konqueror::View::MenuPopupRequest popupRequest;
+
+  popupRequest.urls.length( 0 );
 
   list<KfmTreeViewItem*> items;
   selectedItems( items );
   mode_t mode = 0;
   bool first = true;
   list<KfmTreeViewItem*>::iterator itit = items.begin();
+  int i = 0;
   for( ; itit != items.end(); ++itit )
   {
-    urls.append( (*itit)->url() );
+    popupRequest.urls.length( i + 1 );
+    popupRequest.urls[ i++ ] = (*itit)->url();
 
     UDSEntry::iterator it = (*itit)->udsEntry().begin();
     for( ; it != (*itit)->udsEntry().end(); it++ )
@@ -775,6 +779,11 @@ void KonqKfmTreeView::popupMenu( const QPoint& _global )
       }
   }
 
+  popupRequest.x = _global.x();
+  popupRequest.y = _global.y();
+  popupRequest.mode = mode;
+  popupRequest.isLocalFile = (CORBA::Boolean)m_bIsLocalURL;
+  SIGNAL_CALL1( "popupMenu", popupRequest );
 //  m_pView->popupMenu( _global, urls, mode, m_bIsLocalURL );
 // TODOOOOOOOOO
 }
