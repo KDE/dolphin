@@ -90,7 +90,7 @@ void KEBListView::init() {
    setTabOrderedRenaming(false);
    setSorting(-1, false);
    setDragEnabled(true);
-   setSelectionModeExt(KListView::Extended);
+   setSelectionModeExt((!m_folderList) ? KListView::Extended: KListView::Single);
    setAllColumnsShowFocus(true);
 }
 
@@ -365,6 +365,20 @@ SelcAbilities ListView::getSelectionAbilities() {
 // TODO
 void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newParent, QListViewItem *itemAfterQLVI) {
    Q_UNUSED(lv);
+
+   bool inApp = (e->source() == m_listView->viewport())
+             || (m_folderListView && e->source() == m_folderListView->viewport());
+   bool toOther = e->source() != lv->viewport();
+
+   kdDebug() << "inApp == " << inApp
+             << "toOther == " << toOther
+             << endl;
+
+   if (m_splitView) {
+      // TODO
+      return;
+   }
+
    if (!newParent) {
       // drop before root item
       return;
@@ -378,7 +392,8 @@ void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newP
       : (KBookmark::nextAddress(itemAfter->bookmark().address()));
 
    KMacroCommand *mcmd = 0;
-   if (e->source() != m_listView->viewport()) {
+
+   if (!inApp) {
       mcmd = CmdGen::self()->insertMimeSource(i18n("Drop items"), e, newAddress);
 
    } else {
