@@ -154,7 +154,14 @@ void KMultiVertTabBar::removeTab(int)
 {
 }
 
-void KMultiVertTabBar::setTab(int,bool){}
+void KMultiVertTabBar::setTab(int id,bool state)
+{
+	KMultiVertTabBarTab *tab=getTab(id);
+	if (tab)
+	{
+		if(state) tab->setOn(true); else tab->setOn(false);
+	}
+}
 
 bool KMultiVertTabBar::isTabRaised(int id)
 {
