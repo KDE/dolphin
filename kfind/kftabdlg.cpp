@@ -285,9 +285,9 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     typeBox->insertItem(i18n("Special Files (Sockets, Device Files...)"));
     typeBox->insertItem(i18n("Executable Files"));
     typeBox->insertItem(i18n("SUID Executable Files"));
-    typeBox->insertItem(i18n("All images"));
-    typeBox->insertItem(i18n("All video"));
-    typeBox->insertItem(i18n("All sounds"));
+    typeBox->insertItem(i18n("All Images"));
+    typeBox->insertItem(i18n("All Video"));
+    typeBox->insertItem(i18n("All Sounds"));
 
     initMimeTypes();
     initSpecialMimeTypes();

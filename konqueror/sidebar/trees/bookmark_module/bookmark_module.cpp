@@ -63,11 +63,11 @@ KonqSidebarBookmarkModule::KonqSidebarBookmarkModule( KonqSidebarTree * parentTr
                         SLOT( slotDelete() ), m_collection, "delete_bookmark");
     (void) new KAction( i18n("Properties"), "edit", 0, this,
                         SLOT( slotProperties() ), m_collection, "item_properties");
-    (void) new KAction( i18n("Open In New Window"), "window_new", 0, this,
+    (void) new KAction( i18n("Open in New Window"), "window_new", 0, this,
                         SLOT( slotOpenNewWindow() ), m_collection, "open_window");
-    (void) new KAction( i18n("Open In New Tab"), "tab_new", 0, this,
+    (void) new KAction( i18n("Open in New Tab"), "tab_new", 0, this,
                         SLOT( slotOpenTab() ), m_collection, "open_tab");
-    (void) new KAction( i18n("Open Folder In Tabs"), "tab_new", 0, this,
+    (void) new KAction( i18n("Open Folder in Tabs"), "tab_new", 0, this,
                         SLOT( slotOpenTab() ), m_collection, "folder_open_tabs");
     (void) new KAction( i18n("Copy Link Location"), "editcopy", 0, this,
                         SLOT( slotCopyLocation() ), m_collection, "copy_location");
