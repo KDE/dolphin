@@ -355,7 +355,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
 //static
 void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDropEvent * ev, QWidget * parent )
 {
-    kdDebug(1203) << "dest : " << dest.url() << endl;
+    kdDebug(1203) << "doDrop: dest : " << dest.url() << endl;
     KURL::List lst;
     QMap<QString, QString> metaData;
     if ( KURLDrag::decode( ev, lst, metaData ) ) // Are they urls ?
@@ -469,15 +469,22 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
     assert(m_info); // setDropInfo should have been called before asyncDrop
     m_destURL = destItem->url();
 
-    //kdDebug(1203) << "KonqOperations::asyncDrop destItem->mode=" << destItem->mode() << endl;
+    //kdDebug(1203) << "KonqOperations::asyncDrop destItem->mode=" << destItem->mode() << " url=" << m_destURL << endl;
     // Check what the destination is
     if ( destItem->isDir() )
     {
         doFileCopy();
         return;
     }
-    // (If this fails, there is a bug in KFileItem::acceptsDrops)
-    assert( m_destURL.isLocalFile() );
+    if ( !m_destURL.isLocalFile() )
+    {
+        // We dropped onto a remote URL that is not a directory!
+        // (e.g. an HTTP link in the sidebar).
+        // Can't do that, but we can't prevent it before stating the dest....
+        kdWarning(1203) << "Cannot drop onto " << m_destURL << endl;
+        delete this;
+        return;
+    }
     if ( destItem->mimetype() == "application/x-desktop")
     {
         // Local .desktop file. What type ?
