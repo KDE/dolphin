@@ -103,14 +103,11 @@ const char* KonqTreeViewItem::makeNumericString( const KUDSAtom &_atom ) const
   return buffer;
 }
 
-const char* KonqTreeViewItem::makeTimeString( const KUDSAtom &_atom ) const
+QString KonqTreeViewItem::makeTimeString( const KUDSAtom &_atom ) const
 {
-  static char buffer[100];
   QDateTime dt; dt.setTime_t((time_t) _atom.m_long);
 
-  snprintf( buffer, 100, KGlobal::locale()->formatDateTime(dt) );
-
-  return buffer;
+  return KGlobal::locale()->formatDateTime(dt);
 }
 
 QString KonqTreeViewItem::makeTypeString( const KUDSAtom &_atom ) const
