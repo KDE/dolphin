@@ -341,6 +341,7 @@ void KonqDirTree::clearTree()
   m_topLevelItems.clear();
   m_groupItems.clear();
   m_mapCurrentOpeningFolders.clear();
+  clear();
   setRootIsDecorated( true );
 }
 
@@ -646,7 +647,10 @@ void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
 
   lstItems.append( (static_cast<KonqDirTreeItem *>(item))->fileItem() );
 
+  KURL oldURL = m_view->m_url;
+  m_view->m_url = lstItems.first()->url();
   emit m_view->extension()->popupMenu( QCursor::pos(), lstItems );
+  m_view->m_url = oldURL;
 }
 
 void KonqDirTree::slotListingStopped()
@@ -797,7 +801,9 @@ void KonqDirTree::scanDir( KonqDirTreeItem *parent, const QString &path, bool is
   for (; eIt != eEnd; eIt++ )
   {
     QString filePath = QString( *eIt ).prepend( path );
-    if ( KMimeType::findByURL( filePath, 0, true )->name() == "application/x-desktop" )
+    KURL u;
+    u.setPath( filePath );
+    if ( KMimeType::findByURL( u, 0, true )->name() == "application/x-desktop" )
       loadTopLevelItem( parent, filePath );
   }
 
@@ -871,7 +877,7 @@ void KonqDirTree::loadTopLevelItem( KonqDirTreeItem *parent,  const QString &fil
   QFileInfo inf( filename );
 
   QString url, icon;
-  QString name = inf.baseName();
+  QString name = KIO::decodeFileName( inf.fileName() );
 
   if ( cfg.hasLinkType() )
   {
