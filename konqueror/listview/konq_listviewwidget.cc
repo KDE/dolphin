@@ -597,18 +597,18 @@ void KonqBaseListViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
 
    if ( !item )
    {
-      _ev->accept();
+      _ev->acceptAction();
       return;
    }
 
-   if ( m_dragOverItem == item )
-       return; // No change
-
    if ( item->item()->acceptsDrops() )
    {
-      _ev->accept();
-      setSelected( item, true );
-      m_dragOverItem = item;
+      _ev->acceptAction();
+      if ( m_dragOverItem != item )
+      {
+	setSelected( item, true );
+	m_dragOverItem = item;
+      }
    }
    else
    {
@@ -622,7 +622,7 @@ void KonqBaseListViewWidget::viewportDragEnterEvent( QDragEnterEvent *_ev )
    m_dragOverItem = 0L;
 
    // By default we accept any format
-   _ev->accept();
+   _ev->acceptAction();
 }
 
 void KonqBaseListViewWidget::viewportDragLeaveEvent( QDragLeaveEvent * )
