@@ -639,14 +639,14 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
   if ( KMimeType::findByURL(url)->name() == QString::fromLatin1("text/html"))
   {
     QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/webbrowsing") );
-    KonqMainWindow * mainWindow = KonqFileManager::self()->createBrowserWindowFromProfile( profile, url.url() );
+    KonqMainWindow * mainWindow = KonqFileManager::self()->createBrowserWindowFromProfile( profile, QString::fromLatin1("webbrowsing"), url.url() );
     mainWindow->setInitialFrameName( args.frameName );
     //FIXME: obey args (like passing post-data (to KRun), etc.)
   }
   else if ( KMimeType::findByURL(url)->name() == QString::fromLatin1("inode/directory") )
   {
     QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/filemanagement") );
-    KonqMainWindow * mainWindow = KonqFileManager::self()->createBrowserWindowFromProfile( profile, url.url() );
+    KonqMainWindow * mainWindow = KonqFileManager::self()->createBrowserWindowFromProfile( profile, QString::fromLatin1("filemanagement"), url.url() );
     mainWindow->setInitialFrameName( args.frameName );
   }
   else
