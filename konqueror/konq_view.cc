@@ -549,6 +549,8 @@ KURL KonqView::url()
 
 void KonqView::setRun( KonqRun * run )
 {
+  if ( m_pRun )
+    delete m_pRun;
   m_pRun = run;
 }
 

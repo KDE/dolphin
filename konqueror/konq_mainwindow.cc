@@ -111,6 +111,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   s_lstViews->append( this );
 
   m_currentView = 0L;
+  m_initialKonqRun = 0L;
   m_pBookmarkMenu = 0L;
   m_dcopObject = 0L;
   m_combo = 0L;
@@ -439,6 +440,12 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
       KonqRun * run = new KonqRun( this, view /* can be 0L */, url, req, trustedSource );
       if ( view )
         view->setRun( run );
+      else
+      {
+        if (m_initialKonqRun)
+            delete m_initialKonqRun; // there can be only one :)
+        m_initialKonqRun = run;
+      }
       if ( view == m_currentView )
         startAnimation();
       connect( run, SIGNAL( finished() ),
@@ -1305,6 +1312,9 @@ void KonqMainWindow::slotRunFinished()
 {
   kdDebug(1202) << "KonqMainWindow::slotRunFinished()" << endl;
   const KonqRun *run = static_cast<const KonqRun *>( sender() );
+
+  if ( run == m_initialKonqRun )
+      m_initialKonqRun = 0L;
 
   KonqView *childView = run->childView();
 

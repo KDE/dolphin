@@ -63,6 +63,7 @@ class ToggleViewGUIClient;
 class ViewModeGUIClient;
 class KonqMainWindowIface;
 class KonqDirPart;
+class KonqRun;
 struct HistoryEntry;
 
 namespace KParts {
@@ -473,6 +474,8 @@ private:
   KBookmarkMenu* m_pBookmarkMenu;
 
   KonqViewManager *m_pViewManager;
+
+  KonqRun *m_initialKonqRun;
 
   QString m_title;
 
