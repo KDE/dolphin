@@ -26,6 +26,8 @@
 #include <qpixmap.h>
 #include <kio/previewjob.h>
 
+#include <libkonq_export.h>
+
 class KFileItem;
 class QLabel;
 class QScrollView;
@@ -33,7 +35,7 @@ class QTimer;
 
 //--------------------------------------------------------------------------------
 
-class KonqFileTip: public QFrame
+class LIBKONQ_EXPORT KonqFileTip : public QFrame
 {
   Q_OBJECT
 
