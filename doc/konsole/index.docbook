@@ -46,7 +46,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>19/02/2001</date>
+<date>15/03/2001</date>
 <releaseinfo>1.00.10</releaseinfo>
 
 <abstract><para>This document is the user handbook for the &konsole; application.</para>
@@ -96,7 +96,7 @@ key mapping</para></listitem>
 scrollbar</para></listitem>
 </itemizedlist>
 		       
-<para>All chosen options can be made the default for forthcoming sessions by
+<para>All chosen settings can be made the default for forthcoming sessions by
 saving them. </para>
     
 <sect1 id="history">
@@ -152,7 +152,7 @@ Down</keycap></keycombo> (to move forward a page), <keycombo
 action="simul"><keycap>Shift</keycap><keycap>Up</keycap></keycombo> (to move up
 a line) and <keycombo
 action="simul"><keycap>Shift</keycap><keycap>Down</keycap></keycombo> (to move
-down a line) keys (provided the "<link linkend="options-menu">History"</link>
+down a line) keys (provided the "<link linkend="settings-menu">History"</link>
 option is on).</para>
 
 </sect1>
@@ -217,7 +217,7 @@ mouse.</para></note>
 <varlistentry>
 <term><mousebutton>Right</mousebutton></term> 
 <listitem><para>The <mousebutton>right</mousebutton> button brings up the
-<guimenu>Options</guimenu> menu. The <keycombo action="simul"><keycap>Ctrl</keycap> <mousebutton>right</mousebutton></keycombo>
+<guimenu>Settings</guimenu> menu. The <keycombo action="simul"><keycap>Ctrl</keycap> <mousebutton>right</mousebutton></keycombo>
 button brings up the <guimenu>File</guimenu> menu, while <keycombo
 								   action="simul"><keycap>Shift</keycap>
 <mousebutton>right</mousebutton></keycombo> button brings up the
@@ -232,7 +232,7 @@ button brings up the <guimenu>File</guimenu> menu, while <keycombo
 
 <para>The menubar is at the top of the &konsole; window. It can be hidden and
 restored by toggling <guimenuitem>Show Menubar</guimenuitem> in the
-<guimenu>Options</guimenu> menu. When the menubar is hidden, <guimenuitem>Show
+<guimenu>Settings</guimenu> menu. When the menubar is hidden, <guimenuitem>Show
 Menubar</guimenuitem> can be reached by <mousebutton>right</mousebutton>
 clicking in the window.</para>
 
@@ -245,8 +245,8 @@ clicking in the window.</para>
 Console</guimenuitem></menuchoice></term>
 <listitem><para><action> Opens a new session emulating a text-only Linux
 system.</action></para>
-<note><para>See the file <filename>README.linux.console</filename> for detailed
-information on how the Linux console differs from a typical Unix
+<note><para>See the file <filename>README.linux.console</filename> in the &konsole;
+source package for detailed information on how the Linux console differs from a typical Unix
 console.</para></note></listitem>
 </varlistentry>
 
@@ -355,13 +355,13 @@ cycle through the available sessions.</para>
 
 </sect2>
 
-<sect2 id="options-menu">
-<title>The <guimenu>Options</guimenu> menu</title>
+<sect2 id="settings-menu">
+<title>The <guimenu>Settings</guimenu> menu</title>
 
 <variablelist>
 
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu><guimenuitem>R<accel>e</accel>name
+<term><menuchoice><guimenu>Settings</guimenu><guimenuitem>R<accel>e</accel>name
 Session...</guimenuitem></menuchoice></term>
 <listitem><para><action>Changes the name of the active
 session</action></para></listitem>
@@ -369,26 +369,26 @@ session</action></para></listitem>
 
 
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Show
+<term><menuchoice><guimenu>Settings</guimenu><guimenuitem>Show
 <accel>M</accel>enubar</guimenuitem></menuchoice></term>
 <listitem><para><action>Shows or hides the menubar</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Show
+<term><menuchoice><guimenu>Settings</guimenu><guimenuitem>Show
 <accel>T</accel>oolbar</guimenuitem></menuchoice></term>
 <listitem><para><action>Shows or hides the toolbar</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Show
+<term><menuchoice><guimenu>Settings</guimenu><guimenuitem>Show
 <accel>F</accel>rame</guimenuitem></menuchoice></term>
 <listitem><para><action>Shows or hides frame at side of
 window</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu>
+<term><menuchoice><guimenu>Settings</guimenu>
 <guisubmenu>Scrollbar</guisubmenu></menuchoice></term>
 <listitem><para><action>Controls location of scrollbar</action>:
 <guimenuitem>none</guimenuitem>, <guimenuitem>left</guimenuitem>, or
@@ -396,68 +396,80 @@ window</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu>
+<term><menuchoice><guimenu>Settings</guimenu>
 <guimenuitem>F<accel>u</accel>llscreen</guimenuitem></menuchoice></term>
 <listitem><para><action>Toggles window between full-screen and normal
 size</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu>
+<term><menuchoice><guimenu>Settings</guimenu>
 <guisubmenu>Size</guisubmenu></menuchoice></term>
 <listitem><para><action>Sets size of text area (given in columns x
 rows)</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu>
+<term><menuchoice><guimenu>Settings</guimenu>
 <guisubmenu>Fonts</guisubmenu></menuchoice></term>
-<listitem><para><action>Sets font size</action></para></listitem>
+<listitem><para><action>Sets font and font size</action></para>
+<para>Select the <guimenuitem>Custom</guimenuitem> option to use any combination
+of font, size and style. The <filename>README.fonts</filename> file in the &konsole;
+source package gives tips on which fonts will work well.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu>
+<term><menuchoice><guimenu>Settings</guimenu>
 <guimenuitem><accel>S</accel>chema</guimenuitem></menuchoice></term>
 <listitem><para><action>Sets colors of text and background</action></para>
 <para>The list of these schemata is taken from
-<filename>$KDEDIR/apps/konsole/*.schema</filename>. Add to or modify these files
+<filename>$KDEDIR/share/apps/konsole/*.schema</filename>. Add to or modify these files
 to match your needs.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu>
+<term><menuchoice><guimenu>Settings</guimenu>
 <guimenuitem><accel>H</accel>istory</guimenuitem></menuchoice></term> 
 <listitem><para><action>Toggles saving of lines that have scrolled off the top
 of the window</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu>
+<term><menuchoice><guimenu>Settings</guimenu>
 <guimenuitem><accel>C</accel>odec</guimenuitem></menuchoice></term>
 <listitem><para><action>Not implemented yet</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu>
+<term><menuchoice><guimenu>Settings</guimenu>
 <guimenuitem><accel>K</accel>eyboard</guimenuitem></menuchoice></term>
 <listitem><para><action>Chooses desired keymapping</action></para>
 <para>The list of these keymappings is taken from
-<filename>$KDEDIR/apps/konsole/*.keymap</filename>.  Add to or modify these
+<filename>$KDEDIR/share/apps/konsole/*.keytab</filename>. Add to or modify these
 files to match your needs.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu>
-<guimenuitem><accel>W</accel>arn for Open Sessions on
-Quit</guimenuitem></menuchoice></term>
-<listitem><para>When set, a warning appears when you try to close a
-&konsole; window with multiple sessions.</para>
+<term><menuchoice><guimenu>Settings</guimenu>
+<guimenuitem>Word Separators</guimenuitem></menuchoice></term>
+<listitem><para><action>Specify characters that will be recognized as separators between
+words</action></para>
+<para>This affects what text will be selected when you double-click on text. It is most
+important for non-Western text encodings.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><guimenu>Settings</guimenu>
+<guimenuitem><accel>W</accel>arn for Open Sessions on Quit</guimenuitem></menuchoice></term>
+<listitem><para><action>When set, a warning appears when you try to close a &konsole; window with
+multiple sessions.
+</action></para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Save
-<accel>O</accel>ptions</guimenuitem></menuchoice></term>
+<term><menuchoice><guimenu>Settings</guimenu><guimenuitem>Save
+<accel>S</accel>ettings</guimenuitem></menuchoice></term>
 <listitem><para><action>Saves the current settings as the new
 defaults</action></para></listitem>
 </varlistentry>
@@ -516,7 +528,7 @@ project</action></para></listitem>
 <para>The toolbar is at the bottom of the &konsole; window.</para>
 
 <para>It can be hidden and restored by toggling <guimenuitem>Show
-Toolbar</guimenuitem> in the <guimenu>Options</guimenu> menu or by clicking
+Toolbar</guimenuitem> in the <guimenu>Settings</guimenu> menu or by clicking
 the textured <quote>handle</quote> at the side of the bar. The bar contains a
 <guiicon>New</guiicon> icon and icons for the current sessions. Clicking
 <guiicon>New</guiicon> opens a new <quote>Shell</quote> session.</para>
@@ -669,6 +681,11 @@ url="ftp://ftp.kde.org/pub/">ftp://ftp.kde.org/pub/</ulink></para>
 <lineannotation>Then as root:</lineannotation>
 <prompt>#</prompt>  <userinput><command>make</command> <option>install</option></userinput>
 </screen>
+
+<para>Information on building &konsole; on platforms other than Linux is available
+in the <filename>README.ports</filename> file in the &konsole; source package. It provides a
+list of experts for certain platforms (Tru64, Solaris, OpenBSD) and requests volunteers
+from other Unix platforms.</para>
 
 </appendix>
 
