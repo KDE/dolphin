@@ -195,7 +195,7 @@ int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass,
 	    // Warning or error about the new password
 	    if (m_bTerminal) 
 		fputs(line, stdout);
-	    m_Error = line;
+	    m_Error = line + "\n";
 	    state++;
 	    break;
 
