@@ -473,8 +473,6 @@ void KonqSidebarDirTreeModule::slotRefreshItems( const KFileItemList &entries )
 
 void KonqSidebarDirTreeModule::slotDeleteItem( KFileItem *fileItem )
 {
-    Q_ASSERT( fileItem->isDir() );
-
     kdDebug(1201) << "KonqSidebarDirTreeModule::slotDeleteItem( " << fileItem->url().url(-1) << " )" << endl;
 
     // All items are in m_ptrdictSubDirs, so look it up fast
