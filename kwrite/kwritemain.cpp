@@ -1,21 +1,19 @@
-/*
-    Copyright (C) 1998, 1999 Jochen Wilhelmy
-                             digisnap@cs.tu-berlin.de
+/***************************************************************************
+                          kwritemain.cpp  -  description
+                             -------------------
+    begin                : Mon Jan 15 2001
+    copyright            : (C) 2001 by Christoph Cullmann
+    email                : cullmann@kde.org
+ ***************************************************************************/
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-*/
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
 
 #include <qdropsite.h>
 #include <qdragobject.h>
@@ -478,15 +476,15 @@ int main(int argc, char **argv)
   KLocale::setMainCatalogue("kate");         //lukas: set this to have the kwritepart translated using kate message catalog
 
   KAboutData aboutData ("kwrite", I18N_NOOP("KWrite"), "4.0",
-	I18N_NOOP( "KWrite - A new KWrite using the Kate Texteditor KPart" ), KAboutData::License_GPL,
-	 "(c) 2000-2001 The Kate Authors", 0, "http://kate.sourceforge.net");
+	I18N_NOOP( "KWrite - Leightweight Kate" ), KAboutData::License_GPL,
+	I18N_NOOP( "(c) 2000-2001 The Kate Authors" ), 0, "http://kate.sourceforge.net");
 
   aboutData.addAuthor("Christoph Cullmann", I18N_NOOP("Project Manager and Core Developer"), "cullmann@kde.org", "http://www.babylon2k.de");
   aboutData.addAuthor("Michael Bartl", I18N_NOOP("Core Developer"), "michael.bartl1@chello.at");
   aboutData.addAuthor("Phlip", I18N_NOOP("The Project Compiler"), "phlip_cpp@my-deja.com");
   aboutData.addAuthor("Anders Lund", I18N_NOOP("Core Developer"), "anders@alweb.dk", "http://www.alweb.dk");
   aboutData.addAuthor("Matt Newell", I18N_NOOP("Testing, ..."), "newellm@proaxis.com");
-  aboutData.addAuthor("Joseph Wenninger", I18N_NOOP("Core Developer"), "jowenn@bigfoot.com","http://stud3.tuwien.ac.at/~e9925371");
+  aboutData.addAuthor("Joseph Wenninger", I18N_NOOP("Core Developer"), "jowenn@kde.org","http://stud3.tuwien.ac.at/~e9925371");
   aboutData.addAuthor("Michael McCallum", I18N_NOOP("Core Developer"), "gholam@xtra.co.nz");
   aboutData.addAuthor( "Jochen Wilhemly", I18N_NOOP( "KWrite Author" ), "digisnap@cs.tu-berlin.de" );
   aboutData.addAuthor( "Michael Koch",I18N_NOOP("KWrite port to KParts"), "koch@kde.org");
