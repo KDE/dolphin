@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=UADescription (1.2.1 on Windows 2000)
+Name=UADescription (Mozilla 1.7 on Windows XP)
 Name[az]=İAİzahatı (WinNT 5.0 üstündə 1.2.1)
 Name[be]=UADescription (1.2.1 на WinNT 5.0)
 Name[br]=UADescription (1.2.1 war WinNT 5.0)
@@ -55,8 +55,8 @@ Name[zh_TW]=使用者代理描述 (1.2.1 on WinNT 5.0)
 Type=Service
 ServiceTypes=UserAgentStrings
 X-KDE-UA-TAG=MOZ
-X-KDE-UA-FULL=Mozilla/5.0 (Windows; U; Windows NT 5.0; appLanguage; 1.2.1) Gecko/20021130
+X-KDE-UA-FULL=Mozilla/5.0 (Windows; U; Windows NT 5.1; appLanguage; rv:1.7.3) Gecko/20040916
 X-KDE-UA-NAME=Mozilla
-X-KDE-UA-VERSION=1.2.1
+X-KDE-UA-VERSION=1.7.3
 X-KDE-UA-SYSNAME=Windows
-X-KDE-UA-SYSRELEASE=2000
+X-KDE-UA-SYSRELEASE=XP
