@@ -1,5 +1,7 @@
 2000-11-21  David Faure  <faure@kde.org>
 
+	* konq_listview.cc: Case Insensitive Sort option, on by default.
+
 	* Views: Major rework of the "delayed mimetypes determination" feature,
 	to make it available to the list view. This makes the list view
 	MUCH faster in big directories.
