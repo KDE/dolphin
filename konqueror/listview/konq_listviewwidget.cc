@@ -969,23 +969,7 @@ void KonqBaseListViewWidget::drawContentsOffset( QPainter* _painter, int _offset
 
   kdDebug() << "KonqBaseListViewWidget::drawContentsOffset" << endl;
 
-  if ( !props()->bgPixmap().isNull() )
-  {
-    int pw = props()->bgPixmap().width();
-    int ph = props()->bgPixmap().height();
-
-    int xOrigin = (_clipx/pw)*pw - _offsetx;
-    int yOrigin = (_clipy/ph)*ph - _offsety;
-
-    int rx = _clipx%pw;
-    int ry = _clipy%ph;
-
-    for ( int yp = yOrigin; yp - yOrigin < _cliph + ry; yp += ph )
-    {
-      for ( int xp = xOrigin; xp - xOrigin < _clipw + rx; xp += pw )
-        _painter->drawPixmap( xp, yp, props()->bgPixmap() );
-    }
-  }
+  paintEmptyArea( _painter, QRect( _clipx - _offsetx, _clipy - _offsety, _clipw, _cliph ) );
 
   QListView::drawContentsOffset( _painter, _offsetx, _offsety,
                                  _clipx, _clipy, _clipw, _cliph );
@@ -1003,12 +987,10 @@ void KonqBaseListViewWidget::paintEmptyArea( QPainter *p, const QRect &r )
         hasPixmap = pm && !pm->isNull();
     }
 
-    if (!hasPixmap && backgroundMode() != NoBackground) {
+    if (!hasPixmap)
         p->fillRect(r, backgroundColor());
-        return;
-    }
-
-    if (hasPixmap) {
+    else
+    {
         int ax = (r.x() + contentsX()/* + leftMargin()*/) % pm->width();
         int ay = (r.y() + contentsY()/* + topMargin()*/) % pm->height();
         p->drawTiledPixmap(r, *pm, QPoint(ax, ay));
