@@ -1314,6 +1314,7 @@ void KonqIconViewWidget::slotSelectionChanged()
     // This code is very related to ListViewBrowserExtension::updateActions
     int canCopy = 0;
     int canDel = 0;
+    int canTrash = 0;
     bool bInTrash = false;
     int iCount = 0;
 
@@ -1324,17 +1325,22 @@ void KonqIconViewWidget::slotSelectionChanged()
             iCount++;
             canCopy++;
 
-            KURL url = ( static_cast<KFileIVI *>( it ) )->item()->url();
+            KFileItem *item = ( static_cast<KFileIVI *>( it ) )->item();
+            KURL url = item->url();
+            QString local_path = item->localPath();
+            
             if ( url.directory(false) == KGlobalSettings::trashPath() )
                 bInTrash = true;
             if ( KProtocolInfo::supportsDeleting( url ) )
                 canDel++;
+            if ( !local_path.isEmpty() )
+                canTrash++;
         }
     }
 
     emit enableAction( "cut", canDel > 0 );
     emit enableAction( "copy", canCopy > 0 );
-    emit enableAction( "trash", canDel > 0 && !bInTrash && m_url.isLocalFile() );
+    emit enableAction( "trash", canDel > 0 && !bInTrash && canTrash==canDel );
     emit enableAction( "del", canDel > 0 );
     emit enableAction( "properties", iCount > 0 && KPropertiesDialog::canDisplay( selectedFileItems() ) );
     emit enableAction( "editMimeType", ( iCount == 1 ) );
