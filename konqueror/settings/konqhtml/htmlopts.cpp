@@ -233,6 +233,7 @@ void KMiscHTMLOptions::defaults()
     m_pNewTabsInFront->setChecked( true );
     m_pTabConfirm->setChecked( true );
     m_pBackRightClick->setChecked( false );
+    m_pOpenAfterCurrentPage->setChecked( false );
     m_pMaxFormCompletionItems->setValue( 10 );
 }
 
