@@ -127,7 +127,7 @@ bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
         return true; //always embed mimetype inode/* and Browser/*
     QMap<QString, QString>::ConstIterator it = m_embedMap.find( QString::fromLatin1("embed-")+serviceTypeGroup );
     if ( it == m_embedMap.end() )
-        return false; // embedding is now false by default
+        return (serviceTypeGroup=="image"); // embedding is false by default except for image/*
     kdDebug(1203) << "KonqFMSettings::shouldEmbed: " << it.data() << endl;
     return it.data() == QString::fromLatin1("true");
 }
