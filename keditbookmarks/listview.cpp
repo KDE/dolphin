@@ -793,6 +793,8 @@ KEBListViewItem::KEBListViewItem(QListView *parent, QListViewItem *after, const 
 
 // DESIGN - move this into kbookmark or into a helper
 void KEBListViewItem::setOpen(bool open) {
+   if (!parent())
+      return;
    m_bookmark.internalElement().setAttribute("folded", open ? "no" : "yes");
    QListViewItem::setOpen(open);
 }
