@@ -673,7 +673,7 @@ bool KEBTopLevel::queryClose()
     if (m_bModified)
     {
         switch ( KMessageBox::warningYesNoCancel( this,
-                                                  i18n("Save changes ?")) ) {
+                                                  i18n("The bookmarks have been modified.\nSave changes ?")) ) {
             case KMessageBox::Yes :
                 return save();
             case KMessageBox::No :
