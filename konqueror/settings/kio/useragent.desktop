@@ -8,8 +8,6 @@ Exec=kcmshell Browsing/Web/useragent
 X-KDE-ModuleType=Library
 X-KDE-Library=kio
 X-KDE-FactoryName=useragent
-X-KDE-ControlModuleType=User
-X-KDE-HideFromPanel=true
 
 Name=User Agent
 Name[ca]=Agent d'usuari

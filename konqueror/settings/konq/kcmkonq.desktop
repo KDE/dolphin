@@ -7,8 +7,6 @@ Exec=kcmshell Browsing/Files/kcmkonq
 X-KDE-ModuleType=Library
 X-KDE-Library=konq
 X-KDE-FactoryName=konqueror
-X-KDE-ControlModuleType=User
-X-KDE-HideFromPanel=true
 
 Name=File Manager
 Name[ca]=Gestor de fitxers

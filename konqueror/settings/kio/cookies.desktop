@@ -7,8 +7,6 @@ Exec=kcmshell Browsing/Web/cookies
 X-KDE-ModuleType=Library
 X-KDE-Library=kio
 X-KDE-FactoryName=cookie
-X-KDE-ControlModuleType=User
-X-KDE-HideFromPanel=true
 
 Name=Cookies
 Name[eo]=Kuketoj

@@ -7,8 +7,6 @@ Exec=kcmshell Browsing/Web/proxy
 X-KDE-ModuleType=Library
 X-KDE-Library=kio
 X-KDE-FactoryName=proxy
-X-KDE-ControlModuleType=User
-X-KDE-HideFromPanel=true
 
 Name=Proxies
 Name[ca]=Procuració

@@ -7,9 +7,6 @@ Exec=kcmshell Browsing/Web/konqhtml
 X-KDE-ModuleType=Library
 X-KDE-Library=konqhtml
 X-KDE-FactoryName=html
-X-KDE-ControlModuleType=User
-X-KDE-HideFromPanel=true
-
 
 Name=Konqueror Browser
 Name[ca]=Fullejador Konqueror
