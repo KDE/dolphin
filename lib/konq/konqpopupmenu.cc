@@ -204,9 +204,13 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     }
 
     if ( sReading )
+    {
+      if ( ( act = m_actions.action( "cut" ) ) )
+        act->plug( this );
       if ( ( act = m_actions.action("copy") ) )
         act->plug( this );
-      
+    }     
+ 
     if ( ( act = m_actions.action("paste") ) )
       act->plug( this );
 

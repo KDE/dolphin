@@ -111,7 +111,7 @@ IconEditExtension::IconEditExtension( KonqKfmIconView *iconView )
   m_iconView = iconView;
 }
 
-void IconEditExtension::can( bool &copy, bool &paste, bool &move )
+void IconEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move )
 {
   bool bItemSelected = false;
 
@@ -122,7 +122,7 @@ void IconEditExtension::can( bool &copy, bool &paste, bool &move )
       break;
     }
 
-  move = copy = bItemSelected;
+  cut = move = copy = bItemSelected;
 
   bool bKIOClipboard = !isClipboardEmpty();
 
@@ -131,15 +131,21 @@ void IconEditExtension::can( bool &copy, bool &paste, bool &move )
   paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 );
 }
 
+void IconEditExtension::cutSelection()
+{
+  //TODO: grey out items
+  copySelection();
+}
+
 void IconEditExtension::copySelection()
 {
   QDragObject * obj = m_iconView->iconView()->dragObject();
   QApplication::clipboard()->setData( obj );
 }
 
-void IconEditExtension::pasteSelection()
+void IconEditExtension::pasteSelection( bool move )
 {
-  pasteClipboard( m_iconView->url() );
+  pasteClipboard( m_iconView->url(), move );
 }
 
 void IconEditExtension::moveSelection( const QString &destinationURL )

@@ -73,15 +73,21 @@ TreeViewEditExtension::TreeViewEditExtension( KonqTreeView *treeView )
   m_treeView = treeView;
 }
 
-void TreeViewEditExtension::can( bool &copy, bool &paste, bool &move )
+void TreeViewEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move )
 {
   QValueList<KonqTreeViewItem*> selection;
   
   m_treeView->treeView()->selectedItems( selection );
   
-  move = copy = ( selection.count() != 0 );
+  cut = move = copy = ( selection.count() != 0 );
   
   paste = false;
+}
+
+void TreeViewEditExtension::cutSelection()
+{
+  //TODO: grey out items
+  copySelection();
 }
 
 void TreeViewEditExtension::copySelection()
@@ -102,8 +108,9 @@ void TreeViewEditExtension::copySelection()
   QApplication::clipboard()->setData( urlData );
 }
 
-void TreeViewEditExtension::pasteSelection()
+void TreeViewEditExtension::pasteSelection( bool move )
 {
+  //TODO
 }
 
 void TreeViewEditExtension::moveSelection( const QString &destinationURL )

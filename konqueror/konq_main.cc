@@ -33,34 +33,42 @@
 #include <kapp.h>
 #include <dcopclient.h>
 
-class KonquerorIFaceImpl : virtual public KonquerorIface
+class KonquerorIfaceImpl : virtual public KonquerorIface
 {
 public:
-  KonquerorIFaceImpl();
-  virtual ~KonquerorIFaceImpl();
+  KonquerorIfaceImpl();
+  virtual ~KonquerorIfaceImpl();
   
   virtual void configure();
   virtual void openBrowserWindow( const QString &url );
+
+  virtual void setMoveSelection( int move );
 };
 
-KonquerorIFaceImpl::KonquerorIFaceImpl()
+KonquerorIfaceImpl::KonquerorIfaceImpl()
  : DCOPObject( "KonquerorIface" )
 {
 }
 
-KonquerorIFaceImpl::~KonquerorIFaceImpl()
+KonquerorIfaceImpl::~KonquerorIfaceImpl()
 {
 }
 
-void KonquerorIFaceImpl::configure()
+void KonquerorIfaceImpl::configure()
 {
   debug("KonquerorIFaceImpl::configure()");
   // TODO : re-read configuration and apply
 }
 
-void KonquerorIFaceImpl::openBrowserWindow( const QString &url )
+void KonquerorIfaceImpl::openBrowserWindow( const QString &url )
 {
   KFileManager::getFileManager()->openFileManagerWindow( url.ascii() );
+}
+
+void KonquerorIfaceImpl::setMoveSelection( int move )
+{
+  qDebug( "setMoveSeiection: %i", move );
+  KonqMainView::s_bMoveSelection = (bool)move;
 }
 
 int main( int argc, char **argv )
@@ -70,7 +78,7 @@ int main( int argc, char **argv )
   app.dcopClient()->attach();
   app.dcopClient()->registerAs( "konqueror" );
 
-  (void)new KonquerorIFaceImpl();
+  (void)new KonquerorIfaceImpl();
 
   KGlobal::locale()->insertCatalogue("libkonq"); // needed for apps using libkonq
 

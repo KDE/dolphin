@@ -49,10 +49,11 @@ class KonqTextEditExtension : public EditExtension
 public:
   KonqTextEditExtension( KonqTextView *textView );
   
-  virtual void can( bool &copy, bool &paste, bool &move );
+  virtual void can( bool &cut, bool &copy, bool &paste, bool &move );
 
+  virtual void cutSelection();
   virtual void copySelection();
-  virtual void pasteSelection();
+  virtual void pasteSelection( bool move = false );
   virtual void moveSelection( const QString &destinationURL = QString::null );
 
 private:

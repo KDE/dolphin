@@ -125,11 +125,16 @@ KonqTextEditExtension::KonqTextEditExtension( KonqTextView *textView )
   m_textView = textView;
 }
 
-void KonqTextEditExtension::can( bool &copy, bool &paste, bool &move )
+void KonqTextEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move )
 {
+  cut = false;
   copy = m_textView->multiLineEdit()->textMarked();
   paste = false;
   move = false;
+}
+
+void KonqTextEditExtension::cutSelection()
+{
 }
 
 void KonqTextEditExtension::copySelection()
@@ -137,7 +142,7 @@ void KonqTextEditExtension::copySelection()
   m_textView->multiLineEdit()->copy();
 }
 
-void KonqTextEditExtension::pasteSelection()
+void KonqTextEditExtension::pasteSelection( bool move )
 {
 }
 

@@ -45,9 +45,12 @@ class KonqPart;
 class KonqComboAction;
 struct HistoryEntry;
 
+class KonquerorIfaceImpl;
+
 class KonqMainView : public View,
                      virtual public KBookmarkOwner
 {
+  friend class KonquerorIfaceImpl;
   Q_OBJECT
 public:
   KonqMainView( KonqPart *part, QWidget *parent = 0, const char *name = 0 );
@@ -151,7 +154,8 @@ protected slots:
   void slotSpeedProgress( int bytesPerSecond );
 
   void checkEditExtension();
-  
+
+  void slotCut();  
   void slotCopy();
   void slotPaste();
   void slotTrash();
@@ -247,6 +251,7 @@ private:
   KAction *m_paAbout; 
   
   KAction *m_paReload;
+  KAction *m_paCut;
   KAction *m_paCopy;
   KAction *m_paPaste;
   KAction *m_paStop;
@@ -286,7 +291,9 @@ private:
   bool m_bURLEnterLock;
 
   static QList<QPixmap> *s_plstAnimatedLogo;
-  
+
+protected:
+  static bool s_bMoveSelection;  
 };
 
 #endif

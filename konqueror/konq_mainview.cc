@@ -62,7 +62,8 @@
 #include <ktrader.h>
 #include <ksharedptr.h>
 #include <kservice.h>
-
+#include <kapp.h>
+#include <dcopclient.h>
 #include <klibloader.h>
 #include <part.h>
 
@@ -73,6 +74,7 @@
 #define STATUSBAR_MSG_ID 3
 
 QList<QPixmap> *KonqMainView::s_plstAnimatedLogo = 0L;
+bool KonqMainView::s_bMoveSelection = false;
 
 KonqMainView::KonqMainView( KonqPart *part, QWidget *parent, const char *name )
  : View( part, parent, name )
@@ -872,18 +874,35 @@ void KonqMainView::slotSpeedProgress( int bytesPerSecond )
 
 void KonqMainView::checkEditExtension()
 {
+  bool bCut = false;
   bool bCopy = false;
   bool bPaste = false;
   bool bMove = false;
 
   QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
   if ( obj )
-    ((EditExtension *)obj)->can( bCopy, bPaste, bMove );
+    ((EditExtension *)obj)->can( bCut, bCopy, bPaste, bMove );
 
+  m_paCut->setEnabled( bCut );
   m_paCopy->setEnabled( bCopy );
   m_paPaste->setEnabled( bPaste );
   m_paTrash->setEnabled( bMove );
   m_paDelete->setEnabled( bMove );
+}
+
+void KonqMainView::slotCut()
+{
+  QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
+  if ( !obj )
+    return;
+
+  ((EditExtension *)obj)->cutSelection();
+  
+  QByteArray data;
+  QDataStream stream( data, IO_WriteOnly );
+  stream << (int)true;
+  kapp->dcopClient()->send( "*", "KonquerorIface", "setMoveSelection(bool)", data );
+  s_bMoveSelection = true;
 }
 
 void KonqMainView::slotCopy()
@@ -891,13 +910,19 @@ void KonqMainView::slotCopy()
   QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
   if ( obj )
     ((EditExtension *)obj)->copySelection();
+
+  QByteArray data;
+  QDataStream stream( data, IO_WriteOnly );
+  stream << (int)false;
+  kapp->dcopClient()->send( "*", "KonquerorIface", "setMoveSelection(bool)", data );
+  s_bMoveSelection = false;
 }
 
 void KonqMainView::slotPaste()
 {
   QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
   if ( obj )
-    ((EditExtension *)obj)->pasteSelection();
+    ((EditExtension *)obj)->pasteSelection( s_bMoveSelection );
 }
 
 void KonqMainView::slotTrash()
@@ -1159,6 +1184,7 @@ void KonqMainView::initActions()
 
   m_paReload = new KAction( i18n( "&Reload Document" ), QIconSet( BarIcon( "reload", KonqFactory::instance() ) ), Key_F5, this, SLOT( slotReload() ), actionCollection(), "reload" );
 
+  m_paCut = new KAction( i18n( "&Cut" ), QIconSet( BarIcon( "editcut", KonqFactory::instance() ) ), stdAccel.cut(), this, SLOT( slotCut() ), actionCollection(), "cut" );
   m_paCopy = new KAction( i18n( "&Copy" ), QIconSet( BarIcon( "editcopy", KonqFactory::instance() ) ), stdAccel.copy(), this, SLOT( slotCopy() ), actionCollection(), "copy" );
   m_paPaste = new KAction( i18n( "&Paste" ), QIconSet( BarIcon( "editpaste", KonqFactory::instance() ) ), stdAccel.paste(), this, SLOT( slotPaste() ), actionCollection(), "paste" );
   m_paStop = new KAction( i18n( "Sto&p loading" ), QIconSet( BarIcon( "stop", KonqFactory::instance() ) ), Key_Escape, this, SLOT( slotStop() ), actionCollection(), "stop" );
@@ -1166,6 +1192,7 @@ void KonqMainView::initActions()
   m_paTrash = new KAction( i18n( "&Move to Trash" ), QIconSet( BarIcon( "trash", KonqFactory::instance() ) ), stdAccel.cut(), this, SLOT( slotTrash() ), actionCollection(), "trash" );
   m_paDelete = new KAction( i18n( "&Delete" ), CTRL+Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "delete" );
 
+  m_paCut->plug( m_pamEdit->popupMenu() );
   m_paCopy->plug( m_pamEdit->popupMenu() );
   m_paPaste->plug( m_pamEdit->popupMenu() );
   m_paTrash->plug( m_pamEdit->popupMenu() );
@@ -1332,7 +1359,8 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
   popupMenuCollection.insert( m_paUp );
   
   checkEditExtension();
-  
+
+  popupMenuCollection.insert( m_paCut );  
   popupMenuCollection.insert( m_paCopy );
   popupMenuCollection.insert( m_paPaste );
   popupMenuCollection.insert( m_paTrash );
