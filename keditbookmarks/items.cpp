@@ -270,7 +270,7 @@ void KEBListViewItem::modUpdate()
       } else if (nMod && nM == 0) { 
          // no modify time returned
          // AK - change this to "Okay" ?
-         sn = i18n(".");
+         sn = i18n("Ok");
 
       } else if (nMod && nM >= oM) { 
          // info from current check
@@ -279,7 +279,7 @@ void KEBListViewItem::modUpdate()
 
       } else if (ois) { 
          // error in previous check
-         sn = i18n("...Error...");
+         sn = i18n("Error");
          render = 0;
 
       } else if (oM) { 
