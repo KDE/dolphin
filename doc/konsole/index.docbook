@@ -108,7 +108,7 @@ or signaled (<errorcode>STOP</errorcode>, <errorcode>CONT</errorcode>,
 
 <para>For more control over &konsole;, a user can:</para>
 <itemizedlist>
-<listitem><para>hide/show the menubar, toolbar, scrollbar and/or
+<listitem><para>hide/show the menubar, tabbar, scrollbar and/or
 frame</para></listitem>
 <listitem><para>select the size of a &konsole; window, fonts, color
 schemes, and key mapping</para></listitem>
@@ -944,24 +944,96 @@ project</action></para></listitem>
 
 </sect1>
 
-<sect1 id="toolbar">
-<title>Toolbar</title>
+<sect1 id="tabbar">
+<title>Tab Bar</title>
 
-<para>The toolbar is at the bottom of the &konsole; window.</para>
+<para>The tabbar allows multiple terminal sessions to be attached to a single &konsole; window.</para>
 
-<para>It can be hidden and restored by toggling <guimenuitem>Show
-Toolbar</guimenuitem> in the <guimenu>Settings</guimenu> menu or by clicking
-the textured <quote>handle</quote> at the side of the bar. The bar contains a
-<guiicon>New</guiicon> icon and icons for the current sessions. Clicking
-<guiicon>New</guiicon> opens a new <quote>Shell</quote> session.</para>
-<para>Double-clicking a session tab opens a dialog box enabling you to
-change the name of that session. <keycombo action="simul">&Alt;&Ctrl;<keycap>S</keycap>
-</keycombo> can also be used to rename the active session.</para>
-<para>Clicking an existing session's icon makes that session
-active.</para> <para>When the toolbar is hidden, <keycombo
-action="simul">&Shift; <keycap>Left</keycap></keycombo> and <keycombo
-action="simul">&Shift; <keycap>Right</keycap></keycombo> can be used
-to move between sessions.</para>
+<screenshot>
+<screeninfo>tabbar Image</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="tabbar.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>tabbar Image</phrase>
+</textobject>
+<caption><para>
+Konsole with 4 terminal sessions running with the tabbar on top.
+</para></caption>
+</mediaobject>
+</screenshot>
+
+<para>The <guimenu>Settings</guimenu>-><guimenuitem>Tab Bar</guimenuitem> allows the tabbar to be moved to the <guimenuitem>Top</guimenuitem> or <guimenuitem>Bottom</guimenuitem>.  The tabbar can also be hidden by selecting <guimenuitem>Hide</guimenuitem>.
+</para>
+
+<para>
+On the left side of the tabbar is a button which allows for a multitude of actions.
+<itemizedlist>
+<listitem><para>
+Click on the button to start a new standard session.
+</para></listitem>
+<listitem><para>
+Click and hold on the button will popup a list of sessions to select.
+</para></listitem>
+<listitem><para>
+Right-Click on the button (or any empty space on the tabbar) will popup up a menu to set certain options:
+   <itemizedlist>
+   <listitem><para>
+<guimenu>Tab Bar</guimenu>: 
+<guimenuitem>Hide</guimenuitem>,
+<guimenuitem>Top</guimenuitem>,
+<guimenuitem>Bottom</guimenuitem>
+   </para></listitem>
+   </itemizedlist>
+   <itemizedlist>
+   <listitem><para>
+<guimenu>Tab Options</guimenu>: 
+<guimenuitem>Text &amp; Icons</guimenuitem>,
+<guimenuitem>Text Only</guimenuitem>,
+<guimenuitem>Icons Only</guimenuitem>
+   </para></listitem>
+   </itemizedlist>
+   <itemizedlist>
+   <listitem><para>
+Dynamic Hide
+   </para></listitem>
+   </itemizedlist>
+</para></listitem>
+</itemizedlist>
+</para>
+
+<para>
+On the right side of the tabbar is a button that closes the current session.  This button will be disabled when there is only one session running.
+</para>
+
+<para>
+Right-clicking on any tabbar will popup another menu:
+<itemizedlist>
+<listitem><para>
+<guimenu>Detach Session</guimenu>
+</para></listitem>
+<listitem><para>
+<guimenu>Rename Session..</guimenu>
+</para></listitem>
+<listitem><para>
+<guimenu>Monitor for Activity</guimenu>
+</para></listitem>
+<listitem><para>
+<guimenu>Monitor for Silence</guimenu>
+</para></listitem>
+<listitem><para>
+<guimenu>Send Input to All Sessions</guimenu>
+</para></listitem>
+<listitem><para>
+<guimenu>Switch to Tab...</guimenu>
+</para></listitem>
+<listitem><para>
+<guimenu>Close Session</guimenu>
+</para></listitem>
+</itemizedlist>
+
+</para>
 
 </sect1>
 
