@@ -81,7 +81,10 @@ void KfmPart::init()
   m_vStatusBar->enable( OpenPartsUI::Show );        
   m_vStatusBar->insertItem( i18n("KFM"), 1 );
 
-  m_pView->openURL( "file:/home/tronical/" );
+  QString home = "file:";
+  home.detach();
+  home += QDir::homeDirPath().data();
+  m_pView->openURL( home );
 }
 
 KfmPart::~KfmPart()
