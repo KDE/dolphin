@@ -237,16 +237,20 @@ void XBELImportCommand::doExecuteWrapper(const KBookmarkGroup) {
 }
 
 void XBELImportCommand::doExecute() {
-   // TODO - there is probably a bug somewhere in here
-   //        that adds unneeded data to the dom, FIXME!
    KBookmarkManager *pManager;
+
+   // check if already open first???
    pManager = KBookmarkManager::managerForFile(m_fileName, false);
+
    QDomDocument doc = CurrentMgr::self()->mgr()->internalDocument();
+
+   kdDebug() << 4 << endl;
 
    // get the xbel
    QDomNode subDoc = pManager->internalDocument().namedItem("xbel").cloneNode();
 
    if (!folder().isEmpty()) {
+      kdDebug() << 3 << endl;
       // transform into folder
       subDoc.toElement().setTagName("folder");
 
@@ -272,10 +276,13 @@ void XBELImportCommand::doExecute() {
    QDomNode node = doc.importNode(subDoc, true);
 
    if (!folder().isEmpty()) {
+      kdDebug() << 2 << endl;
       CurrentMgr::self()->mgr()->root().internalElement().appendChild(node);
       m_group = KBookmarkGroup(node.toElement()).address();
 
    } else {
+      kdDebug() << 1 << endl;
+
       QDomElement root = CurrentMgr::self()->mgr()->root().internalElement();
 
       QValueList<QDomElement> childList;
@@ -285,6 +292,7 @@ void XBELImportCommand::doExecute() {
       while (!n.isNull()) {
          QDomElement e = n.toElement();
          if (!e.isNull()) {
+            kdDebug() << e.tagName() << endl;
             childList.append(e);
          }
          n = n.nextSibling();
