@@ -23,7 +23,9 @@
 #include <kmessagebox.h>
 #include <krun.h>
 
+#include <kdirwatch.h>
 #include <kpropsdlg.h>
+#include <kdirnotify_stub.h>
 
 #include <dcopclient.h>
 #include "konq_undo.h"
@@ -42,6 +44,7 @@
 #include <konq_drag.h>
 #include <konq_fileitem.h>
 #include <kprocess.h>
+#include <kstringhandler.h>
 #include <kstddirs.h>
 #include <qpopupmenu.h>
 #include <unistd.h>
@@ -127,6 +130,15 @@ void KonqOperations::emptyTrash()
 
   if ( urls.count() > 0 )
     op->_del( DEL, urls, SKIP_CONFIRMATION );
+
+  // Update trash bin icon
+  //KDirWatch::self()->setFileDirty( KGlobalSettings::trashPath() );
+  KURL trash;
+  trash.setPath( KGlobalSettings::trashPath() );
+  KURL::List lst;
+  lst.append(trash);
+  KDirNotify_stub allDirNotify("*", "KDirNotify*");
+  allDirNotify.FilesChanged( lst );
 }
 
 void KonqOperations::_del( int method, const KURL::List & selectedURLs, int confirmation )
@@ -182,7 +194,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
       {
         //TODO "Do you really want to delete <filename> from <directory>"
         // so that it's possible to use KIO::decodeName on the filename
-        QString url = prettyList.first();
+        QString url = KStringHandler::csqueeze(prettyList.first());
         QString msg = (m_method == DEL ? i18n( "Do you really want to delete '%1'?" ).arg( url ) :
                        m_method == SHRED ? i18n( "Do you really want to shred '%1'?" ).arg( url ) :
                        i18n( "Do you really want to move '%1' to the trash?" ).arg( url ));
@@ -350,6 +362,17 @@ void KonqOperations::slotResult( KIO::Job * job )
 {
     if (job && job->error())
         job->showErrorDialog( (QWidget*)parent() );
+    if ( m_method == TRASH )
+    {
+        // Update trash bin icon
+        //KDirWatch::self()->setFileDirty( KGlobalSettings::trashPath() );
+        KURL trash;
+        trash.setPath( KGlobalSettings::trashPath() );
+        KURL::List lst;
+        lst.append(trash);
+        KDirNotify_stub allDirNotify("*", "KDirNotify*");
+        allDirNotify.FilesChanged( lst );
+    }
     delete this;
 }
 
