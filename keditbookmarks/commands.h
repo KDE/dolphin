@@ -211,6 +211,7 @@ private:
     void xbelExecute(); // doesn't use signals
     void nsExecute();
     void IEExecute();
+    void connectImporter( const QObject *importer );
     void operaExecute();
 
     QPtrStack<KBookmarkGroup> mstack;

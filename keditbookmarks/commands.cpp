@@ -384,38 +384,40 @@ void ImportCommand::execute()
 
 }
 
-#define CONNECT_IMPORTER(a)                                                               \
-    connect( ##a,                                                                         \
-             SIGNAL( newBookmark( const QString &, const QCString &, const QString & ) ), \
-             SLOT( newBookmark( const QString &, const QCString &, const QString & ) ) ); \
-    connect( ##a,                                                                         \
-             SIGNAL( newFolder( const QString &, bool, const QString & ) ),               \
-             SLOT( newFolder( const QString &, bool, const QString & ) ) );               \
-    connect( ##a,                                                                         \
-             SIGNAL( newSeparator() ),                                                    \
-             SLOT( newSeparator() ) );                                                    \
-    connect( ##a,                                                                         \
-             SIGNAL( endFolder() ),                                                       \
+void ImportCommand::connectImporter( const QObject *importer )
+{
+    connect( importer,
+             SIGNAL( newBookmark( const QString &, const QCString &, const QString & ) ), 
+             SLOT( newBookmark( const QString &, const QCString &, const QString & ) ) );
+    connect( importer,
+             SIGNAL( newFolder( const QString &, bool, const QString & ) ),
+             SLOT( newFolder( const QString &, bool, const QString & ) ) );
+    connect( importer,
+             SIGNAL( newSeparator() ),
+             SLOT( newSeparator() ) );
+    connect( importer,
+             SIGNAL( endFolder() ),
              SLOT( endFolder() ) );
+}
 
 void ImportCommand::operaExecute()
 {
     KOperaBookmarkImporter importer(m_fileName);
-    CONNECT_IMPORTER(&importer);
+    connectImporter( &importer );
     importer.parseOperaBookmarks();
 } 
 
 void ImportCommand::IEExecute()
 {
     KIEBookmarkImporter importer(m_fileName);
-    CONNECT_IMPORTER(&importer);
+    connectImporter( &importer );
     importer.parseIEBookmarks();
 } 
 
 void ImportCommand::nsExecute()
 {
     KNSBookmarkImporter importer(m_fileName);
-    CONNECT_IMPORTER(&importer);
+    connectImporter( &importer );
     importer.parseNSBookmarks( m_utf8 );
 }
 
