@@ -363,8 +363,10 @@ void KonqView::setLocationBarURL( const QString & locationBarURL )
 
 void KonqView::slotOpenURLNotify()
 {
-  createHistoryEntry();
   updateHistoryEntry(true);
+  createHistoryEntry();
+  if ( m_pMainWindow->currentView() == this )
+    m_pMainWindow->updateToolBarActions();
 }
 
 void KonqView::createHistoryEntry()
