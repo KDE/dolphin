@@ -67,6 +67,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_pKonqFrame->setView( this );
 
   m_sLocationBarURL = "";
+  m_pageSecurity = KonqMainWindow::NotCrypted;
   m_bLockHistory = false;
   m_doPost = false;
   m_pMainWindow = mainWindow;
@@ -188,6 +189,7 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL,
 
   callExtensionStringMethod( "setNameFilter(const QString&)", nameFilter );
   setLocationBarURL( locationBarURL );
+  setPageSecurity(KonqMainWindow::NotCrypted);
 
   if ( !args.reload )
   {
@@ -397,6 +399,9 @@ void KonqView::connectPart(  )
       connect( ext, SIGNAL( setIconURL( const KURL & ) ),
                this, SLOT( setIconURL( const KURL & ) ) );
 
+      connect( ext, SIGNAL( setPageSecurity( int ) ),
+               this, SLOT( setPageSecurity( int ) ) );
+      
       connect( ext, SIGNAL( createNewWindow( const KURL &, const KParts::URLArgs & ) ),
                m_pMainWindow, SLOT( slotCreateNewWindow( const KURL &, const KParts::URLArgs & ) ) );
 
@@ -624,6 +629,7 @@ void KonqView::setLocationBarURL( const QString & locationBarURL )
   {
     //kdDebug(1202) << "is current view " << this << endl;
     m_pMainWindow->setLocationBarURL( m_sLocationBarURL );
+    m_pMainWindow->setPageSecurity( m_pageSecurity );
   }
   if (!m_bPassiveMode) setTabIcon( m_sLocationBarURL );
 }
@@ -632,6 +638,14 @@ void KonqView::setIconURL( const KURL & iconURL )
 {
   KonqPixmapProvider::setIconForURL( KURL( m_sLocationBarURL ), iconURL );
   m_bGotIconURL = true;
+}
+
+void KonqView::setPageSecurity( int pageSecurity )
+{
+  m_pageSecurity = (KonqMainWindow::PageSecurity)pageSecurity;
+  
+  if ( m_pMainWindow->currentView() == this )
+    m_pMainWindow->setPageSecurity( m_pageSecurity );
 }
 
 void KonqView::setTabIcon( const  QString &url )

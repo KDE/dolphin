@@ -184,6 +184,11 @@ public:
   void setTypedURL( const QString & u ) { m_sTypedURL = u; }
 
   /**
+   * Return the security state of page in view
+   */
+  KonqMainWindow::PageSecurity pageSecurity() const { return m_pageSecurity; }
+  
+  /**
    * @return the part embedded into this view
    */
   KParts::ReadOnlyPart *part() const { return m_pPart; }
@@ -331,6 +336,8 @@ public slots:
 
   void setCaption( const QString & caption );
 
+  void setPageSecurity( int );
+  
   // connected to the KROP's KIO::Job
   // but also to KonqRun's job
   void slotInfoMessage( KIO::Job *, const QString &msg );
@@ -394,6 +401,7 @@ private:
 
   QString m_sLocationBarURL;
   QString m_sTypedURL;
+  KonqMainWindow::PageSecurity m_pageSecurity;
 
   /**
    * The full history (back + current + forward)

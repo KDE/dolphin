@@ -17,15 +17,18 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include <qpainter.h>
 #include <qstyle.h>
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kcompletionbox.h>
 #include <kdebug.h>
+#include <kiconloader.h>
 #include <kicontheme.h>
 #include <konq_pixmapprovider.h>
 #include <kstdaccel.h>
 #include <kurldrag.h>
+#include <konq_mainwindow.h>
 
 #include <dcopclient.h>
 
@@ -38,7 +41,8 @@ KonqCombo::KonqCombo( QWidget *parent, const char *name )
           : KHistoryCombo( parent, name ),
             m_returnPressed( false ), 
             m_permanent( false ),
-            m_modifier( NoButton )
+            m_modifier( NoButton ),
+	    m_pageSecurity( KonqMainWindow::NotCrypted )
 {
     setInsertionPolicy( NoInsertion );
     setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed ));
@@ -493,6 +497,29 @@ void KonqCombo::slotActivated( const QString& text )
 void KonqCombo::setConfig( KConfig *kc )
 {
     s_config = kc;
+}
+
+void KonqCombo::paintEvent( QPaintEvent *pe )
+{
+    QComboBox::paintEvent( pe );
+    
+    if ( m_pageSecurity!=KonqMainWindow::NotCrypted ) {
+        QPainter p( this );
+        QRect re = style().querySubControlMetrics( QStyle::CC_ComboBox, this, QStyle::SC_ComboBoxEditField );
+        re = QStyle::visualRect(re, this);
+        p.setClipRect( re );
+
+        QPixmap pix = SmallIcon( m_pageSecurity==KonqMainWindow::Encrypted ? "encrypted" : "halfencrypted" );
+        p.fillRect( re.x(), re.y(), pix.width() + 4, re.height(), QBrush("yellow") );
+        p.drawPixmap( re.x() + 2, re.y() + ( re.height() - pix.height() ) / 2, pix );
+        p.setClipping( FALSE );
+    }
+}
+
+void KonqCombo::setPageSecurity( int pageSecurity )
+{
+    m_pageSecurity = pageSecurity;
+    repaint();
 }
 
 #include "konq_combo.moc"

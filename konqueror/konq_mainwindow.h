@@ -98,6 +98,7 @@ class KonqMainWindow : public KParts::MainWindow, public KonqFrameContainerBase
   Q_PROPERTY( QString currentProfile READ currentProfile )
 public:
   enum ComboAction { ComboClear, ComboAdd, ComboRemove };
+  enum PageSecurity { NotCrypted, Encrypted, Mixed };
 
   KonqMainWindow( const KURL &initialURL = KURL(), bool openInitialURL = true, const char *name = 0, const QString& xmluiFile="konqueror.rc");
   ~KonqMainWindow();
@@ -200,7 +201,12 @@ public:
    */
   QString locationBarURL() const;
   void focusLocationBar();
-
+    
+  /**
+   * Set page security related to current view
+   */
+  void setPageSecurity( PageSecurity );
+  
   void enableAllActions( bool enable );
 
   void disableActionsNoView();

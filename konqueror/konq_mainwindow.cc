@@ -3474,6 +3474,11 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
   }
 }
 
+void KonqMainWindow::setPageSecurity( PageSecurity pageSecurity )
+{
+  m_combo->setPageSecurity( pageSecurity );
+}
+
 // called via DCOP from KonquerorIface
 void KonqMainWindow::comboAction( int action, const QString& url, const QCString& objId )
 {

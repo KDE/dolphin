@@ -59,11 +59,14 @@ public:
 
     virtual void popup();
 
+    void setPageSecurity( int );
+    
 protected:
     virtual void keyPressEvent( QKeyEvent * );
     virtual bool eventFilter( QObject *, QEvent * );
     virtual void mousePressEvent( QMouseEvent * );
     virtual void mouseMoveEvent( QMouseEvent * );
+    void paintEvent( QPaintEvent * );
     void selectWord(QKeyEvent *e);
 
 signals:
@@ -93,6 +96,7 @@ private:
     int m_modifier;
     QString m_currentText;
     QPoint m_dragStart;
+    int m_pageSecurity;
 
     static KConfig *s_config;
     static const int temporary; // the index of our temporary item
