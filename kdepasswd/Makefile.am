@@ -10,6 +10,9 @@ kdepasswd_LDADD   = $(LIB_KDEUI) -lkdesu
 kdepasswd_METASOURCES =  AUTO
 noinst_HEADERS = passwd.h passwddlg.h
 
+desktopdir = $(kde_appsdir)/Utilities
+desktop_DATA = kdepasswd.desktop
+
 ## Messages
 messages:
 	$(XGETTEXT) $(kdepasswd_SOURCES) -o $(podir)/kdepasswd.pot

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Comment=Change your password
+Comment[nl]=Verander uw wachtwoord
+Name=Change Password
+Name[nl]=Verander Wachtwoord
+Exec=kdepasswd
+TerminalOptions=
+Icon=kdepasswd
+Type=Application
+DocPath=kdepasswd/kdepasswd.html
+Terminal=0
