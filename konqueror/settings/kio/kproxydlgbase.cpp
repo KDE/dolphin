@@ -58,7 +58,7 @@ void KProxyData::init()
 
 KProxyDialogBase::KProxyDialogBase( QWidget* parent, const char* name,
                                     bool modal, const QString &caption )
-                 :KDialogBase( parent, name, modal, caption, Ok|Cancel )
+    :KDialogBase( parent, name, modal, caption, Ok|Cancel, Ok, true )
 {
   m_bHasValidData = false;
 }

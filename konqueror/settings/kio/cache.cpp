@@ -44,17 +44,18 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent )
   QVBoxLayout* mainLayout = new QVBoxLayout(this, 0, 0);
   m_dlg = new CacheDlgUI(this);
   mainLayout->addWidget(m_dlg);
-  
+  mainLayout->addStretch();
+
   load();
 }
 
 void KCacheConfigDialog::load()
-{    
+{
   m_dlg->cbUseCache->setChecked(KProtocolManager::useCache());
   m_dlg->sbMaxCacheSize->setValue( KProtocolManager::maxCacheSize() );
-  
+
   KIO::CacheControl cc = KProtocolManager::cacheControl();
-  
+
   if (cc==KIO::CC_Verify)
       m_dlg->rbVerifyCache->setChecked( true );
   else if (cc==KIO::CC_Refresh)
@@ -63,7 +64,7 @@ void KCacheConfigDialog::load()
       m_dlg->rbOfflineMode->setChecked( true );
   else if (cc==KIO::CC_Cache)
       m_dlg->rbCacheIfPossible->setChecked( true );
-  
+
   // Config changed notifications...
   connect ( m_dlg->cbUseCache, SIGNAL(toggled(bool)), SLOT(configChanged()) );
   connect ( m_dlg->bgCachePolicy, SIGNAL(clicked (int)), SLOT(configChanged()) );
@@ -76,7 +77,7 @@ void KCacheConfigDialog::save()
 {
   KSaveIOConfig::setUseCache( m_dlg->cbUseCache->isChecked() );
   KSaveIOConfig::setMaxCacheSize( m_dlg->sbMaxCacheSize->value() );
-  
+
   if ( !m_dlg->cbUseCache->isChecked() )
       KSaveIOConfig::setCacheControl(KIO::CC_Reload);
   else if ( m_dlg->rbVerifyCache->isChecked() )
@@ -85,10 +86,10 @@ void KCacheConfigDialog::save()
       KSaveIOConfig::setCacheControl(KIO::CC_CacheOnly);
   else if ( m_dlg->rbCacheIfPossible->isChecked() )
       KSaveIOConfig::setCacheControl(KIO::CC_Cache);
-  
+
   // Update running io-slaves...
   KSaveIOConfig::updateRunningIOSlaves (this);
-  
+
   setChanged( false );
 }
 
@@ -112,8 +113,8 @@ QString KCacheConfigDialog::quickHelp() const
 }
 
 void KCacheConfigDialog::configChanged()
-{ 
-  setChanged( true ); 
+{
+  setChanged( true );
 }
 
 void KCacheConfigDialog::slotClearCache()

@@ -9,12 +9,18 @@
             <x>0</x>
             <y>0</y>
             <width>291</width>
-            <height>116</height>
+            <height>120</height>
         </rect>
+    </property>
+    <property name="caption">
+        <string>PolicyDlgUI</string>
     </property>
     <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
         </property>
         <widget class="QLabel">
             <property name="name">
@@ -100,8 +106,4 @@ Select the desired policy:
 </includes>
 <layoutdefaults spacing="6" margin="11"/>
 <layoutfunctions spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
-<includehints>
-    <includehint>klineedit.h</includehint>
-    <includehint>kcombobox.h</includehint>
-</includehints>
 </UI>

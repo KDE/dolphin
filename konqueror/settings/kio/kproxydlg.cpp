@@ -98,10 +98,12 @@ QString KProxyOptions::quickHelp() const
 KProxyDialog::KProxyDialog( QWidget* parent)
              :KCModule( parent, "kcmkio" )
 {
-    QVBoxLayout* mainLayout = new QVBoxLayout( this, 0, 0 );
+    QVBoxLayout* mainLayout = new QVBoxLayout( this, KDialog::marginHint(), 
+        KDialog::spacingHint() );
 
     dlg = new KProxyDialogUI(this);
     mainLayout->addWidget(dlg);
+    mainLayout->addStretch();
 
     // signals and slots connections
     connect( dlg->rbNoProxy, SIGNAL( toggled(bool) ),

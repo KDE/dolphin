@@ -8,13 +8,19 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>382</width>
-            <height>473</height>
+            <width>390</width>
+            <height>448</height>
         </rect>
+    </property>
+    <property name="caption">
+        <string>KCookiesManagementDlgUI</string>
     </property>
     <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
         </property>
         <widget class="QLayoutWidget">
             <property name="name">
@@ -261,13 +267,4 @@
 </includes>
 <layoutdefaults spacing="6" margin="11"/>
 <layoutfunctions spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
-<includehints>
-    <includehint>klistview.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
-</includehints>
 </UI>

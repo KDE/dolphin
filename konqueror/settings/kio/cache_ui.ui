@@ -8,15 +8,100 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>369</width>
-            <height>213</height>
+            <width>424</width>
+            <height>172</height>
         </rect>
     </property>
-    <vbox>
+    <property name="caption">
+        <string>CacheDlgUI</string>
+    </property>
+    <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QCheckBox">
+        <property name="margin">
+            <number>1</number>
+        </property>
+        <spacer row="2" column="0">
+            <property name="name">
+                <cstring>spacer1</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Fixed</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>16</width>
+                    <height>21</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QLabel" row="2" column="1">
+            <property name="name">
+                <cstring>lbMaxCacheSize</cstring>
+            </property>
+            <property name="enabled">
+                <bool>false</bool>
+            </property>
+            <property name="text">
+                <string>Disk cache &amp;size:</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>sbMaxCacheSize</cstring>
+            </property>
+        </widget>
+        <widget class="KIntNumInput" row="2" column="2">
+            <property name="name">
+                <cstring>sbMaxCacheSize</cstring>
+            </property>
+            <property name="enabled">
+                <bool>false</bool>
+            </property>
+            <property name="minValue">
+                <number>1</number>
+            </property>
+            <property name="maxValue">
+                <number>999999</number>
+            </property>
+            <property name="suffix">
+                <string> KB</string>
+            </property>
+        </widget>
+        <widget class="QPushButton" row="2" column="3">
+            <property name="name">
+                <cstring>pbClearCache</cstring>
+            </property>
+            <property name="enabled">
+                <bool>false</bool>
+            </property>
+            <property name="text">
+                <string>C&amp;lear Cache</string>
+            </property>
+            <property name="accel">
+                <string>Alt+L</string>
+            </property>
+        </widget>
+        <spacer row="2" column="4">
+            <property name="name">
+                <cstring>spacer2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>MinimumExpanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>45</width>
+                    <height>21</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="5">
             <property name="name">
                 <cstring>cbUseCache</cstring>
             </property>
@@ -30,7 +115,7 @@
                 <string>Check this box if you want the web pages you visit to be stored on your hard disk for quicker access. The stored pages will only be updated as needed instead of on every visit to that site. This is especially useful if you have a slow connection to the Internet.</string>
             </property>
         </widget>
-        <widget class="QButtonGroup">
+        <widget class="QButtonGroup" row="1" column="0" rowspan="1" colspan="5">
             <property name="name">
                 <cstring>bgCachePolicy</cstring>
             </property>
@@ -88,113 +173,7 @@
                 </widget>
             </vbox>
         </widget>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>layout2</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer1</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Fixed</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>16</width>
-                            <height>21</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>lbMaxCacheSize</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="text">
-                        <string>Disk cache &amp;size:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>sbMaxCacheSize</cstring>
-                    </property>
-                </widget>
-                <widget class="KIntNumInput">
-                    <property name="name">
-                        <cstring>sbMaxCacheSize</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="minValue">
-                        <number>1</number>
-                    </property>
-                    <property name="maxValue">
-                        <number>999999</number>
-                    </property>
-                    <property name="suffix">
-                        <string> KB</string>
-                    </property>
-                </widget>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>pbClearCache</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="text">
-                        <string>C&amp;lear Cache</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+L</string>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer2</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>MinimumExpanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>16</width>
-                            <height>21</height>
-                        </size>
-                    </property>
-                </spacer>
-            </hbox>
-        </widget>
-        <spacer>
-            <property name="name">
-                <cstring>spacer3</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>MinimumExpanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>41</width>
-                    <height>16</height>
-                </size>
-            </property>
-        </spacer>
-    </vbox>
+    </grid>
 </widget>
 <connections>
     <connection>
@@ -223,8 +202,4 @@
     </connection>
 </connections>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-</includehints>
 </UI>
