@@ -17,4 +17,4 @@ xdg_apps_DATA = kcm_useraccount.desktop
 
 
 messages: rc.cpp
-	$(XGETTEXT) *.cpp $(podir)/useraccount.pot
+	$(XGETTEXT) *.cpp -o $(podir)/useraccount.pot
