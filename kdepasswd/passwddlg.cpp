@@ -53,7 +53,7 @@ bool KDEpasswd1Dialog::checkPassword(const char *password)
 	return false;
 
     case PasswdProcess::PasswordIncorrect:
-        KMessageBox::sorry(this, i18n("Incorrect password! Please try again."));
+        KMessageBox::sorry(this, i18n("Incorrect password. Please try again."));
 	return false;
 
     default:
@@ -146,7 +146,7 @@ bool KDEpasswd2Dialog::checkPassword(const char *password)
         if (!msg.isEmpty())
             msg = "<p>\"<i>" + msg + "</i>\"";
         msg = "<qt>" + i18n("Your password has not been changed.") + msg;
-                                  
+
         // The pw change did not succeed. Print the error.
         KMessageBox::sorry(this, msg);
         return false;
