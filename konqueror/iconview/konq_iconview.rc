@@ -10,7 +10,7 @@
  </Menu>
  <Menu name="view_menu">
   <Action name="image_preview"/>
-  <Action name="showdot"/>
+  <Action name="show_dot"/>
   <Menu name="iconview_sort"><text>Sort...</text>
    <Action name="sort_nc"/>
    <Action name="sort_nci"/>
