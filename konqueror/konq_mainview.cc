@@ -1212,7 +1212,7 @@ void KonqMainView::initActions()
   connect( m_paUp->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotUpAboutToShow() ) );
   connect( m_paUp->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotUpActivated( int ) ) );
 
-  m_paBack = new KActionMenu( i18n( "&Back" ), QIconSet( BarIcon( "back", KonqFactory::instance() ) ), actionCollection(), "back" );
+  m_paBack = new KonqHistoryAction( i18n( "&Back" ), QIconSet( BarIcon( "back", KonqFactory::instance() ) ), ALT+Key_Left, actionCollection(), "back" );
 
   m_paBack->setEnabled( false );
 
@@ -1220,7 +1220,7 @@ void KonqMainView::initActions()
   connect( m_paBack->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotBackAboutToShow() ) );
   connect( m_paBack->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotBackActivated( int ) ) );
 
-  m_paForward = new KActionMenu( i18n( "&Forward" ), QIconSet( BarIcon( "forward", KonqFactory::instance() ) ), actionCollection(), "forward" );
+  m_paForward = new KonqHistoryAction( i18n( "&Forward" ), QIconSet( BarIcon( "forward", KonqFactory::instance() ) ), ALT+Key_Right, actionCollection(), "forward" );
 
   m_paForward->setEnabled( false );
 

@@ -44,6 +44,7 @@ class KNewMenu;
 class KProgress;
 class KonqPart;
 class KonqComboAction;
+class KonqHistoryAction;
 struct HistoryEntry;
 
 class KonqMainView : public View,
@@ -226,8 +227,8 @@ private:
   KActionMenu *m_pamBookmarks;
   
   KActionMenu *m_paUp;
-  KActionMenu *m_paBack;
-  KActionMenu *m_paForward;
+  KonqHistoryAction *m_paBack;
+  KonqHistoryAction *m_paForward;
   KAction *m_paHome;
   
   KAction *m_paCache;
