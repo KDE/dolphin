@@ -178,10 +178,13 @@ void KFileIVI::paintItem( QPainter *p, const QColorGroup &c )
     // First, let's get the background.
 
     QRect r=pixmapRect(false);
+    QRect rcontents=r; 
+    rcontents.moveBy(-iconView()->contentsX(), -iconView()->contentsY());
+    
     QPixmap background(r.width(),r.height());
     QPainter *pbg=new QPainter(&background);
     static_cast<KonqIconViewWidget *>(iconView())->drawBackground(pbg,
-	r , QPoint(0,0));
+	rcontents , QPoint(0,0));
     delete pbg;
 
     QImage bgImg(background.convertToImage());
