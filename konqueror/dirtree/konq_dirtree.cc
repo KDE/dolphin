@@ -548,7 +548,15 @@ void KonqDirTree::contentsDropEvent( QDropEvent *ev )
           kdError(1202) << "Dropped to a remote item !  " << url.prettyURL() << endl;
   }
   else
+  {
+      if (selection->isLink())
+           fileItem = new KFileItem( -1, -1, selection->externalURL() );
+
       KonqOperations::doDrop( fileItem, ev, this );
+
+      if (selection->isLink())
+           delete fileItem;
+  }
 }
 
 void KonqDirTree::contentsMousePressEvent( QMouseEvent *e )
