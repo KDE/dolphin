@@ -1,19 +1,6 @@
-- Use the same action for Fullscreen mode and Stop fullscreen mode, and
-change text & icon to switch from one to the other. Benefit : unique shortcut.
-
-- When word wrap is false, Reggie suggested adding a tooltip with the fullname
-
-- Nice ftp dialog for users who do not know how to put their
-  user name in a URL.
-
-- Sorting by date, by extension...
-
-- listviews : arrow to show order of sorting (as in kfind, I was told)
-
-- textview: dragging from there and dropping in another view crashes, I'm told.
-
-- if we keep "background color for this directory" we should have "text color for
-this directory" too...
+kpropsdlg (kfile):
+======
+- Bug #2717: turning off all read permissions
 
 - Add support (in kpropsdlg probably) for user defined actions in .desktop
 files, like :
@@ -28,12 +15,71 @@ Hmm, that last line is a hack (the url is appended).
 In fact we miss %D or something like that, in the desktop entry
 standard, for "the device in the Type=FSDevice .desktop file"...
 
+kio:
+====
+- Nice ftp dialog for users who do not know how to put their
+  user name in a URL. (i.e. autodetect when passwd needed)
 - About mounting : handle warnings differently than errors.
 (After a message on stderr, test if mounted, and if yes -> it was just a
 warning.)
+- Renaming a dir should rename, not copy and delete (Next one for me, David) #3447.
 
+khtml:
+======
+- (if local dir) : drop should copy to parent dir (for Antonio :)
+- many bugs :(
 - implement search functionality in KonqHTMLView -> wait until khtml catched
   up :-)
+
+libkonq:
+========
+
+- When you are adding to the selection (eg. by shift + LMB)
+  then change the mouse cursor to indicate this. Several drawing programs do
+  this by adding a '+' to the normal mouse cursor and it makes them a lot more usable.
+  [ I'm not sure this is necessary, and if yes it's a QIconView issue anyway - David ]
+
+- #3350 when moving a file to a directory the box with copy/move/link pops up
+even in this box the cursor icon is "forbidden" (_sometimes_). And add Cancel.
+
+- Add folder in bookmark (new menu item on top of each bookmark menu)  #3349
+
+- Image Preview : make size configurable for tackat :)
+
+konqueror framework:
+====================
+
+- What about a "clear" button at the right of the location bar, to clear the URL
+before pasting another one ?
+
+- Open Location has unknown icon (KURLRequesterDlg bug probably)
+
+- Bug #2760 and other problems with splitter sizes
+
+- #3176 : From the main KDE menu, choose "Context Help", next click on the main form of konqueror
+
+
+iconview:
+========
+
+- When word wrap is false, Reggie suggested adding a tooltip with the fullname
+
+- Stop not possible while image preview running - to be tested. #2872
+
+
+iconview+listviews:
+===================
+
+- Add DCOP call to notify new file / deleted file for non-local urls
+(where KDirWatch can't do anything) - waiting for DCOP broadcasts to objects.
+
+- Sorting by date, by extension...
+Many bugs (#3220 #2871...)
+
+- Hide backup files (files ending in ~ or #) - see #3212
+
+- if we keep "background color for this directory" should we have "text color for
+this directory" too... ?
 
 - select files to be shown using shell globs (file:/home/dfaure/*.txt)
 
@@ -41,12 +87,19 @@ warning.)
   several images then invoking kview - you get loads of kview 
   processes rather than just one).  => KRun
 
-- When you are adding to the selection (eg. by shift + LMB)
-  then change the mouse cursor to indicate this. Several drawing programs do
-  this by adding a '+' to the normal mouse cursor and it makes them a lot more usable.
-  [ I'm not sure this is necessary, and if yes it's a QIconView issue anyway - David ]
+- Undo functionality
 
-- Image Preview : make size configurable for tackat :)
+- Link symbol (see post "Links" on kfm-devel)
+
+
+listviews:
+==========
+
+- textview: dragging from there and dropping in another view crashes, I'm told.
+
+- honour icon size (#3092)
+
+- crash in double-click mode when double-clicking. #3356
 
 - Tree view: sorting, fixing columns, ...
 In konqueror.rc, add treeview config.
@@ -70,22 +123,12 @@ the dicts    UDS number -> column number (reversing the config file)
 
   + QStringList of headers (i18n'ed).
 
-- Another config thingy: moving the user-paths (mv + updating konquerorrc)
-or should we detect moving of the actual folders themselves ? Gee that
-would rock no ?
+And more:
+=========
 
-- HTMLView (if local dir) : drop should copy to parent dir (for Antonio :)
-
-- Integrate kdf and kdu ...
-
-- Add DCOP call to notify new file / deleted file for non-local urls
-(where KDirWatch can't do anything) - waiting for DCOP broadcasts to objects.
-
-- More key bindings
-
-- Undo functionality
+- Integrate kdf and kdu ... (#3111) or rather use KIO::listRecursive for du.
 
 - see grep TODO *.cc *.h
 
-- see http://bugs.kde.org/db/pa/lkfm.html !
+- see http://bugs.kde.org/db/pa/lkfm.html and http://bugs.kde.org/db/pa/lkonqueror.html
 
