@@ -17,6 +17,7 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include <qstyle.h>
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kcompletionbox.h>
@@ -447,7 +448,9 @@ void KonqCombo::mousePressEvent( QMouseEvent *e )
     if ( e->button() == LeftButton && pixmap( currentItem()) ) {
         // check if the pixmap was clicked
         int x = e->pos().x();
-        if ( x > 2 && x < lineEdit()->x() ) {
+        int x0 = QStyle::visualRect( style().querySubControlMetrics( QStyle::CC_ComboBox, this, QStyle::SC_ComboBoxEditField ), this ).x();
+	
+        if ( x > x0 + 2 && x < lineEdit()->x() ) {
             m_dragStart = e->pos();
             return; // don't call KComboBox::mousePressEvent!
         }
