@@ -418,14 +418,11 @@ void KonqHistoryManager::notifyRemove( KURL url, QCString saveId )
     kdDebug(1203) << "#### Broadcast: remove entry:: " << url.url() << endl;
 
     KonqHistoryEntry *entry = m_history.findEntry( url );
-    if ( entry ) {
+    if ( entry ) { // entry is now the current item
 	m_pCompletion->removeItem( entry->url.url() );
 	m_pCompletion->removeItem( entry->typedURL );
-	int index = m_history.findRef( entry );
-	if ( index >= 0 ) {
-	    m_history.take( index ); // does not delete
-	    emit entryRemoved( entry );
-	}
+	m_history.take(); // does not delete
+	emit entryRemoved( entry );
 	delete entry;
 	
 	if ( saveId == objId() )
@@ -500,13 +497,13 @@ KonqHistoryEntry * KonqHistoryManager::createFallbackEntry(const QString& item) 
 
 KonqHistoryEntry * KonqHistoryList::findEntry( const KURL& url )
 {
-    KonqHistoryIterator it( *this );
-    it.toLast(); // we search backwards, probably faster to find an entry
-    while ( it.current() ) {
-	if ( it.current()->url == url )
-	    return it.current();
+    // we search backwards, probably faster to find an entry
+    KonqHistoryEntry *entry = last();
+    while ( entry ) {
+	if ( entry->url == url )
+	    return entry;
 
-	--it;
+	entry = prev();
     }
 
     return 0L;

@@ -43,6 +43,11 @@ typedef QListIterator<KonqHistoryEntry> KonqHistoryIterator;
 class KonqHistoryList : public KonqBaseHistoryList
 {
 public:
+    /**
+     * Finds an entry by URL. The found item will also be current().
+     * If no matching entry is found, 0L is returned and current() will be
+     * the first item in the list.
+     */
     KonqHistoryEntry * findEntry( const KURL& url );
 
 protected:
