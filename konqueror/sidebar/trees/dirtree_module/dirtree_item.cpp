@@ -30,6 +30,7 @@
 #include <qfile.h>
 #include <qpainter.h>
 #include <kiconloader.h>
+#include <qcursor.h>
 
 #define MYMODULE static_cast<KonqSidebarDirTreeModule*>(module())
 
