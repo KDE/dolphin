@@ -24,6 +24,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <krun.h>
+#include <kshell.h>
 
 #include <kdirnotify_stub.h>
 
@@ -826,11 +827,19 @@ void KonqOperations::newDir( QWidget * parent, const KURL & baseURL )
 
     name = KInputDialog::getText ( i18n( "New Folder" ),
         i18n( "Enter folder name:" ), name, &ok, parent );
-    if ( ok )
+    if ( ok && !name.isEmpty() )
     {
-        name = KIO::encodeFileName( name );
-        KURL url=baseURL;
-        url.addPath( name );
+        KURL url;
+        if ((name[0] == '/') || (name[0] == '~'))
+        {
+           url.setPath(KShell::tildeExpand(name));
+        }
+        else
+        {
+           name = KIO::encodeFileName( name );
+           url = baseURL;
+           url.addPath( name );
+        }
         KonqOperations::mkdir( 0L, url );
     }
 }
