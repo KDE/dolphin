@@ -29,6 +29,8 @@
 #include <klocale.h>
 #include <assert.h>
 
+#include "konq_faviconmgr.h"
+
 KBookmarkGroup::KBookmarkGroup()
  : KBookmark( QDomElement() )
 {
@@ -139,7 +141,9 @@ KBookmark KBookmarkGroup::addBookmark( const QString & text, const KURL & url )
     QDomElement elem = doc.createElement( "bookmark" );
     element.appendChild( elem );
     elem.setAttribute( "href", url.url( 0, QFont::Unicode ) ); // write utf8 URL
-    QString icon = KMimeType::iconForURL( url );
+    QString icon = KonqFavIconMgr::iconForURL( url.url() );
+    if ( icon.isEmpty() )
+        icon = KMimeType::iconForURL( url );
     elem.setAttribute( "icon", icon );
 
     QDomElement textElem = doc.createElement( "title" );
