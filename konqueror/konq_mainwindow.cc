@@ -208,6 +208,11 @@ KonqMainWindow::~KonqMainWindow()
     }
   }
 
+  disconnect( actionCollection(), SIGNAL( actionStatusText( const QString &) ),
+              this, SLOT( slotActionStatusText( const QString & ) ) );
+  disconnect( actionCollection(), SIGNAL( clearStatusText() ),
+              this, SLOT( slotClearStatusText() ) );
+
   if ( m_combo )
   {
     KConfig *config = KGlobal::config();
