@@ -63,6 +63,17 @@ KBookmarkManager* KBookmarkManager::self()
   if ( !s_pSelf )
   {
     QString path(KGlobal::dirs()->saveLocation("data", "kfm/bookmarks", true));
+    QString bookmark_path(KGlobal::dirs()->saveLocation("data", "kfm/bookmarks/Toolbar", true));
+    // copy over the .directory file if it's not there
+    if (!KStandardDirs::exists(bookmark_path + "/.directory"))
+    {
+      QCString cmd;
+      cmd.sprintf( "cp %s %s/.directory",
+          QFile::encodeName(locate("data", "kbookmark/directory.bookmarkbar")).data(),
+          bookmark_path.data() );
+      system( cmd );
+    }
+
     s_pSelf = new KBookmarkManager( path );
   }
 

@@ -36,6 +36,9 @@ libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc \
 
 kdirnotify_DIR = $(kde_includes)
 
+directory_DATA = directory.bookmarkbar
+directorydir   = $(kde_datadir)/kbookmark
+
 METASOURCES = AUTO
 
 include_HEADERS = kbookmark.h kbookmarkmenu.h knewmenu.h konqpopupmenu.h \
