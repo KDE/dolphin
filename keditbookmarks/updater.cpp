@@ -65,9 +65,9 @@ void FavIconUpdater::downloadIcon(const KBookmark &bk) {
 }
 
 FavIconUpdater::~FavIconUpdater()
-    {
-        delete m_part;
-    }
+{
+    delete m_part;
+}
 
 void FavIconUpdater::downloadIconActual(const KBookmark &bk) {
     m_bk = bk;
