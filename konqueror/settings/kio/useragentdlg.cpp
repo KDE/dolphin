@@ -169,7 +169,7 @@ void UserAgentDlg::load()
       QString domain = *it;
       m_config->setGroup(*it);
       QString userAgent = m_config->readEntry("UserAgent");
-      if (!userAgent.isEmpty());
+      if (!userAgent.isEmpty())
       {
          QString comment = m_provider->aliasFor(userAgent);
          (void) new QListViewItem( dlg->lvDomainPolicyList, domain.lower(), userAgent, comment );
@@ -280,9 +280,9 @@ void UserAgentDlg::save()
      m_config->sync();
   }
 
-  KSaveIOConfig::updateRunningIOSlaves (this);  
-  
-  emit changed( false );  
+  KSaveIOConfig::updateRunningIOSlaves (this);
+
+  emit changed( false );
 }
 
 bool UserAgentDlg::handleDuplicate( const QString& site,
@@ -405,7 +405,7 @@ void UserAgentDlg::changeSendUAString()
 }
 
 void UserAgentDlg::changeSendUAString(bool enabled)
-{ 
+{
   dlg->bgDefaultId->setEnabled( enabled );
   dlg->gbDomainPolicy->setEnabled( enabled );
 }
