@@ -309,7 +309,7 @@ void DesktopPathConfig::slotEntries( KIO::Job * job, const KIO::UDSEntryList& li
     for (; it != end; ++it)
     {
         KFileItem file(*it, m_copyFromSrc, true, true);
-        if (file.url() == m_copyFromSrc || file.url().filename() == "..")
+        if (file.url() == m_copyFromSrc || file.url().fileName() == "..")
         {
             continue;
         }

@@ -42,7 +42,7 @@ void KHTTPOptions::load()
 {
   QString tmp;
   m_pConfig->setGroup( "Browser Settings/HTTP" );	
-  tmp = m_pConfig->readEntry( "AcceptLanguages",KGlobal::locale()->languages());
+  tmp = m_pConfig->readEntry( "AcceptLanguages",KGlobal::locale()->languageList().join(","));
   le_languages->setText( tmp );
   tmp = m_pConfig->readEntry( "AcceptCharsets",defaultCharsets);
   le_charsets->setText( tmp );
@@ -58,7 +58,7 @@ void KHTTPOptions::save()
 
 void KHTTPOptions::defaults()
 {
-  le_languages->setText( KGlobal::locale()->languages() );
+  le_languages->setText( KGlobal::locale()->languageList().join(",") );
   le_charsets->setText( defaultCharsets );
 }
 
