@@ -182,7 +182,6 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     sizeUnitBox ->insertItem( i18n("MB") );
     sizeUnitBox ->setCurrentItem(1);
 
-    sizeEdit->setButtonSymbols(QSpinBox::PlusMinus);
     int tmp = sizeEdit->fontMetrics().width(" 000000000 ");
     sizeEdit->setMinimumSize(tmp, sizeEdit->sizeHint().height());
 
@@ -198,7 +197,6 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     rb[0]->setChecked(true);
 
     // Setup
-    timeBox->setButtonSymbols(QSpinBox::PlusMinus);
     bg->insert( rb[0] );
     bg->insert( rb[1] );
 
