@@ -367,9 +367,9 @@ menu items. The <keycombo action="simul">&Ctrl;
 <sect1 id="menubar">
 <title>Menu Bar</title>
 
-<para>The menubar is at the top of the &konsole; window. It can be
-hidden and restored by toggling <guimenuitem>Show
-Menubar</guimenuitem> in the <guimenu>Settings</guimenu> menu. When
+<para>The menubar is at the top of the &konsole; window.
+<guimenu>Settings</guimenu>-><guimenuitem>Hide
+Menubar</guimenuitem> allows the menubar to be hidden. When
 the menubar is hidden, <guimenuitem>Show Menubar</guimenuitem> can be
 reached by <mousebutton>right</mousebutton> clicking in the
 window or by <keycombo action="simul">&Alt;&Ctrl;<keycap>M</keycap>
@@ -404,7 +404,12 @@ to you, you almost certainly don't need to worry about it.</para></note>
 Commander</guimenuitem></menuchoice></term>
 <listitem><para><action>Open a new session</action> with the
  <application>Midnight
-Commander</application> file browser.</para></listitem>
+Commander</application> file browser.</para>
+<note><para>This menu entry will only be visible if Midnight Commander 
+(<command> mc </command>
+) is installed on your system.
+</para></note>
+</listitem>
 </varlistentry>
 
 <varlistentry>
@@ -440,6 +445,10 @@ care should be taken to avoid accidental damage.
 Commander</application> file browser, as the <systemitem
 class="username">root</systemitem> user.
 </para>
+<note><para>This menu entry will only be visible if Midnight Commander 
+(<command> mc </command>
+) is installed on your system.
+</para></note>
 <para>
 After being prompted for the <systemitem
 class="username">root</systemitem> password, the <prompt>#</prompt>
@@ -459,13 +468,25 @@ Screen Session</guimenuitem></menuchoice></term>
  <application>Screen</application> virtual terminal manager.
 See <userinput><command>man</command> <option>screen</option>
 </userinput>for more information.
-</para></listitem></varlistentry>
+<note><para>This menu entry will only be visible if Screen
+(<command> screen </command>
+) is installed on your system.
+</para></note>
+</para></listitem>
+</varlistentry>
 
 <varlistentry>
 <term><menuchoice><guimenu>Session</guimenu>
 <guimenuitem>New Shell at Bookmark</guimenuitem></menuchoice></term>
 <listitem><para><action>Start</action> a new terminal shell, in a folder
 chosen from the bookmark list.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><guimenu>Session</guimenu>
+<guimenuitem>Print Screen...</guimenuitem></menuchoice></term>
+<listitem><para><action>Print</action> the current screen.
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -581,6 +602,11 @@ process</entry>
 <para>Refer to your system manual pages for further details by giving the
 command <userinput><command>man</command> <option>7
 signal</option></userinput>.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>ZModem Upload...</guimenuitem></menuchoice></term>
+<listitem><para><action>Send a file via zmodem</action>.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -774,23 +800,25 @@ like ssh://user@host or telnet://host to open remote connections.</para></note>
 <variablelist>
 
 <varlistentry>
-<term><menuchoice><guimenu>Settings</guimenu><guimenuitem>Show
+<term><menuchoice><guimenu>Settings</guimenu><guimenuitem>Hide
 Menubar</guimenuitem></menuchoice></term>
-<listitem><para><action>Show or hide the menubar.</action></para></listitem>
+<listitem><para><action>Hides the menubar.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>Settings</guimenu><guimenuitem>Show
-Toolbar</guimenuitem></menuchoice></term>
-<listitem><para><action>Show or hide the toolbar.</action></para></listitem>
+<term><menuchoice><guimenu>Settings</guimenu><guimenuitem>
+Tab Bar</guimenuitem></menuchoice></term>
+<listitem><para><action>Control visibility/location of tabbar</action>:
+<guimenuitem>Hide</guimenuitem>, <guimenuitem>Top</guimenuitem>, or
+<guimenuitem>Bottom</guimenuitem>.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu>
 <guisubmenu>Scrollbar</guisubmenu></menuchoice></term>
-<listitem><para><action>Control location of scrollbar</action>:
-<guimenuitem>none</guimenuitem>, <guimenuitem>left</guimenuitem>, or
-<guimenuitem>right</guimenuitem>.</para></listitem>
+<listitem><para><action>Control visibility/location of scrollbar</action>:
+<guimenuitem>Hide</guimenuitem>, <guimenuitem>Left</guimenuitem>, or
+<guimenuitem>Right</guimenuitem>.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -803,9 +831,12 @@ size.</action></para></listitem>
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu>
 <guimenuitem>Bell</guimenuitem></menuchoice></term>
-<listitem><para><action>Set the system bell to a &kde; System
-Notification or a visible flash, or turns it off.
-</action></para></listitem>
+<listitem><para><action>Set the bell</action>: 
+<guimenuitem>System Bell</guimenuitem>, 
+<guimenuitem>System Notification</guimenuitem>, 
+<guimenuitem>Visible Bell</guimenuitem>, or
+<guimenuitem>None</guimenuitem>
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -816,6 +847,12 @@ Notification or a visible flash, or turns it off.
 combination of font, size and style. The
 <filename>README.fonts</filename> file in the &konsole; source package
 gives tips on which fonts will work well.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><guimenu>Settings</guimenu><guimenuitem>
+Encoding</guimenuitem></menuchoice></term>
+<listitem><para><action>Select encoding.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -870,9 +907,9 @@ and display the text you're reading right now.</para></listitem>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu><guimenuitem>Save
-Settings</guimenuitem></menuchoice></term>
+as Default</guimenuitem></menuchoice></term>
 <listitem><para><action>Save the current settings as the new
-defaults.</action></para></listitem>
+default.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -880,6 +917,13 @@ defaults.</action></para></listitem>
 <listitem><para><action>Save the current set of sessions </action>under a name you choose.
 The profile can then be used by starting &konsole; from the command-line with the
 <parameter>--profile</parameter> and the name of the profile.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure
+Notifications...</guimenuitem></menuchoice></term>
+<listitem><para><action>Customize notifications for &konsole;.</action></para>
 </listitem>
 </varlistentry>
 
@@ -1011,7 +1055,7 @@ On the right side of the tabbar is a button that closes the current session.  Th
 </para>
 
 <para>
-Right-clicking on any tabbar will popup another menu:
+Right-clicking on any tab will popup another menu:
 <itemizedlist>
 <listitem><para>
 <guimenu>Detach Session</guimenu>
