@@ -529,7 +529,7 @@ private:
 
   MapViews m_mapViews;
 
-  KonqView *m_currentView;
+  QGuardedPtr<KonqView> m_currentView;
 
   KBookmarkMenu* m_pBookmarkMenu;
   KActionCollection*  m_bookmarksActionCollection;
