@@ -408,7 +408,7 @@ session.</para>
 <sect1 id="command-line-options">
 <title>Command-line options</title>
 
-<para>When &konsole; is started from the command-line, various options can be specified to modify it's behaviour</para>
+<para>When &konsole; is started from the command-line, various options can be specified to modify it's behavior</para>
 <variablelist>
 <varlistentry>
 <term><option>--help</option></term>
@@ -445,7 +445,7 @@ session.</para>
 <prompt>bash$</prompt> <command>konsole <replaceable>--vt_sz 90x25 --nohist</replaceable></command>
 </screen><para> starts a &konsole; window with 90 columns and 25 rows, with no history</para>
       </informalexample>
-<para>&konsole; also accepts generic QT and KDE options:</para>
+<para>&konsole; also accepts generic Qt and KDE options:</para>
 <variablelist>
 <varlistentry>
 <term><option>--author</option></term>
