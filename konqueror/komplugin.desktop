@@ -4,5 +4,5 @@ X-KDE-ServiceType=KOMPlugin
 [PropertyDef::RequiredInterfaces]
 Type=QStringList
 
-[PropertyDef::SupportedInterfaces]
+[PropertyDef::ProvidedInterfaces]
 Type=QStringList
