@@ -200,6 +200,10 @@ module Konqueror
     slot void detachPart();
   };
 
+  interface TxtView : View
+  {
+  };
+  
   enum NewViewPosition { above, below, left, right };
 
   interface MainView : OpenParts::Part
@@ -272,6 +276,7 @@ module Konqueror
     HTMLView createHTMLView();
     KfmTreeView createKfmTreeView();
     PartView createPartView();
+    TxtView createTxtView();
   };
   
 };

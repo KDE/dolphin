@@ -21,7 +21,8 @@ konqueror_SOURCES =  kbookmarkmenu.cc kbrowser.cc \
 	konq_baseview.cc konq_childview.cc konq_frame.cc \
 	konq_htmlview.cc konq_iconview.cc konq_kfmview.cc \
 	konq_main.cc konq_mainview.cc konq_mainwindow.cc konq_plugins.cc \
-	konq_partview.cc konq_treeview.cc konqueror.cc propsdlg.cc
+	konq_partview.cc konq_treeview.cc konq_txtview.cc konqueror.cc \
+	propsdlg.cc
 
 # noinst_HEADERS = ... to be completed
 
@@ -31,7 +32,7 @@ METASOURCES = kbookmarkmenu.moc kbrowser.moc \
 	konq_childview.moc konq_frame.moc \
 	konq_htmlview.moc konq_iconview.moc \
 	konq_main.moc konq_mainview.moc konq_mainwindow.moc \
-	konq_partview.moc konq_treeview.moc propsdlg.moc
+	konq_partview.moc konq_treeview.moc konq_txtview.moc propsdlg.moc
 
 kde_parts_DATA = konqueror_part.kdelnk
 

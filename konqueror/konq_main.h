@@ -52,6 +52,7 @@ public:
   Konqueror::HTMLView_ptr createHTMLView();
   Konqueror::KfmTreeView_ptr createKfmTreeView();
   Konqueror::PartView_ptr createPartView();
+  Konqueror::TxtView_ptr createTxtView();
 };
 
 class KonqBookmarkManager : public KBookmarkManager

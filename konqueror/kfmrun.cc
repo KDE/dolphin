@@ -57,6 +57,24 @@ void KfmRun::foundMimeType( const char *_type )
     m_timer.start( 0, true );
     return;
   }
+  else if ( strncmp( _type, "text/", 5 ) == 0 )
+  {
+    //FIXME: this is a bad hack
+    
+    QString type( _type );
+    type.remove( 0, 5 );
+    
+    if ( ( type.left( 2 ) == "x-" ) ||
+         ( type == "english" ) ||
+	 ( type == "plain" ) )
+       {
+         m_pView->openText( m_strURL );
+	 m_pView = 0L;
+	 m_bFinished = true;
+	 m_timer.start( 0, true );
+	 return;
+       }
+  }
 
   bool isView, isPart, isEventFilter;
   if ( KonqPlugins::isPluginServiceType( _type, &isView, &isPart, &isEventFilter ) )

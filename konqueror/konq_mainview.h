@@ -97,6 +97,7 @@ public:
   void openDirectory( const char *url );
   void openHTML( const char *url );
   void openPluginView( const char *url, const QString serviceType, Konqueror::View_ptr view );
+  void openText( const char *url );
   
   ////////////////////
   /// Overloaded functions of KBookmarkOwner

@@ -29,6 +29,7 @@
 #include "konq_htmlview.h"
 #include "konq_treeview.h"
 #include "konq_partview.h"
+#include "konq_txtview.h"
 #include "konq_plugins.h"
 #include "propsdlg.h"
 
@@ -568,9 +569,7 @@ void KonqMainView::changeViewMode( const char *viewName )
   cerr << "current view is a " << vn.in() << endl;
   
   // check the current view name against the asked one
-  if ( strcmp( viewName, vn.in() ) == 0 )
-    cerr << "skippinggggggggggggggg" << endl;
-  else
+  if ( strcmp( viewName, vn.in() ) != 0L )
   {
     Konqueror::View_var vView = createViewByName( viewName );
     connectView( vView );
@@ -618,6 +617,10 @@ Konqueror::View_ptr KonqMainView::createViewByName( const char *viewName )
   else if ( strcmp( viewName, "KonquerorPartView" ) == 0 )
   {
     vView = Konqueror::View::_duplicate( new KonqPartView );
+  }
+  else if ( strcmp( viewName, "KonquerorTxtView" ) == 0 )
+  {
+    vView = Konqueror::View::_duplicate( new KonqTxtView );
   }
   else
   {
@@ -1141,6 +1144,26 @@ void KonqMainView::openPluginView( const char *url, const QString serviceType, K
   m_vMainWindow->setActivePart( m_currentId );
   
   setUpEnabled( 0 /* was url */ );
+  
+  Konqueror::EventOpenURL eventURL;
+  eventURL.url = CORBA::string_dup( url );
+  eventURL.reload = (CORBA::Boolean)false;
+  eventURL.xOffset = 0;
+  eventURL.yOffset = 0;
+  EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
+}
+
+void KonqMainView::openText( const char *url )
+{
+  m_pRun = 0L;
+  
+  CORBA::String_var viewName = m_currentView->m_vView->viewName();
+  if ( strcmp( viewName.in(), "KonquerorTxtView" ) != 0 )
+    changeViewMode( "KonquerorTxtView" );
+
+  // createViewMenu();
+
+  setUpEnabled( 0 );
   
   Konqueror::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( url );

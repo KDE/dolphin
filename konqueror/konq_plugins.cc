@@ -200,3 +200,10 @@ void KonqPlugins::parseService( const QString file, const QString serviceType, b
   assert( !CORBA::is_nil( imr ) );
   imr_create( serverName, activationMode, serverExec, repoIDs, imr );
 }
+
+void KonqPlugins::reset()
+{
+  s_dctViewServers.clear();
+  s_dctPartServers.clear();
+  s_dctEventFilterServers.clear();
+}

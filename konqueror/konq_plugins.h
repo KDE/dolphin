@@ -16,7 +16,8 @@ public:
    
   static bool isPluginServiceType( const QString serviceType, bool *isView = 0L, bool *isPart = 0L, bool *isEventFilter = 0L );
   static CORBA::Object_ptr lookupServer( const QString serviceType, ServerType sType );
-  
+  static void reset();
+    
 private:
   static void parseService( const QString file, const QString serviceType, bool *isView, bool *isPart, bool *isEventFilter );
 
