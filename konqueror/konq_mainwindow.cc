@@ -1622,7 +1622,7 @@ void KonqMainWindow::slotComboPlugged()
 
 void KonqMainWindow::slotClearLocationBar()
 {
-  m_combo->setEditText( "" );
+  m_combo->clearEdit();
 }
 
 void KonqMainWindow::slotShowMenuBar()
