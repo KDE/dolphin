@@ -7,8 +7,8 @@
 // Cleanup and modifications for KDE 2.1
 // (c) Daniel Molkentin 2000
 
-#ifndef __APPREARANCE_H__
-#define __APPEEARANCE_H__
+#ifndef __APPEARANCE_H__
+#define __APPEARANCE_H__
 
 #include <kcmodule.h>
 #include <qmap.h>
