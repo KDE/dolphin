@@ -38,6 +38,7 @@
 #include <qaction.h>
 #include <qapplication.h>
 #include <qclipboard.h>
+#include <qmessagebox.h>
 
 #include <kaction.h>
 #include <kdebug.h>
@@ -909,6 +910,12 @@ void KonqMainView::slotTrash()
 
 void KonqMainView::slotDelete()
 {
+
+  if ( QMessageBox::warning( (QWidget *)0L, i18n( "Confirmation required" ),
+                             i18n( "Do you really want to delete the file(s) ?" ),
+			     i18n( "Yes" ), i18n( "No" ) ) != 0 )
+    return;
+
   QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
   if ( obj )
     ((EditExtension *)obj)->moveSelection();
