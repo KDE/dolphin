@@ -55,9 +55,11 @@ public:
   KonqHTMLView( KonqMainView *mainView = 0L );
   virtual ~KonqHTMLView();
 
+  virtual bool event( const char *event, const CORBA::Any &value );
   virtual bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
   virtual bool mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu );
   virtual bool mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu );
+  virtual bool mappingRequestDocument( Konqueror::HTMLView::HTMLDocumentRequest docRequest );
 
   virtual void stop();
   virtual char *viewName() { return CORBA::string_dup( "KonquerorHTMLView" ); }
@@ -71,8 +73,15 @@ public:
 
   virtual void print();
   
+  virtual Konqueror::HTMLView::HTMLPageLinkInfoList *pageLinkInfoList();
+  
   virtual void saveDocument();
   virtual void saveFrame();
+  
+  virtual void beginDoc( const CORBA::WChar *url, CORBA::Long dx, CORBA::Long dy );
+  virtual void writeDoc( const char *data );
+  virtual void endDoc();
+  virtual void parseDoc();
 
   virtual void openURL( QString _url, bool _reload, int _xoffset = 0, int _yoffset = 0, const char *_post_data = 0L);
       

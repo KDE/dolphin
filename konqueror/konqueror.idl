@@ -125,6 +125,27 @@ module Konqueror
   
   interface HTMLView : View, PrintingExtension
   {
+
+    struct HTMLDocumentRequest
+    {
+      wstring url;
+      boolean reload;
+      long xOffset;
+      long yOffset;
+      string postData;
+    };
+    typedef HTMLDocumentRequest EventRequestDocument;
+    const string eventRequestDocument = "Konqueror/HTMLView/DocumentRequest";
+    
+
+    struct HTMLPageLinkInfo
+    {
+      wstring url;
+      wstring name;
+    };
+    typedef sequence<HTMLPageLinkInfo> HTMLPageLinkInfoList;
+  
+    HTMLPageLinkInfoList pageLinkInfoList();
   
     struct SavedState
     {
@@ -153,6 +174,11 @@ module Konqueror
   
     slot void saveDocument();
     slot void saveFrame();
+    
+    void beginDoc( in wstring url, in long dx, in long dy );
+    void writeDoc( in string data );
+    void endDoc();
+    void parseDoc();
   };
   
   interface PartView : View

@@ -134,17 +134,13 @@ void KonqChildView::attach( Konqueror::View_ptr view )
     m_pFrame->attach( view );
   }
 
-// disabled for now because it's slow (yet another trader query) and we
-// don't have any KOM plugins for views, yet (Simon)
-//  KonqPlugins::installKOMPlugins( view );
+  KonqPlugins::installKOMPlugins( view );
 }
 
 void KonqChildView::detach()
 {
   if ( m_pFrame )
   {
-    m_vView->show( false );
-//    m_pFrame->hide();
     m_pFrame->detach();
     delete m_pFrame;
     m_pFrame = 0L;

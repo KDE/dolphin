@@ -99,10 +99,26 @@ void KonqHTMLView::slotNewWindow( const char *_url )
 }
 */
 
+bool KonqHTMLView::event( const char *event, const CORBA::Any &value )
+{
+  EVENT_MAPPER( event, value );
+  
+  MAPPING( Konqueror::View::eventFillMenuEdit, Konqueror::View::EventFillMenu, mappingFillMenuEdit );
+  MAPPING( Konqueror::View::eventFillMenuView, Konqueror::View::EventFillMenu, mappingFillMenuView );
+  MAPPING( Konqueror::View::eventCreateViewToolBar, Konqueror::View::EventCreateViewToolBar, mappingCreateViewToolBar );
+  MAPPING( Konqueror::eventOpenURL, Konqueror::EventOpenURL, mappingOpenURL );
+  MAPPING( Konqueror::HTMLView::eventRequestDocument, Konqueror::HTMLView::EventRequestDocument, mappingRequestDocument );
+    
+  END_EVENT_MAPPER;
+  
+  return false;
+}
+
+
 bool KonqHTMLView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 {
   KonqBaseView::mappingOpenURL(eventURL);
-  openURL( QString( eventURL.url ), (bool)eventURL.reload ); // implemented by kbrowser
+  KonqHTMLView::openURL( QString( eventURL.url ), (bool)eventURL.reload ); // implemented by kbrowser
   SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)eventURL.url, 0 ) );
   checkViewMenu();
   return true;
@@ -139,6 +155,14 @@ bool KonqHTMLView::mappingFillMenuEdit( Konqueror::View::EventFillMenu )
 {
   // todo : add "Select All"
   return false;
+}
+
+bool KonqHTMLView::mappingRequestDocument( Konqueror::HTMLView::HTMLDocumentRequest docRequest )
+{
+  kdebug( 0, 1202, "bool KonqHTMLView::mappingRequestDocument()");
+  KBrowser::openURL( C2Q( docRequest.url ), docRequest.reload, (int)docRequest.xOffset, (int)docRequest.yOffset, docRequest.postData );
+  SIGNAL_CALL2( "setLocationBarURL", id(), CORBA::Any::from_string( (char *)C2Q( docRequest.url ).latin1(), 0 ) );
+  return true;
 }
 
 void KonqHTMLView::slotMousePressed( const char* _url, const QPoint &_global, int _button )
@@ -517,6 +541,16 @@ void KonqHTMLView::print()
   KHTMLView::print();
 }
 
+Konqueror::HTMLView::HTMLPageLinkInfoList *KonqHTMLView::pageLinkInfoList()
+{
+  Konqueror::HTMLView::HTMLPageLinkInfoList *lst = new Konqueror::HTMLView::HTMLPageLinkInfoList;
+  
+  //TODO
+  lst->length( 0 );
+  
+  return lst;
+}
+
 void KonqHTMLView::saveDocument()
 {
   if ( isFrameSet() )
@@ -574,10 +608,36 @@ void KonqHTMLView::saveFrame()
   }
 }
 
+void KonqHTMLView::beginDoc( const CORBA::WChar *url, CORBA::Long dx, CORBA::Long dy )
+{
+  KBrowser::begin( C2Q( url ), (int)dx, (int)dy );
+}
+
+void KonqHTMLView::writeDoc( const char *data )
+{
+  KBrowser::write( data );
+}
+
+void KonqHTMLView::endDoc()
+{
+  KBrowser::end();
+}
+
+void KonqHTMLView::parseDoc()
+{
+  KBrowser::parse();
+}
+
 void KonqHTMLView::openURL( QString _url, bool _reload, int _xoffset, int _yoffset, const char *_post_data )
 {
-  KBrowser::openURL( _url, _reload, _xoffset, _yoffset, _post_data );
-  SIGNAL_CALL2( "setLocationBarURL", id(), CORBA::Any::from_string( (char *)_url.latin1(), 0 ) );
+  kdebug( 0, 1202, "void KonqHTMLView::openURL( QString _url, bool _reload, int _xoffset, int _yoffset, const char *_post_data )");
+  Konqueror::HTMLView::HTMLDocumentRequest docRequest;
+  docRequest.url = Q2C( _url );
+  docRequest.reload = _reload;
+  docRequest.xOffset = (CORBA::Long)_xoffset;
+  docRequest.yOffset = (CORBA::Long)_yoffset;
+  docRequest.postData = CORBA::string_dup( _post_data );
+  EMIT_EVENT( this, Konqueror::HTMLView::eventRequestDocument, docRequest );
 }
 
 void KonqHTMLView::checkViewMenu()
