@@ -37,6 +37,7 @@ KDirLister::KDirLister()
 {
   m_bComplete = true;
   m_jobId = 0;
+  m_lstFileItems.setAutoDelete( true );
 }
 
 KDirLister::~KDirLister()
