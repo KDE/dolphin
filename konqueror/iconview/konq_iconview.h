@@ -48,6 +48,7 @@ class KonqKfmIconView : public KonqDirPart
   Q_PROPERTY( uint directoryCount READ dirCount )
   Q_PROPERTY( uint fileCount READ fileCount )
   Q_PROPERTY( bool supportsUndo READ supportsUndo );
+  Q_PROPERTY( QString viewMode READ viewMode WRITE setViewMode );
 public:
 
   enum SortCriterion { NameCaseSensitive, NameCaseInsensitive, Size };
@@ -68,6 +69,9 @@ public:
   uint fileCount() const;
 
   bool supportsUndo() const { return true; }
+
+  void setViewMode( const QString &mode );
+  QString viewMode() const { return m_mode; }
 
 public slots:
   void slotImagePreview( bool toggle );
@@ -210,6 +214,8 @@ protected:
   QTimer * m_timer;
 
   bool m_bUpdateContentsPosAfterListing;
+
+  QString m_mode;
 };
 
 class IconViewBrowserExtension : public KParts::BrowserExtension

@@ -228,6 +228,7 @@ public:
   void setToggleView( bool b ) { m_bToggleView = b; }
   bool isToggleView() const { return m_bToggleView; }
 
+    void setService( const KService::Ptr &s ) { m_service = s; }
   KService::Ptr service() { return m_service; }
 
   KTrader::OfferList partServiceOffers() { return m_partServiceOffers; }

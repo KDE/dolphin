@@ -335,24 +335,14 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     connect( m_pIconView, SIGNAL( selectionChanged() ),
 	     this, SLOT( slotDisplayFileSelectionInfo() ) );
 
-    if (mode=="MultiColumnView")
-    {
-       m_pIconView->setArrangement(QIconView::TopToBottom);
-       //m_pIconView->setWordWrapIconText(false);
-       m_pIconView->setItemTextPos(QIconView::Right);
-    }
-    else
-    {
-       m_pIconView->setItemTextPos(QIconView::Bottom);
-       //m_pIconView->setWordWrapIconText(true);
-       m_pIconView->setArrangement(QIconView::LeftToRight);
-    }
     // Respect kcmkonq's configuration for word-wrap icon text.
     // If we want something else, we have to adapt the configuration or remove it...
     m_pIconView->setWordWrapIconText(KonqFMSettings::settings()->wordWrapText());
 
     // Finally, determine initial grid size again, with those parameters
-    m_pIconView->calculateGridX();
+    //    m_pIconView->calculateGridX();
+    
+    setViewMode( mode );
 }
 
 KonqKfmIconView::~KonqKfmIconView()
@@ -1079,6 +1069,28 @@ uint KonqKfmIconView::dirCount() const
 uint KonqKfmIconView::fileCount() const
 {
   return m_lFileCount;
+}
+
+void KonqKfmIconView::setViewMode( const QString &mode )
+{
+    m_pIconView->setUpdatesEnabled( false );
+    kdDebug() << "setViewMode " << mode << endl;
+    m_mode = mode;
+    if (mode=="MultiColumnView")
+    {
+       m_pIconView->setArrangement(QIconView::TopToBottom);
+       //m_pIconView->setWordWrapIconText(false);
+       m_pIconView->setItemTextPos(QIconView::Right);
+    }
+    else
+    {
+       //m_pIconView->setWordWrapIconText(true);
+       m_pIconView->setArrangement(QIconView::LeftToRight);
+       m_pIconView->setItemTextPos(QIconView::Bottom);
+    }
+    
+    m_pIconView->setUpdatesEnabled( true );
+    m_pIconView->calculateGridX();
 }
 
 void KonqKfmIconView::setupSortKeys()

@@ -342,7 +342,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
         KURL::List lst;
         lst.append(url);
         //kdDebug(1202) << "Got offer " << (offer ? offer->name().latin1() : "0") << endl;
-        if ( ( trustedSource || KonqRun::allowExecution( serviceType, url ) ) && 
+        if ( ( trustedSource || KonqRun::allowExecution( serviceType, url ) ) &&
              ( !offer || !KRun::run( *offer, lst ) ) )
         {
           (void)new KRun( url );
@@ -709,12 +709,41 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   KURL url = m_currentView->url();
   QString locationBarURL = m_currentView->locationBarURL();
 
-  m_currentView->changeViewMode( m_currentView->serviceType(), modeName );
+  bool bQuickViewModeChange = false;
+  
+  // check if we can do a quick property-based viewmode change
+  KTrader::OfferList offers = m_currentView->partServiceOffers();
+  KTrader::OfferList::ConstIterator oIt = offers.begin();
+  KTrader::OfferList::ConstIterator oEnd = offers.end();
+  for (; oIt != oEnd; ++oIt )
+  {
+      KService::Ptr service = *oIt;
+      if ( service->name() == modeName &&
+           service->library() == m_currentView->service()->library() )
+      {
+        QVariant modeProp = service->property( "X-KDE-BrowserView-ModeProperty" );
+        QVariant modePropValue = service->property( "X-KDE-BrowserView-ModePropertyValue" );  
+        if ( !modeProp.isValid() || !modePropValue.isValid() )
+          break;
+	
+        m_currentView->part()->setProperty( modeProp.toString().latin1(), modePropValue );
+	
+        m_currentView->setService( service );
+	
+        bQuickViewModeChange = true;
+        break;
+      }
+  }
+  
+  if ( !bQuickViewModeChange )
+  {
+    m_currentView->changeViewMode( m_currentView->serviceType(), modeName );
 
-  QString locURL( locationBarURL );
-  QString nameFilter = detectNameFilter( locURL );
-  m_currentView->openURL( locURL, locationBarURL, nameFilter );
-
+    QString locURL( locationBarURL );
+    QString nameFilter = detectNameFilter( locURL );
+    m_currentView->openURL( locURL, locationBarURL, nameFilter );
+  }
+  
   // Now save this setting, either locally or globally
   if ( m_bSaveViewPropertiesLocally )
   {
