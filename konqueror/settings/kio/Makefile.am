@@ -7,13 +7,11 @@ METASOURCES = AUTO
 
 kde_module_LTLIBRARIES = libkcm_kio.la
 
-# kcookiesmanagement.cpp
-#libkcm_kio_la_SOURCES = policydlg.cpp kcookiesmain.cpp kcookiespolicies.cpp \
-#			main.cpp ksmboptdlg.cpp useragentdlg.cpp kproxydlg.cpp kcookiesmanagement.cpp
-
 libkcm_kio_la_SOURCES = policydlg.cpp kcookiesmain.cpp kcookiespolicies.cpp \
-			main.cpp smbrodlg.cpp useragentdlg.cpp kproxydlg.cpp kcookiesmanagement.cpp \
-      fakeuaprovider.cpp uagentproviderdlg.cpp kproxydlgui.ui netpref.cpp
+			main.cpp smbrodlg.cpp useragentdlg.cpp kmanualproxydlg.cpp \
+      kenvvarproxydlg.cpp kproxydlg.cpp kcookiesmanagement.cpp \
+      fakeuaprovider.cpp uagentproviderdlg.cpp netpref.cpp \
+      cache.cpp kproxyexceptiondlg.cpp ksaveioconfig.cpp
 
 libkcm_kio_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
 libkcm_kio_la_LIBADD = $(LIB_KSYCOCA) $(LIB_KFILE)
@@ -31,7 +29,7 @@ test_LDADD = -lkdeui -lkio
 servicetypes_DATA = uasprovider.desktop
 servicetypesdir = $(kde_servicetypesdir)
 
-data_DATA = cookies.desktop proxy.desktop useragent.desktop
+data_DATA = cookies.desktop proxy.desktop useragent.desktop cache.desktop
 datadir = $(kde_appsdir)/Settings/WebBrowsing
 
 smb_DATA = smb.desktop netpref.desktop

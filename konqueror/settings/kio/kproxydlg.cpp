@@ -1,531 +1,825 @@
-// File kproxydlg.cpp by Lars Hoss <Lars.Hoss@munich.netsurf.de>
-// Port to KControl by David Faure <faure@kde.org>
-// designer dialog and usage by Daniel Molkentin <molkentin@kde.org>
-// Proxy autoconfig by Malte Starostik <malte@kde.org>
+/*
+   kproxydlg.cpp - Proxy configuration dialog
 
-#include <qlayout.h>
-#include <qwhatsthis.h>
+   Copyright (C) 2001- Dawit Alemayehu <adawit@kde.org>
 
-#include <qdialog.h>
-#include <qwidget.h>
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU General Public
+   License (GPL) version 2 as published by the Free Software
+   Foundation.
+
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Library General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this library; see the file COPYING.LIB.  If not, write to
+   the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   Boston, MA 02111-1307, USA.
+*/
+
 #include <qlabel.h>
-#include <qlineedit.h>
-#include <qpushbutton.h>
+#include <qlayout.h>
+#include <qregexp.h>
 #include <qcheckbox.h>
-#include <qspinbox.h>
+#include <qwhatsthis.h>
+#include <qpushbutton.h>
 #include <qradiobutton.h>
-#include <qvbuttongroup.h>
-#include <qmultilineedit.h>
 
 #include <kapp.h>
-#include <kmessagebox.h>
 #include <kurl.h>
+#include <kdebug.h>
 #include <kdialog.h>
 #include <klocale.h>
-#include <string.h>
-#include <kprotocolmanager.h>
-#include <knumvalidator.h>
-#include <kiconloader.h>
 #include <kglobal.h>
-#include <dcopclient.h>
-#include <kurlrequester.h>
-#include <kio/http_slave_defaults.h>
+#include <klineedit.h>
 #include <klistview.h>
-#include <kdebug.h>
-
-#include <kproxydlgui.h>
+#include <dcopclient.h>
+#include <kmessagebox.h>
+#include <kurlrequester.h>
+#include <ksaveioconfig.h>
+#include <kio/http_slave_defaults.h>
+#include <kio/ioslave_defaults.h>
 
 #include "kproxydlg.h"
 
-// PROXY AND PORT SETTINGS
-#define DEFAULT_MIN_PORT_VALUE      1
-#define DEFAULT_MAX_PORT_VALUE      65536
-#define DEFAULT_PROXY_PORT          8080
-
-// MAX_CACHE_AGE needs a proper "age" input widget.
-#undef MAX_CACHE_AGE
-
-
-// ############################################################
-
-KProxySetDlgBase::KProxySetDlgBase(QWidget *parent, const char *name)
- : KDialogBase(parent, name, true, QString::null, Ok|Cancel, Ok)
+KExceptionBox::KExceptionBox( QWidget* parent, const char* name )
+              :QGroupBox( parent, name )
 {
+    setTitle( i18n("Exceptions") );
+    QVBoxLayout* mainLayout = new QVBoxLayout( this,
+                                               2*KDialog::marginHint(),
+                                               KDialog::spacingHint() );
+    mainLayout->setAlignment( Qt::AlignTop );
 
-  QWidget *page = new QWidget(this);
-  setMainWidget(page);
+    QHBoxLayout* hlay = new QHBoxLayout;
+    hlay->setSpacing( KDialog::spacingHint() );
+    hlay->setMargin( KDialog::marginHint() );
 
-  QBoxLayout *topLay = new QVBoxLayout(page, 0, spacingHint());
+    cb_reverseproxy = new QCheckBox( i18n("Only use proxy for entries "
+                                          "in this list"), this,
+                                          "cb_reverseproxy" );
+    QWhatsThis::add( cb_reverseproxy, i18n("<qt>Check this box to reverse the "
+                                           "use of the exception list.  That "
+                                           "is checking this box will result "
+                                           "in the proxy servers being used "
+                                           "only when the requested URL matches "
+                                           "one of the addresses listed here."
+                                           "<p>This feature is useful if all "
+                                           "you want or need is to use a proxy "
+                                           "server  for a few specific sites.<p>"
+                                           "If you have more complex "
+                                           "requirements you might want to use "
+                                           "a configuration script</qt>") );
+    hlay->addWidget( cb_reverseproxy );
+    QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
+                              QSizePolicy::Minimum );
+    hlay->addItem( spacer );
+    mainLayout->addLayout( hlay );
 
-  title = new QLabel(i18n("&Host / IP address:"),page);
-  input = new QLineEdit(page);
-  title->setBuddy(input);
+    QGridLayout* glay = new QGridLayout;
+    glay->setSpacing( KDialog::spacingHint() );
+    glay->setMargin( 0 );
 
-  topLay->addSpacing(10);
-  topLay->addWidget(title);
-  topLay->addWidget(input);
-  topLay->addSpacing(10);
-  connect(input,SIGNAL(textChanged ( const QString & )),this,SLOT(textChanged ( const QString & )));
-  enableButtonOK(false);
-  input->setFocus();
+    QVBoxLayout* vlay = new QVBoxLayout;
+    vlay->setSpacing( KDialog::spacingHint() );
+    vlay->setMargin( 0 );
+
+    pb_new = new QPushButton( i18n("&New..."), this, "pb_new" );
+    connect( pb_new, SIGNAL( clicked() ), SLOT( newPressed() ) );
+    QWhatsThis::add( pb_new, i18n("Click this to add an address that should "
+                                  "be exempt from using or forced to use, "
+                                  "depending on the check box above, a proxy "
+                                  "server.") );
+    pb_change = new QPushButton( i18n("C&hange..."), this,
+                                  "pb_change" );
+    connect( pb_change, SIGNAL( clicked() ), SLOT( changePressed() ) );
+    pb_change->setEnabled( false );
+    QWhatsThis::add( pb_change, i18n("Click this button to change the "
+                                     "selected exception address.") );
+    pb_delete = new QPushButton( i18n("De&lete"), this,
+                                  "pb_delete" );
+    connect( pb_delete, SIGNAL( clicked() ), SLOT( deletePressed() ) );
+    pb_delete->setEnabled( false );
+    QWhatsThis::add( pb_delete, i18n("Click this button to delete the "
+                                     "selected address.") );
+    pb_deleteAll = new QPushButton( i18n("D&elete All"), this,
+                                     "pb_deleteAll" );
+    connect( pb_deleteAll, SIGNAL( clicked() ), SLOT( deleteAllPressed() ) );
+    pb_deleteAll->setEnabled( false );
+    QWhatsThis::add( pb_deleteAll, i18n("Click this button to delete all "
+                                     "the address in the exception list.") );
+    vlay->addWidget( pb_new );
+    vlay->addWidget( pb_change );
+    vlay->addWidget( pb_delete );
+    vlay->addWidget( pb_deleteAll );
+
+    glay->addLayout( vlay, 0, 1 );
+
+    lv_exceptions = new KListView( this, "lv_exceptions" );
+    connect( lv_exceptions, SIGNAL(selectionChanged()),
+             SLOT(updateButtons()) );
+    lv_exceptions->addColumn( i18n("Address") );
+    QWhatsThis::add( lv_exceptions, i18n("<qt>Contains a list of addresses "
+                                          "that should either by-pass the use "
+                                          "of the proxy server(s) specified "
+                                          "above or use these servers based "
+                                          "on the state of the <tt>\"Only "
+                                          "use proxy for entries in the "
+                                          "list\"</tt> checkbox above.<p>"
+                                          "If the box is checked, then only "
+                                          "URLs that match the addresses "
+                                          "listed here will be sent through "
+                                          "the proxy server(s) shown above.  "
+                                          "Otherwise, the proxy servers are "
+                                          "bypassed for this list.</qt>") );
+
+    glay->addMultiCellWidget( lv_exceptions, 0, 1, 0, 0 );
+    spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum,
+                              QSizePolicy::MinimumExpanding );
+    glay->addItem( spacer, 1, 1 );
+    mainLayout->addLayout( glay );
 }
 
-void KProxySetDlgBase::textChanged ( const QString &text )
+bool KExceptionBox::handleDuplicate( const QString& site )
 {
-     enableButtonOK( !text.isEmpty() );
-}
-
-
-KAddHostDlg::KAddHostDlg(QWidget *parent, const char* name)
- : KProxySetDlgBase(parent, name)
-{
-  setCaption(i18n("Add new host / IP address"));
-
-  QString wstr = i18n("<qt>Here you can add a new hostname or IP address that"
-                               " should be directly accessed by Konqueror. Valid examples are:"
-                               "<ul><li>192.168.0.1 <i>(Exclude IP address)</i></li>"
-                               "<li>192.168.0.* <i>(Exclude Subnet)</i></li>"
-                               "<li>localhost <i>(Exclude host)</i></li>"
-                               "<li>*.kde.org <i>(Exclude all hosts in a domain)</i></li>"
-                               "</ul></qt>");
-
-  QWhatsThis::add(title, wstr);
-  QWhatsThis::add(input, wstr);
-}
-
-void KAddHostDlg::accept()
-{
-  emit sigHaveNewHost(input->text());
-  QDialog::accept();
-}
-
-KEditHostDlg::KEditHostDlg(const QString &host, QWidget *parent, const char* name)
- : KProxySetDlgBase(parent, name)
-{
-  setCaption(i18n("Edit host / IP address"));
-  input->setText(host);
-
-  QString wstr = i18n("<qt>Here you can edit the hostname or IP address that"
-                               " should be directly accessed by Konqueror. Valid examples are:"
-                               "<ul><li>192.168.0.1 <i>(Exclude IP address)</i></li>"
-                               "<li>192.168.0.* <i>(Exclude Subnet)</i></li>"
-                               "<li>localhost <i>(Exclude host)</i></li>"
-                               "<li>*.kde.org <i>(Exclude all hosts in a domain)</i></li>"
-                               "</ul></qt>");
-
-  QWhatsThis::add(title, wstr);
-  QWhatsThis::add(input, wstr);
-
-}
-
-void KEditHostDlg::accept()
-{
-  emit sigHaveChangedHost(input->text());
-  QDialog::accept();
-}
-
-// ############################################################
-
-KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
-  : KCModule(parent, name)
-{
-
- QVBoxLayout *layout = new QVBoxLayout(this);
-
-  ui = new KProxyDlgUI(this);
-  layout->addWidget(ui);
-
-  ui->klv_no_prx->addColumn(i18n("Host / IP Address"));
-  ui->klv_no_prx->setFullWidth();
-
-  ui->pb_rmHost->setEnabled(false);
-  ui->pb_editHost->setEnabled(false);
-
-  // KDE3.0: Remove this ugly hack and update the string itself.
-  QString text = ui->lb_https_url->text();
-  text.replace(QRegExp("[Hh][Tt][Tt][Pp]"), "HTTPS");
-  ui->lb_https_url->setText(text);
-
-  connect(ui->pb_addHost, SIGNAL(clicked()), SLOT(slotAddHost()));
-  connect(ui->pb_rmHost, SIGNAL(clicked()), SLOT(slotRemoveHost()));
-  connect(ui->pb_editHost, SIGNAL(clicked()), SLOT(slotEditHost()));
-  connect(ui->klv_no_prx, SIGNAL(doubleClicked ( QListViewItem * )), SLOT(slotEditHost()));
-
-  connect(ui->klv_no_prx, SIGNAL(selectionChanged()), SLOT(slotEnableButtons()));
-
-  connect( ui->cb_useProxy, SIGNAL( clicked() ), SLOT( changeProxy() ) );
-  connect( ui->cb_useProxy, SIGNAL( clicked() ), this, SLOT( changed() ) );
-  connect( ui->cb_autoProxy, SIGNAL( clicked() ), SLOT( changeProxy() ) );
-  connect( ui->cb_autoProxy, SIGNAL( clicked() ), SLOT( changed() ) );
-  connect( ui->url_autoProxy, SIGNAL( textChanged( const QString & ) ), SLOT( changed() ) );
-  connect( ui->le_http_url, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-  connect( ui->sb_http_port, SIGNAL(valueChanged(int)), this, SLOT(changed()));
-  connect( ui->sb_http_port->editor(), SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
-  connect( ui->le_https_url, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-  connect( ui->sb_https_port, SIGNAL(valueChanged(int)), this, SLOT(changed()));
-  connect( ui->sb_https_port->editor(), SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-  connect( ui->le_ftp_url, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-  connect( ui->sb_ftp_port, SIGNAL(valueChanged(int)), this, SLOT(changed()));
-  connect( ui->sb_ftp_port->editor(), SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-  connect( ui->cb_useCache, SIGNAL( clicked() ), SLOT( changeCache() ) );
-  connect( ui->cb_useCache, SIGNAL( clicked() ), this, SLOT( changed() ) );
-  connect( ui->rb_verify, SIGNAL( clicked() ), SLOT( changeCache() ) );
-  connect( ui->rb_verify, SIGNAL( clicked() ), this, SLOT( changed() ) );
-  connect( ui->rb_cacheIfPossible, SIGNAL( clicked() ), SLOT( changeCache() ) );
-  connect( ui->rb_cacheIfPossible, SIGNAL( clicked() ), this, SLOT( changed() ) );
-  connect( ui->rb_offlineMode, SIGNAL( clicked() ), SLOT( changeCache() ) );
-  connect( ui->rb_offlineMode, SIGNAL( clicked() ), this, SLOT( changed() ) );
-/*
-  connect(sb_max_cache_size, SIGNAL(valueChanged(int)), this, SLOT(changed()));
-  connect(sb_max_cache_size->editor(), SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-  connect(sb_max_cache_age, SIGNAL(valueChanged(int)), this, SLOT(changed()));
-  connect(sb_max_cache_age->editor(), SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-*/
-
-
-  ui->pb_down->setPixmap( BarIcon("down", KIcon::SizeSmall) );
-  ui->pb_down->setFixedSize(20,20);
-
-  connect( ui->pb_down, SIGNAL( clicked() ), SLOT( copyDown() ) );
-  connect( ui->pb_down, SIGNAL( clicked() ), SLOT( changed() ) );
-
-  connect( ui->pb_clearCache, SIGNAL( clicked() ), SLOT( clearCache() ) );
-
-  // finally read the options
-  load();
-}
-
-KProxyOptions::~KProxyOptions()
-{
-}
-
-
-QString KProxyOptions::quickHelp() const
-{
-  return i18n( "This module lets you configure your proxy and cache settings. A proxy is a program on another computer that receives requests from your machine to access a certain web page (or other Internet resources), retrieves the page and sends it back to you.<br>Proxies can help increase network throughput, but can also be a means of controlling which web pages you access. The  cache is an internal memory in Konqueror where recently read web pages are stored. If you want to retrieve a web page again that you have recently read, it will not be downloaded from the net, but rather retrieved from the cache which is a lot faster." );
-}
-
-void KProxyOptions::load()
-{
-  updateGUI ( KProtocolManager::proxyFor( "http" ),
-              KProtocolManager::proxyFor( "https" ),
-              KProtocolManager::proxyFor( "ftp" ),
-              KProtocolManager::proxyType(),
-              KProtocolManager::noProxyFor(),
-              KProtocolManager::proxyConfigScript() );
-
-  ui->cb_useCache->setChecked(KProtocolManager::useCache());
-  KIO::CacheControl cc = KProtocolManager::cacheControl();
-  if (cc==KIO::CC_Verify)
-      ui->rb_verify->setChecked(true);
-  else if (cc==KIO::CC_CacheOnly)
-      ui->rb_offlineMode->setChecked(true);
-  else if (cc==KIO::CC_Cache)
-      ui->rb_cacheIfPossible->setChecked(true);
-
-  ui->sb_max_cache_size->setValue(KProtocolManager::maxCacheSize());
-
-  setProxy();
-  setCache();
-}
-
-void KProxyOptions::defaults() {
-  ui->cb_useProxy->setChecked(false);
-  ui->le_http_url->setText("");
-  ui->sb_http_port->setValue(3128);
-  ui->le_https_url->setText("");
-  ui->sb_https_port->setValue(3128);
-  ui->le_ftp_url->setText("");
-  ui->sb_ftp_port->setValue(3128);
-  ui->klv_no_prx->clear();
-  ui->klv_no_prx->insertItem(new QListViewItem(ui->klv_no_prx, "localhost"));
-  setProxy();
-  ui->cb_useCache->setChecked(true);
-  setCache();
-  ui->rb_verify->setChecked(true);
-  ui->sb_max_cache_size->setValue(DEFAULT_MAX_CACHE_SIZE);
-  ui->cb_autoProxy->setChecked(false);
-}
-
-void KProxyOptions::updateGUI(QString httpProxy, QString httpsProxy, QString ftpProxy,
-                              KProtocolManager::ProxyType proxyType,
-                              QString noProxyFor, QString autoProxy)
-{
-  KURL url;
-
-  if( !httpProxy.isEmpty() )
-  {
-    url = httpProxy;
-    ui->le_http_url->setText( url.host() );
-    uint port_num = url.port();
-    if( port_num == 0 )
-      port_num = DEFAULT_PROXY_PORT;
-    ui->sb_http_port->setValue(port_num);
-  }
-  else
-  {
-    ui->le_http_url->setText( QString::null );
-    ui->sb_http_port->setValue(DEFAULT_PROXY_PORT);
-  }
-
-  if( !httpsProxy.isEmpty() )
-  {
-    url = httpsProxy;
-    ui->le_https_url->setText( url.host() );
-    uint port_num = url.port();
-    if( port_num == 0 )
-      port_num = DEFAULT_PROXY_PORT;
-    ui->sb_https_port->setValue(port_num);
-  }
-  else
-  {
-    ui->le_https_url->setText( QString::null );
-    ui->sb_https_port->setValue(DEFAULT_PROXY_PORT);
-  }
-
-  if( !ftpProxy.isEmpty() )
-  {
-    url = ftpProxy;
-    ui->le_ftp_url->setText( url.host() );
-    uint port_num = url.port();
-    if( port_num == 0 )
-      port_num = DEFAULT_PROXY_PORT;
-    ui->sb_ftp_port->setValue(port_num);
-  }
-  else
-  {
-    ui->le_ftp_url->setText( QString::null );
-    ui->sb_ftp_port->setValue(DEFAULT_PROXY_PORT);
-  }
-
-  ui->cb_useProxy->setChecked(proxyType != KProtocolManager::NoProxy);
-  ui->cb_autoProxy->setChecked(proxyType > KProtocolManager::ManualProxy);
-  ui->url_autoProxy->setURL(autoProxy);
-  setProxy();
-
-  QStringList list = QStringList::split(QRegExp("\\s"), noProxyFor);
-
-  for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it )
-	  ui->klv_no_prx->insertItem( new QListViewItem( ui->klv_no_prx, *it));
-
-  if (!ui->klv_no_prx->childCount())
-      ui->klv_no_prx->insertItem(new QListViewItem(ui->klv_no_prx, "localhost"));
-}
-
-void KProxyOptions::save()
-{
-    QString url = ui->le_http_url->text();
-    int port = ui->sb_http_port->value();
-    if( !url.isEmpty() )
+    QListViewItem* item = lv_exceptions->firstChild();
+    while ( item != 0 )
     {
-      if ( url.left( 7 ) != "http://" )
-        url.prepend( "http://" );
-
-      url += ":";
-      url += QString::number(port);
+        if ( item->text(0).findRev( site ) != -1 &&
+             item != lv_exceptions->currentItem() )
+        {
+            QString msg = i18n("<qt><center><b>%1</b><br/>"
+                               "already exists!").arg(site);
+            KMessageBox::error( this, msg, i18n("Duplicate Exception") );
+            return true;
+        }
+        item = item->nextSibling();
     }
-    KProtocolManager::setProxyFor( "http", url );
+    return false;
+}
 
-    url = ui->le_https_url->text();
-    port = ui->sb_https_port->value();
-    if( !url.isEmpty() )
+void KExceptionBox::newPressed()
+{
+    KProxyExceptionDlg* dlg = new KProxyExceptionDlg( this );
+    dlg->setCaption( i18n("New Exception") );
+    if ( dlg->exec() == QDialog::Accepted )
     {
-      if ( url.startsWith("https://") )
-        url.replace( 0, 5, "http" );
-      else if ( !url.startsWith("http://") )
-        url.prepend( "http://" );
-
-      url += ":";
-      url += QString::number(port);
+        QString exception = dlg->exception();
+        if ( !handleDuplicate( exception ) )
+        {
+            QListViewItem* index = new QListViewItem( lv_exceptions,
+                                                      exception );
+            lv_exceptions->setCurrentItem( index );
+        }
     }
-    KProtocolManager::setProxyFor( "https", url );
+    delete dlg;
+}
 
-    url = ui->le_ftp_url->text();
-    port = ui->sb_ftp_port->value();
-    if( !url.isEmpty() )
+void KExceptionBox::changePressed()
+{
+    KProxyExceptionDlg* dlg = new KProxyExceptionDlg( this );
+    dlg->setCaption( i18n("Change Exception") );
+    QString currentItem = lv_exceptions->currentItem()->text(0);
+    dlg->setException( currentItem );
+    if ( dlg->exec() == QDialog::Accepted )
     {
-      if ( url.startsWith("ftp://") )
-        url.replace( 0, 3, "http" );
-      else if ( !url.startsWith("http://") )
-        url.prepend( "http://" );
-
-      url += ":";
-      url += QString::number(port);
+        QString exception = dlg->exception();
+        if ( !handleDuplicate( exception ) )
+        {
+            QListViewItem* index = lv_exceptions->currentItem();
+            index->setText( 0, exception );
+            lv_exceptions->setCurrentItem( index );
+        }
     }
-    KProtocolManager::setProxyFor( "ftp", url );
+    delete dlg;
+}
 
-    if ( ui->cb_useProxy->isChecked() )
+void KExceptionBox::deletePressed()
+{
+    QListViewItem* item = lv_exceptions->selectedItem()->itemBelow();
+    if ( !item )
+        item = lv_exceptions->selectedItem()->itemAbove();
+    delete lv_exceptions->selectedItem();
+    if ( item )
+        lv_exceptions->setSelected( item, true );
+    updateButtons();
+}
+
+void KExceptionBox::deleteAllPressed()
+{
+    lv_exceptions->clear();
+    updateButtons();
+}
+
+QStringList KExceptionBox::exceptions() const
+{
+    QStringList list;
+    if ( lv_exceptions->childCount() )
     {
-        if ( ui->cb_autoProxy->isChecked() )
-            KProtocolManager::setProxyType( KProtocolManager::PACProxy );
-        else
-            KProtocolManager::setProxyType( KProtocolManager::ManualProxy );
+        QListViewItem* item = lv_exceptions->firstChild();
+        for( ; item != 0L; item = item->nextSibling() )
+            list << item->text(0);
+    }
+    return list;
+}
+
+void KExceptionBox::fillExceptions( const ProxyData* data )
+{
+    if ( data )
+    {
+        cb_reverseproxy->setChecked( data->useReverseProxy );
+        if ( !data->noProxyFor.isEmpty() )
+        {
+            QStringList::ConstIterator it = data->noProxyFor.begin();
+            for( ; it != data->noProxyFor.end(); ++it )
+                (void) new QListViewItem( lv_exceptions, (*it) );
+        }
+    }
+}
+
+bool KExceptionBox::isReverseProxyChecked() const
+{
+    return cb_reverseproxy->isChecked();
+}
+
+void KExceptionBox::updateButtons()
+{
+    bool hasItems = lv_exceptions->childCount() > 0;
+    bool itemSelected = ( hasItems && lv_exceptions->selectedItem()!=0 );
+    pb_delete->setEnabled( itemSelected );
+    pb_deleteAll->setEnabled( hasItems );
+    pb_change->setEnabled( itemSelected );
+}
+
+
+KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
+             :KCModule( parent, name )
+{
+    QVBoxLayout* mainLayout = new QVBoxLayout( this,
+                                               2*KDialog::marginHint(),
+                                               KDialog::spacingHint() );
+    QHBoxLayout* hlay = new QHBoxLayout;
+    hlay->setSpacing( KDialog::spacingHint() );
+    hlay->setMargin( 0 );
+
+    cb_useProxy = new QCheckBox( i18n("Use &Proxy"), this, "cb_useProxy" );
+    cb_useProxy->setSizePolicy( QSizePolicy( QSizePolicy::Fixed,
+                                QSizePolicy::Fixed,
+                                cb_useProxy->sizePolicy().hasHeightForWidth()));
+    cb_useProxy->setAutoResize( true );
+    QWhatsThis::add( cb_useProxy, i18n("<qt>Check this box to enable the use "
+                                       "of proxy servers for your internet "
+                                       "connection.<p>Please note that using "
+                                       "proxy servers is optional, but has the "
+                                       "benefit or advantage of giving you "
+                                       "faster access to data on the internet."
+                                       "<p>If you are uncertain whether or not "
+                                       "you need to use a proxy server to "
+                                       "connect to the internet, please consult "
+                                       "with your internet service provider's "
+                                       "setup guide or your system administrator."
+                                       "</qt>") );
+    hlay->addWidget( cb_useProxy );
+    QSpacerItem* spacer = new QSpacerItem( 20, 20,
+                                           QSizePolicy::MinimumExpanding,
+                                           QSizePolicy::Minimum );
+    hlay->addItem( spacer );
+    mainLayout->addLayout( hlay );
+
+    gb_configure = new QButtonGroup( i18n("Configuration"), this,
+                                     "gb_configure" );
+    gb_configure->setEnabled( false );
+    QWhatsThis::add( gb_configure, i18n("Options for setting up connections "
+                                        "to your proxy server(s)") );
+    gb_configure->setSizePolicy( QSizePolicy(QSizePolicy::MinimumExpanding,
+                                             QSizePolicy::Fixed,
+                                             gb_configure->sizePolicy().hasHeightForWidth()) );
+
+    gb_configure->setColumnLayout(0, Qt::Vertical );
+    gb_configure->layout()->setSpacing( 0 );
+    gb_configure->layout()->setMargin( 0 );
+    QVBoxLayout* vlay = new QVBoxLayout( gb_configure->layout() );
+    vlay->setMargin( 2*KDialog::marginHint() );
+    vlay->setSpacing( KDialog::spacingHint() );
+    vlay->setAlignment( Qt::AlignTop );
+
+    hlay = new QHBoxLayout;
+    hlay->setSpacing(KDialog::spacingHint());
+    hlay->setMargin(0);
+
+    rb_autoDiscover = new QRadioButton( i18n("A&utomatically detected script "
+                                        "file"), gb_configure,
+                                        "rb_autoDiscover" );
+    rb_autoDiscover->setAutoResize( true );
+    rb_autoDiscover->setChecked( true );
+    QWhatsThis::add( rb_autoDiscover, i18n("<qt> Select this option if you want "
+                                           "the proxy setup configuration script "
+                                           "file to be automatically detected and "
+                                           "downloaded.<p>This option only differs "
+                                           "from the next choice in that it "
+                                           "<i>does not</i> require you to suplly "
+                                           "the location of the configuration script "
+                                           "file. Instead it will be automatically "
+                                           "downloaded using the <b>Web Access "
+                                           "Protocol Discovery (WAPD)</b>.<p>"
+                                           "<u>NOTE:</u>  If you have problem on "
+                                           "using this setup, please consult the FAQ "
+                                           "section at http://www.konqueror.org for "
+                                           "more information.</qt>") );
+    hlay->addWidget( rb_autoDiscover );
+    spacer = new QSpacerItem( 210, 16, QSizePolicy::Fixed,
+                              QSizePolicy::Minimum );
+    hlay->addItem( spacer );
+    vlay->addLayout( hlay );
+
+    hlay = new QHBoxLayout;
+    hlay->setSpacing( KDialog::spacingHint() );
+    hlay->setMargin( 0 );
+
+    rb_autoScript = new QRadioButton( i18n("Specified &script file"),
+                                      gb_configure, "rb_autoScript" );
+    rb_autoScript->setAutoResize( true );
+    QWhatsThis::add( rb_autoScript, i18n("Select this option if your proxy "
+                                         "support is provided through a script "
+                                         "file located at a specific address.  "
+                                         "You can then enter the address of "
+                                         "the location below.") );
+    hlay->addWidget( rb_autoScript );
+    spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
+                              QSizePolicy::Minimum );
+    hlay->addItem( spacer );
+    vlay->addLayout( hlay );
+
+    hlay = new QHBoxLayout;
+    hlay->setSpacing( KDialog::spacingHint() );
+    hlay->setMargin( 0 );
+    spacer = new QSpacerItem( 20, 20, QSizePolicy::Fixed,
+                              QSizePolicy::Minimum );
+    hlay->addItem( spacer );
+
+    QLabel* label = new QLabel( i18n("&Location:") , gb_configure,
+                                "lbl_location" );
+    label->setEnabled( false );
+    connect( rb_autoScript, SIGNAL( toggled(bool) ), label,
+             SLOT( setEnabled(bool) ) );
+    label->setEnabled( false );
+    hlay->addWidget( label );
+
+    ur_location = new KURLRequester( gb_configure, "ur_location" );
+    ur_location->setSizePolicy( QSizePolicy(QSizePolicy::MinimumExpanding,
+                                            QSizePolicy::Fixed,
+                                            ur_location->sizePolicy().hasHeightForWidth()) );
+    ur_location->setEnabled( false );
+    ur_location->setFocusPolicy( KURLRequester::StrongFocus );
+    label->setBuddy( ur_location );
+    hlay->addWidget( ur_location );
+    spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Fixed );
+    hlay->addItem( spacer );
+    vlay->addLayout( hlay );
+
+    hlay = new QHBoxLayout;
+    hlay->setSpacing( KDialog::spacingHint() );
+    hlay->setMargin( 0 );
+
+    rb_envVar = new QRadioButton( i18n("Preset environment &variables"),
+                                  gb_configure, "rb_envVar" );
+    rb_envVar->setAutoResize( true );
+    QWhatsThis::add( rb_envVar, i18n("<qt>Some systems are setup with "
+                                     "environment variables such as "
+                                     "<b>$HTTP_PROXY</b> to allow graphical "
+                                     "as well as non-graphical application "
+                                     "to share the same proxy configuration "
+                                     "information.<p>Select this option and "
+                                     "click on the <i>Setup...</i> button on "
+                                     "the right side to provide the environment "
+                                     "variable names used to set the address "
+                                     "of the proxy server(s).</qt>") );
+    hlay->addWidget( rb_envVar );
+    spacer = new QSpacerItem( 45, 20, QSizePolicy::Fixed,
+                              QSizePolicy::Minimum );
+    hlay->addItem( spacer );
+
+    pb_envSetup = new QPushButton( i18n("Setup..."), gb_configure,
+                                   "pb_envSetup" );
+    pb_envSetup->setSizePolicy( QSizePolicy(QSizePolicy::Fixed,
+                                             QSizePolicy::Fixed,
+                                             pb_envSetup->sizePolicy().hasHeightForWidth()) );
+    pb_envSetup->setEnabled( false );
+    hlay->addWidget( pb_envSetup );
+    spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
+                              QSizePolicy::Minimum );
+    hlay->addItem( spacer );
+    vlay->addLayout( hlay );
+
+    hlay = new QHBoxLayout;
+    hlay->setSpacing( KDialog::spacingHint() );
+    hlay->setMargin( 0 );
+
+    rb_manual = new QRadioButton( i18n("&Manually specified settings"),
+                                  gb_configure, "rb_manual" );
+    rb_manual->setAutoResize( true );
+    QWhatsThis::add( rb_manual, i18n("<qt>Select this option and click on "
+                                     "the <i>Setup...</i> button on the "
+                                     "right side to manually setup the "
+                                     "location of the proxy servers to be "
+                                     "used.</qt>") );
+    hlay->addWidget( rb_manual );
+    spacer = new QSpacerItem( 40, 20, QSizePolicy::Fixed,
+                              QSizePolicy::Minimum );
+    hlay->addItem( spacer );
+
+    pb_manSetup = new QPushButton( i18n("Setup..."), gb_configure,
+                                   "pb_manSetup" );
+    pb_manSetup->setSizePolicy( QSizePolicy(QSizePolicy::Fixed,
+                                             QSizePolicy::Fixed,
+                                             pb_manSetup->sizePolicy().hasHeightForWidth()) );
+    pb_manSetup->setEnabled( false );
+    hlay->addWidget( pb_manSetup );
+    spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
+                              QSizePolicy::Minimum );
+    hlay->addItem( spacer );
+    vlay->addLayout( hlay );
+    mainLayout->addWidget( gb_configure );
+
+    gb_auth = new QButtonGroup( i18n("Authorization"), this, "gb_auth" );
+    gb_auth->setSizePolicy( QSizePolicy(QSizePolicy::MinimumExpanding,
+                                        QSizePolicy::Fixed,
+                                        gb_auth->sizePolicy().hasHeightForWidth()) );
+
+    gb_auth->setEnabled( false );
+    QWhatsThis::add( gb_auth, i18n("Setup the way authorization information "
+                                   "should be handled when making proxy "
+                                   "connections.  The default option is to "
+                                   "prompt you for password as needed.") );
+    gb_auth->setColumnLayout(0, Qt::Vertical );
+    gb_auth->layout()->setSpacing( 0 );
+    gb_auth->layout()->setMargin( 0 );
+    QVBoxLayout* gb_authLayout = new QVBoxLayout( gb_auth->layout() );
+    gb_authLayout->setMargin( 2*KDialog::marginHint() );
+    gb_authLayout->setSpacing( KDialog::spacingHint() );
+    gb_authLayout->setAlignment( Qt::AlignTop );
+
+    hlay = new QHBoxLayout;
+    hlay->setSpacing( KDialog::spacingHint() );
+    hlay->setMargin( 0 );
+
+    rb_prompt = new QRadioButton( i18n("Prompt as &needed"), gb_auth,
+                                  "rb_prompt" );
+    rb_prompt->setAutoResize( true );
+    rb_prompt->setChecked( true );
+    QWhatsThis::add( rb_prompt, i18n("Select this option if you want to "
+                                     "be prompted for the login information "
+                                     "as needed.  This is default behavior.") );
+    hlay->addWidget( rb_prompt );
+    spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
+                              QSizePolicy::Fixed );
+    hlay->addItem( spacer );
+    gb_authLayout->addLayout( hlay );
+
+    hlay = new QHBoxLayout;
+    hlay->setSpacing( KDialog::spacingHint() );
+    hlay->setMargin( 0 );
+
+    rb_autoLogin = new QRadioButton( i18n("Use automatic lo&gin"), gb_auth,
+                                     "rb_autoLogin" );
+    rb_autoLogin->setAutoResize( true );
+    QWhatsThis::add( rb_autoLogin, i18n("Select this option if you have "
+                                        "already setup a login entry for "
+                                        "your proxy server(s) in <tt>"
+                                        "$KDEHOME/share/config/kionetrc"
+                                        "</tt> file.") );
+    hlay->addWidget( rb_autoLogin );
+    gb_authLayout->addLayout( hlay );
+    mainLayout->addWidget( gb_auth );
+
+    spacer = new QSpacerItem( 1, 1, QSizePolicy::Expanding,
+                              QSizePolicy::Minimum );
+    mainLayout->addItem( spacer );
+
+    // signals and slots connections
+    connect( cb_useProxy, SIGNAL( toggled(bool) ),
+             SLOT( useProxyChecked(bool) ) );
+
+    connect( rb_autoDiscover, SIGNAL( toggled(bool) ),
+             SLOT( autoDiscoverChecked( bool ) ) );
+    connect( rb_autoScript, SIGNAL( toggled(bool) ),
+             SLOT( autoScriptChecked( bool ) ) );
+    connect( rb_manual, SIGNAL( toggled(bool) ),
+             SLOT( manualChecked( bool ) ) );
+    connect( rb_envVar, SIGNAL( toggled(bool) ),
+             SLOT( envVarChecked( bool ) ) );
+
+    connect( rb_prompt, SIGNAL( toggled(bool) ),
+             SLOT( promptChecked( bool ) ) );
+    connect( rb_autoLogin, SIGNAL( toggled(bool) ),
+             SLOT( autoChecked( bool ) ) );
+
+    connect( ur_location, SIGNAL( textChanged(const QString&) ),
+             SLOT( autoScriptChanged(const QString&) ) );
+
+    connect( pb_envSetup, SIGNAL( clicked() ), SLOT( setupManProxy() ) );
+    connect( pb_manSetup, SIGNAL( clicked() ), SLOT( setupManProxy() ) );
+
+    d = new ProxyData;
+    m_btnId = -1;
+    m_bSettingChanged = false;
+
+    load();
+}
+
+KProxyDialog::~KProxyDialog()
+{
+    delete d;
+}
+
+void KProxyDialog::load()
+{
+    // Read stored settings
+    useProxy = d->useProxy = KProtocolManager::useProxy();
+    d->useReverseProxy = KProtocolManager::useReverseProxy();
+    d->httpProxy = KProtocolManager::proxyFor( "http" );
+    d->secureProxy = KProtocolManager::proxyFor( "https" );
+    d->ftpProxy = KProtocolManager::proxyFor( "ftp" );
+    d->gopherProxy = KProtocolManager::proxyFor( "gopher" );
+    d->scriptProxy = KProtocolManager::proxyConfigScript();
+    d->noProxyFor = QStringList::split( QRegExp("[',''\t'' ']"),
+                                        KProtocolManager::noProxyFor() );
+
+    cb_useProxy->setChecked( useProxy );
+    gb_configure->setEnabled( useProxy );
+    gb_auth->setEnabled( useProxy );
+
+    if ( !d->scriptProxy.isEmpty() )
+        ur_location->lineEdit()->setText( d->scriptProxy );
+    switch ( KProtocolManager::proxyType() )
+    {
+        case KProtocolManager::WPADProxy:
+          rb_autoDiscover->setChecked( true );
+          m_btnId = 0;
+          break;
+        case KProtocolManager::PACProxy:
+          rb_autoScript->setChecked( true );
+          m_btnId = 1;
+          break;
+        case KProtocolManager::ManualProxy:
+          rb_manual->setChecked( true );
+          m_btnId = 2;
+          break;
+        case KProtocolManager::EnvVarProxy:
+          rb_envVar->setChecked( true );
+          d->envBased = true;
+          m_btnId = 3;
+          break;
+        default:
+          break;
+    }
+
+    switch( KProtocolManager::proxyAuthMode() )
+    {
+        case KProtocolManager::Prompt:
+            rb_prompt->setChecked( true );
+            m_btnId = 4;
+            break;
+        case KProtocolManager::Automatic:
+            rb_autoLogin->setChecked( true );
+            m_btnId = 5;
+        default:
+            break;
+    }
+}
+
+void KProxyDialog::save()
+{
+    if ( !m_bSettingChanged )
+    {
+        m_bSettingChanged = false;
+        return;   // Do not waste my time!
+    }
+
+    if ( cb_useProxy->isChecked() )
+    {
+        if ( rb_autoDiscover->isChecked() )
+        {
+            d->reset();
+            KSaveIOConfig::setProxyType( KProtocolManager::WPADProxy );
+        }
+        else if ( rb_autoScript->isChecked() )
+        {
+            d->reset();
+            KURL u = ur_location->lineEdit()->text();
+            if ( !u.isValid() )
+            {
+                QString msg = i18n("<qt>The address of the automatic proxy "
+                                   "configuration script is invalid! Please "
+                                   "correct this problem before proceeding. "
+                                   "Otherwise the changes you made will be "
+                                   "ignored!</qt>");
+                KMessageBox::error( this, msg, i18n("Invalid Proxy Setup") );
+                return;
+            }
+            else
+            {
+                KSaveIOConfig::setProxyType( KProtocolManager::PACProxy );
+                d->scriptProxy = u.url();
+            }
+        }
+        else if ( rb_manual->isChecked() )
+        {
+            if ( !d->changed )
+            {
+                QString msg = i18n("<qt>Proxy information was not setup "
+                                   "properly! Please click on the <em>"
+                                   "Setup...</em> button to correct this "
+                                   "problem before proceeding! Otherwise "
+                                   "the changes you made will be ignored!"
+                                   "</qt>");
+                KMessageBox::error( this, msg, i18n("Invalid Proxy Setup") );
+                return;
+            }
+            KSaveIOConfig::setProxyType( KProtocolManager::ManualProxy );
+        }
+        else if ( rb_envVar->isChecked() )
+        {
+            if ( !d->changed )
+            {
+                QString msg = i18n("<qt>Proxy information was not setup "
+                                   "properly! Please click on the <em>"
+                                   "Setup...</em> button to correct this "
+                                   "problem before proceeding! Otherwise "
+                                   "the changes you made will be ignored!"
+                                   "</qt>");
+                KMessageBox::error( this, msg, i18n("Invalid Proxy Setup") );
+                return;
+            }
+            KSaveIOConfig::setProxyType( KProtocolManager::EnvVarProxy );
+        }
+
+        if ( rb_prompt->isChecked() )
+            KSaveIOConfig::setProxyAuthMode( KProtocolManager::Prompt );
+        else if ( rb_autoLogin->isChecked() )
+            KSaveIOConfig::setProxyAuthMode( KProtocolManager::Automatic );
     }
     else
-        KProtocolManager::setProxyType( KProtocolManager::NoProxy );
-
-
-    QListViewItemIterator it( ui->klv_no_prx );
-
-    QString noProxyFor;
-
-    for ( ; it.current(); ++it ) {
-        noProxyFor += it.current()->text(0);
-        if (it.current()->nextSibling()) noProxyFor += " ";
+    {
+        d->reset();
+        KSaveIOConfig::setProxyType( KProtocolManager::NoProxy );
+        // KSaveIOConfig::setProxyAuthMode( KProtocolManager::Prompt );
     }
 
-    KProtocolManager::setNoProxyFor( noProxyFor );
-    KProtocolManager::setProxyConfigScript( ui->url_autoProxy->url() );
+    // Save the common proxy setting...
+    KSaveIOConfig::setProxyFor( "http", d->httpProxy );
+    KSaveIOConfig::setProxyFor( "https", d->secureProxy );
+    KSaveIOConfig::setProxyFor( "ftp", d->ftpProxy );
+    KSaveIOConfig::setProxyFor( "gopher", d->gopherProxy );
+    KSaveIOConfig::setNoProxyFor( d->noProxyFor.join(",") );
+    KSaveIOConfig::setProxyConfigScript( d->scriptProxy );
+    KSaveIOConfig::setUseReverseProxy( d->useReverseProxy );
 
-    // Cache stuff.  TODO:needs to be separated from proxy post 2.0 (DA)
-    KProtocolManager::setUseCache( ui->cb_useCache->isChecked() );
-    KProtocolManager::setMaxCacheSize(ui->sb_max_cache_size->value());
-
-    if (!ui->cb_useCache->isChecked())
-	KProtocolManager::setCacheControl(KIO::CC_Reload);
-    else if (ui->rb_verify->isChecked())
-	KProtocolManager::setCacheControl(KIO::CC_Verify);
-    else if (ui->rb_offlineMode->isChecked())
-	KProtocolManager::setCacheControl(KIO::CC_CacheOnly);
-    else if (ui->rb_cacheIfPossible->isChecked())
-	KProtocolManager::setCacheControl(KIO::CC_Cache);
-
-    // Update everyone...
+    // Update all running and applicable io-slaves
     QByteArray data;
-    // This should only be done when the FTP proxy setting is changed (on/off)
-    QCString launcher = KApplication::launcher();
-    kapp->dcopClient()->send( launcher, launcher, "reparseConfiguration()", data );
     QDataStream stream( data, IO_WriteOnly );
-    // ### TODO: setup protocol argument
-    stream << QString::null;
+    stream << "http" << "https" << "ftp" << "gopher";
     if ( !kapp->dcopClient()->isAttached() )
       kapp->dcopClient()->attach();
-    kapp->dcopClient()->send( "*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)", data );
+    kapp->dcopClient()->send( "*", "KIO::Scheduler",
+                              "reparseSlaveConfiguration(QString)", data );
 }
 
-
-void KProxyOptions::copyDown()
+void KProxyDialog::defaults()
 {
-  ui->le_https_url->setText( ui->le_http_url->text() );
-  ui->sb_https_port->setValue(ui->sb_http_port->value());
-  ui->le_ftp_url->setText( ui->le_http_url->text() );
-  ui->sb_ftp_port->setValue(ui->sb_http_port->value());
+    d->reset();
+    cb_useProxy->setChecked( false );
+    changed( true );
 }
 
-void KProxyOptions::setProxy()
+QString KProxyDialog::quickHelp() const
 {
-  bool useProxy = ui->cb_useProxy->isChecked();
-  bool autoProxy = ui->cb_autoProxy->isChecked();
-
-  // now set all input fields
-  ui->cb_autoProxy->setEnabled( useProxy );
-  ui->url_autoProxy->setEnabled( useProxy && autoProxy );
-  ui->le_http_url->setEnabled( useProxy && !autoProxy );
-  ui->sb_http_port->setEnabled( useProxy && !autoProxy );
-  ui->le_https_url->setEnabled( useProxy && !autoProxy );
-  ui->sb_https_port->setEnabled( useProxy && !autoProxy );
-  ui->le_ftp_url->setEnabled( useProxy && !autoProxy );
-  ui->sb_ftp_port->setEnabled( useProxy && !autoProxy );
-  ui->gb_no_proxy_for->setEnabled( useProxy && !autoProxy );
-  ui->pb_down->setEnabled( useProxy && !autoProxy );
-  ui->cb_useProxy->setChecked( useProxy );
+    return i18n( "This module lets you configure your proxy and cache "
+                 "settings. A proxy is a program on another computer "
+                 "that receives requests from your machine to access "
+                 "a certain web page (or other Internet resources), "
+                 "retrieves the page and sends it back to you." );
 }
 
-void KProxyOptions::setCache()
+void KProxyDialog::setupManProxy()
 {
-  bool useCache = ui->cb_useCache->isChecked();
+    KCommonProxyDlg* dlg;
+    if ( rb_envVar->isChecked() )
+        dlg = new KEnvVarProxyDlg( this );
+    else
+        dlg = new KManualProxyDlg( this );
 
-  // now set all input fields
-  ui->sb_max_cache_size->setEnabled( useCache );
-  //pb_down->setEnabled( useCache );
-  ui->cb_useCache->setChecked( useCache );
-  ui->rb_verify->setEnabled(useCache);
-  ui->rb_cacheIfPossible->setEnabled(useCache);
-  ui->rb_offlineMode->setEnabled(useCache);
+    dlg->setProxyData( d );
+    if ( dlg->exec() == QDialog::Accepted )
+    {
+        ProxyData data = dlg->data();
+        if ( data.changed )
+        {
+            d->reset();
+            d->useReverseProxy = data.useReverseProxy;
+            d->httpProxy = data.httpProxy;
+            d->secureProxy = data.secureProxy;
+            d->ftpProxy = data.ftpProxy;
+            d->gopherProxy = data.gopherProxy;
+            d->noProxyFor = data.noProxyFor;
+            d->changed = data.changed;
+            d->envBased = data.envBased;
+            changed( true );
+        }
+    }
+    delete dlg;
 }
 
-void KProxyOptions::changeProxy()
+void KProxyDialog::autoDiscoverChecked( bool on )
 {
-  setProxy();
+    if ( m_btnId != 0 )
+    {
+        m_btnId = 0;
+        if ( on )
+        {
+            changed( on );
+            m_bSettingChanged = on;
+        }
+    }
 }
 
-void KProxyOptions::changeCache()
+void KProxyDialog::autoScriptChecked( bool on )
 {
-  setCache();
+    if ( m_btnId != 1 )
+    {
+        m_btnId = 1;
+        if ( on )
+        {
+            changed( on );
+            m_bSettingChanged = on;
+        }
+    }
+    ur_location->setEnabled( on );
 }
 
-void KProxyOptions::clearCache()
+void KProxyDialog::manualChecked( bool on )
 {
-  QString error;
-  if (KApplication::startServiceByDesktopName("http_cache_cleaner", QStringList(), &error ))
-  {
-    // Error starting kcookiejar.
-    KMessageBox::error(this, i18n("Error starting kio_http_cache_cleaner: %1").arg(error));
-  }
-  // Not so useless. The button seems to do nothing otherwise.
-  KMessageBox::information( this, i18n("Cache cleared"));
+    if ( m_btnId != 2 )
+    {
+        m_btnId = 2;
+        m_bSettingChanged = on;
+        if ( d )
+          d->changed = false;
+    }
+    pb_manSetup->setEnabled( on );
 }
 
-void KProxyOptions::changed()
+void KProxyDialog::envVarChecked( bool on )
 {
-  emit KCModule::changed(true);
+    if ( m_btnId != 3 )
+    {
+        m_btnId = 3;
+        m_bSettingChanged = on;
+        if ( d )
+          d->changed = false;
+    }
+    pb_envSetup->setEnabled( on );
 }
 
-void KProxyOptions::slotEnableButtons()
+void KProxyDialog::promptChecked( bool on )
 {
-  ui->pb_rmHost->setEnabled(true);
-  ui->pb_editHost->setEnabled(true);
+    if ( m_btnId != 4 )
+    {
+        m_btnId = 4;
+        if ( on )
+            changed( on );
+    }
 }
 
-
-void KProxyOptions::updateButtons()
+void KProxyDialog::autoChecked( bool on )
 {
-  bool hasSelectedItems = ui->klv_no_prx->childCount() > 0;
-  bool itemSelected = (hasSelectedItems && ui->klv_no_prx->selectedItem()!=0);
-  ui->pb_rmHost->setEnabled( itemSelected );
-  ui->pb_editHost->setEnabled( itemSelected );
+    if ( m_btnId != 5 )
+    {
+        m_btnId = 5;
+        if ( on )
+            changed( on );
+    }
 }
 
-
-void KProxyOptions::slotAddHost()
+void KProxyDialog::useProxyChecked( bool on )
 {
- KAddHostDlg *dlg = new KAddHostDlg(this);
- connect(dlg, SIGNAL(sigHaveNewHost(QString)), SLOT(slotAddToList(QString)));
- dlg->exec();
+    if ( useProxy != on )
+    {
+        gb_configure->setEnabled( on );
+        gb_auth->setEnabled( on );
+        useProxy = on;
+        changed( true );
+    }
 }
 
-void KProxyOptions::slotRemoveHost()
+void KProxyDialog::autoScriptChanged( const QString& )
 {
-  if(ui->klv_no_prx->selectedItem()) {
-    ui->klv_no_prx->takeItem(ui->klv_no_prx->selectedItem());
-    emit changed();
-    updateButtons();
-  }
+    changed( true );
 }
 
-void KProxyOptions::slotEditHost()
+void KProxyDialog::changed( bool flag )
 {
- if(ui->klv_no_prx->selectedItem())
- {
-   KEditHostDlg *dlg = new KEditHostDlg(ui->klv_no_prx->selectedItem()->text(0),this);
-   connect(dlg, SIGNAL(sigHaveChangedHost(QString)), SLOT(slotModifyActiveListEntry(QString)));
-   dlg->exec();
- }
+    emit KCModule::changed( flag );
 }
-
-void KProxyOptions::slotAddToList(QString host)
-{
-  ui->klv_no_prx->insertItem(new QListViewItem(ui->klv_no_prx, host));
-  updateButtons();
-  emit changed();
-}
-
-void KProxyOptions::slotModifyActiveListEntry(QString host)
-{
-  if(ui->klv_no_prx->selectedItem()) {
-    ui->klv_no_prx->selectedItem()->setText(0, host);
-    emit changed();
-  }
-}
-
-#include "kproxydlg.moc"

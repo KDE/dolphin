@@ -1,154 +1,319 @@
-//-----------------------------------------------------------------------------
-//
-// Proxy Options
-//
-// (c) Lars Hoss <Lars.Hoss@munich.netsurf.de>
-//
-// Port to KControl
-// (c) David Faure <faure@kde.org> 1998
-//
-// designer dialog and usage
-// (c) Daniel Molkentin <molkentin@kde.org> 2000
-// Proxy autoconfig
-// (c) Malte Starostik <malte@kde.org> 2000
+/*
+   kproxydlg.h - Proxy configuration dialog
 
-#ifndef __KPROXYDLG_H
-#define __KPROXYDLG_H "$Id"
+   Copyright (C) 2001- Dawit Alemayehu <adawit@kde.org>
 
-class QLabel;
-class QPushButton;
-class QCheckBox;
-class QRadioButton;
-class QVButtonGroup;
-class KURLRequester;
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU General Public
+   License (GPL) version 2 as published by the Free Software
+   Foundation.
 
-class KProxyDlgUI;
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Library General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this library; see the file COPYING.LIB.  If not, write to
+   the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   Boston, MA 02111-1307, USA.
+*/
+
+#ifndef _KPROXYDIALOG_H
+#define _KPROXYDIALOG_H
 
 #include <qspinbox.h>
-#include <qlineedit.h>
+#include <qstringlist.h>
+#include <qbuttongroup.h>
 
+#include <kdialog.h>
 #include <kcmodule.h>
-#include <kprotocolmanager.h>
-#include <kdialogbase.h>
+#include <klineedit.h>
 
+class QLabel;
+class QGroupBox;
+class QCheckBox;
+class QStringList;
+class QPushButton;
+class QRadioButton;
+class QButtonGroup;
+class QListViewItem;
 
-// ##############################################################
+class KListView;
+class KURLRequester;
+
+struct ProxyData
+{
+    bool changed;
+    bool envBased;
+    bool useProxy;
+    bool useReverseProxy;
+
+    QString httpProxy;
+    QString secureProxy;
+    QString ftpProxy;
+    QString gopherProxy;
+    QString scriptProxy;
+    QStringList noProxyFor;
+
+    ProxyData() {
+        init();
+    }
+
+    void reset() {
+        init();
+        httpProxy = QString::null;
+        secureProxy = QString::null;
+        ftpProxy = QString::null;
+        gopherProxy = QString::null;
+        scriptProxy = QString::null;
+        noProxyFor.clear();
+    }
+
+private:
+    void init() {
+        changed = false;
+        envBased = false;
+        useProxy = false;
+        useReverseProxy = false;
+    }
+};
 
 class KMySpinBox : public QSpinBox
 {
 public:
-   KMySpinBox( QWidget* parent, char *name )
+    KMySpinBox( QWidget* parent, const char *name=0L )
     : QSpinBox(parent, name) { }
-   KMySpinBox( int minValue, int maxValue, int step, QWidget* parent)
+    KMySpinBox( int minValue, int maxValue, int step, QWidget* parent)
     : QSpinBox(minValue, maxValue, step, parent) { }
-   QLineEdit *editor() const { return QSpinBox::editor(); }
-   int value() const
-   {
-      #ifdef __GNUC__
-      #warning workaround for a bug of QSpinBox in >= Qt 2.2.0
-      #endif
-      if ( editor()->edited() )
-      {
-          KMySpinBox *non_const_this  = const_cast<KMySpinBox*>(this);
-          bool b = non_const_this->signalsBlocked();
-          non_const_this->blockSignals(true);
-          non_const_this->interpretText();
-          non_const_this->blockSignals(b);
-      }
-      return QSpinBox::value();
-   }
+    QLineEdit *editor() const { return QSpinBox::editor(); }
+    int value() const
+    {
+        #ifdef __GNUC__
+        #warning workaround for a bug of QSpinBox in >= Qt 2.2.0
+        #endif
+        if ( editor()->edited() )
+            const_cast<KMySpinBox*>(this)->interpretText();
+        return QSpinBox::value();
+    }
 };
 
-// ##############################################################
-
-// Abstract class for the Proxy settings dialogs.
-class KProxySetDlgBase : public KDialogBase
+class KProxyExceptionDlg : public KDialog
 {
-Q_OBJECT
-public:
-  KProxySetDlgBase(QWidget *parent = 0L, const char *name = 0L);
-//  ~KProxySetDlgBase();
+    Q_OBJECT
 
-  QLabel *title;
-  QLineEdit *input;
-public slots:
-    void textChanged ( const QString & );
+public:
+    KProxyExceptionDlg( QWidget* parent = 0, const char* name = 0 );
+    ~KProxyExceptionDlg();
+
+    QString exception() const;
+    void setException( const QString& );
+
+protected slots:
+    virtual void accept();
+    virtual void reject();
+    void slotTextChanged( const QString& );
+
+private:
+    QPushButton* pb_ok;
+    QPushButton* pb_cancel;
+    QLineEdit* le_exceptions;
 };
 
-class KAddHostDlg : public KProxySetDlgBase
+class KExceptionBox : public QGroupBox
 {
-Q_OBJECT
+    Q_OBJECT
+
 public:
-  KAddHostDlg(QWidget *parent = 0L, const char *name = 0L);
-//  ~KAddHostDlg();
+    KExceptionBox( QWidget* parent = 0, const char* name = 0 );
+    ~KExceptionBox() {};
 
-  virtual void accept();
+    QStringList exceptions() const;
+    void fillExceptions( const ProxyData* d );
+    bool isReverseProxyChecked() const;
 
-signals:
-   void sigHaveNewHost(QString);
+protected slots:
+    void newPressed();
+    void updateButtons();
+    void changePressed();
+    void deletePressed();
+    void deleteAllPressed();
+
+private:
+    bool handleDuplicate( const QString& );
+
+    QCheckBox* cb_reverseproxy;
+    KListView* lv_exceptions;
+
+    QPushButton* pb_new;
+    QPushButton* pb_change;
+    QPushButton* pb_delete;
+    QPushButton* pb_deleteAll;
 };
 
-class KEditHostDlg : public KProxySetDlgBase
+class KCommonProxyDlg : public KDialog
 {
-Q_OBJECT
 public:
-  KEditHostDlg(const QString &host, QWidget *parent = 0L, const char *name = 0L);
-//  ~KEditHostDlg();
+    KCommonProxyDlg( QWidget* parent = 0, const char* name = 0, bool modal = false )
+    :KDialog( parent, name, modal ) {};
+
+    ~KCommonProxyDlg() { d = 0L; }
+
+    virtual void setProxyData( const ProxyData* ) {};
+    virtual ProxyData data() const=0;
+
+protected:
+    const ProxyData* d;
+};
+
+class KEnvVarProxyDlg : public KCommonProxyDlg
+{
+    Q_OBJECT
+
+public:
+    KEnvVarProxyDlg( QWidget* parent = 0, const char* name = 0 );
+    ~KEnvVarProxyDlg(){};
+
+    virtual void setProxyData( const ProxyData* data );
+    virtual ProxyData data() const;
+
+protected slots:
+    void verifyPressed();
+    void showValue( bool );
+    void setChecked( bool );
+    void autoDetectPressed();
 
     virtual void accept();
+    virtual void reject();
 
-signals:
-   void sigHaveChangedHost(QString);
+protected:
+    void init();
+    bool validate( unsigned short& );
+
+private:
+    // Servers box
+    QGroupBox* gb_servers;
+    QCheckBox* cb_envHttp;
+    QCheckBox* cb_envSecure;
+    QCheckBox* cb_envFtp;
+    QCheckBox* cb_envGopher;
+    QCheckBox* cb_showValue;
+
+    KLineEdit* le_envHttp;
+    KLineEdit* le_envSecure;
+    KLineEdit* le_envFtp;
+    KLineEdit* le_envGopher;
+
+    QPushButton* pb_verify;
+    QPushButton* pb_detect;
+
+    // Exception dialog
+    KExceptionBox* gb_exceptions;
+
+    // Dialog buttons
+    QPushButton* pb_ok;
+    QPushButton* pb_cancel;
+
+    QStringList lst_envVars;
 };
 
-// ######################################################
 
-class KProxyOptions : public KCModule
+class KManualProxyDlg : public KCommonProxyDlg
 {
-Q_OBJECT
-  public:
-    KProxyOptions(QWidget *parent = 0L, const char *name = 0L);
-    ~KProxyOptions();
+    Q_OBJECT
+
+public:
+    KManualProxyDlg( QWidget* parent = 0, const char* name = 0 );
+    ~KManualProxyDlg(){};
+
+    virtual void setProxyData( const ProxyData* data );
+    virtual ProxyData data() const;
+
+protected slots:
+    void copyDown();
+    void setChecked( bool );
+
+    virtual void accept();
+    virtual void reject();
+
+protected:
+    void init();
+    bool validate();
+
+private:
+    QGroupBox* gb_servers;
+    QPushButton* pb_copyDown;
+
+    QSpinBox* sb_httpproxy;
+    QSpinBox* sb_secproxy;
+    QSpinBox* sb_ftpproxy;
+    QSpinBox* sb_gopherproxy;
+
+    QCheckBox* cb_httpproxy;
+    QCheckBox* cb_secproxy;
+    QCheckBox* cb_ftpproxy;
+    QCheckBox* cb_gopherproxy;
+
+    KLineEdit* le_httpproxy;
+    KLineEdit* le_secproxy;
+    KLineEdit* le_ftpproxy;
+    KLineEdit* le_gopherproxy;
+
+    // Exception dialog
+    KExceptionBox* gb_exceptions;
+
+    QPushButton* pb_ok;
+    QPushButton* pb_cancel;
+};
+
+class KProxyDialog : public KCModule
+{
+    Q_OBJECT
+
+public:
+    KProxyDialog( QWidget* parent = 0, const char* name = 0 );
+    ~KProxyDialog();
 
     virtual void load();
     virtual void save();
     virtual void defaults();
-
     QString quickHelp() const;
 
-  private:
+protected slots:
+    void autoDiscoverChecked( bool );
+    void autoScriptChecked( bool );
+    void manualChecked( bool );
+    void envVarChecked( bool );
+    void promptChecked( bool );
+    void autoChecked( bool );
 
-    /// ------------ Proxy --------
+    void useProxyChecked( bool );
+    void autoScriptChanged( const QString& );
+    void setupManProxy();
+    void changed( bool );
 
-    KProxyDlgUI *ui;
+private:
+    QCheckBox* cb_useProxy;
+    QButtonGroup* gb_configure;
+    QRadioButton* rb_autoDiscover;
+    QRadioButton* rb_autoScript;
+    KURLRequester* ur_location;
+    QRadioButton* rb_envVar;
+    QRadioButton* rb_manual;
+    QPushButton* pb_envSetup;
+    QPushButton* pb_manSetup;
 
-    void setProxy();
-    void setCache();
-    void readOptions();
-    void updateButtons();
+    // Authorization
+    QButtonGroup* gb_auth;
+    QRadioButton* rb_prompt;
+    QRadioButton* rb_autoLogin;
 
-  private slots:
+    short int m_btnId;
 
-    void changed();
+    bool useProxy;
+    bool m_bSettingChanged;
 
-
-  public slots:
-    void copyDown();		// use the http setting for all services
-    void changeProxy();
-    void changeCache();
-    void clearCache();
-    void updateGUI(QString httpProxy, QString httpsProxy, QString ftpProxy,
-                   KProtocolManager::ProxyType proxyType,
-                   QString noProxyFor, QString autoProxy);
-
-    void slotEnableButtons();
-
-    void slotAddHost();
-    void slotRemoveHost();
-    void slotEditHost();
-
-    void slotAddToList(QString host);
-    void slotModifyActiveListEntry(QString host);
+    ProxyData* d;
 };
 
-#endif // __KPROXYDLG_H
+#endif // KPROXYDIALOG_H
