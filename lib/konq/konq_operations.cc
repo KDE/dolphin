@@ -283,31 +283,28 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
              // This should take care of the problem
              filename.replace("%", "%<i></i>");
 
-             result = KMessageBox::warningYesNo( 0,
+             result = KMessageBox::warningContinueCancel( 0,
              	i18n( "<p>Do you really want to delete <b>%1</b> from <b>%2</b>?</p>" ).arg( filename ).arg( directory ),
 		i18n( "Delete File" ),
 		i18n( "Delete" ),
-		i18n( "&Cancel" ),
-		keyName, false);
+		keyName, KMessageBox::Dangerous);
 	     break;
 
 	  case SHRED:
-             result = KMessageBox::warningYesNo( 0,
+             result = KMessageBox::warningContinueCancel( 0,
              	i18n( "<p>Do you really want to shred <b>%1</b>?</p>" ).arg( filename ),
 		i18n( "Shred File" ),
 		i18n( "Shred" ),
-		i18n( "&Cancel" ),
-		keyName, false);
+		keyName, KMessageBox::Dangerous);
 	     break;
 
           case MOVE:
  	  default:
-             result = KMessageBox::warningYesNo( 0,
+             result = KMessageBox::warningContinueCancel( 0,
              	i18n( "<p>Do you really want to move <b>%1</b> to the trash?</p>" ).arg( filename ),
 		i18n( "Move to Trash" ),
 		i18n( "Verb", "Trash" ),
-		i18n( "&Cancel" ),
-		keyName, false);
+		keyName, KMessageBox::Dangerous);
 	     break;
         }
       }
@@ -316,36 +313,33 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
         switch(m_method)
         {
           case DEL:
-             result = KMessageBox::warningYesNoList( 0,
+             result = KMessageBox::warningContinueCancelList( 0,
                 // The "singular" form will never be shown in English, but
 		// Stephan wants me to use the standard form for a plural.
              	i18n( "Do you really want to delete this item?", "Do you really want to delete these %n items?", prettyList.count()),
              	prettyList,
 		i18n( "Delete Files" ),
 		i18n( "Delete" ),
-		i18n( "&Cancel" ),
-		keyName);
+		keyName, KMessageBox::Dangerous);
 	     break;
 
 	  case SHRED:
-             result = KMessageBox::warningYesNoList( 0,
+             result = KMessageBox::warningContinueCancelList( 0,
                 i18n( "Do you really want to shred this item?", "Do you really want to shred these %n items?", prettyList.count()),
                 prettyList,
                 i18n( "Shred Files" ),
 		i18n( "Shred" ),
-		i18n( "&Cancel" ),
-		keyName);
+		keyName, KMessageBox::Dangerous);
 	     break;
 
           case MOVE:
  	  default:
-             result = KMessageBox::warningYesNoList( 0,
+             result = KMessageBox::warningContinueCancelList( 0,
                 i18n( "Do you really want to move this item to the trashcan?", "Do you really want to move these %n items to the trashcan?", prettyList.count()),
                 prettyList,
 		i18n( "Move to Trash" ),
 		i18n( "Verb", "Trash" ),
-		i18n( "&Cancel" ),
-		keyName);
+		keyName, KMessageBox::Dangerous);
 	     break;
         }
       }
