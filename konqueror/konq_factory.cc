@@ -192,7 +192,6 @@ const KAboutData *KonqFactory::aboutData()
                         I18N_NOOP("Web browser, file manager, ..."),
                         KAboutData::License_GPL,
                         "(c) 1999-2000, The Konqueror developers" );
-    s_aboutData->addAuthor( "Torben Weis", I18N_NOOP("kfm author"), "weis@kde.org" );
     s_aboutData->addAuthor( "David Faure", I18N_NOOP("developer (parts, I/O lib) and maintainer"), "faure@kde.org" );
     s_aboutData->addAuthor( "Simon Hausmann", I18N_NOOP("developer (framework, parts)"), "hausmann@kde.org" );
     s_aboutData->addAuthor( "Michael Reiher", I18N_NOOP("developer (framework)"), "michael.reiher@gmx.de" );
@@ -212,6 +211,7 @@ const KAboutData *KonqFactory::aboutData()
     s_aboutData->addAuthor( "Stefan Schimanski", I18N_NOOP("developer (Netscape plugin support)"), "1Stein@gmx.de" );
     s_aboutData->addAuthor( "George Staikos", I18N_NOOP("developer (SSL support)"), "staikos@kde.org" );
     s_aboutData->addAuthor( "Dawit Alemayehu",I18N_NOOP("developer (I/O lib, Authentication support)"), "adawit@kde.org" );
+    s_aboutData->addAuthor( "Torben Weis", I18N_NOOP("kfm author"), "weis@kde.org" );
   }
   return s_aboutData;
 }
