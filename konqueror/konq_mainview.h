@@ -31,6 +31,7 @@
 #include "kfmpopup.h"
 #include "kfmguiprops.h"
 #include "kfmrun.h"
+#include "konq_frame.h"
 
 #include <opPart.h>
 #include <opMainWindow.h>
@@ -218,7 +219,7 @@ protected:
   {
     View();
     Konqueror::View_var m_vView;
-    OPFrame *m_pFrame;
+    KonqFrame *m_pFrame;
     QString m_strUpURL;
     list<InternalHistoryEntry> m_lstBack;
     list<InternalHistoryEntry> m_lstForward;

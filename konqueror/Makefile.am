@@ -20,7 +20,7 @@ konqueror_SOURCES =  kbookmark.cc kbrowser.cc \
 	kiconcontainer.cc \
 	konq_baseview.cc konq_kfmview.cc konq_htmlview.cc konq_iconview.cc \
 	konq_main.cc konq_mainview.cc konq_mainwindow.cc konqueror.cc \
-	konq_treeview.cc konq_partview.cc
+	konq_treeview.cc konq_partview.cc konq_frame.cc
 
 # noinst_HEADERS = ... to be completed  <= *.h? (Simon)
 # No wildcards. We'll put the full list here later (useful for make dist only) (David)
@@ -30,7 +30,7 @@ METASOURCES = kbookmark.moc kbrowser.moc \
 	kiconcontainer.moc \
 	konq_htmlview.moc konq_iconview.moc \
 	konq_main.moc konq_mainview.moc konq_mainwindow.moc \
-	konq_partview.moc konq_treeview.moc
+	konq_partview.moc konq_treeview.moc konq_frame.moc
 
 kdelnk_DATA = konqueror_part.kdelnk
 kdelnkdir = $(kde_datadir)/../partlnk

@@ -444,13 +444,17 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
 bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )
 {
   cerr << "bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )" << endl;
-  
+  View* previousView = m_currentView;
+
   setActiveView( child->id() );
 
-  cerr << "current view is a " << m_currentView->m_vView->viewName() << endl;
-  
-  assert( m_currentView );
+  previousView->m_pFrame->m_pHeader->repaint();
+  m_currentView->m_pFrame->m_pHeader->repaint();
 
+  assert( m_currentView );
+  cerr << "current view is a " << m_currentView->m_vView->viewName() 
+       << " : " << m_currentView->m_vView->url() << endl << endl;
+  
   if ( !CORBA::is_nil( m_vToolBar ) )
   {
     m_vToolBar->setItemEnabled( TOOLBAR_UP_ID, !m_currentView->m_strUpURL.isEmpty() );
@@ -503,14 +507,19 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
   m_mapViews[ view->id() ] = v;
   v->m_vView = Konqueror::View::_duplicate( m_vView );
 
-  m_currentView = v; //why do we automatically activate a view when inserting? (Simon)
+  //m_currentView = v; 
+  //why do we automatically activate a view when inserting? (Simon)
+  //because the loading of the initial url somehow depends on it, but the 
+  //problem is that the focus is still at the original view, where it should 
+  //stay IMHO, needs to be investigated. I uncommented it because it causes 
+  //problems when showing which view is active (Michael)
 
   if (newViewPosition == Konqueror::above || 
       newViewPosition == Konqueror::below)
   {
     debug("Creating a new row");
     currentRow = newRow( (newViewPosition == Konqueror::below) ); // append if below
-    v->m_pFrame = new OPFrame( currentRow->pRowSplitter );
+    v->m_pFrame = new KonqFrame( currentRow->pRowSplitter );
     if (newViewPosition == Konqueror::above) {
       debug("Putting it ABOVE");
       // WHY DOESN'T THIS WORK ?
@@ -526,7 +535,7 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
     int n = currentRow->lstViews.count();
     debug("insertView : I already have %d views",n);
 
-    v->m_pFrame = new OPFrame( currentRow->pRowSplitter );
+    v->m_pFrame = new KonqFrame( currentRow->pRowSplitter );
 
     if (newViewPosition == Konqueror::left) {
       // FIXME this is TERRIBLY broken ! - but not called anymore, at the moment :)
