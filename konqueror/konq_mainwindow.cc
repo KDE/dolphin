@@ -801,7 +801,18 @@ void KonqMainWindow::abortLoading()
 void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args )
 {
     kdDebug(1202) << "KonqMainWindow::slotCreateNewWindow url=" << url.prettyURL() << endl;
-    KonqMisc::createNewWindow( url, args );
+
+    KConfig *config = KGlobal::config();
+    KConfigGroupSaver cs( config, QString::fromLatin1("Settings") );
+    if ( config->readBoolEntry( "MMBOpensTab", false ) ) {
+      KFileItem item( url, 0 /*_mimeType*/, 0 /*_mode*/ );  // FIXME with real values
+      KFileItemList items;
+      items.append( &item );
+      popupItems = items;
+      popupNewTab(true);  // False opens in background tab
+    }
+    else
+      KonqMisc::createNewWindow( url, args );
 }
 
 void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args,
