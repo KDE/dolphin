@@ -2446,6 +2446,11 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
   }
 }
 
+QString KonqMainWindow::locationBarURL() const
+{
+    return m_combo->currentText();
+}
+
 void KonqMainWindow::focusLocationBar()
 {
     m_combo->setFocus();

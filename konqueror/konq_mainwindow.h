@@ -162,6 +162,10 @@ public:
    * Change URL displayed in the location bar
    */
   void setLocationBarURL( const QString &url );
+  /**
+   * Return URL displayed in the location bar - for KonqViewManager
+   */
+  QString locationBarURL() const;
   void focusLocationBar();
 
   void enableAllActions( bool enable );
