@@ -75,6 +75,7 @@ public:
   bool changeCursor() { return m_bChangeCursor; }
   bool underlineLink() { return m_underlineLink; }
   bool shouldEmbed( const QString & mimetypeGroup );
+  bool alwaysNewWin() { return m_alwaysNewWin; }
 
   // Font settings
   const QString& stdFontName() { return m_strStdFontName; }
@@ -97,6 +98,7 @@ protected:
   int m_iAutoSelect;
   bool m_bChangeCursor;
   bool m_underlineLink;
+  bool m_alwaysNewWin;
 
   bool m_embedText;
   bool m_embedImage;

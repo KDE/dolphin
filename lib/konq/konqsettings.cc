@@ -104,6 +104,7 @@ void KonqFMSettings::init( KConfig * config )
   m_iAutoSelect = config->readNumEntry("AutoSelect", DEFAULT_AUTOSELECT);
   m_bChangeCursor = config->readBoolEntry( "ChangeCursor", DEFAULT_CHANGECURSOR );
   m_underlineLink = config->readBoolEntry( "UnderlineLinks", DEFAULT_UNDERLINELINKS );
+  m_alwaysNewWin = config->readBoolEntry( "AlwaysNewWin", FALSE );
 
   m_embedText = config->readBoolEntry( "EmbedText", true );
   m_embedImage = config->readBoolEntry( "EmbedImage", true );
