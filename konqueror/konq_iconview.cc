@@ -213,7 +213,7 @@ void KonqKfmIconView::slotShowDot()
   kdebug(0, 1202, "KonqKfmIconView::slotShowDot()");
   m_pProps->m_bShowDot = !m_pProps->m_bShowDot;
   m_dirLister->setShowingDotFiles( m_pProps->m_bShowDot );
-  bSetupNeeded = true; // we don't want the non-dot files to remain where they are !
+  //bSetupNeeded = true; // we don't want the non-dot files to remain where they are !
 
   m_vViewMenu->setItemChecked( m_idShowDotFiles, m_pProps->m_bShowDot );
 }
@@ -523,7 +523,7 @@ void KonqKfmIconView::slotStarted( const QString & url )
   selectAll( false );
   if ( m_bLoading )
     SIGNAL_CALL2( "started", id(), url.ascii() );
-  bSetupNeeded = false;
+  //bSetupNeeded = false;
 }
 
 void KonqKfmIconView::slotCompleted()
@@ -543,13 +543,24 @@ void KonqKfmIconView::slotCanceled()
 
 void KonqKfmIconView::slotDirListerUpdate()
 {
-  kdebug( KDEBUG_INFO, 1202, "KonqKfmIconView::slotUpdate()");
+  // Warning : the meaning of this method has changed.
+  // Since QIconView is smart and uses its own timer to redraw
+  // itself while being filled, the update() signal now means :
+  // reload completely. And it's used when a veryDirty signal occurs
+  // (icon changed in a .desktop file for instance)
+
+  kdebug( KDEBUG_INFO, 1202, "KonqKfmIconView::slotDirListerUpdate()");
+  /*
   if ( bSetupNeeded )
   {
     bSetupNeeded = false;
 //    setup();
   }
+  */
 //  viewport()->update();
+
+  // Force a full reload
+  m_dirLister->openURL( m_dirLister->url(), m_pProps->m_bShowDot );
 }
   
 void KonqKfmIconView::slotClear()
@@ -578,7 +589,7 @@ void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
 
   item->setKey( key );
 
-  bSetupNeeded = true;
+  //bSetupNeeded = true;
 }
 
 void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )

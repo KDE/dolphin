@@ -153,7 +153,7 @@ protected:
   OpenPartsUI::Menu_var m_vSortMenu;
 
   /** Set to true if the next slotUpdate needs to call setup() */
-  bool bSetupNeeded;
+  //bool bSetupNeeded;
   
   int m_iXOffset;
   int m_iYOffset;

@@ -41,6 +41,9 @@
 
 - Configurable toplevel items in the treeview
 
+- in kpropsdlg : call KDirWatch::setVeryDirty if changing an icon in a .desktop
+  Add support for that slot in tree view.
+
 - see grep TODO *.cc *.h *.idl
 
 - see http://bugs.kde.org/db/pa/lkfm.html !
