@@ -1,7 +1,7 @@
 SUBDIRS = viewer test control
 INCLUDES = -I$(top_srcdir)/libltdl $(all_includes)
 METASOURCES = AUTO
-noinst_HEADERS = nspluginloader.h kqeventutil.h kxeventutil.h
+noinst_HEADERS = nspluginloader.h
 
 NSPluginClassIface_DIR = $(srcdir)/viewer
 
