@@ -19,6 +19,9 @@
 #include <kparts/browserextension.h>
 #include <kbookmarkdrag.h>
 #include <kbookmark.h>
+#include <kiconloader.h>
+#include <kprotocolinfo.h>
+#include <konq_faviconmgr.h>
 
 #include "konq_treepart.h"
 #include "history_item.h"
@@ -55,7 +58,14 @@ void KonqHistoryItem::update( const KonqHistoryEntry *entry )
 	setText( 0, path );
     }
 
-    MYGROUP->itemUpdated( this ); // update for sorting
+    KonqHistoryGroupItem *group = MYGROUP;
+    QString path = entry->url.path();
+    if ( group->hasFavIcon() && (path.isNull() || path == "/") )
+	setPixmap( 0, *(group->pixmap(0)) );
+    else
+	setPixmap( 0, SmallIcon(KProtocolInfo::icon( entry->url.protocol() )));
+
+    group->itemUpdated( this ); // update for sorting
 }
 
 void KonqHistoryItem::itemSelected()
@@ -71,8 +81,9 @@ void KonqHistoryItem::rightButtonPressed()
 
 QDragObject * KonqHistoryItem::dragObject( QWidget * parent, bool /*move*/ )
 {
+    QString icon = KonqFavIconMgr::iconForURL( m_entry->url.url() );
     KBookmark bookmark = KBookmark::standaloneBookmark( m_entry->title,
-                                                        m_entry->url ); // TODO , icon
+                                                        m_entry->url, icon );
     KBookmarkDrag *drag = KBookmarkDrag::newDrag( bookmark, parent );
     return drag;
 }
@@ -99,12 +110,19 @@ QString KonqHistoryItem::toolTipText() const
 ///////////////////////////////////////////////////////////////////
 
 
-KonqHistoryGroupItem::KonqHistoryGroupItem( const QString& host,
+KonqHistoryGroupItem::KonqHistoryGroupItem( const KURL& url,
 					    KonqTreeTopLevelItem *topLevelItem )
     : KonqTreeItem( topLevelItem, topLevelItem ),
-      m_host( host )
+      m_hasFavIcon( false ),
+      m_url( url )
 {
-    setText( 0, host );
+    setText( 0, url.host() );
+}
+
+void KonqHistoryGroupItem::setFavIcon( const QPixmap& pix )
+{
+    setPixmap( 0, pix );
+    m_hasFavIcon = true;
 }
 
 // the group item itself will be removed automatically,
@@ -117,7 +135,7 @@ void KonqHistoryGroupItem::remove()
 	list.append( child->externalURL() );
 	child = static_cast<KonqHistoryItem*>( child->nextSibling() );
     }
-    
+
     if ( !list.isEmpty() )
 	KonqHistoryManager::self()->emitRemoveFromHistory( list );
 }
@@ -171,4 +189,13 @@ void KonqHistoryGroupItem::itemUpdated( KonqHistoryItem *item )
 {
     if ( !m_lastVisited.isValid() || m_lastVisited < item->lastVisited() )
 	m_lastVisited = item->lastVisited();
+}
+
+QDragObject * KonqHistoryGroupItem::dragObject( QWidget *parent, bool /*move*/)
+{
+    QString icon = KonqFavIconMgr::iconForURL( m_url.url() );
+    KBookmark bookmark = KBookmark::standaloneBookmark( QString::null, m_url, 
+							icon );
+    KBookmarkDrag *drag = KBookmarkDrag::newDrag( bookmark, parent );
+    return drag;
 }

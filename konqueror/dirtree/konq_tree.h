@@ -76,6 +76,11 @@ public:
 
     KonqTreePart * part() { return m_part; }
 
+    void lockScrolling( bool lock ) { m_scrollingLocked = lock; }
+    
+public slots:
+    virtual void setContentsPos( int x, int y );
+    
 protected:
     virtual void contentsDragEnterEvent( QDragEnterEvent *e );
     virtual void contentsDragMoveEvent( QDragMoveEvent *e );
@@ -142,6 +147,7 @@ private:
     KURL m_dirtreeDir;
 
     KonqTreeToolTip m_toolTip;
+    bool m_scrollingLocked;
 };
 
 #endif

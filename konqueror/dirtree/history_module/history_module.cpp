@@ -17,6 +17,7 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include <qapplication.h>
 #include <qpopupmenu.h>
 
 #include <kaction.h>
@@ -25,6 +26,7 @@
 #include <kprotocolinfo.h>
 
 #include <konq_drag.h>
+#include <konq_faviconmgr.h>
 #include <konq_historymgr.h>
 #include <konq_tree.h>
 
@@ -104,19 +106,16 @@ void KonqHistoryModule::slotCreateItems()
     KonqHistoryIterator it( entries );
     m_currentTime = QDateTime::currentDateTime();
 
-    QString host;
+    QString icon;
 
+    // the group item and the item of the serverroot '/' get a fav-icon
+    // if available. All others get the protocol icon.
     while ( (entry = it.current()) ) {
-	host = entry->url.host();
-	KonqHistoryGroupItem *group = m_dict.find( host );
-	if ( !group ) {
-	    group = new KonqHistoryGroupItem( host, m_topLevelItem );
-	    group->setPixmap( 0, m_folderClosed );
-	    m_dict.insert( host, group );
-	}
+	KonqHistoryGroupItem *group = m_dict.find( entry->url.host() );
+	if ( !group )
+	    group = createGroupItem( entry->url );
 
 	item = new KonqHistoryItem( entry, group, m_topLevelItem );
-	item->setPixmap( 0, SmallIcon( KProtocolInfo::icon( entry->url.protocol() )));
 	
 	++it;
     }
@@ -134,7 +133,7 @@ void KonqHistoryModule::slotCreateItems()
 	++it2;
     }
 
-    m_topLevelItem->sort();
+    // m_topLevelItem->sort(); // don't think this is necessary
     m_initialized = true;
 }
 
@@ -150,24 +149,22 @@ void KonqHistoryModule::slotEntryAdded( const KonqHistoryEntry *entry )
 	return;
 
     m_currentTime = QDateTime::currentDateTime();
-    QString host( entry->url.host() );
-    KonqHistoryGroupItem *group = m_dict.find( host );
-    if ( !group ) {
-	group = new KonqHistoryGroupItem( host, m_topLevelItem );
-	group->setPixmap( 0, m_folderClosed );
-	m_dict.insert( host, group );
-    }
+    KonqHistoryGroupItem *group = m_dict.find( entry->url.host() );
+    if ( !group )
+	group = createGroupItem( entry->url );
 
     KonqHistoryItem *item = group->findChild( entry );
-    if ( !item ) {
+    if ( !item )
 	item = new KonqHistoryItem( entry, group, m_topLevelItem );
-	item->setPixmap( 0, SmallIcon( KProtocolInfo::icon( entry->url.protocol() )));
-    }
     else
 	item->update( entry );
 
+    KonqTree *t = tree();
+    t->lockScrolling( true );
     group->sort();
     m_topLevelItem->sort();
+    qApp->processOneEvent();
+    t->lockScrolling( false );
 }
 
 void KonqHistoryModule::slotEntryRemoved( const KonqHistoryEntry *entry )
@@ -244,6 +241,7 @@ void KonqHistoryModule::slotSortByDate()
 void KonqHistoryModule::sortingChanged()
 {
     m_topLevelItem->sort();
+
     KConfig *kc = KGlobal::config();
     KConfigGroupSaver cs( kc, "HistorySettings" );
     kc->writeEntry( "SortHistory", m_sortsByName ? "byName" : "byDate" );
@@ -258,10 +256,30 @@ void KonqHistoryModule::slotItemExpanded( QListViewItem *item )
 
 void KonqHistoryModule::groupOpened( KonqHistoryGroupItem *item, bool open )
 {
+    if ( item->hasFavIcon() )
+	return;
+    
     if ( open )
 	item->setPixmap( 0, m_folderOpen );
     else
 	item->setPixmap( 0, m_folderClosed );
+}
+
+
+KonqHistoryGroupItem * KonqHistoryModule::createGroupItem( const KURL& url )
+{
+    KonqHistoryGroupItem *group = new KonqHistoryGroupItem( url, 
+							    m_topLevelItem );
+
+    QString icon = KonqFavIconMgr::iconForURL( url.url() );
+    if ( icon.isEmpty() )
+	group->setPixmap( 0, m_folderClosed );
+    else
+	group->setFavIcon( SmallIcon( icon ) );
+
+    m_dict.insert( url.host(), group );
+    
+    return group;
 }
 
 #include "history_module.moc"

@@ -64,7 +64,7 @@ class KonqHistoryGroupItem : public KonqTreeItem
 {
 public:
 
-    KonqHistoryGroupItem( const QString& host, KonqTreeTopLevelItem * );
+    KonqHistoryGroupItem( const KURL& url, KonqTreeTopLevelItem * );
 
     /**
      * removes itself and all its children from the history (not just the view)
@@ -81,15 +81,20 @@ public:
 
     void itemUpdated( KonqHistoryItem *item );
 
+    bool hasFavIcon() const { return m_hasFavIcon; }
+
+    void setFavIcon( const QPixmap& pix );
+
     // we don't support the following
     bool acceptsDrops( const QStrList& ) { return false; }
     virtual void drop( QDropEvent * ) {}
-    virtual QDragObject * dragObject( QWidget *, bool ) { return 0L; }
+    virtual QDragObject * dragObject( QWidget *, bool );
     virtual KURL externalURL() const { return KURL(); }
     virtual void itemSelected();
 
 private:
-    QString m_host;
+    bool m_hasFavIcon;
+    const KURL m_url;
     QDateTime m_lastVisited;
 
 };

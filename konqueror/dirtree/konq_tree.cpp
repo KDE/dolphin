@@ -43,7 +43,8 @@ static const int autoOpenTimeout = 750;
 
 KonqTree::KonqTree( KonqTreePart *parent, QWidget *parentWidget )
     : KListView( parentWidget ),
-      m_toolTip( this )
+      m_toolTip( this ),
+      m_scrollingLocked( false )
 {
     setAcceptDrops( true );
     viewport()->setAcceptDrops( true );
@@ -235,15 +236,16 @@ void KonqTree::contentsMouseMoveEvent( QMouseEvent *e )
 
     // Start a drag
     QDragObject * drag = static_cast<KonqTreeItem *>( item )->dragObject( viewport(), false );
+    if ( !drag )
+	return;
+
     const QPixmap *pix = item->pixmap(0);
-    if ( pix ) {
-        QPoint hotspot;
-        hotspot.setX( pix->width() / 2 );
-        hotspot.setY( pix->height() / 2 );
+    if ( pix && drag->pixmap().isNull() ) {
+        QPoint hotspot( pix->width() / 2, pix->height() / 2 );
         drag->setPixmap( *pix, hotspot );
     }
-    if (drag)
-        drag->drag();
+
+    drag->drag();
 }
 
 void KonqTree::contentsMouseReleaseEvent( QMouseEvent *e )
@@ -619,6 +621,11 @@ void KonqTree::slotOnItem( QListViewItem *item )
 	m_part->emitStatusBarText( url.prettyURL() );
 }
 
+void KonqTree::setContentsPos( int x, int y )
+{
+    if ( !m_scrollingLocked )
+	return KListView::setContentsPos( x, y );
+}
 
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////

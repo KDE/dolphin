@@ -65,6 +65,7 @@ private slots:
     void slotSortByDate();
 
 private:
+    KonqHistoryGroupItem *createGroupItem( const KURL& url );
     void sortingChanged();
 
     typedef QDictIterator<KonqHistoryGroupItem> HistoryItemIterator;

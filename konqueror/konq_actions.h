@@ -36,7 +36,8 @@ class KonqComboAction : public KAction
   Q_OBJECT
 public:
     KonqComboAction( const QString& text, int accel, const QObject *receiver, const char *member, QObject* parent, const char* name );
-
+    ~KonqComboAction();
+    
     virtual int plug( QWidget *w, int index = -1 );
 
     virtual void unplug( QWidget *w );

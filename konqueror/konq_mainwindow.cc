@@ -160,7 +160,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 				     KGlobalSettings::completionMode() );
     s_pCompletion->setCompletionMode( (KGlobalSettings::Completion) mode );
   }
-  
+
   createGUI( 0L );
 
   if ( !m_toggleViewGUIClient->empty() )
@@ -252,9 +252,9 @@ KonqMainWindow::~KonqMainWindow()
     QStringList histItems = m_combo->historyItems();
     config->writeEntry( "ToolBarCombo", histItems );
 
-    KonqPixmapProvider *prov = static_cast<KonqPixmapProvider*> (m_combo->pixmapProvider());
-    if ( prov )
-        prov->save( config, "ComboIconCache", histItems );
+    KonqPixmapProvider *prov = KonqPixmapProvider::self();
+    prov->save( config, "ComboIconCache", histItems );
+    m_combo->setPixmapProvider( 0L );
 
     config->sync();
   }
@@ -273,6 +273,9 @@ KonqMainWindow::~KonqMainWindow()
   m_viewModeActions.clear();
 
   KonqUndoManager::decRef();
+
+  if ( s_lstViews == 0 )
+      delete KonqPixmapProvider::self();
 
   //kdDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << " done" << endl;
 }
