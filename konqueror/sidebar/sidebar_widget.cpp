@@ -168,11 +168,12 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
    	ButtonBar->enableMoving(false);
 	ButtonBar->setOrientation(Qt::Vertical);
 	
-	QPopupMenu *Menu=new QPopupMenu(this,"Sidebar_Widget::Menu");
+	Menu=new QPopupMenu(this,"Sidebar_Widget::Menu");
 	QPopupMenu *addMenu=new QPopupMenu(this,"Sidebar_Widget::addPopup");
 	Menu->insertItem(i18n("Add new"),addMenu,0);
 	Menu->insertSeparator();
-	Menu->insertItem(i18n("Single / MultiView"),1);
+	Menu->insertItem(i18n("Multiple views"),1);
+        connect(Menu,SIGNAL(aboutToShow()),this,SLOT(aboutToShowConfigMenu()));     
 	connect(Menu,SIGNAL(activated(int)),this,SLOT(activatedMenu(int)));
 
 	buttonPopup=new QPopupMenu(this,"Sidebar_Widget::ButtonPopup");
@@ -199,6 +200,12 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	QTimer::singleShot(0,this,SLOT(createButtons()));
 	connect(ButtonBar,SIGNAL(toggled(int)),this,SLOT(showHidePage(int)));
 	connect(Area,SIGNAL(dockWidgetHasUndocked(KDockWidget*)),this,SLOT(dockWidgetHasUndocked(KDockWidget*)));
+}
+
+
+void Sidebar_Widget::aboutToShowConfigMenu()
+{
+	Menu->setItemChecked(1,!singleWidgetMode);
 }
 
 

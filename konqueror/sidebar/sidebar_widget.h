@@ -84,6 +84,7 @@ class Sidebar_Widget: public QHBox, public KonqSidebar_PluginInterface
 	void readConfig();
 	class QStringList visibleViews;
 	class QPopupMenu *buttonPopup;
+	class QPopupMenu *Menu;
 	int popupFor;
 	void initialCopy();
   protected:
@@ -95,6 +96,7 @@ class Sidebar_Widget: public QHBox, public KonqSidebar_PluginInterface
 	void activatedMenu(int id);
 	void buttonPopupActivate(int);
   	void dockWidgetHasUndocked(KDockWidget*);  
+	void aboutToShowConfigMenu();
   signals:
 		void started(KIO::Job *);
                 void completed();
