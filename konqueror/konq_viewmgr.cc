@@ -249,7 +249,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
     rootItem = "InitialView";
   }
 
-  kdebug(0, 1202, "Load RootItem %s", rootItem.data());
+  kdebug(0, 1202, "Load RootItem %s", debugString(rootItem));
 
   m_pMainContainer = new KonqFrameContainer( Qt::Horizontal, m_pMainView );
   m_pMainView->setView( m_pMainContainer );
@@ -285,7 +285,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
   if( name != "InitialView" )
     prefix = name + '_';
 
-  kdebug(0, 1202, "begin loadItem: %s",name.data() );
+  kdebug(0, 1202, "begin loadItem: %s", debugString(name) );
 
   if( name.find("View") != -1 ) {
     kdebug(0, 1202, "Item is View");
@@ -295,9 +295,9 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     if ( url == "file:$HOME" ) // HACK
       url = QDir::homeDirPath().prepend( "file:" );
 
-    kdebug(0, 1202, "URL: %s",url.data());
+    kdebug(0, 1202, "URL: %s", debugString(url));
     QString serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), "inode/directory");
-    kdebug(0, 1202, "ServiceType: %s", serviceType.data());
+    kdebug(0, 1202, "ServiceType: %s", debugString(serviceType));
 
     QString serviceName = cfg.readEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ) );
 
@@ -329,14 +329,14 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
 
     //load container config
     QString ostr = cfg.readEntry( QString::fromLatin1( "Orientation" ).prepend( prefix ) );
-    kdebug(0, 1202, "Orientation: ",ostr.data());
+    kdebug(0, 1202, "Orientation: ", debugString(ostr));
     Qt::Orientation o;
     if( ostr == "Vertical" )
       o = Qt::Vertical;
     else if( ostr == "Horizontal" )
       o = Qt::Horizontal;
     else {
-      warning("Profile Loading Error: No orientation specified in %s", name.data());
+      warning("Profile Loading Error: No orientation specified in %s", debugString(name));;
       o = Qt::Horizontal;
     }
 
@@ -346,7 +346,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     QStrList childList;
     if( cfg.readListEntry( QString::fromLatin1( "Children" ).prepend( prefix ), childList ) < 2 )
     {
-      warning("Profile Loading Error: Less than two children in %s", name.data());
+      warning("Profile Loading Error: Less than two children in %s", debugString(name));
       // fallback to defaults
       loadItem( cfg, parent, "InitialView" );
     }
@@ -363,9 +363,9 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     }
   }
   else
-    warning("Profile Loading Error: Unknown item %s", name.data());
+    warning("Profile Loading Error: Unknown item %s", debugString(name));
 
-  kdebug(0, 1202, "end loadItem: %s",name.data());
+  kdebug(0, 1202, "end loadItem: %s", debugString(name));
 }
 
 void KonqViewManager::clear()
@@ -480,10 +480,10 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
   kdebug(0, 1202, "KonqViewManager::setupView" );
 
   QString sType = serviceType;
-  
+
   if ( sType.isEmpty() )
     sType = m_pMainView->currentChildView()->serviceType();
-  
+
   KonqFrame* newViewFrame = new KonqFrame( parentContainer );
 
   KonqChildView *v = new KonqChildView( viewFactory, newViewFrame,

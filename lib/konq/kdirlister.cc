@@ -246,7 +246,7 @@ void KDirLister::updateDirectory( const QString& _dir )
 
   m_jobId = job->id();
   job->listDir( m_sURL );
-  kDebugInfo( 1203, "update started in %s", m_sURL.data());
+  kDebugInfo( 1203, "update started in %s", debugString(m_sURL));
 
   emit started( m_sURL );
 }

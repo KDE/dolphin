@@ -218,7 +218,7 @@ void KonqTreeViewWidget::viewportDropEvent( QDropEvent *_ev  )
 
   QString dest = ( item ) ? item->item()->url().url() : m_sURL.url();
 
-  if ( QUrlDrag::decodeToUnicodeUris( _ev, lst ) )
+  if ( QUriDrag::decodeToUnicodeUris( _ev, lst ) )
   {
     if ( lst.count() == 0 )
       return;

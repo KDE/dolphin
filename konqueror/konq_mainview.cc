@@ -390,7 +390,7 @@ void KonqMainView::slotOpenTerminal()
     dir = u.path();
 
   QString cmd = QString("cd \"%1\" ; %2 &").arg( dir ).arg( term );
-  system( cmd.data() );
+  system( cmd.latin1() );
 }
 
 void KonqMainView::slotOpenLocation()
@@ -478,7 +478,7 @@ void KonqMainView::slotToggleDirTree( bool toggle )
     KParts::ReadOnlyPart *view = m_pViewManager->split( splitFrame, Qt::Horizontal, QString::fromLatin1( "Browser/View" ), QString::fromLatin1( "KonqDirTree" ), &newContainer );
 
     newContainer->moveToLast( splitFrame->widget() );
-    
+
     KonqFrameBase *firstCh = newContainer->firstChild();
     KonqFrameBase *secondCh = newContainer->secondChild();
     newContainer->setFirstChild( secondCh );

@@ -3,7 +3,7 @@
 // First version of cookies configuration by Waldo Bastian <bastian@kde.org>
 // This dialog box created by David Faure <faure@kde.org>
 
-#include <qlayout.h> 
+#include <qlayout.h>
 #include <qradiobutton.h>
 
 #include <klocale.h>
@@ -30,7 +30,7 @@ KCookiesOptions::KCookiesOptions(QWidget *parent, const char *name)
   lay->addColSpacing(0,10);
   lay->addColSpacing(2,10);
   lay->addColSpacing(4,10);
-  
+
   lay->setRowStretch(0,0);
   lay->setRowStretch(1,0); // ROW_ENABLE_COOKIES
   lay->setRowStretch(2,1);
@@ -39,13 +39,13 @@ KCookiesOptions::KCookiesOptions(QWidget *parent, const char *name)
   lay->setRowStretch(5,0);
   lay->setRowStretch(6,1); // ROW_CHANGE_DOMAIN
   lay->setRowStretch(7,10); // ROW_BOTTOM
-  
+
   lay->setColStretch(0,0);
   lay->setColStretch(1,1);
   lay->setColStretch(2,0);
   lay->setColStretch(3,1);
   lay->setColStretch(4,0);
-  
+
   cb_enableCookies = new QCheckBox( i18n("&Enable Cookies"), this );
   connect( cb_enableCookies, SIGNAL( clicked() ), this, SLOT( changeCookiesEnabled() ) );
   connect( cb_enableCookies, SIGNAL( clicked() ), this, SLOT( changed() ) );
@@ -105,7 +105,7 @@ KCookiesOptions::KCookiesOptions(QWidget *parent, const char *name)
 
     le_domain = new QLineEdit(bg);
     bgLay->addMultiCellWidget(le_domain,1,1,0,2);
-              
+
     rb_domPolicyAccept = new QRadioButton( i18n("Accept"), bg );
     bgLay->addWidget(rb_domPolicyAccept, 3, 0);
     connect(rb_domPolicyAccept, SIGNAL(clicked()), this, SLOT(changed()));
@@ -121,22 +121,22 @@ KCookiesOptions::KCookiesOptions(QWidget *parent, const char *name)
 
     KButtonBox *bbox = new KButtonBox( bg );
     bbox->addStretch( 20 );
-        
+
     b0 = bbox->addButton( i18n("Change") );
     connect( b0, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
     connect( b0, SIGNAL( clicked() ), this, SLOT( changed() ) );
-                
+
     bbox->addStretch( 10 );
-                    
+
     b1 = bbox->addButton( i18n("Delete") );
     connect( b1, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
     connect( b1, SIGNAL( clicked() ), this, SLOT( changed() ) );
-                            
+
     bbox->addStretch( 20 );
-                                
+
     bbox->layout();
     bgLay->addMultiCellWidget( bbox, 5,5,0,2);
-                                            
+
     lay->addWidget(bg,ROW_CHANGE_DOMAIN,3);
   }
 
@@ -168,11 +168,11 @@ static const char *adviceToStr(KCookieAdvice _advice)
     }
 }
 
-static KCookieAdvice strToAdvice(const char *_str)
+static KCookieAdvice strToAdvice(const QString& _str)
 {
     if (!_str)
         return KCookieDunno;
-        
+
     if (strcasecmp(_str, "Accept") == 0)
 	return KCookieAccept;
     else if (strcasecmp(_str, "Reject") == 0)
@@ -183,7 +183,7 @@ static KCookieAdvice strToAdvice(const char *_str)
     return KCookieDunno;	
 }
 
-static void splitDomainAdvice(const char *configStr, 
+static void splitDomainAdvice(const char *configStr,
                               QString &domain,
                               KCookieAdvice &advice)
 {
@@ -199,21 +199,19 @@ static void splitDomainAdvice(const char *configStr,
         domain = tmp.left(splitIndex);
         advice = strToAdvice( tmp.mid( splitIndex+1, tmp.length()).ascii() );
     }
-}                            
+}
 
-void KCookiesOptions::removeDomain(const char *domain)
+void KCookiesOptions::removeDomain(const QString& domain)
 {
-    const char *configStr = 0L;
     QString searchFor(domain);
     searchFor += ":";
-    
-    for( configStr = domainConfig.first();
-         configStr != 0;
-         configStr = domainConfig.next())
+
+    for (QStringList::ConstIterator it = domainConfig.begin();
+	 it != domainConfig.end(); it++)
     {
-       if (strncasecmp(configStr, searchFor.data(), searchFor.length()) == 0)
+       if (strncasecmp((*it).latin1(), searchFor.latin1(), searchFor.length()) == 0)
        {
-           domainConfig.removeRef(configStr);
+           domainConfig.remove(*it);
            return;
        }
     }
@@ -236,35 +234,36 @@ void KCookiesOptions::changePressed()
         advice = adviceToStr(KCookieReject);
     else
         advice = adviceToStr(KCookieAsk);
-    
-    QString configStr(domain);
-    
-    if (configStr[0] != '.')
-        configStr = "." + configStr;    
 
-    removeDomain(configStr.data());
-    
+    QString configStr(domain);
+
+    if (configStr[0] != '.')
+        configStr = "." + configStr;
+
+    removeDomain(configStr);
+
     configStr += ":";
-    
+
     configStr += advice;
 
-    domainConfig.inSort(configStr.data());
-    
-    int index = domainConfig.find(configStr.data());
+    domainConfig.append(configStr);
+    domainConfig.sort();
+
+    int index = domainConfig.findIndex(configStr);
 
     updateDomainList();
-    
+
     wList->setCurrentItem(index);
 }
 
 void KCookiesOptions::deletePressed()
 {
     QString domain(le_domain->text());
-    
+
     if (domain[0] != '.')
         domain = "." + domain;
 
-    removeDomain(domain.data());
+    removeDomain(domain);
     updateDomainList();
 
     le_domain->setText("");
@@ -278,29 +277,21 @@ void KCookiesOptions::deletePressed()
 
 void KCookiesOptions::updateDomain(int index)
 {
-  const char *configStr;
   QString domain;
   KCookieAdvice advice;
 
   if ((index < 0) || (index >= (int) domainConfig.count()))
       return;
-  
+
   int id = 0;
 
-  for( configStr = domainConfig.first();
-       configStr != 0;
-       configStr = domainConfig.next())
-  {
-       if (id == index)
-           break; 
-       id++;                                                                                                                                 
-  }
-  if (!configStr)
+  QString configStr = *domainConfig.at(index);
+  if (configStr.isNull())
       return;
 
   splitDomainAdvice(configStr, domain, advice);
 
-  le_domain->setText(domain);  
+  le_domain->setText(domain);
   rb_domPolicyAccept->setChecked( advice == KCookieAccept );
   rb_domPolicyReject->setChecked( advice == KCookieReject );
   rb_domPolicyAsk->setChecked( (advice != KCookieAccept) &&
@@ -310,7 +301,7 @@ void KCookiesOptions::updateDomain(int index)
 void KCookiesOptions::changeCookiesEnabled()
 {
   bool enabled = cb_enableCookies->isChecked();
-    
+
   rb_gbPolicyAccept->setEnabled( enabled);
   rb_gbPolicyReject->setEnabled( enabled);
   rb_gbPolicyAsk->setEnabled( enabled );
@@ -324,31 +315,27 @@ void KCookiesOptions::changeCookiesEnabled()
   b0->setEnabled( enabled );
   b1->setEnabled( enabled );
 
-  wListLabel->setEnabled( enabled );    
-  wList->setEnabled( enabled );    
+  wListLabel->setEnabled( enabled );
+  wList->setEnabled( enabled );
   le_domain->setEnabled( enabled );
 }
 
 void KCookiesOptions::updateDomainList()
 {
-  wList->setAutoUpdate(false);
   wList->clear();
 
   int id = 0;
 
-  for( const char *domain = domainConfig.first();
-       domain != 0;
-       domain = domainConfig.next())
+  for (QStringList::ConstIterator domain = domainConfig.begin();
+       domain != domainConfig.end(); domain++)
   {
-       KSplitListItem *sli = new KSplitListItem( domain, id);
+       KSplitListItem *sli = new KSplitListItem( *domain, id);
        connect( wList, SIGNAL( newWidth( int ) ),
 	       sli, SLOT( setWidth( int ) ) );
        sli->setWidth(wList->width());
        wList->inSort( sli );
-       id++;                                                                                                                                 
+       id++;
   }
-  wList->setAutoUpdate(true);
-  wList->update();
 }
 
 void KCookiesOptions::load()
@@ -359,7 +346,7 @@ void KCookiesOptions::load()
   g_pConfig->setGroup( "Browser Settings/HTTP" );
 
   tmp = g_pConfig->readEntry("CookieGlobalAdvice", "Ask");
-  KCookieAdvice globalAdvice = strToAdvice(tmp.data());
+  KCookieAdvice globalAdvice = strToAdvice(tmp);
 
   cb_enableCookies->setChecked( g_pConfig->readBoolEntry( "Cookies", true ));
 
@@ -368,11 +355,11 @@ void KCookiesOptions::load()
   rb_gbPolicyAsk->setChecked( (globalAdvice != KCookieAccept) &&
                               (globalAdvice != KCookieReject) );
 
-  (void) g_pConfig->readListEntry("CookieDomainAdvice", domainConfig);
+  domainConfig = g_pConfig->readListEntry("CookieDomainAdvice");
 
   updateDomainList();
   changeCookiesEnabled();
-  
+
   delete g_pConfig;
 }
 
@@ -408,7 +395,7 @@ void KCookiesOptions::defaults()
   rb_gbPolicyAsk->setChecked( true );
   domainConfig.clear();
   updateDomainList();
-  le_domain->setText("");  
+  le_domain->setText("");
   rb_domPolicyAccept->setChecked( false );
   rb_domPolicyReject->setChecked( false );
   rb_domPolicyAsk->setChecked( true );

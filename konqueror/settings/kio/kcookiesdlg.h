@@ -35,11 +35,11 @@ Q_OBJECT
 
     void changed();
 
-    
+
   private:
-    void removeDomain(const char *domain);
+    void removeDomain(const QString& domain);
     void updateDomainList();
-    
+
     QLabel     *wListLabel;
     KSplitList *wList;
 
@@ -61,7 +61,7 @@ Q_OBJECT
     QPushButton  *b0;
     QPushButton  *b1;
 
-    QStrList domainConfig;
+    QStringList domainConfig;
 public slots:
     void changeCookiesEnabled();
     void changePressed();

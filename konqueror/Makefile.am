@@ -26,7 +26,7 @@ libkonqueror_la_SOURCES = \
 		          konq_factory.cc \
 			  kbrowser.moc.cc
 
-libkonqueror_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module
+libkonqueror_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module -no-undefined
 
 libkonqueror_la_LIBADD = ../libkonq/libkonq.la -lkparts $(LIB_KDEUI)
 

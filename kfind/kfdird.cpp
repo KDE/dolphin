@@ -42,19 +42,19 @@ void KfDirDialog::init( void )
   path    = new QLineEdit( page, "path" );
   dirL    = new QLabel( i18n("Directories:"), page, "dirLabel" );
   dirs    = new QListBox( page, "dirList" );
-  
+
   topLayout->addWidget(pathL);
   topLayout->addWidget(path);
   topLayout->addSpacing( spacingHint() );
   topLayout->addWidget(dirL);
   topLayout->addWidget(dirs);
 
-  connect( dirs, SIGNAL(selected(int)),	 
+  connect( dirs, SIGNAL(selected(int)),	
 	   this, SLOT(dirSelected(int)) );
   connect( path, SIGNAL(returnPressed()),
 	   this, SLOT(pathSelected()));
   d.setMatchAllDirs( TRUE );
-  d.setSorting( d.sorting() | QDir::DirsFirst );  
+  d.setSorting( d.sorting() | QDir::DirsFirst );
 }
 
 
@@ -80,14 +80,14 @@ KfDirDialog::KfDirDialog( const QString& dirName,
 void KfDirDialog::init()
 {
   setCaption(i18n("Select directory"));
-  
+
   pathL   = new QLabel( i18n("Current directory:"), this, "pathLabel" );
   path    = new QLineEdit( this, "path" );
   dirL    = new QLabel( i18n("Directories:"), this, "dirLabel" );
   dirs    = new QListBox( this, "dirList" );
   okB	  = new QPushButton( i18n("OK"), this, "okButton" );
   cancelB = new QPushButton( i18n("Cancel") , this, "cancelButton" );
-  
+
   QVBoxLayout *vbox = new QVBoxLayout(this, 5);
   vbox->addWidget(pathL);
   vbox->addWidget(path);
@@ -100,7 +100,7 @@ void KfDirDialog::init()
   hbox->addWidget(cancelB);
   vbox->activate();
 
-  connect( dirs, SIGNAL(selected(int)),	 
+  connect( dirs, SIGNAL(selected(int)),	
 	   this, SLOT(dirSelected(int)) );
   connect( path, SIGNAL(returnPressed()),
 	   this, SLOT(pathSelected()));
@@ -124,20 +124,20 @@ KfDirDialog::~KfDirDialog()
 QString KfDirDialog::selectedDir() const
 {
   QString tmp;
-  
+
   if (dirs->currentItem()!=-1)
     {
       tmp = QString("%1/%2")
 	.arg(d.path())
 	.arg(dirs->text((dirs->currentItem())));
-      tmp= d.cleanDirPath(tmp); 
+      tmp= d.cleanDirPath(tmp);
     }
   else
     tmp = d.path();
-  
+
   return tmp;
 }
- 
+
 /*!
   Re-reads the active directory in the file dialog.
 
@@ -149,9 +149,8 @@ QString KfDirDialog::selectedDir() const
 void KfDirDialog::rereadDir()
 {
   qApp ->setOverrideCursor( waitCursor );
-  dirs ->setAutoUpdate( FALSE );
   dirs ->clear();
-  
+
   const QFileInfoList	 *filist = d.entryInfoList();
   if ( filist ) {
     QFileInfoListIterator it( *filist );
@@ -165,7 +164,6 @@ void KfDirDialog::rereadDir()
     KMessageBox::sorry( this, i18n("Cannot open or read directory."));
     qApp ->setOverrideCursor( waitCursor );
   }
-  dirs ->setAutoUpdate( TRUE );
   dirs ->repaint();
   path->setText( d.path() );
   qApp->restoreOverrideCursor();
@@ -191,14 +189,14 @@ void KfDirDialog::pathSelected()
   Checks dir validity
 */
 
-void KfDirDialog::checkDir(const QString& subdir, bool abs) 
-{ 
+void KfDirDialog::checkDir(const QString& subdir, bool abs)
+{
   QDir tmp = d;
   if ( tmp.cd( subdir, abs) && tmp.isReadable()) {
     d = tmp;
     rereadDir();
     return;
   }
-  
+
   KMessageBox::sorry(this, i18n("Cannot open or read directory."));
 }

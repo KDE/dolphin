@@ -182,15 +182,15 @@ bool KonqDirTreePart::event( QEvent *e )
 {
  if ( KParts::ReadOnlyPart::event( e ) )
    return true;
- 
+
  if ( KParts::OpenURLEvent::test( e ) && ((KParts::OpenURLEvent *)e)->part() != this && KonqFMSettings::defaultIconSettings()->treeFollow() )
  {
    m_pTree->followURL( ((KParts::OpenURLEvent *)e)->url() );
    return true;
  }
- 
+
  return false;
-} 
+}
 
 KonqDirTreeItem::KonqDirTreeItem( KonqDirTree *parent, QListViewItem *parentItem, KonqDirTreeItem *topLevelItem, KFileItem *item )
   : QListViewItem( parentItem )
@@ -354,7 +354,7 @@ void KonqDirTree::followURL( const KURL &_url )
         return;
       }
   }
-} 
+}
 
 void KonqDirTree::contentsDragEnterEvent( QDragEnterEvent * )
 {
@@ -407,7 +407,7 @@ void KonqDirTree::contentsDropEvent( QDropEvent *ev )
       formats.append( ev->format( i ) );
 
   // Try to decode to the data you understand...
-  if ( QUrlDrag::decodeToUnicodeUris( ev, lst ) )
+  if ( QUriDrag::decodeToUnicodeUris( ev, lst ) )
   {
     if( lst.count() == 0 )
     {

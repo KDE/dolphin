@@ -22,6 +22,7 @@
 #include <qclipboard.h>
 #include <qfile.h>
 #include <qpopupmenu.h>
+#include <qdragobject.h>
 
 #include <kcursor.h>
 #include <kdebug.h>
@@ -70,7 +71,7 @@ void KonqIconViewWidget::initConfig()
 
     // Color settings
     QColor normalTextColor	 = m_pSettings->normalTextColor();
-    QColor highlightedTextColor	 = m_pSettings->highlightedTextColor();
+    // QColor highlightedTextColor	 = m_pSettings->highlightedTextColor();
     setItemColor( normalTextColor );
 
     /*
@@ -252,7 +253,7 @@ void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *e )
     if ( dest.path( 1 ) == KUserPaths::trashPath() )
 	e->setAction( QDropEvent::Move );
     else if ( ((keybstate & ControlMask) == 0) && ((keybstate & ShiftMask) == 0) &&
-	      QUrlDrag::decodeToUnicodeUris( e, lst ) ) // provide the popupmenu only for url drags
+	      QUriDrag::decodeToUnicodeUris( e, lst ) ) // provide the popupmenu only for url drags
     {
 	// Nor control nor shift are pressed => show popup menu
 	QPopupMenu popup;
@@ -283,7 +284,7 @@ void KonqIconViewWidget::dropStuff( KFileIVI *item, QDropEvent *ev )
 	    formats.append( ev->format( i ) );
 
     // Try to decode to the data you understand...
-    if ( QUrlDrag::decodeToUnicodeUris( ev, lst ) )
+    if ( QUriDrag::decodeToUnicodeUris( ev, lst ) )
     {
 	if( lst.count() == 0 )
 	{

@@ -19,7 +19,7 @@
 #include "main.h"
 
 
-static const char *description = 
+static const char *description =
 	I18N_NOOP("KFM Exec - A Location opener");
 
 static const char *version = "v0.0.1";
@@ -107,7 +107,7 @@ KFMExec::KFMExec()
 		if ( !files.isEmpty() )
 		    files += " ";
 		files += "\"";
-		files += tmp.data();
+		files += tmp;
 		files += "\"";
 	    }
 	}
@@ -146,7 +146,7 @@ void KFMExec::slotFinished()
 	times[i++] = buff.st_mtime;
     }
 
-    kDebugInfo(0, "EXEC '%s'\n",command.data() );
+    kDebugInfo("EXEC '%s'\n", debugString(command) );
 
     system( command );
 
@@ -214,7 +214,7 @@ QString KFMExec::shellQuote( const char *_data )
 	pos += 2;
     }
 
-    return QString( cmd.data() );
+    return cmd;
 }
 
 int main( int argc, char **argv )
@@ -226,7 +226,7 @@ int main( int argc, char **argv )
     aboutData.addAuthor("Stephen Kulow",0, "coolo@kde.org");
     aboutData.addAuthor("Bernhard Rosenkraenzer",0, "bero@redhat.de");
     aboutData.addAuthor("Waldo Bastian",0, "bastian@kde.org");
-    
+
     KCmdLineArgs::init( argc, argv, &aboutData );
     KCmdLineArgs::addCmdLineOptions( options );
 
