@@ -743,6 +743,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 
     mainWindow = new KonqMainWindow( KURL(), false );
     mainWindow->setInitialFrameName( args.frameName );
+    mainWindow->resetAutoSaveSettings(); // Don't autosave
 
     KonqOpenURLRequest req;
     req.args = args;
@@ -831,7 +832,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
     if ( windowArgs.lowerWindow )
     {
         mainWindow->lower();
-		setFocus();
+        setFocus();
     }
 
     if ( windowArgs.fullscreen )
