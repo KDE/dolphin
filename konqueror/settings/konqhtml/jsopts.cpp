@@ -125,9 +125,9 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
 
   disableWindowOpenCB = new QCheckBox( i18n( "Disable \"window.open()\"" ), miscSettingsGB );
   QWhatsThis::add( disableWindowOpenCB, i18n("If you disable this option, Konqueror will stop interpreting the <i>window.open()</i> "
-                                             "command. This is usefull if you regulary visit sites that make extensive use of this "
-                                             "command to pop up ad banner.<br><br><b>Note:</b> Disabling this option might also "
-                                             "break certain sites that require <i>window.open()</b> for proper operation. Use this "
+                                             "JavaScript command. This is useful if you regulary visit sites that make extensive use of this "
+                                             "command to pop up ad banners.<br><br><b>Note:</b> Disabling this option might also "
+                                             "break certain sites that require <i>window.open()</i> for proper operation. Use this "
                                              "feature carefully!") );
   connect( disableWindowOpenCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
