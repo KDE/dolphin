@@ -49,6 +49,7 @@ private:
         QCheckBox *cbCursor;
         QCheckBox *cbUnderline;
         QCheckBox *m_pAutoLoadImagesCheckBox;
+        QCheckBox *m_pEnableFaviconCheckBox;
 
     QCheckBox *userSheet;
     KURLRequester *userSheetLocation;
