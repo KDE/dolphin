@@ -340,6 +340,8 @@ void KBookmarkEditorIface::slotCreatedNewFolder( QString filename, QString text,
 KEBTopLevel * KEBTopLevel::s_topLevel = 0L;
 KBookmarkManager * KEBTopLevel::s_pManager = 0L;
 
+// AK - note, possible ugly solution to remove code dup, a "init" bool
+
 KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
     : KMainWindow(), m_commandHistory( actionCollection() ), m_dcopIface(NULL)
 {
@@ -351,6 +353,8 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
        // Create the DCOP interface object
        m_dcopIface = new KBookmarkEditorIface();
     }
+
+    m_pListView = new KEBListView( this );
 
     initListView();
     connectSignals();
@@ -408,6 +412,48 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
     KGlobal::locale()->insertCatalogue("libkonq");
 }
 
+void KEBTopLevel::slotLoad()
+{
+    if (!queryClose()) return;
+    QString bookmarksFile = KFileDialog::getLoadFileName( QString::null, "*.xml", this );
+    // add a few default place to the file dialog somehow?, e.g kfile bookmarks +  normal bookmarks file dir
+    KBookmarkManager::managerForFile( bookmarksFile, false )->slotEditBookmarks();
+    close();
+
+    return;
+
+    // AK - for the moment this can only be a readonly!
+
+    m_pListView->clear();
+    disconnectSignals();
+
+    delete m_dcopIface;
+    delete s_pManager;
+
+    // recreate the bookmark manager.
+    s_pManager = KBookmarkManager::managerForFile( bookmarksFile, false );
+    m_bReadOnly = true; // readonly;
+ 
+    if (!m_bReadOnly) {
+       // Create the DCOP interface object
+       m_dcopIface = new KBookmarkEditorIface();
+    }
+
+    initListView();
+    connectSignals();
+
+    fillListView();
+
+    // resize( m_pListView->sizeHint().width(), 400 );
+
+    resetActions();
+    slotSelectionChanged();
+
+    setAutoSaveSettings(); // NEEDED???
+    setModified(false); // for a very nice caption
+    m_commandHistory.documentSaved();
+}
+
 void KEBTopLevel::resetActions() 
 {
     m_taShowNS->setChecked( s_pManager->showNSBookmarks() );
@@ -446,7 +492,6 @@ void KEBTopLevel::resetActions()
 void KEBTopLevel::initListView()
 {
     // Create the list view
-    m_pListView = new KEBListView( this );
     m_pListView->setDragEnabled( true );
     m_pListView->addColumn( i18n("Bookmark"), 300 );
     m_pListView->addColumn( i18n("URL"), 300 );
@@ -459,12 +504,10 @@ void KEBTopLevel::initListView()
     m_pListView->setRenameable( 0 );
     m_pListView->setRenameable( 1 );
 
-    if (!m_bReadOnly) {
-       m_pListView->setItemsRenameable( true );
-       m_pListView->setItemsMovable( false ); // We move items ourselves (for undo)
-       m_pListView->setAcceptDrops( true );
-       m_pListView->setDropVisualizer( true );
-    }
+    m_pListView->setItemsRenameable( !m_bReadOnly );
+    m_pListView->setItemsMovable( m_bReadOnly ); // We move items ourselves (for undo)
+    m_pListView->setAcceptDrops( !m_bReadOnly );
+    m_pListView->setDropVisualizer( !m_bReadOnly );
 
     m_pListView->setSelectionModeExt( KListView::Extended );
     m_pListView->setDragEnabled( true );
@@ -473,8 +516,18 @@ void KEBTopLevel::initListView()
 
 }
 
-
 void KEBTopLevel::disconnectSignals() {
+
+    // NEW, evil method :)
+
+    kdWarning() << disconnect( m_pListView, 0, 0, 0 ) << endl;
+    kdWarning() << disconnect( s_pManager, 0, 0, 0 ) << endl;
+    kdWarning() << disconnect( &m_commandHistory, 0, 0, 0 ) << endl;
+    kdWarning() << disconnect( m_dcopIface, 0, 0, 0 ) << endl;
+
+    // OLD not so evil way
+
+    return;
 
     disconnect( m_pListView, SIGNAL( selectionChanged()), 0, 0 );
     disconnect( m_pListView, SIGNAL( contextMenu( KListView *, QListViewItem *, const QPoint & )), 0, 0 );
@@ -700,14 +753,6 @@ void KEBTopLevel::slotClipboardDataChanged()
     QMimeSource *data = QApplication::clipboard()->data();
     m_bCanPaste = KBookmarkDrag::canDecode( data );
     slotSelectionChanged();
-}
-
-void KEBTopLevel::slotLoad()
-{
-    if (queryClose()) {
-       kdWarning() << "execute other program" << endl;
-       close();
-    }
 }
 
 void KEBTopLevel::slotSave()
