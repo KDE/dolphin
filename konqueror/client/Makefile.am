@@ -1,5 +1,5 @@
 
-INCLUDES= -I.. -I$(top_srcdir)/libkonq $(all_includes) $(MICO_INCLUDES) -I$(idldir)
+INCLUDES= -I.. -I$(top_srcdir)/libkonq $(all_includes) $(MICO_INCLUDES) 
 LDFLAGS = $(KDE_RPATH) -L$(top_builddir)/libkonq $(all_libraries)
 LDADD   = -lkparts $(LIB_KIO) -lkonq -lkded
 
