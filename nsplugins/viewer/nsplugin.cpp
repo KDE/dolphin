@@ -58,8 +58,8 @@
 NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs, KLibrary *handle,
 				   int width, int height, QString src, QString mime,
 				   QObject *parent )
-   : QObject( parent ), DCOPObject(), _destroyed(false), _handle(handle), 
-   _width(width), _height(height), _callback(0)
+  : QObject( parent ), DCOPObject(), _destroyed(false), 
+  _callback(0),_handle(handle), _width(width), _height(height)
 {
    _npp = privateData;
    _npp->ndata = this;
@@ -95,7 +95,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs, 
    XtRealizeWidget(_form);
 
    // Create widget that is passed to the plugin        	
-   _area = XmCreateDrawingArea(_form, "drawingArea", args, nargs);
+   _area = XmCreateDrawingArea(_form, (char*)("drawingArea"), args, nargs);
    //_area = XtCreateManagedWidget( "drawingArea", constraintWidgetClass, _form, args, nargs );
    XtRealizeWidget(_area);
    XtMapWidget(_area);
@@ -602,7 +602,7 @@ void NPN_InvalidateRegion(NPP /*instance*/, NPRegion /*invalidRegion*/)
 // get value
 NPError NPN_GetValue(NPP /*instance*/, NPNVariable variable, void *value)
 {
-   kdDebug() << "NPN_GetValue(), variable=" << variable << endl;
+   kdDebug() << "NPN_GetValue(), variable=" << static_cast<int>(variable) << endl;
 
    switch (variable)
    {
