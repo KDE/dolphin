@@ -544,47 +544,6 @@ void ListView::clearSelection() {
    m_listView->clearSelection();
 }
 
-/*
-void ListView::renameNextCell(bool fwd) {
-   // this needs to take special care
-   // of the current listview focus!
-   // but for the moment we just default
-   // to using the item listview
-   // in fact, because the two are so 
-   // different they each need to be 
-   // handled almost completely differently...
-   KEBListView *lv = m_listView;
-   while (1) {
-      if (fwd && s_myrenamecolumn < KEBListView::CommentColumn) {
-         s_myrenamecolumn++;
-      } else if (!fwd && s_myrenamecolumn > KEBListView::NameColumn) {
-         s_myrenamecolumn--;
-      } else {
-         s_myrenameitem    = 
-            static_cast<KEBListViewItem *>(
-              fwd ? ( s_myrenameitem->itemBelow() 
-                    ? s_myrenameitem->itemBelow() : lv->firstChild() ) 
-                  : ( s_myrenameitem->itemAbove()
-                    ? s_myrenameitem->itemAbove() : lv->lastItem() ) );
-         s_myrenamecolumn  
-            = fwd ? KEBListView::NameColumn 
-                  : KEBListView::CommentColumn;
-      }
-      if (s_myrenameitem 
-       && s_myrenameitem != m_listView->rootItem()
-       && !s_myrenameitem->isEmptyFolderPadder()
-       && !s_myrenameitem->bookmark().isSeparator()
-       && !(s_myrenamecolumn == KEBListView::UrlColumn && s_myrenameitem->bookmark().isGroup())
-      ) {
-         break;
-      }
-   }
-   lv->rename(s_myrenameitem, s_myrenamecolumn);
-}
-*/
-
-/* -------------------------------------- */
-
 void KEBListView::init() {
    setRootIsDecorated(false);
    if (!m_folderList) {
@@ -601,11 +560,12 @@ void KEBListView::init() {
    setRenameable(KEBListView::NameColumn);
    setRenameable(KEBListView::UrlColumn);
    setRenameable(KEBListView::CommentColumn);
-   setTabOrderedRenaming(false);
+   setTabOrderedRenaming(true);
    setSorting(-1, false);
    setDragEnabled(true);
    setSelectionModeExt((!m_folderList) ? KListView::Extended: KListView::Single);
    setAllColumnsShowFocus(true);
+   // setTabWrapsOnBranch(true);
 }
 
 void KEBListView::makeConnections() {
