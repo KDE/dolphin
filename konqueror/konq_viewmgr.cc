@@ -945,9 +945,12 @@ KonqView *KonqViewManager::setupView( KonqFrameContainerBase *parentContainer,
 
   int index = -1;
 
-  KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
-  if ( openAfterCurrentPage )
-      index = tabContainer->currentPageIndex() +1 ;
+  if (m_pDocContainer && m_pDocContainer->frameType() == "Tabs")
+  {
+      KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
+      if ( openAfterCurrentPage )
+          index = tabContainer->currentPageIndex() +1 ;
+  }
 
   parentContainer->insertChildFrame( newViewFrame, index );
 

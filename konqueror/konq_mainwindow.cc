@@ -661,7 +661,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
       {
           KonqFrameTabs* tabContainer = 0L;
           int index = 0;
-          if ( m_pViewManager->docContainer() )
+          if ( m_pViewManager->docContainer() && m_pViewManager->docContainer()->frameType() == "Tabs")
           {
               tabContainer = static_cast<KonqFrameTabs*>(m_pViewManager->docContainer());
               index = tabContainer->currentPageIndex();
