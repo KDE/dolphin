@@ -104,10 +104,15 @@ void KonqPixmapProvider::save( KConfig *kc, const QString& key,
     kc->writeEntry( key, list );
 }
 
-void KonqPixmapProvider::remove( const QString& url )
+void KonqPixmapProvider::remove( const QString& )
 {
-    iconMap.remove( url );
-    // FIXME (malte)
-    if ( url.right( 1 ) == "/" )
-        iconMap.remove( url.left( url.length() - 1 ) );
+    for ( QMapIterator<QString,QString> it = iconMap.begin();
+          it != iconMap.end();
+          ++it )
+    {
+        QString iconName = KonqFavIconMgr::iconForURL( it.key() );
+        if ( ! iconName.isEmpty() )
+            *it = iconName;
+    }
 }
+

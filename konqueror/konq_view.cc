@@ -646,7 +646,7 @@ void KonqView::sendOpenURLEvent( const KURL &url, const KParts::URLArgs &args )
   if ( m_serviceType == "text/html" && url.protocol().left(4) == "http" )
   {
       KURL iconURL( url );
-      iconURL.setPath( "/favicon.ico" );
+      iconURL.setEncodedPathAndQuery( "/favicon.ico" );
       KonqFavIconMgr::self()->setIconForURL(m_sLocationBarURL, iconURL, true);
   }
 }
