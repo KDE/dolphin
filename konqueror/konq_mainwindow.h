@@ -354,6 +354,8 @@ public slots:
   void slotForward();
   void slotHome();
   void slotGoApplications();
+  void slotGoDevices();
+  void slotGoSettings();
   void slotGoDirTree();
   void slotGoTrash();
   void slotGoTemplates();

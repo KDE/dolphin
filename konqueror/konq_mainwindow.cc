@@ -1648,7 +1648,17 @@ void KonqMainWindow::slotHome()
 
 void KonqMainWindow::slotGoApplications()
 {
-  KonqMisc::createSimpleWindow( KGlobal::dirs()->saveLocation("apps") );
+  KonqMisc::createSimpleWindow( "programs:/" );
+}
+
+void KonqMainWindow::slotGoDevices()
+{
+  KonqMisc::createSimpleWindow( "devices:/" );
+}
+
+void KonqMainWindow::slotGoSettings()
+{
+  KonqMisc::createSimpleWindow( "settings:/" );
 }
 
 void KonqMainWindow::slotGoDirTree()
@@ -3190,6 +3200,8 @@ void KonqMainWindow::initActions()
   m_paHome = new KAction( i18n( "Home URL" ), "gohome", KStdAccel::shortcut(KStdAccel::Home), this, SLOT( slotHome() ), actionCollection(), "home" );
 
   (void) new KAction( i18n( "App&lications" ), 0, this, SLOT( slotGoApplications() ), actionCollection(), "go_applications" );
+  (void) new KAction( i18n( "&Devices" ), 0, this, SLOT( slotGoDevices() ), actionCollection(), "go_devices" );
+  (void) new KAction( i18n( "Sett&ings" ), 0, this, SLOT( slotGoSettings() ), actionCollection(), "go_settings" );
   //(void) new KAction( i18n( "Sidebar Configuration" ), 0, this, SLOT( slotGoDirTree() ), actionCollection(), "go_dirtree" );
   (void) new KAction( i18n( "Trash" ), 0, this, SLOT( slotGoTrash() ), actionCollection(), "go_trash" );
   (void) new KAction( i18n( "Templates" ), 0, this, SLOT( slotGoTemplates() ), actionCollection(), "go_templates" );
