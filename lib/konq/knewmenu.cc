@@ -61,7 +61,6 @@ public:
     QString m_destPath;
     QWidget *m_parentWidget;
     KActionMenu *m_menuDev;
-    KActionMenu *m_menuNew;
 };
 
 KNewMenu::KNewMenu( KActionCollection * _collec, const char *name ) :
@@ -94,8 +93,7 @@ KNewMenu::~KNewMenu()
 
 void KNewMenu::makeMenus()
 {
-    d->m_menuDev = new KActionMenu( i18n( "Device" ), "kcmdevices", d->m_actionCollection, "devnew" );
-    d->m_menuNew = new KActionMenu( i18n( "File" ), "filenew", d->m_actionCollection, "devnew" );
+    d->m_menuDev = new KActionMenu( i18n( "Link to Device" ), "kcmdevices", d->m_actionCollection, "devnew" );
 }
 
 void KNewMenu::slotCheckUpToDate( )
@@ -205,7 +203,8 @@ void KNewMenu::fillMenu()
     //kdDebug(1203) << "KNewMenu::fillMenu()" << endl;
     popupMenu()->clear();
     d->m_menuDev->popupMenu()->clear();
-    d->m_menuNew->popupMenu()->clear();
+
+    KAction *linkURL = 0, *linkApp = 0;  // these shall be put at special positions
 
     int i = 1; // was 2 when there was Folder
     QValueList<Entry>::Iterator templ = s_templatesList->begin();
@@ -236,38 +235,43 @@ void KNewMenu::fillMenu()
             {
                 Entry entry = *(s_templatesList->at( i-1 ));
 
-                    // The best way to identify the "Create Directory" was the template
-                if((*templ).templatePath.right( 8 ) == "emptydir")
+                // The best way to identify the "Create Directory", "Link to Location", "Link to Application" was the template
+                if ( (*templ).templatePath.endsWith( "emptydir" ) )
                 {
                     KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewDir() ),
                                      d->m_actionCollection, QCString().sprintf("newmenu%d", i ) );
                     act->setGroup( "KNewMenu" );
-            	    act->plug( popupMenu() );
-                }
-                else if ( KDesktopFile::isDesktopFile( entry.templatePath ) )
-                {
-                    KDesktopFile df( entry.templatePath );
-                    if(df.readType() == "FSDevice")
-                    {
-                        KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewFile() ),
-                                                 d->m_actionCollection, QCString().sprintf("newmenu%d", i ) );
-                        act->setGroup( "KNewMenu" );
-                        act->plug( d->m_menuDev->popupMenu() );
-                    }
-                    else
-                    {
-                        KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewFile() ),
-                                                 d->m_actionCollection, QCString().sprintf("newmenu%d", i ) );
-                        act->setGroup( "KNewMenu" );
-                        act->plug( d->m_menuNew->popupMenu() );
-                    }
+                    act->plug( popupMenu() );
+
+                    KActionSeparator *sep = new KActionSeparator();
+                    sep->plug( popupMenu() );
                 }
                 else
                 {
                     KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewFile() ),
-                                    d->m_actionCollection, QCString().sprintf("newmenu%d", i ) );
+                                             d->m_actionCollection, QCString().sprintf("newmenu%d", i ) );
                     act->setGroup( "KNewMenu" );
-            	    act->plug( d->m_menuNew->popupMenu() );
+
+                    if ( (*templ).templatePath.endsWith( "URL.desktop" ) )
+                    {
+                        linkURL = act;
+                    }
+                    else if ( (*templ).templatePath.endsWith( "Program.desktop" ) )
+                    {
+                        linkApp = act;
+                    }
+                    else if ( KDesktopFile::isDesktopFile( entry.templatePath ) )
+                    {
+                        KDesktopFile df( entry.templatePath );
+                        if(df.readType() == "FSDevice")
+                            act->plug( d->m_menuDev->popupMenu() );
+                        else
+                          act->plug( popupMenu() );
+                    }
+                    else
+                    {
+                        act->plug( popupMenu() );
+                    }
                 }
             }
         } else { // Separate system from personal templates
@@ -278,7 +282,10 @@ void KNewMenu::fillMenu()
         }
     }
 
-    d->m_menuNew->plug( popupMenu() );
+    KActionSeparator * act = new KActionSeparator();
+    act->plug( popupMenu() );
+    if ( linkURL ) linkURL->plug( popupMenu() );
+    if ( linkApp ) linkApp->plug( popupMenu() );
     d->m_menuDev->plug( popupMenu() );
 }
 
@@ -319,14 +326,25 @@ void KNewMenu::slotFillTemplates()
             Entry e;
             e.filePath = *it;
             e.entryType = 0; // not parsed yet
-            // put Directory first in the list (a bit hacky)
-            if ( (*it).endsWith( "Directory.desktop" ) )
+            // put Directory etc. with special order (see fillMenu()) first in the list (a bit hacky)
+            if ( (*it).endsWith( "Directory.desktop" ) ||
+                 (*it).endsWith( "linkProgram.desktop" ) ||
+                 (*it).endsWith( "linkURL.desktop" ) )
                 s_templatesList->prepend( e );
             else
             {
                 KSimpleConfig config( *it, true );
                 config.setDesktopGroup();
-                slist.insert( config.readEntry("Name"), e );
+
+                // tricky solution to ensure that TextFile is at the beginning
+                // because this filetype is the most used (according kde-core discussion)
+                QString key = config.readEntry("Name");
+                if ( (*it).endsWith( "TextFile.desktop" ) )
+                    key = "1_" + key;
+                else
+                    key = "2_" + key;
+
+                slist.insert( key, e );
             }
         }
     }
