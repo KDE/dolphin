@@ -10,6 +10,8 @@
 #include "kfarch.h"
 #include <kconfig.h>
 
+template class QList<KfArchiver>;
+
 QList<KfArchiver> *archivers;        
 
 // Create KfArchivers object

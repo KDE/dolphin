@@ -38,6 +38,8 @@
 extern KfSaveOptions *saving;
 extern QList<KfArchiver> *archivers;
 
+template class QList<KfFileLVI>;
+
 #define I18N_NOOP(x) x
 
 // Permission strings

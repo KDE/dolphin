@@ -75,6 +75,8 @@
 
 #include <X11/Xlib.h> // for XSetTransientForHint
 
+template class QList<KFileItem>;
+
 #define ROUND(x) ((int)(0.5 + (x)))
 
 mode_t FilePermissionsPropsPage::fperm[3][4] = {
@@ -82,6 +84,8 @@ mode_t FilePermissionsPropsPage::fperm[3][4] = {
         {S_IRGRP, S_IWGRP, S_IXGRP, S_ISGID},
         {S_IROTH, S_IWOTH, S_IXOTH, S_ISVTX}
     };
+
+template class QList<PropsPage>;
 
 PropertiesDialog::PropertiesDialog( KFileItemList _items ) :
   m_singleUrl( _items.first()->url() ), m_items( _items ),
@@ -337,7 +341,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
         kdebug(KDEBUG_WARN,1202,"Warning : editing a mimetype file out of the mimetype dirs!");
       // for Application desktop files, no problem : we can editing a .desktop file anywhere...
     } else
-      while ( m_sRelativePath.left( 1 ) == '/' ) m_sRelativePath.remove( 0, 1 );
+      while ( m_sRelativePath.left( 1 ).at(0) == '/' ) m_sRelativePath.remove( 0, 1 );
   }
 
   QVBoxLayout *vbl = new QVBoxLayout(this, KDialog::marginHint(),

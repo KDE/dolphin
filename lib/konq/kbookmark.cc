@@ -46,6 +46,9 @@
 
 #include <qstringlist.h>
 
+template class QDict<KBookmark>;
+template class QList<KBookmark>;
+
 /**
  * Global ID for bookmarks.
  */

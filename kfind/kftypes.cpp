@@ -20,6 +20,8 @@
 
 KfFileTypeList *types; 
 
+template class QList<KfFileType>;
+
 void KfFileType::initFileTypes( const QString& _path )
 {
   DIR *dp;

@@ -48,6 +48,7 @@
 
 #include <kmimetype.h>
 
+template class QList<KBookmarkMenu>;
 
 /********************************************************************
  *
