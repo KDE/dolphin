@@ -8,14 +8,13 @@ AM_CXXFLAGS += -pedantic
 
 IDL_FLAGS = --query-server-for-narrow --relative-paths --any --no-poa --no-boa -I$(srcdir)/.. -I$(idldir)
 
-DISTCLEANFILES = browser.cc browser.h konqueror.cc konqueror.h kdesktop.cc kdesktop.h
+DISTCLEANFILES = browser.cc browser.h kdesktop.cc kdesktop.h
 
 bin_PROGRAMS = kfmclient
 
-kfmclient_SOURCES = browser.idl konqueror.idl kdesktop.idl kfmclient.cc
+kfmclient_SOURCES = browser.idl kdesktop.idl kfmclient.cc
 noinst_HEADERS = kfmclient.h
 
 browser_IDLDIR = $(idldir)
-konqueror_IDLDIR = $(top_srcdir)/konqueror
 kdesktop_IDLDIR = $(top_srcdir)/kdesktop
 

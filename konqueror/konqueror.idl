@@ -184,9 +184,6 @@ module Konqueror
 
   interface Application : OpenParts::Application
   {
-    MainWindow createMainWindow( in string url );
-    MainView createMainView(); // without mainwindow, this is nonsense
-    
     KfmIconView createKfmIconView();
     HTMLView createHTMLView();
     KfmTreeView createKfmTreeView();

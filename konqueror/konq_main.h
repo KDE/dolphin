@@ -46,19 +46,26 @@ public:
   KonqApplicationIf( const CORBA::BOA::ReferenceData &refdata );
   KonqApplicationIf( CORBA::Object_ptr _obj );
 
-  KonqMainView   *allocMainView();
-  KonqMainWindow *allocMainWindow( const char *url = 0L );
+  static KonqMainView   *allocMainView( const char *url = 0L );
+  static KonqMainWindow *allocMainWindow( const char *url = 0L );
 
   virtual OpenParts::Part_ptr createPart();
   virtual OpenParts::MainWindow_ptr createWindow();
 
-  Konqueror::MainWindow_ptr createMainWindow( const char* url );
-  Konqueror::MainView_ptr createMainView();
-  
   Konqueror::KfmIconView_ptr createKfmIconView();
   Konqueror::HTMLView_ptr createHTMLView();
   Konqueror::KfmTreeView_ptr createKfmTreeView();
   Konqueror::TxtView_ptr createTxtView();
+};
+
+class KonqBrowserFactory : public Browser::BrowserFactory_skel
+{
+public:
+  KonqBrowserFactory( const CORBA::BOA::ReferenceData &refData );
+  KonqBrowserFactory( CORBA::Object_ptr obj );
+  
+  OpenParts::MainWindow_ptr createBrowserWindow( const char *url );
+  OpenParts::Part_ptr createBrowserPart( const char *url );
 };
 
 class KonqBookmarkManager : public KBookmarkManager

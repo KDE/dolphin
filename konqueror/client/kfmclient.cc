@@ -117,9 +117,7 @@ bool clientApp::openFileManagerWindow(const char* _url)
 
   if (ok)
   {
-    // TODO : probably a catch block is necessary here
-    /* Konqueror::MainWindow_var m_vMainWindow = */
-    (void) m_vKonqy->createMainWindow( _url );
+    OpenParts::MainWindow_var m_vMainWindow = m_vKonqy->createBrowserWindow( _url );
   }
   
   return ok;
@@ -344,7 +342,7 @@ int clientApp::doIt( int argc, char **argv )
 
 bool clientApp::getKonqy()
 {
-  KTrader::OfferList offers = trader->query( "FileManager", "'IDL:Konqueror/Application:1.0#App' in RepoIds" );
+  KTrader::OfferList offers = trader->query( "Browser", "Name == 'Konqueror'" );
 
   if ( offers.count() != 1 )
   {
@@ -353,7 +351,7 @@ bool clientApp::getKonqy()
     return false;
   }
 
-  CORBA::Object_var obj = activator->activateService( offers.first()->name(), "IDL:Konqueror/Application:1.0#App" );
+  CORBA::Object_var obj = activator->activateService( "Konqueror", "IDL:Browser/BrowserFactory:1.0", "Konqueror" );
 
   if ( CORBA::is_nil( obj ) )
   {
@@ -361,7 +359,7 @@ bool clientApp::getKonqy()
       return false;
   }
 
-  m_vKonqy = Konqueror::Application::_narrow( obj );
+  m_vKonqy = Browser::BrowserFactory::_narrow( obj );
 
   if ( CORBA::is_nil( m_vKonqy ) )
   {

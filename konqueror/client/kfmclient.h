@@ -23,7 +23,7 @@
 #include <komApplication.h>
 #include <kded_instance.h>
 #include <krun.h>
-#include "konqueror.h"
+#include "browser.h"
 #include "kdesktop.h"
 
 class clientApp : public KOMApplication,
@@ -58,7 +58,7 @@ protected:
   KTrader *trader;
   KActivator *activator;
 
-  Konqueror::Application_ptr m_vKonqy;
+  Browser::BrowserFactory_var m_vKonqy;
   KDesktopIf_ptr m_vKDesky;
 };
 

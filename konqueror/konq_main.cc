@@ -87,9 +87,9 @@ KonqApplicationIf::KonqApplicationIf( CORBA::Object_ptr _obj ) :
 {
 }
 
-KonqMainView *KonqApplicationIf::allocMainView()
+KonqMainView *KonqApplicationIf::allocMainView( const char *url )
 {
-  KonqMainView *mainView = new KonqMainView;
+  KonqMainView *mainView = new KonqMainView( url );
   KOMShutdownManager::self()->watchObject( mainView );
   // no need to install plugins because it is already done in the mainview!
   return mainView;
@@ -112,16 +112,6 @@ OpenParts::Part_ptr KonqApplicationIf::createPart()
 OpenParts::MainWindow_ptr KonqApplicationIf::createWindow()
 {
   return OpenParts::MainWindow::_duplicate( allocMainWindow()->interface() );
-}
-
-Konqueror::MainWindow_ptr KonqApplicationIf::createMainWindow( const char* url )
-{
-  return Konqueror::MainWindow::_duplicate( allocMainWindow( url )->konqInterface() );
-}
-
-Konqueror::MainView_ptr KonqApplicationIf::createMainView()
-{
-  return Konqueror::MainView::_duplicate( allocMainView() );
 }
 
 Konqueror::KfmIconView_ptr KonqApplicationIf::createKfmIconView()
@@ -154,6 +144,26 @@ Konqueror::TxtView_ptr KonqApplicationIf::createTxtView()
   KOMShutdownManager::self()->watchObject( txtView );
   KonqPlugins::installKOMPlugins( txtView );
   return Konqueror::TxtView::_duplicate( txtView );
+}
+
+KonqBrowserFactory::KonqBrowserFactory( const CORBA::BOA::ReferenceData &refData )
+: Browser::BrowserFactory_skel( refData )
+{
+}
+
+KonqBrowserFactory::KonqBrowserFactory( CORBA::Object_ptr obj )
+: Browser::BrowserFactory_skel( obj )
+{
+}
+
+OpenParts::MainWindow_ptr KonqBrowserFactory::createBrowserWindow( const char *url )
+{
+  return OpenParts::MainWindow::_duplicate( KonqApplicationIf::allocMainWindow( url )->interface() );
+}
+
+OpenParts::Part_ptr KonqBrowserFactory::createBrowserPart( const char *url )
+{
+  return OpenParts::Part::_duplicate( KonqApplicationIf::allocMainView( url ) );
 }
 
 /**********************************************
@@ -344,6 +354,7 @@ int main( int argc, char **argv )
   KdedInstance kded( argc, argv, komapp_orb );
   
   KonqBoot boot( "IDL:Konqueror/Application:1.0", "App" );
+  KOMBoot<KonqBrowserFactory> browserFactoryLoader( "IDL:Browser/BrowserFactory:1.0", "Konqueror" );
   
   KGlobal::locale()->insertCatalogue("libkonq"); // needed for apps using libkonq
 

@@ -1,14 +1,17 @@
 [Desktop Entry]
 Name=Konqueror
+Name[eo]=Konkeranto
 Name[pt_BR]=Conquistador
 Exec=konqueror
 CORBAExec=konqueror --server
 Comment=KDE File Manager & Web Browser
 Comment[de]=KDE Dateimanager & Webbrowser
+Comment[eo]=Dosieradministrilo kaj TTT-legilo de KDE
+Comment[ja]=KDE¥Õ¥¡¥¤¥ë¥Þ¥Í¡¼¥¸¥ã¡¼&¥¦¥§¥Ö¥Ö¥é¥¦¥¶¡¼
 Comment[pl]=KDE Mened¿er plików i przegl±darka HTML
 Comment[pt_BR]=Gerenciador de Arquivos & Navegador Web
-X-KDE-RepoIds=IDL:Konqueror/Application:1.0#App
+X-KDE-RepoIds=IDL:Konqueror/Application:1.0#App,IDL:Browser/BrowserFactory:1.0#Konqueror
 X-KDE-ActivationMode=shared
 Icon=unknown.xpm
 MiniIcon=unknown.xpm
-ServiceTypes=FileManager
+ServiceTypes=Browser
