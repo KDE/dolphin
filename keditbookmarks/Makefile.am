@@ -12,7 +12,7 @@ keditbookmarks_la_LDFLAGS = $(all_libraries) -module -avoid-version
 bin_PROGRAMS = keditbookmarks
 
 keditbookmarks_SOURCES = dummy.cpp
-keditbookmarks_LDADD = -lkutils keditbookmarks.la
+keditbookmarks_LDADD = keditbookmarks.la
 keditbookmarks_LDFLAGS = $(all_libraries)
 
 dummy.cpp:
