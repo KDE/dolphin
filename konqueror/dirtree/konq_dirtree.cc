@@ -717,7 +717,7 @@ void KonqDirTree::scanDir( QListViewItem *parent, const QString &path, bool isRo
   {
     QString newPath = QString( path ).append( *eIt ).append( '/' );
 
-    if ( *eIt == "." || *eIt == ".." || newPath == KGlobalSettings::templatesPath() || newPath == KGlobalSettings::autostartPath() )
+    if ( *eIt == "." || *eIt == ".." || newPath == KGlobalSettings::autostartPath() )
       continue;
 
     scanDir2( parent, newPath );
