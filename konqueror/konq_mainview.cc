@@ -1555,11 +1555,6 @@ QString KonqMainView::currentTitle()
   return title;
 }
 
-QString KonqMainView::currentURL()
-{
-  return m_currentView->view()->url().url();
-}
-
 void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_items )
 {
   m_oldView = m_currentView;
@@ -1567,11 +1562,9 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
   m_currentView = childView( (KParts::ReadOnlyPart *)sender()->parent() );
 
   //kDebugInfo( 1202, "KonqMainView::slotPopupMenu(...)");
-  QString url = m_currentView->url().url();
 
   QActionCollection popupMenuCollection;
   if ( !menuBar()->isVisible() )
-    // Somewhat a hack...
     popupMenuCollection.insert( m_paShowMenuBar );
   popupMenuCollection.insert( m_paBack );
   popupMenuCollection.insert( m_paForward );
@@ -1584,14 +1577,11 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
   popupMenuCollection.insert( m_paDelete );
   popupMenuCollection.insert( m_paShred );
 
-  KonqPopupMenu * pPopupMenu;
-  pPopupMenu = new KonqPopupMenu( _items,
-                                 url,
-                                 popupMenuCollection,
-                                 m_pMenuNew );
-
-  pPopupMenu->exec( _global );
-  delete pPopupMenu;
+  KonqPopupMenu pPopupMenu ( _items,
+                             m_currentView->url(),
+                             popupMenuCollection,
+                             m_pMenuNew );
+  pPopupMenu.exec( _global );
 
   m_currentView = m_oldView;
 }
