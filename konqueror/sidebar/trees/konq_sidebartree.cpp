@@ -95,6 +95,7 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
 
     m_currentBeforeDropItem = 0;
     m_dropItem = 0;
+    m_bOpeningFirstChild=false;
 
     addColumn( QString::null );
     header()->hide();
@@ -138,7 +139,13 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
     m_dirtreeDir.type=virt;
     // Initial parsing
     rescanConfiguration();
-    if (firstChild()) firstChild()->setOpen(true);
+  
+    if (firstChild())
+    {
+      m_bOpeningFirstChild = true;
+      firstChild()->setOpen(true);
+      m_bOpeningFirstChild = false;
+    }
 }
 
 KonqSidebarTree::~KonqSidebarTree()

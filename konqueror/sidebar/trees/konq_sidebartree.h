@@ -33,6 +33,8 @@ class KonqSidebarTreeItem;
 
 class QTimer;
 
+class KonqSidebarTree_Internal;
+
 #define VIRT_Link 0
 #define VIRT_Folder 1 // A directory which is parsed for .desktop files
 
@@ -89,6 +91,9 @@ public:
     KonqSidebar_Tree * part() { return m_part; }
 
     void lockScrolling( bool lock ) { m_scrollingLocked = lock; }
+
+    bool isOpeningFirstChild() const { return m_bOpeningFirstChild; }
+ 
 
 public slots:
     virtual void setContentsPos( int x, int y );
@@ -166,6 +171,11 @@ private:
     bool m_scrollingLocked;
 
     QMap<QString,getModule> plugins;
+
+    private:
+    bool m_bOpeningFirstChild;
+
+    KonqSidebarTree_Internal *d;
 };
 
 #endif

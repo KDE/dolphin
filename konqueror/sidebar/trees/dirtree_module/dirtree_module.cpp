@@ -188,6 +188,9 @@ void KonqSidebarDirTreeModule::listDirectory( KonqSidebarTreeItem *item )
     // have changed.
     /*bool newProps = */m_pProps->enterDir( url );
     m_dirLister->setShowingDotFiles( m_pProps->isShowingDotFiles() );
+    
+    if (tree()->isOpeningFirstChild()) m_dirLister->setAutoErrorHandlingEnabled(false,0);
+	else m_dirLister->setAutoErrorHandlingEnabled(true,tree());
     m_dirLister->openURL( url, true /*keep*/ );
 
 #if 0
