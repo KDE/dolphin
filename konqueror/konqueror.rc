@@ -5,6 +5,7 @@
   <Action name="duplicate_window"/>
   <Action name="open_location"/>
   <Separator/>
+  <Merge/> <!--Includes termination separator-->
   <Action name="print"/>
   <DefineGroup name="print" />
   <Separator/>
