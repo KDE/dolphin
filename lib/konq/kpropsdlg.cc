@@ -1046,7 +1046,7 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props )
   while ((pw = getpwent()) != 0L)
     compl->addItem(pw->pw_name);
   endpwent();
-  suidEdit->setCompletionObject(compl, true);
+  suidEdit->setCompletionObject(compl);
   suidEdit->setCompletionMode(KGlobal::CompletionAuto);
 
   connect( execBrowse, SIGNAL( clicked() ), this, SLOT( slotBrowseExec() ) );
