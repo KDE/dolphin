@@ -789,11 +789,22 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
       if ( !childView->isLockedViewMode() )
       {
           bool forceAutoEmbed = req.forceAutoEmbed;
-          // If the user _typed_ the URL, or if the protocol doesn't support
-          // writing (e.g. HTTP) then it's fine to override the "auto-embed" FM settings.
-          if ( !req.typedURL.isEmpty()
-               || !KProtocolInfo::supportsWriting( url ) )
+          if ( !req.typedURL.isEmpty() ) // the user _typed_ the URL, he wants it in Konq.
               forceAutoEmbed = true;
+          // If the protocol doesn't support writing (e.g. HTTP) then we don't want the FM settings.
+          // So we ask the user, instead, except in some very well-known cases.
+          if ( !forceAutoEmbed && !KProtocolInfo::supportsWriting( url ) ) {
+              KParts::BrowserRun::AskSaveResult res = KParts::BrowserRun::askEmbedOrSave(
+                  url, serviceType/*, suggestedFilename TODO - get from KonqRun! */ );
+              if ( res == KParts::BrowserRun::Open )
+                  forceAutoEmbed = true;
+              else if ( res == KParts::BrowserRun::Cancel )
+                  return true; // handled, don't do anything else
+              else { // Save
+                  KParts::BrowserRun::simpleSave( url, QString::null /* suggestedFilename TODO */, this );
+                  return true; // handled
+              }
+          }
           ok = childView->changeViewMode( serviceType, serviceName, forceAutoEmbed );
       }
   }
@@ -1625,10 +1636,10 @@ void KonqMainWindow::slotReload( KonqView* reloadView )
 {
   if ( !reloadView )
     reloadView = m_currentView;
-  
+
   if ( !reloadView || reloadView->url().isEmpty() )
     return;
-  
+
   KonqOpenURLRequest req( reloadView->typedURL() );
   if ( reloadView->prepareReload( req.args ) )
   {
