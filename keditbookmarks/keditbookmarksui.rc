@@ -23,6 +23,9 @@
  <Separator/><!-- Stuff for folders -->
  <Action name="sort"/>
  <Action name="setastoolbar"/>
+ <Separator/><!-- Expand/collapse -->
+ <Action name="expandall"/>
+ <Action name="collapseall"/>
 </Menu>
 
 <Menu name="insert"><text>&amp;Insert</text>

@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
+   Copyright (C) 2002 Alexander Kellett <lypanov@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -436,6 +437,8 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
     (void) new KAction( i18n( "&Insert Separator" ), CTRL+Key_I, this, SLOT( slotInsertSeparator() ), actionCollection(), "insertseparator" );
     (void) new KAction( i18n( "&Sort Alphabetically" ), 0, this, SLOT( slotSort() ), actionCollection(), "sort" );
     (void) new KAction( i18n( "Set as &Toolbar Folder" ), "bookmark_toolbar", 0, this, SLOT( slotSetAsToolbar() ), actionCollection(), "setastoolbar" );
+    (void) new KAction( i18n( "&Expand All Folders" ), 0, this, SLOT( slotExpandAll() ), actionCollection(), "expandall" );
+    (void) new KAction( i18n( "&Collapse All Folders" ), 0, this, SLOT( slotCollapseAll() ), actionCollection(), "collapseall" );
     (void) new KAction( i18n( "&Open in Konqueror" ), "fileopen", 0, this, SLOT( slotOpenLink() ), actionCollection(), "openlink" );
     (void) new KAction( i18n( "Check &Status" ), "bookmark", 0, this, SLOT( slotTestLink() ), actionCollection(), "testlink" );
     (void) new KAction( i18n( "Check Status: &All" ), 0, this, SLOT( slotTestAllLinks() ), actionCollection(), "testall" );
@@ -986,6 +989,23 @@ void KEBTopLevel::slotCancelTest(TestLink *t)
   if (tests.count() == 0)
     actionCollection()->action("canceltests")->setEnabled( false );
 
+}
+
+void KEBTopLevel::setAllOpen(bool open) {
+   for( QListViewItemIterator it(KEBTopLevel::self()->m_pListView); it.current(); it++ ) {
+      if (it.current()->parent() )
+         it.current()->setOpen( open );
+   }
+}
+
+void KEBTopLevel::slotExpandAll()
+{
+   setAllOpen(true);
+}
+
+void KEBTopLevel::slotCollapseAll()
+{
+   setAllOpen(false);
 }
 
 void KEBTopLevel::slotShowNS()

@@ -175,6 +175,8 @@ protected slots:
     void slotBookmarksChanged( const QString &, const QString & );
     void slotCommandExecuted();
     void slotNewToolbarConfig();
+    void slotExpandAll();
+    void slotCollapseAll();
 
     // slots for DCOP-originated events
     void slotAddedBookmark( QString url, QString text, QString address, QString icon );
@@ -188,6 +190,7 @@ protected:
     void itemMoved(QPtrList<QListViewItem> *_items, const QString & newAddress, bool copy);
     QString correctAddress(QString address);
     void deleteSelection(QString commandName);
+    void setAllOpen(bool open);
 
     bool m_bModified;
     bool m_bCanPaste;
