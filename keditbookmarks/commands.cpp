@@ -559,6 +559,7 @@ TestLink::~TestLink()
       m_job->disconnect();
       m_job->kill(false);
    }
+   delete m_bks;
 }
 
 void TestLink::doNext()
@@ -572,10 +573,23 @@ void TestLink::doNext()
 
    KBookmark *bk = m_bks->at(0);
 
-   m_bks->remove(bk);
    if (!bk->isGroup() && !bk->isSeparator()) {
-      setCurrent(*bk);
-      // remove this stupid duplication by using setAutoDelete to false
+      m_book = *bk;
+      m_url = m_book.url().url();
+
+      kdDebug() << "TestLink::setCurrent " << m_url << " : " << m_book.address() << "\n";
+
+      m_job = KIO::get(m_book.url(), true, false);
+      connect(m_job, SIGNAL( result( KIO::Job *)),
+              this, SLOT( jobResult(KIO::Job *)));
+      connect(m_job, SIGNAL( data( KIO::Job *,  const QByteArray &)),
+              this, SLOT( jobData(KIO::Job *, const QByteArray &)));
+      m_job->addMetaData("errorPage", "true");
+
+      KEBListViewItem *cur_item = KEBTopLevel::self()->findByAddress(m_book.address());
+      cur_item->setTmpStatus(i18n("Checking..."), m_oldStatus);
+
+      // TODO - remove dup by using setAutoDelete(false)
       m_bks->remove(bk);
    } else {
       m_bks->remove(bk);
@@ -583,104 +597,74 @@ void TestLink::doNext()
    }
 }
 
-void TestLink::setCurrent(KBookmark bk)
-{
-   m_book = bk;
-   m_url = bk.url().url();
-
-   kdDebug() << "TestLink::setCurrent " << m_url << " : " << m_book.address() << "\n";
-
-   m_job = KIO::get(bk.url(), true, false);
-   connect(m_job, SIGNAL( result( KIO::Job *)),
-           this, SLOT( finished(KIO::Job *)));
-   connect(m_job, SIGNAL( data( KIO::Job *,  const QByteArray &)),
-           this, SLOT( read(KIO::Job *, const QByteArray &)));
-   m_job->addMetaData("errorPage", "true");
-
-   KEBListViewItem *cur_item = KEBTopLevel::self()->findByAddress(m_book.address());
-   setTmpStatus(cur_item, i18n("Checking..."));
-}
-
-void TestLink::setStatus(KEBListViewItem *item, QString status) {
-   item->nsPut(KCharsets::resolveEntities(status));
-}
-
-void TestLink::setTmpStatus(KEBListViewItem *item, QString status) {
-   item->setTmpStatus(status, m_oldStatus);
-}
-
-void TestLink::setMod(KEBListViewItem *item, QString mod) {
-   time_t modt =  KRFCDate::parseDate(mod);
+void TestLink::setMod(KEBListViewItem *item, QString modDate) {
+   time_t modt =  KRFCDate::parseDate(modDate);
    QString ms;
    ms.setNum(modt);
    item->nsPut(ms);
 }
 
-void TestLink::read(KIO::Job *j, const QByteArray &a)
+void TestLink::jobData(KIO::Job *job, const QByteArray &data)
 {
    KEBListViewItem *cur_item = KEBTopLevel::self()->findByAddress(m_book.address());
-   KIO::TransferJob *jb = (KIO::TransferJob *)j;
+   KIO::TransferJob *transfer = (KIO::TransferJob *)job;
 
    m_errSet = false;
-   QString arrStr = a;
+   QString arrStr = data;
 
-   if (jb->isErrorPage()) {
-      QStringList list = QStringList::split('\n',arrStr);
+   if (transfer->isErrorPage()) {
+      QStringList lines = QStringList::split('\n',arrStr);
 
-      for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) {
-         int st = (*it).find("<title>", 0, false);
-         if (st >= 0) {
-            QString t = (*it).mid(st + 7);
-            int fn = t.findRev("</title>", -1, false);
-            if (fn >= 0) {
-               t = t.left(fn);
+      for ( QStringList::Iterator it = lines.begin(); it != lines.end(); ++it ) {
+         int open_pos = (*it).find("<title>", 0, false);
+         if (open_pos >= 0) {
+            QString leftover = (*it).mid(open_pos + 7);
+            int close_pos = leftover.findRev("</title>", -1, false);
+            if (close_pos >= 0) {
+               // if no end tag found then just 
+               // print the first line of the <title>
+               leftover = leftover.left(close_pos);
             }
-            setStatus(cur_item, t);
+            cur_item->nsPut(KCharsets::resolveEntities(leftover));
             m_errSet = true;
             break;
          }
       }
 
    } else {
-      QString str = jb->queryMetaData("modified");
-      if (!str.isEmpty()) {
-         setMod(cur_item, str);
+      QString modDate = transfer->queryMetaData("modified");
+      if (!modDate.isEmpty()) {
+         setMod(cur_item, modDate);
       }
    }
-   jb->kill(false);
+
+   transfer->kill(false);
 }
 
-
-void TestLink::finished(KIO::Job *j)
+void TestLink::jobResult(KIO::Job *job)
 {
    m_job = 0;
-   KEBListViewItem *cur_item = KEBTopLevel::self()->findByAddress( m_book.address());
-   KIO::TransferJob *jb = (KIO::TransferJob *)j;
-   QString mod = jb->queryMetaData("modified");
 
-   if (jb->error()) {
-      QString jerr = j->errorString();
+   KEBListViewItem *cur_item = KEBTopLevel::self()->findByAddress(m_book.address());
+   KIO::TransferJob *transfer = (KIO::TransferJob *)job;
+   QString modDate = transfer->queryMetaData("modified");
+
+   if (transfer->error()) {
+      QString jerr = job->errorString();
 
       if (!jerr.isEmpty()) {
          jerr.replace( QRegExp("\n")," ");
-         // kdDebug() << "MERR=" << jerr << "\n";
-         setStatus(cur_item, jerr);
-
-      } else if (!mod.isEmpty()) {
-         // kdDebug() << "MODE=" << mod <<"\n";
-         setMod(cur_item, mod);
-
+         // can we assume that errorString will contain no entities?
+         cur_item->nsPut(jerr);
+      } else if (!modDate.isEmpty()) {
+         setMod(cur_item, modDate);
       } else if (!m_errSet) {
-         //	kdDebug() << "Me==\n";
          setMod(cur_item, "0");
       }
 
-   } else if (!mod.isEmpty()) {
-      // kdDebug() << "MOD=" << mod <<"\n";
-      setMod(cur_item, mod);
-
+   } else if (!modDate.isEmpty()) {
+      setMod(cur_item, modDate);
    } else if (!m_errSet) {
-      // kdDebug() << "M=\n";
       setMod(cur_item, "0");
    }
 

@@ -222,7 +222,7 @@ private:
     QString m_folder;
     QString m_icon;
     QString m_group;
-    KMacroCommand * m_cleanUpCmd;
+    KMacroCommand *m_cleanUpCmd;
     bool m_utf8;
     int m_bookmarksType;
 };
@@ -234,21 +234,18 @@ class TestLink: public QObject
    Q_OBJECT
 
 public:
-   TestLink(QPtrList <KBookmark>* bks);
+   TestLink(QPtrList<KBookmark>* bks);
    ~TestLink();
 
 public slots:
-   void setCurrent(KBookmark bk);
-   void finished(KIO::Job *j);
-   void read(KIO::Job *j, const QByteArray &a);
+   void jobResult(KIO::Job *job);
+   void jobData(KIO::Job *job, const QByteArray &data);
 
 signals:
    void deleteSelf(TestLink *);
 
 private:
-   void setStatus(KEBListViewItem *p, QString err);
-   void setTmpStatus(KEBListViewItem *p, QString status);
-   void setMod(KEBListViewItem *p, QString mod);
+   void setMod(KEBListViewItem *item, QString modDate);
    void doNext();
 
 private:
