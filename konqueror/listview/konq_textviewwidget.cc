@@ -145,36 +145,6 @@ void KonqTextViewWidget::createColumns()
 
 };
 
-/*void KonqTextViewWidget::slotStarted( const QString & url )
-{
-   KonqBaseListViewWidget::slotStarted( url );
-   //setUpdatesEnabled(FALSE);
-   //timer.restart();
-}*/
-
-void KonqTextViewWidget::setComplete()
-{
-   m_bTopLevelComplete = true;
-
-   //setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset, m_pBrowserView->extension()->urlArgs().yOffset );
-   //setUpdatesEnabled(TRUE);
-   //repaintContents(0,0,width(),height());
-   setCurrentItem(firstChild());
-   ensureItemVisible(currentItem());
-   emit selectionChanged();
-   //setContentsPos( m_iXOffset, m_iYOffset );
-//   show();
-}
-
-/* What's different compared to KonqBaseListViewWidget::slotCompleted ?
-void KonqTextViewWidget::slotCompleted()
-{
-   setComplete();
-   emitCompleted();
-   //cerr<<"needed "<<timer.elapsed()<<" msecs"<<endl;
-}
-*/
-
 void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
 {
    for( QListIterator<KFileItem> kit (entries); kit.current(); ++kit )

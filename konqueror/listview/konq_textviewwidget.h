@@ -41,17 +41,11 @@ class KonqTextViewWidget : public KonqBaseListViewWidget
 
    protected slots:
       // slots connected to the directory lister
-      //virtual void slotStarted( const QString & );
-      //virtual void slotCompleted();
       virtual void slotNewItems( const KFileItemList & );
    protected:
       virtual void createColumns();
       virtual bool isSingleClickArea( const QPoint& ) {return TRUE;};
-      /** Common method for slotCompleted and slotCanceled */
-      virtual void setComplete();
 
-      //this timer is only for testing, can be reomved
-      //QTime timer;
       QColor colors[11];
       QColor highlight[11];
 };
