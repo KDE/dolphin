@@ -39,6 +39,7 @@
 #include "konq_viewmgr.h"
 #include "konq_misc.h"
 
+#include <kaccelmanager.h>
 #include <konq_pixmapprovider.h>
 #include <kstdaccel.h>
 #include <qtabbar.h>
@@ -58,6 +59,8 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   : KTabWidget(parent, name), m_rightWidget(0), m_leftWidget(0), m_alwaysTabBar(false),
     m_closeOtherTabsId(0)
 {
+  KAcceleratorManager::setNoAccel(this);
+
   QWhatsThis::add( tabBar(), i18n( "This bar contains list of currently open tabs. Click on a tab to make it "
 			  "active. The option to show a close button instead of website icon in the left "
 			  "corner of the tab is configurable. You can also use keyboard shortcuts to "
