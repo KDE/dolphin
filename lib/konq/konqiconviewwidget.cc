@@ -977,6 +977,9 @@ void KonqIconViewWidget::visualActivate(QIconViewItem * item)
     // text may be wider than the pixmap puts us off-centre.
     rect.moveBy(irect.x(), irect.y());
 
+    // Adjust for scrolling (David)
+    rect.moveBy( -contentsX(), -contentsY() );
+
     KIconEffect::visualActivate(viewport(), rect);
 }
 
