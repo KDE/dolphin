@@ -94,7 +94,7 @@ class KonqFrameBase
 
  protected:
   KonqFrameBase() {}
- ~KonqFrameBase() {}
+  virtual ~KonqFrameBase() {}
 };
 
 /**
@@ -187,8 +187,8 @@ class KonqFrameContainer : public QSplitter, public KonqFrameBase
 
 public:
   KonqFrameContainer( Orientation o, 
-		      QWidget* parent=0, 
-		      const char * name=0);
+		      QWidget* parent, 
+		      const char * name);
   ~KonqFrameContainer() {}
 
   void listViews( ChildViewList *viewList );

@@ -1731,7 +1731,7 @@ void KonqMainView::fillHistoryPopup( OpenPartsUI::Menu_ptr menu, const QStringLi
   OpenPartsUI::Pixmap_var pix;
   QStringList::ConstIterator it = urls.begin();
   QStringList::ConstIterator end = urls.end();
-  int i = 0;
+
   for (; it != end; ++it )
   {
     KURL u( *it ) ;
@@ -2265,7 +2265,7 @@ QStringList KonqMainView::locationBarCombo()
   
   CORBA::WString_var item;
   CORBA::Long count = m_vLocationBar->comboItemCount( TOOLBAR_URL_ID );
-  for ( CORBA::ULong i = 0; i < count; i++ )
+  for ( CORBA::ULong i = 0; i < (CORBA::ULong)count; i++ )
     entryList.append( C2Q( item = m_vLocationBar->comboItem( TOOLBAR_URL_ID, i ) ) );
 
   return entryList;
@@ -2278,7 +2278,7 @@ void KonqMainView::setLocationBarCombo( const QStringList &entryList )
   CORBA::WString_var item;
   QStringList::ConstIterator it = entryList.begin();
   QStringList::ConstIterator end = entryList.end();
-  CORBA::ULong i = 0;
+
   for (; it != end; ++it )
     m_vLocationBar->insertComboItem( TOOLBAR_URL_ID, ( item = Q2C( *it ) ), -1 );
     

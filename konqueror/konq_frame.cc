@@ -151,6 +151,7 @@ KonqFrameHeader::mapShade( KonqFrameHeaderLook look)
     case PIPE: return KPixmapEffect::PipeCrossGradient;
     case ELLIP: return KPixmapEffect::EllipticGradient;
     }
+  
 }
 
 void
@@ -514,7 +515,8 @@ KonqFrame::parentContainer()
 }
 
 void 
-KonqFrame::reparent( QWidget* parent, WFlags f, const QPoint & p, bool showIt=FALSE )
+KonqFrame::reparent( QWidget* parent, WFlags f, 
+		     const QPoint & p, bool showIt )
 {
   kdebug(0, 1202, "KonqFrame::reparent(QWidget) %s", parent->className());
 
@@ -533,7 +535,7 @@ KonqFrame::slotHeaderClicked()
 }
 
 void 
-KonqFrame::paintEvent( QPaintEvent* event )
+KonqFrame::paintEvent( QPaintEvent* )
 {
   m_pHeader->repaint();
 }
@@ -541,8 +543,8 @@ KonqFrame::paintEvent( QPaintEvent* event )
 //###################################################################
 
 KonqFrameContainer::KonqFrameContainer( Orientation o, 
-					QWidget* parent=0L, 
-					const char * name=0L)
+					QWidget* parent, 
+					const char * name)
   : QSplitter( o, parent, name)
 {
   m_pFirstChild = 0L;
@@ -569,7 +571,7 @@ KonqFrameContainer::listViews( ChildViewList *viewList )
 void 
 KonqFrameContainer::saveConfig( KConfig* config, int id, int depth )
 {
-  int idSecond = id + pow( 2, depth );
+  int idSecond = id + (int)pow( 2, depth );
 
   //write own config
 
@@ -630,7 +632,7 @@ KonqFrameContainer::parentContainer()
 }
 
 void 
-KonqFrameContainer::reparent( QWidget* parent, WFlags f, const QPoint & p, bool showIt=FALSE )
+KonqFrameContainer::reparent( QWidget* parent, WFlags f, const QPoint & p, bool showIt )
 {
   kdebug(0, 1202, "KonqFrameContainer::reparent(QWidget) %s", parent->className() );
 

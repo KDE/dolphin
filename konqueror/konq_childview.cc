@@ -362,7 +362,7 @@ void KonqChildView::makeHistory( bool pushEntry )
 
 void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
 {
-  assert( stack.count() >= steps );
+  assert( (int)stack.count() >= steps );
   
   for ( int i = 0; i < steps-1; i++ )
     stack.removeFirst();

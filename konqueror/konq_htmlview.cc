@@ -51,7 +51,7 @@
 
 #define TOOLBAR_LOADIMAGES_ID Browser::View::TOOLBAR_ITEM_ID_BEGIN
 
-KonqHTMLView::KonqHTMLView( KonqMainView *mainView, KBrowser *parentBrowser, const char *name )
+KonqHTMLView::KonqHTMLView( KonqMainView *mainView, KBrowser *parentBrowser, const char * )
 : KBrowser( 0L, 0L, parentBrowser )
 {
   ADD_INTERFACE( "IDL:Konqueror/HTMLView:1.0" );
@@ -599,7 +599,7 @@ void KonqHTMLView::slotLoadImages()
   EMIT_EVENT( this, Browser::eventOpenURL, ev );
 }
 
-void KonqHTMLView::openTxtView( const QString &url )
+void KonqHTMLView::openTxtView( const QString &/*url*/ )
 {
   if ( m_pMainView )
   {
@@ -648,7 +648,7 @@ void KonqHTMLView::parseDoc()
   KBrowser::parse();
 }
 
-void KonqHTMLView::openURL( QString _url, bool _reload, int _xoffset, int _yoffset, const char *_post_data )
+void KonqHTMLView::openURL( QString _url, bool _reload, int _xoffset, int _yoffset, const char */*_post_data*/ )
 {
   kdebug( 0, 1202, "void KonqHTMLView::openURL( QString _url, bool _reload, int _xoffset, int _yoffset, const char *_post_data )");
   
