@@ -124,7 +124,7 @@ KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, cons
 
   initActions();
   initPlugins();
-  
+
   setInstance( KonqFactory::instance() );
 
   connect( KSycoca::self(), SIGNAL( databaseChanged() ),
@@ -208,18 +208,18 @@ QWidget *KonqMainView::createContainer( QWidget *parent, int index, const QDomEl
 {
   static QString nameBookmarkBar = QString::fromLatin1( "bookmarkToolBar" );
   static QString tagToolBar = QString::fromLatin1( "ToolBar" );
- 
+
   QWidget *res = KParts::MainWindow::createContainer( parent, index, element, containerStateBuffer, id );
-  
+
   if ( element.tagName() == tagToolBar && element.attribute( "name" ) == nameBookmarkBar )
   {
     assert( res->inherits( "KToolBar" ) );
-    
+
     (void)new KBookmarkBar( this, (KToolBar *)res, actionCollection(), this );
   }
-  
+
   return res;
-} 
+}
 
 QString KonqMainView::konqFilteredURL( const QString &_url )
 {
@@ -1348,7 +1348,7 @@ void KonqMainView::initActions()
   m_paAnimatedLogo = new KonqLogoAction( QString::null, QIconSet( *s_plstAnimatedLogo->at( 0 ) ), 0, this, SLOT( slotNewWindow() ), actionCollection(), "animated_logo" );
 
   (void)new KonqLabelAction( i18n( "Location " ), actionCollection(), "location_label" );
-  
+
   m_paURLCombo = new KonqComboAction( i18n( "Location " ), 0, this, SLOT( slotURLEntered( const QString & ) ), actionCollection(), "toolbar_url_combo" );
   connect( m_paURLCombo, SIGNAL( plugged() ),
            this, SLOT( slotComboPlugged() ) );
@@ -1659,7 +1659,7 @@ void ViewModeGUIServant::update( const KTrader::OfferList &services )
   KTrader::OfferList::ConstIterator end = services.end();
   for (; it != end; ++it )
   {
-    KToggleAction *action = new KToggleAction( (*it)->comment(), 0, m_actions, (*it)->name() );
+    KRadioAction *action = new KRadioAction( (*it)->comment(), 0, m_actions, (*it)->name() );
 
     QDomElement e = m_doc.createElement( "Action" );
     m_menuElement.appendChild( e );
