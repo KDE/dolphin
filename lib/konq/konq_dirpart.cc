@@ -114,10 +114,7 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
 KonqDirPart::~KonqDirPart()
 {
     // Close the find part with us
-    if ( m_findPart )
-    {
         delete m_findPart;
-    }
     delete d;
 }
 
@@ -197,6 +194,19 @@ void KonqDirPart::mmbClicked( KFileItem * fileItem )
             if ( QTextDrag::decode( data, url ) )
             {
                 KURL u(url);
+                if ( u.isMalformed() ) {
+                    // some half-baked guesses for incomplete urls
+                    if ( url.startsWith( "www." ) )
+                    {
+                        url.prepend( "http://" );
+                        u = url;
+                    }
+                    else if ( url.startsWith( "ftp." ) )
+                    {
+                        url.prepend( "ftp://" );
+                        u = url;
+                    }
+                }
                 if ( !u.isMalformed() )
                     emit m_extension->openURLRequest( u );
             }
