@@ -247,6 +247,8 @@ public slots:
 
   void slotNewWindow();
   void slotDuplicateWindow();
+  void slotSendURL();
+  void slotSendFile();
   void slotRun();
   void slotCopyFiles();
   void slotMoveFiles();

@@ -866,6 +866,16 @@ void KonqMainWindow::slotDuplicateWindow()
   mainWindow->show();
 }
 
+void KonqMainWindow::slotSendURL()
+{
+  kapp->invokeMailer("mailto:?body=" + m_currentView->url().url());
+}
+ 
+void KonqMainWindow::slotSendFile()
+{
+  kapp->invokeMailer("mailto:?attach=" + m_currentView->url().url());
+}
+
 void KonqMainWindow::slotRun()
 {
   // HACK: The command is not executed in the directory
@@ -2543,10 +2553,9 @@ void KonqMainWindow::initActions()
   m_paFileType = new KAction( i18n( "Edit File Type..." ), 0, actionCollection(), "editMimeType" );
   m_paProperties = new KAction( i18n( "Properties..." ), 0, actionCollection(), "properties" );
   (void) new KAction( i18n( "New &Window" ), "window_new", KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
-  (void) new KAction( i18n( "&Duplicate Window" ), "window_new", CTRL+Key_D,
-                      this, SLOT( slotDuplicateWindow() ), actionCollection(), "duplicate_window" );
-
-
+  (void) new KAction( i18n( "&Duplicate Window" ), "window_new", CTRL+Key_D, this, SLOT( slotDuplicateWindow() ), actionCollection(), "duplicate_window" );
+  (void) new KAction( i18n( "Send &Link" ), "mail_generic", CTRL+Key_L, this, SLOT( slotSendURL() ), actionCollection(), "sendURL" );
+  (void) new KAction( i18n( "Send File" ), "mail_generic", 0, this, SLOT( slotSendFile() ), actionCollection(), "sendPage" );
   (void) new KAction( i18n( "&Run Command..." ), "run", 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
   (void) new KAction( i18n( "Open &Terminal..." ), "openterm", CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
   (void) new KAction( i18n( "&Open Location..." ), "fileopen", KStdAccel::key(KStdAccel::Open), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );

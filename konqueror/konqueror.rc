@@ -4,6 +4,9 @@
   <Action name="new_window"/>
   <Action name="duplicate_window"/>
   <Action name="open_location"/>
+  <Separator/> 
+  <Action name="sendURL"/>
+  <Action name="sendPage"/>
   <Separator/>
   <Merge/> <!--Includes termination separator-->
   <Action name="print"/>
