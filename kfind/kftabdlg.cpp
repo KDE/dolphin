@@ -287,12 +287,12 @@ void KfindTabDialog::loadHistory() {
       dirBox->insertStrList(&sl);
     }
   else {
+    QDir m_dir("/lib");
     dirBox ->insertItem( _searchPath.data() );
     dirBox ->insertItem( "/" );
     dirBox ->insertItem( "/usr" );
-#ifndef __FreeBSD__
-    dirBox ->insertItem( "/lib" );
-#endif
+    if (m_dir.exists())
+	    dirBox ->insertItem( "/lib" );
     dirBox ->insertItem( "/home" );
     dirBox ->insertItem( "/etc" );
     dirBox ->insertItem( "/var" );
