@@ -17,6 +17,5 @@ datadir = $(kde_appsdir)/Settings/WebBrowsing
 
 EXTRA_DIST = $(data_DATA)
 
-messages:
-	$(XGETTEXT) $(kcm_konqhtml_la_SOURCES) -o $(podir)/kcmkonqhtml.pot
-
+messages: rc.cpp
+	$(XGETTEXT) *.cpp -o $(podir)/kcmkonqhtml.pot
