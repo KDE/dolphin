@@ -12,7 +12,7 @@ libkcm_konqhtml_la_LDFLAGS  = $(all_libraries) -module -avoid-version
 libkcm_konqhtml_la_LIBADD = -lkdeui  
 
 messages:
-	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot $(libkcm_konqhtml_la_SOURCES) && mv messages.po ../../po/kcmkonqhtml.pot
+	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot $(libkcm_konqhtml_la_SOURCES) && mv messages.po $(podir)/kcmkonqhtml.pot
 
 
 #bin_PROGRAMS = test

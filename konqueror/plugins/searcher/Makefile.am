@@ -18,4 +18,4 @@ rcdir = $(kde_confdir)
 METASOURCES = AUTO
 
 messages:
-	$(XGETTEXT) -C  -ktranslate -kaliasLocal -ki18n -x $(includedir)/kde.pot *.h *.cc && mv messages.po ../../../po/konq_searcher.pot
+	$(XGETTEXT) -C  -ktranslate -kaliasLocal -ki18n -x $(includedir)/kde.pot *.h *.cc && mv messages.po $(podir)/konq_searcher.pot

@@ -40,5 +40,5 @@ kbrowser.moc.cc: $(kde_includes)/kbrowser.h
 	$(MOC) $(kde_includes)/kbrowser.h -o $(top_builddir)/libkonq/kbrowser.moc.cc
 
 messages:
-	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot *.cc *.h && mv messages.po ../po/libkonq.pot
+	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot *.cc *.h && mv messages.po $(podir)/libkonq.pot
 

@@ -24,5 +24,5 @@ EXTRA_DIST = DESCRIPTION
 SUBDIRS = pics
 
 messages:
-	$(XGETTEXT) -C -ktranslate -ki18n -kI18N_NOOP -x $(includedir)/kde.pot $(kfind_SOURCES) && mv messages.po ../po/kfind.pot
+	$(XGETTEXT) -C -ktranslate -ki18n -kI18N_NOOP -x $(includedir)/kde.pot $(kfind_SOURCES) && mv messages.po $(podir)/kfind.pot
 

@@ -43,7 +43,7 @@ konqueror_LDADD = libkonqueror.la $(LIB_KIMGIO)
 
 messages:
 	$(XGETTEXT) -C  -ktranslate -kaliasLocal -ki18n -x $(includedir)/kde.pot \
-  *.h *.cc *view/*h *view/*cc && mv messages.po ../po/konqueror.pot 
+  *.h *.cc *view/*h *view/*cc && mv messages.po $(podir)/konqueror.pot 
 
 check_PROGRAMS = linktest
 #using $(konqueror_SOURCES) below doesn't work (am_edit)
