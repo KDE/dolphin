@@ -363,14 +363,6 @@ void KonqListView::disableIcons( const KURL::List &lst )
     m_pListView->disableIcons( lst );
 }
 
-void KonqListView::guiActivateEvent( KParts::GUIActivateEvent *event )
-{
-  KParts::ReadOnlyPart::guiActivateEvent( event );
-  if ( event->activated() )
-    static_cast<ListViewBrowserExtension*>(m_extension)->updateActions();
-}
-
-
 void KonqListView::slotSelect()
 {
    KLineEditDlg l( i18n("Select files:"), "*", m_pListView );
