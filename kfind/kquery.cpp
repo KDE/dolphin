@@ -97,9 +97,9 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
       continue;
 
     // username / group match
-    if ( (m_username != "") && (m_username != file->user()) )
+    if ( (!m_username.isEmpty()) && (m_username != file->user()) )
        continue;
-    if ( (m_groupname != "") && (m_groupname != file->group()) )
+    if ( (!m_groupname.isEmpty()) && (m_groupname != file->group()) )
        continue;
 
     // file type

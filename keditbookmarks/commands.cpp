@@ -90,7 +90,7 @@ void CreateCommand::execute() {
 }
 
 QString CreateCommand::finalAddress() {
-   Q_ASSERT((m_to != ""));
+   Q_ASSERT( !m_to.isEmpty() );
    return m_to;
 }
 
@@ -302,7 +302,7 @@ void MoveCommand::execute() {
 }
 
 QString MoveCommand::finalAddress() {
-   Q_ASSERT((m_to != ""));
+   Q_ASSERT( !m_to.isEmpty() );
    return m_to;
 }
 
