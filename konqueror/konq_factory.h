@@ -39,9 +39,7 @@ class KonqViewFactory
 public:
   KonqViewFactory() : m_factory( 0L ), m_createBrowser( false ) {}
 
-  KonqViewFactory( KLibFactory *factory, const QStringList &args,
-                   bool createBrowser )
-      : m_factory( factory ), m_args( args ), m_createBrowser( createBrowser ) {}
+  KonqViewFactory( KLibFactory *factory, const QStringList &args, bool createBrowser );
 
   KonqViewFactory( const KonqViewFactory &factory )
   { (*this) = factory; }
