@@ -7,7 +7,8 @@
 
 
 #include "kcookiesmain.h"
-#include "ksmboptdlg.h"
+//#include "ksmboptdlg.h"
+#include "smbrodlg.h"
 #include "useragentdlg.h"
 #include "kproxydlg.h"
 
@@ -24,7 +25,8 @@ extern "C"
   KCModule *create_smb(QWidget *parent, const char *name)
   {
     KGlobal::locale()->insertCatalogue("kcmkio");
-    return new KSMBOptions(parent, name);
+    return new SMBRoOptions(parent, name);
+    //return new KSMBOptions(parent, name);
   };
 
   KCModule *create_useragent(QWidget *parent, const char *name)
