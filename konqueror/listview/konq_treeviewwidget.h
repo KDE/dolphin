@@ -44,9 +44,6 @@ class KonqTreeViewWidget : public KonqBaseListViewWidget
       void openSubFolder(const KURL &_url, KonqListViewDir* _dir);
 
    protected slots:
-      // from QListView
-      virtual void slotReturnPressed( QListViewItem *_item );
-
       // slots connected to the directory lister
       virtual void slotClear();
       virtual void slotNewItems( const KFileItemList & );

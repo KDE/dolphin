@@ -468,8 +468,6 @@ void KonqBaseListViewWidget::slotExecuted( QListViewItem* item )
   // (i.e. the Name column, including pixmap and "+")
   if ( isExecuteArea( viewport()->mapFromGlobal(QCursor::pos())) )
   {
-    if ( item->isExpandable() )
-      item->setOpen( !item->isOpen() );
     slotReturnPressed( item );
   }
 }

@@ -87,18 +87,6 @@ void KonqTreeViewWidget::removeSubDir( const KURL & _url )
    m_dictSubDirs.remove( _url.url(-1) );
 }
 
-void KonqTreeViewWidget::slotReturnPressed( QListViewItem *_item )
-{
-   if ( !_item )
-      return;
-   KonqFileItem *item = static_cast<KonqBaseListViewItem*>(_item)->item();
-   mode_t mode = item->mode();
-
-   //execute only if item is a file (or a symlink to a file)
-   if ( S_ISREG( mode ) )
-      emitOpenURLRequest(item->url(), item->mimetype());
-}
-
 void KonqTreeViewWidget::setComplete()
 {
    if ( m_pWorkingDir )
