@@ -566,7 +566,9 @@ void KonqOperations::doFileCopy()
             popup.insertItem( i18n( "&Move Here" ), 2 );
         popup.insertItem(SmallIconSet("www"), i18n( "&Link Here" ), 3 );
         if (bSetWallpaper)
-            popup.insertItem(SmallIconSet("background"), i18n( "Set as &Wallpaper"), 4 );
+            popup.insertItem(SmallIconSet("background"), i18n( "Set as &Wallpaper" ), 4 );
+        popup.insertSeparator();
+        popup.insertItem(SmallIconSet("cancel"), i18n( "C&ancel" ), 5);
 
         int result = popup.exec( m_info->mousePos );
         switch (result) {
@@ -580,6 +582,7 @@ void KonqOperations::doFileCopy()
             delete this;
             return;
         }
+        case 5 :
         default : delete this; return;
         }
     }
