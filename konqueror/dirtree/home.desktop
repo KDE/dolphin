@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Link
+URL=file:$HOME
+Icon=kfm_home
+Name=Home Directory
