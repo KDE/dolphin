@@ -27,7 +27,7 @@
 
 #include <kfileitem.h>
 
-#include <view.h>
+#include <kpartsmainwindow.h>
 #include <kbookmark.h>
 #include <dcopobject.h>
 
@@ -50,14 +50,14 @@ struct HistoryEntry;
 class KonqFrameBase;
 class KBookmarkMenu;
 
-class KonqMainView : public View,
+class KonqMainView : public KParts::MainWindow,
                      virtual public KBookmarkOwner,
                      public DCOPObject
 {
   Q_OBJECT
   K_DCOP
 public:
-  KonqMainView( KonqPart *part, QWidget *parent = 0, const char *name = 0 );
+  KonqMainView( const QString &initialURL = QString::null, bool openInitialURL = true, const char *name = 0 );
   ~KonqMainView();
 
   void openFilteredURL( KonqChildView *_view, const QString &_url );
@@ -150,9 +150,6 @@ public:
 
   static void setMoveSelection( bool b ) { s_bMoveSelection = b; }
 
-protected:
-  virtual void resizeEvent( QResizeEvent * );
-
 protected slots:
   void slotAnimatedLogoTimeout();
 
@@ -197,11 +194,17 @@ protected slots:
 
   void slotComboPlugged();
 
+  void slotShowMenuBar();
+  void slotShowStatusBar();
+  void slotShowToolBar();
+  void slotShowLocationBar();
+  void slotShowBookmarkBar();
+
 protected:
 
   void fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history );
 
-  virtual void viewActivateEvent( ViewActivateEvent *e );
+  //  virtual void viewActivateEvent( ViewActivateEvent *e );
 
 private:
 
@@ -291,6 +294,16 @@ private:
 
   KToggleAction *m_ptaUseHTML;
   KToggleAction *m_ptaShowDirTree;
+
+  KAction *m_paShellClose;
+  KAction *m_paShellHelpAboutKDE;
+  KHelpMenu *m_helpMenu;
+
+  KToggleAction *m_paShowMenuBar;
+  KToggleAction *m_paShowStatusBar;
+  KToggleAction *m_paShowToolBar;
+  KToggleAction *m_paShowLocationBar;
+  KToggleAction *m_paShowBookmarkBar;
 
   bool m_bMenuEditDirty;
   bool m_bMenuViewDirty;

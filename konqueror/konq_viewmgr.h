@@ -93,8 +93,6 @@ public:
 
   void clear();
 
-  void doGeometry( int width, int height );
-
   KonqChildView *chooseNextView( KonqChildView *view );
 //  unsigned long viewIdByNumber( int number );
 

@@ -1,6 +1,6 @@
 <!DOCTYPE QConfig ><QConfig>
 <MenuBar>
- <Menu name="File">
+ <Menu name="File"><text>&amp;File</text>
   <Action name="new_menu"/>
   <Action name="new_window"/>
   <Separator/>
@@ -10,6 +10,8 @@
   <Action name="find"/>
   <Separator/>
   <Action name="print"/>
+  <Separator/>
+  <Action name="konqueror_shell_close"/>
  </Menu>
  <Action name="edit_menu"/>
  <Action name="view_menu"/>
@@ -27,6 +29,11 @@
  </Menu>
  <Action name="bookmarks_menu"/>
  <Menu name="Options"><text>&amp;Options</text>
+  <Action name="showmenubar"/>
+  <Action name="showstatusbar"/>
+  <Action name="showtoolbar"/>
+  <Action name="showlocationbar"/>
+  <Action name="showbookmarkbar"/>
   <Action name="savesettings"/>
   <Action name="savesettingsperurl"/>
   <Separator/>
@@ -48,35 +55,36 @@
   <Action name="loadviewprofile"/>
  </Menu>
  <Separator/>
- <Menu name="Help">
+ <Menu name="Help"><text>&amp;Help</text>
   <Action name="about"/>
   <Action name="reportbug"/>
+  <Separator/>
+  <Action name="konqueror_shell_aboutkde"/>
  </Menu>
 </MenuBar>
-<ToolBars>
- <ToolBar fullWidth="true" name="mainToolBar">
-  <Action name="up"/>
-  <Action name="back"/>
-  <Action name="forward"/>
-  <Action name="home"/>
-  <Separator/>
-  <Action name="reload"/>
-  <Separator/>
-  <Action name="cut"/>
-  <Action name="copy"/>
-  <Action name="paste"/>
-  <Action name="print"/>
-  <Separator/>
-  <Action name="stop"/>
-  <Separator/>
-  <Action name="animated_logo"/>
- </ToolBar>
- <ToolBar fullWidth="true" name="locationToolBar">
-  <Action name="toolbar_url_combo"/>
- </ToolBar>
- <ToolBar fullWidth="true" name="bookmarkToolBar">
-  <Action name="toolbar_bookmark"/>
- </ToolBar>
-</ToolBars>
+<ToolBar fullWidth="true" name="mainToolBar">
+ <Action name="up"/>
+ <Action name="back"/>
+ <Action name="forward"/>
+ <Action name="home"/>
+ <Separator/>
+ <Action name="reload"/>
+ <Separator/>
+ <Action name="cut"/>
+ <Action name="copy"/>
+ <Action name="paste"/>
+ <Action name="print"/>
+ <Separator/>
+ <Action name="stop"/>
+ <Separator/>
+ <Action name="animated_logo"/>
+</ToolBar>
+<ToolBar fullWidth="true" name="locationToolBar">
+ <Action name="toolbar_url_combo"/>
+</ToolBar>
+<ToolBar fullWidth="true" name="bookmarkToolBar">
+ <Action name="toolbar_bookmark"/>
+</ToolBar>
+<StatusBar/>
 </QConfig>
 

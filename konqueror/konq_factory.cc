@@ -21,7 +21,6 @@
 
 #include <kbrowser.h>
 #include "konq_factory.h"
-#include "konq_part.h"
 #include "konq_misc.h"
 #include "konq_run.h"
 
@@ -29,6 +28,8 @@
 #include <kdebug.h>
 #include <kinstance.h>
 #include <kstddirs.h>
+
+#include <assert.h>
 
 unsigned long KonqFactory::m_instanceRefCnt = 0;
 KInstance *KonqFactory::s_instance = 0L;
@@ -146,10 +147,12 @@ QObject* KonqFactory::create( QObject* parent, const char* name, const char* /*c
 //  if ( !parent || !parent->inherits( "Part" ) )
 //    return 0L;
 
-  KonqPart *part = new KonqPart( parent, name );
-  emit objectCreated( part );
-
-  return part;
+//  KonqPart *part = new KonqPart( parent, name );
+//  emit objectCreated( part );
+//
+//  return part;
+  assert( 0 ); 
+  return 0L; 
 }
 
 void KonqFactory::instanceRef()

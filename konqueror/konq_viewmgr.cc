@@ -116,7 +116,7 @@ BrowserView* KonqViewManager::split (KonqFrameBase* splitFrame,
     return 0L; //do not split at all if we can't create the new view
 
   BrowserView *view = 0L;
-  
+
   if( m_pMainContainer )
   {
     assert( splitFrame );
@@ -155,7 +155,7 @@ BrowserView* KonqViewManager::split (KonqFrameBase* splitFrame,
 
     debug("Create new Child");
     KonqChildView *childView = setupView( newContainer, newViewFactory, service, serviceOffers );
-    
+
     view = childView->view();
 
     printSizeInfo( splitFrame, parentContainer, "after child insert" );
@@ -169,6 +169,7 @@ BrowserView* KonqViewManager::split (KonqFrameBase* splitFrame,
   }
   else {
     m_pMainContainer = new KonqFrameContainer( orientation, m_pMainView );
+    m_pMainView->setView( m_pMainContainer );
     m_pMainContainer->setOpaqueResize();
     m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
 
@@ -181,7 +182,7 @@ BrowserView* KonqViewManager::split (KonqFrameBase* splitFrame,
 
     if ( newFrameContainer )
       *newFrameContainer = m_pMainContainer;
-    
+
     view = childView->view();
   }
 
@@ -254,6 +255,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
   kdebug(0, 1202, "Load RootItem %s", rootItem.data());
 
   m_pMainContainer = new KonqFrameContainer( Qt::Horizontal, m_pMainView );
+  m_pMainView->setView( m_pMainContainer );
   m_pMainContainer->setOpaqueResize();
   m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
   m_pMainContainer->show();
@@ -313,7 +315,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     {
       warning("Profile Loading Error: View creation failed" );
       return; //ugh..
-    }      
+    }
 
     kdebug(0, 1202, "Creating View Stuff");
     KonqChildView *childView = setupView( parent, viewFactory, service, serviceOffers );
@@ -387,12 +389,6 @@ void KonqViewManager::clear()
     delete m_pMainContainer;
     m_pMainContainer = 0L;
   }
-}
-
-void KonqViewManager::doGeometry( int width, int height )
-{
-  if ( m_pMainContainer )
-    m_pMainContainer->setGeometry( 0, 0, width, height );
 }
 
 KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
@@ -560,7 +556,7 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 
   //if (isVisible()) v->show();
   newViewFrame->show();
-  
+
   return v;
 }
 

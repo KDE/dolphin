@@ -22,8 +22,6 @@
 #include <kbrowser.h>
 #include "konq_htmlsettings.h"
 #include "konq_mainview.h"
-#include "konq_shell.h"
-#include "konq_part.h"
 #include "konq_childview.h"
 #include "konq_run.h"
 #include "konq_factory.h"
@@ -69,10 +67,10 @@
 #include <kapp.h>
 #include <dcopclient.h>
 #include <klibloader.h>
-#include <part.h>
 #include <kbookmarkbar.h>
 #include <kbookmarkmenu.h>
 #include <kstdaction.h>
+#include <khelpmenu.h>
 
 #include <kbugreport.h>
 #include "version.h"
@@ -87,10 +85,10 @@ template class QList<KToggleAction>;
 QList<QPixmap> *KonqMainView::s_plstAnimatedLogo = 0L;
 bool KonqMainView::s_bMoveSelection = false;
 
-KonqMainView::KonqMainView( KonqPart *part, QWidget *parent, const char *name )
- : View( part, parent, name ),  DCOPObject( "KonqMainViewIface" )
+KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, const char *name )
+ : KParts::MainWindow( name ),  DCOPObject( "KonqMainViewIface" )
 {
-  setFocusPolicy( NoFocus ); // don't give the focus to this dummy QWidget
+//  setFocusPolicy( NoFocus ); // don't give the focus to this dummy QWidget
 
   m_currentView = 0L;
   m_pBookmarkMenu = 0L;
@@ -121,6 +119,8 @@ KonqMainView::KonqMainView( KonqPart *part, QWidget *parent, const char *name )
 
   m_viewModeActions.setAutoDelete( true );
 
+  m_helpMenu = new KHelpMenu( this );
+  
   initActions();
   initPlugins();
 
@@ -132,10 +132,48 @@ KonqMainView::KonqMainView( KonqPart *part, QWidget *parent, const char *name )
   connect( KSycoca::self(), SIGNAL( databaseChanged() ),
            this, SLOT( slotDatabaseChanged() ) );
 
+  setXMLFile( locate( "data", "konqueror/konqueror.rc" ) );
+  setUpdatesEnabled( false );
+  guiFactory()->addServant( this );
+  setUpdatesEnabled( true );
+  updateRects();
+  
+  m_statusBar = statusBar();
+  
+  m_progressBar = new KProgress( 0, 100, 0, KProgress::Horizontal, m_statusBar );
+
+  m_statusBar->insertWidget( m_progressBar, 120, STATUSBAR_LOAD_ID );
+  m_statusBar->insertItem( QString::fromLatin1( "XXXXXXXX" ), STATUSBAR_SPEED_ID );
+  m_statusBar->insertItem( 0L, STATUSBAR_MSG_ID );
+
+  m_statusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
+
+  m_statusBar->show();
+
+  m_progressBar->hide();
+  
+  if ( !initialURL.isEmpty() )
+    openFilteredURL( 0L, initialURL );
+  else if ( openInitialURL )
+  {
+    KConfig *config = KonqFactory::instance()->config();
+
+    if ( config->hasGroup( "Default View Profile" ) )
+    {
+      config->setGroup( "Default View Profile" );
+      m_pViewManager->loadViewProfile( *config );
+      enableAllActions( true );
+    }
+    else
+      openURL( 0L, QDir::homeDirPath().prepend( "file:" ) );
+  }
+  
+  resize( 700, 480 );
 }
 
 KonqMainView::~KonqMainView()
 {
+  guiFactory()->removeServant( this ); 
 
   if ( m_combo )
   {
@@ -883,7 +921,7 @@ BrowserView *KonqMainView::currentView()
 
 void KonqMainView::customEvent( QCustomEvent *event )
 {
-  View::customEvent( event );
+  KParts::MainWindow::customEvent( event );
 
   if ( KonqURLEnterEvent::test( event ) )
   {
@@ -893,11 +931,6 @@ void KonqMainView::customEvent( QCustomEvent *event )
 
     return;
   }
-}
-
-void KonqMainView::resizeEvent( QResizeEvent * )
-{
-  m_pViewManager->doGeometry( width(), height() );
 }
 
 void KonqMainView::slotAnimatedLogoTimeout()
@@ -1283,6 +1316,52 @@ void KonqMainView::slotComboPlugged()
   m_combo->setCurrentItem( 0 );
 }
 
+void KonqMainView::slotShowMenuBar()
+{
+  if (menuBar()->isVisible())
+    menuBar()->enable( KMenuBar::Hide );
+  else
+    menuBar()->enable( KMenuBar::Show );
+}
+
+void KonqMainView::slotShowStatusBar()
+{
+  if (statusBar()->isVisible())
+    statusBar()->enable( KStatusBar::Hide );
+  else
+    statusBar()->enable( KStatusBar::Show );
+}
+
+void KonqMainView::slotShowToolBar()
+{
+  KToolBar * bar = (KToolBar *)child( "mainToolBar", "KToolBar" );
+  if (!bar) return;
+  if (bar->isVisible())
+    bar->enable( KToolBar::Hide );
+  else
+    bar->enable( KToolBar::Show );
+}
+
+void KonqMainView::slotShowLocationBar()
+{
+  KToolBar * bar = (KToolBar *)child( "locationToolBar", "KToolBar" );
+  if (!bar) return;
+  if (bar->isVisible())
+    bar->enable( KToolBar::Hide );
+  else
+    bar->enable( KToolBar::Show );
+}
+
+void KonqMainView::slotShowBookmarkBar()
+{
+  KToolBar * bar = (KToolBar *)child( "bookmarkToolBar", "KToolBar" );
+  if (!bar) return;
+  if (bar->isVisible())
+    bar->enable( KToolBar::Hide );
+  else
+    bar->enable( KToolBar::Show );
+}
+
 void KonqMainView::fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history )
 {
   menu->clear();
@@ -1307,7 +1386,7 @@ void KonqMainView::setLocationBarURL( KonqChildView *childView, const QString &u
     m_combo->setEditText( url );
 
 }
-
+/*
 void KonqMainView::viewActivateEvent( ViewActivateEvent *e )
 {
   if ( e->deactivated() )
@@ -1331,7 +1410,7 @@ void KonqMainView::viewActivateEvent( ViewActivateEvent *e )
 
   View::viewActivateEvent( e );
 }
-
+*/
 void KonqMainView::startAnimation()
 {
   m_animatedLogoCounter = 0;
@@ -1495,6 +1574,28 @@ void KonqMainView::initActions()
   // Bookmarks menu
   m_pamBookmarks = new KActionMenu( i18n( "&Bookmarks" ), actionCollection(), "bookmarks_menu" );
   m_pBookmarkMenu = new KBookmarkMenu( this, m_pamBookmarks->popupMenu(), actionCollection(), true );
+  
+  //TODO: merge with the above stuff
+  m_paShellClose = KStdAction::close( this, SLOT( close() ), actionCollection(), "konqueror_shell_close" );
+  m_paShellHelpAboutKDE = new KAction( i18n( "About &KDE..." ), 0, m_helpMenu, SLOT( aboutKDE() ), actionCollection(), "konqueror_shell_aboutkde" );
+
+  m_paShowMenuBar = KStdAction::showMenubar( 0L, 0L, actionCollection(), "showmenubar" );
+  m_paShowStatusBar = KStdAction::showStatusbar( 0L, 0L, actionCollection(), "showstatusbar" );
+  m_paShowToolBar = KStdAction::showToolbar( 0L, 0L, actionCollection(), "showtoolbar" );
+  m_paShowLocationBar = new KToggleAction( i18n( "Show &Locationbar" ), 0, actionCollection(), "showlocationbar" );
+  m_paShowBookmarkBar = new KToggleAction( i18n( "Show &Bookmarkbar" ), 0, actionCollection(), "showbookmarkbar" );
+
+  m_paShowMenuBar->setChecked( true );
+  m_paShowStatusBar->setChecked( true );
+  m_paShowToolBar->setChecked( true );
+  m_paShowLocationBar->setChecked( true );
+  m_paShowBookmarkBar->setChecked( true );
+
+  connect( m_paShowMenuBar, SIGNAL( activated() ), this, SLOT( slotShowMenuBar() ) );
+  connect( m_paShowStatusBar, SIGNAL( activated() ), this, SLOT( slotShowStatusBar() ) );
+  connect( m_paShowToolBar, SIGNAL( activated() ), this, SLOT( slotShowToolBar() ) );
+  connect( m_paShowLocationBar, SIGNAL( activated() ), this, SLOT( slotShowLocationBar() ) );
+  connect( m_paShowBookmarkBar, SIGNAL( activated() ), this, SLOT( slotShowBookmarkBar() ) );
 
   enableAllActions( false );
 }
@@ -1521,7 +1622,8 @@ void KonqMainView::initPlugins()
 
 void KonqMainView::plugInViewGUI( BrowserView *view )
 {
-  KToolBar *bar = shell()->viewToolBar( "mainToolBar" );
+//  KToolBar *bar = shell()->viewToolBar( "mainToolBar" );
+  KToolBar *bar = (KToolBar *)child( "mainToolBar", "KToolBar" ); 
 
   const QValueList<BrowserView::ViewAction> *actions = view->actions();
   QValueList<BrowserView::ViewAction>::ConstIterator it = actions->begin();
@@ -1545,7 +1647,8 @@ void KonqMainView::plugInViewGUI( BrowserView *view )
 
 void KonqMainView::unPlugViewGUI( BrowserView *view )
 {
-  KToolBar *bar = shell()->viewToolBar( "mainToolBar" );
+//  KToolBar *bar = shell()->viewToolBar( "mainToolBar" );
+  KToolBar *bar = (KToolBar *)child( "mainToolBar", "KToolBar" ); 
 
   const QValueList<BrowserView::ViewAction> *actions = view->actions();
   QValueList<BrowserView::ViewAction>::ConstIterator it = actions->begin();
@@ -1679,9 +1782,9 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
   QString url = m_currentView->url();
 
   QActionCollection popupMenuCollection;
-  if ( !shell()->menuBar()->isVisible() )
+  if ( !menuBar()->isVisible() )
     // Somewhat a hack...
-    popupMenuCollection.insert( ((KonqShell *) shell())->menuBarAction() );
+    popupMenuCollection.insert( m_paShowMenuBar );
   popupMenuCollection.insert( m_paBack );
   popupMenuCollection.insert( m_paForward );
   popupMenuCollection.insert( m_paUp );

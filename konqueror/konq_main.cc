@@ -20,9 +20,7 @@
 #include <iostream.h>
 
 #include "konq_run.h"
-#include "konq_part.h"
 #include "konq_misc.h"
-#include "konq_shell.h"
 #include "konq_mainview.h"
 #include "konq_viewmgr.h"
 #include "KonquerorIface.h"
@@ -41,7 +39,7 @@ class KonquerorIfaceImpl : virtual public KonquerorIface
 public:
   KonquerorIfaceImpl();
   virtual ~KonquerorIfaceImpl();
-  
+
   virtual void openBrowserWindow( const QString &url );
 
   virtual void createBrowserWindowFromProfile( const QString &filename );
@@ -67,18 +65,21 @@ void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename
 {
   qDebug( "void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename ) " );
   qDebug( "%s", filename.ascii() );
-
+  /*
   KonqShell *shell = new KonqShell;
-  
+
   KonqPart *part = new KonqPart;
-  
+
   part->setOpenInitialURL( false );
-  
+
   //  shell->setRootPart( part );
   KonqMainView *mainView = new KonqMainView( part, shell );
 
   shell->setView( mainView );
 
+  */
+  
+  KonqMainView *mainView = new KonqMainView( QString::null, false );
   mainView->show();
 
   KSimpleConfig cfg( filename, true );
@@ -86,9 +87,9 @@ void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename
   mainView->viewManager()->loadViewProfile( cfg );
   mainView->enableAllActions( true );
 
-  shell->setActiveView( mainView );  
+  //  shell->setActiveView( mainView );
 
-  shell->show();
+  //  shell->show();
 }
 
 void KonquerorIfaceImpl::setMoveSelection( int move )

@@ -6,10 +6,10 @@ SUBDIRS = . plugins kfmexec client htmlview iconview textview treeview dirtree p
 lib_LTLIBRARIES = libkonqueror.la
 
 rcdir = $(kde_datadir)/konqueror
-rc_DATA = konqueror_part.rc konqueror_shell.rc
+rc_DATA = konqueror.rc
 
 kdelnkdir = $(kde_servicesdir)
-kdelnk_DATA = konqueror.desktop 
+kdelnk_DATA = konqueror.desktop
 
 servicetypedir = $(kde_servicetypesdir)
 servicetype_DATA = konq_plugin.desktop
@@ -18,7 +18,7 @@ METASOURCES = AUTO
 
 include_HEADERS = KonquerorIface.h
 
-libkonqueror_la_SOURCES = konq_mainview.cc konq_part.cc konq_shell.cc \
+libkonqueror_la_SOURCES = konq_mainview.cc \
 			  konq_run.cc konq_childview.cc konq_viewmgr.cc \
 			  konq_frame.cc \
 			  konq_propsview.cc konq_propsmainview.cc konq_htmlsettings.cc \
