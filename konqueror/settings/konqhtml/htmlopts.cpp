@@ -126,7 +126,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFixed, SIGNAL( activated(const QString&) ),
 	   SLOT(changed() ) );
 
-  label = new QLabel( i18n( "S&erifFont" ), this );
+  label = new QLabel( i18n( "S&erif Font" ), this );
   lay->addWidget( label, ++r, E+1 );
 
   m_pSerif = new QComboBox( false, this );
@@ -142,7 +142,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pSerif, SIGNAL( activated( const QString& ) ),
 	   SLOT( changed() ) );
 
-  label = new QLabel( i18n( "S&ansSerifFont" ), this );
+  label = new QLabel( i18n( "S&ans Serif Font" ), this );
   lay->addWidget( label, ++r, E+1 );
 
   m_pSansSerif = new QComboBox( false, this );
@@ -158,7 +158,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pSansSerif, SIGNAL( activated( const QString& ) ),
 	   SLOT( changed() ) );
 
-  label = new QLabel( i18n( "&CursiveFont" ), this );
+  label = new QLabel( i18n( "&Cursive Font" ), this );
   lay->addWidget( label, ++r, E+1 );
 
   m_pCursive = new QComboBox( false, this );
@@ -174,7 +174,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pCursive, SIGNAL( activated( const QString& ) ),
 	   SLOT( changed() ) );
 
-  label = new QLabel( i18n( "Fantas&yFont" ), this );
+  label = new QLabel( i18n( "Fantas&y Font" ), this );
   lay->addWidget( label, ++r, E+1 );
 
   m_pFantasy = new QComboBox( false, this );
