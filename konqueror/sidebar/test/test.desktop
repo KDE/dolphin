@@ -7,6 +7,7 @@ Name=Test
 Name[af]=toets
 Name[ar]=اختبار
 Name[az]=Sınaq
+Name[be]=Тэст
 Name[bg]=Тест
 Name[bs]=Proba
 Name[el]=Δοκιμή
@@ -37,4 +38,4 @@ Name[zh_TW]=測試
 Name[zu]=Uvivinyo
 
 Open=false
-X-KDE-KonqSidebarModule=konqsidebartest
+X-KDE-KonqSidebarModule=konq_sidebartest

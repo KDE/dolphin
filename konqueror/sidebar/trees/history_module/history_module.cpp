@@ -518,7 +518,7 @@ void KonqSidebarHistoryDialog::slotGetFontOlder()
 
 extern "C"
 {
-	KonqSidebarTreeModule* create_konqsidebartree_history(KonqSidebarTree* par)
+	KonqSidebarTreeModule* create_konq_sidebartree_history(KonqSidebarTree* par)
 	{
 		return new KonqSidebarHistoryModule(par);
 	}   

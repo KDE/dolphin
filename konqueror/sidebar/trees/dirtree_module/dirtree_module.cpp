@@ -391,7 +391,7 @@ void KonqSidebarDirTreeModule::followURL( const KURL & url )
 
 extern "C"
 {
-        KonqSidebarTreeModule *create_konqsidebartree_dirtree(KonqSidebarTree* par)
+        KonqSidebarTreeModule *create_konq_sidebartree_dirtree(KonqSidebarTree* par)
 	{
 		return new KonqSidebarDirTreeModule(par);
 	}

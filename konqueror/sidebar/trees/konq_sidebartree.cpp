@@ -52,7 +52,7 @@ void KonqSidebarTree::loadModuleFactories()
 					{kdWarning()<<"Bad Configuration file for a dirtree module "<<*it<<endl; continue;}
 
                                 // try to load the library
-                                QString lib_name="lib"+libname;
+                                QString lib_name=libname;
                                 KLibrary *lib = loader->library(QFile::encodeName(lib_name));
                                 if (lib)
                                 {

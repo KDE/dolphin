@@ -11,12 +11,12 @@ noinst_HEADERS = konqsidebartest.h
 # let automoc handle all of the meta source files (moc)
 METASOURCES = AUTO
 
-kde_module_LTLIBRARIES = libkonqsidebartest.la
+kde_module_LTLIBRARIES = konq_sidebartest.la
 
 # the Part's source, library search path, and link libraries
-libkonqsidebartest_la_SOURCES = konqsidebartest.cpp
-libkonqsidebartest_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
-libkonqsidebartest_la_LIBADD  = $(LIB_KPARTS) $(LIB_KFILE) ../libkonqsidebarplugin.la
+konq_sidebartest_la_SOURCES = konqsidebartest.cpp
+konq_sidebartest_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
+konq_sidebartest_la_LIBADD  = $(LIB_KPARTS) $(LIB_KFILE) ../libkonqsidebarplugin.la
 
 # this is where the part's XML-GUI resource file goes
 partrcdir   = $(kde_datadir)/konqsidebartng/entries

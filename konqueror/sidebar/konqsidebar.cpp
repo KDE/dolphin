@@ -100,7 +100,7 @@ KInstance* KonqSidebarFactory::instance()
 
 extern "C"
 {
-    void* init_libkonqsidebar()
+    void* init_konq_sidebar()
     {
         return new KonqSidebarFactory;
     }

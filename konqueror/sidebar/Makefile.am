@@ -16,16 +16,17 @@ include_HEADERS = konqsidebarplugin.h
 # let automoc handle all of the meta source files (moc)
 METASOURCES = AUTO
 
-lib_LTLIBRARIES = libkonqsidebarplugin.la libkonqsidebar.la
+lib_LTLIBRARIES = libkonqsidebarplugin.la 
+kde_module_LTLIBRARIES = konq_sidebar.la
 
 # the Part's source, library search path, and link libraries
-libkonqsidebar_la_SOURCES = konqsidebar.cpp sidebar_widget.cpp kmultiverttabbar.cpp
-libkonqsidebar_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
-libkonqsidebar_la_LIBADD  = $(LIB_KPARTS) $(LIB_KFILE) ./libkonqsidebarplugin.la
+konq_sidebar_la_SOURCES = konqsidebar.cpp sidebar_widget.cpp kmultiverttabbar.cpp
+konq_sidebar_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
+konq_sidebar_la_LIBADD  = $(LIB_KPARTS) $(LIB_KFILE) ./libkonqsidebarplugin.la
 
 libkonqsidebarplugin_la_SOURCES=konqsidebarplugin.cpp
-libkonqsidebarplugin_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
-libkonqsidebarplugin_la_LIBADD = $(LIB_QT) $(LIB_KDECORE) $(LIB_KPARTS)
+libkonqsidebarplugin_la_LDFLAGS = $(all_libraries) -no-undefined
+libkonqsidebarplugin_la_LIBADD = $(LIB_KPARTS)
 
 # this is where the desktop file will go 
 partdesktopdir   = $(kde_servicesdir)
@@ -37,3 +38,4 @@ partrc_DATA = konqsidebartng.rc
 
 versiondir = $(kde_datadir)/konqsidebartng/entries/
 version_DATA=.version
+

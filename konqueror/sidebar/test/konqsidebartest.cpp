@@ -18,7 +18,7 @@
 
 extern "C"
 {
-    void* create_konqsidebartest(QObject *par,QWidget *widp,QString &desktopname,const char *name)
+    void* create_konq_sidebartest(QObject *par,QWidget *widp,QString &desktopname,const char *name)
     {
         return new SidebarTest(par,widp,desktopname,name);
     }

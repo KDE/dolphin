@@ -34,6 +34,7 @@ Name[nn]=Mappe/katalog
 Name[pl]=Katalog
 Name[pt]=Pasta/Directoria
 Name[pt_BR]=Diretório/Pasta
+Name[ro]=Director/Folder
 Name[ru]=Папка/каталог
 Name[sk]=Priečinok/Adresár
 Name[sl]=Mapa/imenik
@@ -52,4 +53,4 @@ Name[zu]=Incwadi enemininingwane/Ulawulo
 
 Open=false
 X-KDE-KonqSidebarAddParam=
-X-KDE-KonqSidebarAddModule=konqsidebar_tree    
+X-KDE-KonqSidebarAddModule=konq_sidebar_tree    

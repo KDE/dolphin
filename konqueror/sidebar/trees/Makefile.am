@@ -3,10 +3,10 @@ SUBDIRS = init . dirtree_module history_module bookmark_module
 
 INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/konqueror -I$(srcdir)/.. $(all_includes)
 
-kde_module_LTLIBRARIES = libkonqsidebar_tree.la
+lib_LTLIBRARIES = libkonq_sidebar.la
 
 METASOURCES = AUTO
 
-libkonqsidebar_tree_la_SOURCES = konq_sidebartree.cpp konq_sidebartreeitem.cpp konq_sidebartreetoplevelitem.cpp konqsidebar_tree.cpp
-libkonqsidebar_tree_la_LDFLAGS = $(all_libraries) $(KDE_PLUGIN)
-libkonqsidebar_tree_la_LIBADD = $(top_builddir)/libkonq/libkonq.la ../libkonqsidebarplugin.la
+libkonq_sidebar_la_SOURCES = konq_sidebartree.cpp konq_sidebartreeitem.cpp konq_sidebartreetoplevelitem.cpp konqsidebar_tree.cpp
+libkonq_sidebar_la_LDFLAGS = $(all_libraries) -module -avoid-version -no-undefined
+libkonq_sidebar_la_LIBADD = $(top_builddir)/libkonq/libkonq.la ../libkonqsidebarplugin.la
