@@ -42,7 +42,7 @@ konqueror_la_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel \
 		    konq_profiledlg.cc \
 		    konq_propsmainview.cc
 
-konqueror_la_LDFLAGS = $(KDE_RPATH) $(all_libraries) -module -avoid-version
+konqueror_la_LDFLAGS = $(all_libraries) -module -avoid-version
 konqueror_la_LIBADD = libkonqueror.la $(LIB_KIMGIO)
 
 konqueror_SOURCES = dummy.cc
