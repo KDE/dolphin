@@ -169,6 +169,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
         QString groupName = ( m_method == DEL ? "ConfirmDelete" : m_method == SHRED ? "ConfirmShred" : "ConfirmTrash" );
         bool defaultValue = ( m_method == DEL ? DEFAULT_CONFIRMDELETE : m_method == SHRED ? DEFAULT_CONFIRMSHRED : DEFAULT_CONFIRMTRASH );
         ask = config->readBoolEntry( groupName, defaultValue );
+        delete config;
     }
     if ( ask )
     {
