@@ -629,9 +629,13 @@ void KEBTopLevel::slotImportMoz()
     int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks ?"),
                                              i18n("Mozilla Import"), i18n("As New Folder"), i18n("Replace") );
     bool subFolder = (answer==KMessageBox::Yes);
-    ImportCommand * cmd = new ImportCommand( i18n("Import Mozilla Bookmarks"), KNSBookmarkImporter::mozillaBookmarksFile(),
-                                             subFolder ? i18n("Mozilla Bookmarks") : QString::null, "mozilla", true);
-    m_commandHistory.addCommand( cmd );
+    QString mozFile=KNSBookmarkImporter::mozillaBookmarksFile();
+    if(!mozFile.isEmpty())
+    {
+        ImportCommand * cmd = new ImportCommand( i18n("Import Mozilla Bookmarks"), mozFile,
+                                                 subFolder ? i18n("Mozilla Bookmarks") : QString::null, "mozilla", true);
+        m_commandHistory.addCommand( cmd );
+    }
 }
 
 void KEBTopLevel::slotExportNS()
