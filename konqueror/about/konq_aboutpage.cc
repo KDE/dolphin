@@ -340,7 +340,7 @@ void KonqAboutPage::urlSelected( const QString &url, int button, int state, cons
     {
 	if ( KMessageBox::questionYesNo( widget(),
 					 i18n("Do you want to disable showing "
-					      "the Introduction in the webbrowsing profile?"),
+					      "the introduction in the webbrowsing profile?"),
 					 i18n("Faster Startup?") )
 	     == KMessageBox::Yes )
 	{
