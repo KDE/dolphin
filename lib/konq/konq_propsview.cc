@@ -295,14 +295,20 @@ void KonqPropsView::loadPixmap()
 
 void KonqPropsView::applyColors(QWidget * widget) const
 {
-   if ( m_bgPixmapFile.isEmpty() )
-     widget->setBackgroundColor( bgColor(widget) );
-   else
-     widget->setBackgroundPixmap( m_bgPixmap );
-
    QColorGroup a = widget->palette().active();
    QColorGroup d = widget->palette().disabled(); // is this one ever used ?
    QColorGroup i = widget->palette().inactive(); // is this one ever used ?
+
+   if ( m_bgPixmapFile.isEmpty() )
+   {
+     a.setColor( QColorGroup::Base, bgColor(widget) );
+     d.setColor( QColorGroup::Base, bgColor(widget) );
+     i.setColor( QColorGroup::Base, bgColor(widget) );
+     widget->setBackgroundColor( bgColor(widget) );
+   }
+   else
+     widget->setBackgroundPixmap( m_bgPixmap );
+
    a.setColor( QColorGroup::Text, textColor(widget) );
    d.setColor( QColorGroup::Text, textColor(widget) );
    i.setColor( QColorGroup::Text, textColor(widget) );
