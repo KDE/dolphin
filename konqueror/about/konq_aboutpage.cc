@@ -85,7 +85,7 @@ QString KonqAboutPageFactory::intro()
     if ( s_intro_html )
         return *s_intro_html;
 
-    QString res = loadFile( locate( "data", kapp->reverseLayout() ? "konqueror/about/intro_rtl.html" : "konqueror/about/intro.html" ));
+    QString res = loadFile( locate( "data", "konqueror/about/intro.html" ));
     if ( res.isEmpty() )
 	return res;
 
@@ -93,6 +93,8 @@ QString KonqAboutPageFactory::intro()
     QString back_icon_path = QApplication::reverseLayout()?iconloader->iconPath("forward", KIcon::Small ):iconloader->iconPath("back", KIcon::Small );
     QString gohome_icon_path = iconloader->iconPath("gohome", KIcon::Small );
     QString continue_icon_path = QApplication::reverseLayout()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
+
+    res = res.arg( kapp->reverseLayout() ? "@import \"konq_about_rtl.css\";" : "" );
 
     res = res.arg( i18n("Conquer your Desktop!") )
 	.arg( i18n( "Konqueror" ) )
@@ -137,10 +139,12 @@ QString KonqAboutPageFactory::specs()
         return *s_specs_html;
 
     KIconLoader *iconloader = KGlobal::iconLoader();
-    QString res = loadFile( locate( "data", kapp->reverseLayout() ? "konqueror/about/specs_rtl.html" : "konqueror/about/specs.html" ));
+    QString res = loadFile( locate( "data", "konqueror/about/specs.html" ));
     QString continue_icon_path = QApplication::reverseLayout()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
     if ( res.isEmpty() )
 	return res;
+
+    res = res.arg( kapp->reverseLayout() ? "@import \"konq_about_rtl.css\";" : "" );
 
     res = res.arg( i18n("Conquer your Desktop!") )
 	.arg( i18n( "Konqueror" ) )
@@ -211,7 +215,7 @@ QString KonqAboutPageFactory::tips()
     if ( s_tips_html )
         return *s_tips_html;
 
-    QString res = loadFile( locate( "data", kapp->reverseLayout() ? "konqueror/about/tips_rtl.html" : "konqueror/about/tips.html" ));
+    QString res = loadFile( locate( "data", "konqueror/about/tips.html" ));
     if ( res.isEmpty() )
 	return res;
 
@@ -231,6 +235,8 @@ QString KonqAboutPageFactory::tips()
     QString view_left_right_icon_path = 
 	    iconloader->iconPath("view_left_right", KIcon::Small );
     QString continue_icon_path = QApplication::reverseLayout()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
+ 
+    res = res.arg( kapp->reverseLayout() ? "@import \"konq_about_rtl.css\";" : "" );
 
     res = res.arg( i18n("Conquer your Desktop!") )
 	.arg( i18n( "Konqueror" ) )
