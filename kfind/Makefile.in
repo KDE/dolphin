@@ -67,8 +67,8 @@ install:
 	$(INSTALL_DIR) $(PICSDIR)
 	$(INSTALL_DATA) $(TARGET).xpm $(PICSDIR)
 	$(INSTALL_DATA) kfind.html $(DOCSDIR)
-	$(INSTALL_DIR) $(KDEDIR)/apps/Utility
-	$(INSTALL_DATA) kfind.kdelnk $(KDEDIR)/apps/Utility
+	$(INSTALL_DIR) $(prefix)/apps/Utility
+	$(INSTALL_DATA) kfind.kdelnk $(prefix)/apps/Utility
 	$(INSTALL_DIR) $(LIBDIR)/kfind/config
 	$(INSTALL_DATA) ./kfindrc $(LIBDIR)/kfind/config
 
