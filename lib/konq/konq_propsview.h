@@ -92,13 +92,10 @@ public:
   bool isShowingImagePreview() const { return m_bImagePreview; }
 
   void setBgColor( const QColor & color );
-  const QColor& bgColor() const { return m_bgColor; }
+  const QColor& bgColor(QWidget * widget) const;
   void setBgPixmapFile( const QString & file );
   const QString& bgPixmapFile() const { return m_bgPixmapFile; }
   const QPixmap& bgPixmap() const { return m_bgPixmap; } // A helper for the above
-
-  // TODO : window size - hmm, that applies only if there is only ONE view...
-  // .. and if we open that dir in a new window...
 
 protected:
 

@@ -77,7 +77,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bImagePreview = config->readBoolEntry( "ImagePreview", false );
 
-  m_bgColor = config->readColorEntry( "BgColor", & Qt::white );
+  m_bgColor = config->readColorEntry( "BgColor", & Qt::color0 /* default */ );
   m_bgPixmapFile = config->readEntry( "BgImage", "" );
   loadPixmap();
 }
@@ -119,7 +119,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_iItemTextPos = m_defaultProps->itemTextPos();
     m_bShowDot = m_defaultProps->isShowingDotFiles();
     m_bImagePreview = m_defaultProps->isShowingImagePreview();
-    m_bgColor = m_defaultProps->bgColor();
+    m_bgColor = m_defaultProps->m_bgColor;
     m_bgPixmap = m_defaultProps->bgPixmap();
     m_bgPixmapFile = m_defaultProps->bgPixmapFile();
   }
@@ -229,6 +229,14 @@ void KonqPropsView::setBgColor( const QColor & color )
         currentConfig()->writeEntry( "BgColor", m_bgColor );
         currentConfig()->sync();
     }
+}
+
+const QColor & KonqPropsView::bgColor( QWidget * widget ) const
+{
+  if ( m_bgColor == Qt::color0 )
+    return widget->colorGroup().base();
+  else
+    return m_bgColor;
 }
 
 void KonqPropsView::setBgPixmapFile( const QString & file )
