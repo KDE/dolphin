@@ -48,7 +48,7 @@ protected slots:
   void slotAppRegistered( const QCString & );
 
 private:
-  QString m_profile;
+  QString m_profileName;
   QString m_url;
 
 };

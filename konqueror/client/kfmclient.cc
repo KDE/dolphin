@@ -64,9 +64,9 @@ static const KCmdLineOptions options[] =
 int main( int argc, char **argv )
 {
   KCmdLineArgs::init(argc, argv, appName, description, version, false);
-  
+
   KCmdLineArgs::addCmdLineOptions( options );
-  
+
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
   if ( args->isSet("commands") )
@@ -111,7 +111,7 @@ int main( int argc, char **argv )
 
     printf(i18n("*** Examples:\n"
                 "  kfmclient exec file:/root/Desktop/cdrom.desktop \"Mount default\"\n"
-                "             // Mounts the CDROM\n\n").local8Bit());	
+                "             // Mounts the CDROM\n\n").local8Bit());
     printf(i18n("  kfmclient exec file:/home/weis/data/test.html\n"
                 "             // Opens the file with default binding\n\n").local8Bit());
     printf(i18n("  kfmclient exec file:/home/weis/data/test.html Netscape\n"
@@ -138,7 +138,10 @@ bool clientApp::openFileManagerWindow(const KURL & url)
   // If we want to open an HTTP url, use the web browsing profile
   if (url.protocol().left(4) == QString::fromLatin1("http"))
     return openProfile( QString::fromLatin1("webbrowsing"), url.url() );
+  else
+    return openProfile( QString::fromLatin1("filemanagement"), url.url() );
 
+/*
   QByteArray data;
   QCString appId, appObj;
   if ( dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
@@ -161,14 +164,15 @@ bool clientApp::openFileManagerWindow(const KURL & url)
   }
 
   return true;
+*/
 }
 
-bool clientApp::openProfile( const QString & _profile, const QString & url )
+bool clientApp::openProfile( const QString & filename, const QString & url )
 {
-  QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + _profile );
+  QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + filename );
   if ( profile.isEmpty() )
   {
-    fprintf( stderr, i18n("Profile %1 not found\n").arg(_profile).local8Bit() );
+    fprintf( stderr, i18n("Profile %1 not found\n").arg(filename).local8Bit() );
     return 1;
   }
   QByteArray data;
@@ -178,16 +182,16 @@ bool clientApp::openProfile( const QString & _profile, const QString & url )
   {
     KonquerorIface_stub konqy( appId, appObj );
     if ( url.isEmpty() )
-      konqy.createBrowserWindowFromProfile( profile );
+      konqy.createBrowserWindowFromProfile( profile, filename );
     else
-      konqy.createBrowserWindowFromProfileAndURL( profile, url );
+      konqy.createBrowserWindowFromProfileAndURL( profile, filename, url );
   }
   else
   {
     dcopClient()->setNotifications( true );
     QObject::connect( dcopClient(), SIGNAL( applicationRegistered( const QCString& ) ),
-		    this, SLOT( slotAppRegistered( const QCString & ) ) );
-    m_profile = profile;
+                    this, SLOT( slotAppRegistered( const QCString & ) ) );
+    m_profileName = filename;
     m_url = url;
     QString error;
     if ( KApplication::startServiceByDesktopPath( QString::fromLatin1("konqueror.desktop"), QString::fromLatin1("--silent"), &error ) > 0 )
@@ -204,14 +208,20 @@ bool clientApp::openProfile( const QString & _profile, const QString & url )
 
 void clientApp::slotAppRegistered( const QCString &appId )
 {
-  if ( appId.left( 9 ) == "konqueror" )
+    if ( appId.left( 9 ) == "konqueror" )
     {
-      KonquerorIface_stub konqy( appId, "KonquerorIface" );
-      if ( m_url.isEmpty() )
-        konqy.createBrowserWindowFromProfile( m_profile );
-      else
-        konqy.createBrowserWindowFromProfileAndURL( m_profile, m_url );
-      ::exit( 0 );
+        QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + m_profileName );
+        if ( profile.isEmpty() )
+        {
+            fprintf( stderr, i18n("Profile %1 not found\n").arg(m_profileName).local8Bit() );
+            ::exit( 0 );
+        }
+        KonquerorIface_stub konqy( appId, "KonquerorIface" );
+        if ( m_url.isEmpty() )
+            konqy.createBrowserWindowFromProfile( profile, m_profileName );
+        else
+            konqy.createBrowserWindowFromProfileAndURL( profile, m_profileName, m_url );
+        ::exit( 0 );
     }
 }
 
@@ -323,7 +333,7 @@ int clientApp::doIt()
   {
     checkArgumentCount(argc, 6, 6);
     int x = atoi( args->arg(1) );
-    int y = atoi( args->arg(2) );	
+    int y = atoi( args->arg(2) );
     int w = atoi( args->arg(3) );
     int h = atoi( args->arg(4) );
     // bool bAdd = (bool) atoi( args->arg(5) ); /* currently unused */ // TODO
