@@ -132,8 +132,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     bg[1]->insert( rb2[1] );
     bg[1]->insert( rb2[2] );
 
-    le[0]->setMaxLength(10);
-    le[1]->setMaxLength(10);
+    le[0]->setMaxLength(12);
+    le[1]->setMaxLength(12);
     le[2]->setMaxLength(3);
     le[3]->setMaxLength(3);
 
@@ -504,19 +504,11 @@ QString KfindTabWidget::createQuery() {
 
 
 QString KfindTabWidget::date2String(QDate date) {
-  QString str;
-  str.sprintf("%.2d/%.2d/%4d",date.day(),date.month(),date.year());
-  return(str);
+  return(KGlobal::locale()->formatDate(date, true));
 }
 
 QDate &KfindTabWidget::string2Date(QString str, QDate *qd) {
-  int year,month,day;
-
-  // If we can not scan exactly 3 integers do not try to parse
-  if(sscanf(str.ascii(),"%2d/%2d/%4d",&day,&month,&year) == 3)
-    qd->setYMD(year, month, day);
-
-  return *qd;
+  return *qd = KGlobal::locale()->readDate(str);
 }
 
 void  KfindTabWidget::getDirectory() {
