@@ -694,21 +694,41 @@ void KonqKfmIconView::restoreState( QDataStream &stream )
     QIconView::ItemTextPos textPos = (QIconView::ItemTextPos)iTextPos;
 
     if (iIconSize == m_iIconSize[0])
+    {
 	m_paSmallIcons->setChecked( true );
+        slotViewSmall( true );
+    }
     else if (iIconSize == m_iIconSize[1])
+    {
 	m_paMediumIcons->setChecked( true );
+        slotViewMedium( true );
+    }
     else if (iIconSize == m_iIconSize[2])
+    {
 	m_paLargeIcons->setChecked( true );
+        slotViewLarge( true );
+    }
     else
+    {
 	m_paDefaultIcons->setChecked( true );
+        slotViewDefault( true );
+    }
 
     if ( textPos == QIconView::Bottom )
+    {
 	m_paBottomText->setChecked( true );
+        slotTextBottom( true );
+    }
     else
+    {
 	m_paRightText->setChecked( true );
+        slotTextRight( true );
+    }
 
     m_paImagePreview->setChecked( (bool) iImagePreview );
-    m_paDotFiles->setChecked( (bool) iShowDot );
+    slotImagePreview( (bool) iImagePreview );
+
+    m_pProps->m_bShowDot = (bool) iShowDot;
     // TODO apply HTML allowed
 }
 
