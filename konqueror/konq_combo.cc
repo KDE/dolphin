@@ -262,7 +262,7 @@ bool KonqCombo::eventFilter( QObject *o, QEvent *ev )
             if ( KStdAccel::isEqual( e, KStdAccel::deleteWordBack() ) ||
                  KStdAccel::isEqual( e, KStdAccel::deleteWordForward() ) ||
                  ((e->state() & ControlButton) && 
-                   e->key() == Key_Left || e->key() == Key_Right ) ) {
+                   (e->key() == Key_Left || e->key() == Key_Right) ) ) {
                 selectWord(e);
                 e->accept();
                 return true;
