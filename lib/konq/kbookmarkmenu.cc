@@ -123,6 +123,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
       KActionMenu * actionMenu = new KActionMenu( i18n("Netscape Bookmarks"), QIconSet( ),
                                                   m_actionCollection, 0L );
       actionMenu->plug( m_parentMenu );
+      m_actions.append( actionMenu );
       KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
                                                   m_actionCollection, false,
                                                   m_bAddBookmark );
@@ -153,6 +154,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
       KActionMenu * actionMenu = new KActionMenu( bm->text(), bm->pixmapFile(),
                                                   m_actionCollection, 0L );
       actionMenu->plug( m_parentMenu );
+      m_actions.append( actionMenu );
       KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
                                                   m_actionCollection, false,
                                                   m_bAddBookmark );
@@ -252,6 +254,7 @@ void KBookmarkMenu::openNSBookmarks()
         KActionMenu * actionMenu = new KActionMenu( KBookmark::stringSqueeze(QString(name)), "folder",
                                                     m_actionCollection, 0L );
         actionMenu->plug( mstack.top()->m_parentMenu );
+	mstack.top()->m_actions.append( actionMenu );
         KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
                                                     m_actionCollection, false,
                                                     m_bAddBookmark );
