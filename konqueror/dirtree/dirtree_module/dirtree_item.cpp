@@ -30,6 +30,8 @@
 #include <qclipboard.h>
 #include <kio/paste.h>
 #include <qfile.h>
+#include <qpainter.h>
+#include <qcursor.h>
 
 #define MYMODULE static_cast<KonqDirTreeModule*>(module())
 
