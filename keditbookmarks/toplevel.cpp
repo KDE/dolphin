@@ -349,9 +349,9 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
        kapp->dcopClient()->registerAs(kapp->name(),false);
        unique = true;
     } else {
-       int answer = KMessageBox::warningYesNo( this, i18n("Another KEditBookmarks is already running do you really want to open another or continue on work in the other one?. Please note that new KEditBookmark's will not be able to stay in synchronization with your main bookmarks."), i18n("Warning"), i18n("Run another"), i18n("Quit") );
+       int answer = KMessageBox::warningYesNo( this, i18n("Another instance of KEditBookmarks is already running. Do you really want to open another instance, or continue working in the other one? Please note that new instances of KEditBookmarks will not be able to stay in synch with your main bookmarks."), i18n("Warning"), i18n("Run another"), i18n("Quit") );
        if (0) {
-          KMessageBox::warningYesNo( this, i18n("Another KEditBookmarks is already running do you really want to open another or continue on work in the other one?. Please note that new KEditBookmark's will not be able to stay in synchronization with your main bookmarks."), i18n("Warning"), i18n("Run another"), i18n("Continue in old window") );
+          KMessageBox::warningYesNo( this, i18n("Another instance of KEditBookmarks is already running. Do you really want to open another instance, or continue working in the other one? Please note that new instances of KEditBookmarks will not be able to stay in synch with your main bookmarks."), i18n("Warning"), i18n("Run another"), i18n("Continue in old window") );
        }
        bool oldWindow = (answer==KMessageBox::No);
        if (oldWindow) {
