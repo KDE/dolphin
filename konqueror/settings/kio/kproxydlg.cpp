@@ -10,6 +10,7 @@
 #include <kurl.h>
 #include <string.h>
 #include "kproxydlg.h"
+#include <dcopclient.h>
 #include <kconfig.h>
 #include <kiconloader.h>
 #include <kglobal.h>
@@ -217,10 +218,10 @@ void KProxyOptions::load()
 void KProxyOptions::defaults() {
   cb_useProxy->setChecked(false);
   le_http_url->setText("");
-  le_http_port->setText(""); 
+  le_http_port->setText("");
   le_ftp_url->setText("");
-  le_ftp_port->setText(""); 
-  le_no_prx->setText("");  
+  le_ftp_port->setText("");
+  le_no_prx->setText("");
   setProxy();
 }
 
@@ -232,19 +233,19 @@ void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy, bool bUseProx
   if( !httpProxy.isEmpty() ) {
     url = httpProxy;
     le_http_url->setText( url.host() );
-    le_http_port->setText( QString::number( url.port() ) ); 
+    le_http_port->setText( QString::number( url.port() ) );
   }
 
   if( !ftpProxy.isEmpty() ) {
     url = ftpProxy;
     le_ftp_url->setText( url.host() );
-    le_ftp_port->setText( QString::number( url.port() ) ); 
+    le_ftp_port->setText( QString::number( url.port() ) );
   }
 
   cb_useProxy->setChecked(bUseProxy);
   setProxy();
-  
-  le_no_prx->setText( noProxyFor );  
+
+  le_no_prx->setText( noProxyFor );
 
 }
 
@@ -255,12 +256,12 @@ void KProxyOptions::save()
     QString url;
 
     g_pConfig->setGroup( "Proxy Settings" );
-  
+
     url = le_http_url->text();
     if( !url.isEmpty() ) {
       if ( url.left( 7 ) != "http://" )
         url.prepend( "http://" );
-      
+
       url += ":";
       url += le_http_port->text();    // port
     }
@@ -285,8 +286,16 @@ void KProxyOptions::save()
 // Not yet implemented:
 //    g_pConfig->writeEntry( "MaxCacheAge", le_max_cache_age->text() );
     g_pConfig->sync();
-   
+
     delete g_pConfig;
+    
+    // ### TODO: setup protocol argument
+    QByteArray data;
+    QDataStream stream( data, IO_WriteOnly );
+    stream << QString::null;
+    if ( !kapp->dcopClient()->isAttached() )
+      kapp->dcopClient()->attach();
+    kapp->dcopClient()->send( "*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)", data );
 }
 
 
