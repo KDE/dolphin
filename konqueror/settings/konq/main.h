@@ -65,7 +65,6 @@ private:
 
   KBehaviourOptions *behaviour;
   KonqFontOptions   *font;
-  KMiscOptions      *misc;
   KTrashOptions  *trash;
 
 };

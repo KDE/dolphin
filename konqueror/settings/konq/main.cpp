@@ -38,7 +38,6 @@
 #include "rootopts.h"
 #include "behaviour.h"
 #include "fontopts.h"
-#include "miscopts.h"
 #include "trashopts.h"
 #include "desktop.h"
 #include "kwindesktop.h"
@@ -67,7 +66,7 @@ KonqyModule::KonqyModule(QWidget *parent, const char *name)
   layout->addWidget(tab);
 
   QString groupName = "FMSettings";
-  behaviour = new KBehaviourOptions(config, groupName, true, this);
+  behaviour = new KBehaviourOptions(config, groupName, this);
   tab->addTab(behaviour, i18n("&Behavior"));
   connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
@@ -78,10 +77,6 @@ KonqyModule::KonqyModule(QWidget *parent, const char *name)
   trash = new KTrashOptions(config, "Trash", this);
   tab->addTab(trash, i18n("&Trash"));
   connect(trash, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
-
-  misc = new KMiscOptions(config, "Misc Defaults", this);
-  tab->addTab(misc, i18n("&Other"));
-  connect(misc, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 }
 
 
@@ -90,7 +85,6 @@ void KonqyModule::load()
   behaviour->load();
   font->load();
   trash->load();
-  misc->load();
 }
 
 
@@ -99,7 +93,6 @@ void KonqyModule::save()
   behaviour->save();
   font->save();
   trash->save();
-  misc->save();
 
   // Send signal to konqueror
   // Warning. In case something is added/changed here, keep kfmclient in sync
@@ -115,7 +108,6 @@ void KonqyModule::defaults()
   behaviour->defaults();
   font->defaults();
   trash->defaults();
-  misc->defaults();
 }
 
 QString KonqyModule::quickHelp() const
@@ -134,9 +126,7 @@ QString KonqyModule::quickHelp() const
     " such as the font and color of text, background color, etc."
     " <h2>Trash</h2>"
     " This tab contains options for customizing the behavior of"
-    " Konqueror when you \"delete\" a file."
-    " <h2>Other</h2>"
-    " This tab contains a couple of miscellaneous options.");
+    " Konqueror when you \"delete\" a file.");
 }
 
 
@@ -165,12 +155,6 @@ KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
   tab->addTab(root, i18n("&Desktop"));
   connect(root, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  // Behaviour tab has nothing anymore for kdesktop - commented out
-  // those use "FMSettings" since they are read by KonqFMSettings
-  //behaviour = new KBehaviourOptions(config, "FMSettings", false, this);
-  //tab->addTab(behaviour, i18n("&Behavior"));
-  //connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
-
   font = new KonqFontOptions(config, "FMSettings", true, this);
   tab->addTab(font, i18n("&Appearance"));
   connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
@@ -189,7 +173,6 @@ KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
 
 void KDesktopModule::load()
 {
-  //behaviour->load();
   root->load();
   font->load();
   virtualDesks->load();
@@ -199,7 +182,6 @@ void KDesktopModule::load()
 
 void KDesktopModule::save()
 {
-  //behaviour->save();
   root->save();
   font->save();
   virtualDesks->save();
@@ -221,7 +203,6 @@ void KDesktopModule::save()
 
 void KDesktopModule::defaults()
 {
-  //behaviour->defaults();
   root->defaults();
   font->defaults();
   virtualDesks->defaults();
