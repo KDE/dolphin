@@ -493,8 +493,8 @@ void KEBTopLevel::slotSaveAs()
 {
 	QString saveFilename=
 		KFileDialog::getSaveFileName( QString::null, "*.xml", this );
-
-	KBookmarkManager::self()->saveAs( saveFilename );
+        if(!saveFilename.isEmpty())
+            KBookmarkManager::self()->saveAs( saveFilename );
 }
 
 bool KEBTopLevel::save()
