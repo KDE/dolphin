@@ -2018,7 +2018,11 @@ void KonqMainWindow::enableAllActions( bool enable )
 {
   int count = actionCollection()->count();
   for ( int i = 0; i < count; i++ )
-    actionCollection()->action( i )->setEnabled( enable );
+  {
+    KAction *act = actionCollection()->action( i );
+    if ( !enable || !s_actionSlotMap->contains( act->name() ) )
+      act->setEnabled( enable );
+  }
 
   // This method is called with enable=false on startup, and
   // then only once with enable=true when the first view is setup.
@@ -2036,6 +2040,10 @@ void KonqMainWindow::enableAllActions( bool enable )
       m_paLinkView->setEnabled( viewCount() > 1 );
       // Load profile submenu
       m_pViewManager->profileListDirty();
+      
+      slotUndoAvailable( KonqUndoManager::self()->undoAvailable() );
+      
+      m_paStop->setEnabled( m_currentView && m_currentView->isLoading() );
   }
   actionCollection()->action( "close" )->setEnabled( true );
 }
