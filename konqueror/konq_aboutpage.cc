@@ -84,8 +84,8 @@ QString KonqAboutPageFactory::aboutPage()
 
     res = res.arg( i18n( "Insert the URL you want to browse in the above edit-field." ) )
           .arg( i18n( "" ) )
-          .arg( i18n( "In addition to <a href=\"http://grail.sourceforge.net/info/xbel.html\">XBEL-bookmarks</a>,"
-                      "favourite-icon support and Internet Keywords Konqueror supports:" ) )
+          .arg( i18n( "In addition to <a href=\"http://pyxml.sourceforge.net/topics/xbel/\">XBEL-bookmarks</a>,"
+                      "favourite-icon support and Internet Keywords, Konqueror supports:" ) )
           .arg( i18n( "Specifications" ) )
           .arg( i18n( "Supported standards" ) )
           .arg( i18n( "Additional requirements" ) )
