@@ -578,7 +578,8 @@ void KonqHTMLView::saveDocument()
     KFileDialog *dlg = new KFileDialog( QString::null, i18n("HTML files|* *.html *.htm"),
 					this , "filedialog", true );
     dlg->setCaption(i18n("Save as"));
-    dlg->setSelection( KURL(dlg->baseURL(), srcURL.filename()).url() );
+
+    dlg->setSelection( srcURL.filename() );
     if ( dlg->exec() )
       {
 	KURL destURL( dlg->selectedURL() );
@@ -608,11 +609,10 @@ void KonqHTMLView::saveFrame()
   KFileDialog *dlg = new KFileDialog( QString::null, "*\n*.html\n*.htm",
 					this , "filedialog", true );
   dlg->setCaption(i18n("Save frameset as"));
-  dlg->setSelection( KURL(dlg->baseURL(), srcURL.filename()).url() );
+  dlg->setSelection( srcURL.filename() );
   if ( dlg->exec() )
   {
     KURL destURL(dlg->selectedURL());
-
     if ( !destURL.isMalformed() )
     {
       KIOJob *job = new KIOJob;
@@ -630,12 +630,22 @@ void KonqHTMLView::saveBackground()
 
   KURL backgroundURL( KURL( m_pBrowser->url() ), relURL );
 
-  KURL destURL = KFileDialog::getSaveFileName( backgroundURL.filename(), "*", this, i18n("Save background image as"));
-  if ( !destURL.isMalformed() )
-      {
-	  KIOJob *job = new KIOJob;
-	  job->copy( backgroundURL.url(), destURL.url() );
-      }
+  KFileDialog *dlg = new KFileDialog( QString::null, "*",
+					this , "filedialog", true );
+  dlg->setCaption(i18n("Save background image as"));
+
+  dlg->setSelection( backgroundURL.filename() );
+  if ( dlg->exec() )
+  {
+    KURL destURL( dlg->selectedURL());
+    if ( !destURL.isMalformed() )
+    {
+      KIOJob *job = new KIOJob;
+      job->copy( m_strURL, destURL.url() );
+    }
+  }
+
+  delete dlg;
 }
 
 void KonqHTMLView::viewDocumentSource()
