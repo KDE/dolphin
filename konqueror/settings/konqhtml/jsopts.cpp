@@ -113,15 +113,15 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   QPushButton* importDomainPB = new QPushButton( i18n("&Import..."), domainSpecificGB );
   domainSpecificGBLayout->addWidget( importDomainPB, 3, 1 );
   QWhatsThis::add( importDomainPB, i18n("Click this button to choose the file that contains "
-                                        "the JavaScript policies.  These policies will be merged "
-                                        "with the exisiting ones.  Duplicate entries are ignored.") );
+                                        "the JavaScript policies. These policies will be merged "
+                                        "with the exisiting ones. Duplicate entries are ignored.") );
   connect( importDomainPB, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
   importDomainPB->setEnabled( false );
 
   QPushButton* exportDomainPB = new QPushButton( i18n("&Export..."), domainSpecificGB );
   domainSpecificGBLayout->addWidget( exportDomainPB, 4, 1 );
   QWhatsThis::add( exportDomainPB, i18n("Click this button to save the JavaScript policy to a zipped "
-                                        "file.  The file, named <b>javascript_policy.tgz</b>, will be "
+                                        "file. The file, named <b>javascript_policy.tgz</b>, will be "
                                         "saved to a location of your choice." ) );
 
   connect( exportDomainPB, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
@@ -135,7 +135,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
                                           "host or domain. To add a new policy, simply click the <i>Add...</i> "
                                           "button and supply the necessary information requested by the "
                                           "dialog box. To change an existing policy, click on the <i>Change...</i> "
-                                          "button and choose the new policy from the policy dialog box.  Clicking "
+                                          "button and choose the new policy from the policy dialog box. Clicking "
                                           "on the <i>Delete</i> button will remove the selected policy causing the default "
                                           "policy setting to be used for that domain. The <i>Import</i> and <i>Export</i> "
                                           "button allows you to easily share your policies with other people by allowing "

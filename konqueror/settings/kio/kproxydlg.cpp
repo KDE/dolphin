@@ -54,7 +54,7 @@ KExceptionBox::KExceptionBox( QWidget* parent, const char* name )
                                           "in this list"), this,
                                           "cb_reverseproxy" );
     QWhatsThis::add( cb_reverseproxy, i18n("<qt>Check this box to reverse the "
-                                           "use of the exception list.  That "
+                                           "use of the exception list. That "
                                            "is checking this box will result "
                                            "in the proxy servers being used "
                                            "only when the requested URL matches "
@@ -124,7 +124,7 @@ KExceptionBox::KExceptionBox( QWidget* parent, const char* name )
                                           "If the box is checked, then only "
                                           "URLs that match the addresses "
                                           "listed here will be sent through "
-                                          "the proxy server(s) shown above.  "
+                                          "the proxy server(s) shown above. "
                                           "Otherwise, the proxy servers are "
                                           "bypassed for this list.</qt>") );
 
@@ -333,7 +333,7 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
                                       gb_configure, "rb_autoScript" );
     QWhatsThis::add( rb_autoScript, i18n("Select this option if your proxy "
                                          "support is provided through a script "
-                                         "file located at a specific address.  "
+                                         "file located at a specific address. "
                                          "You can then enter the address of "
                                          "the location below.") );
     hlay->addWidget( rb_autoScript );
@@ -439,7 +439,7 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
     gb_auth->setEnabled( false );
     QWhatsThis::add( gb_auth, i18n("Setup the way authorization information "
                                    "should be handled when making proxy "
-                                   "connections.  The default option is to "
+                                   "connections. The default option is to "
                                    "prompt you for password as needed.") );
     gb_auth->setColumnLayout(0, Qt::Vertical );
     gb_auth->layout()->setSpacing( 0 );
@@ -458,7 +458,7 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
     rb_prompt->setChecked( true );
     QWhatsThis::add( rb_prompt, i18n("Select this option if you want to "
                                      "be prompted for the login information "
-                                     "as needed.  This is default behavior.") );
+                                     "as needed. This is default behavior.") );
     hlay->addWidget( rb_prompt );
     spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
                               QSizePolicy::Fixed );

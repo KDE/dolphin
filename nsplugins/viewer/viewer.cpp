@@ -222,7 +222,7 @@ int main(int argc, char** argv)
    {
       KMessageBox::error(NULL,
                             i18n("There was an error connecting to the Desktop "
-                                 "communications server.  Please make sure that "
+                                 "communications server. Please make sure that "
                                  "the 'dcopserver' process has been started, and "
                                  "then try again."),
                             i18n("Error connecting to DCOP server"));

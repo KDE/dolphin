@@ -82,9 +82,9 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
                                   "rb_verify" );
     QWhatsThis::add( rb_verify, i18n("Select this if you want to verify "
                                      "whether the page cached in your hard "
-                                     "disk is still valid.  If this is disabled, "
+                                     "disk is still valid. If this is disabled, "
                                      "a cached copy of remote files will be "
-                                     "used whenever possible.  You can still "
+                                     "used whenever possible. You can still "
                                      "use the reload button to synchronize the "
 				     "cache with the remote host.") );
     hlay->addWidget( rb_verify );

@@ -67,10 +67,10 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   m_leSite = new UALineEdit( this );
   label->setBuddy( m_leSite );
   connect( m_leSite, SIGNAL( textChanged(const QString&)), SLOT(slotTextChanged(const QString&)) );
-  QString wtstr = i18n( "Enter the site or domain name where a fake identity should be used.  "
-                        "<p><u>NOTE:</u> Wildcard syntax such as \"*,?\" is NOT allowed.  Instead "
+  QString wtstr = i18n( "Enter the site or domain name where a fake identity should be used. "
+                        "<p><u>NOTE:</u> Wildcard syntax such as \"*,?\" is NOT allowed. Instead "
                         "enter the top level address of a site to make generic matches for all "
-                        "locations found under it.  For example, if you want all sites at "
+                        "locations found under it. For example, if you want all sites at "
                         "<code>http://www.acme.com</code> to receive fake browser-identification, "
                         "simply enter <code>acme.com</code> here.");
   QWhatsThis::add( label, wtstr );

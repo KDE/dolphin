@@ -90,7 +90,7 @@ KProxyExceptionDlg::KProxyExceptionDlg( QWidget* parent,  const char* name )
                                          "Note that the reverse is true if "
                                          "the \"<code>Only use proxy for "
                                          "enteries in this list</code>\" "
-                                         "box is checked.  That is only URLs "
+                                         "box is checked. That is only URLs "
                                          "that match one of the addresses in "
                                          "this would be allowed to use proxy "
                                          "servers") );

@@ -168,16 +168,16 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     QWhatsThis::add( deleteDomainPB, i18n("Click on this button to change the policy for the "
                                           "host or domain selected in the list box.") );
     QWhatsThis::add( importDomainPB, i18n("Click this button to choose the file that contains "
-                                          "the Java policies.  These policies will be merged "
-                                          "with the exisiting ones.  Duplicate entries are ignored.") );
+                                          "the Java policies. These policies will be merged "
+                                          "with the exisiting ones. Duplicate entries are ignored.") );
     QWhatsThis::add( exportDomainPB, i18n("Click this button to save the Java policy to a zipped "
-                                          "file.  The file, named <b>java_policy.tgz</b>, will be "
+                                          "file. The file, named <b>java_policy.tgz</b>, will be "
                                           "saved to a location of your choice." ) );
     QWhatsThis::add( domainSpecificGB, i18n("Here you can set specific Java policies for any particular "
                                             "host or domain. To add a new policy, simply click the <i>Add...</i> "
                                             "button and supply the necessary information requested by the "
                                             "dialog box. To change an existing policy, click on the <i>Change...</i> "
-                                            "button and choose the new policy from the policy dialog box.  Clicking "
+                                            "button and choose the new policy from the policy dialog box. Clicking "
                                             "on the <i>Delete</i> button will remove the selected policy causing the default "
                                             "policy setting to be used for that domain. The <i>Import</i> and <i>Export</i> "
                                             "button allows you to easily share your policies with other people by allowing "
@@ -190,22 +190,22 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     QWhatsThis::add( javaSecurityManagerCB, i18n( "Enabling the security manager will cause the jvm to run with a Security "
                                                   "Manager in place. This will keep applets from being able to read and "
                                                   "write to your file system, creating arbitrary sockets, and other actions "
-                                                  "which could be used to compromise your system.  Disable this option at your "
-                                                  "own risk.  You can modify your $HOME/.java.policy file with the Java "
+                                                  "which could be used to compromise your system. Disable this option at your "
+                                                  "own risk. You can modify your $HOME/.java.policy file with the Java "
                                                   "policytool utility to give code downloaded from certain sites more "
                                                   "permissions." ) );
 
-    QWhatsThis::add( pathED, i18n("Enter the path to the java executable.  If you want to use the jre in "
-                                  "your path, simply leave it as 'java'.  If you need to use a different jre, "
+    QWhatsThis::add( pathED, i18n("Enter the path to the java executable. If you want to use the jre in "
+                                  "your path, simply leave it as 'java'. If you need to use a different jre, "
                                   "enter the path to the java executable (for example, /usr/lib/jdk/bin/java), "
                                   "or the path to the directory that contains 'bin/java' (for example, /opt/IBMJava2-13).") );
 
     QWhatsThis::add( addArgED, i18n("If you want special arguments to be passed to the virtual machine, enter them here.") );
 
-    QString shutdown = i18n("When all the applets have been destroyed, the applet server should shut down.  "
-                                           "However, starting the jvm takes a lot of time.  If you would like to "
+    QString shutdown = i18n("When all the applets have been destroyed, the applet server should shut down. "
+                                           "However, starting the jvm takes a lot of time. If you would like to "
                                            "keep the java process running while you are "
-                                           "browsing, you can set the timeout value to what you would like.  To keep "
+                                           "browsing, you can set the timeout value to what you would like. To keep "
                                            "the java process running for the whole time the konqueror process is, "
                                            "leave the Shutdown Applet Server checkbox unchecked.");
     QWhatsThis::add( serverTimeoutSB, shutdown);

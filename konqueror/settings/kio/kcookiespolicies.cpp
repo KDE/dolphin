@@ -137,14 +137,14 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
 #if 0
     pb_domPolicyImport = new QPushButton( i18n("Import..."), vbox );
     QWhatsThis::add( pb_domPolicyImport, i18n("Click this button to choose the file that contains "
-                                              "the cookie policies.  These policies will be merged "
-                                              "with the existing ones.  Duplicate entries are ignored.") );
+                                              "the cookie policies. These policies will be merged "
+                                              "with the existing ones. Duplicate entries are ignored.") );
     connect( pb_domPolicyImport, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
     pb_domPolicyImport->hide();
 
     pb_domPolicyExport = new QPushButton( i18n("Export..."), vbox );
     QWhatsThis::add( pb_domPolicyExport, i18n("Click this button to save the cookie policy to a zipped "
-                                              "file.  The file, named <b>cookie_policy.tgz</b>, will be "
+                                              "file. The file, named <b>cookie_policy.tgz</b>, will be "
                                               "saved to a location of your choice." ) );
 
     connect( pb_domPolicyExport, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
@@ -156,7 +156,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                                              "domain. To add a new policy, simply click on the <i>Add...</i> "
                                              "button and supply the necessary information requested by the "
                                              "dialog box. To change an existing policy, click on the <i>Change...</i> "
-                                             "button and choose the new policy from the policy dialog box.  Clicking "
+                                             "button and choose the new policy from the policy dialog box. Clicking "
                                              "on the <i>Delete</i> button will remove the selected policy causing the "
                                              "default policy setting to be used for that domain. ") );
 #if 0
@@ -521,14 +521,14 @@ QString KCookiesPolicies::quickHelp() const
               " consider this an invasion of privacy.<p>However, cookies are"
               " useful in certain situations. For example, they are often used"
               " by Internet shops, so you can 'put things into a shopping"
-              " basket'.  Some sites require you have a browser that supports"
+              " basket'. Some sites require you have a browser that supports"
               " cookies.<p>Because most people want a compromise between privacy"
               " and the benefits cookies offer, KDE offers you the ability to"
               " customize the way it handles cookies. You might, for example"
               " want to set KDE's default policy to ask you whenever a server"
               " wants to set a cookie or simply reject or accept everything."
               " For example, you might choose to accept all cookies from your"
-              " favorite shopping web site.  For this all you have to do is"
+              " favorite shopping web site. For this all you have to do is"
               " either browse to that particular site and when you are presented"
               " with the cookie dialog box, click on <i> This domain </i> under"
               " the 'apply to' tab and choose accept or simply specify the name"

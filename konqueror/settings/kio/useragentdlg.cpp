@@ -85,7 +85,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   lb_default->setAlignment( Qt::AlignVCenter | Qt::AlignHCenter | Qt::WordBreak );
   bg_grid->addMultiCellWidget( lb_default, 1, 1, 0, 1);
   wtstr = i18n("This is the default identification sent to remote sites "
-               "during browsing.  You can modify it using the checkboxes "
+               "during browsing. You can modify it using the checkboxes "
                "below.");
   QWhatsThis::add( lb_default, wtstr );
 
@@ -194,7 +194,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
                "<P>To add a new agent string, simply click on the <code>New "
                "</code>button and supply the necessary information requested "
                "by the dialog box. To change an existing site specific entry, "
-               "click on the <code>Change</code> button.  The <code>Delete "
+               "click on the <code>Change</code> button. The <code>Delete "
                "</code> button will remove the selected policy, causing the "
                "default setting to be used for that site or domain.");
                /*
