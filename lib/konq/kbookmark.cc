@@ -207,7 +207,7 @@ QString KBookmark::fullText() const
 
 KURL KBookmark::url() const
 {
-    return KURL(element.attribute("href"), 0, QFont::Unicode); // Decode it from utf8
+    return KURL(element.attribute("href"), QFont::Unicode); // Decode it from utf8
 }
 
 QString KBookmark::icon() const
@@ -217,7 +217,8 @@ QString KBookmark::icon() const
         // Default icon depends on URL for bookmarks, and is default directory
         // icon for groups.
         if ( isGroup() )
-            icon = KMimeType::mimeType( "inode/directory" )->KMimeType::icon( QString::null, true );
+            icon = /*"bookmark_folder";*/
+                KMimeType::mimeType( "inode/directory" )->KMimeType::icon( QString::null, true );
         else
             if ( isSeparator() )
                 icon = "eraser"; // whatever
