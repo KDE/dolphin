@@ -153,7 +153,6 @@ public:
     QPtrList <TestLink> tests;
 
 public slots:
-    void slotImportCrash();
     void slotImportKDE();
     void slotImportGaleon();
     void slotImportOpera();

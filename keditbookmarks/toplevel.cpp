@@ -23,7 +23,6 @@
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
-#include <kbookmarkimporter_crash.h>
 #include <kbookmarkimporter_ie.h>
 #include <kbookmarkimporter_opera.h>
 #include <kbookmarkexporter.h>
@@ -128,7 +127,6 @@ void KEBTopLevel::createActions() {
     // Create the actions
 
     KAction * act = new KAction( i18n( "Import Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotImportNS() ), actionCollection(), "importNS" );
-    (void) new KAction( i18n( "Import Crashed Sessions as Bookmarks" ), "crash", 0, this, SLOT( slotImportCrash() ), actionCollection(), "importCrash" );
     (void) new KAction( i18n( "Import Opera Bookmarks..." ), "opera", 0, this, SLOT( slotImportOpera() ), actionCollection(), "importOpera" );
     (void) new KAction( i18n( "Import Galeon Bookmarks..." ), "galeon", 0, this, SLOT( slotImportGaleon() ), actionCollection(), "importGaleon" );
     (void) new KAction( i18n( "Import KDE Bookmarks..." ), "bookmarks", 0, this, SLOT( slotImportKDE() ), actionCollection(), "importKDE" );
@@ -204,7 +202,6 @@ void KEBTopLevel::resetActions()
     actionCollection()->action("exportMoz")->setEnabled(true);
 
     if (!m_bReadOnly) {
-       actionCollection()->action("importCrash")->setEnabled(true);
        actionCollection()->action("importGaleon")->setEnabled(true);
        actionCollection()->action("importKDE")->setEnabled(true);
        actionCollection()->action("importOpera")->setEnabled(true);
@@ -749,18 +746,6 @@ void KEBTopLevel::slotImportOpera()
     bool subFolder = (answer==KMessageBox::Yes);
     ImportCommand * cmd = new ImportCommand( i18n("Import Opera Bookmarks"), KOperaBookmarkImporter::operaBookmarksFile(),
                                              subFolder ? i18n("Opera Bookmarks") : QString::null, "opera", false, BK_OPERA); // TODO - icon
-    m_commandHistory.addCommand( cmd );
-    selectImport(cmd);
-}
-
-void KEBTopLevel::slotImportCrash()
-{
-    // Hmm, there's no questionYesNoCancel...
-    int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
-                                             i18n("Crash Import"), i18n("As New Folder"), i18n("Replace") );
-    bool subFolder = (answer==KMessageBox::Yes);
-    ImportCommand * cmd = new ImportCommand( i18n("Import Crash Bookmarks"), KCrashBookmarkImporter::crashBookmarksDir(),
-                                             subFolder ? i18n("Crash Bookmarks") : QString::null, "crash", false, BK_CRASH); // TODO - icon
     m_commandHistory.addCommand( cmd );
     selectImport(cmd);
 }

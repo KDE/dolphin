@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="keditbookmarks" version="11">
+<kpartgui name="keditbookmarks" version="12">
 
 <MenuBar>
 
@@ -7,17 +7,18 @@
  <Action name="file_open"/>
  <Action name="file_save"/>
  <Action name="file_save_as"/>
- <Separator/>
- <Action name="importIE"/>
- <Action name="importOpera"/>
- <Action name="importGaleon"/>
- <Action name="importKDE"/>
- <Action name="importMoz"/>
- <Action name="importNS"/>
- <Action name="importCrash"/>
- <Separator/>
- <Action name="exportMoz"/>
- <Action name="exportNS"/>
+ <Menu name="import" noMerge="1"><text>&amp;Import</text>
+   <Action name="importIE"/>
+   <Action name="importOpera"/>
+   <Action name="importGaleon"/>
+   <Action name="importKDE"/>
+   <Action name="importMoz"/>
+   <Action name="importNS"/>
+ </Menu>
+ <Menu name="export" noMerge="1"><text>&amp;Export</text>
+   <Action name="exportMoz"/>
+   <Action name="exportNS"/>
+ </Menu>
  <Separator/>
  <Action name="file_quit"/>
 </Menu>

@@ -22,7 +22,6 @@
 #include <qregexp.h>
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
-#include <kbookmarkimporter_crash.h>
 #include <kbookmarkimporter_ie.h>
 #include <kbookmarkimporter_opera.h>
 #include <kdebug.h>
@@ -141,7 +140,7 @@ void CreateCommand::execute()
 
 QString CreateCommand::finalAddress()
 {
-    // AK - assert( alreadyExecuted ); ???
+    // AK - assert( hasBeenExecuted ); ???
     return m_to;
 }
 
@@ -376,8 +375,6 @@ void ImportCommand::execute()
           IEExecute();
        } else if (m_bookmarksType == BK_OPERA) {
           operaExecute();
-       } else if (m_bookmarksType == BK_CRASH) {
-          crashExecute();
        }
 
        // Save memory
@@ -387,57 +384,40 @@ void ImportCommand::execute()
 
 }
 
-// FIXME - EVIL CODE DUPLICATION
-
-void ImportCommand::crashExecute()
-{
-    KCrashBookmarkImporter importer(m_fileName);
-    connect( &importer, SIGNAL( newBookmark( const QString &, const QCString &, const QString & ) ),
-             SLOT( newBookmark( const QString &, const QCString &, const QString & ) ) );
-    connect( &importer, SIGNAL( newFolder( const QString &, bool, const QString & ) ),
-             SLOT( newFolder( const QString &, bool, const QString & ) ) );
-    connect( &importer, SIGNAL( newSeparator() ), SLOT( newSeparator() ) );
-    connect( &importer, SIGNAL( endFolder() ), SLOT( endFolder() ) );
-    importer.parseCrashBookmarks();
-} 
+#define CONNECT_IMPORTER(a)                                                               \
+    connect( ##a,                                                                         \
+             SIGNAL( newBookmark( const QString &, const QCString &, const QString & ) ), \
+             SLOT( newBookmark( const QString &, const QCString &, const QString & ) ) ); \
+    connect( ##a,                                                                         \
+             SIGNAL( newFolder( const QString &, bool, const QString & ) ),               \
+             SLOT( newFolder( const QString &, bool, const QString & ) ) );               \
+    connect( ##a,                                                                         \
+             SIGNAL( newSeparator() ),                                                    \
+             SLOT( newSeparator() ) );                                                    \
+    connect( ##a,                                                                         \
+             SIGNAL( endFolder() ),                                                       \
+             SLOT( endFolder() ) );
 
 void ImportCommand::operaExecute()
 {
     KOperaBookmarkImporter importer(m_fileName);
-    connect( &importer, SIGNAL( newBookmark( const QString &, const QCString &, const QString & ) ),
-             SLOT( newBookmark( const QString &, const QCString &, const QString & ) ) );
-    connect( &importer, SIGNAL( newFolder( const QString &, bool, const QString & ) ),
-             SLOT( newFolder( const QString &, bool, const QString & ) ) );
-    connect( &importer, SIGNAL( newSeparator() ), SLOT( newSeparator() ) );
-    connect( &importer, SIGNAL( endFolder() ), SLOT( endFolder() ) );
+    CONNECT_IMPORTER(&importer);
     importer.parseOperaBookmarks();
 } 
 
 void ImportCommand::IEExecute()
 {
     KIEBookmarkImporter importer(m_fileName);
-    connect( &importer, SIGNAL( newBookmark( const QString &, const QCString &, const QString & ) ),
-             SLOT( newBookmark( const QString &, const QCString &, const QString & ) ) );
-    connect( &importer, SIGNAL( newFolder( const QString &, bool, const QString & ) ),
-             SLOT( newFolder( const QString &, bool, const QString & ) ) );
-    connect( &importer, SIGNAL( newSeparator() ), SLOT( newSeparator() ) );
-    connect( &importer, SIGNAL( endFolder() ), SLOT( endFolder() ) );
+    CONNECT_IMPORTER(&importer);
     importer.parseIEBookmarks();
 } 
 
 void ImportCommand::nsExecute()
 {
     KNSBookmarkImporter importer(m_fileName);
-    connect( &importer, SIGNAL( newBookmark( const QString &, const QCString &, const QString & ) ),
-             SLOT( newBookmark( const QString &, const QCString &, const QString & ) ) );
-    connect( &importer, SIGNAL( newFolder( const QString &, bool, const QString & ) ),
-             SLOT( newFolder( const QString &, bool, const QString & ) ) );
-    connect( &importer, SIGNAL( newSeparator() ), SLOT( newSeparator() ) );
-    connect( &importer, SIGNAL( endFolder() ), SLOT( endFolder() ) );
+    CONNECT_IMPORTER(&importer);
     importer.parseNSBookmarks( m_utf8 );
 }
-
-// NOT CODE DUPLICATION BUT STILL EVIL!!! :))
 
 void ImportCommand::xbelExecute()
 {
@@ -448,8 +428,8 @@ void ImportCommand::xbelExecute()
     // get the xbel
     QDomNode subDoc = pManager->internalDocument().namedItem("xbel").cloneNode();
 
-    if ( !m_folder.isEmpty() ) {
-
+    if ( !m_folder.isEmpty() ) 
+    {
        // transform into folder
        subDoc.toElement().setTagName("folder");
 
@@ -471,17 +451,21 @@ void ImportCommand::xbelExecute()
     // import and add it
     QDomNode node = doc.importNode( subDoc, true );
 
-    if ( !m_folder.isEmpty() ) {
+    if ( !m_folder.isEmpty() ) 
+    {
        KEBTopLevel::bookmarkManager()->root().internalElement().appendChild(node);
        m_group = KBookmarkGroup(node.toElement()).address();
 
-    } else {
+    } 
+    else 
+    {
        QDomElement root = KEBTopLevel::bookmarkManager()->root().internalElement();
 
        QValueList<QDomElement> childList;
 
        QDomNode n = subDoc.firstChild().toElement();
-       while( !n.isNull() ) {
+       while( !n.isNull() ) 
+       {
           QDomElement e = n.toElement(); // try to convert the node to an element.
           if( !e.isNull() )
              childList.append( e );

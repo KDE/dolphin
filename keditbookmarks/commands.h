@@ -177,7 +177,6 @@ private:
 #define BK_XBEL   4
 #define BK_OPERA  3
 #define BK_IE     2
-#define BK_CRASH  1
 #define BK_NS     0
 
 #include <qptrstack.h>
@@ -211,7 +210,6 @@ protected slots:
 private:
     void xbelExecute(); // doesn't use signals
     void nsExecute();
-    void crashExecute();
     void IEExecute();
     void operaExecute();
 
