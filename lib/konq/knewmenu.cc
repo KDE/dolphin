@@ -43,7 +43,7 @@ int KNewMenu::templatesVersion = 1; // one step ahead, to force filling the menu
 KDirWatch * KNewMenu::m_pDirWatch = 0L;
 
 KNewMenu::KNewMenu( KActionCollection * _collec, const char *name ) :
-  KActionMenu( i18n( "&New" ), _collec, name ), m_actionCollection( _collec ),
+  KActionMenu( i18n( "&New" ), "filenew", _collec, name ), m_actionCollection( _collec ),
   menuItemsVersion( 0 )
 {
   // Don't fill the menu yet
