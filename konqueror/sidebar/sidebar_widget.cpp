@@ -155,6 +155,7 @@ void addBackEnd::activatedAddMenu(int id)
 Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char *name)
 	:QWidget(parent,name),KonqSidebar_PluginInterface()
 {
+	noUpdate=false;
 	myLayout=0;
 	activeModule=0;
         kdDebug()<<"**** Sidebar_Widget:SidebarWidget()"<<endl;
@@ -630,7 +631,12 @@ void Sidebar_Widget::showHidePage(int page)
 			if(ButtonBar->isTabRaised(page))
 				{
 					//SingleWidgetMode
-					if (singleWidgetMode) if (latestViewed!=-1) showHidePage(latestViewed);
+					if (singleWidgetMode)
+						if (latestViewed!=-1)
+						{
+							noUpdate=true;
+							showHidePage(latestViewed);
+						}
 					if (!createView(info))
 						{
 							ButtonBar->setTab(page,false);
@@ -658,7 +664,12 @@ void Sidebar_Widget::showHidePage(int page)
 			if ((!info->dock->isVisible()) && (ButtonBar->isTabRaised(page)))
 				{
 					//SingleWidgetMode
-					if (singleWidgetMode) if (latestViewed!=-1) showHidePage(latestViewed);
+					if (singleWidgetMode)
+						if (latestViewed!=-1)
+						{
+							noUpdate=true;
+							showHidePage(latestViewed);
+						}
 					if (singleWidgetMode)
 					{
 						Area->setMainDockWidget(info->dock);
@@ -689,7 +700,8 @@ void Sidebar_Widget::showHidePage(int page)
 
 		}
 
-	collapseExpandSidebar();
+	if (!noUpdate) collapseExpandSidebar();
+	noUpdate=false;
 }
 
 void Sidebar_Widget::collapseExpandSidebar()

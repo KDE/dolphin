@@ -114,6 +114,7 @@ class Sidebar_Widget: public QWidget, public KonqSidebar_PluginInterface
 	void collapseExpandSidebar();
 	KDockWidget *dummyMainW;
 	bool doEnableActions();
+	bool noUpdate;
   protected:
 	virtual bool eventFilter(QObject*,QEvent*);
 	friend class ButtonInfo;
