@@ -5,8 +5,15 @@
 
 - Sorting by date, ...
 
-- A nicer confirmation box before deleting would contain the list of files to be 
-  deleted, if few of them otherwise the number (or simply "...")
+- Add support (in kpropsdlg probably) for user defined actions in .desktop
+files, like :
+...
+Actions=Eject
+[Desktop Action Eject]
+Name=Eject
+Name[fr]=Ejecter
+Exec=...
+(Works fine BTW, we just need the GUI for it !)
 
 - implement search functionality in KonqHTMLView -> wait until khtml catched
   up :-)
@@ -28,11 +35,7 @@
 
 - Integrate kdf and kdu ...
 
-- More key bindings. Lots of things are missing key bindings,
-  Ctrl+A for select all for instance. => partially done.
-  Needs disconnecting/reconnecting on view switching.
-
-- Configurable toplevel items in the treeview (GUI for konq_dirtree)
+- More key bindings
 
 - see grep TODO *.cc *.h
 
