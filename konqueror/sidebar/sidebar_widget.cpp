@@ -210,7 +210,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	Menu->insertSeparator();
 	Menu->insertItem(i18n("Multiple Views"),1);
 	Menu->insertItem(i18n("Show Tabs Left"),2);
-	Menu->insertItem(i18n("Show Extra Buttons"),3);
+	Menu->insertItem(i18n("Show Configuration Button"),3);
 	Menu->insertSeparator();
 	Menu->insertItem(SmallIconSet("remove"),i18n("Close Navigation Panel"),par,SLOT(deleteLater()));
         connect(Menu,SIGNAL(aboutToShow()),this,SLOT(aboutToShowConfigMenu()));
@@ -438,13 +438,16 @@ void Sidebar_Widget::activatedMenu(int id)
 			if(showExtraButtons)
 			{
 				ButtonBar->insertButton(SmallIcon("configure"), -1, Menu, i18n("Configure Sidebar"));
-				ButtonBar->insertButton(SmallIcon("remove"),-2);
-				connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),partParent,SLOT(deleteLater()));
+//JW - TEST				ButtonBar->insertButton(SmallIcon("remove"),-2);
+//JW - TEST				connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),partParent,SLOT(deleteLater()));
 			}
 			else
 			{
+				KMessageBox::information(this,
+				i18n("If you want to reenable the \"Configuration\" button, you can do this from the right mouse button popup menu everywhere within the navigation panel tabs"),QString::null,"sidebar_remove_configure_button");
+
 				ButtonBar->removeButton(-1);
-				ButtonBar->removeButton(-2);
+//JW -TEST				ButtonBar->removeButton(-2);
 			}
 			break;
 		}
@@ -553,8 +556,8 @@ void Sidebar_Widget::createButtons()
 		if (!ButtonBar->getButton(-1))
 		{
 			ButtonBar->insertButton(SmallIcon("configure"), -1, Menu, i18n("Configure Sidebar"));
-			ButtonBar->insertButton(SmallIcon("remove"),-2);
-			connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),partParent,SLOT(deleteLater()));
+//JW - TEST			ButtonBar->insertButton(SmallIcon("remove"),-2);
+//JW - TEST			connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),partParent,SLOT(deleteLater()));
 		}
 	}
 	
