@@ -875,12 +875,19 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
 void KonqKfmIconView::slotProcessMimeIcons()
 {
     if ( m_lstPendingMimeIconItems.count() == 0 ) {
+
+  // We don't need to be notified on scrolls or resizes anymore. (Rikkus)
+  disconnect(
+    m_pIconView,  SIGNAL(viewportAdjusted()),
+    this,         SLOT(slotProcessMimeIcons()));
+
 	if ( m_bNeedAlign )
 	    m_pIconView->arrangeItemsInGrid();
 	return;
     }
 
     // Find an icon that's visible.
+    //
     // We only find mimetypes for icons that are visible. When more
     // of our viewport is exposed, we'll get a signal and then get
     // the mimetypes for the newly visible icons. (Rikkus)
@@ -951,6 +958,13 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 
     // Store url in the icon view
     m_pIconView->setURL( _url );
+
+    // When our viewport is adjusted (resized or scrolled) we need
+    // to get the mime types for any newly visible icons. (Rikkus)
+    connect(
+      m_pIconView,  SIGNAL(viewportAdjusted()),
+      this,         SLOT(slotProcessMimeIcons()));
+
     // and in the part :-)
     m_url = _url;
 
