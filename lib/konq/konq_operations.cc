@@ -185,6 +185,9 @@ void KonqOperations::_del( int method, const KURL::List & _selectedURLs, int con
     }
 
   m_method = method;
+  if (m_method==TRASH && (KApplication::keyboardModifiers() & KApplication::ShiftModifier))
+    m_method = DEL;
+  
   if ( confirmation == SKIP_CONFIRMATION || askDeleteConfirmation( selectedURLs, confirmation ) )
   {
     //m_srcURLs = selectedURLs;
