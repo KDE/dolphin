@@ -88,7 +88,9 @@ int main( int argc, char **argv )
            "            # Selects the icons on the desktop in the given rectangle\n"
            "            # If add is 1, adds selection to the current one\n");
     printf("  kfmclient configure\n"
-           "            # Re-read KFM's configuration.\n\n");
+           "            # Re-read konqueror's configuration.\n\n");
+    printf("  kfmclient configureDesktop\n"
+           "            # Re-read konqueror's configuration.\n\n");
     printf("*** Examples:\n"
            "  kfmclient exec file:/usr/local/kde/bin/kdehelp Open\n"
            "             // Starts kdehelp\n\n");
@@ -190,6 +192,20 @@ int clientApp::doIt( int argc, char **argv )
     {
       CORBA::Request_var req = m_vKonqy->_request( "configure" );
       //req->result()->value()->type( OpenParts::_tc_MainWindow );
+      req->invoke();
+    }
+  }
+  else if ( strcmp( argv[1], "configureDesktop" ) == 0 )
+  {
+    if ( argc != 2 )
+    {
+      fprintf( stderr, "Syntax Error: Too many arguments\n" );
+      return 1;
+    }
+    bool ok = getKDesky();
+    if (ok)
+    {
+      CORBA::Request_var req = m_vKDesky->_request( "configure" );
       req->invoke();
     }
   }
