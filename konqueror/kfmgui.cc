@@ -108,9 +108,6 @@ KfmGui::KfmGui( const char *_url, QWidget *_parent = 0L ) : QWidget( _parent )
   s_lstWindows->setAutoDelete( false );
   s_lstWindows->append( this );
 
-  m_pPannerChild0GM = 0L;
-  m_pPannerChild1GM = 0L;
-  
 //  m_pCompletion = 0L;
   
   initConfig();
@@ -147,12 +144,12 @@ void KfmGui::init()
 
   m_bInit = false;
 
-  m_rightView.m_pView->fetchFocus();
-  m_rightView.m_pView->openURL( m_strTmpURL.data() );
+  m_views.at(0)->m_pView->fetchFocus();
+  m_views.at(0)->m_pView->openURL( m_strTmpURL.data() );
 
   if ( m_Props->isSplitView() )
   {
-    m_leftView.m_pView->openURL( m_strTmpURL.data() );
+    m_views.at(1)->m_pView->openURL( m_strTmpURL.data() );
   }
 
 }
@@ -276,17 +273,6 @@ bool KfmGui::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   m_vMenuView->insertItem( i18n("Rel&oad Tree"), this, "slotReloadTree" , 0 );
   m_vMenuView->insertItem( i18n("&Reload Document"), this, "slotReload" , 0 );
  
-  KfmViewProps * vProps = m_currentView.m_pView->props();
-
-//  m_vMenuView->setItemChecked( m_vMenuView->idAt( 0 ), m_currentView->props()->isShowingDirTree() );
-  m_vMenuView->setItemChecked( m_vMenuView->idAt( 1 ), m_Props->isSplitView() );
-  m_vMenuView->setItemChecked( m_vMenuView->idAt( 3 ), vProps->isShowingDotFiles() );
-  m_vMenuView->setItemChecked( m_vMenuView->idAt( 4 ), vProps->isShowingImagePreview() );
-
-  setViewModeMenu( vProps->viewMode() );
-
-  m_vMenuView->setItemChecked( m_vMenuView->idAt( 11 ), m_currentView.m_pView->isHTMLAllowed() );
-
   menuBar->insertMenu( i18n("&Bookmarks"), m_vMenuBookmarks, -1, -1 );
 
   //TODO: m_pBookmarkMenu = new KBookmarkMenu( m_rightView.m_pView, m_vMenuBookmarks );
@@ -385,9 +371,6 @@ bool KfmGui::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory )
   if ( !m_Props->m_bShowLocationBar )
     m_vLocationBar->enable( OpenPartsUI::Hide );
 
-  //hm...?
-  m_vLocationBar->setLinedText( TOOLBAR_URL_ID, m_currentView.m_pView->workingURL() );
-
   return true;    
 }
 
@@ -406,8 +389,6 @@ void KfmGui::initConfig()
   // Copy the default properties
   m_Props = new KfmGuiProps( *KfmGuiProps::m_pDefaultProps );
   
-  fillCurrentView( m_rightView );
-
   if ( !m_bInit )
   {
     // views will set their mode by themselves - to be checked
@@ -443,24 +424,6 @@ void KfmGui::initGui()
   
   m_animatedLogoCounter = 0;
   QObject::connect( &m_animatedLogoTimer, SIGNAL( timeout() ), this, SLOT( slotAnimatedLogoTimeout() ) );  
-  
-/*  if ( m_Props->isShowingDirTree() )
-  {    
-     gl = new QGridLayout( pannerChild0, 1, 1 );
-       gl->addWidget( treeView, 0, 0 );
-  }
-  else*/ if ( m_Props->isSplitView() )
-  {
-    m_pPannerChild0GM = new QGridLayout( m_pPannerChild0, 1, 1 );
-    m_pPannerChild0GM->addWidget( m_leftView.m_pView, 0, 0 );
-    m_pPannerChild1GM = new QGridLayout( m_pPannerChild1, 1, 1 );
-    m_pPannerChild1GM->addWidget( m_rightView.m_pView, 0, 0 );
-  }
-  else
-  {    
-    m_pPannerChild1GM = new QGridLayout( m_pPannerChild1, 1, 1 );
-    m_pPannerChild1GM->addWidget( m_rightView.m_pView, 0, 0 );
-  }
 }
 
 void KfmGui::initPanner()
@@ -472,8 +435,6 @@ void KfmGui::initPanner()
   else
     m_pPanner = new KPanner( this, "_panner", KPanner::O_VERTICAL, 0 );
     
-  m_pPannerChild0 = m_pPanner->child0();
-  m_pPannerChild1 = m_pPanner->child1();    
   QObject::connect( m_pPanner, SIGNAL( positionChanged() ), this, SLOT( slotPannerChanged() ) );
 
 //setView( m_pPanner );
@@ -579,7 +540,7 @@ void KfmGui::initMenu()
 
   setViewModeMenu( m_Props->viewMode() );
 
-  m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), m_currentView.m_pView->isHTMLAllowed() );
+  m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), m_currentView->m_pView->isHTMLAllowed() );
   
   m_pBookmarkMenu = new KBookmarkMenu( m_rightView.m_pView );
   
@@ -757,48 +718,13 @@ void KfmGui::initToolBar()
 */
 void KfmGui::initView()
 {
-  m_rightView.m_pView = new KfmView( this, m_pPannerChild1 );
-
-  fillCurrentView( m_rightView );
-
-  m_rightView.m_pView->show();
-  m_rightView.m_pView->fetchFocus();
-  
-  QObject::connect( m_rightView.m_pView, SIGNAL( canceled() ) , 
-	   this, SLOT( slotStopAnimation() ) );
-  QObject::connect( m_rightView.m_pView, SIGNAL( completed() ) , 
-	   this, SLOT( slotStopAnimation() ) );
-  QObject::connect( m_rightView.m_pView, SIGNAL( started() ) , 
-	   this, SLOT( slotStartAnimation() ) );
-  QObject::connect( m_rightView.m_pView, SIGNAL( upURL() ), 
-	   this, SLOT( slotUp() ) );
-  QObject::connect( m_rightView.m_pView, SIGNAL( backHistory() ), 
-	   this, SLOT( slotBack() ) );
-  QObject::connect( m_rightView.m_pView, SIGNAL( forwardHistory() ), 
-	   this, SLOT( slotForward() ) );
-  QObject::connect( m_rightView.m_pView, SIGNAL( gotFocus( KfmView* ) ), 
-	   this, SLOT( slotGotFocus( KfmView* ) ) );
+  createView( );
 
   if ( m_Props->isSplitView() )
   {
-    m_leftView.m_pView = new KfmView( this, m_pPannerChild0 );
-    m_leftView.m_pView->show();
-    
-    QObject::connect( m_leftView.m_pView, SIGNAL( canceled() ) , 
-	     this, SLOT( slotStopAnimation() ) );
-    QObject::connect( m_leftView.m_pView, SIGNAL( completed() ) , 
-	     this, SLOT( slotStopAnimation() ) );
-    QObject::connect( m_leftView.m_pView, SIGNAL( started() ) , 
-	     this, SLOT( slotStartAnimation() ) );
-    QObject::connect( m_leftView.m_pView, SIGNAL( upURL() ), 
-	     this, SLOT( slotUp() ) );
-    QObject::connect( m_leftView.m_pView, SIGNAL( backHistory() ), 
-	     this, SLOT( slotBack() ) );
-    QObject::connect( m_leftView.m_pView, SIGNAL( forwardHistory() ), 
-	     this, SLOT( slotForward() ) );
-    QObject::connect( m_leftView.m_pView, SIGNAL( gotFocus( KfmView* ) ), 
-	     this, SLOT( slotGotFocus( KfmView* ) ) );
+    createView( );
   }
+  m_currentView = m_views.first();
 }
 
 void KfmGui::slotAboutApp()
@@ -857,15 +783,47 @@ void KfmGui::slotURLEntered()
   m_bBack = false;
   m_bForward = false;
 
-  m_currentView.m_pView->openURL( url.c_str() );
+  m_currentView->m_pView->openURL( url.c_str() );
+}
+
+void KfmGui::createView( )
+{
+  m_views.append( new View );
+
+  // HACK : for the moment, use m_pPanner as parent for views. Will have to be extended
+  if (m_views.count() == 1) m_views.last()->m_pPannerChild = m_pPanner->child0();
+  if (m_views.count() == 2) m_views.last()->m_pPannerChild = m_pPanner->child1();
+
+  KfmView * v = new KfmView( this, m_views.last()->m_pPannerChild );
+  m_views.last()->m_pView = v;
+  v->show();
+  v->fetchFocus();
+  
+  m_views.last()->m_pPannerChildGM = new QGridLayout( m_views.last()->m_pPannerChild, 1, 1 );
+  m_views.last()->m_pPannerChildGM->addWidget( v, 0, 0 );
+
+  QObject::connect( v, SIGNAL( canceled() ) , 
+	   this, SLOT( slotStopAnimation() ) );
+  QObject::connect( v, SIGNAL( completed() ) , 
+	   this, SLOT( slotStopAnimation() ) );
+  QObject::connect( v, SIGNAL( started() ) , 
+	   this, SLOT( slotStartAnimation() ) );
+  QObject::connect( v, SIGNAL( upURL() ), 
+	   this, SLOT( slotUp() ) );
+  QObject::connect( v, SIGNAL( backHistory() ), 
+	   this, SLOT( slotBack() ) );
+  QObject::connect( v, SIGNAL( forwardHistory() ), 
+	   this, SLOT( slotForward() ) );
+  QObject::connect( v, SIGNAL( gotFocus( KfmView* ) ), 
+	   this, SLOT( slotGotFocus( KfmView* ) ) );
 }
 
 void KfmGui::slotSplitView()
 {
   if ( m_Props->m_bSplitView )
   {
-    fillCurrentView( m_rightView );
-    m_currentView.m_pView->fetchFocus();
+    // fillCurrentView( m_rightView );
+    m_currentView->m_pView->fetchFocus();
 
     m_Props->m_bSplitView = false;
     
@@ -873,58 +831,35 @@ void KfmGui::slotSplitView()
       m_vMenuView->setItemChecked( m_vMenuView->idAt( 1 ), false );
 
     m_pPanner->setSeparator( 0 );
-    
-    delete m_pPannerChild0GM;
-    m_pPannerChild0GM = 0L;
+
+    View * todel = m_views.at(1);    
+    delete todel->m_pPannerChildGM;
     cerr << "!!!!!!!!! Layout done !!!!!!!!!" << endl;
-
-    delete m_leftView.m_pView;
-    m_leftView.m_lstBack.clear();
-    m_leftView.m_lstForward.clear();
-    m_leftView.m_strUpURL = "";
-
-    return;
-  }
-  
-  if ( !CORBA::is_nil( m_vMenuView ) )  
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 1 ), true );
+    delete todel->m_pView;
+    todel->m_lstBack.clear();
+    todel->m_lstForward.clear();
+    m_views.remove(1);
+  } else 
+  {
+    if ( !CORBA::is_nil( m_vMenuView ) )  
+      m_vMenuView->setItemChecked( m_vMenuView->idAt( 1 ), true );
     
-  m_Props->m_bSplitView = true;
+    m_Props->m_bSplitView = true;
   
-  QString url = m_rightView.m_pView->currentURL();
+    QString url = m_views.at(0)->m_pView->currentURL();
 
-  saveCurrentView( m_rightView );
-  m_rightView.m_pView->clearFocus();
+    m_views.at(0)->m_pView->clearFocus();
+
+    createView( );
   
-  m_leftView.m_pView = new KfmView( this, m_pPannerChild0 );
-//  m_leftView.m_pView->setViewMode( m_Props->leftViewMode(), false ); automatic
+    m_pPanner->setSeparator( 50 );
 
-  m_pPannerChild0GM = new QGridLayout( m_pPannerChild0, 1, 1 );
-  m_pPannerChild0GM->addWidget( m_leftView.m_pView, 0, 0 );
-  m_leftView.m_pView->show();
+    cerr << "########## Opening " << url << endl;
   
-  m_pPanner->setSeparator( 50 );
+    m_views.at(1)->m_pView->openURL( url );
 
-  QObject::connect( m_leftView.m_pView, SIGNAL( canceled() ) , 
-	   this, SLOT( slotStopAnimation() ) );
-  QObject::connect( m_leftView.m_pView, SIGNAL( completed() ) , 
-	   this, SLOT( slotStopAnimation() ) );
-  QObject::connect( m_leftView.m_pView, SIGNAL( started() ) , 
-	   this, SLOT( slotStartAnimation() ) );
-  QObject::connect( m_leftView.m_pView, SIGNAL( upURL() ), 
-	   this, SLOT( slotUp() ) );
-  QObject::connect( m_leftView.m_pView, SIGNAL( backHistory() ), 
-	   this, SLOT( slotBack() ) );
-  QObject::connect( m_leftView.m_pView, SIGNAL( forwardHistory() ), 
-	   this, SLOT( slotForward() ) );
-  QObject::connect( m_leftView.m_pView, SIGNAL( gotFocus( KfmView* ) ), 
-	   this, SLOT( slotGotFocus( KfmView* ) ) );
-
-  cerr << "########## Opening " << url << endl;
-  
-  m_leftView.m_pView->openURL( url );
-  m_leftView.m_pView->fetchFocus();
-  fillCurrentView( m_leftView );
+  }
+  m_vMenuView->setItemChecked( m_vMenuView->idAt( 1 ), m_Props->m_bSplitView );
 }
 
 void KfmGui::slotLargeIcons()
@@ -937,7 +872,7 @@ void KfmGui::slotLargeIcons()
   }
   // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), false );
 
-  m_currentView.m_pView->setViewMode( KfmView::HOR_ICONS );
+  m_currentView->m_pView->setViewMode( KfmView::HOR_ICONS );
 }
 
 void KfmGui::slotSmallIcons()
@@ -951,7 +886,7 @@ void KfmGui::slotSmallIcons()
       
   // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), false );
 
-  m_currentView.m_pView->setViewMode( KfmView::VERT_ICONS );
+  m_currentView->m_pView->setViewMode( KfmView::VERT_ICONS );
 }
 
 void KfmGui::slotTreeView()
@@ -965,7 +900,7 @@ void KfmGui::slotTreeView()
   
   // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), false );
 
-  m_currentView.m_pView->setViewMode( KfmView::FINDER );
+  m_currentView->m_pView->setViewMode( KfmView::FINDER );
 }
 
 void KfmGui::slotHTMLView()
@@ -975,21 +910,15 @@ void KfmGui::slotHTMLView()
   // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 9 ), false );
   
   if ( !CORBA::is_nil( m_vMenuView ) )
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 11 ), !m_currentView.m_pView->isHTMLAllowed() );
+    m_vMenuView->setItemChecked( m_vMenuView->idAt( 11 ), !m_currentView->m_pView->isHTMLAllowed() );
 
-  m_currentView.m_pView->setHTMLAllowed( !m_currentView.m_pView->isHTMLAllowed() );
+  m_currentView->m_pView->setHTMLAllowed( !m_currentView->m_pView->isHTMLAllowed() );
 }
 
 void KfmGui::slotSaveGeometry()
 {
   KConfig *config = kapp->getConfig();
   config->setGroup( "Settings" );
-
-  // Shouldn't we save BOTH views, on save geometry ? (David)
-  if ( m_currentView.m_pView == m_leftView.m_pView )
-    saveCurrentView( m_leftView );
-  else
-    saveCurrentView( m_rightView );
 
   // Update the values in m_Props, if necessary :
   m_Props->m_width = this->width();
@@ -1048,14 +977,14 @@ void KfmGui::setLocationBarURL( const char *_url )
 void KfmGui::setUpURL( const char *_url )
 {
   if ( _url == 0 )
-    m_currentView.m_strUpURL = "";
+    m_currentView->m_strUpURL = "";
   else
-    m_currentView.m_strUpURL = _url;
+    m_currentView->m_strUpURL = _url;
 
   if ( CORBA::is_nil( m_vToolBar ) )
     return;    
     
-  if ( m_currentView.m_strUpURL.isEmpty() )
+  if ( m_currentView->m_strUpURL.isEmpty() )
     m_vToolBar->setItemEnabled( TOOLBAR_UP_ID, false );
   else
     m_vToolBar->setItemEnabled( TOOLBAR_UP_ID, true );
@@ -1063,19 +992,19 @@ void KfmGui::setUpURL( const char *_url )
 
 void KfmGui::slotStop()
 {
-  m_currentView.m_pView->stop();
+  m_currentView->m_pView->stop();
 }
 
 void KfmGui::slotNewWindow()
 {
-  QString url = m_currentView.m_pView->currentURL();
+  QString url = m_currentView->m_pView->currentURL();
   KfmMainWindow *m_pShell = new KfmMainWindow( url.data() );
   m_pShell->show();
 }
 
 void KfmGui::slotOpenLocation()
 {
-  QString url = m_currentView.m_pView->currentURL();
+  QString url = m_currentView->m_pView->currentURL();
     
   KLineEditDlg l( i18n("Open Location:"), url, this, true );
   int x = l.exec();
@@ -1129,7 +1058,7 @@ void KfmGui::slotOpenLocation()
       return;
     }
 	
-    m_currentView.m_pView->openURL( url );
+    m_currentView->m_pView->openURL( url );
   }
 }
 
@@ -1144,7 +1073,7 @@ void KfmGui::slotShowCache()
   
   string f = file.data();
   K2URL::encode( f );
-  m_currentView.m_pView->openURL( f.c_str() );
+  m_currentView->m_pView->openURL( f.c_str() );
 }
 
 void KfmGui::slotShowHistory()
@@ -1154,48 +1083,48 @@ void KfmGui::slotShowHistory()
 
 void KfmGui::slotUp()
 {
-  assert( !m_currentView.m_strUpURL.isEmpty() );
-  m_currentView.m_pView->openURL( m_currentView.m_strUpURL );
+  assert( !m_currentView->m_strUpURL.isEmpty() );
+  m_currentView->m_pView->openURL( m_currentView->m_strUpURL );
 }
 
 void KfmGui::slotHome()
 {
   QString tmp( QDir::homeDirPath().data() );
-  m_currentView.m_pView->openURL( tmp );
+  m_currentView->m_pView->openURL( tmp );
 }
 
 void KfmGui::slotBack()
 {
-  assert( m_currentView.m_lstBack.size() != 0 );
+  assert( m_currentView->m_lstBack.size() != 0 );
   // m_lstForward.push_front( m_currentHistory );
-  History h = m_currentView.m_lstBack.back();
-  m_currentView.m_lstBack.pop_back();
+  History h = m_currentView->m_lstBack.back();
+  m_currentView->m_lstBack.pop_back();
   
-  if( m_currentView.m_lstBack.size() == 0 && ( !CORBA::is_nil( m_vToolBar ) ) )
+  if( m_currentView->m_lstBack.size() == 0 && ( !CORBA::is_nil( m_vToolBar ) ) )
     m_vToolBar->setItemEnabled( TOOLBAR_BACK_ID, false );
   // if( m_lstForward.size() != 0 )
   // m_pToolbar->setItemEnabled( TOOLBAR_FORWARD_ID, true );
 
   m_bBack = true;
   
-  m_currentView.m_pView->openURL( h.m_strURL, 0, false, h.m_iXOffset, h.m_iYOffset );
+  m_currentView->m_pView->openURL( h.m_strURL, 0, false, h.m_iXOffset, h.m_iYOffset );
 }
 
 void KfmGui::slotForward()
 {
-  assert( m_currentView.m_lstForward.size() != 0 );
+  assert( m_currentView->m_lstForward.size() != 0 );
   // m_lstBack.push_back( m_currentHistory() );
-  History h = m_currentView.m_lstForward.front();
-  m_currentView.m_lstForward.pop_front();
+  History h = m_currentView->m_lstForward.front();
+  m_currentView->m_lstForward.pop_front();
 
   // if( m_lstBack.size() != 0 )
   // m_pToolbar->setItemEnabled( TOOLBAR_BACK_ID, true );
-  if( m_currentView.m_lstForward.size() == 0 && ( !CORBA::is_nil( m_vToolBar ) ) )
+  if( m_currentView->m_lstForward.size() == 0 && ( !CORBA::is_nil( m_vToolBar ) ) )
     m_vToolBar->setItemEnabled( TOOLBAR_FORWARD_ID, false );
   
   m_bForward = true;
   
-  m_currentView.m_pView->openURL( h.m_strURL, 0, false, h.m_iXOffset, h.m_iYOffset );
+  m_currentView->m_pView->openURL( h.m_strURL, 0, false, h.m_iXOffset, h.m_iYOffset );
 }
 
 void KfmGui::slotReload()
@@ -1203,7 +1132,7 @@ void KfmGui::slotReload()
   m_bForward = false;
   m_bBack = false;
 
-  m_currentView.m_pView->reload();
+  m_currentView->m_pView->reload();
 }
 
 void KfmGui::slotFileNewActivated( CORBA::Long id )
@@ -1229,7 +1158,7 @@ void KfmGui::addHistory( const char *_url, int _xoffset, int _yoffset )
   {
     m_bBack = false;
     
-    m_currentView.m_lstForward.push_front( h );
+    m_currentView->m_lstForward.push_front( h );
     if ( !CORBA::is_nil( m_vToolBar ) )
       m_vToolBar->setItemEnabled( TOOLBAR_FORWARD_ID, true );  
       
@@ -1240,15 +1169,15 @@ void KfmGui::addHistory( const char *_url, int _xoffset, int _yoffset )
   {
     m_bForward = false;
     
-    m_currentView.m_lstBack.push_back( h );
+    m_currentView->m_lstBack.push_back( h );
     if ( !CORBA::is_nil( m_vToolBar ) )
       m_vToolBar->setItemEnabled( TOOLBAR_BACK_ID, true );  
       
     return;
   }
   
-  m_currentView.m_lstForward.clear();
-  m_currentView.m_lstBack.push_back( h );
+  m_currentView->m_lstForward.clear();
+  m_currentView->m_lstBack.push_back( h );
 
   if ( !CORBA::is_nil( m_vToolBar ) )
   {
@@ -1264,38 +1193,27 @@ void KfmGui::slotConfigureKeys()
 
 void KfmGui::slotFocusLeftView()
 {
-  slotGotFocus( m_leftView.m_pView );
+  slotGotFocus( m_views.at(0)->m_pView );
 }
 
 void KfmGui::slotFocusRightView()
 {
-  slotGotFocus( m_rightView.m_pView );
+  slotGotFocus( m_views.at(1)->m_pView );
 }
 
 void KfmGui::slotGotFocus( KfmView* _view )
 {
-  if ( m_rightView.m_pView == _view )
-  {
-    if ( m_leftView.m_pView && m_leftView.m_pView == m_currentView.m_pView )
-    {
-      saveCurrentView( m_leftView );
-      m_leftView.m_pView->clearFocus();
-    }
+  m_currentView->m_pView->clearFocus(); // is it necessary ? David.
 
-    fillCurrentView( m_rightView );
-  }
-  else if ( m_leftView.m_pView == _view )
+  for (View * v = m_views.first() ; v != 0L; v = m_views.next())
   {
-    if ( m_rightView.m_pView && m_rightView.m_pView == m_currentView.m_pView )
+    if ( v->m_pView == _view )
     {
-      saveCurrentView( m_rightView );
-      m_rightView.m_pView->clearFocus();
+      m_currentView = v;
     }
-
-    fillCurrentView( m_leftView );
   }
 
-  m_currentView.m_pView->fetchFocus();
+  _view->fetchFocus();
 
   if ( !CORBA::is_nil( m_vToolBar ) )
   {
@@ -1304,8 +1222,16 @@ void KfmGui::slotGotFocus( KfmView* _view )
     m_vToolBar->setItemEnabled( TOOLBAR_FORWARD_ID, hasForwardHistory() );
   }    
 
-  setViewModeMenu( m_currentView.m_pView->props()->viewMode() );
-  setLocationBarURL( m_currentView.m_pView->currentURL() );
+  KfmViewProps * vProps = m_currentView->m_pView->props();
+  setViewModeMenu( vProps->viewMode() );
+  setLocationBarURL( m_currentView->m_pView->currentURL() );
+
+  // m_vMenuView->setItemChecked( m_vMenuView->idAt( 0 ), vProps->isShowingDirTree() );
+  m_vMenuView->setItemChecked( m_vMenuView->idAt( 3 ), vProps->isShowingDotFiles() );
+  m_vMenuView->setItemChecked( m_vMenuView->idAt( 4 ), vProps->isShowingImagePreview() );
+  m_vMenuView->setItemChecked( m_vMenuView->idAt( 11 ), vProps->isHTMLAllowed() );
+
+  setViewModeMenu( vProps->viewMode() );
 }
 
 void KfmGui::setViewModeMenu( KfmView::ViewMode _viewMode )
@@ -1331,42 +1257,6 @@ void KfmGui::setViewModeMenu( KfmView::ViewMode _viewMode )
     break;
   default:
     assert( 0 );
-  }
-}
-
-void KfmGui::fillCurrentView( View _view ) // probably not needed anymore
-{
-  m_currentView = _view;
-
-  if ( _view.m_pView == m_leftView.m_pView )
-  {
-/*    m_Props->m_currentViewMode = m_Props->leftViewMode();
-    m_Props->m_bCurrentShowDot = m_Props->isLeftShowingDotFiles();
-    m_Props->m_bCurrentImagePreview = m_Props->isLeftShowingImagePreview(); */
-  }
-  else if ( _view.m_pView == m_rightView.m_pView )
-  {
-/*    m_Props->m_currentViewMode = m_Props->rightViewMode();
-    m_Props->m_bCurrentShowDot = m_Props->isRightShowingDotFiles();
-    m_Props->m_bCurrentImagePreview = m_Props->isRightShowingImagePreview(); */
-  }
-}
-
-void KfmGui::saveCurrentView( View _view )
-{
-  if ( _view.m_pView == m_leftView.m_pView )
-  {
-    m_leftView = m_currentView;
-/*    m_Props->m_leftViewMode = m_Props->viewMode();
-    m_Props->m_bLeftShowDot = m_Props->isShowingDotFiles();
-    m_Props->m_bLeftImagePreview = m_Props->isShowingImagePreview(); */
-  }
-  else if ( _view.m_pView == m_rightView.m_pView )
-  {
-    m_rightView = m_currentView;
-/*    m_Props->m_rightViewMode = m_Props->viewMode();
-    m_Props->m_bRightShowDot = m_Props->isShowingDotFiles();
-    m_Props->m_bRightImagePreview = m_Props->isShowingImagePreview(); */
   }
 }
 

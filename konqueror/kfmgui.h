@@ -83,9 +83,9 @@ public:
 
   void createGUI( const char *_url );
   
-  bool hasUpURL() { return !m_currentView.m_strUpURL.isEmpty(); }
-  bool hasBackHistory() { return m_currentView.m_lstBack.size() > 0; }
-  bool hasForwardHistory() { return m_currentView.m_lstForward.size() > 0; }
+  bool hasUpURL() { return !m_currentView->m_strUpURL.isEmpty(); }
+  bool hasBackHistory() { return m_currentView->m_lstBack.size() > 0; }
+  bool hasForwardHistory() { return m_currentView->m_lstForward.size() > 0; }
 
 public slots:  
   /////////////////////////
@@ -139,6 +139,9 @@ public slots:
 
 protected:
   virtual void resizeEvent( QResizeEvent *e );
+
+  // TODO : add arguments for position (left, right, above current, new row, ....)
+  void createView( );
   
   struct History
   {
@@ -153,6 +156,8 @@ protected:
     QString m_strUpURL;
     list<History> m_lstBack;
     list<History> m_lstForward;
+    QWidget* m_pPannerChild;
+    QGridLayout* m_pPannerChildGM;
   };
 
   void initConfig();
@@ -164,12 +169,6 @@ protected:
   void initView();
   
   void setViewModeMenu( KfmView::ViewMode _viewMode );
-
-  //fills the current view properties with the specified one
-  void fillCurrentView( View _view );
-
-  //fills the properties of the specified view with the current ones
-  void saveCurrentView( View _view );
 
   OpenPartsUI::Menu_var m_vMenuFile;
   OpenPartsUI::Menu_var m_vMenuFileNew;
@@ -193,10 +192,6 @@ protected:
   KURLCompletion* m_pCompletion;
 */  
   KPanner* m_pPanner;
-  QWidget* m_pPannerChild0;
-  QWidget* m_pPannerChild1;
-  QGridLayout* m_pPannerChild0GM;
-  QGridLayout* m_pPannerChild1GM;
   
   /**
    * The menu "New" in the "File" menu.
@@ -206,9 +201,8 @@ protected:
    */
   KNewMenu *m_pMenuNew;
 
-  View m_leftView;
-  View m_rightView;
-  View m_currentView;
+  QList<View> m_views;
+  View * m_currentView;
   
   /**
    * Set to true while the constructor is running.
