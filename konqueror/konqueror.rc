@@ -21,7 +21,7 @@
   <Merge/>
  </Menu>
  <Menu name="view"><text>&amp;View</text> <!--Here is what applies to the active view-->
-  <Merge name="viewmode"/>
+  <ActionList name="viewmode" />
   <Action name="usehtml"/>
   <Action name="lock"/>
   <Action name="unlockall"/>

@@ -29,56 +29,40 @@
 #include <konq_mainview.h>
 #include <konq_viewmgr.h>
 
-static const char *viewModeGUI = ""
-"<!DOCTYPE viewmodexml>"
-"<viewmodexml name=\"viewmode\">"
-"<MenuBar>"
-" <Menu name=\"view\">"
-"  <Menu name=\"viewmodes\">"
-"  </Menu>"
-" </Menu>"
-"</MenuBar>"
-"</viewmodexml>";
-
 ViewModeGUIClient::ViewModeGUIClient( KonqMainView *mainView )
  : QObject( mainView )
 {
   m_mainView = mainView;
-  m_doc.setContent( QString::fromLatin1( viewModeGUI ) );
-  m_menuElement = m_doc.documentElement().namedItem( "MenuBar" ).namedItem( "Menu" ).namedItem( "Menu" ).toElement();
-  m_actions = 0L;
-  setDocument( m_doc );
+  m_actions.setAutoDelete( true );
+  m_menu = 0;  
 }
 
-KAction *ViewModeGUIClient::action( const QDomElement &element ) const
+QList<KAction> ViewModeGUIClient::actions() const
 {
-  if ( !m_actions )
-    return 0L;
-
-  return m_actions->action( element.attribute( "name" ) );
-}
+  QList<KAction> res;
+  if ( m_menu )
+    res.append( m_menu );
+  return res;
+} 
 
 void ViewModeGUIClient::update( const KTrader::OfferList &services )
 {
-  if ( m_actions )
-    delete m_actions;
-
-  m_actions = new KActionCollection( this );
-
-  QDomNode n = m_menuElement.firstChild();
-  while ( !n.isNull() )
+  if ( m_menu )
   {
-    m_menuElement.removeChild( n );
-    n = m_menuElement.firstChild();
+    QListIterator<KAction> it( m_actions );
+    for (; it.current(); ++it )
+      it.current()->unplug( m_menu->popupMenu() );
+    delete m_menu;
   }
 
+  m_menu = 0;
+  m_actions.clear();
+  
   if ( services.count() <= 1 )
     return;
 
-  QDomElement textElement = m_doc.createElement( "text" );
-  textElement.appendChild( m_doc.createTextNode( i18n( "View Mode..." ) ) );
-  m_menuElement.appendChild( textElement );
-
+  m_menu = new KActionMenu( i18n( "View Mode..." ), this );
+  
   KTrader::OfferList::ConstIterator it = services.begin();
   KTrader::OfferList::ConstIterator end = services.end();
   for (; it != end; ++it )
@@ -86,11 +70,7 @@ void ViewModeGUIClient::update( const KTrader::OfferList &services )
       QVariant prop = (*it)->property( "X-KDE-BrowserView-Toggable" );
       if ( !prop.isValid() || !prop.toBool() ) // No toggable views in view mode
       {
-          KRadioAction *action = new KRadioAction( (*it)->comment(), 0, m_actions, (*it)->name() );
-
-          QDomElement e = m_doc.createElement( "Action" );
-          m_menuElement.appendChild( e );
-          e.setAttribute( "name", (*it)->name() );
+          KRadioAction *action = new KRadioAction( (*it)->comment(), 0, 0, (*it)->name() );
 
           if ( (*it)->name() == m_mainView->currentChildView()->service()->name() )
               action->setChecked( true );
@@ -99,6 +79,9 @@ void ViewModeGUIClient::update( const KTrader::OfferList &services )
 
           connect( action, SIGNAL( toggled( bool ) ),
                    m_mainView, SLOT( slotViewModeToggle( bool ) ) );
+	  
+	  m_actions.append( action );
+	  action->plug( m_menu->popupMenu() );
       }
   }
 }

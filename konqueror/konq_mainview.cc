@@ -915,8 +915,9 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
 
   // View-dependent GUI
 
-  guiFactory()->removeClient( m_viewModeGUIClient );
+  //  guiFactory()->removeClient( m_viewModeGUIClient );
   //  guiFactory()->removeClient( m_openWithGUIClient );
+  unplugActionList( "viewmode" );
   unplugActionList( "openwith" );
   m_viewModeGUIClient->update( m_currentView->partServiceOffers() );
   m_openWithGUIClient->update( m_currentView->appServiceOffers() );
@@ -927,7 +928,8 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
   // (The other way would be to enforce a better servicetype for them, than Browser/View)
 
     if ( m_currentView->partServiceOffers().count() > 1 )
-      guiFactory()->addClient( m_viewModeGUIClient );
+      plugActionList( "viewmode", m_viewModeGUIClient->actions() );
+    //      guiFactory()->addClient( m_viewModeGUIClient );
 
   if ( m_currentView->appServiceOffers().count() > 0 )
     plugActionList( "openwith", m_openWithGUIClient->actions() );

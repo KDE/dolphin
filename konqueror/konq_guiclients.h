@@ -29,20 +29,19 @@ class KActionCollection;
 class KonqMainView;
 class KonqChildView;
 
-class ViewModeGUIClient : public QObject, public KXMLGUIClient
+class ViewModeGUIClient : public QObject
 {
 public:
   ViewModeGUIClient( KonqMainView *mainView );
 
-  virtual KAction *action( const QDomElement &element ) const;
-
   void update( const KTrader::OfferList &services );
+
+  QList<KAction> actions() const;
 
 private:
   KonqMainView *m_mainView;
-  QDomDocument m_doc;
-  QDomElement m_menuElement;
-  KActionCollection *m_actions;
+  QList<KAction> m_actions;
+  KActionMenu *m_menu;
 };
 
 class OpenWithGUIClient : public QObject
