@@ -122,7 +122,7 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 	  continue;
 	break;
       case 5: // binary
-	if ( (file->permissions() & 0111) != 0111) // fixme -- and not dir?
+	if ( (file->permissions() & 0111) != 0111 || file->isDir() )
 	  continue;
 	break;
       case 6: // suid
