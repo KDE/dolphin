@@ -104,7 +104,6 @@ class KonqBaseListViewWidget : public KListView
       //QList<ColumnInfo> *columnConfigInfo() {return &confColumns;};
       ColumnInfo * columnConfigInfo() {return confColumns;};
       QString sortedByColumn;
-      bool ascending;
 
       virtual void setShowIcons( bool enable ) { m_showIcons = enable; }
       virtual bool showIcons() { return m_showIcons; }
@@ -114,6 +113,11 @@ class KonqBaseListViewWidget : public KListView
       void setItemColor( const QColor &c ) { m_itemColor = c; }
       QColor itemColor() const { return m_itemColor; }
       int iconSize() const { return props()->iconSize(); }
+
+      void setAscending( bool b ) { m_bAscending = b; }
+      bool ascending() const { return m_bAscending; }
+      void setCaseInsensitiveSort( bool b ) { m_bCaseInsensitive = b; }
+      bool caseInsensitiveSort() const { return m_bCaseInsensitive; }
 
       virtual void paintEmptyArea( QPainter *p, const QRect &r );
 
@@ -204,11 +208,12 @@ class KonqBaseListViewWidget : public KListView
 
       KonqFMSettings* m_pSettings;
 
-      bool m_bTopLevelComplete;
-
-      bool m_showIcons;
+      bool m_bTopLevelComplete:1;
+      bool m_showIcons:1;
+      bool m_bCaseInsensitive:1;
+      bool m_bUpdateContentsPosAfterListing:1;
+      bool m_bAscending:1;
       int m_filenameColumn;
-      bool m_bUpdateContentsPosAfterListing;
 
       KURL m_url;
 

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="KonqDetailedListView" version="2">
+<kpartgui name="KonqDetailedListView" version="3">
 <MenuBar>
  <Menu name="edit">
   <Action name="select"/>
@@ -14,14 +14,10 @@
    <Action name="modemedium"/>
    <Action name="modesmall"/>
   </Menu>
-  <!--<Menu name="iconview_sort"><text>Sort</text>
-   <Action name="sort_nc"/>   TODO
-   <Action name="sort_nci"/>  TODO
-   <Separator/>
-   <Action name="sort_directoriesfirst" /> TODO
-  </Menu> -->
   <Separator/>
   <Action name="show_dot"/>
+  <Action name="sort_caseinsensitive"/>
+  <!--<Action name="sort_directoriesfirst" /> TODO -->
   <Menu name="listview_show"><text>Show details</text>
    <TearOffHandle />
    <Action name="show_size"/>

@@ -106,7 +106,7 @@ void KonqTextViewWidget::createColumns()
       if ((confColumns[i].displayThisOne) && (confColumns[i].displayInColumn==currentColumn))
       {
          if (sortedByColumn==confColumns[i].desktopFileName)
-            setSorting(currentColumn,ascending);
+            setSorting(currentColumn,m_bAscending);
          ColumnInfo *tmpColumn=&confColumns[i];
          QCString tmpName=tmpColumn->name.utf8();
          if (tmpColumn->udsId==KIO::UDS_SIZE)
@@ -143,7 +143,7 @@ void KonqTextViewWidget::createColumns()
       };
    };
    if (sortedByColumn=="FileName")
-      setSorting(0,ascending);
+      setSorting(0,m_bAscending);
 
 };
 

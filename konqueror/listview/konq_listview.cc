@@ -451,9 +451,15 @@ void KonqListView::slotShowDot()
    m_pListView->m_dirLister->setShowingDotFiles( m_pProps->isShowingDotFiles() );
 }
 
+void KonqListView::slotCaseInsensitive()
+{
+   m_pListView->setCaseInsensitiveSort( m_paCaseInsensitive->isChecked() );
+   m_pListView->sort();
+}
+
 void KonqListView::slotColumnToggled()
 {
-   kdDebug(1202) << "::slotColumnToggled\n" << endl;
+   kdDebug(1202) << "::slotColumnToggled" << endl;
    for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
    {
       m_pListView->confColumns[i].displayThisOne=m_pListView->confColumns[i].toggleThisOne->isChecked()&&m_pListView->confColumns[i].toggleThisOne->isEnabled();
@@ -518,16 +524,16 @@ void KonqListView::slotHeaderClicked(int sec)
    if (nameOfSortColumn!=m_pListView->sortedByColumn)
    {
       m_pListView->sortedByColumn=nameOfSortColumn;
-      m_pListView->ascending=TRUE;
+      m_pListView->setAscending(TRUE);
    }
    else
-      m_pListView->ascending=!m_pListView->ascending;
+      m_pListView->setAscending(!m_pListView->ascending());
 
    KConfig * config = KGlobal::config();
    QString groupName="ListView_" + m_pListView->url().protocol();
    config->setGroup( groupName );
    config->writeEntry("SortBy",nameOfSortColumn);
-   config->writeEntry("SortOrder",m_pListView->ascending);
+   config->writeEntry("SortOrder",m_pListView->ascending());
    config->sync();
 };
 
@@ -601,6 +607,8 @@ void KonqListView::setupActions()
   m_paSmallIcons = new KRadioAction( i18n( "&Small" ), 0, actionCollection(), "modesmall" );
 
   m_paShowDot = new KToggleAction( i18n( "Show &Hidden Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
+  m_paCaseInsensitive = new KToggleAction(i18n("Case Insensitive Sort"), 0, this, SLOT(slotCaseInsensitive()),actionCollection(), "sort_caseinsensitive" );
+  m_paCaseInsensitive->setChecked( m_pListView->caseInsensitiveSort() );
   /*KAction * m_paBackgroundColor =*/ new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), actionCollection(), "bgcolor" );
   /*KAction * m_paBackgroundImage =*/ new KAction( i18n( "Background Image..." ), 0, this, SLOT( slotBackgroundImage() ), actionCollection(), "bgimage" );
 

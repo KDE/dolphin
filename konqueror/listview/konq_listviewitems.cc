@@ -123,7 +123,7 @@ void KonqListViewItem::setDisabled( bool disabled )
     setPixmap( 0, m_fileitem->pixmap( m_pListViewWidget->iconSize(), state() ) );
 }
 
-QString KonqListViewItem::key( int _column, bool asc) const
+QString KonqListViewItem::key( int _column, bool asc ) const
 {
    QString tmp=sortChar;
    if (!asc && (sortChar=='0')) tmp=QChar('2');
@@ -147,7 +147,7 @@ QString KonqListViewItem::key( int _column, bool asc) const
        break;
      }
    }
-   tmp+=text(_column);
+   tmp += m_pListViewWidget->caseInsensitiveSort() ? text(_column).lower() : text(_column);
    return tmp;
 }
 

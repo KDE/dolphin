@@ -100,7 +100,7 @@ protected slots:
   void slotSelectAll();
   void slotUnselectAll();
   void slotInvertSelection();
-
+  void slotCaseInsensitive();
   void slotIconSizeToggled(bool b);
 
   void slotShowDot();
@@ -133,6 +133,7 @@ private:
   KAction *m_paUnselectAll;
   KAction *m_paInvertSelection;
 
+  KToggleAction *m_paCaseInsensitive;
   KToggleAction *m_paLargeIcons;
   KToggleAction *m_paMediumIcons;
   KToggleAction *m_paSmallIcons;
@@ -149,7 +150,6 @@ private:
   KToggleAction *m_paShowGroup;
   KToggleAction *m_paShowPermissions;
   KToggleAction *m_paShowURL;
-
 };
 
 class ListViewBrowserExtension : public KParts::BrowserExtension

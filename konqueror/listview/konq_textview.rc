@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="KonqTextView" version="1">
+<kpartgui name="KonqTextView" version="2">
 <MenuBar>
  <Menu name="edit">
   <Action name="select"/>
@@ -9,6 +9,7 @@
  </Menu>
  <Menu name="view">
   <Action name="show_dot" />
+  <Action name="sort_caseinsensitive"/>
   <Menu name="listview_show"><text>Show details...</text>
    <TearOffHandle />
    <Action name="show_size"/>

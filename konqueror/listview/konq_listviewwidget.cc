@@ -76,10 +76,11 @@ void ColumnInfo::setData(const char* n, const char* desktopName, int kioUds,int 
 KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *parentWidget)
     :KListView(parentWidget)
 ,sortedByColumn(0)
-,ascending(TRUE)
 ,m_dirLister(0L)
 ,m_dragOverItem(0L)
 ,m_showIcons(TRUE)
+,m_bCaseInsensitive(true)
+,m_bAscending(TRUE)
 ,m_filenameColumn(0)
 ,m_pBrowserView(parent)
 {
@@ -156,7 +157,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
       config->setGroup( "ListView_default" );
 
    sortedByColumn=config->readEntry("SortBy","FileName");
-   ascending=config->readBoolEntry("SortOrder",TRUE);
+   m_bAscending=config->readBoolEntry("SortOrder",TRUE);
 
    QStringList lstColumns = config->readListEntry( "Columns" );
    if (lstColumns.isEmpty())
@@ -249,14 +250,14 @@ void KonqBaseListViewWidget::createColumns()
       {
          addColumn(i18n(confColumns[i].name.utf8() ));
          if (sortedByColumn==confColumns[i].desktopFileName)
-            setSorting(currentColumn,ascending);
+            setSorting(currentColumn,m_bAscending);
          if (confColumns[i].udsId==KIO::UDS_SIZE) setColumnAlignment(currentColumn,AlignRight);
          i=-1;
          currentColumn++;
       }
    }
    if (sortedByColumn=="FileName")
-      setSorting(0,ascending);
+      setSorting(0,m_bAscending);
    for (unsigned int i=0; i<NumberOfAtoms; i++)
       kdDebug(1202)<<"i: "<<i<<" name: "<<confColumns[i].name<<" disp: "<<confColumns[i].displayInColumn<<" on: "<<confColumns[i].displayThisOne<<endl;
 }
@@ -866,15 +867,6 @@ KonqBaseListViewWidget::iterator KonqBaseListViewWidget::iterator::operator++(in
       m_p = (KonqBaseListViewItem*)m_p->nextSibling();
    return it;
 }
-
-/*
-{
-
-      // QListView does nasty tricks on us... reverting it.
-  _painter->translate( r.left(), r.top() );
-
-}
-*/
 
 void KonqBaseListViewWidget::paintEmptyArea( QPainter *p, const QRect &r )
 {
