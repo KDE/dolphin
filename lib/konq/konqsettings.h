@@ -70,9 +70,6 @@ public:
   static void reparseConfiguration();
 
   // Behaviour settings
-  bool singleClick() { return m_bSingleClick; }
-  int autoSelect() { return m_iAutoSelect; }
-  bool changeCursor() { return m_bChangeCursor; }
   bool underlineLink() { return m_underlineLink; }
   bool shouldEmbed( const QString & mimetypeGroup );
   bool alwaysNewWin() { return m_alwaysNewWin; }
@@ -96,9 +93,6 @@ protected:
   static KonqFMSettings * s_pSettings[2];
   static KonqFMSettings * getInstance( int nr );
 
-  bool m_bSingleClick;
-  int m_iAutoSelect;
-  bool m_bChangeCursor;
   bool m_underlineLink;
   bool m_alwaysNewWin;
   bool m_bTreeFollow;

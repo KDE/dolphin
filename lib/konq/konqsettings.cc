@@ -96,15 +96,6 @@ void KonqFMSettings::init( KConfig * config )
   m_highlightedTextColor = config->readColorEntry( "HighlightedTextColor", &FM_DEFAULT_HIGHLIGHTED_TXT_COLOR );
   m_bWordWrapText = config->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT );
 
-  // Global KDE settings
-  {
-    KConfigGroupSaver cgs(config, "KDE");
-    m_bSingleClick = config->readBoolEntry("SingleClick", DEFAULT_SINGLECLICK);
-
-    m_iAutoSelect = config->readNumEntry("AutoSelect", DEFAULT_AUTOSELECT);
-    m_bChangeCursor = config->readBoolEntry( "ChangeCursor", DEFAULT_CHANGECURSOR );
-  }
-
   // Behaviour
   m_underlineLink = config->readBoolEntry( "UnderlineLinks", DEFAULT_UNDERLINELINKS );
   m_alwaysNewWin = config->readBoolEntry( "AlwaysNewWin", FALSE );
@@ -121,8 +112,8 @@ void KonqFMSettings::init( KConfig * config )
 
 bool KonqFMSettings::shouldEmbed( const QString & mimetypeGroup )
 {
-  if ( mimetypeGroup == "inode" )
-    return true; //always embed mimetype inode/*
+  if ( mimetypeGroup == "inode" || mimetypeGroup == "Browser")
+    return true; //always embed mimetype inode/* and Browser/*
   if ( mimetypeGroup == "text" )
     return m_embedText;
   if ( mimetypeGroup == "image" )

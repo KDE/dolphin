@@ -94,9 +94,6 @@ void KonqIconViewWidget::initConfig()
     font.setUnderline( m_pSettings->underlineLink() );
     setItemFont( font );
 
-    // Behaviour ( changecursor, autoselect, ...)
-    setChangeCursor( m_pSettings->changeCursor() );
-    // TODO autoselect, here or in KIconView
     setWordWrapIconText( m_pSettings->wordWrapText() );
 }
 

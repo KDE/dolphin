@@ -62,6 +62,7 @@
 #include <kurl.h>
 #include <klocale.h>
 #include <kglobal.h>
+#include <kglobalsettings.h>
 #include <kstddirs.h>
 #include <kio/job.h>
 #include <kio/renamedlg.h>
@@ -1047,7 +1048,7 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props )
     compl->addItem(pw->pw_name);
   endpwent();
   suidEdit->setCompletionObject(compl);
-  suidEdit->setCompletionMode(KGlobal::CompletionAuto);
+  suidEdit->setCompletionMode(KGlobalSettings::CompletionAuto);
 
   connect( execBrowse, SIGNAL( clicked() ), this, SLOT( slotBrowseExec() ) );
   connect( terminalCheck, SIGNAL( clicked() ), this,  SLOT( enableCheckedEdit() ) );
