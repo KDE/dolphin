@@ -58,6 +58,7 @@ FaviconsModule::FaviconsModule(const QCString &obj)
     // create our favicons folder so that KIconLoader knows about it
     d = new FaviconsModulePrivate;
     d->faviconsDir = KGlobal::dirs()->saveLocation( "cache", "favicons/" );
+    d->faviconsDir.truncate(d->faviconsDir.length()-9); // Strip off "favicons/"
     d->metaData.insert("ssl_no_client_cert", "TRUE");
     d->metaData.insert("ssl_militant", "TRUE");
     d->config = new KSimpleConfig(locateLocal("data", "konqueror/faviconrc"));
@@ -79,9 +80,10 @@ QString FaviconsModule::iconForURL(const KURL &url)
         icon = iconNameFromURL(icon);
     else 
         icon = url.host();
+        
+    icon = "favicons/" + icon;
 
-    icon = d->faviconsDir + icon + ".png";
-    if (QFile::exists(icon))
+    if (QFile::exists(d->faviconsDir+icon+".png"))
         return icon;
 
     return QString::null;
@@ -127,7 +129,7 @@ bool FaviconsModule::isIconOld(const QString &icon)
 
 void FaviconsModule::setIconForURL(const KURL &url, const KURL &iconURL)
 {
-    QString iconFile = d->faviconsDir + iconNameFromURL(iconURL) + ".png";
+    QString iconFile = d->faviconsDir + "favicons/" + iconNameFromURL(iconURL) + ".png";
     if (!isIconOld(iconFile))
         return;
 
@@ -136,7 +138,7 @@ void FaviconsModule::setIconForURL(const KURL &url, const KURL &iconURL)
 
 void FaviconsModule::downloadHostIcon(const KURL &url)
 {
-    QString iconFile = d->faviconsDir + url.host() + ".png";
+    QString iconFile = d->faviconsDir + "favicons/" + url.host() + ".png";
     if (!isIconOld(iconFile))
         return;
 
@@ -201,11 +203,11 @@ void FaviconsModule::slotResult(KIO::Job *job)
                 iconName = download.hostOrURL;
             else
                 iconName = iconNameFromURL(iconURL);
-                
-            iconName = d->faviconsDir + iconName + ".png";
 
+            iconName = "favicons/" + iconName;
+                
             io.setIODevice(0);
-            io.setFileName(iconName);
+            io.setFileName(d->faviconsDir + iconName + ".png");
             io.setFormat("PNG");
             if (!io.write())
                 iconName = QString::null;
