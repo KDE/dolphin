@@ -609,7 +609,10 @@ void KonqMainWindow::makeViewsFollow( const KURL & url, const QString & serviceT
 
   for ( KonqView * view = listViews.first() ; view ; view = listViews.next() )
   {
-    if ( (view != senderView) && (view)->isLinkedView() )
+    // Views that should follow this URL as views that are linked
+    // (we are here only if the view opening a URL initially is linked)
+    // and that are not toggle views (dirtree/konsole).
+    if ( (view != senderView) && view->isLinkedView() && !view->isToggleView() )
     {
       kdDebug(1202) << "Sending openURL to view " << view->part()->className() << " url=" << url.url() << endl;
       openURL( view, url, serviceType, req );
@@ -1659,7 +1662,7 @@ void KonqMainWindow::slotSaveViewProfile()
     } else {
 
         m_pViewManager->saveViewProfile( m_pViewManager->currentProfile(),
-                                         QString::null/*unchanged*/,
+                                         m_pViewManager->currentProfileText(),
                                          true /* URLs */, true /* size */ );
 
     }
