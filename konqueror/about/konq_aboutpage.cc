@@ -161,7 +161,7 @@ QString KonqAboutPageFactory::specs()
           .arg( i18n("built-in") )
           .arg( i18n("<A HREF=\"%1\">ECMA-262</A> Edition 3 (equals roughly Javascript 1.5)").arg("http://www.ecma.ch/ecma1/STAND/ECMA-262.HTM") )
           .arg( i18n("Javascript disabled (globally). Enable Javascript <A HREF=\"%1\">here</A>").arg("exec:/kcmshell konqhtml") )
-          .arg( i18n("Javascript enabled (globally). Configure Javascript <A HREF=\\\"%1\\\">here</A>").arg("exec:/kcmshell konqhtml") )
+          .arg( i18n("Javascript enabled (globally). Configure Javascript <A HREF=\\\"%1\\\">here</A>").arg("exec:/kcmshell konqhtml") ) // leave the double backslashes here, they are necessary for javascript !
           .arg( i18n("Secure <A HREF=\"%1\">Java</A><SUP>&reg;</SUP> support").arg("http://java.sun.com") )
           .arg( i18n("JDK 1.2.0 (Java 2) compatible VM (<A HREF=\"%1\">Blackdown</A>, <A HREF=\"%2\">IBM</A>, <A HREF=\"%3\">Kaffe</A> or <A HREF=\"%4\">Sun</A>)")
                       .arg("http://www.blackdown.org").arg("http://www.ibm.com").arg("http://www.kaffe.org").arg("http://java.sun.com") )
@@ -216,6 +216,9 @@ QString KonqAboutPageFactory::tips()
 	  .arg( i18n( "When you want to paste a new address into the Location Toolbar you might want to "
 		      "clear the current entry by pressing the white-crossed black arrow &nbsp;"
 		      "<IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; in the toolbar.").arg("locationbar_erase.png"))
+	  .arg( i18n( "To create a link on your desktop pointing to the current page, "
+		      "simply drag the \"Location\" label that is on the left of the Location Toolbar, drop it onto "
+		      "the desktop, and choose \"Link\"" ) )
 	  .arg( i18n( "You can also find the <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; \"Fullscreen Mode\" "
 		      "in the Window-Menu. This feature is very useful for \"talk\" "
 		      "sessions.").arg("window_fullscreen.png") )
