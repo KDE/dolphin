@@ -1,19 +1,14 @@
 <chapter id="config">
 
 <chapterinfo>
-<authorgroup>
-<author>
-<firstname>Pamela</firstname>
-<surname>Roberts</surname>
-<affiliation><jobtitle>Handbook maintainer</jobtitle>
-<address><email>pamroberts@blueyonder.co.uk</email></address>
-</affiliation>
-</author>
-<!-- TRANS:ROLES_OF_TRANSLATORS -->
-</authorgroup>
+<!-- <authorgroup>
+TRANS:ROLES_OF_TRANSLATORS 
+</authorgroup> -->
+
 <date>2002-09-22</date>
 <releaseinfo>3.1</releaseinfo>
 </chapterinfo>
+
 
 <title>Configuring &konqueror;</title>
 
@@ -124,13 +119,5 @@ detailed instructions about how to use each of these sections, or you can
 use the <link linkend="bubble">What's This?</link> feature.</para>
 </sect1>
 
-<sect1 id="config-authors">
-<title>Section Authors</title>
 
-<para>This section written by:
-Pamela Roberts <email>pamroberts@blueyonder.co.uk</email>.</para>
-
-<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
-
-</sect1>
 </chapter>

@@ -1,16 +1,9 @@
 <chapter id="filemanager">
-
 <chapterinfo>
-<authorgroup>
-<author>
-<firstname>Pamela</firstname>
-<surname>Roberts</surname>
-<affiliation><jobtitle>Handbook maintainer</jobtitle>
-<address><email>pamroberts@blueyonder.co.uk</email></address>
-</affiliation>
-</author>
-<!-- TRANS:ROLES_OF_TRANSLATORS -->
-</authorgroup>
+<!-- <authorgroup>
+TRANS:ROLES_OF_TRANSLATORS 
+</authorgroup> -->
+
 <date>2002-09-22</date>
 <releaseinfo>3.1</releaseinfo>
 </chapterinfo>
@@ -881,13 +874,5 @@ you make in the normal file manager view.</para>
 
 </sect1>
 
-<sect1 id="filemanager-authors">
-<title>Section Authors</title>
 
-<para>This section written by:
-Pamela Roberts <email>pamroberts@blueyonder.co.uk</email>.</para>
-
-<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
-
-</sect1>
 </chapter>

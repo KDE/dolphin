@@ -1,19 +1,14 @@
 <chapter id="path-complete">
 
 <chapterinfo>
-<authorgroup>
-<author>
-<firstname>Pamela</firstname>
-<surname>Roberts</surname>
-<affiliation><jobtitle>Handbook maintainer</jobtitle>
-<address><email>pamroberts@blueyonder.co.uk</email></address>
-</affiliation>
-</author>
-<!-- TRANS:ROLES_OF_TRANSLATORS -->
-</authorgroup>
+<!-- <authorgroup>
+TRANS:ROLES_OF_TRANSLATORS 
+</authorgroup> -->
+
 <date>2002-09-22</date>
 <releaseinfo>3.1</releaseinfo>
 </chapterinfo>
+
 
 <title>Automatic Text Completion</title> 
 
@@ -72,8 +67,6 @@ shown.</para></listitem>
 Text Completion function can be viewed and edited in the <guilabel>History
 </guilabel> page of the <link linkend="sidebar">Navigation Panel</link>.</para>
 
-<para>This section written by:
-Pamela Roberts <email>pamroberts@blueyonder.co.uk</email>.</para>
 
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 
