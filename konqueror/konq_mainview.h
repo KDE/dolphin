@@ -134,6 +134,9 @@ public slots:
   // reimplement from KParts::MainWindow
   virtual void slotSetStatusBarText( const QString &text );
 
+signals:
+  void viewAdded( KonqChildView *view );
+
 public:
 k_dcop:
 
@@ -424,6 +427,7 @@ public:
 
 private slots:
   void slotToggleView( bool toggle );
+  void slotViewAdded( KonqChildView *view );
 private:
   KonqMainView *m_mainView;
   QDomDocument m_doc;

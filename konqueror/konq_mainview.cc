@@ -817,6 +817,8 @@ void KonqMainView::insertChildView( KonqChildView *childView )
   m_mapViews.insert( childView->view(), childView );
 
   m_paRemoveView->setEnabled( m_mapViews.count() > 1 );
+  
+  emit viewAdded( childView );
 }
 
 void KonqMainView::removeChildView( KonqChildView *childView )
@@ -1973,8 +1975,6 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainView *mainView )
  
   m_empty = ( offers.count() == 0 );
   
-  kdDebug() << "views left " << offers.count() << endl;
-  
   if ( m_empty )
     return;
   
@@ -2000,7 +2000,9 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainView *mainView )
     bool horizontal = orientation.toString().lower() == "horizontal";
     m_mapOrientation.insert( name, horizontal );    
   }
-  
+
+  connect( m_mainView, SIGNAL( viewAdded( KonqChildView * ) ),
+	   this, SLOT( slotViewAdded( KonqChildView * ) ) );
 } 
 
 ToggleViewGUIClient::~ToggleViewGUIClient()
@@ -2059,6 +2061,20 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
       if ( it.current()->service()->name() == serviceName )
         // takes care of choosing the new active view
         viewManager->removeView( it.current() );
+  }
+} 
+
+void ToggleViewGUIClient::slotViewAdded( KonqChildView *view )
+{
+  QString name = view->service()->name();
+  
+  KAction *action = actionCollection()->action( name );
+  
+  if ( action )
+  {
+    action->blockSignals( true );
+    static_cast<KToggleAction *>( action )->setChecked( true );
+    action->blockSignals( false );
   }
 } 
 
