@@ -94,7 +94,7 @@ protected:
   QString m_sViewURL;
   KFileItemList m_lstItems;
   QStringList m_lstPopupURLs;
-  QMap<int,KService> m_mapPopup;
+  QMap<int,KService::Ptr> m_mapPopup;
   QMap<int,KDEDesktopMimeType::Service> m_mapPopup2;
 };
 

@@ -287,7 +287,7 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
     {    
       id = m_popupMenu->insertItem( *(KPixmapCache::pixmap( (*it)->icon(), true ) ),
 				    (*it)->name() );
-      m_mapPopup[ id ] = *(*it);
+      m_mapPopup[ id ] = *it;
     }
     
     QValueList<KDEDesktopMimeType::Service>::Iterator it2 = user.begin();
@@ -415,10 +415,10 @@ void KonqPopupMenu::slotPopupAddToBookmark()
 void KonqPopupMenu::slotPopup( int id )
 {
   // Is it a usual service
-  QMap<int,KService>::Iterator it = m_mapPopup.find( id );
+  QMap<int,KService::Ptr>::Iterator it = m_mapPopup.find( id );
   if ( it != m_mapPopup.end() )
   {
-    KRun::run( *(it), m_lstPopupURLs );
+    KRun::run( **it, m_lstPopupURLs );
     return;
   }
   

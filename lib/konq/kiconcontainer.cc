@@ -343,7 +343,7 @@ void KIconContainer::selectAll()
   for( ; *it; ++it )
     if ( !(*it)->isSelected() )
     {
-      setSelected( *it, false );
+      setSelected( *it, true );
       (*it)->refresh();
     }
   emit selectionChanged();
