@@ -54,6 +54,11 @@ void KonqMainWindowIface::newTab( QString url )
   m_pMainWindow->openFilteredURL( url, true );
 }
 
+void KonqMainWindowIface::reload()
+{
+  m_pMainWindow->slotReload();
+}
+
 DCOPRef KonqMainWindowIface::currentView()
 {
   DCOPRef res;

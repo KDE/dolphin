@@ -46,6 +46,11 @@ k_dcop:
   void newTab( QString url );
 
   /**
+   * Reloads the current view.
+   */
+  void reload();
+
+  /**
    * @return reference to the current KonqView
    */
   DCOPRef currentView();
