@@ -1218,9 +1218,6 @@ void KonqMainWindow::slotToolFind()
         return;
     }
 
-
-    //KonqView * findView = m_pViewManager->splitView( Vertical, "Konqueror/FindPart", QString::null, true /*make it on top*/ );
-
     KonqViewFactory factory = KonqFactory::createView( "Konqueror/FindPart" );
     if ( factory.isNull() )
     {
@@ -1238,8 +1235,6 @@ void KonqMainWindow::slotToolFind()
 
     connect( dirPart, SIGNAL( findClosed(KonqDirPart *) ),
              this, SLOT( slotFindClosed(KonqDirPart *) ) );
-    // Don't allow to do this twice for this view :-)
-    //m_paFindFiles->setEnabled(false);
   }
   else if ( sender()->inherits( "KAction" ) ) // don't go there if called by the singleShot below
   {
