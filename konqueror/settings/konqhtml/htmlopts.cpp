@@ -72,6 +72,12 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     row++;
     connect(m_pShowMMBInTabs, SIGNAL(clicked()), this, SLOT(changed()));
 
+    m_pNewTabsInFront = new QCheckBox( i18n( "Au&tomatically activate new opened tabs" ), this );
+    QWhatsThis::add( m_pNewTabsInFront, i18n("This will open a new tab in front otherwise as background tab.") );
+    lay->addMultiCellWidget( m_pNewTabsInFront, row, row, 0, 1);
+    row++;
+    connect(m_pNewTabsInFront, SIGNAL(clicked()), this, SLOT(changed()));
+
     m_pTabConfirm = new QCheckBox( i18n( "Confirm &when closing windows with multiple tabs" ), this );
     QWhatsThis::add( m_pTabConfirm, i18n("This will ask you whether you are sure you want to close "
                           "a window when it has multiple tabs opened in it.") );
@@ -200,7 +206,8 @@ void KMiscHTMLOptions::load()
     
     m_pConfig->setGroup("FMSettings");
     m_pShowMMBInTabs->setChecked( m_pConfig->readBoolEntry( "MMBOpensTab", false ) );
-    
+    m_pNewTabsInFront->setChecked( m_pConfig->readBoolEntry( "NewTabsInFront", true ) );
+
     m_pConfig->setGroup("Notification Messages");
     m_pTabConfirm->setChecked( !m_pConfig->hasKey("MultipleTabConfirm") );
 }
@@ -215,6 +222,7 @@ void KMiscHTMLOptions::defaults()
     m_pFormCompletionCheckBox->setChecked(true);
     m_pMaxFormCompletionItems->setEnabled( true );
     m_pShowMMBInTabs->setChecked( false );
+    m_pNewTabsInFront->setChecked( true );
     m_pTabConfirm->setChecked( true );
     m_pBackRightClick->setChecked( false );
     m_pMaxFormCompletionItems->setValue( 10 );
@@ -261,6 +269,7 @@ void KMiscHTMLOptions::save()
 
     m_pConfig->setGroup("FMSettings");
     m_pConfig->writeEntry( "MMBOpensTab", m_pShowMMBInTabs->isChecked() );
+    m_pConfig->writeEntry( "NewTabsInFront", m_pNewTabsInFront->isChecked() );
     
     // It only matters wether the key is present, its value has no meaning
     m_pConfig->setGroup("Notification Messages");
