@@ -81,41 +81,50 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
 
   KTrader::OfferList offers = KTrader::self()->query( serviceType, browserViewConstraint );
 
-  if ( offers.count() == 0 )
-    return KonqViewFactory();
+  KService::Ptr service;
+  KLibFactory *factory = 0L;
   
-  KService::Ptr service = offers.first();
+  while ( 42 )
+  {
+  
+    if ( offers.count() == 0 )
+      return KonqViewFactory();
 
-  if ( !serviceName.isEmpty() )
-  {
-    KTrader::OfferList::ConstIterator it = offers.begin();
-    KTrader::OfferList::ConstIterator end = offers.end();
-    for (; it != end; ++it )
-      if ( (*it)->name() == serviceName )
-      {
-        service = *it;
-        break;
-      }
-  }
-  else
-  {
-    KTrader::OfferList::ConstIterator it = offers.begin();
-    KTrader::OfferList::ConstIterator end = offers.end();
-    for (; it != end; ++it )
+    service = offers.first();
+
+    if ( !serviceName.isEmpty() )
     {
-      KService::PropertyPtr prop = (*it)->property( "X-KDE-BrowserView-AllowAsDefault" );
-      if ( !!prop && prop->toBool() )
+      KTrader::OfferList::ConstIterator it = offers.begin();
+      KTrader::OfferList::ConstIterator end = offers.end();
+      for (; it != end; ++it )
+        if ( (*it)->name() == serviceName )
+        {
+          service = *it;
+          break;
+        }
+    }
+    else
+    {
+      KTrader::OfferList::ConstIterator it = offers.begin();
+      KTrader::OfferList::ConstIterator end = offers.end();
+      for (; it != end; ++it )
       {
-        service = *it;
-        break;
+        KService::PropertyPtr prop = (*it)->property( "X-KDE-BrowserView-AllowAsDefault" );
+        if ( !!prop && prop->toBool() )
+        {
+          service = *it;
+          break;
+        }
       }
     }
+
+    factory = KLibLoader::self()->factory( service->library() );
+
+    if ( factory )
+      break;
+    
+    offers.remove( offers.begin() );
   }
-
-  KLibFactory *factory = KLibLoader::self()->factory( service->library() );
-
-  if ( !factory )
-    return KonqViewFactory();
 
   if ( serviceOffers )
     (*serviceOffers) = offers;
