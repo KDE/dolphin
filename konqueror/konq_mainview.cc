@@ -1862,13 +1862,13 @@ void KonqMainView::initPanner()
 void KonqMainView::initView()
 {
  
-  Konqueror::View_var vView = Konqueror::View::_duplicate( new KonqKfmIconView );
+  Konqueror::View_var vView1 = Konqueror::View::_duplicate( new KonqKfmIconView );
 
-  insertView( vView, Konqueror::right );
-  setActiveView( vView->id() );
+  insertView( vView1, Konqueror::right );
+  setActiveView( vView1->id() );
 
-  vView = Konqueror::View::_duplicate( new KonqKfmTreeView );
-  insertView( vView, Konqueror::right );
+  Konqueror::View_var vView2 = Konqueror::View::_duplicate( new KonqKfmTreeView );
+  insertView( vView2, Konqueror::right );
 
   //temporary...
   Konqueror::EventOpenURL eventURL;
@@ -1877,7 +1877,8 @@ void KonqMainView::initView()
   eventURL.xOffset = 0;
   eventURL.yOffset = 0;
 
-  EMIT_EVENT( vView, Konqueror::eventOpenURL, eventURL );
+  EMIT_EVENT( vView1, Konqueror::eventOpenURL, eventURL );
+  EMIT_EVENT( vView2, Konqueror::eventOpenURL, eventURL );
 
 }
 /*
