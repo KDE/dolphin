@@ -1,5 +1,7 @@
 #ifndef __konq_events_h__
-#define __konq_events_h__ "$Id$"
+#define __konq_events_h__
+
+//$Id$
 
 #include <kparts/event.h>
 #include <qlist.h>
