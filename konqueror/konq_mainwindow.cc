@@ -2672,8 +2672,8 @@ void KonqMainWindow::initActions()
 
   m_ptaUseHTML = new KToggleAction( i18n( "&Use index.html" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
   m_paLockView = new KAction( i18n( "Lock to Current Location"), 0, this, SLOT( slotLockView() ), actionCollection(), "lock" );
-  m_paUnlockView = new KAction( i18n( "Unlock view"), 0, this, SLOT( slotUnlockView() ), actionCollection(), "unlock" );
-  m_paLinkView = new KToggleAction( i18n( "Link view"), 0, this, SLOT( slotLinkView() ), actionCollection(), "link" );
+  m_paUnlockView = new KAction( i18n( "Unlock View"), 0, this, SLOT( slotUnlockView() ), actionCollection(), "unlock" );
+  m_paLinkView = new KToggleAction( i18n( "Link View"), 0, this, SLOT( slotLinkView() ), actionCollection(), "link" );
 
   // Go menu
   m_paUp = new KToolBarPopupAction( i18n( "&Up" ), "up", ALT+Key_Up, this, SLOT( slotUp() ), actionCollection(), "up" );
