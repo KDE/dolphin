@@ -1,0 +1,178 @@
+
+How to embed stuff in Konqueror
+-------------------------------
+
+Simon Hausmann <hausmann@kde.org>
+last modified: 26.08.1999
+
+
+(1) Introduction - How Konqueror Displays Data
+----------------------------------------------
+
+This is what happens when Konqueror tries to open an URL, displayed by a CORBA 
+service:
+
+1) Konqueror tries to find out about the mimetype of the URL. For non-local 
+   URLs a KIOSlave for the URL's protocol is launched. If necessary Konqueror
+   even get()'s a few bytes (or reads them directly for local URLs) and
+   passes them to KMimeMagic, in order to determine the correct mimetype.
+
+2) If the mimetype can't be displayed with the builtin views (directory,
+   html, text) , Konqueror queries the KDE Registry for services implementing
+   the given mimetype (servicetype) . This are usually applications like
+   KView for example, which "binds" to all image types it can display.
+
+3) Now Konqueror checks whether the service (application) also implements the
+   "Browser/View" servicetype, indicated by the existance of a "Browser/View"
+   entry in the "ServiceTypes=" list entry in the service's .desktop file.
+
+4) If this is true, then it tries to bind to a Browser::ViewFactory object
+   in the service's CORBA executable (specified via the CORBAExec entry) and
+   creates a Browser::View this way, which immediately gets embedded then :-)
+   
+(2) The Browser::View interface
+-------------------------------
+
+The Browser::View CORBA interface, defined in browser.idl, is *the* interface
+used by Konqueror to display data. So if you want to embed "something" in 
+Konqueror you need to implement this interface first!
+
+The general idea about this interface is that the object implementing it
+*never* really knows about *where* it is embedded, meaning it has to be
+independend from it's parent Part! (of course you can check whether the
+parent Part supports any specific interface and then make use of it, but you
+should not make the main functionality of your view depend on the parent part's
+supported interfaces) .
+
+This is accomplished by using KOM signals to signal about requests, like
+opening an URL, specifying a text to be displayed in the statusbar of the
+hosting parent, etc. .
+
+You do not really *have* to implement all signals, but their availability
+controls the seamless integration into Konqueror very much.
+
+For example you have to implement the "started", "completed" and "canceled"
+signals in order to enable the history for this view, or "speedProgress" and
+"loadingProgress" in order to make the progress-indicator's in Konqueror display
+something when your view loads an URL.
+
+Use the "openURL" signal whenever you want to open an URL, even if your view
+is capable to display it anyway (Konqueror will of course re-use your view
+if possible :-)
+
+The methods defined in Browser::View are very simple and quite self-explaining.
+
+A Browser::View object will receive events, that's for sure :-P
+
+You don't need to map all possible events, but you *have* to map at least
+the eventOpenURL event!
+
+However if you want to improve the integration of your view into the Konqueror
+GUI you might want to implement three additional events which let you create
+view specific GUI elements, like toolbar buttons or menu entries.
+Please see the documentation in browser.idl for more information.
+
+(3) Extensions
+--------------
+There are several extension interfaces defined in browser.idl. The 
+Browser::MagnifyingExtension extension is used only by KHelpCenter, the others
+are used by Konqueror extensively if available though.
+
+Extensions improve the integration of your view even more, but not every
+kind of view is capable to implement the functionality of these extensions,
+that's why they are handled as aggregates.
+
+Note that these extensions are "treated" as aggreates, they do not inherit
+KOM::Aggregate though. The reason for this is that their implementation
+quite always depends on the view implementation itself and usually requires
+direct access to internal data structures or methods.
+
+In order to support such an extensions your interface has to (multiply) inherit
+from the extension. This looks like the following example then:
+...
+  interface MyView : Browser::View, Browser::PrintingExtension
+  {
+    //...
+  };
+...
+
+In addition you have to tell KOM about this aggregate, as it is a builtin
+one. Please see the KOM/OpenParts documentation for more information about
+this. You can find it here:
+- $KDEDIR/share/doc/HTML/en/komop/
+- in the kdelibs source tree at kdelibs/doc/komop
+- on http://developer.kde.org/
+
+(3.1) The Browser::PrintingExtension
+------------------------------------
+
+If your view supports this interface, Konqueror will automatically enable the
+File->Print menu item and the corresponding print button on the main toolbar.
+
+This extensions will be improved (read: extended) soon. Currently it contains 
+only one single method, print(), which will be called by Konqueror when the 
+data your view displays is to be printed. The implementation of this method 
+should display a print dialog and then print the data.
+
+(3.2) The Browser::EditExtension
+--------------------------------
+
+The availability of this interface controls the behaviour and availability of
+editing the data displayed in your view via the system clipboard.
+
+The can() method gets called pretty often by Konqueror and it should return
+(via the out arguments) whether copying/pasting/moving is possible in the
+very current state of your view. This depends on whether your view allows
+selection of data and whether (at the time this methods gets called) "anything" 
+is selected.
+
+You *may* also implement the selectionChanged() signal to explicitly tell
+Konqueror that "something" is selected or has been unselected. Emitting this
+signal will make Konqueror call the can() method.
+
+The copySelection() method should copy all selected "items" to the system
+clipboard.
+
+The implementation of pasteSelection() should attempt to insert the data
+of the system clipboard content into your view.
+
+moveSelection() is a very special method being bound to the KIOSlave 
+architecture in somehow. If you implement this method (meaning your view 
+supports it in general and is "enabled" via can() ), then you should
+either delete the selected data in your view (delete it "phsyically" ;) , if
+the destination url is null/empty, or *move* it to the destination url.
+You will most likely launch a KIOSlave for the given url and copy/put/delete
+your data then.
+
+Note that if your view never supports moveSelection() for example you can
+specify that the (empty) implementation of this method will never be called
+by assigning "false" to the move argument in the can() method per default.
+
+(4) The Browser::ViewFactory
+----------------------------
+
+You always *have* to implement this simple interface, as Konqueror attempts to
+bind to it when launching your CORBA server. Just create a new implentation 
+object of your view and return it. Your might (additionally) tell 
+KOMShutdownManager about the just newly created object, in order to provide
+a "lazy shutdown" of your server. Please see the KOM/OpenParts and KDE Daemon 
+documentation for more information (especially about KActivator...)
+
+(5) Registering your service...
+-------------------------------
+
+As stated in the introduction, Konqueror queries the KDE registry for eventual
+Browser::View implementations of a given mimetype/servicetype. So in order to
+finally let Konqueror know about your view, you have to register your service
+at the KDE registry.
+
+As already said ;-) you should read the KDE Daemon Documentation about further
+information (it's "near" the KOM/OpenParts documentation) .
+
+(6) Problems?
+-------------
+
+If you still ;) have problems or need further information/help, don't hesitate
+to subscribe to kfm-devel@kde.org and ask there. You can also ask me personally
+(hausmann@kde.org) if you're too lazy to subscribe ;-P
+
