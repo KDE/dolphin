@@ -274,9 +274,23 @@ void DesktopPathConfig::save()
 
     if ( !newDocumentURL.equals( documentURL, true ) )
     {
-//        config->writeEntry( "Documents", urDocument->url());
-        config->writePathEntry( "Documents", urDocument->url(), true, true );
-        pathChanged = true;
+        bool pathOk = true;
+        QString path = urDocument->url();
+        if (!QDir(path).exists())
+        {
+            if (!KStandardDirs::makeDir(path))
+            {
+                KMessageBox::sorry(this, KIO::buildErrorString(KIO::ERR_COULD_NOT_MKDIR, path));
+                urDocument->setURL(documentURL.path());
+                pathOk = false;
+            }
+        }
+        
+        if (pathOk)
+        {
+            config->writePathEntry( "Documents", path, true, true );
+            pathChanged = true;
+        }
     }
 
     config->sync();
