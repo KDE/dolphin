@@ -2759,7 +2759,7 @@ void KonqMainWindow::initActions()
   m_paPaste->setStatusText( i18n( "Pastes the clipboard contents" ) );
 
   m_paPrint->setWhatsThis( i18n( "Click this button to print the currently displayed document<br><br>\n\n"
-                                 "You can also select the <b>Print</b> command from the View menu." ) );
+                                 "You can also select the <b>Print</b> command from the Location menu." ) );
   m_paPrint->setStatusText( i18n( "Print the current document" ) );
 
   m_paStop->setWhatsThis( i18n( "Click this button to abort loading the document<br><br>\n\n"
@@ -3285,7 +3285,7 @@ void KonqMainWindow::saveProperties( KConfig *config )
 
 void KonqMainWindow::readProperties( KConfig *config )
 {
-  kdDebug(1202) << "KonqMainWindow::readProperties( KConfig *config )" << endl;
+  kdDebug(1202) << "**************** KonqMainWindow::readProperties( KConfig *config )" << endl;
   m_pViewManager->loadViewProfile( *config, QString::null /*no profile name*/ );
 }
 
