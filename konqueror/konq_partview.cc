@@ -1,6 +1,22 @@
 
 #include "konq_partview.h"
 
+/*
+ * Simon's small TODO list :)
+ * - emit a fake eventChildGotFocus Event to the Parent Part (only if the
+ *   parent part supports the KonqMainView interface) when the attached
+ *   part gets the focus. In order to implement this I have to:
+ *  1) make the attached part a child part
+ *  2) if the child part gets the focus
+ *     then do this:
+ *     - emit our fake event to the "real" parent
+ *     - remove us (KonqPartView) as part parent from our child
+ *     - call m_vMainWindow->setActivePart(...)
+ *     - re-parent the attached part again
+ *     - do something I forgot?
+ *  ...tricky, tricky, I wonder whether it will work ;-]
+ */
+
 KonqPartView::KonqPartView()
 {
   ADD_INTERFACE( "IDL:Konqueror/PartView:1.0" );

@@ -22,14 +22,12 @@ public:
   virtual bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
   
   virtual char *url();
-  virtual char *title();
 
   virtual Konqueror::View::HistoryEntry *saveState();
   virtual void restoreState( const Konqueror::View::HistoryEntry &history );
 
 protected:
   QString m_strURL;
-  QString m_strTitle;  
 };
 
 #endif

@@ -875,10 +875,10 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
   } 
   else if ( S_ISDIR( (mode_t)popup.mode ) )
   {
-    OPMenu *newMenu = new OPMenu;
-    m_popupMenu->insertItem( i18n("&New"), newMenu );
-    m_menuNew = new KNewMenu( newMenu->interface() );
-// id = m_popupMenu->insertItem( i18n("&New"), m_menuNew->popupMenu() );
+    //we don't want to use OpenParts here, because of "missing" interface 
+    //methods for the popup menu (wouldn't make much sense imho) (Simon)    
+    m_menuNew = new KNewMenu(); 
+    id = m_popupMenu->insertItem( i18n("&New"), m_menuNew->popupMenu() );
     m_popupMenu->insertSeparator();
 
     id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "up.xpm" ), i18n( "Up" ), this, SLOT( slotUp() ), 100 );

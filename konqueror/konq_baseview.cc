@@ -17,11 +17,11 @@ KonqBaseView::KonqBaseView()
   OPPartIf::setFocusPolicy( OpenParts::Part::ClickFocus );
   
   m_strURL = "";
-  m_strTitle = "";
 }
 
 KonqBaseView::~KonqBaseView()
 {
+  cerr << "KonqBaseView::~KonqBaseView()" << endl;
   cleanUp();
 }
 
@@ -33,6 +33,8 @@ void KonqBaseView::cleanUp()
 {
   if ( m_bIsClean )
     return;
+
+  cerr << "void KonqBaseView::cleanUp()" << endl;
 
   OPPartIf::cleanUp();
 }
@@ -69,11 +71,6 @@ bool KonqBaseView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 char *KonqBaseView::url()
 {
   return CORBA::string_dup( m_strURL.data() );
-}
-
-char *KonqBaseView::title()
-{
-  return CORBA::string_dup( m_strTitle.data() );
 }
 
 Konqueror::View::HistoryEntry *KonqBaseView::saveState()

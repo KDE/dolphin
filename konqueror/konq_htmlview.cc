@@ -180,7 +180,6 @@ void KonqHTMLView::slotMousePressed( const char* _url, const QPoint &_global, in
     popupRequest.mode = mode;
     popupRequest.isLocalFile = (CORBA::Boolean)u.isLocalFile();
     SIGNAL_CALL1( "popupMenu", popupRequest );
-    // TODO m_pView->popupMenu( _global, lst, mode, u.isLocalFile() );
   }
 }
 
@@ -319,11 +318,6 @@ void KonqHTMLView::stop()
 char *KonqHTMLView::url()
 {
   return CORBA::string_dup( KBrowser::m_strURL.data() );
-}
-
-char *KonqHTMLView::title()
-{
-  return m_vMainWindow->partCaption( id() );
 }
 
 Konqueror::View::HistoryEntry *KonqHTMLView::saveState()

@@ -237,9 +237,7 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
       popupRequest.mode = mode;
       popupRequest.isLocalFile = (CORBA::Boolean)m_bIsLocalURL;
       
-//      m_pView->popupMenu( _global, urls, mode, m_bIsLocalURL );
       SIGNAL_CALL1( "popupMenu", popupRequest );
-      //emit signal here... TODO
     }
   }
   else if ( _button == LeftButton )
@@ -279,8 +277,6 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
     popupRequest.mode = mode;
     popupRequest.isLocalFile = (CORBA::Boolean)m_bIsLocalURL;
     SIGNAL_CALL1( "popupMenu", popupRequest );
-//    m_pView->popupMenu( _global, urls, mode, m_bIsLocalURL );
-    //emit signal here ..TODO
   }
 }
 

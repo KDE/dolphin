@@ -61,7 +61,6 @@ module Konqueror
      */
      
     string url();
-    string title();
     
     void stop();
 

@@ -786,8 +786,6 @@ void KonqKfmTreeView::popupMenu( const QPoint& _global )
   popupRequest.mode = mode;
   popupRequest.isLocalFile = (CORBA::Boolean)m_bIsLocalURL;
   SIGNAL_CALL1( "popupMenu", popupRequest );
-//  m_pView->popupMenu( _global, urls, mode, m_bIsLocalURL );
-// TODOOOOOOOOO
 }
 
 void KonqKfmTreeView::openURL( const char *_url )
