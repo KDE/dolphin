@@ -83,6 +83,7 @@ private slots:
 private:
     bool getCookieDetails(CookieProp *cookie);
     void clearCookieDetails();
+    bool checkCookiejarStatus();
 
     QLineEdit* le_name;
     QLineEdit* le_value;

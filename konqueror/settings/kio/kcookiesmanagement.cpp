@@ -38,6 +38,7 @@
 #include <dcopclient.h>
 #include <kmessagebox.h>
 #include <kiconloader.h>
+#include <kapplication.h>
 
 #include "kcookiesmanagement.h"
 
@@ -222,14 +223,12 @@ void KCookiesManagement::load()
 
 bool KCookiesManagement::checkCookiejarStatus()
 {
-  bool status = m_dcopClient->isApplicationRegistered("kcookiejar");
+  bool status = kapp->dcopClient()->isApplicationRegistered("kcookiejar");
   if ( !status )
   {
       // TODO: Ask the user whether or not an attempt should be
       // made to start the cookiejar
-      status = KApplication::startServiceByDesktopName( "kcookiejar",
-                                                        QStringList(),
-                                                        &error ) );
+      status = KApplication::startServiceByDesktopName( "kcookiejar" );
   }
   return status;
 }
