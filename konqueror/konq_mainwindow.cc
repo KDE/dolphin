@@ -2259,7 +2259,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   KFileItem item( url, _mimeType, _mode );
   KFileItemList items;
   items.append( &item );
-  slotPopupMenu( client, _global, items ); //BE CAREFUL WITH sender() !
+  slotPopupMenu( client, _global, items, false ); //BE CAREFUL WITH sender() !
 }
 
 void KonqMainWindow::slotPopupMenu( const QPoint &_global, const KFileItemList &_items )
@@ -2268,6 +2268,11 @@ void KonqMainWindow::slotPopupMenu( const QPoint &_global, const KFileItemList &
 }
 
 void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items )
+{
+    slotPopupMenu( client, _global, _items, true );
+}
+
+void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items, bool showPropsAndFileType )
 {
   KonqView * m_oldView = m_currentView;
 
@@ -2320,7 +2325,8 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   KonqPopupMenu pPopupMenu ( _items,
                              m_currentView->url(),
                              popupMenuCollection,
-                             m_pMenuNew );
+                             m_pMenuNew,
+		 showPropsAndFileType );
 
   pPopupMenu.factory()->addClient( konqyMenuClient );
 
