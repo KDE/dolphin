@@ -196,6 +196,7 @@ void ListViewBrowserExtension::editMimeType()
 
 KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode )
  : KonqDirPart( parent, name )
+,m_headerTimer(0)
 {
    setInstance( KonqListViewFactory::instance() );
 
@@ -259,6 +260,7 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
             m_extension, SLOT( updateActions() ) );
    connect(m_pListView->header(),SIGNAL(indexChange(int,int,int)),this,SLOT(headerDragged(int,int,int)));
    connect(m_pListView->header(),SIGNAL(clicked(int)),this,SLOT(slotHeaderClicked(int)));
+   connect(m_pListView->header(),SIGNAL(sizeChange(int,int,int)),SLOT(slotHeaderSizeChanged()));
 
    // signals from konqdirpart (for BC reasons)
    connect( this, SIGNAL( findOpened( KonqDirPart * ) ), SLOT( slotKFindOpened() ) );
@@ -481,7 +483,7 @@ void KonqListView::slotColumnToggled()
    config->sync();
 
    // Update column sizes
-   m_pListView->slotHeaderSizeChanged();
+   slotHeaderSizeChanged();
 }
 
 void KonqListView::slotHeaderClicked(int sec)
@@ -554,7 +556,52 @@ void KonqListView::slotSaveAfterHeaderDrag()
    config->sync();
 
    // Update column sizes
-   m_pListView->slotHeaderSizeChanged();
+   slotHeaderSizeChanged();
+}
+
+void KonqListView::slotSaveColumnWidths()
+{
+   QString protocol = url().protocol();
+   KConfig * config = KGlobal::config();
+   config->setGroup( "ListView_" + protocol );
+
+   QValueList<int> lstColumnWidths;
+   
+   for ( int i=0; i < m_pListView->columns(); i++ )
+   {
+      int section = m_pListView->header()->mapToSection( i );
+      
+      // look for section
+      for ( int j=0; j < m_pListView->NumberOfAtoms; j++ )
+      {
+         // Save size only if the column is found
+         if ( m_pListView->confColumns[j].displayInColumn == section )
+         {
+            m_pListView->confColumns[j].width = m_pListView->columnWidth(section);
+            lstColumnWidths.append( m_pListView->confColumns[j].width );
+            break;
+         }
+      }
+   }
+   config->writeEntry( "ColumnWidths", lstColumnWidths );
+   
+   // size of current filename column
+   config->writeEntry( "FileNameColumnWidth", m_pListView->columnWidth(0) );
+   
+   config->sync();
+}
+
+void KonqListView::slotHeaderSizeChanged()
+{
+   if ( !m_headerTimer )
+   {
+      m_headerTimer = new QTimer( this );
+      connect( m_headerTimer, SIGNAL( timeout() ), this, SLOT( slotSaveColumnWidths() ) );
+   }
+   else
+      m_headerTimer->stop();
+
+   m_headerTimer->start( 250, true );
 }
 
 void KonqListView::slotKFindOpened()

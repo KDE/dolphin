@@ -94,7 +94,6 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,m_filenameColumn(0)
 ,m_itemToGoTo("")
 ,m_backgroundTimer(0)
-,m_headerTimer(0)
 {
    kdDebug(1202) << "+KonqBaseListViewWidget" << endl;
 
@@ -159,7 +158,6 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
             m_pBrowserView->extension(), SIGNAL( speedProgress( int ) ) );
 
    connect( header(), SIGNAL( sizeChange( int, int, int ) ), SLOT( slotUpdateBackground() ) );
-   connect( header(), SIGNAL( sizeChange( int, int, int ) ), SLOT( slotHeaderSizeChanged() ) );
 
    viewport()->setMouseTracking( true );
    viewport()->setFocusPolicy( QWidget::WheelFocus );
@@ -1249,51 +1247,6 @@ void KonqBaseListViewWidget::restoreState( QDataStream & ds )
 
    m_bTopLevelComplete = false;
    m_itemFound = false;
-}
-
-void KonqBaseListViewWidget::slotSaveColumnWidths()
-{
-   QString protocol = url().protocol();
-   KConfig * config = KGlobal::config();
-   config->setGroup( "ListView_" + protocol );
-
-   QValueList<int> lstColumnWidths;
-   
-   for ( int i=0; i < columns(); i++ )
-   {
-      int section = header()->mapToSection( i );
-      
-      // look for section
-      for ( int j=0; j < NumberOfAtoms; j++ )
-      {
-         // Save size only if the column is found
-         if ( confColumns[j].displayInColumn == section )
-         {
-            confColumns[j].width = columnWidth(section);
-            lstColumnWidths.append( confColumns[j].width );
-            break;
-         }
-      }
-   }
-   config->writeEntry( "ColumnWidths", lstColumnWidths );
-   
-   // size of current filename column
-   config->writeEntry( "FileNameColumnWidth", columnWidth(0) );
-   
-   config->sync();
-}
-
-void KonqBaseListViewWidget::slotHeaderSizeChanged()
-{
-   if ( !m_headerTimer )
-   {
-      m_headerTimer = new QTimer( this );
-      connect( m_headerTimer, SIGNAL( timeout() ), this, SLOT( slotSaveColumnWidths() ) );
-   }
-   else
-      m_headerTimer->stop();
-
-   m_headerTimer->start( 250, true );
 }
 
 void KonqBaseListViewWidget::slotUpdateBackground()

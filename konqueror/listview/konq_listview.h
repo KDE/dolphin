@@ -122,6 +122,9 @@ protected slots:
   void headerDragged(int sec, int from, int to);
   //saves the new order of the columns
   void slotSaveAfterHeaderDrag();
+  // column width changed
+  void slotHeaderSizeChanged();
+  void slotSaveColumnWidths();  // delayed
   void slotHeaderClicked(int sec);
 
   // This comes from KonqDirPart, it's for the "Find" feature
@@ -142,6 +145,7 @@ private:
 
   KonqBaseListViewWidget *m_pListView;
   KMimeTypeResolver<KonqBaseListViewItem,KonqListView> *m_mimeTypeResolver;
+  QTimer *m_headerTimer;
 
   KAction *m_paSelect;
   KAction *m_paUnselect;

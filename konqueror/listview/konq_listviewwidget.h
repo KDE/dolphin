@@ -170,10 +170,6 @@ class KonqBaseListViewWidget : public KListView
       virtual void slotRedirection( const KURL & );
       void slotPopupMenu(QListViewItem*, const QPoint&, int);
 
-      // column width changed
-      void slotHeaderSizeChanged();
-      void slotSaveColumnWidths();  // delayed
-      
       // forces a repaint on column size changes / branch expansion
       // when there is a background pixmap
       void slotUpdateBackground();
@@ -254,7 +250,6 @@ class KonqBaseListViewWidget : public KListView
 
       QString m_itemToGoTo;
       QTimer *m_backgroundTimer;
-      QTimer *m_headerTimer;
 };
 
 #endif
