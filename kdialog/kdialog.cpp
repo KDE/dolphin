@@ -43,6 +43,10 @@
 
 using namespace std;
 
+#if defined(Q_WS_X11)
+extern "C" { int XSetTransientForHint( Display *, unsigned long, unsigned long ); }
+#endif // Q_WS_X11
+
 static KCmdLineOptions options[] =
 {
     { "yesno <text>", I18N_NOOP("Question message box with yes/no buttons"), 0 },
@@ -70,10 +74,47 @@ static KCmdLineOptions options[] =
 
     { "title <text>", I18N_NOOP("Dialog title"), 0 },
     { "separate-output", I18N_NOOP("Return list items on separate lines (for checklist option)"), 0 },
+    { "print-winid", I18N_NOOP("Outputs the winId of each dialog"), 0 },
+    { "embed <winid>", I18N_NOOP("Makes the dialog transient for an X app specified by winid"), 0 },
 
     { "+[arg]", I18N_NOOP("Arguments - depending on main option"), 0 },
     KCmdLineLastOption
 };
+
+// this class hooks into the eventloop and outputs the id
+// of shown dialogs or makes the dialog transient for other winids.
+// Will destroy itself on app exit.
+class WinIdEmbedder: public QObject
+{
+public:
+    WinIdEmbedder(bool printID = false, WId winId = 0): 
+        QObject(qApp), print(printID), id(winId)
+    {
+	if (qApp)
+            qApp->installEventFilter(this);
+    }
+protected:
+    bool eventFilter(QObject *o, QEvent *e);
+private:
+    bool print;
+    WId id;
+};
+
+bool WinIdEmbedder::eventFilter(QObject *o, QEvent *e)
+{
+    if (e->type() == QEvent::Show && o->isWidgetType()
+	&& o->inherits("KDialog"))
+    {
+	QWidget *w = static_cast<QWidget*>(o);
+	if (print)
+	    cout << "winId: " << w->winId() << endl;
+#ifdef Q_WS_X11
+	if (id)
+	    XSetTransientForHint(w->x11Display(), w->winId(), id);
+#endif
+    }
+    return QObject::eventFilter(o, e);
+}
 
 // string to int, with default value
 int convert(const QString &val, int def)
@@ -89,6 +130,8 @@ int directCommand(KCmdLineArgs *args)
 {
     QString title;
     bool separateOutput = FALSE;
+    bool printWId = args->isSet("print-winid");
+    bool embed = args->isSet("embed");
 
     // --title text
     KCmdLineArgs *qtargs = KCmdLineArgs::parsedArgs("qt"); // --title is a qt option
@@ -100,6 +143,17 @@ int directCommand(KCmdLineArgs *args)
     if (args->isSet("separate-output"))
     {
       separateOutput = TRUE;
+    }
+    if (printWId || embed)
+    {
+      WId id = 0;
+      if (embed) {
+          bool ok;
+          long l = args->getOption("embed").toLong(&ok);
+          if (ok)
+              id = (WId)l;
+      }
+      (void)new WinIdEmbedder(printWId, id);
     }
 
     // --yesno and other message boxes
