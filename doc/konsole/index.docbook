@@ -155,6 +155,9 @@ shell) runs in the window. Simply type at the prompt.</para>
 <textobject>
 <phrase>&konsole; Screen</phrase>
 </textobject>
+<caption><para>
+A 60 column by 9 row Konsole with 4 terminal sessions running with the tabbar on top.
+</para></caption>
 </mediaobject>
 </screenshot>
 <para>A <quote>Tip of the Day</quote> window may also appear on
@@ -1284,7 +1287,7 @@ The following &Qt; options have no effect on &konsole;:
 
 <para>&konsole; is maintained by &Waldo.Bastian; &Waldo.Bastian.mail;</para>
 
-<para>The application &konsole; Copyright &copy; 1997-2002
+<para>The application &konsole; Copyright &copy; 1997-2004
 &Lars.Doelle; &Lars.Doelle.mail;</para>
 
 <para>This document was written by &Jonathan.Singer;
