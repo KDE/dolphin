@@ -28,6 +28,7 @@
 #include <kmessagebox.h>
 
 #include <kglobal.h>
+#include <kconfig.h>
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kurl.h>
@@ -118,8 +119,12 @@ void KBookmarkBar::fillBookmarkBar(KBookmarkGroup & parent)
                                                   m_actionCollection, "bookmarkbar-actionmenu");
             action->setDelayed(false);
 
+            // this flag doesn't have any UI yet
+            KGlobal::config()->setGroup( "Settings" );
+            bool addEntriesBookmarkBar = KGlobal::config()->readBoolEntry("AddEntriesBookmarkBar",true);
+
             KBookmarkMenu *menu = new KBookmarkMenu(m_pOwner, action->popupMenu(),
-                                                    m_actionCollection, false, true,
+                                                    m_actionCollection, false, addEntriesBookmarkBar,
                                                     bm.address());
             //menu->fillBookmarkMenu();
             action->plug(m_toolBar);
