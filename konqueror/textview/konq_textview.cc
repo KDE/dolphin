@@ -376,20 +376,6 @@ void KonqTextView::slotSaveDocumentAs()
 {
   KURL u( m_strURL );
 
-#ifndef AFTER_KRASH_API
-  KFileDialog *dlg = new KFileDialog( QString::null, "*\n*.txt",
-				      this, "filedialog", true, false );
-
-  dlg->setCaption( i18n( "Save as" ) );
-  dlg->setSelection( dlg->dirPath() + u.filename() );
-  if ( dlg->exec() )
-  {
-    KURL dest = dlg->selectedFileURL();
-    KIOJob *job = new KIOJob;
-    job->copy( m_strURL, dest.url() );
-  }
-  delete dlg;
-#else
   KURL dest = KFileDialog::getSaveFileName( u.filename(),
 				       i18n("*|All Files\n"
 					    "*.txt|Text-Files"), this,
@@ -399,7 +385,6 @@ void KonqTextView::slotSaveDocumentAs()
       KIOJob *job = new KIOJob;
       job->copy( m_strURL, dest.url() );
   }
-#endif
 }
 
 /*

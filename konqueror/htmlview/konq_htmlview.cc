@@ -629,27 +629,12 @@ void KonqHTMLView::saveBackground()
 
   KURL backgroundURL( KURL( m_pBrowser->url() ), relURL );
 
-#ifdef AFTER_KRASH_API
   KURL destURL = KFileDialog::getSaveFileName( backgroundURL.filename(), "*", this, i18n("Save background image as"));
   if ( !destURL.isMalformed() )
       {
 	  KIOJob *job = new KIOJob;
 	  job->copy( backgroundURL.url(), destURL.url() );
       }
-#else
-  KFileDialog *dlg = new KFileDialog( QString::null, "*",
-				      this , "filedialog", true, false );
-  dlg->setCaption(i18n("Save background image as"));
-  dlg->setSelection( dlg->dirPath() + backgroundURL.filename() );
-  if ( dlg->exec() )
-      {
-	  KURL destURL( dlg->selectedFileURL() );
-	  KIOJob *job = new KIOJob;
-	  job->copy( backgroundURL.url(), destURL.url() );
-      }
-
-  delete dlg;
-#endif
 }
 
 void KonqHTMLView::viewDocumentSource()
