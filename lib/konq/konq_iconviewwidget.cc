@@ -1376,7 +1376,7 @@ void KonqIconViewWidget::mousePressChangeValue()
 void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
 {
      QIconViewItem* item = findItem( e->pos() );
-
+     m_mousePos = e->pos();
      KURL url;
      if ( item )
      {
@@ -1398,7 +1398,6 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
      }
      else
          d->renameItem= false;
-    m_mousePos = e->pos();
     mousePressChangeValue();
     KIconView::contentsMousePressEvent( e );
 
