@@ -26,6 +26,7 @@
 #include "konq_htmlview.h"
 #include "konq_plugins.h"
 #include "konq_propsview.h"
+#include "kfmrun.h"
 
 #include <kded_instance.h>
 #include <ktrader.h>
@@ -76,6 +77,7 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
   m_bHistoryLock = false;
   m_pMainView = mainView;
   m_vMainWindow = mainView->mainWindow();
+  m_pRun = 0L;
 
   if (newViewPosition == left)
     m_row->moveToFirst( m_pWidget );
@@ -90,6 +92,8 @@ KonqChildView::~KonqChildView()
 {
   detach();
   delete m_pWidget;
+  if ( m_pRun )
+    delete m_pRun;
 }
 
 void KonqChildView::attach( Konqueror::View_ptr view )

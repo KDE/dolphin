@@ -34,6 +34,7 @@ class QSplitter;
 class KonqBaseView;
 class OPFrame;
 class KonqFrameHeader;
+class KfmRun;
 
 typedef QSplitter Row;
 
@@ -55,9 +56,8 @@ public:
    * @param view the IDL View to be added in the child view
    * @param row the row (i.e. splitter) where to add the frame
    * @param newViewPosition only valid if Left or Right
-   * @param parent the mainview, parent of this view
-   * @param parentWidget the mainview as a widget
-   * @param mainWindow the KonqMainWindow hosting the view
+   * @param mainView is the mainview :-)
+   * @param serviceTypes is the list of supported servicetypes
    */
   KonqChildView( Konqueror::View_ptr view,
                  Row * row,
@@ -188,6 +188,9 @@ public:
   
   bool supportsServiceType( const QString &serviceType );
 
+  void setKfmRun( KfmRun *run ) { m_pRun = run; }
+  KfmRun *kfmRun() const { return m_pRun; }
+
   static bool createView( const QString &serviceType, 
                           Konqueror::View_var &view, 
 			  QStringList &serviceTypes, 
@@ -246,6 +249,7 @@ protected:
   QVBoxLayout * m_pLayout;
   QStringList m_lstServiceTypes;
   bool m_bAllowHTML;
+  KfmRun *m_pRun;
 };
 
 #endif

@@ -173,6 +173,7 @@ module Konqueror
 
     void setActiveView( in OpenParts::Id id );
     View activeView();
+    OpenParts::Id activeViewId();
     ViewList viewList();
 
     slot void openURL( in URLRequest url );    

@@ -72,6 +72,7 @@ public:
   //IDL
   virtual void setActiveView( OpenParts::Id id );
   virtual Konqueror::View_ptr activeView();
+  virtual OpenParts::Id activeViewId();
   virtual Konqueror::ViewList *viewList();
 
   virtual void openURL( const Konqueror::URLRequest &url );
@@ -84,7 +85,7 @@ public:
 
   void popupMenu( const QPoint &_global, const QStringList &_urls, mode_t _mode );
   
-  bool openView( const QString &serviceType, const QString &url );
+  bool openView( const QString &serviceType, const QString &url, unsigned long viewId );
   
   ////////////////////
   /// Overloaded functions of KBookmarkOwner

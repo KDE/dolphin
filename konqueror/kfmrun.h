@@ -29,7 +29,7 @@ class KfmRun : public KRun
 {
   Q_OBJECT
 public:
-  KfmRun( KonqMainView* _view, const char *_url, mode_t _mode = 0, bool _is_local_file = false, bool _auto_delete = true );
+  KfmRun( KonqMainView* _view, unsigned long _viewId, const char *_url, mode_t _mode = 0, bool _is_local_file = false, bool _auto_delete = true );
   virtual ~KfmRun();
   
 protected:
@@ -41,6 +41,7 @@ protected:
   virtual void foundMimeType( const char *_type );
 
   KonqMainView* m_pView;  
+  unsigned long m_ulViewId;
 };
 
 /* Implement the openFileManagerWindow call that libkio does if necessary */

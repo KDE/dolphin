@@ -19,6 +19,7 @@
 
 #include <qdir.h>
 
+#include "kfmrun.h"
 #include "knewmenu.h"
 #include "konq_mainview.h"
 #include "kbookmarkmenu.h"
@@ -33,7 +34,6 @@
 #include "konq_plugins.h"
 #include "konq_propsmainview.h"
 #include "konq_propsview.h"
-#include "kfmrun.h"
 #include "knewmenu.h"
 #include "kpopupmenu.h"
 
@@ -127,9 +127,7 @@ KonqMainView::KonqMainView( const char *url, QWidget *_parent ) : QWidget( _pare
   m_vLocationBar = 0L;
   m_vMenuBar = 0L;
   m_vStatusBar = 0L;
-
-  m_pRun = 0L;
-
+  
   m_currentView = 0L;
   m_currentId = 0;
 
@@ -217,9 +215,6 @@ void KonqMainView::cleanUp()
 
   delete m_pAccel;
 
-  if ( m_pRun )
-    delete m_pRun;
-  
   if ( m_vMainWindow->activePartId() == m_currentId )
     m_vMainWindow->setActivePart( 0 );
     
@@ -730,6 +725,11 @@ Konqueror::View_ptr KonqMainView::activeView()
     return Konqueror::View::_nil();
 }
 
+OpenParts::Id KonqMainView::activeViewId()
+{
+  return m_currentId;
+}
+
 Konqueror::ViewList *KonqMainView::viewList()
 {
   Konqueror::ViewList *seq = new Konqueror::ViewList;
@@ -834,7 +834,9 @@ void KonqMainView::openURL( const char * _url, CORBA::Boolean )
   
   slotStop(); //hm....
     
-  m_pRun = new KfmRun( this, url, 0, false, false );
+  KfmRun *run = new KfmRun( this, m_currentId, url, 0, false, false );
+  if ( m_currentView )
+    m_currentView->setKfmRun( run );
 }
 
 void KonqMainView::setStatusBarText( const CORBA::WChar *_text )
@@ -890,7 +892,7 @@ void KonqMainView::createNewWindow( const char *url )
   m_pShell->show();
 }
 
-bool KonqMainView::openView( const QString &serviceType, const QString &url )
+bool KonqMainView::openView( const QString &serviceType, const QString &url, unsigned long viewId )
 {
   QString indexFile;
   KURL u( url );
@@ -919,32 +921,33 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url )
     setActiveView( vView->id() );
     
     m_sInitialURL = QString::null;
-    m_pRun = 0L;
     return true;
   }
   
-  assert( m_currentView );
+  MapViews::ConstIterator it = m_mapViews.find( viewId );
+  assert( it != m_mapViews.end() );
+  const KonqChildView *childView = it.data();
   
   //first check whether the current view can display this type directly, then
   //try to change the view mode. if this fails, too, then Konqueror cannot
   //display the data addressed by the URL
-  if ( m_currentView->supportsServiceType( serviceType ) )
+  if ( childView->supportsServiceType( serviceType ) )
   {
     if ( ( serviceType == "inode/directory" ) &&
-         ( m_currentView->allowHTML() ) &&
+         ( childView->allowHTML() ) &&
          ( u.isLocalFile() ) &&
 	 ( ( indexFile = findIndexFile( u.path() ) ) != QString::null ) )
-      m_currentView->changeViewMode( "text/html", indexFile );
+      childView->changeViewMode( "text/html", indexFile );
     else
-      m_currentView->openURL( url );
+      childView->openURL( url );
       
-    m_pRun = 0L;
+    childView->setKfmRun( 0L );
     return true;
   }
 
-  if ( m_currentView->changeViewMode( serviceType, url ) )
+  if ( childView->changeViewMode( serviceType, url ) )
   {
-    m_pRun = 0L;
+    childView->setKfmRun( 0L );
     return true;
   }
     
@@ -1251,14 +1254,13 @@ void KonqMainView::slotReload()
 
 void KonqMainView::slotStop()
 {
-  if ( m_pRun )
-  {
-    delete m_pRun;
-    m_pRun = 0L;
-  }
-
   if ( m_currentView )
+  {
     m_currentView->stop();
+    if ( m_currentView->kfmRun() )
+      delete m_currentView->kfmRun();
+    m_currentView->setKfmRun( 0L );
+  }    
 }
 
 void KonqMainView::slotUp()
