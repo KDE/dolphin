@@ -37,7 +37,7 @@
 
 extern QList<KfFileType> *types;
 
-KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *searchPath = 0 )
+KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *searchPath )
     : QTabDialog( parent, name )
   {
     //Page One of KfTAbDialog

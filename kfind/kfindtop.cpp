@@ -268,9 +268,10 @@ void KfindTop::enableSaveResults(bool enable)
 
 void KfindTop::enableMenuItems(bool enable)
   {
-    for(int i=openWithM;i>quitM+1;i--)
+    int i;
+    for(i=openWithM;i>quitM+1;i--)
       _fileMenu->setItemEnabled(i,enable);
-    for(int i=3;i<8;i++)
+    for(i=3;i<8;i++)
       _toolBar->setItemEnabled(i,enable);    
   };                    
 

@@ -19,7 +19,7 @@ public:
   const char* getSaveFormat() { return saveFormat; };
 
   //aks whether standart output file shoud be used
-  bool getSaveStandard() { return saveStandard; };;
+  bool getSaveStandard() { return saveStandard; };
 
   // sets filename
   void setSaveFile(const char*);

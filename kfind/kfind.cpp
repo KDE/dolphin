@@ -28,8 +28,9 @@
 #include "kftabdlg.h"
 #include "kfwin.h"
 #include "kfind.h"
+#include <config.h>
 
-Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath = 0 )
+Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath )
     : QWidget( parent, name )
   {
     //create tabdialog

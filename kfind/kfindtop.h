@@ -20,7 +20,7 @@ class KfindTabDialog;
 
 class KfindTop: public KTopLevelWidget
 {
-  Q_OBJECT;
+  Q_OBJECT
 
 public:
   KfindTop(const char *);

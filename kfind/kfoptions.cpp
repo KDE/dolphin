@@ -44,7 +44,7 @@ extern QList<KfArchiver> *archivers;
 
 #define trans klocale
 
-KfOptions::KfOptions( QWidget *parent=0, const char *name=0 ):QTabDialog( parent, name) 
+KfOptions::KfOptions( QWidget *parent, const char *name ):QTabDialog( parent, name) 
   {
     resize(400,330);
     insertPages();
