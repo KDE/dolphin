@@ -684,9 +684,10 @@ void KEBTopLevel::selectImport(ImportCommand *cmd)
 
 void KEBTopLevel::slotImportIE()
 {
-    // Hmm, there's no questionYesNoCancel...
-    int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
-                                             i18n("IE Import"), i18n("As New Folder"), i18n("Replace") );
+    int answer = KMessageBox::questionYesNoCancel( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
+                                                   i18n("IE Import"), i18n("As New Folder"), i18n("Replace") );
+    if ( answer == KMessageBox::Cancel )
+	return;
     bool subFolder = (answer==KMessageBox::Yes);
     ImportCommand * cmd = new ImportCommand( i18n("Import IE Bookmarks"), KIEBookmarkImporter::IEBookmarksDir(),
                                              subFolder ? i18n("IE Bookmarks") : QString::null, "ie", false, BK_IE); // TODO - icon
@@ -717,9 +718,10 @@ int answer = KMessageBox::questionYesNo( this, FOLDER_OR_REPLACE,
 
 void KEBTopLevel::slotImportGaleon()
 {
-    // Hmm, there's no questionYesNoCancel...
-    int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
-                                             i18n("Galeon Import"), i18n("As New Folder"), i18n("Replace") );
+    int answer = KMessageBox::questionYesNoCancel( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
+                                                   i18n("Galeon Import"), i18n("As New Folder"), i18n("Replace") );
+    if ( answer == KMessageBox::Cancel )
+	return;
     bool subFolder = (answer==KMessageBox::Yes);
 
     // update the gui
@@ -733,9 +735,10 @@ void KEBTopLevel::slotImportGaleon()
 
 void KEBTopLevel::slotImportKDE()
 {
-    // Hmm, there's no questionYesNoCancel...
-    int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
-                                             i18n("KDE Import"), i18n("As New Folder"), i18n("Replace") );
+    int answer = KMessageBox::questionYesNoCancel( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
+                                                   i18n("KDE Import"), i18n("As New Folder"), i18n("Replace") );
+    if ( answer == KMessageBox::Cancel )
+	return;
     bool subFolder = (answer==KMessageBox::Yes);
 
     // update the gui
@@ -749,9 +752,10 @@ void KEBTopLevel::slotImportKDE()
 
 void KEBTopLevel::slotImportOpera()
 {
-    // Hmm, there's no questionYesNoCancel...
-    int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
-                                             i18n("Opera Import"), i18n("As New Folder"), i18n("Replace") );
+    int answer = KMessageBox::questionYesNoCancel( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
+                                                   i18n("Opera Import"), i18n("As New Folder"), i18n("Replace") );
+    if ( answer == KMessageBox::Cancel )
+	return;
     bool subFolder = (answer==KMessageBox::Yes);
     ImportCommand * cmd = new ImportCommand( i18n("Import Opera Bookmarks"), KOperaBookmarkImporter::operaBookmarksFile(),
                                              subFolder ? i18n("Opera Bookmarks") : QString::null, "opera", false, BK_OPERA); // TODO - icon
@@ -761,9 +765,10 @@ void KEBTopLevel::slotImportOpera()
 
 void KEBTopLevel::slotImportNS()
 {
-    // Hmm, there's no questionYesNoCancel...
-    int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
-                                             i18n("Netscape Import"), i18n("As New Folder"), i18n("Replace") );
+    int answer = KMessageBox::questionYesNoCancel( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
+                                                   i18n("Netscape Import"), i18n("As New Folder"), i18n("Replace") );
+    if ( answer == KMessageBox::Cancel )
+	return;
     bool subFolder = (answer==KMessageBox::Yes);
     ImportCommand * cmd = new ImportCommand( i18n("Import Netscape Bookmarks"), KNSBookmarkImporter::netscapeBookmarksFile(),
                                              subFolder ? i18n("Netscape Bookmarks") : QString::null, "netscape", false, BK_NS);
@@ -777,9 +782,10 @@ void KEBTopLevel::slotImportNS()
 
 void KEBTopLevel::slotImportMoz()
 {
-    // Hmm, there's no questionYesNoCancel...
-    int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
-                                             i18n("Mozilla Import"), i18n("As New Folder"), i18n("Replace") );
+    int answer = KMessageBox::questionYesNoCancel( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
+                                                   i18n("Mozilla Import"), i18n("As New Folder"), i18n("Replace") );
+    if ( answer == KMessageBox::Cancel )
+	return;
     bool subFolder = (answer==KMessageBox::Yes);
     QString mozFile=KNSBookmarkImporter::mozillaBookmarksFile();
     if(!mozFile.isEmpty())
