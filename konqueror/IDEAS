@@ -1,0 +1,223 @@
+Konqueror "Ideas" Document (specification, general ideas)
+
+Authors: 
+  Waldo Bastian
+  David Faure
+  Simon Hausmann
+
+Last modified: 7 Mar 1999
+
+Intro
+=====
+I am trying to create a picture of how Konqueror should look 
+like in KDE 2.0. If such a picture is clear, it is easier to 
+build Konqueror such that it will feel like a consistent piece 
+of software. This is of course only my view of the things. If 
+someone has other views please let this know. It will help if 
+a sort of common idea about the future of Konqueror exists.
+
+KDE 2.0
+=======
+I think we should keep Konqueror a "browser": You can browse 
+with it, and look at things. But when you want to _DO_ things, 
+you will need a full-fledged application.
+
+So you can view HTML with it.
+You can view directories with it.
+You can view text-files with it (read-only). (basically kless)
+You can view images with it.
+You can view mail-folders with it.
+You can view newsgroups with it.
+You can view xxx....
+
+When you want more advanced manipulating options, modify things, 
+or create things (writing a mail for instance) the "Real (tm)" 
+application should pop up with its own menubars etc.
+
+There is of course a thin line between viewing and modifying. 
+With the file browser you want to be able to move/rename/delete 
+files. So if we allow this functionality for file-browsing, we 
+should also allow it for mail-browsing or news-browsing. 
+(e.g. move/delete message cq. postings).
+
+Creating does not really belong in a browser (apart from 
+directories) because you will almost always need an application 
+for this anyway. I seldom go to a directory to select "create xyz". 
+Most of the time you start an application to create "xyz" and 
+when you are done, you think of a nice place to store it.
+(I think Microsoft wants us to believe otherwise, with their 
+"document-orientated" Windows95 marketing) 
+((Well, sometimes you are browsing and have a sudden urge to put 
+a text-file like README in a directory. But for that you still 
+need a text-editor. Just creating an empty file is of little use.))
+
+Why is this important?
+======================
+There must be a clear distinction between what can be done with
+Konqueror and what can be done with the application self. If there 
+is no distinction we don't need Konqueror. 
+
+Smooth integration
+==================
+With this Konqueror thing we have to tell the user a thing or 
+two. We have to tell the user what he/she is doing: 
+"Viewing a text-file", "Viewing a web-page", "Viewing a FTP-site", 
+"Viewing e-mail". Because the options available to the user, depend 
+on what he is doing: You can reply to e-mail. But you can't reply 
+to a FTP-site. You can sort the entries of a FTP directory, but
+you can't sort a web-page.
+
+At the same time, we have to tell the user that he/she is "Viewing". 
+If you want to edit the web-page, the web-editor comes up. If you 
+want to reply to the e-mail, the mail-composer comes up. At that 
+time the user is editing/changing/modyfying.
+
+From the users point of view, the "viewing" part is konqueror. The
+editing part is the application.
+
+From the developers point of view, this can be different. The view
+e-mail mode of Konqueror could (but it doesn't have to) be handled 
+by the same instance of kmail as the "edit" mode of kmail. If this 
+will be indeed the case should depend on programming considerations. 
+
+What should not depend on programming considerations, is how it is
+presented to the user. 
+
+An Example
+==========
+Teodor Romeo Mihai wrote:
+> Well, I've been working for a few months now on a Outloook-clone for
+> KDE, handling mail/contacts/schedule/journal/notes/groups. It is a bit
+> different from all KDE applications I've seen, being very close to
+> Outlook in look&feel rather than KMail - which I find unusable.
+> If you are seriously planning to put mail in kfm, maybe you should
+> consider some kind of integration with an external mailer, in
+> Explorer/Outlook style.
+
+I'm serious about integrating mail-viewing in Konqueror. 
+(From a user point of view).
+
+I think it is a very bad idea to put mail-reading code in 
+Konqueror. (From a developers point of view).
+
+Konqueror should be able to display mail/mailboxes by embedding 
+a mail-viewer. This mail-viewer should (in the case of a mail-viewer) 
+be a seperate application from a developers point of view, but should
+integrate seemless with Konqueror from the user point of view. This 
+application can be kmail, a light version of kmail, or any other 
+application that can display mails and supports this embedded KFM-view 
+idea.
+
+For viewing HTML or GIF files, Konqueror will most likely implement
+the functionality itself. For the user it should not make any difference
+if a view is implemented in Konqueror itself or in a seperate 
+application.
+
+The technology to embed the mail-viewer should be something CORBA based.
+Most likely KOM/Openparts.
+
+Konqueror should not become a program like Netscape Communicator:
+A program that tries to do everything itself, and as result, does
+everything very poorly.
+
+Konqueror should do it better and the Unix way: Have speciliazed
+components which are very good in their task. Konqueror provides 
+the seemless integration of them and provides easy navigation 
+abilities.
+
+
+<tfischer> This means i can create an application (container) which host two parts, 
+which are both ACTIVE, that 
+  means i do not need to click the parts before they start repsonding.
+
+
+Konquerer Views
+===============
+When an embedded part gets the focus (e.g. when the users clicks on it)
+the mainwindow (shell) gets notified about this (the focus change).
+You can "manually" activate a part by calling a method in the mainwindow 
+interface. There can be only part that has the focus.
+If you click on a non-activated part the click action itself is not "eaten up"
+An activated part means the part has focus (keyboard, ...)
+When you have "plain" parts they usually "have" their own GUI which get's 
+"enabled" (created dynamically) when the part gets the focus
+Normally this would bring a big problem inside konqueror
+Because then we'd have lots of duplicated *bar creation code and 
+stuff like this. That is the reason why in konqueror functionality is
+implemented in openparts to have so called child parts.
+A child part does _not_ have it's own GUI (as a normal openpart has)
+instead the part part's gui is used.
+We still allow konqueror views to have their own view specific gui elements
+When a konqueror view (=part child) gets the focus the part parent 
+(the mainview) will receive an event (eventChildGotFocus)
+and this helps the mainview to send yet another event to the just 
+activated view (=part) , an konqueror specific event
+these events are described in konqueror.idl
+
+The result is:
+A konqueror view (that's important, the view must support this interface) 
+can now specify it's own, view specific, menu entries in the edit/view menu 
+plus it's own toolbar.
+
+This integration is in fact not sooo seamless because:
+whenever the use activates your khelpcenter part
+a complete GUI "switch" will take place, meaning all the *bars from 
+konqueror will be replaced by the *bars from the child view
+
+Therefor another approach is developed:
+The *bars of konqueror will contain entries for all child-views which are
+inside the main-view. 
+
+Care should be taken when multiple views want to add the same entries to
+one of the *bars. 
+
+In the case of a toolbar, only one entry could be added, the child-view which
+has supplied this entry will be made active when his entry is used and will
+get the event. If multiple child-views have provided this entry, the currently
+active child will get the event. 
+
+For the menubar, the entries will be presented grouped per child-view. The same
+entry could be listed twice in the same menu, but listed under two differents
+views.
+
+Transcript
+==========
+<tronical> we have a usual mainview (looks/behaves quite like a current kfm window on the screen)
+<tronical> now we have two views inside, on the left we've got an iconview
+<tronical> and on the right we've got an htmlview
+<tronical> now let's say the iconview wants to add a special entry in the common view menu
+<tronical> no, let's say three entries: mini-/medium-/large icons
+<tronical> and for the htmlview we've got (in the view menu as well):
+<tronical> whatevery...hm...*thinking*, perhaps charset-selection of stuff like this
+<tronical> now when the iconview is active the view menu will contain
+<tronical> all the usual konqueror (mainview) entries (what could this be for example?) plus the three iconview 
+  entries
+<tronical> and when the users activates the htmlview then view menu will silently change
+<Zogje> I think it makes sense to have both sets of entries in the view-menu at the sma time
+<tronical> ok, well, it's possible to do this
+* tfischer thinks zogje is right.
+<tronical> there's no change in the design necessary
+<Zogje> because the user just has a html-view and an inco-view on his screen, and has no idea which one is 
+  "active"
+<tronical> hm, you're right
+<tronical> ok, but I think we can easily solve this:
+<tronical> first we create the common konqueror menu entries
+<tronical> then insertSeparator( -1 );
+<Zogje> ack
+<tronical> and then the first views' entries
+<tronical> then another separator, ...and so on
+<Zogje> yes
+<Zogje> that seems quite good
+<tronical> we might do something like this:
+<tronical> common konqy entries
+<tronical> separator
+<tronical> dummy-not-doing-anything-entry named viewName()
+<tronical> separator
+<tronical> view entries
+<tronical> yet another separator
+<tronical> second view's name as dummy entries
+<tronical> and so on
+<Zogje> yes.. because if we have two html-views... you want to be able to select things for both independntly
+
+
+

@@ -37,7 +37,6 @@
 #include <kio_interface.h>
 #include <kurl.h>
 
-class KonqKfmView; //below
 class KMimeType;
 
 class KonqKfmViewItem

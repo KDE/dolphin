@@ -1,0 +1,13 @@
+(from kfm)
+- Nice ftp dialog for users who do not know how to put their
+  use name in a URL.
+- Sorting by date, ... 
+
+- (Following to discussion with Sven) : Update kpropsdlg so that it can show
+up with a default mimetype / application / .... It would _know_ the
+filename but would only use it to write, not read at startup.
+This involves making New/Mimetype and New/Application built-in
+templates, just like New/Folder, since the file would be not used at all.
+
+and see http://bugs.kde.org/db/pa/lkfm.html !
+
