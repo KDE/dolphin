@@ -308,12 +308,15 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_iIconSize[1] = KIcon::SizeMedium; // 32
     m_iIconSize[2] = KIcon::SizeLarge; // 48
     KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
-    QValueList<int> avSizes = root->querySizes(KIcon::Desktop);
-    QValueList<int>::Iterator it;
-    for (i=0, it=avSizes.begin(); (it!=avSizes.end()) && (i<3); it++, i++)
+    if (root)
     {
-        m_iIconSize[i] = *it;
-        //kdDebug(1202) << "m_iIconSize[" << i << "] = " << *it << endl;
+      QValueList<int> avSizes = root->querySizes(KIcon::Desktop);
+      QValueList<int>::Iterator it;
+      for (i=0, it=avSizes.begin(); (it!=avSizes.end()) && (i<3); it++, i++)
+      {
+	m_iIconSize[i] = *it;
+	//kdDebug(1202) << "m_iIconSize[" << i << "] = " << *it << endl;
+      }
     }
 
     // Now we may react to configuration changes
