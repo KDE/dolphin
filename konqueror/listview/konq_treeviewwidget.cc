@@ -49,7 +49,6 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqListView *parent, QWidget *parentWid
 
    setRootIsDecorated( true );
    setTreeStepSize( 20 );
-   setSelectionModeExt( Multi ); // trying
 }
 
 KonqTreeViewWidget::~KonqTreeViewWidget()
