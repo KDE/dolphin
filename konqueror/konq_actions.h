@@ -125,8 +125,6 @@ public:
 
     virtual int plug( QWidget *widget, int index = -1 );
 
-    virtual void setIconSet( const QIconSet& iconSet );
-
     void start();
     void stop();
 

@@ -44,6 +44,7 @@ class KonqViewManager;
 class KNewMenu;
 class KProgress;
 class KonqPart;
+class KonqLogoAction;
 class KonqComboAction;
 class KonqHistoryAction;
 class KonqBookmarkBar;
@@ -314,7 +315,7 @@ private:
   KAction *m_paDelete;
   KAction *m_paShred;
 
-  KAction *m_paAnimatedLogo;
+  KonqLogoAction *m_paAnimatedLogo;
 
   KonqComboAction *m_paURLCombo;
   KonqBookmarkBar *m_paBookmarkBar;

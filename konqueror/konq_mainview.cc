@@ -1341,13 +1341,13 @@ void KonqMainView::setLocationBarURL( KonqChildView *childView, const QString &u
 
 void KonqMainView::startAnimation()
 {
-  ((KonqLogoAction*)m_paAnimatedLogo)->start();
+  m_paAnimatedLogo->start();
   m_paStop->setEnabled( true );
 }
 
 void KonqMainView::stopAnimation()
 {
-  ((KonqLogoAction*)m_paAnimatedLogo)->stop();
+  m_paAnimatedLogo->stop();
   m_paStop->setEnabled( false );
 }
 
