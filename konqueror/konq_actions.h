@@ -142,16 +142,17 @@ private slots:
     void slotEntryRemoved( const KonqHistoryEntry *entry );
 
     void slotFillMenu();
-    void slotClearMenu();
+    //void slotClearMenu();
 
     void slotActivated( int );
 
 private:
+    void init();
     void parseHistory();
 
     static MostOftenList *s_mostEntries;
     static uint s_maxEntries;
-    static bool s_bLocked;
+    KURL::List m_popupList;
 };
 
 class KonqGoURLAction : public KAction

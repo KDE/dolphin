@@ -346,7 +346,6 @@ void KonqViewModeAction::slotPopupAboutToHide()
 
 MostOftenList * KonqMostOftenURLSAction::s_mostEntries = 0L;
 uint KonqMostOftenURLSAction::s_maxEntries = 0;
-bool KonqMostOftenURLSAction::s_bLocked = false;
 
 KonqMostOftenURLSAction::KonqMostOftenURLSAction( const QString& text,
 						  QObject *parent,
@@ -356,31 +355,39 @@ KonqMostOftenURLSAction::KonqMostOftenURLSAction( const QString& text,
     setDelayed( false );
 
     connect( popupMenu(), SIGNAL( aboutToShow() ), SLOT( slotFillMenu() ));
-    connect( popupMenu(), SIGNAL( aboutToHide() ), SLOT( slotClearMenu() ));
+    //connect( popupMenu(), SIGNAL( aboutToHide() ), SLOT( slotClearMenu() ));
     connect( popupMenu(), SIGNAL( activated( int ) ),
 	     SLOT( slotActivated(int) ));
-    slotFillMenu();
+    // Need to do all this upfront for a correct initial state
+    init();
 }
 
 KonqMostOftenURLSAction::~KonqMostOftenURLSAction()
 {
 }
 
-void KonqMostOftenURLSAction::parseHistory()
+void KonqMostOftenURLSAction::init()
 {
-    bool didInit = false;
-    if ( !s_mostEntries ) {
-	KConfig *kc = KGlobal::config();
-	KConfigGroupSaver cs( kc, "Settings" );
-	s_maxEntries = kc->readNumEntry( "Number of most visited URLs", 10 );
+    KConfig *kc = KGlobal::config();
+    KConfigGroupSaver cs( kc, "Settings" );
+    s_maxEntries = kc->readNumEntry( "Number of most visited URLs", 10 );
 
-	s_mostEntries = new MostOftenList; // exit() will clean this up for now
-	didInit = true;
-    }
+    KonqHistoryManager *mgr = KonqHistoryManager::kself();
+    setEnabled( !mgr->entries().isEmpty() && s_maxEntries > 0 );
 
+    connect( mgr, SIGNAL( entryAdded( const KonqHistoryEntry * )),
+             SLOT( slotEntryAdded( const KonqHistoryEntry * )));
+    connect( mgr, SIGNAL( entryRemoved( const KonqHistoryEntry * )),
+             SLOT( slotEntryRemoved( const KonqHistoryEntry * )));
+    connect( mgr, SIGNAL( cleared() ), SLOT( slotHistoryCleared() ));
+}
+
+void KonqMostOftenURLSAction::parseHistory() // only ever called once
+{
     KonqHistoryManager *mgr = KonqHistoryManager::kself();
     KonqHistoryIterator it( mgr->entries() );
 
+    s_mostEntries = new MostOftenList; // exit() will clean this up for now
     for ( uint i = 0; it.current() && i < s_maxEntries; i++ ) {
 	s_mostEntries->append( it.current() );
 	++it;
@@ -397,22 +404,10 @@ void KonqMostOftenURLSAction::parseHistory()
 
 	++it;
     }
-
-    if ( didInit ) {
-	connect( mgr, SIGNAL( entryAdded( const KonqHistoryEntry * )),
-		 SLOT( slotEntryAdded( const KonqHistoryEntry * )));
-	connect( mgr, SIGNAL( entryRemoved( const KonqHistoryEntry * )),
-		 SLOT( slotEntryRemoved( const KonqHistoryEntry * )));
-	connect( mgr, SIGNAL( cleared() ), SLOT( slotHistoryCleared() ));
-    }
 }
 
 void KonqMostOftenURLSAction::slotEntryAdded( const KonqHistoryEntry *entry )
 {
-    // don't disturb, a popup is visible right now!
-    if ( s_bLocked )
-	return;
-
     // if it's already present, remove it, and inSort it
     s_mostEntries->removeRef( entry );
 
@@ -431,31 +426,23 @@ void KonqMostOftenURLSAction::slotEntryAdded( const KonqHistoryEntry *entry )
 
 void KonqMostOftenURLSAction::slotEntryRemoved( const KonqHistoryEntry *entry )
 {
-    // don't disturb, a popup is visible right now!
-    if ( s_bLocked )
-	return;
-
     s_mostEntries->removeRef( entry );
     setEnabled( !s_mostEntries->isEmpty() );
 }
 
 void KonqMostOftenURLSAction::slotHistoryCleared()
 {
-    // don't disturb, a popup is visible right now! Pretty much impossible tho.
-    if ( s_bLocked )
-	return;
-
     s_mostEntries->clear();
     setEnabled( false );
 }
 
 void KonqMostOftenURLSAction::slotFillMenu()
 {
-    if ( !s_mostEntries )
+    if ( !s_mostEntries ) // first time
 	parseHistory();
 
-    s_bLocked = true;
     popupMenu()->clear();
+    m_popupList.clear();
 
     int id = s_mostEntries->count() -1;
     KonqHistoryEntry *entry = s_mostEntries->at( id );
@@ -469,27 +456,35 @@ void KonqMostOftenURLSAction::slotFillMenu()
 	popupMenu()->insertItem(
 		    KonqPixmapProvider::self()->pixmapFor( entry->url.url() ),
 		    text, id );
+        // Keep a copy of the URLs being shown in the menu
+        // This prevents crashes when another process tells us to remove an entry.
+        m_popupList.prepend( entry->url );
 
 	entry = (id > 0) ? s_mostEntries->at( --id ) : 0L;
     }
     setEnabled( !s_mostEntries->isEmpty() );
+    Q_ASSERT( s_mostEntries->count() == m_popupList.count() );
 }
 
+#if 0
 void KonqMostOftenURLSAction::slotClearMenu()
 {
-    s_bLocked = false;
+    // Warning this is called _before_ slotActivated, when activating a menu item.
+    // So e.g. don't clear m_popupList here.
 }
+#endif
 
 void KonqMostOftenURLSAction::slotActivated( int id )
 {
-    Q_ASSERT( s_mostEntries ); // can basically not happen
+    Q_ASSERT( !m_popupList.isEmpty() ); // can not happen
+    Q_ASSERT( id < (int)m_popupList.count() );
 
-    const KonqHistoryEntry *entry = s_mostEntries->at( id );
-    KURL url = entry ? entry->url : KURL();
+    KURL url = m_popupList[ id ];
     if ( url.isValid() )
 	emit activated( url );
     else
 	kdWarning() << "Invalid url: " << url.prettyURL() << endl;
+    m_popupList.clear();
 }
 
 // sort by numberOfTimesVisited (least often goes first)
