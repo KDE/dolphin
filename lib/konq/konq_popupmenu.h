@@ -109,7 +109,7 @@ public:
   ProtocolInfo protocolInfo() const;
 
   // KonqMainWindow needs position of "newview" to insert "newtab" properly
-  int newviewPos() { return m_newviewPos; }
+  int newviewPos() const { return m_newviewPos; }
 
 public slots:
   void slotPopupNewDir();
