@@ -5,7 +5,7 @@ LDADD = -lkdeui
 
 lib_LTLIBRARIES = libkonqsearcher.la
 
-libkonqsearcher_la_LDFLAGS = -version-info 1:0:0
+libkonqsearcher_la_LDFLAGS = -version-info 1:0:0 -module
 
 libkonqsearcher_la_SOURCES = main.cc configwidget.cc enginecfg.cc
 
