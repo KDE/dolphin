@@ -77,7 +77,7 @@ bool KonqSearcher::eventFilter(QObject *, QEvent *ev) {
 
 		int pct;
 
-		if ((pct = newurl.find("%2")) >= 0) {
+		if ((pct = newurl.find("\\2")) >= 0) {
 		    QString charsetname = KGlobal::locale()->charset();
 		    if (charsetname == "us-ascii") {
 			charsetname = "iso-8859-1";
@@ -88,7 +88,7 @@ bool KonqSearcher::eventFilter(QObject *, QEvent *ev) {
 
 		QString userquery = url.mid(pos+1).replace(QRegExp(" "), "+");
 		KURL::encode(userquery);
-		if ((pct = newurl.find("%1")) >= 0) {
+		if ((pct = newurl.find("\\1")) >= 0) {
 		    newurl = newurl.replace(pct, 2, userquery);
 		}
 

@@ -69,8 +69,8 @@ EngineCfg::EngineCfg() {
     NavEntry rn = navEntryByName(IKW_REALNAMES);
     if (rn.m_strName == QString::null) {
 	rn.m_strName = IKW_REALNAMES;
-	rn.m_strQuery = "http://navigation.realnames.com/resolver.dll?realname=%1&charset=%2&providerid=132";
-	rn.m_strQueryWithSearch = "http://navigation.realnames.com/resolver.dll?action=navigation&realname=%1&charset=%2&providerid=132&fallbackuri=%|";
+	rn.m_strQuery = "http://navigation.realnames.com/resolver.dll?realname=\\1&charset=\\2&providerid=132";
+	rn.m_strQueryWithSearch = "http://navigation.realnames.com/resolver.dll?action=navigation&realname=\\1&charset=\\2&providerid=132&fallbackuri=\\|";
 
 	if (rn.m_strName == selNavEngine) {
 	    m_currInternetKeywordsNavEngine = rn;
@@ -167,8 +167,12 @@ QString EngineCfg::navQuery() const {
     if (m_bInternetKeywordsEnabled) {
 	QString search = m_currInternetKeywordsSearchEngine.m_strQuery;
 	if (search != QString::null) {
-	    int pct = m_currInternetKeywordsNavEngine.m_strQueryWithSearch.find("%|");
+	    int pct = m_currInternetKeywordsNavEngine.m_strQueryWithSearch.find("\\|");
 	    if (pct >= 0) {
+		int npct = search.find("\\1");
+		if (npct >= 0) {
+		    search = search.replace(npct, 2, "%1");
+		}
 		KURL::encode(search);
 		QString res = m_currInternetKeywordsNavEngine.m_strQueryWithSearch;
 		return res.replace(pct, 2, search);
