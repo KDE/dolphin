@@ -185,8 +185,8 @@ void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *ev )
 
         KIO::Job * job = 0L;
 	switch ( ev->action() ) {
-            case QDropEvent::Move : job = KIO::move( lst, dest.url( 1 ) ); break;
-            case QDropEvent::Copy : job = KIO::copy( lst, dest.url( 1 ) ); break;
+            case QDropEvent::Move : job = KIO::move( lst, dest ); break;
+            case QDropEvent::Copy : job = KIO::copy( lst, dest ); break;
             case QDropEvent::Link : KIO::link( lst, dest ); break;
             default : kDebugError( 1202, "Unknown action %d", ev->action() ); return;
 	}
@@ -209,7 +209,7 @@ void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *ev )
             else
             {
                 kDebugInfo(1202,"Pasting to %s", item->item()->url().url().ascii() /* item's url */);
-                KIO::pasteData( item->item()->url().url()/* item's url */, ev->data( formats.first() ) );
+                KIO::pasteData( item->item()->url()/* item's url */, ev->data( formats.first() ) );
             }
         }
     }
@@ -337,7 +337,7 @@ void KonqIconViewWidget::pasteSelection( bool move )
     KFileItemList lstItems = selectedFileItems();
     assert ( lstItems.count() <= 1 );
     if ( lstItems.count() == 1 )
-	KIO::pasteClipboard( lstItems.first()->url().url(), move );
+	KIO::pasteClipboard( lstItems.first()->url(), move );
     else
 	KIO::pasteClipboard( url(), move );
 }
