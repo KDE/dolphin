@@ -8,11 +8,12 @@
 #include <qradiobutton.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qlineedit.h>
 #include <qcheckbox.h>
 #include <qwhatsthis.h>
 #include <qtooltip.h>
 
+#include <kcombobox.h>
+#include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
@@ -53,10 +54,10 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     pages[0] = new QWidget( this, "page1" );
 
-    nameBox = new QComboBox(TRUE, pages[0], "combo1");
+    nameBox = new KComboBox(TRUE, pages[0], "combo1");
     QLabel * namedL = new QLabel(nameBox, i18n("&Named:"), pages[0], "named");
     QToolTip::add( namedL, i18n("You can use wildcard matching and \";\" for separating multiple names") );
-    dirBox  = new QComboBox(TRUE, pages[0], "combo2");
+    dirBox  = new KComboBox(TRUE, pages[0], "combo2");
     QLabel * lookinL = new QLabel(dirBox, i18n("&Look in:"), pages[0], "named");
     subdirsCb  = new QCheckBox(i18n("Include &subdirectories"), pages[0]);
     caseSensCb  = new QCheckBox(i18n("&Case sensitive search"), pages[0]);
@@ -129,7 +130,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     rb[0] = new QRadioButton(i18n("&between"), pages[1] );
     rb[1] = new QRadioButton(i18n("during the previou&s"), pages[1] );
     QLabel * andL   = new QLabel(i18n("and"), pages[1], "and");
-    betweenType = new QComboBox(FALSE, pages[1], "comboBetweenType");
+    betweenType = new KComboBox(FALSE, pages[1], "comboBetweenType");
     betweenType->insertItem(i18n("minute(s)"));
     betweenType->insertItem(i18n("hour(s)"));
     betweenType->insertItem(i18n("day(s)"));
@@ -177,9 +178,9 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     pages[2] = new QWidget( this, "page3" );
 
-    typeBox =new QComboBox(FALSE, pages[2], "typeBox");
+    typeBox =new KComboBox(FALSE, pages[2], "typeBox");
     QLabel * typeL   =new QLabel(typeBox, i18n("Of &type:"), pages[2], "type");
-    textEdit=new QLineEdit(pages[2], "textEdit" );
+    textEdit=new KLineEdit(pages[2], "textEdit" );
     QLabel * textL   =new QLabel(textEdit, i18n("&Containing text:"), pages[2], "text");
 
     caseContextCb  =new QCheckBox(i18n("Case s&ensitive"), pages[2]);
@@ -191,14 +192,14 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
       editRegExp = new QPushButton(i18n("&Edit..."), pages[2], "editRegExp");
     }
 
-    sizeBox =new QComboBox(FALSE, pages[2], "sizeBox");
+    sizeBox =new KComboBox(FALSE, pages[2], "sizeBox");
     QLabel * sizeL   =new QLabel(sizeBox,i18n("&Size is:"), pages[2],"size");
     sizeEdit=new QSpinBox(1, INT_MAX, 1, pages[2], "sizeEdit" );
-    sizeUnitBox =new QComboBox(FALSE, pages[2], "sizeUnitBox");
+    sizeUnitBox =new KComboBox(FALSE, pages[2], "sizeUnitBox");
 
-    m_usernameBox = new QComboBox( true, pages[2], "m_combo1");
+    m_usernameBox = new KComboBox( true, pages[2], "m_combo1");
     QLabel *m_usernameLabel= new QLabel(m_usernameBox,i18n("Owned by &user:"),pages[2]);
-    m_groupBox = new QComboBox( true, pages[2], "m_combo2");
+    m_groupBox = new KComboBox( true, pages[2], "m_combo2");
     QLabel *m_groupLabel= new QLabel(m_groupBox,i18n("Owned by &group:"),pages[2]);
 
     // Setup
@@ -333,7 +334,8 @@ KfindTabWidget::initMimeTypes()
           it != tmp.end(); ++it )
     {
       KMimeType * type = *it;
-      sortedList.append(type);
+      if ( !type->comment().isEmpty() )
+        sortedList.append(type);
     }
     sortedList.sort();
     for ( KMimeType *type = sortedList.first(); type; type = sortedList.next())
