@@ -237,9 +237,9 @@ void DirPropsPage::resizeEvent ( QResizeEvent *)
 
 void DirPropsPage::slotApplyGlobal()
 {
-    // Write the image setting to konqueror's configuration
-    KConfig *config = m_instance->config();
-    //dangerous KConfig *config = new KConfig( "konquerorrc", false, false );
+    // Write the image setting to the configuration file shared by
+    // the builtin views (iconview/treeview)
+    KConfig *config = new KConfig( "konqbuiltinviewrc", false, false );
 
     config->setGroup( "Settings" );
 

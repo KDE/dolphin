@@ -93,6 +93,11 @@ KonqPropsView::KonqPropsView( KConfig * config )
 
   m_bgPixmap.resize(0,0);
   QString pix = config->readEntry( "BackgroundPixmap", "" );
+  if ( pix.isEmpty() )
+  {
+    KConfig builtinviewConfig( "konqbuiltinviewrc", true, false );
+    QString pix = builtinviewConfig.readEntry( "BackgroundPixmap", "" );
+  }
   if ( !pix.isEmpty() )
   {
     QPixmap p = wallpaperPixmap( pix );
