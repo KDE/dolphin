@@ -166,6 +166,7 @@ QString NodeEditCommand::getNodeText(KBookmark bk, const QString &nodename) {
 }
 
 void NodeEditCommand::execute() {
+   // DUPLICATED HEAVILY FROM KIO/BOOKMARKS
    KBookmark bk = CurrentMgr::bookmarkAt(m_address);
    Q_ASSERT(!bk.isNull());
 

@@ -500,23 +500,29 @@ static void writeConfigBool(
    config.writeEntry(entry, flag);
 }
 
+// temporary only
+static void sorryRelogin(QWidget *p) {
+   KMessageBox::sorry(p, "<qt>In order to see the affect of this setting<br>"
+                             "modification you will need to relogin.</qt>");
+}
+
 void KEBApp::slotAdvancedAddBookmark() {
    Q_ASSERT(m_browser);
    m_advancedAddBookmark = getToggleAction("settings_advancedaddbookmark")->isChecked();
    writeConfigBool("kbookmarkrc", "Bookmarks", "AdvancedAddBookmark", m_advancedAddBookmark);
+   sorryRelogin(this);
 }
 
 void KEBApp::slotFilteredToolbar() {
    m_filteredToolbar = getToggleAction("settings_filteredtoolbar")->isChecked();
    writeConfigBool("kbookmarkrc", "Bookmarks", "FilteredToolbar", m_filteredToolbar);
-   // TODO - translators, don't touch, i'll fix this
-   KMessageBox::sorry(this, "<qt>In order to see the affect of this setting<br>"
-                                "modification you will need to relogin.</qt>");
+   sorryRelogin(this);
 }
 
 void KEBApp::slotSplitView() {
    m_splitView = getToggleAction("settings_splitview")->isChecked();
    writeConfigBool("keditbookmarksrc", "General", "Split View", m_splitView);
+   sorryRelogin(this);
 }
 
 void KEBApp::slotSaveOnClose() {
