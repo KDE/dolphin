@@ -42,26 +42,6 @@
 // MAX_CACHE_AGE needs a proper "age" input widget.
 #undef MAX_CACHE_AGE
 
-/*
-class KMySpinBox : public QSpinBox
-{
-public:
-   KMySpinBox( QWidget* parent )
-    : QSpinBox(parent) { }
-   KMySpinBox( int minValue, int maxValue, int step, QWidget* parent)
-    : QSpinBox(minValue, maxValue, step, parent) { }
-   QLineEdit *editor() const { return QSpinBox::editor(); }
-   int value() const
-   {
-      #ifdef __GNUC__
-      #warning workaround for a bug of QSpinBox in >= Qt 2.2.0
-      #endif
-      if ( editor()->edited() )
-          const_cast<KMySpinBox*>(this)->interpretText();
-      return QSpinBox::value();
-   }
-};
-*/
 
 KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   : KCModule(parent, name)

@@ -1,5 +1,6 @@
 <!DOCTYPE UI><UI>
 <class>KProxyDlgUI</class>
+<include location="global">kproxydlg.h</include>
 <widget>
     <class>QWidget</class>
     <property stdset="1">
@@ -120,7 +121,7 @@
                                         <number>6</number>
                                     </property>
                                     <widget row="0"  column="3" >
-                                        <class>QSpinBox</class>
+                                        <class>KMySpinBox</class>
                                         <property stdset="1">
                                             <name>name</name>
                                             <cstring>sb_http_port</cstring>
@@ -169,7 +170,7 @@
                                         </property>
                                     </widget>
                                     <widget row="1"  column="3" >
-                                        <class>QSpinBox</class>
+                                        <class>KMySpinBox</class>
                                         <property stdset="1">
                                             <name>name</name>
                                             <cstring>sb_ftp_port</cstring>
@@ -615,7 +616,7 @@
                                 </property>
                             </widget>
                             <widget>
-                                <class>QSpinBox</class>
+                                <class>KMySpinBox</class>
                                 <property stdset="1">
                                     <name>name</name>
                                     <cstring>sb_max_cache_size</cstring>
