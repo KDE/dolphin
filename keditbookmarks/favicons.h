@@ -60,59 +60,5 @@ private:
    bool m_done;
 };
 
-class FavIconWebGrabber : public QObject
-{
-   Q_OBJECT
-public:
-   FavIconWebGrabber(KParts::ReadOnlyPart *part, const KURL &url);
-   ~FavIconWebGrabber() {}
-
-protected slots:
-   void slotMimetype(KIO::Job *job, const QString &_type);
-   void slotFinished(KIO::Job *job);
-
-private:
-   KParts::ReadOnlyPart *m_part;
-   KURL m_url;
-};
-
-class FavIconBrowserInterface;
-
-class FavIconUpdater : public KonqFavIconMgr 
-{
-   Q_OBJECT
-
-public:   
-   FavIconUpdater(QObject *parent, const char *name);
-   void downloadIcon(const KBookmark &bk);
-   void downloadIconActual(const KBookmark &bk);
-
-   virtual void notifyChange(bool isHost, QString hostOrURL, QString iconName);
-
-protected slots:
-   void setIconURL(const KURL &iconURL);
-   void slotCompleted();
-
-signals:
-   void done(bool succeeded);
-
-private:
-   KParts::ReadOnlyPart *m_part;
-   FavIconBrowserInterface *m_browserIface;
-   KBookmark m_bk;
-};
-
-class FavIconBrowserInterface : public KParts::BrowserInterface
-{
-   Q_OBJECT
-public:
-   FavIconBrowserInterface(FavIconUpdater *view, const char *name)
-      : KParts::BrowserInterface(view, name), m_view(view) {
-      ;
-   }
-private:
-   FavIconUpdater *m_view;
-};
-
 #endif
 
