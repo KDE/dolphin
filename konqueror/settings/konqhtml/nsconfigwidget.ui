@@ -2,6 +2,8 @@
 <class>NSConfigWidget</class>
 <author>Stefan Schimanski &lt;1Stein@gmx.de&gt;</author>
 <include location="global">klocale.h</include>
+<include location="global">kurlrequester.h</include>
+<include location="global">klistbox.h</include>
 <widget>
     <class>QWidget</class>
     <property stdset="1">
