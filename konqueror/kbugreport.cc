@@ -77,7 +77,7 @@ KBugReport::KBugReport( QWidget * parentw )
   // Version : TODO : take it from the future kdelibs class containing it
   tmpLabel = new QLabel( i18n("Version : "), parent );
   glay->addWidget( tmpLabel, 2, 0 );
-  KAboutData * aboutData = KGlobal::instance()->aboutData(); // TODO : use the "active" instance
+  KAboutData const * aboutData = KGlobal::instance()->aboutData(); // TODO : use the "active" instance
   if (aboutData) m_strVersion = aboutData->version();
    else m_strVersion = "no version set (programmer error!)";
   m_strVersion += " (KDE " KDE_VERSION_STRING ")";
