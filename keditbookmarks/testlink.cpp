@@ -279,8 +279,8 @@ static const QString updateNsInfoMod(const QString &_nsinfo, const QString &nm) 
 
     QString tmp;
     tmp  =  "ADD_DATE=\"" + ((nCreate.isEmpty()) ? QString::number(time(0)) : nCreate) + "\"";
-    tmp += " LAST_VISIT=\"" + ((nAccess.isEmpty()) ? "0" : nAccess) + "\"";
-    tmp += " LAST_MODIFIED=\"" + ((numValid) ? nm : "1") + "\"";
+    tmp += " LAST_VISIT=\"" + ((nAccess.isEmpty()) ? QString("0") : nAccess) + "\"";
+    tmp += " LAST_MODIFIED=\"" + ((numValid) ? nm : QString("1")) + "\"";
 
     return tmp;
 }

@@ -176,7 +176,7 @@ extern "C" int kdemain(int argc, char **argv) {
 
     QString address = args->isSet("address")
         ? QString::fromLocal8Bit(args->getOption("address"))
-        : "/0";
+        : QString("/0");
 
     QString caption = args->isSet("customcaption")
         ? QString::fromLocal8Bit(args->getOption("customcaption"))
@@ -186,7 +186,7 @@ extern "C" int kdemain(int argc, char **argv) {
 
     bool readonly = false; // passed by ref
 
-    if (askUser(app, (gotArg ? filename : ""), readonly)) {
+    if (askUser(app, (gotArg ? filename : QString::null), readonly)) {
         KEBApp *toplevel = new KEBApp(filename, readonly, address, browser, caption);
         toplevel->show();
         app.setMainWidget(toplevel);

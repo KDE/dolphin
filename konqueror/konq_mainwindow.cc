@@ -2293,7 +2293,7 @@ void KonqMainWindow::slotURLEntered( const QString &text, int state )
 
   if (state & ControlButton)
   {
-      m_combo->setURL( m_currentView ? m_currentView->url().prettyURL() : "" );
+      m_combo->setURL( m_currentView ? m_currentView->url().prettyURL() : QString::null );
       openFilteredURL( text.stripWhiteSpace(), true );
   }
   else

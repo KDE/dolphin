@@ -754,7 +754,7 @@ QDragObject *KEBListView::dragObject() {
         ListView::self()->itemsToBookmarks(ListView::self()->selectedItems());
     KBookmarkDrag *drag = KBookmarkDrag::newDrag(bookmarks, viewport());
     const QString iconname = 
-        (bookmarks.size() == 1) ? bookmarks.first().icon() : "bookmark";
+        (bookmarks.size() == 1) ? bookmarks.first().icon() : QString("bookmark");
     drag->setPixmap(SmallIcon(iconname)) ;
     return drag;
 }
@@ -767,7 +767,7 @@ void KEBListViewItem::normalConstruct(const KBookmark &bk) {
 #endif
     setText(KEBListView::CommentColumn, NodeEditCommand::getNodeText(bk, "desc"));
     bool shown = CmdGen::self()->shownInToolbar(bk);
-    setPixmap(0, SmallIcon(shown ? "bookmark_toolbar" : bk.icon()));
+    setPixmap(0, SmallIcon(shown ? QString("bookmark_toolbar") : bk.icon()));
     // DESIGN - modUpdate badly needs a redesign
     modUpdate();
 }

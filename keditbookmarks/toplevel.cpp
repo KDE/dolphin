@@ -317,7 +317,7 @@ void KEBApp::updateActions() {
 void KEBApp::setModifiedFlag(bool modified) {
     m_modified = modified && !m_readOnly;
 
-    QString caption = m_caption.isNull() ? "" : (m_caption + " ");
+    QString caption = m_caption.isNull() ? QString::null : (m_caption + " ");
     if (m_bookmarksFilename 
      != KBookmarkManager::userBookmarksManager()->path())
         caption += (caption.isEmpty()?"":" - ") + m_bookmarksFilename;
