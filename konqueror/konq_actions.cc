@@ -475,8 +475,9 @@ bool KonqMostOftenURLSAction::s_bLocked = false;
 KonqMostOftenURLSAction::KonqMostOftenURLSAction( const QString& text,
 						  QObject *parent,
 						  const char *name )
-    : KActionMenu( text, parent, name )
+    : KActionMenu( text, "goto", parent, name )
 {
+    setDelayed( false );
     if ( !s_mostEntries ) {
 	s_mostEntries = new MostOftenList; // exit() will clean this up for now
 	KConfig *kc = KGlobal::config();
