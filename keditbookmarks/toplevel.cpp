@@ -131,7 +131,6 @@ void KEBTopLevel::createActions() {
     (void) new KAction( i18n( "Import Crashed Sessions as Bookmarks" ), "crash", 0, this, SLOT( slotImportCrash() ), actionCollection(), "importCrash" );
     (void) new KAction( i18n( "Import Opera Bookmarks..." ), "opera", 0, this, SLOT( slotImportOpera() ), actionCollection(), "importOpera" );
     (void) new KAction( i18n( "Import IE Bookmarks..." ), "ie", 0, this, SLOT( slotImportIE() ), actionCollection(), "importIE" );
-    act->setEnabled( QFile::exists( KNSBookmarkImporter::netscapeBookmarksFile() ) );
     (void) new KAction( i18n( "Export to Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotExportNS() ), actionCollection(), "exportNS" );
     act = new KAction( i18n( "Import Mozilla Bookmarks..." ), "mozilla", 0, this, SLOT( slotImportMoz() ), actionCollection(), "importMoz" );
     (void) new KAction( i18n( "Export to Mozilla Bookmarks..." ), "mozilla", 0, this, SLOT( slotExportMoz() ), actionCollection(), "exportMoz" );
@@ -238,7 +237,8 @@ void KEBTopLevel::resetActions()
        actionCollection()->action("importCrash")->setEnabled(true);
        actionCollection()->action("importOpera")->setEnabled(true);
        actionCollection()->action("importIE")->setEnabled(true);
-       actionCollection()->action("importNS")->setEnabled(true);
+       bool nsExists = QFile::exists( KNSBookmarkImporter::netscapeBookmarksFile() );
+       actionCollection()->action("importNS")->setEnabled(nsExists);
        actionCollection()->action("importMoz")->setEnabled(true);
        actionCollection()->action("settings_showNS")->setEnabled(true);
     }
@@ -282,6 +282,8 @@ void KEBTopLevel::disconnectSignals() {
     kdWarning() << disconnect( m_dcopIface, 0, 0, 0 ) << endl;
 
     return;
+
+    // FIXME - UNUSED CODE!
 
     // OLD not so evil way
 
@@ -690,6 +692,16 @@ void KEBTopLevel::slotInsertSeparator()
     m_commandHistory.addCommand( cmd );
 }
 
+void KEBTopLevel::selectImport(ImportCommand *cmd) 
+{
+    // TODO  - usability study - is select needed when replacing ???
+    KEBListViewItem *item = findByAddress(cmd->groupAddress());
+    if (item) {
+       m_pListView->setCurrentItem( item );
+       m_pListView->ensureItemVisible( item );
+    }
+}
+
 void KEBTopLevel::slotImportIE()
 {
     // Hmm, there's no questionYesNoCancel...
@@ -699,6 +711,7 @@ void KEBTopLevel::slotImportIE()
     ImportCommand * cmd = new ImportCommand( i18n("Import IE Bookmarks"), KIEBookmarkImporter::IEBookmarksDir(),
                                              subFolder ? i18n("IE Bookmarks") : QString::null, "ie", false, BK_IE); // TODO - icon
     m_commandHistory.addCommand( cmd );
+    selectImport(cmd);
 }
 
 void KEBTopLevel::slotImportOpera()
@@ -710,6 +723,7 @@ void KEBTopLevel::slotImportOpera()
     ImportCommand * cmd = new ImportCommand( i18n("Import Opera Bookmarks"), KOperaBookmarkImporter::operaBookmarksFile(),
                                              subFolder ? i18n("Opera Bookmarks") : QString::null, "opera", false, BK_OPERA); // TODO - icon
     m_commandHistory.addCommand( cmd );
+    selectImport(cmd);
 }
 
 void KEBTopLevel::slotImportCrash()
@@ -721,6 +735,7 @@ void KEBTopLevel::slotImportCrash()
     ImportCommand * cmd = new ImportCommand( i18n("Import Crash Bookmarks"), KCrashBookmarkImporter::crashBookmarksDir(),
                                              subFolder ? i18n("Crash Bookmarks") : QString::null, "crash", false, BK_CRASH); // TODO - icon
     m_commandHistory.addCommand( cmd );
+    selectImport(cmd);
 }
 
 void KEBTopLevel::slotImportNS()
@@ -732,6 +747,7 @@ void KEBTopLevel::slotImportNS()
     ImportCommand * cmd = new ImportCommand( i18n("Import Netscape Bookmarks"), KNSBookmarkImporter::netscapeBookmarksFile(),
                                              subFolder ? i18n("Netscape Bookmarks") : QString::null, "netscape", false, BK_NS);
     m_commandHistory.addCommand( cmd );
+    selectImport(cmd);
 
     // Ok, we don't need the dynamic menu anymore
     if ( m_taShowNS->isChecked() )
@@ -1152,13 +1168,11 @@ void KEBTopLevel::update()
             if (newItem)
                m_pListView->setSelected(newItem,true);
         }
-        if (newItem) {
-            m_pListView->setCurrentItem(newItem);
-        } else {
+        if (!newItem) {
             newItem = findByAddress(correctAddress(m_last_selection_address));
-            m_pListView->setCurrentItem(newItem);
             m_pListView->setSelected(newItem,true);
         }
+        m_pListView->setCurrentItem(newItem);
     }
     else
     {

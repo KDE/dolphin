@@ -199,6 +199,8 @@ public:
     virtual void execute();
     virtual void unexecute();
 
+    QString groupAddress() { return m_group; }
+
 protected slots:
     void newBookmark( const QString & text, const QCString & url, const QString & additionnalInfo );
     void newFolder( const QString & text, bool open, const QString & additionnalInfo );

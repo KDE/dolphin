@@ -26,6 +26,7 @@
 #include <klistview.h>
 #include <kcommand.h>
 #include <dcopobject.h>
+#include <commands.h>
 
 class KToggleAction;
 class TestLink;
@@ -210,6 +211,8 @@ protected:
     QString correctAddress(QString address);
     void deleteSelection(QString commandName);
     void setAllOpen(bool open);
+
+    void selectImport(ImportCommand *cmd);
 
     bool m_bModified;
     bool m_bCanPaste;
