@@ -412,7 +412,7 @@ void KonqDirTree::contentsDropEvent( QDropEvent *ev )
 
 void KonqDirTree::contentsMousePressEvent( QMouseEvent *e )
 {
-  QListView::contentsMousePressEvent( e );
+  KListView::contentsMousePressEvent( e );
   m_dragPos = e->pos();
   m_bDrag = true;
 }
@@ -439,7 +439,7 @@ void KonqDirTree::contentsMouseMoveEvent( QMouseEvent *e )
 
 void KonqDirTree::contentsMouseReleaseEvent( QMouseEvent *e )
 {
-  QListView::contentsMouseReleaseEvent( e );
+  KListView::contentsMouseReleaseEvent( e );
   m_bDrag = false;
 }
 
