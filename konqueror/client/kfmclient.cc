@@ -106,6 +106,8 @@ int main( int argc, char **argv )
     
   clientApp a( argc, argv );
 
+  KTraderServiceProvider sp;
+
   return a.doIt( argc, argv );
 }
 
@@ -226,7 +228,6 @@ int clientApp::doIt( int argc, char **argv )
   }
   else if ( strcmp( argv[1], "exec" ) == 0 )
   {
-    initRegistry();
     if ( argc == 3 )
     {
       KRun * run = new KRun( argv[2] );
@@ -238,7 +239,7 @@ int clientApp::doIt( int argc, char **argv )
     {
       QStringList urls;
       urls.append( argv[2] );
-      KService * serv = KService::find( argv[3] );
+      KSharedPtr<KService> serv = KServiceProvider::getServiceProvider()->service( argv[3] );
       if (!serv) return 1;
       bool ret = KRun::run( *serv, urls );
       if (!ret) return 1;
@@ -343,21 +344,27 @@ int clientApp::doIt( int argc, char **argv )
 
 bool clientApp::getKonqy()
 {
-  KTrader::OfferList offers = trader->query( "FileManager", "'IDL:Konqueror/Application:1.0#App' in RepoIds" );
-
-  if ( offers.count() != 1 )
-  {
-    printf("Found %i offers\n", offers.count());
-    fprintf( stderr, "Error: Can't find Konqueror service\n" );
-    return false;
-  }
-
-  CORBA::Object_var obj = activator->activateService( offers.first()->name(), "IDL:Konqueror/Application:1.0", "App" );
-
+  KNaming *naming = kded->knaming();
+  
+  CORBA::Object_var obj = naming->resolve( Konqueror::KONQ_NAMING );
   if ( CORBA::is_nil( obj ) )
   {
-    fprintf( stderr, "Error: Can't connect to Konqueror\n" );
-    return false;
+    KTrader::OfferList offers = trader->query( "FileManager", "'IDL:Konqueror/Application:1.0#App' in RepoIds" );
+
+    if ( offers.count() != 1 )
+    {
+      printf("Found %i offers\n", offers.count());
+      fprintf( stderr, "Error: Can't find Konqueror service\n" );
+      return false;
+    }
+
+    CORBA::Object_var obj = activator->activateService( offers.first()->name(), "IDL:Konqueror/Application:1.0", "App" );
+
+    if ( CORBA::is_nil( obj ) )
+    {
+      fprintf( stderr, "Error: Can't connect to Konqueror\n" );
+      return false;
+    }
   }
 
   m_vKonqy = Konqueror::Application::_narrow( obj );
