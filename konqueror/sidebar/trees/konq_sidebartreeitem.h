@@ -96,6 +96,7 @@ public:
     // returns the tree inside which this item is
     KonqSidebarTree *tree() const;
 
+    virtual QString key( int column, bool ) const { return text( column ).lower(); }
 protected:
     // Create an item at the toplevel - only for toplevel items -> protected
     KonqSidebarTreeItem( KonqSidebarTree *parent, KonqSidebarTreeTopLevelItem *topLevelItem );
