@@ -308,9 +308,9 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
 
   fprintf( f, "# KDE Config File\n" );
   fprintf( f, "[Desktop Entry]\n" );
-  fprintf( f, "URL=%s\n", m_url.data() );
-  fprintf( f, "Icon=%s\n", icon.data() );
-  fprintf( f, "MiniIcon=%s\n", icon.data() );
+  fprintf( f, "URL=%s\n", m_url.ascii() );
+  fprintf( f, "Icon=%s\n", icon.ascii() );
+  fprintf( f, "MiniIcon=%s\n", icon.ascii() );
   fprintf( f, "Type=Link\n" );
   fclose( f );
 
@@ -373,7 +373,7 @@ QPixmap* KBookmark::pixmap( )
   {
     struct stat buff;
     stat( m_file, &buff );
-    QString url = m_file.data();
+    QString url = m_file;
     KURL::encode( url );
     m_sPixmap = KMimeType::findByURL( url, buff.st_mode, true )->icon( url, true );
     // The following is wrong. Never cache a QPixmap * got from the LRU cache !!

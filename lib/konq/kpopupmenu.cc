@@ -119,8 +119,8 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
   {
     KURL firstPopupURL = KURL(m_lstPopupURLs.getFirst());
     firstPopupURL.cleanPath();
-    kdebug(0, 1203, "View path is %s",url.path(1).data());
-    kdebug(0, 1203, "First popup path is %s",firstPopupURL.path(1).data());
+    kdebug(0, 1203, "View path is %s",url.path(1).ascii());
+    kdebug(0, 1203, "First popup path is %s",firstPopupURL.path(1).ascii());
     if ( firstPopupURL.protocol() == url.protocol()
          && url.path(1) == firstPopupURL.path(1) )
     {
@@ -369,7 +369,7 @@ void KonqPopupMenu::slotPopup( int id )
   QMap<int,const KService *>::Iterator it = m_mapPopup.find( id );
   if ( it != m_mapPopup.end() )
   {
-    KRun::run( *(it.data()), m_lstPopupURLs );
+    KRun::run( *(it), m_lstPopupURLs );
     return;
   }
   

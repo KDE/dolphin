@@ -137,7 +137,7 @@ void PropertiesDialog::slotApply()
     }
     
     /* still needed ?
-    KIOServer::sendNotify( s.data() );
+    KIOServer::sendNotify( s );
     */
 
     // make sure the desktop icon get's unselected
@@ -234,7 +234,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 	filename = "/";
     filename = KFileItem::decodeFileName( filename );
 
-    QString tmp = path.data();
+    QString tmp = path;
     if ( tmp.right(1) != "/" )
       tmp += "/";
     bool isTrash = false;
@@ -253,10 +253,10 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 	path = path.left( path.length() - 1 );             
 
     struct stat buff;
-    stat( path.data(), &buff );
+    stat( path.ascii(), &buff );
 
     struct stat lbuff;
-    lstat( path.data(), &lbuff );
+    lstat( path.ascii(), &lbuff );
 
     QLabel *l;
  
@@ -317,7 +317,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
         layout->addWidget(lname, 0, AlignLeft);
 
 	char buffer[1024];
-	int n = readlink( path.data(), buffer, 1022 );
+	int n = readlink( path.ascii(), buffer, 1022 );
 	if ( n > 0 )
 	{
 	    buffer[ n ] = 0;
@@ -328,8 +328,8 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     {
         QString tempstr;
 	int size = buff.st_size;
-	tempstr.sprintf(i18n("Size: %i"), size );
-	l = new QLabel( tempstr.data(), this );
+	tempstr = i18n("Size: %1").arg( size );
+	l = new QLabel( tempstr, this );
 	l->setFixedSize(l->sizeHint());
 	layout->addWidget(l, 0, AlignLeft);
     }
@@ -370,9 +370,9 @@ void FilePropsPage::applyChanges()
     QString n = KFileItem::encodeFileName( name->text() );
 
     // Do we need to rename the file ?
-    if ( strcmp( oldName.data(), n.data() ) != 0 )
+    if ( oldName != n )
     {
-	QString s = path.data();
+	QString s = path;
 	if ( s.right(1) == "/") 
 	  // It's a directory, so strip the trailing slash first
 	  s.truncate( s.length() - 1);
@@ -383,7 +383,7 @@ void FilePropsPage::applyChanges()
 	    return;
 	s.truncate( i );
 	s += "/";
-	s += n.data();
+	s += n;
 	if ( path.right(1) == "/") 
 	  // It's a directory, so strip the trailing slash (in case it's a
           // symlink)
@@ -408,7 +408,7 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
 	path = path.left ( path.length() - 1 );          
 
     struct stat buff;
-    lstat( path.data(), &buff ); // display uid/gid of the link, if it's a link
+    lstat( path.ascii(), &buff ); // display uid/gid of the link, if it's a link
     struct passwd * user = getpwuid( buff.st_uid );
     struct group * ge = getgrgid( buff.st_gid );
 
@@ -547,7 +547,7 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
 	  char ** members = ge->gr_mem;
 	  char * member;
 	  while ((member = *members) != 0L) {
-	    if (strcmp (member, strOwner.data()) == 0) {
+	    if (member == strOwner) {
 		groupList->inSort (ge->gr_name);
 		break;
 	    }
@@ -631,8 +631,8 @@ void FilePermissionsPropsPage::applyChanges()
 
     // First update group / owner
     // (permissions have to set after, in case of suid and sgid)
-    if ( strcmp( owner->text(), strOwner.data() ) != 0 || 
-	 (grp && strcmp( grp->text(grp->currentItem()), strGroup.data() ) != 0 ))
+    if ( owner->text() != strOwner || 
+	 (grp && grp->text(grp->currentItem()) != strGroup ))
     {
 	struct passwd* pw = getpwnam( owner->text() );
 	struct group* g;
@@ -793,14 +793,14 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     termOptionsStr = config.readEntry( "TerminalOptions" );
 
     if ( !swallowExecStr.isNull() )
-	swallowExecEdit->setText( swallowExecStr.data() );
+	swallowExecEdit->setText( swallowExecStr );
     if ( !swallowTitleStr.isNull() )
-	swallowTitleEdit->setText( swallowTitleStr.data() );
+	swallowTitleEdit->setText( swallowTitleStr );
 
     if ( !execStr.isNull() )
-	execEdit->setText( execStr.data() );
+	execEdit->setText( execStr );
     if ( !termOptionsStr.isNull() )
-        terminalEdit->setText( termOptionsStr.data() );
+        terminalEdit->setText( termOptionsStr );
 
     if ( !termStr.isNull() )
         terminalCheck->setChecked( termStr == "1" );
@@ -878,8 +878,8 @@ void ExecPropsPage::applyChanges()
 #ifdef SVEN
     QDir lDir (kapp->localkdedir() + "/share/applnk/"); // I know it exists
 
-    //debug (path.data());
-    //debug (kapp->kde_appsdir().data());
+    //debug (path.ascii());
+    //debug (kapp->kde_appsdir().ascii());
 #endif
     if ( !f.open( IO_ReadWrite ) )
     {
@@ -903,8 +903,8 @@ void ExecPropsPage::applyChanges()
 	    if (!lDir.cd((path.left(i)))) // can cd to?
 	    {
 	      err = true;                 // no flag it...
-	      // debug ("Can't cd to  %s in %s", path.left(i).data(),
-	      //	 lDir.absPath().data());
+	      // debug ("Can't cd to  %s in %s", path.left(i).ascii(),
+	      //	 lDir.absPath().ascii());
 	      break;                      // and exit while
 	    }
 	  }
@@ -922,7 +922,7 @@ void ExecPropsPage::applyChanges()
 	path.prepend("/"); // be sure to have /netscape.kdelnk
 	path.prepend(lDir.absPath());
 	f.setName(path);
-	//debug("path = %s", path.data());
+	//debug("path = %s", path.ascii());
 
 	// we must not copy whole kdelnk to local dir
 	//  because it was done in ApplicationPropsPage
@@ -968,7 +968,7 @@ void ExecPropsPage::slotBrowseExec()
     if ( f.isNull() )
 	return;
 
-    execEdit->setText( f.data() );
+    execEdit->setText( f );
 }
 
 URLPropsPage::URLPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
@@ -1006,7 +1006,7 @@ URLPropsPage::URLPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     iconStr = config.readEntry( "Icon" );
 
     if ( !URLStr.isNull() )
-	URLEdit->setText( URLStr.data() );
+	URLEdit->setText( URLStr );
     if ( iconStr.isNull() )
         iconStr = KMimeType::mimeType("")->KServiceType::icon(); // default icon
 
@@ -1113,7 +1113,7 @@ DirPropsPage::DirPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     else
 	tmp += ".directory";
 
-    QFile f( tmp.data() );
+    QFile f( tmp );
     if ( f.open( IO_ReadOnly ) )
     {
 	f.close();
@@ -1161,7 +1161,7 @@ bool DirPropsPage::supports( const KURL& _kurl, mode_t _mode )
     // Is it the trash bin ?
     QString path = _kurl.path();
     
-    QString tmp = path.data();
+    QString tmp = path;
     
     if ( tmp.right(1) != "/" )
 	tmp += "/";
@@ -1180,7 +1180,7 @@ void DirPropsPage::applyChanges()
     else
 	tmp += ".directory";
 
-    QFile f( tmp.data() );
+    QFile f( tmp );
     if ( !f.open( IO_ReadWrite ) )
     {
       QMessageBox::warning( 0, i18n("KFM Error"), 
@@ -1229,7 +1229,7 @@ void DirPropsPage::applyChanges()
 	return;
     tmp = tmp.left( i + 1 );
 /*
-    KIOServer::sendNotify( tmp.data() );
+    KIOServer::sendNotify( tmp );
 */
 }
 
@@ -1290,13 +1290,13 @@ void DirPropsPage::drawWallPaper()
 
     if ( file != wallFile )
     {
-	// debugT("Loading WallPaper '%s'\n",file.data());
+	// debugT("Loading WallPaper '%s'\n",file.ascii());
 	wallFile = file;
 	wallPixmap.load( file );
     }
     
     if ( wallPixmap.isNull() )
-	warning("Could not load wallpaper %s\n",file.data());
+	warning("Could not load wallpaper %s\n",file.ascii());
     
     erase( imageX, imageY, imageW, imageH );
     QPainter painter;
@@ -1463,11 +1463,11 @@ ApplicationPropsPage::ApplicationPropsPage( PropertiesDialog *_props ) : PropsPa
     }
     
     if ( !commentStr.isNull() )
-	commentEdit->setText( commentStr.data() );
+	commentEdit->setText( commentStr );
     if ( !nameStr.isNull() )
-	nameEdit->setText( nameStr.data() );
+	nameEdit->setText( nameStr );
     if ( !binaryPatternStr.isNull() )
-	binaryPatternEdit->setText( binaryPatternStr.data() );
+	binaryPatternEdit->setText( binaryPatternStr );
     if ( !extensionsStr.isNull() )
     {
 	int pos = 0;
@@ -1558,8 +1558,8 @@ void ApplicationPropsPage::applyChanges()
 #ifdef SVEN
     QDir lDir (kapp->localkdedir() + "/share/applnk/"); // I know it exists
 
-    //debug (path.data());
-    //debug (kapp->kde_appsdir().data());
+    //debug (path.ascii());
+    //debug (kapp->kde_appsdir().ascii());
 #endif
     
     if ( !f.open( IO_ReadWrite ) )
@@ -1584,8 +1584,8 @@ void ApplicationPropsPage::applyChanges()
 	    if (!lDir.cd((path.left(i)))) // can cd to?
 	    {
 	      err = true;                 // no flag it...
-	      // debug ("Can't cd to  %s in %s", path.left(i).data(),
-	      //	 lDir.absPath().data());
+	      // debug ("Can't cd to  %s in %s", path.left(i).ascii(),
+	      //	 lDir.absPath().ascii());
 	      break;                      // and exit while
 	    }
 	    // Begin copy .directory if exists here.
@@ -1647,7 +1647,7 @@ void ApplicationPropsPage::applyChanges()
 	path.prepend("/"); // be sure to have /netscape.kdelnk
 	path.prepend(lDir.absPath());
 	f.setName(path);
-	//debug("path = %s", path.data());
+	//debug("path = %s", path.ascii());
 	if ( f.open( IO_ReadWrite ) )
 	{
 	  // we must first copy whole kdelnk to local dir
@@ -1698,7 +1698,7 @@ void ApplicationPropsPage::applyChanges()
     if ( tmp.length() > 0 )
 	if ( tmp.right(1) != ";" )
 	    tmp += ";";
-    config.writeEntry( "BinaryPattern", tmp.data() );
+    config.writeEntry( "BinaryPattern", tmp );
 
     extensionsStr = "";
     for ( uint i = 0; i < extensionsList->count(); i++ )
@@ -1706,7 +1706,7 @@ void ApplicationPropsPage::applyChanges()
 	extensionsStr += extensionsList->text( i );
 	extensionsStr += ";";
     }
-    config.writeEntry( "MimeType", extensionsStr.data() );
+    config.writeEntry( "MimeType", extensionsStr );
     config.writeEntry( "Name", nameEdit->text(), true, false, true );
     
     config.sync();
@@ -1861,7 +1861,7 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
     // TODO: Torben: No default app any more here.
     // Set the default app (DefaultApp=... is the kdelnk name)
     // QStringList::Iterator it = applist.find( appStr );
-    // debug ("appStr = %s\n\n",appStr.data());
+    // debug ("appStr = %s\n\n",appStr.ascii());
     // if ( it == applist.end() )
     // appBox->setCurrentItem( 0 );
     // index = 0;
@@ -1924,8 +1924,8 @@ void BindingPropsPage::applyChanges()
 #ifdef SVEN
     QDir lDir (kapp->localkdedir() + "/share/mimelnk/"); // I know it exists
 
-    //debug (path.data());
-    //debug (kapp->kde_mimedir().data());
+    //debug (path.ascii());
+    //debug (kapp->kde_mimedir().ascii());
 #endif
     
     if ( !f.open( IO_ReadWrite ) )
@@ -1950,8 +1950,8 @@ void BindingPropsPage::applyChanges()
 	    if (!lDir.cd((path.left(i)))) // can cd to?
 	    {
 	      err = true;                 // no flag it...
-	      // debug ("Can't cd to  %s in %s", path.left(i).data(),
-	      //	 lDir.absPath().data());
+	      // debug ("Can't cd to  %s in %s", path.left(i).ascii(),
+	      //	 lDir.absPath().ascii());
 	      break;                      // and exit while
 	    }
 	    // Begin copy .directory if exists here.
@@ -2012,7 +2012,7 @@ void BindingPropsPage::applyChanges()
 	path.prepend("/"); // be sure to have /jpeg.kdelnk
 	path.prepend(lDir.absPath());
 	f.setName(path);
-	//debug("path = %s", path.data());
+	//debug("path = %s", path.ascii());
 	if ( f.open( IO_ReadWrite ) )
 	{
 	  // we must first copy whole kdelnk to local dir
@@ -2057,7 +2057,7 @@ void BindingPropsPage::applyChanges()
     if ( tmp.length() > 1 )
 	if ( tmp.right(1) != ";" )
 	    tmp += ";";
-    config.writeEntry( "Patterns", tmp.data() );
+    config.writeEntry( "Patterns", tmp );
     config.writeEntry( "Comment", commentEdit->text(), true, false, true );
     config.writeEntry( "MimeType", mimeEdit->text() );
     config.writeEntry( "Icon", iconBox->icon() );
@@ -2159,11 +2159,11 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
     unmountedStr = config.readEntry( "UnmountIcon" );
 
     if ( !deviceStr.isNull() )
-	device->setText( deviceStr.data() );
+	device->setText( deviceStr );
     if ( !mountPointStr.isNull() )
-	mountpoint->setText( mountPointStr.data() );
+	mountpoint->setText( mountPointStr );
     if ( !fstypeStr.isNull() )
-	fstype->setText( fstypeStr.data() );
+	fstype->setText( fstypeStr );
     if ( readonlyStr == "0" )
 	readonly->setChecked( false );
     else

@@ -129,7 +129,7 @@ void KNewMenu::fillTemplates()
     const QFileInfoList *list = d.entryInfoList();
     if ( list == 0L )
         warning(i18n("ERROR: Template does not exist '%s'"),
-		UserPaths::templatesPath().data());
+		UserPaths::templatesPath().ascii());
     else
     {
 	QFileInfoListIterator it( *list );      // create list iterator
@@ -170,7 +170,7 @@ void KNewMenu::slotNewFile( int _id )
       sFile = *(templatesList->at( m_vMenu->indexOf( _id ) ));
     else
       sFile = *(templatesList->at( m_pMenu->indexOf( _id ) ));
-    kdebug(0, 1203, "sFile = %s",sFile.data());
+    kdebug(0, 1203, "sFile = %s",sFile.ascii());
       
     QString sName ( sFile );
     QString text, value;
@@ -178,7 +178,7 @@ void KNewMenu::slotNewFile( int _id )
     if ( sName != "Folder" ) {
       QString x = UserPaths::templatesPath() + sFile;
       if (!QFile::exists(x)) {
-          kdebug(KDEBUG_WARN, 1203, "%s doesn't exist", x.data());
+          kdebug(KDEBUG_WARN, 1203, "%s doesn't exist", x.ascii());
           QMessageBox::critical( 0L, i18n( "Error" ), i18n(
               "Source file doesn't exist anymore ! \n"
               "Use \"Rescan Bindings\" in View menu to update the menu"));
@@ -235,7 +235,7 @@ void KNewMenu::slotNewFile( int _id )
 		dest.addPath( name );
 
 		//QString u2 = url.url();
-		// debugT("Command copy '%s' '%s'\n",src.data(),dest.data());
+		// debugT("Command copy '%s' '%s'\n",src.ascii(),dest.ascii());
 
 		// --- Sven's check if this is global apps/mime start ---
 		// This is a bug fix for bug report from A. Pour from
@@ -261,7 +261,7 @@ void KNewMenu::slotCopyFinished( int id )
 {
   // Now open the properties dialog on the file, as it was a 
   // desktop entry
-  (void) new PropertiesDialog( m_sDest.find( id )->data() );
+  (void) new PropertiesDialog( m_sDest.find( id )->ascii() );
   m_sDest.remove( id );
 }
 
