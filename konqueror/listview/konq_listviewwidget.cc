@@ -961,7 +961,7 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
 
 void KonqBaseListViewWidget::slotRedirection( const KURL & url )
 {
-    emit m_pBrowserView->extension()->setLocationBarURL( url.url() );
+    emit m_pBrowserView->extension()->setLocationBarURL( url.prettyURL() );
 }
 
 KonqBaseListViewWidget::iterator& KonqBaseListViewWidget::iterator::operator++()

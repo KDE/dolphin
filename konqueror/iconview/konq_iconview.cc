@@ -870,7 +870,7 @@ void KonqKfmIconView::slotClear()
 
 void KonqKfmIconView::slotRedirection( const KURL & url )
 {
-    emit m_extension->setLocationBarURL( url.url() );
+    emit m_extension->setLocationBarURL( url.prettyURL() );
 }
 
 static QString displayString(int items, int files, long size, int dirs)
