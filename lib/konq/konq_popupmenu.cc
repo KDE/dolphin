@@ -398,7 +398,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
             {
                 if (d->m_itemFlags & KParts::BrowserExtension::ShowCreateDirectory)
                 {
-                    KAction *actNewDir = new KAction( i18n( "Create Director&y..." ), "folder_new", 0, this, SLOT( slotPopupNewDir() ), &m_ownActions, "newdir" );
+                    KAction *actNewDir = new KAction( i18n( "Create &Folder..." ), "folder_new", 0, this, SLOT( slotPopupNewDir() ), &m_ownActions, "newdir" );
                     addAction( actNewDir );
                     addSeparator();
                 }
@@ -470,7 +470,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
               caption = i18n("&Bookmark This Location");
         }
         else if (S_ISDIR(mode))
-           caption = i18n("&Bookmark This Directory");
+           caption = i18n("&Bookmark This Folder");
         else if (bIsLink)
            caption = i18n("&Bookmark This Link");
         else

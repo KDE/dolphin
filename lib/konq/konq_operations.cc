@@ -349,7 +349,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDro
                 // The event source may be the view or an item (icon)
                 // Note: ev->source() can be 0L! (in case of kdesktop) (Simon)
                 if ( !ev->source() || ev->source() != parent && ev->source()->parent() != parent )
-                    KMessageBox::sorry( parent, i18n("You can't drop a directory onto itself") );
+                    KMessageBox::sorry( parent, i18n("You can't drop a folder onto itself") );
                 kdDebug(1203) << "Dropped on itself" << endl;
                 ev->accept(false);
                 return; // do nothing instead of displaying kfm's annoying error box
@@ -824,8 +824,8 @@ void KonqOperations::newDir( QWidget * parent, const KURL & baseURL )
        }
     }
 
-    name = KInputDialog::getText ( i18n( "New Directory" ),
-        i18n( "Enter directory name:" ), name, &ok, parent );
+    name = KInputDialog::getText ( i18n( "New Folder" ),
+        i18n( "Enter Folder name:" ), name, &ok, parent );
     if ( ok )
     {
         name = KIO::encodeFileName( name );

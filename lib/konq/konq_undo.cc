@@ -242,7 +242,7 @@ QString KonqUndoManager::undoText() const
   else if ( t == KonqCommand::MOVE )
     return i18n( "Und&o: Move" );
   else if ( t == KonqCommand::MKDIR )
-    return i18n( "Und&o: Create Directory" );
+    return i18n( "Und&o: Create Folder" );
   else
     assert( false );
   /* NOTREACHED */
