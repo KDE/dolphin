@@ -167,13 +167,13 @@ void KonqRun::slotKonqMimetype(KIO::Job *, const QString &type)
 
 bool KonqRun::allowExecution( const QString &serviceType, const KURL &url )
 {
-    if ( !isRunnable( serviceType ) )
+    if ( !isExecutable( serviceType ) )
       return true;
 
     return ( KMessageBox::warningYesNo( 0, i18n( "Do you really want to execute '%1' ? " ).arg( url.prettyURL() ) ) == KMessageBox::Yes );
 }
 
-bool KonqRun::isRunnable( const QString &serviceType )
+bool KonqRun::isExecutable( const QString &serviceType )
 {
     return ( serviceType == "application/x-desktop" ||
              serviceType == "application/x-executable" ||

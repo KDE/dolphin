@@ -53,7 +53,7 @@ public:
   const QString & typedURL() const { return m_req.typedURL; }
 
   static bool allowExecution( const QString &serviceType, const KURL &url );
-  static bool isRunnable( const QString &serviceType );
+  static bool isExecutable( const QString &serviceType );
   static bool askSave( const KURL & url, KService::Ptr offer );
   static void save( const KURL & url );
 

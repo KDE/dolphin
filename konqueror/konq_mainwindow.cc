@@ -373,7 +373,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
             lst.append(url);
             //kdDebug(1202) << "Got offer " << (offer ? offer->name().latin1() : "0") << endl;
             if ( ( trustedSource || KonqRun::allowExecution( serviceType, url ) ) &&
-                 ( !offer || !KRun::run( *offer, lst ) ) )
+                 ( KonqRun::isExecutable( serviceType ) || !offer || !KRun::run( *offer, lst ) ) )
             {
                 (void)new KRun( url );
             }
@@ -397,7 +397,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
 
 bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *childView, KonqOpenURLRequest req )
 {
-  if ( KonqRun::isRunnable( serviceType ) )
+  if ( KonqRun::isExecutable( serviceType ) )
      return false; // execute, don't open
   // Contract: the caller of this method should ensure the view is stopped first.
 
