@@ -33,239 +33,299 @@
 #include <kglobal.h>
 #include <kstddirs.h>
 #include <klibloader.h>
+#include <kconfig.h>
+#include <kdesktopfile.h>
 
 
-bool mimeExists(QString mime)
+bool isPluginMimeType( QString fname )
 {
-  QString fname = KGlobal::dirs()->findResource("mime", mime+".desktop");
-
-  return !fname.isEmpty();
+    KDesktopFile cfg( fname, true );
+    cfg.setDesktopGroup();
+    return cfg.hasKey( "X-KDE-nsplugin" );
 }
 
 
-void generateMimeType(QString mime, QString extensions, QString description)
+void deletePluginMimeTypes()
 {
-  QString dir = mime;
-  int pos = mime.findRev('/');
-  if (pos < 0)
-    return;
-  dir = mime.left(pos);
+    // iterate through local mime type directories
+    QString dir = KGlobal::dirs()->saveLocation( "mime" );
+    kdDebug(1433) << "Removing nsplugin MIME types in " << dir << endl;
+    QDir dirs( dir, QString::null, QDir::Name|QDir::IgnoreCase, QDir::Dirs );
+    if ( !dirs.exists() ) {
+        kdDebug(1433) << "Directory not found" << endl;
+        return;
+    }
 
-  dir = KGlobal::dirs()->saveLocation("mime", dir);
+    for ( unsigned int i=0; i<dirs.count(); i++ ) {
+        if ( !dirs[i].contains(".") ) {
 
-  kdDebug() << "Saving to " << dir + mime.mid(pos) + ".desktop" << endl;
+            // check all mime types for X-KDE-nsplugin flag
+            kdDebug(1433) << " - Looking in " << dirs[i] << endl;
+            QDir files( dirs.absFilePath(dirs[i]), QString::null,
+                        QDir::Name|QDir::IgnoreCase, QDir::Files );
+            if ( files.exists( dir ) ) {
 
-  QFile f(dir + mime.mid(pos) + ".desktop");
-  if (f.open(IO_WriteOnly))
-    {
-      QTextStream ts(&f);
+                for (unsigned int i=0; i<files.count(); i++) {
 
-      ts << "[Desktop Entry]" << endl;
-      ts << "Name=Netscape plugin mimeinfo" << endl;
-      ts << "Type=MimeType" << endl;
-      ts << "MimeType=" << mime << endl;
-      ts << "Icon=netscape" << endl;
+                    // check .desktop file
+                    kdDebug(1433) << "   - Checking " << files[i] << endl;
+                    if ( isPluginMimeType(files.absFilePath(files[i])) ) {
+                        kdDebug(1433) << "     - Removing " << files[i] << endl;
+                        //files.remove( files[i] );
+                    }
 
-      if (!extensions.isEmpty())
-	{
-	  ts << "Patterns=";
-	  QStringList exts = QStringList::split(",", extensions);
-	  for (QStringList::Iterator it=exts.begin(); it != exts.end(); ++it)
-	  {
-	     // filter dangerous extension
-	     if ( *it!="rpm" )
-		ts << "*." << *it << ";";
-	  }
-	  ts << endl;
-	}
+                }
+            }
 
-      if (!description.isEmpty())
-	ts << "Comment=" << description << endl;
-
-      ts << "X-KDE-AutoEmbed=true" << endl;
-
-      f.close();
+        }
     }
 }
+
+
+void generateMimeType( QString mime, QString extensions, QString description )
+{
+    kdDebug(1433) << "-> generateMimeType mime=" << mime << " ext="<< extensions << endl;
+
+    // get directory from mime string
+    QString dir;
+    QString name;
+    int pos = mime.findRev('/');
+    if ( pos<0 ) {
+        kdDebug(1433) << "Invalid MIME type " << mime << endl;
+        kdDebug(1433) << "<- generateMimeType" << endl;
+        return;
+    }
+    dir = KGlobal::dirs()->saveLocation( "mime", mime.left(pos) );
+    name = mime.mid(pos);
+
+    // create mimelnk file
+    QFile f( dir + name + ".desktop" );
+    if ( f.open(IO_WriteOnly) ) {
+
+        // write .desktop file
+        QTextStream ts(&f);
+
+        ts << "[Desktop Entry]" << endl;
+        ts << "Type=MimeType" << endl;
+        ts << "MimeType=" << mime << endl;
+        ts << "Icon=netscape" << endl;
+        ts << "Comment=Supported by Netscape plugin" << endl;
+        ts << "X-KDE-AutoEmbed=true" << endl;
+        ts << "X-KDE-nsplugin=true" << endl;
+
+        if (!extensions.isEmpty()) {
+            ts << "Patterns=";
+            QStringList exts = QStringList::split(",", extensions);
+            for (QStringList::Iterator it=exts.begin(); it != exts.end(); ++it)
+                ts << " *." << *it << ";";
+            ts << endl;
+        }
+
+        if (!description.isEmpty())
+            ts << "Name=" << description << endl;
+        else
+            ts << "Name=Netscape plugin mimeinfo" << endl;
+
+        f.close();
+    }
+
+    kdDebug(1433) << "<- generateMimeType" << endl;
+}
+
 
 void scanDirectory( QString dir, QStringList &mimeInfoList,
-		    QTextStream &cache )
+                    QTextStream &cache )
 {
-   kdDebug() << "Scanning " << dir << endl;
-   QRegExp version(";version=[^:]*:");
+    kdDebug(1433) << "-> scanDirectory dir=" << dir << endl;
 
-   // iterate over all files
-   QDir files( dir, QString::null, QDir::Name|QDir::IgnoreCase, QDir::Files );
-   if ( !files.exists(dir) )
+    // iterate over all files
+    QDir files( dir, QString::null, QDir::Name|QDir::IgnoreCase, QDir::Files );
+    if ( !files.exists( dir ) ) {
+        kdDebug(1433) << "No files found" << endl;
+        kdDebug(1433) << "<- scanDirectory dir=" << dir << endl;
+        return;
+    }
+
+    for (unsigned int i=0; i<files.count(); i++) {
+
+        // get absolute file path
+        QString absFile = files.absFilePath( files[i] );
+        kdDebug(1433) << "Checking library " << absFile << endl;
+
+        // open the library and ask for the mimetype
+        kdDebug(1433) << " - opening" << absFile << endl;
+        KLibrary *_handle = KLibLoader::self()->library( absFile.latin1() );
+
+        if (!_handle) {
+            kdDebug(1433) << " - open failed, skipping " << endl;
+            continue;
+        }
+
+        // get mime description function pointer
+        char* (*func_GetMIMEDescription)() =
+            (char *(*)())_handle->symbol("NP_GetMIMEDescription");
+        if (!func_GetMIMEDescription) {
+            kdDebug(1433) << " - no GetMIMEDescription, skipping" << endl;
+            KLibLoader::self()->unloadLibrary( absFile.latin1() );
+            continue;
+        }
+
+        // ask for mime information
+        QString mimeInfo = func_GetMIMEDescription();
+        if ( mimeInfo.isEmpty() ) {
+            kdDebug(1433) << " - no mime info returned, skipping" << endl;
+            KLibLoader::self()->unloadLibrary( absFile.latin1() );
+            continue;
+        }
+
+        // remove version info, as it is not used at the moment
+        QRegExp versionRegExp(";version=[^:]*:");
+        mimeInfo.replace( versionRegExp, ":");
+
+        // note the plugin name
+        cache << "[" << absFile << "]" << endl;
+
+        // get mime types from string
+        QStringList types = QStringList::split( ';', mimeInfo );
+        QStringList::Iterator type;
+        for ( type=types.begin(); type!=types.end(); ++type ) {
+
+            kdDebug(1433) << " - type=" << *type << endl;
+
+            // write into type cache
+            QStringList tokens = QStringList::split(':', *type, TRUE);
+            QStringList::Iterator token;
+            token = tokens.begin();
+            cache << (*token).lower();
+            ++token;
+            for ( ; token!=tokens.end(); ++token )
+                cache << ":" << *token;
+            cache << endl;
+
+
+            // append type to MIME type list
+            if ( !mimeInfoList.contains( *type ) )
+                mimeInfoList.append( *type );
+        }
+
+        // unload plugin lib
+        kdDebug(1433) << " - unloading  plugin" << endl;
+        KLibLoader::self()->unloadLibrary( absFile.latin1() );
+    }
+
+    // iterate over all sub directories
+    QDir dirs( dir, QString::null, QDir::Name|QDir::IgnoreCase, QDir::Dirs );
+    if ( !dirs.exists() )
       return;
 
-   for (unsigned int i=0; i<files.count(); i++)
-   {
-      QString absFile = files.absFilePath( files[i] );
+    static int depth = 0; // avoid recursion because of symlink circles
+    depth++;
+    for ( unsigned int i=0; i<dirs.count(); i++ ) {
+        if ( depth<8 && !dirs[i].contains(".") )
+            scanDirectory( dirs.absFilePath(dirs[i]), mimeInfoList, cache );
+    }
+    depth--;
 
-      kdDebug() << "  testing " << absFile << endl;
-
-      // open the library and ask for the mimetype
-      void *func_GetMIMEDescription = 0;
-      KLibrary *_handle = KLibLoader::self()->library( absFile.latin1() );
-
-      if (!_handle)
-      {
-	 kdDebug() << "skipping plugin " << files[i] << endl;
-	 continue;
-      }
-
-      func_GetMIMEDescription = _handle->symbol("NP_GetMIMEDescription");
-	
-      if (!func_GetMIMEDescription)
-      {
-	 kdDebug() << " not a plugin" << endl;
-	 KLibLoader::self()->unloadLibrary( absFile.latin1() );
-	 continue;
-      }
-
-      char *(*fp)();
-      fp = (char *(*)()) func_GetMIMEDescription;	
-      QString mimeInfo = fp();
-
-      // check the mimeInformation
-      if (!mimeInfo)
-      {
-	 kdDebug() << " not a plugin" << endl;
-	 KLibLoader::self()->unloadLibrary( absFile.latin1() );
-	 continue;
-      }
-
-      // FIXME: Some plugins will not work, e.g. because they
-      // use JAVA. These should be filtered out here!
-
-      // remove version info, as it is not used at the moment
-      mimeInfo.replace(version, ":");
-
-      kdDebug() << "Mime info: " <<  mimeInfo << endl;
-
-      // note the plugin name
-      cache << "[" << absFile << "]" << endl;
-
-      // parse mime info string
-      QStringList entries = QStringList::split(';', mimeInfo);
-      QStringList::Iterator entry;
-      for (entry = entries.begin(); entry!=entries.end(); ++entry)
-      {	
-	 QStringList tokens = QStringList::split(':', *entry, TRUE);
-	 QStringList::Iterator token;
-	 token = tokens.begin();
-	 cache << (*token).lower();
-	 ++token;
-	 for (; token!=tokens.end(); ++token)
-	    cache << ":" << *token;
-	 cache << endl;
-
-	 if (!mimeInfoList.contains(*entry))
-	    mimeInfoList.append(*entry);
-      }
-	
-      kdDebug() << "  is a plugin" << endl;
-	
-      KLibLoader::self()->unloadLibrary( absFile.latin1() );
-   }
-
-   // iterate over all sub directories
-   QDir dirs( dir, QString::null, QDir::Name|QDir::IgnoreCase, QDir::Dirs );
-   if ( !dirs.exists() )
-      return;
-
-   static int depth = 0; // avoid recursion because of symlink circles
-   depth++;
-   for (unsigned int i=0; i<dirs.count(); i++)
-   {
-      if ( depth<8 && !dirs[i].contains(".") )
-      {	
-	 kdDebug() << "-> Entering subdir " << dirs[i] << endl;	
-	 scanDirectory( dirs.absFilePath(dirs[i]), mimeInfoList, cache );
-	 kdDebug() << "<- Leaving subdir " << dirs[i] << endl;
-      }
-   }
-   depth--;
+    kdDebug() << "<- scanDirectory dir=" << dir << endl;
 }
 
-int main(int argc, char *argv[])
+
+int main( int argc, char *argv[] )
 {
-  KApplication app(argc, argv, "pluginscan");
+    KApplication app(argc, argv, "pluginscan");
 
-  QStringList searchPaths, mimeInfoList;
+    // set up the paths used to look for plugins
+    QStringList searchPaths, mimeInfoList;
+    searchPaths.append("/usr/local/netscape/plugins");
+    searchPaths.append("/opt/netscape/plugins");
+    searchPaths.append("/opt/netscape/communicator/plugins");
+    searchPaths.append("/usr/lib/netscape/plugins");
+    searchPaths.append(QString("%1/.netscape/plugins").arg(getenv("HOME")));
+    searchPaths.append(QString("%1/plugins").arg(getenv("MOZILLA_HOME")));
 
-  // set up the paths used to look for plugins -----------------------------
-  searchPaths.append("/usr/local/netscape/plugins");
-  searchPaths.append("/opt/netscape/plugins");
-  searchPaths.append("/opt/netscape/communicator/plugins");
-  searchPaths.append("/usr/lib/netscape/plugins");
-  searchPaths.append(QString("%1/.netscape/plugins").arg(getenv("HOME")));
-  searchPaths.append(QString("%1/plugins").arg(getenv("MOZILLA_HOME")));
+    // append environment variable NPX_PLUGIN_PATH
+    QStringList envs = QStringList::split(':', getenv("NPX_PLUGIN_PATH"));
+    QStringList::Iterator it;
+    for (it = envs.begin(); it != envs.end(); ++it)
+        searchPaths.append(*it);
 
-  // append environment variable NPX_PLUGIN_PATH
-  QStringList envs = QStringList::split(':', getenv("NPX_PLUGIN_PATH"));
-  QStringList::Iterator it;
-  for (it = envs.begin(); it != envs.end(); ++it)
-    searchPaths.append(*it);
+    // open the cache file for the mime information
+    QString cacheName = KGlobal::dirs()->saveLocation("data", "nsplugins")+"/cache";
+    kdDebug(1433) << "Creating MIME cache file " << cacheName << endl;
+    QFile cachef(cacheName);
+    if (!cachef.open(IO_WriteOnly))
+        return -1;
+    QTextStream cache(&cachef);
 
-  // open the cache file for the mime information
-  QString cacheName = KGlobal::dirs()->saveLocation("data", "nsplugins")+"/cache";
-  kdDebug() << "Saving cache to " << cacheName << endl;
-  QFile cachef(cacheName);
-  if (!cachef.open(IO_WriteOnly))
-    return -1;
-  QTextStream cache(&cachef);
+    // read in the plugins mime information
+    kdDebug(1433) << "Scanning directories" << endl;
+    for (it = searchPaths.begin(); it != searchPaths.end(); ++it)
+        scanDirectory( *it, mimeInfoList, cache );
 
-  // read in the plugins mime information ----------------------------------
-  for (it = searchPaths.begin(); it != searchPaths.end(); ++it)
-      scanDirectory( *it, mimeInfoList, cache );
+    // delete old mime types
+    kdDebug(1433) << "Removing old mimetypes" << endl;
+    deletePluginMimeTypes();
 
-  // write mimetype files
-  QStringList mimeTypes;
-  for (QStringList::Iterator it=mimeInfoList.begin(); it!=mimeInfoList.end(); ++it)
-    {
-      kdDebug() << "MIME=" << *it << endl;
+    // write mimetype files
+    kdDebug(1433) << "Creating MIME type descriptions" << endl;
+    QStringList mimeTypes;
+    for ( QStringList::Iterator it=mimeInfoList.begin();
+          it!=mimeInfoList.end(); ++it) {
+
+      kdDebug(1433) << "Handling MIME type " << *it << endl;
 
       QStringList info = QStringList::split(":", *it, true);
-      if (info.count() == 3)
-	{
-	  if (!mimeTypes.contains(info[0]))
-	    mimeTypes.append(info[0].lower());
+      if ( info.count()==3 ) {
+          QString type = info[0].lower();
+          QString extension = info[1];
+          QString desc = info[2];
 
-	  if (!mimeExists(info[0]))
-	    generateMimeType(info[0].lower(),info[1],info[2]);
-	}
+          // append to global mime type list
+          if ( !mimeTypes.contains(type) ) {
+              kdDebug(1433) << " - mimeType=" << type << endl;
+              mimeTypes.append( type );
+          }
+
+          // check mimelnk file
+          QString fname = KGlobal::dirs()->findResource("mime", type+".desktop");
+          if ( fname.isEmpty() || isPluginMimeType(fname) ) {
+              kdDebug(1433) << " - creating MIME type description" << endl;
+              generateMimeType( type, extension, desc );
+          } else
+              kdDebug(1433) << " - already existant" << endl;
+        }
     }
 
-  // write plugin lib service file
-  QString fname = KGlobal::dirs()->saveLocation("services", "") + "/nsplugin.desktop";
+    // write plugin lib service file
+    QString fname = KGlobal::dirs()->saveLocation("services", "")
+                    + "/nsplugin.desktop";
+    kdDebug(1433) << "Creating services file " << fname << endl;
 
-  kdDebug() << "Writing service file to " << fname << endl;
+    QFile f(fname);
+    if ( f.open(IO_WriteOnly) ) {
 
-  QFile f(fname);
-  if (f.open(IO_WriteOnly))
-    {
-      QTextStream ts(&f);
+        QTextStream ts(&f);
 
-      ts << "[Desktop Entry]" << endl;
-      ts << "Name=Netscape plugin viewer" << endl;
-      ts << "Type=Service" << endl;
-      ts << "Icon=netscape" << endl;
-      ts << "Comment=Netscape plugin viewer" << endl;
-      ts << "X-KDE-Library=libnsplugin" << endl;
-      ts << "ServiceTypes=KParts/ReadOnlyPart,Browser/View" << endl;
+        ts << "[Desktop Entry]" << endl;
+        ts << "Name=Netscape plugin viewer" << endl;
+        ts << "Type=Service" << endl;
+        ts << "Icon=netscape" << endl;
+        ts << "Comment=Netscape plugin viewer" << endl;
+        ts << "X-KDE-Library=libnsplugin" << endl;
+        ts << "ServiceTypes=KParts/ReadOnlyPart,Browser/View" << endl;
 
-      if (mimeTypes.count() > 0)
-	{
-	  ts << "MimeType=";
-	  for (QStringList::Iterator it=mimeTypes.begin(); it != mimeTypes.end(); ++it)
-	    ts << *it << ";";
-	  ts << endl;
-	}
-	
-      f.close();
-    }
+        if (mimeTypes.count() > 0) {
+            ts << "MimeType=";
+            for ( QStringList::Iterator it=mimeTypes.begin();
+                  it != mimeTypes.end(); ++it)
+                ts << *it << ";";
+            ts << endl;
+        }
 
-  cachef.close();
+        f.close();
+    } else
+        kdDebug(1433) << "Failed to open file " << fname << endl;
+
+    kdDebug(1433) << "Closing cache file" << endl;
+    cachef.close();
 }
