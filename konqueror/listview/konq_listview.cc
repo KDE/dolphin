@@ -434,14 +434,14 @@ void KonqListView::slotCaseInsensitive()
 void KonqListView::slotColumnToggled()
 {
    kdDebug(1202) << "::slotColumnToggled" << endl;
-   for (unsigned int i=0; i<(uint)m_pListView->NumberOfAtoms; i++)
+   for (int i=0; i<m_pListView->NumberOfAtoms; i++)
    {
       m_pListView->confColumns[i].displayThisOne=m_pListView->confColumns[i].toggleThisOne->isChecked()&&m_pListView->confColumns[i].toggleThisOne->isEnabled();
       //this column has been enabled, the columns after it slide one column back
       if ((m_pListView->confColumns[i].displayThisOne) && (m_pListView->confColumns[i].displayInColumn==-1))
       {
          int maxColumn(0);
-         for (unsigned int j=0; j<m_pListView->NumberOfAtoms; j++)
+         for (int j=0; j<m_pListView->NumberOfAtoms; j++)
             if ((m_pListView->confColumns[j].displayInColumn>maxColumn) && (m_pListView->confColumns[j].displayThisOne))
                maxColumn=m_pListView->confColumns[j].displayInColumn;
          m_pListView->confColumns[i].displayInColumn=maxColumn+1;
@@ -449,7 +449,7 @@ void KonqListView::slotColumnToggled()
       //this column has been disabled, the columns after it slide one column
       if ((!m_pListView->confColumns[i].displayThisOne) && (m_pListView->confColumns[i].displayInColumn!=-1))
       {
-         for (unsigned int j=0; j<m_pListView->NumberOfAtoms; j++)
+         for (int j=0; j<m_pListView->NumberOfAtoms; j++)
             if (m_pListView->confColumns[j].displayInColumn>m_pListView->confColumns[i].displayInColumn)
                m_pListView->confColumns[j].displayInColumn--;
          m_pListView->confColumns[i].displayInColumn=-1;
@@ -534,10 +534,10 @@ void KonqListView::slotSaveAfterHeaderDrag()
    QStringList lstColumns;
 
    int oldCurrentColumn(-1);
-   for (unsigned int i=0; i<m_pListView->NumberOfAtoms; i++)
+   for (int i=0; i<m_pListView->NumberOfAtoms; i++)
    {
       int currentColumn(1000);
-      for (unsigned int j=0; j<m_pListView->NumberOfAtoms; j++)
+      for (int j=0; j<m_pListView->NumberOfAtoms; j++)
       {
          int tmp=m_pListView->header()->mapToIndex(m_pListView->confColumns[j].displayInColumn);
          if ((tmp>oldCurrentColumn) && (tmp<currentColumn))
@@ -546,7 +546,7 @@ void KonqListView::slotSaveAfterHeaderDrag()
       kdDebug(1202)<<"currentColumn: "<<currentColumn<<endl;
       //everything done
       if (currentColumn==1000) break;
-      for (unsigned int j=0; j<m_pListView->NumberOfAtoms; j++)
+      for (int j=0; j<m_pListView->NumberOfAtoms; j++)
       {
          int tmp=m_pListView->header()->mapToIndex(m_pListView->confColumns[j].displayInColumn);
          if (tmp==currentColumn)
