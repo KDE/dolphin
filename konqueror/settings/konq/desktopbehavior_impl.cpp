@@ -41,6 +41,7 @@
 #include <dcopclient.h>
 #include <konq_defaults.h> // include default values directly from libkonq
 #include <kipc.h>
+#include <kprotocolinfo.h>
 
 DesktopBehaviorModule::DesktopBehaviorModule(KConfig *config, QWidget *parent, const char * )
     : KCModule( parent, "kcmkonq" )
@@ -119,6 +120,8 @@ DesktopBehavior::DesktopBehavior(KConfig *config, QWidget *parent, const char * 
    *
    */
   bool leftHandedMouse = ( KGlobalSettings::mouseSettings().handed == KGlobalSettings::KMouseSettings::LeftHanded);
+
+  m_bHasDevices = KProtocolInfo::isKnownProtocol(QString::fromLatin1("devices"));
 
   connect(desktopMenuGroup, SIGNAL(clicked(int)), this, SIGNAL(changed()));
   connect(iconsEnabledBox, SIGNAL(clicked()), this, SLOT(enableChanged()));
@@ -210,12 +213,14 @@ DesktopBehavior::DesktopBehavior(KConfig *config, QWidget *parent, const char * 
   QWhatsThis::add( rightLabel, wtstr );
   QWhatsThis::add( rightComboBox, wtstr );
 
-#if defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)
-  connect(enableDevicesBox, SIGNAL(clicked()), this, SLOT(enableChanged()));
-#else
-  enableDevicesBox->hide();
-  devicesListView->hide();
-#endif
+  if (m_bHasDevices)
+  {
+     connect(enableDevicesBox, SIGNAL(clicked()), this, SLOT(enableChanged()));
+  }
+  else
+  {
+     delete behaviorTab->page(2);
+  }
 
   load();
 }
@@ -242,7 +247,9 @@ void DesktopBehavior::fillDevicesListView()
 
 void DesktopBehavior::saveDevicesListView()
 {
-#if defined(Q_OS_LINUX) || defined (Q_OS_FREEBSD)
+    if (!m_bHasDevices)
+        return;
+
     g_pConfig->setGroup( "Devices" );
     g_pConfig->writeEntry("enabled",enableDevicesBox->isChecked());
     QStringList exclude;
@@ -252,7 +259,6 @@ void DesktopBehavior::saveDevicesListView()
 		if (!it->isOn()) exclude << it->mimeType();
 	    }
      g_pConfig->writeEntry("exclude",exclude);
-#endif
 }
 
 
@@ -314,9 +320,8 @@ void DesktopBehavior::load()
       { rightComboBox->setCurrentItem( c ); break; }
 
     comboBoxChanged();
-#if defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)
-    fillDevicesListView();
-#endif
+    if (m_bHasDevices)
+        fillDevicesListView();
     enableChanged();
 }
 
@@ -334,9 +339,8 @@ void DesktopBehavior::defaults()
     iconsEnabledBox->setChecked(true);
     autoLineupIconsBox->setChecked(false);
     toolTipBox->setChecked(true);
-#if defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)
-    fillDevicesListView();
-#endif
+    if (m_bHasDevices)
+        fillDevicesListView();
 
     comboBoxChanged();
     enableChanged();
@@ -357,18 +361,10 @@ void DesktopBehavior::save()
     g_pConfig->setGroup( "FMSettings" );
     g_pConfig->writeEntry( "ShowFileTips", toolTipBox->isChecked() );
     g_pConfig->setGroup( "Menubar" );
-#if QT_VERSION >= 0x030200
     g_pConfig->writeEntry("ShowMenubar", desktopMenuGroup->selectedId() > 0);
-#else
-    g_pConfig->writeEntry("ShowMenubar", desktopMenuGroup->id(desktopMenuGroup->selected()) > 0);
-#endif
     KConfig config( "kdeglobals" );
     config.setGroup("KDE");
-#if QT_VERSION >= 0x030200
     bool globalMenuBar = desktopMenuGroup->selectedId() == 2;
-#else
-    bool globalMenuBar = desktopMenuGroup->id(desktopMenuGroup->selected()) == 2;
-#endif
     if ( globalMenuBar != config.readBoolEntry("macStyle", false) )
     {
         config.writeEntry( "macStyle", globalMenuBar, true, true );
@@ -411,11 +407,12 @@ void DesktopBehavior::enableChanged()
     behaviorTab->setTabEnabled(behaviorTab->page(1), enabled);
     vrootBox->setEnabled(enabled);
 
-#if defined(Q_OS_LINUX) || defined (Q_OS_FREEBSD)
-    behaviorTab->setTabEnabled(behaviorTab->page(2), enabled);
-    enableDevicesBox->setEnabled(enabled);
-    devicesListView->setEnabled(enableDevicesBox->isChecked());
-#endif
+    if (m_bHasDevices)
+    {
+        behaviorTab->setTabEnabled(behaviorTab->page(2), enabled);
+        enableDevicesBox->setEnabled(enabled);
+        devicesListView->setEnabled(enableDevicesBox->isChecked());
+    }
 
     changed();
 }

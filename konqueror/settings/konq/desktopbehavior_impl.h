@@ -55,6 +55,7 @@ private:
         void fillMenuCombo( QComboBox * combo );
 
         typedef enum { NOTHING = 0, WINDOWLISTMENU, DESKTOPMENU, APPMENU } menuChoice;
+        bool m_bHasDevices;
 };
 
 class DesktopBehaviorModule : public KCModule
