@@ -4,3 +4,5 @@ pics_DATA = indicator_anchor.png indicator_connect.png \
 
 KDE_ICON = AUTO
 
+SUBDIRS = tiles
+
