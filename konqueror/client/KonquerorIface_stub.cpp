@@ -9,6 +9,17 @@ KonquerorIface_stub::KonquerorIface_stub( const QCString& _app, const QCString& 
 {
 }
 
+void KonquerorIface_stub::configure() 
+{
+	QByteArray snd;
+	QByteArray rcv;
+	QCString _type_;
+	{
+	}
+	kapp->dcopClient()->call( app(), obj(), "configure()", snd, _type_, rcv );
+	ASSERT( _type_ == "void" );
+}
+
 void KonquerorIface_stub::openBrowserWindow(const QString& url) 
 {
 	QByteArray snd;

@@ -10,6 +10,7 @@ class KonquerorIface : virtual public DCOPObject
 public:
 
 k_dcop:
+  virtual void configure ( ) = 0;
   virtual void openBrowserWindow( const QString &url ) = 0;
 
 };

@@ -39,6 +39,7 @@ public:
   KonquerorIFaceImpl();
   virtual ~KonquerorIFaceImpl();
   
+  virtual void configure();
   virtual void openBrowserWindow( const QString &url );
 };
 
@@ -49,6 +50,12 @@ KonquerorIFaceImpl::KonquerorIFaceImpl()
 
 KonquerorIFaceImpl::~KonquerorIFaceImpl()
 {
+}
+
+void KonquerorIFaceImpl::configure()
+{
+  debug("KonquerorIFaceImpl::configure()");
+  // TODO : re-read configuration and apply
 }
 
 void KonquerorIFaceImpl::openBrowserWindow( const QString &url )

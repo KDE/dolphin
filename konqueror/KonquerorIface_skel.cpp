@@ -2,6 +2,12 @@
 
 bool KonquerorIface::process(const QCString &fun, const QByteArray &data, QCString& replyType, QByteArray &replyData)
 {
+	if ( fun == "configure()" )
+	{
+		replyType = "void";
+		configure( );
+		return TRUE;
+	}
 	if ( fun == "openBrowserWindow(QString)" )
 	{
 		QDataStream str( data, IO_ReadOnly );
@@ -11,6 +17,8 @@ bool KonquerorIface::process(const QCString &fun, const QByteArray &data, QCStri
 		openBrowserWindow(url );
 		return TRUE;
 	}
+	if ( DCOPObject::process( fun, data, replyType, replyData ) )
+		return TRUE;
 	return FALSE;
 }
 
