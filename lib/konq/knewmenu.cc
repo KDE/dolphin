@@ -30,6 +30,7 @@
 #include <ksimpleconfig.h>
 #include <kstddirs.h>
 #include <kurl.h>
+#include <kprotocolinfo.h>
 #include <kpopupmenu.h>
 
 #include <kio/global.h>
@@ -287,30 +288,30 @@ void KNewMenu::slotNewFile()
     KLineEditDlg l( i18n("New %1:").arg(entry.text), defaultName, 0L );
     if ( l.exec() )
     {
-	QString name = l.text();
-	if ( name.length() == 0 )
-	    return;
+        QString name = l.text();
+        if ( name.length() == 0 )
+            return;
 
         KURL::List::Iterator it = popupFiles.begin();
         /*
-	if ( sFile =="Folder" )
-	{
+        if ( sFile =="Folder" )
+        {
             for ( ; it != popupFiles.end(); ++it )
-	    {
+            {
               QString url = (*it).path(1) + KIO::encodeFileName(name);
-	      KURL::encode(url); // hopefully will disappear with next KURL
-     	      KIO::Job * job = KIO::mkdir( url );
+              KURL::encode(url); // hopefully will disappear with next KURL
+              KIO::Job * job = KIO::mkdir( url );
               connect( job, SIGNAL( result( KIO::Job * ) ),
                        SLOT( slotResult( KIO::Job * ) ) );
             }
-	}
-	else
-	{
+        }
+        else
+        {
         */
             QString src = entry.templatePath; // KGlobalSettings::templatesPath() + sFile;
             for ( ; it != popupFiles.end(); ++it )
             {
-		KURL dest( *it );
+                KURL dest( *it );
                 dest.addPath( KIO::encodeFileName(name) ); // Chosen destination file name
 
                 KURL uSrc;
@@ -336,7 +337,9 @@ void KNewMenu::slotResult( KIO::Job * job )
         {
           //kdDebug(1203) << destURL.path() << endl;
           KDesktopFile df( destURL.path() );
-          df.writeEntry( "URL", KIO::decodeFileName( destURL.fileName() ) );
+          QString url = KIO::decodeFileName( destURL.fileName() );
+          df.writeEntry( "Icon", KProtocolInfo::icon( KURL(url).protocol() ) );
+          df.writeEntry( "URL", url );
           df.sync();
         }
       }
