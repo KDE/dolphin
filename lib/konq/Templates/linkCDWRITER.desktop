@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=CDWRITER Device...
+Name[de]=CDWRITER
+Comment=New CDWRITER Device
+Comment[de]=Neues CDWRITER-Gerät
+Type=Link
+URL=.source/CDWRITER-Device.desktop
+Icon=cdwriter_unmount

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=NFS...
+Name[de]=NFS
+Comment=New NFS Link
+Comment[de]=Neuer NFS Link
+Type=Link
+URL=.source/NFS.desktop
+Icon=nfs_unmount

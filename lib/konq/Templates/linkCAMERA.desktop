@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Camera Device...
+Name[de]=Kamera
+Comment=New camera
+Comment[de]=Neue Kamera
+Type=Link
+URL=.source/CAMERA-Device.desktop
+Icon=camera_unmount

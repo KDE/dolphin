@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=ZIP Device...
+Name[de]=ZIP
+Comment=New ZIP Device
+Comment[de]=Neues ZIP-Gerät
+Type=Link
+URL=.source/ZIP-Device.desktop
+Icon=zip_unmount

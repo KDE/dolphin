@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=MO Device...
+Name[de]=MO Laufwerk
+Comment=New MO Device
+Comment[de]=Neues MO Laufwerk
+Type=Link
+URL=.source/MO-Device.desktop
+Icon=mo_unmount
