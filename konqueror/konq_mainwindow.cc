@@ -3701,22 +3701,20 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
   //kdDebug() << "KonqMainWindow::slotPopupMenu m_oldView=" << m_oldView << " new currentView=" << currentView << " passive:" << currentView->isPassiveMode() << endl;
 
-  if ( m_oldView != currentView )
+  if ( (m_oldView != currentView) && currentView->isPassiveMode() )
   {
-      if ( currentView->isPassiveMode() )
-          // Make this view active only temporarily (because it's passive)
-          m_currentView = currentView;
-      else
-          m_pViewManager->setActivePart( currentView->part() );
+      // Make this view active only temporarily (because it's passive)
+      m_currentView = currentView;
 
-      if ( m_oldView )
-      {
-          if ( m_oldView->browserExtension() )
-              disconnectExtension( m_oldView->browserExtension() );
-          if ( m_currentView->browserExtension() )
-              connectExtension( m_currentView->browserExtension() );
-      }
+      if ( m_oldView && m_oldView->browserExtension() )
+          disconnectExtension( m_oldView->browserExtension() );
+      if ( m_currentView->browserExtension() )
+          connectExtension( m_currentView->browserExtension() );
   }
+  // Note that if m_oldView!=currentView and currentView isn't passive,
+  // then the KParts mechanism has already noticed the click in it,
+  // but KonqViewManager delays the GUI-rebuilding with a single-shot timer.
+  // Right after the popup shows up, currentView _will_ be m_currentView.
 
   //kdDebug(1202) << "KonqMainWindow::slotPopupMenu( " << client << "...)" << " current view=" << m_currentView << " " << m_currentView->part()->className() << endl;
 
@@ -3820,16 +3818,19 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   //kdDebug(1202) << "-------- KonqMainWindow::slotPopupMenu() - m_oldView = " << m_oldView << ", currentView = " << currentView
   //<< ", m_currentView = " << m_currentView << endl;
 
-  if ( m_oldView && (m_oldView != currentView) && (currentView == m_currentView) )
+  // Restore current view if current is passive
+  if ( (m_oldView != currentView) && (currentView == m_currentView) && currentView->isPassiveMode() )
   {
+    //kdDebug() << "KonqMainWindow::slotPopupMenu restoring active view " << m_oldView << endl;
     if ( m_currentView->browserExtension() )
       disconnectExtension( m_currentView->browserExtension() );
-    if ( m_oldView->browserExtension() )
-      connectExtension( m_oldView->browserExtension() );
-    // Restore current view if current is passive
-    if ( currentView->isPassiveMode() ) {
-        //kdDebug() << "KonqMainWindow::slotPopupMenu restoring active view " << m_oldView << endl;
-        m_currentView = m_oldView;
+    if ( m_oldView )
+    {
+        if ( m_oldView->browserExtension() )
+        {
+            connectExtension( m_oldView->browserExtension() );
+            m_currentView = m_oldView;
+        }
         m_oldView->part()->widget()->setFocus();
     }
   }
