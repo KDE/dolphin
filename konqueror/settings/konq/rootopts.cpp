@@ -256,7 +256,7 @@ void KRootOptions::load()
     VertAlignBox->setChecked(bVertAlign);
     //
     g_pConfig->setGroup( "Menubar" );
-    bool bMenuBar = g_pConfig->readBoolEntry("ShowMenubar", true);
+    bool bMenuBar = g_pConfig->readBoolEntry("ShowMenubar", false);
     menuBarBox->setChecked(bMenuBar);
     //
     g_pConfig->setGroup( "Mouse Buttons" );
