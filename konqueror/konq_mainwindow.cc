@@ -928,6 +928,8 @@ void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
     dirView->lockHistory( false );
     delete dirPart->findPart();
     dirPart->setFindPart( 0 );
+    if ( dirView == m_currentView )
+        m_paFindFiles->setEnabled( true );
 }
 
 void KonqMainWindow::slotOpenWith()
@@ -1970,7 +1972,6 @@ void KonqMainWindow::slotComboPlugged()
       QLabel * label = static_cast<KonqLabelAction *>(act)->label();
       if (label)
       {
-          kdDebug() << "KonqMainWindow::slotComboPlugged setBuddy !" << endl;
           label->setBuddy( m_combo );
       }
       else
