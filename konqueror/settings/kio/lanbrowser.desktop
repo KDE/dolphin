@@ -25,6 +25,7 @@ Name[fa]=مرور شبکه‌ی محلی
 Name[fi]=Paikallisverkon selaus
 Name[fr]=Navigation dans le réseau local
 Name[he]=עיון ברשת המקומית
+Name[hr]=Pregledavanje lokalne mreže
 Name[hu]=A helyi hálózat böngészése
 Name[it]=Navigazione rete locale
 Name[ja]=ローカルネットワーク参照
@@ -96,5 +97,7 @@ Comment[xh]=Cwangcisa i lisa, reslisa ne ioslaves
 Comment[xx]=xxSetup lisa, reslisa and the ioslavesxx
 Comment[zh_CN]=设置 lisa、reslisa 和 ioslaves
 Comment[zu]=lungiselela i-lisa, i-reslisa ne-ioslaves
+
+Keywords=samba,smb,windows,network
 
 Categories=Qt;KDE;X-KDE-settings-network
