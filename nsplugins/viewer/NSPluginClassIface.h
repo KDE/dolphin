@@ -1,6 +1,7 @@
 /*
 
   Copyright (c) 2000 Matthias Hoelzer-Kluepfel <mhk@caldera.de>
+                     Stefan Schimanski <1Stein@gmx.de>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -28,6 +29,17 @@
 #include <qcstring.h>
 #include <dcopobject.h>
 #include <dcopref.h>
+
+
+class NSPluginViewerIface : virtual public DCOPObject
+{
+  K_DCOP
+
+k_dcop:
+
+  virtual void Shutdown() = 0;
+  virtual DCOPRef NewClass(QString plugin) = 0;
+};
 
 
 class NSPluginClassIface : virtual public DCOPObject

@@ -2,7 +2,6 @@
 
   This is an encapsulation of the  Netscape plugin API.
 
-
   Copyright (c) 2000 Matthias Hoelzer-Kluepfel <hoelzer@kde.org>
                      Stefan Schimanski <1Stein@gmx.de>
  
@@ -53,7 +52,10 @@ typedef NPError NP_ShutdownUPP(void);
 #include <X11/Intrinsic.h>
 
 
+void quitXt();
+
 class KLibrary;
+class QTimer;
 
 
 class NSPluginStream : public QObject
@@ -62,11 +64,10 @@ class NSPluginStream : public QObject
 
 public:
 
-  NSPluginStream(class NSPluginInstance *instance);
+  NSPluginStream( class NSPluginInstance *instance );
   ~NSPluginStream();
 
   void get(QString url, QString mimeType);
-
 
 private slots:
 
@@ -100,43 +101,44 @@ class NSPluginInstance : public QObject, public virtual NSPluginInstanceIface
 public:
 
   // constructor, destructor
-  NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
-		   KLibrary *handle, int width, int height);
+  NSPluginInstance( NPP privateData, NPPluginFuncs *pluginFuncs, KLibrary *handle, 
+		    int width, int height, QString src, QString mime,
+		    QObject *parent );
   ~NSPluginInstance();
 
   // value handling
-  NPError GetValue(NPPVariable variable, void *value);
-  NPError SetValue(NPNVariable variable, void *value);
+  NPError NPGetValue(NPPVariable variable, void *value);
+  NPError NPSetValue(NPNVariable variable, void *value);
 
   // window handling
-  NPError SetWindow(NPWindow *window);
+  NPError NPSetWindow(NPWindow *window);
 
   // stream functions
-  NPError DestroyStream(NPStream *stream, NPReason reason);
-  NPError NewStream(NPMIMEType type, NPStream *stream, NPBool seekable, uint16 *stype);
-  void StreamAsFile(NPStream *stream, const char *fname);
-  int32 Write(NPStream *stream, int32 offset, int32 len, void *buf);
-  int32 WriteReady(NPStream *stream);
+  NPError NPDestroyStream(NPStream *stream, NPReason reason);
+  NPError NPNewStream(NPMIMEType type, NPStream *stream, NPBool seekable, uint16 *stype);
+  void NPStreamAsFile(NPStream *stream, const char *fname);
+  int32 NPWrite(NPStream *stream, int32 offset, int32 len, void *buf);
+  int32 NPWriteReady(NPStream *stream);  
+  
+  // URL functions
+  void NPURLNotify(const char *url, NPReason reason, void *notifyData);
 
   // Event handling
   uint16 HandleEvent(void *event);
-  
-  // URL functions
-  void URLNotify(const char *url, NPReason reason, void *notifyData);
 
   // signal emitters
   void emitStatus(const char *message) { emit status(message); };
 
-  // window id
+  // window handling
   int winId() { return XtWindow(_toplevel); };
-
   int setWindow(int remove=0);
-
   void resizePlugin(int w, int h);
 
   void setCallback(QCString app, QCString obj);
+  void requestURL(QCString url, QCString target)
+     { if (_callback) _callback->requestURL(url, target); };
 
-  void requestURL(QCString url, QCString target) { if (callback) callback->requestURL(url, target); };
+  void destroyStream( NSPluginStream *strm );
 
   void destroyPlugin();
 
@@ -144,31 +146,36 @@ signals:
 
   void status(const char *message);
 
+private slots:
+  void shutdown();
 
 private:
+  void destroy();
+
   friend class NSPluginStream;
+
+  bool _destroyed;
   void addTempFile(KTempFile *tmpFile);
   QList<KTempFile> _tempFiles;
+  NSPluginCallbackIface_stub *_callback;
+  QList<NSPluginStream> _streams;
+  KLibrary *_handle;
+  QTimer *_shutdownTimer;
 
   NPP      _npp;
-  KLibrary *_handle;
   NPPluginFuncs _pluginFuncs;
 
-  Widget   _area, _form, _toplevel;
-
+  Widget _area, _form, _toplevel;
   int _width, _height;
-
-  NSPluginCallbackIface_stub *callback;
-
 };
 
 
-class NSPluginClass : virtual public NSPluginClassIface
+class NSPluginClass : public QObject, virtual public NSPluginClassIface
 {
 public:
 
   // constructor, destructor
-  NSPluginClass(const QString &library, QCString dcopId);
+  NSPluginClass( const QString &library, QObject *parent );
   ~NSPluginClass();
 
   // initialization method
@@ -181,10 +188,6 @@ public:
   void Shutdown();
 
   DCOPRef NewInstance(QString mimeType, int mode, QStringList argn, QStringList argv);
-
-  NSPluginInstance *New(const char *mimeType, uint16 mode=NP_EMBED, int16 argc=0,
-  		        char *argn[]=0, char *argv[]=0, NPSavedData *saved=0);
-  
   
 private:
   KLibrary *_handle;
@@ -197,8 +200,20 @@ private:
 
   NPPluginFuncs _pluginFuncs;
   NPNetscapeFuncs _nsFuncs;
+};
 
-  QList<NSPluginStream> _streams;
+
+class NSPluginViewer : public QObject, virtual public NSPluginViewerIface
+{
+public:
+   NSPluginViewer( QCString dcopId, QObject *parent );
+   virtual ~NSPluginViewer();
+
+   void Shutdown();
+   DCOPRef NewClass( QString plugin );
+
+private:
+   QDict<NSPluginClass> _classes;
 };
 
 

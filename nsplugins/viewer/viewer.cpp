@@ -56,15 +56,19 @@ static int x_errhandler(Display *dpy, XErrorEvent *error)
   return 1;
 }
 
-
 /*
  * As the plugin viewer needs to be a motif application, I give in to
  * the "old style" and keep lot's of global vars. :-)
  */
 
-QCString plugin;              // name of the plugin
-QCString dcopId;
-XtAppContext appcon;
+static QCString dcopId;
+static XtAppContext appcon;
+static bool quit = false;
+
+void quitXt()
+{
+   quit = true;
+}
 
 /**
  * parseCommandLine - get command line parameters
@@ -72,19 +76,14 @@ XtAppContext appcon;
  */
 void parseCommandLine(int argc, char *argv[])
 {
-  for (int i=0; i<argc; i++)
-    {
+   for (int i=0; i<argc; i++)
+   {
       if (!strcmp(argv[i], "-dcopid") && (i+1 < argc))
-	{
-	  dcopId = argv[i+1];
-	  i++;
-	}
-      if (!strcmp(argv[i], "-plugin") && (i+1 < argc))
-	{
-	  plugin = argv[i+1];
-	  i++;
-	}
-    }
+      {
+	 dcopId = argv[i+1];
+	 i++;
+      }
+   }
 }
 
 
@@ -133,15 +132,24 @@ bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
 {
   kdDebug() << "qt_set_socket_handler( sockfd=" << sockfd << ", type=" << type << ", obj=" << obj << ", enable=" << enable << " )" << endl;
 
-
   SocketNot *socknot = 0;
   QIntDict<SocketNot> *notifiers;
+  XtPointer inpMask = 0;
 
   switch (type)
   {
-  case QSocketNotifier::Read: notifiers = &_read_notifiers; break;
-  case QSocketNotifier::Write: notifiers = &_write_notifiers; break;
-  case QSocketNotifier::Exception: notifiers = &_except_notifiers; break;
+  case QSocketNotifier::Read: 
+     inpMask = (XtPointer)XtInputReadMask;
+     notifiers = &_read_notifiers; 
+     break;
+  case QSocketNotifier::Write: 
+     inpMask = (XtPointer)XtInputWriteMask;
+     notifiers = &_write_notifiers; 
+     break;
+  case QSocketNotifier::Exception: 
+     inpMask = (XtPointer)XtInputExceptMask;
+     notifiers = &_except_notifiers; 
+     break;
   default: return FALSE;
   }
 
@@ -157,25 +165,8 @@ bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
   	
     socknot->sock = sockfd;
     socknot->type = type;
-    socknot->obj = obj;
-  	
-    switch (type)
-    {
-    case QSocketNotifier::Read:
-    	socknot->id = XtAppAddInput(appcon, sockfd, (XtPointer)XtInputReadMask,
-  	                            socketCallback, socknot);
-        break;
-
-    case QSocketNotifier::Write:
-    	socknot->id = XtAppAddInput(appcon, sockfd, (XtPointer)XtInputWriteMask,
-  	                            socketCallback, socknot);
-        break;
-
-    case QSocketNotifier::Exception:
-    	socknot->id = XtAppAddInput(appcon, sockfd, (XtPointer)XtInputExceptMask,
-  	                            socketCallback, socknot);
-        break;
-    }
+    socknot->obj = obj;  	
+    socknot->id = XtAppAddInput( appcon, sockfd, inpMask, socketCallback, socknot );
   } else
       if (socknot)
       {
@@ -218,27 +209,19 @@ int main(int argc, char** argv)
   if (dcopId)
     dcopId = dcop->registerAs(dcopId, false);
   else
-    dcopId = dcop->registerAs(plugin);
+    dcopId = dcop->registerAs("nspluginviewer");
 
-  // create the DCOP object for the plugin class
-  NSPluginClass *cls = new NSPluginClass(plugin, plugin);
-
-  // Testing code
-  //QString src = "file:/home/sschimanski/kimble_themovie.swf";
-  QString src = "file:/home/sschimanski/autsch.swf";
-  QString mime = "application/x-shockwave-flash";
-
-  //QString src = "file:/opt/kde/share/Circuit.jpg";
-  //QString mime = "image/jpg";
-
-  //QString src = "file:/home/sschimanski/hund.avi";
-  //QString mime = "video/avi";
-
-  /*QStringList _argn, _argv;
-  _argn << "WIDTH" << "HEIGHT" << "SRC" << "TYPE";
-  _argv << "400" << "250" << src << mime;
-  cls->NewInstance(mime, 1, _argn, _argv);*/
+  // create dcop interface
+  NSPluginViewer *viewer = new NSPluginViewer( "viewer", 0 );
 
   // start main loop
-  XtAppMainLoop(appcon);
+  XEvent xe;
+  while (!quit)
+  {
+     XtAppNextEvent( appcon, &xe );
+     XtDispatchEvent( &xe );
+  }
+
+  // delete viewer
+  delete viewer;
 }
