@@ -13,11 +13,9 @@
 #include "passwddlg.h"
 
 
-KDEpasswd1Dialog::KDEpasswd1Dialog(QCString user)
+KDEpasswd1Dialog::KDEpasswd1Dialog()
     : KPasswordDialog(Password, false, 0)
 {
-    m_User = user;
-
     setCaption(i18n("Change Password"));
     setPrompt(i18n("Please enter your current password."));
 }
@@ -30,22 +28,23 @@ KDEpasswd1Dialog::~KDEpasswd1Dialog()
 
 bool KDEpasswd1Dialog::checkPassword(const char *password)
 {
-    PasswdProcess proc(m_User);
+    PasswdProcess proc(0);
 
     int ret = proc.checkCurrent(password);
     switch (ret)
     {
     case -1:
-	KMessageBox::error(this, i18n("Conversation with `passwd' failed."));
+	KMessageBox::error(this, i18n("Conversation with `passwd' failed:\n"+proc.error()));
 	done(Rejected);
-	return true;
+	return false;
 
     case 0:
 	return true;
 
     case PasswdProcess::PasswdNotFound:
 	KMessageBox::error(this, i18n("Could not find the program `passwd'."));
-	return true;
+	done(Rejected);
+	return false;
 
     case PasswdProcess::PasswordIncorrect:
         KMessageBox::sorry(this, i18n("Incorrect password! Please try again."));
@@ -54,15 +53,16 @@ bool KDEpasswd1Dialog::checkPassword(const char *password)
     default:
 	KMessageBox::error(this, i18n("Internal error: illegal return value "
 		"from PasswdProcess::checkCurrent."));
-	return true;
+	done(Rejected);
+	return false;
     }
 }
 
 
 // static
-int KDEpasswd1Dialog::getPassword(QCString &password, QCString user)
+int KDEpasswd1Dialog::getPassword(QCString &password)
 {
-    KDEpasswd1Dialog *dlg = new KDEpasswd1Dialog(user);
+    KDEpasswd1Dialog *dlg = new KDEpasswd1Dialog();
     int res = dlg->exec();
     if (res == Accepted)
 	password = dlg->password();
@@ -79,7 +79,10 @@ KDEpasswd2Dialog::KDEpasswd2Dialog(const char *oldpass, QCString user)
     m_User = user;
 
     setCaption(i18n("Change Password"));
-    setPrompt(i18n("Please enter your new password."));
+    if (m_User.isEmpty())
+        setPrompt(i18n("Please enter your new password."));
+    else
+        setPrompt(i18n("Please enter the new password for user <b>%1</b>.").arg(m_User));
 }
 
 
@@ -95,9 +98,14 @@ bool KDEpasswd2Dialog::checkPassword(const char *password)
     if (strlen(password) > 8)
     {
 	switch(KMessageBox::questionYesNoCancel(this,
+		m_User.isEmpty() ?
 		i18n("Your password is longer than 8 characters. On some "
 			"systems, this can cause problems. You can truncate "
-			"the password to 8 characters, or leave it as it is."),
+			"the password to 8 characters, or leave it as it is.") :
+		i18n("The password is longer than 8 characters. On some "
+			"systems, this can cause problems. You can truncate "
+			"the password to 8 characters, or leave it as it is.")
+			,
 		i18n("Password too long"),
 		i18n("Truncate"),
 		i18n("Use as is"),

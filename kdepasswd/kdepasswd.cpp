@@ -8,7 +8,8 @@
 
 #include <config.h>
 #include <stdlib.h>
-
+#include <unistd.h>
+#include <sys/types.h>
 
 #include <kapplication.h>
 #include <klocale.h>
@@ -21,7 +22,7 @@
 
 static KCmdLineOptions options[] = 
 {
-    { "user", I18N_NOOP("Change password of this user."), 0 },
+    { "+[user]", I18N_NOOP("Change password of this user."), 0 },
     { 0, 0, 0 }
 };
 
@@ -44,10 +45,19 @@ int main(int argc, char **argv)
     if (args->count())
 	user = args->arg(0);
 
+    if (!user.isEmpty() && (getuid() != 0))
+    {
+        KMessageBox::sorry(0, i18n("You need to be root to change the password of other users."));
+        return 0;
+    }
+
     QCString oldpass;
-    int result = KDEpasswd1Dialog::getPassword(oldpass, user);
-    if (result != KDEpasswd1Dialog::Accepted)
-	exit(0);
+    if (user.isEmpty())
+    {
+        int result = KDEpasswd1Dialog::getPassword(oldpass);
+        if (result != KDEpasswd1Dialog::Accepted)
+	    exit(0);
+    }
 
     KDEpasswd2Dialog *dlg = new KDEpasswd2Dialog(oldpass, user);
     dlg->exec();

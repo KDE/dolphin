@@ -253,7 +253,7 @@ void KUserInfoConfig::slotChangePassword()
 {
   QCString user(m_UserName.latin1());
   QCString oldpass;
-  int result = KDEpasswd1Dialog::getPassword(oldpass, user);
+  int result = KDEpasswd1Dialog::getPassword(oldpass);
   if (result != KDEpasswd1Dialog::Accepted)
     return;
 

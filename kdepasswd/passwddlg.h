@@ -1,6 +1,6 @@
 /* vi: ts=8 sts=4 sw=4
  *
- * $Id: $
+ * $Id$
  *
  * This file is part of the KDE project, module kdesu.
  * Copyright (C) 2000 Geert Jansen <jansen@kde.org>
@@ -17,16 +17,13 @@ class KDEpasswd1Dialog
     Q_OBJECT
 
 public:
-    KDEpasswd1Dialog(QCString user);
+    KDEpasswd1Dialog();
     ~KDEpasswd1Dialog();
 
-    static int getPassword(QCString &password, QCString user=0);
+    static int getPassword(QCString &password);
 
 protected:
     bool checkPassword(const char *password);
-    
-private:
-    QCString m_User;
 };
     
 

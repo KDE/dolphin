@@ -53,7 +53,7 @@ PasswdProcess::PasswdProcess(QCString user)
 	}
 	m_User = user;
     }
-    m_ThisUser = pw->pw_name;
+    bOtherUser = (pw->pw_uid != getuid());
 }
 
 
@@ -73,15 +73,15 @@ int PasswdProcess::exec(const char *oldpass, const char *newpass,
 {    
     if (m_User.isEmpty())
 	return -1;
-    if (check)
-	setTerminal(true);
+//    if (check)
+//	setTerminal(true);
 
     // Try to set the default locale to make the parsing of the output 
     // of `passwd' easier.
     putenv("LANG=C");
 
     QCStringList args;
-    if(m_User != m_ThisUser)
+    if(bOtherUser)
         args += m_User;
     int ret = PtyProcess::exec("passwd", args);
     if (ret < 0)
@@ -129,6 +129,7 @@ int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass,
 	{
 	case 0:
 	    // Eat garbage, wait for prompt
+	    m_Error += line+"\n";
 	    if (isPrompt(line, "password")) 
 	    {
 		WaitSlave();
@@ -152,6 +153,7 @@ int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass,
 	    return -1;
 
 	case 2: 
+	    m_Error = "";
 	    // Wait for second prompt.
 	    errline = line;  // use first line for error message
 	    while (!isPrompt(line, "new"))
@@ -215,7 +217,7 @@ int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass,
 	    }
 	    if (m_bTerminal)
 		fputs(line, stdout);
-	    m_Error += line;
+	    m_Error += line + "\n";
 	    break;
 	}
     }
