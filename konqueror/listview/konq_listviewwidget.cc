@@ -400,11 +400,11 @@ void KonqBaseListViewWidget::slotAutoScroll()
    // this code assumes that all items have the same height
    drawRubber();
 
-   QPoint pos = viewport()->mapFromGlobal( QCursor::pos() );
-   QPoint vc = viewportToContents( pos );
+   const QPoint pos = viewport()->mapFromGlobal( QCursor::pos() );
+   const QPoint vc = viewportToContents( pos );
 
-   int oldTop = m_rubber->normalize().top();
-   int oldBottom = m_rubber->normalize().bottom();
+   const int oldTop = m_rubber->normalize().top();
+   const int oldBottom = m_rubber->normalize().bottom();
 
    m_rubber->setRight( vc.x() );
    m_rubber->setBottom( vc.y() );
@@ -482,10 +482,8 @@ void KonqBaseListViewWidget::slotAutoScroll()
    m_rubber = oldRubber;
    drawRubber();
 
-   int scroll_margin = 40;
+   const int scroll_margin = 40;
    ensureVisible( vc.x(), vc.y(), scroll_margin, scroll_margin );
-
-   pos = viewport()->mapFromGlobal( QCursor::pos() );
 
    if ( !QRect( scroll_margin, scroll_margin,
                 viewport()->width() - 2*scroll_margin,
