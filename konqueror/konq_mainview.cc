@@ -375,14 +375,18 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   text = Q2C( i18n("&Go") );
   menuBar->insertMenu( text, m_vMenuGo, -1, -1 );
 
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "up.xpm" ) );
   text = Q2C( i18n("&Up") );
-  m_vMenuGo->insertItem4( text, this, "slotUp", 0, MGO_UP_ID, -1 );
+  m_vMenuGo->insertItem6( pix, text, this, "slotUp", 0, MGO_UP_ID, -1 );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "back.xpm" ) );
   text = Q2C( i18n("&Back") );
-  m_vMenuGo->insertItem4( text, this, "slotBack", 0, MGO_BACK_ID, -1 );
+  m_vMenuGo->insertItem6( pix, text, this, "slotBack", 0, MGO_BACK_ID, -1 );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "forward.xpm" ) );
   text = Q2C( i18n("&Forward") );
-  m_vMenuGo->insertItem4( text, this, "slotForward", 0, MGO_FORWARD_ID, -1 );
+  m_vMenuGo->insertItem6( pix, text, this, "slotForward", 0, MGO_FORWARD_ID, -1 );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "home.xpm" ) );
   text = Q2C( i18n("&Home") );
-  m_vMenuGo->insertItem4( text, this, "slotHome", 0, MGO_HOME_ID, -1 );
+  m_vMenuGo->insertItem6( pix, text, this, "slotHome", 0, MGO_HOME_ID, -1 );
   m_vMenuGo->insertSeparator( -1 );
   text = Q2C( i18n("&Cache") );
   m_vMenuGo->insertItem4( text, this, "slotShowCache", 0, MGO_CACHE_ID, -1 );
@@ -1939,6 +1943,7 @@ void KonqMainView::createViewMenu()
     m_vMenuView->clear();
   
     CORBA::WString_var text;
+    OpenPartsUI::Pixmap_var pix;
     
     m_vMenuView->setCheckable( true );
     
@@ -1980,8 +1985,9 @@ void KonqMainView::createViewMenu()
         m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, true );
     }
 
+    pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "reload.xpm" ) );
     text = Q2C( i18n("&Reload Document") );
-    m_vMenuView->insertItem4( text, this, "slotReload" , Key_F5, MVIEW_RELOAD_ID, -1 );
+    m_vMenuView->insertItem6( pix, text, this, "slotReload" , Key_F5, MVIEW_RELOAD_ID, -1 );
     text = Q2C( i18n("Sto&p loading") );
     m_vMenuView->insertItem4( text, this, "slotStop" , 0, MVIEW_STOP_ID, -1 );
 
@@ -2012,12 +2018,15 @@ void KonqMainView::createEditMenu()
 
     KStdAccel stdAccel; //?????????????????????
 
+    OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editcopy.xpm" ) );
     CORBA::WString_var text = Q2C( i18n("&Copy") );
-    m_vMenuEdit->insertItem4( text, this, "slotCopy", stdAccel.copy(), MEDIT_COPY_ID, -1 );
+    m_vMenuEdit->insertItem6( pix, text, this, "slotCopy", stdAccel.copy(), MEDIT_COPY_ID, -1 );
+    pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editpaste.xpm" ) );
     text = Q2C( i18n("&Paste") );
-    m_vMenuEdit->insertItem4( text, this, "slotPaste", stdAccel.paste(), MEDIT_PASTE_ID, -1 );
+    m_vMenuEdit->insertItem6( pix, text, this, "slotPaste", stdAccel.paste(), MEDIT_PASTE_ID, -1 );
+    pix = OPUIUtils::convertPixmap( *KPixmapCache::pixmap( "kfm_trash.xpm", true ) );
     text = Q2C( i18n("&Move to Trash") );
-    m_vMenuEdit->insertItem4( text, this, "slotTrash", stdAccel.cut(), MEDIT_TRASH_ID, -1 );
+    m_vMenuEdit->insertItem6( pix, text, this, "slotTrash", stdAccel.cut(), MEDIT_TRASH_ID, -1 );
     text = Q2C( i18n("&Delete") );
     m_vMenuEdit->insertItem4( text, this, "slotDelete", CTRL+Key_Delete, MEDIT_DELETE_ID, -1 );
     m_vMenuEdit->insertSeparator( -1 );

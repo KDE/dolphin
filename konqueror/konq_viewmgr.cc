@@ -215,13 +215,24 @@ void KonqViewManager::insertView ( Qt::Orientation orientation,
 
   setupView( rowInfo, newView, newViewServiceTypes );
 
+  QValueList<int> sizes = rowInfo->splitter->sizes();
+  QValueList<int>::Iterator it = sizes.begin();
+  QValueList<int>::Iterator end = sizes.end();
+  
+  for (; it != end; ++it )
+    (*it) = 100;
+    
+  rowInfo->splitter->setSizes( sizes );
+
   if ( orientation == Qt::Vertical )
   {
-    QValueList<int> sizes = m_pMainSplitter->sizes();
-    QValueList<int>::Iterator it = sizes.fromLast();
-    sizes.remove( it );
-    sizes.append( 100 );
-    
+    sizes = m_pMainSplitter->sizes();
+    it = sizes.begin();
+    end = sizes.end();
+
+    for (; it != end; ++it )
+      (*it) = 100;
+
     m_pMainSplitter->setSizes( sizes );
   }
 }
