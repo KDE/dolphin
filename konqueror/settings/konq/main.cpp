@@ -115,7 +115,7 @@ QString KonqyModule::quickHelp() const
     " aspects of Konqueror's file manager functionality. Please note that the"
     " Konqueror's web browser functionality has its own configuration module.<p>"
     " The configuration options for the file manager are organized under"
-    " four tabs as described below:"
+    " three tabs as described below:"
     " <h2>Behavior</h2>"
     " This tab contains global options for Konqueror, such as the directory"
     " tree's reaction to changes in adjoining views, whether directories are"
