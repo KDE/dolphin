@@ -199,20 +199,22 @@ bool PluginPart::openURL(const KURL &url)
     emit setStatusBarText( i18n("Loading Netscape plugin for %1").arg(url.prettyURL()) );
 
     // create plugin widget
-    NSPluginInstance *inst = _loader->newInstance( _canvas, surl, smime, embed, argn, argv,
-                                                   kapp->dcopClient()->appId(), _callback->objId() );
+    NSPluginInstance *inst = _loader->newInstance( _canvas, surl, smime, embed,
+                                                   argn, argv,
+                                                   kapp->dcopClient()->appId(),
+                                                   _callback->objId());
+
     if ( inst ) {
-        inst->resize( _canvas->width(), _canvas->height() );
-        inst->show();
         _widget = inst;
     } else {
-        QLabel *label = new QLabel( i18n("Unable to load Netscape plugin for ") +
-                                    url.url(), _canvas );
+        QLabel *label = new QLabel( i18n("Unable to load Netscape plugin for ")
+                                    +url.url(), _canvas );
         label->setAlignment( AlignCenter | WordBreak );
-        label->resize( _canvas->width(), _canvas->height() );
-        label->show();
         _widget = label;
     }
+
+    _widget->resize( _canvas->width(), _canvas->height() );
+    _widget->show();
 
     kdDebug(1432) << "<- PluginPart::openURL = " << (inst!=0) << endl;
     return inst!=0;

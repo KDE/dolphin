@@ -824,7 +824,8 @@ NSPluginClass::~NSPluginClass()
     _trash.clear();
     shutdown();
     //KLibLoader::self()->unloadLibrary( QFile::encodeName(libname) );
-    _handle->unload();
+    if (_handle)
+      _handle->unload();
 }
 
 
