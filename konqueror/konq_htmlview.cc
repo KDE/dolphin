@@ -246,6 +246,8 @@ void KonqHTMLView::slotFrameInserted( KBrowser *frame )
   else
     htmlWidget->setURLCursor( KCursor().arrowCursor() );		    
     checkViewMenu();
+    
+  frame->enableImages( settings->autoLoadImages() );
 }
 
 void KonqHTMLView::slotURLClicked( QString url )

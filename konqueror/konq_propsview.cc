@@ -153,6 +153,8 @@ KfmViewSettings::KfmViewSettings( const KConfig * config )
   m_vLinkColor = config->readColorEntry( "VLinkColor", &HTML_DEFAULT_VLNK_COLOR);
 
   m_underlineLink = config->readBoolEntry( "UnderlineLink", true );
+  
+  m_bAutoLoadImages = config->readBoolEntry( "AutoLoadImages", true );
 }
 
 KfmViewSettings::~KfmViewSettings()

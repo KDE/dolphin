@@ -111,6 +111,7 @@ private:
   void checkViewMenu();
   OpenPartsUI::Menu_var m_vViewMenu;
   KonqMainView *m_pMainView;
+  bool m_bAutoLoadImages;
 };
 
 #endif

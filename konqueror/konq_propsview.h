@@ -145,6 +145,8 @@ public:
 
   bool underlineLink() { return m_underlineLink; }
 
+  bool autoLoadImages() { return m_bAutoLoadImages; }
+
 protected:
   static KfmViewSettings * m_pDefaultFMSettings;
   static KfmViewSettings * m_pDefaultHTMLSettings;
@@ -160,6 +162,8 @@ protected:
   QColor m_linkColor;
   QColor m_vLinkColor;
   bool m_underlineLink;
+  
+  bool m_bAutoLoadImages;
 
 private:
   // There is no default constructor. Use the provided one.
