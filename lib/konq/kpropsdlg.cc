@@ -298,7 +298,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
     m_bFromTemplate = true;
 
   // Make it human-readable (%2F => '/', ...)
-  filename = KFileItem::decodeFileName( filename );
+  filename = KIO::decodeFileName( filename );
 
   bool isTrash = false;
   QString path, directory;
@@ -485,9 +485,9 @@ void FilePropsPage::applyChanges()
   QString fname = properties->kurl().filename();
   QString n;
   if (nameArea->isA("QLabel"))
-    n = KFileItem::encodeFileName(((QLabel *) nameArea)->text());
+    n = KIO::encodeFileName(((QLabel *) nameArea)->text());
   else
-    n = KFileItem::encodeFileName(((QLineEdit *) nameArea)->text());
+    n = KIO::encodeFileName(((QLineEdit *) nameArea)->text());
 
   KIO::Job * job = 0L;
   // Do we need to rename the file ?

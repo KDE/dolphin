@@ -188,19 +188,6 @@ public:
   /////////////
 
   /**
-   * Encode (from the text displayed to the real filename)
-   * This translates % into %% and / into %2f
-   * Not used here, but by the 'add bookmark' methods
-   * But put here for consistency
-   */
-  static QString encodeFileName( const QString & _str );
-  /**
-   * Decode (from the filename to the text displayed)
-   * This translates %2[fF] into / and %% into %
-   */
-  static QString decodeFileName( const QString & _str );
-
-  /**
    * Convert a time information into a string
    */
   static QString makeTimeString( time_t _time );

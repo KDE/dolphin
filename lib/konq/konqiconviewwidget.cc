@@ -31,6 +31,7 @@
 #include <klocale.h>
 #include <kfileivi.h>
 #include <kfileitem.h>
+#include <kmessagebox.h>
 #include <konqsettings.h>
 #include <konqdrag.h>
 #include <kuserpaths.h>
@@ -39,8 +40,6 @@
 #include <X11/Xlib.h>
 #include <unistd.h>
 
-// for the link method only (to move with it)
-#include <kmessagebox.h>
 #include <errno.h>
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f )
@@ -129,106 +128,6 @@ KFileItemList KonqIconViewWidget::selectedFileItems()
     return lstItems;
 }
 
-// TODO : move this to libkonq or libkio
-void link( QStringList srcUrls, KURL destDir )
-{
-    kDebugInfo( 1202, "%s", QString("destDir = %1").arg(destDir.url()).ascii() );
-    bool overwriteExistingFiles = false;
-    if ( destDir.isMalformed() )
-    {
-	KMessageBox::sorry( 0L, i18n( "Malformed URL\n%1" ).arg( destDir.url() ) );
-	return;
-    }
-    else if ( !destDir.isLocalFile() )
-    {
-	// I can only make links on the local file system.
-	KMessageBox::sorry( 0L, i18n( "Can only make links on local file system" ) );
-	return;
-    }
-    QStringList::ConstIterator it = srcUrls.begin();
-    for ( ; it != srcUrls.end() ; ++it )
-    {
-	KURL srcUrl( *it );
-	if ( srcUrl.isMalformed() )
-	{
-	    KMessageBox::sorry( 0L, i18n( "Malformed URL\n%1" ).arg( *it ) );
-	    return;
-	}
-
-	// The destination URL is the destination dir + the filename
-	KURL destUrl( destDir.url(1) + srcUrl.filename() );
-	kDebugInfo( 1202, "%s", QString("destUrl = %1").arg(destUrl.url()).ascii() );
-
-	// Do we link a file on the local disk?
-	if ( srcUrl.isLocalFile() )
-	{
-	    // Make a symlink
-	    if ( symlink( srcUrl.path().local8Bit(), destUrl.path().local8Bit() ) == -1 )
-	    {
-		// Does the destination already exist ?
-		if ( errno == EEXIST )
-		{
-		    // Are we allowed to overwrite the files ?
-		    if ( overwriteExistingFiles )
-		    {
-			// Try to delete the destination
-			if ( unlink( destUrl.path().local8Bit() ) != 0 )
-			{
-			    KMessageBox::sorry( 0L, i18n( "Could not overwrite\n%1"), destUrl.path() );
-			    return;
-			}
-		    }
-		    else
-		    {
-			// Ask the user what to do
-			// TODO
-			KMessageBox::sorry( 0L, i18n( "Destination exists (real dialog box not implemented yet)\n%1"), destUrl.path() );
-			return;
-		    }
-		}
-		else
-		{
-		    // Some error occured while we tried to symlink
-		    KMessageBox::sorry( 0L, i18n( "Failed to make symlink from \n%1\nto\n%2\n" ).
-					arg(srcUrl.url()).arg(destUrl.url()) );
-		    return;
-		}
-	    } // else : no problem
-	}
-	// Make a link from a file in a tar archive, ftp, http or what ever
-	else
-	{
-	    // Encode slashes and so on
-	    QString destPath = destDir.path(1) + KFileItem::encodeFileName( srcUrl.url() );
-	    QFile f( destPath );
-	    if ( f.open( IO_ReadWrite ) )
-	    {
-		f.close(); // kalle
-		KSimpleConfig config( destPath ); // kalle
-		config.setDesktopGroup();
-		config.writeEntry( "URL", srcUrl.url() );
-		config.writeEntry( "Type", "Link" );
-		QString protocol = srcUrl.protocol();
-		if ( protocol == "ftp" )
-		    config.writeEntry( "Icon", "ftp" );
-		else if ( protocol == "http" )
-		    config.writeEntry( "Icon", "www" );
-		else if ( protocol == "info" )
-		    config.writeEntry( "Icon", "info" );
-		else if ( protocol == "mailto" )   // sven:
-		    config.writeEntry( "Icon", "kmail" ); // added mailto: support
-		else
-		    config.writeEntry( "Icon", "unknown" );
-		config.sync();
-	    }
-	    else
-	    {
-		KMessageBox::sorry( 0L, i18n( "Could not write to\n%1").arg(destPath) );
-		return;
-	    }
-	}
-    }
-}
 
 void KonqIconViewWidget::slotDrop( QDropEvent *e )
 {
@@ -300,7 +199,7 @@ void KonqIconViewWidget::dropStuff( KFileIVI *item, QDropEvent *ev )
 	    ev->acceptAction(TRUE); ev->accept(); break;
 	case QDropEvent::Copy : job = KIO::copy( lst, dest.url( 1 ) );
 	    ev->acceptAction(TRUE); ev->accept(); break;
-	case QDropEvent::Link : link( lst, dest );
+	case QDropEvent::Link : KIO::link( lst, dest );
 	    ev->acceptAction(TRUE); ev->accept(); break;
 	default : kDebugError( 1202, "Unknown action %d", ev->action() ); return;
 	}

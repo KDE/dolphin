@@ -38,7 +38,7 @@
 #include <krun.h>
 
 #include <kmimetype.h>
-#include "kfileitem.h"
+#include <kio/global.h>
 
 #include <qstringlist.h>
 
@@ -182,8 +182,8 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
 
       if ( res->name() == "inode/directory" )
       {
-        KBookmark* bm = new KBookmark( this, _bm, KFileItem::decodeFileName( ep->d_name ) );
-        if ( KFileItem::decodeFileName( ep->d_name ) == "Toolbar" )
+        KBookmark* bm = new KBookmark( this, _bm, KIO::decodeFileName( ep->d_name ) );
+        if ( KIO::decodeFileName( ep->d_name ) == "Toolbar" )
             m_Toolbar = bm;
         scanIntern( bm, file.path() );
       }
@@ -251,7 +251,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text,
   m_pManager = _bm;
   m_lstChildren.setAutoDelete( true );
 
-  m_text = KFileItem::decodeFileName( _text );
+  m_text = KIO::decodeFileName( _text );
   if ( m_text.length() > 8 && m_text.right( 8 ) == ".desktop" )
     m_text.truncate( m_text.length() - 8 );
   if ( m_text.length() > 7 && m_text.right( 7 ) == ".kdelnk" )
@@ -284,7 +284,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text )
   if ( !_text.isEmpty() )
   {
     m_file += '/';
-    m_file += KFileItem::encodeFileName( _text );
+    m_file += KIO::encodeFileName( _text );
   }
 
   // test for the .directory file
@@ -338,7 +338,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
 
   m_file = _parent->file();
   m_file += '/';
-  m_file += KFileItem::encodeFileName( _text );
+  m_file += KIO::encodeFileName( _text );
   // m_file += ".desktop"; // looks better to the user without extension
 
   FILE *f = fopen( m_file, "w" );

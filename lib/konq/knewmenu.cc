@@ -209,7 +209,7 @@ void KNewMenu::slotNewFile()
 	{
             for ( ; it != popupFiles.end(); ++it )
 	    {
-              QString url = (*it).path(1) + KFileItem::encodeFileName(name);
+              QString url = (*it).path(1) + KIO::encodeFileName(name);
      	      KIO::Job * job = KIO::mkdir( url );
               connect( job, SIGNAL( result( KIO::Job * ) ),
                        SLOT( slotResult( KIO::Job * ) ) );

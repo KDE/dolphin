@@ -67,7 +67,7 @@ KFileItem::KFileItem( const KIO::UDSEntry& _entry, KURL& _url, bool _determineMi
       break;
 
     case KIO::UDS_NAME:
-      m_strText = decodeFileName( (*it).m_str );
+      m_strText = KIO::decodeFileName( (*it).m_str );
       break;
 
     case KIO::UDS_URL:
@@ -90,7 +90,7 @@ KFileItem::KFileItem( mode_t _mode, const KURL& _url, bool _determineMimeTypeOnD
   m_entry(), // warning !
   m_url( _url ),
   m_bIsLocalURL( _url.isLocalFile() ),
-  m_strText( decodeFileName( _url.filename() ) ),
+  m_strText( KIO::decodeFileName( _url.filename() ) ),
   m_fileMode ( _mode ), // temporary
   m_permissions( (mode_t) -1 ),
   m_bLink( false ),
@@ -399,39 +399,6 @@ QString KFileItem::iconName()
 void KFileItem::run()
 {
   (void) new KRun( m_url.url(), m_fileMode, m_bIsLocalURL );
-}
-
-QString KFileItem::encodeFileName( const QString & _str )
-{
-  QString str( _str );
-
-  int i = 0;
-  while ( ( i = str.find( "%", i ) ) != -1 )
-  {
-    str.replace( i, 1, "%%");
-    i += 2;
-  }
-  while ( ( i = str.find( "/" ) ) != -1 )
-      str.replace( i, 1, "%2f");
-  return str;
-}
-
-QString KFileItem::decodeFileName( const QString & _str )
-{
-  QString str( _str );
-
-  int i = 0;
-  while ( ( i = str.find( "%%", i ) ) != -1 )
-  {
-    str.replace( i, 2, "%");
-    i++;
-  }
-
-  while ( ( i = str.find( "%2f" ) ) != -1 )
-      str.replace( i, 3, "/");
-  while ( ( i = str.find( "%2F" ) ) != -1 )
-      str.replace( i, 3, "/");
-  return str;
 }
 
 QString KFileItem::makeTimeString( time_t _time )
