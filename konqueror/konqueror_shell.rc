@@ -3,7 +3,7 @@
  <Menu name="File"><text>&File</text>
   <Part/>
   <Action name="konqueror_shell_close"/>
-  <Action name="konqueror_shell_quit"/>
+<!--  <Action name="konqueror_shell_quit"/> -->
  </Menu>
  <Part/>
  <Menu name="Options"><text>&Options</text>
