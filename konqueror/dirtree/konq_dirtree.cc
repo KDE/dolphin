@@ -194,7 +194,7 @@ bool KonqDirTreePart::event( QEvent *e )
  return false;
 }
 
-KonqDirTreeItem::KonqDirTreeItem( KonqDirTree *parent, QListViewItem *parentItem, KonqDirTreeItem *topLevelItem, KFileItem *item )
+KonqDirTreeItem::KonqDirTreeItem( KonqDirTree *parent, QListViewItem *parentItem, KonqDirTreeItem *topLevelItem, KonqFileItem *item )
   : QListViewItem( parentItem )
 {
   m_item = item;
@@ -436,12 +436,12 @@ void KonqDirTree::contentsMouseReleaseEvent( QMouseEvent *e )
   m_bDrag = false;
 }
 
-void KonqDirTree::slotNewItems( const KFileItemList& entries )
+void KonqDirTree::slotNewItems( const KonqFileItemList& entries )
 {
-  QListIterator<KFileItem> kit ( entries );
+  QListIterator<KonqFileItem> kit ( entries );
   for( ; kit.current(); ++kit )
   {
-    KFileItem * item = *kit;
+    KonqFileItem * item = *kit;
 
     assert( S_ISDIR( item->mode() ) );
 
@@ -478,7 +478,7 @@ void KonqDirTree::slotNewItems( const KFileItemList& entries )
   }
 }
 
-void KonqDirTree::slotDeleteItem( KFileItem *item )
+void KonqDirTree::slotDeleteItem( KonqFileItem *item )
 {
   assert( S_ISDIR( item->mode() ) );
 
@@ -543,7 +543,7 @@ void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
 
   item->setSelected( true );
 
-  KFileItemList lstItems;
+  KonqFileItemList lstItems;
 
   lstItems.append( ((KonqDirTreeItem *)item)->fileItem() );
 
@@ -703,7 +703,7 @@ void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
 
   QString url = QString( path ).prepend( "file:" );
 
-  KFileItem *fileItem = new KFileItem( -1, -1, KURL( url ) );
+  KonqFileItem *fileItem = new KonqFileItem( -1, -1, KURL( url ) );
   KonqDirTreeItem *item = new KonqDirTreeItem( this, parent, 0, fileItem );
   //  QListViewItem *item = new QListViewItem( parent );
   item->setText( 0, name );
@@ -757,7 +757,7 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
   else
     return;
 
-  KFileItem *fileItem = new KFileItem( -1, -1, KURL( url ) );
+  KonqFileItem *fileItem = new KonqFileItem( -1, -1, KURL( url ) );
   KonqDirTreeItem *item = new KonqDirTreeItem( this, parent, 0, fileItem );
 
   //  m_unselectableItems.append( item );
@@ -770,10 +770,10 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
   KDirLister *dirLister = new KDirLister( true );
   dirLister->setDirOnlyMode( true );
 
-  connect( dirLister, SIGNAL( newItems( const KFileItemList & ) ),
-	   this, SLOT( slotNewItems( const KFileItemList & ) ) );
-  connect( dirLister, SIGNAL( deleteItem( KFileItem * ) ),
-	   this, SLOT( slotDeleteItem( KFileItem * ) ) );
+  connect( dirLister, SIGNAL( newItems( const KonqFileItemList & ) ),
+	   this, SLOT( slotNewItems( const KonqFileItemList & ) ) );
+  connect( dirLister, SIGNAL( deleteItem( KonqFileItem * ) ),
+	   this, SLOT( slotDeleteItem( KonqFileItem * ) ) );
   connect( dirLister, SIGNAL( completed() ),
 	   this, SLOT( slotListingStopped() ) );
   connect( dirLister, SIGNAL( canceled() ),

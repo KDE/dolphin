@@ -25,7 +25,7 @@
 
 class KonqPropsView;
 class KDirLister;
-class KFileItem;
+class KonqFileItem;
 class KonqFMSettings;
 class KFileIVI;
 class KAction;
@@ -97,8 +97,8 @@ protected slots:
   void slotStarted( const QString & );
   void slotCanceled();
   void slotCompleted();
-  void slotNewItems( const KFileItemList& );
-  void slotDeleteItem( KFileItem * );
+  void slotNewItems( const KonqFileItemList& );
+  void slotDeleteItem( KonqFileItem * );
 
   void slotClear();
 
@@ -173,7 +173,7 @@ protected:
   IconViewBrowserExtension *m_extension;
 
   // used by slotOpenURLRequest
-  KFileItem * openURLRequestFileItem;
+  KonqFileItem * openURLRequestFileItem;
 
   KonqIconViewWidget *m_pIconView;
 

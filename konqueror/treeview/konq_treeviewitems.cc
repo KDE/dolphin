@@ -33,14 +33,14 @@
  *
  **************************************************************/
 
-KonqTreeViewItem::KonqTreeViewItem( KonqTreeViewWidget *_treeViewWidget, KonqTreeViewDir * _parent, KFileItem* _fileitem )
+KonqTreeViewItem::KonqTreeViewItem( KonqTreeViewWidget *_treeViewWidget, KonqTreeViewDir * _parent, KonqFileItem* _fileitem )
   : QListViewItem( _parent ), m_fileitem( _fileitem )
 {
   m_pTreeViewWidget = _treeViewWidget;
   init();
 }
 
-KonqTreeViewItem::KonqTreeViewItem( KonqTreeViewWidget *_treeViewWidget, KFileItem* _fileitem )
+KonqTreeViewItem::KonqTreeViewItem( KonqTreeViewWidget *_treeViewWidget, KonqFileItem* _fileitem )
   : QListViewItem( _treeViewWidget ), m_fileitem( _fileitem )
 {
   m_pTreeViewWidget = _treeViewWidget;
@@ -249,7 +249,7 @@ void KonqTreeViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
  *
  **************************************************************/
 
-KonqTreeViewDir::KonqTreeViewDir( KonqTreeViewWidget *_parent, KFileItem* _fileitem )
+KonqTreeViewDir::KonqTreeViewDir( KonqTreeViewWidget *_parent, KonqFileItem* _fileitem )
   : KonqTreeViewItem( _parent, _fileitem )
 {
   m_pTreeViewWidget->addSubDir( _fileitem->url(), this );
@@ -257,7 +257,7 @@ KonqTreeViewDir::KonqTreeViewDir( KonqTreeViewWidget *_parent, KFileItem* _filei
   m_bComplete = false;
 }
 
-KonqTreeViewDir::KonqTreeViewDir( KonqTreeViewWidget *_treeview, KonqTreeViewDir * _parent, KFileItem* _fileitem )
+KonqTreeViewDir::KonqTreeViewDir( KonqTreeViewWidget *_treeview, KonqTreeViewDir * _parent, KonqFileItem* _fileitem )
   : KonqTreeViewItem( _treeview, _parent, _fileitem )
 {
   m_pTreeViewWidget->addSubDir( _fileitem->url(), this );

@@ -113,8 +113,8 @@ protected slots:
   void slotCompleted();
   void slotCanceled();
   void slotClear();
-  void slotNewItems( const KFileItemList & );
-  void slotDeleteItem( KFileItem * );
+  void slotNewItems( const KonqFileItemList & );
+  void slotDeleteItem( KonqFileItem * );
 
   void slotResult( KIO::Job * );
 

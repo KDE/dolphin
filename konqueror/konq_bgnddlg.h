@@ -27,7 +27,7 @@
 #include <kurl.h>
 #include <kdialogbase.h>
 
-class KFileItem;
+class KonqFileItem;
 class QComboBox;
 class QPushButton;
 
@@ -53,7 +53,7 @@ protected:
 
   const KURL & m_url;
   QPushButton * m_browseButton;
-  KFileItem * m_fileitem;
+  KonqFileItem * m_fileitem;
   QComboBox * m_wallBox;
   QWidget * m_wallWidget;
   QPixmap m_wallPixmap;

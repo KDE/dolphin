@@ -26,7 +26,7 @@
 
 class KonqTreeViewWidget;
 class KMimeType;
-class KFileItem;
+class KonqFileItem;
 class KonqTreeViewDir;
 class QPainter;
 
@@ -41,18 +41,18 @@ public:
    * @param _parent the parent widget, the tree view
    * @param _fileitem the file item created by KDirLister
    */
-  KonqTreeViewItem( KonqTreeViewWidget *_treeViewWidget, KFileItem* _fileitem );
+  KonqTreeViewItem( KonqTreeViewWidget *_treeViewWidget, KonqFileItem* _fileitem );
   /**
    * Create an item representing a file, inside a directory
    * @param _treeview the parent tree view
    * @param _parent the parent widget, a directory item in the tree view
    * @param _fileitem the file item created by KDirLister
    */
-  KonqTreeViewItem( KonqTreeViewWidget *_treeViewWidget, KonqTreeViewDir *_parent, KFileItem* _fileitem );
+  KonqTreeViewItem( KonqTreeViewWidget *_treeViewWidget, KonqTreeViewDir *_parent, KonqFileItem* _fileitem );
   virtual ~KonqTreeViewItem() { }
 
   /** @return the file item held by this instance */
-  KFileItem * item() { return m_fileitem; }
+  KonqFileItem * item() { return m_fileitem; }
 
   virtual QString key( int _column, bool ) const;
   //virtual QString text( int column ) const;
@@ -72,7 +72,7 @@ protected:
   QString makeTypeString( const KIO::UDSAtom &_atom ) const;
 
   /** Pointer to the file item in KDirLister's list */
-  KFileItem* m_fileitem;
+  KonqFileItem* m_fileitem;
 
   /** Parent tree view */
   KonqTreeViewWidget* m_pTreeViewWidget;
@@ -89,14 +89,14 @@ public:
    * @param _parent the parent widget, the tree view
    * @param _fileitem the file item created by KDirLister
    */
-  KonqTreeViewDir( KonqTreeViewWidget *_parent, KFileItem* _fileitem );
+  KonqTreeViewDir( KonqTreeViewWidget *_parent, KonqFileItem* _fileitem );
   /**
    * Create an item representing a directory, inside a directory
    * @param _treeview the parent tree view
    * @param _parent the parent widget, a directory item in the tree view
    * @param _fileitem the file item created by KDirLister
    */
-  KonqTreeViewDir( KonqTreeViewWidget *_treeview, KonqTreeViewDir * _parent, KFileItem* _fileitem );
+  KonqTreeViewDir( KonqTreeViewWidget *_treeview, KonqTreeViewDir * _parent, KonqFileItem* _fileitem );
   virtual ~KonqTreeViewDir();
 
   /**

@@ -1569,13 +1569,13 @@ QString KonqMainView::currentURL()
 
 void KonqMainView::slotPopupMenu( const QPoint &_global, const KURL &url, const QString &_mimeType, mode_t _mode )
 {
-  KFileItem item( url, _mimeType, _mode );
-  KFileItemList items;
+  KonqFileItem item( url, _mimeType, _mode );
+  KonqFileItemList items;
   items.append( &item );
   slotPopupMenu( _global, items ); //BE CAREFUL WITH sender() !
 }
 
-void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_items )
+void KonqMainView::slotPopupMenu( const QPoint &_global, const KonqFileItemList &_items )
 {
   m_oldView = m_currentView;
 

@@ -277,7 +277,7 @@ void KonqTreeViewWidget::viewportDropEvent( QDropEvent *ev  )
 
   KonqTreeViewItem *item = (KonqTreeViewItem*)itemAt( ev->pos() );
 
-  KFileItem * destItem = (item) ? item->item() : m_dirLister->rootItem();
+  KonqFileItem * destItem = (item) ? item->item() : m_dirLister->rootItem();
   assert( destItem );
   KonqOperations::doDrop( destItem, ev, this );
 }
@@ -520,7 +520,7 @@ void KonqTreeViewWidget::slotReturnPressed( QListViewItem *_item )
   if ( !_item )
     return;
 
-  KFileItem *item = ((KonqTreeViewItem*)_item)->item();
+  KonqFileItem *item = ((KonqTreeViewItem*)_item)->item();
   mode_t mode = item->mode();
 
   //execute only if item is a file (or a symlink to a file)
@@ -554,7 +554,7 @@ void KonqTreeViewWidget::slotRightButtonPressed( QListViewItem *_item, const QPo
 
 void KonqTreeViewWidget::popupMenu( const QPoint& _global )
 {
-  KFileItemList lstItems;
+  KonqFileItemList lstItems;
 
   QValueList<KonqTreeViewItem*> items;
   selectedItems( items );
@@ -617,10 +617,10 @@ bool KonqTreeViewWidget::openURL( const KURL &url )
     QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
     QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
     QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
-    QObject::connect( m_dirLister, SIGNAL( newItems( const KFileItemList & ) ),
-                      this, SLOT( slotNewItems( const KFileItemList & ) ) );
-    QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
-                      this, SLOT( slotDeleteItem( KFileItem * ) ) );
+    QObject::connect( m_dirLister, SIGNAL( newItems( const KonqFileItemList & ) ),
+                      this, SLOT( slotNewItems( const KonqFileItemList & ) ) );
+    QObject::connect( m_dirLister, SIGNAL( deleteItem( KonqFileItem * ) ),
+                      this, SLOT( slotDeleteItem( KonqFileItem * ) ) );
   }
 
   m_bTopLevelComplete = false;
@@ -681,9 +681,9 @@ void KonqTreeViewWidget::slotClear()
     clear();
 }
 
-void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
+void KonqTreeViewWidget::slotNewItems( const KonqFileItemList & entries )
 {
-  QListIterator<KFileItem> kit ( entries );
+  QListIterator<KonqFileItem> kit ( entries );
   for( ; kit.current(); ++kit )
   {
     bool isdir = S_ISDIR( (*kit)->mode() );
@@ -712,7 +712,7 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
   }
 }
 
-void KonqTreeViewWidget::slotDeleteItem( KFileItem * _fileitem )
+void KonqTreeViewWidget::slotDeleteItem( KonqFileItem * _fileitem )
 {
   kDebugInfo(1202,"removing %s from tree!", _fileitem->url().url().ascii() );
   iterator it = begin();

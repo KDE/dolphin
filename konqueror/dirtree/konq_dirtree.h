@@ -74,19 +74,19 @@ class KDirLister;
 class KonqDirTreeItem : public QListViewItem
 {
 public:
-  KonqDirTreeItem( KonqDirTree *parent, QListViewItem *parentItem, KonqDirTreeItem *topLevelItem, KFileItem *item );
+  KonqDirTreeItem( KonqDirTree *parent, QListViewItem *parentItem, KonqDirTreeItem *topLevelItem, KonqFileItem *item );
 
   virtual ~KonqDirTreeItem();
 
   virtual void setOpen( bool open );
 
-  KFileItem *fileItem() const { return m_item; }
+  KonqFileItem *fileItem() const { return m_item; }
 
   void setListable( bool b );
 
 private:
   KonqDirTree *m_tree;
-  KFileItem *m_item;
+  KonqFileItem *m_item;
   KonqDirTreeItem *m_topLevelItem;
   bool m_bListable;
 };
@@ -116,8 +116,8 @@ protected:
   virtual void contentsMouseReleaseEvent( QMouseEvent *e );
 
 private slots:
-  void slotNewItems( const KFileItemList & );
-  void slotDeleteItem( KFileItem *item );
+  void slotNewItems( const KonqFileItemList & );
+  void slotDeleteItem( KonqFileItem *item );
 
   void slotDoubleClicked( QListViewItem *item );
   void slotRightButtonPressed( QListViewItem *item );

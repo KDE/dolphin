@@ -647,7 +647,7 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
 {
     if ( !item )
 	return;
-    KFileItem *fileItem = ((KFileIVI*)item)->item();
+    KonqFileItem *fileItem = ((KFileIVI*)item)->item();
     if ( !fileItem )
 	return;
     if (m_pSettings->alwaysNewWin() && fileItem->mode() & S_IFDIR) {
@@ -691,7 +691,7 @@ void KonqKfmIconView::slotViewportRightClicked( QIconViewItem *i )
     if ( ! m_dirLister->rootItem() )
         return; // too early, '.' not yet listed
 
-    KFileItemList items;
+    KonqFileItemList items;
     items.append( m_dirLister->rootItem() );
     emit m_extension->popupMenu( QCursor::pos(), items );
 }
@@ -732,12 +732,12 @@ void KonqKfmIconView::slotCompleted()
     QTimer::singleShot( 0, this, SLOT( slotProcessMimeIcons() ) );
 }
 
-void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
+void KonqKfmIconView::slotNewItems( const KonqFileItemList& entries )
 {
-  KFileItemListIterator it(entries);
+  KonqFileItemListIterator it(entries);
   for (; it.current(); ++it) {
 
-    KFileItem * _fileitem = it.current();
+    KonqFileItem * _fileitem = it.current();
 
     if ( !S_ISDIR( _fileitem->mode() ) )
     {
@@ -773,7 +773,7 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
   }
 }
 
-void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
+void KonqKfmIconView::slotDeleteItem( KonqFileItem * _fileitem )
 {
     if ( !S_ISDIR( _fileitem->mode() ) )
     {
@@ -836,8 +836,8 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
     long fileCount = 0;
     long dirCount = 0;
 
-    KFileItemList lst = m_pIconView->selectedFileItems();
-    KFileItemListIterator it( lst );
+    KonqFileItemList lst = m_pIconView->selectedFileItems();
+    KonqFileItemListIterator it( lst );
 
     for (; it.current(); ++it )
 	if ( S_ISDIR( it.current()->mode() ) )
@@ -899,10 +899,10 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 	QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
 	QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
 	QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
-	QObject::connect( m_dirLister, SIGNAL( newItems( const KFileItemList& ) ),
-			  this, SLOT( slotNewItems( const KFileItemList& ) ) );
-	QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
-			  this, SLOT( slotDeleteItem( KFileItem * ) ) );
+	QObject::connect( m_dirLister, SIGNAL( newItems( const KonqFileItemList& ) ),
+			  this, SLOT( slotNewItems( const KonqFileItemList& ) ) );
+	QObject::connect( m_dirLister, SIGNAL( deleteItem( KonqFileItem * ) ),
+			  this, SLOT( slotDeleteItem( KonqFileItem * ) ) );
     }
 
     m_bLoading = true;
