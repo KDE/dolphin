@@ -129,16 +129,8 @@ void KonqOperations::emptyTrash()
     urls.append( *it );
 
   if ( urls.count() > 0 )
-    op->_del( DEL, urls, SKIP_CONFIRMATION );
+    op->_del( EMPTYTRASH, urls, SKIP_CONFIRMATION );
 
-  // Update trash bin icon
-  //KDirWatch::self()->setFileDirty( KGlobalSettings::trashPath() );
-  KURL trash;
-  trash.setPath( KGlobalSettings::trashPath() );
-  KURL::List lst;
-  lst.append(trash);
-  KDirNotify_stub allDirNotify("*", "KDirNotify*");
-  allDirNotify.FilesChanged( lst );
 }
 
 void KonqOperations::_del( int method, const KURL::List & selectedURLs, int confirmation )
@@ -154,6 +146,7 @@ void KonqOperations::_del( int method, const KURL::List & selectedURLs, int conf
         job = KIO::move( selectedURLs, KGlobalSettings::trashPath() );
         (void) new KonqCommandRecorder( KonqCommand::MOVE, selectedURLs, KGlobalSettings::trashPath(), job );
         break;
+      case EMPTYTRASH:
       case DEL:
         job = KIO::del( selectedURLs );
         break;
@@ -363,10 +356,19 @@ void KonqOperations::slotResult( KIO::Job * job )
 {
     if (job && job->error())
         job->showErrorDialog( (QWidget*)parent() );
-    if ( m_method == TRASH )
+    // Update trash bin icon if trashing files or emptying trash
+    bool bUpdateTrash = m_method == TRASH || m_method == EMPTYTRASH;
+    // ... or if creating a new file in the trash
+    if ( m_method == MOVE || m_method == COPY || m_method == LINK )
+    {
+        KURL trash;
+        trash.setPath( KGlobalSettings::trashPath() );
+        if ( m_destURL.cmp( trash, true /*ignore trailing slash*/ ) )
+            bUpdateTrash = true;
+    }
+    if (bUpdateTrash)
     {
         // Update trash bin icon
-        //KDirWatch::self()->setFileDirty( KGlobalSettings::trashPath() );
         KURL trash;
         trash.setPath( KGlobalSettings::trashPath() );
         KURL::List lst;
