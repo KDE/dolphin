@@ -955,7 +955,6 @@ void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
     KonqView * dirView = m_mapViews.find( dirPart ).data();
     assert(dirView);
     dirView->lockHistory( false );
-    delete dirPart->findPart();
     dirPart->setFindPart( 0 );
     if ( dirView == m_currentView )
         m_paFindFiles->setEnabled( true );
