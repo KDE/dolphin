@@ -385,6 +385,8 @@ void KPluginOptions::dirLoad( KConfig *config )
         paths.append("/usr/lib/netscape/plugins-libc5");
         paths.append("/usr/lib/netscape/plugins-libc6");
         paths.append("/usr/lib/mozilla/plugins");
+        paths.append("/usr/lib64/netscape/plugins");
+        paths.append("/usr/lib64/mozilla/plugins");	
         paths.append("$MOZILLA_HOME/plugins");
     }
 
