@@ -3837,7 +3837,6 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
   // so let's do this only when closed by the user.
   if ( static_cast<KonquerorApplication *>(kapp)->closedByUser() )
   {
-    kdDebug(1202) << "viewManager()->docContainer()=" << viewManager()->docContainer() << " viewManager()->docContainer()->frameType()=" << viewManager()->docContainer()->frameType() << endl;
     if ( viewManager()->docContainer() && viewManager()->docContainer()->frameType()=="Tabs" )
     {
       KConfig *config = KGlobal::config();
