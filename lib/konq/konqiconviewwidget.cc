@@ -226,8 +226,18 @@ KFileItemList KonqIconViewWidget::selectedFileItems()
 void KonqIconViewWidget::slotDropped( QDropEvent *ev, const QValueList<QIconDragItem> & )
 {
     // Drop on background
-    if ( m_rootItem ) // otherwise, it's too early, '.' is not yet listed
-        KonqOperations::doDrop( m_rootItem, ev, this );
+    KonqFileItem * item = m_rootItem;
+    if ( !m_rootItem ) // No root item. E.g. over FTP.
+    {
+      // Maybe we want to do a stat to get full info about the root item
+      // (when we use permissions). For now create a dummy one.
+      item = new KonqFileItem( S_IFDIR, (mode_t)-1, url() );
+    }
+
+    KonqOperations::doDrop( item, ev, this );
+
+    if ( !m_rootItem )
+      delete item; // we just created it
 }
 
 void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *ev )
