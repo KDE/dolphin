@@ -98,6 +98,7 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
     addWidget( m_progressBar, 0, true /*permanent->right align*/ );
 
     fontChange(QFont());
+    installEventFilter( this );
 }
 
 KonqFrameStatusBar::~KonqFrameStatusBar()
@@ -164,7 +165,7 @@ void KonqFrameStatusBar::splitFrameMenu()
    menu.exec(QCursor::pos());
 }
 
-bool KonqFrameStatusBar::eventFilter(QObject*,QEvent *e)
+bool KonqFrameStatusBar::eventFilter(QObject* o, QEvent *e)
 {
    if (e->type()==QEvent::MouseButtonPress)
    {
@@ -172,9 +173,16 @@ bool KonqFrameStatusBar::eventFilter(QObject*,QEvent *e)
       update();
       if ( static_cast<QMouseEvent *>(e)->button() == RightButton)
          splitFrameMenu();
-      return TRUE;
+      return true;
    }
-   return FALSE;
+   else if ( o == this && e->type() == QEvent::ApplicationPaletteChange )
+   {
+      unsetPalette();
+      updateActiveStatus();
+      return true;
+   }
+	   
+   return false;
 }
 
 void KonqFrameStatusBar::message( const QString &msg )
@@ -234,19 +242,13 @@ void KonqFrameStatusBar::slotConnectToNewView(KonqView *, KParts::ReadOnlyPart *
 
 void KonqFrameStatusBar::showActiveViewIndicator( bool b )
 {
-    if ( b )
-        m_led->show();
-    else
-        m_led->hide();
+    m_led->setShown( b );
     updateActiveStatus();
 }
 
 void KonqFrameStatusBar::showLinkedViewIndicator( bool b )
 {
-    if ( b )
-        m_pLinkedViewCheckBox->show();
-    else
-        m_pLinkedViewCheckBox->hide();
+    m_pLinkedViewCheckBox->setShown( b );
 }
 
 void KonqFrameStatusBar::setLinkedView( bool b )
@@ -258,24 +260,20 @@ void KonqFrameStatusBar::setLinkedView( bool b )
 
 void KonqFrameStatusBar::updateActiveStatus()
 {
+    if ( !m_led->isShown() )
+    {
+        unsetPalette();
+        return;
+    }
+
     bool hasFocus = m_pParentKonqFrame->isActivePart();
-    QPalette pal = palette();
 
     const QColorGroup& activeCg = kapp->palette().active();
-    QBrush bg = activeCg.brush ( QColorGroup::Background );
-    pal.setBrush( QColorGroup::Background,
-                  m_led->isShown() ? ( hasFocus ? activeCg.midlight()
-                                       : activeCg.mid() ) // active/inactive
-                  : bg ); // only one view
-
-    setPalette( pal );
-
+    setPaletteBackgroundColor( hasFocus ? activeCg.midlight() : activeCg.mid() );
+    
     static QPixmap indicator_viewactive( UserIcon( "indicator_viewactive" ) );
     static QPixmap indicator_empty( UserIcon( "indicator_empty" ) );
-    if ( m_led->isShown() )
-    {
-        m_led->setPixmap( hasFocus ? indicator_viewactive : indicator_empty );
-    }
+    m_led->setPixmap( hasFocus ? indicator_viewactive : indicator_empty );
 }
 
 //###################################################################
@@ -398,8 +396,8 @@ bool KonqFrame::eventFilter(QObject* /*obj*/, QEvent *ev)
       {
          emit ((KonqFrameContainer*)parent())->ctrlTabPressed();
          return true;
-      };
-   };
+      }
+   }
    return false;
 }
 
