@@ -749,6 +749,9 @@ Konqueror::ViewList *KonqMainView::viewList()
 
 void KonqMainView::removeView( OpenParts::Id id )
 {
+  if ( m_mapViews.count() == 1 ) //do _NOT_ remove the last view!
+    return;
+
   MapViews::Iterator it = m_mapViews.find( id );
   if ( it != m_mapViews.end() )
   {
@@ -759,9 +762,13 @@ void KonqMainView::removeView( OpenParts::Id id )
       m_vMainWindow->setActivePart( this->id() );
       m_currentView = 0L;
     }
-      
+    QSplitter *splitter = it.data()->row();  
     delete it.data();
     m_mapViews.remove( it );
+    
+    if ( !splitter->children() )
+      m_lstRows.removeRef( splitter );
+    
     // TODO : check if that was the last view in its row.
     // If yes, remove the row itself
   }
