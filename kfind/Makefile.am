@@ -10,7 +10,7 @@ noinst_LTLIBRARIES = libkfind_common.la
 libkfind_common_la_SOURCES = kftabdlg.cpp kfind.cpp kquery.cpp kdatecombo.cpp
 
 #This section is kfindpart
-lib_LTLIBRARIES = libkfindpart.la
+kde_module_LTLIBRARIES = libkfindpart.la
 
 libkfindpart_la_SOURCES = kfindpart.cpp
 libkfindpart_la_LDFLAGS = $(all_libraries) $(KDE_PLUGIN)
