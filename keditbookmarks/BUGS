@@ -2,26 +2,11 @@ multi selection deletion then shift down selects roots
 clicking in the increm. search text field selects the root item in the list view
 tips dialog - fixes bugs - shortcuts for keyboard selection are wierd
 --
-26255
-bookmarks use last url component rather than title 
-
 39897 
 kbookmark: data inconsistence causes problems. 
 
-57245
-Columns size doesn't store 
-
-47515 
-Dragging bookmarks from bookmark editor to trash results ...
-
-37055 
-export favicons with Mozilla bookmark export 
-
 56165 
 KEditBookmarks ignores charset of the bookmarks.xml file 
-
---
-bookmarks in general:
 
 49470 
 fails to open bookmarks 
@@ -32,5 +17,17 @@ Bookmarks Import IE Error with Solution
 63874
 Cannot create Bookmark from URLs -directly- pointing to a file!
 
+57245
+Columns size doesn't store 
+
+37055 
+export favicons with Mozilla bookmark export 
+
+26255
+bookmarks use last url component rather than title 
+
 62124 
 Save bookmarks on desktop, not only bookmarks xml file 
+
+47515 
+Dragging bookmarks from bookmark editor to trash results ...
