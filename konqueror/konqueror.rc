@@ -1,4 +1,4 @@
-<!DOCTYPE QConfig ><QConfig>
+<!DOCTYPE QConfig ><QConfig name="Konqueror">
 <MenuBar>
  <Menu name="File"><text>&amp;File</text>
   <Action name="new_menu"/>
@@ -13,8 +13,25 @@
   <Separator/>
   <Action name="konqueror_shell_close"/>
  </Menu>
- <Action name="edit_menu"/>
- <Action name="view_menu"/>
+ <Menu name="edit_menu"><text>&amp;Edit</text>
+  <Action name="cut"/>
+  <Action name="copy"/>
+  <Action name="paste"/>
+  <Action name="trash"/>
+  <Action name="delete"/>
+  <Separator/>
+  <Merge/>
+ </Menu>
+ <Menu name="view_menu"><text>&amp;View</text>
+  <Merge name="viewmode"/>
+  <Separator/>
+  <Action name="usehtml"/>
+  <Action name="showdirtree"/>
+  <Separator/>
+  <Action name="reload"/>
+  <Separator/>
+  <Merge/>
+ </Menu>
  <Menu name="Go"><text>&amp;Go</text>
   <Action name="up"/>
   <Action name="back"/>
@@ -54,6 +71,7 @@
   <Action name="saveremoveviewprofile"/>
   <Action name="loadviewprofile"/>
  </Menu>
+ <Merge/>
  <Separator/>
  <Menu name="Help"><text>&amp;Help</text>
   <Action name="about"/>

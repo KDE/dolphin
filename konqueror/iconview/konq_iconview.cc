@@ -68,7 +68,7 @@ public:
 
     virtual QObject* create( QObject *parent, const char *name, const char*, const QStringList &args )
     {
-	KonqKfmIconView *obj = new KonqKfmIconView( (QWidget *)parent, name );
+	KonqKfmIconView *obj = new KonqKfmIconView( (QWidget *)parent, parent, name );
 	emit objectCreated( obj );
 
 	QStringList::ConstIterator it = args.begin();
@@ -144,21 +144,49 @@ void IconViewPropertiesExtension::refreshMimeTypes()
     m_iconView->iconViewWidget()->refreshMimeTypes();
 }
 
-KonqKfmIconView::KonqKfmIconView( QWidget *parent, const char *name )
-    : BrowserView( parent, name )
+IconViewBrowserExtension::IconViewBrowserExtension( KonqKfmIconView *iconView )
+ : BrowserView( iconView )
+{
+  m_iconView = iconView;
+}
+
+void IconViewBrowserExtension::setXYOffset( int x, int y )
+{
+  m_iconView->setXYOffset( x, y );
+}
+
+int IconViewBrowserExtension::xOffset()
+{
+  return m_iconView->iconViewWidget()->contentsX();
+}
+
+int IconViewBrowserExtension::yOffset()
+{
+  return m_iconView->iconViewWidget()->contentsY();
+}
+
+KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name )
+    : KParts::ReadOnlyPart( parent, name )
 {
     kdebug(0, 1202, "+KonqKfmIconView");
+
+    setInstance( KonqFactory::instance() );
+
+    m_browser = new IconViewBrowserExtension( this );
+
+    setXMLFile( "konq_iconview.rc" );
 
     // Create a properties instance for this view
     // (copying the default values)
     m_pProps = new KonqPropsView( * KonqPropsView::defaultProps() );
     m_pSettings = KonqFMSettings::defaultIconSettings();
 
-    m_pIconView = new KonqIconViewWidget( this, "qiconview" );
-    setFocusProxy( m_pIconView );
-    setFocusPolicy( m_pIconView->focusPolicy() );
+    m_pIconView = new KonqIconViewWidget( parentWidget, "qiconview" );
+    setWidget( m_pIconView );
+    //    setFocusProxy( m_pIconView );
+    //    setFocusPolicy( m_pIconView->focusPolicy() );
 
-    m_extension = new IconEditExtension( m_pIconView );
+    m_extension = new IconEditExtension( this, m_pIconView );
 
     (void)new IconViewPropertiesExtension( this );
 
@@ -167,16 +195,16 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parent, const char *name )
     // Don't repaint on configuration changes during construction
     m_bInit = true;
 
-    m_paDotFiles = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), this );
-    m_paImagePreview = new KToggleAction( i18n( "&Image Preview" ), 0, this );
+    m_paDotFiles = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
+    m_paImagePreview = new KToggleAction( i18n( "&Image Preview" ), 0, actionCollection(), "image_preview" );
 
     connect( m_paImagePreview, SIGNAL( toggled( bool ) ), this, SLOT( slotImagePreview( bool ) ) );
 
-    m_pamSort = new KActionMenu( i18n( "Sort..." ), this );
+    //    m_pamSort = new KActionMenu( i18n( "Sort..." ), actionCollection(), "sort" );
 
-    KToggleAction *aSortByNameCS = new KToggleAction( i18n( "by Name (Case Sensitive)" ), 0, this );
-    KToggleAction *aSortByNameCI = new KToggleAction( i18n( "by Name (Case Insensitive)" ), 0, this );
-    KToggleAction *aSortBySize = new KToggleAction( i18n( "By Size" ), 0, this );
+    KToggleAction *aSortByNameCS = new KToggleAction( i18n( "by Name (Case Sensitive)" ), 0, actionCollection(), "sort_nc" );
+    KToggleAction *aSortByNameCI = new KToggleAction( i18n( "by Name (Case Insensitive)" ), 0, actionCollection(), "sort_nci" );
+    KToggleAction *aSortBySize = new KToggleAction( i18n( "By Size" ), 0, actionCollection(), "sort_size" );
 
     aSortByNameCS->setExclusiveGroup( "sorting" );
     aSortByNameCI->setExclusiveGroup( "sorting" );
@@ -190,10 +218,10 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parent, const char *name )
     connect( aSortByNameCS, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByNameCaseInsensitive( bool ) ) );
     connect( aSortBySize, SIGNAL( toggled( bool ) ), this, SLOT( slotSortBySize( bool ) ) );
 
-    KToggleAction *aSortDescending = new KToggleAction( i18n( "Descending" ), 0, this );
+    KToggleAction *aSortDescending = new KToggleAction( i18n( "Descending" ), 0, actionCollection(), "sort_descend" );
 
     connect( aSortDescending, SIGNAL( toggled( bool ) ), this, SLOT( slotSortDescending() ) );
-
+    /*
     m_pamSort->insert( aSortByNameCS );
     m_pamSort->insert( aSortByNameCI );
     m_pamSort->insert( aSortBySize );
@@ -201,16 +229,16 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parent, const char *name )
     m_pamSort->popupMenu()->insertSeparator();
 
     m_pamSort->insert( aSortDescending );
+    */
+    m_paSelect = new KAction( i18n( "&Select..." ), CTRL+Key_Slash, this, SLOT( slotSelect() ), actionCollection(), "select" );
+    m_paUnselect = new KAction( i18n( "&Unselect..." ), CTRL+Key_Backslash, this, SLOT( slotUnselect() ), actionCollection(), "unselect" );
+    m_paSelectAll = KStdAction::selectAll( this, SLOT( slotSelectAll() ), this, "selectall" );
+    m_paUnselectAll = new KAction( i18n( "U&nselect All" ), CTRL+Key_U, this, SLOT( slotUnselectAll() ), actionCollection(), "unselectall" );
+    m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_I, this, SLOT( slotInvertSelection() ), actionCollection(), "invertselection" );
 
-    m_paSelect = new KAction( i18n( "&Select..." ), CTRL+Key_Slash, this, SLOT( slotSelect() ), this );
-    m_paUnselect = new KAction( i18n( "&Unselect..." ), CTRL+Key_Backslash, this, SLOT( slotUnselect() ), this );
-    m_paSelectAll = KStdAction::selectAll( this, SLOT( slotSelectAll() ), this );
-    m_paUnselectAll = new KAction( i18n( "U&nselect All" ), CTRL+Key_U, this, SLOT( slotUnselectAll() ), this );
-    m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_I, this, SLOT( slotInvertSelection() ), this );
-
-    m_paLargeIcons = new KToggleAction( i18n( "&Large View" ), 0, this );
-    m_paNormalIcons = new KToggleAction( i18n( "&Normal View" ), 0, this );
-    m_paSmallIcons = new KToggleAction( i18n( "&Small View" ), 0, this );
+    m_paLargeIcons = new KToggleAction( i18n( "&Large View" ), 0, actionCollection(), "largeview" );
+    m_paNormalIcons = new KToggleAction( i18n( "&Normal View" ), 0, actionCollection(), "normalview" );
+    m_paSmallIcons = new KToggleAction( i18n( "&Small View" ), 0, actionCollection(), "smallview" );
     //m_paKOfficeMode = new KToggleAction( i18n( "&KOffice mode" ), 0, this );
 
     m_paLargeIcons->setExclusiveGroup( "ViewMode" );
@@ -224,8 +252,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parent, const char *name )
     //m_paKOfficeMode->setChecked( false );
     //m_paKOfficeMode->setEnabled( false );
 
-    m_paBottomText = new KToggleAction( i18n( "Text at the &bottom" ), 0, this );
-    m_paRightText = new KToggleAction( i18n( "Text at the &right" ), 0, this );
+    m_paBottomText = new KToggleAction( i18n( "Text at the &bottom" ), 0, actionCollection(), "textbottom" );
+    m_paRightText = new KToggleAction( i18n( "Text at the &right" ), 0, actionCollection(), "textright" );
 
     m_paBottomText->setExclusiveGroup( "TextPos" );
     m_paRightText->setExclusiveGroup( "TextPos" );
@@ -233,8 +261,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parent, const char *name )
     m_paBottomText->setChecked( true );
     m_paRightText->setChecked( false );
 
-    KAction * paBackgroundColor = new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), this );
-    KAction * paBackgroundImage = new KAction( i18n( "Background Image..." ), 0, this, SLOT( slotBackgroundImage() ), this );
+    KAction * paBackgroundColor = new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), actionCollection(), "bgcolor" );
+    KAction * paBackgroundImage = new KAction( i18n( "Background Image..." ), 0, this, SLOT( slotBackgroundImage() ), actionCollection(), "bgimage" );
 
     //
 
@@ -247,7 +275,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parent, const char *name )
     connect( m_paRightText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextRight( bool ) ) );
 
     //
-
+    /*
     actions()->append( BrowserView::ViewAction( m_paImagePreview, BrowserView::MenuView ) );
     actions()->append( BrowserView::ViewAction( m_paDotFiles, BrowserView::MenuView ) );
     actions()->append( BrowserView::ViewAction( m_pamSort, BrowserView::MenuView ) );
@@ -275,6 +303,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parent, const char *name )
     actions()->append( BrowserView::ViewAction( m_paSelectAll, BrowserView::MenuEdit ) );
     actions()->append( BrowserView::ViewAction( m_paUnselectAll, BrowserView::MenuEdit ) );
     actions()->append( BrowserView::ViewAction( m_paInvertSelection, BrowserView::MenuEdit ) );
+    */
 
     QObject::connect( m_pIconView, SIGNAL( doubleClicked( QIconViewItem * ) ),
 		      this, SLOT( slotReturnPressed( QIconViewItem * ) ) );
@@ -320,7 +349,8 @@ KonqKfmIconView::~KonqKfmIconView()
     kdebug(0, 1202, "-KonqKfmIconView");
     if ( m_dirLister ) delete m_dirLister;
     delete m_pProps;
-    delete m_pIconView;
+    //no need for that, KParts deletes our widget already ;-)
+    //    delete m_pIconView;
 }
 
 void KonqKfmIconView::slotImagePreview( bool toggle )
@@ -341,7 +371,7 @@ void KonqKfmIconView::slotShowDot()
 
 void KonqKfmIconView::slotSelect()
 {
-    KLineEditDlg l( i18n("Select files:"), "", this );
+    KLineEditDlg l( i18n("Select files:"), "", m_pIconView );
     if ( l.exec() )
     {
 	QString pattern = l.text();
@@ -371,7 +401,7 @@ void KonqKfmIconView::slotSelect()
 
 void KonqKfmIconView::slotUnselect()
 {
-    KLineEditDlg l( i18n("Unselect files:"), "", this );
+    KLineEditDlg l( i18n("Unselect files:"), "", m_pIconView );
     if ( l.exec() )
     {
 	QString pattern = l.text();
@@ -446,11 +476,6 @@ void KonqKfmIconView::setupSorting( SortCriterion criterion )
     m_pIconView->sort( m_pIconView->sortDirection() );
 }
 
-void KonqKfmIconView::resizeEvent( QResizeEvent * )
-{
-    m_pIconView->setGeometry( 0, 0, width(), height() );
-}
-
 void KonqKfmIconView::slotSortDescending()
 {
     if ( m_pIconView->sortDirection() )
@@ -465,7 +490,8 @@ void KonqKfmIconView::slotKofficeMode( bool b )
 {
     if ( b )
     {
-	QObject *obj = parent();
+    /* emit openURLRequest() signal with serviceType argument set instead (Simon)
+    QObject *obj = parent();
 	while ( obj )
 	{
 	    if ( obj->inherits( "KonqFrame" ) )
@@ -479,6 +505,7 @@ void KonqKfmIconView::slotKofficeMode( bool b )
 	    // TODO switch to koffice view mode here
 	    childView->changeViewMode( "inode/directory", url(), false, "KonqTreeView" );
 	}
+    */
     }
 }
 
@@ -552,12 +579,12 @@ void KonqKfmIconView::slotBackgroundImage()
     }
 }
 
-void KonqKfmIconView::stop()
+void KonqKfmIconView::closeURL()
 {
     debug("KonqKfmIconView::stop()");
     if ( m_dirLister ) m_dirLister->stop();
 }
-
+/*
 void KonqKfmIconView::saveState( QDataStream &stream )
 {
     BrowserView::saveState( stream );
@@ -611,7 +638,7 @@ int KonqKfmIconView::yOffset()
 {
     return m_pIconView->contentsY();
 }
-
+*/
 void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
 {
     if ( !item )
@@ -629,7 +656,7 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
 	if ( u.isLocalFile() )
 	    serviceType = fileItem->mimetype();
 
-	emit openURLRequest( u.url(), false, 0, 0, fileItem->mimetype() );
+        emit m_browser->openURLRequest( u.url(), false, 0, 0, fileItem->mimetype() );
     }
 }
 
@@ -639,7 +666,7 @@ void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, 
 	switch(_button) {
 	case RightButton:
 	    ((KFileIVI*)_item)->setSelected( true );
-	    emit popupMenu( _global, m_pIconView->selectedFileItems() );
+	    emit m_browser->popupMenu( _global, m_pIconView->selectedFileItems() );
 	    break;
 	case MidButton:
 	    // New view
@@ -661,7 +688,7 @@ void KonqKfmIconView::slotViewportRightClicked( QIconViewItem *i )
     KFileItem item( mode, bgUrl );
     KFileItemList items;
     items.append( &item );
-    emit popupMenu( QCursor::pos(), items );
+    emit m_browser->popupMenu( QCursor::pos(), items );
 }
 
 void KonqKfmIconView::slotStarted( const QString & /*url*/ )
@@ -717,7 +744,7 @@ void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
     item->setKey( key );
 
     if ( m_ulTotalFiles > 0 )
-	emit loadingProgress( ( m_pIconView->count() * 100 ) / m_ulTotalFiles );
+      emit m_browser->loadingProgress( ( m_pIconView->count() * 100 ) / m_ulTotalFiles );
 
     m_lstPendingMimeIconItems.append( item );
 }
@@ -776,8 +803,8 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
 	}
 
     if ( lst.count() > 0 )
-	emit setStatusBarText( i18n( "%1 Item(s) Selected - %2 File(s) (%3 Total) - %4 Directories" )
-			       .arg( lst.count() ).arg( fileCount ).arg( KIOJob::convertSize( fileSizeSum ) ).arg( dirCount ) );
+      emit m_browser->setStatusBarText( i18n( "%1 Item(s) Selected - %2 File(s) (%3 Total) - %4 Directories" )
+    				       .arg( lst.count() ).arg( fileCount ).arg( KIOJob::convertSize( fileSizeSum ) ).arg( dirCount ) );
     else
 	slotOnViewport();
 }
@@ -810,7 +837,8 @@ void KonqKfmIconView::slotProcessMimeIcons()
     QTimer::singleShot( 0, this, SLOT( slotProcessMimeIcons() ) );
 }
 
-void KonqKfmIconView::openURL( const QString &_url, bool /*reload*/, int xOffset, int yOffset )
+//void KonqKfmIconView::openURL( const QString &_url, bool /*reload*/, int xOffset, int yOffset )
+bool KonqKfmIconView::openURL( const KURL &_url )
 {
     if ( !m_dirLister )
     {
@@ -828,19 +856,22 @@ void KonqKfmIconView::openURL( const QString &_url, bool /*reload*/, int xOffset
 			  this, SLOT( slotDeleteItem( KFileItem * ) ) );
     }
 
-    m_iXOffset = xOffset;
-    m_iYOffset = yOffset;
+    //    m_iXOffset = xOffset;
+    //    m_iYOffset = yOffset;
+    m_iXOffset = m_iYOffset = 0;
     m_bLoading = true;
     m_lDirSize = 0;
     m_lFileCount = 0;
     m_lDirCount = 0;
+
+    m_url = _url;
 
     KURL u( _url );
     // Start the directory lister !
     m_dirLister->openURL( u, m_pProps->m_bShowDot );
     // Note : we don't store the url. KDirLister does it for us.
 
-    m_pIconView->setURL( _url );
+    m_pIconView->setURL( _url.url() );
 
     KIOJob *job = KIOJob::find( m_dirLister->jobId() );
     if ( job )
@@ -865,11 +896,12 @@ void KonqKfmIconView::openURL( const QString &_url, bool /*reload*/, int xOffset
 #endif
 //  setCaptionFromURL( _url );
     m_pIconView->show(); // ?
+    return true;
 }
 
 void KonqKfmIconView::slotOnItem( QIconViewItem *item )
 {
-    emit setStatusBarText( ((KFileIVI *)item)->item()->getStatusBarInfo() );
+  emit m_browser->setStatusBarText( ((KFileIVI *)item)->item()->getStatusBarInfo() );
 }
 
 void KonqKfmIconView::slotOnViewport()
@@ -882,7 +914,7 @@ void KonqKfmIconView::slotOnViewport()
 	    return;
 	}
 
-    emit setStatusBarText( i18n( "%1 Item(s) - %2 File(s) (%3 Total) - %4 Directories" ).arg( m_pIconView->count() ).arg( m_lFileCount ).arg( KIOJob::convertSize( m_lDirSize ) ).arg( m_lDirCount ) );
+    emit m_browser->setStatusBarText( i18n( "%1 Item(s) - %2 File(s) (%3 Total) - %4 Directories" ).arg( m_pIconView->count() ).arg( m_lFileCount ).arg( KIOJob::convertSize( m_lDirSize ) ).arg( m_lDirCount ) );
 }
 
 void KonqKfmIconView::setupSortKeys()

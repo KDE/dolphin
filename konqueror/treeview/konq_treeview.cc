@@ -185,11 +185,34 @@ QStringList TreeViewEditExtension::selectedUrls()
   return lstURLs;
 }
 
+TreeViewBrowserExtension::TreeViewBrowserExtension( KonqTreeView *treeView )
+ : BrowserView( treeView )
+{
+  m_treeView = treeView; 
+}
+
+void TreeViewBrowserExtension::setXYOffset( int x, int y )
+{
+  m_treeView->setXYOffset( x, y );
+}
+
+int TreeViewBrowserExtension::xOffset()
+{
+  return m_treeView->treeViewWidget()->contentsX();
+}
+
+int TreeViewBrowserExtension::yOffset()
+{
+  return m_treeView->treeViewWidget()->contentsY();
+}
+
 KonqTreeView::KonqTreeView( QWidget *parent, const char *name )
  : BrowserView( parent, name )
 {
   EditExtension *extension = new TreeViewEditExtension( this );
   (void)new TreeViewPropertiesExtension( this );
+  m_browser = new TreeViewBrowserExtension( this );
+  
   m_pTreeView = new KonqTreeViewWidget( this );
   m_pTreeView->show();
 

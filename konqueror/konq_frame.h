@@ -40,6 +40,11 @@ class KonqFrame;
 class KonqFrameContainer;
 class KConfig;
 
+namespace KParts
+{
+  class ReadOnlyPart;
+};
+
 enum KonqFrameHeaderLook{ Plain,  HORIZ, VERT, DIAG, CROSSDIAG, PYRAM,
 			  RECT, PIPE, ELLIP, XPixmap };
 
@@ -146,12 +151,12 @@ public:
    * Attach a view to the KonqFrame.
    * @param view the view to attach (instead of the current one, if any)
    */
-  BrowserView *attach( const KonqViewFactory &viewFactory );
+  KParts::ReadOnlyPart *attach( const KonqViewFactory &viewFactory );
 
   /**
    * Returns the view that is currently connected to the Frame.
    */
-  BrowserView *view( void );
+  KParts::ReadOnlyPart *view( void );
 
   bool isActivePart();
 
@@ -185,7 +190,7 @@ protected:
   QVBoxLayout *m_pLayout;
   KonqChildView *m_pChildView;
 
-  QGuardedPtr<BrowserView> m_pView;
+  QGuardedPtr<KParts::ReadOnlyPart> m_pView;
 
   KonqFrameHeader* m_pHeader;
 };

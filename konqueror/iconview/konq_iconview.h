@@ -48,12 +48,26 @@ private:
   KonqKfmIconView *m_iconView;
 };
 
+class IconViewBrowserExtension : public BrowserView
+{
+  friend class KonqKfmIconView;
+public:
+  IconViewBrowserExtension( KonqKfmIconView *iconView );
+
+  virtual void setXYOffset( int x, int y );
+  virtual int xOffset();
+  virtual int yOffset();
+
+private:
+  KonqKfmIconView *m_iconView;
+};
+
 /**
  * The Icon View for konqueror. Handles big icons (Horizontal mode) and
  * small icons (Vertical mode).
  * The "Kfm" in the name stands for file management since it shows files :)
  */
-class KonqKfmIconView : public BrowserView
+class KonqKfmIconView : public KParts::ReadOnlyPart
 {
   friend class IconViewPropertiesExtension;
   Q_OBJECT
@@ -61,9 +75,15 @@ public:
 
   enum SortCriterion { NameCaseSensitive, NameCaseInsensitive, Size };
 
-  KonqKfmIconView( QWidget *parent, const char *name );
+  KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name );
   virtual ~KonqKfmIconView();
 
+  virtual bool openURL( const KURL &_url );
+  virtual void closeURL();
+
+  virtual bool openFile() { return true; }
+
+  /*
   virtual void openURL( const QString &url, bool reload = false,
                         int xOffset = 0, int yOffset = 0 );
 
@@ -74,8 +94,10 @@ public:
 
   virtual void saveState( QDataStream &stream );
   virtual void restoreState( QDataStream &stream );
-
+  */
   KonqIconViewWidget *iconViewWidget() const { return m_pIconView; }
+
+  void setXYOffset( int x, int y ) { m_iXOffset = x; m_iYOffset = y; }
 
 public slots:
   void slotImagePreview( bool toggle );
@@ -127,8 +149,6 @@ protected slots:
 protected:
 
   void setupSorting( SortCriterion criterion );
-
-  virtual void resizeEvent( QResizeEvent * );
 
   /** */
   void setupSortKeys();
@@ -186,6 +206,7 @@ protected:
   long m_lDirCount;
 
   IconEditExtension *m_extension;
+  IconViewBrowserExtension *m_browser;
 
   KonqIconViewWidget *m_pIconView;
 

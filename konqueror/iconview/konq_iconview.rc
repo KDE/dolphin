@@ -1,0 +1,33 @@
+<!DOCTYPE kpartgui>
+<kpartgui name="KonqIconView">
+<MenuBar>
+ <Menu name="edit_menu">
+  <Action name="select"/>
+  <Action name="unselect"/>
+  <Action name="selectall"/>
+  <Action name="unselectall"/>
+  <Action name="invertselection"/>
+ </Menu>
+ <Menu name="view_menu">
+  <Action name="image_preview"/>
+  <Action name="showdot"/>
+  <Menu name="iconview_sort"><text>Sort...</text>
+   <Action name="sort_nc"/>
+   <Action name="sort_nci"/>
+   <Action name="sort_size"/>
+   <Separator/>
+   <Action name="sort_descend"/>
+  </Menu>
+  <Separator/>
+  <Action name="bgcolor"/>
+  <Action name="bgimage"/>
+  <Separator/>
+  <Action name="textbottom"/>
+  <Action name="textright"/>
+  <Separator/>
+  <Action name="largeview"/>
+  <Action name="normalview"/>
+  <Action name="smallview"/>
+ </Menu>
+</MenuBar>
+</kpartgui>

@@ -42,12 +42,12 @@ extern "C"
   }
 };
 
-BrowserView *KonqViewFactory::create( QWidget *parent, const char *name )
+KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parent, const char *name )
 {
   if ( !m_factory )
     return 0L;
 
-  return (BrowserView *)m_factory->create( parent, name, "QObject", m_args );
+  return (KParts::ReadOnlyPart *)m_factory->create( parent, name, "BrowserView", m_args );
 }
 
 KonqFactory::KonqFactory()
@@ -151,8 +151,8 @@ QObject* KonqFactory::create( QObject* parent, const char* name, const char* /*c
 //  emit objectCreated( part );
 //
 //  return part;
-  assert( 0 ); 
-  return 0L; 
+  assert( 0 );
+  return 0L;
 }
 
 void KonqFactory::instanceRef()

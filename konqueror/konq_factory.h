@@ -29,6 +29,8 @@
 #include <kinstance.h>
 #include <ktrader.h>
 
+#include <kpart.h>
+
 class BrowserView;
 class KonqBookmarkManager;
 class KonqFileManager;
@@ -42,7 +44,7 @@ public:
   KonqViewFactory( const KonqViewFactory &factory ) : m_factory( factory.m_factory ), m_args( factory.m_args ) {}
   KonqViewFactory( KonqViewFactory &factory ) : m_factory( factory.m_factory ), m_args( factory.m_args ) {}
 
-  BrowserView *create( QWidget *parent, const char *name );
+  KParts::ReadOnlyPart *create( QWidget *parent, const char *name );
 
   bool isNull() { return m_factory ? false : true; }
 

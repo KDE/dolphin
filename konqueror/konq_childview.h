@@ -24,7 +24,8 @@
 
 #include "konq_mainview.h"
 #include "konq_factory.h"
-#include "kbrowser.h"
+
+#include <kbrowser.h>
 
 #include <qlist.h>
 #include <qstring.h>
@@ -152,7 +153,9 @@ public:
    * Get view object (should never be needed, except for IDL methods
    * like activeView() and viewList())
    */
-  BrowserView *view() { return m_pView; }
+  KParts::ReadOnlyPart *view() { return m_pView; }
+
+  BrowserView *browserView() { return (BrowserView *)m_pView->child( 0L, "BrowserView" ); }
 
   /**
    * Returns a pointer to the KonqFrame which the view lives in
@@ -211,7 +214,7 @@ signals:
   /**
    * Signal the main view that our id changed (e.g. because of changeViewMode)
    */
-  void sigViewChanged( BrowserView *oldView, BrowserView *newView );
+  void sigViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView );
 
 protected:
   /**
@@ -223,7 +226,7 @@ protected:
 
   void go( QList<HistoryEntry> &stack, int steps );
 
-  BrowserView *m_pView;
+  KParts::ReadOnlyPart *m_pView;
 
   QString m_sLocationBarURL;
 

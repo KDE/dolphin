@@ -46,14 +46,14 @@ int KonqComboAction::plug( QWidget *w, int index )
 
   KToolBar *toolBar = (KToolBar *)w;
 
-  QLabel *label = new QLabel( plainText(), w );
-  label->adjustSize();
-  toolBar->insertWidget( get_toolbutton_id(), label->width(), label, index );
-
   int id = get_toolbutton_id();
 
   toolBar->insertCombo( m_items, id, true, SIGNAL( activated( const QString & ) ),m_receiver, m_member, true, QString::null, 70, index );
 
+  QLabel *label = new QLabel( plainText(), w );
+  label->adjustSize();
+  toolBar->insertWidget( get_toolbutton_id(), label->width(), label, index );
+  
   QComboBox *comboBox = toolBar->getCombo( id );
 
   addContainer( toolBar, id );
@@ -80,7 +80,7 @@ void KonqComboAction::unplug( QWidget *w )
   KToolBar *toolBar = (KToolBar *)w;
 
   int idx = findContainer( w );
-  int id = menuId( idx ) + 1;
+  int id = menuId( idx ) - 1;
 
   QWidget *l = toolBar->getWidget( id );
 

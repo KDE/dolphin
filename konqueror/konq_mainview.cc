@@ -71,6 +71,8 @@
 #include <kbookmarkmenu.h>
 #include <kstdaction.h>
 #include <khelpmenu.h>
+#include <kpart.h>
+#include <kmenubar.h>
 
 #include <kbugreport.h>
 #include "version.h"
@@ -117,10 +119,15 @@ KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, cons
 
   m_pViewManager = new KonqViewManager( this );
 
+  connect( m_pViewManager, SIGNAL( activePartChanged( KParts::Part * ) ),
+	   this, SLOT( slotPartActivated( KParts::Part * ) ) );
+
   m_viewModeActions.setAutoDelete( true );
 
+  m_viewModeGUIServant = new ViewModeGUIServant( this );
+
   m_helpMenu = new KHelpMenu( this );
-  
+
   initActions();
   initPlugins();
 
@@ -133,13 +140,14 @@ KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, cons
            this, SLOT( slotDatabaseChanged() ) );
 
   setXMLFile( locate( "data", "konqueror/konqueror.rc" ) );
-  setUpdatesEnabled( false );
-  guiFactory()->addServant( this );
-  setUpdatesEnabled( true );
-  updateRects();
-  
+  //  setUpdatesEnabled( false );
+  //  guiFactory()->addServant( this );
+  //  setUpdatesEnabled( true );
+  //   updateRects();
+  createGUI( 0L );
+
   m_statusBar = statusBar();
-  
+
   m_progressBar = new KProgress( 0, 100, 0, KProgress::Horizontal, m_statusBar );
 
   m_statusBar->insertWidget( m_progressBar, 120, STATUSBAR_LOAD_ID );
@@ -151,7 +159,7 @@ KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, cons
   m_statusBar->show();
 
   m_progressBar->hide();
-  
+
   if ( !initialURL.isEmpty() )
     openFilteredURL( 0L, initialURL );
   else if ( openInitialURL )
@@ -167,13 +175,14 @@ KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, cons
     else
       openURL( 0L, QDir::homeDirPath().prepend( "file:" ) );
   }
-  
+
   resize( 700, 480 );
 }
 
 KonqMainView::~KonqMainView()
 {
-  guiFactory()->removeServant( this ); 
+  guiFactory()->removeServant( m_viewModeGUIServant );
+  createGUI( 0L );
 
   if ( m_combo )
   {
@@ -348,7 +357,7 @@ void KonqMainView::openURL( const QString &url, bool reload, int xOffset,
   KonqChildView *childV = 0L;
 
   if ( sender() )
-    childV = childView( (BrowserView *)sender() );
+    childV = childView( (KParts::ReadOnlyPart *)sender()->parent() );
 
   openURL( childV, url, reload, xOffset, yOffset, serviceType );
 }
@@ -360,7 +369,7 @@ void KonqMainView::slotCreateNewWindow( const QString &url )
 
 void KonqMainView::slotNewWindow()
 {
-  KonqFileManager::getFileManager()->openFileManagerWindow( m_currentView->view()->url() );
+  KonqFileManager::getFileManager()->openFileManagerWindow( m_currentView->view()->url().url() );
 }
 
 void KonqMainView::slotRun()
@@ -481,7 +490,7 @@ void KonqMainView::slotToggleDirTree( bool toggle )
 
     KonqFrameContainer *newContainer;
 
-    BrowserView *view = m_pViewManager->split( splitFrame, Qt::Horizontal, QString::fromLatin1( "Browser/View" ), QString::fromLatin1( "KonqDirTree" ), &newContainer );
+    KParts::ReadOnlyPart *view = m_pViewManager->split( splitFrame, Qt::Horizontal, QString::fromLatin1( "Browser/View" ), QString::fromLatin1( "KonqDirTree" ), &newContainer );
 
     newContainer->moveToLast( splitFrame->widget() );
 
@@ -653,15 +662,15 @@ void KonqMainView::slotConfigureKeys()
   actionDia->show();
 }
 
-void KonqMainView::slotViewChanged( BrowserView *oldView, BrowserView *newView )
+void KonqMainView::slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView )
 {
   m_mapViews.remove( oldView );
   m_mapViews.insert( newView, (KonqChildView *)sender() );
 
   if ( (KonqChildView *)sender() == (KonqChildView *)m_currentView )
   {
-    unPlugViewGUI( oldView );
-    plugInViewGUI( newView );
+  //    unPlugViewGUI( oldView );
+  //   plugInViewGUI( newView );
     updateStatusBar();
     checkEditExtension();
     m_bMenuViewDirty = true;
@@ -670,9 +679,9 @@ void KonqMainView::slotViewChanged( BrowserView *oldView, BrowserView *newView )
 
 void KonqMainView::slotStarted()
 {
-  BrowserView *view = (BrowserView *)sender();
+  KParts::ReadOnlyPart *view = (KParts::ReadOnlyPart *)sender();
 
-  QString url = view->url();
+  QString url = view->url().url();
 
   qDebug( "void KonqMainView::slotStarted() %s", url.ascii() );
 
@@ -695,7 +704,7 @@ void KonqMainView::slotStarted()
 
 void KonqMainView::slotCompleted()
 {
-  BrowserView *view = (BrowserView *)sender();
+  KParts::ReadOnlyPart *view = (KParts::ReadOnlyPart *)sender();
 
   MapViews::ConstIterator it = m_mapViews.find( view );
 
@@ -741,7 +750,7 @@ void KonqMainView::slotRunFinished()
   if ( childView == m_currentView )
   {
     stopAnimation();
-    setLocationBarURL( childView, childView->view()->url() );
+    setLocationBarURL( childView, childView->view()->url().url() );
   }
 }
 
@@ -760,7 +769,7 @@ debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
 
   if ( !childView )
     {
-      BrowserView* view = m_pViewManager->splitView( Qt::Horizontal, url, serviceType );
+      KParts::ReadOnlyPart* view = m_pViewManager->splitView( Qt::Horizontal, url, serviceType );
 
       if ( !view )
       {
@@ -768,14 +777,15 @@ debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
         return true; // fake everything was ok, we don't want to propagate the error
       }
 
-      setActiveView( view );
+      //      setActiveView( view );
+      m_pViewManager->setActivePart( view );
 
       enableAllActions( true ); // can't we rely on setActiveView to do the right thing ? (David)
       // we surely don't have any history buffers at this time
       m_paBack->setEnabled( false );
       m_paForward->setEnabled( false );
 
-      view->setFocus();
+      view->widget()->setFocus();
 
       return true;
     }
@@ -800,7 +810,7 @@ debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
   if ( childView->changeViewMode( serviceType, url ) )
   {
     // Give focus to the view
-    childView->view()->setFocus();
+    childView->view()->widget()->setFocus();
     return true;
   }
 
@@ -809,32 +819,42 @@ debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
   if ( childView == m_currentView )
   {
     stopAnimation();
-    setLocationBarURL( childView, childView->view()->url() );
+    setLocationBarURL( childView, childView->view()->url().url() );
   }
 
   return false;
 }
 
-void KonqMainView::setActiveView( BrowserView *view )
+void KonqMainView::slotPartActivated( KParts::Part *part )
 {
-  KonqChildView *newView = m_mapViews.find( view ).data();
+  if ( !part )
+    return;
+
+  KonqChildView *newView = m_mapViews.find( (KParts::ReadOnlyPart *)part ).data();
 
   if ( newView->passiveMode() )
     return;
 
+  guiFactory()->removeServant( m_viewModeGUIServant );
+  createGUI( part );
+
   KonqChildView *oldView = m_currentView;
 
-  if ( m_currentView )
-    unPlugViewGUI( m_currentView->view() );
+  //  if ( m_currentView )
+  //    unPlugViewGUI( m_currentView->view() );
 
   m_currentView = newView;
+
+  //  guiFactory()->removeServant( m_viewModeGUIServant );
+  m_viewModeGUIServant->update( m_currentView->serviceOffers() );
+  guiFactory()->addServant( m_viewModeGUIServant );
 
   m_currentView->frame()->header()->repaint();
 
   if ( oldView )
     oldView->frame()->header()->repaint();
 
-  plugInViewGUI( view );
+  //  plugInViewGUI( view );
 
   if ( m_combo )
     m_combo->setEditText( m_currentView->locationBarURL() );
@@ -868,7 +888,7 @@ void KonqMainView::removeChildView( KonqChildView *childView )
 
   if ( childView == m_currentView )
   {
-    unPlugViewGUI( m_currentView->view() );
+  //    unPlugViewGUI( m_currentView->view() );
     m_currentView = 0L;
   }
 
@@ -890,7 +910,7 @@ void KonqMainView::removeChildView( KonqChildView *childView )
   }
 }
 
-KonqChildView *KonqMainView::childView( BrowserView *view )
+KonqChildView *KonqMainView::childView( KParts::ReadOnlyPart *view )
 {
   MapViews::ConstIterator it = m_mapViews.find( view );
   if ( it != m_mapViews.end() )
@@ -899,9 +919,9 @@ KonqChildView *KonqMainView::childView( BrowserView *view )
     return 0L;
 }
 
-QValueList<BrowserView *> KonqMainView::viewList()
+QValueList<KParts::ReadOnlyPart *> KonqMainView::viewList()
 {
-  QValueList<BrowserView *> res;
+  QValueList<KParts::ReadOnlyPart *> res;
 
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
@@ -911,7 +931,7 @@ QValueList<BrowserView *> KonqMainView::viewList()
   return res;
 }
 
-BrowserView *KonqMainView::currentView()
+KParts::ReadOnlyPart *KonqMainView::currentView()
 {
   if ( m_currentView )
     return m_currentView->view();
@@ -1027,12 +1047,14 @@ void KonqMainView::slotMenuViewAboutToShow()
 
   }
 
+  /*
   const QValueList<BrowserView::ViewAction> *actions = m_currentView->view()->actions();
   QValueList<BrowserView::ViewAction>::ConstIterator it = actions->begin();
   QValueList<BrowserView::ViewAction>::ConstIterator end = actions->end();
   for (; it != end; ++it )
     if ( ( (*it).m_flags & BrowserView::MenuView ) == BrowserView::MenuView )
      (*it).m_action->plug( m_pamView->popupMenu() );
+  */
 
   m_bMenuViewDirty = false;
 }
@@ -1066,7 +1088,8 @@ void KonqMainView::slotRemoveView()
   if ( nextView == 0L )
   	return;
 	
-  setActiveView( nextView->view() );
+  //  setActiveView( nextView->view() );
+  m_pViewManager->setActivePart( nextView->view() );
 
   m_pViewManager->removeView( prevView );
 
@@ -1087,7 +1110,7 @@ void KonqMainView::slotLoadingProgress( int percent )
   if ( !m_progressBar )
     return;
 
-  BrowserView *view = (BrowserView *)sender();
+  KParts::ReadOnlyPart *view = (KParts::ReadOnlyPart *)sender()->parent();
 
   if ( !view )
     return;
@@ -1107,7 +1130,7 @@ void KonqMainView::slotLoadingProgress( int percent )
 
 void KonqMainView::slotSpeedProgress( int bytesPerSecond )
 {
-  BrowserView *view = (BrowserView *)sender();
+  KParts::ReadOnlyPart *view = (KParts::ReadOnlyPart *)sender()->parent();
 
   if ( !m_statusBar || m_currentView->view() != view || !m_currentView->isLoading() )
     return;
@@ -1217,7 +1240,7 @@ void KonqMainView::slotDelete()
 
 void KonqMainView::slotSetLocationBarURL( const QString &url )
 {
-  BrowserView *view = (BrowserView *)sender();
+  KParts::ReadOnlyPart *view = (KParts::ReadOnlyPart *)sender()->parent();
   setLocationBarURL( childView( view ), url );
 }
 
@@ -1469,16 +1492,16 @@ void KonqMainView::initActions()
   // Edit menu
   m_pamEdit = new KActionMenu( i18n( "&Edit" ), actionCollection(), "edit_menu" );
 
-  connect( m_pamEdit->popupMenu(), SIGNAL( aboutToShow() ),
-           this, SLOT( slotMenuEditAboutToShow() ) );
+  //  connect( m_pamEdit->popupMenu(), SIGNAL( aboutToShow() ),
+  //           this, SLOT( slotMenuEditAboutToShow() ) );
 
   // View menu
   m_pamView = new KActionMenu( i18n( "&View" ), actionCollection(), "view_menu" );
 
   QPopupMenu *popup = m_pamView->popupMenu();
 
-  connect( popup, SIGNAL( aboutToShow() ),
-           this, SLOT( slotMenuViewAboutToShow() ) );
+  //  connect( popup, SIGNAL( aboutToShow() ),
+  //           this, SLOT( slotMenuViewAboutToShow() ) );
 
   m_ptaUseHTML = new KToggleAction( i18n( "&Use HTML" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
   m_ptaShowDirTree = new KToggleAction( i18n( "Show Directory Tree" ), 0, actionCollection(), "showdirtree" );
@@ -1574,7 +1597,7 @@ void KonqMainView::initActions()
   // Bookmarks menu
   m_pamBookmarks = new KActionMenu( i18n( "&Bookmarks" ), actionCollection(), "bookmarks_menu" );
   m_pBookmarkMenu = new KBookmarkMenu( this, m_pamBookmarks->popupMenu(), actionCollection(), true );
-  
+
   //TODO: merge with the above stuff
   m_paShellClose = KStdAction::close( this, SLOT( close() ), actionCollection(), "konqueror_shell_close" );
   m_paShellHelpAboutKDE = new KAction( i18n( "About &KDE..." ), 0, m_helpMenu, SLOT( aboutKDE() ), actionCollection(), "konqueror_shell_aboutkde" );
@@ -1620,10 +1643,11 @@ void KonqMainView::initPlugins()
   }
 }
 
+/*
 void KonqMainView::plugInViewGUI( BrowserView *view )
 {
 //  KToolBar *bar = shell()->viewToolBar( "mainToolBar" );
-  KToolBar *bar = (KToolBar *)child( "mainToolBar", "KToolBar" ); 
+  KToolBar *bar = (KToolBar *)child( "mainToolBar", "KToolBar" );
 
   const QValueList<BrowserView::ViewAction> *actions = view->actions();
   QValueList<BrowserView::ViewAction>::ConstIterator it = actions->begin();
@@ -1648,7 +1672,7 @@ void KonqMainView::plugInViewGUI( BrowserView *view )
 void KonqMainView::unPlugViewGUI( BrowserView *view )
 {
 //  KToolBar *bar = shell()->viewToolBar( "mainToolBar" );
-  KToolBar *bar = (KToolBar *)child( "mainToolBar", "KToolBar" ); 
+  KToolBar *bar = (KToolBar *)child( "mainToolBar", "KToolBar" );
 
   const QValueList<BrowserView::ViewAction> *actions = view->actions();
   QValueList<BrowserView::ViewAction>::ConstIterator it = actions->begin();
@@ -1669,6 +1693,7 @@ void KonqMainView::unPlugViewGUI( BrowserView *view )
 
   }
 }
+*/
 
 void KonqMainView::updateStatusBar()
 {
@@ -1705,11 +1730,20 @@ void KonqMainView::updateToolBarActions()
     stopAnimation(); // takes care of m_paStop
 }
 
-void KonqMainView::updateExtensionDependendActions( BrowserView *view )
+void KonqMainView::updateExtensionDependendActions( KonqChildView *childView )
 {
-  m_paPrint->setEnabled( view->child( 0L, "PrintingExtension" ) != (QObject *)0L );
+  bool printExt = false;
 
-  bool bViewPropExt = view->child( 0L, "ViewPropertiesExtension" ) != (QObject *)0L;
+  if ( childView->browserView() && childView->view()->child( 0L, "PrintingExtension" ) )
+    printExt = true;
+
+  m_paPrint->setEnabled( printExt );
+
+  bool bViewPropExt = false;
+
+  if ( childView->browserView() && childView->view()->child( 0L, "ViewPropertiesExtension" ) )
+    bViewPropExt = true;
+
   m_paSaveSettings->setEnabled( bViewPropExt );
   m_paSaveSettingsPerURL->setEnabled( bViewPropExt );
   checkEditExtension();
@@ -1741,7 +1775,7 @@ void KonqMainView::enableAllActions( bool enable )
     if ( ! m_currentView )
       qDebug("No current view !");
     else
-      updateExtensionDependendActions( m_currentView->view() );
+      updateExtensionDependendActions( m_currentView );
   }
 }
 
@@ -1764,19 +1798,19 @@ QString KonqMainView::currentTitle()
 #ifdef __GNUC__
 #warning FIXME
 #endif
-  return m_currentView->view()->url();
+  return m_currentView->view()->url().url();
 }
 
 QString KonqMainView::currentURL()
 {
-  return m_currentView->view()->url();
+  return m_currentView->view()->url().url();
 }
 
 void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_items )
 {
   m_oldView = m_currentView;
 
-  m_currentView = childView( (BrowserView *)sender() );
+  m_currentView = childView( (KParts::ReadOnlyPart *)sender()->parent() );
 
   //kdebug(KDEBUG_INFO, 1202, "KonqMainView::slotPopupMenu(...)");
   QString url = m_currentView->url();
@@ -1835,6 +1869,71 @@ void KonqMainView::reparseConfiguration()
     QObject *obj = (*it)->view()->child( 0L, "ViewPropertiesExtension" );
     if ( obj )
       ((ViewPropertiesExtension *)obj)->reparseConfiguration();
+  }
+}
+
+static const char *viewModeGUI = ""
+"<!DOCTYPE viewmodexml>"
+"<viewmodexml name=\"viewmode\">"
+"<MenuBar>"
+" <Menu name=\"view_menu\">"
+" </Menu>"
+"</MenuBar>"
+"</viewmodexml>";
+
+ViewModeGUIServant::ViewModeGUIServant( KonqMainView *mainView )
+ : QObject( mainView )
+{
+  m_mainView = mainView;
+  m_doc.setContent( QString::fromLatin1( viewModeGUI ) );
+  m_menuElement = m_doc.documentElement().namedItem( "MenuBar" ).namedItem( "Menu" ).toElement();
+  m_actions = 0L;
+}
+
+QAction *ViewModeGUIServant::action( const QDomElement &element )
+{
+  if ( !m_actions )
+    return 0L;
+
+  return m_actions->action( element.attribute( "name" ) );
+}
+
+QDomDocument ViewModeGUIServant::document() const
+{
+  return m_doc;
+}
+
+void ViewModeGUIServant::update( const KTrader::OfferList &services )
+{
+  if ( m_actions )
+    delete m_actions;
+
+  m_actions = new QActionCollection( this );
+
+  QDomNode n = m_menuElement.firstChild();
+  while ( !n.isNull() )
+  {
+    m_menuElement.removeChild( n );
+    n = m_menuElement.firstChild();
+  }
+
+  KTrader::OfferList::ConstIterator it = services.begin();
+  KTrader::OfferList::ConstIterator end = services.end();
+  for (; it != end; ++it )
+  {
+    KToggleAction *action = new KToggleAction( (*it)->comment(), 0, m_actions, (*it)->name() );
+
+    QDomElement e = m_doc.createElement( "Action" );
+    m_menuElement.appendChild( e );
+    e.setAttribute( "name", (*it)->name() );
+
+    if ( (*it)->name() == m_mainView->currentChildView()->service()->name() )
+      action->setChecked( true );
+
+    action->setExclusiveGroup( "KonqMainView_ViewModes" );
+
+    connect( action, SIGNAL( toggled( bool ) ),
+	     m_mainView, SLOT( slotViewModeToggle( bool ) ) );
   }
 }
 

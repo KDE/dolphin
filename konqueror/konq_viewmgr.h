@@ -29,6 +29,8 @@
 
 #include <ktrader.h>
 
+#include <kpartmanager.h>
+
 class QString;
 class QStringList;
 class KConfig;
@@ -39,7 +41,12 @@ class KonqChildView;
 class BrowserView;
 class KActionMenu;
 
-class KonqViewManager : public QObject
+namespace KParts
+{
+  class ReadOnlyPart;
+};
+
+class KonqViewManager : public KParts::PartManager
 {
   Q_OBJECT
 public:
@@ -52,7 +59,7 @@ public:
    * view, the other will be a new one with the same URL and the same view type
    * Returns the newly created view or 0L if the view couldn't be created.
    */
-  BrowserView* splitView( Qt::Orientation orientation );
+  KParts::ReadOnlyPart* splitView( Qt::Orientation orientation );
 
   /**
    * Does the same as the above, except that the second view will be
@@ -60,16 +67,16 @@ public:
    * If no Service Type was provided it takes the one from the current view.
    * Returns the newly created view or 0L if the view couldn't be created.
    */
-  BrowserView* splitView( Qt::Orientation orientation,
-			  QString url,
-			  QString serviceType = QString::null );
+  KParts::ReadOnlyPart* splitView( Qt::Orientation orientation,
+				   QString url,
+				   QString serviceType = QString::null );
 
   /**
    * Does basically the same as splitView() but inserts the new view at the top
    * of the view tree.
    * Returns the newly created view or 0L if the view couldn't be created.
    */
-  BrowserView* splitWindow( Qt::Orientation orientation );
+  KParts::ReadOnlyPart* splitWindow( Qt::Orientation orientation );
 
   /**
    * Guess!:-)
@@ -95,8 +102,6 @@ public:
 
   KonqChildView *chooseNextView( KonqChildView *view );
 //  unsigned long viewIdByNumber( int number );
-
-  bool eventFilter( QObject *obj, QEvent *ev );
 
   void setProfiles( KActionMenu *profiles );
 
@@ -135,11 +140,11 @@ public:
    * Do the actual splitting. The new View will be created from serviceType.
    * Returns the newly created view or 0L if the new view couldn't be created.
    */
-  BrowserView* split (KonqFrameBase* splitFrame,
-		      Qt::Orientation orientation,
-		      const QString &serviceType = QString::null,
-		      const QString &serviceName = QString::null,
-		      KonqFrameContainer **newFrameContainer = 0L );
+  KParts::ReadOnlyPart* split (KonqFrameBase* splitFrame,
+			       Qt::Orientation orientation,
+			       const QString &serviceType = QString::null,
+			       const QString &serviceName = QString::null,
+			       KonqFrameContainer **newFrameContainer = 0L );
 
 private:
 

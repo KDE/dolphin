@@ -33,6 +33,7 @@
 #include <kbrowser.h>
 #include "konq_frame.h"
 #include "konq_childview.h"
+#include "konq_viewmgr.h"
 
 #include <assert.h>
 
@@ -432,7 +433,7 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
   connect( m_pHeader, SIGNAL( passiveModeChange( bool ) ), this, SLOT( slotPassiveModeChange( bool ) ) );
 }
 
-BrowserView *
+KParts::ReadOnlyPart *
 KonqFrame::view( void )
 {
   return m_pView;
@@ -440,7 +441,7 @@ KonqFrame::view( void )
 
 bool KonqFrame::isActivePart()
 {
-  return ( (BrowserView *)m_pView == m_pChildView->mainView()->currentView() );
+  return ( (KParts::ReadOnlyPart *)m_pView == m_pChildView->mainView()->currentView() );
 }
 
 void
@@ -458,21 +459,25 @@ KonqFrame::saveConfig( KConfig* config, const QString &prefix, int /*id*/, int /
   config->writeEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), childView()->passiveMode() );
 }
 
-BrowserView *KonqFrame::attach( const KonqViewFactory &viewFactory )
+KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
 {
   if (m_pLayout) delete m_pLayout;
 
   KonqViewFactory factory( viewFactory );
-  
+
   m_pLayout = new QVBoxLayout( this );
   m_pLayout->addWidget( m_pHeader );
+  
   m_pView = factory.create( this, 0L );
   //  m_pView->setGeometry( 0, DEFAULT_HEADER_HEIGHT, width(), height() );
-  m_pLayout->addWidget( m_pView );
-  m_pView->show();
+  
+  assert( m_pView->widget() );
+  
+  m_pLayout->addWidget( m_pView->widget() );
+  m_pView->widget()->show();
   m_pHeader->show();
   m_pLayout->activate();
-  
+
   return m_pView;
 }
 
@@ -495,7 +500,8 @@ KonqFrame::reparent( QWidget* parent, WFlags f,
 void
 KonqFrame::slotHeaderClicked()
 {
-  m_pChildView->mainView()->setActiveView( m_pView );
+//  m_pChildView->mainView()->setActiveView( m_pView );
+  m_pChildView->mainView()->viewManager()->setActivePart( m_pView ); 
 /*
   if ( !CORBA::is_nil( m_vView ) )
   {

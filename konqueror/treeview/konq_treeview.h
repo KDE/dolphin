@@ -61,13 +61,27 @@ private:
   KonqTreeView *m_treeView;
 };
 
-class KonqTreeView : public BrowserView
+class TreeViewBrowserExtension : public BrowserView
+{
+  friend class KonqTreeView;
+public:
+  TreeViewBrowserExtension( KonqTreeView *treeView );
+
+  virtual void setXYOffset( int x, int y );
+  virtual int xOffset();
+  virtual int yOffset();
+
+private:
+  KonqTreeView *m_treeView;
+};
+
+class KonqTreeView : public KParts::ReadOnlyPart
 {
   friend class KonqTreeViewWidget;
   friend class TreeViewPropertiesExtension;
   Q_OBJECT
 public:
-  KonqTreeView( QWidget *parent, const char *name );
+  KonqTreeView( QWidget *parentWidget, QObject *parent, const char *name );
   virtual ~KonqTreeView();
 
   virtual void openURL( const QString &url, bool reload = false,
@@ -90,6 +104,7 @@ protected slots:
 private:
   KonqTreeViewWidget *m_pTreeView;
   KToggleAction *m_paShowDot;
+  TreeViewBrowserExtension *m_browser;
 };
 
 #endif

@@ -30,6 +30,8 @@
 #include <kpartsmainwindow.h>
 #include <kbookmark.h>
 #include <dcopobject.h>
+#include <kxmlgui.h>
+#include <ktrader.h>
 
 class QAction;
 class KAction;
@@ -49,6 +51,16 @@ class KonqBookmarkBar;
 struct HistoryEntry;
 class KonqFrameBase;
 class KBookmarkMenu;
+class ViewModeGUIServant;
+
+//Simon: have to include .h here, because dcopidl doesn't support namespace :(
+#include <kpart.h>
+/*
+namespace KParts
+{
+  class ReadOnlyPart;
+};
+*/
 
 class KonqMainView : public KParts::MainWindow,
                      virtual public KBookmarkOwner,
@@ -108,7 +120,7 @@ public slots:
   void slotConfigureNetwork();
   void slotConfigureKeys();
 
-  void slotViewChanged( BrowserView *oldView, BrowserView *newView );
+  void slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView );
 
   void slotStarted();
   void slotCompleted();
@@ -125,17 +137,17 @@ k_dcop:
 public:
   bool openView( QString serviceType, QString _url, KonqChildView *childView );
 
-  void setActiveView( BrowserView *view );
+  //  void setActiveView( BrowserView *view );
 
   void insertChildView( KonqChildView *childView );
   void removeChildView( KonqChildView *childView );
-  KonqChildView *childView( BrowserView *view );
+  KonqChildView *childView( KParts::ReadOnlyPart *view );
 
   int viewCount() { return m_mapViews.count(); }
-  QValueList<BrowserView *> viewList();
+  QValueList<KParts::ReadOnlyPart *> viewList();
 
   KonqChildView *currentChildView() { return m_currentView; }
-  BrowserView *currentView();
+  KParts::ReadOnlyPart *currentView();
 
   virtual void customEvent( QCustomEvent *event );
 
@@ -151,6 +163,8 @@ public:
   static void setMoveSelection( bool b ) { s_bMoveSelection = b; }
 
 protected slots:
+  void slotPartActivated( KParts::Part *part );
+
   void slotAnimatedLogoTimeout();
 
   void slotURLEntered( const QString &text );
@@ -216,12 +230,12 @@ private:
   void initActions();
   void initPlugins();
 
-  void plugInViewGUI( BrowserView *view );
-  void unPlugViewGUI( BrowserView *view );
+  //  void plugInViewGUI( BrowserView *view );
+  //  void unPlugViewGUI( BrowserView *view );
 
   void updateStatusBar();
   void updateToolBarActions();
-  void updateExtensionDependendActions( BrowserView *view );
+  void updateExtensionDependendActions( KonqChildView *childView );
 
   QString konqFilteredURL( const QString &url );
 
@@ -311,7 +325,7 @@ private:
   QList<KToggleAction> m_viewModeActions;
   bool m_bViewModeLock;
 
-  typedef QMap<BrowserView *, KonqChildView *> MapViews;
+  typedef QMap<KParts::ReadOnlyPart *, KonqChildView *> MapViews;
 
   MapViews m_mapViews;
 
@@ -334,9 +348,29 @@ private:
 
   QGuardedPtr<QComboBox> m_combo;
 
+  ViewModeGUIServant *m_viewModeGUIServant;
+
   static QList<QPixmap> *s_plstAnimatedLogo;
 
   static bool s_bMoveSelection;
+};
+
+class ViewModeGUIServant : public QObject, public KParts::XMLGUIServant
+{
+  Q_OBJECT
+public:
+  ViewModeGUIServant( KonqMainView *mainView );
+
+  virtual QAction *action( const QDomElement &element );
+  virtual QDomDocument document() const;
+
+  void update( const KTrader::OfferList &services );
+
+private:
+  KonqMainView *m_mainView;
+  QDomDocument m_doc;
+  QDomElement m_menuElement;
+  QActionCollection *m_actions;
 };
 
 #endif

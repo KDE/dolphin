@@ -1,7 +1,8 @@
 
 INCLUDES = -I$(srcdir)/../libkonq $(all_includes)
 
-SUBDIRS = . plugins kfmexec client htmlview iconview textview treeview dirtree pics
+SUBDIRS = . plugins kfmexec client iconview pics
+# htmlview iconview textview treeview dirtree pics
 
 lib_LTLIBRARIES = libkonqueror.la
 

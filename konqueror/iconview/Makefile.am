@@ -12,3 +12,5 @@ libkonqiconview_la_LIBADD = $(top_builddir)/konqueror/libkonqueror.la
 servicedir = $(kde_servicesdir)
 service_DATA = konq_iconview.desktop
 
+rcdir = $(kde_datadir)/konqueror
+rc_DATA = konq_iconview.rc

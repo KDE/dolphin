@@ -40,14 +40,13 @@
 template class QList<KonqChildView>;
 
 KonqViewManager::KonqViewManager( KonqMainView *mainView )
+ : KParts::PartManager( mainView )
 {
   m_pMainView = mainView;
 
   m_pMainContainer = 0L;
 
   m_bProfileListDirty = true;
-
-  qApp->installEventFilter( this );
 }
 
 KonqViewManager::~KonqViewManager()
@@ -57,16 +56,16 @@ KonqViewManager::~KonqViewManager()
   if (m_pMainContainer) delete m_pMainContainer;
 }
 
-BrowserView* KonqViewManager::splitView ( Qt::Orientation orientation )
+KParts::ReadOnlyPart* KonqViewManager::splitView ( Qt::Orientation orientation )
 {
   kdebug(0, 1202, "KonqViewManager::splitView(default)" );
 
   return splitView( orientation, m_pMainView->currentChildView()->url() );
 }
 
-BrowserView* KonqViewManager::splitView ( Qt::Orientation orientation,
-					  QString url,
-					  QString serviceType )
+KParts::ReadOnlyPart* KonqViewManager::splitView ( Qt::Orientation orientation,
+						   QString url,
+						   QString serviceType )
 {
   kdebug(0, 1202, "KonqViewManager::splitView(ServiceType)" );
 
@@ -74,7 +73,7 @@ BrowserView* KonqViewManager::splitView ( Qt::Orientation orientation,
   if( m_pMainContainer )
     viewFrame = m_pMainView->currentChildView()->frame();
 
-  BrowserView* view = split( viewFrame, orientation, serviceType );
+  KParts::ReadOnlyPart* view = split( viewFrame, orientation, serviceType );
 
   if( view )
     m_pMainView->childView( view )->openURL( url );
@@ -82,7 +81,7 @@ BrowserView* KonqViewManager::splitView ( Qt::Orientation orientation,
   return view;
 }
 
-BrowserView* KonqViewManager::splitWindow( Qt::Orientation orientation )
+KParts::ReadOnlyPart* KonqViewManager::splitWindow( Qt::Orientation orientation )
 {
   kdebug(0, 1202, "KonqViewManager::splitWindow(default)" );
 
@@ -92,7 +91,7 @@ BrowserView* KonqViewManager::splitWindow( Qt::Orientation orientation )
   if( m_pMainContainer )
     splitFrame = m_pMainContainer->firstChild();
 
-  BrowserView* view = split( splitFrame, orientation );
+  KParts::ReadOnlyPart* view = split( splitFrame, orientation );
 
   if( view )
     m_pMainView->childView( view )->openURL( url );
@@ -100,10 +99,10 @@ BrowserView* KonqViewManager::splitWindow( Qt::Orientation orientation )
   return view;
 }
 
-BrowserView* KonqViewManager::split (KonqFrameBase* splitFrame,
-				     Qt::Orientation orientation,
-				     const QString &serviceType, const QString &serviceName,
-				     KonqFrameContainer **newFrameContainer )
+KParts::ReadOnlyPart* KonqViewManager::split (KonqFrameBase* splitFrame,
+					      Qt::Orientation orientation,
+					      const QString &serviceType, const QString &serviceName,
+					      KonqFrameContainer **newFrameContainer )
 {
   kdebug(0, 1202, "KonqViewManager::split" );
 
@@ -115,7 +114,7 @@ BrowserView* KonqViewManager::split (KonqFrameBase* splitFrame,
   if( newViewFactory.isNull() )
     return 0L; //do not split at all if we can't create the new view
 
-  BrowserView *view = 0L;
+  KParts::ReadOnlyPart *view = 0L;
 
   if( m_pMainContainer )
   {
@@ -262,20 +261,22 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
 
   loadItem( cfg, m_pMainContainer, rootItem );
 
-  QValueList<BrowserView *> lst = m_pMainView->viewList();
+  QValueList<KParts::ReadOnlyPart *> lst = m_pMainView->viewList();
 
-  BrowserView *view = *lst.begin();
+  KParts::ReadOnlyPart *view = *lst.begin();
   KonqChildView *childView = m_pMainView->childView( view );
 
   if ( childView->passiveMode() )
   {
     KonqChildView *nextChildView = chooseNextView( childView );
-    m_pMainView->setActiveView( nextChildView->view() );
+    //    m_pMainView->setActiveView( nextChildView->view() );
+    setActivePart( nextChildView->view() );
     if ( lst.count() == 2 )
       nextChildView->frame()->header()->passiveModeCheckBox()->hide();
   }
   else
-    m_pMainView->setActiveView( view );
+  //    m_pMainView->setActiveView( view );
+    setActivePart( view );
 
   if ( lst.count() == 1 && !childView->passiveMode() )
     childView->frame()->header()->passiveModeCheckBox()->hide();
@@ -397,15 +398,15 @@ KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
 {
 
 
-  QValueList<BrowserView *> viewList = m_pMainView->viewList();
+  QValueList<KParts::ReadOnlyPart *> viewList = m_pMainView->viewList();
 
   if ( !view )
     return m_pMainView->childView( *viewList.begin() );
 
-  QValueList<BrowserView *>::ConstIterator it = viewList.find( view->view() );
-  QValueList<BrowserView *>::ConstIterator end = viewList.end();
+  QValueList<KParts::ReadOnlyPart *>::ConstIterator it = viewList.find( view->view() );
+  QValueList<KParts::ReadOnlyPart *>::ConstIterator end = viewList.end();
 
-  QValueList<BrowserView *>::ConstIterator startIt = it;
+  QValueList<KParts::ReadOnlyPart *>::ConstIterator startIt = it;
 
   // the view should always be in the list, shouldn't it?
   // maybe use assert( it != end )?
@@ -434,25 +435,7 @@ KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
 
 }
 
-#ifdef __GNUC__
-#warning FIXME (Simon)
-#endif
 /*
-unsigned long KonqViewManager::viewIdByNumber( int number )
-{
-  kdebug(0, 1202, "KonqViewManager::viewIdByNumber( %d )", number );
-  QList<KonqChildView> viewList;
-
-  m_pMainContainer->listViews( &viewList );
-
-  KonqChildView* view = viewList.at( number );
-  if( view != 0L )
-    return view->id();
-  else
-    return 0L;
-}
-*/
-
 bool KonqViewManager::eventFilter( QObject *obj, QEvent *ev )
 {
   if ( ev->type() == QEvent::MouseButtonPress ||
@@ -490,7 +473,8 @@ bool KonqViewManager::eventFilter( QObject *obj, QEvent *ev )
 
   return false;
 }
-
+*/
+  
 void KonqViewManager::setProfiles( KActionMenu *profiles )
 {
   m_pamProfiles = profiles;
@@ -549,8 +533,8 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
   KonqChildView *v = new KonqChildView( viewFactory, newViewFrame,
 					m_pMainView, service, serviceOffers );
 
-  QObject::connect( v, SIGNAL( sigViewChanged( BrowserView *, BrowserView * ) ),
-                    m_pMainView, SLOT( slotViewChanged( BrowserView *, BrowserView * ) ) );
+  QObject::connect( v, SIGNAL( sigViewChanged( KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ),
+                    m_pMainView, SLOT( slotViewChanged( KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ) );
 
   m_pMainView->insertChildView( v );
 
@@ -559,6 +543,8 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
   //if (isVisible()) v->show();
   newViewFrame->show();
 
+  addPart( v->view(), false );
+  
   return v;
 }
 

@@ -48,7 +48,7 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
   m_pMainView = mainView;
   m_pRun = 0L;
   m_pView = 0L;
-  
+
   switchView( viewFactory );
 
   m_service = service;
@@ -106,10 +106,10 @@ void KonqChildView::show()
 
 void KonqChildView::openURL( const QString &url, bool useMiscURLData  )
 {
-  if ( useMiscURLData )
-    m_pView->openURL( url, m_bReloadURL, m_iXOffset, m_iYOffset );
-  else
-    m_pView->openURL( url );
+  m_pView->openURL( KURL( url ) );
+
+  if ( useMiscURLData && browserView() )
+    browserView()->setXYOffset( m_iXOffset, m_iYOffset );
 
   QString decodedURL = url;
   KURL::decode( decodedURL );
@@ -118,18 +118,18 @@ void KonqChildView::openURL( const QString &url, bool useMiscURLData  )
 
 void KonqChildView::switchView( KonqViewFactory &viewFactory )
 {
-  if ( m_pView ) 
-    m_pView->hide();
-  
-  BrowserView *newView = m_pKonqFrame->attach( viewFactory );
-  
+  if ( m_pView )
+    m_pView->widget()->hide();
+
+  KParts::ReadOnlyPart *newView = m_pKonqFrame->attach( viewFactory );
+
   if ( m_pView )
   {
     emit sigViewChanged( m_pView, newView );
-  
+
     delete m_pView;
   }
-  
+
   m_pView = newView;
   connectView();
   show();
@@ -155,10 +155,10 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
     KTrader::OfferList serviceOffers;
     KService::Ptr service;
     KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &serviceOffers );
-    
+
     if ( viewFactory.isNull() )
       return false;
-    
+
     m_service = service;
     m_serviceOffers = serviceOffers;
     m_serviceType = serviceType;
@@ -174,20 +174,26 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
 void KonqChildView::connectView(  )
 {
 
-  connect( m_pView, SIGNAL( openURLRequest( const QString &, bool, int, int, const QString & ) ),
-           m_pMainView, SLOT( openURL( const QString &, bool, int, int, const QString & ) ) );
-
   connect( m_pView, SIGNAL( started() ),
            m_pMainView, SLOT( slotStarted() ) );
   connect( m_pView, SIGNAL( completed() ),
            m_pMainView, SLOT( slotCompleted() ) );
-  connect( m_pView, SIGNAL( canceled() ),
+  #warning "FIXME: obey errormsg!"
+  connect( m_pView, SIGNAL( canceled( const QString & ) ),
            m_pMainView, SLOT( slotCanceled() ) );
 
-  connect( m_pView, SIGNAL( setStatusBarText( const QString & ) ),
+  BrowserView *view = browserView();
+
+  if ( !view )
+    return;
+
+  connect( view, SIGNAL( openURLRequest( const QString &, bool, int, int, const QString & ) ),
+           m_pMainView, SLOT( openURL( const QString &, bool, int, int, const QString & ) ) );
+
+  connect( view, SIGNAL( setStatusBarText( const QString & ) ),
            m_pMainView, SLOT( slotSetStatusBarText( const QString & ) ) );
 
-  connect( m_pView, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
+  connect( view, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
            m_pMainView, SLOT( slotPopupMenu( const QPoint &, const KFileItemList & ) ) );
 
   QObject *obj = m_pView->child( 0L, "EditExtension" );
@@ -198,16 +204,16 @@ void KonqChildView::connectView(  )
              m_pMainView, SLOT( checkEditExtension() ) );
   }
 
-  connect( m_pView, SIGNAL( setLocationBarURL( const QString & ) ),
+  connect( view, SIGNAL( setLocationBarURL( const QString & ) ),
            m_pMainView, SLOT( slotSetLocationBarURL( const QString & ) ) );
 
-  connect( m_pView, SIGNAL( createNewWindow( const QString & ) ),
+  connect( view, SIGNAL( createNewWindow( const QString & ) ),
            m_pMainView, SLOT( slotCreateNewWindow( const QString & ) ) );
 
-  connect( m_pView, SIGNAL( loadingProgress( int ) ),
+  connect( view, SIGNAL( loadingProgress( int ) ),
            m_pMainView, SLOT( slotLoadingProgress( int ) ) );
 
-  connect( m_pView, SIGNAL( speedProgress( int ) ),
+  connect( view, SIGNAL( speedProgress( int ) ),
            m_pMainView, SLOT( slotSpeedProgress( int ) ) );
 
 }
@@ -244,11 +250,14 @@ void KonqChildView::makeHistory( bool pushEntry )
   if ( pushEntry || !m_pCurrentHistoryEntry )
     m_pCurrentHistoryEntry = new HistoryEntry;
 
-  QDataStream stream( m_pCurrentHistoryEntry->buffer, IO_WriteOnly );
+  if ( browserView() )
+  {
+    QDataStream stream( m_pCurrentHistoryEntry->buffer, IO_WriteOnly );
 
-  m_pView->saveState( stream );
+    browserView()->saveState( stream );
+  }
 
-  m_pCurrentHistoryEntry->strURL = m_pView->url();
+  m_pCurrentHistoryEntry->strURL = m_pView->url().url();
   m_pCurrentHistoryEntry->strServiceType = m_serviceType;
   m_pCurrentHistoryEntry->strServiceName = m_service->name();
 }
@@ -280,7 +289,7 @@ void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
     KTrader::OfferList serviceOffers;
     KService::Ptr service;
     KonqViewFactory viewFactory = KonqFactory::createView( h->strServiceType, h->strServiceName, &service, &serviceOffers );
-    
+
     if ( viewFactory.isNull() )
      return;
 
@@ -291,13 +300,18 @@ void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
     switchView( viewFactory );
   }
 
-  QDataStream stream( h->buffer, IO_ReadOnly );
+  if ( browserView() )
+  {
+    QDataStream stream( h->buffer, IO_ReadOnly );
+
+    browserView()->restoreState( stream );
+  }
+  else
+    m_pView->openURL( KURL( h->strURL ) );
 
   QString url = h->strURL;
   KURL::decode( url );
   m_pMainView->setLocationBarURL( this, url );
-
-  m_pView->restoreState( stream );
 
   stack.removeFirst();
 }
@@ -317,7 +331,7 @@ void KonqChildView::goForward( int steps )
 QString KonqChildView::url()
 {
   assert( m_pView );
-  return m_pView->url();
+  return m_pView->url().url();
 }
 
 void KonqChildView::run( const QString & url )
@@ -338,7 +352,7 @@ void KonqChildView::stop()
 {
   if ( m_bViewStarted )
   {
-    m_pView->stop();
+    m_pView->closeURL();
     m_bViewStarted = false;
   }
   else if ( m_pRun )
@@ -356,7 +370,11 @@ void KonqChildView::reload()
   m_bBack = false;
   lockHistory();
 
-  m_pView->openURL( m_pView->url(), true, m_pView->xOffset(), m_pView->yOffset() );
+  //  m_pView->openURL( m_pView->url(), true, m_pView->xOffset(), m_pView->yOffset() );
+  m_pView->openURL( m_pView->url() );
+
+  if ( browserView() )
+    browserView()->setXYOffset( browserView()->xOffset(), browserView()->yOffset() );
 }
 
 void KonqChildView::setPassiveMode( bool mode )
@@ -364,7 +382,8 @@ void KonqChildView::setPassiveMode( bool mode )
   m_bPassiveMode = mode;
 
   if ( mode && m_pMainView->viewCount() > 1 && m_pMainView->currentChildView() == this )
-    m_pMainView->setActiveView( m_pMainView->viewManager()->chooseNextView( this )->view() );
+  //    m_pMainView->setActiveView( m_pMainView->viewManager()->chooseNextView( this )->view() );
+    m_pMainView->viewManager()->setActivePart( m_pMainView->viewManager()->chooseNextView( this )->view() );
 
   // Hide the mode button for the last active view
   //
