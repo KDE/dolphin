@@ -215,7 +215,7 @@ void KNewMenu::slotFillTemplates()
     // Ensure any changes in the templates dir will call this
     if ( ! s_pDirWatch )
     {
-        s_pDirWatch = new KDirWatch( 5000 ); // 5 seconds
+        s_pDirWatch = new KDirWatch;
         QStringList dirs = m_actionCollection->instance()->dirs()->resourceDirs("templates");
         for ( QStringList::Iterator it = dirs.begin() ; it != dirs.end() ; ++it )
         {
