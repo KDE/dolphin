@@ -178,25 +178,14 @@ void KonqFactory::getOffers( const QString & serviceType,
 {
     if ( appServiceOffers )
     {
-        *appServiceOffers = KTrader::self()->query( serviceType, "Application", "DesktopEntryName != kfmclient", QString::null );
-        /*
-        KTrader::OfferList::Iterator it = appServiceOffers->begin();
-        while ( it != appServiceOffers->end() )
-        {
-            if ( (*it)->desktopEntryName() == "kfmclient" )
-            {
-                it = appServiceOffers->remove( it );
-                // it points to the next one now
-            }
-            else
-                ++it;
-        }
-        */
+        *appServiceOffers = KTrader::self()->query( serviceType, "Application",
+                                                    "DesktopEntryName != 'kfmclient'", QString::null );
     }
 
     if ( partServiceOffers )
     {
-        *partServiceOffers = KTrader::self()->query( serviceType, "KParts/ReadOnlyPart", QString::null, QString::null );
+        *partServiceOffers = KTrader::self()->query( serviceType, "KParts/ReadOnlyPart",
+                                                     QString::null, QString::null );
     }
 }
 
