@@ -21,13 +21,14 @@
 
 #include <kbookmarkmanager.h>
 
+class QObject;
 class QString;
 
 class MyManager {
    friend class BkManagerAccessor;
 public:
    static MyManager* self() { if (!s_mgr) { s_mgr = new MyManager(); } return s_mgr; }
-   void createManager(class KEBTopLevel *top, QString filename);
+   void createManager(QObject *top, QString filename);
    void doExport(bool moz);
    void notifyManagers();
    bool managerSave() { return mgr()->save(); }

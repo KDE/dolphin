@@ -43,6 +43,8 @@ void FavIconsItrHolder::doItrListChanged() {
    KEBTopLevel::self()->setCancelFavIconUpdatesEnabled(m_itrs.count() > 0);
 }
 
+/* ---------------------------------------------------------------------------------- */
+
 FavIconsItr::FavIconsItr(QValueList<KBookmark> bks)
    : BookmarkIterator(bks) {
 
@@ -163,8 +165,6 @@ void FavIconUpdater::notifyChange(bool isHost, QString hostOrURL, QString iconNa
    m_bk.internalElement().setAttribute("icon", iconName);
    KEBTopLevel::self()->emitSlotCommandExecuted();
 }
-
-/* ---------------------------------------------------------------------------------- */
 
 /* ---------------------------------------------------------------------------------- */
 

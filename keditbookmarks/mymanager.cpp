@@ -33,7 +33,7 @@
 
 MyManager *MyManager::s_mgr = 0;
 
-void MyManager::createManager(KEBTopLevel *top, QString filename) {
+void MyManager::createManager(QObject *top, QString filename) {
    if (m_mgr) {
       QObject::disconnect(m_mgr, 0, 0, 0);
    }

@@ -406,7 +406,8 @@ KMacroCommand* CmdGen::insertMimeSource(const QString &cmdName, QMimeSource *dat
       CreateCommand *cmd = new CreateCommand(currentAddress, (*it));
       cmd->execute();
       mcmd->addCommand(cmd);
-      // kdDebug() << "KEBTopLevel::slotPaste url=" << (*it).url().prettyURL() << currentAddress << endl;
+      // kdDebug() << "CmdGen::insertMimeSource url=" 
+      //           << (*it).url().prettyURL() << currentAddress << endl;
       currentAddress = KBookmark::nextAddress(currentAddress);
    }
    return mcmd;
