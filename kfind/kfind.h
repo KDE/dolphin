@@ -53,6 +53,7 @@ private:
   KfindWindow * win;
 
   bool isResultReported;
+  bool hasBeenKilled;
   char *iBuffer;
   void setExpanded(bool);
 };

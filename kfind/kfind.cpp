@@ -98,6 +98,7 @@ void Kfind::startSearch() {
   
   iBuffer[0] = 0;
   isResultReported = false;
+  hasBeenKilled = false;
   
   // Reset count
   QString str = i18n("%1 file(s) found").arg(0);
@@ -123,8 +124,10 @@ void Kfind::stopSearch() {
   win->endSearch();
   tabWidget->endSearch();
 
-  if(findProcess->isRunning())
+  if(findProcess->isRunning()) {
     findProcess->kill();
+    hasBeenKilled = true;
+  }
   
   setFocus();
 }
@@ -144,8 +147,8 @@ void Kfind::newSearch() {
 
 void Kfind::handleStdout(KProcess *, char *buffer, int buflen) {
   
-  // If find process has been stopped ignore rest of the input
-  if(!findProcess->isRunning())
+  // If find process has been stopped by user ignore rest of the input
+  if(hasBeenKilled)
     return;
   
   // copy data to I/O buffer
