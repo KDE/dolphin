@@ -51,7 +51,7 @@ int KonqComboAction::plug( QWidget *w, int index )
 
   int id = KAction::getToolButtonID();
 
-  KHistoryCombo *comboBox = new KHistoryCombo( toolBar, "history combo" );
+  KHistoryCombo *comboBox = new KHistoryCombo( false, toolBar, "history combo" );
   comboBox->setSizePolicy( QSizePolicy( QSizePolicy::Expanding,
 					QSizePolicy::Fixed ));
   comboBox->setPixmapProvider( new KonqPixmapProvider );

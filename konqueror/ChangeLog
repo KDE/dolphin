@@ -1,3 +1,18 @@
+Sat Nov 25 17:38:27 2000  Carsten Pfeiffer  <pfeiffer@kde.org>
+
+	* konq_mainwindow.cc: Completion handling overhauled. We have
+	one KonqHistoryManager, which holds a KCompletion object and syncs
+	the history with the completion.
+
+	* konq_view.cc: 
+	set m_bAborted before calling slotCompleted in 	slotCanceled()
+	feed the history manager
+
+	* konq_actions.cc: use KonqHistoryCombo that doesn't mess with the
+	competion-object, we do our own synchronization now.
+	
+	* libkonq/ added konq_history*
+	
 2000-11-22  David Faure  <faure@kde.org>
 
 	* konq_listview.cc: Added "Default" Icon Size, which corresponds to 

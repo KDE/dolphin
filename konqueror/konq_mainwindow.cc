@@ -72,6 +72,7 @@
 #include <kmessagebox.h>
 #include <knewmenu.h>
 #include <konq_defaults.h>
+#include <konq_history.h>
 #include <konq_popupmenu.h>
 #include <konq_settings.h>
 #include <konq_main.h>
@@ -146,6 +147,20 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   setXMLFile( "konqueror.rc" );
 
+  KConfig *config = KGlobal::config();
+
+  // init history-manager, load history, get completion object
+  if ( !s_pCompletion ) {
+    s_pCompletion = KonqHistoryManager::self()->completionObject();
+
+    // setup the completion object before createGUI(), so that the combo
+    // picks up the correct mode from the HistoryManager (in slotComboPlugged)
+    KConfigGroupSaver cs( config, QString::fromLatin1("Settings") );
+    int mode = config->readNumEntry( "CompletionMode",
+				     KGlobalSettings::completionMode() );
+    s_pCompletion->setCompletionMode( (KGlobalSettings::Completion) mode );
+  }
+
   createGUI( 0L );
 
   if ( !m_toggleViewGUIClient->empty() )
@@ -180,7 +195,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_paShowBookmarkBar->setChecked( !toolBarByName("bookmarkToolBar")->isHidden() );
   updateBookmarkBar(); // hide if empty
 
-  KConfig * config = KGlobal::config();
   KConfigGroupSaver cgs(config,"MainView Settings");
   m_bSaveViewPropertiesLocally = config->readBoolEntry( "SaveViewPropertiesLocally", false );
   m_paSaveViewPropertiesLocally->setChecked( m_bSaveViewPropertiesLocally );
@@ -207,14 +221,6 @@ KonqMainWindow::~KonqMainWindow()
     {
       delete s_lstViews;
       s_lstViews = 0;
-
-      KSimpleConfig historyConfig( "konq_history" );
-      historyConfig.setGroup("History");
-      historyConfig.writeEntry("CompletionItems", s_pCompletion->items());
-      historyConfig.sync();
-
-      delete s_pCompletion;
-      s_pCompletion = 0;
     }
   }
 
@@ -1212,6 +1218,7 @@ void KonqMainWindow::slotRunFinished()
     if ( childView == m_currentView )
     {
       stopAnimation();
+
       // Revert to working URL - unless the URL was typed manually
       kdDebug(1202) << " typed URL = " << run->typedURL() << endl;
       if ( run->typedURL().isEmpty() && childView->history().current() ) // not typed
@@ -1275,58 +1282,29 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   }
 
 
-  // Register this URL as a working one, in the completion object and the combo
-  // Only register remote URLs, because local ones will be found by
-  // KURLCompletion
-  KURL u( viewURL );
-  bool isLocal = u.isLocalFile();
-
-
-  if ( !m_combo->contains( viewURL ) ) {
-      // goes both into the combo and the completion object
-      m_combo->addToHistory( viewURL );
-      if ( isLocal ) // but we only want remote urls in the completion object
-          m_combo->completionObject()->removeItem( viewURL );
-  }
-
-  else if ( !isLocal ) // just add it to the completion object for proper weighting
-      m_combo->completionObject()->addItem( viewURL );
-
-
-
-  // it's in the combo, so we better make it the current item
+  // put it into the combo and make it the current item
   // ... _if_ the user didn't change the url while we were loading
-  if ( isActiveView && currentText == viewURL ) {
-      for ( int i = 0; i < m_combo->count(); i++ ) {
-          if ( m_combo->text( i ) == currentText ) {
-              m_combo->setCurrentItem( i );
-              break;
-          }
-      }
-  }
+  m_combo->addToHistory( viewURL );
+  if ( isActiveView && currentText == viewURL )
+      m_combo->setCurrentItem( 0 );
 
   // set the old url back, if it was cleared by addToHistory() or
   // removeItem() above
   if ( m_combo->currentText() != currentText )
       m_combo->setEditText( currentText );
 
-  if ( !isLocal ) {
-      QString u = view->typedURL();
-      if ( !u.isEmpty() && u != viewURL )
-          m_combo->completionObject()->addItem( u ); // short version
-  }
 
   // Need to update the current working directory
   // of the completion object everytime the user
   // changes the directory!! (DA)
   if( m_pURLCompletion )
   {
-    if( isLocal )
+    KURL u( viewURL );
+    if( u.isLocalFile() )
       m_pURLCompletion->setDir( u.path() );
     else
       m_pURLCompletion->setDir( u.url() );  //needs work!! (DA)
   }
-
 }
 
 void KonqMainWindow::slotPartActivated( KParts::Part *part )
@@ -1922,35 +1900,24 @@ void KonqMainWindow::slotComboPlugged()
   m_combo = m_paURLCombo->combo();
   m_combo->clearHistory();
 
-  KConfig *config = KGlobal::config();
-  config->setGroup( "Settings" );
-  int mode = config->readNumEntry("CompletionMode",
-                                  KGlobalSettings::completionMode());
-
-  if ( !s_pCompletion ) {
-      KSimpleConfig historyConfig( "konq_history" );
-      historyConfig.setGroup( "History" );
-      s_pCompletion = new KCompletion;
-      s_pCompletion->setOrder( KCompletion::Weighted );
-      s_pCompletion->setItems( historyConfig.readListEntry( "CompletionItems" ) );
-      s_pCompletion->setCompletionMode( (KGlobalSettings::Completion) mode );
-  }
-
   m_combo->setCompletionObject( s_pCompletion, false ); //we handle the signals
   m_combo->setAutoDeleteCompletionObject( false );
-  m_combo->setCompletionMode( (KGlobalSettings::Completion) mode ); // set the previous completion-mode
+  m_combo->setCompletionMode( s_pCompletion->completionMode() );
 
   KonqPixmapProvider *prov = static_cast<KonqPixmapProvider*> (m_combo->pixmapProvider());
+
+  KConfig *config = KGlobal::config();
+  KConfigGroupSaver cs( config, "Settings" );
   prov->load( config, "ComboIconCache" );
   m_combo->setMaxCount( config->readNumEntry("Maximum of URLs in combo", 10 ));
   QStringList locationBarCombo = config->readListEntry( "ToolBarCombo" );
 
   m_combo->setHistoryItems( locationBarCombo );
   m_pURLCompletion = new KURLCompletion( KURLCompletion::FileCompletion );
+  m_pURLCompletion->setCompletionMode( s_pCompletion->completionMode() );
   // This only turns completion off. ~ is still there in the result
   // We do want completion of user names, right?
   //m_pURLCompletion->setReplaceHome( false );  // Leave ~ alone! Will be taken care of by filters!!
-  m_pURLCompletion->setCompletionMode( (KGlobalSettings::Completion) mode );
 
   connect( m_combo, SIGNAL( completion( const QString& )),
            SLOT( slotMakeCompletion( const QString& )));
@@ -1965,11 +1932,21 @@ void KonqMainWindow::slotComboPlugged()
 // the user changed the completion mode in the combo
 void KonqMainWindow::slotCompletionModeChanged( KGlobalSettings::Completion m )
 {
-  m_pURLCompletion->setCompletionMode( m );
+  s_pCompletion->setCompletionMode( m );
   KConfig *config = KGlobal::config();
   config->setGroup( "Settings" );
   config->writeEntry( "CompletionMode", (int)m_combo->completionMode() );
   config->sync();
+
+  // tell the other windows too (only this instance currently)
+  KonqMainWindow *window = s_lstViews->first();
+  while ( window ) {
+    if ( window->m_combo ) {
+      window->m_combo->setCompletionMode( m );
+      window->m_pURLCompletion->setCompletionMode( m );
+    }
+    window = s_lstViews->next();
+  }
 }
 
 // at first, try to find a completion in the current view, then use the global
@@ -1978,9 +1955,6 @@ void KonqMainWindow::slotMakeCompletion( const QString& text )
 {
   if( m_pURLCompletion )
   {
-    // setting the mode still necessary?
-    s_pCompletion->setCompletionMode( m_combo->completionMode() );
-
     // kdDebug(1202) << "Local Completion object found!" << endl;
     QString completion = m_pURLCompletion->makeCompletion( text );
     m_currentDir = QString::null;
@@ -2022,7 +1996,6 @@ void KonqMainWindow::slotRotation( KCompletionBase::KeyBindingType type )
                                 m_pURLCompletion->nextMatch();
 
     if( completion.isNull() ) { // try the history KCompletion object
-        s_pCompletion->setCompletionMode( m_combo->completionMode() );
         completion = prev ? s_pCompletion->previousMatch() :
                             s_pCompletion->nextMatch();
     }

@@ -30,6 +30,8 @@
 #include "konq_viewmgr.h"
 #include <kio/job.h>
 
+#include <konq_history.h>
+
 #include <assert.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -140,6 +142,8 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
   sendOpenURLEvent( url, args );
 
   updateHistoryEntry(false /* don't save location bar URL yet */);
+  // add pending history entry
+  KonqHistoryManager::self()->addPending( url, locationBarURL, QString::null );
 
   //kdDebug(1202) << "Current position : " << m_lstHistory.at() << endl;
 }
@@ -347,6 +351,12 @@ void KonqView::slotCompleted()
   // Success... update history entry (mostly for location bar URL)
   updateHistoryEntry(true);
 
+  if ( m_bAborted ) // remove the pending entry on error
+      KonqHistoryManager::self()->removePending( url() );
+  else // register as proper history entry
+      KonqHistoryManager::self()->confirmPending(url(), typedURL(),
+						m_lstHistory.current()->title);
+
   emit viewCompleted( this );
 }
 
@@ -357,8 +367,8 @@ void KonqView::slotCanceled( const QString & errorMsg )
   // It should probably be used in a KMessageBox
   // Let's use the statusbar for now
   m_pKonqFrame->statusbar()->message( errorMsg );
-  slotCompleted();
   m_bAborted = true;
+  slotCompleted();
 }
 
 void KonqView::slotSelectionInfo( const KFileItemList &items )
@@ -521,6 +531,10 @@ void KonqView::stop()
   m_bAborted = false;
   if ( m_bLoading )
   {
+    // aborted -> confirm the pending url. We might as well remove it, but
+    // we decided to keep it :)
+    KonqHistoryManager::self()->confirmPending( url(), m_sTypedURL );
+
     //kdDebug(1202) << "m_pPart->closeURL()" << endl;
     m_pPart->closeURL();
     m_bAborted = true;

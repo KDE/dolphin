@@ -467,6 +467,7 @@ private:
 
   QGuardedPtr<KHistoryCombo> m_combo;
   KURLCompletion *m_pURLCompletion;
+  // just a reference to KonqHistoryManager's completionObject
   static KCompletion *s_pCompletion;
 
   ToggleViewGUIClient *m_toggleViewGUIClient;
