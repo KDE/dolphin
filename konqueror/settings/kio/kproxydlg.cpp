@@ -120,6 +120,7 @@ KProxyOptions::~KProxyOptions()
 
 void KProxyOptions::loadSettings()
 {
+  g_pConfig->setGroup( QString::null );
   updateGUI (
       g_pConfig->readEntry( "HttpProxy" ),
       g_pConfig->readEntry( "FtpProxy" ),
@@ -163,6 +164,8 @@ void KProxyOptions::saveSettings()
 {
     QString url;
 
+    g_pConfig->setGroup( QString::null );
+  
     url = le_http_url->text();
     if( !url.isEmpty() ) {
         url = "http://";
