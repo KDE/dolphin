@@ -390,7 +390,6 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
     // Find parent item - it's the same for all the items
     KURL dir( firstItem->url().url(-1) );
     dir.setFileName( "" );
-    dir.setPass( QString::null );
     kdDebug(1201) << this << " KonqSidebarDirTreeModule::slotNewItems dir=" << dir.url(-1) << endl;
 
     QPtrList<KonqSidebarTreeItem> *parentItemList;
