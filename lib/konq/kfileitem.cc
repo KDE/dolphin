@@ -81,13 +81,13 @@ KFileItem::KFileItem( QString _text, mode_t _mode, KURL& _url ) :
        * This is the reason for the -1
        */
       struct stat buf;
-      stat( m_url.path( -1 ), &buf );
+      lstat( m_url.path( -1 ), &buf );
       m_mode = buf.st_mode;
 
       if ( S_ISLNK( m_mode ) )
       {
         m_bLink = true;
-        lstat( m_url.path( -1 ), &buf );
+        stat( m_url.path( -1 ), &buf );
         m_mode = buf.st_mode;
       }
     }
@@ -183,33 +183,59 @@ QString KFileItem::getStatusBarInfo() const
 
 QString KFileItem::linkDest() const
 {
-  QString linkDest = QString::null;
   // Extract it from the UDSEntry
   UDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ )
     if ( (*it).m_uds == UDS_LINK_DEST )
-      linkDest = (*it).m_str;
-  return linkDest;
+      return (*it).m_str;
+  // If not in the UDSEntry, or if UDSEntry empty, use readlink() [if local URL]
+  if ( m_bIsLocalURL )
+  {
+    char buf[1000];
+    int n = readlink( m_url.path( -1 ), buf, 1000 );
+    if ( n != -1 )
+    {
+      buf[ n ] = 0;  
+      return QString( buf );
+    }
+  }
+  return QString::null;
 }
 
 long KFileItem::size() const
 {
-  long size = 0L;
   // Extract it from the UDSEntry
   UDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ )
     if ( (*it).m_uds == UDS_SIZE )
-      size = (*it).m_long;
-  return size;
+      return (*it).m_long;
+  // If not in the UDSEntry, or if UDSEntry empty, use stat() [if local URL]
+  if ( m_bIsLocalURL )
+  {
+    struct stat buf;
+    stat( m_url.path( -1 ), &buf );
+    return buf.st_size;
+  }
+  return 0L;
 }
 
-QString KFileItem::time( int /*which*/ ) const
+QString KFileItem::time( int which ) const
 {
   // Extract it from the UDSEntry
   UDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ )
-    if ( (*it).m_uds == UDS_MODIFICATION_TIME )
-      return makeTimeString( (*it) );
+    if ( (*it).m_uds == which )
+      return makeTimeString( (time_t)((*it).m_long) );
+  // If not in the UDSEntry, or if UDSEntry empty, use stat() [if local URL]
+  if ( m_bIsLocalURL )
+  {
+    struct stat buf;
+    stat( m_url.path( -1 ), &buf );
+    time_t t = (which == UDS_MODIFICATION_TIME) ? buf.st_mtime :
+               (which == UDS_ACCESS_TIME) ? buf.st_atime :
+               (which == UDS_CREATION_TIME) ? buf.st_ctime : (time_t) 0;
+    return makeTimeString( t );
+  }
   return QString::null;
 }
 
@@ -256,12 +282,11 @@ QString KFileItem::decodeFileName( const QString & _str )
   return str;
 }
 
-const char* KFileItem::makeTimeString( const UDSAtom &_atom )
+const char* KFileItem::makeTimeString( time_t _time )
 {
   static char buffer[ 100 ];
  
-  time_t t = (time_t)_atom.m_long;
-  struct tm* t2 = localtime( &t );
+  struct tm* t2 = localtime( &_time );
  
   strftime( buffer, 100, "%c", t2 );
  

@@ -150,9 +150,9 @@ public:
   static QString decodeFileName( const QString & _str );
 
   /**
-   * Convert a time information from a USDAtom into a string
+   * Convert a time information into a string
    */
-  static const char* makeTimeString( const UDSAtom &_atom );
+  static const char* makeTimeString( time_t _time );
   
 protected:
   /**
