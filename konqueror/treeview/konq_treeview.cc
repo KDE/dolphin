@@ -239,6 +239,7 @@ bool KonqTreeView::closeURL()
 
 void KonqTreeView::guiActivateEvent( KParts::GUIActivateEvent *event )
 {
+  KParts::ReadOnlyPart::guiActivateEvent( event );
   if ( event->activated() )
     m_browser->updateActions();
 } 

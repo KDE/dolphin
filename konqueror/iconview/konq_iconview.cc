@@ -477,6 +477,7 @@ void KonqKfmIconView::slotSortDescending()
 
 void KonqKfmIconView::guiActivateEvent( KParts::GUIActivateEvent *event )
 {
+  ReadOnlyPart::guiActivateEvent( event );
   if ( event->activated() )
     m_pIconView->slotSelectionChanged();
 }
