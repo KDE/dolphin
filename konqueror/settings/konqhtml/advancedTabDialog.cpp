@@ -38,7 +38,7 @@ advancedTabDialog::advancedTabDialog(QWidget* parent, KConfig* config, const cha
                   KDialogBase::Ok |
                   KDialogBase::Apply |
                   KDialogBase::Cancel,
-                  KDialogBase::Cancel,
+                  KDialogBase::Ok,
                   parent,
                   name,
                   true, true),
