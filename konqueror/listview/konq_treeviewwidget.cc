@@ -194,6 +194,12 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
     if ( !m_url.equals( dir, true ) ) // ignore trailing slash
         parentDir = m_dictSubDirs[ dir.url(-1) ];
 
+    if ( !parentDir )   // hack for zeroconf://domain/type/service listed in zeroconf:/type/ dir
+    {
+    	dir.setHost( QString::null );
+	parentDir = m_dictSubDirs[ dir.url(-1) ];
+    }
+
     for ( ; kit.current(); ++kit )
     {
         KonqListViewDir *dirItem = 0;
