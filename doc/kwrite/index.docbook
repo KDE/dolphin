@@ -1415,7 +1415,7 @@ points.</para></listitem>
 <listitem><para>Here the user can choose which character set to work in.
 <!-- Lauri:  I think mine is way messed up... the only options are -->
 <!-- "jisx0208.1983-0" or "any" -->
-<!-- Thad:  Mine's ok, with "iso8859-1/0" & "any" depending on family -->
+<!-- Thad:  Mine's ok, with "iso8859-1/0" &amp; "any" depending on family -->
 </para></listitem>
 </varlistentry>
 </variablelist>  
@@ -1524,7 +1524,7 @@ www.kde.org</ulink>.</para>
   
 
   
-<![ %addindex; [ &kdedocindex; ]]>  
+<![ %addindex; [ &documentation.index ]]>  
 </book>  
 <!--  
 Local Variables:  
