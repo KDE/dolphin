@@ -280,7 +280,7 @@ QString KonqMainView::konqFilteredURL( const QString &_url )
   // Samba notation for \\host\share?
   else if ( strncmp( url, "\\\\", 2 ) == 0 )
   {
-    for (int i=0; i<url.length(); i++ )
+    for (unsigned int i=0; i<url.length(); i++ )
       if (url[i] == '\\') url[i]='/';
     KURL::encode( url );
     url.prepend( "smb:" );
@@ -454,12 +454,19 @@ void KonqMainView::slotToolFind()
   KShellProcess proc;
   proc << "kfind";
 
-  KURL url;
-  if ( m_currentView )
+  if ( m_currentView ) // play safe
+  {
+    KURL url;
     url = m_currentView->url();
 
-  if( url.isLocalFile() )
-    proc << url.directory();
+    if( url.isLocalFile() )
+    {
+      if ( m_currentView->serviceType() == "inode/directory" )
+        proc << url.path();
+      else
+        proc << url.directory();
+    }
+  }
 
   proc.start(KShellProcess::DontCare);
 }
