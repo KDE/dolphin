@@ -75,7 +75,7 @@ Konqueror::Konqueror( QWidget* parent_P )
         i18n( "If enabled, KDE will always try to have one preloaded Konqueror instance ready; "
               "preloading a new instance in the background whenever there isn't one available, "
               "so that windows will always open quickly."
-              "<p><b>WARNING:</b> In some cases, it's actually possible that this will "
+              "<p><b>Warning:</b> In some cases, it is actually possible that this will "
               "reduce perceived performance." ));
     connect( sb_preload_count, SIGNAL( valueChanged( int )), SLOT( preload_count_changed( int )));
     connect( sb_preload_count, SIGNAL( valueChanged( int )), SIGNAL( changed()));
