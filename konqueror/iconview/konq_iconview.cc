@@ -38,6 +38,7 @@
 #include <kparts/factory.h>
 #include <ktrader.h>
 #include <klocale.h>
+#include <kivdirectoryoverlay.h>
 
 #include <qregexp.h>
 
@@ -194,6 +195,9 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_paDotFiles = new KToggleAction( i18n( "Show &Hidden Files" ), 0, this, SLOT( slotShowDot() ),
                                       actionCollection(), "show_dot" );
     m_paDotFiles->setStatusText( i18n( "Toggle displaying of hidden dot files" ) );
+	
+	m_paDirectoryOverlays = new KToggleAction( i18n( "&Folder icons reflect contents" ), 0, this, SLOT( slotShowDirectoryOverlays() ),
+                                      actionCollection(), "show_directory_overlays" );
 
     m_pamPreview = new KActionMenu( i18n( "Preview" ), actionCollection(), "iconview_preview" );
     KTrader::OfferList plugins = KTrader::self()->query( "ThumbCreator" );
@@ -397,6 +401,12 @@ void KonqKfmIconView::slotShowDot()
     slotCompleted();
 }
 
+void KonqKfmIconView::slotShowDirectoryOverlays()
+{
+    m_pProps->setShowingDirectoryOverlays( !m_pProps->isShowingDirectoryOverlays() );
+
+}
+
 void KonqKfmIconView::slotSelect()
 {
     KLineEditDlg l( i18n("Select files:"), "*", m_pIconView );
@@ -538,6 +548,7 @@ void KonqKfmIconView::newIconSize( int size )
     m_pIconView->setIcons( size );
     if ( m_pProps->isShowingPreview() )
         m_pIconView->startImagePreview( m_pProps->previewSettings(), true );
+    m_pIconView->arrangeItemsInGrid();
 }
 
 bool KonqKfmIconView::doCloseURL()
@@ -702,6 +713,12 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
         //kdDebug(1202) << "KonqKfmIconView::slotNewItem(...)" << _fileitem->url().url() << endl;
         KFileIVI* item = new KFileIVI( m_pIconView, *it, m_pIconView->iconSize() );
         item->setRenameEnabled( false );
+
+        KFileItem* fileItem = item->item();
+
+        if ( fileItem->isDir() && m_pProps->isShowingDirectoryOverlays() ) {
+            item->setShowDirectoryOverlay( true );
+        }
 
         QString key;
 
@@ -883,6 +900,7 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
       newIconSize( m_pProps->iconSize() );
 
       m_paDotFiles->setChecked( m_pProps->isShowingDotFiles() );
+      m_paDirectoryOverlays->setChecked( m_pProps->isShowingDirectoryOverlays() );
       for ( m_paPreviewPlugins.first(); m_paPreviewPlugins.current(); m_paPreviewPlugins.next() )
           m_paPreviewPlugins.current()->setChecked( m_pProps->isShowingPreview( m_paPreviewPlugins.current()->name() ) );
 

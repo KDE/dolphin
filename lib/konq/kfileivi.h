@@ -27,6 +27,7 @@
 
 class KFileItem;
 class KonqIconViewWidget;
+class KIVDirectoryOverlay;
 
 /**
  * KFileIVI (short form of "Konq - File - IconViewItem")
@@ -129,6 +130,8 @@ public:
      */
     bool isThumbnail() const { return m_bThumbnail; }
 
+	void setOverlay( const QString & iconName);
+
     /**
      * Redetermines the icon (useful if KFileItem might return another icon).
      * Does nothing with thumbnails
@@ -166,6 +169,9 @@ public:
 
     /** Called when the mouse is over the icon */
     void setActive( bool active );
+
+	void setShowDirectoryOverlay( bool );
+	bool showDirectoryOverlay( );
 
 protected:
     virtual void dropped( QDropEvent *e, const QValueList<QIconDragItem> &  );

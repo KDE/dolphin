@@ -76,6 +76,7 @@ public:
 
 public slots:
   void slotPreview( bool toggle );
+  void slotShowDirectoryOverlays();
   void slotShowDot();
   void slotSelect();
   void slotUnselect();
@@ -167,6 +168,7 @@ protected:
   SortCriterion m_eSortCriterion;
 
   KToggleAction *m_paDotFiles;
+  KToggleAction *m_paDirectoryOverlays;
 /*  KToggleAction *m_paImagePreview;
   KToggleAction *m_paTextPreview;
   KToggleAction *m_paHTMLPreview;*/

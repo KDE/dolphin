@@ -29,6 +29,7 @@
   </Menu>
   <Action name="iconview_preview" />
   <Action name="show_dot"/>
+  <Action name="show_directory_overlays"/>
   <Separator/>
   <Action name="bgcolor"/>
   <Action name="bgimage"/>

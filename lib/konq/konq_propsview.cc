@@ -78,6 +78,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_iIconSize = config->readNumEntry( "IconSize", 0 );
   m_iItemTextPos = config->readNumEntry( "ItemTextPos", QIconView::Bottom );
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
+  m_bShowDirectoryOverlays = config->readBoolEntry( "ShowDirectoryOverlays", false );
   m_preview = config->readListEntry( "Preview" );
 
   m_textColor = config->readColorEntry( "TextColor" ); // will be set to QColor() if not found
@@ -165,6 +166,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_iIconSize = config->readNumEntry( "IconSize", m_iIconSize );
     m_iItemTextPos = config->readNumEntry( "ItemTextPos", m_iItemTextPos );
     m_bShowDot = config->readBoolEntry( "ShowDotFiles", m_bShowDot );
+    m_bShowDirectoryOverlays = config->readBoolEntry( "ShowDirectoryOverlays", m_bShowDirectoryOverlays );
     if (config->hasKey( "Preview" ))
         m_preview = config->readListEntry( "Preview" );
 
@@ -234,6 +236,24 @@ void KonqPropsView::setShowingDotFiles( bool show )
         kdDebug(1203) << "Saving in current config" << endl;
         KConfigGroupSaver cgs(currentConfig(), currentGroup());
         currentConfig()->writeEntry( "ShowDotFiles", m_bShowDot );
+        currentConfig()->sync();
+    }
+}
+
+void KonqPropsView::setShowingDirectoryOverlays( bool show )
+{
+    kdDebug(1203) << "KonqPropsView::setShowingDirectoryOverlays " << show << endl;
+    m_bShowDirectoryOverlays = show;
+    if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
+    {
+        kdDebug(1203) << "Saving in default properties" << endl;
+        m_defaultProps->setShowingDirectoryOverlays( show );
+    }
+    else if (currentConfig())
+    {
+        kdDebug(1203) << "Saving in current config" << endl;
+        KConfigGroupSaver cgs(currentConfig(), currentGroup());
+        currentConfig()->writeEntry( "ShowDirectoryOverlays", m_bShowDirectoryOverlays );
         currentConfig()->sync();
     }
 }

@@ -89,6 +89,9 @@ public:
   void setShowingDotFiles( bool show );
   bool isShowingDotFiles() const { return m_bShowDot; }
 
+  void setShowingDirectoryOverlays( bool show );
+  bool isShowingDirectoryOverlays() const { return m_bShowDirectoryOverlays; }
+
   void setShowingPreview( const QString &preview, bool show );
   bool isShowingPreview( const QString &preview ) const { return m_preview.contains(preview); }
   bool isShowingPreview() const { return m_preview.count() > 0; }
@@ -124,7 +127,7 @@ private:
   int m_iIconSize;
   int m_iItemTextPos;
   bool m_bShowDot;
-  bool m_bShowFolderMimeTypes; // Feature to be implemented in 3.1
+  bool m_bShowDirectoryOverlays;
   QStringList m_preview;
   QColor m_textColor;
   QColor m_bgColor;

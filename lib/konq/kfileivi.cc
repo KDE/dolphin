@@ -18,6 +18,7 @@
 */
 
 #include "kfileivi.h"
+#include "kivdirectoryoverlay.h"
 #include "konq_iconviewwidget.h"
 #include "konq_operations.h"
 
@@ -40,6 +41,9 @@ struct KFileIVI::Private
     QPixmap  thumb; // Raw unprocessed thumbnail
     QString m_animatedIcon; // Name of animation
     bool m_animated;        // Animation currently running ?
+	KIVDirectoryOverlay* m_directoryOverlay;
+	QPixmap m_overlay;
+	QString m_overlayName;
 };
 
 KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KFileItem* fileitem, int size )
@@ -64,10 +68,12 @@ KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KFileItem* fileitem, int size 
         else
             setMouseOverAnimation( "unknown" );
     }
+    d->m_directoryOverlay = 0;
 }
 
 KFileIVI::~KFileIVI()
 {
+    delete d->m_directoryOverlay;
     delete d;
 }
 
@@ -105,7 +111,37 @@ void KFileIVI::setIcon( int size, int state, bool recalc, bool redraw )
       m_state = KIcon::DisabledState;
     else
       m_state = state;
-    setPixmapDirect( m_fileitem->pixmap( m_size, m_state ), recalc, redraw );
+
+    if ( !d->m_overlayName.isNull() )
+        d->m_overlay = DesktopIcon(d->m_overlayName, m_size / 2);
+
+    setPixmapDirect(m_fileitem->pixmap( m_size, m_state ) , recalc, redraw );
+}
+
+void KFileIVI::setOverlay( const QString& iconName )
+{
+    d->m_overlayName = iconName;
+    d->m_overlay = DesktopIcon(iconName, m_size / 2);
+	refreshIcon(true);
+}
+
+void KFileIVI::setShowDirectoryOverlay( bool show ) 
+{
+    Q_ASSERT( m_fileitem->isDir() );
+
+	if (show) {
+        if (!d->m_directoryOverlay) d->m_directoryOverlay = new KIVDirectoryOverlay(this);
+	} else {
+        if (d->m_directoryOverlay) {
+		    delete d->m_directoryOverlay;
+            d->m_directoryOverlay = 0;
+		}
+	}
+}
+
+bool KFileIVI::showDirectoryOverlay(  ) 
+{
+    return (bool)d->m_directoryOverlay;
 }
 
 void KFileIVI::setPixmapDirect( const QPixmap& pixmap, bool recalc, bool redraw )
@@ -300,6 +336,11 @@ void KFileIVI::paintItem( QPainter *p, const QColorGroup &c )
     }*/
 
     KIconViewItem::paintItem( p, cg );
+
+    if ( !d->m_overlay.isNull() ) {
+        QRect rect = pixmapRect(true);
+        p->drawPixmap(x() + rect.x() , y() + m_size / 2, d->m_overlay);
+    }
 }
 
 bool KFileIVI::move( int x, int y )
