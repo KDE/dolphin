@@ -9,7 +9,7 @@
 // Major cleanup & Java/JS settings splitted
 // (c) Daniel Molkentin 2000
 // Big changes to accommodate per-domain settings
-// (c) Leo Savernik 2002
+// (c) Leo Savernik 2002-2003
 
 #include <qlayout.h>
 #include <qwhatsthis.h>
@@ -62,7 +62,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   connect( jsDebugWindow, SIGNAL( clicked() ), SLOT( slotChanged() ) );
 
   // the domain-specific listview
-  domainSpecific = new JSDomainListView(m_pConfig,m_groupname,this);
+  domainSpecific = new JSDomainListView(m_pConfig,m_groupname,this,this);
   connect(domainSpecific,SIGNAL(changed(bool)),SLOT(slotChanged()));
   toplevel->addWidget( domainSpecific, 2 );
 
@@ -167,9 +167,9 @@ void KJavaScriptOptions::slotChangeJSEnabled() {
 // == class JSDomainListView =====
 
 JSDomainListView::JSDomainListView(KConfig *config,const QString &group,
-	QWidget *parent,const char *name)
+	KJavaScriptOptions *options, QWidget *parent,const char *name)
 	: DomainListView(config,i18n( "Do&main-Specific" ), parent, name),
-	group(group) {
+	group(group), options(options) {
 }
 
 JSDomainListView::~JSDomainListView() {
@@ -203,7 +203,10 @@ void JSDomainListView::setupPolicyDlg(PushButton trigger,PolicyDialog &pDlg,
   JSPolicies *jspol = static_cast<JSPolicies *>(pol);
   QString caption;
   switch (trigger) {
-    case AddButton: caption = i18n( "New JavaScript Policy" ); break;
+    case AddButton:
+      caption = i18n( "New JavaScript Policy" );
+      jspol->setFeatureEnabled(!options->enableJavaScriptGloballyCB->isChecked());
+      break;
     case ChangeButton: caption = i18n( "Change JavaScript Policy" ); break;
     default: ; // inhibit gcc warning
   }/*end switch*/

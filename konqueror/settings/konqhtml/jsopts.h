@@ -28,13 +28,15 @@ class QButtonGroup;
 
 class PolicyDialog;
 
+class KJavaScriptOptions;
+
 /** JavaScript-specific enhancements to the domain list view
   */
 class JSDomainListView : public DomainListView {
   Q_OBJECT
 public:
-  JSDomainListView(KConfig *config,const QString &group,QWidget *parent,
-  		const char *name = 0);
+  JSDomainListView(KConfig *config,const QString &group,KJavaScriptOptions *opt,
+  		QWidget *parent,const char *name = 0);
   virtual ~JSDomainListView();
 
   /** remnant for importing pre KDE 3.2 settings
@@ -49,6 +51,7 @@ protected:
 
 private:
   QString group;
+  KJavaScriptOptions *options;
 };
 
 class KJavaScriptOptions : public KCModule
@@ -79,6 +82,8 @@ private:
   bool _removeECMADomainSettings;
 
   JSDomainListView* domainSpecific;
+  
+  friend class JSDomainListView;
 };
 
 #endif		// __JSOPTS_H__

@@ -32,6 +32,8 @@ class QLineEdit;
 class QListViewItem;
 class QRadioButton;
 
+class KJavaOptions;
+
 /** policies with java-specific constructor
   */
 class JavaPolicies : public Policies {
@@ -63,8 +65,8 @@ public:
 class JavaDomainListView : public DomainListView {
   Q_OBJECT
 public:
-  JavaDomainListView(KConfig *config,const QString &group,QWidget *parent,
-  		const char *name = 0);
+  JavaDomainListView(KConfig *config,const QString &group,KJavaOptions *opt,
+  		QWidget *parent,const char *name = 0);
   virtual ~JavaDomainListView();
 
   /** remnant for importing pre KDE 3.2 settings
@@ -79,6 +81,7 @@ protected:
 
 private:
   QString group;
+  KJavaOptions *options;
 };
 
 class KJavaOptions : public KCModule
@@ -116,6 +119,7 @@ private:
 
     JavaDomainListView *domainSpecific;
 
+    friend class JavaDomainListView;
 };
 
 #endif		// __HTML_OPTIONS_H__

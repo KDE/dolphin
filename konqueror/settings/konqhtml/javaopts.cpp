@@ -9,7 +9,7 @@
 // Redesign and cleanup
 // (c) Daniel Molkentin 2000
 // Big changes to accommodate per-domain settings
-// (c) Leo Savernik 2002
+// (c) Leo Savernik 2002-2003
 
 #include <config.h>
 #include <klistview.h>
@@ -69,7 +69,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     /***************************************************************************
      ***************** Domain Specific Settings ********************************
      **************************************************************************/
-    domainSpecific = new JavaDomainListView(m_pConfig,m_groupname,this);
+    domainSpecific = new JavaDomainListView(m_pConfig,m_groupname,this,this);
     connect(domainSpecific,SIGNAL(changed(bool)),SLOT(slotChanged()));
     toplevel->addWidget( domainSpecific, 2 );
 
@@ -293,9 +293,9 @@ void KJavaOptions::toggleJavaControls()
 // == class JavaDomainListView =====
 
 JavaDomainListView::JavaDomainListView(KConfig *config,const QString &group,
-	QWidget *parent,const char *name)
+	KJavaOptions *options,QWidget *parent,const char *name)
 	: DomainListView(config,i18n( "Doma&in-Specific" ), parent, name),
-	group(group) {
+	group(group), options(options) {
 }
 
 JavaDomainListView::~JavaDomainListView() {
@@ -324,10 +324,12 @@ void JavaDomainListView::updateDomainListLegacy(const QStringList &domainConfig)
 }
 
 void JavaDomainListView::setupPolicyDlg(PushButton trigger,PolicyDialog &pDlg,
-		Policies */*pol*/) {
+		Policies *pol) {
   QString caption;
   switch (trigger) {
-    case AddButton: caption = i18n( "New Java Policy" ); break;
+    case AddButton: caption = i18n( "New Java Policy" );
+      pol->setFeatureEnabled(!options->enableJavaGloballyCB->isChecked());
+      break;
     case ChangeButton: caption = i18n( "Change Java Policy" ); break;
     default: ; // inhibit gcc warning
   }/*end switch*/

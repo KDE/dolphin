@@ -1,4 +1,4 @@
-// (c) 2002 Leo Savernik, per-domain settings
+// (c) 2002-2003 Leo Savernik, per-domain settings
 // (c) 2001, Daniel Naber, based on javaopts.cpp
 // (c) 2000 Stefan Schimanski <1Stein@gmx.de>, Netscape parts
 
@@ -80,7 +80,7 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
     			i18n("Domain-Specific Policies"),KDialogBase::Close,
 			KDialogBase::Close,this,"domainSpecificDlg", true);
 
-    domainSpecific = new PluginDomainListView(config,group,domainSpecificDlg);
+    domainSpecific = new PluginDomainListView(config,group,this,domainSpecificDlg);
     domainSpecific->setMinimumSize(320,200);
     connect(domainSpecific,SIGNAL(changed(bool)),SLOT(slotChanged()));
 
@@ -618,19 +618,22 @@ void PluginDomainDialog::slotClose() {
 // == class PluginDomainListView =====
 
 PluginDomainListView::PluginDomainListView(KConfig *config,const QString &group,
-	QWidget *parent,const char *name)
+	KPluginOptions *options,QWidget *parent,const char *name)
 	: DomainListView(config,i18n( "Doma&in-Specific" ), parent, name),
-	group(group) {
+	group(group), options(options) {
 }
 
 PluginDomainListView::~PluginDomainListView() {
 }
 
 void PluginDomainListView::setupPolicyDlg(PushButton trigger,PolicyDialog &pDlg,
-		Policies */*pol*/) {
+		Policies *pol) {
   QString caption;
   switch (trigger) {
-    case AddButton: caption = i18n( "New Plugin Policy" ); break;
+    case AddButton:
+      caption = i18n( "New Plugin Policy" );
+      pol->setFeatureEnabled(!options->enablePluginsGloballyCB->isChecked());
+      break;
     case ChangeButton: caption = i18n( "Change Plugin Policy" ); break;
     default: ; // inhibit gcc warning
   }/*end switch*/

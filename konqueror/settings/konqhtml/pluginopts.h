@@ -27,6 +27,8 @@ class QBoxLayout;
 class KProcIO;
 class KDialogBase;
 
+class KPluginOptions;
+
 /** policies with plugin-specific constructor
   */
 class PluginPolicies : public Policies {
@@ -52,8 +54,8 @@ public:
 class PluginDomainListView : public DomainListView {
   Q_OBJECT
 public:
-  PluginDomainListView(KConfig *config,const QString &group,QWidget *parent,
-  		const char *name = 0);
+  PluginDomainListView(KConfig *config,const QString &group,KPluginOptions *opt,
+  		QWidget *parent,const char *name = 0);
   virtual ~PluginDomainListView();
 
 protected:
@@ -64,6 +66,7 @@ protected:
 
 private:
   QString group;
+  KPluginOptions *options;
 };
 
 /**
@@ -148,6 +151,7 @@ private:
   void pluginLoad( KConfig *config );
   void pluginSave( KConfig *config );
 
+  friend class PluginDomainListView;
 };
 
 #endif		// __PLUGINOPTS_H__
