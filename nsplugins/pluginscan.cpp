@@ -305,11 +305,14 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
              files[i]=="libnullplugin.so" ||    // Netscape Default Plugin
              files[i]=="cult3dplugin.so" ||     // Cult 3d plugin
              extension == "jar" ||              // Java archive
+             extension == "zip" ||              // Zip file (for classes)
              extension == "class" ||            // Java class
              extension == "png" ||              // PNG Image
              extension == "jpg" ||              // JPEG image
              extension == "gif" ||              // GIF image
              extension == "bak" ||              // .so.bak-up files
+             extension == "tmp" ||              // tmp files
+             extension == "xpt" ||              // XPConnect
              extension.startsWith("htm")        // HTML
             )     
             continue;
@@ -328,18 +331,13 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
         int loader_pid = fork();
 
         if (loader_pid == -1) {
-
             // unable to fork
             continue;
-
         } else if (loader_pid == 0) {
-
            // inside the child
            close(pipes[0]);
            _exit(tryCheck(pipes[1], absFile));
-
         } else {
-
            close(pipes[1]);
 
            QBuffer m_buffer;
@@ -375,8 +373,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
            stream >> description;
            stream >> mimeInfo;
 
-           // note the plugin name
-           cache << "[" << absFile << "]" << endl;
+           bool actuallyUsing = false;
 
            // get mime types from string
            QStringList types = QStringList::split( ';', mimeInfo );
@@ -385,24 +382,31 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
 
               kdDebug(1433) << " - type=" << *type << endl;
 
-              // write into type cache
-              QStringList tokens = QStringList::split(':', *type, TRUE);
-              QStringList::Iterator token;
-              token = tokens.begin();
-              cache << (*token).lower();
-              ++token;
-              for ( ; token!=tokens.end(); ++token )
-                  cache << ":" << *token;
-              cache << endl;
+              QString entry = name + ":" + *type;
+              if ( !mimeInfoList.contains( entry ) ) {
+                  if (!actuallyUsing) {
+                      // note the plugin name
+                      cache << "[" << absFile << "]" << endl;
+                      actuallyUsing = true;
+                  }
 
-              // append type to MIME type list
-              if ( !mimeInfoList.contains( *type ) )
-                  mimeInfoList.append( name + ":" + *type );
+                  // write into type cache
+                  QStringList tokens = QStringList::split(':', *type, TRUE);
+                  QStringList::Iterator token;
+                  token = tokens.begin();
+                  cache << (*token).lower();
+                  ++token;
+                  for ( ; token!=tokens.end(); ++token )
+                      cache << ":" << *token;
+                  cache << endl;
+
+                  // append type to MIME type list
+                  mimeInfoList.append( entry );
+              }
            }
 
            // register plugin for javascript
            registerPlugin( name, description, files[i], mimeInfo );
-
         }
     }
 
@@ -613,16 +617,17 @@ int main( int argc, char **argv )
           if ( !mimeTypes.contains(type) ) {
               kdDebug(1433) << " - mimeType=" << type << endl;
               mimeTypes.append( type );
-          }
 
-          // check mimelnk file
-          QString fname = KGlobal::dirs()->findResource("mime", type+".desktop");
-          if ( fname.isEmpty() || isPluginMimeType(fname) ) {
-              kdDebug(1433) << " - creating MIME type description" << endl;
-              removeExistingExtensions( extension );
-              generateMimeType( type, extension, pluginName, desc );
-          } else
-              kdDebug(1433) << " - already existant" << endl;
+              // check mimelnk file
+              QString fname = KGlobal::dirs()->findResource("mime", type+".desktop");
+              if ( fname.isEmpty() || isPluginMimeType(fname) ) {
+                  kdDebug(1433) << " - creating MIME type description" << endl;
+                  removeExistingExtensions( extension );
+                  generateMimeType( type, extension, pluginName, desc );
+              } else {
+                  kdDebug(1433) << " - already existant" << endl;
+              }
+          }
         }
     }
     printf("85\n"); fflush(stdout);
