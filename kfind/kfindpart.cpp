@@ -57,6 +57,7 @@ KFindPart::KFindPart( QWidget * parentWidget, const char *widgetName,
              this, SLOT(slotStarted()) );
     connect( m_kfindWidget, SIGNAL(destroyMe()),
              this, SLOT(slotDestroyMe()) );
+    connect(m_kfindWidget->dirlister,SIGNAL(deleteItem(KFileItem*)), this, SLOT(removeFile(KFileItem*)));
 
     //setXMLFile( "kfind.rc" );
     query = new KQuery(this);
@@ -118,6 +119,25 @@ void KFindPart::addFile(const KFileItem *item, const QString& matchingLine)
   */
 }
 
+/* An item has been removed, so update konqueror's view */
+void KFindPart::removeFile(KFileItem *item)
+{
+  KFileItem *iter;
+  KFileItemList listiter;
+
+  emit started();
+  emit clear();
+
+  m_lstFileItems.remove( item );  //not working ?
+
+  for(iter=m_lstFileItems.first(); iter; iter=m_lstFileItems.next() ) {
+    if(iter->url()!=item->url())
+      listiter.append(iter);
+  }
+  
+  emit newItems(listiter);
+  emit finished();
+}
 
 void KFindPart::slotResult(int errorCode)
 {

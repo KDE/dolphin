@@ -71,11 +71,14 @@ signals:
     void finished(); // finished searching
     void canceled(); // the user canceled the search
     void findClosed(); // close us
-
+    void deleteItem( KFileItem *item);
+    
 protected slots:
     void slotStarted();
     void slotDestroyMe();
     void addFile(const KFileItem *item, const QString& matchingLine);
+    /* An item has been removed, so update konqueror's view */
+    void removeFile(KFileItem *item);
     void slotResult(int errorCode);
 
   // slots connected to the directory lister  //added for konqdirpart
