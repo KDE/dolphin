@@ -32,3 +32,11 @@ Fri Feb 12 00:32:09 1999 Simon Hausmann <tronical@gmx.net>
 
         * kfm_mainwindow.cc, kfmgui.* : using the new file menu functions of
           opMenuBar to create proper file menu entries
+
+Fri Feb 12 21:01:20 1999 Simon Hausmann <tronical@gmx.net>
+
+        * kfm.idl, kfm_mainwindow.*, kfmgui.*, kfmpopup.*, kfmview.cc:
+          - the new menu works now
+          - konqueror exist now clean (without any segfaults, mico-asserts, or
+            so ;)
+          - small bugfix for the view-mode-menu

@@ -39,13 +39,27 @@
 QStrList * KNewMenu::templatesList = 0L;
 int KNewMenu::templatesVersion = 0;
 
-KNewMenu::KNewMenu() : QPopupMenu(), menuItemsVersion(0)
+KNewMenu::KNewMenu( OpenPartsUI::Menu_ptr menu) : menuItemsVersion(0)
 {
+    if ( CORBA::is_nil( menu ) )
+    {
+      m_bUseOPMenu = false;
+      m_pMenu = new QPopupMenu;
+      m_vMenu = 0L;
+      
+      QObject::connect( m_pMenu, SIGNAL(activated(int)),
+                        this, SLOT(slotNewFile(int)) );
+      QObject::connect( m_pMenu, SIGNAL(aboutToShow()),
+                        this, SLOT(slotCheckUpToDate()) );
+    }
+    else
+    {
+      m_bUseOPMenu = true;
+      m_vMenu = OpenPartsUI::Menu::_duplicate( menu );
+      m_pMenu = 0L;
+    }
+    
     fillMenu();
-    connect( this /* as a menu */, SIGNAL( activated( int ) ), 
-	     this /* as a receiver */, SLOT( slotNewFile( int ) ) );
-    connect( this /* as a menu */, SIGNAL(aboutToShow()), 
-             this /* as a receiver */, SLOT( slotCheckUpToDate() ));
 }
 
 void KNewMenu::setPopupFiles(QStrList & _files)
@@ -67,14 +81,25 @@ void KNewMenu::slotCheckUpToDate( )
 
 void KNewMenu::fillMenu()
 {
+    if ( m_bUseOPMenu && CORBA::is_nil( m_vMenu ) )
+      return;
+      
     if (!templatesList) { // No templates list up to now
         templatesList = new QStrList();
         fillTemplates();
         menuItemsVersion = templatesVersion;
     }
 
-    this->clear();
-    this->insertItem( i18n( "Folder" ) );
+    if ( m_bUseOPMenu )
+    {
+      m_vMenu->clear();
+      m_vMenu->insertItem( i18n( "Folder" ), CORBA::Object::_nil(), 0L, 0 );
+    }
+    else
+    {
+      m_pMenu->clear();
+      m_pMenu->insertItem( i18n( "Folder" ) );
+    }  
 
     char * templ = templatesList->first(); // skip 'Folder'
     for ( templ = templatesList->next(); (templ); templ = templatesList->next())
@@ -84,7 +109,10 @@ void KNewMenu::fillMenu()
         config.setGroup( "KDE Desktop Entry" );
         if ( tmp.right(7) == ".kdelnk" )
             tmp.truncate( tmp.length() - 7 );
-        this->insertItem( config.readEntry("Name", tmp ) );
+        if ( m_bUseOPMenu )
+	  m_vMenu->insertItem( config.readEntry("Name", tmp ), CORBA::Object::_nil(), 0L, 0 );
+	else
+	  m_pMenu->insertItem( config.readEntry("Name", tmp ) );
     }
 }
 
@@ -121,9 +149,17 @@ void KNewMenu::fillTemplates()
 
 void KNewMenu::slotNewFile( int _id )
 {
-    if ( this->text( _id ) == 0)
-	return;
+    if ( m_bUseOPMenu )
+    {
+      if ( CORBA::is_nil( m_vMenu ) )
+        return;
 
+      if ( m_vMenu->text( (CORBA::Long)_id ) == 0)
+	return;
+    }
+    else if ( m_pMenu->text( _id ) == 0 )
+      return;
+      
     QString p = templatesList->at( _id );
     QString tmp = p;
     tmp.detach();
@@ -154,13 +190,13 @@ void KNewMenu::slotNewFile( int _id )
 	text += ":";
     }
     
-    KLineEditDlg l( text, value, this, true );
+    KLineEditDlg l( text, value, 0L, true );
     if ( l.exec() )
     {
 	QString name = l.text();
 	if ( name.length() == 0 )
 	    return;
-	
+
         QStrList urls = popupFiles;
         char *s;
 	if ( strcmp( p, "Folder" ) == 0 )

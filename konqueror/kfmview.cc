@@ -622,7 +622,7 @@ void KfmView::popupMenu( const QPoint &_global, QStrList& _urls, mode_t _mode, b
   } 
   else if ( S_ISDIR( _mode ) )
   {
-    id = m_popupMenu->insertItem( i18n("&New"), m_menuNew );
+    id = m_popupMenu->insertItem( i18n("&New"), m_menuNew->popupMenu() );
     m_popupMenu->insertSeparator();
 
     id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "up.xpm" ), i18n( "Up" ), this, SLOT( slotUp() ), 100 );

@@ -26,6 +26,7 @@ class KfmGui;
 #include <opMainWindow.h>
 #include <opMainWindowIf.h>
 #include <opMenu.h>
+#include <opFrame.h>
 
 #include "kfm.h"
 
@@ -68,7 +69,8 @@ protected:
   OPMenu* m_pHelpMenu;
   CORBA::Long m_idMenuHelp_About;
 
-  KfmGui* m_pPart;
+  KFM::Part_var m_vPart;
+  OPFrame *m_pFrame;
 };
 
 #endif

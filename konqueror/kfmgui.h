@@ -118,7 +118,10 @@ public slots:
   virtual void slotBack();
   virtual void slotForward();
   virtual void slotReload();
-  
+
+  virtual void slotFileNewActivated( CORBA::Long id );
+  virtual void slotFileNewAboutToShow();
+    
   /////////////////////////
   // Accel
   /////////////////////////
@@ -179,6 +182,7 @@ protected:
   OpenPartsUI::ToolBar_var m_vLocationBar;
   
   OpenPartsUI::StatusBar_var m_vStatusBar;
+
 /*  
   KMenuBar *m_pMenu;
   KStatusBar *m_pStatusBar;
@@ -200,7 +204,7 @@ protected:
    * we need a pointer to this menu to get information about the
    * selected menu item.
    */
-//  KNewMenu *m_pMenuNew;
+  KNewMenu *m_pMenuNew;
 
   View m_leftView;
   View m_rightView;

@@ -25,12 +25,14 @@
 #include <qpopmenu.h>
 #include <qstrlist.h>
 
+#include <openparts_ui.h>
+
 // The 'New' submenu, with 'Folder' and one item per Template
-class KNewMenu : public QPopupMenu
+class KNewMenu : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    KNewMenu();
+    KNewMenu( OpenPartsUI::Menu_ptr menu = 0L );
     ~KNewMenu() {}
 
     /**
@@ -46,9 +48,8 @@ public:
         popupFiles.clear();
         popupFiles.append( _file );
     }
-    
-protected slots:
 
+public slots:        
     /**
      * Called when New->* is clicked
      */
@@ -58,7 +59,15 @@ protected slots:
      * Called before showing the New menu
      */
     void slotCheckUpToDate( );
- 
+
+    QPopupMenu *popupMenu()
+    {
+      if ( m_bUseOPMenu )
+        return 0L;
+      else
+        return m_pMenu;
+    }
+     
 private:
 
     /**
@@ -86,6 +95,11 @@ private:
      * is displayed. The URL belonging to this popup menu is stored here.
      */
     QStrList popupFiles; 
+    
+    bool m_bUseOPMenu;
+    
+    OpenPartsUI::Menu_var m_vMenu;
+    QPopupMenu *m_pMenu;
 };
 
 #endif // KFMPOPUP_H

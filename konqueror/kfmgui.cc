@@ -178,6 +178,9 @@ void KfmGui::cleanUp()
         
   delete m_pAccel;
   
+  if ( m_pMenuNew )
+    delete m_pMenuNew;
+  
   m_animatedLogoTimer.stop();
   s_lstWindows->removeRef( this );
   
@@ -200,6 +203,9 @@ bool KfmGui::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
 {
   if ( CORBA::is_nil( menuBar ) )
   {
+    m_vMenuFileNew->disconnect("activated", this, "slotFileNewActivated");
+    m_vMenuFileNew->disconnect("aboutToShow", this, "slotFileNewAboutToShow");
+  
     m_vMenuFile = 0L;
     m_vMenuFileNew = 0L;
     m_vMenuEdit = 0L;
@@ -213,7 +219,10 @@ bool KfmGui::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   CORBA::Long m_idMenuFile = menuBar->insertMenu( i18n("&File"), m_vMenuFile, -1, -1 );
   
   m_vMenuFile->insertItem8( i18n("&New"), m_vMenuFileNew, -1, -1 );
-  //TODO: ...fill 
+  
+  m_vMenuFileNew->connect("activated", this, "slotFileNewActivated");
+  m_vMenuFileNew->connect("aboutToShow", this, "slotFileNewAboutToShow");
+  m_pMenuNew = new KNewMenu( m_vMenuFileNew );
   
   m_vMenuFile->insertItem( i18n("New &Window"), this, "slotNewWindow", 0 );
   m_vMenuFile->insertSeparator( -1 );
@@ -930,9 +939,9 @@ void KfmGui::slotLargeIcons()
 {
   if ( !CORBA::is_nil( m_vMenuView ) )
   {
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 7 ), true );
+    m_vMenuView->setItemChecked( m_vMenuView->idAt( 6 ), true );
+    m_vMenuView->setItemChecked( m_vMenuView->idAt( 7 ), false );
     m_vMenuView->setItemChecked( m_vMenuView->idAt( 8 ), false );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 9 ), false );
   }
   // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), false );
 
@@ -943,9 +952,9 @@ void KfmGui::slotSmallIcons()
 {
   if ( !CORBA::is_nil( m_vMenuView ) )
   {
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 7 ), false );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 8 ), true );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 9 ), false );
+    m_vMenuView->setItemChecked( m_vMenuView->idAt( 6 ), false );
+    m_vMenuView->setItemChecked( m_vMenuView->idAt( 7 ), true );
+    m_vMenuView->setItemChecked( m_vMenuView->idAt( 8 ), false );
   }
       
   // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), false );
@@ -957,9 +966,9 @@ void KfmGui::slotTreeView()
 {
   if ( !CORBA::is_nil( m_vMenuView ) )
   {
+    m_vMenuView->setItemChecked( m_vMenuView->idAt( 6 ), false );
     m_vMenuView->setItemChecked( m_vMenuView->idAt( 7 ), false );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 8 ), false );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 9 ), true );
+    m_vMenuView->setItemChecked( m_vMenuView->idAt( 8 ), true );
   }    
   
   // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), false );
@@ -1204,6 +1213,18 @@ void KfmGui::slotReload()
   m_currentView.m_pView->reload();
 }
 
+void KfmGui::slotFileNewActivated( CORBA::Long id )
+{
+  if ( m_pMenuNew )
+    m_pMenuNew->slotNewFile( (int)id );
+}
+
+void KfmGui::slotFileNewAboutToShow()
+{
+  if ( m_pMenuNew )
+    m_pMenuNew->slotCheckUpToDate();
+}
+
 void KfmGui::addHistory( const char *_url, int _xoffset, int _yoffset )
 {
   History h;
@@ -1301,19 +1322,19 @@ void KfmGui::setViewModeMenu( KfmView::ViewMode _viewMode )
   switch( _viewMode )
   {
   case KfmView::HOR_ICONS:
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 7 ), true );
+    m_vMenuView->setItemChecked( m_vMenuView->idAt( 6 ), true );
+    m_vMenuView->setItemChecked( m_vMenuView->idAt( 7 ), false );
     m_vMenuView->setItemChecked( m_vMenuView->idAt( 8 ), false );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 9 ), false );
     break;
   case KfmView::VERT_ICONS:
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 7 ), false );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 8 ), true );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 9 ), false );
+    m_vMenuView->setItemChecked( m_vMenuView->idAt( 6 ), false );
+    m_vMenuView->setItemChecked( m_vMenuView->idAt( 7 ), true );
+    m_vMenuView->setItemChecked( m_vMenuView->idAt( 8 ), false );
     break;
   case KfmView::FINDER:
+    m_vMenuView->setItemChecked( m_vMenuView->idAt( 6 ), false );
     m_vMenuView->setItemChecked( m_vMenuView->idAt( 7 ), false );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 8 ), false );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 9 ), true );
+    m_vMenuView->setItemChecked( m_vMenuView->idAt( 8 ), true );
     break;
   default:
     assert( 0 );

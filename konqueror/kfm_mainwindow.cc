@@ -47,33 +47,27 @@ KfmMainWindow::KfmMainWindow( const char *url )
   
   (void)statusBarManager();
 
-  // build a toolbar and insert some buttons
-//  opToolBar()->insertButton(Icon("fileopen.xpm"),TOOLBAR_OPEN, SIGNAL( clicked() ),
-//			    this, SLOT( slotFileOpen() ), true, i18n("Open File"));
-//  opToolBar()->insertButton(Icon("filefloppy.xpm"), TOOLBAR_SAVE,
-//			    SIGNAL( clicked() ), this, SLOT( slotFileSave() ),
-//			    true, i18n("Save File") );
-//  opToolBar()->setItemEnabled( TOOLBAR_SAVE, false );
-//  opToolBar()->insertButton(Icon("fileprint.xpm"), TOOLBAR_PRINT,
-//			    SIGNAL( clicked() ), this, SLOT( slotFilePrint() ),
-//			    true, i18n("Print") );
-//  opToolBar()->setItemEnabled( TOOLBAR_PRINT, false );
-//  opToolBar()->insertButton(Icon("reload.xpm"),TOOLBAR_RELOAD, SIGNAL( clicked() ),
-//			    this, SLOT( slotReload() ), true, i18n("Reload"));
+  m_pFrame = new OPFrame( this );
+  setView( m_pFrame );
 
-  m_pPart = new KfmGui( url, this );
-  m_pPart->setMainWindow( interface() );
-  setView( m_pPart );
+  m_vPart = KFM::Part::_duplicate( new KfmGui( url ) );
+  
+  m_vPart->setMainWindow( interface() );
 
-  menuBarManager()->create( m_pPart->id() );
-  toolBarManager()->create( m_pPart->id() );
-  statusBarManager()->create( m_pPart->id() );
+  m_pFrame->attach( m_vPart );
+
+  menuBarManager()->create( m_vPart->id() );
+  toolBarManager()->create( m_vPart->id() );
+  statusBarManager()->create( m_vPart->id() );
 }
 
 KfmMainWindow::~KfmMainWindow()
 { 
   cerr << "KfmMainWindow::~KfmMainWindow()" << endl;
-  interface()->cleanUp();
+
+  m_vPart = 0L;
+  
+  m_pFrame->detach();
 }
 
 OPMainWindowIf* KfmMainWindow::interface()

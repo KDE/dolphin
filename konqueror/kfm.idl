@@ -49,7 +49,9 @@ module KFM
           slot void slotBack();
           slot void slotForward();
           slot void slotReload();
-	
+
+	  slot void slotFileNewActivated( in long id );
+	  slot void slotFileNewAboutToShow();	
 	};
 	
 	interface MainWindow : OpenParts::MainWindow
