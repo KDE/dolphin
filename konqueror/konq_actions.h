@@ -57,8 +57,6 @@ protected slots:
 
 signals:
     void menuAboutToShow();
-    // -1 for one step back, 0 for don't move, +1 for one step forward, etc.
-    void activated( int );
 private:
     uint m_firstIndex; // first index in the Go menu
     int m_startPos;
