@@ -756,6 +756,7 @@ void KonqViewManager::removeView( KonqView *view )
     if (m_pDocContainer == parentContainer) m_pDocContainer = otherFrame;
 
     grandParentContainer->widget()->setUpdatesEnabled( false );
+    static_cast<KonqFrameContainer*>(parentContainer)->setAboutToBeDeleted();
 
     //kdDebug(1202) << "--- Reparenting otherFrame to m_pMainWindow " << m_pMainWindow << endl;
     QPoint pos = otherFrame->widget()->pos();

@@ -389,12 +389,18 @@ public:
   //make this one public
   int idAfter( QWidget* w ){ return QSplitter::idAfter( w ); }
 
+  void setAboutToBeDeleted() { m_bAboutToBeDeleted = true; }
+
+  //inherited
+  virtual void childEvent( QChildEvent * );
+
 signals:
   void ctrlTabPressed();
 
 protected:
   KonqFrameBase* m_pFirstChild;
   KonqFrameBase* m_pSecondChild;
+  bool m_bAboutToBeDeleted;
 };
 
 #endif

@@ -494,7 +494,7 @@ KonqFrameContainer::KonqFrameContainer( Orientation o,
                                         QWidget* parent,
                                         KonqFrameContainerBase* parentContainer,
                                         const char * name)
-  : QSplitter( o, parent, name )
+  : QSplitter( o, parent, name ), m_bAboutToBeDeleted(false)
 {
   m_pParentContainer = parentContainer;
   m_pFirstChild = 0L;
@@ -662,6 +662,14 @@ void KonqFrameContainer::removeChildFrame( KonqFrameBase * frame )
 
   else
     kdWarning(1202) << this << " Can't find this child:" << frame << endl;
+}
+
+void KonqFrameContainer::childEvent( QChildEvent *c )
+{
+  // Child events cause layout changes. These are unnecassery if we are going 
+  // to be deleted anyway.
+  if (!m_bAboutToBeDeleted)
+      QSplitter::childEvent(c);
 }
 
 #include "konq_frame.moc"
