@@ -54,7 +54,7 @@ KonqyModule::KonqyModule(QWidget *parent, const char *name)
   tab = new QTabWidget(this);
   layout->addWidget(tab);
 
-  QString groupName = "Icon Settings";
+  QString groupName = "Settings";
   behaviour = new KBehaviourOptions(config, groupName, true, this);
   tab->addTab(behaviour, i18n("&Behavior"));
   connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
@@ -125,12 +125,12 @@ KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
   connect(root, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
   // Behaviour tab has nothing anymore for kdesktop - commented out
-  // those use "Icon Settings" since they are read by KonqFMSettings
-  //behaviour = new KBehaviourOptions(config, "Icon Settings", false, this);
+  // those use "Settings" since they are read by KonqFMSettings
+  //behaviour = new KBehaviourOptions(config, "Settings", false, this);
   //tab->addTab(behaviour, i18n("&Behavior"));
   //connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  font = new KonqFontOptions(config, "Icon Settings", this);
+  font = new KonqFontOptions(config, "Settings", this);
   tab->addTab(font, i18n("&Appearance"));
   connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
