@@ -114,7 +114,7 @@ int main(int argc, char **argv) {
 
    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
    bool isGui = !(args->isSet("exportmoz") || args->isSet("exportns"));
-   bool browser = !args->isSet("nobrowser");
+   bool browser = args->isSet("browser");
 
    KApplication::disableAutoDcopRegistration(); 
    KApplication app(isGui, isGui);
