@@ -199,6 +199,12 @@ public:
 
   bool fullScreenMode() const { return m_ptaFullScreen->isChecked(); }
 
+  /**
+   * The default settings "allow HTML" - the one used when creating a new view
+   * Might not match the current view !
+   */
+  bool isHTMLAllowed() const { return m_bHTMLAllowed; }
+
   static QList<KonqMainView> *mainViewList() { return s_lstViews; }
 
 public slots:
@@ -387,7 +393,9 @@ private:
 
   // Set in constructor, used in slotRunFinished
   bool m_bNeedApplyMainViewSettings;
+  // Global settings
   bool m_bSaveViewPropertiesLocally;
+  bool m_bHTMLAllowed;
 
   static QStringList *s_plstAnimatedLogo;
 

@@ -34,7 +34,6 @@
 class BrowserView;
 class KonqMainView;
 class KAboutData;
-class KonqPropsView;
 
 class KonqViewFactory
 {
@@ -71,12 +70,9 @@ public:
 
   static const KAboutData* aboutData();
 
-  static KonqPropsView *defaultViewProps();
-
 private:
   static KInstance *s_instance;
   static KAboutData *s_aboutData;
-  static KonqPropsView *s_defaultViewProps;
 };
 
 #endif

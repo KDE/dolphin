@@ -25,7 +25,6 @@
 #include "konq_misc.h"
 #include "konq_run.h"
 #include "version.h"
-#include "konq_propsview.h"
 
 #include <konqsettings.h>
 #include <kdebug.h>
@@ -39,7 +38,6 @@
 
 KInstance *KonqFactory::s_instance = 0;
 KAboutData *KonqFactory::s_aboutData = 0;
-KonqPropsView *KonqFactory::s_defaultViewProps = 0;
 
 KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parentWidget, const char *widgetName, QObject * parent, const char *name )
 {
@@ -75,7 +73,6 @@ KonqFactory::KonqFactory()
 {
   s_instance = 0;
   /*QString path = */instance()->dirs()->saveLocation("data", "kfm/bookmarks", true);
-  s_defaultViewProps = 0;
 }
 
 KonqFactory::~KonqFactory()
@@ -84,11 +81,6 @@ KonqFactory::~KonqFactory()
     delete s_instance;
 
   s_instance = 0L;
-
-  if ( s_defaultViewProps )
-    delete s_defaultViewProps;
-
-  s_defaultViewProps = 0;
 }
 
 KonqViewFactory KonqFactory::createView( const QString &serviceType,
@@ -233,13 +225,4 @@ const KAboutData *KonqFactory::aboutData()
     s_aboutData->addAuthor( "Stephan Kulow", I18N_NOOP("developer (I/O lib)"), "coolo@kde.org" );
   }
   return s_aboutData;
-}
-
-// This is a kludge for konq_childview (HTMLAllowed)
-KonqPropsView *KonqFactory::defaultViewProps()
-{
-  if ( !s_defaultViewProps )
-    s_defaultViewProps = new KonqPropsView( instance(), 0L );
-
-  return s_defaultViewProps;
 }

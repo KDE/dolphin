@@ -59,8 +59,7 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
   m_appServiceOffers = appServiceOffers;
   m_serviceType = serviceType;
 
-  //  m_bAllowHTML = KonqPropsView::defaultProps( KonqFactory::instance() )->isHTMLAllowed();
-  m_bAllowHTML = KonqFactory::defaultViewProps()->isHTMLAllowed();
+  m_bAllowHTML = m_pMainView->isHTMLAllowed();
   m_lstHistory.setAutoDelete( true );
   m_bLoading = false;
   m_bPassiveMode = false;
@@ -196,8 +195,9 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
   // our position in the history -> don't update the history entry.
   if ( !url.isEmpty() )
   {
-    if ( m_lstHistory.count() > 0 )
-      updateHistoryEntry();
+      if ( !m_bLockHistory && m_lstHistory.count() > 0 )
+          updateHistoryEntry();
+      // Don't reset m_bLockHistory, we'll need it in openURL
   }
 
   // Ok, now we can show (and store) the new location bar URL

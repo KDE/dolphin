@@ -187,6 +187,8 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
   KConfigGroupSaver cgs( config, "MainView Settings" );
   m_bSaveViewPropertiesLocally = config->readBoolEntry( "SaveViewPropertiesLocally", false );
   m_paSaveViewPropertiesLocally->setChecked( m_bSaveViewPropertiesLocally );
+  m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
+  m_ptaUseHTML->setChecked( m_bHTMLAllowed );
 
   resize( 700, 480 );
   kdDebug(1202) << "KonqMainView::KonqMainView done" << endl;
@@ -541,6 +543,28 @@ void KonqMainView::slotShowHTML()
 
   m_currentView->setAllowHTML( b );
 
+  // Save this setting, either locally or globally
+  // This has to be done before calling openView since it relies on it
+  if ( m_bSaveViewPropertiesLocally )
+  {
+      KURL u ( b ? m_currentView->url() : m_currentView->url().directory() );
+      u.addPath(".directory");
+      if ( u.isLocalFile() )
+      {
+          KSimpleConfig config( u.path() );
+          config.setGroup( "URL properties" );
+          config.writeEntry( "HTMLAllowed", b );
+          config.sync();
+      }
+  } else
+  {
+      KConfig *config = KonqFactory::instance()->config();
+      KConfigGroupSaver cgs( config, "MainView Settings" );
+      config->writeEntry( "HTMLAllowed", b );
+      config->sync();
+      m_bHTMLAllowed = b;
+  }
+
   if ( b && m_currentView->supportsServiceType( "inode/directory" ) )
   {
     m_currentView->lockHistory();
@@ -552,6 +576,7 @@ void KonqMainView::slotShowHTML()
     m_currentView->lockHistory();
     openView( "inode/directory", m_currentView->url().directory(), m_currentView );
   }
+
 }
 
 void KonqMainView::slotUnlockViews()
@@ -751,10 +776,41 @@ void KonqMainView::slotSetStatusBarText( const QString & )
 
 bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildView *childView )
 {
-  kdDebug(1202) << " KonqMainView::openView " << serviceType << " " << _url.url() << endl;
+  kdDebug(1202) << "KonqMainView::openView " << serviceType << " " << _url.url() << endl;
   QString indexFile;
 
   KURL url( _url );
+
+  // In case we open an index.html or .kde.html, we want the location bar
+  // to still display the original URL (so that 'up' uses that URL,
+  // and since that's what the user entered).
+  // changeViewMode will take care of setting and storing that url.
+  QString originalURL = url.url();
+
+  if ( ( serviceType == "inode/directory" ) &&
+       ( url.isLocalFile() ) &&
+       ( ( indexFile = findIndexFile( url.path() ) ) != QString::null ) )
+  {
+      // Ok, there is an index.html. But does the user want to see it ?
+      // Read it in the .directory file, default to m_bHTMLAllowed
+      KURL urlDotDir( url );
+      urlDotDir.addPath(".directory");
+      bool HTMLAllowed = m_bHTMLAllowed;
+      if ( QFile::exists( urlDotDir.path() ) )
+      {
+          KSimpleConfig config( urlDotDir.path() );
+          config.setGroup( "URL properties" );
+          HTMLAllowed = config.readBoolEntry( "HTMLAllowed", m_bHTMLAllowed );
+      }
+      if ( HTMLAllowed )
+      {
+          serviceType = "text/html";
+          KURL::encode( indexFile );
+          url = KURL( indexFile );
+      }
+      // Reflect this setting in the menu
+      m_ptaUseHTML->setChecked( HTMLAllowed );
+  }
 
   if ( !childView )
     {
@@ -780,10 +836,8 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
       enableAllActions( true );
 
       newView->view()->widget()->setFocus();
-      // Triggered by setFocus anyway...
-      //m_pViewManager->setActivePart( view );
 
-      newView->setLocationBarURL( url.url() );
+      newView->setLocationBarURL( originalURL );
       newView->setViewName( m_initialFrameName );
       m_initialFrameName = QString::null;
 
@@ -791,24 +845,6 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
     }
   else // We know the child view
   {
-    kdDebug(1202) << "KonqMainView::openView : url = " << url.url() << endl;
-
-    // In case we open an index.html or .kde.html, we want the location bar
-    // to still display the original URL (so that 'up' uses that URL,
-    // and since that's what the user entered).
-    // changeViewMode will take care of setting and storing that url.
-    QString originalURL = url.url();
-
-    if ( ( serviceType == "inode/directory" ) &&
-         ( childView->allowHTML() ) &&
-         ( url.isLocalFile() ) &&
-	 ( ( indexFile = findIndexFile( url.path() ) ) != QString::null ) )
-    {
-      serviceType = "text/html";
-      KURL::encode( indexFile );
-      url = KURL( indexFile );
-    }
-
     return childView->changeViewMode( serviceType, QString::null, url, originalURL );
   }
 }
@@ -1531,7 +1567,7 @@ void KonqMainView::initActions()
   m_paPrint = KStdAction::print( 0, 0, actionCollection(), "print" );
   m_paShellClose = KStdAction::close( this, SLOT( close() ), actionCollection(), "close" );
 
-  m_ptaUseHTML = new KToggleAction( i18n( "&Use HTML" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
+  m_ptaUseHTML = new KToggleAction( i18n( "&Use index.html" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
   m_paLockView = new KAction( i18n( "Lock to current location"), 0, this, SLOT( slotLockView() ), actionCollection(), "lock" );
   m_paUnlockAll = new KAction( i18n( "Unlock all views"), 0, this, SLOT( slotUnlockViews() ), actionCollection(), "unlockall" );
 
