@@ -1239,7 +1239,7 @@ void KonqMainView::initActions()
   m_paSaveSettingsPerURL = new KAction( i18n( "Save Settings for this &URL" ), 0, this, SLOT( slotSaveSettingsPerURL() ), actionCollection(), "savesettingsperurl" );
 
   m_paConfigureFileManager = new KAction( i18n( "&Configure File Manager..." ), 0, this, SLOT( slotConfigureFileManager() ), actionCollection(), "configurefilemanager" );
-  m_paConfigureFileManager = new KAction( i18n( "&Configure File Types..." ), 0, this, SLOT( slotConfigureFileTypes() ), actionCollection(), "configurefiletypes" );
+  m_paConfigureFileManager = new KAction( i18n( "&Configure File Associations..." ), 0, this, SLOT( slotConfigureFileTypes() ), actionCollection(), "configurefiletypes" );
   m_paConfigureNetwork = new KAction( i18n( "Configure &Network..." ), 0, this, SLOT( slotConfigureNetwork() ), actionCollection(), "configurenetwork" );
   m_paConfigureKeys = new KAction( i18n( "Configure &keys..." ), 0, this, SLOT( slotConfigureKeys() ), actionCollection(), "configurekeys" );
 
