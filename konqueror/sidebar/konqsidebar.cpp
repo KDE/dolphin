@@ -9,6 +9,8 @@
 #include <qtextstream.h>
 #include <kdebug.h>
 #include <kglobal.h>
+#include <qtimer.h>
+
 KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
                                   QObject *parent, const char *name )
     : KParts::ReadOnlyPart(parent, name)
@@ -23,6 +25,16 @@ KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
             this, SIGNAL(started(KIO::Job*)));
     connect(m_widget,SIGNAL(completed()),this,SIGNAL(completed()));
     setWidget(m_widget);
+}
+
+void KonqSidebar::doCloseMe()
+{
+	QTimer::singleShot(0,this,SLOT(closeMe()));
+}
+
+void KonqSidebar::closeMe()
+{
+  delete this;
 }
 
 KInstance *KonqSidebar::getInstance()

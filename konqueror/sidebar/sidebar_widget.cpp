@@ -178,6 +178,9 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	buttonPopup->insertItem(i18n("Url"),2);
 	buttonPopup->insertItem(i18n("Remove"),3);
 	connect(buttonPopup,SIGNAL(activated(int)),this,SLOT(buttonPopupActivate(int)));
+	ButtonBar->insertButton("remove",-2);
+	connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),par,SLOT(doCloseMe()));
+	ButtonBar->insertLineSeparator();
 	ButtonBar->insertButton(BarIcon("configure"), -1, Menu,true,
     	    				i18n("Configure sidebar"));
 	connect(new addBackEnd(this,addMenu,"Sidebar_Widget-addBackEnd"),SIGNAL(updateNeeded()),this,SLOT(createButtons()));
@@ -596,7 +599,7 @@ void Sidebar_Widget::showHidePage(int page)
 					latestViewed=page;
 					if (stored_url) info->module->openURL(storedUrl);
 					visibleViews<<info->file;
-					ButtonBar->setButton(page,true);			
+					ButtonBar->setButton(page,true);
 				} else
 				{
 					ButtonBar->setButton(page,false);
