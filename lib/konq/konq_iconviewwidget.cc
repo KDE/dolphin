@@ -640,7 +640,7 @@ void KonqIconViewWidget::initConfig( bool bInit )
     }
 
 
-    d->pFileTip->setOptions(m_pSettings->showFileTips(),
+    d->pFileTip->setOptions(m_pSettings->showFileTips() && showToolTips(),
                             m_pSettings->numFileTips());
 
     // Font settings
