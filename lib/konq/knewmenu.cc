@@ -313,7 +313,10 @@ void KNewMenu::slotNewFile()
 		KURL dest( *it );
                 dest.addPath( KIO::encodeFileName(name) ); // Chosen destination file name
 
-                KIO::Job * job = KIO::copyAs( src, dest );
+                KURL uSrc;
+                uSrc.setPath( src );
+                //kdDebug(1203) << "KNewMenu : KIO::copyAs( " << uSrc.url() << ", " << dest.url() << ")" << endl;
+                KIO::Job * job = KIO::copyAs( uSrc, dest );
                 connect( job, SIGNAL( result( KIO::Job * ) ),
                          SLOT( slotResult( KIO::Job * ) ) );
             }
@@ -331,6 +334,7 @@ void KNewMenu::slotResult( KIO::Job * job )
         KURL destURL = static_cast<KIO::CopyJob*>(job)->destURL();
         if ( destURL.isLocalFile() )
         {
+          //kdDebug(1203) << destURL.path() << endl;
           KDesktopFile df( destURL.path() );
           df.writeEntry( "URL", KIO::decodeFileName( destURL.fileName() ) );
           df.sync();
