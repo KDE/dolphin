@@ -1,3 +1,3 @@
-konqpicsdir = $(kde_datadir)/konqueror/pics
-konqpics_ICON = AUTO
+konqiconsdir = $(kde_datadir)/konqueror/icons
+konqicons_ICON = AUTO
 
