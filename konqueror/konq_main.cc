@@ -174,7 +174,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
                  if (url.isLocalFile() && QFile::exists(url.path())) // "konqueror index.html"
                      urlToOpen = url;
                  else
-                     urlToOpen = KURL( KonqMisc::konqFilteredURL(0L, args->arg(i)) ); // "konqueror slashdot.org"
+                     urlToOpen = KURL( KonqMisc::konqFilteredURL(0L, QString::fromLocal8Bit(args->arg(i))) ); // "konqueror slashdot.org"
 
                  if ( !mainwin ) {
                      KParts::URLArgs urlargs;
