@@ -30,18 +30,26 @@ public:
 
   clientApp( int &argc, char **argv, const QCString& rAppName )
     : KApplication ( argc, argv, rAppName, false /* non-GUI */ )
-    { };
+    { }
 
-  ~clientApp() {} ;
+  ~clientApp() {}
 
   /** Parse command-line arguments and "do it" */
   int doIt( int argc, char **argv );
 
-  /** Implements KFileManager interface */
-  virtual bool openFileManagerWindow(const KURL & url);
+  /** Make konqueror open a window for @p url */
+  bool openFileManagerWindow(const KURL & url);
+
+  /** Make konqueror open a window for @p profile */
+  bool openProfile(const QString & profile);
 
 protected slots:
   void slotResult( KIO::Job * );
+  void slotAppRegistered( const QCString & );
+
+private:
+  QString m_profile;
+
 };
 
 #endif

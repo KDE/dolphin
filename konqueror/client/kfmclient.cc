@@ -58,6 +58,9 @@ int main( int argc, char **argv )
                 "            #  'url' may be a relative path\n"
                 "            #   or file name, such as . or subdir/\n"
                 "            #   If 'url' is omitted, $HOME is used instead.\n\n").local8Bit());
+    printf(i18n("  kfmclient openProfile 'profile'\n"
+                "            # Opens a window using the given profile.\n"
+                "            #   'profile' is a file under ~/.kde/share/apps/konqueror/profiles.\n\n").local8Bit());
     printf(i18n("  kfmclient openProperties 'url'\n"
                 "            # Opens a properties menu\n\n").local8Bit());
     printf(i18n("  kfmclient exec ['url' ['binding']]\n"
@@ -122,12 +125,12 @@ bool clientApp::openFileManagerWindow(const KURL & url)
   else
   {
     QString error;
-    if ( KApplication::startServiceByDesktopPath( "konqueror.desktop",
+    if ( KApplication::startServiceByDesktopPath( QString::fromLatin1("konqueror.desktop"),
                url.url(), &error ) > 0 )
     {
-      kdError() << "Couldn't start konqueror from services/konqueror.desktop: " << error << endl;
+      kdError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
       KProcess proc;
-      proc << "konqueror" << url.url();
+      proc << QString::fromLatin1("konqueror") << url.url();
       proc.start( KProcess::DontCare );
     }
   }
@@ -135,11 +138,48 @@ bool clientApp::openFileManagerWindow(const KURL & url)
   return true;
 }
 
+bool clientApp::openProfile( const QString & profile )
+{
+
+  if ( dcopClient()->isApplicationRegistered( "konqueror" ) )
+  {
+    KonquerorIface_stub konqy( "konqueror", "KonquerorIface" );
+    konqy.createBrowserWindowFromProfile( profile );
+  }
+  else
+  {
+    dcopClient()->setNotifications( true );
+    QObject::connect( dcopClient(), SIGNAL( applicationRegistered( const QCString& ) ),
+		    this, SLOT( slotAppRegistered( const QCString & ) ) );
+    m_profile = profile;
+    QString error;
+    if ( KApplication::startServiceByDesktopPath( QString::fromLatin1("konqueror.desktop"), QString::fromLatin1("--silent"), &error ) > 0 )
+    {
+      kdError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
+      return false;
+    }
+
+    exec();
+  }
+
+  return true;
+}
+
+void clientApp::slotAppRegistered( const QCString &appId )
+{
+  if ( appId.left( 9 ) == "konqueror" )
+    {
+      KonquerorIface_stub konqy( appId, "KonquerorIface" );
+      konqy.createBrowserWindowFromProfile( m_profile );
+      exit( 0 );
+    }
+}
+
 int clientApp::doIt( int argc, char **argv )
 {
   if ( argc < 2 )
   {
-    fprintf( stderr, i18n("Syntax Error: Too few arguments\n") );
+    fprintf( stderr, i18n("Syntax Error: Too few arguments\n").local8Bit() );
     return 1;
   }
 
@@ -158,7 +198,30 @@ int clientApp::doIt( int argc, char **argv )
     }
     else
     {
-      fprintf( stderr, i18n("Syntax Error: Too many arguments\n") );
+      fprintf( stderr, i18n("Syntax Error: Too many arguments\n").local8Bit() );
+      return 1;
+    }
+  }
+  else if ( strcmp( argv[1], "openProfile" ) == 0 )
+  {
+    if ( argc == 2 )
+    {
+      fprintf( stderr, i18n("Syntax Error: Not enough arguments\n").local8Bit() );
+      return 1;
+    }
+    else if ( argc == 3 )
+    {
+      QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + QFile::decodeName(argv[2]) );
+      if ( profile.isEmpty() )
+      {
+        fprintf( stderr, i18n("Profile %1 not found\n").arg(profile).local8Bit() );
+        return 1;
+      }
+      return openProfile( profile );
+    }
+    else
+    {
+      fprintf( stderr, i18n("Syntax Error: Too many arguments\n").local8Bit() );
       return 1;
     }
   }
@@ -172,7 +235,7 @@ int clientApp::doIt( int argc, char **argv )
     }
     else
     {
-      fprintf( stderr, i18n("Syntax Error: Wrong number of arguments\n") );
+      fprintf( stderr, i18n("Syntax Error: Wrong number of arguments\n").local8Bit() );
       return 1;
     }
   }
@@ -195,8 +258,7 @@ int clientApp::doIt( int argc, char **argv )
     {
       QStringList urls;
       urls.append( KCmdLineArgs::makeURL(argv[2]).url() );
-//      KService::Ptr serv = KServiceProvider::getServiceProvider()->serviceByServiceType( argv[3] );
-      KService::Ptr serv = (*KTrader::self()->query( argv[ 3 ] ).begin());
+      KService::Ptr serv = (*KTrader::self()->query( QString::fromLocal8Bit(argv[ 3 ]) ).begin());
       if (!serv) return 1;
       KFileOpenWithHandler fowh;
       bool ret = KRun::run( *serv, urls );
@@ -204,7 +266,7 @@ int clientApp::doIt( int argc, char **argv )
     }
     else
     {
-      fprintf( stderr, i18n("Syntax Error: Wrong number of arguments\n") );
+      fprintf( stderr, i18n("Syntax Error: Wrong number of arguments\n").local8Bit() );
       return 1;
     }
   }
@@ -212,7 +274,7 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc <= 3 )
     {
-      fprintf( stderr, i18n("Syntax Error: Too few arguments\n") );
+      fprintf( stderr, i18n("Syntax Error: Too few arguments\n").local8Bit() );
       return 1;
     }
     KURL::List srcLst;
@@ -227,7 +289,7 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc <= 3 )
     {
-      fprintf( stderr, i18n("Syntax Error: Too few arguments\n") );
+      fprintf( stderr, i18n("Syntax Error: Too few arguments\n").local8Bit() );
       return 1;
     }
     KURL::List srcLst;
@@ -242,7 +304,7 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc != 2 )
     {
-      fprintf( stderr, i18n("Syntax Error: Too many arguments\n") );
+      fprintf( stderr, i18n("Syntax Error: Too many arguments\n").local8Bit() );
       return 1;
     }
 
@@ -265,7 +327,7 @@ int clientApp::doIt( int argc, char **argv )
     }
     else
     {
-      fprintf( stderr, i18n("Syntax Error: Wrong number of arguments\n") );
+      fprintf( stderr, i18n("Syntax Error: Wrong number of arguments\n").local8Bit() );
       return 1;
     }
   }
@@ -273,7 +335,7 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc != 2 )
     {
-      fprintf( stderr, i18n("Syntax Error: Too many arguments\n") );
+      fprintf( stderr, i18n("Syntax Error: Too many arguments\n").local8Bit() );
       return 1;
     }
     QByteArray data;
@@ -284,7 +346,7 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc != 2 )
     {
-      fprintf( stderr, i18n("Syntax Error: Too many arguments\n") );
+      fprintf( stderr, i18n("Syntax Error: Too many arguments\n").local8Bit() );
       return 1;
     }
 
@@ -293,7 +355,7 @@ int clientApp::doIt( int argc, char **argv )
   }
   else
   {
-    fprintf( stderr, i18n("Syntax Error: Unknown command '%1'\n").arg(argv[1]).local8Bit() );
+    fprintf( stderr, i18n("Syntax Error: Unknown command '%1'\n").arg(QString::fromLocal8Bit(argv[1])).local8Bit() );
     return 1;
   }
   return 0;
