@@ -460,7 +460,7 @@ void KonqTree::loadTopLevelGroup( KonqTreeItem *parent, const QString &path )
     KonqTreeTopLevelItem *item;
     if ( parent )
     {
-        kdDebug(1201) << "KonqTree::scanDir2 Inserting new group under parent " << endl;
+        kdDebug(1201) << "KonqTree::loadTopLevelGroup Inserting new group under parent " << endl;
         item = new KonqTreeTopLevelItem( parent, 0 /* no module */, path );
     }
     else

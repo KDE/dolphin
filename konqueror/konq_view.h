@@ -255,20 +255,6 @@ public:
 
   KonqViewIface * dcopObject();
 
-  // Status of the actions for this view
-  class KBitArray
-  {
-  public:
-      int val;
-      KBitArray() { val = 0; }
-      bool operator [](int index) { return (val & (1 << index)) ? true : false; }
-      void setBit(int index, bool value) {
-          if (value) val = val | (1 << index);
-          else val = val & ~(1 << index);
-      }
-  };
-  KBitArray & actionStatus() { return m_actionStatus; }
-
   static QStringList childFrameNames( KParts::ReadOnlyPart *part );
 
   static KParts::BrowserHostExtension *hostExtension( KParts::ReadOnlyPart *part, const QString &name );
@@ -370,7 +356,6 @@ protected:
   QString m_serviceType;
   QString m_name;
   KonqViewIface * m_dcopObject;
-  KBitArray m_actionStatus;
 };
 
 #endif

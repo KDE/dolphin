@@ -1,3 +1,9 @@
+2000-12-10  David Faure  <faure@kde.org>
+
+	* konq_mainwindow.cc, konq_view.*, browserextension.*: Fixed
+	the initial state of the common actions (cut,copy,paste etc.).
+	Had to move all the handling of the action states to browserextension.
+
 2000-12-10  Simon Hausmann  <simon@kde.org>
 
 	* konqview_example.tar.gz: removed outdated example.

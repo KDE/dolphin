@@ -98,8 +98,6 @@ template class QList<QPixmap>;
 template class QList<KToggleAction>;
 
 QList<KonqMainWindow> *KonqMainWindow::s_lstViews = 0;
-KonqMainWindow::ActionSlotMap *KonqMainWindow::s_actionSlotMap = 0;
-KonqMainWindow::ActionNumberMap *KonqMainWindow::s_actionNumberMap = 0;
 KCompletion * KonqMainWindow::s_pCompletion = 0;
 
 KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, const char *name )
@@ -109,19 +107,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
     s_lstViews = new QList<KonqMainWindow>;
 
   s_lstViews->append( this );
-
-  if ( !s_actionSlotMap )
-  {
-      s_actionSlotMap = new ActionSlotMap( KParts::BrowserExtension::actionSlotMap() );
-      s_actionNumberMap = new ActionNumberMap;
-      ActionSlotMap::ConstIterator it = s_actionSlotMap->begin();
-      ActionSlotMap::ConstIterator itEnd = s_actionSlotMap->end();
-      for ( int i=0 ; it != itEnd ; ++it, ++i )
-      {
-          //kdDebug(1202) << " action " << it.key() << " number " << i << endl;
-          s_actionNumberMap->insert( it.key(), i );
-      }
-  }
 
   m_currentView = 0L;
   m_pBookmarkMenu = 0L;
@@ -1458,8 +1443,9 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
     kdDebug(1202) << "No Browser Extension for the new part" << endl;
     // Disable all browser-extension actions
 
-    ActionSlotMap::ConstIterator it = s_actionSlotMap->begin();
-    ActionSlotMap::ConstIterator itEnd = s_actionSlotMap->end();
+    KParts::BrowserExtension::ActionSlotMap * actionSlotMap = KParts::BrowserExtension::actionSlotMapPtr();
+    KParts::BrowserExtension::ActionSlotMap::ConstIterator it = actionSlotMap->begin();
+    KParts::BrowserExtension::ActionSlotMap::ConstIterator itEnd = actionSlotMap->end();
 
     for ( ; it != itEnd ; ++it )
     {
@@ -2682,8 +2668,9 @@ QString KonqMainWindow::findIndexFile( const QString &dir )
 void KonqMainWindow::connectExtension( KonqView * view, KParts::BrowserExtension *ext )
 {
   //kdDebug(1202) << "Connecting extension " << ext << endl;
-  ActionSlotMap::ConstIterator it = s_actionSlotMap->begin();
-  ActionSlotMap::ConstIterator itEnd = s_actionSlotMap->end();
+  KParts::BrowserExtension::ActionSlotMap * actionSlotMap = KParts::BrowserExtension::actionSlotMapPtr();
+  KParts::BrowserExtension::ActionSlotMap::ConstIterator it = actionSlotMap->begin();
+  KParts::BrowserExtension::ActionSlotMap::ConstIterator itEnd = actionSlotMap->end();
 
   QStrList slotNames = ext->metaObject()->slotNames();
 
@@ -2696,10 +2683,8 @@ void KonqMainWindow::connectExtension( KonqView * view, KParts::BrowserExtension
       // Does the extension have a slot with the name of this action ?
       if ( slotNames.contains( it.key()+"()" ) )
       {
-        connect( act, SIGNAL( activated() ), ext, it.data() /* SLOT(slot name) */ );
-        int actionNumber = (*s_actionNumberMap)[ it.key() ];
-        act->setEnabled( view->actionStatus()[ actionNumber ] );
-        //kdDebug(1202) << "KonqMainWindow::connectExtension connecting to " << it.key() << " (" << actionNumber << ") and setting it to " << act->isEnabled() << endl;
+          connect( act, SIGNAL( activated() ), ext, it.data() /* SLOT(slot name) */ );
+          act->setEnabled( ext->isActionEnabled( it.key() ) );
       } else
           act->setEnabled(false);
 
@@ -2711,8 +2696,9 @@ void KonqMainWindow::connectExtension( KonqView * view, KParts::BrowserExtension
 void KonqMainWindow::disconnectExtension( KParts::BrowserExtension *ext )
 {
   //kdDebug(1202) << "Disconnecting extension " << ext << endl;
-  ActionSlotMap::ConstIterator it = s_actionSlotMap->begin();
-  ActionSlotMap::ConstIterator itEnd = s_actionSlotMap->end();
+  KParts::BrowserExtension::ActionSlotMap * actionSlotMap = KParts::BrowserExtension::actionSlotMapPtr();
+  KParts::BrowserExtension::ActionSlotMap::ConstIterator it = actionSlotMap->begin();
+  KParts::BrowserExtension::ActionSlotMap::ConstIterator itEnd = actionSlotMap->end();
 
   QStrList slotNames =  ext->metaObject()->slotNames();
 
@@ -2735,7 +2721,7 @@ void KonqMainWindow::enableAction( const char * name, bool enabled )
     kdWarning(1202) << "Unknown action " << name << " - can't enable" << endl;
   else
   {
-    //kdDebug(1202) << "KonqMainWindow::enableAction " << name << " " << enabled << endl;
+    kdDebug(1202) << "KonqMainWindow::enableAction " << name << " " << enabled << endl;
     act->setEnabled( enabled );
   }
 
@@ -2760,15 +2746,15 @@ void KonqMainWindow::currentProfileChanged()
 
 void KonqMainWindow::enableAllActions( bool enable )
 {
+  KParts::BrowserExtension::ActionSlotMap * actionSlotMap = KParts::BrowserExtension::actionSlotMapPtr();
   int count = actionCollection()->count();
   for ( int i = 0; i < count; i++ )
   {
     KAction *act = actionCollection()->action( i );
     if ( strncmp( act->name(), "configure", 9 ) /* do not touch the configureblah actions */
-         && ( !enable || !s_actionSlotMap->contains( act->name() ) ) ) /* don't enable BE actions */
+         && ( !enable || !actionSlotMap->contains( act->name() ) ) ) /* don't enable BE actions */
       act->setEnabled( enable );
   }
-
   // This method is called with enable=false on startup, and
   // then only once with enable=true when the first view is setup.
   // So the code below is where actions that should initially be disabled are disabled.

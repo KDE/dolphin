@@ -449,6 +449,7 @@ private:
   uint m_bNeedApplyKonqMainWindowSettings:1;
   uint m_bViewModeToggled:1;
   uint m_bLockLocationBarURL:1;
+  bool m_qComboHack:1; // FIXME, remove when QComboBox is ready
 
   int m_goBuffer;
 
@@ -489,19 +490,11 @@ private:
 
   KonqMainWindowIface * m_dcopObject;
 
-  bool m_qComboHack; // FIXME, remove when QComboBox is ready
-
   static QStringList *s_plstAnimatedLogo;
 
   static QList<KonqMainWindow> *s_lstViews;
 
   QString m_currentDir; // stores current dir for relative URLs whenever applicable
-
-public: // public for KonqView
-  typedef QMap<QCString,QCString> ActionSlotMap;
-  static ActionSlotMap *s_actionSlotMap;
-  typedef QMap<QCString,int> ActionNumberMap;
-  static ActionNumberMap *s_actionNumberMap;
 };
 
 #endif
