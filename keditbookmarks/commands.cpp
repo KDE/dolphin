@@ -397,11 +397,17 @@ KMacroCommand* CmdGen::setAsToolbar(const KBookmark &bk) {
    return mcmd;
 }
 
-KMacroCommand* CmdGen::showInToolbar(const KBookmark &bk) {
-   KMacroCommand *mcmd = new KMacroCommand(i18n("Show in Bookmark Toolbar"));
+//helper
+bool CmdGen::shownInToolbar(const KBookmark &bk) {
+   return (bk.internalElement().attribute("showintoolbar") == "yes");
+}
+
+KMacroCommand* CmdGen::setShownInToolbar(const KBookmark &bk, bool show) {
+   QString i18n_name = i18n("%1 in Bookmark Toolbar").arg(show ? i18n("Show") : i18n("Hide"));
+   KMacroCommand *mcmd = new KMacroCommand(i18n_name);
 
    QValueList<EditCommand::Edition> lst;
-   lst.append(EditCommand::Edition("showintoolbar", "yes"));
+   lst.append(EditCommand::Edition("showintoolbar", show ? "yes" : "no"));
    // TODO - some proper kind of feedback - e.g, an icon effect/emblem
    //      - the following will erase the stored icon for the item
    lst.append(EditCommand::Edition("icon", "bookmark_toolbar"));

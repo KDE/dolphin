@@ -39,6 +39,7 @@ struct SelcAbilities {
    bool multiSelect:1;
    bool singleSelect:1;
    bool notEmpty:1;
+   bool tbShowState:1;
 };
 
 class CmdHistory : public QObject {

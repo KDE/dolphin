@@ -255,7 +255,8 @@ void ActionsImpl::slotSetAsToolbar() {
 
 void ActionsImpl::slotShowInToolbar() {
    KBookmark bk = ListView::self()->firstSelected()->bookmark();
-   KMacroCommand *mcmd = CmdGen::self()->showInToolbar(bk);
+   bool shown = CmdGen::self()->shownInToolbar(bk);
+   KMacroCommand *mcmd = CmdGen::self()->setShownInToolbar(bk, !shown);
    CmdHistory::self()->addCommand(mcmd);
 }
 

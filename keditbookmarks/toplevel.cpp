@@ -368,6 +368,7 @@ void KEBApp::createActions() {
    (void) KStdAction::copy(actn, SLOT( slotCopy() ), actionCollection());
    (void) KStdAction::paste(actn, SLOT( slotPaste() ), actionCollection());
 
+   // settings menu
    (void) new KToggleAction(
                       i18n("&Auto-Save on Program Close"), 0,
                       this, SLOT( slotSaveOnClose() ), actionCollection(), "settings_saveonclose");
@@ -375,7 +376,8 @@ void KEBApp::createActions() {
                       i18n("Advanced Add Bookmark in Konqueror"), 0,
                       this, SLOT( slotAdvancedAddBookmark() ), actionCollection(), 
                       "settings_advancedaddbookmark");
-   // TODO - these options should be a in a kcontrol thing
+
+   // these options should be in a kcontrol thing
    (void) new KToggleAction(
                       i18n("Display Only Marked Bookmarks in Konqueror Bookmark Toolbar"), 0,
                       this, SLOT( slotFilteredToolbar() ), actionCollection(), 
@@ -386,6 +388,8 @@ void KEBApp::createActions() {
    (void) new KToggleAction(
                       i18n("&Show Netscape Bookmarks in Konqueror Windows"), 0,
                       actn, SLOT( slotShowNS() ), actionCollection(), "settings_showNS");
+
+   // actions
    (void) new KAction(i18n("&Delete"), "editdelete", Key_Delete,
                       actn, SLOT( slotDelete() ), actionCollection(), "delete");
    (void) new KAction(i18n("Rename"), "text", Key_F2,
@@ -505,6 +509,9 @@ void KEBApp::slotAdvancedAddBookmark() {
 void KEBApp::slotFilteredToolbar() {
    m_filteredToolbar = getToggleAction("settings_filteredtoolbar")->isChecked();
    writeConfigBool("kbookmarkrc", "Bookmarks", "FilteredToolbar", m_filteredToolbar);
+   // TODO - translators, don't touch, i'll fix this
+   KMessageBox::sorry(this, "<qt>In order to see the affect of this setting<br>"
+                                "modification you will need to relogin.</qt>");
 }
 
 void KEBApp::slotSplitView() {
@@ -563,6 +570,9 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
             toEnable << "sort" << "recursivesort" << "setastoolbar";
       }
    }
+   
+   QString stbString = QString("%1 in T&oolbar").arg(sa.tbShowState ? i18n("Hide") : i18n("Show"));
+   coll->action("showintoolbar")->setText(stbString);
 
    for ( QStringList::Iterator it = toEnable.begin(); 
          it != toEnable.end(); ++it )

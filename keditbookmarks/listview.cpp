@@ -321,7 +321,7 @@ void ListView::setOpen(bool open) {
 SelcAbilities ListView::getSelectionAbilities() const {
    KEBListViewItem *item = firstSelected();
 
-   static SelcAbilities sa = { false, false, false, false, false, false, false, false };
+   static SelcAbilities sa = { false, false, false, false, false, false, false, false, false };
 
    if (item) {
       KBookmark nbk = item->bookmark();
@@ -332,6 +332,7 @@ SelcAbilities ListView::getSelectionAbilities() const {
       sa.singleSelect   = (!sa.multiSelect && sa.itemSelected);
       sa.root           = (m_listView->rootItem() == item);
       sa.multiSelect    = (selectedItems()->count() > 1);
+      sa.tbShowState    = CmdGen::self()->shownInToolbar(nbk);
    }
 
    sa.notEmpty = (m_listView->rootItem()->childCount() > 0);
@@ -476,6 +477,7 @@ void ListView::handleCurrentChanged(KEBListView *lv, QListViewItem *item) {
 
 void ListView::handleMoved(KEBListView *) {
    kdDebug() << "ListView::handleMoved()" << endl;  
+   // TODO ERM WTF TODO
    /*
    KMacroCommand *mcmd = CmdGen::self()->deleteItems( i18n("Moved Items"), 
                                                       ListView::self()->selectedItems());
