@@ -49,6 +49,9 @@ QPixmap KonqFileItem::pixmap( int _size, bool bImagePreviewAllowed ) const
 
   if ( m_pMimeType->name().left(6) == "image/" && m_bIsLocalURL && bImagePreviewAllowed )
   {
+      warning("Requested thumbnail size: %d", _size);
+      if(_size == 0) // hack!
+          _size = 48;
       // Check if pixie thumbnail of any size is there first
       struct stat buff;
       bool bAvail = false;
