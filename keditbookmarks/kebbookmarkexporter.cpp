@@ -17,14 +17,15 @@
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 */
-#include <qfile.h>
-#include <kdebug.h>
 #include <stdio.h>
+
+#include <qfile.h>
+#include <qtextcodec.h>
+#include <qstylesheet.h>
+
+#include <kdebug.h>
 #include <klocale.h>
 #include <kbookmarkmanager.h>
-#include <qtextcodec.h>
-#include <qregexp.h>
-
 #include "kebbookmarkexporter.h"
 
 // for compat
@@ -79,10 +80,7 @@ const QString KEBNSBookmarkExporterImpl::folderAsString(KBookmarkGroup parent) {
          continue;
       }
 
-      QString text = bk.text();
-      text.replace(QRegExp("&"), "&amp;")
-          .replace(QRegExp("<"), "&lt;")
-          .replace(QRegExp(">"), "&gt;");
+      QString text = QStyleSheet::escape(bk.text());
 
       if (bk.isGroup() ) {
          fstream << "<DT><H3 " 

@@ -17,7 +17,6 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include <qregexp.h>
 #include <qtimer.h>
 #include <qpainter.h>
 
@@ -131,7 +130,7 @@ void TestLinkItr::slotJobResult(KIO::Job *job) {
       // can we assume that errorString will contain no entities?
       QString jerr = job->errorString();
       if (!jerr.isEmpty()) {
-         jerr.replace(QRegExp("\n"), " ");
+         jerr.replace("\n", " ");
          curItem()->nsPut(jerr);
          chkErr = false;
       }
