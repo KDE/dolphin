@@ -209,7 +209,7 @@ void KCacheConfigDialog::load()
     else if (cc==KIO::CC_Cache)
         rb_cacheIfPossible->setChecked(true);
 
-    sb_max_cache_size->setValue( KProtocolManager::maxCacheSize()/1024 );
+    sb_max_cache_size->setValue( KProtocolManager::maxCacheSize() );
 
     bool useCache = cb_useCache->isChecked();
     gb_Cache_policy->setEnabled( useCache );
@@ -222,7 +222,7 @@ void KCacheConfigDialog::load()
 void KCacheConfigDialog::save()
 {
     KSaveIOConfig::setUseCache( cb_useCache->isChecked() );
-    KSaveIOConfig::setMaxCacheSize( 1024 * sb_max_cache_size->value() );
+    KSaveIOConfig::setMaxCacheSize( sb_max_cache_size->value() );
 
     if ( !cb_useCache->isChecked() )
         KSaveIOConfig::setCacheControl(KIO::CC_Reload);
