@@ -20,7 +20,7 @@
 #include <qvbox.h>
 
 #include <ktexteditor/configinterface.h>
-#include <ktexteditor/configinterface.h>
+#include <ktexteditor/sessionconfiginterface.h>
 #include <ktexteditor/viewcursorinterface.h>
 #include <ktexteditor/printinterface.h>
 #include <ktexteditor/encodinginterface.h>
@@ -411,14 +411,14 @@ void KWrite::restore(KConfig *config, int n)
 void KWrite::readProperties(KConfig *config)
 {
   readConfig(config);
-  KTextEditor::configInterface(kateView)->readSessionConfig(config);
+  KTextEditor::sessionConfigInterface(kateView)->readSessionConfig(config);
 }
 
 void KWrite::saveProperties(KConfig *config)
 {
   writeConfig(config);
   config->writeEntry("DocumentNumber",docList.find(kateView->document()) + 1);
-  KTextEditor::configInterface(kateView)->writeSessionConfig(config);
+  KTextEditor::sessionConfigInterface(kateView)->writeSessionConfig(config);
 }
 
 void KWrite::saveGlobalProperties(KConfig *config) //save documents
