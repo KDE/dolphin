@@ -111,21 +111,21 @@ void KFileIVI::setIcon( int size, int state, bool recalc, bool redraw )
       m_state = KIcon::DisabledState;
     else
       m_state = state;
-
-    if ( !d->m_overlayName.isNull() )
-        d->m_overlay = DesktopIcon(d->m_overlayName, m_size / 2);
-
+    
+    if ( d->m_overlayName.isNull() )
+        d->m_overlay = QPixmap();
+    else {
+        d->m_overlay = DesktopIcon(d->m_overlayName, pixmapRect().height());
+    }
+      
     setPixmapDirect(m_fileitem->pixmap( m_size, m_state ) , recalc, redraw );
 }
 
 void KFileIVI::setOverlay( const QString& iconName )
 {
     d->m_overlayName = iconName;
-    if ( iconName.isNull() )
-        d->m_overlay = QPixmap();
-    else
-        d->m_overlay = DesktopIcon(iconName, m_size / 2);
-	refreshIcon(true);
+   
+    refreshIcon(true);
 }
 
 KIVDirectoryOverlay* KFileIVI::setShowDirectoryOverlay( bool show )
@@ -355,7 +355,7 @@ void KFileIVI::paintItem( QPainter *p, const QColorGroup &c )
 
     if ( !d->m_overlay.isNull() ) {
         QRect rect = pixmapRect(true);
-        p->drawPixmap(x() + rect.x() , y() + m_size - d->m_overlay.height(), d->m_overlay);
+        p->drawPixmap(x() + rect.x() , y() + pixmapRect().height() - d->m_overlay.height(), d->m_overlay);
     }
 }
 
