@@ -699,13 +699,13 @@ void KEBTopLevel::slotSort()
 
     ////
 
-    SortCommand * cmd = new SortCommand("Sort alphabetically", bk.address());
+    SortCommand * cmd = new SortCommand(i18n("Sort alphabetically"), bk.address());
     m_commandHistory.addCommand( cmd );
 }
 
 void KEBTopLevel::slotSetAsToolbar()
 {
-    KMacroCommand * cmd = new KMacroCommand("Set as Bookmark Toolbar");
+    KMacroCommand * cmd = new KMacroCommand(i18n("Set as Bookmark Toolbar"));
 
     KBookmarkGroup oldToolbar = KBookmarkManager::self()->toolbar();
     if (!oldToolbar.isNull())
