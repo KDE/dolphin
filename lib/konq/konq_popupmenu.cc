@@ -109,11 +109,13 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KActionCollection & actions,
                               KNewMenu * newMenu,
                   bool showPropertiesAndFileType )
-  : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_ownActions( this, "KonqPopupMenu::m_ownActions" ),
+  : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ),
     m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
   d = new KonqPopupMenuPrivate;
   assert( m_lstItems.count() >= 1 );
+
+  m_ownActions.setWidget( this );
 
   bool currentDir     = false;
   bool sReading       = true;
