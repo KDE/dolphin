@@ -245,7 +245,7 @@ bool UserAgentDlg::handleDuplicate( const QString& site,
 
 void UserAgentDlg::addPressed()
 {
-  UAProviderDlg pdlg ( i18n("Add Identification"), this, 0L, m_provider );
+  UAProviderDlg pdlg ( i18n("Add Identification"), this, m_provider );
 
   if ( pdlg.exec() == QDialog::Accepted )
   {
@@ -264,7 +264,7 @@ void UserAgentDlg::addPressed()
 
 void UserAgentDlg::changePressed()
 {
-  UAProviderDlg pdlg ( i18n("Modify Identification"), this, 0L, m_provider );
+  UAProviderDlg pdlg ( i18n("Modify Identification"), this, m_provider );
 
   QListViewItem *index = dlg->lvDomainPolicyList->currentItem();
 

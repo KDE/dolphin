@@ -56,7 +56,7 @@ void UALineEdit::keyPressEvent( QKeyEvent* e )
 }
 
 UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
-                              const char *name, FakeUASProvider* provider )
+                              FakeUASProvider* provider, const char *name )
               :KDialog(parent, name, true), m_provider(provider)
 {
   setCaption ( caption );
@@ -65,37 +65,36 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
 
   dlg = new UAProviderDlgUI (this);
   mainLayout->addWidget(dlg);
-  m_bMustDelete = false;
-  init();
+    
+  if (!m_provider)
+  {
+    setEnabled( false );
+    return;
+  }
+  
+  init();    
 }
 
 UAProviderDlg::~UAProviderDlg()
 {
-    if ( m_bMustDelete )
-        delete m_provider;
 }
 
-void UAProviderDlg::init(bool updateInfo )
+void UAProviderDlg::init( bool updateInfo )
 {
-    if ( !updateInfo )
-    {
-        connect( dlg->pbOk, SIGNAL(clicked()), SLOT(accept()) );
-        connect( dlg->pbCancel, SIGNAL(clicked()), SLOT(reject()) );
-
-        connect( dlg->leSite, SIGNAL(textChanged(const QString&)),
-                 SLOT(slotTextChanged( const QString&)) );
-
-        connect( dlg->cbAlias, SIGNAL(activated(const QString&)),
-                 SLOT(slotActivated(const QString&)) );
-
-        connect( dlg->pbUpdateList, SIGNAL(clicked()), SLOT(updateInfo()) );
-    }
-  if ( !m_provider )
+  if ( !updateInfo )
   {
-      m_bMustDelete = true;
-      m_provider = new FakeUASProvider();
+      connect( dlg->pbOk, SIGNAL(clicked()), SLOT(accept()) );
+      connect( dlg->pbCancel, SIGNAL(clicked()), SLOT(reject()) );
+  
+      connect( dlg->leSite, SIGNAL(textChanged(const QString&)),
+                SLOT(slotTextChanged( const QString&)) );
+  
+      connect( dlg->cbAlias, SIGNAL(activated(const QString&)),
+                SLOT(slotActivated(const QString&)) );
+  
+      connect( dlg->pbUpdateList, SIGNAL(clicked()), SLOT(updateInfo()) );
   }
-
+  
   dlg->cbAlias->clear();
   dlg->cbAlias->insertStringList( m_provider->userAgentAliasList() );
   dlg->cbAlias->insertItem( "", 0 );

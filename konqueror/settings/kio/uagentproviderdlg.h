@@ -43,10 +43,8 @@ class UAProviderDlg : public KDialog
   Q_OBJECT
 
 public:
-  UAProviderDlg( const QString& caption,
-                 QWidget *parent = 0,
-                 const char *name = 0,
-                 FakeUASProvider* provider = 0 );
+  UAProviderDlg( const QString& caption, QWidget *parent = 0,
+                 FakeUASProvider* provider = 0, const char *name = 0 );
   ~UAProviderDlg();
 
   void setSiteName( const QString& );
@@ -67,6 +65,5 @@ protected:
 private:
   FakeUASProvider* m_provider;
   UAProviderDlgUI* dlg;
-    bool m_bMustDelete;
 };
 #endif
