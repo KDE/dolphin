@@ -54,7 +54,7 @@ const KBookmark BookmarkIterator::curBk() const {
 void BookmarkIterator::nextOne() {
    // kdDebug() << "BookmarkIterator::nextOne" << endl;
 
-   if (m_bklist.count() == 0) {
+   if (m_bklist.isEmpty()) {
       emit deleteSelf(this);
       return;
    }

@@ -263,7 +263,7 @@ QValueList<KBookmark> ListView::allBookmarks() const {
 // DESIGN - make + "/0" a kbookmark:: thing?
 
 QString ListView::userAddress() const {
-   if(selectedItems()->count() == 0) {
+   if (selectedItems()->isEmpty()) {
       // FIXME - maybe a in view one?
       //       - else we could get /0
       //       - in view?
@@ -389,7 +389,7 @@ void ListView::updateListView() {
       }
    }
    updateTree();
-   if (selectedItems()->count() == 0) {
+   if (selectedItems()->isEmpty()) {
       m_listView->setSelected(m_listView->currentItem(), true);
    }
 }
@@ -709,7 +709,7 @@ bool KEBListView::acceptDrag(QDropEvent * e) const {
 
 QDragObject *KEBListView::dragObject() {
    QPtrList<KEBListViewItem> *selcItems = ListView::self()->selectedItems();
-   if (selcItems->count() == 0 || selcItems->first()->isEmptyFolderPadder()) {
+   if (selcItems->isEmpty() || selcItems->first()->isEmptyFolderPadder()) {
       // we handle empty folders here as a special
       // case for drag & drop in order to allow 
       // for pasting into a "empty folder"
