@@ -24,6 +24,7 @@
 #include <kded_instance.h>
 #include <krun.h>
 #include "konqueror.h"
+#include "kdesktop.h"
 
 class clientApp : public KOMApplication,
                   public KFileManager
@@ -51,12 +52,14 @@ protected:
   void initRegistry();
 
   void getKonqy();
+  void getKDesky();
 
   KdedInstance *kded;
   KTrader *trader;
   KActivator *activator;
 
-  Konqueror::Application_ptr m_vApp;
+  Konqueror::Application_ptr m_vKonqy;
+  KDesktopIf_ptr m_vKDesky;
 };
 
 #endif

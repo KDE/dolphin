@@ -42,19 +42,6 @@
 
 #include "kfmclient.h"
 
-/*
-QString displayName()
-{
-    QString d( getenv( "DISPLAY" ) );
-    int i = d.find( ':' );
-    if ( i != -1 )
-	d[i] = '_';
-    if ( d.find( '.' ) == -1 )
-	d += ".0";    
-    return d;
-}
-*/
-
 int main( int argc, char **argv )
 {
   if ( argc == 1 )
@@ -68,10 +55,10 @@ int main( int argc, char **argv )
     printf("            #   exists, it is shown. 'url' may be \"trash:/\"\n"
            "            #   to open the trash bin.\n\n");
     printf("  kfmclient refreshDesktop\n"
-           "            # Refreshes the desktop\n\n");
+           "            # Refreshes the desktop (obsolete)\n\n");
     printf("  kfmclient refreshDirectory 'url'\n"
            "            # Tells KFM that an URL has changes. If KFM\n");
-    printf("            #   is displaying that URL, it will be reloaded.\n\n");
+    printf("            #   is displaying that URL, it will be reloaded. (obsolete)\n\n");
     printf("  kfmclient openProperties 'url'\n"
            "            # Opens a properties menu\n\n");
     printf("  kfmclient exec 'url' ['binding']\n"
@@ -93,6 +80,9 @@ int main( int argc, char **argv )
            "            #   otherwise like openURL src \n\n");
     printf("  kfmclient sortDesktop\n"
            "            # Rearranges all icons on the desktop.\n\n");
+    printf("  kfmclient selectDesktopIcons x y w h add\n"
+           "            # Selects the icons on the desktop in the given rectangle\n"
+           "            # If add is 1, adds selection to the current one\n");
     printf("  kfmclient configure\n"
            "            # Re-read KFM's configuration.\n\n");
     printf("*** Examples:\n"
@@ -122,7 +112,8 @@ void clientApp::openFileManagerWindow(const char* _url)
 {
   getKonqy();
 
-  Konqueror::MainWindow_var m_vMainWindow = m_vApp->createMainWindow( _url );
+  /* Konqueror::MainWindow_var m_vMainWindow = */
+     (void) m_vKonqy->createMainWindow( _url );
 }
 
 void clientApp::initRegistry()
@@ -155,6 +146,7 @@ int clientApp::doIt( int argc, char **argv )
       return 1;
     }
     //	kfm.refreshDesktop();
+    // obsolete
   }
   else if ( strcmp( argv[1], "sortDesktop" ) == 0 )
   {
@@ -163,7 +155,8 @@ int clientApp::doIt( int argc, char **argv )
       printf( "Syntax Error: Too many arguments\n" );
       return 1;
     }
-    //	kfm.sortDesktop();
+    getKDesky();
+    m_vKDesky->rearrangeIcons( (CORBA::Boolean) false /* don't ask */ );
   }
   else if ( strcmp( argv[1], "configure" ) == 0 )
   {
@@ -199,6 +192,7 @@ int clientApp::doIt( int argc, char **argv )
     else if ( argc == 3 )
     {
       // kfm.refreshDirectory( argv[2] );
+      // obsolete
     }
     else
     {
@@ -226,7 +220,6 @@ int clientApp::doIt( int argc, char **argv )
     initRegistry();
     if ( argc == 3 )
     {
-      // kfm.exec( argv[2], 0L );
       KRun * run = new KRun( argv[2] );
       QObject::connect( run, SIGNAL( finished() ), this, SLOT( quit() ));
       QObject::connect( run, SIGNAL( error() ), this, SLOT( quit() ));
@@ -234,7 +227,6 @@ int clientApp::doIt( int argc, char **argv )
     }
     else if ( argc == 4 )
     {
-      // kfm.exec( argv[2], argv[3] );
       QStringList urls;
       urls.append( argv[2] );
       KService * serv = KService::find( argv[3] );
@@ -312,19 +304,17 @@ int clientApp::doIt( int argc, char **argv )
       openFileManagerWindow( argv[2] );
     }
   }
-  else if ( strcmp( argv[1], "selectRootIcons" ) == 0 )
+  else if ( strcmp( argv[1], "selectDesktopIcons" ) == 0 )
   {
     if ( argc == 7 )
     {
-      /* 
       int x = atoi( argv[2] );
       int y = atoi( argv[3] );	  
       int w = atoi( argv[4] );
       int h = atoi( argv[5] );
-      int add = atoi( argv[6] );
-      bool bAdd = (bool)add;
-      kfm.selectRootIcons( x, y, w, h, bAdd );
-      */
+      // bool bAdd = (bool) atoi( argv[6] ); /* currently unused */
+      getKDesky();
+      m_vKDesky->selectIconsInRect( x, y, w, h /* , bAdd TODO */ );
     }
     else
     {
@@ -359,11 +349,39 @@ void clientApp::getKonqy()
     return;
   }
 
-  m_vApp = Konqueror::Application::_narrow( obj );
+  m_vKonqy = Konqueror::Application::_narrow( obj );
 
-  if ( CORBA::is_nil( m_vApp ) )
+  if ( CORBA::is_nil( m_vKonqy ) )
   {
     printf( "Error: Can't connect to Konqueror" );fflush(stdout);
+    return;
+  }
+}
+
+void clientApp::getKDesky()
+{
+  KTrader::OfferList offers = trader->query( "DesktopManager", "'IDL:KDesktopIf:1.0#KDesktopIf' in RepoIds" );
+
+  if ( offers.count() != 1 )
+  {
+    printf("%i\n", offers.count());
+    printf( "Error: Can't find KDesktop service" );fflush(stdout);
+    return;
+  }
+
+  CORBA::Object_var obj = activator->activateService( offers.getFirst()->name(), "IDL:KDesktopIf:1.0", "KDesktopIf" );
+
+  if ( CORBA::is_nil( obj ) )
+  {
+    printf( "Error: Can't connect to KDesktop" );fflush(stdout);
+    return;
+  }
+
+  m_vKDesky = KDesktopIf::_narrow( obj );
+
+  if ( CORBA::is_nil( m_vKDesky ) )
+  {
+    printf( "Error: Can't connect to KDesktop" );fflush(stdout);
     return;
   }
 }
