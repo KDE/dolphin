@@ -300,6 +300,30 @@ void KfindTabWidget::loadHistory()
     nameBox->insertStringList(sl);
   else
     nameBox->insertItem("*");
+
+  sl = conf->readListEntry("Directories", ',');
+  if(!sl.isEmpty()) {
+    dirBox->insertStringList(sl);
+    // If the _searchPath already exists in the list we do not
+    // want to add it again
+    int indx = sl.findIndex(m_url.url());
+    if(indx == -1)
+      dirBox->insertItem(m_url.url(), 0); // make it the first one
+    else
+      dirBox->setCurrentItem(indx);
+  }
+  else {
+    QDir m_dir("/lib");
+    dirBox ->insertItem( m_url.url() );
+    dirBox ->insertItem( "file:/" );
+    dirBox ->insertItem( "file:/usr" );
+    if (m_dir.exists())
+      dirBox ->insertItem( "file:/lib" );
+    dirBox ->insertItem( "file:/home" );
+    dirBox ->insertItem( "file:/etc" );
+    dirBox ->insertItem( "file:/var" );
+    dirBox ->insertItem( "file:/mnt" );
+  }
 }
 
 void KfindTabWidget::slotEditRegExp() 
@@ -373,12 +397,27 @@ bool KfindTabWidget::isDateValid()
 void KfindTabWidget::setQuery(KQuery *query)
 {
 	int size;
+  bool itemAlreadyContained(false);
   // only start if we have valid dates
   if (!isDateValid()) return;
 
   query->setPath(KURL(dirBox->currentText()));
 
-  query->setRegExp(QRegExp(nameBox->currentText(), caseSensCb->isChecked(), true));
+  for (int idx=0; idx<dirBox->count(); idx++)
+     if (dirBox->text(idx)==dirBox->currentText())
+        itemAlreadyContained=true;
+
+  if (!itemAlreadyContained)
+     dirBox->insertItem(dirBox->currentText().stripWhiteSpace(),0);
+
+  query->setRegExp(nameBox->currentText(), caseSensCb->isChecked());
+  itemAlreadyContained=false;
+  for (int idx=0; idx<nameBox->count(); idx++)
+     if (nameBox->text(idx)==nameBox->currentText())
+        itemAlreadyContained=true;
+
+  if (!itemAlreadyContained)
+     nameBox->insertItem(nameBox->currentText(),0);
 
   query->setRecursive(subdirsCb->isChecked());
 

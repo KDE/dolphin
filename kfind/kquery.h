@@ -21,7 +21,7 @@ class KQuery : public QObject
 
   void setSizeRange( int min, int max );
   void setTimeRange( time_t from, time_t to );
-  void setRegExp( const QRegExp &regexp );
+  void setRegExp( const QString &regexp, bool caseSensitive );
   void setRecursive( bool recursive );
   void setPath(const KURL & url );
   void setFileType( int filetype );
@@ -37,6 +37,7 @@ class KQuery : public QObject
   void slotCanceled(KIO::Job *);
 
  signals:
+  //TODO: void addFile(const KFileItem &filename, const QString& matchingLine); working with konqueror
   void addFile(const KFileItem *filename);
   void result(int);
 
@@ -53,8 +54,7 @@ class KQuery : public QObject
   QString m_context;
   bool m_casesensitive;
   bool m_regexpForContent;
-  QRegExp m_contentRegexp;
-
+  QPtrList<QRegExp> m_regexps;
   KIO::ListJob *job;
 };
 

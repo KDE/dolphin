@@ -55,6 +55,7 @@ void KQuery::slotCanceled( KIO::Job * _job )
 
 void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 {
+  QString matchingLine;
   KIO::UDSEntryListConstIterator it = list.begin();
   KIO::UDSEntryListConstIterator end = list.end();
   for (; it != end; ++it)
@@ -135,8 +136,9 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 	    if (str.isNull()) break;
        if (m_regexpForContent)
        {
-       if (m_contentRegexp.search(str)>=0)
+       if (m_regexp.search(str)>=0)
 	      {
+	      	matchingLine=str;
 		found = true;
 		break;
 	      }
@@ -145,6 +147,7 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
        {
 	    if (str.find(m_context, 0, m_casesensitive) != -1)
 	      {
+	      	matchingLine=str;
 		found = true;
 		break;
 	      }
@@ -156,7 +159,7 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 	  continue;
       }
 
-
+    //TODO: emit addFile(file,matchingLine); working with konqueror
     emit addFile(file);
   }
 }
@@ -166,10 +169,10 @@ void KQuery::setContext(const QString & context, bool casesensitive, bool useReg
   m_context = context;
   m_casesensitive = casesensitive;
   m_regexpForContent=useRegexp;
-  m_contentRegexp.setWildcard(!m_regexpForContent);
-  m_contentRegexp.setCaseSensitive(casesensitive);
+  m_regexp.setWildcard(!m_regexpForContent);
+  m_regexp.setCaseSensitive(casesensitive);
   if (m_regexpForContent)
-     m_contentRegexp.setPattern(m_context);
+     m_regexp.setPattern(m_context);
 }
 
 
@@ -196,9 +199,12 @@ void KQuery::setTimeRange(time_t from, time_t to)
   m_timeTo = to;
 }
 
-void KQuery::setRegExp(const QRegExp &regexp)
+void KQuery::setRegExp(const QString &regexp, bool caseSensitive)
 {
-  m_regexp = regexp;
+  QStringList strList=QStringList::split( QString(" "), regexp, false);
+  m_regexps.clear();
+  for ( QStringList::Iterator it = strList.begin(); it != strList.end(); ++it )
+     m_regexps.append(new QRegExp((*it),caseSensitive,true));
 }
 
 void KQuery::setRecursive(bool recursive)
