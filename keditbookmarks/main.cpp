@@ -24,6 +24,7 @@
 #include <kstandarddirs.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
+#include <kwin.h>
 #include "toplevel.h"
 
 static KCmdLineOptions options[] =
@@ -32,9 +33,44 @@ static KCmdLineOptions options[] =
   { 0, 0, 0}
 };
 
-#define ID_QUIT     0
+#define ID_CONT     0
 #define ID_READONLY 2
 #define ID_NORMAL   1
+
+// make generic and move to kdecore???
+
+void continueInWindow(QString _wname) {
+   DCOPClient* dcop = kapp->dcopClient();
+   QCString wname = _wname.latin1();
+   int id = -1;
+
+   QCStringList apps = dcop->registeredApplications();
+   for ( QCStringList::Iterator it = apps.begin(); it != apps.end(); ++it )
+   {
+      QCString &clientId = *it;
+
+      // TODO skip me!
+
+      if ( qstrncmp(clientId, wname, wname.length()) != 0 )
+         continue;
+
+      QByteArray data, replyData;
+      QCString replyType;
+      QDataStream arg(data, IO_WriteOnly);
+
+      if ( kapp->dcopClient()->call( clientId.data(), (wname+"-mainwindow#1"), "getWinID()", data, replyType, replyData) ) {
+         QDataStream reply(replyData, IO_ReadOnly);
+         if ( replyType == "int" ) {
+            int ret;
+            reply >> ret;
+            id = ret;
+            break;
+         }
+      }
+   }
+
+   KWin::setActiveWindow(id);
+}
 
 int askUser(KApplication &app, QString extension) {
 
@@ -58,18 +94,14 @@ int askUser(KApplication &app, QString extension) {
               i18n("Another instance of KEditBookmarks is already running, do you really "
                    "want to open another instance or continue work in the same instance?\n"
                    "Please note that, unfortunately, duplicate views are read-only."), 
-              i18n("Warning"),  // AK - surely this should change?
-              i18n("Run Another"), 
-              i18n("Quit") 
+              i18n("Warning"),
+              i18n("Run Another"),     // yes
+              i18n("Continue in Same") // no
            );
 
-     if (0) { i18n("Continue in same"); } // i18n hack
-
      if (response==KMessageBox::No) {
-        // QUIT
-        // app.dcopClient()->send( "keditbookmarks", "KEditBookmarks", "activateWindow()", data );
-        // AK - implement "Continue in same", thus removing this awfull ID_ defines
-        return ID_QUIT;
+        continueInWindow("keditbookmarks");
+        return ID_CONT;
      }
 
      return ID_READONLY;
@@ -101,7 +133,7 @@ int main(int argc, char ** argv)
   args->clear();
 
   int ret = askUser(app, (gotArg ? filename : "") );
-  if (ret == ID_QUIT) 
+  if (ret == ID_CONT) 
      return 0;
 
   KEBTopLevel * toplevel = new KEBTopLevel( filename, (ret==ID_READONLY) );
