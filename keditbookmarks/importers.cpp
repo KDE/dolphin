@@ -294,21 +294,21 @@ void XBELImportCommand::doExecute() {
    }
 }
 
-template <class TheImporter>
-static TheImporter* callImporter(QWidget *)
-{
-   return new TheImporter();
-}
-
 ImportCommand* ImportCommandFactory::call(const QCString &type, QWidget *top) {
    ImportCommand *importer;
 
-   if (type == "Galeon") importer =  callImporter<GaleonImportCommand>(top);
-   if (type == "IE")     importer =  callImporter<IEImportCommand>    (top);
-   if (type == "KDE2")   importer =  callImporter<KDE2ImportCommand>  (top);
-   if (type == "Opera")  importer =  callImporter<OperaImportCommand> (top);
-   if (type == "Moz")    importer =  callImporter<MozImportCommand>   (top);
-   if (type == "NS")     importer =  callImporter<NSImportCommand>    (top);
+   if (type == "Galeon")
+      importer = new GaleonImportCommand();
+   if (type == "IE")
+      importer = new IEImportCommand();
+   if (type == "KDE2")
+      importer = new KDE2ImportCommand();
+   if (type == "Opera")
+      importer = new OperaImportCommand();
+   if (type == "Moz")
+      importer = new MozImportCommand();
+   if (type == "NS")
+      importer = new NSImportCommand();
 
    QString mydirname = importer->requestFilename();
    if (mydirname.isEmpty()) {
