@@ -68,7 +68,7 @@ protected:
 
 signals:
     /** 
-      Specialized signal that emitts the state of the modifier
+      Specialized signal that emits the state of the modifier
       keys along with the actual activated text.
      */    
     void activated( const QString &, int );
@@ -86,7 +86,6 @@ private:
     QString temporaryItem() const { return text( temporary ); }
     void removeDuplicates( int index );
 
-private:
     bool m_returnPressed;
     bool m_permanent;
     int m_cursorPos;
