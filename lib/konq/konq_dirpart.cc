@@ -191,6 +191,7 @@ void KonqDirPart::mmbClicked( KFileItem * fileItem )
             QString url;
             if ( QTextDrag::decode( data, url ) )
             {
+                url = url.stripWhiteSpace();
                 KURL u(url);
                 if ( u.isMalformed() ) {
                     // some half-baked guesses for incomplete urls
