@@ -244,8 +244,9 @@ void KonqTree::contentsMouseMoveEvent( QMouseEvent *e )
         return;
 
     // Start a drag
-    QDragObject * drag = static_cast<KonqTreeItem *>( item )->module()->dragObject( viewport(), false );
-    drag->drag();
+    QDragObject * drag = static_cast<KonqTreeItem *>( item )->dragObject( viewport(), false );
+    if (drag)
+        drag->drag();
 }
 
 void KonqTree::contentsMouseReleaseEvent( QMouseEvent *e )

@@ -31,6 +31,14 @@
 #include <kurldrag.h>
 #include <qapplication.h>
 #include <qclipboard.h>
+#include <konq_drag.h>
+
+void KonqTreeTopLevelItem::setOpen( bool open )
+{
+    if (open)
+        module()->openTopLevelItem( this );
+    KonqTreeItem::setOpen( open );
+}
 
 void KonqTreeTopLevelItem::itemSelected()
 {
@@ -89,6 +97,25 @@ void KonqTreeTopLevelItem::drop( QDropEvent * ev )
     {
         KonqOperations::doDrop( 0L, externalURL(), ev, tree() );
     }
+}
+
+QDragObject * KonqTreeTopLevelItem::dragObject( QWidget * parent, bool move )
+{
+    // 100% duplicated from KonqDirTreeItem::dragObject :(
+    KURL::List lst;
+    KURL url;
+    url.setPath( path() );
+    lst.append( url );
+
+    KonqDrag * drag = KonqDrag::newDrag( lst, false, parent );
+
+    QPoint hotspot;
+    hotspot.setX( pixmap( 0 )->width() / 2 );
+    hotspot.setY( pixmap( 0 )->height() / 2 );
+    drag->setPixmap( *(pixmap( 0 )), hotspot );
+    drag->setMoveSelection( move );
+
+    return drag;
 }
 
 void KonqTreeTopLevelItem::middleButtonPressed()

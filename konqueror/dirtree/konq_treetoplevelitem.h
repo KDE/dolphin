@@ -49,8 +49,11 @@ public:
 
     virtual bool acceptsDrops( const QStrList & formats );
     virtual void drop( QDropEvent * ev );
+    virtual QDragObject * dragObject( QWidget * parent, bool move = false );
     virtual void middleButtonPressed();
     virtual void rightButtonPressed();
+
+    virtual void setOpen( bool open );
 
     // Whether the item is a toplevel item - true
     virtual bool isTopLevelItem() const { return true; }

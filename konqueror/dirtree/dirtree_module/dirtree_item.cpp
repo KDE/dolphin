@@ -21,6 +21,7 @@
 #include "dirtree_module.h"
 #include <konq_operations.h>
 #include <konq_fileitem.h>
+#include <konq_drag.h>
 #include <ksimpleconfig.h>
 #include <kdebug.h>
 #include <kglobalsettings.h>
@@ -52,7 +53,7 @@ KonqDirTreeItem::~KonqDirTreeItem()
 
 void KonqDirTreeItem::setOpen( bool open )
 {
-    kdDebug() << "KonqDirTreeItem::setOpen " << open << endl;
+    kdDebug(1201) << "KonqDirTreeItem::setOpen " << open << endl;
     if ( open & !childCount() && m_bListable )
         MYMODULE->openSubFolder( this );
 
@@ -92,6 +93,22 @@ void KonqDirTreeItem::drop( QDropEvent * ev )
     KonqOperations::doDrop( m_fileItem, externalURL(), ev, tree() );
 }
 
+QDragObject * KonqDirTreeItem::dragObject( QWidget * parent, bool move )
+{
+    KURL::List lst;
+    lst.append( m_fileItem->url() );
+
+    KonqDrag * drag = KonqDrag::newDrag( lst, false, parent );
+
+    QPoint hotspot;
+    hotspot.setX( pixmap( 0 )->width() / 2 );
+    hotspot.setY( pixmap( 0 )->height() / 2 );
+    drag->setPixmap( *(pixmap( 0 )), hotspot );
+    drag->setMoveSelection( move );
+
+    return drag;
+}
+
 void KonqDirTreeItem::itemSelected()
 {
     bool cutcopy, del;
@@ -121,7 +138,7 @@ void KonqDirTreeItem::middleButtonPressed()
     // Optimisation to avoid KRun to call kfmclient that then tells us
     // to open a window :-)
     KService::Ptr offer = KServiceTypeProfile::preferredService(m_fileItem->mimetype(), true);
-    if (offer) kdDebug() << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
+    if (offer) kdDebug(1201) << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
     if ( offer && offer->desktopEntryName() == "kfmclient" )
     {
         KParts::URLArgs args;

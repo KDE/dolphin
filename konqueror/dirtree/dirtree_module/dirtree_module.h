@@ -37,10 +37,11 @@ public:
 
     virtual void addTopLevelItem( KonqTreeTopLevelItem * item );
 
+    virtual void openTopLevelItem( KonqTreeTopLevelItem * item );
+
     virtual void clearAll();
 
     // Used by copy() and cut()
-    virtual QDragObject * dragObject( QWidget * parent, bool move = false );
     virtual void paste();
     virtual void trash();
     virtual void del();

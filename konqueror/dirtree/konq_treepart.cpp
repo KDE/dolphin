@@ -70,14 +70,14 @@ KonqTreeBrowserExtension::KonqTreeBrowserExtension( KonqTreePart *parent, KonqTr
 
 void KonqTreeBrowserExtension::cut()
 {
-    QDragObject * drag = m_pTree->currentModule()->dragObject( 0L, true );
+    QDragObject * drag = static_cast<KonqTreeItem*>(m_pTree->selectedItem())->dragObject( 0L, true );
     if (drag)
         QApplication::clipboard()->setData( drag );
 }
 
 void KonqTreeBrowserExtension::copy()
 {
-    QDragObject * drag = m_pTree->currentModule()->dragObject( 0L );
+    QDragObject * drag = static_cast<KonqTreeItem*>(m_pTree->selectedItem())->dragObject( 0L );
     if (drag)
         QApplication::clipboard()->setData( drag );
 }

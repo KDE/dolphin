@@ -23,6 +23,7 @@
 #include <kurl.h>
 #include <konq_dirlister.h>
 class QPainter;
+class QDragObject;
 class KonqTree;
 class KonqTreeItem;
 class KonqTreeModule;
@@ -43,8 +44,15 @@ public:
 
     virtual ~KonqTreeItem() {}
 
+    // Whether the item accepts a drop consisting in those @p formats
     virtual bool acceptsDrops( const QStrList & formats ) = 0;
+
+    // Handle a drop on this item. If you didn't want it, you shouln't
+    // have return true in acceptsDrops :)
     virtual void drop( QDropEvent * ev ) = 0;
+
+    // Create a drag object from this item.
+    virtual QDragObject * dragObject( QWidget * parent, bool move = false ) = 0;
 
     virtual void middleButtonPressed() {}
     virtual void rightButtonPressed() = 0;

@@ -39,6 +39,7 @@ public:
 
     virtual bool acceptsDrops( const QStrList & formats );
     virtual void drop( QDropEvent * ev );
+    virtual QDragObject * dragObject( QWidget * parent, bool move = false );
 
     virtual void middleButtonPressed();
     virtual void rightButtonPressed();
