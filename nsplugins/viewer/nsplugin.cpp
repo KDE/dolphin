@@ -370,8 +370,14 @@ void NSPluginInstance::destroy()
 
         kdDebug(1431) << "destroy plugin" << endl;
         NPSavedData *saved = 0;
+#if 0
+// Disabled for 2.2 release since it causes nsplugin to crash when
+// used with Qt linked with libGL.  This will create some sort of
+// memory leak.. but better a leak in some cases than a constantly
+// crashing nspluginviewer
         if ( _pluginFuncs.destroy )
             _pluginFuncs.destroy( _npp, &saved );
+#endif
         if (saved && saved->len && saved->buf)
           g_NPN_MemFree(saved->buf);
         if (saved)
