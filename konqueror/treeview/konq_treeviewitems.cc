@@ -77,7 +77,7 @@ QString KonqTreeViewItem::text( int _column ) const
   if ( _column >= (int)m_fileitem->entry().count() )
     return "";
 
-  const KUDSAtom & atom = m_fileitem->entry()[ _column ];
+  const KIO::UDSAtom & atom = m_fileitem->entry()[ _column ];
 
   switch (atom.m_uds) {
   case KIO::UDS_ACCESS:
@@ -100,12 +100,12 @@ QString KonqTreeViewItem::text( int _column ) const
   assert( 0 );
 }
 
-QString KonqTreeViewItem::makeNumericString( const KUDSAtom &_atom ) const
+QString KonqTreeViewItem::makeNumericString( const KIO::UDSAtom &_atom ) const
 {
   return KGlobal::locale()->formatNumber( _atom.m_long, 0);
 }
 
-QString KonqTreeViewItem::makeTimeString( const KUDSAtom &_atom ) const
+QString KonqTreeViewItem::makeTimeString( const KIO::UDSAtom &_atom ) const
 {
   QDateTime dt; dt.setTime_t((time_t) _atom.m_long);
 
@@ -113,7 +113,7 @@ QString KonqTreeViewItem::makeTimeString( const KUDSAtom &_atom ) const
     KGlobal::locale()->formatTime(dt.time());
 }
 
-QString KonqTreeViewItem::makeTypeString( const KUDSAtom &_atom ) const
+QString KonqTreeViewItem::makeTypeString( const KIO::UDSAtom &_atom ) const
 {
   mode_t mode = (mode_t) _atom.m_long;
 
@@ -126,7 +126,7 @@ QString KonqTreeViewItem::makeTypeString( const KUDSAtom &_atom ) const
     return i18n( "File" );
 }
 
-const char* KonqTreeViewItem::makeAccessString( const KUDSAtom &_atom ) const
+const char* KonqTreeViewItem::makeAccessString( const KIO::UDSAtom &_atom ) const
 {
   static char buffer[ 12 ];
 

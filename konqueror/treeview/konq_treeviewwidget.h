@@ -25,6 +25,7 @@
 #include <qdict.h>
 #include <qtimer.h>
 #include <kurl.h>
+#include <kfileitem.h>
 
 struct KUDSAtom;
 class QCursor;
@@ -32,7 +33,6 @@ class KDirLister;
 class KonqTreeViewItem;
 class KonqTreeViewDir;
 class KonqTreeView;
-class KFileItem;
 class KonqPropsView;
 class KonqFMSettings;
 class TreeViewPropertiesExtension;
@@ -102,7 +102,7 @@ protected slots:
   virtual void slotCompleted();
   virtual void slotCanceled();
   virtual void slotClear();
-  virtual void slotNewItem( KFileItem * );
+  virtual void slotNewItems( const KFileItemList & );
   virtual void slotDeleteItem( KFileItem * );
 
   // Called by m_timer timeout and upon completion

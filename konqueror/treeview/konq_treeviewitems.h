@@ -22,8 +22,8 @@
 
 #include <qlistview.h>
 #include <qstring.h>
+#include <kio/global.h>
 
-struct KUDSAtom;
 class KonqTreeViewWidget;
 class KMimeType;
 class KFileItem;
@@ -64,13 +64,13 @@ public:
 
 protected:
   void init();
-  
-  QString makeNumericString( const KUDSAtom &_atom ) const;
-  QString makeTimeString( const KUDSAtom &_atom ) const;
-  const char* makeAccessString( const KUDSAtom &_atom ) const;
-  QString makeTypeString( const KUDSAtom &_atom ) const;
 
-  /** Pointer to the file item in KDirLister's list */      
+  QString makeNumericString( const KIO::UDSAtom &_atom ) const;
+  QString makeTimeString( const KIO::UDSAtom &_atom ) const;
+  const char* makeAccessString( const KIO::UDSAtom &_atom ) const;
+  QString makeTypeString( const KIO::UDSAtom &_atom ) const;
+
+  /** Pointer to the file item in KDirLister's list */
   KFileItem* m_fileitem;
   /** Parent tree view */
   KonqTreeViewWidget* m_pTreeView;

@@ -116,7 +116,7 @@ void TreeViewBrowserExtension::updateActions()
   }
   move = move && !bInTrash;
 
-  bool bKIOClipboard = !isClipboardEmpty();
+  bool bKIOClipboard = !KIO::isClipboardEmpty();
   QMimeSource *data = QApplication::clipboard()->data();
   bool paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
     (selection.count() == 1); // Let's allow pasting only on an item, not on the background
@@ -158,7 +158,7 @@ void TreeViewBrowserExtension::pasteSelection( bool move )
   QValueList<KonqTreeViewItem*> selection;
   m_treeView->treeViewWidget()->selectedItems( selection );
   assert ( selection.count() == 1 );
-  pasteClipboard( selection.first()->item()->url().url(), move );
+  KIO::pasteClipboard( selection.first()->item()->url().url(), move );
 }
 
 void TreeViewBrowserExtension::moveSelection( const QString &destinationURL )
@@ -172,12 +172,21 @@ void TreeViewBrowserExtension::moveSelection( const QString &destinationURL )
   for (; it != end; ++it )
     lstURLs.append( (*it)->item()->url().url() );
 
-  KIOJob *job = new KIOJob;
+  KIO::Job *job;
 
   if ( !destinationURL.isEmpty() )
-    job->move( lstURLs, destinationURL );
+    job = KIO::move( lstURLs, destinationURL );
   else
-    job->del( lstURLs );
+    job = KIO::del( lstURLs );
+
+  connect( job, SIGNAL( result( KIO::Job * ) ),
+                 SLOT( slotResult( KIO::Job * ) ) );
+}
+
+void TreeViewBrowserExtension::slotResult( KIO::Job * job )
+{
+    if (job->error())
+        job->showErrorDialog();
 }
 
 void TreeViewBrowserExtension::reparseConfiguration()

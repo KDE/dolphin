@@ -90,6 +90,8 @@ protected slots:
   void saveLocalProperties();
   void savePropertiesAsDefault();
 
+  void slotResult( KIO::Job * );
+
 private:
   void pasteSelection( bool move );
   void moveSelection( const QString &destinationURL );
