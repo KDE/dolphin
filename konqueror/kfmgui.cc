@@ -112,17 +112,17 @@ KfmGui::~KfmGui()
 void KfmGui::initConfig()
 {
   // Read application config file if not already done
-  if (!KfmGuiProps::defaultProps)
+  if (!KfmGuiProps::m_pDefaultProps)
   {
     debug("Reading global config");
     KConfig *config = kapp->getConfig();
     config->setGroup( "Settings" );
-    KfmGuiProps::defaultProps = new KfmGuiProps(config);
-  } else debug("KfmGuiProps::defaultProps = %p",KfmGuiProps::defaultProps);
+    KfmGuiProps::m_pDefaultProps = new KfmGuiProps(config);
+  }
   
   // For the moment, no local properties
   // Copy the default properties
-  m_Props = new KfmGuiProps( *KfmGuiProps::defaultProps );
+  m_Props = new KfmGuiProps( *KfmGuiProps::m_pDefaultProps );
   
   if ( !m_bInit )
   {

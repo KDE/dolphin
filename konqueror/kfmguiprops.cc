@@ -21,9 +21,9 @@
 #include "kfm_defaults.h"
 #include <kpixmapcache.h>
 
-KfmGuiProps * KfmGuiProps::defaultProps = 0L;
+KfmGuiProps * KfmGuiProps::m_pDefaultProps = 0L;
 
-KfmGuiProps::KfmGuiProps( const KConfig * config )
+KfmGuiProps::KfmGuiProps( KConfig * config )
 {
   QString entry = "LargeIcons"; // default
   m_viewMode = KfmView::HOR_ICONS;

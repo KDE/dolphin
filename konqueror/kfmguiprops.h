@@ -40,31 +40,36 @@
 //
 // If necessary, the local values can be read from a local kdelnk file.
 
-class KfmGuiProps  // : public QObject
+class KfmGuiProps
 {
-    // Q_OBJECT No copy constructor in QObject. Forget it.
+  // This is not a Q_OBJECT because we need a copy constructor.
 public:
   
   // The static instance of KfmGuiProps, holding the default values
   // from the config file
-  static KfmGuiProps * defaultProps;
+  static KfmGuiProps * defaultProps() { return m_pDefaultProps; }
   
-  // Constructs a new KfmGuiProps instance with values taken
-  // from defaultProps. Done for each new window.
-  // KfmGuiProps( ); NO. Done with the copy constructor.
-
+  // To construct a new KfmGuiProps instance with values taken
+  // from defaultProps, use the copy constructor.
+  
   // Constructs a KfmGuiProps instance from a config file.
   // Set the group before calling.
+  // ("Settings" for global props, "URL properties" in local props)
   // TODO : will have to be called on slotConfigure
-  KfmGuiProps( const KConfig * config );
+  // TODO : will have to be called for local properties
+  KfmGuiProps( KConfig * config );
 
   // Destructor
   virtual ~KfmGuiProps();
 
   // Save to config file
+  // Set the group before calling.
+  // ("Settings" for global props, "URL properties" in local props)
   void saveProps( KConfig * config );
 
-  // The read-only access methods. Order is to be kept. See below.
+  //////// The read-only access methods. Order is to be kept. See below. /////
+
+  //// First group : "Settings" for global props, "URL properties" in local props
   
   KfmView::ViewMode viewMode() { return m_viewMode; }  
   KfmView::ViewMode viewMode2() { return m_viewMode2; }
@@ -102,6 +107,10 @@ public:
   friend class KfmGui;
   
 protected:
+
+  // The static instance. Only KfmGui can change its value.
+  static KfmGuiProps * m_pDefaultProps;
+  
   // The members. Same order as the retrieval methods above. Keep order !
   
   KfmView::ViewMode m_viewMode;
@@ -144,6 +153,10 @@ protected:
   QColor m_linkColor;
   QColor m_vLinkColor;
   bool m_underlineLink;
+private:
+  // There is no default constructor. Use the provided one or copy constructor
+  KfmGuiProps::KfmGuiProps();
+
 };
 
 #endif
