@@ -788,9 +788,12 @@ void KonqKfmIconView::slotCompleted()
     if ( m_dirLister->rootItem() )
       m_pIconView->setRootItem( static_cast<KonqFileItem *>(m_dirLister->rootItem()) );
 
-    m_pIconView->setContentsPos( m_extension->urlArgs().xOffset, m_extension->urlArgs().yOffset );
+    if ( m_bUpdateContentsPosAfterListing )
+      m_pIconView->setContentsPos( m_extension->urlArgs().xOffset, m_extension->urlArgs().yOffset );
     //m_paKOfficeMode->setEnabled( m_dirLister->kofficeDocsFound() );
 
+    m_bUpdateContentsPosAfterListing = false;
+    
     slotOnViewport();
     // slotProcessMimeIcons will do it
     m_bNeedEmitCompleted = true;
@@ -1040,6 +1043,7 @@ bool KonqKfmIconView::openURL( const KURL &_url )
     // Note : we don't store the url. KonqDirLister does it for us.
 
     m_bNeedAlign = false;
+    m_bUpdateContentsPosAfterListing = true;
 
     // Apply properties and reflect them on the actions
     // do it after starting the dir lister to avoid changing the properties

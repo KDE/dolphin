@@ -204,6 +204,8 @@ protected:
   KonqIconViewWidget *m_pIconView;
 
   QList<KFileIVI> m_lstPendingMimeIconItems;
+
+  bool m_bUpdateContentsPosAfterListing;
 };
 
 class IconViewBrowserExtension : public KParts::BrowserExtension
