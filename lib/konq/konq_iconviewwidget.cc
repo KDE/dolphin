@@ -1359,7 +1359,7 @@ void KonqIconViewWidget::doubleClickTimeout()
             if ( url.isLocalFile() && (url.directory(false) == KGlobalSettings::trashPath() || url.path(1).startsWith(KGlobalSettings::trashPath())))
                 brenameTrash = true;
 
-            if ( !brenameTrash && d->renameItem && m_pSettings->renameIconDirectly() && e.button() == LeftButton && item->textRect( false ).contains(e.pos()))
+            if ( url.isLocalFile() && !brenameTrash && d->renameItem && m_pSettings->renameIconDirectly() && e.button() == LeftButton && item->textRect( false ).contains(e.pos()))
             {
                 if( d->pActivateDoubleClick->isActive () )
                     d->pActivateDoubleClick->stop();
@@ -1403,7 +1403,7 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
          bool brenameTrash =false;
          if ( url.isLocalFile() && (url.directory(false) == KGlobalSettings::trashPath() || url.path(1).startsWith(KGlobalSettings::trashPath())))
              brenameTrash = true;
-         if ( !brenameTrash && !KGlobalSettings::singleClick() && m_pSettings->renameIconDirectly() && e->button() == LeftButton && item->textRect( false ).contains(e->pos())&& !d->firstClick &&  (!url.protocol().find("device", 0, false)==0))
+         if ( !brenameTrash && !KGlobalSettings::singleClick() && m_pSettings->renameIconDirectly() && e->button() == LeftButton && item->textRect( false ).contains(e->pos())&& !d->firstClick &&  url.isLocalFile() && (!url.protocol().find("device", 0, false)==0))
          {
              d->firstClick = true;
              d->mousePos = e->pos();
