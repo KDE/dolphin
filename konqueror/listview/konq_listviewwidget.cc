@@ -702,7 +702,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    {
       switch (m_pBrowserView->m_pProps->iconSize())
       {
-      case 0: // default=small
+      case 0:
          m_pBrowserView->m_paDefaultIcons->setChecked(TRUE);
          break;
       case KIcon::SizeSmall:
