@@ -20,13 +20,11 @@ Q_OBJECT
 
 public:
   Kfind( QWidget * parent = 0 ,const char * name = 0,const char*searchPath = 0);
-  //    ~Kfind();
+  ~Kfind();
   QSize sizeHint();
   void copySelection();
 
-  virtual void keyPressEvent(QKeyEvent *);
-
-private slots:
+public slots:
   void startSearch();
   void stopSearch();
   void newSearch();
@@ -56,7 +54,8 @@ private:
   int winsize;
   KfindTabDialog *tabDialog;
   KfindWindow * win;
-  QString outFile;
+
+  char *iBuffer;
 };
 
 #endif

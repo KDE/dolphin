@@ -113,7 +113,7 @@ void KfindTop::menuInit()
     _helpMenu   = new QPopupMenu;        
 
     fileStart = _fileMenu->insertItem("&Start search", _kfind,
-			      SLOT(startSearch()), Key_Enter);
+			      SLOT(startSearch()), CTRL + Key_F);
     fileStop = _fileMenu->insertItem("S&top search", _kfind,
 			      SLOT(stopSearch()), CTRL + Key_C);    
     _fileMenu->setItemEnabled(fileStop, FALSE);
@@ -172,7 +172,7 @@ void KfindTop::menuInit()
     QString tmp;
     tmp.sprintf(i18n("KFind %s\nFrontend to find utility\nMiroslav Flídr <flidr@kky.zcu.cz>\n\nSpecial thanks to Stephan Kulow\n<coolo@kde.org>"),
                 KFIND_VERSION);
-    _helpMenu=kapp->getHelpMenu( false, tmp );    
+    _helpMenu=kapp->getHelpMenu( true, tmp );    
 
     _mainMenu = new KMenuBar(this, "_mainMenu");
     _mainMenu->insertItem( i18n("&File"), _fileMenu);

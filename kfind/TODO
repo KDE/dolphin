@@ -1,2 +1,15 @@
-* remove the need for a temporary file
-* arrow keys should work for scrolling results
+TODO
+----
+
+ o get preference dialog to work
+ o drag found files to somewhere
+ o some layout managment
+ o context menus
+ o support the more esoterical features of find
+ o support for finding files belonging to somebody
+
+DONE:
+ o find pattern history
+ o write a better widget for viewing results which would enable multiple
+   selection (no need for that, QListBox is enough since Qt 1.30)
+

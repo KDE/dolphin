@@ -29,6 +29,8 @@
 #include <qlist.h>
 #include <qsize.h>
 #include <qkeycode.h>
+#include <kconfig.h>
+#include <qdict.h>
        
 #include "kfdird.h"      
 #include "kftypes.h"
@@ -37,35 +39,49 @@
 #include <klocale.h>
 
 #define FIND_PROGRAM "find"
+#define SPECIAL_TYPES 7
 
 extern QList<KfFileType> *types;
+
+typedef struct GUIItem {
+  QWidget *w;
+  bool enabled;
+};
+QList<GUIItem> guiItem;
+
+void appendGUIItem(QWidget *w) {
+  GUIItem *gi = new GUIItem;
+
+  gi->w = w;
+  guiItem.append(gi);
+}
+
 
 KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *searchPath )
     : QTabDialog( parent, name )
   {
+    _searchPath = searchPath;
+    
     //Page One of KfTAbDialog
     pages[0] = new QWidget( this, "page1" );
 
     nameBox    = new QComboBox(TRUE           ,pages[0],"combo1");
+    appendGUIItem(nameBox);
+
     namedL     = new QLabel(nameBox,i18n("&Named:"),
 			    pages[0],"named");
-    dirBox     = new QComboBox(FALSE          ,pages[0],"combo2");
+    dirBox     = new QComboBox(TRUE          ,pages[0],"combo2");
     lookinL    = new QLabel(dirBox,i18n("&Look in:"),
 			    pages[0],"named");
     subdirsCb  = new QCheckBox(                pages[0]);
     browseB    = new QPushButton(i18n("&Browse ..."),pages[0]);
+    appendGUIItem(browseB);
 
-    nameBox->insertItem( "*" );
-    dirBox ->insertItem( searchPath );
-    dirBox ->insertItem( "/" );
-    dirBox ->insertItem( "/usr" );
-    dirBox ->insertItem( "/lib" );
-    dirBox ->insertItem( "/home" );
-    dirBox ->insertItem( "/etc" );
-    dirBox ->insertItem( "/var" );
-    dirBox ->insertItem( "/mnt" );
+    loadHistory();
+    appendGUIItem(dirBox);
 
     subdirsCb->setText( i18n("Include &subfolders") );
+    appendGUIItem(subdirsCb);
 
     int wTmpNamed = (namedL->sizeHint()).width();
     int wTmpLook  = (lookinL->sizeHint()).width();
@@ -114,6 +130,15 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     le[1]  = new QLineEdit(          pages[1], "lineEdit2" );
     le[2]  = new QLineEdit(          pages[1], "lineEdit3" );
     le[3]  = new QLineEdit(          pages[1], "lineEdit4" );
+    appendGUIItem(rb1[0]);
+    appendGUIItem(rb1[1]);
+    appendGUIItem(rb2[0]);
+    appendGUIItem(rb2[1]);
+    appendGUIItem(rb2[2]);
+    appendGUIItem(le[0]);
+    appendGUIItem(le[1]);
+    appendGUIItem(le[2]);
+    appendGUIItem(le[3]);
 
     rb1[0]->setText( i18n("&All files") );
     rb1[1]->setText( i18n("Find all files created or &modified:"));
@@ -173,16 +198,19 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     pages[2] = new QWidget( this, "page3" );
 
     typeBox =new QComboBox(FALSE,pages[2],"typeBox");
+    appendGUIItem(typeBox);
     typeL   =new QLabel(typeBox,i18n("Of &type:"),
 			pages[2],"type");
     textL   =new QLabel(i18n("&Containing Text:"),pages[2],"text");
     textEdit=new QLineEdit(                 pages[2], "textEdit" );
+    appendGUIItem(textEdit);
     sizeBox =new QComboBox(FALSE           ,pages[2],"sizeBox");
+    appendGUIItem(sizeBox);
     sizeL   =new QLabel(sizeBox,i18n("&Size is:"),
 			pages[2],"size");
     sizeEdit=new QLineEdit(                 pages[2], "sizeEdit" );
+    appendGUIItem(sizeEdit);
     kbL     =new QLabel("KB"               ,pages[2],"kb");
-
 
     typeL->setAlignment(namedL->alignment()|ShowPrefix);
     textL->setAlignment(namedL->alignment()|ShowPrefix);
@@ -202,6 +230,13 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     KfFileType *typ;
 
     typeBox->insertItem(i18n("All Files and Folders"));
+    typeBox->insertItem(i18n("Files"));
+    typeBox->insertItem(i18n("Folders"));
+    typeBox->insertItem(i18n("Symbolic links"));
+    typeBox->insertItem(i18n("Special files (sockets, device files...)"));
+    typeBox->insertItem(i18n("Executable files"));
+    typeBox->insertItem(i18n("SUID executable files"));
+
     for ( typ = types->first(); typ != 0L; typ = types->next() )
       if (typ->getComment("")!="")
 	typeBox->insertItem(typ->getComment(""));
@@ -212,7 +247,11 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     sizeBox ->insertItem( i18n("At Least") );
     sizeBox ->insertItem( i18n("At Most") );
     sizeBox ->setFixedSize(sizeBox->sizeHint());
+    connect(sizeBox, SIGNAL(highlighted(int)),
+	    this, SLOT(slotSizeBoxChanged(int)));
+
     sizeEdit->setText("1");
+    slotSizeBoxChanged(0);
 
     connect( sizeEdit,  SIGNAL(returnPressed()),
              this    ,  SLOT(checkSize()) );      
@@ -227,6 +266,61 @@ KfindTabDialog::~KfindTabDialog()
     delete pages[1];
     delete pages[2];
   };
+
+void KfindTabDialog::loadHistory() {
+  // load pattern history
+  KConfig *conf = kapp->getConfig();
+  QStrList sl;
+  conf->setGroup("History");
+  if(conf->readListEntry("Patterns", sl))
+    nameBox->insertStrList(&sl);
+  else
+    nameBox->insertItem("*");
+
+  if(conf->readListEntry("Directories", sl))
+    dirBox->insertStrList(&sl);
+  else {
+    dirBox ->insertItem( _searchPath.data() );
+    dirBox ->insertItem( "/" );
+    dirBox ->insertItem( "/usr" );
+    dirBox ->insertItem( "/lib" );
+    dirBox ->insertItem( "/home" );
+    dirBox ->insertItem( "/etc" );
+    dirBox ->insertItem( "/var" );
+    dirBox ->insertItem( "/mnt" );
+  }
+}
+
+void KfindTabDialog::saveHistory() {
+  // save pattern history
+  QStrList sl;
+  QDict<char> dict(17, FALSE);
+  sl.append(nameBox->currentText());
+  for(int i = 0; i < nameBox->count(); i++) {   
+    if(!dict.find(nameBox->text(i))) {
+      dict.insert(nameBox->text(i), "dummy");
+      sl.append(nameBox->text(i));
+    }
+  }
+  KConfig *conf = kapp->getConfig();
+  conf->setGroup("History");
+  conf->writeEntry("Patterns", sl);
+
+  dict.clear();
+  sl.clear();
+  sl.append(dirBox->currentText());
+  for(int i = 0; i < dirBox->count(); i++) {
+    if(!dict.find(dirBox->text(i))) {
+      dict.insert(dirBox->text(i), "dummy");
+      sl.append(dirBox->text(i));
+    }
+  }
+  conf->writeEntry("Directories", sl);
+}
+
+void KfindTabDialog::slotSizeBoxChanged(int index) {
+  sizeEdit->setEnabled((bool)(index != 0));
+}
 
 void KfindTabDialog::keyPressEvent(QKeyEvent *e) {
   if(e->key() == Key_Escape)
@@ -460,12 +554,46 @@ QString KfindTabDialog::createQuery()
 
         nameBox->insertItem( nameBox->currentText(),0 );
 
-        if ( (typeBox->currentItem())!=0 )
-          {
-             KfFileType *typ;
+	QString str1;
+	str1 += " \"(\" -name \"";
+	str1 += nameBox->text(nameBox->currentItem());
+	str1 += "\" \")\"";
+	str1 += " ";
+	
+	switch(typeBox->currentItem()) {
+	case 0: // all files
+	  break;
+
+	case 1: // files
+	  str1 += "-type f";
+	  break;
+
+	case 2: // folders
+	  str1 += "-type d";
+	  break;
+
+	case 3: // symlink
+	  str1 += "-type l";
+	  break;
+
+	case 4: // special file
+	  str1 += "-type p -or -type s -or -type b or -type c";
+	  break;
+	  
+	case 5: // executables
+	  str1 += "-perm +111 -type f";
+	  break;
+
+	case 6: // suid binaries
+	  str1 += "-perm +6000 -type f";
+	  break;
+
+	default: {
+	    str1 = "";
+	    KfFileType *typ;
 
              typ = types->first();
-             for (int i=1; i<typeBox->currentItem(); i++ )
+             for (int i=SPECIAL_TYPES; i<typeBox->currentItem(); i++ )
                typ = types->next();
              //      printf("Take filetype: %s\n",typ->getComment("").data());
 
@@ -498,12 +626,9 @@ QString KfindTabDialog::createQuery()
 
              //      printf("Query : %s\n",str.data());
           }
-        else
-          {
-            str += " \"(\" -name \"";
-            str += nameBox->text(nameBox->currentItem());
-	    str += "\" \")\"";
-          };
+	}
+
+	str += str1;
 
         if (!subdirsCb->isChecked())
             str.append(" -maxdepth 1 ");
@@ -547,7 +672,7 @@ QString KfindTabDialog::createQuery()
       str += "\"";
     }
 
-    // printf("QUERY=%s\n", str.data());    
+    //printf("QUERY=%s\n", str.data());    
 
     return(str);
   };        
@@ -591,3 +716,16 @@ void  KfindTabDialog::getDirectory()
       };
   };
 
+void KfindTabDialog::beginSearch() {
+  saveHistory();
+  for(GUIItem *g = guiItem.first(); g; g = guiItem.next()) {
+    g->enabled = g->w->isEnabled();
+    g->w->setEnabled(FALSE);    
+  }
+}
+
+void KfindTabDialog::endSearch() {
+  for(GUIItem *g = guiItem.first(); g; g = guiItem.next())
+    g->w->setEnabled(g->enabled);
+  loadHistory();
+}

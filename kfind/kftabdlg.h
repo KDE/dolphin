@@ -34,6 +34,11 @@ public:
 
   virtual void keyPressEvent(QKeyEvent *);
 
+  void beginSearch();
+  void endSearch();
+  void loadHistory();
+  void saveHistory();
+
 private slots:
   // Slots for first page
   void getDirectory();
@@ -46,6 +51,8 @@ private slots:
   
   // Slots for third page
   void checkSize();          
+
+  void slotSizeBoxChanged(int);
 
 signals:
 
@@ -92,8 +99,8 @@ private:
   QComboBox *sizeBox;
   QLineEdit *sizeEdit;
   QLabel *kbL;
+
+  QString _searchPath;
 };
 
 #endif
-
- 

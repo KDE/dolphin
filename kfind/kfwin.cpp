@@ -45,14 +45,38 @@
 #include <klocale.h>
 #include <kapp.h>
 
+#include <qkeycode.h>
+
 extern KfSaveOptions *saving; 
 extern QList<KfArchiver> *archivers;
+
+class MyQListBox : public QListBox {
+public:
+  MyQListBox(QWidget *parent, const char *name) :
+    QListBox(parent, name) {
+  }
+
+  virtual bool eventFilter(QObject *, QEvent *e) {
+    if(e->type() == Event_KeyPress || e->type() == Event_Accel) {
+      QKeyEvent *k = (QKeyEvent *)e;
+      if(k->key() == Key_PageUp ||
+	 k->key() == Key_PageDown) {
+	keyPressEvent(k);
+	return TRUE;
+      }
+    }
+    
+    return FALSE;
+  }
+};
+  
 
 KfindWindow::KfindWindow( QWidget *parent, const char *name )
     : QWidget( parent, name )          
   {
-    lbx = new QListBox(this,"list_box" );
-    lbx->setMultiSelection(TRUE);    
+    lbx = new MyQListBox(this,"list_box" );
+    topLevelWidget()->installEventFilter(lbx);
+    lbx->setMultiSelection(TRUE);
 
     connect(lbx , SIGNAL(highlighted(int)),
             this, SLOT(highlighted()) );
@@ -72,14 +96,33 @@ void KfindWindow::resizeEvent( QResizeEvent * )
 
 void KfindWindow::appendResult(const char *file) {
   lbx->insertItem(file);
+}
+
+void KfindWindow::beginSearch() {
+  killTimers();
+  startTimer(100);
+}
+
+void KfindWindow::doneSearch() {
+  killTimers();
   
   QString str;
   str.sprintf(i18n("%d file(s) found"), (int)lbx->count());
   emit statusChanged(str);
 }
 
+void KfindWindow::timerEvent(QTimerEvent *) {
+  if(lbx->count() > 0) {
+    QString str;
+    str.sprintf(i18n("%d file(s) found"), (int)lbx->count());
+    emit statusChanged(str);
+  }
+}
+
 void KfindWindow::updateResults(const char *file )
   {
+    printf("UPDATERESULTs\n");
+    
     char str[PATH_MAX];
     int count;
     
@@ -150,24 +193,33 @@ void KfindWindow::changeItem(const char *itemName)
   };
 
 void KfindWindow::selectAll() {
+  lbx->setAutoUpdate(FALSE);
   if(lbx->currentItem() == -1)
     lbx->setCurrentItem(0);
   for(int i = 0; i < (int)lbx->count(); i++)
     lbx->setSelected(i, TRUE);
+  lbx->setAutoUpdate(TRUE);
+  lbx->repaint();
 }
 
 void KfindWindow::invertSelection() {
+  lbx->setAutoUpdate(FALSE);
   if(lbx->currentItem() == -1)
     lbx->setCurrentItem(0);
   for(int i = 0; i < (int)lbx->count(); i++)
     lbx->setSelected(i, !lbx->isSelected(i));
+  lbx->setAutoUpdate(TRUE);
+  lbx->repaint();
 }
 
 void KfindWindow::unselectAll() {
+  lbx->setAutoUpdate(FALSE);
   if(lbx->currentItem() == -1)
     lbx->setCurrentItem(0);
   for(int i = 0; i < (int)lbx->count(); i++)
     lbx->setSelected(i, FALSE);
+  lbx->setAutoUpdate(TRUE);
+  lbx->repaint();
 }
 
 void KfindWindow::saveResults()
@@ -442,3 +494,7 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
   if ( !archProcess.start(KProcess::DontCare) )
     warning(i18n("Error while creating child process!"));
 };
+
+int KfindWindow::numItems() { 
+  return lbx->count(); 
+}

@@ -22,13 +22,21 @@ class KfArchiver;
 
 class KfindWindow: public QWidget
 {
-  Q_OBJECT
-  
+  Q_OBJECT  
 public:
   KfindWindow( QWidget * parent = 0, const char * name = 0 );
   virtual ~KfindWindow();
+  
+  virtual void timerEvent(QTimerEvent *);
+
   void updateResults(const char * );
+
+  void beginSearch();
   void appendResult(const char *);
+  int numItems();
+
+  void doneSearch();
+
   void clearList();
 
   void copySelection();
@@ -61,4 +69,3 @@ private:
 };
 
 #endif
-

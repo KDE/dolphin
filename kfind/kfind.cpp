@@ -31,9 +31,16 @@
 #include "kfind.h"
 #include <config.h>
 
+// this should be enough to hold at least two fully 
+// qualified pathnames. 
+#define IBUFSIZE 16384
+
 Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath )
     : QWidget( parent, name )
   {
+    // init IO buffer
+    iBuffer = 0;
+
     //create tabdialog
     tabDialog = new KfindTabDialog(this,"dialog",searchPath);
 
@@ -69,22 +76,17 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath )
     connect(&findProcess,SIGNAL(receivedStdout(KProcess *, char *, int)), 
 	    this, SLOT(handleStdout(KProcess *, char *, int))) ;
     
-
     emit haveResults(false);
     resize(tabDialog->sizeHint());
   };
 
-void Kfind::copySelection() {
-  win->copySelection();
+Kfind::~Kfind() {
+  if(iBuffer)
+    delete iBuffer;
 }
 
-void Kfind::keyPressEvent(QKeyEvent *e) {
-  if(e->key() == Key_Return || e->key() == Key_Enter) {
-    e->accept();
-    startSearch();
-  }
-
-  QWidget::keyPressEvent(e);
+void Kfind::copySelection() {
+  win->copySelection();
 }
 
 void Kfind::resizeEvent( QResizeEvent *e)
@@ -99,6 +101,13 @@ void Kfind::resizeEvent( QResizeEvent *e)
     
 void Kfind::startSearch()
   {
+    // init buffer
+    if(iBuffer)
+      free(iBuffer);
+    
+    iBuffer = new char[IBUFSIZE];
+    iBuffer[0] = 0;
+
     QString buffer,pom;
     //int pos;
     buffer = tabDialog->createQuery();
@@ -108,6 +117,9 @@ void Kfind::startSearch()
     emit haveResults(false);
     emit resultSelected(false);
     win->clearList();
+    win->show();
+    win->beginSearch();
+    tabDialog->beginSearch();
 
     if (!buffer.isNull())
       {
@@ -116,9 +128,6 @@ void Kfind::startSearch()
 	findProcess.clearArguments ();
 	QString cmdline = buffer;
 	findProcess.setExecutable(cmdline);
-
-        int t = time( 0L ); 
-        outFile.sprintf( "/tmp/kfindout%i", t );
 	
 	findProcess.start(KProcess::NotifyOnExit, KProcess::AllOutput);
       };
@@ -127,6 +136,8 @@ void Kfind::startSearch()
 void Kfind::stopSearch()
   {
     //    printf("Stoping Search\n");
+    tabDialog->endSearch();
+    win->doneSearch();
     
     enableSearchButton(true);
 
@@ -135,8 +146,12 @@ void Kfind::stopSearch()
 
 void Kfind::newSearch()
   {
+    // re-init buffer
+    if(iBuffer)
+      iBuffer[0] = 0;
+
     //    printf("Prepare for New Search\n");
-    win->hide();
+    win->show();
     win->clearList();
     winsize=1;
 
@@ -147,30 +162,38 @@ void Kfind::newSearch()
     emit resultSelected(false);
      
     stopSearch();
+    tabDialog->endSearch();
  };
 
-void Kfind::handleStdout(KProcess *proc, char *buffer, int buflen)
+void Kfind::handleStdout(KProcess *, char *buffer, int buflen)
 {
-  (void)proc;
-	char tmp = buffer[buflen] ;
-	buffer[buflen] = '\0' ;
-	
-	FILE *f = fopen(outFile.data(),"a");
-	fwrite(buffer, strlen(buffer), 1, f);
-	fclose(f);
-	buffer[buflen] = tmp ;
+  // copy data to I/O buffer
+  int len = strlen(iBuffer);
+  memcpy(iBuffer + len, buffer, buflen);
+  iBuffer[len + buflen] = 0;
+  
+  // split buffer: too expensive, improve
+  char *p;
+  while(( p = strchr(iBuffer, '\n')) != 0) {
+    *p = 0;
+
+    // found one file, append it to listbox
+    win->appendResult(iBuffer);
+    if(win->numItems() == 1)
+      emit enableStatusBar(true);
+    memmove(iBuffer, p+1, strlen(p + 1)+1);
+  }
 }
 
 void Kfind::processResults()
   {
-    win->updateResults( outFile.data() );
     win->show();
+    win->doneSearch();
+    tabDialog->endSearch();
     
     emit haveResults(true);
     emit enableStatusBar(true);
 
-    unlink( outFile.data() );
-    
     enableSearchButton(true);
   };
 
@@ -178,3 +201,8 @@ QSize Kfind::sizeHint()
   {
     return (tabDialog->sizeHint());//+QSize(0,winsize-1));
   };
+
+
+
+
+

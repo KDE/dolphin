@@ -11,9 +11,11 @@ ICONSDIR=$(kde_icondir)
 
 kfind_SOURCES  =  kfarch.cpp kfdird.cpp kfindtop.cpp  kftabdlg.cpp \
 	     kfsave.cpp kftypes.cpp kfoptions.cpp kfwin.cpp kfind.cpp \
-	     main.cpp $(BUILT_SOURCES)
-BUILT_SOURCES  =  mkfdird.cpp mkfwin.cpp mkfindtop.cpp \
-             mkftabdlg.cpp mkfoptions.cpp mkfind.cpp
+	     main.cpp moc.cpp
+
+BUILT_SOURCES  =  kfdird.moc kfwin.moc kfindtop.moc \
+             kftabdlg.moc kfoptions.moc kfind.moc
+
 noinst_HEADERS	  =  kfarch.h kfdird.h kfindtop.h kftabdlg.h kfwin.h kfind.h \
              kfsave.h kftypes.h kfoptions.h
 
@@ -32,21 +34,20 @@ uninstall-local:
 messages:
 	$(XGETTEXT) -C -ktranslate -ki18n -x ../../kdelibs/po/kde.pot $(kfind_SOURCES) && mv messages.po ../po/kfind.pot
 
-mkfdird.cpp: kfdird.h
-	$(MOC) kfdird.h -o mkfdird.cpp
+kfdird.moc: kfdird.h
+	$(MOC) kfdird.h -o kfdird.moc
 
-mkfwin.cpp: kfwin.h
-	$(MOC) kfwin.h -o mkfwin.cpp
+kfwin.moc: kfwin.h
+	$(MOC) kfwin.h -o kfwin.moc
 
-mkfindtop.cpp: kfindtop.h
-	$(MOC) kfindtop.h -o mkfindtop.cpp
+kfindtop.moc: kfindtop.h
+	$(MOC) kfindtop.h -o kfindtop.moc
 
-mkftabdlg.cpp: kftabdlg.h
-	$(MOC) kftabdlg.h -o mkftabdlg.cpp
+kftabdlg.moc: kftabdlg.h
+	$(MOC) kftabdlg.h -o kftabdlg.moc
 
-mkfoptions.cpp: kfoptions.h
-	$(MOC) kfoptions.h -o mkfoptions.cpp
+kfoptions.moc: kfoptions.h
+	$(MOC) kfoptions.h -o kfoptions.moc
 
-mkfind.cpp: kfind.h
-	$(MOC) kfind.h -o mkfind.cpp
-
+kfind.moc: kfind.h
+	$(MOC) kfind.h -o kfind.moc

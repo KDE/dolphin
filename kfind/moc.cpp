@@ -1,0 +1,6 @@
+#include "kfdird.moc"
+#include "kfind.moc"
+#include "kfindtop.moc"
+#include "kfoptions.moc"
+#include "kftabdlg.moc"
+#include "kfwin.moc"
