@@ -44,6 +44,7 @@
 #include <konq_drag.h>
 #include <konq_fileitem.h>
 #include <konq_operations.h>
+#include <konq_propsview.h>
 #include <konq_settings.h>
 #include <kparts/factory.h>
 #include <kprotocolinfo.h>
@@ -70,6 +71,11 @@ public:
       delete s_instance;
       s_instance = 0L;
     }
+    if ( s_defaultViewProps )
+    {
+      delete s_defaultViewProps;
+      s_defaultViewProps = 0L;
+    }
   }
 
   virtual KParts::Part* createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList & )
@@ -86,11 +92,21 @@ public:
     return s_instance;
   }
 
+  static KonqPropsView *defaultViewProps()
+  {
+      if ( !s_defaultViewProps )
+         s_defaultViewProps = new KonqPropsView( instance(), 0L );
+
+      return s_defaultViewProps;
+  }
+
 private:
   static KInstance *s_instance;
+  static KonqPropsView *s_defaultViewProps;
 };
 
 KInstance *KonqDirTreeFactory::s_instance = 0;
+KonqPropsView *KonqDirTreeFactory::s_defaultViewProps = 0;
 
 extern "C"
 {
@@ -188,11 +204,14 @@ KURL::List KonqDirTreeBrowserExtension::selectedUrls()
 }
 
 KonqDirTreePart::KonqDirTreePart( QWidget *parentWidget, QObject *parent, const char *name )
- : KParts::ReadOnlyPart( parent, name )
+ : KonqDirPart( parent, name )
 {
   m_pTree = new KonqDirTree( this, parentWidget );
 
-  m_extension = new KonqDirTreeBrowserExtension( this, m_pTree );
+  setBrowserExtension( new KonqDirTreeBrowserExtension( this, m_pTree ) );
+
+  // Create a properties instance for this view
+  m_pProps = new KonqPropsView( KonqDirTreeFactory::instance(), KonqDirTreeFactory::defaultViewProps() );
 
   setWidget( m_pTree );
   setInstance( KonqDirTreeFactory::instance(), false );
@@ -334,6 +353,8 @@ KonqDirTree::KonqDirTree( KonqDirTreePart *parent, QWidget *parentWidget )
 
   connect( this, SIGNAL( doubleClicked( QListViewItem * ) ),
            this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
+  connect( this, SIGNAL( mouseButtonPressed(int, QListViewItem*, const QPoint&, int)),
+           this, SLOT( slotMouseButtonPressed(int, QListViewItem*, const QPoint&, int)) );
   connect( this, SIGNAL( rightButtonPressed( QListViewItem *, const QPoint &, int ) ),
            this, SLOT( slotRightButtonPressed( QListViewItem * ) ) );
   connect( this, SIGNAL( clicked( QListViewItem * ) ),
@@ -389,12 +410,11 @@ void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLeve
 
   if ( topLevelItem.m_dirLister->job() == 0 )
   {
-    topLevelItem.m_currentlyListedURL = u;
-    kdDebug() << "KonqDirTree::openSubFolder m_currentlyListedURL=" << topLevelItem.m_currentlyListedURL.prettyURL() << endl;
-    kdDebug() << "KonqDirTree::openSubFolder toplevelitem=" << &topLevelItem << endl;
-    kdDebug() << "KonqDirTree::openSubFolder toplevelitem=" << topLevelItem.m_item->externalURL().prettyURL() << endl;
-    kdDebug() << "KonqDirTree::openSubFolder dirlister=" << topLevelItem.m_dirLister << endl;
-    topLevelItem.m_dirLister->openURL( u, false, topLevel ? true : false );
+    //kdDebug() << "KonqDirTree::openSubFolder m_currentlyListedURL=" << topLevelItem.m_currentlyListedURL.prettyURL() << endl;
+    //kdDebug() << "KonqDirTree::openSubFolder toplevelitem=" << &topLevelItem << endl;
+    //kdDebug() << "KonqDirTree::openSubFolder toplevelitem=" << topLevelItem.m_item->externalURL().prettyURL() << endl;
+    //kdDebug() << "KonqDirTree::openSubFolder dirlister=" << topLevelItem.m_dirLister << endl;
+    openDirectory( topLevelItem, u, topLevel ? true : false );
   }
   else  if ( !topLevelItem.m_lstPendingURLs->contains( u ) )
     topLevelItem.m_lstPendingURLs->append( u );
@@ -753,6 +773,12 @@ void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
   emit m_view->extension()->popupMenu( QCursor::pos(), lstItems );
 }
 
+void KonqDirTree::slotMouseButtonPressed(int _button, QListViewItem* _item, const QPoint&, int col)
+{
+  if(_item && _button == MidButton && col < 2)
+    m_view->mmbClicked( static_cast<KonqDirTreeItem*>(_item)->fileItem() );
+}
+
 void KonqDirTree::slotRedirection( const KURL & url )
 {
   kdDebug(1202) << "KonqDirTree::slotRedirection(" << url.prettyURL() << ")" << endl;
@@ -815,9 +841,8 @@ void KonqDirTree::slotListingStopped()
 
   if ( topLevelItem.m_lstPendingURLs->count() > 0 )
   {
-    kdDebug(1202) << "openURL (was pending) " << topLevelItem.m_lstPendingURLs->first().prettyURL() << endl;
-    topLevelItem.m_currentlyListedURL = topLevelItem.m_lstPendingURLs->first();
-    topLevelItem.m_dirLister->openURL( topLevelItem.m_lstPendingURLs->first(), false, true );
+    kdDebug(1202) << "opening (was pending) " << topLevelItem.m_lstPendingURLs->first().prettyURL() << endl;
+    openDirectory( topLevelItem, topLevelItem.m_lstPendingURLs->first(), true );
   }
 
   kdDebug(1202) << "m_selectAfterOpening " << m_selectAfterOpening.prettyURL() << endl;
@@ -838,6 +863,24 @@ void KonqDirTree::slotListingStopped()
     if ( m_mapCurrentOpeningFolders.count() == 0 )
       m_animationTimer->stop();
   }// else kdDebug(1202) << url.prettyURL() << "not found in m_mapCurrentOpeningFolders" << endl;
+}
+
+void KonqDirTree::openDirectory( TopLevelItem & topLevelItem, const KURL & url, bool keep )
+{
+    topLevelItem.m_currentlyListedURL = url;
+
+    // Check for new properties in the new dir
+    // newProps returns true the first time, and any time something might
+    // have changed.
+    bool newProps = m_view->m_pProps->enterDir( url );
+
+    topLevelItem.m_dirLister->openURL( url, m_view->m_pProps->isShowingDotFiles(), keep );
+
+    if ( newProps )
+    {
+      // See the other parts
+      m_view->m_pProps->applyColors( viewport() );
+    }
 }
 
 void KonqDirTree::slotAnimation()

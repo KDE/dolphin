@@ -26,6 +26,7 @@
 #include <kglobalsettings.h>
 #include <konq_operations.h>
 #include <konq_fileitem.h>
+#include <konq_dirpart.h>
 
 #include <klistview.h>
 #include <qdict.h>
@@ -38,7 +39,7 @@ class KonqDrag;
 class QTimer;
 class KonqDirTreePart;
 
-class KonqDirTreePart : public KParts::ReadOnlyPart
+class KonqDirTreePart : public KonqDirPart
 {
   Q_OBJECT
   friend class KonqDirTree;
@@ -52,14 +53,12 @@ public:
   virtual bool closeURL();
 
   virtual bool openFile() { return true; }
-
-  KonqDirTreeBrowserExtension *extension() const { return m_extension; }
+  virtual void disableIcons( const KURL::List & ) { /* maybe TODO */ }
 
   bool supportsUndo() const { return true; }
 
 private:
   KonqDirTree *m_pTree;
-  KonqDirTreeBrowserExtension *m_extension;
 };
 
 class KonqDirTree;
@@ -140,6 +139,7 @@ private slots:
   void slotDoubleClicked( QListViewItem *item );
   void slotRightButtonPressed( QListViewItem *item );
   void slotClicked( QListViewItem *item );
+  void slotMouseButtonPressed(int _button, QListViewItem* _item, const QPoint&, int col);
 
   void slotListingStopped();
 
@@ -169,6 +169,8 @@ private:
     QMap<KURL,KonqDirTreeItem *> *m_mapSubDirs;
     KURL::List *m_lstPendingURLs;
   };
+
+  void openDirectory( TopLevelItem & topLevelItem, const KURL & url, bool keep );
 
   TopLevelItem nullTopLevelItem;
 
