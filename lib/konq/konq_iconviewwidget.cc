@@ -371,7 +371,8 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
         if( item != d->pActiveItem )
         {
             d->pActiveItem = static_cast<KFileIVI *>(item);
-            d->pFileTip->setItem( d->pActiveItem );
+            if ( topLevelWidget() == kapp->activeWindow() )
+                d->pFileTip->setItem( d->pActiveItem );
             if ( d->doAnimations && d->pActiveItem && d->pActiveItem->hasAnimation() )
             {
                 //kdDebug(1203) << "Playing animation for: " << d->pActiveItem->mouseOverAnimation() << endl;
