@@ -23,7 +23,7 @@
 #include <kparts/factory.h>
 #include <kparts/browserextension.h>
 #include <klibloader.h>
-#include <kxmlgui.h>
+#include <kxmlguifactory.h>
 class SidebarClassic : public KonqSidebarPlugin
 	{
 		Q_OBJECT

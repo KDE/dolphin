@@ -34,7 +34,7 @@
 #include <kurlcompletion.h>
 #include <kglobalsettings.h>
 #include <dcopobject.h>
-#include <kxmlgui.h>
+#include <kxmlguifactory.h>
 #include <kxmlguiclient.h>
 #include <ktrader.h>
 
