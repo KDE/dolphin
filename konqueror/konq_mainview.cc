@@ -23,7 +23,7 @@
 #include "kfmguiprops.h"
 #include "kfmpaths.h"
 //#include "kfmviewprops.h"
-#include "kbookmark.h"
+#include "kbookmarkmenu.h"
 #include "konq_defaults.h"
 #include "konq_mainwindow.h"
 #include "konq_iconview.h"
@@ -337,8 +337,7 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   createViewMenu();
   
   menuBar->insertMenu( i18n("&Bookmarks"), m_vMenuBookmarks, -1, -1 );
-
-//  m_pBookmarkMenu = new KBookmarkMenu( m_currentView->m_pView, m_vMenuBookmarks, this, true );
+  m_pBookmarkMenu = new KBookmarkMenu( m_vMenuBookmarks, this, true );
 
   menuBar->insertMenu( i18n("&Options"), m_vMenuOptions, -1, -1 );
 
@@ -570,9 +569,9 @@ void KonqMainView::setActiveView( OpenParts::Id id )
 {
   // clean view-specific part of the view menu
   Konqueror::View::EventCreateViewMenu EventViewMenu;
+  EventViewMenu.menu = OpenPartsUI::Menu::_duplicate( m_vMenuView );
   if ( m_currentView != 0L )
   {
-    EventViewMenu.menu = OpenPartsUI::Menu::_duplicate( m_vMenuView );
     EventViewMenu.create = false;
     EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
   }
@@ -582,12 +581,11 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   assert( it != m_mapViews.end() );
   
   m_currentView = it->second;
+  assert( m_currentView );
   m_currentId = id;
 
   CORBA::String_var vn = m_currentView->m_vView->viewName();
   cerr << "current view is a " << vn.in() << endl;
-  
-  assert( m_currentView );
 
   if ( !CORBA::is_nil( m_vToolBar ) )
   {
@@ -599,6 +597,10 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   if ( !CORBA::is_nil( m_vLocationBar ) )
     m_vLocationBar->setLinedText( TOOLBAR_URL_ID, m_currentView->m_strLocationBarURL.ascii() );
   
+  // HACK (how to make the difference between KonqBaseView children and other (plugins))
+  //if ( strncmp( m_currentView->m_vView->viewName(), "Konqueror", 9 ) == 0 )
+  //  m_pBookmarkMenu->changeOwner( (KonqBaseView *) (m_currentView->m_vView) );
+
   EventViewMenu.create = true;
   EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
 }

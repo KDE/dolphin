@@ -92,3 +92,23 @@ void KonqBaseView::restoreState( const Konqueror::View::HistoryEntry &entry )
   eventURL.yOffset = 0;
   EMIT_EVENT( this, Konqueror::eventOpenURL, eventURL );
 }
+
+void KonqBaseView::openBookmarkURL( const char *_url )
+{
+  Konqueror::EventOpenURL eventURL;
+  eventURL.url = CORBA::string_dup( _url );
+  eventURL.reload = (CORBA::Boolean)false;
+  eventURL.xOffset = 0;
+  eventURL.yOffset = 0;
+  EMIT_EVENT( this, Konqueror::eventOpenURL, eventURL );
+}
+
+QString KonqBaseView::currentTitle()
+{
+  return m_strURL; // TODO (should be reimplemented by KonqHtmlView, in fact)
+}
+
+QString KonqBaseView::currentURL()
+{
+  return m_strURL;
+}

@@ -1,32 +1,13 @@
-1999-02-14  Simon Hausmann <tronical@gmx.net>
+1999-03-15  Michael Reiher <michael.reiher@gmx.de>
 
-        * kbookmark.*, kfm.idl, kfm_mainwindow.cc, kfmgui.* :
-          - the bookmarks work now
-          - added a general method openURL to kfm.idl
-            (welcome "remote" konqueror users, there's more to come ;)
+	* Implemented an ActiveViewIndicator : KonqFrame
 
-1999-02-12  Simon Hausmann <tronical@gmx.net>
+1999-02-28  Simon Hausmann <tronical@gmx.net>
 
-        * kfm_mainwindow.cc, kfmgui.* : using the new file menu functions of
-          opMenuBar to create proper file menu entries
-
-1999-02-11  Simon Hausmann <tronical@gmx.net>
-
-        * Makefile.am, kfm.idl, kfm_main.cc, kfm_mainwindow.*, kfm_gui.* :
-          removed KfmPart and started making KfmGui a full featured          
-          part (KfmMainWindow is now the default shell for Konqueror)
-
-1999-02-09  Simon Hausmann <tronical@gmx.net>
-
-        * kfm_part.*, kfm.idl : more work on KFM's OpenPart GUI
-           - implemented history functionality
-           - completed toolbar entries
-           - several fixes
+	* Rewrite from scratch, with completely new IDL
 
 1999-02-09  David Faure  <faure@kde.org>
 
-	* kfmguiprops.*, kfmviewprops.* : New design of the properties storage
-	See explanations in KfmGuiProps.h and KfmViewProps.h
 	* Source imported in kdebase/konqueror
 
 1999-01-25  Torben Weis  <weis@kde.org>
