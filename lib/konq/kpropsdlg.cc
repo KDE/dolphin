@@ -1615,7 +1615,7 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
 
   unmounted = new KIconLoaderButton( KGlobal::iconLoader(), this );
   unmounted->setFixedSize(50, 50);
-  iconButton->setIconType("devices");
+  unmounted->setIconType("devices");
   layout->addWidget(unmounted, 5, 0);
 
   label = new QLabel( i18n("Unmounted Icon"),  this );
