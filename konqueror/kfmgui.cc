@@ -448,6 +448,10 @@ void KfmGui::initToolBar()
   // Add Location Bar
   ////////////////////////
   m_pLocationBar = new KToolBar( this, "URL History" );
+  QLabel *locationLabel = new QLabel(i18n("Location:"), m_pLocationBar,
+                                     "locationLabel");
+  locationLabel->adjustSize();
+  m_pLocationBar->insertWidget(0, locationLabel->width(), locationLabel); 
   m_pLocationBar->insertLined( "", TOOLBAR_URL_ID,
 			       SIGNAL( returnPressed() ), this, SLOT( slotURLEntered() ) );
   KLined *lined = m_pLocationBar->getLined (TOOLBAR_URL_ID); //Sven
