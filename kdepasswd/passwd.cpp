@@ -24,7 +24,7 @@
 #include <qcstring.h>
 
 #include <kdebug.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 
 #include <kdesu/process.h>
 #include "passwd.h"
