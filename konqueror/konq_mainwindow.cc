@@ -2087,6 +2087,8 @@ void KonqMainWindow::slotComboPlugged()
 	   SLOT( slotCompletionModeChanged( KGlobalSettings::Completion )));
   connect( m_combo, SIGNAL( completion( const QString& )),
            SLOT( slotMakeCompletion( const QString& )));
+  connect( m_combo, SIGNAL( substringCompletion( const QString& )),
+           SLOT( slotSubstringcompletion( const QString& )));
   connect( m_combo, SIGNAL( textRotation( KCompletionBase::KeyBindingType) ),
            SLOT( slotRotation( KCompletionBase::KeyBindingType )));
   connect( m_pURLCompletion, SIGNAL( match(const QString&) ),
@@ -2149,6 +2151,21 @@ void KonqMainWindow::slotMakeCompletion( const QString& text )
     }
   }
   // kdDebug(1202) << "Current dir: " << m_currentDir << "  Current text: " << text << endl;
+}
+
+void KonqMainWindow::slotSubstringcompletion( const QString& text )
+{
+    bool filesFirst = currentURL().startsWith( "/" ) ||
+                      currentURL().startsWith( "file:/" );
+    QStringList items;
+    if ( filesFirst && m_pURLCompletion )
+        items = m_pURLCompletion->substringCompletion( text );
+
+    items += s_pCompletion->substringCompletion( text );
+    if ( !filesFirst && m_pURLCompletion )
+        items += m_pURLCompletion->substringCompletion( text );
+    
+    m_combo->setCompletedItems( items );
 }
 
 void KonqMainWindow::slotRotation( KCompletionBase::KeyBindingType type )

@@ -336,6 +336,7 @@ protected slots:
   void slotComboPlugged();
   void slotCompletionModeChanged( KGlobalSettings::Completion );
   void slotMakeCompletion( const QString& );
+  void slotSubstringcompletion( const QString& );
   void slotRotation( KCompletionBase::KeyBindingType );
   void slotMatch( const QString& );
 
