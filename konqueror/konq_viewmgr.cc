@@ -35,6 +35,8 @@
 #include <kglobalsettings.h>
 #include <ktempfile.h>
 #include <dcopclient.h>
+#include <klocale.h>
+#include <kmessagebox.h>
 
 #include <assert.h>
 #include <kpopupmenu.h>
@@ -1145,6 +1147,21 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
                                        const KURL & forcedURL, const KonqOpenURLRequest &req,
                                        bool resetWindow )
 {
+  if ( docContainer() && docContainer()->frameType()=="Tabs" )
+  {
+      KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(docContainer());
+      if ( tabContainer->count() > 1 )
+      {
+          if ( KMessageBox::warningContinueCancel( 0,
+                  i18n("You have multiple tabs open in this window, "
+                        "loading a profile will close them."),
+                  i18n("Confirmation"),
+                  i18n("Load Profile"),
+                  "LoadProfileTabsConfirm" ) == KMessageBox::Cancel )
+              return;
+      }
+  }
+
   KConfig *config = KGlobal::config();
   KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
   bool alwaysTabbedMode = config->readBoolEntry( "AlwaysTabbedMode", false );
