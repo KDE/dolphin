@@ -39,6 +39,7 @@
 #include <ktrader.h>
 #include <klocale.h>
 #include <kivdirectoryoverlay.h>
+#include <kmessagebox.h>
 
 #include <qregexp.h>
 #include <qdatetime.h>
@@ -565,7 +566,7 @@ void KonqKfmIconView::slotSortByDate( bool toggle )
 {
   if( !toggle)
     return;
-    
+
   KonqIconViewFactory::defaultViewProps()->setSortCriterion("sort_date");
   setupSorting( Date );
 }
@@ -614,7 +615,7 @@ void KonqKfmIconView::newIconSize( int size )
 
     // Make sure all actions are initialized.
     KonqDirPart::newIconSize( size );
-    
+
     if ( effSize == oldEffSize )
         return;
 
@@ -645,8 +646,17 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
     KFileItem *fileItem = (static_cast<KFileIVI*>(item))->item();
     if ( !fileItem )
         return;
-
-    lmbClicked( fileItem );
+    KURL url = fileItem->url();
+    url.cleanPath();
+    bool isIntoTrash =  url.isLocalFile() && url.path(1).startsWith(KGlobalSettings::trashPath());
+    if ( !isIntoTrash || (isIntoTrash && fileItem->isDir()) )
+    {
+        lmbClicked( fileItem );
+    }
+    else
+    {
+        KMessageBox::information(0L, i18n("You must leave the file out of the trash before being able to use it."));
+    }
 }
 
 void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, const QPoint& _global)
@@ -853,14 +863,14 @@ void KonqKfmIconView::showDirectoryOverlay(KFileIVI* item)
 
 void KonqKfmIconView::slotDirectoryOverlayStart()
 {
-    do 
+    do
     {
        KFileIVI* item = m_paOutstandingOverlays.first();
        if (!item)
           return; // Nothing to do
-       
+
        KIVDirectoryOverlay* overlay = item->setShowDirectoryOverlay( true );
-    
+
        if (overlay)
        {
           connect( overlay, SIGNAL( finished() ), this, SLOT( slotDirectoryOverlayFinished() ) );
