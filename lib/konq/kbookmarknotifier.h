@@ -23,17 +23,20 @@
 #include <dcopobject.h>
 
 /**
- * DCOP interface for a bookmark listener
+ * DCOP interface for a bookmark notifier (an object which emits signals
+ * upon changes to the bookmarks)
  */
-class KBookmarkNotifier : public DCOPObject
+class KBookmarkNotifier : virtual public DCOPObject
 {
   K_DCOP
+
 public:
-  // TODO KBookmarkNotifier() : DCOPObject("KBookmarkNotifier") {}
+  KBookmarkNotifier(QCString objId = "KBookmarkNotifier") : DCOPObject(objId) {}
 
 k_dcop_signals:
-  void addBookmark_signal( QString url, QString text, QString address, QString icon );
-  void createNewFolder_signal( QString text, QString address );
+  void addedBookmark( QString url, QString text, QString address, QString icon );
+  void createdNewFolder( QString text, QString address );
+
 };
 
 #endif

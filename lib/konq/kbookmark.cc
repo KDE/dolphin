@@ -111,7 +111,7 @@ KBookmarkGroup KBookmarkGroup::createNewFolder( const QString & text, bool emitS
 
     KBookmarkGroup grp(groupElem);
 
-    if (emitSignal) emit KBookmarkManager::self()->notifier().createNewFolder_signal( grp.fullText(), grp.address() );
+    if (emitSignal) emit KBookmarkManager::self()->notifier().createdNewFolder( grp.fullText(), grp.address() );
 
     return grp;
 
@@ -170,7 +170,7 @@ KBookmark KBookmarkGroup::addBookmark( const QString & text, const KURL & url, c
 
     KBookmark bk(elem);
 
-    if (emitSignal) emit KBookmarkManager::self()->notifier().addBookmark_signal( url.url(), text, bk.address(), icon );
+    if (emitSignal) emit KBookmarkManager::self()->notifier().addedBookmark( url.url(), text, bk.address(), icon );
 
     return bk;
 }
