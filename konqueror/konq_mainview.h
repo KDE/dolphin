@@ -125,10 +125,11 @@ public slots:
   void slotBack();
   void slotForward();
   void slotHome();
-  void slotGoMimeTypes();
   void slotGoApplications();
   void slotGoDirTree();
   void slotGoTrash();
+  void slotGoTemplates();
+  void slotGoAutostart();
 
   void slotSaveSettings();
   void slotConfigureFileManager();

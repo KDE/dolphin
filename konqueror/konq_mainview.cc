@@ -608,11 +608,6 @@ void KonqMainView::slotHome()
   openURL( 0L, KURL( konqFilteredURL( KonqFMSettings::settings()->homeURL() ) ) );
 }
 
-void KonqMainView::slotGoMimeTypes()
-{
-  openURL( m_currentView, KURL( KonqFactory::instance()->dirs()->saveLocation("mime") ) );
-}
-
 void KonqMainView::slotGoApplications()
 {
   openURL( m_currentView, KURL( KonqFactory::instance()->dirs()->saveLocation("apps") ) );
@@ -626,6 +621,16 @@ void KonqMainView::slotGoDirTree()
 void KonqMainView::slotGoTrash()
 {
   KonqFileManager::getFileManager()->openFileManagerWindow( KGlobalSettings::trashPath() );
+}
+
+void KonqMainView::slotGoTemplates()
+{
+  KonqFileManager::getFileManager()->openFileManagerWindow( KGlobalSettings::templatesPath() );
+}
+
+void KonqMainView::slotGoAutostart()
+{
+  KonqFileManager::getFileManager()->openFileManagerWindow( KGlobalSettings::autostartPath() );
 }
 
 void KonqMainView::slotSaveSettings()
@@ -1511,11 +1516,11 @@ void KonqMainView::initActions()
 
   m_paHome = new KAction( i18n( "Home Directory" ), "gohome", KStdAccel::key(KStdAccel::Home), this, SLOT( slotHome() ), actionCollection(), "home" );
 
-  (void) new KAction( i18n( "File &Types" ), 0, this, SLOT( slotGoMimeTypes() ), actionCollection(), "go_mimetypes" );
   (void) new KAction( i18n( "App&lications" ), 0, this, SLOT( slotGoApplications() ), actionCollection(), "go_applications" );
   (void) new KAction( i18n( "Directory Tree" ), 0, this, SLOT( slotGoDirTree() ), actionCollection(), "go_dirtree" );
   (void) new KAction( i18n( "Trash" ), 0, this, SLOT( slotGoTrash() ), actionCollection(), "go_trash" );
-  // Perhaps we should add Templates and Autostart as well ?
+  (void) new KAction( i18n( "Templates" ), 0, this, SLOT( slotGoTemplates() ), actionCollection(), "go_templates" );
+  (void) new KAction( i18n( "Autostart" ), 0, this, SLOT( slotGoAutostart() ), actionCollection(), "go_autostart" );
 
   // Options menu
   m_paSaveSettings = new KAction( i18n( "Sa&ve Settings" ), 0, this, SLOT( slotSaveSettings() ), actionCollection(), "savePropertiesAsDefault" );
