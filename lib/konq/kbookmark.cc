@@ -94,6 +94,7 @@ KBookmarkManager::~KBookmarkManager()
 {
   KDirWatch::self()->removeDir( m_sPath );
   delete m_Root;
+  s_pSelf = 0L;
 }
 
 void KBookmarkManager::slotNotify( const QString &_url )
