@@ -62,41 +62,39 @@ KParts::Part *KonqAboutPageFactory::createPartObject( QWidget *parentWidget, con
                               parentWidget, widgetName, parent, name );
 }
 
-QString KonqAboutPageFactory::intro()
+QString KonqAboutPageFactory::loadFile( const QString& file )
 {
-    if ( s_intro_html )
-        return *s_intro_html;
-
     QString res;
-
-    QString path = locate( "data", "konqueror/about/intro.html" );
-
-    if ( path.isEmpty() )
-        return res; // ugh
-
-    QFile f( path );
-
+    if ( file.isEmpty() )
+	return res;
+    
+    QFile f( file );
     if ( !f.open( IO_ReadOnly ) )
-        return res;
+	return res;
 
     QByteArray data = f.readAll();
-
     f.close();
 
     data.resize( data.size() + 1 );
     data[ data.size() - 1 ] = 0;
 
     res = QString::fromLatin1( data.data() );
-
-    // otherwise all relative URLs are referenced as about:/...
+    // otherwise all embedded objects are referenced as about:/...
     QString basehref = QString::fromLatin1("<BASE HREF=\"file:") +
-		       path.left( path.findRev( '/' )) +
+		       file.left( file.findRev( '/' )) +
 		       QString::fromLatin1("/\">\n");
     res.prepend( basehref );
+    return res;
+}
 
+QString KonqAboutPageFactory::intro()
+{
+    if ( s_intro_html )
+        return *s_intro_html;
 
-    QString kcmshell_konqhtml = QString::fromLatin1("exec:/kcmshell konqhtml");
-    QString kcmshell_ioslaveinfo = QString::fromLatin1("exec:/kcmshell ioslaveinfo");
+    QString res = loadFile( locate( "data", "konqueror/about/intro.html" ));
+    if ( res.isEmpty() )
+	return res;
 
     res = res.arg( i18n("Conquer your Desktop!") )
           .arg( i18n("Please enter an internet address here.") )
@@ -133,36 +131,9 @@ QString KonqAboutPageFactory::specs()
     if ( s_specs_html )
         return *s_specs_html;
 
-    QString res;
-
-    QString path = locate( "data", "konqueror/about/specs.html" );
-
-    if ( path.isEmpty() )
-        return res; // ugh
-
-    QFile f( path );
-
-    if ( !f.open( IO_ReadOnly ) )
-        return res;
-
-    QByteArray data = f.readAll();
-
-    f.close();
-
-    data.resize( data.size() + 1 );
-    data[ data.size() - 1 ] = 0;
-
-    res = QString::fromLatin1( data.data() );
-
-    // otherwise all relative URLs are referenced as about:/...
-    QString basehref = QString::fromLatin1("<BASE HREF=\"file:") +
-		       path.left( path.findRev( '/' )) +
-		       QString::fromLatin1("/\">\n");
-    res.prepend( basehref );
-
-
-    QString kcmshell_konqhtml = QString::fromLatin1("exec:/kcmshell konqhtml");
-    QString kcmshell_ioslaveinfo = QString::fromLatin1("exec:/kcmshell ioslaveinfo");
+    QString res = loadFile( locate( "data", "konqueror/about/specs.html" ));
+    if ( res.isEmpty() )
+	return res;
 
     res = res.arg( i18n("Conquer your Desktop!") )
           .arg( i18n("Please enter an internet address here.") )
@@ -227,36 +198,9 @@ QString KonqAboutPageFactory::tips()
     if ( s_tips_html )
         return *s_tips_html;
 
-    QString res;
-
-    QString path = locate( "data", "konqueror/about/tips.html" );
-
-    if ( path.isEmpty() )
-        return res; // ugh
-
-    QFile f( path );
-
-    if ( !f.open( IO_ReadOnly ) )
-        return res;
-
-    QByteArray data = f.readAll();
-
-    f.close();
-
-    data.resize( data.size() + 1 );
-    data[ data.size() - 1 ] = 0;
-
-    res = QString::fromLatin1( data.data() );
-
-    // otherwise all relative URLs are referenced as about:/...
-    QString basehref = QString::fromLatin1("<BASE HREF=\"file:") +
-		       path.left( path.findRev( '/' )) +
-		       QString::fromLatin1("/\">\n");
-    res.prepend( basehref );
-
-
-    QString kcmshell_konqhtml = QString::fromLatin1("exec:/kcmshell konqhtml");
-    QString kcmshell_ioslaveinfo = QString::fromLatin1("exec:/kcmshell ioslaveinfo");
+    QString res = loadFile( locate( "data", "konqueror/about/tips.html" ));
+    if ( res.isEmpty() )
+	return res;
 
     res = res.arg( i18n("Conquer your Desktop!") )
           .arg( i18n("Please enter an internet address here.") )

@@ -25,6 +25,8 @@ public:
     static QString tips();
 
 private:
+    static QString loadFile( const QString& file );
+    
     static KInstance *s_instance;
     static QString *s_intro_html, *s_specs_html, *s_tips_html;
 };
