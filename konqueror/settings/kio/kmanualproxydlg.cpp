@@ -324,7 +324,7 @@ void KManualProxyDlg::copyDown()
 
 void KManualProxyDlg::slotOk()
 {
-    qDebug("m_bHasValidData: %s" , m_bHasValidData ? "true" : "false");
+    //qDebug("m_bHasValidData: %s" , m_bHasValidData ? "true" : "false");
     if ( m_bHasValidData || validate() )
     {
       KDialogBase::slotOk();
