@@ -246,7 +246,6 @@ QPixmap KFileItem::pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) 
 bool KFileItem::acceptsDrops()
 {
   // Any directory : yes
-//  if ( mimetype() == "inode/directory" )
   if ( S_ISDIR( mode() ) )
     return true;
 
@@ -369,16 +368,17 @@ QString KFileItem::time( unsigned int which ) const
   return QString::null;
 }
 
-QString KFileItem::mimetype()
+QString KFileItem::mimetype() const
 {
-  return determineMimeType()->name();
+  KFileItem * that = const_cast<KFileItem *>(this);
+  return that->determineMimeType()->name();
 }
 
 KMimeType::Ptr KFileItem::determineMimeType()
 {
   if ( !m_pMimeType )
   {
-    kdDebug(1203) << "finding mimetype for" << m_url.url() << endl;
+    kdDebug(1203) << "finding mimetype for " << m_url.url() << endl;
     m_pMimeType = KMimeType::findByURL( m_url, m_fileMode, m_bIsLocalURL );
   }
 

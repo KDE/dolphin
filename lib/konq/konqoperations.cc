@@ -28,6 +28,10 @@
 #include <kio/job.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <kprocess.h>
+#include <kfileitem.h>
+#include <assert.h>
+#include <unistd.h>
 #include <kuserpaths.h>
 #include <X11/Xlib.h>
 
@@ -88,8 +92,9 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs )
 }
 
 //static
-void KonqOperations::doDrop( const KURL & dest, QDropEvent * ev, QObject * receiver )
+void KonqOperations::doDrop( const KFileItem * destItem, QDropEvent * ev, QObject * receiver )
 {
+    KURL dest = destItem->url();
     QStringList lst;
     if ( QUriDrag::decodeToUnicodeUris( ev, lst ) ) // Are they urls ?
     {
@@ -104,42 +109,80 @@ void KonqOperations::doDrop( const KURL & dest, QDropEvent * ev, QObject * recei
             if ( dest.cmp( KURL(*it), true /*ignore trailing slashes*/ ) )
                 return; // do nothing instead of diaplying kfm's annoying error box
 
-        // Check the state of the modifiers key at the time of the drop
-        Window root;
-        Window child;
-        int root_x, root_y, win_x, win_y;
-        uint keybstate;
-        XQueryPointer( qt_xdisplay(), qt_xrootwin(), &root, &child,
-                       &root_x, &root_y, &win_x, &win_y, &keybstate );
-
-        if ( dest.path( 1 ) == KUserPaths::trashPath() )
-            ev->setAction( QDropEvent::Move );
-        else if ( ((keybstate & ControlMask) == 0) && ((keybstate & ShiftMask) == 0) )
+        // Check what the destination is
+        if ( S_ISDIR(destItem->mode()) )
         {
-            // Nor control nor shift are pressed => show popup menu
-            QPopupMenu popup;
-            popup.insertItem( i18n( "&Copy Here" ), 1 );
-            popup.insertItem( i18n( "&Move Here" ), 2 );
-            popup.insertItem( i18n( "&Link Here" ), 3 );
+            // Check the state of the modifiers key at the time of the drop
+            Window root;
+            Window child;
+            int root_x, root_y, win_x, win_y;
+            uint keybstate;
+            XQueryPointer( qt_xdisplay(), qt_xrootwin(), &root, &child,
+                           &root_x, &root_y, &win_x, &win_y, &keybstate );
 
-            int result = popup.exec( QPoint( win_x, win_y ) );
-            switch (result) {
-                case 1 : ev->setAction( QDropEvent::Copy ); break;
-                case 2 : ev->setAction( QDropEvent::Move ); break;
-                case 3 : ev->setAction( QDropEvent::Link ); break;
-                default : return;
+            if ( dest.path( 1 ) == KUserPaths::trashPath() )
+                ev->setAction( QDropEvent::Move );
+            else if ( ((keybstate & ControlMask) == 0) && ((keybstate & ShiftMask) == 0) )
+            {
+                // Nor control nor shift are pressed => show popup menu
+                QPopupMenu popup;
+                popup.insertItem( i18n( "&Copy Here" ), 1 );
+                popup.insertItem( i18n( "&Move Here" ), 2 );
+                popup.insertItem( i18n( "&Link Here" ), 3 );
+
+                int result = popup.exec( QPoint( win_x, win_y ) );
+                switch (result) {
+                    case 1 : ev->setAction( QDropEvent::Copy ); break;
+                    case 2 : ev->setAction( QDropEvent::Move ); break;
+                    case 3 : ev->setAction( QDropEvent::Link ); break;
+                    default : return;
+                }
+            }
+
+            KIO::Job * job = 0L;
+            switch ( ev->action() ) {
+                case QDropEvent::Move : job = KIO::move( lst, dest ); break;
+                case QDropEvent::Copy : job = KIO::copy( lst, dest ); break;
+                case QDropEvent::Link : KIO::link( lst, dest ); break;
+                default : kDebugError( 1202, "Unknown action %d", ev->action() ); return;
+            }
+            connect( job, SIGNAL( result( KIO::Job * ) ),
+                     receiver, SLOT( slotResult( KIO::Job * ) ) );
+        } else
+        {
+            // (If this fails, there is a bug in KFileItem::acceptsDrops)
+            assert( dest.isLocalFile() );
+            if ( destItem->mimetype() == "application/x-desktop")
+            {
+                // Local .desktop file
+                KDesktopFile desktopFile( dest.path() );
+                // Launch .desktop file for each dropped URL
+                // (TODO honour multiple urls for the same process, needs
+                //  extension of KService::startService)
+                KService service( &desktopFile );
+                QCString dcopService;
+                QString error;
+                QStringList::Iterator it = lst.begin();
+                for ( ; it != lst.end() ; it++ )
+                    if ( service.startService( *it, dcopService, error ) > 0 )
+                        KMessageBox::error( 0L, error );
+            } else
+            {
+                // Should be a local executable
+                // (If this fails, there is a bug in KFileItem::acceptsDrops)
+                assert ( access( dest.path(), X_OK ) == 0 );
+                // Launch executable for each of the files
+                QStringList::Iterator it = lst.begin();
+                for ( ; it != lst.end() ; it++ )
+                {
+                    KProcess proc;
+                    proc << dest.path() << KURL(*it).path(); // assume local files
+                    kdDebug(1203) << "starting " << dest.path() << " " << KURL(*it).path() << endl;
+                    proc.start( KProcess::DontCare );
+                }
             }
         }
 
-        KIO::Job * job = 0L;
-	switch ( ev->action() ) {
-            case QDropEvent::Move : job = KIO::move( lst, dest ); break;
-            case QDropEvent::Copy : job = KIO::copy( lst, dest ); break;
-            case QDropEvent::Link : KIO::link( lst, dest ); break;
-            default : kDebugError( 1202, "Unknown action %d", ev->action() ); return;
-	}
-        connect( job, SIGNAL( result( KIO::Job * ) ),
-                 receiver, SLOT( slotResult( KIO::Job * ) ) );
         ev->acceptAction(TRUE);
         ev->accept();
     }

@@ -141,7 +141,7 @@ public:
   /**
    * @return the mimetype of the file item
    */
-  QString mimetype();
+  QString mimetype() const;
 
   /**
    * @return the mimetype of the file item

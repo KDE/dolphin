@@ -42,6 +42,7 @@
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f )
     : KIconView( parent, name, f ),
+      m_rootItem( 0L ),
       m_bImagePreviewAllowed( false )
 {
     QObject::connect( this, SIGNAL( dropped( QDropEvent *, const QValueList<QIconDragItem> & ) ),
@@ -129,13 +130,14 @@ KFileItemList KonqIconViewWidget::selectedFileItems()
 void KonqIconViewWidget::slotDropped( QDropEvent *ev, const QValueList<QIconDragItem> & )
 {
     // Drop on background
-    KonqOperations::doDrop( m_url, ev, this );
+    if ( m_rootItem ) // otherwise, it's too early, '.' is not yet listed
+        KonqOperations::doDrop( m_rootItem, ev, this );
 }
 
 void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *ev )
 {
     assert( item );
-    KonqOperations::doDrop( item->item()->url(), ev, this );
+    KonqOperations::doDrop( item->item(), ev, this );
 }
 
 void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )
@@ -200,6 +202,8 @@ QColor KonqIconViewWidget::itemColor() const
 
 void KonqIconViewWidget::slotSelectionChanged()
 {
+    // This code is very related to TreeViewBrowserExtension::updateActions
+    bool cutcopy, del;
     bool bInTrash = false;
     int iCount = 0;
 
@@ -211,20 +215,21 @@ void KonqIconViewWidget::slotSelectionChanged()
 	if ( ((KFileIVI *)it)->item()->url().directory(false) == KUserPaths::trashPath() )
 	    bInTrash = true;
     }
+    cutcopy = del = ( iCount > 0 );
 
-    emit enableAction( "cut", iCount > 0 );
-    emit enableAction( "copy", iCount > 0 );
-    emit enableAction( "del", iCount > 0 /*&& !bInTrash*/ );
-    emit enableAction( "shred", iCount > 0 /*&& !bInTrash*/ );
-    emit enableAction( "trash", iCount > 0 && !bInTrash );
+    emit enableAction( "cut", cutcopy );
+    emit enableAction( "copy", cutcopy );
+    emit enableAction( "trash", del && !bInTrash );
+    emit enableAction( "del", del );
+    emit enableAction( "shred", del );
 
     bool bKIOClipboard = !KIO::isClipboardEmpty();
     QMimeSource *data = QApplication::clipboard()->data();
-    bool bPaste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
+    bool paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
 	(iCount <= 1); // We can't paste to more than one destination, can we ?
 
-    emit enableAction( "pastecopy", bPaste );
-    emit enableAction( "pastecut", bPaste );
+    emit enableAction( "pastecopy", paste );
+    emit enableAction( "pastecut", paste );
 
     // TODO : if only one url, check that it's a dir
 }

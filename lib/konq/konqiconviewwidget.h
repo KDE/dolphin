@@ -62,6 +62,7 @@ public:
 
     void setURL ( const KURL & kurl ) { m_url = kurl; }
     const KURL & url() { return m_url; }
+    void setRootItem ( const KFileItem * item ) { m_rootItem = item; }
 
     /** Made public for konq_iconview (copy) */
     virtual QDragObject *dragObject();
@@ -102,6 +103,7 @@ protected:
     virtual void drawBackground( QPainter *p, const QRect &r );
 
     KURL m_url;
+    const KFileItem * m_rootItem;
 
     KIconLoader::Size m_size;
     bool m_bImagePreviewAllowed;
