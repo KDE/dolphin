@@ -72,7 +72,7 @@ static void continueInWindow(QString _wname) {
 static int askUser(KApplication &app, QString filename, bool &readonly) {
    QCString requestedName("keditbookmarks");
 
-   if (filename != "") { 
+   if (!filename.isEmpty()) { 
       requestedName += "-" + filename.utf8();
    }
 
