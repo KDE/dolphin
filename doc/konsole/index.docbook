@@ -197,6 +197,11 @@ scroll through the history with <keycap>Page Up</keycap>, <keycap>Page
 down</keycap>, and <keycap>Up Arrow</keycap> and <keycap>Down
 Arrow</keycap>.</para>
 
+<para>&konsole;'s history can be configured via
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>History...</guimenuitem>
+</menuchoice>.
+</para>
+
 <para>&konsole; provides a number of history related actions located in the 
 <link linkend="edit-menu">Edit</link> menu.
 </para>
@@ -221,6 +226,14 @@ Arrow</keycap>.</para>
 <para><guimenuitem>Clear All Histories</guimenuitem></para>
 </listitem>
 </itemizedlist>
+
+<note><para>
+In &konsole;, references to history are to 
+the text that is displayed in &konsole;'s window.
+The shell that is running in &konsole; (e.g. bash) also
+has a <quote>history</quote> which is unrelated to &konsole;'s
+history.
+</para></note>
 
 </sect1>
 
@@ -389,7 +402,7 @@ of a three button mouse.</para></note>
 
 <para>
 If you have a <mousebutton>wheel</mousebutton> as the middle button,
-rolling it in a mouse-unaware program will move the scrollbar.
+rolling it in a mouse-unaware program will move &konsole;'s scrollbar.
 </para>
 
 </listitem>
