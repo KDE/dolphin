@@ -119,6 +119,8 @@ private:
   void scanDir2( QListViewItem *parent, const QString &path );
   void loadTopLevelItem( QListViewItem *parent, const QString &filename );
 
+  void stripIcon( QString &icon );
+
   struct TopLevelItem
   {
     TopLevelItem( KonqDirTreeItem *item, KDirLister *lister, QMap<KURL, KonqDirTreeItem*> *subDirMap, KURL::List *pendingURLList )

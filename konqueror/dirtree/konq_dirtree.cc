@@ -685,8 +685,9 @@ void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
   {
     KSimpleConfig cfg( dotDirectoryFile, true );
     cfg.setDesktopGroup();
-    name = cfg.readEntry( "Name" );
+    name = cfg.readEntry( "Name", name );
     icon = cfg.readEntry( "Icon" );
+    stripIcon( icon );
   }
 
   QString url = QString( path ).prepend( "file:" );
@@ -714,13 +715,19 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
 {
   KDesktopFile cfg( filename, true );
 
-  QString url, icon, name;
+  QFileInfo inf( filename );
+  
+  QString url, icon;
+  QString name = inf.baseName();
 
   if ( cfg.hasLinkType() )
   {
     url = cfg.readURL();
     icon = cfg.readIcon();
-    name = cfg.readName();
+    
+    stripIcon( icon );
+    
+    name = cfg.readEntry( "Name", name );
 
     if ( url == "file:$HOME" ) //HACK
       url = QDir::homeDirPath().prepend( "file:" );
@@ -734,7 +741,7 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
 
     url = mountPoint.prepend( "file:" );
     icon = cfg.readIcon();
-    name = cfg.readName();
+    name = cfg.readEntry( "Name", name );
   }
   else
     return;
@@ -768,6 +775,12 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
   if ( fileItem->url().isLocalFile() )
     item->setOpen( true );
 
+}
+
+void KonqDirTree::stripIcon( QString &icon )
+{ 
+  QFileInfo info( icon );
+  icon = info.baseName();
 }
 
 KonqDirTree::TopLevelItem KonqDirTree::findTopLevelByItem( KonqDirTreeItem *item )
