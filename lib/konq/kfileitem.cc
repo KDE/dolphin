@@ -121,8 +121,8 @@ QString KFileItem::getStatusBarInfo() const
 
   QString text2 = text.copy();
 
-  if ( m_url.isLocalFile() )
-  {
+//  if ( m_url.isLocalFile() )
+//  {
     if ( S_ISLNK( mode ) )
     {
       QString tmp;
@@ -158,9 +158,9 @@ QString KFileItem::getStatusBarInfo() const
       text += comment;
     }	
     return text;
-  }
-  else
-    return m_url.decodedURL();
+//  }
+//  else
+//    return m_url.decodedURL();
 }
 
 void KFileItem::run()
