@@ -318,7 +318,7 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
     }
     case STATE_CREATETHUMB:
     {
-      kdDebug() << "KonqImagePreviewJob: got slotResult in STATE_CREATETHUMB" << endl;
+      //kdDebug(1203) << "KonqImagePreviewJob: got slotResult in STATE_CREATETHUMB" << endl;
       determineNextIcon();
       return;
     }
@@ -446,7 +446,7 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 
 void KonqImagePreviewJob::slotThumbData(KIO::Job *job, const QByteArray &data)
 {
-    kdDebug() << "KonqImagePreviewJob::slotThumbData" << endl;
+    kdDebug(1203) << "KonqImagePreviewJob::slotThumbData" << endl;
     QPixmap pix(data);
     bool save = static_cast<KIO::TransferJob *>(job)->queryMetaData("save") == "true";
     m_iconView->setThumbnailPixmap(m_currentItem, pix);
