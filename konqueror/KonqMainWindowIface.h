@@ -41,6 +41,8 @@ public:
 
 k_dcop:
 
+  void openURL( QString url );
+
   int viewCount();
 
   int activeViewsCount();

@@ -40,6 +40,11 @@ KonqMainWindowIface::~KonqMainWindowIface()
   delete m_dcopActionProxy;
 }
 
+void KonqMainWindowIface::openURL( QString url )
+{
+  m_pMainWindow->openFilteredURL( url );
+}
+
 int KonqMainWindowIface::viewCount()
 {
   return m_pMainWindow->viewCount();
