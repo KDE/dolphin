@@ -42,7 +42,7 @@ void KfArchiver::initArchivers()
     {
       arch="tar;";
       config->setGroup( "Archiver Types" );
-      config->writeEntry( "Archivers", arch.data() );
+      config->writeEntry( "Archivers", arch );
 
       config->setGroup( "tar" );
       config->writeEntry( "Comment", "Tar" );
@@ -59,15 +59,15 @@ void KfArchiver::initArchivers()
     {
       // Read a archiver names from the list
       name = arch.mid( old_pos, pos - old_pos );
-      if (names.find(name.data()) == -1 )
-	names.append( name.data() );
+      if (names.find(name) == -1 )
+	names.append( name );
       pos++;
       old_pos = pos;
     };
 
   for (name =  names.first(); name!=0L; name = names.next())
     {
-      config->setGroup( name.data() );
+      config->setGroup( name );
       
       QString comment   = config->readEntry( "Comment" );
       QString oncreate  = config->readEntry( "ExecOnCreate" );

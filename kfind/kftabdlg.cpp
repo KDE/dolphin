@@ -286,12 +286,12 @@ void KfindTabDialog::loadHistory() {
 
   if(conf->readListEntry("Directories", sl))
     {
-      dirBox ->insertItem( _searchPath.data() );
+      dirBox ->insertItem( _searchPath );
       dirBox->insertStrList(&sl);
     }
   else {
     QDir m_dir("/lib");
-    dirBox ->insertItem( _searchPath.data() );
+    dirBox ->insertItem( _searchPath );
     dirBox ->insertItem( "/" );
     dirBox ->insertItem( "/usr" );
     if (m_dir.exists())

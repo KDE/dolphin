@@ -41,7 +41,7 @@ void KfFileType::initFileTypes( const char* _path )
                 initFileTypes( file.data() );
             else if ( tmp.right( 8 ) == ".desktop" )
             {
-                QFile f( file.data() );
+                QFile f( file );
                 if ( !f.open( IO_ReadOnly ) )
                     return;
 

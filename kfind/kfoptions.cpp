@@ -247,7 +247,7 @@ void KfOptions::fillArchiverDetail(int archiversLBoxItem)
       QStrList& pats = arch->getArPattern();
       paternsLBox2->clear();
       for (QString pattern=pats.first(); pattern!=0L; pattern = pats.next() )
-	paternsLBox2->insertItem( pattern.data() );
+	paternsLBox2->insertItem( pattern );
     };
 };
 
