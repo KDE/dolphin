@@ -716,9 +716,9 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
   if ( !childView )
     {
       // Create a new view
-      KParts::ReadOnlyPart* view = m_pViewManager->splitView( Qt::Horizontal, url, serviceType );
+      KonqChildView* newView = m_pViewManager->splitView( Qt::Horizontal, url, serviceType );
 
-      if ( !view )
+      if ( !newView )
       {
         KMessageBox::sorry( 0L, i18n( "Could not create view for %1\nCheck your installation").arg(serviceType) );
         return true; // fake everything was ok, we don't want to propagate the error
@@ -726,12 +726,12 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
 
       enableAllActions( true );
 
-      view->widget()->setFocus();
+      newView->view()->widget()->setFocus();
       // Triggered by setFocus anyway...
       //m_pViewManager->setActivePart( view );
 
-      this->childView( view )->setLocationBarURL( url.url() );
-      this->childView( view )->setViewName( m_initialFrameName );
+      newView->setLocationBarURL( url.url() );
+      newView->setViewName( m_initialFrameName );
       m_initialFrameName = QString::null;
 
       return true;
@@ -1284,7 +1284,6 @@ void KonqMainView::slotFullScreenStart()
 {
   // Create toolbar button for exiting from full-screen mode
   m_fullScreenGUIClient = new FullScreenGUIClient( this );
-  kdDebug() << "client " << m_fullScreenGUIClient << endl;
   guiFactory()->addClient( m_fullScreenGUIClient );
 
   KonqFrame *widget = m_currentView->frame();

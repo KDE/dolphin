@@ -61,7 +61,7 @@ public:
    * If no Service Type was provided it takes the one from the current view.
    * Returns the newly created view or 0L if the view couldn't be created.
    */
-  KParts::ReadOnlyPart* splitView( Qt::Orientation orientation,
+  KonqChildView* splitView( Qt::Orientation orientation,
 				   const KURL &url,
 				   QString serviceType = QString::null );
 
@@ -70,7 +70,17 @@ public:
    * of the view tree.
    * Returns the newly created view or 0L if the view couldn't be created.
    */
-  KParts::ReadOnlyPart* splitWindow( Qt::Orientation orientation );
+  KonqChildView* splitWindow( Qt::Orientation orientation );
+
+  /**
+   * Do the actual splitting. The new View will be created from serviceType.
+   * Returns the newly created view or 0L if the new view couldn't be created.
+   */
+  KonqChildView* split (KonqFrameBase* splitFrame,
+                        Qt::Orientation orientation,
+                        const QString &serviceType = QString::null,
+                        const QString &serviceName = QString::null,
+                        KonqFrameContainer **newFrameContainer = 0L );
 
   /**
    * Guess!:-)
@@ -100,16 +110,6 @@ public:
   void setProfiles( KActionMenu *profiles );
 
   KonqFrameContainer *mainContainer() const { return m_pMainContainer; }
-
-  /**
-   * Do the actual splitting. The new View will be created from serviceType.
-   * Returns the newly created view or 0L if the new view couldn't be created.
-   */
-  KParts::ReadOnlyPart* split (KonqFrameBase* splitFrame,
-			       Qt::Orientation orientation,
-			       const QString &serviceType = QString::null,
-			       const QString &serviceName = QString::null,
-			       KonqFrameContainer **newFrameContainer = 0L );
 
   /**
    * Reimplemented from PartManager

@@ -345,12 +345,14 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
 
   if ( toggle )
   {
+    // This should be probably merged with KonqViewManager::splitWindow
+
     KonqFrameBase *splitFrame = mainContainer->firstChild();
 
     KonqFrameContainer *newContainer;
 
-    KParts::ReadOnlyPart *view = viewManager->split( splitFrame, horizontal ? Qt::Vertical : Qt::Horizontal,
-						     QString::fromLatin1( "Browser/View" ), serviceName, &newContainer );
+    KonqChildView *childView = viewManager->split( splitFrame, horizontal ? Qt::Vertical : Qt::Horizontal,
+                                                   QString::fromLatin1( "Browser/View" ), serviceName, &newContainer );
 
     if ( !horizontal )
     {
@@ -371,14 +373,13 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
 
     newContainer->setSizes( newSplitterSizes );
 
-    KonqChildView *cv = m_mainView->childView( view );
-    cv->setLocationBarURL( m_mainView->currentChildView()->url().url() ); // default one in case it doesn't set it
-    cv->openURL( m_mainView->currentChildView()->url() );
+    childView->setLocationBarURL( m_mainView->currentChildView()->url().url() ); // default one in case it doesn't set it
+    childView->openURL( m_mainView->currentChildView()->url() );
 
     // If not passive, set as active :)
-    if (!cv->passiveMode())
+    if (!childView->passiveMode())
       //viewManager->setActivePart( view );
-      view->widget()->setFocus();
+      childView->view()->widget()->setFocus();
 
   }
   else

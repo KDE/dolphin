@@ -62,9 +62,9 @@ KonqViewManager::~KonqViewManager()
   if (m_pMainContainer) delete m_pMainContainer;
 }
 
-KParts::ReadOnlyPart* KonqViewManager::splitView ( Qt::Orientation orientation,
-						   const KURL &url,
-						   QString serviceType )
+KonqChildView* KonqViewManager::splitView ( Qt::Orientation orientation,
+                                            const KURL &url,
+                                            QString serviceType )
 {
   kdDebug(1202) << "KonqViewManager::splitView(ServiceType)" << endl;
 
@@ -76,20 +76,19 @@ KParts::ReadOnlyPart* KonqViewManager::splitView ( Qt::Orientation orientation,
     locationBarURL = m_pMainView->currentChildView()->locationBarURL();
   }
 
-  KParts::ReadOnlyPart* view = split( viewFrame, orientation, serviceType );
+  KonqChildView* childView = split( viewFrame, orientation, serviceType );
 
-  if( view )
+  if( childView )
   {
-    KonqChildView * cv = m_pMainView->childView( view );
-    cv->openURL( url );
+    childView->openURL( url );
     if( !locationBarURL.isEmpty() )
-      cv->setLocationBarURL( locationBarURL );
+      childView->setLocationBarURL( locationBarURL );
   }
 
-  return view;
+  return childView;
 }
 
-KParts::ReadOnlyPart* KonqViewManager::splitWindow( Qt::Orientation orientation )
+KonqChildView* KonqViewManager::splitWindow( Qt::Orientation orientation )
 {
   kdDebug(1202) << "KonqViewManager::splitWindow(default)" << endl;
 
@@ -103,23 +102,22 @@ KParts::ReadOnlyPart* KonqViewManager::splitWindow( Qt::Orientation orientation 
     locationBarURL = m_pMainView->currentChildView()->locationBarURL();
   }
 
-  KParts::ReadOnlyPart* view = split( splitFrame, orientation );
+  KonqChildView* childView = split( splitFrame, orientation );
 
-  if( view )
+  if( childView )
   {
-    KonqChildView * cv = m_pMainView->childView( view );
-    cv->openURL( url );
+    childView->openURL( url );
     if( !locationBarURL.isEmpty() )
-      cv->setLocationBarURL( locationBarURL );
+      childView->setLocationBarURL( locationBarURL );
   }
 
-  return view;
+  return childView;
 }
 
-KParts::ReadOnlyPart* KonqViewManager::split (KonqFrameBase* splitFrame,
-					      Qt::Orientation orientation,
-					      const QString &serviceType, const QString &serviceName,
-					      KonqFrameContainer **newFrameContainer )
+KonqChildView* KonqViewManager::split (KonqFrameBase* splitFrame,
+                                       Qt::Orientation orientation,
+                                       const QString &serviceType, const QString &serviceName,
+                                       KonqFrameContainer **newFrameContainer )
 {
   kdDebug(1202) << "KonqViewManager::split" << endl;
 
@@ -131,8 +129,7 @@ KParts::ReadOnlyPart* KonqViewManager::split (KonqFrameBase* splitFrame,
   if( newViewFactory.isNull() )
     return 0L; //do not split at all if we can't create the new view
 
-  KParts::ReadOnlyPart *view = 0L;
-
+  KonqChildView *childView;
   if( m_pMainContainer )
   {
     assert( splitFrame );
@@ -170,9 +167,7 @@ KParts::ReadOnlyPart* KonqViewManager::split (KonqFrameBase* splitFrame,
     printSizeInfo( splitFrame, parentContainer, "after reparent" );
 
     debug("Create new Child");
-    KonqChildView *childView = setupView( newContainer, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType );
-
-    view = childView->view();
+    childView = setupView( newContainer, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType );
 
     printSizeInfo( splitFrame, parentContainer, "after child insert" );
 
@@ -182,30 +177,31 @@ KParts::ReadOnlyPart* KonqViewManager::split (KonqFrameBase* splitFrame,
 
     if ( newFrameContainer )
       *newFrameContainer = newContainer;
+
   }
-  else {
+  else // We had no main container, create one
+  {
     m_pMainContainer = new KonqFrameContainer( orientation, m_pMainView );
     m_pMainView->setView( m_pMainContainer );
     m_pMainContainer->setOpaqueResize();
     m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
 
-    KonqChildView *childView = setupView( m_pMainContainer, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType );
+    childView = setupView( m_pMainContainer, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType );
 
     if ( m_dummyWidget )
       delete (QWidget *)m_dummyWidget;
 
     // exclude the splitter and all child widgets from the part focus handling
+    // where's the code for that comment ?? (David)
+
     m_pMainContainer->show();
 
     childView->frame()->statusbar()->hideStuff();
 
     if ( newFrameContainer )
       *newFrameContainer = m_pMainContainer;
-
-    view = childView->view();
   }
-
-  return view;
+  return childView;
 }
 
 void KonqViewManager::removeView( KonqChildView *view )
@@ -547,6 +543,7 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 					   const QString &serviceType )
 {
   kdDebug(1202) << "KonqViewManager::setupView" << endl;
+  kdDebug(1202) << "main view is " << m_pMainView <<  endl;
 
   QString sType = serviceType;
 
@@ -556,9 +553,11 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
   KonqFrame* newViewFrame = new KonqFrame( parentContainer, "KonqFrame" );
 
   kdDebug(1202) << "Creating KonqChildView" << endl;
+  kdDebug(1202) << "main view is " << m_pMainView <<  endl;
   KonqChildView *v = new KonqChildView( viewFactory, newViewFrame,
 					m_pMainView, service, partServiceOffers, appServiceOffers, sType );
   kdDebug(1202) << "KonqChildView created" << endl;
+  kdDebug(1202) << "main view is " << m_pMainView <<  endl;
 
   QObject::connect( v, SIGNAL( sigViewChanged( KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ),
                     m_pMainView, SLOT( slotViewChanged( KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ) );
