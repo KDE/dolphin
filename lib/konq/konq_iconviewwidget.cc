@@ -187,7 +187,10 @@ void KFileTip::reposition()
     if (rect.center().x() + width() > desk.right())
     {
         // to the left
-        pos.setX( pos.x() - width() );
+        if (pos.x() - width() < 0)
+            pos.setX(0);
+        else
+            pos.setX( pos.x() - width() );
         m_corner = 1;
     }
     // should the tooltip be shown above or below the ivi ?
