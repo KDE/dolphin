@@ -799,8 +799,13 @@ QIconViewItem *QIVItemBin::right()
 
 void KonqIconViewWidget::lineupIcons()
 {
+    if ( !firstItem() )
+    {
+        kdWarning(1203) << "No icons at all ?\n";
+        return;
+    }
     int dx = gridX() + spacing();
-    int dy = gridY() + spacing();
+    int dy = firstItem()->height() + spacing(); // Can't use gridY, we set it to -1
     kdDebug(1203) << "dx = " << dx << ", dy = " << dy << "\n";
 
     if ((dx < 15) || (dy < 15))
