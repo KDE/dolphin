@@ -37,8 +37,6 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
     : KParts::HistoryProvider( parent, name ),
       KonqHistoryComm( "KonqHistoryManager" )
 {
-    qDebug("******************* KONQ HISTORY MANAGER ********************");
-    
     // defaults
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cs( config, "HistorySettings" );
