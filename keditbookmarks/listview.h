@@ -154,7 +154,7 @@ public:
    SelcAbilities getSelectionAbilities();
    void emitSlotSelectionChanged() { emit handleSelectionChanged(m_listView); }
    void setOpen(bool open); // DESIGN -rename to setAllOpenFlag
-   void fillWithGroup();
+   void updateTree();
    void fillWithGroup(KEBListView *, KBookmarkGroup, KEBListViewItem * = 0);
    void setCurrent(KEBListViewItem *item);
    void renameNextCell(bool dir);

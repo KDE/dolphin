@@ -166,15 +166,21 @@ QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* item
    return bookmarks;
 }
 
+static QPtrList<KEBListViewItem>* selected_items_cache = 0;
+static bool listview_is_dirty = false;
+
 QPtrList<KEBListViewItem>* ListView::selectedItems() {
-   QPtrList<KEBListViewItem> *items = new QPtrList<KEBListViewItem>();
-   for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList()));
-        it.current() != 0; ++it) {
-      if (it.current()->isSelected()) {
-         items->append(it.current());
+   if (!selected_items_cache || listview_is_dirty) {
+      QPtrList<KEBListViewItem> *items = new QPtrList<KEBListViewItem>();
+      for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList()));
+           it.current() != 0; ++it) {
+         if (it.current()->isSelected()) {
+            items->append(it.current());
+         }
       }
+      selected_items_cache = items;
    }
-   return items;
+   return selected_items_cache;
 }
 
 KEBListViewItem* ListView::firstSelected() {
@@ -457,24 +463,25 @@ void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newP
    CmdHistory::self()->didCommand(mcmd);
 }
 
+static QStringList selected_addresses;
+
 void ListView::updateListView() {
-   // get address list for selected items, make a function?
-   QStringList addressList;
+   selected_addresses.clear();
    QPtrList<KEBListViewItem> *selcItems = selectedItems();
-   if (selcItems->count() != 0) {
-      for (QPtrListIterator<KEBListViewItem> it(*selcItems); it.current() != 0; ++it) {
-         if (it.current()->bookmark().hasParent()) {
-            addressList << it.current()->bookmark().address();
-         }
+   for (QPtrListIterator<KEBListViewItem> it(*selcItems); it.current() != 0; ++it) {
+      if (it.current()->bookmark().hasParent()) {
+         selected_addresses << it.current()->bookmark().address();
       }
    }
 
-   fillWithGroup();
+   updateTree();
+
+   KEBListViewItem *item = 0;
 
    // re-select previously selected items
-   KEBListViewItem *item = 0;
-   for (QStringList::Iterator ait = addressList.begin(); ait != addressList.end(); ++ait) {
-      if (item = getItemAtAddress(*ait), item) {
+   for (QStringList::Iterator ait = selected_addresses.begin(); ait != selected_addresses.end(); ++ait) {
+      item = getItemAtAddress(*ait);
+      if (item) {
          m_listView->setSelected(item, true);
       }
    }
@@ -490,7 +497,7 @@ void ListView::updateListView() {
    setCurrent(item);
 }
 
-void ListView::fillWithGroup() {
+void ListView::updateTree() {
    fillWithGroup(m_listView, CurrentMgr::self()->mgr()->root());
    if (m_splitView) {
       fillWithGroup(m_folderListView, CurrentMgr::self()->mgr()->root());
@@ -543,6 +550,7 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
 
 void ListView::handleSelectionChanged(KEBListView *lv) {
    Q_UNUSED(lv);
+   listview_is_dirty = true;
    KEBApp::self()->updateActions();
    updateSelectedItems();
 }

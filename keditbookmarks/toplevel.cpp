@@ -127,7 +127,7 @@ void CurrentMgr::slotBookmarksChanged(const QString &, const QString &caller) {
    if ((caller.latin1() != kapp->dcopClient()->appId()) && !KEBApp::self()->modified()) {
       kdDebug() << "CurrentMgr::slotBookmarksChanged" << endl;
       CmdHistory::self()->clearHistory();
-      ListView::self()->fillWithGroup();
+      ListView::self()->updateTree();
       KEBApp::self()->updateActions();
    }
 }
@@ -196,7 +196,7 @@ void KEBApp::construct() {
    CurrentMgr::self()->createManager(this, m_bookmarksFilename);
 
    ListView::self()->updateListViewSetup(m_readOnly);
-   ListView::self()->fillWithGroup();
+   ListView::self()->updateTree();
 
    slotClipboardDataChanged();
 

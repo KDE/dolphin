@@ -112,6 +112,7 @@ void ActionsImpl::slotInsertSeparator() {
 }
 
 void ActionsImpl::slotImport() { 
+   kdDebug() << "ActionsImpl::slotImport() where sender()->name() == " << sender()->name() << endl;
    ImportCommand* import = ImportCommand::performImport(sender()->name()+6, KEBApp::self());
    if (!import) {
       return;
