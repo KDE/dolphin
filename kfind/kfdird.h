@@ -66,8 +66,8 @@ private:
     QPushButton *cancelB;
 
 private:        // Disabled copy constructor and operator=
-    KfDirDialog( const KfDirDialog & ) {}
-    KfDirDialog &operator=( const KfDirDialog & ) { return *this; }
+    KfDirDialog( const KfDirDialog & );
+    KfDirDialog &operator=( const KfDirDialog & );
 };
 
 #endif
