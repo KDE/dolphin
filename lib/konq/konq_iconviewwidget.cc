@@ -50,7 +50,7 @@
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f, bool kdesktop )
     : KIconView( parent, name, f ),
-      m_rootItem( 0L ), m_bDesktop( kdesktop )
+      m_rootItem( 0L ), m_bDesktop( kdesktop ), m_size( 0 ) // default is DesktopIcon size
 {
     QObject::connect( this, SIGNAL( dropped( QDropEvent *, const QValueList<QIconDragItem> & ) ),
                       this, SLOT( slotDropped( QDropEvent*, const QValueList<QIconDragItem> & ) ) );
@@ -77,7 +77,6 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     setSelectionMode( QIconView::Extended );
     setItemTextPos( QIconView::Bottom );
 
-    m_size = 0; // default is DesktopIcon size
     calculateGridX();
     setAutoArrange( true );
     setSorting( true, sortDirection() );
