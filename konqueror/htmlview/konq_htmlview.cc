@@ -575,13 +575,13 @@ void KonqHTMLView::saveDocument()
     if ( srcURL.filename(false).isEmpty() )
       srcURL.setFileName( "index.html" );
 
-    KFileDialog *dlg = new KFileDialog( QString::null, "*\n*.html\n*.htm",
-					this , "filedialog", true, false );
+    KFileDialog *dlg = new KFileDialog( QString::null, i18n("HTML files|* *.html *.htm"),
+					this , "filedialog", true );
     dlg->setCaption(i18n("Save as"));
-    dlg->setSelection( dlg->dirPath() + srcURL.filename() );
+    dlg->setSelection( KURL(dlg->baseURL(), srcURL.filename()).url() );
     if ( dlg->exec() )
       {
-	KURL destURL( dlg->selectedFileURL() );
+	KURL destURL( dlg->selectedURL() );
 	if ( !destURL.isMalformed() )
 	{
     	  KIOJob *job = new KIOJob;
@@ -606,12 +606,13 @@ void KonqHTMLView::saveFrame()
     srcURL.setFileName( "index.html" );
 
   KFileDialog *dlg = new KFileDialog( QString::null, "*\n*.html\n*.htm",
-					this , "filedialog", true, false );
+					this , "filedialog", true );
   dlg->setCaption(i18n("Save frameset as"));
-  dlg->setSelection( dlg->dirPath() + srcURL.filename() );
+  dlg->setSelection( KURL(dlg->baseURL(), srcURL.filename()).url() );
   if ( dlg->exec() )
   {
-    KURL destURL( dlg->selectedFileURL() );
+    KURL destURL(dlg->selectedURL());
+
     if ( !destURL.isMalformed() )
     {
       KIOJob *job = new KIOJob;
