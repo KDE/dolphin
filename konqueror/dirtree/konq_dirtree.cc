@@ -418,10 +418,10 @@ void KonqDirTree::contentsDropEvent( QDropEvent *ev )
 void KonqDirTree::contentsMousePressEvent( QMouseEvent *e )
 {
   KListView::contentsMousePressEvent( e );
-  
+
   QPoint p( contentsToViewport( e->pos() ) );
   QListViewItem *i = itemAt( p );
-  
+
   if ( e->button() == LeftButton && i ) {
       // if the user clicked into the root decoration of the item, don't try to start a drag!
       if ( p.x() > header()->cellPos( header()->mapToActual( 0 ) ) +
@@ -462,12 +462,12 @@ void KonqDirTree::contentsMouseReleaseEvent( QMouseEvent *e )
 
 void KonqDirTree::slotNewItems( const KFileItemList& entries )
 {
-  kdDebug() << "slotNewItems " << entries.count() << endl; 
-  
+  kdDebug() << "slotNewItems " << entries.count() << endl;
+
   const KonqDirLister *lister = static_cast<const KonqDirLister *>( sender() );
-  
+
   TopLevelItem topLevelItem = findTopLevelByDirLister( lister );
-  
+
   assert( topLevelItem.m_item );
 
   QListIterator<KFileItem> kit ( entries );
@@ -641,17 +641,16 @@ void KonqDirTree::slotListingStopped()
   if ( oIt != m_mapCurrentOpeningFolders.end() )
   {
     oIt.data()->setPixmap( 0, m_folderPixmap );
-    m_mapCurrentOpeningFolders.remove( oIt );
-
-    if ( m_mapCurrentOpeningFolders.count() == 0 )
-      m_animationTimer->stop();
-    /*
-    if ( m_selectAfterOpening.upURL() == url )
+    if ( !m_selectAfterOpening.isEmpty() && m_selectAfterOpening.upURL() == url )
     {
       followURL( m_selectAfterOpening );
       m_selectAfterOpening = KURL();
     }
-    */
+
+    m_mapCurrentOpeningFolders.remove( oIt );
+
+    if ( m_mapCurrentOpeningFolders.count() == 0 )
+      m_animationTimer->stop();
   }
 }
 
