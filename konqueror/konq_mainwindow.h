@@ -107,6 +107,7 @@ public slots:
   void slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args );
 
   void slotNewWindow();
+  void slotDuplicateWindow();
   void slotRun();
   void slotOpenTerminal();
   void slotOpenLocation();
@@ -297,7 +298,6 @@ private:
   void unplugViewModeActions();
 
   KNewMenu * m_pMenuNew;
-  KAction *m_paNewWindow;
 
   KAction *m_paFileType;
   KAction *m_paProperties;

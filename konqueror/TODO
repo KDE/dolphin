@@ -57,8 +57,7 @@ before pasting another one ?
 - #3176 : From the main KDE menu, choose "Context Help", next click on the main form of konqueror
 (David): didn't get what that one was about...
 
-- New window -> empty one (uses profile) and Duplicate window -> duplicates
- everything, including history and layout.
+- Duplicate window -> should duplicate history too.
 
 - Renaming a profile
 

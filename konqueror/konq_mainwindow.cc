@@ -81,6 +81,7 @@
 #include <kstdaction.h>
 #include <kstddirs.h>
 #include <ksycoca.h>
+#include <ktempfile.h>
 #include <ktrader.h>
 #include <kurl.h>
 #include <kurlrequesterdlg.h>
@@ -434,7 +435,31 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 
 void KonqMainWindow::slotNewWindow()
 {
-  KonqFileManager::self()->openFileManagerWindow( m_currentView->url() );
+  //KonqFileManager::self()->openFileManagerWindow( m_currentView->url() );
+
+  // This code is very related to KonquerorIface::createBrowserWindowFromProfile
+  // -> for konq_misc ?
+  KonqMainWindow *mainWindow = new KonqMainWindow( QString::null, false );
+  // We assume it exists, since we install it... otherwise the window should remain empty
+  mainWindow->viewManager()->loadViewProfile( QString::fromLatin1("webbrowsing") );
+  mainWindow->enableAllActions( true );
+  mainWindow->show();
+}
+
+void KonqMainWindow::slotDuplicateWindow()
+{
+  //KonqFileManager::self()->openFileManagerWindow( m_currentView->url() );
+
+  KTempFile tempFile;
+  tempFile.setAutoDelete( true );
+  KConfig config( tempFile.name() );
+  config.setGroup( "View Profile" );
+  m_pViewManager->saveViewProfile( config, true );
+
+  KonqMainWindow *mainWindow = new KonqMainWindow( QString::null, false );
+  mainWindow->viewManager()->loadViewProfile( config );
+  mainWindow->enableAllActions( true );
+  mainWindow->show();
 }
 
 void KonqMainWindow::slotRun()
@@ -1665,7 +1690,8 @@ void KonqMainWindow::initActions()
 
   m_paFileType = new KAction( i18n( "Edit File Type..." ), 0, actionCollection(), "editMimeType" );
   m_paProperties = new KAction( i18n( "Properties..." ), 0, actionCollection(), "properties" );
-  m_paNewWindow = new KAction( i18n( "New &Window" ), "window_new", KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
+  (void) new KAction( i18n( "New &Window" ), "window_new", KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
+  (void) new KAction( i18n( "&Duplicate Window" ), "window_new", KStdAccel::key(KStdAccel::New), this, SLOT( slotDuplicateWindow() ), actionCollection(), "duplicate_window" );
 
   (void) new KAction( i18n( "&Run Command..." ), "run", 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
   (void) new KAction( i18n( "Open &Terminal..." ), "openterm", CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );

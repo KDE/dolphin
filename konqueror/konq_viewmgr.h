@@ -104,6 +104,12 @@ public:
   void loadViewProfile( KConfig &cfg );
 
   /**
+   * Loads a view layout from a config file. Removes all views before loading.
+   * @param filename the name of the config file (under the profiles dir, if relative)
+   */
+  void loadViewProfile( const QString & filename );
+
+  /**
    * Load the config entries for a view.
    * @param cfg the config file
    * ...

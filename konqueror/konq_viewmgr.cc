@@ -427,6 +427,14 @@ void KonqViewManager::saveViewProfile( KConfig &cfg, bool saveURLs )
   cfg.sync();
 }
 
+void KonqViewManager::loadViewProfile( const QString & filename )
+{
+  KConfig cfg( filename, true );
+  cfg.setDollarExpansion( true );
+  cfg.setGroup( "Profile" );
+  loadViewProfile( cfg );
+}
+
 void KonqViewManager::loadViewProfile( KConfig &cfg )
 {
   KURL defaultURL;

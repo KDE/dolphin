@@ -2,6 +2,7 @@
 <MenuBar>
  <Menu name="file"><text>&amp;Location</text>
   <Action name="new_window"/>
+  <Action name="duplicate_window"/>
   <Action name="open_location"/>
   <Separator/>
   <Action name="close"/>
