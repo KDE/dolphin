@@ -20,7 +20,8 @@
 #define HISTORY_MODULE_H
 
 #include <qobject.h>
-#include <qptrdict.h>
+#include <qdict.h>
+#include <qpixmap.h>
 
 #include <konq_treemodule.h>
 
@@ -40,8 +41,8 @@ public:
 
     virtual void addTopLevelItem( KonqTreeTopLevelItem * item );
 
-    void showPopupMenu( KonqHistoryItem * );
-    
+    void showPopupMenu();
+
 public slots:
     virtual void clearAll();
 
@@ -52,14 +53,16 @@ private slots:
 
     void slotRemoveEntry();
     void slotPreferences();
-    
+
 private:
-    typedef QPtrDictIterator<KonqHistoryItem> HistoryItemIterator;
-    QPtrDict<KonqHistoryItem> m_dict;
+    typedef QDictIterator<KonqHistoryItem> HistoryItemIterator;
+    QDict<KonqHistoryGroupItem> m_dict;
 
     KonqTreeTopLevelItem * m_topLevelItem;
-    
+
     KActionCollection *m_collection;
+    
+    QPixmap m_folderPixmap;
 };
 
 

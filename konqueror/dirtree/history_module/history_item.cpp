@@ -25,14 +25,14 @@
 
 #define MYMODULE static_cast<KonqHistoryModule*>(module())
 
-KonqHistoryItem::KonqHistoryItem( KonqTree * /*parent*/,
-				  KonqTreeTopLevelItem *topLevelItem,
-				  const KonqHistoryEntry *entry)
-    : KonqTreeItem( topLevelItem, topLevelItem ),
+KonqHistoryItem::KonqHistoryItem( const KonqHistoryEntry *entry,
+				  KonqTreeItem * parentItem,
+				  KonqTreeTopLevelItem *topLevelItem )
+    : KonqTreeItem( parentItem, topLevelItem ),
       m_entry( entry )
 {
-    setText( 0, m_entry->url );
     setExpandable( false );
+    update( entry );
 }
 
 KonqHistoryItem::~KonqHistoryItem()
@@ -41,7 +41,11 @@ KonqHistoryItem::~KonqHistoryItem()
 
 void KonqHistoryItem::update( const KonqHistoryEntry */*entry*/ )
 {
-    setText( 0, m_entry->url );
+    QString title( m_entry->title );
+    if ( !title.isEmpty() && title != m_entry->url.url() )
+	setText( 0, title );
+    else
+	setText( 0, m_entry->url.path() );
 }
 
 void KonqHistoryItem::itemSelected()
@@ -52,14 +56,16 @@ void KonqHistoryItem::itemSelected()
     emit ext->enableAction( "paste", false );
 }
 
+
 void KonqHistoryItem::setOpen( bool open )
 {
+    // ### TODO: lazy filling?
     KonqTreeItem::setOpen( open );
 }
 
 void KonqHistoryItem::rightButtonPressed()
 {
-    MYMODULE->showPopupMenu( this );
+    MYMODULE->showPopupMenu();
 }
 
 QDragObject * KonqHistoryItem::dragObject( QWidget * parent, bool move )
@@ -79,4 +85,55 @@ QDragObject * KonqHistoryItem::dragObject( QWidget * parent, bool move )
     }
 
     return drag;
+}
+
+
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+
+KonqHistoryGroupItem::KonqHistoryGroupItem( const QString& host,
+					    KonqTreeTopLevelItem *topLevelItem )
+    : KonqTreeItem( topLevelItem, topLevelItem ),
+      m_host( host )
+{
+    setText( 0, host );
+}
+
+// the group item itself will be removed automatically,
+// when the last child is removed
+void KonqHistoryGroupItem::remove()
+{
+    KonqHistoryManager *manager = KonqHistoryManager::self();
+    KonqHistoryItem *item = static_cast<KonqHistoryItem*>( firstChild() );
+    while( item ) {
+	manager->emitRemoveFromHistory( item->externalURL() );
+	item = static_cast<KonqHistoryItem*>( firstChild() );
+    }
+}
+
+KonqHistoryItem * KonqHistoryGroupItem::findChild(const KonqHistoryEntry *entry) const
+{
+    const KURL& url = entry->url;
+    KonqHistoryItem *child = static_cast<KonqHistoryItem *>( firstChild() );
+    while ( child ) {
+	if ( child->url() == url )
+	    return child;
+	
+	child = static_cast<KonqHistoryItem *>( child->nextSibling() );
+    }
+
+    return 0L;
+}
+
+void KonqHistoryGroupItem::itemSelected()
+{
+    KParts::BrowserExtension * ext = tree()->part()->extension();
+    emit ext->enableAction( "copy", false );
+    emit ext->enableAction( "cut", false );
+    emit ext->enableAction( "paste", false );
+}
+
+void KonqHistoryGroupItem::rightButtonPressed()
+{
+    MYMODULE->showPopupMenu();
 }

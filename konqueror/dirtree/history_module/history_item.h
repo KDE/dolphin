@@ -29,8 +29,9 @@ class QDropEvent;
 class KonqHistoryItem : public KonqTreeItem
 {
 public:
-    KonqHistoryItem( KonqTree *parent, KonqTreeTopLevelItem *topLevelItem,
-		     const KonqHistoryEntry *entry );
+    KonqHistoryItem( const KonqHistoryEntry *entry,
+		     KonqTreeItem *parentItem,
+		     KonqTreeTopLevelItem *topLevelItem );
     ~KonqHistoryItem();
 
     virtual void setOpen( bool open );
@@ -44,9 +45,11 @@ public:
     virtual void itemSelected();
 
     // The URL to open when this link is clicked
-    virtual KURL externalURL() const { return KURL(m_entry->url); }
+    virtual KURL externalURL() const { return m_entry->url; }
+    const KURL& url() const { return m_entry->url; } // a faster one
 
-    const QString& url() const { return m_entry->url; }
+    QString host() const { return m_entry->url.host(); }
+    QString path() const { return m_entry->url.path(); }
 
     void update( const KonqHistoryEntry *entry );
 
@@ -56,5 +59,34 @@ private:
     const KonqHistoryEntry *m_entry;
 
 };
+
+class KonqHistoryGroupItem : public KonqTreeItem
+{
+public:
+
+    KonqHistoryGroupItem( const QString& host, KonqTreeTopLevelItem * );
+
+    /**
+     * removes itself and all its children from the history (not just the view)
+     */
+    void remove();
+
+    KonqHistoryItem * findChild( const KonqHistoryEntry *entry ) const;
+
+    virtual void rightButtonPressed();
+
+
+    // we don't support the following
+    bool acceptsDrops( const QStrList& ) { return false; }
+    virtual void drop( QDropEvent * ) {}
+    virtual QDragObject * dragObject( QWidget *, bool ) { return 0L; }
+    virtual KURL externalURL() const { return KURL(); }
+    virtual void itemSelected();
+
+private:
+    QString m_host;
+
+};
+
 
 #endif // HISTORY_ITEM_H
