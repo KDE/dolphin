@@ -49,7 +49,10 @@ QObject *KonqSoundFactory::createObject(QObject *, const char *,
 		if (m_playobject)
 		{
 			if (m_playobject->object().isNull())
+			{
 				delete m_playobject;
+				m_playobject = 0;
+			}
 			else
 			{
 				m_playobject->play();
