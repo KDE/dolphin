@@ -245,7 +245,7 @@ KonqMainWindow::~KonqMainWindow()
 
   KonqUndoManager::decRef();
 
-  kdDebug(1202) << "KonqMainWindow::~KonqMainWindow done" << endl;
+  kdDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << " done" << endl;
 }
 
 QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDomElement &element, int &id )
@@ -928,7 +928,7 @@ void KonqMainWindow::slotHome()
 
 void KonqMainWindow::slotGoApplications()
 {
-  openURL( 0L, KURL( KGlobal::dirs()->saveLocation("apps") ) );
+  KonqFileManager::self()->openFileManagerWindow( KGlobal::dirs()->saveLocation("apps") );
 }
 
 void KonqMainWindow::slotGoDirTree()

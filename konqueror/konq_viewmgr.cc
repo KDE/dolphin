@@ -345,7 +345,7 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
        return 0L; // We have no view at all - this happens with RootItem=empty
    }
 
-  // kdDebug() << "*KonqViewManager::chooseNextView: count=" << mapViews.count() << endl;
+  // kdDebug(1202) << "KonqViewManager::chooseNextView: count=" << mapViews.count() << endl;
   while ( true )
   {
     if ( ++it == end ) // move to next
@@ -359,7 +359,7 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
       return nextView;
   }
 
-  kdDebug() << "*KonqViewManager::chooseNextView: returning 0L" << endl;
+  kdDebug(1202) << "KonqViewManager::chooseNextView: returning 0L" << endl;
   return 0L; // no next view found
 }
 
