@@ -64,7 +64,7 @@ void KonqSidebarDirTreeModule::addTopLevelItem( KonqSidebarTreeTopLevelItem * it
     if ( cfg.hasLinkType() )
     {
         targetURL = cfg.readURL();
-		// some services might whant to make their URL confgurable in kcontol
+		// some services might want to make their URL configurable in kcontrol
 		QString configured = cfg.readEntry("X-KDE-ConfiguredURL","");
 		if (!configured.isEmpty()) {
 			QStringList list = QStringList::split(':', configured);
