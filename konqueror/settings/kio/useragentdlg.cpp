@@ -131,6 +131,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   s_grid->setRowStretch( 2, 2 );
 
   lv_siteUABindings = new KListView( gb_siteSpecific );
+  lv_siteUABindings->setFullWidth(true);
   lv_siteUABindings->setShowSortIndicator( true );
   lv_siteUABindings->setAllColumnsShowFocus( true );
   lv_siteUABindings->addColumn(i18n("Site/domain name"));
