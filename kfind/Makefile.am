@@ -19,7 +19,7 @@ METASOURCES  =  kfdird.moc kfwin.moc kfindtop.moc \
 noinst_HEADERS	  =  kfarch.h kfdird.h kfindtop.h kftabdlg.h kfwin.h kfind.h \
              kfsave.h kftypes.h kfoptions.h version.h
 
-EXTRA_DIST = kfind.xpm mini-kfind.xpm
+EXTRA_DIST = kfind.xpm mini-kfind.xpm DESCRIPTION
 
 SUBDIRS = pics
 

@@ -16,3 +16,6 @@ doc_DATA = konsole-1.html konsole-2.html konsole-3.html \
 	konsole-4.html konsole-5.html konsole.html logotp3.gif
 
 docdir = $(kde_htmldir)/en/konsole
+
+EXTRA_DIST = $(doc_DATA) konsole.nif konsole.sgml 
+
