@@ -43,10 +43,6 @@ class KonqKfmIconView : public KonqDirPart
 {
   friend class IconViewBrowserExtension; // to access m_pProps
   Q_OBJECT
-  Q_PROPERTY( uint itemCount READ itemCount )
-  Q_PROPERTY( uint directorySize READ dirSize )
-  Q_PROPERTY( uint directoryCount READ dirCount )
-  Q_PROPERTY( uint fileCount READ fileCount )
   Q_PROPERTY( bool supportsUndo READ supportsUndo )
   Q_PROPERTY( QString viewMode READ viewMode WRITE setViewMode )
 public:
@@ -62,11 +58,6 @@ public:
   virtual bool openFile() { return true; }
 
   KonqIconViewWidget *iconViewWidget() const { return m_pIconView; }
-
-  uint itemCount() const;
-  uint dirSize() const;
-  uint dirCount() const;
-  uint fileCount() const;
 
   bool supportsUndo() const { return true; }
 
@@ -111,6 +102,7 @@ protected slots:
   void slotOnItem( QIconViewItem *item );
   void slotOnViewport();
   void slotViewportAdjusted();
+  void slotSelectionChanged();
 
   // slots connected to the directory lister
   void slotStarted( const QString & );
@@ -124,8 +116,6 @@ protected slots:
   void slotCloseView();
 
   //void slotTotalFiles( int, unsigned long files );
-
-  void slotDisplayFileSelectionInfo();
 
   void slotProcessMimeIcons();
 
@@ -203,10 +193,6 @@ protected:
   KAction *m_paDecIconSize;
 
   KToggleAction *m_paSortDirsFirst;
-
-  long m_lDirSize;
-  long m_lFileCount;
-  long m_lDirCount;
 
   int m_iIconSize[4];
 

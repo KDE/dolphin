@@ -79,13 +79,9 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,ascending(TRUE)
 ,m_dirLister(0L)
 ,m_dragOverItem(0L)
-//,m_pressed(FALSE)
-//,m_pressedItem(0L)
-,m_filesSelected(FALSE)
 ,m_showIcons(TRUE)
 ,m_filenameColumn(0)
 ,m_pBrowserView(parent)
-,m_selectedFilesStatusText()
 {
    kdDebug(1202) << "+KonqBaseListViewWidget" << endl;
 
@@ -261,37 +257,9 @@ const KURL & KonqBaseListViewWidget::url()
 
 void KonqBaseListViewWidget::updateSelectedFilesInfo()
 {
-   long fileSizeSum = 0;
-   long fileCount = 0;
-   long dirCount = 0;
-   m_filesSelected=FALSE;
-   m_selectedFilesStatusText="";
-   for (iterator it = begin(); it != end(); it++ )
-   {
-      if (it->isSelected())
-      {
-         m_filesSelected=TRUE;
-         if ( S_ISDIR( it->item()->mode() ) )
-            dirCount++;
-         else // what about symlinks ?
-         {
-            fileSizeSum += it->item()->size();
-            fileCount++;
-         }
-      }
-   }
-   if (m_filesSelected)
-   {
-      int items(fileCount+dirCount);
-      m_selectedFilesStatusText = m_pBrowserView->displayString(
-          items,
-          fileCount,
-          fileSizeSum,
-          dirCount );
-
-   } // else : call slotOnViewport, which is todo (i.e. mouse on column > 1)
-   emit m_pBrowserView->setStatusBarText(m_selectedFilesStatusText);
-   //kdDebug(1202)<<"KonqTextViewWidget::updateSelectedFilesInfo"<<endl;
+    // Display statusbar info, and emit selectionInfo
+    KFileItemList lst = selectedFileItems();
+    m_pBrowserView->emitCounts( lst, true );
 }
 
 /*QStringList KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
@@ -490,18 +458,15 @@ void KonqBaseListViewWidget::startDrag()
 
 void KonqBaseListViewWidget::slotOnItem( QListViewItem* _item)
 {
-   QString s;
    KonqBaseListViewItem* item = (KonqBaseListViewItem*)_item;
-
    //TODO: Highlight on mouseover
-   /*if ( item )
-    s = item->item()->getStatusBarInfo();
-    emit m_pBrowserView->setStatusBarText( s );*/
-   if (( item ) && (!m_filesSelected))
-      s = item->item()->getStatusBarInfo();
+
+   if ( item && isExecuteArea( viewport()->mapFromGlobal( QCursor::pos() ) ) )
+   {
+      emit m_pBrowserView->setStatusBarText( item->item()->getStatusBarInfo() );
+   }
    else
-      if (m_filesSelected) s=m_selectedFilesStatusText;
-   emit m_pBrowserView->setStatusBarText( s );
+       slotOnViewport();
 }
 
 void KonqBaseListViewWidget::slotItemRenamed(QListViewItem* item, const QString &name, int col)
@@ -516,7 +481,8 @@ void KonqBaseListViewWidget::slotItemRenamed(QListViewItem* item, const QString 
 
 void KonqBaseListViewWidget::slotOnViewport()
 {
-   //TODO: Display summary in DetailedList in statusbar, like iconview does
+    KFileItemList lst = selectedFileItems();
+    m_pBrowserView->emitCounts( lst, false );
 }
 
 void KonqBaseListViewWidget::slotMouseButtonPressed(int _button, QListViewItem* _item, const QPoint&, int col)
@@ -546,6 +512,16 @@ void KonqBaseListViewWidget::selectedItems( QValueList<KonqBaseListViewItem*>& _
    for( ; it != end(); it++ )
       if ( it->isSelected() )
          _list.append( &*it );
+}
+
+KFileItemList KonqBaseListViewWidget::selectedFileItems()
+{
+   KFileItemList list;
+   iterator it = begin();
+   for( ; it != end(); it++ )
+      if ( it->isSelected() )
+         list.append( it->item() );
+   return list;
 }
 
 KURL::List KonqBaseListViewWidget::selectedUrls()
@@ -683,6 +659,8 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
 
    m_url=url;
 
+   m_pBrowserView->resetCount();
+
    // Check for new properties in the new dir
    // newProps returns true the first time, and any time something might
    // have changed.
@@ -773,10 +751,12 @@ void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
    kdDebug(1202) << "KonqBaseListViewWidget::slotNewItems " << entries.count() << endl;
    for (QListIterator<KFileItem> kit ( entries ); kit.current(); ++kit )
       new KonqListViewItem( this, static_cast<KonqFileItem *>(*kit) );
+   m_pBrowserView->newItems( entries );
 }
 
 void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
 {
+  m_pBrowserView->deleteItem( _fileitem );
   kdDebug(1202) << "removing " << _fileitem->url().url() << " from tree!" << endl;
   iterator it = begin();
   for( ; it != end(); ++it )

@@ -90,6 +90,7 @@ class KonqBaseListViewWidget : public KListView
       virtual bool openURL( const KURL &url );
 
       void selectedItems( QValueList<KonqBaseListViewItem*>& _list );
+      KFileItemList selectedFileItems();
       KURL::List selectedUrls();
 
       /** @return the KonqListViewDir which handles the directory _url */
@@ -204,7 +205,6 @@ class KonqBaseListViewWidget : public KListView
 
       bool m_bTopLevelComplete;
 
-      bool m_filesSelected;
       bool m_showIcons;
       int m_filenameColumn;
       bool m_bUpdateContentsPosAfterListing;
@@ -213,8 +213,6 @@ class KonqBaseListViewWidget : public KListView
 
    public:
       KonqListView *m_pBrowserView;
-   protected:
-      QString m_selectedFilesStatusText;
 };
 
 #endif

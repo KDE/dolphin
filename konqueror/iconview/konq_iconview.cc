@@ -338,12 +338,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     m_eSortCriterion = NameCaseInsensitive;
 
-    m_lDirSize = 0;
-    m_lFileCount = 0;
-    m_lDirCount = 0;
-
     connect( m_pIconView, SIGNAL( selectionChanged() ),
-             this, SLOT( slotDisplayFileSelectionInfo() ) );
+             this, SLOT( slotSelectionChanged() ) );
 
     // Respect kcmkonq's configuration for word-wrap icon text.
     // If we want something else, we have to adapt the configuration or remove it...
@@ -412,7 +408,7 @@ void KonqKfmIconView::slotSelect()
 
         // do this once, not for each item
         m_pIconView->slotSelectionChanged();
-        slotDisplayFileSelectionInfo();
+        slotSelectionChanged();
     }
 }
 
@@ -441,7 +437,7 @@ void KonqKfmIconView::slotUnselect()
 
         // do this once, not for each item
         m_pIconView->slotSelectionChanged();
-        slotDisplayFileSelectionInfo();
+        slotSelectionChanged();
     }
 }
 
@@ -515,18 +511,18 @@ void KonqKfmIconView::slotSortDescending()
 
 void KonqKfmIconView::slotSortDirsFirst()
 {
-  m_pIconView->setSortDirectoriesFirst( m_paSortDirsFirst->isChecked() );
+    m_pIconView->setSortDirectoriesFirst( m_paSortDirsFirst->isChecked() );
 
-  setupSortKeys();
+    setupSortKeys();
 
-  m_pIconView->sort( m_pIconView->sortDirection() );
+    m_pIconView->sort( m_pIconView->sortDirection() );
 }
 
 void KonqKfmIconView::guiActivateEvent( KParts::GUIActivateEvent *event )
 {
-  KParts::ReadOnlyPart::guiActivateEvent( event );
-  if ( event->activated() )
-    m_pIconView->slotSelectionChanged();
+    KParts::ReadOnlyPart::guiActivateEvent( event );
+    if ( event->activated() )
+        m_pIconView->slotSelectionChanged();
 }
 
 void KonqKfmIconView::slotViewLarge( bool b )
@@ -710,50 +706,36 @@ void KonqKfmIconView::slotCompleted()
 
 void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 {
-  KFileItemListIterator it(entries);
-  for (; it.current(); ++it) {
-
-    KonqFileItem * _fileitem = static_cast<KonqFileItem *>(it.current());
-
-    if ( !S_ISDIR( _fileitem->mode() ) )
+    for (KFileItemListIterator it(entries); it.current(); ++it)
     {
-        m_lDirSize += _fileitem->size();
-        m_lFileCount++;
+        KonqFileItem * _fileitem = static_cast<KonqFileItem *>(it.current());
+
+        //kdDebug(1202) << "KonqKfmIconView::slotNewItem(...)" << _fileitem->url().url() << endl;
+        KFileIVI* item = new KFileIVI( m_pIconView, _fileitem,
+                                       m_pIconView->iconSize() );
+        item->setRenameEnabled( false );
+
+        QString key;
+
+        switch ( m_eSortCriterion )
+        {
+            case NameCaseSensitive: key = item->text(); break;
+            case NameCaseInsensitive: key = item->text().lower(); break;
+            case Size: key = makeSizeKey( item ); break;
+            case Type: key = item->item()->mimetype(); break; // ### slows down listing :-(
+            default: ASSERT(0);
+        }
+
+        item->setKey( key );
+
+        m_lstPendingMimeIconItems.append( item );
     }
-    else
-        m_lDirCount++;
-
-    //kdDebug(1202) << "KonqKfmIconView::slotNewItem(...)" << _fileitem->url().url() << endl;
-    KFileIVI* item = new KFileIVI( m_pIconView, _fileitem,
-                                   m_pIconView->iconSize() );
-    item->setRenameEnabled( false );
-
-    QString key;
-
-    switch ( m_eSortCriterion )
-    {
-    case NameCaseSensitive: key = item->text(); break;
-    case NameCaseInsensitive: key = item->text().lower(); break;
-    case Size: key = makeSizeKey( item ); break;
-    case Type: key = item->item()->mimetype(); break; // ### slows down listing :-(
-    default: ASSERT(0);
-    }
-
-    item->setKey( key );
-
-    m_lstPendingMimeIconItems.append( item );
-  }
+    KonqDirPart::newItems( entries );
 }
 
 void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
 {
-    if ( !S_ISDIR( _fileitem->mode() ) )
-    {
-        m_lDirSize -= _fileitem->size();
-        m_lFileCount--;
-    }
-    else
-        m_lDirCount--;
+    KonqDirPart::deleteItem( _fileitem );
 
     //kdDebug(1202) << "KonqKfmIconView::slotDeleteItem(...)" << endl;
     // we need to find out the iconcontainer item containing the fileitem
@@ -809,33 +791,11 @@ void KonqKfmIconView::slotCloseView()
     //delete this; // we need better support for this first
 }
 
-void KonqKfmIconView::slotDisplayFileSelectionInfo()
+void KonqKfmIconView::slotSelectionChanged()
 {
-    long fileSizeSum = 0;
-    long fileCount = 0;
-    long dirCount = 0;
-
+    // Display statusbar info, and emit selectionInfo
     KFileItemList lst = m_pIconView->selectedFileItems();
-    KFileItemListIterator it( lst );
-
-    for (; it.current(); ++it )
-        if ( S_ISDIR( it.current()->mode() ) )
-            dirCount++;
-        else // what about symlinks ?
-        {
-            fileSizeSum += it.current()->size();
-            fileCount++;
-        }
-
-    if ( lst.count() > 0 ) {
-        emit setStatusBarText( displayString(lst.count(),
-                                             fileCount,
-                                             fileSizeSum,
-                                             dirCount));
-    } else
-        slotOnViewport();
-
-    emit m_extension->selectionInfo( lst );
+    emitCounts( lst, true );
 }
 
 void KonqKfmIconView::slotViewportAdjusted()
@@ -967,9 +927,8 @@ bool KonqKfmIconView::openURL( const KURL & url )
     }
 
     m_bLoading = true;
-    m_lDirSize = 0;
-    m_lFileCount = 0;
-    m_lDirCount = 0;
+
+    resetCount();
 
     // Store url in the icon view
     m_pIconView->setURL( url );
@@ -1014,44 +973,13 @@ bool KonqKfmIconView::openURL( const KURL & url )
 
 void KonqKfmIconView::slotOnItem( QIconViewItem *item )
 {
-  emit setStatusBarText( ((KFileIVI *)item)->item()->getStatusBarInfo() );
+    emit setStatusBarText( ((KFileIVI *)item)->item()->getStatusBarInfo() );
 }
 
 void KonqKfmIconView::slotOnViewport()
 {
-    QIconViewItem *it = m_pIconView->firstItem();
-    for (; it; it = it->nextItem() )
-        if ( it->isSelected() )
-        {
-            slotDisplayFileSelectionInfo();
-            return;
-        }
-
-    emit setStatusBarText(
-      displayString(m_pIconView->count(),
-                    m_lFileCount,
-                    m_lDirSize,
-                    m_lDirCount));
-}
-
-uint KonqKfmIconView::itemCount() const
-{
-  return m_pIconView->count();
-}
-
-uint KonqKfmIconView::dirSize() const
-{
-  return m_lDirSize;
-}
-
-uint KonqKfmIconView::dirCount() const
-{
-  return m_lDirCount;
-}
-
-uint KonqKfmIconView::fileCount() const
-{
-  return m_lFileCount;
+    KFileItemList lst = m_pIconView->selectedFileItems();
+    emitCounts( lst, false );
 }
 
 void KonqKfmIconView::setViewMode( const QString &mode )
