@@ -1,7 +1,11 @@
 [Desktop Entry]
 Type=Service
 Exec=blahfoo
-Comment=TextView
+Comment=Text View
+Comment[ca]=Vista de text
+Comment[hu]=Szöveges nézet
+Comment[no]=Trevisning
+Comment[no_NY]=Tekstvising
 MimeType=inode/directory
 Name=KonqTextView
 ServiceTypes=Browser/View

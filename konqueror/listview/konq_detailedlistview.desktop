@@ -2,8 +2,13 @@
 Type=Service
 Exec=blahfoo
 Comment=Detailed List View
+Comment[ca]=Vista de llista detallada
+Comment[hu]=Részletes lista nézet
+Comment[no]=Detaljert listevisning
+Comment[no_NY]=Detaljert listevising
+Comment[ro]=Vizualizare listă detaliată
 MimeType=inode/directory
-Name=KonqDetailedfListView
+Name=KonqDetailedListView
 ServiceTypes=KParts/ReadOnlyPart,Browser/View
 X-KDE-Library=libkonqlistview
 X-KDE-BrowserView-Args=DetailedList
