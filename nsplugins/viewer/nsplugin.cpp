@@ -308,7 +308,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    String n, c;
    XtGetApplicationNameAndClass(qt_xdisplay(), &n, &c);
 
-   _toplevel = XtAppCreateShell("shell", c, topLevelShellWidgetClass,
+   _toplevel = XtAppCreateShell("pane", c, topLevelShellWidgetClass,
                                 qt_xdisplay(), args, nargs);
 
    // What exactly does widget mapping mean? Without this call the widget isn't
@@ -321,8 +321,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    XtRealizeWidget(_form);
 
    // Create widget that is passed to the plugin
-   _area = XmCreateDrawingArea(_form, (char*)("pane" /*"drawingArea"*/), args, nargs);
-   //_area = XtCreateManagedWidget( "drawingArea", constraintWidgetClass, _form, args, nargs );
+   _area = XmCreateDrawingArea( _form, (char*)("drawingArea"), args, nargs);
    XtRealizeWidget(_area);
    XtMapWidget(_area);
 
