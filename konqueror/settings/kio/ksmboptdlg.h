@@ -36,14 +36,14 @@ private:
 	QLabel *labelInfo2;
 
 	// Network related options
-	QLabel *labelNet;             // Network section label
+	QGroupBox *groupNet;          // Network section group
 	QLabel *labelBrowseServer;    // Browse server label
 	QLineEdit *editBrowseServer;  // Browse server field
 	QLabel *labelBroadcast;       // Broadcast address label
 	QLineEdit *editBroadcast;     // Broadcast address field
 
 	// User related options
-	QLabel *labelUser;            // User settings label
+	QGroupBox *groupUser;         // User settings group
 	QLabel *labelDefaultUser;     // Default user label
 	QLineEdit *editDefaultUser;   // Default user field
 	QLabel *labelPassword;        // Remember password label (+ warning !)
