@@ -38,6 +38,16 @@ KSocksConfig::KSocksConfig(QWidget *parent)
   : KCModule(parent, "kcmkio")
 {
 
+  KAboutData *about =
+  new KAboutData(I18N_NOOP("kcmsocks"), I18N_NOOP("KDE SOCKS Control Module"),
+                0, 0, KAboutData::License_GPL,
+                I18N_NOOP("(c) 2001 George Staikos"));
+
+  about->addAuthor("George Staikos", 0, "staikos@kde.org");
+
+  setAboutData( about );
+
+
   QVBoxLayout *layout = new QVBoxLayout(this, KDialog::marginHint(), KDialog::spacingHint());
   base = new SocksBase(this);
   layout->add(base);
@@ -262,19 +272,6 @@ QString KSocksConfig::quickHelp() const
      " as described in <a href=\"http://rfc.net/rfc1928.html\">RFC 1928</a>."
      " <p>If you have no idea what this is and if your system administrator does not"
      " tell you to use it, leave it disabled.</p>");
-}
-
-const KAboutData* KSocksConfig::aboutData() const
-{
-
-    KAboutData *about =
-    new KAboutData(I18N_NOOP("kcmsocks"), I18N_NOOP("KDE SOCKS Control Module"),
-                  0, 0, KAboutData::License_GPL,
-                  I18N_NOOP("(c) 2001 George Staikos"));
-
-    about->addAuthor("George Staikos", 0, "staikos@kde.org");
-
-    return about;
 }
 
 

@@ -73,6 +73,25 @@ extern "C"
 KJSParts::KJSParts(KConfig *config, QWidget *parent, const char *name)
 	: KCModule(parent, name), mConfig(config)
 {
+  KAboutData *about =
+  new KAboutData(I18N_NOOP("kcmkonqhtml"), I18N_NOOP("Konqueror Browsing Control Module"),
+                0, 0, KAboutData::License_GPL,
+                I18N_NOOP("(c) 1999 - 2001 The Konqueror Developers"));
+
+  about->addAuthor("Waldo Bastian",0,"bastian@kde.org");
+  about->addAuthor("David Faure",0,"faure@kde.org");
+  about->addAuthor("Matthias Kalle Dalheimer",0,"kalle@kde.org");
+  about->addAuthor("Lars Knoll",0,"knoll@kde.org");
+  about->addAuthor("Dirk Mueller",0,"mueller@kde.org");
+  about->addAuthor("Daniel Molkentin",0,"molkentin@kde.org");
+  about->addAuthor("Wynn Wilkes",0,"wynnw@caldera.com");
+  
+  about->addCredit("Leo Savernik",I18N_NOOP("JavaScript access controls\n"
+    			"Per-domain policies extensions"),
+			"l.savernik@aon.at");
+
+  setAboutData( about );
+
   QVBoxLayout *layout = new QVBoxLayout(this);
   tab = new QTabWidget(this);
   layout->addWidget(tab);
@@ -144,25 +163,4 @@ QString KJSParts::quickHelp() const
               "JavaScript programs." );
 }
 
-const KAboutData* KJSParts::aboutData() const
-{
-    KAboutData *about =
-    new KAboutData(I18N_NOOP("kcmkonqhtml"), I18N_NOOP("Konqueror Browsing Control Module"),
-                  0, 0, KAboutData::License_GPL,
-                  I18N_NOOP("(c) 1999 - 2001 The Konqueror Developers"));
-
-    about->addAuthor("Waldo Bastian",0,"bastian@kde.org");
-    about->addAuthor("David Faure",0,"faure@kde.org");
-    about->addAuthor("Matthias Kalle Dalheimer",0,"kalle@kde.org");
-    about->addAuthor("Lars Knoll",0,"knoll@kde.org");
-    about->addAuthor("Dirk Mueller",0,"mueller@kde.org");
-    about->addAuthor("Daniel Molkentin",0,"molkentin@kde.org");
-    about->addAuthor("Wynn Wilkes",0,"wynnw@caldera.com");
-    
-    about->addCredit("Leo Savernik",I18N_NOOP("JavaScript access controls\n"
-    					"Per-domain policies extensions"),
-					"l.savernik@aon.at");
-
-    return about;
-}
 

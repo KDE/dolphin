@@ -48,7 +48,6 @@ public:
 
   int buttons();
   QString quickHelp() const;
-  const KAboutData* aboutData() const;
 
 public slots:
   void configChanged();
