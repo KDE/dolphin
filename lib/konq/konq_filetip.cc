@@ -249,7 +249,8 @@ void KonqFileTip::hideTip()
 {
     m_timer->stop();
     setFilter( false );
-    if ( isShown() && m_view && m_view->viewport() )
+    if ( isShown() && m_view && m_view->viewport() &&
+         (m_view->horizontalScrollBar()->isShown() || m_view->verticalScrollBar()->isShown()) )
       m_view->viewport()->update();
     hide();
 }
