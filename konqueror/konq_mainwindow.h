@@ -461,6 +461,8 @@ private slots:
   void goURL();
 
   void bookmarksIntoCompletion();
+  
+  void initBookmarkBar();  
 
 private:
   /**
