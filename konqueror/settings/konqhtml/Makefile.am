@@ -11,6 +11,11 @@ libkcm_konqhtml_la_SOURCES = main.cpp htmlopts.cpp \
 libkcm_konqhtml_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
 libkcm_konqhtml_la_LIBADD = -lkdeui
 
+data_DATA = konqhtml.desktop
+datadir = $(kde_appsdir)/Settings/Browsing/Web
+
+EXTRA_DIST = $(data_DATA)
+
 messages:
 	$(XGETTEXT) $(libkcm_konqhtml_la_SOURCES) -o $(podir)/kcmkonqhtml.pot
 

@@ -14,7 +14,10 @@ libkcm_konq_la_LIBADD = $(LIB_KIO) $(LIB_KDEUI)
 libkcm_konq_la_DATA = overlapping.png onlyone.png
 libkcm_konq_ladir = $(kde_datadir)/kcontrol/pics
 
-EXTRA_DIST = $(libkcm_konq_la_DATA)
+data_DATA = kcmkonq.desktop
+datadir = $(kde_appsdir)/Settings/Browsing/Files
+
+EXTRA_DIST = $(libkcm_konq_la_DATA) $(data_DATA)
 
 messages:
 	$(XGETTEXT) $(libkcm_konq_la_SOURCES) -o $(podir)/kcmkonq.pot

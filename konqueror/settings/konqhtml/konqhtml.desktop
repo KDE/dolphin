@@ -1,0 +1,59 @@
+[Desktop Entry]
+Type=Application
+DocPath=kcontrol/kcmkonq/konq-1.html
+Icon=konqueror
+Exec=kcmshell Browsing/Web/konqhtml
+
+X-KDE-ModuleType=Library
+X-KDE-LibraryName=konqhtml
+X-KDE-FactoryName=html
+X-KDE-ControlModuleType=User
+X-KDE-HideFromPanel=true
+
+
+Name=Konqueror Browser
+Name[ca]=Fullejador Konqueror
+Name[cs]=Prohlížeč Konqueror
+Name[eo]=Konkeranto
+Name[fi]=Konqueror Selain
+Name[fr]=Navigateur Konqueror
+Name[he]=Konqueror ןפדפד
+Name[hu]=Konqueror Böngésző
+Name[it]=Browser Konqueror
+Name[ja]=Konquerorブラウザ
+Name[no]=Konqueror nettlos
+Name[no_NY]=Konqueror nettlesar
+Name[pt]=Navegador Konqueror
+Name[ro]=Navigator de web Konqueror
+Name[sl]=Brkljalnik Konqueror
+Name[sv]=Erövraren (bläddrare)
+Name[ta]=Konqueror ¯Ä¡Å¢
+
+Comment=Configure the look and feel of the Internet Browser called Konqueror
+Comment[ca]=Configura l'aspecte i efecte del fullejador Internet anomenat Konqueror
+Comment[cs]=Zde můžete nastavit vzhled a chování internetového prohlížeče zvaného Konqueror
+Comment[de]=Hier können Sie das Aussehen von Konqueror einstellen, dem Internet-Browser
+Comment[eo]=Agordaĵo de Konkeranto
+Comment[fi]=Muokkaa Konqueror Internet-selaimen ulkonäköä ja toimintoja
+Comment[fr]=Configuration du comportement du Navigateur Internet appelé Konqueror
+Comment[he]=Konqueror ארקנה טנרטניאה ןפדפד לש השוחתהו הארמה תרדגה
+Comment[hu]=Itt lehet megváltoztatni a Konqueror internet böngésző beállításait
+Comment[it]=Configura l'aspetto del browser Internet chiamato Konqueror
+Comment[ja]=ここでインターネットブラウザ、Konquerorのルック&フィールを設定します
+Comment[no]=Her kan du konfigurere hvordan nettlosen Konqueror skal føles og se ut
+Comment[no_NY]=Du kan setja opp utsjånaden til nettlesaren Konqueror her
+Comment[pt]=Configuração do navegador de internet Conquistador
+Comment[ro]=Configurează aspectul navigatorului de web Konqueror
+Comment[sl]=Nastavite videz in delovanje spletnega brkljalnika, imenovanega Konqueror.
+Comment[sv]=Här kan du ställa in internetbläddraren Erövrarens utseende och känsla
+Comment[ta]=konqueror ±ýÈ ­¨½Â ¯Ä¡Å¢Â¢ý §¾¡üÈõ ÁüÚõ ¯½÷¨Å À¨¼ì¸×õ
+
+Keywords=konqueror,kfm,browser,html,web,www,fonts,colours,colors,java,javascript
+Keywords[ca]=konqueror,kfm,fullejador,html,web,www,fonts,colors,java,javascript
+Keywords[de]=konqueror,kfm,browser,html,web,www,schriften,farben,java,javascript
+Keywords[hu]=konqueror,kfm,böngésző,html,web,www,betűtípusok,színek,java,javascript
+Keywords[no]=konqueror,kfm,nettlos,html,web,www,vev,verdensveven,skriftyper,farger,java,javaskriptipt
+Keywords[no_NY]=konqueror,kfm,nettlesar,html,web,www,skrifttypar,fargar,java,javascript
+Keywords[pt]=konqueror,kfm,navegador,html,web,www,fontes,cores,java,javascript
+Keywords[ro]=konqueror,kfm,navigator,browser,html,web,www,font,culori,java,javascript
+Keywords[sl]=konqueror,kfm,brskalnik,html,splet,www,pisave,barve,java,javascript

@@ -1,0 +1,59 @@
+[Desktop Entry]
+Type=Application
+DocPath=kcontrol/kcmkonq/konq-1.html
+Icon=kfm
+Exec=kcmshell Browsing/Files/kcmkonq
+
+X-KDE-ModuleType=Library
+X-KDE-LibraryName=konq
+X-KDE-FactoryName=konqueror
+X-KDE-ControlModuleType=User
+X-KDE-HideFromPanel=true
+
+Name=File Manager
+Name[ca]=Gestor de fitxers
+Name[cs]=Správce souborů
+Name[de]=Datei-Manager
+Name[eo]=Dosieradministrilo
+Name[fi]=Tiedostonhallinta
+Name[fr]=Gestionnaire de fichiers
+Name[he]=םיצבקה להנמ
+Name[hu]=Fájlkezelő
+Name[it]=File manager
+Name[ja]=ファイルマネージャ
+Name[no]=Filbehandler
+Name[no_NY]=Filbehandsamar
+Name[pt]=Gestor de Ficheiros
+Name[ro]=Manager de fişiere
+Name[sl]=Upravljalnik datotek
+Name[sv]=Filhanterare
+Name[ta]=§¸¡ôÒ §ÁÄ¡Ç÷
+
+Comment=You can configure the look and feel of the Konqueror here
+Comment[ca]=Aquí podeu configurar l'aspecte i efecte del Konqueror
+Comment[cs]=Zde můžete nastavit vzhled a chování programu Konqueror
+Comment[de]=Hier können Sie das Aussehen von Konqueror einstellen
+Comment[eo]=Agordaĵo de Konkeranto
+Comment[fi]=Muokkaa Konquerorin ulkonäköä ja toimintoja
+Comment[fr]=Configuration du comportement du Gestionnaire de fichiers
+Comment[he]=Konqueror לש השוחתהו הארמה תרדגה
+Comment[hu]=Itt lehet megváltoztatni a Konqueror beállításait
+Comment[it]=Qui puoi configurare l'aspetto di Konqueror
+Comment[ja]=ここでKonquerorのルック&フィールを設定します
+Comment[no]=Her kan du konfigurere hvordan Konqueror skal føles og se ut
+Comment[no_NY]=Du kan setja opp utsjånaden til Konqueror her
+Comment[pt]=Configuração do gestor de ficheiros
+Comment[ro]=Configurează aspectul managerului de fişiere Konqueror
+Comment[sl]=Tu lahko nastavite videz in delovanje brkljalnika Konqueror
+Comment[sv]=Här kan du ställa in Erövrarens utseende och känsla
+Comment[ta]=konqueror ­ý §¾¡üÈõ ÁüÚõ ¯½÷¨Å ­í§¸ À¨¼ì¸×õ
+
+Keywords=konqueror,filemanager,kfm,removing,trash,colours,colors,files,icons
+Keywords[ca]=konqueror,gestor de fitxers,kfm,esborrat,paperera,colors,fitxers,icones
+Keywords[de]=konqueror,dateimanager,kfm,entfernen,papierkorb,farben,dateien,symbole,icons
+Keywords[hu]=konqueror,fájlkezelő,kfm,eltávolítás,kuka,színek,fájlok,ikonok,file
+Keywords[no]=konqueror,filbehandler,kfm,fjerning,søppel,farger,filer,ikoner
+Keywords[no_NY]=konqueror,filhandsamar,kfm,fjerning,papirkorg,fargar,filer,ikon
+Keywords[pt]=konqueror,gestor de ficheiros,kfm,apagar,lixo,cores,ficheiros,ícones
+Keywords[ro]=konqueror,manager,fişiere,kfm,şterge,gunoi,culori,iconiţe
+Keywords[sl]=konqueror,datote�ni upravljalnik,kfm,odstranitev,smeti,barve,datoteke,ikone
