@@ -231,14 +231,12 @@ extern "C"
 
   KCModule *create_konqueror(QWidget *parent, const char *name)
   {
-    KGlobal::locale()->insertCatalogue("kcmkonq");
-    return new KonqyModule(parent, name);
+    return new KonqyModule(parent, "kcmkonq");
   }
 
   KCModule *create_desktop(QWidget *parent, const char *name)
   {
-    KGlobal::locale()->insertCatalogue("kcmkonq");
-    return new KDesktopModule(parent, name);
+    return new KDesktopModule(parent, "kcmkonq");
   }
 
 }

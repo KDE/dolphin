@@ -169,16 +169,4 @@ void KonqHTMLModule::moduleChanged(bool state)
 {
   emit changed(state);
 }
-/*
-extern "C"
-{
-
-  KCModule *create_html(QWidget *parent, const char *name)
-  {
-    KGlobal::locale()->insertCatalogue("kcmkonqhtml");
-    return new KonqHTMLModule(parent, name);
-  }
-
-}
-*/
 

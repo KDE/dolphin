@@ -36,8 +36,7 @@ extern "C"
 {
   KCModule *create_virtualdesktops(QWidget *parent, const char *name)
   {
-    KGlobal::locale()->insertCatalogue("kcmkonq");
-    return new KDesktopConfig(parent, name);
+    return new KDesktopConfig(parent, "kcmkonq");
   };
 }
 

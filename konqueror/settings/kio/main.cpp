@@ -19,38 +19,32 @@ extern "C"
 
   KCModule *create_cookie(QWidget *parent, const char *name)
   {
-    KGlobal::locale()->insertCatalogue("kcmkio");
-    return new KCookiesMain(parent, name);
+    return new KCookiesMain(parent, "kcmkio");
   };
 
   KCModule *create_smb(QWidget *parent, const char *name)
   {
-    KGlobal::locale()->insertCatalogue("kcmkio");
-    return new SMBRoOptions(parent, name);
+    return new SMBRoOptions(parent, "kcmkio");
     //return new KSMBOptions(parent, name);
   };
 
   KCModule *create_useragent(QWidget *parent, const char *name)
   {
-    KGlobal::locale()->insertCatalogue("kcmkio");
-    return new UserAgentOptions(parent, name);
+    return new UserAgentOptions(parent, "kcmkio");
   };
 
   KCModule *create_proxy(QWidget *parent, const char *name)
   {
-    KGlobal::locale()->insertCatalogue("kcmkio");
-    return new KProxyDialog(parent, name);
+    return new KProxyDialog(parent, "kcmkio");
   };
 
   KCModule *create_cache(QWidget *parent, const char *name)
   {
-    KGlobal::locale()->insertCatalogue("kcmkio");
-    return new KCacheConfigDialog( parent, name );
+    return new KCacheConfigDialog( parent, "kcmkio" );
   };
 
   KCModule *create_netpref(QWidget *parent, const char *name)
   {
-    KGlobal::locale()->insertCatalogue("kcmkio");
-    return new KIOPreferences(parent, name);
+    return new KIOPreferences(parent, "kcmkio");
   };
 }
