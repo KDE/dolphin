@@ -75,14 +75,8 @@ void KHTMLPluginKTTSD::slotReadOut()
         if (!client->isApplicationRegistered("kttsd"))
         {
             QString error;
-            if (kapp->startServiceByName("KTTSD", QStringList(), &error))
+            if (kapp->startServiceByDesktopName("kttsd", QStringList(), &error))
                 QMessageBox::warning(0, i18n( "Starting KTTSD Failed"), error );
-            else
-            {
-                // Give KTTSD time to load.
-                QTimer::singleShot(1000, this, SLOT(slotReadOut()));
-                return;
-            }
         }
         QByteArray  data;
         QByteArray  data2;
