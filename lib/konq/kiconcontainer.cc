@@ -1044,7 +1044,8 @@ void KIconContainer::viewportMouseMoveEvent( QMouseEvent *_mouse )
 
     // kdebug( KDEBUG_INFO, 1205, "Starting drag");
     
-    QPoint hotspot;
+    QPoint hotspot = _mouse->pos() - m_pressedItem->position();
+
     QPixmap pix;
     // Multiple icons ?
     if ( lst.count() > 1 )
@@ -1055,9 +1056,7 @@ void KIconContainer::viewportMouseMoveEvent( QMouseEvent *_mouse )
       pix = QPixmap( 1, 1 );  // HACK
       pix.fill();
       // the hotspot doesn't matter at all
-    }
-    else
-    {
+    } else {
       pix = QPixmap( m_pressedItem->width(), m_pressedItem->height() );
       pix.fill();
       kdebug( KDEBUG_INFO, 1205, "==== w=%i h=%i ======", m_pressedItem->width(), m_pressedItem->height() );
@@ -1066,17 +1065,6 @@ void KIconContainer::viewportMouseMoveEvent( QMouseEvent *_mouse )
       m_pressedItem->paint( &painter, true );
       painter.end();
       pix.setMask( pix.createHeuristicMask() );
-
-      // This is wrong I think, because of the way it looks when trying it ! (David)
-      hotspot.setX( _mouse->pos().x() - ( m_pressedItem->x() - contentsX() ) );
-      hotspot.setY( _mouse->pos().y() - ( m_pressedItem->y() - contentsY() ) );
-      // Not good either... :(
-      //hotspot.setX( m_pressedItem->pixmap().width() / 2 );
-      //hotspot.setY( m_pressedItem->pixmap().height() / 2 );
-      //pix = m_pressedItem->pixmap();
-
-      // Ok got it. The relevant code is commented out in Qt ! (qdnd_x11.cpp)
-      // Well that will be for later then :))
     }
 
     KIconDrag* drag = new KIconDrag( viewport() );
@@ -1085,10 +1073,13 @@ void KIconContainer::viewportMouseMoveEvent( QMouseEvent *_mouse )
     QListIterator<KIconContainerItem> icit( lst );
     for( ; *icit; ++icit )
     {
-      drag->append( KIconDrag::Icon( (*icit)->name(), (*icit)->position() - _mouse->pos() ) );
+      drag->append( KIconDrag::Icon( (*icit)->name(), 
+				     (*icit)->position() - _mouse->pos() ) );
     }
     
     drag->setPixmap( pix, hotspot );
+    debug("hotspot is %d, %d",drag->pixmapHotSpot().x(),
+	  drag->pixmapHotSpot().y());
     drag->drag();
   }
 }
