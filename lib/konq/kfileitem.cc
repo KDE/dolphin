@@ -154,7 +154,10 @@ QPixmap KFileItem::pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) 
 {
   if ( m_pMimeType->name().left(6) == "image/" && m_bIsLocalURL && bImagePreviewAllowed )
   {
-    QString xvpicPath = m_url.directory()+"/.xvpics/"+m_url.filename();
+    QString xvpicPath = m_url.directory() +
+                  // Append .xvpics if not already in an .xvpics dir
+                  ((KURL(m_url.directory()).filename(true) != ".xvpics") ? "/.xvpics/" : "/");
+    xvpicPath += m_url.filename();
     QPixmap pix;
 
     // Is the xv pic available ?
