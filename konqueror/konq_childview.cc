@@ -162,7 +162,7 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
   {
 
     KTrader::OfferList serviceOffers;
-    KService::Ptr service;
+    KService::Ptr service = 0L;
     KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &serviceOffers );
 
     if ( viewFactory.isNull() )
