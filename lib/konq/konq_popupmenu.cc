@@ -257,11 +257,11 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   QValueList<KDEDesktopMimeType::Service> user;
 
   // 1 - Look for builtin and user-defined services
-  if ( m_sMimeType == "application/x-desktop" && m_lstItems.count() == 1 ) // .desktop file
+  if ( m_sMimeType == "application/x-desktop" && m_lstItems.count() == 1 && m_lstItems.first()->url().isLocalFile() ) // .desktop file
   {
       // get builtin services, like mount/unmount
       builtin = KDEDesktopMimeType::builtinServices( m_lstItems.first()->url() );
-      user = KDEDesktopMimeType::userDefinedServices( m_lstItems.first()->url() );
+      user = KDEDesktopMimeType::userDefinedServices( m_lstItems.first()->url().path(), url.isLocalFile() );
   }
 
   // 2 - Look for "servicesmenus" bindings (konqueror-specific user-defined services)
@@ -284,14 +284,13 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
           cfg.setDesktopGroup();
 
           if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) )
-
+          {
               if ( ( !m_sMimeType.isNull() && cfg.readListEntry( "ServiceTypes" ).contains( m_sMimeType ) )
                    || ( cfg.readEntry( "ServiceTypes" ) == "allfiles" ) )
               {
-                  KURL u;
-                  u.setPath( *dIt + *eIt );
-                  user += KDEDesktopMimeType::userDefinedServices( u );
+                  user += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, url.isLocalFile() );
               }
+          }
       }
   }
 
