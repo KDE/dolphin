@@ -101,6 +101,7 @@ public slots:
    virtual void rename(QListViewItem *item, int c);
 
    void slotSelectionChanged();
+   void slotCurrentChanged(QListViewItem*);
    void slotContextMenu(KListView *, QListViewItem *, const QPoint &);
    void slotItemRenamed(QListViewItem *, const QString &, int);
    void slotDoubleClicked(QListViewItem *, const QPoint &, int);
@@ -148,14 +149,11 @@ public:
    QString userAddress();
 
    // gui stuff - DESIGN - all of it???
-   void updateLastAddress();
    void updateSelectedItems(); // DESIGN - rename?
    void updateListView();
    SelcAbilities getSelectionAbilities();
    void emitSlotSelectionChanged() { emit handleSelectionChanged(m_listView); }
    void setOpen(bool open); // DESIGN -rename to setAllOpenFlag
-   void updateTree();
-   void fillWithGroup(KEBListView *, KBookmarkGroup, KEBListViewItem * = 0);
    void setCurrent(KEBListViewItem *item);
    void renameNextCell(bool dir);
 
@@ -170,11 +168,15 @@ public:
 
    void handleDropped(KEBListView *, QDropEvent *, QListViewItem *, QListViewItem *);
    void handleSelectionChanged(KEBListView *);
+   void handleCurrentChanged(KEBListView *, QListViewItem *);
    void handleContextMenu(KEBListView *, KListView *, QListViewItem *, const QPoint &);
    void handleDoubleClicked(KEBListView *, QListViewItem *, const QPoint &, int);
    void handleItemRenamed(KEBListView *, QListViewItem *, const QString &, int);
 
 private:
+   void updateTree();
+   void fillWithGroup(KEBListView *, KBookmarkGroup, KEBListViewItem * = 0);
+
    ListView();
    static ListView *s_self;
    void deselectParents(KEBListViewItem *item);

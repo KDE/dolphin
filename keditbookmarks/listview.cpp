@@ -123,10 +123,14 @@ void ListView::connectSignals() {
    }
 }
 
-// fowards
+// forwards - fixme - this should actually be used :)
 
 void KEBListView::slotSelectionChanged() { 
   ListView::self()->handleSelectionChanged(this); 
+}
+
+void KEBListView::slotCurrentChanged(QListViewItem *a) { 
+  ListView::self()->handleCurrentChanged(this, a); 
 }
 
 void KEBListView::slotContextMenu(KListView *a, QListViewItem *b, const QPoint &c) {
@@ -148,6 +152,8 @@ void KEBListView::slotDropped(QDropEvent *a, QListViewItem *b, QListViewItem *c)
 void ListView::connectSignals(KEBListView *listview) {
    connect(listview, SIGNAL( selectionChanged() ),
            listview, SLOT( slotSelectionChanged() ));
+   connect(listview, SIGNAL( currentChanged(QListViewItem *) ),
+           listview, SLOT( slotCurrentChanged(QListViewItem *) ));
    connect(listview, SIGNAL( contextMenu(KListView *, QListViewItem*, const QPoint &) ),
            listview, SLOT( slotContextMenu(KListView *, QListViewItem *, const QPoint &) ));
    connect(listview, SIGNAL( itemRenamed(QListViewItem *, const QString &, int) ),
@@ -332,18 +338,6 @@ QValueList<KBookmark> ListView::allBookmarks() {
    return bookmarks;
 }
 
-void ListView::updateLastAddress() {
-   KEBListViewItem *lastItem = 0;
-   for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); it.current() != 0; ++it) {
-      if ((it.current()->isSelected()) && !it.current()->isEmptyFolder()) {
-         lastItem = it.current();
-      }
-   }
-   if (lastItem) {
-      m_last_selection_address = lastItem->bookmark().address();
-   }
-}
-
 // DESIGN - make + "/0" a kbookmark:: thing?
 
 QString ListView::userAddress() {
@@ -473,28 +467,10 @@ void ListView::updateListView() {
          selected_addresses << it.current()->bookmark().address();
       }
    }
-
    updateTree();
-
-   KEBListViewItem *item = 0;
-
-   // re-select previously selected items
-   for (QStringList::Iterator ait = selected_addresses.begin(); ait != selected_addresses.end(); ++ait) {
-      item = getItemAtAddress(*ait);
-      if (item) {
-         m_listView->setSelected(item, true);
-      }
+   if (selectedItems()->count() == 0) {
+      m_listView->setSelected(m_listView->currentItem(), true);
    }
-
-   // fallback, if no selected items
-   if (!item) {
-      QString addr = 
-         CurrentMgr::self()->correctAddress(m_last_selection_address);
-      item = getItemAtAddress(addr);
-      m_listView->setSelected(item, true);
-   }
-
-   setCurrent(item);
 }
 
 void ListView::updateTree() {
@@ -531,7 +507,7 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
          }
          if (!m_splitView && grp.first().isNull()) {
             // empty folder
-            new KEBListViewItem(item, item); 
+            item = new KEBListViewItem(item, item); 
          }
          lastItem = item;
 
@@ -545,18 +521,31 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
                  : new KEBListViewItem(lv, bk));
          lastItem = item;
       }
+      QString addr = CurrentMgr::self()->correctAddress(m_last_selection_address);
+      if (bk.address() == addr) {
+         lv->setCurrentItem(item);
+      }
+      if (selected_addresses.contains(bk.address())) {
+         lv->setSelected(item, true);
+      }
    }
 }
 
-void ListView::handleSelectionChanged(KEBListView *lv) {
-   Q_UNUSED(lv);
+void ListView::handleCurrentChanged(KEBListView *, QListViewItem *item) {
+   KEBListViewItem *currentItem = static_cast<KEBListViewItem *>(item);
+   // hasParent is paranoid, after some thinking remove it
+   if (currentItem && currentItem->bookmark().hasParent()) {
+      m_last_selection_address = currentItem->bookmark().address();
+   }
+}
+
+void ListView::handleSelectionChanged(KEBListView *) {
    listview_is_dirty = true;
    KEBApp::self()->updateActions();
    updateSelectedItems();
 }
 
-void ListView::handleContextMenu(KEBListView *lv, KListView *, QListViewItem *qitem, const QPoint &p) {
-   Q_UNUSED(lv);
+void ListView::handleContextMenu(KEBListView *, KListView *, QListViewItem *qitem, const QPoint &p) {
    KEBListViewItem *item = static_cast<KEBListViewItem *>(qitem);
    if (!item) {
       return;

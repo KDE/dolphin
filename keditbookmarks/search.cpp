@@ -171,7 +171,7 @@ void SearchItr::doAction() {
       SearchItrHolder::self()->addFind(curItem());
       // curItem()->setSelected(true); // only if no current selection?
       ListView::self()->openParents(curItem());
-      // ListView::self()->updateListView();
+      // WTF - ListView::self()->updateListView(); ???
       // set paintstyle also, thats most important, but will require 
       // refactoring stuff from items/testlink into itr base
    }

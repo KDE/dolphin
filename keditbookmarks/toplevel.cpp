@@ -128,7 +128,7 @@ void CurrentMgr::slotBookmarksChanged(const QString &, const QString &caller) {
       // umm.. what happens if a readonly gets a update for a non-readonly???
       // the non-readonly maybe has a pretty much random kapp->name() ??? umm...
       CmdHistory::self()->clearHistory();
-      ListView::self()->updateTree();
+      ListView::self()->updateListView();
       KEBApp::self()->updateActions();
    }
 }
@@ -197,7 +197,7 @@ void KEBApp::construct() {
    CurrentMgr::self()->createManager(m_bookmarksFilename);
 
    ListView::self()->updateListViewSetup(m_readOnly);
-   ListView::self()->updateTree();
+   ListView::self()->updateListView();
 
    slotClipboardDataChanged();
 
@@ -321,8 +321,8 @@ bool KEBApp::nsShown() {
    return getToggleAction("settings_showNS")->isChecked();
 }
 
+// this should be pushed from listview, not pulled
 void KEBApp::updateActions() {
-   ListView::self()->updateLastAddress();
    setActionsEnabled(ListView::self()->getSelectionAbilities());
 }
 
