@@ -1,6 +1,0 @@
-
-KDE_CHECK_HEADER(konq_operations.h, FOUND_KONQI="yes", FOUND_KONQI="no")
-
-if test "$FOUND_KONQI" != "yes"; then
-  DO_NOT_COMPILE="$DO_NOT_COMPILE kdepasswd"
-fi

@@ -7,7 +7,7 @@ kdepasswd_LDFLAGS = $(all_libraries)
 kdepasswd_LDADD = $(LIB_KIO)
 
 METASOURCES =  AUTO
-AM_CPPFLAGS= $(all_includes)
+AM_CPPFLAGS= $(all_includes) -I$(top_srcdir)/libkonq
 noinst_HEADERS = passwd.h passwddlg.h
 
 xdg_apps_DATA = kdepasswd.desktop
