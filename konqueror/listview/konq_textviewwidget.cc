@@ -45,7 +45,9 @@ KonqTextViewWidget::KonqTextViewWidget( KonqListView *parent, QWidget *parentWid
    kdDebug(1202) << "+KonqTextViewWidget" << endl;
    m_filenameColumn=1;
 
-   setAllColumnsShowFocus(TRUE);
+   // David: This breaks dropping things towards the current directory
+   // using the columns != Name.
+   //setAllColumnsShowFocus(TRUE);
    setRootIsDecorated(false);
 
    colors[KTVI_REGULAR]=Qt::black;

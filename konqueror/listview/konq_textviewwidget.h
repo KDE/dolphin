@@ -44,7 +44,6 @@ class KonqTextViewWidget : public KonqBaseListViewWidget
       virtual void slotNewItems( const KFileItemList & );
    protected:
       virtual void createColumns();
-      virtual bool isSingleClickArea( const QPoint& ) {return TRUE;};
 
       QColor colors[11];
       QColor highlight[11];
