@@ -23,6 +23,7 @@
 #include <qbitmap.h>
 #include <qlayout.h>
 #include <qsplitter.h>
+#include <qwhatsthis.h>
 
 #include <kapp.h>
 #include <kdebug.h>
@@ -73,6 +74,13 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
 {
    m_pLinkedViewCheckBox = new KonqCheckBox( this, "m_pLinkedViewCheckBox" );
    m_pLinkedViewCheckBox->show();
+   QWhatsThis::add( m_pLinkedViewCheckBox,
+                    i18n("Checking this box on at least two views sets those views as 'linked'. "
+                         "Then, when you change directories in one view, the other views "
+                         "linked with it will automatically update to show the current directory. "
+                         "This is especially useful with different types of views, such as a "
+                         "directory tree with an icon view or detailed view, and possibly a "
+                         "terminal emulator window." ) );
 
    m_pStatusLabel = new QLabel( this );
    m_pStatusLabel->show();
