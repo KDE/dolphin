@@ -2023,16 +2023,9 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   updateOpenWithActions();
   updateLocalPropsActions();
   updateViewActions(); // undo, lock, link and other view-dependent actions
-
-  if ( !m_bViewModeToggled ) // if we just toggled the view mode via the view mode actions, then
-                             // we don't need to do all the time-taking stuff below (Simon)
-  {
-    updateViewModeActions();
-
-    m_pMenuNew->setEnabled( m_currentView->serviceType() == QString::fromLatin1( "inode/directory" ) );
-  }
-
-  m_bViewModeToggled = false;
+  updateViewModeActions();
+  
+  m_pMenuNew->setEnabled( m_currentView->serviceType() == QString::fromLatin1( "inode/directory" ) );
 
   m_currentView->frame()->statusbar()->updateActiveStatus();
 
