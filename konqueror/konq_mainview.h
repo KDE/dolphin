@@ -137,6 +137,8 @@ public:
 
   void setLocationBarURL( KonqChildView *childView, const QString &url );
 
+  void enableAllActions( bool enable );
+
   static void setMoveSelection( bool b ) { s_bMoveSelection = b; }
 
 protected:
@@ -211,8 +213,6 @@ private:
    * Tries to find a index.html (.kde.html) file in the specified directory
    */
   QString findIndexFile( const QString &directory );
-
-  void enableAllActions( bool enable );
 
   KNewMenu * m_pMenuNew;
   KAction *m_paNewWindow;

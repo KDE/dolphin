@@ -54,6 +54,7 @@ View *KonqPart::createView( QWidget *parent, const char *name )
     {
       config->setGroup( "Default View Profile" );
       view->viewManager()->loadViewProfile( *config );
+      view->enableAllActions( true );
     }
     else
       view->openURL( 0L, QDir::homeDirPath().prepend( "file:" ) );

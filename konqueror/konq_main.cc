@@ -84,6 +84,7 @@ void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename
   KSimpleConfig cfg( filename, true );
   cfg.setGroup( "Profile" );
   mainView->viewManager()->loadViewProfile( cfg );
+  mainView->enableAllActions( true );
 
   shell->setActiveView( mainView );  
 
