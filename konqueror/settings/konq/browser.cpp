@@ -22,6 +22,7 @@
 
 #include <klocale.h>
 #include <kdialog.h>
+#include <fixx11h.h>
 #include <kcmoduleloader.h>
 
 #include "behaviour.h"
