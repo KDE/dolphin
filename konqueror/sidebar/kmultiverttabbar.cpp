@@ -99,10 +99,36 @@ void KMultiVertTabBarTab::drawButton(QPainter *paint)
         QPixmap pixmap = iconSet()->pixmap( QIconSet::Small, QIconSet::Normal );
 	if (!isOn())
 	{
-		paint->fillRect(0,0,23,22,QBrush(colorGroup().background().dark(120)));
-		paint->drawPixmap(12-pixmap.width()/2,12-pixmap.height()/2,pixmap);
-		paint->setPen(colorGroup().shadow());
-		paint->drawLine(0,23,23,23);
+
+		if (position==KMultiVertTabBar::Right)
+		{
+			paint->setPen(colorGroup().light());
+			paint->drawLine(0,23,23,23);
+			paint->drawLine(0,22,23,22);
+			paint->drawLine(23,0,23,23);
+			paint->drawLine(22,0,22,23);
+			paint->fillRect(0,0,21,21,QBrush(colorGroup().background()));
+			paint->drawPixmap(12-pixmap.width()/2,12-pixmap.height()/2,pixmap);
+			paint->drawLine(19,21,21,21);
+			paint->drawLine(21,19,21,21);
+			paint->setPen(colorGroup().shadow());
+			paint->drawLine(0,0,23,0);
+		}
+		else
+		{
+			paint->setPen(colorGroup().light());
+			paint->drawLine(0,23,23,23);
+			paint->drawLine(0,22,23,22);
+			paint->setPen(colorGroup().shadow());
+			paint->drawLine(0,0,23,0);
+//			paint->drawLine(1,0,23,23);
+			paint->fillRect(0,1,23,21,QBrush(colorGroup().background()));
+			paint->drawPixmap(12-pixmap.width()/2,12-pixmap.height()/2,pixmap);
+			//paint->drawLine(2,21,3,21);
+			//paint->drawLine(2,19,2,21);
+		}
+
+
 	}
 	else
 	{
@@ -130,6 +156,7 @@ void KMultiVertTabBarTab::drawButton(QPainter *paint)
 			//paint->drawLine(2,21,3,21);
 			//paint->drawLine(2,19,2,21);
 		}
+
 	}
 }
 
