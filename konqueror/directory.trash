@@ -2,5 +2,24 @@
 Icon=kfm_fulltrash.xpm
 EmptyIcon=kfm_trash.xpm
 Name=Trash
+Name[cs]=Koπ
+Name[da]=Skraldespand
+Name[de]=Papierkorb
+Name[es]=Papelera
+Name[fi]=Roskakori
+Name[fr]=Corbeille
+Name[hr]=SmeÊe
+Name[hu]=Kuka
+Name[is]=Ruslatunna
+Name[it]=Cestino
+Name[ja]=§¥§ﬂ
+Name[no]=Papirkurv
+Name[pl]=¶mietnik
+Name[pt]=Lixo
+Name[pt_BR]=Lixo
+Name[ro]=Gunoi
+Name[ru]=Îœ“⁄…Œ¡
+Name[sk]=KÙπ
+Name[sv]=Papperskorg
 Comment=Contains removed files 
 
