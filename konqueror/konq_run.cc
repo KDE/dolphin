@@ -143,6 +143,7 @@ void KonqRun::foundMimeType( const QString & _type )
 
 void KonqRun::scanFile()
 {
+  kdDebug(1202) << "KonqRun::scanfile" << endl;
   // WABA: We directly do a get for http.
   // There is no compelling reason not to do use this with other protocols
   // as well, but only http has been tested so far.
@@ -169,16 +170,20 @@ void KonqRun::scanFile()
     }
   }
 
-  KIO::TransferJob *job;
-  if (m_strURL.protocol().startsWith("https")) {
-     m_req.args.metaData().insert("main_frame_request", "TRUE" );
-     m_req.args.metaData().insert("ssl_was_in_use", "TRUE" );  
-     m_req.args.metaData().insert("ssl_activate_warnings", "TRUE" );
-  } else if (m_strURL.protocol().startsWith("http")) {
-     m_req.args.metaData().insert("ssl_activate_warnings", "TRUE" );
-     m_req.args.metaData().insert("ssl_was_in_use", "FALSE" );  
+  if (m_pView )
+  {
+      QString proto = m_pView->url().protocol();
+      if (proto.find("https", 0, false) == 0) {
+          m_req.args.metaData().insert("main_frame_request", "TRUE" );
+          m_req.args.metaData().insert("ssl_was_in_use", "TRUE" );
+          m_req.args.metaData().insert("ssl_activate_warnings", "TRUE" );
+      } else if (proto.find("http", 0, false) == 0) {
+          m_req.args.metaData().insert("ssl_activate_warnings", "TRUE" );
+          m_req.args.metaData().insert("ssl_was_in_use", "FALSE" );
+      }
   }
 
+  KIO::TransferJob *job;
   if ( m_req.args.doPost() && m_strURL.protocol().startsWith("http"))
   {
       job = KIO::http_post( m_strURL, m_req.args.postData, false );
@@ -205,7 +210,7 @@ void KonqRun::scanFile()
 
 void KonqRun::slotKonqScanFinished(KIO::Job *job)
 {
-  kdDebug(1202) << "slotKonqScanFinished" << endl;
+  kdDebug(1202) << "KonqRun::slotKonqScanFinished" << endl;
   if ( job->error() == KIO::ERR_IS_DIRECTORY )
   {
       // It is in fact a directory. This happens when HTTP redirects to FTP.
