@@ -2124,10 +2124,9 @@ void KonqMainWindow::slotMakeCompletion( const QString& text )
       completion = s_pCompletion->makeCompletion( text );
 
       // some special handling necessary for CompletionPopup
-      if ( m_combo->completionMode() == KGlobalSettings::CompletionPopup ) {
-        QStringList items = s_pCompletion->allMatches();
-        m_combo->setCompletedItems( items );
-      }
+      if ( m_combo->completionMode() == KGlobalSettings::CompletionPopup )
+        m_combo->setCompletedItems( s_pCompletion->allMatches() );
+
       else if ( !completion.isNull() )
         m_combo->setCompletedText( completion );
     }
@@ -2165,6 +2164,9 @@ void KonqMainWindow::slotRotation( KCompletionBase::KeyBindingType type )
 // Handle match() from m_pURLCompletion
 void KonqMainWindow::slotMatch( const QString &match )
 {
+  if ( match.isEmpty() ) // this case is handled directly
+    return;
+    
   // Check flag to avoid match() raised by rotation
   if ( m_urlCompletionStarted ) {
     m_urlCompletionStarted = false;
@@ -2172,10 +2174,7 @@ void KonqMainWindow::slotMatch( const QString &match )
     // some special handling necessary for CompletionPopup
     if ( m_combo->completionMode() == KGlobalSettings::CompletionPopup ) {
       QStringList items = m_pURLCompletion->allMatches();
-
-      // Do we need this? It will give duplicates...
-      //items += s_pCompletion->allMatches( text );
-
+      items += s_pCompletion->allMatches( m_combo->currentText() );
       // items.sort(); // should we?
       m_combo->setCompletedItems( items );
     }
