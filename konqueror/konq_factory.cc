@@ -135,8 +135,8 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     if ( !serviceTypes.contains( "KParts/ReadOnlyPart" ) && !serviceTypes.contains( "Browser/View" ) )
     {
       kdDebug(1202) << "Service " << (*it)->name() << " not embeddable" << endl;
-      offers.remove( it );
-      it = offers.begin();
+      it = offers.remove( it );
+      // it points to the next one now
       continue;
     }
     if ( !service && !serviceName.isEmpty() )
