@@ -233,6 +233,7 @@ KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewItem *_parent, KFileI
 :KListViewItem(_parent)
 ,sortChar('1')
 ,m_bDisabled(false)
+,m_bActive(false)
 ,m_fileitem(_fileitem)
 {}
 
