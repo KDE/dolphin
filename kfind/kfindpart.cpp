@@ -203,7 +203,8 @@ void KFindPart::restoreState( QDataStream& stream )
     stream >> *item;
     m_lstFileItems.append(item);
   }
-  emit newItems(m_lstFileItems);
+  if (nbitems)
+    emit newItems(m_lstFileItems);
 
   emit finished();
 }
