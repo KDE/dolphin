@@ -78,14 +78,12 @@ public:
   }
 
   KonqCommand m_cmd;
-  KIO::Job *m_job;
 };
 
 KonqCommandRecorder::KonqCommandRecorder( KonqCommand::Type op, const KURL::List &src, const KURL &dst, KIO::Job *job )
   : QObject( job, "konqcmdrecorder" )
 {
   d = new KonqCommandRecorderPrivate;
-  d->m_job = job;
   d->m_cmd.m_type = op;
   d->m_cmd.m_valid = true;
   d->m_cmd.m_src = src;
@@ -109,7 +107,6 @@ KonqCommandRecorder::~KonqCommandRecorder()
 
 void KonqCommandRecorder::slotResult( KIO::Job *job )
 {
-  assert( job == d->m_job );
   if ( job->error() )
     return;
 
