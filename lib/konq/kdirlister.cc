@@ -122,7 +122,7 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
 
   m_bComplete = false;
 
-  m_job = KIO::listDir( m_sURL );
+  m_job = KIO::listDir( _url );
   connect( m_job, SIGNAL( entries( KIO::Job*, const KIO::UDSEntryList&)),
            SLOT( slotEntries( KIO::Job*, const KIO::UDSEntryList&)));
   connect( m_job, SIGNAL( result( KIO::Job * ) ),
