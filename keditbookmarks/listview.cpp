@@ -56,9 +56,7 @@ ListView::ListView() {
 
 void ListView::createListViews(QSplitter *splitter) {
    (void) self();
-   if (self()->m_splitView) {
-      self()->m_folderListView = new KEBListView(splitter, true);
-   }
+   self()->m_folderListView = self()->m_splitView ? new KEBListView(splitter, true) : 0;
    self()->m_listView = new KEBListView(splitter, false);
    splitter->setSizes(QValueList<int>() << 100 << 300);
 }
@@ -440,6 +438,7 @@ void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newP
    bool inApp = (e->source() == m_listView->viewport())
              || (m_folderListView && e->source() == m_folderListView->viewport());
    bool toOther = e->source() != lv->viewport();
+
    Q_UNUSED(toOther);
 
    if (m_splitView) {
