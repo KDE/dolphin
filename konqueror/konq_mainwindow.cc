@@ -4763,6 +4763,7 @@ static void hp_removeDuplicates( KCompletionMatches& l )
 {
     QString http = "http://";
     QString ftp = "ftp://ftp.";
+    QString file = "file:";
     l.removeDuplicates();
     for( KCompletionMatches::Iterator it = l.begin();
          it != l.end();
@@ -4777,6 +4778,8 @@ static void hp_removeDuplicates( KCompletionMatches& l )
         }
         if( str.startsWith( ftp )) // ftp://ftp.
             hp_removeDupe( l, str.mid( 6 ), it ); // remove dupes without ftp://
+        if( str.startsWith( file ))
+            hp_removeDupe( l, str.mid( 5 ), it ); // remove dupes without file:
     }
 }
 
@@ -4805,8 +4808,8 @@ static void hp_checkCommonPrefixes( KCompletionMatches& matches, const QString& 
         "http://www.",
         "https://www.",
         "ftp://ftp.",
-        "file:///",
-        "file:/",
+        "file:",
+        "file://",
         NULL };
     for( const char* const *pos = prefixes;
          *pos != NULL;
@@ -4826,6 +4829,8 @@ QStringList KonqMainWindow::historyPopupCompletionItems( const QString& s)
     QString wwws = "https://www.";
     QString ftp = "ftp://";
     QString ftpftp = "ftp://ftp.";
+    QString file = "file:"; // without /, because people enter /usr etc.
+    QString file2 = "file://";
     if( s.isEmpty())
 	return QStringList();
     KCompletionMatches matches= s_pCompletion->allWeightedMatches( s );
@@ -4859,6 +4864,14 @@ QStringList KonqMainWindow::historyPopupCompletionItems( const QString& s)
     }
     if ( !s.startsWith( ftpftp ) ) {
         matches += s_pCompletion->allWeightedMatches( ftpftp + s );
+        checkDuplicates = true;
+    }
+    if ( !s.startsWith( file ) ) {
+        matches += s_pCompletion->allWeightedMatches( file + s );
+        checkDuplicates = true;
+    }
+    if ( !s.startsWith( file2 ) ) {
+        matches += s_pCompletion->allWeightedMatches( file2 + s );
         checkDuplicates = true;
     }
     if( checkDuplicates )
