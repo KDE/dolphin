@@ -121,6 +121,8 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
     {
       m_pActiveItem = static_cast<KFileIVI *>(item);
       m_pActiveItem->setIcon( m_size, KIcon::ActiveState, false, true );
+      //kdDebug(1203) << "desktop;defaultstate=" << KGlobal::iconLoader()->iconEffect()->fingerprint(KIcon::Desktop, KIcon::DefaultState) << endl;
+      //kdDebug(1203) << "desktop;activestate=" << KGlobal::iconLoader()->iconEffect()->fingerprint(KIcon::Desktop, KIcon::ActiveState) << endl;
     } else
       // Feature disabled during mouse clicking, e.g. rectangular selection
       // also disabled if the item is a thumbnail
@@ -448,9 +450,8 @@ void KonqIconViewWidget::slotSelectionChanged()
     emit enableAction( "del", del );
     emit enableAction( "shred", del );
 
-    bool bKIOClipboard = !KIO::isClipboardEmpty();
     QMimeSource *data = QApplication::clipboard()->data();
-    bool paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
+    bool paste = ( data->encodedData( data->format() ).size() != 0 ) &&
         (iCount <= 1); // We can't paste to more than one destination, can we ?
 
     emit enableAction( "paste", paste );
