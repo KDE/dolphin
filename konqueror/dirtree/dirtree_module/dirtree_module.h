@@ -66,7 +66,7 @@ private:
     // same tree, it requires a major kdirlister improvement (rather as a subclass).
     KonqDirLister * m_dirLister;
 
-    QList<KonqTreeItem> m_lstPendingOpenings;
+    QPtrList<KonqTreeItem> m_lstPendingOpenings;
 
     KURL m_selectAfterOpening;
 

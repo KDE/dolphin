@@ -114,9 +114,9 @@ private:
     void loadTopLevelGroup( KonqTreeItem *parent, const QString &path );
     void loadTopLevelItem( KonqTreeItem *parent, const QString &filename );
 
-    QList<KonqTreeTopLevelItem> m_topLevelItems;
+    QPtrList<KonqTreeTopLevelItem> m_topLevelItems;
 
-    QList<KonqTreeModule> m_lstModules;
+    QPtrList<KonqTreeModule> m_lstModules;
 
     KonqTreePart *m_part;
 
