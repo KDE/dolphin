@@ -1457,8 +1457,8 @@ void KonqMainWindow::slotCopyFiles()
   kdDebug(1202) << "KonqMainWindow::slotCopyFiles()" << endl;
   assert( viewCount() == 2 );
   // Copy files is copy + paste. I'm sooo lazy :)
-  m_currentView->callExtensionMethod( "copy" );
-  otherView( m_currentView )->callExtensionMethod( "paste" ); // DOESN'T WORK !?!?!
+  m_currentView->callExtensionMethod( "copy()" );
+  otherView( m_currentView )->callExtensionMethod( "paste()" ); // DOESN'T WORK !?!?!
 }
 
 void KonqMainWindow::slotMoveFiles()
@@ -1466,8 +1466,8 @@ void KonqMainWindow::slotMoveFiles()
   kdDebug(1202) << "KonqMainWindow::slotMoveFiles()" << endl;
   assert( viewCount() == 2 );
   // Copy files is cut + paste. I'm sooo lazy :)
-  m_currentView->callExtensionMethod( "cut" );
-  otherView( m_currentView )->callExtensionMethod( "paste" ); // DOESN'T WORK !?!?!
+  m_currentView->callExtensionMethod( "cut()" );
+  otherView( m_currentView )->callExtensionMethod( "paste()" ); // DOESN'T WORK !?!?!
 }
 
 // Only valid if there are one or two views
