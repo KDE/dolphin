@@ -75,6 +75,7 @@ public:
    */
   void setSaveViewPropertiesLocally( bool value );
 
+  ///
 
   void setShowingDotFiles( bool show );
   bool isShowingDotFiles() const { return m_bShowDot; }
@@ -97,12 +98,12 @@ public:
 
 protected:
 
+  // The actual properties
+
   QString m_bgPixmapFile;
   bool m_bShowDot;
   bool m_bImagePreview;
   bool m_bHTMLAllowed;
-
-protected:
 
   // Path to .directory file, whether it exists or not
   QString dotDirectory;

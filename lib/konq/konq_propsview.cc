@@ -70,6 +70,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bImagePreview = config->readBoolEntry( "ImagePreview", false );
   m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
+  //m_sViewMode = config->readEntry( "ViewMode", "KonqKfmIconView" );
 
   // Default background color is the one from the settings, i.e. configured in kcmkonq
   // TODO: remove it from there ?
@@ -96,9 +97,8 @@ KConfigBase * KonqPropsView::currentConfig()
         assert ( m_bSaveViewPropertiesLocally );
         assert ( !isDefaultProperties() );
 
-        if (dotDirectory.isEmpty())
-            kdWarning(1203) << "Empty dotDirectory !" << endl;
-        m_currentConfig = new KSimpleConfig( dotDirectory );
+        if (!dotDirectory.isEmpty())
+            m_currentConfig = new KSimpleConfig( dotDirectory );
     }
     return m_currentConfig;
 }
@@ -116,6 +116,7 @@ void KonqPropsView::enterDir( const KURL & dir )
   KURL u ( dir );
   u.addPath(".directory");
   bool dotDirExists = u.isLocalFile() && QFile::exists( u.path() );
+  dotDirectory = u.isLocalFile() ? u.path() : QString::null;
 
   // Revert to default setting first - unless there is no .directory
   // in the previous dir nor in this one (then we can keep the current settings)
@@ -124,27 +125,28 @@ void KonqPropsView::enterDir( const KURL & dir )
     m_bShowDot = m_defaultProps->isShowingDotFiles();
     m_bImagePreview = m_defaultProps->isShowingImagePreview();
     m_bHTMLAllowed = m_defaultProps->isHTMLAllowed();
-    m_bgPixmap = m_defaultProps->m_bgPixmap;
-    m_bgColor = KonqFMSettings::settings()->bgColor();
+    m_bgColor = m_defaultProps->bgColor();
+    m_bgPixmap = m_defaultProps->bgPixmap();
+    m_bgPixmapFile = m_defaultProps->bgPixmapFile();
+    //m_sViewMode = m_defaultProps->viewMode();
   }
 
   if (dotDirExists)
   {
     //kdDebug(1203) << "Found .directory file" << endl;
-    dotDirectory = u.path();
     KSimpleConfig * config = new KSimpleConfig( dotDirectory, true );
     config->setGroup("URL properties");
 
     m_bShowDot = config->readBoolEntry( "ShowDotFiles", m_bShowDot );
     m_bImagePreview = config->readBoolEntry( "ImagePreview", m_bImagePreview );
     m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", m_bHTMLAllowed );
+    //m_sViewMode = config->readEntry( "ViewMode", m_sViewMode );
 
     m_bgColor = config->readColorEntry( "BgColor", &m_bgColor );
-    QString pix = config->readEntry( "BgImage", "" );
-    if ( !pix.isEmpty() )
+    m_bgPixmapFile = config->readEntry( "BgImage", "" );
+    if ( !m_bgPixmapFile.isEmpty() )
     {
-        debug("BgImage is %s", debugString(pix));
-        QPixmap p = wallpaperPixmap( pix );
+        QPixmap p = wallpaperPixmap( m_bgPixmapFile );
         if ( !p.isNull() )
             m_bgPixmap = p;
         else debug("Wallpaper not found");
@@ -176,7 +178,7 @@ void KonqPropsView::setShowingDotFiles( bool show )
         kdDebug(1203) << "Saving in default properties" << endl;
         m_defaultProps->setShowingDotFiles( show );
     }
-    else
+    else if (currentConfig())
     {
         kdDebug(1203) << "Saving in current config" << endl;
         KConfigGroupSaver cgs(currentConfig(), currentGroup());
@@ -190,7 +192,7 @@ void KonqPropsView::setShowingImagePreview( bool show )
     m_bImagePreview = show;
     if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
         m_defaultProps->setShowingImagePreview( show );
-    else
+    else if (currentConfig())
     {
         KConfigGroupSaver cgs(currentConfig(), currentGroup());
         currentConfig()->writeEntry( "ImagePreview", m_bImagePreview );
@@ -203,7 +205,7 @@ void KonqPropsView::setHTMLAllowed( bool allowed )
     m_bHTMLAllowed = allowed;
     if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
         m_defaultProps->setHTMLAllowed( allowed );
-    else
+    else if (currentConfig())
     {
         KConfigGroupSaver cgs(currentConfig(), currentGroup());
         currentConfig()->writeEntry( "HTMLAllowed", m_bHTMLAllowed );
@@ -212,3 +214,4 @@ void KonqPropsView::setHTMLAllowed( bool allowed )
 }
 
 // TODO setBgColor, setBgPixmapFile
+
