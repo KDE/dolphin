@@ -135,7 +135,7 @@ QStringList KCrashBookmarkImporter::getCrashLogs() {
    return crashFiles;
 }
 
-void KCrashBookmarkImporter::parseCrashBookmarks( )
+void KCrashBookmarkImporter::parseCrashBookmarks( bool del )
 {
    QStringList crashFiles = KCrashBookmarkImporter::getCrashLogs();
    int len = crashFiles.count();
@@ -145,7 +145,7 @@ void KCrashBookmarkImporter::parseCrashBookmarks( )
       if (len > 1) {
          emit newFolder( QString("Instance %1").arg(n++), false, "" );
       }
-      parseCrashLog(*it, true);
+      parseCrashLog(*it, del);
       if (len > 1) {
          emit endFolder();
       }

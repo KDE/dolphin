@@ -37,7 +37,7 @@ public:
     KCrashBookmarkImporter( const QString & fileName ) : m_fileName(fileName) {}
     ~KCrashBookmarkImporter() {}
 
-    void parseCrashBookmarks();
+    void parseCrashBookmarks( bool del = true );
 
     // Usual place for crash bookmarks
     static QString crashBookmarksDir( );
@@ -73,7 +73,7 @@ signals:
 protected:
     QString m_fileName;
 
-    void parseCrashLog( QString filename, bool del = true );
+    void parseCrashLog( QString filename, bool del );
 };
 
 #endif
