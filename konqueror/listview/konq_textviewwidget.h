@@ -33,7 +33,7 @@ class KonqTextViewItem;
  */
 class KonqTextViewWidget : public KonqBaseListViewWidget
 {
-   friend KonqTextViewItem;
+   friend class KonqTextViewItem;
    Q_OBJECT
    public:
       KonqTextViewWidget( KonqListView *parent, QWidget *parentWidget );
