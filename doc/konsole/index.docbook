@@ -37,6 +37,9 @@
 <firstname>Lauri</firstname><surname>Watts</surname><contrib>Reviewer</contrib>
 <affiliation><address><email>vampyr@atconnex.net</email></address></affiliation>
 </othercredit>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
 </authorgroup>
 
 <copyright>
@@ -690,7 +693,7 @@ from other Unix platforms.</para>
 </appendix>
 
   
-<![ %addindex; [ &docindex; ]]>
+<![ %addindex; [ &documentation.index; ]]>
 
 </book>
 
