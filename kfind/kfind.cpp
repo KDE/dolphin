@@ -108,7 +108,7 @@ void Kfind::startSearch() {
   setExpanded(true);
   
   findProcess.clearArguments ();
-  findProcess.setExecutable(cmdline);
+  findProcess << cmdline;
   findProcess.start(KProcess::NotifyOnExit, KProcess::AllOutput);
 }
 
@@ -120,6 +120,9 @@ void Kfind::stopSearch() {
 
   if(findProcess.isRunning())
     findProcess.kill();
+  
+  
+  
   setFocus();
 }
 

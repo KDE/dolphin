@@ -342,7 +342,7 @@ QString KfindTabWidget::createQuery() {
   if(!isDateValid())
     return NULL;
 
-  QString str, pom, type = "", name="", typesFilter = "";
+  QString str, pom, type = "", name="";
   int month;
 
   // is locate/slocate available?
@@ -397,7 +397,7 @@ QString KfindTabWidget::createQuery() {
     okToUseLocate = false;
     break;
 
-  default:
+  default: // Mime type 
     okToUseLocate = false;
     KfFileType *typ = types->first();
     int i;
@@ -413,16 +413,16 @@ QString KfindTabWidget::createQuery() {
 	 pattern != 0L;
 	 pattern = pats.next(), i++) {
       if (i == 0)
-	typesFilter += " -name \"" + pattern + "\" ";
+	type += " -name \"" + pattern + "\" ";
       else
-	typesFilter += " -o -name \"" + pattern + "\" ";
+	type += " -o -name \"" + pattern + "\" ";
     }
     
     // If we have more then one predicate we need "(" ... ")"
     if(i > 1)
-      typesFilter = " \"(\"" + typesFilter + " \")\" ";
-  }
-
+      type = " \"(\"" + type + " \")\" ";
+  } // Switch
+  
   // If name is empty replace it with "*"
   if(nameBox->currentText().isEmpty())
     name = "*";
@@ -430,10 +430,6 @@ QString KfindTabWidget::createQuery() {
     name = nameBox->currentText();
   
   name = " -name " + quote(name);
-  
-  // Add filters if we have them
-  if(!typesFilter.isEmpty())
-    name += " -and " + typesFilter;
   
   // Add type (can be empty)
   str += name + type;
@@ -449,7 +445,7 @@ QString KfindTabWidget::createQuery() {
     okToUseLocate = false;
     if (rb2[0]->isChecked()) { // Between dates
       QDate q1, q2;
-      str.append(pom.sprintf(" -daystart -mtime -%d -mtime +%d",
+      str.append(pom.sprintf(" -daystart -mtime -%d -mtime +%d ",
 	   (string2Date(le[0]->text(),&q1)).daysTo(QDate::currentDate()),
 	   (string2Date(le[1]->text(),&q2)).daysTo(QDate::currentDate()) ));
     }
@@ -509,7 +505,6 @@ QString KfindTabWidget::createQuery() {
 
 QString KfindTabWidget::date2String(QDate date) {
   QString str;
-
   str.sprintf("%.2d/%.2d/%4d",date.day(),date.month(),date.year());
   return(str);
 }
