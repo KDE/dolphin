@@ -273,7 +273,8 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
         if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) &&
              cfg.readListEntry( "ServiceTypes" ).contains( m_sMimeType ) )
         {
-          KURL u( *dIt + *eIt );
+          KURL u;
+          u.setPath( *dIt + *eIt );
           user += KDEDesktopMimeType::userDefinedServices( u );
         }
 	
@@ -423,10 +424,10 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     addAction( act );
   }
 
-  while ( !m_menuElement.lastChild().isNull() && 
-            m_menuElement.lastChild().toElement().tagName().lower() == "separator" ) 
+  while ( !m_menuElement.lastChild().isNull() &&
+            m_menuElement.lastChild().toElement().tagName().lower() == "separator" )
     m_menuElement.removeChild( m_menuElement.lastChild() );
-      
+
   addMerge( 0 );
 
   m_factory->addClient( this );
