@@ -613,10 +613,14 @@ void KonqHTMLView::checkViewMenu()
       m_vViewMenu->setItemEnabled( ID_BASE + 5, false );
     }
 
-    QString bURL;
+    QString bURL = QString::null;
 
     if ( isFrameSet() )
-      bURL = getSelectedView()->getKHTMLWidget()->getBackground();
+      {
+	KHTMLView *v = getSelectedView();	
+	if ( v )
+	  bURL = v->getKHTMLWidget()->getBackground();
+      }
     else
       bURL = getKHTMLWidget()->getBackground();
     
