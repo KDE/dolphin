@@ -30,7 +30,6 @@ public:
 
 protected slots:
 
-  virtual void slotClick();
   void changed();
   void updateWinPixmap(bool);
 
@@ -41,12 +40,6 @@ private:
   bool m_bFileManager;
 
   QCheckBox *cbTreeFollow;
-  QCheckBox *cbSingleClick;
-  QCheckBox *cbAutoSelect;
-  QLabel *lDelay;
-  QSlider *slAutoSelect;
-  QCheckBox *cbCursor;
-  QCheckBox *cbUnderline;
 
   QCheckBox *cbNewWin;
 

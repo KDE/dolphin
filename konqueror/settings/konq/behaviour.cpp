@@ -32,44 +32,6 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
     lay->setRowStretch(N_ROWS-1,1);
     lay->setColStretch(N_COLS-1,1);
 
-    cbAutoSelect = new QCheckBox(i18n("&Automatically select icons"), this);
-    lay->addMultiCellWidget(cbAutoSelect,row,row,0,N_COLS,Qt::AlignLeft);
-    connect(cbAutoSelect, SIGNAL(clicked()), this, SLOT(changed()));
-
-    //----------
-    row++;
-    slAutoSelect = new QSlider(0, 2000, 10, 0, QSlider::Horizontal, this);
-    slAutoSelect->setSteps( 125, 125 );
-    slAutoSelect->setTickmarks( QSlider::Below );
-    slAutoSelect->setTickInterval( 250 );
-    slAutoSelect->setTracking( true );
-    lay->addMultiCellWidget(slAutoSelect,row,row,1,N_COLS);
-    connect(slAutoSelect, SIGNAL(valueChanged(int)), this, SLOT(changed()));
-
-    lDelay = new QLabel(slAutoSelect, i18n("De&lay:"), this);
-    lDelay->adjustSize();
-    lay->addWidget(lDelay,row,0);
-
-    row++;
-    label = new QLabel(i18n("Small"), this);
-    lay->addWidget(label,row,1);
-
-    label = new QLabel(i18n("Large"), this);
-    lay->addWidget(label,row,2, Qt::AlignRight);
-    //----------
-
-    row++;
-    cbCursor = new QCheckBox(i18n("&Change cursor shape when over an icon"), this);
-    lay->addMultiCellWidget(cbCursor,row,row,0,N_COLS,Qt::AlignLeft);
-    connect(cbCursor, SIGNAL(clicked()), this, SLOT(changed()));
-
-    row++;
-    cbUnderline = new QCheckBox(i18n("&Underline filenames"), this);
-    lay->addMultiCellWidget(cbUnderline,row,row,0,N_COLS,Qt::AlignLeft);
-    connect(cbUnderline, SIGNAL(clicked()), this, SLOT(changed()));
-
-    connect( cbAutoSelect, SIGNAL( clicked() ), this, SLOT( slotClick() ) );
-
     // - only for konqueror, not for kdesktop --
     if (m_bFileManager)
     {
@@ -77,7 +39,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
       cbTreeFollow = new QCheckBox( i18n( "Tree follows navigation in other views" ), this );
       lay->addMultiCellWidget( cbTreeFollow, row, row, 0, N_COLS, Qt::AlignLeft );
       connect( cbTreeFollow, SIGNAL( clicked() ), this, SLOT( changed() ) );
-    
+
       row++;
       cbNewWin = new QCheckBox(i18n("&Open directories in separate windows"), this);
       lay->addMultiCellWidget(cbNewWin, row, row, 0, N_COLS-1, Qt::AlignLeft);
@@ -131,23 +93,13 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
 void KBehaviourOptions::load()
 {
     g_pConfig->setGroup( groupname );
-    int  autoSelect = g_pConfig->readNumEntry("AutoSelect", DEFAULT_AUTOSELECT);
-    if ( autoSelect < 0 ) autoSelect = 0;
-    bool changeCursor = g_pConfig->readBoolEntry("ChangeCursor", DEFAULT_CHANGECURSOR);
-    bool underlineLinks = g_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS);
-
-    cbAutoSelect->setChecked( autoSelect > 0 );
-    slAutoSelect->setValue( autoSelect );
-    cbCursor->setChecked( changeCursor );
-    cbUnderline->setChecked( underlineLinks );
-
     if (m_bFileManager)
     {
         cbNewWin->setChecked( g_pConfig->readBoolEntry("AlwaysNewWin", false) );
         updateWinPixmap(cbNewWin->isChecked());
 
         cbTreeFollow->setChecked( g_pConfig->readBoolEntry( "TreeFollowsNavigation", DEFAULT_TREEFOLLOW ) );
-    
+
         homeURL->setText(g_pConfig->readEntry("HomeURL", "~"));
         bool embedText = g_pConfig->readBoolEntry("EmbedText", true);
         bool embedImage = g_pConfig->readBoolEntry("EmbedImage", true);
@@ -157,16 +109,10 @@ void KBehaviourOptions::load()
         cbEmbedImage->setChecked( embedImage );
         cbEmbedOther->setChecked( embedOther );
     }
-
-    slotClick();
 }
 
 void KBehaviourOptions::defaults()
 {
-    cbAutoSelect->setChecked( false );
-    slAutoSelect->setValue( 50 );
-    cbCursor->setChecked( false );
-    cbUnderline->setChecked( true );
     if (m_bFileManager)
     {
         cbNewWin->setChecked(false);
@@ -178,16 +124,11 @@ void KBehaviourOptions::defaults()
         cbEmbedImage->setChecked( true );
         cbEmbedOther->setChecked( true );
     }
-
-    slotClick();
 }
 
 void KBehaviourOptions::save()
 {
     g_pConfig->setGroup( groupname );
-    g_pConfig->writeEntry( "AutoSelect", cbAutoSelect->isChecked()?slAutoSelect->value():-1 );
-    g_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
-    g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
 
     if (m_bFileManager)
     {
@@ -201,19 +142,6 @@ void KBehaviourOptions::save()
     }
 
     g_pConfig->sync();
-}
-
-void KBehaviourOptions::slotClick()
-{
-  g_pConfig->setGroup("KDE");
-  bool singleClick =  g_pConfig->readBoolEntry("SingleClick", true);
-  g_pConfig->setGroup( groupname );
-  // Autoselect has a meaning only in single-click mode
-  cbAutoSelect->setEnabled(singleClick);
-  // Delay has a meaning only for autoselect
-  bool bDelay = cbAutoSelect->isChecked() && singleClick;
-  slAutoSelect->setEnabled( bDelay );
-  lDelay->setEnabled( bDelay );
 }
 
 void KBehaviourOptions::updateWinPixmap(bool b)

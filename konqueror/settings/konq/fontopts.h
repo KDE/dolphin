@@ -28,7 +28,7 @@
 // (c) Torben Weis 1998
 //
 // End of the KControl port by David
-// Port to KControl 2 by MHK 
+// Port to KControl 2 by MHK
 // konqy adaptations by David
 
 #ifndef __KONQFONT_OPTIONS_H__
@@ -96,6 +96,7 @@ private:
   QColor highlightedTextColor;
 
   QCheckBox* m_pWordWrap;
+  QCheckBox *cbUnderline;
 };
 
 #endif

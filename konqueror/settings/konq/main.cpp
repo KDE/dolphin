@@ -94,7 +94,7 @@ void KonqyModule::save()
   QByteArray data;
   if ( !kapp->dcopClient()->isAttached() )
     kapp->dcopClient()->attach();
-  kapp->dcopClient()->send( "*", "KonqMainViewIface", "reparseConfiguration()", data );
+  kapp->dcopClient()->send( "konqueror*", "KonqMainViewIface", "reparseConfiguration()", data );
 }
 
 
@@ -124,10 +124,11 @@ KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
   tab->addTab(root, i18n("&Desktop"));
   connect(root, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
+  // Behaviour tab has nothing anymore for kdesktop - commented out
   // those use "Icon Settings" since they are read by KonqFMSettings
-  behaviour = new KBehaviourOptions(config, "Icon Settings", false, this);
-  tab->addTab(behaviour, i18n("&Behavior"));
-  connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+  //behaviour = new KBehaviourOptions(config, "Icon Settings", false, this);
+  //tab->addTab(behaviour, i18n("&Behavior"));
+  //connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
   font = new KonqFontOptions(config, "Icon Settings", this);
   tab->addTab(font, i18n("&Appearance"));

@@ -45,10 +45,10 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent
     QLabel *label;
     int row = 0;
 
-    QGridLayout *lay = new QGridLayout(this,9/*rows*/,3 /*cols*/,KDialog::marginHint(),
-				       KDialog::spacingHint());
-#define LASTLINE 8
+#define LASTLINE 9
 #define LASTCOLUMN 2
+    QGridLayout *lay = new QGridLayout(this,LASTLINE+1,LASTCOLUMN+1,KDialog::marginHint(),
+				       KDialog::spacingHint());
     lay->setRowStretch(LASTLINE,10);
     lay->setColStretch(LASTCOLUMN,10);
 
@@ -126,6 +126,11 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent
     m_pWordWrap = new QCheckBox( i18n("&Word-wrap icon text"), this );
     lay->addMultiCellWidget(m_pWordWrap,row,row,0,LASTCOLUMN);
     connect( m_pWordWrap, SIGNAL(clicked()), this, SLOT(changed()) );
+
+    row++;
+    cbUnderline = new QCheckBox(i18n("&Underline filenames"), this);
+    lay->addMultiCellWidget(cbUnderline,row,row,0,LASTCOLUMN,Qt::AlignLeft);
+    connect(cbUnderline, SIGNAL(clicked()), this, SLOT(changed()));
 
     assert( row == LASTLINE-1 );
     // The last line is empty and grows if resized
@@ -213,6 +218,7 @@ void KonqFontOptions::load()
     m_pHighlightedText->setColor( highlightedTextColor );
 
     m_pWordWrap->setChecked( g_pConfig->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT ) );
+    cbUnderline->setChecked( g_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS ) );
 
     updateGUI();
 }
@@ -230,6 +236,7 @@ void KonqFontOptions::defaults()
     m_pNormalText->setColor( normalTextColor );
     m_pHighlightedText->setColor( highlightedTextColor );
     m_pWordWrap->setChecked( DEFAULT_WORDWRAPTEXT );
+    cbUnderline->setChecked( true );
 
     updateGUI();
 }
@@ -261,6 +268,7 @@ void KonqFontOptions::save()
     g_pConfig->writeEntry( "NormalTextColor", normalTextColor );
     g_pConfig->writeEntry( "HighlightedTextColor", highlightedTextColor );
     g_pConfig->writeEntry( "WordWrapText", m_pWordWrap->isChecked() );
+    g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
     g_pConfig->sync();
 }
 
