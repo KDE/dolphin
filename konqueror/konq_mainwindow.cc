@@ -325,8 +325,14 @@ void KonqMainWindow::openFilteredURL( const QString & _url )
     QString nameFilter = detectNameFilter( url );
 
     // Filter URL to build a correct one
-    KURL filteredURL( KonqMisc::konqFilteredURL( this, url, m_currentDir ) );
-    kdDebug(1202) << "url " << url << " filtered into " << filteredURL.url() << endl;
+    KURL filteredURL;
+    if ( url == "about:blank" ) // hack to skip filtering
+        filteredURL = url;
+    else
+    {
+        filteredURL = KonqMisc::konqFilteredURL( this, url, m_currentDir );
+        kdDebug(1202) << "url " << url << " filtered into " << filteredURL.url() << endl;
+    }
 
     // Remember the initial (typed) URL
     KonqOpenURLRequest req( _url );
@@ -348,6 +354,12 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
 {
   kdDebug(1202) << "KonqMainWindow::openURL : url = '" << url.url() << "'  "
                 << "serviceType='" << serviceType << "' view=" << _view << endl;
+
+  if ( url.url() == "about:blank" )
+  {
+    m_pViewManager->clear();
+    return;
+  }
 
   if ( url.isMalformed() )
   {
