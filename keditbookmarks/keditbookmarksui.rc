@@ -137,6 +137,8 @@
     <Action name="file_quit"/>
     <Action name="exportNS"/>
     <Action name="exportMoz"/>
+    <Action name="expandall"/>
+    <Action name="collapseall"/>
   </enable>
 </State>
 
@@ -147,14 +149,12 @@
     <Action name="changecomment"/>
     <Action name="changeicon"/>
     <Action name="changeurl"/>
-    <Action name="collapseall"/>
     <Action name="delete"/>
     <Action name="edit_copy"/>
     <Action name="edit_cut"/>
     <Action name="edit_paste"/>
     <Action name="edit_redo"/>
     <Action name="edit_undo"/>
-    <Action name="expandall"/>
     <Action name="file_save"/>
     <Action name="importGaleon"/>
     <Action name="importIE"/>

@@ -111,7 +111,7 @@ void KEBListView::readonlyFlagInit(bool readonly) {
 void ListView::setInitialAddress(QString address) {
    KEBListViewItem *item = getItemAtAddress(address);
    if (!item) {
-      item = m_listView->rootItem(); // BLAH
+      item = m_listView->rootItem();
    }
    setCurrent(item);
    item->setSelected(true);
@@ -169,7 +169,6 @@ QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* item
 
 QPtrList<KEBListViewItem>* ListView::selectedItems() {
    QPtrList<KEBListViewItem> *items = new QPtrList<KEBListViewItem>();
-   // BLAH
    for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList()));
         it.current() != 0; ++it) {
       if (it.current()->isSelected()) {
@@ -297,7 +296,6 @@ QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
       if (!it.current()->isSelected() 
        || it.current()->isEmptyFolder()
        || it.current() == m_listView->rootItem()) {
-         // BLAH
          continue;
       }
       if (it.current()->childCount() == 0) {
@@ -321,7 +319,6 @@ QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
 
 QValueList<KBookmark> ListView::allBookmarks() {
    QValueList<KBookmark> bookmarks;
-   // BLAH
    for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); it.current() != 0; ++it) {
       if ((it.current()->childCount() == 0) && !it.current()->isEmptyFolder()) {
          bookmarks.append(it.current()->bookmark());
@@ -332,7 +329,6 @@ QValueList<KBookmark> ListView::allBookmarks() {
 
 void ListView::updateLastAddress() {
    KEBListViewItem *lastItem = 0;
-   // BLAH
    for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); it.current() != 0; ++it) {
       if ((it.current()->isSelected()) && !it.current()->isEmptyFolder()) {
          lastItem = it.current();
@@ -376,7 +372,7 @@ void ListView::setCurrent(KEBListViewItem *item) {
 }
 
 KEBListViewItem* ListView::getItemAtAddress(const QString &address) {
-   QListViewItem *item = m_listView->rootItem(); // BLAH
+   QListViewItem *item = m_listView->rootItem();
 
    QStringList addresses = QStringList::split('/',address); // e.g /5/10/2
 
@@ -394,7 +390,6 @@ KEBListViewItem* ListView::getItemAtAddress(const QString &address) {
 }
 
 void ListView::setOpen(bool open) {
-   // BLAH
    for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); it.current() != 0; ++it) {
       if (it.current()->parent()) {
          it.current()->setOpen(open);
@@ -413,32 +408,22 @@ SelcAbilities ListView::getSelectionAbilities() {
       sa.group          = nbk.isGroup();
       sa.separator      = nbk.isSeparator();
       sa.urlIsEmpty     = nbk.url().isEmpty();
-      sa.singleSelect   = (!sa.multiSelect && sa.itemSelected); // oops, TODO, FIXME!
-      sa.root           = (m_listView->rootItem() == item); // BLAH
+      sa.singleSelect   = (!sa.multiSelect && sa.itemSelected);
+      sa.root           = (m_listView->rootItem() == item);
       sa.multiSelect    = (selectedItems()->count() > 1);
-   } else {
-      // kdDebug() << "no item" << endl;
    }
 
-   sa.notEmpty = (m_listView->rootItem()->childCount() > 0); // BLAH
+   sa.notEmpty = (m_listView->rootItem()->childCount() > 0);
 
    return sa;
 }
 
-// TODO
 void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newParent, QListViewItem *itemAfterQLVI) {
-   Q_UNUSED(lv);
-
    bool inApp = (e->source() == m_listView->viewport())
              || (m_folderListView && e->source() == m_folderListView->viewport());
    bool toOther = e->source() != lv->viewport();
 
-   kdDebug() << "inApp == " << inApp
-             << "toOther == " << toOther
-             << endl;
-
    if (m_splitView) {
-      // TODO
       return;
    }
 
@@ -614,7 +599,6 @@ void ListView::rename(int column) {
 }
 
 void ListView::clearSelection() {
-   // num 2 can't have a selection
    m_listView->clearSelection();
 }
 
@@ -656,7 +640,7 @@ void ListView::renameNextCell(bool fwd) {
                   : KEBListView::CommentColumn;
       }
       if (!myrenameitem 
-        || myrenameitem == m_listView->rootItem()  // BLAH
+        || myrenameitem == m_listView->rootItem()
         || myrenameitem->isEmptyFolder()
         || myrenameitem->bookmark().isSeparator()
         || (myrenamecolumn == KEBListView::UrlColumn 

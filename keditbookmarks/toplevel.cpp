@@ -119,10 +119,11 @@ void KEBApp::createActions() {
    (void) KStdAction::quit(this, SLOT( close() ), actionCollection());
    (void) KStdAction::keyBindings(this, SLOT( slotConfigureKeyBindings() ), actionCollection());
    (void) KStdAction::configureToolbars(this, SLOT( slotConfigureToolbars() ), actionCollection());
-
    (void) KStdAction::cut(actn, SLOT( slotCut() ), actionCollection());
    (void) KStdAction::copy(actn, SLOT( slotCopy() ), actionCollection());
    (void) KStdAction::paste(actn, SLOT( slotPaste() ), actionCollection());
+   (void) KStdAction::find(actn, SLOT( slotSearch() ), actionCollection(), "search");
+   (void) KStdAction::findNext(actn, SLOT( slotNextHit() ), actionCollection(), "nexthit");
 
    (void) new KToggleAction(
                       i18n("&Auto-Save on Program Close"), 0,
@@ -162,8 +163,6 @@ void KEBApp::createActions() {
    (void) new KAction(i18n("Check &Status"), "bookmark", 0,
                       actn, SLOT( slotTestSelection() ), actionCollection(), "testlink" );
 
-   (void)KStdAction::find( actn, SLOT( slotSearch() ), actionCollection(), "search" );
-   (void)KStdAction::findNext( actn, SLOT( slotNextHit() ), actionCollection(), "nexthit" );
    (void) new KAction(i18n("Check Status: &All"), 0,
                       actn, SLOT( slotTestAll() ), actionCollection(), "testall" );
    (void) new KAction(i18n("Update All &Favicons"), 0,
@@ -225,9 +224,6 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
 
    coll->action("nexthit")          ->setEnabled(true);
 
-   coll->action("expandall")        ->setEnabled(true);
-   coll->action("collapseall")      ->setEnabled(true);
-
    coll->action("search")           ->setEnabled(!sa.multiSelect);
 
    coll->action("edit_copy")        ->setEnabled(sa.itemSelected);
@@ -257,8 +253,6 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
    coll->action("sort")             ->setEnabled(t5 && sa.group);
    coll->action("setastoolbar")     ->setEnabled(t5 && sa.group);
 }
-
-// DESIGN clean up this sh*t
 
 void KEBApp::setCancelFavIconUpdatesEnabled(bool enabled) {
    actionCollection()->action("cancelfaviconupdates")->setEnabled(enabled);
