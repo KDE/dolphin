@@ -986,13 +986,15 @@ void KonqIconViewWidget::lineupIcons()
     // Perform the actual moving
     n = 0;
     int x, y, max_icon_x, min_icon_x, dx_max_min;
-    QIconViewItem *its[ny];
+    //MW compaq cxx does not support variable length array.
+    //QIconViewItem *its[ny];
+    QIconViewItem **its = new QIconViewItem*[ny];
     for (i=0; i<nx; i++)
     {
-        max_icon_x = 0; min_icon_x=0;
+       max_icon_x = 0; min_icon_x=0;
        for (j=0; j<ny; j++)
         {
-           its[j] = 0;
+            its[j] = 0;
             if (!bins[j][i] || !bins[j][i]->count())
                 continue;
 
@@ -1039,6 +1041,7 @@ void KonqIconViewWidget::lineupIcons()
     for (int j=0; j<ny; j++)
         delete [] bins[j];
     delete[] bins;
+    delete[] its;
     kdDebug(1203) << n << " icons successfully moved.\n";
     return;
 }
