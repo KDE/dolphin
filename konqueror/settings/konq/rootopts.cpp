@@ -82,7 +82,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
 {
   QLabel * tmpLabel;
 
-#define RO_LASTROW 16   // 5 cb, 1 listview, 1 line, 3 combo, 1 line, 4 paths + last row
+#define RO_LASTROW 11   // 5 cb, 1 listview, 1 line, 3 combo + last row
 #define RO_LASTCOL 2
 
   int row = 0;
@@ -264,65 +264,6 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   QWhatsThis::add( tmpLabel, wtstr );
   QWhatsThis::add( rightComboBox, wtstr );
 
-  // Desktop Paths
-
-  row++;
-  KSeparator* hLine = new KSeparator(KSeparator::HLine, this);
-  lay->addMultiCellWidget(hLine, row, row, 0, RO_LASTCOL);
-
-  row++;
-  tmpLabel = new QLabel(i18n("Des&ktop path:"), this);
-  lay->addWidget(tmpLabel, row, 0);
-  leDesktop = new QLineEdit(this);
-  tmpLabel->setBuddy( leDesktop );
-  lay->addMultiCellWidget(leDesktop, row, row, 1, RO_LASTCOL);
-  connect(leDesktop, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
-  QWhatsThis::add( leDesktop, i18n("This directory contains all the files"
-                                   " which you see on your desktop. You can change the location of this"
-                                   " directory if you want to, and the contents will move automatically"
-                                   " to the new location as well.") );
-
-  row++;
-  tmpLabel = new QLabel(i18n("&Trash path:"), this);
-  lay->addWidget(tmpLabel, row, 0);
-  leTrash = new QLineEdit(this);
-  tmpLabel->setBuddy( leTrash );
-  lay->addMultiCellWidget(leTrash, row, row, 1, RO_LASTCOL);
-  connect(leTrash, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
-  wtstr = i18n("This directory contains deleted files (until"
-               " you empty the trashcan). You can change the location of this"
-               " directory if you want to, and the contents will move automatically"
-               " to the new location as well.");
-  QWhatsThis::add( tmpLabel, wtstr );
-  QWhatsThis::add( leTrash, wtstr );
-
-  row++;
-  tmpLabel = new QLabel(i18n("A&utostart path:"), this);
-  lay->addWidget(tmpLabel, row, 0);
-  leAutostart = new QLineEdit(this);
-  tmpLabel->setBuddy( leAutostart );
-  lay->addMultiCellWidget(leAutostart, row, row, 1, RO_LASTCOL);
-  connect(leAutostart, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
-  wtstr = i18n("This directory contains applications or"
-               " links to applications (shortcuts) that you want to have started"
-               " automatically whenever KDE starts. You can change the location of this"
-               " directory if you want to, and the contents will move automatically"
-               " to the new location as well.");
-  QWhatsThis::add( tmpLabel, wtstr );
-  QWhatsThis::add( leAutostart, wtstr );
-
-  row++;
-  tmpLabel = new QLabel(i18n("D&ocuments path:"), this);
-  lay->addWidget(tmpLabel, row, 0);
-  leDocument = new QLineEdit(this);
-  tmpLabel->setBuddy( leDocument );
-  lay->addMultiCellWidget(leDocument, row, row, 1, RO_LASTCOL);
-  connect(leDocument, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
-  wtstr = i18n("This directory will be used by default to "
-               "load or save documents from or to.");
-  QWhatsThis::add( tmpLabel, wtstr );
-  QWhatsThis::add( leDocument, wtstr );
-
   // -- Bottom --
   assert( row == RO_LASTROW-1 ); // if it fails here, check the row++ and RO_LASTROW above
   lay->activate();
@@ -377,11 +318,6 @@ void KRootOptions::load()
       if (s == s_choices[c])
       { rightComboBox->setCurrentItem( c ); break; }
 
-    // Desktop Paths
-    leDesktop->setText( KGlobalSettings::desktopPath() );
-    leTrash->setText( KGlobalSettings::trashPath() );
-    leAutostart->setText( KGlobalSettings::autostartPath() );
-    leDocument->setText( KGlobalSettings::documentPath() );
     enableChanged();
 }
 
@@ -396,12 +332,6 @@ void KRootOptions::defaults()
     leftComboBox->setCurrentItem( NOTHING );
     middleComboBox->setCurrentItem( WINDOWLISTMENU );
     rightComboBox->setCurrentItem( DESKTOPMENU );
-
-    // Desktop Paths - keep defaults in sync with kglobalsettings.cpp
-    leDesktop->setText( QDir::homeDirPath() + "/Desktop/" );
-    leTrash->setText( QDir::homeDirPath() + "/Desktop/" + i18n("Trash") + '/' );
-    leAutostart->setText( KGlobal::dirs()->localkdedir() + "Autostart/" );
-    leDocument->setText( QDir::homeDirPath() );
 }
 
 void KRootOptions::save()
@@ -426,6 +356,138 @@ void KRootOptions::save()
     g_pConfig->setGroup( "General" );
     g_pConfig->writeEntry( "SetVRoot", vrootBox->isChecked() );
     g_pConfig->writeEntry( "Enabled", iconsEnabledBox->isChecked() );
+
+    g_pConfig->sync();
+}
+
+void KRootOptions::enableChanged()
+{
+    bool enabled = iconsEnabledBox->isChecked();
+    showHiddenBox->setEnabled(enabled);
+    vertAlignBox->setEnabled(enabled);
+    previewListView->setEnabled(enabled);
+    vrootBox->setEnabled(enabled);
+
+    changed();
+}
+
+void KRootOptions::changed()
+{
+  emit KCModule::changed(true);
+}
+
+
+QString KRootOptions::quickHelp() const
+{
+  return i18n("<h1>Desktop</h1>\n"
+    "This module allows you to choose various options\n"
+    "for your desktop, including the way in which icons are arranged and\n"
+    "the pop-up menus associated with clicks of the middle and right mouse\n"
+    "buttons on the desktop.\n"
+    "Use the \"Whats This?\" (Shift+F1) to get help on specific options.");
+}
+
+DesktopPathConfig::DesktopPathConfig(KConfig *config, QWidget *parent, const char *name )
+    : KCModule( parent, name )
+{
+  QLabel * tmpLabel;
+
+#undef RO_LASTROW
+#undef RO_LASTCOL
+#define RO_LASTROW 5   // 4 paths + last row
+#define RO_LASTCOL 2
+
+  int row = 0;
+  QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, 10);
+
+  lay->setRowStretch(RO_LASTROW,10); // last line grows
+
+  lay->setColStretch(0,0);
+  lay->setColStretch(1,0);
+  lay->setColStretch(2,10);
+
+  // Desktop Paths
+  row++;
+  tmpLabel = new QLabel(i18n("Des&ktop path:"), this);
+  lay->addWidget(tmpLabel, row, 0);
+  leDesktop = new QLineEdit(this);
+  tmpLabel->setBuddy( leDesktop );
+  lay->addMultiCellWidget(leDesktop, row, row, 1, RO_LASTCOL);
+  connect(leDesktop, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
+  QWhatsThis::add( leDesktop, i18n("This directory contains all the files"
+                                   " which you see on your desktop. You can change the location of this"
+                                   " directory if you want to, and the contents will move automatically"
+                                   " to the new location as well.") );
+
+  row++;
+  tmpLabel = new QLabel(i18n("&Trash path:"), this);
+  lay->addWidget(tmpLabel, row, 0);
+  leTrash = new QLineEdit(this);
+  tmpLabel->setBuddy( leTrash );
+  lay->addMultiCellWidget(leTrash, row, row, 1, RO_LASTCOL);
+  connect(leTrash, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
+  QString wtstr = i18n("This directory contains deleted files (until"
+               " you empty the trashcan). You can change the location of this"
+               " directory if you want to, and the contents will move automatically"
+               " to the new location as well.");
+  QWhatsThis::add( tmpLabel, wtstr );
+  QWhatsThis::add( leTrash, wtstr );
+
+  row++;
+  tmpLabel = new QLabel(i18n("A&utostart path:"), this);
+  lay->addWidget(tmpLabel, row, 0);
+  leAutostart = new QLineEdit(this);
+  tmpLabel->setBuddy( leAutostart );
+  lay->addMultiCellWidget(leAutostart, row, row, 1, RO_LASTCOL);
+  connect(leAutostart, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
+  wtstr = i18n("This directory contains applications or"
+               " links to applications (shortcuts) that you want to have started"
+               " automatically whenever KDE starts. You can change the location of this"
+               " directory if you want to, and the contents will move automatically"
+               " to the new location as well.");
+  QWhatsThis::add( tmpLabel, wtstr );
+  QWhatsThis::add( leAutostart, wtstr );
+
+  row++;
+  tmpLabel = new QLabel(i18n("D&ocuments path:"), this);
+  lay->addWidget(tmpLabel, row, 0);
+  leDocument = new QLineEdit(this);
+  tmpLabel->setBuddy( leDocument );
+  lay->addMultiCellWidget(leDocument, row, row, 1, RO_LASTCOL);
+  connect(leDocument, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
+  wtstr = i18n("This directory will be used by default to "
+               "load or save documents from or to.");
+  QWhatsThis::add( tmpLabel, wtstr );
+  QWhatsThis::add( leDocument, wtstr );
+
+  // -- Bottom --
+  assert( row == RO_LASTROW-1 ); // if it fails here, check the row++ and RO_LASTROW above
+  lay->activate();
+
+  load();
+}
+
+void DesktopPathConfig::load()
+{
+    // Desktop Paths
+    leDesktop->setText( KGlobalSettings::desktopPath() );
+    leTrash->setText( KGlobalSettings::trashPath() );
+    leAutostart->setText( KGlobalSettings::autostartPath() );
+    leDocument->setText( KGlobalSettings::documentPath() );
+    changed();
+}
+
+void DesktopPathConfig::defaults()
+{
+    // Desktop Paths - keep defaults in sync with kglobalsettings.cpp
+    leDesktop->setText( QDir::homeDirPath() + "/Desktop/" );
+    leTrash->setText( QDir::homeDirPath() + "/Desktop/" + i18n("Trash") + '/' );
+    leAutostart->setText( KGlobal::dirs()->localkdedir() + "Autostart/" );
+    leDocument->setText( QDir::homeDirPath() );
+}
+
+void DesktopPathConfig::save()
+{
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cgs( config, "Paths" );
 
@@ -550,16 +612,15 @@ void KRootOptions::save()
     }
 
     config->sync();
-    g_pConfig->sync();
 
     if (pathChanged)
     {
-        kdDebug() << "KRootOptions::save sending message SettingsChanged" << endl;
+        kdDebug() << "DesktopPathConfig::save sending message SettingsChanged" << endl;
         KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
     }
 }
 
-bool KRootOptions::moveDir( const KURL & src, const KURL & dest, const QString & type )
+bool DesktopPathConfig::moveDir( const KURL & src, const KURL & dest, const QString & type )
 {
     if (!src.isLocalFile() || !dest.isLocalFile())
         return true;
@@ -574,11 +635,11 @@ bool KRootOptions::moveDir( const KURL & src, const KURL & dest, const QString &
         // wait for job
         qApp->enter_loop();
     }
-    kdDebug() << "KRootOptions::slotResult returning " << m_ok << endl;
+    kdDebug() << "DesktopPathConfig::slotResult returning " << m_ok << endl;
     return m_ok;
 }
 
-void KRootOptions::slotResult( KIO::Job * job )
+void DesktopPathConfig::slotResult( KIO::Job * job )
 {
     if (job->error())
     {
@@ -592,33 +653,17 @@ void KRootOptions::slotResult( KIO::Job * job )
     qApp->exit_loop();
 }
 
-void KRootOptions::enableChanged()
-{
-    bool enabled = iconsEnabledBox->isChecked();
-    showHiddenBox->setEnabled(enabled);
-    vertAlignBox->setEnabled(enabled);
-    previewListView->setEnabled(enabled);
-    vrootBox->setEnabled(enabled);
-
-    // Desktop Paths
-    leDesktop->setEnabled(enabled);
-
-    changed();
-}
-
-void KRootOptions::changed()
+void DesktopPathConfig::changed()
 {
   emit KCModule::changed(true);
 }
 
 
-QString KRootOptions::quickHelp() const
+QString DesktopPathConfig::quickHelp() const
 {
   return i18n("<h1>Desktop</h1>\n"
-    "This module allows you to choose various options\n"
-    "for your desktop, including the way in which icons are arranged, the\n"
-    "location of your desktop directory, and the pop-up menus associated\n"
-    "with clicks of the middle and right mouse buttons on the desktop.\n"
+    "This module allows you to choose where files on your desktop\n"
+    "are being stored.\n"
     "Use the \"Whats This?\" (Shift+F1) to get help on specific options.");
 }
 

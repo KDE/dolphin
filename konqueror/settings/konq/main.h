@@ -101,7 +101,7 @@ private:
   KonqFontOptions      *font;
   KRootOptions      *root;
   KDesktopConfig *virtualDesks;
-
+  DesktopPathConfig *paths;
 };
 
 

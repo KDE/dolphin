@@ -28,7 +28,6 @@ namespace KIO { class Job; }
 // The "Desktop Icons Options" Tab contains :
 // Show Hidden Files on Desktop
 // Which menus for which mouse clicks on the desktop
-// The paths for Desktop, Trash and Autostart
 
 class KRootOptions : public KCModule
 {
@@ -64,7 +63,27 @@ private:
         QComboBox *middleComboBox;
         QComboBox *rightComboBox;
         typedef enum { NOTHING = 0, WINDOWLISTMENU, DESKTOPMENU, APPMENU } menuChoice;
+};
 
+//-----------------------------------------------------------------------------
+// The "Path" Tab contains :
+// The paths for Desktop, Trash and Autostart
+
+class DesktopPathConfig : public KCModule
+{
+        Q_OBJECT
+public:
+        DesktopPathConfig(KConfig *config, QWidget *parent = 0L, const char *name = 0L );
+        virtual void load();
+        virtual void save();
+        virtual void defaults();
+        virtual QString quickHelp() const;
+
+private slots:
+	void changed();
+
+
+private:
         // Desktop Paths
         QLineEdit *leDesktop;
         QLineEdit *leTrash;

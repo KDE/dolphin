@@ -159,6 +159,10 @@ KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
   tab->addTab(virtualDesks, i18n("&Number of Desktops"));
   connect(virtualDesks, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
+  paths = new DesktopPathConfig(config, this);
+  tab->addTab(paths, i18n("&Paths"));
+  connect(paths, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+
   //should we add Trash also here ?
 }
 
@@ -168,6 +172,7 @@ void KDesktopModule::load()
   root->load();
   font->load();
   virtualDesks->load();
+  paths->load();
 }
 
 
@@ -176,6 +181,7 @@ void KDesktopModule::save()
   root->save();
   font->save();
   virtualDesks->save();
+  paths->save();
 
   // Tell kdesktop about the new config file
   if ( !kapp->dcopClient()->isAttached() )
@@ -196,6 +202,7 @@ void KDesktopModule::defaults()
   root->defaults();
   font->defaults();
   virtualDesks->defaults();
+  paths->defaults();
 }
 
 
