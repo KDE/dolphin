@@ -40,9 +40,9 @@ class KonqViewFactory
 {
 public:
   KonqViewFactory() : m_factory( 0L ) {}
-  KonqViewFactory( KLibFactory *factory, const QStringList &args ) : m_factory( factory ), m_args( args ) {}
-  KonqViewFactory( const KonqViewFactory &factory ) : m_factory( factory.m_factory ), m_args( factory.m_args ) {}
-  KonqViewFactory( KonqViewFactory &factory ) : m_factory( factory.m_factory ), m_args( factory.m_args ) {}
+  KonqViewFactory( KLibFactory *factory, const QStringList &args, bool createKROP ) : m_factory( factory ), m_args( args ), m_createKROP( createKROP ) {}
+  KonqViewFactory( const KonqViewFactory &factory ) : m_factory( factory.m_factory ), m_args( factory.m_args ) , m_createKROP( factory.m_createKROP ) {}
+  KonqViewFactory( KonqViewFactory &factory ) : m_factory( factory.m_factory ), m_args( factory.m_args ), m_createKROP( factory.m_createKROP ) {}
 
   KParts::ReadOnlyPart *create( QWidget *parent, const char *name );
 
@@ -51,6 +51,7 @@ public:
 private:
   KLibFactory *m_factory;
   QStringList m_args;
+  bool m_createKROP;
 };
 
 class KonqFactory
