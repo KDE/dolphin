@@ -56,7 +56,11 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     QVButtonGroup *bgLinks = new QVButtonGroup( i18n("Un&derline Links"), this );
     bgLinks->setExclusive( TRUE );
     connect(bgLinks, SIGNAL(clicked(int)), this, SLOT(changed()));
-    QWhatsThis::add( bgForm, i18n("Controls how Konqueror handles underlining hyperlinks.") );
+    QWhatsThis::add( bgLinks, i18n("Controls how Konqueror handles underlining hyperlinks:<br>"
+				    "<ul><li><b>Always</b>: Always underline links</li>"
+				    "<li><b>Never</b>: Never underline links</li>"
+				    "<li><b>Hover</b>: Underline when the mouse is moved over the link</li>"
+				    "</ul><br><i>Note: The site's CSS definitions can override this value</i>") );
 
     m_pUnderlineRadio[Always] = new QRadioButton( i18n("&Always"), bgLinks );
     m_pUnderlineRadio[Never] = new QRadioButton( i18n("&Never"), bgLinks );
