@@ -135,10 +135,10 @@ void KonqChildView::attach( Konqueror::View_ptr view )
   }
   else
   {
-#ifndef USE_QXEMBED
+//#ifndef USE_QXEMBED
     m_pFrame = new OPFrame( m_pWidget );
     m_pLayout->addWidget( m_pFrame );
-#endif
+//#endif
     kdebug(0, 1202, " ************* NOT LOCAL :( *************");
     m_pFrame->attach( view );
   }
@@ -177,6 +177,7 @@ void KonqChildView::show()
   kdebug(0,1202,"KonqChildView::show()");
   m_pWidget->show();
   m_vView->show(true);
+  if ( m_pFrame ) m_pFrame->show();
 }
 
 void KonqChildView::openURL( QString url )
@@ -538,7 +539,9 @@ bool KonqChildView::createView( const QString &serviceType, Konqueror::View_var 
   if ( CORBA::is_nil( factory ) )
     return false;
 
+  kdebug(0, 1202, "KonqChildView: creating view!");
   view = factory->create();
+  kdebug(0, 1202, "KonqChildView: creating view done");
 
   if ( CORBA::is_nil( view ) )
     return false;

@@ -1409,7 +1409,7 @@ void KonqMainView::slotHelpAbout()
 "Michael Reiher <michael.reiher@gmx.de>\n"
 "Matthias Welk <welk@fokus.gmd.de>\n"
 "Waldo Bastian <bastian@kde.org> , Lars Knoll <knoll@mpi-hd.mpg.de> (khtml library)\n"
-"Matt Koss <koss@napri.sk> (kio library)\n"
+"Matt Koss <koss@napri.sk>, Alex Zepeda <garbanzo@hooked.net> (kio library/slaves)\n"
   ));
 }
 

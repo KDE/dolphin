@@ -334,8 +334,6 @@ int main( int argc, char **argv )
   // registry.addFactory( new KServiceFactory ); // not needed anymore - we use kded
   registry.load( );
 
-  kdebug(0, 1202, "===================== mime stuff finished ==============");
-
   kimgioRegister();
 
   QString path = KGlobal::dirs()->getSaveLocation("data", "kfm/bookmarks", true);
