@@ -68,8 +68,9 @@ public:
 class KonqPopupMenu::KonqPopupMenuPrivate
 {
 public:
-  KonqPopupMenuPrivate();
+  QString m_urlTitle;
 };
+
 KonqPopupMenu::ProtocolInfo::ProtocolInfo( )
 {
   m_Reading = false;
@@ -107,7 +108,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_ownActions( this, "KonqPopupMenu::m_ownActions" ),
     m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items)
 {
-  d = 0; // make it new KonqPopupMenuPrivate when necessary
+  d = new KonqPopupMenuPrivate;
   assert( m_lstItems.count() >= 1 );
 
   bool currentDir     = false;
@@ -487,6 +488,11 @@ KonqPopupMenu::~KonqPopupMenu()
   kdDebug(1203) << "~KonqPopupMenu leave" << endl;
 }
 
+void KonqPopupMenu::setURLTitle( const QString& urlTitle )
+{
+    d->m_urlTitle = urlTitle;
+}
+
 void KonqPopupMenu::slotPopupNewView()
 {
   KURL::List::ConstIterator it = m_lstPopupURLs.begin();
@@ -524,9 +530,17 @@ void KonqPopupMenu::slotPopupOpenWith()
 void KonqPopupMenu::slotPopupAddToBookmark()
 {
   KBookmarkGroup root = KBookmarkManager::self()->root();
-  KURL::List::ConstIterator it = m_lstPopupURLs.begin();
-  for ( ; it != m_lstPopupURLs.end(); it++ )
+  if ( m_lstPopupURLs.count() == 1 ) {
+    KURL url = m_lstPopupURLs.first();
+    QString title = d->m_urlTitle.isEmpty() ? url.prettyURL() : d->m_urlTitle;
+    root.addBookmark( title, url.url() );
+  }
+  else
+  {
+    KURL::List::ConstIterator it = m_lstPopupURLs.begin();
+    for ( ; it != m_lstPopupURLs.end(); it++ )
       root.addBookmark( (*it).prettyURL(), (*it).url() );
+  }
   KBookmarkManager::self()->emitChanged( root );
 }
 
@@ -609,7 +623,7 @@ void KonqPopupMenu::addPlugins( ){
 	KTrader::OfferList plugin_offers;
         unsigned int pluginCount = 0;
 	plugin_offers = KTrader::self()->query( m_sMimeType.isNull() ? QString::fromLatin1( "all/all" ) : m_sMimeType , "'KonqPopupMenu/Plugin' in ServiceTypes");
-        if ( plugin_offers.isEmpty() ) 
+        if ( plugin_offers.isEmpty() )
 	  return; // no plugins installed do not bother about it
 
 	KTrader::OfferList::ConstIterator iterator = plugin_offers.begin( );

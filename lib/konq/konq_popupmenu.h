@@ -71,6 +71,12 @@ public:
    */
   ~KonqPopupMenu();
 
+  /**
+   * Set the title of the URL, when the popupmenu is opened for a single URL.
+   * This is used if the user chooses to add a bookmark for this URL.
+   */
+  void setURLTitle( const QString& urlTitle );
+
   class ProtocolInfo {
    public:
     ProtocolInfo();
