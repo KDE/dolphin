@@ -1,3 +1,19 @@
+2001-01-11  David Faure  <faure@kde.org>
+
+	* konq_mainwindow.*, konq_view.*: Store caption in the view,
+	fixes caption when switching parts or removing one.
+
+2001-01-11  Carsten Pfeiffer <pfeiffer@kde.org>
+
+	* konq_historymgr.*: KonqHistoryManager now implements the new 
+	HistoryProvider (from KParts)
+
+2001-01-09  Alexander Neundorf <neundorf@kde.org>
+
+	* konq_mainwindow.*, konq_dirpart.*: Copy (F7) and move (F8) are now
+	available as soon as some files are selected in a directory view.
+	A dialog asks for the destination.
+
 2001-01-08  Simon Hausmann  <simon@kde.org>
 
 	* KonquerorIface.cc (openBrowserWindow),
@@ -9,6 +25,13 @@
 	(createBrowserWindowFromProfileAndURL): changed return type from void
 	to DCOPRef
 
+2001-01-07  David Faure <faure@kde.org>
+
+	* konq_mainwindow.*: One KonqRun per view (del the old one in setRun),
+	only one with no view associated (KonqMainWindow::m_initialKonqRun).
+	This fixes "clicking on two bookmarks very fast opens both URLs,
+	splitting the view".
+	
 2000-12-28  Simon Hausmann  <simon@kde.org>
 
 	* konq_viewmgr.cc (loadViewProfile): When loading an empty profile
