@@ -28,6 +28,7 @@
 
 class QPixmap;
 class QPopupMenu;
+class QToolButton;
 
 class KonqView;
 class KonqViewManager;
@@ -35,7 +36,6 @@ class KonqFrameBase;
 class KonqFrame;
 class KonqFrameContainerBase;
 class KonqFrameContainer;
-class KonqFrameTabs;
 class KConfig;
 class KSeparator;
 class KProgress;
@@ -115,6 +115,9 @@ private:
   KonqViewManager* m_pViewManager;
   QPopupMenu* m_pPopupMenu;
   uint m_CurrentMaxLength;
+#if QT_VERSION >= 0x030200
+  QToolButton* m_rightWidget;
+#endif
 };
 
 #endif

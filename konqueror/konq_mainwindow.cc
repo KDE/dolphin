@@ -3190,7 +3190,7 @@ void KonqMainWindow::initActions()
   m_paDuplicateTab = new KAction( i18n( "&Duplicate Current Tab" ), "tab_duplicate", CTRL+SHIFT+Key_D, this, SLOT( slotDuplicateTab() ), actionCollection(), "duplicatecurrenttab" );
   m_paBreakOffTab = new KAction( i18n( "Detach Current Tab" ), "tab_breakoff", CTRL+SHIFT+Key_B, this, SLOT( slotBreakOffTab() ), actionCollection(), "breakoffcurrenttab" );
   m_paRemoveView = new KAction( i18n( "&Remove Active View" ),"view_remove", CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
-  m_paRemoveTab = new KAction( i18n( "Close Current Tab/Quit" ), "tab_remove", CTRL+Key_W, this, SLOT( slotRemoveTab() ), actionCollection(), "removecurrenttab" );
+  m_paRemoveTab = new KAction( i18n( "Close Current Tab" ), "tab_remove", CTRL+Key_W, this, SLOT( slotRemoveTab() ), actionCollection(), "removecurrenttab" );
 
   m_paActivateNextTab = new KAction( i18n( "Activate Next Tab" ), "tab_next", KStdAccel::tabNext(), this, SLOT( slotActivateNextTab() ), actionCollection(), "activatenexttab" );
   m_paActivatePrevTab = new KAction( i18n( "Activate Previous Tab" ), "tab_previous", KStdAccel::tabPrev(), this, SLOT( slotActivatePrevTab() ), actionCollection(), "activateprevtab" );
@@ -3410,6 +3410,7 @@ void KonqMainWindow::updateViewActions()
   {
     m_paAddTab->setEnabled( false );
     m_paDuplicateTab->setEnabled( false );
+    m_paRemoveTab->setEnabled( false );
     m_paBreakOffTab->setEnabled( false );
     m_paActivateNextTab->setEnabled( false );
     m_paActivatePrevTab->setEnabled( false );
@@ -3424,14 +3425,18 @@ void KonqMainWindow::updateViewActions()
     {
         KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(docContainer);
         bool state = (tabContainer->count()>1);
+        m_paRemoveTab->setEnabled( state );
         m_paBreakOffTab->setEnabled( state );
         m_paActivateNextTab->setEnabled( state );
         m_paActivatePrevTab->setEnabled( state );
-        m_paMoveTabLeft->setEnabled( state );
-        m_paMoveTabRight->setEnabled( state );
+
+        QPtrList<KonqFrameBase>* childFrameList = tabContainer->childFrameList();
+        m_paMoveTabLeft->setEnabled( currentView() ? currentView()->frame()!=childFrameList->first() : false );
+        m_paMoveTabRight->setEnabled( currentView() ? currentView()->frame()!=childFrameList->last() : false );
     }
     else
     {
+      m_paRemoveTab->setEnabled( false );
       m_paBreakOffTab->setEnabled( false );
       m_paActivateNextTab->setEnabled( false );
       m_paActivatePrevTab->setEnabled( false );
