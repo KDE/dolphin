@@ -47,6 +47,7 @@
 #include <kstringhandler.h>
 #include <kstddirs.h>
 #include <qpopupmenu.h>
+#include <qtextstream.h>
 #include <unistd.h>
 #include <X11/Xlib.h>
 
@@ -335,7 +336,19 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWi
         if ( formats.count() >= 1 )
         {
             kdDebug(1203) << "Pasting to " << dest.url() << endl;
-            KIO::pasteData( dest, ev->data( formats.first() ) );
+
+            QByteArray data;
+
+            QString text;
+            if ( QTextDrag::canDecode( ev ) && QTextDrag::decode( ev, text ) )
+            {
+                QTextStream txtStream( data, IO_WriteOnly );
+                txtStream << text;
+            }
+            else
+                data = ev->data( formats.first() );
+
+            KIO::pasteData( dest, data );
         }
     }
 }
