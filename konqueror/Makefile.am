@@ -1,6 +1,5 @@
-INCLUDES = -I$(srcdir)/../lib/kparts -I$(srcdir)/../libkonq \
-	 $(all_includes)
-LDFLAGS  = -L../libkonq $(LIB_KHTML) -lkjava $(all_libraries)
+
+INCLUDES = -I$(srcdir)/../libkonq $(all_includes)
 
 SUBDIRS = plugins
 
@@ -19,9 +18,9 @@ libkonqueror_la_SOURCES = konq_mainview.cc konq_part.cc konq_shell.cc \
 
 libkonqueror_la_METASOURCES = AUTO
 
-libkonqueror_la_LDFLAGS = -version-info 1:0:0
+libkonqueror_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module -avoid-version
 
-libkonqueror_la_LIBADD = -lkparts -lkonq $(LIB_KIO) $(LIB_KDEUI) $(LIB_QT)
+libkonqueror_la_LIBADD = -lkparts ../libkonq/libkonq.la $(LIB_KIO) $(LIB_KDEUI) $(LIB_QT) $(LIB_KHTML)
 
 browser.moc.cc: $(kde_includes)/browser.h
 	$(MOC) $(kde_includes)/browser.h -o $(top_builddir)/konqueror/browser.moc.cc
@@ -30,7 +29,7 @@ bin_PROGRAMS = konqueror
 
 konqueror_SOURCES = konq_main.cc
 
-konqueror_LDFLAGS = $(KDE_RPATH)
+konqueror_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 
-konqueror_LDADD = libkonqueror.la -lkded $(LIBMICO)
+konqueror_LDADD = libkonqueror.la -lkded 
 
