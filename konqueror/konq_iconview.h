@@ -88,7 +88,7 @@ public:
   virtual void slotSmallIcons();
 
   virtual void stop();
-  virtual char *viewName() { return "KonquerorKfmIconView"; }
+  virtual char *viewName() { return CORBA::string_dup("KonquerorKfmIconView"); }
       
   virtual void openURL( const char* _url );
   

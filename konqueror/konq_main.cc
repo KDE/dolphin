@@ -86,45 +86,20 @@ KonqApplicationIf::KonqApplicationIf( CORBA::Object_ptr _obj ) :
 
 OpenParts::Part_ptr KonqApplicationIf::createPart()
 {
-  QString home = "file:";
-  //home.detach();
-  home += QDir::homeDirPath().data();
-
-  Konqueror::EventOpenURL eventURL;
-  eventURL.url = CORBA::string_dup( home.data() );
-  eventURL.reload = (CORBA::Boolean)true;
-
-  OpenParts::Part_var m_vMainView = OpenParts::Part::_duplicate( new KonqMainView );
-
-  EMIT_EVENT( m_vMainView, Konqueror::eventOpenURL, eventURL );
-
-  return OpenParts::Part::_duplicate( m_vMainView );
+  return OpenParts::Part::_duplicate( new KonqMainView );
 }
 
 OpenParts::MainWindow_ptr KonqApplicationIf::createWindow()
 {
   QString home = "file:";
-  //home.detach();
-  home += QDir::homeDirPath().data();
+  home += QDir::homeDirPath();
 
   return OpenParts::MainWindow::_duplicate( (new KonqMainWindow( home.data() ))->interface() );
 }
 
 Konqueror::MainView_ptr KonqApplicationIf::createMainView()
 {
-  QString home = "file:";
-  //home.detach();
-  home += QDir::homeDirPath().data();
-
-  Konqueror::EventOpenURL eventURL;
-  eventURL.url = CORBA::string_dup( home.data() );
-  eventURL.reload = (CORBA::Boolean)true;
-
-  Konqueror::MainView_var m_vMainView = Konqueror::MainView::_duplicate( new KonqMainView );
-
-  EMIT_EVENT( m_vMainView, Konqueror::eventOpenURL, eventURL );
-
-  return Konqueror::MainView::_duplicate( m_vMainView );
+  return Konqueror::MainView::_duplicate( new KonqMainView );
 }
 
 Konqueror::KfmIconView_ptr KonqApplicationIf::createKfmIconView()

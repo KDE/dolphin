@@ -127,6 +127,7 @@ KonqMainView::KonqMainView( QWidget *_parent = 0L ) : QWidget( _parent )
   m_pAccel->readSettings();
 
   m_bInit = true;
+  m_iStackLock = 0;
   m_bBack = false;
   m_bForward = false;
 
@@ -451,9 +452,9 @@ bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )
 
   if ( !CORBA::is_nil( m_vToolBar ) )
   {
-//    m_vToolBar->setItemEnabled( TOOLBAR_UP_ID, hasUpURL() );
-//    m_vToolBar->setItemEnabled( TOOLBAR_BACK_ID, hasBackHistory() );
-//    m_vToolBar->setItemEnabled( TOOLBAR_FORWARD_ID, hasForwardHistory() );
+    m_vToolBar->setItemEnabled( TOOLBAR_UP_ID, !m_currentView->m_strUpURL.isEmpty() );
+    m_vToolBar->setItemEnabled( TOOLBAR_BACK_ID, m_currentView->m_lstBack.size() != 0 );
+    m_vToolBar->setItemEnabled( TOOLBAR_FORWARD_ID, m_currentView->m_lstForward.size() != 0 );
   }
 
 //  KfmViewProps * vProps = m_currentView->m_pView->props();
@@ -484,8 +485,9 @@ bool KonqMainView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 void KonqMainView::insertView( Konqueror::View_ptr view,
                                Konqueror::NewViewPosition newViewPosition )
 {
-//Konqueror::View_var m_vView = Konqueror::View::_duplicate( view );
-  Konqueror::View_ptr m_vView = view; // temporary
+  Konqueror::View_var m_vView = Konqueror::View::_duplicate( view );
+//  Konqueror::View_ptr m_vView = view; // temporary
+  // why this??? fixed again (Simon)
 
   m_vView->setMainWindow( m_vMainWindow );
   m_vView->setParent( this );
@@ -500,7 +502,7 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
   m_mapViews[ view->id() ] = v;
   v->m_vView = Konqueror::View::_duplicate( m_vView );
 
-  m_currentView = v;
+  m_currentView = v; //why do we automatically activate a view when inserting? (Simon)
 
   if (newViewPosition == Konqueror::above || 
       newViewPosition == Konqueror::below)
@@ -550,7 +552,7 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
   }
   try
   {
-    m_vView->connect("started", this, "slotStartAnimation");
+    m_vView->connect("started", this, "slotURLStarted");
   }
   catch ( ... )
   {
@@ -595,14 +597,6 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
   catch ( ... )
   {
     cerr << "WARNING: view does not know signal ""popupMenu"" " << endl;
-  }
-  try
-  {
-    m_vView->connect("addHistory", this, "addHistory");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""addHistory"" " << endl;
   }
 
   createViewMenu();
@@ -765,45 +759,6 @@ void KonqMainView::setUpURL( const char *_url )
     m_vToolBar->setItemEnabled( TOOLBAR_UP_ID, false );
   else
     m_vToolBar->setItemEnabled( TOOLBAR_UP_ID, true );
-}
-
-void KonqMainView::addHistory( const char *_url, CORBA::Long _xoffset, CORBA::Long _yoffset )
-{
-  History h;
-  h.m_strURL = _url;
-  h.m_iXOffset = _xoffset;
-  h.m_iYOffset = _yoffset;
-
-  if ( m_bBack )
-  {
-    m_bBack = false;
-
-    m_currentView->m_lstForward.push_front( h );
-    if ( !CORBA::is_nil( m_vToolBar ) )
-      m_vToolBar->setItemEnabled( TOOLBAR_FORWARD_ID, true );
-
-    return;
-  }
-
-  if ( m_bForward )
-  {
-    m_bForward = false;
-
-    m_currentView->m_lstBack.push_back( h );
-    if ( !CORBA::is_nil( m_vToolBar ) )
-      m_vToolBar->setItemEnabled( TOOLBAR_BACK_ID, true );
-
-    return;
-  }
-
-  m_currentView->m_lstForward.clear();
-  m_currentView->m_lstBack.push_back( h );
-
-  if ( !CORBA::is_nil( m_vToolBar ) )
-  {
-    m_vToolBar->setItemEnabled( TOOLBAR_FORWARD_ID, false );
-    m_vToolBar->setItemEnabled( TOOLBAR_BACK_ID, true );
-  }
 }
 
 void KonqMainView::createNewWindow( const char *url )
@@ -1089,7 +1044,7 @@ void KonqMainView::openDirectory( const char *url )
   }
   try
   {
-    vView->connect("started", this, "slotStartAnimation");
+    vView->connect("started", this, "slotURLStarted");
   }
   catch ( ... )
   {
@@ -1135,18 +1090,38 @@ void KonqMainView::openDirectory( const char *url )
   {
     cerr << "WARNING: view does not know signal ""popupMenu"" " << endl;
   }
-  try
-  {
-    vView->connect("addHistory", this, "addHistory");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""addHistory"" " << endl;
-  }
+
+    //temporary hack...grrr (Simon)
+    m_currentView->m_lstBack.clear();
+    
     m_mapViews[ vView->id() ] = m_currentView;
   }
 
   createViewMenu();
+
+  //TODO: check for html index file and stuff (Simon)
+    
+  // Parse URL
+  K2URLList lst;
+  assert( K2URL::split( url, lst ) );
+
+  // Do we perhaps want to display a html index file ? => Save the path of the URL
+  QString tmppath;
+  if ( lst.size() == 1 && lst.front().isLocalFile() /*&& isHTMLAllowed()*/ )
+    tmppath = lst.front().path();
+  
+  // Get parent directory
+  QString p = lst.back().path();
+  if ( p.isEmpty() || p == "/" )
+    setUpURL( 0 );
+  else
+  {
+    string dir = lst.back().directory( true, true );
+    lst.back().setPath( dir.c_str() );
+    string _url;
+    K2URL::join( lst, _url );
+    setUpURL( _url.c_str() );
+  }
   
   Konqueror::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( url );
@@ -1184,7 +1159,7 @@ void KonqMainView::openHTML( const char *url )
   }
   try
   {
-    vView->connect("started", this, "slotStartAnimation");
+    vView->connect("started", this, "slotURLStarted");
   }
   catch ( ... )
   {
@@ -1230,20 +1205,17 @@ void KonqMainView::openHTML( const char *url )
   {
     cerr << "WARNING: view does not know signal ""popupMenu"" " << endl;
   }
-  try
-  {
-    vView->connect("addHistory", this, "addHistory");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""addHistory"" " << endl;
-  }
-        
+
+    //temporary hack...grrr (Simon)
+    m_currentView->m_lstBack.clear();
+          
     m_mapViews[ vView->id() ] = m_currentView;
   }
 
   createViewMenu();
 
+  setUpURL( 0 );
+  
   Konqueror::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( url );
   eventURL.reload = (CORBA::Boolean)false;
@@ -1259,15 +1231,20 @@ void KonqMainView::splitView ( Konqueror::NewViewPosition newViewPosition )
 
   // HACK - could be something else than icon view - has to be the same
   // view mode as current view
+  // Why not do it like this:
+  // - "read" the view name via View::viewName()
+  // - look this name up in a map, containing all available views
+  // - if it is a builtin view just create a new view
+  // - if it is not a builtin view just call the appropriate view factory
   insertView( new KonqKfmIconView, newViewPosition );
-
+  
   Konqueror::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( url );
   eventURL.reload = (CORBA::Boolean)false;
   eventURL.xOffset = 0;
   eventURL.yOffset = 0;
+  m_iStackLock = 1;
   EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
-
 }
 
 void KonqMainView::createViewMenu()
@@ -1554,8 +1531,10 @@ void KonqMainView::slotUp()
   assert( !m_currentView->m_strUpURL.isEmpty() );
 //  m_currentView->m_pView->openURL( m_currentView->m_strUpURL );
   Konqueror::EventOpenURL eventURL;
-  eventURL.url = m_currentView->m_strUpURL.data();
+  eventURL.url = CORBA::string_dup( m_currentView->m_strUpURL.data() );
   eventURL.reload = (CORBA::Boolean)false;
+  eventURL.xOffset = 0;
+  eventURL.yOffset = 0;
   EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
 }
 
@@ -1571,7 +1550,7 @@ void KonqMainView::slotBack()
 {
   assert( m_currentView->m_lstBack.size() != 0 );
   // m_lstForward.push_front( m_currentHistory );
-  History h = m_currentView->m_lstBack.back();
+  Konqueror::View::HistoryEntry h = m_currentView->m_lstBack.back();
   m_currentView->m_lstBack.pop_back();
 
   if( m_currentView->m_lstBack.size() == 0 && ( !CORBA::is_nil( m_vToolBar ) ) )
@@ -1581,15 +1560,14 @@ void KonqMainView::slotBack()
 
   m_bBack = true;
 
-//  m_currentView->m_pView->openURL( h.m_strURL, 0, false, h.m_iXOffset, h.m_iYOffset );
-  //TODO
+  m_currentView->m_vView->restoreState( h );
 }
 
 void KonqMainView::slotForward()
 {
   assert( m_currentView->m_lstForward.size() != 0 );
   // m_lstBack.push_back( m_currentHistory() );
-  History h = m_currentView->m_lstForward.front();
+  Konqueror::View::HistoryEntry h = m_currentView->m_lstForward.front();
   m_currentView->m_lstForward.pop_front();
 
   // if( m_lstBack.size() != 0 )
@@ -1599,10 +1577,7 @@ void KonqMainView::slotForward()
 
   m_bForward = true;
 
-//  m_currentView->m_pView->openURL( h.m_strURL, 0, false, h.m_iXOffset, h.m_iYOffset );
-  //TODO
-  //(extend the EventOpenURL structure!?) (Simon)
-  // or emit event, then set offsets... (David)
+  m_currentView->m_vView->restoreState( h );
 }
 
 void KonqMainView::slotReload()
@@ -1612,6 +1587,19 @@ void KonqMainView::slotReload()
 
 //  m_currentView->m_pView->reload();
 // TODO (trivial)
+// hm...perhaps I was wrong ;)
+// I'll do it now like this:
+  Konqueror::EventOpenURL eventURL;
+  eventURL.url = CORBA::string_dup( m_currentView->m_vView->url() );
+  eventURL.reload = (CORBA::Boolean)true;
+  eventURL.xOffset = 0;
+  eventURL.yOffset = 0;
+  EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
+//but perhaps this would be better:
+//(1) remove the reload/xOffset/yOffset stuff out of the event structure
+//(2) add general methods like reload(), moveTo( xofs, yofs) to the view interface
+// What do you think, David?
+//(Simon)
 }
 
 void KonqMainView::slotFileNewActivated( CORBA::Long id )
@@ -1643,6 +1631,58 @@ void KonqMainView::slotBookmarkSelected( CORBA::Long id )
 void KonqMainView::slotEditBookmarks()
 {
   KBookmarkManager::self()->slotEditBookmarks();
+}
+
+void KonqMainView::slotURLStarted( const char *url )
+{
+  if ( !url )
+    return;
+
+  //any ideas what we might do with the provided url string ? :) (Simon)
+    
+  slotStartAnimation();
+  
+  if ( m_iStackLock > 0 )
+  {
+    m_iStackLock--;
+    return;
+  }
+  
+  Konqueror::View::HistoryEntry *h = m_currentView->m_vView->saveState();
+  
+  if ( m_bBack )
+  {
+    m_bBack = false;
+    
+    m_currentView->m_lstForward.push_front( *h );
+    if ( !CORBA::is_nil( m_vToolBar ) )
+      m_vToolBar->setItemEnabled( TOOLBAR_FORWARD_ID, true );
+
+    delete h;      
+    return;      
+  }
+  
+  if ( m_bForward )
+  {
+    m_bForward = false;
+    
+    m_currentView->m_lstBack.push_front( *h );
+    if ( !CORBA::is_nil( m_vToolBar ) )
+      m_vToolBar->setItemEnabled( TOOLBAR_BACK_ID, true );
+      
+    delete h;      
+    return;      
+  }
+  
+  m_currentView->m_lstForward.clear();
+  m_currentView->m_lstBack.push_back( *h );
+  
+  if ( !CORBA::is_nil( m_vToolBar ) )
+  {
+    m_vToolBar->setItemEnabled( TOOLBAR_FORWARD_ID, false );
+    m_vToolBar->setItemEnabled( TOOLBAR_BACK_ID, true );
+  }
+  delete h;      
 }
 
 void KonqMainView::slotFocusLeftView()
@@ -1780,6 +1820,7 @@ void KonqMainView::slotPopupProperties()
 void KonqMainView::resizeEvent( QResizeEvent *e )
 {
 //  m_pPanner->setGeometry( 0, 0, width(), height() );
+  m_pMainSplitter->setGeometry( 0, 0, width(), height() ); //is this ok as replacement for m_pPanner? (Simon)
 }
 
 KonqMainView::View::View()
@@ -1868,7 +1909,11 @@ void KonqMainView::initView()
   setActiveView( vView1->id() );
 
   Konqueror::View_var vView2 = Konqueror::View::_duplicate( new KonqKfmTreeView );
-  insertView( vView2, Konqueror::right );
+  insertView( vView2, Konqueror::left );
+
+  //fix because insertView makes the just inserted view the active view
+  //let's remove this, ok? (Simon)
+  setActiveView( vView1->id() );
 
   //temporary...
   Konqueror::EventOpenURL eventURL;
@@ -1877,9 +1922,9 @@ void KonqMainView::initView()
   eventURL.xOffset = 0;
   eventURL.yOffset = 0;
 
+  m_iStackLock = 2;
   EMIT_EVENT( vView1, Konqueror::eventOpenURL, eventURL );
   EMIT_EVENT( vView2, Konqueror::eventOpenURL, eventURL );
-
 }
 /*
 void KonqMainView::setViewModeMenu( KfmView::ViewMode _viewMode )

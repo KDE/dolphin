@@ -328,19 +328,27 @@ char *KonqHTMLView::title()
 
 Konqueror::View::HistoryEntry *KonqHTMLView::saveState()
 {
+  return KonqBaseView::saveState();
+/*
   Konqueror::View::HistoryEntry *entry = KonqBaseView::saveState();
   
   SavedPage *p = saveYourself();
   savePage( &entry->data, p );
   delete p;
   return entry;
+*/  
 }
 
 void KonqHTMLView::restoreState( const Konqueror::View::HistoryEntry &entry )
 {
-  SavedPage *p = restorePage( &entry.data );
-  restore( p );
-  delete p;
+  KonqBaseView::restoreState( entry );
+//  SavedPage *p = restorePage( &entry.data );
+  //FIXME: It might be good to use an event here, because of possibly installed
+  //       event filters. Pppppperhaps: Store p somewhere else, set a bool flag,
+  //       emit an "tweaked" event and obey the flag inside the event handler.
+  //(Simon)
+//  restore( p );
+//  delete p;
 }
 
 void KonqHTMLView::savePage( CORBA::Any *data, SavedPage *p )

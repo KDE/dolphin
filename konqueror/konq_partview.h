@@ -26,7 +26,7 @@ public:
   
   virtual void stop() {}
   
-  virtual char *viewName() { return "KonquerorPartView"; }
+  virtual char *viewName() { return CORBA::string_dup("KonquerorPartView"); }
   
 protected:
   void resizeEvent( QResizeEvent * );

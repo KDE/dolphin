@@ -58,7 +58,7 @@ public:
   virtual bool mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu );
 
   virtual void stop();
-  virtual char *viewName() { return "KonquerorHTMLView"; }
+  virtual char *viewName() { return CORBA::string_dup( "KonquerorHTMLView" ); }
 
   virtual char *url();
   virtual char *title();

@@ -33,6 +33,8 @@ kdelnkdir = $(kde_datadir)/../partlnk
 
 DISTCLEANFILES = $(METASOURCES) konqueror.cc konqueror.h
 
+idl_DATA = konqueror.idl
+
 messages:
 	$(XGETTEXT) -C -ktranslate -kaliasLocale -ki18n -x $(includedir)/kde.pot $(konqueror_SOURCES) $(noinst_HEADERS) && mv messages.po ../po/konqueror.pot
 

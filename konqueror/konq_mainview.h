@@ -65,6 +65,10 @@ public:
   KonqMainView( QWidget *_parent = 0L );
   ~KonqMainView();
 
+  // two friends which need to access m_bStackLock :)
+  friend class KonqMainWindow;
+  friend class KonqApplicationIf;
+  
   //inherited
   virtual void init();
   virtual void cleanUp();
@@ -90,7 +94,6 @@ public:
   virtual void setStatusBarText( const char *_text );
   virtual void setLocationBarURL( const char *_url );
   virtual void setUpURL( const char *_url );
-  virtual void addHistory( const char *_url, CORBA::Long _xoffset, CORBA::Long _yoffset );
   
   virtual void createNewWindow( const char *url );
   virtual void popupMenu( const Konqueror::View::MenuPopupRequest &popup );
@@ -142,6 +145,8 @@ public slots:
   virtual void slotBookmarkSelected( CORBA::Long id );
   virtual void slotEditBookmarks();  
   
+  virtual void slotURLStarted( const char *url );
+  
   /////////////////////////
   // Accel
   /////////////////////////
@@ -153,7 +158,7 @@ public slots:
   /////////////////////////
   void slotAnimatedLogoTimeout();
   void slotStartAnimation();
-  void slotStopAnimation();
+  virtual void slotStopAnimation();
 
   void slotPopupNewView();
   void slotPopupEmptyTrashBin();
@@ -184,13 +189,6 @@ protected:
   
   ///////// protected members //////////////
 
-  struct History
-  {
-    QString m_strURL;
-    int m_iXOffset;
-    int m_iYOffset;
-  };
-  
   OpenPartsUI::Menu_var m_vMenuFile;
   OpenPartsUI::Menu_var m_vMenuFileNew;
   OpenPartsUI::Menu_var m_vMenuEdit;
@@ -215,8 +213,8 @@ protected:
     Konqueror::View_var m_vView;
     OPFrame *m_pFrame;
     QString m_strUpURL;
-    list<History> m_lstBack;
-    list<History> m_lstForward;
+    list<Konqueror::View::HistoryEntry> m_lstBack;
+    list<Konqueror::View::HistoryEntry> m_lstForward;
     Row * row;
   };
 
@@ -257,6 +255,7 @@ protected:
   unsigned int m_animatedLogoCounter;
   QTimer m_animatedLogoTimer;
 
+  int m_iStackLock;
   bool m_bBack;
   bool m_bForward;
 

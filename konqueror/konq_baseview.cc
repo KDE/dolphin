@@ -13,7 +13,6 @@ KonqBaseView::KonqBaseView()
   SIGNAL_IMPL( "setLocationBarURL" );
   SIGNAL_IMPL( "createNewWindow" );
   SIGNAL_IMPL( "popupMenu" );
-  SIGNAL_IMPL( "addHistory" );
   
   OPPartIf::setFocusPolicy( OpenParts::Part::ClickFocus );
   
