@@ -138,6 +138,9 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
       KAction * action = new KAction( bm->text(), bm->pixmapFile(), 0,
                                       this, SLOT( slotBookmarkSelected() ),
                                       m_actionCollection, QString("bookmark%1").arg(bm->id()) );
+      
+      action->setShortText( bm->url() );
+      
       action->plug( m_parentMenu );
     }
     else
@@ -233,6 +236,7 @@ void KBookmarkMenu::openNSBookmarks()
         KAction * action = new KAction( KBookmark::stringSqueeze(QString(name)), 0, 0,
                                         this, SLOT( slotNSBookmarkSelected() ),
                                         m_actionCollection, QString("bookmark%1").arg(link) );
+	action->setShortText( link );
         action->plug( mstack.top()->m_parentMenu );
       }
       else if(t.left(7) == "<DT><H3") {
