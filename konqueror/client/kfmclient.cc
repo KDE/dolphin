@@ -103,7 +103,7 @@ int main( int argc, char **argv )
     printf(i18n("  kfmclient download ['src']\n"
                 "            # Copies the URL 'src' to a user specified location'.\n"
                 "            #   'src' may be a list of URLs, if not present then\n"
-                "            #   a url will be requested for.\n\n").local8Bit());
+                "            #   a URL will be requested.\n\n").local8Bit());
     printf(i18n("  kfmclient copy 'src' 'dest'\n"
                 "            # Copies the URL 'src' to 'dest'.\n"
                 "            #   'src' may be a list of URLs.\n\n").local8Bit());
@@ -369,7 +369,7 @@ bool clientApp::doIt()
           KURL src = KURLRequesterDlg::getURL();
           if (!src.isEmpty()) {
              if (src.isMalformed()) {
-                KMessageBox::error(0, i18n("Sorry, unable to download from an invalid url."));
+                KMessageBox::error(0, i18n("Unable to download from an invalid URL."));
                 continue;
              }
              srcLst.append(src);
