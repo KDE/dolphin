@@ -58,10 +58,9 @@ bool KonqSidebar::openURL(const KURL &url){if (m_widget) return m_widget->openUR
 void KonqSidebar::customEvent(QCustomEvent* ev)
 {
 	if (KonqFileSelectionEvent::test(ev) ||
-	    KonqFileMouseOverEvent::test(ev))
+	    KonqFileMouseOverEvent::test(ev) ||
+	    KonqConfigEvent::test(ev))
 	{
-		//kdDebug(1202)<<"KonqSidebar got a selection change or mouse over event\n";
-
 		// Forward the event to the widget
 		QApplication::sendEvent( m_widget, ev );
 	}

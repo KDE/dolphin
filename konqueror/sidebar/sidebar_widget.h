@@ -120,7 +120,6 @@ protected slots:
 	void buttonPopupActivate(int);
   	void dockWidgetHasUndocked(KDockWidget*);
 	void aboutToShowConfigMenu();
-	void saveOpenViews();
 	void saveConfig();
 
 signals:

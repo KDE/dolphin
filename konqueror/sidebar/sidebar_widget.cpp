@@ -233,8 +233,6 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	m_menu->insertItem(i18n("Show Tabs Left"), 2);
 	m_menu->insertItem(i18n("Show Configuration Button"), 3);
 	m_menu->insertSeparator();
-	m_menu->insertItem(i18n("Save Opened Views"), this, SLOT(saveOpenViews()));
-	m_menu->insertSeparator();
 	m_menu->insertItem(SmallIconSet("remove"), i18n("Close Navigation Panel"),
 			par, SLOT(deleteLater()));
         connect(m_menu, SIGNAL(aboutToShow()),
@@ -310,11 +308,6 @@ void Sidebar_Widget::finishRollBack()
         QTimer::singleShot(0,this,SLOT(updateButtons()));
 }
 
-void Sidebar_Widget::saveOpenViews()
-{
-        m_config->writeEntry("OpenViews",m_visibleViews);
-        m_config->sync();
-}
 
 void Sidebar_Widget::saveConfig()
 {
@@ -1085,6 +1078,7 @@ void Sidebar_Widget::connectModule(QObject *mod)
 
 Sidebar_Widget::~Sidebar_Widget()
 {
+        m_config->writeEntry("OpenViews", m_visibleViews);
 	if (m_configTimer.isActive())
 		saveConfig();
 	delete m_config;
@@ -1107,6 +1101,15 @@ void Sidebar_Widget::customEvent(QCustomEvent* ev)
 			emit fileMouseOver(KFileItem(KURL(),QString::null,KFileItem::Unknown));
 		} else {
 			emit fileMouseOver(*static_cast<KonqFileMouseOverEvent*>(ev)->item());
+		}
+	} else if (KonqConfigEvent::test(ev)) {
+		KonqConfigEvent *event = static_cast<KonqConfigEvent*>(ev);
+		if (event->save())
+			event->config()->writeEntry(event->prefix()+"OpenViews",m_visibleViews);
+		else
+		{
+			if (event->config()->hasKey(event->prefix()+"OpenViews"))
+				m_openViews = event->config()->readListEntry(event->prefix()+"OpenViews");
 		}
 	}
 }
