@@ -415,8 +415,15 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
    KonqBaseListViewItem *item = (KonqBaseListViewItem*)itemAt( ev->pos() );
 
    KonqFileItem * destItem = (item) ? item->item() : static_cast<KonqFileItem *>(m_dirLister->rootItem());
-   assert( destItem );
+   if ( !destItem )
+   {
+      // Maybe we want to do a stat to get full info about the root item
+      // (when we use permissions). For now create a dummy one.
+      destItem = new KonqFileItem( S_IFDIR, (mode_t)-1, url() );
+   }
    KonqOperations::doDrop( destItem, ev, this );
+   if ( !item && !m_dirLister->rootItem() )
+     delete destItem; // we just created it
 }
 
 void KonqBaseListViewWidget::viewportMousePressEvent( QMouseEvent *_ev )
@@ -654,12 +661,25 @@ void KonqBaseListViewWidget::popupMenu( const QPoint& _global )
    for( ; it != items.end(); ++it )
       lstItems.append( (*it)->item() );
 
+   KFileItem * rootItem = 0L;
    if ( lstItems.count() == 0 ) // emit popup for background
    {
-      assert( m_dirLister->rootItem() );
-      lstItems.append( m_dirLister->rootItem() );
+
+     rootItem = m_dirLister->rootItem();
+     if ( !rootItem )
+     {
+       // Maybe we want to do a stat to get full info about the root item
+       // (when we use permissions). For now create a dummy one.
+       rootItem = new KFileItem( S_IFDIR, (mode_t)-1, url() );
+     }
+
+     lstItems.append( m_dirLister->rootItem() );
    }
    emit m_pBrowserView->extension()->popupMenu( _global, lstItems );
+
+   if ( lstItems.count() == 0 )
+    if ( ! m_dirLister->rootItem() )
+      delete rootItem; // we just created it
 }
 
 void KonqBaseListViewWidget::createColumns()

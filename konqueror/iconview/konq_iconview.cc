@@ -783,12 +783,28 @@ void KonqKfmIconView::slotViewportRightClicked( QIconViewItem *i )
 {
     if ( i )
 	return;
-    if ( ! m_dirLister->rootItem() )
+    KFileItem * item = m_dirLister->rootItem();
+    if ( ! item )
+    {
+      if ( m_bLoading )
+      {
+        kdDebug(1202) << "slotViewportRightClicked : still loading and no root item -> dismissed" << endl;
         return; // too early, '.' not yet listed
+      }
+      else
+      {
+        // We didn't get a root item (e.g. over FTP)
+        // TODO Use KIO::stat (or NetAccess::stat ?) here !
+        item = new KFileItem( S_IFDIR, (mode_t)-1, url() );
+      }
+    }
 
     KFileItemList items;
-    items.append( m_dirLister->rootItem() );
+    items.append( item );
     emit m_extension->popupMenu( QCursor::pos(), items );
+
+    if ( ! m_dirLister->rootItem() )
+      delete item; // we just created it
 }
 
 void KonqKfmIconView::slotStarted( const QString & /*url*/ )
@@ -812,9 +828,8 @@ void KonqKfmIconView::slotCanceled()
 
 void KonqKfmIconView::slotCompleted()
 {
-    // Root item ? Store in konqiconviewwidget
-    if ( m_dirLister->rootItem() )
-      m_pIconView->setRootItem( static_cast<KonqFileItem *>(m_dirLister->rootItem()) );
+    // Root item ? Store root item in konqiconviewwidget (whether 0L or not)
+    m_pIconView->setRootItem( static_cast<KonqFileItem *>(m_dirLister->rootItem()) );
 
     if ( m_bUpdateContentsPosAfterListing )
       m_pIconView->setContentsPos( m_extension->urlArgs().xOffset, m_extension->urlArgs().yOffset );
@@ -827,6 +842,7 @@ void KonqKfmIconView::slotCompleted()
     m_bNeedEmitCompleted = true;
 
     m_timer->start( 0, true /* single shot */ );
+    m_bLoading = false;
 
     // Disable cut icons if any
     m_pIconView->slotClipboardDataChanged();
