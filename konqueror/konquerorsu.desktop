@@ -4,5 +4,5 @@ Exec=kdesu konqueror
 DocPath=konqueror/index.html
 Icon=kfm
 
-Name=File Manager (Super User Mode)
+Name=File Manager - Super User Mode
 
