@@ -429,7 +429,22 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   if ( !view  && !req.newTab)
     view = m_currentView; /* Note, this can be 0L, e.g. on startup */
 
-  if ( view )
+  if ( url.protocol() == "javascript" && !req.typedURL.isEmpty() ) 
+  {
+    m_pendingBookmarklet = url;    
+    if ( !view || view->url().isEmpty() || !view->part() || !view->part()->inherits("KHTMLPart") ) 
+    {
+      abortLoading();
+      serviceType = "text/html";
+      url = "about:blank";
+    }
+    else 
+    {
+      executePendingBookmarklet( view );
+      return;
+    }
+  }
+  else if ( view )
   {
     if ( view == m_currentView )
     {
@@ -1655,9 +1670,30 @@ void KonqMainWindow::slotSetStatusBarText( const QString & )
    // Does nothing here, see konq_frame.cc
 }
 
+void KonqMainWindow::executePendingBookmarklet( KonqView * view )
+{
+  assert( view );
+  kdWarning(1202) << "KonqMainWindow::executePendingBookmarklet" << endl;
+  setLocationBarURL( m_pendingBookmarklet.prettyURL() );
+  view->setTypedURL( m_pendingBookmarklet.prettyURL() );
+  QString script;
+  script = KURL::decode_string( 
+              m_pendingBookmarklet.url().right(m_pendingBookmarklet.url().length() - 11) );
+  connect(this, SIGNAL( executeScript(const QString &) ), 
+          view->part(), SLOT( executeScript(const QString &) ));
+  emit executeScript( script );
+  disconnect(this, SIGNAL( executeScript(const QString &) ), 0, 0);
+  m_pendingBookmarklet = KURL();
+}
+
 void KonqMainWindow::slotViewCompleted( KonqView * view )
 {
   assert( view );
+
+  if ( !m_pendingBookmarklet.isEmpty() )  {
+    executePendingBookmarklet( view );
+    return;
+  }
 
   // Need to update the current working directory
   // of the completion object everytime the user
