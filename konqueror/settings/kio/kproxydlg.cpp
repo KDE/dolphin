@@ -288,10 +288,13 @@ void KProxyOptions::save()
     g_pConfig->sync();
 
     delete g_pConfig;
-    
-    // ### TODO: setup protocol argument
+
     QByteArray data;
+    // This should only be done when the FTP proxy setting is changed (on/off)
+    QCString launcher = KApplication::launcher();
+    kapp->dcopClient()->send( launcher, launcher, "reparseConfiguration()", data );
     QDataStream stream( data, IO_WriteOnly );
+    // ### TODO: setup protocol argument
     stream << QString::null;
     if ( !kapp->dcopClient()->isAttached() )
       kapp->dcopClient()->attach();
