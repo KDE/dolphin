@@ -29,8 +29,8 @@ libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc konqpopupmenu.cc 
 	konqdirlister.cc konqfileitem.cc kfileivi.cc \
 	konqsettings.cc konqdrag.cc konqiconviewwidget.cc \
 	konqoperations.cc kbookmarkbar.cc \
-        konq_propsview.cc konq_events.cc konq_bgnddlg.cc \
-        konqdirlister.skel konqdirlister.stub
+        konq_propsview.cc konq_events.cc konq_bgnddlg.cc konq_dirwatcher.cc \
+        konq_dirwatcher.skel konq_dirwatcher.stub
 
 METASOURCES = AUTO
 
@@ -38,7 +38,7 @@ include_HEADERS = kbookmark.h kbookmarkmenu.h knewmenu.h konqpopupmenu.h \
 	konqdirlister.h konqfileitem.h kfileivi.h \
 	konqdefaults.h konqsettings.h konqdrag.h konqiconviewwidget.h \
 	konqoperations.h kbookmarkbar.h \
-        konq_propsview.h konq_events.h konq_bgnddlg.h
+        konq_propsview.h konq_events.h konq_bgnddlg.h konq_dirwatcher.h
 
 messages:
 	$(XGETTEXT) *.cc *.h -o $(podir)/libkonq.pot

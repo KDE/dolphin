@@ -29,6 +29,8 @@
 #include <kglobal.h>
 #include <kstddirs.h>
 
+#include "konq_dirwatcher.h"
+
 class KBookmarkManager;
 class KBookmark;
 
@@ -62,11 +64,29 @@ public:
    * Text shown for the bookmark
    */
   QString text() const;
+  /**
+   * URL contained by the bookmark
+   */
   QString url() const { return m_url; }
+  /**
+   * URL or Folder
+   */
   int type() const { return m_type; }
+  /**
+   * @internal id
+   */
   int id() const { return m_id; }
+  /**
+   * Path to the local desktop file that defines this bookmarks.
+   */
   QString file() const { return m_file; }
+  /**
+   * @return the pixmap file for this bookmark
+   */
   QString pixmapFile();
+  /**
+   * @return the pixmap for this bookmark
+   */
   QPixmap pixmap();
 
   /**
@@ -145,7 +165,7 @@ protected:
  * class from this one and specify your own path and overload
  * @ref editBookmarks
  */
-class KBookmarkManager : public QObject
+class KBookmarkManager : public QObject, public KonqDirWatcher
 {
   friend KBookmark;
 
@@ -221,7 +241,7 @@ public:
    * @internal
    * For internal use only
    */
-  void emitChanged();
+  virtual void emitChanged();
 
 
 
@@ -231,21 +251,39 @@ signals:
    */
   void changed();
 
+public:
+  /**
+   * This function is automatically called via DCOP when a bookmark manager notices
+   * a change, in order to update all other bookmark managers that display the same
+   * bookmarks.
+   * Reimplemented from KonqDirWatcher.
+   */
+  virtual void FilesAdded( const KURL & directory );
+
+  /**
+   * This function is automatically called via DCOP when a bookmark manager notices
+   * a change, in order to update all other bookmark managers that display the same
+   * bookmarks.
+   * Reimplemented from KonqDirWatcher.
+   */
+  virtual void FilesRemoved( const KURL::List & fileList );
+
 public slots:
   /**
    * If you know that something in the bookmarks directory tree changed, call this
    * function to update the bookmark menus. If the given URL is not of interest for
    * the bookmarks then nothing will happen.
    */
-  void slotNotify( const QString &_url );
+  void slotNotify( const QString & path );
+
   /**
    * Connect this slot directly to the menu item "edit bookmarks"
    */
   void slotEditBookmarks();
 
 protected:
-  void scan( const char *filename );
-  void scanIntern( KBookmark*, const char *filename );
+  virtual void scan( const char *filename );
+  virtual void scanIntern( KBookmark*, const char *filename );
 
   void disableNotify() { m_bNotify = false; }
   void enableNotify() { m_bNotify = true; }

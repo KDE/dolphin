@@ -50,7 +50,7 @@ namespace KIO { class Job; }
  *    menu as a parameter
  * 3) Insert your (now full) popup menu wherever you wish
  *
- * Again, if you wish to modify any defaults, the procedure has:
+ * Again, if you wish to modify any defaults, the procedure is:
  *
  * 1a) Reimplement your own KBookmarkOwner
  * 1b) Reimplement and instantiate your own KBookmarkManager
@@ -76,7 +76,7 @@ public:
   /**
    * Even if you think you need to use this, you are probably wrong.
    * It fills a bookmark menu starting a given KBookmark.
-   *
+   * This is public for KBookmarkBar.
    * @param _parent a root bookmark that <em>must</em> be defined
    */
   void fillBookmarkMenu( KBookmark *_parent );
@@ -104,4 +104,3 @@ protected:
 };
 
 #endif
-

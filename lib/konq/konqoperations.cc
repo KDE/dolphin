@@ -25,7 +25,7 @@
 #include <kpropsdlg.h>
 
 #include <dcopclient.h>
-#include <konqdirlister_stub.h>
+#include <konq_dirwatcher_stub.h>
 
 // For doDrop
 #include <qpopupmenu.h>
@@ -288,23 +288,23 @@ void KonqOperations::slotResult( KIO::Job * job )
     else
     {
       kdDebug() << "KonqOperations::slotResult : notifying the KonqDirListers" << endl;
-      KonqDirLister_stub allDirListers("*", "KonqDirLister*");
+      KonqDirWatcher_stub allDirWatchers("*", "KonqDirWatcher*");
       switch (m_method) {
         case TRASH:
             // Notify the listers showing the trash that new files are there
-            allDirListers.FilesAdded( KGlobalSettings::trashPath() );
+            allDirWatchers.FilesAdded( KGlobalSettings::trashPath() );
             // fall through
         case SHRED:
         case DEL:
             // Notify about the deletions
-            allDirListers.FilesRemoved( m_srcURLs );
+            allDirWatchers.FilesRemoved( m_srcURLs );
             break;
         case MOVE:
-            allDirListers.FilesRemoved( m_srcURLs );
+            allDirWatchers.FilesRemoved( m_srcURLs );
             // fall through
         case COPY:
         case LINK:
-            allDirListers.FilesAdded( m_destURL );
+            allDirWatchers.FilesAdded( m_destURL );
             break;
         default:
             ASSERT(0);

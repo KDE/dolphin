@@ -89,7 +89,7 @@ KBookmarkManager::KBookmarkManager( QString _path ) : m_sPath( _path )
 
   connect( KDirWatch::self(), SIGNAL( dirty( const QString & ) ),
            this, SLOT( slotNotify( const QString & ) ) );
-  
+
   KDirWatch::self()->addDir( m_sPath );
 }
 
@@ -98,6 +98,22 @@ KBookmarkManager::~KBookmarkManager()
   KDirWatch::self()->removeDir( m_sPath );
   delete m_Root;
   s_pSelf = 0L;
+}
+
+void KBookmarkManager::FilesAdded( const KURL & directory )
+{
+  if (directory.isLocalFile())
+    slotNotify( directory.path() );
+}
+
+void KBookmarkManager::FilesRemoved( const KURL::List & fileList )
+{
+  KURL::List::ConstIterator it = fileList.begin();
+  for ( ; it != fileList.end() ; ++it )
+  {
+    if ((*it).isLocalFile())
+      slotNotify( (*it).directory() );
+  }
 }
 
 void KBookmarkManager::slotNotify( const QString &_url )
@@ -428,7 +444,7 @@ KBookmark* KBookmark::findBookmark( int _id )
   return 0L;
 }
 
-QString KBookmark::text() const 
+QString KBookmark::text() const
 {
   return KStringHandler::csqueeze(m_text);
 }

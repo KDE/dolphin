@@ -21,16 +21,15 @@
 #define __konqdirlister_h__
 
 #include <kdirlister.h>
-#include <dcopobject.h>
+#include "konq_dirwatcher.h"
 
 /**
  * A custom directory lister (KDirLister) to create KonqFileItems
  * instead of KFileItems.
  */
-class KonqDirLister : public KDirLister, public DCOPObject
+class KonqDirLister : public KDirLister, public KonqDirWatcher
 {
   Q_OBJECT
-  K_DCOP
 
 public:
   /**
@@ -47,25 +46,22 @@ public:
    */
   //bool kofficeDocsFound() { return m_bKofficeDocs; }
 
-k_dcop:
   /**
    * Notify that files have been added in @p directory
    * The receiver will list that directory again to find
    * the new items (since it needs more than just the names anyway).
-   *
-   * Note: this is ASYNC since it is supposed to be used with a broadcast
+   * Reimplemented from KonqDirWatcher.
    */
-  ASYNC FilesAdded( const KURL & directory );
+  virtual void FilesAdded( const KURL & directory );
 
   /**
    * Notify that files have been deleted.
    * This call passes the exact urls of the deleted files
    * so that any view showing them can simply remove them
    * or be closed (if its current dir was deleted)
-   *
-   * Note: this is ASYNC since it is supposed to be used with a broadcast
+   * Reimplemented from KonqDirWatcher.
    */
-  ASYNC FilesRemoved( const KURL::List & fileList );
+  virtual void FilesRemoved( const KURL::List & fileList );
 
 signals:
   /**
@@ -81,8 +77,6 @@ protected:
   virtual KFileItem * createFileItem( const KIO::UDSEntry&, const KURL&,
 				      bool determineMimeTypeOnDemand );
 
-  // @internal
-  static int s_serial;
 };
 
 #endif
