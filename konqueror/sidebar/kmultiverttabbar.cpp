@@ -136,6 +136,7 @@ KMultiVertTabBarTab::KMultiVertTabBarTab(const QPixmap& pic, const QString& text
 void KMultiVertTabBarTab::drawButton(QPainter *paint)
 {
         QPixmap pixmap = iconSet()->pixmap( QIconSet::Small, QIconSet::Normal );
+    paint->fillRect(0, 0, 24, 24, colorGroup().background());
 	if (!isOn())
 	{
 
