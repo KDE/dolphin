@@ -73,6 +73,7 @@ struct KonqIconViewWidgetPrivate
         pActivateDoubleClick = 0L;
         bCaseInsensitive = true;
         pPreviewMimeTypes = 0L;
+	bProgramsURLdrag = false;
     }
     ~KonqIconViewWidgetPrivate() {
         delete pSoundPlayer;
@@ -110,6 +111,7 @@ struct KonqIconViewWidgetPrivate
     int mouseState;
     QTimer *pActivateDoubleClick;
     QStringList* pPreviewMimeTypes;
+    bool bProgramsURLdrag;
 };
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f, bool kdesktop )
@@ -977,12 +979,32 @@ void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
         if( !ok )
             kdError() << "Couldn't decode urls dragged !" << endl;
     }
+    
+    KURL::List uriList;
+    if ( KURLDrag::decode(e, uriList) )
+    {
+        if ( uriList.first().protocol() == "programs" )
+        {
+            e->ignore();
+            emit dragEntered( false );
+            d->bProgramsURLdrag = true;
+            return;
+        }
+    }    
+    
     KIconView::contentsDragEnterEvent( e );
     emit dragEntered( true /*accepted*/ );
 }
 
 void KonqIconViewWidget::contentsDragMoveEvent( QDragMoveEvent *e )
 {
+    if ( d->bProgramsURLdrag ) {
+        emit dragMove( false );
+        e->ignore();
+        cancelPendingHeldSignal();
+        return;        
+    }
+    
 #ifdef KFILEITEM_HAS_ISWRITABLE
     QIconViewItem *item = findItem( e->pos() );
     if ( !item && m_rootItem && !m_rootItem->isWritable() ) {
@@ -998,6 +1020,7 @@ void KonqIconViewWidget::contentsDragMoveEvent( QDragMoveEvent *e )
 
 void KonqIconViewWidget::contentsDragLeaveEvent( QDragLeaveEvent *e )
 {
+    d->bProgramsURLdrag = false;
     QIconView::contentsDragLeaveEvent(e);
     emit dragLeft();
 }
