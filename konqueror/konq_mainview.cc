@@ -1305,6 +1305,9 @@ void KonqMainView::slotAbout()
 "KIO library/slaves:\n"
 "  Matt Koss <koss@napri.sk>\n"
 "  Alex Zepeda <garbanzo@hooked.net>\n"
+"Java applet support:\n"
+"  Richard Moore <rich@kde.org>\n"
+"  Dina Rogozin <dima@mercury.co.il>\n"
   ));
 }
 
