@@ -70,11 +70,16 @@ void KonqTextViewItem::updateContents()
    QString tmp;
    KIO::filesize_t size=m_fileitem->size();
    mode_t m=m_fileitem->mode();
+
+   // The order is: .dir (0), dir (1), .file (2), file (3)
+   sortChar = S_ISDIR( m_fileitem->mode() ) ? 1 : 3;
+   if ( m_fileitem->text()[0] == '.' )
+       --sortChar;
+
    if (m_fileitem->isLink())
    {
       if (S_ISDIR(m))
       {
-         sortChar='0';
          type=KTVI_DIRLINK;
          tmp="~";
       }
@@ -107,7 +112,6 @@ void KonqTextViewItem::updateContents()
    {
       type=KTVI_DIR;
       tmp="/";
-      sortChar='0';
    }
    else if (S_ISCHR(m))
    {
