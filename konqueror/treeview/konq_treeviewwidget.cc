@@ -134,34 +134,34 @@ QStringList KonqTreeViewWidget::readProtocolConfig( const QString & protocol )
   if (lstColumns.isEmpty())
   {
     // Default order and column selection
-    lstColumns.append( I18N_NOOP("Name") );
-    lstColumns.append( I18N_NOOP("Type") );
-    lstColumns.append( I18N_NOOP("Size") );
-    lstColumns.append( I18N_NOOP("Date") );
-    lstColumns.append( I18N_NOOP("Permissions") );
-    lstColumns.append( I18N_NOOP("Owner") );
-    lstColumns.append( I18N_NOOP("Group") );
-    lstColumns.append( I18N_NOOP("Link") );
+    lstColumns.append( "Name" );
+    lstColumns.append( "Type" );
+    lstColumns.append( "Size" );
+    lstColumns.append( "Date" );
+    lstColumns.append( "Permissions" );
+    lstColumns.append( "Owner" );
+    lstColumns.append( "Group" );
+    lstColumns.append( "Link" );
   }
   // (Temporary) complete list of columns and associated m_uds constant
   // It is just there to avoid tons of if(...) in the loop below
   // Order has no importance of course - it matches global.h just for easier maintainance
   QDict<int> completeDict;
   completeDict.setAutoDelete( true );
-  completeDict.insert( "Size", new int(KIO::UDS_SIZE) );
-  completeDict.insert( "Owner", new int(KIO::UDS_USER) );
-  completeDict.insert( "Group", new int(KIO::UDS_GROUP) );
-  completeDict.insert( "Name", new int(KIO::UDS_NAME) );
-  completeDict.insert( "Permissions", new int(KIO::UDS_ACCESS) );
-  completeDict.insert( "Date", new int(KIO::UDS_MODIFICATION_TIME) );
+  completeDict.insert( I18N_NOOP("Size"), new int(KIO::UDS_SIZE) );
+  completeDict.insert( I18N_NOOP("Owner"), new int(KIO::UDS_USER) );
+  completeDict.insert( I18N_NOOP("Group"), new int(KIO::UDS_GROUP) );
+  completeDict.insert( I18N_NOOP("Name"), new int(KIO::UDS_NAME) );
+  completeDict.insert( I18N_NOOP("Permissions"), new int(KIO::UDS_ACCESS) );
+  completeDict.insert( I18N_NOOP("Date"), new int(KIO::UDS_MODIFICATION_TIME) );
   // we can even have two possible titles for the same column
-  completeDict.insert( "Modification time", new int(KIO::UDS_MODIFICATION_TIME) );
-  completeDict.insert( "Access time", new int(KIO::UDS_ACCESS_TIME) );
-  completeDict.insert( "Creation time", new int(KIO::UDS_CREATION_TIME) );
-  completeDict.insert( "Type", new int(KIO::UDS_FILE_TYPE) );
-  completeDict.insert( "Link", new int(KIO::UDS_LINK_DEST) );
-  completeDict.insert( "URL", new int(KIO::UDS_URL) );
-  completeDict.insert( "MimeType", new int(KIO::UDS_MIME_TYPE) );
+  completeDict.insert( I18N_NOOP("Modification time"), new int(KIO::UDS_MODIFICATION_TIME) );
+  completeDict.insert( I18N_NOOP("Access time"), new int(KIO::UDS_ACCESS_TIME) );
+  completeDict.insert( I18N_NOOP("Creation time"), new int(KIO::UDS_CREATION_TIME) );
+  completeDict.insert( I18N_NOOP("Type"), new int(KIO::UDS_FILE_TYPE) );
+  completeDict.insert( I18N_NOOP("Link"), new int(KIO::UDS_LINK_DEST) );
+  completeDict.insert( I18N_NOOP("URL"), new int(KIO::UDS_URL) );
+  completeDict.insert( I18N_NOOP("MimeType"), new int(KIO::UDS_MIME_TYPE) );
 
   m_dctColumnForAtom.clear();
   m_dctColumnForAtom.setAutoDelete( true );
