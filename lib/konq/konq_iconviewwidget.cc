@@ -637,7 +637,9 @@ void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreview
     if ( sizeChanged || previewSizeChanged )
     {
         int realSize = size ? size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-        setSpacing( ( m_bDesktop || ( realSize > KIcon::SizeSmall ) ) ? 5 : 0 );
+        // choose spacing depending on font, but min 5 (due to KFileIVI  move limit)
+        setSpacing( ( m_bDesktop || ( realSize > KIcon::SizeSmall ) ) ?
+                    QMAX( 5, QFontMetrics(font()).width('n') ) : 0 );
     }
 
     if ( sizeChanged || previewSizeChanged || !stopImagePreviewFor.isEmpty() )
@@ -1303,6 +1305,14 @@ void KonqIconViewWidget::wheelEvent(QWheelEvent* e)
     }
 
     KIconView::wheelEvent(e);
+}
+
+void KonqIconViewWidget::leaveEvent( QEvent *e )
+{
+    // when leaving the widget, stop possible pending filetip
+    d->pFileTip->setItem( 0 );
+
+    KIconView::leaveEvent(e);
 }
 
 void KonqIconViewWidget::mousePressChangeValue()

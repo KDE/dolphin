@@ -55,7 +55,6 @@ public:
 
     /**
      * Constructor
-     * @param settings An instance of KonqFMSettings, see static methods in konq_settings.h
      */
     KonqIconViewWidget( QWidget *parent = 0L, const char *name = 0L, WFlags f = 0, bool kdesktop = FALSE );
     virtual ~KonqIconViewWidget();
@@ -318,6 +317,8 @@ protected:
     virtual void contentsMouseMoveEvent( QMouseEvent *e );
     virtual void backgroundPixmapChange( const QPixmap & );
     virtual void wheelEvent( QWheelEvent* );
+    virtual void leaveEvent( QEvent *e );
+
     void readAnimatedIconsConfig();
     void mousePressChangeValue();
 

@@ -25,6 +25,7 @@
 #include <kdesktopfile.h>
 #include <kdebug.h>
 #include <assert.h>
+#include <qfontmetrics.h>
 
 struct KonqFMSettingsPrivate
 {
@@ -88,6 +89,9 @@ void KonqFMSettings::init( KConfig * config )
   m_itemTextBackground = config->readColorEntry( "ItemTextBackground" );
   
   d->m_iconTextWidth = config->readNumEntry( "TextWidth", DEFAULT_TEXTWIDTH );
+  if ( d->m_iconTextWidth == DEFAULT_TEXTWIDTH )
+    d->m_iconTextWidth = QFontMetrics(m_standardFont).width("0000000000");
+
   m_iconTextHeight = config->readNumEntry( "TextHeight", 0 );
   if ( m_iconTextHeight == 0 ) {
     if ( config->readBoolEntry( "WordWrapText", true ) )
