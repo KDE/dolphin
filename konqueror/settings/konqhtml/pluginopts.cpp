@@ -17,7 +17,6 @@
 #include <qwhatsthis.h>
 #include <qvgroupbox.h>
 #include <kdebug.h>
-#include <X11/Xlib.h>
 
 #include <kapplication.h>
 #include <dcopclient.h>
