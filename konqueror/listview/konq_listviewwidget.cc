@@ -37,6 +37,7 @@
 #include <kmessagebox.h>
 #include <kprotocolinfo.h>
 #include <konqsettings.h>
+#include <kaction.h>
 
 #include <stdlib.h>
 #include <assert.h>
