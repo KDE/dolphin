@@ -346,6 +346,10 @@ void KPluginOptions::dirInit()
     connect( m_widget->dirList,
              SIGNAL(executed(QListBoxItem*)),
              SLOT(dirSelect(QListBoxItem*)) );
+
+    connect( m_widget->dirList,
+             SIGNAL(selectionChanged(QListBoxItem*)),
+             SLOT(dirSelect(QListBoxItem*)) );
 }
 
 
@@ -401,7 +405,7 @@ void KPluginOptions::dirSelect( QListBoxItem *item )
     m_widget->dirEdit->setEnabled( item!=0 );
     m_widget->dirRemove->setEnabled( item!=0 );
 
-    unsigned cur = m_widget->dirList->currentItem();
+    unsigned cur = m_widget->dirList->index(m_widget->dirList->selectedItem());
     m_widget->dirDown->setEnabled( item!=0 && cur<m_widget->dirList->count()-1 );
     m_widget->dirUp->setEnabled( item!=0 && cur>0 );
     m_widget->dirEdit->setURL( item!=0 ? item->text() : QString::null );
@@ -412,7 +416,7 @@ void KPluginOptions::dirNew()
 {
     m_widget->dirList->insertItem( QString::null, 0 );
     m_widget->dirList->setCurrentItem( 0 );
-    m_widget->dirEdit->setURL("");
+    m_widget->dirEdit->setURL(QString::null);
     m_widget->dirEdit->setFocus();
     change();
 }
@@ -420,14 +424,19 @@ void KPluginOptions::dirNew()
 
 void KPluginOptions::dirRemove()
 {
-    m_widget->dirList->removeItem( m_widget->dirList->currentItem() );
+    m_widget->dirEdit->setURL(QString::null);
+    delete m_widget->dirList->selectedItem();
+    m_widget->dirRemove->setEnabled( false );
+    m_widget->dirUp->setEnabled( false );
+    m_widget->dirDown->setEnabled( false );
+    m_widget->dirEdit->setEnabled( false );
     change();
 }
 
 
 void KPluginOptions::dirUp()
 {
-    unsigned cur = m_widget->dirList->currentItem();
+    unsigned cur = m_widget->dirList->index(m_widget->dirList->selectedItem());
     if ( cur>0 ) {
         QString txt = m_widget->dirList->text(cur-1);
         m_widget->dirList->removeItem( cur-1 );
@@ -442,8 +451,8 @@ void KPluginOptions::dirUp()
 
 void KPluginOptions::dirDown()
 {
-    unsigned cur = m_widget->dirList->currentItem();
-    if ( cur<m_widget->dirList->count()-1 ) {
+    unsigned cur = m_widget->dirList->index(m_widget->dirList->selectedItem());
+    if ( cur < m_widget->dirList->count()-1 ) {
         QString txt = m_widget->dirList->text(cur+1);
         m_widget->dirList->removeItem( cur+1 );
         m_widget->dirList->insertItem( txt, cur );
