@@ -672,9 +672,9 @@ NSPluginStream::~NSPluginStream()
       delete _stream;
     }
 
-  if (_tempFile) delete _tempFile;
-  if (_resumeTimer) delete _resumeTimer;
-  if (_queue) delete _queue;
+  delete _tempFile;
+  delete _resumeTimer;
+  delete _queue;
 }
 
 
@@ -744,7 +744,7 @@ void NSPluginStream::get(QString url, QString mimeType)
 
   // start the kio job
   kDebugInfo("-> KIO::get( %s )", url.ascii());
-  _job = KIO::get(url);
+  _job = KIO::get(url, false, false);
   connect(_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
 	  this, SLOT(data(KIO::Job *, const QByteArray &)));
   connect(_job, SIGNAL(result(KIO::Job *)),
