@@ -327,9 +327,8 @@ void KonqKfmIconView::slotShowDot()
   kdebug(0, 1202, "KonqKfmIconView::slotShowDot()");
   m_pProps->m_bShowDot = !m_pProps->m_bShowDot;
   m_dirLister->setShowingDotFiles( m_pProps->m_bShowDot );
-  //bSetupNeeded = true; // we don't want the non-dot files to remain where they are !
-
-//  m_vViewMenu->setItemChecked( m_idShowDotFiles, m_pProps->m_bShowDot );
+  // TODO : reArrange() [asked Reggie already]
+  //we don't want the non-dot files to remain where they are !
 }
 
 void KonqKfmIconView::slotSelect()
@@ -654,7 +653,6 @@ void KonqKfmIconView::slotStarted( const QString & /*url*/ )
   m_pIconView->selectAll( false );
   if ( m_bLoading )
     emit started();
-  //bSetupNeeded = false;
 }
 
 void KonqKfmIconView::slotCompleted()
@@ -690,9 +688,6 @@ void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
 
   if ( m_ulTotalFiles > 0 )
     emit loadingProgress( ( m_pIconView->count() * 100 ) / m_ulTotalFiles );
-
-  //bSetupNeeded = true;
-
 }
 
 void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
@@ -709,7 +704,6 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
     }
     it = it->nextItem();
   }
-  //TODO : find a way to get the view to update itself
 }
 
 void KonqKfmIconView::slotClear()
