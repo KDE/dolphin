@@ -51,7 +51,7 @@ KEBTopLevel * KEBTopLevel::s_topLevel = 0L;
 KBookmarkManager * KEBTopLevel::s_pManager = 0L;
 
 KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
-    : KMainWindow(), m_commandHistory( actionCollection() ), m_dcopIface(NULL) {
+    : KMainWindow(), m_commandHistory( actionCollection() ), m_dcopIface(0) {
     m_bookmarksFilename = bookmarksFile;
     m_bReadOnly = readonly;
     construct();
@@ -308,24 +308,44 @@ KBookmark KEBTopLevel::selectedBookmark() const
    return *(selectedBookmarks()->first());
 }
 
-// if selected + ( (parent is selected) or (has no parent) )
+// if ( (parent is selected) or (has no parent) )
 
-#define IS_REAL(it) ( (it.current()->isSelected())                                        \
-                   && ( (it.current()->parent() && !it.current()->parent()->isSelected()) \
-                    || !(it.current()->parent()) )                                        \
+#define IS_REAL(it)                                                                       \
+               (                                                                          \
+                   (    (it.current()->parent() && !it.current()->parent()->isSelected()) \
+                    || !(it.current()->parent())                                          \
+                   )                                                                      \
                    && ( it.current() != KEBTopLevel::self()->m_pListView->firstChild())   \
-                   && ( !static_cast<KEBListViewItem *>(it.current())->m_emptyFolder ))
+                   && ( !static_cast<KEBListViewItem *>(it.current())->m_emptyFolder )    \
+               )
+
+#define IS_REAL_SEL(it) ( (it.current()->isSelected()) && IS_REAL(it) )
 
 QPtrList<QListViewItem> * KEBTopLevel::selectedItems()
 {
    // selection helper
    QPtrList<QListViewItem> *items = new QPtrList<QListViewItem>();
    for( QListViewItemIterator it(KEBTopLevel::self()->m_pListView); it.current(); it++ ) {
-      if ( IS_REAL(it) ) {
+      if ( IS_REAL_SEL(it) ) {
          items->append(it.current());
       }
    }
    return items;
+}
+
+// pruned == only the first bookmark in each folder
+QPtrList<KBookmark>* KEBTopLevel::selectedBookmarksPruned() const
+{
+   // selection helper
+   QPtrList<KBookmark> *bookmarks = new QPtrList<KBookmark>();
+   QListViewItem *lastParent = 0;
+   for( QListViewItemIterator it(m_pListView); it.current(); it++ ) {
+      if ( IS_REAL_SEL(it) && (!lastParent || it.current()->parent() != lastParent) ) {
+         lastParent = it.current()->parent();
+         bookmarks->append(&ITEM_TO_BK(it.current()));
+      }
+   }
+   return bookmarks;
 }
 
 QPtrList<KBookmark>* KEBTopLevel::selectedBookmarks() const
@@ -333,17 +353,18 @@ QPtrList<KBookmark>* KEBTopLevel::selectedBookmarks() const
    // selection helper
    QPtrList<KBookmark> *bookmarks = new QPtrList<KBookmark>();
    for( QListViewItemIterator it(m_pListView); it.current(); it++ ) {
-      if ( IS_REAL(it) ) {
-         KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(it.current());
-         bookmarks->append(&kebItem->bookmark());
+      if ( IS_REAL_SEL(it) ) {
+         bookmarks->append(&ITEM_TO_BK(it.current()));
       }
    }
    return bookmarks;
 }
 
-KBookmark KEBTopLevel::rootBookmark() const
+QPtrList<KBookmark>* KEBTopLevel::firstBookmark() const
 {
-   return ITEM_TO_BK(m_pListView->firstChild());
+   QPtrList<KBookmark> *bookmarks = new QPtrList<KBookmark>();
+   bookmarks->append(&ITEM_TO_BK(m_pListView->firstChild()));
+   return bookmarks;
 }
 
 QValueList<KBookmark> KEBTopLevel::getBookmarkSelection()
@@ -361,9 +382,9 @@ QValueList<KBookmark> KEBTopLevel::getBookmarkSelection()
 void KEBTopLevel::updateSelection()
 {
     // AK - possible optimisation, make a selectedItems "cache"
-    QListViewItem *lastItem = NULL;
+    QListViewItem *lastItem = 0;
     for( QListViewItemIterator it(KEBTopLevel::self()->m_pListView); it.current(); it++ ) {
-       if ( IS_REAL(it) ) {
+       if ( IS_REAL_SEL(it) ) {
           lastItem = it.current();
        }
     }
@@ -376,7 +397,7 @@ void KEBTopLevel::slotSelectionChanged()
 {
     QListViewItem * item = selectedItems()->first();
     if (item) {
-        kdDebug() << "KEBTopLevel::slotSelectionChanged " << (static_cast<KEBListViewItem *>(item))->bookmark().address() << endl;
+        kdDebug() << "KEBTopLevel::slotSelectionChanged " << ITEM_TO_BK(item).address() << endl;
     }
     bool itemSelected = false;
     bool group = false;
@@ -389,11 +410,11 @@ void KEBTopLevel::slotSelectionChanged()
     if (item)
     {
         itemSelected = true;
-        KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(item);
-        group = kebItem->bookmark().isGroup();
-        separator = kebItem->bookmark().isSeparator();
+        KBookmark nbk = ITEM_TO_BK(item);
+        group = nbk.isGroup();
+        separator = nbk.isSeparator();
         root = (m_pListView->firstChild() == item);
-        urlIsEmpty= kebItem->bookmark().url().isEmpty();
+        urlIsEmpty= nbk.url().isEmpty();
         multiSelect = numSelected() > 1;
         singleSelect = !multiSelect && itemSelected;
     }
@@ -825,44 +846,38 @@ void KEBTopLevel::slotOpenLink()
 
 void KEBTopLevel::slotTestAllLinks()
 {
-    QPtrList<KBookmark> bookmarks;
-    KBookmark rootBm = rootBookmark();
-    bookmarks.append(&rootBm);
-    testBookmarks(&bookmarks);
+    testBookmarks(firstBookmark());
 }
 
 void KEBTopLevel::slotTestLink()
 {
-    testBookmarks(selectedBookmarks());
+    testBookmarks(selectedBookmarksPruned());
 }
 
 void KEBTopLevel::testBookmarks(QPtrList<KBookmark>* bks)
 {
-    QPtrListIterator<KBookmark> it(*bks);
-    for ( ; it.current() != 0; ++it ) {
-       KBookmark *bk = it.current();
-       tests.insert(0, new TestLink(*bk));
-       actionCollection()->action("canceltests")->setEnabled( true );
-    }
+   QPtrListIterator<KBookmark> it(*bks);
+   for ( ; it.current() != 0; ++it ) {
+      KBookmark *bk = it.current();
+      if (1) {
+         tests.insert(0, new TestLink(*bk));
+         actionCollection()->action("canceltests")->setEnabled( true );
+      }
+   }
 }
 
 void KEBTopLevel::slotCancelAllTests()
 {
-  TestLink *t, *p;
+   TestLink *t, *p;
 
-  for (t = tests.first(); t != 0; t=p) {
-    p = tests.next();
-    slotCancelTest(t);
-  }
-}
-
-void KEBTopLevel::slotCancelTest(TestLink *t)
-{
-  tests.removeRef(t);
-  delete t;
-  if (tests.count() == 0)
-    actionCollection()->action("canceltests")->setEnabled( false );
-
+   for (t = tests.first(); t != 0; t=p) {
+      p = tests.next();
+      tests.removeRef(t);
+      delete t;
+      if (tests.count() == 0) {
+         actionCollection()->action("canceltests")->setEnabled( false );
+      }
+   }
 }
 
 void KEBTopLevel::setAllOpen(bool open) {
@@ -916,8 +931,7 @@ void KEBTopLevel::slotDocumentRestored()
 void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText, int column)
 {
     Q_ASSERT(item);
-    KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(item);
-    KBookmark bk = kebItem->bookmark();
+    KBookmark bk = ITEM_TO_BK(item);
     switch (column) {
         case 0:
             if ( (bk.fullText() != newText) && !newText.isEmpty())
@@ -1060,138 +1074,136 @@ void KEBTopLevel::itemMoved(QPtrList<QListViewItem> *_items, const QString & new
 
 void KEBTopLevel::slotContextMenu( KListView *, QListViewItem * _item, const QPoint &p )
 {
-    if (_item)
-    {
-        KEBListViewItem * item = static_cast<KEBListViewItem *>(_item);
-        if ( item->bookmark().isGroup() )
-        {
-            QWidget* popup = factory()->container("popup_folder", this);
-            if ( popup )
-                static_cast<QPopupMenu*>(popup)->popup(p);
-        }
-        else
-        {
-            QWidget* popup = factory()->container("popup_bookmark", this);
-            if ( popup )
-                static_cast<QPopupMenu*>(popup)->popup(p);
-        }
-    }
+   if (_item) {
+      if (ITEM_TO_BK(_item).isGroup()) {
+         QWidget* popup = factory()->container("popup_folder", this);
+         if (popup) {
+            static_cast<QPopupMenu*>(popup)->popup(p);
+         }
+
+      } else {
+         QWidget* popup = factory()->container("popup_bookmark", this);
+         if (popup) {
+            static_cast<QPopupMenu*>(popup)->popup(p);
+         }
+      }
+   }
 }
 
 void KEBTopLevel::slotBookmarksChanged( const QString &, const QString & caller )
 {
-    // This is called when someone changes bookmarks in konqueror....
-    if ( caller != kapp->name() )
-    {
-        kdDebug() << "KEBTopLevel::slotBookmarksChanged" << endl;
-        m_commandHistory.clear();
-        fillListView();
-        slotSelectionChanged(); // to disable everything, because no more current item
-    }
+   // This is called when someone changes bookmarks in konqueror....
+   if (caller != kapp->name()) {
+      kdDebug() << "KEBTopLevel::slotBookmarksChanged" << endl;
+      m_commandHistory.clear();
+      fillListView();
+      slotSelectionChanged(); // to disable everything, because no more current item
+   }
 }
 
 void KEBTopLevel::update()
 {
-    QPoint pos(m_pListView->contentsX(), m_pListView->contentsY());
-    QPtrList<QListViewItem>* items = selectedItems();
-    if (items->count() != 0)
-    {
-        QPtrListIterator<QListViewItem> it(*items);
-        QStringList addressList;
-        for ( ; it.current() != 0; ++it ) {
-            KEBListViewItem* item = static_cast<KEBListViewItem*>(it.current());
-            QString address = ITEM_TO_BK(item).address();
-            // AK - hacky, FIXME - find a sweeter solution than a returned string
-            if ( address != "ERROR" )
-                addressList << address;
-        }
-        fillListView();
-        KEBListViewItem * newItem = NULL;
-        for ( QStringList::Iterator ait = addressList.begin(); ait != addressList.end(); ++ait ) {
-            newItem = findByAddress( *ait );
-            kdDebug() << "KEBTopLevel::update item=" << *ait << endl;
-            Q_ASSERT(newItem);
-            if (newItem)
-               m_pListView->setSelected(newItem,true);
-        }
-        if (!newItem) {
-            newItem = findByAddress(correctAddress(m_last_selection_address));
-            m_pListView->setSelected(newItem,true);
-        }
-        m_pListView->setCurrentItem(newItem);
-    }
-    else
-    {
-        fillListView();
-        slotSelectionChanged();
-    }
+   QPoint pos(m_pListView->contentsX(), m_pListView->contentsY());
+   QPtrList<QListViewItem>* items = selectedItems();
 
-    m_pListView->setContentsPos(pos.x(), pos.y());
+   if (items->count() != 0) {
+      QPtrListIterator<QListViewItem> it(*items);
+      QStringList addressList;
+
+      for ( ; it.current() != 0; ++it ) {
+         KEBListViewItem* item = static_cast<KEBListViewItem*>(it.current());
+         QString address = ITEM_TO_BK(item).address();
+         // AK - use of string ERROR is very hacky
+         if (address != "ERROR") {
+            addressList << address;
+         }
+      }
+
+      fillListView();
+      KEBListViewItem * newItem = 0;
+
+      for ( QStringList::Iterator ait = addressList.begin(); ait != addressList.end(); ++ait ) {
+         newItem = findByAddress( *ait );
+         kdDebug() << "KEBTopLevel::update item=" << *ait << endl;
+         Q_ASSERT(newItem);
+         if (newItem) {
+            m_pListView->setSelected(newItem, true);
+         }
+      }
+      if (!newItem) {
+         newItem = findByAddress(correctAddress(m_last_selection_address));
+         m_pListView->setSelected(newItem, true);
+      }
+      m_pListView->setCurrentItem(newItem);
+
+   } else {
+      fillListView();
+      slotSelectionChanged();
+   }
+
+   m_pListView->setContentsPos(pos.x(), pos.y());
 }
 
 void KEBTopLevel::fillListView()
 {
-    m_pListView->clear();
-    // (re)create root item
-    KBookmarkGroup root = s_pManager->root();
-    KEBListViewItem * rootItem = new KEBListViewItem( m_pListView, root );
-    fillGroup( rootItem, root );
-    rootItem->QListViewItem::setOpen(true);
+   m_pListView->clear();
+   // (re)create root item
+   KBookmarkGroup root = s_pManager->root();
+   KEBListViewItem * rootItem = new KEBListViewItem(m_pListView, root);
+   fillGroup(rootItem, root);
+   rootItem->QListViewItem::setOpen(true);
 }
 
-void KEBTopLevel::fillGroup( KEBListViewItem * parentItem, KBookmarkGroup group )
+void KEBTopLevel::fillGroup(KEBListViewItem * parentItem, KBookmarkGroup group)
 {
-    KEBListViewItem * lastItem = 0L;
-    for ( KBookmark bk = group.first() ; !bk.isNull() ; bk = group.next(bk) )
-    {
-        //kdDebug() << "KEBTopLevel::fillGroup group=" << group.text() << " bk=" << bk.text() << endl;
-        if ( bk.isGroup() )
-        {
-            KBookmarkGroup grp = bk.toGroup();
-            KEBListViewItem * item = new KEBListViewItem( parentItem, lastItem, grp );
-            fillGroup( item, grp );
-            if (grp.isOpen())
-                item->QListViewItem::setOpen(true); // no need to save it again :)
-            if (grp.first().isNull()) {
-                // kdWarning() << "found an empty group!!!" << endl;
-                new KEBListViewItem( item, item );
-            }
-            lastItem = item;
+   KEBListViewItem * lastItem = 0L;
+   for (KBookmark bk = group.first() ; !bk.isNull() ; bk = group.next(bk)) {
+      //kdDebug() << "KEBTopLevel::fillGroup group=" << group.text() << " bk=" << bk.text() << endl;
+      if (bk.isGroup()) {
+         KBookmarkGroup grp = bk.toGroup();
+         KEBListViewItem *item = new KEBListViewItem(parentItem, lastItem, grp);
+         fillGroup(item, grp);
+         if (grp.isOpen()) {
+            // no need to save it again :)
+            item->QListViewItem::setOpen(true);
+         }
+         if (grp.first().isNull()) {
+            // kdDebug() << "cool, an empty group!!!" << endl;
+            new KEBListViewItem( item, item );
+         }
+         lastItem = item;
 
-        }
-        else
-        {
-            lastItem = new KEBListViewItem( parentItem, lastItem, bk );
-        }
-    }
+      } else {
+         lastItem = new KEBListViewItem(parentItem, lastItem, bk);
+      }
+   }
 }
 
 bool KEBTopLevel::queryClose()
 {
-    if (m_bModified)
-    {
-        switch ( KMessageBox::warningYesNoCancel( this,
-                                                  i18n("The bookmarks have been modified.\nSave changes?")) ) {
-            case KMessageBox::Yes :
-                return save();
-            case KMessageBox::No :
-                return true;
-            default: // cancel
-                return false;
-        }
-    }
-    return true;
+   if (m_bModified) {
+      switch ( KMessageBox::warningYesNoCancel( this,
+               i18n("The bookmarks have been modified.\nSave changes?")) ) {
+         case KMessageBox::Yes :
+            return save();
+         case KMessageBox::No :
+            return true;
+         // case KMessageBox::Cancel :
+         default:
+            return false;
+      }
+   }
+   return true;
 }
 
 ///////////////////
 
 void KEBTopLevel::slotCommandExecuted()
 {
-    kdDebug() << "KEBTopLevel::slotCommandExecuted" << endl;
-    KEBTopLevel::self()->setModified();
-    KEBTopLevel::self()->update();     // Update GUI
-    slotSelectionChanged();
+   kdDebug() << "KEBTopLevel::slotCommandExecuted" << endl;
+   KEBTopLevel::self()->setModified();
+   KEBTopLevel::self()->update();     // Update GUI
+   slotSelectionChanged();
 }
-
 
 #include "toplevel.moc"

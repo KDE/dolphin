@@ -130,9 +130,10 @@ public:
     static int numSelected();
 
     static QPtrList<QListViewItem> * selectedItems();
-    QPtrList<KBookmark>* selectedBookmarks() const;
 
-    KBookmark rootBookmark() const;
+    QPtrList<KBookmark>* selectedBookmarks() const;
+    QPtrList<KBookmark>* selectedBookmarksPruned() const;
+    QPtrList<KBookmark>* firstBookmark() const;
 
     QListViewItem* selectedItem();
     KBookmark selectedBookmark() const;
@@ -191,7 +192,6 @@ public slots:
     void slotConfigureToolbars();
     void slotTestLink();
     void slotTestAllLinks();
-    void slotCancelTest(TestLink *);
     void slotCancelAllTests();
 
 protected slots:
