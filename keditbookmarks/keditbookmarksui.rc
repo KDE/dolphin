@@ -155,8 +155,6 @@
     <Action name="importMoz"/>
     <Action name="settings_showNS"/>
     <Action name="settings_saveonclose"/>
-    <Action name="settings_advancedaddbookmark"/>
-    <Action name="settings_filteredtoolbar"/>
   </Enable>
 </State>
 
@@ -211,8 +209,6 @@
     <Action name="updatefavicon"/>
     <Action name="settings_showNS"/>
     <Action name="settings_saveonclose"/>
-    <Action name="settings_advancedaddbookmark"/>
-    <Action name="settings_filteredtoolbar"/>
   </Disable>
 </State>
 
