@@ -1,6 +1,6 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="10">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="11">
 <MenuBar>
- <Menu name="file"><text>&amp;Location</text>
+ <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
   <Action name="duplicate_window"/>
   <Action name="open_location"/>
