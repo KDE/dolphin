@@ -42,7 +42,7 @@ public:
      * Create a job for determining the pixmaps of the images in the @p iconView
      */
     KonqImagePreviewJob( KonqIconViewWidget * iconView, bool force,
-			 KPixmapSplitter *splitter = 0L );
+			 KPixmapSplitter *splitter = 0L, const bool * previewSettings = 0L );
     virtual ~KonqImagePreviewJob();
 
     // Call this to get started

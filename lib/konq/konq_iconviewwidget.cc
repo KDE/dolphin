@@ -275,7 +275,7 @@ void KonqIconViewWidget::setURL( const KURL &kurl )
         m_dotDirectoryPath = QString::null;
 }
 
-void KonqIconViewWidget::startImagePreview( bool force )
+void KonqIconViewWidget::startImagePreview( const bool * previewSettings, bool force )
 {
     stopImagePreview(); // just in case
     if ( !m_splitter ) {
@@ -289,7 +289,7 @@ void KonqIconViewWidget::startImagePreview( bool force )
 	}
     }
 
-    m_pImagePreviewJob = new KonqImagePreviewJob( this, force, m_splitter );
+    m_pImagePreviewJob = new KonqImagePreviewJob( this, force, m_splitter, previewSettings );
     connect( m_pImagePreviewJob, SIGNAL( result( KIO::Job * ) ),
              this, SIGNAL( imagePreviewFinished() ) );
     m_pImagePreviewJob->startImagePreview();

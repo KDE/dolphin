@@ -24,6 +24,7 @@
 #include <kfileivi.h>
 #include <kiconloader.h>
 #include <konq_iconviewwidget.h>
+#include <konq_propsview.h>
 #include <kpixmapsplitter.h>
 #include <assert.h>
 #include <stdio.h> // for tmpnam
@@ -33,7 +34,7 @@
  * A job that determines the thumbnails for the images in the current directory
  * of the icon view (KonqIconViewWidget)
  */
-KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView, bool force, KPixmapSplitter *splitter )
+KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView, bool force, KPixmapSplitter *splitter, const bool * previewSettings )
   : KIO::Job( false /* no GUI */ ), m_bCanSave( true ), m_iconView( iconView )
 {
   m_extent = 0;
@@ -45,13 +46,20 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView, bool fo
   for (QIconViewItem * it = m_iconView->firstItem(); it; it = it->nextItem() )
   {
     KFileIVI * ivi = static_cast<KFileIVI *>( it );
-    QString mimeType = ivi->item()->mimetype();
-    bool bImage = mimeType.startsWith( "image/" );
-    if ( bImage )
-        m_bDirsCreated = false; // We'll need dirs
-    if ( bImage || (m_splitter && mimeType.startsWith( "text/")) )
-      if ( force || !ivi->isThumbnail() )
-        m_items.append( ivi );
+    if ( force || !ivi->isThumbnail() )
+    {
+        QString mimeType = ivi->item()->mimetype();
+        bool bText = false;
+        bool bImage = mimeType.startsWith( "image/" ) && (!previewSettings || previewSettings[KonqPropsView::IMAGEPREVIEW]);
+        if ( bImage )
+            m_bDirsCreated = false; // We'll need dirs
+        else
+        {
+            bText = m_splitter && mimeType.startsWith( "text/") && (!previewSettings || previewSettings[KonqPropsView::TEXTPREVIEW]);
+        }
+        if ( bImage || bText )
+            m_items.append( ivi );
+    }
   }
   // Read configuration value for the maximum allowed size
   KConfig * config = KGlobal::config();

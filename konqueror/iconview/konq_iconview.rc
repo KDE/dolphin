@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="KonqIconView" version="3">
+<kpartgui name="KonqIconView" version="4">
 <MenuBar>
  <Menu name="edit">
   <Action name="select"/>
@@ -28,6 +28,7 @@
   </Menu>
   <Separator/>
   <Action name="image_preview"/>
+  <Action name="text_preview"/>
   <Action name="show_dot"/>
   <Separator/>
   <Action name="bgcolor"/>

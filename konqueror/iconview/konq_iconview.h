@@ -75,6 +75,7 @@ public:
 
 public slots:
   void slotImagePreview( bool toggle );
+  void slotTextPreview( bool toggle );
   void slotShowDot();
   void slotSelect();
   void slotUnselect();
@@ -164,12 +165,8 @@ protected:
 
   KToggleAction *m_paDotFiles;
   KToggleAction *m_paImagePreview;
+  KToggleAction *m_paTextPreview;
   KActionMenu *m_pamSort;
-
-  //KToggleAction *m_paNoIcons;
-
-  //KToggleAction *m_paBottomText;
-  //KToggleAction *m_paRightText;
 
   KAction *m_paSelect;
   KAction *m_paUnselect;

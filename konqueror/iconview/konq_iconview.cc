@@ -214,8 +214,10 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     m_paDotFiles = new KToggleAction( i18n( "Show &Hidden Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
     m_paImagePreview = new KToggleAction( i18n( "&Image Preview" ), 0, actionCollection(), "image_preview" );
+    m_paTextPreview = new KToggleAction( i18n( "&Text Preview" ), 0, actionCollection(), "text_preview" );
 
     connect( m_paImagePreview, SIGNAL( toggled( bool ) ), this, SLOT( slotImagePreview( bool ) ) );
+    connect( m_paTextPreview, SIGNAL( toggled( bool ) ), this, SLOT( slotTextPreview( bool ) ) );
 
     //    m_pamSort = new KActionMenu( i18n( "Sort..." ), actionCollection(), "sort" );
 
@@ -329,7 +331,7 @@ KonqKfmIconView::~KonqKfmIconView()
 
 void KonqKfmIconView::slotImagePreview( bool toggle )
 {
-    m_pProps->setShowingImagePreview( toggle );
+    m_pProps->setShowingPreview( KonqPropsView::IMAGEPREVIEW, toggle );
     if ( !toggle )
     {
         m_pIconView->stopImagePreview();
@@ -337,7 +339,21 @@ void KonqKfmIconView::slotImagePreview( bool toggle )
     }
     else
     {
-        m_pIconView->startImagePreview( true );
+        m_pIconView->startImagePreview( m_pProps->previewSettings(), true );
+    }
+}
+
+void KonqKfmIconView::slotTextPreview( bool toggle )
+{
+    m_pProps->setShowingPreview( KonqPropsView::TEXTPREVIEW, toggle );
+    if ( !toggle )
+    {
+        m_pIconView->stopImagePreview();
+        m_pIconView->setIcons( m_pIconView->iconSize(), true /* stopImagePreview */);
+    }
+    else
+    {
+        m_pIconView->startImagePreview( m_pProps->previewSettings(), true );
     }
 }
 
@@ -495,8 +511,8 @@ void KonqKfmIconView::newIconSize( int size )
 {
     KonqDirPart::newIconSize( size );
     m_pIconView->setIcons( size );
-    if ( m_pProps->isShowingImagePreview() )
-        m_pIconView->startImagePreview( true );
+    if ( m_pProps->isShowingPreview() )
+        m_pIconView->startImagePreview( m_pProps->previewSettings(), true );
 }
 
 bool KonqKfmIconView::closeURL()
@@ -613,7 +629,7 @@ void KonqKfmIconView::slotCompleted()
     // slotRenderingFinished will do it
     m_bNeedEmitCompleted = true;
 
-    if (m_pProps->isShowingImagePreview())
+    if (m_pProps->isShowingPreview())
         m_mimeTypeResolver->start( 0 ); // We need the mimetypes asap
     else
     {
@@ -732,10 +748,10 @@ void KonqKfmIconView::determineIcon( KFileIVI * item )
 
 void KonqKfmIconView::mimeTypeDeterminationFinished()
 {
-    if ( m_pProps->isShowingImagePreview() )
+    if ( m_pProps->isShowingPreview() )
         // We can do this only when the mimetypes are fully determined,
         // since we only do image preview... on images :-)
-        m_pIconView->startImagePreview( false );
+        m_pIconView->startImagePreview( m_pProps->previewSettings(), false );
     else
         slotRenderingFinished();
 }
@@ -812,9 +828,8 @@ bool KonqKfmIconView::openURL( const KURL & url )
       newIconSize( m_pProps->iconSize() );
 
       m_paDotFiles->setChecked( m_pProps->isShowingDotFiles() );
-      m_paImagePreview->setChecked( m_pProps->isShowingImagePreview() );
-      // Done after listing now
-      //m_pIconView->setImagePreviewAllowed ( m_pProps->isShowingImagePreview() );
+      m_paImagePreview->setChecked( m_pProps->isShowingPreview(KonqPropsView::IMAGEPREVIEW) );
+      m_paTextPreview->setChecked( m_pProps->isShowingPreview(KonqPropsView::TEXTPREVIEW) );
 
       // It has to be "viewport()" - this is what KonqDirPart's slots act upon,
       // and otherwise we get a color/pixmap in the square between the scrollbars.

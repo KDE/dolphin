@@ -88,8 +88,12 @@ public:
   void setShowingDotFiles( bool show );
   bool isShowingDotFiles() const { return m_bShowDot; }
 
-  void setShowingImagePreview( bool show );
-  bool isShowingImagePreview() const { return m_bImagePreview; }
+  typedef enum { IMAGEPREVIEW, TEXTPREVIEW } Preview;
+  static const int LASTPREVIEW = TEXTPREVIEW;
+  void setShowingPreview( Preview preview, bool show );
+  bool isShowingPreview( Preview preview ) const { return m_bPreview[preview]; }
+  bool isShowingPreview() const { return m_bPreview[IMAGEPREVIEW] || m_bPreview[TEXTPREVIEW]; }
+  const bool * previewSettings() const { return m_bPreview; }
 
   void setBgColor( const QColor & color );
   const QColor& bgColor(QWidget * widget) const;
@@ -110,7 +114,7 @@ protected:
   int m_iIconSize;
   int m_iItemTextPos;
   bool m_bShowDot;
-  bool m_bImagePreview;
+  bool m_bPreview[LASTPREVIEW+1];
   QColor m_textColor;
   QColor m_bgColor;
   QString m_bgPixmapFile;

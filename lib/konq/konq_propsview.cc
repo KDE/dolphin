@@ -64,6 +64,8 @@ static QPixmap wallpaperPixmap( const QString & _wallpaper )
     return QPixmap();
 }
 
+static const char * previewKey[KonqPropsView::LASTPREVIEW+1] = { "ImagePreview", "TextPreview" };
+
 KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps )
     : m_bSaveViewPropertiesLocally( false ), // will be overriden by setSave... anyway
     // if this is the default properties instance, then keep config object for saving
@@ -77,7 +79,8 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_iIconSize = config->readNumEntry( "IconSize", 0 );
   m_iItemTextPos = config->readNumEntry( "ItemTextPos", QIconView::Bottom );
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
-  m_bImagePreview = config->readBoolEntry( "ImagePreview", false );
+  m_bPreview[IMAGEPREVIEW] = config->readBoolEntry( "ImagePreview", false );
+  m_bPreview[TEXTPREVIEW] = config->readBoolEntry( "TextPreview", false );
 
   m_textColor = config->readColorEntry( "TextColor" ); // will be set to QColor() if not found
   m_bgColor = config->readColorEntry( "BgColor" ); // will be set to QColor() if not found
@@ -149,7 +152,8 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_iIconSize = m_defaultProps->iconSize();
     m_iItemTextPos = m_defaultProps->itemTextPos();
     m_bShowDot = m_defaultProps->isShowingDotFiles();
-    m_bImagePreview = m_defaultProps->isShowingImagePreview();
+    m_bPreview[IMAGEPREVIEW] = m_defaultProps->isShowingPreview(IMAGEPREVIEW);
+    m_bPreview[TEXTPREVIEW] = m_defaultProps->isShowingPreview(TEXTPREVIEW);
     m_textColor = m_defaultProps->m_textColor;
     m_bgColor = m_defaultProps->m_bgColor;
     m_bgPixmapFile = m_defaultProps->bgPixmapFile();
@@ -164,7 +168,8 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_iIconSize = config->readNumEntry( "IconSize", m_iIconSize );
     m_iItemTextPos = config->readNumEntry( "ItemTextPos", m_iItemTextPos );
     m_bShowDot = config->readBoolEntry( "ShowDotFiles", m_bShowDot );
-    m_bImagePreview = config->readBoolEntry( "ImagePreview", m_bImagePreview );
+    m_bPreview[IMAGEPREVIEW] = config->readBoolEntry( "ImagePreview", m_bPreview[IMAGEPREVIEW] );
+    m_bPreview[TEXTPREVIEW] = config->readBoolEntry( "TextPreview", m_bPreview[TEXTPREVIEW] );
 
     m_textColor = config->readColorEntry( "TextColor", &m_textColor );
     m_bgColor = config->readColorEntry( "BgColor", &m_bgColor );
@@ -236,15 +241,15 @@ void KonqPropsView::setShowingDotFiles( bool show )
     }
 }
 
-void KonqPropsView::setShowingImagePreview( bool show )
+void KonqPropsView::setShowingPreview( Preview preview, bool show )
 {
-    m_bImagePreview = show;
+    m_bPreview[preview] = show;
     if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
-        m_defaultProps->setShowingImagePreview( show );
+        m_defaultProps->setShowingPreview( preview, show );
     else if (currentConfig())
     {
         KConfigGroupSaver cgs(currentConfig(), currentGroup());
-        currentConfig()->writeEntry( "ImagePreview", m_bImagePreview );
+        currentConfig()->writeEntry( previewKey[preview], show );
         currentConfig()->sync();
     }
 }
