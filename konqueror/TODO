@@ -56,6 +56,10 @@ iconview+listviews:
 - if we keep "background color for this directory" should we have "text color for
 this directory" too... ?
 
+- (iconview) : Idea by Torsten: Provide (very delayed (in order not to act
+               to aggressive)) tooltips for icons, showing delayed information
+               like filesize, etc.
+
 listviews:
 ==========
 
