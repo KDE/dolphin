@@ -57,7 +57,7 @@ ListView::ListView() {
    ;
 }
 
-#define SPLIT true
+#define SPLIT false
 
 void ListView::createListViews(QWidget *parent) {
    if (SPLIT) {

@@ -40,7 +40,7 @@ void SearchItrHolder::doItrListChanged() {
    KEBApp::self()->setCancelSearchEnabled(m_itrs.count() > 0);
 }
 
-void SearchItrHolder::nextOne() {
+void SearchItrHolder::slotFindNext() {
    KEBListViewItem *item = m_foundlist.next();
    if (!item) {
       return;
@@ -72,6 +72,30 @@ SearchItr::~SearchItr() {
    if (m_statusitem) {
       m_statusitem->restoreStatus();
    }
+}
+
+#include <kfind.h>
+#include <kfinddialog.h>
+
+void SearchItr::setSearch(int options, const QString& pattern) {
+   m_text = pattern;
+   /*
+   m_find = new KFind( pattern, options, this );
+
+   connect(m_find, SIGNAL( highlight(const QString &, int, int) ),
+           this,   SLOT( searchHighlight( const QString &, int, int) ));
+   connect(m_find, SIGNAL( findNext() ), 
+           this, SLOT( slotFindNext() ) );
+
+   m_findItem = (BugLVI *)m_listBugs->firstChild();
+
+   if (options & KFindDialog::FromCursor 
+    && m_listBugs->currentItem() ) {
+      m_findItem = (BugLVI *)m_listBugs->currentItem();
+   }
+
+   slotFindNext();
+   */
 }
 
 bool SearchItr::isBlahable(const KBookmark &bk) {

@@ -31,7 +31,7 @@ public:
       if (!s_self) { s_self = new SearchItrHolder(); }; return s_self; 
    }
    void addFind(KEBListViewItem *item);
-   void nextOne();
+   void slotFindNext();
 protected:
    virtual void doItrListChanged();
 private:
@@ -49,7 +49,7 @@ public:
    ~SearchItr();
    
    virtual BookmarkIteratorHolder* holder() { return SearchItrHolder::self(); }
-   void setText(const QString& text) { m_text = text; }
+   void setSearch(int options, const QString& pattern);
 
 private:
    virtual void doBlah();

@@ -180,19 +180,23 @@ void ActionsImpl::slotUpdateFavIcon() {
    FavIconsItrHolder::self()->insertItr(new FavIconsItr(ListView::self()->selectedBookmarksExpanded()));
 }
 
+#include <kfinddialog.h>
+
+// TODO
+// also, need to think about limiting size of itr list to <= 1
+// or, generically. itr's shouldn't overlap. difficult problem...
+
 void ActionsImpl::slotSearch() {
-   // TODO
-   // also, need to think about limiting size of itr list to <= 1
-   // or, generically. itr's shouldn't overlap. difficult problem...
-   bool ok;
-   QString text = KLineEditDlg::getText("Find string in bookmarks:", "", &ok, KEBApp::self());
-   SearchItr* itr = new SearchItr(ListView::self()->allBookmarks());
-   itr->setText(text);
-   SearchItrHolder::self()->insertItr(itr);
+   KFindDialog dlg(KEBApp::self());
+   if (dlg.exec() == KDialogBase::Accepted) {
+      SearchItr* itr = new SearchItr(ListView::self()->allBookmarks());
+      itr->setSearch(dlg.options(), dlg.pattern());
+      SearchItrHolder::self()->insertItr(itr);
+   }
 }
 
 void ActionsImpl::slotNextHit() {
-   SearchItrHolder::self()->nextOne();
+   emit SearchItrHolder::self()->slotFindNext();
 }
 
 /* -------------------------------------- */
