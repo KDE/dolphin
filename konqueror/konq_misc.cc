@@ -80,12 +80,13 @@ QString konqFilteredURL( QWidget * parent, const QString &_url )
   if( data.hasBeenFiltered() )
   {
     KURIFilterData::URITypes type = data.uriType();
+    /*
     if( type == KURIFilterData::UNKNOWN )
     {
       KMessageBox::sorry( parent, i18n( "The url \"%1\" is of unknown type" ).arg( _url ) );
       return QString::null;  // should never happen unless the search filter is unavailable.
     }
-    else if( type == KURIFilterData::ERROR )
+    else */ if( type == KURIFilterData::ERROR )
     {
       KMessageBox::sorry( parent, i18n( data.errorMsg().utf8() ) );
       return QString::null;
