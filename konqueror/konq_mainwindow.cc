@@ -855,7 +855,7 @@ void KonqMainWindow::slotOpenURLRequest( const KURL &url, const KParts::URLArgs 
         if ( hostExtension )
           hostExtension->openURLInFrame( url, args );
         else
-           mainWindow->openURL( view, url, args );
+          mainWindow->openURL( view, url, args );
         return;
       }
 
@@ -1625,8 +1625,10 @@ void KonqMainWindow::slotReload( KonqView* reloadView )
 {
   if ( !reloadView )
     reloadView = m_currentView;
+  
   if ( !reloadView || reloadView->url().isEmpty() )
     return;
+  
   KonqOpenURLRequest req( reloadView->typedURL() );
   if ( reloadView->prepareReload( req.args ) )
   {
@@ -1639,7 +1641,8 @@ void KonqMainWindow::slotReload( KonqView* reloadView )
 
 void KonqMainWindow::slotReloadPopup()
 {
-  slotReload( m_pWorkingTab->activeChildView() );
+  if (m_pWorkingTab)
+    slotReload( m_pWorkingTab->activeChildView() );
 }
 
 void KonqMainWindow::slotHome()
