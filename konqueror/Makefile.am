@@ -40,8 +40,7 @@ konqueror_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel \
                     konq_misc.cc \
 		    konq_frame.cc \
 		    konq_actions.cc \
-		    konq_profiledlg.cc \
-		    kbugreport.cc
+		    konq_profiledlg.cc 
 
 konqueror_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 konqueror_LDADD = libkonqueror.la $(LIB_KIMGIO)
@@ -60,8 +59,7 @@ linktest_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel \
                    konq_misc.cc \
                    konq_frame.cc \
                    konq_actions.cc \
-                   konq_profiledlg.cc \
-                   kbugreport.cc 
+                   konq_profiledlg.cc 
 linktest_LDADD = $(lib_LTLIBRARIES) \
 	$(top_builddir)/konqueror/htmlview/libkonqhtmlview.la \
 	$(top_builddir)/konqueror/iconview/libkonqiconview.la \

@@ -281,7 +281,9 @@ void KonqChildView::slotCompleted()
 
 void KonqChildView::slotCanceled( const QString & )
 {
+#ifdef __GNUC__
 #warning TODO obey errMsg
+#endif
   slotCompleted();
 }
 
