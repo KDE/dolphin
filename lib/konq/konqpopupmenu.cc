@@ -333,14 +333,17 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     QValueList<KDEDesktopMimeType::Service>::Iterator it2 = user.begin();
     for( ; it2 != user.end(); ++it2 )
     {
-      if ( !(*it2).m_strIcon.isEmpty() )
+      if ((*it2).m_display == true)
       {
-        QPixmap pix = KGlobal::iconLoader()->loadIcon( (*it2).m_strIcon, KIconLoader::Small );
-	id = insertItem( pix, (*it2).m_strName );
+        if ( !(*it2).m_strIcon.isEmpty() )
+        {
+          QPixmap pix = KGlobal::iconLoader()->loadIcon( (*it2).m_strIcon, KIconLoader::Small );
+    id = insertItem( pix, (*it2).m_strName );
+        }
+        else
+          id = insertItem( (*it2).m_strName );
+        m_mapPopup2[ id ] = *it2;
       }
-      else
-	id = insertItem( (*it2).m_strName );
-      m_mapPopup2[ id ] = *it2;
     }
 
     if ( builtin.count() > 0 )
