@@ -391,23 +391,38 @@ void NSPluginInstance::timer()
         Request req( *_waitingRequests.head() );
         _waitingRequests.remove();
 
+        QString url;
+
+        // make absolute url
+        if ( req.url.left(11).lower()=="javascript:" )
+            url = req.url;
+        else if ( KURL::isRelativeURL(req.url) ) {
+            KURL absUrl( _baseURL, req.url );
+            url = absUrl.url();
+        } else if ( req.url[0]=='/' && KURL(_baseURL).hasHost() ) {
+            KURL absUrl( _baseURL );
+            absUrl.setPath( req.url );
+            url = absUrl.url();
+        } else
+            url = req.url;
+
         // non empty target = frame target
         if ( !req.target.isEmpty() )
         {
             if (_callback)
             {
-                _callback->requestURL( req.url, req.target );
+                _callback->requestURL( url, req.target );
                 if ( req.notify )
                     NPURLNotify( req.url, NPRES_DONE, req.notify );
             }
         } else {
-            if (!req.url.isEmpty())
+            if (!url.isEmpty())
             {
                 kdDebug(1431) << "Starting new stream " << req.url << endl;
 
                 // hack to get java vm and HyperCosm 3d working
-                if ( req.url.lower()=="javascript:document.location" ||
-                     req.url.lower()=="javascript:window.location.href" ) {
+                if ( url.lower()=="javascript:document.location" ||
+                     url.lower()=="javascript:window.location.href" ) {
                     NSPluginBufStream *s = new NSPluginBufStream( this );
                     connect( s, SIGNAL(finished(NSPluginStreamBase*)),
                              SLOT(streamFinished(NSPluginStreamBase*)) );
@@ -415,7 +430,7 @@ void NSPluginInstance::timer()
 
                     QByteArray buf;
                     buf.setRawData( _baseURL.latin1(), _baseURL.length()+1 );
-                    s->get( req.url, "text/html", buf, req.notify, true );
+                    s->get( url, "text/html", buf, req.notify, true );
                 } else {
                     // create stream
                     NSPluginStream *s = new NSPluginStream( this );
@@ -423,20 +438,7 @@ void NSPluginInstance::timer()
                              SLOT(streamFinished(NSPluginStreamBase*)) );
                     _streams.append( s );
 
-                    kdDebug() << "getting " << req.url << " src=" << _baseURL << endl;
-
-                    QString url;
-
-                    // make absolute url
-                    if ( KURL::isRelativeURL(req.url) ) {
-                        KURL absUrl( _baseURL, req.url );
-                        url = absUrl.url();
-                    } else if ( req.url[0]=='/' && KURL(_baseURL).hasHost() ) {
-                        KURL absUrl( _baseURL );
-                        absUrl.setPath( req.url );
-                        url = absUrl.url();
-                    } else
-                        url = req.url;
+                    kdDebug() << "getting " << url << endl;
 
                     emitStatus( i18n("Requesting %1").arg(url) );
                     s->get( url, req.mime, req.notify );
