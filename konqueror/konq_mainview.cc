@@ -1387,7 +1387,7 @@ void KonqMainView::slotConfigureBrowser()
 {
   if (fork() == 0) {
     // execute 'kcmkfm' with browser options pages
-    execl(kapp->kde_bindir()+"/kcmkfm","kcmkfm","proxy","http","useragent","cookies",0);
+    execl(kapp->kde_bindir()+"/kcmkfm","kcmkfm","proxy","http","smb","useragent","cookies",0);
     warning("Error launching kcmkfm !");
     exit(1);
   }                          
