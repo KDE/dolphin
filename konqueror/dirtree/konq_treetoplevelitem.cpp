@@ -32,6 +32,7 @@
 #include <kurldrag.h>
 #include <qapplication.h>
 #include <qclipboard.h>
+#include <qcursor.h>
 #include <konq_drag.h>
 
 void KonqTreeTopLevelItem::init()
