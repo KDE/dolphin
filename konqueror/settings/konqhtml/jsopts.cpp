@@ -141,11 +141,15 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
                                           "button allows you to easily share your policies with other people by allowing "
                                           "you to save and retrive them from a zipped file.") );
 
-  js_popup      = new QButtonGroup(3, Horizontal, i18n( "JavaScript web popups policy" ), this);
+  js_popup      = new QButtonGroup(4, Horizontal, i18n( "JavaScript web popups policy" ), this);
   js_popup->setExclusive(TRUE);
-  js_popupAllow = new QRadioButton(i18n( "Allow" ), js_popup);
-  js_popupAsk   = new QRadioButton(i18n( "Ask" ), js_popup);
-  js_popupDeny  = new QRadioButton(i18n( "Deny" ), js_popup);
+  QRadioButton* js_popupAllow = new QRadioButton(i18n( "Allow" ), js_popup);
+  QRadioButton* js_popupAsk   = new QRadioButton(i18n( "Ask" ), js_popup);
+  QRadioButton* js_popupDeny  = new QRadioButton(i18n( "Deny" ), js_popup);
+  QRadioButton* js_popupSmart = new QRadioButton(i18n( "Smart" ), js_popup);
+  QWhatsThis::add( js_popupSmart,
+                   i18n("If you choose the 'Smart' option, window.open will be disabled unless "
+                        "it is being activated from a mouse click or a keyboard operation.") );
   toplevel->addWidget(js_popup);
   QWhatsThis::add( js_popup,
                    i18n("If you disable this, Konqueror will stop interpreting the <i>window.open()</i> "
