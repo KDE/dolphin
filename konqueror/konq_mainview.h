@@ -167,7 +167,7 @@ public slots:  // IDL
   /////////////////////////
   // Location Bar
   /////////////////////////
-  virtual void slotURLEntered();
+  virtual void slotURLEntered( const CORBA::WChar *_url );
   
   /////////////////////////
   

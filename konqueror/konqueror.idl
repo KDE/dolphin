@@ -163,7 +163,7 @@ module Konqueror
     slot void slotHelpContents();
     slot void slotHelpAbout();
 
-    slot void slotURLEntered();
+    slot void slotURLEntered( in wstring url );
 
     slot void slotFileNewActivated( in long id );
     slot void slotFileNewAboutToShow();	

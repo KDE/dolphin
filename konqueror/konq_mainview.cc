@@ -594,14 +594,25 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   m_vLocationBar->insertTextLabel( text, -1, -1 );
 
   toolTip = Q2C( i18n("Current Location") );
-  m_vLocationBar->insertLined(0L, TOOLBAR_URL_ID, SIGNAL(returnPressed()), this, "slotURLEntered", true, toolTip, 70, -1 );
-  m_vLocationBar->setItemAutoSized( TOOLBAR_URL_ID, true );
+//  m_vLocationBar->insertLined(0L, TOOLBAR_URL_ID, SIGNAL(returnPressed()), this, "slotURLEntered", true, toolTip, 70, -1 );
+  
+  text = Q2C( QString::null );
+  OpenPartsUI::WStrList items;
+  items.length( 0 );
   if ( m_currentView )
   {
-    text = Q2C( m_currentView->locationBarURL() );
-    m_vLocationBar->setLinedText( TOOLBAR_URL_ID, text );
+    items.length( 1 );
+    items[ 0 ] = Q2C( m_currentView->locationBarURL() );
+//    m_vLocationBar->setLinedText( TOOLBAR_URL_ID, text );
   }
-    
+  
+  
+  m_vLocationBar->insertCombo3( items, TOOLBAR_URL_ID, true, SIGNAL( activated(const QString &) ),
+                                this, "slotURLEntered", true, toolTip, 70, -1,
+				OpenPartsUI::AfterCurrent );
+
+  m_vLocationBar->setItemAutoSized( TOOLBAR_URL_ID, true );
+
   //TODO: support completion in opToolBar->insertLined....
 
   /* will KTM do it for us ?
@@ -713,7 +724,8 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   if ( !CORBA::is_nil( m_vLocationBar ) )
   {
     CORBA::WString_var text = Q2C( m_currentView->locationBarURL() );
-    m_vLocationBar->setLinedText( TOOLBAR_URL_ID, text );
+//    m_vLocationBar->setLinedText( TOOLBAR_URL_ID, text );
+    m_vLocationBar->changeComboItem( TOOLBAR_URL_ID, text, 0 );
   }    
 
   m_currentView->emitMenuEvents( m_vMenuView, m_vMenuEdit, true );
@@ -873,7 +885,8 @@ void KonqMainView::setLocationBarURL( OpenParts::Id id, const char *_url )
   it.data()->setLocationBarURL( _url );
   
   if ( ( id == m_currentId ) && (!CORBA::is_nil( m_vLocationBar ) ) )
-    m_vLocationBar->setLinedText( TOOLBAR_URL_ID, wurl );
+//    m_vLocationBar->setLinedText( TOOLBAR_URL_ID, wurl );
+    m_vLocationBar->changeComboItem( TOOLBAR_URL_ID, wurl, 0 );
 }
 
 void KonqMainView::setItemEnabled( OpenPartsUI::Menu_ptr menu, int id, bool enable )
@@ -1462,16 +1475,19 @@ void KonqMainView::slotHelpAbout()
   ));
 }
 
-void KonqMainView::slotURLEntered()
+void KonqMainView::slotURLEntered( const CORBA::WChar *_url )
 {
-  CORBA::WString_var _url = m_vLocationBar->linedText( TOOLBAR_URL_ID );
-  QString url = C2Q( _url.in() );
+//  CORBA::WString_var _url = m_vLocationBar->linedText( TOOLBAR_URL_ID );
+//  QString url = C2Q( _url.in() );
+  QString url = C2Q( _url );
 
   // Exit if the user did not enter an URL
   if ( url.isEmpty() )
     return;
 
   openURL( url.ascii() );
+  
+  m_vLocationBar->setCurrentComboItem( TOOLBAR_URL_ID, 0 );
 }
 
 void KonqMainView::slotBookmarkSelected( CORBA::Long id )
