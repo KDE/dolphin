@@ -55,6 +55,8 @@
 #include <qclipboard.h>
 #include <qregexp.h>
 
+#include <X11/Xlib.h>
+
 class KonqIconViewFactory : public KLibFactory
 {
 public:
@@ -670,6 +672,13 @@ void KonqKfmIconView::slotMousePressed( QIconViewItem *item )
 
 void KonqKfmIconView::slotDrop( QDropEvent *e )
 {
+  Window root;
+  Window child;
+  int root_x, root_y, win_x, win_y;
+  uint keybstate;
+  XQueryPointer( qt_xdisplay(), qt_xrootwin(), &root, &child,
+                 &root_x, &root_y, &win_x, &win_y, &keybstate );
+ 
   dropStuff( e );
 }
 
