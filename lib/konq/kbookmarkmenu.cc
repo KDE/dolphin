@@ -153,8 +153,15 @@ void KBookmarkMenu::slotBookmarkSelected()
   {
     if ( bm->type() == KBookmark::Folder ) // "Add bookmark"
     {
-      QString title = m_pOwner->currentTitle();
       QString url = m_pOwner->currentURL();
+      if (url.isEmpty())
+      {
+          KMessageBox::error( 0L, i18n("Can't add bookmark with empty url"));
+          return;
+      }
+      QString title = m_pOwner->currentTitle();
+      if (title.isEmpty())
+        title = url;
       (void)new KBookmark( KBookmarkManager::self(), bm, title, url );
       return;
     }
