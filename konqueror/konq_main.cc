@@ -31,7 +31,7 @@
 #include <kcmdlineargs.h>
 #include <dcopclient.h>
 #include <kimageio.h>
-#include <kopenwith.h>
+#include <qfile.h>
 
 #include <qwidgetlist.h>
 
@@ -58,8 +58,6 @@ int main( int argc, char **argv )
 
   KGlobal::locale()->insertCatalogue("libkonq"); // needed for apps using libkonq
   KImageIO::registerFormats();
-
-  KFileOpenWithHandler fowh;
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
