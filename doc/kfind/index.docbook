@@ -200,6 +200,25 @@ only find files with the exact case matching, in our example only
 </listitem>
 </varlistentry>
 
+<varlistentry>
+<term><guilabel>Use Regular Expression Matching</guilabel></term>
+<listitem><para>If you have installed the &kregexpeditor; tool from
+the kdeutils package, you will have this additional option.  Enabling
+it will allow you to search for a <firstterm>regexp</firstterm> or
+regular expression.  A regexp is a way to specify conditions for your
+search, and they can be very complex, and equally they can be very
+powerful.  If you are unfamiliar with regular expressions, you can
+choose <guilabel>Edit Regular Expression</guilabel> to open
+&kregexpeditor;.  This tool allows you to construct your set of
+conditions graphically, and then generates the expression for
+you.</para>
+
+<para>&kregexpeditor; is a very useful tool, and can be used from within
+many &kde; applications other than &kfind;.  You can find more
+information from within it's own help file.</para>
+</listitem>
+</varlistentry>
+
 </variablelist>
 
 </sect1>
