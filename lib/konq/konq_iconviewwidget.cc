@@ -413,18 +413,11 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
         QPoint defaultSize;
         d->desktopGridSpacing = group.readPointEntry( "DesktopGridSpacing", &defaultSize );
         if ( d->desktopGridSpacing.isNull() ) {
+            d->desktopGridSpacing = QPoint( 55, 15 );
             // read GridXSpacing (for compatibility with old settings)
             int compat = group.readNumEntry( "GridXSpacing", 0 );
-            if ( compat > 0 ) {
-                // make a large preview fit into the grid
-                int previewSize = largestPreviewIconSize( m_size );
-                int size = m_size ? m_size : KGlobal::iconLoader()->currentSize(  KIcon::Desktop );
+            if ( compat > 0 )
                 d->desktopGridSpacing.setX( compat );
-                d->desktopGridSpacing.setY( 7 + QMAX( 0, previewSize - size ) );
-            }
-            // defaults (medium)
-            else
-                d->desktopGridSpacing = QPoint( 55, 40 );
         }
     }
     d->bBoostPreview = boostPreview();
