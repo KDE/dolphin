@@ -55,7 +55,7 @@ include_HEADERS = konq_popupmenu.h knewmenu.h \
     konq_faviconmgr.h konq_xmlguiclient.h konqbookmarkmanager.h
 
 kde_module_LTLIBRARIES = konq_sound.la
-konq_sound_la_SOURCES = konq_sound.cpp
+konq_sound_la_SOURCES = konq_sound.cc
 konq_sound_la_LDFLAGS = $(all_libraries) -module $(KDE_PLUGIN)
 konq_sound_la_LIBADD = -lsoundserver_idl -lartskde
 
