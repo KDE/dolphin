@@ -182,7 +182,7 @@ KonqListViewDir * KonqTreeViewWidget::findDir( const QString &_url )
    QDictIterator<KonqListViewDir> it( m_mapSubDirs );
    for( ; it.current(); ++it )
    {
-      debug( it.current()->url(0) );
+      kdDebug(1202) << it.current()->url(0) << endl;
       if ( urlcmp( it.current()->url(0), _url, true, true ) )
       {
          m_lasttvd = it.current();
