@@ -1,0 +1,338 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN" "dtd/kdex.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % English "INCLUDE"> 
+]>
+
+<book lang="&language;">
+
+<bookinfo>
+<title>The &kfind; Handbook</title>
+
+<authorgroup>
+<author>
+<firstname>Dirk</firstname>
+<surname>Doerflinger</surname>
+<affiliation>
+<address><email>ddoerflinger@web.de</email></address>
+</affiliation>
+</author>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+</authorgroup>
+
+<copyright>
+<year>2001</year>
+<holder>Dirk Doerflinger</holder>
+</copyright>
+
+<legalnotice>&FDLNotice;</legalnotice>
+
+<date>2001-06-24</date>
+<releaseinfo>1.10.00</releaseinfo>
+
+<abstract>
+<para>
+&kfind; is &kde;'s file find utility.
+</para>
+</abstract>
+
+<keywordset>
+<keyword>KDE</keyword>
+<keyword>kdeutils</keyword>
+<keyword>kfind</keyword>
+<keyword>find</keyword>
+</keywordset>
+</bookinfo>
+
+<chapter id="introduction">
+<title>Introduction</title>
+
+<para>
+&kfind; is the &kde; file find utility.
+</para>
+
+<sect1 id="starting">
+<title>Launching &kfind;</title>
+
+<para>
+You will find the entry <guimenuitem>Find Files</guimenuitem>. This will
+launch &kfind;, a handy application for finding files or even
+expressions within files.
+</para>
+
+</sect1>
+</chapter>
+
+<chapter id="kfind">
+<title>Finding Files</title>
+
+<sect1 id="name-tab">
+<title>The Name/Location Tab</title>
+
+<para>
+When starting &kfind;, you will see a quite simple window. Type in the
+name of the file you are searching in the textbox labeled
+<guilabel>Named:</guilabel>, choose a directory where you want to search
+by typing it in the field <quote><guilabel>Look in:</guilabel></quote>
+or clicking <guibutton>Browse...</guibutton> and hit
+<keycap>Enter</keycap> or click <guibutton>Find</guibutton>. If
+<guilabel>Include subdirectories</guilabel> is checked, all
+subdirectories starting from your chosen directory will be searched,
+too. The results will be displayed in the Box below.
+</para>
+
+<para>
+You can use the following wildcards:
+</para>
+
+<variablelist>
+<varlistentry>
+<term>The Asterisk <quote><keycap>*</keycap></quote></term>
+<listitem>
+<para>
+The asterisk stands for any number of missing characters (even zero),
+that means &eg; searching for <filename>marc*</filename> may find the
+files <filename>marc</filename>, <filename>marc.png</filename> and
+<filename> marc_must_not_read_this.kwd</filename>. Otherwise,
+<filename>mar*.kwd</filename> may find
+<filename>marketplace.kwd</filename> and
+<filename>marc_must_not_read_this.kwd</filename>.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>The Question Mark <quote><keycap>?</keycap></quote></term>
+<listitem>
+<para>
+In contrast to the asterisk, the question mark stands for exacly one
+character, so <filename>mar?</filename> will find
+<filename>marc</filename>, but <filename>marc?</filename> won't find
+anything, as our files are called <filename>marc</filename> and
+<filename>marc.png</filename>. You can put as many question marks in the
+term as you want, it will find exactly that number of characters.
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+<para>
+Of course you can combine those two wildcard symbols in a search term.
+</para>
+
+</sect1>
+
+<sect1 id="kfind-date-range">
+<title>The Date Range Tab</title>
+
+<para>
+In this tab you can tell &kfind; the date period when the file(s) to be
+found have been created or edited last time.
+</para>
+
+<para>
+Choosing <guilabel>All files</guilabel> will tell &kfind; not to worry
+about dates. If you check <guilabel>Find all files created or
+modified:</guilabel>, you can either enter two dates, between which the
+files were changed or created, or specify a period of previous months or
+days where the files should lay in.
+</para>
+
+</sect1>
+
+<sect1 id="kfind-advanced">
+<title>The Advanced Tab</title>
+
+<para>
+Here you can refine your search or only look for files that contain a
+specific word or phrase.
+</para>
+
+<para>
+These are the special refinements you can choose:
+</para>
+
+<variablelist>
+<varlistentry>
+<term><guilabel>Of Type</guilabel></term>
+<listitem>
+<para>
+Here you can specify the type of file you are searching for.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Containing Text</guilabel></term>
+<listitem>
+<para>
+Type in the word or phrase the files you are searching for must
+contain. Note: If you do this in a large directory or checked
+<guilabel>Include Subfolders</guilabel>, this may take a long time.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Size is:</guilabel></term>
+<listitem>
+<para>Here you can specify if the file has to be at least or as most as
+big as the size (in KB) you entered in the following box.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Case Sensitive</guilabel></term>
+<listitem>
+<para>
+Usually, &kfind; doesn't matter of cases, so searching for
+<filename>marc.png</filename> will find <filename>marc.png</filename>
+and <filename>Marc.png</filename>. If you enable this option, it will
+only find files with the exact case matching, in our example only
+<filename>marc.png</filename>.
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+</chapter>
+
+<chapter id="credits">
+
+<title>Credits and License</title>
+
+<para>
+&kicker;
+</para>
+
+<para>
+Program copyright 
+</para>
+
+<itemizedlist>
+<title>Developers</title>
+<listitem>
+<para>Martin Hartig</para>
+</listitem>
+
+<listitem>
+<para>Stephan Kulow <email>coolo@kde.org</email></para>
+</listitem>
+
+<listitem>
+<para>Mario Weilguni <email>mweilguni@sime.com</email></para>
+</listitem>
+
+<listitem>
+<para>Alex Zepeda <email>jazepeda@pacbell.net</email></para>
+</listitem>
+
+<listitem>
+<para>Miroslav Fl?r <email>flidr@kky.zcu.cz</email></para>
+</listitem>
+
+<listitem>
+<para>Harri Porten <email>porten@kde.org</email></para>
+</listitem>
+
+<listitem>
+<para>Dima Rogozin <email>dima@mercury.co.il</email></para>
+</listitem>
+
+<listitem>
+<para>Carsten Pfeiffer <email>pfeiffer@kde.org</email></para>
+</listitem>
+
+<listitem>
+<para>Hans Petter Bieker <email>bieker@kde.org</email></para>
+</listitem>
+
+<listitem>
+<para>Waldo Bastian <email>bastian@kde.org</email></para>
+</listitem>
+    
+</itemizedlist>
+
+<para>
+Documentation copyright 2001 Dirk Doerflinger
+<email>ddoerflinger@web.de</email>
+</para>
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+&underFDL;               <!-- FDL: do not remove -->
+&underBSDLicense;        <!-- BSD License -->
+
+</chapter>
+
+<appendix id="installation">
+<title>Installation</title>
+
+<sect1 id="getting-kfind">
+<title>How to obtain &kfind;</title>
+
+<para>
+&kfind; is part of the &kde; project <ulink
+url="http://www.kde.org">http://www.kde.org</ulink>.  &kfind; can be
+found in the kdeutils package on <ulink
+url="ftp://ftp.kde.org/pub/kde/">ftp://ftp.kde.org/pub/kde/</ulink>, the
+main &FTP; site of the &kde; project.
+</para>
+
+</sect1>
+
+<sect1 id="requirements">
+<title>Requirements</title>
+
+<para>
+In order to successfully use &kfind;, you need &kde; 2.1. 
+</para>
+
+</sect1>
+
+<sect1 id="compilation">
+<title>Compilation and Installation</title>
+
+<para>
+In order to compile and install &kfind; on your system, type the
+following in the base directory of the kdeutils distribution:
+</para>
+
+<screen width="40">
+<prompt>%</prompt> <userinput><command>./configure</command></userinput>
+<prompt>%</prompt> <userinput><command>make</command></userinput>
+<prompt>%</prompt> <userinput><command>make</command> <option>install</option></userinput>
+</screen>
+
+<para>
+Since &kfind; uses <command>autoconf</command> and
+<command>automake</command> you should have no trouble compiling it.
+Should you run into problems please report them to the &kde; mailing
+lists.
+</para>
+
+</sect1>
+
+</appendix>
+
+&documentation.index;
+
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+// vim:ts=0:sw=2:tw=78:noet
+-->
