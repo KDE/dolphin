@@ -291,8 +291,6 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     m_mapPopup.clear();
     m_mapPopupServices.clear();
 
-    QString openWithText = i18n( "Open With" );
-
     if ( !offers.isEmpty() )
     {
       // First block, app and preview offers
@@ -308,15 +306,12 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
         m_menuElement.appendChild( menu );
         QDomElement text = m_doc.createElement( "text" );
         menu.appendChild( text );
-        text.appendChild( m_doc.createTextNode( openWithText ) );
-	openWithText = i18n( "Other..." );
+        text.appendChild( m_doc.createTextNode( i18n("Open With") ) );
       }
-
-      KAction *openWithAct = new KAction( openWithText, 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
 
       if ( menu == m_menuElement ) // no submenu -> open with... above the single offer
       {
-        openWithText += "...";
+        KAction *openWithAct = new KAction( i18n( "Open With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
         addAction( openWithAct, menu );
       }
 
@@ -337,14 +332,14 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       if ( menu != m_menuElement ) // submenu
       {
 	addSeparator( menu );
+        KAction *openWithAct = new KAction( i18n( "Other..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
         addAction( openWithAct, menu ); // Other...
       }
     }
     else // no app offers -> Open With...
     {
       addSeparator();
-      openWithText += "..."; //Show "..." only when no application binding is found!!
-      act = new KAction( openWithText, 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
+      act = new KAction( i18n( "Open With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
       addAction( act );
     }
 
