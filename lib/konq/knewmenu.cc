@@ -238,7 +238,7 @@ void KNewMenu::fillMenu()
                     // The best way to identify the "Create Directory" was the template
                 if((*templ).templatePath.right( 8 ) == "emptydir")
                 {
-                    KAction * act = new KAction( (*templ).text, (*templ).icon, Key_F10, this, SLOT( slotNewDir() ),
+                    KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewDir() ),
                                      d->m_actionCollection, QCString().sprintf("newmenu%d", i ) );
                     act->setGroup( "KNewMenu" );
             	    act->plug( popupMenu() );

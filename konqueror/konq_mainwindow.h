@@ -336,7 +336,7 @@ public slots:
   void slotRun();
   void slotCopyFiles();
   void slotMoveFiles();
-//  void slotNewDir();
+  void slotNewDir();
   void slotOpenTerminal();
   void slotOpenLocation();
   void slotToolFind();
@@ -513,7 +513,7 @@ private slots:
   void bookmarksIntoCompletion();
 
   void initBookmarkBar();
-  
+
 private:
   /**
    * takes care of hiding the bookmarkbar and calling setChecked( false ) on the
@@ -611,6 +611,7 @@ private:
 
   KAction *m_paCopyFiles;
   KAction *m_paMoveFiles;
+  KAction *m_paNewDir;
 
   KAction *m_paMoveTabLeft;
   KAction *m_paMoveTabRight;

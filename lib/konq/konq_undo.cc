@@ -94,10 +94,12 @@ KonqCommandRecorder::KonqCommandRecorder( KonqCommand::Type op, const KURL::List
   connect( job, SIGNAL( result( KIO::Job * ) ),
            this, SLOT( slotResult( KIO::Job * ) ) );
 
-  connect( job, SIGNAL( copyingDone( KIO::Job *, const KURL &, const KURL &, bool, bool ) ),
-           this, SLOT( slotCopyingDone( KIO::Job *, const KURL &, const KURL &, bool, bool ) ) );
-  connect( job, SIGNAL( copyingLinkDone( KIO::Job *, const KURL &, const QString &, const KURL & ) ),
-           this, SLOT( slotCopyingLinkDone( KIO::Job *, const KURL &, const QString &, const KURL & ) ) );
+  if ( op != KonqCommand::MKDIR ) {
+      connect( job, SIGNAL( copyingDone( KIO::Job *, const KURL &, const KURL &, bool, bool ) ),
+               this, SLOT( slotCopyingDone( KIO::Job *, const KURL &, const KURL &, bool, bool ) ) );
+      connect( job, SIGNAL( copyingLinkDone( KIO::Job *, const KURL &, const QString &, const KURL & ) ),
+               this, SLOT( slotCopyingLinkDone( KIO::Job *, const KURL &, const QString &, const KURL & ) ) );
+  }
 
   KonqUndoManager::incRef();
 }

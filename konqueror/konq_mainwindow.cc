@@ -169,8 +169,9 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_viewModeActions.setAutoDelete( true );
   m_toolBarViewModeActions.setAutoDelete( true );
   m_viewModeMenu = 0;
-  m_paCopyFiles = 0L;
-  m_paMoveFiles = 0L;
+  m_paCopyFiles = 0;
+  m_paMoveFiles = 0;
+  m_paNewDir = 0;
   m_bookmarkBarActionCollection = 0L;
   KonqExtendedBookmarkOwner *extOwner = new KonqExtendedBookmarkOwner( this );
   m_pBookmarksOwner = extOwner;
@@ -1927,6 +1928,8 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       m_paCopyFiles->setEnabled( false );
     if ( m_paMoveFiles )
       m_paMoveFiles->setEnabled( false );
+    if ( m_paNewDir )
+      m_paNewDir->setEnabled( false );
   }
   createGUI( part );
 
@@ -2501,6 +2504,13 @@ void KonqMainWindow::slotMoveFiles()
      return;
 
   KonqOperations::copy(this,KonqOperations::MOVE,currentURLs(),dest);
+}
+
+void KonqMainWindow::slotNewDir()
+{
+    Q_ASSERT( m_currentView );
+    if ( m_currentView )
+        KonqOperations::newDir(this, m_currentView->url());
 }
 
 KURL::List KonqMainWindow::currentURLs() const
@@ -3514,6 +3524,12 @@ void KonqMainWindow::updateViewActions()
       // mc users want F5 for Copy and F6 for move, but I can't make that default.
       m_paCopyFiles = new KAction( i18n("Copy &Files..."), Key_F7, this, SLOT( slotCopyFiles() ), actionCollection(), "copyfiles" );
       m_paMoveFiles = new KAction( i18n("M&ove Files..."), Key_F8, this, SLOT( slotMoveFiles() ), actionCollection(), "movefiles" );
+
+      // This action doesn't appear in the GUI, it's for the shortcut only.
+      // KNewMenu takes care of the GUI stuff.
+      m_paNewDir = new KAction( i18n("Create Directory..." ), Key_F10, this, SLOT( slotNewDir() ),
+                                actionCollection(), "konq_create_dir" );
+
       QPtrList<KAction> lst;
       lst.append( m_paCopyFiles );
       lst.append( m_paMoveFiles );
@@ -3530,9 +3546,11 @@ void KonqMainWindow::updateViewActions()
       {
           unplugActionList( "operations" );
           delete m_paCopyFiles;
-          m_paCopyFiles = 0L;
+          m_paCopyFiles = 0;
           delete m_paMoveFiles;
-          m_paMoveFiles = 0L;
+          m_paMoveFiles = 0;
+          delete m_paNewDir;
+          m_paNewDir = 0;
       }
   }
 }
