@@ -1,3 +1,14 @@
+2000-12-08  David Faure  <faure@kde.org> and Carsten Pfeiffer <pfeiffer@kde.org>
+
+	* dirtree/*: Major rewrite of the directory tree, to make it generic.
+	It can now handle toplevel items over to specific modules. Current
+	modules available are the dirtree module (directory listing) and the
+	history module (for a way to visualize the persistent history).
+
+2000-12-06  Matthias Elter <elter@kde.org>
+
+	* konq_mainwindow.cc: Turned the Configure submenu into a single dialog.
+
 2000-12-02  David Faure  <faure@kde.org>
 
 	* konq_mainwindow.cc (slotToolFind): "Find Files" now embeds the kfind
