@@ -46,23 +46,23 @@ KBookmarkEditorIface::KBookmarkEditorIface()
 }
 
 void KBookmarkEditorIface::slotDcopCreatedNewFolder(QString filename, QString text, QString address) {
-   if (KEBTopLevel::self()->modified() && filename == MyManager::self()->path()) {
+   if (KEBApp::self()->modified() && filename == MyManager::self()->path()) {
       kdDebug() << "slotDcopCreatedNewFolder(" << text << "," << address << ")" << endl;
       CreateCommand *cmd = new CreateCommand( 
                                   MyManager::self()->correctAddress(address), 
                                   text, QString::null, 
                                   true /*open*/, true /*indirect*/);
-      KEBTopLevel::self()->addCommand(cmd);
+      KEBApp::self()->addCommand(cmd);
    }
 }
 
 void KBookmarkEditorIface::slotDcopAddedBookmark(QString filename, QString url, QString text, QString address, QString icon) {
-   if (KEBTopLevel::self()->modified() && filename == MyManager::self()->path()) {
+   if (KEBApp::self()->modified() && filename == MyManager::self()->path()) {
       kdDebug() << "slotDcopAddedBookmark(" << url << "," << text << "," << address << "," << icon << ")" << endl;
       CreateCommand *cmd = new CreateCommand(
                                   MyManager::self()->correctAddress(address), 
                                   text, icon, KURL(url), true /*indirect*/);
-      KEBTopLevel::self()->addCommand(cmd);
+      KEBApp::self()->addCommand(cmd);
    }
 }
 

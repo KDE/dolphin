@@ -142,7 +142,7 @@ int main(int argc, char **argv) {
 
    bool readonly = false;
    if (askUser(app, (gotArg ? filename : ""), readonly)) {
-      KEBTopLevel *toplevel = new KEBTopLevel(filename, readonly, address);
+      KEBApp *toplevel = new KEBApp(filename, readonly, address);
       toplevel->show();
       app.setMainWidget(toplevel);
       return app.exec();

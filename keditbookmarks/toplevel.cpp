@@ -42,9 +42,9 @@
 
 #include "toplevel.h"
 
-KEBTopLevel *KEBTopLevel::s_topLevel = 0;
+KEBApp *KEBApp::s_topLevel = 0;
 
-KEBTopLevel::KEBTopLevel(const QString & bookmarksFile, bool readonly, QString address)
+KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, QString address)
    : KMainWindow(), m_commandHistory(actionCollection()), m_dcopIface(0) {
 
    m_bookmarksFilename = bookmarksFile;
@@ -82,7 +82,7 @@ KEBTopLevel::KEBTopLevel(const QString & bookmarksFile, bool readonly, QString a
    item->setSelected(true);
 }
 
-void KEBTopLevel::construct() {
+void KEBApp::construct() {
    MyManager::self()->createManager(this, m_bookmarksFilename);
 
    ListView::self()->updateListViewSetup(m_readOnly);
@@ -98,7 +98,7 @@ void KEBTopLevel::construct() {
    this->docSaved(); // CmdHistory
 }
 
-KEBTopLevel::~KEBTopLevel() {
+KEBApp::~KEBApp() {
    s_topLevel = 0;
    delete m_dcopIface;
 }
@@ -107,7 +107,7 @@ KEBTopLevel::~KEBTopLevel() {
 //                             GUICORE
 /* ------------------------------------------------------------- */
 
-void KEBTopLevel::createActions() {
+void KEBApp::createActions() {
 
    ActionsImpl *actn = ActionsImpl::self();
 
@@ -199,7 +199,7 @@ static void disableDynamicActions(QValueList<KAction *> actions) {
    }
 }
 
-void KEBTopLevel::resetActions() {
+void KEBApp::resetActions() {
    // DESIGN - try to remove usage of this
    disableDynamicActions(actionCollection()->actions());
 
@@ -216,21 +216,21 @@ void KEBTopLevel::resetActions() {
       ->setChecked(MyManager::self()->showNSBookmarks());
 }
 
-void KEBTopLevel::slotSaveOnClose() {
+void KEBApp::slotSaveOnClose() {
    m_saveOnClose 
       = static_cast<KToggleAction*>(actionCollection()->action("settings_saveonclose"))->isChecked();
 }
 
-bool KEBTopLevel::nsShown() {
+bool KEBApp::nsShown() {
    return static_cast<KToggleAction*>(actionCollection()->action("settings_showNS"))->isChecked();
 }
 
-void KEBTopLevel::updateActions() {
+void KEBApp::updateActions() {
    ListView::self()->updateLastAddress();
    setActionsEnabled(ListView::self()->getSelectionAbilities());
 }
 
-void KEBTopLevel::setActionsEnabled(SelcAbilities sa) {
+void KEBApp::setActionsEnabled(SelcAbilities sa) {
    KActionCollection * coll = actionCollection();
 
    bool t2 = !m_readOnly && sa.itemSelected;
@@ -269,19 +269,19 @@ void KEBTopLevel::setActionsEnabled(SelcAbilities sa) {
 
 // DESIGN clean up this sh*t
 
-void KEBTopLevel::setCancelSearchEnabled(bool enabled) {
+void KEBApp::setCancelSearchEnabled(bool enabled) {
    actionCollection()->action("cancelsearch")->setEnabled(enabled);
 }
 
-void KEBTopLevel::setCancelFavIconUpdatesEnabled(bool enabled) {
+void KEBApp::setCancelFavIconUpdatesEnabled(bool enabled) {
    actionCollection()->action("cancelfaviconupdates")->setEnabled(enabled);
 }
 
-void KEBTopLevel::setCancelTestsEnabled(bool enabled) {
+void KEBApp::setCancelTestsEnabled(bool enabled) {
    actionCollection()->action("canceltests")->setEnabled(enabled);
 }
 
-void KEBTopLevel::setModifiedFlag(bool modified) {
+void KEBApp::setModifiedFlag(bool modified) {
    QString caption = i18n("Bookmark Editor");
    m_modified = modified;
 
@@ -310,8 +310,8 @@ void KEBTopLevel::setModifiedFlag(bool modified) {
    MyManager::self()->setUpdate(!m_modified); 
 }
 
-void KEBTopLevel::slotClipboardDataChanged() {
-   kdDebug() << "KEBTopLevel::slotClipboardDataChanged" << endl;
+void KEBApp::slotClipboardDataChanged() {
+   kdDebug() << "KEBApp::slotClipboardDataChanged" << endl;
    if (!m_readOnly) {
       m_canPaste = KBookmarkDrag::canDecode(kapp->clipboard()->data(QClipboard::Clipboard));
       ListView::self()->emitSlotSelectionChanged();
@@ -322,28 +322,28 @@ void KEBTopLevel::slotClipboardDataChanged() {
 //                      COMMAND HISTORY ACCESSORS
 /* ------------------------------------------------------------- */
 
-void KEBTopLevel::didCommand(KCommand *cmd) {
+void KEBApp::didCommand(KCommand *cmd) {
    if (cmd) {
       m_commandHistory.addCommand(cmd, false);
       emit slotCommandExecuted();
    }
 }
 
-void KEBTopLevel::addCommand(KCommand *cmd) {
+void KEBApp::addCommand(KCommand *cmd) {
    if (cmd) {
       m_commandHistory.addCommand(cmd);
    }
 }
 
-void KEBTopLevel::docSaved() {
+void KEBApp::docSaved() {
    m_commandHistory.documentSaved();
 }
 
-void KEBTopLevel::clearHistory() {
+void KEBApp::clearHistory() {
    m_commandHistory.clear();
 }
 
-void KEBTopLevel::emitSlotCommandExecuted() {
+void KEBApp::emitSlotCommandExecuted() {
    emit slotCommandExecuted();
 }
 
@@ -351,7 +351,7 @@ void KEBTopLevel::emitSlotCommandExecuted() {
 
 // DESIGN - poinless drivel
 
-void KEBTopLevel::setAllOpen(bool open) {
+void KEBApp::setAllOpen(bool open) {
    ListView::self()->setOpen(open);
    setModifiedFlag(true);
 }
@@ -361,9 +361,9 @@ void KEBTopLevel::setAllOpen(bool open) {
 /* ------------------------------------------------------------- */
 
 // LATER - move
-void KEBTopLevel::slotCommandExecuted() {
+void KEBApp::slotCommandExecuted() {
    if (!m_readOnly) {
-      kdDebug() << "KEBTopLevel::slotCommandExecuted" << endl;
+      kdDebug() << "KEBApp::slotCommandExecuted" << endl;
       setModifiedFlag(true);
       ListView::self()->updateListView();
       ListView::self()->emitSlotSelectionChanged();
@@ -371,7 +371,7 @@ void KEBTopLevel::slotCommandExecuted() {
    }
 }
 
-void KEBTopLevel::slotDocumentRestored() {
+void KEBApp::slotDocumentRestored() {
    if (m_readOnly) {
       return;
    }
@@ -380,13 +380,13 @@ void KEBTopLevel::slotDocumentRestored() {
    setModifiedFlag(false);
 }
 
-void KEBTopLevel::slotBookmarksChanged(const QString &, const QString &caller) {
+void KEBApp::slotBookmarksChanged(const QString &, const QString &caller) {
    // this is called when someone changes bookmarks in konqueror....
    kdDebug() << "FIXME: " << caller << " == " << kapp->name() << "?" << endl;
    // TODO umm.. what happens if a readonly gets a update for a non-readonly???
    // the non-readonly maybe has a pretty much random kapp->name() ??? umm...
    if ((caller != kapp->name()) && !m_modified) {
-      kdDebug() << "KEBTopLevel::slotBookmarksChanged" << endl;
+      kdDebug() << "KEBApp::slotBookmarksChanged" << endl;
       // DESIGN - is this logic really unique?
       clearHistory();
       ListView::self()->fillWithGroup(BkManagerAccessor::mgr()->root());
@@ -398,18 +398,18 @@ void KEBTopLevel::slotBookmarksChanged(const QString &, const QString &caller) {
 // GUI - STANDARD
 /* ------------------------------------------------------------- */
 
-void KEBTopLevel::slotConfigureKeyBindings() {
+void KEBApp::slotConfigureKeyBindings() {
    KKeyDialog::configure(actionCollection());
 }
 
-void KEBTopLevel::slotConfigureToolbars() {
+void KEBApp::slotConfigureToolbars() {
    saveMainWindowSettings(KGlobal::config(), "MainWindow");
    KEditToolbar dlg(actionCollection());
    connect(&dlg, SIGNAL( newToolbarConfig() ), this, SLOT( slotNewToolbarConfig() ));
    dlg.exec();
 }
 
-void KEBTopLevel::slotNewToolbarConfig() {
+void KEBApp::slotNewToolbarConfig() {
    // called when OK or Apply is clicked
    createGUI();
    applyMainWindowSettings(KGlobal::config(), "MainWindow");
@@ -419,7 +419,7 @@ void KEBTopLevel::slotNewToolbarConfig() {
 // DOCUMENT
 /* ------------------------------------------------------------- */
 
-bool KEBTopLevel::save() {
+bool KEBApp::save() {
    if (!MyManager::self()->managerSave()) {
       return false;
    }
@@ -429,7 +429,7 @@ bool KEBTopLevel::save() {
    return true;
 }
 
-bool KEBTopLevel::queryClose() {
+bool KEBApp::queryClose() {
    if (!m_modified) {
       return true;
    }
@@ -451,7 +451,7 @@ bool KEBTopLevel::queryClose() {
    }
 }
 
-void KEBTopLevel::slotLoad() {
+void KEBApp::slotLoad() {
    if (!queryClose()) {
       return;
    }
@@ -464,11 +464,11 @@ void KEBTopLevel::slotLoad() {
    }
 }
 
-void KEBTopLevel::slotSave() {
+void KEBApp::slotSave() {
    (void)save();
 }
 
-void KEBTopLevel::slotSaveAs() {
+void KEBApp::slotSaveAs() {
    QString saveFilename = KFileDialog::getSaveFileName(QString::null, "*.xml", this);
    if(!saveFilename.isEmpty()) {
       MyManager::self()->saveAs(saveFilename);

@@ -43,7 +43,7 @@ TestLinkItrHolder::TestLinkItrHolder()
 }
 
 void TestLinkItrHolder::doItrListChanged() {
-   KEBTopLevel::self()->setCancelTestsEnabled(m_itrs.count() > 0);
+   KEBApp::self()->setCancelTestsEnabled(m_itrs.count() > 0);
 }
 
 TestLinkItr::TestLinkItr(QValueList<KBookmark> bks)
@@ -303,7 +303,7 @@ void KEBListViewItem::nsPut(QString nm) {
    QString tmp = updateNsInfoMod(m_bookmark.internalElement().attribute("netscapeinfo"), nm);
    m_bookmark.internalElement().setAttribute("netscapeinfo", tmp);
 
-   KEBTopLevel::self()->setModifiedFlag(true);
+   KEBApp::self()->setModifiedFlag(true);
    setText(KEBListView::StatusColumn, nm);
    TestLinkItrHolder::setMod(m_bookmark.url().url(), nm);
 }

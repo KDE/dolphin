@@ -50,7 +50,7 @@ private:
 class BkManagerAccessor {
 
    friend class KEBListView;
-   friend class KEBTopLevel;
+   friend class KEBApp;
    friend class ActionsImpl;
    friend class ListView;
 

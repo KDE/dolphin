@@ -37,7 +37,7 @@ SearchItrHolder::SearchItrHolder()
 }
 
 void SearchItrHolder::doItrListChanged() {
-   KEBTopLevel::self()->setCancelSearchEnabled(m_itrs.count() > 0);
+   KEBApp::self()->setCancelSearchEnabled(m_itrs.count() > 0);
 }
 
 SearchItr::SearchItr(QValueList<KBookmark> bks)

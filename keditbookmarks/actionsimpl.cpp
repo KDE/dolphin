@@ -60,11 +60,11 @@
 #include "actionsimpl.h"
 
 void ActionsImpl::slotExpandAll() {
-   KEBTopLevel::self()->setAllOpen(true);
+   KEBApp::self()->setAllOpen(true);
 }
 
 void ActionsImpl::slotCollapseAll() {
-   KEBTopLevel::self()->setAllOpen(false);
+   KEBApp::self()->setAllOpen(false);
 }
 
 ActionsImpl* ActionsImpl::s_self = 0;
@@ -76,7 +76,7 @@ ActionsImpl* ActionsImpl::s_self = 0;
 void ActionsImpl::slotCut() {
    slotCopy();
    KMacroCommand *mcmd = CmdGen::self()->deleteItems(i18n("Cut Items"), ListView::self()->selectedItems());
-   KEBTopLevel::self()->didCommand(mcmd);
+   KEBApp::self()->didCommand(mcmd);
 }
 
 void ActionsImpl::slotCopy() {
@@ -93,7 +93,7 @@ void ActionsImpl::slotPaste() {
            i18n("Paste"), 
            kapp->clipboard()->data(QClipboard::Clipboard), 
            ListView::self()->userAddress());
-   KEBTopLevel::self()->didCommand(mcmd);
+   KEBApp::self()->didCommand(mcmd);
 }
 
 /* ------------------------------------------------------------- */
@@ -112,27 +112,27 @@ void ActionsImpl::slotNewFolder() {
    CreateCommand *cmd = new CreateCommand(
                               ListView::self()->userAddress(),
                               dlg.text(), "bookmark_folder", /*open*/ true);
-   KEBTopLevel::self()->addCommand(cmd);
+   KEBApp::self()->addCommand(cmd);
 }
 
 void ActionsImpl::slotNewBookmark() {
    CreateCommand * cmd = new CreateCommand(
                                ListView::self()->userAddress(),
                                QString::null, QString::null, KURL());
-   KEBTopLevel::self()->addCommand(cmd);
+   KEBApp::self()->addCommand(cmd);
 }
 
 void ActionsImpl::slotInsertSeparator() {
    CreateCommand * cmd = new CreateCommand(ListView::self()->userAddress());
-   KEBTopLevel::self()->addCommand(cmd);
+   KEBApp::self()->addCommand(cmd);
 }
 
 void ActionsImpl::slotImport() { 
-   ImportCommand* import = ImportCommand::performImport(sender()->name()+6, KEBTopLevel::self());
+   ImportCommand* import = ImportCommand::performImport(sender()->name()+6, KEBApp::self());
    if (!import) {
       return;
    }
-   KEBTopLevel::self()->addCommand(import);
+   KEBApp::self()->addCommand(import);
    KEBListViewItem *item = ListView::self()->getItemAtAddress(import->groupAddress());
    if (item) {
       ListView::self()->setCurrent(item);
@@ -152,9 +152,9 @@ void ActionsImpl::slotExportMoz() {
 /* ------------------------------------------------------------- */
 
 void ActionsImpl::slotShowNS() {
-   bool shown = KEBTopLevel::self()->nsShown();
+   bool shown = KEBApp::self()->nsShown();
    BkManagerAccessor::mgr()->setShowNSBookmarks(shown);
-   KEBTopLevel::self()->setModifiedFlag(true);
+   KEBApp::self()->setModifiedFlag(true);
 }
 
 void ActionsImpl::slotCancelFavIconUpdates() {
@@ -194,7 +194,7 @@ void ActionsImpl::slotSearch() {
    // also, need to think about limiting size of itr list to <= 1
    // or, generically. itr's shouldn't overlap. difficult problem...
    bool ok;
-   QString text = KLineEditDlg::getText("Find string in bookmarks:", "", &ok, KEBTopLevel::self());
+   QString text = KLineEditDlg::getText("Find string in bookmarks:", "", &ok, KEBApp::self());
    SearchItr* itr = new SearchItr(ListView::self()->allBookmarks());
    itr->setText(text);
    SearchItrHolder::self()->insertItr(itr);
@@ -208,7 +208,7 @@ void ActionsImpl::slotSort() {
    KBookmark bk = ListView::self()->firstSelected()->bookmark();
    Q_ASSERT(bk.isGroup());
    SortCommand *cmd = new SortCommand(i18n("Sort Alphabetically"), bk.address());
-   KEBTopLevel::self()->addCommand(cmd);
+   KEBApp::self()->addCommand(cmd);
 }
 
 /* ------------------------------------------------------------- */
@@ -217,7 +217,7 @@ void ActionsImpl::slotSort() {
 
 void ActionsImpl::slotDelete() {
    KMacroCommand *mcmd = CmdGen::self()->deleteItems(i18n("Delete Items"), ListView::self()->selectedItems());
-   KEBTopLevel::self()->didCommand(mcmd);
+   KEBApp::self()->didCommand(mcmd);
 }
 
 void ActionsImpl::slotOpenLink() {
@@ -247,12 +247,12 @@ void ActionsImpl::slotSetAsToolbar() {
    KBookmark bk = ListView::self()->firstSelected()->bookmark();
    Q_ASSERT(bk.isGroup());
    KMacroCommand *mcmd = CmdGen::self()->setAsToolbar(bk);
-   KEBTopLevel::self()->addCommand(mcmd);
+   KEBApp::self()->addCommand(mcmd);
 }
 
 void ActionsImpl::slotChangeIcon() {
    KBookmark bk = ListView::self()->firstSelected()->bookmark();
-   KIconDialog dlg(KEBTopLevel::self());
+   KIconDialog dlg(KEBApp::self());
    QString newIcon = dlg.selectIcon(KIcon::Small, KIcon::FileSystem);
    if (newIcon.isEmpty()) {
       return;
@@ -261,7 +261,7 @@ void ActionsImpl::slotChangeIcon() {
                             bk.address(),
                             EditCommand::Edition("icon", newIcon),
                             i18n("Icon"));
-   KEBTopLevel::self()->addCommand(cmd);
+   KEBApp::self()->addCommand(cmd);
 }
 
 #include "actionsimpl.moc"

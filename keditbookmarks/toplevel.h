@@ -38,17 +38,17 @@ class KBookmarkManager;
 class KBookmarkEditorIface;
 class ImportCommand;
 
-class KEBTopLevel : public KMainWindow
+class KEBApp : public KMainWindow
 {
    Q_OBJECT
 
 public:
-   static KEBTopLevel* self() { return s_topLevel; }
+   static KEBApp* self() { return s_topLevel; }
 
    QWidget* popupMenuFactory(const char *type) { return factory()->container(type, this); }
 
-   KEBTopLevel(const QString & bookmarksFile, bool readonly, QString address);
-   virtual ~KEBTopLevel();
+   KEBApp(const QString & bookmarksFile, bool readonly, QString address);
+   virtual ~KEBApp();
 
    void setModifiedFlag(bool);
 
@@ -112,7 +112,7 @@ private:
    QString m_bookmarksFilename;
    bool m_saveOnClose;
 
-   static KEBTopLevel *s_topLevel;
+   static KEBApp *s_topLevel;
 };
 
 #endif

@@ -324,7 +324,7 @@ void ListView::slotDropped(QDropEvent *e, QListViewItem *newParent, QListViewIte
       mcmd = CmdGen::self()->itemsMoved(selection, newAddress, copy);
    }
 
-   KEBTopLevel::self()->didCommand(mcmd);
+   KEBApp::self()->didCommand(mcmd);
 }
 
 
@@ -393,7 +393,7 @@ void ListView::fillWithGroup(KBookmarkGroup group, KEBListViewItem *parentItem) 
 }
 
 void ListView::slotSelectionChanged() {
-   KEBTopLevel::self()->updateActions();
+   KEBApp::self()->updateActions();
    updateSelectedItems();
 }
 
@@ -404,14 +404,14 @@ void ListView::slotContextMenu(KListView *, QListViewItem *qitem, const QPoint &
    }
    // TODO
    const char *type = (item->bookmark().isGroup() ? "popup_folder" : "popup_bookmark");
-   QWidget* popup = KEBTopLevel::self()->popupMenuFactory(type);
+   QWidget* popup = KEBApp::self()->popupMenuFactory(type);
    if (popup) {
       static_cast<QPopupMenu*>(popup)->popup(p);
    }
 }
 
 void ListView::slotDoubleClicked(QListViewItem *item, const QPoint &, int column) {
-   if ((!KEBTopLevel::self()->readonly()) 
+   if ((!KEBApp::self()->readonly()) 
     && (item)
     && ((column == KEBListView::UrlColumn) 
      || (column == KEBListView::NameColumn))
@@ -444,7 +444,7 @@ void ListView::slotItemRenamed(QListViewItem *item, const QString &newText, int 
          kdWarning() << "No such column " << column << endl;
          return;
    }
-   KEBTopLevel::self()->addCommand(cmd);
+   KEBApp::self()->addCommand(cmd);
 }
 
 void ListView::rename(int column) {
