@@ -26,11 +26,11 @@ data2_DATA = desktoppath.desktop
 data2dir = $(kde_appsdir)/Settings/Personalization
 
 install-data-local: uninstall.desktop
-	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel/Desktop
-	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel/Desktop/virtualdesktops.desktop
-	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel/Desktop/desktop.desktop
-	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel/Desktop/borders.desktop
-	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel/Desktop/background.desktop
+	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel
+	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel/virtualdesktops.desktop
+	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel/desktop.desktop
+	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel/borders.desktop
+	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel/background.desktop
 	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/Desktop/filetrash.desktop
 
 uiserver_DIR = $(kde_includes)/kio
