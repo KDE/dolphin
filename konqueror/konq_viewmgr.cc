@@ -329,13 +329,13 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
 
   KonqMainWindow::MapViews::Iterator startIt = it;
 
-  // the view should always be in the list, shouldn't it?
-  // maybe use assert( it != end )?
+  // the view should always be in the list
    if ( it == end ) {
-     kdWarning() << "View " << view << " is not in list !" << endl;
+     if ( view )
+       kdWarning() << "View " << view << " is not in list !" << endl;
      it = mapViews.begin();
      if ( it == end )
-       return 0L; // wow, that certainly caught all possibilities!
+       return 0L; // We have no view at all - this happens with RootItem=empty
    }
 
   // kdDebug() << "*KonqViewManager::chooseNextView: count=" << mapViews.count() << endl;
