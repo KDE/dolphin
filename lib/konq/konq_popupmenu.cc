@@ -185,7 +185,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   {
     if ( S_ISDIR( mode ) ) // all URLs are directories
     {
-      if ( sWriting  && m_pMenuNew ) // Add the "new" menu
+      if ( currentDir && sWriting && m_pMenuNew ) // Add the "new" menu
       {
         // As requested by KNewMenu :
         m_pMenuNew->slotCheckUpToDate();
