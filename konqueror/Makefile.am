@@ -39,6 +39,8 @@ konqueror_la_SOURCES = konq_main.cc \
 	    konq_mainwindow.cc  \
 	    konq_extensionmanager.cc
 
+konqueror_la_PCH = AUTO
+
 noinst_HEADERS = KonqMainWindowIface.h KonqViewIface.h delayedinitializer.h \
 	konq_actions.h konq_browseriface.h konq_combo.h konq_factory.h \
 	konq_frame.h konq_tabs.h konq_guiclients.h konq_main.h konq_mainwindow.h \
