@@ -242,12 +242,15 @@ public:
   bool isToggleView() const { return m_bToggleView; }
 
   // True if it always follows the active view
-  void setFollowActive(bool b) {m_bFollowActive=b;}
-  bool isFollowActive() {return m_bFollowActive; }
+  void setFollowActive(bool b) { m_bFollowActive = b; }
+  bool isFollowActive() { return m_bFollowActive; }
 
   // True if locked to current view mode
   // Toggle views and passive views are locked to their view mode.
   bool isLockedViewMode() const { return m_bToggleView || m_bPassiveMode; }
+
+  // True if "builtin" (see X-KDE-BrowserView-Built-Into)
+  bool isBuiltinView() const { return m_bBuiltinView; }
 
   void setService( const KService::Ptr &s ) { m_service = s; }
   KService::Ptr service() { return m_service; }
@@ -415,6 +418,7 @@ protected:
   uint m_bPopupMenuEnabled:1;
   uint m_bFollowActive:1;
   uint m_bPendingRedirection:1;
+  uint m_bBuiltinView:1;
   KTrader::OfferList m_partServiceOffers;
   KTrader::OfferList m_appServiceOffers;
   KService::Ptr m_service;

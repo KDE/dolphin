@@ -94,7 +94,8 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bPopupMenuEnabled = true;
   m_browserIface = new KonqBrowserInterface( this, "browseriface" );
   m_bBackRightClick = m_pMainWindow->isBackRightClickEnabled();
-  m_bFollowActive=false;
+  m_bFollowActive = false;
+  m_bBuiltinView = false;
 
   switchView( viewFactory );
 }
@@ -222,7 +223,7 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
   // Set the statusbar in the BE asap to avoid a KMainWindow statusbar being created.
   KParts::StatusBarExtension* sbext = statusBarExtension();
   if ( sbext )
-      sbext->setStatusBar( frame()->statusbar() );
+    sbext->setStatusBar( frame()->statusbar() );
 
   // Activate the new part
   if ( oldPart )
@@ -234,14 +235,17 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
 
   connectPart();
 
-     QVariant prop;
+  QVariant prop;
 
-     prop = m_service->property( "X-KDE-BrowserView-FollowActive");
-    if (prop.isValid() && prop.toBool())
-    {
-      kdDebug(1202) << "KonqView::switchView X-KDE-BroswerView-FollowActive -> setFollowActive" <<endl;
-      setFollowActive(true);
-    }
+  prop = m_service->property( "X-KDE-BrowserView-FollowActive");
+  if (prop.isValid() && prop.toBool())
+  {
+    //kdDebug(1202) << "KonqView::switchView X-KDE-BrowserView-FollowActive -> setFollowActive" <<endl;
+    setFollowActive(true);
+  }
+
+  prop = m_service->property( "X-KDE-BrowserView-Built-Into" );
+  m_bBuiltinView = (prop.isValid() && prop.toString() == "konqueror");
 
   if ( !m_pMainWindow->viewManager()->isLoadingProfile() )
   {
@@ -261,7 +265,7 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
     }
     else
     {
-	    setHierarchicalView( false );
+      setHierarchicalView( false );
     }
 
     // Honour "linked view"
@@ -1197,7 +1201,7 @@ bool KonqView::prepareReload( KParts::URLArgs& args )
     }
     // Re-set referrer
     args.metaData()["referrer"] = m_pageReferrer;
-    
+
     return true;
 }
 

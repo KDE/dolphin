@@ -1468,8 +1468,10 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
     m_currentView->openURL( locURL, locationBarURL, nameFilter );
   }
 
-  // Now save this setting, either locally or globally
-  if ( m_bSaveViewPropertiesLocally )
+  // Now save this setting, either locally or globally (for directories only)
+  // (We don't have views with viewmodes other than for dirs currently;
+  // once we do, we might want to implement per-mimetype global-saving)
+  if ( m_bSaveViewPropertiesLocally && m_currentView->supportsServiceType( "inode/directory" ) )
   {
       KURL u ( m_currentView->url() );
       u.addPath(".directory");
@@ -1482,12 +1484,16 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
       }
   } else
   {
-      KConfig *config = KGlobal::config();
-      KConfigGroupSaver cgs( config, "MainView Settings" );
-      config->writeEntry( "ViewMode", modeName );
-      config->sync();
-      m_sViewModeForDirectory = modeName;
-      kdDebug(1202) << "m_sViewModeForDirectory=" << m_sViewModeForDirectory << endl;
+      // We save the global view mode only if the view is a built-in view
+      if ( m_currentView->isBuiltinView() )
+      {
+          KConfig *config = KGlobal::config();
+          KConfigGroupSaver cgs( config, "MainView Settings" );
+          config->writeEntry( "ViewMode", modeName );
+          config->sync();
+          m_sViewModeForDirectory = modeName;
+          //kdDebug(1202) << "m_sViewModeForDirectory=" << m_sViewModeForDirectory << endl;
+      }
   }
 }
 
@@ -1929,10 +1935,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   updateToolBarActions();
 
   // Set active instance - but take care of builtin views
-  // TODO: a real mechanism for detecting builtin views (X-KDE-BrowserView-Builtin back ?)
-  if ( part->instance() && part->instance()->aboutData() &&
-       ( !strcmp( part->instance()->aboutData()->appName(), "konqiconview") ||
-         !strcmp( part->instance()->aboutData()->appName(), "konqlistview") ) )
+  if ( m_currentView->isBuiltinView() || !part->instance() /*never!*/)
       KGlobal::_activeInstance = KGlobal::instance();
   else
       KGlobal::_activeInstance = part->instance();

@@ -65,3 +65,4 @@ X-KDE-BrowserView-ToggableView-Orientation=vertical
 X-KDE-BrowserView-HierarchicalView=true
 X-KDE-BrowserView-FollowActive=true
 X-KDE-BrowserView-LinkedView=false
+X-KDE-BrowserView-Built-Into=konqueror
