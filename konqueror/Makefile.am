@@ -9,7 +9,7 @@ konqdatadir = $(kde_datadir)/konqueror
 konqdata_DATA = konqueror.rc konq_about.html.template
 
 kdelnkdir = $(kde_servicesdir)
-kdelnk_DATA = konqueror.desktop konq_aboutpage.desktop
+kdelnk_DATA = konqueror.desktop konq_aboutpage.desktop konqueror_config.desktop
 
 # servicetypedir = $(kde_servicetypesdir)
 # servicetype_DATA = konq_metaview.desktop
