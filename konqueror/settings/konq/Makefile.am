@@ -6,7 +6,7 @@ METASOURCES = AUTO
 kde_module_LTLIBRARIES = kcm_konq.la
 
 kcm_konq_la_SOURCES = behaviour.cpp rootopts.cpp \
-		trashopts.cpp fontopts.cpp previews.cpp \
+		fontopts.cpp previews.cpp \
 		desktop.cpp uiserver.stub main.cpp
 
 kcm_konq_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
@@ -19,7 +19,7 @@ data_DATA = filebehavior.desktop fileappearance.desktop filepreviews.desktop
 datadir = $(kde_appsdir)/Settings/FileBrowsing
 
 
-datadesk_DATA = desktopappearance.desktop desktopbehavior.desktop filetrash.desktop desktop.desktop desktoppath.desktop
+datadesk_DATA = desktopappearance.desktop desktopbehavior.desktop desktop.desktop desktoppath.desktop
 datadeskdir = $(kde_appsdir)/Settings/Desktop
 
 

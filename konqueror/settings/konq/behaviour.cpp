@@ -50,7 +50,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     QLabel * label;
 
     QVBoxLayout *lay = new QVBoxLayout( this, KDialog::marginHint(), KDialog::spacingHint() );
-	
+
     kfmclientConfig = new KConfig(QString::fromLatin1("kfmclientrc"), false, false);
     kfmclientConfig->setGroup(QString::fromLatin1("Settings")); //use these to set the one-process option in kfmclient
 
@@ -58,16 +58,16 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 	lay->addWidget( miscGb );
 	QHBox *hbox = new QHBox(miscGb);
 	QVBox *vbox = new QVBox(hbox);
-	
+
 	// ----
-	
+
 	winPixmap = new QLabel(hbox);
     winPixmap->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
     winPixmap->setPixmap(QPixmap(locate("data",
                                         "kcontrol/pics/onlyone.png")));
     winPixmap->setFixedSize( winPixmap->sizeHint() );
-	
- 
+
+
    // ----
 
     cbNewWin = new QCheckBox(i18n("&Open directories in separate windows"), vbox);
@@ -108,19 +108,12 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 */
     cbShowPreviewsInTips = new QCheckBox( i18n( "&Show previews in file tips" ), vbox );
     connect(cbShowPreviewsInTips, SIGNAL(clicked()), this, SLOT(changed()));
-    
+
     QWhatsThis::add( cbShowPreviewsInTips, i18n("Here you can control if you want the "
                           "popup window to contain a larger preview for the file, when moving the mouse over it."));
 
-    cbShowMMBInTabs = new QCheckBox( i18n( "Open &links in new tab instead of in new window" ), vbox );
-    connect(cbShowMMBInTabs, SIGNAL(clicked()), this, SLOT(changed()));
-
-    
-    QWhatsThis::add( cbShowMMBInTabs, i18n("This will open a new tab instead of a new window in various situations, "
-                          "such as choosing a link or a folder with the middle mouse button.") );
-
 	QHBoxLayout *hlay = new QHBoxLayout( lay );
-	
+
     label = new QLabel(i18n("Home &URL:"), this);
 	hlay->addWidget( label );
 
@@ -136,6 +129,30 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 						   "This usually is your home dirctory, symbolized by a 'tilde' (~).");
     QWhatsThis::add( label, homestr );
     QWhatsThis::add( homeURL, homestr );
+
+
+    QButtonGroup *bg = new QVButtonGroup( i18n("Ask Confirmation For"), this );
+    bg->layout()->setSpacing( KDialog::spacingHint() );
+    QWhatsThis::add( bg, i18n("This option tells Konqueror whether to ask"
+       " for a confirmation when you \"delete\" a file."
+       " <ul><li><em>Move To Trash:</em> moves the file to your trash directory,"
+       " from where it can be recovered very easily.</li>"
+       " <li><em>Delete:</em> simply deletes the file.</li>"
+       " <li><em>Shred:</em> not only deletes the file, but overwrites"
+       " the area on the disk where the file is stored, making recovery impossible."
+       " You should not remove confirmation for this method unless you routinely work"
+       " with very confidential information.</li></ul>") );
+
+    connect(bg, SIGNAL( clicked( int ) ), SLOT( changed() ));
+
+    cbMoveToTrash = new QCheckBox( i18n("Move to trash"), bg );
+
+    cbDelete = new QCheckBox( i18n("Delete"), bg );
+
+    cbShred = new QCheckBox( i18n("Shred"), bg );
+
+    lay->addWidget(bg);
+
 
     QString opstrg = i18n("With this option activated, only one instance of Konqueror "
                           "will exist in the memory of your computer at any moment, "
@@ -204,12 +221,10 @@ void KBehaviourOptions::load()
 
     bool showPreviewsIntips = g_pConfig->readBoolEntry( "ShowPreviewsInFileTips", true );
     cbShowPreviewsInTips->setChecked( showPreviewsIntips );
-    
-	cbShowMMBInTabs->setChecked( g_pConfig->readBoolEntry( "MMBOpensTab", false ) );
-	
+
 //    if (!stips) sbToolTip->setEnabled( false );
     if (!stips) cbShowPreviewsInTips->setEnabled( false );
-        
+
 //    sbToolTip->setValue( g_pConfig->readNumEntry( "FileTipItems", 6 ) );
 
     QString val = kfmclientConfig->readEntry( QString::fromLatin1("StartNewKonqueror"),
@@ -230,6 +245,11 @@ void KBehaviourOptions::load()
     config.setGroup( "UIServer" );
 
     cbListProgress->setChecked( config.readBoolEntry( "ShowList", false ) );
+    
+    g_pConfig->setGroup( "Trash" );
+    cbMoveToTrash->setChecked( g_pConfig->readBoolEntry("ConfirmTrash", DEFAULT_CONFIRMTRASH) );
+    cbDelete->setChecked( g_pConfig->readBoolEntry("ConfirmDelete", DEFAULT_CONFIRMDELETE) );
+    cbShred->setChecked( g_pConfig->readBoolEntry("ConfirmShred", DEFAULT_CONFIRMSHRED) );
 }
 
 void KBehaviourOptions::defaults()
@@ -242,14 +262,16 @@ void KBehaviourOptions::defaults()
 
     cbListProgress->setChecked( false );
 
-	cbShowMMBInTabs->setChecked( false );
-
     cbShowTips->setChecked( true );
     //sbToolTip->setEnabled( true );
     //sbToolTip->setValue( 6 );
-    
+
     cbShowPreviewsInTips->setChecked( true );
     cbShowPreviewsInTips->setEnabled( true );
+
+    cbMoveToTrash->setChecked( DEFAULT_CONFIRMTRASH );
+    cbDelete->setChecked( DEFAULT_CONFIRMDELETE );
+    cbShred->setChecked( DEFAULT_CONFIRMSHRED );
 }
 
 void KBehaviourOptions::save()
@@ -263,7 +285,6 @@ void KBehaviourOptions::save()
     g_pConfig->writeEntry( "ShowPreviewsInFileTips", cbShowPreviewsInTips->isChecked() );
 //    g_pConfig->writeEntry( "FileTipsItems", sbToolTip->value() );
 
-	g_pConfig->writeEntry( "MMBOpensTab", cbShowMMBInTabs->isChecked() );
     QString val = QString::fromLatin1("Web only");
     if (rbOPWeb->isChecked())
         val = QString::fromLatin1("Local only");
@@ -271,11 +292,15 @@ void KBehaviourOptions::save()
         val = QString::fromLatin1("Always");
     else if (rbOPAlways->isChecked())
         val = QString::fromLatin1("Never");
-    kfmclientConfig->writeEntry(QString::fromLatin1("StartNewKonqueror"), val);
 
-    kfmclientConfig->sync();
-
+    g_pConfig->setGroup( "Trash" );
+    g_pConfig->writeEntry( "ConfirmTrash", cbMoveToTrash->isChecked());
+    g_pConfig->writeEntry( "ConfirmDelete", cbDelete->isChecked());
+    g_pConfig->writeEntry( "ConfirmShred", cbShred->isChecked());
     g_pConfig->sync();
+    
+    kfmclientConfig->writeEntry(QString::fromLatin1("StartNewKonqueror"), val);
+    kfmclientConfig->sync();
 
     // UIServer setting
     KConfig config("uiserverrc");
@@ -288,7 +313,7 @@ void KBehaviourOptions::save()
       UIServer_stub uiserver( "kio_uiserver", "UIServer" );
       uiserver.setListMode( cbListProgress->isChecked() );
     }
-    
+
     // Send signal to konqueror
     // Warning. In case something is added/changed here, keep kfmclient in sync
     QByteArray data;
@@ -305,6 +330,22 @@ void KBehaviourOptions::updateWinPixmap(bool b)
   else
     winPixmap->setPixmap(QPixmap(locate("data",
                                         "kcontrol/pics/onlyone.png")));
+}
+
+QString KBehaviourOptions::quickHelp() const
+{
+    return i18n("<h1>Trash Options</h1> Here you can modify the behavior "
+                "of Konqueror when you want to delete a file."
+                "<h2>On delete:</h2>This option determines what Konqueror "
+                "will do with a file you chose to delete (e.g. in a context menu).<ul>"
+                "<li><em>Move To Trash</em> will move the file to the trash directory, "
+                "instead of deleting it, so you can easily recover it.</li>"
+                "<li><em>Delete</em> will simply delete the file.</li>"
+                "<li><em>Shred</em> will not only delete the file, but will first "
+                "overwrite it with different bit patterns. This makes recovery impossible. "
+                "Use it, if you're keeping very sensitive data."
+                "<h2>Confirm destructive actions</h2>Check this box if you want Konqueror "
+                "to ask \"Are you sure?\" before doing any destructive action (e.g. delete or shred).");
 }
 
 void KBehaviourOptions::changed()

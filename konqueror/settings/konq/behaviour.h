@@ -41,6 +41,7 @@ public:
   virtual void load();
   virtual void save();
   virtual void defaults();
+  virtual QString quickHelp() const;
 
 protected slots:
 
@@ -70,7 +71,10 @@ private:
   //QSpinBox  *sbToolTip;
   QCheckBox *cbShowTips;
   QCheckBox *cbShowPreviewsInTips;
-  QCheckBox *cbShowMMBInTabs;
+
+  QCheckBox *cbMoveToTrash;
+  QCheckBox *cbDelete;
+  QCheckBox *cbShred;
 };
 
 #endif		// __BEHAVIOUR_H__

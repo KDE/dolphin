@@ -25,7 +25,6 @@
 #include "rootopts.h"
 #include "behaviour.h"
 #include "fontopts.h"
-#include "trashopts.h"
 #include "desktop.h"
 #include "previews.h"
 
@@ -254,12 +253,6 @@ extern "C"
   {
     KConfig *config = new KConfig("konquerorrc", false, true);
     return new KonqFontOptions(config, "FMSettings", false, parent, name);
-  }
-
-  KCModule *create_trash(QWidget *parent, const char *name)
-  {
-    KConfig *config = new KConfig("konquerorrc", false, true);
-    return new KTrashOptions(config, "Trash", parent, name);
   }
 
   KCModule *create_previews(QWidget *parent, const char *name)
