@@ -240,7 +240,7 @@ void KProxyDialog::save()
       {
         // Let's try a bit harder to determine if the previous
         // proxy setting was indeed a manual proxy
-        KURL u = _data->proxyList["http"];
+        KURL u ( _data->proxyList["http"] );
         bool validProxy = (u.isValid() && u.port() != 0);
         u= _data->proxyList["https"];
         validProxy |= (u.isValid() && u.port() != 0);

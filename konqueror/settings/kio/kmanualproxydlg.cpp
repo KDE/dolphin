@@ -162,8 +162,7 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
         // of the proxy config files...
         QStringList filters;
         filters << "kshorturifilter" << "localdomainfilter";
-        
-        KURL url = *it;        
+        KURL url ( *it );        
         if ( !url.isValid() )
           KURIFilter::self()->filterURI(url, filters);
           
@@ -268,7 +267,7 @@ bool KManualProxyDlg::validate()
     unsigned short count = 0;
     filters << "kshorturifilter" << "localdomainfilter";
 
-    KURL url = dlg->leHttp->text();
+    KURL url ( dlg->leHttp->text() );
 
     if (url.isValid() || KURIFilter::self()->filterURI (url, filters))
     {
@@ -414,7 +413,7 @@ void KManualProxyDlg::newPressed()
       msg = i18n("Enter the address or URL that should be excluded from using "
                  "the above proxy server:");
 
-  KURL result = KInputDialog::getText (i18n("New Exception"), msg);
+  KURL result ( KInputDialog::getText (i18n("New Exception"), msg) );
   
   // If the user pressed cancel, do nothing...
   if (result.isEmpty())

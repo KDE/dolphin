@@ -68,7 +68,7 @@ void KEnvVarProxyDlg::init()
 void KEnvVarProxyDlg::setProxyData( const KProxyData& data )
 {
   // Setup HTTP Proxy...
-  KURL u = data.proxyList["http"];
+  KURL u ( data.proxyList["http"] );
   if (!u.isEmpty() && !u.isValid())
   {
     m_mapEnvVars["http"].name = data.proxyList["http"];
