@@ -24,6 +24,7 @@
 #include <kdebug.h>
 #include <qpixmap.h>
 #include <kpixmapcache.h>
+#include <qfile.h>
 #include <iostream>
 
 KonqPropsView * KonqPropsView::m_pDefaultProps = 0L;
@@ -73,6 +74,29 @@ KonqPropsView::KonqPropsView( KConfig * config )
 
 KonqPropsView::~KonqPropsView()
 {
+}
+
+bool KonqPropsView::enterDir( const KURL & dir )
+{
+  // Check for .directory
+  KURL u ( dir );
+  u.addPath(".directory");
+  if (u.isLocalFile() && QFile::exists( u.path() ))
+  {
+    kdebug( KDEBUG_INFO, 1202, "Found .directory file" );
+    KSimpleConfig config( u.path(), true);
+    config.setDesktopGroup();
+    QString pix = config.readEntry( "BgImage", "" );
+    if ( !pix.isEmpty() )
+    {
+      QPixmap* p = KPixmapCache::wallpaperPixmap( pix );
+      if ( p )
+        m_bgPixmap = * p;
+    }
+    return true;
+  }
+  else
+    return false;
 }
 
 void KonqPropsView::saveProps( KConfig * config )

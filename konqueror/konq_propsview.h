@@ -23,47 +23,62 @@
 #include <qpixmap.h>
 
 #include <kconfig.h>
+#include <kurl.h>
 
 class KonqKfmIconView;
 class KonqTreeViewWidget;
 
-// The class KonqPropsView holds the properties for a Konqueror View
-//
-// Separating them from the view class allows to store the default
-// values (the one read from konquerorrc) in a static instance of this class
-// and to have another instance of this class in each view, storing the
-// current values of the view.
-//
-// The local values can be read from a desktop entry, if any (.directory, bookmark, ...).
-
+/**
+ * The class KonqPropsView holds the properties for a Konqueror View
+ *
+ * Separating them from the view class allows to store the default
+ * values (the one read from konquerorrc) in a static instance of this class
+ * and to have another instance of this class in each view, storing the
+ * current values of the view.
+ *
+ * The local values can be read from a desktop entry, if any (.directory, bookmark, ...).
+ */
 class KonqPropsView
 {
   // A View can read/write the values directly.
   friend KonqKfmIconView;
   friend KonqTreeViewWidget;
 
-  // This is not a Q__OBJECT because we need a copy constructor.
+  // This is not a QObject because we need a copy constructor.
 public:
   
-  // The static instance of KonqPropsView, holding the default values
-  // from the config file
+  /**
+   * The static instance of KonqPropsView, holding the default values
+   * from the config file
+   */
   static KonqPropsView * defaultProps();
   
-  // To construct a new KonqPropsView instance with values taken
-  // from defaultProps, use the copy constructor.
+  /**
+   * To construct a new KonqPropsView instance with values taken
+   * from defaultProps, use the copy constructor.
   
-  // Constructs a KonqPropsView instance from a config file.
-  // Set the group before calling.
-  // ("Settings" for global props, "ViewNNN" for local props)
-  // TODO : will have to be called for local properties
+   * Constructs a KonqPropsView instance from a config file.
+   * Set the group before calling.
+   * ("Settings" for global props, "ViewNNN" for local props)
+   * TODO : will have to be called for local properties
+   */
   KonqPropsView( KConfig * config );
 
-  // Destructor
+  /** Destructor */
   virtual ~KonqPropsView();
 
-  // Save to config file
-  // Set the group before calling.
-  // ("Settings" for global props, "ViewNNN" for local props)
+  /**
+   * Called when entering a directory
+   * Checks for a .directory, read it, and
+   * @return true if found it
+   */
+  bool enterDir( const KURL & dir );
+  
+  /**
+   * Save to config file
+   * Set the group before calling.
+   * ("Settings" for global props, "ViewNNN" for local props)
+   */
   void saveProps( KConfig * config );
 
   //////// The read-only access methods. Order is to be kept. /////
@@ -76,7 +91,7 @@ public:
   
 protected:
 
-  // The static instance.
+  /** The static instance. */
   static KonqPropsView * m_pDefaultProps;
 
   bool m_bShowDot;
@@ -87,7 +102,7 @@ protected:
 
 private:
 
-  // There is no default constructor. Use the provided one or copy constructor
+  /** There is no default constructor. Use the provided one or copy constructor */
   KonqPropsView();
 };
 
