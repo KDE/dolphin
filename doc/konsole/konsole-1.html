@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.7">
+ <TITLE>The Konsole Handbook: Introduction</TITLE>
+ <LINK HREF="konsole-2.html" REL=next>
+
+ <LINK HREF="konsole.html#toc1" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="konsole-2.html">Next</A>
+Previous
+<A HREF="konsole.html#toc1">Contents</A>
+<HR>
+<H2><A NAME="s1">1. Introduction</A></H2>
+
+<P>Konsole is a X terminal emulation for the K Desktop Environment.
+<P>In the context of a graphical user interface being a terminal
+emulation means, that it's task is to provide a display
+to an application that is originally designed to run on a computer
+with a character terminal attached.
+<P>When invoked, konsole starts this client application (which is
+the shell by default) and displays all the clients output in it's
+window while forwarding key presses and mouse clicks to the client.
+<P>By this most of konsole's behavior is really controlled by the
+application that actually runs in it. There are only a few
+special features that konsole adds to this. These additional
+features are not uncommon, so much of the following description
+applies to any decent terminal emulation.
+<P>
+<UL>
+<LI>History Buffer
+<P>Text that is scrolled out of the screen is kept in a history buffer
+for later review. Currently a maximum of 100 lines are kept in this
+buffer. While it is not possible to change text that has ended up
+in the buffer, one can look at it and copy it partially or entirely
+to the clipboard.
+<P>
+</LI>
+<LI>Keyboard
+<P>The Cntl-PageUp and Cntl-PageDown keys are used to scroll through
+the history buffer. All other keystrokes are passed on to the 
+application run within the emulation. Note that their might be
+some dead keys.
+<P>
+</LI>
+<LI>Mouse
+<P>You need a three button mouse to make full use of the terminal.
+The buttons have different functions:
+<P>
+<UL>
+<LI>Left button
+<P>Clicking the left button is passed as an event to the application
+running in the emulation if it is mouse aware. If a program will
+react on mouse clicks konsole indicates this by showing an arrow
+cursor. If not an ibeam (bar) cursor is shown.
+<P>Holding the left button down and dragging the mouse over the screen
+with a mouse unaware application running, will mark a region of the
+text. While dragging, the marked text is displayed reverse for visual
+feedback. As soon as the button is released, the marked text copied
+to the clipboard for further use within Konsole or another application.
+<P>It the upper or lower edge of the text area is touched while marking,
+Konsole scrolls up or down, thereby eventually exposing text within the
+history buffer. The scrolling stops as soon as you stop moving the
+mouse.
+<P>After releasing the mouse, Konsole attempts to keep the text in the
+clipboard visible by holding the marked area reversed. The marked
+area reverts back to normal as soon as either the contents of the
+clipboard is changed, the text within the marked area is altered
+or you've clicked the left mouse button.
+<P>To mark text on a mouse aware application the shift key has to
+be pressed when clicking.
+<P>
+</LI>
+<LI>Middle Button
+<P>Pressing the middle button copies text currently in the clipboard.
+This works just as if clipboard contents is typed on the keyboard,
+so the application running in the emulation will react by it's own
+way on it.
+<P>
+</LI>
+<LI>Right Button
+<P>The right button brings up the configuration menu.
+</LI>
+</UL>
+<P>
+</LI>
+</UL>
+<P>
+<HR>
+<A HREF="konsole-2.html">Next</A>
+Previous
+<A HREF="konsole.html#toc1">Contents</A>
+</BODY>
+</HTML>

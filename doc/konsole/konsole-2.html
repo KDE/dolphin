@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.7">
+ <TITLE>The Konsole Handbook: Configuration</TITLE>
+ <LINK HREF="konsole-3.html" REL=next>
+ <LINK HREF="konsole-1.html" REL=previous>
+ <LINK HREF="konsole.html#toc2" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="konsole-3.html">Next</A>
+<A HREF="konsole-1.html">Previous</A>
+<A HREF="konsole.html#toc2">Contents</A>
+<HR>
+<H2><A NAME="s2">2. Configuration</A></H2>
+
+<P>Using the option menu one can control much of konsole's appearance.
+The configuration is both available using the menu bar or clicking
+on konsole's window with the right mouse button.
+<UL>
+<LI>Menu bar
+<P>Having this option checked provides a menu bar in the top of the
+window. Different from the regular behavior, the menu bar does
+not accept "hot keys" to prevent making some ALT-key combinations
+unusable for the client applications.
+<P>
+</LI>
+<LI>Frame
+<P>Draws a border.
+<P>
+</LI>
+<LI>Scrollbar
+<P>Having a scrollbar provides another way to control the history
+buffer. Do not confuse this feature with scrolling inside the
+client application, although it often may (and shall) look like.
+<P>
+</LI>
+<LI>Font
+<P>not written yet.
+<P>
+</LI>
+<LI>Color
+<P>not written yet.
+<P>
+</LI>
+<LI>Size
+<P>not written yet.
+<P>
+</LI>
+<LI>Background
+<P>not written yet.
+<P>
+</LI>
+</UL>
+<P>For more historical reasons, the backspace key shall not emit
+CTRL-H when running with Linux. (The only application that i
+know which really depends on this special behavior is "emacs",
+where CTRL-H means "Help"). Although every application is
+properly configurable, so one could have configured emacs to
+accept F1 as the help key, an uncommon use of the keyboard
+codes has been traditionalized. Don't worry about it, just
+make sure that the option
+<UL>
+<LI>BS sends DEL</LI>
+</UL>
+
+is checked.
+<P>In this case, konsole send a DEL character (hex 7F) when pressing
+the backspace key instead of the regular BS character (hex 08).
+The delete key is also sending something different from the DEL
+character in this case.
+<P>All the above options take effect immediately but only for the
+current invocation. To make the adjustments permanent, click the
+option:
+<UL>
+<LI>Save options</LI>
+</UL>
+<P>
+<HR>
+<A HREF="konsole-3.html">Next</A>
+<A HREF="konsole-1.html">Previous</A>
+<A HREF="konsole.html#toc2">Contents</A>
+</BODY>
+</HTML>

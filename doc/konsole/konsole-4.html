@@ -1,0 +1,254 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.7">
+ <TITLE>The Konsole Handbook: Bugs and FAQ</TITLE>
+ <LINK HREF="konsole-3.html" REL=previous>
+ <LINK HREF="konsole.html#toc4" REL=contents>
+</HEAD>
+<BODY>
+Next
+<A HREF="konsole-3.html">Previous</A>
+<A HREF="konsole.html#toc4">Contents</A>
+<HR>
+<H2><A NAME="s4">4. Bugs and FAQ</A></H2>
+
+<P>Before sending bug reports, please check the problem with another
+X terminal to find out whether it is `konsole' specific or not.
+<P>
+<H2><A NAME="ss4.1">4.1 Application related problems</A>
+</H2>
+
+<P>Some programs have flaws when run under a X console.
+<P>
+<H3>MC (midnight commander 4.1.21)</H3>
+
+<P>
+<UL>
+<LI> only when the emulation is called 'xterm' mc reacts on resize events
+(before any key is pressed) and on (xterm) mouse events. Note that
+xterm mouse events aren't specific at all, e.g. the Linux console
+produces them also.
+</LI>
+<LI> After ^O (showing the secondary screen) mc does not propagate resize
+events at all to it's sub shell. Try this with xterm, or whatever else
+terminal emulation.
+</LI>
+<LI> Apparently it does more strange things with the sub shell.
+When resizing the window with the mc panels shown, the secondary
+screen gets somehow affected (by real or faked prompts). This gets
+even worse when an application program is running while doing so.
+</LI>
+<LI> sends out at least newlines but often more stuff when resizing while
+the panels are shown.
+</LI>
+<LI> Under high traffic, some parts of the text is known to get lost.
+Try `ripple' in the test directory until you notice a drop. Since
+i've been able to reproduce this bug with kvt, rxvt and xterm, and
+i validated also that the data is already lost at read(3), i may
+well have stumbled into something different here. Because i was
+also only able to produce this effect while running mc, i feel
+pretty certain that mc's sub shell handling causes this effect.</LI>
+</UL>
+<P>
+<H3>vim 4.6</H3>
+
+<P>
+<UL>
+<LI> emits a newline at exit, thereby producing a strange image on the
+secondary screen when run together with mc as default editor.</LI>
+</UL>
+<P>
+<H3>dselect (Debian package manager front end):</H3>
+
+<P>
+<UL>
+<LI> assumes black background. So turn to white-on-black color scheme
+when using it.</LI>
+</UL>
+<P>
+<P>
+<H2><A NAME="ss4.2">4.2 Broken termcap and terminfo databases</A>
+</H2>
+
+<P>Please be aware of the fact that most applications (those using ncurses)
+base their knowledge on how to talk to a terminal emulation on the 
+information within a database. This might well be wrong. Again, you
+should experience likely problems then with other emulations.
+<P>So, for example:
+<UL>
+<LI>debian 1.3.1 (Bo) omits the kdch1 entry, thus the DELETE key does
+appear not to work properly. Other keys might be missing as well.
+</LI>
+<LI>the mc 4.1.21 distribution contains a xterm.ti with faulty hpa, vpa
+entries (with <CODE>[</CODE> omitted after <CODE>ESC</CODE>). Even stranger, xterm runs
+happily with them, because of a feature, that allows to accept errorness
+sequences under some circumstances (<CODE>ESC Pn C</CODE> is treated like 
+<CODE>ESC [ Pn C</CODE>, where <CODE>C</CODE> is a non-digit.).
+</LI>
+<LI>I've included a xterm.ti for this reason. (Compile using tic.)</LI>
+</UL>
+<P>
+<P>
+<H2><A NAME="ss4.3">4.3 Problems with BACKSPACE, DELETE and likely keyboard issues.</A>
+</H2>
+
+<P>Once upon a time there was a terminal without a delete key.
+This problem has been perpetuated in Linux and is still a 
+never ending nightmare. It has been worked around separately
+in all programs that have to deal with these keys and they
+have now ended up to be configurable and therefore are likely
+to come in configured wrong. And so is konsole.
+<P>Konsole emits DEL (0x7f) for the BS key and ESC[3&nbsp; for the
+DEL key if the `BS sends DEL' option is activated, and then
+behaves like a typically configured Linux console. Ctrl-H (0x08)
+is then left for the use of the application programs, e.g. 
+typically configured emacs help.
+<P>When this options is not set, the BS key sends BS (0x08) and
+the DEL key sends DEL (0x7f), as regular VT100s and IBM PCs do.
+<P>[ Since every program can be configured BS=BS, DEL=DEL, and
+the poor terminal without delete key mentioned above exists
+today only in legends, the author wonders why this BS hack
+is still around. ]
+<P>ctrl-^ == ctrl-&nbsp; == ctrl-` == RS == 0x1e cannot be typed with
+an european keyboard map loaded, since all three base characters
+are prefixes (i.e. are eventually to be continued with a second 
+character). X11 is known to have these dead keys.
+<P>
+<P>
+<H2><A NAME="ss4.4">4.4 Color Scheme and Font Attributes</A>
+</H2>
+
+<P>
+<UL>
+<LI> The colors have been chosen to match VGA, that is the
+appearance of the Linux character console. Therefore,
+the colors are gamma-corrected a little and appear more
+dim then the colors of xterm.
+</LI>
+<LI> Dark yellow is brown for the same reason.
+</LI>
+<LI> Apparently, not emulation used with Linux does carefully
+distinguishes between the BOLD and the INTENSIVE attribute.
+The later does not even exists. Thus, while bold means
+intensive on VT100 terminals, it is treated as a font
+attribute by xterm and rxvt. For strange reasons, both
+applications really treat bold as meaning bold+intensive.
+I found that looks weird, and hacked around it so that bold
+means intensive for all but the default colors, which are
+instead presented bold (and cannot be intensified).
+Although the rendition function is well able to handle
+bold and intensive separately, it appears that no agreed-on
+escape codes exists, that could be used to take these two
+orthogonal attributes apart. (I'm working on this.)</LI>
+</UL>
+<P>
+<P>
+<H2><A NAME="ss4.5">4.5 Fonts</A>
+</H2>
+
+<P>
+<UL>
+<LI> the VGA font uses a different encoding then the other ones,
+and will therefore not display graphic and national characters
+when run with TERM=xterm. It is best suited to dos(1) and
+also work somewhat with TERM=linux. Note that the inclusion
+of this font is experimental.
+</LI>
+<LI> other fonts but the ones included appear not to be usable for
+terminal applications. This is not that much due to their
+variable pitch (which i'd implemented experimentally), but
+because they miss the graphical subset. Try xfd(1x) to check
+this.
+</LI>
+<LI> In general a proper font family for terminals seems to be 
+missing at all. If you know about a scalable terminal font
+family, please drop me a line.</LI>
+</UL>
+<P>
+<P>
+<H2><A NAME="ss4.6">4.6 Security</A>
+</H2>
+
+<P>Although konsole is prepared to be installed root-suid, it is not
+intended to be used so. Don't do it. Konsole drops privileges
+immediately after being started. Secure keyboard is not implemented
+and konsole does not fchown(2) the pseudo tty.
+<P>
+<P>
+<H2><A NAME="probPack"></A> <A NAME="ss4.7">4.7 Problems compiling the distribution</A>
+</H2>
+
+<P>Due to the fact that this (and all other packages) are produced as
+daily snapshots to provide you with the most actual developer's version,
+you might well experience that konsole does not compile right out of
+the box because a peer program or the package configuration material
+itself is temporarily broken. Here is a workaround to compile konsole
+in this cases:
+<UL>
+<LI>if configure works
+<PRE>
+  $ cd konsole
+  $ make
+  $ make install
+</PRE>
+</LI>
+<LI>if configure fails or you've downloaded konsole alone from cvs:
+<PRE>
+  $ cd konsole
+  $ rm * (just keep the directories)
+  $ mv config/var/Makefile.am.aside config/var/Makefile.am
+  $ [evtl. remove (recursively) all CVS directories from config]
+  $ cp config/var/Makefile.cvs .
+  $ edit src/Makefile.am:
+    change: TOPDIR=$(top_srcdir)/konsole
+        to: TOPDIR=$(top_srcdir)
+  $ make -f Makefile.cvs
+  $ configure
+  $ make
+  $ make install
+</PRE>
+</LI>
+</UL>
+<P>
+<H2><A NAME="ss4.8">4.8 Known bugs (konsole-0.8.6)</A>
+</H2>
+
+<P>
+<UL>
+<LI> keys on the keypad does not cause any effect when numlock is not
+set. This truly reflects, what i receive from Qt. All the keys
+come in as #ffff. Think this comes from the eventFilter i had to
+install to get the key-presses.
+</LI>
+<LI> The decision when to put lines into the history is sometimes not
+ideal.
+</LI>
+<LI> check TODO for "bugs" due to missing features, also.</LI>
+</UL>
+<P>
+<P>
+<H2><A NAME="ss4.9">4.9 Features that will not be implemented.</A>
+</H2>
+
+<P>
+<UL>
+<LI> utmp entries.
+<P>The utmp is a database that reports who is currently logged on.
+This is used by programs like who, finger, wall, talk, etc. to
+list the users of a system and to contact them.
+<P>It does not make sense when used with an X terminal, since there
+is nothing like _the_ terminal then, to which one can send notices.
+<P>The proper solution would be, to stamp the utmp with the xdm/kdm
+session manager. Further, a proper notification/chat program should
+be run automatically when the X session starts (ktalk?), so that
+a communication channel is available to the one at the console.
+</LI>
+</UL>
+<P>
+<HR>
+Next
+<A HREF="konsole-3.html">Previous</A>
+<A HREF="konsole.html#toc4">Contents</A>
+</BODY>
+</HTML>
