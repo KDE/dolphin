@@ -27,6 +27,7 @@
 #include <kpixmap.h>
 #include <kmessagebox.h>
 #include <qpixmapcache.h>
+#include <qiconview.h>
 #include <unistd.h>
 #include <qfile.h>
 #include <iostream>
@@ -67,10 +68,11 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   KConfig *config = instance->config();
   KConfigGroupSaver cgs(config, "Settings");
 
+  m_iIconSize = config->readNumEntry( "IconSize", 0 );
+  m_iItemTextPos = config->readNumEntry( "ItemTextPos", QIconView::Bottom );
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bImagePreview = config->readBoolEntry( "ImagePreview", false );
   m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
-  //m_sViewMode = config->readEntry( "ViewMode", "KonqKfmIconView" );
 
   // Default background color is the one from the settings, i.e. configured in kcmkonq
   // TODO: remove it from there ?
@@ -122,13 +124,14 @@ void KonqPropsView::enterDir( const KURL & dir )
   // in the previous dir nor in this one (then we can keep the current settings)
   if (dotDirExists || m_dotDirExists)
   {
+    m_iIconSize = m_defaultProps->iconSize();
+    m_iItemTextPos = m_defaultProps->itemTextPos();
     m_bShowDot = m_defaultProps->isShowingDotFiles();
     m_bImagePreview = m_defaultProps->isShowingImagePreview();
     m_bHTMLAllowed = m_defaultProps->isHTMLAllowed();
     m_bgColor = m_defaultProps->bgColor();
     m_bgPixmap = m_defaultProps->bgPixmap();
     m_bgPixmapFile = m_defaultProps->bgPixmapFile();
-    //m_sViewMode = m_defaultProps->viewMode();
   }
 
   if (dotDirExists)
@@ -137,10 +140,11 @@ void KonqPropsView::enterDir( const KURL & dir )
     KSimpleConfig * config = new KSimpleConfig( dotDirectory, true );
     config->setGroup("URL properties");
 
+    m_iIconSize = config->readNumEntry( "IconSize", m_iIconSize );
+    m_iItemTextPos = config->readNumEntry( "ItemTextPos", m_iItemTextPos );
     m_bShowDot = config->readBoolEntry( "ShowDotFiles", m_bShowDot );
     m_bImagePreview = config->readBoolEntry( "ImagePreview", m_bImagePreview );
     m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", m_bHTMLAllowed );
-    //m_sViewMode = config->readEntry( "ViewMode", m_sViewMode );
 
     m_bgColor = config->readColorEntry( "BgColor", &m_bgColor );
     m_bgPixmapFile = config->readEntry( "BgImage", "" );
@@ -167,6 +171,32 @@ void KonqPropsView::setSaveViewPropertiesLocally( bool value )
 
     m_bSaveViewPropertiesLocally = value;
     m_currentConfig = 0L; // mark as dirty
+}
+
+void KonqPropsView::setIconSize( int size )
+{
+    m_iIconSize = size;
+    if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
+        m_defaultProps->setIconSize( size );
+    else if (currentConfig())
+    {
+        KConfigGroupSaver cgs(currentConfig(), currentGroup());
+        currentConfig()->writeEntry( "IconSize", m_iIconSize );
+        currentConfig()->sync();
+    }
+}
+
+void KonqPropsView::setItemTextPos( int pos )
+{
+    m_iItemTextPos = pos;
+    if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
+        m_defaultProps->setItemTextPos( pos );
+    else if (currentConfig())
+    {
+        KConfigGroupSaver cgs(currentConfig(), currentGroup());
+        currentConfig()->writeEntry( "ItemTextPos", m_iItemTextPos );
+        currentConfig()->sync();
+    }
 }
 
 void KonqPropsView::setShowingDotFiles( bool show )

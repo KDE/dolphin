@@ -17,8 +17,8 @@
 
 */
 
-#ifndef __kfm_viewprops_h__
-#define __kfm_viewprops_h__
+#ifndef __konq_viewprops_h__
+#define __konq_viewprops_h__
 
 #include <qpixmap.h>
 
@@ -77,6 +77,12 @@ public:
 
   ///
 
+  void setIconSize( int size ); // in pixel, 0 for default
+  int iconSize() { return m_iIconSize; }
+
+  void setItemTextPos( int pos ); // QIconView::Bottom or QIconView::Right, currently
+  int itemTextPos() { return m_iItemTextPos; }
+
   void setShowingDotFiles( bool show );
   bool isShowingDotFiles() const { return m_bShowDot; }
 
@@ -100,10 +106,12 @@ protected:
 
   // The actual properties
 
-  QString m_bgPixmapFile;
+  int m_iIconSize;
+  int m_iItemTextPos;
   bool m_bShowDot;
   bool m_bImagePreview;
   bool m_bHTMLAllowed;
+  QString m_bgPixmapFile;
 
   // Path to .directory file, whether it exists or not
   QString dotDirectory;
