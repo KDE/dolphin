@@ -34,6 +34,7 @@
 #include <kglobal.h>
 #include <knuminput.h>
 #include <klocale.h>
+#include <kmessagebox.h>
 #include <knuminput.h>
 
 #include "konq_historymgr.h"
@@ -77,6 +78,7 @@ HistorySidebarConfig::HistorySidebarConfig( QWidget *parent, const char* name, c
 
     connect( dialog->btnFontNewer, SIGNAL( clicked() ), SLOT( slotGetFontNewer() ));
     connect( dialog->btnFontOlder, SIGNAL( clicked() ), SLOT( slotGetFontOlder() ));
+    connect( dialog->btnClearHistory, SIGNAL( clicked() ), SLOT( slotClearHistory() ));
 
     connect( dialog->cbDetailedTips, SIGNAL( toggled( bool )), SLOT( configChanged() ));
     connect( dialog->cbExpire, SIGNAL( toggled( bool )), SLOT( configChanged() ));
@@ -87,6 +89,8 @@ HistorySidebarConfig::HistorySidebarConfig( QWidget *parent, const char* name, c
     dialog->show();
     topLayout->add(dialog);
     load();
+
+    KonqHistoryManager *mgr = new KonqHistoryManager( kapp, "history mgr" );
 }
 
 void HistorySidebarConfig::configChanged()
@@ -250,6 +254,16 @@ void HistorySidebarConfig::slotGetFontOlder()
 {
     (void) KFontDialog::getFont( m_fontOlder, false, this );
     configChanged();
+}
+
+void HistorySidebarConfig::slotClearHistory()
+{
+    if ( KMessageBox::questionYesNo( this,
+				     i18n("Do you really want to clear "
+					  "the entire history?"),
+				     i18n("Clear History?") )
+	 == KMessageBox::Yes )
+	KonqHistoryManager::kself()->emitClear();
 }
 
 #include "kcmhistory.moc"

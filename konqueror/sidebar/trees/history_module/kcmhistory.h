@@ -24,6 +24,7 @@
 #include <kcmodule.h>
 #include "history_dlg.h"
 
+class KonqHistoryManager;
 class KonqSidebarHistorySettings;
 
 class HistorySidebarConfig : public KCModule
@@ -49,12 +50,15 @@ private slots:
   void slotNewerChanged( int );
   void slotOlderChanged( int );
 
+  void slotClearHistory();
+
 private:
   QFont m_fontNewer;
   QFont m_fontOlder;
 
   KonqSidebarHistoryDlg* dialog;
   KonqSidebarHistorySettings *m_settings;
+  KonqHistoryManager *mgr;
 };
 
 #endif

@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>542</width>
-            <height>257</height>
+            <width>565</width>
+            <height>323</height>
         </rect>
     </property>
     <property name="caption">
@@ -20,39 +20,234 @@
             <cstring>unnamed</cstring>
         </property>
         <property name="margin">
-            <number>0</number>
+            <number>11</number>
         </property>
         <property name="spacing">
             <number>6</number>
         </property>
-        <widget class="QGroupBox">
+        <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>gbLimits</cstring>
+                <cstring>Layout5</cstring>
             </property>
-            <property name="frameShape">
-                <enum>Box</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Sunken</enum>
-            </property>
-            <property name="title">
-                <string>Limits</string>
-            </property>
-            <hbox>
+            <vbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
                 <property name="margin">
-                    <number>11</number>
+                    <number>0</number>
                 </property>
                 <property name="spacing">
                     <number>6</number>
                 </property>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>gbLimits</cstring>
+                    </property>
+                    <property name="frameShape">
+                        <enum>Box</enum>
+                    </property>
+                    <property name="frameShadow">
+                        <enum>Sunken</enum>
+                    </property>
+                    <property name="title">
+                        <string>Limits</string>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>11</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QLayoutWidget">
+                            <property name="name">
+                                <cstring>Layout4</cstring>
+                            </property>
+                            <grid>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <property name="margin">
+                                    <number>0</number>
+                                </property>
+                                <property name="spacing">
+                                    <number>6</number>
+                                </property>
+                                <widget class="QCheckBox" row="1" column="0">
+                                    <property name="name">
+                                        <cstring>cbExpire</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>URLs e&amp;xpire after</string>
+                                    </property>
+                                </widget>
+                                <widget class="KIntNumInput" row="1" column="1">
+                                    <property name="name">
+                                        <cstring>spinExpire</cstring>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel" row="0" column="0">
+                                    <property name="name">
+                                        <cstring>lEntries</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Maximum &amp;number of URLs:</string>
+                                    </property>
+                                    <property name="buddy" stdset="0">
+                                        <cstring>spinEntries</cstring>
+                                    </property>
+                                </widget>
+                                <widget class="KIntNumInput" row="0" column="1">
+                                    <property name="name">
+                                        <cstring>spinEntries</cstring>
+                                    </property>
+                                </widget>
+                            </grid>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>Spacer1</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>20</width>
+                                    <height>0</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </hbox>
+                </widget>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>gbFonts</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Custom Fonts For</string>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>11</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QLayoutWidget">
+                            <property name="name">
+                                <cstring>Layout5</cstring>
+                            </property>
+                            <grid>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <property name="margin">
+                                    <number>0</number>
+                                </property>
+                                <property name="spacing">
+                                    <number>6</number>
+                                </property>
+                                <widget class="KIntNumInput" row="0" column="1">
+                                    <property name="name">
+                                        <cstring>spinNewer</cstring>
+                                    </property>
+                                </widget>
+                                <widget class="KIntNumInput" row="1" column="1">
+                                    <property name="name">
+                                        <cstring>spinOlder</cstring>
+                                    </property>
+                                </widget>
+                                <widget class="QComboBox" row="1" column="2">
+                                    <property name="name">
+                                        <cstring>comboOlder</cstring>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel" row="0" column="0">
+                                    <property name="name">
+                                        <cstring>lbNewer</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>URLs newer than</string>
+                                    </property>
+                                </widget>
+                                <widget class="QComboBox" row="0" column="2">
+                                    <property name="name">
+                                        <cstring>comboNewer</cstring>
+                                    </property>
+                                </widget>
+                                <widget class="QPushButton" row="1" column="3">
+                                    <property name="name">
+                                        <cstring>btnFontOlder</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Choose Font...</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel" row="1" column="0">
+                                    <property name="name">
+                                        <cstring>lbOlder</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>URLs older than</string>
+                                    </property>
+                                </widget>
+                                <widget class="QPushButton" row="0" column="3">
+                                    <property name="name">
+                                        <cstring>btnFontNewer</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Choose Font...</string>
+                                    </property>
+                                </widget>
+                            </grid>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>gbDetails</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Details</string>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>11</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QCheckBox">
+                            <property name="name">
+                                <cstring>cbDetailedTips</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Detailed tooltips</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Shows the number of times visited and the dates of the first and last visits, in addition to the URL</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
                         <cstring>Layout4</cstring>
                     </property>
-                    <grid>
+                    <hbox>
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
@@ -62,190 +257,52 @@
                         <property name="spacing">
                             <number>6</number>
                         </property>
-                        <widget class="QCheckBox" row="1" column="0">
+                        <widget class="QPushButton">
                             <property name="name">
-                                <cstring>cbExpire</cstring>
+                                <cstring>btnClearHistory</cstring>
                             </property>
                             <property name="text">
-                                <string>URLs e&amp;xpire after</string>
+                                <string>Clear History...</string>
                             </property>
                         </widget>
-                        <widget class="KIntNumInput" row="1" column="1">
+                        <spacer>
                             <property name="name">
-                                <cstring>spinExpire</cstring>
+                                <cstring>Spacer3</cstring>
                             </property>
-                        </widget>
-                        <widget class="QLabel" row="0" column="0">
-                            <property name="name">
-                                <cstring>lEntries</cstring>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
                             </property>
-                            <property name="text">
-                                <string>Maximum &amp;number of URLs:</string>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
                             </property>
-                            <property name="buddy" stdset="0">
-                                <cstring>spinEntries</cstring>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>418</width>
+                                    <height>0</height>
+                                </size>
                             </property>
-                        </widget>
-                        <widget class="KIntNumInput" row="0" column="1">
-                            <property name="name">
-                                <cstring>spinEntries</cstring>
-                            </property>
-                        </widget>
-                    </grid>
+                        </spacer>
+                    </hbox>
                 </widget>
                 <spacer>
                     <property name="name">
-                        <cstring>Spacer1</cstring>
+                        <cstring>Spacer2</cstring>
                     </property>
                     <property name="orientation">
-                        <enum>Horizontal</enum>
+                        <enum>Vertical</enum>
                     </property>
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>20</width>
-                            <height>0</height>
+                            <width>0</width>
+                            <height>33</height>
                         </size>
                     </property>
                 </spacer>
-            </hbox>
+            </vbox>
         </widget>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>gbFonts</cstring>
-            </property>
-            <property name="title">
-                <string>Custom Fonts For</string>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <property name="margin">
-                    <number>11</number>
-                </property>
-                <property name="spacing">
-                    <number>6</number>
-                </property>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>Layout5</cstring>
-                    </property>
-                    <grid>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <property name="margin">
-                            <number>0</number>
-                        </property>
-                        <property name="spacing">
-                            <number>6</number>
-                        </property>
-                        <widget class="KIntNumInput" row="0" column="1">
-                            <property name="name">
-                                <cstring>spinNewer</cstring>
-                            </property>
-                        </widget>
-                        <widget class="KIntNumInput" row="1" column="1">
-                            <property name="name">
-                                <cstring>spinOlder</cstring>
-                            </property>
-                        </widget>
-                        <widget class="QComboBox" row="1" column="2">
-                            <property name="name">
-                                <cstring>comboOlder</cstring>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="0" column="0">
-                            <property name="name">
-                                <cstring>lbNewer</cstring>
-                            </property>
-                            <property name="text">
-                                <string>URLs newer than</string>
-                            </property>
-                        </widget>
-                        <widget class="QComboBox" row="0" column="2">
-                            <property name="name">
-                                <cstring>comboNewer</cstring>
-                            </property>
-                        </widget>
-                        <widget class="QPushButton" row="1" column="3">
-                            <property name="name">
-                                <cstring>btnFontOlder</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Choose Font...</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="1" column="0">
-                            <property name="name">
-                                <cstring>lbOlder</cstring>
-                            </property>
-                            <property name="text">
-                                <string>URLs older than</string>
-                            </property>
-                        </widget>
-                        <widget class="QPushButton" row="0" column="3">
-                            <property name="name">
-                                <cstring>btnFontNewer</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Choose Font...</string>
-                            </property>
-                        </widget>
-                    </grid>
-                </widget>
-            </hbox>
-        </widget>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>gbDetails</cstring>
-            </property>
-            <property name="title">
-                <string>Details</string>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <property name="margin">
-                    <number>11</number>
-                </property>
-                <property name="spacing">
-                    <number>6</number>
-                </property>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>cbDetailedTips</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Detailed tooltips</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Shows the number of times visited and the dates of the first and last visits, in addition to the URL</string>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <spacer>
-            <property name="name">
-                <cstring>Spacer2</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>0</width>
-                    <height>51</height>
-                </size>
-            </property>
-        </spacer>
     </vbox>
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
