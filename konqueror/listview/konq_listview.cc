@@ -30,6 +30,7 @@
 #include <konq_drag.h>
 #include <kpropertiesdialog.h>
 #include <kstdaction.h>
+#include <kprotocolinfo.h>
 
 #include <qapplication.h>
 #include <qclipboard.h>
@@ -121,24 +122,29 @@ void ListViewBrowserExtension::updateActions()
   QValueList<KonqBaseListViewItem*> selection;
   m_listView->listViewWidget()->selectedItems( selection );
 
+  int canCopy = 0;
+  int canDel = 0;
   bool bInTrash = false;
   QValueList<KonqBaseListViewItem*>::ConstIterator it = selection.begin();
   KFileItem * firstSelectedItem = 0L;
   for (; it != selection.end(); ++it )
   {
-    if ( (*it)->item()->url().directory(false) == KGlobalSettings::trashPath() )
-      bInTrash = true;
+    canCopy++;
     if ( ! firstSelectedItem )
-        firstSelectedItem = (*it)->item();
+      firstSelectedItem = (*it)->item();
+
+    KURL url = (*it)->item()->url();
+    if ( url.directory(false) == KGlobalSettings::trashPath() )
+      bInTrash = true;
+    if (  KProtocolInfo::supportsDeleting(  url ) )
+      canDel++;
   }
 
-  bool hasSelection = selection.count() > 0;
-
-  emit enableAction( "copy", hasSelection );
-  emit enableAction( "cut", hasSelection );
-  emit enableAction( "trash", hasSelection && !bInTrash && m_listView->url().isLocalFile() );
-  emit enableAction( "del", hasSelection );
-  emit enableAction( "shred", hasSelection );
+  emit enableAction( "copy", canCopy > 0 );
+  emit enableAction( "cut", canDel > 0 );
+  emit enableAction( "trash", canDel > 0 && !bInTrash && m_listView->url().isLocalFile() );
+  emit enableAction( "del", canDel > 0 );
+  emit enableAction( "shred", canDel > 0 );
 
   KFileItemList lstItems;
   if ( firstSelectedItem )
