@@ -23,6 +23,7 @@
 #include <qtimer.h>
 #include <qevent.h>
 #include <qcursor.h>
+#include <qtooltip.h>
 
 #include <konq_settings.h>
 
@@ -42,6 +43,7 @@
 #include <kiconloader.h>
 #include <qfile.h>
 #include "konq_listviewwidget.h"
+#include <konq_filetip.h>
 
 ColumnInfo::ColumnInfo()
    :displayInColumn(-1)
@@ -94,6 +96,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    ,m_filenameColumn(0)
    ,m_itemToGoTo("")
    ,m_backgroundTimer(0)
+   ,m_fileTip(new KonqFileTip(this))
 {
    kdDebug(1202) << "+KonqBaseListViewWidget" << endl;
 
@@ -126,6 +129,9 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    connect( this, SIGNAL(contextMenuRequested( QListViewItem *, const QPoint&, int )),
             this, SLOT(slotPopupMenu( QListViewItem *, const QPoint&, int )) );
    connect( this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()) );
+
+   connect( this, SIGNAL(onItem(QListViewItem *)), SLOT(slotOnItem(QListViewItem *)) );
+   connect( this, SIGNAL(onViewport()), SLOT(slotOnViewport()) );
 
    connect( horizontalScrollBar(), SIGNAL(valueChanged( int )),
             this, SIGNAL(viewportAdjusted()) );
@@ -386,6 +392,12 @@ void KonqBaseListViewWidget::initConfig()
    setItemFont( itemFont );
    setItemColor( m_pSettings->normalTextColor() );
 
+   bool on = m_pSettings->showFileTips() && QToolTip::isGloballyEnabled();
+   m_fileTip->setOptions( on, m_pSettings->showPreviewsInFileTips(), m_pSettings->numFileTips() );
+
+   // if the user wants our own tooltip, don't show the one from Qts ListView
+   setShowToolTips(!on);
+
    updateListContents();
 }
 
@@ -413,6 +425,7 @@ void KonqBaseListViewWidget::contentsMousePressEvent( QMouseEvent *e )
          if ( !( e->state() & ControlButton ) )
             setSelected( itemAt( vp ), false );
          m_rubber = new QRect( e->x(), e->y(), 0, 0 );
+         m_fileTip->setItem( 0 );
       }
       if ( e->button() != RightButton )
          QListView::contentsMousePressEvent( e );
@@ -698,6 +711,7 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
 
 void KonqBaseListViewWidget::startDrag()
 {
+   m_fileTip->setItem( 0 );
    KURL::List urls = selectedUrls();
    // Multiple URLs ?
 
@@ -722,6 +736,33 @@ void KonqBaseListViewWidget::startDrag()
       d->setPixmap( *m_pressedItem->pixmap( 0 ) );
 
    d->drag();
+}
+
+void KonqBaseListViewWidget::slotOnItem( QListViewItem *_item )
+{
+   if ( m_rubber ) return;  // don't show tooltip during rubber banding
+
+   KFileItem *fileItem = static_cast<KonqBaseListViewItem *>(_item)->item();
+   QPoint viewPos = viewport()->mapFromGlobal( QCursor::pos() );
+   viewPos.setY( itemRect(_item).y() );
+
+   QRect rect( viewportToContents(viewPos), QSize(20, _item->height()) );
+
+   m_fileTip->setItem( fileItem,
+                       rect,
+                       _item->pixmap(0) );
+}
+
+void KonqBaseListViewWidget::slotOnViewport()
+{
+   m_fileTip->setItem( 0 );
+}
+
+void KonqBaseListViewWidget::leaveEvent( QEvent *e )
+{
+   m_fileTip->setItem( 0 );
+
+   KListView::leaveEvent( e );
 }
 
 void KonqBaseListViewWidget::slotItemRenamed( QListViewItem *item, const QString &name, int col )

@@ -249,8 +249,9 @@ public slots:
     void renameSelectedItem();
     void renameCurrentItem();
 
-    void slotToolTipPreview( const KFileItem *, const QPixmap & );
-    void slotToolTipPreviewResult();
+    void slotToolTipPreview( const KFileItem *, const QPixmap & ) KDE_DEPRECATED;  // ### unused - remove for KDE4
+    void slotToolTipPreviewResult() KDE_DEPRECATED;  // ### unused - remove for KDE4
+
 signals:
     /**
      * For cut/copy/paste/move/delete (see kparts/browserextension.h)

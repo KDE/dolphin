@@ -32,7 +32,7 @@ libkonq_la_SOURCES = konq_popupmenu.cc knewmenu.cc \
    konq_historymgr.cc konq_historycomm.cc konq_historycomm.skel \
    konq_pixmapprovider.cc \
    kivdirectoryoverlay.cc \
-   konq_faviconmgr.cc konq_faviconmgr.skel
+   konq_faviconmgr.cc konq_faviconmgr.skel konq_filetip.cc
 
 directory_DATA = directory_bookmarkbar.desktop 
 directorydir   = $(kde_datadir)/kbookmark
@@ -50,7 +50,7 @@ include_HEADERS = konq_popupmenu.h knewmenu.h \
     konq_undo.h konq_historymgr.h konq_historycomm.h \
     konq_pixmapprovider.h \
     kivdirectoryoverlay.h \
-    konq_faviconmgr.h konq_xmlguiclient.h konqbookmarkmanager.h
+    konq_faviconmgr.h konq_xmlguiclient.h konqbookmarkmanager.h konq_filetip.h
 
 
 if include_ARTS

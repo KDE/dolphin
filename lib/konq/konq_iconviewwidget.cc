@@ -21,6 +21,7 @@
 #include "konq_operations.h"
 #include "konq_undo.h"
 #include "konq_sound.h"
+#include "konq_filetip.h"
 
 #include <qclipboard.h>
 #include <qlayout.h>
@@ -52,282 +53,6 @@
 #include <unistd.h>
 #include <klocale.h>
 
-class KFileTip: public QFrame
-{
-public:
-    KFileTip( KonqIconViewWidget* parent ) : QFrame( 0, 0, WStyle_Customize | WStyle_NoBorder | WStyle_Tool | WStyle_StaysOnTop | WX11BypassWM ),
-
-          m_corner( 0 ),
-          m_filter( false ),
-          m_view( parent ),
-          m_item( 0 ),
-          m_previewJob( 0 ),
-          m_ivi( 0 )
-    {
-        m_iconLabel = new QLabel(this);
-        m_textLabel = new QLabel(this);
-        m_textLabel->setAlignment(Qt::AlignAuto | Qt::AlignTop);
-
-        QGridLayout* layout = new QGridLayout(this, 1, 2, 8, 0);
-        layout->addWidget(m_iconLabel, 0, 0);
-        layout->addWidget(m_textLabel, 0, 1);
-        layout->setResizeMode(QLayout::Fixed);
-
-        setPalette( QToolTip::palette() );
-        setMargin( 1 );
-        setFrameStyle( QFrame::Plain | QFrame::Box );
-
-        hide();
-    }
-    ~KFileTip();
-
-    void setPreview(bool on)
-    {
-        m_preview = on;
-        if(on)
-            m_iconLabel->show();
-        else
-            m_iconLabel->hide();
-    }
-
-    void setOptions( bool on, bool preview, int num)
-    {
-        m_num = num;
-        setPreview(preview);
-        m_on = on;
-    }
-
-    void setItem( KFileIVI *ivi );
-
-    virtual bool eventFilter( QObject *, QEvent *e );
-
-    void gotPreview( const KFileItem*, const QPixmap& );
-    void gotPreviewResult();
-
-protected:
-    virtual void drawContents( QPainter *p );
-    virtual void timerEvent( QTimerEvent * );
-    virtual void resizeEvent( QResizeEvent * );
-
-private:
-    void setFilter( bool enable );
-
-    void reposition();
-
-    QLabel*    m_iconLabel;
-    QLabel*    m_textLabel;
-    int        m_num;
-    bool       m_on;
-    bool       m_preview;
-    QPixmap    m_corners[4];
-    int        m_corner;
-    bool       m_filter;
-    KonqIconViewWidget*       m_view;
-    KFileItem* m_item;
-    KIO::PreviewJob* m_previewJob;
-    KFileIVI*  m_ivi;
-};
-
-KFileTip::~KFileTip()
-{
-   if ( m_previewJob ) {
-        m_previewJob->kill();
-        m_previewJob = 0;
-    }
-}
-
-void KFileTip::setItem( KFileIVI *ivi )
-{
-    if (!m_on) return;
-    if (m_ivi == ivi) return;
-
-    if ( m_previewJob ) {
-        m_previewJob->kill();
-        m_previewJob = 0;
-    }
-
-    m_ivi = ivi;
-    m_item = ivi ? ivi->item() : 0;
-
-    QString text = ivi ? ivi->item()->getToolTipText( m_num ) : QString::null;
-    if ( !text.isEmpty() ) {
-        hide();
-        m_textLabel -> setText( text );
-
-        killTimers();
-        setFilter( true );
-
-        if (m_preview) {
-            m_iconLabel -> setPixmap(*(ivi->pixmap()));
-            KFileItemList oneItem;
-            oneItem.append( ivi->item() );
-
-            m_previewJob = KIO::filePreview( oneItem, 256, 256, 64, 70, true, true, 0);
-            connect( m_previewJob, SIGNAL( gotPreview( const KFileItem *, const QPixmap & ) ),
-                    m_view, SLOT( slotToolTipPreview( const KFileItem *, const QPixmap & ) ) );
-            connect( m_previewJob, SIGNAL( result( KIO::Job * ) ),
-                    m_view, SLOT( slotToolTipPreviewResult() ) );
-        }
-
-        startTimer( 700 );
-    }
-    else {
-        killTimers();
-        if ( isVisible() ) {
-            setFilter( false );
-            hide();
-        }
-    }
-}
-
-void KFileTip::reposition()
-{
-    if (!m_ivi) return;
-
-    QRect rect = m_ivi->rect();
-    QPoint off = m_view->viewport()->mapToGlobal( m_view->contentsToViewport( rect.topRight() ) );
-    rect.moveTopRight( off );
-
-    QPoint pos = rect.center();
-    // m_corner:
-    // 0: upperleft
-    // 1: upperright
-    // 2: lowerleft
-    // 3: lowerright
-    // 4+: none
-    m_corner = 0;
-    // should the tooltip be shown to the left or to the right of the ivi ?
-    QRect desk = KGlobalSettings::desktopGeometry(rect.center());
-    if (rect.center().x() + width() > desk.right())
-    {
-        // to the left
-        if (pos.x() - width() < 0) {
-            pos.setX(0);
-            m_corner = 4;
-        } else {
-            pos.setX( pos.x() - width() );
-            m_corner = 1;
-        }
-    }
-    // should the tooltip be shown above or below the ivi ?
-    if (rect.bottom() + height() > desk.bottom())
-    {
-        // above
-        pos.setY( rect.top() - height() );
-        m_corner += 2;
-    }
-    else pos.setY( rect.bottom() + 1 );
-
-    move( pos );
-    update();
-}
-
-void KFileTip::gotPreview( const KFileItem* item, const QPixmap& pixmap )
-{
-    m_previewJob = 0;
-    if (item != m_item) return;
-
-    m_iconLabel -> setPixmap(pixmap);
-}
-
-void KFileTip::gotPreviewResult()
-{
-    m_previewJob = 0;
-}
-
-void KFileTip::drawContents( QPainter *p )
-{
-    static const char * const names[] = {
-        "arrow_topleft",
-        "arrow_topright",
-        "arrow_bottomleft",
-        "arrow_bottomright"
-    };
-
-    if (m_corner >= 4) {  // 4 is empty, so don't draw anything
-        QFrame::drawContents( p );
-        return;
-    }
-
-    if ( m_corners[m_corner].isNull())
-        m_corners[m_corner].load( locate( "data", QString::fromLatin1( "konqueror/pics/%1.png" ).arg( names[m_corner] ) ) );
-
-    QPixmap &pix = m_corners[m_corner];
-
-    switch ( m_corner )
-    {
-        case 0:
-            p->drawPixmap( 3, 3, pix );
-            break;
-        case 1:
-            p->drawPixmap( width() - pix.width() - 3, 3, pix );
-            break;
-        case 2:
-            p->drawPixmap( 3, height() - pix.height() - 3, pix );
-            break;
-        case 3:
-            p->drawPixmap( width() - pix.width() - 3, height() - pix.height() - 3, pix );
-            break;
-    }
-
-    QFrame::drawContents( p );
-}
-
-void KFileTip::setFilter( bool enable )
-{
-    if ( enable == m_filter ) return;
-
-    if ( enable ) {
-        kapp->installEventFilter( this );
-        QApplication::setGlobalMouseTracking( true );
-    }
-    else {
-        QApplication::setGlobalMouseTracking( false );
-        kapp->removeEventFilter( this );
-    }
-    m_filter = enable;
-}
-
-void KFileTip::timerEvent( QTimerEvent * )
-{
-    killTimers();
-    if ( !isVisible() ) {
-        startTimer( 15000 );
-        reposition();
-        show();
-    }
-    else {
-        setFilter( false );
-        hide();
-    }
-}
-
-void KFileTip::resizeEvent( QResizeEvent* event )
-{
-    QFrame::resizeEvent(event);
-    reposition();
-}
-
-bool KFileTip::eventFilter( QObject *, QEvent *e )
-{
-    switch ( e->type() )
-    {
-        case QEvent::Leave:
-        case QEvent::MouseButtonPress:
-        case QEvent::MouseButtonRelease:
-        case QEvent::KeyPress:
-        case QEvent::KeyRelease:
-        case QEvent::FocusIn:
-        case QEvent::FocusOut:
-        case QEvent::Wheel:
-            killTimers();
-            setFilter( false );
-            hide();
-        default: break;
-    }
-
-    return false;
-}
 
 struct KonqIconViewWidgetPrivate
 {
@@ -379,7 +104,7 @@ struct KonqIconViewWidgetPrivate
     QString movieFileName;
 
     KIO::PreviewJob *pPreviewJob;
-    KFileTip* pFileTip;
+    KonqFileTip* pFileTip;
     QStringList previewSettings;
     bool renameItem;
     bool firstClick;
@@ -427,7 +152,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     setSelectionMode( QIconView::Extended );
     setItemTextPos( QIconView::Bottom );
     d->releaseMouseEvent = false;
-    d->pFileTip = new KFileTip(this);
+    d->pFileTip = new KonqFileTip(this);
     d->firstClick = false;
     calculateGridX();
     setAutoArrange( true );
@@ -554,7 +279,9 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *_item )
         {
             d->pActiveItem = item;
             if ( topLevelWidget() == kapp->activeWindow() )
-                d->pFileTip->setItem( d->pActiveItem );
+                d->pFileTip->setItem( d->pActiveItem->item(),
+                                      item->rect(),
+                                      item->pixmap() );
 
             if ( d->doAnimations && d->pActiveItem && d->pActiveItem->hasAnimation() )
             {
@@ -733,14 +460,14 @@ void KonqIconViewWidget::slotPreviewResult()
     emit imagePreviewFinished();
 }
 
-void KonqIconViewWidget::slotToolTipPreview(const KFileItem* item, const QPixmap &pix)
+void KonqIconViewWidget::slotToolTipPreview(const KFileItem* , const QPixmap &)
 {
-    if (d->pFileTip) d->pFileTip->gotPreview( item, pix );
+// unused - remove for KDE4
 }
 
 void KonqIconViewWidget::slotToolTipPreviewResult()
 {
-    if (d->pFileTip) d->pFileTip->gotPreviewResult();
+// unused - remove for KDE4
 }
 
 void KonqIconViewWidget::slotMovieUpdate( const QRect& rect )

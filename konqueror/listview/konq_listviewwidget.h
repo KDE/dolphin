@@ -39,6 +39,7 @@ class KonqFMSettings;
 class ListViewPropertiesExtension;
 class KToggleAction;
 class KonqListView;
+class KonqFileTip;
 class ListViewBrowserExtension;
 class QTimer;
 class QFocusEvent;
@@ -158,6 +159,8 @@ public slots:
 protected slots:
    void slotAutoScroll();
 
+   virtual void slotOnItem( QListViewItem *_item );
+   virtual void slotOnViewport();
    // from QListView
    virtual void slotReturnPressed( QListViewItem *_item );
    virtual void slotCurrentChanged( QListViewItem *_item ) { slotOnItem( _item ); }
@@ -208,6 +211,8 @@ protected:
    virtual void contentsMouseReleaseEvent( QMouseEvent *e );
    virtual void contentsMouseMoveEvent( QMouseEvent *e );
 
+   virtual void leaveEvent( QEvent * );
+
    /** Common method for slotCompleted and slotCanceled */
    virtual void setComplete();
 
@@ -257,6 +262,8 @@ protected:
    QString m_itemToGoTo;
    QStringList m_itemsToSelect;
    QTimer *m_backgroundTimer;
+
+   KonqFileTip *m_fileTip;
 };
 
 #endif
