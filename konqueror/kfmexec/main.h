@@ -5,24 +5,26 @@
 #include <qstring.h>
 #include <qstrlist.h>
 
+namespace KIO { class Job; }
+
 class KFMExec : public QObject
 {
     Q_OBJECT
 public:
     KFMExec();
 
-    QString shellQuote( const char *_data );    
+    QString shellQuote( const QString & _data );
 
 public slots:
-    void slotFinished();
-    
+    void slotResult( KIO::Job * );
+
 protected:
     int counter;
     int expectedCounter;
     QString command;
     QString files;
     QStringList fileList;
-    QStringList urlList;
+    KURL::List urlList;
 };
 
 #endif

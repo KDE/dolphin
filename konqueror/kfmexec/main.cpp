@@ -20,7 +20,7 @@
 
 
 static const char *description =
-	I18N_NOOP("KFM Exec - A Location opener");
+	I18N_NOOP("KFM Exec - Opens remote files, watches modifications, asks for upload");
 
 static const char *version = "v0.0.1";
 
@@ -34,11 +34,11 @@ static KCmdLineOptions options[] =
 
 int jobCounter = 0;
 
-QList<KIOJob>* jobList = 0L;
+QList<KIO::Job>* jobList = 0L;
 
 KFMExec::KFMExec()
 {
-    jobList = new QList<KIOJob>;
+    jobList = new QList<KIO::Job>;
     jobList->setAutoDelete( false ); // jobs autodelete themselves
 
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
@@ -51,62 +51,47 @@ KFMExec::KFMExec()
 
     for ( int i = 1; i < args->count(); i++ )
     {
-        QCString arg = args->arg(i);
+        KURL url = args->url(i);
         // A local file, not an URL ?
 	// => It is not encoded and not shell escaped, too.
-	if ( arg[0] == '/' )
+	if ( url.isLocalFile() )
 	{
-	    QCString tmp( shellQuote( arg ) );
+	    QString tmp( shellQuote( url.path() ) );
 	    if ( !files.isEmpty() )
 		files += " ";
 	    files += "\"";
-	    files += tmp.data();
+	    files += tmp.local8Bit();
 	    files += "\"";
 	}
 	// It is an URL
 	else
         {
-	    KURL u( arg );
-	    if ( u.isMalformed() )
+	    if ( url.isMalformed() )
 	    {
-                KMessageBox::error( 0L, i18n( "The URL %1\nis malformed" ).arg( arg ) );
+                KMessageBox::error( 0L, i18n( "The URL %1\nis malformed" ).arg( url.url() ) );
 	    }
-	    // Must we fetch the file ?
-	    else if ( !u.isLocalFile() )
+	    // We must fetch the file
+	    else
 	    {
-		KIOJob *job = new KIOJob;
-		jobList->append( job );
-
-		connect( job, SIGNAL( sigFinished( int ) ), SLOT( slotFinished() ) );
-                // Go to finished on error (we could do better but at least we don't want to wait forever)
-		connect( job, SIGNAL( sigError( int, int, const char * ) ), SLOT( slotFinished() ) );
-	
                 // Build the destination filename, in ~/.kde/share/apps/kfmexec/tmp/
                 // Unlike KDE-1.1, we put the filename at the end so that the extension is kept
                 // (Some programs rely on it)
 		QString tmp = locateLocal( "appdata", "tmp/" ) +
-		              QString("%1.%2.%3").arg(getpid()).arg(jobCounter++).arg(u.filename());
+		              QString("%1.%2.%3").arg(getpid()).arg(jobCounter++).arg(url.filename());
 		if ( !files.isEmpty() )
 		    files += " ";
 		files += "\"";
 		files += tmp;
 		files += "\"";
 		fileList.append( tmp );
-		urlList.append( arg );
+		urlList.append( url );
 
 		expectedCounter++;
-		job->copy( arg, tmp );
-	    }
-	    else // It is a local file system URL
-	    {
-		QString tmp1( u.path() );
-		// ? KURL::decodeURL( tmp1 );
-		QString tmp( shellQuote( tmp1 ) );
-		if ( !files.isEmpty() )
-		    files += " ";
-		files += "\"";
-		files += tmp;
-		files += "\"";
+		KIO::Job *job = KIO::copy( url, tmp );
+		jobList->append( job );
+
+		connect( job, SIGNAL( result( KIO::Job * ) ), SLOT( slotResult( KIO::Job * ) ) );
+	
 	    }
 	}
     }
@@ -114,11 +99,14 @@ KFMExec::KFMExec()
 
     counter = 0;
     if ( counter == expectedCounter )
-	slotFinished();
+	slotResult( 0L );
 }
 
-void KFMExec::slotFinished()
+void KFMExec::slotResult( KIO::Job * job )
 {
+    if (job && job->error())
+        job->showErrorDialog();
+
     counter++;
 
     if ( counter < expectedCounter )
@@ -150,21 +138,21 @@ void KFMExec::slotFinished()
 
     // Test whether one of the files changed
     i = 0;
-    QStringList::ConstIterator urlIt = urlList.begin();
+    KURL::List::ConstIterator urlIt = urlList.begin();
     it = fileList.begin();
     for ( ; it != fileList.end() ; ++it, ++urlIt )
     {
 	struct stat buff;
         QString src = *it;
-        QString dest = *urlIt;
+        KURL dest = *urlIt;
 	if ( stat( src, &buff ) == 0 && times[i++] != buff.st_mtime )
 	{
 	    if ( KMessageBox::questionYesNo( 0L, i18n( "The file\n%1\nhas been modified.\nDo you want to save it?" ).arg(src) )
                       == KMessageBox::Yes )
 	    {
-		kDebugString(QString("src='%1'  dest='%2'").arg(src).arg(dest));
+		kDebugString(QString("src='%1'  dest='%2'").arg(src).arg(dest.url()));
                 // Do it the synchronous way.
-		KIONetAccess::upload( src, dest );
+		KIO::NetAccess::upload( src, dest );
 	    }
 	}
 	else
@@ -177,10 +165,9 @@ void KFMExec::slotFinished()
     exit(0);
 }
 
-QString KFMExec::shellQuote( const char *_data )
+QString KFMExec::shellQuote( const QString & data )
 {
-    QString cmd = _data;
-
+    QString cmd = data;
     int pos = 0;
     while ( ( pos = cmd.find( ";", pos )) != -1 )
     {
