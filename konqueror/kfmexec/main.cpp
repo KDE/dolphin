@@ -190,13 +190,7 @@ void KFMExec::slotRunApp()
     id.setupStartupEnv();
 
     KProcess proc;
-    for(QStringList::Iterator it = params.begin();
-        it != params.end(); ++it)
-    {
-       QString arg = *it;
-       proc << arg;
-    }
-
+    proc << params;
     proc.start( KProcess::Block );
 
     KStartupInfo::resetStartupEnv();
