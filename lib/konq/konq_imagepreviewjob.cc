@@ -124,11 +124,18 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
       KIO::UDSEntry::ConstIterator it = entry.begin();
       m_tOrig = 0;
       unsigned long size = 0;
-      for( ; it != entry.end(); it++ ) {
+      int found = 0;
+      for( ; it != entry.end() && found < 2; it++ ) {
         if ( (*it).m_uds == KIO::UDS_MODIFICATION_TIME )
+        {
           m_tOrig = (time_t)((*it).m_long);
+          found++;
+        }
         else if ( (*it).m_uds == KIO::UDS_SIZE )
+        {
           size = (*it).m_long;
+          found++;
+        }
       }
 
       if ( size > m_maximumSize )
