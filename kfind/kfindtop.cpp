@@ -32,7 +32,7 @@
 
 KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
   {
-    setCaption(QString("KFind ")+KFIND_VERSION);
+//     setCaption(QString("KFind ")+KFIND_VERSION);
 
     _toolBar = new KToolBar( this, "_toolBar" );
     _toolBar->setBarPos( KToolBar::Top );      
