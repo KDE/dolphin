@@ -35,8 +35,8 @@ public:
   static void setProxyConnectTimeout( int );
 
   static void setResponseTimeout( int );
-  
 
+    
   /** Cache Settings */
   static void setMaxCacheAge( int );
 
@@ -46,7 +46,7 @@ public:
 
   static void setCacheControl( KIO::CacheControl );
 
-
+  
   /** Proxy Settings */
   static void setUseProxy( bool );
 
@@ -62,16 +62,19 @@ public:
 
   static void setNoProxyFor( const QString& );
 
-
+  
   /** Miscelaneous Settings */
   static void setMarkPartial( bool );
 
   static void setMinimumKeepSize( int );
 
   static void setAutoResume( bool );
-
-  static void setPersistentConnections( bool );
   
+  static void setPersistentConnections( bool );  
+  
+  static void setPersistentProxyConnection( bool );  
+
+    
   /** Update all running io-slaves */
   static void updateRunningIOSlaves (QWidget * parent = 0L);
 };

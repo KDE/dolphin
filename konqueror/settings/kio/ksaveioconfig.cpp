@@ -82,14 +82,6 @@ void KSaveIOConfig::setAutoResume( bool _mode )
   cfg.sync();
 }
 
-void KSaveIOConfig::setPersistentConnections( bool _mode )
-{
-  KConfig cfg("kioslaverc", false, false);
-  cfg.setGroup( QString::null );
-  cfg.writeEntry( "PersistentConnections", _mode );
-  cfg.sync();
-}
-
 void KSaveIOConfig::setUseCache( bool _mode )
 {
   KConfig cfg("kio_httprc", false, false);
@@ -104,6 +96,14 @@ void KSaveIOConfig::setMaxCacheSize( int cache_size )
   cfg.sync();
 }
 
+void KSaveIOConfig::setCacheControl(KIO::CacheControl policy)
+{
+  KConfig cfg("kio_httprc", false, false);
+  QString tmp = KIO::getCacheControlString(policy);
+  cfg.writeEntry("cache", tmp);
+  cfg.sync();
+}
+
 void KSaveIOConfig::setMaxCacheAge( int cache_age )
 {
   KConfig cfg("kio_httprc", false, false);
@@ -113,8 +113,10 @@ void KSaveIOConfig::setMaxCacheAge( int cache_age )
 
 void KSaveIOConfig::setUseProxy( bool _mode )
 {
-  setProxyType( _mode ? KProtocolManager::ManualProxy:
-                        KProtocolManager::NoProxy );
+  if (_mode)
+    setProxyType( KProtocolManager::ManualProxy );
+  else
+    setProxyType( KProtocolManager::NoProxy );
 }
 
 void KSaveIOConfig::setUseReverseProxy( bool mode )
@@ -141,14 +143,6 @@ void KSaveIOConfig::setProxyAuthMode(KProtocolManager::ProxyAuthMode mode)
   cfg.sync();
 }
 
-void KSaveIOConfig::setCacheControl(KIO::CacheControl policy)
-{
-  KConfig cfg("kio_httprc", false, false);
-  QString tmp = KIO::getCacheControlString(policy);
-  cfg.writeEntry("cache", tmp);
-  cfg.sync();
-}
-
 void KSaveIOConfig::setNoProxyFor( const QString& _noproxy )
 {
   KConfig cfg("kioslaverc", false, false);
@@ -171,6 +165,22 @@ void KSaveIOConfig::setProxyConfigScript( const QString& _url )
   KConfig cfg("kioslaverc", false, false);
   cfg.setGroup( "Proxy Settings" );
   cfg.writeEntry( "Proxy Config Script", _url );
+  cfg.sync();
+}
+
+void KSaveIOConfig::setPersistentProxyConnection( bool enable )
+{
+  KConfig cfg("kioslaverc", false, false);
+  cfg.setGroup( QString::null );
+  cfg.writeEntry( "PersistentProxyConnection", enable );
+  cfg.sync();
+}
+
+void KSaveIOConfig::setPersistentConnections( bool enable )
+{
+  KConfig cfg("kioslaverc", false, false);
+  cfg.setGroup( QString::null );
+  cfg.writeEntry( "PersistentConnections", enable );
   cfg.sync();
 }
 
