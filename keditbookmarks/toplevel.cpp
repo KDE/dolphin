@@ -454,7 +454,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
        actionCollection()->action("settings_showNS")->setEnabled(false);
     }
 
-    // AK - refactor
+    // AK - reduce this stuff
     actionCollection()->action("edit_cut")       ->setEnabled(false);
     actionCollection()->action("edit_copy")      ->setEnabled(false);
     actionCollection()->action("edit_paste")     ->setEnabled(false);
@@ -575,7 +575,19 @@ void KEBTopLevel::slotNewToolbarConfig() // This is called when OK or Apply is c
 
 void KEBTopLevel::updateSelection()
 {
-   // AK - optimisation, make a selectedItems "cache"
+    // AK - TODO - optimisation, make a selectedItems "cache"
+    QListViewItem *lastItem = NULL;
+    for( QListViewItemIterator it(KEBTopLevel::self()->m_pListView); it.current(); it++ ) {
+       if ( it.current()->isSelected()
+         && it.current()->parent()
+         && !it.current()->parent()->isSelected()
+       ) {
+          lastItem = it.current();
+       }
+    }
+    if (lastItem) {
+       m_last_selection_address = ITEM_TO_BK(lastItem).address();
+    }
 }
 
 void KEBTopLevel::slotSelectionChanged()
@@ -602,10 +614,7 @@ void KEBTopLevel::slotSelectionChanged()
         multiSelect = numSelected() > 1;
     }
 
-    if (multiSelect) 
-    {
-        updateSelection();
-    }
+    updateSelection();
 
     KActionCollection * coll = actionCollection();
 
@@ -1182,16 +1191,25 @@ void KEBTopLevel::update()
         QStringList addressList;
         for ( ; it.current() != 0; ++it ) {
             KEBListViewItem* item = static_cast<KEBListViewItem*>(it.current());
-            addressList << ITEM_TO_BK(item).address();
+            QString address = ITEM_TO_BK(item).address();
+            if ( address != "ERROR" )  
+                addressList << address; // AK - hacky, fix me
         }
         fillListView();
+        KEBListViewItem * newItem = NULL;
         for ( QStringList::Iterator ait = addressList.begin(); ait != addressList.end(); ++ait ) {
-            KEBListViewItem * newItem = findByAddress( *ait );
+            newItem = findByAddress( *ait );
             kdDebug() << "KEBTopLevel::update item=" << *ait << endl;
             Q_ASSERT(newItem);
-            if (!newItem) break;
+            if (newItem)
+               m_pListView->setSelected(newItem,true);
+        }
+        if (newItem) {
             m_pListView->setCurrentItem(newItem);
-            m_pListView->setSelected(newItem,true); // AK - implement this properly...
+        } else {
+            newItem = findByAddress(correctAddress(m_last_selection_address));
+            m_pListView->setCurrentItem(newItem);
+            m_pListView->setSelected(newItem,true);
         }
     }
     else

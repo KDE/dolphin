@@ -201,6 +201,8 @@ protected:
 
     static KEBTopLevel * s_topLevel;
     static KBookmarkManager * s_pManager;
+
+    QString m_last_selection_address;
 };
 
 
