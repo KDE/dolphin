@@ -16,7 +16,7 @@
         <string>&lt;qt&gt;
 Setup proxy configuration.
 &lt;p&gt;
-A proxy server is an intermediate machine that sits between your internal network or the internet and caches the pages you visit. This gives you faster access to sites you have already visited as they are locally stored in your proxy server.
+A proxy server is an intermediate machine that sits between your internal network or the Internet and caches the pages you visit. This gives you faster access to sites you have already visited as they are stored locally on your proxy server.
 &lt;p&gt;
 If you are uncertain whether or not you need to use a proxy server to connect to the Internet, consult your Internet service provider's setup guide or your system administrator.
 &lt;p&gt;
@@ -67,7 +67,7 @@ Note that the use of proxy servers is optional.
                         <bool>true</bool>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Connect to the internet directly without using a proxy server.</string>
+                        <string>Connect to the Internet directly without using a proxy server.</string>
                     </property>
                 </widget>
                 <widget class="QRadioButton">
@@ -185,7 +185,7 @@ The configuration file is automatically downloaded using the &lt;b&gt;Web Proxy 
                             <property name="whatsThis" stdset="0">
                                 <string>&lt;qt&gt;
 Use environment variables to setup the proxy server settings.&lt;p&gt;
-Environment variables such as &lt;b&gt;HTTP_PROXY&lt;/b&gt; and &lt;b&gt;NO_PROXY&lt;/b&gt; based configuration are usually used in multi-user unix installation where both graphical as well as non-graphical application need to share the same proxy configuration information.
+Environment variables such as &lt;b&gt;HTTP_PROXY&lt;/b&gt; and &lt;b&gt;NO_PROXY&lt;/b&gt; based configuration are usually used in multi-user UNIX installations, where both graphical and non-graphical applications need to share the same proxy configuration information.
 &lt;/qt&gt;</string>
                             </property>
                         </widget>
@@ -300,7 +300,7 @@ Manually enter proxy server configuration information.
                         <bool>false</bool>
                     </property>
                     <property name="text">
-                        <string>Use the following lo&amp;gin info</string>
+                        <string>Use the following lo&amp;gin information.</string>
                     </property>
                     <property name="accel">
                         <string>Alt+G</string>
@@ -415,7 +415,7 @@ Manually enter proxy server configuration information.
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;
 Use persistent proxy connection.&lt;p&gt;
-Note that eventhough a persistent proxy connection is faster, it only works correctly with proxies that are fully HTTP 1.1 compliant. Do &lt;b&gt;NOT&lt;/b&gt; use this option in combination with non-HTTP 1.1 compliant proxy servers such as JunkBuster and WWWOfle.
+Although a persistent proxy connection is faster, note that it only works correctly with proxies that are fully HTTP 1.1 compliant. Do &lt;b&gt;not&lt;/b&gt; use this option in combination with non-HTTP 1.1 compliant proxy servers such as JunkBuster and WWWOfle.
 &lt;/qt&gt;</string>
                     </property>
                 </widget>

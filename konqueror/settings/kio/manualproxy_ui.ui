@@ -208,7 +208,7 @@
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;
-Reverse the use of the exception list. Checking this box will result in the proxy servers being used only when the requested URL matches one of the addresses liste here.&lt;p&gt;This feature is useful if all you want or need is to use a proxy server  for a few specific sites.&lt;p&gt;If you have more complex requirements you might want to use a configuration script
+Reverse the use of the exception list. Checking this box will result in the proxy servers being used only when the requested URL matches one of the addresses listed here.&lt;p&gt;This feature is useful if all you want or need is to use a proxy server  for a few specific sites.&lt;p&gt;If you have more complex requirements you might want to use a configuration script.
 &lt;/qt&gt;</string>
                     </property>
                 </widget>
@@ -325,7 +325,7 @@ Reverse the use of the exception list. Checking this box will result in the prox
                             </property>
                             <property name="whatsThis" stdset="0">
                                 <string>&lt;qt&gt;
-List of addresses that are either exempt or allowed, based on the "Use proxy only..." option from using the proxy server.&lt;p&gt;If the "Use proxy only..." option is checked, only addresses that match the ones in this list will be sent through the proxy server.
+List of addresses that are either exempt or allowed, based on the "Use proxy only..." option, from using the proxy server.&lt;p&gt;If the "Use proxy only..." option is checked, only addresses that match the ones in this list will be sent through the proxy server.
 &lt;/qt&gt;</string>
                             </property>
                         </widget>

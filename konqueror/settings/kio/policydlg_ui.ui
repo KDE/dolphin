@@ -59,7 +59,7 @@ Enter the host or domain to which this policy applies, e.g. &lt;b&gt;www.kde.org
                 <string>&lt;qt&gt;
 Select the desired policy:
 &lt;ul&gt;
-&lt;li&gt;&lt;b&gt;Accept&lt;/b&gt; - Allows this site to set cookie&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Accept&lt;/b&gt; - Allows this site to set cookies&lt;/li&gt;
 &lt;li&gt;&lt;b&gt;Reject&lt;/b&gt; - Refuse all cookies sent from this site&lt;/li&gt;
 &lt;li&gt;&lt;b&gt;Ask&lt;/b&gt; - Prompt when cookies are received from this site&lt;/li&gt;
 &lt;/ul&gt;
@@ -89,7 +89,7 @@ Select the desired policy:
                 <string>&lt;qt&gt;
 Select the desired policy:
 &lt;ul&gt;
-&lt;li&gt;&lt;b&gt;Accept&lt;/b&gt; - Allows this site to set cookie&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Accept&lt;/b&gt; - Allows this site to set cookies&lt;/li&gt;
 &lt;li&gt;&lt;b&gt;Reject&lt;/b&gt; - Refuse all cookies sent from this site&lt;/li&gt;
 &lt;li&gt;&lt;b&gt;Ask&lt;/b&gt; - Prompt when cookies are received from this site&lt;/li&gt;
 &lt;/ul&gt;
