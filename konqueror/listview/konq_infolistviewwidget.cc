@@ -1,4 +1,5 @@
 #include "konq_infolistviewwidget.h"
+#include "konq_infolistviewwidget.moc"
 #include "konq_infolistviewitem.h"
 #include "konq_listview.h"
 
@@ -20,7 +21,7 @@ KonqInfoListViewWidget::KonqInfoListViewWidget( KonqListView* parent,
     m_mtSelector = new KSelectAction(i18n("View &as"), 0, this,
                                      SLOT(slotSelectMimeType()),
                                      parent->actionCollection(), "view_as" );
-  
+
     kdDebug(1203) << "created info list view\n";
 }
 
@@ -32,7 +33,7 @@ KonqInfoListViewWidget::~KonqInfoListViewWidget()
 void KonqInfoListViewWidget::slotSelectMimeType()
 {
     QString comment = m_mtSelector->currentText();
-  
+
     // find the mime type by comment
     QMapIterator<QString, KonqILVMimeType> it;
     for (it = m_counts.begin(); it!=m_counts.end(); ++it)
@@ -65,10 +66,10 @@ void KonqInfoListViewWidget::createFavoriteColumns()
         kdDebug(1203) << "removing column " << columnText(columns()-1) << endl;
         removeColumn(columns()-1);
     }
-  
+
     // we need to get the preferred keys of the favorite
     const KFileMimeTypeInfo* mimeTypeInfo;
-    
+
     if (m_favorite.mimetype &&
           (mimeTypeInfo = KFileMetaInfoProvider::self()
                             ->mimeTypeInfo(m_favorite.mimetype->name())))
@@ -78,7 +79,7 @@ void KonqInfoListViewWidget::createFavoriteColumns()
         // get the translations
         QStringList groups = mimeTypeInfo->preferredGroups();
         if (groups.isEmpty()) groups = mimeTypeInfo->supportedGroups();
-        
+
         QStringList::Iterator prefKey = m_columnKeys.begin();
         for (; prefKey != m_columnKeys.end(); ++prefKey)
         {
@@ -93,7 +94,7 @@ void KonqInfoListViewWidget::createFavoriteColumns()
                 {
                     if ( *key == *prefKey )
                     {
-                        const KFileMimeTypeInfo::ItemInfo* itemInfo = 
+                        const KFileMimeTypeInfo::ItemInfo* itemInfo =
                                     groupInfo->itemInfo(*key);
                         addColumn(itemInfo->translatedKey());
                     }
@@ -129,10 +130,10 @@ void KonqInfoListViewWidget::rebuildView()
     {
         list.append(static_cast<KonqInfoListViewItem*>(it.current())->item());
     }
-    
+
     // now we can remove all the listview items
     clear();
-    
+
     // and rebuild them
     for (QPtrListIterator<KFileItem> kit(list); kit.current(); ++kit)
     {
@@ -151,11 +152,11 @@ void KonqInfoListViewWidget::rebuildView()
 //                    m_itemFound=true;
 //kdDebug() << "Line " << __LINE__ << endl;
 //                };
-                
+
         tmp->gotMetaInfo();
     }
-    
-    
+
+
     if ( !viewport()->isUpdatesEnabled() )
     {
         viewport()->setUpdatesEnabled( true );
@@ -188,9 +189,9 @@ void KonqInfoListViewWidget::slotNewItems( const KFileItemList& list)
         setUpdatesEnabled( true );
         triggerUpdate();
     }
-    
+
    slotUpdateBackground();
-   
+
     determineCounts(list);
 
     kdDebug(1203) << " ------------------------ startin metainfo job ------\n";
@@ -215,7 +216,7 @@ void KonqInfoListViewWidget::slotMetaInfo(const KFileItem* item)
             return;
         }
     }
- 
+
     // we should never reach this place
     Q_ASSERT(false);
 }
@@ -239,14 +240,14 @@ void KonqInfoListViewWidget::determineCounts(const KFileItemList& list)
         if (!m_counts[mt].mimetype)
             m_counts[mt].mimetype = it.current()->determineMimeType();
     }
-    
+
     // and look for the plugins
     kdDebug(1203) << "counts are:\n";
 
     KFileMetaInfoProvider* prov = KFileMetaInfoProvider::self();
 
     QStringList mtlist;
-    
+
     QMapIterator<QString, KonqILVMimeType> it;
     for (it = m_counts.begin(); it!=m_counts.end(); ++it)
     {
@@ -258,28 +259,28 @@ void KonqInfoListViewWidget::determineCounts(const KFileItemList& list)
         // this will load the plugin which we don't need because we delegate
         // the job to the kioslave
         (*it).hasPlugin = prov->plugin(it.key());
-        
+
         if ( (*it).hasPlugin)
         {
             mtlist << (*it).mimetype->comment();
             if (m_favorite.count <= (*it).count)
                 m_favorite = *it;
         }
-        
+
         kdDebug(1203) << it.key() << " -> " << (*it).count
                       << " item(s) / plugin: "
                       << ((*it).hasPlugin ? "yes" : "no ") << endl;
     }
-    
+
     m_mtSelector->setItems(mtlist);
 //    QPopupMenu* menu = m_mtSelector->popupMenu();
-    
+
     // insert the icons
 //    for (int i=0; i<menu->count(); ++i)
 //    {
 //        menu->changeItem(i, QIconSet(blah));
 //    }
-    
+
     if (m_favorite.mimetype)
     {
           m_mtSelector->setCurrentItem(mtlist.findIndex(m_favorite.mimetype->comment()));
