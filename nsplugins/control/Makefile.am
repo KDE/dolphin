@@ -11,7 +11,7 @@ noinst_HEADERS = nsconfig.h
 
 DISTCLEANFILES = $(libkcm_nsplugin_la_METASOURCES)
 
-messages:
+messages: rc.cpp
 	$(XGETTEXT) *.cpp -o $(podir)/nsplugin.pot
 
 data_DATA = nsplugin.desktop
