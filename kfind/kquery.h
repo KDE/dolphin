@@ -31,6 +31,8 @@ class KQuery : public QObject
   void start();
   void kill();
 
+  const KURL& url()              {return m_url;};
+
  protected slots:
   void slotListEntries(KIO::Job *, const KIO::UDSEntryList &);
   void slotResult(KIO::Job *);

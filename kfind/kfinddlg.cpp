@@ -103,6 +103,7 @@ void KfindDlg::setStatusMsg(const QString &msg)
    mStatusBar->changeItem(msg, 0);
 }
 
+
 void KfindDlg::startSearch()
 {
   tabWidget->setQuery(query);
@@ -120,7 +121,7 @@ void KfindDlg::startSearch()
   enableButton(User2, true); // Enable "Stop"
   enableButton(User3, false); // Disable "Save..."
 
-  win->beginSearch(KURL()/*FIXMEquery->url()*/);
+  win->beginSearch(query->url());
   tabWidget->beginSearch();
 
   query->start();

@@ -71,9 +71,9 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     nameBox->setInsertionPolicy(QComboBox::AtTop);
     dirBox->setInsertionPolicy(QComboBox::AtTop);
 
-    const QString nameWhatsThis
+    const QString nameWhatsThis 
       = i18n("<qt>Enter the filename you are looking for. <br>"
-	     "Alternatives may be separated by a semicolon \";\".<br>"
+	     "Alternatives may be separated by a semicolon \";\".<br>" 
 	     "<br>"
 	     "The filename may contain the following special characters:"
 	     "<ul>"
@@ -256,7 +256,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
       // The editor was available, so lets use it.
       grid2->addWidget( editRegExp, 2, 3 );
     }
-
+    
     addTab( pages[2], i18n(" Advanced ") );
 
     fixLayout();
@@ -442,7 +442,7 @@ void KfindTabWidget::setQuery(KQuery *query)
   // only start if we have valid dates
   if (!isDateValid()) return;
 
-  query->setPath(KURL(dirBox->currentText()));
+  query->setPath(KURL(dirBox->currentText().stripWhiteSpace()));
 
   for (int idx=0; idx<dirBox->count(); idx++)
      if (dirBox->text(idx)==dirBox->currentText())
@@ -573,7 +573,7 @@ QDate &KfindTabWidget::string2Date(const QString & str, QDate *qd) {
 void KfindTabWidget::getDirectory()
 {
   QString result =
-  KFileDialog::getExistingDirectory( dirBox->text(dirBox->currentItem()),
+  KFileDialog::getExistingDirectory( dirBox->text(dirBox->currentItem()).stripWhiteSpace(),
                                      this );
 
   if (!result.isEmpty())

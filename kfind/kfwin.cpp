@@ -140,6 +140,7 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
   setDragEnabled(true);
 }
 
+
 QString KfindWindow::reducedDir(const QString& fullDir)
 {
    if (fullDir.find(m_baseDir)==0)
