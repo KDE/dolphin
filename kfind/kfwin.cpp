@@ -85,17 +85,20 @@ KfFileLVI::KfFileLVI(QListView* lv, QString file)
   // load the icons (same as in KFileInfoContents)
   // maybe we should use the concrete icon associated with the mimetype
   // in the future, but for now, this must suffice
+  
+  KIconLoader::Size s = KIconLoader::Small;
+  KIconLoader *loader = KGlobal::iconLoader();
   if (!folderPixmap) // don't use IconLoader to always get the same icon
-    folderPixmap = new QPixmap(locate("mini", "folder.png"));
+    folderPixmap = new QPixmap(loader->loadApplicationIcon("folder", s));
 
   if (!lockedFolderPixmap)
-    lockedFolderPixmap = new QPixmap(locate("mini", "lockedfolder.png"));
+    lockedFolderPixmap = new QPixmap(loader->loadApplicationIcon("lockedfolder", s));
 
   if (!filePixmap)
-    filePixmap = new QPixmap(locate("mini", "unknown.png"));
+    filePixmap = new QPixmap(loader->loadApplicationIcon("mimetypes/unknown", s));
 
   if (!lockedFilePixmap)
-    lockedFilePixmap = new QPixmap(locate("mini", "locked.png"));
+    lockedFilePixmap = new QPixmap(loader->loadApplicationIcon("locked", s));
 
   const int column = 0; // place the icons in leftmost column
   if (fileInfo->isDir()) {
@@ -293,16 +296,16 @@ void KfindWindow::deleteFiles()
   QString tmp = i18n("Do you really want to delete selected file(s)?");
   if(KMessageBox::questionYesNo(parentWidget(), tmp) == KMessageBox::No)
     return;
-  
+
   // Iterate on all selected elements
   QList<KfFileLVI> *selected = selectedItems();
   for ( uint i = 0; i < selected->count(); i++ ) {
     KfFileLVI *item = selected->at(i);
     QFileInfo *file = item->fileInfo;
-    
+
     // Regular file
-    
-    if (file->isFile() || 
+
+    if (file->isFile() ||
 	file->isSymLink()) {
       if (remove(file->filePath().ascii()) == -1)
 	switch(errno) {
@@ -317,21 +320,21 @@ void KfindWindow::deleteFiles()
       else
 	removeItem(item);
     }
-    
+
     // Directory
-    
+
     else {
       if (rmdir(file->filePath().ascii()) == -1) {
 	switch(errno) {
-	case EACCES: 
+	case EACCES:
 	  KMessageBox::error(parentWidget(),
 			     i18n("You have no permission\nto delete this directory"));
 	  break;
-	case ENOTEMPTY: 
+	case ENOTEMPTY:
 	  KMessageBox::error(parentWidget(),
 			     i18n("Specified directory\nis not empty"));
 	  break;
-	default: 
+	default:
 	  KMessageBox::error(parentWidget(),
 			     i18n("It is not possible to delete\nselected directory"));
 	}
@@ -341,7 +344,7 @@ void KfindWindow::deleteFiles()
     }
   }
 }
-  
+
 void KfindWindow::fileProperties()
 {
   QString tmp= "file:";
@@ -585,11 +588,15 @@ void KfindWindow::contentsMouseMoveEvent(QMouseEvent *e)
     ud->setFilenames( uris );
 
     if ( uris.count() == 1 ) {
-      ud->setPixmap( *(currentItem()->pixmap(0)) );
+      const QPixmap *pix = currentItem()->pixmap(0);
+      if ( pix && !pix->isNull() )
+	ud->setPixmap( *pix );
     }
     else {
       // do we have a pixmap symbolizing more than one file?
-      ud->setPixmap( *(KfFileLVI::filePixmap) );
+      const QPixmap *pix = KfFileLVI::filePixmap;
+      if ( pix && !pix->isNull() )
+	ud->setPixmap( *pix );
     }
 
     // true => move operation, we need to update the list
@@ -627,17 +634,17 @@ void KfindWindow::resetColumns(bool init)
 QList<KfFileLVI> * KfindWindow::selectedItems()
 {
   mySelectedItems.clear();
-  
+
   if ( haveSelection ) {
     QListViewItem *item = firstChild();
-    
+
     while ( item != 0L ) {
       if ( isSelected( item ) )
 	mySelectedItems.append( (KfFileLVI *) item );
-      
+
       item = item->nextSibling();
     }
   }
-  
+
   return &mySelectedItems;
 }
