@@ -42,6 +42,12 @@
 #define ID_STRING_FORWARD 19 /* sven */
 #endif
 
+// behaviour tab
+#define DEFAULT_SINGLECLICK true
+#define DEFAULT_AUTOSELECT -1
+#define DEFAULT_CHANGECURSOR false
+#define DEFAULT_UNDERLINELINKS true
+
 // browser/tree window color defaults -- Bernd
 #define HTML_DEFAULT_BG_COLOR Qt::white
 #define HTML_DEFAULT_LNK_COLOR Qt::blue
@@ -52,7 +58,7 @@
 #define DEFAULT_ICON_SPACING 5
 
 // root window icon text transparency default -- stefan@space.twc.de
-#define DEFAULT_TRANSPARENT_ICON_TEXT true
+//#define DEFAULT_TRANSPARENT_ICON_TEXT true
 
 // show hidden files on desktop default
 #define DEFAULT_SHOW_HIDDEN_ROOT_ICONS false

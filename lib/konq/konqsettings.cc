@@ -104,10 +104,10 @@ void KonqSettings::init( KConfig * config )
 
   // Behaviour
   KConfigGroupSaver cgs( config, "Behaviour" );
-  m_bSingleClick = config->readBoolEntry("SingleClick", true);
-  m_iAutoSelect = config->readNumEntry("AutoSelect", -1);
-  m_bChangeCursor = config->readBoolEntry( "ChangeCursor", false );
-  m_underlineLink = config->readBoolEntry( "UnderlineLink", true );
+  m_bSingleClick = config->readBoolEntry("SingleClick", DEFAULT_SINGLECLICK);
+  m_iAutoSelect = config->readNumEntry("AutoSelect", DEFAULT_AUTOSELECT);
+  m_bChangeCursor = config->readBoolEntry( "ChangeCursor", DEFAULT_CHANGECURSOR );
+  m_underlineLink = config->readBoolEntry( "UnderlineLink", DEFAULT_UNDERLINELINKS );
   
   // Other
   config->setGroup( "Misc Defaults" ); // group will be restored by cgs anyway
