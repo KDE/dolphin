@@ -13,10 +13,8 @@ kfind_SOURCES  =  kfarch.cpp kfdird.cpp kfindtop.cpp  kftabdlg.cpp \
 	     kfsave.cpp kftypes.cpp kfoptions.cpp kfwin.cpp kfind.cpp \
 	     main.cpp moc.cpp
 
-BUILT_SOURCES  =  kfdird.moc kfwin.moc kfindtop.moc \
+METASOURCES  =  kfdird.moc kfwin.moc kfindtop.moc \
              kftabdlg.moc kfoptions.moc kfind.moc
-
-DISTCLEANFILES = $(BUILT_SOURCES)
 
 noinst_HEADERS	  =  kfarch.h kfdird.h kfindtop.h kftabdlg.h kfwin.h kfind.h \
              kfsave.h kftypes.h kfoptions.h version.h
@@ -37,24 +35,4 @@ uninstall-local:
 
 messages:
 	$(XGETTEXT) -C -ktranslate -ki18n -x $(includedir)/kde.pot $(kfind_SOURCES) && mv messages.po ../po/kfind.pot
-
-kfdird.moc: kfdird.h
-	$(MOC) $(srcdir)/kfdird.h -o kfdird.moc
-
-kfwin.moc: kfwin.h
-	$(MOC) $(srcdir)/kfwin.h -o kfwin.moc
-
-kfindtop.moc: kfindtop.h
-	$(MOC) $(srcdir)/kfindtop.h -o kfindtop.moc
-
-kftabdlg.moc: kftabdlg.h
-	$(MOC) $(srcdir)/kftabdlg.h -o kftabdlg.moc
-
-kfoptions.moc: kfoptions.h
-	$(MOC) $(srcdir)/kfoptions.h -o kfoptions.moc
-
-kfind.moc: kfind.h
-	$(MOC) $(srcdir)/kfind.h -o kfind.moc
-
-moc.cpp: $(BUILT_SOURCES)
 
