@@ -135,7 +135,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     }
     if ( !service && !serviceName.isEmpty() )
     {
-      if ( (*it)->name() == serviceName )
+      if ( (*it)->desktopEntryName() == serviceName )
       {
         kdDebug(1202) << "Found requested service " << serviceName << endl;
         service = *it;
@@ -150,7 +150,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
 
   if ( service )
   {
-    kdDebug(1202) << "Trying to open lib for requested service " << service->name() << endl;
+    kdDebug(1202) << "Trying to open lib for requested service " << service->desktopEntryName() << endl;
     factory = KLibLoader::self()->factory( QFile::encodeName(service->library()) );
   }
 
@@ -160,7 +160,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     service = (*it);
     // Allowed as default ?
     QVariant prop = service->property( "X-KDE-BrowserView-AllowAsDefault" );
-    kdDebug(1202) << service->name() << " : X-KDE-BrowserView-AllowAsDefault is valid : " << prop.isValid() << endl;
+    kdDebug(1202) << service->desktopEntryName() << " : X-KDE-BrowserView-AllowAsDefault is valid : " << prop.isValid() << endl;
     if ( !prop.isValid() || prop.toBool() ) // defaults to true
     {
       //kdDebug(1202) << "Trying to open lib for service " << service->name() << endl;
@@ -168,7 +168,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
       factory = KLibLoader::self()->factory( QFile::encodeName(service->library()) );
       // If this works, we exit the loop.
     } else
-      kdDebug(1202) << "Not allowed as default " << service->name() << endl;
+      kdDebug(1202) << "Not allowed as default " << service->desktopEntryName() << endl;
   }
 
   if ( serviceImpl )

@@ -326,7 +326,8 @@ protected:
 
   void fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history );
 
-  bool makeViewsFollow( const KURL & url, const QString & serviceType, KonqView * senderView );
+  bool makeViewsFollow( const KURL & url, const KParts::URLArgs &args, const QString & serviceType,
+                        KonqView * senderView );
 
   void applyMainWindowSettings();
 

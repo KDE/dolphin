@@ -378,7 +378,7 @@ KonqViewFactory KonqViewManager::createView( const QString &serviceType,
     //clone current view
     KonqView *cv = m_pMainWindow->currentView();
 
-    viewFactory = KonqFactory::createView( cv->serviceType(), cv->service()->name(),
+    viewFactory = KonqFactory::createView( cv->serviceType(), cv->service()->desktopEntryName(),
                                            &service, &partServiceOffers, &appServiceOffers );
   }
   else {

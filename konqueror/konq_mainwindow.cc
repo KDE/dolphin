@@ -419,7 +419,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   bool bOthersFollowed = false;
   // If linked view and if we are not already following another view
   if ( childView && childView->isLinkedView() && !req.followMode )
-    bOthersFollowed = makeViewsFollow( _url, serviceType, childView );
+    bOthersFollowed = makeViewsFollow( _url, req.args, serviceType, childView );
 
   if ( childView && childView->isLockedLocation() )
     return false;
@@ -522,6 +522,8 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
       //kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
       //kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
       childView->setTypedURL( req.typedURL );
+      if ( childView->browserExtension() )
+          childView->browserExtension()->setURLArgs( req.args );
       childView->openURL( url, originalURL, req.nameFilter );
     }
   return ok || bOthersFollowed;
@@ -586,13 +588,13 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
 {
   //TODO: handle post data!
 
-  if ( childView->browserExtension() )
-    childView->browserExtension()->setURLArgs( args );
+  KonqOpenURLRequest req;
+  req.args = args;
 
   //  ### HACK !!
   if ( args.postData.size() > 0 )
   {
-    openURL( childView, url, QString::fromLatin1( "text/html" ), KonqOpenURLRequest(), args.trustedSource );
+    openURL( childView, url, QString::fromLatin1( "text/html" ), req, args.trustedSource );
     return;
   }
 
@@ -603,21 +605,23 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
       serviceType = childView->serviceType();
 
     childView->stop();
-    openView( serviceType, url, childView );
+    openView( serviceType, url, childView, req );
     return;
   }
 
-  openURL( childView, url, args.serviceType, KonqOpenURLRequest(), args.trustedSource );
+  openURL( childView, url, args.serviceType, req, args.trustedSource );
 }
 
 // Linked-views feature
-bool KonqMainWindow::makeViewsFollow( const KURL & url, const QString & serviceType, KonqView * senderView )
+bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &args,
+                                      const QString & serviceType, KonqView * senderView )
 {
   bool res = false;
 
   kdDebug(1202) << "makeViewsFollow " << senderView->className() << " url=" << url.url() << " serviceType=" << serviceType << endl;
   KonqOpenURLRequest req;
   req.followMode = true;
+  req.args = args;
   // We can't iterate over the map here, and openURL for each, because the map can get modified
   // (e.g. by part changes). Better copy the views into a list.
   QList<KonqView> listViews;
@@ -780,7 +784,7 @@ void KonqMainWindow::slotOpenWith()
   KTrader::OfferList::ConstIterator it = offers.begin();
   KTrader::OfferList::ConstIterator end = offers.end();
   for (; it != end; ++it )
-    if ( (*it)->name() == serviceName )
+    if ( (*it)->desktopEntryName() == serviceName )
     {
       KRun::run( **it, lst );
       return;
@@ -794,7 +798,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
 
   QString modeName = sender()->name();
 
-  if ( m_currentView->service()->name() == modeName )
+  if ( m_currentView->service()->desktopEntryName() == modeName )
     return;
 
   m_bViewModeToggled = true;
@@ -815,7 +819,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   for (; oIt != oEnd; ++oIt )
   {
       KService::Ptr service = *oIt;
-      if ( service->name() == modeName &&
+      if ( service->desktopEntryName() == modeName &&
            service->library() == m_currentView->service()->library() )
       {
         QVariant modeProp = service->property( "X-KDE-BrowserView-ModeProperty" );
@@ -2617,7 +2621,7 @@ void KonqMainWindow::slotOpenEmbedded()
 {
   QCString name = sender()->name();
 
-  m_popupService = m_popupEmbeddingServices[ name.toInt() ]->name();
+  m_popupService = m_popupEmbeddingServices[ name.toInt() ]->desktopEntryName();
 
   m_popupEmbeddingServices.clear();
 
@@ -2707,9 +2711,7 @@ void KonqMainWindow::updateOpenWithActions( const KTrader::OfferList &services )
   KTrader::OfferList::ConstIterator end = services.end();
   for (; it != end; ++it )
   {
-    QString name = (*it)->name();
-
-    KAction *action = new KAction( i18n( "Open With %1" ).arg( name ), 0, 0, (*it)->name().latin1() );
+    KAction *action = new KAction( i18n( "Open With %1" ).arg( (*it)->name() ), 0, 0, (*it)->desktopEntryName().latin1() );
     action->setIcon( (*it)->icon() );
 
     connect( action, SIGNAL( activated() ),
@@ -2749,11 +2751,11 @@ void KonqMainWindow::updateViewModeActions( const KTrader::OfferList &services )
           QString icon = (*it)->icon();
           if ( icon != QString::fromLatin1( "unknown" ) )
             // we *have* to specify a parent qobject, otherwise the exclusive group stuff doesn't work!(Simon)
-            action = new KRadioAction( (*it)->comment(), icon, 0, this, (*it)->name().ascii() );
+            action = new KRadioAction( (*it)->comment(), icon, 0, this, (*it)->desktopEntryName().ascii() );
           else
-            action = new KRadioAction( (*it)->comment(), 0, this, (*it)->name().ascii() );
+            action = new KRadioAction( (*it)->comment(), 0, this, (*it)->desktopEntryName().ascii() );
 
-          if ( (*it)->name() == m_currentView->service()->name() )
+          if ( (*it)->desktopEntryName() == m_currentView->service()->desktopEntryName() )
               action->setChecked( true );
 
           action->setExclusiveGroup( "KonqMainWindow_ViewModes" );

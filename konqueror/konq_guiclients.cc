@@ -60,7 +60,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow, const KTrade
     menu.appendChild( m_doc.createElement( "separator" ) );
   }
 
-  QString currentServiceName = mainWindow->currentView()->service()->name();
+  QString currentServiceName = mainWindow->currentView()->service()->desktopEntryName();
 
   KTrader::OfferList::ConstIterator it = embeddingServices.begin();
   KTrader::OfferList::ConstIterator end = embeddingServices.end();
@@ -71,7 +71,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow, const KTrade
     KService::Ptr service = *embeddingServices.begin();
     builtin = service->property( "X-KDE-BrowserView-HideFromMenus" );
     if ( ( !builtin.isValid() || !builtin.toBool() ) &&
-         service->name() != currentServiceName )
+         service->desktopEntryName() != currentServiceName )
       addEmbeddingService( menu, 0, i18n( "Preview in %1" ).arg( service->name() ), service );
   }
   else if ( embeddingServices.count() > 1 )
@@ -90,7 +90,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow, const KTrade
     {
       builtin = (*it)->property( "X-KDE-BrowserView-HideFromMenus" );
       if ( ( !builtin.isValid() || !builtin.toBool() ) &&
-       (*it)->name() != currentServiceName )
+       (*it)->desktopEntryName() != currentServiceName )
       {
         addEmbeddingService( subMenu, idx++, (*it)->name(), *it );
         inserted = true;
@@ -167,7 +167,7 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
   for (; cIt != cEnd; ++cIt )
   {
     QString description = i18n( "Show %1" ).arg( (*cIt)->comment() );
-    QString name = (*cIt)->name();
+    QString name = (*cIt)->desktopEntryName();
     //kdDebug(1202) << "ToggleViewGUIClient: name=" << name << endl;
     KToggleAction *action = new KToggleAction( description, 0, 0, name.latin1() );
 
@@ -270,7 +270,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
 
     QListIterator<KonqView> it( viewList );
     for (; it.current(); ++it )
-      if ( it.current()->service()->name() == serviceName )
+      if ( it.current()->service()->desktopEntryName() == serviceName )
         // takes care of choosing the new active view
         viewManager->removeView( it.current() );
   }
@@ -297,7 +297,7 @@ void ToggleViewGUIClient::saveConfig( bool add, const QString &serviceName )
 
 void ToggleViewGUIClient::slotViewAdded( KonqView *view )
 {
-  QString name = view->service()->name();
+  QString name = view->service()->desktopEntryName();
 
   KAction *action = m_actions[ name ];
 
@@ -310,7 +310,7 @@ void ToggleViewGUIClient::slotViewAdded( KonqView *view )
 
 void ToggleViewGUIClient::slotViewRemoved( KonqView *view )
 {
-  QString name = view->service()->name();
+  QString name = view->service()->desktopEntryName();
 
   KAction *action = m_actions[ name ];
 

@@ -191,10 +191,10 @@ bool KonqView::changeViewMode( const QString &serviceType,
 
   kdDebug(1202) << "changeViewMode: serviceType is " << serviceType
                 << " serviceName is " << serviceName
-                << " current service name is " << m_service->name() << endl;
+                << " current service name is " << m_service->desktopEntryName() << endl;
 
   if ( !m_service->serviceTypes().contains( serviceType ) ||
-       ( !serviceName.isEmpty() && serviceName != m_service->name() ) )
+       ( !serviceName.isEmpty() && serviceName != m_service->desktopEntryName() ) )
   {
 
     if ( isLockedViewMode() )
@@ -416,7 +416,7 @@ void KonqView::updateHistoryEntry( bool saveLocationBarURL )
   //kdDebug(1202) << "Saving title : " << m_pMainWindow->currentTitle() << " in history position " << m_lstHistory.at() << endl;
   current->title = m_pMainWindow->currentTitle();
   current->strServiceType = m_serviceType;
-  current->strServiceName = m_service->name();
+  current->strServiceName = m_service->desktopEntryName();
 }
 
 void KonqView::go( int steps )

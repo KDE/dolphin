@@ -3,6 +3,8 @@
 
 #include <qstring.h>
 
+#include <kparts/browserextension.h>
+
 struct KonqOpenURLRequest {
 
   KonqOpenURLRequest() :
@@ -16,6 +18,7 @@ struct KonqOpenURLRequest {
   QString typedURL; // empty if URL wasn't typed manually
   bool followMode; // true if following another view - avoids loops
   QString nameFilter; // like *.cpp, extracted from the URL
+  KParts::URLArgs args;
 };
 
 #endif
