@@ -16,6 +16,7 @@ class KonqDirTreeBrowserExtension;
 class KonqDirTree;
 class QTimer;
 class KonqDirTreePart;
+class KDirWatch;
 
 class KonqDirTreePart : public KParts::ReadOnlyPart
 {
@@ -100,8 +101,10 @@ private slots:
 
   void slotAutoOpenFolder();
 
+  void slotScanDir( const QString & dir );
+
 private:
-  void init();
+  void clear();
   void scanDir( QListViewItem *parent, const QString &path, bool isRoot = false );
   void scanDir2( QListViewItem *parent, const QString &path );
   void loadTopLevelItem( QListViewItem *parent, const QString &filename );
@@ -136,6 +139,8 @@ private:
   QMap<KURL, QListViewItem *> m_mapCurrentOpeningFolders;
 
   QTimer *m_animationTimer;
+
+  KDirWatch * m_pDirWatch;
 
   int m_animationCounter;
 

@@ -2,38 +2,37 @@
 #include "konq_dirtree.h"
 
 #include <qdir.h>
-#include <qheader.h>
-#include <qcursor.h>
-#include <qfileinfo.h>
-#include <qtimer.h>
-#include <qdragobject.h>
 #include <qapplication.h>
 #include <qclipboard.h>
+#include <qcursor.h>
+#include <qdragobject.h>
+#include <qfileinfo.h>
+#include <qheader.h>
+#include <qtimer.h>
 
-#include <ksimpleconfig.h>
-#include <kstddirs.h>
-#include <kiconloader.h>
-#include <klibloader.h>
-#include <kinstance.h>
-#include <konqfileitem.h>
-#include <kdirlister.h>
-#include <klocale.h>
-#include <kio/job.h>
 #include <kdebug.h>
-#include <konqoperations.h>
-#include <kio/paste.h>
-#include <kglobalsettings.h>
 #include <kdesktopfile.h>
+#include <kdirlister.h>
+#include <kdirwatch.h>
+#include <kglobalsettings.h>
+#include <kiconloader.h>
+#include <kinstance.h>
+#include <kio/job.h>
+#include <kio/paste.h>
+#include <klibloader.h>
+#include <klocale.h>
+#include <konqfileitem.h>
+#include <konqoperations.h>
 #include <konqsettings.h>
 #include <kparts/factory.h>
-#include <kdebug.h>
 #include <kprotocolmanager.h>
+#include <ksimpleconfig.h>
+#include <kstddirs.h>
 
 #include <assert.h>
 
 /*
-  TODO: - install KDirWatch'es on the treeview configuration dirs
-        - merge with KonqTreeView?
+  TODO: - merge with KonqTreeView?
  */
 
 inline bool operator<( const KURL &u1, const KURL &u2 )
@@ -271,16 +270,24 @@ KonqDirTree::KonqDirTree( KonqDirTreePart *parent, QWidget *parentWidget )
   connect( this, SIGNAL( returnPressed( QListViewItem * ) ),
 	   this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
 
-  m_unselectableItems.append( m_root );
-
   m_lastItem = 0L;
 
-  init();
+  QString dirtreeDir = KonqDirTreeFactory::instance()->dirs()->saveLocation( "data", "konqueror/dirtree/" );
+  m_pDirWatch = new KDirWatch();
+  m_pDirWatch->addDir( dirtreeDir );
+  slotScanDir( dirtreeDir );
 
-  m_root->setOpen( true );
+  connect( m_pDirWatch, SIGNAL( dirty( const QString & ) ),
+           this, SLOT( slotScanDir( const QString & ) ) );
 }
 
 KonqDirTree::~KonqDirTree()
+{
+  clear();
+  delete m_pDirWatch;
+}
+
+void KonqDirTree::clear()
 {
   QValueList<TopLevelItem>::Iterator it = m_topLevelItems.begin();
   QValueList<TopLevelItem>::Iterator end = m_topLevelItems.end();
@@ -291,7 +298,6 @@ KonqDirTree::~KonqDirTree()
     delete (*it).m_mapSubDirs;
     delete (*it).m_lstPendingURLs;
   }
-
 }
 
 void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLevel )
@@ -647,9 +653,21 @@ void KonqDirTree::slotAutoOpenFolder()
   m_dropItem->repaint();
 }
 
-void KonqDirTree::init()
+void KonqDirTree::slotScanDir( const QString & dir )
 {
-  scanDir( m_root, KonqDirTreeFactory::instance()->dirs()->saveLocation( "data", "konqueror/dirtree/" ), true );
+  kdDebug(1202) << "KonqDirTree::slotScanDir " << dir << endl;
+  clear();
+  m_autoOpenTimer->stop();
+  m_topLevelItems.clear();
+  m_groupItems.clear();
+  m_mapCurrentOpeningFolders.clear();
+  m_unselectableItems.clear();
+  m_unselectableItems.append( m_root );
+  QString path( dir );
+  if ( path.right(1) != "/" ) // first call has the /, but KDirWatch doesn't emit it
+      path += "/";
+  scanDir( m_root, path, true);
+  m_root->setOpen( true );
 }
 
 void KonqDirTree::scanDir( QListViewItem *parent, const QString &path, bool isRoot )
