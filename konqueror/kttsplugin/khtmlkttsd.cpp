@@ -20,7 +20,7 @@
 #include <kdebug.h>
 #include "khtmlkttsd.h"
 #include <kaction.h>
-#include <kinstance.h>
+#include <kgenericfactory.h>
 #include <kiconloader.h>
 #include <qmessagebox.h>
 #include <klocale.h>
@@ -31,7 +31,7 @@
 #include <dcopclient.h>
 #include <ktrader.h>
 
-KHTMLPluginKTTSD::KHTMLPluginKTTSD( QObject* parent, const char* name )
+KHTMLPluginKTTSD::KHTMLPluginKTTSD( QObject* parent, const char* name, const QStringList& )
     : Plugin( parent, name )
 {
     // If KTTSD is not installed, hide action.
@@ -103,23 +103,6 @@ void KHTMLPluginKTTSD::slotReadOut()
     }
 }
 
-KPluginFactory::KPluginFactory( QObject* parent, const char* name )
-  : KLibFactory( parent, name )
-{
-  s_instance = new KInstance("KPluginFactory");
-}
-
-QObject* KPluginFactory::createObject( QObject* parent, const char* name, const char*, const QStringList & )
-{
-    QObject *obj = new KHTMLPluginKTTSD( parent, name );
-    return obj;
-}
-KPluginFactory::~KPluginFactory()
-{ delete s_instance; }
-
-
-K_EXPORT_COMPONENT_FACTORY( libkhtmlkttsdplugin, KPluginFactory )
-
-KInstance* KPluginFactory::s_instance = 0L;
+K_EXPORT_COMPONENT_FACTORY( libkhtmlkttsdplugin, KGenericFactory<KHTMLPluginKTTSD>("khtmlkttsdplugin") )
 
 #include "khtmlkttsd.moc"
