@@ -196,8 +196,20 @@ void KonqRun::scanFile()
 
 void KonqRun::slotKonqScanFinished(KIO::Job *job)
 {
-  //kdDebug(1202) << "slotKonqScanFinished" << endl;
-  KRun::slotScanFinished(job);
+  kdDebug(1202) << "slotKonqScanFinished" << endl;
+  if ( job->error() == KIO::ERR_IS_DIRECTORY )
+  {
+      // It is in fact a directory. This happens when HTTP redirects to FTP.
+      // Due to the "protocol doesn't support listing" code in KonqRun, we
+      // assumed it was a file.
+      kdDebug(1202) << "It is in fact a directory!" << endl;
+      // Update our URL in case of a redirection
+      m_strURL = static_cast<KIO::TransferJob *>(job)->url();
+      m_job = 0;
+      foundMimeType( "inode/directory" );
+  }
+  else
+      KRun::slotScanFinished(job);
 }
 
 void KonqRun::slotKonqMimetype(KIO::Job *, const QString &type)
