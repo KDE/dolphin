@@ -52,7 +52,8 @@ linktest_LDADD = $(lib_LTLIBRARIES) \
 	$(top_builddir)/konqueror/htmlview/libkonqhtmlview.la \
 	$(top_builddir)/konqueror/iconview/libkonqiconview.la \
 	$(top_builddir)/konqueror/textview/libkonqtextview.la \
-	$(top_builddir)/konqueror/treeview/libkonqtreeview.la
+	$(top_builddir)/konqueror/treeview/libkonqtreeview.la \
+	$(top_builddir)/konqueror/dirtree/libkonqdirtree.la
 
 linktest_LDFLAGS = $(konqueror_LDFLAGS)
 
