@@ -163,6 +163,12 @@ module Konqueror
     
     slot void slotMenuEditAboutToShow();
     slot void slotMenuViewAboutToShow();
+    
+    slot void slotHistoryBackwardAboutToShow();
+    slot void slotHistoryForwardAboutToShow();
+
+    slot void slotHistoryBackwardActivated( in long id );
+    slot void slotHistoryForwardActivated( in long id );
   
     slot void slotBookmarkSelected( in long id );
     slot void slotEditBookmarks();

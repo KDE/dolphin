@@ -310,9 +310,15 @@ void KonqChildView::makeHistory( bool pushEntry )
   m_pCurrentHistoryEntry->strServiceType = m_lstServiceTypes.first();
 }
 
-void KonqChildView::goBack()
+void KonqChildView::goBack( int steps )
 {
-  assert( m_lstBack.count() != 0 );
+  assert( m_lstBack.count() >= steps );
+
+  for ( int i = 0; i < steps-1; i++ )
+  {
+    HistoryEntry *e = m_lstBack.take( m_lstBack.count()-1 );
+    if ( e ) delete e;
+  }
 
   HistoryEntry *h = m_lstBack.take( m_lstBack.count()-1 );
   m_bBack = true;
@@ -321,12 +327,18 @@ void KonqChildView::goBack()
   m_iXOffset = h->xOffset;
   m_iYOffset = h->yOffset;
   changeViewMode( h->strServiceType, h->strURL );
-  delete h;
+  if ( h ) delete h;
 }
 
-void KonqChildView::goForward()
+void KonqChildView::goForward( int steps )
 {
-  assert( m_lstForward.count() != 0 );
+  assert( m_lstForward.count() >= steps );
+
+  for ( int i = 0; i < steps-1; i++ )
+  {
+    HistoryEntry *e = m_lstBack.take( 0 );
+    if ( e ) delete e;
+  }
 
   HistoryEntry *h = m_lstForward.take( 0 );
   m_bForward = true;
@@ -336,6 +348,28 @@ void KonqChildView::goForward()
   m_iYOffset = h->yOffset;
   changeViewMode( h->strServiceType, h->strURL );
   delete h;
+}
+
+QStringList KonqChildView::backHistoryURLs()
+{
+  QStringList res;
+  
+  QListIterator<HistoryEntry> it( m_lstBack );
+  for (; it.current(); ++it )
+    res.prepend( it.current()->strURL );
+    
+  return res;
+}
+
+QStringList KonqChildView::forwardHistoryURLs()
+{
+  QStringList res;
+  
+  QListIterator<HistoryEntry> it( m_lstForward );
+  for (; it.current(); ++it )
+    res.append( it.current()->strURL );
+  
+  return res;
 }
 
 QString KonqChildView::url()

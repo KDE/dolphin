@@ -136,7 +136,7 @@ KonqMainView::KonqMainView( const char *url, QWidget *parent ) : QWidget( parent
   m_currentView = 0L;
   m_currentId = 0;
 
-  m_sInitialURL = (url) ? url : QDir::homeDirPath().ascii();
+  m_sInitialURL = (url) ? QString( url ) : QDir::homeDirPath().prepend( "file:" );
 
   m_pAccel = new KAccel( this );
   m_pAccel->insertItem( i18n("Switch to left View"), "LeftView", CTRL+Key_1 );
@@ -490,9 +490,17 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
 
   if ( CORBA::is_nil(factory) )
      {
+       m_vHistoryBackPopupMenu->disconnect( "aboutToShow", this, "slotHistoryBackwardAboutToShow" );
+       m_vHistoryBackPopupMenu->disconnect( "activated", this, "slotHistoryBackwardActivated" );
+       m_vHistoryForwardPopupMenu->disconnect( "aboutToShow", this, "slotHistoryForwardAboutToShow" );
+       m_vHistoryForwardPopupMenu->disconnect( "activated", this, "slotHistoryForwardActivated" );
+       
+       m_vHistoryBackPopupMenu = 0L;
+       m_vHistoryForwardPopupMenu = 0L;
+     
        m_vToolBar = 0L;
        m_vLocationBar = 0L;
-
+       
        return true;
      }
 
@@ -513,10 +521,21 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   m_vToolBar->insertButton2( pix, MGO_BACK_ID, SIGNAL(clicked()),
                              this, "slotBack", false, toolTip, -1);
 
+
+  m_vToolBar->setDelayedPopup( MGO_BACK_ID, m_vHistoryBackPopupMenu );
+  
+  m_vHistoryBackPopupMenu->connect( "aboutToShow", this, "slotHistoryBackwardAboutToShow" );
+  m_vHistoryBackPopupMenu->connect( "activated", this, "slotHistoryBackwardActivated" );
+
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "forward.xpm" ) );
   toolTip = Q2C( i18n("Forward") );
   m_vToolBar->insertButton2( pix, MGO_FORWARD_ID, SIGNAL(clicked()),
                              this, "slotForward", false, toolTip, -1);
+
+  m_vToolBar->setDelayedPopup( MGO_FORWARD_ID, m_vHistoryForwardPopupMenu );
+  
+  m_vHistoryForwardPopupMenu->connect( "aboutToShow", this, "slotHistoryForwardAboutToShow" );
+  m_vHistoryForwardPopupMenu->connect( "activated", this, "slotHistoryForwardActivated" );
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "home.xpm" ) );
   toolTip = Q2C( i18n("Home") );
@@ -1956,6 +1975,52 @@ void KonqMainView::slotMenuEditAboutToShow()
 void KonqMainView::slotMenuViewAboutToShow()
 {
   createViewMenu();
+}
+
+void KonqMainView::slotHistoryBackwardAboutToShow()
+{
+  m_vHistoryBackPopupMenu->clear();
+  
+  if ( !m_currentView )
+    return;
+    
+  QStringList urls = m_currentView->backHistoryURLs();
+
+  CORBA::WString_var text;
+  
+  QStringList::ConstIterator it = urls.begin();
+  QStringList::ConstIterator end = urls.end();
+  for (; it != end; ++it )
+    m_vHistoryBackPopupMenu->insertItem7( ( text = Q2C( *it ) ), -1, -1 );
+}
+
+void KonqMainView::slotHistoryForwardAboutToShow()
+{
+  m_vHistoryForwardPopupMenu->clear();
+
+  if ( !m_currentView )
+    return;
+    
+  QStringList urls = m_currentView->forwardHistoryURLs();
+  
+  CORBA::WString_var text;
+  
+  QStringList::ConstIterator it = urls.begin();
+  QStringList::ConstIterator end = urls.end();
+  for (; it != end; ++it )
+    m_vHistoryForwardPopupMenu->insertItem7( ( text = Q2C( *it ) ), -1, -1 );
+}
+
+void KonqMainView::slotHistoryBackwardActivated( CORBA::Long id )
+{
+  if ( m_currentView )
+    m_currentView->goBack( m_vHistoryBackPopupMenu->indexOf( id ) + 1 );
+}
+
+void KonqMainView::slotHistoryForwardActivated( CORBA::Long id )
+{
+  if ( m_currentView )
+    m_currentView->goForward( m_vHistoryForwardPopupMenu->indexOf( id ) + 1 );
 }
 
 void KonqMainView::resizeEvent( QResizeEvent * )

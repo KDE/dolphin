@@ -175,6 +175,12 @@ public slots:  // IDL
   
   virtual void slotMenuEditAboutToShow();
   virtual void slotMenuViewAboutToShow();
+
+  virtual void slotHistoryBackwardAboutToShow();
+  virtual void slotHistoryForwardAboutToShow();
+
+  virtual void slotHistoryBackwardActivated( CORBA::Long id );
+  virtual void slotHistoryForwardActivated( CORBA::Long id );
   
   virtual void slotBookmarkSelected( CORBA::Long id );
   virtual void slotEditBookmarks();  
@@ -300,6 +306,9 @@ private:
   OpenPartsUI::ToolBar_var m_vLocationBar;
   OpenPartsUI::MenuBar_var m_vMenuBar;
   OpenPartsUI::StatusBar_var m_vStatusBar;
+
+  OpenPartsUI::Menu_var m_vHistoryBackPopupMenu;
+  OpenPartsUI::Menu_var m_vHistoryForwardPopupMenu;
 
   KBookmarkMenu* m_pBookmarkMenu;
 

@@ -110,7 +110,7 @@ public:
   /**
    * Go back
    */
-  void goBack();
+  void goBack( int steps = 1 );
   
   /**
    * @return true if view can go forward
@@ -119,7 +119,10 @@ public:
   /**
    * Go forward
    */
-  void goForward();
+  void goForward( int steps = 1 );
+
+  QStringList backHistoryURLs();
+  QStringList forwardHistoryURLs();
 
   /**
    * Stop loading
