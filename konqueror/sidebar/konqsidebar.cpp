@@ -20,6 +20,7 @@
 #include <konq_events.h>
 #include <kdebug.h>
 #include <qapplication.h>
+#include <kaccelmanager.h>
 
 KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
                           QObject *parent, const char *name, bool universalMode )
@@ -36,6 +37,7 @@ KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
 	connect(m_widget,SIGNAL(completed()),this,SIGNAL(completed()));
 	connect(m_extension, SIGNAL(addWebSideBar(const KURL&, const QString&)),
 		m_widget, SLOT(addWebSideBar(const KURL&, const QString&)));
+        KAcceleratorManager::setNoAccel(m_widget);
 	setWidget(m_widget);
 }
 
