@@ -93,11 +93,6 @@ public:
   void openURL( const KURL &url );
 
   /**
-   * Replace the current view with a new view, created by @p viewFactory
-   */
-  void switchView( KonqViewFactory &viewFactory );
-
-  /**
    * Change the type of view (i.e. loads a new konqueror view)
    * @param serviceType the service type we want to show
    * @param serviceName allows to enforce a particular service to be chosen,
@@ -134,6 +129,9 @@ public:
    */
   void go( int steps );
 
+  /**
+   * @return the history of this view
+   */
   const QList<HistoryEntry> & history() { return m_lstHistory; }
 
   /**
@@ -289,6 +287,12 @@ protected slots:
   void slotOpenURLNotify();
 
 protected:
+  /**
+   * Replace the current view with a new view, created by @p viewFactory
+   * and opens the given @p url in that view.
+   */
+  void switchView( KonqViewFactory &viewFactory, const KURL & url );
+
   /**
    * Connects the internal part to the main window.
    * Do this after creating it and before inserting it.

@@ -72,7 +72,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bAborted = false;
   m_bToggleView = false;
 
-  switchView( viewFactory );
+  switchView( viewFactory, KURL() );
 
   show();
 }
@@ -136,14 +136,17 @@ void KonqView::openURL( const KURL &url )
   //kdDebug(1202) << "Current position : " << m_lstHistory.at() << endl;
 }
 
-void KonqView::switchView( KonqViewFactory &viewFactory )
+void KonqView::switchView( KonqViewFactory &viewFactory, const KURL & url )
 {
   kdDebug(1202) << "KonqView::switchView" << endl;
   if ( m_pPart )
     m_pPart->widget()->hide();
 
   KParts::ReadOnlyPart *oldPart = m_pPart;
-  m_pPart = m_pKonqFrame->attach( viewFactory );
+  m_pPart = m_pKonqFrame->attach( viewFactory ); // creates the part
+
+  if ( !url.isEmpty() )
+    openURL( url );
 
   // uncomment if you want to use metaviews (Simon)
   // initMetaView();
@@ -222,6 +225,7 @@ bool KonqView::changeViewMode( const QString &serviceType,
     if ( isLockedViewMode() )
       return true; // we can't do that if our view mode is locked
 
+    kdDebug(1202) << "Switching view modes..." << endl;
     KTrader::OfferList partServiceOffers, appServiceOffers;
     KService::Ptr service = 0L;
     KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &partServiceOffers, &appServiceOffers );
@@ -239,7 +243,7 @@ bool KonqView::changeViewMode( const QString &serviceType,
     m_serviceType = serviceType;
     m_sTypedURL = typedURL;
 
-    switchView( viewFactory );
+    switchView( viewFactory, url );
 
     // Give focus to the new part. Note that we don't do it each time we
     // open a URL (becomes awful in view-follows-view mode), but we do
@@ -250,8 +254,7 @@ bool KonqView::changeViewMode( const QString &serviceType,
     m_pPart->widget()->setFocus();
 
   }
-
-  if ( !url.isEmpty() )
+  else if ( !url.isEmpty() )
   {
     openURL( url );
   }

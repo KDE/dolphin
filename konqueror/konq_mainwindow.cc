@@ -927,6 +927,7 @@ void KonqMainWindow::slotPartChanged( KonqView *childView, KParts::ReadOnlyPart 
   m_pViewManager->KParts::PartManager::removePart( oldPart );
 
   // Add the new part to the manager
+  // Note: this makes it active... so it calls slotPartActivated
   m_pViewManager->addPart( newPart, true );
 }
 
@@ -1710,6 +1711,7 @@ void KonqMainWindow::stopAnimation()
 
 void KonqMainWindow::setUpEnabled( const KURL &url )
 {
+  //kdDebug() << "KonqMainWindow::setUpEnabled(" << url.url() << ")" << endl;
   bool bHasUpURL = false;
 
   if ( url.hasPath() )

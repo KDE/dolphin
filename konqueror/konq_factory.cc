@@ -112,14 +112,17 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     KTrader::OfferList::Iterator it = appServiceOffers->begin();
     while ( it != appServiceOffers->end() )
     {
+      kdDebug() << (*it)->desktopEntryName() << endl;
       // Remove pure services (no app), and also remove ourselves... :-}
-      if ( (*it)->type() != "Application" || (*it)->desktopEntryName() == "kfmclient" /* DOESN'T WORK */)
+      if ( (*it)->type() != "Application"
+           || (*it)->desktopEntryName() == "kfmclient"
+           || (*it)->desktopEntryName() == "home" )
       {
-        appServiceOffers->remove( it );
-	it = appServiceOffers->begin(); // Isn't there a better way ? (David)
-	continue;
+        it = appServiceOffers->remove( it );
+        // it points to the next one now
       }
-      ++it;
+      else
+        ++it;
     }
   }
 
