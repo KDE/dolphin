@@ -115,8 +115,7 @@ class XBELImportCommand : public ImportCommand
 {
 public:
    XBELImportCommand() { ; }
-   XBELImportCommand(const QString &fileName, bool folder, const QString &icon)
-      : ImportCommand() {
+   void init2(const QString &fileName, bool folder, const QString &icon) {
       init(fileName, folder, icon, false);
    }
    virtual QString visibleName() const = 0;
@@ -132,8 +131,8 @@ class GaleonImportCommand : public XBELImportCommand
 public:
    GaleonImportCommand() { ; }
    GaleonImportCommand(const QString &fileName, bool folder)
-      : XBELImportCommand(fileName, folder, "") {
-      ;
+      : XBELImportCommand() {
+      init2(fileName, folder, "");
    }
    virtual QString visibleName() const;
    virtual QString requestFilename() const;
@@ -145,8 +144,8 @@ class KDE2ImportCommand : public XBELImportCommand
 public:
    KDE2ImportCommand() { ; }
    KDE2ImportCommand(const QString &fileName, bool folder)
-      : XBELImportCommand(fileName, folder, "") {
-      ;
+      : XBELImportCommand() {
+      init2(fileName, folder, "");
    }
    virtual QString visibleName() const;
    virtual QString requestFilename() const;
@@ -157,12 +156,10 @@ private:
 class HTMLImportCommand : public ImportCommand
 {
 public:
-   HTMLImportCommand(const QString &fileName, bool folder,
-                     const QString &icon, bool utf8)
-      : ImportCommand() {
+   HTMLImportCommand() { ; }
+   void init2(const QString &fileName, bool folder, const QString &icon, bool utf8) {
       init(fileName, folder, icon, utf8);
    }
-   HTMLImportCommand() { ; }
    virtual QString visibleName() const = 0;
    virtual QString requestFilename() const = 0;
 private:
@@ -172,11 +169,11 @@ private:
 class NSImportCommand : public HTMLImportCommand
 {
 public:
-   NSImportCommand(const QString &fileName, bool folder)
-      : HTMLImportCommand(fileName, folder, "netscape", false) {
-      ;
-   }
    NSImportCommand() { ; }
+   NSImportCommand(const QString &fileName, bool folder)
+      : HTMLImportCommand() {
+      init2(fileName, folder, "netscape", false);
+   }
    virtual QString visibleName() const;
    virtual QString requestFilename() const;
 private:
@@ -185,11 +182,11 @@ private:
 class MozImportCommand : public HTMLImportCommand
 {
 public:
-   MozImportCommand(const QString &fileName, bool folder)
-      : HTMLImportCommand(fileName, folder, "mozilla", true) {
-      ;
-   }
    MozImportCommand() { ; }
+   MozImportCommand(const QString &fileName, bool folder)
+      : HTMLImportCommand() {
+      init2(fileName, folder, "mozilla", true);
+   }
    virtual QString visibleName() const;
    virtual QString requestFilename() const;
 private:
@@ -198,11 +195,11 @@ private:
 class IEImportCommand : public ImportCommand
 {
 public:
+   IEImportCommand() { ; }
    IEImportCommand(const QString &fileName, bool folder)
       : ImportCommand() {
       init(fileName, folder, "", false);
    }
-   IEImportCommand() { ; }
    virtual QString visibleName() const;
    virtual QString requestFilename() const;
 private:
@@ -212,11 +209,11 @@ private:
 class OperaImportCommand : public ImportCommand
 {
 public:
+   OperaImportCommand() { ; }
    OperaImportCommand(const QString &fileName, bool folder)
       : ImportCommand() {
       init(fileName, folder, "opera", false);
    }
-   OperaImportCommand() { ; }
    virtual QString visibleName() const;
    virtual QString requestFilename() const;
 private:
