@@ -24,6 +24,7 @@
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
 #include <kfileitem.h>
+#include <kdatastream.h>
 
 namespace KParts { class BrowserExtension; }
 class KonqPropsView;
@@ -35,9 +36,9 @@ class KonqDirPartBrowserExtension;
 class KonqDirPart: public KParts::ReadOnlyPart
 {
     Q_OBJECT
-    
+
     friend class KonqDirPartBrowserExtension;
-    
+
 public:
     KonqDirPart( QObject *parent, const char *name );
 
@@ -299,7 +300,7 @@ protected:
 private:
     void saveFindState( QDataStream& );
     void restoreFindState( QDataStream& );
-    
+
     class KonqDirPartPrivate;
     KonqDirPartPrivate* d;
 };
@@ -311,28 +312,33 @@ public:
         : KParts::BrowserExtension( dirPart )
         , m_dirPart( dirPart )
     {}
-    
-    // For restoration of the find part to work correctly, we need
-    // the state to be saved and restored in the following order:
-    // 1. KonqDirPart (and derived classes)
-    // 2. BrowserExtension (which calls openURL())
-    // 3. Find part
-    //
-    // This is handled below. If your KonqDirPart-derived class needs
-    // to save and restore state, you should override KonqDirPart::saveState
+
+    // If your KonqDirPart-derived class needs to save and restore state,
+    // you should probably override KonqDirPart::saveState
     // and KonqDirPart::restoreState, not the following methods.
-    virtual void saveState( QDataStream &stream )
+    virtual void saveState( QDataStream &stream ) // KDE4: make non-inline
     {
         m_dirPart->saveState( stream );
-        KParts::BrowserExtension::saveState( stream );
-        m_dirPart->saveFindState( stream );
+        bool hasFindPart = m_dirPart->findPart();
+        stream << hasFindPart;
+        if ( !hasFindPart )
+            KParts::BrowserExtension::saveState( stream );
+        else {
+            m_dirPart->saveFindState( stream );
+        }
     }
 
-    virtual void restoreState( QDataStream &stream )
+    virtual void restoreState( QDataStream &stream ) // KDE4: make non-inline
     {
         m_dirPart->restoreState( stream );
-        KParts::BrowserExtension::restoreState( stream );
-        m_dirPart->restoreFindState( stream );
+        bool hasFindPart;
+        stream >> hasFindPart;
+        if ( !hasFindPart )
+            // This calls openURL, that's why we don't want to call it in case of a find part
+            KParts::BrowserExtension::restoreState( stream );
+        else {
+            m_dirPart->restoreFindState( stream );
+        }
     }
 
 private:

@@ -248,12 +248,14 @@ void KonqDirPart::restoreState( QDataStream& stream )
 
 void KonqDirPart::saveFindState( QDataStream& stream )
 {
-    if ( !m_findPart ) {
-        stream << false;
+    // assert only doable in KDE4.
+    //assert( m_findPart ); // test done by caller.
+    if ( !m_findPart )
         return;
-    }
 
-    stream << true;
+    // When we have a find part, our own URL wasn't saved (see KonqDirPartBrowserExtension)
+    // So let's do it here
+    stream << m_url;
 
     KParts::BrowserExtension* ext = KParts::BrowserExtension::childObject( m_findPart );
     if( !ext )
@@ -264,11 +266,8 @@ void KonqDirPart::saveFindState( QDataStream& stream )
 
 void KonqDirPart::restoreFindState( QDataStream& stream )
 {
-    bool bFindPart;
-    stream >> bFindPart;
-
-    if ( !bFindPart )
-        return;
+    // Restore our own URL
+    stream >> m_url;
 
     emit findOpen( this );
 
