@@ -3882,50 +3882,50 @@ void KonqMainWindow::initActions()
   m_paUp->setWhatsThis( i18n( "Enter the parent folder<p>"
                               "For instance, if the current location is file:/home/%1 clicking this "
                               "button will take you to file:/home." ).arg( KUser().loginName() ) );
-  m_paUp->setStatusText( i18n( "Enter the parent folder" ) );
+  m_paUp->setToolTip( i18n( "Enter the parent folder" ) );
 
   m_paBack->setWhatsThis( i18n( "Move backwards one step in the browsing history<p>" ) );
-  m_paBack->setStatusText( i18n( "Move backwards one step in the browsing history" ) );
+  m_paBack->setToolTip( i18n( "Move backwards one step in the browsing history" ) );
 
   m_paForward->setWhatsThis( i18n( "Move forward one step in the browsing history<p>" ) );
-  m_paForward->setStatusText( i18n( "Move forward one step in the browsing history" ) );
+  m_paForward->setToolTip( i18n( "Move forward one step in the browsing history" ) );
 
   m_paHome->setWhatsThis( i18n( "Navigate to your 'Home Location'<p>"
                                 "You can configure the location this button takes you to in the "
                                 "<b>KDE Control Center</b>, under <b>File Manager</b>/<b>Behavior</b>." ) );
-  m_paHome->setStatusText( i18n( "Navigate to your 'Home Location'" ) );
+  m_paHome->setToolTip( i18n( "Navigate to your 'Home Location'" ) );
 
   m_paReload->setWhatsThis( i18n( "Reload the currently displayed document<p>"
                                   "This may, for example, be needed to refresh webpages that have been "
                                   "modified since they were loaded, in order to make the changes visible." ) );
-  m_paReload->setStatusText( i18n( "Reload the currently displayed document" ) );
+  m_paReload->setToolTip( i18n( "Reload the currently displayed document" ) );
 
   m_paReloadAllTabs->setWhatsThis( i18n( "Reload all currently displayed documents in tabs<p>"
                                   "This may, for example, be needed to refresh webpages that have been "
                                   "modified since they were loaded, in order to make the changes visible." ) );
-  m_paReloadAllTabs->setStatusText( i18n( "Reload all currently displayed document in tabs" ) );
+  m_paReloadAllTabs->setToolTip( i18n( "Reload all currently displayed document in tabs" ) );
 
   m_paStop->setWhatsThis( i18n( "Stop loading the document<p>"
                                 "All network transfers will be stopped and Konqueror will display the content "
                                 "that has been received so far." ) );
-  m_paStop->setStatusText( i18n( "Stop loading the document" ) );
+  m_paStop->setToolTip( i18n( "Stop loading the document" ) );
 
   m_paCut->setWhatsThis( i18n( "Cut the currently selected text or item(s) and move it "
                                "to the system clipboard<p> "
                                "This makes it available to the <b>Paste</b> command in Konqueror "
                                "and other KDE applications." ) );
-  m_paCut->setStatusText( i18n( "Move the selected text or item(s) to the clipboard" ) );
+  m_paCut->setToolTip( i18n( "Move the selected text or item(s) to the clipboard" ) );
 
   m_paCopy->setWhatsThis( i18n( "Copy the currently selected text or item(s) to the "
                                 "system clipboard<p>"
                                 "This makes it available to the <b>Paste</b> command in Konqueror "
                                 "and other KDE applications." ) );
-  m_paCopy->setStatusText( i18n( "Copy the selected text or item(s) to the clipboard" ) );
+  m_paCopy->setToolTip( i18n( "Copy the selected text or item(s) to the clipboard" ) );
 
   m_paPaste->setWhatsThis( i18n( "Paste the previously cut or copied clipboard "
                                  "contents<p>"
                                  "This also works for text copied or cut from other KDE applications." ) );
-  m_paPaste->setStatusText( i18n( "Paste the clipboard contents" ) );
+  m_paPaste->setToolTip( i18n( "Paste the clipboard contents" ) );
 
   m_paPrint->setWhatsThis( i18n( "Print the currently displayed document<p>"
                                  "You will be presented with a dialog where you can set various "
@@ -3933,15 +3933,15 @@ void KonqMainWindow::initActions()
                                  "to use.<p>"
                                  "This dialog also provides access to special KDE printing "
                                  "services such as creating a PDF file from the current document." ) );
-  m_paPrint->setStatusText( i18n( "Print the current document" ) );
+  m_paPrint->setToolTip( i18n( "Print the current document" ) );
 
 
 
   // Please proof-read those (David)
 
-  m_ptaUseHTML->setStatusText( i18n("If present, open index.html when entering a folder.") );
-  m_paLockView->setStatusText( i18n("A locked view cannot change folders. Use in combination with 'link view' to explore many files from one folder") );
-  m_paLinkView->setStatusText( i18n("Sets the view as 'linked'. A linked view follows folder changes made in other linked views.") );
+  m_ptaUseHTML->setToolTip( i18n("If present, open index.html when entering a folder.") );
+  m_paLockView->setToolTip( i18n("A locked view cannot change folders. Use in combination with 'link view' to explore many files from one folder") );
+  m_paLinkView->setToolTip( i18n("Sets the view as 'linked'. A linked view follows folder changes made in other linked views.") );
 }
 
 void KonqMainWindow::slotFillContextMenu( const KBookmark &bk, QPopupMenu * pm )
@@ -4618,12 +4618,12 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   {
       if (_args.forcesNewWindow()) {
         actNewWindow = new KAction( i18n( "Open in T&his Window" ), 0, this, SLOT( slotPopupThisWindow() ), konqyMenuClient->actionCollection(), "sameview" );
-        actNewWindow->setStatusText( i18n( "Open the document in current window" ) );
+        actNewWindow->setToolTip( i18n( "Open the document in current window" ) );
       }
       actNewWindow = new KAction( i18n( "Open in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), konqyMenuClient->actionCollection(), "newview" );
-      actNewWindow->setStatusText( i18n( "Open the document in a new window" ) );
+      actNewWindow->setToolTip( i18n( "Open the document in a new window" ) );
       actNewTab = new KAction( i18n( "Open in &New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), konqyMenuClient->actionCollection(), "openintab" );
-      actNewTab->setStatusText( i18n( "Open the document in a new tab" ) );
+      actNewTab->setToolTip( i18n( "Open the document in a new tab" ) );
       doTabHandling = true;
   }
 
