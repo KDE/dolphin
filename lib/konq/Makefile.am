@@ -17,7 +17,7 @@
 #    Boston, MA 02111-1307, USA.
 
 INCLUDES = $(all_includes)
-SUBDIRS = pics
+SUBDIRS = pics favicons
 
 lib_LTLIBRARIES = libkonq.la
 libkonq_la_LDFLAGS = $(all_libraries) -version-info 3:0 -no-undefined

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Service
+Name=KDED Favicon Module
+Comment=Shortcut Icon support
+X-KDE-ModuleType=Library
+X-KDE-Library=favicons
+X-KDE-FactoryName=favicons

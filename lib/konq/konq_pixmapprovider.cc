@@ -121,17 +121,8 @@ void KonqPixmapProvider::save( KConfig *kc, const QString& key,
     kc->writeEntry( key, list );
 }
 
-void KonqPixmapProvider::notifyChange( bool isHost, QString hostOrURL,
-                                       QString iconURL )
+void KonqPixmapProvider::notifyChange( bool, QString, QString )
 {
-    // little hack: KonqFavIconMgr would emit changed(), but we want to
-    // update our cache before. And we want it to update its configuration
-    // before we ask for the new icons...
-
-    blockSignals( true );
-    KonqFavIconMgr::notifyChange( isHost, hostOrURL, iconURL );
-    blockSignals( false );
-
     for ( QMapIterator<QString,QString> it = iconMap.begin();
           it != iconMap.end();
           ++it )
@@ -174,7 +165,8 @@ QPixmap KonqPixmapProvider::loadIcon( const QString& url, const QString& icon,
 
  	if ( big.mask() ) {
  	    QBitmap mask = *big.mask();
- 	    bitBlt( &mask, x, y, small.mask() ? small.mask() : &small, 0, 0,
+ 	    bitBlt( &mask, x, y,
+            small.mask() ? const_cast<QBitmap *>(small.mask()) : &small, 0, 0,
  		    small.width(), small.height(),
  		    small.mask() ? OrROP : SetROP );
  	    big.setMask( mask );

@@ -20,16 +20,12 @@
 #ifndef __konq_faviconmgr_h__
 #define __konq_faviconmgr_h__ "$Id$"
 
-#include <qmap.h>
-
-#include <kurl.h>
 #include <dcopobject.h>
-#include <kio/job.h>
-
-class KSimpleConfig;
+#include <kurl.h>
 
 /**
- * Maintains a list of custom icons per URL.
+ * Maintains a list of custom icons per URL. This is only a stub
+ * for the "favicons" KDED Module
  */
 class KonqFavIconMgr : public QObject, public DCOPObject
 {
@@ -44,14 +40,14 @@ public:
     /**
      * Downloads an icon from @p iconURL and associates @p url with it.
      */
-    void setIconForURL(const KURL &url, const KURL &iconURL);
+    static void setIconForURL(const KURL &url, const KURL &iconURL);
 
     /**
      * Downloads /favicon.ico from the host of @p url and associates all
      * URLs on that host with it
      * (unless a more specific entry for a URL exists)
      */
-    void downloadHostIcon(const KURL &url);
+    static void downloadHostIcon(const KURL &url);
 
     /**
      * Looks up an icon for @p url and returns its name if found
@@ -61,47 +57,12 @@ public:
 
 k_dcop:
     /**
-     * an icon changed, used to propagate changes between applications
-     * and instances
+     * an icon changed, updates the combo box
      */
-    virtual ASYNC notifyChange( bool isHost, QString hostOrURL, QString iconURL );
+    virtual ASYNC notifyChange( bool, QString, QString ) = 0;
 
 signals:
-    /**
-     * An icon has changed, emitted upon reception of @ref notifyChanged()
-     */
     void changed();
-
-private slots:
-    void slotData(KIO::Job *, const QByteArray &);
-    void slotResult(KIO::Job *);
-
-private:
-    // Can be removed after
-    // "everybody upgraded from KDE 2.1b1 to a later version"
-    friend void convertFavIcons();
-
-    void startDownload(const QString &, bool, const KURL &);
-    static QString simplifyURL(const KURL &);
-    static QString iconNameFromURL(const KURL &);
-    static KSimpleConfig *favicons();
-    bool isIconOld(const QString &);
-
-private:
-    QStringList m_failedIcons;
-    struct Download
-    {
-        QString hostOrURL;
-        bool isHost;
-        QByteArray iconData;
-    };
-    typedef QMap<KIO::Job *, Download> DownloadMap; // make dcopidl happy
-    DownloadMap m_downloads;
-
-    class KonqFavIconMgrPrivate;
-    KonqFavIconMgrPrivate * d;
-
-    static KSimpleConfig *s_favicons;
 };
 
 #endif
