@@ -137,7 +137,7 @@ void TestLinkItr::slotJobResult(KIO::Job *job) {
    delayedEmitNextOne();
 }
 
-void TestLinkItr::paintCellHelper(QPainter *p, QColorGroup &cg, int style) {
+void TestLinkItr::paintCellHelper(QPainter *p, QColorGroup &cg, KEBListViewItem::PaintStyle style) {
    switch (style) {
       case KEBListViewItem::TempStyle: 
       {
@@ -145,13 +145,17 @@ void TestLinkItr::paintCellHelper(QPainter *p, QColorGroup &cg, int style) {
          cg.background().hsv(&h,&s,&v);
          QColor color = (v > 180 && v < 220) ? (Qt::darkGray) : (Qt::gray);
          cg.setColor(QColorGroup::Text, color);
+         break;
       }
       case KEBListViewItem::BoldStyle:
       {
          QFont font = p->font();
          font.setBold(true);
          p->setFont(font);
+         break;
       }
+      case KEBListViewItem::DefaultStyle:
+         break;
    }
 }
 
@@ -197,7 +201,7 @@ void TestLinkItrHolder::setOldMod(const QString &url, const QString &val) {
 
 /* -------------------------- */
 
-QString TestLinkItrHolder::calcPaintStyle(const QString &url, int &paintstyle, const QString &nsinfo) {
+QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::PaintStyle &_style, const QString &nsinfo) {
    bool newModValid = false;
    int newMod = 0;
 
@@ -229,34 +233,39 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, int &paintstyle, c
    }
 
    int oldMod = oldModStr.toInt(); // TODO - check validity?
+
    QString statusStr;
+   KEBListViewItem::PaintStyle style = KEBListViewItem::DefaultStyle;
 
    if (!newModStr.isNull() && !newModValid) { 
       // error in current check
       statusStr = newModStr;
-      paintstyle = (oldMod == 1) ? 1 : 2;
+      style = (oldMod == 1) 
+            ? KEBListViewItem::DefaultStyle : KEBListViewItem::BoldStyle;
 
    } else if (!newModStr.isNull() && (newMod == 0)) { 
       // no modify time returned
       statusStr = i18n("Ok");
-      paintstyle = 0;
 
    } else if (!newModStr.isNull() && (newMod >= oldMod)) { 
       // info from current check
       statusStr = mkTimeStr(newMod);
-      paintstyle = (newMod == oldMod) ? 1 : 2;
+      style = (newMod == oldMod) 
+            ? KEBListViewItem::DefaultStyle : KEBListViewItem::BoldStyle;
 
    } else if (oldMod == 1) { 
       // error in previous check
       statusStr = i18n("Error");
-      paintstyle = 0;
 
    } else if (oldMod != 0) { 
       // info from previous check
       statusStr = mkTimeStr(oldMod);
-      paintstyle = 0;
+
+   } else {
+      return QString::null;
    }
 
+   _style = style;
    return statusStr;
 }
 
@@ -316,7 +325,7 @@ void KEBListViewItem::nsPut(const QString &nm) {
 void KEBListViewItem::modUpdate() {
    QString statusLine;
    // DESIGN - should return paint style?
-   statusLine = TestLinkItrHolder::calcPaintStyle(url(), m_paintstyle, nsGet());
+   statusLine = TestLinkItrHolder::calcPaintStyle(url(), m_paintStyle, nsGet());
    // ARGGGGGGGGGGGGGGGGHHHHHHHHHHHH!!!!!!!!!!!!
    if (statusLine != "Error") {
       setText(KEBListView::StatusColumn, statusLine);
@@ -329,7 +338,7 @@ const QString KEBListViewItem::url() const {
 
 void KEBListViewItem::setTmpStatus(const QString &status) {
    kdDebug() << "KEBListViewItem::setTmpStatus" << endl;
-   m_paintstyle = 2;
+   m_paintStyle = KEBListViewItem::BoldStyle;
    m_oldStatus = TestLinkItrHolder::getMod(url());
    setText(KEBListView::StatusColumn, status);
    TestLinkItrHolder::setMod(url(), status);

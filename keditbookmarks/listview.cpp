@@ -743,7 +743,7 @@ void KEBListViewItem::paintCell(QPainter *p, const QColorGroup &ocg, int col, in
 
    // DESIGN - ugly as sin, some pattern must answer this problem
    if (col == KEBListView::StatusColumn) {
-      TestLinkItr::paintCellHelper(p, cg, m_paintstyle);
+      TestLinkItr::paintCellHelper(p, cg, m_paintStyle);
    }
 
    QListViewItem::paintCell(p, cg, col, w,a);

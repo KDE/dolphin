@@ -61,14 +61,14 @@ public:
    KBookmark bookmark() const { return m_bookmark; }
    const QString url() const;
 
-   enum { TempStyle, BoldStyle };
+   typedef enum { TempStyle, BoldStyle, DefaultStyle } PaintStyle;
 
 private:
    const QString nsGet() const;
 
    KBookmark m_bookmark;
 
-   int m_paintstyle;
+   PaintStyle m_paintStyle;
    bool m_emptyFolder;
    QString m_oldStatus;
 };

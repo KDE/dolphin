@@ -25,6 +25,7 @@
 #include <kio/job.h>
 #include <kbookmark.h>
 
+#include "listview.h"
 #include "bookmarkiterator.h"
 
 class TestLinkItrHolder : public BookmarkIteratorHolder {
@@ -37,7 +38,7 @@ public:
    static QString getOldMod(const QString &url) /* const */;
    static void setMod(const QString &url, const QString &val);
    static void setOldMod(const QString &url, const QString &val);
-   static QString calcPaintStyle(const QString &, int&, const QString &);
+   static QString calcPaintStyle(const QString &, KEBListViewItem::PaintStyle&, const QString &);
 protected:
    virtual void doItrListChanged();
 private:
@@ -54,8 +55,8 @@ class TestLinkItr : public BookmarkIterator
 public:
    TestLinkItr(QValueList<KBookmark> bks);
    ~TestLinkItr();
-   static void paintCellHelper(QPainter *p, QColorGroup &cg, int style);
-   
+   // DESIGN - move to listview
+   static void paintCellHelper(QPainter *p, QColorGroup &cg, KEBListViewItem::PaintStyle style);
    virtual BookmarkIteratorHolder* holder() const { return TestLinkItrHolder::self(); }
 
 public slots:
