@@ -198,6 +198,8 @@ int tryCheck(int write_fd, const QString &absFile)
             description = QString::fromLatin1( buf );
         kdDebug() << "description = " << description << endl;
     }
+    else
+        kdWarning() << "Plugin doesn't implement NP_GetValue"  << endl;
 
     // get mime description function pointer
     char* (*func_GetMIMEDescription)() =
