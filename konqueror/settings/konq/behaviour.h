@@ -65,6 +65,7 @@ private:
   //QSpinBox  *sbToolTip;
   QCheckBox *cbShowTips;
   QCheckBox *cbShowPreviewsInTips;
+  QCheckBox *cbRenameDirectlyIcon;
 
   QCheckBox *cbMoveToTrash;
   QCheckBox *cbDelete;

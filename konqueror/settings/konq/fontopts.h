@@ -103,7 +103,6 @@ private:
   QCheckBox* m_pWordWrap;
   QCheckBox* cbUnderline;
   QCheckBox* m_pSizeInBytes;
-    QCheckBox *cbRenameDirectlyIcon;
   int m_gridXSpacing;
 };
 

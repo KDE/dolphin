@@ -101,6 +101,11 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     QWhatsThis::add( cbShowPreviewsInTips, i18n("Here you can control if you want the "
                           "popup window to contain a larger preview for the file, when moving the mouse over it."));
 
+    cbRenameDirectlyIcon = new QCheckBox(i18n("Rename icons in&line"), vbox);
+    QWhatsThis::add(cbRenameDirectlyIcon, i18n("Checking this option will allow files to be "
+                                               "renamed by clicking directly on the icon name. "));
+    connect(cbRenameDirectlyIcon, SIGNAL(clicked()), this, SLOT(changed()));
+
 	QHBoxLayout *hlay = new QHBoxLayout( lay );
 
     label = new QLabel(i18n("Home &URL:"), this);
@@ -174,6 +179,8 @@ void KBehaviourOptions::load()
     bool showPreviewsIntips = g_pConfig->readBoolEntry( "ShowPreviewsInFileTips", true );
     cbShowPreviewsInTips->setChecked( showPreviewsIntips );
 
+    cbRenameDirectlyIcon->setChecked( g_pConfig->readBoolEntry("RenameIconDirectly",  DEFAULT_RENAMEICONDIRECTLY ) );
+
 //    if (!stips) sbToolTip->setEnabled( false );
     if (!stips) cbShowPreviewsInTips->setEnabled( false );
 
@@ -205,6 +212,8 @@ void KBehaviourOptions::defaults()
     cbShowPreviewsInTips->setChecked( true );
     cbShowPreviewsInTips->setEnabled( true );
 
+    cbRenameDirectlyIcon->setChecked( DEFAULT_RENAMEICONDIRECTLY );
+
     cbMoveToTrash->setChecked( DEFAULT_CONFIRMTRASH );
     cbDelete->setChecked( DEFAULT_CONFIRMDELETE );
     cbShred->setChecked( DEFAULT_CONFIRMSHRED );
@@ -220,6 +229,8 @@ void KBehaviourOptions::save()
     g_pConfig->writeEntry( "ShowFileTips", cbShowTips->isChecked() );
     g_pConfig->writeEntry( "ShowPreviewsInFileTips", cbShowPreviewsInTips->isChecked() );
 //    g_pConfig->writeEntry( "FileTipsItems", sbToolTip->value() );
+
+    g_pConfig->writeEntry( "RenameIconDirectly", cbRenameDirectlyIcon->isChecked());
 
     g_pConfig->setGroup( "Trash" );
     g_pConfig->writeEntry( "ConfirmTrash", cbMoveToTrash->isChecked());
