@@ -901,8 +901,9 @@ void KonqKfmIconView::setupSortKeys()
             it->setKey( makeSizeKey( (KFileIVI *)it ) );
         break;
      case Type:
+        // Sort by Type + Name (#17014)
         for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
-            it->setKey( static_cast<KFileIVI *>( it )->item()->mimetype() );
+            it->setKey( static_cast<KFileIVI *>( it )->item()->mimetype() + '~' + it->text().lower() );
         break;
     }
 }
