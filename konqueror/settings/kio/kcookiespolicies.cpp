@@ -88,7 +88,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent)
                           "stored in your computer's memory until you quit or "
                           "close all applications (e.g. your browser) that "
                           "use them. Unlike regular cookies, session "
-                          "cookies are never stored on your hard drive or"
+                          "cookies are never stored on your hard drive or "
                           "other storage medium."
                           "<P>NOTE: checking this option along with the "
                           "previous one will override your default as well "

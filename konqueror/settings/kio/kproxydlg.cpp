@@ -127,7 +127,7 @@ KProxyDialog::KProxyDialog( QWidget* parent)
                                            "<i>does not</i> require you to supply "
                                            "the location of the configuration script "
                                            "file. Instead it will be automatically "
-                                           "downloaded using the <b>Web Proxy"
+                                           "downloaded using the <b>Web Proxy "
                                            "Auto-Discovery Protocol (WPAD)</b>.<p>"
                                            "<u>NOTE:</u>  If you have a problem "
                                            "using this setup, please consult the FAQ "
