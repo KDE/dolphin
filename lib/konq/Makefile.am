@@ -22,9 +22,8 @@ lib_LTLIBRARIES = libkonq.la
 libkonq_la_LDFLAGS = $(all_libraries) -version-info 3:0
 libkonq_la_LIBADD = -lkded $(LIB_KFILE) -lkpartsui -lkparts
 
-libkonq_la_SOURCES = kbookmark.cc kbookmarkmenu.cc knewmenu.cc kpopupmenu.cc \
-	kpropsdlg.cc \
-	kdirlister.cc kfileitem.cc kiconcontainer.cc kicondrag.cc
+libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc kpopupmenu.cc \
+	kpropsdlg.cc kdirlister.cc kfileitem.cc kiconcontainer.cc kicondrag.cc
 
 METASOURCES = kbookmark.moc kbookmarkmenu.moc knewmenu.moc kpopupmenu.moc \
 	kpropsdlg.moc \
