@@ -145,32 +145,6 @@ class KonqBaseListViewWidget : public KListView
       virtual void slotRedirection( const KURL & );
 
    protected:
-      /* Completely custom keyboard selection style:
-       home: move to the first
-       end: move to the last
-       PgUp/PgDn: move one page up/down
-       up/down: move one item up/down
-       insert: toggle selection of current and move to the next
-       space: toggle selection of the current
-       SHIFT+CTRL+up: move to the previous item and toggle selection of this one
-       SHIFT+CTRL+down: toggle selection of the current item and move to the next
-       SHIFT+CTRL+end: toggle selection from (including) the current
-       item to (including) the last item
-       SHIFT+CTRL+home: toggle selection from (including) the current
-       item to the (including) the first item
-       SHIFT+CTRL+PgDn: toggle selection from (including) the current
-       item to (excluding) the item one page down
-       SHIFT+CTRL+PgUp: toggle selection from (excluding) the current
-       item to (including) the item one page up
-
-       the combinations work the same with SHIFT instead of CTRL, except
-       that if you start selecting something using SHIFT everything selected
-       before will be deselected first
-
-       This way e.g. SHIFT+up/PgUp then SHIFT+down/PgDn leaves no item selected
-       */
-      virtual void keyPressEvent( QKeyEvent *_ev );
-
       //creates the listview columns according to confColumns
       virtual void createColumns();
       //reads the configuration for the columns of the current
