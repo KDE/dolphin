@@ -30,6 +30,8 @@
 
 #include "toplevel.h"
 
+class QSplitter;
+
 class KEBListViewItem : public QListViewItem
 {
 private:
@@ -73,7 +75,8 @@ public:
       StatusColumn = 3,
       AddressColumn = 4
    };
-   KEBListView(QWidget *parent) : KListView(parent) {}
+   KEBListView(QWidget *parent, bool folderList) 
+      : KListView(parent), m_folderList(folderList) {}
    virtual ~KEBListView() {}
 
    void init();
@@ -88,6 +91,9 @@ public slots:
 protected:
    virtual bool acceptDrag(QDropEvent *e) const;
    virtual QDragObject* dragObject();
+
+private:
+   bool m_folderList;
 };
 
 // DESIGN - make some stuff private if possible
@@ -140,7 +146,7 @@ public:
    void openParents(KEBListViewItem *item);
 
    static ListView* self() { if (!s_self) { s_self = new ListView(); } return s_self; }
-   static void createListViews(QWidget *parent);
+   static void createListViews(QSplitter *parent);
    QWidget *widget() const { return m_listView; }
    void rename(int);
    void clearSelection();

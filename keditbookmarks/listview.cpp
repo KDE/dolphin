@@ -59,11 +59,12 @@ ListView::ListView() {
 
 #define SPLIT false
 
-void ListView::createListViews(QWidget *parent) {
+void ListView::createListViews(QSplitter *splitter) {
    if (SPLIT) {
-      self()->m_listView2 = new KEBListView(parent);
+      self()->m_listView2 = new KEBListView(splitter, true);
    }
-   self()->m_listView = new KEBListView(parent);
+   self()->m_listView = new KEBListView(splitter, false);
+   splitter->setSizes(QValueList<int>() << 100 << 300);
 }
 
 void ListView::initListViews() {
@@ -75,13 +76,17 @@ void ListView::initListViews() {
 
 void KEBListView::init() {
    setRootIsDecorated(false);
-   addColumn(i18n("Bookmark"), 300);
-   addColumn(i18n("URL"), 300);
-   addColumn(i18n("Comment"), 300);
-   addColumn(i18n("Status/Last Modified"), 300);
+   if (!m_folderList) {
+      addColumn(i18n("Bookmark"), 300);
+      addColumn(i18n("URL"), 300);
+      addColumn(i18n("Comment"), 300);
+      addColumn(i18n("Status/Last Modified"), 300);
 #ifdef DEBUG_ADDRESSES
-   addColumn(i18n("Address"), 100);
+      addColumn(i18n("Address"), 100);
 #endif
+   } else {
+      addColumn(i18n("Folder"), 300);
+   }
    setRenameable(KEBListView::NameColumn);
    setRenameable(KEBListView::UrlColumn);
    setRenameable(KEBListView::CommentColumn);
