@@ -355,6 +355,8 @@ void UserAgentOptions::addPressed()
 
 void UserAgentOptions::changePressed()
 {
+    if(!lv_siteUABindings->currentItem())
+        return;
   UAProviderDlg* dlg = new UAProviderDlg( i18n("Modify Identification"), this, 0L, m_provider );
   dlg->setEnableHostEdit( false );
   dlg->setSiteName( lv_siteUABindings->currentItem()->text(0) );

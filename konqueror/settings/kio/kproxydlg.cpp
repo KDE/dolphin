@@ -67,6 +67,7 @@ KProxySetDlgBase::KProxySetDlgBase(QWidget *parent, const char *name)
   topLay->addSpacing(10);
   connect(input,SIGNAL(textChanged ( const QString & )),this,SLOT(textChanged ( const QString & )));
   enableButtonOK(false);
+  input->setFocus();
 }
 
 void KProxySetDlgBase::textChanged ( const QString &text )
