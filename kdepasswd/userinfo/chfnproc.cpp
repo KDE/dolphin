@@ -15,7 +15,7 @@
 
 #include <unistd.h>
 #include <qcstring.h>
-
+#include <stdlib.h>
 #include <kdesu/process.h>
 #include "chfnproc.h"
 
