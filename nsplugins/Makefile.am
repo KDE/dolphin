@@ -10,7 +10,7 @@ libnsplugin_la_SOURCES = plugin_part.cpp nspluginloader.cpp		\
 			NSPluginClassIface.stub				\
 			NSPluginCallbackIface.skel
 
-libnsplugin_la_LDFLAGS = $(all_libraries) -version-info 1:1:0 -module -no-undefined
+libnsplugin_la_LDFLAGS = $(all_libraries) -version-info 3:0:2 -module -no-undefined
 libnsplugin_la_LIBADD  = -lkparts
 
 bin_PROGRAMS = nspluginscan
