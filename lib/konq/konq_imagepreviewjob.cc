@@ -29,7 +29,7 @@
  * of the icon view (KonqIconViewWidget)
  */
 KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView, bool force )
-  : KIO::Job( false /* no GUI */ ), m_bNoWrite( false ), m_iconView( iconView )
+  : KIO::Job( false /* no GUI */ ), m_bCanSave( true ), m_iconView( iconView )
 {
   kdDebug(1203) << "KonqImagePreviewJob::KonqImagePreviewJob()" << endl;
   // Look for images and store the items in our todo list :)
@@ -184,7 +184,8 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
       // Well, comment this out if you prefer compatibility over quality.
       determineThumbnailURL();
 
-      if ( !m_bNoWrite && !m_bDirsCreated )
+      kdDebug() << "After stat xv m_bCanSave=" << m_bCanSave << " m_bDirsCreated=" << m_bDirsCreated << endl;
+      if ( m_bCanSave && !m_bDirsCreated )
       {
         // m_thumbURL is /blah/.pics/med/file.png
         QString dir = m_thumbURL.directory();
@@ -202,12 +203,10 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
       }
       // Fall through if we can't create dirs here or if dirs are already created
     case STATE_CREATEDIR1:
-      if ( !m_bNoWrite )
+      if ( m_bCanSave )
       {
-        // We can save if the dir could be created or if it already exists
-        m_bCanSave = (!job->error() || job->error() == KIO::ERR_DIR_ALREADY_EXIST);
-
-        if (m_bCanSave)
+        // We can save if the dir was already created, was just created or if it already exists
+        if (m_bDirsCreated || !job->error() || job->error() == KIO::ERR_DIR_ALREADY_EXIST)
         {
             if ( !m_bDirsCreated )
             {
@@ -224,17 +223,17 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
             }
         }
         else
-          m_bNoWrite = true; // remember not to create dir next time
+          m_bCanSave = false; // remember not to create dir next time
       }
       // Fall through if we can't save or if dirs are already created
     case STATE_CREATEDIR2:
       // We can save if the dir could be created or if it already exists
-      m_bCanSave = ( !m_bNoWrite &&
-                    (!job->error() || job->error() == KIO::ERR_DIR_ALREADY_EXIST) );
-      if (m_bCanSave)
-          m_bDirsCreated = true;
-      else
-          m_bNoWrite = true;
+      if ( m_bCanSave )
+      {
+          m_bCanSave = (m_bDirsCreated || !job->error() || job->error() == KIO::ERR_DIR_ALREADY_EXIST);
+          if (m_bCanSave && !m_bDirsCreated) // First time we create dirs
+              m_bDirsCreated = true;
+      }
 
       // We still need to load the orig file ! (This is getting tedious) :)
       if ( m_currentURL.isLocalFile() )

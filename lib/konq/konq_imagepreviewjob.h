@@ -77,8 +77,6 @@ private:
     int m_extent;
     // Whether we can save the thumbnail
     bool m_bCanSave;
-    // Set to true if we can't create a dir - caching
-    bool m_bNoWrite;
     // Set to true if we created the dirs - caching
     bool m_bDirsCreated;
 
