@@ -534,6 +534,7 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
 
   for ( it.toFirst(); it != 0L; ++it )
   {
+    if (it.current()==m_pMainWindow->currentView()) setActivePart( 0L, true );
     m_pMainWindow->removeChildView( it.current() );
     delete it.current();
   }
@@ -709,7 +710,7 @@ void KonqViewManager::removeView( KonqView *view )
   else if (parentContainer->frameType()=="Tabs") {
     kdDebug(1202) << "parentContainer " << parentContainer << " is a KonqFrameTabs" << endl;
 
-    removeTab();
+    removeTab( frame );
   }
   else if (parentContainer->frameType()=="MainWindow")
     kdDebug(1202) << "parentContainer is a KonqMainWindow.  This shouldn't be removeable, not removing." << endl;
