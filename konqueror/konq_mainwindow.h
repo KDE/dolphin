@@ -400,6 +400,7 @@ protected slots:
   void slotPopupNewTabAtFront();
   void slotPopupPasteTo();
   void slotRemoveView();
+  void slotRemoveOtherTabs();
   void slotRemoveOtherTabsPopup();
     void slotReloadAllTabs();
   void slotRemoveTab();
@@ -544,7 +545,7 @@ private:
 
   bool stayPreloaded();
   bool checkPreloadResourceUsage();
-  
+
   KNewMenu * m_pMenuNew;
 
   KAction *m_paFileType;
