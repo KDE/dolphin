@@ -89,6 +89,9 @@ void KonqTextPrintingExtension::print()
   emit m_textView->setStatusBarText( i18n( "Printing..." ) );
   
   KMultiLineEdit *edit = m_textView->multiLineEdit();
+
+  QFont oldFont = edit->font();
+  edit->setFont( KGlobal::generalFont() );
   
   if ( printer.setup( edit ) )
   {
@@ -123,6 +126,8 @@ void KonqTextPrintingExtension::print()
     painter.end();
     
   }
+
+  edit->setFont( oldFont );
 
   emit m_textView->setStatusBarText( QString::null );
 }
