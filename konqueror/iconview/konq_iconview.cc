@@ -816,28 +816,6 @@ void KonqKfmIconView::slotCloseView()
     delete this;
 }
 
-static QString displayString(int items, int files, long size, int dirs)
-{
-    QString text;
-    if (items == 1)
-        text = i18n("One Item");
-    else
-        text = i18n("%1 Items").arg(items);
-    text += " - ";
-    if (files == 1)
-        text += i18n("One File");
-    else
-        text += i18n("%1 Files").arg(files);
-    text += " ";
-    text += i18n("(%1 Total)").arg(KIO::convertSize( size ) );
-    text += " - ";
-    if (dirs == 1)
-        text += i18n("One Directory");
-    else
-        text += i18n("%1 Directories").arg(dirs);
-    return text;
-}
-
 void KonqKfmIconView::slotDisplayFileSelectionInfo()
 {
     long fileSizeSum = 0;
@@ -850,7 +828,7 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
     for (; it.current(); ++it )
         if ( S_ISDIR( it.current()->mode() ) )
             dirCount++;
-        else
+        else // what about symlinks ?
         {
             fileSizeSum += it.current()->size();
             fileCount++;
