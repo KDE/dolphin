@@ -2448,8 +2448,8 @@ void KonqMainWindow::initActions()
 
   new KAction( i18n( "&Configure..." ), "configure", 0, this, SLOT( slotConfigure() ), actionCollection(), "configure" );
 
-  new KAction( i18n( "&Key Bindings..." ), "key_bindings", 0, this, SLOT( slotConfigureKeys() ), actionCollection(), "configurekeys" );
-  new KAction( i18n( "&Toolbars..." ), "style", 0, this, SLOT( slotConfigureToolbars() ), actionCollection(), "configuretoolbars" );
+  new KAction( i18n( "Configure &Key Bindings..." ), "key_bindings", 0, this, SLOT( slotConfigureKeys() ), actionCollection(), "configurekeys" );
+  new KAction( i18n( "Configure &Toolbars..." ), "style", 0, this, SLOT( slotConfigureToolbars() ), actionCollection(), "configuretoolbars" );
 
   // Window menu
   m_paSplitViewHor = new KAction( i18n( "Split View &Left/Right" ), "view_left_right", CTRL+SHIFT+Key_L, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
