@@ -162,6 +162,7 @@ KonqDraggableLabel::KonqDraggableLabel( KonqMainWindow* mw, const QString& text 
   : QLabel( text, 0L, "kde toolbar widget" )	// Use this name for it to be styled!
   , m_mw(mw)
 {
+  setBackgroundMode( Qt::PaletteButton );
   setAlignment( (QApplication::reverseLayout() ? Qt::AlignRight : Qt::AlignLeft) |
                  Qt::AlignVCenter | Qt::ShowPrefix );
   setAcceptDrops(true);
