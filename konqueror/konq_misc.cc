@@ -75,8 +75,7 @@ KonqMainWindow * KonqMisc::createNewWindow( const KURL &url, const KParts::URLAr
 
   // For HTTP or html files, use the web browsing profile, otherwise use filemanager profile
   QString profileName = (!(KProtocolInfo::supportsListing(url)) ||
-                        url.path().right(5) == ".html" ||
-			url.path().right(4) == ".htm" )
+                        KMimeType::findByURL(url)->name() == "text/html")
           ? "webbrowsing" : "filemanagement";
 
   QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + profileName );
