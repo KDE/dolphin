@@ -3,7 +3,7 @@
 
 #include "konq_baseview.h"
 
-#include <opFrame.h>
+class OPFrame;
 
 class KonqPartView : public QWidget,
                      public KonqBaseView,

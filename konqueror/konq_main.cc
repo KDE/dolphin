@@ -17,6 +17,8 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include <qdir.h>
+
 #include <opApplication.h>
 #include <komApplication.h>
 #include <komBase.h>
@@ -33,8 +35,8 @@
 #include <khtml.h>
 #include <kimgio.h>
 #include <kapp.h>
+#include <kwm.h>
 
-#include <qdir.h>
 #include <qmessagebox.h>
 
 #include <signal.h>

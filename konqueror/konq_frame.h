@@ -20,12 +20,12 @@
 #ifndef __konq_frame_h__
 #define __konq_frame_h__
 
-#include <qlayout.h>
-#include <qpixmap.h>
-
+#include <qcolor.h>
+#include <qwidget.h>
 #include <kpixmap.h>
-
 #include <opFrame.h>
+
+class QPixmap;
 
 enum KonqFrameHeaderLook{
   PLAIN,

@@ -1,5 +1,6 @@
 
 #include "konq_partview.h"
+#include <opFrame.h>
 
 /*
  * Simon's small TODO list :)
