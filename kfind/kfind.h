@@ -9,6 +9,7 @@
 
 #include <qwidget.h>
 #include <kfileitem.h>
+#include <kdirlister.h>
 
 class QString;
 class KPushButton;
@@ -53,6 +54,9 @@ private:
     KPushButton *mStop;
     KPushButton *mSave;
     KQuery *query;
+
+public:    
+    KDirLister *dirlister;
 };
 
 #endif

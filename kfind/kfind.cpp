@@ -82,6 +82,8 @@ Kfind::Kfind(QWidget *parent, const char *name)
   mSearch->setEnabled(true); // Enable "Search"
   mStop->setEnabled(false);  // Disable "Stop"
   mSave->setEnabled(false);  // Disable "Save..."
+
+  dirlister=new KDirLister();
 }
 
 Kfind::~Kfind()
@@ -97,6 +99,7 @@ void Kfind::setURL( const KURL &url )
 
 void Kfind::startSearch()
 {
+printf("\nIn Kfind::startSearch\n");  
   tabWidget->setQuery(query);
   emit started();
 
@@ -108,6 +111,8 @@ void Kfind::startSearch()
   mSave->setEnabled(false);  // Disable "Save..."
 
   tabWidget->beginSearch();
+
+  dirlister->openURL(KURL(tabWidget->dirBox->currentText().stripWhiteSpace()));
 
   query->start();
 }
