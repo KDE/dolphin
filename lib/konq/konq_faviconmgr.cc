@@ -83,7 +83,7 @@ QString KonqFavIconMgr::iconForURL(const QString &url)
     if (it == self()->m_knownURLs.end())
     {
         KURL _url(url);
-        _url.setPath("/");
+        _url.setEncodedPathAndQuery("");
         it = self()->m_knownURLs.find(_url.url());
     }
     if (it != self()->m_knownURLs.end())
@@ -100,7 +100,7 @@ void KonqFavIconMgr::setIconForURL(const QString &url, const KURL &iconURL, bool
     DownloadInfo info;
     KURL _url(url);
     if (hostDefault)
-        _url.setPath("/");
+        _url.setEncodedPathAndQuery("");
     info.url = _url.url();
     info.iconURL = iconURL.url();
     info.hostDefault = hostDefault;
