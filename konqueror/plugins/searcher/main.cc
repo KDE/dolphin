@@ -19,6 +19,7 @@
 
 #include "main.h"
 #include "configwidget.h"
+#include "enginecfg.h"
 
 #include <qregexp.h>
 #include <qxembed.h>
@@ -51,16 +52,24 @@ CORBA::Boolean KonqSearcher::eventFilter( KOM::Base_ptr obj, const char *name, c
     CORBA::WChar *url;
     value >>= CORBA::Any::to_wstring( url, 0 );
     QString qurl = C2Q( url );
-    if ( qurl.left(3) == "av:" && qurl.length() > 3 )
+    
+    // candidate?
+    if ( qurl.contains( "//" ) == 0 && qurl.contains( ':' ) &&
+         qurl.contains( "file:" ) == 0 )
     {
-      cerr << "skipping!" << endl;
+      int pos = qurl.find( ':' );
+      QString key = qurl.left( pos );
       
-      QString qnewurl = "http://www.altavista.com/cgi-bin/query?q=" + qurl.mid(3).replace( QRegExp( " " ), "+" );
-      
-      CORBA::WString_var wnewurl = Q2C( qnewurl );
-      EMIT_EVENT_WSTRING( obj, "Konqueror/GUI/URLEntered", wnewurl );
-      
-      return (CORBA::Boolean)true;
+      QString query = EngineCfg::self()->query( key );
+      if ( query != QString::null )
+      {
+        QString qnewurl = query.replace( QRegExp( "|" ), qurl.mid( pos+1 ) );
+	CORBA::WString_var wnewurl = Q2C( qnewurl );
+	
+	EMIT_EVENT_WSTRING( obj, name, wnewurl );
+	
+	return (CORBA::Boolean)true;
+      }
     }
   }
   return (CORBA::Boolean)false;

@@ -1,0 +1,24 @@
+[General]
+SearchEngines=Yahoo,AltaVista,Open Directory,Lycos,Freshmeat
+
+[AltaVista]
+Keys=av,altavista
+Query=http://www.altavista.com/cgi-bin/query?pg=q&kl=XX&stype=stext&q=|
+
+[Yahoo]
+Keys=ya,yahoo
+Query=http://search.yahoo.com/bin/search?p=|
+
+[Open Directory]
+Keys=dmoz,odp
+Query=http://search.dmoz.org/cgi-bin/search?search=|
+
+[Lycos]
+Keys=lycos,ly
+Query=http://www.lycos.com/cgi-bin/pursuit?cat=dir&query=|
+
+[Freshmeat]
+Keys=fm,freshmeat
+Query=http://core.freshmeat.net/search/search.php3?query=|
+
+

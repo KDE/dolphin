@@ -223,14 +223,14 @@ KonqPluginConfigDialog::KonqPluginConfigDialog( QWidget *parent )
   m_pCloseButton = new QPushButton( i18n( "Close" ), this );
   m_pCloseButton->setFixedSize( m_pCloseButton->sizeHint() );
 
-  setMinimumWidth( m_pCloseButton->width() );
+//  setMinimumWidth( m_pCloseButton->width() );
   
   m_pTopLayout->addWidget( m_pCloseButton );
   
   connect( m_pCloseButton, SIGNAL( clicked() ),
            this, SLOT( accept() ) );
 
-  resize( sizeHint() );
+  resize( m_pSplitter->sizeHint().width(), m_pSplitter->sizeHint().height() + m_pCloseButton->height() );
 }
 
 KonqPluginConfigDialog::~KonqPluginConfigDialog()

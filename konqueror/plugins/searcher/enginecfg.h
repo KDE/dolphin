@@ -17,28 +17,36 @@
  
 */ 
 
-#ifndef __main_h__
-#define __main_h__ $Id$
+#ifndef __enginecfg_h__
+#define __enginecfg_h__ $Id$
 
-#include <komPlugin.h>
+#include <qmap.h>
+#include <qstring.h>
+#include <qstringlist.h>
 
-class KonqSearcher : public KOMPlugin
+class EngineCfg
 {
 public:
-  KonqSearcher( KOM::Component_ptr core );
+  EngineCfg();
   
-  virtual void cleanUp();
-  
-  virtual CORBA::Boolean eventFilter( KOM::Base_ptr obj, const char *name, const CORBA::Any &value );
-};
+  static EngineCfg *self();
 
-class KonqSearcherFactory : public KOMPluginFactory
-{
-public:
-  KonqSearcherFactory( const CORBA::BOA::ReferenceData &refData );
-  KonqSearcherFactory( CORBA::Object_ptr obj );
+  struct Entry
+  {
+    QString m_strName;
+    QStringList m_lstKeys;
+    QString m_strQuery;
+  };
+
+  QValueList<Entry> engines() const { return m_lstSearchEngines; }
   
-  KOM::Plugin_ptr create( KOM::Component_ptr core );
+  QString query( const QString &key );
+
+private:
+
+  QValueList<Entry> m_lstSearchEngines;
+  
+  static EngineCfg *s_pSelf;
 };
 
 #endif

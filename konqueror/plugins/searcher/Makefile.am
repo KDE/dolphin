@@ -8,8 +8,7 @@ bin_PROGRAMS = konq_searcher
 service_DATA = konq_searcher.desktop
 servicedir = $(kde_servicesdir)
 
-konq_searcher_SOURCES = browser.idl main.cc configwidget.cc
+rc_DATA = konq_searcherrc
+rcdir = $(kde_confdir)
 
-main.cc: browser.h
-
-browser_IDLDIR = $(idldir)
+konq_searcher_SOURCES = main.cc configwidget.cc enginecfg.cc
