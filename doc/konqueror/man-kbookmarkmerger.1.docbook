@@ -13,6 +13,7 @@
 		&Frerich.Raabe.mail;
 	</author>
 	<date>February 1st, 2005</date>
+	<productname>K Desktop Environment</productname>
 </refentryinfo>
 
 <refmeta>
@@ -71,14 +72,7 @@ files.</para>
 
 <refsect1>
 <title>See Also</title>
-<variablelist>
-<varlistentry><term/><listitem><para>
-	<ulink url="http://docs.kde.org/keditbookmarks/index.html"><application>KEditBookmarks</application> manual</ulink>
-</para></listitem></varlistentry>
-<varlistentry><term/><listitem><para>
-	<ulink url="http://docs.kde.org/konqueror/index.html">&konqueror; manual</ulink>
-</para></listitem></varlistentry>
-</variablelist>
+<para><ulink url="help:/konqueror/index.html">&konqueror; manual</ulink></para>
 </refsect1>
 
 <refsect1>
