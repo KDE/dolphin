@@ -205,7 +205,7 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
         QString url = cfg.readEntry("URL");
         if (!url.isEmpty() )
           (void) new KBookmark( this, _bm, ep->d_name, cfg, "InternetShortCut" );
-      } else kdWarning(1203) << "Invalid bookmark : found mimetype='" << res->mimeType() << "' for file='" << file.path() << "'!" << endl;
+      } else kdWarning(1203) << "Invalid bookmark : found mimetype='" << res->name() << "' for file='" << file.path() << "'!" << endl;
     }
   }
 

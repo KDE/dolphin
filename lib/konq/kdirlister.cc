@@ -194,7 +194,7 @@ void KDirLister::slotEntries( KIO::Job*, const KIO::UDSEntryList& entries )
       lstNewItems.append( item );
       /*
         // Detect koffice files
-        QString mimeType = item->mimetype();
+        QString mimeType = item->name();
         if ( mimeType.left(15) == "application/x-k" )
         {
         // Currently this matches all koffice mimetypes
