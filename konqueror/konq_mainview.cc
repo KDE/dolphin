@@ -1415,7 +1415,7 @@ void KonqMainView::initActions()
   m_paNewWindow = new KAction( i18n( "New &Window" ), "filenew", KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
 
   m_paRun = new KAction( i18n( "&Run Command..." ), "run", 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
-  m_paOpenTerminal = new KAction( i18n( "Open &Terminal..." ), "konsole", CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
+  m_paOpenTerminal = new KAction( i18n( "Open &Terminal..." ), "openterm", CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
 	m_paOpenLocation = new KAction( i18n( "&Open Location..." ), "fileopen", KStdAccel::key(KStdAccel::Open), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
   m_paToolFind = new KAction( i18n( "&Find" ), "find", 0 /*not KStdAccel::find!*/, this, SLOT( slotToolFind() ), actionCollection(), "find" );
 
