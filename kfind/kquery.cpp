@@ -11,10 +11,12 @@ KQuery::KQuery(QObject *parent, const char * name)
     m_timeFrom(0), m_timeTo(0),
     job(0)
 {
+  m_regexps.setAutoDelete(true);
 }
 
 KQuery::~KQuery()
 {
+  m_regexps.clear();
 }
 
 void KQuery::kill()
