@@ -207,6 +207,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 
 
    	ButtonBar=new KMultiTabBar(this,KMultiTabBar::Vertical);
+	ButtonBar->showActiveTabTexts(true);
 	Menu=new QPopupMenu(this,"Sidebar_Widget::Menu");
 	QPopupMenu *addMenu=new QPopupMenu(this,"Sidebar_Widget::addPopup");
 	Menu->insertItem(i18n("Add New"),addMenu,0);
