@@ -212,7 +212,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     KToggleAction *aSortDescending = new KToggleAction( i18n( "Descending" ), 0, actionCollection(), "sort_descend" );
 
     m_paSortDirsFirst->setChecked( true );
-    
+
     connect( aSortDescending, SIGNAL( toggled( bool ) ), this, SLOT( slotSortDescending() ) );
     connect( m_paSortDirsFirst, SIGNAL( toggled( bool ) ), this, SLOT( slotSortDirsFirst() ) );
     /*
@@ -333,7 +333,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_lDirSize = 0;
     m_lFileCount = 0;
     m_lDirCount = 0;
-    
+
     connect( m_pIconView, SIGNAL( selectionChanged() ),
 	     this, SLOT( slotDisplayFileSelectionInfo() ) );
 }
@@ -482,11 +482,11 @@ void KonqKfmIconView::slotSortDescending()
 void KonqKfmIconView::slotSortDirsFirst()
 {
   m_pIconView->setSortDirectoriesFirst( m_paSortDirsFirst->isChecked() );
- 
+
   setupSortKeys();
-  
+
   m_pIconView->sort( m_pIconView->sortDirection() );
-} 
+}
 
 void KonqKfmIconView::guiActivateEvent( KParts::GUIActivateEvent *event )
 {
@@ -701,6 +701,10 @@ void KonqKfmIconView::slotCanceled()
 
 void KonqKfmIconView::slotCompleted()
 {
+    // Root item ? Store in konqiconviewwidget
+    if ( m_dirLister->rootItem() )
+      m_pIconView->setRootItem( m_dirLister->rootItem() );
+
     m_pIconView->setContentsPos( m_extension->urlArgs().xOffset, m_extension->urlArgs().yOffset );
     if ( m_bLoading )
     {
@@ -720,9 +724,6 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
   for (; it.current(); ++it) {
 
     KFileItem * _fileitem = it.current();
-    // Root item ? Store in konqiconviewwidget
-    if ( _fileitem == m_dirLister->rootItem() )
-      m_pIconView->setRootItem( _fileitem );
 
     if ( !S_ISDIR( _fileitem->mode() ) )
     {
