@@ -712,15 +712,19 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
         return;
     KURL url = fileItem->url();
     url.cleanPath();
-    bool isIntoTrash =  url.isLocalFile() && url.path(1).startsWith(KGlobalSettings::trashPath());
+#if 0 // We now allow to open files from the trash. They are readonly, it's up to the apps to handle that correctly...
+    bool isIntoTrash = url.protocol() == "trash";
     if ( !isIntoTrash || (isIntoTrash && fileItem->isDir()) )
     {
+#endif
         lmbClicked( fileItem );
+#if 0
     }
     else
     {
         KMessageBox::information(0L, i18n("You must take the file out of the trash before being able to use it."));
     }
+#endif
 }
 
 void KonqKfmIconView::slotDragHeld( QIconViewItem *item )
@@ -910,7 +914,7 @@ void KonqKfmIconView::slotCompleted()
 
     if ( !m_pIconView->firstItem() )
 	resetCount();
-    
+
     slotOnViewport();
 
     // slotRenderingFinished will do it
@@ -1106,7 +1110,7 @@ void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
                 ivi->setMouseOverAnimation( rit.current()->iconName() );
             if ( !bNeedRepaint && oldSize != ivi->pixmap()->size() )
                 bNeedRepaint = true;
-        }        
+        }
     }
 
     if ( bNeedPreviewJob && m_pProps->isShowingPreview() )
@@ -1133,7 +1137,7 @@ void KonqKfmIconView::slotClear()
     if ( !m_pTimeoutRefreshTimer )
     {
         m_pTimeoutRefreshTimer = new QTimer( this );
-        connect( m_pTimeoutRefreshTimer, SIGNAL( timeout() ), 
+        connect( m_pTimeoutRefreshTimer, SIGNAL( timeout() ),
                  this, SLOT( slotRefreshViewport() ) );
     }
     m_pTimeoutRefreshTimer->start( 700, true );
