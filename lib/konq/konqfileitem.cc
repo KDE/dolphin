@@ -55,22 +55,50 @@ QPixmap KonqFileItem::pixmap( int _size, bool bImagePreviewAllowed ) const
           KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
           _size = root->defaultSize( KIcon::Desktop );
       }
-      // Check if pixie thumbnail of any size is there first
       struct stat buff;
       bool bAvail = false;
       QString thumbPath;
       QPixmap pix;
 
-      thumbPath = m_url.directory() + "/.mospics/large/" + m_url.filename();
-      bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
-      if(!bAvail){
-          thumbPath = m_url.directory() + "/.mospics/med/" + m_url.filename();
-          bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
-      }
-      if(!bAvail){
+      // Check if pixie thumbnail of any size is there first, preferring
+      // the pixie equivalent to the requested icon size
+      if(_size < 28){
           thumbPath = m_url.directory() + "/.mospics/small/" + m_url.filename();
           bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
+          if(!bAvail){
+              thumbPath = m_url.directory() + "/.mospics/med/" + m_url.filename();
+              bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
+          }
+          if(!bAvail){
+              thumbPath = m_url.directory() + "/.mospics/large/" + m_url.filename();
+              bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
+          }
       }
+      else if(_size < 40){
+          thumbPath = m_url.directory() + "/.mospics/med/" + m_url.filename();
+          bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
+          if(!bAvail){
+              thumbPath = m_url.directory() + "/.mospics/small/" + m_url.filename();
+              bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
+          }
+          if(!bAvail){
+              thumbPath = m_url.directory() + "/.mospics/large/" + m_url.filename();
+              bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
+          }
+      }
+      else{
+          thumbPath = m_url.directory() + "/.mospics/large/" + m_url.filename();
+          bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
+          if(!bAvail){
+              thumbPath = m_url.directory() + "/.mospics/med/" + m_url.filename();
+              bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
+          }
+          if(!bAvail){
+              thumbPath = m_url.directory() + "/.mospics/small/" + m_url.filename();
+              bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
+          }
+      }
+
       if(bAvail){
           time_t t1 = buff.st_mtime;
           // Get time of the orig file
@@ -81,24 +109,8 @@ QPixmap KonqFileItem::pixmap( int _size, bool bImagePreviewAllowed ) const
                   bAvail = false;
           }
           if(bAvail){
-              if (pix.load(thumbPath)){
-                  int w = pix.width(), h = pix.height();
-                  if(pix.width() > _size || pix.height() > _size){
-                      if(pix.width() > pix.height()){
-                          float percent = (((float)_size)/pix.width());
-                          h = (int)(pix.height()*percent);
-                          w = _size;
-                      }
-                      else{
-                          float percent = (((float)_size)/pix.height());
-                          w = (int)(pix.width()*percent);
-                          h = _size;
-                      }
-                      QImage img = pix.convertToImage().smoothScale( w, h );
-                      pix.convertFromImage( img );
-                  }
+              if (pix.load(thumbPath))
                   return pix;
-              }
               else
                   bAvail = false;
           }
@@ -133,7 +145,23 @@ QPixmap KonqFileItem::pixmap( int _size, bool bImagePreviewAllowed ) const
       }
       else{
           // No xv pic, or too old -> load the orig image and create Pixie pic
-          thumbPath = m_url.directory() + "/.mospics/large/" + m_url.filename();
+          int extent;
+          QString sizeStr;
+          if(_size < 28){
+              thumbPath = m_url.directory() + "/.mospics/small/" + m_url.filename();
+              extent = 48;
+              sizeStr = ".mospics/small";
+          }
+          else if(_size < 40){
+              thumbPath = m_url.directory() + "/.mospics/med/" + m_url.filename();
+              extent = 64;
+              sizeStr = ".mospics/med";
+          }
+          else{
+              thumbPath = m_url.directory() + "/.mospics/large/" + m_url.filename();
+              extent = 90;
+              sizeStr = ".mospics/large";
+          }
           if (pix.load(m_url.path()))
           {
               bool bCanSave = true;
@@ -143,68 +171,34 @@ QPixmap KonqFileItem::pixmap( int _size, bool bImagePreviewAllowed ) const
               {
                   bCanSave = mosDir.mkdir(".mospics");
               }
-              if (!mosDir.exists(".mospics/large"))
+              if (!mosDir.exists(sizeStr))
               {
-                  bCanSave = mosDir.mkdir(".mospics/large");
+                  bCanSave = mosDir.mkdir(sizeStr);
               }
-
+              int w = pix.width(), h = pix.height();
+              // scale to pixie size
+              if(pix.width() > extent || pix.height() > extent){
+                  if(pix.width() > pix.height()){
+                      float percent = (((float)extent)/pix.width());
+                      h = (int)(pix.height()*percent);
+                      w = extent;
+                  }
+                  else{
+                      float percent = (((float)extent)/pix.height());
+                      w = (int)(pix.width()*percent);
+                      h = extent;
+                  }
+              }
+              QImage img = pix.convertToImage().smoothScale( w, h );
+              pix.convertFromImage( img );
               if (bCanSave)
               {
-                  // Save large PNG file
-                  int w = pix.width(), h = pix.height();
-                  // scale to pixie size
-                  if(pix.width() > 90 || pix.height() > 90){
-                      if(pix.width() > pix.height()){
-                          float percent = (((float)90)/pix.width());
-                          h = (int)(pix.height()*percent);
-                          w = 90;
-                      }
-                      else{
-                          float percent = (((float)90)/pix.height());
-                          w = (int)(pix.width()*percent);
-                          h = 90;
-                      }
-                  }
                   // write
                   QImageIO iio;
-                  iio.setImage( pix.convertToImage().smoothScale( w, h ) );
+                  iio.setImage(img);
                   iio.setFileName( thumbPath );
                   iio.setFormat("PNG");
                   bCanSave = iio.write();
-                  // scale again to screen size if needed
-                  w = pix.width(), h = pix.height();
-                  if(pix.width() > _size || pix.height() > _size){
-                      if(pix.width() > pix.height()){
-                          float percent = (((float)_size)/pix.width());
-                          h = (int)(pix.height()*percent);
-                          w = _size;
-                      }
-                      else{
-                          float percent = (((float)_size)/pix.height());
-                          w = (int)(pix.width()*percent);
-                          h = _size;
-                      }
-                      QImage img = pix.convertToImage().smoothScale( w, h );
-                      pix.convertFromImage( img );
-                  }
-                  return pix;
-              }
-              else{
-                  int w = pix.width(), h = pix.height();
-                  if(pix.width() > _size || pix.height() > _size){
-                      if(pix.width() > pix.height()){
-                          float percent = (((float)_size)/pix.width());
-                          h = (int)(pix.height()*percent);
-                          w = _size;
-                      }
-                      else{
-                          float percent = (((float)_size)/pix.height());
-                          w = (int)(pix.width()*percent);
-                          h = _size;
-                      }
-                  }
-                  QImage img = pix.convertToImage().smoothScale( w, h );
-                  pix.convertFromImage( img );
                   return pix;
               }
           }
