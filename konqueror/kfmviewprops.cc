@@ -20,8 +20,9 @@
 #include "kfmviewprops.h"
 #include "konq_defaults.h"
 
-#include <kpixmapcache.h>
 #include <kapp.h>
+#include <kpixmapcache.h>
+#include <iostream>
 
 KfmViewProps * KfmViewProps::m_pDefaultProps = 0L;
 

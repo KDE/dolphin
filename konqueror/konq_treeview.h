@@ -29,7 +29,7 @@
 
 #include <string>
 
-#include <k2url.h>
+#include <kurl.h>
 
 #include <kio_interface.h>
 
@@ -44,8 +44,8 @@ class KMimeType;
 class KfmTreeViewItem : public QListViewItem
 {
 public:
-  KfmTreeViewItem( KonqKfmTreeView *_treeview, KfmTreeViewDir *_parent, UDSEntry& _entry, K2URL& _url );
-  KfmTreeViewItem( KonqKfmTreeView *_parent, UDSEntry& _entry, K2URL& _url );
+  KfmTreeViewItem( KonqKfmTreeView *_treeview, KfmTreeViewDir *_parent, UDSEntry& _entry, KURL& _url );
+  KfmTreeViewItem( KonqKfmTreeView *_parent, UDSEntry& _entry, KURL& _url );
   virtual ~KfmTreeViewItem() { }
 
   virtual const QString name() const { return text( 0 ); }
@@ -70,7 +70,7 @@ public:
   virtual KMimeType* mimeType() { return m_pMimeType; }
 
 protected:
-  virtual void init( KonqKfmTreeView* _treeview, UDSEntry& _entry, K2URL& _url );
+  virtual void init( KonqKfmTreeView* _treeview, UDSEntry& _entry, KURL& _url );
 
   const char* makeNumericString( const UDSAtom &_atom ) const;
   const char* makeTimeString( const UDSAtom &_atom ) const;
@@ -89,8 +89,8 @@ protected:
 class KfmTreeViewDir : public KfmTreeViewItem
 {
 public:
-  KfmTreeViewDir( KonqKfmTreeView *_parent, UDSEntry& _entry, K2URL& _url );
-  KfmTreeViewDir( KonqKfmTreeView *_treeview, KfmTreeViewDir * _parent, UDSEntry& _entry, K2URL& _url );
+  KfmTreeViewDir( KonqKfmTreeView *_parent, UDSEntry& _entry, KURL& _url );
+  KfmTreeViewDir( KonqKfmTreeView *_treeview, KfmTreeViewDir * _parent, UDSEntry& _entry, KURL& _url );
   virtual ~KfmTreeViewDir();
 
   virtual void setOpen( bool _open );
@@ -233,12 +233,12 @@ protected:
 
   virtual void focusInEvent( QFocusEvent* _event );
 
-  K2URL m_url;
+  KURL m_url;
   bool m_bIsLocalURL;
 
   KfmTreeViewDir* m_pWorkingDir;
   string m_strWorkingURL;
-  K2URL m_workingURL;
+  KURL m_workingURL;
 
   int m_jobId;
 

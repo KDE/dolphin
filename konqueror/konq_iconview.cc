@@ -26,7 +26,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#include <k2url.h>
+#include <kurl.h>
 #include <kapp.h>
 #include <kio_job.h>
 #include <kio_error.h>
@@ -206,7 +206,7 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
     if ( _button == RightButton )
     {
       Konqueror::View::MenuPopupRequest popupRequest;
-      QString cURL = m_url.url( 1 ).c_str();
+      QString cURL = m_url.url( 1 );
       int i = cURL.length();
 
       mode_t mode = 0;
@@ -329,7 +329,7 @@ void KonqKfmIconView::slotDragStart( const QPoint& _hotspot, QList<KIconContaine
 
 void KonqKfmIconView::openURL( const char *_url )
 {
-  K2URL url( _url );
+  KURL url( _url );
   if ( url.isMalformed() )
   {
     string tmp = i18n( "Malformed URL" ).ascii();
@@ -364,7 +364,7 @@ void KonqKfmIconView::openURL( const char *_url )
   m_buffer.clear();
 
   m_jobId = job->id();
-  job->listDir( _url );
+  job->listDir( url.url() );
 
 //  emit started( m_strWorkingURL.c_str() );
   SIGNAL_CALL1( "started", CORBA::Any::from_string( (char *)m_strWorkingURL.c_str(), 0 ) );
@@ -429,11 +429,11 @@ void KonqKfmIconView::slotBufferTimeout()
         m_strURL = m_strWorkingURL.c_str();
         m_strWorkingURL = "";
         m_url = m_strURL.data();
-        K2URL u( m_url );
+        KURL u( m_url );
         m_bIsLocalURL = u.isLocalFile();
       }
 
-      K2URL u( m_url );
+      KURL u( m_url );
       u.addPath( name.c_str() );
       KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, *it, u, name.c_str() );
       insert( item, -1, -1, false );
@@ -548,7 +548,7 @@ void KonqKfmIconView::slotUpdateFinished( int /*_id*/ )
       debug("slotUpdateFinished : %s",name.c_str());
       if ( m_isShowingDotFiles || name[0]!='.' )
       {
-        K2URL u( m_url );
+        KURL u( m_url );
         u.addPath( name.c_str() );
         KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, *it, u, name.c_str() );
         item->mark();
@@ -597,7 +597,7 @@ void KonqKfmIconView::slotOnItem( KIconContainerItem *_item )
 
   KMimeType *type = ((KonqKfmIconViewItem* )_item)->mimeType();
   UDSEntry entry = ((KonqKfmIconViewItem* )_item)->udsEntry();
-  K2URL url(((KonqKfmIconViewItem* )_item)->url());
+  KURL url(((KonqKfmIconViewItem* )_item)->url());
 
   QString comment = type->comment( url, false );
   QString text;
@@ -664,8 +664,8 @@ void KonqKfmIconView::slotOnItem( KIconContainerItem *_item )
     SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)text.data(), 0 ) );
   }
   else
-//    m_pView->gui()->setStatusBarText( url.url().c_str() );
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)url.url().c_str(), 0 ) );
+//    m_pView->gui()->setStatusBarText( url.url() );
+    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)url.url(), 0 ) );
 }
 
 void KonqKfmIconView::focusInEvent( QFocusEvent* _event )
@@ -675,17 +675,17 @@ void KonqKfmIconView::focusInEvent( QFocusEvent* _event )
   KIconContainer::focusInEvent( _event );
 }
 
-KonqKfmIconViewItem::KonqKfmIconViewItem( KonqKfmIconView *_parent, UDSEntry& _entry, K2URL& _url, const char *_name )
+KonqKfmIconViewItem::KonqKfmIconViewItem( KonqKfmIconView *_parent, UDSEntry& _entry, KURL& _url, const char *_name )
   : KIconContainerItem( _parent )
 {
   init( _parent, _entry, _url, _name );
 }
 
-void KonqKfmIconViewItem::init( KonqKfmIconView* _IconView, UDSEntry& _entry, K2URL& _url, const char *_name )
+void KonqKfmIconViewItem::init( KonqKfmIconView* _IconView, UDSEntry& _entry, KURL& _url, const char *_name )
 {
   m_pParent = _IconView;
   m_entry = _entry;
-  m_strURL = _url.url().c_str();
+  m_strURL = _url.url();
   m_bMarked = false;
 
   mode_t mode = 0;
@@ -716,7 +716,7 @@ void KonqKfmIconViewItem::refresh()
   {
     m_displayMode = m_pParent->displayMode();
 
-    K2URL url( m_strURL.data() );
+    KURL url( m_strURL.data() );
 
     mode_t mode = 0;
     UDSEntry::iterator it = m_entry.begin();
@@ -760,7 +760,7 @@ bool KonqKfmIconViewItem::acceptsDrops( QStrList& /* _formats */ )
     return true;
 
   // Executable, shell script ... ?
-  K2URL u( m_strURL.data() );
+  KURL u( m_strURL.data() );
   if ( access( u.path(), X_OK ) == 0 )
     return true;
 

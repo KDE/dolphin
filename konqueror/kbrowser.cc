@@ -25,7 +25,7 @@
 #include <assert.h>
 #include <string.h>
 
-#include <k2url.h>
+#include <kurl.h>
 #include <kapp.h>
 #include <khtml.h>
 
@@ -145,8 +145,8 @@ void KBrowser::openURL( const char *_url )
 
 void KBrowser::openURL( const char *_url, bool _reload, int _xoffset, int _yoffset, const char* _post_data )
 {
-  list<K2URL> lst;
-  if ( !K2URL::split( _url, lst ) )
+  KURLList lst;
+  if ( !KURL::split( _url, lst ) )
   {
     emit error( ERR_MALFORMED_URL, _url );
     return;
@@ -234,12 +234,12 @@ void KBrowser::slotData( int /*_id*/, const char *_p, int _len )
     m_lstChildren.clear();
     m_strURL = m_strWorkingURL;
     m_strWorkingURL = "";
-    list<K2URL> lst;
-    assert ( K2URL::split( m_strURL, lst ) );
-    string baseurl = lst.back().url();
+    KURLList lst;
+    assert ( KURL::split( m_strURL, lst ) );
+    QString baseurl = lst.getLast()->url();
 
     m_bParsing = true;
-    begin( baseurl.c_str(), m_iNextXOffset, m_iNextYOffset );
+    begin( baseurl, m_iNextXOffset, m_iNextYOffset );
     parse();
   }
 
@@ -281,10 +281,10 @@ void KBrowser::servePendingURLRequests()
   KBrowserURLRequestJob* j = new KBrowserURLRequestJob( this );
   m_lstURLRequestJobs.append( j );
   QString url = m_lstPendingURLRequests.getFirst();
-  string tmp = completeURL( url );
+  QString tmp = completeURL( url );
   m_lstPendingURLRequests.removeFirst();
 
-  j->run( tmp.c_str(), url, m_bReload );
+  j->run( tmp, url, m_bReload );
 }
 
 void KBrowser::urlRequestFinished( KBrowserURLRequestJob* _request )
@@ -295,8 +295,8 @@ void KBrowser::urlRequestFinished( KBrowserURLRequestJob* _request )
 
 void KBrowser::slotCancelURLRequest( const char *_url )
 {
-  string tmp = completeURL( _url );
-  m_lstPendingURLRequests.remove( tmp.c_str() );
+  QString tmp = completeURL( _url );
+  m_lstPendingURLRequests.remove( tmp );
 }
 
 void KBrowser::slotURLSelected( const char *_url, int _button, const char *_target )
@@ -305,8 +305,8 @@ void KBrowser::slotURLSelected( const char *_url, int _button, const char *_targ
 //     slotStop();
 
   // Security
-  K2URL u1( _url );
-  K2URL u2( m_strURL );
+  KURL u1( _url );
+  KURL u2( m_strURL );
   if ( strcmp( u1.protocol(), "cgi" ) == 0 &&
        strcmp( u2.protocol(), "file" ) != 0 && strcmp( u2.protocol(), "cgi" ) != 0 )
   {
@@ -318,7 +318,7 @@ void KBrowser::slotURLSelected( const char *_url, int _button, const char *_targ
   if ( !_url )
     return;
     
-  string url = completeURL( _url );
+  QString url = completeURL( _url );
 
   if ( _target != 0L && _target[0] != 0 && _button == LeftButton )
   {
@@ -327,24 +327,24 @@ void KBrowser::slotURLSelected( const char *_url, int _button, const char *_targ
       KHTMLView *v = getParentView();
       if ( !v )
 	v = this;
-      v->openURL( url.c_str() );
+      v->openURL( url );
       return;
     }
     else if ( strcmp( _target, "_top" ) == 0 )
     {
       cerr << "OPENING top " << url << endl;
-      topView()->openURL( url.c_str() );
+      topView()->openURL( url );
       cerr << "OPENED top" << endl;
       return;
     }
     else if ( strcmp( _target, "_blank" ) == 0 )
     {
-      emit newWindow( url.c_str() );
+      emit newWindow( url );
       return;
     }
     else if ( strcmp( _target, "_self" ) == 0 )
     {
-      openURL( url.c_str() );
+      openURL( url );
       return;
     }
     
@@ -353,82 +353,82 @@ void KBrowser::slotURLSelected( const char *_url, int _button, const char *_targ
       v = findView( _target );
     if ( v )
     {
-      v->openURL( url.c_str() );
+      v->openURL( url );
       return;
     }
     else
     {
-      emit newWindow( url.c_str() );
+      emit newWindow( url );
       return;
     }
   }
   else if ( _button == MidButton )
   {
-      emit newWindow( url.c_str() );
+      emit newWindow( url );
       return;
   }
   else if ( _button == LeftButton )
   { 
-    // Test wether both URLs differ in the Reference only.
-    K2URLList l1;
-    if ( !K2URL::split( url.c_str(), l1 ) )
+    // Test whether both URLs differ in the Reference only.
+    KURLList l1;
+    if ( !KURL::split( url, l1 ) )
     {
-      kioErrorDialog( ERR_MALFORMED_URL, url.c_str() );
+      kioErrorDialog( ERR_MALFORMED_URL, url );
       return;
     }
     
-    K2URLList l2;
-    assert( K2URL::split( m_strURL, l2 ) );
+    KURLList l2;
+    assert( KURL::split( m_strURL, l2 ) );
     
-    string anchor = l1.back().ref();
+    QString anchor = l1.getLast()->ref();
     
-    l1.back().setRef("");
-    l2.back().setRef("");
+    l1.getLast()->setRef("");
+    l2.getLast()->setRef("");
     // if only the reference differs, then we just go to the new anchor
     if ( urlcmp( l1, l2 ) )
     {
-      K2URL::decode( anchor );
+      KURL::decode( anchor );
       cerr << "Going to anchor " << anchor << endl;
-      gotoAnchor( anchor.c_str() );
+      gotoAnchor( anchor );
       return;
     }
     
-    openURL( url.c_str() );
+    openURL( url );
   }
 }
 
 void KBrowser::slotFormSubmitted( const char *_method, const char *_url, const char *_data )
 { 
-  string url = completeURL( _url );
+  QString url = completeURL( _url );
 
-  list<K2URL> lst;
-  if ( !K2URL::split( url.c_str(), lst ) )
+  KURLList lst;
+  if ( !KURL::split( url, lst ) )
   {
-    emit error( ERR_MALFORMED_URL, url.c_str() );
+    emit error( ERR_MALFORMED_URL, url );
     return;
   }
   
   if ( strcasecmp( _method, "GET" ) == 0 )
   {
     // GET
-    QString query = lst.back().query();
+    QString query = lst.getLast()->query();
     if ( !query.isEmpty() )
     {
-      lst.back().setQuery( query + "&" + _data );
+      lst.getLast()->setQuery( query + "&" + _data );
     }
     else
     {
-      lst.back().setQuery( _data );
+      lst.getLast()->setQuery( _data );
     }
-    string new_url;
-    K2URL::join( lst, new_url );
+    QString new_url;
+    KURL::join( lst, new_url );
     
-    openURL( new_url.c_str() );
+    openURL( new_url );
   }
   else
   {
     // POST
-    openURL( url.c_str(), false, 0, 0, _data );
+    openURL( url, false, 0, 0, _data );
   }
 }
 
@@ -741,27 +741,27 @@ void KBrowser::setDefaultBGColor( const QColor& bgcolor )
 /*
 string KBrowser::completeSimpleURL( const char *_url )
 {
-  list<K2URL> lst;
-  assert( K2URL::split( m_strURL, lst ) );
-  K2URL u( lst.back(), _url );
+  KURLList lst;
+  assert( KURL::split( m_strURL, lst ) );
+  KURL u( lst.back(), _url );
   return u.url();
 }
 */
 
-string KBrowser::completeURL( const char *_url )
+QString KBrowser::completeURL( const char *_url )
 {
-  list<K2URL> lst;
-  assert( K2URL::split( m_strURL, lst ) );
-  K2URL u( lst.back(), _url );
+  KURLList lst;
+  assert( KURL::split( m_strURL, lst ) );
+  KURL u( *lst.getLast(), _url );
   
-  if ( strcmp( u.protocol(), lst.back().protocol() ) != 0 )
+  if ( strcmp( u.protocol(), lst.getLast()->protocol() ) != 0 )
   {
     return u.url();
   }
   
-  lst.back() = u;
-  string result;
-  K2URL::join( lst, result );
+  *lst.getLast() = u;
+  QString result;
+  KURL::join( lst, result );
   
   return result;
 }

@@ -672,7 +672,7 @@ void KIconContainer::dropEvent( QDropEvent * e )
     {
       cerr << "Testing URL " << s << endl;
 
-      K2URL u( s );
+      KURL u( s );
       if ( u.isMalformed() )
       {
 	QString tmp;

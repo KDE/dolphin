@@ -28,7 +28,7 @@
 
 #include <string>
 
-#include <k2url.h>
+#include <kurl.h>
 #include <kio_interface.h>
 
 class KonqKfmIconView;
@@ -38,7 +38,7 @@ class KMimeType;
 class KonqKfmIconViewItem : public KIconContainerItem
 {
 public:
-  KonqKfmIconViewItem( KonqKfmIconView *_parent, UDSEntry& _entry, K2URL& _url, const char *_name );
+  KonqKfmIconViewItem( KonqKfmIconView *_parent, UDSEntry& _entry, KURL& _url, const char *_name );
   virtual ~KonqKfmIconViewItem() { }
 
   virtual const char* url() { return m_strURL.c_str(); }
@@ -56,7 +56,7 @@ public:
 
   virtual KMimeType* mimeType() { return m_pMimeType; }
 protected:
-  virtual void init( KonqKfmIconView* _finder, UDSEntry& _entry, K2URL& _url, const char *_name );
+  virtual void init( KonqKfmIconView* _finder, UDSEntry& _entry, KURL& _url, const char *_name );
   virtual void paint( QPainter* _painter, const QColorGroup _grp );
 
   virtual void refresh();
@@ -123,14 +123,14 @@ protected:
 
   virtual void focusInEvent( QFocusEvent* _event );
 
-  K2URL m_url;
+  KURL m_url;
   bool m_bIsLocalURL;
   
   int m_jobId;
 
   bool m_bComplete;
   string m_strWorkingURL;
-  K2URL m_workingURL;
+  KURL m_workingURL;
 
   list<UDSEntry> m_buffer;
   QTimer m_bufferTimer;

@@ -31,7 +31,7 @@
 #include <errno.h>
 #include <assert.h>
 
-#include <k2url.h>
+#include <kurl.h>
 #include <kapp.h>
 #include <kwm.h>
 #include <qmsgbox.h>
@@ -86,7 +86,7 @@ void KBookmarkManager::slotNotify( const char *_url )
   if ( !m_bNotify )
     return;
 
-  K2URL u( _url );
+  KURL u( _url );
   if ( !u.isLocalFile() )
     return;
 
@@ -212,11 +212,9 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
 void KBookmarkManager::slotEditBookmarks()
 {
   QString q = kapp->localkdedir();
-  string u = q.data();
-  u += "/share/apps/kfm/bookmarks";
-  K2URL::encode( u );
+  KURL u ( q + "/share/apps/kfm/bookmarks");
 
-  editBookmarks( u.c_str() );
+  editBookmarks( u.url() );
 }
 
 /********************************************************************
@@ -289,7 +287,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, const char *_te
   assert( _parent != 0L );
   assert( _text != 0L && _url != 0L );
 
-  K2URL u( _url );
+  KURL u( _url );
 
   string icon;
   if ( u.isLocalFile() )
@@ -336,12 +334,12 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, const char *_te
 
   // Update opened KFM windows. Perhaps there is one
   // that shows the bookmarks directory.
-  string fe( _parent->file() );
+  QString fe( _parent->file() );
   // To make an URL, we have th encode the path
-  K2URL::encode( fe );
-  fe.insert( 0, "file:" );
+  KURL::encode( fe );
+  fe.prepend( "file:" );
   // HACK
-  // KIOServer::sendNotify( fe.c_str() );
+  // KIOServer::sendNotify( fe );
 
   m_pManager->enableNotify();
 
@@ -407,7 +405,6 @@ QString KBookmark::decode( const char *_str )
   QString str( _str );
 
 /* FIXME: temporarily disabled... I'm too lazy to fix this now ;) (Simon)
-  BTW, why don't we use K(2)URL::(decode,encode) ?
   
   int i = 0;
   while ( ( i = str.find( "%%", i ) ) != -1 )
@@ -430,9 +427,9 @@ QPixmap* KBookmark::pixmap( bool _mini )
   {
     struct stat buff;
     stat( m_file, &buff );
-    string encoded = m_file.data();
-    K2URL::encode( encoded );
-    m_pPixmap = KPixmapCache::pixmapForURL( encoded.c_str(), buff.st_mode, true, _mini );
+    QString encoded = m_file.data();
+    KURL::encode( encoded );
+    m_pPixmap = KPixmapCache::pixmapForURL( encoded, buff.st_mode, true, _mini );
   }
 
   assert( m_pPixmap );
@@ -536,7 +533,7 @@ void KBookmarkMenu::slotBookmarkSelected( int _id )
       return;
     }
 
-    K2URL u( bm->url() );
+    KURL u( bm->url() );
     if ( u.isMalformed() )
     {
       string tmp = i18n( "Malformed URL" ).ascii();

@@ -35,7 +35,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#include <k2url.h>
+#include <kurl.h>
 #include <kapp.h>
 
 #include <qmsgbox.h>
@@ -369,13 +369,13 @@ void KonqKfmTreeView::dropEvent( QDropEvent * e )
 
 void KonqKfmTreeView::slotDirectoryDirty( const char *_dir )
 {
-  string f = _dir;
-  K2URL::encode( f );
+  QString f = _dir;
+  KURL::encode( f );
 
   QDictIterator<KfmTreeViewDir> it( m_mapSubDirs );
   for( ; it.current(); ++it )
   {
-    if ( urlcmp( it.current()->url(0).c_str(), f.c_str(), true, true ) )
+    if ( urlcmp( it.current()->url(0).c_str(), f, true, true ) )
     {
       updateDirectory( it.current(), it.current()->url(0).c_str() );
       return;
@@ -389,8 +389,8 @@ void KonqKfmTreeView::addSubDir( const char* _url, KfmTreeViewDir* _dir )
 
   if ( isLocalURL() )
   {
-    K2URL u( _url );
-    kdirwatch->addDir( u.path(0).c_str() );
+    KURL u( _url );
+    kdirwatch->addDir( u.path(0) );
   }
 }
 
@@ -400,8 +400,8 @@ void KonqKfmTreeView::removeSubDir( const char *_url )
 
   if ( isLocalURL() )
   {
-    K2URL u( _url );
-    kdirwatch->removeDir( u.path(0).c_str() );
+    KURL u( _url );
+    kdirwatch->removeDir( u.path(0) );
   }
 }
 
@@ -622,7 +622,7 @@ void KonqKfmTreeView::slotOnItem( KfmTreeViewItem* _item)
 
   KMimeType *type = _item->mimeType();
   UDSEntry entry = _item->udsEntry();
-  K2URL url( _item->url() );
+  KURL url( _item->url() );
 
   QString comment = type->comment( url, false );
   QString text;
@@ -691,8 +691,8 @@ void KonqKfmTreeView::slotOnItem( KfmTreeViewItem* _item)
     SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)text.ascii(), 0 ) );
   }
   else
-//    m_pView->gui()->setStatusBarText( url.url().c_str() );
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)url.url().c_str(), 0 ) );
+//    m_pView->gui()->setStatusBarText( url.url() );
+    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)url.url(), 0 ) );
 }
 
 void KonqKfmTreeView::selectedItems( list<KfmTreeViewItem*>& _list )
@@ -792,7 +792,7 @@ void KonqKfmTreeView::openURL( const char *_url )
 {
   bool isNewProtocol = false;
 
-  K2URL url( _url );
+  KURL url( _url );
   if ( url.isMalformed() )
   {
     string tmp = i18n( "Malformed URL" ).ascii();
@@ -805,7 +805,7 @@ void KonqKfmTreeView::openURL( const char *_url )
   //test if we are switching to a new protocol
   if ( !m_strURL.isEmpty() )
   {
-    K2URL u( m_strURL.data() );
+    KURL u( m_strURL.data() );
     if ( strcmp( u.protocol(), url.protocol() ) != 0 )
       isNewProtocol = true;
   }
@@ -897,7 +897,7 @@ void KonqKfmTreeView::slotCloseURL( int /*_id*/ )
 
 void KonqKfmTreeView::openSubFolder( const char *_url, KfmTreeViewDir* _dir )
 {
-  K2URL url( _url );
+  KURL url( _url );
   if ( url.isMalformed() )
   {
     string tmp = i18n( "Malformed URL" ).ascii();;
@@ -927,7 +927,7 @@ void KonqKfmTreeView::openSubFolder( const char *_url, KfmTreeViewDir* _dir )
 
   /** Debug code **/
   assert( m_iColumns != -1 && !m_strURL.isEmpty() );
-  K2URL u( m_strURL.data() );
+  KURL u( m_strURL.data() );
   if ( strcmp( u.protocol(), url.protocol() ) != 0 )
     assert( 0 );
   /** End Debug code **/
@@ -1016,13 +1016,13 @@ void KonqKfmTreeView::slotBufferTimeout()
         m_strURL = m_strWorkingURL.c_str();
         m_strWorkingURL = "";
         m_url = m_strURL.data();
-        K2URL u( m_url );
+        KURL u( m_url );
         m_bIsLocalURL = u.isLocalFile();
       }
 
       if ( m_pWorkingDir )
       {
-        K2URL u( m_workingURL );
+        KURL u( m_workingURL );
         u.addPath( name.c_str() );
         if ( isdir )
           new KfmTreeViewDir( this, m_pWorkingDir, *it, u );
@@ -1031,7 +1031,7 @@ void KonqKfmTreeView::slotBufferTimeout()
       }
       else
       {
-        K2URL u( m_url );
+        KURL u( m_url );
         u.addPath( name.c_str() );
         if ( isdir )
           new KfmTreeViewDir( this, *it, u );
@@ -1224,7 +1224,7 @@ void KonqKfmTreeView::slotUpdateFinished( int /*_id*/ )
         KfmTreeViewItem *item;
         if ( m_pWorkingDir )
         {
-          K2URL u( m_workingURL );
+          KURL u( m_workingURL );
           u.addPath( name.c_str() );
           cerr << "Final path 1 '" << u.path() << '"' << endl;
           if ( isdir )
@@ -1234,7 +1234,7 @@ void KonqKfmTreeView::slotUpdateFinished( int /*_id*/ )
         }
         else
         {
-          K2URL u( m_url );
+          KURL u( m_url );
           u.addPath( name.c_str() );
           cerr << "Final path 2 '" << u.path() << '"' << endl;
           if ( isdir )
@@ -1321,23 +1321,23 @@ void KonqKfmTreeView::focusInEvent( QFocusEvent* _event )
  *
  **************************************************************/
 
-KfmTreeViewItem::KfmTreeViewItem( KonqKfmTreeView *_treeview, KfmTreeViewDir *_parent, UDSEntry& _entry, K2URL& _url )
+KfmTreeViewItem::KfmTreeViewItem( KonqKfmTreeView *_treeview, KfmTreeViewDir *_parent, UDSEntry& _entry, KURL& _url )
   : QListViewItem( _parent )
 {
   init( _treeview, _entry, _url );
 }
 
-KfmTreeViewItem::KfmTreeViewItem( KonqKfmTreeView *_parent, UDSEntry& _entry, K2URL& _url )
+KfmTreeViewItem::KfmTreeViewItem( KonqKfmTreeView *_parent, UDSEntry& _entry, KURL& _url )
   : QListViewItem( _parent )
 {
   init( _parent, _entry, _url );
 }
 
-void KfmTreeViewItem::init( KonqKfmTreeView* _treeview, UDSEntry& _entry, K2URL& _url )
+void KfmTreeViewItem::init( KonqKfmTreeView* _treeview, UDSEntry& _entry, KURL& _url )
 {
   m_pTreeView = _treeview;
   m_entry = _entry;
-  m_strURL = _url.url().c_str();
+  m_strURL = _url.url();
   m_bMarked = false;
 
   mode_t mode = 0;
@@ -1366,7 +1366,7 @@ bool KfmTreeViewItem::acceptsDrops( QStrList& /* _formats */ )
     return true;
 
   // Executable, shell script ... ?
-  K2URL u( m_strURL.data() );
+  KURL u( m_strURL.data() );
   if ( access( u.path(), X_OK ) == 0 )
     return true;
 
@@ -1545,22 +1545,22 @@ void KfmTreeViewItem::paintCell( QPainter *_painter, const QColorGroup & cg, int
  *
  **************************************************************/
 
-KfmTreeViewDir::KfmTreeViewDir( KonqKfmTreeView *_parent, UDSEntry& _entry, K2URL& _url )
+KfmTreeViewDir::KfmTreeViewDir( KonqKfmTreeView *_parent, UDSEntry& _entry, KURL& _url )
   : KfmTreeViewItem( _parent, _entry, _url )
 {
-  string url = _url.url();
-//  m_pFinder->addSubDir( url.c_str(), this );
-  m_pTreeView->addSubDir( url.c_str(), this );
+  QString url = _url.url();
+//  m_pFinder->addSubDir( url, this );
+  m_pTreeView->addSubDir( url, this );
 
   m_bComplete = false;
 }
 
-KfmTreeViewDir::KfmTreeViewDir( KonqKfmTreeView *_treeview, KfmTreeViewDir * _parent, UDSEntry& _entry, K2URL& _url )
+KfmTreeViewDir::KfmTreeViewDir( KonqKfmTreeView *_treeview, KfmTreeViewDir * _parent, UDSEntry& _entry, KURL& _url )
   : KfmTreeViewItem( _treeview, _parent, _entry, _url )
 {
-  string url = _url.url();
-//  m_pFinder->addSubDir( url.c_str(), this );
-  m_pTreeView->addSubDir( url.c_str(), this );
+  QString url = _url.url();
+//  m_pFinder->addSubDir( url, this );
+  m_pTreeView->addSubDir( url, this );
 
   m_bComplete = false;
 }
@@ -1596,7 +1596,7 @@ void KfmTreeViewDir::setOpen( bool _open )
 string KfmTreeViewDir::url( int _trailing )
 {
   string tmp;
-  K2URL u( m_strURL );
+  KURL u( m_strURL.c_str() );
   tmp = u.url( _trailing );
   return tmp;
 }

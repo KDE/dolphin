@@ -50,7 +50,7 @@
 #include <kio_paste.h>
 #include <kpixmapcache.h>
 #include <kstdaccel.h>
-/*#include <k2url.h>
+/*#include <kurl.h>
 #include <kmimemagic.h>
 #include <kuserprofile.h>
 #include <kregistry.h>
@@ -793,37 +793,37 @@ void KonqMainView::openURL( const Konqueror::URLRequest &url )
 void KonqMainView::openURL( const char * _url, CORBA::Boolean _reload )
 {
   /////////// First, modify the URL if necessary (adding protocol, ...) //////
-  string url = _url;
+  QString url = _url;
 
   // Root directory?
   if ( url[0] == '/' )
   {
-    K2URL::encode( url );
+    KURL::encode( url );
   }
   // Home directory?
   else if ( url[0] == '~' )
   {
     QString tmp( QDir::homeDirPath() );
     tmp += _url + 1;
-    K2URL u( tmp );
+    KURL u( tmp );
     url = u.url();
   }
-  else if ( strncmp( url.c_str(), "www.", 4 ) == 0 )
+  else if ( strncmp( url, "www.", 4 ) == 0 )
   {
-    string tmp = "http://";
-    K2URL::encode( url );
+    QString tmp = "http://";
+    KURL::encode( url );
     tmp += url;
     url = tmp;
   }
-  else if ( strncmp( url.c_str(), "ftp.", 4 ) == 0 )
+  else if ( strncmp( url, "ftp.", 4 ) == 0 )
   {
-    string tmp = "ftp://";
-    K2URL::encode( url );
+    QString tmp = "ftp://";
+    KURL::encode( url );
     tmp += url;
     url = tmp;
   }
 
-  K2URL u( url.c_str() );
+  KURL u( url );
   if ( u.isMalformed() )
   {
     string tmp = i18n("Malformed URL\n").ascii();
@@ -837,7 +837,7 @@ void KonqMainView::openURL( const char * _url, CORBA::Boolean _reload )
   
   slotStop(); //hm....
     
-  m_pRun = new KfmRun( this, url.c_str(), 0, false, false );
+  m_pRun = new KfmRun( this, url, 0, false, false );
 }
 
 void KonqMainView::setStatusBarText( const char *_text )
@@ -892,12 +892,12 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
 
   ProtocolManager* pManager = ProtocolManager::self();
   
-  K2URL url;
+  KURL url;
   CORBA::ULong i;
   // Check wether all URLs are correct
   for ( i = 0; i < popup.urls.length(); i++ )
   {
-    url = K2URL( popup.urls[i] );
+    url = KURL( popup.urls[i] );
     const char* protocol = url.protocol();
 
     if ( url.isMalformed() )
@@ -934,7 +934,7 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
   }
 
   //check if current url is trash
-  url = K2URL( m_currentView->m_vView->url() );
+  url = KURL( m_currentView->m_vView->url() );
   QString path = url.path();
   if ( path.right(1) != "/" )
     path += "/";
@@ -1039,14 +1039,14 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
   if ( m_menuNew ) m_menuNew->setPopupFiles( m_lstPopupURLs );
 
   // Do all URLs have the same mimetype ?
-  url = K2URL( m_lstPopupURLs.first() );
+  url = KURL( m_lstPopupURLs.first() );
 
   KMimeType* mime = KMimeType::findByURL( url, (mode_t)popup.mode, (bool)popup.isLocalFile );
   assert( mime );
   const char *s;
   for( s = m_lstPopupURLs.next(); mime != 0L && s != 0L; s = m_lstPopupURLs.next() )
   {
-    K2URL u( s );  
+    KURL u( s );  
     KMimeType* m = KMimeType::findByURL( u, (mode_t)popup.mode, (bool)popup.isLocalFile );
     if ( m != mime )
       mime = 0L;
@@ -1135,25 +1135,28 @@ void KonqMainView::openDirectory( const char *url )
   //TODO: check for html index file and stuff (Simon)
     
   // Parse URL
-  K2URLList lst;
-  assert( K2URL::split( url, lst ) );
+  KURLList lst;
+  assert( KURL::split( url, lst ) );
 
   // Do we perhaps want to display a html index file ? => Save the path of the URL
   QString tmppath;
-  if ( lst.size() == 1 && lst.front().isLocalFile() /*&& isHTMLAllowed()*/ )
-    tmppath = lst.front().path();
-  
+  //if ( lst.size() == 1 && lst.front().isLocalFile() /*&& isHTMLAllowed()*/ )
+  //tmppath = lst.front().path();
+
+  if (!strcmp(lst.getFirst()->protocol(), "file"))
+    tmppath = lst.getFirst()->path();
   // Get parent directory
-  QString p = lst.back().path();
+  QString p = lst.getLast()->path();
   if ( p.isEmpty() || p == "/" )
     setUpURL( 0 );
   else
   {
-    string dir = lst.back().directory( true, true );
-    lst.back().setPath( dir.c_str() );
-    string _url;
-    K2URL::join( lst, _url );
-    setUpURL( _url.c_str() );
+    KURL * lastUrl = lst.getLast();
+    QString dir = lastUrl->directory( true, true );
+    lastUrl->setPath( dir );
+    QString _url;
+    KURL::join( lst, _url );
+    setUpURL( _url );
   }
   
   Konqueror::EventOpenURL eventURL;
@@ -1378,9 +1381,9 @@ void KonqMainView::slotShowCache()
     return;
   }
 
-  string f = file.data();
-  K2URL::encode( f );
-  openURL( f.c_str(), (CORBA::Boolean)false );
+  QString f = file.data();
+  KURL::encode( f );
+  openURL( f, (CORBA::Boolean)false );
 }
 
 void KonqMainView::slotShowHistory()
@@ -1418,41 +1421,41 @@ void KonqMainView::slotAboutApp()
 
 void KonqMainView::slotURLEntered()
 {
-  string url = m_vLocationBar->linedText( TOOLBAR_URL_ID );
+  QString url = m_vLocationBar->linedText( TOOLBAR_URL_ID );
 
   // Exit if the user did not enter an URL
-  if ( url.empty() )
+  if ( url.isEmpty() )
     return;
 
   // Root directory?
   if ( url[0] == '/' )
   {
-    K2URL::encode( url );
+    KURL::encode( url );
   }
   // Home directory?
   else if ( url[0] == '~' )
   {
     QString tmp( QDir::homeDirPath() );
     tmp += m_vLocationBar->linedText( TOOLBAR_URL_ID ) + 1;
-    K2URL u( tmp );
+    KURL u( tmp );
     url = u.url();
   }
-  else if ( strncmp( url.c_str(), "www.", 4 ) == 0 )
+  else if ( strncmp( url, "www.", 4 ) == 0 )
   {
-    string tmp = "http://";
-    K2URL::encode( url );
+    QString tmp = "http://";
+    KURL::encode( url );
     tmp += url;
     url = tmp;
   }
-  else if ( strncmp( url.c_str(), "ftp.", 4 ) == 0 )
+  else if ( strncmp( url, "ftp.", 4 ) == 0 )
   {
-    string tmp = "ftp://";
-    K2URL::encode( url );
+    QString tmp = "ftp://";
+    KURL::encode( url );
     tmp += url;
     url = tmp;
   }
 
-  K2URL u( url.c_str() );
+  KURL u( url );
   if ( u.isMalformed() )
   {
     string tmp = i18n("Malformed URL\n").ascii();
@@ -1464,7 +1467,7 @@ void KonqMainView::slotURLEntered()
   m_bBack = false;
   m_bForward = false;
 
-  openURL( url.c_str(), (CORBA::Boolean)false );
+  openURL( url, (CORBA::Boolean)false );
 }
 
 void KonqMainView::slotStop()

@@ -24,7 +24,7 @@
 #include <qmsgbox.h>
 
 #include <kapp.h>
-#include <k2url.h>
+#include <kurl.h>
 #include <ksimpleconfig.h>
 #include <kio_linedit_dlg.h>
 #include <kio_interface.h>
@@ -214,17 +214,17 @@ void KNewMenu::slotNewFile( int _id )
 	    {
      	      KIOJob * job = new KIOJob;
               QString u = s;
-	      K2URL url( u );
+	      KURL url( u );
 	      url.addPath( name );
-	      string u2 = url.url();
+	      QString u2 = url.url();
 	      // --- Sven's check if this is global apps/mime start ---
 	      // This is a bug fix for bug report from A. Pour from
 	      // Mietierra (sp?)
 	      // User wants to create dir in global mime/apps dir;
 
-	      //	      Kfm::setUpDest(&u2.c_str()); // this checks & repairs destination
+	      //	      Kfm::setUpDest(&u2); // this checks & repairs destination
 	      // --- Sven's check if global apps/mime end ---
-	      job->mkdir( u2.c_str(), -1 );
+	      job->mkdir( u2, -1 );
             }
 	}
 	else
@@ -233,9 +233,9 @@ void KNewMenu::slotNewFile( int _id )
             for ( s = urls.first(); s != 0L; s = urls.next() )
             {
                 KIOJob * job = new KIOJob;
-		K2URL url( s );
+		KURL url( s );
 		url.addPath( name );
-		string u2 = url.url();
+		QString u2 = url.url();
 
 		// debugT("Command copy '%s' '%s'\n",src.data(),dest.data());
 
@@ -243,9 +243,9 @@ void KNewMenu::slotNewFile( int _id )
 		// This is a bug fix for bug report from A. Pour from
 		// Mietierra (sp?)
 		// User wants to create new entry in global mime/apps dir;
-		//		Kfm::setUpDest(&u2.c_str());
+		//		Kfm::setUpDest(&u2);
 		// --- Sven's check if global apps/mime end ---
-                job->copy( src, u2.c_str() );
+                job->copy( src, u2 );
             }
 	}
     }

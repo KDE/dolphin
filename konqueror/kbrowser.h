@@ -200,7 +200,7 @@ protected:
 				 bool _isselected);
   
   // virtual string completeSimpleURL( const char *_url );
-  virtual string completeURL( const char *_url );
+  virtual QString completeURL( const char *_url );
 
   virtual KBrowser* findChildView( const char *_target );
   

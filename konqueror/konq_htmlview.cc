@@ -37,7 +37,7 @@
 #include <khtmlsavedpage.h>
 #include <kapp.h>
 
-#include <k2url.h>
+#include <kurl.h>
 #include <kio_error.h>
 
 KonqHTMLView::KonqHTMLView( QWidget *_parent, const char *_name, KBrowser *_parent_browser )
@@ -165,7 +165,7 @@ void KonqHTMLView::slotMousePressed( const char* _url, const QPoint &_global, in
   if ( _button == RightButton )
   {
     Konqueror::View::MenuPopupRequest popupRequest;
-    K2URL u( url );
+    KURL u( url );
     popupRequest.urls.length( 1 );
     popupRequest.urls[0] = url;
 
@@ -197,7 +197,7 @@ void KonqHTMLView::slotOnURL( const char *_url )
     return;
   }
 
-  K2URL url( _url );
+  KURL url( _url );
   QString com;
 
   KMimeType *typ = KMimeType::findByURL( url );
@@ -212,7 +212,7 @@ void KonqHTMLView::slotOnURL( const char *_url )
   }
 
   QString decodedPath( url.path() );
-  QString decodedName( url.filename( true ).c_str() );
+  QString decodedName( url.filename( true ) );
 	
   struct stat buff;
   stat( decodedPath, &buff );
@@ -278,7 +278,7 @@ void KonqHTMLView::slotOnURL( const char *_url )
     SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)text.data(), 0 ) );
   }
   else
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)url.url().c_str(), 0 ) );
+    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)url.url(), 0 ) );
 }
 
 void KonqHTMLView::slotSetTitle( const char *title )
