@@ -818,6 +818,7 @@ void KonqMultiRestoreJob::slotResult( KIO::Job *job )
     if ( job->error() )
     {
         KIO::Job::slotResult( job ); // will set the error and emit result(this)
+        return;
     }
     subjobs.remove( job );
     // Move on to next one
