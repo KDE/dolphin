@@ -27,7 +27,8 @@ class QCheckBox;
 class KLineEdit;
 class KIntNumInput;
 
-static const int maxDesktops = 20;
+// if you change this, update also the number of keyboard shortcuts in kwin/kwinbindings.cpp
+static const int maxDesktops = 16;
 
 class KDesktopConfig : public KCModule
 {
