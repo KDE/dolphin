@@ -313,7 +313,7 @@ void KAppearanceOptions::load()
 #define READ_LIST(x) m_pConfig->readListEntry(x, khtmlrc.readListEntry(x))
 
     SET_GROUP(m_groupname);
-    fSize = READ_NUM( "MediumFontSize", 10 );
+    fSize = READ_NUM( "MediumFontSize", 12 );
     fMinSize = READ_NUM( "MinimumFontSize", HTML_DEFAULT_MIN_FONT_SIZE );
     if (fSize < fMinSize)
       fSize = fMinSize;
