@@ -142,11 +142,10 @@ module Konqueror
   interface KfmIconView : View
   {
 //    typedef sequence<IconViewItem> IconViewItemList;
-    
 //    IconViewItemList selectedItems();
-    
 //    void updateDirectory();
 
+    slot void slotShowDot();
     slot void slotLargeIcons();
     slot void slotSmallIcons();
   };
@@ -158,6 +157,7 @@ module Konqueror
     
   interface KfmTreeView : View
   {
+    slot void slotShowDot();
     slot void slotReloadTree();
   };
   
@@ -223,40 +223,61 @@ module Konqueror
     slot void createNewWindow( in string url );
     slot void popupMenu( in View::MenuPopupRequest popup );
 
+    // File menu
+    slot void slotNewWindow();
+    slot void slotRun();
+    slot void slotTerminal();
+    slot void slotOpenLocation();
+    slot void slotToolFind();
+    slot void slotPrint();
+    slot void slotClose();
+
+    // Edit menu
+    slot void slotCopy();
+    slot void slotPaste();
+    slot void slotTrash();
+    slot void slotDelete();
+    slot void slotSelect();
+    slot void slotSelectAll();
+    slot void slotSaveGeometry();
+
+    // View menu
     slot void slotSplitView();
     slot void slotRowAbove();
     slot void slotRowBelow();
     slot void slotRemoveView();
-    slot void slotShowDot();
+    slot void slotShowHTML();
     slot void slotLargeIcons();
     slot void slotSmallIcons();
     slot void slotTreeView();
-    slot void slotHTMLView();
-    slot void slotSaveGeometry();
+    slot void slotReload();
+    slot void slotStop();
+
+    // Go menu
+    slot void slotUp();
+    slot void slotBack();
+    slot void slotForward();
+    slot void slotHome();
     slot void slotShowCache();
     slot void slotShowHistory();
     slot void slotEditMimeTypes();
     slot void slotEditApplications();
-    slot void slotOpenLocation();
+
+    // Options menu
     slot void slotConfigureKeys();
-    slot void slotAboutApp();
+
+    // Help menu
+    slot void slotAboutApp();    
+    slot void slotHelp();
 
     slot void slotURLEntered();
-  
-    slot void slotStop();
-    slot void slotNewWindow();
-    slot void slotUp();
-    slot void slotHome();
-    slot void slotBack();
-    slot void slotForward();
-    slot void slotReload();
 
     slot void slotFileNewActivated( in long id );
     slot void slotFileNewAboutToShow();	
   
     slot void slotBookmarkSelected( in long id );
     slot void slotEditBookmarks();
-    
+
     slot void slotURLStarted( in OpenParts::Id id, in string url );
     slot void slotURLCompleted( in OpenParts::Id id );
   };

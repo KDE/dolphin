@@ -63,6 +63,7 @@ public:
 
   virtual void slotLargeIcons();
   virtual void slotSmallIcons();
+  virtual void slotShowDot();
 
   virtual void stop();
   virtual char *viewName() { return CORBA::string_dup("KonquerorKfmIconView"); }

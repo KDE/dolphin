@@ -100,6 +100,7 @@ public:
   virtual char *url();
 
   virtual void slotReloadTree();
+  virtual void slotShowDot();
     
   virtual void openURLRequest( const char *_url );
 

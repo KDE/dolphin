@@ -131,6 +131,11 @@ void KonqKfmIconView::slotSmallIcons()
   setDisplayMode( KIconContainer::Vertical );
 }
 
+void KonqKfmIconView::slotShowDot()
+{
+  // TODO
+}
+
 void KonqKfmIconView::stop()
 {
   slotCloseURL( 0 ); // FIXME (just trying)

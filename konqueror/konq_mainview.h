@@ -126,26 +126,52 @@ public:
   
 
 public slots:  
-  /////////////////////////
-  // MenuBar
-  /////////////////////////
+  // File menu
+  virtual void slotNewWindow();
+  virtual void slotRun();
+  virtual void slotTerminal();
+  virtual void slotOpenLocation();
+  virtual void slotToolFind();
+  virtual void slotPrint();
+  virtual void slotClose();
+
+  // Edit menu
+  virtual void slotCopy();
+  virtual void slotPaste();
+  virtual void slotTrash();
+  virtual void slotDelete();
+  virtual void slotSelect();
+  virtual void slotSelectAll();
+  virtual void slotSaveGeometry();
+
+  // View menu
   virtual void slotSplitView();
   virtual void slotRowAbove();
   virtual void slotRowBelow();
   virtual void slotRemoveView();
-  virtual void slotShowDot();
+  virtual void slotShowHTML();
   virtual void slotLargeIcons();
   virtual void slotSmallIcons();
   virtual void slotTreeView();
-  virtual void slotHTMLView();
-  virtual void slotSaveGeometry();
+  virtual void slotReload();
+  virtual void slotStop();
+
+  // Go menu
+  virtual void slotUp();
+  virtual void slotBack();
+  virtual void slotForward();
+  virtual void slotHome();
   virtual void slotShowCache();
   virtual void slotShowHistory();
   virtual void slotEditMimeTypes();
   virtual void slotEditApplications();
-  virtual void slotOpenLocation();
+
+  // Options menu
   virtual void slotConfigureKeys();
-  virtual void slotAboutApp();
+
+  // Help menu
+  virtual void slotAboutApp();    
+  virtual void slotHelp();
 
   /////////////////////////
   // Location Bar
@@ -153,16 +179,7 @@ public slots:
   virtual void slotURLEntered();
   
   /////////////////////////
-  // ToolBar
-  /////////////////////////
-  virtual void slotStop();
-  virtual void slotNewWindow();
-  virtual void slotUp();
-  virtual void slotHome();
-  virtual void slotBack();
-  virtual void slotForward();
-  virtual void slotReload();
-
+  
   virtual void slotFileNewActivated( CORBA::Long id );
   virtual void slotFileNewAboutToShow();
   
@@ -179,6 +196,7 @@ public slots:
   void slotStartAnimation();
   void slotStopAnimation();
   
+  // Popup
   void slotPopupNewView();
   void slotPopupEmptyTrashBin();
   void slotPopupCopy();

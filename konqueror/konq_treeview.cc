@@ -169,6 +169,11 @@ void KonqKfmTreeView::slotReloadTree()
   openURL( u.ascii() );
 }
 
+void KonqKfmTreeView::slotShowDot()
+{
+  // TODO
+}
+
 void KonqKfmTreeView::openURLRequest( const char *_url )
 {
   Konqueror::URLRequest urlRequest;

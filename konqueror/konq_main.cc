@@ -150,7 +150,10 @@ void KonqApp::start()
     QString home = "file:";
     home += QDir::homeDirPath();
     KonqMainWindow *m_pShell = new KonqMainWindow( home.data() );
+    
+    m_pShell->show(); // seems to call init, so we need it first
 
+    /* BUGGY
     // Add a tree view on the right. Probably temporary.
     Konqueror::View_var vView2 = Konqueror::View::_duplicate( new KonqKfmTreeView );
     m_pShell->mainView()->insertView( vView2, Konqueror::right );
@@ -160,8 +163,7 @@ void KonqApp::start()
     req.xOffset = 0;
     req.yOffset = 0;
     m_pShell->mainView()->openURL( req );
-
-    m_pShell->show();
+    */
   }
 }
 

@@ -226,6 +226,90 @@ void KonqMainView::cleanUp()
   OPPartIf::cleanUp();
 }
 
+void KonqMainView::initConfig()
+{
+  // Read application config file if not already done
+  if (!KfmGuiProps::m_pDefaultProps)
+  {
+    debug("Reading global config");
+    KConfig *config = kapp->getConfig();
+    config->setGroup( "Settings" );
+    KfmGuiProps::m_pDefaultProps = new KfmGuiProps(config);
+  }
+
+  // For the moment, no local properties
+  // Copy the default properties
+  m_Props = new KfmGuiProps( *KfmGuiProps::m_pDefaultProps );
+
+  if ( !m_bInit )
+  {
+    // views will set their mode by themselves - to be checked
+    //    m_rightView.m_pView->setViewMode( m_Props->rightViewMode() );
+    //    m_leftView.m_pView->setViewMode( m_Props->leftViewMode() );
+  }
+  else
+    this->resize(m_Props->m_width,m_Props->m_height);
+}
+
+void KonqMainView::initGui()
+{
+  initView();
+
+  if ( s_lstAnimatedLogo->count() == 0 )
+  {
+    s_lstAnimatedLogo->setAutoDelete( true );
+    for ( int i = 1; i < 9; i++ )
+    {
+      QString n;
+      n.sprintf( "kde%i.xpm", i );
+      s_lstAnimatedLogo->append( OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( n ) ) );
+    }
+  }			
+
+  m_animatedLogoCounter = 0;
+  QObject::connect( &m_animatedLogoTimer, SIGNAL( timeout() ), this, SLOT( slotAnimatedLogoTimeout() ) );
+}
+
+Row * KonqMainView::newRow( bool append )
+{
+  Row * row = new QSplitter ( QSplitter::Horizontal, m_pMainSplitter );
+  //row->setOpaqueResize( TRUE );
+  if ( append )
+    m_lstRows.append( row );
+  else
+  {
+    m_lstRows.insert( 0, row );
+    m_pMainSplitter->moveToFirst( row );
+  }
+  row->show();
+  debug("newRow() done");
+  return row;
+}
+
+void KonqMainView::initPanner()
+{
+  // Create the main splitter
+  m_pMainSplitter = new QSplitter ( QSplitter::Vertical, this, "mainsplitter" );
+  //m_pMainSplitter->setOpaqueResize( TRUE ); 
+
+  // Create a row, and its splitter
+  m_lstRows.clear();
+  (void) newRow(true);
+  m_pMainSplitter->show();
+}
+
+void KonqMainView::initView()
+{
+  Konqueror::View_var vView1 = Konqueror::View::_duplicate( new KonqKfmIconView );
+  insertView( vView1, Konqueror::left );
+
+  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( vView1->id() );
+  it->second->lockHistory(); // first URL won't go into history
+  it->second->openURL( m_sInitialURL );
+
+  setActiveView( vView1->id() );
+}
+
 bool KonqMainView::event( const char* event, const CORBA::Any& value )
 {
   EVENT_MAPPER( event, value );
@@ -1036,6 +1120,104 @@ void KonqMainView::createViewMenu()
   }
 }
 
+/////////////////////// MENUBAR AND TOOLBAR SLOTS //////////////////
+
+void KonqMainView::slotNewWindow()
+{
+  QString url = m_currentView->url();
+  KonqMainWindow *m_pShell = new KonqMainWindow( url );
+  m_pShell->show();
+}
+
+void KonqMainView::slotRun()
+{
+  // TODO
+}
+
+void KonqMainView::slotTerminal()
+{
+  // TODO
+}
+
+void KonqMainView::slotOpenLocation()
+{
+  QString u;
+  if (m_currentView)
+    u = m_currentView->url();
+
+  KLineEditDlg l( i18n("Open Location:"), u, this, true );
+  int x = l.exec();
+  if ( x )
+  {
+    u = l.text();
+    u = u.stripWhiteSpace();
+    // Exit if the user did not enter an URL
+    if ( u.isEmpty() )
+      return;
+    openURL( u.ascii(), (CORBA::Boolean)false );
+  }
+}
+
+void KonqMainView::slotToolFind()
+{
+  // TODO
+}
+
+void KonqMainView::slotPrint()
+{
+  // TODO
+}
+
+void KonqMainView::slotClose()
+{
+  // TODO
+}
+
+void KonqMainView::slotCopy()
+{
+  // TODO
+}
+
+void KonqMainView::slotPaste()
+{
+  // TODO
+}
+
+void KonqMainView::slotTrash()
+{
+  // TODO
+}
+
+void KonqMainView::slotDelete()
+{
+  // TODO
+}
+
+void KonqMainView::slotSelect()
+{
+  // TODO
+}
+
+void KonqMainView::slotSelectAll()
+{
+  // TODO
+}
+
+void KonqMainView::slotSaveGeometry()
+{
+  KConfig *config = kapp->getConfig();
+  config->setGroup( "Settings" );
+
+  // Update the values in m_Props, if necessary :
+  m_Props->m_width = this->width();
+  m_Props->m_height = this->height();
+//  m_Props->m_toolBarPos = m_pToolbar->barPos();
+  // m_Props->m_statusBarPos = m_pStatusBar->barPos(); doesn't exist. Hum.
+//  m_Props->m_menuBarPos = m_pMenu->menuBarPos();
+//  m_Props->m_locationBarPos = m_pLocationBar->barPos();
+  m_Props->saveProps(config);
+}
+
 void KonqMainView::slotSplitView()
 {
   // Create new view, same URL as current view, on its right.
@@ -1059,14 +1241,18 @@ void KonqMainView::slotRemoveView()
   removeView( m_currentId );
 }
 
-void KonqMainView::slotShowDot()
+void KonqMainView::slotShowHTML()
 {
+  ///  m_currentView->changeViewMode( "KonquerorHTMLView" );
 /*
-  KfmView * v = m_currentView->m_pView;
-  v->setShowDot( ! v->props()->isShowingDotFiles() );
-  debug("v->props()->isShowingDotFiles() : %s",
-        v->props()->isShowingDotFiles() ? "TRUE" : "FALSE");
-  m_vMenuView->setItemChecked( MVIEW_SHOWDOT_ID, v->props()->isShowingDotFiles() );
+  m_vMenuView->setItemChecked( MVIEW_LARGEICONS_ID, false );
+  m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, false );
+  m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, false );
+
+  if ( !CORBA::is_nil( m_vMenuView ) )
+    m_vMenuView->setItemChecked( MVIEW_HTMLVIEW_ID, !m_currentView->m_pView->isHTMLAllowed() );
+
+  m_currentView->m_pView->setHTMLAllowed( !m_currentView->m_pView->isHTMLAllowed() );
 */
 }
 
@@ -1096,34 +1282,52 @@ void KonqMainView::slotTreeView()
   m_currentView->changeViewMode( "KonquerorKfmTreeView" );
 }
 
-void KonqMainView::slotHTMLView()
+void KonqMainView::slotReload()
 {
-  m_currentView->changeViewMode( "KonquerorHTMLView" );
-/*
-  m_vMenuView->setItemChecked( MVIEW_LARGEICONS_ID, false );
-  m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, false );
-  m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, false );
-
-  if ( !CORBA::is_nil( m_vMenuView ) )
-    m_vMenuView->setItemChecked( MVIEW_HTMLVIEW_ID, !m_currentView->m_pView->isHTMLAllowed() );
-
-  m_currentView->m_pView->setHTMLAllowed( !m_currentView->m_pView->isHTMLAllowed() );
-*/
+  m_currentView->reload();
 }
 
-void KonqMainView::slotSaveGeometry()
+void KonqMainView::slotStop()
 {
-  KConfig *config = kapp->getConfig();
-  config->setGroup( "Settings" );
+  if ( m_pRun )
+  {
+    delete m_pRun;
+    m_pRun = 0L;
+  }
+  
+  if ( m_currentView )
+    m_currentView->stop();
+}
 
-  // Update the values in m_Props, if necessary :
-  m_Props->m_width = this->width();
-  m_Props->m_height = this->height();
-//  m_Props->m_toolBarPos = m_pToolbar->barPos();
-  // m_Props->m_statusBarPos = m_pStatusBar->barPos(); doesn't exist. Hum.
-//  m_Props->m_menuBarPos = m_pMenu->menuBarPos();
-//  m_Props->m_locationBarPos = m_pLocationBar->barPos();
-  m_Props->saveProps(config);
+void KonqMainView::slotUp()
+{
+  QString url = m_currentView->url();
+  KURL u( url );
+  u.cd(".."); // KURL does it for us
+  
+  m_currentView->openURL( u.url() );
+}
+
+void KonqMainView::slotBack()
+{ 
+  m_currentView->goBack();
+
+  if( m_currentView->canGoBack() )
+    setItemEnabled( m_vMenuGo, MGO_BACK_ID, false );
+}
+
+void KonqMainView::slotForward()
+{
+  m_currentView->goForward();
+  if( m_currentView->canGoForward() )
+    setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, false );
+}
+
+void KonqMainView::slotHome()
+{
+  QString tmp( QDir::homeDirPath() );
+  tmp.prepend( "file:" );
+  openURL(tmp,(CORBA::Boolean)false); // might need a view-mode change...
 }
 
 void KonqMainView::slotShowCache()
@@ -1155,25 +1359,6 @@ void KonqMainView::slotEditApplications()
   openURL( kapp->kde_appsdir(), (CORBA::Boolean)false );
 }
 
-void KonqMainView::slotOpenLocation()
-{
-  QString u;
-  if (m_currentView)
-    u = m_currentView->url();
-
-  KLineEditDlg l( i18n("Open Location:"), u, this, true );
-  int x = l.exec();
-  if ( x )
-  {
-    u = l.text();
-    u = u.stripWhiteSpace();
-    // Exit if the user did not enter an URL
-    if ( u.isEmpty() )
-      return;
-    openURL( u.ascii(), (CORBA::Boolean)false );
-  }
-}
-
 void KonqMainView::slotConfigureKeys()
 {
   KKeyDialog::configureKeys( m_pAccel );
@@ -1182,6 +1367,10 @@ void KonqMainView::slotConfigureKeys()
 void KonqMainView::slotAboutApp()
 {
   kapp->invokeHTMLHelp( "kfm3/about.html", "" );
+}
+
+void KonqMainView::slotHelp()
+{
 }
 
 void KonqMainView::slotURLEntered()
@@ -1237,61 +1426,6 @@ void KonqMainView::slotURLEntered()
   */ 
 
   openURL( url, (CORBA::Boolean)false );
-}
-
-void KonqMainView::slotStop()
-{
-  if ( m_pRun )
-  {
-    delete m_pRun;
-    m_pRun = 0L;
-  }
-  
-  if ( m_currentView )
-    m_currentView->stop();
-}
-
-void KonqMainView::slotNewWindow()
-{
-  QString url = m_currentView->url();
-  KonqMainWindow *m_pShell = new KonqMainWindow( url );
-  m_pShell->show();
-}
-
-void KonqMainView::slotUp()
-{
-  QString url = m_currentView->url();
-  KURL u( url );
-  u.cd(".."); // KURL does it for us
-  
-  m_currentView->openURL( u.url() );
-}
-
-void KonqMainView::slotHome()
-{
-  QString tmp( QDir::homeDirPath() );
-  tmp.prepend( "file:" );
-  openURL(tmp,(CORBA::Boolean)false); // might need a view-mode change...
-}
-
-void KonqMainView::slotBack()
-{ 
-  m_currentView->goBack();
-
-  if( m_currentView->canGoBack() )
-    setItemEnabled( m_vMenuGo, MGO_BACK_ID, false );
-}
-
-void KonqMainView::slotForward()
-{
-  m_currentView->goForward();
-  if( m_currentView->canGoForward() )
-    setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, false );
-}
-
-void KonqMainView::slotReload()
-{
-  m_currentView->reload();
 }
 
 void KonqMainView::slotFileNewActivated( CORBA::Long id )
@@ -1489,90 +1623,6 @@ void KonqMainView::slotPopupProperties()
 void KonqMainView::resizeEvent( QResizeEvent *e )
 {
   m_pMainSplitter->setGeometry( 0, 0, width(), height() ); 
-}
-
-void KonqMainView::initConfig()
-{
-  // Read application config file if not already done
-  if (!KfmGuiProps::m_pDefaultProps)
-  {
-    debug("Reading global config");
-    KConfig *config = kapp->getConfig();
-    config->setGroup( "Settings" );
-    KfmGuiProps::m_pDefaultProps = new KfmGuiProps(config);
-  }
-
-  // For the moment, no local properties
-  // Copy the default properties
-  m_Props = new KfmGuiProps( *KfmGuiProps::m_pDefaultProps );
-
-  if ( !m_bInit )
-  {
-    // views will set their mode by themselves - to be checked
-    //    m_rightView.m_pView->setViewMode( m_Props->rightViewMode() );
-    //    m_leftView.m_pView->setViewMode( m_Props->leftViewMode() );
-  }
-  else
-    this->resize(m_Props->m_width,m_Props->m_height);
-}
-
-void KonqMainView::initGui()
-{
-  initView();
-
-  if ( s_lstAnimatedLogo->count() == 0 )
-  {
-    s_lstAnimatedLogo->setAutoDelete( true );
-    for ( int i = 1; i < 9; i++ )
-    {
-      QString n;
-      n.sprintf( "kde%i.xpm", i );
-      s_lstAnimatedLogo->append( OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( n ) ) );
-    }
-  }			
-
-  m_animatedLogoCounter = 0;
-  QObject::connect( &m_animatedLogoTimer, SIGNAL( timeout() ), this, SLOT( slotAnimatedLogoTimeout() ) );
-}
-
-Row * KonqMainView::newRow( bool append )
-{
-  Row * row = new QSplitter ( QSplitter::Horizontal, m_pMainSplitter );
-  //row->setOpaqueResize( TRUE );
-  if ( append )
-    m_lstRows.append( row );
-  else
-  {
-    m_lstRows.insert( 0, row );
-    m_pMainSplitter->moveToFirst( row );
-  }
-  row->show();
-  debug("newRow() done");
-  return row;
-}
-
-void KonqMainView::initPanner()
-{
-  // Create the main splitter
-  m_pMainSplitter = new QSplitter ( QSplitter::Vertical, this, "mainsplitter" );
-  //m_pMainSplitter->setOpaqueResize( TRUE ); 
-
-  // Create a row, and its splitter
-  m_lstRows.clear();
-  (void) newRow(true);
-  m_pMainSplitter->show();
-}
-
-void KonqMainView::initView()
-{
-  Konqueror::View_var vView1 = Konqueror::View::_duplicate( new KonqKfmIconView );
-  insertView( vView1, Konqueror::left );
-
-  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( vView1->id() );
-  it->second->lockHistory(); // first URL won't go into history
-  it->second->openURL( m_sInitialURL );
-
-  setActiveView( vView1->id() );
 }
 
 void KonqMainView::openBookmarkURL( const char *url )
