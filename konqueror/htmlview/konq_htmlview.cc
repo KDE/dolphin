@@ -49,6 +49,12 @@
 #include <klibloader.h>
 #include <kstddirs.h>
 
+#ifdef hpux
+#include "config.h"    /* needed for setenv() on HP-UX */
+#endif
+
+
+
 class KonqHTMLViewFactory : public KLibFactory
 {
 public:
