@@ -169,6 +169,12 @@ protected:
 
   bool m_bDirPropertiesChanged:1;
 
+  bool m_bNeedSetCurrentItem:1;
+  
+  KFileIVI * m_pEnsureVisible;
+  
+  QStringList m_itemsToSelect;
+  
   SortCriterion m_eSortCriterion;
 
   KToggleAction *m_paDotFiles;

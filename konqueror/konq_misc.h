@@ -64,7 +64,10 @@ public:
      * Create a new window for @p url using @p args and the appropriate profile for this URL.
      * @param forbidUseHTML internal. True when called by "Find Files"
      */
-    static KonqMainWindow * createNewWindow( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs(), bool forbidUseHTML = false );
+    static KonqMainWindow * createNewWindow( const KURL &url,
+                                             const KParts::URLArgs &args = KParts::URLArgs(),
+                                             bool forbidUseHTML = false,
+                                             QStringList filesToSelect = QStringList() );
 
     /**
      * Create a new window from the profile defined by @p filename and @p path.
@@ -75,7 +78,8 @@ public:
                                                             const QString &filename,
                                                             const KURL &url = KURL(),
                                                             const KParts::URLArgs &args = KParts::URLArgs(),
-							    bool forbidUseHTML = false );
+                                                            bool forbidUseHTML = false,
+                                                            QStringList filesToSelect = QStringList() );
     /**
      * Applies the URI filters to @p url.
      *

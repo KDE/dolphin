@@ -47,7 +47,8 @@ struct KonqOpenURLRequest {
   bool openAfterCurrentPage;
   bool forceAutoEmbed; // if true, override the user's FMSettings for embedding
   KParts::URLArgs args;
-
+  QStringList filesToSelect; // files to select in a konqdirpart
+  
   static KonqOpenURLRequest null;
 };
 

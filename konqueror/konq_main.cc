@@ -42,6 +42,7 @@ static KCmdLineOptions options[] =
   { "profile <profile>",   I18N_NOOP("Profile to open."), 0 },
   { "profiles", I18N_NOOP("List available profiles."), 0 },
   { "mimetype <mimetype>",   I18N_NOOP("Mimetype to use for this URL, (e.g. text/html or inode/directory)."), 0 },
+  { "select", I18N_NOOP("For urls that point to files, opens the directory and selects the file, instead of opening a view for the file."), 0 },
   { "+[URL]",   I18N_NOOP("Location to open."), 0 },
   KCmdLineLastOption
 };
@@ -103,13 +104,22 @@ extern "C" int kdemain( int argc, char **argv )
        if (profile[0] != '/')
            profilePath = locate( "data", QString::fromLatin1("konqueror/profiles/")+profile );
        QString url;
+       QStringList filesToSelect;
        if (args->count() == 1)
            url = QString::fromLocal8Bit(args->arg(0));
+       KURL kurl(url);
        KParts::URLArgs urlargs;
        if (args->isSet("mimetype"))
            urlargs.serviceType = QString::fromLocal8Bit(args->getOption("mimetype"));
+       if (args->isSet("select")) {
+           QString fn = kurl.fileName(false);
+           if( !fn.isEmpty() ){
+              filesToSelect += fn;
+              kurl.setFileName("");
+           }
+       }
        kdDebug(1202) << "main() -> createBrowserWindowFromProfile servicetype=" << urlargs.serviceType << endl;
-       KonqMisc::createBrowserWindowFromProfile( profilePath, profile, KURL( url ), urlargs );
+       KonqMisc::createBrowserWindowFromProfile( profilePath, profile, kurl, urlargs, false, filesToSelect );
      }
      else
      {
@@ -158,20 +168,30 @@ extern "C" int kdemain( int argc, char **argv )
                  // KonqMisc::konqFilteredURL doesn't cope with local files... A bit of hackery below
                  KURL url = args->url(i);
                  KURL urlToOpen;
+                 QStringList filesToSelect;
+                 
                  if (url.isLocalFile() && QFile::exists(url.path())) // "konqueror index.html"
                      urlToOpen = url;
                  else
                      urlToOpen = KURL( KonqMisc::konqFilteredURL(0L, args->arg(i)) ); // "konqueror slashdot.org"
 
-                 KParts::URLArgs urlargs;
-                 if (args->isSet("mimetype"))
-                 {
-                     urlargs.serviceType = QString::fromLocal8Bit(args->getOption("mimetype"));
-                     kdDebug(1202) << "main() : setting serviceType to " << urlargs.serviceType << endl;
-                 }
-                 if ( !mainwin )
-                     mainwin =KonqMisc::createNewWindow( urlToOpen, urlargs );
-                 else
+                 if ( !mainwin ) {
+                     KParts::URLArgs urlargs;
+                     if (args->isSet("mimetype"))
+                     {
+                         urlargs.serviceType = QString::fromLocal8Bit(args->getOption("mimetype"));
+                         kdDebug(1202) << "main() : setting serviceType to " << urlargs.serviceType << endl;
+                     }
+                     if (args->isSet("select"))
+                     {
+                        QString fn = urlToOpen.fileName(false);
+                        if( !fn.isEmpty() ){
+                           filesToSelect += fn;
+                           urlToOpen.setFileName("");
+                        }
+                     }
+                     mainwin = KonqMisc::createNewWindow( urlToOpen, urlargs, false, filesToSelect );
+                 } else
                      urlList += urlToOpen;
              }
              if ( mainwin )

@@ -246,6 +246,14 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
                 m_itemFound=true;
             }
         }
+        
+        if ( !m_itemsToSelect.isEmpty() ) {
+           QStringList::Iterator tsit = m_itemsToSelect.find( (*kit)->name() );
+           if ( tsit != m_itemsToSelect.end() ) {
+              m_itemsToSelect.remove( tsit );
+              setSelected( fileItem ? fileItem : dirItem, true );
+           }
+        }
 
         if ( fileItem && !(*kit)->isMimeTypeKnown() )
             m_pBrowserView->lstPendingMimeIconItems().append( fileItem );

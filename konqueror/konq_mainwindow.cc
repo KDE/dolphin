@@ -854,6 +854,8 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
       childView->setTypedURL( req.typedURL );
       if ( childView->browserExtension() )
           childView->browserExtension()->setURLArgs( req.args );
+      if ( childView->part()->inherits("KonqDirPart") )
+          static_cast<KonqDirPart *>(childView->part())->setFilesToSelect( req.filesToSelect );
       if ( !url.isEmpty() )
           childView->openURL( url, originalURL, req.nameFilter );
   }
@@ -1461,7 +1463,17 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   // Save those, because changeViewMode will lose them
   KURL url = m_currentView->url();
   QString locationBarURL = m_currentView->locationBarURL();
-
+  QStringList filesToSelect;
+  if( m_currentView->part()->inherits( "KonqDirPart" ) ) {
+     KFileItemList fileItemsToSelect = static_cast<KonqDirPart*>(m_currentView->part())->selectedFileItems();
+     KFileItemListIterator it( fileItemsToSelect );
+     while( it.current() ){
+         filesToSelect += it.current()->name();
+         ++it;
+     }
+  }
+      
+  
   bool bQuickViewModeChange = false;
 
   // iterate over all services, update the toolbar service map
@@ -1528,6 +1540,8 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
     m_currentView->changeViewMode( m_currentView->serviceType(), modeName );
     QString locURL( locationBarURL );
     QString nameFilter = detectNameFilter( locURL );
+    if( m_currentView->part()->inherits( "KonqDirPart" ) )
+       static_cast<KonqDirPart*>( m_currentView->part() )->setFilesToSelect( filesToSelect );
     m_currentView->openURL( KURL( locURL ), locationBarURL, nameFilter );
   }
 

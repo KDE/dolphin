@@ -242,13 +242,14 @@ class KonqBaseListViewWidget : public KListView
       bool m_bAscending:1;
       bool m_itemFound:1;
       bool m_restored:1;
-
+	
       int m_filenameColumn;
       int m_filenameColumnWidth;
 
       KURL m_url;
 
       QString m_itemToGoTo;
+      QStringList m_itemsToSelect;
       QTimer *m_backgroundTimer;
 };
 

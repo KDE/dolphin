@@ -98,6 +98,14 @@ void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
          setCurrentItem( tmp );
          m_itemFound = true;
       }
+      if ( !m_itemsToSelect.isEmpty() ) {
+         QStringList::Iterator tsit = m_itemsToSelect.find( (*kit)->name() );
+         if ( tsit != m_itemsToSelect.end() ) {
+            m_itemsToSelect.remove( tsit );
+            setSelected( tmp, true );
+         }
+      }
+
    }
 
    m_pBrowserView->newItems( entries );

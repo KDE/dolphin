@@ -79,6 +79,21 @@ DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const QCString& 
     return createNewWindow( url );
 }
 
+DCOPRef KonquerorIface::createNewWindowWithSelection( const QString &url, QStringList filesToSelect )
+{
+    qt_x_user_time = 0;
+    KonqMainWindow *res = KonqMisc::createNewWindow( KURL(url), KParts::URLArgs(), false, filesToSelect  );
+    if ( !res )
+        return DCOPRef();
+    return res->dcopObject();
+}
+
+DCOPRef KonquerorIface::createNewWindowWithSelectionASN( const QString &url, QStringList filesToSelect, const QCString &startup_id )
+{
+    kapp->setStartupId( startup_id );
+    return createNewWindowWithSelection( url, filesToSelect );
+}
+
 DCOPRef KonquerorIface::createNewWindow( const QString &url, const QString &mimetype )
 {
     qt_x_user_time = 0;

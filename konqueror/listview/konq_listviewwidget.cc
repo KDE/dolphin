@@ -912,17 +912,27 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    m_dirLister->setMimeFilter( m_pBrowserView->mimeFilter() );
    m_dirLister->setShowingDotFiles( m_pBrowserView->m_pProps->isShowingDotFiles() );
 
-   if ( m_pBrowserView->extension()->urlArgs().reload )
+   KParts::URLArgs args = m_pBrowserView->extension()->urlArgs();
+   if ( args.reload )
    {
-      KParts::URLArgs args = m_pBrowserView->extension()->urlArgs();
       args.xOffset = contentsX();
       args.yOffset = contentsY();
       m_pBrowserView->extension()->setURLArgs( args );
 
       if ( currentItem() && itemRect( currentItem() ).isValid() )
          m_itemToGoTo = currentItem()->text(0);
+         
+      m_pBrowserView->m_filesToSelect.clear();
+      iterator it = begin();
+      for( ; it != end(); it++ )
+         if ( it->isSelected() )
+            m_pBrowserView->m_filesToSelect += it->text(0);
    }
 
+   m_itemsToSelect = m_pBrowserView->m_filesToSelect;
+   if ( !m_itemsToSelect.isEmpty() && m_itemToGoTo.isEmpty() )
+      m_itemToGoTo = m_itemsToSelect[0];
+   
    if ( columnWidthMode(0) == Maximum )
       setColumnWidth(0,50);
 
@@ -930,7 +940,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    m_bUpdateContentsPosAfterListing = true;
 
    // Start the directory lister !
-   m_dirLister->openURL( url, false /* new url */, m_pBrowserView->extension()->urlArgs().reload );
+   m_dirLister->openURL( url, false /* new url */, args.reload );
 
    // Apply properties and reflect them on the actions
    // do it after starting the dir lister to avoid changing the properties
@@ -1049,7 +1059,13 @@ void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
          setCurrentItem( tmp );
          m_itemFound = true;
       }
-
+      if ( !m_itemsToSelect.isEmpty() ) {
+         QStringList::Iterator tsit = m_itemsToSelect.find( (*kit)->name() );
+         if ( tsit != m_itemsToSelect.end() ) {
+            m_itemsToSelect.remove( tsit );
+            setSelected( tmp, true );
+         }
+      }
       if ( !(*kit)->isMimeTypeKnown() )
           m_pBrowserView->lstPendingMimeIconItems().append( tmp );
    }

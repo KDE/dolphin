@@ -91,7 +91,7 @@ KonqMainWindow * KonqMisc::createSimpleWindow( const KURL & url, const KParts::U
   return win;
 }
 
-KonqMainWindow * KonqMisc::createNewWindow( const KURL &url, const KParts::URLArgs &args, bool forbidUseHTML )
+KonqMainWindow * KonqMisc::createNewWindow( const KURL &url, const KParts::URLArgs &args, bool forbidUseHTML, QStringList filesToSelect )
 {
   kdDebug() << "KonqMisc::createNewWindow url=" << url.url() << endl;
 
@@ -101,10 +101,10 @@ KonqMainWindow * KonqMisc::createNewWindow( const KURL &url, const KParts::URLAr
           ? "webbrowsing" : "filemanagement";
 
   QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + profileName );
-  return createBrowserWindowFromProfile( profile, profileName, url, args, forbidUseHTML );
+  return createBrowserWindowFromProfile( profile, profileName, url, args, forbidUseHTML, filesToSelect );
 }
 
-KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, const QString &filename, const KURL &url, const KParts::URLArgs &args, bool forbidUseHTML )
+KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, const QString &filename, const KURL &url, const KParts::URLArgs &args, bool forbidUseHTML, QStringList filesToSelect )
 {
   kdDebug(1202) << "void KonqMisc::createBrowserWindowFromProfile() " << endl;
   kdDebug(1202) << "path=" << path << ",filename=" << filename << ",url=" << url.prettyURL() << endl;
@@ -131,6 +131,7 @@ KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, 
       //FIXME: obey args (like passing post-data (to KRun), etc.)
       KonqOpenURLRequest req;
       req.args = args;
+      req.filesToSelect = filesToSelect;
       mainWindow->viewManager()->loadViewProfile( path, filename, url, req, true );
   }
   else
@@ -146,6 +147,7 @@ KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, 
       //FIXME: obey args (like passing post-data (to KRun), etc.)
       KonqOpenURLRequest req;
       req.args = args;
+      req.filesToSelect = filesToSelect;
       mainWindow->viewManager()->loadViewProfile( cfg, filename, url, req );
   }
   mainWindow->setInitialFrameName( args.frameName );

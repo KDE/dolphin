@@ -25,6 +25,7 @@
 #include <qvaluelist.h>
 #include <dcopref.h>
 
+#include <qstringlist.h>
 /**
  * DCOP interface for konqueror
  */
@@ -58,6 +59,16 @@ k_dcop:
    */
   DCOPRef createNewWindowASN( const QString &url, const QCString &startup_id );
 
+  /**
+   * Opens a new window like @ref createNewWindow, then selects the given @p filesToSelect
+   */
+  DCOPRef createNewWindowWithSelection( const QString &url, QStringList filesToSelect );
+  /**
+   * Like @ref createNewWindowWithSelection, with setting the application startup notification ( ASN )
+   * property on the window.
+   */
+  DCOPRef createNewWindowWithSelectionASN( const QString &url, QStringList filesToSelect, const QCString &startup_id );
+  
   /**
    * Opens a new window for the given @p url (using createNewWindow, i.e. with an appropriate profile)
    * @param mimetype to speed it up.

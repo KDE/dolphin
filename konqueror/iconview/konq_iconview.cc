@@ -160,7 +160,11 @@ void IconViewBrowserExtension::setNameFilter( const QString &nameFilter )
 }
 
 KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode  )
-    : KonqDirPart( parent, name ), m_paOutstandingOverlaysTimer( 0 ), m_itemDict( 43 )
+    : KonqDirPart( parent, name )
+    , m_bNeedSetCurrentItem( false )
+    , m_pEnsureVisible( 0 )
+    , m_paOutstandingOverlaysTimer( 0 )
+    , m_itemDict( 43 )
 {
     kdDebug(1202) << "+KonqKfmIconView" << endl;
 
@@ -789,6 +793,10 @@ void KonqKfmIconView::slotCanceled( const KURL& url )
         m_pIconView->viewport()->setUpdatesEnabled( true );
         m_pIconView->viewport()->repaint();
     }
+    if ( m_pEnsureVisible ){
+        m_pIconView->ensureItemVisible( m_pEnsureVisible );
+        m_pEnsureVisible = 0;
+    }
 }
 
 void KonqKfmIconView::slotCompleted()
@@ -804,7 +812,7 @@ void KonqKfmIconView::slotCompleted()
     // Root item ? Store root item in konqiconviewwidget (whether 0L or not)
     m_pIconView->setRootItem( m_dirLister->rootItem() );
 
-    if ( m_bLoading ) // only after initial listing, not after updates
+    if ( m_bNeedSetCurrentItem ) // only after initial listing, not after updates
         // If we don't set a current item, the iconview has none (one more keypress needed)
         // but it appears on focusin... qiconview bug, Reggie acknowledged it LONG ago (07-2000).
         m_pIconView->setCurrentItem( m_pIconView->firstItem() );
@@ -812,6 +820,11 @@ void KonqKfmIconView::slotCompleted()
     if ( m_bUpdateContentsPosAfterListing ) {
          m_pIconView->setContentsPos( extension()->urlArgs().xOffset,
                                       extension()->urlArgs().yOffset );
+    }
+
+    if ( m_pEnsureVisible ){
+        m_pIconView->ensureItemVisible( m_pEnsureVisible );
+        m_pEnsureVisible = 0;
     }
 
     m_bUpdateContentsPosAfterListing = false;
@@ -849,6 +862,20 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
         item->setRenameEnabled( false );
 
         KFileItem* fileItem = item->item();
+
+        if ( !m_itemsToSelect.isEmpty() ) {
+           QStringList::Iterator tsit = m_itemsToSelect.find( fileItem->name() );
+           if ( tsit != m_itemsToSelect.end() ) {
+              m_itemsToSelect.remove( tsit );
+              m_pIconView->setSelected( item, true, true );
+              if ( m_bNeedSetCurrentItem ){
+                 m_pIconView->setCurrentItem( item );
+                 if( !m_pEnsureVisible )
+                    m_pEnsureVisible = item;
+                 m_bNeedSetCurrentItem = false;
+              }
+           }
+        }
 
         if ( fileItem->isDir() && m_pProps->isShowingDirectoryOverlays() ) {
             showDirectoryOverlay(item);
@@ -1104,7 +1131,8 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
     m_pIconView->setURL( url );
 
     m_bLoading = true;
-
+    m_bNeedSetCurrentItem = true;
+    
     // Check for new properties in the new dir
     // enterDir returns true the first time, and any time something might
     // have changed.
@@ -1116,14 +1144,21 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
 
     // This *must* happen before m_dirLister->openURL because it emits
     // clear() and QIconView::clear() calls setContentsPos(0,0)!
-    if ( m_extension->urlArgs().reload )
+    KParts::URLArgs args = m_extension->urlArgs();
+    if ( args.reload )
     {
-        KParts::URLArgs args = m_extension->urlArgs();
         args.xOffset = m_pIconView->contentsX();
         args.yOffset = m_pIconView->contentsY();
         m_extension->setURLArgs( args );
+        
+        m_filesToSelect.clear();
+        KFileItemList fil( selectedFileItems() );
+        for (KFileItemListIterator fi_it(fil); fi_it.current(); ++fi_it)
+            m_filesToSelect += (*fi_it)->name();
     }
-
+    
+    m_itemsToSelect = m_filesToSelect;
+    
     m_dirLister->setShowingDotFiles( m_pProps->isShowingDotFiles() );
 
     m_bNeedAlign = false;
@@ -1132,7 +1167,7 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
     m_paOutstandingOverlays.clear();
 
     // Start the directory lister !
-    m_dirLister->openURL( url, false, m_extension->urlArgs().reload );
+    m_dirLister->openURL( url, false, args.reload );
 
     // Properties (icon size, preview, ..) will be applied into the
     // slotClear(); this is called between m_dirLister->openURL and the

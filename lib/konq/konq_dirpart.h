@@ -71,6 +71,8 @@ public:
 
     QString nameFilter() const { return m_nameFilter; }
 
+    void setFilesToSelect( const QStringList & filesToSelect ) { m_filesToSelect = filesToSelect; }
+    
     /**
      * Sets per directory mime-type based filtering.
      *
@@ -274,7 +276,8 @@ protected:
 protected:
 
     QString m_nameFilter;
-
+    QStringList m_filesToSelect;
+    
     KonqPropsView * m_pProps;
 
     KAction *m_paIncIconSize;
