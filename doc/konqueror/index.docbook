@@ -43,7 +43,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2002-09-08</date>
+<date>2002-09-14</date>
 <releaseinfo>3.00.07</releaseinfo>
 
 <abstract><para>&konqueror; is &kde;'s advanced File Manager, Web Browser and
@@ -458,7 +458,7 @@ the section on <link linkend="floppy-cd">Floppy and &CD-ROM; Drives).</link>
 subdirectory directory to hold their personal files and settings, for example 
 <filename class="directory">/home/john</filename> and  
 <filename class="directory">/home/mary</filename>. The 
-symbol <keysym>~</keysym> is often used to represent the user's home 
+symbol <keycap>~</keycap> is often used to represent the user's home 
 directory, so that <filename>~/letter.txt</filename> refers to the file 
 <filename>letter.txt</filename> in my home directory.</para>
 <para>Note that the term <quote>folder</quote> is often used instead of 
@@ -519,7 +519,7 @@ except that icons are not shown and the first character in each line will be
 <listitem><para>This option is useful for <link linkend="navigation">
 navigating</link> through the directory tree below the current directory. 
 The display is similar to <guimenuitem>Detailed List View</guimenuitem> 
-except that the start of each line will show a small <keysym>+</keysym> sign 
+except that the start of each line will show a small <keycap>+</keycap> sign 
 in a box if the item is a folder. 
 <mousebutton>Left</mousebutton> clicking on the box will expand the display to
 show the contents of that folder.</para>
@@ -592,7 +592,8 @@ file.</para>
 tree:</para>
 
 <itemizedlist>
-<listitem><para>To descend into a sub-directory &LMB; click on its name or
+<listitem><para>To descend into a sub-directory <mousebutton>left
+</mousebutton> click on its name or
 icon, or if you have <quote>selected</quote> it (see below) then just press
 <keycap>Enter</keycap>.</para></listitem> 
 <listitem><para>To go up the directory tree, click on the <guiicon>Up
@@ -606,16 +607,15 @@ option.</para></listitem>
 without opening it in any way use the <keysym>up</keysym> and <keysym>down
 </keysym> arrow keys to move through the items. 
 The selected item will be highlighted and some information about it 
-will be displayed in the Status Bar. You can select multiple adjacent items by 
-holding the &Shift; key down while pressing the arrow keys.</para>
+will be displayed in the Status Bar.</para>
 
 <para>Setting the <link linkend="viewmode">View Mode</link> to <guimenuitem>
 Tree View</guimenuitem> can help you locate directories in the tree below the 
 current directory. In this mode each directory is shown with a small box at 
-the left. If the box contains a <keysym>+</keysym> sign <mousebutton>left
+the left. If the box contains a <keycap>+</keycap> sign <mousebutton>left
 </mousebutton> clicking on the box (not on the directory name or icon) will 
 display a sub tree showing any sub directories (but not ordinary files). 
-The small box will then change to show a <keysym>-</keysym> sign, 
+The small box will then change to show a <keycap>-</keycap> sign, 
 <mousebutton>left</mousebutton> click on that to collapse the sub tree. Once 
 you have found the directory you are looking for <mousebutton>left
 </mousebutton> click on the directory name or icon to open it.</para>
@@ -772,7 +772,7 @@ of them to remain on your system.</para></listitem>
 by someone with enough skill and determination.</para></note> 
 
 <para>The simplest way of removing a file or directory is to position the mouse
-pointer over its name or icon and press the &RMB; mouse button, which will
+pointer over its name or icon and press the &RMB;, which will
 bring up a menu containing the options <guimenuitem>Move to
 Trash</guimenuitem>,
 <guimenuitem>Delete</guimenuitem> and <guimenuitem>Shred</guimenuitem>.</para>
@@ -838,9 +838,9 @@ you do the <guimenuitem>Paste</guimenuitem> into the new directory.</para>
 
 <para>You can also copy or move selected item(s) to another directory by using 
 <menuchoice><guimenu>Edit</guimenu>
-<guimenuitem>Copy Files</guimenuitem></menuchoice> (<keysym>F7</keysym>) or
+<guimenuitem>Copy Files</guimenuitem></menuchoice> (<keycap>F7</keycap>) or
 <menuchoice><guimenu>Edit</guimenu><guimenuitem>Move Files</guimenuitem>
-</menuchoice> (<keysym>F8</keysym>), or by selecting
+</menuchoice> (<keycap>F8</keycap>), or by selecting
 <guimenuitem>Copy To</guimenuitem> or <guimenuitem>Move To</guimenuitem> from
 the drop down menu you get when you <mousebutton>right</mousebutton> click on
 an file or directory name in the File Manager window.</para>
@@ -979,6 +979,14 @@ select those that were previously unselected. Use the Menubar
 Selection</guimenuitem></menuchoice> option or <keycombo
 action="simul">&Ctrl;<keycap>*</keycap></keycombo> to do
 this.</para>
+
+<para>To select adjacent files in a directory hold the &Shift; key down 
+while using the <keysym>Up Arrow</keysym> and <keysym>Down Arrow</keysym> 
+keys to move aroud.</para>
+
+<para>Other shortcut key combinations that may be useful when selecting items 
+in a directory view are described in the <link linkend="specshort">
+Special Shortcuts</link> section of this handbook.</para>
 
 <para>Once you have selected the right files then the normal delete, copy or
 move commands will act on all of the selected files at once. </para>
@@ -1139,7 +1147,7 @@ role="extension">.kil</literal>.</para></listitem>
 </sect1>
 
 <sect1 id="newname">
-<title>Changing Name and Permissions</title>
+<title>Changing Names and Permissions</title>
 
 <para>The easiest way to change the name of a file or directory is to 
 <mousebutton>right</mousebutton> click on it and select 
@@ -1215,13 +1223,21 @@ command line level.</para>
 &konqueror;'s Menubar <menuchoice><guimenu>Tools</guimenu><guimenuitem>Open
 Terminal</guimenuitem></menuchoice> option or with <keycombo
 action="simul">&Ctrl;<keycap>T</keycap></keycombo>.</para>
-<para>If she only needs to execute a single shell command, then the 
-<menuchoice><guimenu>Tools</guimenu><guimenuitem>Execute Shell Command...
+<para>If she only wants to launch a program or view a &URL;, the <menuchoice>
+<guimenu>Tools</guimenu><guimenuitem>Run Command</guimenuitem></menuchoice> 
+(<keycombo action="simul">&Alt;<keycap>F2</keycap></keycombo>) option may be 
+easier.</para>
+
+<para><menuchoice><guimenu>Tools</guimenu><guimenuitem>Execute Shell Command...
 </guimenuitem></menuchoice> (<keycombo action="simul">&Ctrl;
-<keycap>E</keycap></keycombo>) or the <menuchoice><guimenu>Tools</guimenu>
-<guimenuitem>Run Command</guimenuitem></menuchoice> (<keycombo action="simul">
-&Alt;<keysym>F2</keysym></keycombo>) options may be easier.
+<keycap>E</keycap></keycombo>) opens a small command line dialog window where 
+you can enter a shell command such as <userinput>ps -ax | grep kdeinit
+</userinput>. Note that it does not support full featured terminal control 
+characters, so applications such as <userinput>top</userinput> and <userinput>
+less</userinput> will not work properly, but it is available immediately 
+without the delay involved in starting &konsole;.
 </para>
+
 <para>For more complex operations, &konqueror; has another nice feature; the 
 Menubar <menuchoice><guimenu>Window</guimenu><guimenuitem>Show Terminal
 Emulator</guimenuitem></menuchoice> option, which opens up a terminal window as 
@@ -1339,8 +1355,8 @@ Menubar <menuchoice><guimenu>View</guimenu>
 <guimenuitem>Stop</guimenuitem></menuchoice> item.</para>
 
 <para>When you are viewing a web page you should see two new icons in the
-Toolbar, looking like magnifying glasses with small <keysym>+</keysym> and
-<keysym>-</keysym> symbols. Use these to adjust the size of the text in the
+Toolbar, looking like magnifying glasses with small <keycap>+</keycap> and
+<keycap>-</keycap> symbols. Use these to adjust the size of the text in the
 page if you find it difficult to read, how well this works will
 depend on how the web page has been constructed.</para>
 
@@ -1518,6 +1534,11 @@ for example</para>
 
 <para>&konqueror; will then prompt you for the password.</para>
 
+<para>&konqueror; can also support automatic logins as specified in a 
+<filename>.netrc</filename> file. Details of how to enable this feature are 
+given at <ulink url="http://www.konqueror.org/faq.html#netrc">
+http://www.konqueror.org/faq.html#netrc</ulink></para>
+
 </sect1>
 
 
@@ -1600,7 +1621,7 @@ keys to select it then press <keycap>Enter</keycap>.</para></listitem>
 <varlistentry>
 <term><guimenuitem>Short Automatic</guimenuitem></term>
 <listitem><para>This is like Automatic mode except that it only extends 
-what you have typed as far as the next <keysym>/</keysym> symbol in the path 
+what you have typed as far as the next <keycap>/</keycap> symbol in the path 
 or &URL;. Press <keycombo>&Ctrl;<keycap>E</keycap></keycombo> to accept the 
 suggestion, <keycap>Enter</keycap> when the complete path or &URL; is 
 shown.</para></listitem>
@@ -1658,11 +1679,11 @@ Bookmarks</guimenuitem> </menuchoice> option opens the <guilabel>Bookmark
 Editor</guilabel>.</para>
 <para>This shows a tree view of your bookmarks and bookmark sub folders. 
 As is usual for tree views in &kde; sub folders are shown with a small square 
-at the left of the folder name; if the square contains a <keysym>+</keysym> 
+at the left of the folder name; if the square contains a <keycap>+</keycap> 
 sign <mousebutton>left</mousebutton> clicking on it will expand the view to 
-show the contents of that sub folder and the <keysym>+</keysym> sign will 
-change to <keysym>-</keysym>, <mousebutton>left</mousebutton> clicking on the 
-<keysym>-</keysym> sign will collapse the sub folder view.</para>
+show the contents of that sub folder and the <keycap>+</keycap> sign will 
+change to <keycap>-</keycap>, <mousebutton>left</mousebutton> clicking on the 
+<keycap>-</keycap> sign will collapse the sub folder view.</para>
 
 <para>To select an item in the list you can <mousebutton>left</mousebutton> 
 click on it, or you can navigate through the list by using the <keysym>
@@ -1686,10 +1707,10 @@ window, or with <keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
 </para>
 
 <para>To change the name of a bookmark or folder select it then press 
-<keysym>F2</keysym> or choose the <guimenuitem>Rename</guimenuitem> item from 
+<keycap>F2</keycap> or choose the <guimenuitem>Rename</guimenuitem> item from 
 the <guimenu>Edit</guimenu> menu or the pop up menu that appears when you 
 <mousebutton>right</mousebutton> click on the item. Similarly, you can edit 
-the &URL; by pressing <keysym>F3</keysym> or choosing the <guimenuitem>
+the &URL; by pressing <keycap>F3</keycap> or choosing the <guimenuitem>
 Rename URL</guimenuitem> menu item.</para>
 
 <para>The <guilabel>Bookmark Editor</guilabel> lets you import bookmarks from 
@@ -2153,7 +2174,7 @@ the <menuchoice><guimenu>Settings</guimenu><guisubmenu>Toolbars</guisubmenu>
 the box.</para> 
 
 <para>The Menubar itself can be toggled on and off with the shortcut key 
-combination <keycombo action="simul">&Ctrl;<keysym>M</keysym></keycombo>.
+combination <keycombo action="simul">&Ctrl;<keycap>M</keycap></keycombo>.
 </para>
 
 <para>On the left hand end of each bar you can see some vertical 
@@ -2222,7 +2243,7 @@ the little black icon with a white cross in it clears the shortcut.</para>
 <para>You can add your own pop up menu to &konqueror; so that pressing one key 
 combination will make the menu appear then pressing a second key, or using the 
 <keysym>Up arrow</keysym> and <keysym>Down arrow</keysym> keys and pressing 
-<keysym>Enter</keysym>, will select an item from it.</para>
+<keycap>Enter</keycap>, will select an item from it.</para>
 <para>To do this add a <guilabel>Custom</guilabel> shortcut for each of the 
 actions you want to appear in the menu and in the <guilabel>Define Shortcut
 </guilabel> dialog check the <guilabel>Multi-Key</guilabel> box, press the 
@@ -2745,7 +2766,140 @@ User Agent configuration dialog.</para>
 <chapter id="commands">
 <title>Command Reference</title>
 <note><para>The shortcut key combinations shown in this chapter are the 
-default ones. They can of course be changed.</para></note>
+default ones. They can of course be <link linkend="configshort">changed</link>.
+</para></note>
+
+<sect1 id="specshort">
+<title>Special Shortcuts</title>
+<para>There are some useful shortcuts that are not shown in any of the menus:</para>
+<variablelist>
+
+<varlistentry>
+<term><keycap>F6</keycap></term>
+<listitem>
+<para>Sets the focus to the text entry box in the Location Toolbar.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycap>Insert</keycap></term>
+<listitem>
+<para>In list, tree and text view modes; toggle the current selection and move 
+down to the next item.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycap>Space</keycap></term>
+<listitem>
+<para>In list, tree and text view modes; toggle the current selection.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keysym>Up Arrow</keysym></keycombo>
+</term>
+<listitem>
+<para>In list, tree and text view modes; move the selection up, selecting 
+everything on the way.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keysym>Down Arrow</keysym></keycombo>
+</term>
+<listitem>
+<para>In list, tree and text view modes; move the selection down, selecting 
+everything on the way.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>Home</keycap></keycombo></term>
+<listitem>
+<para>In list, tree and text view modes; move the selection to the top.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>End</keycap></keycombo></term>
+<listitem>
+<para>In list, tree and text view modes; move the selection to the end, 
+selecting everything on the way.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>Page Up</keycap></keycombo>
+</term>
+<listitem>
+<para>In list, tree and text view modes; move the selection to the top, 
+selecting everything on the way.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>Page Down</keycap></keycombo>
+</term>
+<listitem>
+<para>In list, tree and text view modes; move the selection to the end, 
+selecting everything on the way.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul"><keycap>Space</keycap><keycap>Home</keycap>
+</keycombo></term>
+<listitem>
+<para>In list, tree and text view modes; move the selection to the top.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul"><keycap>Space</keycap><keycap>End</keycap>
+</keycombo></term>
+<listitem>
+<para>In list, tree and text view modes; move the selection to the end.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul"><keycap>Space</keycap><keycap>Page Up</keycap>
+</keycombo>
+</term>
+<listitem>
+<para>In list, tree and text view modes; move the selection to the top, 
+toggling the selection of all items on the way.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul"><keycap>Space</keycap><keycap>Page Down</keycap>
+</keycombo>
+</term>
+<listitem>
+<para>In list, tree and text view modes; move the selection to the end, 
+toggling the selection of all items on the way.
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+
+</sect1>
+
 <sect1 id="menubar">
 <title>The Menubar</title>
 
@@ -2966,7 +3120,7 @@ open the <guimenuitem>Properties...</guimenuitem> dialog box.
 
 <varlistentry>
 <term><menuchoice>
-<shortcut><keysym>Delete</keysym></shortcut>
+<shortcut><keycap>Delete</keycap></shortcut>
 <guimenu>Edit</guimenu>
 <guimenuitem>Move to Trash</guimenuitem>
 </menuchoice></term>
@@ -2977,7 +3131,7 @@ directory.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul">&Shift;<keysym>Delete</keysym></keycombo>
+<keycombo action="simul">&Shift;<keycap>Delete</keycap></keycombo>
 </shortcut>
 <guimenu>Edit</guimenu>
 <guimenuitem>Delete</guimenuitem>
@@ -2988,7 +3142,7 @@ directory.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul">&Ctrl;&Shift;<keysym>Delete</keysym></keycombo>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>Delete</keycap></keycombo>
 </shortcut>
 <guimenu>Edit</guimenu>
 <guimenuitem>Shred</guimenuitem>
@@ -3057,7 +3211,7 @@ dialog box</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul">&Ctrl;<keysym>+</keysym></keycombo>
+<keycombo action="simul">&Ctrl;<keycap>+</keycap></keycombo>
 </shortcut>
 <guimenu>Edit</guimenu>
 <guimenuitem>Select...</guimenuitem>
@@ -3078,7 +3232,7 @@ filename.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul">&Ctrl;<keysym>-</keysym></keycombo>
+<keycombo action="simul">&Ctrl;<keycap>-</keycap></keycombo>
 </shortcut>
 <guimenu>Edit</guimenu>
 <guimenuitem>Unselect...</guimenuitem>
@@ -3503,7 +3657,7 @@ dirctory.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul">&Alt;<keysym>F2</keysym></keycombo></shortcut>
+<keycombo action="simul">&Alt;<keycap>F2</keycap></keycombo></shortcut>
 <guimenu>Tools</guimenu>
 <guimenuitem>Run Command...</guimenuitem>
 </menuchoice></term>
@@ -3769,7 +3923,7 @@ window.</para></listitem>
 <term><menuchoice>
 <shortcut>
 <keycombo
- action="simul">&Shift;<keysym>F1</keysym></keycombo></shortcut>
+ action="simul">&Shift;<keycap>F1</keycap></keycombo></shortcut>
 <guimenu>Help</guimenu>
 <guimenuitem>What's This?</guimenuitem>
 </menuchoice></term>
@@ -3910,10 +4064,29 @@ entries.</para></listitem>
 <qandaentry>
 <question><para>How do I enable, disable or clear the browser
 cache?</para></question> <answer>
-<para>If you select <menuchoice><guimenu>Preferences</guimenu><guisubmenu>Web
-Browsing</guisubmenu><guimenuitem>Cache</guimenuitem></menuchoice> from the K
-menu you will be presented with a dialog box that lets you disable the cache,
-clear it or set its size, and change the cacheing policy.</para>
+<para>If you select <guimenuitem>Cache</guimenuitem> dialog launched by 
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Konqueror
+</guimenuitem></menuchoice> you will be presented with a dialog box that lets 
+you disable the cache, clear it or set its size, and change the cacheing 
+policy.</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question><para>How can I change the timeout values used by &konqueror; 
+when web browsing?</para></question> <answer>
+<para>In the Control Center <menuchoice><guimenu>Network</guimenu>
+<guimenuitem>Preferences</guimenuitem></menuchoice> page.</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question><para>I can't find the answer to my question here.</para></question> 
+<answer>
+<para>Take a look at <ulink url="http://www.konqueror.org/faq.html">
+http://www.konqueror.org/faq.html</ulink> or 
+<ulink url="http://www.konqueror.org/konq-java.html">
+http://www.konqueror.org/konq-java.html</ulink>.</para>
 </answer>
 </qandaentry>
 
@@ -4017,7 +4190,7 @@ lib)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Wynn Willkes <email>wynnw@calderasystems.com</email></term>
+<term>Wynn Wilkes <email>wynnw@calderasystems.com</email></term>
 <listitem><para>developer (&Java;2 manager support and other major improvements
 to applet support)</para></listitem>
 </varlistentry>
