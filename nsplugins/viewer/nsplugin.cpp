@@ -30,8 +30,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include <qdir.h>
 #include <qdict.h>
+#include <qdir.h>
 #include <qfile.h>
 #include <qtimer.h>
 
@@ -39,17 +39,22 @@
 #include "nsplugin.h"
 #include "resolve.h"
 
-#include <klibloader.h>
-#include <kdebug.h>
-#include <kurl.h>
-#include <kio/netaccess.h>
-#include <ktempfile.h>
+#ifdef Bool
+#undef Bool
+#endif
+
 #include <dcopclient.h>
-#include <kprotocolmanager.h>
-#include <klocale.h>
+#include <kconfig.h>
+#include <kdebug.h>
 #include <kglobal.h>
+#include <kio/netaccess.h>
+#include <klibloader.h>
+#include <klocale.h>
 #include <kprocess.h>
+#include <kprotocolmanager.h>
 #include <kstddirs.h>
+#include <ktempfile.h>
+#include <kurl.h>
 
 #include <X11/Intrinsic.h>
 #include <X11/Composite.h>
@@ -728,10 +733,12 @@ void NSPluginInstance::timer()
 
 QString NSPluginInstance::normalizedURL(const QString& url) const {
     KURL inURL(_baseURL, url);
+    KConfig cfg("kcmnspluginrc", true);
+    cfg.setGroup("Misc");
 
-    if (inURL.protocol() == "http" ||
+    if (!cfg.readBoolEntry("HTTP URLs Only", false) ||
+	inURL.protocol() == "http" ||
         inURL.protocol() == "https" ||
-        inURL.protocol() == "file" ||
         inURL.protocol() == "javascript") {
         return inURL.url();
     }
