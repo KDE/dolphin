@@ -135,6 +135,7 @@ void KonqTextEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move 
 
 void KonqTextEditExtension::cutSelection()
 {
+  //Forbidden, since read-only
 }
 
 void KonqTextEditExtension::copySelection()
@@ -142,12 +143,14 @@ void KonqTextEditExtension::copySelection()
   m_textView->multiLineEdit()->copy();
 }
 
-void KonqTextEditExtension::pasteSelection( bool move )
+void KonqTextEditExtension::pasteSelection( bool /*move*/ )
 {
+  //Forbidden, since read-only
 }
 
 void KonqTextEditExtension::moveSelection( const QString &/*destinationURL*/ )
 {
+  //Forbidden, since read-only
 }
 
 KonqTextView::KonqTextView()
