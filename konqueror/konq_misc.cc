@@ -156,6 +156,10 @@ QString KonqMisc::konqFilteredURL( QWidget* parent, const QString& _url, const Q
     if( !_path.isEmpty() )
       data.setAbsolutePath(_path);
 
+    // We do not want to the filter to check for executables
+    // from the location bar.
+    data.setCheckForExecutables (false);
+
     if( KURIFilter::self()->filterURI( data ) )
     {
       if( data.uriType() == KURIFilterData::ERROR && !data.errorMsg().isEmpty() )
