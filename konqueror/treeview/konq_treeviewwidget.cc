@@ -151,8 +151,7 @@ void KonqTreeViewWidget::initConfig()
   QColorGroup d( textColor, bgColor, c.light(), c.dark(), c.mid(),
 		 textColor, bgColor );
   p.setDisabled( d );
-  viewport()->setPalette( p );
-//   viewport()->setBackgroundColor( bgColor );
+  setPalette( p );
 
   QFont font( stdFontName, fontSize );
   setFont( font );
