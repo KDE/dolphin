@@ -20,17 +20,13 @@
 #ifndef __konq_faviconmgr_h__
 #define __konq_faviconmgr_h__ "$Id$"
 
-#include <qdatastream.h>
 #include <qmap.h>
 
-#include <dcopobject.h>
 #include <kurl.h>
+#include <dcopobject.h>
 #include <kio/job.h>
 
-// The use of KURL and QString for URLs might be a bit fuzzy.
-// I used QString where the URL only serves as a key in the QMaps
-// or in iconForURL / setIconForURL, where it correlates to a displayed
-// string and is not used to access the document at that URL. (malte)
+class KSimpleConfig;
 
 /**
  * Maintains a list of custom icons per URL.
@@ -38,59 +34,70 @@
 class KonqFavIconMgr : public QObject, public DCOPObject
 {
     Q_OBJECT
+    K_DCOP
 public:
     /**
-     * Constructor. Do not instantiate yourself, use @rep self() instead.
+     * Constructor.
      */
-    KonqFavIconMgr();
+    KonqFavIconMgr(QObject *parent = 0, const char *name = 0);
     
     /**
      * Downloads an icon from @p iconURL and associates @p url with it.
-     * if @p hostDefault is true, all URLs on @p url's host default to
-     * that icon.
      */
-    void setIconForURL(const QString &url, const KURL &iconURL, bool hostDefault = false);
+    void setIconForURL(const KURL &url, const KURL &iconURL);
+
+    /**
+     * Downloads /favicon.ico from the host of @p url and associates all
+     * URLs on that host with it
+     * (unless a more specific entry for a URL exists)
+     */
+    void downloadHostIcon(const KURL &url);
 
     /**
      * Looks up an icon for @p url and returns its name if found
      * or QString::null otherwise
      */
     static QString iconForURL(const QString &url);
+   
+k_dcop:
+    /**
+     * an icon changed, used to propagate changes between applications
+     * and instances
+     */
+    ASYNC notifyChange();
     
-    static KonqFavIconMgr *self();
-
 signals:
     /**
-     * This is emitted when the icon for a @p url has changed.
+     * An icon has changed, emitted upon reception of @ref notifyChanged()
      */
-    void iconChanged(const QString &url);
-
+    void changed();
+    
 private slots:
+    void slotData(KIO::Job *, const QByteArray &);
     void slotResult(KIO::Job *);
 
 private:
-    void readURLs();
-    void changed(const QString &);
+    // Can be removed after
+    // "everybody upgraded from KDE 2.1b1 to a later version"
+    friend void convertFavIcons();
+   
+    void startDownload(const QString &, bool, const KURL &);
+    static QString simplifyURL(const KURL &);
+    static QString iconNameFromURL(const KURL &);
+    static KSimpleConfig *favicons();
 
 private:
-    struct URLInfo
-    {
-        QString iconURL;
-        bool hostDefault;
-    };
-    friend QDataStream &operator<< (QDataStream &, const URLInfo &);
-    friend QDataStream &operator>> (QDataStream &, URLInfo &);
-    QMap<QString, URLInfo> m_knownURLs;
-    QMap<QString, QString> m_knownIcons;
     QStringList m_failedIcons;
-    
-    struct DownloadInfo : public URLInfo
+    struct Download
     {
-         QString url;
+        QString hostOrURL;
+        bool isHost;
+        QByteArray iconData;
     };
-    QMap<KIO::Job *, DownloadInfo> m_downloads;
+    typedef QMap<KIO::Job *, Download> DownloadMap; // make dcopidl happy
+    DownloadMap m_downloads;
 
-    static KonqFavIconMgr *s_self;
+    static KSimpleConfig *s_favicons;
 };
 
 #endif

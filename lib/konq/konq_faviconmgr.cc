@@ -17,182 +17,256 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include <stdio.h> /* rename() */
+#include <string.h> /* memcpy() */
+
 #include <qfile.h>
 #include <qimage.h>
+#include <qbuffer.h>
+#include <qdom.h>
 
-#include <kstaticdeleter.h>
-#include <ktempfile.h>
 #include <kglobal.h>
 #include <kstddirs.h>
 #include <kdatastream.h>
 #include <kapp.h>
-#include <kconfig.h>
 #include <kiconloader.h>
+#include <ksimpleconfig.h>
+#include <dcopclient.h>
+#include <kstaticdeleter.h>
+#include <kdebug.h>
 
+#include <kbookmark.h>
+#include <kbookmarkmanager.h>
 #include "konq_faviconmgr.h"
 
-QDataStream &operator<< (QDataStream &str, const KonqFavIconMgr::URLInfo &info)
-{
-    str << info.iconURL;
-    str << info.hostDefault;
-    return str;
-}
+KSimpleConfig *KonqFavIconMgr::s_favicons = 0;
+KStaticDeleter<KSimpleConfig> faviconsDeleter;
 
-QDataStream &operator>> (QDataStream &str, KonqFavIconMgr::URLInfo &info)
+// Old format for converting
+struct URLInfo
+{
+    QString iconURL;
+    bool hostDefault;
+};
+                                
+QDataStream &operator>> (QDataStream &str, URLInfo &info)
 {
     str >> info.iconURL;
     str >> info.hostDefault;
     return str;
 }
 
-KonqFavIconMgr *KonqFavIconMgr::s_self = 0;
-KStaticDeleter<KonqFavIconMgr> deleter;
-
-KonqFavIconMgr *KonqFavIconMgr::self()
+bool changeBookmarkIcon(KBookmarkGroup group,
+    const QString &oldName, const QString &newName)
 {
-    if (!s_self)
-        s_self = deleter.setObject(new KonqFavIconMgr);
-    return s_self;
+    bool changed = false;
+    for (KBookmark bookmark = group.first();
+         !bookmark.isNull();
+         bookmark = group.next(bookmark))
+    {
+        if (bookmark.isSeparator())
+            continue;
+        if (bookmark.isGroup())
+        {
+            if (changeBookmarkIcon(bookmark.toGroup(), oldName, newName))
+                changed = true;
+        }
+        else if (bookmark.icon() == oldName)
+        {
+            bookmark.internalElement().setAttribute("icon", newName);
+            changed = true;
+        }
+    }
+    return changed;
 }
 
-KonqFavIconMgr::KonqFavIconMgr()
-    : QObject(),
-      DCOPObject("FavIconIFace") // Not used yet
-{
-    readURLs();
-}
-
-void KonqFavIconMgr::readURLs()
+void convertFavIcons()
 {
     QFile file(locate("data", "konqueror/favicon_map"));
     if (file.open(IO_ReadOnly))
     {
         QDataStream str(&file);
-        str >> m_knownURLs;
-        str >> m_knownIcons;
+        QMap<QString, URLInfo> knownURLs;
+        QMap<QString, QString> knownIcons;
+        KSimpleConfig *favicons = KonqFavIconMgr::favicons();
+        bool bookmarksChanged = false;
+        str >> knownURLs;
+        str >> knownIcons;
+        for (QMap<QString, URLInfo>::ConstIterator it = knownURLs.begin();
+             it != knownURLs.end();
+             ++it)
+        {
+            if (it.data().hostDefault)
+                continue;
+            favicons->writeEntry(KonqFavIconMgr::simplifyURL(it.key()), it.data().iconURL);
+            QString oldName = knownIcons[it.data().iconURL];
+            if (oldName.isEmpty())
+                continue;
+            QString newName = KonqFavIconMgr::iconNameFromURL(it.data().iconURL);
+            if (changeBookmarkIcon(KBookmarkManager::self()->root(), oldName, newName))
+                bookmarksChanged = true;
+            rename(QFile::encodeName(locateLocal("icon", oldName + ".png")),
+                   QFile::encodeName(locateLocal("icon", newName + ".png")));
+        }
+        if (bookmarksChanged)
+            if (KBookmarkManager::self()->save())
+            {
+                QByteArray data;
+                kapp->dcopClient()->send("*", "KBookmarkManager", "notifyCompleteChange()", data);
+            }
+        file.remove();
     }
 }
 
-void KonqFavIconMgr::changed(const QString &url)
+KonqFavIconMgr::KonqFavIconMgr(QObject *parent, const char *name)
+    : QObject(parent, name),
+      DCOPObject("KonqFavIconMgr")
 {
-    emit iconChanged(url);
+    // If there is a file with the old format, read and convert it
+    convertFavIcons();
 }
 
 QString KonqFavIconMgr::iconForURL(const QString &url)
 {
-    QMapConstIterator<QString, URLInfo> it(self()->m_knownURLs.find(url));
+    KURL _url(url);
+    if (_url.host().isEmpty())
+        return QString::null;
 
     KConfig *config = KGlobal::config();
     config->setGroup( "HTML Settings" );
-
-
-    // Don't pass an icon if favicon support is disabled
-    if ( config->readBoolEntry( "EnableFavicon", true ) == false )
+    if (config->readBoolEntry( "EnableFavicon", true ))
     {
-        return QString::null;
+        QString iconURL = favicons()->readEntry(simplifyURL(url));
+        if (!iconURL.isEmpty())
+            return iconNameFromURL(iconURL);
+    
+        QString icon = "favicons/" + _url.host();
+        if (!locate("icon", icon + ".png").isEmpty())
+            return icon;
     }
-
-    if (it == self()->m_knownURLs.end())
-    {
-        KURL _url(url);
-        _url.setEncodedPathAndQuery("");
-        it = self()->m_knownURLs.find(_url.url());
-    }
-    if (it != self()->m_knownURLs.end())
-        return self()->m_knownIcons[(*it).iconURL];
-
     return QString::null;
 }
 
-void KonqFavIconMgr::setIconForURL(const QString &url, const KURL &iconURL, bool hostDefault)
+QString KonqFavIconMgr::simplifyURL(const KURL &url)
 {
-    if (url.isEmpty() || iconURL.isEmpty() || m_failedIcons.contains(iconURL.url()))
-        return;
+    QString result = url.host() + url.path();
+    for (unsigned int i = 0; i < result.length(); ++i)
+        if (result[i] == '=')
+            result[i] = '_';
+    return result;
+}
 
-    DownloadInfo info;
-    KURL _url(url);
-    if (hostDefault)
-        _url.setEncodedPathAndQuery("");
-    info.url = _url.url();
-    info.iconURL = iconURL.url();
-    info.hostDefault = hostDefault;
-    
-    if (m_knownIcons.contains(iconURL.url()))
-    {
-        m_knownURLs[info.url] = info;
-        changed(info.url);
-    }
-    else
-    {
-        KTempFile temp;
-        KIO::Job *job = KIO::file_copy(iconURL, temp.name(), -1, true, false, false);
-        connect(job, SIGNAL(result(KIO::Job *)), SLOT(slotResult(KIO::Job *)));
-        m_downloads.insert(job, info);
-    }
+QString KonqFavIconMgr::iconNameFromURL(const KURL &iconURL)
+{
+    QString result = iconURL.host() + iconURL.path();
+    for (unsigned int i = 0; i < result.length(); ++i)
+        if (result[i] == '=' || result[i] == '/')
+            result[i] = '_';
+    QString ext = result.right(4);
+    if (ext == ".ico" || ext == ".png" || ext == ".xpm")
+        result.remove(result.length() - 4, 4);
+    return "favicons/" + result;
+}
+
+KSimpleConfig *KonqFavIconMgr::favicons()
+{
+    if (!s_favicons)
+        faviconsDeleter.setObject(s_favicons = new KSimpleConfig(locateLocal("data", "konqueror/faviconrc")));
+    return s_favicons;
+}
+
+void KonqFavIconMgr::setIconForURL(const KURL &url, const KURL &iconURL)
+{
+    // Ignore pages that explicitly specify /favicon.ico, like kmail.kde.org
+    if (iconURL.host() == url.host() && iconURL.path() == "/favicon.ico")
+        return;
+    if (!locate("icon", iconNameFromURL(iconURL)).isEmpty())
+        return;
+    startDownload(simplifyURL(url), false, iconURL);
+}
+
+void KonqFavIconMgr::downloadHostIcon(const KURL &url)
+{
+    if (!locate("icon", "favicons/" + url.host() + ".png").isEmpty())
+        return;
+    KURL iconURL(url);
+    iconURL.setEncodedPathAndQuery("/favicon.ico");
+    startDownload(url.host(), true, iconURL);
+}
+
+void KonqFavIconMgr::startDownload(const QString &hostOrURL, bool isHost, const KURL &iconURL)
+{
+    if (m_failedIcons.contains(iconURL.url()))
+        return;
+    KIO::Job *job = KIO::get(iconURL, false, false);
+    connect(job, SIGNAL(data(KIO::Job *, const QByteArray &)), SLOT(slotData(KIO::Job *, const QByteArray &)));
+    connect(job, SIGNAL(result(KIO::Job *)), SLOT(slotResult(KIO::Job *)));
+    Download download;
+    download.hostOrURL = hostOrURL;
+    download.isHost = isHost;
+    m_downloads.insert(job, download);
+}
+
+void KonqFavIconMgr::notifyChange()
+{
+    favicons()->sync();
+    emit changed();
+}
+
+void KonqFavIconMgr::slotData(KIO::Job *job, const QByteArray &data)
+{
+    Download &download = m_downloads[job];
+    unsigned int oldSize = download.iconData.size();
+    download.iconData.resize(oldSize + data.size());
+    memcpy(download.iconData.data() + oldSize, data.data(), data.size());
 }
 
 void KonqFavIconMgr::slotResult(KIO::Job *job)
 {
-    DownloadInfo info = m_downloads[job];
+    Download download = m_downloads[job];
     m_downloads.remove(job);
-    KIO::FileCopyJob *j = static_cast<KIO::FileCopyJob *>(job);
+    QString iconURL = static_cast<KIO::TransferJob *>(job)->url().url();
     if (job->error())
     {
-        m_failedIcons.append(info.iconURL);
-        QFile::remove(j->destURL().path());
+        m_failedIcons.append(iconURL);
         return;
     }
 
+    QBuffer buffer(download.iconData);
+    buffer.open(IO_ReadOnly);
     QImageIO io;
-    io.setFileName(j->destURL().path());
+    io.setIODevice(&buffer);
     io.setParameters("16");
     if (!io.read())
     {
         // Here too, the job might have had no error, but the downloaded
-        // file contains just a 404 message... (malte)
-        m_failedIcons.append(info.iconURL);
-        QFile::remove(j->destURL().path());
+        // file contains just a 404 message sent with a 200 status.
+        // microsoft.com does that... (malte)
+        m_failedIcons.append(iconURL);
         return;
     }
-    QFile::remove(j->destURL().path());
     // Some sites have nasty 32x32 icons, according to the MS docs
     // IE ignores them, well, we scale them, otherwise the location
     // combo / menu will look quite ugly
     if (io.image().width() != KIcon::SizeSmall || io.image().height() != KIcon::SizeSmall)
         io.setImage(io.image().smoothScale(KIcon::SizeSmall, KIcon::SizeSmall));
 
-    QString path = kapp->dirs()->saveLocation("icon", "favicons/");
-    QString iconName = KURL(info.url).host();
-    if (!info.hostDefault)
-    {
-        for (unsigned int serial = 0; ; ++serial)
-        {
-            QString suffix = QString("-%1").arg(serial);
-            if (!QFile::exists(path + iconName /* host */ + suffix + ".png"))
-            {
-                iconName += suffix;
-                break;
-            }
-        }
-    }
-        
-    io.setFileName(path + iconName + ".png");
+    QString iconName;
+    if (download.isHost)
+        iconName = "favicons/" + download.hostOrURL;
+    else
+        iconName = iconNameFromURL(iconURL);
+    
+    io.setIODevice(0);                                   
+    io.setFileName(locateLocal("icon", iconName + ".png"));
     io.setFormat("PNG");
     if (!io.write())
         return;
 
-    m_knownURLs[info.url] = info;
-    m_knownIcons[info.iconURL] = "favicons/" + iconName;
-    
-    QFile file(kapp->dirs()->saveLocation("data", "konqueror/") + "favicon_map");
-    if (file.open(IO_WriteOnly))
-    {
-        QDataStream str(&file);
-        str << m_knownURLs;
-        str << m_knownIcons;
-    }
-    
-    changed(info.url);
+    if (!download.isHost)
+        favicons()->writeEntry(download.hostOrURL, iconURL);
+    QByteArray data;
+    kapp->dcopClient()->send("*", "KonqFavIconMgr", "notifyChange()", data);
 }
 
 #include "konq_faviconmgr.moc"

@@ -34,7 +34,7 @@ libkonq_la_SOURCES = konq_popupmenu.cc knewmenu.cc \
    konq_dirpart.cc konq_propsview.cc konq_events.cc konq_bgnddlg.cc \
    konq_undo.cc konq_undo.skel \
    konq_historymgr.cc konq_historycomm.cc konq_historycomm.skel \
-   konq_faviconmgr.cc
+   konq_faviconmgr.cc konq_faviconmgr.skel
 
 kdirnotify_DIR = $(kde_includes)
 
