@@ -481,6 +481,7 @@ void KonqMainView::slotStarted()
     m_paForward->setEnabled( m_currentView->canGoForward() );
 
     updateStatusBar();
+    checkEditExtension();
   }
 
 }
@@ -509,6 +510,7 @@ void KonqMainView::slotCompleted()
     if ( m_statusBar )
       m_statusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
 
+    checkEditExtension();
   }
 
 }
