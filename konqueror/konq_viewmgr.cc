@@ -581,7 +581,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   }
   kdDebug(1202) << "KonqViewManager::loadViewProfile : loading RootItem " << rootItem << endl;
 
-  if ( rootItem != "empty" )
+  if ( rootItem != "empty" && forcedURL.url() != "about:blank" )
   {
       m_pMainContainer = new KonqFrameContainer( Qt::Horizontal, m_pMainWindow );
       connect(m_pMainContainer,SIGNAL(ctrlTabPressed()),m_pMainWindow,SLOT(slotCtrlTabPressed()));
