@@ -773,13 +773,13 @@ void KonqMainWindow::slotNewWindow()
 {
   // ### Maybe use profile from current window, if set ?
   if ( m_currentView && m_currentView->url().protocol() == QString::fromLatin1( "http" ) )
-      KonqMisc::createBrowserWindowFromProfile(
-          locate( "data", QString::fromLatin1("konqueror/profiles/webbrowsing") ),
-          QString::fromLatin1("webbrowsing") );
+    KonqMisc::createBrowserWindowFromProfile( 
+      locate( "data", QString::fromLatin1("konqueror/profiles/webbrowsing") ),
+      QString::fromLatin1("webbrowsing") );
   else
-      KonqMisc::createBrowserWindowFromProfile(
-          locate( "data", QString::fromLatin1("konqueror/profiles/filemanagement") ),
-          QString::fromLatin1("filemanagement") );
+    KonqMisc::createBrowserWindowFromProfile( 
+      locate( "data", QString::fromLatin1("konqueror/profiles/filemanagement") ),
+      QString::fromLatin1("filemanagement") );
 }
 
 void KonqMainWindow::slotDuplicateWindow()
@@ -1994,8 +1994,19 @@ void KonqMainWindow::slotMakeCompletion( const QString& text )
         m_currentDir = m_pURLCompletion->dir();
     }
 
-    if ( !completion.isNull() )
-      m_combo->setCompletedText( completion );
+    // some special handling necessary for CompletionPopup
+    if ( m_combo->completionMode() == KGlobalSettings::CompletionPopup ) {
+	QStringList items = m_pURLCompletion->allMatches();
+	items += s_pCompletion->allMatches();
+	// items.sort(); // should we?
+	m_combo->setCompletedItems( items );
+    }
+    
+    else { 
+	if ( !completion.isNull() ) {
+	    m_combo->setCompletedText( completion );
+	}
+    }
   }
   // kdDebug(1202) << "Current dir: " << m_currentDir << "  Current text: " << text << endl;
 }
