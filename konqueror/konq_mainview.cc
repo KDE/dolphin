@@ -219,7 +219,7 @@ QString KonqMainView::konqFilteredURL( const QString &_url )
   return url;
 }
 
-void KonqMainView::openFilteredURL( KonqChildView *_view, const QString &_url )
+void KonqMainView::openFilteredURL( KonqChildView */*_view*/, const QString &_url )
 {
   KonqURLEnterEvent ev( konqFilteredURL( _url ) );
   QApplication::sendEvent( this, &ev );
@@ -1049,9 +1049,13 @@ void KonqMainView::slotTrash()
 
 void KonqMainView::slotDelete()
 {
-  if ( KMessageBox::questionYesNo(0, i18n( "Do you really want to delete the file(s) ?" ))
-       == KMessageBox::No) 
-    return;
+  KConfig *config = KonqFactory::instance()->config();
+  config->setGroup( "Misc Defaults" );
+  bool confirm = config->readBoolEntry( "ConfirmDestructive", true );
+  if (confirm)
+    if ( KMessageBox::questionYesNo(0, i18n( "Do you really want to delete the file(s) ?" ))
+	 == KMessageBox::No) 
+      return;
 
   QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
   if ( obj )
