@@ -391,19 +391,27 @@ KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
 
   QValueList<BrowserView *>::ConstIterator startIt = it;
 
-  if ( it != end )
-    it++;
+  // the view should always be in the list, shouldn't it?
+  // maybe use assert( it != end )?
+   if ( it == end ) {
+     it = viewList.begin();
+      if ( it == end )
+       return 0L; // wow, that certainly caught all possibilities!
+   }
 
-  while ( it != startIt )
+  while ( true )
   {
-    if ( it == end )
-      it = viewList.begin();
-
+  
+    if ( it++ == end )
+       it = viewList.begin();
+ 	
+    if ( it == startIt )
+       break;
+  
     KonqChildView *nextView = m_pMainView->childView( *it );
     if ( nextView && !nextView->passiveMode() )
       return nextView;
 
-    it++;
   }
 
   return 0L; // ARGHL
@@ -542,7 +550,7 @@ void KonqViewManager::slotProfileActivated( int id )
   QMap<QString, QString>::ConstIterator nameIt = m_mapProfileNames.find( m_pamProfiles->popupMenu()->text( id ) );
   if ( nameIt == m_mapProfileNames.end() )
     return;
-  
+
   KConfig cfg( *nameIt, true );
   cfg.setGroup( "Profile" );
   loadViewProfile( cfg );
@@ -569,11 +577,11 @@ void KonqViewManager::slotProfileListAboutToShow()
     cfg.setGroup( "Profile" );
     if ( cfg.hasKey( "Name" ) )
       profileName = cfg.readEntry( "Name" );
-    
+
     m_mapProfileNames.insert( profileName, *pIt );
     popup->insertItem( profileName );
   }
-  
+
   m_bProfileListDirty = false;
 }
 

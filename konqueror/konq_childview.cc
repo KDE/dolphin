@@ -382,6 +382,18 @@ void KonqChildView::setPassiveMode( bool mode )
 
   if ( mode && m_pMainView->viewCount() > 1 && m_pMainView->currentChildView() == this )
     m_pMainView->setActiveView( m_pMainView->viewManager()->chooseNextView( this )->view() );
+
+  // Hide the mode button for the last active view
+  //
+  KonqChildView *current = m_pMainView->currentChildView();
+ 
+  if (current != 0L) {
+    if ( m_pMainView->viewManager()->chooseNextView( current ) == 0L ) {
+      current->frame()->header()->passiveModeCheckBox()->hide();
+    } else {
+      current->frame()->header()->passiveModeCheckBox()->show();
+    }
+  }
 }
 
 #include "konq_childview.moc"

@@ -290,8 +290,8 @@ void KonqMainView::openURL( const QString &url, bool reload, int xOffset,
 
 void KonqMainView::slotCreateNewWindow( const QString &url )
 {
- KonqFileManager::getFileManager()->openFileManagerWindow( url ); 
-} 
+ KonqFileManager::getFileManager()->openFileManagerWindow( url );
+}
 
 void KonqMainView::slotNewWindow()
 {
@@ -960,11 +960,16 @@ void KonqMainView::slotRemoveView()
   KonqChildView *nextView = m_pViewManager->chooseNextView( (KonqChildView *)m_currentView );
   KonqChildView *prevView = m_currentView;
 
+  // Don't remove the last active view
+  if ( nextView == 0L )
+  	return;
+	
   setActiveView( nextView->view() );
 
   m_pViewManager->removeView( prevView );
 
-  if ( m_mapViews.count() == 1 )
+  //if ( m_mapViews.count() == 1 )
+  if ( m_pViewManager->chooseNextView((KonqChildView *)m_currentView) == 0L )
     m_currentView->frame()->header()->passiveModeCheckBox()->hide();
 }
 
