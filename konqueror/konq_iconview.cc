@@ -203,8 +203,7 @@ void KonqKfmIconView::slotSelectAll()
 
 void KonqKfmIconView::stop()
 {
-  //slotCloseURL( 0 ); // FIXME (just trying)
-  // TODO in kdirlister !
+  m_dirLister->stop();
 }
 
 char *KonqKfmIconView::url()
@@ -273,7 +272,7 @@ void KonqKfmIconView::slotReturnPressed( KIconContainerItem *_item, const QPoint
     return;
 
   KFileItem *fileItem = ((KonqKfmIconViewItem*)_item)->item();
-  openURLRequest( fileItem->url().ascii() ); // gosh, ugly line ;)
+  openURLRequest( fileItem->url().ascii() );
 }
 
 void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint &_global, int _button )
@@ -395,6 +394,7 @@ void KonqKfmIconView::slotStarted( const QString & url )
 void KonqKfmIconView::slotCompleted()
 {
   SIGNAL_CALL1( "completed", id() );
+  viewport()->update();
 }
 
 void KonqKfmIconView::slotCanceled()
@@ -437,22 +437,23 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
 
 void KonqKfmIconView::openURL( const char *_url )
 {
-  if ( m_dirLister )
-    delete m_dirLister;
+  if ( !m_dirLister )
+  {
+    // Create the directory lister
+    m_dirLister = new KDirLister();
 
-  // Create the directory lister
-  m_dirLister = new KDirLister();
+    QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ), 
+                      this, SLOT( slotStarted( const QString & ) ) );
+    QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
+    QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
+    QObject::connect( m_dirLister, SIGNAL( update() ), this, SLOT( slotUpdate() ) );
+    QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
+    QObject::connect( m_dirLister, SIGNAL( newItem( KFileItem * ) ), 
+                      this, SLOT( slotNewItem( KFileItem * ) ) );
+    QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ), 
+                      this, SLOT( slotDeleteItem( KFileItem * ) ) );
+  }
 
-  QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ), 
-           this, SLOT( slotStarted( const QString & ) ) );
-  QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
-  QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
-  QObject::connect( m_dirLister, SIGNAL( update() ), this, SLOT( slotUpdate() ) );
-  QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
-  QObject::connect( m_dirLister, SIGNAL( newItem( KFileItem * ) ), 
-           this, SLOT( slotNewItem( KFileItem * ) ) );
-  QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ), 
-           this, SLOT( slotDeleteItem( KFileItem * ) ) );
   // Start the directory lister !
   m_dirLister->openURL( KURL( _url ), m_pProps->m_bShowDot );
   // Note : we don't store the url. KDirLister does it for us.
