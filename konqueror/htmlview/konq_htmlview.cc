@@ -396,15 +396,15 @@ void KonqHTMLView::slotShowURL( const QString &_url )
     return;
   }
 
-  KURL url( url(), _url );
+  KURL myurl( url(), _url );
   QString com;
 
-  KMimeType::Ptr typ = KMimeType::findByURL( url );
+  KMimeType::Ptr typ = KMimeType::findByURL( myurl );
 
   if ( typ )
-    com = typ->comment( url, false );
+    com = typ->comment( myurl, false );
 
-  if ( url.isMalformed() )
+  if ( myurl.isMalformed() )
   {
     QString decodedURL = _url;
     KURL::decode( decodedURL );
@@ -412,12 +412,12 @@ void KonqHTMLView::slotShowURL( const QString &_url )
     return;
   }
 
-  if ( url.isLocalFile() )
+  if ( myurl.isLocalFile() )
   {
     // TODO : use KIO::stat() and create a KFileItem out of its result,
    // to use KFileItem::statusBarText()
-    QString decodedPath( url.path() );
-    QString decodedName( url.filename( true ) );
+    QString decodedPath( myurl.path() );
+    QString decodedName( myurl.filename( true ) );
 	
     struct stat buff;
     stat( decodedPath, &buff );
@@ -425,7 +425,7 @@ void KonqHTMLView::slotShowURL( const QString &_url )
     struct stat lbuff;
     lstat( decodedPath, &lbuff );
 
-    QString text = url.url();
+    QString text = myurl.url();
     QString text2 = text;
 
     if (S_ISLNK( lbuff.st_mode ) )
@@ -476,7 +476,7 @@ void KonqHTMLView::slotShowURL( const QString &_url )
     emit setStatusBarText( text );
   }
   else
-    emit setStatusBarText( url.decodedURL() );
+    emit setStatusBarText( myurl.decodedURL() );
 }
 
 void KonqHTMLView::slotSetTitle( const QString & title )
