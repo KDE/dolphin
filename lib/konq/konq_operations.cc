@@ -535,14 +535,16 @@ void KonqOperations::doFileCopy()
         // Neither control nor shift are pressed => show popup menu
         KonqIconViewWidget *iconView = dynamic_cast<KonqIconViewWidget*>(parent());
         bool bSetWallpaper = false;
-        if (iconView && iconView->maySetWallpaper() &&
-            (lst.count() == 1) &&
-            ((!KImageIO::type(lst.first().path()).isEmpty()) ||
-             (KImageIO::isSupported(KMimeType::findByURL(lst.first())->name(), KImageIO::Reading)) ||
-              lst.first().fileName().endsWith(".svg") || 
-              lst.first().fileName().endsWith(".svgz")))
-        {
-            bSetWallpaper = true;
+        if ( iconView && iconView->maySetWallpaper() && lst.count() == 1 )
+	{
+            KURL url = lst.first();
+            KMimeType::Ptr mime = KMimeType::findByURL( url );
+            if ( ( !KImageIO::type(url.path()).isEmpty() ) ||
+                 ( KImageIO::isSupported(mime->name(), KImageIO::Reading) ) ||
+                 mime->is( "image/svg+xml" ) )
+            {
+                bSetWallpaper = true;
+            }
         }
 
         // Check what the source can do
