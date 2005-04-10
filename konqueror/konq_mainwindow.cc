@@ -3665,12 +3665,12 @@ void KonqMainWindow::initActions()
   connect( m_paHome, SIGNAL( activated( KAction::ActivationReason, Qt::ButtonState) ), this,
 	   SLOT( slotHome(KAction::ActivationReason, Qt::ButtonState) ) );
 
-  (void) new KAction( i18n( "App&lications" ), 0, this, SLOT( slotGoApplications() ), actionCollection(), "go_applications" );
-  (void) new KAction( i18n( "&Storage Media" ), 0, this, SLOT( slotGoMedia() ), actionCollection(), "go_media" );
-  (void) new KAction( i18n( "&Network Folders" ), 0, this, SLOT( slotGoNetworkFolders() ), actionCollection(), "go_network_folders" );
-  (void) new KAction( i18n( "Sett&ings" ), 0, this, SLOT( slotGoSettings() ), actionCollection(), "go_settings" );
+  (void) new KAction( i18n( "App&lications" ), "kmenu", 0, this, SLOT( slotGoApplications() ), actionCollection(), "go_applications" );
+  (void) new KAction( i18n( "&Storage Media" ), "system", 0, this, SLOT( slotGoMedia() ), actionCollection(), "go_media" );
+  (void) new KAction( i18n( "&Network Folders" ), "network", 0, this, SLOT( slotGoNetworkFolders() ), actionCollection(), "go_network_folders" );
+  (void) new KAction( i18n( "Sett&ings" ), "kcontrol", 0, this, SLOT( slotGoSettings() ), actionCollection(), "go_settings" );
   //(void) new KAction( i18n( "Sidebar Configuration" ), 0, this, SLOT( slotGoDirTree() ), actionCollection(), "go_dirtree" );
-  (void) new KAction( i18n( "Trash" ), 0, this, SLOT( slotGoTrash() ), actionCollection(), "go_trash" );
+  (void) new KAction( i18n( "Trash" ), "trashcan_full", 0, this, SLOT( slotGoTrash() ), actionCollection(), "go_trash" );
   (void) new KAction( i18n( "Autostart" ), 0, this, SLOT( slotGoAutostart() ), actionCollection(), "go_autostart" );
   KonqMostOftenURLSAction *mostOften = new KonqMostOftenURLSAction( i18n("Most Often Visited"), actionCollection(), "go_most_often" );
   connect( mostOften, SIGNAL( activated( const KURL& )),
