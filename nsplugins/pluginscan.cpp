@@ -443,6 +443,7 @@ QStringList getSearchPaths()
     // setup default paths
     if ( !config->hasKey("scanPaths") ) {
         QStringList paths;
+        paths.append("$HOME/.mozilla/plugins");
         paths.append("$HOME/.netscape/plugins");
         paths.append("/usr/lib64/browser-plugins");
         paths.append("/usr/lib/browser-plugins");
