@@ -491,7 +491,7 @@ void ListView::slotBkInfoUpdateListViewItem() {
     Q_ASSERT(i);
     KBookmark bk = i->bookmark();
     i->setText(KEBListView::NameColumn, bk.fullText());
-    i->setText(KEBListView::UrlColumn, bk.url().url());
+    i->setText(KEBListView::UrlColumn, bk.url().pathOrURL());
     QString commentStr = NodeEditCommand::getNodeText(bk, QStringList() << "desc");
     i->setText(KEBListView::CommentColumn, commentStr);
 }
@@ -525,8 +525,11 @@ void ListView::handleItemRenamed(KEBListView *lv, QListViewItem *item, const QSt
         }
 
     } else if (column == KEBListView::UrlColumn && !lv->isFolderList()) {
-        if (bk.url() != newText)
-            cmd = new EditCommand(bk.address(), EditCommand::Edition("href", newText), i18n("URL"));
+        if (bk.url().pathOrURL() != newText)
+        {
+            KURL u = KURL::fromPathOrURL(newText);
+            cmd = new EditCommand(bk.address(), EditCommand::Edition("href", u.url(0, 106)), i18n("URL"));
+        }
 
     } else if (column == KEBListView::CommentColumn && !lv->isFolderList()) {
         if (NodeEditCommand::getNodeText(bk, "desc") != newText)
@@ -816,25 +819,25 @@ KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, 
 
 // bookmark (first of its group)
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, const KBookmark & bk)
-    : QListViewItem(parent, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
+    : QListViewItem(parent, bk.fullText(), bk.url().pathOrURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
     normalConstruct(bk);
 }
 
 // bookmark (after another)
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmark &bk)
-    : QListViewItem(parent, after, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
+    : QListViewItem(parent, after, bk.fullText(), bk.url().pathOrURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
     normalConstruct(bk);
 }
 
 // root bookmark (first of its group)
 KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark & bk)
-    : QListViewItem(parent, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
+    : QListViewItem(parent, bk.fullText(), bk.url().pathOrURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
     normalConstruct(bk);
 }
 
 // root bookmark (after another)
 KEBListViewItem::KEBListViewItem(QListView *parent, QListViewItem *after, const KBookmark &bk)
-    : QListViewItem(parent, after, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
+    : QListViewItem(parent, after, bk.fullText(), bk.url().pathOrURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
     normalConstruct(bk);
 }
 
