@@ -3716,9 +3716,9 @@ void KonqMainWindow::initActions()
   m_paActivateNextTab = new KAction( i18n( "Activate Next Tab" ), "tab_next", QApplication::reverseLayout() ? KStdAccel::tabPrev() : KStdAccel::tabNext(), this, SLOT( slotActivateNextTab() ), actionCollection(), "activatenexttab" );
   m_paActivatePrevTab = new KAction( i18n( "Activate Previous Tab" ), "tab_previous", QApplication::reverseLayout() ? KStdAccel::tabNext() : KStdAccel::tabPrev(), this, SLOT( slotActivatePrevTab() ), actionCollection(), "activateprevtab" );
 
-  char actionname[15];
+  QCString actionname;
   for (int i=1;i<13;i++) {
-    sprintf(actionname,"activate_tab_%02d", i);
+    actionname.sprintf("activate_tab_%02d", i);
     new KAction(i18n("Activate Tab %1").arg(i), 0, this, SLOT(slotActivateTab()), actionCollection(), actionname);
   }
 
