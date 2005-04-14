@@ -27,6 +27,7 @@
 #include <qradiobutton.h>
 
 #include <dcopclient.h>
+#include <dcopref.h>
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kdialog.h>
@@ -105,8 +106,6 @@ HistorySidebarConfig::HistorySidebarConfig( QWidget *parent, const char* name, c
     dialog->show();
     topLayout->add(dialog);
     load();
-
-    (void) new KonqHistoryManager( kapp, "history mgr" );
 }
 
 void HistorySidebarConfig::configChanged()
@@ -293,8 +292,10 @@ void HistorySidebarConfig::slotClearHistory()
 				     i18n("Do you really want to clear "
 					  "the entire history?"),
 				     i18n("Clear History?"), guiitem )
-	 == KMessageBox::Continue )
-	KonqHistoryManager::kself()->emitClear();
+	 == KMessageBox::Continue ) {
+        DCOPRef dcopHistManager( "konqueror*", "KonqHistoryManager" );
+        dcopHistManager.send( "notifyClear", "KonqHistoryManager" );
+    }
 }
 
 #include "kcmhistory.moc"
