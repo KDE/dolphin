@@ -35,6 +35,7 @@
 #include <kstandarddirs.h>
 #include <klocale.h>
 #include <ksimpleconfig.h>
+#include <kseparator.h>
 #include <kpushbutton.h>
 
 KonqProfileMap KonqProfileDlg::readAllProfiles()
@@ -75,7 +76,7 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
   setCaption( i18n( "Profile Management" ) );
 
 #define N_BUTTONS 4
-  m_pGrid = new QGridLayout( this, 10, N_BUTTONS, KDialog::marginHint(), KDialog::spacingHint() );
+  m_pGrid = new QGridLayout( this, 11, N_BUTTONS, KDialog::marginHint(), KDialog::spacingHint() );
 
   QLabel *lblName = new QLabel( i18n(  "&Profile name:" ), this );
   m_pGrid->addMultiCellWidget( lblName, 0, 0, 0, N_BUTTONS-1 );
@@ -94,6 +95,7 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
   m_pListView->setRenameable( 0 );
 
   m_pGrid->addMultiCellWidget( m_pListView, 2, 6, 0, N_BUTTONS-1 );
+  m_pGrid->setRowStretch( 2, 1 );
 
   connect( m_pListView, SIGNAL( itemRenamed( QListViewItem * ) ),
             SLOT( slotItemRenamed( QListViewItem * ) ) );
@@ -113,19 +115,21 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
   m_pSaveButton->setEnabled( !m_pProfileNameLineEdit->text().isEmpty() );
   m_pSaveButton->setDefault( true );
 
-  m_pGrid->addWidget( m_pSaveButton, 9, 0 );
+  m_pGrid->addMultiCellWidget( new KSeparator( this ), 9, 9, 0, N_BUTTONS-1 );
+
+  m_pGrid->addWidget( m_pSaveButton, 10, 0 );
 
   m_pDeleteProfileButton = new KPushButton( KGuiItem( i18n( "&Delete Profile" ), "editdelete"), this );
 
-  m_pGrid->addWidget( m_pDeleteProfileButton, 9, 1 );
+  m_pGrid->addWidget( m_pDeleteProfileButton, 10, 1 );
 
   m_pRenameProfileButton = new KPushButton( i18n( "&Rename Profile" ), this );
 
-  m_pGrid->addWidget( m_pRenameProfileButton, 9, 2 );
+  m_pGrid->addWidget( m_pRenameProfileButton, 10, 2 );
 
   m_pCloseButton = new KPushButton( KStdGuiItem::close(), this );
 
-  m_pGrid->addWidget( m_pCloseButton, 9, 3 );
+  m_pGrid->addWidget( m_pCloseButton, 10, 3 );
 
   connect( m_pListView, SIGNAL( selectionChanged( QListViewItem * ) ),
            this, SLOT( slotSelectionChanged( QListViewItem * ) ) );
