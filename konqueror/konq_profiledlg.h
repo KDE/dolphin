@@ -20,7 +20,7 @@
 #ifndef __konq_profiledlg_h__
 #define __konq_profiledlg_h__
 
-#include <kdialog.h>
+#include <kdialogbase.h>
 
 #include <qlistview.h>
 #include <qmap.h>
@@ -44,7 +44,7 @@ public:
   QString m_profileName;
 };
 
-class KonqProfileDlg : public KDialog
+class KonqProfileDlg : public KDialogBase
 {
   Q_OBJECT
 public:
@@ -58,28 +58,22 @@ public:
   static KonqProfileMap readAllProfiles();
 
 protected slots:
-  void slotSave();
-  void slotDelete();
-  void slotRename();
+  virtual void slotUser1(); // User1 is "Rename Profile" button
+  virtual void slotUser2(); // User2 is "Delete Profile" button
+  virtual void slotUser3(); // User3 is Save button
   void slotTextChanged( const QString & );
   void slotSelectionChanged( QListViewItem * item );
 
   void slotItemRenamed( QListViewItem * );
 
 private:
-    void loadAllProfiles(const QString & = QString::null);
-    KonqViewManager *m_pViewManager;
+  void loadAllProfiles(const QString & = QString::null);
+  KonqViewManager *m_pViewManager;
 
   KonqProfileMap m_mapEntries;
 
-  QGridLayout *m_pGrid;
-
   QLineEdit *m_pProfileNameLineEdit;
 
-  KPushButton *m_pDeleteProfileButton;
-  KPushButton *m_pRenameProfileButton;
-  KPushButton *m_pSaveButton;
-  KPushButton *m_pCloseButton;
   QCheckBox *m_cbSaveURLs;
   QCheckBox *m_cbSaveSize;
 

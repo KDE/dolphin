@@ -23,7 +23,7 @@
 
 #include <qcheckbox.h>
 #include <qdir.h>
-#include <qlayout.h>
+#include <qvbox.h>
 #include <qlabel.h>
 #include <qheader.h>
 #include <qlineedit.h>
@@ -68,68 +68,49 @@ KonqProfileItem::KonqProfileItem( KListView *parent, const QString & text )
 {
 }
 
+#define BTN_RENAME KDialogBase::User1
+#define BTN_DELETE KDialogBase::User2
+#define BTN_SAVE   KDialogBase::User3
+
 KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & preselectProfile, QWidget *parent )
-: KDialog( parent, 0L, true )
+: KDialogBase( parent, "konq_profile_dialog", true, i18n( "Profile Management" ),
+    KDialogBase::Close | BTN_RENAME | BTN_DELETE | BTN_SAVE, BTN_SAVE, true,
+    KGuiItem( i18n( "&Rename Profile" ) ),
+    KGuiItem( i18n( "&Delete Profile" ), "editdelete"),
+    KStdGuiItem::save() )
 {
   m_pViewManager = manager;
 
-  setCaption( i18n( "Profile Management" ) );
+  QVBox* box = new QVBox( this );
+  box->setSpacing( KDialog::spacingHint() );
+  setMainWidget( box );
 
-#define N_BUTTONS 4
-  m_pGrid = new QGridLayout( this, 11, N_BUTTONS, KDialog::marginHint(), KDialog::spacingHint() );
+  QLabel *lblName = new QLabel( i18n(  "&Profile name:" ), box );
 
-  QLabel *lblName = new QLabel( i18n(  "&Profile name:" ), this );
-  m_pGrid->addMultiCellWidget( lblName, 0, 0, 0, N_BUTTONS-1 );
-
-  m_pProfileNameLineEdit = new QLineEdit( this );
+  m_pProfileNameLineEdit = new QLineEdit( box );
   m_pProfileNameLineEdit->setFocus();
 
   lblName->setBuddy( m_pProfileNameLineEdit );
 
-  m_pGrid->addMultiCellWidget( m_pProfileNameLineEdit, 1, 1, 0, N_BUTTONS-1 );
-
-  m_pListView = new KListView( this );
+  m_pListView = new KListView( box );
   m_pListView->setAllColumnsShowFocus(true);
   m_pListView->header()->hide();
   m_pListView->addColumn("");
   m_pListView->setRenameable( 0 );
 
-  m_pGrid->addMultiCellWidget( m_pListView, 2, 6, 0, N_BUTTONS-1 );
-  m_pGrid->setRowStretch( 2, 1 );
+  box->setStretchFactor( m_pListView, 1 );
 
   connect( m_pListView, SIGNAL( itemRenamed( QListViewItem * ) ),
             SLOT( slotItemRenamed( QListViewItem * ) ) );
 
-  loadAllProfiles(preselectProfile);
+  loadAllProfiles( preselectProfile );
   m_pListView->setMinimumSize( m_pListView->sizeHint() );
 
-  m_cbSaveURLs = new QCheckBox( i18n("Save &URLs in profile"), this );
+  m_cbSaveURLs = new QCheckBox( i18n("Save &URLs in profile"), box );
   m_cbSaveURLs->setChecked( KonqSettings::saveURLInProfile() );
-  m_pGrid->addMultiCellWidget( m_cbSaveURLs, 7, 7, 0, N_BUTTONS-1 );
 
-  m_cbSaveSize = new QCheckBox( i18n("Save &window size in profile"), this );
+  m_cbSaveSize = new QCheckBox( i18n("Save &window size in profile"), box );
   m_cbSaveSize->setChecked( KonqSettings::saveWindowSizeInProfile() );
-  m_pGrid->addMultiCellWidget( m_cbSaveSize, 8, 8, 0, N_BUTTONS-1 );
-
-  m_pSaveButton = new KPushButton( KStdGuiItem::save(), this );
-  m_pSaveButton->setEnabled( !m_pProfileNameLineEdit->text().isEmpty() );
-  m_pSaveButton->setDefault( true );
-
-  m_pGrid->addMultiCellWidget( new KSeparator( this ), 9, 9, 0, N_BUTTONS-1 );
-
-  m_pGrid->addWidget( m_pSaveButton, 10, 0 );
-
-  m_pDeleteProfileButton = new KPushButton( KGuiItem( i18n( "&Delete Profile" ), "editdelete"), this );
-
-  m_pGrid->addWidget( m_pDeleteProfileButton, 10, 1 );
-
-  m_pRenameProfileButton = new KPushButton( i18n( "&Rename Profile" ), this );
-
-  m_pGrid->addWidget( m_pRenameProfileButton, 10, 2 );
-
-  m_pCloseButton = new KPushButton( KStdGuiItem::close(), this );
-
-  m_pGrid->addWidget( m_pCloseButton, 10, 3 );
 
   connect( m_pListView, SIGNAL( selectionChanged( QListViewItem * ) ),
            this, SLOT( slotSelectionChanged( QListViewItem * ) ) );
@@ -137,20 +118,8 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
   connect( m_pProfileNameLineEdit, SIGNAL( textChanged( const QString & ) ),
            this, SLOT( slotTextChanged( const QString & ) ) );
 
-  connect( m_pSaveButton, SIGNAL( clicked() ),
-           this, SLOT( slotSave() ) );
-
-  connect( m_pDeleteProfileButton, SIGNAL( clicked() ),
-           this, SLOT( slotDelete() ) );
-
-  connect( m_pRenameProfileButton, SIGNAL( clicked() ),
-           this, SLOT( slotRename() ) );
-
-  connect( m_pCloseButton, SIGNAL( clicked() ),
-           this, SLOT( accept() ) );
-
-  m_pDeleteProfileButton->setEnabled( m_pListView->selectedItem ()!=0 );
-  m_pRenameProfileButton->setEnabled( m_pListView->selectedItem ()!=0 );
+  enableButton( BTN_RENAME, m_pListView->selectedItem ()!=0 );
+  enableButton( BTN_DELETE, m_pListView->selectedItem ()!=0 );
 
   resize( sizeHint() );
 }
@@ -185,7 +154,7 @@ void KonqProfileDlg::loadAllProfiles(const QString & preselectProfile)
         m_pProfileNameLineEdit->setText( preselectProfile);
 }
 
-void KonqProfileDlg::slotSave()
+void KonqProfileDlg::slotUser3() // Save button
 {
   QString name = KIO::encodeFileName( m_pProfileNameLineEdit->text() ); // in case of '/'
 
@@ -207,7 +176,7 @@ void KonqProfileDlg::slotSave()
   accept();
 }
 
-void KonqProfileDlg::slotDelete()
+void KonqProfileDlg::slotUser2() // Delete button
 {
     if(!m_pListView->selectedItem())
         return;
@@ -215,11 +184,12 @@ void KonqProfileDlg::slotDelete()
 
   if ( it != m_mapEntries.end() && QFile::remove( it.data() ) )
       loadAllProfiles();
-  m_pDeleteProfileButton->setEnabled( m_pListView->selectedItem ()!=0 );
-  m_pRenameProfileButton->setEnabled( m_pListView->selectedItem ()!=0 );
+
+  enableButton( BTN_RENAME, m_pListView->selectedItem() != 0 );
+  enableButton( BTN_DELETE, m_pListView->selectedItem() != 0 );
 }
 
-void KonqProfileDlg::slotRename()
+void KonqProfileDlg::slotUser1() // Rename button
 {
   QListViewItem *item = m_pListView->selectedItem();
 
@@ -261,7 +231,7 @@ void KonqProfileDlg::slotSelectionChanged( QListViewItem * item )
 
 void KonqProfileDlg::slotTextChanged( const QString & text )
 {
-  m_pSaveButton->setEnabled( !text.isEmpty() );
+  enableButton( KDialogBase::User3, !text.isEmpty() );
 
   // If we type the name of a profile, select it in the list
 
@@ -285,8 +255,12 @@ void KonqProfileDlg::slotTextChanged( const QString & text )
     itemSelected = itemSelected && fi.isWritable();
   }
 
-  m_pDeleteProfileButton->setEnabled( itemSelected );
-  m_pRenameProfileButton->setEnabled( itemSelected );
+  enableButton( BTN_RENAME, itemSelected );
+  enableButton( BTN_DELETE, itemSelected );
 }
+
+#undef BTN_RENAME
+#undef BTN_DELETE
+#undef BTN_SAVE
 
 #include "konq_profiledlg.moc"
