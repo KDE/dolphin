@@ -1390,6 +1390,7 @@ void KonqMainWindow::slotOpenLocation()
   if (m_currentView && m_currentView->url().isLocalFile())
       currentDir = m_currentView->url().path(1);
   dlg.urlRequester()->completionObject()->setDir( currentDir );
+  dlg.urlRequester()->setMode( KFile::File | KFile::Directory | KFile::ExistingOnly );
   dlg.exec();
   const KURL& url = dlg.selectedURL();
   if (!url.isEmpty())
