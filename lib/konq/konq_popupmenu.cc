@@ -568,7 +568,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     }
     if ( isCurrentTrash )
     {
-        act = new KAction( i18n( "&Empty Trash Bin" ), 0, this, SLOT( slotPopupEmptyTrashBin() ), &m_ownActions, "empytrash" );
+        act = new KAction( i18n( "&Empty Trash Bin" ), "emptytrash", 0, this, SLOT( slotPopupEmptyTrashBin() ), &m_ownActions, "empytrash" );
         addAction( act );
     }
     addGroup( "editactions" );
