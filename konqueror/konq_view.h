@@ -54,6 +54,7 @@ struct HistoryEntry
   QString postContentType;
   bool doPost;
   QString pageReferrer;
+  KonqMainWindow::PageSecurity pageSecurity;
 };
 
 /* This class represents a child of the main view. The main view maintains

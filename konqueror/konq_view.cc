@@ -752,6 +752,7 @@ void KonqView::updateHistoryEntry( bool saveLocationBarURL )
     kdDebug(1202) << "Saving location bar URL : " << m_sLocationBarURL << " in history position " << m_lstHistory.at() << endl;
 #endif
     current->locationBarURL = m_sLocationBarURL;
+    current->pageSecurity = m_pageSecurity;
   }
 #ifdef DEBUG_HISTORY
   kdDebug(1202) << "Saving title : " << m_caption << " in history position " << m_lstHistory.at() << endl;
@@ -823,6 +824,7 @@ void KonqView::restoreHistory()
   kdDebug(1202) << "Restoring servicetype/name, and location bar URL from history : " << h.locationBarURL << endl;
 #endif
   setLocationBarURL( h.locationBarURL );
+  setPageSecurity( h.pageSecurity );
   m_sTypedURL = QString::null;
   if ( ! changeViewMode( h.strServiceType, h.strServiceName ) )
   {
@@ -936,8 +938,10 @@ void KonqView::stop()
     // Revert to working URL - unless the URL was typed manually
     // This is duplicated with KonqMainWindow::slotRunFinished, but we can't call it
     //   since it relies on sender()...
-    if ( history().current() && m_pRun->typedURL().isEmpty() ) // not typed
+    if ( history().current() && m_pRun->typedURL().isEmpty() ) { // not typed
       setLocationBarURL( history().current()->locationBarURL );
+      setPageSecurity( history().current()->pageSecurity );
+    }
 
     setRun( 0L );
     m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
