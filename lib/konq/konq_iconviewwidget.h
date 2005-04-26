@@ -248,8 +248,8 @@ public slots:
     void renameSelectedItem();
     void renameCurrentItem();
 
-    void slotToolTipPreview( const KFileItem *, const QPixmap & ) KDE_DEPRECATED;  // ### unused - remove for KDE4
-    void slotToolTipPreviewResult() KDE_DEPRECATED;  // ### unused - remove for KDE4
+    void slotToolTipPreview( const KFileItem *, const QPixmap & );  // ### unused - remove for KDE4
+    void slotToolTipPreviewResult() ;  // ### unused - remove for KDE4
 
 signals:
     /**
