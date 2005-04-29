@@ -360,7 +360,7 @@ void DesktopBehavior::save()
     g_pConfig->setGroup( "FMSettings" );
     g_pConfig->writeEntry( "ShowFileTips", toolTipBox->isChecked() );
     g_pConfig->setGroup( "Menubar" );
-    g_pConfig->writeEntry("ShowMenubar", desktopMenuGroup->selectedId() > 0);
+    g_pConfig->writeEntry("ShowMenubar", desktopMenuGroup->selectedId() == 1);
     KConfig config( "kdeglobals" );
     config.setGroup("KDE");
     bool globalMenuBar = desktopMenuGroup->selectedId() == 2;
