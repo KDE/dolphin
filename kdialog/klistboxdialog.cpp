@@ -35,6 +35,7 @@ KListBoxDialog::KListBoxDialog(QString text, QWidget *parent)
   label->setAlignment(AlignCenter);
 
   table = new QListBox(page);
+  table->setFocus();
 }
 
 void KListBoxDialog::insertItem(const QString& item)
