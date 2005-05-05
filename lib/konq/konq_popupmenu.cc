@@ -431,7 +431,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     m_info.m_Reading = sReading;
     m_info.m_Writing = sWriting;
     m_info.m_Deleting = sDeleting;
-    m_info.m_Moving = sMoving;
+    	m_info.m_Moving = sMoving;
     m_info.m_TrashIncluded = bTrashIncluded;
 
     // isCurrentTrash: popup on trash:/ itself, or on the trash.desktop link
@@ -680,7 +680,36 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     if ( !kapp->dcopClient()->isApplicationRegistered( app.utf8() ) )
                         continue;
                 }
+		if ( cfg.hasKey( "X-KDE-ShowIfDcopCall" ) )
+		{
+		    QString dcopcall = cfg.readEntry( "X-KDE-ShowIfDcopCall" );
+		    const QCString app = dcopcall.section(' ', 0,0).utf8();
 
+		    //if( !kapp->dcopClient()->isApplicationRegistered( app ))
+		    //	continue; //app does not exist so cannot send call
+		    
+		    QByteArray dataToSend;
+		    QDataStream dataStream(dataToSend, IO_WriteOnly);
+		    dataStream << m_lstPopupURLs;
+		    
+		    QCString replyType;
+		    QByteArray replyData;
+		    QCString object =    dcopcall.section(' ', 1,-2).utf8();
+		    QString function =  dcopcall.section(' ', -1);
+		    if(!function.endsWith("(KURL::List)")) {
+			kdWarning() << "Desktop file " << *eIt << " contains an invalid X-KDE-ShowIfDcopCall - the function must take the exact parameter (KURL::List) and must be specified." << endl;
+			continue; //Be safe.
+		    }
+
+		    if(!kapp->dcopClient()->call( app, object, 
+				    function.utf8(), 
+				    dataToSend, replyType, replyData, true, 1000))
+			continue;
+		    
+		    if(replyType != "bool" || !replyData[0])
+			continue;
+		    
+		}
                 if ( cfg.hasKey( "X-KDE-Protocol" ) )
                 {
                     const QString protocol = cfg.readEntry( "X-KDE-Protocol" );
