@@ -8,7 +8,7 @@ Exec=kcmshell khtml_filter
 X-KDE-Library=konqhtml
 X-KDE-FactoryName=khtml_filter
 
-Name=AdBlocK filters
+Name=AdBlocK Filters
 
 Comment=Configure Konqueror AdBlocK filters
 

@@ -43,20 +43,20 @@ KCMFilter::KCMFilter(KConfig *config, QString group,
       mGroupname( group )
 {
     setButtons(Default|Apply);
-    
+
     QVBoxLayout *topLayout = new QVBoxLayout(this, 0, KDialog::spacingHint());
 
     mEnableCheck = new QCheckBox(i18n("Enable filters"), this);
     topLayout->addWidget( mEnableCheck );
-    
+
     mKillCheck = new QCheckBox(i18n("Hide filtered images"), this);
     topLayout->addWidget( mKillCheck );
 
-    QGroupBox *topBox = new QGroupBox( 1, Horizontal, i18n("URL expressions to filter"), this );
+    QGroupBox *topBox = new QGroupBox( 1, Horizontal, i18n("URL Expressions to Filter"), this );
     topLayout->addWidget( topBox );
-        
+
     mListBox = new QListBox( topBox );
-    QLabel *label = new QLabel( i18n("Expression e.g. http://www.site.com/ad/*"), topBox);
+    QLabel *label = new QLabel( i18n("Expression (e.g. http://www.site.com/ad/*):"), topBox);
     topLayout->addWidget(label);
     mString = new QLineEdit( topBox );
 
@@ -95,7 +95,7 @@ void KCMFilter::slotKillChecked()
 
 void KCMFilter::slotEnableChecked()
 {
-    updateButton();    
+    updateButton();
     emit changed( true );
 }
 
@@ -154,12 +154,12 @@ void KCMFilter::exportFilters()
       QTextStream ts( &f );
       ts.setEncoding( QTextStream::UnicodeUTF8 );
       ts << "[AdBlock]" << endl;
-    
+
       uint i;
       for( i = 0; i < mListBox->count(); ++i )
         ts << mListBox->text(i) << endl;
-        
-      f.close(); 
+
+      f.close();
     }
   }
 }
@@ -199,7 +199,7 @@ void KCMFilter::load()
     mConfig->setGroup( mGroupname );
     mEnableCheck->setChecked( mConfig->readBoolEntry("Enabled",false));
     mKillCheck->setChecked( mConfig->readBoolEntry("Shrink",false));
-    
+
     QMap<QString,QString> entryMap = mConfig->entryMap( mGroupname );
     QMap<QString,QString>::ConstIterator it;
     int num = mConfig->readNumEntry("Count",0);
