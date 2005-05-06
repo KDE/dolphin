@@ -212,7 +212,7 @@ const KAboutData *KonqFactory::aboutData()
                         KONQUEROR_VERSION,
                         I18N_NOOP("Web browser, file manager, ..."),
                         KAboutData::License_GPL,
-                        I18N_NOOP("(c) 1999-2004, The Konqueror developers"),
+                        I18N_NOOP("(c) 1999-2005, The Konqueror developers"),
                         0,
                         I18N_NOOP("http://konqueror.kde.org") );
     s_aboutData->addAuthor( "David Faure", I18N_NOOP("developer (framework, parts, JavaScript, I/O lib) and maintainer"), "faure@kde.org" );
@@ -248,6 +248,7 @@ const KAboutData *KonqFactory::aboutData()
     s_aboutData->addAuthor( "Torsten Rahn", I18N_NOOP("graphics/icons"), "torsten@kde.org" );
     s_aboutData->addAuthor( "Torben Weis", I18N_NOOP("kfm author"), "weis@kde.org" );
     s_aboutData->addAuthor( "Joseph Wenninger", I18N_NOOP("developer (navigation panel framework)"),"jowenn@kde.org");
+    s_aboutData->addAuthor( "Ivor Hewitt", I18N_NOOP("developer (AdBlock filter)"),"ivor@ivor.org");
   }
   return s_aboutData;
 }

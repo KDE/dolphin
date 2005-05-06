@@ -3688,6 +3688,7 @@ void KonqMainWindow::initActions()
   m_configureModules << "kde-filebehavior.desktop" << "kde-fileappearance.desktop" <<
       "kde-filepreviews.desktop" << "kde-filetypes.desktop" <<
       "kde-khtml_behavior.desktop" << "kde-khtml_java_js.desktop" <<
+      "kde-khtml_filter.desktop" <<
       "kde-khtml_fonts.desktop" << "kde-ebrowsing.desktop" <<
       "kde-kcmhistory.desktop" << "kde-cookies.desktop" <<
       "kde-cache.desktop" << "kde-proxy.desktop" << "kde-kcmcss.desktop" <<

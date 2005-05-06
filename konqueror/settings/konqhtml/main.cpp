@@ -35,6 +35,7 @@
 #include "pluginopts.h"
 #include "appearance.h"
 #include "htmlopts.h"
+#include "filteropts.h"
 
 #include "main.h"
 #include <kaboutdata.h>
@@ -66,7 +67,11 @@ extern "C"
 		return new KPluginOptions(c, "Java/JavaScript Settings", parent, name);
 	}
 
-
+        KDE_EXPORT KCModule *create_khtml_filter(QWidget *parent, const char *name )
+        {
+	    KConfig *c = new KConfig( "khtmlrc", false, false );
+            return new KCMFilter(c, "Filter Settings", parent, name);
+        }
 }
 
 
