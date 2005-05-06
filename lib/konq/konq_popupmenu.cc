@@ -705,7 +705,6 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 				    function.utf8(), 
 				    dataToSend, replyType, replyData, true, 1000))
 			continue;
-		    
 		    if(replyType != "bool" || !replyData[0])
 			continue;
 		    
@@ -730,8 +729,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     if ( capabilities.contains( "Write" ) && !sWriting )
                         continue;
                 }
-
-                if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) )
+                if ( (cfg.hasKey( "Actions" ) || cfg.hasKey( "X-KDE-GetActionMenu") ) && cfg.hasKey( "ServiceTypes" ) )
                 {
                     const QStringList types = cfg.readListEntry( "ServiceTypes" );
                     const QStringList excludeTypes = cfg.readListEntry( "ExcludeServiceTypes" );
@@ -788,9 +786,11 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     {
                         const QString priority = cfg.readEntry("X-KDE-Priority");
                         const QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
+
                         ServiceList* list = s.selectList( priority, submenuName );
-                        (*list) += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, cfg, url.isLocalFile() );
-                    }
+                        (*list) += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, cfg, url.isLocalFile(), m_lstPopupURLs );
+		    }
+		    
                 }
             }
         }
