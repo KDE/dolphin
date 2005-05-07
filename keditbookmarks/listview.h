@@ -102,7 +102,7 @@ public:
    bool isFolderList() const { return m_folderList; }
 
    KEBListViewItem* rootItem() const;
-   QPtrList<KEBListViewItem>* itemList(); // TODO - make const!!!
+   QPtrList<KEBListViewItem>* itemList(); // TODO - make const!!! and fix mem leak (the QPtrList* isn't deleted)!
 
 public slots:
    virtual void rename(QListViewItem *item, int c);
