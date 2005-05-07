@@ -595,8 +595,9 @@ void ListView::renameNextCell(bool fwd) {
 
 class KeyPressEater : public QObject {
     public:
-        KeyPressEater( QWidget *parent = 0, const char *name = 0 ) { 
-            m_allowedToTab = true; 
+        KeyPressEater( QWidget *parent = 0, const char *name = 0 )
+            : QObject(parent, name) {
+            m_allowedToTab = true;
         }
     protected:
         bool eventFilter(QObject *, QEvent *);
