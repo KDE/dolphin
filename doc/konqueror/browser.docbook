@@ -444,13 +444,13 @@ message <quote>Access to restricted port in POST denied</quote>. This is done
 for security reasons. If you nevertheless need to access a server on this port, 
 just add a key line
 <screen><userinput>
-OverridePorts=CommaSeparatedListOfAllowedPorts
+OverridenPorts=CommaSeparatedListOfAllowedPorts
 </userinput></screen>
 to <filename>$KDEDIR/share/config/kio_httprc
 </filename> or 
 <filename>~/.kde/share/config/kio_httprc</filename>.</para>
 <para>For example
-<screen><userinput>OverridePorts=23,15
+<screen><userinput>OverridenPorts=23,15
 </userinput></screen> 
 (it should not include any embedded spaces).</para>
 <para>&konqueror; will reject the following ports (the list is hardcoded in 
