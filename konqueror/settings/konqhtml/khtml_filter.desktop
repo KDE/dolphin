@@ -9,7 +9,9 @@ X-KDE-Library=konqhtml
 X-KDE-FactoryName=khtml_filter
 
 Name=AdBlocK Filters
+Name[ga]=Scagairí AdBlockK
 
 Comment=Configure Konqueror AdBlocK filters
+Comment[ga]=Cumraigh na Scagairí AdBlocK Konqueror
 
 Categories=Qt;KDE;X-KDE-settings-webbrowsing;
