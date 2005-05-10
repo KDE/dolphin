@@ -10,8 +10,12 @@ X-KDE-FactoryName=khtml_filter
 
 Name=AdBlocK Filters
 Name[ga]=Scagairí AdBlockK
+Name[pt_BR]=Filtros AdBlocK
+Name[sv]=Reklamblockeringsfilter
 
 Comment=Configure Konqueror AdBlocK filters
 Comment[ga]=Cumraigh na Scagairí AdBlocK Konqueror
+Comment[pt_BR]=Configura os filtros AdBlocK no Konqueror
+Comment[sv]=Anpassa Konquerors reklamblockeringsfilter
 
 Categories=Qt;KDE;X-KDE-settings-webbrowsing;

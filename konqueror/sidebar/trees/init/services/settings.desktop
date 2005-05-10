@@ -4,6 +4,7 @@ Type=Link
 URL=settings:/
 Icon=kcontrol
 Name=Settings
+Name[af]=Instellings
 Name[ar]=الإعدادات
 Name[az]=Qurğular
 Name[be]=Настройкі

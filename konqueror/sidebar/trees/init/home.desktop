@@ -4,6 +4,7 @@ Type=Link
 URL=file:$HOME
 Icon=folder_home
 Name=Home Folder
+Name[af]=Tuis Gids
 Name[ar]=مجلدي
 Name[az]=Ev Qovluğu
 Name[be]=Хатняя тэчка
