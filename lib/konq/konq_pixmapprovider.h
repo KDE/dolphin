@@ -58,6 +58,7 @@ public:
 
     /**
      * Looks up an iconname for @p url. Uses a cache for the iconname of url.
+     * @since 3.4.1
      */
     QString KonqPixmapProvider::iconNameFor( const QString& url );
 
@@ -68,7 +69,7 @@ protected:
      * Overridden from KonqFavIconMgr to update the cache
      */
     virtual void notifyChange( bool isHost, QString hostOrURL, QString iconName );
-    
+
     QPixmap loadIcon( const QString& url, const QString& icon, int size );
 
 private:
