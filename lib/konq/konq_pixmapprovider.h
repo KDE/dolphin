@@ -56,6 +56,11 @@ public:
      */
     void clear();
 
+    /**
+     * Looks up an iconname for @p url. Uses a cache for the iconname of url.
+     */
+    QString KonqPixmapProvider::iconNameFor( const QString& url );
+
 protected:
     KonqPixmapProvider( QObject *parent=0, const char *name=0 );
 

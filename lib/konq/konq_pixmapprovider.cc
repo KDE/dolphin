@@ -51,14 +51,14 @@ KonqPixmapProvider::~KonqPixmapProvider()
 // if not available, tries to find the pixmap for the mimetype of url
 // if that fails, gets the icon for the protocol
 // finally, inserts the url/icon pair into the cache
-QPixmap KonqPixmapProvider::pixmapFor( const QString& url, int size )
+QString KonqPixmapProvider::iconNameFor( const QString& url )
 {
     QMapIterator<QString,QString> it = iconMap.find( url );
     QString icon;
     if ( it != iconMap.end() ) {
         icon = it.data();
         if ( !icon.isEmpty() )
-	    return loadIcon( url, icon, size );
+	    return icon;
     }
 
     if ( url.isEmpty() ) {
@@ -81,9 +81,13 @@ QPixmap KonqPixmapProvider::pixmapFor( const QString& url, int size )
     // cache the icon found for url
     iconMap.insert( url, icon );
 
-    return loadIcon( url, icon, size );
+    return icon;
 }
 
+QPixmap KonqPixmapProvider::pixmapFor( const QString& url, int size )
+{
+    return loadIcon( url, iconNameFor( url ), size );
+}
 
 void KonqPixmapProvider::load( KConfig *kc, const QString& key )
 {

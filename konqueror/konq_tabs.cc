@@ -261,7 +261,7 @@ void KonqFrameTabs::setTabIcon( const QString &url, QWidget* sender )
   if (m_permanentCloseButtons)
     iconSet =  SmallIcon( "fileclose" );
   else
-    iconSet =  QIconSet( KonqPixmapProvider::self()->pixmapFor( url ) );
+    iconSet =  SmallIconSet( KonqPixmapProvider::self()->iconNameFor( url ) );
   if (tabIconSet( sender ).pixmap().serialNumber() != iconSet.pixmap().serialNumber())
     setTabIconSet( sender, iconSet );
 }
