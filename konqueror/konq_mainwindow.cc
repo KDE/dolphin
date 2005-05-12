@@ -472,8 +472,11 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
                               const QString &_serviceType, KonqOpenURLRequest& req,
                               bool trustedSource )
 {
+#ifndef NDEBUG // needed for req.debug()
   kdDebug(1202) << "KonqMainWindow::openURL : url = '" << _url << "'  "
-                << "serviceType='" << _serviceType << "' view=" << _view << endl;
+                << "serviceType='" << _serviceType << " req=" << req.debug()
+                << "' view=" << _view << endl;
+#endif
 
   KURL url( _url );
   QString serviceType( _serviceType );
@@ -516,11 +519,13 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
     if (view) {
       view->setCaption( _url.host() );
       view->setLocationBarURL( _url );
+      if ( !req.args.frameName.isEmpty() )
+          view->setViewName( req.args.frameName ); // #44961
 
       if ( req.newTabInFront )
         m_pViewManager->showTab( view );
 
-        updateViewActions(); //A new tab created -- we may need to enable the "remove tab" button (#56318)
+      updateViewActions(); //A new tab created -- we may need to enable the "remove tab" button (#56318)
     }
     else
       req.newTab = false;
@@ -634,7 +639,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
 
 bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *childView, KonqOpenURLRequest& req )
 {
-  // TODO: Replace KURL() with referring URL. DF: done, please check.
+  // Second argument is referring URL
   if ( !kapp->authorizeURLAction("open", childView ? childView->url() : KURL(), _url) )
   {
      QString msg = KIO::buildErrorString(KIO::ERR_ACCESS_DENIED, _url.prettyURL());
@@ -810,15 +815,15 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
             enableAllActions( true );
 
             m_pViewManager->setActivePart( childView->part() );
-
-            childView->setViewName( m_initialFrameName.isEmpty() ? req.args.frameName : m_initialFrameName );
-            m_initialFrameName = QString::null;
             m_currentView = childView;
         }
       }
 
-      if ( !childView )
+      if ( childView )
           return false; // It didn't work out.
+
+      childView->setViewName( m_initialFrameName.isEmpty() ? req.args.frameName : m_initialFrameName );
+      m_initialFrameName = QString::null;
   }
   else // We know the child view
   {
