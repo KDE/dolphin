@@ -1,4 +1,4 @@
-// -*- mode:cperl; cperl-indent-level:4; cperl-continued-statement-offset:4; indent-tabs-mode:nil -*-
+// -*- indent-tabs-mode:nil -*-
 // vim: set ts=4 sts=4 sw=4 et:
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
@@ -286,21 +286,11 @@ void KEBApp::readConfig() {
     m_splitView = false; // appconfig.readBoolEntry("Split View", false);
 }
 
-static void writeConfigBool(
-    const QString &rcfile, const QString &group,
-    const QString &entry, bool flag
-) {
-    KConfig config(rcfile, false, false);
-    config.setGroup(group);
-    config.writeEntry(entry, flag);
-    config.sync();
-    CurrentMgr::self()->reloadConfig();
-}
-
 void KEBApp::slotSplitView() {
     Q_ASSERT( 0 );
 #if 0
     m_splitView = getToggleAction("settings_splitview")->isChecked();
+    // ### use KEBSettings (.kfcg) instead
     writeConfigBool("keditbookmarksrc", "General",
                     "Split View", m_splitView);
     sorryRelogin(this);
