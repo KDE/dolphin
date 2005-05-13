@@ -46,7 +46,7 @@ protected slots:
     void insertFilter();
     void updateFilter();
     void removeFilter();
-    void slotItemSelected( QListBoxItem * item );
+    void slotItemSelected();
     void slotEnableChecked();
     void slotKillChecked();
 
@@ -67,6 +67,7 @@ private:
 
     KConfig *mConfig;
     QString mGroupname;
+    int mSelCount;
 };
 
 #endif

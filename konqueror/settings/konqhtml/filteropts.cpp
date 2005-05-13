@@ -40,7 +40,8 @@ KCMFilter::KCMFilter(KConfig *config, QString group,
                      QWidget *parent, const char *name )
     : KCModule( parent, name ),
       mConfig( config ),
-      mGroupname( group )
+      mGroupname( group ),
+      mSelCount(0)
 {
     setButtons(Default|Apply);
 
@@ -56,6 +57,7 @@ KCMFilter::KCMFilter(KConfig *config, QString group,
     topLayout->addWidget( topBox );
 
     mListBox = new QListBox( topBox );
+    mListBox->setSelectionMode(QListBox::Extended);
     QLabel *label = new QLabel( i18n("Expression (e.g. http://www.site.com/ad/*):"), topBox);
     topLayout->addWidget(label);
     mString = new QLineEdit( topBox );
@@ -77,7 +79,7 @@ KCMFilter::KCMFilter(KConfig *config, QString group,
 
     connect( mEnableCheck, SIGNAL( clicked()), this, SLOT( slotEnableChecked()));
     connect( mKillCheck, SIGNAL( clicked()), this, SLOT( slotKillChecked()));
-    connect( mListBox, SIGNAL( selectionChanged ( QListBoxItem * )),this, SLOT( slotItemSelected( QListBoxItem *)));
+    connect( mListBox, SIGNAL( selectionChanged ()),this, SLOT( slotItemSelected()));
 
     load();
     updateButton();
@@ -99,12 +101,22 @@ void KCMFilter::slotEnableChecked()
     emit changed( true );
 }
 
-void KCMFilter::slotItemSelected( QListBoxItem * )
+void KCMFilter::slotItemSelected()
 {
-    int index = mListBox->currentItem();
-    if ( index >= 0 )
+    int currentId=-1;
+    int i;
+    for( i=0,mSelCount=0; i < mListBox->count() && mSelCount<2; ++i )
     {
-        mString->setText(mListBox->text(index) );
+        if (mListBox->isSelected(i))
+        {
+            currentId=i;
+            mSelCount++;
+        }
+    }
+    
+    if ( currentId >= 0 )
+    {
+        mString->setText(mListBox->text(currentId));
     }
     updateButton();
 }
@@ -112,8 +124,9 @@ void KCMFilter::slotItemSelected( QListBoxItem * )
 void KCMFilter::updateButton()
 {
     bool state = mEnableCheck->isChecked();
-    mUpdateButton->setEnabled(state && mListBox->selectedItem());
-    mRemoveButton->setEnabled(state && mListBox->selectedItem());
+    
+    mUpdateButton->setEnabled(state && (mSelCount == 1));
+    mRemoveButton->setEnabled(state && (mSelCount > 0));
     mInsertButton->setEnabled(state);
     mListBox->setEnabled(state);
 }
@@ -132,7 +145,8 @@ void KCMFilter::importFilters()
       while (!ts.atEnd())
       {
         line = ts.readLine();
-        if (!line.contains("[AdBlock]"))
+        if ((!line.contains("[Adblock]")) &&
+            (!line.startsWith("!")))
             paths.append(line);
       }
       f.close();
@@ -181,7 +195,6 @@ void KCMFilter::save()
     uint i;
     for( i = 0; i < mListBox->count(); ++i )
     {
-        QString s = "Filter";
         QString key = "Filter-" + QString::number(i);
         mConfig->writeEntry(key, mListBox->text(i));
     }
@@ -219,6 +232,11 @@ void KCMFilter::insertFilter()
     if ( !mString->text().isEmpty() )
     {
         mListBox->insertItem( mString->text() );
+        int id=mListBox->count()-1;
+        mListBox->clearSelection();
+        mListBox->setSelected(id,true);
+        mListBox->setCurrentItem(id);
+        mListBox->ensureCurrentVisible();
         emit changed( true );
     }
     updateButton();
@@ -226,12 +244,12 @@ void KCMFilter::insertFilter()
 
 void KCMFilter::removeFilter()
 {
-    int index = mListBox->currentItem();
-    if ( index >= 0 )
+    for( int i = mListBox->count(); i >= 0; --i )
     {
-        mListBox->removeItem( index );
-        emit changed( true );
+        if (mListBox->isSelected(i))
+            mListBox->removeItem(i);
     }
+    emit changed( true );
     updateButton();
 }
 
