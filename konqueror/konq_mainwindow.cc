@@ -819,7 +819,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
         }
       }
 
-      if ( childView )
+      if ( !childView )
           return false; // It didn't work out.
 
       childView->setViewName( m_initialFrameName.isEmpty() ? req.args.frameName : m_initialFrameName );
