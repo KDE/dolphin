@@ -5335,6 +5335,9 @@ static void hp_removeDuplicates( KCompletionMatches& l )
             if( str.find( '/', 7 ) < 0 ) { // http://something<noslash>
                 hp_removeDupe( l, str + '/', it );
                 hp_removeDupe( l, str.mid( 7 ) + '/', it );
+            } else if( str[ str.length() - 1 ] == '/' ) {
+                hp_removeDupe( l, str.left( str.length() - 1 ), it );
+                hp_removeDupe( l, str.left( str.length() - 1 ).mid( 7 ), it );
             }
             hp_removeDupe( l, str.mid( 7 ), it );
         }
