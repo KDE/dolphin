@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Type=Link
 URL=
-Icon=folder 
+Icon=folder
 Name=Folder
 Name[af]=Gids
 Name[ar]=المجلد
@@ -65,7 +65,7 @@ Name[wa]=Ridant
 Name[xx]=xxFolderxx
 Name[zh_CN]=文件夹
 Open=false
- 
+
 X-KDE-TreeModule=Directory
 X-KDE-TreeModule-Lib=konq_sidebartree_dirtree
 X-KDE-Default-URL=file:/

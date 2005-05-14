@@ -139,5 +139,5 @@ Comment[zu]=Lo umlando wama-URL osanda kuwavakashela. Ungawahlela ngezindlela ez
 Open=false
 X-KDE-TreeModule=History
 X-KDE-SearchableTreeModule=true
-X-KDE-TreeModule-Lib=konq_sidebartree_history    
-X-KDE-Default-URL=   
+X-KDE-TreeModule-Lib=konq_sidebartree_history
+X-KDE-Default-URL=

@@ -67,5 +67,5 @@ Name[zh_CN]=文件夹
 
 Open=false
 X-KDE-KonqSidebarAddParam=
-X-KDE-KonqSidebarAddModule=konqsidebar_tree    
+X-KDE-KonqSidebarAddModule=konqsidebar_tree
 X-KDE-KonqSidebarUniversal=true
