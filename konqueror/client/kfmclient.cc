@@ -57,9 +57,11 @@ static const char version[] = "2.0";
 
 QCString clientApp::startup_id_str;
 bool clientApp::m_ok;
+bool s_interactive = true;
 
 static const KCmdLineOptions options[] =
 {
+   { "noninteractive", I18N_NOOP("Non interactive use: no message boxes"), 0},
    { "commands", I18N_NOOP("Show available commands"), 0},
    { "+command", I18N_NOOP("Command (see --commands)"), 0},
    { "+[URL(s)]", I18N_NOOP("Arguments for command"), 0},
@@ -446,6 +448,9 @@ bool clientApp::doIt()
   int argc = args->count();
   checkArgumentCount(argc, 1, 0);
 
+  if ( !args->isSet( "ninteractive" ) ) {
+      s_interactive = false;
+  }
   QCString command = args->arg(0);
 
   // read ASN env. variable for non-KApp cases
@@ -618,7 +623,7 @@ bool clientApp::doIt()
 
 void clientApp::slotResult( KIO::Job * job )
 {
-  if (job->error())
+  if (job->error() && s_interactive)
     job->showErrorDialog();
   m_ok = !job->error();
   quit();
