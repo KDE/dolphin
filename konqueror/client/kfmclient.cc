@@ -542,6 +542,8 @@ bool clientApp::doIt()
       srcLst.append( args->url(i) );
 
     KIO::Job * job = KIO::move( srcLst, args->url(argc - 1) );
+    if ( !s_interactive )
+        job->setInteractive( false );
     connect( job, SIGNAL( result( KIO::Job * ) ), &app, SLOT( slotResult( KIO::Job * ) ) );
     app.exec();
     return m_ok;
@@ -570,11 +572,13 @@ bool clientApp::doIt()
        return m_ok;
     QString dst =
        KFileDialog::getSaveFileName( (argc<2) ? (QString::null) : (args->url(1).filename()) );
-    if (dst == QString::null)
+    if (dst.isEmpty()) // cancelled
        return m_ok; // AK - really okay?
     KURL dsturl;
     dsturl.setPath( dst );
     KIO::Job * job = KIO::copy( srcLst, dsturl );
+    if ( !s_interactive )
+        job->setInteractive( false );
     connect( job, SIGNAL( result( KIO::Job * ) ), &app, SLOT( slotResult( KIO::Job * ) ) );
     app.exec();
     return m_ok;
@@ -587,6 +591,8 @@ bool clientApp::doIt()
       srcLst.append( args->url(i) );
 
     KIO::Job * job = KIO::copy( srcLst, args->url(argc - 1) );
+    if ( !s_interactive )
+        job->setInteractive( false );
     connect( job, SIGNAL( result( KIO::Job * ) ), &app, SLOT( slotResult( KIO::Job * ) ) );
     app.exec();
     return m_ok;
