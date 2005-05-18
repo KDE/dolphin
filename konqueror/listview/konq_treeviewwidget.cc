@@ -80,7 +80,8 @@ void KonqTreeViewWidget::saveState( QDataStream &stream )
     QStringList openDirList;
 
     QDictIterator<KonqListViewDir> it( m_dictSubDirs );
-    for (; it.current(); ++it ) {
+    for (; it.current(); ++it )
+    {
         if ( it.current()->isOpen() )
             openDirList.append( it.current()->url( -1 ) );
     }
@@ -142,21 +143,23 @@ void KonqTreeViewWidget::slotClear( const KURL & _url )
    // its children will be deleted by Qt immediately!
 
    kdDebug(1202) << k_funcinfo << _url << endl;
-
-   QListViewItem *item = m_dictSubDirs[_url.url(-1)];
+   
+   KonqListViewDir *item = m_dictSubDirs[_url.url(-1)];
    if ( item )
    {
       // search all subdirs of _url (item)
       QDictIterator<KonqListViewDir> it( m_dictSubDirs );
-      for ( ; it.current(); ++it )
+      while ( it.current() )
       {
-         if ( !_url.equals( it.current()->item()->url(), true )
-              && _url.isParentOf( it.current()->item()->url() ) )
+         if ( !_url.equals( it.currentKey(), true )
+              && _url.isParentOf( it.currentKey() ) )
          {
-            m_dictSubDirs.remove( it.currentKey() );
             m_urlsToOpen.remove( it.currentKey() );
             m_urlsToReload.remove( it.currentKey() );
+            m_dictSubDirs.remove( it.currentKey() );  // do last, it changes it.currentKey()!!
          }
+         else
+            ++it;
       }
       
       // Remark: This code works only if we have exactly one tree which is the
@@ -278,7 +281,7 @@ void KonqTreeViewWidget::slotDeleteItem( KFileItem *_fileItem )
     QString url = _fileItem->url().url(-1);
 
     // Check if this item is in m_dictSubDirs, and if yes, then remove it
-    slotClear( KURL( url ) );
+    slotClear( _fileItem->url() );
    
     m_dictSubDirs.remove( url );
     m_urlsToOpen.remove( url );
