@@ -37,6 +37,8 @@
 #include <qptrlist.h>
 #include <qsocketnotifier.h>
 #include <stdlib.h>
+#include <sys/resource.h>
+#include <sys/time.h>
 #include <unistd.h>
 
 #ifdef Bool
@@ -248,6 +250,15 @@ int main(int argc, char** argv)
       int v = KCLAMP(cfg.readNumEntry("Nice Level", 0), 0, 19);
       if (v > 0) {
          nice(v);
+      }
+      v = cfg.readNumEntry("Max Memory", 0);
+      if (v > 0) {
+         rlimit rl;
+         memset(&rl, 0, sizeof(rl));
+         if (0 == getrlimit(RLIMIT_AS, &rl)) {
+            rl.rlim_cur = kMin(v, int(rl.rlim_max));
+            setrlimit(RLIMIT_AS, &rl);
+         }
       }
    }
 
