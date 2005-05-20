@@ -100,6 +100,7 @@
 #include <kpopupmenu.h>
 #include <kprocess.h>
 #include <kio/scheduler.h>
+#include <kio/netaccess.h>
 #include <kaccelmanager.h>
 #include <kuser.h>
 #include <netwm.h>
@@ -1362,16 +1363,24 @@ void KonqMainWindow::slotOpenTerminal()
 
   QString dir ( QDir::homeDirPath() );
 
+  //Try to get the directory of the current view
   if ( m_currentView )
   {
       KURL u( m_currentView->url() );
+
+      // If the given directory is not local, it can still be the URL of an
+      // ioslave using UDS_LOCAL_PATH which to be converted first.
+      u = KIO::NetAccess::mostLocalURL(u, this);
+
+      //If the URL is local after the above conversion, set the directory.
       if ( u.isLocalFile() )
       {
-          if ( m_currentView->serviceType() == "inode/directory" )
+          QString mime = m_currentView->serviceType();
+          if ( KMimeType::mimeType(mime)->is("inode/directory") )
               dir = u.path();
           else
               dir = u.directory();
-  }
+      }
   }
 
   KProcess cmd;
