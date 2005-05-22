@@ -74,6 +74,8 @@ private:
     KURL m_selectAfterOpening;
 
     KonqSidebarTreeTopLevelItem * m_topLevelItem;
+
+    bool m_showArchivesAsFolders;
 };
 
 

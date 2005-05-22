@@ -26,11 +26,26 @@
 #include <kmessagebox.h>
 #include <kiconloader.h>
 #include <kdirlister.h>
+#include "konqsidebariface_p.h"
 
 
 KonqSidebarDirTreeModule::KonqSidebarDirTreeModule( KonqSidebarTree * parentTree , bool showHidden)
     : KonqSidebarTreeModule( parentTree, showHidden ), m_dirLister(0L), m_topLevelItem(0L)
 {
+    bool universalMode=false;
+    KonqSidebarPlugin * plugin = parentTree->part();
+
+/* Doesn't work reliable :-(
+    // KonqSidebarPlugin::universalMode() is protected :-|
+    if ( plugin->parent() ) {
+        KonqSidebarIface * ksi = static_cast<KonqSidebarIface*>( plugin->parent()->qt_cast( "KonqSidebarIface" ) );
+        universalMode = ksi ? ksi->universalMode() : false;
+    } */
+
+    KConfig * config = new KConfig( universalMode ? "konqsidebartng_kicker.rc" : "konqsidebartng.rc" );
+    config->setGroup("");
+    m_showArchivesAsFolders = config->readBoolEntry("ShowArchivesAsFolders",true);
+    delete config;
 }
 
 KonqSidebarDirTreeModule::~KonqSidebarDirTreeModule()
@@ -353,7 +368,7 @@ void KonqSidebarDirTreeModule::listDirectory( KonqSidebarTreeItem *item )
           {
 	      KMimeType::Ptr ptr;
 		
-	      if ( fileItem->url().isLocalFile() && (((ptr=fileItem->determineMimeType())!=0) &&  ((!ptr->property("X-KDE-LocalProtocol").toString().isEmpty()) ))) {
+	      if ( fileItem->url().isLocalFile() && (((ptr=fileItem->determineMimeType())!=0) && (ptr->is("inode/directory") || m_showArchivesAsFolders) && ((!ptr->property("X-KDE-LocalProtocol").toString().isEmpty()) ))) {
 		kdDebug()<<"Something not really a directory"<<endl;
 	      } else {
 //	              kdError() << "Item " << fileItem->url().prettyURL() << " is not a directory!" << endl;
@@ -422,7 +437,7 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
           {
 	      KMimeType::Ptr ptr;
 		
-	      if ( fileItem->url().isLocalFile() && (( (ptr=fileItem->determineMimeType())!=0) &&  ((!ptr->property("X-KDE-LocalProtocol").toString().isEmpty()) ))) {
+	      if ( fileItem->url().isLocalFile() && (( (ptr=fileItem->determineMimeType())!=0) && (ptr->is("inode/directory") || m_showArchivesAsFolders) &&  ((!ptr->property("X-KDE-LocalProtocol").toString().isEmpty()) ))) {
 		kdDebug()<<"Something really a directory"<<endl;
 	      } else {
 	              //kdError() << "Item " << fileItem->url().prettyURL() << " is not a directory!" << endl;
