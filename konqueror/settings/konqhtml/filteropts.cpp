@@ -113,7 +113,7 @@ void KCMFilter::slotItemSelected()
             mSelCount++;
         }
     }
-    
+
     if ( currentId >= 0 )
     {
         mString->setText(mListBox->text(currentId));
@@ -124,11 +124,16 @@ void KCMFilter::slotItemSelected()
 void KCMFilter::updateButton()
 {
     bool state = mEnableCheck->isChecked();
-    
+
     mUpdateButton->setEnabled(state && (mSelCount == 1));
     mRemoveButton->setEnabled(state && (mSelCount > 0));
     mInsertButton->setEnabled(state);
+    mImportButton->setEnabled(state);
+    mExportButton->setEnabled(state);
+
     mListBox->setEnabled(state);
+    mString->setEnabled(state);
+    mKillCheck->setEnabled(state);
 }
 
 void KCMFilter::importFilters()
