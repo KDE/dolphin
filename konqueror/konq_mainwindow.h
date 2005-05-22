@@ -401,7 +401,7 @@ public slots:
   void slotPartChanged( KonqView *childView, KParts::ReadOnlyPart *oldPart, KParts::ReadOnlyPart *newPart );
 
   void slotRunFinished();
-  void slotClearLocationBar();
+  void slotClearLocationBar( KAction::ActivationReason reason, Qt::ButtonState state );
 
   // reimplement from KParts::MainWindow
   virtual void slotSetStatusBarText( const QString &text );

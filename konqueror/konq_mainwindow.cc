@@ -3429,12 +3429,14 @@ void KonqMainWindow::slotCheckComboSelection()
   m_paCut->setEnabled( hasSelection );
 }
 
-void KonqMainWindow::slotClearLocationBar()
+void KonqMainWindow::slotClearLocationBar( KAction::ActivationReason, Qt::ButtonState state )
 {
   kdDebug(1202) << "slotClearLocationBar" << endl;
   slotStop();
   m_combo->clearTemporary();
   m_combo->setFocus();
+  if ( state & Qt::MidButton )
+      m_combo->setURL( QApplication::clipboard()->text( QClipboard::Selection ) );
 }
 
 void KonqMainWindow::slotForceSaveMainWindowSettings()
@@ -3800,7 +3802,9 @@ void KonqMainWindow::initActions()
 
   KAction *clearLocation = new KAction( i18n( "Clear Location Bar" ),
 					QApplication::reverseLayout() ? "clear_left" : "locationbar_erase",
-					CTRL+Key_L, this, SLOT( slotClearLocationBar() ), actionCollection(), "clear_location" );
+					CTRL+Key_L, actionCollection(), "clear_location" );
+  connect( clearLocation, SIGNAL( activated( KAction::ActivationReason, Qt::ButtonState ) ),
+           SLOT( slotClearLocationBar( KAction::ActivationReason, Qt::ButtonState ) ) );
   clearLocation->setWhatsThis( i18n( "Clear Location bar<p>"
 				     "Clears the content of the location bar." ) );
 
