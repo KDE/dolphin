@@ -44,8 +44,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2005-02-13</date>
-<releaseinfo>1.5</releaseinfo>
+<date>2005-05-23</date>
+<releaseinfo>1.6</releaseinfo>
 
 <abstract><para>This document is the user handbook for the &konsole;
  application.</para>
@@ -899,17 +899,10 @@ size</action>.</para></listitem>
 <term><menuchoice><guimenu>Settings</guimenu>
 <guisubmenu>Font</guisubmenu></menuchoice></term>
 <listitem><para><action>Set font size</action>:
-<guimenuitem>Normal</guimenuitem>, 
-<guimenuitem>Tiny</guimenuitem>, 
-<guimenuitem>Small</guimenuitem>, 
-<guimenuitem>Medium</guimenuitem>, 
-<guimenuitem>Large</guimenuitem>, 
-<guimenuitem>Huge</guimenuitem>.</para>
-<para>Select the <guimenuitem>Linux</guimenuitem> option to use
-a console font.</para>
-<para>Select the <guimenuitem>Unicode</guimenuitem> option to use
-a fixed font.</para>
-<para>Select the <guimenuitem>Custom</guimenuitem> option to use any
+<guimenuitem>Enlarge Font</guimenuitem> or 
+<guimenuitem>Shrink Font</guimenuitem>.
+</para>
+<para>Use the <guimenuitem>Select...</guimenuitem> option to pick any
 combination of font, size and style.</para>
 </listitem>
 </varlistentry>
