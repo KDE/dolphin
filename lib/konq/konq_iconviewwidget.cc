@@ -1021,7 +1021,7 @@ void KonqIconViewWidget::contentsDragMoveEvent( QDragMoveEvent *e )
 void KonqIconViewWidget::contentsDragLeaveEvent( QDragLeaveEvent *e )
 {
     d->bProgramsURLdrag = false;
-    QIconView::contentsDragLeaveEvent(e);
+    KIconView::contentsDragLeaveEvent(e);
     emit dragLeft();
 }
 
@@ -1200,7 +1200,7 @@ void KonqIconViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
         }
     }
     d->renameItem= false;
-    QIconView::contentsMouseMoveEvent( e );
+    KIconView::contentsMouseMoveEvent( e );
 }
 
 void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
@@ -1445,7 +1445,7 @@ void KonqIconViewWidget::insertInGrid(QIconViewItem *item)
 
     if (!m_IconRect.isValid())
     {
-        QIconView::insertInGrid(item);
+        KIconView::insertInGrid(item);
         return;
     }
 
