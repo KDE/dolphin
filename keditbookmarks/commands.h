@@ -139,7 +139,7 @@ public:
    DeleteCommand(const QString &from, bool contentOnly = false)
       : KCommand(), m_from(from), m_cmd(0L), m_subCmd(0L), m_contentOnly(contentOnly)
    { ; }
-   virtual ~DeleteCommand() { delete m_cmd; }
+   virtual ~DeleteCommand() { delete m_cmd; delete m_subCmd;}
    virtual void execute();
    virtual void unexecute();
    virtual QString name() const { 
