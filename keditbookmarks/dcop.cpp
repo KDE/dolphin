@@ -57,7 +57,7 @@ void KBookmarkEditorIface::slotDcopUpdatedAccessMetadata(QString filename, QStri
     // TODO - i'm not sure this is really true :)
 
     if (/*KEBApp::self()->modified() &&*/ filename == CurrentMgr::self()->path()) {
-//        kdDebug() << "slotDcopUpdatedAccessMetadata(" << url << ")" << endl;
+        kdDebug() << "slotDcopUpdatedAccessMetadata(" << url << ")" << endl;
         // no undo
         CurrentMgr::self()->mgr()->updateAccessMetadata(url, false);
         CurrentMgr::self()->updateStatus(url);
@@ -67,9 +67,10 @@ void KBookmarkEditorIface::slotDcopUpdatedAccessMetadata(QString filename, QStri
 
 void KBookmarkEditorIface::slotDcopAddedBookmark(QString filename, QString url, QString text, QString address, QString icon) {
     if (KEBApp::self()->modified() && filename == CurrentMgr::self()->path()) {
-//         kdDebug() << "slotDcopAddedBookmark(" << url << "," << text << "," << address << "," << icon << ")" << endl;
+        kdDebug() << "slotDcopAddedBookmark(" << url << "," << text << "," << address << "," << icon << ")" << endl;
+        Q_ASSERT(KBookmark::parentAddress(address) == CurrentMgr::self()->correctAddress(KBookmark::parentAddress(address)));
         CreateCommand *cmd = new CreateCommand(
-                CurrentMgr::self()->correctAddress(address), 
+                address, 
                 text, icon, KURL(url), true /*indirect*/);
         CmdHistory::self()->addCommand(cmd);
     }
@@ -77,9 +78,10 @@ void KBookmarkEditorIface::slotDcopAddedBookmark(QString filename, QString url, 
 
 void KBookmarkEditorIface::slotDcopCreatedNewFolder(QString filename, QString text, QString address) {
     if (KEBApp::self()->modified() && filename == CurrentMgr::self()->path()) {
-//         kdDebug() << "slotDcopCreatedNewFolder(" << text << "," << address << ")" << endl;
-        CreateCommand *cmd = new CreateCommand( 
-                CurrentMgr::self()->correctAddress(address), 
+        kdDebug() << "slotDcopCreatedNewFolder(" << text << "," << address << ")" << endl;
+        Q_ASSERT(KBookmark::parentAddress(address) == CurrentMgr::self()->correctAddress(KBookmark::parentAddress(address)));
+        CreateCommand *cmd = new CreateCommand(
+                address, 
                 text, QString::null, 
                 true /*open*/, true /*indirect*/);
         CmdHistory::self()->addCommand(cmd);
