@@ -318,9 +318,7 @@ void KonqDirPart::lmbClicked( KFileItem * fileItem )
         args.serviceType = fileItem->mimetype();
     args.trustedSource = true;
 
-    bool is_local = fileItem->isLocalFile();
-
-    if ( fileItem->isLink() && is_local ) // see KFileItem::run
+    if ( fileItem->isLink() && fileItem->isLocalFile() ) // see KFileItem::run
         url = KURL( url, KURL::encode_string( fileItem->linkDest() ) );
 
     if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->isDir()) {
@@ -336,10 +334,6 @@ void KonqDirPart::lmbClicked( KFileItem * fileItem )
     }
     else
     {
-        if (!fileItem->isDir())
-        {
-            url = fileItem->mostLocalURL(is_local);
-        }
         kdDebug() << "emit m_extension->openURLRequest( " << url.url() << "," << args.serviceType << ")" << endl;
         emit m_extension->openURLRequest( url, args );
     }

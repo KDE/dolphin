@@ -363,7 +363,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     // Check whether all URLs are correct
     for ( ; it.current(); ++it )
     {
-        url = (*it)->mostLocalURL(isLocal);
+        url = (*it)->url();
 
         // Build the list of URLs
         m_lstPopupURLs.append( url );
