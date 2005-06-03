@@ -4577,7 +4577,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
     //check if current url is trash
   KURL url = viewURL;
   url.cleanPath();
-  bool isIntoTrash = url.protocol() == "trash";
+  bool isIntoTrash = url.protocol() == "trash" || url.url().startsWith( "system:/trash" );
   bool doTabHandling = !openedForViewURL && !isIntoTrash && sReading;
   bool showEmbeddingServices = !isIntoTrash && !devicesFile && (itemFlags & KParts::BrowserExtension::ShowTextSelectionItems) == 0;
   PopupMenuGUIClient *konqyMenuClient = new PopupMenuGUIClient( this, m_popupEmbeddingServices,
