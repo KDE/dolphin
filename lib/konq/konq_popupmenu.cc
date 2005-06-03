@@ -386,14 +386,14 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         if ( mimeTypeList.findIndex( (*it)->mimetype() ) == -1 )
             mimeTypeList << (*it)->mimetype();
 
-        if ( isLocal && !url.isLocalFile() 
-	  && url.protocol()!="media" && url.protocol()!="system")
+        if ( isLocal && !url.isLocalFile() && url.protocol() != "media" && url.protocol() != "system" )
             isLocal = false;
 
         if ( !bTrashIncluded &&
-             (*it)->url().protocol() == "trash" &&
-             (*it)->url().path().length() <= 1 )
+             ( url.protocol() == "trash" && url.path().length() <= 1 ) || url.url().startsWith( "system:/trash" ) ) {
             bTrashIncluded = true;
+            isLocal = false;
+        }
 
         if ( sReading )
             sReading = KProtocolInfo::supportsReading( url );
@@ -424,8 +424,6 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
             KSimpleConfig cfg( firstPopupURL.path(), true );
             cfg.setDesktopGroup();
             isTrashLink = ( cfg.readEntry("Type") == "Link" && cfg.readEntry("URL") == "trash:/" );
-        } else {
-            isTrashLink = (firstPopupURL==KURL("system:/trash"));
         }
 
         if ( isTrashLink ) {
@@ -721,7 +719,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     if ( protocol != urlForServiceMenu.protocol() )
                         continue;
                 }
-                else if ( urlForServiceMenu.protocol() == "trash" )
+                else if ( urlForServiceMenu.protocol() == "trash" || urlForServiceMenu.url().startsWith( "system:/trash" ) )
                 {
                     // Require servicemenus for the trash to ask for protocol=trash explicitely.
                     // Trashed files aren't supposed to be available for actions.
