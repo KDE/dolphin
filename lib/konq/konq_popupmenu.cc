@@ -343,7 +343,9 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     bool isDirectory    = S_ISDIR(mode);
     bool bTrashIncluded = false;
     bool mediaFiles     = false;
-    bool isLocal        = m_lstItems.first()->isLocalFile();
+    bool isLocal        = m_lstItems.first()->isLocalFile()
+                       || m_lstItems.first()->url().protocol()=="media"
+                       || m_lstItems.first()->url().protocol()=="system";
     bool isTrashLink     = false;
     m_lstPopupURLs.clear();
     int id = 0;
@@ -384,7 +386,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         if ( mimeTypeList.findIndex( (*it)->mimetype() ) == -1 )
             mimeTypeList << (*it)->mimetype();
 
-        if ( isLocal && !url.isLocalFile() )
+        if ( isLocal && !url.isLocalFile() 
+	  && url.protocol()!="media" && url.protocol()!="system")
             isLocal = false;
 
         if ( !bTrashIncluded &&
@@ -421,9 +424,12 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
             KSimpleConfig cfg( firstPopupURL.path(), true );
             cfg.setDesktopGroup();
             isTrashLink = ( cfg.readEntry("Type") == "Link" && cfg.readEntry("URL") == "trash:/" );
-            if ( isTrashLink ) {
-                sDeleting = false;
-            }
+        } else {
+            isTrashLink = (firstPopupURL==KURL("system:/trash"));
+        }
+
+        if ( isTrashLink ) {
+            sDeleting = false;
         }
     }
     const bool isSingleLocal = m_lstItems.count() == 1 && isLocal;
