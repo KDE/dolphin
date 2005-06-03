@@ -389,8 +389,9 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         if ( isLocal && !url.isLocalFile() && url.protocol() != "media" && url.protocol() != "system" )
             isLocal = false;
 
-        if ( !bTrashIncluded &&
-             ( url.protocol() == "trash" && url.path().length() <= 1 ) || url.url().startsWith( "system:/trash" ) ) {
+        if ( !bTrashIncluded && (
+             ( url.protocol() == "trash" && url.path().length() <= 1 )
+             || url.url() == "system:/trash" || url.url() == "system:/trash/" ) ) {
             bTrashIncluded = true;
             isLocal = false;
         }
@@ -435,12 +436,13 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     m_info.m_Reading = sReading;
     m_info.m_Writing = sWriting;
     m_info.m_Deleting = sDeleting;
-    	m_info.m_Moving = sMoving;
+    m_info.m_Moving = sMoving;
     m_info.m_TrashIncluded = bTrashIncluded;
 
     // isCurrentTrash: popup on trash:/ itself, or on the trash.desktop link
     bool isCurrentTrash = ( m_lstItems.count() == 1 && bTrashIncluded ) || isTrashLink;
-    bool isIntoTrash = url.protocol() == "trash" && !isCurrentTrash; // trashed file, not trash:/ itself
+    bool isIntoTrash = ( url.protocol() == "trash" || url.url().startsWith( "system:/trash" ) ) && !isCurrentTrash; // trashed file, not trash:/ itself
+    //kdDebug() << "isLocal=" << isLocal << " url=" << url << " isCurrentTrash=" << isCurrentTrash << " isIntoTrash=" << isIntoTrash << " bTrashIncluded=" << bTrashIncluded << endl;
     bool isSingleMedium = m_lstItems.count() == 1 && mediaFiles;
     clear();
 
@@ -691,11 +693,11 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
 		    //if( !kapp->dcopClient()->isApplicationRegistered( app ))
 		    //	continue; //app does not exist so cannot send call
-		    
+
 		    QByteArray dataToSend;
 		    QDataStream dataStream(dataToSend, IO_WriteOnly);
 		    dataStream << m_lstPopupURLs;
-		    
+
 		    QCString replyType;
 		    QByteArray replyData;
 		    QCString object =    dcopcall.section(' ', 1,-2).utf8();
@@ -705,13 +707,13 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 			continue; //Be safe.
 		    }
 
-		    if(!kapp->dcopClient()->call( app, object, 
-				    function.utf8(), 
+		    if(!kapp->dcopClient()->call( app, object,
+				    function.utf8(),
 				    dataToSend, replyType, replyData, true, 1000))
 			continue;
 		    if(replyType != "bool" || !replyData[0])
 			continue;
-		    
+
 		}
                 if ( cfg.hasKey( "X-KDE-Protocol" ) )
                 {
@@ -794,7 +796,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                         ServiceList* list = s.selectList( priority, submenuName );
                         (*list) += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, cfg, url.isLocalFile(), m_lstPopupURLs );
 		    }
-		    
+
                 }
             }
         }
