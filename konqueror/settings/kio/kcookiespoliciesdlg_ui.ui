@@ -266,9 +266,6 @@ List of sites for which you have set a specific cookie policy. Specific policies
                             <property name="name">
                                 <cstring>tbClearSearchLine</cstring>
                     </property>
-                            <property name="cursor">
-                                <cursor>2</cursor>
-                    </property>
                             <property name="text">
                                 <string>...</string>
                             </property>
