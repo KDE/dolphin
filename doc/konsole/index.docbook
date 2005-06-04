@@ -44,7 +44,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2005-05-23</date>
+<date>2005-06-04</date>
 <releaseinfo>1.6</releaseinfo>
 
 <abstract><para>This document is the user handbook for the &konsole;
@@ -1116,6 +1116,7 @@ is only one session running.</para>
 <listitem><para><guimenu>Monitor for Activity</guimenu></para></listitem>
 <listitem><para><guimenu>Monitor for Silence</guimenu></para></listitem>
 <listitem><para><guimenu>Send Input to All Sessions</guimenu></para></listitem>
+<listitem><para><guimenu>Select Tab Color...</guimenu></para></listitem>
 <listitem><para><guimenu>Switch to Tab...</guimenu></para></listitem>
 <listitem><para><guimenu>Close Session</guimenu></para></listitem>
 </itemizedlist></para>
