@@ -74,6 +74,7 @@ Keywords[ca]=temps d'expiració,iopref,netpref,preferències de la xarxa,ftp
 Keywords[cs]=časový limit,iopref,netpref,nastavení sítě,ftp
 Keywords[da]=timeout,udløb,ioindst,netindst,netværksindstillinger,ftp
 Keywords[de]=Zeitlimit,Netzwerk-Einstellungen,Ein/Ausgabemodul-Einstellungen
+Keywords[el]=χρονικό όριο,iopref,netpref,προτιμήσεις δικτύου,ftp
 Keywords[es]=timeout,iopref,netpref,red preferencias,ftp
 Keywords[et]=taimaut,aegumine,võrgu seadistused,ftp
 Keywords[fr]=délai,configuration du réseau,réseau,entrées/sorties,ftp

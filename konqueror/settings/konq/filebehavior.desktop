@@ -155,6 +155,7 @@ Keywords[ca]=konqueror,gestor de fitxers,kfm,consells,consells del fitxer,finest
 Keywords[cs]=konqueror,správce souborů,kfm,tipy,oddělené okno,chování,využití paměti,domvské URL,síťové operace,průběh,koš,potvrzení
 Keywords[da]=konqueror,filhåndtering,kfm,tip,filtip,separat vindue,flere vinduer,opførsel,hukommelsesforbrug,Hjemme-URL,netværksoperationer, fremgangsdialog,affald,slet bekræftelse
 Keywords[de]=Konqueror,Dateimanager,kfm,Tipps,Fenster,Verhalten,Persönlicher Ordner,Speicherverwendung,URL,Adressen,Netzwerk-Operationen,Fortschrittsanzeige,Mülleimer,Papierkorb,Löschen,Bestätigung
+Keywords[el]=konqueror,διαχειριστής αρχείων,kfm,συμβουλές,συμβουλές αρχείων,ξεχωριστό παράθυρο,δημιουργία παραθύρων,συμπεριφορά,συμπεριφορά,χρήση μνήμης,Αρχική URL,λειτουργίες δυκτίου,παράθυρο διαλόγου προόδου,σκουπίδια,διαγραφή,επιβεβαίωση
 Keywords[en_GB]=konqueror,filemanager,kfm,tips,file tips,separate window,spawn windows,behavior,behaviour,memory usage,Home URL,network operations,progress dialogue,wastebin,delete,confirmation
 Keywords[es]=konqueror,administrador de archivos,kfm,sugerencias,ventana separada, extender ventanas,comportamiento,uso de memoria, URL de inicio,operaciones de red, diálogo de progreso,papelera,borrar,confirmación
 Keywords[et]=konqueror,failihaldur,kfm,vihjed,failide vihjed,eraldi aken,käitumine,mälukasutus,kodukataloog,võrguoperatsioonid,edenemisdialoog,prügikast,kustutamine
