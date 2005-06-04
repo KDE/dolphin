@@ -81,20 +81,17 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
 
     QWidget* checkboxes = new QWidget( javartGB );
     QGridLayout* grid = new QGridLayout( checkboxes, 2, 2 );
-    javaConsoleCB = new QCheckBox( i18n( "Sho&w Java console" ), checkboxes );
-    grid->addWidget( javaConsoleCB, 0, 0 );
-    connect( javaConsoleCB, SIGNAL(toggled( bool )), this, SLOT(slotChanged()) );
 
     javaSecurityManagerCB = new QCheckBox( i18n("&Use security manager" ), checkboxes );
-    grid->addWidget( javaSecurityManagerCB, 0, 1 );
+    grid->addWidget( javaSecurityManagerCB, 0, 0 );
     connect( javaSecurityManagerCB, SIGNAL(toggled( bool )), this, SLOT(slotChanged()) );
 
     useKioCB = new QCheckBox( i18n("Use &KIO"), checkboxes );
-    grid->addWidget( useKioCB, 1, 0 );
+    grid->addWidget( useKioCB, 0, 1 );
     connect( useKioCB, SIGNAL(toggled( bool )), this, SLOT(slotChanged()) );
 
     enableShutdownCB = new QCheckBox( i18n("Shu&tdown applet server when inactive"), checkboxes );
-    grid->addWidget( enableShutdownCB, 1, 1 );
+    grid->addWidget( enableShutdownCB, 1, 0 );
     connect( enableShutdownCB, SIGNAL(toggled( bool )), this, SLOT(slotChanged()) );
     connect( enableShutdownCB, SIGNAL(clicked()), this, SLOT(toggleJavaControls()) );
 
@@ -153,10 +150,6 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
                                             "you to save and retrieve them from a zipped file.") );
 #endif
 
-    QWhatsThis::add( javaConsoleCB, i18n( "If this box is checked, Konqueror will open a console window that Java programs "
-                                          "can use for character-based input/output. Well-written Java applets do not need "
-                                          "this, but the console can help to find problems with Java applets.") );
-
     QWhatsThis::add( javaSecurityManagerCB, i18n( "Enabling the security manager will cause the jvm to run with a Security "
                                                   "Manager in place. This will keep applets from being able to read and "
                                                   "write to your file system, creating arbitrary sockets, and other actions "
@@ -191,7 +184,6 @@ void KJavaOptions::load()
     // *** load ***
     java_global_policies.load();
     bool bJavaGlobal      = java_global_policies.isFeatureEnabled();
-    bool bJavaConsole     = m_pConfig->readBoolEntry( "ShowJavaConsole", false );
     bool bSecurityManager = m_pConfig->readBoolEntry( "UseSecurityManager", true );
     bool bUseKio = m_pConfig->readBoolEntry( "UseKio", false );
     bool bServerShutdown  = m_pConfig->readBoolEntry( "ShutdownAppletServer", true );
@@ -217,7 +209,6 @@ void KJavaOptions::load()
 
     // *** apply to GUI ***
     enableJavaGloballyCB->setChecked( bJavaGlobal );
-    javaConsoleCB->setChecked( bJavaConsole );
     javaSecurityManagerCB->setChecked( bSecurityManager );
     useKioCB->setChecked( bUseKio );
 
@@ -235,7 +226,6 @@ void KJavaOptions::defaults()
 {
     java_global_policies.defaults();
     enableJavaGloballyCB->setChecked( false );
-    javaConsoleCB->setChecked( false );
     javaSecurityManagerCB->setChecked( true );
     useKioCB->setChecked( false );
     pathED->lineEdit()->setText( "java" );
@@ -249,7 +239,6 @@ void KJavaOptions::defaults()
 void KJavaOptions::save()
 {
     java_global_policies.save();
-    m_pConfig->writeEntry( "ShowJavaConsole", javaConsoleCB->isChecked() );
     m_pConfig->writeEntry( "JavaArgs", addArgED->text() );
     m_pConfig->writePathEntry( "JavaPath", pathED->lineEdit()->text() );
     m_pConfig->writeEntry( "UseSecurityManager", javaSecurityManagerCB->isChecked() );
@@ -280,7 +269,6 @@ void KJavaOptions::toggleJavaControls()
     bool isEnabled = true; //enableJavaGloballyCB->isChecked();
 
     java_global_policies.setFeatureEnabled( enableJavaGloballyCB->isChecked() );
-    javaConsoleCB->setEnabled( isEnabled );
     javaSecurityManagerCB->setEnabled( isEnabled );
     useKioCB->setEnabled( isEnabled );
     addArgED->setEnabled( isEnabled );

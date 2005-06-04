@@ -108,7 +108,6 @@ private:
     JavaPolicies java_global_policies;
 
     QCheckBox*     enableJavaGloballyCB;
-    QCheckBox*     javaConsoleCB;
     QCheckBox*     javaSecurityManagerCB;
     QCheckBox*     useKioCB;
     QCheckBox*     enableShutdownCB;
