@@ -849,12 +849,6 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     text.appendChild( m_doc.createTextNode( i18n("&Open With") ) );
                 }
 
-                if ( menu == m_menuElement ) // no submenu -> open with... above the single offer
-                {
-                    KAction *openWithAct = new KAction( i18n( "&Open With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
-                    addAction( openWithAct, menu );
-                }
-
                 KTrader::OfferList::ConstIterator it = offers.begin();
                 for( ; it != offers.end(); it++ )
                 {
@@ -873,12 +867,18 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     m_mapPopup[ id++ ] = *it;
                 }
 
+                QString openWithActionName;
                 if ( menu != m_menuElement ) // submenu
                 {
                     addSeparator( menu );
-                    KAction *openWithAct = new KAction( i18n( "&Other..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
-                    addAction( openWithAct, menu ); // Other...
+                    openWithActionName = i18n( "&Other..." );
                 }
+                else
+                {
+                    openWithActionName = i18n( "&Open With..." );
+                }
+                KAction *openWithAct = new KAction( openWithActionName, 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
+                addAction( openWithAct, menu );
             }
             else // no app offers -> Open With...
             {
