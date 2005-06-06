@@ -2948,7 +2948,15 @@ void KonqMainWindow::slotUpAboutToShow()
                        u.pathOrURL() );
 
     if ( u.path() == "/" )
-      break;
+    {
+      QString protocol = u.protocol();
+      KURL parent = KProtocolInfo::parentURL(protocol);
+
+      if (!parent.isValid())
+      {
+        break;
+      }
+    }
 
     if ( ++i > 10 )
       break;
@@ -3615,6 +3623,13 @@ void KonqMainWindow::setUpEnabled( const KURL &url )
   if ( !bHasUpURL )
     bHasUpURL = url.hasSubURL();
 
+  if ( !bHasUpURL )
+  {
+    QString protocol = url.protocol();
+    KURL parent = KProtocolInfo::parentURL(protocol);
+    bHasUpURL = parent.isValid();
+  }
+  
   m_paUp->setEnabled( bHasUpURL );
 }
 
