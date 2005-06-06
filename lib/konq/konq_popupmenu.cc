@@ -861,7 +861,11 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     QCString nam;
                     nam.setNum( id );
 
-                    act = new KAction( (*it)->name(), (*it)->pixmap( KIcon::Small ), 0,
+                    QString actionName( (*it)->name() );
+                    if ( menu == m_menuElement ) // no submenu -> prefix single offer
+                        actionName = i18n( "Open with %1" ).arg( actionName );
+
+                    act = new KAction( actionName, (*it)->pixmap( KIcon::Small ), 0,
                                        this, SLOT( slotRunService() ),
                                        &m_ownActions, nam.prepend( "appservice_" ) );
                     addAction( act, menu );
