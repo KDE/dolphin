@@ -1,0 +1,79 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
+<!ENTITY % English "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title>KDE User's Manual</title>
+<author>&Lauri.Watts; &Lauri.Watts.mail;</author>
+<date>June 07, 2005</date>
+<productname>K Desktop Environment</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle><command>kfind</command></refentrytitle>
+<manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname><command>kfind</command></refname>
+<refpurpose>file find utility for &kde;</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>kfind</command>
+<group choice="opt"><option>searchpath</option></group>
+<arg choice="opt">KDE Generic Options</arg>
+<arg choice="opt">Qt Generic Options</arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>Description</title>
+<para>The Find Files tool is a useful method of searching for specific files
+on your computer, or for searching for files that match a pattern. An
+example of this could include searching for files of a particular type or
+with certain letters in the filename, or that contain a certain piece of
+text in their contents.</para> 
+<para>&kfind; is a graphical tool, and not normally run from the command
+line.</para>
+
+</refsect1>
+
+<refsect1>
+<title>Options</title>
+<variablelist>
+<varlistentry>
+<term><option>searchpath</option></term>
+<listitem><para>You may optionally supply a colon separated path to prefill
+the dialog.  You might use this ability to set up different icons on your
+panel or desktop to quickly run searches in different locations.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para>App options, in a variablelist</para>
+
+</refsect1>
+
+<refsect1>
+<title>See Also</title>
+<para>More detailed user documentation is available from <ulink
+url="help:/kfind">help:/kfind</ulink>
+(either enter this <acronym>URL</acronym> into &konqueror;, or run
+<userinput><command>khelpcenter</command>
+<parameter>help:/kfind</parameter></userinput>).</para>
+</refsect1>
+
+<refsect1>
+<title>Authors</title>
+<para>The current maintainer of &kfind; is <!-- FIXME: Who? -->.  A list of
+previous contributors is available in the complete user manual available in
+khelpcenter.</para>
+<para>This documentation was prepared by &Lauri.Watts;
+&Lauri.Watts.mail;</para>
+</refsect1>
+
+</refentry>
