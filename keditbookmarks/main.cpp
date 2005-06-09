@@ -119,7 +119,7 @@ extern "C" KDE_EXPORT int kdemain(int argc, char **argv) {
             KAboutData::License_GPL,
             I18N_NOOP("(c) 2000 - 2003, KDE developers") );
     aboutData.addAuthor("David Faure", I18N_NOOP("Initial author"), "faure@kde.org");
-    aboutData.addAuthor("Alexander Kellett", I18N_NOOP("Maintainer"), "lypanov@kde.org");
+    aboutData.addAuthor("Alexander Kellett", I18N_NOOP("Author"), "lypanov@kde.org");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
     KApplication::addCmdLineOptions();
