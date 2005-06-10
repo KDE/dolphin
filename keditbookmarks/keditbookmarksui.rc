@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="keditbookmarks" version="27">
+<kpartgui name="keditbookmarks" version="28">
 
 <MenuBar>
 
@@ -180,8 +180,6 @@
 
 <State name="disablestuff">
   <Disable>
-    <Action name="cancelfaviconupdates"/>
-    <Action name="canceltests"/>
     <Action name="changecomment"/>
     <Action name="changeicon"/>
     <Action name="changeurl"/>
