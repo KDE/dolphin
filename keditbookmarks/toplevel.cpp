@@ -235,6 +235,8 @@ KEBApp::KEBApp(
 
     construct();
 
+    setCancelFavIconUpdatesEnabled(false);
+    setCancelTestsEnabled(false);
     updateActions();
 }
 
