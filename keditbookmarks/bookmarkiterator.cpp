@@ -98,10 +98,8 @@ void BookmarkIteratorHolder::removeItr(BookmarkIterator *itr) {
 }
 
 void BookmarkIteratorHolder::cancelAllItrs() {
-    BookmarkIterator *itr;
-    for (itr = m_itrs.first(); itr != 0; itr = m_itrs.next()) {
-        removeItr(itr);
-    }
+    m_itrs.clear();
+    doItrListChanged();
 }
 
 #include "bookmarkiterator.moc"
