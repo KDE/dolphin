@@ -152,5 +152,6 @@ Keywords[pt_BR]=konqueror,gerenciador de arquivos, caminhos,área de trabalho,pa
 Keywords[sv]=konqueror,filhanterare,sökvägar,skrivbord,kataloger,automatisk start
 Keywords[ta]=கான்கொரர்,கோப்பு மேலாளர்,பாதைகள்,மேல்மேசை,அடைவுகள்,தானாகவே தொடங்குதல்
 Keywords[tr]=konqueror,dosya yöneticisi,yollar,masaüstü,çöp,dizinler,otomatik başlangıç
+Keywords[zh_CN]=konqueror,filemanager,paths,desktop,directories,autostart,文件管理器,路径,桌面,目录,自动启动
 
 Categories=Qt;KDE;X-KDE-settings-system;
