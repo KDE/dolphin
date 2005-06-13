@@ -26,6 +26,8 @@
 #include <klocale.h>
 #include <qstring.h>
 #include <qtimer.h>
+#include <kspeech.h>
+#include <qbuffer.h>
 
 #include <kapplication.h>
 #include <dcopclient.h>
@@ -60,40 +62,74 @@ void KHTMLPluginKTTSD::slotReadOut()
                                       "this plugin, sorry." ));
     else
     {
-        KHTMLPart *part = (KHTMLPart *) parent();
-
-        QString query;
-	//FIXME:  part->selectedTextAsHTML()  instead, which will return valid-xml html so that you can speak the tags
-        if (part->hasSelection())
-          query = part->selectedText();
-        else
-          query = part->htmlDocument().body().innerText().string();
-
-        DCOPClient *client = kapp->dcopClient();
-
         // If KTTSD not running, start it.
+        DCOPClient *client = kapp->dcopClient();
         if (!client->isApplicationRegistered("kttsd"))
         {
             QString error;
             if (kapp->startServiceByDesktopName("kttsd", QStringList(), &error))
                 QMessageBox::warning(0, i18n( "Starting KTTSD Failed"), error );
         }
+
+        // Find out if KTTSD supports xhtml (rich speak).
         QByteArray  data;
-        QByteArray  data2;
+        QBuffer     dataBuf(data);
+        QDataStream arg;
+        dataBuf.open(IO_WriteOnly);
+        arg.setDevice(&dataBuf);
+        arg << "" << KSpeech::mtHtml;
         QCString    replyType;
         QByteArray  replyData;
-        QDataStream arg(data, IO_WriteOnly);
+        bool supportsXhtml = false;
+        if ( !client->call("kttsd", "KSpeech", "supportsMarkup(QString,uint)",
+            data, replyType, replyData, true) )
+            QMessageBox::warning( 0, i18n( "DCOP Call Failed" ),
+                                     i18n( "The DCOP call supportsMarkup failed." ));
+        else
+        {
+            QDataStream reply(replyData, IO_ReadOnly);
+            reply >> supportsXhtml;
+        }
+
+        KHTMLPart *part = (KHTMLPart *) parent();
+
+        QString query;
+        if (supportsXhtml)
+        {
+            kdDebug() << "KTTS claims to support rich speak (XHTML to SSML)." << endl;
+            if (part->hasSelection())
+                query = part->selectedTextAsHTML();
+            else
+            {
+                // TODO: Fooling around with the selection probably has unwanted
+                // side effects, but until a method is supplied to get valid xhtml
+                // from entire document..
+                // query = part->document().toString().string();
+                part->selectAll();
+                query = part->selectedTextAsHTML();
+                // Restore no selection.
+                part->setSelection(part->document().createRange());
+            }
+        } else {
+            if (part->hasSelection())
+                query = part->selectedText();
+            else
+                query = part->htmlDocument().body().innerText().string();
+        }
+        // kdDebug() << "KHTMLPluginKTTSD::slotReadOut: query = " << query << endl;
+
+        dataBuf.at(0);  // reset data
         arg << query << "";
         if ( !client->call("kttsd", "KSpeech", "setText(QString,QString)",
-                           data, replyType, replyData, true) )
-           QMessageBox::warning( 0, i18n( "DCOP Call Failed" ),
-                                    i18n( "The DCOP call setText failed." ));
-        QDataStream arg2(data2, IO_WriteOnly);
-        arg2 << 0;
+            data, replyType, replyData, true) )
+            QMessageBox::warning( 0, i18n( "DCOP Call Failed" ),
+                                     i18n( "The DCOP call setText failed." ));
+        dataBuf.at(0);
+        arg << 0;
         if ( !client->call("kttsd", "KSpeech", "startText(uint)",
-                           data2, replyType, replyData, true) )
-           QMessageBox::warning( 0, i18n( "DCOP Call Failed" ),
-                                    i18n( "The DCOP call startText failed." ));
+            data, replyType, replyData, true) )
+            QMessageBox::warning( 0, i18n( "DCOP Call Failed" ),
+                                     i18n( "The DCOP call startText failed." ));
     }
 }
 
