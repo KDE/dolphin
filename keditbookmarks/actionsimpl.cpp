@@ -482,8 +482,7 @@ void ActionsImpl::slotPrint() {
 void ActionsImpl::slotDelayedPrint() {
     Q_ASSERT(s_part);
     DCOPRef(s_appId, s_objId).send("print", false);
-    // delete s_part;  -- dies horribly atm
-    // TODO - is this a leak?
+    delete s_part;
     s_part = 0;
 }
 
