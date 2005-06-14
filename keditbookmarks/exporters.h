@@ -1,5 +1,3 @@
-// -*- mode:cperl; cperl-indent-level:4; cperl-continued-statement-offset:4; indent-tabs-mode:nil -*-
-// vim: set ts=4 sts=4 sw=4 et:
 /* This file is part of the KDE project
    Copyright (C) 2003 Alexander Kellett <lypanov@kde.org>
 
@@ -26,8 +24,8 @@
 class HTMLExporter : private KBookmarkGroupTraverser {
 public:
    HTMLExporter();
-   QString toString(const KBookmarkGroup &);
-   void write(const KBookmarkGroup &, const QString &);
+   QString toString(const KBookmarkGroup &, bool showAddress = false);
+   void write(const KBookmarkGroup &, const QString &, bool showAddress = false);
 private:
    virtual void visit(const KBookmark &);
    virtual void visitEnter(const KBookmarkGroup &);
@@ -35,6 +33,7 @@ private:
 private:
    QString m_string;
    QTextStream m_out;
+   bool m_showAddress;
 };
 
 #endif

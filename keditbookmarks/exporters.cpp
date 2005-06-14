@@ -30,7 +30,7 @@ HTMLExporter::HTMLExporter()
     : m_out(&m_string, IO_WriteOnly) {
 }
 
-void HTMLExporter::write(const KBookmarkGroup &grp, const QString &filename) {
+void HTMLExporter::write(const KBookmarkGroup &grp, const QString &filename, bool showAddress) {
     QFile file(filename);
     if (!file.open(IO_WriteOnly)) {
         kdError(7043) << "Can't write to file " << filename << endl;
@@ -38,11 +38,12 @@ void HTMLExporter::write(const KBookmarkGroup &grp, const QString &filename) {
     }
     QTextStream tstream(&file);
     tstream.setEncoding(QTextStream::UnicodeUTF8);
-    tstream << toString(grp);
+    tstream << toString(grp, showAddress);
 }
 
-QString HTMLExporter::toString(const KBookmarkGroup &grp)
+QString HTMLExporter::toString(const KBookmarkGroup &grp, bool showAddress)
 {
+    m_showAddress = showAddress;
     traverse(grp);
     return "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
            "<html><head><title>"+i18n("My Bookmarks")+"</title>\n"
@@ -63,8 +64,16 @@ void HTMLExporter::visit(const KBookmark &bk) {
     }
     else
     {
-        m_out << "<a href=\"" << bk.url().url().utf8() << "\">";
-        m_out << bk.fullText() << "</a><br>" << endl;
+        if(m_showAddress)
+        {
+            m_out << bk.fullText() <<"<br>"<< endl;
+            m_out << "<i><div style =\"margin-left: 1em\">" << bk.url().url().utf8() << "</div></i>";
+        }
+        else
+        {
+            m_out << "<a href=\"" << bk.url().url().utf8() << "\">";
+            m_out << bk.fullText() << "</a><br>" << endl;
+        }
     }
 }
 
