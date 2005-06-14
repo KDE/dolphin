@@ -35,7 +35,6 @@ private:
 private:
    QString m_string;
    QTextStream m_out;
-   int m_level;
 };
 
 #endif

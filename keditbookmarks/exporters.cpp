@@ -28,7 +28,6 @@
 
 HTMLExporter::HTMLExporter() 
     : m_out(&m_string, IO_WriteOnly) {
-    m_level = 0;
 }
 
 void HTMLExporter::write(const KBookmarkGroup &grp, const QString &filename) {
@@ -45,35 +44,38 @@ void HTMLExporter::write(const KBookmarkGroup &grp, const QString &filename) {
 QString HTMLExporter::toString(const KBookmarkGroup &grp)
 {
     traverse(grp);
-    return "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"
-           "<HTML><HEAD><TITLE>My Bookmarks</TITLE>\n"
-           "<META http-equiv=\"Content-Type\" content=\"text/html; charset=utf8\" />"
-           "</HEAD>\n"
-           "<BODY>\n"
+    return "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+           "<html><head><title>"+i18n("My Bookmarks")+"</title>\n"
+           "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">"
+           "</head>\n"
+           "<body>\n"
+           "<div>"
          + m_string +
-           "</BODY></HTML>\n";
+           "</div>\n"
+           "</body>\n</html>\n";
 }
 
 void HTMLExporter::visit(const KBookmark &bk) {
     // kdDebug() << "visit(" << bk.text() << ")" << endl;
-    m_out << "<A href=\"" << bk.url().url().utf8() << "\">";
-    m_out << bk.fullText() << "</A><BR>" << endl;
+    if(bk.isSeparator())
+    {
+        m_out << bk.fullText() << "<br>"<<endl;
+    }
+    else
+    {
+        m_out << "<a href=\"" << bk.url().url().utf8() << "\">";
+        m_out << bk.fullText() << "</a><br>" << endl;
+    }
 }
 
 void HTMLExporter::visitEnter(const KBookmarkGroup &grp) {
     // kdDebug() << "visitEnter(" << grp.text() << ")" << endl;
-    m_out << "<H3>" << grp.fullText() << "</H3>" << endl;
-    m_out << "<P style=\"margin-left: " 
-          << (m_level * 3) << "em\">" << endl;
-    m_level++;
+    m_out << "<b>" << grp.fullText() << "</b><br>" << endl;
+    m_out << "<div style=\"margin-left: 2em\">"<< endl;
 } 
 
 void HTMLExporter::visitLeave(const KBookmarkGroup &) {
     // kdDebug() << "visitLeave()" << endl;
-    m_out << "</P>" << endl;
-    m_level--;
-    if (m_level != 0)
-        m_out << "<P style=\"left-margin: " 
-              << (m_level * 3) << "em\">" << endl;
+    m_out << "</div>" << endl;
 }
 
