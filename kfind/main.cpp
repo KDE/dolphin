@@ -58,11 +58,7 @@ int main( int argc, char ** argv )
     url = QDir::homeDirPath();
   args->clear();
 
-  // Open-with dialog handler
-  KFileOpenWithHandler fowh;
-
   KfindDlg kfinddlg(url, 0, "dialog");
-
   return kfinddlg.exec();
 }
 
