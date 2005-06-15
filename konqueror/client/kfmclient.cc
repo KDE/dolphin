@@ -517,7 +517,6 @@ bool clientApp::doIt()
     }
     else if ( argc == 2 )
     {
-      KFileOpenWithHandler fowh;
       KRun * run = new KRun( args->url(1) );
       QObject::connect( run, SIGNAL( finished() ), &app, SLOT( delayedQuit() ));
       QObject::connect( run, SIGNAL( error() ), &app, SLOT( delayedQuit() ));
@@ -528,9 +527,9 @@ bool clientApp::doIt()
     {
       KURL::List urls;
       urls.append( args->url(1) );
-      KService::Ptr serv = (*KTrader::self()->query( QString::fromLocal8Bit(args->arg(2)) ).begin());
-      if (!serv) return 1;
-      KFileOpenWithHandler fowh;
+      const KTrader::OfferList offers = KTrader::self()->query( QString::fromLocal8Bit( args->arg( 2 ) ), QString::fromLatin1( "Application" ), QString::null, QString::null );
+      if (offers.isEmpty()) return 1;
+      KService::Ptr serv = offers.first();
       return KRun::run( *serv, urls );
     }
   }
