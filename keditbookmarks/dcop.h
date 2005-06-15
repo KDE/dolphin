@@ -31,8 +31,6 @@ public:
    KBookmarkEditorIface();
 k_dcop_hidden:
    void slotDcopUpdatedAccessMetadata(QString filename, QString url);
-   void slotDcopAddedBookmark(QString filename, QString url, QString text, QString address, QString icon);
-   void slotDcopCreatedNewFolder(QString filename, QString text, QString address);
 };
 
 #endif

@@ -1,5 +1,3 @@
-// -*- mode:cperl; cperl-indent-level:4; cperl-continued-statement-offset:4; indent-tabs-mode:nil -*-
-// vim: set ts=4 sts=4 sw=4 et:
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
    Copyright (C) 2002-2003 Alexander Kellett <lypanov@kde.org>
@@ -35,6 +33,7 @@ public:
    static TestLinkItrHolder* self() { 
       if (!s_self) { s_self = new TestLinkItrHolder(); }; return s_self; 
    }
+   void addAffectedBookmark( const QString & address );
    void resetToValue(const QString &url, const QString &val);
    const QString getMod(const QString &url) const;
    const QString getOldVisit(const QString &url) const;
@@ -49,6 +48,7 @@ private:
    static TestLinkItrHolder *s_self;
    QMap<QString, QString> m_modify;
    QMap<QString, QString> m_oldModify;
+   QString m_affectedBookmark;
 };
 
 class TestLinkItr : public BookmarkIterator
@@ -58,7 +58,7 @@ class TestLinkItr : public BookmarkIterator
 public:
    TestLinkItr(QValueList<KBookmark> bks);
    ~TestLinkItr();
-   virtual BookmarkIteratorHolder* holder() const { return TestLinkItrHolder::self(); }
+   virtual TestLinkItrHolder* holder() const { return TestLinkItrHolder::self(); }
 
 public slots:
    void slotJobResult(KIO::Job *job);

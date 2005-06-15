@@ -22,6 +22,7 @@
 #ifndef __importers_h
 #define __importers_h
 
+#include "commands.h"
 #include <klocale.h>
 #include <kio/job.h>
 
@@ -32,7 +33,7 @@
 #include <qobject.h>
 
 // part pure
-class ImportCommand : public QObject, public KCommand
+class ImportCommand : public QObject, public KCommand, public IKEBCommand
 {
    Q_OBJECT
 public:
@@ -54,6 +55,7 @@ public:
 
    virtual void execute();
    virtual void unexecute();
+   virtual QString affectedBookmarks() const { return m_group; };
 
    QString groupAddress() const { return m_group; }
    QString folder() const;

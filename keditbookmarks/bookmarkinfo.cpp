@@ -19,9 +19,11 @@
 
 #include "bookmarkinfo.h"
 #include "commands.h"
+#include "toplevel.h"
 
 #include <stdlib.h>
 
+#include <qtimer.h>
 #include <qclipboard.h>
 #include <qsplitter.h>
 #include <qlayout.h>
@@ -47,7 +49,6 @@
 
 // SHUFFLE all these functions around, the order is just plain stupid
 
-
 BookmarkLineEdit::BookmarkLineEdit( QWidget *parent )
     : KLineEdit( parent )
 {
@@ -59,9 +60,11 @@ void BookmarkLineEdit::cut()
     int pos( selectionStart() );
     QString newText(  text().remove( pos, select.length() ) );
     KLineEdit::cut();
+    setEdited( true ); //KDE 4 setModified( true );
     emit textChanged( newText );
     setText( newText );
 }
+
 
 // rename to something else
 static QString blah(QString in)
@@ -77,7 +80,7 @@ static QString blah(QString in)
 }
 
 void BookmarkInfoWidget::showBookmark(const KBookmark &bk) {
-
+    commitChanges();
     m_bk = bk;
 
     if (m_bk.isNull()) {
@@ -136,31 +139,112 @@ void BookmarkInfoWidget::showBookmark(const KBookmark &bk) {
                                                            << "visit_count" ));
 }
 
-void BookmarkInfoWidget::slotTextChangedTitle(const QString &str) {
-    if (m_bk.isNull() || str == m_bk.fullText() )
+void BookmarkInfoWidget::commitChanges()
+{
+    commitTitle();
+    commitURL();
+    commitComment();
+}
+
+void BookmarkInfoWidget::commitTitle()
+{
+    if(titlecmd)
+    {
+        emit updateListViewItem();
+        CurrentMgr::self()->notifyManagers(CurrentMgr::bookmarkAt(titlecmd->affectedBookmarks()).toGroup());
+        titlecmd = 0;
+    }
+}
+
+void BookmarkInfoWidget::slotTextChangedTitle(const QString &str) 
+{
+    if (m_bk.isNull() || !m_title_le->isModified())
         return;
-    NodeEditCommand::setNodeText(m_bk, QStringList() << "title", str);
-    emit updateListViewItem();
+
+    timer->start(1000, true);
+
+    if(titlecmd)
+    {
+        NodeEditCommand::setNodeText(m_bk, QStringList() << "title", str);
+        titlecmd->modify(str);
+    }
+    else
+    {
+        titlecmd = new NodeEditCommand(m_bk.address(), str, "title");
+        titlecmd->execute();
+        CmdHistory::self()->addInFlightCommand(titlecmd);
+    }
+}
+
+void BookmarkInfoWidget::commitURL()
+{
+    if(urlcmd)
+    {
+        emit updateListViewItem();
+        CurrentMgr::self()->notifyManagers(CurrentMgr::bookmarkAt(urlcmd->affectedBookmarks()).toGroup());
+        urlcmd = 0;
+    }
 }
 
 void BookmarkInfoWidget::slotTextChangedURL(const QString &str) {
-    if (m_bk.isNull() || str == m_bk.url().url() )
+    if (m_bk.isNull() || !m_url_le->isModified())
         return;
-    KURL u;
-    u = KURL::fromPathOrURL(str);
-    m_bk.internalElement().setAttribute("href", u.url(0, 106));
-    emit updateListViewItem();
+
+    timer->start(1000, true);
+
+    if(urlcmd)
+    {
+        KURL u = KURL::fromPathOrURL(str);
+        m_bk.internalElement().setAttribute("href", u.url(0, 106));
+        urlcmd->modify("href", u.url(0, 106));
+    }
+    else
+    {
+        KURL u = KURL::fromPathOrURL(str);
+        urlcmd = new EditCommand(m_bk.address(), EditCommand::Edition("href", u.url(0, 106)), i18n("URL"));
+        urlcmd->execute();
+        CmdHistory::self()->addInFlightCommand(urlcmd);
+    }
+}
+
+void BookmarkInfoWidget::commitComment()
+{
+    if(commentcmd)
+    {
+        emit updateListViewItem();
+        CurrentMgr::self()->notifyManagers( CurrentMgr::bookmarkAt( commentcmd->affectedBookmarks() ).toGroup());
+        commentcmd = 0;
+    }
 }
 
 void BookmarkInfoWidget::slotTextChangedComment(const QString &str) {
-    if (m_bk.isNull() || str == NodeEditCommand::getNodeText(m_bk, QStringList() << "desc") )
+    if (m_bk.isNull() || !m_comment_le->isModified())
         return;
-    NodeEditCommand::setNodeText(m_bk, QStringList() << "desc", str);
-    emit updateListViewItem();
+
+    timer->start(1000, true);
+
+    if(commentcmd)
+    {
+        NodeEditCommand::setNodeText(m_bk, QStringList() << "desc", str);
+        commentcmd->modify(str);
+    }
+    else
+    {
+        commentcmd = new NodeEditCommand(m_bk.address(), str, "desc");
+        commentcmd->execute();
+        CmdHistory::self()->addInFlightCommand(commentcmd);
+    }
 }
 
 BookmarkInfoWidget::BookmarkInfoWidget(QWidget *parent, const char *name)
     : QWidget(parent, name), m_connected(false) {
+
+    timer = new QTimer(this);
+    connect(timer, SIGNAL( timeout() ), SLOT( commitChanges()));
+
+    titlecmd = 0;
+    urlcmd = 0;
+    commentcmd = 0;
 
     QBoxLayout *vbox = new QVBoxLayout(this);
     QGridLayout *grid = new QGridLayout(vbox, 3, 4, 4);
@@ -170,16 +254,20 @@ BookmarkInfoWidget::BookmarkInfoWidget(QWidget *parent, const char *name)
     grid->addWidget(
             new QLabel(m_title_le, i18n("Name:"), this),
             0, 0);
+
     connect(m_title_le, SIGNAL( textChanged(const QString &) ),
                         SLOT( slotTextChangedTitle(const QString &) ));
+    connect(m_title_le, SIGNAL( lostFocus() ), SLOT( commitTitle() ));
 
     m_url_le = new BookmarkLineEdit(this);
     grid->addWidget(m_url_le, 1, 1);
     grid->addWidget(
             new QLabel(m_url_le, i18n("Location:"), this),
             1, 0);
+
     connect(m_url_le, SIGNAL( textChanged(const QString &) ),
                       SLOT( slotTextChangedURL(const QString &) ));
+    connect(m_url_le, SIGNAL( lostFocus() ), SLOT( commitURL() ));
 
     m_comment_le = new BookmarkLineEdit(this);
     grid->addWidget(m_comment_le, 2, 1);
@@ -188,6 +276,7 @@ BookmarkInfoWidget::BookmarkInfoWidget(QWidget *parent, const char *name)
             2, 0);
     connect(m_comment_le, SIGNAL( textChanged(const QString &) ),
                           SLOT( slotTextChangedComment(const QString &) ));
+    connect(m_comment_le, SIGNAL( lostFocus() ), SLOT( commitComment() ));
 
     m_credate_le = new KLineEdit(this);
     grid->addWidget(m_credate_le, 0, 3);

@@ -46,6 +46,22 @@ TestLinkItrHolder::TestLinkItrHolder()
 
 void TestLinkItrHolder::doItrListChanged() {
     KEBApp::self()->setCancelTestsEnabled(count() > 0);
+    if(count() == 0)
+    {
+        kdDebug()<<"Notifing managers "<<m_affectedBookmark<<endl;
+        CurrentMgr::self()->notifyManagers(CurrentMgr::bookmarkAt(m_affectedBookmark).toGroup());
+        m_affectedBookmark = QString::null;
+    }
+}
+
+void TestLinkItrHolder::addAffectedBookmark( const QString & address )
+{
+    kdDebug()<<"addAffectedBookmark "<<address<<endl;
+    if(m_affectedBookmark.isNull())
+        m_affectedBookmark = address;
+    else
+        m_affectedBookmark = KBookmark::commonParent(m_affectedBookmark, address);
+    kdDebug()<<" m_affectedBookmark is now "<<m_affectedBookmark<<endl;
 }
 
 /* -------------------------- */
@@ -143,6 +159,7 @@ void TestLinkItr::slotJobResult(KIO::Job *job) {
     }
 
     curItem()->modUpdate();
+    holder()->addAffectedBookmark(KBookmark::parentAddress(curBk().address()));
     delayedEmitNextOne();
 }
 
@@ -339,7 +356,6 @@ void KEBListViewItem::nsPut(const QString &newModDate) {
     m_bookmark.internalElement().setAttribute(NetscapeInfoAttribute, blah);
     TestLinkItrHolder::self()->setMod(m_bookmark.url().url(), newModDate);
     setText(KEBListView::StatusColumn, newModDate);
-    KEBApp::self()->setModifiedFlag(true);
 }
 
 // KEBListViewItem !!!!!!!!!!!

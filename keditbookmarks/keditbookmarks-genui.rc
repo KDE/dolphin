@@ -1,11 +1,10 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="keditbookmarks" version="24">
+<kpartgui name="keditbookmarks" version="25">
 
 <MenuBar>
 
 <Menu name="file" noMerge="1"><text>&amp;File</text>
   <Action name="file_open"/>
-  <Action name="file_save"/>
   <Action name="file_save_as"/>
   <Separator/>
   <Action name="file_print"/>
@@ -43,15 +42,12 @@
 </Menu>
 
 <Menu name="settings"><text>&amp;Settings</text>
-  <Action name="settings_saveonclose" append="save_merge"/>
 <!--  <Action name="settings_splitview" append="save_merge"/> -->
 </Menu>
 
 </MenuBar>
 
 <ToolBar name="mainToolBar" noMerge="1" fullWidth="true"><text>Main Toolbar</text>
-  <Action name="file_save"/>
-  <Separator/>
   <Action name="edit_undo"/>
   <Action name="edit_redo"/>
   <Separator/>
@@ -108,7 +104,6 @@
 
 <State name="notreadonly">
   <Enable>
-    <Action name="file_save"/>
     <Action name="settings_saveonclose"/>
   </Enable>
 </State>
@@ -134,7 +129,6 @@
     <Action name="edit_paste"/>
     <Action name="edit_redo"/>
     <Action name="edit_undo"/>
-    <Action name="file_save"/>
     <Action name="insertseparator"/>
     <Action name="newbookmark"/>
     <Action name="newfolder"/>

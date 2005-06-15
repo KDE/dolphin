@@ -331,7 +331,7 @@ void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newP
         ? (static_cast<KEBListViewItem *>(newParent)->bookmark().address() + "/0")
         : (KBookmark::nextAddress(itemAfter->bookmark().address()));
 
-    KMacroCommand *mcmd = 0;
+    KEBMacroCommand *mcmd = 0;
 
     if (!inApp) {
         mcmd = CmdGen::self()->insertMimeSource(i18n("Drop Items"), e, newAddress);
@@ -487,7 +487,6 @@ void ListView::slotBkInfoUpdateListViewItem() {
     // to emit this signal, otoh. maybe this can cause various
     // differing responses.
     // kdDebug() << "slotBkInfoUpdateListViewItem()" << endl;
-    KEBApp::self()->setModifiedFlag(true);
     KEBListViewItem *i = selectedItems()->first();
     Q_ASSERT(i);
     KBookmark bk = i->bookmark();

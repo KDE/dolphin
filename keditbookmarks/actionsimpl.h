@@ -29,11 +29,9 @@ class ActionsImpl : public QObject
 
 public:
    bool save();
-   bool queryClose();
 
 public slots:
    void slotLoad();
-   void slotSave();
    void slotSaveAs();
    void slotCut();
    void slotCopy();

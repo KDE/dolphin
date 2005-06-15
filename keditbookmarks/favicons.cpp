@@ -37,7 +37,24 @@ FavIconsItrHolder::FavIconsItrHolder()
 }
 
 void FavIconsItrHolder::doItrListChanged() {
+    kdDebug()<<"FavIconsItrHolder::doItrListChanged() "<<count()<<" iterators"<<endl;
     KEBApp::self()->setCancelFavIconUpdatesEnabled(count() > 0);
+    if(count() == 0)
+    {
+        kdDebug()<<"Notifing managers "<<m_affectedBookmark<<endl;
+        CurrentMgr::self()->notifyManagers(CurrentMgr::bookmarkAt(m_affectedBookmark).toGroup());
+        m_affectedBookmark = QString::null;
+    }
+}
+
+void FavIconsItrHolder::addAffectedBookmark( const QString & address )
+{
+    kdDebug()<<"addAffectedBookmark "<<address<<endl;
+    if(m_affectedBookmark.isNull())
+        m_affectedBookmark = address;
+    else
+        m_affectedBookmark = KBookmark::commonParent(m_affectedBookmark, address);
+    kdDebug()<<" m_affectedBookmark is now "<<m_affectedBookmark<<endl;
 }
 
 /* -------------------------- */
@@ -45,7 +62,6 @@ void FavIconsItrHolder::doItrListChanged() {
 FavIconsItr::FavIconsItr(QValueList<KBookmark> bks)
     : BookmarkIterator(bks) {
     m_updater = 0;
-    m_done = true;
 }
 
 FavIconsItr::~FavIconsItr() {
@@ -56,8 +72,8 @@ FavIconsItr::~FavIconsItr() {
 
 void FavIconsItr::slotDone(bool succeeded) {
     // kdDebug() << "FavIconsItr::slotDone()" << endl;
-    m_done = true;
     curItem()->setTmpStatus(succeeded ? i18n("OK") : i18n("No favicon found"));
+    holder()->addAffectedBookmark(KBookmark::parentAddress(curBk().address()));
     delayedEmitNextOne();
 }
 
@@ -67,7 +83,6 @@ bool FavIconsItr::isApplicable(const KBookmark &bk) const {
 
 void FavIconsItr::doAction() {
     // kdDebug() << "FavIconsItr::doAction()" << endl;
-    m_done = false;
     curItem()->setTmpStatus(i18n("Updating favicon..."));
     if (!m_updater) {
         m_updater = new FavIconUpdater(kapp, "FavIconUpdater");
@@ -77,7 +92,6 @@ void FavIconsItr::doAction() {
     if (curBk().url().protocol().startsWith("http")) {
         m_updater->downloadIcon(curBk());
     } else {
-        m_done = true;
         curItem()->setTmpStatus(i18n("Local file"));
         delayedEmitNextOne();
     }

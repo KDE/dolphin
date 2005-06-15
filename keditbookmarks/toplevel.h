@@ -31,6 +31,7 @@ class KToggleAction;
 class KBookmarkEditorIface;
 class ImportCommand;
 class BookmarkInfoWidget;
+class IKEBCommand;
 
 struct SelcAbilities {
     bool itemSelected:1;
@@ -55,12 +56,14 @@ public:
     void clearHistory();
     void addCommand(KCommand *);
     void didCommand(KCommand *);
+    
+    //For an explanation see bookmarkInfo::commitChanges()
+    void addInFlightCommand(KCommand *);
 
     static CmdHistory *self();
 
 protected slots:
-    void slotCommandExecuted();
-    void slotDocumentRestored();
+    void slotCommandExecuted(KCommand *k);
 
 private:
     KCommandHistory m_commandHistory;
@@ -84,6 +87,7 @@ public:
     QString path() const;
 
     void createManager(const QString &filename);
+    void notifyManagers(KBookmarkGroup grp);
     void notifyManagers();
     bool managerSave();
     void saveAs(const QString &fileName);
@@ -98,9 +102,10 @@ protected slots:
     void slotBookmarksChanged(const QString &, const QString &);
 
 private:
-    CurrentMgr() : m_mgr(0) { ; }
+    CurrentMgr() : m_mgr(0), ignorenext(0) { ; }
     KBookmarkManager *m_mgr;
     static CurrentMgr *s_mgr;
+    uint ignorenext;
 };
 
 class KEBApp : public KMainWindow {
@@ -110,8 +115,6 @@ public:
 
     KEBApp(const QString & bookmarksFile, bool readonly, const QString &address, bool browser, const QString &caption);
     virtual ~KEBApp();
-
-    void setModifiedFlag(bool);
 
     void updateActions();
     void setActionsEnabled(SelcAbilities);
@@ -130,7 +133,6 @@ public:
 
     QString caption() const { return m_caption; }
     bool readonly() const { return m_readOnly; }
-    bool modified() const { return m_modified; }
     bool splitView() const { return m_splitView; } 
     bool browser() const { return m_browser; } 
     bool nsShown() const;
@@ -138,7 +140,6 @@ public:
     BookmarkInfoWidget *bkInfo() { return m_bkinfo; }
 
 public slots:
-    void slotSaveOnClose();
     void slotSplitView();
 
     void slotConfigureToolbars();
@@ -150,9 +151,6 @@ protected slots:
 private:
     static KBookmarkManager* bookmarkManager();
 
-    virtual bool queryClose();
-
-    void readConfig();
     void resetActions();
     void createActions();
 
@@ -165,9 +163,6 @@ public: // only temporary
     CmdHistory *m_cmdHistory;
     QString m_bookmarksFilename;
     QString m_caption;
-
-    bool m_modified:1;
-    bool m_saveOnClose:1;
 
     void construct();
 

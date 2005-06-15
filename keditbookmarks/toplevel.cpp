@@ -27,6 +27,7 @@
 #include "dcop.h"
 #include "exporters.h"
 #include "settings.h"
+#include "commands.h"
 
 #include <stdlib.h>
 
@@ -50,21 +51,17 @@
 #include <kfiledialog.h>
 #include <klistviewsearchline.h>
 
+#include <kdebug.h>
+
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
-
-bool KEBApp::queryClose() {
-    return ActionsImpl::self()->queryClose();
-}
 
 CmdHistory* CmdHistory::s_self = 0;
 
 CmdHistory::CmdHistory(KActionCollection *collection)
     : m_commandHistory(collection) {
-    connect(&m_commandHistory, SIGNAL( commandExecuted() ),
-            SLOT( slotCommandExecuted() ));
-    connect(&m_commandHistory, SIGNAL( documentRestored() ),
-            SLOT( slotDocumentRestored() ));
+    connect(&m_commandHistory, SIGNAL( commandExecuted(KCommand *) ),
+            SLOT( slotCommandExecuted(KCommand *) ));
     assert(!s_self);
     s_self = this; // this is hacky
 }
@@ -74,16 +71,17 @@ CmdHistory* CmdHistory::self() {
     return s_self;
 }
 
-void CmdHistory::slotCommandExecuted() {
+void CmdHistory::slotCommandExecuted(KCommand *k) {
+    kdDebug()<<"slotCommandExecuted() "<<k->name()<<endl;
     KEBApp::self()->notifyCommandExecuted();
-}
 
-void CmdHistory::slotDocumentRestored() {
-    // called when undoing the very first action - or the first one after
-    // saving. the "document" is set to "non modified" in that case.
-    if (!KEBApp::self()->readonly()) {
-        KEBApp::self()->setModifiedFlag(false);
-    }
+    IKEBCommand * cmd = dynamic_cast<IKEBCommand *>(k);
+    Q_ASSERT(cmd);
+
+    KBookmark bk = CurrentMgr::bookmarkAt(cmd->affectedBookmarks());
+    Q_ASSERT(bk.isGroup());
+    kdDebug()<<"affected Bookmark "<<bk.address()<<endl;
+    CurrentMgr::self()->notifyManagers(bk.toGroup());
 }
 
 void CmdHistory::notifyDocSaved() {
@@ -94,13 +92,20 @@ void CmdHistory::didCommand(KCommand *cmd) {
     if (!cmd)
         return;
     m_commandHistory.addCommand(cmd, false);
-    CmdHistory::slotCommandExecuted();
+    CmdHistory::slotCommandExecuted(cmd);
 }
 
 void CmdHistory::addCommand(KCommand *cmd) {
     if (!cmd)
         return;
     m_commandHistory.addCommand(cmd);
+}
+
+void CmdHistory::addInFlightCommand(KCommand *cmd)
+{
+    if(!cmd)
+        return;
+    m_commandHistory.addCommand(cmd, false);
 }
 
 void CmdHistory::clearHistory() {
@@ -133,27 +138,30 @@ void CurrentMgr::createManager(const QString &filename) {
             SLOT( slotBookmarksChanged(const QString &, const QString &) ));
 }
 
-void CurrentMgr::slotBookmarksChanged(const QString &, const QString &caller) {
-    // kdDebug() << "CurrentMgr::slotBookmarksChanged" << endl;
-    if ((caller.latin1() != kapp->dcopClient()->appId())
-     && !KEBApp::self()->modified()) {
-        // TODO
-        // umm.. what happens if a readonly gets a update
-        // for a non-readonly??? the non-readonly maybe
-        // has a pretty much random kapp->name() ???
-        CmdHistory::self()->clearHistory();
-        ListView::self()->updateListView();
-        KEBApp::self()->updateActions();
+void CurrentMgr::slotBookmarksChanged(const QString &, const QString &) {
+    if(ignorenext > 0) //We ignore the first changed signal after every change we did
+    {
+        --ignorenext;
+        return;
     }
+
+    CmdHistory::self()->clearHistory();
+    ListView::self()->updateListView();
+    KEBApp::self()->updateActions();
 }
 
 void CurrentMgr::updateStatus(QString url) {
     ListView::self()->updateStatus(url);
 }
 
-void CurrentMgr::notifyManagers() {
-    KBookmarkGroup grp = mgr()->root();
+void CurrentMgr::notifyManagers(KBookmarkGroup grp)
+{
+    ++ignorenext;
     mgr()->emitChanged(grp);
+}
+
+void CurrentMgr::notifyManagers() {
+    notifyManagers( mgr()->root() );
 }
 
 void CurrentMgr::reloadConfig() {
@@ -173,6 +181,8 @@ KEBApp::KEBApp(
     const QString &address, bool browser, const QString &caption
 ) : KMainWindow(), m_dcopIface(0), m_bookmarksFilename(bookmarksFile),
     m_caption(caption), m_readOnly(readonly), m_browser(browser) {
+
+    m_splitView = false;
 
     m_cmdHistory = new CmdHistory(actionCollection());
 
@@ -197,8 +207,6 @@ KEBApp::KEBApp(
     quicksearch->setStretchableWidget(searchLineEdit);
     lbl->setBuddy(searchLineEdit);
     connect(resetQuickSearch, SIGNAL(activated()), searchLineEdit, SLOT(clear()));
-
-    readConfig();
 
     QSplitter *splitter = new QSplitter(vsplitter);
     ListView::createListViews(splitter);
@@ -253,7 +261,6 @@ void KEBApp::construct() {
     updateActions();
 
     setAutoSaveSettings();
-    setModifiedFlag(false);
     m_cmdHistory->notifyDocSaved();
 }
 
@@ -275,17 +282,10 @@ void KEBApp::resetActions() {
     if (!m_readOnly)
         stateChanged("notreadonly");
 
-    getToggleAction("settings_saveonclose")
-        ->setChecked(m_saveOnClose);
     // getToggleAction("settings_splitview")
     //      ->setChecked(m_splitView);
     getToggleAction("settings_showNS")
         ->setChecked(CurrentMgr::self()->showNSBookmarks());
-}
-
-void KEBApp::readConfig() {
-    m_saveOnClose = KEBSettings::saveOnClose();
-    m_splitView = false; // appconfig.readBoolEntry("Split View", false);
 }
 
 void KEBApp::slotSplitView() {
@@ -299,12 +299,6 @@ void KEBApp::slotSplitView() {
 #endif
 }
 
-void KEBApp::slotSaveOnClose() {
-    m_saveOnClose = getToggleAction("settings_saveonclose")->isChecked();
-    KEBSettings::setSaveOnClose( m_saveOnClose );
-    KEBSettings::writeConfig();
-}
-
 bool KEBApp::nsShown() const {
     return getToggleAction("settings_showNS")->isChecked();
 }
@@ -313,23 +307,6 @@ bool KEBApp::nsShown() const {
 void KEBApp::updateActions() {
     resetActions();
     setActionsEnabled(ListView::self()->getSelectionAbilities());
-}
-
-void KEBApp::setModifiedFlag(bool modified) {
-    m_modified = modified && !m_readOnly;
-
-    QString caption = m_caption.isNull() ? QString::null : (m_caption + " ");
-    if (m_bookmarksFilename
-     != KBookmarkManager::userBookmarksManager()->path())
-        caption += (caption.isEmpty()?"":" - ") + m_bookmarksFilename;
-    if (m_readOnly)
-        caption += QString(" [%1]").arg(i18n("Read Only"));
-
-    setCaption(caption, m_modified);
-
-    // we receive dcop if modified
-    // rather than reparse notifies
-    CurrentMgr::self()->setUpdate(!m_modified);
 }
 
 void KEBApp::slotClipboardDataChanged() {
@@ -346,7 +323,6 @@ void KEBApp::slotClipboardDataChanged() {
 void KEBApp::notifyCommandExecuted() {
     // kdDebug() << "KEBApp::notifyCommandExecuted()" << endl;
     if (!m_readOnly) {
-        setModifiedFlag(true);
         ListView::self()->updateListView();
         ListView::self()->emitSlotSelectionChanged();
         updateActions();

@@ -39,17 +39,27 @@
 
 CmdGen* CmdGen::s_self = 0;
 
+QString KEBMacroCommand::affectedBookmarks() const
+{
+    QPtrListIterator<KCommand> it(m_commands);
+    QString affectBook;
+    if(it.current())
+        affectBook = dynamic_cast<IKEBCommand *>(it.current())->affectedBookmarks();
+    ++it;
+    for ( ; it.current() ; ++it )
+        affectBook = KBookmark::commonParent( affectBook, dynamic_cast<IKEBCommand *>(it.current())->affectedBookmarks());
+    return affectBook;
+}
+
 QString CreateCommand::name() const {
     if (m_separator) {
         return i18n("Insert Separator");
     } else if (m_group) {
-        return m_konqi ? i18n("Create Folder") 
-            : i18n("Create Folder in Konqueror");
+        return i18n("Create Folder");
     } else if (!m_originalBookmark.isNull()) {
         return i18n("Copy %1").arg(m_mytext);
     } else {
-        return m_konqi ? i18n("Create Bookmark") 
-            : i18n("Add Bookmark in Konqueror");
+        return i18n("Create Bookmark");
     }
 }
 
@@ -134,6 +144,11 @@ void CreateCommand::unexecute() {
     bk.parentGroup().deleteBookmark(bk);
 }
 
+QString CreateCommand::affectedBookmarks() const
+{
+    return KBookmark::parentAddress(m_to);
+}
+
 /* -------------------------------------- */
 
 QString EditCommand::name() const {
@@ -165,6 +180,22 @@ void EditCommand::unexecute() {
     // in case they changed 
     // (hmm, shouldn't happen - TODO CHECK!)
     m_editions = cmd.m_reverseEditions;
+}
+
+QString EditCommand::affectedBookmarks() const
+{
+    return KBookmark::parentAddress(m_address);
+}
+
+void EditCommand::modify(const QString & a, const QString & v)
+{
+    QValueList<Edition>::Iterator it = m_editions.begin();
+    QValueList<Edition>::Iterator end = m_editions.end();
+    for ( ; it != end; ++it)
+    {
+        if( (*it).attr == a)
+            (*it).value = v;
+    }
 }
 
 /* -------------------------------------- */
@@ -230,6 +261,16 @@ void NodeEditCommand::unexecute() {
     m_newText = cmd.m_oldText;
 }
 
+void NodeEditCommand::modify(const QString & newText)
+{
+    m_newText = newText;
+}
+
+QString NodeEditCommand::affectedBookmarks() const
+{
+    return KBookmark::parentAddress(m_address);
+}
+
 /* -------------------------------------- */
 
 void DeleteCommand::execute() {
@@ -290,8 +331,13 @@ void DeleteCommand::unexecute() {
     }
 }
 
-KMacroCommand* DeleteCommand::deleteAll(const KBookmarkGroup & parentGroup) {
-    KMacroCommand *cmd = new KMacroCommand(QString::null);
+QString DeleteCommand::affectedBookmarks() const
+{
+    return KBookmark::parentAddress(m_from);
+}
+
+KEBMacroCommand* DeleteCommand::deleteAll(const KBookmarkGroup & parentGroup) {
+    KEBMacroCommand *cmd = new KEBMacroCommand(QString::null);
     QStringList lstToDelete;
     // we need to delete from the end, to avoid index shifting
     for (KBookmark bk = parentGroup.first(); 
@@ -377,6 +423,11 @@ void MoveCommand::unexecute() {
     m_to = undoCmd.m_from;
 }
 
+QString MoveCommand::affectedBookmarks() const
+{
+    return KBookmark::commonParent(KBookmark::parentAddress(m_from), KBookmark::parentAddress(m_to));
+}
+
 /* -------------------------------------- */
 
 class SortItem {
@@ -424,7 +475,7 @@ void SortCommand::execute() {
 
     } else {
         // don't execute for second time on addCommand(cmd)
-        KMacroCommand::execute();
+        KEBMacroCommand::execute();
     }
 }
 
@@ -444,13 +495,18 @@ void SortCommand::moveAfter(const SortItem &moveMe,
 }
 
 void SortCommand::unexecute() {
-    KMacroCommand::unexecute();
+    KEBMacroCommand::unexecute();
+}
+
+QString SortCommand::affectedBookmarks() const
+{
+    return m_groupAddress;
 }
 
 /* -------------------------------------- */
 
-KMacroCommand* CmdGen::setAsToolbar(const KBookmark &bk) {
-    KMacroCommand *mcmd = new KMacroCommand(i18n("Set as Bookmark Toolbar"));
+KEBMacroCommand* CmdGen::setAsToolbar(const KBookmark &bk) {
+    KEBMacroCommand *mcmd = new KEBMacroCommand(i18n("Set as Bookmark Toolbar"));
 
     KBookmarkGroup oldToolbar = CurrentMgr::self()->mgr()->toolbar();
     if (!oldToolbar.isNull()) {
@@ -475,10 +531,10 @@ bool CmdGen::shownInToolbar(const KBookmark &bk) {
     return (bk.internalElement().attribute("showintoolbar") == "yes");
 }
 
-KMacroCommand* CmdGen::setShownInToolbar(const KBookmark &bk, bool show) {
+KEBMacroCommand* CmdGen::setShownInToolbar(const KBookmark &bk, bool show) {
     QString i18n_name = i18n("%1 in Bookmark Toolbar").arg(show ? i18n("Show") 
             : i18n("Hide"));
-    KMacroCommand *mcmd = new KMacroCommand(i18n_name);
+    KEBMacroCommand *mcmd = new KEBMacroCommand(i18n_name);
 
     QValueList<EditCommand::Edition> lst;
     lst.append(EditCommand::Edition("showintoolbar", show ? "yes" : "no"));
@@ -488,10 +544,10 @@ KMacroCommand* CmdGen::setShownInToolbar(const KBookmark &bk, bool show) {
     return mcmd;
 }
 
-KMacroCommand* CmdGen::deleteItems(const QString &commandName, 
+KEBMacroCommand* CmdGen::deleteItems(const QString &commandName, 
         QPtrList<KEBListViewItem> *items) {
     QPtrListIterator<KEBListViewItem> it(*items);
-    KMacroCommand *mcmd = new KMacroCommand(commandName);
+    KEBMacroCommand *mcmd = new KEBMacroCommand(commandName);
     for (; it.current() != 0; ++it) {
         DeleteCommand *dcmd = 
             new DeleteCommand(it.current()->bookmark().address());
@@ -502,7 +558,7 @@ KMacroCommand* CmdGen::deleteItems(const QString &commandName,
 }
 
 
-KMacroCommand* CmdGen::insertMimeSource(
+KEBMacroCommand* CmdGen::insertMimeSource(
     const QString &cmdName, QMimeSource *_data, const QString &addr
 ) {
     QMimeSource *data = _data;
@@ -546,7 +602,7 @@ KMacroCommand* CmdGen::insertMimeSource(
     }
     if (!KBookmarkDrag::canDecode(data))
         return 0;
-    KMacroCommand *mcmd = new KMacroCommand(cmdName);
+    KEBMacroCommand *mcmd = new KEBMacroCommand(cmdName);
     QString currentAddress = addr;
     QValueList<KBookmark> bookmarks = KBookmarkDrag::decode(data);
     for (QValueListConstIterator<KBookmark> it = bookmarks.begin(); 
@@ -561,9 +617,9 @@ KMacroCommand* CmdGen::insertMimeSource(
     return mcmd;
 }
 
-KMacroCommand* CmdGen::itemsMoved(QPtrList<KEBListViewItem> *items, 
+KEBMacroCommand* CmdGen::itemsMoved(QPtrList<KEBListViewItem> *items, 
         const QString &newAddress, bool copy) {
-    KMacroCommand *mcmd = new KMacroCommand(copy ? i18n("Copy Items") 
+    KEBMacroCommand *mcmd = new KEBMacroCommand(copy ? i18n("Copy Items") 
             : i18n("Move Items"));
 
     QString bkInsertAddr = newAddress;

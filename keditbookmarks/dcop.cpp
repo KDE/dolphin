@@ -41,8 +41,6 @@ KBookmarkEditorIface::KBookmarkEditorIface()
     // connect(KBookmarkNotifier_stub, SIGNAL( updatedAccessMetadata(QString,QString) ), 
     //         this,                   SLOT( slotDcopUpdatedAccessMetadata(QString,QString) ));
     connectDCOPSignal(0, "KBookmarkNotifier", "updatedAccessMetadata(QString,QString)", "slotDcopUpdatedAccessMetadata(QString,QString)", false);
-    connectDCOPSignal(0, "KBookmarkNotifier", "addedBookmark(QString,QString,QString,QString,QString)", "slotDcopAddedBookmark(QString,QString,QString,QString,QString)", false);
-    connectDCOPSignal(0, "KBookmarkNotifier", "createdNewFolder(QString,QString,QString)", "slotDcopCreatedNewFolder(QString,QString,QString)", false);
 }
 
 void KBookmarkEditorIface::slotDcopUpdatedAccessMetadata(QString filename, QString url) {
@@ -64,28 +62,4 @@ void KBookmarkEditorIface::slotDcopUpdatedAccessMetadata(QString filename, QStri
         // notice - no save here! see! :)
     }
 }
-
-void KBookmarkEditorIface::slotDcopAddedBookmark(QString filename, QString url, QString text, QString address, QString icon) {
-    if (KEBApp::self()->modified() && filename == CurrentMgr::self()->path()) {
-        kdDebug() << "slotDcopAddedBookmark(" << url << "," << text << "," << address << "," << icon << ")" << endl;
-        Q_ASSERT(KBookmark::parentAddress(address) == CurrentMgr::self()->correctAddress(KBookmark::parentAddress(address)));
-        CreateCommand *cmd = new CreateCommand(
-                address, 
-                text, icon, KURL(url), true /*indirect*/);
-        CmdHistory::self()->addCommand(cmd);
-    }
-}
-
-void KBookmarkEditorIface::slotDcopCreatedNewFolder(QString filename, QString text, QString address) {
-    if (KEBApp::self()->modified() && filename == CurrentMgr::self()->path()) {
-        kdDebug() << "slotDcopCreatedNewFolder(" << text << "," << address << ")" << endl;
-        Q_ASSERT(KBookmark::parentAddress(address) == CurrentMgr::self()->correctAddress(KBookmark::parentAddress(address)));
-        CreateCommand *cmd = new CreateCommand(
-                address, 
-                text, QString::null, 
-                true /*open*/, true /*indirect*/);
-        CmdHistory::self()->addCommand(cmd);
-    }
-}
-
 #include "dcop.moc"

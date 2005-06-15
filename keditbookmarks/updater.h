@@ -49,7 +49,7 @@ class FavIconUpdater : public KonqFavIconMgr
 {
     Q_OBJECT
 
-public:   
+public:
     FavIconUpdater(QObject *parent, const char *name);
     ~FavIconUpdater();
     void downloadIcon(const KBookmark &bk);
