@@ -1121,6 +1121,7 @@ void KonqBaseListViewWidget::slotClear()
    //kdDebug(1202) << k_funcinfo << endl;
 
    m_activeItem = 0;
+   m_fileTip->setItem( 0 );
    delete m_selected; m_selected = 0;
    m_pBrowserView->resetCount();
    m_pBrowserView->lstPendingMimeIconItems().clear();
@@ -1173,6 +1174,11 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
 
       m_pBrowserView->deleteItem( _fileitem );
       m_pBrowserView->lstPendingMimeIconItems().remove( &(*it) );
+
+      if ( m_activeItem == &(*it) ) {
+          m_fileTip->setItem( 0 );
+          m_activeItem = 0;
+      }
 
       delete &(*it);
       // HACK HACK HACK: QListViewItem/KonqBaseListViewItem should
