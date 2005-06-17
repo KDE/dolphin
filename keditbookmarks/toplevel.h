@@ -98,6 +98,9 @@ public:
 
     void updateStatus(QString url);
 
+    static QString makeTimeStr(const QString &);
+    static QString makeTimeStr(int);
+
 protected slots:
     void slotBookmarksChanged(const QString &, const QString &);
 

@@ -172,6 +172,25 @@ QString CurrentMgr::correctAddress(const QString &address) const {
     return mgr()->findByAddress(address, true).address();
 }
 
+QString CurrentMgr::makeTimeStr(const QString & in)
+{
+    int secs;
+    bool ok;
+    secs = in.toInt(&ok);
+    if (!ok)
+        return QString::null;
+    return makeTimeStr(secs);
+}
+
+QString CurrentMgr::makeTimeStr(int b)
+{
+    QDateTime dt;
+    dt.setTime_t(b);
+    return (dt.daysTo(QDateTime::currentDateTime()) > 31)
+        ? KGlobal::locale()->formatDate(dt.date(), false)
+        : KGlobal::locale()->formatDateTime(dt, false);
+}
+
 /* -------------------------- */
 
 KEBApp *KEBApp::s_topLevel = 0;

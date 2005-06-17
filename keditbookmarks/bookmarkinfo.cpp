@@ -66,19 +66,6 @@ void BookmarkLineEdit::cut()
 }
 
 
-// rename to something else
-static QString blah(QString in)
-{
-    int secs;
-    bool ok;
-    secs = in.toInt(&ok);
-    if (!ok)
-        return QString::null;
-    QDateTime td;
-    td.setTime_t(secs);
-    return td.toString("dd.MM.yyyy - hh:mm");
-}
-
 void BookmarkInfoWidget::showBookmark(const KBookmark &bk) {
     commitChanges();
     m_bk = bk;
@@ -121,13 +108,13 @@ void BookmarkInfoWidget::showBookmark(const KBookmark &bk) {
     // readonly fields
 
     QString visitDate =
-        blah( NodeEditCommand::getNodeText(bk, QStringList() << "info" << "metadata"
+        CurrentMgr::makeTimeStr( NodeEditCommand::getNodeText(bk, QStringList() << "info" << "metadata"
                                                              << "time_visited" ));
     m_visitdate_le->setReadOnly(true);
     m_visitdate_le->setText(visitDate);
 
     QString creationDate =
-        blah( NodeEditCommand::getNodeText(bk, QStringList() << "info" << "metadata"
+        CurrentMgr::makeTimeStr( NodeEditCommand::getNodeText(bk, QStringList() << "info" << "metadata"
                                                              << "time_added" ));
     m_credate_le->setReadOnly(true);
     m_credate_le->setText(creationDate);

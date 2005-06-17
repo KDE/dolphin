@@ -29,7 +29,6 @@
 #include <qpainter.h>
 
 #include <kdebug.h>
-#include <klocale.h>
 
 #include <krfcdate.h>
 #include <kcharsets.h>
@@ -195,14 +194,6 @@ void TestLinkItrHolder::resetToValue(const QString &url, const QString &oldValue
 
 /* -------------------------- */
 
-static QString mkTimeStr(int b) {
-    QDateTime dt;
-    dt.setTime_t(b);
-    return (dt.daysTo(QDateTime::currentDateTime()) > 31)
-        ? KGlobal::locale()->formatDate(dt.date(), false)
-        : KGlobal::locale()->formatDateTime(dt, false);
-}
-
 QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::PaintStyle &_style, 
                                           const QString &nVisit, const QString &Modify) {
     bool newModValid = false;
@@ -283,7 +274,7 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
 
     } else if (!newModStr.isNull() && (newMod > visit)) { 
         // if modify time greater than last visit, show bold modify time
-        statusStr = mkTimeStr(newMod);
+        statusStr = CurrentMgr::makeTimeStr(newMod);
         if (initial) {
             style = KEBListViewItem::GreyBoldStyle;
         } else {
@@ -292,7 +283,7 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
 
     } else if (visit != 0) { 
         // modify time not greater than last visit, show last visit time
-        statusStr = mkTimeStr(visit);
+        statusStr = CurrentMgr::makeTimeStr(visit);
         if (initial) {
                 style = KEBListViewItem::GreyStyle;
         } else {
