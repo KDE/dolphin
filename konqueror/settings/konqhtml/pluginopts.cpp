@@ -392,6 +392,7 @@ void KPluginOptions::dirLoad( KConfig *config )
     if ( config->hasKey( "scanPaths" ) )
         paths = config->readListEntry( "scanPaths" );
     else {//keep sync with kdebase/nsplugins/pluginscan
+        paths.append("$HOME/.mozilla/plugins");
         paths.append("$HOME/.netscape/plugins");
         paths.append("/usr/lib64/browser-plugins");
         paths.append("/usr/lib/browser-plugins");
