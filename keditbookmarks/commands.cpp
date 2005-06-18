@@ -37,8 +37,6 @@
 #include <kurldrag.h>
 #include <kdesktopfile.h>
 
-CmdGen* CmdGen::s_self = 0;
-
 QString KEBMacroCommand::affectedBookmarks() const
 {
     QPtrListIterator<KCommand> it(m_commands);

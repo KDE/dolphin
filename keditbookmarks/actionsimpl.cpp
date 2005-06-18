@@ -333,7 +333,7 @@ void ActionsImpl::slotCut() {
     KEBApp::self()->bkInfo()->commitChanges();
     slotCopy();
     KEBMacroCommand *mcmd
-        = CmdGen::self()->deleteItems(i18n("Cut Items"),
+        = CmdGen::deleteItems(i18n("Cut Items"),
                                       ListView::self()->selectedItems());
     CmdHistory::self()->didCommand(mcmd);
 }
@@ -351,7 +351,7 @@ void ActionsImpl::slotCopy() {
 void ActionsImpl::slotPaste() {
     KEBApp::self()->bkInfo()->commitChanges();
     KEBMacroCommand *mcmd =
-        CmdGen::self()->insertMimeSource(
+        CmdGen::insertMimeSource(
                             i18n("Paste"),
                             kapp->clipboard()->data(QClipboard::Clipboard),
                             ListView::self()->userAddress());
@@ -560,7 +560,7 @@ void ActionsImpl::slotSort() {
 
 void ActionsImpl::slotDelete() {
     KEBApp::self()->bkInfo()->commitChanges();
-    KEBMacroCommand *mcmd = CmdGen::self()->deleteItems(i18n("Delete Items"), ListView::self()->selectedItems());
+    KEBMacroCommand *mcmd = CmdGen::deleteItems(i18n("Delete Items"), ListView::self()->selectedItems());
     CmdHistory::self()->didCommand(mcmd);
 }
 
@@ -596,15 +596,15 @@ void ActionsImpl::slotSetAsToolbar() {
     KEBApp::self()->bkInfo()->commitChanges();
     KBookmark bk = ListView::self()->selectedItems()->first()->bookmark();
     Q_ASSERT(bk.isGroup());
-    KEBMacroCommand *mcmd = CmdGen::self()->setAsToolbar(bk);
+    KEBMacroCommand *mcmd = CmdGen::setAsToolbar(bk);
     CmdHistory::self()->addCommand(mcmd);
 }
 
 void ActionsImpl::slotShowInToolbar() {
     KEBApp::self()->bkInfo()->commitChanges();
     KBookmark bk = ListView::self()->selectedItems()->first()->bookmark();
-    bool shown = CmdGen::self()->shownInToolbar(bk);
-    KEBMacroCommand *mcmd = CmdGen::self()->setShownInToolbar(bk, !shown);
+    bool shown = CmdGen::shownInToolbar(bk);
+    KEBMacroCommand *mcmd = CmdGen::setShownInToolbar(bk, !shown);
     CmdHistory::self()->addCommand(mcmd);
 }
 

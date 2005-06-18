@@ -227,16 +227,14 @@ class KEBListViewItem;
 
 class CmdGen {
 public:
-   static CmdGen* self() { if (!s_self) s_self = new CmdGen(); return s_self; }
-   KEBMacroCommand* setAsToolbar(const KBookmark &bk);
-   KEBMacroCommand* setShownInToolbar(const KBookmark &bk, bool show);
-   bool shownInToolbar(const KBookmark &bk);
-   KEBMacroCommand* deleteItems(const QString &commandName, QPtrList<KEBListViewItem> *items);
-   KEBMacroCommand* insertMimeSource(const QString &cmdName, QMimeSource *data, const QString &addr);
-   KEBMacroCommand* itemsMoved(QPtrList<KEBListViewItem> *items, const QString &newAddress, bool copy);
+   static KEBMacroCommand* setAsToolbar(const KBookmark &bk);
+   static KEBMacroCommand* setShownInToolbar(const KBookmark &bk, bool show);
+   static bool shownInToolbar(const KBookmark &bk);
+   static KEBMacroCommand* deleteItems(const QString &commandName, QPtrList<KEBListViewItem> *items);
+   static KEBMacroCommand* insertMimeSource(const QString &cmdName, QMimeSource *data, const QString &addr);
+   static KEBMacroCommand* itemsMoved(QPtrList<KEBListViewItem> *items, const QString &newAddress, bool copy);
 private:
    CmdGen() { ; }
-   static CmdGen *s_self;
 };
 
 #endif

@@ -302,7 +302,7 @@ SelcAbilities ListView::getSelectionAbilities() const {
         sa.root           = (selectedItems()->first() == m_listView->rootItem());
         sa.singleSelect   = (!sa.multiSelect && sa.itemSelected);
         sa.multiSelect    = (selectedItems()->count() > 1);
-        sa.tbShowState    = CmdGen::self()->shownInToolbar(nbk);
+        sa.tbShowState    = CmdGen::shownInToolbar(nbk);
     }
 
     sa.notEmpty = (m_listView->rootItem()->childCount() > 0);
@@ -334,13 +334,13 @@ void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newP
     KEBMacroCommand *mcmd = 0;
 
     if (!inApp) {
-        mcmd = CmdGen::self()->insertMimeSource(i18n("Drop Items"), e, newAddress);
+        mcmd = CmdGen::insertMimeSource(i18n("Drop Items"), e, newAddress);
 
     } else {
         if (!VALID_FIRST(selectedItems()) || (selectedItems()->first() == itemAfterQLVI))
             return;
         bool copy = (e->action() == QDropEvent::Copy);
-        mcmd = CmdGen::self()->itemsMoved(selectedItems(), newAddress, copy);
+        mcmd = CmdGen::itemsMoved(selectedItems(), newAddress, copy);
     }
 
     CmdHistory::self()->didCommand(mcmd);
@@ -779,7 +779,7 @@ void KEBListViewItem::normalConstruct(const KBookmark &bk) {
     setText(KEBListView::AddressColumn, bk.address());
 #endif
     setText(KEBListView::CommentColumn, NodeEditCommand::getNodeText(bk, "desc"));
-    bool shown = CmdGen::self()->shownInToolbar(bk);
+    bool shown = CmdGen::shownInToolbar(bk);
     setPixmap(0, SmallIcon(shown ? QString("bookmark_toolbar") : bk.icon()));
     // DESIGN - modUpdate badly needs a redesign
     modUpdate();
