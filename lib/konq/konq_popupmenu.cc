@@ -280,7 +280,7 @@ int KonqPopupMenu::insertServices(const ServiceList& list,
             QCString name;
             name.setNum( id );
             name.prepend( isBuiltin ? "builtinservice_" : "userservice_" );
-            KAction * act = new KAction( (*it).m_strName, 0,
+            KAction * act = new KAction( QString((*it).m_strName).replace('&',"&&"), 0,
                                          this, SLOT( slotRunService() ),
                                          &m_ownActions, name );
 
