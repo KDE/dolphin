@@ -98,7 +98,6 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
     addWidget( m_progressBar, 0, true /*permanent->right align*/ );
 
     fontChange(QFont());
-    installEventFilter( this );
 }
 
 KonqFrameStatusBar::~KonqFrameStatusBar()
