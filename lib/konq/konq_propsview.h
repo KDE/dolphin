@@ -34,7 +34,7 @@ class KConfig;
  * The class KonqPropsView holds the properties for a Konqueror View
  *
  * Separating them from the view class allows to store the default
- * values (the one read from <kinstance>rc) in one instance of this class
+ * values (the one read from \<kinstance\>rc) in one instance of this class
  * and to have another instance of this class in each view, storing the
  * current values of the view.
  *

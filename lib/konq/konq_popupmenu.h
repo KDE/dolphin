@@ -63,15 +63,15 @@ public:
    */
   typedef uint KonqPopupFlags;
   enum { NoFlags = 0,
-         ShowProperties = 1,  // whether to show the "Properties" menu item
-         IsLink = 2,          // HTML link. If set, we won't have cut/copy/paste, and we'll say "bookmark this link"
+         ShowProperties = 1,  ///< whether to show the "Properties" menu item
+         IsLink = 2,          ///< HTML link. If set, we won't have cut/copy/paste, and we'll say "bookmark this link"
          ShowNewWindow = 4 };
          // WARNING: bitfield. Next item is 8
 
   /**
-   * @deprecated, lacks parentWidget pointer, and
+   * @deprecated lacks parentWidget pointer, and
    * uses bool instead of KonqPopupFlags enum,
-   * might do strange things with the 'new window' action...
+   * might do strange things with the 'new window' action.
    */
   KonqPopupMenu( KBookmarkManager* manager,
                  const KFileItemList &items,
@@ -81,8 +81,8 @@ public:
                  bool showPropertiesAndFileType = true ) KDE_DEPRECATED;
 
   /**
-   * @deprecated, uses bool instead of KonqPopupFlags enum,
-   * might do strange things with the 'new window' action...
+   * @deprecated uses bool instead of KonqPopupFlags enum,
+   * might do strange things with the 'new window' action.
    */
   KonqPopupMenu( KBookmarkManager* manager,
                  const KFileItemList &items,
@@ -94,6 +94,7 @@ public:
 
   /**
    * Constructor
+   * @param manager the bookmark manager for this bookmark
    * @param items the list of file items the popupmenu should be shown for
    * @param viewURL the URL shown in the view, to test for RMB click on view background
    * @param actions list of actions the caller wants to see in the menu
@@ -105,10 +106,11 @@ public:
    *
    * The actions to pass in include :
    * showmenubar, back, forward, up, cut, copy, paste, pasteto, trash, rename, del
-   * (TODO: that list is probably not be up-to-date)
    * The others items are automatically inserted.
    *
    * @since 3.2
+   *
+   * @todo that list is probably not be up-to-date
    */
   KonqPopupMenu( KBookmarkManager* manager,
                  const KFileItemList &items,

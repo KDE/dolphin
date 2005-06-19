@@ -40,7 +40,7 @@ class LIBKONQ_EXPORT KFileIVI : public KIconViewItem
 public:
     /**
      * Create an icon, within a qlistview, representing a file
-     * @param parent the parent widget
+     * @param iconview the parent widget
      * @param fileitem the file item created by KDirLister
      * @param size the icon size
      */

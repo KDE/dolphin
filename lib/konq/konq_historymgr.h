@@ -249,7 +249,8 @@ protected:
      * konqueror instances. Those add the entry to their list, but don't
      * save the list, because the sender saves the list.
      *
-     * @p saveId is the @ref DCOPObject::objId() of the sender so that
+     * @param e the new history entry
+     * @param saveId is the DCOPObject::objId() of the sender so that
      * only the sender saves the new history.
      */
     virtual void notifyHistoryEntry( KonqHistoryEntry e, QCString saveId );
@@ -319,7 +320,7 @@ protected:
     /**
      * The list of urls that is going to be emitted in slotEmitUpdated. Add
      * urls to it whenever you modify the list of history entries and start
-     * @ref m_updateTimer.
+     * m_updateTimer.
      */
     QStringList m_updateURLs;
 

@@ -49,14 +49,25 @@ public:
 
     enum { TRASH, DEL, SHRED, COPY, MOVE, LINK, EMPTYTRASH, STAT, MKDIR, RESTORE, UNKNOWN };
     /**
+     * Delete the @p selectedURLs if possible.
+     *
+     * @param parent parent widget (for error dialog box if any)
      * @param method should be TRASH, DEL or SHRED
+     * @param selectedURLs the URLs to be deleted
      */
     static void del( QWidget * parent, int method, const KURL::List & selectedURLs );
 
     /**
+     * Copy the @p selectedURLs to the destination @p destURL.
+     *
+     * @param parent parent widget (for error dialog box if any)
      * @param method should be COPY, MOVE or LINK
+     * @param selectedURLs the URLs to copy
+     * @param destURL destination of the copy
+     *
+     * @todo document restrictions on the kind of destination
      */
-    static void copy( QWidget * parent, int method, const KURL::List & selectedURLs, const KURL& destUrl );
+    static void copy( QWidget * parent, int method, const KURL::List & selectedURLs, const KURL& destURL );
     /**
      * Drop
      * @param destItem destination KFileItem for the drop (background or item)

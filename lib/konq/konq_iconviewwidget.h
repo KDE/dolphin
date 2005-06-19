@@ -99,15 +99,17 @@ public:
 
     /**
      * Line up the icons to a regular grid. The outline of the grid is
-     * specified by @ref #iconArea. The two length parameters are
-     * @ref #gridX and @ref #gridY.
+     * specified by iconArea. The two length parameters are
+     * gridX and gridY.
      */
     void lineupIcons();
 
     /**
      * Line up the icons to a regular grid horizontally or vertically.
      *
-     * @param isVertical
+     * @param arrangement the arrangement to use (QIconView::LeftToRight
+     *        for a horizontal arrangement and QIconView::TopToBottom
+     *        for vertical)
      */
     void lineupIcons( QIconView::Arrangement arrangement );
 
@@ -116,6 +118,7 @@ public:
      * This doesn't touch thumbnails, except if @p stopImagePreviewFor is set.
      * Takes care of the grid, when changing the size.
      *
+     * @param size size to use for the icons
      * @param stopImagePreviewFor set to a list of mimetypes which should be made normal again.
      * For instance "text/plain,image/wmf".
      * Can be set to "*" for "all mimetypes" and to "image/"+"*" for "all images".
@@ -151,9 +154,11 @@ public:
 
     /**
      * Start generating the previews.
-     * @param previewSettings
+     * @param ignored this parameter is probably ignored
      * @param force if true, all files are looked at.
      *    Otherwise, only those which are not a thumbnail already.
+     *
+     * @todo figure out the parameter meanings again
      */
     void startImagePreview( const QStringList &ignored, bool force );
     void stopImagePreview();
@@ -204,7 +209,7 @@ public:
     virtual void takeItem( QIconViewItem *item );
 
     /**
-     * Reimplemented from QIconView to take into account @ref #iconArea.
+     * Reimplemented from QIconView to take into account iconArea.
      */
     virtual void insertInGrid( QIconViewItem *item );
 
