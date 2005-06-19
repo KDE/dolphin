@@ -213,10 +213,12 @@ void UserAgentDlg::save()
   emit changed( false );
 }
 
-bool UserAgentDlg::handleDuplicate( const QString& site,
+bool UserAgentDlg::handleDuplicate( QString& site,
                                         const QString& identity,
                                         const QString& alias )
 {
+    site = site.remove( "https://" );
+    site = site.remove( "http://" );
   QListViewItem* item = dlg->lvDomainPolicyList->firstChild();
   while ( item != 0 )
   {
@@ -249,10 +251,11 @@ void UserAgentDlg::addPressed()
 
   if ( pdlg.exec() == QDialog::Accepted )
   {
-    if ( !handleDuplicate( pdlg.siteName(), pdlg.identity(), pdlg.alias() ) )
+      QString site_name = pdlg.siteName();
+    if ( !handleDuplicate( site_name, pdlg.identity(), pdlg.alias() ) )
     {
       QListViewItem* index = new QListViewItem( dlg->lvDomainPolicyList,
-                                                pdlg.siteName(),
+                                                site_name,
                                                 pdlg.identity(),
                                                 pdlg.alias() );
       dlg->lvDomainPolicyList->sort();
@@ -279,7 +282,7 @@ void UserAgentDlg::changePressed()
   {
     QString new_site = pdlg.siteName();
     if ( new_site == old_site ||
-         !handleDuplicate( pdlg.siteName(), pdlg.identity(), pdlg.alias() ) )
+         !handleDuplicate( new_site, pdlg.identity(), pdlg.alias() ) )
     {
       index->setText( 0, new_site );
       index->setText( 1, pdlg.identity() );

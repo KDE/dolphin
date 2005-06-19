@@ -50,14 +50,14 @@ private slots:
 
   void addPressed();
   void changePressed();
-  void deletePressed();  
-  void deleteAllPressed();  
-  
+  void deletePressed();
+  void deleteAllPressed();
+
   void configChanged();
   void changeDefaultUAModifiers( int );
 
 private:
-  bool handleDuplicate( const QString&, const QString&, const QString& );
+  bool handleDuplicate( QString&, const QString&, const QString& );
 
   enum {
     SHOW_OS = 0,
