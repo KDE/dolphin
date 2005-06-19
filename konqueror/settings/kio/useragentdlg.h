@@ -57,7 +57,7 @@ private slots:
   void changeDefaultUAModifiers( int );
 
 private:
-  bool handleDuplicate( QString&, const QString&, const QString& );
+  bool handleDuplicate( const QString&, const QString&, const QString& );
 
   enum {
     SHOW_OS = 0,

@@ -66,14 +66,14 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   dlg = new UAProviderDlgUI (this);
   mainLayout->addWidget(dlg);
   //dlg->leIdentity->setEnableSqueezedText( true );
-  
+
   if (!m_provider)
   {
     setEnabled( false );
     return;
   }
-  
-  init();    
+
+  init();
 }
 
 UAProviderDlg::~UAProviderDlg()
@@ -84,13 +84,13 @@ void UAProviderDlg::init()
 {
   connect( dlg->pbOk, SIGNAL(clicked()), SLOT(accept()) );
   connect( dlg->pbCancel, SIGNAL(clicked()), SLOT(reject()) );
-  
+
   connect( dlg->leSite, SIGNAL(textChanged(const QString&)),
                 SLOT(slotTextChanged( const QString&)) );
-  
+
   connect( dlg->cbAlias, SIGNAL(activated(const QString&)),
                 SLOT(slotActivated(const QString&)) );
-  
+
   dlg->cbAlias->clear();
   dlg->cbAlias->insertStringList( m_provider->userAgentAliasList() );
   dlg->cbAlias->insertItem( "", 0 );
@@ -130,7 +130,10 @@ void UAProviderDlg::setIdentity( const QString& text )
 
 QString UAProviderDlg::siteName()
 {
-  return dlg->leSite->text().lower();
+  QString site_name=dlg->leSite->text().lower();
+  site_name = site_name.remove( "https://" );
+  site_name = site_name.remove( "http://" );
+  return site_name;
 }
 
 QString UAProviderDlg::identity()
