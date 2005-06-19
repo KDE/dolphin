@@ -80,6 +80,11 @@ signals:
      */    
     void activated( const QString &, int );
 
+    /**
+      User has clicked on the security lock in the combobar
+     */
+    void showPageSecurity();
+
 private slots:
     void slotCleared();
     void slotSetIcon( int index );

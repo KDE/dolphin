@@ -3126,6 +3126,8 @@ void KonqMainWindow::initCombo()
 
   connect( m_combo, SIGNAL(activated(const QString&,int)),
            this, SLOT(slotURLEntered(const QString&,int)) );
+  connect( m_combo, SIGNAL(showPageSecurity()),
+           this, SLOT(showPageSecurity()) );
 
   m_pURLCompletion = new KURLCompletion();
   m_pURLCompletion->setCompletionMode( s_pCompletion->completionMode() );
@@ -3552,6 +3554,15 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
 void KonqMainWindow::setPageSecurity( PageSecurity pageSecurity )
 {
   m_combo->setPageSecurity( pageSecurity );
+}
+
+void KonqMainWindow::showPageSecurity()
+{
+    if ( m_currentView && m_currentView->part() ) {
+      KAction *act = m_currentView->part()->action( "security" );
+      if ( act )
+        act->activate();
+    }
 }
 
 // called via DCOP from KonquerorIface

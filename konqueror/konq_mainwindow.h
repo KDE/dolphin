@@ -548,6 +548,8 @@ private slots:
   void initBookmarkBar();
   void slotTrashActivated( KAction::ActivationReason reason, Qt::ButtonState state );
 
+  void showPageSecurity();
+
 private:
   /**
    * takes care of hiding the bookmarkbar and calling setChecked( false ) on the

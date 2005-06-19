@@ -531,6 +531,9 @@ void KonqCombo::mousePressEvent( QMouseEvent *e )
         }
     }
 
+    if ( e->button() == LeftButton && m_pageSecurity!=KonqMainWindow::NotCrypted )
+        emit showPageSecurity();
+
     KComboBox::mousePressEvent( e );
 }
 
