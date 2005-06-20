@@ -94,6 +94,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bAborted = false;
   m_bToggleView = false;
   m_bHierarchicalView = false;
+  m_bDisableScrolling = false;
   m_bGotIconURL = false;
   m_bPopupMenuEnabled = true;
   m_browserIface = new KonqBrowserInterface( this, "browseriface" );
@@ -190,6 +191,9 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL,
     m_bLockHistory = false;
 
   callExtensionStringMethod( "setNameFilter(const QString&)", nameFilter );
+  if ( m_bDisableScrolling )
+    callExtensionMethod( "disableScrolling()" );
+
   setLocationBarURL( locationBarURL );
   setPageSecurity(KonqMainWindow::NotCrypted);
 
@@ -1223,11 +1227,8 @@ void KonqView::reparseConfiguration()
 
 void KonqView::disableScrolling()
 {
-    QScrollView *scrollView = ::qt_cast<QScrollView *>(m_pPart->widget());
-    if (scrollView) {
-        scrollView->setVScrollBarMode(QScrollView::AlwaysOff);
-        scrollView->setHScrollBarMode(QScrollView::AlwaysOff);
-    }
+  m_bDisableScrolling = true;
+  callExtensionMethod( "disableScrolling()" );
 }
 
 KonqViewIface * KonqView::dcopObject()

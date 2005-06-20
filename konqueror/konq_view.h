@@ -464,6 +464,7 @@ private:
   uint m_bURLDropHandling:1;
   uint m_bBackRightClick:1;
   uint m_bHierarchicalView:1;
+  uint m_bDisableScrolling:1;
   KTrader::OfferList m_partServiceOffers;
   KTrader::OfferList m_appServiceOffers;
   KService::Ptr m_service;

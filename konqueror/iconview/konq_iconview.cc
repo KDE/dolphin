@@ -1259,7 +1259,6 @@ void KonqKfmIconView::slotRefreshViewport()
 
 bool KonqKfmIconView::doOpenURL( const KURL & url )
 {
-    kdDebug() << k_funcinfo << endl;
     // Store url in the icon view
     m_pIconView->setURL( url );
 
