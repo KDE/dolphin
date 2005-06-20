@@ -1221,6 +1221,15 @@ void KonqView::reparseConfiguration()
     }
 }
 
+void KonqView::disableScrolling()
+{
+    QScrollView *scrollView = ::qt_cast<QScrollView *>(m_pPart->widget());
+    if (scrollView) {
+        scrollView->setVScrollBarMode(QScrollView::AlwaysOff);
+        scrollView->setHScrollBarMode(QScrollView::AlwaysOff);
+    }
+}
+
 KonqViewIface * KonqView::dcopObject()
 {
   if ( !m_dcopObject )

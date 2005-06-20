@@ -1206,8 +1206,12 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
       }
     }
 
-    if ( view && !windowArgs.statusBarVisible )
-        view->frame()->statusbar()->hide();
+    if ( view ) {
+        if ( !windowArgs.scrollBarsVisible )
+            view->disableScrolling();
+        if ( !windowArgs.statusBarVisible )
+            view->frame()->statusbar()->hide();
+    }
 
     if ( !windowArgs.resizable )
         // ### this doesn't seem to work :-(

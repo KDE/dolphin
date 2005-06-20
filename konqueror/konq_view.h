@@ -301,6 +301,8 @@ public:
 
   void reparseConfiguration();
 
+  void disableScrolling();
+
   QStringList frameNames() const;
 
   KonqViewIface * dcopObject();
