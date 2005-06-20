@@ -1,5 +1,4 @@
-// -*- mode:cperl; cperl-indent-level:4; cperl-continued-statement-offset:4; indent-tabs-mode:nil -*-
-// vim: set ts=4 sts=4 sw=4 et:
+// kate: space-indent on; indent-width 3; replace-tabs on;
 /* This file is part of the KDE project
    Copyright (C) 2002-2003 Alexander Kellett <lypanov@kde.org>
 
@@ -146,6 +145,7 @@ public:
    QValueList<KBookmark> getBookmarkSelection() const;
    QValueList<KBookmark> allBookmarks() const;
    QValueList<KBookmark> selectedBookmarksExpanded() const;
+   void selectedBookmarksExpandedHelper(KEBListViewItem * item, QValueList<KBookmark> & bookmarks) const;
 
    // address stuff
    KEBListViewItem* getItemAtAddress(const QString &address) const;
@@ -190,8 +190,6 @@ private:
    void fillWithGroup(KEBListView *, KBookmarkGroup, KEBListViewItem * = 0);
  
    ListView();
-   enum Which { NoChildren, SomeChildren, AllChildren };
-   static Which whichChildrenSelected(KEBListViewItem *item);
    static void deselectAllButParent(KEBListViewItem *item);
 
    KEBListView *m_listView;

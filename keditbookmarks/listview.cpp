@@ -129,48 +129,21 @@ QPtrList<KEBListViewItem>* ListView::selectedItems() const {
     return s_selected_items_cache;
 }
 
-ListView::Which ListView::whichChildrenSelected(KEBListViewItem *item) {
-    bool some = false;
-    bool all = true;
-    QListViewItem *endOfFolder
-        = item->nextSibling() ? item->nextSibling()->itemAbove() : 0;
-    QListViewItemIterator it((QListViewItem*)item);
-    it++; // skip parent
-    QListViewItem *last = 0;
-    if (endOfFolder == item)
-        return item->isSelected() ? AllChildren : NoChildren;
-    for( ; it.current() && (last != endOfFolder); (last = it.current()), it++) {
-        KEBListViewItem *item = static_cast<KEBListViewItem *>(it.current());
-        if (VALID_ITEM(item)) {
-            if (item->isSelected()) {
-                some = true;
-            } else {
-                all = false;
-            }
-        }
-    }
-    return all ? AllChildren : (some ? SomeChildren : NoChildren);
-}
-
 void ListView::deselectAllButParent(KEBListViewItem *item) {
-    QListViewItem *endOfFolder
-        = item->nextSibling() ? item->nextSibling()->itemAbove() : 0;
-    QListViewItemIterator it((QListViewItem*)item);
-    it++; // skip parent
-    QListViewItem *last = 0;
-    if (endOfFolder == item)
-        return;
-    for( ; it.current() && (last != endOfFolder); (last = it.current()), it++) {
-        KEBListViewItem *item = static_cast<KEBListViewItem *>(it.current());
-        if (VALID_ITEM(item) && item->isSelected()) {
-            item->listView()->setSelected(it.current(), false);
-        }
+    KEBListViewItem* child = static_cast<KEBListViewItem *>(item->firstChild());
+    while(child)
+    {
+        if (VALID_ITEM(child) && child->isSelected())
+            child->listView()->setSelected(child, false);
+        if(child->childCount())
+            deselectAllButParent(child);
+        child = static_cast<KEBListViewItem *>(child->nextSibling());
     }
-    item->listView()->setSelected(item, true);
 }
 
 void ListView::updateSelectedItems() {
-    bool selected = false;
+
+    m_listView->setSelected(m_listView->firstChild(), false); //Deselect root ("Bookmarks")
 
     // adjust the current selection
     QListViewItemIterator it(m_listView);
@@ -178,29 +151,10 @@ void ListView::updateSelectedItems() {
         if( !VALID_ITEM( static_cast<KEBListViewItem *>(it.current())) 
             || !it.current()->isSelected() )
             continue;
-        // needed - FIXME - why?
-        selected = true;
         // don't bother looking into it if its not a folder
         if (it.current()->childCount() == 0)
             continue;
-        Which which = whichChildrenSelected(static_cast<KEBListViewItem *>( it.current()));
-        if (which == AllChildren) {
-            // select outer folder
-            deselectAllButParent(static_cast<KEBListViewItem *>(it.current()));
-        } else if (which == SomeChildren) {
-            // don't select outer folder
-            m_listView->setSelected(it.current(), false);
-        }
-    }
-    if (!selected)
-        return;
-
-    // deselect empty folders if there is a real selection
-    for (QListViewItemIterator it(m_listView);
-            it.current() != 0; ++it) {
-        if (!VALID_ITEM( static_cast<KEBListViewItem *>(it.current())) && it.current()->isSelected()) {
-            m_listView->setSelected(it.current(), false); 
-        }
+        deselectAllButParent(static_cast<KEBListViewItem *>(it.current()));
     }
 }
 
@@ -211,25 +165,29 @@ QValueList<KBookmark> ListView::selectedBookmarksExpanded() const {
     for (QListViewItemIterator it(m_listView); it.current() != 0; ++it) {
         if (!it.current()->isSelected() 
          || !VALID_ITEM(static_cast<KEBListViewItem *>(it.current()))
-         || it.current() == m_listView->rootItem()) {
+         || it.current() == m_listView->rootItem())
             continue;
-        }
-        if (it.current()->childCount() == 0) {
-            // non folder case
+        if (it.current()->childCount() == 0) // non folder case
             bookmarks.append(static_cast<KEBListViewItem *>(it.current())->bookmark());
-            continue;
-        }
-        QListViewItem *endOfFolder 
-            = it.current()->nextSibling() ? it.current()->nextSibling()->itemAbove() : 0;
-        QListViewItemIterator it2(it.current());
-        QListViewItem *last = 0;
-        for( ; it2.current() && (last != endOfFolder); (last = it2.current()), it2++) {
-            KEBListViewItem *item = static_cast<KEBListViewItem *>(it2.current());
-            if (NOT_FOLDER_OR_EMPTY(item))
-                bookmarks.append(item->bookmark());
-        }
+        else
+            selectedBookmarksExpandedHelper(static_cast<KEBListViewItem *>(it.current()), bookmarks);
     }
     return bookmarks;
+}
+
+void ListView::selectedBookmarksExpandedHelper(KEBListViewItem * item, QValueList<KBookmark> & bookmarks) const
+{
+    KEBListViewItem* child = static_cast<KEBListViewItem *>(item->firstChild());
+    while( child )
+    {
+        if (NOT_FOLDER_OR_EMPTY(child))
+        {
+            bookmarks.append(child->bookmark());
+        }
+        if(child->childCount())
+            selectedBookmarksExpandedHelper(child, bookmarks);
+        child = static_cast<KEBListViewItem *>(child->nextSibling());
+    }
 }
 
 QValueList<KBookmark> ListView::allBookmarks() const {
@@ -869,7 +827,7 @@ void KEBListViewItem::paintCell(QPainter *p, const QColorGroup &ocg, int col, in
             parentSelected  = true;
     };
 
-    if (parentSelected && ListView::self()->selectedItems()->count() != 1) {
+    if (parentSelected) {
         int base_h, base_s, base_v;
         cg.background().hsv(&base_h, &base_s, &base_v);
 
