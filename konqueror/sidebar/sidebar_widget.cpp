@@ -739,6 +739,19 @@ void Sidebar_Widget::createButtons()
 
 bool Sidebar_Widget::openURL(const class KURL &url)
 {
+	if (url.protocol()=="sidebar")
+	{
+		for (unsigned int i=0;i<m_buttons.count();i++)
+			if (m_buttons.at(i)->file==url.path())
+			{
+				KMultiTabBarTab *tab = m_buttonBar->tab(i);
+				if (!tab->isOn())
+					tab->animateClick();
+				return true;
+			}
+		return false;
+	}
+
 	m_storedUrl=url;
 	m_hasStoredUrl=true;
         bool ret = false;
