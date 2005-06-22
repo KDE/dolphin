@@ -1841,6 +1841,36 @@ void KonqMainWindow::slotGoAutostart()
   openURL( 0L, u );
 }
 
+void KonqMainWindow::slotGoHistory()
+{
+  KAction *a = m_toggleViewGUIClient->action("konq_sidebartng");
+  if (!a) {
+    KMessageBox::sorry(0L, i18n("Your sidebar is not functional or unavailable."), i18n("Show History Sidebar"));
+    return;
+  }
+
+  // Show the sidebar
+  if (!static_cast<KToggleAction*>(a)->isChecked()) {
+    a->activate();
+    QTimer::singleShot( 0, this, SLOT(slotGoHistory()));
+    return;
+  }
+
+  // Tell it to show the history plugin
+  MapViews::ConstIterator it;
+  for (it = viewMap().begin(); it != viewMap().end(); ++it) {
+    KonqView *view = it.data();
+    if (view) {
+      KService::Ptr svc = view->service();
+      if (svc->desktopEntryName() == "konq_sidebartng") {
+        if (!view->part()->openURL("sidebar:history.desktop"))
+          KMessageBox::sorry(0L, i18n("Cannot find running history plugin in your sidebar."), i18n("Show History Sidebar"));
+        break;
+      }
+    }
+  }
+}
+
 QStringList KonqMainWindow::configModules() const
 {
     return m_configureModules;
@@ -3722,6 +3752,7 @@ void KonqMainWindow::initActions()
   KonqMostOftenURLSAction *mostOften = new KonqMostOftenURLSAction( i18n("Most Often Visited"), actionCollection(), "go_most_often" );
   connect( mostOften, SIGNAL( activated( const KURL& )),
 	   SLOT( slotOpenURL( const KURL& )));
+  (void) new KAction( i18n( "History" ), "history", 0, this, SLOT( slotGoHistory() ), actionCollection(), "go_history" );
 
   // Settings menu
 
@@ -4360,7 +4391,7 @@ void KonqMainWindow::disableActionsNoView()
                                          "toolbar_url_combo", "clear_location", "animated_logo",
                                          "konqintro", "go_most_often", "go_applications", "go_dirtree",
                                          "go_trash", "go_settings", "go_network_folders", "go_autostart",
-                                         "go_url", "go_media", "options_configure_extensions", 0 };
+                                         "go_url", "go_media", "go_history", "options_configure_extensions", 0 };
     for ( int i = 0 ; s_enActions[i] ; ++i )
     {
         KAction * act = action(s_enActions[i]);
