@@ -345,6 +345,7 @@ void ActionsImpl::slotCopy() {
     QValueList<KBookmark> bookmarks
         = ListView::self()->itemsToBookmarks(ListView::self()->selectedItems());
     KBookmarkDrag* data = KBookmarkDrag::newDrag(bookmarks, 0 /* not this ! */);
+    kapp->clipboard()->setData(data, QClipboard::Selection);
     kapp->clipboard()->setData(data, QClipboard::Clipboard);
 }
 
