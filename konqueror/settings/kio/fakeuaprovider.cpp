@@ -77,22 +77,22 @@ void FakeUASProvider::loadFromDesktopFiles()
 void FakeUASProvider::parseDescription()
 {
   QString tmp;
+
   KTrader::OfferList::ConstIterator it = m_providers.begin();
-  for ( ; it != m_providers.end(); ++it )
+  KTrader::OfferList::ConstIterator lastItem = m_providers.end();
+
+  for ( ; it != lastItem; ++it )
   {
-    QString tmp = UA_PTOS("X-KDE-UA-FULL");
+    tmp = UA_PTOS("X-KDE-UA-FULL");
+
     if ( (*it)->property("X-KDE-UA-DYNAMIC-ENTRY").toBool() )
     {
-      int pos;
       struct utsname utsn;
       uname( &utsn );
 
-      if ( (pos=tmp.find("appSysName")) != -1 )
-        tmp.replace( pos, 10, QString(utsn.sysname) );
-      if ( (pos=tmp.find("appSysRelease")) != -1 )
-        tmp.replace( pos, 13, QString(utsn.release) );
-      if ( (pos=tmp.find("appMachineType")) != -1 )
-        tmp.replace( pos, 14, QString(utsn.machine) );
+      tmp.replace( QFL("appSysName"), QString(utsn.sysname) );
+      tmp.replace( QFL("appSysRelease"), QString(utsn.release) );
+      tmp.replace( QFL("appMachineType"), QString(utsn.machine) );
 
       QStringList languageList = KGlobal::locale()->languageList();
       if ( languageList.count() )
@@ -106,15 +106,16 @@ void FakeUASProvider::parseDescription()
             (*it) = QString::fromLatin1("en");
         }
       }
-      if ( (pos=tmp.find("appLanguage")) != -1 )
-        tmp.replace( pos, 11, QString("%1").arg(languageList.join(", ")) );
-      if ( (pos=tmp.find("appPlatform")) != -1 )
-        tmp.replace( pos, 11, QString::fromLatin1("X11") );
+
+      tmp.replace( QFL("appLanguage"), QString("%1").arg(languageList.join(", ")) );
+      tmp.replace( QFL("appPlatform"), QFL("X11") );
     }
-    if ( !m_lstIdentity.contains(tmp) )
-      m_lstIdentity << tmp;
-    else
-      continue; // Ignore dups!
+
+    // Ignore dups...
+    if ( m_lstIdentity.contains(tmp) )
+      continue;
+
+    m_lstIdentity << tmp;
 
     tmp = QString("%1 %2").arg(UA_PTOS("X-KDE-UA-SYSNAME")).arg(UA_PTOS("X-KDE-UA-SYSRELEASE"));
     if ( tmp.stripWhiteSpace().isEmpty() )
@@ -123,8 +124,10 @@ void FakeUASProvider::parseDescription()
     else
       tmp = QString("%1 %2 on %3").arg(UA_PTOS("X-KDE-UA-"
                     "NAME")).arg(UA_PTOS("X-KDE-UA-VERSION")).arg(tmp);
+
     m_lstAlias << tmp;
   }
+
   m_bIsDirty = false;
 }
 
