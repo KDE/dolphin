@@ -189,7 +189,7 @@ void KEBApp::createActions() {
         i18n("Import &Galeon Bookmarks..."), 0,
         actn, SLOT( slotImport() ), actionCollection(), "importGaleon");
     (void) new KAction(
-        i18n("Import &KDE2 Bookmarks..."), 0,
+        i18n("Import &KDE2/KDE3 Bookmarks..."), 0,
         actn, SLOT( slotImport() ), actionCollection(), "importKDE2");
     (void) new KAction(
         i18n("Import &IE Bookmarks..."), 0,
