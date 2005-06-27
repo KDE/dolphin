@@ -115,7 +115,7 @@ public:
 class KDE2ImportCommand : public XBELImportCommand
 {
 public:
-   KDE2ImportCommand() : XBELImportCommand() { m_visibleName = i18n("KDE2"); }
+   KDE2ImportCommand() : XBELImportCommand() { m_visibleName = i18n("KDE"); }
    virtual void import(const QString &fileName, bool folder) {
       init(fileName, folder, "", false);
    }
