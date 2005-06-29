@@ -3674,7 +3674,7 @@ void KonqMainWindow::setUpEnabled( const KURL &url )
     KURL parent = KProtocolInfo::parentURL(protocol);
     bHasUpURL = parent.isValid();
   }
-  
+
   m_paUp->setEnabled( bHasUpURL );
 }
 
@@ -5081,7 +5081,7 @@ void KonqMainWindow::plugViewModeActions()
   lst.append( m_viewModeMenu );
   plugActionList( "viewmode", lst );
   // display the toolbar viewmode icons only for inode/directory, as here we have dedicated icons
-  if ( m_currentView && m_currentView->serviceType() == "inode/directory" )
+  if ( m_currentView && m_currentView->supportsServiceType( "inode/directory" ) )
     plugActionList( "viewmode_toolbar", m_toolBarViewModeActions );
 }
 

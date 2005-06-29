@@ -600,7 +600,7 @@ void KonqView::slotCompleted( bool hasPending )
     if ( KonqSettings::enableFavicon() == true )
     {
       // Try to get /favicon.ico
-      if ( m_serviceType == "text/html" && url().protocol().startsWith( "http" ) )
+      if ( supportsServiceType( "text/html" ) && url().protocol().startsWith( "http" ) )
           KonqPixmapProvider::downloadHostIcon( url() );
     }
   }
