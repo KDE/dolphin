@@ -111,7 +111,7 @@ public:
    void selectedItems( QPtrList<KonqBaseListViewItem> *_list );
    KFileItemList visibleFileItems();
    KFileItemList selectedFileItems();
-   KURL::List selectedUrls();
+   KURL::List selectedUrls( bool mostLocal = false );
 
    /** @return the KonqListViewDir which handles the directory _url */
    //virtual KonqListViewDir *findDir ( const QString & _url );

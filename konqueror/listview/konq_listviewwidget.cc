@@ -20,12 +20,9 @@
 
 #include "konq_listview.h"
 #include "konq_listviewsettings.h"
-
-#include <qtimer.h>
-#include <qevent.h>
-#include <qcursor.h>
-#include <qtooltip.h>
-
+#include "konq_listviewwidget.h"
+#include <konq_filetip.h>
+#include <konq_drag.h>
 #include <konq_settings.h>
 
 #include <kdebug.h>
@@ -35,16 +32,18 @@
 #include <kaction.h>
 #include <kurldrag.h>
 #include <kmessagebox.h>
+#include <kiconloader.h>
+
 #include <qheader.h>
 #include <qpainter.h>
 #include <qstyle.h>
+#include <qtimer.h>
+#include <qevent.h>
+#include <qcursor.h>
+#include <qtooltip.h>
 
 #include <stdlib.h>
 #include <assert.h>
-#include <kiconloader.h>
-#include <qfile.h>
-#include "konq_listviewwidget.h"
-#include <konq_filetip.h>
 
 ColumnInfo::ColumnInfo()
    :displayInColumn(-1)
@@ -754,14 +753,14 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
 void KonqBaseListViewWidget::startDrag()
 {
    m_fileTip->setItem( 0 );
-   KURL::List urls = selectedUrls();
-   // Multiple URLs ?
+   KURL::List urls = selectedUrls( false );
 
    QListViewItem * m_pressedItem = currentItem();
 
    QPixmap pixmap2;
    bool pixmap0Invalid = !m_pressedItem->pixmap(0) || m_pressedItem->pixmap(0)->isNull();
 
+   // Multiple URLs ?
    if (( urls.count() > 1 ) || (pixmap0Invalid))
    {
       int iconSize = m_pBrowserView->m_pProps->iconSize();
@@ -771,13 +770,14 @@ void KonqBaseListViewWidget::startDrag()
           kdWarning(1202) << "Could not find multiple pixmap" << endl;
    }
 
-   KURLDrag *d = new KURLDrag( urls, viewport() );
+   //KURLDrag *d = new KURLDrag( urls, viewport() );
+   KonqDrag *drag= new KonqDrag( urls, selectedUrls(true), false, viewport() );
    if ( !pixmap2.isNull() )
-      d->setPixmap( pixmap2 );
+      drag->setPixmap( pixmap2 );
    else if ( !pixmap0Invalid )
-      d->setPixmap( *m_pressedItem->pixmap( 0 ) );
+      drag->setPixmap( *m_pressedItem->pixmap( 0 ) );
 
-   d->drag();
+   drag->drag();
 }
 
 void KonqBaseListViewWidget::slotItemRenamed( QListViewItem *item, const QString &name, int col )
@@ -876,13 +876,14 @@ KFileItemList KonqBaseListViewWidget::selectedFileItems()
    return list;
 }
 
-KURL::List KonqBaseListViewWidget::selectedUrls()
+KURL::List KonqBaseListViewWidget::selectedUrls( bool mostLocal )
 {
+   bool dummy;
    KURL::List list;
    iterator it = begin();
    for ( ; it != end(); it++ )
       if ( it->isSelected() )
-         list.append( it->item()->url() );
+         list.append( mostLocal ? it->item()->mostLocalURL( dummy ) : it->item()->url() );
    return list;
 }
 

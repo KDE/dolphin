@@ -42,6 +42,7 @@ const char* KonqIconDrag::format( int i ) const
         return "text/plain;charset=ISO-8859-1";
     else if ( i == 5 ) //..as well as potentially for interoperability
         return "text/plain;charset=UTF-8";
+    // warning, don't add anything here without checking KonqIconDrag2
 
     else return 0;
 }
@@ -124,9 +125,51 @@ void KonqIconDrag::append( const QIconDragItem &item, const QRect &pr,
     urls.append( url );
 }
 
+KonqIconDrag2::KonqIconDrag2( QWidget * dragSource )
+    : KonqIconDrag( dragSource )
+{
+}
+
+void KonqIconDrag2::append( const QIconDragItem &item, const QRect &pr,
+                            const QRect &tr, const QString& url, const KURL &mostLocalURL )
+{
+    QString mostLocalURLStr = KURLDrag::urlToString(mostLocalURL);
+    m_kdeURLs.append( url );
+    KonqIconDrag::append( item, pr, tr, mostLocalURLStr );
+}
+
+const char* KonqIconDrag2::format( int i ) const
+{
+    if ( i == 6 )
+        return "application/x-kde-urilist";
+    return KonqIconDrag::format( i );
+}
+
+QByteArray KonqIconDrag2::encodedData( const char* mime ) const
+{
+    QCString mimetype( mime );
+    if ( mimetype == "application/x-kde-urilist" )
+    {
+        QByteArray a;
+        int c=0;
+        for (QStringList::ConstIterator it = m_kdeURLs.begin(); it != m_kdeURLs.end(); ++it) {
+            QCString url = KURLDrag::stringToUrl((*it).latin1()).prettyURL().utf8();
+            int l = url.length();
+            a.resize(c+l+2);
+            memcpy(a.data()+c, url.data(), l);
+            memcpy(a.data()+c+l,"\r\n",2);
+            c += l+2;
+        }
+        a.resize(c+1);
+        a[c] = 0;
+        return a;
+    }
+    return KonqIconDrag::encodedData( mime );
+}
+
 //
 
-KonqDrag * KonqDrag::newDrag( const KURL::List & urls, bool move, QWidget * dragSource, const char* name )
+KonqDrag * KonqDrag::newDrag( const KURL::List & urls, bool cut, QWidget * dragSource, const char* name )
 {
     // See KURLDrag::newDrag
     QStrList uris;
@@ -136,14 +179,36 @@ KonqDrag * KonqDrag::newDrag( const KURL::List & urls, bool move, QWidget * drag
     // form on top of that, .latin1() is fine.
     for ( ; uit != uEnd ; ++uit )
         uris.append( KURLDrag::urlToString( *uit ).latin1() );
-    return new KonqDrag( uris, move, dragSource, name );
+    return new KonqDrag( uris, cut, dragSource, name );
 }
 
 // urls must be already checked to have hostname in file URLs
-KonqDrag::KonqDrag( const QStrList & urls, bool move, QWidget * dragSource, const char* name )
+KonqDrag::KonqDrag( const QStrList & urls, bool cut, QWidget * dragSource, const char* name )
   : QUriDrag( urls, dragSource, name ),
-    m_bCutSelection( move ), m_urls( urls )
+    m_bCutSelection( cut ), m_urls( urls )
 {}
+
+// urls must be already checked to have hostname in file URLs
+KonqDrag::KonqDrag( const KURL::List & urls, const KURL::List& mostLocalUrls,
+                    bool cut, QWidget * dragSource )
+    : QUriDrag( dragSource ),
+      m_bCutSelection( cut )
+{
+    QStrList uris;
+    KURL::List::ConstIterator uit = urls.begin();
+    KURL::List::ConstIterator uEnd = urls.end();
+    // Get each URL encoded in utf8 - and since we get it in escaped
+    // form on top of that, .latin1() is fine.
+    for ( ; uit != uEnd ; ++uit )
+        uris.append( KURLDrag::urlToString( *uit ).latin1() );
+    setUris( uris ); // we give the KDE uris to QUriDrag. TODO: do the opposite in KDE4 and add a m_mostLocalUris member.
+
+    uit = mostLocalUrls.begin();
+    uEnd = mostLocalUrls.end();
+    for ( ; uit != uEnd ; ++uit )
+        m_urls.append( KURLDrag::urlToString( *uit ).latin1() );
+    // we keep the most-local-uris in m_urls for exporting those as text/plain (for xmms)
+}
 
 const char* KonqDrag::format( int i ) const
 {
@@ -153,6 +218,8 @@ const char* KonqDrag::format( int i ) const
         return "application/x-kde-cutselection";
     else if ( i == 2 )
         return "text/plain";
+    else if ( i == 3 )
+        return "application/x-kde-urilist";
     else return 0;
 }
 
@@ -161,8 +228,25 @@ QByteArray KonqDrag::encodedData( const char* mime ) const
     QByteArray a;
     QCString mimetype( mime );
     if ( mimetype == "text/uri-list" )
-        return QUriDrag::encodedData( mime );
-    else if ( mimetype == "application/x-kde-cutselection" ) {
+    {
+        // Code taken from QUriDrag::setUris
+        int c=0;
+        for (QStrListIterator it(m_urls); *it; ++it) {
+             int l = qstrlen(*it);
+             a.resize(c+l+2);
+             memcpy(a.data()+c,*it,l);
+             memcpy(a.data()+c+l,"\r\n",2);
+             c+=l+2;
+        }
+        a.resize(c+1);
+        a[c] = 0;
+    }
+    else if ( mimetype == "application/x-kde-urilist" )
+    {
+        return QUriDrag::encodedData( "text/uri-list" );
+    }
+    else if ( mimetype == "application/x-kde-cutselection" )
+    {
         QCString s ( m_bCutSelection ? "1" : "0" );
 	a.resize( s.length() + 1 ); // trailing zero
 	memcpy( a.data(), s.data(), s.length() + 1 );

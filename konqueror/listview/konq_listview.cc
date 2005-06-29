@@ -143,7 +143,7 @@ void ListViewBrowserExtension::updateActions()
 
 void ListViewBrowserExtension::copySelection( bool move )
 {
-  KonqDrag *urlData = KonqDrag::newDrag( m_listView->listViewWidget()->selectedUrls(), move );
+  KonqDrag *urlData = new KonqDrag( m_listView->listViewWidget()->selectedUrls(false), m_listView->listViewWidget()->selectedUrls(true), move );
   QApplication::clipboard()->setData( urlData );
 }
 

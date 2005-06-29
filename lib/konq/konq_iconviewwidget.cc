@@ -1,6 +1,6 @@
 /* This file is part of the KDE projects
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
-   Copyright (C) 2000, 2001, 2002 David Faure <david@mandrakesoft.com>
+   Copyright (C) 2000 - 2005 David Faure <faure@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -939,14 +939,17 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
 {
     //kdDebug(1203) << "KonqIconViewWidget::konqDragObject" << endl;
 
-    KonqIconDrag * drag = new KonqIconDrag( dragSource );
+    KonqIconDrag2 * drag = new KonqIconDrag2( dragSource );
     QIconViewItem *primaryItem = currentItem();
     // Append all items to the drag object
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
         if ( it->isSelected() ) {
           if (!primaryItem)
              primaryItem = it;
-          KURL url = (static_cast<KFileIVI *>(it))->item()->url();
+          KFileItem* fileItem = (static_cast<KFileIVI *>(it))->item();
+          KURL url = fileItem->url();
+          bool dummy;
+          KURL mostLocalURL = fileItem->mostLocalURL(dummy);
           QString itemURL = KURLDrag::urlToString(url);
           kdDebug(1203) << "itemURL=" << itemURL << endl;
           QIconDragItem id;
@@ -956,7 +959,7 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
                                it->pixmapRect().size() ),
                         QRect( it->textRect(false).topLeft() - m_mousePos,
                                it->textRect().size() ),
-                        itemURL );
+                        itemURL, mostLocalURL );
         }
     }
 

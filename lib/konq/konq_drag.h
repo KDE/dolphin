@@ -53,19 +53,55 @@ public:
 
     static bool canDecode( const QMimeSource* e );
 
-protected:
+protected: // KDE4: private. And d pointer...
     QStringList urls;
     bool m_bCutSelection;
+};
+
+/**
+ * Clipboard/dnd data for: Icons + URLs + MostLocal URLs + isCut
+ * KDE4: merge with KonqIconDrag
+ * @since 3.5
+ */
+class LIBKONQ_EXPORT KonqIconDrag2 : public KonqIconDrag
+{
+    Q_OBJECT
+
+public:
+    KonqIconDrag2( QWidget * dragSource );
+    virtual ~KonqIconDrag2() {}
+
+    virtual const char* format( int i ) const;
+    virtual QByteArray encodedData( const char* mime ) const;
+
+    void append( const QIconDragItem &item, const QRect &pr,
+                 const QRect &tr, const QString &url, const KURL &mostLocalURL );
+
+private:
+    QStringList m_kdeURLs;
 };
 
 // Clipboard/dnd data for: URLS + isCut
 class LIBKONQ_EXPORT KonqDrag : public QUriDrag
 {
 public:
-    static KonqDrag * newDrag( const KURL::List & urls, bool move, QWidget * dragSource = 0, const char* name = 0 );
+    // KDE4: remove, use KonqDrag constructor instead
+    static KonqDrag * newDrag( const KURL::List & urls,
+                               bool move, QWidget * dragSource = 0, const char* name = 0 );
+
+    /**
+     * Create a KonqDrag object.
+     * @param urls a list of URLs, which can use KDE-specific protocols, like system:/
+     * @param mostLocalUrls a list of URLs, which should be resolved to most-local urls, i.e. file:/
+     * @param cut false for copying, true for "cutting"
+     * @param dragSource parent object
+     * @since 3.5
+     */
+    KonqDrag( const KURL::List & urls, const KURL::List& mostLocalUrls, bool cut, QWidget * dragSource = 0 );
 
 protected:
-    KonqDrag( const QStrList & urls, bool move, QWidget * dragSource, const char* name );
+    // KDE4: remove
+    KonqDrag( const QStrList & urls, bool cut, QWidget * dragSource, const char* name );
 
 public:
     virtual ~KonqDrag() {}
@@ -78,9 +114,9 @@ public:
     // Returns true if the data was cut (used for KonqIconDrag too)
     static bool decodeIsCutSelection( const QMimeSource *e );
 
-protected:
+protected: // KDE4: private. And d pointer...
     bool m_bCutSelection;
-    QStrList m_urls;
+    QStrList m_urls; // this is set to the "most local urls". KDE4: KURL::List
 };
 
 #endif
