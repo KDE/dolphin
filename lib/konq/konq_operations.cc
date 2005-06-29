@@ -766,11 +766,22 @@ void KonqMultiRestoreJob::slotStart()
     if ( m_urlsIterator != m_urls.end() )
     {
         const KURL& url = *m_urlsIterator;
-        Q_ASSERT( url.protocol() == "trash" );
+
+        KURL new_url = url;
+        if ( new_url.protocol()=="system"
+          && new_url.path().startsWith("/trash") )
+        {
+            QString path = new_url.path();
+	    path.remove(0, 6);
+	    new_url.setProtocol("trash");
+	    new_url.setPath(path);
+        }
+
+        Q_ASSERT( new_url.protocol() == "trash" );
         QByteArray packedArgs;
         QDataStream stream( packedArgs, IO_WriteOnly );
-        stream << (int)3 << url;
-        KIO::Job* job = KIO::special( url, packedArgs );
+        stream << (int)3 << new_url;
+        KIO::Job* job = KIO::special( new_url, packedArgs );
         addSubjob( job );
     }
     else // done!
