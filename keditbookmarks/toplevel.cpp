@@ -28,6 +28,7 @@
 #include "exporters.h"
 #include "settings.h"
 #include "commands.h"
+#include "kebsearchline.h"
 
 #include <stdlib.h>
 
@@ -49,7 +50,6 @@
 #include <kmessagebox.h>
 #include <klineedit.h>
 #include <kfiledialog.h>
-#include <klistviewsearchline.h>
 
 #include <kdebug.h>
 
@@ -222,7 +222,7 @@ KEBApp::KEBApp(
 
     QLabel *lbl = new QLabel(i18n("Se&arch:"), quicksearch, "kde toolbar widget");
 
-    KListViewSearchLine *searchLineEdit = new KListViewSearchLine(quicksearch, 0, "KListViewSearchLine");
+    KListViewSearchLine *searchLineEdit = new KEBSearchLine(quicksearch, 0, "KListViewSearchLine");
     quicksearch->setStretchableWidget(searchLineEdit);
     lbl->setBuddy(searchLineEdit);
     connect(resetQuickSearch, SIGNAL(activated()), searchLineEdit, SLOT(clear()));
