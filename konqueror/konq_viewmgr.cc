@@ -633,7 +633,7 @@ void KonqViewManager::removeOtherTabs( KonqFrameBase* tab )
 
   for ( it.toFirst(); it != 0L; ++it )
   {
-    if( it.current() != tab)
+    if( it.current() != currentFrame )
       removeTab(it.current());
   }
 
