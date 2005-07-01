@@ -98,6 +98,7 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
     addWidget( m_progressBar, 0, true /*permanent->right align*/ );
 
     fontChange(QFont());
+    installEventFilter( this );
 }
 
 KonqFrameStatusBar::~KonqFrameStatusBar()
@@ -166,7 +167,7 @@ void KonqFrameStatusBar::splitFrameMenu()
 
 bool KonqFrameStatusBar::eventFilter(QObject* o, QEvent *e)
 {
-   if (e->type()==QEvent::MouseButtonPress)
+   if (o == m_pStatusLabel && e->type()==QEvent::MouseButtonPress)
    {
       emit clicked();
       update();
