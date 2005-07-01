@@ -73,3 +73,5 @@ void KEBSearchLine::setMode(modes m)
 {
     mmode = m;
 }
+
+#include "kebsearchline.moc"
