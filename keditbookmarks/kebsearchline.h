@@ -24,8 +24,6 @@
 
 class KEBSearchLine : public KListViewSearchLine
 {
-    Q_OBJECT
-
 public:
     KEBSearchLine(QWidget *parent = 0, KListView *listView = 0, const char *name = 0);
 
