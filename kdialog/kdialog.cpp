@@ -1,6 +1,7 @@
 //
 //  Copyright (C) 1998 Matthias Hoelzer <hoelzer@kde.org>
 //  Copyright (C) 2002 David Faure <faure@kde.org>
+//  Copyright (C) 2005 Brad Hards <bradh@frogmouth.net>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -34,6 +35,8 @@
 //#include <ktopwidget.h>
 #include <kmainwindow.h>
 #include <kpassivepopup.h>
+#include <krecentdocument.h>
+#include <kapplication.h>
 
 #include "widgets.h"
 
@@ -43,6 +46,11 @@
 #include <kaboutdata.h>
 #include <kfiledialog.h>
 #include <kicondialog.h>
+#include <kdirselectdialog.h>
+
+#if defined Q_WS_X11 && ! defined K_WS_QTONLY
+#include <netwm.h>
+#endif
 
 using namespace std;
 
@@ -282,7 +290,8 @@ static int directCommand(KCmdLineArgs *args)
             duration = 1000 * QString::fromLocal8Bit(args->arg(0)).toInt();
         if (duration == 0)
             duration = 10000;
-	KPassivePopup *popup = KPassivePopup::message( title,
+	KPassivePopup *popup = KPassivePopup::message( KPassivePopup::Balloon, // style
+						       title,
 						       QString::fromLocal8Bit( args->getOption("passivepopup") ),
 						       0, // icon
 						       (QWidget*)0UL, // parent
@@ -292,6 +301,19 @@ static int directCommand(KCmdLineArgs *args)
 	QObject::connect( timer, SIGNAL( timeout() ), kapp, SLOT( quit() ) );
 	QObject::connect( popup, SIGNAL( clicked() ), kapp, SLOT( quit() ) );
 	timer->start( duration, TRUE );
+
+#ifdef Q_WS_X11	
+	if ( ! kapp->geometryArgument().isEmpty()) {
+	    int x, y;
+	    int w, h;
+	    int m = XParseGeometry( kapp->geometryArgument().latin1(), &x, &y, (unsigned int*)&w, (unsigned int*)&h);
+	    if ( (m & XNegative) )
+		x = KApplication::desktop()->width()  + x - w;
+	    if ( (m & YNegative) )
+		y = KApplication::desktop()->height() + y - h;
+	    popup->setAnchor( QPoint(x, y) );
+	}
+#endif
 	kapp->exec();
 	return 0;
       }
@@ -423,14 +445,27 @@ static int directCommand(KCmdLineArgs *args)
         if (args->count() >= 1)  {
             filter = QString::fromLocal8Bit(args->arg(0));
         }
+	KFileDialog dlg(startDir, filter, 0, "filedialog", true);
+	dlg.setOperationMode( KFileDialog::Opening );
+
+	dlg.setCaption(title.isNull() ? i18n("Open") : title);
+	if (args->isSet("multiple")) {
+	    dlg.setMode(KFile::Files | KFile::LocalOnly);
+	} else {
+	    dlg.setMode(KFile::File | KFile::LocalOnly);
+	}
+	Widgets::handleXGeometry(&dlg);
+	kapp->setTopWidget( &dlg );
+	dlg.exec();
+	
         if (args->isSet("multiple")) {
-	    QStringList result = KFileDialog::getOpenFileNames( startDir, filter, 0, title );
+	    QStringList result = dlg.selectedFiles();
 	    if ( !result.isEmpty() ) {
 		outputStringList( result, separateOutput );
 		return 0;
 	    }
 	} else {
-	    QString result = KFileDialog::getOpenFileName( startDir, filter, 0, title );
+	    QString result = dlg.selectedFile();
 	    if (!result.isEmpty())  {
 		cout << result.local8Bit().data() << endl;
 		return 0;
@@ -439,19 +474,50 @@ static int directCommand(KCmdLineArgs *args)
         return 1; // cancelled
     }
 
+
+    // getsaveurl [startDir] [filter]
     // getsavefilename [startDir] [filter]
-    if (args->isSet("getsavefilename")) {
+    if ( (args->isSet("getsavefilename") ) || (args->isSet("getsaveurl") ) ) {
         QString startDir;
         QString filter;
-        startDir = QString::fromLocal8Bit(args->getOption("getsavefilename"));
+	if ( args->isSet("getsavefilename") ) {
+	    startDir = QString::fromLocal8Bit(args->getOption("getsavefilename"));
+	} else {
+	    startDir = QString::fromLocal8Bit(args->getOption("getsaveurl"));
+	}
         if (args->count() >= 1)  {
             filter = QString::fromLocal8Bit(args->arg(0));
         }
-        QString result = KFileDialog::getSaveFileName( startDir, filter, 0, title );
-        if (!result.isEmpty())  {
-            cout << result.local8Bit().data() << endl;
-            return 0;
-        }
+	// copied from KFileDialog::getSaveFileName(), so we can add geometry
+	bool specialDir = ( startDir.at(0) == ':' );
+	KFileDialog dlg( specialDir ? startDir : QString::null, filter, 0, "filedialog", true );
+	if ( !specialDir )
+	    dlg.setSelection( startDir );
+	dlg.setOperationMode( KFileDialog::Saving );
+	if ( title.isNull() ) {
+	    dlg.setCaption( i18n("Save As") );
+	} else {
+	    dlg.setCaption( title );
+	}
+	Widgets::handleXGeometry(&dlg);
+	kapp->setTopWidget( &dlg );
+	dlg.exec();
+
+	if ( args->isSet("getsaveurl") ) {
+	    KURL result = dlg.selectedURL();
+	    if ( result.isValid())  {
+
+		cout << result.url().local8Bit().data() << endl;
+		return 0;
+	    }
+	} else { // getsavefilename
+	    QString result = dlg.selectedFile();
+	    if (!result.isEmpty())  {
+		KRecentDocument::add(result);
+		cout << result.local8Bit().data() << endl;
+		return 0;
+	    }
+	}
         return 1; // cancelled
     }
 
@@ -459,7 +525,27 @@ static int directCommand(KCmdLineArgs *args)
     if (args->isSet("getexistingdirectory")) {
         QString startDir;
         startDir = QString::fromLocal8Bit(args->getOption("getexistingdirectory"));
-        QString result = KFileDialog::getExistingDirectory( startDir, 0, title );
+	QString result;
+#ifdef Q_WS_WIN
+	result = QFileDialog::getExistingDirectory(startDir, 0, "getExistingDirectory",
+							   title, true, true);
+#else
+	KURL url;
+	KDirSelectDialog myDialog( startDir, true, 0,
+				   "kdirselect dialog", true );
+
+	kapp->setTopWidget( &myDialog );
+
+	Widgets::handleXGeometry(&myDialog);
+	if ( !title.isNull() )
+	    myDialog.setCaption( title );
+
+	if ( myDialog.exec() == QDialog::Accepted )
+	    url =  myDialog.url();
+
+	if ( url.isValid() )
+	    result = url.path();
+#endif
         if (!result.isEmpty())  {
             cout << result.local8Bit().data() << endl;
             return 0;
@@ -475,35 +561,32 @@ static int directCommand(KCmdLineArgs *args)
         if (args->count() >= 1)  {
             filter = QString::fromLocal8Bit(args->arg(0));
         }
+	KFileDialog dlg(startDir, filter, 0, "filedialog", true);
+	dlg.setOperationMode( KFileDialog::Opening );
+
+	dlg.setCaption(title.isNull() ? i18n("Open") : title);
+	if (args->isSet("multiple")) {
+	    dlg.setMode(KFile::Files);
+	} else {
+	    dlg.setMode(KFile::File);
+	}
+	Widgets::handleXGeometry(&dlg);
+	kapp->setTopWidget( &dlg );
+	dlg.exec();
+	
         if (args->isSet("multiple")) {
-	    KURL::List result = KFileDialog::getOpenURLs( startDir, filter, 0, title );
+	    KURL::List result = dlg.selectedURLs();
 	    if ( !result.isEmpty() ) {
 		outputStringList( result.toStringList(), separateOutput );
 		return 0;
 	    }
 	} else {
-	    KURL result = KFileDialog::getOpenURL( startDir, filter, 0, title );
+	    KURL result = dlg.selectedURL();
 	    if (!result.isEmpty())  {
 		cout << result.url().local8Bit().data() << endl;
 		return 0;
 	    }
 	}
-        return 1; // cancelled
-    }
-
-    // getsaveurl [startDir] [filter]
-    if (args->isSet("getsaveurl")) {
-        QString startDir;
-        QString filter;
-        startDir = QString::fromLocal8Bit(args->getOption("getsaveurl"));
-        if (args->count() >= 1)  {
-            filter = QString::fromLocal8Bit(args->arg(0));
-        }
-        KURL result = KFileDialog::getSaveURL( startDir, filter, 0, title );
-        if (!result.isEmpty())  {
-            cout << result.url().local8Bit().data() << endl;
-            return 0;
-        }
         return 1; // cancelled
     }
 
@@ -540,7 +623,15 @@ static int directCommand(KCmdLineArgs *args)
         else if ( contextStr == QString::fromLatin1( "Actions" ) )
             context = KIcon::Action;
 
-        QString result = KIconDialog::getIcon( group, context, false, 0, false, 0, title );
+	KIconDialog dlg(0, "icon dialog");
+	kapp->setTopWidget( &dlg );
+	dlg.setup( group, context);
+	if (!title.isNull())
+	    dlg.setCaption(title);
+	Widgets::handleXGeometry(&dlg);
+
+	QString result = dlg.openDialog();
+
         if (!result.isEmpty())  {
             cout << result.local8Bit().data() << endl;
             return 0;

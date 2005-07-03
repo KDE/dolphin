@@ -49,7 +49,7 @@ echo "combobox:"
 ./kdialog --geometry 400x300+100+50 --miniicon "about_kde" --default "Chocolate" --title "This is a combobox" --combobox "Pick your favorite ice-cream flavor:" "Vanilla" "Chocolate" "Strawberry" "Fudge"
 
 echo "passivepopup:"
-./kdialog --geometry 400x300+100+50 --title "This is a passive popup" --passivepopup "It will disappear in about 10 seconds" 10
+./kdialog --geometry 1x1+200+350 --title "This is a passive popup" --passivepopup "It will disappear in about 10 seconds" 10
 
 echo "password:"
 ./kdialog --title "This is a password dialog" --geometry 400x300+100+50 --icon "desktop" --miniicon "about_kde" --password "Enter the password:"
