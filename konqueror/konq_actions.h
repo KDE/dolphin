@@ -155,14 +155,4 @@ private:
     KURL::List m_popupList;
 };
 
-class KonqGoURLAction : public KAction
-{
-public:
-    KonqGoURLAction( const QString &text, const QString &pix, int accel,
-                     const QObject *receiver, const char *slot,
-                     QObject *parent, const char *name );
-
-    virtual int plug( QWidget *widget, int index = -1 );
-};
-
 #endif

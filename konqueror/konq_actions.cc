@@ -501,25 +501,4 @@ int MostOftenList::compareItems( QPtrCollection::Item item1,
 	return 0;
 }
 
-KonqGoURLAction::KonqGoURLAction( const QString &text, const QString &pix,
-                                  int accel, const QObject *receiver,
-                                  const char *slot, QObject *parent,
-                                  const char *name )
-    : KAction( text, pix, accel, receiver, slot, parent, name )
-{
-}
-
-int KonqGoURLAction::plug( QWidget *widget, int index )
-{
-    int container = KAction::plug( widget, index );
-
-    if ( widget->inherits( "KToolBar" ) && container != -1 )
-    {
-        int toolButtonId = itemId( container );
-        static_cast<KToolBar *>( widget )->alignItemRight( toolButtonId, true );
-    }
-
-    return container;
-}
-
 #include "konq_actions.moc"
