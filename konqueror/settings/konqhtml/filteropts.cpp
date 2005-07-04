@@ -32,6 +32,8 @@
 #include <qlineedit.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
+#include <qwhatsthis.h>
+#include <qregexp.h>
 
 #include "filteropts.h"
 #include "filteropts.moc"
@@ -81,6 +83,21 @@ KCMFilter::KCMFilter(KConfig *config, QString group,
     connect( mKillCheck, SIGNAL( clicked()), this, SLOT( slotKillChecked()));
     connect( mListBox, SIGNAL( selectionChanged ()),this, SLOT( slotItemSelected()));
 
+/*
+ * Whats this items
+ */
+    QWhatsThis::add( mEnableCheck, i18n("Enable or disable AdBlocK filters. When enabled a set of expressions "
+                                        "to be blocked should be defined in the filter list for blocking to "
+                                        "take effect."));
+    QWhatsThis::add( mKillCheck, i18n("When enabled blocked images will be removed from the page completely "
+                                      "otherwise a placeholder 'blocked' image will be used."));
+    QWhatsThis::add( mListBox, i18n("This is the list of URL filters that will be applied to all linked "
+                                    "images and frames. The filters are processed in order so place "
+                                    "more generic filters towards the top of the list."));
+    QWhatsThis::add( mString, i18n("Enter an expression to filter. Expressions can be defined as either "
+                                   "a filename style wildcard e.g. http://www.site.com/ads* or as a full "
+                                   "regular expression by surrounding the string with '/' e.g. "
+                                   " //(ad|banner)\\./"));
     load();
     updateButton();
 }
@@ -104,7 +121,7 @@ void KCMFilter::slotEnableChecked()
 void KCMFilter::slotItemSelected()
 {
     int currentId=-1;
-    int i;
+    unsigned int i;
     for( i=0,mSelCount=0; i < mListBox->count() && mSelCount<2; ++i )
     {
         if (mListBox->isSelected(i))
@@ -138,28 +155,47 @@ void KCMFilter::updateButton()
 
 void KCMFilter::importFilters()
 {
-  QString inFile = KFileDialog::getOpenFileName();
-  if (inFile.length() > 0)
-  {
-    QFile f(inFile);
-    if ( f.open( IO_ReadOnly ) )
+    QString inFile = KFileDialog::getOpenFileName();
+    if (inFile.length() > 0)
     {
-      QTextStream ts( &f );
-      QStringList paths;
-      QString line;
-      while (!ts.atEnd())
-      {
-        line = ts.readLine();
-        if ((!line.contains("[Adblock]")) &&
-            (!line.startsWith("!")))
-            paths.append(line);
-      }
-      f.close();
-
-      mListBox->insertStringList( paths );
-      emit changed(true);
+        QFile f(inFile);
+        if ( f.open( IO_ReadOnly ) )
+        {
+            QTextStream ts( &f );
+            QStringList paths;
+            QString line;
+            while (!ts.atEnd())
+            {
+                line = ts.readLine();
+                if (line.lower().compare("[adblock]") == 0)
+                    continue;
+                
+                //Treat leading ! as filter comment
+                if (!line.startsWith("!"))
+                {
+                    if (line.length()>2 && line[0]=='/' && line[line.length()-1] == '/')
+                    {
+                        QString inside = line.mid(1, line.length()-2);
+                        QRegExp rx(inside);
+                        if (!rx.isValid())
+                            continue;
+                    }
+                    else
+                    {
+                        QRegExp rx(line);
+                        rx.setWildcard(true);
+                        if (!rx.isValid())
+                            continue;
+                    }
+                }
+                paths.append(line);
+            }
+            f.close();
+            
+            mListBox->insertStringList( paths );
+            emit changed(true);
+        }
     }
-  }
 }
 
 void KCMFilter::exportFilters()
@@ -274,5 +310,7 @@ void KCMFilter::updateFilter()
 
 QString KCMFilter::quickHelp() const
 {
-    return i18n("<h1>Konqueror Filter</h1>");
+    return i18n("<h1>Konqueror AdBlocK</h1> Konqueror AdBlocK allows you to create a list of filters"
+                " that are checked against linked images and frames. URL's that match are either discarded or"
+                " replaced with a placeholder image. ");
 }
