@@ -88,6 +88,7 @@ void TestLinkItr::doAction() {
 
     m_job = KIO::get(curBk().url(), true, false);
     m_job->addMetaData("errorPage", "true");
+    m_job->addMetaData( QString("cookies"), QString("none") );
 
     connect(m_job, SIGNAL( result( KIO::Job *)),
             this, SLOT( slotJobResult(KIO::Job *)));
