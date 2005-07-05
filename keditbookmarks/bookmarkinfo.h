@@ -44,8 +44,10 @@ public:
     BookmarkInfoWidget(QWidget * = 0, const char * = 0);
     void showBookmark(const KBookmark &bk);
     void saveBookmark(const KBookmark &bk);
+    KBookmark bookmark() { return m_bk; }
     bool connected() { return m_connected; };
     void setConnected(bool b) { m_connected = b; };
+    void updateStatus();
 
 public slots:
     void slotTextChangedURL(const QString &);

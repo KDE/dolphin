@@ -27,6 +27,7 @@
 #include "listview.h"
 
 #include <assert.h>
+#include <qvaluevector.h>
 
 #include <kdebug.h>
 #include <klocale.h>
@@ -118,26 +119,6 @@ void CreateCommand::unexecute() {
 
     KBookmark bk = CurrentMgr::bookmarkAt(m_to);
     Q_ASSERT(!bk.isNull() && !bk.parentGroup().isNull());
-
-    KEBListViewItem *item = 
-        static_cast<KEBListViewItem*>(ListView::self()->selectedItems()->first());
-
-    if (item 
-            && item->bookmark().hasParent() 
-            && item->bookmark().address() == m_to) {
-        item->setSelected(false);
-
-        // can't use itemBelow here, in case we're deleting a folder
-        QListViewItem *selectItem = item->nextSibling();
-        if (!selectItem) {
-            // no next sibling ? Go to previous one, then.
-            QString selcAddr = bk.parentGroup().previousAddress(bk.address());
-            if (selcAddr.isEmpty()) {
-                KBookmark::parentAddress(bk.address());
-            }
-            ListView::self()->setInitialAddress(selcAddr);
-        }
-    }
 
     bk.parentGroup().deleteBookmark(bk);
 }
@@ -543,12 +524,20 @@ KEBMacroCommand* CmdGen::setShownInToolbar(const KBookmark &bk, bool show) {
 }
 
 KEBMacroCommand* CmdGen::deleteItems(const QString &commandName, 
-        QPtrList<KEBListViewItem> *items) {
-    QPtrListIterator<KEBListViewItem> it(*items);
+        const QMap<KEBListViewItem *, bool> & items) 
+{
+    QMap<KEBListViewItem*, bool>::const_iterator it, end;
+    it = items.begin();
+    end = items.end();
+
     KEBMacroCommand *mcmd = new KEBMacroCommand(commandName);
-    for (; it.current() != 0; ++it) {
+    for (; it != end; ++it) 
+    {
+        it.key()->setSelected(false);
+        if(it.key()->bookmark().address() == "")
+            continue;
         DeleteCommand *dcmd = 
-            new DeleteCommand(it.current()->bookmark().address());
+            new DeleteCommand(it.key()->bookmark().address());
         dcmd->execute();
         mcmd->addCommand(dcmd);
     }
@@ -615,22 +604,25 @@ KEBMacroCommand* CmdGen::insertMimeSource(
     return mcmd;
 }
 
-KEBMacroCommand* CmdGen::itemsMoved(QPtrList<KEBListViewItem> *items, 
+KEBMacroCommand* CmdGen::itemsMoved(const QMap<KEBListViewItem *, bool> & items, 
         const QString &newAddress, bool copy) {
     KEBMacroCommand *mcmd = new KEBMacroCommand(copy ? i18n("Copy Items") 
             : i18n("Move Items"));
 
-    QString bkInsertAddr = newAddress;
+    QValueList<KBookmark> list = ListView::self()->itemsToBookmarks( items );
+    QValueList<KBookmark>::const_iterator it, end;
+    it = list.begin();
+    end = list.end();
 
-    for (QPtrListIterator<KEBListViewItem> it(*items); 
-            it.current() != 0; ++it) {
+    QString bkInsertAddr = newAddress;
+    for (; it != end; ++it) {
         if (copy) {
             CreateCommand *cmd;
             cmd = new CreateCommand(
                     bkInsertAddr,
-                    (*it)->bookmark().internalElement()
+                    (*it).internalElement()
                     .cloneNode(true).toElement(),
-                    (*it)->bookmark().text());
+                    (*it).text());
 
             cmd->execute();
             mcmd->addCommand(cmd);
@@ -638,12 +630,12 @@ KEBMacroCommand* CmdGen::itemsMoved(QPtrList<KEBListViewItem> *items,
             bkInsertAddr = cmd->finalAddress();
 
         } else /* if (move) */ {
-            QString oldAddress = (*it)->bookmark().address();
-            if (bkInsertAddr.startsWith(oldAddress))
+            QString oldAddress = (*it).address();
+            if (bkInsertAddr.startsWith(oldAddress)) //FIXME uses internal representation of address
                 continue;
 
             MoveCommand *cmd = new MoveCommand(oldAddress, bkInsertAddr,
-                    (*it)->bookmark().text());
+                    (*it).text());
             cmd->execute();
             mcmd->addCommand(cmd);
 

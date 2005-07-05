@@ -128,6 +128,7 @@ bool CurrentMgr::showNSBookmarks() const { return mgr()->showNSBookmarks(); }
 
 void CurrentMgr::createManager(const QString &filename) {
     if (m_mgr) {
+        kdDebug()<<"ERROR calling createManager twice"<<endl;
         disconnect(m_mgr, 0, 0, 0);
         // still todo - delete old m_mgr
     }
@@ -148,10 +149,6 @@ void CurrentMgr::slotBookmarksChanged(const QString &, const QString &) {
     CmdHistory::self()->clearHistory();
     ListView::self()->updateListView();
     KEBApp::self()->updateActions();
-}
-
-void CurrentMgr::updateStatus(QString url) {
-    ListView::self()->updateStatus(url);
 }
 
 void CurrentMgr::notifyManagers(KBookmarkGroup grp)
@@ -228,7 +225,6 @@ KEBApp::KEBApp(
     QSplitter *splitter = new QSplitter(vsplitter);
     ListView::createListViews(splitter);
     ListView::self()->initListViews();
-    ListView::self()->setInitialAddress(address);
     searchLineEdit->setListView(static_cast<KListView*>(ListView::self()->widget()));
 
     m_bkinfo = new BookmarkInfoWidget(vsplitter);
@@ -260,6 +256,8 @@ KEBApp::KEBApp(
 
     construct();
 
+    ListView::self()->setCurrent(ListView::self()->getItemAtAddress(address), true);
+
     setCancelFavIconUpdatesEnabled(false);
     setCancelTestsEnabled(false);
     updateActions();
@@ -273,12 +271,13 @@ void KEBApp::construct() {
     ListView::self()->widget()->setFocus();
 
     slotClipboardDataChanged();
-
-    resetActions();
-    updateActions();
-
     setAutoSaveSettings();
-    m_cmdHistory->notifyDocSaved();
+}
+
+void KEBApp::updateStatus(QString url)
+{
+    if(m_bkinfo->bookmark().url() == url)
+        m_bkinfo->updateStatus();
 }
 
 KEBApp::~KEBApp() {
@@ -319,7 +318,7 @@ void KEBApp::slotClipboardDataChanged() {
     if (!m_readOnly) {
         m_canPaste = KBookmarkDrag::canDecode(
                         kapp->clipboard()->data(QClipboard::Clipboard));
-        ListView::self()->emitSlotSelectionChanged();
+        updateActions();
     }
 }
 
@@ -327,9 +326,8 @@ void KEBApp::slotClipboardDataChanged() {
 
 void KEBApp::notifyCommandExecuted() {
     // kdDebug() << "KEBApp::notifyCommandExecuted()" << endl;
-    if (!m_readOnly) {
+    if (!m_readOnly) {        
         ListView::self()->updateListView();
-        ListView::self()->emitSlotSelectionChanged();
         updateActions();
     }
 }

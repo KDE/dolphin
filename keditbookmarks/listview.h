@@ -23,6 +23,7 @@
 #include <assert.h>
 
 #include <qlistview.h>
+#include <qmap.h>
 
 #include <klocale.h>
 #include <kbookmark.h>
@@ -54,13 +55,16 @@ public:
    void restoreStatus();
 
    void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int alignment);
+   void setSelected ( bool s );
 
    virtual void setOpen(bool);
 
    bool isEmptyFolderPadder() const { return m_emptyFolderPadder; }
-   KBookmark bookmark() const { return m_bookmark; }
+   const KBookmark bookmark() const { return m_bookmark; }
 
   typedef enum { GreyStyle, BoldStyle, GreyBoldStyle, DefaultStyle } PaintStyle;
+
+   static bool KEBListViewItem::parentSelected(QListViewItem * item);
 
 private:
    const QString nsGet() const;
@@ -104,9 +108,7 @@ public:
 
 public slots:
    virtual void rename(QListViewItem *item, int c);
-   void slotSelectionChanged();
    void slotMoved();
-   void slotCurrentChanged(QListViewItem*);
    void slotContextMenu(KListView *, QListViewItem *, const QPoint &);
    void slotItemRenamed(QListViewItem *, const QString &, int);
    void slotDoubleClicked(QListViewItem *, const QPoint &, int);
@@ -129,23 +131,21 @@ class ListView : public QObject
 public:
    // init stuff
    void initListViews();
-   void setInitialAddress(QString address);
    void updateListViewSetup(bool readOnly);
    void connectSignals();
 
    // selected item stuff
-   int numSelected() const;
-   KEBListViewItem* selectedItem() const;
-   QPtrList<KEBListViewItem>* selectedItems() const;
+   void selected(KEBListViewItem * item, bool s);
+   KEBListViewItem * firstSelected() const;
+   QMap<KEBListViewItem *, bool> selectedItemsMap() const
+   { return mSelectedItems; }
 
    // bookmark helpers
-   QValueList<KBookmark> itemsToBookmarks(QPtrList<KEBListViewItem>* items) const;
+   QValueList<KBookmark> itemsToBookmarks(const QMap<KEBListViewItem *, bool> & items) const;
 
    // bookmark stuff
-   QValueList<KBookmark> getBookmarkSelection() const;
    QValueList<KBookmark> allBookmarks() const;
    QValueList<KBookmark> selectedBookmarksExpanded() const;
-   void selectedBookmarksExpandedHelper(KEBListViewItem * item, QValueList<KBookmark> & bookmarks) const;
 
    // address stuff
    KEBListViewItem* getItemAtAddress(const QString &address) const;
@@ -154,11 +154,9 @@ public:
    // gui stuff - DESIGN - all of it???
    SelcAbilities getSelectionAbilities() const;
 
-   void updateSelectedItems(); // DESIGN - rename?
    void updateListView();
-   void emitSlotSelectionChanged() { emit handleSelectionChanged(m_listView); }
    void setOpen(bool open); // DESIGN -rename to setAllOpenFlag
-   void setCurrent(KEBListViewItem *item);
+   void setCurrent(KEBListViewItem *item, bool select);
    void renameNextCell(bool dir);
 
    QWidget *widget() const { return m_listView; }
@@ -172,13 +170,13 @@ public:
 
    void handleMoved(KEBListView *);
    void handleDropped(KEBListView *, QDropEvent *, QListViewItem *, QListViewItem *);
-   void handleSelectionChanged(KEBListView *);
-   void handleCurrentChanged(KEBListView *, QListViewItem *);
    void handleContextMenu(KEBListView *, KListView *, QListViewItem *, const QPoint &);
    void handleDoubleClicked(KEBListView *, QListViewItem *, const QPoint &, int);
    void handleItemRenamed(KEBListView *, QListViewItem *, const QString &, int);
 
    static void startRename(int column, KEBListViewItem *item);
+
+   static void deselectAllChildren(KEBListViewItem *item);
 
    ~ListView();
 
@@ -187,23 +185,22 @@ public slots:
 
 private:
    void updateTree();
+   void selectedBookmarksExpandedHelper(KEBListViewItem * item, QValueList<KBookmark> & bookmarks) const;
    void fillWithGroup(KEBListView *, KBookmarkGroup, KEBListViewItem * = 0);
- 
+
    ListView();
-   static void deselectAllButParent(KEBListViewItem *item);
 
    KEBListView *m_listView;
-   KEBListView *m_folderListView;
 
-   QString m_last_selection_address;
-   QString m_currentSelectedRootAddress;
+//    // Actually this is a std:set, the bool is ignored
+   QMap<KEBListViewItem *, bool> mSelectedItems;
 
    // statics
    static ListView *s_self;
-   static bool s_listview_is_dirty;
    static int s_myrenamecolumn;
    static KEBListViewItem *s_myrenameitem;
    static QStringList s_selected_addresses;
+   static QString s_current_address;
 };
 
 #endif

@@ -96,8 +96,6 @@ public:
 
     void reloadConfig();
 
-    void updateStatus(QString url);
-
     static QString makeTimeStr(const QString &);
     static QString makeTimeStr(int);
 
@@ -120,6 +118,7 @@ public:
     virtual ~KEBApp();
 
     void updateActions();
+    void updateStatus(QString url);
     void setActionsEnabled(SelcAbilities);
 
     void setCancelFavIconUpdatesEnabled(bool);
@@ -136,7 +135,6 @@ public:
 
     QString caption() const { return m_caption; }
     bool readonly() const { return m_readOnly; }
-    bool splitView() const { return m_splitView; } 
     bool browser() const { return m_browser; } 
     bool nsShown() const;
 
@@ -172,8 +170,6 @@ private:
 
     bool m_canPaste:1;
     bool m_readOnly:1;
-
-    bool m_splitView:1;
     bool m_browser:1;
 };
 

@@ -21,8 +21,8 @@
 
 #include "dcop.h"
 
+#include "listview.h"
 #include "toplevel.h"
-#include "commands.h"
 
 #include <stdlib.h>
 
@@ -35,6 +35,7 @@
 #include <dcopclient.h>
 #include <kdebug.h>
 #include <kapplication.h>
+
 
 KBookmarkEditorIface::KBookmarkEditorIface()
     : QObject(), DCOPObject("KBookmarkEditor") {
@@ -58,7 +59,8 @@ void KBookmarkEditorIface::slotDcopUpdatedAccessMetadata(QString filename, QStri
         kdDebug() << "slotDcopUpdatedAccessMetadata(" << url << ")" << endl;
         // no undo
         CurrentMgr::self()->mgr()->updateAccessMetadata(url, false);
-        CurrentMgr::self()->updateStatus(url);
+        ListView::self()->updateStatus(url);
+        KEBApp::self()->updateStatus(url);
         // notice - no save here! see! :)
     }
 }
