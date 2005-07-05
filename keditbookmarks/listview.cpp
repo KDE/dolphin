@@ -62,7 +62,6 @@ QStringList ListView::s_selected_addresses; // UGLY
 bool ListView::s_listview_is_dirty = false;
 
 ListView::ListView() {
-    m_splitView = KEBApp::self()->splitView();
 }
 
 ListView::~ListView() {
@@ -71,21 +70,16 @@ ListView::~ListView() {
 
 void ListView::createListViews(QSplitter *splitter) {
     s_self = new ListView();
-    self()->m_folderListView = self()->m_splitView ? new KEBListView(splitter, true) : 0;
     self()->m_listView = new KEBListView(splitter, false);
     splitter->setSizes(QValueList<int>() << 100 << 300);
 }
 
 void ListView::initListViews() {
     self()->m_listView->init();
-    if (m_splitView)
-        self()->m_folderListView->init();
 }
 
 void ListView::updateListViewSetup(bool readonly) {
     self()->m_listView->readonlyFlagInit(readonly);
-    if (m_splitView)
-        self()->m_folderListView->readonlyFlagInit(readonly);
 }
 
 void ListView::setInitialAddress(QString address) {
@@ -94,8 +88,6 @@ void ListView::setInitialAddress(QString address) {
 
 void ListView::connectSignals() {
     m_listView->makeConnections();
-    if (m_splitView)
-        m_folderListView->makeConnections();
 }
 
 QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* items) const {
@@ -268,15 +260,8 @@ SelcAbilities ListView::getSelectionAbilities() const {
     return sa;
 }
 
-void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newParent, QListViewItem *itemAfterQLVI) {
-    bool inApp = (e->source() == m_listView->viewport())
-        || (m_folderListView && e->source() == m_folderListView->viewport());
-    bool toOther = e->source() != lv->viewport();
-
-    Q_UNUSED(toOther);
-
-    if (m_splitView)
-        return;
+void ListView::handleDropped(KEBListView *, QDropEvent *e, QListViewItem *newParent, QListViewItem *itemAfterQLVI) {
+    bool inApp = e->source() == m_listView->viewport();
 
     // drop before root item
     if (!newParent)
@@ -325,13 +310,9 @@ void ListView::updateListView() {
 
 KEBListViewItem *s_lazySettingCurrentItem;
 
-void ListView::updateTree(bool updateSplitView) {
+void ListView::updateTree() {
     KBookmarkGroup root = CurrentMgr::self()->mgr()->root();
-    if (m_splitView)
-        root = CurrentMgr::bookmarkAt(m_currentSelectedRootAddress).toGroup();
     fillWithGroup(m_listView, root);
-    if (m_splitView && updateSplitView)
-        fillWithGroup(m_folderListView, CurrentMgr::self()->mgr()->root());
     s_listview_is_dirty = true;
     if (s_lazySettingCurrentItem)
         setCurrent(s_lazySettingCurrentItem);
@@ -342,15 +323,11 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
     KEBListViewItem *lastItem = 0;
     if (!parentItem) {
         lv->clear();
-        if (!m_splitView || lv->isFolderList()) {
-            KEBListViewItem *tree = new KEBListViewItem(lv, group);
-            fillWithGroup(lv, group, tree);
-            tree->QListViewItem::setOpen(true);
-            return;
-        }
+        KEBListViewItem *tree = new KEBListViewItem(lv, group);
+        fillWithGroup(lv, group, tree);
+        tree->QListViewItem::setOpen(true);
+        return;
     }
-    if (m_splitView && !lv->isFolderList())
-        lastItem = new KEBListViewItem(lv, lastItem, group);
     for (KBookmark bk = group.first(); !bk.isNull(); bk = group.next(bk)) {
         KEBListViewItem *item = 0;
         if (bk.isGroup()) {
@@ -358,16 +335,14 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
             item = (parentItem)
                 ? new KEBListViewItem(parentItem, lastItem, grp)
                 : new KEBListViewItem(lv, lastItem, grp);
-            if (!(m_splitView && !lv->isFolderList())) {
-                fillWithGroup(lv, grp, item);
-                if (grp.isOpen())
-                    item->QListViewItem::setOpen(true);
-                if (!m_splitView && grp.first().isNull())
-                    new KEBListViewItem(item, item); // empty folder
-            }
+            fillWithGroup(lv, grp, item);
+            if (grp.isOpen())
+                item->QListViewItem::setOpen(true);
+            if (grp.first().isNull())
+                new KEBListViewItem(item, item); // empty folder
             lastItem = item;
 
-        } else if (!(lv->isFolderList() && m_splitView)) {
+        } else {
             item = (parentItem)   
                 ? ( (lastItem)
                         ? new KEBListViewItem(parentItem, lastItem, bk)
@@ -395,7 +370,7 @@ void ListView::handleMoved(KEBListView *) {
      */
 }
 
-void ListView::handleCurrentChanged(KEBListView *lv, QListViewItem *item) {
+void ListView::handleCurrentChanged(KEBListView *, QListViewItem *item) {
     if (!item)
         return;
 
@@ -407,15 +382,6 @@ void ListView::handleCurrentChanged(KEBListView *lv, QListViewItem *item) {
         m_last_selection_address = selectedItems()->first()->bookmark().address();
     else if (VALID_ITEM(currentItem))
         m_last_selection_address = currentItem->bookmark().address();
-
-    if (m_splitView && lv == m_folderListView) {
-        m_folderListView->setSelected(item, true);
-        QString addr = currentItem->bookmark().address();
-        if (addr != m_currentSelectedRootAddress) {
-            m_currentSelectedRootAddress = addr;
-            updateTree(false);
-        }
-    }
 }
 
 void ListView::handleSelectionChanged(KEBListView *) {

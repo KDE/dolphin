@@ -143,8 +143,6 @@ public:
     BookmarkInfoWidget *bkInfo() { return m_bkinfo; }
 
 public slots:
-    void slotSplitView();
-
     void slotConfigureToolbars();
 
 protected slots:

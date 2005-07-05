@@ -186,7 +186,7 @@ public slots:
    void slotBkInfoUpdateListViewItem();
 
 private:
-   void updateTree(bool updateSplitView = true);
+   void updateTree();
    void fillWithGroup(KEBListView *, KBookmarkGroup, KEBListViewItem * = 0);
  
    ListView();
@@ -197,8 +197,6 @@ private:
 
    QString m_last_selection_address;
    QString m_currentSelectedRootAddress;
-
-   bool m_splitView;
 
    // statics
    static ListView *s_self;

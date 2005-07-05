@@ -201,8 +201,6 @@ KEBApp::KEBApp(
 ) : KMainWindow(), m_dcopIface(0), m_bookmarksFilename(bookmarksFile),
     m_caption(caption), m_readOnly(readonly), m_browser(browser) {
 
-    m_splitView = false;
-
     m_cmdHistory = new CmdHistory(actionCollection());
 
     s_topLevel = this;
@@ -302,21 +300,8 @@ void KEBApp::resetActions() {
     if (!m_readOnly)
         stateChanged("notreadonly");
 
-    // getToggleAction("settings_splitview")
-    //      ->setChecked(m_splitView);
     getToggleAction("settings_showNS")
         ->setChecked(CurrentMgr::self()->showNSBookmarks());
-}
-
-void KEBApp::slotSplitView() {
-    Q_ASSERT( 0 );
-#if 0
-    m_splitView = getToggleAction("settings_splitview")->isChecked();
-    // ### use KEBSettings (.kfcg) instead
-    writeConfigBool("keditbookmarksrc", "General",
-                    "Split View", m_splitView);
-    sorryRelogin(this);
-#endif
 }
 
 bool KEBApp::nsShown() const {
