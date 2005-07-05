@@ -409,7 +409,7 @@ void KfindWindow::slotContextMenu(KListView *,QListViewItem *item,const QPoint&p
   {
      //menu = new KPopupMenu(item->text(0), this);
      m_menu->insertTitle(item->text(0));
-     m_menu->insertItem(SmallIcon("fileopen"),i18n("Open"), this, SLOT(openBinding()));
+     m_menu->insertItem(SmallIcon("fileopen"),i18n("Menu item", "Open"), this, SLOT(openBinding()));
      m_menu->insertItem(SmallIcon("window_new"),i18n("Open Folder"), this, SLOT(openFolder()));
      m_menu->insertSeparator();
      m_menu->insertItem(SmallIcon("editcopy"),i18n("Copy"), this, SLOT(copySelection()));
