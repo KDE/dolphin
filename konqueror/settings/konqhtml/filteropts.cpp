@@ -170,7 +170,8 @@ void KCMFilter::importFilters()
                 if (line.lower().compare("[adblock]") == 0)
                     continue;
                 
-                //Treat leading ! as filter comment
+                // Treat leading ! as filter comment, otherwise check expressions
+                // are valid.
                 if (!line.startsWith("!"))
                 {
                     if (line.length()>2 && line[0]=='/' && line[line.length()-1] == '/')
@@ -188,7 +189,9 @@ void KCMFilter::importFilters()
                             continue;
                     }
                 }
-                paths.append(line);
+
+                if (!line.isEmpty() && mListBox->findItem(line, Qt::CaseSensitive|Qt::ExactMatch) == 0)
+                    paths.append(line);
             }
             f.close();
             
