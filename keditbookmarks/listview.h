@@ -33,6 +33,7 @@
 #include "toplevel.h"
 
 class QSplitter;
+class KListViewSearchLine;
 
 class KEBListViewItem : public QListViewItem
 {
@@ -133,6 +134,7 @@ public:
    void initListViews();
    void updateListViewSetup(bool readOnly);
    void connectSignals();
+   void setSearchLine(KListViewSearchLine * searchline) { m_searchline = searchline; };
 
    // selected item stuff
    void selected(KEBListViewItem * item, bool s);
@@ -191,6 +193,7 @@ private:
    ListView();
 
    KEBListView *m_listView;
+   KListViewSearchLine * m_searchline;
 
 //    // Actually this is a std:set, the bool is ignored
    QMap<KEBListViewItem *, bool> mSelectedItems;

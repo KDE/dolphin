@@ -48,6 +48,7 @@
 #include <kmessagebox.h>
 #include <klineedit.h>
 #include <krun.h>
+#include <klistviewsearchline.h>
 
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
@@ -358,6 +359,7 @@ void ListView::updateListView()
         s_current_address = "";
 
     updateTree();
+    m_searchline->updateSearch();
 
     // ensureVisible wants to have the midpoint of the new visible area
     m_listView->ensureVisible(0, lastCurrentY + m_listView->visibleHeight() / 2, 0, m_listView->visibleHeight() / 2 );

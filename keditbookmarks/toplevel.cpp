@@ -72,7 +72,6 @@ CmdHistory* CmdHistory::self() {
 }
 
 void CmdHistory::slotCommandExecuted(KCommand *k) {
-    kdDebug()<<"slotCommandExecuted() "<<k->name()<<endl;
     KEBApp::self()->notifyCommandExecuted();
 
     IKEBCommand * cmd = dynamic_cast<IKEBCommand *>(k);
@@ -80,7 +79,6 @@ void CmdHistory::slotCommandExecuted(KCommand *k) {
 
     KBookmark bk = CurrentMgr::bookmarkAt(cmd->affectedBookmarks());
     Q_ASSERT(bk.isGroup());
-    kdDebug()<<"affected Bookmark "<<bk.address()<<endl;
     CurrentMgr::self()->notifyManagers(bk.toGroup());
 }
 
@@ -226,6 +224,7 @@ KEBApp::KEBApp(
     ListView::createListViews(splitter);
     ListView::self()->initListViews();
     searchLineEdit->setListView(static_cast<KListView*>(ListView::self()->widget()));
+    ListView::self()->setSearchLine(searchLineEdit);
 
     m_bkinfo = new BookmarkInfoWidget(vsplitter);
 
