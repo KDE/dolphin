@@ -1606,7 +1606,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   if ( !bQuickViewModeChange )
   {
     m_currentView->changeViewMode( m_currentView->serviceType(), modeName );
-    KURL locURL( locationBarURL );
+    KURL locURL = KURL::fromPathOrURL( locationBarURL );
     QString nameFilter = detectNameFilter( locURL );
     if( m_currentView->part()->inherits( "KonqDirPart" ) )
        static_cast<KonqDirPart*>( m_currentView->part() )->setFilesToSelect( filesToSelect );
