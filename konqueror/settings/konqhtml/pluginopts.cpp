@@ -294,7 +294,7 @@ void KPluginOptions::scan()
         int ret = KMessageBox::warningYesNoCancel( this,
                                                     i18n("Do you want to apply your changes "
                                                          "before the scan? Otherwise the "
-                                                         "changes will be lost.") );
+                                                         "changes will be lost."), QString::null, KStdGuiItem::save(), KStdGuiItem::discard() );
         if ( ret==KMessageBox::Cancel ) {
             m_widget->scanButton->setEnabled(true);
             return;

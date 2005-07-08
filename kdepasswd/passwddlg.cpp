@@ -103,7 +103,7 @@ bool KDEpasswd2Dialog::checkPassword(const char *password)
 
     if (strlen(password) > 8)
     {
-	switch(KMessageBox::questionYesNoCancel(this,
+	switch(KMessageBox::warningYesNoCancel(this,
 		m_User.isEmpty() ?
 		i18n("Your password is longer than 8 characters. On some "
 			"systems, this can cause problems. You can truncate "
@@ -112,9 +112,9 @@ bool KDEpasswd2Dialog::checkPassword(const char *password)
 			"systems, this can cause problems. You can truncate "
 			"the password to 8 characters, or leave it as it is.")
 			,
-		i18n("Password too long"),
+		i18n("Password Too Long"),
 		i18n("Truncate"),
-		i18n("Use as is"),
+		i18n("Use as Is"),
 		"truncatePassword"))
 	{
 	case KMessageBox::Yes :

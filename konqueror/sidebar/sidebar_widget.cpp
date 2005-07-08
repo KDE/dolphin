@@ -117,7 +117,7 @@ void addBackEnd::aboutToShowAddMenu()
 
 void addBackEnd::doRollBack()
 {
-	if (KMessageBox::questionYesNo(m_parent, i18n("<qt>This removes all your entries from the sidebar and adds the system default ones.<BR><B>This procedure is irreversible</B><BR>Do you want to proceed?</qt>"))==KMessageBox::Yes)
+	if (KMessageBox::warningContinueCancel(m_parent, i18n("<qt>This removes all your entries from the sidebar and adds the system default ones.<BR><B>This procedure is irreversible</B><BR>Do you want to proceed?</qt>"))==KMessageBox::Continue)
 	{
 		KStandardDirs *dirs = KGlobal::dirs();
 		QString loc=dirs->saveLocation("data","konqsidebartng/" + m_currentProfile + "/",true);

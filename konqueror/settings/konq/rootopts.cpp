@@ -266,7 +266,7 @@ bool DesktopPathConfig::moveDir( const KURL & src, const KURL & dest, const QStr
     m_ok = true;
     // Ask for confirmation before moving the files
     if ( KMessageBox::questionYesNo( this, i18n("The path for '%1' has been changed;\ndo you want the files to be moved from '%2' to '%3'?").
-                              arg(type).arg(src.path()).arg(dest.path()), i18n("Confirmation Required") )
+                              arg(type).arg(src.path()).arg(dest.path()), i18n("Confirmation Required"),i18n("Move"),KStdGuiItem::cancel() )
             == KMessageBox::Yes )
     {
         bool destExists = QFile::exists(dest.path());

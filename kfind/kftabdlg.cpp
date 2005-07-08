@@ -615,7 +615,7 @@ void KfindTabWidget::setQuery(KQuery *query)
   }
   size = sizeEdit->value() * size;
   if (size < 0)  // overflow
-     if (KMessageBox::warningYesNo(this, i18n("Size is too big... Set maximum size value?"), i18n("Error"))
+     if (KMessageBox::warningYesNo(this, i18n("Size is too big. Set maximum size value?"), i18n("Error"),i18n("Set"),i18n("Do Not Set"))
            == KMessageBox::Yes)
 		{
          sizeEdit->setValue(INT_MAX);

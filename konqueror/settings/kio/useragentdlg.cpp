@@ -226,10 +226,10 @@ bool UserAgentDlg::handleDuplicate( const QString& site,
                          "<br/><b>%1</b><br/>"
                          "Do you want to replace it?</center>"
                          "</qt>").arg(site);
-      int res = KMessageBox::warningYesNo(this, msg,
+      int res = KMessageBox::warningContinueCancel(this, msg,
                                           i18n("Duplicate Identification"),
-                                          QString::null);
-      if ( res == KMessageBox::Yes )
+                                          i18n("Replace"));
+      if ( res == KMessageBox::Continue )
       {
         item->setText(0, site);
         item->setText(1, identity);
