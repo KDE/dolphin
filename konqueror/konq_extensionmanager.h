@@ -48,7 +48,6 @@ class KonqExtensionManager : public KDialogBase
 		virtual void slotUser1();
 		virtual void slotApply();
 		virtual void slotOk();
-		virtual void slotHelp();
 		virtual void show();
 
 	private:

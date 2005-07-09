@@ -40,15 +40,12 @@ public:
 };
 
 KonqExtensionManager::KonqExtensionManager(QWidget *parent, KonqMainWindow *mainWindow, KParts::ReadOnlyPart* activePart) :
-  KDialogBase(Plain, i18n("Configure"), Help | Default | Cancel | Apply | Ok | User1,
+  KDialogBase(Plain, i18n("Configure"), Default | Cancel | Apply | Ok | User1,
               Ok, parent, "extensionmanager", false, true, KGuiItem(i18n("&Reset"), "undo"))
 {
 	d = new KonqExtensionManagerPrivate;
 	showButton(User1, false);
 	setChanged(false);
-
-	// FIXME: Implement this - Martijn
-	enableButton(KDialogBase::Help, false);
 
 	setInitialSize(QSize(640, 480));
 
@@ -138,11 +135,6 @@ void KonqExtensionManager::slotOk()
 	emit okClicked();
 	apply();
 	accept();
-}
-
-void KonqExtensionManager::slotHelp()
-{
-	kdWarning() << k_funcinfo << "FIXME: Implement!" << endl;
 }
 
 void KonqExtensionManager::show()
