@@ -65,7 +65,7 @@ public:
 
   typedef enum { GreyStyle, BoldStyle, GreyBoldStyle, DefaultStyle } PaintStyle;
 
-   static bool KEBListViewItem::parentSelected(QListViewItem * item);
+   static bool parentSelected(QListViewItem * item);
 
 private:
    const QString nsGet() const;
