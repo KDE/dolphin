@@ -13,11 +13,13 @@ Name[bg]=Блокиране на реклами
 Name[da]=AdBlocK filtre
 Name[es]=Filtros de anuncios (AdBlock)
 Name[et]=AdBlocK filtrid
+Name[eu]=AdBlock iragazkiak
 Name[ga]=Scagairí AdBlockK
 Name[pa]=AdBlocK ਫਿਲਟਰ
 Name[pt_BR]=Filtros AdBlocK
 Name[ru]=Фильтры AdBlocK
 Name[sv]=Reklamblockeringsfilter
+Name[tr]=AdBlocK Filtreleri
 Name[zh_CN]=AdBlocK 过滤器
 
 Comment=Configure Konqueror AdBlocK filters
@@ -25,11 +27,13 @@ Comment[bg]=Настройки на филтрите за блокиране н�
 Comment[da]=Indstil Konquerors adblock filtre
 Comment[es]=Configuración de los filtros de anuncios de Konqueror
 Comment[et]=Konqueror AdBlocK filtrite seadistamine
+Comment[eu]=Konfiguratu AdBlock iragazkiak
 Comment[ga]=Cumraigh na Scagairí AdBlocK Konqueror
 Comment[pa]=ਕੋਨਕਿਉਰਰ ਐਡਬਲਾਕ ਫਿਲਟਰ ਸੰਰਚਨਾ
 Comment[pt_BR]=Configura os filtros AdBlocK no Konqueror
 Comment[ru]=Настройка блокирования рекламы для Konqueror
 Comment[sv]=Anpassa Konquerors reklamblockeringsfilter
+Comment[tr]=Konqueror'ın AdBlocK Filtrelerini yapılandır
 Comment[zh_CN]=配置 Konqueror 的 AdBlocK 过滤器
 
 Categories=Qt;KDE;X-KDE-settings-webbrowsing;
