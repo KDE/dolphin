@@ -83,7 +83,6 @@ public:
 
     KBookmarkManager* mgr() const { return m_mgr; }
     bool showNSBookmarks() const;
-    QString correctAddress(const QString &address) const;
     QString path() const;
 
     void createManager(const QString &filename);

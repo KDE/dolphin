@@ -163,10 +163,6 @@ void CurrentMgr::reloadConfig() {
     mgr()->emitConfigChanged();
 }
 
-QString CurrentMgr::correctAddress(const QString &address) const {
-    return mgr()->findByAddress(address, true).address();
-}
-
 QString CurrentMgr::makeTimeStr(const QString & in)
 {
     int secs;
