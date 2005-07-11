@@ -298,8 +298,8 @@ SelcAbilities ListView::getSelectionAbilities() const {
         sa.separator      = nbk.isSeparator();
         sa.urlIsEmpty     = nbk.url().isEmpty();
         sa.root           = (firstSelected() == m_listView->rootItem());
-        sa.singleSelect   = (!sa.multiSelect && sa.itemSelected);
         sa.multiSelect    = (mSelectedItems.count() > 1);
+        sa.singleSelect   = (!sa.multiSelect && sa.itemSelected);
         sa.tbShowState    = CmdGen::shownInToolbar(nbk);
     }
 
