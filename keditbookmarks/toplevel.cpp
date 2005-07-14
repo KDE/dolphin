@@ -80,6 +80,13 @@ void CmdHistory::slotCommandExecuted(KCommand *k) {
     KBookmark bk = CurrentMgr::bookmarkAt(cmd->affectedBookmarks());
     Q_ASSERT(bk.isGroup());
     CurrentMgr::self()->notifyManagers(bk.toGroup());
+
+    // sets currentItem to something sensible
+    // if the currentItem was invalidated by executing
+    // CreateCommand or DeleteManyCommand
+    // otherwise does nothing
+    // sensible is either a already selected item or cmd->currentAddress()
+    ListView::self()->fixUpCurrent( cmd->currentAddress() );
 }
 
 void CmdHistory::notifyDocSaved() {

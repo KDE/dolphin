@@ -50,6 +50,103 @@ QString KEBMacroCommand::affectedBookmarks() const
     return affectBook;
 }
 
+QString DeleteManyCommand::prevOrParentAddress(QString addr)
+{
+    QString prev = KBookmark::previousAddress( addr );
+    if( CurrentMgr::bookmarkAt(prev).hasParent())
+        return prev;
+    else
+        return KBookmark::parentAddress( addr );
+}
+
+QString DeleteManyCommand::preOrderNextAddress(QString addr)
+{
+    QString rootAdr = CurrentMgr::self()->mgr()->root().address();
+    while(addr != rootAdr)
+    {
+        QString next = KBookmark::nextAddress(addr);
+        if(CurrentMgr::bookmarkAt( next ).hasParent() )
+             return next;
+        addr = KBookmark::parentAddress( addr );
+    }
+    return QString::null;
+}
+
+bool DeleteManyCommand::isConsecutive(const QValueList<QString> & addresses)
+{
+    QValueList<QString>::const_iterator it, end;
+    it = addresses.begin();
+    end = addresses.end();
+    QString addr = *(addresses.begin());
+    for( ; it != end; ++it)
+    {
+        if( *it != addr )
+            return false;
+        addr = KBookmark::nextAddress(addr);
+    }
+    return true;
+}
+
+
+DeleteManyCommand::DeleteManyCommand(const QString &name, const QValueList<QString> & addresses)
+    : KEBMacroCommand(name)
+{
+    QValueList<QString>::const_iterator it, begin;
+    begin = addresses.begin();
+    it = addresses.end();
+    while(begin != it)
+    {
+        --it;
+        DeleteCommand * dcmd = new DeleteCommand(*it);
+        addCommand(dcmd);
+    }
+
+    // Set m_currentAddress
+    if( addresses.count() == 1)
+    {
+         // First try next bookmark
+        if( CurrentMgr::bookmarkAt( KBookmark::nextAddress( *begin ) ).hasParent() )
+            m_currentAddress = *begin;
+        else
+        {
+            m_currentAddress = preOrderNextAddress( KBookmark::parentAddress( *begin ) );
+            if(m_currentAddress == QString::null)
+                m_currentAddress = prevOrParentAddress( *begin );
+        }
+    }
+    else // multi selection
+    {
+        // Check if all bookmarks are consecutive
+        if(isConsecutive(addresses)) // Mark next bookmark after all selected
+        {                            // That's a little work...
+            QValueList<QString>::const_iterator last = addresses.end();
+            --last;
+            if( CurrentMgr::bookmarkAt( KBookmark::nextAddress(*last) ).hasParent() )
+                m_currentAddress = *begin;
+            else
+            {
+                m_currentAddress = preOrderNextAddress( KBookmark::parentAddress( *begin ) );
+                if( m_currentAddress == QString::null)
+                    m_currentAddress = prevOrParentAddress( *begin );
+            }
+        }
+        else // not consecutive, select the common parent (This could be more clever)
+        {
+            QValueList<QString>::const_iterator jt, end;
+            end = addresses.end();
+            m_currentAddress = *begin;
+            for( jt = addresses.begin(); jt != end; ++jt)
+                m_currentAddress = KBookmark::commonParent(m_currentAddress, *jt);
+        }
+    }
+}
+
+QString DeleteManyCommand::currentAddress() const
+{
+    return m_currentAddress;
+}
+
+
 QString CreateCommand::name() const {
     if (m_separator) {
         return i18n("Insert Separator");
@@ -120,12 +217,23 @@ void CreateCommand::unexecute() {
     KBookmark bk = CurrentMgr::bookmarkAt(m_to);
     Q_ASSERT(!bk.isNull() && !bk.parentGroup().isNull());
 
+    ListView::self()->invalidate(bk.address());
+
     bk.parentGroup().deleteBookmark(bk);
 }
 
 QString CreateCommand::affectedBookmarks() const
 {
     return KBookmark::parentAddress(m_to);
+}
+
+QString CreateCommand::currentAddress() const
+{
+    QString bk = KBookmark::previousAddress( m_to );
+    if(CurrentMgr::bookmarkAt( bk).hasParent())
+        return bk;
+    else
+        return KBookmark::parentAddress( m_to );
 }
 
 /* -------------------------------------- */
@@ -522,28 +630,6 @@ KEBMacroCommand* CmdGen::setShownInToolbar(const KBookmark &bk, bool show) {
 
     return mcmd;
 }
-
-KEBMacroCommand* CmdGen::deleteItems(const QString &commandName, 
-        const QMap<KEBListViewItem *, bool> & items) 
-{
-    QMap<KEBListViewItem*, bool>::const_iterator it, end;
-    it = items.begin();
-    end = items.end();
-
-    KEBMacroCommand *mcmd = new KEBMacroCommand(commandName);
-    for (; it != end; ++it) 
-    {
-        it.key()->setSelected(false);
-        if(it.key()->bookmark().address() == "")
-            continue;
-        DeleteCommand *dcmd = 
-            new DeleteCommand(it.key()->bookmark().address());
-        dcmd->execute();
-        mcmd->addCommand(dcmd);
-    }
-    return mcmd;
-}
-
 
 KEBMacroCommand* CmdGen::insertMimeSource(
     const QString &cmdName, QMimeSource *_data, const QString &addr

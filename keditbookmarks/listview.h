@@ -138,9 +138,15 @@ public:
 
    // selected item stuff
    void selected(KEBListViewItem * item, bool s);
+   
+   void invalidate(const QString & address);
+   void invalidate(QListViewItem * item);
+   void fixUpCurrent(const QString & address);
+   
    KEBListViewItem * firstSelected() const;
    QMap<KEBListViewItem *, bool> selectedItemsMap() const
    { return mSelectedItems; }
+   QValueList<QString> selectedAddresses();
 
    // bookmark helpers
    QValueList<KBookmark> itemsToBookmarks(const QMap<KEBListViewItem *, bool> & items) const;
@@ -195,8 +201,9 @@ private:
    KEBListView *m_listView;
    KListViewSearchLine * m_searchline;
 
-//    // Actually this is a std:set, the bool is ignored
+//  Actually this is a std:set, the bool is ignored
    QMap<KEBListViewItem *, bool> mSelectedItems;
+   bool m_needToFixUp;
 
    // statics
    static ListView *s_self;

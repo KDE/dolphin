@@ -108,10 +108,6 @@ void ImportCommand::execute() {
         KMacroCommand *mcmd = (KMacroCommand*) m_cleanUpCmd;
         mcmd->addCommand(new DeleteCommand(bkGroup.address(),
                     true /* contentOnly */));
-
-        // unselect current item, it doesn't exist anymore
-        if (ListView::self())
-            ListView::self()->clearSelection();
         m_cleanUpCmd->execute();
 
         // import at the root
@@ -132,9 +128,6 @@ void ImportCommand::unexecute() {
         KBookmarkGroup root = CurrentMgr::self()->mgr()->root();
         KCommand *cmd = DeleteCommand::deleteAll(root);
 
-        // unselect current item, it doesn't exist anymore
-        if (ListView::self())
-            ListView::self()->clearSelection();
         cmd->execute();
         delete cmd;
 

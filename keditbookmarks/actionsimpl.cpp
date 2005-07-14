@@ -330,10 +330,9 @@ void KEBApp::setCancelTestsEnabled(bool enabled) {
 void ActionsImpl::slotCut() {
     KEBApp::self()->bkInfo()->commitChanges();
     slotCopy();
-    KEBMacroCommand *mcmd
-        = CmdGen::deleteItems(i18n("Cut Items"),
-                                      ListView::self()->selectedItemsMap());
-    CmdHistory::self()->didCommand(mcmd);
+    DeleteManyCommand *mcmd = new DeleteManyCommand( i18n("Cut Items"), ListView::self()->selectedAddresses() );
+    CmdHistory::self()->addCommand(mcmd);
+
 }
 
 void ActionsImpl::slotCopy() {
@@ -558,8 +557,8 @@ void ActionsImpl::slotSort() {
 
 void ActionsImpl::slotDelete() {
     KEBApp::self()->bkInfo()->commitChanges();
-    KEBMacroCommand *mcmd = CmdGen::deleteItems(i18n("Delete Items"), ListView::self()->selectedItemsMap());
-    CmdHistory::self()->didCommand(mcmd);
+    DeleteManyCommand *mcmd = new DeleteManyCommand(i18n("Delete Items"), ListView::self()->selectedAddresses());
+    CmdHistory::self()->addCommand(mcmd);
 }
 
 void ActionsImpl::slotOpenLink() {

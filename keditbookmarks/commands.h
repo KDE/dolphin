@@ -35,6 +35,7 @@ public:
    IKEBCommand() {};
    virtual ~IKEBCommand() {};
    virtual QString affectedBookmarks() const = 0;
+   virtual QString currentAddress() const { return QString::null; }
 };
 
 class KEBMacroCommand : public KMacroCommand, public IKEBCommand
@@ -44,6 +45,19 @@ public:
       : KMacroCommand(name) {};
    virtual ~KEBMacroCommand() {};
    virtual QString affectedBookmarks() const;
+};
+
+class DeleteManyCommand : public KEBMacroCommand
+{
+public:
+   DeleteManyCommand(const QString &name, const QValueList<QString>  & addresses);
+   virtual ~DeleteManyCommand() {};
+   virtual QString currentAddress() const;
+private:
+   QString prevOrParentAddress(QString addr);
+   QString preOrderNextAddress(QString addr);
+   bool isConsecutive(const QValueList<QString> & addresses);
+   QString m_currentAddress;
 };
 
 class CreateCommand : public KCommand, public IKEBCommand
@@ -85,6 +99,7 @@ public:
    virtual void unexecute();
    virtual QString name() const;
    virtual QString affectedBookmarks() const;
+   virtual QString currentAddress() const;
 private:
    QString m_to;
    QString m_text;

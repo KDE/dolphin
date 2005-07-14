@@ -63,7 +63,9 @@ KEBListViewItem *ListView::s_myrenameitem = 0;
 QStringList ListView::s_selected_addresses;
 QString ListView::s_current_address;
 
-ListView::ListView() {
+ListView::ListView()
+    : m_needToFixUp(false)
+{
 }
 
 ListView::~ListView() {
@@ -88,10 +90,8 @@ void ListView::connectSignals() {
     m_listView->makeConnections();
 }
 
-bool operator<(const KBookmark & first, const KBookmark & second) //FIXME Using internal represantation
+bool lessAddress(QString a, QString b)
 {
-    QString a = first.address();
-    QString b = second.address();
     if(a == b)
          return false;
 
@@ -137,6 +137,11 @@ bool operator<(const KBookmark & first, const KBookmark & second) //FIXME Using 
     }
 }
 
+bool operator<(const KBookmark & first, const KBookmark & second) //FIXME Using internal represantation
+{
+    return lessAddress(first.address(), second.address());
+}
+
 
 
 QValueList<KBookmark> ListView::itemsToBookmarks(const QMap<KEBListViewItem *, bool> & items) const
@@ -152,6 +157,58 @@ QValueList<KBookmark> ListView::itemsToBookmarks(const QMap<KEBListViewItem *, b
     qHeapSort(bookmarks);
     return bookmarks;
 }
+
+void ListView::invalidate(const QString & address)
+{
+    invalidate(getItemAtAddress(address));
+}
+
+void ListView::invalidate(QListViewItem * item)
+{
+    if(item->isSelected())
+    {
+        m_listView->setSelected(item, false);
+        m_needToFixUp = true;
+    }
+
+    if(m_listView->currentItem() == item)
+    {
+        // later overiden by fixUpCurrent
+        m_listView->setCurrentItem(m_listView->rootItem()); 
+        m_needToFixUp = true;
+    }
+
+    QListViewItem * child = item->firstChild();
+    while(child)
+    {
+        //invalidate(child);
+        child = child->nextSibling();
+    }
+}
+
+void ListView::fixUpCurrent(const QString & address)
+{
+    if(!m_needToFixUp)
+        return;
+    m_needToFixUp = false;
+
+    QListViewItem * item;
+    if(mSelectedItems.count() != 0)
+    {
+        QString least = mSelectedItems.begin().key()->bookmark().address();
+        QMap<KEBListViewItem *, bool>::iterator it, end;
+        end = mSelectedItems.end();
+        for(it = mSelectedItems.begin(); it != end; ++it)
+            if( lessAddress(it.key()->bookmark().address(), least))
+                least = it.key()->bookmark().address();
+        item = getItemAtAddress(least), true;
+    }
+    else
+        item  = getItemAtAddress(address);
+    m_listView->setSelected( item, true );
+    m_listView->setCurrentItem( item );
+}
+
 
 void ListView::selected(KEBListViewItem * item, bool s)
 {
@@ -206,6 +263,18 @@ void ListView::deselectAllChildren(KEBListViewItem *item)
         child = static_cast<KEBListViewItem *>(child->nextSibling());
     }
 }
+
+QValueList<QString> ListView::selectedAddresses()
+{
+    QValueList<QString> addresses;
+    QValueList<KBookmark> bookmarks = itemsToBookmarks( selectedItemsMap() );
+    QValueList<KBookmark>::const_iterator it, end;
+    end = bookmarks.end();
+    for( it = bookmarks.begin(); it != end; ++it)
+        addresses.append( (*it).address() );
+    return addresses;
+}
+
 
 QValueList<KBookmark> ListView::selectedBookmarksExpanded() const {
     QValueList<KBookmark> bookmarks;
@@ -354,9 +423,15 @@ void ListView::updateListView()
     for ( ; it != end; ++it)
         s_selected_addresses << it.key()->bookmark().address();
     if(m_listView->currentItem())
-        s_current_address = static_cast<KEBListViewItem*>(m_listView->currentItem())->bookmark().address();
+    {
+        KEBListViewItem * item = static_cast<KEBListViewItem*>(m_listView->currentItem());
+        if(item->isEmptyFolderPadder())
+            s_current_address = static_cast<KEBListViewItem*>(item->parent())->bookmark().address();
+        else
+            s_current_address = item->bookmark().address();
+    }
     else
-        s_current_address = "";
+        s_current_address = QString::null;
 
     updateTree();
     m_searchline->updateSearch();
@@ -380,7 +455,7 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
         tree->QListViewItem::setOpen(true);
         if (s_selected_addresses.contains(tree->bookmark().address()))
             lv->setSelected(tree, true);
-        if(s_current_address == tree->bookmark().address())
+        if(!s_current_address.isNull() && s_current_address == tree->bookmark().address())
             lv->setCurrentItem(tree);
         return;
     }
@@ -412,7 +487,7 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
         }
         if (s_selected_addresses.contains(bk.address()))
             lv->setSelected(item, true);
-        if(s_current_address == bk.address())
+        if(!s_current_address.isNull() && s_current_address == bk.address())
             lv->setCurrentItem(item);
     }
 }
