@@ -584,11 +584,16 @@ KEBMacroCommand* CmdGen::insertMimeSource(
                 urlBks << KBookmark::standaloneBookmark(title, url, df.readIcon());
             }
             KBookmarkDrag *mydrag = KBookmarkDrag::newDrag(urlBks, 0);
+            modified = true;
             data = mydrag;
         }
     }
     if (!KBookmarkDrag::canDecode(data))
+    {
+        if (modified) // Shouldn't happen
+            delete data;
         return 0;
+    }
     KEBMacroCommand *mcmd = new KEBMacroCommand(cmdName);
     QString currentAddress = addr;
     QValueList<KBookmark> bookmarks = KBookmarkDrag::decode(data);
