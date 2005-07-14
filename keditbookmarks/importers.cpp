@@ -143,6 +143,15 @@ void ImportCommand::unexecute() {
     }
 }
 
+QString ImportCommand::affectedBookmarks() const
+{
+    QString rootAdr = CurrentMgr::self()->mgr()->root().address();
+    if(m_group == rootAdr)
+        return m_group;
+    else
+        return KBookmark::parentAddress(m_group);
+}
+
 /* -------------------------------------- */
 
 QString MozImportCommand::requestFilename() const {

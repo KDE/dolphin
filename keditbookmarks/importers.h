@@ -55,7 +55,7 @@ public:
 
    virtual void execute();
    virtual void unexecute();
-   virtual QString affectedBookmarks() const { return m_group; };
+   virtual QString affectedBookmarks() const;
 
    QString groupAddress() const { return m_group; }
    QString folder() const;
