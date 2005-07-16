@@ -61,7 +61,6 @@ KCMFilter::KCMFilter(KConfig *config, QString group,
     mListBox = new QListBox( topBox );
     mListBox->setSelectionMode(QListBox::Extended);
     QLabel *label = new QLabel( i18n("Expression (e.g. http://www.site.com/ad/*):"), topBox);
-    topLayout->addWidget(label);
     mString = new QLineEdit( topBox );
 
     QHBox *buttonBox = new QHBox( topBox );
