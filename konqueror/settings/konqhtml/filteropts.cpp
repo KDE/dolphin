@@ -60,7 +60,7 @@ KCMFilter::KCMFilter(KConfig *config, QString group,
 
     mListBox = new QListBox( topBox );
     mListBox->setSelectionMode(QListBox::Extended);
-    QLabel *label = new QLabel( i18n("Expression (e.g. http://www.site.com/ad/*):"), topBox);
+    new QLabel( i18n("Expression (e.g. http://www.site.com/ad/*):"), topBox);
     mString = new QLineEdit( topBox );
 
     QHBox *buttonBox = new QHBox( topBox );
@@ -73,9 +73,9 @@ KCMFilter::KCMFilter(KConfig *config, QString group,
     mRemoveButton = new QPushButton( i18n("Remove"), buttonBox );
     connect( mRemoveButton, SIGNAL( clicked() ), SLOT( removeFilter() ) );
 
-    mImportButton = new QPushButton(i18n("Import.."),buttonBox);
+    mImportButton = new QPushButton(i18n("Import..."),buttonBox);
     connect( mImportButton, SIGNAL( clicked() ), SLOT( importFilters() ) );
-    mExportButton = new QPushButton(i18n("Export.."),buttonBox);
+    mExportButton = new QPushButton(i18n("Export..."),buttonBox);
     connect( mExportButton, SIGNAL( clicked() ), SLOT( exportFilters() ) );
 
     connect( mEnableCheck, SIGNAL( clicked()), this, SLOT( slotEnableChecked()));
