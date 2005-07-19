@@ -201,7 +201,7 @@ void ListView::fixUpCurrent(const QString & address)
         for(it = mSelectedItems.begin(); it != end; ++it)
             if( lessAddress(it.key()->bookmark().address(), least))
                 least = it.key()->bookmark().address();
-        item = getItemAtAddress(least), true;
+        item = getItemAtAddress(least);
     }
     else
         item  = getItemAtAddress(address);
