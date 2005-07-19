@@ -39,6 +39,7 @@
   <Action name="bookmarks" />
   <Menu name="tools" >
    <text>&amp;Tools</text>
+   <WeakSeparator/>
    <Merge/>
   </Menu>
   <Menu noMerge="1" name="settings" >
