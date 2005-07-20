@@ -223,8 +223,7 @@ KEBApp::KEBApp(
     lbl->setBuddy(searchLineEdit);
     connect(resetQuickSearch, SIGNAL(activated()), searchLineEdit, SLOT(clear()));
 
-    QSplitter *splitter = new QSplitter(vsplitter);
-    ListView::createListViews(splitter);
+    ListView::createListViews(vsplitter);
     ListView::self()->initListViews();
     searchLineEdit->setListView(static_cast<KListView*>(ListView::self()->widget()));
     ListView::self()->setSearchLine(searchLineEdit);
