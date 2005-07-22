@@ -54,7 +54,7 @@ private:
         // Combo for the menus
         void fillMenuCombo( QComboBox * combo );
 
-        typedef enum { NOTHING = 0, WINDOWLISTMENU, DESKTOPMENU, APPMENU } menuChoice;
+        typedef enum { NOTHING = 0, WINDOWLISTMENU, DESKTOPMENU, APPMENU, BOOKMARKSMENU=12 } menuChoice;
         bool m_bHasMedia;
 };
 

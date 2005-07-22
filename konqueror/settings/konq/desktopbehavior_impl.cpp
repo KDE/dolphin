@@ -106,8 +106,8 @@ private:
 };
 
 
-
-static const char * s_choices[6] = { "", "WindowListMenu", "DesktopMenu", "AppMenu", "CustomMenu1", "CustomMenu2" };
+static const int choiceCount=7;
+static const char * s_choices[7] = { "", "WindowListMenu", "DesktopMenu", "AppMenu", "BookmarksMenu", "CustomMenu1", "CustomMenu2" };
 
 DesktopBehavior::DesktopBehavior(KConfig *config, QWidget *parent, const char * )
     : DesktopBehaviorBase( parent, "kcmkonq" ), g_pConfig(config)
@@ -267,6 +267,7 @@ void DesktopBehavior::fillMenuCombo( QComboBox * combo )
   combo->insertItem( i18n("Window List Menu") );
   combo->insertItem( i18n("Desktop Menu") );
   combo->insertItem( i18n("Application Menu") );
+  combo->insertItem( i18n("Bookmarks Menu") );
   combo->insertItem( i18n("Custom Menu 1") );
   combo->insertItem( i18n("Custom Menu 2") );
 }
@@ -306,15 +307,15 @@ void DesktopBehavior::load()
     g_pConfig->setGroup( "Mouse Buttons" );
     QString s;
     s = g_pConfig->readEntry( "Left", "" );
-    for ( int c = 0 ; c < 6 ; c ++ )
+    for ( int c = 0 ; c < choiceCount ; c ++ )
     if (s == s_choices[c])
       { leftComboBox->setCurrentItem( c ); break; }
     s = g_pConfig->readEntry( "Middle", "WindowListMenu" );
-    for ( int c = 0 ; c < 6 ; c ++ )
+    for ( int c = 0 ; c < choiceCount ; c ++ )
       if (s == s_choices[c])
       { middleComboBox->setCurrentItem( c ); break; }
     s = g_pConfig->readEntry( "Right", "DesktopMenu" );
-    for ( int c = 0 ; c < 6 ; c ++ )
+    for ( int c = 0 ; c < choiceCount ; c ++ )
       if (s == s_choices[c])
       { rightComboBox->setCurrentItem( c ); break; }
 
