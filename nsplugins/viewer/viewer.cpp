@@ -25,17 +25,20 @@
 
 #include <config.h>
 
+#include <kapplication.h>
 #include "nsplugin.h"
 
 #include <dcopclient.h>
-#include <kapplication.h>
 #include <kcmdlineargs.h>
 #include <kdebug.h>
 #include <kglobal.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qsocketnotifier.h>
+//Added by qt3to4:
+#include <QEvent>
+#include <Q3CString>
 #include <stdlib.h>
 #include <sys/resource.h>
 #include <sys/time.h>
@@ -77,7 +80,7 @@ static int x_errhandler(Display *dpy, XErrorEvent *error)
  * the "old style" and keep lot's of global vars. :-)
  */
 
-static QCString g_dcopId;
+static Q3CString g_dcopId;
 
 /**
  * parseCommandLine - get command line parameters
@@ -118,7 +121,7 @@ struct SocketNot
   XtInputId id;
 };
 
-QPtrList<SocketNot> _notifiers[3];
+Q3PtrList<SocketNot> _notifiers[3];
 
 /**
  * socketCallback - send event to the socket notifier
@@ -236,7 +239,8 @@ int main(int argc, char** argv)
    KXtApplication app(dpy, argc, argv, "nspluginviewer");
 #else
    kdDebug(1430) << "3 - create QXtEventLoop" << endl;
-   QXtEventLoop integrator( "nspluginviewer" );
+#warning QXtEventLoop is missing
+   // QXtEventLoop integrator( "nspluginviewer" );
    parseCommandLine(argc, argv);
    KLocale::setMainCatalogue("nsplugin");
 
@@ -277,7 +281,8 @@ int main(int argc, char** argv)
    }
 
    kdDebug(1430) << "6 - dcop->registerAs" << endl;
-   if (g_dcopId)
+#warning QByteArray -> !QByteArray.isEmpty
+   if (!g_dcopId.isEmpty())
       g_dcopId = dcop->registerAs( g_dcopId, false );
    else
       g_dcopId = dcop->registerAs("nspluginviewer");

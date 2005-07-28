@@ -18,10 +18,16 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qradiobutton.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QVBoxLayout>
+#include <Q3Frame>
+#include <QHBoxLayout>
+#include <QGridLayout>
 
 #include <kcolorbutton.h>
 #include <kcombobox.h>
@@ -46,7 +52,7 @@ KonqBgndDialog::KonqBgndDialog( QWidget* parent,
     setMainWidget( page );
     QVBoxLayout* mainLayout = new QVBoxLayout( page, 0, KDialog::spacingHint() );
 
-    m_buttonGroup = new QButtonGroup( i18n("Background"), page );
+    m_buttonGroup = new Q3ButtonGroup( i18n("Background"), page );
     m_buttonGroup->setColumnLayout( 0, Qt::Vertical );
     m_buttonGroup->layout()->setMargin( KDialog::marginHint() );
     m_buttonGroup->layout()->setSpacing( KDialog::spacingHint() );
@@ -89,18 +95,18 @@ KonqBgndDialog::KonqBgndDialog( QWidget* parent,
     //mainLayout->addLayout( hlay );
     QLabel* lbl = new QLabel( i18n("Preview"), page );
     hlay->addWidget( lbl );
-    QFrame* frame = new QFrame( page );
+    Q3Frame* frame = new Q3Frame( page );
     frame->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
-    frame->setFrameShape( QFrame::HLine );
-    frame->setFrameShadow( QFrame::Sunken );
+    frame->setFrameShape( Q3Frame::HLine );
+    frame->setFrameShadow( Q3Frame::Sunken );
     hlay->addWidget( frame );
 
     // preview frame
-    m_preview = new QFrame( page );
+    m_preview = new Q3Frame( page );
     m_preview->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
     m_preview->setMinimumSize( 370, 180 );
-    m_preview->setFrameShape( QFrame::Panel );
-    m_preview->setFrameShadow( QFrame::Raised );
+    m_preview->setFrameShape( Q3Frame::Panel );
+    m_preview->setFrameShadow( Q3Frame::Raised );
     mainLayout->addWidget( m_preview );
 
     if ( !pixmapFile.isEmpty() ) {

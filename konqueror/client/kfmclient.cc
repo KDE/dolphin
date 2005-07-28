@@ -24,6 +24,8 @@
 #include <unistd.h>
 
 #include <qdir.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include <kio/job.h>
 #include <kcmdlineargs.h>
@@ -47,6 +49,7 @@
 #include "kwin.h"
 
 #include <X11/Xlib.h>
+#include <QX11Info>
 
 static const char appName[] = "kfmclient";
 static const char programName[] = I18N_NOOP("kfmclient");
@@ -55,7 +58,7 @@ static const char description[] = I18N_NOOP("KDE tool for opening URLs from the 
 
 static const char version[] = "2.0";
 
-QCString clientApp::startup_id_str;
+Q3CString clientApp::startup_id_str;
 bool clientApp::m_ok;
 bool s_interactive = true;
 
@@ -230,8 +233,9 @@ static bool startNewKonqueror( QString url, QString mimetype, const QString& pro
 
 static int currentScreen()
 {
-    if( qt_xdisplay() != NULL )
-        return qt_xscreen();
+	QX11Info info;
+    if( QX11Info::display() != NULL )
+        return info.screen();
     // case when there's no KApplication instance
     const char* env = getenv( "DISPLAY" );
     if( env == NULL )
@@ -244,30 +248,32 @@ static int currentScreen()
 }
 
 // when reusing a preloaded konqy, make sure your always use a DCOP call which opens a profile !
-static QCString getPreloadedKonqy()
+static Q3CString getPreloadedKonqy()
 {
     KConfig cfg( QString::fromLatin1( "konquerorrc" ), true );
     cfg.setGroup( "Reusing" );
     if( cfg.readNumEntry( "MaxPreloadCount", 1 ) == 0 )
         return "";
     DCOPRef ref( "kded", "konqy_preloader" );
-    QCString ret;
+    Q3CString ret;
     if( ref.callExt( "getPreloadedKonqy", DCOPRef::NoEventLoop, 3000, currentScreen()).get( ret ))
 	return ret;
-    return QCString();
+    return Q3CString();
 }
 
 
-static QCString konqyToReuse( const QString& url, const QString& mimetype, const QString& profile )
+static DCOPCString konqyToReuse( const QString& url, const QString& mimetype, const QString& profile )
 { // prefer(?) preloaded ones
-    QCString ret = getPreloadedKonqy();
+    DCOPCString ret = getPreloadedKonqy();
     if( !ret.isEmpty())
         return ret;
     if( startNewKonqueror( url, mimetype, profile ))
         return "";
-    QCString appObj;
+    DCOPCString appObj;
     QByteArray data;
-    QDataStream str( data, IO_WriteOnly );
+    QDataStream str( &data, QIODevice::WriteOnly );
+
+    str.setVersion(QDataStream::Qt_3_1);
     str << currentScreen();
     if( !KApplication::dcopClient()->findObject( "konqueror*", "KonquerorIface",
              "processCanBeReused( int )", data, ret, appObj, false, 3000 ) )
@@ -314,9 +320,11 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, co
     cfg.setGroup( "FMSettings" );
     if ( newTab || cfg.readBoolEntry( "KonquerorTabforExternalURL", false ) )
     {
-        QCString foundApp, foundObj;
+        DCOPCString foundApp, foundObj;
         QByteArray data;
-        QDataStream str( data, IO_WriteOnly );
+        QDataStream str( &data, QIODevice::WriteOnly );
+
+        str.setVersion(QDataStream::Qt_3_1);
         if( KApplication::dcopClient()->findObject( "konqueror*", "konqueror-mainwindow*",
             "windowCanBeUsedForTab()", data, foundApp, foundObj, false, 3000 ) )
         {
@@ -329,7 +337,7 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, co
       }
     }
 
-    QCString appId = konqyToReuse( url.url(), mimetype, QString::null );
+    Q3CString appId = konqyToReuse( url.url(), mimetype, QString::null );
     if( !appId.isEmpty())
     {
         kdDebug( 1202 ) << "clientApp::createNewWindow using existing konqueror" << endl;
@@ -340,12 +348,12 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, co
         KStartupInfoData data;
         data.addPid( 0 );   // say there's another process for this ASN with unknown PID
         data.setHostname(); // ( no need to bother to get this konqy's PID )
-        Display* dpy = qt_xdisplay();
+        Display* dpy = QX11Info::display();
         if( dpy == NULL ) // we may be running without QApplication here
             dpy = XOpenDisplay( NULL );
         if( dpy != NULL )
             KStartupInfo::sendChangeX( dpy, id, data );
-        if( dpy != NULL && dpy != qt_xdisplay())
+        if( dpy != NULL && dpy != QX11Info::display())
             XCloseDisplay( dpy );
     }
     else
@@ -378,7 +386,7 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, co
 
 bool clientApp::openProfile( const QString & profileName, const QString & url, const QString & mimetype )
 {
-  QCString appId = konqyToReuse( url, mimetype, profileName );
+  Q3CString appId = konqyToReuse( url, mimetype, profileName );
   if( appId.isEmpty())
   {
     QString error;
@@ -411,12 +419,12 @@ bool clientApp::openProfile( const QString & profileName, const QString & url, c
   KStartupInfoData sidata;
   sidata.addPid( 0 );   // say there's another process for this ASN with unknown PID
   sidata.setHostname(); // ( no need to bother to get this konqy's PID )
-  Display* dpy = qt_xdisplay();
+  Display* dpy = QX11Info::display();
   if( dpy == NULL ) // we may be running without QApplication here
       dpy = XOpenDisplay( NULL );
   if( dpy != NULL )
       KStartupInfo::sendChangeX( dpy, id, sidata );
-  if( dpy != NULL && dpy != qt_xdisplay())
+  if( dpy != NULL && dpy != QX11Info::display())
       XCloseDisplay( dpy );
   return true;
 }
@@ -451,7 +459,7 @@ bool clientApp::doIt()
   if ( !args->isSet( "ninteractive" ) ) {
       s_interactive = false;
   }
-  QCString command = args->arg(0);
+  Q3CString command = args->arg(0);
 
   // read ASN env. variable for non-KApp cases
   startup_id_str = KStartupInfo::currentStartupIdEnv().id();

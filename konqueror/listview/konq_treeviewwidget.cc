@@ -24,7 +24,7 @@
 #include <kdirlister.h>
 #include <kdebug.h>
 
-template class QDict<KonqListViewDir>;
+template class Q3Dict<KonqListViewDir>;
 
 
 KonqTreeViewWidget::KonqTreeViewWidget( KonqListView *parent, QWidget *parentWidget)
@@ -59,7 +59,7 @@ bool KonqTreeViewWidget::openURL( const KURL &url )
 
    if ( m_pBrowserView->extension()->urlArgs().reload )
    {
-      QDictIterator<KonqListViewDir> it( m_dictSubDirs );
+      Q3DictIterator<KonqListViewDir> it( m_dictSubDirs );
       for (; it.current(); ++it )
          if ( it.current()->isOpen() )
             m_urlsToReload.append( it.current()->url( -1 ) );
@@ -79,7 +79,7 @@ void KonqTreeViewWidget::saveState( QDataStream &stream )
 {
     QStringList openDirList;
 
-    QDictIterator<KonqListViewDir> it( m_dictSubDirs );
+    Q3DictIterator<KonqListViewDir> it( m_dictSubDirs );
     for (; it.current(); ++it )
     {
         if ( it.current()->isOpen() )
@@ -148,7 +148,7 @@ void KonqTreeViewWidget::slotClear( const KURL & _url )
    if ( item )
    {
       // search all subdirs of _url (item)
-      QDictIterator<KonqListViewDir> it( m_dictSubDirs );
+      Q3DictIterator<KonqListViewDir> it( m_dictSubDirs );
       while ( it.current() )
       {
          if ( !_url.equals( it.currentKey(), true )
@@ -168,7 +168,7 @@ void KonqTreeViewWidget::slotClear( const KURL & _url )
       // the following code.
 
       // delete all child items, their fileitems are no longer valid
-      QListViewItem *child;
+      Q3ListViewItem *child;
       while ( (child = item->firstChild()) )
          delete child;
 
@@ -190,7 +190,7 @@ void KonqTreeViewWidget::slotRedirection( const KURL &oldUrl, const KURL &newUrl
 void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
 {
     // Find parent item - it's the same for all the items
-    QPtrListIterator<KFileItem> kit( entries );
+    Q3PtrListIterator<KFileItem> kit( entries );
     KURL dir( (*kit)->url().upURL() );
 
     KonqListViewDir *parentDir = 0L;

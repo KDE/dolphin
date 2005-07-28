@@ -22,10 +22,12 @@
 
 #include <qlistview.h>
 #include <qstringlist.h>
+#include <Q3ListViewItem>
+#include <Q3DragObject>
 #include <kurl.h>
 
 class QPainter;
-class QDragObject;
+class Q3DragObject;
 class QStrList;
 class KonqSidebarTree;
 class KonqSidebarTreeItem;
@@ -37,7 +39,7 @@ class KonqSidebarTreeTopLevelItem;
  * Items belonging to a given module are created and managed by the module,
  * but they should all be KonqSidebarTreeItems, for the event handling in KonqSidebarTree.
  */
-class KonqSidebarTreeItem : public QListViewItem
+class KonqSidebarTreeItem : public Q3ListViewItem
 {
 public:
     // Create an item under another one
@@ -48,14 +50,14 @@ public:
     virtual ~KonqSidebarTreeItem();
 
     // Whether the item accepts a drop consisting in those @p formats
-    virtual bool acceptsDrops( const QStrList & ) { return false; }
+    virtual bool acceptsDrops( const Q3StrList & ) { return false; }
 
     // Handle a drop on this item. If you didn't want it, you shouln't
     // have return true in acceptsDrops :)
     virtual void drop( QDropEvent * ) {}
 
     // Create a drag object from this item.
-    virtual QDragObject * dragObject( QWidget * parent, bool move = false ) = 0;
+    virtual Q3DragObject * dragObject( QWidget * parent, bool move = false ) = 0;
 
     virtual void middleButtonClicked();
     virtual void rightButtonPressed() = 0;

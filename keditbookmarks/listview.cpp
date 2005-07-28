@@ -30,10 +30,16 @@
 #include <stdlib.h>
 
 #include <qclipboard.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qpainter.h>
-#include <qheader.h>
-#include <qvaluevector.h>
+#include <q3header.h>
+//Added by qt3to4:
+#include <Q3PtrList>
+#include <QKeyEvent>
+#include <QEvent>
+#include <QDropEvent>
+#include <Q3ValueList>
+#include <Q3ValueVector>
 
 #include <klocale.h>
 #include <dcopclient.h>
@@ -52,6 +58,7 @@
 
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
+#include <q3tl.h>
 
 // #define DEBUG_ADDRESSES
 
@@ -75,7 +82,7 @@ ListView::~ListView() {
 void ListView::createListViews(QSplitter *splitter) {
     s_self = new ListView();
     self()->m_listView = new KEBListView(splitter, false);
-    splitter->setSizes(QValueList<int>() << 100 << 300);
+    splitter->setSizes(Q3ValueList<int>() << 100 << 300);
 }
 
 void ListView::initListViews() {
@@ -143,10 +150,9 @@ bool operator<(const KBookmark & first, const KBookmark & second) //FIXME Using 
 }
 
 
-
-QValueList<KBookmark> ListView::itemsToBookmarks(const QMap<KEBListViewItem *, bool> & items) const
+Q3ValueList<KBookmark> ListView::itemsToBookmarks(const QMap<KEBListViewItem *, bool> & items) const
 {
-    QValueList<KBookmark> bookmarks; //TODO optimize by using a QValueVector
+    Q3ValueList<KBookmark> bookmarks; //TODO optimize by using a Q3ValueVector
     QMap<KEBListViewItem *, bool>::const_iterator it = items.begin();
     QMap<KEBListViewItem *, bool>::const_iterator end = items.end();
     for( ; it!=end; ++it)
@@ -163,7 +169,7 @@ void ListView::invalidate(const QString & address)
     invalidate(getItemAtAddress(address));
 }
 
-void ListView::invalidate(QListViewItem * item)
+void ListView::invalidate(Q3ListViewItem * item)
 {
     if(item->isSelected())
     {
@@ -178,7 +184,7 @@ void ListView::invalidate(QListViewItem * item)
         m_needToFixUp = true;
     }
 
-    QListViewItem * child = item->firstChild();
+    Q3ListViewItem * child = item->firstChild();
     while(child)
     {
         //invalidate(child);
@@ -192,7 +198,7 @@ void ListView::fixUpCurrent(const QString & address)
         return;
     m_needToFixUp = false;
 
-    QListViewItem * item;
+    Q3ListViewItem * item;
     if(mSelectedItems.count() != 0)
     {
         QString least = mSelectedItems.begin().key()->bookmark().address();
@@ -264,11 +270,11 @@ void ListView::deselectAllChildren(KEBListViewItem *item)
     }
 }
 
-QValueList<QString> ListView::selectedAddresses()
+Q3ValueList<QString> ListView::selectedAddresses()
 {
-    QValueList<QString> addresses;
-    QValueList<KBookmark> bookmarks = itemsToBookmarks( selectedItemsMap() );
-    QValueList<KBookmark>::const_iterator it, end;
+    Q3ValueList<QString> addresses;
+    Q3ValueList<KBookmark> bookmarks = itemsToBookmarks( selectedItemsMap() );
+    Q3ValueList<KBookmark>::const_iterator it, end;
     end = bookmarks.end();
     for( it = bookmarks.begin(); it != end; ++it)
         addresses.append( (*it).address() );
@@ -276,9 +282,9 @@ QValueList<QString> ListView::selectedAddresses()
 }
 
 
-QValueList<KBookmark> ListView::selectedBookmarksExpanded() const {
-    QValueList<KBookmark> bookmarks;
-    for (QListViewItemIterator it(m_listView); it.current() != 0; ++it) {
+Q3ValueList<KBookmark> ListView::selectedBookmarksExpanded() const {
+    Q3ValueList<KBookmark> bookmarks;
+    for (Q3ListViewItemIterator it(m_listView); it.current() != 0; ++it) {
         if (!it.current()->isSelected())
             continue;
         if(it.current() == m_listView->firstChild()) // root case
@@ -291,8 +297,7 @@ QValueList<KBookmark> ListView::selectedBookmarksExpanded() const {
     return bookmarks;
 }
 
-
-void ListView::selectedBookmarksExpandedHelper(KEBListViewItem * item, QValueList<KBookmark> & bookmarks) const
+void ListView::selectedBookmarksExpandedHelper(KEBListViewItem * item, Q3ValueList<KBookmark> & bookmarks) const
 {
     KEBListViewItem* child = static_cast<KEBListViewItem *>(item->firstChild());
     while( child )
@@ -305,9 +310,9 @@ void ListView::selectedBookmarksExpandedHelper(KEBListViewItem * item, QValueLis
     }
 }
 
-QValueList<KBookmark> ListView::allBookmarks() const {
-    QValueList<KBookmark> bookmarks;
-    for (QListViewItemIterator it(m_listView); it.current() != 0; ++it)
+Q3ValueList<KBookmark> ListView::allBookmarks() const {
+    Q3ValueList<KBookmark> bookmarks;
+    for (Q3ListViewItemIterator it(m_listView); it.current() != 0; ++it)
     {
         KEBListViewItem * item = static_cast<KEBListViewItem *>(it.current());
         if (!item->isEmptyFolderPadder() && (item->childCount() == 0))
@@ -337,7 +342,7 @@ void ListView::setCurrent(KEBListViewItem *item, bool select) {
 
 KEBListViewItem* ListView::getItemAtAddress(const QString &address) const {
     //FIXME uses internal represantation of bookmark address
-    QListViewItem *item = m_listView->rootItem();
+    Q3ListViewItem *item = m_listView->rootItem();
 
     QStringList addresses = QStringList::split('/',address); // e.g /5/10/2
 
@@ -352,7 +357,7 @@ KEBListViewItem* ListView::getItemAtAddress(const QString &address) const {
 }
 
 void ListView::setOpen(bool open) {
-    for (QListViewItemIterator it(m_listView); it.current() != 0; ++it)
+    for (Q3ListViewItemIterator it(m_listView); it.current() != 0; ++it)
         if (it.current()->parent())
             it.current()->setOpen(open);
 }
@@ -377,7 +382,7 @@ SelcAbilities ListView::getSelectionAbilities() const {
     return sa;
 }
 
-void ListView::handleDropped(KEBListView *, QDropEvent *e, QListViewItem *newParent, QListViewItem *itemAfterQLVI) {
+void ListView::handleDropped(KEBListView *, QDropEvent *e, Q3ListViewItem *newParent, Q3ListViewItem *itemAfterQLVI) {
     bool inApp = (e->source() == m_listView->viewport());
 
     // drop before root item
@@ -452,7 +457,7 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
         lv->clear();
         KEBListViewItem *tree = new KEBListViewItem(lv, group);
         fillWithGroup(lv, group, tree);
-        tree->QListViewItem::setOpen(true);
+        tree->Q3ListViewItem::setOpen(true);
         if (s_selected_addresses.contains(tree->bookmark().address()))
             lv->setSelected(tree, true);
         if(!s_current_address.isNull() && s_current_address == tree->bookmark().address())
@@ -468,7 +473,7 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
                 : new KEBListViewItem(lv, lastItem, grp);
             fillWithGroup(lv, grp, item);
             if (grp.isOpen())
-                item->QListViewItem::setOpen(true);
+                item->Q3ListViewItem::setOpen(true);
             if (grp.first().isNull())
                 new KEBListViewItem(item, item); // empty folder
             lastItem = item;
@@ -516,7 +521,7 @@ void ListView::slotBkInfoUpdateListViewItem() {
     i->setText(KEBListView::CommentColumn, commentStr);
 }
 
-void ListView::handleContextMenu(KEBListView *, KListView *, QListViewItem *qitem, const QPoint &p) {
+void ListView::handleContextMenu(KEBListView *, KListView *, Q3ListViewItem *qitem, const QPoint &p) {
     KEBListViewItem *item = static_cast<KEBListViewItem *>(qitem);
     const char *type = ( !item
             || (item == m_listView->rootItem()) 
@@ -525,14 +530,14 @@ void ListView::handleContextMenu(KEBListView *, KListView *, QListViewItem *qite
         ? "popup_folder" : "popup_bookmark";
     QWidget* popup = KEBApp::self()->popupMenuFactory(type);
     if (popup)
-        static_cast<QPopupMenu*>(popup)->popup(p);
+        static_cast<Q3PopupMenu*>(popup)->popup(p);
 }
 
-void ListView::handleDoubleClicked(KEBListView *lv, QListViewItem *item, const QPoint &, int column) {
+void ListView::handleDoubleClicked(KEBListView *lv, Q3ListViewItem *item, const QPoint &, int column) {
     lv->rename(item, column);
 }
 
-void ListView::handleItemRenamed(KEBListView *lv, QListViewItem *item, const QString &newText, int column) {
+void ListView::handleItemRenamed(KEBListView *lv, Q3ListViewItem *item, const QString &newText, int column) {
     Q_ASSERT(item);
     KBookmark bk = static_cast<KEBListViewItem *>(item)->bookmark();
     KCommand *cmd = 0;
@@ -552,7 +557,7 @@ void ListView::handleItemRenamed(KEBListView *lv, QListViewItem *item, const QSt
         }
 
     } else if (column == KEBListView::CommentColumn && !lv->isFolderList()) {
-        if (NodeEditCommand::getNodeText(bk, "desc") != newText)
+        if (NodeEditCommand::getNodeText(bk, QStringList() << "desc") != newText)
             cmd = new NodeEditCommand(bk.address(), newText, "desc");
     }
     CmdHistory::self()->addCommand(cmd);
@@ -619,10 +624,10 @@ bool KeyPressEater::eventFilter(QObject *, QEvent *pe) {
     if (pe->type() == QEvent::KeyPress) {
         QKeyEvent *k = (QKeyEvent *) pe;
         if ((k->key() == Qt::Key_Backtab || k->key() == Qt::Key_Tab)
-                && !(k->state() & ControlButton || k->state() & AltButton)
+                && !(k->state() & Qt::ControlModifier || k->state() & Qt::AltModifier)
            ) {
             if (m_allowedToTab) {
-                bool fwd = (k->key() == Key_Tab && !(k->state() & ShiftButton));
+                bool fwd = (k->key() == Qt::Key_Tab && !(k->state() & Qt::ShiftModifier));
                 ListView::self()->renameNextCell(fwd);
             }
             return true;
@@ -695,14 +700,14 @@ void KEBListView::init() {
 void KEBListView::makeConnections() {
     connect(this, SIGNAL( moved() ),
             SLOT( slotMoved() ));
-    connect(this, SIGNAL( contextMenu(KListView *, QListViewItem*, const QPoint &) ),
-            SLOT( slotContextMenu(KListView *, QListViewItem *, const QPoint &) ));
-    connect(this, SIGNAL( itemRenamed(QListViewItem *, const QString &, int) ),
-            SLOT( slotItemRenamed(QListViewItem *, const QString &, int) ));
-    connect(this, SIGNAL( doubleClicked(QListViewItem *, const QPoint &, int) ),
-            SLOT( slotDoubleClicked(QListViewItem *, const QPoint &, int) ));
-    connect(this, SIGNAL( dropped(QDropEvent*, QListViewItem*, QListViewItem*) ),
-            SLOT( slotDropped(QDropEvent*, QListViewItem*, QListViewItem*) ));
+    connect(this, SIGNAL( contextMenu(KListView *, Q3ListViewItem*, const QPoint &) ),
+            SLOT( slotContextMenu(KListView *, Q3ListViewItem *, const QPoint &) ));
+    connect(this, SIGNAL( itemRenamed(Q3ListViewItem *, const QString &, int) ),
+            SLOT( slotItemRenamed(Q3ListViewItem *, const QString &, int) ));
+    connect(this, SIGNAL( doubleClicked(Q3ListViewItem *, const QPoint &, int) ),
+            SLOT( slotDoubleClicked(Q3ListViewItem *, const QPoint &, int) ));
+    connect(this, SIGNAL( dropped(QDropEvent*, Q3ListViewItem*, Q3ListViewItem*) ),
+            SLOT( slotDropped(QDropEvent*, Q3ListViewItem*, Q3ListViewItem*) ));
 }
 
 void KEBListView::readonlyFlagInit(bool readonly) {
@@ -714,16 +719,16 @@ void KEBListView::readonlyFlagInit(bool readonly) {
 
 void KEBListView::slotMoved() 
 { ListView::self()->handleMoved(this); }
-void KEBListView::slotContextMenu(KListView *a, QListViewItem *b, const QPoint &c) 
+void KEBListView::slotContextMenu(KListView *a, Q3ListViewItem *b, const QPoint &c) 
 { ListView::self()->handleContextMenu(this, a,b,c); }
-void KEBListView::slotItemRenamed(QListViewItem *a, const QString &b, int c) 
+void KEBListView::slotItemRenamed(Q3ListViewItem *a, const QString &b, int c) 
 { ListView::self()->handleItemRenamed(this, a,b,c); }
-void KEBListView::slotDoubleClicked(QListViewItem *a, const QPoint &b, int c) 
+void KEBListView::slotDoubleClicked(Q3ListViewItem *a, const QPoint &b, int c) 
 { ListView::self()->handleDoubleClicked(this, a,b,c); }
-void KEBListView::slotDropped(QDropEvent *a, QListViewItem *b, QListViewItem *c) 
+void KEBListView::slotDropped(QDropEvent *a, Q3ListViewItem *b, Q3ListViewItem *c) 
 { ListView::self()->handleDropped(this, a,b,c); }
 
-void KEBListView::rename(QListViewItem *qitem, int column) {
+void KEBListView::rename(Q3ListViewItem *qitem, int column) {
     KEBListViewItem *item = static_cast<KEBListViewItem *>(qitem);
     if ( !(column == NameColumn || column == UrlColumn || column == CommentColumn)
             || KEBApp::self()->readonly()
@@ -747,7 +752,7 @@ KEBListViewItem* KEBListView::rootItem() const {
 
 // Update display of bookmarks containing URL
 void KEBListView::updateByURL(QString url) {
-    for (QListViewItemIterator it(this); it.current(); it++) {
+    for (Q3ListViewItemIterator it(this); it.current(); it++) {
         KEBListViewItem *p = static_cast<KEBListViewItem *>(it.current());
         if (p->text(1) == url) {
             p->modUpdate();
@@ -759,8 +764,8 @@ bool KEBListView::acceptDrag(QDropEvent * e) const {
     return (e->source() == viewport() || KBookmarkDrag::canDecode(e));
 }
 
-QDragObject *KEBListView::dragObject() {
-    QValueList<KBookmark> bookmarks = 
+Q3DragObject *KEBListView::dragObject() {
+    Q3ValueList<KBookmark> bookmarks = 
         ListView::self()->itemsToBookmarks(ListView::self()->selectedItemsMap());
     KBookmarkDrag *drag = KBookmarkDrag::newDrag(bookmarks, viewport());
     const QString iconname = 
@@ -771,10 +776,10 @@ QDragObject *KEBListView::dragObject() {
 
 /* -------------------------------------- */
 
-bool KEBListViewItem::parentSelected(QListViewItem * item)
+bool KEBListViewItem::parentSelected(Q3ListViewItem * item)
 {
-    QListViewItem *root = item->listView()->firstChild();
-    for( QListViewItem *parent = item->parent(); parent ; parent = parent->parent())
+    Q3ListViewItem *root = item->listView()->firstChild();
+    for( Q3ListViewItem *parent = item->parent(); parent ; parent = parent->parent())
         if (parent->isSelected() && parent != root)
             return true;
     return false;
@@ -791,14 +796,14 @@ void KEBListViewItem::setSelected(bool s)
     if(listView()->firstChild() == this)
     {
         ListView::self()->selected(this, s);
-        QListViewItem::setSelected( s );
+        Q3ListViewItem::setSelected( s );
         return;
     }
 
     if(s == false)
     {
         ListView::self()->selected(this, false);
-        QListViewItem::setSelected( false );
+        Q3ListViewItem::setSelected( false );
         ListView::deselectAllChildren( this ); //repaints
     }
     else if(parentSelected(this))
@@ -806,7 +811,7 @@ void KEBListViewItem::setSelected(bool s)
     else
     {
         ListView::self()->selected(this, true);
-        QListViewItem::setSelected( true );
+        Q3ListViewItem::setSelected( true );
         ListView::deselectAllChildren(this);
     }
 }
@@ -815,7 +820,7 @@ void KEBListViewItem::normalConstruct(const KBookmark &bk) {
 #ifdef DEBUG_ADDRESSES
     setText(KEBListView::AddressColumn, bk.address());
 #endif
-    setText(KEBListView::CommentColumn, NodeEditCommand::getNodeText(bk, "desc"));
+    setText(KEBListView::CommentColumn, NodeEditCommand::getNodeText(bk, QStringList() << "desc"));
     bool shown = CmdGen::shownInToolbar(bk);
     setPixmap(0, SmallIcon(shown ? QString("bookmark_toolbar") : bk.icon()));
     // DESIGN - modUpdate badly needs a redesign
@@ -825,8 +830,8 @@ void KEBListViewItem::normalConstruct(const KBookmark &bk) {
 // DESIGN - following constructors should be names classes or else just explicit
 
 // toplevel item (there should be only one!)
-KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmarkGroup &gp)
-    : QListViewItem(parent, KEBApp::self()->caption().isNull() 
+KEBListViewItem::KEBListViewItem(Q3ListView *parent, const KBookmarkGroup &gp)
+    : Q3ListViewItem(parent, KEBApp::self()->caption().isNull() 
                                 ? i18n("Bookmarks")
                                 : i18n("%1 Bookmarks").arg(KEBApp::self()->caption())), 
     m_bookmark(gp), m_emptyFolderPadder(false) {
@@ -836,39 +841,39 @@ KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmarkGroup &gp)
 }
 
 // empty folder item
-KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after)
-    : QListViewItem(parent, after, i18n("Empty Folder") ), m_emptyFolderPadder(true) {
+KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, Q3ListViewItem *after)
+    : Q3ListViewItem(parent, after, i18n("Empty Folder") ), m_emptyFolderPadder(true) {
     setPixmap(0, SmallIcon("bookmark"));
 }
 
 // group
-KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmarkGroup &gp)
-    : QListViewItem(parent, after, gp.fullText()), m_bookmark(gp), m_emptyFolderPadder(false) {
+KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, Q3ListViewItem *after, const KBookmarkGroup &gp)
+    : Q3ListViewItem(parent, after, gp.fullText()), m_bookmark(gp), m_emptyFolderPadder(false) {
     setExpandable(true);
     normalConstruct(gp);
 }
 
 // bookmark (first of its group)
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, const KBookmark & bk)
-    : QListViewItem(parent, bk.fullText(), bk.url().pathOrURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
+    : Q3ListViewItem(parent, bk.fullText(), bk.url().pathOrURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
     normalConstruct(bk);
 }
 
 // bookmark (after another)
-KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmark &bk)
-    : QListViewItem(parent, after, bk.fullText(), bk.url().pathOrURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
+KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, Q3ListViewItem *after, const KBookmark &bk)
+    : Q3ListViewItem(parent, after, bk.fullText(), bk.url().pathOrURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
     normalConstruct(bk);
 }
 
 // root bookmark (first of its group)
-KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark & bk)
-    : QListViewItem(parent, bk.fullText(), bk.url().pathOrURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
+KEBListViewItem::KEBListViewItem(Q3ListView *parent, const KBookmark & bk)
+    : Q3ListViewItem(parent, bk.fullText(), bk.url().pathOrURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
     normalConstruct(bk);
 }
 
 // root bookmark (after another)
-KEBListViewItem::KEBListViewItem(QListView *parent, QListViewItem *after, const KBookmark &bk)
-    : QListViewItem(parent, after, bk.fullText(), bk.url().pathOrURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
+KEBListViewItem::KEBListViewItem(Q3ListView *parent, Q3ListViewItem *after, const KBookmark &bk)
+    : Q3ListViewItem(parent, after, bk.fullText(), bk.url().pathOrURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
     normalConstruct(bk);
 }
 
@@ -877,7 +882,7 @@ void KEBListViewItem::setOpen(bool open) {
     if (!parent())
         return;
     m_bookmark.internalElement().setAttribute("folded", open ? "no" : "yes");
-    QListViewItem::setOpen(open);
+    Q3ListViewItem::setOpen(open);
 }
 
 void KEBListViewItem::greyStyle(QColorGroup &cg) {
@@ -932,7 +937,7 @@ void KEBListViewItem::paintCell(QPainter *p, const QColorGroup &ocg, int col, in
         }
     }
 
-    QListViewItem::paintCell(p, cg, col, w,a);
+    Q3ListViewItem::paintCell(p, cg, col, w,a);
 }
 
 #include "listview.moc"

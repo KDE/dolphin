@@ -21,12 +21,12 @@
 #define SHELLCOMMANDEXECUTOR_H
 
 #include <qstring.h>
-#include <qtextview.h>
+#include <q3textview.h>
 
 class PtyProcess;
 class QSocketNotifier;
 
-class KShellCommandExecutor:public QTextView
+class KShellCommandExecutor:public Q3TextView
 {
    Q_OBJECT
    public:

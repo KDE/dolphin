@@ -30,6 +30,8 @@
 #include <zlib.h>
 
 #include "konqbookmarkmanager.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 const Q_UINT32 KonqHistoryManager::s_historyVersion = 3;
 
@@ -43,7 +45,7 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cs( config, "HistorySettings" );
     m_maxCount = config->readNumEntry( "Maximum of History entries", 500 );
-    m_maxCount = QMAX( 1, m_maxCount );
+    m_maxCount = QMAX( (Q_UINT32)1, m_maxCount );
     m_maxAgeDays = config->readNumEntry( "Maximum age of History entries", 90);
 
     m_history.setAutoDelete( true );
@@ -85,7 +87,7 @@ bool KonqHistoryManager::loadHistory()
     m_pCompletion->clear();
 
     QFile file( m_filename );
-    if ( !file.open( IO_ReadOnly ) ) {
+    if ( !file.open( QIODevice::ReadOnly ) ) {
 	if ( file.exists() )
 	    kdWarning() << "Can't open " << file.name() << endl;
 
@@ -99,7 +101,7 @@ bool KonqHistoryManager::loadHistory()
     QByteArray data; // only used for version == 2
     // we construct the stream object now but fill in the data later.
     // thanks to QBA's explicit sharing this works :)
-    QDataStream crcStream( data, IO_ReadOnly );
+    QDataStream crcStream( data );
 
     if ( !fileStream.atEnd() ) {
 	Q_UINT32 version;
@@ -209,12 +211,12 @@ bool KonqHistoryManager::saveHistory()
     *fileStream << s_historyVersion;
 
     QByteArray data;
-    QDataStream stream( data, IO_WriteOnly );
+    QDataStream stream( &data, QIODevice::WriteOnly );
 
     //We use KURL for marshalling URLs in entries in the V3
     //file format
     KonqHistoryEntry::marshalURLAsStrings = false;
-    QPtrListIterator<KonqHistoryEntry> it( m_history );
+    Q3PtrListIterator<KonqHistoryEntry> it( m_history );
     KonqHistoryEntry *entry;
     while ( (entry = it.current()) ) {
         stream << *entry;
@@ -300,7 +302,7 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& _url,
 
     // always remove from pending if available, otherwise the else branch leaks
     // if the map already contains an entry for this key.
-    QMapIterator<QString,KonqHistoryEntry*> it = m_pending.find( u );
+    QMap<QString,KonqHistoryEntry*>::iterator it = m_pending.find( u );
     if ( it != m_pending.end() ) {
         delete it.data();
         m_pending.remove( it );
@@ -350,7 +352,7 @@ void KonqHistoryManager::insert( const QString& url )
 void KonqHistoryManager::emitAddToHistory( const KonqHistoryEntry& entry )
 {
     QByteArray data;
-    QDataStream stream( data, IO_WriteOnly );
+    QDataStream stream( &data, QIODevice::WriteOnly );
     stream << entry << objId();
     kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
 			      "notifyHistoryEntry(KonqHistoryEntry, QCString)",
@@ -365,7 +367,7 @@ void KonqHistoryManager::removePending( const KURL& url )
     if ( url.isLocalFile() )
 	return;
 
-    QMapIterator<QString,KonqHistoryEntry*> it = m_pending.find( url.prettyURL() );
+    QMap<QString,KonqHistoryEntry*>::iterator it = m_pending.find( url.prettyURL() );
     if ( it != m_pending.end() ) {
 	KonqHistoryEntry *oldEntry = it.data(); // the old entry, may be 0L
 	emitRemoveFromHistory( url ); // remove the current pending entry
@@ -381,7 +383,7 @@ void KonqHistoryManager::removePending( const KURL& url )
 // clears the pending list and makes sure the entries get deleted.
 void KonqHistoryManager::clearPending()
 {
-    QMapIterator<QString,KonqHistoryEntry*> it = m_pending.begin();
+    QMap<QString,KonqHistoryEntry*>::iterator it = m_pending.begin();
     while ( it != m_pending.end() ) {
 	delete it.data();
 	++it;
@@ -392,7 +394,7 @@ void KonqHistoryManager::clearPending()
 void KonqHistoryManager::emitRemoveFromHistory( const KURL& url )
 {
     QByteArray data;
-    QDataStream stream( data, IO_WriteOnly );
+    QDataStream stream( &data, QIODevice::WriteOnly );
     stream << url << objId();
     kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
 			      "notifyRemove(KURL, QCString)", data );
@@ -401,7 +403,7 @@ void KonqHistoryManager::emitRemoveFromHistory( const KURL& url )
 void KonqHistoryManager::emitRemoveFromHistory( const KURL::List& urls )
 {
     QByteArray data;
-    QDataStream stream( data, IO_WriteOnly );
+    QDataStream stream( &data, QIODevice::WriteOnly );
     stream << urls << objId();
     kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
 			      "notifyRemove(KURL::List, QCString)", data );
@@ -410,7 +412,7 @@ void KonqHistoryManager::emitRemoveFromHistory( const KURL::List& urls )
 void KonqHistoryManager::emitClear()
 {
     QByteArray data;
-    QDataStream stream( data, IO_WriteOnly );
+    QDataStream stream( &data, QIODevice::WriteOnly );
     stream << objId();
     kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
 			      "notifyClear(QCString)", data );
@@ -419,7 +421,7 @@ void KonqHistoryManager::emitClear()
 void KonqHistoryManager::emitSetMaxCount( Q_UINT32 count )
 {
     QByteArray data;
-    QDataStream stream( data, IO_WriteOnly );
+    QDataStream stream( &data, QIODevice::WriteOnly );
     stream << count << objId();
     kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
 			      "notifyMaxCount(Q_UINT32, QCString)", data );
@@ -428,7 +430,7 @@ void KonqHistoryManager::emitSetMaxCount( Q_UINT32 count )
 void KonqHistoryManager::emitSetMaxAge( Q_UINT32 days )
 {
     QByteArray data;
-    QDataStream stream( data, IO_WriteOnly );
+    QDataStream stream( &data, QIODevice::WriteOnly );
     stream << days << objId();
     kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
 			      "notifyMaxAge(Q_UINT32, QCString)", data );
@@ -438,7 +440,7 @@ void KonqHistoryManager::emitSetMaxAge( Q_UINT32 days )
 // DCOP called methods
 
 void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
-					     QCString  )
+					     Q3CString  )
 {
     //kdDebug(1203) << "Got new entry from Broadcast: " << e.url.prettyURL() << endl;
 
@@ -484,7 +486,7 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
     emit entryAdded( entry );
 }
 
-void KonqHistoryManager::notifyMaxCount( Q_UINT32 count, QCString )
+void KonqHistoryManager::notifyMaxCount( Q_UINT32 count, Q3CString )
 {
     m_maxCount = count;
     clearPending();
@@ -500,7 +502,7 @@ void KonqHistoryManager::notifyMaxCount( Q_UINT32 count, QCString )
     }
 }
 
-void KonqHistoryManager::notifyMaxAge( Q_UINT32 days, QCString  )
+void KonqHistoryManager::notifyMaxAge( Q_UINT32 days, Q3CString  )
 {
     m_maxAgeDays = days;
     clearPending();
@@ -516,7 +518,7 @@ void KonqHistoryManager::notifyMaxAge( Q_UINT32 days, QCString  )
     }
 }
 
-void KonqHistoryManager::notifyClear( QCString )
+void KonqHistoryManager::notifyClear( Q3CString )
 {
     clearPending();
     m_history.clear();
@@ -528,7 +530,7 @@ void KonqHistoryManager::notifyClear( QCString )
     KParts::HistoryProvider::clear(); // also emits the cleared() signal
 }
 
-void KonqHistoryManager::notifyRemove( KURL url, QCString )
+void KonqHistoryManager::notifyRemove( KURL url, Q3CString )
 {
     kdDebug(1203) << "#### Broadcast: remove entry:: " << url.prettyURL() << endl;
     
@@ -552,7 +554,7 @@ void KonqHistoryManager::notifyRemove( KURL url, QCString )
     }
 }
 
-void KonqHistoryManager::notifyRemove( KURL::List urls, QCString )
+void KonqHistoryManager::notifyRemove( KURL::List urls, Q3CString )
 {
     kdDebug(1203) << "#### Broadcast: removing list!" << endl;
 
@@ -711,8 +713,8 @@ KonqHistoryEntry * KonqHistoryList::findEntry( const KURL& url )
 }
 
 // sort by lastVisited date (oldest go first)
-int KonqHistoryList::compareItems( QPtrCollection::Item item1,
-				   QPtrCollection::Item item2 )
+int KonqHistoryList::compareItems( Q3PtrCollection::Item item1,
+				   Q3PtrCollection::Item item2 )
 {
     KonqHistoryEntry *entry1 = static_cast<KonqHistoryEntry *>( item1 );
     KonqHistoryEntry *entry2 = static_cast<KonqHistoryEntry *>( item2 );

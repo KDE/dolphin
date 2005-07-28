@@ -23,10 +23,12 @@
 #include <qlayout.h>
 #include <qregexp.h>
 #include <qcheckbox.h>
-#include <qwhatsthis.h>
-#include <qbuttongroup.h>
+#include <q3whatsthis.h>
+#include <q3buttongroup.h>
 #include <qradiobutton.h>
 #include <qtabwidget.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
 
 #include <klocale.h>
 #include <klineedit.h>

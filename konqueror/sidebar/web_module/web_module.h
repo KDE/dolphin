@@ -82,7 +82,7 @@ class KHTMLSideBar : public KHTMLPart
 		virtual void urlSelected( const QString &url, int button,
 				int state, const QString &_target,
 				KParts::URLArgs args = KParts::URLArgs()) {
-			if (button == LeftButton ){
+			if (button == Qt::LeftButton ){
 				if (_target.lower() == "_self") {
 					openURL(url);
 				} else if (_target.lower() == "_blank") {
@@ -92,7 +92,7 @@ class KHTMLSideBar : public KHTMLPart
 				}
 				return;
 			}
-			if (button == MidButton) {
+			if (button == Qt::MidButton) {
 				emit openURLNewWindow(completeURL(url).url(),
 						args);
 				return;
@@ -134,7 +134,7 @@ class KHTMLSideBar : public KHTMLPart
 			QString t = target.lower();
 			QString u;
 
-			if (QCString(action).lower() != "post") {
+			if (Q3CString(action).lower() != "post") {
 				// GET
 				KURL kurl = completeURL(url);
 				kurl.setQuery(formData.data());

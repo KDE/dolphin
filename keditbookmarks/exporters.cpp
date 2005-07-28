@@ -25,14 +25,16 @@
 #include <kapplication.h>
 
 #include <qfile.h>
+//Added by qt3to4:
+#include <QTextStream>
 
 HTMLExporter::HTMLExporter() 
-    : m_out(&m_string, IO_WriteOnly) {
+    : m_out(&m_string, QIODevice::WriteOnly) {
 }
 
 void HTMLExporter::write(const KBookmarkGroup &grp, const QString &filename, bool showAddress) {
     QFile file(filename);
-    if (!file.open(IO_WriteOnly)) {
+    if (!file.open(QIODevice::WriteOnly)) {
         kdError(7043) << "Can't write to file " << filename << endl;
         return;
     }

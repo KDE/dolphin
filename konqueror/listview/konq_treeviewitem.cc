@@ -57,7 +57,7 @@ void KonqListViewDir::open( bool _open, bool _reload )
         KFileItemList lst;
         lst.setAutoDelete( false );
 
-        QListViewItem* it = firstChild();
+        Q3ListViewItem* it = firstChild();
         while ( it )
         {
           lst.append( static_cast<KonqListViewItem*>(it)->item() );
@@ -72,7 +72,7 @@ void KonqListViewDir::open( bool _open, bool _reload )
     {
       treeView->stopListingSubFolder( this );
 
-      QListViewItem* it = firstChild();
+      Q3ListViewItem* it = firstChild();
       while ( it )
       {
         // unselect the items in the closed folder
@@ -84,7 +84,7 @@ void KonqListViewDir::open( bool _open, bool _reload )
       }
     }
 
-    QListViewItem::setOpen( _open );
+    Q3ListViewItem::setOpen( _open );
     treeView->slotOnViewport();
   }
 }

@@ -25,7 +25,7 @@
 #include <qnamespace.h>
 #include <qobject.h>
 #include <qmap.h>
-#include <qguardedptr.h>
+#include <qpointer.h>
 
 #include <ktrader.h>
 
@@ -351,7 +351,7 @@ private:
 
   KonqFrameBase *m_pDocContainer;
 
-  QGuardedPtr<KActionMenu> m_pamProfiles;
+  QPointer<KActionMenu> m_pamProfiles;
   bool m_bProfileListDirty;
   bool m_bLoadingProfile;
   QString m_currentProfile;

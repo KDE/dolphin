@@ -91,7 +91,7 @@ void KonqSidebarHistoryItem::rightButtonPressed()
     MYMODULE->showPopupMenu();
 }
 
-QDragObject * KonqSidebarHistoryItem::dragObject( QWidget * parent, bool /*move*/ )
+Q3DragObject * KonqSidebarHistoryItem::dragObject( QWidget * parent, bool /*move*/ )
 {
     QString icon = KonqFavIconMgr::iconForURL( m_entry->url.url() );
     KBookmark bookmark = KBookmark::standaloneBookmark( m_entry->title,
@@ -187,7 +187,7 @@ void KonqSidebarHistoryGroupItem::remove()
 
 KonqSidebarHistoryItem * KonqSidebarHistoryGroupItem::findChild(const KonqHistoryEntry *entry) const
 {
-    QListViewItem *child = firstChild();
+    Q3ListViewItem *child = firstChild();
     KonqSidebarHistoryItem *item = 0L;
 
     while ( child ) {
@@ -236,7 +236,7 @@ void KonqSidebarHistoryGroupItem::itemUpdated( KonqSidebarHistoryItem *item )
 	m_lastVisited = item->lastVisited();
 }
 
-QDragObject * KonqSidebarHistoryGroupItem::dragObject( QWidget *parent, bool /*move*/)
+Q3DragObject * KonqSidebarHistoryGroupItem::dragObject( QWidget *parent, bool /*move*/)
 {
     QString icon = KonqFavIconMgr::iconForURL( m_url.url() );
     KBookmark bookmark = KBookmark::standaloneBookmark( QString::null, m_url,

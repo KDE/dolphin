@@ -31,7 +31,7 @@
 
 #include "policydlg.h"
 
-class QListViewItem;
+class Q3ListViewItem;
 
 class DCOPClient;
 class KCookiesPolicyDlgUI;
@@ -75,7 +75,7 @@ private:
     int d_itemsSelected;
     bool d_configChanged;
     KCookiesPolicyDlgUI* dlg;
-    QMap<QListViewItem*, const char*> m_pDomainPolicy;
+    QMap<Q3ListViewItem*, const char*> m_pDomainPolicy;
 };
 
 #endif // __KCOOKIESPOLICIES_H

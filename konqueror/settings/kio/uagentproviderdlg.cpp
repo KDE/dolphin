@@ -18,9 +18,12 @@
 
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qlistbox.h>
-#include <qwhatsthis.h>
+#include <q3listbox.h>
+#include <q3whatsthis.h>
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QKeyEvent>
 
 #include <kdebug.h>
 #include <klocale.h>
@@ -94,7 +97,7 @@ void UAProviderDlg::init()
   dlg->cbAlias->clear();
   dlg->cbAlias->insertStringList( m_provider->userAgentAliasList() );
   dlg->cbAlias->insertItem( "", 0 );
-  dlg->cbAlias->listBox()->sort();
+  dlg->cbAlias->model()->sort( 0 );
 
   dlg->leSite->setFocus();
 }
@@ -121,8 +124,9 @@ void UAProviderDlg::setSiteName( const QString& text )
 
 void UAProviderDlg::setIdentity( const QString& text )
 {
-  int id = dlg->cbAlias->listBox()->index( dlg->cbAlias->listBox()->findItem(text) );
-  dlg->cbAlias->setCurrentItem( id );
+  int id = dlg->cbAlias->findText( text );
+  if ( id != -1 )
+     dlg->cbAlias->setCurrentItem( id );
   slotActivated( dlg->cbAlias->currentText() );
   if ( !dlg->leSite->isEnabled() )
     dlg->cbAlias->setFocus();

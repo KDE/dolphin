@@ -23,12 +23,14 @@
 #include "konq_mainwindow.h"
 #include "konq_factory.h"
 
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qstring.h>
 #include <qobject.h>
 #include <qstringlist.h>
-#include <qguardedptr.h>
-#include <qcstring.h>
+#include <qpointer.h>
+#include <q3cstring.h>
+//Added by qt3to4:
+#include <QEvent>
 
 #include <ktrader.h>
 
@@ -154,7 +156,7 @@ public:
   /**
    * @return the history of this view
    */
-  const QPtrList<HistoryEntry> & history() { return m_lstHistory; }
+  const Q3PtrList<HistoryEntry> & history() { return m_lstHistory; }
 
   /**
    * @return the HistoryEntry at postion @p pos
@@ -428,7 +430,7 @@ private:
    * The full history (back + current + forward)
    * The current position in the history is m_lstHistory.current()
    */
-  QPtrList<HistoryEntry> m_lstHistory;
+  Q3PtrList<HistoryEntry> m_lstHistory;
 
   /**
    * The post data that _resulted_ in this page.

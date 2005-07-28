@@ -22,7 +22,11 @@
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qwhatsthis.h>
+
+//Added by qt3to4:
+#include <QGridLayout>
+#include <Q3CString>
+#include <QDesktopWidget>
 
 #include <dcopclient.h>
 
@@ -62,8 +66,8 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     lay->addMultiCellWidget(m_pStandard,row,row,1,1);
 
     wtstr = i18n("This is the font used to display text in Konqueror windows.");
-    QWhatsThis::add( label, wtstr );
-    QWhatsThis::add( m_pStandard, wtstr );
+    label->setWhatsThis( wtstr );
+    m_pStandard->setWhatsThis( wtstr );
 
     row++;
     connect( m_pStandard, SIGNAL( activated(const QString&) ),
@@ -85,9 +89,9 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     row+=2;
 
     wtstr = i18n("This is the font size used to display text in Konqueror windows.");
-    QWhatsThis::add( label, wtstr );
-    QWhatsThis::add( m_pSize, wtstr );
-    int hAlign = QApplication::reverseLayout() ? AlignRight : AlignLeft;
+    label->setWhatsThis( wtstr );
+    m_pSize->setWhatsThis( wtstr );
+    Qt::AlignmentFlag hAlign = QApplication::reverseLayout() ? Qt::AlignRight : Qt::AlignLeft;
 
     //
 #define COLOR_BUTTON_COL 1
@@ -97,8 +101,8 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     lay->addWidget(m_pNormalText,row,COLOR_BUTTON_COL,hAlign);
 
     wtstr = i18n("This is the color used to display text in Konqueror windows.");
-    QWhatsThis::add( label, wtstr );
-    QWhatsThis::add( m_pNormalText, wtstr );
+    label->setWhatsThis( wtstr );
+    m_pNormalText->setWhatsThis( wtstr );
 
     connect( m_pNormalText, SIGNAL( changed( const QColor & ) ),
              SLOT( slotNormalTextColorChanged( const QColor & ) ) );
@@ -132,8 +136,8 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
         lay->addWidget(m_pTextBackground,row,COLOR_BUTTON_COL,hAlign);
 
         wtstr = i18n("This is the color used behind the text for the icons on the desktop.");
-        QWhatsThis::add( label, wtstr );
-        QWhatsThis::add( m_pTextBackground, wtstr );
+        label->setWhatsThis( wtstr );
+        m_pTextBackground->setWhatsThis( wtstr );
 
         connect( m_pTextBackground, SIGNAL( changed( const QColor & ) ),
                  SLOT( slotTextBackgroundColorChanged( const QColor & ) ) );
@@ -154,8 +158,8 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
         QString thwt = i18n("This is the maximum number of lines that can be"
                             " used to draw icon text. Long file names are"
                             " truncated at the end of the last line.");
-        QWhatsThis::add( label, thwt );
-        QWhatsThis::add( m_pNbLines, thwt );
+        label->setWhatsThis( thwt );
+        m_pNbLines->setWhatsThis( thwt );
 
         row++;
 
@@ -171,8 +175,8 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
 
         thwt = i18n( "This is the maximum width for the icon text when konqueror "
                      "is used in multi column view mode." );
-        QWhatsThis::add( label, thwt );
-        QWhatsThis::add( m_pNbWidth, thwt );
+        label->setWhatsThis( thwt );
+        m_pNbWidth->setWhatsThis( thwt );
 
         row++;
     }
@@ -181,7 +185,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     lay->addMultiCellWidget(cbUnderline,row,row,0,LASTCOLUMN,hAlign);
     connect(cbUnderline, SIGNAL(clicked()), this, SLOT(changed()));
 
-    QWhatsThis::add( cbUnderline, i18n("Checking this option will result in filenames"
+    cbUnderline->setWhatsThis( i18n("Checking this option will result in filenames"
                                        " being underlined, so that they look like links on a web page. Note:"
                                        " to complete the analogy, make sure that single click activation is"
                                        " enabled in the mouse control module.") );
@@ -194,7 +198,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
         lay->addMultiCellWidget( m_pSizeInBytes,row,row,0,LASTCOLUMN,hAlign );
         connect( m_pSizeInBytes, SIGNAL(clicked()), this, SLOT(changed()) );
 
-        QWhatsThis::add( m_pSizeInBytes, i18n("Checking this option will result in file sizes"
+        m_pSizeInBytes->setWhatsThis( i18n("Checking this option will result in file sizes"
                                               " being displayed in bytes. Otherwise file sizes are"
                                               " being displayed in kilobytes or megabytes if appropriate.") );
     }
@@ -342,7 +346,7 @@ void KonqFontOptions::save()
 
     // Tell kdesktop about the new config file
     int konq_screen_number = KApplication::desktop()->primaryScreen();
-    QCString appname;
+    Q3CString appname;
     if (konq_screen_number == 0)
         appname = "kdesktop";
     else

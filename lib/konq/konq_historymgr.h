@@ -22,10 +22,12 @@
 
 #include <qdatastream.h>
 #include <qfile.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qobject.h>
 #include <qmap.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include <dcopobject.h>
 
@@ -40,8 +42,8 @@
 class KCompletion;
 
 
-typedef QPtrList<KonqHistoryEntry> KonqBaseHistoryList;
-typedef QPtrListIterator<KonqHistoryEntry> KonqHistoryIterator;
+typedef Q3PtrList<KonqHistoryEntry> KonqBaseHistoryList;
+typedef Q3PtrListIterator<KonqHistoryEntry> KonqHistoryIterator;
 
 class LIBKONQ_EXPORT KonqHistoryList : public KonqBaseHistoryList
 {
@@ -57,7 +59,7 @@ protected:
     /**
      * Ensures that the items are sorted by the lastVisited date
      */
-    virtual int compareItems( QPtrCollection::Item, QPtrCollection::Item );
+    virtual int compareItems( Q3PtrCollection::Item, Q3PtrCollection::Item );
 };
 
 
@@ -236,7 +238,7 @@ protected:
      */
     inline bool isExpired( KonqHistoryEntry *entry ) {
 	return (entry && m_maxAgeDays > 0 && entry->lastVisited <
-		QDate::currentDate().addDays( -m_maxAgeDays ));
+		QDateTime(QDate::currentDate().addDays( -m_maxAgeDays )));
     }
 
     /**
@@ -253,36 +255,36 @@ protected:
      * @param saveId is the DCOPObject::objId() of the sender so that
      * only the sender saves the new history.
      */
-    virtual void notifyHistoryEntry( KonqHistoryEntry e, QCString saveId );
+    virtual void notifyHistoryEntry( KonqHistoryEntry e, Q3CString saveId );
 
     /**
      * Called when the configuration of the maximum count changed.
      * Called via DCOP by some config-module
      */
-    virtual void notifyMaxCount( Q_UINT32 count, QCString saveId );
+    virtual void notifyMaxCount( Q_UINT32 count, Q3CString saveId );
 
     /**
      * Called when the configuration of the maximum age of history-entries
      * changed. Called via DCOP by some config-module
      */
-    virtual void notifyMaxAge( Q_UINT32 days, QCString saveId );
+    virtual void notifyMaxAge( Q_UINT32 days, Q3CString saveId );
 
     /**
      * Clears the history completely. Called via DCOP by some config-module
      */
-    virtual void notifyClear( QCString saveId );
+    virtual void notifyClear( Q3CString saveId );
 
     /**
      * Notifes about a url that has to be removed from the history.
      * The instance where saveId == objId() has to save the history.
      */
-    virtual void notifyRemove( KURL url, QCString saveId );
+    virtual void notifyRemove( KURL url, Q3CString saveId );
 
     /**
      * Notifes about a list of urls that has to be removed from the history.
      * The instance where saveId == objId() has to save the history.
      */
-    virtual void notifyRemove( KURL::List urls, QCString saveId );
+    virtual void notifyRemove( KURL::List urls, Q3CString saveId );
 
     /**
      * @returns a list of all urls in the history.

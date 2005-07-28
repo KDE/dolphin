@@ -27,9 +27,14 @@
 #include <qlabel.h>
 #include <qcombobox.h>
 #include <qpushbutton.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qtabwidget.h>
-#include <qwhatsthis.h>
+
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3CString>
+#include <QDesktopWidget>
+
 #include <klistview.h>
 #include <kservice.h>
 #include <klocale.h>
@@ -57,20 +62,20 @@ void DesktopBehaviorModule::changed()
     emit KCModule::changed( true );
 }
 
-class DesktopBehaviorPreviewItem : public QCheckListItem
+class DesktopBehaviorPreviewItem : public Q3CheckListItem
 {
 public:
-    DesktopBehaviorPreviewItem(DesktopBehavior *rootOpts, QListView *parent,
+    DesktopBehaviorPreviewItem(DesktopBehavior *rootOpts, Q3ListView *parent,
                 const KService::Ptr &plugin, bool on)
-        : QCheckListItem(parent, plugin->name(), CheckBox),
+        : Q3CheckListItem(parent, plugin->name(), CheckBox),
           m_rootOpts(rootOpts)
     {
         m_pluginName = plugin->desktopEntryName();
         setOn(on);
     }
-    DesktopBehaviorPreviewItem(DesktopBehavior *rootOpts, QListView *parent,
+    DesktopBehaviorPreviewItem(DesktopBehavior *rootOpts, Q3ListView *parent,
                 bool on)
-        : QCheckListItem(parent, i18n("Sound Files"), CheckBox),
+        : Q3CheckListItem(parent, i18n("Sound Files"), CheckBox),
           m_rootOpts(rootOpts)
     {
         m_pluginName = "audio/";
@@ -87,12 +92,12 @@ private:
 };
 
 
-class DesktopBehaviorMediaItem : public QCheckListItem
+class DesktopBehaviorMediaItem : public Q3CheckListItem
 {
 public:
-    DesktopBehaviorMediaItem(DesktopBehavior *rootOpts, QListView *parent,
+    DesktopBehaviorMediaItem(DesktopBehavior *rootOpts, Q3ListView *parent,
                 const QString name, const QString mimetype, bool on)
-        : QCheckListItem(parent, name, CheckBox),
+        : Q3CheckListItem(parent, name, CheckBox),
           m_rootOpts(rootOpts),m_mimeType(mimetype){setOn(on);}
 
     const QString &mimeType() const { return m_mimeType; }
@@ -164,8 +169,8 @@ DesktopBehavior::DesktopBehavior(KConfig *config, QWidget *parent, const char * 
                        " <li><em>Application menu:</em> the \"K\" menu pops up. This might be"
                        " useful for quickly accessing applications if you like to keep the"
                        " panel (also known as \"Kicker\") hidden from view.</li></ul>");
-  QWhatsThis::add( leftLabel, wtstr );
-  QWhatsThis::add( leftComboBox, wtstr );
+  leftLabel->setWhatsThis( wtstr );
+  leftComboBox->setWhatsThis( wtstr );
 
   middleLabel->setBuddy( middleComboBox );
   fillMenuCombo( middleComboBox );
@@ -187,8 +192,8 @@ DesktopBehavior::DesktopBehavior(KConfig *config, QWidget *parent, const char * 
                " <li><em>Application menu:</em> the \"K\" menu pops up. This might be"
                " useful for quickly accessing applications if you like to keep the"
                " panel (also known as \"Kicker\") hidden from view.</li></ul>");
-  QWhatsThis::add( middleLabel, wtstr );
-  QWhatsThis::add( middleComboBox, wtstr );
+  middleLabel->setWhatsThis( wtstr );
+  middleComboBox->setWhatsThis( wtstr );
 
   rightLabel->setText( strMouseButton3 );
   rightLabel->setBuddy( rightComboBox );
@@ -210,8 +215,8 @@ DesktopBehavior::DesktopBehavior(KConfig *config, QWidget *parent, const char * 
                " <li><em>Application menu:</em> the \"K\" menu pops up. This might be"
                " useful for quickly accessing applications if you like to keep the"
                " panel (also known as \"Kicker\") hidden from view.</li></ul>");
-  QWhatsThis::add( rightLabel, wtstr );
-  QWhatsThis::add( rightComboBox, wtstr );
+  rightLabel->setWhatsThis( wtstr );
+  rightComboBox->setWhatsThis( wtstr );
 
   if (m_bHasMedia)
   {
@@ -230,7 +235,7 @@ void DesktopBehavior::fillMediaListView()
     mediaListView->clear();
     mediaListView->setRootIsDecorated(false);
     KMimeType::List mimetypes = KMimeType::allMimeTypes();
-    QValueListIterator<KMimeType::Ptr> it2(mimetypes.begin());
+    Q3ValueListIterator<KMimeType::Ptr> it2(mimetypes.begin());
     g_pConfig->setGroup( "Media" );
     enableMediaBox->setChecked(g_pConfig->readBoolEntry("enabled",false));
     QString excludedMedia=g_pConfig->readEntry("exclude","media/hdd_mounted,media/hdd_unmounted,media/floppy_unmounted,media/cdrom_unmounted,media/floppy5_unmounted");
@@ -328,7 +333,7 @@ void DesktopBehavior::load()
 void DesktopBehavior::defaults()
 {
     showHiddenBox->setChecked(DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
-    for (QListViewItem *item = previewListView->firstChild(); item; item = item->nextSibling())
+    for (Q3ListViewItem *item = previewListView->firstChild(); item; item = item->nextSibling())
         static_cast<DesktopBehaviorPreviewItem *>(item)->setOn(false);
     desktopMenuGroup->setButton( 0 );
     vrootBox->setChecked( false );
@@ -390,7 +395,7 @@ void DesktopBehavior::save()
     QByteArray data;
 
     int konq_screen_number = KApplication::desktop()->primaryScreen();
-    QCString appname;
+    Q3CString appname;
     if (konq_screen_number == 0)
         appname = "kdesktop";
     else

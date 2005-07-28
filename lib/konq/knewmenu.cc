@@ -18,6 +18,10 @@
 */
 
 #include <qdir.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3ValueList>
+#include <Q3CString>
 
 #include <kdebug.h>
 #include <kdesktopfile.h>
@@ -42,13 +46,13 @@
 
 // For KURLDesktopFileDlg
 #include <qlayout.h>
-#include <qhbox.h>
+#include <q3hbox.h>
 #include <klineedit.h>
 #include <kurlrequester.h>
 #include <qlabel.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 
-QValueList<KNewMenu::Entry> * KNewMenu::s_templatesList = 0L;
+Q3ValueList<KNewMenu::Entry> * KNewMenu::s_templatesList = 0L;
 int KNewMenu::s_templatesVersion = 0;
 bool KNewMenu::s_filesParsed = false;
 KDirWatch * KNewMenu::s_pDirWatch = 0L;
@@ -106,15 +110,15 @@ void KNewMenu::slotCheckUpToDate( )
         //kdDebug(1203) << "KNewMenu::slotCheckUpToDate() : recreating actions" << endl;
         // We need to clean up the action collection
         // We look for our actions using the group
-        QValueList<KAction*> actions = d->m_actionCollection->actions( "KNewMenu" );
-        for( QValueListIterator<KAction*> it = actions.begin(); it != actions.end(); ++it )
+        Q3ValueList<KAction*> actions = d->m_actionCollection->actions( "KNewMenu" );
+        for( Q3ValueListIterator<KAction*> it = actions.begin(); it != actions.end(); ++it )
         {
             remove( *it );
             d->m_actionCollection->remove( *it );
         }
 
         if (!s_templatesList) { // No templates list up to now
-            s_templatesList = new QValueList<Entry>();
+            s_templatesList = new Q3ValueList<Entry>();
             slotFillTemplates();
             parseFiles();
         }
@@ -134,7 +138,7 @@ void KNewMenu::parseFiles()
 {
     //kdDebug(1203) << "KNewMenu::parseFiles()" << endl;
     s_filesParsed = true;
-    QValueList<Entry>::Iterator templ = s_templatesList->begin();
+    Q3ValueList<Entry>::Iterator templ = s_templatesList->begin();
     for ( /*++templ*/; templ != s_templatesList->end(); ++templ)
     {
         QString iconname;
@@ -207,7 +211,7 @@ void KNewMenu::fillMenu()
     KAction *linkURL = 0, *linkApp = 0;  // these shall be put at special positions
 
     int i = 1; // was 2 when there was Folder
-    QValueList<Entry>::Iterator templ = s_templatesList->begin();
+    Q3ValueList<Entry>::Iterator templ = s_templatesList->begin();
     for ( ; templ != s_templatesList->end(); ++templ, ++i)
     {
         if ( (*templ).entryType != SEPARATOR )
@@ -220,8 +224,8 @@ void KNewMenu::fillMenu()
 
             bool bSkip = false;
 
-            QValueList<KAction*> actions = d->m_actionCollection->actions();
-            QValueListIterator<KAction*> it = actions.begin();
+            Q3ValueList<KAction*> actions = d->m_actionCollection->actions();
+            Q3ValueListIterator<KAction*> it = actions.begin();
             for( ; it != actions.end() && !bSkip; ++it )
             {
                 if ( (*it)->text() == (*templ).text )
@@ -239,7 +243,7 @@ void KNewMenu::fillMenu()
                 if ( (*templ).templatePath.endsWith( "emptydir" ) )
                 {
                     KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewDir() ),
-                                     d->m_actionCollection, QCString().sprintf("newmenu%d", i ) );
+                                     d->m_actionCollection, Q3CString().sprintf("newmenu%d", i ) );
                     act->setGroup( "KNewMenu" );
                     act->plug( popupMenu() );
 
@@ -249,7 +253,7 @@ void KNewMenu::fillMenu()
                 else
                 {
                     KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewFile() ),
-                                             d->m_actionCollection, QCString().sprintf("newmenu%d", i ) );
+                                             d->m_actionCollection, Q3CString().sprintf("newmenu%d", i ) );
                     act->setGroup( "KNewMenu" );
 
                     if ( (*templ).templatePath.endsWith( "URL.desktop" ) )
@@ -540,7 +544,7 @@ void KURLDesktopFileDlg::initDialog( const QString& textFileName, const QString&
     QVBoxLayout * topLayout = new QVBoxLayout( plainPage(), 0, spacingHint() );
 
     // First line: filename
-    QHBox * fileNameBox = new QHBox( plainPage() );
+    Q3HBox * fileNameBox = new Q3HBox( plainPage() );
     topLayout->addWidget( fileNameBox );
 
     QLabel * label = new QLabel( textFileName, fileNameBox );
@@ -553,7 +557,7 @@ void KURLDesktopFileDlg::initDialog( const QString& textFileName, const QString&
              SLOT(slotNameTextChanged(const QString&)) );
 
     // Second line: url
-    QHBox * urlBox = new QHBox( plainPage() );
+    Q3HBox * urlBox = new Q3HBox( plainPage() );
     topLayout->addWidget( urlBox );
     label = new QLabel( textUrl, urlBox );
     m_urlRequester = new KURLRequester( defaultUrl, urlBox, "urlRequester" );

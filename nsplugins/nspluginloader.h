@@ -30,10 +30,14 @@
 
 #include <qstring.h>
 #include <qstringlist.h>
-#include <qdict.h>
+#include <q3dict.h>
 #include <qobject.h>
 #include <qwidget.h>
 #include <qxembed.h>
+//Added by qt3to4:
+#include <QGridLayout>
+#include <QResizeEvent>
+#include <Q3CString>
 
 #include "NSPluginClassIface_stub.h"
 
@@ -48,7 +52,7 @@ class NSPluginInstance : public EMBEDCLASS, virtual public NSPluginInstanceIface
   Q_OBJECT
 
 public:
-    NSPluginInstance(QWidget *parent, const QCString& app, const QCString& id);
+    NSPluginInstance(QWidget *parent, const Q3CString& app, const Q3CString& id);
     ~NSPluginInstance();
 
 private slots:
@@ -90,16 +94,16 @@ protected:
   void unloadViewer();
 
 protected slots:
-  void applicationRegistered( const QCString& appId );
+  void applicationRegistered( const Q3CString& appId );
   void processTerminated( KProcess *proc );
 
 private:
   QStringList _searchPaths;
-  QDict<QString> _mapping, _filetype;
+  Q3Dict<QString> _mapping, _filetype;
 
   KProcess *_process;
   bool _running;
-  QCString _dcopid;
+  Q3CString _dcopid;
   NSPluginViewerIface_stub *_viewer;
   bool _useArtsdsp;
 

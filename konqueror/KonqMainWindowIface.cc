@@ -29,6 +29,9 @@
 #include <kdcoppropertyproxy.h>
 #include <kdebug.h>
 #include <kwin.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <Q3CString>
 
 KonqMainWindowIface::KonqMainWindowIface( KonqMainWindow * mainWindow )
     :
@@ -91,34 +94,34 @@ DCOPRef KonqMainWindowIface::currentPart()
   return view->dcopObject()->part();
 }
 
-DCOPRef KonqMainWindowIface::action( const QCString &name )
+DCOPRef KonqMainWindowIface::action( const DCOPCString &name )
 {
   return DCOPRef( kapp->dcopClient()->appId(), m_dcopActionProxy->actionObjectId( name ) );
 }
 
-QCStringList KonqMainWindowIface::actions()
+DCOPCStringList KonqMainWindowIface::actions()
 {
-  QCStringList res;
-  QValueList<KAction *> lst = m_dcopActionProxy->actions();
-  QValueList<KAction *>::ConstIterator it = lst.begin();
-  QValueList<KAction *>::ConstIterator end = lst.end();
+  DCOPCStringList res;
+  Q3ValueList<KAction *> lst = m_dcopActionProxy->actions();
+  Q3ValueList<KAction *>::ConstIterator it = lst.begin();
+  Q3ValueList<KAction *>::ConstIterator end = lst.end();
   for (; it != end; ++it )
     res.append( (*it)->name() );
 
   return res;
 }
 
-QMap<QCString,DCOPRef> KonqMainWindowIface::actionMap()
+QMap<DCOPCString,DCOPRef> KonqMainWindowIface::actionMap()
 {
   return m_dcopActionProxy->actionMap();
 }
 
-QCStringList KonqMainWindowIface::functionsDynamic()
+DCOPCStringList KonqMainWindowIface::functionsDynamic()
 {
     return DCOPObject::functionsDynamic() + KDCOPPropertyProxy::functions( m_pMainWindow );
 }
 
-bool KonqMainWindowIface::processDynamic( const QCString &fun, const QByteArray &data, QCString &replyType, QByteArray &replyData )
+bool KonqMainWindowIface::processDynamic( const DCOPCString &fun, const QByteArray &data, DCOPCString &replyType, QByteArray &replyData )
 {
     if ( KDCOPPropertyProxy::isPropertyRequest( fun, m_pMainWindow ) )
         return KDCOPPropertyProxy::processPropertyRequest( fun, data, replyType, replyData, m_pMainWindow );

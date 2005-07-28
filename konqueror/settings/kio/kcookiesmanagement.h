@@ -24,9 +24,9 @@
 #ifndef __KCOOKIESMANAGEMENT_H
 #define __KCOOKIESMANAGEMENT_H
 
-#include <qdict.h>
+#include <q3dict.h>
 #include <qstringlist.h>
-#include <qlistview.h>
+#include <q3listview.h>
 
 #include <kcmodule.h>
 
@@ -36,11 +36,11 @@ class KCookiesManagementDlgUI;
 
 struct CookieProp;
 
-class CookieListViewItem : public QListViewItem
+class CookieListViewItem : public Q3ListViewItem
 {
 public:
-    CookieListViewItem(QListView *parent, QString dom);
-    CookieListViewItem(QListViewItem *parent, CookieProp *cookie);
+    CookieListViewItem(Q3ListView *parent, QString dom);
+    CookieListViewItem(Q3ListViewItem *parent, CookieProp *cookie);
     ~CookieListViewItem();
 
     QString domain() const { return mDomain; }
@@ -76,8 +76,8 @@ private slots:
     void deleteCookie();
     void deleteAllCookies();
     void getDomains();
-    void getCookies(QListViewItem*);
-    void showCookieDetails(QListViewItem*);
+    void getCookies(Q3ListViewItem*);
+    void showCookieDetails(Q3ListViewItem*);
     void doPolicy();
 
 private:
@@ -91,8 +91,8 @@ private:
     KCookiesManagementDlgUI* dlg;
 
     QStringList deletedDomains;
-    typedef QPtrList<CookieProp> CookiePropList;
-    QDict<CookiePropList> deletedCookies;
+    typedef Q3PtrList<CookieProp> CookiePropList;
+    Q3Dict<CookiePropList> deletedCookies;
 };
 
 #endif // __KCOOKIESMANAGEMENT_H

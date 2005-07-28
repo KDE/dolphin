@@ -24,7 +24,7 @@
 #define __NSPluginCallbackIface_h__
 
 
-#include <qcstring.h>
+#include <q3cstring.h>
 #include <dcopobject.h>
 
 

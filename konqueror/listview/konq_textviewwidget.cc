@@ -20,7 +20,7 @@
 #include "konq_listview.h"
 #include "konq_textviewitem.h"
 
-#include <qheader.h>
+#include <q3header.h>
 
 #include <kdebug.h>
 #include <kdirlister.h>
@@ -67,7 +67,7 @@ void KonqTextViewWidget::createColumns()
    {
       addColumn( i18n("Name"), m_filenameColumnWidth );
       addColumn( " ", fontMetrics().width("@") + 2 );
-      setColumnAlignment( 1, AlignRight );
+      setColumnAlignment( 1, Qt::AlignRight );
       //this way the column with the name has the index 0 and
       //so the "jump to filename beginning with this character" works
       header()->moveSection( 0, 2 );
@@ -79,7 +79,7 @@ void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
 {
    //kdDebug(1202) << k_funcinfo << entries.count() << endl;
 
-   for ( QPtrListIterator<KFileItem> kit ( entries ); kit.current(); ++kit )
+   for ( Q3PtrListIterator<KFileItem> kit ( entries ); kit.current(); ++kit )
    {
       KonqTextViewItem *tmp = new KonqTextViewItem( this, *kit );
       if ( !m_itemFound && tmp->text(0) == m_itemToGoTo )

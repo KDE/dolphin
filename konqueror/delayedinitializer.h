@@ -21,6 +21,8 @@
 #define __delayedinitializer_h__
 
 #include <qobject.h>
+//Added by qt3to4:
+#include <QEvent>
 
 class DelayedInitializer : public QObject
 {

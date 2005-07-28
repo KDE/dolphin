@@ -21,6 +21,8 @@
 
 #include <kdedmodule.h>
 #include <kurl.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 namespace KIO { class Job; }
 
@@ -47,7 +49,7 @@ class FaviconsModule : public KDEDModule
     Q_OBJECT
     K_DCOP
 public:
-    FaviconsModule(const QCString &obj);
+    FaviconsModule(const Q3CString &obj);
     virtual ~FaviconsModule();
 
 k_dcop:

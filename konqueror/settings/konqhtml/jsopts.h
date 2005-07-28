@@ -21,7 +21,6 @@ class KURLRequester;
 class QCheckBox;
 class QComboBox;
 class QLineEdit;
-class QListViewItem;
 class QRadioButton;
 class QSpinBox;
 class QButtonGroup;

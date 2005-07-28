@@ -21,12 +21,23 @@
 
 #include "konq_factory.h"
 
-#include <qguardedptr.h>
+#include <qpointer.h>
 #include <qcolor.h>
 #include <qwidget.h>
 #include <qsplitter.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <Q3CString>
+#include <QPaintEvent>
+#include <QChildEvent>
+#include <Q3PtrList>
+#include <QEvent>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QResizeEvent>
+#include <QMouseEvent>
 
 #include <kpixmap.h>
 #include <kpixmapeffect.h>
@@ -147,7 +158,7 @@ class KonqFrameStatusBar : public KStatusBar
 };
 
 
-typedef QPtrList<KonqView> ChildViewList;
+typedef Q3PtrList<KonqView> ChildViewList;
 
 class KonqFrameBase
 {
@@ -172,7 +183,7 @@ class KonqFrameBase
   virtual QWidget* widget() = 0;
 
   virtual void listViews( ChildViewList *viewList ) = 0;
-  virtual QCString frameType() = 0;
+  virtual Q3CString frameType() = 0;
 
   virtual void activateChild() = 0;
 
@@ -255,7 +266,7 @@ public:
 
   //virtual KonqFrameContainerBase* parentContainer();
   virtual QWidget* widget() { return this; }
-  virtual QCString frameType() { return QCString("View"); }
+  virtual Q3CString frameType() { return Q3CString("View"); }
 
   QVBoxLayout *layout()const { return m_pLayout; }
 
@@ -285,9 +296,9 @@ protected:
   virtual void paintEvent( QPaintEvent* );
 
   QVBoxLayout *m_pLayout;
-  QGuardedPtr<KonqView> m_pView;
+  QPointer<KonqView> m_pView;
 
-  QGuardedPtr<KParts::ReadOnlyPart> m_pPart;
+  QPointer<KParts::ReadOnlyPart> m_pPart;
 
   KonqViewManager* m_pViewManager;
 
@@ -314,7 +325,7 @@ public:
   //inherited
   virtual void printFrameInfo( const QString& spaces );
 
-  virtual QCString frameType() { return QCString("ContainerBase"); }
+  virtual Q3CString frameType() { return Q3CString("ContainerBase"); }
 
   virtual void reparentFrame(QWidget * parent,
                              const QPoint & p, bool showIt=FALSE ) = 0;
@@ -349,7 +360,7 @@ class KonqFrameContainer : public QSplitter, public KonqFrameContainerBase
   Q_OBJECT
   friend class KonqFrame; //for emitting ctrlTabPressed() only, aleXXX
 public:
-  KonqFrameContainer( Orientation o,
+  KonqFrameContainer( Qt::Orientation o,
                       QWidget* parent,
                       KonqFrameContainerBase* parentContainer,
                       const char * name = 0);
@@ -372,7 +383,7 @@ public:
   virtual void setTabIcon( const QString &url, QWidget* sender );
 
   virtual QWidget* widget() { return this; }
-  virtual QCString frameType() { return QCString("Container"); }
+  virtual Q3CString frameType() { return Q3CString("Container"); }
 
   /**
    * Call this after inserting a new frame into the splitter.
@@ -388,7 +399,7 @@ public:
                              const QPoint & p, bool showIt=FALSE );
 
   //make this one public
-  int idAfter( QWidget* w ){ return QSplitter::idAfter( w ); }
+  int idAfter( QWidget* w ){ return QSplitter::indexOf( w ) + 1; }
 
   void setAboutToBeDeleted() { m_bAboutToBeDeleted = true; }
 
@@ -400,8 +411,6 @@ signals:
   void setRubberbandCalled();
   
 protected:
-  virtual void setRubberband( int );
-
   KonqFrameBase* m_pFirstChild;
   KonqFrameBase* m_pSecondChild;
   bool m_bAboutToBeDeleted;

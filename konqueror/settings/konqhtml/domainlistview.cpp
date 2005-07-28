@@ -21,7 +21,9 @@
 
 #include <qlayout.h>
 #include <qpushbutton.h>
-#include <qwhatsthis.h>
+
+//Added by qt3to4:
+#include <QGridLayout>
 
 #include <kconfig.h>
 #include <klistview.h>
@@ -34,7 +36,7 @@
 
 DomainListView::DomainListView(KConfig *config,const QString &title,
 		QWidget *parent,const char *name) :
-	QGroupBox(title, parent, name), config(config) {
+	Q3GroupBox(title, parent, name), config(config) {
   setColumnLayout(0, Qt::Vertical);
   layout()->setSpacing(0);
   layout()->setMargin(0);
@@ -46,9 +48,9 @@ DomainListView::DomainListView(KConfig *config,const QString &title,
   domainSpecificLV = new KListView(this);
   domainSpecificLV->addColumn(i18n("Host/Domain"));
   domainSpecificLV->addColumn(i18n("Policy"), 100);
-  connect(domainSpecificLV,SIGNAL(doubleClicked(QListViewItem *)), SLOT(changePressed()));
-  connect(domainSpecificLV,SIGNAL(returnPressed(QListViewItem *)), SLOT(changePressed()));
-  connect(domainSpecificLV, SIGNAL( executed( QListViewItem *)), SLOT( updateButton()));
+  connect(domainSpecificLV,SIGNAL(doubleClicked(Q3ListViewItem *)), SLOT(changePressed()));
+  connect(domainSpecificLV,SIGNAL(returnPressed(Q3ListViewItem *)), SLOT(changePressed()));
+  connect(domainSpecificLV, SIGNAL( executed( Q3ListViewItem *)), SLOT( updateButton()));
   connect(domainSpecificLV, SIGNAL(selectionChanged()), SLOT(updateButton()));
   thisLayout->addMultiCellWidget(domainSpecificLV, 0, 5, 0, 0);
 
@@ -79,11 +81,11 @@ DomainListView::DomainListView(KConfig *config,const QString &title,
   QSpacerItem* spacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
   thisLayout->addItem(spacer, 5, 1);
 
-  QWhatsThis::add( addDomainPB, i18n("Click on this button to manually add a host or domain "
+  addDomainPB->setWhatsThis( i18n("Click on this button to manually add a host or domain "
                                        "specific policy.") );
-  QWhatsThis::add( changeDomainPB, i18n("Click on this button to change the policy for the "
+  changeDomainPB->setWhatsThis( i18n("Click on this button to change the policy for the "
                                           "host or domain selected in the list box.") );
-  QWhatsThis::add( deleteDomainPB, i18n("Click on this button to delete the policy for the "
+  deleteDomainPB->setWhatsThis( i18n("Click on this button to delete the policy for the "
                                           "host or domain selected in the list box.") );
   updateButton();
 }
@@ -98,7 +100,7 @@ DomainListView::~DomainListView() {
 
 void DomainListView::updateButton()
 {
-    QListViewItem *index = domainSpecificLV->currentItem();
+    Q3ListViewItem *index = domainSpecificLV->currentItem();
     bool enable = ( index != 0 );
     changeDomainPB->setEnabled( enable );
     deleteDomainPB->setEnabled( enable );
@@ -113,7 +115,7 @@ void DomainListView::addPressed()
     PolicyDialog pDlg(pol, this);
     setupPolicyDlg(AddButton,pDlg,pol);
     if( pDlg.exec() ) {
-        QListViewItem* index = new QListViewItem( domainSpecificLV, pDlg.domain(),
+        Q3ListViewItem* index = new Q3ListViewItem( domainSpecificLV, pDlg.domain(),
                                                   pDlg.featureEnabledPolicyText() );
 	pol->setDomain(pDlg.domain());
         domainPolicies.insert(index, pol);
@@ -127,7 +129,7 @@ void DomainListView::addPressed()
 
 void DomainListView::changePressed()
 {
-    QListViewItem *index = domainSpecificLV->currentItem();
+    Q3ListViewItem *index = domainSpecificLV->currentItem();
     if ( index == 0 )
     {
         KMessageBox::information( 0, i18n("You must first select a policy to be changed." ) );
@@ -156,7 +158,7 @@ void DomainListView::changePressed()
 
 void DomainListView::deletePressed()
 {
-    QListViewItem *index = domainSpecificLV->currentItem();
+    Q3ListViewItem *index = domainSpecificLV->currentItem();
     if ( index == 0 )
     {
         KMessageBox::information( 0, i18n("You must first select a policy to delete." ) );
@@ -201,8 +203,8 @@ void DomainListView::initialize(const QStringList &domainList)
         policy = i18n("Accept");
       else
         policy = i18n("Reject");
-      QListViewItem *index =
-        new QListViewItem( domainSpecificLV, domain, policy );
+      Q3ListViewItem *index =
+        new Q3ListViewItem( domainSpecificLV, domain, policy );
 
       domainPolicies[index] = pol;
     }
@@ -212,7 +214,7 @@ void DomainListView::save(const QString &group, const QString &domainListKey) {
     QStringList domainList;
     DomainPolicyMap::Iterator it = domainPolicies.begin();
     for (; it != domainPolicies.end(); ++it) {
-    	QListViewItem *current = it.key();
+    	Q3ListViewItem *current = it.key();
 	Policies *pol = it.data();
 	pol->save();
 	domainList.append(current->text(0));

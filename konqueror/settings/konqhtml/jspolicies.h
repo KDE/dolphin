@@ -22,7 +22,7 @@
 #ifndef __JSPOLICIES_H__
 #define __JSPOLICIES_H__
 
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qstring.h>
 
 #include <khtml_settings.h>
@@ -31,7 +31,7 @@
 
 class KConfig;
 class QRadioButton;
-class QButtonGroup;
+class Q3ButtonGroup;
 
 // special value for inheriting a global policy
 #define INHERIT_POLICY		32767
@@ -201,7 +201,7 @@ private:
  *
  * @author Leo Savernik
  */
-class JSPoliciesFrame : public QGroupBox {
+class JSPoliciesFrame : public Q3GroupBox {
   Q_OBJECT
 public:
   /**
@@ -258,11 +258,11 @@ private slots:
 private:
 
   JSPolicies *policies;
-  QButtonGroup *js_popup;
-  QButtonGroup *js_resize;
-  QButtonGroup *js_move;
-  QButtonGroup *js_focus;
-  QButtonGroup *js_statusbar;
+  Q3ButtonGroup *js_popup;
+  Q3ButtonGroup *js_resize;
+  Q3ButtonGroup *js_move;
+  Q3ButtonGroup *js_focus;
+  Q3ButtonGroup *js_statusbar;
 };
 
 

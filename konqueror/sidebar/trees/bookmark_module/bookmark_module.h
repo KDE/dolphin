@@ -21,6 +21,8 @@
 
 #include <qmap.h>
 #include <qobject.h>
+//Added by qt3to4:
+#include <QDropEvent>
 #include <konq_sidebartreemodule.h>
 #include <kbookmark.h>
 #include <kdialogbase.h>
@@ -48,8 +50,8 @@ public:
 
 protected slots:
     void slotBookmarksChanged( const QString & );
-    void slotMoved(QListViewItem*,QListViewItem*,QListViewItem*);
-    void slotDropped(KListView*,QDropEvent*,QListViewItem*,QListViewItem*);
+    void slotMoved(Q3ListViewItem*,Q3ListViewItem*,Q3ListViewItem*);
+    void slotDropped(KListView*,QDropEvent*,Q3ListViewItem*,Q3ListViewItem*);
     void slotCreateFolder();
     void slotDelete();
     void slotProperties(KonqSidebarBookmarkItem *bi = 0);
@@ -63,7 +65,7 @@ protected:
     KonqSidebarBookmarkItem * findByAddress( const QString & address ) const;
 
 private slots:
-    void slotOpenChange(QListViewItem*);
+    void slotOpenChange(Q3ListViewItem*);
 
 private:
     KonqSidebarTreeTopLevelItem * m_topLevelItem;

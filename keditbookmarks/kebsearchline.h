@@ -37,7 +37,7 @@ public:
 
 protected:
 
-    virtual bool itemMatches(const QListViewItem *item, const QString &s) const;
+    virtual bool itemMatches(const Q3ListViewItem *item, const QString &s) const;
 
 private:
     mutable QString lastpattern; // what was cached

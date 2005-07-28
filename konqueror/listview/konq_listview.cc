@@ -38,7 +38,7 @@
 
 #include <qapplication.h>
 #include <qclipboard.h>
-#include <qheader.h>
+#include <q3header.h>
 #include <qregexp.h>
 
 #include <assert.h>
@@ -159,7 +159,7 @@ void ListViewBrowserExtension::pasteTo( const KURL& url )
 
 void ListViewBrowserExtension::rename()
 {
-  QListViewItem* item = m_listView->listViewWidget()->currentItem();
+  Q3ListViewItem* item = m_listView->listViewWidget()->currentItem();
   Q_ASSERT ( item );
   m_listView->listViewWidget()->rename( item, 0 );
 
@@ -589,7 +589,7 @@ void KonqListView::slotSaveAfterHeaderDrag()
 
 void KonqListView::slotSaveColumnWidths()
 {
-   QValueList<int> lstColumnWidths;
+   Q3ValueList<int> lstColumnWidths;
 
    for ( int i=0; i < m_pListView->columns(); i++ )
    {
@@ -665,11 +665,11 @@ void KonqListView::setupActions()
    m_paShowPermissions->setCheckedState(i18n("Hide Permissions"));
    m_paShowURL=new KToggleAction(i18n("Show URL"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_url" );
 
-   m_paSelect = new KAction( i18n( "Se&lect..." ), CTRL+Key_Plus, this, SLOT( slotSelect() ), actionCollection(), "select" );
-  m_paUnselect = new KAction( i18n( "Unselect..." ), CTRL+Key_Minus, this, SLOT( slotUnselect() ), actionCollection(), "unselect" );
+   m_paSelect = new KAction( i18n( "Se&lect..." ), Qt::Key_Control+Qt::Key_Plus, this, SLOT( slotSelect() ), actionCollection(), "select" );
+  m_paUnselect = new KAction( i18n( "Unselect..." ), Qt::Key_Control+Qt::Key_Minus, this, SLOT( slotUnselect() ), actionCollection(), "unselect" );
   m_paSelectAll = KStdAction::selectAll( this, SLOT( slotSelectAll() ), actionCollection(), "selectall" );
-  m_paUnselectAll = new KAction( i18n( "Unselect All" ), CTRL+Key_U, this, SLOT( slotUnselectAll() ), actionCollection(), "unselectall" );
-  m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_Asterisk, this, SLOT( slotInvertSelection() ), actionCollection(), "invertselection" );
+  m_paUnselectAll = new KAction( i18n( "Unselect All" ), Qt::Key_Control+Qt::Key_U, this, SLOT( slotUnselectAll() ), actionCollection(), "unselectall" );
+  m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), Qt::Key_Control+Qt::Key_Asterisk, this, SLOT( slotInvertSelection() ), actionCollection(), "invertselection" );
 
   m_paShowDot = new KToggleAction( i18n( "Show &Hidden Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
 //  m_paShowDot->setCheckedState(i18n("Hide &Hidden Files"));

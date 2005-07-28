@@ -17,11 +17,13 @@
     Boston, MA 02110-1301, USA.
 */
 
-#include <qdict.h>
+#include <q3dict.h>
 #include <qpixmap.h>
 #include <qpainter.h>
 #include <qbitmap.h>
 #include <qimage.h>
+//Added by qt3to4:
+#include <QTimerEvent>
 
 #include <kfileivi.h>
 #include <kfileitem.h>
@@ -60,7 +62,7 @@ KIVDirectoryOverlay::~KIVDirectoryOverlay()
 void KIVDirectoryOverlay::start()
 {
     if ( m_directory->item()->isReadable() ) {
-        m_popularIcons = new QDict<int>;
+        m_popularIcons = new Q3Dict<int>;
         m_popularIcons->setAutoDelete(true);
         m_lister->openURL(m_directory->item()->url());
     } else {
@@ -78,7 +80,7 @@ void KIVDirectoryOverlay::slotCompleted()
     if (!m_popularIcons) return;
 
     // Look through the histogram for the most popular mimetype
-    QDictIterator<int> currentIcon( (*m_popularIcons) );
+    Q3DictIterator<int> currentIcon( (*m_popularIcons) );
     unsigned int best = 0;
     unsigned int total = 0;
     for ( ; currentIcon.current(); ++currentIcon ) {
@@ -121,7 +123,7 @@ void KIVDirectoryOverlay::slotNewItems( const KFileItemList& items )
         if ( file -> isFile() ) {
 
         QString iconName = file -> iconName();
-        if (!iconName) continue;
+        if (iconName.isEmpty()) continue;
 
         int* iconCount = m_popularIcons -> find( file -> iconName() );
         if (!iconCount) {

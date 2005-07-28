@@ -20,6 +20,8 @@
 #define __exporters_h
 
 #include <kbookmark.h>
+//Added by qt3to4:
+#include <QTextStream>
 
 class HTMLExporter : private KBookmarkGroupTraverser {
 public:

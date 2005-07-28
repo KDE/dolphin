@@ -11,6 +11,8 @@
 
 #include "passwd.h"
 #include "passwddlg.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 
 KDEpasswd1Dialog::KDEpasswd1Dialog()
@@ -66,7 +68,7 @@ bool KDEpasswd1Dialog::checkPassword(const char *password)
 
 
 // static
-int KDEpasswd1Dialog::getPassword(QCString &password)
+int KDEpasswd1Dialog::getPassword(QByteArray &password)
 {
     KDEpasswd1Dialog *dlg = new KDEpasswd1Dialog();
     int res = dlg->exec();
@@ -78,7 +80,7 @@ int KDEpasswd1Dialog::getPassword(QCString &password)
 
 
 
-KDEpasswd2Dialog::KDEpasswd2Dialog(const char *oldpass, QCString user)
+KDEpasswd2Dialog::KDEpasswd2Dialog(const char *oldpass, QByteArray user)
     : KPasswordDialog(NewPassword, false, 0)
 {
     m_Pass = oldpass;
@@ -88,7 +90,7 @@ KDEpasswd2Dialog::KDEpasswd2Dialog(const char *oldpass, QCString user)
     if (m_User.isEmpty())
         setPrompt(i18n("Please enter your new password:"));
     else
-        setPrompt(i18n("Please enter the new password for user <b>%1</b>:").arg(m_User));
+        setPrompt(i18n("Please enter the new password for user <b>%1</b>:").arg(QString::fromLocal8Bit(m_User)));
 }
 
 

@@ -22,8 +22,9 @@
 
 #include <qlayout.h>
 #include <qlabel.h>
-#include <qvbuttongroup.h>
 #include <qcheckbox.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
 
 #include <kfiledialog.h>
 #include <klistview.h>
@@ -160,7 +161,7 @@ void KSocksConfig::libTextChanged(const QString& lib)
 void KSocksConfig::addThisLibrary(const QString& lib)
 {
    if (lib.length() > 0) {
-      new QListViewItem(base->_c_libs, lib);
+      new Q3ListViewItem(base->_c_libs, lib);
       base->_c_newPath->clear();
       base->_c_add->setEnabled(false);
       base->_c_newPath->setFocus();
@@ -177,7 +178,7 @@ void KSocksConfig::addLibrary()
 
 void KSocksConfig::removeLibrary()
 {
- QListViewItem *thisitem = base->_c_libs->selectedItem();
+ Q3ListViewItem *thisitem = base->_c_libs->selectedItem();
    base->_c_libs->takeItem(thisitem);
    delete thisitem;
    base->_c_libs->clearSelection();
@@ -207,7 +208,7 @@ void KSocksConfig::load()
   }
   base->_c_customPath->setURL(config.readPathEntry("SOCKS_lib"));
 
-  QListViewItem *thisitem;
+  Q3ListViewItem *thisitem;
   while ((thisitem = base->_c_libs->firstChild())) {
      base->_c_libs->takeItem(thisitem);
      delete thisitem;
@@ -217,7 +218,7 @@ void KSocksConfig::load()
   for(QStringList::Iterator it = libs.begin();
                             it != libs.end();
                             ++it ) {
-     new QListViewItem(base->_c_libs, *it);
+     new Q3ListViewItem(base->_c_libs, *it);
   }
   base->_c_libs->clearSelection();
   base->_c_remove->setEnabled(false);
@@ -232,7 +233,7 @@ void KSocksConfig::save()
   config.writeEntry("SOCKS_enable",base-> _c_enableSocks->isChecked(), true, true);
   config.writeEntry("SOCKS_method", base->bg->id(base->bg->selected()), true, true);
   config.writePathEntry("SOCKS_lib", base->_c_customPath->url(), true, true);
-  QListViewItem *thisitem = base->_c_libs->firstChild();
+  Q3ListViewItem *thisitem = base->_c_libs->firstChild();
 
   QStringList libs;
   while (thisitem) {
@@ -254,7 +255,7 @@ void KSocksConfig::defaults()
   base->_c_customLabel->setEnabled(false);
   base->_c_customPath->setEnabled(false);
   base->_c_customPath->setURL("");
-  QListViewItem *thisitem;
+  Q3ListViewItem *thisitem;
   while ((thisitem = base->_c_libs->firstChild())) {
      base->_c_libs->takeItem(thisitem);
      delete thisitem;

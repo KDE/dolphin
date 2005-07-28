@@ -2,7 +2,7 @@
 <class>KonqSidebarHistoryDlg</class>
 <widget class="QWidget">
     <property name="name">
-        <cstring>KonqHistoryDlg</cstring>
+        <cstring>KonqSidebarHistoryDlg</cstring>
     </property>
     <property name="geometry">
         <rect>
@@ -55,7 +55,7 @@
                         <string>URLs e&amp;xpire after</string>
                     </property>
                 </widget>
-                <widget class="KIntNumInput" row="1" column="1">
+                <widget class="QSpinBox" row="1" column="1">
                     <property name="name">
                         <cstring>spinExpire</cstring>
                     </property>
@@ -71,7 +71,7 @@
                         <cstring>spinEntries</cstring>
                     </property>
                 </widget>
-                <widget class="KIntNumInput" row="0" column="1">
+                <widget class="QSpinBox" row="0" column="1">
                     <property name="name">
                         <cstring>spinEntries</cstring>
                     </property>
@@ -89,12 +89,12 @@
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="KIntNumInput" row="0" column="1">
+                <widget class="QSpinBox" row="0" column="1">
                     <property name="name">
                         <cstring>spinNewer</cstring>
                     </property>
                 </widget>
-                <widget class="KIntNumInput" row="1" column="1">
+                <widget class="QSpinBox" row="1" column="1">
                     <property name="name">
                         <cstring>spinOlder</cstring>
                     </property>
@@ -226,14 +226,4 @@
 </includes>
 <layoutdefaults spacing="6" margin="0"/>
 <layoutfunctions spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
-<includehints>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-</includehints>
 </UI>

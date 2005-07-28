@@ -10,6 +10,7 @@
 #define __PasswdDlg_h_Incluced__
 
 #include <kpassdlg.h>
+#include <QByteArray>
 
 class KDEpasswd1Dialog
     : public KPasswordDialog
@@ -20,7 +21,7 @@ public:
     KDEpasswd1Dialog();
     ~KDEpasswd1Dialog();
 
-    static int getPassword(QCString &password);
+    static int getPassword(QByteArray &password);
 
 protected:
     bool checkPassword(const char *password);
@@ -33,7 +34,7 @@ class KDEpasswd2Dialog
     Q_OBJECT
 
 public:
-    KDEpasswd2Dialog(const char *oldpass, QCString user);
+    KDEpasswd2Dialog(const char *oldpass, QByteArray user);
     ~KDEpasswd2Dialog();
 
 protected:
@@ -41,7 +42,7 @@ protected:
     
 private:
     const char *m_Pass;
-    QCString m_User;
+    QByteArray m_User;
 };
     
 

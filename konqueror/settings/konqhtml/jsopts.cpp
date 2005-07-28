@@ -13,15 +13,11 @@
 
 #include <qlayout.h>
 #include <qwhatsthis.h>
-#include <qvgroupbox.h>
+#include <q3groupbox.h>
 #include <kconfig.h>
 #include <klistview.h>
 #include <kdebug.h>
 #include <kurlrequester.h>
-
-#if defined Q_WS_X11 && !defined K_WS_QTONLY
-#include <X11/Xlib.h>
-#endif
 
 #include "htmlopts.h"
 #include "policydlg.h"
@@ -31,6 +27,10 @@
 #include "jsopts.h"
 
 #include "jsopts.moc"
+
+#if defined Q_WS_X11 && !defined K_WS_QTONLY
+#include <X11/Xlib.h>
+#endif
 
 // == class KJavaScriptOptions =====
 
@@ -45,7 +45,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   QVBoxLayout* toplevel = new QVBoxLayout( this, 10, 5 );
 
   // the global checkbox
-  QGroupBox* globalGB = new QGroupBox( 2, Vertical, i18n( "Global Settings" ), this );
+  Q3GroupBox* globalGB = new Q3GroupBox( 2, Qt::Vertical, i18n( "Global Settings" ), this );
   toplevel->addWidget( globalGB );
 
   enableJavaScriptGloballyCB = new QCheckBox( i18n( "Ena&ble JavaScript globally" ), globalGB );
@@ -185,8 +185,8 @@ void JSDomainListView::updateDomainListLegacy(const QStringList &domainConfig)
       KHTMLSettings::KJavaScriptAdvice javaScriptAdvice;
       KHTMLSettings::splitDomainAdvice(*it, domain, javaAdvice, javaScriptAdvice);
       if (javaScriptAdvice != KHTMLSettings::KJavaScriptDunno) {
-        QListViewItem *index =
-          new QListViewItem( domainSpecificLV, domain,
+        Q3ListViewItem *index =
+          new Q3ListViewItem( domainSpecificLV, domain,
                 i18n(KHTMLSettings::adviceToStr(javaScriptAdvice)) );
 
         pol.setDomain(domain);

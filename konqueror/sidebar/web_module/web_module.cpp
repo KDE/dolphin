@@ -18,7 +18,7 @@
 
 #include "web_module.h"
 #include <qfileinfo.h>
-#include <qhbox.h>
+#include <q3hbox.h>
 #include <qspinbox.h>
 #include <qtimer.h>
 
@@ -86,7 +86,7 @@ QWidget *KonqSideBarWebModule::getWidget() {
 void KonqSideBarWebModule::setAutoReload(){
 	KDialogBase dlg(0, "", true, i18n("Set Refresh Timeout (0 disables)"),
 			KDialogBase::Ok|KDialogBase::Cancel);
-	QHBox *hbox = dlg.makeHBoxMainWidget();
+	Q3HBox *hbox = dlg.makeHBoxMainWidget();
 	
 	QSpinBox *mins = new QSpinBox( 0, 120, 1, hbox );
 	mins->setSuffix( i18n(" minutes") );

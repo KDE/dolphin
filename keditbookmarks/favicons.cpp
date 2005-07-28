@@ -59,7 +59,7 @@ void FavIconsItrHolder::addAffectedBookmark( const QString & address )
 
 /* -------------------------- */
 
-FavIconsItr::FavIconsItr(QValueList<KBookmark> bks)
+FavIconsItr::FavIconsItr(Q3ValueList<KBookmark> bks)
     : BookmarkIterator(bks) {
     m_updater = 0;
 }

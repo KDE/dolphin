@@ -38,6 +38,8 @@
 
 #include <kio/job.h>
 #include <kdirnotify_stub.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 inline const char *dcopTypeName( const KonqCommand & ) { return "KonqCommand"; }
 inline const char *dcopTypeName( const KonqCommand::Stack & ) { return "KonqCommand::Stack"; }
@@ -180,10 +182,10 @@ public:
   KonqCommand m_current;
   KIO::Job *m_currentJob;
   UndoState m_undoState;
-  QValueStack<KURL> m_dirStack;
-  QValueStack<KURL> m_dirCleanupStack;
-  QValueStack<KURL> m_fileCleanupStack;
-  QValueList<KURL> m_dirsToUpdate;
+  Q3ValueStack<KURL> m_dirStack;
+  Q3ValueStack<KURL> m_dirCleanupStack;
+  Q3ValueStack<KURL> m_fileCleanupStack;
+  Q3ValueList<KURL> m_dirsToUpdate;
 
   bool m_lock;
 
@@ -284,8 +286,8 @@ void KonqUndoManager::undo()
   d->m_undoState = MOVINGFILES;
   kdDebug(1203) << "KonqUndoManager::undo MOVINGFILES" << endl;
 
-  QValueList<KonqBasicOperation>::Iterator it = d->m_current.m_opStack.begin();
-  QValueList<KonqBasicOperation>::Iterator end = d->m_current.m_opStack.end();
+  Q3ValueList<KonqBasicOperation>::Iterator it = d->m_current.m_opStack.begin();
+  Q3ValueList<KonqBasicOperation>::Iterator end = d->m_current.m_opStack.end();
   while ( it != end )
   {
     if ( (*it).m_directory && !(*it).m_renamed )
@@ -504,7 +506,7 @@ void KonqUndoManager::undoRemovingDirectories()
           d->m_undoJob = 0;
       }
       KDirNotify_stub allDirNotify( "*", "KDirNotify*" );
-      QValueList<KURL>::ConstIterator it = d->m_dirsToUpdate.begin();
+      Q3ValueList<KURL>::ConstIterator it = d->m_dirsToUpdate.begin();
       for( ; it != d->m_dirsToUpdate.end(); ++it ) {
           kdDebug() << "Notifying FilesAdded for " << *it << endl;
           allDirNotify.FilesAdded( *it );

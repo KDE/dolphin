@@ -18,8 +18,11 @@
 #include <qcombobox.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qvgroupbox.h>
-#include <qwhatsthis.h>
+
+//Added by qt3to4:
+#include <QGridLayout>
+#include <Q3CString>
+#include <QDesktopWidget>
 
 #include <dcopclient.h>
 
@@ -82,8 +85,8 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char * )
                        " which you see on your desktop. You can change the location of this"
                        " folder if you want to, and the contents will move automatically"
                        " to the new location as well.");
-  QWhatsThis::add( tmpLabel, wtstr );
-  QWhatsThis::add( urDesktop, wtstr );
+  tmpLabel->setWhatsThis( wtstr );
+  urDesktop->setWhatsThis( wtstr );
 
   row++;
   tmpLabel = new QLabel(i18n("A&utostart path:"), this);
@@ -98,8 +101,8 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char * )
                " automatically whenever KDE starts. You can change the location of this"
                " folder if you want to, and the contents will move automatically"
                " to the new location as well.");
-  QWhatsThis::add( tmpLabel, wtstr );
-  QWhatsThis::add( urAutostart, wtstr );
+  tmpLabel->setWhatsThis( wtstr );
+  urAutostart->setWhatsThis( wtstr );
 
   row++;
   tmpLabel = new QLabel(i18n("D&ocuments path:"), this);
@@ -111,8 +114,8 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char * )
   connect(urDocument, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
   wtstr = i18n("This folder will be used by default to "
                "load or save documents from or to.");
-  QWhatsThis::add( tmpLabel, wtstr );
-  QWhatsThis::add( urDocument, wtstr );
+  tmpLabel->setWhatsThis( wtstr );
+  urDocument->setWhatsThis( wtstr );
 
   // -- Bottom --
   Q_ASSERT( row == RO_LASTROW-1 ); // if it fails here, check the row++ and RO_LASTROW above
@@ -251,7 +254,7 @@ void DesktopPathConfig::save()
     QByteArray data;
 
     int konq_screen_number = KApplication::desktop()->primaryScreen();
-    QCString appname;
+    Q3CString appname;
     if (konq_screen_number == 0)
         appname = "kdesktop";
     else

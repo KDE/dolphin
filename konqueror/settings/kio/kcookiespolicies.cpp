@@ -22,15 +22,16 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Steet, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-#include <qheader.h>
-#include <qvbox.h>
+#include <q3header.h>
+#include <q3vbox.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qtoolbutton.h>
-#include <qvbuttongroup.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
 
 #include <kiconloader.h>
 #include <kidna.h>
@@ -57,7 +58,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent)
     dlg->lvDomainPolicy->setColumnWidthMode(1, KListView::Maximum);
     dlg->tbClearSearchLine->setIconSet(SmallIconSet(QApplication::reverseLayout() ? "clear_left" : "locationbar_erase"));
     dlg->kListViewSearchLine->setListView(dlg->lvDomainPolicy);
-    QValueList<int> columns;
+    QList<int> columns;
     columns.append(0);
     dlg->kListViewSearchLine->setSearchColumns(columns);
 
@@ -125,7 +126,7 @@ void KCookiesPolicies::addNewPolicy(const QString& domain)
     if ( !handleDuplicate(domain, advice) )
     {
       const char* strAdvice = KCookieAdvice::adviceToStr(advice);
-      QListViewItem* index = new QListViewItem (dlg->lvDomainPolicy,
+      Q3ListViewItem* index = new Q3ListViewItem (dlg->lvDomainPolicy,
                                                 domain, i18n(strAdvice));
       m_pDomainPolicy.insert (index, strAdvice);
       configChanged();
@@ -141,7 +142,7 @@ void KCookiesPolicies::addPressed()
 
 void KCookiesPolicies::changePressed()
 {
-  QListViewItem* index = dlg->lvDomainPolicy->currentItem();
+  Q3ListViewItem* index = dlg->lvDomainPolicy->currentItem();
 
   if (!index)
     return;
@@ -168,7 +169,7 @@ void KCookiesPolicies::changePressed()
 
 bool KCookiesPolicies::handleDuplicate( const QString& domain, int advice )
 {
-  QListViewItem* item = dlg->lvDomainPolicy->firstChild();
+  Q3ListViewItem* item = dlg->lvDomainPolicy->firstChild();
   while ( item != 0 )
   {
     if ( item->text(0) == domain )
@@ -197,8 +198,8 @@ bool KCookiesPolicies::handleDuplicate( const QString& domain, int advice )
 
 void KCookiesPolicies::deletePressed()
 {
-  QListViewItem* nextItem = 0L;
-  QListViewItem* item = dlg->lvDomainPolicy->firstChild ();
+  Q3ListViewItem* nextItem = 0L;
+  Q3ListViewItem* item = dlg->lvDomainPolicy->firstChild ();
 
   while (item != 0L)
   {
@@ -255,7 +256,7 @@ void KCookiesPolicies::updateDomainList(const QStringList &domainConfig)
 
     if (!domain.isEmpty())
     {
-        QListViewItem* index = new QListViewItem( dlg->lvDomainPolicy, KIDNA::toUnicode(domain),
+        Q3ListViewItem* index = new Q3ListViewItem( dlg->lvDomainPolicy, KIDNA::toUnicode(domain),
                                                   i18n(KCookieAdvice::adviceToStr(advice)) );
         m_pDomainPolicy[index] = KCookieAdvice::adviceToStr(advice);
     }
@@ -264,7 +265,7 @@ void KCookiesPolicies::updateDomainList(const QStringList &domainConfig)
 
 void KCookiesPolicies::selectionChanged ()
 {
-  QListViewItem* item = dlg->lvDomainPolicy->firstChild ();
+  Q3ListViewItem* item = dlg->lvDomainPolicy->firstChild ();
 
   d_itemsSelected = 0;
 
@@ -347,9 +348,9 @@ void KCookiesPolicies::load()
   // Connect signals from the domain specific policy listview.
   connect( dlg->lvDomainPolicy, SIGNAL(selectionChanged()),
            SLOT(selectionChanged()) );
-  connect( dlg->lvDomainPolicy, SIGNAL(doubleClicked (QListViewItem *)),
+  connect( dlg->lvDomainPolicy, SIGNAL(doubleClicked (Q3ListViewItem *)),
            SLOT(changePressed() ) );
-  connect( dlg->lvDomainPolicy, SIGNAL(returnPressed ( QListViewItem * )),
+  connect( dlg->lvDomainPolicy, SIGNAL(returnPressed ( Q3ListViewItem * )),
            SLOT(changePressed() ) );
 
   // Connect the buttons...
@@ -388,7 +389,7 @@ void KCookiesPolicies::save()
   cfg.writeEntry("CookieGlobalAdvice", advice);
 
   QStringList domainConfig;
-  QListViewItem *at = dlg->lvDomainPolicy->firstChild();
+  Q3ListViewItem *at = dlg->lvDomainPolicy->firstChild();
 
   while( at )
   {

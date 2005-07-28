@@ -21,10 +21,14 @@
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qvbox.h>
-#include <qvbuttongroup.h>
-#include <qvgroupbox.h>
-#include <qwhatsthis.h>
+#include <q3vbox.h>
+
+//Added by qt3to4:
+#include <QPixmap>
+#include <Q3Frame>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <Q3ButtonGroup>
 
 #include <dcopclient.h>
 
@@ -47,15 +51,15 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 
     QVBoxLayout *lay = new QVBoxLayout( this, 0, KDialog::spacingHint() );
 
-	QVGroupBox * miscGb = new QVGroupBox(i18n("Misc Options"), this);
+	QGroupBox * miscGb = new QGroupBox(i18n("Misc Options"), this);
 	lay->addWidget( miscGb );
-	QHBox *hbox = new QHBox(miscGb);
-	QVBox *vbox = new QVBox(hbox);
+	Q3HBox *hbox = new Q3HBox(miscGb);
+	Q3VBox *vbox = new Q3VBox(hbox);
 
 	// ----
 
 	winPixmap = new QLabel(hbox);
-    winPixmap->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
+    winPixmap->setFrameStyle( Q3Frame::StyledPanel | Q3Frame::Sunken );
     winPixmap->setPixmap(QPixmap(locate("data",
                                         "kcontrol/pics/onlyone.png")));
     winPixmap->setFixedSize( winPixmap->sizeHint() );
@@ -64,7 +68,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
    // ----
 
     cbNewWin = new QCheckBox(i18n("Open folders in separate &windows"), vbox);
-    QWhatsThis::add( cbNewWin, i18n("If this option is checked, Konqueror will open a new window when "
+    cbNewWin->setWhatsThis( i18n("If this option is checked, Konqueror will open a new window when "
                                     "you open a folder, rather than showing that folders's contents in the current window."));
     connect(cbNewWin, SIGNAL(clicked()), this, SLOT(changed()));
     connect(cbNewWin, SIGNAL(toggled(bool)), SLOT(updateWinPixmap(bool)));
@@ -74,7 +78,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     cbListProgress = new QCheckBox( i18n( "&Show network operations in a single window" ), vbox );
     connect(cbListProgress, SIGNAL(clicked()), this, SLOT(changed()));
 
-    QWhatsThis::add( cbListProgress, i18n("Checking this option will group the"
+    cbListProgress->setWhatsThis( i18n("Checking this option will group the"
                                           " progress information for all network file transfers into a single window"
                                           " with a list. When the option is not checked, all transfers appear in a"
                                           " separate window.") );
@@ -85,7 +89,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     cbShowTips = new QCheckBox( i18n( "Show file &tips" ), vbox );
     connect(cbShowTips, SIGNAL(clicked()), this, SLOT(changed()));
 
-    QWhatsThis::add( cbShowTips, i18n("Here you can control if, when moving the mouse over a file, you want to see a "
+    cbShowTips->setWhatsThis( i18n("Here you can control if, when moving the mouse over a file, you want to see a "
                                     "small popup window with additional information about that file"));
 
     connect(cbShowTips, SIGNAL(toggled(bool)), SLOT(slotShowTips(bool)));
@@ -100,7 +104,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     QWhatsThis::add( sbToolTip, tipstr );
 */
 
-    QHBox *hboxpreview = new QHBox(vbox);
+    Q3HBox *hboxpreview = new Q3HBox(vbox);
     QWidget* spacer = new QWidget( hboxpreview );
     spacer->setMinimumSize( 20, 0 );
     spacer->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Minimum );
@@ -108,11 +112,11 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     cbShowPreviewsInTips = new QCheckBox( i18n( "Show &previews in file tips" ), hboxpreview );
     connect(cbShowPreviewsInTips, SIGNAL(clicked()), this, SLOT(changed()));
 
-    QWhatsThis::add( cbShowPreviewsInTips, i18n("Here you can control if you want the "
+    cbShowPreviewsInTips->setWhatsThis( i18n("Here you can control if you want the "
                           "popup window to contain a larger preview for the file, when moving the mouse over it."));
 
     cbRenameDirectlyIcon = new QCheckBox(i18n("Rename icons in&line"), vbox);
-    QWhatsThis::add(cbRenameDirectlyIcon, i18n("Checking this option will allow files to be "
+    cbRenameDirectlyIcon->setWhatsThis( i18n("Checking this option will allow files to be "
                                                "renamed by clicking directly on the icon name. "));
     connect(cbRenameDirectlyIcon, SIGNAL(clicked()), this, SLOT(changed()));
 
@@ -131,8 +135,8 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     QString homestr = i18n("This is the URL (e.g. a folder or a web page) where "
                            "Konqueror will jump to when the \"Home\" button is pressed. "
 						   "This is usually your home folder, symbolized by a 'tilde' (~).");
-    QWhatsThis::add( label, homestr );
-    QWhatsThis::add( homeURL, homestr );
+    label->setWhatsThis( homestr );
+    homeURL->setWhatsThis( homestr );
 
     lay->addItem(new QSpacerItem(0,20,QSizePolicy::Fixed,QSizePolicy::Fixed));
 
@@ -140,14 +144,14 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     lay->addWidget( cbShowDeleteCommand );
     connect(cbShowDeleteCommand, SIGNAL(clicked()), this, SLOT(changed()));
 
-    QWhatsThis::add( cbShowDeleteCommand, i18n("Check this if you want 'Delete' menu commands to be displayed "
+    cbShowDeleteCommand->setWhatsThis( i18n("Check this if you want 'Delete' menu commands to be displayed "
                                                 "on the desktop and in the file manager's context menus. "
 						"You can always delete files by holding the Shift key "
 						"while calling 'Move to Trash'."));
 
-    QButtonGroup *bg = new QVButtonGroup( i18n("Ask Confirmation For"), this );
+    Q3ButtonGroup *bg = new Q3VButtonGroup( i18n("Ask Confirmation For"), this );
     bg->layout()->setSpacing( KDialog::spacingHint() );
-    QWhatsThis::add( bg, i18n("This option tells Konqueror whether to ask"
+    bg->setWhatsThis( i18n("This option tells Konqueror whether to ask"
        " for a confirmation when you \"delete\" a file."
        " <ul><li><em>Move To Trash:</em> moves the file to your trash folder,"
        " from where it can be recovered very easily.</li>"

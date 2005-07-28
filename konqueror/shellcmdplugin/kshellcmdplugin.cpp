@@ -32,7 +32,7 @@ KShellCmdPlugin::KShellCmdPlugin( QObject* parent, const char* name,
     if (!kapp->authorize("shell_access"))
        return;
 
-    new KAction( i18n( "&Execute Shell Command..." ), "run", CTRL+Key_E, this,
+    new KAction( i18n( "&Execute Shell Command..." ), "run", Qt::Key_Control+Qt::Key_E, this,
                  SLOT( slotExecuteShellCommand() ), actionCollection(), "executeshellcommand" );
 }
 

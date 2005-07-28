@@ -145,13 +145,13 @@ void reparentChildrenOf(QWidget* parent)
     for ( QObjectListIt it( *parent->children() ); it.current(); ++it ) {
         if ( it.current()->isWidgetType() ) {
             QWidget* widget = (QWidget*)it.current();
-            XReparentWindow( qt_xdisplay(),
+            XReparentWindow( QX11Info::display(),
                              widget->winId(),
                              parent->winId(),
                              widget->x(),
                              widget->y() );
             if ( widget->isVisible() )
-                XMapWindow( qt_xdisplay(), widget->winId() );
+                XMapWindow( QX11Info::display(), widget->winId() );
         }
     }
 
@@ -170,7 +170,7 @@ void qwidget_realize(
         reparentChildrenOf(qxtw);
     }
     qxtw->show();
-    XMapWindow( qt_xdisplay(), qxtw->winId() );
+    XMapWindow( QX11Info::display(), qxtw->winId() );
 }
 
 static
@@ -232,7 +232,7 @@ void installXtEventFilters()
     // Get Xt out of our face - install filter on every event type
     for (int et=2; et < LASTEvent; et++) {
         qt_np_cascade_event_handler[et] = XtSetEventDispatcher(
-            qt_xdisplay(), et, qt_event_handler_wrapper );
+            QX11Info::display(), et, qt_event_handler_wrapper );
     }
     filters_installed = TRUE;
 }
@@ -244,7 +244,7 @@ void removeXtEventFilters()
     // We aren't needed any more... slink back into the shadows.
     for (int et=2; et < LASTEvent; et++) {
         XtSetEventDispatcher(
-            qt_xdisplay(), et, qt_np_cascade_event_handler[et] );
+            QX11Info::display(), et, qt_np_cascade_event_handler[et] );
     }
     filters_installed = FALSE;
 }
@@ -321,7 +321,7 @@ KXtApplication::KXtApplication(int& argc, char** argv,
     XtToolkitInitialize();
     appcon = XtCreateApplicationContext();
     if (resources) XtAppSetFallbackResources(appcon, (char**)resources);
-    XtDisplayInitialize(appcon, qt_xdisplay(), name(), rAppName, options,
+    XtDisplayInitialize(appcon, QX11Info::display(), name(), rAppName, options,
         num_options, &argc, argv);
     init();
 }
@@ -403,8 +403,8 @@ void KXtWidget::init(const char* name, WidgetClass widget_class,
         Q_ASSERT(!managed);
 
         String n, c;
-        XtGetApplicationNameAndClass(qt_xdisplay(), &n, &c);
-        xtw = XtAppCreateShell(n, c, widget_class, qt_xdisplay(),
+        XtGetApplicationNameAndClass(QX11Info::display(), &n, &c);
+        xtw = XtAppCreateShell(n, c, widget_class, QX11Info::display(),
                                args, num_args);
         if ( widget_class == qWidgetClass )
             ((QWidgetRec*)xtw)->qwidget.qxtwidget = this;
@@ -414,8 +414,8 @@ void KXtWidget::init(const char* name, WidgetClass widget_class,
         XtResizeWidget( xtw, 100, 100, 0 );
         XtSetMappedWhenManaged(xtw, False);
         XtRealizeWidget(xtw);
-        XSync(qt_xdisplay(), False);    // I want all windows to be created now
-        XReparentWindow(qt_xdisplay(), XtWindow(xtw), qparent->winId(), x(), y());
+        XSync(QX11Info::display(), False);    // I want all windows to be created now
+        XReparentWindow(QX11Info::display(), XtWindow(xtw), qparent->winId(), x(), y());
         XtSetMappedWhenManaged(xtw, True);
         need_reroot=TRUE;
     }
@@ -505,7 +505,7 @@ KXtWidget::~KXtWidget()
 
     if ( need_reroot ) {
         hide();
-        XReparentWindow(qt_xdisplay(), winId(), qApp->desktop()->winId(),
+        XReparentWindow(QX11Info::display(), winId(), qApp->desktop()->winId(),
             x(), y());
     }
 
@@ -546,7 +546,7 @@ void KXtWidget::setActiveWindow()
             e.window = winId();
             e.mode = NotifyNormal;
             e.detail = NotifyInferior;
-            XSendEvent( qt_xdisplay(), e.window, TRUE, NoEventMask, (XEvent*)&e );
+            XSendEvent( QX11Info::display(), e.window, TRUE, NoEventMask, (XEvent*)&e );
         }
     } else {
         QWidget::setActiveWindow();
@@ -560,7 +560,7 @@ bool KXtWidget::isActiveWindow() const
 {
     Window win;
     int revert;
-    XGetInputFocus( qt_xdisplay(), &win, &revert );
+    XGetInputFocus( QX11Info::display(), &win, &revert );
 
     if ( win == None) return FALSE;
 
@@ -574,7 +574,7 @@ bool KXtWidget::isActiveWindow() const
         Window cursor = winId();
         Window *ch;
         unsigned int nch;
-        while ( XQueryTree(qt_xdisplay(), cursor, &root, &parent, &ch, &nch) ) {
+        while ( XQueryTree(QX11Info::display(), cursor, &root, &parent, &ch, &nch) ) {
             if (ch) XFree( (char*)ch);
             if ( parent == win ) return TRUE;
             if ( parent == root ) return FALSE;
@@ -599,7 +599,7 @@ void KXtWidget::moveEvent( QMoveEvent* )
     c.width = width();
     c.height = height();
     c.border_width = 0;
-    XSendEvent( qt_xdisplay(), c.event, TRUE, NoEventMask, (XEvent*)&c );
+    XSendEvent( QX11Info::display(), c.event, TRUE, NoEventMask, (XEvent*)&c );
     XtMoveWidget( xtw, x(), y() );
 }
 
@@ -620,7 +620,7 @@ void KXtWidget::resizeEvent( QResizeEvent* )
     c.width = width();
     c.height = height();
     c.border_width = 0;
-    XSendEvent( qt_xdisplay(), c.event, TRUE, NoEventMask, (XEvent*)&c );
+    XSendEvent( QX11Info::display(), c.event, TRUE, NoEventMask, (XEvent*)&c );
     XtResizeWidget( xtw, width(), height(), preferred.border_width );
 }
 

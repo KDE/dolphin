@@ -34,7 +34,7 @@ KEBSearchLine::~KEBSearchLine()
 {
 }
 
-bool KEBSearchLine::itemMatches(const QListViewItem *item, const QString &s) const
+bool KEBSearchLine::itemMatches(const Q3ListViewItem *item, const QString &s) const
 {
     if(mmode == EXACTLY)
        return KListViewSearchLine::itemMatches(item, s);

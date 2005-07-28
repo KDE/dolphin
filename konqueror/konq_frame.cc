@@ -20,12 +20,22 @@
 
 #include <qpainter.h>
 #include <qlayout.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
 #include <qtoolbutton.h>
 #include <qtabbar.h>
-#include <qptrlist.h>
-#include <qpopupmenu.h>
+#include <q3ptrlist.h>
+#include <q3popupmenu.h>
 #include <qkeysequence.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QPaintEvent>
+#include <QChildEvent>
+#include <QEvent>
+#include <QKeyEvent>
+#include <QLabel>
+#include <QResizeEvent>
+#include <QVBoxLayout>
+#include <QMouseEvent>
 
 #include <kapplication.h>
 #include <kdebug.h>
@@ -79,10 +89,9 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
     addWidget( m_pStatusLabel, 1 /*stretch*/, false ); // status label
 
     m_pLinkedViewCheckBox = new KonqCheckBox( this, "m_pLinkedViewCheckBox" );
-    m_pLinkedViewCheckBox->setFocusPolicy(NoFocus);
+    m_pLinkedViewCheckBox->setFocusPolicy(Qt::NoFocus);
     m_pLinkedViewCheckBox->setSizePolicy(QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ));
-    QWhatsThis::add( m_pLinkedViewCheckBox,
-                     i18n("Checking this box on at least two views sets those views as 'linked'. "
+    m_pLinkedViewCheckBox->setWhatsThis( i18n("Checking this box on at least two views sets those views as 'linked'. "
                           "Then, when you change directories in one view, the other views "
                           "linked with it will automatically update to show the current directory. "
                           "This is especially useful with different types of views, such as a "
@@ -153,7 +162,7 @@ void KonqFrameStatusBar::splitFrameMenu()
    // ###### might be not right for passive views !
    KActionCollection *actionColl = mw->actionCollection();
 
-   QPopupMenu menu;
+   Q3PopupMenu menu;
 
    actionColl->action( "splitviewh" )->plug( &menu );
    actionColl->action( "splitviewv" )->plug( &menu );
@@ -171,7 +180,7 @@ bool KonqFrameStatusBar::eventFilter(QObject* o, QEvent *e)
    {
       emit clicked();
       update();
-      if ( static_cast<QMouseEvent *>(e)->button() == RightButton)
+      if ( static_cast<QMouseEvent *>(e)->button() == Qt::RightButton)
          splitFrameMenu();
       return true;
    }
@@ -392,7 +401,7 @@ bool KonqFrame::eventFilter(QObject* /*obj*/, QEvent *ev)
    if (ev->type()==QEvent::KeyPress)
    {
       QKeyEvent * keyEv = static_cast<QKeyEvent*>(ev);
-      if ((keyEv->key()==Key_Tab) && (keyEv->state()==ControlButton))
+      if ((keyEv->key()==Qt::Key_Tab) && (keyEv->modifiers()==Qt::ControlButton))
       {
          emit ((KonqFrameContainer*)parent())->ctrlTabPressed();
          return true;
@@ -477,7 +486,7 @@ void KonqFrameContainerBase::printFrameInfo(const QString& spaces)
 
 //###################################################################
 
-KonqFrameContainer::KonqFrameContainer( Orientation o,
+KonqFrameContainer::KonqFrameContainer( Qt::Orientation o,
                                         QWidget* parent,
                                         KonqFrameContainerBase* parentContainer,
                                         const char * name)
@@ -488,6 +497,8 @@ KonqFrameContainer::KonqFrameContainer( Orientation o,
   m_pSecondChild = 0L;
   m_pActiveChild = 0L;
   setOpaqueResize( KGlobalSettings::opaqueResize() );
+  connect(this, SIGNAL(splitterMoved(int, int)), this, SIGNAL(setRubberbandCalled()));
+//### CHECKME
 }
 
 KonqFrameContainer::~KonqFrameContainer()
@@ -539,13 +550,13 @@ void KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, boo
   //write child configs
   if( firstChild() ) {
     QString newPrefix = QString::fromLatin1( firstChild()->frameType() ) + QString::number(idSecond - 1);
-    newPrefix.append( '_' );
+    newPrefix.append( QLatin1Char( '_' ) );
     firstChild()->saveConfig( config, newPrefix, saveURLs, docContainer, id, depth + 1 );
   }
 
   if( secondChild() ) {
     QString newPrefix = QString::fromLatin1( secondChild()->frameType() ) + QString::number( idSecond );
-    newPrefix.append( '_' );
+    newPrefix.append( QLatin1Char( '_' ) );
     secondChild()->saveConfig( config, newPrefix, saveURLs, docContainer, idSecond, depth + 1 );
   }
 }
@@ -659,10 +670,6 @@ void KonqFrameContainer::childEvent( QChildEvent *c )
       QSplitter::childEvent(c);
 }
 
-void KonqFrameContainer::setRubberband( int pos  )
-{
-    emit setRubberbandCalled();
-    QSplitter::setRubberband( pos );
-}
+//emit s;
 
 #include "konq_frame.moc"

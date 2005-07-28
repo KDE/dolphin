@@ -17,10 +17,10 @@
 #ifndef _SIDEBAR_WIDGET_
 #define _SIDEBAR_WIDGET_
 
-#include <qptrvector.h>
+#include <q3ptrvector.h>
 #include <qtimer.h>
 #include <qstring.h>
-#include <qguardedptr.h>
+#include <qpointer.h>
 
 #include <kdockwidget.h>
 #include <kurl.h>
@@ -74,7 +74,7 @@ class addBackEnd: public QObject
 {
 	Q_OBJECT
 public:
-	addBackEnd(QWidget *parent,class QPopupMenu *addmenu, bool univeral, const QString &currentProfile, const char *name=0);
+	addBackEnd(QWidget *parent,class Q3PopupMenu *addmenu, bool univeral, const QString &currentProfile, const char *name=0);
 	~addBackEnd(){;}
 protected slots:
 	void aboutToShowAddMenu();
@@ -83,9 +83,9 @@ signals:
 	void updateNeeded();
 	void initialCopyNeeded();
 private:
-	QGuardedPtr<class QPopupMenu> menu;
-	QPtrVector<QString> libNames;
-	QPtrVector<QString> libParam;
+	QPointer<class Q3PopupMenu> menu;
+	Q3PtrVector<QString> libNames;
+	Q3PtrVector<QString> libParam;
 	bool m_universal;
 	QString m_currentProfile;
 	void doRollBack();
@@ -183,12 +183,12 @@ private:
 	KDockWidget *m_mainDockWidget;
 
 	KMultiTabBar *m_buttonBar;
-        QPtrVector<ButtonInfo> m_buttons;
+	Q3PtrVector<ButtonInfo> m_buttons;
 	QHBoxLayout *m_layout;
 	KPopupMenu *m_buttonPopup;
-	QPopupMenu *m_menu;
-	QGuardedPtr<ButtonInfo> m_activeModule;
-	QGuardedPtr<ButtonInfo> m_currentButton;
+	Q3PopupMenu *m_menu;
+	QPointer<ButtonInfo> m_activeModule;
+	QPointer<ButtonInfo> m_currentButton;
 	
 	KConfig *m_config;
 	QTimer m_configTimer;

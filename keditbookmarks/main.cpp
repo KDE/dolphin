@@ -39,6 +39,8 @@
 
 #include <kbookmarkmanager.h>
 #include <kbookmarkexporter.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 static KCmdLineOptions options[] = {
     {"importmoz <filename>", I18N_NOOP("Import bookmarks from a file in Mozilla format"), 0},
@@ -60,12 +62,12 @@ static KCmdLineOptions options[] = {
 };
 
 static void continueInWindow(QString _wname) {
-    QCString wname = _wname.latin1();
+    Q3CString wname = _wname.latin1();
     int id = -1;
 
-    QCStringList apps = kapp->dcopClient()->registeredApplications();
-    for (QCStringList::Iterator it = apps.begin(); it != apps.end(); ++it) {
-        QCString &clientId = *it;
+    DCOPCStringList apps = kapp->dcopClient()->registeredApplications();
+    for (DCOPCStringList::Iterator it = apps.begin(); it != apps.end(); ++it) {
+        DCOPCString &clientId = *it;
 
         if (qstrncmp(clientId, wname, wname.length()) != 0)
             continue;
@@ -84,7 +86,7 @@ static void continueInWindow(QString _wname) {
 
 // TODO - make this register() or something like that and move dialog into main
 static int askUser(KApplication &app, QString filename, bool &readonly) {
-    QCString requestedName("keditbookmarks");
+    DCOPCString requestedName("keditbookmarks");
 
     if (!filename.isEmpty())
         requestedName += "-" + filename.utf8();

@@ -28,8 +28,7 @@
 #include <kfiledialog.h>
 #include <kurlrequester.h>
 
-#include <qwhatsthis.h>
-#include <qvgroupbox.h>
+#include <q3whatsthis.h>
 #include <kdebug.h>
 
 #include <kapplication.h>

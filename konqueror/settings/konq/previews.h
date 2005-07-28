@@ -32,12 +32,14 @@ Configuration of the maximum image size
 */
 
 #include <qstring.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 
 #include <kcmodule.h>
 
 class KConfig;
 class QCheckBox;
-class QCheckListItem;
+class Q3CheckListItem;
 class KDoubleNumInput;
 
 class KPreviewOptions : public KCModule
@@ -56,7 +58,7 @@ public slots:
     void changed();
 
 private:
-    QPtrList<QCheckListItem> m_items;
+    Q3PtrList<Q3CheckListItem> m_items;
     KDoubleNumInput *m_maxSize;
     QCheckBox *m_boostSize;
     QCheckBox *m_useFileThumbnails;

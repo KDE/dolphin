@@ -147,7 +147,7 @@ private:
   void dirUp();
   void dirDown();
   void dirEdited(const QString &);
-  void dirSelect( QListBoxItem * );
+  void dirSelect( Q3ListBoxItem * );
 
 /******************************************************************************/
  protected:

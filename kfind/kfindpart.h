@@ -24,7 +24,7 @@
 #include <kparts/part.h>
 #include <kfileitem.h>
 #include <kdebug.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <konq_dirpart.h>
 
 class KQuery;
@@ -98,7 +98,7 @@ private:
     /**
      * The internal storage of file items
      */
-    QPtrList<KFileItem> m_lstFileItems;
+    Q3PtrList<KFileItem> m_lstFileItems;
 };
 
 #endif

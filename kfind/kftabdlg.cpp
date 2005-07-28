@@ -35,11 +35,11 @@ static void save_pattern(QComboBox *, const QString &, const QString &);
 
 #define SPECIAL_TYPES 7
 
-class KSortedMimeTypeList : public QPtrList<KMimeType>
+class KSortedMimeTypeList : public Q3PtrList<KMimeType>
 {
 public:
   KSortedMimeTypeList() { };
-  int compareItems(QPtrCollection::Item s1, QPtrCollection::Item s2)
+  int compareItems(Q3PtrCollection::Item s1, Q3PtrCollection::Item s2)
   {
      KMimeType *item1 = (KMimeType *) s1;
      KMimeType *item2 = (KMimeType *) s2;
@@ -76,7 +76,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     subdirsCb->setChecked(true);
     caseSensCb->setChecked(false);
     useLocateCb->setChecked(false);
-    if(KStandardDirs::findExe("locate")==NULL)
+    if(KStandardDirs::findExe("locate").isEmpty())
     	useLocateCb->setEnabled(false);
 
     nameBox->setDuplicatesEnabled(FALSE);
@@ -211,7 +211,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     grid1->addWidget(rb[0], 1, 1 );
     grid1->addWidget(fromDate, 1, 2 );
-    grid1->addWidget(andL, 1, 3, AlignHCenter );
+    grid1->addWidget(andL, 1, 3, Qt::AlignHCenter );
     grid1->addWidget(toDate, 1, 4 );
 
     grid1->addWidget(rb[1], 2, 1 );
@@ -235,7 +235,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     // Connect
     connect( findCreated,  SIGNAL(toggled(bool)),   SLOT(fixLayout()) );
-    connect( bg,  SIGNAL(clicked(int)), this,   SLOT(fixLayout()) );
+    connect( bg,  SIGNAL(buttonClicked(QAbstractButton*)), this,   SLOT(fixLayout()) );
     connect( sizeBox, SIGNAL(highlighted(int)), this, SLOT(slotSizeBoxChanged(int)));
 
 
@@ -329,7 +329,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     grid2->addWidget( textMetaKey, 4, 0 );
     grid2->addWidget( metainfokeyEdit, 4, 1 );
-    grid2->addWidget( textMetaInfo, 4, 2, AlignHCenter  );
+    grid2->addWidget( textMetaInfo, 4, 2, Qt::AlignHCenter  );
     grid2->addWidget( metainfoEdit, 4, 3 );
 
     metainfokeyEdit->setText("*");
@@ -497,7 +497,7 @@ void KfindTabWidget::slotEditRegExp()
   if ( ! regExpDialog )
     regExpDialog = KParts::ComponentFactory::createInstanceFromQuery<QDialog>( "KRegExpEditor/KRegExpEditor", QString::null, this );
 
-  KRegExpEditorInterface *iface = static_cast<KRegExpEditorInterface *>( regExpDialog->qt_cast( "KRegExpEditorInterface" ) );
+  KRegExpEditorInterface *iface = dynamic_cast<KRegExpEditorInterface *>( regExpDialog );
   if ( !iface )
        return;
 
@@ -652,8 +652,8 @@ void KfindTabWidget::setQuery(KQuery *query)
       toDate->getDate(&q2);
 
       // do not generate negative numbers .. find doesn't handle that
-      time_t time1 = epoch.secsTo(q1);
-      time_t time2 = epoch.secsTo(q2.addDays(1)) - 1; // Include the last day
+      time_t time1 = epoch.secsTo(QDateTime(q1));
+      time_t time2 = epoch.secsTo(QDateTime(q2.addDays(1))) - 1; // Include the last day
 
       query->setTimeRange(time1, time2);
     }
@@ -708,12 +708,12 @@ void KfindTabWidget::setQuery(KQuery *query)
         query->setMimeType( m_AudioTypes );
         break;
       default:
-        query->setMimeType( m_types[id]->name() );
+        query->setMimeType( QStringList() += m_types[id]->name() );
      }
   }
   else
   {
-     query->setMimeType( QString::null );
+     query->setMimeType( QStringList() );
   }
 
   //Metainfo

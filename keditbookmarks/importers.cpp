@@ -26,6 +26,9 @@
 #include "listview.h"
 
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <Q3CString>
 #include <kdebug.h>
 #include <klocale.h>
 
@@ -48,7 +51,7 @@ QString ImportCommand::folder() const {
     return m_folder ? i18n("%1 Bookmarks").arg(visibleName()) : QString::null;
 }
 
-ImportCommand* ImportCommand::importerFactory(const QCString &type) {
+ImportCommand* ImportCommand::importerFactory(const Q3CString &type) {
     if (type == "Galeon") return new GaleonImportCommand();
     else if (type == "IE") return new IEImportCommand();
     else if (type == "KDE2") return new KDE2ImportCommand();
@@ -62,7 +65,7 @@ ImportCommand* ImportCommand::importerFactory(const QCString &type) {
     }
 }
 
-ImportCommand* ImportCommand::performImport(const QCString &type, QWidget *top) {
+ImportCommand* ImportCommand::performImport(const Q3CString &type, QWidget *top) {
     ImportCommand *importer = ImportCommand::importerFactory(type);
 
     QString mydirname = importer->requestFilename();
@@ -273,7 +276,7 @@ void XBELImportCommand::doExecute(const KBookmarkGroup &/*bkGroup*/) {
     } else {
         QDomElement root = CurrentMgr::self()->mgr()->root().internalElement();
 
-        QValueList<QDomElement> childList;
+        Q3ValueList<QDomElement> childList;
 
         QDomNode n = subDoc.firstChild().toElement();
         while (!n.isNull()) {
@@ -283,8 +286,8 @@ void XBELImportCommand::doExecute(const KBookmarkGroup &/*bkGroup*/) {
             n = n.nextSibling();
         }
 
-        QValueList<QDomElement>::Iterator it = childList.begin();
-        QValueList<QDomElement>::Iterator end = childList.end();
+        Q3ValueList<QDomElement>::Iterator it = childList.begin();
+        Q3ValueList<QDomElement>::Iterator end = childList.end();
         for (; it!= end ; ++it)
             root.appendChild((*it));
     }

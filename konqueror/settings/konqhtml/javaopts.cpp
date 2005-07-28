@@ -22,7 +22,7 @@
 
 #include <qlayout.h>
 #include <qwhatsthis.h>
-#include <qvgroupbox.h>
+#include <q3groupbox.h>
 #include <qlabel.h>
 
 #include "htmlopts.h"
@@ -59,9 +59,12 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     /***************************************************************************
      ********************* Global Settings *************************************
      **************************************************************************/
-    QVGroupBox* globalGB = new QVGroupBox( i18n( "Global Settings" ), this );
+    Q3GroupBox* globalGB = new Q3GroupBox( i18n( "Global Settings" ), this );
+    globalGB->setOrientation( Qt::Vertical );
+    QVBoxLayout *laygroup = new QVBoxLayout(globalGB->layout(), KDialog::spacingHint() );
     toplevel->addWidget( globalGB );
     enableJavaGloballyCB = new QCheckBox( i18n( "Enable Ja&va globally" ), globalGB );
+    laygroup->addWidget( enableJavaGloballyCB );
     connect( enableJavaGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
     connect( enableJavaGloballyCB, SIGNAL( clicked() ), this, SLOT( toggleJavaControls() ) );
 
@@ -76,10 +79,13 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     /***************************************************************************
      ***************** Java Runtime Settings ***********************************
      **************************************************************************/
-    QVGroupBox* javartGB = new QVGroupBox( i18n( "Java Runtime Settings" ), this );
+    Q3GroupBox* javartGB = new Q3GroupBox( i18n( "Java Runtime Settings" ), this );
+    javartGB->setOrientation( Qt::Vertical );
+    QVBoxLayout *laygroup1 = new QVBoxLayout(javartGB->layout(), KDialog::spacingHint() );
     toplevel->addWidget( javartGB );
 
     QWidget* checkboxes = new QWidget( javartGB );
+    laygroup1->addWidget( checkboxes );
     QGridLayout* grid = new QGridLayout( checkboxes, 2, 2 );
 
     javaSecurityManagerCB = new QCheckBox( i18n("&Use security manager" ), checkboxes );
@@ -91,18 +97,21 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     connect( useKioCB, SIGNAL(toggled( bool )), this, SLOT(slotChanged()) );
 
     enableShutdownCB = new QCheckBox( i18n("Shu&tdown applet server when inactive"), checkboxes );
+
     grid->addWidget( enableShutdownCB, 1, 0 );
     connect( enableShutdownCB, SIGNAL(toggled( bool )), this, SLOT(slotChanged()) );
     connect( enableShutdownCB, SIGNAL(clicked()), this, SLOT(toggleJavaControls()) );
 
-    QHBox* secondsHB = new QHBox( javartGB );
+    Q3HBox* secondsHB = new Q3HBox( javartGB );
+    laygroup1->addWidget( secondsHB );
     serverTimeoutSB = new KIntNumInput( secondsHB );
     serverTimeoutSB->setRange( 0, 1000, 5 );
-    serverTimeoutSB->setLabel( i18n("App&let server timeout:"), AlignLeft );
+    serverTimeoutSB->setLabel( i18n("App&let server timeout:"), Qt::AlignLeft );
     serverTimeoutSB->setSuffix(i18n(" sec"));
     connect(serverTimeoutSB, SIGNAL(valueChanged(int)),this,SLOT(slotChanged()));
 
-    QHBox* pathHB = new QHBox( javartGB );
+    Q3HBox* pathHB = new Q3HBox( javartGB );
+    laygroup1->addWidget( pathHB );
     pathHB->setSpacing( 10 );
     QLabel* pathLA = new QLabel( i18n( "&Path to Java executable, or 'java':" ),
                                  pathHB );
@@ -110,7 +119,9 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     connect( pathED, SIGNAL(textChanged( const QString& )), this, SLOT(slotChanged()) );
     pathLA->setBuddy( pathED );
 
-    QHBox* addArgHB = new QHBox( javartGB );
+    Q3HBox* addArgHB = new Q3HBox( javartGB );
+    laygroup1->addWidget( addArgHB );
+
     addArgHB->setSpacing( 10 );
     QLabel* addArgLA = new QLabel( i18n( "Additional Java a&rguments:" ), addArgHB  );
     addArgED = new QLineEdit( addArgHB );
@@ -302,7 +313,7 @@ void JavaDomainListView::updateDomainListLegacy(const QStringList &domainConfig)
         KHTMLSettings::KJavaScriptAdvice javaScriptAdvice;
         KHTMLSettings::splitDomainAdvice(*it, domain, javaAdvice, javaScriptAdvice);
 	if (javaAdvice != KHTMLSettings::KJavaScriptDunno) {
-          QListViewItem* index = new QListViewItem( domainSpecificLV, domain,
+          Q3ListViewItem* index = new Q3ListViewItem( domainSpecificLV, domain,
                                                   i18n(KHTMLSettings::adviceToStr(javaAdvice))  );
           pol.setDomain(domain);
           pol.setFeatureEnabled(javaAdvice != KHTMLSettings::KJavaScriptReject);

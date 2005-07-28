@@ -23,7 +23,7 @@
 #include <qlayout.h>
 #include <qspinbox.h>
 #include <qcheckbox.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
 #include <qpushbutton.h>
 
 #include <kdebug.h>
@@ -69,7 +69,7 @@ void KManualProxyDlg::init()
     connect( mDlg->pbDeleteAll, SIGNAL( clicked() ), SLOT( deleteAllPressed() ) );
 
     connect( mDlg->lbExceptions, SIGNAL(selectionChanged()), SLOT(updateButtons()) );
-    connect( mDlg->lbExceptions, SIGNAL(doubleClicked (QListBoxItem *)), SLOT(changePressed()));
+    connect( mDlg->lbExceptions, SIGNAL(doubleClicked (Q3ListBoxItem *)), SLOT(changePressed()));
 
     connect( mDlg->cbSameProxy, SIGNAL( toggled(bool) ), SLOT( sameProxy(bool) ) );
     connect( mDlg->pbCopyDown, SIGNAL( clicked() ), SLOT( copyDown() ) );
@@ -182,7 +182,7 @@ const KProxyData KManualProxyDlg::data() const
 
     if ( mDlg->lbExceptions->count() )
     {
-        QListBoxItem* item = mDlg->lbExceptions->firstItem();
+        Q3ListBoxItem* item = mDlg->lbExceptions->firstItem();
         for( ; item != 0L; item = item->next() )
             data.noProxyFor << item->text();
     }
@@ -334,7 +334,7 @@ void KManualProxyDlg::slotOk()
 
 bool KManualProxyDlg::handleDuplicate( const QString& site )
 {
-    QListBoxItem* item = mDlg->lbExceptions->firstItem();
+    Q3ListBoxItem* item = mDlg->lbExceptions->firstItem();
     while ( item != 0 )
     {
         if ( item->text().findRev( site ) != -1 &&

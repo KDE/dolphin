@@ -24,11 +24,11 @@
 #include <stdlib.h>
 #include <iostream>
 
-#include <qptrlist.h>
 #include <qfile.h>
 #include <qdatastream.h>
 #include <qregexp.h>
 #include <qtimer.h>
+#include <qdesktopwidget.h>
 #include <kmessagebox.h>
 #include <kapplication.h>
 #include <kdebug.h>
@@ -106,10 +106,10 @@ class WinIdEmbedder: public QObject
 {
 public:
     WinIdEmbedder(bool printID = false, WId winId = 0):
-        QObject(qApp), print(printID), id(winId)
+        QObject(kapp), print(printID), id(winId)
     {
-        if (qApp)
-            qApp->installEventFilter(this);
+        if (kapp)
+            kapp->installEventFilter(this);
     }
 protected:
     bool eventFilter(QObject *o, QEvent *e);
@@ -173,7 +173,7 @@ static int directCommand(KCmdLineArgs *args)
       WId id = 0;
       if (embed) {
           bool ok;
-          long l = args->getOption("embed").toLong(&ok);
+          long l = Q3CString(args->getOption("embed")).toLong(&ok);
           if (ok)
               id = (WId)l;
       }
@@ -182,7 +182,7 @@ static int directCommand(KCmdLineArgs *args)
 
     // --yesno and other message boxes
     KMessageBox::DialogType type = (KMessageBox::DialogType) 0;
-    QCString option;
+    Q3CString option;
     if (args->isSet("yesno")) {
         option = "yesno";
         type = KMessageBox::QuestionYesNo;
@@ -276,7 +276,7 @@ static int directCommand(KCmdLineArgs *args)
     // --password text
     if (args->isSet("password"))
     {
-      QCString result;
+      Q3CString result;
       bool retcode = Widgets::passwordBox(0, title, QString::fromLocal8Bit(args->getOption("password")), result);
       cout << result.data() << endl;
       return retcode ? 0 : 1;
@@ -293,7 +293,7 @@ static int directCommand(KCmdLineArgs *args)
 	KPassivePopup *popup = KPassivePopup::message( KPassivePopup::Balloon, // style
 						       title,
 						       QString::fromLocal8Bit( args->getOption("passivepopup") ),
-						       0, // icon
+						       QPixmap() /* don't crash 0*/, // icon
 						       (QWidget*)0UL, // parent
 						       0, // name
 						       duration );
@@ -351,7 +351,7 @@ static int directCommand(KCmdLineArgs *args)
 	  list.append(QString::fromLocal8Bit(args->arg(i)));
       }
 
-      QCString result;
+      Q3CString result;
       int ret = Widgets::textInputBox(0, w, h, title, list, result);
       cout << result.data() << endl;
       return ret;
@@ -410,7 +410,7 @@ static int directCommand(KCmdLineArgs *args)
 
             bool retcode = Widgets::checkList(0, title, text, list, separateOutput, result);
 
-            unsigned int i;
+            int i;
             for (i=0; i<result.count(); i++)
                 if (!result[i].local8Bit().isEmpty()) {
 		    cout << result[i].local8Bit().data() << endl;

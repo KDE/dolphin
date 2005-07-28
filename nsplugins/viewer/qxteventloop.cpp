@@ -32,12 +32,15 @@
 ** not clear to you.
 **
 **********************************************************************/
+#include <qapplication.h>
 #include "qxteventloop.h"
 
 #if QT_VERSION >= 0x030100
 
-#include <qapplication.h>
 #include <qwidgetintdict.h>
+//Added by qt3to4:
+#include <QEventLoop>
+#include <Q3MemArray>
 
 // resolve the conflict between X11's FocusIn and QEvent::FocusIn
 const int XFocusOut = FocusOut;
@@ -61,10 +64,10 @@ public:
     void unhook();
 
     XtAppContext appContext, ownContext;
-    QMemArray<XtEventDispatchProc> dispatchers;
+    Q3MemArray<XtEventDispatchProc> dispatchers;
     QWidgetIntDict mapper;
 
-    QIntDict<QSocketNotifier> socknotDict;
+    Q3IntDict<QSocketNotifier> socknotDict;
     bool activate_timers;
     int timerid;
 
@@ -389,7 +392,7 @@ void QXtEventLoop::registerSocketNotifier( QSocketNotifier *notifier )
  */
 void QXtEventLoop::unregisterSocketNotifier( QSocketNotifier *notifier )
 {
-    QIntDictIterator<QSocketNotifier> it( d->socknotDict );
+    Q3IntDictIterator<QSocketNotifier> it( d->socknotDict );
     while ( it.current() && notifier != it.current() )
 	++it;
     if ( ! it.current() ) {

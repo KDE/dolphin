@@ -21,7 +21,7 @@
 
 #include <qdatetime.h>
 #include <qobject.h>
-#include <qdict.h>
+#include <q3dict.h>
 #include <qpixmap.h>
 
 #include <kglobal.h>
@@ -78,7 +78,7 @@ private slots:
     void slotPreferences();
     void slotSettingsChanged();
 
-    void slotItemExpanded( QListViewItem * );
+    void slotItemExpanded( Q3ListViewItem * );
 
     void slotSortByName();
     void slotSortByDate();
@@ -89,8 +89,8 @@ private:
     KonqSidebarHistoryGroupItem *getGroupItem( const KURL& url );
 
     void sortingChanged();
-    typedef QDictIterator<KonqSidebarHistoryGroupItem> HistoryItemIterator;
-    QDict<KonqSidebarHistoryGroupItem> m_dict;
+    typedef Q3DictIterator<KonqSidebarHistoryGroupItem> HistoryItemIterator;
+    Q3Dict<KonqSidebarHistoryGroupItem> m_dict;
 
     KonqSidebarTreeTopLevelItem * m_topLevelItem;
 

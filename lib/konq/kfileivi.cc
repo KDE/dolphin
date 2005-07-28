@@ -24,6 +24,10 @@
 #include "konq_settings.h"
 
 #include <qpainter.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <Q3ValueList>
+#include <QDropEvent>
 
 #include <kurldrag.h>
 #include <kiconeffect.h>
@@ -37,8 +41,9 @@
  */
 struct KFileIVI::Private
 {
-    QIconSet icons; // Icon states (cached to prevent re-applying icon effects
+    QIcon icons; // Icon states (cached to prevent re-applying icon effects
 		    // every time)
+	int m_generated; // bitmask(QIcon::Mode) for which states have been generated
     QPixmap  thumb; // Raw unprocessed thumbnail
     QString m_animatedIcon; // Name of animation
     bool m_animated;        // Animation currently running ?
@@ -53,13 +58,15 @@ KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KFileItem* fileitem, int size 
     m_bDisabled( false ), m_bThumbnail( false ), m_fileitem( fileitem )
 {
     d = new KFileIVI::Private;
+    d->m_generated = 0;
 
     updatePixmapSize();
     setPixmap( m_fileitem->pixmap( m_size, m_state ) );
     setDropEnabled( S_ISDIR( m_fileitem->mode() ) );
 
     // Cache entry for the icon effects
-    d->icons.reset( *pixmap(), QIconSet::Large );
+	d->icons = QIcon( *pixmap() );
+	d->m_generated = QIcon::Normal;
     d->m_animated = false;
 
     // iconName() requires the mimetype to be known
@@ -82,27 +89,29 @@ KFileIVI::~KFileIVI()
 
 void KFileIVI::invalidateThumb( int state, bool redraw )
 {
-    QIconSet::Mode mode;
+    QIcon::Mode mode;
     switch( state )
     {
 	case KIcon::DisabledState:
-	    mode = QIconSet::Disabled;
+	    mode = QIcon::Disabled;
 	    break;
 	case KIcon::ActiveState:
-	    mode = QIconSet::Active;
+	    mode = QIcon::Active;
 	    break;
 	case KIcon::DefaultState:
 	default:
-	    mode = QIconSet::Normal;
+	    mode = QIcon::Normal;
 	    break;
     }
-    d->icons = QIconSet();
-    d->icons.setPixmap( KGlobal::iconLoader()->iconEffect()->
-			apply( d->thumb, KIcon::Desktop, state ),
-			QIconSet::Large, mode );
+    d->icons = QIcon();
+    QPixmap newThumb = KGlobal::iconLoader()->iconEffect()->
+			apply( d->thumb, KIcon::Desktop, state );
+    d->icons.addPixmap( newThumb, mode );
+    d->m_generated = mode;
+
     m_state = state;
 
-    QIconViewItem::setPixmap( d->icons.pixmap( QIconSet::Large, mode ),
+    Q3IconViewItem::setPixmap( d->icons.pixmap( newThumb.size(), mode ),
 			      false, redraw );
 }
 
@@ -161,29 +170,30 @@ bool KFileIVI::showDirectoryOverlay(  )
 
 void KFileIVI::setPixmapDirect( const QPixmap& pixmap, bool recalc, bool redraw )
 {
-    QIconSet::Mode mode;
+    QIcon::Mode mode;
     switch( m_state )
     {
 	case KIcon::DisabledState:
-	    mode = QIconSet::Disabled;
+	    mode = QIcon::Disabled;
 	    break;
 	case KIcon::ActiveState:
-	    mode = QIconSet::Active;
+	    mode = QIcon::Active;
 	    break;
 	case KIcon::DefaultState:
 	default:
-	    mode = QIconSet::Normal;
+	    mode = QIcon::Normal;
 	    break;
     }
 
     // We cannot just reset() the iconset here, because setIcon can be
     // called with any state and not just normal state. So we just
     // create a dummy empty iconset as base object.
-    d->icons = QIconSet();
-    d->icons.setPixmap( pixmap, QIconSet::Large, mode );
+    d->icons = QIcon();
+    d->icons.addPixmap( pixmap, mode );
+	d->m_generated |= mode;
 
     updatePixmapSize();
-    QIconViewItem::setPixmap( d->icons.pixmap( QIconSet::Large, mode ),
+    Q3IconViewItem::setPixmap( d->icons.pixmap( pixmapSize(), mode ),
 			      recalc, redraw );
 }
 
@@ -204,17 +214,17 @@ void KFileIVI::setThumbnailPixmap( const QPixmap & pixmap )
     d->thumb = pixmap;
     // QIconSet::reset() doesn't seem to clear the other generated pixmaps,
     // so we just create a blank QIconSet here
-    d->icons = QIconSet();
-    d->icons.setPixmap( KGlobal::iconLoader()->iconEffect()->
-		    apply( pixmap, KIcon::Desktop, KIcon::DefaultState ),
-		    QIconSet::Large, QIconSet::Normal );
+    d->icons = QIcon();
+    d->icons.addPixmap( KGlobal::iconLoader()->iconEffect()->
+		    apply( pixmap, KIcon::Desktop, KIcon::DefaultState ), QIcon::Normal );
+	d->m_generated = QIcon::Normal;
 
     m_state = KIcon::DefaultState;
 
     // Recalc when setting this pixmap!
     updatePixmapSize();
-    QIconViewItem::setPixmap( d->icons.pixmap( QIconSet::Large,
-			      QIconSet::Normal ), true );
+    Q3IconViewItem::setPixmap( d->icons.pixmap( pixmapSize(),
+			      QIcon::Normal ), true );
 }
 
 void KFileIVI::setActive( bool active )
@@ -227,18 +237,18 @@ void KFileIVI::setActive( bool active )
 
 void KFileIVI::setEffect( int state )
 {
-    QIconSet::Mode mode;
+    QIcon::Mode mode;
     switch( state )
     {
 	case KIcon::DisabledState:
-	    mode = QIconSet::Disabled;
+	    mode = QIcon::Disabled;
 	    break;
 	case KIcon::ActiveState:
-	    mode = QIconSet::Active;
+	    mode = QIcon::Active;
 	    break;
 	case KIcon::DefaultState:
 	default:
-	    mode = QIconSet::Normal;
+	    mode = QIcon::Normal;
 	    break;
     }
     // Do not update if the fingerprint is identical (prevents flicker)!
@@ -263,17 +273,19 @@ void KFileIVI::setEffect( int state )
 	// save memory. Do this now when needed
 	if( m_bThumbnail )
 	{
-	    if( d->icons.isGenerated( QIconSet::Large, mode ) )
-		d->icons.setPixmap( effect->apply( d->thumb, KIcon::Desktop, state ),
-				    QIconSet::Large, mode );
+	    if( !(d->m_generated & mode) ) {
+		d->icons.addPixmap( effect->apply( d->thumb, KIcon::Desktop, state ), mode );
+		d->m_generated |= mode;
+	    }
 	}
 	else
 	{
-	    if( d->icons.isGenerated( QIconSet::Large, mode ) )
-		d->icons.setPixmap( m_fileitem->pixmap( m_size, state ),
-				    QIconSet::Large, mode );
+	    if( !(d->m_generated & mode) ) {
+		d->icons.addPixmap( m_fileitem->pixmap( m_size, state ), mode );
+		d->m_generated |= mode;
+	    }
 	}
-	QIconViewItem::setPixmap( d->icons.pixmap( QIconSet::Large, mode ) );
+	Q3IconViewItem::setPixmap( d->icons.pixmap( QSize(m_size, m_size), mode ) );
     }
     m_state = state;
 }
@@ -313,7 +325,7 @@ bool KFileIVI::acceptDrop( const QMimeSource *mime ) const
                 return true;
         }
     }
-    return QIconViewItem::acceptDrop( mime );
+    return Q3IconViewItem::acceptDrop( mime );
 }
 
 void KFileIVI::setKey( const QString &key )
@@ -334,10 +346,10 @@ void KFileIVI::setKey( const QString &key )
 
     theKey.prepend( QChar( sortChar + '0' ) );
 
-    QIconViewItem::setKey( theKey );
+    Q3IconViewItem::setKey( theKey );
 }
 
-void KFileIVI::dropped( QDropEvent *e, const QValueList<QIconDragItem> & )
+void KFileIVI::dropped( QDropEvent *e, const Q3ValueList<Q3IconDragItem> & )
 {
     KonqOperations::doDrop( item(), item()->url(), e, iconView() );
 }
@@ -404,7 +416,7 @@ bool KFileIVI::move( int x, int y )
 	if ( y > iconView()->viewport()->height() - ( height() + 5 ) )
 	    y = iconView()->viewport()->height() - ( height() + 5 );
     }
-    return QIconViewItem::move( x, y );
+    return Q3IconViewItem::move( x, y );
 }
 
 bool KFileIVI::hasAnimation() const
@@ -436,7 +448,7 @@ void KFileIVI::setAnimated( bool a )
     d->m_animated = a;
 }
 
-int KFileIVI::compare( QIconViewItem *i ) const
+int KFileIVI::compare( Q3IconViewItem *i ) const
 {
     KonqIconViewWidget* view = static_cast<KonqIconViewWidget*>(iconView());
     if ( view->caseInsensitiveSort() )

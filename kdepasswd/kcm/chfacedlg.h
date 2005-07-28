@@ -29,6 +29,8 @@
 #define CHFACEDLG_H
 
 #include <qobject.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 #include <kiconview.h> // declaration below
 
@@ -54,7 +56,7 @@ public:
   }
 
 private slots:
-  void slotFaceWidgetSelectionChanged( QIconViewItem *item )
+  void slotFaceWidgetSelectionChanged( Q3IconViewItem *item )
   	{ enableButtonOK( !item->pixmap()->isNull() ); }
 
   void slotGetCustomImage();

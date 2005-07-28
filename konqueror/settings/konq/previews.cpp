@@ -22,7 +22,10 @@
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qwhatsthis.h>
+
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 #include <dcopclient.h>
 
@@ -39,15 +42,15 @@
 
 //-----------------------------------------------------------------------------
 
-class PreviewCheckListItem : public QCheckListItem
+class PreviewCheckListItem : public Q3CheckListItem
 {
   public:
-    PreviewCheckListItem( QListView *parent, const QString &text )
-      : QCheckListItem( parent, text, CheckBoxController )
+    PreviewCheckListItem( Q3ListView *parent, const QString &text )
+      : Q3CheckListItem( parent, text, CheckBoxController )
     {}
 
-    PreviewCheckListItem( QListViewItem *parent, const QString &text )
-      : QCheckListItem( parent, text, CheckBox )
+    PreviewCheckListItem( Q3ListViewItem *parent, const QString &text )
+      : Q3CheckListItem( parent, text, CheckBox )
     {}
 
   protected:
@@ -102,7 +105,7 @@ KPreviewOptions::KPreviewOptions( QWidget *parent, const char */*name*/ )
         url.setProtocol( *it );
         if ( KProtocolInfo::supportsListing( url ) )
         {
-            QCheckListItem *item;
+            Q3CheckListItem *item;
             if ( KProtocolInfo::protocolClass( *it ) == ":local" )
                 item = new PreviewCheckListItem( localItems, ( *it ) );
             else
@@ -115,7 +118,7 @@ KPreviewOptions::KPreviewOptions( QWidget *parent, const char */*name*/ )
     listView->setOpen( localItems, true );
     listView->setOpen( inetItems, true );
 
-    QWhatsThis::add( listView,
+    listView->setWhatsThis(
                      i18n("This option makes it possible to choose when the file previews, "
                           "smart folder icons, and meta-data in the File Manager should be activated.\n"
                           "In the list of protocols that appear, select which ones are fast "
@@ -141,7 +144,7 @@ KPreviewOptions::KPreviewOptions( QWidget *parent, const char */*name*/ )
 
     lay->addWidget(m_useFileThumbnails);
 
-    QWhatsThis::add( m_useFileThumbnails,
+    m_useFileThumbnails->setWhatsThis(
                 i18n("Select this to use thumbnails that are found inside some "
                 "file types (e.g. JPEG). This will increase speed and reduce "
                 "disk usage. Deselect it if you have files that have been processed "
@@ -160,7 +163,7 @@ void KPreviewOptions::load(bool useDefaults)
     // *** load and apply to GUI ***
     KGlobal::config()->setReadDefaults(useDefaults);
     KConfigGroup group( KGlobal::config(), "PreviewSettings" );
-    QPtrListIterator<QCheckListItem> it( m_items );
+    Q3PtrListIterator<Q3CheckListItem> it( m_items );
 
     for ( ; it.current() ; ++it ) {
         QString protocol( it.current()->text() );
@@ -192,7 +195,7 @@ void KPreviewOptions::defaults()
 void KPreviewOptions::save()
 {
     KConfigGroup group( KGlobal::config(), "PreviewSettings" );
-    QPtrListIterator<QCheckListItem> it( m_items );
+    Q3PtrListIterator<Q3CheckListItem> it( m_items );
     for ( ; it.current() ; ++it ) {
         QString protocol( it.current()->text() );
         group.writeEntry( protocol, it.current()->isOn(), true, true );

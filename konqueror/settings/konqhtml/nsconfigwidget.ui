@@ -259,7 +259,7 @@
     <include location="global" impldecl="in declaration">klocale.h</include>
     <include location="global" impldecl="in declaration">kurlrequester.h</include>
     <include location="global" impldecl="in declaration">klistbox.h</include>
-    <include location="local" impldecl="in implementation">kdialog.h</include>
+    <include location="local" impldecl="in declaration">kdialog.h</include>
 </includes>
 <layoutdefaults spacing="3" margin="6"/>
 <layoutfunctions spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>

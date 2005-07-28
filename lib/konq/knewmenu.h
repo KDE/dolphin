@@ -20,8 +20,10 @@
 #ifndef __knewmenu_h
 #define __knewmenu_h
 
-#include <qintdict.h>
+#include <q3intdict.h>
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 #include <kaction.h>
 #include <kdialogbase.h>
@@ -33,7 +35,7 @@ namespace KIO { class Job; }
 class KDirWatch;
 class KLineEdit;
 class KURLRequester;
-class QPopupMenu;
+class Q3PopupMenu;
 
 /**
  * The 'New' submenu, both for the File menu and the RMB popup menu.
@@ -141,7 +143,7 @@ private:
      * List of all template files. It is important that they are in
      * the same order as the 'New' menu.
      */
-    static QValueList<Entry> * s_templatesList;
+    static Q3ValueList<Entry> * s_templatesList;
 
     class KNewMenuPrivate;
     KNewMenuPrivate* d;

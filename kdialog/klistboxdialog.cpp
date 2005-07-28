@@ -18,8 +18,8 @@
 //
 
 #include <qlabel.h>
-#include <qlistbox.h>
-#include <qvbox.h>
+#include <q3listbox.h>
+#include <q3vbox.h>
 
 #include "klistboxdialog.h"
 #include "klistboxdialog.moc"
@@ -29,12 +29,12 @@
 KListBoxDialog::KListBoxDialog(QString text, QWidget *parent)
     : KDialogBase( parent, 0, true, QString::null, Ok|Cancel, Ok, true )
 {
-  QVBox *page = makeVBoxMainWidget();
+  Q3VBox *page = makeVBoxMainWidget();
 
   label = new QLabel(text, page);
-  label->setAlignment(AlignCenter);
+  label->setAlignment(Qt::AlignCenter);
 
-  table = new QListBox(page);
+  table = new Q3ListBox(page);
   table->setFocus();
 }
 

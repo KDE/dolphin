@@ -20,7 +20,7 @@
 
 #include <dcopref.h>
 #include <kconfig.h>
-#include <qwhatsthis.h>
+
 #include <qradiobutton.h>
 #include <qspinbox.h>
 #include <qlabel.h>
@@ -33,10 +33,10 @@ namespace KCMPerformance
 Konqueror::Konqueror( QWidget* parent_P )
     : Konqueror_ui( parent_P )
     {
-    QWhatsThis::add( rb_never_reuse,
+    rb_never_reuse->setWhatsThis(
         i18n( "Disables the minimization of memory usage and allows you "
               "to make each browsing activity independent from the others" ));
-    QWhatsThis::add( rb_file_browsing_reuse,
+    rb_file_browsing_reuse->setWhatsThis(
         i18n( "With this option activated, only one instance of Konqueror "
               "used for file browsing will exist in the memory of your computer "
               "at any moment, "
@@ -44,7 +44,7 @@ Konqueror::Konqueror( QWidget* parent_P )
               "thus reducing resource requirements."
               "<p>Be aware that this also means that, if something goes wrong, "
               "all your file browsing windows will be closed simultaneously" ));
-    QWhatsThis::add( rb_always_reuse,
+    rb_always_reuse->setWhatsThis(
         i18n( "With this option activated, only one instance of Konqueror "
               "will exist in the memory of your computer at any moment, "
               "no matter how many browsing windows you open, "
@@ -63,15 +63,15 @@ Konqueror::Konqueror( QWidget* parent_P )
               "<p>When a new Konqueror instance is needed, one of these preloaded "
               "instances will be reused instead, improving responsiveness at "
               "the expense of the memory required by the preloaded instances." );
-    QWhatsThis::add( sb_preload_count, tmp );
-    QWhatsThis::add( lb_preload_count, tmp );
-    QWhatsThis::add( cb_preload_on_startup,
+    sb_preload_count->setWhatsThis( tmp );
+    lb_preload_count->setWhatsThis( tmp );
+    cb_preload_on_startup->setWhatsThis(
         i18n( "If enabled, an instance of Konqueror will be preloaded after the ordinary KDE "
               "startup sequence."
               "<p>This will make the first Konqueror window open faster, but "
               "at the expense of longer KDE startup times (but you will be able to work "
               "while it is loading, so you may not even notice that it is taking longer)." ));
-    QWhatsThis::add( cb_always_have_preloaded,
+    cb_always_have_preloaded->setWhatsThis(
         i18n( "If enabled, KDE will always try to have one preloaded Konqueror instance ready; "
               "preloading a new instance in the background whenever there is not one available, "
               "so that windows will always open quickly."

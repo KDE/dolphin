@@ -29,7 +29,6 @@ class KIntNumInput;
 class QCheckBox;
 class QComboBox;
 class QLineEdit;
-class QListViewItem;
 class QRadioButton;
 
 class KJavaOptions;

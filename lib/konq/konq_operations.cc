@@ -17,6 +17,9 @@
 */
 
 #include <qclipboard.h>
+//Added by qt3to4:
+#include <QDropEvent>
+#include <Q3ValueList>
 #include "konq_operations.h"
 
 #include <kautomount.h>
@@ -56,9 +59,10 @@
 #include <kprotocolinfo.h>
 #include <kprocess.h>
 #include <kstringhandler.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <unistd.h>
 #include <X11/Xlib.h>
+#include <QX11Info>
 
 KBookmarkManager * KonqBookmarkManager::s_bookmarkManager;
 
@@ -202,7 +206,7 @@ void KonqOperations::_del( int method, const KURL::List & _selectedURLs, int con
       {
         // Same as in ktrash --empty
         QByteArray packedArgs;
-        QDataStream stream( packedArgs, IO_WriteOnly );
+        QDataStream stream( &packedArgs, QIODevice::WriteOnly );
         stream << (int)1;
         job = KIO::special( "trash:/", packedArgs );
         KNotifyClient::event(0, "Trash: emptied");
@@ -349,7 +353,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDro
         Window child;
         int root_x, root_y, win_x, win_y;
         uint keybstate;
-        XQueryPointer( qt_xdisplay(), qt_xrootwin(), &root, &child,
+        XQueryPointer( QX11Info::display(), QX11Info::appRootWindow(), &root, &child,
                        &root_x, &root_y, &win_x, &win_y, &keybstate );
 
         QDropEvent::Action action = ev->action();
@@ -560,7 +564,7 @@ void KonqOperations::doFileCopy()
             return;
         }
 
-        QPopupMenu popup;
+        Q3PopupMenu popup;
         if (!mlst.isEmpty() && (sMoving || (sReading && sDeleting)) && !linkOnly )
             popup.insertItem(SmallIconSet("goto"), i18n( "&Move Here" ) + "\t" + KKey::modFlagLabel( KKey::SHIFT ), 2 );
         if ( sReading && !linkOnly)
@@ -658,14 +662,14 @@ void KonqOperations::setOperation( KIO::Job * job, int method, const KURL::List 
     KonqIconViewWidget *iconView = dynamic_cast<KonqIconViewWidget*>(parent());
     if (copyJob && iconView)
     {
-        connect(copyJob, SIGNAL(aboutToCreate(KIO::Job *,const QValueList<KIO::CopyInfo> &)),
-             this, SLOT(slotAboutToCreate(KIO::Job *,const QValueList<KIO::CopyInfo> &)));
-        connect(this, SIGNAL(aboutToCreate(const QPoint &, const QValueList<KIO::CopyInfo> &)),
-             iconView, SLOT(slotAboutToCreate(const QPoint &, const QValueList<KIO::CopyInfo> &)));
+        connect(copyJob, SIGNAL(aboutToCreate(KIO::Job *,const Q3ValueList<KIO::CopyInfo> &)),
+             this, SLOT(slotAboutToCreate(KIO::Job *,const Q3ValueList<KIO::CopyInfo> &)));
+        connect(this, SIGNAL(aboutToCreate(const QPoint &, const Q3ValueList<KIO::CopyInfo> &)),
+             iconView, SLOT(slotAboutToCreate(const QPoint &, const Q3ValueList<KIO::CopyInfo> &)));
     }
 }
 
-void KonqOperations::slotAboutToCreate(KIO::Job *, const QValueList<KIO::CopyInfo> &files)
+void KonqOperations::slotAboutToCreate(KIO::Job *, const Q3ValueList<KIO::CopyInfo> &files)
 {
     emit aboutToCreate( m_info ? m_info->mousePos : m_pasteInfo ? m_pasteInfo->mousePos : QPoint(), files);
 }
@@ -779,7 +783,7 @@ void KonqMultiRestoreJob::slotStart()
 
         Q_ASSERT( new_url.protocol() == "trash" );
         QByteArray packedArgs;
-        QDataStream stream( packedArgs, IO_WriteOnly );
+        QDataStream stream( &packedArgs, QIODevice::WriteOnly );
         stream << (int)3 << new_url;
         KIO::Job* job = KIO::special( new_url, packedArgs );
         addSubjob( job );

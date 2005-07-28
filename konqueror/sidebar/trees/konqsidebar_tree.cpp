@@ -9,51 +9,57 @@
 #include <klistviewsearchline.h>
 
 #include <qclipboard.h>
-#include <qdragobject.h>
+#include <q3dragobject.h>
 #include <qtoolbutton.h>
-#include <qvbox.h>
+#include <qapplication.h>
 
 KonqSidebar_Tree::KonqSidebar_Tree(KInstance *instance,QObject *parent,QWidget *widgetParent, QString &desktopName_, const char* name):
                    KonqSidebarPlugin(instance,parent,widgetParent,desktopName_,name)
-	{
-		KSimpleConfig ksc(desktopName_);
-		ksc.setGroup("Desktop Entry");
-		int virt= ( (ksc.readEntry("X-KDE-TreeModule","")=="Virtual") ?VIRT_Folder:VIRT_Link);
-		if (virt==1) desktopName_=ksc.readEntry("X-KDE-RelURL","");
-		
-		widget = new QVBox(widgetParent);
-                
-		if (ksc.readBoolEntry("X-KDE-SearchableTreeModule",false)) {
-			QHBox* searchline = new QHBox(widget);
-			searchline->setSpacing(KDialog::spacingHint());
-			tree=new KonqSidebarTree(this,widget,virt,desktopName_);
-			QToolButton *clearSearch = new QToolButton(searchline);
-			clearSearch->setTextLabel(i18n("Clear Search"), true);
-			clearSearch->setIconSet(SmallIconSet(QApplication::reverseLayout() ? "clear_left" : "locationbar_erase"));
-			QLabel* slbl = new QLabel(i18n("Se&arch:"), searchline);
-			KListViewSearchLine* listViewSearch = new KListViewSearchLine(searchline,tree);
-			slbl->setBuddy(listViewSearch);
-			connect(clearSearch, SIGNAL(pressed()), listViewSearch, SLOT(clear()));
-		}
-		else
-			tree=new KonqSidebarTree(this,widget,virt,desktopName_);
+{
+	KSimpleConfig ksc(desktopName_);
+	ksc.setGroup("Desktop Entry");
+	int virt= ( (ksc.readEntry("X-KDE-TreeModule","")=="Virtual") ?VIRT_Folder:VIRT_Link);
+	if (virt==1) desktopName_=ksc.readEntry("X-KDE-RelURL","");
+	
+	widget = new QWidget( widgetParent );
+	QHBoxLayout * layout = new QHBoxLayout( widget );
+			
+	if (ksc.readBoolEntry("X-KDE-SearchableTreeModule",false)) {
+		layout->setSpacing(KDialog::spacingHint());
+		tree=new KonqSidebarTree(this,widget,virt,desktopName_);
+		layout->addWidget( tree );
+		QToolButton *clearSearch = new QToolButton(widget);
+		layout->addWidget( clearSearch );
+		clearSearch->setTextLabel(i18n("Clear Search"), true);
+		clearSearch->setIconSet(SmallIconSet(QApplication::reverseLayout() ? "clear_left" : "locationbar_erase"));
+		QLabel* slbl = new QLabel(i18n("Se&arch:"), widget);
+		layout->addWidget( slbl );
+		KListViewSearchLine* listViewSearch = new KListViewSearchLine(widget,tree);
+		layout->addWidget( listViewSearch );
+		slbl->setBuddy(listViewSearch);
+		connect(clearSearch, SIGNAL(pressed()), listViewSearch, SLOT(clear()));
+	}
+	else {
+		tree=new KonqSidebarTree(this,widgetParent,virt,desktopName_);
+		layout->addWidget( tree );
+	}
 
-    		connect(tree, SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs &)),
-			this,SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs &)));
+	connect(tree, SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs &)),
+		this,SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs &)));
 
-		connect(tree,SIGNAL(createNewWindow( const KURL &, const KParts::URLArgs &)),
-			this,SIGNAL(createNewWindow( const KURL &, const KParts::URLArgs &)));
-		
-		connect(tree,SIGNAL(popupMenu( const QPoint &, const KURL &, const QString &, mode_t )),
-			this,SIGNAL(popupMenu( const QPoint &, const KURL &, const QString &, mode_t )));
+	connect(tree,SIGNAL(createNewWindow( const KURL &, const KParts::URLArgs &)),
+		this,SIGNAL(createNewWindow( const KURL &, const KParts::URLArgs &)));
+	
+	connect(tree,SIGNAL(popupMenu( const QPoint &, const KURL &, const QString &, mode_t )),
+		this,SIGNAL(popupMenu( const QPoint &, const KURL &, const QString &, mode_t )));
 
-		connect(tree,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )),
-			this,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )));
+	connect(tree,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )),
+		this,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )));
 
-		connect(tree,SIGNAL(enableAction( const char *, bool )),
-			this,SIGNAL(enableAction( const char *, bool)));
+	connect(tree,SIGNAL(enableAction( const char *, bool )),
+		this,SIGNAL(enableAction( const char *, bool)));
 
-        }
+}
 
 
 KonqSidebar_Tree::~KonqSidebar_Tree(){;}
@@ -73,14 +79,14 @@ void KonqSidebar_Tree::handleURL(const KURL &url)
 
 void KonqSidebar_Tree::cut()
 {
-    QDragObject * drag = static_cast<KonqSidebarTreeItem*>(tree->selectedItem())->dragObject( 0L, true );
+    Q3DragObject * drag = static_cast<KonqSidebarTreeItem*>(tree->selectedItem())->dragObject( 0L, true );
     if (drag)
         QApplication::clipboard()->setData( drag );
 }
 
 void KonqSidebar_Tree::copy()
 {
-    QDragObject * drag = static_cast<KonqSidebarTreeItem*>(tree->selectedItem())->dragObject( 0L );
+    Q3DragObject * drag = static_cast<KonqSidebarTreeItem*>(tree->selectedItem())->dragObject( 0L );
     if (drag)
         QApplication::clipboard()->setData( drag );
 }
@@ -148,7 +154,7 @@ extern "C"
 		{
 			int id=names.findIndex( item );
 			if (id==-1) return false;
-			KSimpleConfig ksc2(*list.at(id));
+			KSimpleConfig ksc2(QString(list.at(id)));
 			ksc2.setGroup("Desktop Entry");
 		        map->insert("Type","Link");
 			map->insert("Icon",ksc2.readEntry("Icon"));

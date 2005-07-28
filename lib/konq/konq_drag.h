@@ -19,10 +19,12 @@
 #ifndef __konqdrag_h__
 #define __konqdrag_h__
 
-#include <qdragobject.h>
+#include <q3dragobject.h>
 #include <qrect.h>
 #include <qstring.h>
-#include <qiconview.h>
+#include <q3iconview.h>
+//Added by qt3to4:
+#include <Q3StrList>
 
 #include <libkonq_export.h>
 
@@ -35,7 +37,7 @@
  *****************************************************************************/
 
 // Clipboard/dnd data for: Icons + URLS + isCut
-class LIBKONQ_EXPORT KonqIconDrag : public QIconDrag
+class LIBKONQ_EXPORT KonqIconDrag : public Q3IconDrag
 {
     Q_OBJECT
 
@@ -46,7 +48,7 @@ public:
     const char* format( int i ) const;
     QByteArray encodedData( const char* mime ) const;
 
-    void append( const QIconDragItem &item, const QRect &pr,
+    void append( const Q3IconDragItem &item, const QRect &pr,
                  const QRect &tr, const QString &url );
 
     void setMoveSelection( bool move ) { m_bCutSelection = move; }
@@ -74,7 +76,7 @@ public:
     virtual const char* format( int i ) const;
     virtual QByteArray encodedData( const char* mime ) const;
 
-    void append( const QIconDragItem &item, const QRect &pr,
+    void append( const Q3IconDragItem &item, const QRect &pr,
                  const QRect &tr, const QString &url, const KURL &mostLocalURL );
 
 private:
@@ -82,7 +84,7 @@ private:
 };
 
 // Clipboard/dnd data for: URLS + isCut
-class LIBKONQ_EXPORT KonqDrag : public QUriDrag
+class LIBKONQ_EXPORT KonqDrag : public Q3UriDrag
 {
 public:
     // KDE4: remove, use KonqDrag constructor instead
@@ -101,7 +103,7 @@ public:
 
 protected:
     // KDE4: remove
-    KonqDrag( const QStrList & urls, bool cut, QWidget * dragSource, const char* name );
+    KonqDrag( const Q3StrList & urls, bool cut, QWidget * dragSource, const char* name );
 
 public:
     virtual ~KonqDrag() {}
@@ -116,7 +118,7 @@ public:
 
 protected: // KDE4: private. And d pointer...
     bool m_bCutSelection;
-    QStrList m_urls; // this is set to the "most local urls". KDE4: KURL::List
+    Q3StrList m_urls; // this is set to the "most local urls". KDE4: KURL::List
 };
 
 #endif

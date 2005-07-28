@@ -23,6 +23,11 @@
 
 #include <kcommand.h>
 #include <kbookmark.h>
+//Added by qt3to4:
+#include <QMap>
+#include <Q3ValueList>
+#include <Q3PtrList>
+#include <Q3MimeSourceFactory>
 
 // Interface adds the affectedBookmarks method
 // Any class should on call add those bookmarks which are 
@@ -50,13 +55,13 @@ public:
 class DeleteManyCommand : public KEBMacroCommand
 {
 public:
-   DeleteManyCommand(const QString &name, const QValueList<QString>  & addresses);
+   DeleteManyCommand(const QString &name, const Q3ValueList<QString>  & addresses);
    virtual ~DeleteManyCommand() {};
    virtual QString currentAddress() const;
 private:
    QString prevOrParentAddress(QString addr);
    QString preOrderNextAddress(QString addr);
-   bool isConsecutive(const QValueList<QString> & addresses);
+   bool isConsecutive(const Q3ValueList<QString> & addresses);
    QString m_currentAddress;
 };
 
@@ -132,7 +137,7 @@ public:
 
    // change multiple attributes
    EditCommand(const QString &address,
-               const QValueList<Edition> &editions, 
+               const Q3ValueList<Edition> &editions, 
                const QString &name = QString::null)
       : KCommand(), m_address(address), m_editions(editions), m_mytext(name)
    { ; }
@@ -146,8 +151,8 @@ public:
    virtual QString affectedBookmarks() const;
 private:
    QString m_address;
-   QValueList<Edition> m_editions;
-   QValueList<Edition> m_reverseEditions;
+   Q3ValueList<Edition> m_editions;
+   Q3ValueList<Edition> m_reverseEditions;
    QString m_mytext;
 };
 

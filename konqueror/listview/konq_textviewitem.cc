@@ -24,7 +24,7 @@
 #include <stdio.h>
 #include <kglobal.h>
 
-int KonqTextViewItem::compare( QListViewItem *item, int col, bool ascending ) const
+int KonqTextViewItem::compare( Q3ListViewItem *item, int col, bool ascending ) const
 {
    if (col==1)
       return KonqBaseListViewItem::compare(item, 0, ascending);

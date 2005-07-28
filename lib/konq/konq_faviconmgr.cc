@@ -42,7 +42,7 @@ QString KonqFavIconMgr::iconForURL(const QString &url)
 void KonqFavIconMgr::setIconForURL(const KURL &url, const KURL &iconURL)
 {
     QByteArray data;
-    QDataStream str(data, IO_WriteOnly);
+    QDataStream str(&data, QIODevice::WriteOnly);
     str << url << iconURL;
     kapp->dcopClient()->send("kded", "favicons", "setIconForURL(KURL, KURL)", data);
 }
@@ -50,7 +50,7 @@ void KonqFavIconMgr::setIconForURL(const KURL &url, const KURL &iconURL)
 void KonqFavIconMgr::downloadHostIcon(const KURL &url)
 {
     QByteArray data;
-    QDataStream str(data, IO_WriteOnly);
+    QDataStream str(&data, QIODevice::WriteOnly);
     str << url;
     kapp->dcopClient()->send("kded", "favicons", "downloadHostIcon(KURL)", data);
 }

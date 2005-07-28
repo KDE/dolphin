@@ -35,11 +35,14 @@
 #include <qobject.h>
 #include <qstring.h>
 #include <qstringlist.h>
-#include <qptrqueue.h>
-#include <qdict.h>
+#include <q3ptrqueue.h>
+#include <q3dict.h>
 #include <qmap.h>
-#include <qintdict.h>
-#include <qguardedptr.h>
+#include <q3intdict.h>
+#include <qpointer.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <Q3PtrList>
 
 #include <kparts/browserextension.h>  // for URLArgs
 #include <kio/job.h>
@@ -129,7 +132,7 @@ protected slots:
   void resume();
 
 protected:
-  QGuardedPtr<KIO::TransferJob> _job;
+  QPointer<KIO::TransferJob> _job;
   QTimer *_resumeTimer;
 };
 
@@ -220,9 +223,9 @@ private:
   bool _visible;
   bool _firstResize;
   void addTempFile(KTempFile *tmpFile);
-  QPtrList<KTempFile> _tempFiles;
+  Q3PtrList<KTempFile> _tempFiles;
   NSPluginCallbackIface_stub *_callback;
-  QPtrList<NSPluginStreamBase> _streams;
+  Q3PtrList<NSPluginStreamBase> _streams;
   KLibrary *_handle;
   QTimer *_timer;
 
@@ -262,7 +265,7 @@ private:
 
   NPWindow _win;
   NPSetWindowCallbackStruct _win_info;
-  QPtrQueue<Request> _waitingRequests;
+  Q3PtrQueue<Request> _waitingRequests;
   QMap<int, Request*> _jsrequests;
 };
 
@@ -282,8 +285,8 @@ public:
   void destroyInstance( NSPluginInstance* inst );
   bool error() { return _error; }
 
-  void setApp(const QCString& app) { _app = app; }
-  const QCString& app() const { return _app; }
+  void setApp(const Q3CString& app) { _app = app; }
+  const Q3CString& app() const { return _app; }
 
 protected slots:
   void timer();
@@ -305,10 +308,10 @@ private:
   NPPluginFuncs _pluginFuncs;
   NPNetscapeFuncs _nsFuncs;
 
-  QPtrList<NSPluginInstance> _instances;
-  QPtrList<NSPluginInstance> _trash;
+  Q3PtrList<NSPluginInstance> _instances;
+  Q3PtrList<NSPluginInstance> _trash;
 
-  QCString _app;
+  Q3CString _app;
 };
 
 
@@ -316,17 +319,17 @@ class NSPluginViewer : public QObject, virtual public NSPluginViewerIface
 {
     Q_OBJECT
 public:
-   NSPluginViewer( QCString dcopId, QObject *parent, const char *name=0 );
+   NSPluginViewer( Q3CString dcopId, QObject *parent, const char *name=0 );
    virtual ~NSPluginViewer();
 
    void shutdown();
    DCOPRef newClass( QString plugin );
 
 private slots:
-   void appUnregistered(const QCString& id);
+   void appUnregistered(const Q3CString& id);
 
 private:
-   QDict<NSPluginClass> _classes;
+   Q3Dict<NSPluginClass> _classes;
 };
 
 

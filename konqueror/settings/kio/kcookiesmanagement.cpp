@@ -22,12 +22,16 @@
 #include <qapplication.h>
 #include <qlayout.h>
 #include <qpushbutton.h>
-#include <qgroupbox.h>
-#include <qhbox.h>
+#include <q3groupbox.h>
+#include <q3hbox.h>
 #include <qlabel.h>
 #include <qtimer.h>
 #include <qdatetime.h>
 #include <qtoolbutton.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3ValueList>
+#include <Q3CString>
 
 #include <kidna.h>
 #include <kdebug.h>
@@ -59,14 +63,14 @@ struct CookieProp
     bool allLoaded;
 };
 
-CookieListViewItem::CookieListViewItem(QListView *parent, QString dom)
-                   :QListViewItem(parent)
+CookieListViewItem::CookieListViewItem(Q3ListView *parent, QString dom)
+                   :Q3ListViewItem(parent)
 {
     init( 0, dom );
 }
 
-CookieListViewItem::CookieListViewItem(QListViewItem *parent, CookieProp *cookie)
-                   :QListViewItem(parent)
+CookieListViewItem::CookieListViewItem(Q3ListViewItem *parent, CookieProp *cookie)
+                   :Q3ListViewItem(parent)
 {
     init( cookie );
 }
@@ -114,15 +118,15 @@ KCookiesManagement::KCookiesManagement(QWidget *parent)
   mainLayout->addWidget(dlg);
   dlg->lvCookies->setSorting(0);
 
-  connect(dlg->lvCookies, SIGNAL(expanded(QListViewItem*)), SLOT(getCookies(QListViewItem*)) );
-  connect(dlg->lvCookies, SIGNAL(selectionChanged(QListViewItem*)), SLOT(showCookieDetails(QListViewItem*)) );
+  connect(dlg->lvCookies, SIGNAL(expanded(Q3ListViewItem*)), SLOT(getCookies(Q3ListViewItem*)) );
+  connect(dlg->lvCookies, SIGNAL(selectionChanged(Q3ListViewItem*)), SLOT(showCookieDetails(Q3ListViewItem*)) );
 
   connect(dlg->pbDelete, SIGNAL(clicked()), SLOT(deleteCookie()));
   connect(dlg->pbDeleteAll, SIGNAL(clicked()), SLOT(deleteAllCookies()));
   connect(dlg->pbReload, SIGNAL(clicked()), SLOT(getDomains()));
   connect(dlg->pbPolicy, SIGNAL(clicked()), SLOT(doPolicy()));
 
-  connect(dlg->lvCookies, SIGNAL(doubleClicked (QListViewItem *)), SLOT(doPolicy()));
+  connect(dlg->lvCookies, SIGNAL(doubleClicked (Q3ListViewItem *)), SLOT(doPolicy()));
   deletedCookies.setAutoDelete(true);
   m_bDeleteAll = false;
   mainWidget = parent;
@@ -162,8 +166,10 @@ void KCookiesManagement::save()
   {
     QByteArray call;
     QByteArray reply;
-    QCString replyType;
-    QDataStream callStream(call, IO_WriteOnly);
+    Q3CString replyType;
+    QDataStream callStream(&call, QIODevice::WriteOnly);
+
+    callStream.setVersion(QDataStream::Qt_3_1);
     callStream << *dIt;
 
     if( !DCOPRef("kded", "kcookiejar").send("deleteCookiesFromDomain", (*dIt)) )
@@ -179,12 +185,12 @@ void KCookiesManagement::save()
 
   // Individual cookies were deleted...
   bool success = true; // Maybe we can go on...
-  QDictIterator<CookiePropList> cookiesDom(deletedCookies);
+  Q3DictIterator<CookiePropList> cookiesDom(deletedCookies);
   
   while(cookiesDom.current())
   {
     CookiePropList *list = cookiesDom.current();
-    QPtrListIterator<CookieProp> cookie(*list);
+    Q3PtrListIterator<CookieProp> cookie(*list);
 
     while(*cookie)
     {
@@ -276,21 +282,21 @@ void KCookiesManagement::getDomains()
   dlg->pbDeleteAll->setEnabled(dlg->lvCookies->childCount());
 }
 
-void KCookiesManagement::getCookies(QListViewItem *cookieDom)
+void KCookiesManagement::getCookies(Q3ListViewItem *cookieDom)
 {
   CookieListViewItem* ckd = static_cast<CookieListViewItem*>(cookieDom);
   if ( ckd->cookiesLoaded() )
     return;
 
-  QValueList<int> fields;
+  Q3ValueList<int> fields;
   fields << 0 << 1 << 2 << 3;
 
   DCOPReply reply = DCOPRef ("kded", "kcookiejar").call ("findCookies",
                                                          DCOPArg(fields, "QValueList<int>"),
                                                          ckd->domain(),
-                                                         QString::null,
-                                                         QString::null,
-                                                         QString::null);
+                                                         QString(),
+                                                         QString(),
+                                                         QString());
   if(reply.isValid())
   {
     QStringList fieldVal = reply;
@@ -313,7 +319,7 @@ void KCookiesManagement::getCookies(QListViewItem *cookieDom)
 
 bool KCookiesManagement::cookieDetails(CookieProp *cookie)
 {
-  QValueList<int> fields;
+  Q3ValueList<int> fields;
   fields << 4 << 5 << 7;
 
   DCOPReply reply = DCOPRef ("kded", "kcookiejar").call ("findCookies",
@@ -346,7 +352,7 @@ bool KCookiesManagement::cookieDetails(CookieProp *cookie)
   return true;
 }
 
-void KCookiesManagement::showCookieDetails(QListViewItem* item)
+void KCookiesManagement::showCookieDetails(Q3ListViewItem* item)
 {
   kdDebug () << "::showCookieDetails... " << endl;
   CookieProp *cookie = static_cast<CookieListViewItem*>(item)->cookie();
@@ -407,7 +413,7 @@ void KCookiesManagement::doPolicy()
 
 void KCookiesManagement::deleteCookie()
 {
-  QListViewItem* currentItem = dlg->lvCookies->currentItem();
+  Q3ListViewItem* currentItem = dlg->lvCookies->currentItem();
   CookieListViewItem *item = static_cast<CookieListViewItem*>( currentItem );
   if( item->cookie() )
   {

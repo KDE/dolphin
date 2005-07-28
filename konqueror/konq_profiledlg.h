@@ -22,11 +22,13 @@
 
 #include <kdialogbase.h>
 
-#include <qlistview.h>
+#include <q3listview.h>
 #include <qmap.h>
+//Added by qt3to4:
+#include <QGridLayout>
 
 class KonqViewManager;
-class QListViewItem;
+class Q3ListViewItem;
 class QGridLayout;
 class QCheckBox;
 class QLineEdit;
@@ -35,7 +37,7 @@ class KListView;
 
 typedef QMap<QString, QString> KonqProfileMap;
 
-class KonqProfileItem : public QListViewItem
+class KonqProfileItem : public Q3ListViewItem
 {
 public:
   KonqProfileItem( KListView *, const QString & );
@@ -62,9 +64,9 @@ protected slots:
   virtual void slotUser2(); // User2 is "Delete Profile" button
   virtual void slotUser3(); // User3 is Save button
   void slotTextChanged( const QString & );
-  void slotSelectionChanged( QListViewItem * item );
+  void slotSelectionChanged( Q3ListViewItem * item );
 
-  void slotItemRenamed( QListViewItem * );
+  void slotItemRenamed( Q3ListViewItem * );
 
 private:
   void loadAllProfiles(const QString & = QString::null);

@@ -16,6 +16,10 @@
 
 #include <qlayout.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3CString>
+#include <Q3PtrList>
 
 #include <kconfig.h>
 #include <kdebug.h>
@@ -27,8 +31,10 @@
 #include <ksettings/dispatcher.h>
 #include <dcopref.h>
 
+#include "konq_view.h"
 #include "konq_extensionmanager.h"
 #include "konq_mainwindow.h"
+
 
 class KonqExtensionManagerPrivate
 {
@@ -53,8 +59,8 @@ KonqExtensionManager::KonqExtensionManager(QWidget *parent, KonqMainWindow *main
 	d->pluginSelector = new KPluginSelector(plainPage());
 	setMainWidget(d->pluginSelector);
 	connect(d->pluginSelector, SIGNAL(changed(bool)), this, SLOT(setChanged(bool)));
-	connect(d->pluginSelector, SIGNAL(configCommitted(const QCString &)),
-	        KSettings::Dispatcher::self(), SLOT(reparseConfiguration(const QCString &)));
+	connect(d->pluginSelector, SIGNAL(configCommitted(const Q3CString &)),
+	        KSettings::Dispatcher::self(), SLOT(reparseConfiguration(const Q3CString &)));
 
 	d->mainWindow = mainWindow;
 	d->activePart = activePart;
@@ -101,8 +107,8 @@ void KonqExtensionManager::apply()
 		if( d->mainWindow )
 		{
 			KParts::Plugin::loadPlugins(d->mainWindow, d->mainWindow, KGlobal::instance());
-			QPtrList<KParts::Plugin> plugins = KParts::Plugin::pluginObjects(d->mainWindow);
-			QPtrListIterator<KParts::Plugin> it(plugins);
+			Q3PtrList<KParts::Plugin> plugins = KParts::Plugin::pluginObjects(d->mainWindow);
+			Q3PtrListIterator<KParts::Plugin> it(plugins);
 			KParts::Plugin *plugin;
 			while((plugin = it.current()) != 0)
 			{
@@ -113,8 +119,8 @@ void KonqExtensionManager::apply()
 		if ( d->activePart )
 		{
 			KParts::Plugin::loadPlugins( d->activePart, d->activePart, d->activePart->instance() );
-			QPtrList<KParts::Plugin> plugins = KParts::Plugin::pluginObjects( d->activePart );
-			QPtrListIterator<KParts::Plugin> it(plugins);
+			Q3PtrList<KParts::Plugin> plugins = KParts::Plugin::pluginObjects( d->activePart );
+			Q3PtrListIterator<KParts::Plugin> it(plugins);
 			KParts::Plugin *plugin;
 			while((plugin = it.current()) != 0)
 			{

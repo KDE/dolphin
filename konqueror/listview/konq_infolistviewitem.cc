@@ -25,7 +25,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <qpainter.h>
-#include <qheader.h>
+#include <q3header.h>
 #include <kiconloader.h>
 #include "konq_infolistviewitem.h"
 #include "konq_infolistviewwidget.h"
@@ -137,7 +137,7 @@ void KonqInfoListViewItem::gotMetaInfo()
     }
 }
 
-int KonqInfoListViewItem::compare( QListViewItem *item, int col, bool ascending ) const
+int KonqInfoListViewItem::compare( Q3ListViewItem *item, int col, bool ascending ) const
 {
     if ( col == 0 )
         return KonqBaseListViewItem::compare( item, 0, ascending );
@@ -229,8 +229,7 @@ void KonqInfoListViewItem::paintCell( QPainter *_painter, const QColorGroup & _c
             cg.setBrush( QColorGroup::Base, QBrush( backgroundColor(_column), *pm ) );
             QPoint o = _painter->brushOrigin();
             _painter->setBrushOrigin( o.x() - lv->contentsX(), o.y() - lv->contentsY() );
-            const QColorGroup::ColorRole crole =
-                QPalette::backgroundRoleFromMode( lv->viewport()->backgroundMode() );
+            const QPalette::ColorRole crole = lv->viewport()->backgroundRole();
             _painter->fillRect( newWidth, 0, _width - newWidth, height(), cg.brush( crole ) );
             _painter->setBrushOrigin( o );
         }
@@ -248,11 +247,11 @@ void KonqInfoListViewItem::paintCell( QPainter *_painter, const QColorGroup & _c
 void KonqInfoListViewItem::paintFocus( QPainter * _painter, const QColorGroup & cg, const QRect & _r )
 {
     QRect r( _r );
-    QListView *lv = static_cast< QListView * >( listView() );
+    Q3ListView *lv = static_cast< Q3ListView * >( listView() );
     r.setWidth( width( lv->fontMetrics(), lv, 0 ) );
     if ( r.right() > lv->header()->sectionRect( 0 ).right() )
         r.setRight( lv->header()->sectionRect( 0 ).right() );
-    QListViewItem::paintFocus( _painter, cg, r );
+    Q3ListViewItem::paintFocus( _painter, cg, r );
 }
 
 #if 0

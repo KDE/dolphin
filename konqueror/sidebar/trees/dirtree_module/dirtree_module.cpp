@@ -144,9 +144,9 @@ void KonqSidebarDirTreeModule::addSubDir( KonqSidebarTreeItem *item )
 
 // Remove <key, item> from dict, taking into account that there maybe
 // other items with the same key.
-static void remove(QDict<KonqSidebarTreeItem> &dict, const QString &key, KonqSidebarTreeItem *item)
+static void remove(Q3Dict<KonqSidebarTreeItem> &dict, const QString &key, KonqSidebarTreeItem *item)
 {
-   QPtrList<KonqSidebarTreeItem> *otherItems = 0;
+   Q3PtrList<KonqSidebarTreeItem> *otherItems = 0;
    while(true) {
       KonqSidebarTreeItem *takeItem = dict.take(key);
       if (!takeItem || (takeItem == item))
@@ -164,7 +164,7 @@ static void remove(QDict<KonqSidebarTreeItem> &dict, const QString &key, KonqSid
       }
       // Not the item we are looking for
       if (!otherItems)
-         otherItems = new QPtrList<KonqSidebarTreeItem>();
+         otherItems = new Q3PtrList<KonqSidebarTreeItem>();
 
       otherItems->prepend(takeItem);
    }
@@ -173,7 +173,7 @@ static void remove(QDict<KonqSidebarTreeItem> &dict, const QString &key, KonqSid
 // Looks up key in dict and returns it in item, if there are multiple items
 // with the same key, additional items are returned in itemList which should
 // be deleted by the caller.
-static void lookupItems(QDict<KonqSidebarTreeItem> &dict, const QString &key, KonqSidebarTreeItem *&item, QPtrList<KonqSidebarTreeItem> *&itemList)
+static void lookupItems(Q3Dict<KonqSidebarTreeItem> &dict, const QString &key, KonqSidebarTreeItem *&item, Q3PtrList<KonqSidebarTreeItem> *&itemList)
 {
    itemList = 0;
    item = dict.take(key);
@@ -196,7 +196,7 @@ static void lookupItems(QDict<KonqSidebarTreeItem> &dict, const QString &key, Ko
            return;
        }
        if (!itemList)
-          itemList = new QPtrList<KonqSidebarTreeItem>();
+          itemList = new Q3PtrList<KonqSidebarTreeItem>();
           
        itemList->prepend(takeItem);
    }
@@ -204,9 +204,9 @@ static void lookupItems(QDict<KonqSidebarTreeItem> &dict, const QString &key, Ko
 
 // Remove <key, item> from dict, taking into account that there maybe
 // other items with the same key.
-static void remove(QPtrDict<KonqSidebarTreeItem> &dict, void *key, KonqSidebarTreeItem *item)
+static void remove(Q3PtrDict<KonqSidebarTreeItem> &dict, void *key, KonqSidebarTreeItem *item)
 {
-   QPtrList<KonqSidebarTreeItem> *otherItems = 0;
+   Q3PtrList<KonqSidebarTreeItem> *otherItems = 0;
    while(true) {
       KonqSidebarTreeItem *takeItem = dict.take(key);
       if (!takeItem || (takeItem == item))
@@ -224,7 +224,7 @@ static void remove(QPtrDict<KonqSidebarTreeItem> &dict, void *key, KonqSidebarTr
       }
       // Not the item we are looking for
       if (!otherItems)
-         otherItems = new QPtrList<KonqSidebarTreeItem>();
+         otherItems = new Q3PtrList<KonqSidebarTreeItem>();
 
       otherItems->prepend(takeItem);
    }
@@ -233,7 +233,7 @@ static void remove(QPtrDict<KonqSidebarTreeItem> &dict, void *key, KonqSidebarTr
 // Looks up key in dict and returns it in item, if there are multiple items
 // with the same key, additional items are returned in itemList which should
 // be deleted by the caller.
-static void lookupItems(QPtrDict<KonqSidebarTreeItem> &dict, void *key, KonqSidebarTreeItem *&item, QPtrList<KonqSidebarTreeItem> *&itemList)
+static void lookupItems(Q3PtrDict<KonqSidebarTreeItem> &dict, void *key, KonqSidebarTreeItem *&item, Q3PtrList<KonqSidebarTreeItem> *&itemList)
 {
    itemList = 0;
    item = dict.take(key);
@@ -256,7 +256,7 @@ static void lookupItems(QPtrDict<KonqSidebarTreeItem> &dict, void *key, KonqSide
            return;
        }
        if (!itemList)
-          itemList = new QPtrList<KonqSidebarTreeItem>();
+          itemList = new Q3PtrList<KonqSidebarTreeItem>();
           
        itemList->prepend(takeItem);
    }
@@ -341,7 +341,7 @@ void KonqSidebarDirTreeModule::listDirectory( KonqSidebarTreeItem *item )
     QString strUrl = item->externalURL().url(-1);
     KURL url( strUrl );
 
-    QPtrList<KonqSidebarTreeItem> *itemList;
+    Q3PtrList<KonqSidebarTreeItem> *itemList;
     KonqSidebarTreeItem * openItem;
     lookupItems(m_dictSubDirs, strUrl, openItem, itemList);
 
@@ -407,7 +407,7 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
     dir.setFileName( "" );
     kdDebug(1201) << this << " KonqSidebarDirTreeModule::slotNewItems dir=" << dir.url(-1) << endl;
 
-    QPtrList<KonqSidebarTreeItem> *parentItemList;
+    Q3PtrList<KonqSidebarTreeItem> *parentItemList;
     KonqSidebarTreeItem * parentItem;
     lookupItems(m_dictSubDirs, dir.url(-1), parentItem, parentItemList);
 
@@ -428,7 +428,7 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
     do 
     {
     	kdDebug()<<"Parent Item URL:"<<parentItem->externalURL()<<endl;
-        QPtrListIterator<KFileItem> kit ( entries );
+        Q3PtrListIterator<KFileItem> kit ( entries );
         for( ; kit.current(); ++kit )
         {
             KFileItem * fileItem = *kit;
@@ -458,13 +458,13 @@ void KonqSidebarDirTreeModule::slotRefreshItems( const KFileItemList &entries )
 {
     int size = KGlobal::iconLoader()->currentSize( KIcon::Small );
 
-    QPtrListIterator<KFileItem> kit ( entries );
+    Q3PtrListIterator<KFileItem> kit ( entries );
     kdDebug(1201) << "KonqSidebarDirTreeModule::slotRefreshItems " << entries.count() << " entries. First: " << kit.current()->url().url() << endl;
     for( ; kit.current(); ++kit )
     {
         KFileItem *fileItem = kit.current();
 
-        QPtrList<KonqSidebarTreeItem> *itemList;
+        Q3PtrList<KonqSidebarTreeItem> *itemList;
         KonqSidebarTreeItem * item;
         lookupItems(m_ptrdictSubDirs, fileItem, item, itemList);
 
@@ -516,7 +516,7 @@ void KonqSidebarDirTreeModule::slotDeleteItem( KFileItem *fileItem )
     kdDebug(1201) << "KonqSidebarDirTreeModule::slotDeleteItem( " << fileItem->url().url(-1) << " )" << endl;
 
     // All items are in m_ptrdictSubDirs, so look it up fast
-    QPtrList<KonqSidebarTreeItem> *itemList;
+    Q3PtrList<KonqSidebarTreeItem> *itemList;
     KonqSidebarTreeItem * item;
     lookupItems(m_ptrdictSubDirs, fileItem, item, itemList);
     while(item)
@@ -536,7 +536,7 @@ void KonqSidebarDirTreeModule::slotRedirection( const KURL & oldUrl, const KURL 
     QString oldUrlStr = oldUrl.url(-1);
     QString newUrlStr = newUrl.url(-1);
 
-    QPtrList<KonqSidebarTreeItem> *itemList;
+    Q3PtrList<KonqSidebarTreeItem> *itemList;
     KonqSidebarTreeItem * item;
     lookupItems(m_dictSubDirs, oldUrlStr, item, itemList);
 
@@ -564,7 +564,7 @@ void KonqSidebarDirTreeModule::slotListingStopped( const KURL & url )
 {
     kdDebug(1201) << "KonqSidebarDirTree::slotListingStopped " << url.url(-1) << endl;
 
-    QPtrList<KonqSidebarTreeItem> *itemList;
+    Q3PtrList<KonqSidebarTreeItem> *itemList;
     KonqSidebarTreeItem * item;
     lookupItems(m_dictSubDirs, url.url(-1), item, itemList);
 

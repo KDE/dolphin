@@ -34,7 +34,7 @@ public:
     virtual ~KonqSidebarBookmarkItem() {}
 
     // Create a drag object from this item.
-    virtual QDragObject * dragObject( QWidget * parent, bool move = false );
+    virtual Q3DragObject * dragObject( QWidget * parent, bool move = false );
 
     virtual void middleButtonClicked();
     virtual void rightButtonPressed();

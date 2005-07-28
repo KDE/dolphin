@@ -23,9 +23,17 @@
 #include <qclipboard.h>
 #include <qcursor.h>
 #include <qdir.h>
-#include <qheader.h>
-#include <qpopupmenu.h>
+#include <q3header.h>
+#include <q3popupmenu.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QDragLeaveEvent>
+#include <QDragMoveEvent>
+#include <QEvent>
+#include <Q3Frame>
+#include <QDropEvent>
+#include <QDragEnterEvent>
 
 #include <dcopclient.h>
 #include <dcopref.h>
@@ -117,7 +125,6 @@ public:
 KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidget, int virt, const QString& path )
     : KListView( parentWidget ),
       m_currentTopLevelItem( 0 ),
-      m_toolTip( this ),
       m_scrollingLocked( false ),
       m_collection( 0 )
 {
@@ -130,7 +137,7 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
     viewport()->setAcceptDrops( true );
     m_lstModules.setAutoDelete( true );
 
-    setSelectionMode( QListView::Single );
+    setSelectionMode( Q3ListView::Single );
     setDragEnabled(true);
 
     m_part = parent;
@@ -151,19 +158,19 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
     connect( m_autoOpenTimer, SIGNAL( timeout() ),
              this, SLOT( slotAutoOpenFolder() ) );
 
-    connect( this, SIGNAL( doubleClicked( QListViewItem * ) ),
-             this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
-    connect( this, SIGNAL( mouseButtonPressed(int, QListViewItem*, const QPoint&, int)),
-             this, SLOT( slotMouseButtonPressed(int, QListViewItem*, const QPoint&, int)) );
-    connect( this, SIGNAL( mouseButtonClicked( int, QListViewItem*, const QPoint&, int ) ),
-	     this, SLOT( slotMouseButtonClicked( int, QListViewItem*, const QPoint&, int ) ) );
-    connect( this, SIGNAL( returnPressed( QListViewItem * ) ),
-             this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
+    connect( this, SIGNAL( doubleClicked( Q3ListViewItem * ) ),
+             this, SLOT( slotDoubleClicked( Q3ListViewItem * ) ) );
+    connect( this, SIGNAL( mouseButtonPressed(int, Q3ListViewItem*, const QPoint&, int)),
+             this, SLOT( slotMouseButtonPressed(int, Q3ListViewItem*, const QPoint&, int)) );
+    connect( this, SIGNAL( mouseButtonClicked( int, Q3ListViewItem*, const QPoint&, int ) ),
+	     this, SLOT( slotMouseButtonClicked( int, Q3ListViewItem*, const QPoint&, int ) ) );
+    connect( this, SIGNAL( returnPressed( Q3ListViewItem * ) ),
+             this, SLOT( slotDoubleClicked( Q3ListViewItem * ) ) );
     connect( this, SIGNAL( selectionChanged() ),
              this, SLOT( slotSelectionChanged() ) );
 
-    connect( this, SIGNAL(itemRenamed(QListViewItem*, const QString &, int)),
-             this, SLOT(slotItemRenamed(QListViewItem*, const QString &, int)));
+    connect( this, SIGNAL(itemRenamed(Q3ListViewItem*, const QString &, int)),
+             this, SLOT(slotItemRenamed(Q3ListViewItem*, const QString &, int)));
 
 /*    assert( m_part->getInterfaces()->getInstance()->dirs );
     QString dirtreeDir = m_part->getInterfaces()->getInstance()->dirs()->saveLocation( "data", "konqueror/dirtree/" ); */
@@ -190,7 +197,7 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
       m_bOpeningFirstChild = false;
     }
 
-    setFrameStyle( QFrame::ToolBarPanel | QFrame::Raised );
+    setFrameStyle( Q3Frame::ToolBarPanel | Q3Frame::Raised );
 }
 
 KonqSidebarTree::~KonqSidebarTree()
@@ -244,7 +251,7 @@ void KonqSidebarTree::followURL( const KURL &url )
     }
 
     kdDebug(1201) << "KonqDirTree::followURL: " << url.url() << endl;
-    QPtrListIterator<KonqSidebarTreeTopLevelItem> topItem ( m_topLevelItems );
+    Q3PtrListIterator<KonqSidebarTreeTopLevelItem> topItem ( m_topLevelItems );
     for (; topItem.current(); ++topItem )
     {
         if ( topItem.current()->externalURL().isParentOf( url ) )
@@ -269,7 +276,7 @@ void KonqSidebarTree::contentsDragEnterEvent( QDragEnterEvent *ev )
 
 void KonqSidebarTree::contentsDragMoveEvent( QDragMoveEvent *e )
 {
-    QListViewItem *item = itemAt( contentsToViewport( e->pos() ) );
+    Q3ListViewItem *item = itemAt( contentsToViewport( e->pos() ) );
 
     // Accept drops on the background, if URLs
     if ( !item && m_lstDropFormats.contains("text/uri-list") )
@@ -422,13 +429,13 @@ bool KonqSidebarTree::acceptDrag(QDropEvent* e) const
     return false;
 }
 
-QDragObject* KonqSidebarTree::dragObject()
+Q3DragObject* KonqSidebarTree::dragObject()
 {
     KonqSidebarTreeItem* item = static_cast<KonqSidebarTreeItem *>( selectedItem() );
     if ( !item )
         return 0;
 
-    QDragObject* drag = item->dragObject( viewport(), false );
+    Q3DragObject* drag = item->dragObject( viewport(), false );
     if ( !drag )
         return 0;
 
@@ -446,7 +453,7 @@ void KonqSidebarTree::leaveEvent( QEvent *e )
 }
 
 
-void KonqSidebarTree::slotDoubleClicked( QListViewItem *item )
+void KonqSidebarTree::slotDoubleClicked( Q3ListViewItem *item )
 {
     //kdDebug(1201) << "KonqSidebarTree::slotDoubleClicked " << item << endl;
     if ( !item )
@@ -459,7 +466,7 @@ void KonqSidebarTree::slotDoubleClicked( QListViewItem *item )
     item->setOpen( !item->isOpen() );
 }
 
-void KonqSidebarTree::slotExecuted( QListViewItem *item )
+void KonqSidebarTree::slotExecuted( Q3ListViewItem *item )
 {
     kdDebug(1201) << "KonqSidebarTree::slotExecuted " << item << endl;
     if ( !item )
@@ -479,10 +486,10 @@ void KonqSidebarTree::slotExecuted( QListViewItem *item )
 	openURLRequest( externalURL, args );
 }
 
-void KonqSidebarTree::slotMouseButtonPressed( int _button, QListViewItem* _item, const QPoint&, int col )
+void KonqSidebarTree::slotMouseButtonPressed( int _button, Q3ListViewItem* _item, const QPoint&, int col )
 {
     KonqSidebarTreeItem * item = static_cast<KonqSidebarTreeItem*>( _item );
-    if (_button == RightButton)
+    if (_button == Qt::RightButton)
     {
         if ( item && col < 2)
         {
@@ -492,16 +499,16 @@ void KonqSidebarTree::slotMouseButtonPressed( int _button, QListViewItem* _item,
     }
 }
 
-void KonqSidebarTree::slotMouseButtonClicked(int _button, QListViewItem* _item, const QPoint&, int col)
+void KonqSidebarTree::slotMouseButtonClicked(int _button, Q3ListViewItem* _item, const QPoint&, int col)
 {
     KonqSidebarTreeItem * item = static_cast<KonqSidebarTreeItem*>(_item);
     if(_item && col < 2)
     {
         switch( _button ) {
-        case LeftButton:
+        case Qt::LeftButton:
             slotExecuted( item );
             break;
-        case MidButton:
+        case Qt::MidButton:
             item->middleButtonClicked();
             break;
         }
@@ -689,7 +696,7 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
 
     for (; eIt != eEnd; eIt++ )
     {
-        QString newPath = QString( path ).append( *eIt ).append( '/' );
+        QString newPath = QString( path ).append( *eIt ).append( QLatin1Char( '/' ) );
 
         if ( newPath == KGlobalSettings::autostartPath() )
             continue;
@@ -851,7 +858,7 @@ void KonqSidebarTree::setContentsPos( int x, int y )
 	KListView::setContentsPos( x, y );
 }
 
-void KonqSidebarTree::slotItemRenamed(QListViewItem* item, const QString &name, int col)
+void KonqSidebarTree::slotItemRenamed(Q3ListViewItem* item, const QString &name, int col)
 {
     Q_ASSERT(col==0);
     if (col != 0) return;
@@ -884,9 +891,9 @@ bool KonqSidebarTree::tabSupport()
    DCOPRef ref(kapp->dcopClient()->appId(), topLevelWidget()->name());
     DCOPReply reply = ref.call("functions()");
     if (reply.isValid()) {
-        QCStringList funcs;
+        Q3StrList funcs;
         reply.get(funcs, "QCStringList");
-        for (QCStringList::ConstIterator it = funcs.begin(); it != funcs.end(); ++it) {
+        for (Q3StrList::ConstIterator it = funcs.begin(); it != funcs.end(); ++it) {
             if ((*it) == "void newTab(QString url)") {
                 return true;
                 break;
@@ -924,7 +931,7 @@ void KonqSidebarTree::showToplevelContextMenu()
                             SLOT( slotCopyLocation() ), m_collection, "copy_location");
     }
 
-    QPopupMenu *menu = new QPopupMenu;
+    Q3PopupMenu *menu = new Q3PopupMenu;
 
     if (item) {
         if (item->isTopLevelGroup()) {
@@ -1037,17 +1044,18 @@ void KonqSidebarTree::slotCopyLocation()
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
 
-
+#warning KonqSidebarTreeToolTip removed, must implemented in event() function
+/*
 void KonqSidebarTreeToolTip::maybeTip( const QPoint &point )
 {
-    QListViewItem *item = m_view->itemAt( point );
+    Q3ListViewItem *item = m_view->itemAt( point );
     if ( item ) {
 	QString text = static_cast<KonqSidebarTreeItem*>( item )->toolTipText();
 	if ( !text.isEmpty() )
 	    tip ( m_view->itemRect( item ), text );
     }
 }
-
+*/
 
 
 

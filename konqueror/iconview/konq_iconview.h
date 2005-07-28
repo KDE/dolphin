@@ -24,8 +24,8 @@
 #include <konq_operations.h>
 #include <konq_dirpart.h>
 #include <kmimetyperesolver.h>
-#include <qptrdict.h>
-#include <qptrlist.h>
+#include <q3ptrdict.h>
+#include <q3ptrlist.h>
 #include <kfileivi.h>
 
 class KonqPropsView;
@@ -34,7 +34,7 @@ class KDirLister;
 class KAction;
 class KToggleAction;
 class KActionMenu;
-class QIconViewItem;
+class Q3IconViewItem;
 class IconViewBrowserExtension;
 
 /**
@@ -92,17 +92,17 @@ public slots:
   void slotSortDirsFirst();
 
 protected slots:
-  // slots connected to QIconView
-  void slotReturnPressed( QIconViewItem *item );
-  void slotMouseButtonPressed(int, QIconViewItem*, const QPoint&);
-  void slotMouseButtonClicked(int, QIconViewItem*, const QPoint&);
-  void slotContextMenuRequested(QIconViewItem*, const QPoint&);
-  void slotOnItem( QIconViewItem *item );
+  // slots connected to Q3IconView
+  void slotReturnPressed( Q3IconViewItem *item );
+  void slotMouseButtonPressed(int, Q3IconViewItem*, const QPoint&);
+  void slotMouseButtonClicked(int, Q3IconViewItem*, const QPoint&);
+  void slotContextMenuRequested(Q3IconViewItem*, const QPoint&);
+  void slotOnItem( Q3IconViewItem *item );
   void slotOnViewport();
   void slotSelectionChanged();
 
   // Slot used for spring loading folders
-  void slotDragHeld( QIconViewItem *item );
+  void slotDragHeld( Q3IconViewItem *item );
   void slotDragMove( bool accepted );
   void slotDragEntered( bool accepted );
   void slotDragLeft();
@@ -197,13 +197,13 @@ protected:
   KToggleAction *m_paDotFiles;
   KToggleAction *m_paDirectoryOverlays;
   KToggleAction *m_paEnablePreviews;
-  QPtrList<KFileIVI> m_paOutstandingOverlays;
+  Q3PtrList<KFileIVI> m_paOutstandingOverlays;
   QTimer *m_paOutstandingOverlaysTimer;
 /*  KToggleAction *m_paImagePreview;
   KToggleAction *m_paTextPreview;
   KToggleAction *m_paHTMLPreview;*/
   KActionMenu *m_pamPreview;
-  QPtrList<KToggleAction> m_paPreviewPlugins;
+  Q3PtrList<KToggleAction> m_paPreviewPlugins;
   KActionMenu *m_pamSort;
 
   KAction *m_paSelect;
@@ -218,7 +218,7 @@ protected:
 
   QTimer *m_pTimeoutRefreshTimer;
 
-  QPtrDict<KFileIVI> m_itemDict; // maps KFileItem * -> KFileIVI *
+  Q3PtrDict<KFileIVI> m_itemDict; // maps KFileItem * -> KFileIVI *
 
   KMimeTypeResolver<KFileIVI,KonqKfmIconView> * m_mimeTypeResolver;
 
@@ -277,7 +277,7 @@ public:
     static bool exists();
 
     void springLoadTrigger(KonqKfmIconView *view, KFileItem *file,
-                           QIconViewItem *item);
+                           Q3IconViewItem *item);
 
     void dragLeft(KonqKfmIconView *view);
     void dragEntered(KonqKfmIconView *view);

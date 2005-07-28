@@ -26,7 +26,7 @@
 
 
 #include <qstringlist.h>
-#include <qcstring.h>
+#include <q3cstring.h>
 #include <dcopobject.h>
 #include <dcopref.h>
 

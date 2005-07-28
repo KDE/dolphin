@@ -25,6 +25,10 @@
 
 #include <krun.h>
 #include <kparts/browserextension.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QDragEnterEvent>
+#include <QDropEvent>
 class KonqMainWindow;
 class KonqView;
 

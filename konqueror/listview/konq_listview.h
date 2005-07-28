@@ -27,7 +27,7 @@
 #include <konq_dirpart.h>
 #include <kmimetyperesolver.h>
 
-#include <qvaluelist.h>
+#include <q3valuelist.h>
 #include <qlistview.h>
 #include <qstringlist.h>
 
@@ -86,7 +86,7 @@ public:
   //int iconSize() { return m_pListView->iconSize(); }
   void determineIcon( KonqBaseListViewItem * item );
 
-  QPtrList<KonqBaseListViewItem> & lstPendingMimeIconItems() { return m_mimeTypeResolver->m_lstPendingMimeIconItems; }
+  Q3PtrList<KonqBaseListViewItem> & lstPendingMimeIconItems() { return m_mimeTypeResolver->m_lstPendingMimeIconItems; }
   void listingComplete();
 
   virtual void newIconSize( int );

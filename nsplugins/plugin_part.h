@@ -29,7 +29,7 @@
 #include <kparts/part.h>
 #include <klibloader.h>
 #include <qwidget.h>
-#include <qguardedptr.h>
+#include <qpointer.h>
 
 class KAboutData;
 class KInstance;
@@ -124,7 +124,7 @@ protected slots:
   void saveAs();
 
 private:
-  QGuardedPtr<QWidget> _widget;
+  QPointer<QWidget> _widget;
   PluginCanvasWidget *_canvas;
   PluginBrowserExtension *_extension;
   PluginLiveConnectExtension *_liveconnect;
@@ -148,7 +148,7 @@ public:
     QString evalJavaScript( const QString & script );
 
 signals:
-    virtual void partEvent( const unsigned long objid, const QString & event, const KParts::LiveConnectExtension::ArgList & args );
+    void partEvent( const unsigned long objid, const QString & event, const KParts::LiveConnectExtension::ArgList & args );
 
 private:
     PluginPart *_part;

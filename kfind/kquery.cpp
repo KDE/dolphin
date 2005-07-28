@@ -1,6 +1,8 @@
 #include <stdlib.h>
 
 #include <qfileinfo.h>
+#include <qtextstream.h>
+
 #include <kdebug.h>
 #include <kfileitem.h>
 #include <kfilemetainfo.h>

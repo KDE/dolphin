@@ -34,7 +34,7 @@
 #include <kmessagebox.h>
 #include <kiconloader.h>
 
-#include <qheader.h>
+#include <q3header.h>
 #include <qpainter.h>
 #include <qstyle.h>
 #include <qtimer.h>
@@ -118,22 +118,22 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 
    initConfig();
 #if 0
-   connect( this, SIGNAL(rightButtonPressed(QListViewItem*,const QPoint&,int)),
-            this, SLOT(slotRightButtonPressed(QListViewItem*,const QPoint&,int)));
+   connect( this, SIGNAL(rightButtonPressed(Q3ListViewItem*,const QPoint&,int)),
+            this, SLOT(slotRightButtonPressed(Q3ListViewItem*,const QPoint&,int)));
 #endif
-   connect( this, SIGNAL(returnPressed( QListViewItem * )),
-            this, SLOT(slotReturnPressed( QListViewItem * )) );
-   connect( this, SIGNAL( mouseButtonClicked( int, QListViewItem *, const QPoint&, int )),
-            this, SLOT( slotMouseButtonClicked( int, QListViewItem *, const QPoint&, int )) );
-   connect( this, SIGNAL(executed( QListViewItem * )),
-            this, SLOT(slotExecuted( QListViewItem * )) );
+   connect( this, SIGNAL(returnPressed( Q3ListViewItem * )),
+            this, SLOT(slotReturnPressed( Q3ListViewItem * )) );
+   connect( this, SIGNAL( mouseButtonClicked( int, Q3ListViewItem *, const QPoint&, int )),
+            this, SLOT( slotMouseButtonClicked( int, Q3ListViewItem *, const QPoint&, int )) );
+   connect( this, SIGNAL(executed( Q3ListViewItem * )),
+            this, SLOT(slotExecuted( Q3ListViewItem * )) );
 
-   connect( this, SIGNAL(currentChanged( QListViewItem * )),
-            this, SLOT(slotCurrentChanged( QListViewItem * )) );
-   connect( this, SIGNAL(itemRenamed( QListViewItem *, const QString &, int )),
-            this, SLOT(slotItemRenamed( QListViewItem *, const QString &, int )) );
-   connect( this, SIGNAL(contextMenuRequested( QListViewItem *, const QPoint&, int )),
-            this, SLOT(slotPopupMenu( QListViewItem *, const QPoint&, int )) );
+   connect( this, SIGNAL(currentChanged( Q3ListViewItem * )),
+            this, SLOT(slotCurrentChanged( Q3ListViewItem * )) );
+   connect( this, SIGNAL(itemRenamed( Q3ListViewItem *, const QString &, int )),
+            this, SLOT(slotItemRenamed( Q3ListViewItem *, const QString &, int )) );
+   connect( this, SIGNAL(contextMenuRequested( Q3ListViewItem *, const QPoint&, int )),
+            this, SLOT(slotPopupMenu( Q3ListViewItem *, const QPoint&, int )) );
    connect( this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()) );
 
    connect( horizontalScrollBar(), SIGNAL(valueChanged( int )),
@@ -168,8 +168,8 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    connect( header(), SIGNAL(sizeChange( int, int, int )), SLOT(slotUpdateBackground()) );
 
    viewport()->setMouseTracking( true );
-   viewport()->setFocusPolicy( QWidget::WheelFocus );
-   setFocusPolicy( QWidget::WheelFocus );
+   viewport()->setFocusPolicy( Qt::WheelFocus );
+   setFocusPolicy( Qt::WheelFocus );
    setAcceptDrops( true );
 
    //looks better with the statusbar
@@ -201,7 +201,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
    m_filenameColumnWidth = config.fileNameColumnWidth();
 
    QStringList lstColumns = config.columns();
-   QValueList<int> lstColumnWidths = config.columnWidths();
+   Q3ValueList<int> lstColumnWidths = config.columnWidths();
    if (lstColumns.isEmpty())
    {
       // Default column selection
@@ -253,12 +253,12 @@ void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
    }
    int currentColumn = m_filenameColumn + 1;
    //check all columns in lstColumns
-   for ( unsigned int i = 0; i < lstColumns.count(); i++ )
+   for ( int i = 0; i < lstColumns.count(); i++ )
    {
       //search the column in confColumns
       for ( unsigned int j = 0; j < NumberOfAtoms; j++ )
       {
-         if ( confColumns[j].name == *lstColumns.at(i) )
+         if ( confColumns[j].name == lstColumns.at(i) )
          {
             confColumns[j].displayThisOne = true;
             confColumns[j].displayInColumn = currentColumn;
@@ -364,7 +364,7 @@ void KonqBaseListViewWidget::createColumns()
          if ( sortedByColumn == confColumns[i].desktopFileName )
             setSorting( currentColumn, m_bAscending );
          if ( confColumns[i].udsId == KIO::UDS_SIZE )
-             setColumnAlignment( currentColumn, AlignRight );
+             setColumnAlignment( currentColumn, Qt::AlignRight );
          i = -1;
          currentColumn++;
       }
@@ -395,7 +395,7 @@ void KonqBaseListViewWidget::initConfig()
    setItemFont( itemFont );
    setItemColor( m_pSettings->normalTextColor() );
 
-   bool on = m_pSettings->showFileTips() && QToolTip::isGloballyEnabled();
+   bool on = m_pSettings->showFileTips();
    m_fileTip->setOptions( on, m_pSettings->showPreviewsInFileTips(), m_pSettings->numFileTips() );
 
    updateListContents();
@@ -411,7 +411,7 @@ void KonqBaseListViewWidget::contentsMousePressEvent( QMouseEvent *e )
    }
 
    delete m_selected;
-   m_selected = new QPtrList<KonqBaseListViewItem>;
+   m_selected = new Q3PtrList<KonqBaseListViewItem>;
 
    QPoint vp = contentsToViewport( e->pos() );
    KonqBaseListViewItem* item = isExecuteArea( vp ) ?
@@ -420,15 +420,15 @@ void KonqBaseListViewWidget::contentsMousePressEvent( QMouseEvent *e )
    if ( item )
       KListView::contentsMousePressEvent( e );
    else {
-      if ( e->button() == LeftButton )
+      if ( e->button() == Qt::LeftButton )
       {
-         if ( !( e->state() & ControlButton ) )
+         if ( !( e->modifiers() & Qt::ControlModifier ) )
             setSelected( itemAt( vp ), false );
          m_rubber = new QRect( e->x(), e->y(), 0, 0 );
          m_fileTip->setItem( 0 );
       }
-      if ( e->button() != RightButton )
-         QListView::contentsMousePressEvent( e );
+      if ( e->button() != Qt::RightButton )
+         Q3ListView::contentsMousePressEvent( e );
    }
    // Store list of selected items at mouse-press time.
    // This is used when autoscrolling (why?)
@@ -541,15 +541,21 @@ void KonqBaseListViewWidget::drawRubber()
 
    QPainter p;
    p.begin( viewport() );
-   p.setRasterOp( NotROP );
-   p.setPen( QPen( color0, 1 ) );
-   p.setBrush( NoBrush );
+   #warning FIXME NotROP is not available in qt4
+	//Using black with .5 alpha for now
+	//p.setRasterOp( NotROP );
+   QColor c( 0, 0, 0, 127 );
+   p.setPen( QPen( c, 1 ) );
+   p.setBrush( QBrush() );
 
    QPoint pt( m_rubber->x(), m_rubber->y() );
    pt = contentsToViewport( pt );
-   style().drawPrimitive( QStyle::PE_FocusRect, &p,
-                          QRect( pt.x(), pt.y(), m_rubber->width(), m_rubber->height() ),
-                          colorGroup(), QStyle::Style_Default, colorGroup().base() );
+#warning PE_FocusRect is gone, using PE_FrameFocusRect
+   QStyleOptionFocusRect fr;
+   fr.backgroundColor = c;
+   fr.rect = QRect( pt.x(), pt.y(), m_rubber->width(), m_rubber->height() );
+   fr.palette = palette();
+   style()->drawPrimitive( QStyle::PE_FrameFocusRect, &fr, &p, viewport() );
    p.end();
 }
 
@@ -572,7 +578,7 @@ void KonqBaseListViewWidget::slotAutoScroll()
    drawRubber();
    m_rubber->setBottomRight( vc );
 
-   QListViewItem *cur = itemAt( QPoint(0,0) );
+   Q3ListViewItem *cur = itemAt( QPoint(0,0) );
 
    bool block = signalsBlocked();
    blockSignals( true );
@@ -599,7 +605,7 @@ void KonqBaseListViewWidget::slotAutoScroll()
       }
 
       QRect r = rect;
-      QListViewItem *tmp = cur;
+      Q3ListViewItem *tmp = cur;
 
       while ( cur && rect.top() <= oldBottom )
       {
@@ -755,7 +761,7 @@ void KonqBaseListViewWidget::startDrag()
    m_fileTip->setItem( 0 );
    KURL::List urls = selectedUrls( false );
 
-   QListViewItem * m_pressedItem = currentItem();
+   Q3ListViewItem * m_pressedItem = currentItem();
 
    QPixmap pixmap2;
    bool pixmap0Invalid = !m_pressedItem->pixmap(0) || m_pressedItem->pixmap(0)->isNull();
@@ -780,7 +786,7 @@ void KonqBaseListViewWidget::startDrag()
    drag->drag();
 }
 
-void KonqBaseListViewWidget::slotItemRenamed( QListViewItem *item, const QString &name, int col )
+void KonqBaseListViewWidget::slotItemRenamed( Q3ListViewItem *item, const QString &name, int col )
 {
    Q_ASSERT( col == 0 );
    Q_ASSERT( item != 0 );
@@ -823,9 +829,9 @@ void KonqBaseListViewWidget::slotSelectionChanged()
 }
 
 void KonqBaseListViewWidget::slotMouseButtonClicked( int _button,
-      QListViewItem *_item, const QPoint& pos, int )
+      Q3ListViewItem *_item, const QPoint& pos, int )
 {
-   if ( _button == MidButton )
+   if ( _button == Qt::MidButton )
    {
       if ( _item && isExecuteArea( viewport()->mapFromGlobal(pos) ) )
          m_pBrowserView->mmbClicked( static_cast<KonqBaseListViewItem *>(_item)->item() );
@@ -834,7 +840,7 @@ void KonqBaseListViewWidget::slotMouseButtonClicked( int _button,
    }
 }
 
-void KonqBaseListViewWidget::slotExecuted( QListViewItem *item )
+void KonqBaseListViewWidget::slotExecuted( Q3ListViewItem *item )
 {
    if ( !item )
       return;
@@ -846,7 +852,7 @@ void KonqBaseListViewWidget::slotExecuted( QListViewItem *item )
       slotReturnPressed( item );
 }
 
-void KonqBaseListViewWidget::selectedItems( QPtrList<KonqBaseListViewItem> *_list )
+void KonqBaseListViewWidget::selectedItems( Q3PtrList<KonqBaseListViewItem> *_list )
 {
    iterator it = begin();
    for ( ; it != end(); it++ )
@@ -892,7 +898,7 @@ KonqPropsView * KonqBaseListViewWidget::props() const
    return m_pBrowserView->m_pProps;
 }
 
-void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
+void KonqBaseListViewWidget::slotReturnPressed( Q3ListViewItem *_item )
 {
    if ( !_item )
       return;
@@ -909,7 +915,7 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
       KMessageBox::information( 0, i18n("You must take the file out of the trash before being able to use it.") );
 }
 
-void KonqBaseListViewWidget::slotPopupMenu( QListViewItem *i, const QPoint &point, int c )
+void KonqBaseListViewWidget::slotPopupMenu( Q3ListViewItem *i, const QPoint &point, int c )
 {
    kdDebug(1202) << "KonqBaseListViewWidget::slotPopupMenu" << endl;
    popupMenu( point, ( i != 0 && c == -1 ) ); // i != 0 && c == -1 when activated by keyboard
@@ -927,7 +933,7 @@ void KonqBaseListViewWidget::popupMenu( const QPoint& _global, bool alwaysForSel
    // a popup for the current dir instead.
    if ( alwaysForSelectedFiles || isExecuteArea( viewport()->mapFromGlobal( _global ) ) )
    {
-       QPtrList<KonqBaseListViewItem> items;
+       Q3PtrList<KonqBaseListViewItem> items;
        selectedItems( &items );
        for ( KonqBaseListViewItem *item = items.first(); item; item = items.next() )
           lstItems.append( item->item() );
@@ -1136,7 +1142,7 @@ void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
 {
    //kdDebug(1202) << k_funcinfo << entries.count() << endl;
 
-   for ( QPtrListIterator<KFileItem> kit ( entries ); kit.current(); ++kit )
+   for ( Q3PtrListIterator<KFileItem> kit ( entries ); kit.current(); ++kit )
    {
       KonqListViewItem * tmp = new KonqListViewItem( this, *kit );
       if ( !m_itemFound && tmp->text(0) == m_itemToGoTo )
@@ -1182,7 +1188,7 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
       }
 
       delete &(*it);
-      // HACK HACK HACK: QListViewItem/KonqBaseListViewItem should
+      // HACK HACK HACK: Q3ListViewItem/KonqBaseListViewItem should
       // take care and the source looks like it does; till the
       // real bug is found, this fixes some crashes (malte)
       emit selectionChanged();
@@ -1206,7 +1212,7 @@ void KonqBaseListViewWidget::slotRefreshItems( const KFileItemList & entries )
 {
    //kdDebug(1202) << k_funcinfo << endl;
 
-   QPtrListIterator<KFileItem> kit ( entries );
+   Q3PtrListIterator<KFileItem> kit ( entries );
    for ( ; kit.current(); ++kit )
    {
       iterator it = begin();
@@ -1387,15 +1393,15 @@ bool KonqBaseListViewWidget::caseInsensitiveSort() const
 }
 
 // based on isExecuteArea from klistview.cpp
-int KonqBaseListViewWidget::executeArea( QListViewItem *_item )
+int KonqBaseListViewWidget::executeArea( Q3ListViewItem *_item )
 {
    if ( !_item )
       return 0;
 
    int width = treeStepSize() * ( _item->depth() + ( rootIsDecorated() ? 1 : 0 ) );
    width += itemMargin();
-   int ca = AlignHorizontal_Mask & columnAlignment( 0 );
-   if ( ca == AlignLeft || ca == AlignAuto )
+   int ca = Qt::AlignHorizontal_Mask & columnAlignment( 0 );
+   if ( ca == Qt::AlignLeft || ca == Qt::AlignAuto )
    {
       width += _item->width( fontMetrics(), this, 0 );
       if ( width > columnWidth( 0 ) )

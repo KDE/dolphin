@@ -217,7 +217,7 @@ PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *p
     // Only create this if we have no parent since the parent part is
     // responsible for "Save As" then
     if (!parent || !parent->inherits("Part")) {
-        new KAction(i18n("&Save As..."), CTRL+Key_S, this, SLOT(saveAs()), actionCollection(), "saveDocument");
+        new KAction(i18n("&Save As..."), Qt::CTRL+Qt::Key_S, this, SLOT(saveAs()), actionCollection(), "saveDocument");
         setXMLFile("nspluginpart.rc");
     }
 
@@ -228,8 +228,8 @@ PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *p
     // create a canvas to insert our widget
     _canvas = new PluginCanvasWidget( parentWidget, widgetName );
     //_canvas->setFocusPolicy( QWidget::ClickFocus );
-    _canvas->setFocusPolicy( QWidget::WheelFocus );
-    _canvas->setBackgroundMode( QWidget::NoBackground );
+    _canvas->setFocusPolicy( Qt::WheelFocus );
+    _canvas->setBackgroundMode( Qt::NoBackground );
     setWidget(_canvas);
     _canvas->show();
     QObject::connect( _canvas, SIGNAL(resized(int,int)),
@@ -309,7 +309,7 @@ bool PluginPart::openURL(const KURL &url)
         _widget = inst;
     } else {
         QLabel *label = new QLabel( i18n("Unable to load Netscape plugin for %1").arg(url.url()), _canvas );
-        label->setAlignment( AlignCenter | WordBreak );
+        label->setAlignment( Qt::AlignCenter | Qt::WordBreak );
         _widget = label;
     }
 

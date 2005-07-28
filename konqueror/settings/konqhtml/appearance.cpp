@@ -2,7 +2,7 @@
 #include <qfontdatabase.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qvgroupbox.h>
+#include <q3groupbox.h>
 #include <qwhatsthis.h>
 
 #include <dcopclient.h>
@@ -40,7 +40,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   int r = 0;
   int E = 0, M = 1, W = 3; //CT 3 (instead 2) allows smaller color buttons
 
-  QGroupBox* gb = new QGroupBox( 1, QGroupBox::Horizontal, i18n("Font Si&ze"), this );
+  Q3GroupBox* gb = new Q3GroupBox( 1, Qt::Horizontal, i18n("Font Si&ze"), this );
   lay->addMultiCellWidget(gb, r, r, E, W);
 
   QWhatsThis::add( gb, i18n("This is the relative font size Konqueror uses to display web sites.") );

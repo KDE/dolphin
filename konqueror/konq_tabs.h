@@ -25,9 +25,15 @@
 #include "konq_frame.h"
 
 #include <ktabwidget.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QDragMoveEvent>
+#include <Q3CString>
+#include <QDropEvent>
+#include <Q3PtrList>
 
 class QPixmap;
-class QPopupMenu;
+class Q3PopupMenu;
 class QToolButton;
 
 class KonqView;
@@ -59,13 +65,13 @@ public:
 
   virtual void printFrameInfo( const QString& spaces );
 
-  QPtrList<KonqFrameBase>* childFrameList() { return m_pChildFrameList; }
+  Q3PtrList<KonqFrameBase>* childFrameList() { return m_pChildFrameList; }
 
   virtual void setTitle( const QString &title, QWidget* sender );
   virtual void setTabIcon( const QString &url, QWidget* sender );
 
   virtual QWidget* widget() { return this; }
-  virtual QCString frameType() { return QCString("Tabs"); }
+  virtual Q3CString frameType() { return Q3CString("Tabs"); }
 
   void activateChild();
 
@@ -99,7 +105,7 @@ protected:
   void refreshSubPopupMenuTab();
   void hideTabBar();
 
-  QPtrList<KonqFrameBase>* m_pChildFrameList;
+  Q3PtrList<KonqFrameBase>* m_pChildFrameList;
 
 private slots:
   void slotContextMenu( const QPoint& );
@@ -117,8 +123,8 @@ private slots:
 
 private:
   KonqViewManager* m_pViewManager;
-  QPopupMenu* m_pPopupMenu;
-  QPopupMenu* m_pSubPopupMenuTab;
+  Q3PopupMenu* m_pPopupMenu;
+  Q3PopupMenu* m_pSubPopupMenuTab;
   QToolButton* m_rightWidget;
   QToolButton* m_leftWidget;
   bool m_permanentCloseButtons;

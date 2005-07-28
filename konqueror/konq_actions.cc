@@ -33,14 +33,16 @@
 
 #include "konq_view.h"
 #include "konq_settingsxt.h"
+//Added by qt3to4:
+#include <Q3PtrList>
 
-template class QPtrList<KonqHistoryEntry>;
+template class Q3PtrList<KonqHistoryEntry>;
 
 /////////////////
 
 //static - used by KonqHistoryAction and KonqBidiHistoryAction
-void KonqBidiHistoryAction::fillHistoryPopup( const QPtrList<HistoryEntry> &history,
-                                          QPopupMenu * popup,
+void KonqBidiHistoryAction::fillHistoryPopup( const Q3PtrList<HistoryEntry> &history,
+                                          Q3PopupMenu * popup,
                                           bool onlyBack,
                                           bool onlyForward,
                                           bool checkCurrentItem,
@@ -50,7 +52,7 @@ void KonqBidiHistoryAction::fillHistoryPopup( const QPtrList<HistoryEntry> &hist
 
   //kdDebug(1202) << "fillHistoryPopup position: " << history.at() << endl;
   HistoryEntry * current = history.current();
-  QPtrListIterator<HistoryEntry> it( history );
+  Q3PtrListIterator<HistoryEntry> it( history );
   if (onlyBack || onlyForward)
   {
       it += history.at(); // Jump to current item
@@ -69,8 +71,8 @@ void KonqBidiHistoryAction::fillHistoryPopup( const QPtrList<HistoryEntry> &hist
           int id = popup->insertItem( text ); // no pixmap if checked
           popup->setItemChecked( id, true );
       } else
-          popup->insertItem( KonqPixmapProvider::self()->pixmapFor(
-					    it.current()->url.url() ), text );
+          popup->insertItem( QIcon( KonqPixmapProvider::self()->pixmapFor(
+					    it.current()->url.url() ) ), text );
       if ( ++i > 10 )
           break;
       if ( !onlyForward ) --it; else ++it;
@@ -96,7 +98,7 @@ int KonqBidiHistoryAction::plug( QWidget *widget, int index )
   // Go menu
   if ( widget->inherits("QPopupMenu") )
   {
-    m_goMenu = (QPopupMenu*)widget;
+    m_goMenu = (Q3PopupMenu*)widget;
     // Forward signal (to main view)
     connect( m_goMenu, SIGNAL( aboutToShow() ),
              this, SIGNAL( menuAboutToShow() ) );
@@ -111,7 +113,7 @@ int KonqBidiHistoryAction::plug( QWidget *widget, int index )
   return KAction::plug( widget, index );
 }
 
-void KonqBidiHistoryAction::fillGoMenu( const QPtrList<HistoryEntry> & history )
+void KonqBidiHistoryAction::fillGoMenu( const Q3PtrList<HistoryEntry> & history )
 {
     if (history.isEmpty())
         return; // nothing to do
@@ -179,12 +181,12 @@ KonqLogoAction::KonqLogoAction( const QString& text, int accel,
 {
 }
 
-KonqLogoAction::KonqLogoAction( const QString& text, const QIconSet& pix, int accel, QObject* parent, const char* name )
+KonqLogoAction::KonqLogoAction( const QString& text, const QIcon& pix, int accel, QObject* parent, const char* name )
   : KAction( text, pix, accel, parent, name )
 {
 }
 
-KonqLogoAction::KonqLogoAction( const QString& text, const QIconSet& pix,int accel, QObject* receiver, const char* slot, QObject* parent, const char* name )
+KonqLogoAction::KonqLogoAction( const QString& text, const QIcon& pix,int accel, QObject* receiver, const char* slot, QObject* parent, const char* name )
   : KAction( text, pix, accel, receiver, slot, parent, name )
 {
 }
@@ -282,7 +284,7 @@ KonqViewModeAction::KonqViewModeAction( const QString &text, const QString &icon
                                         QObject *parent, const char *name )
     : KRadioAction( text, icon, 0, parent, name )
 {
-    m_menu = new QPopupMenu;
+    m_menu = new Q3PopupMenu;
 
     connect( m_menu, SIGNAL( aboutToShow() ),
              this, SLOT( slotPopupAboutToShow() ) );
@@ -453,7 +455,7 @@ void KonqMostOftenURLSAction::slotFillMenu()
 		       entry->title;
 
 	popupMenu()->insertItem(
-		    KonqPixmapProvider::self()->pixmapFor( entry->url.url() ),
+		    QIcon(KonqPixmapProvider::self()->pixmapFor( entry->url.url() )),
 		    text, id );
         // Keep a copy of the URLs being shown in the menu
         // This prevents crashes when another process tells us to remove an entry.
@@ -487,8 +489,8 @@ void KonqMostOftenURLSAction::slotActivated( int id )
 }
 
 // sort by numberOfTimesVisited (least often goes first)
-int MostOftenList::compareItems( QPtrCollection::Item item1,
-				 QPtrCollection::Item item2)
+int MostOftenList::compareItems( Q3PtrCollection::Item item1,
+				 Q3PtrCollection::Item item2)
 {
     KonqHistoryEntry *entry1 = static_cast<KonqHistoryEntry *>( item1 );
     KonqHistoryEntry *entry2 = static_cast<KonqHistoryEntry *>( item2 );

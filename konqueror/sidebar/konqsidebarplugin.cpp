@@ -52,7 +52,7 @@ void KonqSidebarPlugin::handlePreviewOnMouseOver(const KFileItem& /*items*/) {}
 
 bool KonqSidebarPlugin::universalMode() {
 	if (!parent()) return false;
-	KonqSidebarIface *ksi=static_cast<KonqSidebarIface*>(parent()->qt_cast("KonqSidebarIface"));
+	KonqSidebarIface *ksi=dynamic_cast<KonqSidebarIface*>(parent());
 	if (!ksi) return false;
 	kdDebug()<<"calling KonqSidebarIface->universalMode()"<<endl;
 	return ksi->universalMode();

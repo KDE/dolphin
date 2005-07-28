@@ -20,6 +20,8 @@
 
 #include "delayedinitializer.h"
 #include <qtimer.h>
+//Added by qt3to4:
+#include <QEvent>
 
 DelayedInitializer::DelayedInitializer( int eventType, QObject *parent, const char *name )
     : QObject( parent, name ), m_eventType( eventType ), m_signalEmitted( false )

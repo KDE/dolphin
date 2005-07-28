@@ -24,14 +24,13 @@
 #include <dcopclient.h>
 
 #include <qlayout.h>
-#include <qlistbox.h>
 #include <qpushbutton.h>
-#include <qgroupbox.h>
-#include <qhbox.h>
-#include <qvbox.h>
+#include <q3groupbox.h>
+#include <q3hbox.h>
 #include <qlineedit.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
+#include <qtextstream.h>
 #include <qwhatsthis.h>
 #include <qregexp.h>
 
@@ -55,15 +54,15 @@ KCMFilter::KCMFilter(KConfig *config, QString group,
     mKillCheck = new QCheckBox(i18n("Hide filtered images"), this);
     topLayout->addWidget( mKillCheck );
 
-    QGroupBox *topBox = new QGroupBox( 1, Horizontal, i18n("URL Expressions to Filter"), this );
+    Q3GroupBox *topBox = new Q3GroupBox( 1, Qt::Horizontal, i18n("URL Expressions to Filter"), this );
     topLayout->addWidget( topBox );
 
-    mListBox = new QListBox( topBox );
-    mListBox->setSelectionMode(QListBox::Extended);
+    mListBox = new Q3ListBox( topBox );
+    mListBox->setSelectionMode(Q3ListBox::Extended);
     new QLabel( i18n("Expression (e.g. http://www.site.com/ad/*):"), topBox);
     mString = new QLineEdit( topBox );
 
-    QHBox *buttonBox = new QHBox( topBox );
+    Q3HBox *buttonBox = new Q3HBox( topBox );
     buttonBox->setSpacing( KDialog::spacingHint() );
 
     mInsertButton = new QPushButton( i18n("Insert"), buttonBox );
@@ -189,7 +188,7 @@ void KCMFilter::importFilters()
                     }
                 }
 
-                if (!line.isEmpty() && mListBox->findItem(line, Qt::CaseSensitive|Qt::ExactMatch) == 0)
+                if (!line.isEmpty() && mListBox->findItem(line, Q3ListBox::CaseSensitive|Q3ListBox::ExactMatch) == 0)
                     paths.append(line);
             }
             f.close();

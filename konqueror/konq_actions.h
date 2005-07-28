@@ -22,10 +22,10 @@
 
 #include <konq_historymgr.h>
 #include <kaction.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 
 class HistoryEntry;
-class QPopupMenu;
+class Q3PopupMenu;
 
 /**
  * Plug this action into a menu to get a bidirectional history
@@ -42,11 +42,11 @@ public:
     virtual int plug( QWidget *widget, int index = -1 );
     //virtual void unplug( QWidget *widget );
 
-    void fillGoMenu( const QPtrList<HistoryEntry> &history );
+    void fillGoMenu( const Q3PtrList<HistoryEntry> &history );
 
     // Used by KonqHistoryAction and KonqBidiHistoryAction
-    static void fillHistoryPopup( const QPtrList<HistoryEntry> &history,
-                           QPopupMenu * popup,
+    static void fillHistoryPopup( const Q3PtrList<HistoryEntry> &history,
+                           Q3PopupMenu * popup,
                            bool onlyBack = false,
                            bool onlyForward = false,
                            bool checkCurrentItem = false,
@@ -63,7 +63,7 @@ private:
     uint m_firstIndex; // first index in the Go menu
     int m_startPos;
     int m_currentPos; // == history.at()
-    QPopupMenu *m_goMenu; // hack
+    Q3PopupMenu *m_goMenu; // hack
 };
 
 /////
@@ -75,9 +75,9 @@ public:
     KonqLogoAction( const QString& text, int accel = 0, QObject* parent = 0, const char* name = 0 );
     KonqLogoAction( const QString& text, int accel,
 	            QObject* receiver, const char* slot, QObject* parent, const char* name = 0 );
-    KonqLogoAction( const QString& text, const QIconSet& pix, int accel = 0,
+    KonqLogoAction( const QString& text, const QIcon& pix, int accel = 0,
 	            QObject* parent = 0, const char* name = 0 );
-    KonqLogoAction( const QString& text, const QIconSet& pix, int accel,
+    KonqLogoAction( const QString& text, const QIcon& pix, int accel,
 	            QObject* receiver, const char* slot, QObject* parent, const char* name = 0 );
     // text missing !
     KonqLogoAction( const QStringList& icons, QObject* receiver,
@@ -103,7 +103,7 @@ public:
 
     virtual int plug( QWidget *widget, int index = -1 );
 
-    QPopupMenu *popupMenu() const { return m_menu; }
+    Q3PopupMenu *popupMenu() const { return m_menu; }
 
 private slots:
     void slotPopupAboutToShow();
@@ -112,7 +112,7 @@ private slots:
 
 private:
     bool m_popupActivated;
-    QPopupMenu *m_menu;
+    Q3PopupMenu *m_menu;
 };
 
 class MostOftenList : public KonqBaseHistoryList
@@ -121,7 +121,7 @@ protected:
     /**
      * Ensures that the items are sorted by numberOfTimesVisited
      */
-    virtual int compareItems( QPtrCollection::Item, QPtrCollection::Item );
+    virtual int compareItems( Q3PtrCollection::Item, Q3PtrCollection::Item );
 };
 
 class KonqMostOftenURLSAction : public KActionMenu

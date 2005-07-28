@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#include <qcstring.h>
+#include <q3cstring.h>
 
 #include <kdesu/process.h>
 #include <kdebug.h>
@@ -30,7 +30,7 @@ int ChfnProcess::exec(const char *pass, const char *name)
   // of `chfn' easier.
   putenv((char*)"LC_ALL=C");
 
-  QCStringList args;
+  QList<QByteArray> args;
       args += "-f";
       args += name;
   int ret = PtyProcess::exec("chfn", args);
@@ -52,7 +52,7 @@ int ChfnProcess::ConverseChfn(const char *pass)
 {
   int status=-1;
 
-  QCString line;
+  Q3CString line;
   while(1)
   {
     line = readLine();

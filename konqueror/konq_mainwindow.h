@@ -25,7 +25,15 @@
 #include <qmap.h>
 #include <qpoint.h>
 #include <qtimer.h>
-#include <qguardedptr.h>
+#include <qpointer.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <Q3CString>
+#include <QCloseEvent>
+#include <Q3PtrList>
+#include <QEvent>
+#include <QLabel>
+#include <QCustomEvent>
 
 #include <kfileitem.h>
 #include "konq_openurlrequest.h"
@@ -247,7 +255,7 @@ public:
 
   bool saveViewPropertiesLocally() const { return m_bSaveViewPropertiesLocally; }
 
-  static QPtrList<KonqMainWindow> *mainWindowList() { return s_lstViews; }
+  static Q3PtrList<KonqMainWindow> *mainWindowList() { return s_lstViews; }
 
   // public for konq_guiclients
   void viewCountChanged();
@@ -258,7 +266,7 @@ public:
   // operates on all combos of all mainwindows of this instance
   // up to now adds an entry or clears all entries
   static void comboAction( int action, const QString& url,
-			   const QCString& objId );
+			   const Q3CString& objId );
 
 #ifndef NDEBUG
   void dumpViewList();
@@ -293,7 +301,7 @@ public:
   QWidget* widget();
 
   void listViews( ChildViewList *viewList );
-  QCString frameType();
+  Q3CString frameType();
 
   KonqFrameBase* childFrame()const;
 
@@ -328,7 +336,7 @@ public slots:
   void slotCtrlTabPressed();
 
   // for KBookmarkMenu and KBookmarkBar
-  void slotFillContextMenu( const KBookmark &, QPopupMenu * );
+  void slotFillContextMenu( const KBookmark &, Q3PopupMenu * );
   void slotOpenBookmarkURL( const QString & url, Qt::ButtonState state );
 
   void slotPopupMenu( const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
@@ -517,7 +525,7 @@ protected slots:
 protected:
   virtual bool eventFilter(QObject*obj,QEvent *ev);
 
-  void fillHistoryPopup( QPopupMenu *menu, const QPtrList<HistoryEntry> &history );
+  void fillHistoryPopup( Q3PopupMenu *menu, const Q3PtrList<HistoryEntry> &history );
 
   bool makeViewsFollow( const KURL & url, const KParts::URLArgs &args, const QString & serviceType,
                         KonqView * senderView );
@@ -682,7 +690,7 @@ private:
 
   MapViews m_mapViews;
 
-  QGuardedPtr<KonqView> m_currentView;
+  QPointer<KonqView> m_currentView;
 
   KBookmarkMenu* m_pBookmarkMenu;
   KonqExtendedBookmarkOwner *m_pBookmarksOwner;
@@ -714,7 +722,7 @@ private:
   QStringList m_configureModules;
 
   QLabel* m_locationLabel;
-  QGuardedPtr<KonqCombo> m_combo;
+  QPointer<KonqCombo> m_combo;
   static KConfig *s_comboConfig;
   KURLCompletion *m_pURLCompletion;
   // just a reference to KonqHistoryManager's completionObject
@@ -729,11 +737,11 @@ private:
 
   QString m_initialFrameName;
 
-  QPtrList<KAction> m_openWithActions;
+  Q3PtrList<KAction> m_openWithActions;
   KActionMenu *m_viewModeMenu;
-  QPtrList<KAction> m_toolBarViewModeActions; // basically holds two KonqViewActions, one of
+  Q3PtrList<KAction> m_toolBarViewModeActions; // basically holds two KonqViewActions, one of
                                               // iconview and one for listview
-  QPtrList<KRadioAction> m_viewModeActions;
+  Q3PtrList<KRadioAction> m_viewModeActions;
   QMap<QString,KService::Ptr> m_viewModeToolBarServices; // similar to m_toolBarViewModeActions
   // it holds a map library name (libkonqiconview/libkonqlistview) ==> service (service for
   // iconview, multicolumnview, treeview, etc .)
@@ -742,7 +750,7 @@ private:
 
   static QStringList *s_plstAnimatedLogo;
 
-  static QPtrList<KonqMainWindow> *s_lstViews;
+  static Q3PtrList<KonqMainWindow> *s_lstViews;
 
   QString m_currentDir; // stores current dir for relative URLs whenever applicable
 

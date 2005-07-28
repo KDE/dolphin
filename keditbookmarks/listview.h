@@ -22,8 +22,12 @@
 
 #include <assert.h>
 
-#include <qlistview.h>
-#include <qmap.h>
+#include <q3listview.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <QDropEvent>
+#include <Q3PtrList>
+#include <QMap>
 
 #include <klocale.h>
 #include <kbookmark.h>
@@ -35,17 +39,17 @@
 class QSplitter;
 class KListViewSearchLine;
 
-class KEBListViewItem : public QListViewItem
+class KEBListViewItem : public Q3ListViewItem
 {
 public:
-   KEBListViewItem(QListView *, const KBookmarkGroup &);
-   KEBListViewItem(KEBListViewItem *, QListViewItem *);
-   KEBListViewItem(KEBListViewItem *, QListViewItem *, const KBookmarkGroup &);
+   KEBListViewItem(Q3ListView *, const KBookmarkGroup &);
+   KEBListViewItem(KEBListViewItem *, Q3ListViewItem *);
+   KEBListViewItem(KEBListViewItem *, Q3ListViewItem *, const KBookmarkGroup &);
    KEBListViewItem(KEBListViewItem *, const KBookmark &);
-   KEBListViewItem(KEBListViewItem *, QListViewItem *, const KBookmark &);
+   KEBListViewItem(KEBListViewItem *, Q3ListViewItem *, const KBookmark &);
 
-   KEBListViewItem(QListView *, const KBookmark &);
-   KEBListViewItem(QListView *, QListViewItem *, const KBookmark &);
+   KEBListViewItem(Q3ListView *, const KBookmark &);
+   KEBListViewItem(Q3ListView *, Q3ListViewItem *, const KBookmark &);
 
    void nsPut(const QString &nm);
 
@@ -65,7 +69,7 @@ public:
 
   typedef enum { GreyStyle, BoldStyle, GreyBoldStyle, DefaultStyle } PaintStyle;
 
-   static bool parentSelected(QListViewItem * item);
+   static bool parentSelected(Q3ListViewItem * item);
 
 private:
    const QString nsGet() const;
@@ -108,17 +112,17 @@ public:
    KEBListViewItem* rootItem() const;
 
 public slots:
-   virtual void rename(QListViewItem *item, int c);
+   virtual void rename(Q3ListViewItem *item, int c);
    void slotMoved();
-   void slotContextMenu(KListView *, QListViewItem *, const QPoint &);
-   void slotItemRenamed(QListViewItem *, const QString &, int);
-   void slotDoubleClicked(QListViewItem *, const QPoint &, int);
-   void slotDropped(QDropEvent*, QListViewItem*, QListViewItem*);
+   void slotContextMenu(KListView *, Q3ListViewItem *, const QPoint &);
+   void slotItemRenamed(Q3ListViewItem *, const QString &, int);
+   void slotDoubleClicked(Q3ListViewItem *, const QPoint &, int);
+   void slotDropped(QDropEvent*, Q3ListViewItem*, Q3ListViewItem*);
    void slotColumnSizeChanged(int, int, int);
 
 protected:
    virtual bool acceptDrag(QDropEvent *e) const;
-   virtual QDragObject* dragObject();
+   virtual Q3DragObject* dragObject();
 
 private:
    bool m_folderList;
@@ -140,20 +144,20 @@ public:
    void selected(KEBListViewItem * item, bool s);
    
    void invalidate(const QString & address);
-   void invalidate(QListViewItem * item);
+   void invalidate(Q3ListViewItem * item);
    void fixUpCurrent(const QString & address);
    
    KEBListViewItem * firstSelected() const;
    QMap<KEBListViewItem *, bool> selectedItemsMap() const
    { return mSelectedItems; }
-   QValueList<QString> selectedAddresses();
+   Q3ValueList<QString> selectedAddresses();
 
    // bookmark helpers
-   QValueList<KBookmark> itemsToBookmarks(const QMap<KEBListViewItem *, bool> & items) const;
+   Q3ValueList<KBookmark> itemsToBookmarks(const QMap<KEBListViewItem *, bool> & items) const;
 
    // bookmark stuff
-   QValueList<KBookmark> allBookmarks() const;
-   QValueList<KBookmark> selectedBookmarksExpanded() const;
+   Q3ValueList<KBookmark> allBookmarks() const;
+   Q3ValueList<KBookmark> selectedBookmarksExpanded() const;
 
    // address stuff
    KEBListViewItem* getItemAtAddress(const QString &address) const;
@@ -177,10 +181,10 @@ public:
    static void createListViews(QSplitter *parent);
 
    void handleMoved(KEBListView *);
-   void handleDropped(KEBListView *, QDropEvent *, QListViewItem *, QListViewItem *);
-   void handleContextMenu(KEBListView *, KListView *, QListViewItem *, const QPoint &);
-   void handleDoubleClicked(KEBListView *, QListViewItem *, const QPoint &, int);
-   void handleItemRenamed(KEBListView *, QListViewItem *, const QString &, int);
+   void handleDropped(KEBListView *, QDropEvent *, Q3ListViewItem *, Q3ListViewItem *);
+   void handleContextMenu(KEBListView *, KListView *, Q3ListViewItem *, const QPoint &);
+   void handleDoubleClicked(KEBListView *, Q3ListViewItem *, const QPoint &, int);
+   void handleItemRenamed(KEBListView *, Q3ListViewItem *, const QString &, int);
 
    static void startRename(int column, KEBListViewItem *item);
 
@@ -193,7 +197,7 @@ public slots:
 
 private:
    void updateTree();
-   void selectedBookmarksExpandedHelper(KEBListViewItem * item, QValueList<KBookmark> & bookmarks) const;
+   void selectedBookmarksExpandedHelper(KEBListViewItem * item, Q3ValueList<KBookmark> & bookmarks) const;
    void fillWithGroup(KEBListView *, KBookmarkGroup, KEBListViewItem * = 0);
 
    ListView();

@@ -24,7 +24,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <qpainter.h>
-#include <qheader.h>
+#include <q3header.h>
 #include <kiconloader.h>
 
 static QString retrieveExtraEntry( KFileItem* fileitem, int numExtra )
@@ -70,7 +70,7 @@ KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KFi
 
 KonqListViewItem::~KonqListViewItem()
 {
-   for ( QValueVector<QPixmap*>::iterator
+   for ( Q3ValueVector<QPixmap*>::iterator
             it = m_pixmaps.begin(), itEnd = m_pixmaps.end();
          it != itEnd; ++it )
       delete *it;
@@ -218,7 +218,7 @@ void KonqListViewItem::setPixmap( int column, const QPixmap& pm )
    // If we're just replacing the icon with another one its size -- i.e. a
    // "highlighted" icon, don't bother repainting the whole widget.
 
-   QListView *lv = m_pListViewWidget;
+   Q3ListView *lv = m_pListViewWidget;
 
    int decorationWidth = lv->treeStepSize() * ( depth() + ( lv->rootIsDecorated() ? 1 : 0 ) );
    int x = lv->header()->sectionPos( column ) + decorationWidth + lv->itemMargin();
@@ -240,7 +240,7 @@ const QPixmap* KonqListViewItem::pixmap( int column ) const
    return pm;
 }
 
-int KonqBaseListViewItem::compare( QListViewItem* item, int col, bool ascending ) const
+int KonqBaseListViewItem::compare( Q3ListViewItem* item, int col, bool ascending ) const
 {
    KonqListViewItem* k = static_cast<KonqListViewItem*>( item );
    if ( sortChar != k->sortChar )
@@ -317,8 +317,7 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
             cg.setBrush( QColorGroup::Base, QBrush( backgroundColor(_column), *pm ) );
             QPoint o = _painter->brushOrigin();
             _painter->setBrushOrigin( o.x() - lv->contentsX(), o.y() - lv->contentsY() );
-            const QColorGroup::ColorRole crole =
-                QPalette::backgroundRoleFromMode( lv->viewport()->backgroundMode() );
+            const QPalette::ColorRole crole = lv->viewport()->backgroundRole();
             _painter->fillRect( newWidth, 0, _width - newWidth, height(), cg.brush( crole ) );
             _painter->setBrushOrigin( o );
         }
@@ -336,11 +335,11 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
 void KonqListViewItem::paintFocus( QPainter * _painter, const QColorGroup & cg, const QRect & _r )
 {
     QRect r( _r );
-    QListView *lv = static_cast< QListView * >( listView() );
+    Q3ListView *lv = static_cast< Q3ListView * >( listView() );
     r.setWidth( width( lv->fontMetrics(), lv, 0 ) );
     if ( r.right() > lv->header()->sectionRect( 0 ).right() )
         r.setRight( lv->header()->sectionRect( 0 ).right() );
-    QListViewItem::paintFocus( _painter, cg, r );
+    Q3ListViewItem::paintFocus( _painter, cg, r );
 }
 
 const char* KonqBaseListViewItem::makeAccessString( const mode_t mode)

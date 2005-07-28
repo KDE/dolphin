@@ -31,7 +31,7 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
 	KStdGuiItem::saveAs())
 {
   QWidget::setCaption( i18n("Find Files/Folders" ) );
-  setButtonBoxOrientation(Vertical);
+  setButtonBoxOrientation(Qt::Vertical);
 
   enableButton(Apply, true); // Enable "Find"
   enableButton(User1, false); // Disable "Stop"
@@ -53,9 +53,9 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
   mStatusBar = new KStatusBar(frame);
   mStatusBar->insertFixedItem(i18n("AMiddleLengthText..."), 0, true);
   setStatusMsg(i18n("Ready."));
-  mStatusBar->setItemAlignment(0, AlignLeft | AlignVCenter);
+  mStatusBar->setItemAlignment(0, Qt::AlignLeft | Qt::AlignVCenter);
   mStatusBar->insertItem(QString::null, 1, 1, true);
-  mStatusBar->setItemAlignment(1, AlignLeft | AlignVCenter);
+  mStatusBar->setItemAlignment(1, Qt::AlignLeft | Qt::AlignVCenter);
 
   QVBoxLayout *vBox = new QVBoxLayout(frame);
   vBox->addWidget(tabWidget, 0);
@@ -236,7 +236,7 @@ void  KfindDlg::about ()
 void KfindDlg::slotDeleteItem(const QString& file)
 {
   kdDebug()<<QString("Will remove one item: %1").arg(file)<<endl;
-  QListViewItem *iter;
+  Q3ListViewItem *iter;
   QString iterwithpath;
 
   iter=win->firstChild();
@@ -256,7 +256,7 @@ void KfindDlg::slotNewItems( const QString& file )
 {
   kdDebug()<<QString("Will add this item")<<endl;
   QStringList newfiles;
-  QListViewItem *checkiter;
+  Q3ListViewItem *checkiter;
   QString checkiterwithpath;
 
   if(file.find(query->url().path(+1))==0)

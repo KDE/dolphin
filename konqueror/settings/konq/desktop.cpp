@@ -18,11 +18,15 @@
  */
 
 #include <qlabel.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qlayout.h>
-#include <qwhatsthis.h>
+
 #include <qcheckbox.h>
 #include <qslider.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <Q3CString>
 
 #include <kapplication.h>
 #include <kglobal.h>
@@ -37,6 +41,7 @@
 
 #include "desktop.h"
 #include "desktop.moc"
+#include <QX11Info>
 
 extern "C"
 {
@@ -62,7 +67,7 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
   QVBoxLayout *layout = new QVBoxLayout(this, 0, KDialog::spacingHint());
 
   // number group
-  QGroupBox *number_group = new QGroupBox(this);
+  Q3GroupBox *number_group = new Q3GroupBox(this);
 
   QHBoxLayout *lay = new QHBoxLayout(number_group,
                      KDialog::marginHint(),
@@ -75,8 +80,8 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
   connect(_numInput, SIGNAL(valueChanged(int)),  SLOT( changed() ));
   label->setBuddy( _numInput );
   QString wtstr = i18n( "Here you can set how many virtual desktops you want on your KDE desktop. Move the slider to change the value." );
-  QWhatsThis::add( label, wtstr );
-  QWhatsThis::add( _numInput, wtstr );
+  label->setWhatsThis( wtstr );
+  _numInput->setWhatsThis( wtstr );
 
   lay->addWidget(label);
   lay->addWidget(_numInput);
@@ -85,9 +90,9 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
   layout->addWidget(number_group);
 
   // name group
-  QGroupBox *name_group = new QGroupBox(i18n("Desktop &Names"), this);
+  Q3GroupBox *name_group = new Q3GroupBox(i18n("Desktop &Names"), this);
 
-  name_group->setColumnLayout(4, Horizontal);
+  name_group->setColumnLayout(4, Qt::Horizontal);
 
   for(int i = 0; i < (maxDesktops/2); i++)
     {
@@ -95,10 +100,10 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
       _nameInput[i] = new KLineEdit(name_group);
       _nameLabel[i+(maxDesktops/2)] = new QLabel(i18n("Desktop %1:").arg(i+(maxDesktops/2)+1), name_group);
       _nameInput[i+(maxDesktops/2)] = new KLineEdit(name_group);
-      QWhatsThis::add( _nameLabel[i], i18n( "Here you can enter the name for desktop %1" ).arg( i+1 ) );
-      QWhatsThis::add( _nameInput[i], i18n( "Here you can enter the name for desktop %1" ).arg( i+1 ) );
-      QWhatsThis::add( _nameLabel[i+(maxDesktops/2)], i18n( "Here you can enter the name for desktop %1" ).arg( i+(maxDesktops/2)+1 ) );
-      QWhatsThis::add( _nameInput[i+(maxDesktops/2)], i18n( "Here you can enter the name for desktop %1" ).arg( i+(maxDesktops/2)+1 ) );
+      _nameLabel[i]->setWhatsThis( i18n( "Here you can enter the name for desktop %1" ).arg( i+1 ) );
+      _nameInput[i]->setWhatsThis( i18n( "Here you can enter the name for desktop %1" ).arg( i+1 ) );
+      _nameLabel[i+(maxDesktops/2)]->setWhatsThis( i18n( "Here you can enter the name for desktop %1" ).arg( i+(maxDesktops/2)+1 ) );
+      _nameInput[i+(maxDesktops/2)]->setWhatsThis( i18n( "Here you can enter the name for desktop %1" ).arg( i+(maxDesktops/2)+1 ) );
 
       connect(_nameInput[i], SIGNAL(textChanged(const QString&)),
            SLOT( changed() ));
@@ -118,11 +123,11 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
   layout->addStretch(1);
 
   // Begin check for immutable
-  int kwin_screen_number = DefaultScreen(qt_xdisplay());
+  int kwin_screen_number = DefaultScreen(QX11Info::display());
 
   KConfig config( "kwinrc" );
 
-  QCString groupname;
+  Q3CString groupname;
   if (kwin_screen_number == 0)
      groupname = "Desktops";
   else
@@ -149,7 +154,7 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
 void KDesktopConfig::load()
 {
   // get number of desktops
-  NETRootInfo info( qt_xdisplay(), NET::NumberOfDesktops | NET::DesktopNames );
+  NETRootInfo info( QX11Info::display(), NET::NumberOfDesktops | NET::DesktopNames );
   int n = info.numberOfDesktops();
 
   _numInput->setValue(n);
@@ -178,7 +183,7 @@ void KDesktopConfig::load()
 
 void KDesktopConfig::save()
 {
-  NETRootInfo info( qt_xdisplay(), NET::NumberOfDesktops | NET::DesktopNames );
+  NETRootInfo info( QX11Info::display(), NET::NumberOfDesktops | NET::DesktopNames );
   // set desktop names
   for(int i = 1; i <= maxDesktops; i++)
   {
@@ -189,7 +194,7 @@ void KDesktopConfig::save()
   info.setNumberOfDesktops(_numInput->value());
   info.activate();
 
-  XSync(qt_xdisplay(), FALSE);
+  XSync(QX11Info::display(), FALSE);
 
   KConfig *config = new KConfig("kdesktoprc");
   config->setGroup("Mouse Buttons");
@@ -202,10 +207,10 @@ void KDesktopConfig::save()
   QByteArray data;
 
   int konq_screen_number = 0;
-  if (qt_xdisplay())
-     konq_screen_number = DefaultScreen(qt_xdisplay());
+  if (QX11Info::display())
+     konq_screen_number = DefaultScreen(QX11Info::display());
 
-  QCString appname;
+  Q3CString appname;
   if (konq_screen_number == 0)
       appname = "kdesktop";
   else

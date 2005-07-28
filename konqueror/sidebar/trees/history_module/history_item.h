@@ -53,7 +53,7 @@ public:
     void update( const KonqHistoryEntry *entry );
     const KonqHistoryEntry *entry() const { return m_entry; }
 
-    virtual QDragObject * dragObject( QWidget * parent, bool move = false );
+    virtual Q3DragObject * dragObject( QWidget * parent, bool move = false );
 
     virtual QString key( int column, bool ascending ) const;
 
@@ -92,7 +92,7 @@ public:
     bool hasFavIcon() const { return m_hasFavIcon; }
     void setFavIcon( const QPixmap& pix );
 
-    virtual QDragObject * dragObject( QWidget *, bool );
+    virtual Q3DragObject * dragObject( QWidget *, bool );
     virtual void itemSelected();
 
     // we don't support the following of KonqSidebarTreeItem

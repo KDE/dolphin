@@ -159,7 +159,7 @@ void generateMimeType( QString mime, QString extensions, QString pluginName, QSt
 
     // create mimelnk file
     QFile f( dir + name + ".desktop" );
-    if ( f.open(IO_WriteOnly) ) {
+    if ( f.open(QIODevice::WriteOnly) ) {
 
         // write .desktop file
         QTextStream ts(&f);
@@ -273,7 +273,7 @@ int tryCheck(int write_fd, const QString &absFile)
     // create a QDataStream for our IPC pipe (to send plugin info back to the parent)
     FILE *write_pipe = fdopen(write_fd, "w");
     QFile stream_file;
-    stream_file.open(IO_WriteOnly, write_pipe);
+    stream_file.open(QIODevice::WriteOnly, write_pipe);
     QDataStream stream(&stream_file);
 
     // return the gathered info to the parent
@@ -327,7 +327,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
         // open the library and ask for the mimetype
         kdDebug(1433) << " - opening " << absFile << endl;
 
-        cache.device()->flush();
+        cache.flush();
         // fork, so that a crash in the plugin won't stop the scanning of other plugins
         int pipes[2];
         if (pipe(pipes) != 0) continue;
@@ -344,11 +344,11 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
            close(pipes[1]);
 
            QBuffer m_buffer;
-           m_buffer.open(IO_WriteOnly);
+           m_buffer.open(QIODevice::WriteOnly);
 
            FILE *read_pipe = fdopen(pipes[0], "r");
            QFile q_read_pipe;
-           q_read_pipe.open(IO_ReadOnly, read_pipe);
+           q_read_pipe.open(QIODevice::ReadOnly, read_pipe);
 
            char *data = (char *)malloc(4096);
            if (!data) continue;
@@ -364,7 +364,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
 
            // close the buffer and open for reading (from the start)
            m_buffer.close();
-           m_buffer.open(IO_ReadOnly);
+           m_buffer.open(QIODevice::ReadOnly);
 
            // create a QDataStream for our buffer
            QDataStream stream(&m_buffer);
@@ -484,7 +484,7 @@ void writeServicesFile( QStringList mimeTypes )
     kdDebug(1433) << "Creating services file " << fname << endl;
 
     QFile f(fname);
-    if ( f.open(IO_WriteOnly) ) {
+    if ( f.open(QIODevice::WriteOnly) ) {
 
         QTextStream ts(&f);
 
@@ -597,7 +597,7 @@ int main( int argc, char **argv )
     QString cacheName = KGlobal::dirs()->saveLocation("data", "nsplugins")+"/cache";
     kdDebug(1433) << "Creating MIME cache file " << cacheName << endl;
     QFile cachef(cacheName);
-    if (!cachef.open(IO_WriteOnly))
+    if (!cachef.open(QIODevice::WriteOnly))
         return -1;
     QTextStream cache(&cachef);
     if (showProgress) {

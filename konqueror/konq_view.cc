@@ -39,13 +39,20 @@
 #include <kdebug.h>
 #include <kcursor.h>
 #include <kurldrag.h>
-#include <qscrollview.h>
+#include <q3scrollview.h>
 
 #include <qapplication.h>
 #include <qmetaobject.h>
-#include <qobjectlist.h>
+#include <qobject.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <Q3PtrList>
+#include <QEvent>
+#include <QDropEvent>
+#include <QContextMenuEvent>
+#include <QDragEnterEvent>
+#include <QMouseEvent>
 #include <config.h>
-#include <private/qucomextra_p.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 
@@ -53,7 +60,7 @@
 
 //#define DEBUG_HISTORY
 
-template class QPtrList<HistoryEntry>;
+template class Q3PtrList<HistoryEntry>;
 
 KonqView::KonqView( KonqViewFactory &viewFactory,
                     KonqFrame* viewFrame,
@@ -116,7 +123,7 @@ KonqView::~KonqView()
         part_url = m_pPart->url().url();
      if (part_url.isNull())
         part_url = "";
-     QCString line;
+     Q3CString line;
      line = ( QString("close(%1):%2\n").arg(m_randID,0,16).arg(part_url) ).utf8();
      KonqMainWindow::s_crashlog_file->writeBlock(line, line.length());
      KonqMainWindow::s_crashlog_file->flush();
@@ -153,7 +160,7 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL,
      if (url_url.isNull())
         url_url = QString("");
 
-     QCString line;
+     Q3CString line;
 
      line = ( QString("closed(%1):%2\n").arg(m_randID,0,16).arg(part_url) ).utf8();
      KonqMainWindow::s_crashlog_file->writeBlock(line,line.length());
@@ -475,7 +482,7 @@ void KonqView::connectPart(  )
 
   if (m_bBackRightClick && m_pPart->widget()->inherits("QScrollView") )
   {
-    (static_cast<QScrollView *>(m_pPart->widget()))->viewport()->installEventFilter( this );
+    (static_cast<Q3ScrollView *>(m_pPart->widget()))->viewport()->installEventFilter( this );
   }
 
   // KonqDirPart signal
@@ -740,7 +747,7 @@ void KonqView::updateHistoryEntry( bool saveLocationBarURL )
   if ( browserExtension() )
   {
     current->buffer = QByteArray(); // Start with empty buffer.
-    QDataStream stream( current->buffer, IO_WriteOnly );
+    QDataStream stream( &current->buffer, QIODevice::WriteOnly );
 
     browserExtension()->saveState( stream );
   }
@@ -844,7 +851,7 @@ void KonqView::restoreHistory()
   if ( browserExtension() )
   {
     //kdDebug(1202) << "Restoring view from stream" << endl;
-    QDataStream stream( h.buffer, IO_ReadOnly );
+    QDataStream stream( h.buffer );
 
     browserExtension()->restoreState( stream );
 
@@ -880,7 +887,7 @@ void KonqView::copyHistory( KonqView *other )
 {
     m_lstHistory.clear();
 
-    QPtrListIterator<HistoryEntry> it( other->m_lstHistory );
+    Q3PtrListIterator<HistoryEntry> it( other->m_lstHistory );
     for (; it.current(); ++it )
         m_lstHistory.append( new HistoryEntry( *it.current() ) );
     m_lstHistory.at(other->m_lstHistory.at());
@@ -1038,8 +1045,8 @@ QStringList KonqView::childFrameNames( KParts::ReadOnlyPart *part )
 
   res += hostExtension->frameNames();
 
-  const QPtrList<KParts::ReadOnlyPart> children = hostExtension->frames();
-  QPtrListIterator<KParts::ReadOnlyPart> it( children );
+  const Q3PtrList<KParts::ReadOnlyPart> children = hostExtension->frames();
+  Q3PtrListIterator<KParts::ReadOnlyPart> it( children );
   for (; it.current(); ++it )
     res += childFrameNames( it.current() );
 
@@ -1056,8 +1063,8 @@ KParts::BrowserHostExtension* KonqView::hostExtension( KParts::ReadOnlyPart *par
   if ( ext->frameNames().contains( name ) )
     return ext;
 
-  const QPtrList<KParts::ReadOnlyPart> children = ext->frames();
-  QPtrListIterator<KParts::ReadOnlyPart> it( children );
+  const Q3PtrList<KParts::ReadOnlyPart> children = ext->frames();
+  Q3PtrListIterator<KParts::ReadOnlyPart> it( children );
   for (; it.current(); ++it )
   {
     KParts::BrowserHostExtension *childHost = hostExtension( it.current(), name );
@@ -1074,12 +1081,11 @@ bool KonqView::callExtensionMethod( const char *methodName )
   if ( !obj ) // not all views have a browser extension !
     return false;
 
-  int id = obj->metaObject()->findSlot( methodName );
+  int id = obj->metaObject()->indexOfSlot( methodName );
   if ( id == -1 )
     return false;
-  QUObject o[ 1 ];
+  QMetaObject::invokeMethod( obj, methodName,  Qt::DirectConnection);
 
-  obj->qt_invoke( id, o );
   return true;
 }
 
@@ -1089,14 +1095,12 @@ bool KonqView::callExtensionBoolMethod( const char *methodName, bool value )
   if ( !obj ) // not all views have a browser extension !
     return false;
 
-  int id = obj->metaObject()->findSlot( methodName );
+  int id = obj->metaObject()->indexOfSlot( methodName );
   if ( id == -1 )
     return false;
-  QUObject o[ 2 ];
 
-  static_QUType_bool.set( o + 1, value );
+  QMetaObject::invokeMethod( obj, methodName,  Qt::DirectConnection, Q_ARG(bool,value));
 
-  obj->qt_invoke( id, o );
   return true;
 }
 
@@ -1106,14 +1110,12 @@ bool KonqView::callExtensionStringMethod( const char *methodName, QString value 
   if ( !obj ) // not all views have a browser extension !
     return false;
 
-  int id = obj->metaObject()->findSlot( methodName );
+  int id = obj->metaObject()->indexOfSlot( methodName );
   if ( id == -1 )
     return false;
-  QUObject o[ 2 ];
 
-  static_QUType_QString.set( o + 1, value );
+  QMetaObject::invokeMethod( obj, methodName,  Qt::DirectConnection, Q_ARG(QString, value));
 
-  obj->qt_invoke( id, o );
   return true;
 }
 
@@ -1123,14 +1125,12 @@ bool KonqView::callExtensionURLMethod( const char *methodName, const KURL& value
   if ( !obj ) // not all views have a browser extension !
     return false;
 
-  int id = obj->metaObject()->findSlot( methodName );
+  int id = obj->metaObject()->indexOfSlot( methodName );
   if ( id == -1 )
     return false;
-  QUObject o[ 2 ];
 
-  static_QUType_ptr.set( o + 1, &value );
+  QMetaObject::invokeMethod( obj, methodName,  Qt::DirectConnection, Q_ARG(KURL, value));
 
-  obj->qt_invoke( id, o );
   return true;
 }
 
@@ -1219,7 +1219,7 @@ void KonqView::reparseConfiguration()
     {
         if (m_bBackRightClick && m_pPart->widget()->inherits("QScrollView") )
         {
-            (static_cast<QScrollView *>(m_pPart->widget()))->viewport()->installEventFilter( this );
+            (static_cast<Q3ScrollView *>(m_pPart->widget()))->viewport()->installEventFilter( this );
         }
         enableBackRightClick( b );
     }
@@ -1252,16 +1252,13 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
             KURL::List lstDragURLs;
             bool ok = KURLDrag::decode( ev, lstDragURLs );
 
-            QObjectList *children = m_pPart->widget()->queryList( "QWidget" );
+            QObjectList children = m_pPart->widget()->queryList( "QWidget" );
 
             if ( ok &&
                  !lstDragURLs.first().url().contains( "javascript:", false ) && // ### this looks like a hack to me
                  ev->source() != m_pPart->widget() &&
-                 children &&
-                 children->findRef( ev->source() ) == -1 )
+                 children.indexOf( ev->source() ) == -1 )
                 ev->acceptAction();
-
-            delete children;
         }
     }
     else if ( e->type() == QEvent::Drop && m_bURLDropHandling && obj == m_pPart->widget() )
@@ -1289,7 +1286,7 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
         else if ( e->type() == QEvent::MouseButtonPress )
         {
             QMouseEvent *ev = static_cast<QMouseEvent *>( e );
-            if ( ev->button() == RightButton )
+            if ( ev->button() == Qt::RightButton )
             {
                 return true;
             }
@@ -1297,7 +1294,7 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
         else if ( e->type() == QEvent::MouseButtonRelease )
         {
             QMouseEvent *ev = static_cast<QMouseEvent *>( e );
-            if ( ev->button() == RightButton )
+            if ( ev->button() == Qt::RightButton )
             {
                 emit backRightClick();
                 return true;
@@ -1306,7 +1303,7 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
         else if ( e->type() == QEvent::MouseMove )
         {
             QMouseEvent *ev = static_cast<QMouseEvent *>( e );
-            if ( ev->state() == RightButton )
+            if ( ev->button() == Qt::RightButton )
             {
                 obj->removeEventFilter( this );
                 QMouseEvent me( QEvent::MouseButtonPress, ev->pos(), 2, 2 );

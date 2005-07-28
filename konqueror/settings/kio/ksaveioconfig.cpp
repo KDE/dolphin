@@ -234,7 +234,7 @@ void KSaveIOConfig::updateRunningIOSlaves (QWidget *parent)
 {
   // Inform all running io-slaves about the changes...
   // if we cannot update, ioslaves inform the end user...
-  if (!DCOPRef("*", "KIO::Scheduler").send("reparseSlaveConfiguration", QString::null))
+  if (!DCOPRef("*", "KIO::Scheduler").send("reparseSlaveConfiguration", QString()))
   {
     QString caption = i18n("Update Failed");
     QString message = i18n("You have to restart the running applications "

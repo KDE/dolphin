@@ -26,6 +26,10 @@
 #include "konq_guiclients.h"
 #include "konq_viewmgr.h"
 #include <kiconloader.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <Q3CString>
+#include <Q3PtrList>
 
 PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
                                         const KTrader::OfferList &embeddingServices,
@@ -144,7 +148,7 @@ void PopupMenuGUIClient::addEmbeddingService( QDomElement &menu, int idx, const 
   QDomElement action = m_doc.createElement( "action" );
   menu.appendChild( action );
 
-  QCString actName;
+  Q3CString actName;
   actName.setNum( idx );
 
   action.setAttribute( "name", QString::number( idx ) );
@@ -217,11 +221,11 @@ ToggleViewGUIClient::~ToggleViewGUIClient()
 {
 }
 
-QPtrList<KAction> ToggleViewGUIClient::actions() const
+Q3PtrList<KAction> ToggleViewGUIClient::actions() const
 {
-  QPtrList<KAction> res;
+  Q3PtrList<KAction> res;
 
-  QDictIterator<KAction> it( m_actions );
+  Q3DictIterator<KAction> it( m_actions );
   for (; it.current(); ++it )
     res.append( it.current() );
 
@@ -244,7 +248,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
                                                     serviceName,
                                                     !horizontal /* vertical = make it first */);
 
-    QValueList<int> newSplitterSizes;
+    Q3ValueList<int> newSplitterSizes;
 
     if ( horizontal )
       newSplitterSizes << 100 << 30;
@@ -282,11 +286,11 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
   }
   else
   {
-    QPtrList<KonqView> viewList;
+    Q3PtrList<KonqView> viewList;
 
     m_mainWindow->listViews( &viewList );
 
-    QPtrListIterator<KonqView> it( viewList );
+    Q3PtrListIterator<KonqView> it( viewList );
     for (; it.current(); ++it )
       if ( it.current()->service()->desktopEntryName() == serviceName )
         // takes care of choosing the new active view, and also calls slotViewRemoved

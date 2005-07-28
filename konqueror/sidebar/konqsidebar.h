@@ -21,7 +21,7 @@
 #include <kparts/factory.h>
 #include <kparts/event.h>
 #include <kparts/browserextension.h>
-#include <qguardedptr.h>
+#include <qpointer.h>
 #include "sidebar_widget.h"
 #include "konqsidebariface_p.h"
 
@@ -43,7 +43,7 @@ class KonqSidebarBrowserExtension : public KParts::BrowserExtension
 	~KonqSidebarBrowserExtension(){;}
 
 	protected:
-	QGuardedPtr<Sidebar_Widget> widget;
+	QPointer<Sidebar_Widget> widget;
 
 
 // The following slots are needed for konqueror's standard actions

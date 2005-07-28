@@ -32,7 +32,7 @@ public:
   KListBoxDialog(QString text, QWidget *parent=0);
   ~KListBoxDialog() {};
 
-  QListBox &getTable() { return *table; };
+  Q3ListBox &getTable() { return *table; };
 
   void insertItem( const QString& text );
   void setCurrentItem ( const QString& text );
@@ -40,7 +40,7 @@ public:
 
 protected:
 
-  QListBox *table;
+  Q3ListBox *table;
   QLabel *label;
 
 };

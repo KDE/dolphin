@@ -23,7 +23,7 @@ KCookiesMain::KCookiesMain(QWidget *parent)
     bool managerOK = true;
 
     DCOPReply reply = DCOPRef( "kded", "kded" ).call( "loadModule", 
-        QCString( "kcookiejar" ) );
+        Q3CString( "kcookiejar" ) );
 
     if( !reply.isValid() )
     {

@@ -33,6 +33,9 @@
 #include <qpushbutton.h>
 #include <qdir.h>
 #include <qcheckbox.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 #include <kdialogbase.h>
 #include <klocale.h>
@@ -64,13 +67,13 @@ ChFaceDlg::ChFaceDlg(const QString& picsdir, QWidget *parent, const char *name, 
   top->addWidget( header );
 
   m_FacesWidget = new KIconView( page );
-  m_FacesWidget->setSelectionMode( QIconView::Single );
+  m_FacesWidget->setSelectionMode( Q3IconView::Single );
   m_FacesWidget->setItemsMovable( false );
   m_FacesWidget->setMinimumSize( 400, 200 );
 
-  connect( m_FacesWidget, SIGNAL( selectionChanged( QIconViewItem * ) ), SLOT( slotFaceWidgetSelectionChanged( QIconViewItem * ) ) );
+  connect( m_FacesWidget, SIGNAL( selectionChanged( Q3IconViewItem * ) ), SLOT( slotFaceWidgetSelectionChanged( Q3IconViewItem * ) ) );
 
-  connect( m_FacesWidget, SIGNAL( doubleClicked( QIconViewItem *, const QPoint & ) ), SLOT( slotOk() ) );
+  connect( m_FacesWidget, SIGNAL( doubleClicked( Q3IconViewItem *, const QPoint & ) ), SLOT( slotOk() ) );
 
   top->addWidget( m_FacesWidget );
 
@@ -93,19 +96,19 @@ ChFaceDlg::ChFaceDlg(const QString& picsdir, QWidget *parent, const char *name, 
   {
     QStringList picslist = facesDir.entryList( QDir::Files );
     for ( QStringList::Iterator it = picslist.begin(); it != picslist.end(); ++it )
-      new QIconViewItem( m_FacesWidget, (*it).section(".",0,0), QPixmap( picsdir + *it ) );
+      new Q3IconViewItem( m_FacesWidget, (*it).section(".",0,0), QPixmap( picsdir + *it ) );
   }
   facesDir.setPath( KCFGUserAccount::userFaceDir() );
   if ( facesDir.exists() )
   {
     QStringList picslist = facesDir.entryList( QDir::Files );
     for ( QStringList::Iterator it = picslist.begin(); it != picslist.end(); ++it )
-      new QIconViewItem( m_FacesWidget, "/"+(*it) == KCFGUserAccount::customFaceFile() ? 
+      new Q3IconViewItem( m_FacesWidget, "/"+(*it) == KCFGUserAccount::customFaceFile() ? 
 		      i18n("(Custom)") : (*it).section(".",0,0),
                       QPixmap( KCFGUserAccount::userFaceDir() + *it ) );
   }
 
-  m_FacesWidget->setResizeMode( QIconView::Adjust );
+  m_FacesWidget->setResizeMode( Q3IconView::Adjust );
   //m_FacesWidget->setGridX( FACE_PIX_SIZE - 10 );
   m_FacesWidget->arrangeItemsInGrid();
 
@@ -128,7 +131,7 @@ void ChFaceDlg::addCustomPixmap( QString imPath, bool saveCopy )
   }
   if ( (pix.width() > KCFGUserAccount::faceSize())
 	|| (pix.height() > KCFGUserAccount::faceSize()) )
-    pix = pix.scale( KCFGUserAccount::faceSize(), KCFGUserAccount::faceSize(), QImage::ScaleMin );// Should be no bigger than certain size.
+    pix = pix.scaled( KCFGUserAccount::faceSize(), KCFGUserAccount::faceSize(), Qt::ScaleMin );// Should be no bigger than certain size.
 
   if ( saveCopy )
   {
@@ -145,7 +148,7 @@ void ChFaceDlg::addCustomPixmap( QString imPath, bool saveCopy )
 #endif
   }
 
-  QIconViewItem* newface = new QIconViewItem( m_FacesWidget, QFileInfo(imPath).fileName().section(".",0,0) , pix );
+  Q3IconViewItem* newface = new Q3IconViewItem( m_FacesWidget, QFileInfo(imPath).fileName().section(".",0,0) ,QPixmap( pix) );
   newface->setKey( KCFGUserAccount::customKey() );// Add custom items to end
   m_FacesWidget->ensureItemVisible( newface );
   m_FacesWidget->setCurrentItem( newface );

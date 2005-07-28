@@ -22,10 +22,10 @@
 #ifndef __DOMAINLISTVIEW_H__
 #define __DOMAINLISTVIEW_H__
 
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qmap.h>
 
-class QListViewItem;
+class Q3ListViewItem;
 class QPushButton;
 class QStringList;
 
@@ -51,7 +51,7 @@ class PolicyDialog;
  *
  * @author Leo Savernik
  */
-class DomainListView : public QGroupBox {
+class DomainListView : public Q3GroupBox {
   Q_OBJECT
 public:
   /** Enumerates the available buttons.
@@ -201,7 +201,7 @@ protected:
   QPushButton* importDomainPB;
   QPushButton* exportDomainPB;
 
-  typedef QMap<QListViewItem*, Policies *> DomainPolicyMap;
+  typedef QMap<Q3ListViewItem*, Policies *> DomainPolicyMap;
   DomainPolicyMap domainPolicies;
 };
 

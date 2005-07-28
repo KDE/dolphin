@@ -18,7 +18,7 @@
 */
 
 #include <qapplication.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 
 #include <kapplication.h>
 #include <kaction.h>
@@ -224,11 +224,11 @@ void KonqSidebarHistoryModule::showPopupMenu()
 
 void KonqSidebarHistoryModule::showPopupMenu( int which, const QPoint& pos )
 {
-    QPopupMenu *sortMenu = new QPopupMenu;
+    Q3PopupMenu *sortMenu = new Q3PopupMenu;
     m_collection->action("byName")->plug( sortMenu );
     m_collection->action("byDate")->plug( sortMenu );
 
-    QPopupMenu *menu = new QPopupMenu;
+    Q3PopupMenu *menu = new Q3PopupMenu;
 
     if ( which & EntryContextMenu )
     {
@@ -252,7 +252,7 @@ void KonqSidebarHistoryModule::slotNewWindow()
 {
     kdDebug(1201)<<"void KonqSidebarHistoryModule::slotNewWindow()"<<endl;
 
-    QListViewItem *item = tree()->selectedItem();
+    Q3ListViewItem *item = tree()->selectedItem();
     KonqSidebarHistoryItem *hi = dynamic_cast<KonqSidebarHistoryItem*>( item );
     if ( hi )
        {
@@ -263,7 +263,7 @@ void KonqSidebarHistoryModule::slotNewWindow()
 
 void KonqSidebarHistoryModule::slotRemoveEntry()
 {
-    QListViewItem *item = tree()->selectedItem();
+    Q3ListViewItem *item = tree()->selectedItem();
     KonqSidebarHistoryItem *hi = dynamic_cast<KonqSidebarHistoryItem*>( item );
     if ( hi ) // remove a single entry
 	KonqHistoryManager::kself()->emitRemoveFromHistory( hi->externalURL());
@@ -303,7 +303,7 @@ void KonqSidebarHistoryModule::sortingChanged()
     kc->sync();
 }
 
-void KonqSidebarHistoryModule::slotItemExpanded( QListViewItem *item )
+void KonqSidebarHistoryModule::slotItemExpanded( Q3ListViewItem *item )
 {
     if ( item == m_topLevelItem && !m_initialized )
 	slotCreateItems();

@@ -27,7 +27,10 @@
 #include "konq_settingsxt.h"
 
 #include <qfileinfo.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
+//Added by qt3to4:
+#include <Q3StrList>
+#include <Q3ValueList>
 
 #include <kaccelgen.h>
 #include <kstandarddirs.h>
@@ -44,7 +47,7 @@
 
 // #define DEBUG_VIEWMGR
 
-template class QPtrList<KonqView>;
+template class Q3PtrList<KonqView>;
 
 KonqViewManager::KonqViewManager( KonqMainWindow *mainWindow )
  : KParts::PartManager( mainWindow )
@@ -116,7 +119,7 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
   KonqFrameContainerBase* parentContainer = splitFrame->parentContainer();
 
   bool moveNewContainer = false;
-  QValueList<int> splitterSizes;
+  Q3ValueList<int> splitterSizes;
   int index= -1;
 
   if (parentContainer->frameType()=="Container") {
@@ -168,7 +171,7 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
     newContainer->swapChildren();
   }
 
-  QValueList<int> newSplitterSizes;
+  Q3ValueList<int> newSplitterSizes;
   newSplitterSizes << 50 << 50;
   newContainer->setSizes( newSplitterSizes );
 
@@ -271,7 +274,7 @@ void KonqViewManager::convertDocContainer()
   KonqFrameContainerBase* parentContainer = m_pDocContainer->parentContainer();
 
   bool moveNewContainer = false;
-  QValueList<int> splitterSizes;
+  Q3ValueList<int> splitterSizes;
   if (parentContainer->frameType()=="Container") {
     moveNewContainer = (static_cast<KonqFrameContainer*>(parentContainer)->idAfter( m_pDocContainer->widget() ) != 0);
     splitterSizes = static_cast<KonqFrameContainer*>(parentContainer)->sizes();
@@ -423,7 +426,7 @@ void KonqViewManager::duplicateTab( KonqFrameBase* tab, bool openAfterCurrentPag
 
   QString prefix = QString::fromLatin1( currentFrame->frameType() ) + QString::number(0);
   config.writeEntry( "RootItem", prefix );
-  prefix.append( '_' );
+  prefix.append( QLatin1Char( '_' ) );
   currentFrame->saveConfig( &config, prefix, true, 0L, 0, 1);
 
   QString rootItem = config.readEntry( "RootItem", "empty" );
@@ -493,7 +496,7 @@ void KonqViewManager::breakOffTab( KonqFrameBase* tab )
 
   QString prefix = QString::fromLatin1( currentFrame->frameType() ) + QString::number(0);
   config.writeEntry( "RootItem", prefix );
-  prefix.append( '_' );
+  prefix.append( QLatin1Char( '_' ) );
   config.writeEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), true );
   currentFrame->saveConfig( &config, prefix, true, 0L, 0, 1);
 
@@ -565,8 +568,8 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
 
   tabContainer->removeChildFrame(currentFrame);
 
-  QPtrList<KonqView> viewList;
-  QPtrListIterator<KonqView> it( viewList );
+  Q3PtrList<KonqView> viewList;
+  Q3PtrListIterator<KonqView> it( viewList );
 
   currentFrame->listViews( &viewList );
 
@@ -596,8 +599,8 @@ void KonqViewManager::reloadAllTabs( )
 
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
 
-  QPtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
-  QPtrListIterator<KonqFrameBase> it( frameList );
+  Q3PtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
+  Q3PtrListIterator<KonqFrameBase> it( frameList );
 
   for ( it.toFirst(); it != 0L; ++it )
   {
@@ -628,8 +631,8 @@ void KonqViewManager::removeOtherTabs( KonqFrameBase* tab )
     return;
   }
 
-  QPtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
-  QPtrListIterator<KonqFrameBase> it( frameList );
+  Q3PtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
+  Q3PtrListIterator<KonqFrameBase> it( frameList );
 
   for ( it.toFirst(); it != 0L; ++it )
   {
@@ -726,8 +729,8 @@ void KonqViewManager::updatePixmaps()
 
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
 
-  QPtrList<KonqView> viewList;
-  QPtrListIterator<KonqView> it( viewList );
+  Q3PtrList<KonqView> viewList;
+  Q3PtrListIterator<KonqView> it( viewList );
 
   tabContainer->listViews( &viewList );
   for ( it.toFirst(); it != 0L; ++it )
@@ -760,7 +763,7 @@ void KonqViewManager::removeView( KonqView *view )
     setActivePart( 0L, true );
 
     int index = -1;
-    QValueList<int> splitterSizes;
+    Q3ValueList<int> splitterSizes;
     bool moveOtherChild = false;
 
     if (grandParentContainer->frameType()=="Tabs")
@@ -916,13 +919,13 @@ void KonqViewManager::clear()
 
   if (m_pMainWindow->childFrame() == 0L) return;
 
-  QPtrList<KonqView> viewList;
+  Q3PtrList<KonqView> viewList;
 
   m_pMainWindow->listViews( &viewList );
 
   kdDebug(1202) << viewList.count() << " items" << endl;
 
-  QPtrListIterator<KonqView> it( viewList );
+  Q3PtrListIterator<KonqView> it( viewList );
   for ( it.toFirst(); it.current(); ++it ) {
     m_pMainWindow->removeChildView( it.current() );
     kdDebug(1202) << "Deleting " << it.current() << endl;
@@ -1097,7 +1100,7 @@ void KonqViewManager::saveViewProfile( KConfig & cfg, bool saveURLs, bool saveWi
     QString prefix = QString::fromLatin1( m_pMainWindow->childFrame()->frameType() )
                      + QString::number(0);
     cfg.writeEntry( "RootItem", prefix );
-    prefix.append( '_' );
+    prefix.append( QLatin1Char( '_' ) );
     m_pMainWindow->saveConfig( &cfg, prefix, saveURLs, m_pDocContainer, 0, 1);
   }
 
@@ -1149,12 +1152,12 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
       }
 
       KonqView *originalView = m_pMainWindow->currentView();
-      QPtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
-      QPtrListIterator<KonqFrameBase> it( frameList );
+      Q3PtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
+      Q3PtrListIterator<KonqFrameBase> it( frameList );
       for ( it.toFirst(); it != 0L; ++it )
       {
           KonqView *view = it.current()->activeChildView();
-          if (view && view->part() && (view->part()->metaObject()->findProperty("modified") != -1)) {
+          if (view && view->part() && (view->part()->metaObject()->indexOfProperty("modified") != -1)) {
             QVariant prop = view->part()->property("modified");
             if (prop.isValid() && prop.toBool()) {
                 showTab( view );
@@ -1173,7 +1176,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   else
   {
       KonqView *view = m_pMainWindow->currentView();
-      if (view && view->part() && (view->part()->metaObject()->findProperty("modified") != -1)) {
+      if (view && view->part() && (view->part()->metaObject()->indexOfProperty("modified") != -1)) {
         QVariant prop = view->part()->property("modified");
         if (prop.isValid() && prop.toBool())
             if ( KMessageBox::warningContinueCancel( 0,
@@ -1445,7 +1448,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
 {
   QString prefix;
   if( name != "InitialView" )
-    prefix = name + '_';
+    prefix = name + QLatin1Char( '_' );
 
   //kdDebug(1202) << "begin loadItem: " << name << endl;
 
@@ -1575,12 +1578,12 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
       o = Qt::Horizontal;
     }
 
-    QValueList<int> sizes =
+    Q3ValueList<int> sizes =
         cfg.readIntListEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ));
 
     int index = cfg.readNumEntry( QString::fromLatin1( "activeChildIndex" ).prepend(prefix), -1 );
 
-    QStrList childList;
+    Q3StrList childList;
     if( cfg.readListEntry( QString::fromLatin1( "Children" ).prepend( prefix ), childList ) < 2 )
     {
       kdWarning() << "Profile Loading Error: Less than two children in " << name << endl;
@@ -1717,7 +1720,7 @@ void KonqViewManager::slotProfileListAboutToShow()
   if ( !m_pamProfiles || !m_bProfileListDirty )
     return;
 
-  QPopupMenu *popup = m_pamProfiles->popupMenu();
+  Q3PopupMenu *popup = m_pamProfiles->popupMenu();
   popup->clear();
 
   // Fetch profiles
@@ -1728,7 +1731,7 @@ void KonqViewManager::slotProfileListAboutToShow()
   KAccelGen::generateFromKeys(m_mapProfileNames, accel_strings);
 
   // Store menu items
-  QValueListIterator<QString> iter = accel_strings.begin();
+  QList<QString>::iterator iter = accel_strings.begin();
   for( int id = 0;
        iter != accel_strings.end();
        ++iter, ++id ) {
@@ -1755,7 +1758,7 @@ void KonqViewManager::setLoading( KonqView *view, bool loading )
       else
         color = KGlobalSettings::textColor();
     }
-    konqframetabs->setTabColor( view->frame(), color );
+    //konqframetabs->setTabColor( view->frame(), color ); ### FIXME, KDE4, no call
   }
 }
 
@@ -1766,8 +1769,8 @@ void KonqViewManager::showHTML(bool b)
 
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
 
-  QPtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
-  QPtrListIterator<KonqFrameBase> it( frameList );
+  Q3PtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
+  Q3PtrListIterator<KonqFrameBase> it( frameList );
 
   for ( it.toFirst(); it != 0L; ++it )
   {
@@ -1798,10 +1801,10 @@ void KonqViewManager::printSizeInfo( KonqFrameBase* frame,
 
   if ( parent->frameType() == "Container" )
   {
-  QValueList<int> sizes;
+  Q3ValueList<int> sizes;
     sizes = static_cast<KonqFrameContainer*>(parent)->sizes();
   printf( "Parent sizes %s :", msg );
-  QValueList<int>::ConstIterator it;
+  Q3ValueList<int>::ConstIterator it;
   for( it = sizes.begin(); it != sizes.end(); ++it )
     printf( " %d", (*it) );
   printf("\n");

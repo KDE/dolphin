@@ -20,8 +20,8 @@
 #ifndef __konq_listviewwidget_h__
 #define __konq_listviewwidget_h__
 
-#include <qvaluelist.h>
-#include <qvaluevector.h>
+#include <q3valuelist.h>
+#include <q3valuevector.h>
 
 #include <kurl.h>
 #include <kfileitem.h>
@@ -108,7 +108,7 @@ public:
 
    virtual bool openURL( const KURL &url );
 
-   void selectedItems( QPtrList<KonqBaseListViewItem> *_list );
+   void selectedItems( Q3PtrList<KonqBaseListViewItem> *_list );
    KFileItemList visibleFileItems();
    KFileItemList selectedFileItems();
    KURL::List selectedUrls( bool mostLocal = false );
@@ -122,7 +122,7 @@ public:
    KonqPropsView *props() const;
 
    //QPtrList<ColumnInfo> *columnConfigInfo() { return &confColumns; };
-   QValueVector<ColumnInfo>& columnConfigInfo() { return confColumns; };
+   Q3ValueVector<ColumnInfo>& columnConfigInfo() { return confColumns; };
    QString sortedByColumn;
 
    virtual void setShowIcons( bool enable ) { m_showIcons = enable; }
@@ -153,16 +153,16 @@ signals:
 
 public slots:
    //virtual void slotOnItem( KonqBaseListViewItem* _item );
-   void slotMouseButtonClicked( int _button, QListViewItem *_item, const QPoint& pos, int );
-   virtual void slotExecuted( QListViewItem *_item );
-   void slotItemRenamed( QListViewItem *, const QString &, int );
+   void slotMouseButtonClicked( int _button, Q3ListViewItem *_item, const QPoint& pos, int );
+   virtual void slotExecuted( Q3ListViewItem *_item );
+   void slotItemRenamed( Q3ListViewItem *, const QString &, int );
 
 protected slots:
    void slotAutoScroll();
 
    // from QListView
-   virtual void slotReturnPressed( QListViewItem *_item );
-   virtual void slotCurrentChanged( QListViewItem *_item ) { slotOnItem( _item ); }
+   virtual void slotReturnPressed( Q3ListViewItem *_item );
+   virtual void slotCurrentChanged( Q3ListViewItem *_item ) { slotOnItem( _item ); }
 
    // slots connected to the directory lister
    virtual void slotStarted();
@@ -173,7 +173,7 @@ protected slots:
    virtual void slotDeleteItem( KFileItem * );
    virtual void slotRefreshItems( const KFileItemList & );
    virtual void slotRedirection( const KURL & );
-   void slotPopupMenu( QListViewItem *, const QPoint&, int );
+   void slotPopupMenu( Q3ListViewItem *, const QPoint&, int );
 
    // forces a repaint on column size changes / branch expansion
    // when there is a background pixmap
@@ -224,7 +224,7 @@ protected:
    //KDirLister *dirLister() const { return m_dirLister; }
 
 protected:
-   int executeArea( QListViewItem *_item );
+   int executeArea( Q3ListViewItem *_item );
 
    /** The directory lister for this URL */
    KDirLister *m_dirLister;
@@ -234,11 +234,11 @@ protected:
    //we have a fixed number of members,
    //it consumes less memory and access should be faster (Alex)
    // This might not be the case for ever... we should introduce custom fields in kio (David)
-   QValueVector<ColumnInfo> confColumns;
+   Q3ValueVector<ColumnInfo> confColumns;
 
    KonqBaseListViewItem *m_dragOverItem;
    KonqBaseListViewItem *m_activeItem;
-   QPtrList<KonqBaseListViewItem> *m_selected;
+   Q3PtrList<KonqBaseListViewItem> *m_selected;
    QTimer *m_scrollTimer;
 
    QFont m_itemFont;

@@ -17,7 +17,6 @@
     Boston, MA 02110-1301, USA.
 */
 
-#include <qhbox.h>
 #include <qlayout.h>
 #include <qlabel.h>
 
@@ -36,11 +35,8 @@ KShellCommandDialog::KShellCommandDialog(const QString& title, const QString& co
    QLabel *label=new QLabel(title,this);
    m_shell=new KShellCommandExecutor(command,this);
 
-   QHBox *buttonsBox=new QHBox(this);
-   buttonsBox->setSpacing(spacingHint());
-
-   cancelButton= new KPushButton(KStdGuiItem::cancel(), buttonsBox);
-   closeButton= new KPushButton(KStdGuiItem::close(), buttonsBox);
+   cancelButton= new KPushButton(KStdGuiItem::cancel(), this);
+   closeButton= new KPushButton(KStdGuiItem::close(), this);
    closeButton->setDefault(true);
 
    label->resize(label->sizeHint());
@@ -50,7 +46,11 @@ KShellCommandDialog::KShellCommandDialog(const QString& title, const QString& co
 
    box->addWidget(label,0);
    box->addWidget(m_shell,1);
-   box->addWidget(buttonsBox,0);
+
+   QHBoxLayout * hlayout = new QHBoxLayout(box);
+   hlayout->setSpacing( spacingHint() );
+   hlayout->addWidget( cancelButton );
+   hlayout->addWidget( closeButton );
 
    m_shell->setFocus();
 

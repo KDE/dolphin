@@ -24,6 +24,9 @@
 
 #include <qobject.h>
 #include <qevent.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <QDropEvent>
 
 namespace KIO { class Job; class CopyInfo; }
 class QWidget;
@@ -128,7 +131,7 @@ public:
 
 signals:
     void statFinished( const KFileItem * item );
-    void aboutToCreate(const QPoint &pos, const QValueList<KIO::CopyInfo> &files);
+    void aboutToCreate(const QPoint &pos, const Q3ValueList<KIO::CopyInfo> &files);
 
 protected:
     enum { DEFAULT_CONFIRMATION, SKIP_CONFIRMATION, FORCE_CONFIRMATION };
@@ -165,7 +168,7 @@ protected:
 
 protected slots:
 
-    void slotAboutToCreate(KIO::Job *job, const QValueList<KIO::CopyInfo> &files);
+    void slotAboutToCreate(KIO::Job *job, const Q3ValueList<KIO::CopyInfo> &files);
     void slotResult( KIO::Job * job );
     void slotStatResult( KIO::Job * job );
     void asyncDrop( const KFileItem * item );

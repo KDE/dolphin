@@ -23,6 +23,10 @@
 #include <kiconview.h>
 #include <kiconloader.h>
 #include <libkonq_export.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <Q3ValueList>
+#include <QDropEvent>
 
 class KFileItem;
 class KonqIconViewWidget;
@@ -191,10 +195,10 @@ public:
     KIVDirectoryOverlay* setShowDirectoryOverlay( bool );
     bool showDirectoryOverlay( );
 
-    virtual int compare( QIconViewItem *i ) const;
+    virtual int compare( Q3IconViewItem *i ) const;
 
 protected:
-    virtual void dropped( QDropEvent *e, const QValueList<QIconDragItem> &  );
+    virtual void dropped( QDropEvent *e, const Q3ValueList<Q3IconDragItem> &  );
 
     /**
      * Contains the logic and code for painting the overlay pixmap.

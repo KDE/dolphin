@@ -19,7 +19,7 @@
 #include <qdir.h>
 #include <qclipboard.h>
 #include <qpixmap.h>
-#include <qdragobject.h>
+#include <q3dragobject.h>
 
 #include <kfiledialog.h>
 #include <klocale.h>
@@ -34,7 +34,7 @@
 #include <kpopupmenu.h>
 #include <kio/netaccess.h>
 #include <kurldrag.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <kdebug.h>
 #include <kiconloader.h>
 
@@ -42,7 +42,7 @@
 
 #include "kfwin.moc"
 
-template class QPtrList<KfFileLVI>;
+template class Q3PtrList<KfFileLVI>;
 
 // Permission strings
 static const char* perm[4] = {
@@ -56,7 +56,7 @@ static const char* perm[4] = {
 #define NA 3
 
 KfFileLVI::KfFileLVI(KfindWindow* lv, const KFileItem &item, const QString& matchingLine)
-  : QListViewItem(lv),
+  : Q3ListViewItem(lv),
     fileitem(item)
 {
   fileInfo = new QFileInfo(item.url().path());
@@ -109,20 +109,20 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
 ,m_baseDir("")
 ,m_menu(0)
 {
-  setSelectionMode( QListView::Extended );
+  setSelectionMode( Q3ListView::Extended );
   setShowSortIndicator( TRUE );
 
   addColumn(i18n("Name"));
   addColumn(i18n("In Subfolder"));
   addColumn(i18n("Size"));
-  setColumnAlignment(2, AlignRight);
+  setColumnAlignment(2, Qt::AlignRight);
   addColumn(i18n("Modified"));
-  setColumnAlignment(3, AlignRight);
+  setColumnAlignment(3, Qt::AlignRight);
   addColumn(i18n("Permissions"));
-  setColumnAlignment(4, AlignRight);
+  setColumnAlignment(4, Qt::AlignRight);
 
   addColumn(i18n("First Matching Line"));
-  setColumnAlignment(5, AlignLeft);
+  setColumnAlignment(5, Qt::AlignLeft);
 
   // Disable autoresize for all columns
   // Resizing is done by resetColumns() function
@@ -134,11 +134,11 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
   connect( this, SIGNAL(selectionChanged()),
 	   this, SLOT( selectionHasChanged() ));
 
-  connect(this, SIGNAL(contextMenu(KListView *, QListViewItem*,const QPoint&)),
-	  this, SLOT(slotContextMenu(KListView *,QListViewItem*,const QPoint&)));
+  connect(this, SIGNAL(contextMenu(KListView *, Q3ListViewItem*,const QPoint&)),
+	  this, SLOT(slotContextMenu(KListView *,Q3ListViewItem*,const QPoint&)));
 
-  connect(this, SIGNAL(executed(QListViewItem*)),
-	  this, SLOT(slotExecute(QListViewItem*)));
+  connect(this, SIGNAL(executed(Q3ListViewItem*)),
+	  this, SLOT(slotExecute(Q3ListViewItem*)));
   setDragEnabled(true);
 
 }
@@ -174,7 +174,7 @@ void KfindWindow::insertItem(const KFileItem &item, const QString& matchingLine)
 // copy to clipboard aka X11 selection
 void KfindWindow::copySelection()
 {
-  QDragObject *drag_obj = dragObject();
+  Q3DragObject *drag_obj = dragObject();
 
   if (drag_obj)
   {
@@ -185,7 +185,7 @@ void KfindWindow::copySelection()
 
 void KfindWindow::saveResults()
 {
-  QListViewItem *item;
+  Q3ListViewItem *item;
 
   KFileDialog *dlg = new KFileDialog(QString::null, QString::null, this,
 	"filedialog", true);
@@ -267,7 +267,7 @@ void KfindWindow::selectionHasChanged()
 {
   emit resultSelected(true);
 
-  QListViewItem *item = firstChild();
+  Q3ListViewItem *item = firstChild();
   while(item != 0L)
   {
     if(isSelected(item)) {
@@ -291,7 +291,7 @@ void KfindWindow::deleteFiles()
     return;
 
   // Iterate on all selected elements
-  QPtrList<QListViewItem> selected = selectedItems();
+  Q3PtrList<Q3ListViewItem> selected = selectedItems();
   for ( uint i = 0; i < selected.count(); i++ ) {
     KfFileLVI *item = (KfFileLVI *) selected.at(i);
     KFileItem file = item->fileitem;
@@ -323,7 +323,7 @@ void KfindWindow::openBinding()
   ((KfFileLVI*)currentItem())->fileitem.run();
 }
 
-void KfindWindow::slotExecute(QListViewItem* item)
+void KfindWindow::slotExecute(Q3ListViewItem* item)
 {
    if (item==0)
       return;
@@ -338,10 +338,10 @@ void KfindWindow::resizeEvent(QResizeEvent *e)
   clipper()->repaint();
 }
 
-QDragObject * KfindWindow::dragObject()
+Q3DragObject * KfindWindow::dragObject()
 {
   KURL::List uris;
-  QPtrList<QListViewItem> selected = selectedItems();
+  Q3PtrList<Q3ListViewItem> selected = selectedItems();
 
   // create a list of URIs from selection
   for ( uint i = 0; i < selected.count(); i++ )
@@ -356,7 +356,7 @@ QDragObject * KfindWindow::dragObject()
   if ( uris.count() <= 0 )
      return 0;
 
-  QUriDrag *ud = new KURLDrag( uris, (QWidget *) this, "kfind uridrag" );
+  Q3UriDrag *ud = new KURLDrag( uris, (QWidget *) this, "kfind uridrag" );
 
   const QPixmap *pix = currentItem()->pixmap(0);
   if ( pix && !pix->isNull() )
@@ -390,7 +390,7 @@ void KfindWindow::resetColumns(bool init)
   setColumnWidth(1, dir_w);
 }
 
-void KfindWindow::slotContextMenu(KListView *,QListViewItem *item,const QPoint&p)
+void KfindWindow::slotContextMenu(KListView *,Q3ListViewItem *item,const QPoint&p)
 {
   if (!item) return;
   int count = selectedItems().count();

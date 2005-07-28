@@ -24,7 +24,9 @@
 #include <kstandarddirs.h>
 #include <kpixmap.h>
 #include <qpixmapcache.h>
-#include <qiconview.h>
+#include <q3iconview.h>
+//Added by qt3to4:
+#include <QPixmap>
 #include <unistd.h>
 #include <qfile.h>
 #include <iostream>
@@ -88,7 +90,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   d->caseInsensitiveSort=config->readBoolEntry( "CaseInsensitiveSort", true );
 
   m_iIconSize = config->readNumEntry( "IconSize", 0 );
-  m_iItemTextPos = config->readNumEntry( "ItemTextPos", QIconView::Bottom );
+  m_iItemTextPos = config->readNumEntry( "ItemTextPos", Qt::DockBottom );
   d->sortcriterion = config->readEntry( "SortingCriterion", "sort_nci" );
   d->dirsfirst = config->readBoolEntry( "SortDirsFirst", true );
   d->descending = config->readBoolEntry( "SortDescending", false );

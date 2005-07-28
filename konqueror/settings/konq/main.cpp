@@ -32,11 +32,14 @@
 
 #include <kconfig.h>
 #include <kapplication.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QDesktopWidget>
 
-static QCString configname()
+static Q3CString configname()
 {
 	int desktop = KApplication::desktop()->primaryScreen();
-	QCString name;
+	Q3CString name;
 	if (desktop == 0)
 		name = "kdesktoprc";
     else

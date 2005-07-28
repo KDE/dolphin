@@ -7,11 +7,13 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include <qlabel.h>
 #include <qlayout.h>
 #include <qprogressdialog.h>
 #include <qregexp.h>
 #include <qslider.h>
-#include <qvgroupbox.h>
+#include <q3groupbox.h>
+#include <qtextstream.h>
 #include <qwhatsthis.h>
 
 #include <dcopclient.h>
@@ -55,13 +57,14 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
     /**************************************************************************
      ******************** Global Settings *************************************
      *************************************************************************/
-    QVGroupBox* globalGB = new QVGroupBox( i18n( "Global Settings" ), this );
+    Q3GroupBox* globalGB = new Q3GroupBox( i18n( "Global Settings" ), this );
+    globalGB->setOrientation( Qt::Vertical );
     toplevel->addWidget( globalGB );
     enablePluginsGloballyCB = new QCheckBox( i18n( "&Enable plugins globally" ), globalGB );
     enableHTTPOnly = new QCheckBox( i18n( "Only allow &HTTP and HTTPS URLs for plugins" ), globalGB );
     enableUserDemand = new QCheckBox( i18n( "&Load plugins on demand only" ), globalGB );
     priorityLabel = new QLabel(i18n("CPU priority for plugins: %1").arg(QString::null), globalGB);
-    priority = new QSlider(5, 100, 5, 100, Horizontal, globalGB);
+    priority = new QSlider(5, 100, 5, 100, Qt::Horizontal, globalGB);
     connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
     connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotTogglePluginsEnabled() ) );
     connect( enableHTTPOnly, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
@@ -125,7 +128,8 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
 
 /*****************************************************************************/
 
-    QVGroupBox* netscapeGB = new QVGroupBox( i18n( "Netscape Plugins" ), this );
+    Q3GroupBox* netscapeGB = new Q3GroupBox( i18n( "Netscape Plugins" ), this );
+    netscapeGB->setOrientation( Qt::Vertical );
     toplevel->addWidget( netscapeGB );
 
     // create Designer made widget
@@ -305,7 +309,8 @@ void KPluginOptions::scan()
 
     KProcIO* nspluginscan = new KProcIO;
     QString scanExe = KGlobal::dirs()->findExe("nspluginscan");
-    if (!scanExe) {
+#warning !QString? i guess that meant isEmpty?
+    if (scanExe.isEmpty()) {
         kdDebug() << "can't find nspluginviewer" << endl;
         delete nspluginscan;
 
@@ -317,8 +322,8 @@ void KPluginOptions::scan()
     }
 
     // find nspluginscan executable
-    m_progress = new QProgressDialog( i18n("Scanning for plugins"), i18n("Cancel"), 100, this );
-    m_progress->setProgress( 5 );
+    m_progress = new QProgressDialog( i18n("Scanning for plugins"), i18n("Cancel"), 0, 100, this );
+    m_progress->setValue( 5 );
 
     // start nspluginscan
     *nspluginscan << scanExe << "--verbose";
@@ -336,7 +341,7 @@ void KPluginOptions::scan()
 
     // update dialog
     if (m_progress) {
-        m_progress->setProgress(100);
+        m_progress->setValue(100);
         load();
         delete m_progress;
         m_progress = 0;
@@ -349,7 +354,7 @@ void KPluginOptions::progress(KProcIO *proc)
     QString line;
     while(proc->readln(line) > 0)
         ;
-    m_progress->setProgress(line.stripWhiteSpace().toInt());
+    m_progress->setValue(line.stripWhiteSpace().toInt());
 }
 
 void KPluginOptions::scanDone()
@@ -373,12 +378,12 @@ void KPluginOptions::dirInit()
              SLOT(dirEdited(const QString &)) );
 
     connect( m_widget->dirList,
-             SIGNAL(executed(QListBoxItem*)),
-             SLOT(dirSelect(QListBoxItem*)) );
+             SIGNAL(executed(Q3ListBoxItem*)),
+             SLOT(dirSelect(Q3ListBoxItem*)) );
 
     connect( m_widget->dirList,
-             SIGNAL(selectionChanged(QListBoxItem*)),
-             SLOT(dirSelect(QListBoxItem*)) );
+             SIGNAL(selectionChanged(Q3ListBoxItem*)),
+             SLOT(dirSelect(Q3ListBoxItem*)) );
 }
 
 
@@ -424,7 +429,7 @@ void KPluginOptions::dirSave( KConfig *config )
 {
     // create stringlist
     QStringList paths;
-    QListBoxItem *item = m_widget->dirList->firstItem();
+    Q3ListBoxItem *item = m_widget->dirList->firstItem();
     for ( ; item!=0; item=item->next() )
         if ( !item->text().isEmpty() )
             paths << item->text();
@@ -436,7 +441,7 @@ void KPluginOptions::dirSave( KConfig *config )
 }
 
 
-void KPluginOptions::dirSelect( QListBoxItem *item )
+void KPluginOptions::dirSelect( Q3ListBoxItem *item )
 {
     m_widget->dirEdit->setEnabled( item!=0 );
     m_widget->dirRemove->setEnabled( item!=0 );
@@ -536,7 +541,7 @@ void KPluginOptions::pluginLoad( KConfig* /*config*/ )
     QTextStream cache(&cachef);
 
     // root object
-    QListViewItem *root = new QListViewItem( m_widget->pluginList, i18n("Netscape Plugins") );
+    Q3ListViewItem *root = new Q3ListViewItem( m_widget->pluginList, i18n("Netscape Plugins") );
     root->setOpen( true );
     root->setSelectable( false );
     root->setExpandable( true );
@@ -544,8 +549,8 @@ void KPluginOptions::pluginLoad( KConfig* /*config*/ )
 
     // read in cache
     QString line, plugin;
-    QListViewItem *next = 0;
-    QListViewItem *lastMIME = 0;
+    Q3ListViewItem *next = 0;
+    Q3ListViewItem *lastMIME = 0;
     while ( !cache.atEnd() ) {
 
         line = cache.readLine();
@@ -559,7 +564,7 @@ void KPluginOptions::pluginLoad( KConfig* /*config*/ )
             //kdDebug() << "plugin=" << plugin << endl;
 
             // add plugin root item
-            next = new QListViewItem( root, i18n("Plugin"), plugin );
+            next = new Q3ListViewItem( root, i18n("Plugin"), plugin );
             next->setOpen( false );
             next->setSelectable( false );
             next->setExpandable( true );
@@ -576,17 +581,17 @@ void KPluginOptions::pluginLoad( KConfig* /*config*/ )
 
         if (!mime.isEmpty()) {
             //kdDebug() << "mime=" << mime << " desc=" << name << " suffix=" << suffixes << endl;
-            lastMIME = new QListViewItem( next, lastMIME, i18n("MIME type"), mime );
+            lastMIME = new Q3ListViewItem( next, lastMIME, i18n("MIME type"), mime );
             lastMIME->setOpen( false );
             lastMIME->setSelectable( false );
             lastMIME->setExpandable( true );
 
-            QListViewItem *last = new QListViewItem( lastMIME, 0, i18n("Description"), name );
+            Q3ListViewItem *last = new Q3ListViewItem( lastMIME, 0, i18n("Description"), name );
             last->setOpen( false );
             last->setSelectable( false );
             last->setExpandable( false );
 
-            last = new QListViewItem( lastMIME, last, i18n("Suffixes"), suffixes );
+            last = new Q3ListViewItem( lastMIME, last, i18n("Suffixes"), suffixes );
             last->setOpen( false );
             last->setSelectable( false );
             last->setExpandable( false );

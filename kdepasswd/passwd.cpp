@@ -23,8 +23,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <qcstring.h>
-
 #include <kdebug.h>
 #include <kstandarddirs.h>
 
@@ -32,7 +30,7 @@
 #include "passwd.h"
 
 
-PasswdProcess::PasswdProcess(QCString user)
+PasswdProcess::PasswdProcess(QByteArray user)
 {
     struct passwd *pw;
 
@@ -82,7 +80,7 @@ int PasswdProcess::exec(const char *oldpass, const char *newpass,
     // of `passwd' easier.
     setenv("LANG","C", true /* override */);
 
-    QCStringList args;
+    QList<QByteArray> args;
     if(bOtherUser)
         args += m_User;
     int ret = PtyProcess::exec("passwd", args);
@@ -112,7 +110,7 @@ int PasswdProcess::exec(const char *oldpass, const char *newpass,
 int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass, 
 	int check)
 {
-    QCString line, errline;
+    QByteArray line, errline;
     int state = 0;
 
     while (state != 7)
@@ -252,7 +250,7 @@ int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass,
 }
     
 
-bool PasswdProcess::isPrompt(QCString line, const char *word)
+bool PasswdProcess::isPrompt(QByteArray line, const char *word)
 {
     unsigned i, j, colon;
     unsigned int lineLength(line.length());
@@ -271,7 +269,7 @@ bool PasswdProcess::isPrompt(QCString line, const char *word)
 	return false;
     if (word == 0L)
 	return true;
-    return line.contains(word, false);
+    return line.toLower().contains(word);
 }
 
 

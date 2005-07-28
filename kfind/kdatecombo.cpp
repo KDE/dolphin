@@ -5,6 +5,10 @@
  ***********************************************************************/
 
 #include <qtimer.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QKeyEvent>
+#include <QEvent>
 
 #include <kglobal.h>
 #include <klocale.h>
@@ -84,7 +88,7 @@ void KDateCombo::dateEnteredEvent(QDate newDate)
 
 void KDateCombo::mousePressEvent (QMouseEvent * e)
 {
-  if (e->button() & QMouseEvent::LeftButton)
+  if (e->button() & Qt::LeftButton)
   {
     if  (rect().contains( e->pos()))
     {

@@ -48,19 +48,19 @@
 
 #include <config.h>
 
-template class QPtrList<KFileIVI>;
+template class Q3PtrList<KFileIVI>;
 //template class QValueList<int>;
 
-class KonqIconViewFactory : public KParts::Factory
+class KonQ3IconViewFactory : public KParts::Factory
 {
 public:
-   KonqIconViewFactory()
+   KonQ3IconViewFactory()
    {
       s_defaultViewProps = 0;
       s_instance = 0;
    }
 
-   virtual ~KonqIconViewFactory()
+   virtual ~KonQ3IconViewFactory()
    {
       if ( s_instance )
          delete s_instance;
@@ -102,11 +102,11 @@ public:
       static KonqPropsView *s_defaultViewProps;
 };
 
-KInstance *KonqIconViewFactory::s_instance = 0;
-KonqPropsView *KonqIconViewFactory::s_defaultViewProps = 0;
+KInstance *KonQ3IconViewFactory::s_instance = 0;
+KonqPropsView *KonQ3IconViewFactory::s_defaultViewProps = 0;
 
 
-K_EXPORT_COMPONENT_FACTORY( konq_iconview, KonqIconViewFactory )
+K_EXPORT_COMPONENT_FACTORY( konq_iconview, KonQ3IconViewFactory )
 
 
 IconViewBrowserExtension::IconViewBrowserExtension( KonqKfmIconView *iconView )
@@ -177,9 +177,9 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     setBrowserExtension( new IconViewBrowserExtension( this ) );
 
     // Create a properties instance for this view
-    m_pProps = new KonqPropsView( KonqIconViewFactory::instance(), KonqIconViewFactory::defaultViewProps() );
+    m_pProps = new KonqPropsView( KonQ3IconViewFactory::instance(), KonQ3IconViewFactory::defaultViewProps() );
 
-    m_pIconView = new KonqIconViewWidget( parentWidget, "qiconview" );
+    m_pIconView = new KonqIconViewWidget( parentWidget, "Q3IconView" );
     m_pIconView->initConfig( true );
 
     connect( m_pIconView,  SIGNAL(imagePreviewFinished()),
@@ -202,7 +202,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     setWidget( m_pIconView );
     m_mimeTypeResolver = new KMimeTypeResolver<KFileIVI,KonqKfmIconView>(this);
 
-    setInstance( KonqIconViewFactory::instance() );
+    setInstance( KonQ3IconViewFactory::instance() );
 
     setXMLFile( "konq_iconview.rc" );
 
@@ -231,7 +231,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     for ( KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it )
     {
         if ( KToggleAction*& preview = previewActions[ ( *it )->name() ] )
-            preview->setName( QCString( preview->name() ) + ',' + ( *it )->desktopEntryName().latin1() );
+            preview->setName( Q3CString( preview->name() ) + ',' + ( *it )->desktopEntryName().latin1() );
         else
         {
             preview = new KToggleAction( (*it)->name(), 0, actionCollection(), (*it)->desktopEntryName().latin1() );
@@ -272,24 +272,24 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     connect( aSortByDate, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByDate( bool ) ) );
 
     //enable menu item representing the saved sorting criterion
-    QString sortcrit = KonqIconViewFactory::defaultViewProps()->sortCriterion();
+    QString sortcrit = KonQ3IconViewFactory::defaultViewProps()->sortCriterion();
     KRadioAction *sort_action = dynamic_cast<KRadioAction *>(actionCollection()->action(sortcrit.latin1()));
     if(sort_action!=NULL) sort_action->activate();
 
     m_paSortDirsFirst = new KToggleAction( i18n( "Folders First" ), 0, actionCollection(), "sort_directoriesfirst" );
     KToggleAction *aSortDescending = new KToggleAction( i18n( "Descending" ), 0, actionCollection(), "sort_descend" );
 
-    m_paSortDirsFirst->setChecked( KonqIconViewFactory::defaultViewProps()->isDirsFirst() );
+    m_paSortDirsFirst->setChecked( KonQ3IconViewFactory::defaultViewProps()->isDirsFirst() );
 
     connect( aSortDescending, SIGNAL( toggled( bool ) ), this, SLOT( slotSortDescending() ) );
     connect( m_paSortDirsFirst, SIGNAL( toggled( bool ) ), this, SLOT( slotSortDirsFirst() ) );
 
     //enable stored settings
     slotSortDirsFirst();
-    if (KonqIconViewFactory::defaultViewProps()->isDescending())
+    if (KonQ3IconViewFactory::defaultViewProps()->isDescending())
     {
      aSortDescending->setChecked(true);
-     m_pIconView->setSorting(true,true);//enable sort ascending in QIconview
+     m_pIconView->setSorting(true,true);//enable sort ascending in Q3IconView
      slotSortDescending();//invert sorting (now descending) and actually resort items
     }
 
@@ -302,14 +302,14 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     m_pamSort->insert( aSortDescending );
     */
-    m_paSelect = new KAction( i18n( "Se&lect..." ), CTRL+Key_Plus, this, SLOT( slotSelect() ),
+    m_paSelect = new KAction( i18n( "Se&lect..." ), Qt::Key_Control+Qt::Key_Plus, this, SLOT( slotSelect() ),
                               actionCollection(), "select" );
-    m_paUnselect = new KAction( i18n( "Unselect..." ), CTRL+Key_Minus, this, SLOT( slotUnselect() ),
+    m_paUnselect = new KAction( i18n( "Unselect..." ), Qt::Key_Control+Qt::Key_Minus, this, SLOT( slotUnselect() ),
                                 actionCollection(), "unselect" );
     m_paSelectAll = KStdAction::selectAll( this, SLOT( slotSelectAll() ), actionCollection(), "selectall" );
-    m_paUnselectAll = new KAction( i18n( "Unselect All" ), CTRL+Key_U, this, SLOT( slotUnselectAll() ),
+    m_paUnselectAll = new KAction( i18n( "Unselect All" ), Qt::Key_Control+Qt::Key_U, this, SLOT( slotUnselectAll() ),
                                    actionCollection(), "unselectall" );
-    m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_Asterisk,
+    m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), Qt::Key_Control+Qt::Key_Asterisk,
                                        this, SLOT( slotInvertSelection() ),
                                        actionCollection(), "invertselection" );
 
@@ -326,27 +326,27 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     //connect( m_paBottomText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextBottom( bool ) ) );
     //connect( m_paRightText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextRight( bool ) ) );
 
-    connect( m_pIconView, SIGNAL( executed( QIconViewItem * ) ),
-             this, SLOT( slotReturnPressed( QIconViewItem * ) ) );
-    connect( m_pIconView, SIGNAL( returnPressed( QIconViewItem * ) ),
-             this, SLOT( slotReturnPressed( QIconViewItem * ) ) );
+    connect( m_pIconView, SIGNAL( executed( Q3IconViewItem * ) ),
+             this, SLOT( slotReturnPressed( Q3IconViewItem * ) ) );
+    connect( m_pIconView, SIGNAL( returnPressed( Q3IconViewItem * ) ),
+             this, SLOT( slotReturnPressed( Q3IconViewItem * ) ) );
 
-    connect( m_pIconView, SIGNAL( onItem( QIconViewItem * ) ),
-             this, SLOT( slotOnItem( QIconViewItem * ) ) );
+    connect( m_pIconView, SIGNAL( onItem( Q3IconViewItem * ) ),
+             this, SLOT( slotOnItem( Q3IconViewItem * ) ) );
 
     connect( m_pIconView, SIGNAL( onViewport() ),
              this, SLOT( slotOnViewport() ) );
 
-    connect( m_pIconView, SIGNAL( mouseButtonPressed(int, QIconViewItem*, const QPoint&)),
-             this, SLOT( slotMouseButtonPressed(int, QIconViewItem*, const QPoint&)) );
-    connect( m_pIconView, SIGNAL( mouseButtonClicked(int, QIconViewItem*, const QPoint&)),
-             this, SLOT( slotMouseButtonClicked(int, QIconViewItem*, const QPoint&)) );
-    connect( m_pIconView, SIGNAL( contextMenuRequested(QIconViewItem*, const QPoint&)),
-             this, SLOT( slotContextMenuRequested(QIconViewItem*, const QPoint&)) );
+    connect( m_pIconView, SIGNAL( mouseButtonPressed(int, Q3IconViewItem*, const QPoint&)),
+             this, SLOT( slotMouseButtonPressed(int, Q3IconViewItem*, const QPoint&)) );
+    connect( m_pIconView, SIGNAL( mouseButtonClicked(int, Q3IconViewItem*, const QPoint&)),
+             this, SLOT( slotMouseButtonClicked(int, Q3IconViewItem*, const QPoint&)) );
+    connect( m_pIconView, SIGNAL( contextMenuRequested(Q3IconViewItem*, const QPoint&)),
+             this, SLOT( slotContextMenuRequested(Q3IconViewItem*, const QPoint&)) );
 
     // Signals needed to implement the spring loading folders behavior
-    connect( m_pIconView, SIGNAL( held( QIconViewItem * ) ),
-             this, SLOT( slotDragHeld( QIconViewItem * ) ) );
+    connect( m_pIconView, SIGNAL( held( Q3IconViewItem * ) ),
+             this, SLOT( slotDragHeld( Q3IconViewItem * ) ) );
     connect( m_pIconView, SIGNAL( dragEntered( bool ) ),
              this, SLOT( slotDragEntered( bool ) ) );
     connect( m_pIconView, SIGNAL( dragLeft() ),
@@ -392,7 +392,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_bUpdateContentsPosAfterListing = false;
     m_bDirPropertiesChanged = true;
     m_bPreviewRunningBeforeCloseURL = false;
-    m_pIconView->setResizeMode( QIconView::Adjust );
+    m_pIconView->setResizeMode( Q3IconView::Adjust );
 
     connect( m_pIconView, SIGNAL( selectionChanged() ),
              this, SLOT( slotSelectionChanged() ) );
@@ -429,7 +429,7 @@ const KFileItem * KonqKfmIconView::currentItem()
 
 void KonqKfmIconView::slotPreview( bool toggle )
 {
-    QCString name = sender()->name(); // e.g. clipartthumbnail (or audio/, special case)
+    Q3CString name = sender()->name(); // e.g. clipartthumbnail (or audio/, special case)
     if (name == "iconview_preview_all")
     {
         m_pProps->setShowingPreview( toggle );
@@ -442,7 +442,7 @@ void KonqKfmIconView::slotPreview( bool toggle )
             bool previewRunning = m_pIconView->isPreviewRunning();
             if ( previewRunning )
                 m_pIconView->stopImagePreview();
-            m_pIconView->setIcons( m_pIconView->iconSize(), "*" );
+            m_pIconView->setIcons( m_pIconView->iconSize(), QStringList() += "*" );
         }
         else
         {
@@ -502,7 +502,7 @@ void KonqKfmIconView::slotShowDirectoryOverlays()
 
     m_pProps->setShowingDirectoryOverlays( show );
 
-    for ( QIconViewItem *item = m_pIconView->firstItem(); item; item = item->nextItem() )
+    for ( Q3IconViewItem *item = m_pIconView->firstItem(); item; item = item->nextItem() )
     {
         KFileIVI* kItem = static_cast<KFileIVI*>(item);
         if ( !kItem->item()->isDir() ) continue;
@@ -528,7 +528,7 @@ void KonqKfmIconView::slotSelect()
 
         m_pIconView->blockSignals( true );
 
-        QIconViewItem *it = m_pIconView->firstItem();
+        Q3IconViewItem *it = m_pIconView->firstItem();
         while ( it )
         {
             if ( re.exactMatch( it->text() ) )
@@ -555,7 +555,7 @@ void KonqKfmIconView::slotUnselect()
 
         m_pIconView->blockSignals( true );
 
-        QIconViewItem *it = m_pIconView->firstItem();
+        Q3IconViewItem *it = m_pIconView->firstItem();
         while ( it )
         {
             if ( re.exactMatch( it->text() ) )
@@ -591,7 +591,7 @@ void KonqKfmIconView::slotSortByNameCaseSensitive( bool toggle )
     if ( !toggle )
         return;
 
-    KonqIconViewFactory::defaultViewProps()->setSortCriterion("sort_nc");
+    KonQ3IconViewFactory::defaultViewProps()->setSortCriterion("sort_nc");
     setupSorting( NameCaseSensitive );
 }
 
@@ -600,7 +600,7 @@ void KonqKfmIconView::slotSortByNameCaseInsensitive( bool toggle )
     if ( !toggle )
         return;
 
-    KonqIconViewFactory::defaultViewProps()->setSortCriterion("sort_nci");
+    KonQ3IconViewFactory::defaultViewProps()->setSortCriterion("sort_nci");
     setupSorting( NameCaseInsensitive );
 }
 
@@ -609,7 +609,7 @@ void KonqKfmIconView::slotSortBySize( bool toggle )
     if ( !toggle )
         return;
 
-    KonqIconViewFactory::defaultViewProps()->setSortCriterion("sort_size");
+    KonQ3IconViewFactory::defaultViewProps()->setSortCriterion("sort_size");
     setupSorting( Size );
 }
 
@@ -618,7 +618,7 @@ void KonqKfmIconView::slotSortByType( bool toggle )
   if ( !toggle )
     return;
 
-  KonqIconViewFactory::defaultViewProps()->setSortCriterion("sort_type");
+  KonQ3IconViewFactory::defaultViewProps()->setSortCriterion("sort_type");
   setupSorting( Type );
 }
 
@@ -627,7 +627,7 @@ void KonqKfmIconView::slotSortByDate( bool toggle )
   if( !toggle)
     return;
 
-  KonqIconViewFactory::defaultViewProps()->setSortCriterion("sort_date");
+  KonQ3IconViewFactory::defaultViewProps()->setSortCriterion("sort_date");
   setupSorting( Date );
 }
 
@@ -651,7 +651,7 @@ void KonqKfmIconView::slotSortDescending()
 
     m_pIconView->sort( m_pIconView->sortDirection() );
 
-    KonqIconViewFactory::defaultViewProps()->setDescending( !m_pIconView->sortDirection() );
+    KonQ3IconViewFactory::defaultViewProps()->setDescending( !m_pIconView->sortDirection() );
 }
 
 void KonqKfmIconView::slotSortDirsFirst()
@@ -662,7 +662,7 @@ void KonqKfmIconView::slotSortDirsFirst()
 
     m_pIconView->sort( m_pIconView->sortDirection() );
 
-    KonqIconViewFactory::defaultViewProps()->setDirsFirst( m_paSortDirsFirst->isChecked() );
+    KonQ3IconViewFactory::defaultViewProps()->setDirsFirst( m_paSortDirsFirst->isChecked() );
 }
 
 void KonqKfmIconView::newIconSize( int size )
@@ -705,7 +705,7 @@ bool KonqKfmIconView::doCloseURL()
     return true;
 }
 
-void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
+void KonqKfmIconView::slotReturnPressed( Q3IconViewItem *item )
 {
     if ( !item )
         return;
@@ -733,7 +733,7 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
 #endif
 }
 
-void KonqKfmIconView::slotDragHeld( QIconViewItem *item )
+void KonqKfmIconView::slotDragHeld( Q3IconViewItem *item )
 {
     kdDebug() << "KonqKfmIconView::slotDragHeld()" << endl;
 
@@ -778,7 +778,7 @@ void KonqKfmIconView::slotDragFinished()
 }
 
 
-void KonqKfmIconView::slotContextMenuRequested(QIconViewItem* _item, const QPoint& _global)
+void KonqKfmIconView::slotContextMenuRequested(Q3IconViewItem* _item, const QPoint& _global)
 {
     const KFileItemList items = m_pIconView->selectedFileItems();
     if ( items.isEmpty() )
@@ -794,7 +794,7 @@ void KonqKfmIconView::slotContextMenuRequested(QIconViewItem* _item, const QPoin
     if ( rootItem ) {
         KURL parentDirURL = rootItem->url();
         // Check if parentDirURL applies to the selected items (usually yes, but not with search results)
-        QPtrListIterator<KFileItem> kit( items );
+        Q3PtrListIterator<KFileItem> kit( items );
         for ( ; kit.current(); ++kit )
             if ( kit.current()->url().directory( 1 ) != rootItem->url().path() )
                 parentDirURL = KURL();
@@ -806,9 +806,9 @@ void KonqKfmIconView::slotContextMenuRequested(QIconViewItem* _item, const QPoin
     emit m_extension->popupMenu( 0L, _global, items, KParts::URLArgs(), popupFlags);
 }
 
-void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, const QPoint&)
+void KonqKfmIconView::slotMouseButtonPressed(int _button, Q3IconViewItem* _item, const QPoint&)
 {
-    if ( _button == RightButton && !_item )
+    if ( _button == Qt::RightButton && !_item )
     {
         // Right click on viewport
         KFileItem * item = m_dirLister->rootItem();
@@ -843,9 +843,9 @@ void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, 
     }
 }
 
-void KonqKfmIconView::slotMouseButtonClicked(int _button, QIconViewItem* _item, const QPoint& )
+void KonqKfmIconView::slotMouseButtonClicked(int _button, Q3IconViewItem* _item, const QPoint& )
 {
-    if( _button == MidButton )
+    if( _button == Qt::MidButton )
         mmbClicked( _item ? static_cast<KFileIVI*>(_item)->item() : 0L );
 }
 
@@ -910,12 +910,12 @@ void KonqKfmIconView::slotCompleted()
         m_pIconView->viewport()->repaint();
     }
 
-    // Root item ? Store root item in konqiconviewwidget (whether 0L or not)
+    // Root item ? Store root item in konQ3IconViewwidget (whether 0L or not)
     m_pIconView->setRootItem( m_dirLister->rootItem() );
 
     // only after initial listing, not after updates
     // If we don't set a current item, the iconview has none (one more keypress needed)
-    // but it appears on focusin... qiconview bug, Reggie acknowledged it LONG ago (07-2000).
+    // but it appears on focusin... Q3IconView bug, Reggie acknowledged it LONG ago (07-2000).
     if ( m_bNeedSetCurrentItem )
     {
         m_pIconView->setCurrentItem( m_pIconView->firstItem() );
@@ -1177,7 +1177,7 @@ void KonqKfmIconView::slotClear()
 
     m_mimeTypeResolver->m_lstPendingMimeIconItems.clear();
     m_itemDict.clear();
-    // Bug in QIconview IMHO - it should emit selectionChanged()
+    // Bug in Q3IconView IMHO - it should emit selectionChanged()
     // (bug reported, but code seems to be that way on purpose)
     m_pIconView->slotSelectionChanged();
     slotSelectionChanged();
@@ -1275,7 +1275,7 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
     m_dirLister->setMimeFilter( mimeFilter() );
 
     // This *must* happen before m_dirLister->openURL because it emits
-    // clear() and QIconView::clear() calls setContentsPos(0,0)!
+    // clear() and Q3IconView::clear() calls setContentsPos(0,0)!
     KParts::URLArgs args = m_extension->urlArgs();
     if ( args.reload )
     {
@@ -1339,7 +1339,7 @@ void KonqKfmIconView::slotKFindClosed()
     m_dirLister->setAutoUpdate( true );
 }
 
-void KonqKfmIconView::slotOnItem( QIconViewItem *item )
+void KonqKfmIconView::slotOnItem( Q3IconViewItem *item )
 {
     emit setStatusBarText( static_cast<KFileIVI *>(item)->item()->getStatusBarInfo() );
     emitMouseOver( static_cast<KFileIVI*>(item)->item());
@@ -1356,19 +1356,19 @@ void KonqKfmIconView::setViewMode( const QString &mode )
 {
     if ( mode == m_mode )
         return;
-    // note: this should be moved to KonqIconViewWidget. It would make the code
+    // note: this should be moved to KonQ3IconViewWidget. It would make the code
     // more readable :)
 
     m_mode = mode;
     if (mode=="MultiColumnView")
     {
-        m_pIconView->setArrangement(QIconView::TopToBottom);
-        m_pIconView->setItemTextPos(QIconView::Right);
+        m_pIconView->setArrangement(Q3IconView::TopToBottom);
+        m_pIconView->setItemTextPos(Q3IconView::Right);
     }
     else
     {
-        m_pIconView->setArrangement(QIconView::LeftToRight);
-        m_pIconView->setItemTextPos(QIconView::Bottom);
+        m_pIconView->setArrangement(Q3IconView::LeftToRight);
+        m_pIconView->setItemTextPos(Q3IconView::Bottom);
     }
 
     if ( m_bPreviewRunningBeforeCloseURL )
@@ -1385,28 +1385,28 @@ void KonqKfmIconView::setupSortKeys()
     {
     case NameCaseSensitive:
         m_pIconView->setCaseInsensitiveSort( false );
-        for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
+        for ( Q3IconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
             it->setKey( it->text() );
         break;
     case NameCaseInsensitive:
         m_pIconView->setCaseInsensitiveSort( true );
-        for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
+        for ( Q3IconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
             it->setKey( it->text().lower() );
         break;
     case Size:
-        for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
+        for ( Q3IconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
             it->setKey( makeSizeKey( (KFileIVI *)it ) );
         break;
     case Type:
         // Sort by Type + Name (#17014)
-        for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
+        for ( Q3IconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
             it->setKey( static_cast<KFileIVI *>( it )->item()->mimetype() + "\008" + it->text().lower() );
         break;
     case Date:
     {
         //Sorts by time of modification (#52750)
         QDateTime dayt;
-        for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
+        for ( Q3IconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
         {
             dayt.setTime_t(static_cast<KFileIVI *>( it )->item()->time(KIO::UDS_MODIFICATION_TIME));
             it->setKey(dayt.toString("yyyyMMddhhmmss"));
@@ -1456,7 +1456,7 @@ bool SpringLoadingManager::exists()
 
 void SpringLoadingManager::springLoadTrigger(KonqKfmIconView *view,
                                              KFileItem *file,
-                                             QIconViewItem *item)
+                                             Q3IconViewItem *item)
 {
     if ( !file || !file->isDir() )
         return;

@@ -21,6 +21,8 @@
 #define KONQ_PIXMAPPROVIDER_H
 
 #include <qmap.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 #include <kpixmapprovider.h>
 #include "konq_faviconmgr.h"

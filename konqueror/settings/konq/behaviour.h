@@ -20,12 +20,14 @@
 #define __BEHAVIOUR_H__
 
 #include <kcmodule.h>
+//Added by qt3to4:
+#include <QLabel>
 
 class QCheckBox;
 class QLabel;
 class QRadioButton;
 class QSpinBox;
-class QVButtonGroup;
+class Q3VButtonGroup;
 
 class KConfig;
 class KURLRequester;
@@ -59,7 +61,7 @@ private:
 
   KURLRequester *homeURL;
 
-  QVButtonGroup *bgOneProcess;
+  Q3VButtonGroup *bgOneProcess;
   //QLabel *fileTips;
   //QSpinBox  *sbToolTip;
   QCheckBox *cbShowTips;

@@ -22,6 +22,9 @@
 
 #include <kdedmodule.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <Q3CString>
 
 class KonqyPreloader
     : public KDEDModule
@@ -29,28 +32,28 @@ class KonqyPreloader
     Q_OBJECT
     K_DCOP
     public:
-        KonqyPreloader( const QCString& obj );
+        KonqyPreloader( const Q3CString& obj );
         virtual ~KonqyPreloader();
     k_dcop:
-        bool registerPreloadedKonqy( QCString id, int screen );
-        QCString getPreloadedKonqy( int screen );
-        ASYNC unregisterPreloadedKonqy( QCString id );
+        bool registerPreloadedKonqy( Q3CString id, int screen );
+        Q3CString getPreloadedKonqy( int screen );
+        ASYNC unregisterPreloadedKonqy( Q3CString id );
         void reconfigure();
         void unloadAllPreloaded();
     private slots:
-        void appRemoved( const QCString& id );
+        void appRemoved( const Q3CString& id );
 	void checkAlwaysPreloaded();
     private:
         void updateCount();
         struct KonqyData
             {
             KonqyData() {}; // for QValueList
-            KonqyData( const QCString& id_P, int screen_P )
+            KonqyData( const Q3CString& id_P, int screen_P )
                 : id( id_P ), screen( screen_P ) {}
-            QCString id;
+            Q3CString id;
             int screen;
             };
-        typedef QValueList< KonqyData > InstancesList;
+        typedef Q3ValueList< KonqyData > InstancesList;
         InstancesList instances;
 	QTimer check_always_preloaded_timer;
     };

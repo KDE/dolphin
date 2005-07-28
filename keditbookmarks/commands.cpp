@@ -27,7 +27,7 @@
 #include "listview.h"
 
 #include <assert.h>
-#include <qvaluevector.h>
+#include <q3valuevector.h>
 
 #include <kdebug.h>
 #include <klocale.h>
@@ -37,10 +37,13 @@
 
 #include <kurldrag.h>
 #include <kdesktopfile.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <Q3PtrList>
 
 QString KEBMacroCommand::affectedBookmarks() const
 {
-    QPtrListIterator<KCommand> it(m_commands);
+    Q3PtrListIterator<KCommand> it(m_commands);
     QString affectBook;
     if(it.current())
         affectBook = dynamic_cast<IKEBCommand *>(it.current())->affectedBookmarks();
@@ -72,9 +75,9 @@ QString DeleteManyCommand::preOrderNextAddress(QString addr)
     return QString::null;
 }
 
-bool DeleteManyCommand::isConsecutive(const QValueList<QString> & addresses)
+bool DeleteManyCommand::isConsecutive(const Q3ValueList<QString> & addresses)
 {
-    QValueList<QString>::const_iterator it, end;
+    Q3ValueList<QString>::const_iterator it, end;
     it = addresses.begin();
     end = addresses.end();
     QString addr = *(addresses.begin());
@@ -88,10 +91,10 @@ bool DeleteManyCommand::isConsecutive(const QValueList<QString> & addresses)
 }
 
 
-DeleteManyCommand::DeleteManyCommand(const QString &name, const QValueList<QString> & addresses)
+DeleteManyCommand::DeleteManyCommand(const QString &name, const Q3ValueList<QString> & addresses)
     : KEBMacroCommand(name)
 {
-    QValueList<QString>::const_iterator it, begin;
+    Q3ValueList<QString>::const_iterator it, begin;
     begin = addresses.begin();
     it = addresses.end();
     while(begin != it)
@@ -119,7 +122,7 @@ DeleteManyCommand::DeleteManyCommand(const QString &name, const QValueList<QStri
         // Check if all bookmarks are consecutive
         if(isConsecutive(addresses)) // Mark next bookmark after all selected
         {                            // That's a little work...
-            QValueList<QString>::const_iterator last = addresses.end();
+            Q3ValueList<QString>::const_iterator last = addresses.end();
             --last;
             if( CurrentMgr::bookmarkAt( KBookmark::nextAddress(*last) ).hasParent() )
                 m_currentAddress = *begin;
@@ -132,7 +135,7 @@ DeleteManyCommand::DeleteManyCommand(const QString &name, const QValueList<QStri
         }
         else // not consecutive, select the common parent (This could be more clever)
         {
-            QValueList<QString>::const_iterator jt, end;
+            Q3ValueList<QString>::const_iterator jt, end;
             end = addresses.end();
             m_currentAddress = *begin;
             for( jt = addresses.begin(); jt != end; ++jt)
@@ -248,7 +251,7 @@ void EditCommand::execute() {
 
     m_reverseEditions.clear();
 
-    QValueList<Edition>::Iterator it = m_editions.begin();
+    Q3ValueList<Edition>::Iterator it = m_editions.begin();
 
     for ( ; it != m_editions.end() ; ++it) {
         // backup current value
@@ -276,8 +279,8 @@ QString EditCommand::affectedBookmarks() const
 
 void EditCommand::modify(const QString & a, const QString & v)
 {
-    QValueList<Edition>::Iterator it = m_editions.begin();
-    QValueList<Edition>::Iterator end = m_editions.end();
+    Q3ValueList<Edition>::Iterator it = m_editions.begin();
+    Q3ValueList<Edition>::Iterator end = m_editions.end();
     for ( ; it != end; ++it)
     {
         if( (*it).attr == a)
@@ -597,14 +600,14 @@ KEBMacroCommand* CmdGen::setAsToolbar(const KBookmark &bk) {
 
     KBookmarkGroup oldToolbar = CurrentMgr::self()->mgr()->toolbar();
     if (!oldToolbar.isNull()) {
-        QValueList<EditCommand::Edition> lst;
+        Q3ValueList<EditCommand::Edition> lst;
         lst.append(EditCommand::Edition("toolbar", "no"));
         lst.append(EditCommand::Edition("icon", ""));
         EditCommand *cmd1 = new EditCommand(oldToolbar.address(), lst);
         mcmd->addCommand(cmd1);
     }
 
-    QValueList<EditCommand::Edition> lst;
+    Q3ValueList<EditCommand::Edition> lst;
     lst.append(EditCommand::Edition("toolbar", "yes"));
     lst.append(EditCommand::Edition("icon", "bookmark_toolbar"));
     // TODO - see below
@@ -623,7 +626,7 @@ KEBMacroCommand* CmdGen::setShownInToolbar(const KBookmark &bk, bool show) {
             : i18n("Hide"));
     KEBMacroCommand *mcmd = new KEBMacroCommand(i18n_name);
 
-    QValueList<EditCommand::Edition> lst;
+    Q3ValueList<EditCommand::Edition> lst;
     lst.append(EditCommand::Edition("showintoolbar", show ? "yes" : "no"));
     EditCommand *cmd2 = new EditCommand(bk.address(), lst);
     mcmd->addCommand(cmd2);
@@ -643,7 +646,7 @@ KEBMacroCommand* CmdGen::insertMimeSource(
         // or not. so, we search. sucky...
         if (strcmp(format, "GALEON_BOOKMARK") == 0) { 
             modified = true;
-            QStoredDrag *mydrag = new QStoredDrag("application/x-xbel");
+            Q3StoredDrag *mydrag = new Q3StoredDrag("application/x-xbel");
             mydrag->setEncodedData(data->encodedData("GALEON_BOOKMARK"));
             data = mydrag;
             break;
@@ -656,7 +659,7 @@ KEBMacroCommand* CmdGen::insertMimeSource(
                 continue; // break out of format loop
             KURL::List::ConstIterator uit = uris.begin();
             KURL::List::ConstIterator uEnd = uris.end();
-            QValueList<KBookmark> urlBks;
+            Q3ValueList<KBookmark> urlBks;
             for ( ; uit != uEnd ; ++uit ) {
                 if (!(*uit).url().endsWith(".desktop"))  {
                     urlBks << KBookmark::standaloneBookmark((*uit).prettyURL(), (*uit));
@@ -682,8 +685,8 @@ KEBMacroCommand* CmdGen::insertMimeSource(
     }
     KEBMacroCommand *mcmd = new KEBMacroCommand(cmdName);
     QString currentAddress = addr;
-    QValueList<KBookmark> bookmarks = KBookmarkDrag::decode(data);
-    for (QValueListConstIterator<KBookmark> it = bookmarks.begin(); 
+    Q3ValueList<KBookmark> bookmarks = KBookmarkDrag::decode(data);
+    for (Q3ValueListConstIterator<KBookmark> it = bookmarks.begin(); 
             it != bookmarks.end(); ++it) {
         CreateCommand *cmd = new CreateCommand(currentAddress, (*it));
         cmd->execute();
@@ -700,8 +703,8 @@ KEBMacroCommand* CmdGen::itemsMoved(const QMap<KEBListViewItem *, bool> & items,
     KEBMacroCommand *mcmd = new KEBMacroCommand(copy ? i18n("Copy Items") 
             : i18n("Move Items"));
 
-    QValueList<KBookmark> list = ListView::self()->itemsToBookmarks( items );
-    QValueList<KBookmark>::const_iterator it, end;
+    Q3ValueList<KBookmark> list = ListView::self()->itemsToBookmarks( items );
+    Q3ValueList<KBookmark>::const_iterator it, end;
     it = list.begin();
     end = list.end();
 

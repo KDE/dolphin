@@ -2,7 +2,9 @@
 #define __konq_events_h__
 
 #include <kparts/event.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
+//Added by qt3to4:
+#include <QEvent>
 #include <libkonq_export.h>
 
 namespace KParts
@@ -12,7 +14,7 @@ namespace KParts
 
 class KConfig;
 class KFileItem;
-typedef QPtrList<KFileItem> KFileItemList;
+typedef Q3PtrList<KFileItem> KFileItemList;
 
 class LIBKONQ_EXPORT KonqFileSelectionEvent : public KParts::Event
 {

@@ -9,7 +9,7 @@
 #ifndef __Passwd_h_Included__
 #define __Passwd_h_Included__
 
-#include <qcstring.h>
+#include <qbytearray.h>
 #include <kdesu/process.h>
 
 /**
@@ -20,7 +20,7 @@ class PasswdProcess
     : public PtyProcess
 {
 public:
-    PasswdProcess(QCString user=0);
+    PasswdProcess(QByteArray user = QByteArray());
     ~PasswdProcess();
 
     enum Errors { PasswdNotFound=1, PasswordIncorrect, PasswordNotGood };
@@ -28,14 +28,14 @@ public:
     int checkCurrent(const char *oldpass);
     int exec(const char *oldpass, const char *newpass, int check=0);
 
-    QCString error() { return m_Error; }
+    QByteArray error() { return m_Error; }
 
 private:
-    bool isPrompt(QCString line, const char *word=0L);
+    bool isPrompt(QByteArray line, const char *word=0L);
     int ConversePasswd(const char *oldpass, const char *newpass,
 	    int check);
 
-    QCString m_User, m_Error;
+    QByteArray m_User, m_Error;
     bool bOtherUser;
 };
 

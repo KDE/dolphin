@@ -21,6 +21,11 @@
 #define KONQ_COMBO_H
 
 #include <qevent.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QMouseEvent>
+#include <QKeyEvent>
+#include <QPaintEvent>
 
 #include <kcombobox.h>
 #include <konq_historymgr.h>
@@ -107,6 +112,8 @@ private:
     QString m_currentText;
     QPoint m_dragStart;
     int m_pageSecurity;
+
+    void getStyleOption(QStyleOptionComboBox* combo);
 
     static KConfig *s_config;
     static const int temporary; // the index of our temporary item

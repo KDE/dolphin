@@ -17,7 +17,7 @@ class QFileInfo;
 class KPopupMenu;
 class KfindWindow;
 
-class KfFileLVI : public QListViewItem
+class KfFileLVI : public Q3ListViewItem
 {
  public:
   KfFileLVI(KfindWindow* lv, const KFileItem &item,const QString& matchingLine);
@@ -44,7 +44,7 @@ public:
 
 public slots:
   void copySelection();
-  void slotContextMenu(KListView *,QListViewItem *item,const QPoint&p);
+  void slotContextMenu(KListView *,Q3ListViewItem *item,const QPoint&p);
 
 private slots:
   void deleteFiles();
@@ -53,13 +53,13 @@ private slots:
   void saveResults();
   void openBinding();
   void selectionHasChanged();
-  void slotExecute(QListViewItem*);
+  void slotExecute(Q3ListViewItem*);
   void slotOpenWith();
   
 protected:
   virtual void resizeEvent(QResizeEvent *e);
 
-  virtual QDragObject *dragObject();
+  virtual Q3DragObject *dragObject();
 
 signals:
   void resultSelected(bool);

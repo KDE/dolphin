@@ -21,6 +21,8 @@
 #define __testlink_h
 
 #include <qobject.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 #include <kio/job.h>
 #include <kbookmark.h>
@@ -56,7 +58,7 @@ class TestLinkItr : public BookmarkIterator
    Q_OBJECT
 
 public:
-   TestLinkItr(QValueList<KBookmark> bks);
+   TestLinkItr(Q3ValueList<KBookmark> bks);
    ~TestLinkItr();
    virtual TestLinkItrHolder* holder() const { return TestLinkItrHolder::self(); }
 

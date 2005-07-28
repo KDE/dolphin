@@ -22,14 +22,15 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <qvbox.h>
+#include <q3vbox.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
 #include <qlineedit.h>
 #include <qtooltip.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
 #include <qpushbutton.h>
-#include <qvbuttongroup.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
 
 #include <kdebug.h>
 #include <kconfig.h>
@@ -63,9 +64,9 @@ UserAgentDlg::UserAgentDlg( QWidget * parent )
 
   connect( dlg->lvDomainPolicyList, SIGNAL(selectionChanged()),
            SLOT(selectionChanged()) );
-  connect( dlg->lvDomainPolicyList, SIGNAL(doubleClicked (QListViewItem *)),
+  connect( dlg->lvDomainPolicyList, SIGNAL(doubleClicked (Q3ListViewItem *)),
            SLOT(changePressed()) );
-  connect( dlg->lvDomainPolicyList, SIGNAL( returnPressed ( QListViewItem * ) ),
+  connect( dlg->lvDomainPolicyList, SIGNAL( returnPressed ( Q3ListViewItem * ) ),
            SLOT( changePressed() ));
 
   connect( dlg->pbNew, SIGNAL(clicked()), SLOT( addPressed() ) );
@@ -101,7 +102,7 @@ void UserAgentDlg::load()
       if (!agentStr.isEmpty())
       {
          QString realName = m_provider->aliasStr(agentStr);
-         (void) new QListViewItem( dlg->lvDomainPolicyList, domain.lower(), realName, agentStr );
+         new Q3ListViewItem( dlg->lvDomainPolicyList, domain.lower(), realName, agentStr );
       }
   }
 
@@ -163,7 +164,7 @@ void UserAgentDlg::save()
          deleteList.append(*it);
   }
 
-  QListViewItem* it = dlg->lvDomainPolicyList->firstChild();
+  Q3ListViewItem* it = dlg->lvDomainPolicyList->firstChild();
   while(it)
   {
     QString domain = it->text(0);
@@ -217,7 +218,7 @@ bool UserAgentDlg::handleDuplicate( const QString& site,
                                         const QString& identity,
                                         const QString& alias )
 {
-  QListViewItem* item = dlg->lvDomainPolicyList->firstChild();
+  Q3ListViewItem* item = dlg->lvDomainPolicyList->firstChild();
   while ( item != 0 )
   {
     if ( item->text(0) == site )
@@ -251,7 +252,7 @@ void UserAgentDlg::addPressed()
   {
     if ( !handleDuplicate( pdlg.siteName(), pdlg.identity(), pdlg.alias() ) )
     {
-      QListViewItem* index = new QListViewItem( dlg->lvDomainPolicyList,
+      Q3ListViewItem* index = new Q3ListViewItem( dlg->lvDomainPolicyList,
                                                 pdlg.siteName(),
                                                 pdlg.identity(),
                                                 pdlg.alias() );
@@ -266,7 +267,7 @@ void UserAgentDlg::changePressed()
 {
   UAProviderDlg pdlg ( i18n("Modify Identification"), this, m_provider );
 
-  QListViewItem *index = dlg->lvDomainPolicyList->currentItem();
+  Q3ListViewItem *index = dlg->lvDomainPolicyList->currentItem();
 
   if(!index)
     return;
@@ -291,8 +292,8 @@ void UserAgentDlg::changePressed()
 
 void UserAgentDlg::deletePressed()
 {
-  QListViewItem* item;
-  QListViewItem* nextItem = 0;
+  Q3ListViewItem* item;
+  Q3ListViewItem* nextItem = 0;
 
   item = dlg->lvDomainPolicyList->firstChild ();
 
@@ -363,7 +364,7 @@ void UserAgentDlg::changeDefaultUAModifiers( int )
 
 void UserAgentDlg::selectionChanged ()
 {
-  QListViewItem* item;
+  Q3ListViewItem* item;
 
   d_itemsSelected = 0;
   item = dlg->lvDomainPolicyList->firstChild ();

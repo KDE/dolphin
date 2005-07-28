@@ -19,7 +19,7 @@
 #include "system.h"
 
 #include <kconfig.h>
-#include <qwhatsthis.h>
+
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <klocale.h>
@@ -49,8 +49,8 @@ SystemWidget::SystemWidget( QWidget* parent_P )
               " handler will refuse to provide backtrace for the bugreport with this option"
               " turned on (you will need to reproduce it again with this option turned off,"
               " or turn on the developer mode for the crash handler).</p>" );
-    QWhatsThis::add( cb_disable_kbuildsycoca, tmp );
-    QWhatsThis::add( label_kbuildsycoca, tmp );
+    cb_disable_kbuildsycoca->setWhatsThis( tmp );
+    label_kbuildsycoca->setWhatsThis( tmp );
     connect( cb_disable_kbuildsycoca, SIGNAL( clicked()), SIGNAL( changed()));
     defaults();
     }

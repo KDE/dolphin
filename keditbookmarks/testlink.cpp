@@ -65,7 +65,7 @@ void TestLinkItrHolder::addAffectedBookmark( const QString & address )
 
 /* -------------------------- */
 
-TestLinkItr::TestLinkItr(QValueList<KBookmark> bks)
+TestLinkItr::TestLinkItr(Q3ValueList<KBookmark> bks)
     : BookmarkIterator(bks) {
     m_job = 0;
 }

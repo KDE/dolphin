@@ -33,7 +33,7 @@ KonqSidebarBookmarkItem::KonqSidebarBookmarkItem( KonqSidebarTreeItem *parentIte
     setPixmap( 0, SmallIcon(bk.icon()) );
 }
 
-QDragObject * KonqSidebarBookmarkItem::dragObject( QWidget * parent, bool )
+Q3DragObject * KonqSidebarBookmarkItem::dragObject( QWidget * parent, bool )
 {
     KBookmarkDrag * drag = KBookmarkDrag::newDrag( m_bk, parent );
     // TODO honour bool move ?

@@ -23,10 +23,13 @@
 
 #include <qapplication.h>
 #include <qclipboard.h>
-#include <qptrlist.h>
-#include <qpopupmenu.h>
+#include <q3ptrlist.h>
+#include <q3popupmenu.h>
 #include <qtoolbutton.h>
 #include <qtooltip.h>
+//Added by qt3to4:
+#include <QDragMoveEvent>
+#include <QDropEvent>
 
 #include <kdebug.h>
 #include <kiconloader.h>
@@ -44,7 +47,7 @@
 #include <konq_pixmapprovider.h>
 #include <kstdaccel.h>
 #include <qtabbar.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
 #include <qstyle.h>
 
 #define DUPLICATE_ID 3
@@ -62,7 +65,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
 {
   KAcceleratorManager::setNoAccel(this);
 
-  QWhatsThis::add( tabBar(), i18n( "This bar contains list of currently open tabs. Click on a tab to make it "
+  tabBar()->setWhatsThis(i18n( "This bar contains list of currently open tabs. Click on a tab to make it "
 			  "active. The option to show a close button instead of website icon in the left "
 			  "corner of the tab is configurable. You can also use keyboard shortcuts to "
 			  "navigate through tabs. The text on the tab is the title of the website "
@@ -71,7 +74,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   //kdDebug(1202) << "KonqFrameTabs::KonqFrameTabs()" << endl;
 
   m_pParentContainer = parentContainer;
-  m_pChildFrameList = new QPtrList<KonqFrameBase>;
+  m_pChildFrameList = new Q3PtrList<KonqFrameBase>;
   m_pChildFrameList->setAutoDelete(false);
   m_pActiveChild = 0L;
   m_pViewManager = viewManager;
@@ -79,7 +82,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   connect( this, SIGNAL( currentChanged ( QWidget * ) ),
            this, SLOT( slotCurrentChanged( QWidget* ) ) );
 
-  m_pPopupMenu = new QPopupMenu( this );
+  m_pPopupMenu = new Q3PopupMenu( this );
   m_pPopupMenu->insertItem( SmallIcon( "tab_new" ),
                             i18n("&New Tab"),
                             m_pViewManager->mainWindow(),
@@ -97,7 +100,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
                             SLOT( slotReloadPopup() ),
                             m_pViewManager->mainWindow()->action("reload")->shortcut(), RELOAD_ID );
   m_pPopupMenu->insertSeparator();
-  m_pSubPopupMenuTab = new QPopupMenu( this );
+  m_pSubPopupMenuTab = new Q3PopupMenu( this );
   m_pPopupMenu->insertItem( i18n("Other Tabs" ), m_pSubPopupMenuTab, OTHERTABS_ID );
   connect( m_pSubPopupMenuTab, SIGNAL( activated ( int ) ),
            this, SLOT( slotSubPopupMenuTabActivated( int ) ) );
@@ -143,7 +146,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
     m_leftWidget->setIconSet( SmallIcon( "tab_new" ) );
     m_leftWidget->adjustSize();
     QToolTip::add(m_leftWidget, i18n("Open a new tab"));
-    setCornerWidget( m_leftWidget, TopLeft );
+    setCornerWidget( m_leftWidget, Qt::TopLeftCorner );
   }
   if ( KonqSettings::closeTabButton() ) {
     m_rightWidget = new QToolButton( this );
@@ -152,7 +155,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
     m_rightWidget->setIconSet( SmallIconSet( "tab_remove" ) );
     m_rightWidget->adjustSize();
     QToolTip::add(m_rightWidget, i18n("Close the current tab"));
-    setCornerWidget( m_rightWidget, TopRight );
+    setCornerWidget( m_rightWidget, Qt::TopRightCorner );
   }
 
   setAutomaticResizeTabs( true );
@@ -184,7 +187,7 @@ KonqFrameTabs::~KonqFrameTabs()
 }
 
 void KonqFrameTabs::listViews( ChildViewList *viewList ) {
-  for( QPtrListIterator<KonqFrameBase> it( *m_pChildFrameList ); *it; ++it )
+  for( Q3PtrListIterator<KonqFrameBase> it( *m_pChildFrameList ); *it; ++it )
     it.current()->listViews(viewList);
 }
 
@@ -199,7 +202,7 @@ void KonqFrameTabs::saveConfig( KConfig* config, const QString &prefix, bool sav
     {
       newPrefix = QString::fromLatin1( it->frameType() ) + "T" + QString::number(i);
       strlst.append( newPrefix );
-      newPrefix.append( '_' );
+      newPrefix.append( QLatin1Char( '_' ) );
       it->saveConfig( config, newPrefix, saveURLs, docContainer, id, depth + i );
       i++;
     }
@@ -257,7 +260,7 @@ void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
 void KonqFrameTabs::setTabIcon( const QString &url, QWidget* sender )
 {
   //kdDebug(1202) << "KonqFrameTabs::setTabIcon( " << url << " , " << sender << " )" << endl;
-  QIconSet iconSet;
+  QIcon iconSet;
   if (m_permanentCloseButtons)
     iconSet =  SmallIcon( "fileclose" );
   else
@@ -322,7 +325,7 @@ void KonqFrameTabs::removeChildFrame( KonqFrameBase * frame )
 
 void KonqFrameTabs::slotCurrentChanged( QWidget* newPage )
 {
-  setTabColor( newPage, KGlobalSettings::textColor() );
+  // setTabColor( newPage, KGlobalSettings::textColor() ); ### 
   KonqFrameBase* currentFrame = dynamic_cast<KonqFrameBase*>(newPage);
 
   if (currentFrame && !m_pViewManager->isLoadingProfile()) {
@@ -411,7 +414,7 @@ void KonqFrameTabs::refreshSubPopupMenuTab()
             if ( title.isEmpty() )
                 title = frame->activeChildView()->url().url();
             title = KStringHandler::csqueeze( title, 50 );
-            m_pSubPopupMenuTab->insertItem( QIconSet( KonqPixmapProvider::self()->pixmapFor( frame->activeChildView()->url().url() ) ), title, i );
+            m_pSubPopupMenuTab->insertItem( QIcon( KonqPixmapProvider::self()->pixmapFor( frame->activeChildView()->url().url() ) ), title, i );
 
         }
         i++;
@@ -441,8 +444,7 @@ void KonqFrameTabs::slotSubPopupMenuTabActivated( int _id)
 
 void KonqFrameTabs::slotMouseMiddleClick()
 {
-  QApplication::clipboard()->setSelectionMode( QClipboard::Selection );
-  KURL filteredURL ( KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text() ) );
+  KURL filteredURL ( KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text(QClipboard::Selection) ) );
   if ( !filteredURL.isEmpty() ) {
     KonqView* newView = m_pViewManager->addTab(QString::null, QString::null, false, false);
     if (newView == 0L) return;
@@ -462,8 +464,7 @@ void KonqFrameTabs::slotMouseMiddleClick( QWidget *w )
     }
   }
   else {
-  QApplication::clipboard()->setSelectionMode( QClipboard::Selection );
-  KURL filteredURL ( KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text() ) );
+  KURL filteredURL ( KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text(QClipboard::Selection ) ) );
   if ( !filteredURL.isEmpty() ) {
     KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>(w);
     if (frame) {

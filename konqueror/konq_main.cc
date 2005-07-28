@@ -34,7 +34,8 @@
 #include <kimageio.h>
 #include <qfile.h>
 
-#include <qwidgetlist.h>
+#include <qwidget.h>
+#include <QX11Info>
 
 static const KCmdLineOptions options[] =
 {
@@ -132,8 +133,9 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
                  if( KonqSettings::maxPreloadCount() > 0 )
                  {
                      DCOPRef ref( "kded", "konqy_preloader" );
+					 QX11Info info;
                      if( !ref.callExt( "registerPreloadedKonqy", DCOPRef::NoEventLoop, 5000,
-                         app.dcopClient()->appId(), qt_xscreen()))
+                         app.dcopClient()->appId(), info.screen()))
                          return 0; // too many preloaded or failed
 		     KonqMainWindow* win = new KonqMainWindow( KURL(), false ); // prepare an empty window too
 		     // KonqMainWindow ctor sets always the preloaded flag to false, so create the window before this

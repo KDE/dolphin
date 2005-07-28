@@ -32,8 +32,10 @@
 
 #include <qlabel.h>
 #include <ktextedit.h>
-#include <qvbox.h>
+#include <q3vbox.h>
 #include <qfile.h>
+#include <qdesktopwidget.h>
+#include <qtextstream.h>
 
 #if defined Q_WS_X11 && ! defined K_WS_QTONLY
 #include <netwm.h>
@@ -65,7 +67,7 @@ bool Widgets::inputBox(QWidget *parent, const QString& title, const QString& tex
   return ok;
 }
 
-bool Widgets::passwordBox(QWidget *parent, const QString& title, const QString& text, QCString &result)
+bool Widgets::passwordBox(QWidget *parent, const QString& title, const QString& text, Q3CString &result)
 {
   KPasswordDialog dlg( KPasswordDialog::Password, false, 0, parent );
 
@@ -98,10 +100,10 @@ int Widgets::textBox(QWidget *parent, int width, int height, const QString& titl
   }
   QTextStream s(&f);
 
-  while (!s.eof())
+  while (!s.atEnd())
     edit->append(s.readLine());
 
-  edit->moveCursor(QTextEdit::MoveHome, false);
+  edit->moveCursor(Q3TextEdit::MoveHome, false);
 
   f.close();
 
@@ -114,13 +116,13 @@ int Widgets::textBox(QWidget *parent, int width, int height, const QString& titl
   return 0;
 }
 
-int Widgets::textInputBox(QWidget *parent, int width, int height, const QString& title, const QStringList& args, QCString &result)
+int Widgets::textInputBox(QWidget *parent, int width, int height, const QString& title, const QStringList& args, Q3CString &result)
 {
 //  KTextBox dlg(parent, 0, TRUE, width, height, file);
   KDialogBase dlg( parent, 0, true, title, KDialogBase::Ok, KDialogBase::Ok );
 
   kapp->setTopWidget( &dlg );
-  QVBox* vbox = dlg.makeVBoxMainWidget();
+  Q3VBox* vbox = dlg.makeVBoxMainWidget();
 
   if( args.count() > 0 )
   {
@@ -153,7 +155,7 @@ bool Widgets::comboBox(QWidget *parent, const QString& title, const QString& tex
                    KDialogBase::Ok );
 
   kapp->setTopWidget( &dlg );
-  QVBox* vbox = dlg.makeVBoxMainWidget();
+  Q3VBox* vbox = dlg.makeVBoxMainWidget();
 
   QLabel label (vbox);
   label.setText (text);
@@ -179,7 +181,7 @@ bool Widgets::listBox(QWidget *parent, const QString& title, const QString& text
   box.setCaption(title);
   kapp->setTopWidget( &box );
 
-  for (unsigned int i = 0; i+1<args.count(); i += 2) {
+  for (int i = 0; i+1<args.count(); i += 2) {
     box.insertItem(args[i+1]);
   }
   box.setCurrentItem( defaultEntry );
@@ -202,12 +204,12 @@ bool Widgets::checkList(QWidget *parent, const QString& title, const QString& te
 
   KListBoxDialog box(text,parent);
 
-  QListBox &table = box.getTable();
+  Q3ListBox &table = box.getTable();
 
   box.setCaption(title);
   kapp->setTopWidget( &box );
 
-  for (unsigned int i=0; i+2<args.count(); i += 3) {
+  for (int i=0; i+2<args.count(); i += 3) {
     tags.append(args[i]);
     entries.append(args[i+1]);
   }
@@ -216,7 +218,7 @@ bool Widgets::checkList(QWidget *parent, const QString& title, const QString& te
   table.setMultiSelection(TRUE);
   table.setCurrentItem(0); // This is to circumvent a Qt bug
 
-  for (unsigned int i=0; i+2<args.count(); i += 3) {
+  for (int i=0; i+2<args.count(); i += 3) {
     table.setSelected( i/3, args[i+2] == QString::fromLatin1("on") );
   }
 
@@ -246,19 +248,19 @@ bool Widgets::radioBox(QWidget *parent, const QString& title, const QString& tex
 
   KListBoxDialog box(text,parent);
 
-  QListBox &table = box.getTable();
+  Q3ListBox &table = box.getTable();
 
   box.setCaption(title);
   kapp->setTopWidget( &box );
 
-  for (unsigned int i=0; i+2<args.count(); i += 3) {
+  for (int i=0; i+2<args.count(); i += 3) {
     tags.append(args[i]);
     entries.append(args[i+1]);
   }
 
   table.insertStringList(entries);
 
-  for (unsigned int i=0; i+2<args.count(); i += 3) {
+  for (int i=0; i+2<args.count(); i += 3) {
     table.setSelected( i/3, args[i+2] == QString::fromLatin1("on") );
   }
 

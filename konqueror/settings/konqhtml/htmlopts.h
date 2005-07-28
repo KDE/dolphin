@@ -8,7 +8,6 @@
 #ifndef __KMISCHTML_OPTIONS_H
 #define __KMISCHTML_OPTIONS_H
 
-#include <qstrlist.h>
 #include <qcheckbox.h>
 #include <qlineedit.h>
 #include <qcombobox.h>

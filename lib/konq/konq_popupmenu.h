@@ -23,8 +23,11 @@
 
 #include <sys/types.h>
 
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qmap.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <Q3PtrList>
 #include <kaction.h>
 
 #include <qstringlist.h>
@@ -37,7 +40,7 @@
 
 #include "konq_xmlguiclient.h"
 
-typedef QValueList<KDEDesktopMimeType::Service> ServiceList;
+typedef Q3ValueList<KDEDesktopMimeType::Service> ServiceList;
 
 class KPropertiesDialog;
 class KNewMenu;
@@ -52,7 +55,7 @@ class KBookmarkManager;
  * with the correct arguments, then exec() to make it appear, then destroy it.
  *
  */
-class LIBKONQ_EXPORT KonqPopupMenu : public QPopupMenu, public KonqXMLGUIClient
+class LIBKONQ_EXPORT KonqPopupMenu : public Q3PopupMenu, public KonqXMLGUIClient
 {
   Q_OBJECT
 public:
@@ -199,7 +202,7 @@ private:
   KXMLGUIBuilder *m_builder;
   QString attrName;
   ProtocolInfo m_info;
-  QPtrList<KonqPopupMenuPlugin> m_pluginList;
+  Q3PtrList<KonqPopupMenuPlugin> m_pluginList;
   KBookmarkManager* m_pManager;
 };
 

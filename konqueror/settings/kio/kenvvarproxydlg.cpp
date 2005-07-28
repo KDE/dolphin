@@ -24,7 +24,7 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
 #include <qpushbutton.h>
 
 #include <kdebug.h>
@@ -112,7 +112,7 @@ const KProxyData KEnvVarProxyDlg::data() const
     data.proxyList["http"] = mEnvVarsMap["http"].name;
     data.proxyList["https"] = mEnvVarsMap["https"].name;
     data.proxyList["ftp"] = mEnvVarsMap["ftp"].name;
-    data.noProxyFor = mEnvVarsMap["noProxy"].name;
+    data.noProxyFor = QStringList(mEnvVarsMap["noProxy"].name);
     data.type = KProtocolManager::EnvVarProxy;
     data.showEnvVarValue = mDlg->cbShowValue->isChecked();
   }

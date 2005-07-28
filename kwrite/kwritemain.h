@@ -27,6 +27,10 @@
 #include <kparts/mainwindow.h>
 
 #include <kdialogbase.h>
+//Added by qt3to4:
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QList>
 
 namespace KTextEditor { class EditorChooser; }
 
@@ -34,6 +38,7 @@ class KAction;
 class KToggleAction;
 class KSelectAction;
 class KRecentFilesAction;
+class KSqueezedTextLabel;
 
 class KWrite : public KParts::MainWindow
 {
@@ -68,14 +73,9 @@ class KWrite : public KParts::MainWindow
     void editKeys();
     void editToolbars();
     void changeEditor();
+    void aboutEditor();
 
   public slots:
-    void printNow();
-    void printDlg();
-
-    void newStatus(const QString &msg);
-    void newCaption();
-
     void slotDropEvent(QDropEvent *);
 
     void slotEnableActions( bool enable );
@@ -112,8 +112,34 @@ class KWrite : public KParts::MainWindow
 
     QString encoding;
 
-    static QPtrList<KTextEditor::Document> docList;
-    static QPtrList<KWrite> winList;
+    static QList<KTextEditor::Document*> docList;
+    static QList<KWrite*> winList;
+
+  /**
+   * Stuff for the status bar
+   */
+  public slots:
+    void updateStatus ();
+
+    void viewModeChanged ( KTextEditor::View *view );
+
+    void cursorPositionChanged ( KTextEditor::View *view );
+
+    void selectionChanged (KTextEditor::View *view);
+
+    void modifiedChanged();
+
+    void documentNameChanged ();
+
+    void informationMessage (KTextEditor::View *view, const QString &message);
+
+   private:
+      QLabel* m_lineColLabel;
+      QLabel* m_modifiedLabel;
+      QLabel* m_insertModeLabel;
+      QLabel* m_selectModeLabel;
+      KSqueezedTextLabel* m_fileNameLabel;
+      QPixmap m_modPm, m_modDiscPm, m_modmodPm, m_noPm;
 };
 
 class KWriteEditorChooser: public KDialogBase

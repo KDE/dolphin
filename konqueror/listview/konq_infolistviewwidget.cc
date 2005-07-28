@@ -55,7 +55,7 @@ void KonqInfoListViewWidget::slotSelectMimeType()
     QString comment = m_mtSelector->currentText();
 
     // find the mime type by comment
-    QMapIterator<QString, KonqILVMimeType> it;
+    QMap<QString, KonqILVMimeType>::iterator it;
     for (it = m_counts.begin(); it!=m_counts.end(); ++it)
     {
         if ((*it).mimetype->comment() == comment)
@@ -147,7 +147,7 @@ void KonqInfoListViewWidget::rebuildView()
     // make a KFileItemList from all our Items
     KFileItemList list;
 
-    QListViewItemIterator it(this);
+    Q3ListViewItemIterator it(this);
     for (; it.current(); ++it)
     {
         list.append(static_cast<KonqInfoListViewItem*>(it.current())->item());
@@ -157,7 +157,7 @@ void KonqInfoListViewWidget::rebuildView()
     clear();
 
     // and rebuild them
-    for (QPtrListIterator<KFileItem> kit(list); kit.current(); ++kit)
+    for (Q3PtrListIterator<KFileItem> kit(list); kit.current(); ++kit)
     {
         KonqInfoListViewItem* tmp = new KonqInfoListViewItem( this, *kit );
 //        if (m_goToFirstItem==false)
@@ -190,7 +190,7 @@ void KonqInfoListViewWidget::rebuildView()
 void KonqInfoListViewWidget::slotNewItems( const KFileItemList& list)
 {
     slotStarted(); // ############# WHY?
-    for (QPtrListIterator<KFileItem> kit ( list ); kit.current(); ++kit )
+    for (Q3PtrListIterator<KFileItem> kit ( list ); kit.current(); ++kit )
     {
         KonqInfoListViewItem * tmp = new KonqInfoListViewItem( this, *kit );
 
@@ -230,7 +230,7 @@ void KonqInfoListViewWidget::slotNewItems( const KFileItemList& list)
     // start getting metainfo from the files
     if (m_metaInfoJob)
     {
-       for (QPtrListIterator<KFileItem> kit ( list ); kit.current(); ++kit )
+       for (Q3PtrListIterator<KFileItem> kit ( list ); kit.current(); ++kit )
           m_metaInfoTodo.append(kit.current());
     }
     else
@@ -250,7 +250,7 @@ void KonqInfoListViewWidget::slotRefreshItems( const KFileItemList& list)
     // start getting metainfo from the files
     if (m_metaInfoJob)
     {
-       for (QPtrListIterator<KFileItem> kit ( list ); kit.current(); ++kit )
+       for (Q3PtrListIterator<KFileItem> kit ( list ); kit.current(); ++kit )
           m_metaInfoTodo.append(kit.current());
     }
     else
@@ -286,7 +286,7 @@ void KonqInfoListViewWidget::slotClear()
 void KonqInfoListViewWidget::slotMetaInfo(const KFileItem* item)
 {
     // need to search for the item (any better way?)
-    QListViewItemIterator it(this);
+    Q3ListViewItemIterator it(this);
     for (; it.current(); ++it)
     {
         if (static_cast<KonqInfoListViewItem*>(it.current())->item()==item)
@@ -340,7 +340,7 @@ void KonqInfoListViewWidget::determineCounts(const KFileItemList& list)
 
     QStringList mtlist;
 
-    QMapIterator<QString, KonqILVMimeType> it;
+    QMap<QString, KonqILVMimeType>::iterator it;
     for (it = m_counts.begin(); it!=m_counts.end(); ++it)
     {
         // look if there is a plugin for this mimetype

@@ -63,7 +63,7 @@ class KonqInfoListViewItem : public KonqBaseListViewItem
 
       virtual void gotMetaInfo();
 
-      virtual int compare(QListViewItem *item, int col, bool ascending) const;
+      virtual int compare(Q3ListViewItem *item, int col, bool ascending) const;
 
    protected:
       /**
@@ -72,8 +72,8 @@ class KonqInfoListViewItem : public KonqBaseListViewItem
       KonqInfoListViewWidget* m_ILVWidget;
 
    private:
-      QValueVector<QVariant::Type> m_columnTypes;
-      QValueVector<QVariant> m_columnValues;
+      Q3ValueVector<QVariant::Type> m_columnTypes;
+      Q3ValueVector<QVariant> m_columnValues;
 };
 
 #endif

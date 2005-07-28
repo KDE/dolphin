@@ -25,6 +25,10 @@
 
 
 #include <qdir.h>
+//Added by qt3to4:
+#include <QGridLayout>
+#include <QResizeEvent>
+#include <Q3CString>
 
 
 #include <kapplication.h>
@@ -54,7 +58,7 @@ NSPluginLoader *NSPluginLoader::s_instance = 0;
 int NSPluginLoader::s_refCount = 0;
 
 
-NSPluginInstance::NSPluginInstance(QWidget *parent, const QCString& app, const QCString& id)
+NSPluginInstance::NSPluginInstance(QWidget *parent, const Q3CString& app, const Q3CString& id)
   : DCOPStub(app, id), NSPluginInstanceIface_stub(app, id), EMBEDCLASS(parent)
 {
     _loader = 0L;
@@ -79,7 +83,7 @@ void NSPluginInstance::doLoadPlugin() {
         delete _button;
         _button = 0L;
         _loader = NSPluginLoader::instance();
-        setBackgroundMode(QWidget::NoBackground);
+        setBackgroundMode(Qt::NoBackground);
         setProtocol(QXEmbed::XPLAIN);
         embed( NSPluginInstanceIface_stub::winId() );
         displayPlugin();
@@ -101,7 +105,7 @@ NSPluginInstance::~NSPluginInstance()
 
 void NSPluginInstance::windowChanged(WId w)
 {
-    setBackgroundMode(w == 0 ? QWidget::PaletteBackground : QWidget::NoBackground);
+    setBackgroundMode(w == 0 ? Qt::PaletteBackground : Qt::NoBackground);
     if (w == 0) {
         // FIXME: Put a notice here to tell the user that it crashed.
         repaint();
@@ -134,8 +138,8 @@ NSPluginLoader::NSPluginLoader()
   // trap dcop register events
   kapp->dcopClient()->setNotifications(true);
   QObject::connect(kapp->dcopClient(),
-                   SIGNAL(applicationRegistered(const QCString&)),
-                   this, SLOT(applicationRegistered(const QCString&)));
+                   SIGNAL(applicationRegistered(const Q3CString&)),
+                   this, SLOT(applicationRegistered(const Q3CString&)));
 
   // load configuration
   KConfig cfg("kcmnspluginrc", false);
@@ -183,7 +187,7 @@ void NSPluginLoader::scanPlugins()
 
   // open the cache file
   QFile cachef(locate("data", "nsplugins/cache"));
-  if (!cachef.open(IO_ReadOnly)) {
+  if (!cachef.open(QIODevice::ReadOnly)) {
       kdDebug() << "Could not load plugin cache file!" << endl;
       return;
   }
@@ -233,7 +237,7 @@ void NSPluginLoader::scanPlugins()
 
 QString NSPluginLoader::lookupMimeType(const QString &url)
 {
-  QDictIterator<QString> dit2(_filetype);
+  Q3DictIterator<QString> dit2(_filetype);
   while (dit2.current())
     {
       QString ext = QString(".")+dit2.currentKey();
@@ -273,7 +277,8 @@ bool NSPluginLoader::loadViewer()
 
    // find the external viewer process
    QString viewer = KGlobal::dirs()->findExe("nspluginviewer");
-   if (!viewer)
+#warning more !QString -> isEmpty()
+   if (viewer.isEmpty())
    {
       kdDebug() << "can't find nspluginviewer" << endl;
       delete _process;
@@ -281,10 +286,11 @@ bool NSPluginLoader::loadViewer()
    }
 
    // find the external artsdsp process
-   if( _useArtsdsp ) {
+   if( !_useArtsdsp ) {
        kdDebug() << "trying to use artsdsp" << endl;
        QString artsdsp = KGlobal::dirs()->findExe("artsdsp");
-       if (!artsdsp)
+#warning more !QString -> isEmpty()
+       if (artsdsp.isEmpty())
        {
            kdDebug() << "can't find artsdsp" << endl;
        } else
@@ -360,7 +366,7 @@ void NSPluginLoader::unloadViewer()
 }
 
 
-void NSPluginLoader::applicationRegistered( const QCString& appId )
+void NSPluginLoader::applicationRegistered( const Q3CString& appId )
 {
    kdDebug() << "DCOP application " << appId.data() << " just registered!" << endl;
 

@@ -23,7 +23,9 @@
 #include <kfileitem.h>
 #include <libkonq_export.h>
 
-#include <qdict.h>
+#include <q3dict.h>
+//Added by qt3to4:
+#include <QTimerEvent>
 
 class KDirLister;
 class KFileIVI;
@@ -50,7 +52,7 @@ private:
     KDirLister* m_lister;
     bool m_foundItems;
     bool m_containsFolder;
-    QDict<int>* m_popularIcons;
+    Q3Dict<int>* m_popularIcons;
     QString m_bestIcon;
     KFileIVI* m_directory;
 };

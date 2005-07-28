@@ -149,7 +149,7 @@
                 <cstring>spacer3</cstring>
             </property>
             <property name="orientation">
-                <enum>Vertical</enum>
+                <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
                 <enum>Expanding</enum>
@@ -183,7 +183,7 @@
                         <string></string>
                     </property>
                     <property name="alignment">
-                        <set>AlignVCenter</set>
+                        <set>Qt::AlignVCenter</set>
                     </property>
                 </widget>
                 <widget class="QLabel">
@@ -194,7 +194,7 @@
                         <string>&lt;i&gt;(Click the button to change your image)&lt;/i&gt;</string>
                     </property>
                     <property name="alignment">
-                        <set>AlignVCenter</set>
+                        <set>Qt::AlignVCenter</set>
                     </property>
                 </widget>
             </vbox>
@@ -212,7 +212,7 @@
                 <cstring>spacer2</cstring>
             </property>
             <property name="orientation">
-                <enum>Horizontal</enum>
+                <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeType">
                 <enum>Expanding</enum>

@@ -22,7 +22,9 @@
 #define __bookmarkiterator_h
 
 #include <qobject.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 #include <kbookmark.h>
 
 class KEBListViewItem;
@@ -33,7 +35,7 @@ class BookmarkIterator : public QObject
    Q_OBJECT
 
 public:
-   BookmarkIterator(QValueList<KBookmark> bks);
+   BookmarkIterator(Q3ValueList<KBookmark> bks);
    virtual ~BookmarkIterator();
    virtual BookmarkIteratorHolder* holder() const = 0;
 
@@ -53,7 +55,7 @@ protected:
 
 private:
    KBookmark m_bk;
-   QValueList<KBookmark> m_bklist;
+   Q3ValueList<KBookmark> m_bklist;
 };
 
 class BookmarkIteratorHolder
@@ -68,7 +70,7 @@ protected:
    virtual void doItrListChanged() = 0;
    int count() const { return m_itrs.count(); }
 private:
-   QPtrList<BookmarkIterator> m_itrs;
+   Q3PtrList<BookmarkIterator> m_itrs;
 };
 
 #endif

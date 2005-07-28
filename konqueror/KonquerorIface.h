@@ -22,7 +22,9 @@
 #define __KonquerorIface_h__
 
 #include <dcopobject.h>
-#include <qvaluelist.h>
+#include <q3valuelist.h>
+//Added by qt3to4:
+#include <Q3CString>
 #include <dcopref.h>
 
 #include <qstringlist.h>
@@ -48,7 +50,7 @@ k_dcop:
    * property on the window.
    * This DCOP call is internal to kfmclient, don't use.
    */
-  DCOPRef openBrowserWindowASN( const QString &url, const QCString &startup_id );
+  DCOPRef openBrowserWindowASN( const QString &url, const DCOPCString &startup_id );
 
   /**
    * Opens a new window for the given @p url (using createNewWindow, i.e. with an appropriate profile)
@@ -59,7 +61,7 @@ k_dcop:
    * property on the window.
    * This DCOP call is internal to kfmclient.
    */
-  DCOPRef createNewWindowASN( const QString &url, const QCString &startup_id, bool tempFile );
+  DCOPRef createNewWindowASN( const QString &url, const DCOPCString &startup_id, bool tempFile );
 
   /**
    * Opens a new window like @ref createNewWindow, then selects the given @p filesToSelect
@@ -70,7 +72,7 @@ k_dcop:
    * property on the window.
    * This DCOP call is internal to kfmclient.
    */
-  DCOPRef createNewWindowWithSelectionASN( const QString &url, QStringList filesToSelect, const QCString &startup_id );
+  DCOPRef createNewWindowWithSelectionASN( const QString &url, QStringList filesToSelect, const DCOPCString &startup_id );
 
   /**
    * Opens a new window for the given @p url (using createNewWindow, i.e. with an appropriate profile)
@@ -83,7 +85,7 @@ k_dcop:
    * This DCOP call is internal to kfmclient.
    */
   DCOPRef createNewWindowASN( const QString &url, const QString & mimetype,
-      const QCString &startup_id, bool tempFile );
+      const DCOPCString &startup_id, bool tempFile );
 
   /**
    * As the name says, this creates a window from a profile.
@@ -95,7 +97,7 @@ k_dcop:
    * notification ( ASN ) property on the window.
    * This DCOP call is internal to kfmclient.
    */
-  DCOPRef createBrowserWindowFromProfileASN( const QString &path, const QCString &startup_id );
+  DCOPRef createBrowserWindowFromProfileASN( const QString &path, const DCOPCString &startup_id );
 
   /**
    * As the name says, this creates a window from a profile.
@@ -110,7 +112,7 @@ k_dcop:
    * This DCOP call is internal to kfmclient.
    */
   DCOPRef createBrowserWindowFromProfileASN( const QString &path, const QString &filename,
-      const QCString &startup_id );
+      const DCOPCString &startup_id );
 
   /**
    * Creates a window from a profile and a URL.
@@ -127,7 +129,7 @@ k_dcop:
    * This DCOP call is internal to kfmclient.
    */
   DCOPRef createBrowserWindowFromProfileAndURLASN( const QString &path, const QString &filename, const QString &url,
-      const QCString &startup_id );
+      const DCOPCString &startup_id );
 
   /**
    * Creates a window the fastest way : the caller has to provide
@@ -144,7 +146,7 @@ k_dcop:
    * This DCOP call is internal to kfmclient.
    */
   DCOPRef createBrowserWindowFromProfileAndURLASN( const QString &path, const QString &filename, const QString &url, const QString &mimetype,
-      const QCString& startup_id );
+      const DCOPCString& startup_id );
 
   /**
    * Called by kcontrol when the global configuration changes
@@ -159,7 +161,7 @@ k_dcop:
   /**
    * @return a list of references to all the windows
    */
-  QValueList<DCOPRef> getWindows();
+  Q3ValueList<DCOPRef> getWindows();
 
   /**
    *  Called internally as broadcast when the user adds/removes/renames a view profile
@@ -169,17 +171,17 @@ k_dcop:
   /**
    * Called internally as broadcast when a URL is to be added to the combobox.
    */
-  ASYNC addToCombo( QString, QCString );
+  ASYNC addToCombo( QString, DCOPCString );
 
   /**
    * Called internall as broadcast when a URL has to be removed from the combo.
    */
-  ASYNC removeFromCombo( QString, QCString );
+  ASYNC removeFromCombo( QString, DCOPCString );
 
   /**
    * Called internally as a broadcast when the combobox was cleared.
    */
-  ASYNC comboCleared( QCString );
+  ASYNC comboCleared( DCOPCString );
 
   /**
    * Used by kfmclient when the 'minimize memory usage' setting is set

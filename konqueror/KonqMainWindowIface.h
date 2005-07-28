@@ -22,7 +22,9 @@
 #define __KonqMainWindowIface_h__
 
 #include <dcopobject.h>
-#include <qvaluelist.h>
+#include <q3valuelist.h>
+//Added by qt3to4:
+#include <Q3CString>
 #include <dcopref.h>
 #include <kmainwindowiface.h>
 
@@ -62,9 +64,9 @@ k_dcop:
    */
   DCOPRef currentPart();
 
-  DCOPRef action( const QCString &name );
-  QCStringList actions();
-  QMap<QCString,DCOPRef> actionMap();
+  DCOPRef action( const DCOPCString &name );
+  DCOPCStringList actions();
+  QMap<DCOPCString,DCOPRef> actionMap();
 
   /**
    * Used by kfmclient when searching a window to open a tab within
@@ -72,8 +74,8 @@ k_dcop:
   bool windowCanBeUsedForTab();
 
 public:
-    virtual QCStringList functionsDynamic();
-    virtual bool processDynamic( const QCString &fun, const QByteArray &data, QCString &replyType, QByteArray &replyData );
+    virtual DCOPCStringList functionsDynamic();
+    virtual bool processDynamic( const DCOPCString &fun, const QByteArray &data, DCOPCString &replyType, QByteArray &replyData );
 
 private:
 

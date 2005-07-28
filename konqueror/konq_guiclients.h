@@ -22,7 +22,9 @@
 
 #include <kxmlguiclient.h>
 #include <qobject.h>
-#include <qdict.h>
+#include <q3dict.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 #include <ktrader.h>
 
 class KAction;
@@ -78,7 +80,7 @@ public:
 
   bool empty() const { return m_empty; }
 
-  QPtrList<KAction> actions() const;
+  Q3PtrList<KAction> actions() const;
   KAction *action( const QString &name ) { return m_actions[ name ]; }
 
   void saveConfig( bool add, const QString &serviceName );
@@ -89,7 +91,7 @@ private slots:
   void slotViewRemoved( KonqView *view );
 private:
   KonqMainWindow *m_mainWindow;
-  QDict<KAction> m_actions;
+  Q3Dict<KAction> m_actions;
   bool m_empty;
   QMap<QString,bool> m_mapOrientation;
 };

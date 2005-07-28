@@ -24,7 +24,7 @@
 #include <qstring.h>
 #include <kicontheme.h>
 
-#include <qvaluevector.h>
+#include <q3valuevector.h>
 
 // for mode_t
 #include <sys/types.h>
@@ -52,7 +52,7 @@ class KonqBaseListViewItem : public KListViewItem
       virtual void updateContents() = 0;
       virtual void setDisabled( bool disabled ) { m_bDisabled = disabled; }
       virtual void setActive  ( bool active   ) { m_bActive   = active;   }
-      virtual int compare( QListViewItem* i, int col, bool ascending ) const;
+      virtual int compare( Q3ListViewItem* i, int col, bool ascending ) const;
       
       int state() const 
       {
@@ -114,7 +114,7 @@ class KonqListViewItem : public KonqBaseListViewItem
       virtual const QPixmap * pixmap( int column ) const;
 
 private:
-      QValueVector<QPixmap *> m_pixmaps;
+      Q3ValueVector<QPixmap *> m_pixmaps;
 };
 
 #endif

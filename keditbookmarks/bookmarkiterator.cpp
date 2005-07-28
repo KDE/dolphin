@@ -28,7 +28,7 @@
 
 #include <qtimer.h>
 
-BookmarkIterator::BookmarkIterator(QValueList<KBookmark> bks) : m_bklist(bks) {
+BookmarkIterator::BookmarkIterator(Q3ValueList<KBookmark> bks) : m_bklist(bks) {
     connect(this, SIGNAL( deleteSelf(BookmarkIterator *) ), 
             SLOT( slotCancelTest(BookmarkIterator *) ));
     delayedEmitNextOne();
@@ -65,7 +65,7 @@ void BookmarkIterator::nextOne() {
         return;
     }
 
-    QValueListIterator<KBookmark> head = m_bklist.begin();
+    Q3ValueListIterator<KBookmark> head = m_bklist.begin();
     KBookmark bk = (*head);
 
     bool viable = bk.hasParent() && isApplicable(bk);

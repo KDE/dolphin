@@ -238,8 +238,10 @@ KRemoteEncodingPlugin::updateBrowser()
     kdDebug() << "Can't connect with DCOP server." << endl;
 
   QByteArray data;
-  QDataStream stream(data, IO_WriteOnly);
-  stream << QString::null;
+  QDataStream stream(&data, QIODevice::WriteOnly);
+
+  stream.setVersion(QDataStream::Qt_3_1);
+  stream << QString();
   client->send("*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)",
 	       data);
   delete client;

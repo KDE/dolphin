@@ -1,6 +1,6 @@
 /* This file is part of the KDE projects
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
-   Copyright (C) 2000, 2001, 2002 David Faure <david@mandrakesoft.com>
+   Copyright (C) 2000, 2001, 2002 David Faure <faure@kde.org>
    Copyright (C) 2004 Martin Koller <m.koller@surfeu.at>
 
    This program is free software; you can redistribute it and/or
@@ -22,25 +22,29 @@
 #ifndef KONQ_FILETIP_H
 #define KONQ_FILETIP_H
 
-#include <qframe.h>
+#include <q3frame.h>
 #include <qpixmap.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <QResizeEvent>
+#include <QEvent>
 #include <kio/previewjob.h>
 
 #include <libkonq_export.h>
 
 class KFileItem;
 class QLabel;
-class QScrollView;
+class Q3ScrollView;
 class QTimer;
 
 //--------------------------------------------------------------------------------
 
-class LIBKONQ_EXPORT KonqFileTip : public QFrame
+class LIBKONQ_EXPORT KonqFileTip : public Q3Frame
 {
   Q_OBJECT
 
   public:
-    KonqFileTip( QScrollView *parent );
+    KonqFileTip( Q3ScrollView *parent );
     ~KonqFileTip();
 
     void setPreview(bool on);
@@ -87,7 +91,7 @@ class LIBKONQ_EXPORT KonqFileTip : public QFrame
     QPixmap    m_corners[4];
     int        m_corner;
     int        m_num;
-    QScrollView* m_view;
+    Q3ScrollView* m_view;
     KFileItem* m_item;
     KIO::PreviewJob* m_previewJob;
     QRect      m_rect;

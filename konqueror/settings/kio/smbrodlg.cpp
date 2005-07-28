@@ -105,7 +105,7 @@ void SMBRoOptions::load()
    // unscramble
    QString scrambled = cfg->readEntry( "Password" );
    QString password = "";
-   for (uint i=0; i<scrambled.length()/3; i++)
+   for (int i=0; i<scrambled.length()/3; i++)
    {
       QChar qc1 = scrambled[i*3];
       QChar qc2 = scrambled[i*3+1];
@@ -136,7 +136,7 @@ void SMBRoOptions::save()
    //least better than storing the plain password
    QString password(m_passwordLe->text());
    QString scrambled;
-   for (uint i=0; i<password.length(); i++)
+   for (int i=0; i<password.length(); i++)
    {
       QChar c = password[i];
       unsigned int num = (c.unicode() ^ 173) + 17;

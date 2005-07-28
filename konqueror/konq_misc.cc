@@ -18,9 +18,15 @@
 */
 
 
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
 #include <qstyle.h>
 #include <qdir.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QDragEnterEvent>
+#include <QLabel>
+#include <QDropEvent>
+#include <Q3PtrList>
 
 #include <kapplication.h>
 #include <kdebug.h>
@@ -47,10 +53,10 @@
 // Terminates fullscreen-mode for any full-screen window on the current desktop
 void KonqMisc::abortFullScreenMode()
 {
-  QPtrList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
+  Q3PtrList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
   if ( mainWindows )
   {
-    QPtrListIterator<KonqMainWindow> it( *mainWindows );
+    Q3PtrListIterator<KonqMainWindow> it( *mainWindows );
     for (; it.current(); ++it )
     {
       if ( it.current()->fullScreenMode() )
@@ -247,7 +253,7 @@ void KonqDraggableLabel::mouseMoveEvent( QMouseEvent * ev )
     {
       KURL::List lst;
       lst.append( m_mw->currentView()->url() );
-      QDragObject * drag = new KURLDrag( lst, m_mw );
+      Q3DragObject * drag = new KURLDrag( lst, m_mw );
       drag->setPixmap( KMimeType::pixmapForURL( lst.first(), 0, KIcon::Small ) );
       drag->dragCopy();
     }

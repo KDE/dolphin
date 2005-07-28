@@ -1,6 +1,6 @@
 /* This file is part of the KDE projects
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
-   Copyright (C) 2000, 2001, 2002 David Faure <david@mandrakesoft.com>
+   Copyright (C) 2000, 2001, 2002 David Faure <faure@kde.org>
    Copyright (C) 2004 Martin Koller <m.koller@surfeu.at>
 
    This program is free software; you can redistribute it and/or
@@ -30,14 +30,20 @@
 #include <qtooltip.h>
 #include <qlayout.h>
 #include <qpainter.h>
-#include <qscrollview.h>
+#include <q3scrollview.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QGridLayout>
+#include <QEvent>
+#include <Q3Frame>
+#include <QResizeEvent>
 
 #include <fixx11h.h>
 //--------------------------------------------------------------------------------
 
-KonqFileTip::KonqFileTip( QScrollView* parent )
-  : QFrame( 0, 0, WStyle_Customize | WStyle_NoBorder | WStyle_Tool | WStyle_StaysOnTop | WX11BypassWM ),
+KonqFileTip::KonqFileTip( Q3ScrollView* parent )
+  : Q3Frame( 0, 0, Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool | Qt::WStyle_StaysOnTop | Qt::WX11BypassWM ),
     m_on( false ),
     m_preview( false ),
     m_filter( false ),
@@ -49,7 +55,7 @@ KonqFileTip::KonqFileTip( QScrollView* parent )
 {
     m_iconLabel = new QLabel(this);
     m_textLabel = new QLabel(this);
-    m_textLabel->setAlignment(Qt::AlignAuto | Qt::AlignTop);
+    m_textLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
     QGridLayout* layout = new QGridLayout(this, 1, 2, 8, 0);
     layout->addWidget(m_iconLabel, 0, 0);
@@ -58,7 +64,7 @@ KonqFileTip::KonqFileTip( QScrollView* parent )
 
     setPalette( QToolTip::palette() );
     setMargin( 1 );
-    setFrameStyle( QFrame::Plain | QFrame::Box );
+    setFrameStyle( Q3Frame::Plain | Q3Frame::Box );
 
     m_timer = new QTimer(this);
 
@@ -184,7 +190,7 @@ void KonqFileTip::drawContents( QPainter *p )
     };
 
     if (m_corner >= 4) {  // 4 is empty, so don't draw anything
-        QFrame::drawContents( p );
+        Q3Frame::drawContents( p );
         return;
     }
 
@@ -209,7 +215,7 @@ void KonqFileTip::drawContents( QPainter *p )
             break;
     }
 
-    QFrame::drawContents( p );
+    Q3Frame::drawContents( p );
 }
 
 void KonqFileTip::setFilter( bool enable )
@@ -274,7 +280,7 @@ void KonqFileTip::startDelayed()
 
 void KonqFileTip::resizeEvent( QResizeEvent* event )
 {
-    QFrame::resizeEvent(event);
+    Q3Frame::resizeEvent(event);
     reposition();
 }
 

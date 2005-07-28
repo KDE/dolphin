@@ -64,7 +64,7 @@ void KonqSidebarDirTreeItem::reset()
         KURL url = m_fileItem->url();
         if ( url.isLocalFile() )
         {
-            QCString path( QFile::encodeName(url.path()));
+            Q3CString path( QFile::encodeName(url.path()));
             struct stat buff;
             if ( ::stat( path.data(), &buff ) != -1 )
             {
@@ -116,7 +116,7 @@ void KonqSidebarDirTreeItem::paintCell( QPainter *_painter, const QColorGroup & 
         f.setItalic( TRUE );
         _painter->setFont( f );
     }
-    QListViewItem::paintCell( _painter, _cg, _column, _width, _alignment );
+    Q3ListViewItem::paintCell( _painter, _cg, _column, _width, _alignment );
 }
 
 KURL KonqSidebarDirTreeItem::externalURL() const
@@ -132,7 +132,7 @@ QString KonqSidebarDirTreeItem::externalMimeType() const
         return QString::null;
 }
 
-bool KonqSidebarDirTreeItem::acceptsDrops( const QStrList & formats )
+bool KonqSidebarDirTreeItem::acceptsDrops( const Q3StrList & formats )
 {
     if ( formats.contains("text/uri-list") )
         return m_fileItem->acceptsDrops();
@@ -144,7 +144,7 @@ void KonqSidebarDirTreeItem::drop( QDropEvent * ev )
     KonqOperations::doDrop( m_fileItem, externalURL(), ev, tree() );
 }
 
-QDragObject * KonqSidebarDirTreeItem::dragObject( QWidget * parent, bool move )
+Q3DragObject * KonqSidebarDirTreeItem::dragObject( QWidget * parent, bool move )
 {
     KURL::List lst;
     lst.append( m_fileItem->url() );

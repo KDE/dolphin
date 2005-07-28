@@ -5,7 +5,7 @@
 
 #include <qobject.h>
 #include <qregexp.h>
-#include <qptrqueue.h>
+#include <q3ptrqueue.h>
 #include <qdir.h>
 #include <qstringlist.h>
 
@@ -31,10 +31,10 @@ class KQuery : public QObject
   void setFileType( int filetype );
   void setMimeType( const QStringList & mimetype );
   void setContext( const QString & context, bool casesensitive, 
-    bool search_binary, bool useRegexp );
+  bool search_binary, bool useRegexp );
   void setUsername( QString username );
   void setGroupname( QString groupname );
-	void setMetaInfo(const QString &metainfo, const QString &metainfokey);
+  void setMetaInfo(const QString &metainfo, const QString &metainfokey);
   void setUseFileIndex(bool);
 
   void start();
@@ -86,11 +86,11 @@ class KQuery : public QObject
   int bufferLocateLength;
   QStringList locateList;
   KProcess *processLocate;
-  QPtrList<QRegExp> m_regexps;// regexps for file name
+  Q3PtrList<QRegExp> m_regexps;// regexps for file name
 //  QValueList<bool> m_regexpsContainsGlobs;  // what should this be good for ? Alex
   KIO::ListJob *job;
   bool m_insideCheckEntries;
-  QPtrQueue<KFileItem> m_fileItems;
+  Q3PtrQueue<KFileItem> m_fileItems;
   QRegExp* metaKeyRx;
   int m_result;
   QStringList ignore_mimetypes;

@@ -47,7 +47,7 @@ int main(int argc, char **argv)
     KUniqueApplication app;
 
     KUser ku;
-    QCString user;
+    QByteArray user;
     bool bRoot = ku.isSuperUser();
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
@@ -55,13 +55,13 @@ int main(int argc, char **argv)
 	user = args->arg(0);
 
     /* You must be able to run "kdepasswd loginName" */
-    if ( !user.isEmpty() && user!=KUser().loginName().utf8() && !bRoot)
+    if ( !user.isEmpty() && user!=KUser().loginName().toUtf8() && !bRoot)
     {
         KMessageBox::sorry(0, i18n("You need to be root to change the password of other users."));
         return 0;
     }
 
-    QCString oldpass;
+    Q3CString oldpass;
     if (!bRoot)
     {
         int result = KDEpasswd1Dialog::getPassword(oldpass);

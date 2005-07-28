@@ -21,7 +21,7 @@
 #define __kfm_run_h__
 
 #include <kparts/browserrun.h>
-#include <qguardedptr.h>
+#include <qpointer.h>
 #include <kservice.h>
 #include "konq_openurlrequest.h"
 
@@ -63,8 +63,8 @@ protected slots:
   void slotRedirection( KIO::Job *, const KURL& );
 
 protected:
-  QGuardedPtr<KonqMainWindow> m_pMainWindow;
-  QGuardedPtr<KonqView> m_pView;
+  QPointer<KonqMainWindow> m_pMainWindow;
+  QPointer<KonqView> m_pView;
   bool m_bFoundMimeType;
   KonqOpenURLRequest m_req;
   KURL m_mailto;

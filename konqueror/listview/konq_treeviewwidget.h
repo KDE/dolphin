@@ -21,7 +21,7 @@
 
 #include "konq_listviewwidget.h"
 #include "konq_treeviewitem.h"
-#include <qdict.h>
+#include <q3dict.h>
 #include <kurl.h>
 #include <klistview.h>
 
@@ -59,7 +59,7 @@ protected:
    void stopListingSubFolder( KonqListViewDir *_dir );
 
    // URL -> item (for directories only)
-   QDict<KonqListViewDir> m_dictSubDirs;
+   Q3Dict<KonqListViewDir> m_dictSubDirs;
 
    QStringList m_urlsToOpen, m_urlsToReload;
 };

@@ -2,7 +2,7 @@
 <class>KProxyDialogUI</class>
 <widget class="QWidget">
     <property name="name">
-        <cstring>ProxyDlgUI</cstring>
+        <cstring>KProxyDialogUI</cstring>
     </property>
     <property name="geometry">
         <rect>
@@ -32,11 +32,8 @@ If you are uncertain whether or not you need to use a proxy server to connect to
             <property name="name">
                 <cstring>gbConfigure</cstring>
             </property>
-            <property name="frameShape">
-                <enum>NoFrame</enum>
-            </property>
-            <property name="lineWidth">
-                <number>0</number>
+            <property name="flat">
+                <bool>true</bool>
             </property>
             <property name="title">
                 <string></string>

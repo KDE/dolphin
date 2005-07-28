@@ -69,17 +69,12 @@ By default, only minimal identification information is sent to remote sites. The
                     </property>
                     <property name="font">
                         <font>
-                            <bold>1</bold>
+								<bold>1</bold>
+								<pointsize>8</pointsize>
                         </font>
                     </property>
-                    <property name="frameShape">
-                        <enum>Box</enum>
-                    </property>
-                    <property name="frameShadow">
-                        <enum>Raised</enum>
-                    </property>
-                    <property name="lineWidth">
-                        <number>0</number>
+                    <property name="frame">
+                        <bool>false</bool>
                     </property>
                     <property name="readOnly">
                         <bool>true</bool>

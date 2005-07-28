@@ -29,7 +29,7 @@
 #include <kcommand.h>
 #include <kbookmark.h>
 
-#include <qptrstack.h>
+#include <q3ptrstack.h>
 #include <qobject.h>
 
 // part pure
@@ -47,8 +47,8 @@ public:
    virtual QString visibleName() const { return m_visibleName; }
    virtual QString requestFilename() const = 0;
 
-   static ImportCommand* performImport(const QCString &, QWidget *);
-   static ImportCommand* importerFactory(const QCString &);
+   static ImportCommand* performImport(const Q3CString &, QWidget *);
+   static ImportCommand* importerFactory(const Q3CString &);
 
    virtual ~ImportCommand()
    { ; }

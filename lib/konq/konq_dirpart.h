@@ -31,7 +31,7 @@
 class KDirLister;
 namespace KParts { class BrowserExtension; }
 class KonqPropsView;
-class QScrollView;
+class Q3ScrollView;
 class KAction;
 class KToggleAction;
 class KonqDirPartBrowserExtension;
@@ -62,7 +62,7 @@ public:
     void setDirLister( KDirLister* lister );
     // TODO KDE4 create the KDirLister here and simplify the parts?
 
-    QScrollView * scrollWidget();
+    Q3ScrollView * scrollWidget();
 
     virtual void saveState( QDataStream &stream );
     virtual void restoreState( QDataStream &stream );

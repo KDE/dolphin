@@ -41,8 +41,10 @@
 #include <qapplication.h>
 #include <qclipboard.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 #include <assert.h>
-#include <qvaluevector.h>
+#include <q3valuevector.h>
 
 class KonqDirPart::KonqDirPartPrivate
 {
@@ -51,7 +53,7 @@ public:
     QStringList mimeFilters;
     KToggleAction *aEnormousIcons;
     KToggleAction *aSmallMediumIcons;
-    QValueVector<int> iconSize;
+    Q3ValueVector<int> iconSize;
 
     KDirLister* dirLister;
     bool dirSizeDirty;
@@ -66,13 +68,13 @@ void KonqDirPart::KonqDirPartPrivate::findAvailableIconSizes(void)
     KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
     iconSize.resize(1);
     if (root) {
-	QValueList<int> avSizes = root->querySizes(KIcon::Desktop);
-        kdDebug(1203) << "The icon theme handles the sizes:" << avSizes << endl;
-	qHeapSort(avSizes);
+	QList<int> avSizes = root->querySizes(KIcon::Desktop);
+       // kdDebug(1203) << "The icon theme handles the sizes:" << avSizes << endl;
+	qStableSort(avSizes);
 	int oldSize = -1;
 	if (avSizes.count() < 10) {
 	    // Fixed or threshold type icons
-	    QValueListConstIterator<int> i;
+	    QList<int>::const_iterator i;
 	    for (i = avSizes.begin(); i != avSizes.end(); i++) {
 		// Skip duplicated values (sanity check)
 		if (*i != oldSize) iconSize.append(*i);
@@ -82,7 +84,7 @@ void KonqDirPart::KonqDirPartPrivate::findAvailableIconSizes(void)
 	    // Scalable icons.
 	    const int progression[] = {16, 22, 32, 48, 64, 96, 128, 192, 256};
 
-	    QValueListConstIterator<int> j = avSizes.begin();
+	    QList<int>::const_iterator j = avSizes.begin();
 	    for (uint i = 0; i < 9; i++) {
 		while (j++ != avSizes.end()) {
 		    if (*j >= progression[i]) {
@@ -107,7 +109,7 @@ int KonqDirPart::KonqDirPartPrivate::findNearestIconSize(int preferred)
     int s1 = iconSize[1];
     if (preferred == 0) return KGlobal::iconLoader()->currentSize(KIcon::Desktop);
     if (preferred <= s1) return s1;
-    for (uint i = 2; i <= iconSize.count(); i++) {
+    for (int i = 2; i <= iconSize.count(); i++) {
         if (preferred <= iconSize[i]) {
 	    if (preferred - s1 <  iconSize[i] - preferred) return s1;
 	    else return iconSize[i];
@@ -185,13 +187,13 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
     KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
     if (root)
     {
-      QValueList<int> avSizes = root->querySizes(KIcon::Desktop);
+      Q3ValueList<int> avSizes = root->querySizes(KIcon::Desktop);
       kdDebug(1203) << "the icon theme handles the following sizes:" << avSizes << endl;
       if (avSizes.count() < 10) {
 	// Use the icon sizes supplied by the theme.
 	// If avSizes contains more than 10 entries, assume a scalable
 	// icon theme.
-	QValueList<int>::Iterator it;
+	Q3ValueList<int>::Iterator it;
 	for (i=1, it=avSizes.begin(); (it!=avSizes.end()) && (i<7); it++, i++)
 	{
 	  d->iconSize[i] = *it;
@@ -270,9 +272,9 @@ QStringList KonqDirPart::mimeFilter() const
     return d->mimeFilters;
 }
 
-QScrollView * KonqDirPart::scrollWidget()
+Q3ScrollView * KonqDirPart::scrollWidget()
 {
-    return static_cast<QScrollView *>(widget());
+    return static_cast<Q3ScrollView *>(widget());
 }
 
 void KonqDirPart::slotBackgroundSettings()
@@ -565,8 +567,8 @@ void KonqDirPart::slotIncIconSize()
 {
     int s = m_pProps->iconSize();
     s = s ? s : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-    uint sizeIndex = 0;
-    for ( uint idx = 1; idx < d->iconSize.count() ; ++idx )
+    int sizeIndex = 0;
+    for ( int idx = 1; idx < d->iconSize.count() ; ++idx )
         if (s == d->iconSize[idx]) {
             sizeIndex = idx;
 	    break;
@@ -582,7 +584,7 @@ void KonqDirPart::slotDecIconSize()
     int s = m_pProps->iconSize();
     s = s ? s : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
     uint sizeIndex = 0;
-    for ( uint idx = 1; idx < d->iconSize.count() ; ++idx )
+    for ( int idx = 1; idx < d->iconSize.count() ; ++idx )
         if (s == d->iconSize[idx]) {
             sizeIndex = idx;
 	    break;

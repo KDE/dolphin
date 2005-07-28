@@ -49,7 +49,7 @@ typedef KGenericFactory<HistorySidebarConfig, QWidget > KCMHistoryFactory;
 K_EXPORT_COMPONENT_FACTORY (kcm_history, KCMHistoryFactory("kcmhistory") )
 
 HistorySidebarConfig::HistorySidebarConfig( QWidget *parent, const char* name, const QStringList & )
-    : KCModule (KCMHistoryFactory::instance(), parent, name)
+    : KCModule (KCMHistoryFactory::instance(), parent, QStringList()+=name)
 {
     KGlobal::locale()->insertCatalogue("konqueror");
 
@@ -59,11 +59,11 @@ HistorySidebarConfig::HistorySidebarConfig( QWidget *parent, const char* name, c
     QVBoxLayout *topLayout = new QVBoxLayout(this, 0, KDialog::spacingHint());
     dialog = new KonqSidebarHistoryDlg(this);
 
-    dialog->spinEntries->setRange( 0, INT_MAX, 1, false );
-    dialog->spinExpire->setRange(  0, INT_MAX, 1, false );
+    dialog->spinEntries->setRange( 0, INT_MAX );
+    dialog->spinExpire->setRange(  0, INT_MAX );
 
-    dialog->spinNewer->setRange( 0, INT_MAX, 1, false );
-    dialog->spinOlder->setRange( 0, INT_MAX, 1, false );
+    dialog->spinNewer->setRange( 0, INT_MAX );
+    dialog->spinOlder->setRange( 0, INT_MAX );
 
     dialog->comboNewer->insertItem( i18n("Minutes"),
                                     KonqSidebarHistorySettings::MINUTES );
@@ -153,13 +153,17 @@ void HistorySidebarConfig::save()
     config.writeEntry( "Maximum age of History entries", age );
 
     QByteArray dataAge;
-    QDataStream streamAge( dataAge, IO_WriteOnly );
+    QDataStream streamAge( &dataAge, IO_WriteOnly );
+
+    streamAge.setVersion(QDataStream::Qt_3_1);
     streamAge << age << "foo";
     kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
 			      "notifyMaxAge(Q_UINT32, QCString)", dataAge );
 
     QByteArray dataCount;
-    QDataStream streamCount( dataCount, IO_WriteOnly );
+    QDataStream streamCount( &dataCount, IO_WriteOnly );
+
+    streamCount.setVersion(QDataStream::Qt_3_1);
     streamCount << count << "foo";
     kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
 			      "notifyMaxCount(Q_UINT32, QCString)", dataCount );

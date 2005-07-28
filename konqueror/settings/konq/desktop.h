@@ -20,6 +20,8 @@
 #define __desktop_h__
 
 #include <kcmodule.h>
+//Added by qt3to4:
+#include <QLabel>
 
 class QSpinBox;
 class QLabel;

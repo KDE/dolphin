@@ -32,13 +32,13 @@
 #include <klocale.h>
 
 KShellCommandExecutor::KShellCommandExecutor(const QString& command, QWidget* parent)
-:QTextView(parent)
+:Q3TextView(parent)
 ,m_shellProcess(0)
 ,m_command(command)
 ,m_readNotifier(0)
 ,m_writeNotifier(0)
 {
-   setTextFormat(PlainText);
+   setTextFormat(Qt::PlainText);
    setFont( KGlobalSettings::fixedFont() );
 }
 
@@ -68,12 +68,12 @@ int KShellCommandExecutor::exec()
    m_shellProcess=new PtyProcess();
    m_shellProcess->setTerminal(true);
 
-   QCStringList args;
+   QList<QByteArray> args;
    args+="-c";
    args+=m_command.local8Bit();
    //kdDebug()<<"------- executing: "<<m_command.local8Bit()<<endl;
 
-   QCString shell( getenv("SHELL") );
+   QByteArray shell( getenv("SHELL") );
    if (shell.isEmpty())
       shell = "sh";
 
@@ -109,7 +109,7 @@ void KShellCommandExecutor::readDataFromShell()
       //kdDebug()<<"***********************\n"<<buffer<<"###################\n"<<endl;
       buffer[bytesRead]='\0';
       this->append(QString::fromLocal8Bit(buffer));
-      setTextFormat(PlainText);
+      setTextFormat(Qt::PlainText);
    };
 }
 
@@ -121,7 +121,7 @@ void KShellCommandExecutor::writeDataToShell()
       i18n( "Input Required:" ), QString::null, &ok, this );
    if ( ok )
    {
-      QCString input=str.local8Bit();
+      Q3CString input=str.local8Bit();
       ::write(m_shellProcess->fd(),input,input.length());
       ::write(m_shellProcess->fd(),"\n",1);
    }
@@ -132,7 +132,7 @@ void KShellCommandExecutor::writeDataToShell()
 
 void KShellCommandExecutor::slotFinished()
 {
-   setTextFormat(PlainText);
+   setTextFormat(Qt::PlainText);
    if (m_shellProcess!=0)
    {
       if (m_readNotifier!=0)

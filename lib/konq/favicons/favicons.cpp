@@ -22,9 +22,13 @@
 
 #include <qbuffer.h>
 #include <qfile.h>
-#include <qcache.h>
+#include <q3cache.h>
 #include <qimage.h>
 #include <qtimer.h>
+#include <QImageReader>
+//Added by qt3to4:
+#include <Q3CString>
+#include <Q3PtrList>
 
 #include <kdatastream.h> // DO NOT REMOVE, otherwise bool marshalling breaks
 #include <kicontheme.h>
@@ -48,13 +52,13 @@ struct FaviconsModulePrivate
     QMap<KIO::Job *, DownloadInfo> downloads;
     QStringList failedDownloads;
     KSimpleConfig *config;
-    QPtrList<KIO::Job> killJobs;
+    Q3PtrList<KIO::Job> killJobs;
     KIO::MetaData metaData;
     QString faviconsDir;
-    QCache<QString> faviconsCache;
+    Q3Cache<QString> faviconsCache;
 };
 
-FaviconsModule::FaviconsModule(const QCString &obj)
+FaviconsModule::FaviconsModule(const Q3CString &obj)
     : KDEDModule(obj)
 {
     // create our favicons folder so that KIconLoader knows about it
@@ -120,7 +124,7 @@ QString FaviconsModule::simplifyURL(const KURL &url)
 {
     // splat any = in the URL so it can be safely used as a config key
     QString result = url.host() + url.path();
-    for (unsigned int i = 0; i < result.length(); ++i)
+    for (int i = 0; i < result.length(); ++i)
         if (result[i] == '=')
             result[i] = '_';
     return result;
@@ -133,7 +137,7 @@ QString FaviconsModule::iconNameFromURL(const KURL &iconURL)
 
     QString result = simplifyURL(iconURL);
     // splat / so it can be safely used as a file name
-    for (unsigned int i = 0; i < result.length(); ++i)
+    for (int i = 0; i < result.length(); ++i)
         if (result[i] == '/')
             result[i] = '_';
 
@@ -216,36 +220,30 @@ void FaviconsModule::slotResult(KIO::Job *job)
     QString iconName;
     if (!job->error())
     {
-        QBuffer buffer(download.iconData);
-        buffer.open(IO_ReadOnly);
-        QImageIO io;
-        io.setIODevice(&buffer);
-        io.setParameters("size=16");
-        // Check here too, the job might have had no error, but the downloaded
-        // file contains just a 404 message sent with a 200 status.
-        // microsoft.com does that... (malte)
-        if (io.read())
-        {
-            // Some sites have nasty 32x32 icons, according to the MS docs
-            // IE ignores them, well, we scale them, otherwise the location
-            // combo / menu will look quite ugly
-            if (io.image().width() != KIcon::SizeSmall || io.image().height() != KIcon::SizeSmall)
-                io.setImage(io.image().smoothScale(KIcon::SizeSmall, KIcon::SizeSmall));
+        QBuffer buffer(&download.iconData);
+        buffer.open(QIODevice::ReadOnly);
+        QImageReader ir( &buffer );
+        QSize desired( 16,16 );
+        if( ir.canRead() ) {
 
-            if (download.isHost)
-                iconName = download.hostOrURL;
-            else
-                iconName = iconNameFromURL(iconURL);
+            while( ir.imageCount() > 1 
+              && ir.currentImageRect() != QRect( 0, 0, desired.width(), desired.height() )
+              && ir.imageCount() >= ir.currentImageNumber() )
+                ir.jumpToNextImage();
+            ir.setScaledSize( desired );
+            QImage img = ir.read();
+            if( !img.isNull() ) {
+                if (download.isHost)
+                    iconName = download.hostOrURL;
+                else
+                    iconName = iconNameFromURL(iconURL);
 
-            iconName = "favicons/" + iconName;
-
-            io.setIODevice(0);
-            io.setFileName(d->faviconsDir + iconName + ".png");
-            io.setFormat("PNG");
-            if (!io.write())
-                iconName = QString::null;
-            else if (!download.isHost)
-                d->config->writeEntry( removeSlash(download.hostOrURL), iconURL.url());
+                iconName = "favicons/" + iconName;
+                if( !img.save( d->faviconsDir + iconName + ".png", "PNG" ) )
+                    iconName = QString::null;
+                else if (!download.isHost)
+                    d->config->writeEntry( removeSlash(download.hostOrURL), iconURL.url());
+            }
         }
     }
     if (iconName.isEmpty())
@@ -265,7 +263,7 @@ void FaviconsModule::slotKill()
 }
 
 extern "C" {
-    KDE_EXPORT KDEDModule *create_favicons(const QCString &obj)
+    KDE_EXPORT KDEDModule *create_favicons(const Q3CString &obj)
     {
         KImageIO::registerFormats();
         return new FaviconsModule(obj);

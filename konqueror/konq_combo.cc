@@ -19,6 +19,13 @@
 
 #include <qpainter.h>
 #include <qstyle.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QPaintEvent>
+#include <QEvent>
+#include <QKeyEvent>
+#include <Q3ValueList>
+#include <QMouseEvent>
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kcompletionbox.h>
@@ -34,10 +41,15 @@
 
 #include <dcopclient.h>
 
+#include "konq_view.h"
 #include "konq_combo.h"
 
 KConfig * KonqCombo::s_config = 0L;
 const int KonqCombo::temporary = 0;
+
+#ifdef __GNUC__
+#warning "This needs massive porting, mostly stubbed out"
+#endif
 
 static QString titleOfURL( const KURL& url )
 {
@@ -51,7 +63,8 @@ static QString titleOfURL( const KURL& url )
     return ( historyentry ? historyentry->title : QString::null );
 }
 
-class Q_EXPORT KonqComboListBoxPixmap : public QListBoxItem
+#if 0
+class Q_EXPORT KonqComboListBoxPixmap : public Q3ListBoxItem
 {
 public:
     KonqComboListBoxPixmap( const QString& text );
@@ -59,8 +72,8 @@ public:
 
     const QPixmap *pixmap() const { return &pm; }
 
-    int height( const QListBox * ) const;
-    int width( const QListBox * )  const;
+    int height( const Q3ListBox * ) const;
+    int width( const Q3ListBox * )  const;
 
     int rtti() const;
     static int RTTI;
@@ -90,12 +103,13 @@ public:
     void setItems( const QStringList& items );
     void insertStringList( const QStringList & list, int index = -1 );
 };
+#endif
 
 KonqCombo::KonqCombo( QWidget *parent, const char *name )
           : KHistoryCombo( parent, name ),
             m_returnPressed( false ), 
             m_permanent( false ),
-            m_modifier( NoButton ),
+            m_modifier( Qt::NoButton ),
 	    m_pageSecurity( KonqMainWindow::NotCrypted )
 {
     setInsertionPolicy( NoInsertion );
@@ -112,14 +126,14 @@ KonqCombo::KonqCombo( QWidget *parent, const char *name )
     // handling of signals later.
     setHandleSignals( true );
 
-    KonqComboLineEdit *edit = new KonqComboLineEdit( this, "combo lineedit" );
-    edit->setHandleSignals( true );
-    edit->setCompletionBox( new KonqComboCompletionBox( edit, "completion box" ) );
-    setLineEdit( edit );
+    //KonqComboLineEdit *edit = new KonqComboLineEdit( this, "combo lineedit" );
+    //edit->setHandleSignals( true );
+    //edit->setCompletionBox( new KonqComboCompletionBox( edit, "completion box" ) );
+    //setLineEdit( edit );
 
     completionBox()->setTabHandling( true );
 
-    // Make the lineedit consume the Key_Enter event...
+    // Make the lineedit consume the Qt::Key_Enter event...
     setTrapReturnKey( true );
 
     connect( this, SIGNAL(cleared() ), SLOT(slotCleared()) );
@@ -152,7 +166,9 @@ void KonqCombo::setURL( const QString& url )
     if ( m_returnPressed ) { // Really insert...
         m_returnPressed = false;      
         QByteArray data;
-        QDataStream s( data, IO_WriteOnly );
+        QDataStream s( &data, QIODevice::WriteOnly );
+
+        s.setVersion(QDataStream::Qt_3_1);
         s << url << kapp->dcopClient()->defaultObject();
         kapp->dcopClient()->send( "konqueror*", "KonquerorIface",
                                   "addToCombo(QString,QCString)", data);
@@ -235,21 +251,21 @@ void KonqCombo::applyPermanent()
 
 void KonqCombo::insertItem( const QString &text, int index, const QString& title )
 {
-    KonqComboListBoxPixmap* item = new KonqComboListBoxPixmap( 0, text, title );
-    listBox()->insertItem( item, index );
+    //KonqComboListBoxPixmap* item = new KonqComboListBoxPixmap( 0, text, title );
+    KHistoryCombo::insertItem( text /*item*/, index );
 }
 
 void KonqCombo::insertItem( const QPixmap &pixmap, const QString& text, int index, const QString& title )
 {
-    KonqComboListBoxPixmap* item = new KonqComboListBoxPixmap( pixmap, text, title );
-    listBox()->insertItem( item, index );
+    //KonqComboListBoxPixmap* item = new KonqComboListBoxPixmap( pixmap, text, title );
+    KHistoryCombo::insertItem( pixmap, text, /*item, */ index );
 }
 
 void KonqCombo::updateItem( const QPixmap& pix, const QString& t, int index, const QString& title )
 {
     // No need to flicker
     if (text( index ) == t &&
-        (pixmap(index) && pixmap(index)->serialNumber() == pix.serialNumber()))
+        (!pixmap(index).isNull() && pixmap(index).serialNumber() == pix.serialNumber()))
         return;
 
     // kdDebug(1202) << "KonqCombo::updateItem: item='" << t << "', index='"
@@ -260,8 +276,9 @@ void KonqCombo::updateItem( const QPixmap& pix, const QString& t, int index, con
     // ### use QComboBox::changeItem(), once that finally works
     // Well lets try it now as it seems to work fine for me. We
     // can always revert :)
-    KonqComboListBoxPixmap* item = new KonqComboListBoxPixmap( pix, t, title );
-    listBox()->changeItem( item, index );
+    //KonqComboListBoxPixmap* item = new KonqComboListBoxPixmap( pix, t, title );
+    //listBox()->changeItem( item, index );
+    changeItem( pix, t, index );
 
     /*
     setUpdatesEnabled( false );
@@ -338,7 +355,7 @@ void KonqCombo::loadItems()
 
 void KonqCombo::slotSetIcon( int index )
 {
-    if( pixmap( index ) == NULL )
+    if( pixmap( index ).isNull())
         // on-demand icon loading
         updateItem( KonqPixmapProvider::self()->pixmapFor( text( index ),
                     KIcon::SizeSmall ), text( index ), index, 
@@ -346,11 +363,22 @@ void KonqCombo::slotSetIcon( int index )
     update();
 }
 
+void KonqCombo::getStyleOption(QStyleOptionComboBox* comboOpt)
+{
+   //We only use this for querying metrics,so it's rough..
+   comboOpt->init(this);
+   comboOpt->editable = isEditable();
+   comboOpt->frame    = hasFrame();
+   comboOpt->iconSize = iconSize();
+   comboOpt->currentIcon = itemIcon(currentIndex());
+   comboOpt->currentText = currentText();
+}
+
 void KonqCombo::popup()
 {
   for( int i = 0; i < count(); ++i )
     {
-        if( pixmap( i ) == NULL || pixmap( i )->isNull() )
+        if( pixmap( i ).isNull() )
         {
             // on-demand icon loading
             updateItem( KonqPixmapProvider::self()->pixmapFor( text( i ),
@@ -393,15 +421,15 @@ bool KonqCombo::eventFilter( QObject *o, QEvent *ev )
         if ( type == QEvent::KeyPress ) {
             QKeyEvent *e = static_cast<QKeyEvent *>( ev );
 
-            if ( e->key() == Key_Return || e->key() == Key_Enter ) {
+            if ( e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter ) {
                 m_modifier = e->state();
                 return false;
             }
 
             if ( KKey( e ) == KKey( int( KStdAccel::deleteWordBack() ) ) ||
                  KKey( e ) == KKey( int( KStdAccel::deleteWordForward() ) ) ||
-                 ((e->state() & ControlButton) &&
-                   (e->key() == Key_Left || e->key() == Key_Right) ) ) {
+                 ((e->modifiers() & Qt::ControlModifier) &&
+                   (e->key() == Qt::Key_Left || e->key() == Qt::Key_Right) ) ) {
                 selectWord(e);
                 e->accept();
                 return true;
@@ -441,11 +469,11 @@ void KonqCombo::selectWord(QKeyEvent *e)
     int count = 0;  
 
     // TODO: make these a parameter when in kdelibs/kdeui...
-    QValueList<QChar> chars;
+    Q3ValueList<QChar> chars;
     chars << QChar('/') << QChar('.') << QChar('?') << QChar('#') << QChar(':');    
     bool allow_space_break = true;
 
-    if( e->key() == Key_Left || e->key() == Key_Backspace ) {
+    if( e->key() == Qt::Key_Left || e->key() == Qt::Key_Backspace ) {
         do {
             pos--;
             count++;
@@ -453,10 +481,10 @@ void KonqCombo::selectWord(QKeyEvent *e)
                 break;
         } while( pos >= 0 && (chars.findIndex(text[pos]) == -1 || count <= 1) );
 
-        if( e->state() & ShiftButton ) {
+        if( e->modifiers() & Qt::ShiftModifier ) {
                   edit->cursorForward(true, 1-count);
         } 
-        else if(  e->key() == Key_Backspace ) {
+        else if(  e->key() == Qt::Key_Backspace ) {
             edit->cursorForward(false, 1-count);
             QString text = edit->text();
             int pos_to_right = edit->text().length() - pos_old;
@@ -468,7 +496,7 @@ void KonqCombo::selectWord(QKeyEvent *e)
             edit->cursorForward(false, 1-count);
         }
      } 
-     else if( e->key() == Key_Right || e->key() == Key_Delete ){
+     else if( e->key() == Qt::Key_Right || e->key() == Qt::Key_Delete ){
         do {
             pos++;
             count++;
@@ -476,10 +504,10 @@ void KonqCombo::selectWord(QKeyEvent *e)
                       break;
         } while( pos < (int) text.length() && chars.findIndex(text[pos]) == -1 );
 
-        if( e->state() & ShiftButton ) {
+        if( e->modifiers() & Qt::ShiftModifier ) {
             edit->cursorForward(true, count+1);
         } 
-        else if(  e->key() == Key_Delete ) {
+        else if(  e->key() == Qt::Key_Delete ) {
             edit->cursorForward(false, -count-1);
             QString text = edit->text();
             int pos_to_right = text.length() - pos - 1;
@@ -497,7 +525,9 @@ void KonqCombo::selectWord(QKeyEvent *e)
 void KonqCombo::slotCleared()
 {
     QByteArray data;
-    QDataStream s( data, IO_WriteOnly );
+    QDataStream s( &data, QIODevice::WriteOnly );
+
+    s.setVersion(QDataStream::Qt_3_1);
     s << kapp->dcopClient()->defaultObject();
     kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "comboCleared(QCString)", data);
 }
@@ -520,10 +550,14 @@ void KonqCombo::mousePressEvent( QMouseEvent *e )
 {
     m_dragStart = QPoint(); // null QPoint
 
-    if ( e->button() == LeftButton && pixmap( currentItem()) ) {
+    if ( e->button() == Qt::LeftButton && !pixmap( currentItem()).isNull() ) {
         // check if the pixmap was clicked
         int x = e->pos().x();
-        int x0 = QStyle::visualRect( style().querySubControlMetrics( QStyle::CC_ComboBox, this, QStyle::SC_ComboBoxEditField ), this ).x();
+        QStyleOptionComboBox comboOpt;
+        getStyleOption(&comboOpt);
+        int x0 = QStyle::visualRect( layoutDirection(), rect(),
+            style()->subControlRect( QStyle::CC_ComboBox, &comboOpt, QStyle::SC_ComboBoxEditField,
+                                     this ) ).x();
 
         if ( x > x0 + 2 && x < lineEdit()->x() ) {
             m_dragStart = e->pos();
@@ -531,7 +565,7 @@ void KonqCombo::mousePressEvent( QMouseEvent *e )
         }
     }
 
-    if ( e->button() == LeftButton && m_pageSecurity!=KonqMainWindow::NotCrypted )
+    if ( e->button() == Qt::LeftButton && m_pageSecurity!=KonqMainWindow::NotCrypted )
         emit showPageSecurity();
 
     KComboBox::mousePressEvent( e );
@@ -543,7 +577,7 @@ void KonqCombo::mouseMoveEvent( QMouseEvent *e )
     if ( m_dragStart.isNull() || currentText().isEmpty() )
         return;
 
-    if ( e->state() & LeftButton &&
+    if ( e->state() & Qt::LeftButton &&
          (e->pos() - m_dragStart).manhattanLength() >
          KGlobalSettings::dndEventDelay() )
     {
@@ -568,7 +602,7 @@ void KonqCombo::slotActivated( const QString& text )
     applyPermanent();
     m_returnPressed = true;
     emit activated( text, m_modifier );
-    m_modifier = NoButton;
+    m_modifier = Qt::NoButton;
 }
 
 void KonqCombo::setConfig( KConfig *kc )
@@ -581,8 +615,12 @@ void KonqCombo::paintEvent( QPaintEvent *pe )
     QComboBox::paintEvent( pe );
 
     QLineEdit *edit = lineEdit();
-    QRect re = style().querySubControlMetrics( QStyle::CC_ComboBox, this, QStyle::SC_ComboBoxEditField );
-    re = QStyle::visualRect(re, this);
+
+    QStyleOptionComboBox comboOpt;
+    getStyleOption(&comboOpt);
+    QRect re = style()->subControlRect( QStyle::CC_ComboBox, &comboOpt,
+                                        QStyle::SC_ComboBoxEditField, this );
+    re = QStyle::visualRect(layoutDirection(), rect(), re);
     
     if ( m_pageSecurity!=KonqMainWindow::NotCrypted ) {
         QColor color(245, 246, 190);
@@ -656,15 +694,16 @@ bool KonqCombo::hasSufficientContrast(const QColor &c1, const QColor &c2)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+#if 0
 KonqComboListBoxPixmap::KonqComboListBoxPixmap( const QString& text )
-    : QListBoxItem()
+    : Q3ListBoxItem()
 {
     setText( text );
     lookup_pending = true;
 }
 
 KonqComboListBoxPixmap::KonqComboListBoxPixmap( const QPixmap & pix, const QString& text, const QString& _title )
-  : QListBoxItem()
+  : Q3ListBoxItem()
 {
     pm = pix;
     title = _title;
@@ -720,7 +759,7 @@ void KonqComboListBoxPixmap::paint( QPainter *painter )
     }
 }
 
-int KonqComboListBoxPixmap::height( const QListBox* lb ) const
+int KonqComboListBoxPixmap::height( const Q3ListBox* lb ) const
 {
     int h;
     if ( text().isEmpty() )
@@ -730,7 +769,7 @@ int KonqComboListBoxPixmap::height( const QListBox* lb ) const
     return QMAX( h, QApplication::globalStrut().height() );
 }
 
-int KonqComboListBoxPixmap::width( const QListBox* lb ) const
+int KonqComboListBoxPixmap::width( const Q3ListBox* lb ) const
 {
     if ( text().isEmpty() )
         return QMAX( pm.width() + 6, QApplication::globalStrut().width() );
@@ -754,9 +793,10 @@ bool KonqComboListBoxPixmap::reuse( const QString& newText )
     setText( newText );
     return true;
 }
-
+#endif
 ///////////////////////////////////////////////////////////////////////////////
 
+#if 0
 KonqComboLineEdit::KonqComboLineEdit( QWidget *parent, const char *name )
                   :KLineEdit( parent, name ) {}
 
@@ -780,7 +820,7 @@ void KonqComboLineEdit::setCompletedItems( const QStringList& items )
             bool wasSelected = completionbox->isSelected( completionbox->currentItem() );
             const QString currentSelection = completionbox->currentText();
             completionbox->setItems( items );
-            QListBoxItem* item = completionbox->findItem( currentSelection, Qt::ExactMatch );
+            Q3ListBoxItem* item = completionbox->findItem( currentSelection, Qt::ExactMatch );
             if( !item || !wasSelected )
             {
                 wasSelected = false;
@@ -811,9 +851,10 @@ void KonqComboLineEdit::setCompletedItems( const QStringList& items )
         if ( completionbox && completionbox->isVisible() )
             completionbox->hide();
 }
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////
-
+#if 0
 KonqComboCompletionBox::KonqComboCompletionBox( QWidget *parent, const char *name )
                        :KCompletionBox( parent, name ) {}
 
@@ -822,7 +863,7 @@ void KonqComboCompletionBox::setItems( const QStringList& items )
     bool block = signalsBlocked();
     blockSignals( true );
 
-    QListBoxItem* item = firstItem();
+    Q3ListBoxItem* item = firstItem();
     if ( !item )
         insertStringList( items );
     else {
@@ -851,7 +892,7 @@ void KonqComboCompletionBox::setItems( const QStringList& items )
         if ( item )
             dirty = true;
 
-        QListBoxItem* tmp = item;
+        Q3ListBoxItem* tmp = item;
         while ( (item = tmp ) ) {
             tmp = item->next();
             delete item;
@@ -878,5 +919,5 @@ void KonqComboCompletionBox::insertStringList( const QStringList & list, int ind
     for ( QStringList::ConstIterator it = list.begin(); it != list.end(); ++it )
         insertItem( new KonqComboListBoxPixmap( *it ), index++ );
 }
-
+#endif
 #include "konq_combo.moc"

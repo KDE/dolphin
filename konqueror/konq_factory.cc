@@ -23,6 +23,7 @@
 #include "konq_factory.h"
 #include "version.h"
 
+#include <konq_view.h>
 #include <konq_settings.h>
 #include <konq_mainwindow.h>
 #include <kdebug.h>

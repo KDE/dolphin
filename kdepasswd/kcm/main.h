@@ -22,6 +22,10 @@
 #include <kcmodule.h>
 
 #include "main_widget.h"
+//Added by qt3to4:
+#include <QPixmap>
+#include <QEvent>
+#include <QDropEvent>
 
 class KAboutData;
 class KUser;

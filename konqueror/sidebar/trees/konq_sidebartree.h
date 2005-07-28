@@ -26,8 +26,17 @@
 #include <kdirnotify.h>
 #include <qmap.h>
 #include <qpoint.h>
-#include <qstrlist.h>
+#include <q3strlist.h>
 #include <qtooltip.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <Q3CString>
+#include <QDragLeaveEvent>
+#include <Q3PtrList>
+#include <QDragMoveEvent>
+#include <QEvent>
+#include <QDropEvent>
+#include <QDragEnterEvent>
 
 class KonqSidebarTreeModule;
 class KonqSidebarTreeItem;
@@ -48,19 +57,6 @@ typedef struct DirTreeConfigData_
   int type;
   QString relDir;
 } DirTreeConfigData;
-
-
-class KonqSidebarTreeToolTip : public QToolTip
-{
-public:
-    KonqSidebarTreeToolTip( QListView *view ) : QToolTip( view->viewport() ), m_view( view ) {}
-
-protected:
-    virtual void maybeTip( const QPoint & );
-
-private:
-    QListView *m_view;
-};
 
 typedef enum {
     SidebarTreeMode, // used if the drop is accepted by a KonqSidebarTreeItem. otherwise
@@ -129,13 +125,13 @@ protected:
 
     virtual void leaveEvent( QEvent * );
 
-    virtual QDragObject* dragObject();
+    virtual Q3DragObject* dragObject();
 
 private slots:
-    void slotDoubleClicked( QListViewItem *item );
-    void slotExecuted( QListViewItem *item );
-    void slotMouseButtonPressed(int _button, QListViewItem* _item, const QPoint&, int col);
-    void slotMouseButtonClicked(int _button, QListViewItem* _item, const QPoint&, int col);
+    void slotDoubleClicked( Q3ListViewItem *item );
+    void slotExecuted( Q3ListViewItem *item );
+    void slotMouseButtonPressed(int _button, Q3ListViewItem* _item, const QPoint&, int col);
+    void slotMouseButtonClicked(int _button, Q3ListViewItem* _item, const QPoint&, int col);
     void slotSelectionChanged();
 
     void slotAnimation();
@@ -144,7 +140,7 @@ private slots:
 
     void rescanConfiguration();
 
-    void slotItemRenamed(QListViewItem*, const QString &, int);
+    void slotItemRenamed(Q3ListViewItem*, const QString &, int);
 
     void slotCreateFolder();
     void slotDelete();
@@ -164,10 +160,10 @@ private:
     
 
 private:
-    QPtrList<KonqSidebarTreeTopLevelItem> m_topLevelItems;
+    Q3PtrList<KonqSidebarTreeTopLevelItem> m_topLevelItems;
     KonqSidebarTreeTopLevelItem *m_currentTopLevelItem;
 
-    QPtrList<KonqSidebarTreeModule> m_lstModules;
+    Q3PtrList<KonqSidebarTreeModule> m_lstModules;
 
     KonqSidebarPlugin  *m_part;
 
@@ -176,7 +172,7 @@ private:
         AnimationInfo( const char * _iconBaseName, uint _iconCount, const QPixmap & _originalPixmap )
             : iconBaseName(_iconBaseName), iconCount(_iconCount), iconNumber(1), originalPixmap(_originalPixmap) {}
         AnimationInfo() : iconCount(0) {}
-        QCString iconBaseName;
+        Q3CString iconBaseName;
         uint iconCount;
         uint iconNumber;
         QPixmap originalPixmap;
@@ -186,9 +182,9 @@ private:
 
     QTimer *m_animationTimer;
 
-    QListViewItem *m_currentBeforeDropItem; // The item that was current before the drag-enter event happened
-    QListViewItem *m_dropItem; // The item we are moving the mouse over (during a drag)
-    QStrList m_lstDropFormats;
+    Q3ListViewItem *m_currentBeforeDropItem; // The item that was current before the drag-enter event happened
+    Q3ListViewItem *m_dropItem; // The item we are moving the mouse over (during a drag)
+    Q3StrList m_lstDropFormats;
 
     QTimer *m_autoOpenTimer;
 
@@ -196,7 +192,6 @@ private:
     //KURL m_dirtreeDir;
     DirTreeConfigData m_dirtreeDir;
 
-    KonqSidebarTreeToolTip m_toolTip;
     bool m_scrollingLocked;
 
     getModule getPluginFactory(QString name);
@@ -209,11 +204,15 @@ private:
 
     KonqSidebarTree_Internal *d;
 
+#ifndef Q_MOC_RUN
 #undef signals
 #define signals public
+#endif
 signals:
+#ifndef Q_MOC_RUN
 #undef signals
 #define signals protected
+#endif
     void openURLRequest( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
     void createNewWindow( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
     void popupMenu( const QPoint &global, const KURL &url,

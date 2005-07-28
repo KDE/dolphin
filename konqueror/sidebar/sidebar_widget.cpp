@@ -19,8 +19,7 @@
 #include <limits.h>
 
 #include <qdir.h>
-#include <qpopupmenu.h>
-#include <qhbox.h>
+#include <q3popupmenu.h>
 #include <qpushbutton.h>
 #include <qwhatsthis.h>
 #include <qlayout.h>
@@ -49,7 +48,7 @@
 #include "sidebar_widget.moc"
 
 
-addBackEnd::addBackEnd(QWidget *parent,class QPopupMenu *addmenu,bool universal,const QString &currentProfile, const char *name)
+addBackEnd::addBackEnd(QWidget *parent,class Q3PopupMenu *addmenu,bool universal,const QString &currentProfile, const char *name)
  : QObject(parent,name),
    m_parent(parent)
 {
@@ -99,8 +98,7 @@ void addBackEnd::aboutToShowAddMenu()
 		QString icon = confFile->readIcon();
 		if (!icon.isEmpty())
 		{
-			menu->insertItem(SmallIcon(icon),
-					 confFile->readEntry("Name"), i);
+			menu->insertItem(QIcon(SmallIcon(icon)), confFile->readEntry("Name"), i);
 		} else {
 			menu->insertItem(confFile->readEntry("Name"), i);
 		}
@@ -260,7 +258,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 		
 	m_area = new KDockArea(this);
 	m_area->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-	m_mainDockWidget = m_area->createDockWidget("free", 0);
+	m_mainDockWidget = m_area->createDockWidget("free", QPixmap());
 	m_mainDockWidget->setWidget(new QWidget(m_mainDockWidget));
 	m_area->setMainDockWidget(m_mainDockWidget);
 	m_area->setMinimumWidth(0);
@@ -270,8 +268,8 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
    	m_buttonBar = new KMultiTabBar(KMultiTabBar::Vertical,this);
 	m_buttonBar->showActiveTabTexts(true);
 
-	m_menu = new QPopupMenu(this, "Sidebar_Widget::Menu");
-	QPopupMenu *addMenu = new QPopupMenu(this, "Sidebar_Widget::addPopup");
+	m_menu = new Q3PopupMenu(this, "Sidebar_Widget::Menu");
+	Q3PopupMenu *addMenu = new Q3PopupMenu(this, "Sidebar_Widget::addPopup");
 	m_menu->insertItem(i18n("Add New"), addMenu, 0);
 	m_menu->insertSeparator();
 	m_menu->insertItem(i18n("Multiple Views"), 1);
@@ -654,12 +652,11 @@ void Sidebar_Widget::stdAction(const char *handlestd)
 
 	kdDebug() << "Try calling >active< module's action" << handlestd << endl;
 
-	int id = mod->module->metaObject()->findSlot( handlestd );
+	int id = mod->module->metaObject()->indexOfSlot( handlestd );
   	if ( id == -1 )
 		return;
 	kdDebug() << "Action slot was found, it will be called now" << endl;
-  	QUObject o[ 1 ];
-	mod->module->qt_invoke( id, o );
+	QMetaObject::invokeMethod( mod->module, handlestd );
   	return;
 }
 
@@ -813,7 +810,7 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 {
 
-	if (ev->type()==QEvent::MouseButtonPress && ((QMouseEvent *)ev)->button()==QMouseEvent::RightButton)
+	if (ev->type()==QEvent::MouseButtonPress && ((QMouseEvent *)ev)->button()==Qt::RightButton)
 	{
 		KMultiTabBarTab *bt=dynamic_cast<KMultiTabBarTab*>(obj);
 		if (bt)
@@ -859,7 +856,7 @@ bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 
 void Sidebar_Widget::mousePressEvent(QMouseEvent *ev)
 {
-	if (ev->type()==QEvent::MouseButtonPress && ((QMouseEvent *)ev)->button()==QMouseEvent::RightButton)
+	if (ev->type()==QEvent::MouseButtonPress && ((QMouseEvent *)ev)->button()==Qt::RightButton)
 		m_menu->exec(QCursor::pos());
 }
 
@@ -902,7 +899,7 @@ bool Sidebar_Widget::createView( ButtonInfo *data)
 	confFile = new KSimpleConfig(data->file,true);
 	confFile->setGroup("Desktop Entry");
 
-	data->dock = m_area->createDockWidget(confFile->readEntry("Name",i18n("Unknown")),0);
+	data->dock = m_area->createDockWidget(confFile->readEntry("Name",i18n("Unknown")),QString());
 	data->module = loadModule(data->dock,data->file,data->libName,data);
 
 	if (data->module == 0)
@@ -1076,7 +1073,7 @@ KParts::URLArgs args;
 
 	args.setContentType("Content-Type: " + contentType);
 	args.postData = formData;
-	args.setDoPost(QCString(action).lower() == "post");
+	args.setDoPost(Q3CString(action).lower() == "post");
 	// boundary?
 	emit getExtension()->openURLRequest(KURL( url ), args);
 }
@@ -1171,50 +1168,50 @@ void Sidebar_Widget::popupMenu( KXMLGUIClient *client,
 
 void Sidebar_Widget::connectModule(QObject *mod)
 {
-	if (mod->metaObject()->findSignal("started(KIO::Job*)") != -1) {
+	if (mod->metaObject()->indexOfSignal("started(KIO::Job*)") != -1) {
 		connect(mod,SIGNAL(started(KIO::Job *)),this, SIGNAL(started(KIO::Job*)));
 	}
 
-	if (mod->metaObject()->findSignal("completed()") != -1) {
+	if (mod->metaObject()->indexOfSignal("completed()") != -1) {
 		connect(mod,SIGNAL(completed()),this,SIGNAL(completed()));
 	}
 
-	if (mod->metaObject()->findSignal("popupMenu(const QPoint&,const KURL&,const QString&,mode_t)") != -1) {
+	if (mod->metaObject()->indexOfSignal("popupMenu(const QPoint&,const KURL&,const QString&,mode_t)") != -1) {
 		connect(mod,SIGNAL(popupMenu( const QPoint &, const KURL &,
 			const QString &, mode_t)),this,SLOT(popupMenu( const
 			QPoint &, const KURL&, const QString &, mode_t)));
 	}
 
-	if (mod->metaObject()->findSignal("popupMenu(KXMLGUIClient*,const QPoint&,const KURL&,const QString&,mode_t)") != -1) {
+	if (mod->metaObject()->indexOfSignal("popupMenu(KXMLGUIClient*,const QPoint&,const KURL&,const QString&,mode_t)") != -1) {
 		connect(mod,SIGNAL(popupMenu( KXMLGUIClient *, const QPoint &,
 			const KURL &,const QString &, mode_t)),this,
 			SLOT(popupMenu( KXMLGUIClient *, const QPoint &,
 			const KURL &,const QString &, mode_t)));
 	}
 
-	if (mod->metaObject()->findSignal("popupMenu(const QPoint&,const KFileItemList&)") != -1) {
+	if (mod->metaObject()->indexOfSignal("popupMenu(const QPoint&,const KFileItemList&)") != -1) {
 		connect(mod,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )),
 			this,SLOT(popupMenu( const QPoint &, const KFileItemList & )));
 	}
 
-	if (mod->metaObject()->findSignal("openURLRequest(const KURL&,const KParts::URLArgs&)") != -1) {
+	if (mod->metaObject()->indexOfSignal("openURLRequest(const KURL&,const KParts::URLArgs&)") != -1) {
 		connect(mod,SIGNAL(openURLRequest( const KURL &, const KParts::URLArgs &)),
 			this,SLOT(openURLRequest( const KURL &, const KParts::URLArgs &)));
 	}
 
-	if (mod->metaObject()->findSignal("submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&)") != -1) {
+	if (mod->metaObject()->indexOfSignal("submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&)") != -1) {
 		connect(mod,
 			SIGNAL(submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&)),
 			this,
 			SLOT(submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&)));
 	}
 
-	if (mod->metaObject()->findSignal("enableAction(const char*,bool)") != -1) {
+	if (mod->metaObject()->indexOfSignal("enableAction(const char*,bool)") != -1) {
 		connect(mod,SIGNAL(enableAction( const char *, bool)),
 			this,SLOT(enableAction(const char *, bool)));
 	}
 
-	if (mod->metaObject()->findSignal("createNewWindow(const KURL&,const KParts::URLArgs&)") != -1) {
+	if (mod->metaObject()->indexOfSignal("createNewWindow(const KURL&,const KParts::URLArgs&)") != -1) {
 		connect(mod,SIGNAL(createNewWindow( const KURL &, const KParts::URLArgs &)),
 			this,SLOT(createNewWindow( const KURL &, const KParts::URLArgs &)));
 	}
@@ -1259,7 +1256,7 @@ void Sidebar_Widget::resizeEvent(QResizeEvent* ev)
                 QSplitter *split = splitter();
 		if (split && (m_savedWidth != newWidth))
 		{
-			QValueList<int> sizes = split->sizes();
+			Q3ValueList<int> sizes = split->sizes();
 			if ((sizes.count() >= 2) && (sizes[1]))
 			{
 				m_savedWidth = newWidth;

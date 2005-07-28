@@ -29,6 +29,11 @@
 #include <dcopclient.h>
 #include <kdebug.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <QX11Info>
+#include <Q3ValueList>
+#include <Q3CString>
+#include <Q3PtrList>
 #include "konq_settingsxt.h"
 
 // these DCOP calls come from outside, so any windows created by these
@@ -39,7 +44,6 @@
 // TODO a valid timestamp should be passed in the DCOP calls that
 // are not for user scripting
 #include <X11/Xlib.h>
-extern Time qt_x_user_time;
 
 KonquerorIface::KonquerorIface()
  : DCOPObject( "KonquerorIface" )
@@ -52,14 +56,14 @@ KonquerorIface::~KonquerorIface()
 
 DCOPRef KonquerorIface::openBrowserWindow( const QString &url )
 {
-    qt_x_user_time = 0;
+    QX11Info::setAppUserTime( 0 );
     KonqMainWindow *res = KonqMisc::createSimpleWindow( KURL(url) );
     if ( !res )
         return DCOPRef();
     return res->dcopObject();
 }
 
-DCOPRef KonquerorIface::openBrowserWindowASN( const QString &url, const QCString& startup_id )
+DCOPRef KonquerorIface::openBrowserWindowASN( const QString &url, const DCOPCString& startup_id )
 {
     kapp->setStartupId( startup_id );
     return openBrowserWindow( url );
@@ -70,7 +74,7 @@ DCOPRef KonquerorIface::createNewWindow( const QString &url )
     return createNewWindow( url, QString::null, false );
 }
 
-DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const QCString& startup_id, bool tempFile )
+DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const DCOPCString& startup_id, bool tempFile )
 {
     kapp->setStartupId( startup_id );
     return createNewWindow( url, QString::null, tempFile );
@@ -78,14 +82,14 @@ DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const QCString& 
 
 DCOPRef KonquerorIface::createNewWindowWithSelection( const QString &url, QStringList filesToSelect )
 {
-    qt_x_user_time = 0;
+    QX11Info::setAppUserTime( 0 );
     KonqMainWindow *res = KonqMisc::createNewWindow( KURL(url), KParts::URLArgs(), false, filesToSelect );
     if ( !res )
         return DCOPRef();
     return res->dcopObject();
 }
 
-DCOPRef KonquerorIface::createNewWindowWithSelectionASN( const QString &url, QStringList filesToSelect, const QCString &startup_id )
+DCOPRef KonquerorIface::createNewWindowWithSelectionASN( const QString &url, QStringList filesToSelect, const DCOPCString &startup_id )
 {
     kapp->setStartupId( startup_id );
     return createNewWindowWithSelection( url, filesToSelect );
@@ -93,7 +97,7 @@ DCOPRef KonquerorIface::createNewWindowWithSelectionASN( const QString &url, QSt
 
 DCOPRef KonquerorIface::createNewWindow( const QString &url, const QString &mimetype, bool tempFile )
 {
-    qt_x_user_time = 0;
+    QX11Info::setAppUserTime( 0 );
     KParts::URLArgs args;
     args.serviceType = mimetype;
     // Filter the URL, so that "kfmclient openURL gg:foo" works also when konq is already running
@@ -105,7 +109,7 @@ DCOPRef KonquerorIface::createNewWindow( const QString &url, const QString &mime
 }
 
 DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const QString &mimetype,
-    const QCString& startup_id, bool tempFile )
+    const DCOPCString& startup_id, bool tempFile )
 {
     kapp->setStartupId( startup_id );
     return createNewWindow( url, mimetype, tempFile );
@@ -113,7 +117,7 @@ DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const QString &m
 
 DCOPRef KonquerorIface::createBrowserWindowFromProfile( const QString &path )
 {
-    qt_x_user_time = 0;
+    QX11Info::setAppUserTime( 0 );
     kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( const QString &path ) " << endl;
     kdDebug(1202) << path << endl;
     KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, QString::null );
@@ -122,7 +126,7 @@ DCOPRef KonquerorIface::createBrowserWindowFromProfile( const QString &path )
     return res->dcopObject();
 }
 
-DCOPRef KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, const QCString& startup_id )
+DCOPRef KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, const DCOPCString& startup_id )
 {
     kapp->setStartupId( startup_id );
     return createBrowserWindowFromProfile( path );
@@ -130,7 +134,7 @@ DCOPRef KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, 
 
 DCOPRef KonquerorIface::createBrowserWindowFromProfile( const QString & path, const QString &filename )
 {
-    qt_x_user_time = 0;
+    QX11Info::setAppUserTime( 0 );
     kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( path, filename ) " << endl;
     kdDebug(1202) << path << "," << filename << endl;
     KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename );
@@ -140,7 +144,7 @@ DCOPRef KonquerorIface::createBrowserWindowFromProfile( const QString & path, co
 }
 
 DCOPRef KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, const QString &filename,
-    const QCString& startup_id )
+    const DCOPCString& startup_id )
 {
     kapp->setStartupId( startup_id );
     return createBrowserWindowFromProfile( path, filename );
@@ -148,7 +152,7 @@ DCOPRef KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, 
 
 DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURL( const QString & path, const QString &filename, const QString &url )
 {
-    qt_x_user_time = 0;
+    QX11Info::setAppUserTime( 0 );
     KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename, KURL(url) );
     if ( !res )
         return DCOPRef();
@@ -156,7 +160,7 @@ DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURL( const QString & pa
 }
 
 DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURLASN( const QString & path, const QString &filename, const QString &url,
-    const QCString& startup_id )
+    const DCOPCString& startup_id )
 {
     kapp->setStartupId( startup_id );
     return createBrowserWindowFromProfileAndURL( path, filename, url );
@@ -164,7 +168,7 @@ DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURLASN( const QString &
 
 DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype )
 {
-    qt_x_user_time = 0;
+    QX11Info::setAppUserTime( 0 );
     KParts::URLArgs args;
     args.serviceType = mimetype;
     KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename, KURL(url), args );
@@ -174,7 +178,7 @@ DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURL( const QString &pat
 }
 
 DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURLASN( const QString & path, const QString &filename, const QString &url, const QString &mimetype,
-    const QCString& startup_id )
+    const DCOPCString& startup_id )
 {
     kapp->setStartupId( startup_id );
     return createBrowserWindowFromProfileAndURL( path, filename, url, mimetype );
@@ -186,10 +190,10 @@ void KonquerorIface::reparseConfiguration()
   KGlobal::config()->reparseConfiguration();
   KonqFMSettings::reparseConfiguration();
 
-  QPtrList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
+  Q3PtrList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
   if ( mainWindows )
   {
-    QPtrListIterator<KonqMainWindow> it( *mainWindows );
+    Q3PtrListIterator<KonqMainWindow> it( *mainWindows );
     for (; it.current(); ++it )
         it.current()->reparseConfiguration();
   }
@@ -197,11 +201,11 @@ void KonquerorIface::reparseConfiguration()
 
 void KonquerorIface::updateProfileList()
 {
-  QPtrList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
+  Q3PtrList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
   if ( !mainWindows )
     return;
 
-  QPtrListIterator<KonqMainWindow> it( *mainWindows );
+  Q3PtrListIterator<KonqMainWindow> it( *mainWindows );
   for (; it.current(); ++it )
     it.current()->viewManager()->profileListDirty( false );
 }
@@ -211,30 +215,30 @@ QString KonquerorIface::crashLogFile()
   return KonqMainWindow::s_crashlog_file->name();
 }
 
-QValueList<DCOPRef> KonquerorIface::getWindows()
+Q3ValueList<DCOPRef> KonquerorIface::getWindows()
 {
-    QValueList<DCOPRef> lst;
-    QPtrList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
+    Q3ValueList<DCOPRef> lst;
+    Q3PtrList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
     if ( mainWindows )
     {
-      QPtrListIterator<KonqMainWindow> it( *mainWindows );
+      Q3PtrListIterator<KonqMainWindow> it( *mainWindows );
       for (; it.current(); ++it )
         lst.append( DCOPRef( kapp->dcopClient()->appId(), it.current()->dcopObject()->objId() ) );
     }
     return lst;
 }
 
-void KonquerorIface::addToCombo( QString url, QCString objId )
+void KonquerorIface::addToCombo( QString url, DCOPCString objId )
 {
     KonqMainWindow::comboAction( KonqMainWindow::ComboAdd, url, objId );
 }
 
-void KonquerorIface::removeFromCombo( QString url, QCString objId )
+void KonquerorIface::removeFromCombo( QString url, DCOPCString objId )
 {
   KonqMainWindow::comboAction( KonqMainWindow::ComboRemove, url, objId );
 }
 
-void KonquerorIface::comboCleared( QCString objId )
+void KonquerorIface::comboCleared( DCOPCString objId )
 {
     KonqMainWindow::comboAction( KonqMainWindow::ComboClear,
 				 QString::null, objId );
@@ -242,11 +246,12 @@ void KonquerorIface::comboCleared( QCString objId )
 
 bool KonquerorIface::processCanBeReused( int screen )
 {
-    if( qt_xscreen() != screen )
+	QX11Info info;
+    if( info.screen() != screen )
         return false; // this instance run on different screen, and Qt apps can't migrate
     if( KonqMainWindow::isPreloaded())
         return false; // will be handled by preloading related code instead
-    QPtrList<KonqMainWindow>* windows = KonqMainWindow::mainWindowList();
+    Q3PtrList<KonqMainWindow>* windows = KonqMainWindow::mainWindowList();
     if( windows == NULL )
         return true;
     QStringList allowed_parts = KonqSettings::safeParts();
@@ -270,7 +275,7 @@ bool KonquerorIface::processCanBeReused( int screen )
     }
     if( all_parts_allowed )
         return true;
-    for( QPtrListIterator<KonqMainWindow> it1( *windows );
+    for( Q3PtrListIterator<KonqMainWindow> it1( *windows );
          it1 != NULL;
          ++it1 )
     {

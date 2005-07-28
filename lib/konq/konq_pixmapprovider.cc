@@ -18,6 +18,9 @@
 */
 
 #include <qbitmap.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QPainter>
 
 #include <kapplication.h>
 #include <kiconloader.h>
@@ -53,7 +56,7 @@ KonqPixmapProvider::~KonqPixmapProvider()
 // finally, inserts the url/icon pair into the cache
 QString KonqPixmapProvider::iconNameFor( const QString& url )
 {
-    QMapIterator<QString,QString> it = iconMap.find( url );
+    QMap<QString,QString>::iterator it = iconMap.find( url );
     QString icon;
     if ( it != iconMap.end() ) {
         icon = it.data();
@@ -76,7 +79,7 @@ QString KonqPixmapProvider::iconNameFor( const QString& url )
         icon = KMimeType::iconForURL( u );
     }
 
-    Q_ASSERT( !icon.isEmpty() );
+    //Q_ASSERT( !icon.isEmpty() ); ### Disable for now
 
     // cache the icon found for url
     iconMap.insert( url, icon );
@@ -114,7 +117,7 @@ void KonqPixmapProvider::save( KConfig *kc, const QString& key,
 {
     QStringList list;
     QStringList::ConstIterator it = items.begin();
-    QMapConstIterator<QString,QString> mit;
+    QMap<QString,QString>::const_iterator mit;
     while ( it != items.end() ) {
 	mit = iconMap.find( *it );
 	if ( mit != iconMap.end() ) {
@@ -130,7 +133,7 @@ void KonqPixmapProvider::save( KConfig *kc, const QString& key,
 void KonqPixmapProvider::notifyChange( bool isHost, QString hostOrURL,
     QString iconName )
 {
-    for ( QMapIterator<QString,QString> it = iconMap.begin();
+    for ( QMap<QString,QString>::iterator it = iconMap.begin();
           it != iconMap.end();
           ++it )
     {
@@ -178,15 +181,26 @@ QPixmap KonqPixmapProvider::loadIcon( const QString& url, const QString& icon,
 	int x = big.width()  - small.width();
 	int y = 0;
 
- 	if ( big.mask() ) {
- 	    QBitmap mask = *big.mask();
- 	    bitBlt( &mask, x, y,
+#warning This mask merge is probably wrong.  I couldnt find a way to get the old behavior of Qt::OrROP
+/* Old code that did the bitmask merge
+       if ( big.mask() ) {
+           QBitmap mask = *big.mask();
+           bitBlt( &mask, x, y,
             small.mask() ? const_cast<QBitmap *>(small.mask()) : &small, 0, 0,
- 		    small.width(), small.height(),
- 		    small.mask() ? OrROP : SetROP );
- 	    big.setMask( mask );
- 	}
-
+                   small.width(), small.height(),
+                   small.mask() ? OrROP : SetROP );
+           big.setMask( mask );
+       }
+*/
+	QBitmap mask( big.mask() );
+	if( !mask.isNull() ) {
+		QBitmap sm( small.mask() );
+        QPainter pt(&mask);
+		#warning
+        pt.setCompositionMode( QPainter::CompositionMode_Source );
+  pt.drawPixmap(QPoint(x,y), sm.isNull() ? small : QPixmap(sm), QRect(0,0,small.width(), small.height()));
+	    big.setMask( mask );
+	}
 	bitBlt( &big, x, y, &small );
     }
 

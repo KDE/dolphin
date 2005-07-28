@@ -69,7 +69,7 @@
                                     <cstring>spacer3</cstring>
                                 </property>
                                 <property name="orientation">
-                                    <enum>Horizontal</enum>
+                                    <enum>Qt::Horizontal</enum>
                                 </property>
                                 <property name="sizeType">
                                     <enum>Fixed</enum>
@@ -110,7 +110,7 @@
                             <cstring>desktopMenuGroup</cstring>
                         </property>
                         <property name="title">
-                            <string>Menu Bar at Top of Screen</string>
+                            <string>Menu Bar at Qt::DockTop of Screen</string>
                         </property>
                         <vbox>
                             <property name="name">
@@ -175,7 +175,7 @@
                                     <cstring>leftLabel</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Left button:</string>
+                                    <string>Qt::DockLeft button:</string>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="2" column="0">
@@ -183,7 +183,7 @@
                                     <cstring>rightLabel</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Right button:</string>
+                                    <string>Qt::DockRight button:</string>
                                 </property>
                             </widget>
                             <widget class="QComboBox" row="2" column="1">
@@ -263,7 +263,7 @@
                                     <cstring>spacer5</cstring>
                                 </property>
                                 <property name="orientation">
-                                    <enum>Horizontal</enum>
+                                    <enum>Qt::Horizontal</enum>
                                 </property>
                                 <property name="sizeType">
                                     <enum>Expanding</enum>
@@ -282,7 +282,7 @@
                             <cstring>spacer8</cstring>
                         </property>
                         <property name="orientation">
-                            <enum>Vertical</enum>
+                            <enum>Qt::Vertical</enum>
                         </property>
                         <property name="sizeType">
                             <enum>Expanding</enum>

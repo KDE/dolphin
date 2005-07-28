@@ -33,7 +33,7 @@
 #include <stdlib.h>
 
 #include <qclipboard.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qpainter.h>
 
 #include <klocale.h>
@@ -105,16 +105,16 @@ void KEBApp::createActions() {
 
     // actions
     (void) new KAction(
-        i18n("&Delete"), "editdelete", Key_Delete,
+        i18n("&Delete"), "editdelete", Qt::Key_Delete,
         actn, SLOT( slotDelete() ), actionCollection(), "delete");
     (void) new KAction(
-        i18n("Rename"), "text", Key_F2,
+        i18n("Rename"), "text", Qt::Key_F2,
         actn, SLOT( slotRename() ), actionCollection(), "rename");
     (void) new KAction(
-        i18n("C&hange URL"), "text", Key_F3,
+        i18n("C&hange URL"), "text", Qt::Key_F3,
         actn, SLOT( slotChangeURL() ), actionCollection(), "changeurl");
     (void) new KAction(
-        i18n("C&hange Comment"), "text", Key_F4,
+        i18n("C&hange Comment"), "text", Qt::Key_F4,
         actn, SLOT( slotChangeComment() ), actionCollection(), "changecomment");
     (void) new KAction(
         i18n("Chan&ge Icon..."), "icons", 0,
@@ -126,13 +126,13 @@ void KEBApp::createActions() {
         i18n("Recursive Sort"), 0,
         actn, SLOT( slotRecursiveSort() ), actionCollection(), "recursivesort");
     (void) new KAction(
-        i18n("&New Folder..."), "folder_new", CTRL+Key_N,
+        i18n("&New Folder..."), "folder_new", Qt::Key_Control+Qt::Key_N,
         actn, SLOT( slotNewFolder() ), actionCollection(), "newfolder");
     (void) new KAction(
         i18n("&New Bookmark"), "www", 0,
         actn, SLOT( slotNewBookmark() ), actionCollection(), "newbookmark");
     (void) new KAction(
-        i18n("&Insert Separator"), CTRL+Key_I,
+        i18n("&Insert Separator"), Qt::Key_Control+Qt::Key_I,
         actn, SLOT( slotInsertSeparator() ), actionCollection(),
         "insertseparator");
     (void) new KAction(
@@ -339,7 +339,7 @@ void ActionsImpl::slotCopy() {
     KEBApp::self()->bkInfo()->commitChanges();
     // this is not a command, because it can't be undone
     Q_ASSERT(ListView::self()->selectedItemsMap().count() != 0);
-    QValueList<KBookmark> bookmarks
+    Q3ValueList<KBookmark> bookmarks
         = ListView::self()->itemsToBookmarks(ListView::self()->selectedItemsMap());
     KBookmarkDrag* data = KBookmarkDrag::newDrag(bookmarks, 0 /* not this ! */);
     kapp->clipboard()->setData(data, QClipboard::Selection);
@@ -419,7 +419,7 @@ void ActionsImpl::slotExportMoz() {
 
 /* -------------------------------------- */
 
-static QCString s_appId, s_objId;
+static Q3CString s_appId, s_objId;
 static KParts::ReadOnlyPart *s_part;
 
 void ActionsImpl::slotPrint() {
@@ -506,21 +506,21 @@ void ActionsImpl::slotUpdateFavIcon() {
 class KBookmarkGroupList : private KBookmarkGroupTraverser {
 public:
     KBookmarkGroupList(KBookmarkManager *);
-    QValueList<KBookmark> getList(const KBookmarkGroup &);
+    Q3ValueList<KBookmark> getList(const KBookmarkGroup &);
 private:
     virtual void visit(const KBookmark &) { ; }
     virtual void visitEnter(const KBookmarkGroup &);
     virtual void visitLeave(const KBookmarkGroup &) { ; }
 private:
     KBookmarkManager *m_manager;
-    QValueList<KBookmark> m_list;
+    Q3ValueList<KBookmark> m_list;
 };
 
 KBookmarkGroupList::KBookmarkGroupList( KBookmarkManager *manager ) {
     m_manager = manager;
 }
 
-QValueList<KBookmark> KBookmarkGroupList::getList( const KBookmarkGroup &grp ) {
+Q3ValueList<KBookmark> KBookmarkGroupList::getList( const KBookmarkGroup &grp ) {
     traverse(grp);
     return m_list;
 }
@@ -535,9 +535,9 @@ void ActionsImpl::slotRecursiveSort() {
     Q_ASSERT(bk.isGroup());
     KEBMacroCommand *mcmd = new KEBMacroCommand(i18n("Recursive Sort"));
     KBookmarkGroupList lister(CurrentMgr::self()->mgr());
-    QValueList<KBookmark> bookmarks = lister.getList(bk.toGroup());
+    Q3ValueList<KBookmark> bookmarks = lister.getList(bk.toGroup());
     bookmarks << bk.toGroup();
-    for (QValueListConstIterator<KBookmark> it = bookmarks.begin(); it != bookmarks.end(); ++it) {
+    for (Q3ValueListConstIterator<KBookmark> it = bookmarks.begin(); it != bookmarks.end(); ++it) {
         SortCommand *cmd = new SortCommand("", (*it).address());
         cmd->execute();
         mcmd->addCommand(cmd);
@@ -563,8 +563,9 @@ void ActionsImpl::slotDelete() {
 
 void ActionsImpl::slotOpenLink() {
     KEBApp::self()->bkInfo()->commitChanges();
-    QValueList<KBookmark> bks = ListView::self()->itemsToBookmarks(ListView::self()->selectedItemsMap());
-    QValueListIterator<KBookmark> it;
+    //Q3ValueList<KBookmark> bks = ListView::self()->itemsToBookmarks(ListView::self()->selectedItemsMap());
+    Q3ValueList<KBookmark> bks = ListView::self()->itemsToBookmarks(ListView::self()->selectedItemsMap());
+    Q3ValueListIterator<KBookmark> it;
     for (it = bks.begin(); it != bks.end(); ++it) {
         if ((*it).isGroup() || (*it).isSeparator())
             continue;

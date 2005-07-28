@@ -55,7 +55,7 @@ void KonqSidebarTreeTopLevelItem::itemSelected()
     tree()->enableActions( true, true, paste, true, true, true /*rename*/ );
 }
 
-bool KonqSidebarTreeTopLevelItem::acceptsDrops( const QStrList & formats )
+bool KonqSidebarTreeTopLevelItem::acceptsDrops( const Q3StrList & formats )
 {
     return formats.contains("text/uri-list") &&
         ( m_bTopLevelGroup || !externalURL().isEmpty() );
@@ -85,7 +85,7 @@ void KonqSidebarTreeTopLevelItem::drop( QDropEvent * ev )
     }
 }
 
-QDragObject * KonqSidebarTreeTopLevelItem::dragObject( QWidget * parent, bool move )
+Q3DragObject * KonqSidebarTreeTopLevelItem::dragObject( QWidget * parent, bool move )
 {
     // 100% duplicated from KonqDirTreeItem::dragObject :(
     KURL::List lst;

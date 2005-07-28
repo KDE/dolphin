@@ -24,16 +24,19 @@
 */
 
 
+#include <kprotocolmanager.h>
 #include "NSPluginCallbackIface_stub.h"
 
 
 #include <stdlib.h>
 #include <unistd.h>
 
-#include <qdict.h>
+#include <q3dict.h>
 #include <qdir.h>
 #include <qfile.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "kxt.h"
 #include "nsplugin.h"
@@ -51,10 +54,10 @@
 #include <klibloader.h>
 #include <klocale.h>
 #include <kprocess.h>
-#include <kprotocolmanager.h>
 #include <kstandarddirs.h>
 #include <ktempfile.h>
 #include <kurl.h>
+#include <QX11Info>
 
 #include <X11/Intrinsic.h>
 #include <X11/Composite.h>
@@ -164,10 +167,10 @@ NPError g_NPN_GetValue(NPP /*instance*/, NPNVariable variable, void *value)
    switch (variable)
    {
       case NPNVxDisplay:
-         *(void**)value = qt_xdisplay();
+         *(void**)value = QX11Info::display();
          return NPERR_NO_ERROR;
       case NPNVxtAppContext:
-         *(void**)value = XtDisplayToApplicationContext(qt_xdisplay());
+         *(void**)value = XtDisplayToApplicationContext(QX11Info::display());
          return NPERR_NO_ERROR;
       case NPNVjavascriptEnabledBool:
          *(bool*)value = true;
@@ -284,7 +287,7 @@ NPError g_NPN_PostURLNotify(NPP instance, const char* url, const char* target,
 
    if (file) { // buf is a filename
       QFile f(buf);
-      if (!f.open(IO_ReadOnly)) {
+      if (!f.open(QIODevice::ReadOnly)) {
          return NPERR_FILE_NOT_FOUND;
       }
 
@@ -332,7 +335,7 @@ NPError g_NPN_PostURLNotify(NPP instance, const char* url, const char* target,
    kdDebug(1431) << "Post data: " << postdata.size() << " bytes" << endl;
 #if 0
    QFile f("/tmp/nspostdata");
-   f.open(IO_WriteOnly);
+   f.open(QIODevice::WriteOnly);
    f.writeBlock(postdata);
    f.close();
 #endif
@@ -381,7 +384,7 @@ NPError g_NPN_PostURL(NPP instance, const char* url, const char* target,
 
    if (file) { // buf is a filename
       QFile f(buf);
-      if (!f.open(IO_ReadOnly)) {
+      if (!f.open(QIODevice::ReadOnly)) {
          return NPERR_FILE_NOT_FOUND;
       }
 
@@ -429,7 +432,7 @@ NPError g_NPN_PostURL(NPP instance, const char* url, const char* target,
    kdDebug(1431) << "Post data: " << postdata.size() << " bytes" << endl;
 #if 0
    QFile f("/tmp/nspostdata");
-   f.open(IO_WriteOnly);
+   f.open(QIODevice::WriteOnly);
    f.writeBlock(postdata);
    f.close();
 #endif
@@ -628,10 +631,10 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    XtSetArg(args[nargs], XtNborderWidth, 0); nargs++;
 
    String n, c;
-   XtGetApplicationNameAndClass(qt_xdisplay(), &n, &c);
+   XtGetApplicationNameAndClass(QX11Info::display(), &n, &c);
 
    _toplevel = XtAppCreateShell("drawingArea", c, applicationShellWidgetClass,
-                                qt_xdisplay(), args, nargs);
+                                QX11Info::display(), args, nargs);
 
    // What exactly does widget mapping mean? Without this call the widget isn't
    // embedded correctly. With it the viewer doesn't show anything in standalone mode.
@@ -645,13 +648,13 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    XtSetArg(args[nargs], XtNdepth, QPaintDevice::x11AppDepth()); nargs++;
    XtSetArg(args[nargs], XtNcolormap, QPaintDevice::x11AppColormap()); nargs++;
    XtSetValues(_form, args, nargs);
-   XSync(qt_xdisplay(), false);
+   XSync(QX11Info::display(), false);
 
    // From mozilla - not sure if it's needed yet, nor what to use for embedder
 #if 0
    /* this little trick seems to finish initializing the widget */
 #if XlibSpecificationRelease >= 6
-   XtRegisterDrawable(qt_xdisplay(), embedderid, _toplevel);
+   XtRegisterDrawable(QX11Info::display(), embedderid, _toplevel);
 #else
    _XtRegisterWindow(embedderid, _toplevel);
 #endif
@@ -664,7 +667,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
                      False, forwarder, (XtPointer)this );
    XtAddEventHandler(_form, (KeyPressMask|KeyReleaseMask), 
                      False, forwarder, (XtPointer)this );
-   XSync(qt_xdisplay(), false);
+   XSync(QX11Info::display(), false);
 }
 
 NSPluginInstance::~NSPluginInstance()
@@ -945,9 +948,9 @@ static void resizeWidgets(Window w, int width, int height) {
    Window rroot, parent, *children;
    unsigned int nchildren = 0;
 
-   if (XQueryTree(qt_xdisplay(), w, &rroot, &parent, &children, &nchildren)) {
+   if (XQueryTree(QX11Info::display(), w, &rroot, &parent, &children, &nchildren)) {
       for (unsigned int i = 0; i < nchildren; i++) {
-         XResizeWindow(qt_xdisplay(), children[i], width, height);
+         XResizeWindow(QX11Info::display(), children[i], width, height);
       }
       XFree(children);
    }
@@ -967,8 +970,8 @@ void NSPluginInstance::resizePlugin(int w, int h)
    _width = w;
    _height = h;
 
-   XResizeWindow(qt_xdisplay(), XtWindow(_form), w, h);
-   XResizeWindow(qt_xdisplay(), XtWindow(_toplevel), w, h);
+   XResizeWindow(QX11Info::display(), XtWindow(_form), w, h);
+   XResizeWindow(QX11Info::display(), XtWindow(_toplevel), w, h);
 
    Arg args[7];
    Cardinal nargs = 0;
@@ -1193,15 +1196,15 @@ void NSPluginInstance::displayPlugin()
 
 /***************************************************************************/
 
-NSPluginViewer::NSPluginViewer( QCString dcopId,
+NSPluginViewer::NSPluginViewer( Q3CString dcopId,
                                 QObject *parent, const char *name )
    : DCOPObject(dcopId), QObject( parent, name ) 
 {
     _classes.setAutoDelete( true );
     connect(KApplication::dcopClient(),
-            SIGNAL(applicationRemoved(const QCString&)),
+            SIGNAL(applicationRemoved(const Q3CString&)),
             this,
-            SLOT(appUnregistered(const QCString&)));
+            SLOT(appUnregistered(const Q3CString&)));
 }
 
 
@@ -1211,12 +1214,12 @@ NSPluginViewer::~NSPluginViewer()
 }
 
 
-void NSPluginViewer::appUnregistered(const QCString& id) {
+void NSPluginViewer::appUnregistered(const Q3CString& id) {
    if (id.isEmpty()) {
       return;
    }
 
-   QDictIterator<NSPluginClass> it(_classes);
+   Q3DictIterator<NSPluginClass> it(_classes);
    NSPluginClass *c;
    while ( (c = it.current()) ) {
       QString key = it.currentKey();
@@ -1253,7 +1256,7 @@ DCOPRef NSPluginViewer::newClass( QString plugin )
    if ( !cls ) {
        // create new class
        cls = new NSPluginClass( plugin, this );
-       QCString id = "";
+       Q3CString id = "";
        DCOPClient *dc = callingDcopClient();
        if (dc) {
           id = dc->senderId();
@@ -1422,8 +1425,8 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
 
    for (unsigned int i=0; i<argc; i++)
    {
-      QCString encN = argn[i].utf8();
-      QCString encV = argv[i].utf8();
+      Q3CString encN = argn[i].utf8();
+      Q3CString encV = argv[i].utf8();
 
       const char *n = encN;
       const char *v = encV;
@@ -1510,8 +1513,11 @@ NSPluginStreamBase::~NSPluginStreamBase()
 
    delete _tempFile;
    _tempFile = 0;
+#warning delete a QByteArray? how was this working? is this needed? i guess not
+#if 0
    delete _queue;
    _queue = 0;
+#endif
 }
 
 
@@ -1596,7 +1602,8 @@ bool NSPluginStreamBase::create( const QString& url, const QString& mimeType, vo
 int NSPluginStreamBase::process( const QByteArray &data, int start )
 {
    int32 max, sent, to_sent, len;
-   char *d = data.data() + start;
+#warning added a const_cast
+   char *d = const_cast<char*>(data.data()) + start;
 
    to_sent = data.size() - start;
    while (to_sent > 0)

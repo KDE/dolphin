@@ -1,6 +1,6 @@
 /*  This file is part of the KDE project
     Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
-    Copyright (C) 2000, 2001, 2002 David Faure <david@mandrakesoft.com>
+    Copyright (C) 2000, 2001, 2002 David Faure <faure@kde.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,7 +23,18 @@
 #include <kiconloader.h>
 #include <kiconview.h>
 #include <kurl.h>
-#include <qguardedptr.h>
+#include <qpointer.h>
+//Added by qt3to4:
+#include <QWheelEvent>
+#include <QPixmap>
+#include <QFocusEvent>
+#include <QDragLeaveEvent>
+#include <QDragMoveEvent>
+#include <QEvent>
+#include <QDropEvent>
+#include <Q3ValueList>
+#include <QDragEnterEvent>
+#include <QMouseEvent>
 #include <kfileitem.h>
 #include <kio/jobclasses.h>
 #include <libkonq_export.h>
@@ -56,7 +67,7 @@ public:
     /**
      * Constructor
      */
-    KonqIconViewWidget( QWidget *parent = 0L, const char *name = 0L, WFlags f = 0, bool kdesktop = FALSE );
+    KonqIconViewWidget( QWidget *parent = 0L, const char *name = 0L, Qt::WFlags f = 0, bool kdesktop = FALSE );
     virtual ~KonqIconViewWidget();
 
     /**
@@ -111,7 +122,7 @@ public:
      *        for a horizontal arrangement and QIconView::TopToBottom
      *        for vertical)
      */
-    void lineupIcons( QIconView::Arrangement arrangement );
+    void lineupIcons( Q3IconView::Arrangement arrangement );
 
     /**
      * Sets the icons of all items, and stores the @p size
@@ -206,12 +217,12 @@ public:
     /**
      * Reimplemented from QIconView
      */
-    virtual void takeItem( QIconViewItem *item );
+    virtual void takeItem( Q3IconViewItem *item );
 
     /**
      * Reimplemented from QIconView to take into account iconArea.
      */
-    virtual void insertInGrid( QIconViewItem *item );
+    virtual void insertInGrid( Q3IconViewItem *item );
 
     /**
      * Reimplemented from QIconView to update the gridX
@@ -221,7 +232,7 @@ public:
     /**
      * Give feedback when item is activated.
      */
-    virtual void visualActivate(QIconViewItem *);
+    virtual void visualActivate(Q3IconViewItem *);
 
     bool isDesktop() const { return m_bDesktop; }
 
@@ -282,12 +293,12 @@ signals:
     void dragFinished();
 
 protected slots:
-    virtual void slotDropped( QDropEvent *e, const QValueList<QIconDragItem> & );
+    virtual void slotDropped( QDropEvent *e, const Q3ValueList<Q3IconDragItem> & );
 
-    void slotItemRenamed(QIconViewItem *item, const QString &name);
+    void slotItemRenamed(Q3IconViewItem *item, const QString &name);
 
     void slotIconChanged(int);
-    void slotOnItem(QIconViewItem *);
+    void slotOnItem(Q3IconViewItem *);
     void slotOnViewport();
     void slotStartSoundPreview();
     void slotPreview(const KFileItem *, const QPixmap &);
@@ -297,11 +308,11 @@ protected slots:
     void slotMovieStatus( int status );
     void slotReenableAnimation();
 
-    void slotAboutToCreate(const QPoint &pos, const QValueList<KIO::CopyInfo> &files);
+    void slotAboutToCreate(const QPoint &pos, const Q3ValueList<KIO::CopyInfo> &files);
     void doubleClickTimeout();
 
 protected:
-    virtual QDragObject *dragObject();
+    virtual Q3DragObject *dragObject();
     KonqIconDrag *konqDragObject( QWidget * dragSource = 0L );
     bool mimeTypeMatch( const QString& mimeType, const QStringList& mimeList ) const;
 

@@ -157,6 +157,13 @@
         </widget>
     </grid>
 </widget>
+<customwidgets>
+	<customwidget>
+		<class>KIntNumInput</class>
+		<header location="global">knuminput.h</header>
+		<container>0</container>
+	</customwidget>
+</customwidgets>
 <connections>
     <connection>
         <sender>cbUseCache</sender>

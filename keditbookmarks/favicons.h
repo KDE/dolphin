@@ -28,6 +28,8 @@
 #include <kparts/browserinterface.h>
 
 #include "bookmarkiterator.h"
+//Added by qt3to4:
+#include <Q3ValueList>
 
 class FavIconsItrHolder : public BookmarkIteratorHolder {
 public:
@@ -50,7 +52,7 @@ class FavIconsItr : public BookmarkIterator
    Q_OBJECT
 
 public:
-   FavIconsItr(QValueList<KBookmark> bks);
+   FavIconsItr(Q3ValueList<KBookmark> bks);
    ~FavIconsItr();
    virtual FavIconsItrHolder* holder() const { return FavIconsItrHolder::self(); }
 

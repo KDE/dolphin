@@ -12,7 +12,6 @@
 #include <klocale.h>
 #include <qlineedit.h>
 class KonqSidebarTree;
-class QVBox;
 
 class KonqSidebar_Tree: public KonqSidebarPlugin
         {
@@ -24,7 +23,7 @@ class KonqSidebar_Tree: public KonqSidebarPlugin
 //		void emitStatusBarText (const QString &);
                 virtual QWidget *getWidget();
                 protected:
-                        class QVBox *widget;
+                        class QWidget *widget;
                         class KonqSidebarTree *tree;
                         virtual void handleURL(const KURL &url);
 		protected slots:

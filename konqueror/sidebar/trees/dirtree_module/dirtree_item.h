@@ -38,9 +38,9 @@ public:
 
     virtual void paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment );
 
-    virtual bool acceptsDrops( const QStrList & formats );
+    virtual bool acceptsDrops( const Q3StrList & formats );
     virtual void drop( QDropEvent * ev );
-    virtual QDragObject * dragObject( QWidget * parent, bool move = false );
+    virtual Q3DragObject * dragObject( QWidget * parent, bool move = false );
 
     virtual void middleButtonClicked();
     virtual void rightButtonPressed();

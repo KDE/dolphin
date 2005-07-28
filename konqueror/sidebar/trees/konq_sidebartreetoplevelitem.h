@@ -22,6 +22,7 @@
 #include "konq_sidebartreeitem.h"
 
 class QStrList;
+class Q3DragObject;
 class KonqSidebarTreeModule;
 
 /**
@@ -51,9 +52,9 @@ public:
 
     void init();
 
-    virtual bool acceptsDrops( const QStrList & formats );
+    virtual bool acceptsDrops( const Q3StrList & formats );
     virtual void drop( QDropEvent * ev );
-    virtual QDragObject * dragObject( QWidget * parent, bool move = false );
+    virtual Q3DragObject * dragObject( QWidget * parent, bool move = false );
     virtual void middleButtonClicked();
     virtual void rightButtonPressed();
 

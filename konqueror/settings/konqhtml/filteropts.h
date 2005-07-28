@@ -20,10 +20,10 @@
 
 #include <kcmodule.h>
 
-class QListBox;
+class Q3ListBox;
 class QPushButton;
 class QLineEdit;
-class QListBoxItem;
+class Q3ListBoxItem;
 class QCheckBox;
 
 class KConfig;
@@ -55,7 +55,7 @@ protected slots:
 
 private:
     void updateButton();
-    QListBox *mListBox;
+    Q3ListBox *mListBox;
     QLineEdit *mString;
     QCheckBox *mEnableCheck;
     QCheckBox *mKillCheck;

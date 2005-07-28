@@ -23,6 +23,8 @@
 #include <kgenericfactory.h>
 #include <kiconloader.h>
 #include <qmessagebox.h>
+//Added by qt3to4:
+#include <Q3CString>
 #include <klocale.h>
 #include <qstring.h>
 #include <qtimer.h>
@@ -73,12 +75,12 @@ void KHTMLPluginKTTSD::slotReadOut()
 
         // Find out if KTTSD supports xhtml (rich speak).
         QByteArray  data;
-        QBuffer     dataBuf(data);
+        QBuffer     dataBuf(&data);
         QDataStream arg;
         dataBuf.open(IO_WriteOnly);
         arg.setDevice(&dataBuf);
         arg << "" << KSpeech::mtHtml;
-        QCString    replyType;
+        DCOPCString    replyType;
         QByteArray  replyData;
         bool supportsXhtml = false;
         if ( !client->call("kttsd", "KSpeech", "supportsMarkup(QString,uint)",
@@ -87,7 +89,9 @@ void KHTMLPluginKTTSD::slotReadOut()
                                      i18n( "The DCOP call supportsMarkup failed." ));
         else
         {
-            QDataStream reply(replyData, IO_ReadOnly);
+            QDataStream reply(&replyData, IO_ReadOnly);
+
+            reply.setVersion(QDataStream::Qt_3_1);
             reply >> supportsXhtml;
         }
 

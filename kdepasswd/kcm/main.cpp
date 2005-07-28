@@ -23,12 +23,16 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qevent.h>
 #include <qpixmap.h>
-#include <qcstring.h>
+#include <q3cstring.h>
 #include <qstringlist.h>
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QDragEnterEvent>
+#include <QVBoxLayout>
+#include <QDropEvent>
 
 #include <kpushbutton.h>
 #include <kguiitem.h>
@@ -109,7 +113,7 @@ void KCMUserAccount::slotChangePassword()
 {
 	KProcess *proc = new KProcess;
 	QString bin = KGlobal::dirs()->findExe("kdepasswd");
-	if ( !bin )
+	if ( bin.isNull() )
 	{
 		kdDebug() << "kcm_useraccount: kdepasswd was not found." << endl;
 		KMessageBox::sorry ( this, i18n( "A program error occurred: the internal "
@@ -208,8 +212,8 @@ void KCMUserAccount::save()
 	/* Save realname to /etc/passwd */
 	if ( _mw->leRealname->isModified() )
 	{
-		QCString password;
-		int ret = KPasswordDialog::getPassword( password, i18n("Please enter "
+		Q3CString password;
+		int ret = KPasswordDialog::getPassword( _mw, password, i18n("Please enter "
 			"your password in order to save your settings:"));
 
 		if ( !ret ) 
@@ -230,7 +234,7 @@ void KCMUserAccount::save()
 			{
 				KMessageBox::sorry( this, i18n("An error occurred and your password has "
 							"probably not been changed. The error "
-							"message was:\n%1").arg(proc->error()));
+							"message was:\n%1").arg(QString::fromLocal8Bit(proc->error())));
 				kdDebug() << "ChfnProcess->exec() failed. Error code: " << ret 
 					<< "\nOutput:" << proc->error() << endl;
 			}	

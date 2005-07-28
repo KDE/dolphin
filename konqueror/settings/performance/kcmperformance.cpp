@@ -18,6 +18,7 @@
 
 #include <qlayout.h>
 #include <qtabwidget.h>
+#include <QVBoxLayout>
 
 #include <klocale.h>
 #include <kdialog.h>
