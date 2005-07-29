@@ -1030,7 +1030,7 @@ void KonqSidebarTree::slotOpenTab()
 {
     if (!m_currentTopLevelItem) return;
     DCOPRef ref(kapp->dcopClient()->appId(), topLevelWidget()->name());   
-    ref.call( "newTab(QString)", m_currentTopLevelItem->externalURL() );
+    ref.call( "newTab(QString)", m_currentTopLevelItem->externalURL().url() );
 }
 
 void KonqSidebarTree::slotCopyLocation()
