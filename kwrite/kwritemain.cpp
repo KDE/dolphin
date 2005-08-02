@@ -29,6 +29,7 @@
 
 #include <kio/netaccess.h>
 
+#include <kdeversion.h>
 #include <kaboutapplication.h>
 #include <dcopclient.h>
 #include <kurldrag.h>
@@ -646,7 +647,12 @@ extern "C" KDE_EXPORT int kdemain(int argc, char **argv)
 
   KLocale::setMainCatalogue("kate");         //lukas: set this to have the kwritepart translated using kate message catalog
 
-  KAboutData aboutData ( "kwrite", I18N_NOOP("KWrite"), "4.5",
+  // here we go, construct the KWrite version
+  QString kWriteVersion  = QString ("%1.%2.%3").arg(KDE::versionMajor() + 1).arg(KDE::versionMinor()).arg(KDE::versionRelease());
+
+  KAboutData aboutData ( "kwrite",
+                         I18N_NOOP("KWrite"), 
+                         kWriteVersion.latin1(),
                          I18N_NOOP( "KWrite - Text Editor" ), KAboutData::License_LGPL_V2,
                          I18N_NOOP( "(c) 2000-2005 The Kate Authors" ), 0, "http://kate.kde.org" );
 
