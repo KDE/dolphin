@@ -145,8 +145,13 @@ to applet support)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>&Joseph.Wenninger; &Joseph.Wenninger;</term>
+<term>&Joseph.Wenninger; &Joseph.Wenninger.mail;</term>
 <listitem><para>developer (navigation panel framework)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>&Stephan.Binner; &Stephan.Binner.mail;</term>
+<listitem><para>developer (misc stuff)</para></listitem>
 </varlistentry>
 
 </variablelist>
