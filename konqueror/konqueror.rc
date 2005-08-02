@@ -52,6 +52,7 @@
   <Action name="up"/>
   <Action name="home"/>
   <Separator/>
+  <Action name="go_system"/>
   <Action name="go_applications"/>
   <Action name="go_network_folders"/>
   <Action name="go_settings"/>

@@ -1812,6 +1812,11 @@ void KonqMainWindow::slotHome()
     slotHome(KAction::UnknownActivation, Qt::LeftButton);
 }
 
+void KonqMainWindow::slotGoSystem()
+{
+  openURL( 0L, KURL( "system:/" ) );
+}
+
 void KonqMainWindow::slotGoApplications()
 {
   openURL( 0L, KURL( "programs:/" ) );
@@ -3750,6 +3755,7 @@ void KonqMainWindow::initActions()
   connect( m_paHome, SIGNAL( activated( KAction::ActivationReason, Qt::ButtonState) ), this,
 	   SLOT( slotHome(KAction::ActivationReason, Qt::ButtonState) ) );
 
+  (void) new KAction( i18n( "S&ystem" ), "system", 0, this, SLOT( slotGoSystem() ), actionCollection(), "go_system" );
   (void) new KAction( i18n( "App&lications" ), "kmenu", 0, this, SLOT( slotGoApplications() ), actionCollection(), "go_applications" );
   (void) new KAction( i18n( "&Storage Media" ), "system", 0, this, SLOT( slotGoMedia() ), actionCollection(), "go_media" );
   (void) new KAction( i18n( "&Network Folders" ), "network", 0, this, SLOT( slotGoNetworkFolders() ), actionCollection(), "go_network_folders" );

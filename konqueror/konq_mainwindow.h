@@ -390,6 +390,7 @@ public slots:
   void slotForward(KAction::ActivationReason, Qt::ButtonState state);
   void slotHome();
   void slotHome(KAction::ActivationReason, Qt::ButtonState state);
+  void slotGoSystem();
   void slotGoApplications();
   void slotGoMedia();
   void slotGoNetworkFolders();
