@@ -119,7 +119,7 @@ KWrite::KWrite (KTextEditor::Document *doc)
   connect(m_view, SIGNAL(viewModeChanged(KTextEditor::View *)), this, SLOT(viewModeChanged(KTextEditor::View *)));
   connect(m_view, SIGNAL(selectionChanged (KTextEditor::View *)), this, SLOT(selectionChanged (KTextEditor::View *)));
   connect(m_view, SIGNAL(informationMessage (KTextEditor::View *, const QString &)), this, SLOT(informationMessage (KTextEditor::View *, const QString &)));
-  connect(m_view->document(), SIGNAL(modifiedChanged()), this, SLOT(modifiedChanged()));
+  connect(m_view->document(), SIGNAL(modifiedChanged(KTextEditor::Document *)), this, SLOT(modifiedChanged()));
   connect(m_view->document(), SIGNAL(modifiedOnDisk(Document *, bool, ModifiedOnDiskReason)), this, SLOT(modifiedChanged()) );
   connect(m_view->document(), SIGNAL(documentNameChanged(KTextEditor::Document *)), this, SLOT(documentNameChanged()));
 
