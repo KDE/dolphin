@@ -30,6 +30,7 @@
 
 #include <dcopclient.h>
 #include <kcmdlineargs.h>
+#include <kaboutdata.h>
 #include <kdebug.h>
 #include <kglobal.h>
 #include <klocale.h>
@@ -245,7 +246,9 @@ int main(int argc, char** argv)
    KLocale::setMainCatalogue("nsplugin");
 
    kdDebug(1430) << "4 - create KApplication" << endl;
-   KApplication app( argc,  argv, "nspluginviewer" );
+
+   KCmdLineArgs::init(argc, argv, "nspluginviewer", "nspluginviewer", "", "");
+   KApplication app;
 #endif
 
    {

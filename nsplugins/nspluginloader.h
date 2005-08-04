@@ -33,7 +33,7 @@
 #include <q3dict.h>
 #include <qobject.h>
 #include <qwidget.h>
-#include <qxembed.h>
+#include <qx11embed_x11.h>
 //Added by qt3to4:
 #include <QGridLayout>
 #include <QResizeEvent>
@@ -41,7 +41,7 @@
 
 #include "NSPluginClassIface_stub.h"
 
-#define EMBEDCLASS QXEmbed
+#define EMBEDCLASS QX11EmbedWidget
 
 class KProcess;
 class QPushButton;

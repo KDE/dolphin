@@ -43,7 +43,7 @@
 #include <qlayout.h>
 #include <qobject.h>
 #include <qpushbutton.h>
-#include <qxembed.h>
+#include <qx11embed_x11.h>
 #include <qtextstream.h>
 #include <qregexp.h>
 
@@ -84,8 +84,11 @@ void NSPluginInstance::doLoadPlugin() {
         _button = 0L;
         _loader = NSPluginLoader::instance();
         setBackgroundMode(Qt::NoBackground);
-        setProtocol(QXEmbed::XPLAIN);
+#warning Please check  "setProtocol(QX11EmbedWidget::XPLAIN);"
+#if 0
+        setProtocol(QX11EmbedWidget::XPLAIN);
         embed( NSPluginInstanceIface_stub::winId() );
+#endif
         displayPlugin();
         show();
         shown = true;
