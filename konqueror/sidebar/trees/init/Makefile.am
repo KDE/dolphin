@@ -1,7 +1,7 @@
 SUBDIRS = remote services
 
 dataEntry_DATA = home.desktop root.desktop history.desktop bookmarks.desktop \
-                 services.desktop remote.desktop
+                 services.desktop remote.desktop system.desktop
 dataEntrydir = $(kde_datadir)/konqsidebartng/entries
 
 dataKickerEntries_DATA = home.desktop root.desktop history.desktop bookmarks.desktop \
