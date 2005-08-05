@@ -65,8 +65,8 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
 {
   KAcceleratorManager::setNoAccel(this);
 
-  tabBar()->setWhatsThis(i18n( "This bar contains list of currently open tabs. Click on a tab to make it "
-			  "active. The option to show a close button instead of website icon in the left "
+  tabBar()->setWhatsThis(i18n( "This bar contains the list of currently open tabs. Click on a tab to make it "
+			  "active. The option to show a close button instead of the website icon in the left "
 			  "corner of the tab is configurable. You can also use keyboard shortcuts to "
 			  "navigate through tabs. The text on the tab is the title of the website "
 			  "currently open in it, put your mouse over the tab too see the full title in "
