@@ -26,7 +26,6 @@
 #include <q3popupmenu.h>
 #include <qmap.h>
 //Added by qt3to4:
-#include <Q3ValueList>
 #include <Q3PtrList>
 #include <kaction.h>
 
@@ -40,7 +39,7 @@
 
 #include "konq_xmlguiclient.h"
 
-typedef Q3ValueList<KDEDesktopMimeType::Service> ServiceList;
+typedef QList<KDEDesktopMimeType::Service> ServiceList;
 
 class KPropertiesDialog;
 class KNewMenu;

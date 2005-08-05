@@ -38,8 +38,6 @@
 
 #include <kio/job.h>
 #include <kdirnotify_stub.h>
-//Added by qt3to4:
-#include <Q3ValueList>
 
 inline const char *dcopTypeName( const KonqCommand & ) { return "KonqCommand"; }
 inline const char *dcopTypeName( const KonqCommand::Stack & ) { return "KonqCommand::Stack"; }
@@ -182,10 +180,10 @@ public:
   KonqCommand m_current;
   KIO::Job *m_currentJob;
   UndoState m_undoState;
-  Q3ValueStack<KURL> m_dirStack;
-  Q3ValueStack<KURL> m_dirCleanupStack;
-  Q3ValueStack<KURL> m_fileCleanupStack;
-  Q3ValueList<KURL> m_dirsToUpdate;
+  QStack<KURL> m_dirStack;
+  QStack<KURL> m_dirCleanupStack;
+  QStack<KURL> m_fileCleanupStack;
+  QList<KURL> m_dirsToUpdate;
 
   bool m_lock;
 
@@ -286,15 +284,15 @@ void KonqUndoManager::undo()
   d->m_undoState = MOVINGFILES;
   kdDebug(1203) << "KonqUndoManager::undo MOVINGFILES" << endl;
 
-  Q3ValueList<KonqBasicOperation>::Iterator it = d->m_current.m_opStack.begin();
-  Q3ValueList<KonqBasicOperation>::Iterator end = d->m_current.m_opStack.end();
+  QStack<KonqBasicOperation>::Iterator it = d->m_current.m_opStack.begin();
+  QStack<KonqBasicOperation>::Iterator end = d->m_current.m_opStack.end();
   while ( it != end )
   {
     if ( (*it).m_directory && !(*it).m_renamed )
     {
       d->m_dirStack.push( (*it).m_src );
       d->m_dirCleanupStack.prepend( (*it).m_dst );
-      it = d->m_current.m_opStack.remove( it );
+      it = d->m_current.m_opStack.erase( it );
       d->m_undoState = MAKINGDIRS;
       kdDebug(1203) << "KonqUndoManager::undo MAKINGDIRS" << endl;
     }
@@ -304,7 +302,7 @@ void KonqUndoManager::undo()
         d->m_fileCleanupStack.prepend( (*it).m_dst );
 
       if ( d->m_current.m_type != KonqCommand::MOVE )
-        it = d->m_current.m_opStack.remove( it );
+        it = d->m_current.m_opStack.erase( it );
       else
         ++it;
     }
@@ -506,7 +504,7 @@ void KonqUndoManager::undoRemovingDirectories()
           d->m_undoJob = 0;
       }
       KDirNotify_stub allDirNotify( "*", "KDirNotify*" );
-      Q3ValueList<KURL>::ConstIterator it = d->m_dirsToUpdate.begin();
+      QList<KURL>::ConstIterator it = d->m_dirsToUpdate.begin();
       for( ; it != d->m_dirsToUpdate.end(); ++it ) {
           kdDebug() << "Notifying FilesAdded for " << *it << endl;
           allDirNotify.FilesAdded( *it );

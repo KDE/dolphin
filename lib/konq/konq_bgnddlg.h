@@ -23,14 +23,12 @@
 
 #include <qstring.h>
 #include <qpixmap.h>
-//Added by qt3to4:
-#include <Q3Frame>
 
 #include <kdialogbase.h>
 
 class KColorButton;
 class KURLRequester;
-class Q3ButtonGroup;
+class QGroupBox;
 class QRadioButton;
 
 /**
@@ -63,9 +61,9 @@ private:
   QColor m_color;
   QPixmap m_pixmap;
   QString m_pixmapFile;
-  Q3Frame* m_preview;
+  QFrame* m_preview;
   
-  Q3ButtonGroup* m_buttonGroup;
+  QGroupBox* m_buttonGroup;
   QRadioButton* m_radioColor;
   QRadioButton* m_radioPicture;
   KURLRequester* m_comboPicture;

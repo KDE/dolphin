@@ -42,9 +42,7 @@
 #include <qclipboard.h>
 #include <qfile.h>
 //Added by qt3to4:
-#include <Q3ValueList>
 #include <assert.h>
-#include <q3valuevector.h>
 
 class KonqDirPart::KonqDirPartPrivate
 {
@@ -53,7 +51,7 @@ public:
     QStringList mimeFilters;
     KToggleAction *aEnormousIcons;
     KToggleAction *aSmallMediumIcons;
-    Q3ValueVector<int> iconSize;
+    QVector<int> iconSize;
 
     KDirLister* dirLister;
     bool dirSizeDirty;
@@ -187,13 +185,13 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
     KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
     if (root)
     {
-      Q3ValueList<int> avSizes = root->querySizes(KIcon::Desktop);
+      QList<int> avSizes = root->querySizes(KIcon::Desktop);
       kdDebug(1203) << "the icon theme handles the following sizes:" << avSizes << endl;
       if (avSizes.count() < 10) {
 	// Use the icon sizes supplied by the theme.
 	// If avSizes contains more than 10 entries, assume a scalable
 	// icon theme.
-	Q3ValueList<int>::Iterator it;
+	QList<int>::Iterator it;
 	for (i=1, it=avSizes.begin(); (it!=avSizes.end()) && (i<7); it++, i++)
 	{
 	  d->iconSize[i] = *it;

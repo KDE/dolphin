@@ -22,13 +22,12 @@
 
 #include <qbuffer.h>
 #include <qfile.h>
-#include <q3cache.h>
+#include <qcache.h>
 #include <qimage.h>
 #include <qtimer.h>
 #include <QImageReader>
 //Added by qt3to4:
 #include <Q3CString>
-#include <Q3PtrList>
 
 #include <kdatastream.h> // DO NOT REMOVE, otherwise bool marshalling breaks
 #include <kicontheme.h>
@@ -52,10 +51,10 @@ struct FaviconsModulePrivate
     QMap<KIO::Job *, DownloadInfo> downloads;
     QStringList failedDownloads;
     KSimpleConfig *config;
-    Q3PtrList<KIO::Job> killJobs;
+    QList<KIO::Job*> killJobs;
     KIO::MetaData metaData;
     QString faviconsDir;
-    Q3Cache<QString> faviconsCache;
+    QCache<QString,QString> faviconsCache;
 };
 
 FaviconsModule::FaviconsModule(const Q3CString &obj)
@@ -71,8 +70,6 @@ FaviconsModule::FaviconsModule(const Q3CString &obj)
     d->metaData.insert("cookies", "none");
     d->metaData.insert("no-auth", "true");
     d->config = new KSimpleConfig(locateLocal("data", "konqueror/faviconrc"));
-    d->killJobs.setAutoDelete(true);
-    d->faviconsCache.setAutoDelete(true);
 }
 
 FaviconsModule::~FaviconsModule()
@@ -101,7 +98,7 @@ QString FaviconsModule::iconForURL(const KURL &url)
     QString icon;
     QString simplifiedURL = simplifyURL(url);
 
-    QString *iconURL = d->faviconsCache.find( removeSlash(simplifiedURL) );
+    QString *iconURL = d->faviconsCache[ removeSlash(simplifiedURL) ];
     if (iconURL)
         icon = *iconURL;
     else
@@ -259,6 +256,7 @@ void FaviconsModule::slotInfoMessage(KIO::Job *job, const QString &msg)
 
 void FaviconsModule::slotKill()
 {
+    qDeleteAll(d->killJobs);
     d->killJobs.clear();
 }
 

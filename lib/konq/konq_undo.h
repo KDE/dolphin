@@ -21,7 +21,7 @@
 
 #include <qobject.h>
 #include <qstring.h>
-#include <q3valuestack.h>
+#include <qstack.h>
 
 #include <dcopobject.h>
 
@@ -37,7 +37,7 @@ class KonqUndoJob;
 
 struct KonqBasicOperation
 {
-  typedef Q3ValueStack<KonqBasicOperation> Stack;
+  typedef QStack<KonqBasicOperation> Stack;
 
   KonqBasicOperation()
   { m_valid = false; }
@@ -53,7 +53,7 @@ struct KonqBasicOperation
 
 struct KonqCommand
 {
-  typedef Q3ValueStack<KonqCommand> Stack;
+  typedef QStack<KonqCommand> Stack;
 
   enum Type { COPY, MOVE, LINK, MKDIR, TRASH };
 
