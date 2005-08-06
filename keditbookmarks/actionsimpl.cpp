@@ -126,13 +126,13 @@ void KEBApp::createActions() {
         i18n("Recursive Sort"), 0,
         actn, SLOT( slotRecursiveSort() ), actionCollection(), "recursivesort");
     (void) new KAction(
-        i18n("&New Folder..."), "folder_new", Qt::Key_Control+Qt::Key_N,
+        i18n("&New Folder..."), "folder_new", Qt::CTRL+Qt::Key_N,
         actn, SLOT( slotNewFolder() ), actionCollection(), "newfolder");
     (void) new KAction(
         i18n("&New Bookmark"), "www", 0,
         actn, SLOT( slotNewBookmark() ), actionCollection(), "newbookmark");
     (void) new KAction(
-        i18n("&Insert Separator"), Qt::Key_Control+Qt::Key_I,
+        i18n("&Insert Separator"), Qt::CTRL+Qt::Key_I,
         actn, SLOT( slotInsertSeparator() ), actionCollection(),
         "insertseparator");
     (void) new KAction(
