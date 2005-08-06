@@ -52,14 +52,10 @@ KonqBgndDialog::KonqBgndDialog( QWidget* parent,
     QVBoxLayout* mainLayout = new QVBoxLayout( page, 0, KDialog::spacingHint() );
 
     m_buttonGroup = new QGroupBox( i18n("Background"), page );
-    m_buttonGroup->layout()->setMargin( KDialog::marginHint() );
-    m_buttonGroup->layout()->setSpacing( KDialog::spacingHint() );
-    QGridLayout* groupLayout = new QGridLayout( m_buttonGroup->layout() );
+    QGridLayout* groupLayout = new QGridLayout( m_buttonGroup );
     groupLayout->setAlignment( Qt::AlignTop );
     mainLayout->addWidget( m_buttonGroup );
 
-    connect( m_buttonGroup, SIGNAL( clicked(int) ),
-             this, SLOT( slotBackgroundModeChanged() ) );
 
     // color
     m_radioColor = new QRadioButton( i18n("Co&lor:"), m_buttonGroup );
@@ -71,6 +67,8 @@ KonqBgndDialog::KonqBgndDialog( QWidget* parent,
 
     connect( m_buttonColor, SIGNAL( changed( const QColor& ) ),
              this, SLOT( slotColorChanged() ) );
+    connect( m_radioColor, SIGNAL( toggled(bool) ),
+             this, SLOT( slotBackgroundModeChanged() ) );
 
     // picture
     m_radioPicture = new QRadioButton( i18n("&Picture:"), m_buttonGroup );
