@@ -1,6 +1,7 @@
 #include "konqsidebar_tree.h"
 #include "konqsidebar_tree.moc"
 #include "konq_sidebartree.h"
+#include <kvbox.h>
 #include <kdebug.h>
 #include <kstandarddirs.h>
 #include <ksimpleconfig.h>
@@ -21,27 +22,15 @@ KonqSidebar_Tree::KonqSidebar_Tree(KInstance *instance,QObject *parent,QWidget *
 	int virt= ( (ksc.readEntry("X-KDE-TreeModule","")=="Virtual") ?VIRT_Folder:VIRT_Link);
 	if (virt==1) desktopName_=ksc.readEntry("X-KDE-RelURL","");
 	
-	widget = new QWidget( widgetParent );
-	QHBoxLayout * layout = new QHBoxLayout( widget );
+	widget = new KVBox( widgetParent );
 			
 	if (ksc.readBoolEntry("X-KDE-SearchableTreeModule",false)) {
-		layout->setSpacing(KDialog::spacingHint());
+		KVBox* searchLine = new KVBox(widget);
 		tree=new KonqSidebarTree(this,widget,virt,desktopName_);
-		layout->addWidget( tree );
-		QToolButton *clearSearch = new QToolButton(widget);
-		layout->addWidget( clearSearch );
-		clearSearch->setTextLabel(i18n("Clear Search"), true);
-		clearSearch->setIconSet(SmallIconSet(QApplication::reverseLayout() ? "clear_left" : "locationbar_erase"));
-		QLabel* slbl = new QLabel(i18n("Se&arch:"), widget);
-		layout->addWidget( slbl );
-		KListViewSearchLine* listViewSearch = new KListViewSearchLine(widget,tree);
-		layout->addWidget( listViewSearch );
-		slbl->setBuddy(listViewSearch);
-		connect(clearSearch, SIGNAL(pressed()), listViewSearch, SLOT(clear()));
+		new KListViewSearchLineWidget(tree,searchLine);
 	}
 	else {
-		tree=new KonqSidebarTree(this,widgetParent,virt,desktopName_);
-		layout->addWidget( tree );
+		tree=new KonqSidebarTree(this,widget,virt,desktopName_);
 	}
 
 	connect(tree, SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs &)),
