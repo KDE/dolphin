@@ -53,7 +53,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <time.h>
-#include <klargefile.h>
+#include <kde_file.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <time.h>
