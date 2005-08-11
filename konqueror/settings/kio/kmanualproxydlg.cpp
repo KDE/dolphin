@@ -479,7 +479,7 @@ bool KManualProxyDlg::getException ( QString& result,
                             "<code>.kde.org</code></qt>");
                             
     bool ok;
-    result = KInputDialog::text( caption, label, value, &ok, 0, 0, 0, 
+    result = KInputDialog::getText( caption, label, value, &ok, 0, 0, 0, 
                                 QString::null, whatsThis );
     
     // If the user pressed cancel, do nothing...
