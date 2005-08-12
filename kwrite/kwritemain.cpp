@@ -107,7 +107,7 @@ KWrite::KWrite (KTextEditor::Document *doc)
     docList.append(doc);
   }
 
-  m_view = doc->createView (this);
+  m_view = qobject_cast<KTextEditor::View*>(doc->createView (this));
 
   setCentralWidget(m_view);
 
