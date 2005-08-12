@@ -105,21 +105,21 @@ LanBrowser::LanBrowser(QWidget *parent)
    tabs.addTab(smbPage, i18n("&Windows Shares"));
    connect(smbPage,SIGNAL(changed(bool)), SLOT( changed() ));
 
-   lisaPage = KCModuleLoader::loadModule("kcmlisa", &tabs);
+   lisaPage = KCModuleLoader::loadModule("kcmlisa", KCModuleLoader::None,&tabs);
    if (lisaPage)
    {
      tabs.addTab(lisaPage,i18n("&LISa Daemon"));
      connect(lisaPage,SIGNAL(changed()), SLOT( changed() ));
    }
 
-//   resLisaPage = KCModuleLoader::loadModule("kcmreslisa", &tabs);
+//   resLisaPage = KCModuleLoader::loadModule("kcmreslisa", KCModuleLoader::None,&tabs);
 //   if (resLisaPage)
 //   {
 //     tabs.addTab(resLisaPage,i18n("R&esLISa Daemon"));
 //     connect(resLisaPage,SIGNAL(changed()), SLOT( changed() ));
 //   }
 
-   kioLanPage = KCModuleLoader::loadModule("kcmkiolan", &tabs);
+   kioLanPage = KCModuleLoader::loadModule("kcmkiolan", KCModuleLoader::None, &tabs);
    if (kioLanPage)
    {
      tabs.addTab(kioLanPage,i18n("lan:/ Iosla&ve"));

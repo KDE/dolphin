@@ -48,7 +48,7 @@ KBrowserOptions::KBrowserOptions(KConfig *config, QString group, QWidget *parent
   previews = new KPreviewOptions(tab, name);
   previews->layout()->setMargin( KDialog::marginHint() );
 
-  kuick = KCModuleLoader::loadModule("kcmkuick", tab);
+  kuick = KCModuleLoader::loadModule("kcmkuick", KCModuleLoader::None,tab);
 
   tab->addTab(appearance, i18n("&Appearance"));
   tab->addTab(behavior, i18n("&Behavior"));
