@@ -33,6 +33,7 @@
 #include <kparts/part.h>
 #include <kparts/componentfactory.h>
 #include <kparts/browserextension.h>
+#include <assert.h>
 
 FavIconUpdater::FavIconUpdater(QObject *parent, const char *name)
     : KonqFavIconMgr(parent, name) {

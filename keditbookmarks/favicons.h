@@ -52,7 +52,7 @@ class FavIconsItr : public BookmarkIterator
    Q_OBJECT
 
 public:
-   FavIconsItr(Q3ValueList<KBookmark> bks);
+   FavIconsItr(QVector<KBookmark> bks);
    ~FavIconsItr();
    virtual FavIconsItrHolder* holder() const { return FavIconsItrHolder::self(); }
 

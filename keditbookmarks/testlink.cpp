@@ -35,6 +35,7 @@
 #include <kbookmarkmanager.h>
 
 #include <kaction.h>
+#include <klocale.h>
 
 TestLinkItrHolder *TestLinkItrHolder::s_self = 0;
 
@@ -65,15 +66,15 @@ void TestLinkItrHolder::addAffectedBookmark( const QString & address )
 
 /* -------------------------- */
 
-TestLinkItr::TestLinkItr(Q3ValueList<KBookmark> bks)
+TestLinkItr::TestLinkItr(QVector<KBookmark> bks)
     : BookmarkIterator(bks) {
     m_job = 0;
 }
 
 TestLinkItr::~TestLinkItr() {
+    //FIXME set status
     if (m_job) {
         // kdDebug() << "JOB kill\n";
-        curItem()->restoreStatus();
         m_job->disconnect();
         m_job->kill(false);
     }
@@ -95,9 +96,9 @@ void TestLinkItr::doAction() {
     connect(m_job, SIGNAL( data( KIO::Job *,  const QByteArray &)),
             this, SLOT( slotJobData(KIO::Job *, const QByteArray &)));
 
-    curItem()->setTmpStatus(i18n("Checking..."));
+    //FIXME curItem()->setTmpStatus(i18n("Checking..."));
     QString oldModDate = TestLinkItrHolder::self()->getMod(curBk().url().url());
-    curItem()->setOldStatus(oldModDate);
+    //FIXME curItem()->setOldStatus(oldModDate);
     TestLinkItrHolder::self()->setMod(curBk().url().url(), i18n("Checking..."));
 }
 
@@ -116,7 +117,7 @@ void TestLinkItr::slotJobData(KIO::Job *job, const QByteArray &data) {
                     // print the first line of the <title>
                     leftover = leftover.left(close_pos);
                 }
-                curItem()->nsPut(KCharsets::resolveEntities(leftover));
+                //FIXME curItem()->nsPut(KCharsets::resolveEntities(leftover));
                 m_errSet = true;
                 break;
             }
@@ -125,7 +126,7 @@ void TestLinkItr::slotJobData(KIO::Job *job, const QByteArray &data) {
     } else {
         QString modDate = transfer->queryMetaData("modified");
         if (!modDate.isEmpty()) {
-            curItem()->nsPut(QString::number(KRFCDate::parseDate(modDate)));
+            //FIXME curItem()->nsPut(QString::number(KRFCDate::parseDate(modDate)));
         }
     }
 
@@ -134,7 +135,7 @@ void TestLinkItr::slotJobData(KIO::Job *job, const QByteArray &data) {
 
 void TestLinkItr::slotJobResult(KIO::Job *job) {
     m_job = 0;
-    if ( !curItem() ) return;
+    //FIXME if ( !curItem() ) return;
 
     KIO::TransferJob *transfer = (KIO::TransferJob *)job;
     QString modDate = transfer->queryMetaData("modified");
@@ -145,20 +146,20 @@ void TestLinkItr::slotJobResult(KIO::Job *job) {
         QString jerr = job->errorString();
         if (!jerr.isEmpty()) {
             jerr.replace("\n", " ");
-            curItem()->nsPut(jerr);
+            //FIXME curItem()->nsPut(jerr);
             chkErr = false;
         }
     }
 
     if (chkErr) {
         if (!modDate.isEmpty()) {
-            curItem()->nsPut(QString::number(KRFCDate::parseDate(modDate)));
+            //FIXME curItem()->nsPut(QString::number(KRFCDate::parseDate(modDate)));
         } else if (!m_errSet) {
-            curItem()->nsPut(QString::number(KRFCDate::parseDate("0")));
+            //FIXME curItem()->nsPut(QString::number(KRFCDate::parseDate("0")));
         }
     }
 
-    curItem()->modUpdate();
+    //FIXME curItem()->modUpdate();
     holder()->addAffectedBookmark(KBookmark::parentAddress(curBk().address()));
     delayedEmitNextOne();
 }
@@ -195,6 +196,7 @@ void TestLinkItrHolder::resetToValue(const QString &url, const QString &oldValue
 
 /* -------------------------- */
 
+/*
 QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::PaintStyle &_style, 
                                           const QString &nVisit, const QString &Modify) {
     bool newModValid = false;
@@ -298,7 +300,8 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
     _style = style;
     return statusStr;
 }
-
+*/
+/*
 static void parseInfo (KBookmark &bk, QString &nVisited) {
     nVisited = 
         NodeEditCommand::getNodeText(bk, QStringList() << "info" << "metadata"
@@ -306,6 +309,7 @@ static void parseInfo (KBookmark &bk, QString &nVisited) {
 
 //    kdDebug() << " Visited=" << nVisited << "\n";
 }
+*/
 
 static void parseNsInfo(const QString &nsinfo, QString &nCreate, QString &nAccess, QString &nModify) {
     QStringList sl = QStringList::split(' ', nsinfo);
@@ -341,6 +345,8 @@ static const QString updateNsInfoMod(const QString &_nsinfo, const QString &nm) 
 }
 
 // KEBListViewItem !!!!!!!!!!!
+//FIXME nsPut
+/*
 void KEBListViewItem::nsPut(const QString &newModDate) {
     static const QString NetscapeInfoAttribute = "netscapeinfo";
     const QString info = m_bookmark.internalElement().attribute(NetscapeInfoAttribute);
@@ -349,8 +355,10 @@ void KEBListViewItem::nsPut(const QString &newModDate) {
     TestLinkItrHolder::self()->setMod(m_bookmark.url().url(), newModDate);
     setText(KEBListView::StatusColumn, newModDate);
 }
+*/
 
 // KEBListViewItem !!!!!!!!!!!
+/*
 void KEBListViewItem::modUpdate() {
     QString nCreate, nAccess, oldModify;
     QString iVisit;
@@ -367,10 +375,11 @@ void KEBListViewItem::modUpdate() {
     if (statusLine != "Error")
         setText(KEBListView::StatusColumn, statusLine);
 }
-
+*/
 /* -------------------------- */
 
 // KEBListViewItem !!!!!!!!!!!
+/*
 void KEBListViewItem::setOldStatus(const QString &oldStatus) {
     // kdDebug() << "KEBListViewItem::setOldStatus" << endl;
     m_oldStatus = oldStatus;
@@ -391,5 +400,5 @@ void KEBListViewItem::restoreStatus() {
         modUpdate();
     }
 }
-
+*/
 #include "testlink.moc"

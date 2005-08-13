@@ -104,7 +104,7 @@ void ImportCommand::execute() {
 
     } else {
         // import into the root, after cleaning it up
-        bkGroup = CurrentMgr::self()->mgr()->root();
+        bkGroup = CurrentMgr::self()->root();
         delete m_cleanUpCmd;
         m_cleanUpCmd = DeleteCommand::deleteAll(bkGroup);
 
@@ -128,7 +128,7 @@ void ImportCommand::unexecute() {
 
     } else {
         // we imported at the root -> delete everything
-        KBookmarkGroup root = CurrentMgr::self()->mgr()->root();
+        KBookmarkGroup root = CurrentMgr::self()->root();
         KCommand *cmd = DeleteCommand::deleteAll(root);
 
         cmd->execute();
@@ -141,7 +141,7 @@ void ImportCommand::unexecute() {
 
 QString ImportCommand::affectedBookmarks() const
 {
-    QString rootAdr = CurrentMgr::self()->mgr()->root().address();
+    QString rootAdr = CurrentMgr::self()->root().address();
     if(m_group == rootAdr)
         return m_group;
     else
@@ -270,11 +270,11 @@ void XBELImportCommand::doExecute(const KBookmarkGroup &/*bkGroup*/) {
     QDomNode node = doc.importNode(subDoc, true);
 
     if (!folder().isEmpty()) {
-        CurrentMgr::self()->mgr()->root().internalElement().appendChild(node);
+        CurrentMgr::self()->root().internalElement().appendChild(node);
         m_group = KBookmarkGroup(node.toElement()).address();
 
     } else {
-        QDomElement root = CurrentMgr::self()->mgr()->root().internalElement();
+        QDomElement root = CurrentMgr::self()->root().internalElement();
 
         Q3ValueList<QDomElement> childList;
 

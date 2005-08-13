@@ -142,9 +142,6 @@ void KEBApp::createActions() {
         i18n("Set as T&oolbar Folder"), "bookmark_toolbar", 0,
         actn, SLOT( slotSetAsToolbar() ), actionCollection(), "setastoolbar");
     (void) new KAction(
-        i18n("Show in T&oolbar"), "bookmark_toolbar", 0,
-        actn, SLOT( slotShowInToolbar() ), actionCollection(), "showintoolbar");
-    (void) new KAction(
         i18n("&Expand All Folders"), 0,
         actn, SLOT( slotExpandAll() ), actionCollection(), "expandall");
     (void) new KAction(
@@ -209,14 +206,13 @@ void KEBApp::createActions() {
         actn, SLOT( slotExportMoz() ), actionCollection(), "exportMoz");
 }
 
-void ActionsImpl::slotLoad() {
+void ActionsImpl::slotLoad() 
+{
     QString bookmarksFile
         = KFileDialog::getOpenFileName(QString::null, "*.xml", KEBApp::self());
     if (bookmarksFile.isNull())
         return;
-    KEBApp::self()->m_caption = QString::null;
-    KEBApp::self()->m_bookmarksFilename = bookmarksFile;
-    KEBApp::self()->construct();
+    KEBApp::self()->reset(QString::null,  bookmarksFile);
 }
 
 void ActionsImpl::slotSaveAs() {
@@ -292,9 +288,6 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
         if( sa.multiSelect || (sa.singleSelect && !sa.root && !sa.urlIsEmpty && !sa.group && !sa.separator))
             toEnable << "testlink" << "updatefavicon";
 
-        if( sa.itemSelected)
-            toEnable << "showintoolbar";
-
         if (sa.singleSelect && !sa.root && !sa.separator) {
             toEnable << "rename" << "changeicon" << "changecomment";
             if (!sa.group)
@@ -308,14 +301,11 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
         }
     }
 
-    QString stbString = sa.tbShowState ? i18n("Hide in T&oolbar") : i18n("Show in T&oolbar");
-    coll->action("showintoolbar")->setText(stbString);
-
     for ( QStringList::Iterator it = toEnable.begin();
             it != toEnable.end(); ++it )
     {
+        //kdDebug() <<" enabling action "<<(*it) << endl;
         coll->action((*it).ascii())->setEnabled(true);
-        // kdDebug() << (*it) << endl;
     }
 }
 
@@ -330,18 +320,29 @@ void KEBApp::setCancelTestsEnabled(bool enabled) {
 void ActionsImpl::slotCut() {
     KEBApp::self()->bkInfo()->commitChanges();
     slotCopy();
-    DeleteManyCommand *mcmd = new DeleteManyCommand( i18n("Cut Items"), ListView::self()->selectedAddresses() );
+    DeleteManyCommand *mcmd = new DeleteManyCommand( i18n("Cut Items"), KEBApp::self()->selectedBookmarks() );
     CmdHistory::self()->addCommand(mcmd);
 
 }
 
-void ActionsImpl::slotCopy() {
+//FIXME remove after kdelibs gets a suitable constructor
+Q3ValueList<KBookmark> convert(QVector<KBookmark> vec)
+{
+    Q3ValueList<KBookmark> list;
+    QVector<KBookmark>::const_iterator it, end;
+    end = vec.constEnd();
+    for(it = vec.constBegin(); it != end; ++it)
+        list.append( *it );
+    return list;
+}
+//FIXME end remove
+
+void ActionsImpl::slotCopy() 
+{
     KEBApp::self()->bkInfo()->commitChanges();
     // this is not a command, because it can't be undone
-    Q_ASSERT(ListView::self()->selectedItemsMap().count() != 0);
-    Q3ValueList<KBookmark> bookmarks
-        = ListView::self()->itemsToBookmarks(ListView::self()->selectedItemsMap());
-    KBookmarkDrag* data = KBookmarkDrag::newDrag(bookmarks, 0 /* not this ! */);
+    QVector<KBookmark> bookmarks = KEBApp::self()->selectedBookmarksExpanded();
+    KBookmarkDrag* data = KBookmarkDrag::newDrag(convert(bookmarks), 0 /* not this ! */);
     kapp->clipboard()->setData(data, QClipboard::Selection);
     kapp->clipboard()->setData(data, QClipboard::Clipboard);
 }
@@ -352,13 +353,14 @@ void ActionsImpl::slotPaste() {
         CmdGen::insertMimeSource(
                             i18n("Paste"),
                             kapp->clipboard()->data(QClipboard::Clipboard),
-                            ListView::self()->userAddress());
+                            KEBApp::self()->firstSelected().address());
     CmdHistory::self()->didCommand(mcmd);
 }
 
 /* -------------------------------------- */
 
-void ActionsImpl::slotNewFolder() {
+void ActionsImpl::slotNewFolder() 
+{
     KEBApp::self()->bkInfo()->commitChanges();
     bool ok;
     QString str = KInputDialog::getText( i18n( "Create New Bookmark Folder" ),
@@ -367,23 +369,25 @@ void ActionsImpl::slotNewFolder() {
         return;
 
     CreateCommand *cmd = new CreateCommand(
-                                ListView::self()->userAddress(),
+                                KEBApp::self()->insertAddress(),
                                 str, "bookmark_folder", /*open*/ true);
     CmdHistory::self()->addCommand(cmd);
 }
 
-void ActionsImpl::slotNewBookmark() {
+void ActionsImpl::slotNewBookmark() 
+{
     KEBApp::self()->bkInfo()->commitChanges();
     // TODO - make a setCurrentItem(Command *) which uses finaladdress interface
     CreateCommand * cmd = new CreateCommand(
-                                ListView::self()->userAddress(),
+                                KEBApp::self()->insertAddress(),
                                 QString::null, "www", KURL("http://"));
     CmdHistory::self()->addCommand(cmd);
 }
 
-void ActionsImpl::slotInsertSeparator() {
+void ActionsImpl::slotInsertSeparator() 
+{
     KEBApp::self()->bkInfo()->commitChanges();
-    CreateCommand * cmd = new CreateCommand(ListView::self()->userAddress());
+    CreateCommand * cmd = new CreateCommand(KEBApp::self()->insertAddress());
     CmdHistory::self()->addCommand(cmd);
 }
 
@@ -396,7 +400,7 @@ void ActionsImpl::slotImport() {
     if (!import)
         return;
     CmdHistory::self()->addCommand(import);
-    ListView::self()->setCurrent( ListView::self()->getItemAtAddress(import->groupAddress()), true);
+    //FIXME select import->groupAddress
 }
 
 // TODO - this is getting ugly and repetitive. cleanup!
@@ -439,7 +443,7 @@ void ActionsImpl::slotPrint() {
     KTempFile tmpf(locateLocal("tmp", "print_bookmarks"), ".html");
     QTextStream *tstream = tmpf.textStream();
     tstream->setEncoding(QTextStream::Unicode);
-    (*tstream) << exporter.toString(CurrentMgr::self()->mgr()->root(), true);
+    (*tstream) << exporter.toString(CurrentMgr::self()->root(), true);
     tmpf.close();
 
     s_appId = kapp->dcopClient()->appId();
@@ -476,12 +480,12 @@ void ActionsImpl::slotCancelAllTests() {
 
 void ActionsImpl::slotTestAll() {
     TestLinkItrHolder::self()->insertItr(
-            new TestLinkItr(ListView::self()->allBookmarks()));
+            new TestLinkItr(KEBApp::self()->allBookmarks()));
 }
 
 void ActionsImpl::slotUpdateAllFavIcons() {
     FavIconsItrHolder::self()->insertItr(
-            new FavIconsItr(ListView::self()->allBookmarks()));
+            new FavIconsItr(KEBApp::self()->allBookmarks()));
 }
 
 ActionsImpl::~ActionsImpl() {
@@ -493,12 +497,12 @@ ActionsImpl::~ActionsImpl() {
 
 void ActionsImpl::slotTestSelection() {
     KEBApp::self()->bkInfo()->commitChanges();
-    TestLinkItrHolder::self()->insertItr(new TestLinkItr(ListView::self()->selectedBookmarksExpanded()));
+    TestLinkItrHolder::self()->insertItr(new TestLinkItr(KEBApp::self()->selectedBookmarksExpanded()));
 }
 
 void ActionsImpl::slotUpdateFavIcon() {
     KEBApp::self()->bkInfo()->commitChanges();
-    FavIconsItrHolder::self()->insertItr(new FavIconsItr(ListView::self()->selectedBookmarksExpanded()));
+    FavIconsItrHolder::self()->insertItr(new FavIconsItr(KEBApp::self()->selectedBookmarksExpanded()));
 }
 
 /* -------------------------------------- */
@@ -531,7 +535,7 @@ void KBookmarkGroupList::visitEnter(const KBookmarkGroup &grp) {
 
 void ActionsImpl::slotRecursiveSort() {
     KEBApp::self()->bkInfo()->commitChanges();
-    KBookmark bk = ListView::self()->firstSelected()->bookmark();
+    KBookmark bk = KEBApp::self()->firstSelected();
     Q_ASSERT(bk.isGroup());
     KEBMacroCommand *mcmd = new KEBMacroCommand(i18n("Recursive Sort"));
     KBookmarkGroupList lister(CurrentMgr::self()->mgr());
@@ -547,7 +551,7 @@ void ActionsImpl::slotRecursiveSort() {
 
 void ActionsImpl::slotSort() {
     KEBApp::self()->bkInfo()->commitChanges();
-    KBookmark bk = ListView::self()->firstSelected()->bookmark();
+    KBookmark bk = KEBApp::self()->firstSelected();
     Q_ASSERT(bk.isGroup());
     SortCommand *cmd = new SortCommand(i18n("Sort Alphabetically"), bk.address());
     CmdHistory::self()->addCommand(cmd);
@@ -557,16 +561,17 @@ void ActionsImpl::slotSort() {
 
 void ActionsImpl::slotDelete() {
     KEBApp::self()->bkInfo()->commitChanges();
-    DeleteManyCommand *mcmd = new DeleteManyCommand(i18n("Delete Items"), ListView::self()->selectedAddresses());
+    DeleteManyCommand *mcmd = new DeleteManyCommand(i18n("Delete Items"), KEBApp::self()->selectedBookmarks());
     CmdHistory::self()->addCommand(mcmd);
 }
 
-void ActionsImpl::slotOpenLink() {
+void ActionsImpl::slotOpenLink() 
+{
     KEBApp::self()->bkInfo()->commitChanges();
-    //Q3ValueList<KBookmark> bks = ListView::self()->itemsToBookmarks(ListView::self()->selectedItemsMap());
-    Q3ValueList<KBookmark> bks = ListView::self()->itemsToBookmarks(ListView::self()->selectedItemsMap());
-    Q3ValueListIterator<KBookmark> it;
-    for (it = bks.begin(); it != bks.end(); ++it) {
+    QVector<KBookmark> bookmarks = KEBApp::self()->selectedBookmarksExpanded();
+    QVector<KBookmark>::const_iterator it, end;
+    end = bookmarks.constEnd();
+    for (it = bookmarks.constBegin(); it != end; ++it) {
         if ((*it).isGroup() || (*it).isSeparator())
             continue;
         (void)new KRun((*it).url());
@@ -577,55 +582,47 @@ void ActionsImpl::slotOpenLink() {
 
 void ActionsImpl::slotRename() {
     KEBApp::self()->bkInfo()->commitChanges();
-    ListView::self()->rename(KEBListView::NameColumn);
+    KEBApp::self()->startEdit( KEBApp::NameColumn );
 }
 
 void ActionsImpl::slotChangeURL() {
     KEBApp::self()->bkInfo()->commitChanges();
-    ListView::self()->rename(KEBListView::UrlColumn);
+    KEBApp::self()->startEdit( KEBApp::UrlColumn );
 }
 
 void ActionsImpl::slotChangeComment() {
     KEBApp::self()->bkInfo()->commitChanges();
-    ListView::self()->rename(KEBListView::CommentColumn);
+    KEBApp::self()->startEdit( KEBApp::CommentColumn );
 }
 
 void ActionsImpl::slotSetAsToolbar() {
     KEBApp::self()->bkInfo()->commitChanges();
-    KBookmark bk = ListView::self()->firstSelected()->bookmark();
+    KBookmark bk = KEBApp::self()->firstSelected();
     Q_ASSERT(bk.isGroup());
     KEBMacroCommand *mcmd = CmdGen::setAsToolbar(bk);
     CmdHistory::self()->addCommand(mcmd);
 }
 
-void ActionsImpl::slotShowInToolbar() {
-    KEBApp::self()->bkInfo()->commitChanges();
-    KBookmark bk = ListView::self()->firstSelected()->bookmark();
-    bool shown = CmdGen::shownInToolbar(bk);
-    KEBMacroCommand *mcmd = CmdGen::setShownInToolbar(bk, !shown);
-    CmdHistory::self()->addCommand(mcmd);
-}
-
 void ActionsImpl::slotChangeIcon() {
     KEBApp::self()->bkInfo()->commitChanges();
-    KBookmark bk = ListView::self()->firstSelected()->bookmark();
+    KBookmark bk = KEBApp::self()->firstSelected();
     KIconDialog dlg(KEBApp::self());
     QString newIcon = dlg.selectIcon(KIcon::Small, KIcon::FileSystem);
     if (newIcon.isEmpty())
         return;
-    EditCommand *cmd = new EditCommand(
-                                bk.address(),
-                                EditCommand::Edition("icon", newIcon),
-                                i18n("Icon"));
+    EditCommand *cmd = new EditCommand(bk.address(), -1, newIcon);
+
     CmdHistory::self()->addCommand(cmd);
 }
 
-void ActionsImpl::slotExpandAll() {
-    ListView::self()->setOpen(true);
+void ActionsImpl::slotExpandAll() 
+{
+    KEBApp::self()->expandAll();
 }
 
-void ActionsImpl::slotCollapseAll() {
-    ListView::self()->setOpen(false);
+void ActionsImpl::slotCollapseAll() 
+{
+    KEBApp::self()->collapseAll();
 }
 
 #include "actionsimpl.moc"

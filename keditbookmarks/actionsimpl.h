@@ -47,7 +47,6 @@ public slots:
    void slotInsertSeparator();
    void slotSort();
    void slotSetAsToolbar();
-   void slotShowInToolbar();
    void slotOpenLink();
    void slotShowNS();
    void slotTestSelection();

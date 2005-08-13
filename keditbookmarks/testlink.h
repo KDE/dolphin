@@ -41,8 +41,6 @@ public:
    const QString getOldVisit(const QString &url) const;
    void setMod(const QString &url, const QString &val);
    void setOldVisit(const QString &url, const QString &val);
-   static QString calcPaintStyle(const QString &, KEBListViewItem::PaintStyle&, 
-                                 const QString &, const QString &);
 protected:
    virtual void doItrListChanged();
 private:
@@ -58,7 +56,7 @@ class TestLinkItr : public BookmarkIterator
    Q_OBJECT
 
 public:
-   TestLinkItr(Q3ValueList<KBookmark> bks);
+   TestLinkItr(QVector<KBookmark> bks);
    ~TestLinkItr();
    virtual TestLinkItrHolder* holder() const { return TestLinkItrHolder::self(); }
 

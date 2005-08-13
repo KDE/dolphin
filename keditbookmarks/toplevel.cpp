@@ -21,6 +21,8 @@
 
 #include "toplevel.h"
 
+#include "bookmarkmodel.h"
+
 #include "bookmarkinfo.h"
 #include "listview.h"
 #include "actionsimpl.h"
@@ -29,6 +31,7 @@
 #include "settings.h"
 #include "commands.h"
 #include "kebsearchline.h"
+#include "bookmarklistview.h"
 
 #include <stdlib.h>
 
@@ -57,6 +60,10 @@
 
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
+#include <assert.h>
+#include <qglobal.h>
+
+
 
 CmdHistory* CmdHistory::s_self = 0;
 
@@ -82,13 +89,6 @@ void CmdHistory::slotCommandExecuted(KCommand *k) {
     KBookmark bk = CurrentMgr::bookmarkAt(cmd->affectedBookmarks());
     Q_ASSERT(bk.isGroup());
     CurrentMgr::self()->notifyManagers(bk.toGroup());
-
-    // sets currentItem to something sensible
-    // if the currentItem was invalidated by executing
-    // CreateCommand or DeleteManyCommand
-    // otherwise does nothing
-    // sensible is either a already selected item or cmd->currentAddress()
-    ListView::self()->fixUpCurrent( cmd->currentAddress() );
 }
 
 void CmdHistory::notifyDocSaved() {
@@ -123,7 +123,13 @@ void CmdHistory::clearHistory() {
 
 CurrentMgr *CurrentMgr::s_mgr = 0;
 
-KBookmark CurrentMgr::bookmarkAt(const QString &a) {
+KBookmarkGroup CurrentMgr::root()
+{
+    return mgr()->root();
+}
+
+KBookmark CurrentMgr::bookmarkAt(const QString &a) 
+{
     return self()->mgr()->findByAddress(a);
 }
 
@@ -154,7 +160,6 @@ void CurrentMgr::slotBookmarksChanged(const QString &, const QString &) {
     }
 
     CmdHistory::self()->clearHistory();
-    ListView::self()->updateListView();
     KEBApp::self()->updateActions();
 }
 
@@ -165,7 +170,7 @@ void CurrentMgr::notifyManagers(KBookmarkGroup grp)
 }
 
 void CurrentMgr::notifyManagers() {
-    notifyManagers( mgr()->root() );
+    notifyManagers( root() );
 }
 
 void CurrentMgr::reloadConfig() {
@@ -205,10 +210,7 @@ KEBApp::KEBApp(
 
     s_topLevel = this;
 
-    int h = 20;
-
     QSplitter *vsplitter = new QSplitter(this);
-
     KToolBar *quicksearch = new KToolBar(vsplitter, "search toolbar");
 
     KAction *resetQuickSearch = new KAction( i18n( "Reset Quick Search" ),
@@ -225,20 +227,7 @@ KEBApp::KEBApp(
     lbl->setBuddy(searchLineEdit);
     connect(resetQuickSearch, SIGNAL(activated()), searchLineEdit, SLOT(clear()));
 
-    ListView::createListViews(vsplitter);
-    ListView::self()->initListViews();
-    searchLineEdit->setListView(static_cast<KListView*>(ListView::self()->widget()));
-    ListView::self()->setSearchLine(searchLineEdit);
-
-    m_bkinfo = new BookmarkInfoWidget(vsplitter);
-
-    vsplitter->setOrientation(Qt::Vertical);
-    vsplitter->setSizes(Q3ValueList<int>() << h << 380
-                                          << m_bkinfo->sizeHint().height() );
-
-    setCentralWidget(vsplitter);
-    resize(ListView::self()->widget()->sizeHint().width(),
-           vsplitter->sizeHint().height());
+    //FIXME searchLineEdit->setListView(static_cast<KListView*>(ListView::self()->widget()));
 
     createActions();
     if (m_browser)
@@ -251,30 +240,195 @@ KEBApp::KEBApp(
     connect(kapp->clipboard(), SIGNAL( dataChanged() ),
                                SLOT( slotClipboardDataChanged() ));
 
-    ListView::self()->connectSignals();
-
     KGlobal::locale()->insertCatalogue("libkonq");
 
     m_canPaste = false;
 
-    construct();
+    CurrentMgr::self()->createManager(m_bookmarksFilename);
 
-    ListView::self()->setCurrent(ListView::self()->getItemAtAddress(address), true);
+    //QT 4 new code
+    mBookmarkListView = new BookmarkListView(vsplitter);
+    mBookmarkListView->setModel( BookmarkModel::self() );
+    mBookmarkListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    expandAll();
+    mBookmarkListView->loadColumnSetting();
+
+    m_bkinfo = new BookmarkInfoWidget(vsplitter);
+
+    vsplitter->setOrientation(Qt::Vertical);
+    //FIXME set sensible sizes for vsplitter?
+
+    setCentralWidget(vsplitter);
+
+    slotClipboardDataChanged();
+    setAutoSaveSettings();
+
+    connect(mBookmarkListView->selectionModel(), SIGNAL(selectionChanged(  const QItemSelection &, const QItemSelection & )),
+            this, SLOT(selectionChanged()));
 
     setCancelFavIconUpdatesEnabled(false);
     setCancelTestsEnabled(false);
     updateActions();
 }
 
-void KEBApp::construct() {
-    CurrentMgr::self()->createManager(m_bookmarksFilename);
+void KEBApp::reset(const QString & caption, const QString & bookmarksFileName) 
+{
+    m_caption = caption;
+    m_bookmarksFilename = bookmarksFileName;
+    CurrentMgr::self()->createManager(m_bookmarksFilename); //FIXME this is still a memory leak (iff called by slotLoad)
+    BookmarkModel::self()->resetModel();
+    expandAll();
+    updateActions();
+}
 
-    ListView::self()->updateListViewSetup(m_readOnly);
-    ListView::self()->updateListView();
-    ListView::self()->widget()->setFocus();
+void KEBApp::collapseAll()
+{
+    collapseAllHelper( BookmarkModel::self()->index(0, 0, QModelIndex()));
+}
 
-    slotClipboardDataChanged();
-    setAutoSaveSettings();
+void KEBApp::collapseAllHelper( QModelIndex index )
+{
+    mBookmarkListView->collapse(index);
+    int rowCount = index.model()->rowCount(index);
+    for(int i=0; i<rowCount; ++i)
+        collapseAllHelper(index.child(i, 0));
+}
+
+void KEBApp::expandAll()
+{
+    expandAllHelper( BookmarkModel::self()->index(0, 0, QModelIndex()));
+}
+
+void KEBApp::expandAllHelper(QModelIndex index)
+{
+    mBookmarkListView->expand(index);
+    int rowCount = index.model()->rowCount(index);
+    for(int i=0; i<rowCount; ++i)
+        expandAllHelper(index.child(i, 0));
+}
+
+void KEBApp::startEdit( Column c )
+{
+    const QModelIndexList & list = mBookmarkListView->selectionModel()->selectedIndexes();
+    QModelIndexList::const_iterator it;
+    it = list.begin();
+    if( (*it).column() == int(c) && (BookmarkModel::self()->flags(*it) & Qt::ItemIsEditable) )
+        return mBookmarkListView->edit( *it );
+}
+
+KBookmark KEBApp::firstSelected() const
+{
+    const QModelIndexList & list = mBookmarkListView->selectionModel()->selectedIndexes();
+    QModelIndex index = *list.constBegin();
+    return static_cast<TreeItem *>(index.internalPointer())->bookmark();
+}
+
+QString KEBApp::insertAddress() const
+{
+    KBookmark current = firstSelected();
+    return (current.isGroup()) 
+        ? (current.address() + "/0") //FIXME internal represantation used
+        : KBookmark::nextAddress(current.address());
+}
+
+bool lessAddress(QString a, QString b)
+{
+    if(a == b)
+         return false;
+
+    QString error("ERROR");
+    if(a == error)
+        return false;
+    if(b == error)
+        return true;
+
+    a += "/";
+    b += "/";
+
+    uint aLast = 0;
+    uint bLast = 0;
+    uint aEnd = a.length();
+    uint bEnd = b.length();
+    // Each iteration checks one "/"-delimeted part of the address
+    // "" is treated correctly
+    while(true)
+    {
+        // Invariant: a[0 ... aLast] == b[0 ... bLast]
+        if(aLast + 1 == aEnd) //The last position was the last slash
+            return true; // That means a is shorter than b
+        if(bLast +1 == bEnd)
+            return false;
+
+        uint aNext = a.find("/", aLast + 1);
+        uint bNext = b.find("/", bLast + 1);
+
+        bool okay;
+        uint aNum = a.mid(aLast + 1, aNext - aLast - 1).toUInt(&okay);
+        if(!okay)
+            return false;
+        uint bNum = b.mid(bLast + 1, bNext - bLast - 1).toUInt(&okay);
+        if(!okay)
+            return true;
+
+        if(aNum != bNum)
+            return aNum < bNum;
+
+        aLast = aNext;
+        bLast = bNext;
+    }
+}
+
+bool lessBookmark(const KBookmark & first, const KBookmark & second) //FIXME Using internal represantation
+{
+    return lessAddress(first.address(), second.address());
+}
+
+QVector<KBookmark> KEBApp::selectedBookmarks() const
+{
+    QVector<KBookmark> bookmarks;
+    const QModelIndexList & list = mBookmarkListView->selectionModel()->selectedIndexes();
+    bookmarks.reserve(list.count());
+    QModelIndexList::const_iterator it, end;
+    end = list.constEnd();
+    for( it = list.constBegin(); it != end; ++it)
+    {
+        if((*it).column() != 0)
+            continue;
+        KBookmark bk = static_cast<TreeItem *>((*it).internalPointer())->bookmark();;
+        if(bk.address() != CurrentMgr::self()->root().address())
+            bookmarks.push_back( bk );
+    }
+    qSort(bookmarks.begin(), bookmarks.end(), lessBookmark);
+    return bookmarks;
+}
+
+QVector<KBookmark> KEBApp::selectedBookmarksExpanded() const
+{
+    QVector<KBookmark> bookmarks = selectedBookmarks();
+    QVector<KBookmark> result;
+    result.reserve(bookmarks.size()); // at least
+    QVector<KBookmark>::const_iterator it, end;
+    end = bookmarks.constEnd();
+    for(it = bookmarks.constBegin(); it != end; ++it)
+    {
+        selectedBookmarksExpandedHelper( *it, result );
+    }
+    return result;
+}
+
+void KEBApp::selectedBookmarksExpandedHelper(KBookmark bk, QVector<KBookmark> & bookmarks) const
+{
+    bookmarks.push_back( bk );
+    if(bk.isGroup())
+    {
+        KBookmarkGroup parent = bk.toGroup();
+        KBookmark child = parent.first();
+        while(child.hasParent())
+        {
+            selectedBookmarksExpandedHelper(child, bookmarks);
+            child = parent.next(child);
+        }
+    }
 }
 
 void KEBApp::updateStatus(QString url)
@@ -288,7 +442,8 @@ KEBApp::~KEBApp() {
     delete m_cmdHistory;
     delete m_dcopIface;
     delete ActionsImpl::self();
-    delete ListView::self();
+    delete mBookmarkListView;
+    delete BookmarkModel::self();
 }
 
 KToggleAction* KEBApp::getToggleAction(const char *action) const {
@@ -310,10 +465,14 @@ bool KEBApp::nsShown() const {
     return getToggleAction("settings_showNS")->isChecked();
 }
 
-// this should be pushed from listview, not pulled
+void  KEBApp::selectionChanged()
+{
+    updateActions();
+}
+
 void KEBApp::updateActions() {
     resetActions();
-    setActionsEnabled(ListView::self()->getSelectionAbilities());
+    setActionsEnabled(mBookmarkListView->getSelectionAbilities());
 }
 
 void KEBApp::slotClipboardDataChanged() {
@@ -329,10 +488,7 @@ void KEBApp::slotClipboardDataChanged() {
 
 void KEBApp::notifyCommandExecuted() {
     // kdDebug() << "KEBApp::notifyCommandExecuted()" << endl;
-    if (!m_readOnly) {        
-        ListView::self()->updateListView();
-        updateActions();
-    }
+    updateActions();
 }
 
 /* -------------------------- */

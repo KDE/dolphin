@@ -107,7 +107,7 @@ void BookmarkInfoWidget::showBookmark(const KBookmark &bk) {
 
     m_comment_le->setReadOnly((bk.isSeparator()|| !bk.hasParent()) ? true : false );
     m_comment_le->setText(
-            NodeEditCommand::getNodeText(bk, QStringList() << "desc"));
+            EditCommand::getNodeText(bk, QStringList() << "desc"));
 
     // readonly fields
     updateStatus();
@@ -117,13 +117,13 @@ void BookmarkInfoWidget::showBookmark(const KBookmark &bk) {
 void BookmarkInfoWidget::updateStatus()
 {
    QString visitDate =
-        CurrentMgr::makeTimeStr( NodeEditCommand::getNodeText(m_bk, QStringList() << "info" << "metadata"
+        CurrentMgr::makeTimeStr( EditCommand::getNodeText(m_bk, QStringList() << "info" << "metadata"
                                                              << "time_visited" ));
     m_visitdate_le->setReadOnly(true);
     m_visitdate_le->setText(visitDate);
 
     QString creationDate =
-        CurrentMgr::makeTimeStr( NodeEditCommand::getNodeText(m_bk, QStringList() << "info" << "metadata"
+        CurrentMgr::makeTimeStr( EditCommand::getNodeText(m_bk, QStringList() << "info" << "metadata"
                                                              << "time_added" ));
     m_credate_le->setReadOnly(true);
     m_credate_le->setText(creationDate);
@@ -131,7 +131,7 @@ void BookmarkInfoWidget::updateStatus()
     // TODO - get the actual field name from the spec if it exists, else copy galeon
     m_visitcount_le->setReadOnly(true);
     m_visitcount_le->setText(
-            NodeEditCommand::getNodeText(m_bk, QStringList() << "info" << "metadata"
+            EditCommand::getNodeText(m_bk, QStringList() << "info" << "metadata"
                                                            << "visit_count" ));
 }
 
@@ -144,12 +144,12 @@ void BookmarkInfoWidget::commitChanges()
 
 void BookmarkInfoWidget::commitTitle()
 {
-    if(titlecmd)
-    {
-        emit updateListViewItem();
-        CurrentMgr::self()->notifyManagers(CurrentMgr::bookmarkAt(titlecmd->affectedBookmarks()).toGroup());
-        titlecmd = 0;
-    }
+//     if(titlecmd)
+//     {
+//         emit updateListViewItem();
+//         CurrentMgr::self()->notifyManagers(CurrentMgr::bookmarkAt(titlecmd->affectedBookmarks()).toGroup());
+//         titlecmd = 0;
+//     }
 }
 
 void BookmarkInfoWidget::slotTextChangedTitle(const QString &str) 
@@ -157,79 +157,79 @@ void BookmarkInfoWidget::slotTextChangedTitle(const QString &str)
     if (m_bk.isNull() || !m_title_le->isModified())
         return;
 
-    timer->start(1000, true);
+//     timer->start(1000, true);
 
-    if(titlecmd)
-    {
-        NodeEditCommand::setNodeText(m_bk, QStringList() << "title", str);
-        titlecmd->modify(str);
-    }
-    else
-    {
-        titlecmd = new NodeEditCommand(m_bk.address(), str, "title");
-        titlecmd->execute();
-        CmdHistory::self()->addInFlightCommand(titlecmd);
-    }
+//     if(titlecmd)
+//     {
+//         EditCommand::setNodeText(m_bk, QStringList() << "title", str);
+//         //titlecmd->modify(str);
+//     }
+//     else
+//     {
+//         //titlecmd = new NodeEditCommand(m_bk.address(), str, "title");
+//         //titlecmd->execute();
+//         //CmdHistory::self()->addInFlightCommand(titlecmd);
+//     }
 }
 
 void BookmarkInfoWidget::commitURL()
 {
-    if(urlcmd)
-    {
-        emit updateListViewItem();
-        CurrentMgr::self()->notifyManagers(CurrentMgr::bookmarkAt(urlcmd->affectedBookmarks()).toGroup());
-        urlcmd = 0;
-    }
+//     if(urlcmd)
+//     {
+//         emit updateListViewItem();
+//         CurrentMgr::self()->notifyManagers(CurrentMgr::bookmarkAt(urlcmd->affectedBookmarks()).toGroup());
+//         urlcmd = 0;
+//     }
 }
 
 void BookmarkInfoWidget::slotTextChangedURL(const QString &str) {
     if (m_bk.isNull() || !m_url_le->isModified())
         return;
 
-    timer->start(1000, true);
+//     timer->start(1000, true);
 
-    if(urlcmd)
-    {
-        KURL u = KURL::fromPathOrURL(str);
-        m_bk.internalElement().setAttribute("href", u.url(0, 106));
-        urlcmd->modify("href", u.url(0, 106));
-    }
-    else
-    {
-        KURL u = KURL::fromPathOrURL(str);
-        urlcmd = new EditCommand(m_bk.address(), EditCommand::Edition("href", u.url(0, 106)), i18n("URL"));
-        urlcmd->execute();
-        CmdHistory::self()->addInFlightCommand(urlcmd);
-    }
+//     if(urlcmd)
+//     {
+//         KURL u = KURL::fromPathOrURL(str);
+//         m_bk.internalElement().setAttribute("href", u.url(0, 106));
+//         //urlcmd->modify("href", u.url(0, 106));
+//     }
+//     else
+//     {
+//         KURL u = KURL::fromPathOrURL(str);
+//         //urlcmd = new EditCommand(m_bk.address(), EditCommand::Edition("href", u.url(0, 106)), i18n("URL"));
+//         //urlcmd->execute();
+//         //CmdHistory::self()->addInFlightCommand(urlcmd);
+//     }
 }
 
 void BookmarkInfoWidget::commitComment()
 {
-    if(commentcmd)
-    {
-        emit updateListViewItem();
-        CurrentMgr::self()->notifyManagers( CurrentMgr::bookmarkAt( commentcmd->affectedBookmarks() ).toGroup());
-        commentcmd = 0;
-    }
+//     if(commentcmd)
+//     {
+//         emit updateListViewItem();
+//         CurrentMgr::self()->notifyManagers( CurrentMgr::bookmarkAt( commentcmd->affectedBookmarks() ).toGroup());
+//         commentcmd = 0;
+//     }
 }
 
 void BookmarkInfoWidget::slotTextChangedComment(const QString &str) {
     if (m_bk.isNull() || !m_comment_le->isModified())
         return;
 
-    timer->start(1000, true);
+//     timer->start(1000, true);
 
-    if(commentcmd)
-    {
-        NodeEditCommand::setNodeText(m_bk, QStringList() << "desc", str);
-        commentcmd->modify(str);
-    }
-    else
-    {
-        commentcmd = new NodeEditCommand(m_bk.address(), str, "desc");
-        commentcmd->execute();
-        CmdHistory::self()->addInFlightCommand(commentcmd);
-    }
+//     if(commentcmd)
+//     {
+//         EditCommand::setNodeText(m_bk, QStringList() << "desc", str);
+//         //commentcmd->modify(str);
+//     }
+//     else
+//     {
+//         //commentcmd = new NodeEditCommand(m_bk.address(), str, "desc");
+//         //commentcmd->execute();
+//         //CmdHistory::self()->addInFlightCommand(commentcmd);
+//     }
 }
 
 BookmarkInfoWidget::BookmarkInfoWidget(QWidget *parent, const char *name)
@@ -238,9 +238,9 @@ BookmarkInfoWidget::BookmarkInfoWidget(QWidget *parent, const char *name)
     timer = new QTimer(this);
     connect(timer, SIGNAL( timeout() ), SLOT( commitChanges()));
 
-    titlecmd = 0;
-    urlcmd = 0;
-    commentcmd = 0;
+//     titlecmd = 0;
+//     urlcmd = 0;
+//     commentcmd = 0;
 
     QBoxLayout *vbox = new QVBoxLayout(this);
     QGridLayout *grid = new QGridLayout(vbox, 3, 4, 4);

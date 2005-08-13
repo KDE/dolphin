@@ -25,10 +25,10 @@
 #include "listview.h"
 
 #include <kdebug.h>
-
 #include <qtimer.h>
+#include <assert.h>
 
-BookmarkIterator::BookmarkIterator(Q3ValueList<KBookmark> bks) : m_bklist(bks) {
+BookmarkIterator::BookmarkIterator(QVector<KBookmark> bks) : m_bklist(bks) {
     connect(this, SIGNAL( deleteSelf(BookmarkIterator *) ), 
             SLOT( slotCancelTest(BookmarkIterator *) ));
     delayedEmitNextOne();
@@ -46,12 +46,6 @@ void BookmarkIterator::slotCancelTest(BookmarkIterator *test) {
     holder()->removeItr(test);
 }
 
-KEBListViewItem* BookmarkIterator::curItem() const {
-    if (!m_bk.hasParent())
-        return 0;
-    return ListView::self()->getItemAtAddress(m_bk.address());
-}
-
 const KBookmark BookmarkIterator::curBk() const {
     assert(m_bk.hasParent());
     return m_bk;
@@ -65,7 +59,7 @@ void BookmarkIterator::nextOne() {
         return;
     }
 
-    Q3ValueListIterator<KBookmark> head = m_bklist.begin();
+    QVector<KBookmark>::iterator head = m_bklist.begin(); //FIXME using vector is bad here
     KBookmark bk = (*head);
 
     bool viable = bk.hasParent() && isApplicable(bk);
@@ -75,7 +69,7 @@ void BookmarkIterator::nextOne() {
         doAction();
     }
 
-    m_bklist.remove(head);
+    m_bklist.erase(head);
 
     if (!viable)
         delayedEmitNextOne();

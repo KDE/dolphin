@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="keditbookmarks" version="29">
+<kpartgui name="keditbookmarks" version="30">
 
 <MenuBar>
 
@@ -41,8 +41,6 @@
   <Action name="changeurl"/>
   <Action name="changecomment"/>
   <Action name="changeicon"/>
-  <Separator/>
-  <Action name="showintoolbar"/>
 </Menu>
 
 <Menu name="view"><text>&amp;View</text>
@@ -96,7 +94,6 @@
 <Menu name="popup_folder">
   <!-- Stuff for folders -->
   <Action name="setastoolbar"/>
-  <Action name="showintoolbar"/>
   <Action name="sort"/>
   <Action name="recursivesort"/>
    <Separator/>
@@ -121,7 +118,6 @@
 
 <Menu name="popup_bookmark">
   <!-- Stuff for bookmarks -->
-  <Action name="showintoolbar"/>
   <Action name="openlink"/>
   <Action name="testlink"/>
   <Action name="updatefavicon"/>
@@ -198,7 +194,6 @@
     <Action name="openlink"/>
     <Action name="rename"/>
     <Action name="setastoolbar"/>
-    <Action name="showintoolbar"/>
     <Action name="sort"/>
     <Action name="recursivesort"/>
     <Action name="testall"/>

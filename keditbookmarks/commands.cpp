@@ -20,6 +20,7 @@
 */
 
 #include "commands.h"
+#include "bookmarkmodel.h"
 
 #include "kinsertionsort.h"
 
@@ -53,100 +54,18 @@ QString KEBMacroCommand::affectedBookmarks() const
     return affectBook;
 }
 
-QString DeleteManyCommand::prevOrParentAddress(QString addr)
-{
-    QString prev = KBookmark::previousAddress( addr );
-    if( CurrentMgr::bookmarkAt(prev).hasParent())
-        return prev;
-    else
-        return KBookmark::parentAddress( addr );
-}
-
-QString DeleteManyCommand::preOrderNextAddress(QString addr)
-{
-    QString rootAdr = CurrentMgr::self()->mgr()->root().address();
-    while(addr != rootAdr)
-    {
-        QString next = KBookmark::nextAddress(addr);
-        if(CurrentMgr::bookmarkAt( next ).hasParent() )
-             return next;
-        addr = KBookmark::parentAddress( addr );
-    }
-    return QString::null;
-}
-
-bool DeleteManyCommand::isConsecutive(const Q3ValueList<QString> & addresses)
-{
-    Q3ValueList<QString>::const_iterator it, end;
-    it = addresses.begin();
-    end = addresses.end();
-    QString addr = *(addresses.begin());
-    for( ; it != end; ++it)
-    {
-        if( *it != addr )
-            return false;
-        addr = KBookmark::nextAddress(addr);
-    }
-    return true;
-}
-
-
-DeleteManyCommand::DeleteManyCommand(const QString &name, const Q3ValueList<QString> & addresses)
+DeleteManyCommand::DeleteManyCommand(const QString &name, const QVector<KBookmark> & bookmarks)
     : KEBMacroCommand(name)
 {
-    Q3ValueList<QString>::const_iterator it, begin;
-    begin = addresses.begin();
-    it = addresses.end();
+    QVector<KBookmark>::const_iterator it, begin;
+    begin = bookmarks.constBegin();
+    it = bookmarks.constEnd();
     while(begin != it)
     {
         --it;
-        DeleteCommand * dcmd = new DeleteCommand(*it);
+        DeleteCommand * dcmd = new DeleteCommand( (*it).address() );
         addCommand(dcmd);
     }
-
-    // Set m_currentAddress
-    if( addresses.count() == 1)
-    {
-         // First try next bookmark
-        if( CurrentMgr::bookmarkAt( KBookmark::nextAddress( *begin ) ).hasParent() )
-            m_currentAddress = *begin;
-        else
-        {
-            m_currentAddress = preOrderNextAddress( KBookmark::parentAddress( *begin ) );
-            if(m_currentAddress == QString::null)
-                m_currentAddress = prevOrParentAddress( *begin );
-        }
-    }
-    else // multi selection
-    {
-        // Check if all bookmarks are consecutive
-        if(isConsecutive(addresses)) // Mark next bookmark after all selected
-        {                            // That's a little work...
-            Q3ValueList<QString>::const_iterator last = addresses.end();
-            --last;
-            if( CurrentMgr::bookmarkAt( KBookmark::nextAddress(*last) ).hasParent() )
-                m_currentAddress = *begin;
-            else
-            {
-                m_currentAddress = preOrderNextAddress( KBookmark::parentAddress( *begin ) );
-                if( m_currentAddress == QString::null)
-                    m_currentAddress = prevOrParentAddress( *begin );
-            }
-        }
-        else // not consecutive, select the common parent (This could be more clever)
-        {
-            Q3ValueList<QString>::const_iterator jt, end;
-            end = addresses.end();
-            m_currentAddress = *begin;
-            for( jt = addresses.begin(); jt != end; ++jt)
-                m_currentAddress = KBookmark::commonParent(m_currentAddress, *jt);
-        }
-    }
-}
-
-QString DeleteManyCommand::currentAddress() const
-{
-    return m_currentAddress;
 }
 
 
@@ -162,7 +81,8 @@ QString CreateCommand::name() const {
     }
 }
 
-void CreateCommand::execute() {
+void CreateCommand::execute() 
+{
     QString parentAddress = KBookmark::parentAddress(m_to);
     KBookmarkGroup parentGroup = 
         CurrentMgr::bookmarkAt(parentAddress).toGroup();
@@ -176,7 +96,7 @@ void CreateCommand::execute() {
         : CurrentMgr::bookmarkAt(previousSibling);
 
     KBookmark bk = KBookmark(QDomElement());
-
+    BookmarkModel::insertSentry guard(parentGroup, KBookmark::positionInParent(m_to), KBookmark::positionInParent(m_to));
     if (m_separator) {
         bk = parentGroup.createNewSeparator();
 
@@ -220,8 +140,7 @@ void CreateCommand::unexecute() {
     KBookmark bk = CurrentMgr::bookmarkAt(m_to);
     Q_ASSERT(!bk.isNull() && !bk.parentGroup().isNull());
 
-    ListView::self()->invalidate(bk.address());
-
+    BookmarkModel::removeSentry(bk.parentGroup(), KBookmark::positionInParent(bk.address()), KBookmark::positionInParent(bk.address()));
     bk.parentGroup().deleteBookmark(bk);
 }
 
@@ -230,72 +149,94 @@ QString CreateCommand::affectedBookmarks() const
     return KBookmark::parentAddress(m_to);
 }
 
-QString CreateCommand::currentAddress() const
-{
-    QString bk = KBookmark::previousAddress( m_to );
-    if(CurrentMgr::bookmarkAt( bk).hasParent())
-        return bk;
-    else
-        return KBookmark::parentAddress( m_to );
-}
-
 /* -------------------------------------- */
 
-QString EditCommand::name() const {
-    return i18n("%1 Change").arg(m_mytext);
-}
-
-void EditCommand::execute() {
-    KBookmark bk = CurrentMgr::bookmarkAt(m_address);
-    Q_ASSERT(!bk.isNull());
-
-    m_reverseEditions.clear();
-
-    Q3ValueList<Edition>::Iterator it = m_editions.begin();
-
-    for ( ; it != m_editions.end() ; ++it) {
-        // backup current value
-        m_reverseEditions.append( Edition((*it).attr, 
-                    bk.internalElement().attribute((*it).attr)));
-        // set new value
-        bk.internalElement().setAttribute((*it).attr, (*it).value);
-    }
-}
-
-void EditCommand::unexecute() {
-    // code reuse
-    EditCommand cmd(m_address, m_reverseEditions);
-    cmd.execute();
-    // get the editions back from it, 
-    // in case they changed 
-    // (hmm, shouldn't happen - TODO CHECK!)
-    m_editions = cmd.m_reverseEditions;
-}
-
-QString EditCommand::affectedBookmarks() const
+EditCommand::EditCommand(const QString & address, int col, const QString & newValue)
+      : KCommand(), mAddress(address), mCol(col)
 {
-    return KBookmark::parentAddress(m_address);
-}
-
-void EditCommand::modify(const QString & a, const QString & v)
-{
-    Q3ValueList<Edition>::Iterator it = m_editions.begin();
-    Q3ValueList<Edition>::Iterator end = m_editions.end();
-    for ( ; it != end; ++it)
+    if(mCol == 1)
     {
-        if( (*it).attr == a)
-            (*it).value = v;
+        KURL u = KURL::fromPathOrURL(newValue);
+        mNewValue = u.url(0, 106);
     }
+    else
+        mNewValue = newValue;
 }
 
-/* -------------------------------------- */
-
-QString NodeEditCommand::name() const {
-    // TODO - make dynamic
-    return i18n("Renaming"); 
+QString EditCommand::name() const
+{
+    if(mCol==-1)
+        return i18n("%1 Change").arg(i18n("Icon"));
+    else if(mCol==0)
+        return i18n("%1 Change").arg(i18n("Title") );
+    else if(mCol==1)
+        return i18n("%1 Change").arg(i18n("URL"));  
+    else if(mCol==2)
+        return i18n("%1 Change").arg(i18n("Comment"));
+    //Never reached
+    return QString("");
 }
 
-QString NodeEditCommand::getNodeText(KBookmark bk, const QStringList &nodehier) {
+void EditCommand::execute()
+{
+    KBookmark bk = CurrentMgr::bookmarkAt(mAddress);
+    if(mCol==-2)
+    {
+        mOldValue = bk.internalElement().attribute("toolbar");
+        bk.internalElement().setAttribute("toolbar", mNewValue);
+    }
+    else if(mCol==-1)
+    {
+        mOldValue = bk.internalElement().attribute("icon");
+        bk.internalElement().setAttribute("icon", mNewValue);
+    }
+    else if(mCol==0)
+    {
+        mOldValue = bk.fullText();
+        setNodeText(bk, QStringList()<< "title", mNewValue);
+    }
+    else if(mCol==1)
+    {
+        mOldValue = bk.internalElement().attribute("href");
+        bk.internalElement().setAttribute("href", mNewValue);
+    }
+    else if(mCol==2)
+    {
+        mOldValue = getNodeText(bk, QStringList()<<"desc");
+        setNodeText(bk, QStringList()<<"desc", mNewValue);
+    }
+    BookmarkModel::self()->emitDataChanged(bk);
+}
+
+void EditCommand::unexecute()
+{
+
+    KBookmark bk = CurrentMgr::bookmarkAt(mAddress);
+    if(mCol==-2)
+    {
+        bk.internalElement().setAttribute("toolbar", mOldValue);
+    }
+    else if(mCol==-1)
+    {
+        bk.internalElement().setAttribute("icon", mOldValue);
+    }
+    else if(mCol==0)
+    {
+        setNodeText(bk, QStringList()<<"title", mOldValue);
+    }
+    else if(mCol==1)
+    {
+        bk.internalElement().setAttribute("href", mOldValue );
+    }
+    else if(mCol==2)
+    {
+        setNodeText(bk, QStringList()<<"desc", mOldValue);
+    }
+    BookmarkModel::self()->emitDataChanged(bk);
+}
+
+QString EditCommand::getNodeText(KBookmark bk, const QStringList &nodehier) 
+{
     QDomNode subnode = bk.internalElement();
     for (QStringList::ConstIterator it = nodehier.begin(); 
             it != nodehier.end(); ++it)
@@ -309,8 +250,9 @@ QString NodeEditCommand::getNodeText(KBookmark bk, const QStringList &nodehier) 
          : subnode.firstChild().toText().data();
 }
 
-QString NodeEditCommand::setNodeText(KBookmark bk, const QStringList &nodehier,
-                                     const QString newValue) {
+QString EditCommand::setNodeText(KBookmark bk, const QStringList &nodehier,
+                                     const QString newValue) 
+{
     QDomNode subnode = bk.internalElement();
     for (QStringList::ConstIterator it = nodehier.begin(); 
             it != nodehier.end(); ++it)
@@ -334,37 +276,10 @@ QString NodeEditCommand::setNodeText(KBookmark bk, const QStringList &nodehier,
     return oldText;
 }
 
-void NodeEditCommand::execute() {
-    // DUPLICATED HEAVILY FROM KIO/BOOKMARKS
-    KBookmark bk = CurrentMgr::bookmarkAt(m_address);
-    Q_ASSERT(!bk.isNull());
-    m_oldText = setNodeText(bk, QStringList() << m_nodename, m_newText);
-}
-
-void NodeEditCommand::unexecute() {
-    // reuse code 
-    NodeEditCommand cmd(m_address, m_oldText, m_nodename);
-    cmd.execute();
-    // get the old text back from it, in case they changed 
-    // (hmm, shouldn't happen)
-    // AK - DUP'ed from above???
-    m_newText = cmd.m_oldText;
-}
-
-void NodeEditCommand::modify(const QString & newText)
-{
-    m_newText = newText;
-}
-
-QString NodeEditCommand::affectedBookmarks() const
-{
-    return KBookmark::parentAddress(m_address);
-}
-
 /* -------------------------------------- */
 
 void DeleteCommand::execute() {
-    // kdDebug() << "DeleteCommand::execute " << m_from << endl;
+    kdDebug() << "DeleteCommand::execute " << m_from << endl;
 
     KBookmark bk = CurrentMgr::bookmarkAt(m_from);
     Q_ASSERT(!bk.isNull());
@@ -402,7 +317,6 @@ void DeleteCommand::execute() {
                         bk.icon(), bk.url());
         }
     }
-
     m_cmd->unexecute();
 }
 
@@ -595,41 +509,19 @@ QString SortCommand::affectedBookmarks() const
 
 /* -------------------------------------- */
 
-KEBMacroCommand* CmdGen::setAsToolbar(const KBookmark &bk) {
+KEBMacroCommand* CmdGen::setAsToolbar(const KBookmark &bk) 
+{
     KEBMacroCommand *mcmd = new KEBMacroCommand(i18n("Set as Bookmark Toolbar"));
 
     KBookmarkGroup oldToolbar = CurrentMgr::self()->mgr()->toolbar();
-    if (!oldToolbar.isNull()) {
-        Q3ValueList<EditCommand::Edition> lst;
-        lst.append(EditCommand::Edition("toolbar", "no"));
-        lst.append(EditCommand::Edition("icon", ""));
-        EditCommand *cmd1 = new EditCommand(oldToolbar.address(), lst);
-        mcmd->addCommand(cmd1);
+    if (!oldToolbar.isNull()) 
+    {
+        mcmd->addCommand( new EditCommand(oldToolbar.address(), -2, "no")); //toolbar
+        mcmd->addCommand( new EditCommand(oldToolbar.address(), -1, "")); //icon
     }
 
-    Q3ValueList<EditCommand::Edition> lst;
-    lst.append(EditCommand::Edition("toolbar", "yes"));
-    lst.append(EditCommand::Edition("icon", "bookmark_toolbar"));
-    // TODO - see below
-    EditCommand *cmd2 = new EditCommand(bk.address(), lst);
-    mcmd->addCommand(cmd2);
-
-    return mcmd;
-}
-
-bool CmdGen::shownInToolbar(const KBookmark &bk) {
-    return (bk.internalElement().attribute("showintoolbar") == "yes");
-}
-
-KEBMacroCommand* CmdGen::setShownInToolbar(const KBookmark &bk, bool show) {
-    QString i18n_name = i18n("%1 in Bookmark Toolbar").arg(show ? i18n("Show") 
-            : i18n("Hide"));
-    KEBMacroCommand *mcmd = new KEBMacroCommand(i18n_name);
-
-    Q3ValueList<EditCommand::Edition> lst;
-    lst.append(EditCommand::Edition("showintoolbar", show ? "yes" : "no"));
-    EditCommand *cmd2 = new EditCommand(bk.address(), lst);
-    mcmd->addCommand(cmd2);
+    mcmd->addCommand( new EditCommand(bk.address(), -2, "yes"));
+    mcmd->addCommand( new EditCommand(bk.address(), -1, "bookmark_toolbar"));
 
     return mcmd;
 }
@@ -702,42 +594,42 @@ KEBMacroCommand* CmdGen::itemsMoved(const QMap<KEBListViewItem *, bool> & items,
         const QString &newAddress, bool copy) {
     KEBMacroCommand *mcmd = new KEBMacroCommand(copy ? i18n("Copy Items") 
             : i18n("Move Items"));
-
-    Q3ValueList<KBookmark> list = ListView::self()->itemsToBookmarks( items );
-    Q3ValueList<KBookmark>::const_iterator it, end;
-    it = list.begin();
-    end = list.end();
-
-    QString bkInsertAddr = newAddress;
-    for (; it != end; ++it) {
-        if (copy) {
-            CreateCommand *cmd;
-            cmd = new CreateCommand(
-                    bkInsertAddr,
-                    (*it).internalElement()
-                    .cloneNode(true).toElement(),
-                    (*it).text());
-
-            cmd->execute();
-            mcmd->addCommand(cmd);
-
-            bkInsertAddr = cmd->finalAddress();
-
-        } else /* if (move) */ {
-            QString oldAddress = (*it).address();
-            if (bkInsertAddr.startsWith(oldAddress)) //FIXME uses internal representation of address
-                continue;
-
-            MoveCommand *cmd = new MoveCommand(oldAddress, bkInsertAddr,
-                    (*it).text());
-            cmd->execute();
-            mcmd->addCommand(cmd);
-
-            bkInsertAddr = cmd->finalAddress();
-        }
-
-        bkInsertAddr = KBookmark::nextAddress(bkInsertAddr);
-    }
+//FIXME rewrite CmdGen::itemsMoved
+//     Q3ValueList<KBookmark> list = ListView::self()->itemsToBookmarks( items );
+//     Q3ValueList<KBookmark>::const_iterator it, end;
+//     it = list.begin();
+//     end = list.end();
+// 
+//     QString bkInsertAddr = newAddress;
+//     for (; it != end; ++it) {
+//         if (copy) {
+//             CreateCommand *cmd;
+//             cmd = new CreateCommand(
+//                     bkInsertAddr,
+//                     (*it).internalElement()
+//                     .cloneNode(true).toElement(),
+//                     (*it).text());
+// 
+//             cmd->execute();
+//             mcmd->addCommand(cmd);
+// 
+//             bkInsertAddr = cmd->finalAddress();
+// 
+//         } else /* if (move) */ {
+//             QString oldAddress = (*it).address();
+//             if (bkInsertAddr.startsWith(oldAddress)) //FIXME uses internal representation of address
+//                 continue;
+// 
+//             MoveCommand *cmd = new MoveCommand(oldAddress, bkInsertAddr,
+//                     (*it).text());
+//             cmd->execute();
+//             mcmd->addCommand(cmd);
+// 
+//             bkInsertAddr = cmd->finalAddress();
+//         }
+// 
+//         bkInsertAddr = KBookmark::nextAddress(bkInsertAddr);
+//     }
 
     return mcmd;
 }

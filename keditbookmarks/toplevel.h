@@ -25,6 +25,9 @@
 #include <kmainwindow.h>
 #include <kcommand.h>
 #include <kbookmark.h>
+#include <QMenu>
+#include <QVector>
+#include "bookmarklistview.h"
 
 class KBookmarkManager;
 class KToggleAction;
@@ -32,18 +35,8 @@ class KBookmarkEditorIface;
 class ImportCommand;
 class BookmarkInfoWidget;
 class IKEBCommand;
-
-struct SelcAbilities {
-    bool itemSelected:1;
-    bool group:1;
-    bool root:1;
-    bool separator:1;
-    bool urlIsEmpty:1;
-    bool multiSelect:1;
-    bool singleSelect:1;
-    bool notEmpty:1;
-    bool tbShowState:1;
-};
+class BookmarkModel;
+class BookmarkListView;
 
 class CmdHistory : public QObject {
     Q_OBJECT
@@ -79,6 +72,7 @@ public:
     typedef enum {HTMLExport, OperaExport, IEExport, MozillaExport, NetscapeExport} ExportType;
 
     static CurrentMgr* self() { if (!s_mgr) { s_mgr = new CurrentMgr(); } return s_mgr; }
+    KBookmarkGroup CurrentMgr::root();
     static KBookmark bookmarkAt(const QString & a);
 
     KBookmarkManager* mgr() const { return m_mgr; }
@@ -116,6 +110,8 @@ public:
     KEBApp(const QString & bookmarksFile, bool readonly, const QString &address, bool browser, const QString &caption);
     virtual ~KEBApp();
 
+    void reset(const QString & caption, const QString & bookmarksFileName);
+
     void updateActions();
     void updateStatus(QString url);
     void setActionsEnabled(SelcAbilities);
@@ -126,8 +122,10 @@ public:
     void notifyCommandExecuted();
     void findURL(QString url);
 
-    QWidget* popupMenuFactory(const char *type) { 
-        return factory()->container(type, this); 
+    QMenu* popupMenuFactory(const char *type)
+    {
+        QWidget * menu = factory()->container(type, this);
+        return dynamic_cast<QMenu *>(menu);
     }
 
     KToggleAction* getToggleAction(const char *) const;
@@ -139,15 +137,38 @@ public:
 
     BookmarkInfoWidget *bkInfo() { return m_bkinfo; }
 
+    void collapseAll();
+    void expandAll();
+
+    enum Column { 
+      NameColumn = 0,
+      UrlColumn = 1,
+      CommentColumn = 2,
+      StatusColumn = 3
+    };
+    void startEdit( Column c );
+    KBookmark firstSelected() const;
+    QString insertAddress() const;
+    QVector<KBookmark> selectedBookmarks() const;
+    QVector<KBookmark> selectedBookmarksExpanded() const;
+    QVector<KBookmark> allBookmarks() const
+        { return QVector<KBookmark>();} //FIXME look up what it is suppposed to do, seems like only bookmarks but not folder are returned
 public slots:
     void slotConfigureToolbars();
 
 protected slots:
     void slotClipboardDataChanged();
     void slotNewToolbarConfig();
+    void selectionChanged();
 
 private:
-    static KBookmarkManager* bookmarkManager();
+    void selectedBookmarksExpandedHelper(KBookmark bk, QVector<KBookmark> & bookmarks) const;
+    void collapseAllHelper( QModelIndex index );
+    void expandAllHelper(QModelIndex index);
+
+public: //FIXME
+    BookmarkListView * mBookmarkListView;
+private:
 
     void resetActions();
     void createActions();
@@ -157,12 +178,9 @@ private:
     static KEBApp *s_topLevel;
     KBookmarkEditorIface *m_dcopIface;
 
-public: // only temporary
     CmdHistory *m_cmdHistory;
     QString m_bookmarksFilename;
     QString m_caption;
-
-    void construct();
 
 private:
     BookmarkInfoWidget *m_bkinfo;

@@ -29,6 +29,7 @@
 #include <Q3PtrList>
 #include <Q3MimeSourceFactory>
 
+
 // Interface adds the affectedBookmarks method
 // Any class should on call add those bookmarks which are 
 // affected by executing or unexecuting the command
@@ -40,7 +41,6 @@ public:
    IKEBCommand() {};
    virtual ~IKEBCommand() {};
    virtual QString affectedBookmarks() const = 0;
-   virtual QString currentAddress() const { return QString::null; }
 };
 
 class KEBMacroCommand : public KMacroCommand, public IKEBCommand
@@ -55,14 +55,8 @@ public:
 class DeleteManyCommand : public KEBMacroCommand
 {
 public:
-   DeleteManyCommand(const QString &name, const Q3ValueList<QString>  & addresses);
+   DeleteManyCommand(const QString &name, const QVector<KBookmark> & bookmarks);
    virtual ~DeleteManyCommand() {};
-   virtual QString currentAddress() const;
-private:
-   QString prevOrParentAddress(QString addr);
-   QString preOrderNextAddress(QString addr);
-   bool isConsecutive(const Q3ValueList<QString> & addresses);
-   QString m_currentAddress;
 };
 
 class CreateCommand : public KCommand, public IKEBCommand
@@ -104,7 +98,6 @@ public:
    virtual void unexecute();
    virtual QString name() const;
    virtual QString affectedBookmarks() const;
-   virtual QString currentAddress() const;
 private:
    QString m_to;
    QString m_text;
@@ -120,66 +113,20 @@ private:
 class EditCommand : public KCommand, public IKEBCommand
 {
 public:
-
-   struct Edition {
-      Edition() { ; } // needed for QValueList
-      Edition(const QString &a, const QString &v) : attr(a), value(v) {}
-      QString attr;
-      QString value;
-   };
-
-   // change one attribute
-   EditCommand(const QString &address, Edition edition, const QString &name = QString::null) 
-      : KCommand(), m_address(address), m_mytext(name)
-   {
-      m_editions.append(edition);
-   }
-
-   // change multiple attributes
-   EditCommand(const QString &address,
-               const Q3ValueList<Edition> &editions, 
-               const QString &name = QString::null)
-      : KCommand(), m_address(address), m_editions(editions), m_mytext(name)
-   { ; }
-
-   void modify(const QString & a, const QString & v);
-
-   virtual ~EditCommand() { ; }
+   EditCommand(const QString & address, int col, const QString & newValue);
+   virtual ~EditCommand() {};
    virtual void execute();
    virtual void unexecute();
    virtual QString name() const;
-   virtual QString affectedBookmarks() const;
+   virtual QString affectedBookmarks() const { return KBookmark::parentAddress(mAddress); }
+   static QString EditCommand::getNodeText(KBookmark bk, const QStringList &nodehier);
+   static QString EditCommand::setNodeText(KBookmark bk, const QStringList &nodehier,
+                                     const QString newValue);
 private:
-   QString m_address;
-   Q3ValueList<Edition> m_editions;
-   Q3ValueList<Edition> m_reverseEditions;
-   QString m_mytext;
-};
-
-class NodeEditCommand : public KCommand, public IKEBCommand
-{
-public:
-   NodeEditCommand(const QString &address, 
-                   const QString &newText, 
-                   const QString &nodeName)
-      : KCommand(), m_address(address), m_newText(newText), m_nodename(nodeName)
-   { ; }
-
-   void modify(const QString & newText);
-
-   virtual ~NodeEditCommand() { ; }
-   virtual void execute();
-   virtual void unexecute();
-   virtual QString affectedBookmarks() const;
-   virtual QString name() const;
-   static QString getNodeText(KBookmark bk, const QStringList &nodehier);
-   static QString setNodeText(KBookmark bk, const QStringList &nodehier, 
-                              QString newValue);
-private:
-   QString m_address;
-   QString m_newText;
-   QString m_oldText;
-   QString m_nodename;
+   QString mAddress;
+   int mCol;
+   QString mNewValue;
+   QString mOldValue;
 };
 
 class DeleteCommand : public KCommand, public IKEBCommand
@@ -248,8 +195,6 @@ class KEBListViewItem;
 class CmdGen {
 public:
    static KEBMacroCommand* setAsToolbar(const KBookmark &bk);
-   static KEBMacroCommand* setShownInToolbar(const KBookmark &bk, bool show);
-   static bool shownInToolbar(const KBookmark &bk);
    static KEBMacroCommand* deleteItems(const QString &commandName, const QMap<KEBListViewItem *, bool> & items);
    static KEBMacroCommand* insertMimeSource(const QString &cmdName, QMimeSource *data, const QString &addr);
    static KEBMacroCommand* itemsMoved(const QMap<KEBListViewItem *, bool> & items, const QString &newAddress, bool copy);
