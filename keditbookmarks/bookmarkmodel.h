@@ -36,14 +36,14 @@ class BookmarkModel : public QAbstractItemModel
 {
     Q_OBJECT
 
-protected:
+public:
     class insertSentry;
     friend class insertSentry;
     class removeSentry;
     friend class removeSentry;
     friend class IKEBCommand;
 
-public:    
+    
     static BookmarkModel* self() { if(!s_bookmarkModel) s_bookmarkModel = new BookmarkModel(CurrentMgr::self()->root()); return s_bookmarkModel; }
     virtual ~BookmarkModel() {}
 
@@ -74,7 +74,7 @@ private:
     // mutable QList<KBookmark> mapIdToAddr;
 
 //Sentry
-protected:
+public:
     class insertSentry
     {
         public:
