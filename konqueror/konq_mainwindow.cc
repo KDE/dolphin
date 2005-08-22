@@ -3709,7 +3709,7 @@ void KonqMainWindow::initActions()
   (void) new KAction( i18n( "&Edit File Type..." ), 0, actionCollection(), "editMimeType" );
   (void) new KAction( i18n( "Properties" ), Qt::ALT+Qt::Key_Return, actionCollection(), "properties" );
   (void) new KAction( i18n( "New &Window" ), "window_new", KStdAccel::shortcut(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
-  (void) new KAction( i18n( "&Duplicate Window" ), "window_new", Qt::CTRL+Qt::Key_D, this, SLOT( slotDuplicateWindow() ), actionCollection(), "duplicate_window" );
+  (void) new KAction( i18n( "&Duplicate Window" ), "window_duplicate", Qt::CTRL+Qt::Key_D, this, SLOT( slotDuplicateWindow() ), actionCollection(), "duplicate_window" );
   (void) new KAction( i18n( "Send &Link Address..." ), "mail_generic", 0, this, SLOT( slotSendURL() ), actionCollection(), "sendURL" );
   (void) new KAction( i18n( "S&end File..." ), "mail_generic", 0, this, SLOT( slotSendFile() ), actionCollection(), "sendPage" );
   if (kapp->authorize("shell_access"))
