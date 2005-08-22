@@ -1,4 +1,6 @@
 /* This file is part of the KDE project
+   Copyright (C) 2000 David Faure <faure@kde.org>
+   Copyright (C) 2002-2003 Alexander Kellett <lypanov@kde.org>
    Copyright (C) 2005 Daniel Teske <teske@squorn.de>
 
    This program is free software; you can redistribute it and/or

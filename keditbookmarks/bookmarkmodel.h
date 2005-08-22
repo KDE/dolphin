@@ -43,9 +43,8 @@ public:
     friend class removeSentry;
     friend class IKEBCommand;
 
-    
-    static BookmarkModel* self() { if(!s_bookmarkModel) s_bookmarkModel = new BookmarkModel(CurrentMgr::self()->root()); return s_bookmarkModel; }
-    virtual ~BookmarkModel() {}
+    static BookmarkModel* self();
+    virtual ~BookmarkModel();
 
     QVariant data(const QModelIndex &index, int role) const;
     Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -58,20 +57,16 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
     QModelIndex bookmarkToIndex(KBookmark bk);
-    static int BookmarkModel::childCount(KBookmark bk);
     void emitDataChanged(KBookmark bk);
 
     void resetModel();
 
 private:
     TreeItem * rootItem;
-    BookmarkModel(KBookmark root)
-        :QAbstractItemModel(), mRoot(root)
-        { rootItem = new TreeItem(root, 0); }
+    BookmarkModel(KBookmark root);
     static BookmarkModel *s_bookmarkModel;
     static int count;
     KBookmark mRoot;
-    // mutable QList<KBookmark> mapIdToAddr;
 
 //Sentry
 public:

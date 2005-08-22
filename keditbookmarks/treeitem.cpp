@@ -19,8 +19,6 @@
 #include "treeitem.h"
 #include <kdebug.h>
 
-#define DEBUG_STUPID_QT
-
 TreeItem::TreeItem(KBookmark bk, TreeItem * parent)
     : mparent(parent), mbk(bk)
 {
@@ -32,15 +30,7 @@ TreeItem::TreeItem(KBookmark bk, TreeItem * parent)
 
 TreeItem::~TreeItem()
 {
-#ifndef DEBUG_STUPID_QT
     qDeleteAll(children);
-#else
-    QList<TreeItem *>::iterator it, end;
-    for(it = children.begin(); it != end; ++it)
-    {
-        (*it)->markDelete();
-    }
-#endif
     children.clear();
 }
 
@@ -55,11 +45,18 @@ TreeItem * TreeItem::child(int row)
     return children[row];
 }
 
+int TreeItem::childCount()
+{
+    if(!init)
+        initChildren();
+    return children.count();
+}
+
 TreeItem * TreeItem::parent()
 {
 #ifdef DEBUG_STUPID_QT
     if(deleted)
-        kdFatal()<<"child for deleted "<<endl;
+        kdFatal()<<"parent for deleted "<<endl;
 #endif
     return mparent;
 }
@@ -68,6 +65,12 @@ TreeItem * TreeItem::parent()
 void TreeItem::markDelete()
 {
     deleted = true;
+    QList<TreeItem *>::iterator it, end;
+    end = children.end();
+    for(it = children.begin(); it != end; ++it)
+    {
+        (*it)->markDelete();
+    }
 }
 #endif
 

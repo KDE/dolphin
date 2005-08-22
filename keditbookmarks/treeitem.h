@@ -22,7 +22,7 @@
 #include <QList>
 #include <kbookmark.h>
 
-#define DEBUG_STUPID_QT
+//#define DEBUG_STUPID_QT
 
 class TreeItem
 {
@@ -35,6 +35,7 @@ public:
     void insertChildren(int first, int last);
     void deleteChildren(int first, int last);
     KBookmark bookmark();
+    int childCount();
     TreeItem * treeItemForBookmark(KBookmark bk);
 private:
 #ifdef DEBUG_STUPID_QT

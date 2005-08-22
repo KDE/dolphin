@@ -32,9 +32,29 @@
 int BookmarkModel::count = 0;
 BookmarkModel* BookmarkModel::s_bookmarkModel = 0L;
 
+BookmarkModel* BookmarkModel::self()
+{
+    if(!s_bookmarkModel) 
+        s_bookmarkModel = new BookmarkModel(CurrentMgr::self()->root());
+    return s_bookmarkModel;
+}
+
+BookmarkModel::BookmarkModel(KBookmark root)
+    :QAbstractItemModel(), mRoot(root)
+{
+    rootItem = new TreeItem(root, 0);
+}
+
+BookmarkModel::~BookmarkModel()
+{
+    delete rootItem;
+}
+
 void BookmarkModel::resetModel()
 {
+    delete rootItem;
     reset();
+    rootItem = new TreeItem(mRoot, 0);
 }
 
 QVariant BookmarkModel::data(const QModelIndex &index, int role) const
@@ -163,10 +183,7 @@ QModelIndex BookmarkModel::parent(const QModelIndex &index) const
 int BookmarkModel::rowCount(const QModelIndex &parent) const
 {
     if(parent.isValid())
-    {
-        KBookmark bk = static_cast<TreeItem *>(parent.internalPointer())->bookmark();
-        return childCount(bk);
-    }
+            return static_cast<TreeItem *>(parent.internalPointer())->childCount();
     else //root case
     {
         return 1;
@@ -181,20 +198,6 @@ int BookmarkModel::columnCount(const QModelIndex &) const
 QModelIndex BookmarkModel::bookmarkToIndex(KBookmark bk)
 {
     return createIndex( KBookmark::positionInParent(bk.address()), 0, rootItem->treeItemForBookmark(bk));
-}
-
-int BookmarkModel::childCount(KBookmark bk)
-{
-    if(!bk.isGroup())
-        return 0;
-    KBookmark child = bk.toGroup().first();
-    int i = 0;
-    while(child.hasParent())
-    {
-        ++i;
-        child = bk.toGroup().next(child);
-    }
-    return i;
 }
 
 void BookmarkModel::emitDataChanged(KBookmark bk)

@@ -211,23 +211,23 @@ KEBApp::KEBApp(
     s_topLevel = this;
 
     QSplitter *vsplitter = new QSplitter(this);
-    KToolBar *quicksearch = new KToolBar(vsplitter, "search toolbar");
 
-    KAction *resetQuickSearch = new KAction( i18n( "Reset Quick Search" ),
-        QApplication::reverseLayout() ? "clear_left" : "locationbar_erase",
-        0, actionCollection(), "reset_quicksearch" );
-    resetQuickSearch->setWhatsThis( i18n( "<b>Reset Quick Search</b><br>"
-        "Resets the quick search so that all bookmarks are shown again." ) );
-    resetQuickSearch->plug( quicksearch );
+//FIXME
+//     KToolBar *quicksearch = new KToolBar(vsplitter, "search toolbar");
+// 
+//     KAction *resetQuickSearch = new KAction( i18n( "Reset Quick Search" ),
+//         QApplication::reverseLayout() ? "clear_left" : "locationbar_erase",
+//         0, actionCollection(), "reset_quicksearch" );
+//     resetQuickSearch->setWhatsThis( i18n( "<b>Reset Quick Search</b><br>"
+//         "Resets the quick search so that all bookmarks are shown again." ) );
+//     resetQuickSearch->plug( quicksearch );
+// 
+//     QLabel *lbl = new QLabel(i18n("Se&arch:"), quicksearch, "kde toolbar widget");
 
-    QLabel *lbl = new QLabel(i18n("Se&arch:"), quicksearch, "kde toolbar widget");
-
-    KListViewSearchLine *searchLineEdit = new KEBSearchLine(quicksearch, 0, "KListViewSearchLine");
-    quicksearch->setStretchableWidget(searchLineEdit);
-    lbl->setBuddy(searchLineEdit);
-    connect(resetQuickSearch, SIGNAL(activated()), searchLineEdit, SLOT(clear()));
-
-    //FIXME searchLineEdit->setListView(static_cast<KListView*>(ListView::self()->widget()));
+    //K4ListViewSearchLine *searchLineEdit = new K4ListViewSearchLine(/*quicksearch*/ vsplitter, 0, "KListViewSearchLine");
+    //quicksearch->setStretchableWidget(searchLineEdit);
+    //lbl->setBuddy(searchLineEdit);
+    //connect(resetQuickSearch, SIGNAL(activated()), searchLineEdit, SLOT(clear()));
 
     createActions();
     if (m_browser)
@@ -249,6 +249,8 @@ KEBApp::KEBApp(
     //QT 4 new code
     mBookmarkListView = new BookmarkListView(vsplitter);
     mBookmarkListView->setModel( BookmarkModel::self() );
+
+    //searchLineEdit->setTreeView(mBookmarkListView);
     mBookmarkListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     expandAll();
     mBookmarkListView->loadColumnSetting();
@@ -310,10 +312,11 @@ void KEBApp::expandAllHelper(QModelIndex index)
 void KEBApp::startEdit( Column c )
 {
     const QModelIndexList & list = mBookmarkListView->selectionModel()->selectedIndexes();
-    QModelIndexList::const_iterator it;
-    it = list.begin();
-    if( (*it).column() == int(c) && (BookmarkModel::self()->flags(*it) & Qt::ItemIsEditable) )
-        return mBookmarkListView->edit( *it );
+    QModelIndexList::const_iterator it, end;
+    end = list.constEnd();
+    for(it = list.constBegin(); it != end; ++it)
+        if( (*it).column() == int(c) && (BookmarkModel::self()->flags(*it) & Qt::ItemIsEditable) )
+            return mBookmarkListView->edit( *it );
 }
 
 KBookmark KEBApp::firstSelected() const
