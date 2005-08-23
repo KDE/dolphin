@@ -1,0 +1,52 @@
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+<kpartgui name="KonqListPart" version="1">
+<MenuBar>
+ <Menu name="edit"><text>&amp;Edit</text>
+   <Menu name="selection"><text>Selection</text>
+     <Action name="select"/>
+     <Action name="unselect"/>
+     <Separator/>
+     <Action name="selectall"/>
+     <Action name="unselectall"/>
+     <Action name="invertselection"/>
+   </Menu>
+ </Menu>
+ <Menu name="view"><text>&amp;View</text>
+  <Menu name="iconview_mode"><text>Icon Size</text>
+   <Action name="modedefault"/>
+   <Separator/>
+   <Action name="modeenormous"/>
+   <Action name="modehuge"/>
+   <Action name="modelarge"/>
+   <Action name="modemedium"/>
+   <Action name="modesmallmedium"/>
+   <Action name="modesmall"/>
+  </Menu>
+  <Separator/>
+  <Action name="show_dot"/>
+  <Action name="sort_caseinsensitive"/>
+  <!--<Action name="sort_directoriesfirst" /> TODO -->
+  <Menu name="listview_show"><text>Show Details</text>
+   <TearOffHandle />
+   <Action name="show_size"/>
+   <Action name="show_type"/>
+   <Action name="show_mimetype"/>
+   <Action name="show_url"/>
+   <Action name="show_time"/>
+   <Action name="show_access_time"/>
+   <Action name="show_creation_time"/>
+   <Action name="show_permissions"/>
+   <Action name="show_owner"/>
+   <Action name="show_group"/>
+   <Action name="show_link_dest"/>
+  </Menu>
+  <Separator/>
+  <Action name="bgsettings"/>
+ </Menu>
+</MenuBar>
+<ToolBar name="mainToolBar"><text>Detailed Listview Toolbar</text>
+ <Separator/>
+ <Action name="incIconSize" />
+ <Action name="decIconSize" />
+</ToolBar>
+</kpartgui>

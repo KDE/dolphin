@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=List Part
+MimeType=inode/directory
+ServiceTypes=KParts/ReadOnlyPart,Browser/View
+X-KDE-Library=konq_part
+X-KDE-BrowserView-HideFromMenus=true
+X-KDE-BrowserView-Built-Into=konqueror
+Icon=view_detailed
+InitialPreference=7
