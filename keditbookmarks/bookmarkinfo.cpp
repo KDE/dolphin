@@ -156,6 +156,7 @@ void BookmarkInfoWidget::slotTextChangedTitle(const QString &str)
 {
     if (m_bk.isNull() || !m_title_le->isModified())
         return;
+    Q_UNUSED(str);
 
 //     timer->start(1000, true);
 
@@ -185,7 +186,7 @@ void BookmarkInfoWidget::commitURL()
 void BookmarkInfoWidget::slotTextChangedURL(const QString &str) {
     if (m_bk.isNull() || !m_url_le->isModified())
         return;
-
+    Q_UNUSED(str);
 //     timer->start(1000, true);
 
 //     if(urlcmd)
@@ -216,7 +217,7 @@ void BookmarkInfoWidget::commitComment()
 void BookmarkInfoWidget::slotTextChangedComment(const QString &str) {
     if (m_bk.isNull() || !m_comment_le->isModified())
         return;
-
+    Q_UNUSED(str);
 //     timer->start(1000, true);
 
 //     if(commentcmd)

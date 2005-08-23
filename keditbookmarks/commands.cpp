@@ -594,6 +594,8 @@ KEBMacroCommand* CmdGen::itemsMoved(const QMap<KEBListViewItem *, bool> & items,
         const QString &newAddress, bool copy) {
     KEBMacroCommand *mcmd = new KEBMacroCommand(copy ? i18n("Copy Items") 
             : i18n("Move Items"));
+    Q_UNUSED(items);
+    Q_UNUSED(newAddress);
 //FIXME rewrite CmdGen::itemsMoved
 //     Q3ValueList<KBookmark> list = ListView::self()->itemsToBookmarks( items );
 //     Q3ValueList<KBookmark>::const_iterator it, end;

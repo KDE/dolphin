@@ -73,6 +73,7 @@ FavIconsItr::~FavIconsItr() {
 void FavIconsItr::slotDone(bool succeeded) {
     // kdDebug() << "FavIconsItr::slotDone()" << endl;
     //FIXME curItem()->setTmpStatus(succeeded ? i18n("OK") : i18n("No favicon found"));
+    Q_UNUSED(succeeded);
     holder()->addAffectedBookmark(KBookmark::parentAddress(curBk().address()));
     delayedEmitNextOne();
 }
