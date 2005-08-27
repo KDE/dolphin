@@ -190,7 +190,7 @@ void KWrite::setupActions()
   m_paShowStatusBar = KStdAction::showStatusbar(this, SLOT(toggleStatusBar()), actionCollection(), "settings_show_statusbar");
   m_paShowStatusBar->setWhatsThis(i18n("Use this command to show or hide the view's statusbar"));
 
-  m_paShowPath = new KToggleAction(i18n("Sho&w Path"), 0, this, SLOT(newCaption()),
+  m_paShowPath = new KToggleAction(i18n("Sho&w Path"), 0, this, SLOT(documentNameChanged()),
                     actionCollection(), "set_showPath");
   m_paShowPath->setCheckedState(i18n("Hide Path"));
   m_paShowPath->setWhatsThis(i18n("Show the complete document path in the window caption"));
