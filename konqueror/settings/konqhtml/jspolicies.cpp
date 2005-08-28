@@ -56,7 +56,7 @@ void JSPolicies::load() {
 //  enableDebugOutputCB->setChecked( m_pConfig->readBoolEntry("EnableJSDebugOutput") );
   key = prefix + "WindowOpenPolicy";
   window_open = config->readUnsignedNumEntry(key,
-  	is_global ? KHTMLSettings::KJSWindowOpenAllow : INHERIT_POLICY);
+  	is_global ? KHTMLSettings::KJSWindowOpenSmart : INHERIT_POLICY);
 
   key = prefix + "WindowResizePolicy";
   window_resize = config->readUnsignedNumEntry(key,
@@ -81,7 +81,7 @@ void JSPolicies::defaults() {
 //  enableJavaScriptDebugCB->setChecked( false );
 //  js_popup->setButton(0);
  // enableDebugOutputCB->setChecked( false );
-  window_open = is_global ? KHTMLSettings::KJSWindowOpenAllow : INHERIT_POLICY;
+  window_open = is_global ? KHTMLSettings::KJSWindowOpenSmart : INHERIT_POLICY;
   window_resize = is_global ? KHTMLSettings::KJSWindowResizeAllow : INHERIT_POLICY;
   window_move = is_global ? KHTMLSettings::KJSWindowMoveAllow : INHERIT_POLICY;
   window_focus = is_global ? KHTMLSettings::KJSWindowFocusAllow : INHERIT_POLICY;
