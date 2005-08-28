@@ -215,7 +215,6 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL,
     m_pageReferrer = args.metaData()["referrer"];
   }
 
-  m_bAborted = false;
   if ( tempFile ) {
       // Store the path to the tempfile. Yes, we could store a bool only,
       // but this would be more dangerous. If anything goes wrong in the code,
@@ -226,9 +225,9 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL,
           kdWarning(1202) << "Tempfile option is set, but URL is remote: " << url << endl;
   }
 
-  m_pPart->openURL( url );
+  aboutToOpenURL( url, args );
 
-  sendOpenURLEvent( url, args );
+  m_pPart->openURL( url );
 
   updateHistoryEntry(false /* don't save location bar URL yet */);
   // add pending history entry
@@ -844,9 +843,9 @@ void KonqView::restoreHistory()
     return /*false*/;
   }
 
-  m_bAborted = false;
-
   setServiceTypeInExtension();
+
+  aboutToOpenURL( h.url );
 
   if ( browserExtension() )
   {
@@ -862,8 +861,6 @@ void KonqView::restoreHistory()
   }
   else
     m_pPart->openURL( h.url );
-
-  sendOpenURLEvent( h.url );
 
   if ( m_pMainWindow->currentView() == this )
     m_pMainWindow->updateToolBarActions();
@@ -1008,14 +1005,13 @@ void KonqView::setLockedLocation( bool b )
   m_bLockedLocation = b;
 }
 
-void KonqView::sendOpenURLEvent( const KURL &url, const KParts::URLArgs &args )
+void KonqView::aboutToOpenURL( const KURL &url, const KParts::URLArgs &args )
 {
   KParts::OpenURLEvent ev( m_pPart, url, args );
   QApplication::sendEvent( m_pMainWindow, &ev );
 
-  // We also do here what we want to do after opening an URL, whether a new one
-  // or one from the history (common stuff).
   m_bGotIconURL = false;
+  m_bAborted = false;
 }
 
 void KonqView::setServiceTypeInExtension()

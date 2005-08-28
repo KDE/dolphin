@@ -410,7 +410,7 @@ private:
    */
   void updateHistoryEntry(bool saveLocationBarURL);
 
-  void sendOpenURLEvent( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
+  void aboutToOpenURL( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
 
   void setServiceTypeInExtension();
 
