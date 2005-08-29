@@ -139,7 +139,7 @@ void IconViewBrowserExtension::trash()
 {
    KonqOperations::del(m_iconView->iconViewWidget(),
                        KonqOperations::TRASH,
-                       m_iconView->iconViewWidget()->selectedUrls());
+                       m_iconView->iconViewWidget()->selectedUrls( KonqIconViewWidget::MostLocalUrls ));
 }
 
 void IconViewBrowserExtension::properties()
@@ -716,21 +716,7 @@ void KonqKfmIconView::slotReturnPressed( Q3IconViewItem *item )
     KFileItem *fileItem = (static_cast<KFileIVI*>(item))->item();
     if ( !fileItem )
         return;
-    KURL url = fileItem->url();
-    url.cleanPath();
-#if 0 // We now allow to open files from the trash. They are readonly, it's up to the apps to handle that correctly...
-    bool isIntoTrash = url.protocol() == "trash";
-    if ( !isIntoTrash || (isIntoTrash && fileItem->isDir()) )
-    {
-#endif
-        lmbClicked( fileItem );
-#if 0
-    }
-    else
-    {
-        KMessageBox::information(0L, i18n("You must take the file out of the trash before being able to use it."));
-    }
-#endif
+    lmbClicked( fileItem );
 }
 
 void KonqKfmIconView::slotDragHeld( Q3IconViewItem *item )

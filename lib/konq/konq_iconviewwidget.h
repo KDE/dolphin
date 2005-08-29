@@ -195,7 +195,10 @@ public:
     virtual void cutSelection();
     virtual void copySelection();
     virtual void pasteSelection();
-    virtual KURL::List selectedUrls();
+
+    enum UrlFlags { UserVisibleUrls = 0, MostLocalUrls = 1 };
+    KURL::List selectedUrls( UrlFlags flags = UserVisibleUrls ) const;
+
     void paste( const KURL &url );
 
     bool sortDirectoriesFirst() const;

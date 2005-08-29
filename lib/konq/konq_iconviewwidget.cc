@@ -1153,13 +1153,16 @@ void KonqIconViewWidget::paste( const KURL &url )
     KonqOperations::doPaste( this, url );
 }
 
-KURL::List KonqIconViewWidget::selectedUrls()
+KURL::List KonqIconViewWidget::selectedUrls( UrlFlags flags ) const
 {
     KURL::List lstURLs;
 
+    bool dummy;
     for ( Q3IconViewItem *it = firstItem(); it; it = it->nextItem() )
-        if ( it->isSelected() )
-            lstURLs.append( (static_cast<KFileIVI *>( it ))->item()->url() );
+        if ( it->isSelected() ) {
+            KFileItem* item = (static_cast<KFileIVI *>( it ))->item();
+            lstURLs.append( flags == MostLocalUrls ? item->mostLocalURL( dummy ) : item->url() );
+        }
     return lstURLs;
 }
 
