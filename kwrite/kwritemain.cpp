@@ -24,6 +24,7 @@
 #include <ktexteditor/document.h>
 #include <ktexteditor/view.h>
 #include <ktexteditor/sessionconfiginterface.h>
+#include <ktexteditor/modificationinterface.h>
 #include <ktexteditor/editor.h>
 #include <ktexteditor/editorchooser.h>
 
@@ -103,6 +104,10 @@ KWrite::KWrite (KTextEditor::Document *doc)
     }
 
     doc = editor->createDocument(0);
+  
+    // enable the modified on disk warning dialogs if any
+    if (qobject_cast<KTextEditor::ModificationInterface *>(doc))
+      qobject_cast<KTextEditor::ModificationInterface *>(doc)->setModifiedOnDiskWarning (true);
 
     docList.append(doc);
   }
@@ -120,7 +125,7 @@ KWrite::KWrite (KTextEditor::Document *doc)
   connect(m_view, SIGNAL(selectionChanged (KTextEditor::View *)), this, SLOT(selectionChanged (KTextEditor::View *)));
   connect(m_view, SIGNAL(informationMessage (KTextEditor::View *, const QString &)), this, SLOT(informationMessage (KTextEditor::View *, const QString &)));
   connect(m_view->document(), SIGNAL(modifiedChanged(KTextEditor::Document *)), this, SLOT(modifiedChanged()));
-  connect(m_view->document(), SIGNAL(modifiedOnDisk(Document *, bool, ModifiedOnDiskReason)), this, SLOT(modifiedChanged()) );
+  connect(m_view->document(), SIGNAL(modifiedOnDisk(KTextEditor::Document *, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)), this, SLOT(modifiedChanged()) );
   connect(m_view->document(), SIGNAL(documentNameChanged(KTextEditor::Document *)), this, SLOT(documentNameChanged()));
 
   setAcceptDrops(true);
@@ -642,9 +647,6 @@ static KCmdLineOptions options[] =
 
 extern "C" KDE_EXPORT int kdemain(int argc, char **argv)
 {
-#warning fixme later
-  //KTextEditor::Document::setFileChangedDialogsActivated (true);
-
   KLocale::setMainCatalogue("kate");         //lukas: set this to have the kwritepart translated using kate message catalog
 
   // here we go, construct the KWrite version
