@@ -184,7 +184,7 @@ void ListViewBrowserExtension::trash()
 {
   KonqOperations::del(m_listView->listViewWidget(),
                       KonqOperations::TRASH,
-                      m_listView->listViewWidget()->selectedUrls());
+                      m_listView->listViewWidget()->selectedUrls( true ));
 }
 
 void ListViewBrowserExtension::reparseConfiguration()
