@@ -20,7 +20,7 @@
 #include <qbuttongroup.h>
 #include <qcheckbox.h>
 #include <qlayout.h>
-#include <qpushbutton.h>
+#include <kpushbutton.h>
 #include <qradiobutton.h>
 #include <qslider.h>
 
