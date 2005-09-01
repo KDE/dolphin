@@ -1908,7 +1908,12 @@ void KonqMainWindow::slotConfigure()
 
         for( QStringList::ConstIterator it = modules.begin();
                 it != end; ++it )
-            m_configureDialog->addModule( *it );
+        {
+            if ( kapp->authorizeControlModule( *it ) )
+            {
+                m_configureDialog->addModule( *it );
+            }
+        }
 
     }
 
