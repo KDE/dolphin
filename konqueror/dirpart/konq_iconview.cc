@@ -19,17 +19,20 @@
 
 #include "konq_iconview.h"
 
+#include "konq_iconviewitemdelegate.h"
+
 #include <QHelpEvent>
 
 KonqIconView::KonqIconView( QWidget* parent ) : QListView( parent )
 {
     setViewMode( QListView::IconMode );        
     setSelectionMode( QAbstractItemView::ExtendedSelection );
-    setGridSize( QSize( 64, 64 ) );
+    setGridSize( QSize( 150, 150 ) );
     setMovement( QListView::Static );
     setResizeMode( QListView::Adjust );
     setDragEnabled( true );
     setAcceptDrops( true );
+//    setItemDelegate( new KonqIconViewItemDelegate( this ) );
     setEditTriggers( QAbstractItemView::EditKeyPressed );
 }
 
@@ -53,4 +56,26 @@ void KonqIconView::contextMenuEvent( QContextMenuEvent* ev )
         emit contextMenu( viewport()->mapToGlobal( visualRect( currentIndex() ).center() ), selectedIndexes() );
     else
         emit contextMenu( ev->globalPos(), selectedIndexes() );
+}
+
+void KonqIconView::mouseReleaseEvent( QMouseEvent* ev )
+{
+    if ( state() == QAbstractItemView::NoState )
+        emit execute( indexAt( ev->pos() ), ev->button() );
+    QListView::mouseReleaseEvent( ev );
+}
+
+void KonqIconView::keyPressEvent( QKeyEvent* ev )
+{
+    if ( ev->key() == Qt::Key_Return )
+        emit execute( currentIndex(), Qt::NoButton );
+    QListView::keyPressEvent( ev );
+}
+
+QStyleOptionViewItem KonqIconView::viewOptions() const
+{
+    QStyleOptionViewItem option = QListView::viewOptions();
+    option.decorationSize = QSize( 128, 128 );
+    option.displayAlignment = Qt::AlignHCenter;
+    return option;
 }

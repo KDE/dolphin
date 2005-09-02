@@ -26,6 +26,7 @@ class KonqFileTip;
 
 class KonqListView : public QTreeView
 {
+    friend class KonqPart;
     Q_OBJECT
 public:
     KonqListView( QWidget* parent );
@@ -36,10 +37,11 @@ protected:
     virtual bool viewportEvent( QEvent* ev );
     virtual void contextMenuEvent( QContextMenuEvent* ev );
     virtual void mouseReleaseEvent( QMouseEvent* ev );
+    virtual void keyPressEvent( QKeyEvent* ev );
 signals:
     void toolTip( const QModelIndex& index );
     void contextMenu( const QPoint& pos, const QModelIndexList& indexes );
-    void execute( QMouseEvent* ev );
+    void execute( const QModelIndex& index, Qt::MouseButton mb );
 private slots:
     void slotCurrentChanged( const QModelIndex& index, const QModelIndex& );
 };

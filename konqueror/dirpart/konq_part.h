@@ -58,12 +58,14 @@ protected slots:
     virtual bool doOpenURL( const KURL& );
     virtual bool doCloseURL() { return true; }
 private slots:
-    void slotExecute( QMouseEvent* ev );
+    void slotExecute( const QModelIndex& index, Qt::MouseButton mb );
     void slotToolTip( const QModelIndex& index );
     void slotContextMenu( const QPoint& pos, const QModelIndexList& indexes );
+    void slotUpdateActions();
+    void slotPreview( const KFileItem* item, const QPixmap& pixmap );
 };
 
 namespace KParts { template<typename T> class GenericFactory; }
-typedef KParts::GenericFactory<KonqPart> KonqListFactory;
+typedef KParts::GenericFactory<KonqPart> KonqFactory;
 #endif
 

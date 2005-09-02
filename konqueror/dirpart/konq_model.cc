@@ -59,6 +59,21 @@ KFileItem* KonqModel::fileItem( const QModelIndex& index ) const
         return m_fileList.at( row - m_dirList.count() );
 }
 
+void KonqModel::setItemFont( const QFont& font )
+{
+    m_font = font;
+}   
+
+void KonqModel::setItemColor( const QColor& color )
+{
+    m_color = color;
+}
+
+void KonqModel::addPreview( const KFileItem* item, const QPixmap& pixmap )
+{
+    m_previews[ item ] = QIcon( pixmap );
+}
+
 QVariant KonqModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
     if ( orientation == Qt::Horizontal && role == Qt::DisplayRole ) {
@@ -75,6 +90,11 @@ QVariant KonqModel::headerData( int section, Qt::Orientation orientation, int ro
                 return QString( "Group" );
          }
     }
+    else if ( role == Qt::TextAlignmentRole )
+        if ( section == 1 )
+            return int( Qt::AlignRight|Qt::AlignVCenter );
+
+        
     return QVariant();
 }
 
@@ -85,11 +105,23 @@ int KonqModel::rowCount( const QModelIndex& ) const
 
 QVariant KonqModel::data( const QModelIndex& index, int role ) const
 {
-    if ( role == Qt::DisplayRole ) {
+    if ( index.column() == 0 ) {
+        if ( role == Qt::DecorationRole )
+            if ( m_previews.contains( fileItem( index ) ) )
+                return m_previews[ fileItem( index ) ];
+            else
+                return QIcon( fileItem( index )->pixmap( KGlobal::iconLoader()->currentSize( KIcon::Desktop ) ) );
+        else if ( role == Qt::FontRole )
+            return m_font;
+        else if ( role == Qt::TextColorRole )
+            return m_color;
+    }
+
+    if ( role == Qt::DisplayRole || role == Qt::EditRole ) {
         return data( fileItem( index ), index.column() );
     }
-    else if ( role == Qt::DecorationRole && index.column() == 0 )
-        return fileItem( index )->pixmap( KGlobal::iconLoader()->currentSize( KIcon::Small ) );
+    else if ( role == Qt::TextAlignmentRole && index.column() == 1 )
+        return int( Qt::AlignRight|Qt::AlignVCenter );
 
     return QVariant();
 }

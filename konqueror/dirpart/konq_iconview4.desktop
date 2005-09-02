@@ -1,12 +1,12 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Service
-Name=List Part
+Name=Icon Part
 MimeType=inode/directory
 ServiceTypes=KParts/ReadOnlyPart,Browser/View
 X-KDE-Library=konq_part
-X-KDE-BrowserView-Args=DetailedList
+X-KDE-BrowserView-Args=Icon
 X-KDE-BrowserView-HideFromMenus=true
 X-KDE-BrowserView-Built-Into=konqueror
-Icon=view_detailed
+Icon=view_icon
 InitialPreference=7

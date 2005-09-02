@@ -70,8 +70,15 @@ void KonqListView::contextMenuEvent( QContextMenuEvent* ev )
 void KonqListView::mouseReleaseEvent( QMouseEvent* ev )
 {
     if ( isExecutableArea( ev->pos() ) )
-        emit execute( ev );
+        emit execute( indexAt( ev->pos() ), ev->button() );
     QTreeView::mouseReleaseEvent( ev );
+}
+
+void KonqListView::keyPressEvent( QKeyEvent* ev )
+{
+    if ( ev->key() == Qt::Key_Return )
+        emit execute( currentIndex(), Qt::NoButton );
+    QTreeView::keyPressEvent( ev );
 }
 
 void KonqListView::slotCurrentChanged( const QModelIndex& index, const QModelIndex& )

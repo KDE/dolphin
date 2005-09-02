@@ -17,29 +17,20 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef __konq_iconview_h__
-#define __konq_iconview_h__
+#ifndef __konq_iconviewitemdelegate_h__
+#define __konq_iconviewitemdelegate_h__
 
-#include <QListView>
+#include <QItemDelegate>
 
-class KonqFileTip;
-
-class KonqIconView : public QListView
-{
+class KonqIconViewItemDelegate : public QItemDelegate {
     Q_OBJECT
 public:
-    KonqIconView( QWidget* parent );
-    ~KonqIconView();
+    KonqIconViewItemDelegate( QObject* parent=0 );
+    ~KonqIconViewItemDelegate();
+    virtual void paint( QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index ) const;
 protected:
-    virtual bool viewportEvent( QEvent* ev );
-    virtual void contextMenuEvent( QContextMenuEvent* ev );
-    virtual void mouseReleaseEvent( QMouseEvent* ev );
-    virtual void keyPressEvent( QKeyEvent* ev );
-    virtual QStyleOptionViewItem viewOptions() const;
-signals:
-    void toolTip( const QModelIndex& index );
-    void contextMenu( const QPoint& pos, const QModelIndexList& indexes );
-    void execute( const QModelIndex& index, Qt::MouseButton mb );
+    virtual void drawDisplay( QPainter* painter, const QStyleOptionViewItem& option, const QRect& rect, const QString& text ) const;
+    virtual void drawFocus( QPainter* painter, const QStyleOptionViewItem& option, const QRect& rect ) const;
 };
-
 #endif
+

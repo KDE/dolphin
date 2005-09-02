@@ -24,6 +24,8 @@
 
 #include <kfileitem.h>
 
+#include <QHash>
+
 class KonqModel : public QAbstractTableModel 
 {
     Q_OBJECT
@@ -33,6 +35,9 @@ public:
     void clearFileItems();
     void appendFileItems( const KFileItemList& items );
     KFileItem* fileItem( const QModelIndex& index ) const;
+    void setItemFont( const QFont& font );
+    void setItemColor( const QColor& color );
+    void addPreview( const KFileItem* item, const QPixmap& pixmap );
 
     virtual QVariant headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
     virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
@@ -47,6 +52,9 @@ public:
 private:
     QList<KFileItem*> m_dirList;
     QList<KFileItem*> m_fileList;
+    QFont m_font;
+    QColor m_color;
+    QHash<const KFileItem*,QIcon> m_previews;
     QVariant data( KFileItem* item, int column ) const;
 };
 
