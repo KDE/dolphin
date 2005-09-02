@@ -29,9 +29,9 @@
 namespace Widgets
 {
     bool inputBox(QWidget *parent, const QString& title, const QString& text, const QString& init, QString &result);
-    bool passwordBox(QWidget *parent, const QString& title, const QString& text, Q3CString &result);
+    bool passwordBox(QWidget *parent, const QString& title, const QString& text, QString &result);
     int textBox(QWidget *parent, int width, int height, const QString& title, const QString& file);
-    int textInputBox(QWidget *parent, int width, int height, const QString& title, const QStringList& args, Q3CString &result);
+    int textInputBox(QWidget *parent, int width, int height, const QString& title, const QStringList& args, QString &result);
     bool listBox(QWidget *parent, const QString& title, const QString& text, const QStringList& args, const QString &defaultEntry, QString &result);
     bool checkList(QWidget *parent, const QString& title, const QString& text, const QStringList& args, bool separateOutput, QStringList &result);
     bool radioBox(QWidget *parent, const QString& title, const QString& text, const QStringList& args, QString &result);

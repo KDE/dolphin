@@ -276,7 +276,7 @@ static int directCommand(KCmdLineArgs *args)
     // --password text
     if (args->isSet("password"))
     {
-      Q3CString result;
+      QString result;
       bool retcode = Widgets::passwordBox(0, title, QString::fromLocal8Bit(args->getOption("password")), result);
       cout << result.data() << endl;
       return retcode ? 0 : 1;
@@ -302,7 +302,7 @@ static int directCommand(KCmdLineArgs *args)
 	QObject::connect( popup, SIGNAL( clicked() ), kapp, SLOT( quit() ) );
 	timer->start( duration, TRUE );
 
-#ifdef Q_WS_X11	
+#ifdef Q_WS_X11
 	if ( ! kapp->geometryArgument().isEmpty()) {
 	    int x, y;
 	    int w, h;
@@ -351,7 +351,7 @@ static int directCommand(KCmdLineArgs *args)
 	  list.append(QString::fromLocal8Bit(args->arg(i)));
       }
 
-      Q3CString result;
+      QString result;
       int ret = Widgets::textInputBox(0, w, h, title, list, result);
       cout << result.data() << endl;
       return ret;
@@ -457,7 +457,7 @@ static int directCommand(KCmdLineArgs *args)
 	Widgets::handleXGeometry(&dlg);
 	kapp->setTopWidget( &dlg );
 	dlg.exec();
-	
+
         if (args->isSet("multiple")) {
 	    QStringList result = dlg.selectedFiles();
 	    if ( !result.isEmpty() ) {
@@ -573,7 +573,7 @@ static int directCommand(KCmdLineArgs *args)
 	Widgets::handleXGeometry(&dlg);
 	kapp->setTopWidget( &dlg );
 	dlg.exec();
-	
+
         if (args->isSet("multiple")) {
 	    KURL::List result = dlg.selectedURLs();
 	    if ( !result.isEmpty() ) {

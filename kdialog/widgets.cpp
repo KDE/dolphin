@@ -67,7 +67,7 @@ bool Widgets::inputBox(QWidget *parent, const QString& title, const QString& tex
   return ok;
 }
 
-bool Widgets::passwordBox(QWidget *parent, const QString& title, const QString& text, Q3CString &result)
+bool Widgets::passwordBox(QWidget *parent, const QString& title, const QString& text, QString &result)
 {
   KPasswordDialog dlg( KPasswordDialog::Password, false, 0, parent );
 
@@ -116,7 +116,7 @@ int Widgets::textBox(QWidget *parent, int width, int height, const QString& titl
   return 0;
 }
 
-int Widgets::textInputBox(QWidget *parent, int width, int height, const QString& title, const QStringList& args, Q3CString &result)
+int Widgets::textInputBox(QWidget *parent, int width, int height, const QString& title, const QStringList& args, QString &result)
 {
 //  KTextBox dlg(parent, 0, TRUE, width, height, file);
   KDialogBase dlg( parent, 0, true, title, KDialogBase::Ok, KDialogBase::Ok );
@@ -148,7 +148,7 @@ int Widgets::textInputBox(QWidget *parent, int width, int height, const QString&
   return 0;
 }
 
-bool Widgets::comboBox(QWidget *parent, const QString& title, const QString& text, const QStringList& args, 
+bool Widgets::comboBox(QWidget *parent, const QString& title, const QString& text, const QStringList& args,
 		       const QString& defaultEntry, QString &result)
 {
   KDialogBase dlg( parent, 0, true, title, KDialogBase::Ok|KDialogBase::Cancel,
@@ -173,7 +173,7 @@ bool Widgets::comboBox(QWidget *parent, const QString& title, const QString& tex
   return retcode;
 }
 
-bool Widgets::listBox(QWidget *parent, const QString& title, const QString& text, const QStringList& args, 
+bool Widgets::listBox(QWidget *parent, const QString& title, const QString& text, const QStringList& args,
 		      const QString& defaultEntry, QString &result)
 {
   KListBoxDialog box(text,parent);
