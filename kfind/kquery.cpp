@@ -21,7 +21,6 @@ KQuery::KQuery(QObject *parent, const char * name)
     job(0), m_insideCheckEntries(false), m_result(0)
 {
   m_regexps.setAutoDelete(true);
-  m_fileItems.setAutoDelete(true);
   processLocate = new KProcess(this);
   connect(processLocate,SIGNAL(receivedStdout(KProcess*, char*, int)),this,SLOT(slotreceivedSdtout(KProcess*,char*,int)));
   connect(processLocate,SIGNAL(receivedStderr(KProcess*, char*, int)),this,SLOT(slotreceivedSdterr(KProcess*,char*,int)));
@@ -58,6 +57,8 @@ KQuery::KQuery(QObject *parent, const char * name)
 
 KQuery::~KQuery()
 {
+  while (!m_fileItems.isEmpty())
+      delete m_fileItems.dequeue();
 }
 
 void KQuery::kill()
@@ -66,12 +67,14 @@ void KQuery::kill()
      job->kill(false);
   if (processLocate->isRunning())
      processLocate->kill();
-  m_fileItems.clear();
+  while (!m_fileItems.isEmpty())
+      delete m_fileItems.dequeue();
 }
 
 void KQuery::start()
 {
-  m_fileItems.clear();
+    while (!m_fileItems.isEmpty())
+      delete m_fileItems.dequeue();
   if(m_useLocate) //use "locate" instead of the internal search method
   {
     processLocate->clearArguments();
@@ -108,7 +111,9 @@ void KQuery::slotCanceled( KIO::Job * _job )
   if (job != _job) return;
   job = 0;
 
-  m_fileItems.clear();
+  while (!m_fileItems.isEmpty())
+      delete m_fileItems.dequeue();
+
   m_result=KIO::ERR_USER_CANCELED;
   checkEntries();
 }
@@ -132,11 +137,13 @@ void KQuery::checkEntries()
   m_insideCheckEntries=true;
   metaKeyRx=new QRegExp(m_metainfokey,true,true);
   KFileItem * file = 0;
-  while ((file=m_fileItems.dequeue()))
+  while ( !m_fileItems.isEmpty() )
   {
-     processQuery(file);
-     delete file;
+      file=m_fileItems.dequeue();
+      processQuery( file );
+      delete file;
   }
+
   delete metaKeyRx;
   m_insideCheckEntries=false;
   if (job==0)

@@ -5,7 +5,7 @@
 
 #include <qobject.h>
 #include <qregexp.h>
-#include <q3ptrqueue.h>
+#include <QQueue>
 #include <qdir.h>
 #include <qstringlist.h>
 
@@ -90,7 +90,7 @@ class KQuery : public QObject
 //  QValueList<bool> m_regexpsContainsGlobs;  // what should this be good for ? Alex
   KIO::ListJob *job;
   bool m_insideCheckEntries;
-  Q3PtrQueue<KFileItem> m_fileItems;
+  QQueue<KFileItem *> m_fileItems;
   QRegExp* metaKeyRx;
   int m_result;
   QStringList ignore_mimetypes;
