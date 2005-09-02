@@ -6,6 +6,7 @@
 #include <qobject.h>
 #include <qregexp.h>
 #include <QQueue>
+#include <QList>
 #include <qdir.h>
 #include <qstringlist.h>
 
@@ -86,7 +87,7 @@ class KQuery : public QObject
   int bufferLocateLength;
   QStringList locateList;
   KProcess *processLocate;
-  Q3PtrList<QRegExp> m_regexps;// regexps for file name
+  QList<QRegExp*> m_regexps;// regexps for file name
 //  QValueList<bool> m_regexpsContainsGlobs;  // what should this be good for ? Alex
   KIO::ListJob *job;
   bool m_insideCheckEntries;

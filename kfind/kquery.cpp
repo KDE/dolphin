@@ -2,7 +2,7 @@
 
 #include <qfileinfo.h>
 #include <qtextstream.h>
-
+#include <QListIterator>
 #include <kdebug.h>
 #include <kfileitem.h>
 #include <kfilemetainfo.h>
@@ -20,7 +20,6 @@ KQuery::KQuery(QObject *parent, const char * name)
     m_timeFrom(0), m_timeTo(0),
     job(0), m_insideCheckEntries(false), m_result(0)
 {
-  m_regexps.setAutoDelete(true);
   processLocate = new KProcess(this);
   connect(processLocate,SIGNAL(receivedStdout(KProcess*, char*, int)),this,SLOT(slotreceivedSdtout(KProcess*,char*,int)));
   connect(processLocate,SIGNAL(receivedStderr(KProcess*, char*, int)),this,SLOT(slotreceivedSdterr(KProcess*,char*,int)));
@@ -57,6 +56,8 @@ KQuery::KQuery(QObject *parent, const char * name)
 
 KQuery::~KQuery()
 {
+  while (!m_regexps.isEmpty())
+      delete m_regexps.takeFirst();
   while (!m_fileItems.isEmpty())
       delete m_fileItems.dequeue();
 }
@@ -172,18 +173,19 @@ void KQuery::slotListEntries( QStringList  list )
 /* Check if file meets the find's requirements*/
 void KQuery::processQuery( KFileItem* file)
 {
-  QRegExp *filename_match;
 
     if ( file->name() == "." || file->name() == ".." )
       return;
 
     bool matched=false;
 
-    for ( filename_match = m_regexps.first(); !matched && filename_match; filename_match = m_regexps.next() )
+    QListIterator<QRegExp *> nextItem( m_regexps );
+    while ( nextItem.hasNext() )
     {
-      matched |=  filename_match->isEmpty()  ||
-                  (filename_match->exactMatch( file->url().fileName( true ) ) );
+        QRegExp *reg = nextItem.next();
+        matched |= ( reg == 0L ) || ( reg->exactMatch( file->url().fileName( true ) ) ) ;
     }
+
     if (!matched)
       return;
 
@@ -441,8 +443,9 @@ void KQuery::setRegExp(const QString &regexp, bool caseSensitive)
   QRegExp sep(";");
   QStringList strList=QStringList::split( sep, regexp, false);
 //  QRegExp globChars ("[\\*\\?\\[\\]]", TRUE,  FALSE);
+  while (!m_regexps.isEmpty())
+      delete m_regexps.takeFirst();
 
-  m_regexps.clear();
 //  m_regexpsContainsGlobs.clear();
   for ( QStringList::ConstIterator it = strList.begin(); it != strList.end(); ++it ) {
     regExp = new QRegExp((*it),caseSensitive,true);
