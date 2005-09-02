@@ -1015,15 +1015,14 @@ void KonqIconViewWidget::contentsDragMoveEvent( QDragMoveEvent *e )
         return;
     }
 
-#ifdef KFILEITEM_HAS_ISWRITABLE
     Q3IconViewItem *item = findItem( e->pos() );
-    if ( !item && m_rootItem && !m_rootItem->isWritable() ) {
+    if ( e->source() != viewport() &&
+         !item && m_rootItem && !m_rootItem->isWritable() ) {
         emit dragMove( false );
         e->ignore();
         cancelPendingHeldSignal();
         return;
     }
-#endif
     emit dragMove( true );
     KIconView::contentsDragMoveEvent( e );
 }
@@ -1220,12 +1219,11 @@ void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
 {
   Q3IconViewItem *i = findItem( ev->pos() );
 
-#ifdef KFILEITEM_HAS_ISWRITABLE
-    if ( !i && m_rootItem && !m_rootItem->isWritable() ) {
+    if ( ev->source() != viewport() &&
+         !i && m_rootItem && !m_rootItem->isWritable() ) {
         ev->accept( false );
         return;
     }
-#endif
 
   // Short-circuit QIconView if Ctrl is pressed, so that it's possible
   // to drop a file into its own parent widget to copy it.
