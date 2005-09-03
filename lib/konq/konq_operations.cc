@@ -41,7 +41,6 @@
 // For doDrop
 #include <qdir.h>//first
 #include <assert.h>
-#include <kauthorized.h>
 #include <kapplication.h>
 #include <kipc.h>
 #include <kdebug.h>
@@ -507,7 +506,7 @@ void KonqOperations::doFileCopy()
     }
 
     bool linkOnly = false;
-    if (isDesktopFile && !KAuthorized::self()->authorize("run_desktop_files") &&
+    if (isDesktopFile && !kapp->authorize("run_desktop_files") &&
         (m_destURL.path(1) == KGlobalSettings::desktopPath()) )
     {
        linkOnly = true;
@@ -515,7 +514,7 @@ void KonqOperations::doFileCopy()
 
     if ( !mlst.isEmpty() && m_destURL.protocol() == "trash" )
     {
-        if ( itemIsOnDesktop && !KAuthorized::self()->authorize("editable_desktop_icons") )
+        if ( itemIsOnDesktop && !kapp->authorize("editable_desktop_icons") )
         {
             delete this;
             return;
