@@ -18,7 +18,8 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "kapplication.h"
+#include <kapplication.h>
+#include <kauthorized.h>
 
 #include "konq_xmlguiclient.h"
 #include <kdebug.h>
@@ -79,7 +80,7 @@ void KonqXMLGUIClient::addAction( const char *name, const QDomElement &menu )
 {
   static const QString& tagAction = KGlobal::staticQString( "action" );
 
-  if (!kapp->authorizeKAction(name))
+  if (!KAuthorized::self()->authorizeKAction(name))
      return;
 
   handlePendingSeparator();

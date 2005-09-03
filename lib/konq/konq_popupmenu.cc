@@ -46,6 +46,7 @@
 #include "knewmenu.h"
 #include "konq_popupmenu.h"
 #include "konq_operations.h"
+#include <kauthorized.h>
 #include <dcopclient.h>
 
 /*
@@ -317,7 +318,7 @@ bool KonqPopupMenu::KIOSKAuthorizedAction(KConfig& cfg)
             it != list.end();
             ++it)
         {
-            if (!kapp->authorize((*it).stripWhiteSpace()))
+            if (!KAuthorized::self()->authorize((*it).stripWhiteSpace()))
             {
                 return false;
             }
@@ -460,7 +461,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     KAction *actNewWindow = 0;
 
     if (( kpf & ShowProperties ) && isKDesktop &&
-        !kapp->authorize("editable_desktop_icons"))
+        !KAuthorized::self()->authorize("editable_desktop_icons"))
     {
         kpf &= ~ShowProperties; // remove flag
     }
@@ -610,7 +611,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         act = new KAction( caption, "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "bookmark_add" );
         if (m_lstItems.count() > 1)
             act->setEnabled(false);
-        if (kapp->authorizeKAction("bookmarks"))
+        if (KAuthorized::self()->authorizeKAction("bookmarks"))
             KonqXMLGUIClient::addAction( act );
         if (bIsLink)
             KonqXMLGUIClient::addGroup( "linkactions" );
@@ -806,7 +807,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
         KTrader::OfferList offers;
 
-        if (kapp->authorizeKAction("openwith"))
+        if (KAuthorized::self()->authorizeKAction("openwith"))
         {
             QString constraint = "Type == 'Application' and DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'";
             QString subConstraint = " and '%1' in ServiceTypes";
