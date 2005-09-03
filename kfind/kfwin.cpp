@@ -104,8 +104,8 @@ QString KfFileLVI::key(int column, bool) const
   return text(column);
 }
 
-KfindWindow::KfindWindow( QWidget *parent, const char *name )
-  : KListView( parent, name )
+KfindWindow::KfindWindow( QWidget *parent, const char * /* name */)
+  : KListView( parent /*, name */)
 ,m_baseDir("")
 ,m_menu(0)
 {
@@ -356,7 +356,7 @@ Q3DragObject * KfindWindow::dragObject()
   if ( uris.count() <= 0 )
      return 0;
 
-  Q3UriDrag *ud = new KURLDrag( uris, (QWidget *) this, "kfind uridrag" );
+  Q3UriDrag *ud = new KURLDrag( uris, (QWidget *) this ); /* KDE4 obsolete? , "kfind uridrag" ); */
 
   const QPixmap *pix = currentItem()->pixmap(0);
   if ( pix && !pix->isNull() )
