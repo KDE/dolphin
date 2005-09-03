@@ -1,0 +1,14 @@
+i18n("NOTE_TO_THE_TRANSLATORS",
+     "By default, the web shortcuts will all go to the\n"
+     "international versions of each site (e.g. google.com),\n"
+     "not to the local site (e.g. google.de).  To change this,\n"
+     "add extra 'Query[foo]=...' lines to the .desktop files\n"
+     "in kdebase/kcontrol/ebrowsing/plugins/ikws/searchproviders.\n"
+     "For example, in google.desktop, copy the original\n"
+     "Query=...\n"
+     "line to\n"
+     "Query[foo]=...\n"
+     "and change its URL so it uses google.foo instead of google.com.\n"
+     "(translate this message as DONE when you have added the extra\n"
+     "query URLs; otherwise, leave it untranslated as a reminder.)");
+

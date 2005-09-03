@@ -1,0 +1,38 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=AllTheWeb fast
+Name[af]=Allesvandieweb vinnige
+Name[az]=AllTheWeb
+Name[be]=AllTheWeb хутка
+Name[ca]=AllTheWeb ràpid
+Name[cy]=AllTheWeb cyflym
+Name[da]=AllTheWeb hurtigt
+Name[eo]=La tuta teksaĵo rapide
+Name[es]=AllTheWeb de Fast
+Name[hi]=आल-द-वेब फास्ट
+Name[hu]=AllTheWeb (gyors)
+Name[is]=AllTheWeb hratt
+Name[it]=AllTheWeb veloce
+Name[ko]=올더웹 패스트
+Name[lo]=AlltheWebfast
+Name[nn]=AllTheWeb Fast
+Name[nso]=Web Kamoka ka lebelo
+Name[pa]=ਸਭ ਵੈਬ ਤੇਜ਼
+Name[pl]=AllTheWeb - teksty, filmy, teledyski, serwery FTP
+Name[pt]=AllThe Web fast
+Name[pt_BR]=AllTheWeb
+Name[ro]=AllTheWeb rapid
+Name[sl]=AllTheWeb hitro
+Name[sv]=AllTheWeb snabb
+Name[ta]=எல்லா வலைப்பின்னலும் விரைவாக உள்ளது
+Name[tr]=AllTheWeb
+Name[uz]=Бутун вебни (тез)
+Name[ven]=Webu dzothe ngau tavhanya
+Name[xh]=Yonke i Web ngokukhawuleza
+Name[xx]=xxAllTheWeb fastxx
+Name[zu]=Yonke i-Web ngokushesha
+ServiceTypes=SearchProvider
+Keys=atw,alltheweb
+Query=http://www.alltheweb.com/search?exec=FAST+Search&type=all&query=\\{@}&cat=web
+Query[xx]=xxhttp://www.alltheweb.com/search?exec=FAST+Search&type=all&query=\\{@}&cat=webxx

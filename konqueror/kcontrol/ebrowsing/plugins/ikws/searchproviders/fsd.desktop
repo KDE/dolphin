@@ -1,0 +1,42 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=FSF/UNESCO Free Software Directory
+Name[bn]=FSF/UNESCO ফ্রী সফ্‌টওয়্যার ডিরেক্টরি
+Name[ca]=Directori de programari lliure FSF/UNESCO
+Name[da]=FSF/UNESCO Free Software katalog
+Name[es]=Directorio de software libre de FSF/UNESCO
+Name[eu]=FSF/UNESCO software libreko direktorioa
+Name[fi]=FSF/UNESCO Vapaa ohjelmien hakemisto
+Name[fr]=Catalogue de logiciels libres FSF/UNESCO
+Name[ga]=Eolaire Saorbhogearraí FSF/UNESCO
+Name[he]=ספריית תוכנה חופשית של FSF/UNESCO
+Name[hi]=एफएसएफ/यूनेस्को फ्री सॉफ़्टवेयर डिरेक्ट्री
+Name[hu]=FSF/UNESCO szabadszoftver-gyűjtemény
+Name[it]=Elenco software liberp FSF/UNESCO
+Name[ja]=FSF/UNESCO フリー ソフトウェア ディレクトリ
+Name[lt]=FSF/UNESCO laisvos programinės įrangos katalogas
+Name[lv]=FSF/UNESCO Brīvās programmatūras krātuve
+Name[nb]=FSF/UNESCO-katalogen over fri programvare
+Name[nds]=FSF/UNESCO Orner mit fre'e Programmen
+Name[nn]=FSF/UNESCO-katalogen over fri programvare
+Name[pa]=FSF/UNESCO ਮੁਕਤ ਸਾਫਟਵੇਅਰ ਡਾਇਰੈਕਟਰੀ
+Name[pl]=Słownik darmowego oprogramowania FSF/UNESCO
+Name[pt]=Directoria de Software Livre FSF/UNESCO
+Name[pt_BR]=Diretório de Software Livre - FSF/UNESCO 
+Name[ro]=Director de software liber FSF/UNESCO
+Name[ru]=Каталог свободного ПО FSF/UNESCO
+Name[sl]=Imenik prostega programja FSF/UNESCO 
+Name[sr]=Адресар слободног софтвера FSF-а/UNESCO-а
+Name[sr@Latn]=Adresar slobodnog softvera FSF-a/UNESCO-a
+Name[sv]=FSF/UNESCO katalog över fri programvara
+Name[ta]=FSF/UNESCO இலவச மென்பொருள் அடைவு
+Name[tr]=FSF/UNESCO Ücretsiz Yazılım Dizini
+Name[uk]=Словник з вільного програмного забезпечення FSF/UNESCO
+Name[xx]=xxFSF/UNESCO Free Software Directoryxx
+ServiceTypes=SearchProvider
+Keys=fsd
+Query=http://directory.fsf.org/search/fsd-search.py?q=\\{@}
+Query[xx]=xxhttp://directory.fsf.org/search/fsd-search.py?q=\\{@}xx
+
+

@@ -1,0 +1,73 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=Google News
+Name[ar]=أخبار Google
+Name[az]=Google Xəbərlər
+Name[be]=Google Навіны
+Name[bn]=গুগল্ সংবাদ
+Name[br]=Keleier Google
+Name[bs]=Google vijesti
+Name[ca]=Notícies de Google
+Name[cy]=Newyddion Google
+Name[da]=Google nyheder
+Name[el]=Google νέα
+Name[eo]=Google Novaĵoj
+Name[es]=Noticias de Google
+Name[fa]=اخبار گوگل
+Name[fi]=Googlen uutiset
+Name[fr]=Google Informations
+Name[fy]=Google-nijs
+Name[ga]=Nuacht Google
+Name[gl]=Novas de Google
+Name[he]=חדשות גוגל
+Name[hi]=गूगल समाचार
+Name[hr]=Google Vijesti
+Name[hu]=Google hírek
+Name[is]=Google fréttir
+Name[it]=Google notizie
+Name[ja]=Googleニュース
+Name[lt]=Google naujienos
+Name[lv]=Google Ziņas
+Name[mk]=Google Вести
+Name[mn]=Гооглэ мэдээ
+Name[mt]=Aħbarijiet Google
+Name[nb]=Google nyheter
+Name[nds]=Google Narichten
+Name[nl]=Google-nieuws
+Name[nn]=Google nyhende
+Name[pa]=Google ਖ਼ਬਰਾਂ
+Name[pl]=Google - wiadomości
+Name[pt]=Notícias Google
+Name[pt_BR]=Notícias do Google
+Name[ro]=Ştiri Google
+Name[ru]=Новости Google
+Name[se]=Google ođđasat
+Name[sk]=Google správy
+Name[sr]=Google новости
+Name[sr@Latn]=Google novosti
+Name[sv]=Google diskussionsgrupper
+Name[ta]=கூகுல் செய்திகள்
+Name[tg]=Ахбори Google
+Name[th]=ข่าวจากกูเกิ้ล
+Name[tr]=Google Haberleri
+Name[uk]=Новини Google
+Name[uz]=Google - Янгиликлар
+Name[vi]=Tin tức Google
+Name[xx]=xxGoogle Newsxx
+Name[zh_CN]=Google 新闻
+Name[zh_TW]=Google 新聞
+ServiceTypes=SearchProvider
+Keys=ggn,googlenews
+Query=http://news.google.com/news?q=\\{@}&ie=UTF-8&oe=UTF-8
+Query[en_GB]=http://news.google.co.uk/news?q=\\{@}&ie=UTF-8&oe=UTF-8
+Query[fi]=http://news.google.fi/news?q=\\{@}&ie=UTF-8&oe=UTF-8
+Query[fr]=http://news.google.fr/news?q=\\{@}&ie=UTF-8&oe=UTF-8
+Query[fy]=http://news.google.nl/news?q=\\{@}&ie=UTF-8&oe=UTF-8
+Query[he]=http://news.google.co.il/news?q=\\{@}&ie=UTF-8&oe=UTF-8
+Query[it]=http://news.google.it/news?q=\\{@}&ie=UTF-8&oe=UTF-8
+Query[nb]=http://news.google.no/news?q=\\{@}&ie=UTF-8&oe=UTF-8
+Query[nl]=http://news.google.nl/news?q=\\{@}&ie=UTF-8&oe=UTF-8
+Query[pt]=http://news.google.pt/news?q=\\{@}&ie=UTF-8&oe=UTF-8
+Query[xx]=xxhttp://news.google.com/news?q=\\{@}&ie=UTF-8&oe=UTF-8xx
+Charset=utf8

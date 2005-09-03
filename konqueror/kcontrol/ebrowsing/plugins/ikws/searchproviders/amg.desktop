@@ -1,0 +1,37 @@
+[Desktop Entry]
+Hidden=false
+Keys=amg
+Name=All Music Guide
+Name[az]=Geniş Musiqi Rəhbəri
+Name[bn]=অল মিউজিক গাইড
+Name[bs]=Vodič za svu muziku
+Name[ca]=Guia per a tota la música
+Name[cy]=Canllaw Cerdd
+Name[da]=All musik-guide
+Name[el]=Οδηγός All Music
+Name[eo]=Konciza gvidlibro
+Name[es]=Guía All Music
+Name[eu]=All Music gida
+Name[fr]=Guide All Music
+Name[gl]=Guía de Toda a Música
+Name[he]=מדריך למוסיקה
+Name[hi]=सम्पूर्ण संगीत मार्गदर्शिका
+Name[is]=Tónlistarhandbók
+Name[it]=Guida All Music
+Name[pa]=ਸਭ ਸੰਗੀਤ ਗਾਈਡ
+Name[pl]=Przewodnik muzyczny
+Name[pt]=Guia Toda a Música
+Name[pt_BR]=Guia All Music
+Name[ro]=Ghid muzical complet
+Name[sl]=Vodnik All Music
+Name[sr]=Свемузички водич
+Name[sr@Latn]=Svemuzički vodič
+Name[sv]=Guiden All Musik
+Name[ta]=அனைத்து இசை துணை
+Name[tr]=Müzik Kılavuzu
+Name[xx]=xxAll Music Guidexx
+Name[zh_CN]=全音乐指南
+Query=http://www.allmusic.com/cg/amg.dll?p=amg&opt1=1&sql=\\{@}
+Query[xx]=xxhttp://www.allmusic.com/cg/amg.dll?p=amg&opt1=1&sql=\\{@}xx
+ServiceTypes=SearchProvider
+Type=Service

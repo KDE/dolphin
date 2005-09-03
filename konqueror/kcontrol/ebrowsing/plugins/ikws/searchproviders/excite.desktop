@@ -1,0 +1,22 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=Excite
+Name[bn]=এক্সসাইট
+Name[eo]=Ekscito
+Name[fa]=اکسایت
+Name[hi]=एक्साइट
+Name[ko]=익사이트
+Name[nso]=Thabisa
+Name[pa]=ਐਕਸਾਟੀ
+Name[pl]=Excite - wyszukiwarka stron WWW
+Name[ss]=Jabulisa
+Name[ta]=ஆச்சர்யம்
+Name[ven]=Takadza
+Name[xx]=xxExcitexx
+Name[zu]=Jabulisa
+ServiceTypes=SearchProvider
+Keys=ex,excite
+Query=http://search.excite.com/search.gw?search=\\{@}
+Query[en_GB]=http://www.excite.co.uk/search/web/results?q=\\{@}&c=web
+Query[xx]=xxhttp://search.excite.com/search.gw?search=\\{@}xx

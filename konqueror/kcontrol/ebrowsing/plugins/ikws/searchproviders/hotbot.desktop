@@ -1,0 +1,18 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=Hotbot
+Name[bn]=হটবট
+Name[fa]=هات‌بات
+Name[hi]=हॉटबॉट
+Name[ko]=핫봇
+Name[pa]=ਹੋਟਬੋਟ
+Name[pl]=Hotbot - wyszukiwarka stron WWW
+Name[ta]=ஹாட்பாட்
+Name[ven]=Bot yau fhisa
+Name[xx]=xxHotbotxx
+ServiceTypes=SearchProvider
+Keys=hb,hotbot
+Query=http://hotbot.lycos.com/?MT=\\{@}&SM=MC&DV=0&LG=any&DC=10&DE=2
+Query[en_GB]=http://search.hotbot.co.uk/cgi-bin/pursuit?query=\\{@}&cat=hb_loc&enc=utf-8&SITE=uk&command=
+Query[xx]=xxhttp://hotbot.lycos.com/?MT=\\{@}&SM=MC&DV=0&LG=any&DC=10&DE=2xx

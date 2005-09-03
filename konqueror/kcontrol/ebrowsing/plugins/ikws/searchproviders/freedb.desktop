@@ -1,0 +1,14 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=FreeDB
+Name[bn]=ফ্রী-ডি.বি.
+Name[eo]=Libera Civilizludo
+Name[hi]=फ्री-डीबी
+Name[ta]=இலவசடிபி
+Name[xx]=xxFreeDBxx
+ServiceTypes=SearchProvider
+Keys=fdb,freedb
+Query=http://www.freedb.org/freedb_search.php?words=\\{@}
+Query[xx]=xxhttp://www.freedb.org/freedb_search.php?words=\\{@}xx
+Charset=utf8

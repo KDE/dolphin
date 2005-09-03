@@ -1,0 +1,85 @@
+[Desktop Entry]
+Encoding=UTF-8
+Keys=ggx
+Name=Google Advanced Search
+Name[af]=Google Gevorderde Soektog
+Name[ar]=بحث Google المتقدم
+Name[az]=Google Təkmilləşdirilmiş Axtarış
+Name[be]=Пашыраны пошук Google
+Name[bn]=গুগল্ অগ্রসর অনুসন্ধান
+Name[bs]=Google napredno pretraživanje
+Name[ca]=Recerca avançada de Google
+Name[cs]=Rozšířené hledání (Google)
+Name[cy]=Chwilio Uwch Google
+Name[da]=Google avanceret søgning
+Name[de]=Erweiterte Google-Suche
+Name[el]=Προχωρημένη αναζήτηση του Google
+Name[eo]=Detala serĉo ĉe "Google"
+Name[es]=Búsqueda avanzada de Google
+Name[et]=Google täpsem otsing
+Name[eu]=Googleren bilaketa aurreratua
+Name[fa]= جستجوی پیشرفته در گوگل
+Name[fi]=Googlen lisähaku
+Name[fo]=Google (tilkomin leiting)
+Name[fr]=Recherche avancée avec Google
+Name[fy]=Google Avansearre Sykje
+Name[ga]=Cuardach Casta Google
+Name[gl]=Procura Avanzada de Google
+Name[he]=חיפוש מתקדם של גוגל
+Name[hi]=गूगल विस्तृत खोज
+Name[hr]=Google napredna pretraga
+Name[hu]=Google részletes keresés
+Name[is]=Google - Nánar
+Name[it]=Ricerca avanzate di Google
+Name[ja]=Google 先進的検索
+Name[ko]=구글 자세히 찾기
+Name[lt]=Išplėsta Google paieška
+Name[lv]=Google Uzlabotā Meklēšana
+Name[mk]=Google напредно пребарување
+Name[mn]=Өргөтгсөн Гооглэ-хайлт
+Name[mt]=Tfittxija avvanzata Google
+Name[nb]=Google avansert søk
+Name[nds]=Google sien verwiederte Söök
+Name[nl]=Google geavanceerd zoeken
+Name[nn]=Google avansert søk
+Name[nso]=Nyako yeo e Beetswegopele ya Google
+Name[pa]=Google ਤਕਨੀਕੀ ਖੋਜ
+Name[pl]=Google - wyszukiwanie zaawansowane
+Name[pt]=Pesquisa Avançada do Google
+Name[pt_BR]=Procura Avançada do Google
+Name[ro]=Căutare avansată Google
+Name[ru]=Google - продвинутый поиск
+Name[se]=Dárkilis ohcan Google báikkis
+Name[sk]=Pokročilé hľadanie Google
+Name[sl]=Napredno iskanje z Google
+Name[sr]=Google-ово напредно претраживање
+Name[sr@Latn]=Google-ovo napredno pretraživanje
+Name[ss]=Kusesha lokusembili kwe Google 
+Name[sv]=Google avancerad sökning
+Name[ta]=கூகுல் மேம்படுத்தப்பட்ட தேடுதல்
+Name[tg]=Ҷустуҷӯи пешрафта дар Google
+Name[tr]=Google Gelişmiş Arayıcı
+Name[uk]=Складний пошук на Google
+Name[uz]=Google - Илғор қидириш
+Name[ven]=U setsha ho Engedzeaho ha Google
+Name[wa]=Ricweraedje avancî di Google
+Name[xh]=Uphendlo Olubhekisa phambili lwe Google
+Name[xx]=xxGoogle Advanced Searchxx
+Name[zh_CN]=Google 高级搜索
+Name[zh_TW]=Google 進階搜尋
+Name[zu]=Usesho lwezinga eliphezulu lwe-Google
+Query=http://www.google.com/search?as_q=\\{all,@}&num=\\{num,"10"}&btnG=Google+Search&as_epq=\\{exact,""}&as_oq=\\{any,""}&as_eq=\\{without,""}&lr=\\{lang,""}&as_ft=\\{ft,"i"}&as_filetype=\\{filetype,""}&as_qdr=\{date,"all"}&as_occt=\\{occ,"any"}&as_dt=\\{siteop,"i"}&as_sitesearch=\\{site}&safe=\\{safe,"active"}&ie=UTF-8&oe=UTF-8
+Query[en_GB]=http://www.google.co.uk/search?as_q=\\{all,@}&num=\\{num,"10"}&btnG=Google+Search&as_epq=\\{exact,""}&as_oq=\\{any,""}&as_eq=\\{without,""}&lr=\\{lang,""}&as_ft=\\{ft,"i"}&as_filetype=\\{filetype,""}&as_qdr=\{date,"all"}&as_occt=\\{occ,"any"}&as_dt=\\{siteop,"i"}&as_sitesearch=\\{site}&safe=\\{safe,"active"}&ie=UTF-8&oe=UTF-8
+Query[es]=http://www.google.com/search?as_q=\\{all,@}&num=\\{num,"10"}&btnG=Google+Search&as_epq=\\{exact,""}&as_oq=\\{any,""}&as_eq=\\{without,""}&lr=\\{lang,""}&as_ft=\\{ft,"i"}&as_filetype=\\{filetype,""}&as_qdr=\{date,"all"}&as_occt=\\{occ,"any"}&as_dt=\\{siteop,"i" }&as_sitesearch=\\{site}&safe=\\{safe, "active"}&ie=UTF-8&oe=UTF-8
+Query[fi]=http://www.google.fi/search?as_q=\\{all,@}&num=\\{num,"10"}&btnG=Google+Search&as_epq=\\{exact,""}&as_oq=\\{any,""}&as_eq=\\{without,""}&lr=\\{lang,""}&as_ft=\\{ft,"i"}&as_filetype=\\{filetype,""}&as_qdr=\{date,"all"}&as_occt=\\{occ,"any"}&as_dt=\\{siteop,"i"}&as_sitesearch=\\{site}&safe=\\{safe,"active"}&ie=UTF-8&oe=UTF-8
+Query[fr]=http://www.google.fr/search?as_q=\\{all,@}&num=\\{num,"10"}&btnG=Google+Search&as_epq=\\{exact,""}&as_oq=\\{any,""}&as_eq=\\{without,""}&lr=\\{lang,""}&as_ft=\\{ft,"i"}&as_filetype=\\{filetype,""}&as_qdr=\{date,"all"}&as_occt=\\{occ,"any"}&as_dt=\\{siteop,"i"}&as_sitesearch=\\{site}&safe=\\{safe,"active"}&ie=UTF-8&oe=UTF-8
+Query[fy]=http://www.google.nl/search?as_q=\\{all,@}&num=\\{num,"10"}&btnG=Google+Search&as_epq=\\{exact,""}&as_oq=\\{any,""}&as_eq=\\{without,""}&lr=\\{lang,""}&as_ft=\\{ft,"i"}&as_filetype=\\{filetype,""}&as_qdr=\{date,"all"}&as_occt=\\{occ,"any"}&as_dt=\\{siteop,"i"}&as_sitesearch=\\{site}&safe=\\{safe,"active"}&ie=UTF-8&oe=UTF-8
+Query[he]=http://www.google.co.il/search?as_q=\\{all,@}&num=\\{num,"10"}&btnG=Google+Search&as_epq=\\{exact,""}&as_oq=\\{any,""}&as_eq=\\{without,""}&lr=\\{lang,""}&as_ft=\\{ft,"i"}&as_filetype=\\{filetype,""}&as_qdr=\{date,"all"}&as_occt=\\{occ,"any"}&as_dt=\\{siteop,"i"}&as_sitesearch=\\{site}&safe=\\{safe,"active"}&ie=UTF-8&oe=UTF-8
+Query[nb]=http://www.google.no/search?
+Query[nl]=http://www.google.nl/search?as_q=\\{all,@}&num=\\{num,"10"}&btnG=Google+Search&as_epq=\\{exact,""}&as_oq=\\{any,""}&as_eq=\\{without,""}&lr=\\{lang,""}&as_ft=\\{ft,"i"}&as_filetype=\\{filetype,""}&as_qdr=\{date,"all"}&as_occt=\\{occ,"any"}&as_dt=\\{siteop,"i"}&as_sitesearch=\\{site}&safe=\\{safe,"active"}&ie=UTF-8&oe=UTF-8
+Query[nn]=http://www.google.com/search?hl=nn&as_q=\\{all,@}&num=\\{num,"10"}&btnG=Google+Search&as_epq=\\{exact,""}&as_oq=\\{any,""}&as_eq=\\{without,""}&lr=\\{lang,""}&as_ft=\\{ft,"i"}&as_filetype=\\{filetype,""}&as_qdr=\{date,"all"}&as_occt=\\{occ,"any"}&as_dt=\\{siteop,"i"}&as_sitesearch=\\{site}&safe=\\{safe,"active"}&ie=UTF-8&oe=UTF-8
+Query[pt]=http://www.google.pt/search?as_q=\\{all,@}&num=\\{num,"10"}&btnG=Google+Search&as_epq=\\{exact,""}&as_oq=\\{any,""}&as_eq=\\{without,""}&lr=\\{lang,""}&as_ft=\\{ft,"i"}&as_filetype=\\{filetype,""}&as_qdr=\{date,"all"}&as_occt=\\{occ,"any"}&as_dt=\\{siteop,"i"}&as_sitesearch=\\{site}&safe=\\{safe,"active"}&ie=UTF-8&oe=UTF-8
+Query[xx]=xxhttp://www.google.com/search?as_q=\\{all,@}&num=\\{num,"10"}&btnG=Google+Search&as_epq=\\{exact,""}&as_oq=\\{any,""}&as_eq=\\{without,""}&lr=\\{lang,""}&as_ft=\\{ft,"i"}&as_filetype=\\{filetype,""}&as_qdr=\{date,"all"}&as_occt=\\{occ,"any"}&as_dt=\\{siteop,"i"}&as_sitesearch=\\{site}&safe=\\{safe,"active"}&ie=UTF-8&oe=UTF-8xx
+Charset=utf8
+ServiceTypes=SearchProvider
+Type=Service

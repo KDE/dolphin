@@ -1,0 +1,14 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=Vivisimo
+Name[bn]=ভিভিসিমো
+Name[hi]=विविसिमो
+Name[pa]=ਵੀਵੀਸੀਮੋ
+Name[ta]=விவிசிமோ
+Name[th]=วิวิสไอมอ
+Name[xx]=xxVivisimoxx
+ServiceTypes=SearchProvider
+Keys=vi
+Query=http://vivisimo.com/search?query=\\{@}&se=Yahoo%2CAltaVista%2CMSN%2CFast%2COD%2CExcite%2CDirectHit%2CLooksmart%2CEuroseek&x=49&y=16
+Query[xx]=xxhttp://vivisimo.com/search?query=\\{@}&se=Yahoo%2CAltaVista%2CMSN%2CFast%2COD%2CExcite%2CDirectHit%2CLooksmart%2CEuroseek&x=49&y=16xx

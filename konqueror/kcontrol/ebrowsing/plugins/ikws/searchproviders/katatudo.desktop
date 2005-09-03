@@ -1,0 +1,17 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=KataTudo
+Name[bn]=কাটা-টুডো
+Name[eo]=Katatudo
+Name[eu]=Kata Tudo
+Name[hi]=केएटीए ट्यूडो
+Name[nds]=Kate Tudo
+Name[ta]=காட்டா ட்யூடோ
+Name[th]=คาทาทูดู
+Name[xx]=xxKataTudoxx
+ServiceTypes=SearchProvider
+Keys=kt,katatudo
+Query=http://www.katatudo.com.br/busca/resultado.php?q=\\{@}&onde=&b=Buscar
+Query[xx]=xxhttp://www.katatudo.com.br/busca/resultado.php?q=\\{@}&onde=&b=Buscarxx
+Charset=utf8

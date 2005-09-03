@@ -1,0 +1,18 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=AustroNaut
+Name[af]=Ruimtevaarder
+Name[bn]=অস্ট্রো-নট
+Name[eo]=Aŭstronaŭto
+Name[hi]=आस्ट्रोनॉट
+Name[ko]=오스트로 노트
+Name[pa]=ਅਸਟਰੋਨਾਊਟ
+Name[sv]=Astronaut
+Name[ta]=ஆஸ்ட்ரோநட்
+Name[xx]=xxAustroNautxx
+Name[zu]=Umuntu wasemkhathini
+ServiceTypes=SearchProvider
+Keys=austro,austronaut
+Query=http://austronaut.at/page.php?begriff=\{@}&wo=at
+Query[xx]=xxhttp://austronaut.at/page.php?begriff=\{@}&wo=atxx

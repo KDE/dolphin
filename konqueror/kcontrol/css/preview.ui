@@ -1,0 +1,95 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>PreviewDialog</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>PreviewDialog</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>558</width>
+            <height>349</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Preview</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="KSeparator" row="1" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>Line1</cstring>
+            </property>
+            <property name="orientation">
+                <number>5</number>
+            </property>
+        </widget>
+        <spacer row="2" column="0">
+            <property name="name">
+                <cstring>Spacer1</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QTextBrowser" row="0" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>preview</cstring>
+            </property>
+            <property name="text">
+                <string>&lt;qt&gt;
+
+&lt;h1&gt;Heading 1&lt;/h1&gt;&lt;br/&gt;
+&lt;h2&gt;Heading 2&lt;/h2&gt;&lt;br/&gt;
+&lt;h3&gt;Heading 3&lt;/h3&gt;&lt;br/&gt;
+
+&lt;p&gt;User defined stylesheets allow increased
+accessibility for visually handicapped
+people.&lt;/p&gt;
+
+&lt;/qt&gt;</string>
+            </property>
+        </widget>
+        <widget class="QPushButton" row="2" column="1">
+            <property name="name">
+                <cstring>PushButton2</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;OK</string>
+            </property>
+            <property name="default">
+                <bool>true</bool>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>PushButton2</sender>
+        <signal>clicked()</signal>
+        <receiver>PreviewDialog</receiver>
+        <slot>accept()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="global" impldecl="in declaration">kseparator.h</include>
+    <include location="global" impldecl="in implementation">kdialog.h</include>
+</includes>
+<layoutdefaults spacing="6" margin="11"/>
+<layoutfunctions spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
+<includehints>
+    <includehint>kseparator.h</includehint>
+</includehints>
+</UI>

@@ -1,0 +1,16 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=Technorati Tags
+Name[da]=Technorati mærker
+Name[es]=Etiquetas de Technorati
+Name[et]=Technorati sildid
+Name[eu]=Technorati markak
+Name[ga]=Clibeanna Technorati
+Name[pa]=Technorati ਟੈਗ
+Name[ru]=Статьи Technorati
+Name[sv]=Technorati-taggar
+ServiceTypes=SearchProvider
+Keys=tags,tag,technoratitags
+Query=http://technorati.com/tag/\\{@}?sourceid=kde-search
+Charset=utf8

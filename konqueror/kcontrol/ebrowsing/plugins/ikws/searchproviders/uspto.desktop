@@ -1,0 +1,47 @@
+[Desktop Entry]
+Charset=
+Hidden=false
+Keys=uspto
+Name=U.S. Patent Database
+Name[bn]=মার্কিন পেটেন্ট ডেটাবেস
+Name[ca]=Base de dades de patents U.S.
+Name[cs]=Patentová databáze USA
+Name[da]=U.S. Patent-database
+Name[de]=U.S.-Patentdatenbank
+Name[es]=Base de datos de patentes de EEUU
+Name[et]=USA patentide andmebaas
+Name[eu]=U.S. patente datubasea
+Name[fi]=U.S. patenttitietokanta
+Name[fr]=Base de données des brevets aux U.S.A
+Name[fy]=U.S. Patent-database
+Name[he]=מסד הפטנטים של ארה"ב
+Name[hi]=यूएस पेटेन्ट डाटाबेस
+Name[hu]=Amerikai szabadalmi adatbázis
+Name[is]=Gagnagrunnur einkaleyfisstofu Bandaríkjana
+Name[it]=Database brevetti U.S.A.
+Name[ja]=米国特許データベース
+Name[lt]=JAV patentų duomenų bazė
+Name[lv]=ASV patentu datubāze
+Name[nb]=US patentdatabase
+Name[nds]=Datenbank mit de Patenten vun de USA
+Name[nl]=U.S. Patent-database
+Name[pa]=U.S. Patent ਡਾਟਾਬੇਸ
+Name[pl]=Baza patentów USA
+Name[pt]=Base de Dados de Patentes dos EUA
+Name[pt_BR]=Base de dados de patentes dos EUA
+Name[ro]=Baza de date de patente S.U.A.
+Name[ru]=База патентов США
+Name[se]=Amerihká patenta diehtovuođđu
+Name[sl]=Zbirka patentov U.S. Patent Database
+Name[sr]=База патената САД
+Name[sr@Latn]=Baza patenata SAD
+Name[sv]=Förenta staternas patentdatabas
+Name[ta]=U.S.காப்புரிமை தரவுதளம்
+Name[th]=ฐานข้อมูลทรัพย์สินทางปัญญาของสหรัฐฯ
+Name[tr]=U.S. Patent Veritabanı
+Name[uk]=База даних патентів в США
+Name[xx]=xxU.S. Patent Databasexx
+Query=http://patft.uspto.gov/netacgi/nph-Parser?TERM1=\\{@}&Sect1=PTO1&Sect2=HITOFF&d=PALL&p=1&u=/netahtml/srchnum.htm&r=0&f=S&l=50
+Query[xx]=xxhttp://patft.uspto.gov/netacgi/nph-Parser?TERM1=\\{@}&Sect1=PTO1&Sect2=HITOFF&d=PALL&p=1&u=/netahtml/srchnum.htm&r=0&f=S&l=50xx
+ServiceTypes=SearchProvider
+Type=Service

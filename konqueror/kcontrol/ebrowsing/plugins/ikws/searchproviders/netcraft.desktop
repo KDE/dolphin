@@ -1,0 +1,18 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=Netcraft
+Name[ar]=نتكرافت
+Name[bn]=নেট-ক্রাফ্ট
+Name[fy]=Netcraft 
+Name[hi]=नेटक्राफ्ट
+Name[mn]=Нэтскафе
+Name[pa]=ਨੈੱਟਕਰਾਫਟ
+Name[ta]=நெட்க்ராஃப்ட்
+Name[tg]=Шабакаи craft
+Name[th]=เน็ตคราฟ
+Name[xx]=xxNetcraftxx
+ServiceTypes=SearchProvider
+Keys=nc,netcraft
+Query=http://uptime.netcraft.com/up/graph?site=\\{@}
+Query[xx]=xxhttp://uptime.netcraft.com/up/graph?site=\\{@}xx

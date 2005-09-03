@@ -1,0 +1,77 @@
+/*
+ * Font sizes
+ */
+
+* { 
+  font-size : $fontsize-base$ ! important; 
+}
+
+SMALL, SUB, SUP {
+  font-size : $fontsize-small-1$ ! important;
+}
+
+BIG {
+  font-size : $fontsize-large-1$ ! important;
+}
+
+H1, H1 A {
+  font-size : $fontsize-large-5$ ! important;
+}
+
+H2, H2 A {
+  font-size : $fontsize-large-4$ ! important;
+}
+
+H3, H3 A {
+  font-size : $fontsize-large-3$ ! important;
+}
+
+H4, H4 A {
+  font-size : $fontsize-large-2$ ! important;
+}
+
+H5, H5 A {
+  font-size : $fontsize-large-1$ ! important;
+}
+
+
+/*
+ * Colors
+ */
+
+* {
+  background : $background-color$ ! important;
+  color : $foreground-color$
+          $force-color$;
+}
+
+BODY {
+  color : $foreground-color$ ! important;
+}
+
+TABLE, TD {
+  border-color : $foreground-color$;
+}
+
+
+/*
+ * Font family
+ */
+
+* {
+  font-family : $font-family$
+                $force-font$;
+}
+
+
+/*
+ * Images
+ */
+
+IMG {
+  $display-images$;
+}
+
+BODY {
+  $display-background$;
+}

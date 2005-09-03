@@ -1,0 +1,17 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=Froogle
+Name[bn]=ফ্রুগল্
+Name[fa]=فروگل
+Name[hi]=फ्रूगल
+Name[ja]=Froogle商品検索
+Name[pa]=ਫਰੂਗਲ
+Name[ta]=ஃப்ரூகுல்
+Name[xx]=xxFrooglexx
+ServiceTypes=SearchProvider
+Keys=froogle
+Query=http://froogle.google.com/froogle?q=\\{@}
+Query[en_GB]=http://froogle.google.co.uk/froogle?q=\\{@}
+Query[nb]=http://froogle.google.no/froogle?q=\\{@}
+Query[xx]=xxhttp://froogle.google.com/froogle?q=\\{@}xx

@@ -1,0 +1,18 @@
+[Desktop Entry]
+Encoding=UTF-8
+Keys=sf,sourceforge
+Name=SourceForge
+Name[af]=Sourceforge
+Name[bn]=সোর্স-ফর্জ
+Name[eo]=Programforĝejo
+Name[fo]=Sourceforge
+Name[hi]=सोर्स-फोर्ज
+Name[nso]=Bofora bja Mothopo
+Name[pl]=SourceForge - projekty
+Name[ta]=மூலத்திருட்டு
+Name[th]=ซอร์สฟอร์ซ
+Name[xx]=xxSourceForgexx
+Query=http://sourceforge.net/search/?type_of_search=\\{type,"soft"}&exact=\{exact,"0"}&words=\\{@}
+Query[xx]=xxhttp://sourceforge.net/search/?type_of_search=\\{type,"soft"}&exact=\{exact,"0"}&words=\\{@}xx
+ServiceTypes=SearchProvider
+Type=Service

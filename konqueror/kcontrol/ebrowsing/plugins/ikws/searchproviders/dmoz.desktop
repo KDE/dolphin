@@ -1,0 +1,44 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=Open Directory
+Name[ar]=دليل مفتوح
+Name[az]=Açıq Qovluq
+Name[bn]=ওপেন ডিরেক্টরি
+Name[br]=Digeriñ ur renkell
+Name[bs]=Otvoreni direktorij (DMOZ)
+Name[cy]=Cyfeiriadur Agored
+Name[da]=Åben mappe
+Name[eo]=Malfermu dosierujon
+Name[es]=Directorio abierto
+Name[eu]=Irekitako direktorioa
+Name[fi]=Avoin hakemisto
+Name[fo]=Opin Alnótsskránni
+Name[gl]=Directorio Aberto
+Name[he]=תיקייה פתוחה
+Name[hi]=ओपन डिरेक्ट्री
+Name[id]=Buka Direktori
+Name[mk]=Отворен директориум
+Name[mn]=Лавлах нээх
+Name[pa]=ਖੁੱਲੀ ਡਾਇਰੈਕਟਰੀ
+Name[pl]=Open Directory - katalog stron WWW
+Name[pt_BR]=Abrir Diretório
+Name[ro]=Director web open-source
+Name[ru]=Открытый каталог
+Name[sl]=Odpri imenik
+Name[sr]=Отворени адресар
+Name[sr@Latn]=Otvoreni adresar
+Name[sv]=Öppen katalog
+Name[ta]=அடைவை திற
+Name[tg]=Кушодани феҳраст
+Name[uk]=Відкрити каталог
+Name[ven]=Tsumbavhulwo yo Vuleaho
+Name[vi]=Mở thư mục 
+Name[xh]=Vula Ulawulo
+Name[xx]=xxOpen Directoryxx
+Name[zh_TW]=開啟目錄
+Name[zu]=Vula Uhlu lwamafayela
+ServiceTypes=SearchProvider
+Keys=dmoz,odp
+Query=http://search.dmoz.org/cgi-bin/search?search=\\{@}
+Query[xx]=xxhttp://search.dmoz.org/cgi-bin/search?search=\\{@}xx

@@ -1,0 +1,84 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=Google Image Search
+Name[af]=Google Beeld Soektog
+Name[ar]=بحث صور Google
+Name[az]=Google Rəsm Axtarıcısı
+Name[be]=Пошук выяваў Google
+Name[bn]=গুগল্ চিত্র অনুসন্ধান
+Name[bs]=Google traženje slika
+Name[ca]=Recerca d'imatges a Google
+Name[cs]=Hledání obrázků (Google)
+Name[cy]=Chwilio Delweddau Google 
+Name[da]=Google billedsøgning
+Name[de]=Google-Bildsuche
+Name[el]=Αναζήτηση εικόνων του Google
+Name[eo]=Bildoserĉo ce "Google"
+Name[es]=Búsqueda de imágenes de Google
+Name[et]=Google piltide otsing
+Name[eu]=Google irudi bilaketa
+Name[fa]=جستجوی عکس گوگل
+Name[fi]=Googlen kuvahaku
+Name[fo]=Google (myndaleiting)
+Name[fr]=Recherche d'images avec Google
+Name[fy]=Google ôfbyldings sykje
+Name[ga]=Cuardach Íomhá Google
+Name[gl]=Procura de Imaxes de Google
+Name[he]=חיפוש תמונות של גוגל
+Name[hi]=गूगल छवि खोज
+Name[hr]=Google pretraživač slika
+Name[hu]=Google képkereső
+Name[is]=Google - Myndaleit
+Name[it]=Ricerca immagini di Google
+Name[ja]=Google 画像検索
+Name[ko]=구글 그림 찾기
+Name[lt]=Google paveikslėlių paieška
+Name[lv]=Google Attēlu Meklēšana
+Name[mk]=Google пребарување на слики
+Name[mn]=Гооглэ-Зураг хайлт
+Name[mt]=Fittex stampi fuq Google
+Name[nb]=Bildesøk i Google
+Name[nds]=Google sien Biller-Söök
+Name[nl]=Google afbeeldingen zoeken
+Name[nn]=Google biletsøk
+Name[nso]=Nyako ya Ponagalo ya Google
+Name[pa]=Google ਚਿੱਤਰ ਖੋਜ
+Name[pl]=Google - wyszukiwanie zdjęć
+Name[pt]=Pesquisa de Imagens do Google
+Name[pt_BR]=Busca de Imagens do Google
+Name[ro]=Căutare de imagini Google
+Name[ru]=Рисунки Google
+Name[se]=Oza govaid Google báikkis
+Name[sk]=Hľadanie obrázkov Google
+Name[sl]=Iskanje slik z Google
+Name[sr]=Google-ово претраживање слика
+Name[sr@Latn]=Google-ovo pretraživanje slika
+Name[ss]=Kusesha kwemfanekiso ku Google 
+Name[sv]=Google bildsökning
+Name[ta]=கூகுல் சித்திர தேடு
+Name[tg]=Ҷусуҷӯи тасвири Google
+Name[tr]=Google Resim Arayıcı
+Name[uk]=Пошук зображень на Google
+Name[uz]=Google - Расм қидириш
+Name[ven]=U setsha nga Tshivhoni tsha Google
+Name[vi]=Google Tìm kiếm hình ảnh
+Name[wa]=Cweraedje d' imådjes avou Google
+Name[xh]=Uphendlo Lomfanekiso we Google
+Name[xx]=xxGoogle Image Searchxx
+Name[zh_CN]=Google 图像搜索
+Name[zh_TW]=Google 圖片搜尋
+Name[zu]=Ukusesha isithombe kwe-Google
+ServiceTypes=SearchProvider
+Keys=ggi,images
+Query=http://images.google.com/images?q=\\{@}
+Query[en_GB]=http://images.google.co.uk/images?q=\\{@}
+Query[fr]=http://images.google.fr/images?q=\\{@}
+Query[fy]=http://images.google.nl/images?q=\\{@}
+Query[he]=http://images.google.co.il/images?q=\\{@}
+Query[nb]=http://images.google.no/images?hl=nn&q=\\{@}
+Query[nl]=http://images.google.nl/images?q=\\{@}
+Query[nn]=http://images.google.com/images?hl=nn&q=\\{@}
+Query[pt]=http://images.google.pt/images?q=\\{@}
+Query[ru]=http://images.google.com/images?q=\\{@}&hl=ru&ie=UTF-8&oe=UTF-8
+Query[xx]=xxhttp://images.google.com/images?q=\\{@}xx

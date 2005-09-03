@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=Wiktionary - The Free Dictionary
+Name[et]=Wiktionary - Vaba sõnaraamat
+Name[ga]=Wiktionary - An Foclóir Saor
+Name[ru]=Wiktionary - свободный словарь
+ServiceTypes=SearchProvider
+Keys=wt,wikt
+Query=http://en.wiktionary.org/wiki/Special:Search?search=\{@}&go=Go
+Charset=utf8

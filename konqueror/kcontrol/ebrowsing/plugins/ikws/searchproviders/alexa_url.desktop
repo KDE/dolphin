@@ -1,0 +1,41 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=Alexa URL
+Name[ar]=عنوان Alexa
+Name[bn]=অ্যালেক্সা ইউ-আর-এল
+Name[br]=URL Alexa
+Name[da]=Alexa-URL
+Name[de]=Alexa-Adresse
+Name[eo]=Aleksa ligo
+Name[es]=URL de Alexa
+Name[fa]=آلکسا URL
+Name[fr]=URL Alexa
+Name[fy]=Alexa URL-adres
+Name[ga]=URL Alexa
+Name[he]=כתובת של Alexa
+Name[hi]=एलेक्सा यूआरएल
+Name[hr]=Aleksa URL
+Name[is]=Alexa slóð
+Name[it]=URL Alexa
+Name[lo]=ສຸວັນທອງ
+Name[mn]=Alexa-Хаяг
+Name[mt]=URL Alexa
+Name[nb]=Alexa-nettadresse
+Name[nl]=Alexa URL-adres
+Name[nso]=URL ya Alexa
+Name[pa]=ਅਲੀਕਸਾ URL
+Name[pl]=Odnośnik Alexa
+Name[pt]=URL do Alexa
+Name[pt_BR]=URL do Alexa
+Name[ro]=URL Alexa
+Name[sl]=URL Alexe
+Name[ss]=I-URL ye Alexa 
+Name[sv]=Alexa webbadress
+Name[ta]=அலெக்சா URL
+Name[xx]=xxAlexa URLxx
+Name[zu]=I-URL ye-Alexa
+ServiceTypes=SearchProvider
+Keys=alu,url
+Query=http://info.alexa.com/data/details?url=\\{@}
+Query[xx]=xxhttp://info.alexa.com/data/details?url=\\{@}xx

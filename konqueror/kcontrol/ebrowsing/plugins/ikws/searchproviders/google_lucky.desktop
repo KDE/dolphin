@@ -1,0 +1,78 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=Google (I'm Feeling Lucky)
+Name[ar]=Google (ضربة حظ)
+Name[az]=Google (Eləbil Bəxtim Gətirəcək)
+Name[be]=Google (Мне шанцуе)
+Name[bn]=গুগল্ (ভাগ্যবান মনে করছি)
+Name[bs]=Google (Osjećam se sretno)
+Name[ca]=Google (Avui tinc sort!)
+Name[cs]=Google (Zkusím štěstí)
+Name[cy]=Google(Dwi'n Teimlo'n Lwcus)
+Name[da]=Google (Jeg føler mig heldig)
+Name[de]=Google ("Auf gut Glück!")
+Name[el]=Google (Αισθάνομαι τυχερός)
+Name[eo]=Google (je bonŝanco)
+Name[es]=Google (Me siento afortunado)
+Name[et]=Google (Ehk veab)
+Name[eu]=Google (Zorte onean nago)
+Name[fa]=گوگل - با بخت و با اقبال
+Name[fi]=Google (Kokeile onneasi)
+Name[fo]=Google (ein heppin dagur)
+Name[fr]=Google (J'ai de la chance)
+Name[fy]=Google (Ik doch in gok)
+Name[ga]=Google (Tá an t-ádh orm inniu)
+Name[gl]=Google(Síntome Afortunado)
+Name[he]=גוגל (יותר מזל משכל)
+Name[hi]=गूगल (आज मेरी क़िस्मत चमक़ी है)
+Name[hr]=Google (osjećam se sretnim)
+Name[is]=Google (Ég er heppin(n) í dag)
+Name[it]=Google (Mi sento fortunato)
+Name[lt]=Google (Man sekasi!)
+Name[lv]=Google (Es jūtos laimīgs)
+Name[mk]=Google (од прва рака)
+Name[mn]=Гооглэ ("Азтай байг!")
+Name[mt]=Google (inħossni xxurtjat)
+Name[nb]=Google (prøv lykken)
+Name[nds]=Google op goot Glück
+Name[nl]=Google (Ik doe een gok)
+Name[nn]=Google (Eg prøver lykka)
+Name[nso]=Google (Ke Ikwa Mahlatse)
+Name[pa]=Google (ਮੈਂ ਖੁਸ਼ਨਸੀਬ ਹਾਂ)
+Name[pl]=Google - "Szczęśliwy traf"
+Name[pt]=Google (Sinto-me Com Sorte)
+Name[pt_BR]=Google (Estou com sorte)
+Name[ro]=Google (Mă simt norocos)
+Name[ru]=Google (Мне повезёт!)
+Name[se]=Google (Geahččalan lihkku)
+Name[sk]=Google (Cítim sa štastne)
+Name[sl]=Google (Počutim se srečnega)
+Name[sr]=Google (Добијам из прве)
+Name[sr@Latn]=Google (Dobijam iz prve)
+Name[ss]=Google (Ngitiva nginenhlanhla)
+Name[sv]=Google (Jag har tur)
+Name[ta]=கூகுல் (நான் அதிர்ஷ்டசாலியாக உணர்கிறேன்)
+Name[tg]=Google (Бо бахт ва бо иқбол)
+Name[tr]=Google
+Name[uk]=Google (Я - везунчик)
+Name[uz]=Google (Омадим борга ўхшайди)
+Name[ven]=Google (Ndi pfa ndina Mashudu)
+Name[xx]=xxGoogle (I'm Feeling Lucky)xx
+Name[zh_CN]=Google (手气不错)
+Name[zh_TW]=Google (好手氣)
+Name[zu]=Google (Ngizizwa Ngisenhlanhleni)
+ServiceTypes=SearchProvider
+Keys=ggl,gglucky
+Query=http://www.google.com/search?q=\\{@}&btnI=I%27m+Feeling+Lucky&ie=UTF-8&oe=UTF-8
+Query[en_GB]=http://www.google.co.uk/search?q=\\{@}&btnI=I%27m+Feeling+Lucky&ie=UTF-8&oe=UTF-8
+Query[fi]=http://www.google.fi/search?q=\\{@}&btnI=I%27m+Feeling+Lucky&ie=UTF-8&oe=UTF-8
+Query[fr]=http://www.google.fr/search?q=\\{@}&btnI=I%27m+Feeling+Lucky&ie=UTF-8&oe=UTF-8
+Query[fy]=http://www.google.nl/search?q=\\{@}&btnI=I%27m+Feeling+Lucky&ie=UTF-8&oe=UTF-8
+Query[he]=http://www.google.co.il/search?q=\\{@}&btnI=I%27m+Feeling+Lucky&ie=UTF-8&oe=UTF-8
+Query[it]=http://www.google.it/search?q=\\{@}&btnI=I%27m+Feeling+Lucky&ie=UTF-8&oe=UTF-8
+Query[nb]=http://www.google.no/search?q=\\{@}&btnI=I%27m+Feeling+Lucky&ie=UTF-8&oe=UTF-8
+Query[nl]=http://www.google.nl/search?q=\\{@}&btnI=I%27m+Feeling+Lucky&ie=UTF-8&oe=UTF-8
+Query[pt]=http://www.google.pt/search?q=\\{@}&btnI=I%27m+Feeling+Lucky&ie=UTF-8&oe=UTF-8
+Query[xx]=xxhttp://www.google.com/search?q=\\{@}&btnI=I%27m+Feeling+Lucky&ie=UTF-8&oe=UTF-8xx
+Charset=utf8
