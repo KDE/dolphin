@@ -1761,6 +1761,7 @@ void KonqMainWindow::slotReload( KonqView* reloadView )
   }
 
   KonqOpenURLRequest req( reloadView->typedURL() );
+  req.userRequestedReload = true;
   if ( reloadView->prepareReload( req.args ) )
   {
       reloadView->lockHistory();

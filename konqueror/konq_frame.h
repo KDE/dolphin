@@ -94,7 +94,7 @@ class KonqFrameStatusBar : public KStatusBar
   Q_OBJECT
 
    public:
-      KonqFrameStatusBar( KonqFrame *_parent = 0L, const char *_name = 0L );
+      KonqFrameStatusBar( KonqFrame *_parent = 0 );
       virtual ~KonqFrameStatusBar();
 
       /**

@@ -70,8 +70,8 @@ void KonqCheckBox::drawButton( QPainter *p )
       p->drawPixmap(0,0,indicator_noconnect);
 }
 
-KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
-  : KStatusBar( _parent, _name ),
+KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent )
+  : KStatusBar( _parent ),
     m_pParentKonqFrame( _parent )
 {
     setSizeGripEnabled( false );
