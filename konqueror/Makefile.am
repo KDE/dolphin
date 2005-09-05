@@ -1,8 +1,8 @@
 AM_CPPFLAGS = -D_LARGEFILE64_SOURCE
 
-INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/kcontrol/input $(all_includes)
+INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/workspace/kcontrol/input $(all_includes)
 
-SUBDIRS = . client iconview listview keditbookmarks shellcmdplugin about pics sidebar preloader quickprint remoteencodingplugin kttsplugin dirpart kcontrol
+SUBDIRS = . client iconview listview keditbookmarks shellcmdplugin about pics sidebar preloader quickprint remoteencodingplugin kttsplugin dirpart settings
 
 bin_PROGRAMS =
 lib_LTLIBRARIES =

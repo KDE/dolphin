@@ -1,8 +1,0 @@
-# Hello world
-Id=kde3.0/r1
-File=ksocksrc,kdeglobals
-Group=<default>,Socks
-Key=Custom Lib,SOCKS_lib
-Key=Enable SOCKS,SOCKS_enable
-Key=Lib Path,SOCKS_lib_path
-Key=SOCKS Method,SOCKS_method
