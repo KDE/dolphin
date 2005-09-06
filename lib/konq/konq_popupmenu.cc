@@ -25,6 +25,7 @@
 
 #include <klocale.h>
 #include <kapplication.h>
+#include <kauthorized.h>
 #include <kbookmarkmanager.h>
 #include <kdebug.h>
 #include <krun.h>
@@ -317,7 +318,7 @@ bool KonqPopupMenu::KIOSKAuthorizedAction(KConfig& cfg)
             it != list.end();
             ++it)
         {
-            if (!kapp->authorize((*it).stripWhiteSpace()))
+            if (kapp && KAuthorized::self()->authorize((*it).stripWhiteSpace()))
             {
                 return false;
             }
