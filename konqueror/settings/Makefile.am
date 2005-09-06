@@ -1,1 +1,1 @@
-SUBDIRS = ebrowsing konq konqhtml performance 
+SUBDIRS = ebrowsing konq konqhtml performance kio 
