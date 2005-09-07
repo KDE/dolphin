@@ -460,8 +460,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     bool isKDesktop = Q3CString( kapp->name() ) == "kdesktop";
     KAction *actNewWindow = 0;
 
-    if (( kpf & ShowProperties ) && isKDesktop &&
-        !kapp->authorize("editable_desktop_icons"))
+    if (( kpf & ShowProperties ) && isKDesktop && kapp &&
+	KAuthorized::self()->authorize("editable_desktop_icons"))
     {
         kpf &= ~ShowProperties; // remove flag
     }
@@ -611,7 +611,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         act = new KAction( caption, "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "bookmark_add" );
         if (m_lstItems.count() > 1)
             act->setEnabled(false);
-        if (kapp->authorizeKAction("bookmarks"))
+        if (kapp && KAuthorized::self()->authorizeKAction("bookmarks"))
             KonqXMLGUIClient::addAction( act );
         if (bIsLink)
             KonqXMLGUIClient::addGroup( "linkactions" );
@@ -807,7 +807,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
         KTrader::OfferList offers;
 
-        if (kapp->authorizeKAction("openwith"))
+        if (kapp && KAuthorized::self()->authorizeKAction("openwith"))
         {
             QString constraint = "Type == 'Application' and DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'";
             QString subConstraint = " and '%1' in ServiceTypes";
@@ -990,7 +990,7 @@ void KonqPopupMenu::slotPopupNewView()
 {
   KURL::List::ConstIterator it = m_lstPopupURLs.begin();
   for ( ; it != m_lstPopupURLs.end(); it++ )
-    (void) new KRun(*it);
+    (void) new KRun(*it, this, 0, false, true);
 }
 
 void KonqPopupMenu::slotPopupNewDir()
