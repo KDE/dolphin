@@ -26,6 +26,7 @@
 class HTMLExporter : private KBookmarkGroupTraverser {
 public:
    HTMLExporter();
+   virtual ~HTMLExporter(){}
    QString toString(const KBookmarkGroup &, bool showAddress = false);
    void write(const KBookmarkGroup &, const QString &, bool showAddress = false);
 private:
