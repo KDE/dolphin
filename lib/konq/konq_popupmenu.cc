@@ -25,7 +25,6 @@
 
 #include <klocale.h>
 #include <kapplication.h>
-#include <kauthorized.h>
 #include <kbookmarkmanager.h>
 #include <kdebug.h>
 #include <krun.h>
@@ -318,7 +317,7 @@ bool KonqPopupMenu::KIOSKAuthorizedAction(KConfig& cfg)
             it != list.end();
             ++it)
         {
-            if (kapp && KAuthorized::self()->authorize((*it).stripWhiteSpace()))
+            if (!kapp->authorize((*it).stripWhiteSpace()))
             {
                 return false;
             }
@@ -460,8 +459,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     bool isKDesktop = Q3CString( kapp->name() ) == "kdesktop";
     KAction *actNewWindow = 0;
 
-    if (( kpf & ShowProperties ) && isKDesktop && kapp &&
-	KAuthorized::self()->authorize("editable_desktop_icons"))
+    if (( kpf & ShowProperties ) && isKDesktop &&
+        !kapp->authorize("editable_desktop_icons"))
     {
         kpf &= ~ShowProperties; // remove flag
     }
@@ -611,7 +610,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         act = new KAction( caption, "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "bookmark_add" );
         if (m_lstItems.count() > 1)
             act->setEnabled(false);
-        if (kapp && KAuthorized::self()->authorizeKAction("bookmarks"))
+        if (kapp->authorizeKAction("bookmarks"))
             KonqXMLGUIClient::addAction( act );
         if (bIsLink)
             KonqXMLGUIClient::addGroup( "linkactions" );
@@ -807,7 +806,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
         KTrader::OfferList offers;
 
-        if (kapp && KAuthorized::self()->authorizeKAction("openwith"))
+        if (kapp->authorizeKAction("openwith"))
         {
             QString constraint = "Type == 'Application' and DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'";
             QString subConstraint = " and '%1' in ServiceTypes";
@@ -990,7 +989,7 @@ void KonqPopupMenu::slotPopupNewView()
 {
   KURL::List::ConstIterator it = m_lstPopupURLs.begin();
   for ( ; it != m_lstPopupURLs.end(); it++ )
-    (void) new KRun(*it, this, 0, false, true);
+    (void) new KRun(*it);
 }
 
 void KonqPopupMenu::slotPopupNewDir()
