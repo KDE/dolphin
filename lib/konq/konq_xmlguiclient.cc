@@ -22,7 +22,6 @@
 
 #include "konq_xmlguiclient.h"
 #include <kdebug.h>
-#include <kauthorized.h>
 
 class KonqXMLGUIClient::Private
 {
@@ -80,7 +79,7 @@ void KonqXMLGUIClient::addAction( const char *name, const QDomElement &menu )
 {
   static const QString& tagAction = KGlobal::staticQString( "action" );
 
-  if ( kapp && !KAuthorized::self()->authorizeKAction(name))
+  if (!kapp->authorizeKAction(name))
      return;
 
   handlePendingSeparator();
