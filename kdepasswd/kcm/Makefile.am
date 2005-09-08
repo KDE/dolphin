@@ -18,3 +18,4 @@ xdg_apps_DATA = kcm_useraccount.desktop
 
 messages: rc.cpp
 	$(XGETTEXT) *.cpp -o $(podir)/useraccount.pot
+KDE_ICON=AUTO
