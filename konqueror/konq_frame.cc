@@ -303,7 +303,7 @@ KonqFrame::KonqFrame( QWidget* parent, KonqFrameContainerBase *parentContainer, 
    m_pView = 0L;
 
    // the frame statusbar
-   m_pStatusBar = new KonqFrameStatusBar( this, "KonquerorFrameStatusBar");
+   m_pStatusBar = new KonqFrameStatusBar( this);
    m_pStatusBar->setSizePolicy(QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed ));
    connect(m_pStatusBar, SIGNAL(clicked()), this, SLOT(slotStatusBarClicked()));
    connect( m_pStatusBar, SIGNAL( linkedViewClicked( bool ) ), this, SLOT( slotLinkedViewClicked( bool ) ) );
