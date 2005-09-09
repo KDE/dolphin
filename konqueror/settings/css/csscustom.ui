@@ -12,9 +12,6 @@
             <height>456</height>
         </rect>
     </property>
-    <property name="caption">
-        <string>CSSCustomDialog</string>
-    </property>
     <property name="whatsThis" stdset="0">
         <string>&lt;b&gt;Stylesheets&lt;/b&gt;&lt;p&gt;See http://www.w3.org/Style/CSS for further information on cascading style sheets.&lt;/p&gt;</string>
     </property>
