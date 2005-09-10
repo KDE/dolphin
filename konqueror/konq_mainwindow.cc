@@ -5659,14 +5659,6 @@ void KonqMainWindow::resetWindow()
     // reset also user time, so that this window won't have _NET_WM_USER_TIME set
     QX11Info::setAppUserTime(CurrentTime);
     
-#if !KDE_IS_VERSION( 3, 2, 90 ) // _KDE_NET_USER_TIME is obsolete
-    static Atom atom2 = XInternAtom( QX11Info::display(), "_KDE_NET_USER_TIME", False );
-    timeval tv;
-    gettimeofday( &tv, NULL );
-    unsigned long now = tv.tv_sec * 10 + tv.tv_usec / 100000;
-    XChangeProperty(QX11Info::display(), winId(), atom2, XA_CARDINAL,
-                    32, PropModeReplace, (unsigned char *)&now, 1);
-#endif
     static Atom atom3 = XInternAtom( QX11Info::display(), "_NET_WM_USER_TIME", False );
     XDeleteProperty( QX11Info::display(), winId(), atom3 );
 // Qt remembers the iconic state if the window was withdrawn while on another virtual desktop
