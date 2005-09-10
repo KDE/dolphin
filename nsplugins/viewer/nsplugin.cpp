@@ -1239,11 +1239,7 @@ void NSPluginViewer::shutdown()
 {
    kdDebug(1431) << "NSPluginViewer::shutdown" << endl;
    _classes.clear();
-#if QT_VERSION < 0x030100
-   quitXt();
-#else
    qApp->quit();
-#endif
 }
 
 

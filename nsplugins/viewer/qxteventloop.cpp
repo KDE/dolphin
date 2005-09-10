@@ -35,7 +35,6 @@
 #include <qapplication.h>
 #include "qxteventloop.h"
 
-#if QT_VERSION >= 0x030100
 
 #include <qwidgetintdict.h>
 //Added by qt3to4:
@@ -467,5 +466,4 @@ bool QXtEventLoop::processEvents( ProcessEventsFlags flags )
 
 #include "qxteventloop.moc"
 
-#endif
 

@@ -38,7 +38,6 @@
 
 #include <qglobal.h>
 
-#if QT_VERSION >= 0x030100
 #include <qeventloop.h>
 #include <qsocketnotifier.h>
 
@@ -76,6 +75,5 @@ private:
 
 };
 
-#endif
 
 #endif // QMOTIF_H

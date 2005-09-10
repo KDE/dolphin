@@ -50,13 +50,7 @@
 #endif
 #include <kconfig.h>
 
-#if QT_VERSION < 0x030100
-#include "kxt.h"
-#include <X11/Intrinsic.h>
-#include <X11/Shell.h>
-#else
 #include "qxteventloop.h"
-#endif
 
 
 
@@ -99,116 +93,6 @@ void parseCommandLine(int argc, char *argv[])
    }
 }
 
-#if QT_VERSION < 0x030100
-
-static XtAppContext g_appcon;
-static bool g_quit = false;
-
-void quitXt()
-{
-   g_quit = true;
-}
-
-
-/**
- * socket notifier handling
- *
- */
-
-struct SocketNot
-{
-  int fd;
-  QObject *obj;
-  XtInputId id;
-};
-
-Q3PtrList<SocketNot> _notifiers[3];
-
-/**
- * socketCallback - send event to the socket notifier
- *
- */
-void socketCallback(void *client_data, int* /*source*/, XtInputId* /*id*/)
-{
-  kdDebug(1430) << "-> socketCallback( client_data=" << client_data << " )" << endl;
-
-  QEvent event( QEvent::SockAct );
-  SocketNot *socknot = (SocketNot *)client_data;
-  kdDebug(1430) << "obj=" << (void*)socknot->obj << endl;
-  QApplication::sendEvent( socknot->obj, &event );
-
-  kdDebug(1430) << "<- socketCallback" << endl;
-}
-
-
-/**
- * qt_set_socket_handler - redefined internal qt function to register sockets
- * The linker looks in the main binary first and finds this implementation before
- * the original one in Qt. I hope this works with every dynamic library loader on any OS.
- *
- */
-extern bool qt_set_socket_handler( int, int, QObject *, bool );
-bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
-{
-  if ( sockfd < 0 || type < 0 || type > 2 || obj == 0 ) {
-#if defined(CHECK_RANGE)
-      qWarning( "QSocketNotifier: Internal error" );
-#endif
-      return FALSE;
-  }
-
-  XtPointer inpMask = 0;
-
-  switch (type) {
-  case QSocketNotifier::Read:      inpMask = (XtPointer)XtInputReadMask; break;
-  case QSocketNotifier::Write:     inpMask = (XtPointer)XtInputWriteMask; break;
-  case QSocketNotifier::Exception: inpMask = (XtPointer)XtInputExceptMask; break;
-  default: return FALSE;
-  }
-
-  if (enable) {
-      SocketNot *sn = new SocketNot;
-      sn->obj = obj;
-      sn->fd = sockfd;
-
-      if( _notifiers[type].isEmpty() ) {
-          _notifiers[type].insert( 0, sn );
-      } else {
-          SocketNot *p = _notifiers[type].first();
-          while ( p && p->fd > sockfd )
-              p = _notifiers[type].next();
-
-#if defined(CHECK_STATE)
-          if ( p && p->fd==sockfd ) {
-              static const char *t[] = { "read", "write", "exception" };
-              qWarning( "QSocketNotifier: Multiple socket notifiers for "
-                        "same socket %d and type %s", sockfd, t[type] );
-          }
-#endif
-          if ( p )
-              _notifiers[type].insert( _notifiers[type].at(), sn );
-          else
-              _notifiers[type].append( sn );
-      }
-
-      sn->id = XtAppAddInput( g_appcon, sockfd, inpMask, socketCallback, sn );
-
-  } else {
-
-      SocketNot *sn = _notifiers[type].first();
-      while ( sn && !(sn->obj == obj && sn->fd == sockfd) )
-          sn = _notifiers[type].next();
-      if ( !sn )				// not found
-          return FALSE;
-
-      XtRemoveInput( sn->id );
-      _notifiers[type].remove();
-  }
-
-  return TRUE;
-}
-#endif
-
 
 int main(int argc, char** argv)
 {
@@ -223,22 +107,6 @@ int main(int argc, char** argv)
    kdDebug(1430) << "2 - parseCommandLine" << endl;
    parseCommandLine(argc, argv);
 
-#if QT_VERSION < 0x030100
-   // Create application
-   kdDebug(1430) << "3 - XtToolkitInitialize" << endl;
-   XtToolkitInitialize();
-   g_appcon = XtCreateApplicationContext();
-   Display *dpy = XtOpenDisplay(g_appcon, NULL, "nspluginviewer", "nspluginviewer",
-                                0, 0, &argc, argv);
-
-   _notifiers[0].setAutoDelete( TRUE );
-   _notifiers[1].setAutoDelete( TRUE );
-   _notifiers[2].setAutoDelete( TRUE );
-
-   kdDebug(1430) << "4 - KXtApplication app" << endl;
-   KLocale::setMainCatalogue("nsplugin");
-   KXtApplication app(dpy, argc, argv, "nspluginviewer");
-#else
    kdDebug(1430) << "3 - create QXtEventLoop" << endl;
 #warning QXtEventLoop is missing
    // QXtEventLoop integrator( "nspluginviewer" );
@@ -249,7 +117,6 @@ int main(int argc, char** argv)
 
    KCmdLineArgs::init(argc, argv, "nspluginviewer", "nspluginviewer", "", "");
    KApplication app;
-#endif
 
    {
       KConfig cfg("kcmnspluginrc", true);
@@ -297,14 +164,8 @@ int main(int argc, char** argv)
    NSPluginViewer *viewer = new NSPluginViewer( "viewer", 0 );
 
    // start main loop
-#if QT_VERSION < 0x030100
-   kdDebug(1430) << "8 - XtAppProcessEvent" << endl;
-   while (!g_quit)
-     XtAppProcessEvent( g_appcon, XtIMAll);
-#else
    kdDebug(1430) << "8 - app.exec()" << endl;
    app.exec();
-#endif
 
    // delete viewer
    delete viewer;

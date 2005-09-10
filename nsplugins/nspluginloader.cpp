@@ -225,7 +225,7 @@ void NSPluginLoader::scanPlugins()
               // strip whitspaces and any preceding '.'
               QString stripped = (*suffix).stripWhiteSpace();
 
-              unsigned p=0;
+              int p=0;
               for ( ; p<stripped.length() && stripped[p]=='.'; p++ );
               stripped = stripped.right( stripped.length()-p );
 

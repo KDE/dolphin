@@ -3563,17 +3563,7 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
   }
   else
   {
-#if QT_VERSION >= 0x030300
     setWindowState( windowState() & ~Qt::WindowFullScreen );
-#else
-    if( isMaximized())
-        {
-        showNormal();
-        showMaximized(); // showNormal() would reset maximize state
-        }
-    else
-        showNormal();
-#endif
     unplugActionList( "fullscreen" );
 
     menuBar()->show(); // maybe we should store this setting instead of forcing it
