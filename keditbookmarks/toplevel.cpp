@@ -206,28 +206,13 @@ KEBApp::KEBApp(
 ) : KMainWindow(), m_dcopIface(0), m_bookmarksFilename(bookmarksFile),
     m_caption(caption), m_readOnly(readonly), m_browser(browser) {
 
+    Q_UNUSED(address);//FIXME sets the current item
+
     m_cmdHistory = new CmdHistory(actionCollection());
 
     s_topLevel = this;
 
     QSplitter *vsplitter = new QSplitter(this);
-
-//FIXME
-//     KToolBar *quicksearch = new KToolBar(vsplitter, "search toolbar");
-// 
-//     KAction *resetQuickSearch = new KAction( i18n( "Reset Quick Search" ),
-//         QApplication::reverseLayout() ? "clear_left" : "locationbar_erase",
-//         0, actionCollection(), "reset_quicksearch" );
-//     resetQuickSearch->setWhatsThis( i18n( "<b>Reset Quick Search</b><br>"
-//         "Resets the quick search so that all bookmarks are shown again." ) );
-//     resetQuickSearch->plug( quicksearch );
-// 
-//     QLabel *lbl = new QLabel(i18n("Se&arch:"), quicksearch, "kde toolbar widget");
-
-    //K4ListViewSearchLine *searchLineEdit = new K4ListViewSearchLine(/*quicksearch*/ vsplitter, 0, "KListViewSearchLine");
-    //quicksearch->setStretchableWidget(searchLineEdit);
-    //lbl->setBuddy(searchLineEdit);
-    //connect(resetQuickSearch, SIGNAL(activated()), searchLineEdit, SLOT(clear()));
 
     createActions();
     if (m_browser)
@@ -247,17 +232,22 @@ KEBApp::KEBApp(
     CurrentMgr::self()->createManager(m_bookmarksFilename);
 
     //QT 4 new code
-    mBookmarkListView = new BookmarkListView(vsplitter);
+    mBookmarkListView = new BookmarkListView();
     mBookmarkListView->setModel( BookmarkModel::self() );
-
-    //searchLineEdit->setTreeView(mBookmarkListView);
     mBookmarkListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    expandAll();
     mBookmarkListView->loadColumnSetting();
 
-    m_bkinfo = new BookmarkInfoWidget(vsplitter);
+    expandAll();
+
+    KToolBar * toolbar = new KToolBar(0L, "search toolbar");
+    new KViewSearchLineWidget(mBookmarkListView, toolbar);
+
+    m_bkinfo = new BookmarkInfoWidget(mBookmarkListView);
 
     vsplitter->setOrientation(Qt::Vertical);
+    vsplitter->addWidget(toolbar);
+    vsplitter->addWidget(mBookmarkListView);
+    vsplitter->addWidget(m_bkinfo);
     //FIXME set sensible sizes for vsplitter?
 
     setCentralWidget(vsplitter);

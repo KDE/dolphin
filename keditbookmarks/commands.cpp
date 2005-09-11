@@ -235,6 +235,17 @@ void EditCommand::unexecute()
     BookmarkModel::self()->emitDataChanged(bk);
 }
 
+void EditCommand::modify(QString newValue)
+{
+    if(mCol == 1)
+    {
+        KURL u = KURL::fromPathOrURL(newValue);
+        mNewValue = u.url(0, 106);
+    }
+    else
+        mNewValue = newValue;
+}
+
 QString EditCommand::getNodeText(KBookmark bk, const QStringList &nodehier) 
 {
     QDomNode subnode = bk.internalElement();
@@ -302,6 +313,8 @@ void DeleteCommand::execute() {
 
     // TODO - bug - unparsed xml is lost after undo, 
     //              we must store it all therefore
+
+//FIXME this removes the comments, that's bad!
     if (!m_cmd) {
         if (bk.isGroup()) {
             m_cmd = new CreateCommand(

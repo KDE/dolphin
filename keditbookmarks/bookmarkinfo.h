@@ -22,7 +22,7 @@
 #define __bookmarkinfo_h
 
 #include "commands.h"
-
+#include "bookmarklistview.h"
 #include <kbookmark.h>
 #include <qwidget.h>
 #include <klineedit.h>
@@ -41,38 +41,33 @@ public slots:
 class BookmarkInfoWidget : public QWidget {
     Q_OBJECT
 public:
-    BookmarkInfoWidget(QWidget * = 0, const char * = 0);
-    void showBookmark(const KBookmark &bk);
-    void saveBookmark(const KBookmark &bk);
+    BookmarkInfoWidget(BookmarkListView *, QWidget * = 0, const char * = 0);
+    
     KBookmark bookmark() { return m_bk; }
-    bool connected() { return m_connected; };
-    void setConnected(bool b) { m_connected = b; };
-    void updateStatus();
+    void updateStatus(); //FIXME where was this called?
 
 public slots:
     void slotTextChangedURL(const QString &);
     void slotTextChangedTitle(const QString &);
     void slotTextChangedComment(const QString &);
 
+    void slotUpdate();
+
     void commitChanges();
     void commitTitle();
     void commitURL();
     void commitComment();
 
-signals:
-    void updateListViewItem();
 private:
-    //FIXME bookmarkinfowidget and commands
-    //NodeEditCommand *titlecmd;
-    //EditCommand *urlcmd;
-    //NodeEditCommand *commentcmd;
+    void showBookmark(const KBookmark &bk);
+    EditCommand * titlecmd, * urlcmd, * commentcmd;
     QTimer * timer;
     BookmarkLineEdit *m_title_le, *m_url_le,
         *m_comment_le;
     KLineEdit  *m_visitdate_le, *m_credate_le,
               *m_visitcount_le;
     KBookmark m_bk;
-    bool m_connected;
+    BookmarkListView* mBookmarkListView;
 };
 
 #endif

@@ -122,6 +122,7 @@ public:
    static QString EditCommand::getNodeText(KBookmark bk, const QStringList &nodehier);
    static QString EditCommand::setNodeText(KBookmark bk, const QStringList &nodehier,
                                      const QString newValue);
+   void modify(QString newValue);
 private:
    QString mAddress;
    int mCol;

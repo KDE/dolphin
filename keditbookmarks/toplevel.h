@@ -173,8 +173,6 @@ private:
     void resetActions();
     void createActions();
 
-    void updateListView();
-
     static KEBApp *s_topLevel;
     KBookmarkEditorIface *m_dcopIface;
 
