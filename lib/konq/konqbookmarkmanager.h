@@ -11,7 +11,7 @@ public:
     static KBookmarkManager * self() {
         if ( !s_bookmarkManager )
         {
-            QString bookmarksFile = locateLocal("data", QString::fromLatin1("konqueror/bookmarks.xml"));
+            QString bookmarksFile = locateLocal("data", QLatin1String("konqueror/bookmarks.xml"));
             s_bookmarkManager = KBookmarkManager::managerForFile( bookmarksFile );
         }
         return s_bookmarkManager;

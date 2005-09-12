@@ -147,12 +147,12 @@ bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
     kdDebug(1203) << "KonqFMSettings::shouldEmbed : serviceTypeGroup=" << serviceTypeGroup << endl;
     if ( serviceTypeGroup == "inode" || serviceTypeGroup == "Browser" || serviceTypeGroup == "Konqueror" )
         return true; //always embed mimetype inode/*, Browser/* and Konqueror/*
-    QMap<QString, QString>::ConstIterator it = m_embedMap.find( QString::fromLatin1("embed-")+serviceTypeGroup );
+    QMap<QString, QString>::ConstIterator it = m_embedMap.find( QLatin1String("embed-")+serviceTypeGroup );
     if ( it == m_embedMap.end() )
         return (serviceTypeGroup=="image"); // embedding is false by default except for image/*
     // Note: if you change the above default, also change kcontrol/filetypes/typeslistitem.cpp !
     kdDebug(1203) << "KonqFMSettings::shouldEmbed: " << it.data() << endl;
-    return it.data() == QString::fromLatin1("true");
+    return it.data() == QLatin1String("true");
 }
 
 bool KonqFMSettings::showPreviewsInFileTips() const

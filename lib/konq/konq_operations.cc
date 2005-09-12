@@ -80,7 +80,7 @@ KonqOperations::~KonqOperations()
 
 void KonqOperations::editMimeType( const QString & mimeType )
 {
-  QString keditfiletype = QString::fromLatin1("keditfiletype");
+  QString keditfiletype = QLatin1String("keditfiletype");
   KRun::runCommand( keditfiletype + " " + KProcess::quote(mimeType),
                     keditfiletype, keditfiletype /*unused*/);
 }

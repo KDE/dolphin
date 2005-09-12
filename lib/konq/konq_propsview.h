@@ -133,7 +133,7 @@ protected:
 
   QString currentGroup() const {
       return isDefaultProperties() ? 
-          QString::fromLatin1("Settings") : QString::fromLatin1("URL properties");
+          QLatin1String("Settings") : QString::fromLatin1("URL properties");
   }
 
 private:

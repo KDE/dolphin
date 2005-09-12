@@ -50,7 +50,7 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
 
     m_history.setAutoDelete( true );
     m_filename = locateLocal( "data",
-			      QString::fromLatin1("konqueror/konq_history" ));
+			      QLatin1String("konqueror/konq_history" ));
 
     if ( !kapp->dcopClient()->isAttached() )
 	kapp->dcopClient()->attach();
@@ -588,7 +588,7 @@ void KonqHistoryManager::notifyRemove( KURL::List urls, Q3CString )
 // compatibility fallback, try to load the old completion history
 bool KonqHistoryManager::loadFallback()
 {
-    QString file = locateLocal( "config", QString::fromLatin1("konq_history"));
+    QString file = locateLocal( "config", QLatin1String("konq_history"));
     if ( file.isEmpty() )
 	return false;
 

@@ -164,7 +164,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, Qt:
     m_LineupMode = LineupBoth;
     // emit our signals
     slotSelectionChanged();
-    m_iconPositionGroupPrefix = QString::fromLatin1( "IconPosition::" );
+    m_iconPositionGroupPrefix = QLatin1String( "IconPosition::" );
     KonqUndoManager::incRef();
 }
 
