@@ -41,7 +41,7 @@
 
 #include "kremoteencodingplugin.h"
 
-#define DATA_KEY	QString::fromLatin1("Charset")
+#define DATA_KEY	QLatin1String("Charset")
 
 KRemoteEncodingPlugin::KRemoteEncodingPlugin(QObject * parent,
 					     const char *name,

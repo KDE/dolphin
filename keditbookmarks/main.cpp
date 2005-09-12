@@ -141,8 +141,8 @@ extern "C" KDE_EXPORT int kdemain(int argc, char **argv) {
     bool gotArg = (args->count() == 1);
 
     QString filename = gotArg
-        ? QString::fromLatin1(args->arg(0))
-        : locateLocal("data", QString::fromLatin1("konqueror/bookmarks.xml"));
+        ? QLatin1String(args->arg(0))
+        : locateLocal("data", QLatin1String("konqueror/bookmarks.xml"));
 
     if (!isGui) {
         CurrentMgr::self()->createManager(filename);

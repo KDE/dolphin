@@ -126,7 +126,7 @@ DesktopBehavior::DesktopBehavior(KConfig *config, QWidget *parent, const char * 
    */
   bool leftHandedMouse = ( KGlobalSettings::mouseSettings().handed == KGlobalSettings::KMouseSettings::LeftHanded);
 
-  m_bHasMedia = KProtocolInfo::isKnownProtocol(QString::fromLatin1("media"));
+  m_bHasMedia = KProtocolInfo::isKnownProtocol(QLatin1String("media"));
 
   connect(desktopMenuGroup, SIGNAL(clicked(int)), this, SIGNAL(changed()));
   connect(iconsEnabledBox, SIGNAL(clicked()), this, SLOT(enableChanged()));

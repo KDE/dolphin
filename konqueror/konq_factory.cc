@@ -43,7 +43,7 @@ KonqViewFactory::KonqViewFactory( KLibFactory *factory, const QStringList &args,
     : m_factory( factory ), m_args( args ), m_createBrowser( createBrowser )
 {
     if ( m_createBrowser )
-        m_args << QString::fromLatin1( "Browser/View" );
+        m_args << QLatin1String( "Browser/View" );
 }
 
 KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parentWidget, const char *widgetName,

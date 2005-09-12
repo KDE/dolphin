@@ -244,7 +244,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   connect(toolBarMenuAction(),SIGNAL(activated()),this,SLOT(slotForceSaveMainWindowSettings()) );
 
   if ( !m_toggleViewGUIClient->empty() )
-    plugActionList( QString::fromLatin1( "toggleview" ), m_toggleViewGUIClient->actions() );
+    plugActionList( QLatin1String( "toggleview" ), m_toggleViewGUIClient->actions() );
   else
   {
     delete m_toggleViewGUIClient;
@@ -350,8 +350,8 @@ KonqMainWindow::~KonqMainWindow()
 
 QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDomElement &element, int &id )
 {
-  static QString nameBookmarkBar = QString::fromLatin1( "bookmarkToolBar" );
-  static QString tagToolBar = QString::fromLatin1( "ToolBar" );
+  static QString nameBookmarkBar = QLatin1String( "bookmarkToolBar" );
+  static QString tagToolBar = QLatin1String( "ToolBar" );
 
   QWidget *res = KParts::MainWindow::createContainer( parent, index, element, id );
 
@@ -401,8 +401,8 @@ void KonqMainWindow::initBookmarkBar()
 
 void KonqMainWindow::removeContainer( QWidget *container, QWidget *parent, QDomElement &element, int id )
 {
-  static QString nameBookmarkBar = QString::fromLatin1( "bookmarkToolBar" );
-  static QString tagToolBar = QString::fromLatin1( "ToolBar" );
+  static QString nameBookmarkBar = QLatin1String( "bookmarkToolBar" );
+  static QString tagToolBar = QLatin1String( "ToolBar" );
 
   if ( element.tagName() == tagToolBar && element.attribute( "name" ) == nameBookmarkBar )
   {
@@ -909,10 +909,10 @@ void KonqMainWindow::slotOpenURLRequest( const KURL &url, const KParts::URLArgs 
 
   if ( !frameName.isEmpty() )
   {
-    static QString _top = QString::fromLatin1( "_top" );
-    static QString _self = QString::fromLatin1( "_self" );
-    static QString _parent = QString::fromLatin1( "_parent" );
-    static QString _blank = QString::fromLatin1( "_blank" );
+    static QString _top = QLatin1String( "_top" );
+    static QString _self = QLatin1String( "_self" );
+    static QString _parent = QLatin1String( "_parent" );
+    static QString _blank = QLatin1String( "_blank" );
 
     if ( frameName.lower() == _blank )
     {
@@ -1177,7 +1177,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
        mainWindow->viewManager()->setActivePart( part, true );
     }
 
-    QString profileName = QString::fromLatin1( url.isLocalFile() ? "konqueror/profiles/filemanagement" : "konqueror/profiles/webbrowsing" );
+    QString profileName = QLatin1String( url.isLocalFile() ? "konqueror/profiles/filemanagement" : "konqueror/profiles/webbrowsing" );
     KSimpleConfig cfg( locate( "data", profileName ), true );
     cfg.setGroup( "Profile" );
 
@@ -1278,12 +1278,12 @@ void KonqMainWindow::slotNewWindow()
   if ( profile.isEmpty() )
   {
     if ( m_currentView && m_currentView->url().protocol().startsWith( "http" ) )
-       profile = QString::fromLatin1("webbrowsing");
+       profile = QLatin1String("webbrowsing");
     else
-       profile = QString::fromLatin1("filemanagement");
+       profile = QLatin1String("filemanagement");
   }
   KonqMisc::createBrowserWindowFromProfile(
-    locate( "data", QString::fromLatin1("konqueror/profiles/")+profile ),
+    locate( "data", QLatin1String("konqueror/profiles/")+profile ),
     profile );
 }
 
@@ -1465,7 +1465,7 @@ void KonqMainWindow::slotToolFind()
       else
           url.setPath( QDir::homeDirPath() );
       KonqMainWindow * mw = KonqMisc::createBrowserWindowFromProfile(
-          locate( "data", QString::fromLatin1("konqueror/profiles/filemanagement") ),
+          locate( "data", QLatin1String("konqueror/profiles/filemanagement") ),
           "filemanagement", url, KParts::URLArgs(), true /* forbid "use html"*/ );
       mw->m_paFindFiles->setChecked(true);
       // Delay it after the openURL call (hacky!)
@@ -1588,7 +1588,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
               // current viewmode
               Q3PtrListIterator<KAction> it( m_toolBarViewModeActions );
               for (; it.current(); ++it )
-                  if ( QString::fromLatin1( it.current()->name() ) == oldService->desktopEntryName() )
+                  if ( QLatin1String( it.current()->name() ) == oldService->desktopEntryName() )
                   {
                       assert( it.current()->inherits( "KonqViewModeAction" ) );
 
@@ -1940,7 +1940,7 @@ void KonqMainWindow::slotConfigureToolbars()
 void KonqMainWindow::slotNewToolbarConfig() // This is called when OK or Apply is clicked
 {
     if ( m_toggleViewGUIClient )
-      plugActionList( QString::fromLatin1( "toggleview" ), m_toggleViewGUIClient->actions() );
+      plugActionList( QLatin1String( "toggleview" ), m_toggleViewGUIClient->actions() );
     if ( m_currentView && m_currentView->appServiceOffers().count() > 0 )
       plugActionList( "openwith", m_openWithActions );
 
@@ -2212,13 +2212,13 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   {
       updateViewModeActions();
 
-      m_pMenuNew->setEnabled( m_currentView->serviceType() == QString::fromLatin1( "inode/directory" ) );
+      m_pMenuNew->setEnabled( m_currentView->serviceType() == QLatin1String( "inode/directory" ) );
   }
 
   m_bViewModeToggled = false;
 
 
-  m_pMenuNew->setEnabled( m_currentView->serviceType() == QString::fromLatin1( "inode/directory" ) );
+  m_pMenuNew->setEnabled( m_currentView->serviceType() == QLatin1String( "inode/directory" ) );
 
   m_currentView->frame()->statusbar()->updateActiveStatus();
 
@@ -4955,7 +4955,7 @@ void KonqMainWindow::updateViewModeActions()
           itname = (*it)->name();
 
       QString icon = (*it)->icon();
-      if ( icon != QString::fromLatin1( "unknown" ) )
+      if ( icon != QLatin1String( "unknown" ) )
           // we *have* to specify a parent qobject, otherwise the exclusive group stuff doesn't work!(Simon)
           action = new KRadioAction( itname, icon, 0, this, (*it)->desktopEntryName().ascii() );
       else
@@ -5127,7 +5127,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
       if ( tabContainer->count() > 1 )
       {
         KConfig *config = KGlobal::config();
-        KConfigGroupSaver cs( config, QString::fromLatin1("Notification Messages") );
+        KConfigGroupSaver cs( config, QLatin1String("Notification Messages") );
 
         if ( !config->hasKey( "MultipleTabConfirm" ) )
         {

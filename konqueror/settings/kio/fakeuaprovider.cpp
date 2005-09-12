@@ -27,7 +27,7 @@
 #include "fakeuaprovider.h"
 
 #define UA_PTOS(x) (*it)->property(x).toString()
-#define QFL(x) QString::fromLatin1(x)
+#define QFL(x) QLatin1String(x)
 
 FakeUASProvider::FakeUASProvider()
 {
@@ -97,13 +97,13 @@ void FakeUASProvider::parseDescription()
       QStringList languageList = KGlobal::locale()->languageList();
       if ( languageList.count() )
       {
-        QStringList::Iterator it = languageList.find( QString::fromLatin1("C") );
+        QStringList::Iterator it = languageList.find( QLatin1String("C") );
         if( it != languageList.end() )
         {
-          if( languageList.contains( QString::fromLatin1("en") ) > 0 )
+          if( languageList.contains( QLatin1String("en") ) > 0 )
             languageList.remove( it );
           else
-            (*it) = QString::fromLatin1("en");
+            (*it) = QLatin1String("en");
         }
       }
 

@@ -44,7 +44,7 @@
 #define IPv6_PATTERN    "^\\[.*\\]"
 #define ENV_VAR_PATTERN "\\$[a-zA-Z_][a-zA-Z0-9_]*"
 
-#define QFL1(x) QString::fromLatin1(x)
+#define QFL1(x) QLatin1String(x)
 
  /**
   * IMPORTANT:
@@ -156,13 +156,13 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
 
   if (!isMalformed &&
       (url.protocol().length() == 4) &&
-      (url.protocol() != QString::fromLatin1("http")) &&
+      (url.protocol() != QLatin1String("http")) &&
       (url.protocol()[0]=='h') &&
       (url.protocol()[1]==url.protocol()[2]) &&
       (url.protocol()[3]=='p'))
   {
      // Handle "encrypted" URLs like: h++p://www.kde.org
-     url.setProtocol( QString::fromLatin1("http"));
+     url.setProtocol( QLatin1String("http"));
      setFilteredURI( data, url);
      setURIType( data, KURIFilterData::NET_PROTOCOL );
      return true;
@@ -202,11 +202,11 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
   }
 
   // Detect UNC style (aka windows SMB) URLs
-  if ( cmd.startsWith( QString::fromLatin1( "\\\\") ) )
+  if ( cmd.startsWith( QLatin1String( "\\\\") ) )
   {
     // make sure path is unix style
     cmd.replace('\\', '/');
-    cmd.prepend( QString::fromLatin1( "smb:" ) );
+    cmd.prepend( QLatin1String( "smb:" ) );
     setFilteredURI( data, KURL( cmd ));
     setURIType( data, KURIFilterData::NET_PROTOCOL );
     return true;
@@ -371,7 +371,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
     u.setRef(ref);
     u.setQuery(query);
 
-    if (kapp && !kapp->authorizeURLAction( QString::fromLatin1("open"), KURL(), u))
+    if (kapp && !kapp->authorizeURLAction( QLatin1String("open"), KURL(), u))
     {
       // No authorisation, we pretend it's a file will get
       // an access denied error later on.
@@ -484,7 +484,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
     u.setPath(path);
     u.setRef(ref);
 
-    if (kapp && !kapp->authorizeURLAction( QString::fromLatin1("open"), KURL(), u))
+    if (kapp && !kapp->authorizeURLAction( QLatin1String("open"), KURL(), u))
     {
       // No authorisation, we pretend it exists and will get
       // an access denied error later on.

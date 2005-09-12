@@ -63,7 +63,7 @@ void TypesListItem::initMeta( const QString & major )
   KSharedConfig::Ptr config = KSharedConfig::openConfig("konquerorrc", false, false);
   config->setGroup("EmbedSettings");
   bool defaultValue = defaultEmbeddingSetting( major );
-  m_autoEmbed = config->readBoolEntry( QString::fromLatin1("embed-")+m_major, defaultValue ) ? 0 : 1;
+  m_autoEmbed = config->readBoolEntry( QLatin1String("embed-")+m_major, defaultValue ) ? 0 : 1;
 }
 
 bool TypesListItem::defaultEmbeddingSetting( const QString& major )
@@ -212,7 +212,7 @@ bool TypesListItem::isDirty() const
     KSharedConfig::Ptr config = KSharedConfig::openConfig("konquerorrc", false, false);
     config->setGroup("EmbedSettings");
     bool defaultValue = defaultEmbeddingSetting(m_major);
-    unsigned int oldAutoEmbed = config->readBoolEntry( QString::fromLatin1("embed-")+m_major, defaultValue ) ? 0 : 1;
+    unsigned int oldAutoEmbed = config->readBoolEntry( QLatin1String("embed-")+m_major, defaultValue ) ? 0 : 1;
     if ( m_autoEmbed != oldAutoEmbed )
       return true;
   }
@@ -231,7 +231,7 @@ void TypesListItem::sync()
   {
     KSharedConfig::Ptr config = KSharedConfig::openConfig("konquerorrc", false, false);
     config->setGroup("EmbedSettings");
-    config->writeEntry( QString::fromLatin1("embed-")+m_major, m_autoEmbed == 0 );
+    config->writeEntry( QLatin1String("embed-")+m_major, m_autoEmbed == 0 );
     return;
   }
 
@@ -268,9 +268,9 @@ void TypesListItem::sync()
     config.writeEntry("Hidden", false);
 
     if ( m_autoEmbed == 2 )
-      config.deleteEntry( QString::fromLatin1("X-KDE-AutoEmbed"), false );
+      config.deleteEntry( QLatin1String("X-KDE-AutoEmbed"), false );
     else
-      config.writeEntry( QString::fromLatin1("X-KDE-AutoEmbed"), m_autoEmbed == 0 );
+      config.writeEntry( QLatin1String("X-KDE-AutoEmbed"), m_autoEmbed == 0 );
 
     m_bNewItem = false;
   }

@@ -52,11 +52,11 @@ public:
     if (advice.isEmpty())
       return KCookieAdvice::Dunno;
 
-    if (advice.find (QString::fromLatin1("accept"), 0, false) == 0)
+    if (advice.find (QLatin1String("accept"), 0, false) == 0)
       return KCookieAdvice::Accept;
-    else if (advice.find (QString::fromLatin1("reject"), 0, false) == 0)
+    else if (advice.find (QLatin1String("reject"), 0, false) == 0)
       return KCookieAdvice::Reject;
-    else if (advice.find (QString::fromLatin1("ask"), 0, false) == 0)
+    else if (advice.find (QLatin1String("ask"), 0, false) == 0)
       return KCookieAdvice::Ask;
 
     return KCookieAdvice::Dunno;

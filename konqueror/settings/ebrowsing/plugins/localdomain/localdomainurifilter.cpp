@@ -41,7 +41,7 @@ LocalDomainURIFilter::LocalDomainURIFilter( QObject *parent, const char *name,
     : KURIFilterPlugin( parent, name ? name : "localdomainurifilter", 1.0 ),
       DCOPObject( "LocalDomainURIFilterIface" ),
       last_time( 0 ),
-      m_hostPortPattern( QString::fromLatin1(HOSTPORT_PATTERN) )
+      m_hostPortPattern( QLatin1String(HOSTPORT_PATTERN) )
 {
     configure();
 }
@@ -56,7 +56,7 @@ bool LocalDomainURIFilter::filterURI( KURIFilterData& data ) const
     if( m_hostPortPattern.exactMatch( cmd ) && 
         isLocalDomainHost( cmd ) )
     {
-        cmd.prepend( QString::fromLatin1("http://") );
+        cmd.prepend( QLatin1String("http://") );
         setFilteredURI( data, KURL( cmd ) );
         setURIType( data, KURIFilterData::NET_PROTOCOL );
         
@@ -76,7 +76,7 @@ bool LocalDomainURIFilter::isLocalDomainHost( QString& cmd ) const
 
     if( !(host == last_host && last_time > time( NULL ) - 5 ) ) {
 
-        QString helper = KStandardDirs::findExe(QString::fromLatin1( "klocaldomainurifilterhelper" ));
+        QString helper = KStandardDirs::findExe(QLatin1String( "klocaldomainurifilterhelper" ));
         if( helper.isEmpty())
             return last_result = false;
 

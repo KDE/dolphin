@@ -157,7 +157,7 @@ void KEnvVarProxyDlg::autoDetectPressed()
   setHighLight (mDlg->lbFtp, false);
 
   // Detect HTTP proxy settings...
-  QStringList list = QStringList::split( ',', QString::fromLatin1(ENV_HTTP_PROXY) );
+  QStringList list = QStringList::split( ',', QLatin1String(ENV_HTTP_PROXY) );
   for( it = list.begin(); it != list.end(); ++it )
   {
     env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
@@ -172,7 +172,7 @@ void KEnvVarProxyDlg::autoDetectPressed()
   }
 
   // Detect HTTPS proxy settings...
-  list = QStringList::split( ',', QString::fromLatin1(ENV_HTTPS_PROXY));
+  list = QStringList::split( ',', QLatin1String(ENV_HTTPS_PROXY));
   for( it = list.begin(); it != list.end(); ++it )
   {
     env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
@@ -187,7 +187,7 @@ void KEnvVarProxyDlg::autoDetectPressed()
   }
 
   // Detect FTP proxy settings...
-  list = QStringList::split( ',', QString::fromLatin1(ENV_FTP_PROXY) );
+  list = QStringList::split( ',', QLatin1String(ENV_FTP_PROXY) );
   for(it = list.begin(); it != list.end(); ++it )
   {
     env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
@@ -202,7 +202,7 @@ void KEnvVarProxyDlg::autoDetectPressed()
   }
 
   // Detect the NO_PROXY settings...
-  list = QStringList::split( ',', QString::fromLatin1(NO_PROXY) );
+  list = QStringList::split( ',', QLatin1String(NO_PROXY) );
   for(it = list.begin(); it != list.end(); ++it )
   {
     env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );

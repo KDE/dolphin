@@ -234,7 +234,7 @@ Q3PtrList<KAction> ToggleViewGUIClient::actions() const
 
 void ToggleViewGUIClient::slotToggleView( bool toggle )
 {
-  QString serviceName = QString::fromLatin1( sender()->name() );
+  QString serviceName = QLatin1String( sender()->name() );
 
   bool horizontal = m_mapOrientation[ serviceName ];
 
@@ -244,7 +244,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
   {
 
     KonqView *childView = viewManager->splitWindow( horizontal ? Qt::Vertical : Qt::Horizontal,
-                                                    QString::fromLatin1( "Browser/View" ),
+                                                    QLatin1String( "Browser/View" ),
                                                     serviceName,
                                                     !horizontal /* vertical = make it first */);
 

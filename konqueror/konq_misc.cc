@@ -112,7 +112,7 @@ KonqMainWindow * KonqMisc::createNewWindow( const KURL &url, const KParts::URLAr
                         KMimeType::findByURL(url)->name() == "text/html")
           ? "webbrowsing" : "filemanagement";
 
-  QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + profileName );
+  QString profile = locate( "data", QLatin1String("konqueror/profiles/") + profileName );
   return createBrowserWindowFromProfile(profile, profileName, 
 					url, args, 
 					forbidUseHTML, filesToSelect, tempFile, openURL );
