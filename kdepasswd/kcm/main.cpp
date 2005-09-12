@@ -153,11 +153,11 @@ void KCMUserAccount::load()
 		KGlobal::dirs()->resourceDirs("data").last() + "kdm/faces/";
 
 	QString fs = KCFGUserAccount::faceSource();
-	if (fs == QString::fromLatin1("UserOnly"))
+	if (fs == QLatin1String("UserOnly"))
 		_facePerm = userOnly;
-	else if (fs == QString::fromLatin1("PreferUser"))
+	else if (fs == QLatin1String("PreferUser"))
 		_facePerm = userFirst;
-	else if (fs == QString::fromLatin1("PreferAdmin"))
+	else if (fs == QLatin1String("PreferAdmin"))
 		_facePerm = adminFirst;
 	else
 		_facePerm = adminOnly; // Admin Only
