@@ -855,6 +855,9 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 KTrader::OfferList::ConstIterator it = offers.begin();
                 for( ; it != offers.end(); it++ )
                 {
+                    if ((*it)->noDisplay())
+                        continue;
+
                     Q3CString nam;
                     nam.setNum( id );
 
