@@ -245,12 +245,12 @@ int KonqPopupMenu::insertServicesSubmenus(const QMap<QString, ServiceList>& subm
             continue;
         }
 
-        QDomElement actionSubmenu = m_doc.createElement( "menu" );
+        QDomElement actionSubmenu = domDocument().createElement( "menu" );
         actionSubmenu.setAttribute( "name", "actions " + it.key() );
         menu.appendChild( actionSubmenu );
-        QDomElement subtext = m_doc.createElement( "text" );
+        QDomElement subtext = domDocument().createElement( "text" );
         actionSubmenu.appendChild( subtext );
-        subtext.appendChild( m_doc.createTextNode( it.key() ) );
+        subtext.appendChild( domDocument().createTextNode( it.key() ) );
         count += insertServices(it.data(), actionSubmenu, isBuiltin);
     }
 
@@ -272,7 +272,7 @@ int KonqPopupMenu::insertServices(const ServiceList& list,
             if (!menu.firstChild().isNull() &&
                 menu.lastChild().toElement().tagName().lower() != "separator")
             {
-                QDomElement separator = m_doc.createElement( "separator" );
+                QDomElement separator = domDocument().createElement( "separator" );
                 menu.appendChild(separator);
             }
             continue;
@@ -840,16 +840,16 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 // First block, app and preview offers
                 id = 1;
 
-                QDomElement menu = m_menuElement;
+                QDomElement menu = domElement();
 
                 if ( offers.count() > 1 ) // submenu 'open with'
                 {
-                    menu = m_doc.createElement( "menu" );
+                    menu = domDocument().createElement( "menu" );
                     menu.setAttribute( "name", "openwith submenu" );
-                    m_menuElement.appendChild( menu );
-                    QDomElement text = m_doc.createElement( "text" );
+                    domElement().appendChild( menu );
+                    QDomElement text = domDocument().createElement( "text" );
                     menu.appendChild( text );
-                    text.appendChild( m_doc.createTextNode( i18n("&Open With") ) );
+                    text.appendChild( domDocument().createTextNode( i18n("&Open With") ) );
                 }
 
                 KTrader::OfferList::ConstIterator it = offers.begin();
@@ -862,7 +862,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     nam.setNum( id );
 
                     QString actionName( (*it)->name() );
-                    if ( menu == m_menuElement ) // no submenu -> prefix single offer
+                    if ( menu == domElement() ) // no submenu -> prefix single offer
                         actionName = i18n( "Open with %1" ).arg( actionName );
 
                     act = new KAction( actionName, (*it)->pixmap( KIcon::Small ), 0,
@@ -874,7 +874,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 }
 
                 QString openWithActionName;
-                if ( menu != m_menuElement ) // submenu
+                if ( menu != domElement() ) // submenu
                 {
                     KonqXMLGUIClient::addSeparator( menu );
                     openWithActionName = i18n( "&Other..." );
@@ -897,18 +897,18 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     }
 
     // Second block, builtin + user
-    QDomElement actionMenu = m_menuElement;
+    QDomElement actionMenu = domElement();
     int userItemCount = 0;
     if (s.user.count() + s.userSubmenus.count() +
         s.userPriority.count() + s.userPrioritySubmenus.count() > 1)
     {
         // we have more than one item, so let's make a submenu
-        actionMenu = m_doc.createElement( "menu" );
+        actionMenu = domDocument().createElement( "menu" );
         actionMenu.setAttribute( "name", "actions submenu" );
-        m_menuElement.appendChild( actionMenu );
-        QDomElement text = m_doc.createElement( "text" );
+        domElement().appendChild( actionMenu );
+        QDomElement text = domDocument().createElement( "text" );
         actionMenu.appendChild( text );
-        text.appendChild( m_doc.createTextNode( i18n("Ac&tions") ) );
+        text.appendChild( domDocument().createTextNode( i18n("Ac&tions") ) );
     }
 
     userItemCount += insertServicesSubmenus(s.userPrioritySubmenus, actionMenu, false);
@@ -921,16 +921,16 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
          s.builtin.count() > 0) &&
          actionMenu.lastChild().toElement().tagName().lower() != "separator")
     {
-        QDomElement separator = m_doc.createElement( "separator" );
+        QDomElement separator = domDocument().createElement( "separator" );
         actionMenu.appendChild(separator);
     }
-
+	QDomElement element = domElement( );
     userItemCount += insertServicesSubmenus(s.userSubmenus, actionMenu, false);
     userItemCount += insertServices(s.user, actionMenu, false);
-    userItemCount += insertServices(s.builtin, m_menuElement, true);
+    userItemCount += insertServices(s.builtin, element, true);
 
-    userItemCount += insertServicesSubmenus(s.userToplevelSubmenus, m_menuElement, false);
-    userItemCount += insertServices(s.userToplevel, m_menuElement, false);
+    userItemCount += insertServicesSubmenus(s.userToplevelSubmenus, element, false);
+    userItemCount += insertServices(s.userToplevel, element, false);
 
     if ( userItemCount > 0 )
     {
@@ -947,9 +947,9 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         KonqXMLGUIClient::addAction( act );
     }
 
-    while ( !m_menuElement.lastChild().isNull() &&
-            m_menuElement.lastChild().toElement().tagName().lower() == "separator" )
-        m_menuElement.removeChild( m_menuElement.lastChild() );
+    while ( !domElement().lastChild().isNull() &&
+            domElement().lastChild().toElement().tagName().lower() == "separator" )
+        domElement().removeChild( domElement().lastChild() );
 
     if ( isDirectory && isLocal )
     {

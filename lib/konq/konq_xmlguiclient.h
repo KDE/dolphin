@@ -57,11 +57,9 @@ protected:
   bool hasAction() const;
   void prepareXMLGUIStuff();
 
-// KDE4: make private
+private:
   QDomElement m_menuElement;
   QDomDocument m_doc;
-
-private:
   void handlePendingSeparator();
   class Private;
   Private *d;
