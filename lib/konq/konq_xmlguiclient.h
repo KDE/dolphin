@@ -42,7 +42,7 @@ public:
    */
   QDomDocument domDocument( ) const;
 
-  QDomElement DomElement( ) const; // KDE4: s/D/d/
+  QDomElement domElement( ) const;
 
 protected:
   void addAction( KAction *action, const QDomElement &menu = QDomElement() );

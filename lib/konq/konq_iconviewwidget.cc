@@ -454,15 +454,6 @@ void KonqIconViewWidget::slotPreviewResult()
     emit imagePreviewFinished();
 }
 
-void KonqIconViewWidget::slotToolTipPreview(const KFileItem* , const QPixmap &)
-{
-// unused - remove for KDE4
-}
-
-void KonqIconViewWidget::slotToolTipPreviewResult()
-{
-// unused - remove for KDE4
-}
 
 void KonqIconViewWidget::slotMovieUpdate( const QRect& rect )
 {

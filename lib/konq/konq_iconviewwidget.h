@@ -179,8 +179,7 @@ public:
     void disableSoundPreviews();
 
     void setURL ( const KURL & kurl );
-    // ### KDE4: make const
-    const KURL & url() { return m_url; }
+    const KURL & url() const { return m_url; }
     QString urlString() const { return m_url.url(); }
     void setRootItem ( const KFileItem * item ) { m_rootItem = item; }
 
@@ -266,9 +265,6 @@ public slots:
 
     void renameSelectedItem();
     void renameCurrentItem();
-
-    void slotToolTipPreview( const KFileItem *, const QPixmap & );  // ### unused - remove for KDE4
-    void slotToolTipPreviewResult() ;  // ### unused - remove for KDE4
 
 signals:
     /**

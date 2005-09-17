@@ -60,7 +60,7 @@ void KonqXMLGUIClient::prepareXMLGUIStuff()
   m_factory = new KXMLGUIFactory( m_builder ); */
 }
 
-QDomElement KonqXMLGUIClient::DomElement() const
+QDomElement KonqXMLGUIClient::domElement() const
 {
   return m_menuElement;
 }
