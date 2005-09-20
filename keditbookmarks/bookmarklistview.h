@@ -34,8 +34,39 @@ struct SelcAbilities {
     bool notEmpty:1;
 };
 
-class BookmarkListView : public QTreeView
+class BookmarkListView;
+
+class BookmarkView : public QTreeView
 {
+    Q_OBJECT
+public:
+    BookmarkView( QWidget * parent = 0 );
+    virtual ~BookmarkView();
+    virtual void setModel(QAbstractItemModel * view);
+    virtual void dragEnterEvent(QDragEnterEvent *event);
+    virtual void dragMoveEvent(QDragMoveEvent *event);
+public slots:
+    void aboutToMoveRows(const QModelIndex & oldParent, int first, int last, const QModelIndex & newParent, int position);
+    void rowsMoved(const QModelIndex & oldParent, int first, int last, const QModelIndex & newParent, int position);
+private:
+    QPersistentModelIndex moveOldParent;
+    QPersistentModelIndex moveNewParent;
+};
+
+class BookmarkFolderView : public BookmarkView
+{
+    Q_OBJECT
+public:
+    BookmarkFolderView( BookmarkListView * view, QWidget * parent = 0 );
+    virtual ~BookmarkFolderView();
+    virtual void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected );
+private:
+    BookmarkListView * mview;
+};
+
+class BookmarkListView : public BookmarkView
+{
+    Q_OBJECT
 public:
     BookmarkListView( QWidget * parent = 0 );
     virtual ~BookmarkListView();

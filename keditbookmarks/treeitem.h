@@ -34,6 +34,7 @@ public:
 
     void insertChildren(int first, int last);
     void deleteChildren(int first, int last);
+    void moveChildren(int first, int last, TreeItem * newParent, int position);
     KBookmark bookmark();
     int childCount();
     TreeItem * treeItemForBookmark(KBookmark bk);
@@ -44,6 +45,7 @@ private:
 #endif
     void initChildren();
     bool init;
+    //FIXME use something else
     QList<TreeItem *> children;
     TreeItem * mparent;
     KBookmark mbk;

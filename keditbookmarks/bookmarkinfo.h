@@ -29,19 +29,10 @@
 
 class QTimer;
 
-class BookmarkLineEdit : public KLineEdit {
-    Q_OBJECT
-public:
-    BookmarkLineEdit( QWidget * );
-public slots:
-    virtual void cut ();
-};
-
-
 class BookmarkInfoWidget : public QWidget {
     Q_OBJECT
 public:
-    BookmarkInfoWidget(BookmarkListView *, QWidget * = 0, const char * = 0);
+    BookmarkInfoWidget(BookmarkListView * lv, QWidget * = 0);
     
     KBookmark bookmark() { return m_bk; }
     void updateStatus(); //FIXME where was this called?
@@ -62,12 +53,12 @@ private:
     void showBookmark(const KBookmark &bk);
     EditCommand * titlecmd, * urlcmd, * commentcmd;
     QTimer * timer;
-    BookmarkLineEdit *m_title_le, *m_url_le,
+    KLineEdit *m_title_le, *m_url_le,
         *m_comment_le;
     KLineEdit  *m_visitdate_le, *m_credate_le,
               *m_visitcount_le;
     KBookmark m_bk;
-    BookmarkListView* mBookmarkListView;
+    BookmarkListView * mBookmarkListView;
 };
 
 #endif

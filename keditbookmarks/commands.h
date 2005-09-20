@@ -198,7 +198,7 @@ public:
    static KEBMacroCommand* setAsToolbar(const KBookmark &bk);
    static KEBMacroCommand* deleteItems(const QString &commandName, const QMap<KEBListViewItem *, bool> & items);
    static KEBMacroCommand* insertMimeSource(const QString &cmdName, QMimeSource *data, const QString &addr);
-   static KEBMacroCommand* itemsMoved(const QMap<KEBListViewItem *, bool> & items, const QString &newAddress, bool copy);
+   static KEBMacroCommand* itemsMoved(const QVector<KBookmark> & items, const QString &newAddress, bool copy);
 private:
    CmdGen() { ; }
 };

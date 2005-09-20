@@ -18,6 +18,7 @@
 
 #include "treeitem.h"
 #include <kdebug.h>
+#include <QVector>
 
 TreeItem::TreeItem(KBookmark bk, TreeItem * parent)
     : mparent(parent), mbk(bk)
@@ -92,6 +93,7 @@ void TreeItem::insertChildren(int first, int last)
     } while(i >= first);
 
 }
+
 void TreeItem::deleteChildren(int first, int last)
 {
     kdDebug()<<"deleteChildren of "<<bookmark().address()<<" "<<first<<" "<<last<<endl;
@@ -108,6 +110,47 @@ void TreeItem::deleteChildren(int first, int last)
 #endif
     }
     children.erase(firstIt, lastIt);
+}
+
+void TreeItem::moveChildren(int first, int last, TreeItem * newParent, int position)
+{
+    if(newParent != this)
+    {
+        for(int i = last; i>=first; --i)
+        {
+            TreeItem * item = children[i];
+            item->mparent = newParent;
+            newParent->children.insert(position, item);
+
+            QList<TreeItem *>::iterator firstIt, lastIt;
+            firstIt = children.begin() + first;
+            lastIt = children.begin() + last + 1;
+            children.erase(firstIt, lastIt);
+        }
+    }
+    else
+    {
+        if(first > position)
+        {
+            // swap around 
+            int tempPos = position;
+            position = last + 1;
+            last = first - 1;
+            first = tempPos;
+        }
+        // Invariant first > position
+        QVector<TreeItem *> temp;
+        for(int i=first; i<=last; ++i)
+            temp.append(children[i]);
+        
+        int count = (last-first + 1);
+        for(int i=first; i+count<position; ++i)
+            children[i] = children[i+count];
+
+        for(int i = position - count; i < position; ++i)
+            children[i] = temp[ i - position + count];
+
+    }
 }
 
 KBookmark TreeItem::bookmark()

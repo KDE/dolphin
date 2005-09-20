@@ -398,6 +398,9 @@ void MoveCommand::execute() {
 
     bool isFirstChild = (KBookmark::positionInParent(m_to) == 0);
 
+    BookmarkModel::moveSentry sentry(oldParent, KBookmark::positionInParent(m_from), KBookmark::positionInParent(m_from),
+                                     newParent, KBookmark::positionInParent(m_to));
+
     if (isFirstChild) {
         newParent.toGroup().moveItem(bk, QDomElement());
 
@@ -603,48 +606,45 @@ KEBMacroCommand* CmdGen::insertMimeSource(
     return mcmd;
 }
 
-KEBMacroCommand* CmdGen::itemsMoved(const QMap<KEBListViewItem *, bool> & items, 
+KEBMacroCommand* CmdGen::itemsMoved(const QVector<KBookmark> & items, 
         const QString &newAddress, bool copy) {
     KEBMacroCommand *mcmd = new KEBMacroCommand(copy ? i18n("Copy Items") 
             : i18n("Move Items"));
-    Q_UNUSED(items);
-    Q_UNUSED(newAddress);
-//FIXME rewrite CmdGen::itemsMoved
-//     Q3ValueList<KBookmark> list = ListView::self()->itemsToBookmarks( items );
-//     Q3ValueList<KBookmark>::const_iterator it, end;
-//     it = list.begin();
-//     end = list.end();
-// 
-//     QString bkInsertAddr = newAddress;
-//     for (; it != end; ++it) {
-//         if (copy) {
-//             CreateCommand *cmd;
-//             cmd = new CreateCommand(
-//                     bkInsertAddr,
-//                     (*it).internalElement()
-//                     .cloneNode(true).toElement(),
-//                     (*it).text());
-// 
-//             cmd->execute();
-//             mcmd->addCommand(cmd);
-// 
-//             bkInsertAddr = cmd->finalAddress();
-// 
-//         } else /* if (move) */ {
-//             QString oldAddress = (*it).address();
-//             if (bkInsertAddr.startsWith(oldAddress)) //FIXME uses internal representation of address
-//                 continue;
-// 
-//             MoveCommand *cmd = new MoveCommand(oldAddress, bkInsertAddr,
-//                     (*it).text());
-//             cmd->execute();
-//             mcmd->addCommand(cmd);
-// 
-//             bkInsertAddr = cmd->finalAddress();
-//         }
-// 
-//         bkInsertAddr = KBookmark::nextAddress(bkInsertAddr);
-//     }
+
+    QVector<KBookmark>::const_iterator it, end;
+    it = items.begin();
+    end = items.end();
+
+    QString bkInsertAddr = newAddress;
+    for (; it != end; ++it) {
+        if (copy) {
+            CreateCommand *cmd;
+            cmd = new CreateCommand(
+                    bkInsertAddr,
+                    (*it).internalElement()
+                    .cloneNode(true).toElement(),
+                    (*it).text());
+
+            cmd->execute();
+            mcmd->addCommand(cmd);
+
+            bkInsertAddr = cmd->finalAddress();
+
+        } else /* if (move) */ {
+            QString oldAddress = (*it).address();
+            if (bkInsertAddr.startsWith(oldAddress)) //FIXME uses internal representation of address
+                continue;
+
+            MoveCommand *cmd = new MoveCommand(oldAddress, bkInsertAddr,
+                    (*it).text());
+            cmd->execute();
+            mcmd->addCommand(cmd);
+
+            bkInsertAddr = cmd->finalAddress();
+        }
+
+        bkInsertAddr = KBookmark::nextAddress(bkInsertAddr);
+    }
 
     return mcmd;
 }

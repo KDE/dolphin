@@ -1,4 +1,3 @@
-// vim: set ts=4 sts=4 sw=4 et:
 /* This file is part of the KDE project
    Copyright (C) 2003 Alexander Kellett <lypanov@kde.org>
 
@@ -54,25 +53,6 @@
 #include <qevent.h>
 
 // SHUFFLE all these functions around, the order is just plain stupid
-
-BookmarkLineEdit::BookmarkLineEdit( QWidget *parent )
-    : KLineEdit( parent )
-{
-}
-
-void BookmarkLineEdit::cut()
-{
-//FIXME still needed?
-    QString select( selectedText() );
-    int pos( selectionStart() );
-    QString newText(  text().remove( pos, select.length() ) );
-    KLineEdit::cut();
-    setEdited( true ); //KDE 4 setModified( true );
-    emit textChanged( newText );
-    setText( newText );
-}
-
-
 void BookmarkInfoWidget::showBookmark(const KBookmark &bk) {
     commitChanges();
     m_bk = bk;
@@ -156,11 +136,11 @@ void BookmarkInfoWidget::commitTitle()
 
 void BookmarkInfoWidget::slotTextChangedTitle(const QString &str) 
 {
+    Q_UNUSED(str);
     if (m_bk.isNull() || !m_title_le->isModified())
         return;
-    Q_UNUSED(str);
 
-    //FIXME timer->start(1000, true);
+    timer->start(1000, true);
 
     if(titlecmd)
     {
@@ -185,10 +165,10 @@ void BookmarkInfoWidget::commitURL()
 }
 
 void BookmarkInfoWidget::slotTextChangedURL(const QString &str) {
+    Q_UNUSED(str);
     if (m_bk.isNull() || !m_url_le->isModified())
         return;
-    Q_UNUSED(str);
-    //FIXME timer->start(1000, true);
+    timer->start(1000, true);
 
     if(urlcmd)
     {
@@ -213,10 +193,10 @@ void BookmarkInfoWidget::commitComment()
 }
 
 void BookmarkInfoWidget::slotTextChangedComment(const QString &str) {
+    Q_UNUSED(str);
     if (m_bk.isNull() || !m_comment_le->isModified())
         return;
-    Q_UNUSED(str);
-    //FIXME timer->start(1000, true);
+    timer->start(1000, true);
 
     if(commentcmd)
     {
@@ -243,8 +223,8 @@ void BookmarkInfoWidget::slotUpdate()
         showBookmark( KBookmark() );
 }
 
-BookmarkInfoWidget::BookmarkInfoWidget(BookmarkListView * lv, QWidget *parent, const char *name)
-    : QWidget(parent, name), mBookmarkListView(lv) {
+BookmarkInfoWidget::BookmarkInfoWidget(BookmarkListView * lv, QWidget *parent)
+    : QWidget(parent), mBookmarkListView(lv) {
 
     connect(mBookmarkListView->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
             SLOT( slotUpdate()));
@@ -263,7 +243,7 @@ BookmarkInfoWidget::BookmarkInfoWidget(BookmarkListView * lv, QWidget *parent, c
     QBoxLayout *vbox = new QVBoxLayout(this);
     QGridLayout *grid = new QGridLayout(vbox, 3, 4, 4);
 
-    m_title_le = new BookmarkLineEdit(this);
+    m_title_le = new KLineEdit(this);
     grid->addWidget(m_title_le, 0, 1);
     grid->addWidget(
             new QLabel(m_title_le, i18n("Name:"), this),
@@ -273,7 +253,7 @@ BookmarkInfoWidget::BookmarkInfoWidget(BookmarkListView * lv, QWidget *parent, c
                         SLOT( slotTextChangedTitle(const QString &) ));
     connect(m_title_le, SIGNAL( lostFocus() ), SLOT( commitTitle() ));
 
-    m_url_le = new BookmarkLineEdit(this);
+    m_url_le = new KLineEdit(this);
     grid->addWidget(m_url_le, 1, 1);
     grid->addWidget(
             new QLabel(m_url_le, i18n("Location:"), this),
@@ -283,7 +263,7 @@ BookmarkInfoWidget::BookmarkInfoWidget(BookmarkListView * lv, QWidget *parent, c
                       SLOT( slotTextChangedURL(const QString &) ));
     connect(m_url_le, SIGNAL( lostFocus() ), SLOT( commitURL() ));
 
-    m_comment_le = new BookmarkLineEdit(this);
+    m_comment_le = new KLineEdit(this);
     grid->addWidget(m_comment_le, 2, 1);
     grid->addWidget(
             new QLabel(m_comment_le, i18n("Comment:"), this),
@@ -309,6 +289,8 @@ BookmarkInfoWidget::BookmarkInfoWidget(BookmarkListView * lv, QWidget *parent, c
     grid->addWidget(
             new QLabel(m_visitcount_le, i18n("Times visited:"), this),
             2, 2);
+
+    showBookmark(KBookmark());
 }
 
 #include "bookmarkinfo.moc"

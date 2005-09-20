@@ -1,5 +1,3 @@
-// -*- indent-tabs-mode:nil -*-
-// vim: set ts=4 sts=4 sw=4 et:
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
    Copyright (C) 2002-2003 Alexander Kellett <lypanov@kde.org>
@@ -231,26 +229,33 @@ KEBApp::KEBApp(
 
     CurrentMgr::self()->createManager(m_bookmarksFilename);
 
-    //QT 4 new code
     mBookmarkListView = new BookmarkListView();
     mBookmarkListView->setModel( BookmarkModel::self() );
     mBookmarkListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     mBookmarkListView->loadColumnSetting();
 
-    expandAll();
-
     KToolBar * toolbar = new KToolBar(0L, "search toolbar");
     new KViewSearchLineWidget(mBookmarkListView, toolbar);
 
+    mBookmarkFolderView = new BookmarkFolderView(mBookmarkListView);
+    mBookmarkFolderView->setModel( BookmarkModel::self() );
+ 
     m_bkinfo = new BookmarkInfoWidget(mBookmarkListView);
 
     vsplitter->setOrientation(Qt::Vertical);
     vsplitter->addWidget(toolbar);
     vsplitter->addWidget(mBookmarkListView);
     vsplitter->addWidget(m_bkinfo);
-    //FIXME set sensible sizes for vsplitter?
 
-    setCentralWidget(vsplitter);
+    QSplitter *hsplitter = new QSplitter(this);
+    hsplitter->setOrientation(Qt::Horizontal);
+    hsplitter->addWidget(mBookmarkFolderView);
+    hsplitter->addWidget(vsplitter);
+    //FIXME set sensible sizes for vsplitter and hsplitter
+ 
+    setCentralWidget(hsplitter);
+
+    expandAll();
 
     slotClipboardDataChanged();
     setAutoSaveSettings();
@@ -288,15 +293,16 @@ void KEBApp::collapseAllHelper( QModelIndex index )
 
 void KEBApp::expandAll()
 {
-    expandAllHelper( BookmarkModel::self()->index(0, 0, QModelIndex()));
+    expandAllHelper( mBookmarkListView, BookmarkModel::self()->index(0, 0, QModelIndex()));
+    expandAllHelper( mBookmarkFolderView, BookmarkModel::self()->index(0, 0, QModelIndex()));
 }
 
-void KEBApp::expandAllHelper(QModelIndex index)
+void KEBApp::expandAllHelper(QTreeView * view, QModelIndex index)
 {
-    mBookmarkListView->expand(index);
+    view->expand(index);
     int rowCount = index.model()->rowCount(index);
     for(int i=0; i<rowCount; ++i)
-        expandAllHelper(index.child(i, 0));
+        expandAllHelper(view, index.child(i, 0));
 }
 
 void KEBApp::startEdit( Column c )

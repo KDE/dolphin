@@ -41,7 +41,6 @@ public:
     friend class insertSentry;
     class removeSentry;
     friend class removeSentry;
-    friend class IKEBCommand;
 
     static BookmarkModel* self();
     virtual ~BookmarkModel();
@@ -61,12 +60,35 @@ public:
 
     void resetModel();
 
+    bool dropMimeData ( const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent );
+    QStringList mimeTypes () const;
+    QMimeData * mimeData ( const QModelIndexList & indexes ) const;
+    Qt::DropActions supportedDropActions () const;
+
+signals:
+    //FIXME searchline should respond too
+    void aboutToMoveRows(const QModelIndex &, int, int, const QModelIndex &, int);
+    void rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int);
+
 private:
+    void beginMoveRows(const QModelIndex & oldParent, int first, int last, const QModelIndex & newParent, int position);
+    void endMoveRows();
+
     TreeItem * rootItem;
     BookmarkModel(KBookmark root);
     static BookmarkModel *s_bookmarkModel;
     static int count;
     KBookmark mRoot;
+
+    // for move support
+    QModelIndex mOldParent;
+    int mFirst;
+    int mLast;
+    QModelIndex mNewParent;
+    int mPosition;
+    QVector<QModelIndex> movedIndexes;
+    QVector<QModelIndex> oldParentIndexes;
+    QVector<QModelIndex> newParentIndexes;
 
 //Sentry
 public:
@@ -118,6 +140,37 @@ public:
             TreeItem * mt;
             int mf, ml;
     };
+
+    class moveSentry
+    {
+        public:
+        moveSentry(KBookmark oldParent, int first, int last, KBookmark newParent, int position)
+            {
+                //FIXME
+                KEBApp::self()->mBookmarkListView->selectionModel()->clear();
+                
+                kdDebug()<<"oldParent "<<oldParent.address()<<" newParent "<<newParent.address()<<endl;
+                QModelIndex mOldParent = BookmarkModel::self()->bookmarkToIndex(oldParent);
+                QModelIndex mNewParent = BookmarkModel::self()->bookmarkToIndex(newParent);
+
+                BookmarkModel::self()->beginMoveRows( mOldParent, first, last, mNewParent, position); 
+
+                mop = static_cast<TreeItem *>(mOldParent.internalPointer());
+                mf = first;
+                ml = last;
+                mnp = static_cast<TreeItem *>(mNewParent.internalPointer());
+                mp = position;
+            }
+        ~moveSentry()
+            {
+               mop->moveChildren(mf, ml, mnp, mp);
+               BookmarkModel::self()->endMoveRows(); 
+            }
+        private:
+            TreeItem * mop, *mnp;
+            int mf, ml, mp;
+    };
+
 };
 
 #endif
