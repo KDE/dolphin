@@ -21,7 +21,6 @@
 
 #include "dcop.h"
 
-#include "listview.h"
 #include "toplevel.h"
 
 #include <stdlib.h>

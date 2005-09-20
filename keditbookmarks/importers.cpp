@@ -23,7 +23,6 @@
 
 #include "commands.h"
 #include "toplevel.h"
-#include "listview.h"
 
 #include <qregexp.h>
 //Added by qt3to4:

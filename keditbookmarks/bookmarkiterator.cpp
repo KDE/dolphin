@@ -22,7 +22,6 @@
 #include "bookmarkiterator.h"
 
 #include "toplevel.h"
-#include "listview.h"
 
 #include <kdebug.h>
 #include <qtimer.h>

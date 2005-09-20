@@ -25,7 +25,6 @@
 #include "kinsertionsort.h"
 
 #include "toplevel.h"
-#include "listview.h"
 
 #include <assert.h>
 #include <q3valuevector.h>

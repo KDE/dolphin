@@ -21,7 +21,6 @@
 #include "updater.h"
 
 #include "bookmarkiterator.h"
-#include "listview.h"
 #include "toplevel.h"
 
 #include <kdebug.h>

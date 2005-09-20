@@ -20,7 +20,6 @@
 */
 
 #include "toplevel.h"
-#include "listview.h"
 #include "testlink.h"
 #include "commands.h"
 #include "bookmarkiterator.h"

@@ -21,7 +21,6 @@
 #include "favicons.h"
 
 #include "bookmarkiterator.h"
-#include "listview.h"
 #include "toplevel.h"
 #include "updater.h"
 

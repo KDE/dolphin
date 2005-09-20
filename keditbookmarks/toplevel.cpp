@@ -22,7 +22,6 @@
 #include "bookmarkmodel.h"
 
 #include "bookmarkinfo.h"
-#include "listview.h"
 #include "actionsimpl.h"
 #include "dcop.h"
 #include "exporters.h"

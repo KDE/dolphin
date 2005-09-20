@@ -27,7 +27,6 @@
 #include <kio/job.h>
 #include <kbookmark.h>
 
-#include "listview.h"
 #include "bookmarkiterator.h"
 
 class TestLinkItrHolder : public BookmarkIteratorHolder {

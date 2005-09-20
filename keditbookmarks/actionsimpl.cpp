@@ -26,7 +26,6 @@
 #include "importers.h"
 #include "favicons.h"
 #include "testlink.h"
-#include "listview.h"
 #include "exporters.h"
 #include "bookmarkinfo.h"
 
