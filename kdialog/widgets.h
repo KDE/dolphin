@@ -1,6 +1,6 @@
 //
 //  Copyright (C) 1998 Matthias Hoelzer <hoelzer@kde.org>
-//  Copyright (C) 2002 David Faure <faure@kde.org>
+//  Copyright (C) 2002-2005 David Faure <faure@kde.org>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
 //
 
 
-#ifndef _WIDGETS_H_
-#define _WIDGETS_H_
+#ifndef WIDGETS_H
+#define WIDGETS_H
 
 #include <qwidget.h>
 #include <qstring.h>

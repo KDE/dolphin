@@ -152,7 +152,7 @@ static void outputStringList(QStringList list, bool separateOutput)
 static int directCommand(KCmdLineArgs *args)
 {
     QString title;
-    bool separateOutput = FALSE;
+    bool separateOutput = false;
     bool printWId = args->isSet("print-winid");
     bool embed = args->isSet("embed");
     QString defaultEntry;
@@ -166,7 +166,7 @@ static int directCommand(KCmdLineArgs *args)
     // --separate-output
     if (args->isSet("separate-output"))
     {
-      separateOutput = TRUE;
+      separateOutput = true;
     }
     if (printWId || embed)
     {
@@ -238,9 +238,9 @@ static int directCommand(KCmdLineArgs *args)
 
         QString text = QString::fromLocal8Bit(args->getOption( option ));
         int pos;
-        while ((pos = text.find( QString::fromLatin1("\\n") )) >= 0)
+        while ((pos = text.find( QLatin1String("\\n") )) >= 0)
         {
-            text.replace(pos, 2, QString::fromLatin1("\n"));
+            text.replace(pos, 2, QLatin1String("\n"));
         }
 
         if ( type == KMessageBox::WarningContinueCancel ) {
@@ -300,7 +300,7 @@ static int directCommand(KCmdLineArgs *args)
 	QTimer *timer = new QTimer();
 	QObject::connect( timer, SIGNAL( timeout() ), kapp, SLOT( quit() ) );
 	QObject::connect( popup, SIGNAL( clicked() ), kapp, SLOT( quit() ) );
-	timer->start( duration, TRUE );
+	timer->start( duration, true );
 
 #ifdef Q_WS_X11
 	if ( ! kapp->geometryArgument().isEmpty()) {
@@ -412,8 +412,8 @@ static int directCommand(KCmdLineArgs *args)
 
             int i;
             for (i=0; i<result.count(); i++)
-                if (!result[i].local8Bit().isEmpty()) {
-		    cout << result[i].local8Bit().data() << endl;
+                if (!result.at(i).local8Bit().isEmpty()) {
+		    cout << result.at(i).local8Bit().data() << endl;
 		}
             exit( retcode ? 0 : 1 );
         }
@@ -598,29 +598,29 @@ static int directCommand(KCmdLineArgs *args)
             contextStr = QString::fromLocal8Bit(args->arg(0));
         }
         KIcon::Group group = KIcon::NoGroup;
-        if ( groupStr == QString::fromLatin1( "Desktop" ) )
+        if ( groupStr == QLatin1String( "Desktop" ) )
             group = KIcon::Desktop;
-        else if ( groupStr == QString::fromLatin1( "Toolbar" ) )
+        else if ( groupStr == QLatin1String( "Toolbar" ) )
             group = KIcon::Toolbar;
-        else if ( groupStr == QString::fromLatin1( "MainToolbar" ) )
+        else if ( groupStr == QLatin1String( "MainToolbar" ) )
             group = KIcon::MainToolbar;
-        else if ( groupStr == QString::fromLatin1( "Small" ) )
+        else if ( groupStr == QLatin1String( "Small" ) )
             group = KIcon::Small;
-        else if ( groupStr == QString::fromLatin1( "Panel" ) )
+        else if ( groupStr == QLatin1String( "Panel" ) )
             group = KIcon::Panel;
-        else if ( groupStr == QString::fromLatin1( "User" ) )
+        else if ( groupStr == QLatin1String( "User" ) )
             group = KIcon::User;
         KIcon::Context context = KIcon::Any;
         // From kicontheme.cpp
-        if ( contextStr == QString::fromLatin1( "Devices" ) )
+        if ( contextStr == QLatin1String( "Devices" ) )
             context = KIcon::Device;
-        else if ( contextStr == QString::fromLatin1( "MimeTypes" ) )
+        else if ( contextStr == QLatin1String( "MimeTypes" ) )
             context = KIcon::MimeType;
-        else if ( contextStr == QString::fromLatin1( "FileSystems" ) )
+        else if ( contextStr == QLatin1String( "FileSystems" ) )
             context = KIcon::FileSystem;
-        else if ( contextStr == QString::fromLatin1( "Applications" ) )
+        else if ( contextStr == QLatin1String( "Applications" ) )
             context = KIcon::Application;
-        else if ( contextStr == QString::fromLatin1( "Actions" ) )
+        else if ( contextStr == QLatin1String( "Actions" ) )
             context = KIcon::Action;
 
 	KIconDialog dlg(0, "icon dialog");

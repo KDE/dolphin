@@ -1,5 +1,5 @@
 //
-//  Copyright (C) 1998 Matthias Hoelzer
+//  Copyright (C) 1998-2005 Matthias Hoelzer
 //  email:  hoelzer@physik.uni-wuerzburg.de
 //
 //  This program is free software; you can redistribute it and/or modify
@@ -18,8 +18,8 @@
 //
 
 
-#ifndef _KLISTBOXDIALOG_H_
-#define _KLISTBOXDIALOG_H_
+#ifndef KLISTBOXDIALOG_H
+#define KLISTBOXDIALOG_H
 
 #include <kdialogbase.h>
 
@@ -29,7 +29,7 @@ class KListBoxDialog : public KDialogBase
 
 public:
 
-  KListBoxDialog(QString text, QWidget *parent=0);
+  KListBoxDialog(const QString &text, QWidget *parent=0);
   ~KListBoxDialog() {};
 
   Q3ListBox &getTable() { return *table; };
@@ -44,6 +44,5 @@ protected:
   QLabel *label;
 
 };
-
 
 #endif

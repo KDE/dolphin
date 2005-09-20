@@ -1,5 +1,5 @@
 //
-//  Copyright (C) 1998 Matthias Hoelzer
+//  Copyright (C) 1998-2005 Matthias Hoelzer
 //  email:  hoelzer@physik.uni-wuerzburg.de
 //
 //  This program is free software; you can redistribute it and/or modify
@@ -26,7 +26,7 @@
 
 #include "klocale.h"
 
-KListBoxDialog::KListBoxDialog(QString text, QWidget *parent)
+KListBoxDialog::KListBoxDialog(const QString &text, QWidget *parent)
     : KDialogBase( parent, 0, true, QString::null, Ok|Cancel, Ok, true )
 {
   Q3VBox *page = makeVBoxMainWidget();

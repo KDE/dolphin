@@ -1,6 +1,6 @@
 //
 //  Copyright (C) 1998 Matthias Hoelzer <hoelzer@kde.org>
-//  Copyright (C) 2002 David Faure <faure@kde.org>
+//  Copyright (C) 2002-2005 David Faure <faure@kde.org>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -85,12 +85,12 @@ bool Widgets::passwordBox(QWidget *parent, const QString& title, const QString& 
 
 int Widgets::textBox(QWidget *parent, int width, int height, const QString& title, const QString& file)
 {
-//  KTextBox dlg(parent, 0, TRUE, width, height, file);
+//  KTextBox dlg(parent, 0, true, width, height, file);
   KDialogBase dlg( parent, 0, true, title, KDialogBase::Ok, KDialogBase::Ok );
 
   kapp->setTopWidget( &dlg );
   KTextEdit *edit = new KTextEdit( dlg.makeVBoxMainWidget() );
-  edit->setReadOnly(TRUE);
+  edit->setReadOnly(true);
 
   QFile f(file);
   if (!f.open(IO_ReadOnly))
@@ -118,7 +118,7 @@ int Widgets::textBox(QWidget *parent, int width, int height, const QString& titl
 
 int Widgets::textInputBox(QWidget *parent, int width, int height, const QString& title, const QStringList& args, QString &result)
 {
-//  KTextBox dlg(parent, 0, TRUE, width, height, file);
+//  KTextBox dlg(parent, 0, true, width, height, file);
   KDialogBase dlg( parent, 0, true, title, KDialogBase::Ok, KDialogBase::Ok );
 
   kapp->setTopWidget( &dlg );
@@ -131,7 +131,7 @@ int Widgets::textInputBox(QWidget *parent, int width, int height, const QString&
   }
 
   KTextEdit *edit = new KTextEdit( vbox );
-  edit->setReadOnly(FALSE);
+  edit->setReadOnly(false);
   edit->setTextFormat( Qt::PlainText );
   edit->setFocus();
 
@@ -215,11 +215,11 @@ bool Widgets::checkList(QWidget *parent, const QString& title, const QString& te
   }
 
   table.insertStringList(entries);
-  table.setMultiSelection(TRUE);
+  table.setMultiSelection(true);
   table.setCurrentItem(0); // This is to circumvent a Qt bug
 
   for (int i=0; i+2<args.count(); i += 3) {
-    table.setSelected( i/3, args[i+2] == QString::fromLatin1("on") );
+    table.setSelected( i/3, args[i+2] == QLatin1String("on") );
   }
 
   handleXGeometry(&box);
@@ -234,7 +234,7 @@ bool Widgets::checkList(QWidget *parent, const QString& title, const QString& te
     } else {
       for (unsigned int i=0; i<table.count(); i++)
         if (table.isSelected(i))
-          rs += QString::fromLatin1("\"") + tags[i] + QString::fromLatin1("\" ");
+          rs += QLatin1String("\"") + tags[i] + QLatin1String("\" ");
       result.append(rs);
     }
   }
@@ -261,7 +261,7 @@ bool Widgets::radioBox(QWidget *parent, const QString& title, const QString& tex
   table.insertStringList(entries);
 
   for (int i=0; i+2<args.count(); i += 3) {
-    table.setSelected( i/3, args[i+2] == QString::fromLatin1("on") );
+    table.setSelected( i/3, args[i+2] == QLatin1String("on") );
   }
 
   handleXGeometry(&box);

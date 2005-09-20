@@ -1,1 +1,1 @@
-SUBDIRS = kwrite
+SUBDIRS = kwrite kdialog
