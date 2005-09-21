@@ -62,7 +62,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     nameBox = new KComboBox(TRUE, pages[0], "combo1");
     nameBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);  // allow smaller than widest entry
     QLabel * namedL = new QLabel(nameBox, i18n("&Named:"), pages[0], "named");
-    QToolTip::add( namedL, i18n("You can use wildcard matching and \";\" for separating multiple names") );
+    namedL->setToolTip( i18n("You can use wildcard matching and \";\" for separating multiple names") );
     dirBox  = new KComboBox(TRUE, pages[0], "combo2");
     dirBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);  // allow smaller than widest entry
     QLabel * lookinL = new QLabel(dirBox, i18n("Look &in:"), pages[0], "named");
@@ -257,7 +257,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 		  " above are supported. Please refer to the documentation"
 		  " for a list of supported file types."
 	      "</qt>");
-    QToolTip::add(textEdit,containingtext);
+    textEdit->setToolTip(containingtext);
     QWhatsThis::add(textL,containingtext);
 
     caseContextCb  =new QCheckBox(i18n("Case s&ensitive"), pages[2]);
@@ -268,7 +268,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
       = i18n("<qt>This lets you search in any type of file, "
        "even those that usually do not contain text (for example "
 	   "program files and images).</qt>");
-    QToolTip::add(binaryContextCb,binaryTooltip);
+    binaryContextCb->setToolTip(binaryTooltip);
 
     QPushButton* editRegExp = 0;
     if ( !KTrader::self()->query("KRegExpEditor/KRegExpEditor").isEmpty() ) {
@@ -361,9 +361,9 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 	     "</ul>"
 	     "</qt>");
     QWhatsThis::add(textMetaInfo,whatsmetainfo);
-    QToolTip::add(metainfoEdit,whatsmetainfo);
+    metainfoEdit->setToolTip(whatsmetainfo);
     QWhatsThis::add(textMetaKey,whatsmetainfokey);
-    QToolTip::add(metainfokeyEdit,whatsmetainfokey);
+    metainfokeyEdit->setToolTip(whatsmetainfokey);
 
 
     fixLayout();
