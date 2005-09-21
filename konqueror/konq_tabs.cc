@@ -47,7 +47,7 @@
 #include <konq_pixmapprovider.h>
 #include <kstdaccel.h>
 #include <qtabbar.h>
-#include <q3whatsthis.h>
+
 #include <qstyle.h>
 
 #define DUPLICATE_ID 3
@@ -145,7 +145,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
              m_pViewManager->mainWindow(), SLOT( slotAddTab() ) );
     m_leftWidget->setIconSet( SmallIcon( "tab_new" ) );
     m_leftWidget->adjustSize();
-    QToolTip::add(m_leftWidget, i18n("Open a new tab"));
+    m_leftWidget->setToolTip( i18n("Open a new tab"));
     setCornerWidget( m_leftWidget, Qt::TopLeftCorner );
   }
   if ( KonqSettings::closeTabButton() ) {
@@ -154,7 +154,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
              m_pViewManager->mainWindow(), SLOT( slotRemoveTab() ) );
     m_rightWidget->setIconSet( SmallIconSet( "tab_remove" ) );
     m_rightWidget->adjustSize();
-    QToolTip::add(m_rightWidget, i18n("Close the current tab"));
+    m_rightWidget->setToolTip( i18n("Close the current tab"));
     setCornerWidget( m_rightWidget, Qt::TopRightCorner );
   }
 
