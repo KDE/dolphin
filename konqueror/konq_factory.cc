@@ -180,7 +180,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
   if ( prop.isValid() )
   {
     QString argStr = prop.toString();
-    args = QStringList::split( " ", argStr );
+    args = argStr.split( " ");
   }
 
   return KonqViewFactory( factory, args, service->serviceTypes().contains( "Browser/View" ) );

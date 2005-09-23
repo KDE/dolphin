@@ -50,7 +50,7 @@ FakeUASProvider::StatusCode FakeUASProvider::createNewUAProvider( const QString&
   }
   else
   {
-    split = QStringList::split("::", uaStr);
+    split = uaStr.split( "::");
   }
 
   if ( m_lstIdentity.contains(split[1]) )
