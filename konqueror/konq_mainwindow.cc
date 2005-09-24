@@ -1399,7 +1399,12 @@ void KonqMainWindow::slotOpenTerminal()
 
   KProcess cmd;
   cmd.setWorkingDirectory(dir);
-  cmd << term;
+
+  // Compensate for terminal having arguments.
+  QStringList args = QStringList::split(' ', term);
+  for ( QStringList::iterator it = args.begin(); it != args.end(); ++it )
+    cmd << *it;
+  
   kdDebug(1202) << "slotOpenTerminal: directory " << dir
 		<< ", terminal:" << term << endl;
   cmd.start(KProcess::DontCare);
