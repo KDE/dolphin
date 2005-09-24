@@ -579,14 +579,14 @@ void KfindTabWidget::setQuery(KQuery *query)
   // only start if we have valid dates
   if (!isDateValid()) return;
 
-  query->setPath(KURL(dirBox->currentText().stripWhiteSpace()));
+  query->setPath(KURL(dirBox->currentText().trimmed()));
 
   for (int idx=0; idx<dirBox->count(); idx++)
      if (dirBox->text(idx)==dirBox->currentText())
         itemAlreadyContained=true;
 
   if (!itemAlreadyContained)
-     dirBox->insertItem(dirBox->currentText().stripWhiteSpace(),0);
+     dirBox->insertItem(dirBox->currentText().trimmed(),0);
 
   QString regex = nameBox->currentText().isEmpty() ? "*" : nameBox->currentText();
   query->setRegExp(regex, caseSensCb->isChecked());
@@ -737,7 +737,7 @@ QDate &KfindTabWidget::string2Date(const QString & str, QDate *qd) {
 void KfindTabWidget::getDirectory()
 {
   QString result =
-  KFileDialog::getExistingDirectory( dirBox->text(dirBox->currentItem()).stripWhiteSpace(),
+  KFileDialog::getExistingDirectory( dirBox->text(dirBox->currentItem()).trimmed(),
                                      this );
 
   if (!result.isEmpty())
@@ -754,7 +754,7 @@ void KfindTabWidget::getDirectory()
 
 void KfindTabWidget::beginSearch()
 {
-///  dirlister->openURL(KURL(dirBox->currentText().stripWhiteSpace()));
+///  dirlister->openURL(KURL(dirBox->currentText().trimmed()));
 
   saveHistory();
   setEnabled( FALSE );
