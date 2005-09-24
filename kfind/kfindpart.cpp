@@ -46,7 +46,7 @@ KFindPart::KFindPart( QWidget * parentWidget, const char *widgetName,
     m_kfindWidget = new Kfind( parentWidget, widgetName );
     m_kfindWidget->setMaximumHeight(m_kfindWidget->minimumSizeHint().height());
     const KFileItem *item = ((KonqDirPart*)parent)->currentItem();
-    kdDebug() << "Kfind: currentItem:  " << ( item ? item->url().path().local8Bit() : QString("null") ) << endl;
+    kdDebug() << "Kfind: currentItem:  " << ( item ? item->url().path().toLocal8Bit() : QString("null") ) << endl;
     QDir d;
   	if( item && d.exists( item->url().path() ))
 	  	m_kfindWidget->setURL( item->url() );
