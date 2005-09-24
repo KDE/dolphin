@@ -441,7 +441,7 @@ void KQuery::setRegExp(const QString &regexp, bool caseSensitive)
 {
   QRegExp *regExp;
   QRegExp sep(";");
-  QStringList strList=QStringList::split( sep, regexp, false);
+  QStringList strList=regexp.split( sep, QString::SkipEmptyParts);
 //  QRegExp globChars ("[\\*\\?\\[\\]]", TRUE,  FALSE);
   while (!m_regexps.isEmpty())
       delete m_regexps.takeFirst();
