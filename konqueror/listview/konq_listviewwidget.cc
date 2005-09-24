@@ -360,7 +360,7 @@ void KonqBaseListViewWidget::createColumns()
    {
       if ( confColumns[i].displayThisOne && (confColumns[i].displayInColumn == currentColumn) )
       {
-         addColumn( i18n(confColumns[i].name.utf8()), confColumns[i].width );
+         addColumn( i18n(confColumns[i].name.toUtf8()), confColumns[i].width );
          if ( sortedByColumn == confColumns[i].desktopFileName )
             setSorting( currentColumn, m_bAscending );
          if ( confColumns[i].udsId == KIO::UDS_SIZE )

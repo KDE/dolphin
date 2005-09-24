@@ -110,7 +110,7 @@ void TestLinkItr::slotJobData(KIO::Job *job, const QByteArray &data) {
             int open_pos = (*it).find("<title>", 0, false);
             if (open_pos >= 0) {
                 QString leftover = (*it).mid(open_pos + 7);
-                int close_pos = leftover.findRev("</title>", -1, false);
+                int close_pos = leftover.lastIndexOf( "</title>", -1, Qt::CaseInsensitive );
                 if (close_pos >= 0) {
                     // if no end tag found then just 
                     // print the first line of the <title>

@@ -337,7 +337,7 @@ bool KManualProxyDlg::handleDuplicate( const QString& site )
     Q3ListBoxItem* item = mDlg->lbExceptions->firstItem();
     while ( item != 0 )
     {
-        if ( item->text().findRev( site ) != -1 &&
+        if ( item->text().lastIndexOf( site ) != -1 &&
              item != mDlg->lbExceptions->selectedItem() )
         {
             QString msg = i18n("You entered a duplicate address. "

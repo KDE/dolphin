@@ -426,7 +426,7 @@ static QString detectNameFilter( KURL & url )
     // Look for wildcard selection
     QString nameFilter;
     QString path = url.path();
-    int lastSlash = path.findRev( '/' );
+    int lastSlash = path.lastIndexOf( '/' );
     if ( lastSlash > -1 )
     {
         if ( !url.query().isEmpty() && lastSlash == (int)path.length()-1 ) {  //  In /tmp/?foo, foo isn't a query

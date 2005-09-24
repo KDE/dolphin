@@ -69,11 +69,11 @@ void HTMLExporter::visit(const KBookmark &bk) {
         if(m_showAddress)
         {
             m_out << bk.fullText() <<"<br>"<< endl;
-            m_out << "<i><div style =\"margin-left: 1em\">" << bk.url().url().utf8() << "</div></i>";
+            m_out << "<i><div style =\"margin-left: 1em\">" << bk.url().url().toUtf8() << "</div></i>";
         }
         else
         {
-            m_out << "<a href=\"" << bk.url().url().utf8() << "\">";
+            m_out << "<a href=\"" << bk.url().url().toUtf8() << "\">";
             m_out << bk.fullText() << "</a><br>" << endl;
         }
     }

@@ -94,7 +94,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
            it != profiles.end(); ++it)
        {
          QString file = *it;
-         file = file.mid(file.findRev('/')+1);
+         file = file.mid(file.lastIndexOf('/')+1);
          printf("%s\n", QFile::encodeName(file).data());
        }
 

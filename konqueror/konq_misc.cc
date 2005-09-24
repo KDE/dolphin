@@ -210,7 +210,7 @@ QString KonqMisc::konqFilteredURL( QWidget* parent, const QString& _url, const Q
     {
       if( data.uriType() == KURIFilterData::ERROR && !data.errorMsg().isEmpty() )
       {
-        KMessageBox::sorry( parent, i18n( data.errorMsg().utf8() ) );
+        KMessageBox::sorry( parent, i18n( data.errorMsg().toUtf8() ) );
         return QString::null;
       }
       else

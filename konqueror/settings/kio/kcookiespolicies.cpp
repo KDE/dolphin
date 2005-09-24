@@ -435,7 +435,7 @@ void KCookiesPolicies::defaults()
 void KCookiesPolicies::splitDomainAdvice (const QString& cfg, QString &domain,
                                           KCookieAdvice::Value &advice)
 {
-  int sepPos = cfg.findRev(':');
+  int sepPos = cfg.lastIndexOf(':');
 
   // Ignore any policy that does not contain a domain...
   if ( sepPos <= 0 )

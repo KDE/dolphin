@@ -78,7 +78,7 @@ QString KonqAboutPageFactory::loadFile( const QString& file )
 
     // otherwise all embedded objects are referenced as about:/...
     QString basehref = QLatin1String("<BASE HREF=\"file:") +
-		       file.left( file.findRev( '/' )) +
+		       file.left( file.lastIndexOf( '/' )) +
 		       QLatin1String("/\">\n");
     QRegExp reg("<head>");
     reg.setCaseSensitive(FALSE);

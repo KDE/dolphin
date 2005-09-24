@@ -187,7 +187,7 @@ void KDesktopConfig::save()
   // set desktop names
   for(int i = 1; i <= maxDesktops; i++)
   {
-    info.setDesktopName(i, (_nameInput[i-1]->text()).utf8());
+    info.setDesktopName(i, (_nameInput[i-1]->text()).toUtf8());
     info.activate();
   }
   // set number of desktops

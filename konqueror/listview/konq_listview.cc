@@ -173,7 +173,7 @@ void ListViewBrowserExtension::rename()
          le->setSelection(0, txt.length()-pattern.stripWhiteSpace().length()+1);
      else
      {
-         int lastDot = txt.findRev('.');
+         int lastDot = txt.lastIndexOf('.');
          if (lastDot > 0)
              le->setSelection(0, lastDot);
      }

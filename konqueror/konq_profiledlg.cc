@@ -141,7 +141,7 @@ void KonqProfileDlg::loadAllProfiles(const QString & preselectProfile)
     for (; eIt != eEnd; ++eIt )
     {
         Q3ListViewItem *item = new KonqProfileItem( m_pListView, eIt.key() );
-        QString filename = eIt.data().mid( eIt.data().findRev( '/' ) + 1 );
+        QString filename = eIt.data().mid( eIt.data().lastIndexOf( '/' ) + 1 );
         kdDebug(1202) << filename << endl;
         if ( filename == preselectProfile )
         {

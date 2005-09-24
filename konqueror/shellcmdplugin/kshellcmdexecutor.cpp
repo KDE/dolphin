@@ -70,8 +70,8 @@ int KShellCommandExecutor::exec()
 
    QList<QByteArray> args;
    args+="-c";
-   args+=m_command.local8Bit();
-   //kdDebug()<<"------- executing: "<<m_command.local8Bit()<<endl;
+   args+=m_command.toLocal8Bit();
+   //kdDebug()<<"------- executing: "<<m_command.toLocal8Bit()<<endl;
 
    QByteArray shell( getenv("SHELL") );
    if (shell.isEmpty())
@@ -121,7 +121,7 @@ void KShellCommandExecutor::writeDataToShell()
       i18n( "Input Required:" ), QString::null, &ok, this );
    if ( ok )
    {
-      Q3CString input=str.local8Bit();
+      Q3CString input=str.toLocal8Bit();
       ::write(m_shellProcess->fd(),input,input.length());
       ::write(m_shellProcess->fd(),"\n",1);
    }

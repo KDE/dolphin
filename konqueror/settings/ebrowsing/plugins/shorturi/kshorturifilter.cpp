@@ -259,7 +259,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
     else // ~username/
     {
       QString user = path.mid( 1, slashPos-1 );
-      struct passwd *dir = getpwnam(user.local8Bit().data());
+      struct passwd *dir = getpwnam(user.toLocal8Bit().data());
       if( dir && strlen(dir->pw_dir) )
       {
         path.replace (0, slashPos, QString::fromLocal8Bit(dir->pw_dir));
@@ -282,7 +282,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
     QRegExp r (QFL1(ENV_VAR_PATTERN));
     if ( r.search( path ) == 0 )
     {
-      const char* exp = getenv( path.mid( 1, r.matchedLength() - 1 ).local8Bit().data() );
+      const char* exp = getenv( path.mid( 1, r.matchedLength() - 1 ).toLocal8Bit().data() );
       if(exp)
       {
         path.replace( 0, r.matchedLength(), QString::fromLocal8Bit(exp) );
@@ -346,7 +346,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
     if ( !exists ) {
       // Support for name filter (/foo/*.txt), see also KonqMainWindow::detectNameFilter
       // If the app using this filter doesn't support it, well, it'll simply error out itself
-      int lastSlash = path.findRev( '/' );
+      int lastSlash = path.lastIndexOf( '/' );
       if ( lastSlash > -1 && path.find( ' ', lastSlash ) == -1 ) // no space after last slash, otherwise it's more likely command-line arguments
       {
         QString fileName = path.mid( lastSlash + 1 );

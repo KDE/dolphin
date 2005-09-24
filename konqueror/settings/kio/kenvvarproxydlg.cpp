@@ -72,7 +72,7 @@ void KEnvVarProxyDlg::setProxyData( const KProxyData& data )
   if (!u.isEmpty() && !u.isValid())
   {
     mEnvVarsMap["http"].name = data.proxyList["http"];
-    mEnvVarsMap["http"].value = QString::fromLocal8Bit( getenv(data.proxyList["http"].local8Bit()) );
+    mEnvVarsMap["http"].value = QString::fromLocal8Bit( getenv(data.proxyList["http"].toLocal8Bit()) );
   }
 
   // Setup HTTPS Proxy...
@@ -80,7 +80,7 @@ void KEnvVarProxyDlg::setProxyData( const KProxyData& data )
   if (!u.isEmpty() && !u.isValid())
   {
     mEnvVarsMap["https"].name = data.proxyList["https"];
-    mEnvVarsMap["https"].value = QString::fromLocal8Bit( getenv(data.proxyList["https"].local8Bit()) );
+    mEnvVarsMap["https"].value = QString::fromLocal8Bit( getenv(data.proxyList["https"].toLocal8Bit()) );
   }
 
   // Setup FTP Proxy...
@@ -88,7 +88,7 @@ void KEnvVarProxyDlg::setProxyData( const KProxyData& data )
   if (!u.isEmpty() && !u.isValid())
   {
     mEnvVarsMap["ftp"].name = data.proxyList["ftp"];
-    mEnvVarsMap["ftp"].value = QString::fromLocal8Bit( getenv(data.proxyList["ftp"].local8Bit()) );
+    mEnvVarsMap["ftp"].value = QString::fromLocal8Bit( getenv(data.proxyList["ftp"].toLocal8Bit()) );
   }
 
   u = data.noProxyFor.join(",");
@@ -96,7 +96,7 @@ void KEnvVarProxyDlg::setProxyData( const KProxyData& data )
   {
     QString noProxy = u.url();
     mEnvVarsMap["noProxy"].name = noProxy;
-    mEnvVarsMap["noProxy"].value = QString::fromLocal8Bit( getenv(noProxy.local8Bit()) );
+    mEnvVarsMap["noProxy"].value = QString::fromLocal8Bit( getenv(noProxy.toLocal8Bit()) );
   }
 
   mDlg->cbShowValue->setChecked( data.showEnvVarValue );
@@ -160,7 +160,7 @@ void KEnvVarProxyDlg::autoDetectPressed()
   QStringList list = QStringList::split( ',', QLatin1String(ENV_HTTP_PROXY) );
   for( it = list.begin(); it != list.end(); ++it )
   {
-    env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
+    env = QString::fromLocal8Bit( getenv( (*it).toLocal8Bit() ) );
     if ( !env.isEmpty() )
     {
       mEnvVarsMap ["http"].name = *it;
@@ -175,7 +175,7 @@ void KEnvVarProxyDlg::autoDetectPressed()
   list = QStringList::split( ',', QLatin1String(ENV_HTTPS_PROXY));
   for( it = list.begin(); it != list.end(); ++it )
   {
-    env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
+    env = QString::fromLocal8Bit( getenv( (*it).toLocal8Bit() ) );
     if ( !env.isEmpty() )
     {
       mEnvVarsMap ["https"].name = *it;
@@ -190,7 +190,7 @@ void KEnvVarProxyDlg::autoDetectPressed()
   list = QStringList::split( ',', QLatin1String(ENV_FTP_PROXY) );
   for(it = list.begin(); it != list.end(); ++it )
   {
-    env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
+    env = QString::fromLocal8Bit( getenv( (*it).toLocal8Bit() ) );
     if ( !env.isEmpty() )
     {
       mEnvVarsMap ["ftp"].name = *it;
@@ -205,7 +205,7 @@ void KEnvVarProxyDlg::autoDetectPressed()
   list = QStringList::split( ',', QLatin1String(NO_PROXY) );
   for(it = list.begin(); it != list.end(); ++it )
   {
-    env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
+    env = QString::fromLocal8Bit( getenv( (*it).toLocal8Bit() ) );
     if ( !env.isEmpty() )
     {
       mEnvVarsMap ["noProxy"].name = *it;

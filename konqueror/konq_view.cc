@@ -124,7 +124,7 @@ KonqView::~KonqView()
      if (part_url.isNull())
         part_url = "";
      Q3CString line;
-     line = ( QString("close(%1):%2\n").arg(m_randID,0,16).arg(part_url) ).utf8();
+     line = ( QString("close(%1):%2\n").arg(m_randID,0,16).arg(part_url) ).toUtf8();
      KonqMainWindow::s_crashlog_file->writeBlock(line, line.length());
      KonqMainWindow::s_crashlog_file->flush();
   }
@@ -162,9 +162,9 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL,
 
      Q3CString line;
 
-     line = ( QString("closed(%1):%2\n").arg(m_randID,0,16).arg(part_url) ).utf8();
+     line = ( QString("closed(%1):%2\n").arg(m_randID,0,16).arg(part_url) ).toUtf8();
      KonqMainWindow::s_crashlog_file->writeBlock(line,line.length());
-     line = ( QString("opened(%3):%4\n").arg(m_randID,0,16).arg(url_url)  ).utf8();
+     line = ( QString("opened(%3):%4\n").arg(m_randID,0,16).arg(url_url)  ).toUtf8();
      KonqMainWindow::s_crashlog_file->writeBlock(line,line.length());
      KonqMainWindow::s_crashlog_file->flush();
   }
@@ -1134,7 +1134,7 @@ void KonqView::setViewName( const QString &name )
 {
     //kdDebug() << "KonqView::setViewName this=" << this << " name=" << name << endl;
     if ( m_pPart )
-        m_pPart->setName( name.local8Bit().data() );
+        m_pPart->setName( name.toLocal8Bit().data() );
 }
 
 QString KonqView::viewName() const
