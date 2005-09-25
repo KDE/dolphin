@@ -35,6 +35,9 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
               "pages you view."));
 
   QString wtstr;
+  //initialise fonts list otherwise it crashs
+    while (fonts.count() < 7)
+       fonts.append(QString::null);
 
   QGridLayout *lay = new QGridLayout(this, 1 ,1 , 0, KDialog::spacingHint());
   int r = 0;
