@@ -178,7 +178,7 @@ QString IEImportCommand::requestFilename() const {
 
 QString GaleonImportCommand::requestFilename() const {
     return KFileDialog::getOpenFileName(
-            QDir::homeDirPath() + "/.galeon",
+            QDir::homePath() + "/.galeon",
             i18n("*.xbel|Galeon Bookmark Files (*.xbel)"));
 }
 

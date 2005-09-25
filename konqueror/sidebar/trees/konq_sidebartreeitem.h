@@ -101,7 +101,7 @@ public:
     // returns the tree inside which this item is
     KonqSidebarTree *tree() const;
 
-    virtual QString key( int column, bool ) const { return text( column ).lower(); }
+    virtual QString key( int column, bool ) const { return text( column ).toLower(); }
     
     // List of alternative names (URLs) this entry is known under
     QStringList alias;

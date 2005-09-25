@@ -83,9 +83,9 @@ class KHTMLSideBar : public KHTMLPart
 				int state, const QString &_target,
 				KParts::URLArgs args = KParts::URLArgs()) {
 			if (button == Qt::LeftButton ){
-				if (_target.lower() == "_self") {
+				if (_target.toLower() == "_self") {
 					openURL(url);
-				} else if (_target.lower() == "_blank") {
+				} else if (_target.toLower() == "_blank") {
 					emit openURLNewWindow(completeURL(url).url(), args);
 				} else { // isEmpty goes here too
 					emit openURLRequest(completeURL(url).url(), args);
@@ -98,7 +98,7 @@ class KHTMLSideBar : public KHTMLPart
 				return;
 			}
 			// A refresh
-			if (button == 0 && _target.lower() == "_self") {
+			if (button == 0 && _target.toLower() == "_self") {
 				openURL(completeURL(url));
 				return;
 			}
@@ -131,10 +131,10 @@ class KHTMLSideBar : public KHTMLPart
 				const QString& target,
 				const QString& contentType,
 				const QString& boundary) {
-			QString t = target.lower();
+			QString t = target.toLower();
 			QString u;
 
-			if (Q3CString(action).lower() != "post") {
+			if (Q3CString(action).toLower() != "post") {
 				// GET
 				KURL kurl = completeURL(url);
 				kurl.setQuery(formData.data());

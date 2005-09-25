@@ -54,7 +54,7 @@ void KonqSidebarHistoryItem::update( const KonqHistoryEntry *entry )
         return;
 
     QString title( entry->title );
-    if ( !title.stripWhiteSpace().isEmpty() &&
+    if ( !title.trimmed().isEmpty() &&
 	 title != entry->url.url() )
 	setText( 0, title );
     else {

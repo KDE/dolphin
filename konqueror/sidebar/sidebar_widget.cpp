@@ -83,13 +83,13 @@ void addBackEnd::aboutToShowAddMenu()
 			continue;
 		}
 		if (m_universal) {
-			if (confFile->readEntry("X-KDE-KonqSidebarUniversal").upper()!="TRUE") {
+			if (confFile->readEntry("X-KDE-KonqSidebarUniversal").toUpper()!="TRUE") {
 				delete confFile;
 				i--;
 				continue;
 			}
 		} else {
-			if (confFile->readEntry("X-KDE-KonqSidebarBrowser").upper()=="FALSE") {
+			if (confFile->readEntry("X-KDE-KonqSidebarBrowser").toUpper()=="FALSE") {
 				delete confFile;
 				i--;
 				continue;
@@ -1073,7 +1073,7 @@ KParts::URLArgs args;
 
 	args.setContentType("Content-Type: " + contentType);
 	args.postData = formData;
-	args.setDoPost(Q3CString(action).lower() == "post");
+	args.setDoPost(Q3CString(action).toLower() == "post");
 	// boundary?
 	emit getExtension()->openURLRequest(KURL( url ), args);
 }

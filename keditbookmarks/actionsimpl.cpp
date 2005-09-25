@@ -236,7 +236,7 @@ void CurrentMgr::doExport(ExportType type, const QString & _path) {
     } else if (type == HTMLExport) {
         if (path.isNull())
             path = KFileDialog::getSaveFileName(
-                        QDir::homeDirPath(),
+                        QDir::homePath(),
                         i18n("*.html|HTML Bookmark Listing") );
         HTMLExporter exporter;
         exporter.write(mgr()->root(), path);

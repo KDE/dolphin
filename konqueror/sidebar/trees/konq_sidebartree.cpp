@@ -782,7 +782,7 @@ void KonqSidebarTree::loadTopLevelItem( KonqSidebarTreeItem *parent,  const QStr
     if (func!=0)
 	{
 		kdDebug(1201)<<"showHidden: "<<showHidden<<endl;
-		module=func(this,showHidden.upper()=="TRUE");
+		module=func(this,showHidden.toUpper()=="TRUE");
 	}
 
     if (module==0) {kdDebug()<<"No Module loaded"<<endl; return;}

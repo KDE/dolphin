@@ -477,7 +477,7 @@ bool clientApp::doIt()
     if ( argc == 1 )
     {
       KURL url;
-      url.setPath(QDir::homeDirPath());
+      url.setPath(QDir::homePath());
       return createNewWindow( url, command == "newTab", tempFile );
     }
     if ( argc == 2 )

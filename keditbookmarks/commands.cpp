@@ -476,7 +476,7 @@ class SortByName {
     public:
         static QString key(const SortItem &item) { 
             return (item.bookmark().isGroup() ? "a" : "b") 
-                + (item.bookmark().fullText().lower()); 
+                + (item.bookmark().fullText().toLower()); 
         }
 };
 
