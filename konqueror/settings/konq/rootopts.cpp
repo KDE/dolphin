@@ -135,9 +135,9 @@ void DesktopPathConfig::load()
 void DesktopPathConfig::defaults()
 {
     // Desktop Paths - keep defaults in sync with kglobalsettings.cpp
-    urDesktop->setURL( QDir::homeDirPath() + "/Desktop/" );
+    urDesktop->setURL( QDir::homePath() + "/Desktop/" );
     urAutostart->setURL( KGlobal::dirs()->localkdedir() + "Autostart/" );
-    urDocument->setURL( QDir::homeDirPath() );
+    urDocument->setURL( QDir::homePath() );
 }
 
 void DesktopPathConfig::save()

@@ -146,10 +146,10 @@ int main(int argc, char ** argv)
 
     QStringList patterns;
     if ( arg.length() > 2 )
-	patterns << arg.lower() << arg.upper();
+	patterns << arg.toLower() << arg.toUpper();
     QString comment;
     if ( arg.startsWith( "*." ) && arg.length() >= 3 ) {
-	QString type = arg.mid( 3 ).prepend( arg[2].upper() );
+	QString type = arg.mid( 3 ).prepend( arg[2].toUpper() );
         comment = i18n( "%1 File" ).arg( type );
     }
     mime = new KMimeType( loc, mimeString.arg( inc ), QString::null, comment, patterns );

@@ -254,7 +254,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
       slashPos = path.length();
     if( slashPos == 1 )   // ~/
     {
-      path.replace ( 0, 1, QDir::homeDirPath() );
+      path.replace ( 0, 1, QDir::homePath() );
     }
     else // ~username/
     {
@@ -322,13 +322,13 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
   struct stat buff;
   if ( canBeLocalAbsolute )
   {
-    QString abs = QDir::cleanDirPath( abs_path );
+    QString abs = QDir::cleanPath( abs_path );
     // combine absolute path (abs_path) and relative path (cmd) into abs_path
     int len = path.length();
     if( (len==1 && path[0]=='.') || (len==2 && path[0]=='.' && path[1]=='.') )
         path += '/';
     //kdDebug() << "adding " << abs << " and " << path << endl;
-    abs = QDir::cleanDirPath(abs + '/' + path);
+    abs = QDir::cleanPath(abs + '/' + path);
     //kdDebug() << "checking whether " << abs << " exists." << endl;
     // Check if it exists
     if( stat( QFile::encodeName(abs).data(), &buff ) == 0 )

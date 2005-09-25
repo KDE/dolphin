@@ -100,7 +100,7 @@ void SMBRoOptions::load()
 
    QStringList _strList = KGlobal::charsets()->availableEncodingNames();
    QString m_encoding = QTextCodec::codecForLocale()->name();
-   m_encodingList->setCurrentItem( _strList.findIndex( cfg->readEntry( "Encoding", m_encoding.lower() ) ) );
+   m_encodingList->setCurrentItem( _strList.findIndex( cfg->readEntry( "Encoding", m_encoding.toLower() ) ) );
 
    // unscramble
    QString scrambled = cfg->readEntry( "Password" );

@@ -165,7 +165,7 @@ void KCMFilter::importFilters()
             while (!ts.atEnd())
             {
                 line = ts.readLine();
-                if (line.lower().compare("[adblock]") == 0)
+                if (line.toLower().compare("[adblock]") == 0)
                     continue;
                 
                 // Treat leading ! as filter comment, otherwise check expressions

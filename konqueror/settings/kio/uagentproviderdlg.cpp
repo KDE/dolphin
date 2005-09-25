@@ -134,7 +134,7 @@ void UAProviderDlg::setIdentity( const QString& text )
 
 QString UAProviderDlg::siteName()
 {
-  QString site_name=dlg->leSite->text().lower();
+  QString site_name=dlg->leSite->text().toLower();
   site_name = site_name.remove( "https://" );
   site_name = site_name.remove( "http://" );
   return site_name;

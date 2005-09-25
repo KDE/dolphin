@@ -43,7 +43,7 @@ Policies::~Policies() {
 
 void Policies::setDomain(const QString &domain) {
   if (is_global) return;
-  this->domain = domain.lower();
+  this->domain = domain.toLower();
   groupname = this->domain;	// group is domain in this case
 }
 

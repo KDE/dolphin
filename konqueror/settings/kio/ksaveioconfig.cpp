@@ -202,7 +202,7 @@ void KSaveIOConfig::setProxyFor( const QString& protocol,
 {
   KConfig* cfg = config ();
   cfg->setGroup( "Proxy Settings" );
-  cfg->writeEntry( protocol.lower() + "Proxy", _proxy );
+  cfg->writeEntry( protocol.toLower() + "Proxy", _proxy );
   cfg->sync();
 }
 

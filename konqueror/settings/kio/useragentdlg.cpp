@@ -102,7 +102,7 @@ void UserAgentDlg::load()
       if (!agentStr.isEmpty())
       {
          QString realName = m_provider->aliasStr(agentStr);
-         new Q3ListViewItem( dlg->lvDomainPolicyList, domain.lower(), realName, agentStr );
+         new Q3ListViewItem( dlg->lvDomainPolicyList, domain.toLower(), realName, agentStr );
       }
   }
 
@@ -110,7 +110,7 @@ void UserAgentDlg::load()
   m_config->setGroup(QString::null);
   bool b = m_config->readBoolEntry("SendUserAgent", true);
   dlg->cbSendUAString->setChecked( b );
-  m_ua_keys = m_config->readEntry("UserAgentKeys", DEFAULT_USER_AGENT_KEYS).lower();
+  m_ua_keys = m_config->readEntry("UserAgentKeys", DEFAULT_USER_AGENT_KEYS).toLower();
   dlg->leDefaultId->setSqueezedText( KProtocolManager::defaultUserAgent( m_ua_keys ) );
   dlg->cbOS->setChecked( m_ua_keys.contains('o') );
   dlg->cbOSVersion->setChecked( m_ua_keys.contains('v') );

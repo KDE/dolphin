@@ -91,9 +91,9 @@ void SearchProviderDialog::slotOk()
 
     if (!m_provider)
         m_provider = new SearchProvider;
-    m_provider->setName(m_dlg->leName->text().stripWhiteSpace());
-    m_provider->setQuery(m_dlg->leQuery->text().stripWhiteSpace());
-    m_provider->setKeys(QStringList::split(",", m_dlg->leShortcut->text().stripWhiteSpace()));
+    m_provider->setName(m_dlg->leName->text().trimmed());
+    m_provider->setQuery(m_dlg->leQuery->text().trimmed());
+    m_provider->setKeys(QStringList::split(",", m_dlg->leShortcut->text().trimmed()));
     m_provider->setCharset(m_dlg->cbCharset->currentItem() ? m_dlg->cbCharset->currentText() : QString::null);
     KDialog::accept();
 }

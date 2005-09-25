@@ -158,7 +158,7 @@ QStringList KURISearchFilterEngine::modifySubstitutionMap(SubstMap& map,
   }
 
   // Split user query between spaces:
-  QStringList l = QStringList::split(" ", userquery.simplifyWhiteSpace());
+  QStringList l = QStringList::split(" ", userquery.simplified());
 
   // Back-substitute quoted strings (%20 -> " "):
   {
@@ -292,7 +292,7 @@ QString KURISearchFilterEngine::substituteQuery(const QString& url, SubstMap &ma
             ql[i-1] = "";
           }
 
-          v = v.stripWhiteSpace();
+          v = v.trimmed();
           if (!v.isEmpty())
             found = true;
 
@@ -364,7 +364,7 @@ QString KURISearchFilterEngine::substituteQuery(const QString& url, SubstMap &ma
       for (int i=0; i<ql.count(); i++) {
         v += " " + ql[i];
       }
-      v = v.simplifyWhiteSpace();
+      v = v.simplified();
       PDVAR ("    rest", v);
       v = encodeString(v, encodingMib);
 

@@ -147,7 +147,7 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
     {
       // "no_proxy" is a keyword used by the environment variable
       // based configuration. We ignore it here as it is not applicable...
-      if ((*it).lower() != "no_proxy" && !(*it).isEmpty())
+      if ((*it).toLower() != "no_proxy" && !(*it).isEmpty())
       {
         // Validate the NOPROXYFOR entries and use only hostnames if the entry is 
         // a valid or legitimate URL. NOTE: needed to catch manual manipulation

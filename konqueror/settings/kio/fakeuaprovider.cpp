@@ -118,7 +118,7 @@ void FakeUASProvider::parseDescription()
     m_lstIdentity << tmp;
 
     tmp = QString("%1 %2").arg(UA_PTOS("X-KDE-UA-SYSNAME")).arg(UA_PTOS("X-KDE-UA-SYSRELEASE"));
-    if ( tmp.stripWhiteSpace().isEmpty() )
+    if ( tmp.trimmed().isEmpty() )
       tmp = QString("%1 %2").arg(UA_PTOS("X-KDE-UA-"
                     "NAME")).arg(UA_PTOS("X-KDE-UA-VERSION"));
     else

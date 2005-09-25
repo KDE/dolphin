@@ -354,7 +354,7 @@ void KPluginOptions::progress(KProcIO *proc)
     QString line;
     while(proc->readln(line) > 0)
         ;
-    m_progress->setValue(line.stripWhiteSpace().toInt());
+    m_progress->setValue(line.trimmed().toInt());
 }
 
 void KPluginOptions::scanDone()
@@ -575,7 +575,7 @@ void KPluginOptions::pluginLoad( KConfig* /*config*/ )
         }
 
         QStringList desc = QStringList::split(':', line, TRUE);
-        QString mime = desc[0].stripWhiteSpace();
+        QString mime = desc[0].trimmed();
         QString name = desc[2];
         QString suffixes = desc[1];
 

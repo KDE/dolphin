@@ -237,7 +237,7 @@ void FilterOptions::save()
         for (QStringList::ConstIterator it = provider->keys().begin(); it != provider->keys().end(); ++it)
         {
             if ((*it).length() > name.length())
-                name = (*it).lower();
+                name = (*it).toLower();
         }
         for (int suffix = 0; ; ++suffix)
         {
