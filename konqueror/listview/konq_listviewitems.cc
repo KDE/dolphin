@@ -233,7 +233,7 @@ const QPixmap* KonqListViewItem::pixmap( int column ) const
    if ((int)m_pixmaps.count() <= column)
       return 0;
 
-   if( column < m_pixmaps.size())
+   if( column >= m_pixmaps.size())
 		   return 0;
    QPixmap *pm = m_pixmaps.at( column );
    return pm;
