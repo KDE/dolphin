@@ -122,7 +122,7 @@ public:
    KonqPropsView *props() const;
 
    //QPtrList<ColumnInfo> *columnConfigInfo() { return &confColumns; };
-   Q3ValueVector<ColumnInfo>& columnConfigInfo() { return confColumns; };
+   QVector<ColumnInfo>& columnConfigInfo() { return confColumns; };
    QString sortedByColumn;
 
    virtual void setShowIcons( bool enable ) { m_showIcons = enable; }
@@ -234,7 +234,7 @@ protected:
    //we have a fixed number of members,
    //it consumes less memory and access should be faster (Alex)
    // This might not be the case for ever... we should introduce custom fields in kio (David)
-   Q3ValueVector<ColumnInfo> confColumns;
+   QVector<ColumnInfo> confColumns;
 
    KonqBaseListViewItem *m_dragOverItem;
    KonqBaseListViewItem *m_activeItem;

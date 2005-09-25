@@ -114,7 +114,7 @@ class KonqListViewItem : public KonqBaseListViewItem
       virtual const QPixmap * pixmap( int column ) const;
 
 private:
-      Q3ValueVector<QPixmap *> m_pixmaps;
+      QVector<QPixmap *> m_pixmaps;
 };
 
 #endif

@@ -70,7 +70,7 @@ KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KFi
 
 KonqListViewItem::~KonqListViewItem()
 {
-   for ( Q3ValueVector<QPixmap*>::iterator
+   for ( QVector<QPixmap*>::iterator
             it = m_pixmaps.begin(), itEnd = m_pixmaps.end();
          it != itEnd; ++it )
       delete *it;
@@ -230,13 +230,12 @@ void KonqListViewItem::setPixmap( int column, const QPixmap& pm )
 
 const QPixmap* KonqListViewItem::pixmap( int column ) const
 {
-   bool ok;
    if ((int)m_pixmaps.count() <= column)
       return 0;
 
-   QPixmap *pm = m_pixmaps.at( column, &ok );
-   if( !ok )
-      return 0;
+   if( column < m_pixmaps.size())
+		   return 0;
+   QPixmap *pm = m_pixmaps.at( column );
    return pm;
 }
 
