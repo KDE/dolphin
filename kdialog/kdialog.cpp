@@ -173,7 +173,7 @@ static int directCommand(KCmdLineArgs *args)
       WId id = 0;
       if (embed) {
           bool ok;
-          long l = Q3CString(args->getOption("embed")).toLong(&ok);
+          long l = QString(args->getOption("embed")).toLong(&ok);
           if (ok)
               id = (WId)l;
       }
@@ -182,7 +182,7 @@ static int directCommand(KCmdLineArgs *args)
 
     // --yesno and other message boxes
     KMessageBox::DialogType type = (KMessageBox::DialogType) 0;
-    Q3CString option;
+    QByteArray option;
     if (args->isSet("yesno")) {
         option = "yesno";
         type = KMessageBox::QuestionYesNo;
