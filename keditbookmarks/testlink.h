@@ -21,8 +21,6 @@
 #define __testlink_h
 
 #include <qobject.h>
-//Added by qt3to4:
-#include <Q3ValueList>
 
 #include <kio/job.h>
 #include <kbookmark.h>

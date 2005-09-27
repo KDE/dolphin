@@ -19,7 +19,6 @@
 #ifndef __bookmarkmodel_h
 #define __bookmarkmodel_h
 
-#include <q3valuevector.h>
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QVariant>

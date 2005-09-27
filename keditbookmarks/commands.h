@@ -25,8 +25,6 @@
 #include <kbookmark.h>
 //Added by qt3to4:
 #include <QMap>
-#include <Q3ValueList>
-#include <Q3PtrList>
 #include <Q3MimeSourceFactory>
 
 

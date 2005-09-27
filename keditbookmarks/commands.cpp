@@ -27,7 +27,6 @@
 #include "toplevel.h"
 
 #include <assert.h>
-#include <q3valuevector.h>
 
 #include <kdebug.h>
 #include <klocale.h>
@@ -37,9 +36,7 @@
 
 #include <kurldrag.h>
 #include <kdesktopfile.h>
-//Added by qt3to4:
-#include <Q3ValueList>
-#include <Q3PtrList>
+
 
 QString KEBMacroCommand::affectedBookmarks() const
 {

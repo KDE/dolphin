@@ -29,7 +29,6 @@
 #include <kcommand.h>
 #include <kbookmark.h>
 
-#include <q3ptrstack.h>
 #include <qobject.h>
 
 // part pure

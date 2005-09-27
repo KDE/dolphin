@@ -36,8 +36,6 @@
 #include <qsplitter.h>
 #include <qlayout.h>
 #include <qlabel.h>
-//Added by qt3to4:
-#include <Q3ValueList>
 
 #include <klocale.h>
 #include <kdebug.h>

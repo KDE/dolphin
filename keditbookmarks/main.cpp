@@ -39,8 +39,6 @@
 
 #include <kbookmarkmanager.h>
 #include <kbookmarkexporter.h>
-//Added by qt3to4:
-#include <Q3CString>
 
 static KCmdLineOptions options[] = {
     {"importmoz <filename>", I18N_NOOP("Import bookmarks from a file in Mozilla format"), 0},

@@ -26,7 +26,6 @@
 #include <stdlib.h>
 
 #include <qclipboard.h>
-#include <q3popupmenu.h>
 #include <qpainter.h>
 
 #include <klocale.h>
