@@ -272,7 +272,7 @@ void XBELImportCommand::doExecute(const KBookmarkGroup &/*bkGroup*/) {
     } else {
         QDomElement root = CurrentMgr::self()->root().internalElement();
 
-        Q3ValueList<QDomElement> childList;
+        QList<QDomElement> childList;
 
         QDomNode n = subDoc.firstChild().toElement();
         while (!n.isNull()) {
@@ -282,8 +282,8 @@ void XBELImportCommand::doExecute(const KBookmarkGroup &/*bkGroup*/) {
             n = n.nextSibling();
         }
 
-        Q3ValueList<QDomElement>::Iterator it = childList.begin();
-        Q3ValueList<QDomElement>::Iterator end = childList.end();
+        QList<QDomElement>::Iterator it = childList.begin();
+        QList<QDomElement>::Iterator end = childList.end();
         for (; it!= end ; ++it)
             root.appendChild((*it));
     }

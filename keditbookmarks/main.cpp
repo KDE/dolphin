@@ -60,7 +60,7 @@ static KCmdLineOptions options[] = {
 };
 
 static void continueInWindow(QString _wname) {
-    Q3CString wname = _wname.latin1();
+    DCOPCString wname = _wname.latin1();
     int id = -1;
 
     DCOPCStringList apps = kapp->dcopClient()->registeredApplications();

@@ -421,7 +421,7 @@ void ActionsImpl::slotExportMoz() {
 
 /* -------------------------------------- */
 
-static Q3CString s_appId, s_objId;
+static DCOPCString s_appId, s_objId;
 static KParts::ReadOnlyPart *s_part;
 
 void ActionsImpl::slotPrint() {
