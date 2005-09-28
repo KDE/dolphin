@@ -30,7 +30,7 @@
 #include <qtooltip.h>
 //Added by qt3to4:
 #include <QPixmap>
-#include <Q3CString>
+#include <QByteArray>
 #include <QDragLeaveEvent>
 #include <Q3PtrList>
 #include <QDragMoveEvent>
@@ -172,7 +172,7 @@ private:
         AnimationInfo( const char * _iconBaseName, uint _iconCount, const QPixmap & _originalPixmap )
             : iconBaseName(_iconBaseName), iconCount(_iconCount), iconNumber(1), originalPixmap(_originalPixmap) {}
         AnimationInfo() : iconCount(0) {}
-        Q3CString iconBaseName;
+        QByteArray iconBaseName;
         uint iconCount;
         uint iconNumber;
         QPixmap originalPixmap;

@@ -64,7 +64,7 @@ void KonqSidebarDirTreeItem::reset()
         KURL url = m_fileItem->url();
         if ( url.isLocalFile() )
         {
-            Q3CString path( QFile::encodeName(url.path()));
+            QByteArray path( QFile::encodeName(url.path()));
             struct stat buff;
             if ( ::stat( path.data(), &buff ) != -1 )
             {

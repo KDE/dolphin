@@ -134,7 +134,7 @@ class KHTMLSideBar : public KHTMLPart
 			QString t = target.toLower();
 			QString u;
 
-			if (Q3CString(action).toLower() != "post") {
+			if (QString(action).toLower() != "post") {
 				// GET
 				KURL kurl = completeURL(url);
 				kurl.setQuery(formData.data());
