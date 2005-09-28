@@ -563,7 +563,7 @@ KEBMacroCommand* CmdGen::insertMimeSource(
                 continue; // break out of format loop
             KURL::List::ConstIterator uit = uris.begin();
             KURL::List::ConstIterator uEnd = uris.end();
-            Q3ValueList<KBookmark> urlBks;
+            QList<KBookmark> urlBks;
             for ( ; uit != uEnd ; ++uit ) {
                 if (!(*uit).url().endsWith(".desktop"))  {
                     urlBks << KBookmark::standaloneBookmark((*uit).prettyURL(), (*uit));
