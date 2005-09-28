@@ -50,10 +50,10 @@ QString KEBMacroCommand::affectedBookmarks() const
     return affectBook;
 }
 
-DeleteManyCommand::DeleteManyCommand(const QString &name, const QVector<KBookmark> & bookmarks)
+DeleteManyCommand::DeleteManyCommand(const QString &name, const QList<KBookmark> & bookmarks)
     : KEBMacroCommand(name)
 {
-    QVector<KBookmark>::const_iterator it, begin;
+    QList<KBookmark>::const_iterator it, begin;
     begin = bookmarks.constBegin();
     it = bookmarks.constEnd();
     while(begin != it)
@@ -602,12 +602,12 @@ KEBMacroCommand* CmdGen::insertMimeSource(
     return mcmd;
 }
 
-KEBMacroCommand* CmdGen::itemsMoved(const QVector<KBookmark> & items, 
+KEBMacroCommand* CmdGen::itemsMoved(const QList<KBookmark> & items, 
         const QString &newAddress, bool copy) {
     KEBMacroCommand *mcmd = new KEBMacroCommand(copy ? i18n("Copy Items") 
             : i18n("Move Items"));
 
-    QVector<KBookmark>::const_iterator it, end;
+    QList<KBookmark>::const_iterator it, end;
     it = items.begin();
     end = items.end();
 

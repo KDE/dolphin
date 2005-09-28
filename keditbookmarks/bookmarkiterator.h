@@ -1,4 +1,3 @@
-// -*- mode:cperl; cperl-indent-level:4; cperl-continued-statement-offset:4; indent-tabs-mode:nil -*-
 // vim: set ts=4 sts=4 sw=4 et:
 /* This file is part of the KDE project
    Copyright (C) 2002-2003 Alexander Kellett <lypanov@kde.org>
@@ -22,8 +21,7 @@
 #define __bookmarkiterator_h
 
 #include <qobject.h>
-#include <q3ptrlist.h>
-#include <QVector>
+#include <QList>
 #include <kbookmark.h>
 
 class KEBListViewItem;
@@ -34,7 +32,7 @@ class BookmarkIterator : public QObject
    Q_OBJECT
 
 public:
-   BookmarkIterator(QVector<KBookmark> bks);
+   BookmarkIterator(QList<KBookmark> bks);
    virtual ~BookmarkIterator();
    virtual BookmarkIteratorHolder* holder() const = 0;
 
@@ -53,7 +51,7 @@ protected:
 
 private:
    KBookmark m_bk;
-   QVector<KBookmark> m_bklist;
+   QList<KBookmark> m_bklist;
 };
 
 class BookmarkIteratorHolder
@@ -68,7 +66,7 @@ protected:
    virtual void doItrListChanged() = 0;
    int count() const { return m_itrs.count(); }
 private:
-   Q3PtrList<BookmarkIterator> m_itrs;
+   QList<BookmarkIterator *> m_itrs;
 };
 
 #endif

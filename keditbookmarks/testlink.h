@@ -53,7 +53,7 @@ class TestLinkItr : public BookmarkIterator
    Q_OBJECT
 
 public:
-   TestLinkItr(QVector<KBookmark> bks);
+   TestLinkItr(QList<KBookmark> bks);
    ~TestLinkItr();
    virtual TestLinkItrHolder* holder() const { return TestLinkItrHolder::self(); }
 

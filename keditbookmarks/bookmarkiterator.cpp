@@ -27,7 +27,7 @@
 #include <qtimer.h>
 #include <assert.h>
 
-BookmarkIterator::BookmarkIterator(QVector<KBookmark> bks) : m_bklist(bks) {
+BookmarkIterator::BookmarkIterator(QList<KBookmark> bks) : m_bklist(bks) {
     connect(this, SIGNAL( deleteSelf(BookmarkIterator *) ), 
             SLOT( slotCancelTest(BookmarkIterator *) ));
     delayedEmitNextOne();
@@ -58,7 +58,7 @@ void BookmarkIterator::nextOne() {
         return;
     }
 
-    QVector<KBookmark>::iterator head = m_bklist.begin(); //FIXME using vector is bad here
+    QList<KBookmark>::iterator head = m_bklist.begin();
     KBookmark bk = (*head);
 
     bool viable = bk.hasParent() && isApplicable(bk);
@@ -76,21 +76,25 @@ void BookmarkIterator::nextOne() {
 
 /* --------------------------- */
 
-BookmarkIteratorHolder::BookmarkIteratorHolder() {
-    m_itrs.setAutoDelete(true);
+BookmarkIteratorHolder::BookmarkIteratorHolder() 
+{
 }
 
 void BookmarkIteratorHolder::insertItr(BookmarkIterator *itr) {
-    m_itrs.insert(0, itr);
+    m_itrs.prepend(itr);
     doItrListChanged();
 }
 
 void BookmarkIteratorHolder::removeItr(BookmarkIterator *itr) {
-    m_itrs.remove(itr);
+    QList<BookmarkIterator *>::iterator it = m_itrs.find(itr);
+    m_itrs.remove(it);
+    delete itr;
     doItrListChanged();
 }
 
-void BookmarkIteratorHolder::cancelAllItrs() {
+void BookmarkIteratorHolder::cancelAllItrs() 
+{
+    qDeleteAll(m_itrs);
     m_itrs.clear();
     doItrListChanged();
 }
