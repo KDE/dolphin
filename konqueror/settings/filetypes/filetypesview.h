@@ -5,7 +5,7 @@
 #include <qmap.h>
 //Added by qt3to4:
 #include <QLabel>
-#include <Q3ValueList>
+#include <QStackedWidget>
 
 #include <kconfig.h>
 #include <kcmodule.h>
@@ -22,7 +22,7 @@ class QLineEdit;
 class QComboBox;
 class FileTypeDetails;
 class FileGroupDetails;
-class Q3WidgetStack;
+class QStackedWidget;
 
 class FileTypesView : public KCModule
 {
@@ -57,7 +57,7 @@ private:
   KListView *typesLV;
   QPushButton *m_removeTypeB;
 
-  Q3WidgetStack * m_widgetStack;
+  QStackedWidget * m_widgetStack;
   FileTypeDetails * m_details;
   FileGroupDetails * m_groupDetails;
   QLabel * m_emptyWidget;

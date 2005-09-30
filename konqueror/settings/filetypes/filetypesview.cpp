@@ -111,7 +111,7 @@ FileTypesView::FileTypesView(QWidget *p, const char *name)
   m_removeTypeB->setWhatsThis( i18n("Click here to remove the selected file type.") );
 
   // For the right panel, prepare a widget stack
-  m_widgetStack = new Q3WidgetStack(this);
+  m_widgetStack = new QStackedWidget(this);
 
   l->addWidget( m_widgetStack );
 
@@ -121,21 +121,21 @@ FileTypesView::FileTypesView(QWidget *p, const char *name)
            this, SLOT( setDirty(bool) ) );
   connect( m_details, SIGNAL( embedMajor(const QString &, bool &) ),
            this, SLOT( slotEmbedMajor(const QString &, bool &)));
-  m_widgetStack->addWidget( m_details, 1 /*id*/ );
+  m_widgetStack->insertWidget( 1, m_details /*id*/ );
 
   // File Group Details
   m_groupDetails = new FileGroupDetails( m_widgetStack );
   connect( m_groupDetails, SIGNAL( changed(bool) ),
            this, SLOT( setDirty(bool) ) );
-  m_widgetStack->addWidget( m_groupDetails, 2 /*id*/ );
+  m_widgetStack->insertWidget( 2,m_groupDetails /*id*/ );
 
   // Widget shown on startup
   m_emptyWidget = new QLabel( i18n("Select a file type by name or by extension"), m_widgetStack);
   m_emptyWidget->setAlignment( Qt::AlignCenter );
 
-  m_widgetStack->addWidget( m_emptyWidget, 3 /*id*/ );
+  m_widgetStack->insertWidget( 3,m_emptyWidget );
 
-  m_widgetStack->raiseWidget( m_emptyWidget );
+  m_widgetStack->setCurrentWidget( m_emptyWidget );
 
   QTimer::singleShot( 0, this, SLOT( init() ) ); // this takes some time
 
@@ -327,7 +327,7 @@ void FileTypesView::updateDisplay(Q3ListViewItem *item)
 {
   if (!item)
   {
-    m_widgetStack->raiseWidget( m_emptyWidget );
+    m_widgetStack->setCurrentWidget( m_emptyWidget );
     m_removeTypeB->setEnabled(false);
     return;
   }
@@ -337,13 +337,13 @@ void FileTypesView::updateDisplay(Q3ListViewItem *item)
   TypesListItem *tlitem = (TypesListItem *) item;
   if (tlitem->isMeta()) // is a group
   {
-    m_widgetStack->raiseWidget( m_groupDetails );
+    m_widgetStack->setCurrentWidget( m_groupDetails );
     m_groupDetails->setTypeItem( tlitem );
     m_removeTypeB->setEnabled(false);
   }
   else
   {
-    m_widgetStack->raiseWidget( m_details );
+    m_widgetStack->setCurrentWidget( m_details );
     m_details->setTypeItem( tlitem );
     m_removeTypeB->setEnabled( !tlitem->isEssential() );
   }
