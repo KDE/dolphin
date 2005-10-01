@@ -150,13 +150,13 @@ const char* KonqIconDrag2::format( int i ) const
 
 QByteArray KonqIconDrag2::encodedData( const char* mime ) const
 {
-    Q3CString mimetype( mime );
+    QByteArray mimetype( mime );
     if ( mimetype == "application/x-kde-urilist" )
     {
         QByteArray a;
         int c=0;
         for (QStringList::ConstIterator it = m_kdeURLs.begin(); it != m_kdeURLs.end(); ++it) {
-            Q3CString url = KURLDrag::stringToUrl((*it).latin1()).prettyURL().utf8();
+            QByteArray url = (*it).utf8();
             int l = url.length();
             a.resize(c+l+2);
             memcpy(a.data()+c, url.data(), l);

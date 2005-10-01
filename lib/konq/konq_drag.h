@@ -37,6 +37,7 @@
  *****************************************************************************/
 
 // Clipboard/dnd data for: Icons + URLS + isCut
+// KDE4: will go away, see KURLDrag4
 class LIBKONQ_EXPORT KonqIconDrag : public Q3IconDrag
 {
     Q_OBJECT
@@ -55,14 +56,15 @@ public:
 
     static bool canDecode( const QMimeSource* e );
 
-protected: // KDE4: private. And d pointer...
+private:
     QStringList urls;
     bool m_bCutSelection;
+    // ### missing d pointer
 };
 
 /**
  * Clipboard/dnd data for: Icons + URLs + MostLocal URLs + isCut
- * KDE4: merge with KonqIconDrag
+ * should be merged with KonqIconDrag [but kde4 obsoletes all this]
  * @since 3.5
  */
 class LIBKONQ_EXPORT KonqIconDrag2 : public KonqIconDrag
@@ -84,6 +86,7 @@ private:
 };
 
 // Clipboard/dnd data for: URLS + isCut
+// KDE4: will go away, see KURLDrag4
 class LIBKONQ_EXPORT KonqDrag : public Q3UriDrag
 {
 public:
@@ -116,9 +119,9 @@ public:
     // Returns true if the data was cut (used for KonqIconDrag too)
     static bool decodeIsCutSelection( const QMimeSource *e );
 
-protected: // KDE4: private. And d pointer...
+protected: // ##### TODO private. And d pointer...
     bool m_bCutSelection;
-    Q3StrList m_urls; // this is set to the "most local urls". KDE4: KURL::List
+    Q3StrList m_urls; // this is set to the "most local urls". ### KURL::List
 };
 
 #endif
