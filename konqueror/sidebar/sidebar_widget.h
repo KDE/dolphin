@@ -185,7 +185,7 @@ private:
 	KMultiTabBar *m_buttonBar;
 	Q3PtrVector<ButtonInfo> m_buttons;
 	QHBoxLayout *m_layout;
-	KPopupMenu *m_buttonPopup;
+	KMenu *m_buttonPopup;
 	Q3PopupMenu *m_menu;
 	QPointer<ButtonInfo> m_activeModule;
 	QPointer<ButtonInfo> m_currentButton;

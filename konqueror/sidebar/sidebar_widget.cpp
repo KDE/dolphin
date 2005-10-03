@@ -830,7 +830,7 @@ bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 			{
 				if (!m_buttonPopup)
 				{
-					m_buttonPopup=new KPopupMenu(this, "Sidebar_Widget::ButtonPopup");
+					m_buttonPopup=new KMenu(this, "Sidebar_Widget::ButtonPopup");
 					m_buttonPopup->insertTitle(SmallIcon("unknown"), "", 50);
 					m_buttonPopup->insertItem(SmallIconSet("text"), i18n("Set Name..."),4); // Item to open a dialog to change the name of the sidebar item (by Pupeno)
 					m_buttonPopup->insertItem(SmallIconSet("www"), i18n("Set URL..."),2);

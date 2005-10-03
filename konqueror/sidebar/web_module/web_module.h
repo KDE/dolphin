@@ -47,7 +47,7 @@ class KHTMLSideBar : public KHTMLPart
 				);
 
 
-			_linkMenu = new KPopupMenu(widget(),
+			_linkMenu = new KMenu(widget(),
 					"link context menu");
 			if (!universal) {
 				_linkMenu->insertItem(i18n("&Open Link"),
@@ -58,7 +58,7 @@ class KHTMLSideBar : public KHTMLPart
 				_linkMenu->insertItem(i18n("Open in New &Window"),
 						this, SLOT(loadPage()));
 			}
-			_menu = new KPopupMenu(widget(), "context menu");
+			_menu = new KMenu(widget(), "context menu");
 			_menu->insertItem(SmallIcon("reload"), i18n("&Reload"),
 					this, SIGNAL(reload()));
 			_menu->insertItem(SmallIcon("reload"), i18n("Set &Automatic Reload"),                                                  this, SIGNAL(setAutoReload()));
@@ -156,7 +156,7 @@ class KHTMLSideBar : public KHTMLPart
 			}
 		}
 	private:
-		KPopupMenu *_menu, *_linkMenu;
+		KMenu *_menu, *_linkMenu;
 		QString _lastUrl;
 };
 

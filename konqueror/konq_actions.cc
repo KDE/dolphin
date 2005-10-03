@@ -93,7 +93,7 @@ KonqBidiHistoryAction::KonqBidiHistoryAction ( const QString & text, QObject* pa
 
 int KonqBidiHistoryAction::plug( QWidget *widget, int index )
 {
-  if (kapp && !KAuthorized::authorizeKAction(name()))
+  if (!KAuthorized::authorizeKAction(name()))
     return -1;
 
   // Go menu
@@ -245,7 +245,7 @@ void KonqLogoAction::updateIcon(int id)
 
 int KonqLogoAction::plug( QWidget *widget, int index )
 {
-  if (kapp && !KAuthorized::authorizeKAction(name()))
+  if (!KAuthorized::authorizeKAction(name()))
     return -1;
 
 /*

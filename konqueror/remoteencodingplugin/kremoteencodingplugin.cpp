@@ -111,7 +111,7 @@ KRemoteEncodingPlugin::slotAboutToOpenURL()
 void
 KRemoteEncodingPlugin::fillMenu()
 {
-  KPopupMenu *menu = m_menu->popupMenu();
+  KMenu *menu = m_menu->popupMenu();
   menu->clear();
 
   QStringList::ConstIterator it;

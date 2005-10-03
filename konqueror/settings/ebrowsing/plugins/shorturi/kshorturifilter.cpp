@@ -36,6 +36,7 @@
 #include <kprotocolinfo.h>
 #include <kstandarddirs.h>
 #include <kconfig.h>
+#include <kauthorized.h>
 
 #include "kshorturifilter.h"
 
@@ -371,7 +372,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
     u.setRef(ref);
     u.setQuery(query);
 
-    if (kapp && !kapp->authorizeURLAction( QLatin1String("open"), KURL(), u))
+    if (!KAuthorized::authorizeKActionURLAction( QLatin1String("open"), KURL(), u))
     {
       // No authorisation, we pretend it's a file will get
       // an access denied error later on.
@@ -484,7 +485,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
     u.setPath(path);
     u.setRef(ref);
 
-    if (kapp && !kapp->authorizeURLAction( QLatin1String("open"), KURL(), u))
+    if (!KAuthorized::authorizeKActionURLAction( QLatin1String("open"), KURL(), u))
     {
       // No authorisation, we pretend it exists and will get
       // an access denied error later on.

@@ -63,7 +63,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
   KonquerorIface *kiface = new KonquerorIface;
   app.dcopClient()->setDefaultObject( kiface->objId() );
 
-  KGlobal::locale()->insertCatalogue("libkonq"); // needed for apps using libkonq
+  KGlobal::locale()->insertCatalog("libkonq"); // needed for apps using libkonq
   KImageIO::registerFormats();
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();

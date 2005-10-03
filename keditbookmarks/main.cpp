@@ -122,7 +122,7 @@ extern "C" KDE_EXPORT int kdemain(int argc, char **argv) {
     aboutData.addAuthor("Alexander Kellett", I18N_NOOP("Author"), "lypanov@kde.org");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
-    KApplication::addCmdLineOptions();
+    KCmdLineArgs::addStdCmdLineOptions();
     KCmdLineArgs::addCmdLineOptions(options);
 
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();

@@ -111,7 +111,7 @@ int main(int argc, char** argv)
 #warning QXtEventLoop is missing
    // QXtEventLoop integrator( "nspluginviewer" );
    parseCommandLine(argc, argv);
-   KLocale::setMainCatalogue("nsplugin");
+   KLocale::setMainCatalog("nsplugin");
 
    kdDebug(1430) << "4 - create KApplication" << endl;
 

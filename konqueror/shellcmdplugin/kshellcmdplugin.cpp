@@ -24,12 +24,13 @@
 #include <kapplication.h>
 #include "kshellcmddialog.h"
 #include <kgenericfactory.h>
+#include <kauthorized.h>
 
 KShellCmdPlugin::KShellCmdPlugin( QObject* parent, const char* name,
 	                          const QStringList & )
     : KParts::Plugin( parent, name )
 {
-    if (!kapp->authorize("shell_access"))
+    if (!KAuthorized::authorizeKAction("shell_access"))
        return;
 
     new KAction( i18n( "&Execute Shell Command..." ), "run", Qt::CTRL+Qt::Key_E, this,

@@ -129,6 +129,7 @@
 #include <X11/Xatom.h>
 #include <fixx11h.h>
 #include <kauthorized.h>
+#include <ktoolinvocation.h>
 
 template class Q3PtrList<QPixmap>;
 template class Q3PtrList<KToggleAction>;
@@ -654,7 +655,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
 bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *childView, KonqOpenURLRequest& req )
 {
   // Second argument is referring URL
-  if ( !kapp->authorizeURLAction("open", childView ? childView->url() : KURL(), _url) )
+  if ( !KAuthorized::authorizeKActionURLAction("open", childView ? childView->url() : KURL(), _url) )
   {
      QString msg = KIO::buildErrorString(KIO::ERR_ACCESS_DENIED, _url.prettyURL());
      KMessageBox::queuedMessageBox( this, KMessageBox::Error, msg );
@@ -1326,7 +1327,7 @@ void KonqMainWindow::slotSendURL()
     subject = m_currentView->caption();
   else
     subject = fileNameList;
-  kapp->invokeMailer(QString::null,QString::null,QString::null,
+  KToolInvocation::invokeMailer(QString::null,QString::null,QString::null,
                      subject, body);
 }
 
@@ -1366,7 +1367,7 @@ void KonqMainWindow::slotSendFile()
     subject = m_currentView->caption();
   else
     subject = fileNameList;
-  kapp->invokeMailer(QString::null, QString::null, QString::null, subject,
+  KToolInvocation::invokeMailer(QString::null, QString::null, QString::null, subject,
                      QString::null, //body
                      QString::null,
                      urls); // attachments
@@ -1916,7 +1917,7 @@ void KonqMainWindow::slotConfigure()
         for( QStringList::ConstIterator it = modules.begin();
                 it != end; ++it )
         {
-            if ( kapp->authorizeControlModule( *it ) )
+            if ( KAuthorized::authorizeKActionControlModule( *it ) )
             {
                 m_configureDialog->addModule( *it );
             }
@@ -2000,7 +2001,7 @@ void KonqMainWindow::slotRunFinished()
 
   if ( !run->mailtoURL().isEmpty() )
   {
-      kapp->invokeMailer( run->mailtoURL() );
+      KToolInvocation::invokeMailer( run->mailtoURL() );
   }
 
   if ( run->hasError() ) { // we had an error
@@ -3714,7 +3715,7 @@ void KonqMainWindow::initActions()
   (void) new KAction( i18n( "&Duplicate Window" ), "window_duplicate", Qt::CTRL+Qt::Key_D, this, SLOT( slotDuplicateWindow() ), actionCollection(), "duplicate_window" );
   (void) new KAction( i18n( "Send &Link Address..." ), "mail_generic", 0, this, SLOT( slotSendURL() ), actionCollection(), "sendURL" );
   (void) new KAction( i18n( "S&end File..." ), "mail_generic", 0, this, SLOT( slotSendFile() ), actionCollection(), "sendPage" );
-  if (kapp->authorize("shell_access"))
+  if (KAuthorized::authorizeKAction("shell_access"))
   {
      (void) new KAction( i18n( "Open &Terminal" ), "openterm", Qt::Key_F4, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
   }
@@ -3789,7 +3790,7 @@ void KonqMainWindow::initActions()
       "kde-khtml_plugins.desktop" << "kde-kcmkonqyperformance.desktop";
 
 
-  if (!kapp->authorizeControlModules(configModules()).isEmpty())
+  if (!KAuthorized::authorizeKActionControlModules(configModules()).isEmpty())
      KStdAction::preferences (this, SLOT (slotConfigure()), actionCollection() );
 
   KStdAction::keyBindings( guiFactory(), SLOT( configureShortcuts() ), actionCollection() );

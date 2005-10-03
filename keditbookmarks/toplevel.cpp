@@ -220,7 +220,7 @@ KEBApp::KEBApp(
     connect(kapp->clipboard(), SIGNAL( dataChanged() ),
                                SLOT( slotClipboardDataChanged() ));
 
-    KGlobal::locale()->insertCatalogue("libkonq");
+    KGlobal::locale()->insertCatalog("libkonq");
 
     m_canPaste = false;
 

@@ -27,6 +27,7 @@
 #include <kdebug.h>
 //Added by qt3to4:
 #include <Q3CString>
+#include <ktoolinvocation.h>
 
 KonqyPreloader::KonqyPreloader( const Q3CString& obj )
     : KDEDModule( obj )
@@ -111,7 +112,7 @@ void KonqyPreloader::updateCount()
 	{
 	if( !check_always_preloaded_timer.isActive())
 	    {
-	    if( kapp->kdeinitExec( QLatin1String( "konqueror" ),
+	    if( KToolInvocation::kdeinitExec( QLatin1String( "konqueror" ),
 		QStringList() << QLatin1String( "--preload" ), NULL, NULL, "0" ) == 0 )
 		{
 		kdDebug( 1202 ) << "Preloading Konqueror instance" << endl;

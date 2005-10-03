@@ -34,6 +34,7 @@
 #include <kapplication.h>
 #include <dcopclient.h>
 #include <ktrader.h>
+#include <ktoolinvocation.h>
 
 KHTMLPluginKTTSD::KHTMLPluginKTTSD( QObject* parent, const char* name, const QStringList& )
     : Plugin( parent, name )
@@ -69,7 +70,7 @@ void KHTMLPluginKTTSD::slotReadOut()
         if (!client->isApplicationRegistered("kttsd"))
         {
             QString error;
-            if (kapp->startServiceByDesktopName("kttsd", QStringList(), &error))
+            if (KToolInvocation::startServiceByDesktopName("kttsd", QStringList(), &error))
                 QMessageBox::warning(0, i18n( "Starting KTTSD Failed"), error );
         }
 

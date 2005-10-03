@@ -553,7 +553,7 @@ int main( int argc, char **argv )
                           "0.3", "nspluginscan", KAboutData::License_GPL,
                           "(c) 2000,2001 by Stefan Schimanski" );
 
-    KLocale::setMainCatalogue("nsplugin");
+    KLocale::setMainCatalog("nsplugin");
     KCmdLineArgs::init( argc, argv, &aboutData );
     KCmdLineArgs::addCmdLineOptions( options );
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
