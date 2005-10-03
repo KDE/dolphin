@@ -22,6 +22,7 @@
 
 #include "konq_xmlguiclient.h"
 #include <kdebug.h>
+#include <kauthorized.h>
 
 class KonqXMLGUIClient::Private
 {

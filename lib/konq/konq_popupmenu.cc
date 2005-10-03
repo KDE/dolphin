@@ -192,7 +192,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KNewMenu * newMenu,
                               bool showProperties )
     : Q3PopupMenu( 0L, "konq_popupmenu" ),
-      m_actions( actions ), m_ownActions( static_cast<QWidget *>( 0 ), "KonqPopupMenu::m_ownActions" ),
+      m_actions( actions ), m_ownActions( static_cast<QWidget *>( 0 ) ),
 		  m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
     KonqPopupFlags kpf = ( showProperties ? ShowProperties : IsLink ) | ShowNewWindow;
@@ -205,7 +205,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KNewMenu * newMenu,
                               QWidget * parentWidget,
                               bool showProperties )
-    : Q3PopupMenu( parentWidget, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QWidget *>( 0 ), "KonqPopupMenu::m_ownActions" ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
+    : Q3PopupMenu( parentWidget, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QWidget *>( 0 ) ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
     KonqPopupFlags kpf = ( showProperties ? ShowProperties : IsLink ) | ShowNewWindow;
     init(parentWidget, kpf, KParts::BrowserExtension::DefaultPopupItems);
@@ -218,13 +218,14 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               QWidget * parentWidget,
                               KonqPopupFlags kpf,
                               KParts::BrowserExtension::PopupFlags flags)
-  : Q3PopupMenu( parentWidget, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QWidget *>( 0 ), "KonqPopupMenu::m_ownActions" ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
+  : Q3PopupMenu( parentWidget, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QWidget *>( 0 ) ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
     init(parentWidget, kpf, flags);
 }
 
 void KonqPopupMenu::init (QWidget * parentWidget, KonqPopupFlags kpf, KParts::BrowserExtension::PopupFlags flags)
 {
+    m_ownActions.setObjectName("KonqPopupMenu::m_ownActions");
     d = new KonqPopupMenuPrivate;
     d->m_parentWidget = parentWidget;
     d->m_itemFlags = flags;
