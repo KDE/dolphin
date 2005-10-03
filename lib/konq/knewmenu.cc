@@ -32,7 +32,7 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 #include <kprotocolinfo.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <krun.h>
 
 #include <kio/job.h>

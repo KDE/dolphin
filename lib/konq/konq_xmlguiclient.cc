@@ -79,7 +79,7 @@ void KonqXMLGUIClient::addAction( const char *name, const QDomElement &menu )
 {
   static const QString& tagAction = KGlobal::staticQString( "action" );
 
-  if (!kapp->authorizeKAction(name))
+  if (!KAuthorized::authorizeKAction(name))
      return;
 
   handlePendingSeparator();

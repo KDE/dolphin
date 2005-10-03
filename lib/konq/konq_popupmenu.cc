@@ -47,6 +47,7 @@
 #include "konq_popupmenu.h"
 #include "konq_operations.h"
 #include <dcopclient.h>
+#include <kauthorized.h>
 
 /*
  Test cases:
@@ -610,7 +611,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         act = new KAction( caption, "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "bookmark_add" );
         if (m_lstItems.count() > 1)
             act->setEnabled(false);
-        if (kapp->authorizeKAction("bookmarks"))
+        if (KAuthorized::authorizeKAction("bookmarks"))
             KonqXMLGUIClient::addAction( act );
         if (bIsLink)
             KonqXMLGUIClient::addGroup( "linkactions" );
@@ -806,7 +807,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
         KTrader::OfferList offers;
 
-        if (kapp->authorizeKAction("openwith"))
+        if (KAuthorized::authorizeKAction("openwith"))
         {
             QString constraint = "Type == 'Application' and DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'";
             QString subConstraint = " and '%1' in ServiceTypes";
