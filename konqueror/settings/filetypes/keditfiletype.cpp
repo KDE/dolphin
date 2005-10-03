@@ -112,7 +112,7 @@ static KCmdLineOptions options[] =
 int main(int argc, char ** argv)
 {
   KServiceTypeProfile::setConfigurationMode();
-  KLocale::setMainCatalogue("filetypes");
+  KLocale::setMainCatalog("filetypes");
   KAboutData aboutData( "keditfiletype", I18N_NOOP("KEditFileType"), "1.0",
                         I18N_NOOP("KDE file type editor - simplified version for editing a single file type"),
                         KAboutData::License_GPL,

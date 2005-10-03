@@ -43,7 +43,7 @@
 #include <kmessagebox.h>
 
 #include <assert.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 
 // #define DEBUG_VIEWMGR
 

@@ -71,7 +71,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
   KTempFile crashlog_file(locateLocal("tmp", "konqueror-crash-"), ".log");
   KonqMainWindow::s_crashlog_file = crashlog_file.file();
 
-  if ( kapp->isRestored() )
+  if ( QApplication::isSessionRestored() )
   {
     int n = 1;
     while ( KonqMainWindow::canBeRestored( n ) )

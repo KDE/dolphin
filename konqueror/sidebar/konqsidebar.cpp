@@ -20,7 +20,7 @@
 #include <konq_events.h>
 #include <kdebug.h>
 #include <qapplication.h>
-#include <kaccelmanager.h>
+#include <kacceleratormanager.h>
 
 KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
                           QObject *parent, const char *name, bool universalMode )

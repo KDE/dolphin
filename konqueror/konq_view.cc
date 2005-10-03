@@ -57,6 +57,7 @@
 #include <klocale.h>
 
 #include <fixx11h.h>
+#include <krandom.h>
 
 //#define DEBUG_HISTORY
 
@@ -84,7 +85,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_pPart = 0L;
   m_dcopObject = 0L;
 
-  m_randID = KApplication::random();
+  m_randID = KRandom::random();
 
   m_service = service;
   m_partServiceOffers = partServiceOffers;

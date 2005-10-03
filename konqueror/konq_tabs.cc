@@ -43,7 +43,7 @@
 #include "konq_misc.h"
 #include "konq_settingsxt.h"
 
-#include <kaccelmanager.h>
+#include <kacceleratormanager.h>
 #include <konq_pixmapprovider.h>
 #include <kstdaccel.h>
 #include <qtabbar.h>

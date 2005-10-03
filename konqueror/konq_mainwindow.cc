@@ -109,11 +109,11 @@
 #include <kfiledialog.h>
 #include <klocale.h>
 #include <kiconloader.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <kprocess.h>
 #include <kio/scheduler.h>
 #include <kio/netaccess.h>
-#include <kaccelmanager.h>
+#include <kacceleratormanager.h>
 #include <kuser.h>
 #include <netwm.h>
 
@@ -128,6 +128,7 @@
 #include <sys/time.h>
 #include <X11/Xatom.h>
 #include <fixx11h.h>
+#include <kauthorized.h>
 
 template class Q3PtrList<QPixmap>;
 template class Q3PtrList<KToggleAction>;
@@ -358,7 +359,7 @@ QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDo
   if ( res && (element.tagName() == tagToolBar) && (element.attribute( "name" ) == nameBookmarkBar) )
   {
     assert( res->inherits( "KToolBar" ) );
-    if (!kapp->authorizeKAction("bookmarks"))
+    if (!KAuthorized::authorizeKAction("bookmarks"))
     {
         delete res;
         return 0;
@@ -4864,7 +4865,7 @@ void KonqMainWindow::updateOpenWithActions()
 
   m_openWithActions.clear();
 
-  if (!kapp->authorizeKAction("openwith"))
+  if (!KAuthorized::authorizeKAction("openwith"))
      return;
 
   const KTrader::OfferList & services = m_currentView->appServiceOffers();

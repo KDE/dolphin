@@ -28,13 +28,14 @@
 
 #include <konq_pixmapprovider.h>
 #include <kiconloader.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <kapplication.h>
 
 #include "konq_view.h"
 #include "konq_settingsxt.h"
 //Added by qt3to4:
 #include <Q3PtrList>
+#include <kauthorized.h>
 
 template class Q3PtrList<KonqHistoryEntry>;
 
@@ -92,7 +93,7 @@ KonqBidiHistoryAction::KonqBidiHistoryAction ( const QString & text, QObject* pa
 
 int KonqBidiHistoryAction::plug( QWidget *widget, int index )
 {
-  if (kapp && !kapp->authorizeKAction(name()))
+  if (kapp && !KAuthorized::authorizeKAction(name()))
     return -1;
 
   // Go menu
@@ -244,7 +245,7 @@ void KonqLogoAction::updateIcon(int id)
 
 int KonqLogoAction::plug( QWidget *widget, int index )
 {
-  if (kapp && !kapp->authorizeKAction(name()))
+  if (kapp && !KAuthorized::authorizeKAction(name()))
     return -1;
 
 /*

@@ -22,7 +22,7 @@
 #include <qstring.h>
 #include <qpointer.h>
 
-#include <kdockwidget.h>
+#include <k3dockwidget.h>
 #include <kurl.h>
 #include <ktoolbar.h>
 #include <kparts/part.h>

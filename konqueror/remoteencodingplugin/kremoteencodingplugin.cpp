@@ -30,7 +30,7 @@
 #include <kglobal.h>
 #include <kconfig.h>
 #include <kcharsets.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <dcopclient.h>
 #include <kgenericfactory.h>
 #include <kprotocolmanager.h>
