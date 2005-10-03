@@ -20,18 +20,18 @@
 
 #include "kdatecombo.moc"
 
-KDateCombo::KDateCombo(QWidget *parent, const char *name ) : QComboBox(FALSE, parent,name)
+KDateCombo::KDateCombo(QWidget *parent ) : QComboBox(false, parent)
 {
   QDate date = QDate::currentDate();
-  initObject(date, parent, name);
+  initObject(date);
 }
 
-KDateCombo::KDateCombo(const QDate & date, QWidget *parent, const char *name) : QComboBox(FALSE, parent,name)
+KDateCombo::KDateCombo(const QDate & date, QWidget *parent) : QComboBox(false, parent)
 {
-  initObject(date, parent, name);
+  initObject(date);
 }
 
-void KDateCombo::initObject(const QDate & date, QWidget *, const char *)
+void KDateCombo::initObject(const QDate & date)
 {
   clearValidator();
   popupFrame = new KPopupFrame(this, "popupFrame");
@@ -73,9 +73,9 @@ bool KDateCombo::setDate(const QDate & newDate)
     if (count())
       clear();
     insertItem(date2String(newDate));
-    return TRUE;
+    return true;
   }
-  return FALSE;
+  return false;
 }
 
 void KDateCombo::dateEnteredEvent(QDate newDate)

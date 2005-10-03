@@ -22,8 +22,8 @@ class KDateCombo : public QComboBox  {
    Q_OBJECT
 
 public:
-	KDateCombo(QWidget *parent=0, const char *name=0);
-	KDateCombo(const QDate & date, QWidget *parent=0, const char *name=0);
+	KDateCombo(QWidget *parent=0);
+	KDateCombo(const QDate & date, QWidget *parent=0);
 	~KDateCombo();
 
 	QDate & getDate(QDate *currentDate);
@@ -33,7 +33,7 @@ private:
    KPopupFrame * popupFrame;
    KDatePicker * datePicker;
 
-   void initObject(const QDate & date, QWidget *parent, const char *name);
+   void initObject(const QDate & date);
 
    QString date2String(const QDate &);
    QDate & string2Date(const QString &, QDate * );
@@ -41,7 +41,7 @@ private:
 protected:
   bool eventFilter (QObject*, QEvent*);
   virtual void mousePressEvent (QMouseEvent * e);
-   
+
 protected slots:
    void dateEnteredEvent(QDate d=QDate());
 };
