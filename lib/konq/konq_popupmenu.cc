@@ -318,7 +318,7 @@ bool KonqPopupMenu::KIOSKAuthorizedAction(KConfig& cfg)
             it != list.end();
             ++it)
         {
-            if (!kapp->authorize((*it).stripWhiteSpace()))
+            if (!KAuthorized::authorize((*it).stripWhiteSpace()))
             {
                 return false;
             }
@@ -461,7 +461,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     KAction *actNewWindow = 0;
 
     if (( kpf & ShowProperties ) && isKDesktop &&
-        !kapp->authorize("editable_desktop_icons"))
+        !KAuthorized::authorizeKAction("editable_desktop_icons"))
     {
         kpf &= ~ShowProperties; // remove flag
     }
@@ -993,7 +993,7 @@ void KonqPopupMenu::slotPopupNewView()
 {
   KURL::List::ConstIterator it = m_lstPopupURLs.begin();
   for ( ; it != m_lstPopupURLs.end(); it++ )
-    (void) new KRun(*it);
+    (void) new KRun(*it,this);
 }
 
 void KonqPopupMenu::slotPopupNewDir()

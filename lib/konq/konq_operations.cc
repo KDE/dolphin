@@ -63,6 +63,7 @@
 #include <unistd.h>
 #include <X11/Xlib.h>
 #include <QX11Info>
+#include <kauthorized.h>
 
 KBookmarkManager * KonqBookmarkManager::s_bookmarkManager;
 
@@ -506,7 +507,7 @@ void KonqOperations::doFileCopy()
     }
 
     bool linkOnly = false;
-    if (isDesktopFile && !kapp->authorize("run_desktop_files") &&
+    if (isDesktopFile && !KAuthorized::authorizeKAction("run_desktop_files") &&
         (m_destURL.path(1) == KGlobalSettings::desktopPath()) )
     {
        linkOnly = true;
@@ -514,7 +515,7 @@ void KonqOperations::doFileCopy()
 
     if ( !mlst.isEmpty() && m_destURL.protocol() == "trash" )
     {
-        if ( itemIsOnDesktop && !kapp->authorize("editable_desktop_icons") )
+        if ( itemIsOnDesktop && !KAuthorized::authorizeKAction("editable_desktop_icons") )
         {
             delete this;
             return;
