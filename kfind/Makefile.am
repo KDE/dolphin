@@ -14,7 +14,7 @@ kde_module_LTLIBRARIES = libkfindpart.la
 
 libkfindpart_la_SOURCES = kfindpart.cpp
 libkfindpart_la_LDFLAGS = $(all_libraries) $(KDE_PLUGIN)
-libkfindpart_la_LIBADD = libkfind_common.la $(LIB_KPARTS) $(top_builddir)/libkonq/libkonq.la 
+libkfindpart_la_LIBADD = libkfind_common.la $(LIB_KPARTS) $(top_builddir)/libkonq/libkonq.la -lkde3support
 
 noinst_HEADERS	= kftabdlg.h kfind.h version.h kquery.h  kdatecombo.h
 
@@ -30,7 +30,7 @@ messages:
 
 bin_PROGRAMS = kfind
 kfind_SOURCES = kfwin.cpp kfinddlg.cpp main.cpp 
-kfind_LDADD   =  libkfind_common.la $(LIB_KPARTS)
+kfind_LDADD   =  libkfind_common.la $(LIB_KPARTS) -lkde3support
 
 # the library search path.
 kfind_LDFLAGS = $(all_libraries) $(KDE_RPATH)

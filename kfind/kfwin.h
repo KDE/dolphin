@@ -14,7 +14,7 @@
 class KfArchiver;
 class QPixmap;
 class QFileInfo;
-class KPopupMenu;
+class KMenu;
 class KfindWindow;
 
 class KfFileLVI : public Q3ListViewItem
@@ -33,7 +33,7 @@ class KfindWindow: public   KListView
 {
   Q_OBJECT
 public:
-  KfindWindow( QWidget * parent = 0, const char * name = 0 );
+  KfindWindow( QWidget * parent = 0 );
 
   void beginSearch(const KURL& baseUrl);
   void endSearch();
@@ -66,7 +66,7 @@ signals:
 
 private:
   QString m_baseDir;
-  KPopupMenu *m_menu;
+  KMenu *m_menu;
   bool haveSelection;
   bool m_pressed;
   void resetColumns(bool init);

@@ -48,7 +48,8 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
   tabWidget->setURL( url );
 
   // prepare window for find results
-  win = new KfindWindow(frame,"window");
+  win = new KfindWindow(frame );
+  win->setObjectName( "window" );
 
   mStatusBar = new KStatusBar(frame);
   mStatusBar->insertFixedItem(i18n("AMiddleLengthText..."), 0, true);

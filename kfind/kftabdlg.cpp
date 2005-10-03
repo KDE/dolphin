@@ -59,11 +59,11 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     pages[0] = new QWidget( this, "page1" );
 
-    nameBox = new KComboBox(TRUE, pages[0], "combo1");
+    nameBox = new KComboBox(true, pages[0]);
     nameBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);  // allow smaller than widest entry
     QLabel * namedL = new QLabel(nameBox, i18n("&Named:"), pages[0], "named");
     namedL->setToolTip( i18n("You can use wildcard matching and \";\" for separating multiple names") );
-    dirBox  = new KComboBox(TRUE, pages[0], "combo2");
+    dirBox  = new KComboBox(true, pages[0]);
     dirBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);  // allow smaller than widest entry
     QLabel * lookinL = new QLabel(dirBox, i18n("Look &in:"), pages[0], "named");
     subdirsCb  = new QCheckBox(i18n("Include &subfolders"), pages[0]);
@@ -79,9 +79,9 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     if(KStandardDirs::findExe("locate").isEmpty())
     	useLocateCb->setEnabled(false);
 
-    nameBox->setDuplicatesEnabled(FALSE);
+    nameBox->setDuplicatesEnabled(false);
     nameBox->setFocus();
-    dirBox->setDuplicatesEnabled(FALSE);
+    dirBox->setDuplicatesEnabled(false);
 
     nameBox->setInsertionPolicy(QComboBox::AtTop);
     dirBox->setInsertionPolicy(QComboBox::AtTop);
@@ -149,7 +149,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     rb[0] = new QRadioButton(i18n("&between"), pages[1] );
     rb[1] = new QRadioButton(i18n("&during the previous"), pages[1] );
     QLabel * andL   = new QLabel(i18n("and"), pages[1], "and");
-    betweenType = new KComboBox(FALSE, pages[1], "comboBetweenType");
+    betweenType = new KComboBox(false, pages[1] );
+    betweenType->setObjectName( "comboBetweenType" );
     betweenType->insertItem(i18n("minute(s)"));
     betweenType->insertItem(i18n("hour(s)"));
     betweenType->insertItem(i18n("day(s)"));
@@ -160,19 +161,27 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     QDate dt = KGlobal::locale()->calendar()->addYears(QDate::currentDate(), -1);
 
-    fromDate = new KDateCombo(dt, pages[1], "fromDate");
-    toDate = new KDateCombo(pages[1], "toDate");
-    timeBox = new QSpinBox(1, 60, 1, pages[1], "timeBox");
+    fromDate = new KDateCombo(dt, pages[1] );
+    fromDate->setObjectName( "fromDate" );
+    toDate = new KDateCombo(pages[1] );
+    toDate->setObjectName( "toDate" );
+    timeBox = new QSpinBox(1, 60, 1, pages[1] );
+    timeBox->setObjectName( "timeBox" );
 
-    sizeBox =new KComboBox(FALSE, pages[1], "sizeBox");
-    QLabel * sizeL   =new QLabel(sizeBox,i18n("File &size is:"), pages[1],"size");
-    sizeEdit=new QSpinBox(0, INT_MAX, 1, pages[1], "sizeEdit" );
+    sizeBox =new KComboBox(false, pages[1] );
+    sizeBox->setObjectName( "sizeBox" );
+    QLabel * sizeL   =new QLabel(sizeBox,i18n("File &size is:"), pages[1]);
+    sizeEdit=new QSpinBox(0, INT_MAX, 1, pages[1] );
+    sizeEdit->setObjectName( "sizeEdit" );
     sizeEdit->setValue(1);
-    sizeUnitBox =new KComboBox(FALSE, pages[1], "sizeUnitBox");
+    sizeUnitBox =new KComboBox(false, pages[1] );
+    sizeUnitBox->setObjectName( "sizeUnitBox" );
 
-    m_usernameBox = new KComboBox( true, pages[1], "m_combo1");
+    m_usernameBox = new KComboBox( true, pages[1] );
+    m_usernameBox->setObjectName( "m_combo1");
     QLabel *usernameLabel= new QLabel(m_usernameBox,i18n("Files owned by &user:"),pages[1]);
-    m_groupBox = new KComboBox( true, pages[1], "m_combo2");
+    m_groupBox = new KComboBox( true, pages[1] );
+    m_groupBox->setObjectName( "m_combo2" );
     QLabel *groupLabel= new QLabel(m_groupBox,i18n("Owned by &group:"),pages[1]);
 
     sizeBox ->insertItem( i18n("(none)") );
@@ -188,8 +197,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     int tmp = sizeEdit->fontMetrics().width(" 000000000 ");
     sizeEdit->setMinimumSize(tmp, sizeEdit->sizeHint().height());
 
-    m_usernameBox->setDuplicatesEnabled(FALSE);
-    m_groupBox->setDuplicatesEnabled(FALSE);
+    m_usernameBox->setDuplicatesEnabled(false);
+    m_groupBox->setDuplicatesEnabled(false);
     m_usernameBox->setInsertionPolicy(QComboBox::AtTop);
     m_groupBox->setInsertionPolicy(QComboBox::AtTop);
 
@@ -243,11 +252,13 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     pages[2] = new QWidget( this, "page3" );
 
-    typeBox =new KComboBox(FALSE, pages[2], "typeBox");
+    typeBox =new KComboBox(false, pages[2] );
+    typeBox->setObjectName( "typeBox" );
     typeBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);  // allow smaller than widest entry
-    QLabel * typeL   =new QLabel(typeBox, i18n("File &type:"), pages[2], "type");
-    textEdit=new KLineEdit(pages[2], "textEdit" );
-    QLabel * textL   =new QLabel(textEdit, i18n("C&ontaining text:"), pages[2], "text");
+    QLabel * typeL   =new QLabel(typeBox, i18n("File &type:"), pages[2] );
+    textEdit=new KLineEdit(pages[2]);
+    textEdit->setObjectName( "textEdit" );
+    QLabel * textL   =new QLabel(textEdit, i18n("C&ontaining text:"), pages[2]);
 
     connect( textEdit, SIGNAL(returnPressed(const QString &)), SIGNAL( startSearch()));
 
@@ -272,14 +283,15 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     QPushButton* editRegExp = 0;
     if ( !KTrader::self()->query("KRegExpEditor/KRegExpEditor").isEmpty() ) {
-      // The editor is available, so lets use it.
-      editRegExp = new QPushButton(i18n("&Edit..."), pages[2], "editRegExp");
+        // The editor is available, so lets use it.
+        editRegExp = new QPushButton(i18n("&Edit..."), pages[2]);
+        editRegExp->setObjectName( "editRegExp" );
     }
 
-    metainfokeyEdit=new KLineEdit(pages[2], "textEdit" );
-    metainfoEdit=new KLineEdit(pages[2], "textEdit" );
-    QLabel * textMetaInfo = new QLabel(metainfoEdit, i18n("fo&r:"), pages[2], "text");
-    QLabel * textMetaKey = new QLabel(metainfokeyEdit, i18n("Search &metainfo sections:"), pages[2], "text");
+    metainfokeyEdit=new KLineEdit(pages[2]);
+    metainfoEdit=new KLineEdit(pages[2]);
+    QLabel * textMetaInfo = new QLabel(metainfoEdit, i18n("fo&r:"), pages[2]);
+    QLabel * textMetaKey = new QLabel(metainfokeyEdit, i18n("Search &metainfo sections:"), pages[2]);
 
     // Setup
     typeBox->insertItem(i18n("All Files & Folders"));
@@ -542,18 +554,18 @@ void KfindTabWidget::setDefaults()
 bool KfindTabWidget::isDateValid()
 {
   // All files
-  if ( !findCreated->isChecked() ) return TRUE;
+  if ( !findCreated->isChecked() ) return true;
 
   if (rb[1]->isChecked())
   {
-    if (timeBox->value() > 0 ) return TRUE;
+    if (timeBox->value() > 0 ) return true;
 
     KMessageBox::sorry(this, i18n("Unable to search within a period which is less than a minute."));
-    return FALSE;
+    return false;
   }
 
   // If we can not parse either of the dates or
-  // "from" date is bigger than "to" date return FALSE.
+  // "from" date is bigger than "to" date return false.
   QDate hi1, hi2;
 
   QString str;
@@ -567,9 +579,9 @@ bool KfindTabWidget::isDateValid()
 
   if (!str.isNull()) {
     KMessageBox::sorry(0, str);
-    return FALSE;
+    return false;
   }
-  return TRUE;
+  return true;
 }
 
 void KfindTabWidget::setQuery(KQuery *query)
@@ -757,12 +769,12 @@ void KfindTabWidget::beginSearch()
 ///  dirlister->openURL(KURL(dirBox->currentText().trimmed()));
 
   saveHistory();
-  setEnabled( FALSE );
+  setEnabled( false );
 }
 
 void KfindTabWidget::endSearch()
 {
-  setEnabled( TRUE );
+  setEnabled( true );
 }
 
 /*
@@ -776,16 +788,16 @@ void KfindTabWidget::fixLayout()
   // and second radio group on page two
 
   if(! findCreated->isChecked())  {
-    fromDate->setEnabled(FALSE);
-    toDate->setEnabled(FALSE);
-    timeBox->setEnabled(FALSE);
+    fromDate->setEnabled(false);
+    toDate->setEnabled(false);
+    timeBox->setEnabled(false);
     for(i=0; i<2; i++)
-      rb[i]->setEnabled(FALSE);
-    betweenType->setEnabled(FALSE);
+      rb[i]->setEnabled(false);
+    betweenType->setEnabled(false);
   }
   else {
     for(i=0; i<2; i++)
-      rb[i]->setEnabled(TRUE);
+      rb[i]->setEnabled(true);
 
     fromDate->setEnabled(rb[0]->isChecked());
     toDate->setEnabled(rb[0]->isChecked());

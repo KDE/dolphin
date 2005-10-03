@@ -31,12 +31,13 @@
 #include <kmessagebox.h>
 #include <kmimetype.h>
 #include <kglobal.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <kio/netaccess.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
 #include <q3ptrlist.h>
 #include <kdebug.h>
 #include <kiconloader.h>
+#include <QDateTime>
 
 #include "kfwin.h"
 
@@ -95,7 +96,7 @@ QString KfFileLVI::key(int column, bool) const
   switch (column) {
   case 2:
     // Returns size in bytes. Used for sorting
-    return QString().sprintf("%010d", fileInfo->size());
+    return QString().sprintf("%010ld", (long int)fileInfo->size());
   case 3:
     // Returns time in secs from 1/1/1970. Used for sorting
     return QString().sprintf("%010ld", fileitem.time(KIO::UDS_MODIFICATION_TIME));
@@ -104,9 +105,9 @@ QString KfFileLVI::key(int column, bool) const
   return text(column);
 }
 
-KfindWindow::KfindWindow( QWidget *parent, const char *name )
-  : KListView( parent, name )
-,m_baseDir("")
+KfindWindow::KfindWindow( QWidget *parent )
+  : KListView( parent )
+,m_baseDir()
 ,m_menu(0)
 {
   setSelectionMode( Q3ListView::Extended );
@@ -198,7 +199,7 @@ void KfindWindow::saveResults()
   list << "text/plain" << "text/html";
 
   dlg->setOperationMode(KFileDialog::Saving);
-  
+
   dlg->setMimeFilter(list, QString("text/plain"));
 
   dlg->exec();
@@ -315,7 +316,7 @@ void KfindWindow::openFolder()
   KURL url = fileitem.url();
   url.setFileName(QString::null);
 
-  (void) new KRun(url);
+  (void) new KRun(url, this);
 }
 
 void KfindWindow::openBinding()
@@ -356,7 +357,8 @@ Q3DragObject * KfindWindow::dragObject()
   if ( uris.count() <= 0 )
      return 0;
 
-  Q3UriDrag *ud = new KURLDrag( uris, (QWidget *) this, "kfind uridrag" );
+  Q3UriDrag *ud = new K3URLDrag( uris, (QWidget *) this );
+  ud->setObjectName( "kfind uridrag" );
 
   const QPixmap *pix = currentItem()->pixmap(0);
   if ( pix && !pix->isNull() )
@@ -401,14 +403,14 @@ void KfindWindow::slotContextMenu(KListView *,Q3ListViewItem *item,const QPoint&
   };
 
   if (m_menu==0)
-     m_menu = new KPopupMenu(this);
+     m_menu = new KMenu(this);
   else
      m_menu->clear();
 
   if (count == 1)
   {
-     //menu = new KPopupMenu(item->text(0), this);
-     m_menu->insertTitle(item->text(0));
+     //menu = new KMenu(item->text(0), this);
+     m_menu->addTitle(item->text(0));
      m_menu->insertItem(SmallIcon("fileopen"),i18n("Menu item", "Open"), this, SLOT(openBinding()));
      m_menu->insertItem(SmallIcon("window_new"),i18n("Open Folder"), this, SLOT(openFolder()));
      m_menu->insertSeparator();
@@ -421,7 +423,7 @@ void KfindWindow::slotContextMenu(KListView *,Q3ListViewItem *item,const QPoint&
   }
   else
   {
-     m_menu->insertTitle(i18n("Selected Files"));
+     m_menu->addTitle(i18n("Selected Files"));
      m_menu->insertItem(SmallIcon("editcopy"),i18n("Copy"), this, SLOT(copySelection()));
      m_menu->insertItem(SmallIcon("editdelete"),i18n("Delete"), this, SLOT(deleteFiles()));
   }

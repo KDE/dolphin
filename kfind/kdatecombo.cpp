@@ -13,7 +13,7 @@
 #include <kglobal.h>
 #include <klocale.h>
 #include <kdatepicker.h>
-#include <kdatetbl.h>
+#include <kdatetable.h>
 #include <kdebug.h>
 
 #include "kdatecombo.h"
