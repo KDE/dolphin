@@ -33,7 +33,7 @@
 #include <dcopclient.h>
 #include <kimageio.h>
 #include <qfile.h>
-
+#include <QApplication>
 #include <qwidget.h>
 #include <QX11Info>
 
@@ -71,7 +71,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
   KTempFile crashlog_file(locateLocal("tmp", "konqueror-crash-"), ".log");
   KonqMainWindow::s_crashlog_file = crashlog_file.file();
 
-  if ( QApplication::isSessionRestored() )
+  if ( app.isSessionRestored() )
   {
     int n = 1;
     while ( KonqMainWindow::canBeRestored( n ) )

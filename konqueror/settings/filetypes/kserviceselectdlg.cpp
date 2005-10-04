@@ -21,7 +21,7 @@
 #include "kservicelistwidget.h"
 
 #include <klocale.h>
-
+#include <Q3ValueList>
 #include <q3vbox.h>
 #include <qlabel.h>
 

@@ -1931,7 +1931,7 @@ void KonqMainWindow::slotConfigure()
 
 void KonqMainWindow::slotConfigureSpellChecking()
 {
-    KApplication::startServiceByDesktopName("spellchecking");
+    KToolInvocation::startServiceByDesktopName("spellchecking");
 }
 
 void KonqMainWindow::slotConfigureToolbars()

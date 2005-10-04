@@ -36,7 +36,7 @@
 #include <kstandarddirs.h>
 #include <kwin.h>
 #include <kprotocolinfo.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
 #include <kstartupinfo.h>
 
 #include "konq_misc.h"
@@ -253,7 +253,7 @@ void KonqDraggableLabel::mouseMoveEvent( QMouseEvent * ev )
     {
       KURL::List lst;
       lst.append( m_mw->currentView()->url() );
-      Q3DragObject * drag = new KURLDrag( lst, m_mw );
+      Q3DragObject * drag = new K3URLDrag( lst, m_mw );
       drag->setPixmap( KMimeType::pixmapForURL( lst.first(), 0, KIcon::Small ) );
       drag->dragCopy();
     }
@@ -267,14 +267,14 @@ void KonqDraggableLabel::mouseReleaseEvent( QMouseEvent * )
 
 void KonqDraggableLabel::dragEnterEvent( QDragEnterEvent *ev )
 {
-  if ( KURLDrag::canDecode( ev ) )
+  if ( K3URLDrag::canDecode( ev ) )
     ev->acceptAction();
 }
 
 void KonqDraggableLabel::dropEvent( QDropEvent* ev )
 {
   _savedLst.clear();
-  if ( KURLDrag::decode( ev, _savedLst ) ) {
+  if ( K3URLDrag::decode( ev, _savedLst ) ) {
     QTimer::singleShot(0, this, SLOT(delayedOpenURL()));
   }
 }

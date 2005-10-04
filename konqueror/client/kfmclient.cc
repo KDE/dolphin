@@ -27,6 +27,7 @@
 //Added by qt3to4:
 #include <Q3CString>
 
+#include <ktoolinvocation.h>
 #include <kio/job.h>
 #include <kcmdlineargs.h>
 #include <kpropertiesdialog.h>
@@ -308,7 +309,7 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, co
             clientApp app;
             KStartupInfo::appStarted();
 
-            KRun * run = new KRun( url ); // TODO pass tempFile [needs support in the KRun ctor]
+            KRun * run = new KRun( url,0L ); // TODO pass tempFile [needs support in the KRun ctor]
             QObject::connect( run, SIGNAL( finished() ), &app, SLOT( delayedQuit() ));
             QObject::connect( run, SIGNAL( error() ), &app, SLOT( delayedQuit() ));
             app.exec();
@@ -390,7 +391,7 @@ bool clientApp::openProfile( const QString & profileName, const QString & url, c
   if( appId.isEmpty())
   {
     QString error;
-    if ( KApplication::startServiceByDesktopPath( QLatin1String("konqueror.desktop"),
+    if ( KToolInvocation::startServiceByDesktopPath( QLatin1String("konqueror.desktop"),
         QLatin1String("--silent"), &error, &appId, NULL, startup_id_str ) > 0 )
     {
       kdError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
@@ -525,7 +526,7 @@ bool clientApp::doIt()
     }
     else if ( argc == 2 )
     {
-      KRun * run = new KRun( args->url(1) );
+      KRun * run = new KRun( args->url(1), 0L);
       QObject::connect( run, SIGNAL( finished() ), &app, SLOT( delayedQuit() ));
       QObject::connect( run, SIGNAL( error() ), &app, SLOT( delayedQuit() ));
       app.exec();

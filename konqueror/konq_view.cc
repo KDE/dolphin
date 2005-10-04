@@ -38,7 +38,7 @@
 #include <assert.h>
 #include <kdebug.h>
 #include <kcursor.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
 #include <q3scrollview.h>
 
 #include <qapplication.h>
@@ -1244,10 +1244,10 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
     {
         QDragEnterEvent *ev = static_cast<QDragEnterEvent *>( e );
 
-        if ( KURLDrag::canDecode( ev ) )
+        if ( K3URLDrag::canDecode( ev ) )
         {
             KURL::List lstDragURLs;
-            bool ok = KURLDrag::decode( ev, lstDragURLs );
+            bool ok = K3URLDrag::decode( ev, lstDragURLs );
 
             QObjectList children = m_pPart->widget()->queryList( "QWidget" );
 
@@ -1263,7 +1263,7 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
         QDropEvent *ev = static_cast<QDropEvent *>( e );
 
         KURL::List lstDragURLs;
-        bool ok = KURLDrag::decode( ev, lstDragURLs );
+        bool ok = K3URLDrag::decode( ev, lstDragURLs );
 
         KParts::BrowserExtension *ext = browserExtension();
         if ( ok && ext && lstDragURLs.first().isValid() )

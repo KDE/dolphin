@@ -52,7 +52,7 @@
 #include <kpropertiesdialog.h>
 #include <kprotocolinfo.h>
 #include <kstandarddirs.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
 
 #include <stdlib.h>
 #include <assert.h>
@@ -340,7 +340,7 @@ void KonqSidebarTree::contentsDropEvent( QDropEvent *ev )
         {
     //        KonqOperations::doDrop( 0L, m_dirtreeDir.dir, ev, this );
             KURL::List urls;
-            if ( KURLDrag::decode( ev, urls ) )
+            if ( K3URLDrag::decode( ev, urls ) )
             {
                for(KURL::List::ConstIterator it = urls.begin();
                    it != urls.end(); ++it)
@@ -912,7 +912,8 @@ void KonqSidebarTree::showToplevelContextMenu()
 
     if (!m_collection)
     {
-        m_collection = new KActionCollection( this, "bookmark actions" );
+        m_collection = new KActionCollection( this);
+	    m_collection->setObjectName("bookmark actions");
         (void) new KAction( i18n("&Create New Folder..."), "folder_new", 0, this,
                             SLOT( slotCreateFolder() ), m_collection, "create_folder");
         (void) new KAction( i18n("Delete Folder"), "editdelete", 0, this,
@@ -1037,8 +1038,8 @@ void KonqSidebarTree::slotCopyLocation()
 {
     if (!m_currentTopLevelItem) return;
     KURL url = m_currentTopLevelItem->externalURL();
-    kapp->clipboard()->setData( new KURLDrag(url, 0), QClipboard::Selection );
-    kapp->clipboard()->setData( new KURLDrag(url, 0), QClipboard::Clipboard );
+    kapp->clipboard()->setData( new K3URLDrag(url, 0), QClipboard::Selection );
+    kapp->clipboard()->setData( new K3URLDrag(url, 0), QClipboard::Clipboard );
 }
 
 ///////////////////////////////////////////////////////////////////

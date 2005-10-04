@@ -23,7 +23,8 @@
 #include <kio/paste.h>
 #include <konq_operations.h>
 #include <kprotocolinfo.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
+#include <q3cstring.h>
 #include <kmimetype.h>
 #include <qapplication.h>
 #include <qclipboard.h>
@@ -68,7 +69,7 @@ void KonqSidebarTreeTopLevelItem::drop( QDropEvent * ev )
         // When dropping something to "Network" or its subdirs, we want to create
         // a desktop link, not to move/copy/link - except for .desktop files :-}
         KURL::List lst;
-        if ( KURLDrag::decode( ev, lst ) && !lst.isEmpty() ) // Are they urls ?
+        if ( K3URLDrag::decode( ev, lst ) && !lst.isEmpty() ) // Are they urls ?
         {
             KURL::List::Iterator it = lst.begin();
             for ( ; it != lst.end() ; it++ )
@@ -169,7 +170,7 @@ void KonqSidebarTreeTopLevelItem::paste()
     else
         destURL = m_externalURL;
 
-    KIO::pasteClipboard( destURL, move );
+    KIO::pasteClipboard( destURL, 0L,move );
 }
 
 void KonqSidebarTreeTopLevelItem::rename()
@@ -197,7 +198,7 @@ void KonqSidebarTreeTopLevelItem::rename( const QString & name )
     // Notify about the change
     KURL::List lst;
     lst.append(url);
-    KDirNotify_stub allDirNotify("*", "KDirNotify*");
+    KDirNotify_stub allDirNotify(Q3CString("*"), Q3CString("KDirNotify*"));
     allDirNotify.FilesChanged( lst );
 }
 

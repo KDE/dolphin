@@ -1720,7 +1720,7 @@ void KonqViewManager::slotProfileListAboutToShow()
   if ( !m_pamProfiles || !m_bProfileListDirty )
     return;
 
-  Q3PopupMenu *popup = m_pamProfiles->popupMenu();
+  KMenu *popup = m_pamProfiles->popupMenu();
   popup->clear();
 
   // Fetch profiles

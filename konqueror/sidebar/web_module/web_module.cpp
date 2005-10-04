@@ -86,7 +86,7 @@ QWidget *KonqSideBarWebModule::getWidget() {
 void KonqSideBarWebModule::setAutoReload(){
 	KDialogBase dlg(0, "", true, i18n("Set Refresh Timeout (0 disables)"),
 			KDialogBase::Ok|KDialogBase::Cancel);
-	Q3HBox *hbox = dlg.makeHBoxMainWidget();
+	KHBox *hbox = dlg.makeHBoxMainWidget();
 	
 	QSpinBox *mins = new QSpinBox( 0, 120, 1, hbox );
 	mins->setSuffix( i18n(" minutes") );
