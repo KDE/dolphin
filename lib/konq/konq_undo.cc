@@ -27,7 +27,7 @@
 
 #include <dcopclient.h>
 #include <dcopref.h>
-
+#include <q3cstring.h>
 #include <kapplication.h>
 #include <kdatastream.h>
 #include <kdebug.h>
@@ -503,7 +503,7 @@ void KonqUndoManager::undoRemovingDirectories()
           delete d->m_undoJob;
           d->m_undoJob = 0;
       }
-      KDirNotify_stub allDirNotify( "*", "KDirNotify*" );
+      KDirNotify_stub allDirNotify( Q3CString("*"), Q3CString("KDirNotify*") );
       QList<KURL>::ConstIterator it = d->m_dirsToUpdate.begin();
       for( ; it != d->m_dirsToUpdate.end(); ++it ) {
           kdDebug() << "Notifying FilesAdded for " << *it << endl;

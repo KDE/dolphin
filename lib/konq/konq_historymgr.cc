@@ -36,9 +36,10 @@
 const Q_UINT32 KonqHistoryManager::s_historyVersion = 3;
 
 KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
-    : KParts::HistoryProvider( parent, name ),
+    : KParts::HistoryProvider( parent ),
               KonqHistoryComm( "KonqHistoryManager" )
 {
+	setObjectName(name);
     m_updateTimer = new QTimer( this );
 
     // defaults

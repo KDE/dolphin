@@ -21,7 +21,7 @@ SUBDIRS = pics favicons
 
 lib_LTLIBRARIES = libkonq.la
 libkonq_la_LDFLAGS = $(all_libraries) -version-info 6:0:2 -no-undefined
-libkonq_la_LIBADD = $(LIB_KPARTS)
+libkonq_la_LIBADD = $(LIB_KPARTS) $(LIB_KDE3SUPPORT)
 
 libkonq_la_SOURCES = konq_popupmenu.cc knewmenu.cc \
    konq_xmlguiclient.cc\

@@ -135,7 +135,7 @@ void KonqOperations::doPaste( QWidget * parent, const KURL & destURL, const QPoi
       kdDebug(1203) << "move (from clipboard data) = " << move << endl;
     }
 
-    KIO::Job *job = KIO::pasteClipboard( destURL, move );
+    KIO::Job *job = KIO::pasteClipboard( destURL, parent, move );
     if ( job )
     {
         KonqOperations * op = new KonqOperations( parent );
@@ -387,7 +387,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDro
     {
         //kdDebug(1203) << "Pasting to " << dest.url() << endl;
         KonqOperations * op = new KonqOperations(parent);
-        KIO::CopyJob* job = KIO::pasteMimeSource( ev, dest,
+        KIO::CopyJob* job = KIO::pasteMimeSource( ev->mimeData(), dest,
                                                   i18n( "File name for dropped contents:" ),
                                                   parent );
         if ( job ) // 0 if canceled by user

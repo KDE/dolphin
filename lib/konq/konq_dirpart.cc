@@ -33,7 +33,7 @@
 #include <kmessagebox.h>
 #include <konq_drag.h>
 #include <kparts/browserextension.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
 #include <kuserprofile.h>
 #include <kurifilter.h>
 #include <kglobalsettings.h>
@@ -124,7 +124,7 @@ int KonqDirPart::KonqDirPartPrivate::nearestIconSizeError(int size)
 }
 
 KonqDirPart::KonqDirPart( QObject *parent, const char *name )
-            :KParts::ReadOnlyPart( parent, name ),
+            :KParts::ReadOnlyPart( parent/*, name*/ ),
     m_pProps( 0L ),
     m_findPart( 0L )
 {
@@ -414,7 +414,7 @@ void KonqDirPart::slotClipboardDataChanged()
     QMimeSource *data = QApplication::clipboard()->data();
     if ( data->provides( "application/x-kde-cutselection" ) && data->provides( "text/uri-list" ) )
         if ( KonqDrag::decodeIsCutSelection( data ) )
-            (void) KURLDrag::decode( data, lst );
+            (void) K3URLDrag::decode( data, lst );
 
     disableIcons( lst );
 
