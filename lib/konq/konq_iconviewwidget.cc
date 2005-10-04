@@ -57,7 +57,7 @@
 #include <kipc.h>
 #include <kicontheme.h>
 #include <kiconeffect.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
 #include <kstandarddirs.h>
 #include <kprotocolinfo.h>
 #include <ktrader.h>
@@ -948,7 +948,7 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
           KURL url = fileItem->url();
           bool dummy;
           KURL mostLocalURL = fileItem->mostLocalURL(dummy);
-          QString itemURL = KURLDrag::urlToString(url);
+          QString itemURL = K3URLDrag::urlToString(url);
           kdDebug(1203) << "itemURL=" << itemURL << endl;
           Q3IconDragItem id;
           id.setData( Q3CString(itemURL.latin1()) );
@@ -976,13 +976,13 @@ void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
             kdError() << "Empty data !" << endl;
         // Cache the URLs, since we need them every time we move over a file
         // (see KFileIVI)
-        bool ok = KURLDrag::decode( e, m_lstDragURLs );
+        bool ok = K3URLDrag::decode( e, m_lstDragURLs );
         if( !ok )
             kdError() << "Couldn't decode urls dragged !" << endl;
     }
 
     KURL::List uriList;
-    if ( KURLDrag::decode(e, uriList) )
+    if ( K3URLDrag::decode(e, uriList) )
     {
         if ( uriList.first().protocol() == "programs" )
         {
@@ -1075,8 +1075,8 @@ void KonqIconViewWidget::slotSelectionChanged()
             KURL url = item->url();
             QString local_path = item->localPath();
 
-            if ( url.directory(false) == KGlobalSettings::trashPath() )
-                bInTrash = true;
+            /*if ( url.directory(false) == KGlobalSettings::trashPath() )
+                bInTrash = true;*/
             if ( KProtocolInfo::supportsDeleting( url ) )
                 canDel++;
             if ( !local_path.isEmpty() )
@@ -1259,9 +1259,9 @@ void KonqIconViewWidget::doubleClickTimeout()
         {
             url= ( static_cast<KFileIVI *>( item ) )->item()->url();
             bool brenameTrash =false;
-            if ( url.isLocalFile() && (url.directory(false) == KGlobalSettings::trashPath() || url.path(1).startsWith(KGlobalSettings::trashPath())))
+            /*if ( url.isLocalFile() && (url.directory(false) == KGlobalSettings::trashPath() || url.path(1).startsWith(KGlobalSettings::trashPath())))
                 brenameTrash = true;
-
+            */
             if ( url.isLocalFile() && !brenameTrash && d->renameItem && m_pSettings->renameIconDirectly() && e.button() == Qt::LeftButton && item->textRect( false ).contains(e.pos()))
             {
                 if( d->pActivateDoubleClick->isActive () )
@@ -1338,8 +1338,8 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
      {
          url = ( static_cast<KFileIVI *>( item ) )->item()->url();
          bool brenameTrash =false;
-         if ( url.isLocalFile() && (url.directory(false) == KGlobalSettings::trashPath() || url.path(1).startsWith(KGlobalSettings::trashPath())))
-             brenameTrash = true;
+         /*if ( url.isLocalFile() && (url.directory(false) == KGlobalSettings::trashPath() || url.path(1).startsWith(KGlobalSettings::trashPath())))
+             brenameTrash = true;*/
          if ( !brenameTrash && !KGlobalSettings::singleClick() && m_pSettings->renameIconDirectly() && e->button() == Qt::LeftButton && item->textRect( false ).contains(e->pos())&& !d->firstClick &&  url.isLocalFile() && (!url.protocol().find("device", 0, false)==0))
          {
              d->firstClick = true;

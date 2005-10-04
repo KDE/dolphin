@@ -28,8 +28,9 @@
 #include <QPixmap>
 #include <Q3ValueList>
 #include <QDropEvent>
+#include <QIcon>
 
-#include <kurldrag.h>
+#include <k3urldrag.h>
 #include <kiconeffect.h>
 #include <kfileitem.h>
 #include <kdebug.h>

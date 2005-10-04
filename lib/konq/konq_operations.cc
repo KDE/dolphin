@@ -21,7 +21,7 @@
 #include <QDropEvent>
 #include <Q3ValueList>
 #include "konq_operations.h"
-
+#include <ktoolinvocation.h>
 #include <kautomount.h>
 #include <kinputdialog.h>
 #include <klocale.h>
@@ -46,7 +46,7 @@
 #include <kdebug.h>
 #include <kfileitem.h>
 #include <kdesktopfile.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
 #include <kglobalsettings.h>
 #include <kimageio.h>
 #include <kio/job.h>
@@ -318,7 +318,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDro
     kdDebug(1203) << "doDrop: dest : " << dest.url() << endl;
     KURL::List lst;
     QMap<QString, QString> metaData;
-    if ( KURLDrag::decode( ev, lst, metaData ) ) // Are they urls ?
+    if ( K3URLDrag::decode( ev, lst, metaData ) ) // Are they urls ?
     {
         if( lst.count() == 0 )
         {
@@ -434,7 +434,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
             {
                 stringList.append((*it).url());
             }
-            if ( KApplication::startServiceByDesktopPath( m_destURL.path(), stringList, &error ) > 0 )
+            if ( KToolInvocation::startServiceByDesktopPath( m_destURL.path(), stringList, &error ) > 0 )
                 KMessageBox::error( 0L, error );
         }
         else

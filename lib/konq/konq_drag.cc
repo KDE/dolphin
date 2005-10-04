@@ -19,7 +19,7 @@
 
 #include "konq_drag.h"
 #include <kdebug.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
 //Added by qt3to4:
 #include <Q3StrList>
 #include <Q3CString>
@@ -73,7 +73,7 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
         {
             QStringList uris;
             for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it)
-                uris.append(KURLDrag::stringToUrl((*it).latin1()).prettyURL());
+                uris.append(K3URLDrag::stringToUrl((*it).latin1()).prettyURL());
             Q3CString s = uris.join( "\n" ).local8Bit();
             if( uris.count() > 1 )
                 s.append( "\n" );
@@ -88,7 +88,7 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
             QStringList uris;
 
             for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it) 
-               uris.append(KURLDrag::stringToUrl((*it).latin1()).url(0, 4)); // 4 for latin1
+               uris.append(K3URLDrag::stringToUrl((*it).latin1()).url(0, 4)); // 4 for latin1
 
             Q3CString s = uris.join( "\n" ).latin1();
             if( uris.count() > 1 )
@@ -103,7 +103,7 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
         {
             QStringList uris;
             for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it) 
-                uris.append(KURLDrag::stringToUrl((*it).latin1()).prettyURL());
+                uris.append(K3URLDrag::stringToUrl((*it).latin1()).prettyURL());
             Q3CString s = uris.join( "\n" ).utf8();
             if( uris.count() > 1 )
                 s.append( "\n" );
@@ -136,7 +136,7 @@ KonqIconDrag2::KonqIconDrag2( QWidget * dragSource )
 void KonqIconDrag2::append( const Q3IconDragItem &item, const QRect &pr,
                             const QRect &tr, const QString& url, const KURL &mostLocalURL )
 {
-    QString mostLocalURLStr = KURLDrag::urlToString(mostLocalURL);
+    QString mostLocalURLStr = K3URLDrag::urlToString(mostLocalURL);
     m_kdeURLs.append( url );
     KonqIconDrag::append( item, pr, tr, mostLocalURLStr );
 }
@@ -181,7 +181,7 @@ KonqDrag * KonqDrag::newDrag( const KURL::List & urls, bool cut, QWidget * dragS
     // Get each URL encoded in utf8 - and since we get it in escaped
     // form on top of that, .latin1() is fine.
     for ( ; uit != uEnd ; ++uit )
-        uris.append( KURLDrag::urlToString( *uit ).latin1() );
+        uris.append( K3URLDrag::urlToString( *uit ).latin1() );
     return new KonqDrag( uris, cut, dragSource, name );
 }
 
@@ -203,13 +203,13 @@ KonqDrag::KonqDrag( const KURL::List & urls, const KURL::List& mostLocalUrls,
     // Get each URL encoded in utf8 - and since we get it in escaped
     // form on top of that, .latin1() is fine.
     for ( ; uit != uEnd ; ++uit )
-        uris.append( KURLDrag::urlToString( *uit ).latin1() );
+        uris.append( K3URLDrag::urlToString( *uit ).latin1() );
     setUris( uris ); // we give the KDE uris to QUriDrag. TODO: do the opposite in KDE4 and add a m_mostLocalUris member.
 
     uit = mostLocalUrls.begin();
     uEnd = mostLocalUrls.end();
     for ( ; uit != uEnd ; ++uit )
-        m_urls.append( KURLDrag::urlToString( *uit ).latin1() );
+        m_urls.append( K3URLDrag::urlToString( *uit ).latin1() );
     // we keep the most-local-uris in m_urls for exporting those as text/plain (for xmms)
 }
 
@@ -258,7 +258,7 @@ QByteArray KonqDrag::encodedData( const char* mime ) const
     {
         QStringList uris;
         for (Q3StrListIterator it(m_urls); *it; ++it)
-            uris.append(KURLDrag::stringToUrl(*it).prettyURL());
+            uris.append(K3URLDrag::stringToUrl(*it).prettyURL());
         Q3CString s = uris.join( "\n" ).local8Bit();
         if( uris.count() > 1 )
             s.append( "\n" );
