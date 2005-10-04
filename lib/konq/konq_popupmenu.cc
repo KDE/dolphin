@@ -292,7 +292,7 @@ int KonqPopupMenu::insertServices(const ServiceList& list,
             if ( !(*it).m_strIcon.isEmpty() )
             {
                 QPixmap pix = SmallIcon( (*it).m_strIcon );
-                act->setIconSet( pix );
+                act->setIcon( pix );
             }
 
             KonqXMLGUIClient::addAction( act, menu ); // Add to toplevel menu
@@ -1137,8 +1137,7 @@ void KonqPopupMenu::addPlugins()
     for(; iterator != end; ++iterator, ++pluginCount ) {
         //kdDebug() << (*iterator)->library() << endl;
         KonqPopupMenuPlugin *plugin =
-            KParts::ComponentFactory::
-            createInstanceFromLibrary<KonqPopupMenuPlugin>( QFile::encodeName( (*iterator)->library() ),
+            KLibLoader::createInstance<KonqPopupMenuPlugin>( QFile::encodeName( (*iterator)->library() ),
                                                             this,
                                                             (*iterator)->name().latin1() );
         if ( !plugin )

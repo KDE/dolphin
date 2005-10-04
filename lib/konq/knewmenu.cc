@@ -548,7 +548,7 @@ void KURLDesktopFileDlg::initDialog( const QString& textFileName, const QString&
     topLayout->addWidget( fileNameBox );
 
     QLabel * label = new QLabel( textFileName, fileNameBox );
-    m_leFileName = new KLineEdit( fileNameBox, 0L );
+    m_leFileName = new KLineEdit( fileNameBox );
     m_leFileName->setMinimumWidth(m_leFileName->sizeHint().width() * 3);
     label->setBuddy(m_leFileName);  // please "scheck" style
     m_leFileName->setText( defaultName );
@@ -560,7 +560,8 @@ void KURLDesktopFileDlg::initDialog( const QString& textFileName, const QString&
     Q3HBox * urlBox = new Q3HBox( plainPage() );
     topLayout->addWidget( urlBox );
     label = new QLabel( textUrl, urlBox );
-    m_urlRequester = new KURLRequester( defaultUrl, urlBox, "urlRequester" );
+    m_urlRequester = new KURLRequester( defaultUrl, urlBox);
+	m_urlRequester->setObjectName("urlRequester");
     m_urlRequester->setMode( KFile::File | KFile::Directory );
 
     m_urlRequester->setMinimumWidth( m_urlRequester->sizeHint().width() * 3 );
