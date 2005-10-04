@@ -22,7 +22,7 @@
 #include <QVBoxLayout>
 #include <Q3ValueList>
 #include <Q3CString>
-
+#include <Q3HBox>
 #include <kdebug.h>
 #include <kdesktopfile.h>
 #include <kdirwatch.h>
