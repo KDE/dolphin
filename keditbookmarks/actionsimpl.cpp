@@ -323,26 +323,15 @@ void ActionsImpl::slotCut() {
 
 }
 
-//FIXME remove after kdelibs gets a suitable constructor
-Q3ValueList<KBookmark> convert(QList<KBookmark> vec)
-{
-    Q3ValueList<KBookmark> list;
-    QList<KBookmark>::const_iterator it, end;
-    end = vec.constEnd();
-    for(it = vec.constBegin(); it != end; ++it)
-        list.append( *it );
-    return list;
-}
-//FIXME end remove
-
 void ActionsImpl::slotCopy() 
 {
     KEBApp::self()->bkInfo()->commitChanges();
     // this is not a command, because it can't be undone
     QList<KBookmark> bookmarks = KEBApp::self()->selectedBookmarksExpanded();
-    KBookmarkDrag* data = KBookmarkDrag::newDrag(convert(bookmarks), 0 /* not this ! */);
-    kapp->clipboard()->setData(data, QClipboard::Selection);
-    kapp->clipboard()->setData(data, QClipboard::Clipboard);
+    //FIXME rewrite
+    //KBookmarkDrag* data = KBookmarkDrag::newDrag(bookmarks, 0 /* not this ! */);
+    //kapp->clipboard()->setData(data, QClipboard::Selection);
+    //kapp->clipboard()->setData(data, QClipboard::Clipboard);
 }
 
 void ActionsImpl::slotPaste() {
@@ -572,7 +561,7 @@ void ActionsImpl::slotOpenLink()
     for (it = bookmarks.constBegin(); it != end; ++it) {
         if ((*it).isGroup() || (*it).isSeparator())
             continue;
-        (void)new KRun((*it).url());
+        (void)new KRun((*it).url(), KEBApp::self());
     }
 }
 

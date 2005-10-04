@@ -85,7 +85,7 @@ void FavIconsItr::doAction() {
     // kdDebug() << "FavIconsItr::doAction()" << endl;
     //FIXME curItem()->setTmpStatus(i18n("Updating favicon..."));
     if (!m_updater) {
-        m_updater = new FavIconUpdater(kapp, "FavIconUpdater");
+        m_updater = new FavIconUpdater(kapp);
         connect(m_updater, SIGNAL( done(bool) ),
                 this,      SLOT( slotDone(bool) ) );
     }

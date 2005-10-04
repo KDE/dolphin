@@ -28,6 +28,7 @@
 #include <kcmdlineargs.h>
 #include <kdebug.h>
 #include <kstandarddirs.h>
+#include <klocale.h>
 
 #include <dcopclient.h>
 

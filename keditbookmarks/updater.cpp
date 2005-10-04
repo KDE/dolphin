@@ -34,8 +34,8 @@
 #include <kparts/browserextension.h>
 #include <assert.h>
 
-FavIconUpdater::FavIconUpdater(QObject *parent, const char *name)
-    : KonqFavIconMgr(parent, name) {
+FavIconUpdater::FavIconUpdater(QObject *parent)
+    : KonqFavIconMgr(parent) {
     m_part = 0;
     m_webGrabber = 0;
     m_browserIface = 0;
@@ -94,7 +94,7 @@ void FavIconUpdater::downloadIconActual(const KBookmark &bk) {
         KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(part);
         assert(ext);
 
-        m_browserIface = new FavIconBrowserInterface(this, "browseriface");
+        m_browserIface = new FavIconBrowserInterface(this);
         ext->setBrowserInterface(m_browserIface);
 
         connect(ext, SIGNAL( setIconURL(const KURL &) ),

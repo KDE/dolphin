@@ -472,8 +472,8 @@ void KEBApp::updateActions() {
 void KEBApp::slotClipboardDataChanged() {
     // kdDebug() << "KEBApp::slotClipboardDataChanged" << endl;
     if (!m_readOnly) {
-        m_canPaste = KBookmarkDrag::canDecode(
-                        kapp->clipboard()->data(QClipboard::Clipboard));
+        m_canPaste = KBookmark::List::canDecode(
+                        QApplication::clipboard()->mimeData());
         updateActions();
     }
 }

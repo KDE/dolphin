@@ -47,7 +47,7 @@ QString ImportCommand::folder() const {
     return m_folder ? i18n("%1 Bookmarks").arg(visibleName()) : QString::null;
 }
 
-ImportCommand* ImportCommand::importerFactory(const Q3CString &type) {
+ImportCommand* ImportCommand::importerFactory(const QString &type) {
     if (type == "Galeon") return new GaleonImportCommand();
     else if (type == "IE") return new IEImportCommand();
     else if (type == "KDE2") return new KDE2ImportCommand();
@@ -61,7 +61,7 @@ ImportCommand* ImportCommand::importerFactory(const Q3CString &type) {
     }
 }
 
-ImportCommand* ImportCommand::performImport(const Q3CString &type, QWidget *top) {
+ImportCommand* ImportCommand::performImport(const QString &type, QWidget *top) {
     ImportCommand *importer = ImportCommand::importerFactory(type);
 
     QString mydirname = importer->requestFilename();

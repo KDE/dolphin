@@ -74,13 +74,13 @@ public:
      * If \a view is null then the widget will be disabled until a listview
      * is set with setListView().
      */
-    KViewSearchLine(QWidget *parent = 0, QAbstractItemView *view = 0, const char *name = 0);
+    KViewSearchLine(QWidget *parent = 0, QAbstractItemView *view = 0);
 
     /**
      * Constructs a KViewSearchLine without any QListView/QTreeView to filter. The
      * QListView/QTreeView object has to be set later with setListView(). 
      */
-    KViewSearchLine(QWidget *parent, const char *name);
+    KViewSearchLine(QWidget *parent);
 
     /**
      * Destroys the KViewSearchLine.
@@ -280,10 +280,9 @@ class KDEUI_EXPORT KViewSearchLineWidget : public QWidget
 public:
     /**
      * Creates a KListViewSearchLineWidget for \a view with \a parent as the
-     * parent with and \a name.
+     * parent
      */
-    KViewSearchLineWidget(QAbstractItemView *view = 0, QWidget *parent = 0,
-                              const char *name = 0);
+    KViewSearchLineWidget(QAbstractItemView *view = 0, QWidget *parent = 0);
 
     /**
      * Destroys the KListViewSearchLineWidget

@@ -1,4 +1,3 @@
-// -*- mode:cperl; cperl-indent-level:4; cperl-continued-statement-offset:4; indent-tabs-mode:nil -*-
 // vim: set ts=4 sts=4 sw=4 et:
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
@@ -30,6 +29,7 @@
 #include <kbookmark.h>
 
 #include <qobject.h>
+#include <QString>
 
 // part pure
 class ImportCommand : public QObject, public KCommand, public IKEBCommand
@@ -46,8 +46,8 @@ public:
    virtual QString visibleName() const { return m_visibleName; }
    virtual QString requestFilename() const = 0;
 
-   static ImportCommand* performImport(const Q3CString &, QWidget *);
-   static ImportCommand* importerFactory(const Q3CString &);
+   static ImportCommand* performImport(const QString &, QWidget *);
+   static ImportCommand* importerFactory(const QString &);
 
    virtual ~ImportCommand()
    { ; }

@@ -108,8 +108,8 @@ public:
 };
 
 
-KViewSearchLine::KViewSearchLine(QWidget *parent, QAbstractItemView *v, const char *name) :
-    KLineEdit(parent, name)
+KViewSearchLine::KViewSearchLine(QWidget *parent, QAbstractItemView *v) :
+    KLineEdit(parent)
 {
     d = new KViewSearchLinePrivate;
 
@@ -138,8 +138,8 @@ KViewSearchLine::KViewSearchLine(QWidget *parent, QAbstractItemView *v, const ch
         setEnabled(false);
 }
 
-KViewSearchLine::KViewSearchLine(QWidget *parent, const char *name) :
-    KLineEdit(parent, name)
+KViewSearchLine::KViewSearchLine(QWidget *parent) :
+    KLineEdit(parent)
 {
     d = new KViewSearchLinePrivate;
 
@@ -697,9 +697,8 @@ public:
 };
 
 KViewSearchLineWidget::KViewSearchLineWidget(QAbstractItemView *view,
-                                             QWidget *parent,
-                                             const char *name) :
-    QWidget(parent, name)
+                                             QWidget *parent) :
+    QWidget(parent)
 {
     d = new KViewSearchLineWidgetPrivate;
     d->view = view;

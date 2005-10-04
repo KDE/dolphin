@@ -50,7 +50,7 @@ class FavIconUpdater : public KonqFavIconMgr
     Q_OBJECT
 
 public:
-    FavIconUpdater(QObject *parent, const char *name);
+    FavIconUpdater(QObject *parent);
     ~FavIconUpdater();
     void downloadIcon(const KBookmark &bk);
     void downloadIconActual(const KBookmark &bk);
@@ -76,8 +76,8 @@ class FavIconBrowserInterface : public KParts::BrowserInterface
 {
     Q_OBJECT
 public:
-    FavIconBrowserInterface(FavIconUpdater *view, const char *name)
-        : KParts::BrowserInterface(view, name), m_view(view) {
+    FavIconBrowserInterface(FavIconUpdater *view)
+        : KParts::BrowserInterface(view), m_view(view) {
         ;
     }
 private:

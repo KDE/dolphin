@@ -541,65 +541,67 @@ KEBMacroCommand* CmdGen::setAsToolbar(const KBookmark &bk)
 KEBMacroCommand* CmdGen::insertMimeSource(
     const QString &cmdName, QMimeSource *_data, const QString &addr
 ) {
-    QMimeSource *data = _data;
-    bool modified = false;
-    const char *format = 0;
-    for (int i = 0; format = data->format(i), format; i++) {
-        // qt docs don't say if encodedData(blah) where
-        // blah is not a stored mimetype should return null
-        // or not. so, we search. sucky...
-        if (strcmp(format, "GALEON_BOOKMARK") == 0) { 
-            modified = true;
-            Q3StoredDrag *mydrag = new Q3StoredDrag("application/x-xbel");
-            mydrag->setEncodedData(data->encodedData("GALEON_BOOKMARK"));
-            data = mydrag;
-            break;
-        } else if( strcmp(format, "application/x-xbel" )==0) {
-            /* nothing we created a kbbookmarks drag when we copy element (slotcopy/slotpaste)*/
-            break;
-        } else if (strcmp(format, "text/uri-list") == 0) { 
-            KURL::List uris;
-            if (!KURLDrag::decode(data, uris))
-                continue; // break out of format loop
-            KURL::List::ConstIterator uit = uris.begin();
-            KURL::List::ConstIterator uEnd = uris.end();
-            QList<KBookmark> urlBks;
-            for ( ; uit != uEnd ; ++uit ) {
-                if (!(*uit).url().endsWith(".desktop"))  {
-                    urlBks << KBookmark::standaloneBookmark((*uit).prettyURL(), (*uit));
-                    continue;
-                }
-                KDesktopFile df((*uit).path(), true);
-                QString title = df.readName();
-                KURL url(df.readURL());
-                if (title.isNull())
-                    title = url.prettyURL();
-                urlBks << KBookmark::standaloneBookmark(title, url, df.readIcon());
-            }
-            KBookmarkDrag *mydrag = KBookmarkDrag::newDrag(urlBks, 0);
-            modified = true;
-            data = mydrag;
-        }
-    }
-    if (!KBookmarkDrag::canDecode(data))
-    {
-        if (modified) // Shouldn't happen
-            delete data;
-        return 0;
-    }
-    KEBMacroCommand *mcmd = new KEBMacroCommand(cmdName);
-    QString currentAddress = addr;
-    Q3ValueList<KBookmark> bookmarks = KBookmarkDrag::decode(data);
-    for (Q3ValueListConstIterator<KBookmark> it = bookmarks.begin(); 
-            it != bookmarks.end(); ++it) {
-        CreateCommand *cmd = new CreateCommand(currentAddress, (*it));
-        cmd->execute();
-        mcmd->addCommand(cmd);
-        currentAddress = KBookmark::nextAddress(currentAddress);
-    }
-    if (modified)
-        delete data;
-    return mcmd;
+    //FIXME rewrite
+    return 0;
+//     QMimeSource *data = _data;
+//     bool modified = false;
+//     const char *format = 0;
+//     for (int i = 0; format = data->format(i), format; i++) {
+//         // qt docs don't say if encodedData(blah) where
+//         // blah is not a stored mimetype should return null
+//         // or not. so, we search. sucky...
+//         if (strcmp(format, "GALEON_BOOKMARK") == 0) { 
+//             modified = true;
+//             Q3StoredDrag *mydrag = new Q3StoredDrag("application/x-xbel");
+//             mydrag->setEncodedData(data->encodedData("GALEON_BOOKMARK"));
+//             data = mydrag;
+//             break;
+//         } else if( strcmp(format, "application/x-xbel" )==0) {
+//             /* nothing we created a kbbookmarks drag when we copy element (slotcopy/slotpaste)*/
+//             break;
+//         } else if (strcmp(format, "text/uri-list") == 0) { 
+//             KURL::List uris;
+//             if (!KURLDrag::decode(data, uris))
+//                 continue; // break out of format loop
+//             KURL::List::ConstIterator uit = uris.begin();
+//             KURL::List::ConstIterator uEnd = uris.end();
+//             QList<KBookmark> urlBks;
+//             for ( ; uit != uEnd ; ++uit ) {
+//                 if (!(*uit).url().endsWith(".desktop"))  {
+//                     urlBks << KBookmark::standaloneBookmark((*uit).prettyURL(), (*uit));
+//                     continue;
+//                 }
+//                 KDesktopFile df((*uit).path(), true);
+//                 QString title = df.readName();
+//                 KURL url(df.readURL());
+//                 if (title.isNull())
+//                     title = url.prettyURL();
+//                 urlBks << KBookmark::standaloneBookmark(title, url, df.readIcon());
+//             }
+//             KBookmarkDrag *mydrag = KBookmarkDrag::newDrag(urlBks, 0);
+//             modified = true;
+//             data = mydrag;
+//         }
+//     }
+//     if (!KBookmarkDrag::canDecode(data))
+//     {
+//         if (modified) // Shouldn't happen
+//             delete data;
+//         return 0;
+//     }
+//     KEBMacroCommand *mcmd = new KEBMacroCommand(cmdName);
+//     QString currentAddress = addr;
+//     Q3ValueList<KBookmark> bookmarks = KBookmarkDrag::decode(data);
+//     for (Q3ValueListConstIterator<KBookmark> it = bookmarks.begin(); 
+//             it != bookmarks.end(); ++it) {
+//         CreateCommand *cmd = new CreateCommand(currentAddress, (*it));
+//         cmd->execute();
+//         mcmd->addCommand(cmd);
+//         currentAddress = KBookmark::nextAddress(currentAddress);
+//     }
+//     if (modified)
+//         delete data;
+//     return mcmd;
 }
 
 KEBMacroCommand* CmdGen::itemsMoved(const QList<KBookmark> & items, 
