@@ -64,7 +64,7 @@ void BookmarkView::aboutToMoveRows(const QModelIndex & oldParent, int, int, cons
 
 void BookmarkView::dragEnterEvent(QDragEnterEvent *event)
 {
-    //FIMXE add code
+    //FIXME add code
     QAbstractItemView::dragEnterEvent(event);
 }
 
@@ -73,8 +73,6 @@ void BookmarkView::dragMoveEvent(QDragMoveEvent *event)
     //FIXME add code
     QAbstractItemView::dragMoveEvent(event);
 }
-
-
 
 void BookmarkView::rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int)
 {

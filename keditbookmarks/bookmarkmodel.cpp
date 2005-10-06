@@ -325,37 +325,38 @@ void BookmarkModel::emitDataChanged(KBookmark bk)
 QMimeData * BookmarkModel::mimeData( const QModelIndexList & indexes ) const
 {
     QMimeData *mimeData = new QMimeData;
-    //FIXME use KBookmark::addToMimeData (or whatever KBookmarkDrag is ported to.)
-    //FIXME for now insert bogus things
-    mimeData->setData("application/x-xbel", "XXXX");
+    KBookmark::List bookmarks;
+    QModelIndexList::const_iterator it, end;
+    end = indexes.constEnd();
+    for( it = indexes.constBegin(); it!= end; ++it)
+        bookmarks.push_back( static_cast<TreeItem *>((*it).internalPointer())->bookmark());
+    bookmarks.populateMimeData(mimeData);
     return mimeData;
 }
 
 Qt::DropActions BookmarkModel::supportedDropActions () const
 {
-    //FIXME should return Qt::MoveAction | Qt::CopyAction
+    //FIXME check if that actually works
     return Qt::CopyAction | Qt::MoveAction;
 }
 
 QStringList BookmarkModel::mimeTypes () const
 {
-    //FIXME reuse KBookmark::mimeTypes (or something like that)
-    QStringList list;
-    list.append("application/x-xbel");
-    list.append("text/uri-list");
-    list.append("text/plain");
-    return list;
+    return KBookmark::List::mimeDataTypes();
 }
 
 bool BookmarkModel::dropMimeData(const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent)
 {
+    //FIXME this only works for internal drag and drops
+
     QModelIndex idx;
     // idx is the index on which the data was dropped
     // work around stupid design of the qt api:
-    if(row == -1)   
+    if(row == -1)
         idx = parent;
     else
         idx = index(row, column, parent);
+
     KBookmark bk = static_cast<TreeItem *>(idx.internalPointer())->bookmark();
     QString addr = bk.address();
     if(bk.isGroup())
