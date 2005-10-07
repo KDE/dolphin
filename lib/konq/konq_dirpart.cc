@@ -411,10 +411,10 @@ void KonqDirPart::slotClipboardDataChanged()
     // This is very related to KDIconView::slotClipboardDataChanged
 
     KURL::List lst;
-    QMimeSource *data = QApplication::clipboard()->data();
-    if ( data->provides( "application/x-kde-cutselection" ) && data->provides( "text/uri-list" ) )
+    const QMimeData *data = QApplication::clipboard()->mimeData();
+    if ( data->hasFormat( "application/x-kde-cutselection" ) && data->hasFormat( "text/uri-list" ) )
         if ( KonqDrag::decodeIsCutSelection( data ) )
-            (void) K3URLDrag::decode( data, lst );
+            lst = KURL::List::fromMimeData( data );
 
     disableIcons( lst );
 

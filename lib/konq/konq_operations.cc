@@ -129,8 +129,8 @@ void KonqOperations::doPaste( QWidget * parent, const KURL & destURL, const QPoi
 {
     // move or not move ?
     bool move = false;
-    QMimeSource *data = QApplication::clipboard()->data();
-    if ( data->provides( "application/x-kde-cutselection" ) ) {
+    const QMimeData *data = QApplication::clipboard()->mimeData();
+    if ( data->hasFormat( "application/x-kde-cutselection" ) ) {
       move = KonqDrag::decodeIsCutSelection( data );
       kdDebug(1203) << "move (from clipboard data) = " << move << endl;
     }

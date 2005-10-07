@@ -117,7 +117,7 @@ public:
     void setMoveSelection( bool move ) { m_bCutSelection = move; }
 
     // Returns true if the data was cut (used for KonqIconDrag too)
-    static bool decodeIsCutSelection( const QMimeSource *e );
+    static bool decodeIsCutSelection( const QMimeData *e );
 
 protected: // ##### TODO private. And d pointer...
     bool m_bCutSelection;

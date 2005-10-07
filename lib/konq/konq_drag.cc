@@ -272,9 +272,9 @@ QByteArray KonqDrag::encodedData( const char* mime ) const
 
 // Used for KonqIconDrag too
 
-bool KonqDrag::decodeIsCutSelection( const QMimeSource *e )
+bool KonqDrag::decodeIsCutSelection( const QMimeData *e )
 {
-  QByteArray a = e->encodedData( "application/x-kde-cutselection" );
+  QByteArray a = e->data( "application/x-kde-cutselection" );
   if ( a.isEmpty() )
     return false;
   else
