@@ -48,7 +48,7 @@
 #include <kprocess.h>
 #include <kio/netaccess.h>
 #include <kurl.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
 
 #include "settings.h"
 #include "pass.h"
@@ -292,7 +292,7 @@ bool KCMUserAccount::eventFilter(QObject *, QEvent *e)
 	if (e->type() == QEvent::DragEnter)
 		{
 		QDragEnterEvent *ee = (QDragEnterEvent *) e;
-		ee->accept( KURLDrag::canDecode(ee) );
+		ee->accept( K3URLDrag::canDecode(ee) );
 		return true;
 	}
 
@@ -323,7 +323,7 @@ inline KURL *KCMUserAccount::decodeImgDrop(QDropEvent *e, QWidget *wdg)
 {
   KURL::List uris;
 
-  if (KURLDrag::decode(e, uris) && (uris.count() > 0))
+  if (K3URLDrag::decode(e, uris) && (uris.count() > 0))
   {
     KURL *url = new KURL(uris.first());
 
