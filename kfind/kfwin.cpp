@@ -372,20 +372,20 @@ void KfindWindow::resetColumns(bool init)
    QFontMetrics fm = fontMetrics();
   if (init)
   {
-    setColumnWidth(2, QMAX(fm.width(columnText(2)), fm.width("0000000")) + 15);
+    setColumnWidth(2, qMax(fm.width(columnText(2)), fm.width("0000000")) + 15);
     QString sampleDate =
       KGlobal::locale()->formatDateTime(QDateTime::currentDateTime());
-    setColumnWidth(3, QMAX(fm.width(columnText(3)), fm.width(sampleDate)) + 15);
-    setColumnWidth(4, QMAX(fm.width(columnText(4)), fm.width(i18n(perm[RO]))) + 15);
-    setColumnWidth(5, QMAX(fm.width(columnText(5)), fm.width("some text")) + 15);
+    setColumnWidth(3, qMax(fm.width(columnText(3)), fm.width(sampleDate)) + 15);
+    setColumnWidth(4, qMax(fm.width(columnText(4)), fm.width(i18n(perm[RO]))) + 15);
+    setColumnWidth(5, qMax(fm.width(columnText(5)), fm.width("some text")) + 15);
   }
 
   int free_space = visibleWidth() -
     columnWidth(2) - columnWidth(3) - columnWidth(4) - columnWidth(5);
 
-//  int name_w = QMIN((int)(free_space*0.5), 150);
+//  int name_w = qMin((int)(free_space*0.5), 150);
 //  int dir_w = free_space - name_w;
-  int name_w = QMAX((int)(free_space*0.5), fm.width("some long filename"));
+  int name_w = qMax((int)(free_space*0.5), fm.width("some long filename"));
   int dir_w = name_w;
 
   setColumnWidth(0, name_w);
