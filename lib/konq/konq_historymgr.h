@@ -93,7 +93,7 @@ public:
      *
      * The history is saved after receiving the DCOP call.
      */
-    void emitSetMaxCount( Q_UINT32 count );
+    void emitSetMaxCount( quint32 count );
 
     /**
      * Sets a new maximum age of history entries and removes all entries that
@@ -104,7 +104,7 @@ public:
      *
      * The history is saved after receiving the DCOP call.
      */
-    void emitSetMaxAge( Q_UINT32 days );
+    void emitSetMaxAge( quint32 days );
 
     /**
      * Removes the history entry for @p url, if existant. Tells all other
@@ -125,12 +125,12 @@ public:
     /**
      * @returns the current maximum number of history entries.
      */
-    Q_UINT32 maxCount() const { return m_maxCount; }
+    quint32 maxCount() const { return m_maxCount; }
 
     /**
      * @returns the current maximum age (in days) of history entries.
      */
-    Q_UINT32 maxAge() const { return m_maxAgeDays; }
+    quint32 maxAge() const { return m_maxAgeDays; }
 
     /**
      * Adds a pending entry to the history. Pending means, that the entry is
@@ -261,13 +261,13 @@ protected:
      * Called when the configuration of the maximum count changed.
      * Called via DCOP by some config-module
      */
-    virtual void notifyMaxCount( Q_UINT32 count, Q3CString saveId );
+    virtual void notifyMaxCount( quint32 count, Q3CString saveId );
 
     /**
      * Called when the configuration of the maximum age of history-entries
      * changed. Called via DCOP by some config-module
      */
-    virtual void notifyMaxAge( Q_UINT32 days, Q3CString saveId );
+    virtual void notifyMaxAge( quint32 days, Q3CString saveId );
 
     /**
      * Clears the history completely. Called via DCOP by some config-module
@@ -369,8 +369,8 @@ private:
      */
     QMap<QString,KonqHistoryEntry*> m_pending;
 
-    Q_UINT32 m_maxCount;   // maximum of history entries
-    Q_UINT32 m_maxAgeDays; // maximum age of a history entry
+    quint32 m_maxCount;   // maximum of history entries
+    quint32 m_maxAgeDays; // maximum age of a history entry
 
     KCompletion *m_pCompletion; // the completion object we sync with
 
@@ -380,7 +380,7 @@ private:
      */
     QTimer *m_updateTimer;
 
-    static const Q_UINT32 s_historyVersion;
+    static const quint32 s_historyVersion;
 };
 
 

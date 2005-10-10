@@ -33,7 +33,7 @@
 //Added by qt3to4:
 #include <Q3CString>
 
-const Q_UINT32 KonqHistoryManager::s_historyVersion = 3;
+const quint32 KonqHistoryManager::s_historyVersion = 3;
 
 KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
     : KParts::HistoryProvider( parent ),
@@ -46,7 +46,7 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cs( config, "HistorySettings" );
     m_maxCount = config->readNumEntry( "Maximum of History entries", 500 );
-    m_maxCount = QMAX( (Q_UINT32)1, m_maxCount );
+    m_maxCount = qMax( (quint32)1, m_maxCount );
     m_maxAgeDays = config->readNumEntry( "Maximum age of History entries", 90);
 
     m_history.setAutoDelete( true );
@@ -105,7 +105,7 @@ bool KonqHistoryManager::loadHistory()
     QDataStream crcStream( data );
 
     if ( !fileStream.atEnd() ) {
-	Q_UINT32 version;
+	quint32 version;
         fileStream >> version;
 
         QDataStream *stream = &fileStream;
@@ -114,7 +114,7 @@ bool KonqHistoryManager::loadHistory()
         bool crcOk = false;
 
         if ( version == 2 || version == 3) {
-            Q_UINT32 crc;
+            quint32 crc;
             crcChecked = true;
             fileStream >> crc >> data;
             crcOk = crc32( 0, reinterpret_cast<unsigned char *>( data.data() ), data.size() ) == crc;
@@ -135,7 +135,7 @@ bool KonqHistoryManager::loadHistory()
 	    // binary file, this would make backups impossible (they would clear
 	    // themselves on startup, because all entries expire).
 	    // [But V1 and V2 formats did it, so we do a dummy read]
-	    Q_UINT32 dummy;
+	    quint32 dummy;
 	    *stream >> dummy;
 	    *stream >> dummy;
 
@@ -227,7 +227,7 @@ bool KonqHistoryManager::saveHistory()
     //For DCOP, transfer strings instead - wire compat.
     KonqHistoryEntry::marshalURLAsStrings = true;
 
-    Q_UINT32 crc = crc32( 0, reinterpret_cast<unsigned char *>( data.data() ), data.size() );
+    quint32 crc = crc32( 0, reinterpret_cast<unsigned char *>( data.data() ), data.size() );
     *fileStream << crc << data;
 
     file.close();
@@ -286,7 +286,7 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& _url,
     KURL url( _url );
     bool hasPass = url.hasPass();
     url.setPass( QString::null ); // No password in the history, especially not in the completion!
-    url.setHost( url.host().lower() ); // All host parts lower case
+    url.setHost( url.host().toLower() ); // All host parts lower case
     KonqHistoryEntry entry;
     QString u = url.prettyURL();
     entry.url = url;
@@ -419,22 +419,22 @@ void KonqHistoryManager::emitClear()
 			      "notifyClear(QCString)", data );
 }
 
-void KonqHistoryManager::emitSetMaxCount( Q_UINT32 count )
+void KonqHistoryManager::emitSetMaxCount( quint32 count )
 {
     QByteArray data;
     QDataStream stream( &data, QIODevice::WriteOnly );
     stream << count << objId();
     kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
-			      "notifyMaxCount(Q_UINT32, QCString)", data );
+			      "notifyMaxCount(quint32, QCString)", data );
 }
 
-void KonqHistoryManager::emitSetMaxAge( Q_UINT32 days )
+void KonqHistoryManager::emitSetMaxAge( quint32 days )
 {
     QByteArray data;
     QDataStream stream( &data, QIODevice::WriteOnly );
     stream << days << objId();
     kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
-			      "notifyMaxAge(Q_UINT32, QCString)", data );
+			      "notifyMaxAge(quint32, QCString)", data );
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -487,7 +487,7 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
     emit entryAdded( entry );
 }
 
-void KonqHistoryManager::notifyMaxCount( Q_UINT32 count, Q3CString )
+void KonqHistoryManager::notifyMaxCount( quint32 count, Q3CString )
 {
     m_maxCount = count;
     clearPending();
@@ -503,7 +503,7 @@ void KonqHistoryManager::notifyMaxCount( Q_UINT32 count, Q3CString )
     }
 }
 
-void KonqHistoryManager::notifyMaxAge( Q_UINT32 days, Q3CString  )
+void KonqHistoryManager::notifyMaxAge( quint32 days, Q3CString  )
 {
     m_maxAgeDays = days;
     clearPending();

@@ -81,7 +81,7 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
             memcpy( a.data(), s.data(), s.length());
         }
     }
-    else if ( mimetype.lower() == "text/plain;charset=iso-8859-1")
+    else if ( mimetype.toLower() == "text/plain;charset=iso-8859-1")
     {
         if (!urls.isEmpty())
         {
@@ -97,7 +97,7 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
             memcpy( a.data(), s.data(), s.length());
         }
     }
-    else if ( mimetype.lower() == "text/plain;charset=utf-8")
+    else if ( mimetype.toLower() == "text/plain;charset=utf-8")
     {
         if (!urls.isEmpty())
         {

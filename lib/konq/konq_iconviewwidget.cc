@@ -637,7 +637,7 @@ void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreview
         int realSize = size ? size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
         // choose spacing depending on font, but min 5 (due to KFileIVI  move limit)
         setSpacing( ( m_bDesktop || ( realSize > KIcon::SizeSmall ) ) ?
-                    QMAX( 5, QFontMetrics(font()).width('n') ) : 0 );
+                    qMax( 5, QFontMetrics(font()).width('n') ) : 0 );
     }
 
     if ( sizeChanged || previewSizeChanged || !stopImagePreviewFor.isEmpty() )
@@ -701,10 +701,10 @@ void KonqIconViewWidget::setItemTextPos( ItemTextPos pos )
 
     if ( m_bSetGridX )
         if ( pos == Q3IconView::Bottom )
-            setGridX( QMAX( sz + 50, previewIconSize( sz ) + 13 ) );
+            setGridX( qMax( sz + 50, previewIconSize( sz ) + 13 ) );
         else
         {
-            setMaxItemWidth( QMAX( sz, previewIconSize( sz ) ) + m_pSettings->iconTextWidth() );
+            setMaxItemWidth( qMax( sz, previewIconSize( sz ) ) + m_pSettings->iconTextWidth() );
             setGridX( -1 );
         }
 
@@ -724,9 +724,9 @@ void KonqIconViewWidget::gridValues( int* x, int* y, int* dx, int* dy,
     // vertical  : top spacing(), <height>, bottom spacing()
     // The doubled space in y-direction gives a better visual separation and makes it clearer
     // to which item the text belongs
-    *dx = spacing() + QMAX( QMAX( iconSize, previewSize ), m_pSettings->iconTextWidth() );
+    *dx = spacing() + qMax( qMax( iconSize, previewSize ), m_pSettings->iconTextWidth() );
     int textHeight = iconTextHeight() * fontMetrics().height();
-    *dy = spacing() + QMAX( iconSize, previewSize ) + 2 + textHeight + spacing();
+    *dy = spacing() + qMax( iconSize, previewSize ) + 2 + textHeight + spacing();
 
     // Icon Area
     int w, h;
@@ -771,9 +771,9 @@ int KonqIconViewWidget::gridXValue() const
     int newGridX;
 
     if ( itemTextPos() == Q3IconView::Bottom )
-        newGridX = QMAX( sz + 50, previewIconSize( sz ) + 13 );
+        newGridX = qMax( sz + 50, previewIconSize( sz ) + 13 );
     else
-        newGridX = QMAX( sz, previewIconSize( sz ) ) + m_pSettings->iconTextWidth();
+        newGridX = qMax( sz, previewIconSize( sz ) ) + m_pSettings->iconTextWidth();
 
     //kdDebug(1203) << "gridXValue: " << newGridX << " sz=" << sz << endl;
     return newGridX;
@@ -1457,7 +1457,7 @@ void KonqIconViewWidget::insertInGrid(Q3IconViewItem *item)
     for (; i; i = i->nextItem() )
     {
         r = r.subtract(i->rect());
-        y = QMAX(y, i->y() + i->height());
+        y = qMax(y, i->y() + i->height());
     }
 
     Q3MemArray<QRect> rects = r.rects();
@@ -1555,8 +1555,8 @@ void KonqIconViewWidget::lineupIcons()
         int x = item->x() + item->width() / 2 - x0;
         int y = item->pixmapRect( false ).bottom() - iconSize / 2
                 - ( dy - ( iconSize + textHeight ) ) / 2 - y0;
-        int posX = QMIN( nx-1, QMAX( 0, x / dx ) );
-        int posY = QMIN( ny-1, QMAX( 0, y / dy ) );
+        int posX = qMin( nx-1, qMax( 0, x / dx ) );
+        int posY = qMin( ny-1, qMax( 0, y / dy ) );
 
         if ( !bins[posX][posY] )
             bins[posX][posY] = new Bin;
@@ -1615,7 +1615,7 @@ void KonqIconViewWidget::lineupIcons()
                 Q3IconViewItem* movedItem;
                 Bin* items = bins[i][j];
 
-                int mini = QMIN( QMIN( tf, bf ), QMIN( lf, rf ) );
+                int mini = qMin( qMin( tf, bf ), qMin( lf, rf ) );
                 if ( tf == mini ) {
                     // move top item in (i,j) to (i,j-1)
                     Bin::iterator it = items->begin();
@@ -1686,7 +1686,7 @@ void KonqIconViewWidget::lineupIcons()
             if ( !bin->isEmpty() ) {
                 Q3IconViewItem* item = bin->first();
                 int newX = x0 + i*dx + spacing() +
-                           QMAX(0, ( (dx-spacing()) - item->width() ) / 2);  // pixmap can be larger as iconsize
+                           qMax(0, ( (dx-spacing()) - item->width() ) / 2);  // pixmap can be larger as iconsize
                 // align all icons vertically to their text
                 int newY = y0 + j*dy + dy - spacing() - ( item->pixmapRect().bottom() + 2 + textHeight );
                 if ( item->x() != newX || item->y() != newY ) {
@@ -1739,7 +1739,7 @@ void KonqIconViewWidget::lineupIcons( Q3IconView::Arrangement arrangement )
     Q3IconViewItem* item;
     for ( item = firstItem(); item; item = item->nextItem() ) {
         int newX = x0 + nx*dx + spacing() +
-                   QMAX(0, ( (dx-spacing()) - item->width() ) / 2);  // icon can be larger as defined
+                   qMax(0, ( (dx-spacing()) - item->width() ) / 2);  // icon can be larger as defined
         // align all icons vertically to their text
         int newY = y0 + ny*dy + dy - spacing() - ( item->pixmapRect().bottom() + 2 + textHeight );
         if ( item->x() != newX || item->y() != newY ) {

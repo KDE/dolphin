@@ -633,13 +633,13 @@ QDataStream &operator>>( QDataStream &stream, KonqBasicOperation &op )
 
 QDataStream &operator<<( QDataStream &stream, const KonqCommand &cmd )
 {
-  stream << cmd.m_valid << (Q_INT8)cmd.m_type << cmd.m_opStack << cmd.m_src << cmd.m_dst;
+  stream << cmd.m_valid << (qint8)cmd.m_type << cmd.m_opStack << cmd.m_src << cmd.m_dst;
   return stream;
 }
 
 QDataStream &operator>>( QDataStream &stream, KonqCommand &cmd )
 {
-  Q_INT8 type;
+  qint8 type;
   stream >> cmd.m_valid >> type >> cmd.m_opStack >> cmd.m_src >> cmd.m_dst;
   cmd.m_type = static_cast<KonqCommand::Type>( type );
   return stream;

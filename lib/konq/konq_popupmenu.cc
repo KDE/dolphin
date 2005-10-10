@@ -272,7 +272,7 @@ int KonqPopupMenu::insertServices(const ServiceList& list,
         if ((*it).isEmpty())
         {
             if (!menu.firstChild().isNull() &&
-                menu.lastChild().toElement().tagName().lower() != "separator")
+                menu.lastChild().toElement().tagName().toLower() != "separator")
             {
                 QDomElement separator = domDocument().createElement( "separator" );
                 menu.appendChild(separator);
@@ -921,7 +921,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         (s.user.count() > 0 ||
          s.userSubmenus.count() > 0 ||
          s.builtin.count() > 0) &&
-         actionMenu.lastChild().toElement().tagName().lower() != "separator")
+         actionMenu.lastChild().toElement().tagName().toLower() != "separator")
     {
         QDomElement separator = domDocument().createElement( "separator" );
         actionMenu.appendChild(separator);
@@ -950,7 +950,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     }
 
     while ( !domElement().lastChild().isNull() &&
-            domElement().lastChild().toElement().tagName().lower() == "separator" )
+            domElement().lastChild().toElement().tagName().toLower() == "separator" )
         domElement().removeChild( domElement().lastChild() );
 
     if ( isDirectory && isLocal )
