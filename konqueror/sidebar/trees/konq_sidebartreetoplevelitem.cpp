@@ -158,12 +158,12 @@ void KonqSidebarTreeTopLevelItem::paste()
 {
     // move or not move ?
     bool move = false;
-    QMimeSource *data = QApplication::clipboard()->data();
-    if ( data->provides( "application/x-kde-cutselection" ) ) {
+    const QMimeData *data = QApplication::clipboard()->mimeData();
+    if ( data->hasFormat( "application/x-kde-cutselection" ) ) {
         move = KonqDrag::decodeIsCutSelection( data );
         kdDebug(1201) << "move (from clipboard data) = " << move << endl;
     }
-
+	
     KURL destURL;
     if ( m_bTopLevelGroup )
         destURL.setPath( m_path );

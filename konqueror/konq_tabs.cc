@@ -476,13 +476,13 @@ void KonqFrameTabs::slotMouseMiddleClick( QWidget *w )
 
 void KonqFrameTabs::slotTestCanDecode(const QDragMoveEvent *e, bool &accept /* result */)
 {
-  accept = KURLDrag::canDecode( e );
+  accept = K3URLDrag::canDecode( e );
 }
 
 void KonqFrameTabs::slotReceivedDropEvent( QDropEvent *e )
 {
   KURL::List lstDragURLs;
-  bool ok = KURLDrag::decode( e, lstDragURLs );
+  bool ok = K3URLDrag::decode( e, lstDragURLs );
   if ( ok && lstDragURLs.first().isValid() ) {
     KonqView* newView = m_pViewManager->addTab(QString::null, QString::null, false, false);
     if (newView == 0L) return;
@@ -495,7 +495,7 @@ void KonqFrameTabs::slotReceivedDropEvent( QDropEvent *e )
 void KonqFrameTabs::slotReceivedDropEvent( QWidget *w, QDropEvent *e )
 {
   KURL::List lstDragURLs;
-  bool ok = KURLDrag::decode( e, lstDragURLs );
+  bool ok = K3URLDrag::decode( e, lstDragURLs );
   KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>(w);
   if ( ok && lstDragURLs.first().isValid() && frame ) {
     KURL lstDragURL = lstDragURLs.first();
@@ -510,7 +510,7 @@ void KonqFrameTabs::slotInitiateDrag( QWidget *w )
   if (frame) {
     KURL::List lst;
     lst.append( frame->activeChildView()->url() );
-    KURLDrag *d = new KURLDrag( lst, this );
+    K3URLDrag *d = new K3URLDrag( lst, this );
     d->setPixmap( KMimeType::pixmapForURL( lst.first(), 0, KIcon::Small ) );
     d->dragCopy();
   }
