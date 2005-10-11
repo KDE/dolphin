@@ -138,13 +138,13 @@ void ChFaceDlg::addCustomPixmap( QString imPath, bool saveCopy )
     // If we should save a copy:
     QDir userfaces( KCFGUserAccount::userFaceDir() );
     if ( !userfaces.exists( ) )
-      userfaces.mkdir( userfaces.absPath() );
+      userfaces.mkdir( userfaces.absolutePath() );
 
-    pix.save( userfaces.absPath() + "/.userinfo-tmp" , "PNG" );
-    KonqOperations::copy( this, KonqOperations::COPY, KURL::List( KURL( userfaces.absPath() + "/.userinfo-tmp" ) ), KURL( userfaces.absPath() + "/" + QFileInfo(imPath).fileName().section(".",0,0) ) );
+    pix.save( userfaces.absolutePath() + "/.userinfo-tmp" , "PNG" );
+    KonqOperations::copy( this, KonqOperations::COPY, KURL::List( KURL( userfaces.absolutePath() + "/.userinfo-tmp" ) ), KURL( userfaces.absPath() + "/" + QFileInfo(imPath).fileName().section(".",0,0) ) );
 #if 0
-  if ( !pix.save( userfaces.absPath() + "/" + imPath , "PNG" ) )
-    KMessageBox::sorry(this, i18n("There was an error saving the image:\n%1").arg( userfaces.absPath() ) );
+  if ( !pix.save( userfaces.absolutePath() + "/" + imPath , "PNG" ) )
+    KMessageBox::sorry(this, i18n("There was an error saving the image:\n%1").arg( userfaces.absolutePath() ) );
 #endif
   }
 
@@ -180,10 +180,10 @@ void ChFaceDlg::slotSaveCustomImage()
   {
     QDir userfaces( QDir::homeDirPath() + USER_FACES_DIR );
     if ( !userfaces.exists( ) )
-      userfaces.mkdir( userfaces.absPath() );
+      userfaces.mkdir( userfaces.absolutePath() );
 
-    if ( !m_FacesWidget->currentItem()->pixmap()->save( userfaces.absPath() + USER_CUSTOM_FILE , "PNG" ) )
-      KMessageBox::sorry(this, i18n("There was an error saving the image:\n%1").arg( userfaces.absPath() ) );
+    if ( !m_FacesWidget->currentItem()->pixmap()->save( userfaces.absolutePath() + USER_CUSTOM_FILE , "PNG" ) )
+      KMessageBox::sorry(this, i18n("There was an error saving the image:\n%1").arg( userfaces.absolutePath() ) );
   }
 }
 #endif
