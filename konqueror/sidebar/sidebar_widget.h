@@ -74,7 +74,7 @@ class addBackEnd: public QObject
 {
 	Q_OBJECT
 public:
-	addBackEnd(QWidget *parent,class Q3PopupMenu *addmenu, bool univeral, const QString &currentProfile, const char *name=0);
+	addBackEnd(QWidget *parent,class QMenu *addmenu, bool univeral, const QString &currentProfile, const char *name=0);
 	~addBackEnd(){;}
 protected slots:
 	void aboutToShowAddMenu();
@@ -83,7 +83,7 @@ signals:
 	void updateNeeded();
 	void initialCopyNeeded();
 private:
-	QPointer<class Q3PopupMenu> menu;
+	QPointer<class QMenu> menu;
 	Q3PtrVector<QString> libNames;
 	Q3PtrVector<QString> libParam;
 	bool m_universal;
@@ -186,7 +186,7 @@ private:
 	Q3PtrVector<ButtonInfo> m_buttons;
 	QHBoxLayout *m_layout;
 	KMenu *m_buttonPopup;
-	Q3PopupMenu *m_menu;
+	QMenu *m_menu;
 	QPointer<ButtonInfo> m_activeModule;
 	QPointer<ButtonInfo> m_currentButton;
 	

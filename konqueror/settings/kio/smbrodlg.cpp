@@ -110,9 +110,9 @@ void SMBRoOptions::load()
       QChar qc1 = scrambled[i*3];
       QChar qc2 = scrambled[i*3+1];
       QChar qc3 = scrambled[i*3+2];
-      unsigned int a1 = qc1.latin1() - '0';
-      unsigned int a2 = qc2.latin1() - 'A';
-      unsigned int a3 = qc3.latin1() - '0';
+      unsigned int a1 = qc1.toLatin1() - '0';
+      unsigned int a2 = qc2.toLatin1() - 'A';
+      unsigned int a3 = qc3.toLatin1() - '0';
       unsigned int num = ((a1 & 0x3F) << 10) | ((a2& 0x1F) << 5) | (a3 & 0x1F);
       password[i] = QChar((uchar)((num - 17) ^ 173)); // restore
    }

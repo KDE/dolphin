@@ -434,7 +434,7 @@ void ActionsImpl::slotPrint() {
     tmpf.close();
 
     s_appId = kapp->dcopClient()->appId();
-    s_objId = s_part->property("dcopObjectId").toString().latin1();
+    s_objId = s_part->property("dcopObjectId").toString().toLatin1();
     connect(s_part, SIGNAL(completed()), this, SLOT(slotDelayedPrint()));
 
     s_part->openURL(KURL( tmpf.name() ));

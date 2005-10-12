@@ -25,7 +25,7 @@
 #include <q3ptrlist.h>
 
 class HistoryEntry;
-class Q3PopupMenu;
+class QMenu;
 
 /**
  * Plug this action into a menu to get a bidirectional history
@@ -35,7 +35,7 @@ class KonqBidiHistoryAction : public KAction
 {
   Q_OBJECT
 public:
-    KonqBidiHistoryAction( const QString & text, QObject* parent = 0, const char* name = 0 );
+    KonqBidiHistoryAction( const QString & text, KActionCollection* parent = 0, const char* name = 0 );
 
     virtual ~KonqBidiHistoryAction() {};
 
@@ -46,7 +46,7 @@ public:
 
     // Used by KonqHistoryAction and KonqBidiHistoryAction
     static void fillHistoryPopup( const Q3PtrList<HistoryEntry> &history,
-                           Q3PopupMenu * popup,
+                           QMenu * popup,
                            bool onlyBack = false,
                            bool onlyForward = false,
                            bool checkCurrentItem = false,
@@ -63,7 +63,7 @@ private:
     uint m_firstIndex; // first index in the Go menu
     int m_startPos;
     int m_currentPos; // == history.at()
-    Q3PopupMenu *m_goMenu; // hack
+    QMenu *m_goMenu; // hack
 };
 
 /////
@@ -72,16 +72,16 @@ class KonqLogoAction : public KAction
 {
   Q_OBJECT
 public:
-    KonqLogoAction( const QString& text, int accel = 0, QObject* parent = 0, const char* name = 0 );
-    KonqLogoAction( const QString& text, int accel,
-	            QObject* receiver, const char* slot, QObject* parent, const char* name = 0 );
-    KonqLogoAction( const QString& text, const QIcon& pix, int accel = 0,
-	            QObject* parent = 0, const char* name = 0 );
-    KonqLogoAction( const QString& text, const QIcon& pix, int accel,
-	            QObject* receiver, const char* slot, QObject* parent, const char* name = 0 );
+    KonqLogoAction( const QString& text, const KShortcut& accel = KShortcut(), KActionCollection* parent = 0, const char* name = 0 );
+    KonqLogoAction( const QString& text, const KShortcut& accel,
+	            QObject* receiver, const char* slot, KActionCollection* parent, const char* name = 0 );
+    KonqLogoAction( const QString& text, const QIcon& pix, const KShortcut& accel = KShortcut(),
+	            KActionCollection* parent = 0, const char* name = 0 );
+    KonqLogoAction( const QString& text, const QIcon& pix, const KShortcut& accel,
+	            QObject* receiver, const char* slot, KActionCollection* parent, const char* name = 0 );
     // text missing !
     KonqLogoAction( const QStringList& icons, QObject* receiver,
-                    const char* slot, QObject* parent, const char* name = 0 );
+                    const char* slot, KActionCollection* parent, const char* name = 0 );
 
     virtual int plug( QWidget *widget, int index = -1 );
     virtual void updateIcon(int id);
@@ -98,12 +98,12 @@ class KonqViewModeAction : public KRadioAction
     Q_OBJECT
 public:
     KonqViewModeAction( const QString &text, const QString &icon,
-                        QObject *parent, const char *name );
+                        KActionCollection *parent, const char *name );
     virtual ~KonqViewModeAction();
 
     virtual int plug( QWidget *widget, int index = -1 );
 
-    Q3PopupMenu *popupMenu() const { return m_menu; }
+    QMenu *popupMenu() const { return m_menu; }
 
 private slots:
     void slotPopupAboutToShow();
@@ -112,7 +112,7 @@ private slots:
 
 private:
     bool m_popupActivated;
-    Q3PopupMenu *m_menu;
+    QMenu *m_menu;
 };
 
 class MostOftenList : public KonqBaseHistoryList
@@ -129,7 +129,7 @@ class KonqMostOftenURLSAction : public KActionMenu
     Q_OBJECT
 
 public:
-    KonqMostOftenURLSAction( const QString& text, QObject *parent,
+    KonqMostOftenURLSAction( const QString& text, KActionCollection *parent,
 			     const char *name );
     virtual ~KonqMostOftenURLSAction();
 

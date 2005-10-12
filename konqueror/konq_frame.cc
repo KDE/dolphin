@@ -162,7 +162,7 @@ void KonqFrameStatusBar::splitFrameMenu()
    // ###### might be not right for passive views !
    KActionCollection *actionColl = mw->actionCollection();
 
-   Q3PopupMenu menu;
+   QMenu menu;
 
    actionColl->action( "splitviewh" )->plug( &menu );
    actionColl->action( "splitviewv" )->plug( &menu );

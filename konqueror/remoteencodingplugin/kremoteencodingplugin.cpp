@@ -167,7 +167,7 @@ KRemoteEncodingPlugin::slotAboutToShow()
 void
 KRemoteEncodingPlugin::slotItemSelected(int id)
 {
-  KConfig config(("kio_" + m_currentURL.protocol() + "rc").latin1());
+  KConfig config(("kio_" + m_currentURL.protocol() + "rc").toLatin1());
   QString host = m_currentURL.host();
 
   if (!m_menu->popupMenu()->isItemChecked(id))
@@ -188,7 +188,7 @@ KRemoteEncodingPlugin::slotDefault()
 {
   // We have no choice but delete all higher domain level
   // settings here since it affects what will be matched.
-  KConfig config(("kio_" + m_currentURL.protocol() + "rc").latin1());
+  KConfig config(("kio_" + m_currentURL.protocol() + "rc").toLatin1());
 
   QStringList partList = QStringList::split('.', m_currentURL.host(), false);
   if (!partList.isEmpty())

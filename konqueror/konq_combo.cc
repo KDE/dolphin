@@ -35,7 +35,6 @@
 #include <klineedit.h>
 #include <konq_pixmapprovider.h>
 #include <kstdaccel.h>
-#include <kurldrag.h>
 #include <konq_mainwindow.h>
 #include <kstringhandler.h>
 
@@ -105,8 +104,8 @@ public:
 };
 #endif
 
-KonqCombo::KonqCombo( QWidget *parent, const char *name )
-          : KHistoryCombo( parent, name ),
+KonqCombo::KonqCombo( QWidget *parent )
+          : KHistoryCombo( parent ),
             m_returnPressed( false ), 
             m_permanent( false ),
             m_modifier( Qt::NoButton ),
@@ -584,14 +583,14 @@ void KonqCombo::mouseMoveEvent( QMouseEvent *e )
         KURL url ( currentText() );
         if ( url.isValid() )
         {
-            KURL::List list;
-            list.append( url );
-            KURLDrag *drag = new KURLDrag( list, this );
+            QDrag* drag = new QDrag(this);
+            QMimeData* mime = new QMimeData();
+            url.populateMimeData(mime);
             QPixmap pix = KonqPixmapProvider::self()->pixmapFor( currentText(),
                                                                  KIcon::SizeMedium );
             if ( !pix.isNull() )
                 drag->setPixmap( pix );
-            drag->dragCopy();
+            drag->start();
         }
     }
 }

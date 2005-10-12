@@ -48,7 +48,7 @@
 #include "sidebar_widget.moc"
 
 
-addBackEnd::addBackEnd(QWidget *parent,class Q3PopupMenu *addmenu,bool universal,const QString &currentProfile, const char *name)
+addBackEnd::addBackEnd(QWidget *parent,class QMenu *addmenu,bool universal,const QString &currentProfile, const char *name)
  : QObject(parent,name),
    m_parent(parent)
 {
@@ -268,8 +268,8 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
    	m_buttonBar = new KMultiTabBar(KMultiTabBar::Vertical,this);
 	m_buttonBar->showActiveTabTexts(true);
 
-	m_menu = new Q3PopupMenu(this, "Sidebar_Widget::Menu");
-	Q3PopupMenu *addMenu = new Q3PopupMenu(this, "Sidebar_Widget::addPopup");
+	m_menu = new QMenu(this, "Sidebar_Widget::Menu");
+	QMenu *addMenu = new QMenu(this, "Sidebar_Widget::addPopup");
 	m_menu->insertItem(i18n("Add New"), addMenu, 0);
 	m_menu->insertSeparator();
 	m_menu->insertItem(i18n("Multiple Views"), 1);

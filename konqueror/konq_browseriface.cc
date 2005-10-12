@@ -2,8 +2,8 @@
 #include "konq_browseriface.h"
 #include "konq_view.h"
 
-KonqBrowserInterface::KonqBrowserInterface( KonqView *view, const char *name )
-    : KParts::BrowserInterface( view, name )
+KonqBrowserInterface::KonqBrowserInterface( KonqView *view )
+    : KParts::BrowserInterface( view )
 {
     m_view = view;
 }

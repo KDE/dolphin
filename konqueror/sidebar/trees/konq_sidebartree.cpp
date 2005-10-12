@@ -932,7 +932,7 @@ void KonqSidebarTree::showToplevelContextMenu()
                             SLOT( slotCopyLocation() ), m_collection, "copy_location");
     }
 
-    Q3PopupMenu *menu = new Q3PopupMenu;
+    QMenu *menu = new QMenu;
 
     if (item) {
         if (item->isTopLevelGroup()) {

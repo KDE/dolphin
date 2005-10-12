@@ -24,6 +24,7 @@
 #include <kconfig.h>
 #include <kdebug.h>
 #include <klocale.h>
+#include <kinstance.h>
 #include <kparts/componentfactory.h>
 #include <kparts/plugin.h>
 #include <kplugininfo.h>

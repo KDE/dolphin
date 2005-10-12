@@ -43,7 +43,7 @@ template class Q3PtrList<KonqHistoryEntry>;
 
 //static - used by KonqHistoryAction and KonqBidiHistoryAction
 void KonqBidiHistoryAction::fillHistoryPopup( const Q3PtrList<HistoryEntry> &history,
-                                          Q3PopupMenu * popup,
+                                          QMenu * popup,
                                           bool onlyBack,
                                           bool onlyForward,
                                           bool checkCurrentItem,
@@ -83,8 +83,8 @@ void KonqBidiHistoryAction::fillHistoryPopup( const Q3PtrList<HistoryEntry> &his
 
 ///////////////////////////////
 
-KonqBidiHistoryAction::KonqBidiHistoryAction ( const QString & text, QObject* parent, const char* name )
-  : KAction( text, 0, parent, name )
+KonqBidiHistoryAction::KonqBidiHistoryAction ( const QString & text, KActionCollection* parent, const char* name )
+  : KAction( text, KShortcut(), 0L, "", parent, name )
 {
   setShortcutConfigurable(false);
   m_firstIndex = 0;
@@ -99,7 +99,7 @@ int KonqBidiHistoryAction::plug( QWidget *widget, int index )
   // Go menu
   if ( widget->inherits("QPopupMenu") )
   {
-    m_goMenu = (Q3PopupMenu*)widget;
+    m_goMenu = (QMenu*)widget;
     // Forward signal (to main view)
     connect( m_goMenu, SIGNAL( aboutToShow() ),
              this, SIGNAL( menuAboutToShow() ) );
@@ -171,29 +171,29 @@ void KonqBidiHistoryAction::slotActivated( int id )
 
 ///////////////////////////////
 
-KonqLogoAction::KonqLogoAction( const QString& text, int accel, QObject* parent, const char* name )
-  : KAction( text, accel, parent, name )
+KonqLogoAction::KonqLogoAction( const QString& text, const KShortcut& accel, KActionCollection* parent, const char* name )
+  : KAction( text, accel, 0L, "", parent, name )
 {
 }
 
-KonqLogoAction::KonqLogoAction( const QString& text, int accel,
-                               QObject* receiver, const char* slot, QObject* parent, const char* name )
+KonqLogoAction::KonqLogoAction( const QString& text, const KShortcut& accel,
+                               QObject* receiver, const char* slot, KActionCollection* parent, const char* name )
   : KAction( text, accel, receiver, slot, parent, name )
 {
 }
 
-KonqLogoAction::KonqLogoAction( const QString& text, const QIcon& pix, int accel, QObject* parent, const char* name )
-  : KAction( text, pix, accel, parent, name )
+KonqLogoAction::KonqLogoAction( const QString& text, const QIcon& pix, const KShortcut&  accel, KActionCollection* parent, const char* name )
+  : KAction( text, pix, accel, 0L, "", parent, name )
 {
 }
 
-KonqLogoAction::KonqLogoAction( const QString& text, const QIcon& pix,int accel, QObject* receiver, const char* slot, QObject* parent, const char* name )
+KonqLogoAction::KonqLogoAction( const QString& text, const QIcon& pix, const KShortcut& accel, QObject* receiver, const char* slot, KActionCollection* parent, const char* name )
   : KAction( text, pix, accel, receiver, slot, parent, name )
 {
 }
 
 KonqLogoAction::KonqLogoAction( const QStringList& icons, QObject* receiver,
-                                const char* slot, QObject* parent,
+                                const char* slot, KActionCollection* parent,
                                 const char* name )
     : KAction( 0L, 0, receiver, slot, parent, name ) // text missing !
 {
@@ -209,7 +209,7 @@ void KonqLogoAction::start()
 
     if ( w->inherits( "KToolBar" ) )
     {
-      KAnimWidget *anim = ((KToolBar *)w)->animatedWidget( menuId( i ) );
+      KAnimWidget *anim = ((KToolBar *)w)->animatedWidget( itemId( i ) );
       anim->start();
     }
   }
@@ -224,7 +224,7 @@ void KonqLogoAction::stop()
 
     if ( w->inherits( "KToolBar" ) )
     {
-      KAnimWidget *anim = ((KToolBar *)w)->animatedWidget( menuId( i ) );
+      KAnimWidget *anim = ((KToolBar *)w)->animatedWidget( itemId( i ) );
       anim->stop();
     }
   }
@@ -236,7 +236,7 @@ void KonqLogoAction::updateIcon(int id)
 
     if ( w->inherits( "KToolBar" ) )
     {
-      KAnimWidget *anim = ((KToolBar *)w)->animatedWidget( menuId( id ) );
+      KAnimWidget *anim = ((KToolBar *)w)->animatedWidget( itemId( id ) );
       anim->setIcons(icon());
     }
 }
@@ -282,10 +282,10 @@ int KonqLogoAction::plug( QWidget *widget, int index )
 ///////////
 
 KonqViewModeAction::KonqViewModeAction( const QString &text, const QString &icon,
-                                        QObject *parent, const char *name )
-    : KRadioAction( text, icon, 0, parent, name )
+                                        KActionCollection *parent, const char *name )
+    : KRadioAction( text, icon, 0, 0L, "", parent, name )
 {
-    m_menu = new Q3PopupMenu;
+    m_menu = new QMenu;
 
     connect( m_menu, SIGNAL( aboutToShow() ),
              this, SLOT( slotPopupAboutToShow() ) );
@@ -352,7 +352,7 @@ MostOftenList * KonqMostOftenURLSAction::s_mostEntries = 0L;
 uint KonqMostOftenURLSAction::s_maxEntries = 0;
 
 KonqMostOftenURLSAction::KonqMostOftenURLSAction( const QString& text,
-						  QObject *parent,
+						  KActionCollection *parent,
 						  const char *name )
     : KActionMenu( text, "goto", parent, name )
 {
@@ -465,7 +465,7 @@ void KonqMostOftenURLSAction::slotFillMenu()
 	entry = (id > 0) ? s_mostEntries->at( --id ) : 0L;
     }
     setEnabled( !s_mostEntries->isEmpty() );
-    Q_ASSERT( s_mostEntries->count() == m_popupList.count() );
+    Q_ASSERT( (int)s_mostEntries->count() == m_popupList.count() );
 }
 
 #if 0

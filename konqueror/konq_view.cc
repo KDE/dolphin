@@ -105,7 +105,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bDisableScrolling = false;
   m_bGotIconURL = false;
   m_bPopupMenuEnabled = true;
-  m_browserIface = new KonqBrowserInterface( this, "browseriface" );
+  m_browserIface = new KonqBrowserInterface( this );
   m_bBackRightClick = KonqSettings::backRightClick();
   m_bFollowActive = false;
   m_bBuiltinView = false;

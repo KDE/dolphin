@@ -231,10 +231,10 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     for ( KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it )
     {
         if ( KToggleAction*& preview = previewActions[ ( *it )->name() ] )
-            preview->setName( Q3CString( preview->name() ) + ',' + ( *it )->desktopEntryName().latin1() );
+            preview->setName( Q3CString( preview->name() ) + ',' + ( *it )->desktopEntryName().toLatin1() );
         else
         {
-            preview = new KToggleAction( (*it)->name(), 0, actionCollection(), (*it)->desktopEntryName().latin1() );
+            preview = new KToggleAction( (*it)->name(), 0, actionCollection(), (*it)->desktopEntryName().toLatin1() );
             connect( preview, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );
             m_pamPreview->insert( preview );
             m_paPreviewPlugins.append( preview );
@@ -273,7 +273,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     //enable menu item representing the saved sorting criterion
     QString sortcrit = KonQ3IconViewFactory::defaultViewProps()->sortCriterion();
-    KRadioAction *sort_action = dynamic_cast<KRadioAction *>(actionCollection()->action(sortcrit.latin1()));
+    KRadioAction *sort_action = dynamic_cast<KRadioAction *>(actionCollection()->action(sortcrit.toLatin1()));
     if(sort_action!=NULL) sort_action->activate();
 
     m_paSortDirsFirst = new KToggleAction( i18n( "Folders First" ), 0, actionCollection(), "sort_directoriesfirst" );

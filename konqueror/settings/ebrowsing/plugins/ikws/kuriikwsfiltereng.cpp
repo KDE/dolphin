@@ -413,11 +413,11 @@ QString KURISearchFilterEngine::formatResult( const QString& url,
   if (cseta.isEmpty())
     cseta = "iso-8859-1";
 
-  QTextCodec *csetacodec = QTextCodec::codecForName(cseta.latin1());
+  QTextCodec *csetacodec = QTextCodec::codecForName(cseta.toLatin1());
   if (!csetacodec)
   {
     cseta = "iso-8859-1";
-    csetacodec = QTextCodec::codecForName(cseta.latin1());
+    csetacodec = QTextCodec::codecForName(cseta.toLatin1());
   }
 
   // Decode user query:

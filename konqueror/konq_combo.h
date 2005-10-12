@@ -40,7 +40,7 @@ class KonqCombo : public KHistoryCombo
     Q_OBJECT
 
 public:
-    KonqCombo( QWidget *parent, const char *name );
+    KonqCombo( QWidget *parent );
     ~KonqCombo();
 
     // initializes with the completion object and calls loadItems()

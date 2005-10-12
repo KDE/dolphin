@@ -336,7 +336,7 @@ public slots:
   void slotCtrlTabPressed();
 
   // for KBookmarkMenu and KBookmarkBar
-  void slotFillContextMenu( const KBookmark &, Q3PopupMenu * );
+  void slotFillContextMenu( const KBookmark &, QMenu * );
   void slotOpenBookmarkURL( const QString & url, Qt::ButtonState state );
 
   void slotPopupMenu( const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
@@ -382,14 +382,14 @@ public slots:
 
   // Go menu
   void slotUp();
-  void slotUp(KAction::ActivationReason, Qt::ButtonState state);
+  void slotUp(KAction::ActivationReason, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers);
   void slotUpDelayed();
   void slotBack();
-  void slotBack(KAction::ActivationReason, Qt::ButtonState state);
+  void slotBack(KAction::ActivationReason, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers);
   void slotForward();
-  void slotForward(KAction::ActivationReason, Qt::ButtonState state);
+  void slotForward(KAction::ActivationReason, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers);
   void slotHome();
-  void slotHome(KAction::ActivationReason, Qt::ButtonState state);
+  void slotHome(KAction::ActivationReason, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers);
   void slotGoSystem();
   void slotGoApplications();
   void slotGoMedia();
@@ -411,7 +411,7 @@ public slots:
   void slotPartChanged( KonqView *childView, KParts::ReadOnlyPart *oldPart, KParts::ReadOnlyPart *newPart );
 
   void slotRunFinished();
-  void slotClearLocationBar( KAction::ActivationReason reason, Qt::ButtonState state );
+  void slotClearLocationBar( KAction::ActivationReason reason, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers );
 
   // reimplement from KParts::MainWindow
   virtual void slotSetStatusBarText( const QString &text );
@@ -421,7 +421,7 @@ public slots:
 
   virtual void setIcon( const QPixmap& );
   void slotGoHistoryActivated( int steps );
-  void slotGoHistoryActivated( int steps, Qt::ButtonState state );
+  void slotGoHistoryActivated( int steps, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers );
 
   void slotAddTab();
 
@@ -526,7 +526,7 @@ protected slots:
 protected:
   virtual bool eventFilter(QObject*obj,QEvent *ev);
 
-  void fillHistoryPopup( Q3PopupMenu *menu, const Q3PtrList<HistoryEntry> &history );
+  void fillHistoryPopup( QMenu *menu, const Q3PtrList<HistoryEntry> &history );
 
   bool makeViewsFollow( const KURL & url, const KParts::URLArgs &args, const QString & serviceType,
                         KonqView * senderView );
@@ -556,7 +556,7 @@ private slots:
   void bookmarksIntoCompletion();
 
   void initBookmarkBar();
-  void slotTrashActivated( KAction::ActivationReason reason, Qt::ButtonState state );
+  void slotTrashActivated( KAction::ActivationReason reason, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers );
 
   void showPageSecurity();
 
@@ -687,7 +687,8 @@ private:
   uint m_bViewModeToggled:1;
 
   int m_goBuffer;
-  Qt::ButtonState m_goState;
+  Qt::MouseButtons m_goMouseState;
+  Qt::KeyboardModifiers m_goKeyboardState;
 
   MapViews m_mapViews;
 

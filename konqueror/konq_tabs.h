@@ -33,7 +33,7 @@
 #include <Q3PtrList>
 
 class QPixmap;
-class Q3PopupMenu;
+class QMenu;
 class QToolButton;
 
 class KonqView;
@@ -123,8 +123,8 @@ private slots:
 
 private:
   KonqViewManager* m_pViewManager;
-  Q3PopupMenu* m_pPopupMenu;
-  Q3PopupMenu* m_pSubPopupMenuTab;
+  QMenu* m_pPopupMenu;
+  QMenu* m_pSubPopupMenuTab;
   QToolButton* m_rightWidget;
   QToolButton* m_leftWidget;
   bool m_permanentCloseButtons;
