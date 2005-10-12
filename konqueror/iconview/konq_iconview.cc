@@ -224,7 +224,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     connect( m_paEnablePreviews, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );
     m_paEnablePreviews->setIcon("thumbnail");
     m_pamPreview->insert( m_paEnablePreviews );
-    m_pamPreview->insert( new KActionSeparator(this) );
+    m_pamPreview->insert( new KActionSeparator(actionCollection()) );
 
     KTrader::OfferList plugins = KTrader::self()->query( "ThumbCreator" );
     QMap< QString, KToggleAction* > previewActions;
@@ -273,7 +273,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     //enable menu item representing the saved sorting criterion
     QString sortcrit = KonQ3IconViewFactory::defaultViewProps()->sortCriterion();
-    KRadioAction *sort_action = dynamic_cast<KRadioAction *>(actionCollection()->action(sortcrit.toLatin1()));
+    KRadioAction *sort_action = dynamic_cast<KRadioAction *>(actionCollection()->action(sortcrit.toLatin1().constData()));
     if(sort_action!=NULL) sort_action->activate();
 
     m_paSortDirsFirst = new KToggleAction( i18n( "Folders First" ), 0, actionCollection(), "sort_directoriesfirst" );

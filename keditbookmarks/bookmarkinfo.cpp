@@ -48,7 +48,7 @@
 #include <klineedit.h>
 #include <kfiledialog.h>
 
-#include <kbookmarkdrag.h>
+#include <kbookmark.h>
 #include <kbookmarkmanager.h>
 #include <qevent.h>
 

@@ -53,7 +53,7 @@
 
 #include <kdebug.h>
 
-#include <kbookmarkdrag.h>
+#include <kbookmark.h>
 #include <kbookmarkmanager.h>
 #include <assert.h>
 #include <qglobal.h>

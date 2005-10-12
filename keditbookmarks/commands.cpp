@@ -31,10 +31,9 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-#include <kbookmarkdrag.h>
+#include <kbookmark.h>
 #include <kbookmarkmanager.h>
 
-#include <kurldrag.h>
 #include <kdesktopfile.h>
 
 

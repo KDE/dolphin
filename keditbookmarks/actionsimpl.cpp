@@ -59,7 +59,7 @@
 #include <kicondialog.h>
 #include <kiconloader.h>
 
-#include <kbookmarkdrag.h>
+#include <kbookmark.h>
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
 
