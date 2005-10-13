@@ -16,7 +16,8 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <kbookmarkdrag.h>
+#include <kbookmark.h>
+#include <k3bookmarkdrag.h>
 #include <kprotocolinfo.h>
 #include <konq_faviconmgr.h>
 #include <qpainter.h>
@@ -96,7 +97,7 @@ Q3DragObject * KonqSidebarHistoryItem::dragObject( QWidget * parent, bool /*move
     QString icon = KonqFavIconMgr::iconForURL( m_entry->url.url() );
     KBookmark bookmark = KBookmark::standaloneBookmark( m_entry->title,
                                                         m_entry->url, icon );
-    KBookmarkDrag *drag = KBookmarkDrag::newDrag( bookmark, parent );
+    K3BookmarkDrag *drag = K3BookmarkDrag::newDrag( bookmark, parent );
     return drag;
 }
 
@@ -241,6 +242,6 @@ Q3DragObject * KonqSidebarHistoryGroupItem::dragObject( QWidget *parent, bool /*
     QString icon = KonqFavIconMgr::iconForURL( m_url.url() );
     KBookmark bookmark = KBookmark::standaloneBookmark( QString::null, m_url,
 							icon );
-    KBookmarkDrag *drag = KBookmarkDrag::newDrag( bookmark, parent );
+    K3BookmarkDrag *drag = K3BookmarkDrag::newDrag( bookmark, parent );
     return drag;
 }

@@ -19,11 +19,12 @@
 #include <limits.h>
 
 #include <qdir.h>
-#include <q3popupmenu.h>
 #include <qpushbutton.h>
 #include <qwhatsthis.h>
 #include <qlayout.h>
 #include <qstringlist.h>
+#include <QSplitter>
+#include <Q3PopupMenu>
 
 #include <klocale.h>
 #include <ksimpleconfig.h>
@@ -56,7 +57,7 @@ addBackEnd::addBackEnd(QWidget *parent,class QMenu *addmenu,bool universal,const
 	m_currentProfile = currentProfile;
 	menu = addmenu;
 	connect(menu,SIGNAL(aboutToShow()),this,SLOT(aboutToShowAddMenu()));
-	connect(menu,SIGNAL(activated(int)),this,SLOT(activatedAddMenu(int)));
+	connect(menu,SIGNAL(triggered(QAction*)),this,SLOT(triggeredAddMenu(QAction*)));
 }
 
 void addBackEnd::aboutToShowAddMenu()
@@ -65,51 +66,40 @@ void addBackEnd::aboutToShowAddMenu()
 		return;
 	KStandardDirs *dirs = KGlobal::dirs();
 	QStringList list = dirs->findAllResources("data","konqsidebartng/add/*.desktop",true,true);
-	libNames.setAutoDelete(true);
-	libNames.resize(0);
-	libParam.setAutoDelete(true);
-	libParam.resize(0);
 	menu->clear();
 	int i = 0;
 
 	for (QStringList::Iterator it = list.begin(); it != list.end(); ++it, i++ )
 	{
-		KDesktopFile *confFile;
-
-		confFile = new KDesktopFile(*it, true);
-		if (! confFile->tryExec()) {
-			delete confFile;
+		KDesktopFile confFile(*it, true);
+		if (!confFile.tryExec()) {
 			i--;
 			continue;
 		}
 		if (m_universal) {
-			if (confFile->readEntry("X-KDE-KonqSidebarUniversal").toUpper()!="TRUE") {
-				delete confFile;
+			if (confFile.readEntry("X-KDE-KonqSidebarUniversal").toUpper()!="TRUE") {
 				i--;
 				continue;
 			}
 		} else {
-			if (confFile->readEntry("X-KDE-KonqSidebarBrowser").toUpper()=="FALSE") {
-				delete confFile;
+			if (confFile.readEntry("X-KDE-KonqSidebarBrowser").toUpper()=="FALSE") {
 				i--;
 				continue;
 			}
 		}
-		QString icon = confFile->readIcon();
+		QString icon = confFile.readIcon();
+		QStringList libs;
+		libs << confFile.readEntry("X-KDE-KonqSidebarAddModule") << confFile.readEntry("X-KDE-KonqSidebarAddParam");
 		if (!icon.isEmpty())
 		{
-			menu->insertItem(QIcon(SmallIcon(icon)), confFile->readEntry("Name"), i);
+			menu->addAction(QIcon(SmallIcon(icon)), confFile.readEntry("Name"))->setData(libs);
 		} else {
-			menu->insertItem(confFile->readEntry("Name"), i);
+			menu->addAction(confFile.readEntry("Name"))->setData(libs);
 		}
-		libNames.resize(libNames.size()+1);
-		libNames.insert(libNames.count(), new QString(confFile->readEntry("X-KDE-KonqSidebarAddModule")));
-		libParam.resize(libParam.size()+1);
-		libParam.insert(libParam.count(), new QString(confFile->readEntry("X-KDE-KonqSidebarAddParam")));
-		delete confFile;
 	}
-	menu->insertSeparator();
-	menu->insertItem(i18n("Rollback to System Default"), i);
+	
+	menu->addSeparator();
+	menu->addAction(i18n("Rollback to System Default"), this, SLOT(doRollBack()));
 }
 
 
@@ -162,24 +152,26 @@ static QString findFileName(const QString* tmpl,bool universal, const QString &p
 	return myFile;
 }
 
-void addBackEnd::activatedAddMenu(int id)
+void addBackEnd::triggeredAddMenu(QAction* action)
 {
-	kdDebug() << "activatedAddMenu: " << QString("%1").arg(id) << endl;
-	if (((uint)id) == libNames.size())
-		doRollBack();
-	if(((uint)id) >= libNames.size())
+	kdDebug() << k_funcinfo << action->text() << endl;
+
+	if (!action->data().canConvert(QVariant::StringList))
 		return;
+
+	QStringList libs = action->data().toStringList();
 
 	KLibLoader *loader = KLibLoader::self();
 
         // try to load the library
-	QString libname = *libNames.at(id);
+	QString libname = libs[0];
+	QString libparam = libs[1];
         KLibrary *lib = loader->library(QFile::encodeName(libname));
         if (lib)
        	{
 		// get the create_ function
 		QString factory("add_");
-		factory = factory+(*libNames.at(id));
+		factory = factory+ libname;
 		void *add = lib->symbol(QFile::encodeName(factory));
 
 		if (add)
@@ -189,7 +181,7 @@ void addBackEnd::activatedAddMenu(int id)
 			QMap<QString,QString> map;
 			func = (bool (*)(QString*, QString*, QMap<QString,QString> *)) add;
 			QString *tmp = new QString("");
-			if (func(tmp,libParam.at(id),&map))
+			if (func(tmp,&libparam,&map))
 			{
 				QString myFile = findFileName(tmp,m_universal,m_currentProfile);
 
@@ -214,7 +206,7 @@ void addBackEnd::activatedAddMenu(int id)
 			delete tmp;
 		}
 	} else {
-		kdWarning() << "libname:" << libNames.at(id)
+		kdWarning() << "libname:" << libname
 			<< " doesn't specify a library!" << endl;
 	}
 }
@@ -256,28 +248,32 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 		connect(splitterWidget,SIGNAL(setRubberbandCalled()),SLOT(userMovedSplitter()));
 	}
 		
-	m_area = new KDockArea(this);
+	m_area = new K3DockArea(this);
 	m_area->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 	m_mainDockWidget = m_area->createDockWidget("free", QPixmap());
 	m_mainDockWidget->setWidget(new QWidget(m_mainDockWidget));
 	m_area->setMainDockWidget(m_mainDockWidget);
 	m_area->setMinimumWidth(0);
-	m_mainDockWidget->setDockSite(KDockWidget::DockTop);
-	m_mainDockWidget->setEnableDocking(KDockWidget::DockNone);
+	m_mainDockWidget->setDockSite(K3DockWidget::DockTop);
+	m_mainDockWidget->setEnableDocking(K3DockWidget::DockNone);
 
    	m_buttonBar = new KMultiTabBar(KMultiTabBar::Vertical,this);
 	m_buttonBar->showActiveTabTexts(true);
 
-	m_menu = new QMenu(this, "Sidebar_Widget::Menu");
-	QMenu *addMenu = new QMenu(this, "Sidebar_Widget::addPopup");
-	m_menu->insertItem(i18n("Add New"), addMenu, 0);
-	m_menu->insertSeparator();
-	m_menu->insertItem(i18n("Multiple Views"), 1);
-	m_menu->insertItem(i18n("Show Tabs Left"), 2);
-	m_menu->insertItem(i18n("Show Configuration Button"), 3);
+	// Ported to QMenu already, just needs to have KMultiTabBar fixed
+#warning switch to QMenu when KMultiTabBar ported
+	m_menu = new Q3PopupMenu(this);
+	m_menu->setIcon(SmallIconSet("configure"));
+	m_menu->setTitle(i18n("Configure Navigation Panel"));
+
+	QMenu *addMenu = m_menu->addMenu(i18n("Add New"));
+	m_menu->addSeparator();
+	m_menu->addAction(i18n("Multiple Views"), this, SLOT(slotMultipleViews()));
+	m_menu->addAction(i18n("Show Tabs Left"), this, SLOT(slotShowTabsLeft()));
+	m_menu->addAction(i18n("Show Configuration Button"), this, SLOT(slotShowConfigurationButton()));
 	if (!m_universalMode) {
-		m_menu->insertSeparator();
-		m_menu->insertItem(SmallIconSet("remove"), i18n("Close Navigation Panel"),
+		m_menu->addSeparator();
+		m_menu->addAction(SmallIconSet("remove"), i18n("Close Navigation Panel"),
 				par, SLOT(deleteLater()));
 	}
         connect(m_menu, SIGNAL(aboutToShow()),
@@ -286,6 +282,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 		this, SLOT(activatedMenu(int)));
 
 	m_buttonPopup = 0;
+	m_buttonPopupTitle = 0;
 	addBackEnd *ab = new addBackEnd(this, addMenu,universalMode,currentProfile,"Sidebar_Widget-addBackEnd");
 	connect(ab, SIGNAL(updateNeeded()),
 		this, SLOT(updateButtons()));
@@ -307,8 +304,8 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	m_somethingVisible = !m_openViews.isEmpty();
 	doLayout();
 	QTimer::singleShot(0,this,SLOT(createButtons()));
-	connect(m_area, SIGNAL(dockWidgetHasUndocked(KDockWidget*)),
-		this, SLOT(dockWidgetHasUndocked(KDockWidget*)));
+	connect(m_area, SIGNAL(dockWidgetHasUndocked(K3DockWidget*)),
+		this, SLOT(dockWidgetHasUndocked(K3DockWidget*)));
 }
 
 void Sidebar_Widget::addWebSideBar(const KURL& url, const QString& /*name*/) {
@@ -467,167 +464,152 @@ void Sidebar_Widget::initialCopy()
 	}
 }
 
-void Sidebar_Widget::buttonPopupActivate(int id)
+void Sidebar_Widget::slotSetName( )
 {
-	switch (id)
+	// Set a name for this sidebar tab
+	bool ok;
+
+	// Pop up the dialog asking the user for name.
+	const QString name = KInputDialog::getText(i18n("Set Name"), i18n("Enter the name:"),
+		m_currentButton->displayName, &ok, this);
+
+	if(ok)
 	{
-		case 1:
+		// Write the name in the .desktop file of this side button.
+		KSimpleConfig ksc(m_path+m_currentButton->file);
+		ksc.setGroup("Desktop Entry");
+		ksc.writeEntry("Name", name, true, false, true /*localized*/ );
+		ksc.sync();
+
+		// Update the buttons with a QTimer (why?)
+		QTimer::singleShot(0,this,SLOT(updateButtons()));
+	}
+}
+
+void Sidebar_Widget::slotSetURL( )
+{
+	KURLRequesterDlg dlg( m_currentButton->URL, i18n("Enter a URL:"), this, "url_dlg" );
+	dlg.fileDialog()->setMode( KFile::Directory );
+	if (dlg.exec())
+	{
+		KSimpleConfig ksc(m_path+m_currentButton->file);
+		ksc.setGroup("Desktop Entry");
+		if ( !dlg.selectedURL().isValid())
 		{
-			KIconDialog kicd(this);
-//			kicd.setStrictIconSize(true);
-			QString iconname=kicd.selectIcon(KIcon::Small);
-			kdDebug()<<"New Icon Name:"<<iconname<<endl;
-			if (!iconname.isEmpty())
-			{
-				KSimpleConfig ksc(m_path+m_currentButton->file);
-				ksc.setGroup("Desktop Entry");
-				ksc.writeEntry("Icon",iconname);
-				ksc.sync();
-			        QTimer::singleShot(0,this,SLOT(updateButtons()));
-			}
-			break;
+			KMessageBox::error(this, i18n("<qt><b>%1</b> does not exist</qt>").arg(dlg.selectedURL().url()));
 		}
-		case 2:
+		else
 		{
-                        KURLRequesterDlg * dlg = new KURLRequesterDlg( m_currentButton->URL, i18n("Enter a URL:"), this, "url_dlg" );
-                        dlg->fileDialog()->setMode( KFile::Directory );
-			if (dlg->exec())
-			{
-				KSimpleConfig ksc(m_path+m_currentButton->file);
-				ksc.setGroup("Desktop Entry");
-                                if ( !dlg->selectedURL().isValid())
-                                {
-                                    KMessageBox::error(this, i18n("<qt><b>%1</b> does not exist</qt>").arg(dlg->selectedURL().url()));
-                                }
-                                else
-                                {
-                                    QString newurl= dlg->selectedURL().prettyURL();
-                                    //If we are going to set the name by 'set name', we don't set it here.
-                                    //ksc.writeEntry("Name",newurl);
-                                    ksc.writePathEntry("URL",newurl);
-                                    ksc.sync();
-                                    QTimer::singleShot(0,this,SLOT(updateButtons()));
-                                }
-			}
-                        delete dlg;
-			break;
-		}
-		case 3:
-		{
-			if (KMessageBox::warningContinueCancel(this,i18n("<qt>Do you really want to remove the <b>%1</b> tab?</qt>").arg(m_currentButton->displayName),
-                            QString::null,KStdGuiItem::del())==KMessageBox::Continue)
-			{
-				QFile f(m_path+m_currentButton->file);
-				if (!f.remove())
-					qDebug("Error, file not deleted");
-				QTimer::singleShot(0,this,SLOT(updateButtons()));
-			}
-			break;
-		}
-		case 4: // Set a name for this sidebar tab
-		{
-			bool ok;
-			
-			// Pop up the dialog asking the user for name.
-			const QString name = KInputDialog::getText(i18n("Set Name"), i18n("Enter the name:"),
-			        m_currentButton->displayName, &ok, this);
-			
-			if(ok)
-			{
-				// Write the name in the .desktop file of this side button.
-				KSimpleConfig ksc(m_path+m_currentButton->file);
-				ksc.setGroup("Desktop Entry");
-				ksc.writeEntry("Name", name, true, false, true /*localized*/ );
-				ksc.sync();
-				
-				// Update the buttons with a QTimer (why?)
-				QTimer::singleShot(0,this,SLOT(updateButtons()));
-			}
-			break;
+			QString newurl= dlg.selectedURL().prettyURL();
+			//If we are going to set the name by 'set name', we don't set it here.
+			//ksc.writeEntry("Name",newurl);
+			ksc.writePathEntry("URL",newurl);
+			ksc.sync();
+			QTimer::singleShot(0,this,SLOT(updateButtons()));
 		}
 	}
 }
 
-void Sidebar_Widget::activatedMenu(int id)
+void Sidebar_Widget::slotSetIcon( )
 {
-	switch (id)
+	KIconDialog kicd(this);
+//	kicd.setStrictIconSize(true);
+	QString iconname=kicd.selectIcon(KIcon::Small);
+	kdDebug()<<"New Icon Name:"<<iconname<<endl;
+	if (!iconname.isEmpty())
 	{
-		case 1:
-		{
-			m_singleWidgetMode = !m_singleWidgetMode;
-			if ((m_singleWidgetMode) && (m_visibleViews.count()>1))
+		KSimpleConfig ksc(m_path+m_currentButton->file);
+		ksc.setGroup("Desktop Entry");
+		ksc.writeEntry("Icon",iconname);
+		ksc.sync();
+		QTimer::singleShot(0,this,SLOT(updateButtons()));
+	}
+}
+
+void Sidebar_Widget::slotRemove()
+{
+	if (KMessageBox::warningContinueCancel(this,i18n("<qt>Do you really want to remove the <b>%1</b> tab?</qt>").arg(m_currentButton->displayName),
+		QString::null,KStdGuiItem::del())==KMessageBox::Continue)
+	{
+		QFile f(m_path+m_currentButton->file);
+		if (!f.remove())
+			qDebug("Error, file not deleted");
+		QTimer::singleShot(0,this,SLOT(updateButtons()));
+	}
+}
+
+void Sidebar_Widget::slotMultipleViews( )
+{
+	m_singleWidgetMode = !m_singleWidgetMode;
+	if ((m_singleWidgetMode) && (m_visibleViews.count()>1))
+	{
+		int tmpViewID=m_latestViewed;
+		for (uint i=0; i<m_buttons.count(); i++) {
+			ButtonInfo *button = m_buttons.at(i);
+			if ((int) i != tmpViewID)
 			{
-				int tmpViewID=m_latestViewed;
-				for (uint i=0; i<m_buttons.count(); i++) {
-					ButtonInfo *button = m_buttons.at(i);
-					if ((int) i != tmpViewID)
-					{
-						if (button->dock && button->dock->isVisibleTo(this))
-							showHidePage(i);
-					} else {
-						if (button->dock)
-						{
-							m_area->setMainDockWidget(button->dock);
-							m_mainDockWidget->undock();
-						}
-					}
-				}
-				m_latestViewed=tmpViewID;
+				if (button->dock && button->dock->isVisibleTo(this))
+					showHidePage(i);
 			} else {
-				if (!m_singleWidgetMode)
+				if (button->dock)
 				{
-					int tmpLatestViewed=m_latestViewed;
-					m_area->setMainDockWidget(m_mainDockWidget);
-	        			m_mainDockWidget->setDockSite(KDockWidget::DockTop);
-				        m_mainDockWidget->setEnableDocking(KDockWidget::DockNone);
-					m_mainDockWidget->show();
-					if ((tmpLatestViewed>=0) && (tmpLatestViewed < (int) m_buttons.count()))
-					{
-						ButtonInfo *button = m_buttons.at(tmpLatestViewed);
-						if (button && button->dock)
-						{
-							m_noUpdate=true;
-							button->dock->undock();
-			                                button->dock->setEnableDocking(KDockWidget::DockTop|
-                                				KDockWidget::DockBottom/*|KDockWidget::DockDesktop*/);
-							kdDebug()<<"Reconfiguring multi view mode"<<endl;
-							m_buttonBar->setTab(tmpLatestViewed,true);
-							showHidePage(tmpLatestViewed);
-						}
-					}
+					m_area->setMainDockWidget(button->dock);
+					m_mainDockWidget->undock();
 				}
 			}
-			break;
 		}
-		case 2:
+		m_latestViewed=tmpViewID;
+	} else {
+		if (!m_singleWidgetMode)
 		{
-			m_showTabsLeft = ! m_showTabsLeft;
-			doLayout();
-			break;
-		}
-		case 3:
-		{
-			m_showExtraButtons = ! m_showExtraButtons;
-			if(m_showExtraButtons)
+			int tmpLatestViewed=m_latestViewed;
+			m_area->setMainDockWidget(m_mainDockWidget);
+			m_mainDockWidget->setDockSite(K3DockWidget::DockTop);
+			m_mainDockWidget->setEnableDocking(K3DockWidget::DockNone);
+			m_mainDockWidget->show();
+			if ((tmpLatestViewed>=0) && (tmpLatestViewed < (int) m_buttons.count()))
 			{
-				m_buttonBar->button(-1)->show();
+				ButtonInfo *button = m_buttons.at(tmpLatestViewed);
+				if (button && button->dock)
+				{
+					m_noUpdate=true;
+					button->dock->undock();
+					button->dock->setEnableDocking(K3DockWidget::DockTop|
+						K3DockWidget::DockBottom/*|K3DockWidget::DockDesktop*/);
+					kdDebug()<<"Reconfiguring multi view mode"<<endl;
+					m_buttonBar->setTab(tmpLatestViewed,true);
+					showHidePage(tmpLatestViewed);
+				}
 			}
-			else
-			{
-				m_buttonBar->button(-1)->hide();
-
-				KMessageBox::information(this,
-				i18n("You have hidden the navigation panel configuration button. To make it visible again, click the right mouse button on any of the navigation panel buttons and select \"Show Configuration Button\"."));
-
-			}
-			break;
 		}
-		default:
-			return;
 	}
 	m_configTimer.start(400, true);
 }
 
+void Sidebar_Widget::slotShowTabsLeft( )
+{
+	m_showTabsLeft = ! m_showTabsLeft;
+	doLayout();
+	m_configTimer.start(400, true);
+}
+
+void Sidebar_Widget::slotShowConfigurationButton( )
+{
+	m_showExtraButtons = ! m_showExtraButtons;
+	if(m_showExtraButtons)
+	{
+		m_buttonBar->button(-1)->show();
+	}
+	else
+	{
+		m_buttonBar->button(-1)->hide();
+
+		KMessageBox::information(this,
+		i18n("You have hidden the navigation panel configuration button. To make it visible again, click the right mouse button on any of the navigation panel buttons and select \"Show Configuration Button\"."));
+
+	}
+	m_configTimer.start(400, true);
+}
 void Sidebar_Widget::readConfig()
 {
 	m_singleWidgetMode = m_config->readBoolEntry("SingleWidgetMode",true);
@@ -830,21 +812,19 @@ bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 			{
 				if (!m_buttonPopup)
 				{
-					m_buttonPopup=new KMenu(this, "Sidebar_Widget::ButtonPopup");
-					m_buttonPopup->insertTitle(SmallIcon("unknown"), "", 50);
-					m_buttonPopup->insertItem(SmallIconSet("text"), i18n("Set Name..."),4); // Item to open a dialog to change the name of the sidebar item (by Pupeno)
-					m_buttonPopup->insertItem(SmallIconSet("www"), i18n("Set URL..."),2);
-					m_buttonPopup->insertItem(SmallIconSet("icons"), i18n("Set Icon..."),1);
-					m_buttonPopup->insertSeparator();
-					m_buttonPopup->insertItem(SmallIconSet("editdelete"), i18n("Remove"),3);
-					m_buttonPopup->insertSeparator();
-					m_buttonPopup->insertItem(SmallIconSet("configure"), i18n("Configure Navigation Panel"), m_menu, 4);
-					connect(m_buttonPopup, SIGNAL(activated(int)),
-						this, SLOT(buttonPopupActivate(int)));
+					m_buttonPopup=new KMenu(this);
+					m_buttonPopupTitle = m_buttonPopup->addTitle(SmallIcon("unknown"), "");
+					m_buttonPopup->addAction(SmallIconSet("text"), i18n("Set Name..."), this, SLOT(slotSetName())); // Item to open a dialog to change the name of the sidebar item (by Pupeno)
+					m_buttonPopup->addAction(SmallIconSet("www"), i18n("Set URL..."), this, SLOT(slotSetURL()));
+					m_buttonPopup->addAction(SmallIconSet("icons"), i18n("Set Icon..."), this, SLOT(slotSetIcon()));
+					m_buttonPopup->addSeparator();
+					m_buttonPopup->addAction(SmallIconSet("editdelete"), i18n("Remove"), this, SLOT(slotRemove()));
+					m_buttonPopup->addSeparator();
+					m_buttonPopup->addMenu(m_menu);
 				}
 				m_buttonPopup->setItemEnabled(2,!m_currentButton->URL.isEmpty());
-			        m_buttonPopup->changeTitle(50,SmallIcon(m_currentButton->iconName),
-						m_currentButton->displayName);
+				m_buttonPopupTitle->setIcon(SmallIcon(m_currentButton->iconName));
+			        m_buttonPopupTitle->setText(m_currentButton->displayName);
 				m_buttonPopup->exec(QCursor::pos());
 			}
 			return true;
@@ -909,9 +889,9 @@ bool Sidebar_Widget::createView( ButtonInfo *data)
 		ret = false;
 	} else {
 		data->dock->setWidget(data->module->getWidget());
-		data->dock->setEnableDocking(KDockWidget::DockTop|
-		KDockWidget::DockBottom/*|KDockWidget::DockDesktop*/);
-		data->dock->setDockSite(KDockWidget::DockTop|KDockWidget::DockBottom);
+		data->dock->setEnableDocking(K3DockWidget::DockTop|
+		K3DockWidget::DockBottom/*|K3DockWidget::DockDesktop*/);
+		data->dock->setDockSite(K3DockWidget::DockTop|K3DockWidget::DockBottom);
 		connectModule(data->module);
 		connect(this, SIGNAL(fileSelection(const KFileItemList&)),
 			data->module, SLOT(openPreview(const KFileItemList&)));
@@ -964,7 +944,7 @@ void Sidebar_Widget::showHidePage(int page)
 				m_area->setMainDockWidget(info->dock);
 				m_mainDockWidget->undock();
 			} else {
-				info->dock->manualDock(m_mainDockWidget,KDockWidget::DockTop,100);
+				info->dock->manualDock(m_mainDockWidget,K3DockWidget::DockTop,100);
 			}
 
 			info->dock->show();
@@ -988,7 +968,7 @@ void Sidebar_Widget::showHidePage(int page)
 				m_area->setMainDockWidget(info->dock);
 				m_mainDockWidget->undock();
 			} else {
-				info->dock->manualDock(m_mainDockWidget,KDockWidget::DockTop,100);
+				info->dock->manualDock(m_mainDockWidget,K3DockWidget::DockTop,100);
 			}
 
 			info->dock->show();
@@ -1040,9 +1020,9 @@ QSize Sidebar_Widget::sizeHint() const
         return minimumSizeHint();
 }
 
-void Sidebar_Widget::dockWidgetHasUndocked(KDockWidget* wid)
+void Sidebar_Widget::dockWidgetHasUndocked(K3DockWidget* wid)
 {
-	kdDebug()<<" Sidebar_Widget::dockWidgetHasUndocked(KDockWidget*)"<<endl;
+	kdDebug()<<" Sidebar_Widget::dockWidgetHasUndocked(K3DockWidget*)"<<endl;
 	for (unsigned int i=0;i<m_buttons.count();i++)
 	{
 		ButtonInfo *button = m_buttons.at(i);
@@ -1073,7 +1053,7 @@ KParts::URLArgs args;
 
 	args.setContentType("Content-Type: " + contentType);
 	args.postData = formData;
-	args.setDoPost(Q3CString(action).toLower() == "post");
+	args.setDoPost(QByteArray(action).toLower() == "post");
 	// boundary?
 	emit getExtension()->openURLRequest(KURL( url ), args);
 }

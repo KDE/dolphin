@@ -40,7 +40,7 @@ K_EXPORT_COMPONENT_FACTORY(libkurisearchfilter, KURISearchFilterFactory("kcmkuri
 
 KURISearchFilter::KURISearchFilter(QObject *parent, const char *name,
                                    const QStringList &)
-                 :KURIFilterPlugin(parent, name ? name : "kurisearchfilter", 1.0),
+                 :KURIFilterPlugin(name ? name : "kurisearchfilter", parent, 1.0),
                   DCOPObject("KURISearchFilterIface")
 {
 }

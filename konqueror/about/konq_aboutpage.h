@@ -10,7 +10,7 @@ class KInstance;
 class KonqAboutPageFactory : public KParts::Factory
 {
 public:
-    KonqAboutPageFactory( QObject *parent = 0, const char *name = 0 );
+    KonqAboutPageFactory( QObject *parent = 0 );
     virtual ~KonqAboutPageFactory();
 
     virtual KParts::Part *createPartObject( QWidget *parentWidget, const char *widgetName,

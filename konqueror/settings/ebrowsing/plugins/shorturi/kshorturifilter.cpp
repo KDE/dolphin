@@ -129,7 +129,7 @@ static QString removeArgs( const QString& _cmd )
 
 KShortURIFilter::KShortURIFilter( QObject *parent, const char *name,
                                   const QStringList & /*args*/ )
-                :KURIFilterPlugin( parent, name ? name : "kshorturifilter", 1.0),
+                :KURIFilterPlugin( name ? name : "kshorturifilter", parent, 1.0),
                  DCOPObject("KShortURIFilterIface")
 {
     configure();
@@ -372,7 +372,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
     u.setRef(ref);
     u.setQuery(query);
 
-    if (!KAuthorized::authorizeKActionURLAction( QLatin1String("open"), KURL(), u))
+    if (!KAuthorized::authorizeURLAction( QLatin1String("open"), KURL(), u))
     {
       // No authorisation, we pretend it's a file will get
       // an access denied error later on.
@@ -485,7 +485,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
     u.setPath(path);
     u.setRef(ref);
 
-    if (!KAuthorized::authorizeKActionURLAction( QLatin1String("open"), KURL(), u))
+    if (!KAuthorized::authorizeURLAction( QLatin1String("open"), KURL(), u))
     {
       // No authorisation, we pretend it exists and will get
       // an access denied error later on.

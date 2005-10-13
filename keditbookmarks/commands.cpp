@@ -577,12 +577,12 @@ KEBMacroCommand* CmdGen::insertMimeSource(
 //                     title = url.prettyURL();
 //                 urlBks << KBookmark::standaloneBookmark(title, url, df.readIcon());
 //             }
-//             KBookmarkDrag *mydrag = KBookmarkDrag::newDrag(urlBks, 0);
+//             K3BookmarkDrag *mydrag = K3BookmarkDrag::newDrag(urlBks, 0);
 //             modified = true;
 //             data = mydrag;
 //         }
 //     }
-//     if (!KBookmarkDrag::canDecode(data))
+//     if (!K3BookmarkDrag::canDecode(data))
 //     {
 //         if (modified) // Shouldn't happen
 //             delete data;
@@ -590,7 +590,7 @@ KEBMacroCommand* CmdGen::insertMimeSource(
 //     }
 //     KEBMacroCommand *mcmd = new KEBMacroCommand(cmdName);
 //     QString currentAddress = addr;
-//     Q3ValueList<KBookmark> bookmarks = KBookmarkDrag::decode(data);
+//     Q3ValueList<KBookmark> bookmarks = K3BookmarkDrag::decode(data);
 //     for (Q3ValueListConstIterator<KBookmark> it = bookmarks.begin(); 
 //             it != bookmarks.end(); ++it) {
 //         CreateCommand *cmd = new CreateCommand(currentAddress, (*it));

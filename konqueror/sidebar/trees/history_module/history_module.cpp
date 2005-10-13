@@ -74,7 +74,7 @@ KonqSidebarHistoryModule::KonqSidebarHistoryModule( KonqSidebarTree * parentTree
     connect( parentTree, SIGNAL( expanded( QListViewItem * )),
 	     SLOT( slotItemExpanded( QListViewItem * )));
 
-    m_collection = new KActionCollection( this, "history actions" );
+    m_collection = new KActionCollection( this );
     (void) new KAction( i18n("New &Window"), "window_new", 0, this,
  			SLOT( slotNewWindow() ), m_collection, "open_new");
     (void) new KAction( i18n("&Remove Entry"), "editdelete", 0, this,
@@ -345,7 +345,7 @@ KonqSidebarHistoryGroupItem * KonqSidebarHistoryModule::getGroupItem( const KURL
 void KonqSidebarHistoryModule::slotClearHistory()
 {
     KGuiItem guiitem = KStdGuiItem::clear();
-    guiitem.setIconSet( SmallIconSet("history_clear"));
+    guiitem.setIcon( SmallIconSet("history_clear"));
 
     if ( KMessageBox::warningContinueCancel( tree(),
 				     i18n("Do you really want to clear "

@@ -35,8 +35,8 @@
 #include "uagentproviderdlg.h"
 #include "uagentproviderdlg_ui.h"
 
-UALineEdit::UALineEdit( QWidget *parent, const char *name )
-           :KLineEdit( parent, name )
+UALineEdit::UALineEdit( QWidget *parent )
+           :KLineEdit( parent )
 {
   // For now do not accept any drops since they might contain
   // characters we do not accept.

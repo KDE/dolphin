@@ -30,6 +30,7 @@
 #include <konq_pixmapprovider.h>
 #include <kparts/browserextension.h>
 #include <kstandarddirs.h>
+#include <khbox.h>
 
 
 KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent, QWidget *widgetParent, QString &desktopName, const char* name)
@@ -88,7 +89,8 @@ void KonqSideBarWebModule::setAutoReload(){
 			KDialogBase::Ok|KDialogBase::Cancel);
 	KHBox *hbox = dlg.makeHBoxMainWidget();
 	
-	QSpinBox *mins = new QSpinBox( 0, 120, 1, hbox );
+	QSpinBox *mins = new QSpinBox( hbox );
+	mins->setRange(0, 120);
 	mins->setSuffix( i18n(" minutes") );
 	QSpinBox *secs = new QSpinBox( 0, 59, 1, hbox );
 	secs->setSuffix( i18n(" seconds") );

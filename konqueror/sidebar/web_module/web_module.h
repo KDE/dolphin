@@ -47,8 +47,7 @@ class KHTMLSideBar : public KHTMLPart
 				);
 
 
-			_linkMenu = new KMenu(widget(),
-					"link context menu");
+			_linkMenu = new KMenu(widget());
 			if (!universal) {
 				_linkMenu->insertItem(i18n("&Open Link"),
 						this, SLOT(loadPage()));
@@ -58,7 +57,7 @@ class KHTMLSideBar : public KHTMLPart
 				_linkMenu->insertItem(i18n("Open in New &Window"),
 						this, SLOT(loadPage()));
 			}
-			_menu = new KMenu(widget(), "context menu");
+			_menu = new KMenu(widget());
 			_menu->insertItem(SmallIcon("reload"), i18n("&Reload"),
 					this, SIGNAL(reload()));
 			_menu->insertItem(SmallIcon("reload"), i18n("Set &Automatic Reload"),                                                  this, SIGNAL(setAutoReload()));

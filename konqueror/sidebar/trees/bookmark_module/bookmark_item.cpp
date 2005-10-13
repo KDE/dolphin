@@ -17,7 +17,7 @@
 */
 
 #include "bookmark_item.h"
-#include <kbookmarkdrag.h>
+#include <k3bookmarkdrag.h>
 #include <konq_sidebartree.h>
 #include <kdebug.h>
 #include <kiconloader.h>
@@ -35,7 +35,7 @@ KonqSidebarBookmarkItem::KonqSidebarBookmarkItem( KonqSidebarTreeItem *parentIte
 
 Q3DragObject * KonqSidebarBookmarkItem::dragObject( QWidget * parent, bool )
 {
-    KBookmarkDrag * drag = KBookmarkDrag::newDrag( m_bk, parent );
+    K3BookmarkDrag * drag = K3BookmarkDrag::newDrag( m_bk, parent );
     // TODO honour bool move ?
     return drag;
 }

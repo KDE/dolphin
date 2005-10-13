@@ -329,7 +329,7 @@ void ActionsImpl::slotCopy()
     // this is not a command, because it can't be undone
     QList<KBookmark> bookmarks = KEBApp::self()->selectedBookmarksExpanded();
     //FIXME rewrite
-    //KBookmarkDrag* data = KBookmarkDrag::newDrag(bookmarks, 0 /* not this ! */);
+    //K3BookmarkDrag* data = K3BookmarkDrag::newDrag(bookmarks, 0 /* not this ! */);
     //kapp->clipboard()->setData(data, QClipboard::Selection);
     //kapp->clipboard()->setData(data, QClipboard::Clipboard);
 }

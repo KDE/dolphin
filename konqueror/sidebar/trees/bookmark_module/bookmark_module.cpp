@@ -28,7 +28,8 @@
 #include <kaction.h>
 #include <kactioncollection.h>
 #include <kapplication.h>
-#include <kbookmarkdrag.h>
+#include <kbookmark.h>
+#include <k3bookmarkdrag.h>
 #include <kiconloader.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
@@ -45,7 +46,7 @@ KonqSidebarBookmarkModule::KonqSidebarBookmarkModule( KonqSidebarTree * parentTr
     : QObject( 0L ), KonqSidebarTreeModule( parentTree ),
       m_topLevelItem( 0L ), m_ignoreOpenChange(true)
 {
-    // formats handled by KBookmarkDrag:
+    // formats handled by K3BookmarkDrag:
     QStringList formats;
     formats << "text/uri-list" << "application/x-xbel" << "text/plain";
     tree()->setDropFormats(formats);
@@ -60,7 +61,7 @@ KonqSidebarBookmarkModule::KonqSidebarBookmarkModule( KonqSidebarTree * parentTr
     connect(tree(), SIGNAL(collapsed(Q3ListViewItem*)),
             this,   SLOT(slotOpenChange(Q3ListViewItem*)));
 
-    m_collection = new KActionCollection( this, "bookmark actions" );
+    m_collection = new KActionCollection( this );
     (void) new KAction( i18n("&Create New Folder"), "folder_new", 0, this,
                         SLOT( slotCreateFolder() ), m_collection, "create_folder");
     (void) new KAction( i18n("Delete Folder"), "editdelete", 0, this,
@@ -230,7 +231,7 @@ void KonqSidebarBookmarkModule::slotMoved(Q3ListViewItem *i, Q3ListViewItem*, Q3
 
 void KonqSidebarBookmarkModule::slotDropped(KListView *, QDropEvent *e, Q3ListViewItem *parent, Q3ListViewItem *after)
 {
-    if (!KBookmarkDrag::canDecode(e))
+    if (!KBookmark::List::canDecode(e->mimeData()))
         return;
 
     KBookmark afterBookmark;
@@ -262,10 +263,10 @@ void KonqSidebarBookmarkModule::slotDropped(KListView *, QDropEvent *e, Q3ListVi
         parentGroup = KonqBookmarkManager::self()->root();
     }
 
-    Q3ValueList<KBookmark> bookmarks = KBookmarkDrag::decode(e);
+    KBookmark::List bookmarks = KBookmark::List::fromMimeData(e->mimeData());
 
     // copy
-    Q3ValueList<KBookmark>::iterator it = bookmarks.begin();
+    KBookmark::List::iterator it = bookmarks.begin();
     for (;it != bookmarks.end(); ++it) {
         // insert new item.
         parentGroup.moveItem(*it, afterBookmark);
@@ -417,9 +418,9 @@ void KonqSidebarBookmarkModule::slotCopyLocation()
 
     if ( !bookmark.isGroup() )
     {
-        kapp->clipboard()->setData( KBookmarkDrag::newDrag(bookmark, 0),
+        kapp->clipboard()->setData( K3BookmarkDrag::newDrag(bookmark, 0),
                                     QClipboard::Selection );
-        kapp->clipboard()->setData( KBookmarkDrag::newDrag(bookmark, 0),
+        kapp->clipboard()->setData( K3BookmarkDrag::newDrag(bookmark, 0),
                                     QClipboard::Clipboard );
     }
 }
@@ -536,14 +537,14 @@ BookmarkEditDialog::BookmarkEditDialog(const QString& title, const QString& url,
 
     QLabel *nameLabel = new QLabel(i18n("Name:"), main, "title label");
     grid->addWidget(nameLabel, 0, 0);
-    m_title = new KLineEdit(main, "title edit");
+    m_title = new KLineEdit(main);
     m_title->setText(title);
     nameLabel->setBuddy(m_title);
     grid->addWidget(m_title, 0, 1);
     if(!folder) {
         QLabel *locationLabel = new QLabel(i18n("Location:"), main, "location label");
         grid->addWidget(locationLabel, 1, 0);
-        m_location = new KLineEdit(main, "location edit");
+        m_location = new KLineEdit(main);
         m_location->setText(url);
         locationLabel->setBuddy(m_location);
         grid->addWidget(m_location, 1, 1);

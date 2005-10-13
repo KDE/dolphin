@@ -29,6 +29,7 @@
 #include <kiconloader.h>
 #include "konq_infolistviewitem.h"
 #include "konq_infolistviewwidget.h"
+#include <QDateTime>
 
 /**************************************************************
  *

@@ -31,6 +31,7 @@
 #include <kmessagebox.h>
 #include <ksocks.h>
 #include <kapplication.h>
+#include <klocale.h>
 
 #include "socks.h"
 #include <kaboutdata.h>

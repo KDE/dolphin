@@ -24,8 +24,9 @@
 
 KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
                           QObject *parent, const char *name, bool universalMode )
-: KParts::ReadOnlyPart(parent, name),KonqSidebarIface()
+: KParts::ReadOnlyPart(parent),KonqSidebarIface()
 {
+        setObjectName(name);
 	// we need an instance
 	setInstance( KonqSidebarFactory::instance() );
 	m_extension = 0;

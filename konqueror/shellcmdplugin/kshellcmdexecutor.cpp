@@ -121,7 +121,7 @@ void KShellCommandExecutor::writeDataToShell()
       i18n( "Input Required:" ), QString::null, &ok, this );
    if ( ok )
    {
-      Q3CString input=str.toLocal8Bit();
+      QByteArray input=str.toLocal8Bit();
       ::write(m_shellProcess->fd(),input,input.length());
       ::write(m_shellProcess->fd(),"\n",1);
    }

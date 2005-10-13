@@ -31,7 +31,6 @@
 #include "konqsidebarplugin.h"
 #include "konqsidebariface_p.h"
 
-class KDockWidget;
 class QHBoxLayout;
 class QSplitter;
 class QStringList;
@@ -40,7 +39,7 @@ class ButtonInfo: public QObject, public KonqSidebarIface
 {
 	Q_OBJECT
 public:
-	ButtonInfo(const QString& file_, class KonqSidebarIface *part, class KDockWidget *dock_,
+	ButtonInfo(const QString& file_, class KonqSidebarIface *part, K3DockWidget *dock_,
 			const QString &url_,const QString &lib,
 			const QString &dispName_, const QString &iconName_,
 			QObject *parent)
@@ -53,7 +52,7 @@ public:
 	~ButtonInfo() {}
 
 	QString file;
-	KDockWidget *dock;
+	K3DockWidget *dock;
 	KonqSidebarPlugin *module;
 	QString URL;
 	QString libName;
@@ -78,17 +77,16 @@ public:
 	~addBackEnd(){;}
 protected slots:
 	void aboutToShowAddMenu();
-	void activatedAddMenu(int);
+	void triggeredAddMenu(QAction* action);
+	void doRollBack();
+
 signals:
 	void updateNeeded();
 	void initialCopyNeeded();
 private:
 	QPointer<class QMenu> menu;
-	Q3PtrVector<QString> libNames;
-	Q3PtrVector<QString> libParam;
 	bool m_universal;
 	QString m_currentProfile;
-	void doRollBack();
 	QWidget *m_parent;
 };
 
@@ -122,11 +120,18 @@ protected slots:
 	void createButtons();
 	void updateButtons();
 	void finishRollBack();
-	void activatedMenu(int id);
-	void buttonPopupActivate(int);
-  	void dockWidgetHasUndocked(KDockWidget*);
+  	void dockWidgetHasUndocked(K3DockWidget*);
 	void aboutToShowConfigMenu();
 	void saveConfig();
+
+	void slotMultipleViews();
+	void slotShowTabsLeft();
+	void slotShowConfigurationButton();
+
+	void slotSetName();
+	void slotSetURL();
+	void slotSetIcon();
+	void slotRemove();
 
 signals:
 	void started(KIO::Job *);
@@ -179,14 +184,15 @@ private:
 	bool m_userMovedSplitter;
 private:
 	KParts::ReadOnlyPart *m_partParent;
-	KDockArea *m_area;
-	KDockWidget *m_mainDockWidget;
+	K3DockArea *m_area;
+	K3DockWidget *m_mainDockWidget;
 
 	KMultiTabBar *m_buttonBar;
 	Q3PtrVector<ButtonInfo> m_buttons;
 	QHBoxLayout *m_layout;
 	KMenu *m_buttonPopup;
-	QMenu *m_menu;
+	QAction* m_buttonPopupTitle;
+	Q3PopupMenu *m_menu;
 	QPointer<ButtonInfo> m_activeModule;
 	QPointer<ButtonInfo> m_currentButton;
 	

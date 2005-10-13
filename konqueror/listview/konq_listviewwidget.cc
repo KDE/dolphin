@@ -30,7 +30,6 @@
 #include <klocale.h>
 #include <kprotocolinfo.h>
 #include <kaction.h>
-#include <kurldrag.h>
 #include <kmessagebox.h>
 #include <kiconloader.h>
 
@@ -908,7 +907,8 @@ void KonqBaseListViewWidget::slotReturnPressed( Q3ListViewItem *_item )
 
    KURL url = fileItem->url();
    url.cleanPath();
-   bool isIntoTrash =  url.isLocalFile() && url.path(1).startsWith(KGlobalSettings::trashPath());
+#warning hardcoded protocol: find a better way to determine if a url is a trash url.
+   bool isIntoTrash = url.protocol() == "trash";
    if ( !isIntoTrash || (isIntoTrash && fileItem->isDir()) )
       m_pBrowserView->lmbClicked( fileItem );
    else

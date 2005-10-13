@@ -25,6 +25,7 @@
 #include <kfileitem.h>
 
 #include <QHash>
+#include <QFont>
 
 class KonqModel : public QAbstractTableModel 
 {

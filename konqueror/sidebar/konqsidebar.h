@@ -39,7 +39,7 @@ class KonqSidebarBrowserExtension : public KParts::BrowserExtension
 	Q_OBJECT
 	public:
 	KonqSidebarBrowserExtension(KonqSidebar *part_,Sidebar_Widget *widget_,const char *name):
-	KParts::BrowserExtension((KParts::ReadOnlyPart*)part_,name),widget(widget_){;}
+	KParts::BrowserExtension((KParts::ReadOnlyPart*)part_),widget(widget_){setObjectName(name);}
 	~KonqSidebarBrowserExtension(){;}
 
 	protected:

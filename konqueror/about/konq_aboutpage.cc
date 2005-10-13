@@ -14,6 +14,7 @@
 #include <kstandarddirs.h>
 #include <kaction.h>
 #include <kiconloader.h>
+#include <ktoolinvocation.h>
 
 #include <assert.h>
 #include <qfile.h>
@@ -28,8 +29,8 @@ QString *KonqAboutPageFactory::s_specs_html = 0;
 QString *KonqAboutPageFactory::s_tips_html = 0;
 QString *KonqAboutPageFactory::s_plugins_html = 0;
 
-KonqAboutPageFactory::KonqAboutPageFactory( QObject *parent, const char *name )
-    : KParts::Factory( parent, name )
+KonqAboutPageFactory::KonqAboutPageFactory( QObject *parent )
+    : KParts::Factory( parent )
 {
     s_instance = new KInstance( "konqaboutpage" );
 }
@@ -466,7 +467,7 @@ void KonqAboutPage::urlSelected( const QString &url, int button, int state, cons
         QStringList args = QStringList::split( QChar( ' ' ), url.mid( 6 ) );
         QString executable = args[ 0 ];
         args.remove( args.begin() );
-        KApplication::kdeinitExec( executable, args );
+        KToolInvocation::kdeinitExec( executable, args );
         return;
     }
 

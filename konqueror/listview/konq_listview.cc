@@ -124,7 +124,8 @@ void ListViewBrowserExtension::updateActions()
   {
     canCopy++;
     KURL url = item->url();
-    if ( url.directory(false) == KGlobalSettings::trashPath() )
+#warning hardcoded protocol: find a better way to determine if a url is a trash url.
+    if ( url.protocol() == "trash" )
       bInTrash = true;
     if (  KProtocolInfo::supportsDeleting(  url ) )
       canDel++;

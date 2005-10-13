@@ -19,6 +19,7 @@
 #include <klocale.h>
 #include <khtml_settings.h>
 #include <knuminput.h>
+#include <khbox.h>
 
 #include <qlayout.h>
 #include <qwhatsthis.h>
@@ -102,7 +103,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     connect( enableShutdownCB, SIGNAL(toggled( bool )), this, SLOT(slotChanged()) );
     connect( enableShutdownCB, SIGNAL(clicked()), this, SLOT(toggleJavaControls()) );
 
-    Q3HBox* secondsHB = new Q3HBox( javartGB );
+    KHBox* secondsHB = new KHBox( javartGB );
     laygroup1->addWidget( secondsHB );
     serverTimeoutSB = new KIntNumInput( secondsHB );
     serverTimeoutSB->setRange( 0, 1000, 5 );
@@ -110,7 +111,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     serverTimeoutSB->setSuffix(i18n(" sec"));
     connect(serverTimeoutSB, SIGNAL(valueChanged(int)),this,SLOT(slotChanged()));
 
-    Q3HBox* pathHB = new Q3HBox( javartGB );
+    KHBox* pathHB = new KHBox( javartGB );
     laygroup1->addWidget( pathHB );
     pathHB->setSpacing( 10 );
     QLabel* pathLA = new QLabel( i18n( "&Path to Java executable, or 'java':" ),
@@ -119,7 +120,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     connect( pathED, SIGNAL(textChanged( const QString& )), this, SLOT(slotChanged()) );
     pathLA->setBuddy( pathED );
 
-    Q3HBox* addArgHB = new Q3HBox( javartGB );
+    KHBox* addArgHB = new KHBox( javartGB );
     laygroup1->addWidget( addArgHB );
 
     addArgHB->setSpacing( 10 );

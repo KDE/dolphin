@@ -159,7 +159,8 @@ void KonqSidebarDirTreeItem::itemSelected()
 {
     bool bInTrash = false;
 
-    if ( m_fileItem->url().directory(false) == KGlobalSettings::trashPath() )
+#warning hardcoded protocol check: replace with better way to determine if a URL is a trash url
+    if ( m_fileItem->url().protocol() == "trash" )
         bInTrash = true;
 
     QMimeSource *data = QApplication::clipboard()->data();
@@ -197,13 +198,13 @@ void KonqSidebarDirTreeItem::paste()
 {
     // move or not move ?
     bool move = false;
-    QMimeSource *data = QApplication::clipboard()->data();
-    if ( data->provides( "application/x-kde-cutselection" ) ) {
+    const QMimeData *data = QApplication::clipboard()->mimeData();
+    if ( data->hasFormat( "application/x-kde-cutselection" ) ) {
         move = KonqDrag::decodeIsCutSelection( data );
         kdDebug(1201) << "move (from clipboard data) = " << move << endl;
     }
 
-    KIO::pasteClipboard( m_fileItem->url(), move );
+    KIO::pasteClipboard( m_fileItem->url(), listView(), move );
 }
 
 void KonqSidebarDirTreeItem::trash()

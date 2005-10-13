@@ -29,6 +29,7 @@
 #include <ksycoca.h>
 #include <kstandarddirs.h>
 #include <QX11Info>
+#include <klocale.h>
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
@@ -164,7 +165,7 @@ int main(int argc, char ** argv)
 #if defined Q_WS_X11
   if( args->isSet( "parent" )) {
     bool ok;
-    long id = Q3CString(args->getOption("parent")).toLong(&ok);
+    long id = QString(args->getOption("parent")).toLong(&ok);
     if (ok)
       XSetTransientForHint( QX11Info::display(), dlg.winId(), id );
   }

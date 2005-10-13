@@ -20,6 +20,7 @@
 #include "konq_model.h"
 
 #include <QMimeData>
+#include <QIcon>
 
 #include <kdebug.h>
 #include <kglobal.h>

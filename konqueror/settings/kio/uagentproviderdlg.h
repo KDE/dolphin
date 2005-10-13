@@ -32,7 +32,7 @@ class UALineEdit : public KLineEdit
   Q_OBJECT
 
 public:
-  UALineEdit( QWidget *parent, const char *name=0 );
+  UALineEdit( QWidget *parent );
 
 protected:
   virtual void keyPressEvent( QKeyEvent * );

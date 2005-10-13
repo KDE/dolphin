@@ -80,7 +80,7 @@ KPreviewOptions::KPreviewOptions( QWidget *parent, const char */*name*/ )
                 "no preview will be generated for files bigger than 1 MB, for speed reasons."));
 
     // Listview containing checkboxes for all protocols that support listing
-    KListView *listView = new KListView( this, "listView" );
+    KListView *listView = new KListView( this );
     listView->addColumn( i18n( "Select Protocols" ) );
     listView->setFullWidth( true );
 

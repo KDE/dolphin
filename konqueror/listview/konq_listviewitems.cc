@@ -26,6 +26,7 @@
 #include <qpainter.h>
 #include <q3header.h>
 #include <kiconloader.h>
+#include <QDateTime>
 
 static QString retrieveExtraEntry( KFileItem* fileitem, int numExtra )
 {
