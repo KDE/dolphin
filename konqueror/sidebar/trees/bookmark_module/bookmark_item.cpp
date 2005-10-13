@@ -17,7 +17,6 @@
 */
 
 #include "bookmark_item.h"
-#include <k3bookmarkdrag.h>
 #include <konq_sidebartree.h>
 #include <kdebug.h>
 #include <kiconloader.h>
@@ -33,11 +32,13 @@ KonqSidebarBookmarkItem::KonqSidebarBookmarkItem( KonqSidebarTreeItem *parentIte
     setPixmap( 0, SmallIcon(bk.icon()) );
 }
 
-Q3DragObject * KonqSidebarBookmarkItem::dragObject( QWidget * parent, bool )
+
+bool KonqSidebarBookmarkItem::populateMimeData( QMimeData* mimeData, bool move )
 {
-    K3BookmarkDrag * drag = K3BookmarkDrag::newDrag( m_bk, parent );
+    m_bk.populateMimeData( mimeData );
     // TODO honour bool move ?
-    return drag;
+    Q_UNUSED( move );
+    return true;
 }
 
 void KonqSidebarBookmarkItem::middleButtonClicked()

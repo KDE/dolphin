@@ -29,7 +29,8 @@
 #include <qapplication.h>
 #include <qclipboard.h>
 #include <qcursor.h>
-#include <konq_drag.h>
+#include <qmimedata.h>
+#include <konqmimedata.h>
 
 void KonqSidebarTreeTopLevelItem::init()
 {
@@ -86,7 +87,7 @@ void KonqSidebarTreeTopLevelItem::drop( QDropEvent * ev )
     }
 }
 
-Q3DragObject * KonqSidebarTreeTopLevelItem::dragObject( QWidget * parent, bool move )
+bool KonqSidebarTreeTopLevelItem::populateMimeData( QMimeData* mimeData, bool move )
 {
     // 100% duplicated from KonqDirTreeItem::dragObject :(
     KURL::List lst;
@@ -94,17 +95,18 @@ Q3DragObject * KonqSidebarTreeTopLevelItem::dragObject( QWidget * parent, bool m
     url.setPath( path() );
     lst.append( url );
 
-    KonqDrag * drag = KonqDrag::newDrag( lst, false, parent );
+    KonqMimeData::populateMimeData( mimeData, KURL::List(), lst, move );
 
+#if 0 // was this ever used? Seems populateMimeData is only used for copy/cut, not for dragging?
     const QPixmap * pix = pixmap(0);
     if (pix)
     {
         QPoint hotspot( pix->width() / 2, pix->height() / 2 );
         drag->setPixmap( *pix, hotspot );
     }
-    drag->setMoveSelection( move );
+#endif
 
-    return drag;
+    return true;
 }
 
 void KonqSidebarTreeTopLevelItem::middleButtonClicked()
@@ -160,10 +162,10 @@ void KonqSidebarTreeTopLevelItem::paste()
     bool move = false;
     const QMimeData *data = QApplication::clipboard()->mimeData();
     if ( data->hasFormat( "application/x-kde-cutselection" ) ) {
-        move = KonqDrag::decodeIsCutSelection( data );
+        move = KonqMimeData::decodeIsCutSelection( data );
         kdDebug(1201) << "move (from clipboard data) = " << move << endl;
     }
-	
+
     KURL destURL;
     if ( m_bTopLevelGroup )
         destURL.setPath( m_path );

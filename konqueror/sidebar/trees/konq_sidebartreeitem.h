@@ -57,7 +57,7 @@ public:
     virtual void drop( QDropEvent * ) {}
 
     // Create a drag object from this item.
-    virtual Q3DragObject * dragObject( QWidget * parent, bool move = false ) = 0;
+    virtual bool populateMimeData( QMimeData* mimeData, bool move ) = 0;
 
     virtual void middleButtonClicked();
     virtual void rightButtonPressed() = 0;
@@ -102,7 +102,7 @@ public:
     KonqSidebarTree *tree() const;
 
     virtual QString key( int column, bool ) const { return text( column ).toLower(); }
-    
+
     // List of alternative names (URLs) this entry is known under
     QStringList alias;
 protected:

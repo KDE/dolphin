@@ -10,7 +10,6 @@
 #include <klistviewsearchline.h>
 
 #include <qclipboard.h>
-#include <q3dragobject.h>
 #include <qtoolbutton.h>
 #include <qapplication.h>
 
@@ -21,9 +20,9 @@ KonqSidebar_Tree::KonqSidebar_Tree(KInstance *instance,QObject *parent,QWidget *
 	ksc.setGroup("Desktop Entry");
 	int virt= ( (ksc.readEntry("X-KDE-TreeModule","")=="Virtual") ?VIRT_Folder:VIRT_Link);
 	if (virt==1) desktopName_=ksc.readEntry("X-KDE-RelURL","");
-	
+
 	widget = new KVBox( widgetParent );
-			
+
 	if (ksc.readBoolEntry("X-KDE-SearchableTreeModule",false)) {
 		KVBox* searchLine = new KVBox(widget);
 		tree=new KonqSidebarTree(this,widget,virt,desktopName_);
@@ -38,7 +37,7 @@ KonqSidebar_Tree::KonqSidebar_Tree(KInstance *instance,QObject *parent,QWidget *
 
 	connect(tree,SIGNAL(createNewWindow( const KURL &, const KParts::URLArgs &)),
 		this,SIGNAL(createNewWindow( const KURL &, const KParts::URLArgs &)));
-	
+
 	connect(tree,SIGNAL(popupMenu( const QPoint &, const KURL &, const QString &, mode_t )),
 		this,SIGNAL(popupMenu( const QPoint &, const KURL &, const QString &, mode_t )));
 
@@ -68,16 +67,20 @@ void KonqSidebar_Tree::handleURL(const KURL &url)
 
 void KonqSidebar_Tree::cut()
 {
-    Q3DragObject * drag = static_cast<KonqSidebarTreeItem*>(tree->selectedItem())->dragObject( 0L, true );
-    if (drag)
-        QApplication::clipboard()->setData( drag );
+    QMimeData* mimeData = new QMimeData;
+    if ( static_cast<KonqSidebarTreeItem*>(tree->selectedItem())->populateMimeData( mimeData, true ) )
+        QApplication::clipboard()->setMimeData( mimeData );
+    else
+        delete mimeData;
 }
 
 void KonqSidebar_Tree::copy()
 {
-    Q3DragObject * drag = static_cast<KonqSidebarTreeItem*>(tree->selectedItem())->dragObject( 0L );
-    if (drag)
-        QApplication::clipboard()->setData( drag );
+    QMimeData* mimeData = new QMimeData;
+    if ( static_cast<KonqSidebarTreeItem*>(tree->selectedItem())->populateMimeData( mimeData, false ) )
+        QApplication::clipboard()->setMimeData( mimeData );
+    else
+        delete mimeData;
 }
 
 void KonqSidebar_Tree::paste()

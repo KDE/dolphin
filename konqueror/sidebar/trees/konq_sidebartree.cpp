@@ -435,15 +435,24 @@ Q3DragObject* KonqSidebarTree::dragObject()
     if ( !item )
         return 0;
 
-    Q3DragObject* drag = item->dragObject( viewport(), false );
-    if ( !drag )
-        return 0;
+    QDrag* drag = new QDrag( viewport() );
+    if ( item->populateMimeData( drag->mimeData(), false ) )
+    {
+        const QPixmap *pix = item->pixmap(0);
+        if ( pix && drag->pixmap().isNull() )
+            drag->setPixmap( *pix );
+    }
+    else
+    {
+        delete drag;
+        drag = 0;
+    }
 
-    const QPixmap *pix = item->pixmap(0);
-    if ( pix && drag->pixmap().isNull() )
-        drag->setPixmap( *pix );
-
-    return drag;
+#ifdef __GNUC__
+#warning TODO port to QDrag (only possible once porting away from Q3ListView?)
+#endif
+    return 0;
+    //return drag;
 }
 
 void KonqSidebarTree::leaveEvent( QEvent *e )
@@ -1030,7 +1039,7 @@ void KonqSidebarTree::slotOpenNewWindow()
 void KonqSidebarTree::slotOpenTab()
 {
     if (!m_currentTopLevelItem) return;
-    DCOPRef ref(kapp->dcopClient()->appId(), topLevelWidget()->name());   
+    DCOPRef ref(kapp->dcopClient()->appId(), topLevelWidget()->name());
     ref.call( "newTab(QString)", m_currentTopLevelItem->externalURL().url() );
 }
 

@@ -21,7 +21,6 @@
 #include "dirtree_item.h"
 #include "dirtree_module.h"
 #include <konq_operations.h>
-#include <konq_drag.h>
 #include <kdebug.h>
 #include <kglobalsettings.h>
 #include <kuserprofile.h>
@@ -32,6 +31,7 @@
 #include <qpainter.h>
 #include <kiconloader.h>
 #include <qcursor.h>
+#include <konqmimedata.h>
 
 #define MYMODULE static_cast<KonqSidebarDirTreeModule*>(module())
 
@@ -144,15 +144,14 @@ void KonqSidebarDirTreeItem::drop( QDropEvent * ev )
     KonqOperations::doDrop( m_fileItem, externalURL(), ev, tree() );
 }
 
-Q3DragObject * KonqSidebarDirTreeItem::dragObject( QWidget * parent, bool move )
+bool KonqSidebarDirTreeItem::populateMimeData( QMimeData* mimeData, bool move )
 {
     KURL::List lst;
     lst.append( m_fileItem->url() );
 
-    KonqDrag * drag = KonqDrag::newDrag( lst, false, parent );
-    drag->setMoveSelection( move );
+    KonqMimeData::populateMimeData( mimeData, KURL::List(), lst, move );
 
-    return drag;
+    return true;
 }
 
 void KonqSidebarDirTreeItem::itemSelected()
@@ -200,7 +199,7 @@ void KonqSidebarDirTreeItem::paste()
     bool move = false;
     const QMimeData *data = QApplication::clipboard()->mimeData();
     if ( data->hasFormat( "application/x-kde-cutselection" ) ) {
-        move = KonqDrag::decodeIsCutSelection( data );
+        move = KonqMimeData::decodeIsCutSelection( data );
         kdDebug(1201) << "move (from clipboard data) = " << move << endl;
     }
 

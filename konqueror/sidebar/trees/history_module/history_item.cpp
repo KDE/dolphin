@@ -17,7 +17,6 @@
 */
 
 #include <kbookmark.h>
-#include <k3bookmarkdrag.h>
 #include <kprotocolinfo.h>
 #include <konq_faviconmgr.h>
 #include <qpainter.h>
@@ -92,13 +91,13 @@ void KonqSidebarHistoryItem::rightButtonPressed()
     MYMODULE->showPopupMenu();
 }
 
-Q3DragObject * KonqSidebarHistoryItem::dragObject( QWidget * parent, bool /*move*/ )
+bool KonqSidebarHistoryItem::populateMimeData( QMimeData* mimeData, bool /*move*/ )
 {
     QString icon = KonqFavIconMgr::iconForURL( m_entry->url.url() );
     KBookmark bookmark = KBookmark::standaloneBookmark( m_entry->title,
                                                         m_entry->url, icon );
-    K3BookmarkDrag *drag = K3BookmarkDrag::newDrag( bookmark, parent );
-    return drag;
+    bookmark.populateMimeData( mimeData );
+    return true;
 }
 
 // new items go on top
@@ -237,11 +236,11 @@ void KonqSidebarHistoryGroupItem::itemUpdated( KonqSidebarHistoryItem *item )
 	m_lastVisited = item->lastVisited();
 }
 
-Q3DragObject * KonqSidebarHistoryGroupItem::dragObject( QWidget *parent, bool /*move*/)
+bool KonqSidebarHistoryGroupItem::populateMimeData( QMimeData* mimeData, bool /*move*/ )
 {
     QString icon = KonqFavIconMgr::iconForURL( m_url.url() );
     KBookmark bookmark = KBookmark::standaloneBookmark( QString::null, m_url,
 							icon );
-    K3BookmarkDrag *drag = K3BookmarkDrag::newDrag( bookmark, parent );
-    return drag;
+    bookmark.populateMimeData( mimeData );
+    return true;
 }

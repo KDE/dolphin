@@ -40,7 +40,7 @@ public:
 
     virtual bool acceptsDrops( const Q3StrList & formats );
     virtual void drop( QDropEvent * ev );
-    virtual Q3DragObject * dragObject( QWidget * parent, bool move = false );
+    virtual bool populateMimeData( QMimeData* mimeData, bool move );
 
     virtual void middleButtonClicked();
     virtual void rightButtonPressed();

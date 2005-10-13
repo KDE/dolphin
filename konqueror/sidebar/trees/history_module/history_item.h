@@ -53,13 +53,13 @@ public:
     void update( const KonqHistoryEntry *entry );
     const KonqHistoryEntry *entry() const { return m_entry; }
 
-    virtual Q3DragObject * dragObject( QWidget * parent, bool move = false );
+    virtual bool populateMimeData( QMimeData* mimeData, bool move );
 
     virtual QString key( int column, bool ascending ) const;
 
     static void setSettings( KonqSidebarHistorySettings *s ) { s_settings = s; }
 
-    virtual void paintCell( QPainter *, const QColorGroup & cg, int column, 
+    virtual void paintCell( QPainter *, const QColorGroup & cg, int column,
 			    int width, int alignment );
 
 private:
@@ -92,14 +92,14 @@ public:
     bool hasFavIcon() const { return m_hasFavIcon; }
     void setFavIcon( const QPixmap& pix );
 
-    virtual Q3DragObject * dragObject( QWidget *, bool );
+    virtual bool populateMimeData( QMimeData* mimeData, bool move );
     virtual void itemSelected();
 
     // we don't support the following of KonqSidebarTreeItem
     bool acceptsDrops( const QStrList& ) { return false; }
     virtual void drop( QDropEvent * ) {}
     virtual KURL externalURL() const { return KURL(); }
-    
+
 private:
     bool m_hasFavIcon;
     const KURL m_url;
