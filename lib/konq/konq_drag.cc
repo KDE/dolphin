@@ -87,7 +87,7 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
         {
             QStringList uris;
 
-            for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it) 
+            for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it)
                uris.append(K3URLDrag::stringToUrl((*it).latin1()).url(0, 4)); // 4 for latin1
 
             Q3CString s = uris.join( "\n" ).latin1();
@@ -102,7 +102,7 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
         if (!urls.isEmpty())
         {
             QStringList uris;
-            for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it) 
+            for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it)
                 uris.append(K3URLDrag::stringToUrl((*it).latin1()).prettyURL());
             Q3CString s = uris.join( "\n" ).utf8();
             if( uris.count() > 1 )
@@ -172,116 +172,9 @@ QByteArray KonqIconDrag2::encodedData( const char* mime ) const
 
 //
 
-KonqDrag * KonqDrag::newDrag( const KURL::List & urls, bool cut, QWidget * dragSource, const char* name )
-{
-    // See KURLDrag::newDrag
-    Q3StrList uris;
-    KURL::List::ConstIterator uit = urls.begin();
-    KURL::List::ConstIterator uEnd = urls.end();
-    // Get each URL encoded in utf8 - and since we get it in escaped
-    // form on top of that, .latin1() is fine.
-    for ( ; uit != uEnd ; ++uit )
-        uris.append( K3URLDrag::urlToString( *uit ).latin1() );
-    return new KonqDrag( uris, cut, dragSource, name );
-}
-
-// urls must be already checked to have hostname in file URLs
-KonqDrag::KonqDrag( const Q3StrList & urls, bool cut, QWidget * dragSource, const char* name )
-  : Q3UriDrag( urls, dragSource, name ),
-    m_bCutSelection( cut ), m_urls( urls )
-{}
-
-// urls must be already checked to have hostname in file URLs
-KonqDrag::KonqDrag( const KURL::List & urls, const KURL::List& mostLocalUrls,
-                    bool cut, QWidget * dragSource )
-    : Q3UriDrag( dragSource ),
-      m_bCutSelection( cut )
-{
-    QList<QByteArray> uris;
-    KURL::List::ConstIterator uit = urls.begin();
-    KURL::List::ConstIterator uEnd = urls.end();
-    // Get each URL encoded in utf8 - and since we get it in escaped
-    // form on top of that, .latin1() is fine.
-    for ( ; uit != uEnd ; ++uit )
-        uris.append( K3URLDrag::urlToString( *uit ).latin1() );
-    setUris( uris ); // we give the KDE uris to QUriDrag. TODO: do the opposite in KDE4 and add a m_mostLocalUris member.
-
-    uit = mostLocalUrls.begin();
-    uEnd = mostLocalUrls.end();
-    for ( ; uit != uEnd ; ++uit )
-        m_urls.append( K3URLDrag::urlToString( *uit ).latin1() );
-    // we keep the most-local-uris in m_urls for exporting those as text/plain (for xmms)
-}
-
-const char* KonqDrag::format( int i ) const
-{
-    if ( i == 0 )
-	return "text/uri-list";
-    else if ( i == 1 )
-        return "application/x-kde-cutselection";
-    else if ( i == 2 )
-        return "text/plain";
-    else if ( i == 3 )
-        return "application/x-kde-urilist";
-    else return 0;
-}
-
-QByteArray KonqDrag::encodedData( const char* mime ) const
-{
-    QByteArray a;
-    Q3CString mimetype( mime );
-    if ( mimetype == "text/uri-list" )
-    {
-        // Code taken from QUriDrag::setUris
-        int c=0;
-        for (Q3StrListIterator it(m_urls); *it; ++it) {
-             int l = qstrlen(*it);
-             a.resize(c+l+2);
-             memcpy(a.data()+c,*it,l);
-             memcpy(a.data()+c+l,"\r\n",2);
-             c+=l+2;
-        }
-        a.resize(c+1);
-        a[c] = 0;
-    }
-    else if ( mimetype == "application/x-kde-urilist" )
-    {
-        return Q3UriDrag::encodedData( "text/uri-list" );
-    }
-    else if ( mimetype == "application/x-kde-cutselection" )
-    {
-        Q3CString s ( m_bCutSelection ? "1" : "0" );
-	a.resize( s.length() + 1 ); // trailing zero
-	memcpy( a.data(), s.data(), s.length() + 1 );
-    }
-    else if ( mimetype == "text/plain" )
-    {
-        QStringList uris;
-        for (Q3StrListIterator it(m_urls); *it; ++it)
-            uris.append(K3URLDrag::stringToUrl(*it).prettyURL());
-        Q3CString s = uris.join( "\n" ).local8Bit();
-        if( uris.count() > 1 )
-            s.append( "\n" );
-        a.resize( s.length() + 1 ); // trailing zero
-        memcpy( a.data(), s.data(), s.length() + 1 );
-    }
-    return a;
-}
-
-//
-
+#if 0
 // Used for KonqIconDrag too
 
-bool KonqDrag::decodeIsCutSelection( const QMimeData *e )
-{
-  QByteArray a = e->data( "application/x-kde-cutselection" );
-  if ( a.isEmpty() )
-    return false;
-  else
-  {
-    kdDebug(1203) << "KonqDrag::decodeIsCutSelection : a=" << Q3CString(a.data(), a.size() + 1) << endl;
-    return (a.at(0) == '1'); // true if 1
-  }
-}
+#endif
 
 #include "konq_drag.moc"

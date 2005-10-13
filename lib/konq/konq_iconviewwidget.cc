@@ -57,7 +57,6 @@
 #include <kipc.h>
 #include <kicontheme.h>
 #include <kiconeffect.h>
-#include <k3urldrag.h>
 #include <kstandarddirs.h>
 #include <kprotocolinfo.h>
 #include <ktrader.h>
@@ -948,7 +947,7 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
           KURL url = fileItem->url();
           bool dummy;
           KURL mostLocalURL = fileItem->mostLocalURL(dummy);
-          QString itemURL = K3URLDrag::urlToString(url);
+          QString itemURL = url.url(); // was: K3URLDrag::urlToString(url);
           kdDebug(1203) << "itemURL=" << itemURL << endl;
           Q3IconDragItem id;
           id.setData( Q3CString(itemURL.latin1()) );
@@ -969,28 +968,16 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
 
 void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
 {
-    if ( e->provides( "text/uri-list" ) )
-    {
-        QByteArray payload = e->encodedData( "text/uri-list" );
-        if ( !payload.size() )
-            kdError() << "Empty data !" << endl;
-        // Cache the URLs, since we need them every time we move over a file
-        // (see KFileIVI)
-        bool ok = K3URLDrag::decode( e, m_lstDragURLs );
-        if( !ok )
-            kdError() << "Couldn't decode urls dragged !" << endl;
-    }
+    // Cache the URLs, since we need them every time we move over a file
+    // (see KFileIVI)
+    m_lstDragURLs = KURL::List::fromMimeData( e->mimeData() );
 
-    KURL::List uriList;
-    if ( K3URLDrag::decode(e, uriList) )
+    if ( !m_lstDragURLs.isEmpty() && m_lstDragURLs.first().protocol() == "programs" )
     {
-        if ( uriList.first().protocol() == "programs" )
-        {
-            e->ignore();
-            emit dragEntered( false );
-            d->bProgramsURLdrag = true;
-            return;
-        }
+        e->ignore();
+        emit dragEntered( false );
+        d->bProgramsURLdrag = true;
+        return;
     }
 
     KIconView::contentsDragEnterEvent( e );
@@ -1024,7 +1011,6 @@ void KonqIconViewWidget::contentsDragLeaveEvent( QDragLeaveEvent *e )
     KIconView::contentsDragLeaveEvent(e);
     emit dragLeft();
 }
-
 
 void KonqIconViewWidget::setItemColor( const QColor &c )
 {

@@ -21,6 +21,7 @@
 #include "konq_bgnddlg.h"
 #include "konq_propsview.h"
 #include "konq_settings.h"
+#include "konqmimedata.h"
 
 #include <kio/paste.h>
 #include <kapplication.h>
@@ -31,7 +32,6 @@
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <konq_drag.h>
 #include <kparts/browserextension.h>
 #include <k3urldrag.h>
 #include <kuserprofile.h>
@@ -123,8 +123,8 @@ int KonqDirPart::KonqDirPartPrivate::nearestIconSizeError(int size)
     return QABS(size - findNearestIconSize(size));
 }
 
-KonqDirPart::KonqDirPart( QObject *parent, const char *name )
-            :KParts::ReadOnlyPart( parent/*, name*/ ),
+KonqDirPart::KonqDirPart( QObject *parent )
+            :KParts::ReadOnlyPart( parent ),
     m_pProps( 0L ),
     m_findPart( 0L )
 {
@@ -408,21 +408,16 @@ void KonqDirPart::restoreFindState( QDataStream& stream )
 
 void KonqDirPart::slotClipboardDataChanged()
 {
-    // This is very related to KDIconView::slotClipboardDataChanged
+    // This is very related to KDIconView::slotClipboardDataChanged in kdesktop
 
     KURL::List lst;
     const QMimeData *data = QApplication::clipboard()->mimeData();
     if ( data->hasFormat( "application/x-kde-cutselection" ) && data->hasFormat( "text/uri-list" ) )
-        if ( KonqDrag::decodeIsCutSelection( data ) )
+        if ( KonqMimeData::decodeIsCutSelection( data ) )
             lst = KURL::List::fromMimeData( data );
 
     disableIcons( lst );
 
-    updatePasteAction();
-}
-
-void KonqDirPart::updatePasteAction() // KDE4: merge into method above
-{
     QString actionText = KIO::pasteActionText();
     bool paste = !actionText.isEmpty();
     if ( paste )

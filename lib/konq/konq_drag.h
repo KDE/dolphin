@@ -37,7 +37,7 @@
  *****************************************************************************/
 
 // Clipboard/dnd data for: Icons + URLS + isCut
-// KDE4: will go away, see KURLDrag4
+// KDE4: will go away, see KonqMimeData
 class LIBKONQ_EXPORT KonqIconDrag : public Q3IconDrag
 {
     Q_OBJECT
@@ -64,8 +64,7 @@ private:
 
 /**
  * Clipboard/dnd data for: Icons + URLs + MostLocal URLs + isCut
- * should be merged with KonqIconDrag [but kde4 obsoletes all this]
- * @since 3.5
+ * KDE4: will go away, see KonqMimeData
  */
 class LIBKONQ_EXPORT KonqIconDrag2 : public KonqIconDrag
 {
@@ -83,45 +82,6 @@ public:
 
 private:
     QStringList m_kdeURLs;
-};
-
-// Clipboard/dnd data for: URLS + isCut
-// KDE4: will go away, see KURLDrag4
-class LIBKONQ_EXPORT KonqDrag : public Q3UriDrag
-{
-public:
-    // KDE4: remove, use KonqDrag constructor instead
-    static KonqDrag * newDrag( const KURL::List & urls,
-                               bool move, QWidget * dragSource = 0, const char* name = 0 );
-
-    /**
-     * Create a KonqDrag object.
-     * @param urls a list of URLs, which can use KDE-specific protocols, like system:/
-     * @param mostLocalUrls a list of URLs, which should be resolved to most-local urls, i.e. file:/
-     * @param cut false for copying, true for "cutting"
-     * @param dragSource parent object
-     * @since 3.5
-     */
-    KonqDrag( const KURL::List & urls, const KURL::List& mostLocalUrls, bool cut, QWidget * dragSource = 0 );
-
-protected:
-    // KDE4: remove
-    KonqDrag( const Q3StrList & urls, bool cut, QWidget * dragSource, const char* name );
-
-public:
-    virtual ~KonqDrag() {}
-
-    virtual const char* format( int i ) const;
-    virtual QByteArray encodedData( const char* mime ) const;
-
-    void setMoveSelection( bool move ) { m_bCutSelection = move; }
-
-    // Returns true if the data was cut (used for KonqIconDrag too)
-    static bool decodeIsCutSelection( const QMimeData *e );
-
-protected: // ##### TODO private. And d pointer...
-    bool m_bCutSelection;
-    Q3StrList m_urls; // this is set to the "most local urls". ### KURL::List
 };
 
 #endif

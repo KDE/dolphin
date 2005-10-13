@@ -65,7 +65,7 @@ class KonqListView : public KonqDirPart
   Q_OBJECT
   Q_PROPERTY( bool supportsUndo READ supportsUndo )
 public:
-  KonqListView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode );
+  KonqListView( QWidget *parentWidget, QObject *parent, const QString& mode );
   virtual ~KonqListView();
 
   virtual const KFileItem * currentItem();

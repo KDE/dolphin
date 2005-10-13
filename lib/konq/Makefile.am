@@ -32,7 +32,7 @@ libkonq_la_SOURCES = konq_popupmenu.cc knewmenu.cc \
    konq_historymgr.cc konq_historycomm.cc konq_historycomm.skel \
    konq_pixmapprovider.cc \
    kivdirectoryoverlay.cc \
-   konq_faviconmgr.cc konq_faviconmgr.skel konq_filetip.cc
+   konq_faviconmgr.cc konq_faviconmgr.skel konq_filetip.cc konqmimedata.cpp
 
 directory_DATA = directory_bookmarkbar.desktop 
 directorydir   = $(kde_datadir)/kbookmark

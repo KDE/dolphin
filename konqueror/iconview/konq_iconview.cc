@@ -78,7 +78,8 @@ public:
       if( args.count() < 1 )
          kdWarning() << "KonqKfmIconView: Missing Parameter" << endl;
 
-      KonqKfmIconView *obj = new KonqKfmIconView( parentWidget, parent, name,args.first() );
+      KonqKfmIconView *obj = new KonqKfmIconView( parentWidget, parent, args.first() );
+      obj->setObjectName( name );
       return obj;
    }
 
@@ -164,8 +165,8 @@ void IconViewBrowserExtension::setNameFilter( const QString &nameFilter )
   m_iconView->m_nameFilter = nameFilter;
 }
 
-KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode  )
-    : KonqDirPart( parent, name )
+KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const QString& mode  )
+    : KonqDirPart( parent )
     , m_bNeedSetCurrentItem( false )
     , m_pEnsureVisible( 0 )
     , m_paOutstandingOverlaysTimer( 0 )

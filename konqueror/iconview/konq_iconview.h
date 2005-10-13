@@ -51,7 +51,7 @@ public:
 
   enum SortCriterion { NameCaseSensitive, NameCaseInsensitive, Size, Type, Date };
 
-  KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode );
+  KonqKfmIconView( QWidget *parentWidget, QObject *parent, const QString& mode );
   virtual ~KonqKfmIconView();
 
   virtual const KFileItem * currentItem();
@@ -178,7 +178,7 @@ protected:
   bool m_bUpdateContentsPosAfterListing:1;
 
   bool m_bDirPropertiesChanged:1;
-  
+
   /**
    * Set in doCloseURL and used in setViewMode to restart a preview
    * job interrupted when switching to IconView or MultiColumnView.
@@ -187,11 +187,11 @@ protected:
   bool m_bPreviewRunningBeforeCloseURL:1;
 
   bool m_bNeedSetCurrentItem:1;
-  
+
   KFileIVI * m_pEnsureVisible;
-  
+
   QStringList m_itemsToSelect;
-  
+
   SortCriterion m_eSortCriterion;
 
   KToggleAction *m_paDotFiles;

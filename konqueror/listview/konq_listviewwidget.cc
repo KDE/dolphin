@@ -40,9 +40,11 @@
 #include <qevent.h>
 #include <qcursor.h>
 #include <qtooltip.h>
+#include <qdrag.h>
 
 #include <stdlib.h>
 #include <assert.h>
+#include <konqmimedata.h>
 
 ColumnInfo::ColumnInfo()
    :displayInColumn(-1)
@@ -775,14 +777,15 @@ void KonqBaseListViewWidget::startDrag()
           kdWarning(1202) << "Could not find multiple pixmap" << endl;
    }
 
-   //KURLDrag *d = new KURLDrag( urls, viewport() );
-   KonqDrag *drag= new KonqDrag( urls, selectedUrls(true), false, viewport() );
+   QDrag* drag = new QDrag( viewport() );
+   KonqMimeData::populateMimeData( drag->mimeData(), urls, selectedUrls(true) );
+
    if ( !pixmap2.isNull() )
       drag->setPixmap( pixmap2 );
    else if ( !pixmap0Invalid )
       drag->setPixmap( *m_pressedItem->pixmap( 0 ) );
 
-   drag->drag();
+   drag->start();
 }
 
 void KonqBaseListViewWidget::slotItemRenamed( Q3ListViewItem *item, const QString &name, int col )

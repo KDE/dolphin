@@ -23,6 +23,8 @@
 #include "konq_infolistviewwidget.h"
 #include "konq_listviewsettings.h"
 
+#include <konqmimedata.h>
+
 #include <kaction.h>
 #include <kapplication.h>
 #include <kdebug.h>
@@ -68,7 +70,8 @@ KParts::Part* KonqListViewFactory::createPartObject( QWidget *parentWidget, cons
   if( args.count() < 1 )
     kdWarning() << "KonqListView: Missing Parameter" << endl;
 
-  KParts::Part *obj = new KonqListView( parentWidget, parent, name, args.first() );
+  KParts::Part *obj = new KonqListView( parentWidget, parent, args.first() );
+  obj->setObjectName( name );
   return obj;
 }
 
@@ -144,8 +147,10 @@ void ListViewBrowserExtension::updateActions()
 
 void ListViewBrowserExtension::copySelection( bool move )
 {
-  KonqDrag *urlData = new KonqDrag( m_listView->listViewWidget()->selectedUrls(false), m_listView->listViewWidget()->selectedUrls(true), move );
-  QApplication::clipboard()->setData( urlData );
+  QMimeData* mimeData = new QMimeData;
+  KonqMimeData::populateMimeData( mimeData, m_listView->listViewWidget()->selectedUrls(false),
+                                  m_listView->listViewWidget()->selectedUrls(true), move );
+  QApplication::clipboard()->setMimeData( mimeData );
 }
 
 void ListViewBrowserExtension::paste()
@@ -217,8 +222,8 @@ void ListViewBrowserExtension::editMimeType()
   KonqOperations::editMimeType( items.first()->mimetype() );
 }
 
-KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode )
- : KonqDirPart( parent, name )
+KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const QString& mode )
+ : KonqDirPart( parent )
 ,m_headerTimer(0)
 {
    setInstance( KonqListViewFactory::instance(), false );

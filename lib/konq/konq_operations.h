@@ -145,7 +145,7 @@ protected:
 
     struct DropInfo
     {
-        DropInfo( uint k, KURL::List & l, const QMap<QString,QString> &m,
+        DropInfo( uint k, const KURL::List & l, const QMap<QString,QString> &m,
                   int x, int y, QDropEvent::Action a ) :
             keybstate(k), lst(l), metaData(m), mousePos(x,y), action(a) {}
         uint keybstate;

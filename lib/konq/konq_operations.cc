@@ -36,6 +36,7 @@
 #include <dcopclient.h>
 #include "konq_undo.h"
 #include "konq_defaults.h"
+#include "konqmimedata.h"
 #include "konqbookmarkmanager.h"
 
 // For doDrop
@@ -61,8 +62,10 @@
 #include <kstringhandler.h>
 #include <q3popupmenu.h>
 #include <unistd.h>
+#ifdef Q_WS_X11
 #include <X11/Xlib.h>
 #include <QX11Info>
+#endif
 #include <kauthorized.h>
 
 KBookmarkManager * KonqBookmarkManager::s_bookmarkManager;
@@ -131,7 +134,7 @@ void KonqOperations::doPaste( QWidget * parent, const KURL & destURL, const QPoi
     bool move = false;
     const QMimeData *data = QApplication::clipboard()->mimeData();
     if ( data->hasFormat( "application/x-kde-cutselection" ) ) {
-      move = KonqDrag::decodeIsCutSelection( data );
+      move = KonqMimeData::decodeIsCutSelection( data );
       kdDebug(1203) << "move (from clipboard data) = " << move << endl;
     }
 
@@ -316,16 +319,10 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
 void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDropEvent * ev, QWidget * parent )
 {
     kdDebug(1203) << "doDrop: dest : " << dest.url() << endl;
-    KURL::List lst;
     QMap<QString, QString> metaData;
-    if ( K3URLDrag::decode( ev, lst, metaData ) ) // Are they urls ?
+    const KURL::List lst = KURL::List::fromMimeData( ev->mimeData(), &metaData );
+    if ( !lst.isEmpty() ) // Are they urls ?
     {
-        if( lst.count() == 0 )
-        {
-            kdWarning(1203) << "Oooops, no data ...." << endl;
-            ev->accept(false);
-            return;
-        }
         kdDebug(1203) << "KonqOperations::doDrop metaData: " << metaData.count() << " entries." << endl;
         QMap<QString,QString>::ConstIterator mit;
         for( mit = metaData.begin(); mit != metaData.end(); ++mit )
@@ -333,7 +330,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDro
             kdDebug(1203) << "metaData: key=" << mit.key() << " value=" << mit.data() << endl;
         }
         // Check if we dropped something on itself
-        KURL::List::Iterator it = lst.begin();
+        KURL::List::ConstIterator it = lst.begin();
         for ( ; it != lst.end() ; it++ )
         {
             kdDebug(1203) << "URL : " << (*it).url() << endl;
@@ -350,6 +347,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDro
         }
 
         // Check the state of the modifiers key at the time of the drop
+        // TODO port to QApplication::keyboardModifiers()
         Window root;
         Window child;
         int root_x, root_y, win_x, win_y;

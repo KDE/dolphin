@@ -43,7 +43,7 @@ class LIBKONQ_EXPORT KonqDirPart: public KParts::ReadOnlyPart
     friend class KonqDirPartBrowserExtension;
 
 public:
-    KonqDirPart( QObject *parent, const char *name );
+    KonqDirPart( QObject *parent );
 
     virtual ~KonqDirPart();
 
@@ -139,28 +139,21 @@ public:
      * If none are provided emitTotalCount() is called to display
      * the counts for the whole directory. However, that does not work
      * for a treeview.
-     * 
+     *
      * @deprecated
      */
     void emitCounts( const KFileItemList & lst, bool selectionChanged );
-    
+
     /**
      * Show the counts for the list of items in the status bar. The list
      * can be empty.
-     * 
+     *
      * @param lst the list of fileitems for which to display the counts
      * @since 3.4
      */
     void emitCounts( const KFileItemList & lst );
 
     void emitMouseOver( const KFileItem * item );
-
-    /**
-     * Enables or disables the paste action. This depends both on
-     * the data in the clipboard and the number of files selected
-     * (pasting is only possible if not more than one file is selected).
-     */
-    void updatePasteAction();
 
     /**
      * Change the icon size of the view.
@@ -264,6 +257,11 @@ public slots:
     /**
      * Called when the clipboard's data changes, to update the 'cut' icons
      * Call this when the directory's listing is finished, to draw icons as cut.
+     *
+     *
+     * This enables or disables the paste action. This depends both on
+     * the data in the clipboard and the number of files selected
+     * (pasting is only possible if not more than one file is selected).
      */
     void slotClipboardDataChanged();
 
