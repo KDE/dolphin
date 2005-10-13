@@ -45,7 +45,6 @@ private:
 #endif
     void initChildren();
     bool init;
-    //FIXME use something else
     QList<TreeItem *> children;
     TreeItem * mparent;
     KBookmark mbk;

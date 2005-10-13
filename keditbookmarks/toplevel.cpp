@@ -235,7 +235,6 @@ KEBApp::KEBApp(
     new KViewSearchLineWidget(mBookmarkListView, toolbar);
 
     mBookmarkFolderView = new BookmarkFolderView(mBookmarkListView);
-    mBookmarkFolderView->setModel( BookmarkModel::self() );
  
     m_bkinfo = new BookmarkInfoWidget(mBookmarkListView);
 
@@ -379,9 +378,9 @@ bool lessBookmark(const KBookmark & first, const KBookmark & second) //FIXME Usi
     return lessAddress(first.address(), second.address());
 }
 
-QList<KBookmark> KEBApp::selectedBookmarks() const
+KBookmark::List KEBApp::selectedBookmarks() const
 {
-    QList<KBookmark> bookmarks;
+    KBookmark::List bookmarks;
     const QModelIndexList & list = mBookmarkListView->selectionModel()->selectedIndexes();
     QModelIndexList::const_iterator it, end;
     end = list.constEnd();
@@ -397,11 +396,11 @@ QList<KBookmark> KEBApp::selectedBookmarks() const
     return bookmarks;
 }
 
-QList<KBookmark> KEBApp::selectedBookmarksExpanded() const
+KBookmark::List KEBApp::selectedBookmarksExpanded() const
 {
-    QList<KBookmark> bookmarks = selectedBookmarks();
-    QList<KBookmark> result;
-    QList<KBookmark>::const_iterator it, end;
+    KBookmark::List bookmarks = selectedBookmarks();
+    KBookmark::List result;
+    KBookmark::List::const_iterator it, end;
     end = bookmarks.constEnd();
     for(it = bookmarks.constBegin(); it != end; ++it)
     {
@@ -410,7 +409,7 @@ QList<KBookmark> KEBApp::selectedBookmarksExpanded() const
     return result;
 }
 
-void KEBApp::selectedBookmarksExpandedHelper(KBookmark bk, QList<KBookmark> & bookmarks) const
+void KEBApp::selectedBookmarksExpandedHelper(KBookmark bk, KBookmark::List & bookmarks) const
 {
     bookmarks.push_back( bk );
     if(bk.isGroup())

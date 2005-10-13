@@ -327,20 +327,23 @@ void ActionsImpl::slotCopy()
 {
     KEBApp::self()->bkInfo()->commitChanges();
     // this is not a command, because it can't be undone
-    QList<KBookmark> bookmarks = KEBApp::self()->selectedBookmarksExpanded();
-    //FIXME rewrite
-    //K3BookmarkDrag* data = K3BookmarkDrag::newDrag(bookmarks, 0 /* not this ! */);
-    //kapp->clipboard()->setData(data, QClipboard::Selection);
-    //kapp->clipboard()->setData(data, QClipboard::Clipboard);
+    KBookmark::List bookmarks = KEBApp::self()->selectedBookmarksExpanded();
+    QMimeData *mimeData = new QMimeData;
+    bookmarks.populateMimeData(mimeData);
+    QApplication::clipboard()->setMimeData( mimeData );
 }
 
 void ActionsImpl::slotPaste() {
     KEBApp::self()->bkInfo()->commitChanges();
-    KEBMacroCommand *mcmd =
-        CmdGen::insertMimeSource(
-                            i18n("Paste"),
-                            kapp->clipboard()->data(QClipboard::Clipboard),
-                            KEBApp::self()->firstSelected().address());
+
+    QString addr;
+    KBookmark bk = KEBApp::self()->firstSelected();
+    if(bk.isGroup())
+        addr = bk.address() + "/0"; //FIXME internal
+    else
+        addr = bk.address();
+
+    KEBMacroCommand *mcmd = CmdGen::insertMimeSource( i18n("Paste"), QApplication::clipboard()->mimeData(), addr);
     CmdHistory::self()->didCommand(mcmd);
 }
 

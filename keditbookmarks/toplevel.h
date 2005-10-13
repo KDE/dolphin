@@ -148,10 +148,10 @@ public:
     void startEdit( Column c );
     KBookmark firstSelected() const;
     QString insertAddress() const;
-    QList<KBookmark> selectedBookmarks() const;
-    QList<KBookmark> selectedBookmarksExpanded() const;
-    QList<KBookmark> allBookmarks() const
-        { return QList<KBookmark>();} //FIXME look up what it is suppposed to do, seems like only bookmarks but not folder are returned
+    KBookmark::List selectedBookmarks() const;
+    KBookmark::List selectedBookmarksExpanded() const;
+    KBookmark::List allBookmarks() const
+        { return KBookmark::List();} //FIXME look up what it is suppposed to do, seems like only bookmarks but not folder are returned
 public slots:
     void slotConfigureToolbars();
 
@@ -161,7 +161,7 @@ protected slots:
     void selectionChanged();
 
 private:
-    void selectedBookmarksExpandedHelper(KBookmark bk, QList<KBookmark> & bookmarks) const;
+    void selectedBookmarksExpandedHelper(KBookmark bk, KBookmark::List & bookmarks) const;
     void collapseAllHelper( QModelIndex index );
     void expandAllHelper(QTreeView * view, QModelIndex index);
 

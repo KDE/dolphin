@@ -45,7 +45,7 @@ BookmarkView::~BookmarkView()
 
 void BookmarkView::aboutToMoveRows(const QModelIndex & oldParent, int, int, const QModelIndex & newParent, int)
 {
-//FIXME relayout should be enough, wait and see how qt handles this for rowsInserted in 4.1
+//FIXME relayout should be enough, wait and see how qt handles this for rowsInserted in qt 4.1
     if( isExpanded(oldParent))
     {
         setExpanded(oldParent, false);
@@ -74,7 +74,18 @@ void BookmarkView::dragMoveEvent(QDragMoveEvent *event)
     QAbstractItemView::dragMoveEvent(event);
 }
 
-void BookmarkView::rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int)
+void BookmarkView::dropEvent ( QDropEvent * event )
+{
+    // This is ugly. I need the drop event pointer inside
+    // BookmarkModel::dropMimeData() to decide
+    // if the drop was internal
+    // so we save it here and retrieve it inside
+    // BookmarkModel::dropMimeData()
+    static_cast<BookmarkModel *>(model())->saveDropEventPointer(event);
+    QTreeView::dropEvent(event);
+}
+
+void BookmarkView::rowsMoved(const QModelIndex & oldParent, int, int, const QModelIndex & newParent, int)
 {
     if(moveOldParent.isValid())
         setExpanded(moveOldParent, true);

@@ -44,25 +44,29 @@ public:
     static BookmarkModel* self();
     virtual ~BookmarkModel();
 
-    QVariant data(const QModelIndex &index, int role) const;
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-    QVariant headerData(int section, Qt::Orientation, int role = Qt::DisplayRole) const;
+    //reimplemented functions
+    virtual QVariant data(const QModelIndex &index, int role) const;
+    virtual Qt::ItemFlags flags(const QModelIndex &index) const;
+    virtual QVariant headerData(int section, Qt::Orientation, int role = Qt::DisplayRole) const;
     virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
     virtual QModelIndex parent(const QModelIndex &index) const;
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role);
-
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const;
+    virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
+    virtual void resetModel();
 
     QModelIndex bookmarkToIndex(KBookmark bk);
     void emitDataChanged(KBookmark bk);
 
-    void resetModel();
+    //drag and drop
+    virtual bool dropMimeData ( const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent );
+    virtual QStringList mimeTypes () const;
+    virtual QMimeData * mimeData ( const QModelIndexList & indexes ) const;
+    virtual Qt::DropActions supportedDropActions () const;
 
-    bool dropMimeData ( const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent );
-    QStringList mimeTypes () const;
-    QMimeData * mimeData ( const QModelIndexList & indexes ) const;
-    Qt::DropActions supportedDropActions () const;
+    // Called by BookmarkListView::dropEvent to save the pointer
+    // The pointer to the event is retrieved in dropMimeData()
+    void saveDropEventPointer(QDropEvent * event);
 
 signals:
     //FIXME searchline should respond too
@@ -88,6 +92,8 @@ private:
     QVector<QModelIndex> movedIndexes;
     QVector<QModelIndex> oldParentIndexes;
     QVector<QModelIndex> newParentIndexes;
+
+    QDropEvent * dropEvent;
 
 //Sentry
 public:
@@ -145,10 +151,8 @@ public:
         public:
         moveSentry(KBookmark oldParent, int first, int last, KBookmark newParent, int position)
             {
-                //FIXME
+                //FIXME need to decide how to handle selections and moving.
                 KEBApp::self()->mBookmarkListView->selectionModel()->clear();
-                
-                kdDebug()<<"oldParent "<<oldParent.address()<<" newParent "<<newParent.address()<<endl;
                 QModelIndex mOldParent = BookmarkModel::self()->bookmarkToIndex(oldParent);
                 QModelIndex mNewParent = BookmarkModel::self()->bookmarkToIndex(newParent);
 

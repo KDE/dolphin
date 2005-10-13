@@ -48,6 +48,8 @@ public:
 public slots:
     void aboutToMoveRows(const QModelIndex & oldParent, int first, int last, const QModelIndex & newParent, int position);
     void rowsMoved(const QModelIndex & oldParent, int first, int last, const QModelIndex & newParent, int position);
+protected:
+    virtual void dropEvent ( QDropEvent * event );
 private:
     QPersistentModelIndex moveOldParent;
     QPersistentModelIndex moveNewParent;

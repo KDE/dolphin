@@ -35,7 +35,7 @@ BookmarkModel* BookmarkModel::s_bookmarkModel = 0L;
 
 BookmarkModel* BookmarkModel::self()
 {
-    if(!s_bookmarkModel)     
+    if(!s_bookmarkModel)
         s_bookmarkModel = new BookmarkModel(CurrentMgr::self()->root());    
     return s_bookmarkModel;
 }
@@ -44,6 +44,7 @@ BookmarkModel::BookmarkModel(KBookmark root)
     :QAbstractItemModel(), mRoot(root)
 {
     rootItem = new TreeItem(root, 0);
+    dropEvent = 0;
 }
 
 BookmarkModel::~BookmarkModel()
@@ -81,7 +82,6 @@ void BookmarkModel::beginMoveRows(const QModelIndex & oldParent, int first, int 
     else //same parent
     {
         int columnsCount = columnCount(QModelIndex());
-        kdDebug()<<" before "<<first<<" "<<last<<" "<<position<<endl;
         if(first > position)
         {
             // swap around 
@@ -90,9 +90,6 @@ void BookmarkModel::beginMoveRows(const QModelIndex & oldParent, int first, int 
             last = first - 1;
             first = tempPos;
         }
-        kdDebug()<<" after "<<first<<" "<<last<<" "<<position<<endl;
-
-        kdDebug()<<" strange things ? "<<static_cast<TreeItem *>(oldParent.internalPointer())<<endl;
         // Invariant first > positionx
         for(int i=first; i<=last; ++i)
             for(int j=0; j<columnsCount; ++j)
@@ -345,6 +342,12 @@ QStringList BookmarkModel::mimeTypes () const
     return KBookmark::List::mimeDataTypes();
 }
 
+void BookmarkModel::saveDropEventPointer(QDropEvent * event)
+{
+    kdDebug()<<"saving event "<<event<<endl;
+    dropEvent = event;
+}
+
 bool BookmarkModel::dropMimeData(const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent)
 {
     //FIXME this only works for internal drag and drops
@@ -361,8 +364,18 @@ bool BookmarkModel::dropMimeData(const QMimeData * data, Qt::DropAction action, 
     QString addr = bk.address();
     if(bk.isGroup())
         addr += "/0"; //FIXME internal representation
-    KCommand * mcmd = CmdGen::itemsMoved(KEBApp::self()->selectedBookmarks() , addr, false);
-    CmdHistory::self()->didCommand(mcmd);
+    if(dropEvent)
+    {
+        KCommand * mcmd = CmdGen::itemsMoved(KEBApp::self()->selectedBookmarks() , addr, false);
+        CmdHistory::self()->didCommand(mcmd);
+    }
+    else
+    {
+        KCommand * mcmd = CmdGen::insertMimeSource("FIXME", data, addr);
+        CmdHistory::self()->didCommand(mcmd);
+    }
+    kdDebug()<<"resetting dropEvent"<<endl;
+    dropEvent = 0;
     return true;
 }
 

@@ -195,7 +195,7 @@ class CmdGen {
 public:
    static KEBMacroCommand* setAsToolbar(const KBookmark &bk);
    static KEBMacroCommand* deleteItems(const QString &commandName, const QMap<KEBListViewItem *, bool> & items);
-   static KEBMacroCommand* insertMimeSource(const QString &cmdName, QMimeSource *data, const QString &addr);
+   static KEBMacroCommand* insertMimeSource(const QString &cmdName, const QMimeData *data, const QString &addr);
    static KEBMacroCommand* itemsMoved(const QList<KBookmark> & items, const QString &newAddress, bool copy);
 private:
    CmdGen() { ; }
