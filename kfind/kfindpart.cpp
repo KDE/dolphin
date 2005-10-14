@@ -36,7 +36,7 @@ K_EXPORT_COMPONENT_FACTORY( libkfindpart, KFindFactory )
 KFindPart::KFindPart( QWidget * parentWidget, const char *widgetName, 
 	              QObject *parent, const char *name ,
 		      const QStringList & /*args*/ )
-    : KonqDirPart (parent, name )/*KParts::ReadOnlyPart*/
+    : KonqDirPart (parent)/*KParts::ReadOnlyPart*/
 {
     setInstance( KFindFactory::instance() );
 
