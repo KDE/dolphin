@@ -44,11 +44,7 @@ SystemWidget::SystemWidget( QWidget* parent_P )
               " required mimetypes, etc.).</p>"
               "<p>Changes of system configuration mostly happen by (un)installing applications."
               " It is therefore recommended to turn this option temporarily off while"
-              " (un)installing applications.</p>"
-              "<p>For this reason, usage of this option is not recommended. The KDE crash"
-              " handler will refuse to provide backtrace for the bugreport with this option"
-              " turned on (you will need to reproduce it again with this option turned off,"
-              " or turn on the developer mode for the crash handler).</p>" );
+              " (un)installing applications.</p>" );
     cb_disable_kbuildsycoca->setWhatsThis( tmp );
     label_kbuildsycoca->setWhatsThis( tmp );
     connect( cb_disable_kbuildsycoca, SIGNAL( clicked()), SIGNAL( changed()));

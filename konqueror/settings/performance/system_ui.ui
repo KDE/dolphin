@@ -40,7 +40,7 @@
                         <cstring>label_kbuildsycoca</cstring>
                     </property>
                     <property name="text">
-                        <string>&lt;b&gt;WARNING:&lt;/b&gt; This option may in rare cases lead to various problems. Consult the What's This (Shift+F1) help for details.</string>
+                        <string>This option may in rare cases lead to various problems. Consult the What's This (Shift+F1) help for details.</string>
                     </property>
                 </widget>
             </vbox>
