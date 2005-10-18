@@ -122,8 +122,8 @@ void KQuery::slotCanceled( KIO::Job * _job )
 void KQuery::slotListEntries(KIO::Job*, const KIO::UDSEntryList& list)
 {
   KFileItem * file = 0;
-  KIO::UDSEntryListConstIterator end = list.end();
-  for (KIO::UDSEntryListConstIterator it = list.begin(); it != end; ++it)
+  const KIO::UDSEntryList::ConstIterator end = list.end();
+  for (KIO::UDSEntryList::ConstIterator it = list.begin(); it != end; ++it)
   {
     file = new KFileItem(*it, m_url, true, true);
     m_fileItems.enqueue(file);
