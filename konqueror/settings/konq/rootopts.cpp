@@ -46,8 +46,8 @@
 
 //-----------------------------------------------------------------------------
 
-DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char * )
-    : KCModule( parent, "kcmkonq" )
+DesktopPathConfig::DesktopPathConfig(KInstance *inst, QWidget *parent )
+    : KCModule( inst, parent )
 {
   QLabel * tmpLabel;
 

@@ -88,8 +88,9 @@ extern "C"
 
   KDE_EXPORT KCModule *create_dpath(QWidget *parent, const char* /*name*/)
   {
+      KInstance *kcmkonq = new KInstance( "kcmkonq" );
     //KConfig *config = new KConfig(configname(), false, false);
-    return new DesktopPathConfig(parent);
+    return new DesktopPathConfig(kcmkonq, parent);
   }
 
   KDE_EXPORT KCModule *create_ddesktop(QWidget *parent, const char* /*name*/)

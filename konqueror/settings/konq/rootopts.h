@@ -37,7 +37,7 @@ class DesktopPathConfig : public KCModule
 {
         Q_OBJECT
 public:
-        DesktopPathConfig(QWidget *parent = 0L, const char *name = 0L );
+        DesktopPathConfig( KInstance *inst, QWidget *parent );
         virtual void load();
         virtual void save();
         virtual void defaults();
