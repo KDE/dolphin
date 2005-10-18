@@ -182,17 +182,12 @@ void KonqTextViewItem::updateContents()
          case KIO::UDS_MODIFICATION_TIME:
          case KIO::UDS_ACCESS_TIME:
          case KIO::UDS_CREATION_TIME:
-            for( KIO::UDSEntry::ConstIterator it = m_fileitem->entry().begin(); it != m_fileitem->entry().end(); it++ )
             {
-               if ((*it).m_uds==(unsigned int)tmpColumn->udsId)
-               {
-                  QDateTime dt;
-                  dt.setTime_t((time_t) (*it).m_long);
-                  setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDateTime(dt));
-                  break;
-               };
-
-            };
+                long long val = m_fileitem->entry().numberValue( tmpColumn->udsId );
+                QDateTime dt;
+                dt.setTime_t( val );
+                setText(tmpColumn->displayInColumn, KGlobal::locale()->formatDateTime(dt));
+            }
             break;
          default:
             break;

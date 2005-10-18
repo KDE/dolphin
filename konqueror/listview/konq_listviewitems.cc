@@ -30,22 +30,7 @@
 
 static QString retrieveExtraEntry( KFileItem* fileitem, int numExtra )
 {
-    /// ######## SLOOOOW
-    KIO::UDSEntry::ConstIterator it = fileitem->entry().begin();
-    const KIO::UDSEntry::ConstIterator end = fileitem->entry().end();
-    int n = 0;
-    for( ; it != end; ++it )
-    {
-        if ((*it).m_uds == KIO::UDS_EXTRA)
-        {
-            ++n;
-            if ( n == numExtra )
-            {
-                return (*it).m_str;
-            }
-        }
-    }
-    return QString::null;
+    return fileitem->entry().stringValue( KIO::UDS_EXTRA + numExtra );
 }
 
 
@@ -92,7 +77,7 @@ void KonqListViewItem::updateContents()
 
    //now we have the first column, so let's do the rest
 
-   int numExtra = 1;
+   int numExtra = 0;
    for ( unsigned int i=0; i<m_pListViewWidget->NumberOfAtoms; i++ )
    {
       ColumnInfo *tmpColumn=&m_pListViewWidget->columnConfigInfo()[i];
@@ -251,8 +236,6 @@ int KonqBaseListViewItem::compare( Q3ListViewItem* item, int col, bool ascending
    for ( unsigned int i=0; i<m_pListViewWidget->NumberOfAtoms; i++ )
    {
       ColumnInfo *cInfo = &m_pListViewWidget->columnConfigInfo()[i];
-      if ( cInfo->udsId == KIO::UDS_EXTRA )
-          ++numExtra;
       if ( col == cInfo->displayInColumn )
       {
          switch ( cInfo->udsId )
@@ -280,6 +263,7 @@ int KonqBaseListViewItem::compare( Q3ListViewItem* item, int col, bool ascending
                     QDateTime dt2 = QDateTime::fromString( entryStr2, Qt::ISODate );
                     return ( dt1 > dt2 ) ? 1 : ( dt1 < dt2 ) ? -1 : 0;
                 }
+                ++numExtra;
             }
             default:
                 break;
