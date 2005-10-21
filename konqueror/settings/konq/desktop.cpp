@@ -47,7 +47,8 @@ extern "C"
 {
   KDE_EXPORT KCModule *create_virtualdesktops(QWidget *parent, const char * /*name*/)
   {
-    return new KDesktopConfig(parent, "kcmkonq");
+    KInstance *konq = new KInstance("kcmkonq");
+    return new KDesktopConfig(konq, parent);
   }
 }
 
@@ -56,8 +57,8 @@ extern "C"
 // be able to TAB through those line edits fast. So don't send me mails
 // asking why I did not implement a more intelligent/smaller GUI.
 
-KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
-  : KCModule(parent, "kcmkonq")
+KDesktopConfig::KDesktopConfig(KInstance *inst, QWidget *parent)
+  : KCModule(inst, parent)
 {
 
   setQuickHelp( i18n("<h1>Multiple Desktops</h1>In this module, you can configure how many virtual desktops you want and how these should be labeled."));

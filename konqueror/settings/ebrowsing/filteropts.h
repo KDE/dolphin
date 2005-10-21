@@ -32,7 +32,7 @@ class FilterOptions : public KCModule
     Q_OBJECT
 
 public:
-    FilterOptions(QWidget *parent = 0, const char *name = 0);
+    FilterOptions(KInstance *inst, QWidget *parent);
 
     void load();
     void save();

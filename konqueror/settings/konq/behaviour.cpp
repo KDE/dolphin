@@ -42,8 +42,8 @@
 
 #include "behaviour.h"
 
-KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *parent, const char * )
-    : KCModule(parent, "kcmkonq"), g_pConfig(config), groupname(group)
+KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent )
+    : KCModule(inst, parent), g_pConfig(config), groupname(group)
 {
     QLabel * label;
 
