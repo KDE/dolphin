@@ -560,7 +560,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
             if ( sDeleting ) {
                 if ( !isLocal )
                     addDel = true;
-                else if (KApplication::keyboardMouseState() & Qt::ShiftModifier) {
+                else if (QApplication::keyboardModifiers() & Qt::ShiftModifier) {
                     addTrash = false;
                     addDel = true;
                 }
