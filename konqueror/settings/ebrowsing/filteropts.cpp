@@ -30,7 +30,7 @@
 #include "filteropts.h"
 
 FilterOptions::FilterOptions(QWidget *parent, const char *name)
-    		  :KCModule(parent, name)
+    		  :KCModule(parent)
 {
 
     QGridLayout *lay = new QGridLayout(this, 1, 1, 10, 5);

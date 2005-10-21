@@ -28,8 +28,8 @@
 #include "filetypesview.h"
 #include <ksycoca.h>
 
-FileTypesView::FileTypesView(QWidget *p, const char *name)
-  : KCModule(p, name)
+FileTypesView::FileTypesView(QWidget *parent)
+  : KCModule(parent)
 {
   m_konqConfig = KSharedConfig::openConfig("konquerorrc", false, false);
 
@@ -442,4 +442,5 @@ void FileTypesView::defaults()
 }
 
 #include "filetypesview.moc"
+
 

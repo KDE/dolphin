@@ -35,7 +35,7 @@
 K_EXPORT_COMPONENT_FACTORY( konq_part, KonqFactory )
 
 KonqPart::KonqPart( QWidget* parentWidget, const char*, QObject* parent, const char* name, const QStringList& args )
-        : KonqDirPart( parent, name )
+        : KonqDirPart( parent )
         ,m_dirLister( new KDirLister() )
         ,m_model( new KonqModel( parent ) )
         ,m_fileTip( new KonqFileTip( 0 /* m_view*/ ) )

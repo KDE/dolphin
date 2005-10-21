@@ -2138,7 +2138,6 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
     unplugViewModeActions();
     createGUI( 0L );
     KParts::MainWindow::setCaption( "" );
-    KParts::MainWindow::setIcon( kapp->icon());
     return;
   }
 

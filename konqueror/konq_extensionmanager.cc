@@ -108,25 +108,17 @@ void KonqExtensionManager::apply()
 		if( d->mainWindow )
 		{
 			KParts::Plugin::loadPlugins(d->mainWindow, d->mainWindow, KGlobal::instance());
-			Q3PtrList<KParts::Plugin> plugins = KParts::Plugin::pluginObjects(d->mainWindow);
-			Q3PtrListIterator<KParts::Plugin> it(plugins);
-			KParts::Plugin *plugin;
-			while((plugin = it.current()) != 0)
-			{
-				++it;
-				d->mainWindow->factory()->addClient(plugin);
+			QList<KParts::Plugin*> plugins = KParts::Plugin::pluginObjects(d->mainWindow);
+                        for (int i = 0; i < plugins.size(); ++i) {
+				d->mainWindow->factory()->addClient(plugins.at(i));
 			}
 		}
 		if ( d->activePart )
 		{
 			KParts::Plugin::loadPlugins( d->activePart, d->activePart, d->activePart->instance() );
-			Q3PtrList<KParts::Plugin> plugins = KParts::Plugin::pluginObjects( d->activePart );
-			Q3PtrListIterator<KParts::Plugin> it(plugins);
-			KParts::Plugin *plugin;
-			while((plugin = it.current()) != 0)
-			{
-				++it;
-				d->activePart->factory()->addClient(plugin);
+			QList<KParts::Plugin*> plugins = KParts::Plugin::pluginObjects( d->activePart );
+			for (int i = 0; i < plugins.size(); ++i) {
+				d->activePart->factory()->addClient(plugins.at(i));
 			}
 		}
 	}

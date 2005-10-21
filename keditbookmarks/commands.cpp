@@ -30,13 +30,8 @@
 
 #include <kdebug.h>
 #include <klocale.h>
-
-#include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
-
-#include <kurldrag.h>
 #include <kdesktopfile.h>
-
 
 QString KEBMacroCommand::affectedBookmarks() const
 {
