@@ -39,7 +39,7 @@
 </copyright>
 <copyright>
 <year>2005</year>
-<holder>Kurt Hindenburg</holder>
+<holder>&Kurt.Hindenburg;</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
@@ -78,7 +78,7 @@ tasks.</para>
 emulator, often referred to as a terminal or a shell. It gives you the
 equivalent of an old-fashioned text screen on your desktop, but one
 which can easily share the screen with your graphical
-applications. Windows users may be familiar with the 
+applications. &Windows; users may be familiar with the 
 <application>MS-DOS Prompt</application> utility, which has the analogous 
 functionof offering a <trademark>DOS</trademark> command-line under
 &Windows;. (Although the &UNIX; <acronym>CLI</acronym>s offer far more
@@ -170,7 +170,7 @@ shell) runs in the window. Simply type at the prompt.</para>
 <textobject>
 <phrase>&konsole; Screen</phrase>
 </textobject>
-<caption><para>Konsole with 4 
+<caption><para>&konsole; with 4 
 terminal sessions open.</para></caption>
 </mediaobject>
 </screenshot>
@@ -399,7 +399,7 @@ rolling it in a mouse-unaware program will move &konsole;'s scrollbar.</para>
 <term><mousebutton>Right</mousebutton></term>
 <listitem>
 <para>The items that appear in the menu when the &RMB;
-is pressed depend on whether the menu bar is visible.</para>
+is pressed depend on whether the menubar is visible.</para>
 
 <para>Menubar is visible:
 <guimenuitem>Set Selection End</guimenuitem>,
@@ -952,7 +952,7 @@ rows)</action>.</para></listitem>
 <guimenuitem>History...</guimenuitem></menuchoice></term>
 <listitem><para><anchor id="configure-history"/><action>Open a dialog
 where you can configure the history</action>.  The
-<guilabel>Enable</guilabel> checkbox toggles saving of lines that have
+<guilabel>Enable</guilabel> check box toggles saving of lines that have
 scrolled off the top of the window.  You can enter the <guilabel>Number
 of lines</guilabel> to remember in the text field, or use the spinner
 buttons to increase or decrease the number in steps of 100 lines.  The
@@ -1039,7 +1039,7 @@ author</para></listitem>
 <varlistentry>
 <term><menuchoice><guimenu>Help</guimenu><guimenuitem>About
 KDE...</guimenuitem></menuchoice></term>
-<listitem><para><action>Information about the KDE
+<listitem><para><action>Information about the &kde;
 project</action></para></listitem>
 </varlistentry>
 </variablelist>
@@ -1062,7 +1062,7 @@ project</action></para></listitem>
 <textobject>
 <phrase>Tabbar Image</phrase>
 </textobject>
-<caption><para>Konsole with 4 terminal sessions open with the tabbar on the bottom.</para></caption>
+<caption><para>&konsole; with 4 terminal sessions open with the tabbar on the bottom.</para></caption>
 </mediaobject>
 </screenshot>
 
@@ -1294,9 +1294,9 @@ lines</action>.</para></listitem>
 <para>Starts a &konsole; window with 90 columns and 25 rows, with no
 history</para>
 
-<screen><prompt>&percnt;</prompt> <userinput><command>konsole</command> <option>--noclose</option> <option>-e</option> <parameter>echo_args</parameter> <parameter>Hello, thanks for using Konsole!</parameter></userinput></screen>
+<screen><prompt>&percnt;</prompt> <userinput><command>konsole</command> <option>--noclose</option> <option>-e</option> <parameter>echo_args</parameter> <parameter>Hello, thanks for using &konsole;!</parameter></userinput></screen>
 
-<para>Starts a &konsole; window with the text printed 'Hello, thanks for using Konsole!'
+<para>Starts a &konsole; window with the text printed 'Hello, thanks for using &konsole;!'
 </para>
 <para>The <parameter>echo_args</parameter> is a simple Bash script:
 <programlisting>#!/bin/bash
@@ -1309,7 +1309,7 @@ echo $*</programlisting>
 <variablelist>
 <varlistentry>
 <term><option>--help-qt</option></term>
-<listitem><para><action>List Qt-specific options</action></para></listitem>
+<listitem><para><action>List &Qt;-specific options</action></para></listitem>
 </varlistentry>
 </variablelist>
 
@@ -1349,7 +1349,7 @@ echo $*</programlisting>
 <variablelist>
 <varlistentry>
 <term><option>--help-kde</option></term>
-<listitem><para><action>List KDE-specific options</action></para></listitem>
+<listitem><para><action>List &kde;-specific options</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--help-all</option></term>
@@ -1372,11 +1372,11 @@ echo $*</programlisting>
 </sect1>
 
 <sect1 id="dcop">
-<title>DCOP</title>
+<title>&DCOP;</title>
 
 <para>For an introduction to 
 &DCOP; and using <command>dcop</command> please look at
-<ulink url="help:/khelpcenter/userguide/kde-diy.html#dcop">the User Guide entry on DCOP</ulink>.
+<ulink url="help:/khelpcenter/userguide/kde-diy.html#dcop">the User Guide entry on &DCOP;</ulink>.
 </para>
 
 </sect1>
@@ -1419,9 +1419,9 @@ platforms (Tru64, &Solaris;, OpenBSD) and requests volunteers from other
 
 <para>For more infomation please visit these websites:</para>
 <itemizedlist>
-<listitem><para><ulink url="http://freebsd.kde.org/">KDE on 
+<listitem><para><ulink url="http://freebsd.kde.org/">&kde; on 
 FreeBSD</ulink></para></listitem>
-<listitem><para><ulink url="http://solaris.kde.org/">KDE on Solaris</ulink></para></listitem>
+<listitem><para><ulink url="http://solaris.kde.org/">&kde; on &Solaris;</ulink></para></listitem>
 </itemizedlist>
 
 </appendix>
