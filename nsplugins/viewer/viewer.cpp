@@ -121,7 +121,7 @@ int main(int argc, char** argv)
    {
       KConfig cfg("kcmnspluginrc", true);
       cfg.setGroup("Misc");
-      int v = KCLAMP(cfg.readNumEntry("Nice Level", 0), 0, 19);
+      int v = qBound(0, cfg.readNumEntry("Nice Level", 0), 19);
       if (v > 0) {
          nice(v);
       }

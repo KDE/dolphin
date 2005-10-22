@@ -41,9 +41,8 @@ class PluginBrowserExtension : public KParts::BrowserExtension
 {
     friend class PluginPart;
 public:
-    PluginBrowserExtension( KParts::ReadOnlyPart *parent,
-                          const char *name = 0L )
-        : KParts::BrowserExtension( parent, name ) {}
+    PluginBrowserExtension( KParts::ReadOnlyPart *parent )
+        : KParts::BrowserExtension( parent ) {}
     ~PluginBrowserExtension() {}
 
     // ATTENTION: you -CANNOT- add data members here
@@ -226,7 +225,8 @@ PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *p
     _callback = new NSPluginCallback(this);
 
     // create a canvas to insert our widget
-    _canvas = new PluginCanvasWidget( parentWidget, widgetName );
+    _canvas = new PluginCanvasWidget( parentWidget );
+    _canvas->setObjectName( widgetName );
     //_canvas->setFocusPolicy( QWidget::ClickFocus );
     _canvas->setFocusPolicy( Qt::WheelFocus );
     _canvas->setBackgroundMode( Qt::NoBackground );

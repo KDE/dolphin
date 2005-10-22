@@ -87,8 +87,8 @@ class PluginCanvasWidget : public QWidget
   Q_OBJECT
 public:
 
-  PluginCanvasWidget(QWidget *parent=0, const char *name=0)
-    : QWidget(parent,name) {}
+  PluginCanvasWidget(QWidget *parent=0)
+    : QWidget(parent) {}
 
 protected:
   void resizeEvent(QResizeEvent *e);
