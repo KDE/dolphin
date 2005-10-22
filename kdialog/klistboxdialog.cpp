@@ -19,7 +19,7 @@
 
 #include <qlabel.h>
 #include <q3listbox.h>
-#include <q3vbox.h>
+#include <kvbox.h>
 
 #include "klistboxdialog.h"
 #include "klistboxdialog.moc"

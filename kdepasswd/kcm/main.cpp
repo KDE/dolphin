@@ -61,7 +61,7 @@ K_EXPORT_COMPONENT_FACTORY( kcm_useraccount, Factory("useraccount") )
 
 KCMUserAccount::KCMUserAccount( QWidget *parent, const char *name,
 	const QStringList &)
-	: KCModule( parent, name)
+	: KCModule( Factory::instance(), parent)
 {
 	QVBoxLayout *topLayout = new QVBoxLayout(this);
 	_mw = new MainWidget(this);

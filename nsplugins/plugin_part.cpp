@@ -203,7 +203,7 @@ KAboutData *PluginFactory::aboutData()
 
 PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *parent,
                        const char *name, const QStringList &args)
-    : KParts::ReadOnlyPart(parent, name), _widget(0), _args(args),
+    : KParts::ReadOnlyPart(parent), _widget(0), _args(args),
       _destructed(0L)
 {
     setInstance(PluginFactory::instance());
