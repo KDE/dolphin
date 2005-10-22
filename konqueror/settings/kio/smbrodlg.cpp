@@ -35,8 +35,8 @@
 #endif
 
 
-SMBRoOptions::SMBRoOptions(QWidget *parent)
-  : KCModule(parent, "kcmkio")
+SMBRoOptions::SMBRoOptions(KInstance *inst, QWidget *parent)
+  : KCModule(inst, parent)
 {
    QGridLayout *layout = new QGridLayout(this,2,-1,KDialog::marginHint(),
          KDialog::spacingHint());

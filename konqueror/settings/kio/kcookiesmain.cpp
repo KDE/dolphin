@@ -16,8 +16,8 @@
 #include "kcookiespolicies.h"
 #include "kcookiesmanagement.h"
 
-KCookiesMain::KCookiesMain(QWidget *parent)
-  : KCModule(parent, "kcmkio")
+KCookiesMain::KCookiesMain(KInstance *inst, QWidget *parent)
+  : KCModule(inst, parent)
 {
     management = 0;
     bool managerOK = true;
@@ -38,13 +38,13 @@ KCookiesMain::KCookiesMain(QWidget *parent)
     tab = new QTabWidget(this);
     layout->addWidget(tab);
 
-    policies = new KCookiesPolicies(this);
+    policies = new KCookiesPolicies(inst, this);
     tab->addTab(policies, i18n("&Policy"));
     connect(policies, SIGNAL(changed(bool)), SIGNAL(changed(bool)));
 
     if( managerOK )
     {
-        management = new KCookiesManagement(this);
+        management = new KCookiesManagement(inst, this);
         tab->addTab(management, i18n("&Management"));
         connect(management, SIGNAL(changed(bool)), SIGNAL(changed(bool)));
     }

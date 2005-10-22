@@ -37,7 +37,7 @@ class KSocksConfig : public KCModule
 {
   Q_OBJECT
 public:
-  KSocksConfig(QWidget *parent);
+  KSocksConfig(KInstance *inst, QWidget *parent);
   virtual ~KSocksConfig();
 
   SocksBase *base;

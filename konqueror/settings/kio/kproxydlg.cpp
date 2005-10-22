@@ -42,16 +42,16 @@
 #include "kproxydlg.h"
 #include "kproxydlg_ui.h"
 
-KProxyOptions::KProxyOptions (QWidget* parent )
-              :KCModule (parent, "kcmkio")
+KProxyOptions::KProxyOptions ( KInstance *inst, QWidget* parent )
+              :KCModule ( inst, parent )
 {
   QVBoxLayout *layout = new QVBoxLayout(this);
   
   mTab = new QTabWidget(this);
   layout->addWidget(mTab);
 
-  mProxy  = new KProxyDialog(mTab);
-  mSocks = new KSocksConfig(mTab);
+  mProxy  = new KProxyDialog(inst, mTab);
+  mSocks = new KSocksConfig(inst, mTab);
 
   mTab->addTab(mProxy, i18n("&Proxy"));
   mTab->addTab(mSocks, i18n("&SOCKS"));
@@ -97,8 +97,8 @@ QString KProxyOptions::quickHelp() const
 }
 
 
-KProxyDialog::KProxyDialog( QWidget* parent)
-             :KCModule( parent, "kcmkio" )
+KProxyDialog::KProxyDialog( KInstance *inst, QWidget* parent)
+             :KCModule( inst, parent )
 {
   QVBoxLayout* mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
                                               KDialog::spacingHint() );

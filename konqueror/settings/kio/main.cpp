@@ -27,6 +27,7 @@
 
 #include <kcmoduleloader.h>
 #include <klocale.h>
+#include <kinstance.h>
 
 #include "kcookiesmain.h"
 #include "netpref.h"
@@ -37,48 +38,58 @@
 
 #include "main.h"
 
+static KInstance *_kcmkio = 0;
+
+inline KInstance *inst() {
+        if (_kcmkio)
+                return _kcmkio;
+        _kcmkio = new KInstance("kcmkio");
+        return _kcmkio;
+}
+
+
 extern "C"
 {
 
   KDE_EXPORT KCModule *create_cookie(QWidget *parent, const char /**name*/)
   {
-    return new KCookiesMain(parent);
+    return new KCookiesMain(inst(), parent);
   }
 
   KDE_EXPORT KCModule *create_smb(QWidget *parent, const char /**name*/)
   {
-    return new SMBRoOptions(parent);
+    return new SMBRoOptions(inst(), parent);
   }
 
   KDE_EXPORT KCModule *create_useragent(QWidget *parent, const char /**name*/)
   {
-    return new UserAgentDlg(parent);
+    return new UserAgentDlg(inst(), parent);
   }
 
   KDE_EXPORT KCModule *create_proxy(QWidget *parent, const char /**name*/)
   {
-    return new KProxyOptions(parent);
+    return new KProxyOptions(inst(), parent);
   }
 
   KDE_EXPORT KCModule *create_cache(QWidget *parent, const char /**name*/)
   {
-    return new KCacheConfigDialog( parent );
+    return new KCacheConfigDialog( inst(), parent );
   }
 
   KDE_EXPORT KCModule *create_netpref(QWidget *parent, const char /**name*/)
   {
-    return new KIOPreferences(parent);
+    return new KIOPreferences( inst(), parent );
   }
 
   KDE_EXPORT KCModule *create_lanbrowser(QWidget *parent, const char *)
   {
-    return new LanBrowser(parent);
+    return new LanBrowser( parent );
   }
 
 }
 
 LanBrowser::LanBrowser(QWidget *parent)
-:KCModule(parent,"kcmkio")
+:KCModule(inst(), parent)
 ,layout(this)
 ,tabs(this)
 {

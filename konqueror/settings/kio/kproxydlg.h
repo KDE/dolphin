@@ -36,7 +36,7 @@ class KProxyOptions : public KCModule
   Q_OBJECT
 
 public:
-  KProxyOptions( QWidget* parent = 0 );
+  KProxyOptions( KInstance *inst, QWidget* parent );
   ~KProxyOptions();
 
   virtual void load();
@@ -55,7 +55,7 @@ class KProxyDialog : public KCModule
   Q_OBJECT
 
 public:
-  KProxyDialog( QWidget* parent = 0 );
+  KProxyDialog( KInstance *inst, QWidget* parent );
   ~KProxyDialog();
 
   virtual void load();

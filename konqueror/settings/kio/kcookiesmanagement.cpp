@@ -103,8 +103,8 @@ QString CookieListViewItem::text(int f) const
         return f == 0 ? KIDNA::toUnicode(mDomain) : QString::null;
 }
 
-KCookiesManagement::KCookiesManagement(QWidget *parent)
-                   : KCModule(parent, "kcmkio")
+KCookiesManagement::KCookiesManagement(KInstance *inst, QWidget *parent)
+                   : KCModule(inst, parent)
 {
   // Toplevel layout
   QVBoxLayout* mainLayout = new QVBoxLayout(this, KDialog::marginHint(),

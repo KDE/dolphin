@@ -32,7 +32,7 @@ class KCMFilter : public KCModule
 {
     Q_OBJECT
 public:
-    KCMFilter( KConfig* config, QString group, QWidget* parent = 0, const char* name = 0 );
+    KCMFilter( KConfig* config, QString group, KInstance *inst, QWidget* parent);
     ~KCMFilter();
     
     void load();

@@ -38,8 +38,8 @@
 #include "filteropts.moc"
 
 KCMFilter::KCMFilter(KConfig *config, QString group,
-                     QWidget *parent, const char *name )
-    : KCModule( parent, name ),
+                     KInstance *inst, QWidget *parent)
+    : KCModule( inst, parent ),
       mConfig( config ),
       mGroupname( group ),
       mSelCount(0)

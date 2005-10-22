@@ -39,7 +39,7 @@ class KJSParts : public KCModule
 
 public:
 
-  KJSParts(KConfig *config,QWidget *parent, const char *name);
+  KJSParts(KConfig *config, KInstance *inst, QWidget *parent);
   virtual ~KJSParts();
 
   void load();

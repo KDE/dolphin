@@ -47,8 +47,8 @@
 #include "kcookiespolicies.h"
 #include "kcookiespoliciesdlg_ui.h"
 
-KCookiesPolicies::KCookiesPolicies(QWidget *parent)
-                 :KCModule(parent, "kcmkio")
+KCookiesPolicies::KCookiesPolicies(KInstance *inst, QWidget *parent)
+                 :KCModule(inst, parent)
 {
     QVBoxLayout *mainLayout = new QVBoxLayout(this, 0, 0);
 

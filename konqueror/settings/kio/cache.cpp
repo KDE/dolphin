@@ -40,8 +40,8 @@
 #include "cache.h"
 #include "cache_ui.h"
 
-KCacheConfigDialog::KCacheConfigDialog( QWidget* parent )
-                   :KCModule( parent, "kcmkio" )
+KCacheConfigDialog::KCacheConfigDialog( KInstance *inst, QWidget* parent )
+                   :KCModule( inst, parent )
 {
   QVBoxLayout* mainLayout = new QVBoxLayout(this, 0, 0);
   m_dlg = new CacheDlgUI(this);

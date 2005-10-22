@@ -16,8 +16,8 @@
 
 #define MAX_TIMEOUT_VALUE  3600
 
-KIOPreferences::KIOPreferences( QWidget* parent )
-               :KCModule( parent, "kcmkio" )
+KIOPreferences::KIOPreferences( KInstance *inst, QWidget* parent )
+               :KCModule( inst, parent )
 {
     QVBoxLayout* mainLayout = new QVBoxLayout( this, 0,
                                                KDialog::spacingHint() );

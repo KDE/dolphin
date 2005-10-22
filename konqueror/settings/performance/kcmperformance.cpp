@@ -22,29 +22,39 @@
 
 #include <klocale.h>
 #include <kdialog.h>
+#include <kinstance.h>
 
 #include "kcmperformance.h"
 #include "konqueror.h"
 #include "system.h"
 
+static KInstance *_kcmperformance = 0;
+
+inline KInstance *inst() {
+        if (_kcmperformance)
+                return _kcmperformance;
+        _kcmperformance = new KInstance("kcmperformance");
+        return _kcmperformance;
+}
+
 extern "C"
 {
-    KDE_EXPORT KCModule* create_performance( QWidget* parent_P, const char* name_P )
+    KDE_EXPORT KCModule* create_performance( QWidget* parent_P, const char* name )
     {
-    return new KCMPerformance::Config( parent_P, name_P );
+    return new KCMPerformance::Config( parent_P );
     }
 
-    KDE_EXPORT KCModule* create_konqueror( QWidget* parent_P, const char* name_P )
+    KDE_EXPORT KCModule* create_konqueror( QWidget* parent_P, const char* name )
     {
-    return new KCMPerformance::KonquerorConfig( parent_P, name_P );
+    return new KCMPerformance::KonquerorConfig( parent_P );
     }
 }
 
 namespace KCMPerformance
 {
 
-Config::Config( QWidget* parent_P, const char* )
-    : KCModule( parent_P, "kcmperformance" )
+Config::Config( QWidget* parent_P )
+    : KCModule( inst(), parent_P )
     {
     setQuickHelp( i18n( "<h1>KDE Performance</h1>"
         " You can configure settings that improve KDE performance here." ));
@@ -81,8 +91,8 @@ void Config::defaults()
     system_widget->defaults();
     }
 
-KonquerorConfig::KonquerorConfig( QWidget* parent_P, const char* )
-    : KCModule( parent_P, "kcmperformance" )
+KonquerorConfig::KonquerorConfig( QWidget* parent_P )
+    : KCModule( inst(), parent_P )
     {
     setQuickHelp( i18n( "<h1>Konqueror Performance</h1>"
         " You can configure several settings that improve Konqueror performance here."

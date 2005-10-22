@@ -47,8 +47,8 @@
 #include "useragentdlg.h"
 #include "useragentdlg_ui.h"
 
-UserAgentDlg::UserAgentDlg( QWidget * parent )
-             :KCModule( parent, "kcmkio" )
+UserAgentDlg::UserAgentDlg( KInstance *inst, QWidget * parent )
+             :KCModule( inst, parent )
 {
   QVBoxLayout *mainLayout = new QVBoxLayout(this, 0, KDialog::spacingHint());
 

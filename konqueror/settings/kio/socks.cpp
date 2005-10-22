@@ -36,8 +36,8 @@
 #include "socks.h"
 #include <kaboutdata.h>
 
-KSocksConfig::KSocksConfig(QWidget *parent)
-  : KCModule(parent, "kcmkio")
+KSocksConfig::KSocksConfig(KInstance *inst, QWidget *parent)
+  : KCModule(inst, parent)
 {
 
   KAboutData *about =

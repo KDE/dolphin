@@ -19,7 +19,7 @@ class KHTTPOptions : public KCModule
 {
 Q_OBJECT
   public:
-    KHTTPOptions(KConfig *config, QString group, QWidget *parent = 0L, const char *name = 0L);
+    KHTTPOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent);
 
     virtual void load();
     virtual void save();
