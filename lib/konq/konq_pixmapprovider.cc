@@ -96,7 +96,7 @@ void KonqPixmapProvider::load( KConfig *kc, const QString& key )
 {
     iconMap.clear();
     QStringList list;
-    list = kc->readListEntry( key );
+    list = kc->readPathListEntry( key );
     QStringList::Iterator it = list.begin();
     QString url, icon;
     while ( it != list.end() ) {
@@ -127,7 +127,7 @@ void KonqPixmapProvider::save( KConfig *kc, const QString& key,
 
 	++it;
     }
-    kc->writeEntry( key, list );
+    kc->writePathEntry( key, list );
 }
 
 void KonqPixmapProvider::notifyChange( bool isHost, QString hostOrURL,
