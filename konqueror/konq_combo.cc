@@ -688,7 +688,7 @@ bool KonqCombo::hasSufficientContrast(const QColor &c1, const QColor &c2)
         }
         hdist = qMin(hdist, HUE_DISTANCE*2);
     }
-    return hdist + (qAbs(s1-s2)*128)/(160+qMin(s1,s2)) + kAbs(v1-v2) > CONTRAST_DISTANCE;
+    return hdist + (qAbs(s1-s2)*128)/(160+qMin(s1,s2)) + qAbs(v1-v2) > CONTRAST_DISTANCE;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
