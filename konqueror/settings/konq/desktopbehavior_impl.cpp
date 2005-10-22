@@ -48,8 +48,8 @@
 #include <kipc.h>
 #include <kprotocolinfo.h>
 
-DesktopBehaviorModule::DesktopBehaviorModule(KConfig *config, QWidget *parent, const char * )
-    : KCModule( parent, "kcmkonq" )
+DesktopBehaviorModule::DesktopBehaviorModule(KConfig *config, KInstance *inst, QWidget *parent )
+    : KCModule( inst, parent )
 {
     QVBoxLayout* layout = new QVBoxLayout(this);
     m_behavior = new DesktopBehavior(config, this);

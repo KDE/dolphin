@@ -46,7 +46,7 @@ class KPreviewOptions : public KCModule
 {
     Q_OBJECT
 public:
-    KPreviewOptions( QWidget *parent = 0L, const char *name = 0L );
+    KPreviewOptions( KInstance *inst, QWidget *parent );
     virtual void load();
     virtual void save();
     virtual void defaults();

@@ -88,7 +88,7 @@ class KJavaOptions : public KCModule
     Q_OBJECT
 
 public:
-    KJavaOptions( KConfig* config, QString group, QWidget* parent = 0, const char* name = 0 );
+    KJavaOptions( KConfig* config, QString group, KInstance *inst, QWidget* parent );
 
     virtual void load();
     virtual void save();

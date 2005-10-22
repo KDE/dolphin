@@ -45,9 +45,8 @@ PluginPolicies::~PluginPolicies() {
 
 // == class KPluginOptions =====
 
-KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
-                            const char *)
-    : KCModule( parent, "kcmkonqhtml" ),
+KPluginOptions::KPluginOptions( KConfig* config, QString group, KInstance *inst, QWidget *parent)
+    : KCModule( inst, parent ),
       m_pConfig( config ),
       m_groupname( group ),
       global_policies(config,group,true)
@@ -199,7 +198,7 @@ void KPluginOptions::load()
   m_widget->dirDown->setEnabled( false );
   enableHTTPOnly->setChecked( config->readBoolEntry("HTTP URLs Only", false) );
   enableUserDemand->setChecked( config->readBoolEntry("demandLoad", false) );
-  priority->setValue(100 - KCLAMP(config->readNumEntry("Nice Level", 0), 0, 19) * 5);
+  priority->setValue(100 - qBound(0, config->readNumEntry("Nice Level", 0), 19) * 5);
   updatePLabel(priority->value());
 
   dirLoad( config );

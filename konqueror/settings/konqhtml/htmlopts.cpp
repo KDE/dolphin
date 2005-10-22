@@ -31,8 +31,8 @@ enum UnderlineLinkType { UnderlineAlways=0, UnderlineNever=1, UnderlineHover=2 }
 enum AnimationsType { AnimationsAlways=0, AnimationsNever=1, AnimationsLoopOnce=2 };
 //-----------------------------------------------------------------------------
 
-KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *parent, const char *)
-    : KCModule( parent, "kcmkonqhtml" ), m_pConfig(config), m_groupname(group)
+KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent)
+    : KCModule( inst, parent ), m_pConfig(config), m_groupname(group)
 {
     int row = 0;
     QGridLayout *lay = new QGridLayout(this, 10, 2, 0, KDialog::spacingHint());

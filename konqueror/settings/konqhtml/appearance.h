@@ -23,7 +23,7 @@ class KAppearanceOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KAppearanceOptions(KConfig *config, QString group, QWidget *parent=0, const char *name=0);
+  KAppearanceOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent);
   ~KAppearanceOptions();
 
   virtual void load();

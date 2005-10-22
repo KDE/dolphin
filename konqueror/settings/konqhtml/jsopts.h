@@ -35,7 +35,7 @@ class JSDomainListView : public DomainListView {
   Q_OBJECT
 public:
   JSDomainListView(KConfig *config,const QString &group,KJavaScriptOptions *opt,
-  		QWidget *parent,const char *name = 0);
+  		QWidget *parent);
   virtual ~JSDomainListView();
 
   /** remnant for importing pre KDE 3.2 settings
@@ -57,7 +57,7 @@ class KJavaScriptOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KJavaScriptOptions( KConfig* config, QString group, QWidget* parent = 0, const char* name = 0 );
+  KJavaScriptOptions( KConfig* config, QString group, KInstance *inst, QWidget* parent );
 
   virtual void load();
   virtual void save();

@@ -34,9 +34,8 @@
 
 // == class KJavaScriptOptions =====
 
-KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget *parent,
-										const char *name ) :
-  KCModule( parent, name ),
+KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, KInstance *inst, QWidget *parent) :
+  KCModule( inst, parent ),
   _removeJavaScriptDomainAdvice(false),
    m_pConfig( config ), m_groupname( group ),
   js_global_policies(config,group,true,QString::null),
@@ -165,8 +164,8 @@ void KJavaScriptOptions::slotChangeJSEnabled() {
 // == class JSDomainListView =====
 
 JSDomainListView::JSDomainListView(KConfig *config,const QString &group,
-	KJavaScriptOptions *options, QWidget *parent,const char *name)
-	: DomainListView(config,i18n( "Do&main-Specific" ), parent, name),
+	KJavaScriptOptions *options, QWidget *parent)
+	: DomainListView(config,i18n( "Do&main-Specific" ), parent),
 	group(group), options(options) {
 }
 

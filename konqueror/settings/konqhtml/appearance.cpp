@@ -25,8 +25,8 @@
 
 #include "appearance.moc"
 
-KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *parent, const char *)
-    : KCModule( parent, "kcmkonqhtml" ), m_pConfig(config), m_groupname(group),
+KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent)
+    : KCModule( inst, parent ), m_pConfig(config), m_groupname(group),
       fSize( 10 ), fMinSize( HTML_DEFAULT_MIN_FONT_SIZE )
 
 {

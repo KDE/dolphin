@@ -32,20 +32,20 @@
 #include "previews.h"
 #include "browser.h"
 
-KBrowserOptions::KBrowserOptions(KConfig *config, QString group, QWidget *parent, const char *name)
-    : KCModule( parent, "kcmkonq" ) 
+KBrowserOptions::KBrowserOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent)
+    : KCModule( inst, parent ) 
 {
   QVBoxLayout *layout = new QVBoxLayout(this);
   QTabWidget *tab = new QTabWidget(this);
   layout->addWidget(tab);
 
-  appearance = new KonqFontOptions(config, group, false, tab, name);
+  appearance = new KonqFontOptions(config, group, false, inst, tab);
   appearance->layout()->setMargin( KDialog::marginHint() );
 
-  behavior = new KBehaviourOptions(config, group, tab, name);
+  behavior = new KBehaviourOptions(config, group, inst, tab);
   behavior->layout()->setMargin( KDialog::marginHint() );
 
-  previews = new KPreviewOptions(tab, name);
+  previews = new KPreviewOptions( inst, tab);
   previews->layout()->setMargin( KDialog::marginHint() );
 
   kuick = KCModuleLoader::loadModule("kcmkuick", KCModuleLoader::None,tab);

@@ -63,7 +63,7 @@ class DesktopBehaviorModule : public KCModule
         Q_OBJECT
 
 public:
-        DesktopBehaviorModule(KConfig *config, QWidget *parent = 0L, const char *name = 0L );
+        DesktopBehaviorModule(KConfig *config, KInstance *inst, QWidget *parent );
         virtual void load() { m_behavior->load(); emit KCModule::changed( false ); }
         virtual void save() { m_behavior->save(); emit KCModule::changed( false ); }
         virtual void defaults() { m_behavior->defaults(); emit KCModule::changed( true ); }

@@ -44,8 +44,8 @@
 
 //-----------------------------------------------------------------------------
 
-KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, QWidget *parent, const char* /*name*/)
-    : KCModule( parent, "kcmkonq" ), g_pConfig(config), groupname(group), m_bDesktop(desktop)
+KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, KInstance *inst, QWidget *parent)
+    : KCModule( inst, parent ), g_pConfig(config), groupname(group), m_bDesktop(desktop)
 {
     QLabel *label;
     QString wtstr;

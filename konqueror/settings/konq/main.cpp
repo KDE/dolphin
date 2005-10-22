@@ -48,54 +48,61 @@ static Q3CString configname()
 	return name;
 }
 
+static KInstance *_kcmkonq = 0;
+
+inline KInstance *kcmkonq() {
+	if (_kcmkonq)
+		return _kcmkonq;
+	_kcmkonq = new KInstance("kcmkonq");
+	return _kcmkonq;
+}
 
 extern "C"
 {
   KDE_EXPORT KCModule *create_browser(QWidget *parent, const char *name)
   {
     KConfig *config = new KConfig("konquerorrc", false, true);
-    return new KBrowserOptions(config, "FMSettings", parent, name);
+    return new KBrowserOptions(config, "FMSettings", kcmkonq(), parent);
   }
 
   KDE_EXPORT KCModule *create_behavior(QWidget *parent, const char *name)
   {
     KConfig *config = new KConfig("konquerorrc", false, true);
-    return new KBehaviourOptions(config, "FMSettings", parent, name);
+    return new KBehaviourOptions(config, "FMSettings", kcmkonq(), parent);
   }
 
   KDE_EXPORT KCModule *create_appearance(QWidget *parent, const char *name)
   {
     KConfig *config = new KConfig("konquerorrc", false, true);
-    return new KonqFontOptions(config, "FMSettings", false, parent, name);
+    return new KonqFontOptions(config, "FMSettings", false, kcmkonq(), parent);
   }
 
   KDE_EXPORT KCModule *create_previews(QWidget *parent, const char *name)
   {
-    return new KPreviewOptions(parent, name);
+    return new KPreviewOptions(kcmkonq(), parent);
   }
 
   KDE_EXPORT KCModule *create_dbehavior(QWidget *parent, const char* /*name*/)
   {
     KConfig *config = new KConfig(configname(), false, false);
-    return new DesktopBehaviorModule(config, parent);
+    return new DesktopBehaviorModule(config, kcmkonq(), parent);
   }
 
   KDE_EXPORT KCModule *create_dappearance(QWidget *parent, const char* /*name*/)
   {
     KConfig *config = new KConfig(configname(), false, false);
-    return new KonqFontOptions(config, "FMSettings", true, parent);
+    return new KonqFontOptions(config, "FMSettings", true, kcmkonq(), parent);
   }
 
   KDE_EXPORT KCModule *create_dpath(QWidget *parent, const char* /*name*/)
   {
-      KInstance *kcmkonq = new KInstance( "kcmkonq" );
     //KConfig *config = new KConfig(configname(), false, false);
-    return new DesktopPathConfig(kcmkonq, parent);
+    return new DesktopPathConfig(kcmkonq(), parent);
   }
 
   KDE_EXPORT KCModule *create_ddesktop(QWidget *parent, const char* /*name*/)
   {
-    return new KDesktopConfig(parent, "VirtualDesktops");
+    return new KDesktopConfig(kcmkonq(), parent);
   }
 }
 

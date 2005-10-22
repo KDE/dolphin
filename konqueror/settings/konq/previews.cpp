@@ -60,8 +60,8 @@ class PreviewCheckListItem : public Q3CheckListItem
     }
 };
 
-KPreviewOptions::KPreviewOptions( QWidget *parent, const char */*name*/ )
-    : KCModule( parent, "kcmkonq" )
+KPreviewOptions::KPreviewOptions( KInstance *inst, QWidget *parent )
+    : KCModule( inst, parent )
 {
     QVBoxLayout *lay = new QVBoxLayout(this, 0, KDialog::spacingHint());
 

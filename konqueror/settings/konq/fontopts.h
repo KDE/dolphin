@@ -53,7 +53,7 @@ class KonqFontOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KonqFontOptions(KConfig *config, QString group, bool desktop, QWidget *parent=0, const char *name=0);
+  KonqFontOptions( KConfig *config, QString group, bool desktop, KInstance *inst, QWidget *parent);
   QString quickHelp() const;
 
   virtual void load();
