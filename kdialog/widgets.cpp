@@ -104,7 +104,7 @@ int Widgets::textBox(QWidget *parent, int width, int height, const QString& titl
   while (!s.atEnd())
     edit->append(s.readLine());
 
-  edit->moveCursor(Q3TextEdit::MoveHome, false);
+  edit->setTextCursor(QTextCursor(edit->document()));
 
   f.close();
 
