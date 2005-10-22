@@ -130,7 +130,7 @@ int main(int argc, char** argv)
          rlimit rl;
          memset(&rl, 0, sizeof(rl));
          if (0 == getrlimit(RLIMIT_AS, &rl)) {
-            rl.rlim_cur = kMin(v, int(rl.rlim_max));
+            rl.rlim_cur = qMin(v, int(rl.rlim_max));
             setrlimit(RLIMIT_AS, &rl);
          }
       }

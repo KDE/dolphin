@@ -5399,7 +5399,7 @@ static void hp_removeDupe( KCompletionMatches& l, const QString& dupe,
             continue;
         }
         if( (*it).value() == dupe ) {
-            (*it_orig).first = kMax( (*it_orig).first, (*it).index());
+            (*it_orig).first = qMax( (*it_orig).first, (*it).index());
             it = l.remove( it );
             continue;
         }
