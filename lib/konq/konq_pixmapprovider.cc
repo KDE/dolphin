@@ -76,7 +76,7 @@ QString KonqPixmapProvider::iconNameFor( const QString& url )
         else
 	    u = url;
 
-        icon = KMimeType::iconForURL( u );
+        icon = KMimeType::iconNameForURL( u );
     }
 
     //Q_ASSERT( !icon.isEmpty() ); ### Disable for now
