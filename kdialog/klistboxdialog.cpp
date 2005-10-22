@@ -29,7 +29,7 @@
 KListBoxDialog::KListBoxDialog(const QString &text, QWidget *parent)
     : KDialogBase( parent, 0, true, QString::null, Ok|Cancel, Ok, true )
 {
-  Q3VBox *page = makeVBoxMainWidget();
+  KVBox *page = makeVBoxMainWidget();
 
   label = new QLabel(text, page);
   label->setAlignment(Qt::AlignCenter);

@@ -34,6 +34,7 @@
 #include <kapplication.h>
 #include <dcopclient.h>
 #include <kprocio.h>
+#include <ktoolinvocation.h>
 
 extern "C"
 {
@@ -47,7 +48,7 @@ extern "C"
 
         if ( scan || firstTime )
         {
-            KApplication::kdeinitExec("nspluginscan");
+            KToolInvocation::kdeinitExec("nspluginscan");
         }
 
         if (firstTime) {

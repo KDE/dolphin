@@ -361,7 +361,7 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, co
     {
         QString error;
         /* Well, we can't pass a mimetype through startServiceByDesktopPath !
-        if ( KApplication::startServiceByDesktopPath( QLatin1String("konqueror.desktop"),
+        if ( KToolInvocation::startServiceByDesktopPath( QLatin1String("konqueror.desktop"),
                                                       url.url(), &error ) > 0 )
         {
             kdError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;

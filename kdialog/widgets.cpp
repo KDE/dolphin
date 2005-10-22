@@ -122,7 +122,7 @@ int Widgets::textInputBox(QWidget *parent, int width, int height, const QString&
   KDialogBase dlg( parent, 0, true, title, KDialogBase::Ok, KDialogBase::Ok );
 
   kapp->setTopWidget( &dlg );
-  Q3VBox* vbox = dlg.makeVBoxMainWidget();
+  KVBox* vbox = dlg.makeVBoxMainWidget();
 
   if( args.count() > 0 )
   {
@@ -155,7 +155,7 @@ bool Widgets::comboBox(QWidget *parent, const QString& title, const QString& tex
                    KDialogBase::Ok );
 
   kapp->setTopWidget( &dlg );
-  Q3VBox* vbox = dlg.makeVBoxMainWidget();
+  KVBox* vbox = dlg.makeVBoxMainWidget();
 
   QLabel label (vbox);
   label.setText (text);
