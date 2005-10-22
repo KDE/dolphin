@@ -307,8 +307,8 @@ void DesktopPathConfig::slotEntries( KIO::Job * job, const KIO::UDSEntryList& li
         return;
     }
 
-    KIO::UDSEntryListConstIterator it = list.begin();
-    KIO::UDSEntryListConstIterator end = list.end();
+    KIO::UDSEntryList::ConstIterator it = list.begin();
+    KIO::UDSEntryList::ConstIterator end = list.end();
     for (; it != end; ++it)
     {
         KFileItem file(*it, m_copyFromSrc, true, true);
