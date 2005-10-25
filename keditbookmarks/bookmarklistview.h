@@ -89,7 +89,5 @@ private:
     QRect BookmarkListView::rectForRow(QModelIndex index);
     QRect BookmarkListView::rectForRowWithChildren(QModelIndex index);
     bool parentSelected(const QModelIndex & index ) const;
-    mutable SelcAbilities selctionAbilities;
-    mutable bool dirtyGetSelectionAbilies;
 };
 #endif

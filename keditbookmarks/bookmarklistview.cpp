@@ -135,7 +135,6 @@ void BookmarkFolderView::selectionChanged ( const QItemSelection & deselected, c
 BookmarkListView::BookmarkListView( QWidget * parent )
     :BookmarkView( parent )
 {
-    dirtyGetSelectionAbilies = true;
     setDragEnabled(true);
 }
 
@@ -207,7 +206,6 @@ void BookmarkListView::deselectChildren( const QModelIndex & parent)
 //FIXME check scalability of this code
 void BookmarkListView::selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected )
 {
-    dirtyGetSelectionAbilies = true;
     BookmarkView::selectionChanged( selected, deselected );
 
     // deselect indexes which shouldn't have been selected
@@ -327,39 +325,35 @@ bool BookmarkListView::parentSelected(const QModelIndex & idx ) const
 //FIXME clean up and remove unneeded things
 SelcAbilities BookmarkListView::getSelectionAbilities() const
 {
-    if(dirtyGetSelectionAbilies)
+    SelcAbilities selctionAbilities;
+    const QModelIndexList & sel = selectionModel()->selectedIndexes();
+    selctionAbilities.itemSelected   = false;
+    selctionAbilities.group          = false;
+    selctionAbilities.separator      = false;
+    selctionAbilities.urlIsEmpty     = false;
+    selctionAbilities.root           = false;
+    selctionAbilities.multiSelect    = false;
+    selctionAbilities.singleSelect   = false;
+    selctionAbilities.notEmpty       = false;
+
+    if ( sel .count() > 0) 
     {
-        const QModelIndexList & sel = selectionModel()->selectedIndexes();
-        selctionAbilities.itemSelected   = false;
-        selctionAbilities.group          = false;
-        selctionAbilities.separator      = false;
-        selctionAbilities.urlIsEmpty     = false;
-        selctionAbilities.root           = false;
-        selctionAbilities.multiSelect    = false;
-        selctionAbilities.singleSelect   = false;
-        selctionAbilities.notEmpty       = false;
-
-        if ( sel .count() > 0) 
-        {
-            KBookmark nbk     = static_cast<TreeItem *>((*sel.constBegin()).internalPointer())->bookmark();
-            selctionAbilities.itemSelected   = true;
-            selctionAbilities.group          = nbk.isGroup();
-            selctionAbilities.separator      = nbk.isSeparator();
-            selctionAbilities.urlIsEmpty     = nbk.url().isEmpty();
-            selctionAbilities.root           = nbk.address() == CurrentMgr::self()->root().address();
-            selctionAbilities.multiSelect    = (sel.count() > BookmarkModel::self()->columnCount());
-            selctionAbilities.singleSelect   = (!selctionAbilities.multiSelect && selctionAbilities.itemSelected);
-        }
-        //FIXME check next line, if it actually works
-        selctionAbilities.notEmpty = CurrentMgr::self()->root().first().hasParent(); //FIXME that's insane, checks wheter there exists at least one bookmark
-
-//         kdDebug()<<"sa.itemSelected "<<selctionAbilities.itemSelected<<"\nsa.group "<<selctionAbilities.group<<
-//                    "\nsa.separator "<<selctionAbilities.separator<<"\nsa.urlIsEmpty "<<selctionAbilities.urlIsEmpty<<
-//                    "\nsa.root "<<selctionAbilities.root<<"\nsa.multiSelect "<<selctionAbilities.multiSelect<<
-//                    "\nsa.singleSelect "<<selctionAbilities.singleSelect<<endl;
-        dirtyGetSelectionAbilies = false;
-        return selctionAbilities;
+        KBookmark nbk     = static_cast<TreeItem *>((*sel.constBegin()).internalPointer())->bookmark();
+        selctionAbilities.itemSelected   = true;
+        selctionAbilities.group          = nbk.isGroup();
+        selctionAbilities.separator      = nbk.isSeparator();
+        selctionAbilities.urlIsEmpty     = nbk.url().isEmpty();
+        selctionAbilities.root           = nbk.address() == CurrentMgr::self()->root().address();
+        selctionAbilities.multiSelect    = (sel.count() > BookmarkModel::self()->columnCount());
+        selctionAbilities.singleSelect   = (!selctionAbilities.multiSelect && selctionAbilities.itemSelected);
     }
+    //FIXME check next line, if it actually works
+    selctionAbilities.notEmpty = CurrentMgr::self()->root().first().hasParent(); //FIXME that's insane, checks wheter there exists at least one bookmark
+
+//     kdDebug()<<"sa.itemSelected "<<selctionAbilities.itemSelected<<"\nsa.group "<<selctionAbilities.group<<
+//                 "\nsa.separator "<<selctionAbilities.separator<<"\nsa.urlIsEmpty "<<selctionAbilities.urlIsEmpty<<
+//                 "\nsa.root "<<selctionAbilities.root<<"\nsa.multiSelect "<<selctionAbilities.multiSelect<<
+//                 "\nsa.singleSelect "<<selctionAbilities.singleSelect<<endl;
     return selctionAbilities;
 }
 
