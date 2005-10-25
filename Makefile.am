@@ -1,1 +1,1 @@
-SUBDIRS = kwrite kdialog
+SUBDIRS = kwrite kdialog keditbookmarks
