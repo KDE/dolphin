@@ -259,10 +259,11 @@ QString EditCommand::setNodeText(KBookmark bk, const QStringList &nodehier,
     for (QStringList::ConstIterator it = nodehier.begin(); 
             it != nodehier.end(); ++it)
     {
+        QDomNode parent = subnode;
         subnode = subnode.namedItem((*it));
         if (subnode.isNull()) {
             subnode = bk.internalElement().ownerDocument().createElement((*it));
-            bk.internalElement().appendChild(subnode);
+            parent.appendChild(subnode);
         }
     }
 
