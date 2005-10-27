@@ -232,7 +232,7 @@ KonqDraggableLabel::KonqDraggableLabel( KonqMainWindow* mw, const QString& text 
 {
   setBackgroundMode( Qt::PaletteButton );
   setAlignment( (QApplication::reverseLayout() ? Qt::AlignRight : Qt::AlignLeft) |
-                 Qt::AlignVCenter | Qt::ShowPrefix );
+                 Qt::AlignVCenter | Qt::TextShowMnemonic );
   setAcceptDrops(true);
   adjustSize();
   validDrag = false;
