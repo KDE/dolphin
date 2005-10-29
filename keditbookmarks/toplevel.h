@@ -71,7 +71,7 @@ public:
     typedef enum {HTMLExport, OperaExport, IEExport, MozillaExport, NetscapeExport} ExportType;
 
     static CurrentMgr* self() { if (!s_mgr) { s_mgr = new CurrentMgr(); } return s_mgr; }
-    KBookmarkGroup CurrentMgr::root();
+    KBookmarkGroup root();
     static KBookmark bookmarkAt(const QString & a);
 
     KBookmarkManager* mgr() const { return m_mgr; }

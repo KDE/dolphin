@@ -86,8 +86,8 @@ private:
     int max(int a, int b);
     QRect merge(QRect a, QRect b);
     void deselectChildren(const QModelIndex & parent);
-    QRect BookmarkListView::rectForRow(QModelIndex index);
-    QRect BookmarkListView::rectForRowWithChildren(QModelIndex index);
+    QRect rectForRow(QModelIndex index);
+    QRect rectForRowWithChildren(QModelIndex index);
     bool parentSelected(const QModelIndex & index ) const;
 };
 #endif
