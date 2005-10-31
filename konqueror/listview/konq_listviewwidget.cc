@@ -230,14 +230,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
       const QString column = (*extraFieldsIt).name;
       if ( lstColumns.find(column) == lstColumns.end() )
          lstColumns << column;
-      const QString type = (*extraFieldsIt).type; // ## TODO use when sorting
-      QVariant::Type t = QVariant::Invalid;
-      if ( type.lower() == "qstring" )
-          t = QVariant::String;
-      else if ( type.lower() == "qdatetime" )
-          t = QVariant::DateTime;
-      else
-          kdWarning() << "Unsupported ExtraType '" << type << "'" << endl;
+      const QVariant::Type type = static_cast<QVariant::Type>( (*extraFieldsIt).type ); // ## TODO use when sorting
       confColumns[extraIndex++].setData( column, QString("Extra%1").arg(num), KIO::UDS_EXTRA, t, 0);
    }
 
