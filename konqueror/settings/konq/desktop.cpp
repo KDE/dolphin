@@ -141,8 +141,8 @@ KDesktopConfig::KDesktopConfig(KInstance *inst, QWidget *parent)
   }
   else
   {
-     KConfigGroupSaver cfgSaver(&config, groupname);
-     if (config.entryIsImmutable("Number"))
+     KConfigGroup cfgGroup(&config, groupname);
+     if (cfgGroup.entryIsImmutable("Number"))
      {
         number_group->setEnabled(false);
      }
@@ -170,16 +170,16 @@ void KDesktopConfig::load()
     _nameInput[i-1]->setEnabled(i <= n);
   emit changed(false);
 
-  KConfig *config = new KConfig("kdesktoprc", false, false);
-  config->setGroup("Mouse Buttons");
-  _wheelOption->setChecked(config->readBoolEntry("WheelSwitchesWorkspace",false));
+  KConfig *desktopConfig = new KConfig("kdesktoprc", false, false);
+  desktopConfig->setGroup("Mouse Buttons");
+  _wheelOption->setChecked(desktopConfig->readBoolEntry("WheelSwitchesWorkspace",false));
 
-  _wheelOptionImmutable = config->entryIsImmutable("WheelSwitchesWorkspace");
+  _wheelOptionImmutable = desktopConfig->entryIsImmutable("WheelSwitchesWorkspace");
 
   if (_wheelOptionImmutable || n<2)
      _wheelOption->setEnabled(false);
 
-  delete config;
+  delete desktopConfig;
 }
 
 void KDesktopConfig::save()
@@ -197,10 +197,10 @@ void KDesktopConfig::save()
 
   XSync(QX11Info::display(), FALSE);
 
-  KConfig *config = new KConfig("kdesktoprc");
-  config->setGroup("Mouse Buttons");
-  config->writeEntry("WheelSwitchesWorkspace", _wheelOption->isChecked());
-  delete config;
+  KConfig *desktopConfig = new KConfig("kdesktoprc");
+  desktopConfig->setGroup("Mouse Buttons");
+  desktopConfig->writeEntry("WheelSwitchesWorkspace", _wheelOption->isChecked());
+  delete desktopConfig;
 
   // Tell kdesktop about the new config file
   if ( !kapp->dcopClient()->isAttached() )

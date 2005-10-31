@@ -143,7 +143,7 @@ void DesktopPathConfig::defaults()
 void DesktopPathConfig::save()
 {
     KConfig *config = KGlobal::config();
-    KConfigGroupSaver cgs( config, "Paths" );
+    KConfigGroup configGroup( config, "Paths" );
 
     bool pathChanged = false;
     bool autostartMoved = false;
@@ -201,8 +201,8 @@ void DesktopPathConfig::save()
 
         if ( moveDir( KURL( KGlobalSettings::desktopPath() ), KURL( urlDesktop ), i18n("Desktop") ) )
         {
-//            config->writeEntry( "Desktop", urDesktop->url());
-            config->writePathEntry( "Desktop", urlDesktop, true, true );
+//            configGroup.writeEntry( "Desktop", urDesktop->url());
+            configGroup.writePathEntry( "Desktop", urlDesktop, true, true );
             pathChanged = true;
         }
     }
@@ -213,8 +213,8 @@ void DesktopPathConfig::save()
             autostartMoved = moveDir( KURL( KGlobalSettings::autostartPath() ), KURL( urAutostart->url() ), i18n("Autostart") );
         if (autostartMoved)
         {
-//            config->writeEntry( "Autostart", Autostart->url());
-            config->writePathEntry( "Autostart", urAutostart->url(), true, true );
+//            configGroup.writeEntry( "Autostart", Autostart->url());
+            configGroup.writePathEntry( "Autostart", urAutostart->url(), true, true );
             pathChanged = true;
         }
     }
@@ -235,7 +235,7 @@ void DesktopPathConfig::save()
 
         if (pathOk)
         {
-            config->writePathEntry( "Documents", path, true, true );
+            configGroup.writePathEntry( "Documents", path, true, true );
             pathChanged = true;
         }
     }

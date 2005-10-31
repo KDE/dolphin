@@ -235,7 +235,7 @@ void DesktopBehavior::fillMediaListView()
     mediaListView->clear();
     mediaListView->setRootIsDecorated(false);
     KMimeType::List mimetypes = KMimeType::allMimeTypes();
-    Q3ValueListIterator<KMimeType::Ptr> it2(mimetypes.begin());
+    KMimeType::List::const_iterator it2(mimetypes.begin());
     g_pConfig->setGroup( "Media" );
     enableMediaBox->setChecked(g_pConfig->readBoolEntry("enabled",false));
     QString excludedMedia=g_pConfig->readEntry("exclude","media/hdd_mounted,media/hdd_unmounted,media/floppy_unmounted,media/cdrom_unmounted,media/floppy5_unmounted");
