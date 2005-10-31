@@ -40,7 +40,7 @@ KServiceSelectDlg::KServiceSelectDlg( const QString& /*serviceType*/, const QStr
     // So we have to do it the slow way
     // ### Why can't we query for KParts/ReadOnlyPart as the servicetype? Should work fine!
     KService::List allServices = KService::allServices();
-    Q3ValueListIterator<KService::Ptr> it(allServices.begin());
+    KService::List::const_iterator it(allServices.begin());
     for ( ; it != allServices.end() ; ++it )
       if ( (*it)->hasServiceType( "KParts/ReadOnlyPart" ) )
       {

@@ -23,6 +23,7 @@
 
 #include <q3groupbox.h>
 #include <q3listbox.h>
+#include <kservice.h>
 class TypesListItem;
 class QLineEdit;
 class QPushButton;
@@ -31,7 +32,7 @@ class KService;
 class KServiceListItem : public Q3ListBoxText
 {
 public:
-    KServiceListItem(  KService *pService, int kind );
+    KServiceListItem( /*TODO const &*/ KService::Ptr pService, int kind );
     bool isImmutable();
     QString desktopPath;
     QString localPath;

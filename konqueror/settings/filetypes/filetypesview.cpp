@@ -176,7 +176,7 @@ void FileTypesView::readFileTypes()
 
     TypesListItem *groupItem;
     KMimeType::List mimetypes = KMimeType::allMimeTypes();
-    Q3ValueListIterator<KMimeType::Ptr> it2(mimetypes.begin());
+    KMimeType::List::const_iterator it2(mimetypes.begin());
     for (; it2 != mimetypes.end(); ++it2) {
 	QString mimetype = (*it2)->name();
 	int index = mimetype.find("/");

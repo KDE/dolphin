@@ -39,7 +39,7 @@
 #include <kpropertiesdialog.h>
 #include <kstandarddirs.h>
 
-KServiceListItem::KServiceListItem( KService *pService, int kind )
+KServiceListItem::KServiceListItem( KService::Ptr pService, int kind )
     : Q3ListBoxText(), desktopPath(pService->desktopEntryPath())
 {
     if ( kind == KServiceListWidget::SERVICELIST_APPLICATIONS )
