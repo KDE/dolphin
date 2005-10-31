@@ -49,7 +49,7 @@ KonqFMSettings * KonqFMSettings::settings()
   if (!s_pSettings)
   {
     KConfig *config = KGlobal::config();
-    KConfigGroupSaver cgs(config, "FMSettings");
+    KConfigGroup cgs(config, "FMSettings");
     s_pSettings = new KonqFMSettings(config);
   }
   return s_pSettings;
@@ -61,7 +61,7 @@ void KonqFMSettings::reparseConfiguration()
   if (s_pSettings)
   {
     KConfig *config = KGlobal::config();
-    KConfigGroupSaver cgs(config, "FMSettings");
+    KConfigGroup cgs(config, "FMSettings");
     s_pSettings->init( config );
   }
 }

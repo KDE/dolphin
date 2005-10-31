@@ -301,11 +301,11 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
       {
          // Check kmessagebox setting... erase & copy to konquerorrc.
          KConfig *config = kapp->config();
-         KConfigGroupSaver saver(config, "Notification Messages");
-         if (!config->readBoolEntry(keyName, true))
+         KConfigGroup saver(config, "Notification Messages");
+         if (!saver.readBoolEntry(keyName, true))
          {
-            config->writeEntry(keyName, true);
-            config->sync();
+            saver.writeEntry(keyName, true);
+            saver.sync();
             KConfig konq_config("konquerorrc", false);
             konq_config.setGroup( "Trash" );
             konq_config.writeEntry( keyName, false );
@@ -637,9 +637,9 @@ void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const KURL& 
     {
         kdDebug(1203) << "That rename was the Desktop path, updating config files" << endl;
         KConfig *globalConfig = KGlobal::config();
-        KConfigGroupSaver cgs( globalConfig, "Paths" );
-        globalConfig->writePathEntry("Desktop" , newurl.path(), true, true );
-        globalConfig->sync();
+        KConfigGroup cgs( globalConfig, "Paths" );
+        cgs.writePathEntry("Desktop" , newurl.path(), true, true );
+        cgs.sync();
         KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
     }
 }

@@ -83,38 +83,38 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
 {
 
   KConfig *config = instance->config();
-  KConfigGroupSaver cgs(config, "Settings");
+  KConfigGroup cgs(config, "Settings");
 
   d = new Private;
   d->previewsToShow = 0;
-  d->caseInsensitiveSort=config->readBoolEntry( "CaseInsensitiveSort", true );
+  d->caseInsensitiveSort=cgs.readBoolEntry( "CaseInsensitiveSort", true );
 
-  m_iIconSize = config->readNumEntry( "IconSize", 0 );
-  m_iItemTextPos = config->readNumEntry( "ItemTextPos", Qt::DockBottom );
-  d->sortcriterion = config->readEntry( "SortingCriterion", "sort_nci" );
-  d->dirsfirst = config->readBoolEntry( "SortDirsFirst", true );
-  d->descending = config->readBoolEntry( "SortDescending", false );
-  m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
-  m_bShowDirectoryOverlays = config->readBoolEntry( "ShowDirectoryOverlays", false );
+  m_iIconSize = cgs.readNumEntry( "IconSize", 0 );
+  m_iItemTextPos = cgs.readNumEntry( "ItemTextPos", Qt::DockBottom );
+  d->sortcriterion = cgs.readEntry( "SortingCriterion", "sort_nci" );
+  d->dirsfirst = cgs.readBoolEntry( "SortDirsFirst", true );
+  d->descending = cgs.readBoolEntry( "SortDescending", false );
+  m_bShowDot = cgs.readBoolEntry( "ShowDotFiles", false );
+  m_bShowDirectoryOverlays = cgs.readBoolEntry( "ShowDirectoryOverlays", false );
 
-  m_dontPreview = config->readListEntry( "DontPreview" );
+  m_dontPreview = cgs.readListEntry( "DontPreview" );
   m_dontPreview.remove("audio/"); //Use the separate setting.
   //We default to this off anyway, so it's no harm to remove this
 
   //The setting for sound previews is stored separately, so we can force
   //the default-to-off bias to propagate up.
-  if (!config->readBoolEntry("EnableSoundPreviews", false))
+  if (!cgs.readBoolEntry("EnableSoundPreviews", false))
   {
     if (!m_dontPreview.contains("audio/"))
       m_dontPreview.append("audio/");
   }
 
-  d->previewsEnabled = config->readBoolEntry( "PreviewsEnabled", true );
+  d->previewsEnabled = cgs.readBoolEntry( "PreviewsEnabled", true );
 
   QColor tc = KonqFMSettings::settings()->normalTextColor();
-  m_textColor = config->readColorEntry( "TextColor", &tc );
-  m_bgColor = config->readColorEntry( "BgColor" ); // will be set to QColor() if not found
-  m_bgPixmapFile = config->readPathEntry( "BgImage" );
+  m_textColor = cgs.readColorEntry( "TextColor", &tc );
+  m_bgColor = cgs.readColorEntry( "BgColor" ); // will be set to QColor() if not found
+  m_bgPixmapFile = cgs.readPathEntry( "BgImage" );
   //kdDebug(1203) << "KonqPropsView::KonqPropsView from \"config\" : BgImage=" << m_bgPixmapFile << endl;
 
   // colorsConfig is either the local file (.directory) or the application global file
@@ -123,7 +123,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   // So now we read the settings from the app global file, if this is the default props
   if (!defaultProps)
   {
-      KConfigGroupSaver cgs2(KGlobal::config(), "Settings");
+      KConfigGroup cgs2(KGlobal::config(), "Settings");
       m_textColor = KGlobal::config()->readColorEntry( "TextColor", &m_textColor );
       m_bgColor = KGlobal::config()->readColorEntry( "BgColor", &m_bgColor );
       m_bgPixmapFile = KGlobal::config()->readPathEntry( "BgImage", m_bgPixmapFile );
@@ -283,9 +283,9 @@ void KonqPropsView::setIconSize( int size )
         m_defaultProps->setIconSize( size );
     else if (currentConfig())
     {
-        KConfigGroupSaver cgs(currentConfig(), currentGroup());
-        currentConfig()->writeEntry( "IconSize", m_iIconSize );
-        currentConfig()->sync();
+        KConfigGroup cgs(currentConfig(), currentGroup());
+        cgs.writeEntry( "IconSize", m_iIconSize );
+        cgs.sync();
     }
 }
 
@@ -296,9 +296,9 @@ void KonqPropsView::setItemTextPos( int pos )
         m_defaultProps->setItemTextPos( pos );
     else if (currentConfig())
     {
-        KConfigGroupSaver cgs(currentConfig(), currentGroup());
-        currentConfig()->writeEntry( "ItemTextPos", m_iItemTextPos );
-        currentConfig()->sync();
+        KConfigGroup cgs(currentConfig(), currentGroup());
+        cgs.writeEntry( "ItemTextPos", m_iItemTextPos );
+        cgs.sync();
     }
 }
 
@@ -309,9 +309,9 @@ void KonqPropsView::setSortCriterion( const QString &criterion )
         m_defaultProps->setSortCriterion( criterion );
     else if (currentConfig())
     {
-        KConfigGroupSaver cgs(currentConfig(), currentGroup());
-        currentConfig()->writeEntry( "SortingCriterion", d->sortcriterion );
-        currentConfig()->sync();
+        KConfigGroup cgs(currentConfig(), currentGroup());
+        cgs.writeEntry( "SortingCriterion", d->sortcriterion );
+        cgs.sync();
     }
 }
 
@@ -322,9 +322,9 @@ void KonqPropsView::setDirsFirst( bool first)
         m_defaultProps->setDirsFirst( first );
     else if (currentConfig())
     {
-        KConfigGroupSaver cgs(currentConfig(), currentGroup());
-        currentConfig()->writeEntry( "SortDirsFirst", d->dirsfirst );
-        currentConfig()->sync();
+        KConfigGroup cgs(currentConfig(), currentGroup());
+        cgs.writeEntry( "SortDirsFirst", d->dirsfirst );
+        cgs.sync();
     }
 }
 
@@ -335,9 +335,9 @@ void KonqPropsView::setDescending( bool descend)
         m_defaultProps->setDescending( descend );
     else if (currentConfig())
     {
-        KConfigGroupSaver cgs(currentConfig(), currentGroup());
-        currentConfig()->writeEntry( "SortDescending", d->descending );
-        currentConfig()->sync();
+        KConfigGroup cgs(currentConfig(), currentGroup());
+        cgs.writeEntry( "SortDescending", d->descending );
+        cgs.sync();
     }
 }
 
@@ -353,9 +353,9 @@ void KonqPropsView::setShowingDotFiles( bool show )
     else if (currentConfig())
     {
         kdDebug(1203) << "Saving in current config" << endl;
-        KConfigGroupSaver cgs(currentConfig(), currentGroup());
-        currentConfig()->writeEntry( "ShowDotFiles", m_bShowDot );
-        currentConfig()->sync();
+        KConfigGroup cgs(currentConfig(), currentGroup());
+        cgs.writeEntry( "ShowDotFiles", m_bShowDot );
+        cgs.sync();
     }
 }
 
@@ -371,9 +371,9 @@ void KonqPropsView::setCaseInsensitiveSort( bool on )
     else if (currentConfig())
     {
         kdDebug(1203) << "Saving in current config" << endl;
-        KConfigGroupSaver cgs(currentConfig(), currentGroup());
-        currentConfig()->writeEntry( "CaseInsensitiveSort", d->caseInsensitiveSort );
-        currentConfig()->sync();
+        KConfigGroup cgs(currentConfig(), currentGroup());
+        cgs.writeEntry( "CaseInsensitiveSort", d->caseInsensitiveSort );
+        cgs.sync();
     }
 }
 
@@ -389,9 +389,9 @@ void KonqPropsView::setShowingDirectoryOverlays( bool show )
     else if (currentConfig())
     {
         kdDebug(1203) << "Saving in current config" << endl;
-        KConfigGroupSaver cgs(currentConfig(), currentGroup());
-        currentConfig()->writeEntry( "ShowDirectoryOverlays", m_bShowDirectoryOverlays );
-        currentConfig()->sync();
+        KConfigGroup cgs(currentConfig(), currentGroup());
+        cgs.writeEntry( "ShowDirectoryOverlays", m_bShowDirectoryOverlays );
+        cgs.sync();
     }
 }
 
@@ -407,7 +407,7 @@ void KonqPropsView::setShowingPreview( const QString &preview, bool show )
         m_defaultProps->setShowingPreview( preview, show );
     else if (currentConfig())
     {
-        KConfigGroupSaver cgs(currentConfig(), currentGroup());
+        KConfigGroup cgs(currentConfig(), currentGroup());
 
         //Audio is special-cased, as we use a binary setting
         //for it to get it to follow the defaults right.
@@ -416,9 +416,9 @@ void KonqPropsView::setShowingPreview( const QString &preview, bool show )
         //Don't write it out into the DontPreview line
         if (!audioEnabled)
             m_dontPreview.remove("audio/");
-        currentConfig()->writeEntry( "DontPreview", m_dontPreview );
-        currentConfig()->writeEntry( "EnableSoundPreviews", audioEnabled );
-        currentConfig()->sync();
+        cgs.writeEntry( "DontPreview", m_dontPreview );
+        cgs.writeEntry( "EnableSoundPreviews", audioEnabled );
+        cgs.sync();
         if (!audioEnabled)
             m_dontPreview.append("audio/");
 
@@ -440,9 +440,9 @@ void KonqPropsView::setShowingPreview( bool show )
     else if (currentConfig())
     {
         kdDebug(1203) << "Saving in current config" << endl;
-        KConfigGroupSaver cgs(currentConfig(), currentGroup());
-        currentConfig()->writeEntry( "PreviewsEnabled", d->previewsEnabled );
-        currentConfig()->sync();
+        KConfigGroup cgs(currentConfig(), currentGroup());
+        cgs.writeEntry( "PreviewsEnabled", d->previewsEnabled );
+        cgs.sync();
     }
 
     delete d->previewsToShow;
@@ -466,9 +466,9 @@ void KonqPropsView::setBgColor( const QColor & color )
         KConfigBase * colorConfig = currentColorConfig();
         if (colorConfig) // 0L when saving locally but remote URL
         {
-            KConfigGroupSaver cgs(colorConfig, currentGroup());
-            colorConfig->writeEntry( "BgColor", m_bgColor );
-            colorConfig->sync();
+            KConfigGroup cgs(colorConfig, currentGroup());
+          	cgs.writeEntry( "BgColor", m_bgColor );
+         	cgs.sync();
         }
     }
 }
@@ -493,9 +493,9 @@ void KonqPropsView::setTextColor( const QColor & color )
         KConfigBase * colorConfig = currentColorConfig();
         if (colorConfig) // 0L when saving locally but remote URL
         {
-            KConfigGroupSaver cgs(colorConfig, currentGroup());
-            colorConfig->writeEntry( "TextColor", m_textColor );
-            colorConfig->sync();
+            KConfigGroup cgs(colorConfig, currentGroup());
+            cgs.writeEntry( "TextColor", m_textColor );
+            cgs.sync();
         }
     }
 }
@@ -521,9 +521,9 @@ void KonqPropsView::setBgPixmapFile( const QString & file )
         KConfigBase * colorConfig = currentColorConfig();
         if (colorConfig) // 0L when saving locally but remote URL
         {
-            KConfigGroupSaver cgs(colorConfig, currentGroup());
-            colorConfig->writePathEntry( "BgImage", file );
-            colorConfig->sync();
+            KConfigGroup cgs(colorConfig, currentGroup());
+            cgs.writePathEntry( "BgImage", file );
+            cgs.sync();
         }
     }
 }

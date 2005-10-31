@@ -44,10 +44,10 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
 
     // defaults
     KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, "HistorySettings" );
-    m_maxCount = config->readNumEntry( "Maximum of History entries", 500 );
+    KConfigGroup cs( config, "HistorySettings" );
+    m_maxCount = cs.readNumEntry( "Maximum of History entries", 500 );
     m_maxCount = qMax( (quint32)1, m_maxCount );
-    m_maxAgeDays = config->readNumEntry( "Maximum age of History entries", 90);
+    m_maxAgeDays = cs.readNumEntry( "Maximum age of History entries", 90);
 
     m_history.setAutoDelete( true );
     m_filename = locateLocal( "data",
@@ -494,12 +494,12 @@ void KonqHistoryManager::notifyMaxCount( quint32 count, Q3CString )
     adjustSize();
 
     KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, "HistorySettings" );
-    config->writeEntry( "Maximum of History entries", m_maxCount );
+    KConfigGroup cs( config, "HistorySettings" );
+    cs.writeEntry( "Maximum of History entries", m_maxCount );
 
     if ( isSenderOfBroadcast() ) { 
 	saveHistory();
-	config->sync();
+	cs.sync();
     }
 }
 
@@ -510,12 +510,12 @@ void KonqHistoryManager::notifyMaxAge( quint32 days, Q3CString  )
     adjustSize();
 
     KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, "HistorySettings" );
-    config->writeEntry( "Maximum age of History entries", m_maxAgeDays );
+    KConfigGroup cs( config, "HistorySettings" );
+    cs.writeEntry( "Maximum age of History entries", m_maxAgeDays );
 
     if ( isSenderOfBroadcast() ) { 
 	saveHistory();
-	config->sync();
+	cs.sync();
     }
 }
 
