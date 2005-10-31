@@ -467,7 +467,7 @@ void KonqKfmIconView::slotPreview( bool toggle )
                 else
                 {
                     KService::Ptr serv = KService::serviceByDesktopName( *it );
-                    Q_ASSERT( serv != 0L );
+                    Q_ASSERT( serv );
                     if ( serv ) {
                         bool previewRunning = m_pIconView->isPreviewRunning();
                         if ( previewRunning )

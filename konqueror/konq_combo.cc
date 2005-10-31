@@ -106,7 +106,7 @@ public:
 
 KonqCombo::KonqCombo( QWidget *parent )
           : KHistoryCombo( parent ),
-            m_returnPressed( false ), 
+            m_returnPressed( false ),
             m_permanent( false ),
             m_modifier( Qt::NoButton ),
 	    m_pageSecurity( KonqMainWindow::NotCrypted )
@@ -116,8 +116,8 @@ KonqCombo::KonqCombo( QWidget *parent )
 
     Q_ASSERT( s_config );
 
-    KConfigGroupSaver cs( s_config, "Location Bar" );
-    setMaxCount( s_config->readNumEntry("Maximum of URLs in combo", 20 ));
+    KConfigGroup locationBarGroup( s_config, "Location Bar" );
+    setMaxCount( locationBarGroup.readNumEntry("Maximum of URLs in combo", 20 ));
 
     // We should also connect the completionBox' highlighted signal to
     // our setEditText() slot, because we're handling the signals ourselves.
@@ -163,7 +163,7 @@ void KonqCombo::setURL( const QString& url )
     setTemporary( url );
 
     if ( m_returnPressed ) { // Really insert...
-        m_returnPressed = false;      
+        m_returnPressed = false;
         QByteArray data;
         QDataStream s( &data, QIODevice::WriteOnly );
 
@@ -206,7 +206,7 @@ void KonqCombo::removeDuplicates( int index )
       url.truncate(url.length()-1);
 
     // Remove all dupes, if available...
-    for ( int i = index; i < count(); i++ ) 
+    for ( int i = index; i < count(); i++ )
     {
         QString item (text(i));
         if (item.endsWith("/"))
@@ -243,7 +243,7 @@ void KonqCombo::applyPermanent()
         //kdDebug(1202) << "KonqCombo::applyPermanent: " << url << endl;
 
         // Remove all duplicates starting from index = 2
-        removeDuplicates( 2 );       
+        removeDuplicates( 2 );
         m_permanent = false;
     }
 }
@@ -271,7 +271,7 @@ void KonqCombo::updateItem( const QPixmap& pix, const QString& t, int index, con
     //               << index << "'" << endl;
 
     // QComboBox::changeItem() doesn't honour the pixmap when
-    // using an editable combobox, so we just remove and insert    
+    // using an editable combobox, so we just remove and insert
     // ### use QComboBox::changeItem(), once that finally works
     // Well lets try it now as it seems to work fine for me. We
     // can always revert :)
@@ -325,11 +325,11 @@ void KonqCombo::loadItems()
     clear();
     int i = 0;
 
-    s_config->setGroup( "History" ); // delete the old 2.0.x completion
-    s_config->writeEntry( "CompletionItems", "unused" );
+    KConfigGroup historyConfigGroup( s_config, "History" ); // delete the old 2.0.x completion
+    historyConfigGroup.writeEntry( "CompletionItems", "unused" );
 
-    s_config->setGroup( "Location Bar" );
-    QStringList items = s_config->readPathListEntry( "ComboContents" );
+    KConfigGroup locationBarGroup( s_config, "Location Bar" );
+    const QStringList items = locationBarGroup.readPathListEntry( "ComboContents" );
     QStringList::ConstIterator it = items.begin();
     QString item;
     bool first = true;
@@ -357,7 +357,7 @@ void KonqCombo::slotSetIcon( int index )
     if( pixmap( index ).isNull())
         // on-demand icon loading
         updateItem( KonqPixmapProvider::self()->pixmapFor( text( index ),
-                    KIcon::SizeSmall ), text( index ), index, 
+                    KIcon::SizeSmall ), text( index ), index,
                     titleOfURL( text( index ) ) );
     update();
 }
@@ -395,9 +395,9 @@ void KonqCombo::saveItems()
     for ( ; i < count(); i++ )
         items.append( text( i ) );
 
-    s_config->setGroup( "Location Bar" );
-    s_config->writePathEntry( "ComboContents", items );
-    KonqPixmapProvider::self()->save( s_config, "ComboIconCache", items );
+    KConfigGroup locationBarGroup( s_config, "Location Bar" );
+    locationBarGroup.writePathEntry( "ComboContents", items );
+    KonqPixmapProvider::self()->save( locationBarGroup, "ComboIconCache", items );
 
     s_config->sync();
 }
@@ -453,23 +453,23 @@ void KonqCombo::keyPressEvent( QKeyEvent *e )
          setTemporary( currentText() );
 }
 
-/* 
+/*
    Handle Ctrl+Cursor etc better than the Qt widget, which always
    jumps to the next whitespace. This code additionally jumps to
-   the next [/#?:], which makes more sense for URLs. The list of 
+   the next [/#?:], which makes more sense for URLs. The list of
    chars that will stop the cursor are '/', '.', '?', '#', ':'.
 */
 void KonqCombo::selectWord(QKeyEvent *e)
 {
-    QLineEdit* edit = lineEdit();    
+    QLineEdit* edit = lineEdit();
     QString text = edit->text();
     int pos = edit->cursorPosition();
     int pos_old = pos;
-    int count = 0;  
+    int count = 0;
 
     // TODO: make these a parameter when in kdelibs/kdeui...
     Q3ValueList<QChar> chars;
-    chars << QChar('/') << QChar('.') << QChar('?') << QChar('#') << QChar(':');    
+    chars << QChar('/') << QChar('.') << QChar('?') << QChar('#') << QChar(':');
     bool allow_space_break = true;
 
     if( e->key() == Qt::Key_Left || e->key() == Qt::Key_Backspace ) {
@@ -482,7 +482,7 @@ void KonqCombo::selectWord(QKeyEvent *e)
 
         if( e->modifiers() & Qt::ShiftModifier ) {
                   edit->cursorForward(true, 1-count);
-        } 
+        }
         else if(  e->key() == Qt::Key_Backspace ) {
             edit->cursorForward(false, 1-count);
             QString text = edit->text();
@@ -490,11 +490,11 @@ void KonqCombo::selectWord(QKeyEvent *e)
             QString cut = text.left(edit->cursorPosition()) + text.right(pos_to_right);
             edit->setText(cut);
             edit->setCursorPosition(pos_old-count+1);
-        } 
+        }
         else {
             edit->cursorForward(false, 1-count);
         }
-     } 
+     }
      else if( e->key() == Qt::Key_Right || e->key() == Qt::Key_Delete ){
         do {
             pos++;
@@ -505,7 +505,7 @@ void KonqCombo::selectWord(QKeyEvent *e)
 
         if( e->modifiers() & Qt::ShiftModifier ) {
             edit->cursorForward(true, count+1);
-        } 
+        }
         else if(  e->key() == Qt::Key_Delete ) {
             edit->cursorForward(false, -count-1);
             QString text = edit->text();
@@ -514,7 +514,7 @@ void KonqCombo::selectWord(QKeyEvent *e)
                (pos_to_right > 0 ? text.right(pos_to_right) : QString::null );
             edit->setText(cut);
             edit->setCursorPosition(pos_old);
-        } 
+        }
         else {
             edit->cursorForward(false, count+1);
         }
@@ -620,7 +620,7 @@ void KonqCombo::paintEvent( QPaintEvent *pe )
     QRect re = style()->subControlRect( QStyle::CC_ComboBox, &comboOpt,
                                         QStyle::SC_ComboBoxEditField, this );
     re = QStyle::visualRect(layoutDirection(), rect(), re);
-    
+
     if ( m_pageSecurity!=KonqMainWindow::NotCrypted ) {
         QColor color(245, 246, 190);
         bool useColor = hasSufficientContrast(color,edit->paletteForegroundColor());
@@ -643,7 +643,7 @@ void KonqCombo::paintEvent( QPaintEvent *pe )
 	    edit->setPaletteBackgroundColor( color );
 
         pix = SmallIcon( m_pageSecurity==KonqMainWindow::Encrypted ? "encrypted" : "halfencrypted" );
-        p.fillRect( re.right() - pix.width() - 3 , re.y(), pix.width() + 4, re.height(), 
+        p.fillRect( re.right() - pix.width() - 3 , re.y(), pix.width() + 4, re.height(),
 		    QBrush( useColor ? color : edit->paletteBackgroundColor() ));
         p.drawPixmap( re.right() - pix.width() -1 , re.y() + ( re.height() - pix.height() ) / 2, pix );
         p.setClipping( FALSE );
@@ -745,7 +745,7 @@ void KonqComboListBoxPixmap::paint( QPainter *painter )
 
     if ( !text().isEmpty() ) {
         QString squeezedText = KStringHandler::rPixelSqueeze( text(), listBox()->fontMetrics(), urlWidth );
-        painter->drawText( pmWidth, 0, urlWidth + pmWidth, itemHeight, 
+        painter->drawText( pmWidth, 0, urlWidth + pmWidth, itemHeight,
                            Qt::AlignLeft | Qt::AlignTop, squeezedText );
 
         //painter->setPen( KGlobalSettings::inactiveTextColor() );

@@ -57,8 +57,8 @@ KonqSidebarHistoryModule::KonqSidebarHistoryModule( KonqSidebarTree * parentTree
     m_currentTime = QDateTime::currentDateTime();
 
     KConfig *kc = KGlobal::config();
-    KConfigGroupSaver cs( kc, "HistorySettings" );
-    m_sortsByName = kc->readEntry( "SortHistory", "byDate" ) == "byName";
+    KConfigGroup cs( kc, "HistorySettings" );
+    m_sortsByName = cs.readEntry( "SortHistory", "byDate" ) == "byName";
 
 
     KonqHistoryManager *manager = KonqHistoryManager::kself();
@@ -112,8 +112,8 @@ KonqSidebarHistoryModule::~KonqSidebarHistoryModule()
     }
 
     KConfig *kc = KGlobal::config();
-    KConfigGroupSaver cs( kc, "HistorySettings" );
-    kc->writeEntry("OpenGroups", openGroups);
+    KConfigGroup cs( kc, "HistorySettings" );
+    cs.writeEntry("OpenGroups", openGroups);
     kc->sync();
 }
 
@@ -144,8 +144,8 @@ void KonqSidebarHistoryModule::slotCreateItems()
     }
 
     KConfig *kc = KGlobal::config();
-    KConfigGroupSaver cs( kc, "HistorySettings" );
-    QStringList openGroups = kc->readListEntry("OpenGroups");
+    KConfigGroup cs( kc, "HistorySettings" );
+    QStringList openGroups = cs.readListEntry("OpenGroups");
     QStringList::Iterator it2 = openGroups.begin();
     KonqSidebarHistoryGroupItem *group;
     while ( it2 != openGroups.end() ) {
@@ -298,8 +298,8 @@ void KonqSidebarHistoryModule::sortingChanged()
     m_topLevelItem->sort();
 
     KConfig *kc = KGlobal::config();
-    KConfigGroupSaver cs( kc, "HistorySettings" );
-    kc->writeEntry( "SortHistory", m_sortsByName ? "byName" : "byDate" );
+    KConfigGroup cs( kc, "HistorySettings" );
+    cs.writeEntry( "SortHistory", m_sortsByName ? "byName" : "byDate" );
     kc->sync();
 }
 

@@ -231,7 +231,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
       if ( lstColumns.find(column) == lstColumns.end() )
          lstColumns << column;
       const QVariant::Type type = static_cast<QVariant::Type>( (*extraFieldsIt).type ); // ## TODO use when sorting
-      confColumns[extraIndex++].setData( column, QString("Extra%1").arg(num), KIO::UDS_EXTRA, t, 0);
+      confColumns[extraIndex++].setData( column, QString("Extra%1").arg(num), KIO::UDS_EXTRA, type, 0);
    }
 
    //disable everything

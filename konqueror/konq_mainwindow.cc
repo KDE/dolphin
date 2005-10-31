@@ -221,8 +221,8 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   if ( !s_comboConfig ) {
       s_comboConfig = new KConfig( "konq_history", false, false );
       KonqCombo::setConfig( s_comboConfig );
-      s_comboConfig->setGroup( "Location Bar" );
-      prov->load( s_comboConfig, "ComboIconCache" );
+      KConfigGroup locationBarGroup( s_comboConfig, "Location Bar" );
+      prov->load( locationBarGroup, "ComboIconCache" );
   }
   connect( prov, SIGNAL( changed() ), SLOT( slotIconsChanged() ) );
 
@@ -1406,7 +1406,7 @@ void KonqMainWindow::slotOpenTerminal()
   QStringList args = QStringList::split(' ', term);
   for ( QStringList::iterator it = args.begin(); it != args.end(); ++it )
     cmd << *it;
-  
+
   kdDebug(1202) << "slotOpenTerminal: directory " << dir
 		<< ", terminal:" << term << endl;
   cmd.start(KProcess::DontCare);
@@ -3374,7 +3374,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
     KParts::BrowserExtension * ext = 0;
     if ( m_currentView )
         ext = m_currentView->browserExtension();
-    
+
     const QMetaObject* slotMetaObject = 0;
     if (ext)
       slotMetaObject = ext->metaObject();
@@ -3583,7 +3583,7 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
 #ifdef __GNUC__
 #warning "Dunno how to port this, is the workaround still needed?"
 #endif
-                (  Qt::Window );
+//                (  Qt::Window );
     setAttribute( Qt::WA_DeleteOnClose );
 
 #if 0 //### KDE4: is this still relevant?
@@ -3591,7 +3591,7 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
     setAcceptDrops( FALSE );
     topData()->dnd = 0;
     setAcceptDrops( TRUE );
-#endif 
+#endif
   }
 }
 
@@ -4948,7 +4948,7 @@ void KonqMainWindow::updateViewModeActions()
   QMap<QString,QString> preferredServiceMap;
 
   KConfig * config = KGlobal::config();
-  config->setGroup( "ModeToolBarServices" );
+  KConfigGroup barServicesGroup( config, "ModeToolBarServices" );
 
   KTrader::OfferList::ConstIterator it = services.begin();
   KTrader::OfferList::ConstIterator end = services.end();
@@ -5010,7 +5010,7 @@ void KonqMainWindow::updateViewModeActions()
           {
               // if we don't have it in the map, we should look for a setting
               // for this library in the config file.
-              QString preferredService = config->readEntry( library );
+              QString preferredService = barServicesGroup.readEntry( library );
               if ( !preferredService.isEmpty() && name != preferredService.toLatin1() )
               {
                   //kdDebug(1202) << " Inserting into preferredServiceMap(" << library << ") : " << preferredService << endl;
@@ -5085,10 +5085,10 @@ void KonqMainWindow::saveToolBarServicesMap()
     QMap<QString,KService::Ptr>::ConstIterator serviceIt = m_viewModeToolBarServices.begin();
     QMap<QString,KService::Ptr>::ConstIterator serviceEnd = m_viewModeToolBarServices.end();
     KConfig * config = KGlobal::config();
-    config->setGroup( "ModeToolBarServices" );
+    KConfigGroup barServicesGroup( config, "ModeToolBarServices" );
     for ( ; serviceIt != serviceEnd ; ++serviceIt )
-        config->writeEntry( serviceIt.key(), serviceIt.data()->desktopEntryName() );
-    config->sync();
+        barServicesGroup.writeEntry( serviceIt.key(), serviceIt.data()->desktopEntryName() );
+    barServicesGroup.sync();
 }
 
 void KonqMainWindow::plugViewModeActions()
@@ -5137,7 +5137,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
       if ( tabContainer->count() > 1 )
       {
         KConfig *config = KGlobal::config();
-        KConfigGroupSaver cs( config, QLatin1String("Notification Messages") );
+        KConfigGroup cs( config, QLatin1String("Notification Messages") );
 
         if ( !config->hasKey( "MultipleTabConfirm" ) )
         {
@@ -5668,7 +5668,7 @@ void KonqMainWindow::resetWindow()
 		     PropModeReplace, (unsigned char *) &x_time, 1);
     // reset also user time, so that this window won't have _NET_WM_USER_TIME set
     QX11Info::setAppUserTime(CurrentTime);
-    
+
     static Atom atom3 = XInternAtom( QX11Info::display(), "_NET_WM_USER_TIME", False );
     XDeleteProperty( QX11Info::display(), winId(), atom3 );
 // Qt remembers the iconic state if the window was withdrawn while on another virtual desktop

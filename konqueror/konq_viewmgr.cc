@@ -367,13 +367,13 @@ KonqView* KonqViewManager::addTabFromHistory( int steps, bool openAfterCurrentPa
   int oldPos = m_pMainWindow->currentView()->historyPos();
   int newPos = oldPos + steps;
 
-  const HistoryEntry * he = m_pMainWindow->currentView()->historyAt(newPos);  
+  const HistoryEntry * he = m_pMainWindow->currentView()->historyAt(newPos);
   if(!he)
       return 0L;
 
   KonqView* newView = 0L;
   newView  = addTab( he->strServiceType, he->strServiceName, false, openAfterCurrentPage );
-    
+
   if(!newView)
       return 0L;
 
@@ -1583,8 +1583,8 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
 
     int index = cfg.readNumEntry( QString::fromLatin1( "activeChildIndex" ).prepend(prefix), -1 );
 
-    Q3StrList childList;
-    if( cfg.readListEntry( QString::fromLatin1( "Children" ).prepend( prefix ), childList ) < 2 )
+    QStringList childList = cfg.readListEntry( QString::fromLatin1( "Children" ).prepend( prefix ) );
+    if( childList.count() < 2 )
     {
       kdWarning() << "Profile Loading Error: Less than two children in " << name << endl;
       // fallback to defaults
@@ -1594,9 +1594,9 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     {
       KonqFrameContainer *newContainer = new KonqFrameContainer( o, parent->widget(), parent );
       connect(newContainer,SIGNAL(ctrlTabPressed()),m_pMainWindow,SLOT(slotCtrlTabPressed()));
-      
+
       int tabindex = -1;
-      if(openAfterCurrentPage && parent->frameType() == "Tabs") // Need to honor it, if possible      
+      if(openAfterCurrentPage && parent->frameType() == "Tabs") // Need to honor it, if possible
 	tabindex = static_cast<KonqFrameTabs*>(parent)->currentPageIndex() + 1;
       parent->insertChildFrame( newContainer, tabindex );
 

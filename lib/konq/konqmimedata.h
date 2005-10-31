@@ -30,7 +30,8 @@ public:
     /**
      * Populate a QMimeData with urls, and whether they were cut or copied.
      *
-     * @param kdeURLs list of urls (which can include kde-specific protocols)
+     * @param kdeURLs list of urls (which can include kde-specific protocols).
+     * This list can be empty if only local urls are being used anyway.
      * @param mostLocalURLs "most local urls" (which try to resolve those to file:/ where possible),
      * @param cut if true, the user selected "cut" (saved as application/x-kde-cutselection in the mimedata).
      */

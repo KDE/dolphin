@@ -20,15 +20,15 @@
 #ifndef KONQ_PIXMAPPROVIDER_H
 #define KONQ_PIXMAPPROVIDER_H
 
-#include <qmap.h>
-//Added by qt3to4:
-#include <QPixmap>
-
 #include <kpixmapprovider.h>
 #include "konq_faviconmgr.h"
 
 #include <libkonq_export.h>
 
+#include <qmap.h>
+#include <QPixmap>
+
+class KConfigGroup;
 class KConfig;
 
 class LIBKONQ_EXPORT KonqPixmapProvider : public KonqFavIconMgr, virtual public KPixmapProvider
@@ -44,14 +44,14 @@ public:
     virtual QPixmap pixmapFor( const QString& url, int size = 0 );
 
     /**
-     * Loads the cache to @p kc from the current KConfig-group from key @p key.
+     * Loads the cache to @p kc from key @p key.
      */
-    void load( KConfig * kc, const QString& key );
+    void load( KConfigGroup& kc, const QString& key );
     /**
-     * Saves the cache to @p kc into the current KConfig-group as key @p key.
+     * Saves the cache to @p kc as key @p key.
      * Only those @p items are saved, otherwise the cache would grow forever.
      */
-    void save( KConfig *, const QString& key, const QStringList& items );
+    void save( KConfigGroup& kc, const QString& key, const QStringList& items );
 
     /**
      * Clears the pixmap cache

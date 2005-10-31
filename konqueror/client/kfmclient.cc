@@ -226,10 +226,10 @@ static bool startNewKonqueror( QString url, QString mimetype, const QString& pro
 	mimetype = KMimeType::findByURL( KURL( url ) )->name();
     KTrader::OfferList offers = KTrader::self()->query( mimetype, QLatin1String( "KParts/ReadOnlyPart" ),
 	QString::null, QString::null );
-    KService::Ptr serv;
+    KService::Ptr serv = 0;
     if( offers.count() > 0 )
         serv = offers.first();
-    return serv == NULL || !allowed_parts.contains( serv->desktopEntryName() + QLatin1String(".desktop") );
+    return !serv || !allowed_parts.contains( serv->desktopEntryName() + QLatin1String(".desktop") );
 }
 
 static int currentScreen()

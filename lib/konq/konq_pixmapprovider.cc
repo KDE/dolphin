@@ -40,7 +40,7 @@ KonqPixmapProvider * KonqPixmapProvider::self()
 }
 
 KonqPixmapProvider::KonqPixmapProvider( QObject *parent, const char *name )
-    : KPixmapProvider(), 
+    : KPixmapProvider(),
       KonqFavIconMgr( parent, name )
 {
 }
@@ -92,11 +92,11 @@ QPixmap KonqPixmapProvider::pixmapFor( const QString& url, int size )
     return loadIcon( url, iconNameFor( url ), size );
 }
 
-void KonqPixmapProvider::load( KConfig *kc, const QString& key )
+void KonqPixmapProvider::load( KConfigGroup& kc, const QString& key )
 {
     iconMap.clear();
     QStringList list;
-    list = kc->readPathListEntry( key );
+    list = kc.readPathListEntry( key );
     QStringList::Iterator it = list.begin();
     QString url, icon;
     while ( it != list.end() ) {
@@ -112,7 +112,7 @@ void KonqPixmapProvider::load( KConfig *kc, const QString& key )
 
 // only saves the cache for the given list of items to prevent the cache
 // from growing forever.
-void KonqPixmapProvider::save( KConfig *kc, const QString& key,
+void KonqPixmapProvider::save( KConfigGroup& kc, const QString& key,
 			       const QStringList& items )
 {
     QStringList list;
@@ -127,7 +127,7 @@ void KonqPixmapProvider::save( KConfig *kc, const QString& key,
 
 	++it;
     }
-    kc->writePathEntry( key, list );
+    kc.writePathEntry( key, list );
 }
 
 void KonqPixmapProvider::notifyChange( bool isHost, QString hostOrURL,
