@@ -429,7 +429,7 @@ void KfindTabWidget::initMimeTypes()
     for ( KMimeType::List::ConstIterator it = tmp.begin();
           it != tmp.end(); ++it )
     {
-      KMimeType * type = *it;
+	  const KMimeType*type = (*it).data();
       if ((!type->comment().isEmpty())
          && (!type->name().startsWith("kdedevice/"))
          && (!type->name().startsWith("all/")))
@@ -448,7 +448,7 @@ void KfindTabWidget::initSpecialMimeTypes()
 
     for ( KMimeType::List::ConstIterator it = tmp.begin(); it != tmp.end(); ++it )
     {
-      KMimeType * type = *it;
+	  const KMimeType* type = (*it).data();
 
       if(!type->comment().isEmpty()) {
         if(type->name().startsWith("image/"))
