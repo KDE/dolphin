@@ -516,12 +516,13 @@ QString KShortURIFilter::configName() const
 
 void KShortURIFilter::configure()
 {
+  KConfig config( name() + QFL1("rc"), false, false );
+  m_bVerbose = config.readBoolEntry( "Verbose", false );
+
   if ( m_bVerbose )
     kdDebug() << "KShortURIFilter::configure: Config reload request..." << endl;
 
-  KConfig config( name() + QFL1("rc"), false, false );
   m_strDefaultProtocol = config.readEntry( "DefaultProtocol", QFL1("http://") );
-  m_bVerbose = config.readBoolEntry( "Verbose", false );
   EntryMap patterns = config.entryMap( QFL1("Pattern") );
   const EntryMap protocols = config.entryMap( QFL1("Protocol") );
   config.setGroup("Type");
