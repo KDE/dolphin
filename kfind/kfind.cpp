@@ -27,7 +27,7 @@
 
 #include <kpushbutton.h>
 #include <qlayout.h>
-#include <q3vbox.h>
+#include <kvbox.h>
 
 #include <kdialog.h>
 #include <kdebug.h>
@@ -64,7 +64,7 @@ Kfind::Kfind(QWidget *parent, const char *name)
   */
 
   // create button box
-  Q3VBox * mButtonBox = new Q3VBox( this );
+  KVBox * mButtonBox = new KVBox( this );
   QVBoxLayout *lay = (QVBoxLayout*)mButtonBox->layout();
   lay->addStretch(1);
   mTopLayout->addWidget(mButtonBox);
