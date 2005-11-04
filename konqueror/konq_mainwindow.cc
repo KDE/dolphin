@@ -2562,7 +2562,7 @@ void KonqMainWindow::slotAddTab()
   KonqView* newView = m_pViewManager->addTab(QString::null,
                                              QString::null,
                                              false,
-                                             false);
+                                             KonqSettings::openAfterCurrentPage());
   if (newView == 0L) return;
   openURL( newView, KURL("about:blank"),QString::null);
   m_pViewManager->showTab( newView );
