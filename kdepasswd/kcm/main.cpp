@@ -212,7 +212,7 @@ void KCMUserAccount::save()
 	/* Save realname to /etc/passwd */
 	if ( _mw->leRealname->isModified() )
 	{
-		Q3CString password;
+		QByteArray password;
 		int ret = KPasswordDialog::getPassword( _mw, password, i18n("Please enter "
 			"your password in order to save your settings:"));
 
