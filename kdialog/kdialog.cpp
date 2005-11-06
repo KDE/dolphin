@@ -303,10 +303,14 @@ static int directCommand(KCmdLineArgs *args)
 	timer->start( duration, true );
 
 #ifdef Q_WS_X11
-	if ( ! kapp->geometryArgument().isEmpty()) {
+	QString geometry;
+	KCmdLineArgs *args = KCmdLineArgs::parsedArgs("kde");
+	if (args && args->isSet("geometry"))
+		geometry = args->getOption("geometry");
+	if ( !geometry.isEmpty()) {
 	    int x, y;
 	    int w, h;
-	    int m = XParseGeometry( kapp->geometryArgument().latin1(), &x, &y, (unsigned int*)&w, (unsigned int*)&h);
+	    int m = XParseGeometry( geometry.latin1(), &x, &y, (unsigned int*)&w, (unsigned int*)&h);
 	    if ( (m & XNegative) )
 		x = KApplication::desktop()->width()  + x - w;
 	    if ( (m & YNegative) )
