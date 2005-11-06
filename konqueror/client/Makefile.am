@@ -13,7 +13,7 @@ noinst_HEADERS = kfmclient.h
 METASOURCES = AUTO
 
 KonquerorIface_DIR =  $(srcdir)/..
-KDesktopIface_DIR = $(top_srcdir)/kdesktop
+KDesktopIface_DIR = $(top_srcdir)/workspace/kdesktop
 
 messages:
 	$(XGETTEXT) -kaliasLocal *.h *.cc -o $(podir)/kfmclient.pot
