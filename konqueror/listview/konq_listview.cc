@@ -176,7 +176,7 @@ void ListViewBrowserExtension::rename()
      QString pattern;
      KMimeType::diagnoseFileName( txt, pattern );
      if (!pattern.isEmpty() && pattern.at(0)=='*' && pattern.find('*',1)==-1)
-         le->setSelection(0, txt.length()-pattern.stripWhiteSpace().length()+1);
+         le->setSelection(0, txt.length()-pattern.trimmed().length()+1);
      else
      {
          int lastDot = txt.lastIndexOf('.');

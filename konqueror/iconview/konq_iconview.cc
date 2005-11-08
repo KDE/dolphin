@@ -1405,7 +1405,7 @@ void KonqKfmIconView::setupSortKeys()
 
 QString KonqKfmIconView::makeSizeKey( KFileIVI *item )
 {
-    return KIO::number( item->item()->size() ).rightJustify( 20, '0' );
+    return KIO::number( item->item()->size() ).rightJustified( 20, '0' );
 }
 
 void KonqKfmIconView::disableIcons( const KURL::List & lst )

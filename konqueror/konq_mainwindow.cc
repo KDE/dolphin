@@ -280,7 +280,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   else if ( openInitialURL )
   {
     KURL homeURL;
-    homeURL.setPath( QDir::homeDirPath() );
+    homeURL.setPath( QDir::homePath() );
     openURL( 0L, homeURL );
   }
   else
@@ -1377,7 +1377,7 @@ void KonqMainWindow::slotOpenTerminal()
 {
   QString term = KonqSettings::terminalApplication();
 
-  QString dir ( QDir::homeDirPath() );
+  QString dir ( QDir::homePath() );
 
   //Try to get the directory of the current view
   if ( m_currentView )
@@ -1429,7 +1429,7 @@ void KonqMainWindow::slotOpenLocation()
   dlg.exec();
   const KURL& url = dlg.selectedURL();
   if (!url.isEmpty())
-     openFilteredURL( url.url().stripWhiteSpace() );
+     openFilteredURL( url.url().trimmed() );
 }
 
 void KonqMainWindow::slotToolFind()
@@ -1470,7 +1470,7 @@ void KonqMainWindow::slotToolFind()
       if ( m_currentView && m_currentView->url().isLocalFile() )
           url = m_currentView->locationBarURL();
       else
-          url.setPath( QDir::homeDirPath() );
+          url.setPath( QDir::homePath() );
       KonqMainWindow * mw = KonqMisc::createBrowserWindowFromProfile(
           locate( "data", QLatin1String("konqueror/profiles/filemanagement") ),
           "filemanagement", url, KParts::URLArgs(), true /* forbid "use html"*/ );
@@ -2527,10 +2527,10 @@ void KonqMainWindow::slotURLEntered( const QString &text, int state )
   if (state & Qt::ControlModifier || state & Qt::AltModifier)
   {
       m_combo->setURL( m_currentView ? m_currentView->url().prettyURL() : QString::null );
-      openFilteredURL( text.stripWhiteSpace(), true );
+      openFilteredURL( text.trimmed(), true );
   }
   else
-      openFilteredURL( text.stripWhiteSpace() );
+      openFilteredURL( text.trimmed() );
 
   m_bURLEnterLock = false;
 }
@@ -5617,7 +5617,7 @@ bool KonqMainWindow::isMimeTypeAssociatedWithSelf( const QString &/*mimeType*/, 
     // 1) force embedding first, if that works we're ok
     // 2) check what KRun is going to do before calling it.
     return ( offer && ( offer->desktopEntryName() == "konqueror" ||
-             offer->exec().stripWhiteSpace().startsWith( "kfmclient" ) ) );
+             offer->exec().trimmed().startsWith( "kfmclient" ) ) );
 }
 
 // KonqFrameContainerBase implementation END
@@ -5772,7 +5772,7 @@ static int current_memory_usage( int* limit )
         while (!f.atEnd())
         {
             line = f.readLine();
-            line = line.stripWhiteSpace();
+            line = line.trimmed();
             int usage = line.section( ' ', 0, 0 ).toInt();
             if( usage > 0 )
             {

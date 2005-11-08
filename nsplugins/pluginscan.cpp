@@ -120,7 +120,7 @@ void deletePluginMimeTypes()
 
             // check all mime types for X-KDE-nsplugin flag
             kdDebug(1433) << " - Looking in " << dirs[i] << endl;
-            QDir files( dirs.absFilePath(dirs[i]), QString::null,
+            QDir files( dirs.absoluteFilePath(dirs[i]), QString::null,
                         QDir::Name|QDir::IgnoreCase, QDir::Files );
             if ( files.exists( dir ) ) {
 
@@ -128,7 +128,7 @@ void deletePluginMimeTypes()
 
                     // check .desktop file
                     kdDebug(1433) << "   - Checking " << files[i] << endl;
-                    if ( isPluginMimeType(files.absFilePath(files[i])) ) {
+                    if ( isPluginMimeType(files.absoluteFilePath(files[i])) ) {
                         kdDebug(1433) << "     - Removing " << files[i] << endl;
                         files.remove( files[i] );
                     }
@@ -176,7 +176,7 @@ void generateMimeType( QString mime, QString extensions, QString pluginName, QSt
             QStringList exts = QStringList::split(",", extensions);
             QStringList patterns;
             for (QStringList::Iterator it=exts.begin(); it != exts.end(); ++it)
-                patterns.append( "*." + (*it).stripWhiteSpace() );
+                patterns.append( "*." + (*it).trimmed() );
 
             ts << "Patterns=" << patterns.join( ";" ) << endl;
         }
@@ -321,7 +321,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
             continue;
 
         // get absolute file path
-        QString absFile = files.absFilePath( files[i] );
+        QString absFile = files.absoluteFilePath( files[i] );
         kdDebug(1433) << "Checking library " << absFile << endl;
 
         // open the library and ask for the mimetype
@@ -425,7 +425,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
     depth++;
     for ( unsigned int i=0; i<dirs.count(); i++ ) {
         if ( depth<8 && !dirs[i].contains(".") )
-            scanDirectory( dirs.absFilePath(dirs[i]), mimeInfoList, cache );
+            scanDirectory( dirs.absoluteFilePath(dirs[i]), mimeInfoList, cache );
     }
     depth--;
 
@@ -512,7 +512,7 @@ void removeExistingExtensions( QString &extension )
     QStringList filtered;
     QStringList exts = QStringList::split( ",", extension );
     for ( QStringList::Iterator it=exts.begin(); it!=exts.end(); ++it ) {
-        QString ext = (*it).stripWhiteSpace();
+        QString ext = (*it).trimmed();
         if ( ext == "*" ) // some plugins have that, but we don't want to associate a mimetype with *.*!
             continue;
 

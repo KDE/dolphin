@@ -48,6 +48,7 @@
 #include "konq_operations.h"
 #include <dcopclient.h>
 #include <kauthorized.h>
+#include <kglobal.h>
 
 /*
  Test cases:
@@ -319,7 +320,7 @@ bool KonqPopupMenu::KIOSKAuthorizedAction(KConfig& cfg)
             it != list.end();
             ++it)
         {
-            if (!KAuthorized::authorize((*it).stripWhiteSpace()))
+            if (!KAuthorized::authorize((*it).trimmed()))
             {
                 return false;
             }
@@ -565,7 +566,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     addDel = true;
                 }
                 else {
-                    KConfigGroup configGroup( kapp->config(), "KDE" );
+                    KConfigGroup configGroup( KGlobal::config(), "KDE" );
                     if ( configGroup.readBoolEntry( "ShowDeleteCommand", false ) )
                         addDel = true;
                 }

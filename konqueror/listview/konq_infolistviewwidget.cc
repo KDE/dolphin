@@ -370,7 +370,7 @@ void KonqInfoListViewWidget::determineCounts(const KFileItemList& list)
     // insert the icons
 //    for (int i=0; i<menu->count(); ++i)
 //    {
-//        menu->changeItem(i, QIconSet(blah));
+//        menu->changeItem(i, QIcon(blah));
 //    }
 
     if (m_favorite.mimetype)

@@ -409,7 +409,7 @@ void KonqFrameTabs::refreshSubPopupMenuTab()
         KonqFrame* frame = dynamic_cast<KonqFrame *>(it);
         if ( frame && frame->activeChildView() )
         {
-            QString title = frame->title().stripWhiteSpace();
+            QString title = frame->title().trimmed();
             if ( title.isEmpty() )
                 title = frame->activeChildView()->url().url();
             title = KStringHandler::csqueeze( title, 50 );

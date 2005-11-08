@@ -315,7 +315,7 @@ NPError g_NPN_PostURLNotify(NPP instance, const char* url, const char* target,
                break;
             }
 
-            QString thisLine = QString::fromLatin1(previousStart, &buf[l-1] - previousStart).stripWhiteSpace();
+            QString thisLine = QString::fromLatin1(previousStart, &buf[l-1] - previousStart).trimmed();
 
             previousStart = &buf[l];
             previousCR = true;
@@ -412,7 +412,7 @@ NPError g_NPN_PostURL(NPP instance, const char* url, const char* target,
                break;
             }
 
-            QString thisLine = QString::fromLatin1(previousStart, &buf[l-1] - previousStart).stripWhiteSpace();
+            QString thisLine = QString::fromLatin1(previousStart, &buf[l-1] - previousStart).trimmed();
 
             previousStart = &buf[l];
             previousCR = true;

@@ -53,9 +53,9 @@ int main( int argc, char ** argv )
   if (args->count() > 0)
     url = args->url(0);
   if (url.isEmpty())
-    url = QDir::currentDirPath();
+    url = QDir::currentPath();
   if (url.isEmpty())
-    url = QDir::homeDirPath();
+    url = QDir::homePath();
   args->clear();
 
   KfindDlg kfinddlg(url, 0, "dialog");

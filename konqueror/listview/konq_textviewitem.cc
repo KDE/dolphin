@@ -49,12 +49,12 @@ int KonqTextViewItem::compare( Q3ListViewItem *item, int col, bool ascending ) c
                 || (cInfo->udsId==KIO::UDS_ACCESS_TIME)
                 || (cInfo->udsId==KIO::UDS_CREATION_TIME))
             {
-               tmp += QString::number( m_fileitem->time(cInfo->udsId) ).rightJustify( 14, '0' );
+               tmp += QString::number( m_fileitem->time(cInfo->udsId) ).rightJustified( 14, '0' );
                return tmp;
             }
             else if (cInfo->udsId==KIO::UDS_SIZE)
             {
-               tmp += KIO::number( m_fileitem->size() ).rightJustify( 20, '0' );
+               tmp += KIO::number( m_fileitem->size() ).rightJustified( 20, '0' );
                return tmp;
             }
             else break;

@@ -211,8 +211,8 @@ void NSPluginLoader::scanPlugins()
         }
 
       QStringList desc = QStringList::split(':', line, TRUE);
-      QString mime = desc[0].stripWhiteSpace();
-      QStringList suffixes = QStringList::split(',', desc[1].stripWhiteSpace());
+      QString mime = desc[0].trimmed();
+      QStringList suffixes = QStringList::split(',', desc[1].trimmed());
       if (!mime.isEmpty())
         {
           // insert the mimetype -> plugin mapping
@@ -223,7 +223,7 @@ void NSPluginLoader::scanPlugins()
           for (suffix = suffixes.begin(); suffix != suffixes.end(); ++suffix) {
 
               // strip whitspaces and any preceding '.'
-              QString stripped = (*suffix).stripWhiteSpace();
+              QString stripped = (*suffix).trimmed();
 
               int p=0;
               for ( ; p<stripped.length() && stripped[p]=='.'; p++ );

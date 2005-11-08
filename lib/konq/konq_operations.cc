@@ -67,6 +67,7 @@
 #include <QX11Info>
 #endif
 #include <kauthorized.h>
+#include <kglobal.h>
 
 KBookmarkManager * KonqBookmarkManager::s_bookmarkManager;
 
@@ -300,7 +301,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
       if (!keyName.isEmpty())
       {
          // Check kmessagebox setting... erase & copy to konquerorrc.
-         KConfig *config = kapp->config();
+         KConfig *config = KGlobal::config();
          KConfigGroup saver(config, "Notification Messages");
          if (!saver.readBoolEntry(keyName, true))
          {

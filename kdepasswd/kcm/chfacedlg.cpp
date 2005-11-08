@@ -158,7 +158,7 @@ void ChFaceDlg::slotGetCustomImage(  )
 {
   QCheckBox* checkWidget = new QCheckBox( i18n("&Save copy in custom faces folder for future use"), 0 );
 
-  KFileDialog *dlg = new KFileDialog( QDir::homeDirPath(), KImageIO::pattern( KImageIO::Reading ),
+  KFileDialog *dlg = new KFileDialog( QDir::homePath(), KImageIO::pattern( KImageIO::Reading ),
                   this, 0, true, checkWidget);
 
   dlg->setOperationMode( KFileDialog::Opening );
@@ -178,7 +178,7 @@ void ChFaceDlg::slotSaveCustomImage()
 {
   if ( m_FacesWidget->currentItem()->key() ==  USER_CUSTOM_KEY)
   {
-    QDir userfaces( QDir::homeDirPath() + USER_FACES_DIR );
+    QDir userfaces( QDir::homePath() + USER_FACES_DIR );
     if ( !userfaces.exists( ) )
       userfaces.mkdir( userfaces.absolutePath() );
 

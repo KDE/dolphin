@@ -77,7 +77,7 @@ KonqMainWindow * KonqMisc::createSimpleWindow( const KURL & _url, const QString 
   // If _url is 0L, open $HOME [this doesn't happen anymore]
   KURL url;
   if (_url.isEmpty())
-     url.setPath(QDir::homeDirPath());
+     url.setPath(QDir::homePath());
   else
      url = _url;
 

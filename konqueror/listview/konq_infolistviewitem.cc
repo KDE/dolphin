@@ -133,7 +133,7 @@ void KonqInfoListViewItem::gotMetaInfo()
         if (!kfmii.isValid())
             continue;
 
-        QString s = kfmii.string().simplifyWhiteSpace();
+        QString s = kfmii.string().simplified();
         setText(i, s.isNull() ? QString("") : s);
     }
 }

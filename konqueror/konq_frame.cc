@@ -401,7 +401,7 @@ bool KonqFrame::eventFilter(QObject* /*obj*/, QEvent *ev)
    if (ev->type()==QEvent::KeyPress)
    {
       QKeyEvent * keyEv = static_cast<QKeyEvent*>(ev);
-      if ((keyEv->key()==Qt::Key_Tab) && (keyEv->modifiers()==Qt::ControlButton))
+      if ((keyEv->key()==Qt::Key_Tab) && (keyEv->modifiers()==Qt::ControlModifier))
       {
          emit ((KonqFrameContainer*)parent())->ctrlTabPressed();
          return true;

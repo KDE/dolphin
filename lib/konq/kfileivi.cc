@@ -213,8 +213,8 @@ void KFileIVI::setThumbnailPixmap( const QPixmap & pixmap )
 {
     m_bThumbnail = true;
     d->thumb = pixmap;
-    // QIconSet::reset() doesn't seem to clear the other generated pixmaps,
-    // so we just create a blank QIconSet here
+    // QIcon::reset() doesn't seem to clear the other generated pixmaps,
+    // so we just create a blank QIcon here
     d->icons = QIcon();
     d->icons.addPixmap( KGlobal::iconLoader()->iconEffect()->
 		    apply( pixmap, KIcon::Desktop, KIcon::DefaultState ), QIcon::Normal );

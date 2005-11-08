@@ -35,6 +35,7 @@
 
 #include "socks.h"
 #include <kaboutdata.h>
+#include <kglobal.h>
 
 KSocksConfig::KSocksConfig(KInstance *inst, QWidget *parent)
   : KCModule(inst, parent)
@@ -196,7 +197,7 @@ void KSocksConfig::libSelection()
 
 void KSocksConfig::load()
 {
-  KConfigGroup config(kapp->config(), "Socks");
+  KConfigGroup config(KGlobal::config(), "Socks");
   base->_c_enableSocks->setChecked(config.readBoolEntry("SOCKS_enable", false));
   int id = config.readNumEntry("SOCKS_method", 1);
   base->bg->setButton(id);
@@ -230,7 +231,7 @@ void KSocksConfig::load()
 
 void KSocksConfig::save()
 {
-  KConfigGroup config(kapp->config(), "Socks");
+  KConfigGroup config(KGlobal::config(), "Socks");
   config.writeEntry("SOCKS_enable",base-> _c_enableSocks->isChecked(), true, true);
   config.writeEntry("SOCKS_method", base->bg->id(base->bg->selected()), true, true);
   config.writePathEntry("SOCKS_lib", base->_c_customPath->url(), true, true);
@@ -243,7 +244,7 @@ void KSocksConfig::save()
   }
   config.writePathEntry("SOCKS_lib_path", libs, ',', true, true);
 
-  kapp->config()->sync();
+  KGlobal::config()->sync();
 
   emit changed(false);
 }

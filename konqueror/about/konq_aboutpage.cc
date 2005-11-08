@@ -104,7 +104,7 @@ QString KonqAboutPageFactory::launch()
   QString wastebin_icon_path = iconloader->iconPath("trashcan_full", KIcon::Desktop );
   QString applications_icon_path = iconloader->iconPath("kmenu", KIcon::Desktop );
   QString settings_icon_path = iconloader->iconPath("kcontrol", KIcon::Desktop );
-  QString home_folder = QDir::homeDirPath();
+  QString home_folder = QDir::homePath();
   QString continue_icon_path = QApplication::reverseLayout()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
 
   res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
