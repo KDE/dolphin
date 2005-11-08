@@ -157,7 +157,7 @@ void KCMFilter::importFilters()
     if (inFile.length() > 0)
     {
         QFile f(inFile);
-        if ( f.open( IO_ReadOnly ) )
+        if ( f.open( QIODevice::ReadOnly ) )
         {
             QTextStream ts( &f );
             QStringList paths;

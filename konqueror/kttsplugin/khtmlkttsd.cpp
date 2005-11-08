@@ -91,7 +91,7 @@ void KHTMLPluginKTTSD::slotReadOut()
                                      i18n( "The DCOP call supportsMarkup failed." ));
         else
         {
-            QDataStream reply(&replyData, IO_ReadOnly);
+            QDataStream reply(&replyData, QIODevice::ReadOnly);
 
             reply.setVersion(QDataStream::Qt_3_1);
             reply >> supportsXhtml;
