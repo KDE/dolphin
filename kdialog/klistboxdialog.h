@@ -23,6 +23,8 @@
 
 #include <kdialogbase.h>
 
+#include <q3listbox.h>
+
 class KListBoxDialog : public KDialogBase
 {
   Q_OBJECT

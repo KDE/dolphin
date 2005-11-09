@@ -21,10 +21,9 @@
 #ifndef WIDGETS_H
 #define WIDGETS_H
 
-#include <qwidget.h>
-#include <qstring.h>
-//Added by qt3to4:
 #include <QByteArray>
+#include <QWidget>
+#include <QStringList>
 
 namespace Widgets
 {
