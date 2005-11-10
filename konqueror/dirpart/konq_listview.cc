@@ -102,3 +102,5 @@ bool KonqListView::isExecutableArea( const QPoint& p )
     width += qvariant_cast<QPixmap>( model()->data( index, Qt::DecorationRole ) ).width() + 2;
     return p.x() > indentation() && p.x() < width + indentation();
 }
+
+#include "konq_listview.moc"

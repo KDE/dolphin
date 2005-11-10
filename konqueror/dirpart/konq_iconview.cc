@@ -79,3 +79,5 @@ QStyleOptionViewItem KonqIconView::viewOptions() const
     option.displayAlignment = Qt::AlignHCenter;
     return option;
 }
+
+#include "konq_iconview.moc"

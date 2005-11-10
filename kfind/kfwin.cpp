@@ -215,7 +215,7 @@ void KfindWindow::saveResults()
 
   QFile file(filename);
 
-  if ( !file.open(IO_WriteOnly) )
+  if ( !file.open(QIODevice::WriteOnly) )
     KMessageBox::error(parentWidget(),
 		       i18n("Unable to save results."));
   else {

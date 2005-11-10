@@ -26,7 +26,7 @@ class KonqFileTip;
 
 class KonqIconView : public QListView
 {
-    Q_OBJECT
+Q_OBJECT
 public:
     KonqIconView( QWidget* parent );
     ~KonqIconView();

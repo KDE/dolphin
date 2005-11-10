@@ -50,3 +50,6 @@ void KonqIconViewItemDelegate::drawFocus( QPainter* painter, const QStyleOptionV
 {
     QItemDelegate::drawFocus( painter, option, rect );
 }
+
+
+#include "konq_iconviewitemdelegate.moc"

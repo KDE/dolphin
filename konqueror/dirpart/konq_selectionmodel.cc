@@ -46,3 +46,5 @@ void KonqSelectionModel::select( const QModelIndex& index, QItemSelectionModel::
     QModelIndex index0 = model()->index( index.row(), 0, index.parent() );
     QItemSelectionModel::select( index0, command );
 }
+
+#include "konq_selectionmodel.moc"

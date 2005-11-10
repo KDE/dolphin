@@ -153,7 +153,7 @@ void HistorySidebarConfig::save()
     config.writeEntry( "Maximum age of History entries", age );
 
     QByteArray dataAge;
-    QDataStream streamAge( &dataAge, IO_WriteOnly );
+    QDataStream streamAge( &dataAge, QIODevice::WriteOnly );
 
     streamAge.setVersion(QDataStream::Qt_3_1);
     streamAge << age << "foo";
@@ -161,7 +161,7 @@ void HistorySidebarConfig::save()
 			      "notifyMaxAge(Q_UINT32, QCString)", dataAge );
 
     QByteArray dataCount;
-    QDataStream streamCount( &dataCount, IO_WriteOnly );
+    QDataStream streamCount( &dataCount, QIODevice::WriteOnly );
 
     streamCount.setVersion(QDataStream::Qt_3_1);
     streamCount << count << "foo";

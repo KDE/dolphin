@@ -59,3 +59,5 @@ void KonqItemDelegate::drawFocus( QPainter* painter, const QStyleOptionViewItem&
         r.setWidth( width+2 );
     QItemDelegate::drawFocus( painter, option, r );
 }
+
+#include "konq_itemdelegate.moc"

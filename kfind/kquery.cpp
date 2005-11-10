@@ -305,7 +305,7 @@ void KQuery::processQuery( KFileItem* file)
          KZip zipfile(file->url().path());
          KZipFileEntry *zipfileEntry;
 
-         if(zipfile.open(IO_ReadOnly))
+         if(zipfile.open(QIODevice::ReadOnly))
          {
            const KArchiveDirectory *zipfileContent = zipfile.directory();
 
@@ -322,7 +322,7 @@ void KQuery::processQuery( KFileItem* file)
            zippedXmlFileContent = zipfileEntry->data();
            xmlTags.setPattern("<.*>");
            xmlTags.setMinimal(true);
-           stream = new QTextStream(zippedXmlFileContent, IO_ReadOnly);
+           stream = new QTextStream(zippedXmlFileContent, QIODevice::ReadOnly);
            stream->setEncoding(QTextStream::UnicodeUTF8);
            isZippedOfficeDocument = true;
          } else {
@@ -343,7 +343,7 @@ void KQuery::processQuery( KFileItem* file)
          if(filename.startsWith("/dev/"))
             return;
          qf.setName(filename);
-         qf.open(IO_ReadOnly);
+         qf.open(QIODevice::ReadOnly);
          stream=new QTextStream(&qf);
          stream->setEncoding(QTextStream::Locale);
        }

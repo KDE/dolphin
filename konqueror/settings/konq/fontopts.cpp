@@ -91,7 +91,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, K
     wtstr = i18n("This is the font size used to display text in Konqueror windows.");
     label->setWhatsThis( wtstr );
     m_pSize->setWhatsThis( wtstr );
-    Qt::AlignmentFlag hAlign = QApplication::reverseLayout() ? Qt::AlignRight : Qt::AlignLeft;
+    Qt::AlignmentFlag hAlign = QApplication::isRightToLeft() ? Qt::AlignRight : Qt::AlignLeft;
 
     //
 #define COLOR_BUTTON_COL 1

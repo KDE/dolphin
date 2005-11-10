@@ -224,3 +224,5 @@ QMimeData* KonqModel::mimeData( const QModelIndexList& indexes ) const
     //data->setUrls( urls );
     return data;
 }
+
+#include "konq_model.moc"

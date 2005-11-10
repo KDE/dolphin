@@ -182,3 +182,5 @@ void KonqPart::slotPreview( const KFileItem* item, const QPixmap& pixmap )
     m_model->addPreview( item, pixmap );
 }
 
+
+#include "konq_part.moc"

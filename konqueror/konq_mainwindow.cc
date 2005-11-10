@@ -3812,8 +3812,8 @@ void KonqMainWindow::initActions()
   m_paRemoveTab = new KAction( i18n( "Close Current Tab" ), "tab_remove", Qt::CTRL+Qt::Key_W, this, SLOT( slotRemoveTab() ), actionCollection(), "removecurrenttab" );
   m_paRemoveOtherTabs = new KAction( i18n( "Close &Other Tabs" ), "tab_remove", 0, this, SLOT( slotRemoveOtherTabsPopup() ), actionCollection(), "removeothertabs" );
 
-  m_paActivateNextTab = new KAction( i18n( "Activate Next Tab" ), "tab_next", QApplication::reverseLayout() ? KStdAccel::tabPrev() : KStdAccel::tabNext(), this, SLOT( slotActivateNextTab() ), actionCollection(), "activatenexttab" );
-  m_paActivatePrevTab = new KAction( i18n( "Activate Previous Tab" ), "tab_previous", QApplication::reverseLayout() ? KStdAccel::tabNext() : KStdAccel::tabPrev(), this, SLOT( slotActivatePrevTab() ), actionCollection(), "activateprevtab" );
+  m_paActivateNextTab = new KAction( i18n( "Activate Next Tab" ), "tab_next", QApplication::isRightToLeft() ? KStdAccel::tabPrev() : KStdAccel::tabNext(), this, SLOT( slotActivateNextTab() ), actionCollection(), "activatenexttab" );
+  m_paActivatePrevTab = new KAction( i18n( "Activate Previous Tab" ), "tab_previous", QApplication::isRightToLeft() ? KStdAccel::tabNext() : KStdAccel::tabPrev(), this, SLOT( slotActivatePrevTab() ), actionCollection(), "activateprevtab" );
 
   Q3CString actionname;
   for (int i=1;i<13;i++) {
@@ -3882,7 +3882,7 @@ void KonqMainWindow::initActions()
 				  "Enter a web address or search term." ) );
 
   KAction *clearLocation = new KAction( i18n( "Clear Location Bar" ),
-					QApplication::reverseLayout() ? "clear_left" : "locationbar_erase",
+					QApplication::isRightToLeft() ? "clear_left" : "locationbar_erase",
 					Qt::CTRL+Qt::Key_L, 0, 0, actionCollection(), "clear_location" );
   connect( clearLocation, SIGNAL( activated( KAction::ActivationReason, Qt::MouseButtons, Qt::KeyboardModifiers ) ),
            SLOT( slotClearLocationBar( KAction::ActivationReason, Qt::MouseButtons, Qt::KeyboardModifiers ) ) );
@@ -4038,7 +4038,7 @@ void KonqMainWindow::slotOpenBookmarkURL( const QString & url, Qt::ButtonState s
 
 void KonqMainWindow::slotMoveTabLeft()
 {
-  if ( QApplication::reverseLayout() )
+  if ( QApplication::isRightToLeft() )
     m_pViewManager->moveTabForward();
   else
     m_pViewManager->moveTabBackward();
@@ -4046,7 +4046,7 @@ void KonqMainWindow::slotMoveTabLeft()
 
 void KonqMainWindow::slotMoveTabRight()
 {
-  if ( QApplication::reverseLayout() )
+  if ( QApplication::isRightToLeft() )
     m_pViewManager->moveTabBackward();
   else
     m_pViewManager->moveTabForward();
@@ -4138,9 +4138,9 @@ void KonqMainWindow::updateViewActions()
 
         Q3PtrList<KonqFrameBase>* childFrameList = tabContainer->childFrameList();
         m_paMoveTabLeft->setEnabled( currentView() ? currentView()->frame()!=
-	    (QApplication::reverseLayout() ? childFrameList->last() : childFrameList->first()) : false );
+	    (QApplication::isRightToLeft() ? childFrameList->last() : childFrameList->first()) : false );
         m_paMoveTabRight->setEnabled( currentView() ? currentView()->frame()!=
-	    (QApplication::reverseLayout() ? childFrameList->first() : childFrameList->last()) : false );
+	    (QApplication::isRightToLeft() ? childFrameList->first() : childFrameList->last()) : false );
     }
     else
     {

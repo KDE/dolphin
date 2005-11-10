@@ -98,7 +98,7 @@ int Widgets::textBox(QWidget *parent, int width, int height, const QString& titl
   edit->setReadOnly(true);
 
   QFile f(file);
-  if (!f.open(IO_ReadOnly))
+  if (!f.open(QIODevice::ReadOnly))
   {
     kdError() << i18n("kdialog: could not open file ") << file << endl;
     return -1;

@@ -79,7 +79,7 @@ void KHTMLPluginKTTSD::slotReadOut()
         QByteArray  data;
         QBuffer     dataBuf(&data);
         QDataStream arg;
-        dataBuf.open(IO_WriteOnly);
+        dataBuf.open(QIODevice::WriteOnly);
         arg.setDevice(&dataBuf);
         arg << "" << KSpeech::mtHtml;
         DCOPCString    replyType;

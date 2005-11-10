@@ -205,7 +205,7 @@ void KCMFilter::exportFilters()
   if (outFile.length() > 0)
   {
     QFile f(outFile);
-    if ( f.open( IO_WriteOnly ) )
+    if ( f.open( QIODevice::WriteOnly ) )
     {
       QTextStream ts( &f );
       ts.setEncoding( QTextStream::UnicodeUTF8 );

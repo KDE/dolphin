@@ -105,7 +105,7 @@ QString KonqAboutPageFactory::launch()
   QString applications_icon_path = iconloader->iconPath("kmenu", KIcon::Desktop );
   QString settings_icon_path = iconloader->iconPath("kcontrol", KIcon::Desktop );
   QString home_folder = QDir::homePath();
-  QString continue_icon_path = QApplication::reverseLayout()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
+  QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
 
   res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
   if ( kapp->reverseLayout() )
@@ -168,9 +168,9 @@ QString KonqAboutPageFactory::intro()
 	return res;
 
     KIconLoader *iconloader = KGlobal::iconLoader();
-    QString back_icon_path = QApplication::reverseLayout()?iconloader->iconPath("forward", KIcon::Small ):iconloader->iconPath("back", KIcon::Small );
+    QString back_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("forward", KIcon::Small ):iconloader->iconPath("back", KIcon::Small );
     QString gohome_icon_path = iconloader->iconPath("gohome", KIcon::Small );
-    QString continue_icon_path = QApplication::reverseLayout()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
+    QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
 
     res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
     if ( kapp->reverseLayout() )
@@ -223,7 +223,7 @@ QString KonqAboutPageFactory::specs()
 
     KIconLoader *iconloader = KGlobal::iconLoader();
     QString res = loadFile( locate( "data", "konqueror/about/specs.html" ));
-    QString continue_icon_path = QApplication::reverseLayout()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
+    QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
     if ( res.isEmpty() )
 	return res;
 
@@ -322,7 +322,7 @@ QString KonqAboutPageFactory::tips()
 	    iconloader->iconPath("window_fullscreen", KIcon::Small );
     QString view_left_right_icon_path =
 	    iconloader->iconPath("view_left_right", KIcon::Small );
-    QString continue_icon_path = QApplication::reverseLayout()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
+    QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
 
     res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
     if ( kapp->reverseLayout() )
@@ -349,7 +349,7 @@ QString KonqAboutPageFactory::tips()
 	  .arg( i18n( "When you want to paste a new address into the Location toolbar you might want to "
 		      "clear the current entry by pressing the black arrow with the white cross "
 		      "<img width='16' height='16' src=\"%1\"> in the toolbar.")
-              .arg(QApplication::reverseLayout() ? locationbar_erase_rtl_icon_path : locationbar_erase_icon_path))
+              .arg(QApplication::isRightToLeft() ? locationbar_erase_rtl_icon_path : locationbar_erase_icon_path))
 	  .arg( i18n( "To create a link on your desktop pointing to the current page, "
 		      "simply drag the \"Location\" label that is to the left of the Location toolbar, drop it on to "
 		      "the desktop, and choose \"Link\"." ) )
