@@ -5207,7 +5207,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
     }
 
     hide();
-    qApp->flushX();
+    qApp->flush();
   }
   // We're going to close - tell the parts
   MapViews::ConstIterator it = m_mapViews.begin();
