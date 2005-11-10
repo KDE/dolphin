@@ -21,7 +21,8 @@
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <q3vbox.h>
+#include <kvbox.h>
+#include <khbox.h>
 
 //Added by qt3to4:
 #include <QPixmap>
@@ -53,8 +54,8 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, KInstance *
 
 	QGroupBox * miscGb = new QGroupBox(i18n("Misc Options"), this);
 	lay->addWidget( miscGb );
-	Q3HBox *hbox = new Q3HBox(miscGb);
-	Q3VBox *vbox = new Q3VBox(hbox);
+	KHBox *hbox = new KHBox(miscGb);
+	KVBox *vbox = new KVBox(hbox);
 
 	// ----
 
@@ -104,7 +105,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, KInstance *
     QWhatsThis::add( sbToolTip, tipstr );
 */
 
-    Q3HBox *hboxpreview = new Q3HBox(vbox);
+    KHBox *hboxpreview = new KHBox(vbox);
     QWidget* spacer = new QWidget( hboxpreview );
     spacer->setMinimumSize( 20, 0 );
     spacer->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Minimum );

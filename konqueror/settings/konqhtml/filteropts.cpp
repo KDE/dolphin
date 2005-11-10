@@ -26,7 +26,7 @@
 #include <qlayout.h>
 #include <qpushbutton.h>
 #include <q3groupbox.h>
-#include <q3hbox.h>
+#include <khbox.h>
 #include <qlineedit.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
@@ -62,7 +62,7 @@ KCMFilter::KCMFilter(KConfig *config, QString group,
     new QLabel( i18n("Expression (e.g. http://www.site.com/ad/*):"), topBox);
     mString = new QLineEdit( topBox );
 
-    Q3HBox *buttonBox = new Q3HBox( topBox );
+    KHBox *buttonBox = new KHBox( topBox );
     buttonBox->setSpacing( KDialog::spacingHint() );
 
     mInsertButton = new QPushButton( i18n("Insert"), buttonBox );

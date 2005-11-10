@@ -22,14 +22,14 @@
 
 #include <klocale.h>
 #include <Q3ValueList>
-#include <q3vbox.h>
+#include <kvbox.h>
 #include <qlabel.h>
 
 KServiceSelectDlg::KServiceSelectDlg( const QString& /*serviceType*/, const QString& /*value*/, QWidget *parent )
     : KDialogBase( parent, "serviceSelectDlg", true,
                    i18n( "Add Service" ), Ok|Cancel, Ok )
 {
-    Q3VBox *vbox = new Q3VBox ( this );
+    KVBox *vbox = new KVBox ( this );
 
     vbox->setSpacing( KDialog::spacingHint() );
     new QLabel( i18n( "Select service:" ), vbox );
