@@ -22,7 +22,6 @@
 #include <QVBoxLayout>
 #include <Q3ValueList>
 #include <Q3CString>
-#include <Q3HBox>
 #include <kdebug.h>
 #include <kdesktopfile.h>
 #include <kdirwatch.h>
@@ -544,7 +543,7 @@ void KURLDesktopFileDlg::initDialog( const QString& textFileName, const QString&
     QVBoxLayout * topLayout = new QVBoxLayout( plainPage(), 0, spacingHint() );
 
     // First line: filename
-    Q3HBox * fileNameBox = new Q3HBox( plainPage() );
+    KHBox * fileNameBox = new KHBox( plainPage() );
     topLayout->addWidget( fileNameBox );
 
     QLabel * label = new QLabel( textFileName, fileNameBox );
@@ -557,7 +556,7 @@ void KURLDesktopFileDlg::initDialog( const QString& textFileName, const QString&
              SLOT(slotNameTextChanged(const QString&)) );
 
     // Second line: url
-    Q3HBox * urlBox = new Q3HBox( plainPage() );
+    KHBox * urlBox = new KHBox( plainPage() );
     topLayout->addWidget( urlBox );
     label = new QLabel( textUrl, urlBox );
     m_urlRequester = new KURLRequester( defaultUrl, urlBox);
