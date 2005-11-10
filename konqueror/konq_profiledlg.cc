@@ -23,7 +23,7 @@
 
 #include <qcheckbox.h>
 #include <qdir.h>
-#include <q3vbox.h>
+#include <kvbox.h>
 #include <qlabel.h>
 #include <q3header.h>
 #include <qlineedit.h>
@@ -81,7 +81,7 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
 {
   m_pViewManager = manager;
 
-  Q3VBox* box = new Q3VBox( this );
+  KVBox* box = new KVBox( this );
   box->setSpacing( KDialog::spacingHint() );
   setMainWidget( box );
 
