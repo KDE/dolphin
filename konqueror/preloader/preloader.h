@@ -32,7 +32,7 @@ class KonqyPreloader
     Q_OBJECT
     K_DCOP
     public:
-        KonqyPreloader( const Q3CString& obj );
+        KonqyPreloader( const DCOPCString& obj );
         virtual ~KonqyPreloader();
     k_dcop:
         bool registerPreloadedKonqy( Q3CString id, int screen );

@@ -57,7 +57,7 @@ struct FaviconsModulePrivate
     QCache<QString,QString> faviconsCache;
 };
 
-FaviconsModule::FaviconsModule(const Q3CString &obj)
+FaviconsModule::FaviconsModule(const DCOPCString &obj)
     : KDEDModule(obj)
 {
     // create our favicons folder so that KIconLoader knows about it
@@ -261,7 +261,7 @@ void FaviconsModule::slotKill()
 }
 
 extern "C" {
-    KDE_EXPORT KDEDModule *create_favicons(const Q3CString &obj)
+    KDE_EXPORT KDEDModule *create_favicons(const DCOPCString &obj)
     {
         KImageIO::registerFormats();
         return new FaviconsModule(obj);

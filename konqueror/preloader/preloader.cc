@@ -25,11 +25,9 @@
 #include <kapplication.h>
 #include <dcopclient.h>
 #include <kdebug.h>
-//Added by qt3to4:
-#include <Q3CString>
 #include <ktoolinvocation.h>
 
-KonqyPreloader::KonqyPreloader( const Q3CString& obj )
+KonqyPreloader::KonqyPreloader( const DCOPCString& obj )
     : KDEDModule( obj )
     {
     reconfigure();
@@ -146,7 +144,7 @@ void KonqyPreloader::unloadAllPreloaded()
     }
     
 extern "C"
-KDE_EXPORT KDEDModule *create_konqy_preloader( const Q3CString& obj )
+KDE_EXPORT KDEDModule *create_konqy_preloader( const DCOPCString& obj )
     {
     return new KonqyPreloader( obj );
     }
