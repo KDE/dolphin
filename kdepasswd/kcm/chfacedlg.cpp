@@ -131,7 +131,7 @@ void ChFaceDlg::addCustomPixmap( QString imPath, bool saveCopy )
   }
   if ( (pix.width() > KCFGUserAccount::faceSize())
 	|| (pix.height() > KCFGUserAccount::faceSize()) )
-    pix = pix.scaled( KCFGUserAccount::faceSize(), KCFGUserAccount::faceSize(), Qt::ScaleMin );// Should be no bigger than certain size.
+    pix = pix.scaled( KCFGUserAccount::faceSize(), KCFGUserAccount::faceSize(), Qt::KeepAspectRatio );// Should be no bigger than certain size.
 
   if ( saveCopy )
   {
