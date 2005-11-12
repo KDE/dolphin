@@ -3504,7 +3504,7 @@ void KonqMainWindow::slotClearLocationBar( KAction::ActivationReason, Qt::MouseB
   kdDebug(1202) << "slotClearLocationBar" << endl;
   slotStop();
   m_combo->clearTemporary();
-  m_combo->setFocus();
+  focusLocationBar();
   if ( buttons & Qt::MidButton )
       m_combo->setURL( QApplication::clipboard()->text( QClipboard::Selection ) );
 }
@@ -3666,6 +3666,7 @@ QString KonqMainWindow::locationBarURL() const
 
 void KonqMainWindow::focusLocationBar()
 {
+  if ( m_combo->isVisible() )
   m_combo->setFocus();
 }
 
@@ -5263,7 +5264,7 @@ void KonqMainWindow::goURL()
 
 void KonqMainWindow::slotLocationLabelActivated()
 {
-  m_combo->setFocus();
+  focusLocationBar();
   m_combo->lineEdit()->selectAll();
 }
 
