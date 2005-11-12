@@ -44,6 +44,8 @@
 //Added by qt3to4:
 #include <assert.h>
 
+#include <Q3ScrollView>
+
 class KonqDirPart::KonqDirPartPrivate
 {
 public:
