@@ -42,7 +42,7 @@ KonqyPreloader::~KonqyPreloader()
     updateCount();
     }
 
-bool KonqyPreloader::registerPreloadedKonqy( Q3CString id, int screen )
+bool KonqyPreloader::registerPreloadedKonqy( DCOPCString id, int screen )
     {
     if( instances.count() >= KonqSettings::maxPreloadCount() )
         return false;
@@ -50,7 +50,7 @@ bool KonqyPreloader::registerPreloadedKonqy( Q3CString id, int screen )
     return true;
     }
 
-Q3CString KonqyPreloader::getPreloadedKonqy( int screen )
+DCOPCString KonqyPreloader::getPreloadedKonqy( int screen )
     {
     if( instances.count() == 0 )
         return "";
@@ -60,7 +60,7 @@ Q3CString KonqyPreloader::getPreloadedKonqy( int screen )
         {
         if( (*it).screen == screen )
             {
-            Q3CString ret = (*it).id;
+           DCOPCString ret = (*it).id;
             instances.remove( it );
             check_always_preloaded_timer.start( 5000, true );
             return ret;
@@ -69,7 +69,7 @@ Q3CString KonqyPreloader::getPreloadedKonqy( int screen )
     return "";
     }
 
-void KonqyPreloader::unregisterPreloadedKonqy( Q3CString id_P )
+void KonqyPreloader::unregisterPreloadedKonqy( DCOPCString id_P )
     {
     for( InstancesList::Iterator it = instances.begin();
          it != instances.end();

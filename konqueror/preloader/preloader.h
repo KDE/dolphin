@@ -24,7 +24,6 @@
 #include <qtimer.h>
 //Added by qt3to4:
 #include <Q3ValueList>
-#include <Q3CString>
 
 class KonqyPreloader
     : public KDEDModule
@@ -35,9 +34,9 @@ class KonqyPreloader
         KonqyPreloader( const DCOPCString& obj );
         virtual ~KonqyPreloader();
     k_dcop:
-        bool registerPreloadedKonqy( Q3CString id, int screen );
-        Q3CString getPreloadedKonqy( int screen );
-        ASYNC unregisterPreloadedKonqy( Q3CString id );
+        bool registerPreloadedKonqy( DCOPCString id, int screen );
+        DCOPCString getPreloadedKonqy( int screen );
+        ASYNC unregisterPreloadedKonqy( DCOPCString id );
         void reconfigure();
         void unloadAllPreloaded();
     private slots:
@@ -48,9 +47,9 @@ class KonqyPreloader
         struct KonqyData
             {
             KonqyData() {}; // for QValueList
-            KonqyData( const Q3CString& id_P, int screen_P )
+            KonqyData( const DCOPCString& id_P, int screen_P )
                 : id( id_P ), screen( screen_P ) {}
-            Q3CString id;
+            DCOPCString id;
             int screen;
             };
         typedef Q3ValueList< KonqyData > InstancesList;
