@@ -285,8 +285,8 @@ public:
   void destroyInstance( NSPluginInstance* inst );
   bool error() { return _error; }
 
-  void setApp(const Q3CString& app) { _app = app; }
-  const Q3CString& app() const { return _app; }
+  void setApp(const QByteArray& app) { _app = app; }
+  const QByteArray& app() const { return _app; }
 
 protected slots:
   void timer();
@@ -311,7 +311,7 @@ private:
   Q3PtrList<NSPluginInstance> _instances;
   Q3PtrList<NSPluginInstance> _trash;
 
-  Q3CString _app;
+  QByteArray _app;
 };
 
 
@@ -326,7 +326,7 @@ public:
    DCOPRef newClass( QString plugin );
 
 private slots:
-   void appUnregistered(const Q3CString& id);
+   void appUnregistered(const QByteArray& id);
 
 private:
    Q3Dict<NSPluginClass> _classes;

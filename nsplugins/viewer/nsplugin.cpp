@@ -1202,9 +1202,9 @@ NSPluginViewer::NSPluginViewer( Q3CString dcopId,
 {
     _classes.setAutoDelete( true );
     connect(KApplication::dcopClient(),
-            SIGNAL(applicationRemoved(const Q3CString&)),
+            SIGNAL(applicationRemoved(const QByteArray&)),
             this,
-            SLOT(appUnregistered(const Q3CString&)));
+            SLOT(appUnregistered(const QByteArray&)));
 }
 
 
@@ -1214,7 +1214,7 @@ NSPluginViewer::~NSPluginViewer()
 }
 
 
-void NSPluginViewer::appUnregistered(const Q3CString& id) {
+void NSPluginViewer::appUnregistered(const QByteArray& id) {
    if (id.isEmpty()) {
       return;
    }
