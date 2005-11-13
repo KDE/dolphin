@@ -338,7 +338,7 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, co
       }
     }
 
-    Q3CString appId = konqyToReuse( url.url(), mimetype, QString::null );
+    DCOPCString appId = konqyToReuse( url.url(), mimetype, QString::null );
     if( !appId.isEmpty())
     {
         kdDebug( 1202 ) << "clientApp::createNewWindow using existing konqueror" << endl;
@@ -387,7 +387,7 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, co
 
 bool clientApp::openProfile( const QString & profileName, const QString & url, const QString & mimetype )
 {
-  Q3CString appId = konqyToReuse( url, mimetype, profileName );
+  DCOPCString appId = konqyToReuse( url, mimetype, profileName );
   if( appId.isEmpty())
   {
     QString error;
