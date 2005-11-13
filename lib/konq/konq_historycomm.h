@@ -63,7 +63,7 @@ class KonqHistoryComm : public DCOPObject
     K_DCOP
 
 protected:
-    KonqHistoryComm( Q3CString objId ) : DCOPObject( objId ) {}
+    KonqHistoryComm( DCOPCString objId ) : DCOPObject( objId ) {}
 
 k_dcop:
     virtual ASYNC notifyHistoryEntry( KonqHistoryEntry e, Q3CString saveId) = 0;
