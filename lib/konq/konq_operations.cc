@@ -662,14 +662,14 @@ void KonqOperations::setOperation( KIO::Job * job, int method, const KURL::List 
     KonqIconViewWidget *iconView = dynamic_cast<KonqIconViewWidget*>(parent());
     if (copyJob && iconView)
     {
-        connect(copyJob, SIGNAL(aboutToCreate(KIO::Job *,const Q3ValueList<KIO::CopyInfo> &)),
-             this, SLOT(slotAboutToCreate(KIO::Job *,const Q3ValueList<KIO::CopyInfo> &)));
-        connect(this, SIGNAL(aboutToCreate(const QPoint &, const Q3ValueList<KIO::CopyInfo> &)),
-             iconView, SLOT(slotAboutToCreate(const QPoint &, const Q3ValueList<KIO::CopyInfo> &)));
+        connect(copyJob, SIGNAL(aboutToCreate(KIO::Job *,const QList<KIO::CopyInfo> &)),
+             this, SLOT(slotAboutToCreate(KIO::Job *,const QList<KIO::CopyInfo> &)));
+        connect(this, SIGNAL(aboutToCreate(const QPoint &, const QList<KIO::CopyInfo> &)),
+             iconView, SLOT(slotAboutToCreate(const QPoint &, const QList<KIO::CopyInfo> &)));
     }
 }
 
-void KonqOperations::slotAboutToCreate(KIO::Job *, const Q3ValueList<KIO::CopyInfo> &files)
+void KonqOperations::slotAboutToCreate(KIO::Job *, const QList<KIO::CopyInfo> &files)
 {
     emit aboutToCreate( m_info ? m_info->mousePos : m_pasteInfo ? m_pasteInfo->mousePos : QPoint(), files);
 }

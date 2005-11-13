@@ -168,7 +168,7 @@ protected:
 
 protected slots:
 
-    void slotAboutToCreate(KIO::Job *job, const Q3ValueList<KIO::CopyInfo> &files);
+    void slotAboutToCreate(KIO::Job *job, const QList<KIO::CopyInfo> &files);
     void slotResult( KIO::Job * job );
     void slotStatResult( KIO::Job * job );
     void asyncDrop( const KFileItem * item );
