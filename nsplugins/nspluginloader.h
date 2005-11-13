@@ -94,7 +94,7 @@ protected:
   void unloadViewer();
 
 protected slots:
-  void applicationRegistered( const Q3CString& appId );
+  void applicationRegistered( const QByteArray& appId );
   void processTerminated( KProcess *proc );
 
 private:
@@ -103,7 +103,7 @@ private:
 
   KProcess *_process;
   bool _running;
-  Q3CString _dcopid;
+  QByteArray _dcopid;
   NSPluginViewerIface_stub *_viewer;
   bool _useArtsdsp;
 

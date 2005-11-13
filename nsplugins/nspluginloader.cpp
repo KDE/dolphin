@@ -141,8 +141,8 @@ NSPluginLoader::NSPluginLoader()
   // trap dcop register events
   kapp->dcopClient()->setNotifications(true);
   QObject::connect(kapp->dcopClient(),
-                   SIGNAL(applicationRegistered(const Q3CString&)),
-                   this, SLOT(applicationRegistered(const Q3CString&)));
+                   SIGNAL(applicationRegistered(const QByteArray&)),
+                   this, SLOT(applicationRegistered(const QByteArray&)));
 
   // load configuration
   KConfig cfg("kcmnspluginrc", false);
@@ -273,7 +273,9 @@ bool NSPluginLoader::loadViewer()
 
    // get the dcop app id
    int pid = (int)getpid();
-   _dcopid.sprintf("nspluginviewer-%d", pid);
+   QString tmp;
+   tmp.sprintf("nspluginviewer-%d",pid);
+    _dcopid =tmp.toLatin1();
 
    connect( _process, SIGNAL(processExited(KProcess*)),
             this, SLOT(processTerminated(KProcess*)) );
@@ -369,7 +371,7 @@ void NSPluginLoader::unloadViewer()
 }
 
 
-void NSPluginLoader::applicationRegistered( const Q3CString& appId )
+void NSPluginLoader::applicationRegistered( const QByteArray& appId )
 {
    kdDebug() << "DCOP application " << appId.data() << " just registered!" << endl;
 
