@@ -200,7 +200,7 @@ void KonqSidebarTreeTopLevelItem::rename( const QString & name )
     // Notify about the change
     KURL::List lst;
     lst.append(url);
-    KDirNotify_stub allDirNotify(Q3CString("*"), Q3CString("KDirNotify*"));
+    KDirNotify_stub allDirNotify("*", "KDirNotify*");
     allDirNotify.FilesChanged( lst );
 }
 
