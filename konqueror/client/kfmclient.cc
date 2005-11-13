@@ -249,14 +249,14 @@ static int currentScreen()
 }
 
 // when reusing a preloaded konqy, make sure your always use a DCOP call which opens a profile !
-static Q3CString getPreloadedKonqy()
+static DCOPCString getPreloadedKonqy()
 {
     KConfig cfg( QLatin1String( "konquerorrc" ), true );
     cfg.setGroup( "Reusing" );
     if( cfg.readNumEntry( "MaxPreloadCount", 1 ) == 0 )
         return "";
     DCOPRef ref( "kded", "konqy_preloader" );
-    Q3CString ret;
+    DCOPCString ret;
     if( ref.callExt( "getPreloadedKonqy", DCOPRef::NoEventLoop, 3000, currentScreen()).get( ret ))
 	return ret;
     return Q3CString();
