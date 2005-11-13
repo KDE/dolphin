@@ -131,7 +131,7 @@ public:
 
 signals:
     void statFinished( const KFileItem * item );
-    void aboutToCreate(const QPoint &pos, const Q3ValueList<KIO::CopyInfo> &files);
+    void aboutToCreate(const QPoint &pos, const QList<KIO::CopyInfo> &files);
 
 protected:
     enum { DEFAULT_CONFIRMATION, SKIP_CONFIRMATION, FORCE_CONFIRMATION };
