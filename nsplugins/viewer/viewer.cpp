@@ -75,7 +75,7 @@ static int x_errhandler(Display *dpy, XErrorEvent *error)
  * the "old style" and keep lot's of global vars. :-)
  */
 
-static Q3CString g_dcopId;
+static DCOPCString g_dcopId;
 
 /**
  * parseCommandLine - get command line parameters
