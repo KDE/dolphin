@@ -41,7 +41,7 @@ class KonqyPreloader
         void reconfigure();
         void unloadAllPreloaded();
     private slots:
-        void appRemoved( const Q3CString& id );
+        void appRemoved( const QByteArray& id );
 	void checkAlwaysPreloaded();
     private:
         void updateCount();

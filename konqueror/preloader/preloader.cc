@@ -31,8 +31,8 @@ KonqyPreloader::KonqyPreloader( const DCOPCString& obj )
     : KDEDModule( obj )
     {
     reconfigure();
-    connect( kapp->dcopClient(), SIGNAL( applicationRemoved( const Q3CString& )),
-        SLOT( appRemoved( const Q3CString& )));
+    connect( kapp->dcopClient(), SIGNAL( applicationRemoved( const QByteArray& )),
+        SLOT( appRemoved( const QByteArray& )));
     connect( &check_always_preloaded_timer, SIGNAL( timeout()),
 	SLOT( checkAlwaysPreloaded()));
     }
@@ -81,7 +81,7 @@ void KonqyPreloader::unregisterPreloadedKonqy( Q3CString id_P )
             }
     }
 
-void KonqyPreloader::appRemoved( const Q3CString& id )
+void KonqyPreloader::appRemoved( const QByteArray& id )
     {
     unregisterPreloadedKonqy( id );
     }
