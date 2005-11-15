@@ -30,7 +30,7 @@
 #include <qtoolbutton.h>
 //Added by qt3to4:
 #include <QVBoxLayout>
-#include <Q3ValueList>
+#include <QList>
 #include <Q3CString>
 
 #include <kidna.h>
@@ -288,7 +288,7 @@ void KCookiesManagement::getCookies(Q3ListViewItem *cookieDom)
   if ( ckd->cookiesLoaded() )
     return;
 
-  Q3ValueList<int> fields;
+  QList<int> fields;
   fields << 0 << 1 << 2 << 3;
 
   DCOPReply reply = DCOPRef ("kded", "kcookiejar").call ("findCookies",
@@ -319,7 +319,7 @@ void KCookiesManagement::getCookies(Q3ListViewItem *cookieDom)
 
 bool KCookiesManagement::cookieDetails(CookieProp *cookie)
 {
-  Q3ValueList<int> fields;
+  QList<int> fields;
   fields << 4 << 5 << 7;
 
   DCOPReply reply = DCOPRef ("kded", "kcookiejar").call ("findCookies",

@@ -20,7 +20,6 @@
 #define __FAKE_UAS_PROVIDER_H___
 
 #include <ktrader.h>
-#include <Q3ValueList>
 
 class QString;
 class QStringList;
