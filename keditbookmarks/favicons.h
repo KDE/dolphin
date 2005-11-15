@@ -28,8 +28,6 @@
 #include <kparts/browserinterface.h>
 
 #include "bookmarkiterator.h"
-//Added by qt3to4:
-#include <Q3ValueList>
 
 class FavIconsItrHolder : public BookmarkIteratorHolder {
 public:

@@ -500,21 +500,21 @@ void ActionsImpl::slotUpdateFavIcon() {
 class KBookmarkGroupList : private KBookmarkGroupTraverser {
 public:
     KBookmarkGroupList(KBookmarkManager *);
-    Q3ValueList<KBookmark> getList(const KBookmarkGroup &);
+    QList<KBookmark> getList(const KBookmarkGroup &);
 private:
     virtual void visit(const KBookmark &) { ; }
     virtual void visitEnter(const KBookmarkGroup &);
     virtual void visitLeave(const KBookmarkGroup &) { ; }
 private:
     KBookmarkManager *m_manager;
-    Q3ValueList<KBookmark> m_list;
+    QList<KBookmark> m_list;
 };
 
 KBookmarkGroupList::KBookmarkGroupList( KBookmarkManager *manager ) {
     m_manager = manager;
 }
 
-Q3ValueList<KBookmark> KBookmarkGroupList::getList( const KBookmarkGroup &grp ) {
+QList<KBookmark> KBookmarkGroupList::getList( const KBookmarkGroup &grp ) {
     traverse(grp);
     return m_list;
 }
@@ -529,9 +529,9 @@ void ActionsImpl::slotRecursiveSort() {
     Q_ASSERT(bk.isGroup());
     KEBMacroCommand *mcmd = new KEBMacroCommand(i18n("Recursive Sort"));
     KBookmarkGroupList lister(CurrentMgr::self()->mgr());
-    Q3ValueList<KBookmark> bookmarks = lister.getList(bk.toGroup());
+    QList<KBookmark> bookmarks = lister.getList(bk.toGroup());
     bookmarks << bk.toGroup();
-    for (Q3ValueListConstIterator<KBookmark> it = bookmarks.begin(); it != bookmarks.end(); ++it) {
+    for (QList<KBookmark>::ConstIterator it = bookmarks.begin(); it != bookmarks.end(); ++it) {
         SortCommand *cmd = new SortCommand("", (*it).address());
         cmd->execute();
         mcmd->addCommand(cmd);
