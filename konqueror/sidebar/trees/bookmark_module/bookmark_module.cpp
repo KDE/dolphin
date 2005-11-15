@@ -23,7 +23,7 @@
 #include <QGridLayout>
 #include <QDropEvent>
 #include <QLabel>
-#include <Q3ValueList>
+#include <QList>
 
 #include <kaction.h>
 #include <kactioncollection.h>

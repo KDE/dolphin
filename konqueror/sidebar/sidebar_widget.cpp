@@ -1236,7 +1236,7 @@ void Sidebar_Widget::resizeEvent(QResizeEvent* ev)
                 QSplitter *split = splitter();
 		if (split && (m_savedWidth != newWidth))
 		{
-			Q3ValueList<int> sizes = split->sizes();
+			QList<int> sizes = split->sizes();
 			if ((sizes.count() >= 2) && (sizes[1]))
 			{
 				m_savedWidth = newWidth;
