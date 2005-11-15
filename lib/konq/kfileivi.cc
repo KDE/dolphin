@@ -26,7 +26,7 @@
 #include <qpainter.h>
 //Added by qt3to4:
 #include <QPixmap>
-#include <Q3ValueList>
+#include <QList>
 #include <QDropEvent>
 #include <QIcon>
 
@@ -350,7 +350,7 @@ void KFileIVI::setKey( const QString &key )
     Q3IconViewItem::setKey( theKey );
 }
 
-void KFileIVI::dropped( QDropEvent *e, const Q3ValueList<Q3IconDragItem> & )
+void KFileIVI::dropped( QDropEvent *e, const QList<Q3IconDragItem> & )
 {
     KonqOperations::doDrop( item(), item()->url(), e, iconView() );
 }

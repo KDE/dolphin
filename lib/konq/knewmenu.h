@@ -23,7 +23,7 @@
 #include <q3intdict.h>
 #include <qstringlist.h>
 //Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
 
 #include <kaction.h>
 #include <kdialogbase.h>
@@ -143,7 +143,7 @@ private:
      * List of all template files. It is important that they are in
      * the same order as the 'New' menu.
      */
-    static Q3ValueList<Entry> * s_templatesList;
+    static QList<Entry> * s_templatesList;
 
     class KNewMenuPrivate;
     KNewMenuPrivate* d;

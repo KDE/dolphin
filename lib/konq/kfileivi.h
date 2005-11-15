@@ -25,7 +25,7 @@
 #include <libkonq_export.h>
 //Added by qt3to4:
 #include <QPixmap>
-#include <Q3ValueList>
+#include <QList>
 #include <QDropEvent>
 
 class KFileItem;
@@ -198,7 +198,7 @@ public:
     virtual int compare( Q3IconViewItem *i ) const;
 
 protected:
-    virtual void dropped( QDropEvent *e, const Q3ValueList<Q3IconDragItem> &  );
+    virtual void dropped( QDropEvent *e, const QList<Q3IconDragItem> &  );
 
     /**
      * Contains the logic and code for painting the overlay pixmap.

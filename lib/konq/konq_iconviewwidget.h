@@ -32,7 +32,7 @@
 #include <QDragMoveEvent>
 #include <QEvent>
 #include <QDropEvent>
-#include <Q3ValueList>
+#include <QList>
 #include <QDragEnterEvent>
 #include <QMouseEvent>
 #include <kfileitem.h>
@@ -292,7 +292,7 @@ signals:
     void dragFinished();
 
 protected slots:
-    virtual void slotDropped( QDropEvent *e, const Q3ValueList<Q3IconDragItem> & );
+    virtual void slotDropped( QDropEvent *e, const QList<Q3IconDragItem> & );
 
     void slotItemRenamed(Q3IconViewItem *item, const QString &name);
 
@@ -307,7 +307,7 @@ protected slots:
     void slotMovieStatus( int status );
     void slotReenableAnimation();
 
-    void slotAboutToCreate(const QPoint &pos, const Q3ValueList<KIO::CopyInfo> &files);
+    void slotAboutToCreate(const QPoint &pos, const QList<KIO::CopyInfo> &files);
     void doubleClickTimeout();
 
 protected:

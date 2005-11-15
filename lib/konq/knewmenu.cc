@@ -20,7 +20,7 @@
 #include <qdir.h>
 //Added by qt3to4:
 #include <QVBoxLayout>
-#include <Q3ValueList>
+#include <QList>
 #include <Q3CString>
 #include <kdebug.h>
 #include <kdesktopfile.h>
@@ -51,7 +51,7 @@
 #include <qlabel.h>
 #include <q3popupmenu.h>
 
-Q3ValueList<KNewMenu::Entry> * KNewMenu::s_templatesList = 0L;
+QList<KNewMenu::Entry> * KNewMenu::s_templatesList = 0L;
 int KNewMenu::s_templatesVersion = 0;
 bool KNewMenu::s_filesParsed = false;
 KDirWatch * KNewMenu::s_pDirWatch = 0L;
@@ -109,15 +109,15 @@ void KNewMenu::slotCheckUpToDate( )
         //kdDebug(1203) << "KNewMenu::slotCheckUpToDate() : recreating actions" << endl;
         // We need to clean up the action collection
         // We look for our actions using the group
-        Q3ValueList<KAction*> actions = d->m_actionCollection->actions( "KNewMenu" );
-        for( Q3ValueListIterator<KAction*> it = actions.begin(); it != actions.end(); ++it )
+        QList<KAction*> actions = d->m_actionCollection->actions( "KNewMenu" );
+        for( QList<KAction*>::Iterator it = actions.begin(); it != actions.end(); ++it )
         {
             remove( *it );
             d->m_actionCollection->remove( *it );
         }
 
         if (!s_templatesList) { // No templates list up to now
-            s_templatesList = new Q3ValueList<Entry>();
+            s_templatesList = new QList<Entry>();
             slotFillTemplates();
             parseFiles();
         }
@@ -137,7 +137,7 @@ void KNewMenu::parseFiles()
 {
     //kdDebug(1203) << "KNewMenu::parseFiles()" << endl;
     s_filesParsed = true;
-    Q3ValueList<Entry>::Iterator templ = s_templatesList->begin();
+    QList<Entry>::Iterator templ = s_templatesList->begin();
     for ( /*++templ*/; templ != s_templatesList->end(); ++templ)
     {
         QString iconname;
@@ -210,7 +210,7 @@ void KNewMenu::fillMenu()
     KAction *linkURL = 0, *linkApp = 0;  // these shall be put at special positions
 
     int i = 1; // was 2 when there was Folder
-    Q3ValueList<Entry>::Iterator templ = s_templatesList->begin();
+    QList<Entry>::Iterator templ = s_templatesList->begin();
     for ( ; templ != s_templatesList->end(); ++templ, ++i)
     {
         if ( (*templ).entryType != SEPARATOR )
@@ -223,8 +223,8 @@ void KNewMenu::fillMenu()
 
             bool bSkip = false;
 
-            Q3ValueList<KAction*> actions = d->m_actionCollection->actions();
-            Q3ValueListIterator<KAction*> it = actions.begin();
+            QList<KAction*> actions = d->m_actionCollection->actions();
+            QList<KAction*>::Iterator it = actions.begin();
             for( ; it != actions.end() && !bSkip; ++it )
             {
                 if ( (*it)->text() == (*templ).text )
@@ -236,7 +236,7 @@ void KNewMenu::fillMenu()
 
             if ( !bSkip )
             {
-                Entry entry = *(s_templatesList->at( i-1 ));
+                Entry entry = (s_templatesList->at( i-1 ));
 
                 // The best way to identify the "Create Directory", "Link to Location", "Link to Application" was the template
                 if ( (*templ).templatePath.endsWith( "emptydir" ) )
@@ -381,7 +381,7 @@ void KNewMenu::slotNewFile()
 
     emit activated(); // for KDIconView::slotNewMenuActivated()
 
-    Entry entry = *(s_templatesList->at( id - 1 ));
+    Entry entry = (s_templatesList->at( id - 1 ));
     //kdDebug(1203) << QString("sFile = %1").arg(sFile) << endl;
 
     if ( !QFile::exists( entry.templatePath ) ) {

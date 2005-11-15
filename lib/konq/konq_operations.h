@@ -25,7 +25,7 @@
 #include <qobject.h>
 #include <qevent.h>
 //Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
 #include <QDropEvent>
 
 namespace KIO { class Job; class CopyInfo; }

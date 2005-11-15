@@ -40,7 +40,7 @@
 #include <QDragMoveEvent>
 #include <Q3CString>
 #include <QDragLeaveEvent>
-#include <Q3ValueList>
+#include <QList>
 #include <QWheelEvent>
 #include <QDropEvent>
 #include <QDragEnterEvent>
@@ -133,8 +133,8 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, Qt:
       m_bSetGridX( !kdesktop ) /* No line breaking on the desktop */
 {
     d = new KonqIconViewWidgetPrivate;
-    connect( this, SIGNAL( dropped( QDropEvent *, const Q3ValueList<Q3IconDragItem> & ) ),
-             this, SLOT( slotDropped( QDropEvent*, const Q3ValueList<Q3IconDragItem> & ) ) );
+    connect( this, SIGNAL( dropped( QDropEvent *, const QList<Q3IconDragItem> & ) ),
+             this, SLOT( slotDropped( QDropEvent*, const QList<Q3IconDragItem> & ) ) );
 
     connect( this, SIGNAL( selectionChanged() ),
              this, SLOT( slotSelectionChanged() ) );
@@ -885,13 +885,13 @@ KFileItemList KonqIconViewWidget::selectedFileItems()
     return lstItems;
 }
 
-void KonqIconViewWidget::slotDropped( QDropEvent *ev, const Q3ValueList<Q3IconDragItem> & )
+void KonqIconViewWidget::slotDropped( QDropEvent *ev, const QList<Q3IconDragItem> & )
 {
     // Drop on background
     KonqOperations::doDrop( m_rootItem /* may be 0L */, url(), ev, this );
 }
 
-void KonqIconViewWidget::slotAboutToCreate(const QPoint &, const Q3ValueList<KIO::CopyInfo> &)
+void KonqIconViewWidget::slotAboutToCreate(const QPoint &, const QList<KIO::CopyInfo> &)
 {
    // Do nothing :-)
 }
@@ -1213,7 +1213,7 @@ void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
     KIconView::contentsDropEvent( ev );
     setItemsMovable(bMovable);
 
-    Q3ValueList<Q3IconDragItem> lst;
+    QList<Q3IconDragItem> lst;
     slotDropped(ev, lst);
   }
   else
@@ -1524,7 +1524,7 @@ void KonqIconViewWidget::lineupIcons()
 
     int iconSize = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
 
-    typedef Q3ValueList<Q3IconViewItem*> Bin;
+    typedef QList<Q3IconViewItem*> Bin;
     Bin*** bins = new Bin**[nx];
     int i;
     int j;
@@ -1662,7 +1662,7 @@ void KonqIconViewWidget::lineupIcons()
 
     // Perform the actual moving
     QRegion repaintRegion;
-    Q3ValueList<Q3IconViewItem*> movedItems;
+    QList<Q3IconViewItem*> movedItems;
 
     for ( i = 0; i < nx; i++ ) {
         for ( j = 0; j < ny; j++ ) {
@@ -1719,7 +1719,7 @@ void KonqIconViewWidget::lineupIcons( Q3IconView::Arrangement arrangement )
     int textHeight = iconTextHeight() * fontMetrics().height();
 
     QRegion repaintRegion;
-    Q3ValueList<Q3IconViewItem*> movedItems;
+    QList<Q3IconViewItem*> movedItems;
     int nx = 0, ny = 0;
 
     Q3IconViewItem* item;
