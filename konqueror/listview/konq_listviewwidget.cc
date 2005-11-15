@@ -202,7 +202,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
    m_filenameColumnWidth = config.fileNameColumnWidth();
 
    QStringList lstColumns = config.columns();
-   Q3ValueList<int> lstColumnWidths = config.columnWidths();
+   QList<int> lstColumnWidths = config.columnWidths();
    if (lstColumns.isEmpty())
    {
       // Default column selection
@@ -261,7 +261,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
             currentColumn++;
 
             if ( i < lstColumnWidths.count() )
-               confColumns[j].width = *lstColumnWidths.at(i);
+               confColumns[j].width = lstColumnWidths.at(i);
             else
             {
                // Default Column widths

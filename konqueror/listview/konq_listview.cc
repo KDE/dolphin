@@ -595,7 +595,7 @@ void KonqListView::slotSaveAfterHeaderDrag()
 
 void KonqListView::slotSaveColumnWidths()
 {
-   Q3ValueList<int> lstColumnWidths;
+   QList<int> lstColumnWidths;
 
    for ( int i=0; i < m_pListView->columns(); i++ )
    {
