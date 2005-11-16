@@ -22,7 +22,7 @@
 #include <kaboutdata.h>
 #include <kfiledialog.h>
 #include <dcopclient.h>
-
+#include <Q3ListBox>
 #include <qlayout.h>
 #include <qpushbutton.h>
 #include <q3groupbox.h>

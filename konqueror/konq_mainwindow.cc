@@ -188,9 +188,9 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   m_toggleViewGUIClient = new ToggleViewGUIClient( this );
 
-  m_openWithActions.setAutoDelete( true );
+  //m_openWithActions.setAutoDelete( true );
   m_viewModeActions.setAutoDelete( true );
-  m_toolBarViewModeActions.setAutoDelete( true );
+  //m_toolBarViewModeActions.setAutoDelete( true );
   m_viewModeMenu = 0;
   m_paCopyFiles = 0;
   m_paMoveFiles = 0;
@@ -1593,13 +1593,12 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
               // quick viewmode change (iconview) -> find the iconview-konqviewmode
               // action and set new text,icon,etc. properties, to show the new
               // current viewmode
-              Q3PtrListIterator<KAction> it( m_toolBarViewModeActions );
-              for (; it.current(); ++it )
-                  if ( QLatin1String( it.current()->name() ) == oldService->desktopEntryName() )
+              for (int i = 0; i < m_toolBarViewModeActions.size(); ++i) 
+                  if ( QLatin1String( m_toolBarViewModeActions.at(i)->name() ) == oldService->desktopEntryName() )
                   {
-                      assert( it.current()->inherits( "KonqViewModeAction" ) );
+                      assert( m_toolBarViewModeActions.at(i)->inherits( "KonqViewModeAction" ) );
 
-                      KonqViewModeAction *action = static_cast<KonqViewModeAction *>( it.current() );
+                      KonqViewModeAction *action = static_cast<KonqViewModeAction *>( m_toolBarViewModeActions.at(i) );
 
                       action->setChecked( true );
 		      QString servicename = service->genericName();
@@ -2198,11 +2197,10 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
           }
       }
       const QString currentServiceLibrary = viewModeActionKey( m_currentView->service() );
-      Q3PtrListIterator<KAction> ittb( m_toolBarViewModeActions );
-      for (; ittb.current(); ++ittb ) {
-          KService::Ptr serv = KService::serviceByDesktopName( ittb.current()->name() );
+      for (int i = 0; i < m_toolBarViewModeActions.size(); ++i) {
+          KService::Ptr serv = KService::serviceByDesktopName(  m_toolBarViewModeActions.at(i)->name() );
           if ( serv && viewModeActionKey( serv ) == currentServiceLibrary ) {
-              KToggleAction* ta = static_cast<KToggleAction*>( ittb.current() );
+              KToggleAction* ta = static_cast<KToggleAction*>( m_toolBarViewModeActions.at(i));
               ta->setChecked( true );
 	      QString servicename = m_currentView->service()->genericName();
 	      if (servicename.isEmpty())
@@ -3552,7 +3550,7 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
 
     if (!haveFullScreenButton)
     {
-        Q3PtrList<KAction> lst;
+        QList<KAction*> lst;
         lst.append( m_ptaFullScreen );
         plugActionList( "fullscreen", lst );
     }
@@ -4182,7 +4180,7 @@ void KonqMainWindow::updateViewActions()
       m_paNewDir = new KAction( i18n("Create Folder..." ), Qt::Key_F10, this, SLOT( slotNewDir() ),
                                 actionCollection(), "konq_create_dir" );
 
-      Q3PtrList<KAction> lst;
+      QList<KAction*> lst;
       lst.append( m_paCopyFiles );
       lst.append( m_paMoveFiles );
       m_paCopyFiles->setEnabled( false );
@@ -4369,9 +4367,10 @@ void KonqMainWindow::enableAllActions( bool enable )
 
       if (m_toggleViewGUIClient)
       {
-          Q3PtrList<KAction> actions = m_toggleViewGUIClient->actions();
-          for ( KAction * it = actions.first(); it ; it = actions.next() )
-              it->setEnabled( true );
+          QList<KAction*> actions = m_toggleViewGUIClient->actions();
+          for (int i = 0; i < actions.size(); ++i) {
+            actions.at(i)->setEnabled( true );
+          }
       }
 
   }
@@ -4396,9 +4395,10 @@ void KonqMainWindow::disableActionsNoView()
     m_paLinkView->setEnabled( false );
     if (m_toggleViewGUIClient)
     {
-        Q3PtrList<KAction> actions = m_toggleViewGUIClient->actions();
-        for ( KAction * it = actions.first(); it ; it = actions.next() )
-            it->setEnabled( false );
+        QList<KAction*> actions = m_toggleViewGUIClient->actions();
+        for (int i = 0; i < actions.size(); ++i) {
+            actions.at(i)->setEnabled( false );
+        }
     }
     // There are things we can do, though : bookmarks, view profile, location bar, new window,
     // settings, etc.

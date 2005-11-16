@@ -80,7 +80,7 @@ public:
 
   bool empty() const { return m_empty; }
 
-  Q3PtrList<KAction> actions() const;
+  QList<KAction*> actions() const;
   KAction *action( const QString &name ) { return m_actions[ name ]; }
 
   void saveConfig( bool add, const QString &serviceName );

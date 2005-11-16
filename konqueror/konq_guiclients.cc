@@ -221,9 +221,9 @@ ToggleViewGUIClient::~ToggleViewGUIClient()
 {
 }
 
-Q3PtrList<KAction> ToggleViewGUIClient::actions() const
+QList<KAction*> ToggleViewGUIClient::actions() const
 {
-  Q3PtrList<KAction> res;
+  QList<KAction*> res;
 
   Q3DictIterator<KAction> it( m_actions );
   for (; it.current(); ++it )

@@ -739,9 +739,9 @@ private:
 
   QString m_initialFrameName;
 
-  Q3PtrList<KAction> m_openWithActions;
+  QList<KAction *> m_openWithActions;
   KActionMenu *m_viewModeMenu;
-  Q3PtrList<KAction> m_toolBarViewModeActions; // basically holds two KonqViewActions, one of
+  QList<KAction*> m_toolBarViewModeActions; // basically holds two KonqViewActions, one of
                                               // iconview and one for listview
   Q3PtrList<KRadioAction> m_viewModeActions;
   QMap<QString,KService::Ptr> m_viewModeToolBarServices; // similar to m_toolBarViewModeActions
