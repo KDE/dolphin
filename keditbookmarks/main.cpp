@@ -134,7 +134,7 @@ extern "C" KDE_EXPORT int kdemain(int argc, char **argv) {
     bool browser = args->isSet("browser");
 
     KApplication::disableAutoDcopRegistration(); 
-    KApplication app(isGui, isGui);
+    KApplication app(isGui);
 
     bool gotArg = (args->count() == 1);
 

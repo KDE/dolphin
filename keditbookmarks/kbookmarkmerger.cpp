@@ -73,7 +73,7 @@ int main( int argc, char**argv )
 	if ( !kdeRunning ) {
 		KApplication::disableAutoDcopRegistration();
 	}
-	KApplication app( false, false );
+	KApplication app( false );
 	app.disableSessionManagement();
 
 	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
