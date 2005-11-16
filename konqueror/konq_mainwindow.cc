@@ -5094,7 +5094,7 @@ void KonqMainWindow::saveToolBarServicesMap()
 
 void KonqMainWindow::plugViewModeActions()
 {
-  Q3PtrList<KAction> lst;
+  QList<KAction*> lst;
   lst.append( m_viewModeMenu );
   plugActionList( "viewmode", lst );
   // display the toolbar viewmode icons only for inode/directory, as here we have dedicated icons

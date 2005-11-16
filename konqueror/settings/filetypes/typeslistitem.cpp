@@ -128,7 +128,7 @@ void TypesListItem::getServiceOffers( QStringList & appServices, QStringList & e
 {
   KServiceTypeProfile::OfferList offerList =
     KServiceTypeProfile::offers(m_mimetype->name(), "Application");
-  Q3ValueListIterator<KServiceOffer> it(offerList.begin());
+  QList<KServiceOffer>::Iterator it(offerList.begin());
   for (; it != offerList.end(); ++it)
     if ((*it).allowAsDefault())
       appServices.append((*it).service()->desktopEntryPath());
@@ -311,7 +311,7 @@ void TypesListItem::sync()
     KServiceTypeProfile::offers(m_mimetype->name(), "Application");
   offerList += KServiceTypeProfile::offers(m_mimetype->name(), "KParts/ReadOnlyPart");
 
-  Q3ValueListIterator<KServiceOffer> it_srv(offerList.begin());
+  QList<KServiceOffer>::Iterator it_srv(offerList.begin());
 
   for (; it_srv != offerList.end(); ++it_srv) {
 

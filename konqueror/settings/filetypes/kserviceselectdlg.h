@@ -20,7 +20,7 @@
 #define __kserviceselectdlg_h
 #include <kdialogbase.h>
 #include <kservice.h>
-
+#include <klistbox.h>
 class KServiceSelectDlg : public KDialogBase
 {
     Q_OBJECT
