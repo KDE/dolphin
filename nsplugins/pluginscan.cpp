@@ -563,7 +563,7 @@ int main( int argc, char **argv )
       printf("10\n"); fflush(stdout);
     }
 
-    KApplication app(false, false);
+    KApplication app( false);
 
     // Set up SIGCHLD handler
     struct sigaction act;
