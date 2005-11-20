@@ -3,7 +3,6 @@
 #include <qtextcodec.h>
 //Added by qt3to4:
 #include <QTextStream>
-#include <Q3CString>
 
 #include <kaboutdata.h>
 #include <kapplication.h>
@@ -507,7 +506,7 @@ void KonqAboutPage::urlSelected( const QString &url, int button, int state, cons
 	    QString profile = locateLocal("data", "konqueror/profiles/webbrowsing");
 	    KSaveFile file( profile );
 	    if ( file.status() == 0 ) {
-		Q3CString content = "[Profile]\n"
+		QByteArray content = "[Profile]\n"
 			           "Name=Web-Browser";
 		fputs( content.data(), file.fstream() );
 		file.close();
