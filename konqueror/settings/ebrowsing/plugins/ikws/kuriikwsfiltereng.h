@@ -28,7 +28,6 @@
 #include <q3valuelist.h>
 #include <qstringlist.h>
 //Added by qt3to4:
-#include <Q3CString>
 
 #include <kservice.h>
 
@@ -43,7 +42,7 @@ public:
   KURISearchFilterEngine();
   ~KURISearchFilterEngine() {};
 
-  Q3CString name() const;
+  QByteArray name() const;
   
   QString webShortcutQuery (const QString&) const;
   

@@ -28,8 +28,6 @@
 
 #include <qregexp.h>
 #include <qtextcodec.h>
-//Added by qt3to4:
-#include <Q3CString>
 
 #include <kurl.h>
 #include <kdebug.h>
@@ -116,7 +114,7 @@ QString KURISearchFilterEngine::autoWebSearchQuery( const QString& typedString )
   return result;
 }
 
-Q3CString KURISearchFilterEngine::name() const
+QByteArray KURISearchFilterEngine::name() const
 {
   return "kuriikwsfilter";
 }
