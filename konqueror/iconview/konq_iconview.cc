@@ -232,7 +232,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     for ( KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it )
     {
         if ( KToggleAction*& preview = previewActions[ ( *it )->name() ] )
-            preview->setName( Q3CString( preview->name() ) + ',' + ( *it )->desktopEntryName().toLatin1() );
+            preview->setName( QByteArray( preview->name() ) + ',' + ( *it )->desktopEntryName().toLatin1() );
         else
         {
             preview = new KToggleAction( (*it)->name(), 0, actionCollection(), (*it)->desktopEntryName().toLatin1() );
@@ -430,7 +430,7 @@ const KFileItem * KonqKfmIconView::currentItem()
 
 void KonqKfmIconView::slotPreview( bool toggle )
 {
-    Q3CString name = sender()->name(); // e.g. clipartthumbnail (or audio/, special case)
+    QByteArray name = sender()->name(); // e.g. clipartthumbnail (or audio/, special case)
     if (name == "iconview_preview_all")
     {
         m_pProps->setShowingPreview( toggle );
