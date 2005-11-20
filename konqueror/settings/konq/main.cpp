@@ -36,10 +36,10 @@
 #include <Q3CString>
 #include <QDesktopWidget>
 
-static Q3CString configname()
+static QString configname()
 {
 	int desktop = KApplication::desktop()->primaryScreen();
-	Q3CString name;
+	QString name;
 	if (desktop == 0)
 		name = "kdesktoprc";
     else
