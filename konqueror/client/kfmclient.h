@@ -22,7 +22,6 @@
 
 #include <kapplication.h>
 #include <krun.h>
-#include <Q3CString>
 
 class clientApp : public KApplication
 {
@@ -43,7 +42,7 @@ protected slots:
 
 private:
   static bool m_ok;
-  static Q3CString startup_id_str;
+  static QByteArray startup_id_str;
 
 };
 

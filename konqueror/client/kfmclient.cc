@@ -24,8 +24,6 @@
 #include <unistd.h>
 
 #include <qdir.h>
-//Added by qt3to4:
-#include <Q3CString>
 
 #include <ktoolinvocation.h>
 #include <kio/job.h>
@@ -59,7 +57,7 @@ static const char description[] = I18N_NOOP("KDE tool for opening URLs from the 
 
 static const char version[] = "2.0";
 
-Q3CString clientApp::startup_id_str;
+QByteArray clientApp::startup_id_str;
 bool clientApp::m_ok;
 bool s_interactive = true;
 
@@ -259,7 +257,7 @@ static DCOPCString getPreloadedKonqy()
     DCOPCString ret;
     if( ref.callExt( "getPreloadedKonqy", DCOPRef::NoEventLoop, 3000, currentScreen()).get( ret ))
 	return ret;
-    return Q3CString();
+    return DCOPCString();
 }
 
 
@@ -460,7 +458,7 @@ bool clientApp::doIt()
   if ( !args->isSet( "ninteractive" ) ) {
       s_interactive = false;
   }
-  Q3CString command = args->arg(0);
+  QByteArray command = args->arg(0);
 
   // read ASN env. variable for non-KApp cases
   startup_id_str = KStartupInfo::currentStartupIdEnv().id();
