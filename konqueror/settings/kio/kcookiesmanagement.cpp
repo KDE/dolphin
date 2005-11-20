@@ -28,10 +28,8 @@
 #include <qtimer.h>
 #include <qdatetime.h>
 #include <qtoolbutton.h>
-//Added by qt3to4:
 #include <QVBoxLayout>
 #include <QList>
-#include <Q3CString>
 
 #include <kidna.h>
 #include <kdebug.h>
@@ -166,7 +164,7 @@ void KCookiesManagement::save()
   {
     QByteArray call;
     QByteArray reply;
-    Q3CString replyType;
+    DCOPCString replyType;
     QDataStream callStream(&call, QIODevice::WriteOnly);
 
     callStream.setVersion(QDataStream::Qt_3_1);
