@@ -1397,7 +1397,7 @@ int KonqBaseListViewWidget::executeArea( Q3ListViewItem *_item )
    int width = treeStepSize() * ( _item->depth() + ( rootIsDecorated() ? 1 : 0 ) );
    width += itemMargin();
    int ca = Qt::AlignHorizontal_Mask & columnAlignment( 0 );
-   if ( ca == Qt::AlignLeft || ca == Qt::AlignAuto )
+   if ( ca == Qt::AlignLeft )
    {
       width += _item->width( fontMetrics(), this, 0 );
       if ( width > columnWidth( 0 ) )
