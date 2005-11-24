@@ -623,7 +623,13 @@ void KonqCombo::paintEvent( QPaintEvent *pe )
 
     if ( m_pageSecurity!=KonqMainWindow::NotCrypted ) {
         QColor color(245, 246, 190);
-        bool useColor = hasSufficientContrast(color,edit->paletteForegroundColor());
+	// From George: disabled for now.  We're going to match IE behavior in
+	// 4.0 which means:
+	// 1) No color, but padlock for SSL verified
+	// 2) No padlock for non-verified SSL
+	// 3) Green fill, padlock, and site info for high-assurance verified
+	// 4) If available, red fill for known phishing site
+        bool useColor = false; //hasSufficientContrast(color,edit->paletteForegroundColor());
 
         QPainter p( this );
         p.setClipRect( re );
