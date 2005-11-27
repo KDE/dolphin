@@ -395,7 +395,7 @@ QString KURISearchFilterEngine::formatResult( const QString& url,
 {
   // Return nothing if userquery is empty and it contains
   // substitution strings...
-  if (query.isEmpty() && url.find(QRegExp(QRegExp::escape("\{"))) > 0)
+  if (query.isEmpty() && url.find(QRegExp(QRegExp::escape("\\{"))) > 0)
     return QString::null;
 
   // Debug info of map:
