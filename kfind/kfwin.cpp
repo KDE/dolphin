@@ -292,14 +292,14 @@ void KfindWindow::deleteFiles()
     return;
 
   // Iterate on all selected elements
-  QList<Q3ListViewItem*> selected = selectedItems();
-  foreach ( Q3ListViewItem* listViewItem, selected ) {
-    KfFileLVI *item = static_cast<KfFileLVI*>(listViewItem);
+  Q3PtrList<Q3ListViewItem> selected = selectedItems();
+  for ( uint i = 0; i < selected.count(); i++ ) {
+    KfFileLVI *item = (KfFileLVI *) selected.at(i);
     KFileItem file = item->fileitem;
 
     KIO::NetAccess::del(file.url(), this);
   }
-  qDeleteAll(selected);
+  selected.setAutoDelete(true);
 }
 
 void KfindWindow::fileProperties()
@@ -342,14 +342,16 @@ void KfindWindow::resizeEvent(QResizeEvent *e)
 Q3DragObject * KfindWindow::dragObject()
 {
   KURL::List uris;
-  QList<Q3ListViewItem*> selected = selectedItems();
+  Q3PtrList<Q3ListViewItem> selected = selectedItems();
 
   // create a list of URIs from selection
-  foreach ( Q3ListViewItem* listViewItem, selected )
+  for ( uint i = 0; i < selected.count(); i++ )
   {
-    KfFileLVI *item = static_cast<KfFileLVI*>(listViewItem);
-
-    uris.append( item->fileitem.url() );
+    KfFileLVI *item = (KfFileLVI *) selected.at( i );
+    if (item)
+    {
+      uris.append( item->fileitem.url() );
+    }
   }
 
   if ( uris.count() <= 0 )
