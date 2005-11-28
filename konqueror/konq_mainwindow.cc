@@ -3664,8 +3664,8 @@ QString KonqMainWindow::locationBarURL() const
 
 void KonqMainWindow::focusLocationBar()
 {
-  if ( m_combo->isVisible() )
-  m_combo->setFocus();
+  if ( m_combo->isVisible() || !isVisible() )
+    m_combo->setFocus();
 }
 
 void KonqMainWindow::startAnimation()
