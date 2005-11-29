@@ -31,6 +31,7 @@
 #include <kmessagebox.h>
 #include <kfiledialog.h>
 
+#include <kbookmark.h>
 #include <kbookmarkmanager.h>
 
 #include <kbookmarkimporter.h>

@@ -23,13 +23,13 @@
 
 #include "commands.h"
 #include <klocale.h>
-#include <kio/job.h>
 
 #include <kcommand.h>
-#include <kbookmark.h>
 
 #include <qobject.h>
 #include <QString>
+
+class KBookmark;
 
 // part pure
 class ImportCommand : public QObject, public KCommand, public IKEBCommand

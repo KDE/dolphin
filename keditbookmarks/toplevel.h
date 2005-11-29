@@ -24,7 +24,6 @@
 #include <kcommand.h>
 #include <kbookmark.h>
 #include <QMenu>
-#include <QVector>
 #include <kxmlguifactory.h>
 #include "bookmarklistview.h"
 

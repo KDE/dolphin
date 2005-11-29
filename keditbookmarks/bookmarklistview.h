@@ -20,8 +20,6 @@
 #define __bookmarklistview_h
 
 #include <QTreeView>
-#include <QVector>
-#include <kbookmark.h>
 
 struct SelcAbilities {
     bool itemSelected:1;

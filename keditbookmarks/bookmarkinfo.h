@@ -21,11 +21,13 @@
 #ifndef __bookmarkinfo_h
 #define __bookmarkinfo_h
 
-#include "commands.h"
-#include "bookmarklistview.h"
 #include <kbookmark.h>
 #include <qwidget.h>
-#include <klineedit.h>
+
+class BookmarkListView;
+class EditCommand;
+
+class KLineEdit;
 
 class QTimer;
 

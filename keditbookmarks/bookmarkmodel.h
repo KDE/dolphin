@@ -22,14 +22,12 @@
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QVariant>
+#include <QVector>
 #include <kbookmark.h>
 #include "toplevel.h"
 #include "treeitem.h"
-#include "commands.h"
 
-#include <kdebug.h>
-
-#include <kurl.h>
+class QDropEvent;
 
 class BookmarkModel : public QAbstractItemModel
 {

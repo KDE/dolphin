@@ -24,9 +24,6 @@
 #include <kbookmark.h>
 #include <konq_faviconmgr.h>
 
-#include <kparts/part.h>
-#include <kparts/browserinterface.h>
-
 #include "bookmarkiterator.h"
 
 class FavIconsItrHolder : public BookmarkIteratorHolder {

@@ -17,6 +17,7 @@
 */
 
 #include "bookmarkinfo.h"
+#include "bookmarklistview.h"
 #include "commands.h"
 #include "toplevel.h"
 #include "treeitem.h"
