@@ -25,7 +25,6 @@
 #include <kbookmark.h>
 //Added by qt3to4:
 #include <QMap>
-#include <Q3MimeSourceFactory>
 
 
 // Interface adds the affectedBookmarks method

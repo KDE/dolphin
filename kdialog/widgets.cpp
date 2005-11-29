@@ -30,7 +30,6 @@
 #include <kdebug.h>
 #include <kapplication.h>
 #include <kcmdlineargs.h>
-#include <Q3TextEdit>
 #include <qlabel.h>
 #include <ktextedit.h>
 #include <kvbox.h>

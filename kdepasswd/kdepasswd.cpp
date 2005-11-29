@@ -61,7 +61,7 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    Q3CString oldpass;
+    QByteArray oldpass;
     if (!bRoot)
     {
         int result = KDEpasswd1Dialog::getPassword(oldpass);

@@ -16,8 +16,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#include <q3cstring.h>
-
 #include <kdesu/process.h>
 #include <kdebug.h>
 #include <kdebug.h>
@@ -52,7 +50,7 @@ int ChfnProcess::ConverseChfn(const char *pass)
 {
   int status=-1;
 
-  Q3CString line;
+  QByteArray line;
   while(1)
   {
     line = readLine();

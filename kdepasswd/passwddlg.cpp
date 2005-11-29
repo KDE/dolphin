@@ -11,9 +11,6 @@
 
 #include "passwd.h"
 #include "passwddlg.h"
-//Added by qt3to4:
-#include <Q3CString>
-
 
 KDEpasswd1Dialog::KDEpasswd1Dialog()
     : KPasswordDialog(Password, false, 0)

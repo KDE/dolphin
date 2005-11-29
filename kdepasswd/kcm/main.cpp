@@ -23,10 +23,8 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <q3buttongroup.h>
 #include <qevent.h>
 #include <qpixmap.h>
-#include <q3cstring.h>
 #include <qstringlist.h>
 #include <qlayout.h>
 //Added by qt3to4:
