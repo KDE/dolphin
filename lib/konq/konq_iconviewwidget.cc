@@ -888,7 +888,12 @@ KFileItemList KonqIconViewWidget::selectedFileItems()
 void KonqIconViewWidget::slotDropped( QDropEvent *ev, const QList<Q3IconDragItem> & )
 {
     // Drop on background
-    KonqOperations::doDrop( m_rootItem /* may be 0L */, url(), ev, this );
+    KURL dirURL = url();
+    if ( m_rootItem ) {
+        bool dummy;
+        dirURL = m_rootItem->mostLocalURL(dummy);
+    }
+    KonqOperations::doDrop( m_rootItem /* may be 0L */, dirURL, ev, this );
 }
 
 void KonqIconViewWidget::slotAboutToCreate(const QPoint &, const QList<KIO::CopyInfo> &)
