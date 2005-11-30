@@ -24,7 +24,6 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
-#include <q3whatsthis.h>
 #include <qpushbutton.h>
 
 #include <kdebug.h>

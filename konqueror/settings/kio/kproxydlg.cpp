@@ -23,8 +23,6 @@
 #include <qlayout.h>
 #include <qregexp.h>
 #include <qcheckbox.h>
-#include <q3whatsthis.h>
-#include <q3buttongroup.h>
 #include <qradiobutton.h>
 #include <qtabwidget.h>
 //Added by qt3to4:

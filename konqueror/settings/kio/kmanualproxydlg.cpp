@@ -23,7 +23,6 @@
 #include <qlayout.h>
 #include <qspinbox.h>
 #include <qcheckbox.h>
-#include <q3whatsthis.h>
 #include <qpushbutton.h>
 
 #include <kdebug.h>

@@ -20,7 +20,6 @@
 
 #include <qpainter.h>
 #include <qlayout.h>
-#include <q3whatsthis.h>
 #include <qtoolbutton.h>
 #include <qtabbar.h>
 #include <q3ptrlist.h>

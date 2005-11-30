@@ -3,8 +3,6 @@
 #include <qlayout.h>
 #include <qpushbutton.h>
 #include <qtimer.h>
-
-#include <q3widgetstack.h>
 //Added by qt3to4:
 #include <QGridLayout>
 #include <QHBoxLayout>

@@ -17,8 +17,6 @@
    Boston, MA 02110-1301, USA.
 */
 
-
-#include <q3whatsthis.h>
 #include <qstyle.h>
 #include <qdir.h>
 //Added by qt3to4:

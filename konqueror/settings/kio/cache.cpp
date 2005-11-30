@@ -22,9 +22,7 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
-#include <q3whatsthis.h>
 #include <qpushbutton.h>
-#include <q3buttongroup.h>
 #include <qradiobutton.h>
 //Added by qt3to4:
 #include <QVBoxLayout>

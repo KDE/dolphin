@@ -27,8 +27,6 @@
 #include <kiconloader.h>
 #include <kfiledialog.h>
 #include <kurlrequester.h>
-
-#include <q3whatsthis.h>
 #include <kdebug.h>
 
 #include <kapplication.h>
