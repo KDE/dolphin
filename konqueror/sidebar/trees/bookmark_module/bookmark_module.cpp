@@ -18,7 +18,7 @@
 
 #include <qclipboard.h>
 #include <qcursor.h>
-#include <q3popupmenu.h>
+#include <qmenu.h>
 //Added by qt3to4:
 #include <QGridLayout>
 #include <QDropEvent>

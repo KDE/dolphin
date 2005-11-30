@@ -22,12 +22,10 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <q3vbox.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
 #include <qlineedit.h>
 #include <qtooltip.h>
-#include <q3whatsthis.h>
 #include <qpushbutton.h>
 //Added by qt3to4:
 #include <QVBoxLayout>

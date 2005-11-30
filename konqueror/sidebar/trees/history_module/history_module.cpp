@@ -18,7 +18,7 @@
 */
 
 #include <qapplication.h>
-#include <q3popupmenu.h>
+#include <qmenu.h>
 
 #include <kapplication.h>
 #include <kaction.h>

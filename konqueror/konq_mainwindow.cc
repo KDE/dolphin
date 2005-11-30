@@ -62,10 +62,8 @@
 #include <qfile.h>
 #include <qclipboard.h>
 #include <qmetaobject.h>
-#include <q3vbox.h>
 #include <qlayout.h>
 #include <qfileinfo.h>
-#include <q3whatsthis.h>
 #include <QX11Info>
 //Added by qt3to4:
 #include <QCustomEvent>

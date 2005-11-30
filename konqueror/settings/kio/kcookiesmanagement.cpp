@@ -23,7 +23,6 @@
 #include <qlayout.h>
 #include <qpushbutton.h>
 #include <q3groupbox.h>
-#include <q3hbox.h>
 #include <qlabel.h>
 #include <qtimer.h>
 #include <qdatetime.h>

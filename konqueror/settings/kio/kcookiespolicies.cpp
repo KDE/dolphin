@@ -22,11 +22,9 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-#include <q3header.h>
-#include <q3vbox.h>
+
 #include <qlayout.h>
 #include <qcheckbox.h>
-#include <q3whatsthis.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qtoolbutton.h>

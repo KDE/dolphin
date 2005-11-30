@@ -18,7 +18,6 @@
 
 #include "web_module.h"
 #include <qfileinfo.h>
-#include <q3hbox.h>
 #include <qspinbox.h>
 #include <qtimer.h>
 

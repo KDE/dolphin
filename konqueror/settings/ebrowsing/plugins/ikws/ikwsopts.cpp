@@ -19,12 +19,9 @@
 
 #include <qcheckbox.h>
 #include <qfile.h>
-#include <q3groupbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qpushbutton.h>
-#include <q3vbox.h>
-#include <q3whatsthis.h>
 //Added by qt3to4:
 #include <QVBoxLayout>
 

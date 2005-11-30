@@ -45,11 +45,9 @@
 
 // For KURLDesktopFileDlg
 #include <qlayout.h>
-#include <q3hbox.h>
 #include <klineedit.h>
 #include <kurlrequester.h>
 #include <qlabel.h>
-#include <q3popupmenu.h>
 
 QList<KNewMenu::Entry> * KNewMenu::s_templatesList = 0L;
 int KNewMenu::s_templatesVersion = 0;

@@ -24,7 +24,7 @@
 #include <qtoolbutton.h>
 #include <qtabbar.h>
 #include <q3ptrlist.h>
-#include <q3popupmenu.h>
+#include <qmenu.h>
 #include <qkeysequence.h>
 //Added by qt3to4:
 #include <QPixmap>

@@ -24,7 +24,7 @@
 #include <qapplication.h>
 #include <qclipboard.h>
 #include <q3ptrlist.h>
-#include <q3popupmenu.h>
+#include <qmenu.h>
 #include <qtoolbutton.h>
 #include <qtooltip.h>
 //Added by qt3to4:

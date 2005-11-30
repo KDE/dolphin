@@ -24,14 +24,14 @@
 #include <qcursor.h>
 #include <qdir.h>
 #include <q3header.h>
-#include <q3popupmenu.h>
+#include <qmenu.h>
 #include <qtimer.h>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QDragLeaveEvent>
 #include <QDragMoveEvent>
 #include <QEvent>
-#include <Q3Frame>
+#include <QFrame>
 #include <QDropEvent>
 #include <QDragEnterEvent>
 
@@ -197,7 +197,7 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
       m_bOpeningFirstChild = false;
     }
 
-    setFrameStyle( Q3Frame::ToolBarPanel | Q3Frame::Raised );
+    setFrameStyle( QFrame::ToolBarPanel | QFrame::Raised );
 }
 
 KonqSidebarTree::~KonqSidebarTree()

@@ -26,7 +26,7 @@
 
 //Added by qt3to4:
 #include <QPixmap>
-#include <Q3Frame>
+#include <QFrame>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <Q3ButtonGroup>
@@ -60,7 +60,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, KInstance *
 	// ----
 
 	winPixmap = new QLabel(hbox);
-    winPixmap->setFrameStyle( Q3Frame::StyledPanel | Q3Frame::Sunken );
+    winPixmap->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
     winPixmap->setPixmap(QPixmap(locate("data",
                                         "kcontrol/pics/onlyone.png")));
     winPixmap->setFixedSize( winPixmap->sizeHint() );
