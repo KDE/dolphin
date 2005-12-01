@@ -18,7 +18,6 @@
 #include <qtimer.h>
 //Added by qt3to4:
 #include <QVBoxLayout>
-#include <Q3CString>
 #include <Q3PtrList>
 
 #include <kconfig.h>
@@ -60,8 +59,8 @@ KonqExtensionManager::KonqExtensionManager(QWidget *parent, KonqMainWindow *main
 	d->pluginSelector = new KPluginSelector(plainPage());
 	setMainWidget(d->pluginSelector);
 	connect(d->pluginSelector, SIGNAL(changed(bool)), this, SLOT(setChanged(bool)));
-	connect(d->pluginSelector, SIGNAL(configCommitted(const Q3CString &)),
-	        KSettings::Dispatcher::self(), SLOT(reparseConfiguration(const Q3CString &)));
+	connect(d->pluginSelector, SIGNAL(configCommitted(const QByteArray &)),
+	        KSettings::Dispatcher::self(), SLOT(reparseConfiguration(const QByteArray &)));
 
 	d->mainWindow = mainWindow;
 	d->activePart = activePart;
