@@ -104,7 +104,7 @@ private:
 
   unsigned int _pos;
   QByteArray _queue;
-  unsigned int _queuePos;
+  int _queuePos;
   int _tries;
   bool _onlyAsFile;
   bool _error;

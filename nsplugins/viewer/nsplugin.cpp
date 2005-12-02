@@ -1644,7 +1644,7 @@ bool NSPluginStreamBase::pump()
     inform();
 
     if ( _queuePos<_queue.size() ) {
-        unsigned newPos;
+        int newPos;
 
         // handle AS_FILE_ONLY streams
         if ( _onlyAsFile ) {
