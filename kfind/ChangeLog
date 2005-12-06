@@ -31,7 +31,7 @@ Fri Jul 30 22:33:25 1999  Carsten Pfeiffer  <pfeiffer@kde.org>
 
 	* kfindtop.cpp: Commented out _height, as it's not used.
 
-1998-11-30  Miroslav Flídr  <flidr@kky.zcu.cz>
+1998-11-30  Miroslav FlÃ­dr  <flidr@kky.zcu.cz>
 
 	* Dissabled multiple selection in view because it was not fully
 	handled
