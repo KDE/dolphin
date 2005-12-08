@@ -97,13 +97,15 @@ class KonqViewModeAction : public KRadioAction
 {
     Q_OBJECT
 public:
-    KonqViewModeAction( const QString &text, const QString &icon,
+    KonqViewModeAction( const QString& desktopEntryName,
+                        const QString &text, const QString &icon,
                         KActionCollection *parent, const char *name );
     virtual ~KonqViewModeAction();
 
     virtual int plug( QWidget *widget, int index = -1 );
 
     QMenu *popupMenu() const { return m_menu; }
+    QString desktopEntryName() const { return m_desktopEntryName; }
 
 private slots:
     void slotPopupAboutToShow();
@@ -111,6 +113,7 @@ private slots:
     void slotPopupAboutToHide();
 
 private:
+    QString m_desktopEntryName;
     bool m_popupActivated;
     QMenu *m_menu;
 };

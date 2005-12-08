@@ -741,9 +741,9 @@ private:
 
   QList<KAction *> m_openWithActions;
   KActionMenu *m_viewModeMenu;
-  QList<KAction*> m_toolBarViewModeActions; // basically holds two KonqViewActions, one of
-                                              // iconview and one for listview
-  Q3PtrList<KRadioAction> m_viewModeActions;
+  QList<KAction*> m_toolBarViewModeActions; // basically holds three KonqViewActions, one of
+                                              // iconview, one for listview, and one for externals
+  QList<KRadioAction *> m_viewModeActions;
   QMap<QString,KService::Ptr> m_viewModeToolBarServices; // similar to m_toolBarViewModeActions
   // it holds a map library name (libkonqiconview/libkonqlistview) ==> service (service for
   // iconview, multicolumnview, treeview, etc .)

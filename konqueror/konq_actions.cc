@@ -281,9 +281,11 @@ int KonqLogoAction::plug( QWidget *widget, int index )
 
 ///////////
 
-KonqViewModeAction::KonqViewModeAction( const QString &text, const QString &icon,
+KonqViewModeAction::KonqViewModeAction( const QString& desktopEntryName,
+                                        const QString &text, const QString &icon,
                                         KActionCollection *parent, const char *name )
-    : KRadioAction( text, icon, 0, 0L, "", parent, name )
+    : KRadioAction( text, icon, 0, 0L, "", parent, name ),
+      m_desktopEntryName( desktopEntryName )
 {
     m_menu = new QMenu;
 

@@ -187,7 +187,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_toggleViewGUIClient = new ToggleViewGUIClient( this );
 
   //m_openWithActions.setAutoDelete( true );
-  m_viewModeActions.setAutoDelete( true );
   //m_toolBarViewModeActions.setAutoDelete( true );
   m_viewModeMenu = 0;
   m_paCopyFiles = 0;
@@ -325,8 +324,6 @@ KonqMainWindow::~KonqMainWindow()
   delete m_pBookmarkMenu;
   delete m_paBookmarkBar;
   delete m_pURLCompletion;
-
-  m_viewModeActions.clear();
 
   KonqUndoManager::decRef();
 
@@ -1528,7 +1525,11 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   if ( !toggle )
     return;
 
-  QString modeName = sender()->name();
+  const KAction* action = static_cast<const KAction*>( sender() );
+  QString modeName = action->name();
+  // for KonqViewModeActions the service name is stored as a member
+  if ( const KonqViewModeAction* kvmAction = qobject_cast<const KonqViewModeAction *>( action ) )
+      modeName = kvmAction->desktopEntryName();
 
   if ( m_currentView->service()->desktopEntryName() == modeName )
     return;
@@ -1591,7 +1592,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
               // quick viewmode change (iconview) -> find the iconview-konqviewmode
               // action and set new text,icon,etc. properties, to show the new
               // current viewmode
-              for (int i = 0; i < m_toolBarViewModeActions.size(); ++i) 
+              for (int i = 0; i < m_toolBarViewModeActions.size(); ++i)
                   if ( QLatin1String( m_toolBarViewModeActions.at(i)->name() ) == oldService->desktopEntryName() )
                   {
                       assert( m_toolBarViewModeActions.at(i)->inherits( "KonqViewModeAction" ) );
@@ -2187,10 +2188,9 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       // if we just toggled the view mode via the view mode actions, then
       // we don't need to do all the time-taking stuff below (Simon)
       const QString currentServiceDesktopEntryName = m_currentView->service()->desktopEntryName();
-      Q3PtrListIterator<KRadioAction> it( m_viewModeActions );
-      for (; it.current(); ++it ) {
-          if ( it.current()->name() == currentServiceDesktopEntryName ) {
-              it.current()->setChecked( true );
+      foreach( KRadioAction* action, m_viewModeActions ) {
+          if ( action->name() == currentServiceDesktopEntryName ) {
+              action->setChecked( true );
               break;
           }
       }
@@ -4906,9 +4906,8 @@ void KonqMainWindow::updateViewModeActions()
   unplugViewModeActions();
   if ( m_viewModeMenu )
   {
-    Q3PtrListIterator<KRadioAction> it( m_viewModeActions );
-    for (; it.current(); ++it )
-      it.current()->unplugAll();
+    foreach( KRadioAction* action, m_viewModeActions )
+      action->unplugAll();
     delete m_viewModeMenu;
   }
 
@@ -4957,19 +4956,14 @@ void KonqMainWindow::updateViewModeActions()
       if ( prop.isValid() && prop.toBool() ) // No toggable views in view mode
           continue;
 
-      KRadioAction *action;
-
       QString itname = (*it)->genericName();
       if (itname.isEmpty())
           itname = (*it)->name();
 
       QString icon = (*it)->icon();
-      if ( icon != QLatin1String( "unknown" ) )
-          // we *have* to specify a parent qobject, otherwise the exclusive group stuff doesn't work!(Simon)
-          action = new KRadioAction( itname, icon, 0, actionCollection(), (*it)->desktopEntryName().ascii() );
-      else
-          action = new KRadioAction( itname, 0, actionCollection(), (*it)->desktopEntryName().ascii() );
-
+      // Create a KRadioAction for each view mode, and plug it into the menu
+      // we *have* to specify a parent qobject, otherwise the exclusive group stuff doesn't work!(Simon)
+      KRadioAction* action = new KRadioAction( itname, icon, KShortcut(), actionCollection(), (*it)->desktopEntryName().ascii() );
       action->setExclusiveGroup( "KonqMainWindow_ViewModes" );
 
       connect( action, SIGNAL( toggled( bool ) ),
@@ -4990,8 +4984,7 @@ void KonqMainWindow::updateViewModeActions()
           // default service on this action: the current one (i.e. the first one)
           QString text = itname;
           QString icon = (*it)->icon();
-          QByteArray name = (*it)->desktopEntryName().toLatin1();
-          //kdDebug(1202) << " Creating action for " << library << ". Default service " << itname << endl;
+          QString desktopEntryName = (*it)->desktopEntryName();
 
           // if we previously changed the viewmode (see slotViewModeToggle!)
           // then we will want to use the previously used settings (previous as
@@ -5004,13 +4997,13 @@ void KonqMainWindow::updateViewModeActions()
               if (text.isEmpty())
                   text = (*serviceIt)->name();
               icon = (*serviceIt)->icon();
-              name = (*serviceIt)->desktopEntryName().ascii();
+              desktopEntryName = (*serviceIt)->desktopEntryName();
           } else
           {
               // if we don't have it in the map, we should look for a setting
               // for this library in the config file.
               QString preferredService = barServicesGroup.readEntry( library );
-              if ( !preferredService.isEmpty() && name != preferredService.toLatin1() )
+              if ( !preferredService.isEmpty() && desktopEntryName != preferredService )
               {
                   //kdDebug(1202) << " Inserting into preferredServiceMap(" << library << ") : " << preferredService << endl;
                   // The preferred service isn't the current one, so remember to set it later
@@ -5018,10 +5011,11 @@ void KonqMainWindow::updateViewModeActions()
               }
           }
 
-          KonqViewModeAction *tbAction = new KonqViewModeAction( text,
+          KonqViewModeAction *tbAction = new KonqViewModeAction( desktopEntryName,
+                                                                 text,
                                                                  icon,
                                                                  actionCollection(),
-                                                                 name );
+                                                                 desktopEntryName.prepend( "viewmode_" ).toLatin1() ); // prefix to avoid conflicts in the actioncollection
 
           tbAction->setExclusiveGroup( "KonqMainWindow_ToolBarViewModes" );
 
