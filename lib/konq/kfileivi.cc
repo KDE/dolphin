@@ -42,9 +42,12 @@
  */
 struct KFileIVI::Private
 {
-    QIcon icons; // Icon states (cached to prevent re-applying icon effects
-		    // every time)
-	int m_generated; // bitmask(QIcon::Mode) for which states have been generated
+    QPixmap cachedPixmap( QIcon::Mode ) const;
+    void addCachedPixmap( const QPixmap&, QIcon::Mode );
+    void setCachedPixmaps( const QPixmap&, QIcon::Mode = QIcon::Normal );
+
+    // Icon states (cached to prevent re-applying icon effects every time)
+    QMap<QIcon::Mode, QPixmap> cachedPixmaps;
     QPixmap  thumb; // Raw unprocessed thumbnail
     QString m_animatedIcon; // Name of animation
     bool m_animated;        // Animation currently running ?
@@ -59,15 +62,13 @@ KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KFileItem* fileitem, int size 
     m_bDisabled( false ), m_bThumbnail( false ), m_fileitem( fileitem )
 {
     d = new KFileIVI::Private;
-    d->m_generated = 0;
 
     updatePixmapSize();
     setPixmap( m_fileitem->pixmap( m_size, m_state ) );
     setDropEnabled( S_ISDIR( m_fileitem->mode() ) );
 
     // Cache entry for the icon effects
-	d->icons = QIcon( *pixmap() );
-	d->m_generated = QIcon::Normal;
+    d->setCachedPixmaps( *pixmap() );
     d->m_animated = false;
 
     // iconName() requires the mimetype to be known
@@ -104,16 +105,14 @@ void KFileIVI::invalidateThumb( int state, bool redraw )
 	    mode = QIcon::Normal;
 	    break;
     }
-    d->icons = QIcon();
-    QPixmap newThumb = KGlobal::iconLoader()->iconEffect()->
-			apply( d->thumb, KIcon::Desktop, state );
-    d->icons.addPixmap( newThumb, mode );
-    d->m_generated = mode;
+
+    const QPixmap newThumb( KGlobal::iconLoader()->iconEffect()->
+                            apply( d->thumb, KIcon::Desktop, state ) );
+    d->setCachedPixmaps( newThumb, mode );
 
     m_state = state;
 
-    Q3IconViewItem::setPixmap( d->icons.pixmap( newThumb.size(), mode ),
-			      false, redraw );
+    Q3IconViewItem::setPixmap( newThumb, false, redraw );
 }
 
 void KFileIVI::setIcon( int size, int state, bool recalc, bool redraw )
@@ -186,16 +185,10 @@ void KFileIVI::setPixmapDirect( const QPixmap& pixmap, bool recalc, bool redraw 
 	    break;
     }
 
-    // We cannot just reset() the iconset here, because setIcon can be
-    // called with any state and not just normal state. So we just
-    // create a dummy empty iconset as base object.
-    d->icons = QIcon();
-    d->icons.addPixmap( pixmap, mode );
-	d->m_generated |= mode;
+    d->setCachedPixmaps( pixmap, mode );
 
     updatePixmapSize();
-    Q3IconViewItem::setPixmap( d->icons.pixmap( pixmapSize(), mode ),
-			      recalc, redraw );
+    Q3IconViewItem::setPixmap( pixmap, recalc, redraw );
 }
 
 void KFileIVI::setDisabled( bool disabled )
@@ -213,19 +206,16 @@ void KFileIVI::setThumbnailPixmap( const QPixmap & pixmap )
 {
     m_bThumbnail = true;
     d->thumb = pixmap;
-    // QIcon::reset() doesn't seem to clear the other generated pixmaps,
-    // so we just create a blank QIcon here
-    d->icons = QIcon();
-    d->icons.addPixmap( KGlobal::iconLoader()->iconEffect()->
-		    apply( pixmap, KIcon::Desktop, KIcon::DefaultState ), QIcon::Normal );
-	d->m_generated = QIcon::Normal;
+
+    const QPixmap newThumb( KGlobal::iconLoader()->iconEffect()
+                            ->apply( pixmap, KIcon::Desktop, KIcon::DefaultState ) );
+    d->setCachedPixmaps( newThumb );
 
     m_state = KIcon::DefaultState;
 
     // Recalc when setting this pixmap!
     updatePixmapSize();
-    Q3IconViewItem::setPixmap( d->icons.pixmap( pixmapSize(),
-			      QIcon::Normal ), true );
+    Q3IconViewItem::setPixmap( newThumb, true );
 }
 
 void KFileIVI::setActive( bool active )
@@ -272,21 +262,16 @@ void KFileIVI::setEffect( int state )
     {
 	// Effects on are not applied until they are first accessed to
 	// save memory. Do this now when needed
-	if( m_bThumbnail )
-	{
-	    if( !(d->m_generated & mode) ) {
-		d->icons.addPixmap( effect->apply( d->thumb, KIcon::Desktop, state ), mode );
-		d->m_generated |= mode;
-	    }
-	}
-	else
-	{
-	    if( !(d->m_generated & mode) ) {
-		d->icons.addPixmap( m_fileitem->pixmap( m_size, state ), mode );
-		d->m_generated |= mode;
-	    }
-	}
-	Q3IconViewItem::setPixmap( d->icons.pixmap( QSize(m_size, m_size), mode ) );
+        QPixmap pixmap( d->cachedPixmap( mode ) );
+        if( pixmap.isNull() )
+        {
+            if( m_bThumbnail )
+                pixmap = effect->apply( d->thumb, KIcon::Desktop, state );
+            else
+                pixmap = m_fileitem->pixmap( m_size, state );
+            d->addCachedPixmap( pixmap, mode );
+        }
+        Q3IconViewItem::setPixmap( pixmap );
     }
     m_state = state;
 }
@@ -475,5 +460,25 @@ void KFileIVI::updatePixmapSize()
             setPixmapSize( pixSize );
     }
 }
+
+QPixmap KFileIVI::Private::cachedPixmap( QIcon::Mode mode) const
+{
+    return cachedPixmaps.value( mode );
+}
+
+void KFileIVI::Private::addCachedPixmap( const QPixmap& pixmap, QIcon::Mode mode )
+{
+    if ( pixmap.isNull() )
+        kdWarning(1203) << k_funcinfo << "pixmap is null" << endl;
+    cachedPixmaps.insert( mode, pixmap );
+}
+
+void KFileIVI::Private::setCachedPixmaps( const QPixmap& pixmap, QIcon::Mode mode )
+{
+    cachedPixmaps.clear();
+
+    addCachedPixmap( pixmap, mode );
+}
+
 
 /* vim: set noet sw=4 ts=8 softtabstop=4: */
