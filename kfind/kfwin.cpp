@@ -409,21 +409,21 @@ void KfindWindow::slotContextMenu(KListView *,Q3ListViewItem *item,const QPoint&
   {
      //menu = new KMenu(item->text(0), this);
      m_menu->addTitle(item->text(0));
-     m_menu->insertItem(SmallIcon("fileopen"),i18n("Menu item", "Open"), this, SLOT(openBinding()));
-     m_menu->insertItem(SmallIcon("window_new"),i18n("Open Folder"), this, SLOT(openFolder()));
-     m_menu->insertSeparator();
-     m_menu->insertItem(SmallIcon("editcopy"),i18n("Copy"), this, SLOT(copySelection()));
-     m_menu->insertItem(SmallIcon("editdelete"),i18n("Delete"), this, SLOT(deleteFiles()));
-     m_menu->insertSeparator();
-     m_menu->insertItem(i18n("Open With..."), this, SLOT(slotOpenWith()));
-     m_menu->insertSeparator();
-     m_menu->insertItem(i18n("Properties"), this, SLOT(fileProperties()));
+     m_menu->addAction(SmallIcon("fileopen"),i18n("Menu item", "Open"), this, SLOT(openBinding()));
+     m_menu->addAction(SmallIcon("window_new"),i18n("Open Folder"), this, SLOT(openFolder()));
+     m_menu->addSeparator();
+     m_menu->addAction(SmallIcon("editcopy"),i18n("Copy"), this, SLOT(copySelection()));
+     m_menu->addAction(SmallIcon("editdelete"),i18n("Delete"), this, SLOT(deleteFiles()));
+     m_menu->addSeparator();
+     m_menu->addAction(i18n("Open With..."), this, SLOT(slotOpenWith()));
+     m_menu->addSeparator();
+     m_menu->addAction(i18n("Properties"), this, SLOT(fileProperties()));
   }
   else
   {
      m_menu->addTitle(i18n("Selected Files"));
-     m_menu->insertItem(SmallIcon("editcopy"),i18n("Copy"), this, SLOT(copySelection()));
-     m_menu->insertItem(SmallIcon("editdelete"),i18n("Delete"), this, SLOT(deleteFiles()));
+     m_menu->addAction(SmallIcon("editcopy"),i18n("Copy"), this, SLOT(copySelection()));
+     m_menu->addAction(SmallIcon("editdelete"),i18n("Delete"), this, SLOT(deleteFiles()));
   }
   m_menu->popup(p, 1);
 }
