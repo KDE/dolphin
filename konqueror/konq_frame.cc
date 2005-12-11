@@ -165,7 +165,7 @@ void KonqFrameStatusBar::splitFrameMenu()
 
    actionColl->action( "splitviewh" )->plug( &menu );
    actionColl->action( "splitviewv" )->plug( &menu );
-   menu.insertSeparator();
+   menu.addSeparator();
    actionColl->action( "lock" )->plug( &menu );
 
    actRemoveView.plug( &menu );
