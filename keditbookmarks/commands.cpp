@@ -112,8 +112,9 @@ void CreateCommand::execute()
 
     // move to right position
     parentGroup.moveItem(bk, prev);
-    if (!(name().isEmpty())) {
+    if (!(name().isEmpty()) && !parentAddress.isEmpty() ) {
         // open the parent (useful if it was empty) - only for manual commands
+        Q_ASSERT( parentGroup.internalElement().tagName() != "xbel" );
         parentGroup.internalElement().setAttribute("folded", "no");
     }
 
