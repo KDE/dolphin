@@ -3802,7 +3802,7 @@ void KonqMainWindow::initActions()
   // Window menu
   m_paSplitViewHor = new KAction( i18n( "Split View &Left/Right" ), "view_left_right", Qt::CTRL+Qt::SHIFT+Qt::Key_L, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
   m_paSplitViewVer = new KAction( i18n( "Split View &Top/Bottom" ), "view_top_bottom", Qt::CTRL+Qt::SHIFT+Qt::Key_T, this, SLOT( slotSplitViewVertical() ), actionCollection(), "splitviewv" );
-  m_paAddTab = new KAction( i18n( "&New Tab" ), "tab_new", "Qt::CTRL+Qt::SHIFT+N;Qt::CTRL+T", this, SLOT( slotAddTab() ), actionCollection(), "newtab" );
+  m_paAddTab = new KAction( i18n( "&New Tab" ), "tab_new", "CTRL+SHIFT+N;CTRL+T", this, SLOT( slotAddTab() ), actionCollection(), "newtab" );
   m_paDuplicateTab = new KAction( i18n( "&Duplicate Current Tab" ), "tab_duplicate", Qt::CTRL+Qt::SHIFT+Qt::Key_D, this, SLOT( slotDuplicateTab() ), actionCollection(), "duplicatecurrenttab" );
   m_paBreakOffTab = new KAction( i18n( "Detach Current Tab" ), "tab_breakoff", Qt::CTRL+Qt::SHIFT+Qt::Key_B, this, SLOT( slotBreakOffTab() ), actionCollection(), "breakoffcurrenttab" );
   m_paRemoveView = new KAction( i18n( "&Close Active View" ),"view_remove", Qt::CTRL+Qt::SHIFT+Qt::Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );

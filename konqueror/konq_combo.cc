@@ -586,6 +586,7 @@ void KonqCombo::mouseMoveEvent( QMouseEvent *e )
             QDrag* drag = new QDrag(this);
             QMimeData* mime = new QMimeData();
             url.populateMimeData(mime);
+            drag->setMimeData(mime);
             QPixmap pix = KonqPixmapProvider::self()->pixmapFor( currentText(),
                                                                  KIcon::SizeMedium );
             if ( !pix.isNull() )
