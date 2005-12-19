@@ -24,7 +24,6 @@
 #include <QPaintEvent>
 #include <QEvent>
 #include <QKeyEvent>
-#include <Q3ValueList>
 #include <QMouseEvent>
 #include <kapplication.h>
 #include <kconfig.h>
@@ -468,7 +467,7 @@ void KonqCombo::selectWord(QKeyEvent *e)
     int count = 0;
 
     // TODO: make these a parameter when in kdelibs/kdeui...
-    Q3ValueList<QChar> chars;
+    QList<QChar> chars;
     chars << QChar('/') << QChar('.') << QChar('?') << QChar('#') << QChar(':');
     bool allow_space_break = true;
 

@@ -72,7 +72,6 @@
 #include <QKeyEvent>
 #include <QEvent>
 #include <Q3CString>
-#include <Q3ValueList>
 #include <Q3PtrList>
 #include <QCloseEvent>
 #include <QPixmap>
@@ -3992,8 +3991,8 @@ void KonqMainWindow::slotFillContextMenu( const KBookmark &bk, QMenu * pm )
   if ( bk.isGroup() )
   {
     KBookmarkGroup grp = bk.toGroup();
-    Q3ValueList<KURL> list = grp.groupUrlList();
-    Q3ValueList<KURL>::Iterator it = list.begin();
+    QList<KURL> list = grp.groupUrlList();
+    QList<KURL>::Iterator it = list.begin();
     for (; it != list.end(); ++it )
       popupItems.append( new KFileItem( (*it), QString::null, KFileItem::Unknown) );
     pm->insertItem( SmallIcon("tab_new"), i18n( "Open Folder in Tabs" ), this, SLOT( slotPopupNewTabRight() ) );
@@ -4334,9 +4333,9 @@ void KonqMainWindow::enableAllActions( bool enable )
   kdDebug(1202) << "KonqMainWindow::enableAllActions " << enable << endl;
   KParts::BrowserExtension::ActionSlotMap * actionSlotMap = KParts::BrowserExtension::actionSlotMapPtr();
 
-  Q3ValueList<KAction *> actions = actionCollection()->actions();
-  Q3ValueList<KAction *>::Iterator it = actions.begin();
-  Q3ValueList<KAction *>::Iterator end = actions.end();
+  QList<KAction *> actions = actionCollection()->actions();
+  QList<KAction *>::Iterator it = actions.begin();
+  QList<KAction *>::Iterator end = actions.end();
   for (; it != end; ++it )
   {
     KAction *act = *it;

@@ -30,7 +30,6 @@
 #include <q3ptrlist.h>
 //Added by qt3to4:
 #include <Q3StrList>
-#include <Q3ValueList>
 
 #include <kaccelgen.h>
 #include <kstandarddirs.h>
@@ -119,7 +118,7 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
   KonqFrameContainerBase* parentContainer = splitFrame->parentContainer();
 
   bool moveNewContainer = false;
-  Q3ValueList<int> splitterSizes;
+  QList<int> splitterSizes;
   int index= -1;
 
   if (parentContainer->frameType()=="Container") {
@@ -171,7 +170,7 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
     newContainer->swapChildren();
   }
 
-  Q3ValueList<int> newSplitterSizes;
+  QList<int> newSplitterSizes;
   newSplitterSizes << 50 << 50;
   newContainer->setSizes( newSplitterSizes );
 
@@ -274,7 +273,7 @@ void KonqViewManager::convertDocContainer()
   KonqFrameContainerBase* parentContainer = m_pDocContainer->parentContainer();
 
   bool moveNewContainer = false;
-  Q3ValueList<int> splitterSizes;
+  QList<int> splitterSizes;
   if (parentContainer->frameType()=="Container") {
     moveNewContainer = (static_cast<KonqFrameContainer*>(parentContainer)->idAfter( m_pDocContainer->widget() ) != 0);
     splitterSizes = static_cast<KonqFrameContainer*>(parentContainer)->sizes();
@@ -763,7 +762,7 @@ void KonqViewManager::removeView( KonqView *view )
     setActivePart( 0L, true );
 
     int index = -1;
-    Q3ValueList<int> splitterSizes;
+    QList<int> splitterSizes;
     bool moveOtherChild = false;
 
     if (grandParentContainer->frameType()=="Tabs")
@@ -1578,7 +1577,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
       o = Qt::Horizontal;
     }
 
-    Q3ValueList<int> sizes =
+    QList<int> sizes =
         cfg.readIntListEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ));
 
     int index = cfg.readNumEntry( QString::fromLatin1( "activeChildIndex" ).prepend(prefix), -1 );
@@ -1801,10 +1800,10 @@ void KonqViewManager::printSizeInfo( KonqFrameBase* frame,
 
   if ( parent->frameType() == "Container" )
   {
-  Q3ValueList<int> sizes;
+  QList<int> sizes;
     sizes = static_cast<KonqFrameContainer*>(parent)->sizes();
   printf( "Parent sizes %s :", msg );
-  Q3ValueList<int>::ConstIterator it;
+  QList<int>::ConstIterator it;
   for( it = sizes.begin(); it != sizes.end(); ++it )
     printf( " %d", (*it) );
   printf("\n");

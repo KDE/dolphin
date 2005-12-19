@@ -161,7 +161,7 @@ k_dcop:
   /**
    * @return a list of references to all the windows
    */
-  Q3ValueList<DCOPRef> getWindows();
+  QList<DCOPRef> getWindows();
 
   /**
    *  Called internally as broadcast when the user adds/removes/renames a view profile

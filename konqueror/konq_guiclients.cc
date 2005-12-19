@@ -27,7 +27,6 @@
 #include "konq_viewmgr.h"
 #include <kiconloader.h>
 //Added by qt3to4:
-#include <Q3ValueList>
 #include <Q3CString>
 #include <Q3PtrList>
 
@@ -248,7 +247,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
                                                     serviceName,
                                                     !horizontal /* vertical = make it first */);
 
-    Q3ValueList<int> newSplitterSizes;
+    QList<int> newSplitterSizes;
 
     if ( horizontal )
       newSplitterSizes << 100 << 30;

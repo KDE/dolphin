@@ -31,7 +31,6 @@
 #include <qfile.h>
 //Added by qt3to4:
 #include <QX11Info>
-#include <Q3ValueList>
 #include <Q3CString>
 #include <Q3PtrList>
 #include "konq_settingsxt.h"
@@ -215,9 +214,9 @@ QString KonquerorIface::crashLogFile()
   return KonqMainWindow::s_crashlog_file->name();
 }
 
-Q3ValueList<DCOPRef> KonquerorIface::getWindows()
+QList<DCOPRef> KonquerorIface::getWindows()
 {
-    Q3ValueList<DCOPRef> lst;
+    QList<DCOPRef> lst;
     Q3PtrList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
     if ( mainWindows )
     {
