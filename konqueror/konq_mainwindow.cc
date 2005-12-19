@@ -432,7 +432,7 @@ static QString detectNameFilter( KURL & url )
         QString fileName = path.mid( lastSlash + 1 );
         QString testPath = path.left( lastSlash + 1 );
         if ( ( fileName.find( '*' ) != -1 || fileName.find( '[' ) != -1 || fileName.find( '?' ) != -1 )
-             && ( !url.isLocalFile() || QFile::exists( testPath ) ) && KIO::NetAccess::exists( url, true ) )
+             && ( !url.isLocalFile() || QFile::exists( testPath ) ) && KIO::NetAccess::exists( url, true, 0L ) )
         {
             nameFilter = fileName;
             url.setFileName( QString::null );

@@ -26,7 +26,7 @@
 #include <kregexpeditorinterface.h>
 #include <kparts/componentfactory.h>
 #include <kstandarddirs.h>
-
+#include <q3ptrlist.h>
 #include "kquery.h"
 #include "kftabdlg.h"
 

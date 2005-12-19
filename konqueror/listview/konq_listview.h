@@ -86,7 +86,7 @@ public:
   //int iconSize() { return m_pListView->iconSize(); }
   void determineIcon( KonqBaseListViewItem * item );
 
-  Q3PtrList<KonqBaseListViewItem> & lstPendingMimeIconItems() { return m_mimeTypeResolver->m_lstPendingMimeIconItems; }
+  QList<KonqBaseListViewItem*> & lstPendingMimeIconItems() { return m_mimeTypeResolver->m_lstPendingMimeIconItems; }
   void listingComplete();
 
   virtual void newIconSize( int );
