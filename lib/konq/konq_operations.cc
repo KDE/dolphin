@@ -803,7 +803,7 @@ void KonqMultiRestoreJob::slotResult( KIO::Job *job )
         KIO::Job::slotResult( job ); // will set the error and emit result(this)
         return;
     }
-    subjobs.remove( job );
+    subjobs().remove( job );
     // Move on to next one
     ++m_urlsIterator;
     ++m_progress;
