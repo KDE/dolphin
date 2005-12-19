@@ -18,7 +18,6 @@
 
 #include <ktrader.h>
 
-#include <Q3ValueList>
 
 #include "searchprovider.h"
 
