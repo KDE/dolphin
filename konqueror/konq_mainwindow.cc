@@ -838,7 +838,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   {
       if ( !childView->isLockedViewMode() )
       {
-          bool forceAutoEmbed = req.forceAutoEmbed || req.newTab;
+          bool forceAutoEmbed = req.forceAutoEmbed || req.newTab || req.userRequestedReload;
           if ( !req.typedURL.isEmpty() ) // the user _typed_ the URL, he wants it in Konq.
               forceAutoEmbed = true;
           if ( url.protocol() == "about" )

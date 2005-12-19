@@ -374,6 +374,8 @@ void Sidebar_Widget::doLayout()
 		delete m_layout;
 
 	m_layout = new QHBoxLayout(this);
+        m_layout->setMargin( 0 );
+        m_layout->setSpacing( 0 );
 	if  (m_showTabsLeft)
 	{
 		m_layout->add(m_buttonBar);
