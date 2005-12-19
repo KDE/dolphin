@@ -30,7 +30,6 @@
 #include <kdebug.h>
 #include <kwin.h>
 //Added by qt3to4:
-#include <Q3ValueList>
 #include <Q3CString>
 
 KonqMainWindowIface::KonqMainWindowIface( KonqMainWindow * mainWindow )
@@ -102,9 +101,9 @@ DCOPRef KonqMainWindowIface::action( const DCOPCString &name )
 DCOPCStringList KonqMainWindowIface::actions()
 {
   DCOPCStringList res;
-  Q3ValueList<KAction *> lst = m_dcopActionProxy->actions();
-  Q3ValueList<KAction *>::ConstIterator it = lst.begin();
-  Q3ValueList<KAction *>::ConstIterator end = lst.end();
+  QList<KAction *> lst = m_dcopActionProxy->actions();
+  QList<KAction *>::ConstIterator it = lst.begin();
+  QList<KAction *>::ConstIterator end = lst.end();
   for (; it != end; ++it )
     res.append( (*it)->name() );
 

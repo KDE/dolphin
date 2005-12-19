@@ -22,8 +22,6 @@
 
 #include <kdedmodule.h>
 #include <qtimer.h>
-//Added by qt3to4:
-#include <Q3ValueList>
 
 class KonqyPreloader
     : public KDEDModule
@@ -52,7 +50,7 @@ class KonqyPreloader
             DCOPCString id;
             int screen;
             };
-        typedef Q3ValueList< KonqyData > InstancesList;
+        typedef QList< KonqyData > InstancesList;
         InstancesList instances;
 	QTimer check_always_preloaded_timer;
     };
