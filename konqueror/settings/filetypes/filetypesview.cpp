@@ -6,7 +6,6 @@
 //Added by qt3to4:
 #include <QGridLayout>
 #include <QHBoxLayout>
-#include <Q3ValueList>
 
 #include <dcopclient.h>
 
@@ -351,7 +350,7 @@ void FileTypesView::updateDisplay(Q3ListViewItem *item)
     setDirty(false);
 }
 
-bool FileTypesView::sync( Q3ValueList<TypesListItem *>& itemsModified )
+bool FileTypesView::sync( QList<TypesListItem *>& itemsModified )
 {
   bool didIt = false;
   // first, remove those items which we are asked to remove.
@@ -425,7 +424,7 @@ void FileTypesView::slotDatabaseChanged()
     // our 'copies' to be in sync with it. Not important for OK, but
     // important for Apply (how to differentiate those 2?).
     // See BR 35071.
-    Q3ValueList<TypesListItem *>::Iterator it = m_itemsModified.begin();
+    QList<TypesListItem *>::Iterator it = m_itemsModified.begin();
     for( ; it != m_itemsModified.end(); ++it ) {
         QString name = (*it)->name();
         if ( removedList.find( name ) == removedList.end() ) // if not deleted meanwhile

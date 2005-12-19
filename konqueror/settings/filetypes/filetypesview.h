@@ -51,7 +51,7 @@ protected slots:
 
 protected:
   void readFileTypes();
-  bool sync( Q3ValueList<TypesListItem *>& itemsModified );
+  bool sync( QList<TypesListItem *>& itemsModified );
 
 private:
   KListView *typesLV;
@@ -68,7 +68,7 @@ private:
   QMap<QString,TypesListItem*> m_majorMap;
   Q3PtrList<TypesListItem> m_itemList;
 
-  Q3ValueList<TypesListItem *> m_itemsModified;
+  QList<TypesListItem *> m_itemsModified;
 
   KSharedConfig::Ptr m_konqConfig;
 };
