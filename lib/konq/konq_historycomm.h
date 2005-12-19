@@ -22,8 +22,6 @@
 
 #include <qdatetime.h>
 #include <qstringlist.h>
-//Added by qt3to4:
-#include <Q3CString>
 
 #include <dcopobject.h>
 #include <kurl.h>
@@ -66,12 +64,12 @@ protected:
     KonqHistoryComm( DCOPCString objId ) : DCOPObject( objId ) {}
 
 k_dcop:
-    virtual ASYNC notifyHistoryEntry( KonqHistoryEntry e, Q3CString saveId) = 0;
-    virtual ASYNC notifyMaxCount( quint32 count, Q3CString saveId ) = 0;
-    virtual ASYNC notifyMaxAge( quint32 days, Q3CString saveId ) = 0;
-    virtual ASYNC notifyClear( Q3CString saveId ) = 0;
-    virtual ASYNC notifyRemove( KURL url, Q3CString saveId ) = 0;
-    virtual ASYNC notifyRemove( KURL::List url, Q3CString saveId ) = 0;
+    virtual ASYNC notifyHistoryEntry( KonqHistoryEntry e, QByteArray saveId) = 0;
+    virtual ASYNC notifyMaxCount( quint32 count, QByteArray saveId ) = 0;
+    virtual ASYNC notifyMaxAge( quint32 days, QByteArray saveId ) = 0;
+	virtual ASYNC notifyClear( QByteArray saveId ) = 0;
+    virtual ASYNC notifyRemove( KURL url, QByteArray saveId ) = 0;
+    virtual ASYNC notifyRemove( KURL::List url, QByteArray saveId ) = 0;
     virtual QStringList allURLs() const = 0;
 
 };

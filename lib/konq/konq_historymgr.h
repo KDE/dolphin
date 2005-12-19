@@ -26,8 +26,6 @@
 #include <qobject.h>
 #include <qmap.h>
 #include <qtimer.h>
-//Added by qt3to4:
-#include <Q3CString>
 
 #include <dcopobject.h>
 
@@ -255,36 +253,36 @@ protected:
      * @param saveId is the DCOPObject::objId() of the sender so that
      * only the sender saves the new history.
      */
-    virtual void notifyHistoryEntry( KonqHistoryEntry e, Q3CString saveId );
+    virtual void notifyHistoryEntry( KonqHistoryEntry e, QByteArray saveId );
 
     /**
      * Called when the configuration of the maximum count changed.
      * Called via DCOP by some config-module
      */
-    virtual void notifyMaxCount( quint32 count, Q3CString saveId );
+    virtual void notifyMaxCount( quint32 count, QByteArray saveId );
 
     /**
      * Called when the configuration of the maximum age of history-entries
      * changed. Called via DCOP by some config-module
      */
-    virtual void notifyMaxAge( quint32 days, Q3CString saveId );
+    virtual void notifyMaxAge( quint32 days, QByteArray saveId );
 
     /**
      * Clears the history completely. Called via DCOP by some config-module
      */
-    virtual void notifyClear( Q3CString saveId );
+    virtual void notifyClear( QByteArray saveId );
 
     /**
      * Notifes about a url that has to be removed from the history.
      * The instance where saveId == objId() has to save the history.
      */
-    virtual void notifyRemove( KURL url, Q3CString saveId );
+    virtual void notifyRemove( KURL url, QByteArray saveId );
 
     /**
      * Notifes about a list of urls that has to be removed from the history.
      * The instance where saveId == objId() has to save the history.
      */
-    virtual void notifyRemove( KURL::List urls, Q3CString saveId );
+    virtual void notifyRemove( KURL::List urls, QByteArray saveId );
 
     /**
      * @returns a list of all urls in the history.

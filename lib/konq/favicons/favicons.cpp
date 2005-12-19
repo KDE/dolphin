@@ -26,8 +26,6 @@
 #include <qimage.h>
 #include <qtimer.h>
 #include <QImageReader>
-//Added by qt3to4:
-#include <Q3CString>
 
 #include <kdatastream.h> // DO NOT REMOVE, otherwise bool marshalling breaks
 #include <kicontheme.h>

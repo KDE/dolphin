@@ -30,8 +30,6 @@
 #include <zlib.h>
 
 #include "konqbookmarkmanager.h"
-//Added by qt3to4:
-#include <Q3CString>
 
 const quint32 KonqHistoryManager::s_historyVersion = 3;
 
@@ -441,7 +439,7 @@ void KonqHistoryManager::emitSetMaxAge( quint32 days )
 // DCOP called methods
 
 void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
-					     Q3CString  )
+					     QByteArray  )
 {
     //kdDebug(1203) << "Got new entry from Broadcast: " << e.url.prettyURL() << endl;
 
@@ -487,7 +485,7 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
     emit entryAdded( entry );
 }
 
-void KonqHistoryManager::notifyMaxCount( quint32 count, Q3CString )
+void KonqHistoryManager::notifyMaxCount( quint32 count, QByteArray )
 {
     m_maxCount = count;
     clearPending();
@@ -503,7 +501,7 @@ void KonqHistoryManager::notifyMaxCount( quint32 count, Q3CString )
     }
 }
 
-void KonqHistoryManager::notifyMaxAge( quint32 days, Q3CString  )
+void KonqHistoryManager::notifyMaxAge( quint32 days, QByteArray  )
 {
     m_maxAgeDays = days;
     clearPending();
@@ -519,7 +517,7 @@ void KonqHistoryManager::notifyMaxAge( quint32 days, Q3CString  )
     }
 }
 
-void KonqHistoryManager::notifyClear( Q3CString )
+void KonqHistoryManager::notifyClear( QByteArray )
 {
     clearPending();
     m_history.clear();
@@ -531,7 +529,7 @@ void KonqHistoryManager::notifyClear( Q3CString )
     KParts::HistoryProvider::clear(); // also emits the cleared() signal
 }
 
-void KonqHistoryManager::notifyRemove( KURL url, Q3CString )
+void KonqHistoryManager::notifyRemove( KURL url, QByteArray )
 {
     kdDebug(1203) << "#### Broadcast: remove entry:: " << url.prettyURL() << endl;
     
@@ -555,7 +553,7 @@ void KonqHistoryManager::notifyRemove( KURL url, Q3CString )
     }
 }
 
-void KonqHistoryManager::notifyRemove( KURL::List urls, Q3CString )
+void KonqHistoryManager::notifyRemove( KURL::List urls, QByteArray )
 {
     kdDebug(1203) << "#### Broadcast: removing list!" << endl;
 
