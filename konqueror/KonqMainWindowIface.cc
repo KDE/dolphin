@@ -29,8 +29,6 @@
 #include <kdcoppropertyproxy.h>
 #include <kdebug.h>
 #include <kwin.h>
-//Added by qt3to4:
-#include <Q3CString>
 
 KonqMainWindowIface::KonqMainWindowIface( KonqMainWindow * mainWindow )
     :

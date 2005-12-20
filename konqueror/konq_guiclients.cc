@@ -26,8 +26,6 @@
 #include "konq_guiclients.h"
 #include "konq_viewmgr.h"
 #include <kiconloader.h>
-//Added by qt3to4:
-#include <Q3CString>
 #include <Q3PtrList>
 
 PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
@@ -147,7 +145,7 @@ void PopupMenuGUIClient::addEmbeddingService( QDomElement &menu, int idx, const 
   QDomElement action = m_doc.createElement( "action" );
   menu.appendChild( action );
 
-  Q3CString actName;
+  QByteArray actName;
   actName.setNum( idx );
 
   action.setAttribute( "name", QString::number( idx ) );

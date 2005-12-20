@@ -29,7 +29,6 @@
 #include <qlabel.h>
 //Added by qt3to4:
 #include <QPixmap>
-#include <Q3CString>
 #include <QPaintEvent>
 #include <QChildEvent>
 #include <Q3PtrList>
@@ -183,7 +182,7 @@ class KonqFrameBase
   virtual QWidget* widget() = 0;
 
   virtual void listViews( ChildViewList *viewList ) = 0;
-  virtual Q3CString frameType() = 0;
+  virtual QByteArray frameType() = 0;
 
   virtual void activateChild() = 0;
 
@@ -266,7 +265,7 @@ public:
 
   //virtual KonqFrameContainerBase* parentContainer();
   virtual QWidget* widget() { return this; }
-  virtual Q3CString frameType() { return Q3CString("View"); }
+  virtual QByteArray frameType() { return QByteArray("View"); }
 
   QVBoxLayout *layout()const { return m_pLayout; }
 
@@ -325,7 +324,7 @@ public:
   //inherited
   virtual void printFrameInfo( const QString& spaces );
 
-  virtual Q3CString frameType() { return Q3CString("ContainerBase"); }
+  virtual QByteArray frameType() { return QByteArray("ContainerBase"); }
 
   virtual void reparentFrame(QWidget * parent,
                              const QPoint & p, bool showIt=FALSE ) = 0;
@@ -383,7 +382,7 @@ public:
   virtual void setTabIcon( const QString &url, QWidget* sender );
 
   virtual QWidget* widget() { return this; }
-  virtual Q3CString frameType() { return Q3CString("Container"); }
+  virtual QByteArray frameType() { return QByteArray("Container"); }
 
   /**
    * Call this after inserting a new frame into the splitter.

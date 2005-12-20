@@ -5591,7 +5591,7 @@ QWidget* KonqMainWindow::widget() { return this; }
 
 void KonqMainWindow::listViews( ChildViewList *viewList ) { if( m_pChildFrame ) m_pChildFrame->listViews( viewList ); }
 
-Q3CString KonqMainWindow::frameType() { return Q3CString("MainWindow"); }
+QByteArray KonqMainWindow::frameType() { return QByteArray("MainWindow"); }
 
 KonqFrameBase* KonqMainWindow::childFrame()const { return m_pChildFrame; }
 

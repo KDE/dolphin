@@ -23,8 +23,6 @@
 #include <kgenericfactory.h>
 #include <kiconloader.h>
 #include <qmessagebox.h>
-//Added by qt3to4:
-#include <Q3CString>
 #include <klocale.h>
 #include <qstring.h>
 #include <qtimer.h>

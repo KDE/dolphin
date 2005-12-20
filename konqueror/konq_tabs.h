@@ -28,7 +28,6 @@
 //Added by qt3to4:
 #include <QPixmap>
 #include <QDragMoveEvent>
-#include <Q3CString>
 #include <QDropEvent>
 #include <Q3PtrList>
 
@@ -71,7 +70,7 @@ public:
   virtual void setTabIcon( const QString &url, QWidget* sender );
 
   virtual QWidget* widget() { return this; }
-  virtual Q3CString frameType() { return Q3CString("Tabs"); }
+  virtual QByteArray frameType() { return QByteArray("Tabs"); }
 
   void activateChild();
 

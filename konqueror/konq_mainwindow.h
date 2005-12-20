@@ -301,7 +301,7 @@ public:
   QWidget* widget();
 
   void listViews( ChildViewList *viewList );
-  Q3CString frameType();
+  QByteArray frameType();
 
   KonqFrameBase* childFrame()const;
 
