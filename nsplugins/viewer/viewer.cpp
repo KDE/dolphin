@@ -39,7 +39,6 @@
 #include <qsocketnotifier.h>
 //Added by qt3to4:
 #include <QEvent>
-#include <Q3CString>
 #include <stdlib.h>
 #include <sys/resource.h>
 #include <sys/time.h>

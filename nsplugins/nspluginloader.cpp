@@ -58,7 +58,7 @@ NSPluginLoader *NSPluginLoader::s_instance = 0;
 int NSPluginLoader::s_refCount = 0;
 
 
-NSPluginInstance::NSPluginInstance(QWidget *parent, const Q3CString& app, const Q3CString& id)
+NSPluginInstance::NSPluginInstance(QWidget *parent, const DCOPCString& app, const DCOPCString& id)
   : DCOPStub(app, id), NSPluginInstanceIface_stub(app, id), EMBEDCLASS(parent)
 {
     _loader = 0L;

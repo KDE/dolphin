@@ -37,7 +37,6 @@
 //Added by qt3to4:
 #include <QGridLayout>
 #include <QResizeEvent>
-#include <Q3CString>
 
 #include "NSPluginClassIface_stub.h"
 
@@ -52,7 +51,7 @@ class NSPluginInstance : public EMBEDCLASS, virtual public NSPluginInstanceIface
   Q_OBJECT
 
 public:
-    NSPluginInstance(QWidget *parent, const Q3CString& app, const Q3CString& id);
+    NSPluginInstance(QWidget *parent, const DCOPCString& app, const DCOPCString& id);
     ~NSPluginInstance();
 
 private slots:
