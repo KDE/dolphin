@@ -35,8 +35,6 @@
 #include <qdir.h>
 #include <qfile.h>
 #include <qtimer.h>
-//Added by qt3to4:
-#include <Q3CString>
 
 #include "kxt.h"
 #include "nsplugin.h"
@@ -1196,7 +1194,7 @@ void NSPluginInstance::displayPlugin()
 
 /***************************************************************************/
 
-NSPluginViewer::NSPluginViewer( Q3CString dcopId,
+NSPluginViewer::NSPluginViewer( DCOPCString dcopId,
                                 QObject *parent, const char *name )
    : DCOPObject(dcopId), QObject( parent, name ) 
 {
@@ -1252,7 +1250,7 @@ DCOPRef NSPluginViewer::newClass( QString plugin )
    if ( !cls ) {
        // create new class
        cls = new NSPluginClass( plugin, this );
-       Q3CString id = "";
+       DCOPCString id = "";
        DCOPClient *dc = callingDcopClient();
        if (dc) {
           id = dc->senderId();
@@ -1421,8 +1419,8 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
 
    for (unsigned int i=0; i<argc; i++)
    {
-      Q3CString encN = argn[i].utf8();
-      Q3CString encV = argv[i].utf8();
+      QByteArray encN = argn[i].utf8();
+      QByteArray encV = argv[i].utf8();
 
       const char *n = encN;
       const char *v = encV;

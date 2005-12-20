@@ -41,7 +41,6 @@
 #include <q3intdict.h>
 #include <qpointer.h>
 //Added by qt3to4:
-#include <Q3CString>
 #include <Q3PtrList>
 
 #include <kparts/browserextension.h>  // for URLArgs
@@ -319,7 +318,7 @@ class NSPluginViewer : public QObject, virtual public NSPluginViewerIface
 {
     Q_OBJECT
 public:
-   NSPluginViewer( Q3CString dcopId, QObject *parent, const char *name=0 );
+   NSPluginViewer( DCOPCString dcopId, QObject *parent, const char *name=0 );
    virtual ~NSPluginViewer();
 
    void shutdown();
