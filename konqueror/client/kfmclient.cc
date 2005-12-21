@@ -61,6 +61,8 @@ QByteArray clientApp::startup_id_str;
 bool clientApp::m_ok;
 bool s_interactive = true;
 
+static KInstance* s_instance = 0;
+
 static const KCmdLineOptions options[] =
 {
    { "noninteractive", I18N_NOOP("Non interactive use: no message boxes"), 0},
@@ -152,6 +154,15 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
   return clientApp::doIt() ? 0 /*no error*/ : 1 /*error*/;
 }
 
+// Call needInstance before any use of KConfig
+static void needInstance()
+{
+    if ( !s_instance ) {
+        // TODO KStaticDeleter
+        s_instance = new KInstance( appName );
+    }
+}
+
 /*
  Whether to start a new konqueror or reuse an existing process.
 
@@ -178,6 +189,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
 */
 static bool startNewKonqueror( QString url, QString mimetype, const QString& profile )
 {
+    needInstance();
     KConfig cfg( QLatin1String( "konquerorrc" ), true );
     cfg.setGroup( "Reusing" );
     QStringList allowed_parts;
@@ -246,20 +258,30 @@ static int currentScreen()
     return 0;
 }
 
+static void needDCOP()
+{
+    if( !KApplication::dcopClient()->attach())
+    {
+       KApplication::startKdeinit();
+       KApplication::dcopClient()->attach();
+    }
+}
+
 // when reusing a preloaded konqy, make sure your always use a DCOP call which opens a profile !
 static DCOPCString getPreloadedKonqy()
 {
+    needInstance();
     KConfig cfg( QLatin1String( "konquerorrc" ), true );
     cfg.setGroup( "Reusing" );
     if( cfg.readNumEntry( "MaxPreloadCount", 1 ) == 0 )
         return "";
+    needDCOP();
     DCOPRef ref( "kded", "konqy_preloader" );
     DCOPCString ret;
     if( ref.callExt( "getPreloadedKonqy", DCOPRef::NoEventLoop, 3000, currentScreen()).get( ret ))
-	return ret;
+        return ret;
     return DCOPCString();
 }
-
 
 static DCOPCString konqyToReuse( const QString& url, const QString& mimetype, const QString& profile )
 { // prefer(?) preloaded ones
@@ -268,6 +290,7 @@ static DCOPCString konqyToReuse( const QString& url, const QString& mimetype, co
         return ret;
     if( startNewKonqueror( url, mimetype, profile ))
         return "";
+    needDCOP();
     DCOPCString appObj;
     QByteArray data;
     QDataStream str( &data, QIODevice::WriteOnly );
@@ -283,6 +306,8 @@ static DCOPCString konqyToReuse( const QString& url, const QString& mimetype, co
 bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, const QString & mimetype)
 {
     kdDebug( 1202 ) << "clientApp::createNewWindow " << url.url() << " mimetype=" << mimetype << endl;
+    needInstance();
+#if 0
     // check if user wants to use external browser
     // ###### this option seems to have no GUI and to be redundant with BrowserApplication now.
     // ###### KDE4: remove
@@ -298,19 +323,25 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, co
         proc.start( KProcess::DontCare );
         return true;
     }
+#endif
 
     if (url.protocol().startsWith(QLatin1String("http")))
     {
+#if 1
+        KConfig config( QLatin1String("kfmclientrc"));
+#endif
         config.setGroup("General");
         if (!config.readEntry("BrowserApplication").isEmpty())
         {
-            clientApp app;
+            kdDebug() << config.readEntry( "BrowserApplication" ) << endl;
+            Q_ASSERT( qApp );
+            //clientApp app;
             KStartupInfo::appStarted();
 
             KRun * run = new KRun( url,0L ); // TODO pass tempFile [needs support in the KRun ctor]
-            QObject::connect( run, SIGNAL( finished() ), &app, SLOT( delayedQuit() ));
-            QObject::connect( run, SIGNAL( error() ), &app, SLOT( delayedQuit() ));
-            app.exec();
+            QObject::connect( run, SIGNAL( finished() ), qApp, SLOT( delayedQuit() ));
+            QObject::connect( run, SIGNAL( error() ), qApp, SLOT( delayedQuit() ));
+            qApp->exec();
             return m_ok;
         }
     }
@@ -319,6 +350,7 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, co
     cfg.setGroup( "FMSettings" );
     if ( newTab || cfg.readBoolEntry( "KonquerorTabforExternalURL", false ) )
     {
+        needDCOP();
         DCOPCString foundApp, foundObj;
         QByteArray data;
         QDataStream str( &data, QIODevice::WriteOnly );
@@ -385,6 +417,7 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, co
 
 bool clientApp::openProfile( const QString & profileName, const QString & url, const QString & mimetype )
 {
+  needInstance();
   DCOPCString appId = konqyToReuse( url, mimetype, profileName );
   if( appId.isEmpty())
   {
@@ -463,14 +496,14 @@ bool clientApp::doIt()
   // read ASN env. variable for non-KApp cases
   startup_id_str = KStartupInfo::currentStartupIdEnv().id();
 
+  kdDebug() << "Creating clientApp" << endl;
+  int fake_argc = 0;
+  char** fake_argv = 0;
+  clientApp app( fake_argc, fake_argv );
+
+
   if ( command == "openURL" || command == "newTab" )
   {
-    KInstance inst(appName);
-    if( !KApplication::dcopClient()->attach())
-    {
-	KApplication::startKdeinit();
-	KApplication::dcopClient()->attach();
-    }
     checkArgumentCount(argc, 1, 3);
     bool tempFile = KCmdLineArgs::isTempFileSet();
     if ( argc == 1 )
@@ -490,23 +523,13 @@ bool clientApp::doIt()
   }
   else if ( command == "openProfile" )
   {
-    KInstance inst(appName);
-    if( !KApplication::dcopClient()->attach())
-    {
-	KApplication::startKdeinit();
-	KApplication::dcopClient()->attach();
-    }
     checkArgumentCount(argc, 2, 3);
     QString url;
     if ( argc == 3 )
       url = args->url(2).url();
     return openProfile( QString::fromLocal8Bit(args->arg(1)), url );
   }
-
-  // the following commands need KApplication
-  clientApp app;
-
-  if ( command == "openProperties" )
+  else if ( command == "openProperties" )
   {
     checkArgumentCount(argc, 2, 2);
     KPropertiesDialog * p = new KPropertiesDialog( args->url(1) );
@@ -614,6 +637,7 @@ bool clientApp::doIt()
   }
   else if ( command == "configure" )
   {
+    needDCOP();
     checkArgumentCount(argc, 1, 1);
     QByteArray data;
     kapp->dcopClient()->send( "*", "KonqMainViewIface", "reparseConfiguration()", data );

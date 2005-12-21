@@ -23,10 +23,12 @@
 #include <kapplication.h>
 #include <krun.h>
 
-class clientApp : public KApplication
+class clientApp : public QApplication
 {
   Q_OBJECT
 public:
+  clientApp(int &argc, char **argv ) : QApplication( argc, argv ) {}
+
   /** Parse command-line arguments and "do it" */
   static bool doIt();
 
