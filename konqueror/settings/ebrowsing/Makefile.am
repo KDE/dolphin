@@ -16,6 +16,6 @@ kcm_kurifilt_la_LIBADD = $(LIB_KSYCOCA)
 
 messages: rc.cpp
 	$(EXTRACTRC) plugins/*/*.ui >> rc.cpp
-	$(XGETTEXT) plugins/ikws/searchproviders.i18n *.cpp plugins/ikws/*.cpp plugins/shorturi/*.cpp -o $(podir)/kcmkurifilt.pot
+	$(XGETTEXT) *.cpp plugins/ikws/*.cpp plugins/shorturi/*.cpp -o $(podir)/kcmkurifilt.pot
 
 xdg_apps_DATA = ebrowsing.desktop
