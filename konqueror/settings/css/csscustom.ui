@@ -346,7 +346,7 @@
                         <cstring>blackOnWhite</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Black on Qt::white</string>
+                        <string>&amp;Black on white</string>
                     </property>
                     <property name="checked">
                         <bool>true</bool>
@@ -360,7 +360,7 @@
                         <cstring>whiteOnBlack</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;White on Qt::black</string>
+                        <string>&amp;White on black</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>&lt;b&gt;White on Black&lt;/b&gt;&lt;p&gt;This is your classic inverse color scheme.&lt;/p&gt;</string>
