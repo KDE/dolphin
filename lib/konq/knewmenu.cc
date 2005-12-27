@@ -21,7 +21,6 @@
 //Added by qt3to4:
 #include <QVBoxLayout>
 #include <QList>
-#include <Q3CString>
 #include <kdebug.h>
 #include <kdesktopfile.h>
 #include <kdirwatch.h>
@@ -240,7 +239,7 @@ void KNewMenu::fillMenu()
                 if ( (*templ).templatePath.endsWith( "emptydir" ) )
                 {
                     KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewDir() ),
-                                     d->m_actionCollection, Q3CString().sprintf("newmenu%d", i ) );
+                                     d->m_actionCollection, QString("newmenu%1").arg( i ).toUtf8() );
                     act->setGroup( "KNewMenu" );
                     act->plug( popupMenu() );
 
@@ -250,7 +249,7 @@ void KNewMenu::fillMenu()
                 else
                 {
                     KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewFile() ),
-                                             d->m_actionCollection, Q3CString().sprintf("newmenu%d", i ) );
+                                             d->m_actionCollection, QString("newmenu%1").arg( i ).toUtf8()  );
                     act->setGroup( "KNewMenu" );
 
                     if ( (*templ).templatePath.endsWith( "URL.desktop" ) )

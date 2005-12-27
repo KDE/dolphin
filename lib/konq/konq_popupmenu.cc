@@ -21,7 +21,6 @@
 #include <qdir.h>
 //Added by qt3to4:
 #include <QPixmap>
-#include <Q3CString>
 
 #include <klocale.h>
 #include <kapplication.h>
@@ -459,7 +458,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     if (!isCurrentTrash)
         addMerge( "konqueror" );
 
-    bool isKDesktop = Q3CString( kapp->name() ) == "kdesktop";
+    bool isKDesktop = QByteArray( kapp->name() ) == "kdesktop";
     KAction *actNewWindow = 0;
 
     if (( kpf & ShowProperties ) && isKDesktop &&
@@ -695,7 +694,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 		if ( cfg.hasKey( "X-KDE-ShowIfDcopCall" ) )
 		{
 		    QString dcopcall = cfg.readEntry( "X-KDE-ShowIfDcopCall" );
-		    const Q3CString app = dcopcall.section(' ', 0,0).utf8();
+		    const QByteArray app = dcopcall.section(' ', 0,0).utf8();
 
 		    //if( !kapp->dcopClient()->isApplicationRegistered( app ))
 		    //	continue; //app does not exist so cannot send call
@@ -861,7 +860,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     if ((*it)->noDisplay())
                         continue;
 
-                    Q3CString nam;
+                    QByteArray nam;
                     nam.setNum( id );
 
                     QString actionName( (*it)->name() );
@@ -1041,7 +1040,7 @@ void KonqPopupMenu::slotPopupAddToBookmark()
 
 void KonqPopupMenu::slotRunService()
 {
-  Q3CString senderName = sender()->name();
+  QByteArray senderName = sender()->name();
   int id = senderName.mid( senderName.find( '_' ) + 1 ).toInt();
 
   // Is it a usual service (application)

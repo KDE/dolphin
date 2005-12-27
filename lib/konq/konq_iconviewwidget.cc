@@ -38,7 +38,6 @@
 #include <Q3MemArray>
 #include <QEvent>
 #include <QDragMoveEvent>
-#include <Q3CString>
 #include <QDragLeaveEvent>
 #include <QList>
 #include <QWheelEvent>
@@ -955,7 +954,7 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
           QString itemURL = url.url(); // was: K3URLDrag::urlToString(url);
           kdDebug(1203) << "itemURL=" << itemURL << endl;
           Q3IconDragItem id;
-          id.setData( Q3CString(itemURL.latin1()) );
+          id.setData( QByteArray(itemURL.latin1()) );
           drag->append( id,
                         QRect( it->pixmapRect(false).topLeft() - m_mousePos,
                                it->pixmapRect().size() ),
