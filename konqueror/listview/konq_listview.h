@@ -27,7 +27,7 @@
 #include <konq_dirpart.h>
 #include <kmimetyperesolver.h>
 
-#include <q3valuelist.h>
+
 #include <qlistview.h>
 #include <qstringlist.h>
 

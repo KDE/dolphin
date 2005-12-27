@@ -20,8 +20,8 @@
 #ifndef __konq_listviewwidget_h__
 #define __konq_listviewwidget_h__
 
-#include <q3valuelist.h>
-#include <q3valuevector.h>
+
+
 
 #include <kurl.h>
 #include <kfileitem.h>

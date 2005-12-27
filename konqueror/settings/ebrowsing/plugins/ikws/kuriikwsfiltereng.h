@@ -25,7 +25,7 @@
 #ifndef __KURISearchFILTERENGINE_H__
 #define __KURISearchFILTERENGINE_H__
 
-#include <q3valuelist.h>
+
 #include <qstringlist.h>
 //Added by qt3to4:
 

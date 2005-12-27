@@ -24,7 +24,7 @@
 #include <qstring.h>
 #include <kicontheme.h>
 
-#include <q3valuevector.h>
+
 
 // for mode_t
 #include <sys/types.h>
