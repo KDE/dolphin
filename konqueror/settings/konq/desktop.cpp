@@ -128,13 +128,13 @@ KDesktopConfig::KDesktopConfig(KInstance *inst, QWidget *parent)
 
   KConfig config( "kwinrc" );
 
-  Q3CString groupname;
+  QString groupname;
   if (kwin_screen_number == 0)
      groupname = "Desktops";
   else
-     groupname.sprintf("Desktops-screen-%d", kwin_screen_number);
+     groupname = QString("Desktops-screen-%1").arg(kwin_screen_number);
 
-  if (config.groupIsImmutable(QString::fromUtf8(groupname)))
+  if (config.groupIsImmutable(groupname))
   {
      name_group->setEnabled(false);
      number_group->setEnabled(false);
