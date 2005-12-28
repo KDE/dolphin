@@ -26,7 +26,6 @@
 //Added by qt3to4:
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <Q3CString>
 
 #include <kapplication.h>
 #include <kglobal.h>
@@ -128,11 +127,11 @@ KDesktopConfig::KDesktopConfig(KInstance *inst, QWidget *parent)
 
   KConfig config( "kwinrc" );
 
-  QString groupname;
+  QByteArray groupname;
   if (kwin_screen_number == 0)
      groupname = "Desktops";
   else
-     groupname = QString("Desktops-screen-%1").arg(kwin_screen_number);
+     groupname = "Desktops-screen-" + QByteArray::number ( kwin_screen_number );
 
   if (config.groupIsImmutable(groupname))
   {
@@ -211,11 +210,11 @@ void KDesktopConfig::save()
   if (QX11Info::display())
      konq_screen_number = DefaultScreen(QX11Info::display());
 
-  Q3CString appname;
+  QByteArray appname;
   if (konq_screen_number == 0)
       appname = "kdesktop";
   else
-      appname.sprintf("kdesktop-screen-%d", konq_screen_number);
+      appname = "kdesktop-screen-" + QByteArray::number( konq_screen_number );
   kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
 
   emit changed(false);
