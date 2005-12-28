@@ -48,6 +48,7 @@ class QHBoxLayout;
 class QTimer;
 class QPushButton;
 class QToolButton;
+class QProgressBar;
 
 class KonqView;
 class KonqViewManager;
@@ -58,7 +59,6 @@ class KonqFrameContainer;
 class KonqFrameTabs;
 class KConfig;
 class KSeparator;
-class KProgress;
 class KAction;
 class KSqueezedTextLabel;
 
@@ -150,7 +150,7 @@ class KonqFrameStatusBar : public KStatusBar
    private:
       KonqFrame* m_pParentKonqFrame;
       QCheckBox *m_pLinkedViewCheckBox;
-      KProgress *m_progressBar;
+      QProgressBar *m_progressBar;
       KSqueezedTextLabel *m_pStatusLabel;
       QLabel* m_led;
       QString m_savedMessage;

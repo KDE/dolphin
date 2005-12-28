@@ -58,7 +58,6 @@ class KBookmarkMenu;
 class KCMultiDialog;
 class KHistoryCombo;
 class KNewMenu;
-class KProgress;
 class KSelectAction;
 class KToggleAction;
 class KonqBidiHistoryAction;

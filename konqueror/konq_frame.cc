@@ -22,9 +22,9 @@
 #include <qlayout.h>
 #include <qtoolbutton.h>
 #include <qtabbar.h>
-#include <q3ptrlist.h>
 #include <qmenu.h>
 #include <qkeysequence.h>
+#include <QProgressBar>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QPaintEvent>
@@ -40,7 +40,6 @@
 #include <kdebug.h>
 #include <kglobalsettings.h>
 #include <kiconloader.h>
-#include <kprogress.h>
 #include <klocale.h>
 #include <ksqueezedtextlabel.h>
 
@@ -100,7 +99,7 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent )
     connect( m_pLinkedViewCheckBox, SIGNAL(toggled(bool)),
             this, SIGNAL(linkedViewClicked(bool)) );
 
-    m_progressBar = new KProgress( this );
+    m_progressBar = new QProgressBar( this );
     m_progressBar->setMaximumHeight(fontMetrics().height());
     m_progressBar->hide();
     addWidget( m_progressBar, 0, true /*permanent->right align*/ );
