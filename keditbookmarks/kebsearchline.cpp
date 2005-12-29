@@ -729,7 +729,7 @@ void KViewSearchLineWidget::createWidgets()
         d->clearButton = new QToolButton();
         d->layout->addWidget(d->clearButton);
         QIcon icon = SmallIconSet(QApplication::isRightToLeft() ? "clear_left" : "locationbar_erase");
-        d->clearButton->setIconSet(icon);
+        d->clearButton->setIcon(icon);
     }
 
     d->clearButton->show();
