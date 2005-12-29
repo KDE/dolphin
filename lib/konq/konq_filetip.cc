@@ -224,10 +224,8 @@ void KonqFileTip::setFilter( bool enable )
 
     if ( enable ) {
         kapp->installEventFilter( this );
-        QApplication::setGlobalMouseTracking( true );
     }
     else {
-        QApplication::setGlobalMouseTracking( false );
         kapp->removeEventFilter( this );
     }
     m_filter = enable;
