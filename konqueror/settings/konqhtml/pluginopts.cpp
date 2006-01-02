@@ -62,7 +62,7 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, KInstance *inst,
     enablePluginsGloballyCB = new QCheckBox( i18n( "&Enable plugins globally" ), globalGB );
     enableHTTPOnly = new QCheckBox( i18n( "Only allow &HTTP and HTTPS URLs for plugins" ), globalGB );
     enableUserDemand = new QCheckBox( i18n( "&Load plugins on demand only" ), globalGB );
-    priorityLabel = new QLabel(i18n("CPU priority for plugins: %1").arg(QString::null), globalGB);
+    priorityLabel = new QLabel(i18n("CPU priority for plugins: %1").arg(QString()), globalGB);
     priority = new QSlider(5, 100, 5, 100, Qt::Horizontal, globalGB);
     connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
     connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotTogglePluginsEnabled() ) );
@@ -219,7 +219,7 @@ void KPluginOptions::defaults()
 
 /*****************************************************************************/
 
-    KConfig *config = new KConfig( QString::null, true, false );
+    KConfig *config = new KConfig( QString(), true, false );
 
     m_widget->scanAtStartup->setChecked( false );
 
@@ -297,7 +297,7 @@ void KPluginOptions::scan()
         int ret = KMessageBox::warningYesNoCancel( this,
                                                     i18n("Do you want to apply your changes "
                                                          "before the scan? Otherwise the "
-                                                         "changes will be lost."), QString::null, KStdGuiItem::save(), KStdGuiItem::discard() );
+                                                         "changes will be lost."), QString(), KStdGuiItem::save(), KStdGuiItem::discard() );
         if ( ret==KMessageBox::Cancel ) {
             m_widget->scanButton->setEnabled(true);
             return;
@@ -448,16 +448,16 @@ void KPluginOptions::dirSelect( Q3ListBoxItem *item )
     unsigned cur = m_widget->dirList->index(m_widget->dirList->selectedItem());
     m_widget->dirDown->setEnabled( item!=0 && cur<m_widget->dirList->count()-1 );
     m_widget->dirUp->setEnabled( item!=0 && cur>0 );
-    m_widget->dirEdit->setURL( item!=0 ? item->text() : QString::null );
+    m_widget->dirEdit->setURL( item!=0 ? item->text() : QString() );
  }
 
 
 void KPluginOptions::dirNew()
 {
-    m_widget->dirList->insertItem( QString::null, 0 );
+    m_widget->dirList->insertItem( QString(), 0 );
     m_widget->dirList->setCurrentItem( 0 );
     dirSelect( m_widget->dirList->selectedItem() );
-    m_widget->dirEdit->setURL(QString::null);
+    m_widget->dirEdit->setURL(QString());
     m_widget->dirEdit->setFocus();
     change();
 }
@@ -465,7 +465,7 @@ void KPluginOptions::dirNew()
 
 void KPluginOptions::dirRemove()
 {
-    m_widget->dirEdit->setURL(QString::null);
+    m_widget->dirEdit->setURL(QString());
     delete m_widget->dirList->selectedItem();
     m_widget->dirRemove->setEnabled( false );
     m_widget->dirUp->setEnabled( false );

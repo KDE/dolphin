@@ -135,7 +135,7 @@ QString FakeUASProvider::aliasStr( const QString& name )
 {
   int id = userAgentStringList().findIndex(name);
   if ( id == -1 )
-    return QString::null;
+    return QString();
   else
     return m_lstAlias[id];
 }
@@ -144,7 +144,7 @@ QString FakeUASProvider::agentStr( const QString& name )
 {
   int id = userAgentAliasList().findIndex(name);
   if ( id == -1 )
-    return QString::null;
+    return QString();
   else
     return m_lstIdentity[id];
 }

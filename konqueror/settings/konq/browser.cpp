@@ -105,7 +105,7 @@ QString KBrowserOptions::quickHelp() const
      KCModule *m = static_cast<KCModule *>(w);
      return m->quickHelp();
   }
-  return QString::null;
+  return QString();
 }
 
 #include "browser.moc"

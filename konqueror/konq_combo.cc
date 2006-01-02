@@ -58,7 +58,7 @@ static QString titleOfURL( const KURL& url )
         _url.setPath( url.path()+'/' );
         historyentry = historylist.findEntry( _url );
     }
-    return ( historyentry ? historyentry->title : QString::null );
+    return ( historyentry ? historyentry->title : QString() );
 }
 
 #if 0
@@ -404,7 +404,7 @@ void KonqCombo::saveItems()
 void KonqCombo::clearTemporary( bool makeCurrent )
 {
     applyPermanent();
-    changeItem( QString::null, temporary ); // ### default pixmap?
+    changeItem( QString(), temporary ); // ### default pixmap?
     if ( makeCurrent )
       setCurrentItem( temporary );
 }
@@ -510,7 +510,7 @@ void KonqCombo::selectWord(QKeyEvent *e)
             QString text = edit->text();
             int pos_to_right = text.length() - pos - 1;
             QString cut = text.left(pos_old) +
-               (pos_to_right > 0 ? text.right(pos_to_right) : QString::null );
+               (pos_to_right > 0 ? text.right(pos_to_right) : QString() );
             edit->setText(cut);
             edit->setCursorPosition(pos_old);
         }

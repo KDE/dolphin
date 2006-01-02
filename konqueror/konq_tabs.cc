@@ -445,9 +445,9 @@ void KonqFrameTabs::slotMouseMiddleClick()
 {
   KURL filteredURL ( KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text(QClipboard::Selection) ) );
   if ( !filteredURL.isEmpty() ) {
-    KonqView* newView = m_pViewManager->addTab(QString::null, QString::null, false, false);
+    KonqView* newView = m_pViewManager->addTab(QString(), QString(), false, false);
     if (newView == 0L) return;
-    m_pViewManager->mainWindow()->openURL( newView, filteredURL, QString::null );
+    m_pViewManager->mainWindow()->openURL( newView, filteredURL, QString() );
     m_pViewManager->showTab( newView );
     m_pViewManager->mainWindow()->focusLocationBar();
   }
@@ -482,9 +482,9 @@ void KonqFrameTabs::slotReceivedDropEvent( QDropEvent *e )
 {
   KURL::List lstDragURLs = KURL::List::fromMimeData( e->mimeData() );
   if ( lstDragURLs.count() ) {
-    KonqView* newView = m_pViewManager->addTab(QString::null, QString::null, false, false);
+    KonqView* newView = m_pViewManager->addTab(QString(), QString(), false, false);
     if (newView == 0L) return;
-    m_pViewManager->mainWindow()->openURL( newView, lstDragURLs.first(), QString::null );
+    m_pViewManager->mainWindow()->openURL( newView, lstDragURLs.first(), QString() );
     m_pViewManager->showTab( newView );
     m_pViewManager->mainWindow()->focusLocationBar();
   }

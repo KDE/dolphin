@@ -150,7 +150,7 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
     m_dropItem = 0;
     m_bOpeningFirstChild=false;
 
-    addColumn( QString::null );
+    addColumn( QString() );
     header()->hide();
     setTreeStepSize(15);
 
@@ -458,7 +458,7 @@ Q3DragObject* KonqSidebarTree::dragObject()
 void KonqSidebarTree::leaveEvent( QEvent *e )
 {
     KListView::leaveEvent( e );
-//    emitStatusBarText( QString::null );
+//    emitStatusBarText( QString() );
 }
 
 

@@ -34,7 +34,7 @@
 
 SearchProviderDialog::SearchProviderDialog(SearchProvider *provider,
                                            QWidget *parent, const char *name)
-                     :KDialogBase(parent, name, true, QString::null, Ok|Cancel),
+                     :KDialogBase(parent, name, true, QString(), Ok|Cancel),
                       m_provider(provider)
 {
     m_dlg = new SearchProviderDlgUI (this);
@@ -85,7 +85,7 @@ void SearchProviderDialog::slotOk()
             i18n("The URI does not contain a \\{...} placeholder for the user query.\n"
                  "This means that the same page is always going to be visited, "
                  "regardless of what the user types."),
-            QString::null, i18n("Keep It")) == KMessageBox::Cancel)
+            QString(), i18n("Keep It")) == KMessageBox::Cancel)
         return;
 
     if (!m_provider)
@@ -93,7 +93,7 @@ void SearchProviderDialog::slotOk()
     m_provider->setName(m_dlg->leName->text().trimmed());
     m_provider->setQuery(m_dlg->leQuery->text().trimmed());
     m_provider->setKeys(QStringList::split(",", m_dlg->leShortcut->text().trimmed()));
-    m_provider->setCharset(m_dlg->cbCharset->currentItem() ? m_dlg->cbCharset->currentText() : QString::null);
+    m_provider->setCharset(m_dlg->cbCharset->currentItem() ? m_dlg->cbCharset->currentText() : QString());
     KDialog::accept();
 }
 

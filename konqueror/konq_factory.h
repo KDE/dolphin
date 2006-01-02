@@ -67,7 +67,7 @@ class KonqFactory
 {
 public:
   static KonqViewFactory createView( const QString &serviceType,
-				     const QString &serviceName = QString::null,
+				     const QString &serviceName = QString(),
 				     KService::Ptr *serviceImpl = 0,
 				     KTrader::OfferList *partServiceOffers = 0,
 				     KTrader::OfferList *appServiceOffers = 0,

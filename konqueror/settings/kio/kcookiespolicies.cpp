@@ -135,7 +135,7 @@ void KCookiesPolicies::addNewPolicy(const QString& domain)
 
 void KCookiesPolicies::addPressed()
 {
-  addNewPolicy (QString::null);
+  addNewPolicy (QString());
 }
 
 void KCookiesPolicies::changePressed()

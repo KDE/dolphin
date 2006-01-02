@@ -62,9 +62,9 @@ private:
   bool isValidURL( const QString&, KURL* = 0 ) const;
   bool handleDuplicate( const QString& );
   bool getException ( QString&, const QString&,
-                      const QString& value = QString::null );
-  void showErrorMsg( const QString& caption = QString::null,
-                     const QString& message = QString::null );
+                      const QString& value = QString() );
+  void showErrorMsg( const QString& caption = QString(),
+                     const QString& message = QString() );
   
 private:
   ManualProxyDlgUI* mDlg;

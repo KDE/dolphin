@@ -17,7 +17,7 @@
 #include "policies.h"
 
 PolicyDialog::PolicyDialog( Policies *policies, QWidget *parent, const char *name )
-    : KDialogBase(parent, name, true, QString::null, Ok|Cancel, Ok, true), 
+    : KDialogBase(parent, name, true, QString(), Ok|Cancel, Ok, true), 
       policies(policies)
 {
   QFrame *main = makeMainWidget();
@@ -102,7 +102,7 @@ QString PolicyDialog::featureEnabledPolicyText() const {
   if (pol >= 0 && pol < 3) // Keep in sync with FeatureEnabledPolicy
     return policy_values[pol];
   else
-    return QString::null;
+    return QString();
 }
 
 void PolicyDialog::accept()

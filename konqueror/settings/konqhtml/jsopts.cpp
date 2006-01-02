@@ -38,7 +38,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, KInstanc
   KCModule( inst, parent ),
   _removeJavaScriptDomainAdvice(false),
    m_pConfig( config ), m_groupname( group ),
-  js_global_policies(config,group,true,QString::null),
+  js_global_policies(config,group,true,QString()),
   _removeECMADomainSettings(false)
 {
   QVBoxLayout* toplevel = new QVBoxLayout( this, 10, 5 );

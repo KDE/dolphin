@@ -71,7 +71,7 @@ private slots:
   void setupEnvProxy();
 
 private:
-  void showInvalidMessage( const QString& _msg = QString::null );
+  void showInvalidMessage( const QString& _msg = QString() );
 
 private:
   KProxyDialogUI* mDlg;

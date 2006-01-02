@@ -194,13 +194,13 @@ void KonqFactory::getOffers( const QString & serviceType,
     {
         *appServiceOffers = KTrader::self()->query( serviceType, "Application",
 "DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'",
-                                                    QString::null );
+                                                    QString() );
     }
 
     if ( partServiceOffers )
     {
         *partServiceOffers = KTrader::self()->query( serviceType, "KParts/ReadOnlyPart",
-                                                     QString::null, QString::null );
+                                                     QString(), QString() );
     }
 }
 

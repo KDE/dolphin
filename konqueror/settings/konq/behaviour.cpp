@@ -53,7 +53,6 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, KInstance *
     QVBoxLayout *lay = new QVBoxLayout( this, 0, KDialog::spacingHint() );
 
 	QGroupBox * miscGb = new QGroupBox(i18n("Misc Options"), this);
-	lay->addWidget( miscGb );
 	KHBox *hbox = new KHBox(miscGb);
 	KVBox *vbox = new KVBox(hbox);
 
@@ -139,6 +138,8 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, KInstance *
     label->setWhatsThis( homestr );
     homeURL->setWhatsThis( homestr );
 
+    	lay->addWidget( miscGb );
+
     lay->addItem(new QSpacerItem(0,20,QSizePolicy::Fixed,QSizePolicy::Fixed));
 
     cbShowDeleteCommand = new QCheckBox( i18n( "Show 'Delete' context me&nu entries which bypass the trashcan" ), this );
@@ -200,7 +201,7 @@ void KBehaviourOptions::load()
     cbShowPreviewsInTips->setChecked( showPreviewsIntips );
 
     cbRenameDirectlyIcon->setChecked( g_pConfig->readBoolEntry("RenameIconDirectly",  DEFAULT_RENAMEICONDIRECTLY ) );
-    
+
     KConfig globalconfig("kdeglobals", true, false);
     globalconfig.setGroup( "KDE" );
     cbShowDeleteCommand->setChecked( globalconfig.readBoolEntry("ShowDeleteCommand", false) );
@@ -254,12 +255,12 @@ void KBehaviourOptions::save()
 //    g_pConfig->writeEntry( "FileTipsItems", sbToolTip->value() );
 
     g_pConfig->writeEntry( "RenameIconDirectly", cbRenameDirectlyIcon->isChecked());
-    
+
     KConfig globalconfig("kdeglobals", false, false);
     globalconfig.setGroup( "KDE" );
     globalconfig.writeEntry( "ShowDeleteCommand", cbShowDeleteCommand->isChecked());
     globalconfig.sync();
-    
+
     g_pConfig->setGroup( "Trash" );
     g_pConfig->writeEntry( "ConfirmTrash", cbMoveToTrash->isChecked());
     g_pConfig->writeEntry( "ConfirmDelete", cbDelete->isChecked());

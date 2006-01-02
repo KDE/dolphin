@@ -79,7 +79,7 @@ QString KURISearchFilterEngine::webShortcutQuery( const QString& typedString ) c
       if (provider)
       {
         result = formatResult(provider->query(), provider->charset(),
-                              QString::null, search.mid(pos+1), true);
+                              QString(), search.mid(pos+1), true);
         delete provider;
       }
     }
@@ -105,7 +105,7 @@ QString KURISearchFilterEngine::autoWebSearchQuery( const QString& typedString )
       if (provider)
       {
         result = formatResult (provider->query(), provider->charset(),
-                               QString::null, typedString, true);
+                               QString(), typedString, true);
         delete provider;
       }
     }
@@ -396,7 +396,7 @@ QString KURISearchFilterEngine::formatResult( const QString& url,
   // Return nothing if userquery is empty and it contains
   // substitution strings...
   if (query.isEmpty() && url.find(QRegExp(QRegExp::escape("\\{"))) > 0)
-    return QString::null;
+    return QString();
 
   // Debug info of map:
   if (!map.isEmpty())

@@ -95,9 +95,9 @@ CookieProp* CookieListViewItem::leaveCookie()
 QString CookieListViewItem::text(int f) const
 {
     if (mCookie)
-        return f == 0 ? QString::null : KIDNA::toUnicode(mCookie->host);
+        return f == 0 ? QString() : KIDNA::toUnicode(mCookie->host);
     else
-        return f == 0 ? KIDNA::toUnicode(mDomain) : QString::null;
+        return f == 0 ? KIDNA::toUnicode(mDomain) : QString();
 }
 
 KCookiesManagement::KCookiesManagement(KInstance *inst, QWidget *parent)

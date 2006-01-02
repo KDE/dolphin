@@ -33,10 +33,10 @@ public:
   static bool doIt();
 
   /** Make konqueror open a window for @p url */
-  static bool createNewWindow(const KURL & url, bool newTab, bool tempFile, const QString & mimetype = QString::null);
+  static bool createNewWindow(const KURL & url, bool newTab, bool tempFile, const QString & mimetype = QString());
 
   /** Make konqueror open a window for @p profile, @p url and @p mimetype */
-  static bool openProfile(const QString & profile, const QString & url, const QString & mimetype = QString::null);
+  static bool openProfile(const QString & profile, const QString & url, const QString & mimetype = QString());
 
 protected slots:
   void slotResult( KIO::Job * );

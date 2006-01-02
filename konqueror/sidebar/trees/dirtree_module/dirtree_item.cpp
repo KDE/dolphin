@@ -129,7 +129,7 @@ QString KonqSidebarDirTreeItem::externalMimeType() const
     if (m_fileItem->isMimeTypeKnown())
         return m_fileItem->mimetype();
     else
-        return QString::null;
+        return QString();
 }
 
 bool KonqSidebarDirTreeItem::acceptsDrops( const Q3StrList & formats )

@@ -75,7 +75,7 @@ public:
   int advice() const;
   QString domain() const;
 
-  void setEnableHostEdit( bool, const QString& host = QString::null );
+  void setEnableHostEdit( bool, const QString& host = QString() );
   void setPolicy (int policy);
 
 protected slots:

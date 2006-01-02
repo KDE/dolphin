@@ -354,7 +354,7 @@ void KonqSidebarBookmarkModule::slotProperties(KonqSidebarBookmarkItem *bi)
 
     KBookmark bookmark = bi->bookmark();
 
-    QString folder = bookmark.isGroup() ? QString::null : bookmark.url().pathOrURL();
+    QString folder = bookmark.isGroup() ? QString() : bookmark.url().pathOrURL();
     BookmarkEditDialog dlg( bookmark.fullText(), folder, 0, 0,
                             i18n("Bookmark Properties") );
     if ( dlg.exec() != KDialogBase::Accepted )
@@ -567,7 +567,7 @@ QString BookmarkEditDialog::finalUrl() const
     if (m_location!=0)
         return m_location->text();
     else
-        return QString::null;
+        return QString();
 }
 
 QString BookmarkEditDialog::finalTitle() const
@@ -575,7 +575,7 @@ QString BookmarkEditDialog::finalTitle() const
     if (m_title!=0) 
         return m_title->text();
     else
-        return QString::null;
+        return QString();
 }
 
 extern "C"

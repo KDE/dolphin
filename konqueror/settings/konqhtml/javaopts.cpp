@@ -37,8 +37,8 @@ JavaPolicies::JavaPolicies(KConfig* config, const QString &group, bool global,
 	Policies(config,group,global,domain,"java.","EnableJava") {
 }
 
-JavaPolicies::JavaPolicies() : Policies(0,QString::null,false,
-	QString::null,QString::null,QString::null) {
+JavaPolicies::JavaPolicies() : Policies(0,QString(),false,
+	QString(),QString(),QString()) {
 }
 
 JavaPolicies::~JavaPolicies() {

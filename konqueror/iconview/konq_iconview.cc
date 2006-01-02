@@ -521,7 +521,7 @@ void KonqKfmIconView::slotShowDirectoryOverlays()
 void KonqKfmIconView::slotSelect()
 {
     bool ok;
-    QString pattern = KInputDialog::getText( QString::null,
+    QString pattern = KInputDialog::getText( QString(),
         i18n( "Select files:" ), "*", &ok, m_pIconView );
     if ( ok )
     {
@@ -548,7 +548,7 @@ void KonqKfmIconView::slotSelect()
 void KonqKfmIconView::slotUnselect()
 {
     bool ok;
-    QString pattern = KInputDialog::getText( QString::null,
+    QString pattern = KInputDialog::getText( QString(),
         i18n( "Unselect files:" ), "*", &ok, m_pIconView );
     if ( ok )
     {
@@ -860,7 +860,7 @@ void KonqKfmIconView::slotCanceled( const KURL& url )
     // It could be about the URL we were listing, and openURL() aborted it.
     if ( m_bLoading && url.equals( m_pIconView->url(), true ) )
     {
-        emit canceled( QString::null );
+        emit canceled( QString() );
         m_bLoading = false;
     }
 

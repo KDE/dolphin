@@ -101,7 +101,7 @@ public:
    */
   void openURL( const KURL &url,
                 const QString & locationBarURL,
-                const QString &nameFilter = QString::null,
+                const QString &nameFilter = QString(),
                 bool tempFile = false );
 
   /**
@@ -113,7 +113,7 @@ public:
    *        @see KonqFactory.
    */
   bool changeViewMode( const QString &serviceType,
-                       const QString &serviceName = QString::null,
+                       const QString &serviceName = QString(),
                        bool forceAutoEmbed = false );
 
   /**

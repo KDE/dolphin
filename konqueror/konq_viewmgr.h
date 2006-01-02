@@ -69,8 +69,8 @@ public:
    * @param newOneFirst if true, move the new view as the first one (left or top)
    */
   KonqView* splitView( Qt::Orientation orientation,
-                       const QString & serviceType = QString::null,
-                       const QString & serviceName = QString::null,
+                       const QString & serviceType = QString(),
+                       const QString & serviceName = QString(),
                        bool newOneFirst = false, bool forceAutoEmbed = false );
 
   /**
@@ -81,8 +81,8 @@ public:
    * @param newOneFirst if true, move the new view as the first one (left or top)
    */
   KonqView* splitWindow( Qt::Orientation orientation,
-                         const QString & serviceType = QString::null,
-                         const QString & serviceName = QString::null,
+                         const QString & serviceType = QString(),
+                         const QString & serviceName = QString(),
                          bool newOneFirst = false);
 
   /**
@@ -94,8 +94,8 @@ public:
   /**
    * Adds a tab to m_pMainContainer
    */
-  KonqView* addTab(const QString &serviceType = QString::null,
-                   const QString &serviceName = QString::null,
+  KonqView* addTab(const QString &serviceType = QString(),
+                   const QString &serviceName = QString(),
                    bool passiveMode = false, bool openAfterCurrentPage = false );
 
 
@@ -194,7 +194,7 @@ public:
    * Loads a view layout from a config file. Removes all views before loading.
    * @param cfg the config file
    * @param filename if set, remember the file name of the profile (for save settings)
-   * It has to be under the profiles dir. Otherwise, set to QString::null
+   * It has to be under the profiles dir. Otherwise, set to QString()
    * @param forcedURL if set, the URL to open, whatever the profile says
    * @param req attributes related to @p forcedURL
    * @param resetWindow if the profile doesn't have attributes like size or toolbar
@@ -209,7 +209,7 @@ public:
    * Loads a view layout from a config file. Removes all views before loading.
    * @param path the full path to the config file
    * @param filename if set, remember the file name of the profile (for save settings)
-   * It has to be under the profiles dir. Otherwise, set to QString::null
+   * It has to be under the profiles dir. Otherwise, set to QString()
    * @param forcedURL if set, the URL to open, whatever the profile says
    * @param req attributes related to @p forcedURL
    * @param resetWindow if the profile doesn't have attributes like size or toolbar

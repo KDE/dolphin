@@ -199,7 +199,7 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
 
     if ( !parentDir )   // hack for zeroconf://domain/type/service listed in zeroconf:/type/ dir
     {
-    	dir.setHost( QString::null );
+    	dir.setHost( QString() );
 	parentDir = m_dictSubDirs[ dir.url(-1) ];
     }
 

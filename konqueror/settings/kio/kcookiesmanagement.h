@@ -52,7 +52,7 @@ public:
 
 private:
     void init( CookieProp* cookie,
-               QString domain = QString::null,
+               QString domain = QString(),
                bool cookieLoaded=false );
     CookieProp *mCookie;
     QString mDomain;

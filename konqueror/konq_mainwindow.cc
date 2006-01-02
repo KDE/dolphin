@@ -417,7 +417,7 @@ void KonqMainWindow::removeContainer( QWidget *container, QWidget *parent, QDomE
 static QString detectNameFilter( KURL & url )
 {
     if ( !KProtocolInfo::supportsListing(url) )
-        return QString::null;
+        return QString();
 
     // Look for wildcard selection
     QString nameFilter;
@@ -427,7 +427,7 @@ static QString detectNameFilter( KURL & url )
     {
         if ( !url.query().isEmpty() && lastSlash == (int)path.length()-1 ) {  //  In /tmp/?foo, foo isn't a query
             path += url.query(); // includes the '?'
-            url.setQuery( QString::null );
+            url.setQuery( QString() );
         }
         QString fileName = path.mid( lastSlash + 1 );
         QString testPath = path.left( lastSlash + 1 );
@@ -435,7 +435,7 @@ static QString detectNameFilter( KURL & url )
              && ( !url.isLocalFile() || QFile::exists( testPath ) ) && KIO::NetAccess::exists( url, true, 0L ) )
         {
             nameFilter = fileName;
-            url.setFileName( QString::null );
+            url.setFileName( QString() );
             kdDebug(1202) << "Found wildcard. nameFilter=" << nameFilter << "  New url=" << url << endl;
         }
     }
@@ -455,9 +455,9 @@ void KonqMainWindow::openFilteredURL( const QString & url, KonqOpenURLRequest & 
     if ( filteredURL.isEmpty() ) // initially empty, or error (e.g. ~unknown_user)
         return;
 
-    m_currentDir = QString::null;
+    m_currentDir.clear();
 
-    openURL( 0L, filteredURL, QString::null, req );
+    openURL( 0L, filteredURL, QString(), req );
 
     // #4070: Give focus to view after URL was entered manually
     // Note: we do it here if the view mode (i.e. part) wasn't changed
@@ -508,7 +508,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   if ( !nameFilter.isEmpty() )
   {
     req.nameFilter = nameFilter;
-    url.setFileName( QString::null );
+    url.setFileName( QString() );
   }
 
   KonqView *view = _view;
@@ -521,8 +521,8 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   if ( !view  && !req.newTab )
     view = m_currentView; /* Note, this can be 0L, e.g. on startup */
   else if ( !view && req.newTab ) {
-    view = m_pViewManager->addTab(QString::null,
-                                  QString::null,
+    view = m_pViewManager->addTab(QString(),
+                                  QString(),
                                   false,
                                   req.openAfterCurrentPage);
     if (view) {
@@ -594,7 +594,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
             if ( !open ) {
                 KParts::BrowserRun::AskSaveResult res = KonqRun::askSave( url, offer, serviceType );
                 if ( res == KParts::BrowserRun::Save )
-                    KParts::BrowserRun::simpleSave( url, QString::null, this );
+                    KParts::BrowserRun::simpleSave( url, QString(), this );
                 open = ( res == KParts::BrowserRun::Open );
             }
             if ( open )
@@ -739,12 +739,12 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   {
       serviceType = "KonqAboutPage"; // not KParts/ReadOnlyPart, it fills the Location menu ! :)
       serviceName = "konq_aboutpage";
-      originalURL = req.typedURL.isEmpty() ? QString::null : url.url();
+      originalURL = req.typedURL.isEmpty() ? QString() : url.url();
       // empty if from profile, about:konqueror if the user typed it (not req.typedURL, it could be "about:")
   }
   else if ( url.url() == "about:blank" && req.typedURL.isEmpty() )
   {
-      originalURL = QString::null;
+      originalURL.clear();
   }
 
   // Look for which view mode to use, if a directory - not if view locked
@@ -773,12 +773,12 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
               kdDebug(1202) << "serviceName=" << serviceName << endl;
             }
           if ( HTMLAllowed &&
-               ( ( indexFile = findIndexFile( url.path() ) ) != QString::null ) )
+               ( ( indexFile = findIndexFile( url.path() ) ) != QString() ) )
             {
               serviceType = "text/html";
               url = KURL();
               url.setPath( indexFile );
-              serviceName = QString::null; // cancel what we just set, this is not a dir finally
+              serviceName.clear(); // cancel what we just set, this is not a dir finally
             }
 
           // Reflect this setting in the menu
@@ -832,7 +832,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
           return false; // It didn't work out.
 
       childView->setViewName( m_initialFrameName.isEmpty() ? req.args.frameName : m_initialFrameName );
-      m_initialFrameName = QString::null;
+      m_initialFrameName.clear();
   }
   else // We know the child view
   {
@@ -1087,7 +1087,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
       if (QApplication::keyboardModifiers() & Qt::ShiftModifier)
         req.newTabInFront = !req.newTabInFront;
       req.args = args;
-      openURL( 0L, url, QString::null, req );
+      openURL( 0L, url, QString(), req );
     }
     else
     {
@@ -1128,13 +1128,13 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
         if ( windowArgs.lowerWindow )
            newtabsinfront =! newtabsinfront;
 
-        KonqView* newView = m_pViewManager->addTab(QString::null, QString::null, false, aftercurrentpage);
+        KonqView* newView = m_pViewManager->addTab(QString(), QString(), false, aftercurrentpage);
         if (newView == 0L) return;
 
         if (newtabsinfront)
           m_pViewManager->showTab( newView );
 
-        openURL( newView, url.isEmpty() ? KURL("about:blank") : url, QString::null);
+        openURL( newView, url.isEmpty() ? KURL("about:blank") : url, QString());
         newView->setViewName( args.frameName );
         part=newView->part();
 
@@ -1149,7 +1149,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
     req.args = args;
 
     if ( args.serviceType.isEmpty() )
-      mainWindow->openURL( 0L, url, QString::null, req );
+      mainWindow->openURL( 0L, url, QString(), req );
     else if ( !mainWindow->openView( args.serviceType, url, 0L, req ) )
     {
       // we have problems. abort.
@@ -1321,7 +1321,7 @@ void KonqMainWindow::slotSendURL()
     subject = m_currentView->caption();
   else
     subject = fileNameList;
-  KToolInvocation::invokeMailer(QString::null,QString::null,QString::null,
+  KToolInvocation::invokeMailer(QString(),QString(),QString(),
                      subject, body);
 }
 
@@ -1345,7 +1345,7 @@ void KonqMainWindow::slotSendFile()
         KZip zip( zipFileName );
         if ( !zip.open( QIODevice::WriteOnly ) )
             continue; // TODO error message
-        zip.addLocalDirectory( (*it).path(), QString::null );
+        zip.addLocalDirectory( (*it).path(), QString() );
         zip.close();
         fileNameList += (*it).fileName()+".zip";
         urls.append( zipFileName );
@@ -1361,9 +1361,9 @@ void KonqMainWindow::slotSendFile()
     subject = m_currentView->caption();
   else
     subject = fileNameList;
-  KToolInvocation::invokeMailer(QString::null, QString::null, QString::null, subject,
-                     QString::null, //body
-                     QString::null,
+  KToolInvocation::invokeMailer(QString(), QString(), QString(), subject,
+                     QString(), //body
+                     QString(),
                      urls); // attachments
 }
 
@@ -1411,7 +1411,7 @@ void KonqMainWindow::slotOpenLocation()
   // Don't pre-fill the url, as it is auto-selected and thus overwrites the
   // X clipboard, making it impossible to paste in the url you really wanted.
   // Another example of why the X clipboard sux
-  KURLRequesterDlg dlg( QString::null, this, 0, true);
+  KURLRequesterDlg dlg( QString(), this, 0, true);
   dlg.setCaption( i18n("Open Location") );
   // Set current directory for relative paths.
   // Testcase: konqueror www.kde.org; Ctrl+O; file in $HOME; would open http://$file
@@ -1770,7 +1770,7 @@ void KonqMainWindow::slotReload( KonqView* reloadView )
   {
       reloadView->lockHistory();
       // Reuse current servicetype for local files, but not for remote files (it could have changed, e.g. over HTTP)
-      QString serviceType = reloadView->url().isLocalFile() ? reloadView->serviceType() : QString::null;
+      QString serviceType = reloadView->url().isLocalFile() ? reloadView->serviceType() : QString();
       openURL( reloadView, reloadView->url(), serviceType, req );
   }
 }
@@ -2521,7 +2521,7 @@ void KonqMainWindow::slotURLEntered( const QString &text, int state )
 
   if (state & Qt::ControlModifier || state & Qt::AltModifier)
   {
-      m_combo->setURL( m_currentView ? m_currentView->url().prettyURL() : QString::null );
+      m_combo->setURL( m_currentView ? m_currentView->url().prettyURL() : QString() );
       openFilteredURL( text.trimmed(), true );
   }
   else
@@ -2554,12 +2554,12 @@ void KonqMainWindow::slotSplitViewVertical()
 
 void KonqMainWindow::slotAddTab()
 {
-  KonqView* newView = m_pViewManager->addTab(QString::null,
-                                             QString::null,
+  KonqView* newView = m_pViewManager->addTab(QString(),
+                                             QString(),
                                              false,
                                              KonqSettings::openAfterCurrentPage());
   if (newView == 0L) return;
-  openURL( newView, KURL("about:blank"),QString::null);
+  openURL( newView, KURL("about:blank"),QString());
   m_pViewManager->showTab( newView );
   focusLocationBar();
   m_pWorkingTab = 0L;
@@ -2677,7 +2677,7 @@ void KonqMainWindow::popupNewTab(bool infront, bool openAfterCurrentPage)
     {
       req.newTabInFront = true;
     }
-    openURL( 0L, (*it)->url(), QString::null, req );
+    openURL( 0L, (*it)->url(), QString(), req );
   }
 }
 
@@ -2690,7 +2690,7 @@ void KonqMainWindow::openMultiURL( KURL::List url )
         KonqView* newView = m_pViewManager->addTab();
         Q_ASSERT( newView );
         if (newView == 0L) continue;
-        openURL( newView, *it,QString::null);
+        openURL( newView, *it,QString());
         m_pViewManager->showTab( newView );
         focusLocationBar();
         m_pWorkingTab = 0L;
@@ -3249,7 +3249,7 @@ void KonqMainWindow::slotMakeCompletion( const QString& text )
 
     // kdDebug(1202) << "Local Completion object found!" << endl;
     QString completion = m_pURLCompletion->makeCompletion( text );
-    m_currentDir = QString::null;
+    m_currentDir.clear();
 
     if ( completion.isNull() && !m_pURLCompletion->isRunning() )
     {
@@ -3994,12 +3994,12 @@ void KonqMainWindow::slotFillContextMenu( const KBookmark &bk, QMenu * pm )
     QList<KURL> list = grp.groupUrlList();
     QList<KURL>::Iterator it = list.begin();
     for (; it != list.end(); ++it )
-      popupItems.append( new KFileItem( (*it), QString::null, KFileItem::Unknown) );
+      popupItems.append( new KFileItem( (*it), QString(), KFileItem::Unknown) );
     pm->insertItem( SmallIcon("tab_new"), i18n( "Open Folder in Tabs" ), this, SLOT( slotPopupNewTabRight() ) );
   }
   else
   {
-    popupItems.append( new KFileItem( bk.url(), QString::null, KFileItem::Unknown) );
+    popupItems.append( new KFileItem( bk.url(), QString(), KFileItem::Unknown) );
     pm->insertItem( SmallIcon("window_new"), i18n( "Open in New Window" ), this, SLOT( slotPopupNewWindow() ) );
     pm->insertItem( SmallIcon("tab_new"), i18n( "Open in New Tab" ), this, SLOT( slotPopupNewTabRight() ) );
   }
@@ -4218,7 +4218,7 @@ QString KonqMainWindow::findIndexFile( const QString &dir )
   if ( QFile::exists( f ) )
     return f;
 
-  return QString::null;
+  return QString();
 }
 
 void KonqMainWindow::connectExtension( KParts::BrowserExtension *ext )
@@ -4465,7 +4465,7 @@ QString KonqMainWindow::currentProfile() const
 QString KonqMainWindow::currentURL() const
 {
   if ( !m_currentView )
-    return QString::null;
+    return QString();
   QString url = m_currentView->url().prettyURL();
   if ( m_currentView->part() && m_currentView->part()->inherits("KonqDirPart") )
   {
@@ -4509,7 +4509,7 @@ QString KonqExtendedBookmarkOwner::currentTitle() const
 
 QString KonqMainWindow::currentTitle() const
 {
-  return m_currentView ? m_currentView->caption() : QString::null;
+  return m_currentView ? m_currentView->caption() : QString();
 }
 
 void KonqMainWindow::slotPopupMenu( const QPoint &_global, const KURL &url, const QString &_mimeType, mode_t _mode )
@@ -4608,7 +4608,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   else
   {
     m_popupURL = KURL();
-    m_popupServiceType = QString::null;
+    m_popupServiceType.clear();
   }
 
   if ( (_items.count() == 1) && !m_popupServiceType.isEmpty() ) {
@@ -4624,7 +4624,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
           "and DesktopEntryName != '"+currentServiceName+"' "
           // I had an old local dirtree.desktop without lib, no need for invalid entries
           "and exist [Library]",
-          QString::null );
+          QString() );
   }
 
 
@@ -4702,7 +4702,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   // We will need these if we call the newTab slot
   popupItems = _items;
   popupUrlArgs = _args;
-  popupUrlArgs.serviceType = QString::null; // Reset so that Open in New Window/Tab does mimetype detection
+  popupUrlArgs.serviceType.clear(); // Reset so that Open in New Window/Tab does mimetype detection
 
   connectActionCollection( pPopupMenu->actionCollection() );
 
@@ -4775,7 +4775,7 @@ void KonqMainWindow::slotOpenEmbeddedDoIt()
 {
   m_currentView->stop();
   m_currentView->setLocationBarURL(m_popupURL);
-  m_currentView->setTypedURL(QString::null);
+  m_currentView->setTypedURL(QString());
   if ( m_currentView->changeViewMode( m_popupServiceType,
                                       m_popupService ) )
       m_currentView->openURL( m_popupURL, m_popupURL.pathOrURL() );
@@ -4827,7 +4827,7 @@ void KonqMainWindow::saveProperties( KConfig *config )
 void KonqMainWindow::readProperties( KConfig *config )
 {
   kdDebug(1202) << "KonqMainWindow::readProperties( KConfig *config )" << endl;
-  m_pViewManager->loadViewProfile( *config, QString::null /*no profile name*/ );
+  m_pViewManager->loadViewProfile( *config, QString() /*no profile name*/ );
 }
 
 void KonqMainWindow::setInitialFrameName( const QString &name )
@@ -5366,13 +5366,13 @@ void KonqMainWindow::disconnectActionCollection( KActionCollection *coll )
 static QString hp_tryPrepend( const QString& s )
 {
     if( s.isEmpty() || s[ 0 ] == '/' )
-        return QString::null;
+        return QString();
     for( int pos = 0;
          pos < s.length() - 2; // 4 = ://x
          ++pos )
         {
         if( s[ pos ] == ':' && s[ pos + 1 ] == '/' && s[ pos + 2 ] == '/' )
-            return QString::null;
+            return QString();
         if( !s[ pos ].isLetter() )
             break;
         }

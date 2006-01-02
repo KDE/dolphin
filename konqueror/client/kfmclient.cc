@@ -235,7 +235,7 @@ static bool startNewKonqueror( QString url, QString mimetype, const QString& pro
     if( mimetype.isEmpty())
 	mimetype = KMimeType::findByURL( KURL( url ) )->name();
     KTrader::OfferList offers = KTrader::self()->query( mimetype, QLatin1String( "KParts/ReadOnlyPart" ),
-	QString::null, QString::null );
+	QString(), QString() );
     KService::Ptr serv = 0;
     if( offers.count() > 0 )
         serv = offers.first();
@@ -368,7 +368,7 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, co
       }
     }
 
-    DCOPCString appId = konqyToReuse( url.url(), mimetype, QString::null );
+    DCOPCString appId = konqyToReuse( url.url(), mimetype, QString() );
     if( !appId.isEmpty())
     {
         kdDebug( 1202 ) << "clientApp::createNewWindow using existing konqueror" << endl;
@@ -557,7 +557,7 @@ bool clientApp::doIt()
     {
       KURL::List urls;
       urls.append( args->url(1) );
-      const KTrader::OfferList offers = KTrader::self()->query( QString::fromLocal8Bit( args->arg( 2 ) ), QLatin1String( "Application" ), QString::null, QString::null );
+      const KTrader::OfferList offers = KTrader::self()->query( QString::fromLocal8Bit( args->arg( 2 ) ), QLatin1String( "Application" ), QString(), QString() );
       if (offers.isEmpty()) return 1;
       KService::Ptr serv = offers.first();
       return KRun::run( *serv, urls );
@@ -600,7 +600,7 @@ bool clientApp::doIt()
     if (srcLst.count() == 0)
        return m_ok;
     QString dst =
-       KFileDialog::getSaveFileName( (argc<2) ? (QString::null) : (args->url(1).fileName()) );
+       KFileDialog::getSaveFileName( (argc<2) ? (QString()) : (args->url(1).fileName()) );
     if (dst.isEmpty()) // cancelled
        return m_ok; // AK - really okay?
     KURL dsturl;

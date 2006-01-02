@@ -144,7 +144,7 @@ static QString findFileName(const QString* tmpl,bool universal, const QString &p
 			if (!QFile::exists(myFile)) {
 				break;
 			} else {
-				myFile = QString::null;
+				myFile.clear();
 			}
 		}
 	}
@@ -323,7 +323,7 @@ void Sidebar_Widget::addWebSideBar(const KURL& url, const QString& /*name*/) {
 	for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
 		KSimpleConfig scf(list + *it, false);
 		scf.setGroup("Desktop Entry");
-		if (scf.readPathEntry("URL", QString::null) == url.url()) {
+		if (scf.readPathEntry("URL", QString()) == url.url()) {
 			// We already have this one!
 			KMessageBox::information(this,
 					i18n("This entry already exists."));
@@ -531,7 +531,7 @@ void Sidebar_Widget::slotSetIcon( )
 void Sidebar_Widget::slotRemove()
 {
 	if (KMessageBox::warningContinueCancel(this,i18n("<qt>Do you really want to remove the <b>%1</b> tab?</qt>").arg(m_currentButton->displayName),
-		QString::null,KStdGuiItem::del())==KMessageBox::Continue)
+		QString(),KStdGuiItem::del())==KMessageBox::Continue)
 	{
 		QFile f(m_path+m_currentButton->file);
 		if (!f.remove())
@@ -766,7 +766,7 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
     	QString icon = confFile->readEntry("Icon");
 	QString name = confFile->readEntry("Name");
 	QString comment = confFile->readEntry("Comment");
-	QString url = confFile->readPathEntry("URL",QString::null);
+	QString url = confFile->readPathEntry("URL",QString());
 	QString lib = confFile->readEntry("X-KDE-KonqSidebarModule");
 
         delete confFile;
@@ -1223,7 +1223,7 @@ void Sidebar_Widget::customEvent(QCustomEvent* ev)
 		emit fileSelection(static_cast<KonqFileSelectionEvent*>(ev)->selection());
 	} else if (KonqFileMouseOverEvent::test(ev)) {
 		if (!(static_cast<KonqFileMouseOverEvent*>(ev)->item())) {
-			emit fileMouseOver(KFileItem(KURL(),QString::null,KFileItem::Unknown));
+			emit fileMouseOver(KFileItem(KURL(),QString(),KFileItem::Unknown));
 		} else {
 			emit fileMouseOver(*static_cast<KonqFileMouseOverEvent*>(ev)->item());
 		}

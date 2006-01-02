@@ -48,7 +48,7 @@ public:
    *	policies for (case insensitive, ignored if global == true)
    */
   JavaPolicies(KConfig* config, const QString &group, bool global,
-  		const QString &domain = QString::null);
+  		const QString &domain = QString());
 
   /** empty constructur to make QMap happy
    * don't use for constructing a policies instance.

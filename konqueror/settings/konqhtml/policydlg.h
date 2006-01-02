@@ -77,7 +77,7 @@ public:
     * @param state @p true to enable the line-edit, otherwise disabled.
     * @param text  the text to be set in the line-edit. Default is NULL.
     */
-    void setDisableEdit( bool /*state*/, const QString& text = QString::null );
+    void setDisableEdit( bool /*state*/, const QString& text = QString() );
 
     /**
      * Sets the label for the "feature enabled" policy

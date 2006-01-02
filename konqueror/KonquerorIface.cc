@@ -69,13 +69,13 @@ DCOPRef KonquerorIface::openBrowserWindowASN( const QString &url, const DCOPCStr
 
 DCOPRef KonquerorIface::createNewWindow( const QString &url )
 {
-    return createNewWindow( url, QString::null, false );
+    return createNewWindow( url, QString(), false );
 }
 
 DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const DCOPCString& startup_id, bool tempFile )
 {
     kapp->setStartupId( startup_id );
-    return createNewWindow( url, QString::null, tempFile );
+    return createNewWindow( url, QString(), tempFile );
 }
 
 DCOPRef KonquerorIface::createNewWindowWithSelection( const QString &url, QStringList filesToSelect )
@@ -118,7 +118,7 @@ DCOPRef KonquerorIface::createBrowserWindowFromProfile( const QString &path )
     QX11Info::setAppUserTime( 0 );
     kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( const QString &path ) " << endl;
     kdDebug(1202) << path << endl;
-    KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, QString::null );
+    KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, QString() );
     if ( !res )
         return DCOPRef();
     return res->dcopObject();
@@ -239,7 +239,7 @@ void KonquerorIface::removeFromCombo( QString url, DCOPCString objId )
 void KonquerorIface::comboCleared( DCOPCString objId )
 {
     KonqMainWindow::comboAction( KonqMainWindow::ComboClear,
-				 QString::null, objId );
+				 QString(), objId );
 }
 
 bool KonquerorIface::processCanBeReused( int screen )

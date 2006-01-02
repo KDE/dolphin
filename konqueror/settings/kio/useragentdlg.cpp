@@ -105,7 +105,7 @@ void UserAgentDlg::load()
   }
 
   // Update buttons and checkboxes...
-  m_config->setGroup(QString::null);
+  m_config->setGroup(QString());
   bool b = m_config->readBoolEntry("SendUserAgent", true);
   dlg->cbSendUAString->setChecked( b );
   m_ua_keys = m_config->readEntry("UserAgentKeys", DEFAULT_USER_AGENT_KEYS).toLower();
@@ -176,7 +176,7 @@ void UserAgentDlg::save()
     it = it->nextSibling();
   }
 
-  m_config->setGroup(QString::null);
+  m_config->setGroup(QString());
   m_config->writeEntry("SendUserAgent", dlg->cbSendUAString->isChecked());
   m_config->writeEntry("UserAgentKeys", m_ua_keys );
   m_config->sync();
@@ -202,7 +202,7 @@ void UserAgentDlg::save()
      {
         m_config->setGroup(*it);
         if (m_config->hasKey("UserAgent"))
-           m_config->writeEntry("UserAgent", QString::null);
+           m_config->writeEntry("UserAgent", QString());
      }
      m_config->sync();
   }

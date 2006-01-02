@@ -95,7 +95,7 @@ KonqMainWindow * KonqMisc::createSimpleWindow( const KURL & url, const KParts::U
   req.args = args;
   req.tempFile = tempFile;
   KonqMainWindow *win = new KonqMainWindow( KURL(), false );
-  win->openURL( 0L, url, QString::null, req );
+  win->openURL( 0L, url, QString(), req );
   win->show();
 
   return win;
@@ -209,7 +209,7 @@ QString KonqMisc::konqFilteredURL( QWidget* parent, const QString& _url, const Q
       if( data.uriType() == KURIFilterData::ERROR && !data.errorMsg().isEmpty() )
       {
         KMessageBox::sorry( parent, i18n( data.errorMsg().toUtf8() ) );
-        return QString::null;
+        return QString();
       }
       else
         return data.uri().url();

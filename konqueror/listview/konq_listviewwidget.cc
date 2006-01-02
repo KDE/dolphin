@@ -1116,7 +1116,7 @@ void KonqBaseListViewWidget::slotCanceled()
    //kdDebug(1202) << k_funcinfo << endl;
 
    setComplete();
-   emit m_pBrowserView->canceled( QString::null );
+   emit m_pBrowserView->canceled( QString() );
 }
 
 void KonqBaseListViewWidget::slotClear()

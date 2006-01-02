@@ -126,7 +126,7 @@ public:
    * The main openURL method.
    */
   void openURL( KonqView * view, const KURL & url,
-                const QString &serviceType = QString::null,
+                const QString &serviceType = QString(),
                 KonqOpenURLRequest & req = KonqOpenURLRequest::null, bool trustedSource = false );
 
   /**
@@ -577,7 +577,7 @@ private:
    * still no match, then http://www. Due to that, this is only usable for
    * popupcompletion and not for manual or auto-completion.
    */
-  static QStringList historyPopupCompletionItems( const QString& s = QString::null);
+  static QStringList historyPopupCompletionItems( const QString& s = QString());
 
   void startAnimation();
   void stopAnimation();

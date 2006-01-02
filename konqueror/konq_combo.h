@@ -67,8 +67,8 @@ public:
 
     void setPageSecurity( int );
 
-    void insertItem( const QString &text, int index=-1, const QString& title=QString::null );
-    void insertItem( const QPixmap &pixmap, const QString &text, int index=-1, const QString& title=QString::null );
+    void insertItem( const QString &text, int index=-1, const QString& title=QString() );
+    void insertItem( const QPixmap &pixmap, const QString &text, int index=-1, const QString& title=QString() );
 
 protected:
     virtual void keyPressEvent( QKeyEvent * );

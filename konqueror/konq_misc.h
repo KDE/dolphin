@@ -58,7 +58,7 @@ public:
     /**
      * Create a new window with a single view, showing @p url
      */
-    static KonqMainWindow * createSimpleWindow( const KURL &url, const QString &frameName = QString::null );
+    static KonqMainWindow * createSimpleWindow( const KURL &url, const QString &frameName = QString() );
 
     /**
      * Create a new window with a single view, showing @p url, using @p args
@@ -107,7 +107,7 @@ public:
      * @p _url to be filtered.
      * @p _path the absolute path to append to the url before filtering it.
      */
-    static QString konqFilteredURL( QWidget* /*parent*/, const QString& /*_url*/, const QString& _path = QString::null );
+    static QString konqFilteredURL( QWidget* /*parent*/, const QString& /*_url*/, const QString& _path = QString() );
 
 };
 

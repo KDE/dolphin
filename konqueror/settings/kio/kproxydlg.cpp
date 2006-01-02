@@ -91,7 +91,7 @@ QString KProxyOptions::quickHelp() const
      return m->quickHelp();
   }
   
-  return QString::null;
+  return QString();
 }
 
 

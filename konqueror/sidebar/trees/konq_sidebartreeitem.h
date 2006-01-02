@@ -72,11 +72,11 @@ public:
     virtual KURL externalURL() const = 0;
 
     // The mimetype to use when this link is clicked
-    // If unknown, return QString::null, konq will determine the mimetype itself
-    virtual QString externalMimeType() const { return QString::null; }
+    // If unknown, return QString(), konq will determine the mimetype itself
+    virtual QString externalMimeType() const { return QString(); }
 
     // overwrite this if you want a tooltip shown on your item
-    virtual QString toolTipText() const { return QString::null; }
+    virtual QString toolTipText() const { return QString(); }
 
     // Called when this item is selected
     // Reimplement, and call tree()->part()->extension()->enableActions(...)

@@ -232,7 +232,7 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL,
 
   updateHistoryEntry(false /* don't save location bar URL yet */);
   // add pending history entry
-  KonqHistoryManager::kself()->addPending( url, locationBarURL, QString::null);
+  KonqHistoryManager::kself()->addPending( url, locationBarURL, QString());
 
 #ifdef DEBUG_HISTORY
   kdDebug(1202) << "Current position : " << m_lstHistory.at() << endl;
@@ -774,7 +774,7 @@ void KonqView::updateHistoryEntry( bool saveLocationBarURL )
 
   current->doPost = m_doPost;
   current->postData = m_doPost ? m_postData : QByteArray();
-  current->postContentType = m_doPost ? m_postContentType : QString::null;
+  current->postContentType = m_doPost ? m_postContentType : QString();
   current->pageReferrer = m_pageReferrer;
 }
 
@@ -836,7 +836,7 @@ void KonqView::restoreHistory()
 #endif
   setLocationBarURL( h.locationBarURL );
   setPageSecurity( h.pageSecurity );
-  m_sTypedURL = QString::null;
+  m_sTypedURL.clear();
   if ( ! changeViewMode( h.strServiceType, h.strServiceName ) )
   {
     kdWarning(1202) << "Couldn't change view mode to " << h.strServiceType
@@ -965,7 +965,7 @@ void KonqView::finishedWithCurrentURL()
   {
     kdDebug(1202) << "######### Deleting tempfile after use:" << m_tempFile << endl;
     QFile::remove( m_tempFile );
-    m_tempFile = QString::null;
+    m_tempFile.clear();
   }
 }
 
@@ -1140,7 +1140,7 @@ void KonqView::setViewName( const QString &name )
 
 QString KonqView::viewName() const
 {
-    return m_pPart ? QString::fromLocal8Bit( m_pPart->name() ) : QString::null;
+    return m_pPart ? QString::fromLocal8Bit( m_pPart->name() ) : QString();
 }
 
 void KonqView::enablePopupMenu( bool b )

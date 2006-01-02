@@ -33,7 +33,7 @@ Policies::Policies(KConfig* config,const QString &group,
 	prefix(prefix), feature_key(feature_key) {
 
   if (is_global) {
-    this->prefix = QString::null;	// global keys have no prefix
+    this->prefix.clear();	// global keys have no prefix
   }/*end if*/
   setDomain(domain);
 }

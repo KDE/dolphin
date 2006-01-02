@@ -30,7 +30,7 @@ K_EXPORT_COMPONENT_FACTORY( kcm_css, CSSFactory("kcmcss") )
 CSSConfig::CSSConfig(QWidget *parent, const char *, const QStringList &)
   : KCModule(CSSFactory::instance(), parent)
 {
-  customDialogBase = new KDialogBase(this, "customCSSDialog", true, QString::null, 
+  customDialogBase = new KDialogBase(this, "customCSSDialog", true, QString(), 
         KDialogBase::Close, KDialogBase::Close, true );
   customDialog = new CSSCustomDialog(customDialogBase);
   customDialogBase->setMainWidget(customDialog);

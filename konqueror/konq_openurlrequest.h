@@ -42,7 +42,7 @@ struct KonqOpenURLRequest {
           s << "userRequestedReload";
       return "[" + s.join(" ") + "]";
 #else
-      return QString::null;
+      return QString();
 #endif
   }
 

@@ -415,7 +415,7 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
 
     if ( !parentItem )   // hack for dnssd://domain/type/service listed in dnssd:/type/ dir
     {
-    	dir.setHost( QString::null );
+    	dir.setHost( QString() );
 	lookupItems( m_dictSubDirs, dir.url(-1), parentItem, parentItemList );
     }
 

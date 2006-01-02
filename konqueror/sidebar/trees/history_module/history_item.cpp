@@ -239,7 +239,7 @@ void KonqSidebarHistoryGroupItem::itemUpdated( KonqSidebarHistoryItem *item )
 bool KonqSidebarHistoryGroupItem::populateMimeData( QMimeData* mimeData, bool /*move*/ )
 {
     QString icon = KonqFavIconMgr::iconForURL( m_url.url() );
-    KBookmark bookmark = KBookmark::standaloneBookmark( QString::null, m_url,
+    KBookmark bookmark = KBookmark::standaloneBookmark( QString(), m_url,
 							icon );
     bookmark.populateMimeData( mimeData );
     return true;

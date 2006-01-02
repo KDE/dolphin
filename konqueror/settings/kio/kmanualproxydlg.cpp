@@ -395,7 +395,7 @@ QString KManualProxyDlg::urlFromInput(const KLineEdit* edit,
                                       const QSpinBox* spin) const
 {
   if (!edit)
-    return QString::null;
+    return QString();
     
   KURL u( edit->text() );
   
@@ -479,7 +479,7 @@ bool KManualProxyDlg::getException ( QString& result,
                             
     bool ok;
     result = KInputDialog::getText( caption, label, value, &ok, 0, 0, 0, 
-                                QString::null, whatsThis );
+                                QString(), whatsThis );
     
     // If the user pressed cancel, do nothing...
     if (!ok)

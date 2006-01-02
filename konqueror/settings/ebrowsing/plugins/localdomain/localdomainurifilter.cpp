@@ -80,7 +80,7 @@ bool LocalDomainURIFilter::isLocalDomainHost( QString& cmd ) const
         if( helper.isEmpty())
             return last_result = false;
 
-        m_fullname = QString::null;
+        m_fullname.clear();
 
         KProcess proc;
         proc << helper << host;

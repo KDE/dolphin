@@ -64,7 +64,7 @@ public:
    *	policies for (case insensitive, ignored if global == true)
    */
   JSPolicies(KConfig* config, const QString &group, bool global,
-  		const QString &domain = QString::null);
+  		const QString &domain = QString());
 		
   /**
    * dummy constructor to make QMap happy.

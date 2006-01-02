@@ -37,7 +37,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   QString wtstr;
   //initialise fonts list otherwise it crashs
     while (fonts.count() < 7)
-       fonts.append(QString::null);
+       fonts.append(QString());
 
   QGridLayout *lay = new QGridLayout(this, 1 ,1 , 0, KDialog::spacingHint());
   int r = 0;
@@ -344,9 +344,9 @@ void KAppearanceOptions::load()
     else
        fonts = khtmlrc.readListEntry( "Fonts" );
     while (fonts.count() < 7)
-       fonts.append(QString::null);
+       fonts.append(QString());
 
-    encodingName = READ_ENTRY( "DefaultEncoding", QString::null );
+    encodingName = READ_ENTRY( "DefaultEncoding", QString() );
     //kdDebug(0) << "encoding = " << encodingName << endl;
 
     updateGUI();

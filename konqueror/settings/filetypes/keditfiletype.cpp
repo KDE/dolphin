@@ -37,14 +37,14 @@
 #endif
 
 FileTypeDialog::FileTypeDialog( KMimeType::Ptr mime )
-  : KDialogBase( 0L, 0, false, QString::null, /* Help | */ Cancel | Apply | Ok,
+  : KDialogBase( 0L, 0, false, QString(), /* Help | */ Cancel | Apply | Ok,
                  Ok, false )
 {
   init( mime, false );
 }
 
 FileTypeDialog::FileTypeDialog( KMimeType::Ptr mime, bool newItem )
-  : KDialogBase( 0L, 0, false, QString::null, /* Help | */ Cancel | Apply | Ok,
+  : KDialogBase( 0L, 0, false, QString(), /* Help | */ Cancel | Apply | Ok,
                  Ok, false )
 {
   init( mime, newItem );
@@ -153,7 +153,7 @@ int main(int argc, char ** argv)
 	QString type = arg.mid( 3 ).prepend( arg[2].toUpper() );
         comment = i18n( "%1 File" ).arg( type );
     }
-    mime = new KMimeType( loc, mimeString.arg( inc ), QString::null, comment, patterns );
+    mime = new KMimeType( loc, mimeString.arg( inc ), QString(), comment, patterns );
   }
   else { 
     mime = KMimeType::mimeType( arg );

@@ -223,7 +223,7 @@
       <!-- checked -->
     </entry>
     <entry key="DefaultEncoding" type="String"> <!--KHTML-->
-      <default code="true">QString::null</default> 
+      <default code="true">QString()</default> 
       <label></label>
       <whatsthis></whatsthis>
       <!-- checked -->

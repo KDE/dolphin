@@ -275,7 +275,7 @@ void FileTypeDetails::setTypeItem( TypesListItem * tlitem )
     iconButton->setIcon(tlitem->icon());
   else
     iconButton->resetIcon();
-  description->setText(tlitem ? tlitem->comment() : QString::null);
+  description->setText(tlitem ? tlitem->comment() : QString());
   if ( tlitem )
     m_rbGroupSettings->setText( i18n("Use settings for '%1' group").arg( tlitem->majorType() ) );
   extensionLB->clear();

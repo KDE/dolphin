@@ -244,7 +244,7 @@ void KonqFrameStatusBar::slotConnectToNewView(KonqView *, KParts::ReadOnlyPart *
 {
    if (newOne!=0)
       connect(newOne,SIGNAL(setStatusBarText(const QString &)),this,SLOT(slotDisplayStatusText(const QString&)));
-   slotDisplayStatusText( QString::null );
+   slotDisplayStatusText( QString() );
 }
 
 void KonqFrameStatusBar::showActiveViewIndicator( bool b )

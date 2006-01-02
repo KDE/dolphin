@@ -1189,7 +1189,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
 
   m_currentProfile = filename;
   m_currentProfileText = cfg.readPathEntry("Name",filename);
-  m_profileHomeURL = cfg.readEntry("HomeURL", QString::null);
+  m_profileHomeURL = cfg.readEntry("HomeURL", QString());
 
   m_pMainWindow->currentProfileChanged();
   KURL defaultURL;
@@ -1677,7 +1677,7 @@ void KonqViewManager::showProfileDlg( const QString & preselectProfile )
 
 void KonqViewManager::slotProfileDlg()
 {
-  showProfileDlg( QString::null );
+  showProfileDlg( QString() );
 }
 
 void KonqViewManager::profileListDirty( bool broadcast )
@@ -1815,8 +1815,8 @@ void KonqViewManager::printFullHierarchy( KonqFrameContainerBase * container )
   kdDebug(1202) << "currentView=" << m_pMainWindow->currentView() << endl;
   kdDebug(1202) << "docContainer=" << m_pDocContainer << endl;
 
-  if (container) container->printFrameInfo(QString::null);
-  else m_pMainWindow->printFrameInfo(QString::null);
+  if (container) container->printFrameInfo(QString());
+  else m_pMainWindow->printFrameInfo(QString());
 }
 #endif
 

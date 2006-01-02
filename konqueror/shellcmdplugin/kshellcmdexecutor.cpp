@@ -117,8 +117,8 @@ void KShellCommandExecutor::writeDataToShell()
 {
    //kdDebug()<<"--------- writing ------------"<<endl;
    bool ok;
-   QString str = KInputDialog::getText( QString::null,
-      i18n( "Input Required:" ), QString::null, &ok, this );
+   QString str = KInputDialog::getText( QString(),
+      i18n( "Input Required:" ), QString(), &ok, this );
    if ( ok )
    {
       QByteArray input=str.toLocal8Bit();

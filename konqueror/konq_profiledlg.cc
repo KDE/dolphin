@@ -226,7 +226,7 @@ void KonqProfileDlg::slotItemRenamed( Q3ListViewItem * item )
 
 void KonqProfileDlg::slotSelectionChanged( Q3ListViewItem * item )
 {
-    m_pProfileNameLineEdit->setText( item ? item->text(0) : QString::null );
+    m_pProfileNameLineEdit->setText( item ? item->text(0) : QString() );
 }
 
 void KonqProfileDlg::slotTextChanged( const QString & text )

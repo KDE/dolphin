@@ -40,8 +40,8 @@ JSPolicies::JSPolicies(KConfig* config,const QString &group,
 	Policies(config,group,global,domain,"javascript.","EnableJavaScript") {
 }
 
-JSPolicies::JSPolicies() : Policies(0,QString::null,false,
-	QString::null,QString::null,QString::null) {
+JSPolicies::JSPolicies() : Policies(0,QString(),false,
+	QString(),QString(),QString()) {
 }
 
 JSPolicies::~JSPolicies() {

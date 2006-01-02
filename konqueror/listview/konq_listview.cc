@@ -372,7 +372,7 @@ void KonqListView::disableIcons( const KURL::List &lst )
 void KonqListView::slotSelect()
 {
    bool ok;
-   QString pattern = KInputDialog::getText( QString::null,
+   QString pattern = KInputDialog::getText( QString(),
       i18n( "Select files:" ), "*", &ok, m_pListView );
    if ( !ok )
       return;
@@ -403,7 +403,7 @@ void KonqListView::slotSelect()
 void KonqListView::slotUnselect()
 {
    bool ok;
-   QString pattern = KInputDialog::getText( QString::null,
+   QString pattern = KInputDialog::getText( QString(),
       i18n( "Unselect files:" ), "*", &ok, m_pListView );
    if ( !ok )
       return;

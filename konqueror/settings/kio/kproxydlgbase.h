@@ -53,7 +53,7 @@ class KProxyDialogBase : public KDialogBase
 {
 public:
   KProxyDialogBase( QWidget* parent = 0, const char* name = 0,
-                    bool modal = false, const QString &caption = QString::null);
+                    bool modal = false, const QString &caption = QString());
 
   virtual ~KProxyDialogBase() {};
 
