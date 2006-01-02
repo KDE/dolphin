@@ -27,7 +27,7 @@ class ProgressDialog : public KProgressDialog, virtual public ProgressDialogIfac
     Q_OBJECT
 
     public:
-      ProgressDialog(QWidget* parent = 0, const QString& caption = QString::null, const QString& text = QString::null, int totalSteps = 100);
+      ProgressDialog(QWidget* parent = 0, const QString& caption = QString(), const QString& text = QString(), int totalSteps = 100);
       
       void setTotalSteps( int );
       int totalSteps() const;

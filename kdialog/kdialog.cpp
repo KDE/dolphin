@@ -220,7 +220,7 @@ static int directCommand(KCmdLineArgs *args)
     {
         KConfig* dontagaincfg = NULL;
         // --dontagain
-        QString dontagain; // QString::null
+        QString dontagain; // QString()
         if (args->isSet("dontagain"))
         {
           QString value = args->getOption("dontagain");
@@ -494,7 +494,7 @@ static int directCommand(KCmdLineArgs *args)
         }
 	// copied from KFileDialog::getSaveFileName(), so we can add geometry
 	bool specialDir = ( startDir.at(0) == ':' );
-	KFileDialog dlg( specialDir ? startDir : QString::null, filter, 0, "filedialog", true );
+	KFileDialog dlg( specialDir ? startDir : QString(), filter, 0, "filedialog", true );
 	if ( !specialDir )
 	    dlg.setSelection( startDir );
 	dlg.setOperationMode( KFileDialog::Saving );

@@ -248,7 +248,7 @@ QString NSPluginLoader::lookupMimeType(const QString &url)
         return *dit2.current();
       ++dit2;
     }
-  return QString::null;
+  return QString();
 }
 
 

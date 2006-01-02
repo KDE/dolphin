@@ -207,16 +207,16 @@ void KEBApp::createActions() {
 void ActionsImpl::slotLoad() 
 {
     QString bookmarksFile
-        = KFileDialog::getOpenFileName(QString::null, "*.xml", KEBApp::self());
+        = KFileDialog::getOpenFileName(QString(), "*.xml", KEBApp::self());
     if (bookmarksFile.isNull())
         return;
-    KEBApp::self()->reset(QString::null,  bookmarksFile);
+    KEBApp::self()->reset(QString(),  bookmarksFile);
 }
 
 void ActionsImpl::slotSaveAs() {
     KEBApp::self()->bkInfo()->commitChanges();
     QString saveFilename
-        = KFileDialog::getSaveFileName(QString::null, "*.xml", KEBApp::self());
+        = KFileDialog::getSaveFileName(QString(), "*.xml", KEBApp::self());
     if (!saveFilename.isEmpty())
         CurrentMgr::self()->saveAs(saveFilename);
 }
@@ -354,7 +354,7 @@ void ActionsImpl::slotNewFolder()
     KEBApp::self()->bkInfo()->commitChanges();
     bool ok;
     QString str = KInputDialog::getText( i18n( "Create New Bookmark Folder" ),
-            i18n( "New folder:" ), QString::null, &ok );
+            i18n( "New folder:" ), QString(), &ok );
     if (!ok)
         return;
 
@@ -370,7 +370,7 @@ void ActionsImpl::slotNewBookmark()
     // TODO - make a setCurrentItem(Command *) which uses finaladdress interface
     CreateCommand * cmd = new CreateCommand(
                                 KEBApp::self()->insertAddress(),
-                                QString::null, "www", KURL("http://"));
+                                QString(), "www", KURL("http://"));
     CmdHistory::self()->addCommand(cmd);
 }
 
@@ -420,7 +420,7 @@ void ActionsImpl::slotPrint() {
     KEBApp::self()->bkInfo()->commitChanges();
     s_part = KParts::ComponentFactory
                         ::createPartInstanceFromQuery<KParts::ReadOnlyPart>(
-                                "text/html", QString::null);
+                                "text/html", QString());
     s_part->setProperty("pluginsEnabled", QVariant(false, 1));
     s_part->setProperty("javaScriptEnabled", QVariant(false, 1));
     s_part->setProperty("javaEnabled", QVariant(false, 1));

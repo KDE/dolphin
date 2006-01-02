@@ -247,7 +247,7 @@ NPError g_NPN_GetURL(NPP instance, const char *url, const char *target)
 
    NSPluginInstance *inst = static_cast<NSPluginInstance*>(instance->ndata);
    if (inst) {
-      inst->requestURL( QString::fromLatin1(url), QString::null,
+      inst->requestURL( QString::fromLatin1(url), QString(),
                         QString::fromLatin1(target), 0 );
    }
 
@@ -262,7 +262,7 @@ NPError g_NPN_GetURLNotify(NPP instance, const char *url, const char *target,
    NSPluginInstance *inst = static_cast<NSPluginInstance*>(instance->ndata);
    if (inst) {
       kdDebug(1431) << "g_NPN_GetURLNotify: ndata=" << (void*)inst << endl;
-      inst->requestURL( QString::fromLatin1(url), QString::null,
+      inst->requestURL( QString::fromLatin1(url), QString(),
                         QString::fromLatin1(target), notifyData, true );
    }
 
@@ -603,7 +603,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    _callback = new NSPluginCallbackIface_stub( appId.latin1(), callbackId.latin1() );
 
    KURL base(src);
-   base.setFileName( QString::null );
+   base.setFileName( QString() );
    _baseURL = base.url();
 
    memcpy(&_pluginFuncs, pluginFuncs, sizeof(_pluginFuncs));
@@ -849,7 +849,7 @@ QString NSPluginInstance::normalizedURL(const QString& url) const {
 
     // Allow: javascript:, http, https, or no protocol (match loading)
     kdDebug(1431) << "NSPluginInstance::normalizedURL - I don't think so.  http or https only!" << endl;
-    return QString::null;
+    return QString();
 }
 
 
@@ -895,7 +895,7 @@ void NSPluginInstance::emitStatus(const QString &message)
 void NSPluginInstance::streamFinished( NSPluginStreamBase* strm )
 {
    kdDebug(1431) << "-> NSPluginInstance::streamFinished" << endl;
-   emitStatus( QString::null );
+   emitStatus( QString() );
    _streams.remove(strm); // deletes automatically
    _timer->start( 100, true );
 }
@@ -1470,7 +1470,7 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
 
    // create source stream
    if ( !src.isEmpty() )
-      inst->requestURL( src, mimeType, QString::null, 0, false, reload );
+      inst->requestURL( src, mimeType, QString(), 0, false, reload );
 
    _instances.append( inst );
    return DCOPRef(kapp->dcopClient()->appId(), inst->objId());

@@ -42,7 +42,7 @@ void FavIconsItrHolder::doItrListChanged() {
     {
         kdDebug()<<"Notifing managers "<<m_affectedBookmark<<endl;
         CurrentMgr::self()->notifyManagers(CurrentMgr::bookmarkAt(m_affectedBookmark).toGroup());
-        m_affectedBookmark = QString::null;
+        m_affectedBookmark.clear();
     }
 }
 

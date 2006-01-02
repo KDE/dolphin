@@ -82,7 +82,7 @@ public:
     void notifyManagers();
     bool managerSave();
     void saveAs(const QString &fileName);
-    void doExport(ExportType type, const QString & path = QString::null);
+    void doExport(ExportType type, const QString & path = QString());
     void setUpdate(bool update);
 
     void reloadConfig();

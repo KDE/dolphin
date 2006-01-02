@@ -122,7 +122,7 @@ public slots:
      * Updates search to only make visible the items that match \a s.  If
      * \a s is null then the line edit's text will be used.
      */
-    virtual void updateSearch(const QString &s = QString::null);
+    virtual void updateSearch(const QString &s = QString());
 
     /**
      * Make the search case sensitive or case insensitive.

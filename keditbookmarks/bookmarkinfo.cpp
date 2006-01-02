@@ -62,22 +62,22 @@ void BookmarkInfoWidget::showBookmark(const KBookmark &bk) {
         // all read only and blank
 
         m_title_le->setReadOnly(true);
-        m_title_le->setText(QString::null);
+        m_title_le->setText(QString());
 
         m_url_le->setReadOnly(true);
-        m_url_le->setText(QString::null);
+        m_url_le->setText(QString());
 
         m_comment_le->setReadOnly(true);
-        m_comment_le->setText(QString::null);
+        m_comment_le->setText(QString());
 
         m_visitdate_le->setReadOnly(true);
-        m_visitdate_le->setText(QString::null);
+        m_visitdate_le->setText(QString());
 
         m_credate_le->setReadOnly(true);
-        m_credate_le->setText(QString::null);
+        m_credate_le->setText(QString());
 
         m_visitcount_le->setReadOnly(true);
-        m_visitcount_le->setText(QString::null);
+        m_visitcount_le->setText(QString());
 
         return;
     }
@@ -87,7 +87,7 @@ void BookmarkInfoWidget::showBookmark(const KBookmark &bk) {
     m_title_le->setText(bk.fullText());
 
     m_url_le->setReadOnly(bk.isGroup() || bk.isSeparator());
-    m_url_le->setText(bk.isGroup() ? QString::null : bk.url().pathOrURL());
+    m_url_le->setText(bk.isGroup() ? QString() : bk.url().pathOrURL());
 
     m_comment_le->setReadOnly((bk.isSeparator()|| !bk.hasParent()) ? true : false );
     m_comment_le->setText(

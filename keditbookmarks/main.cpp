@@ -182,13 +182,13 @@ extern "C" KDE_EXPORT int kdemain(int argc, char **argv) {
 
     QString caption = args->isSet("customcaption")
         ? QString::fromLocal8Bit(args->getOption("customcaption"))
-        : QString::null;
+        : QString();
 
     args->clear();
 
     bool readonly = false; // passed by ref
 
-    if (askUser(app, (gotArg ? filename : QString::null), readonly)) {
+    if (askUser(app, (gotArg ? filename : QString()), readonly)) {
         KEBApp *toplevel = new KEBApp(filename, readonly, address, browser, caption);
         toplevel->show();
         app.setMainWidget(toplevel);

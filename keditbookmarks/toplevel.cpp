@@ -178,7 +178,7 @@ QString CurrentMgr::makeTimeStr(const QString & in)
     bool ok;
     secs = in.toInt(&ok);
     if (!ok)
-        return QString::null;
+        return QString();
     return makeTimeStr(secs);
 }
 

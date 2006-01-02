@@ -188,7 +188,7 @@ void KfindWindow::saveResults()
 {
   Q3ListViewItem *item;
 
-  KFileDialog *dlg = new KFileDialog(QString::null, QString::null, this,
+  KFileDialog *dlg = new KFileDialog(QString(), QString(), this,
 	"filedialog", true);
   dlg->setOperationMode (KFileDialog::Saving);
 
@@ -314,7 +314,7 @@ void KfindWindow::openFolder()
 {
   KFileItem fileitem = ((KfFileLVI *)currentItem())->fileitem;
   KURL url = fileitem.url();
-  url.setFileName(QString::null);
+  url.setFileName(QString());
 
   (void) new KRun(url, this);
 }

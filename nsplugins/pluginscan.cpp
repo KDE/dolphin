@@ -109,7 +109,7 @@ void deletePluginMimeTypes()
     // iterate through local mime type directories
     QString dir = KGlobal::dirs()->saveLocation( "mime" );
     kdDebug(1433) << "Removing nsplugin MIME types in " << dir << endl;
-    QDir dirs( dir, QString::null, QDir::Name|QDir::IgnoreCase, QDir::Dirs );
+    QDir dirs( dir, QString(), QDir::Name|QDir::IgnoreCase, QDir::Dirs );
     if ( !dirs.exists() ) {
         kdDebug(1433) << "Directory not found" << endl;
         return;
@@ -120,7 +120,7 @@ void deletePluginMimeTypes()
 
             // check all mime types for X-KDE-nsplugin flag
             kdDebug(1433) << " - Looking in " << dirs[i] << endl;
-            QDir files( dirs.absoluteFilePath(dirs[i]), QString::null,
+            QDir files( dirs.absoluteFilePath(dirs[i]), QString(),
                         QDir::Name|QDir::IgnoreCase, QDir::Files );
             if ( files.exists( dir ) ) {
 
@@ -197,7 +197,7 @@ void registerPlugin( const QString &name, const QString &description,
                      const QString &file, const QString &mimeInfo )
 {
     // global stuff
-    infoConfig->setGroup( QString::null );
+    infoConfig->setGroup( QString() );
     int num = infoConfig->readNumEntry( "number", 0 );
     infoConfig->writeEntry( "number", num+1 );
 
@@ -290,7 +290,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
     kdDebug(1433) << "-> scanDirectory dir=" << dir << endl;
 
     // iterate over all files
-    QDir files( dir, QString::null, QDir::Name|QDir::IgnoreCase, QDir::Files );
+    QDir files( dir, QString(), QDir::Name|QDir::IgnoreCase, QDir::Files );
     if ( !files.exists( dir ) ) {
         kdDebug(1433) << "No files found" << endl;
         kdDebug(1433) << "<- scanDirectory dir=" << dir << endl;
@@ -417,7 +417,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
     // iterate over all sub directories
     // NOTE: Mozilla doesn't iterate over subdirectories of the plugin dir.
     // We still do (as Netscape 4 did).
-    QDir dirs( dir, QString::null, QDir::Name|QDir::IgnoreCase, QDir::Dirs );
+    QDir dirs( dir, QString(), QDir::Name|QDir::IgnoreCase, QDir::Dirs );
     if ( !dirs.exists() )
       return;
 

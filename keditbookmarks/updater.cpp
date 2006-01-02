@@ -79,7 +79,7 @@ void FavIconUpdater::downloadIconActual(const KBookmark &bk) {
     if (!m_part) {
         KParts::ReadOnlyPart *part 
             = KParts::ComponentFactory
-            ::createPartInstanceFromQuery<KParts::ReadOnlyPart>("text/html", QString::null);
+            ::createPartInstanceFromQuery<KParts::ReadOnlyPart>("text/html", QString());
 
         part->setProperty("pluginsEnabled", QVariant(false, 1));
         part->setProperty("javaScriptEnabled", QVariant(false, 1));

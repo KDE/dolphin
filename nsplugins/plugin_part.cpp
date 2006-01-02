@@ -406,7 +406,7 @@ void PluginPart::changeSrc(const QString& url) {
 
 
 void PluginPart::saveAs() {
-    KURL savefile = KFileDialog::getSaveURL(QString::null, QString::null, _widget);
+    KURL savefile = KFileDialog::getSaveURL(QString(), QString(), _widget);
     KIO::NetAccess::copy(m_url, savefile, _widget);
 }
 

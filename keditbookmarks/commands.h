@@ -83,7 +83,7 @@ public:
 
    // clone existing bookmark
    CreateCommand(const QString &address,
-                 const KBookmark &original, const QString &name = QString::null)
+                 const KBookmark &original, const QString &name = QString())
       : KCommand(), m_to(address), m_group(false), m_separator(false),
         m_open(false), m_originalBookmark(original), m_mytext(name)
    { ; }
@@ -154,7 +154,7 @@ class MoveCommand : public KCommand, public IKEBCommand
 public:
    // "Create it with itemsAlreadyMoved=true since 
    // "KListView moves the item before telling us about it."
-   MoveCommand(const QString &from, const QString &to, const QString &name = QString::null)
+   MoveCommand(const QString &from, const QString &to, const QString &name = QString())
       : KCommand(), m_from(from), m_to(to), m_mytext(name)
    { ; }
    QString finalAddress() const;

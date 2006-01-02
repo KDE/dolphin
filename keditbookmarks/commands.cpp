@@ -246,10 +246,10 @@ QString EditCommand::getNodeText(KBookmark bk, const QStringList &nodehier)
     {
         subnode = subnode.namedItem((*it));
         if (subnode.isNull())
-            return QString::null;
+            return QString();
     }
     return (subnode.firstChild().isNull())
-         ? QString::null
+         ? QString()
          : subnode.firstChild().toText().data();
 }
 
@@ -347,7 +347,7 @@ QString DeleteCommand::affectedBookmarks() const
 }
 
 KEBMacroCommand* DeleteCommand::deleteAll(const KBookmarkGroup & parentGroup) {
-    KEBMacroCommand *cmd = new KEBMacroCommand(QString::null);
+    KEBMacroCommand *cmd = new KEBMacroCommand(QString());
     QStringList lstToDelete;
     // we need to delete from the end, to avoid index shifting
     for (KBookmark bk = parentGroup.first(); 

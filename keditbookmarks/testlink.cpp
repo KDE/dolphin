@@ -49,7 +49,7 @@ void TestLinkItrHolder::doItrListChanged() {
     {
         kdDebug()<<"Notifing managers "<<m_affectedBookmark<<endl;
         CurrentMgr::self()->notifyManagers(CurrentMgr::bookmarkAt(m_affectedBookmark).toGroup());
-        m_affectedBookmark = QString::null;
+        m_affectedBookmark.clear();
     }
 }
 
@@ -168,13 +168,13 @@ void TestLinkItr::slotJobResult(KIO::Job *job) {
 const QString TestLinkItrHolder::getMod(const QString &url) const {
     return m_modify.contains(url) 
         ? m_modify[url] 
-        : QString::null;
+        : QString();
 }
 
 const QString TestLinkItrHolder::getOldVisit(const QString &url) const {
     return self()->m_oldModify.contains(url) 
         ? self()->m_oldModify[url] 
-        : QString::null;
+        : QString();
 }
 
 void TestLinkItrHolder::setMod(const QString &url, const QString &val) {
@@ -272,7 +272,7 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
 
     } else if (initial && !newModStr.isNull() && (newMod == 0)) { 
         // previous check has no modify time recorded
-        statusStr = QString::null;
+        statusStr.clear();
 
     } else if (!newModStr.isNull() && (newMod > visit)) { 
         // if modify time greater than last visit, show bold modify time
@@ -293,7 +293,7 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
         }
 
     } else {
-        statusStr = QString::null;
+        statusStr.clear();
     }
 
     _style = style;

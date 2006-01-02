@@ -24,7 +24,7 @@
 #include "kfinddlg.moc"
 
 KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
-  : KDialogBase( Plain, QString::null,
+  : KDialogBase( Plain, QString(),
 	User1 | User2 | Apply | Close | Help, Apply,
         parent, name, true, true,
 	KGuiItem(i18n("Stop"), "stop"),
@@ -55,7 +55,7 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
   mStatusBar->insertFixedItem(i18n("AMiddleLengthText..."), 0, true);
   setStatusMsg(i18n("Ready."));
   mStatusBar->setItemAlignment(0, Qt::AlignLeft | Qt::AlignVCenter);
-  mStatusBar->insertItem(QString::null, 1, 1, true);
+  mStatusBar->insertItem(QString(), 1, 1, true);
   mStatusBar->setItemAlignment(1, Qt::AlignLeft | Qt::AlignVCenter);
 
   QVBoxLayout *vBox = new QVBoxLayout(frame);

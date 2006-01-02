@@ -45,7 +45,7 @@ QString ImportCommand::name() const {
 }
 
 QString ImportCommand::folder() const {
-    return m_folder ? i18n("%1 Bookmarks").arg(visibleName()) : QString::null;
+    return m_folder ? i18n("%1 Bookmarks").arg(visibleName()) : QString();
 }
 
 ImportCommand* ImportCommand::importerFactory(const QString &type) {

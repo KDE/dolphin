@@ -27,7 +27,7 @@
 #include "klocale.h"
 
 KListBoxDialog::KListBoxDialog(const QString &text, QWidget *parent)
-    : KDialogBase( parent, 0, true, QString::null, Ok|Cancel, Ok, true )
+    : KDialogBase( parent, 0, true, QString(), Ok|Cancel, Ok, true )
 {
   KVBox *page = makeVBoxMainWidget();
 
