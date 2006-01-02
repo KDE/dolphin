@@ -44,7 +44,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2005-06-04</date>
+<date>2005-12-19</date>
 <releaseinfo>1.6</releaseinfo>
 
 <abstract><para>This document is the user handbook for the &konsole;
@@ -80,7 +80,7 @@ equivalent of an old-fashioned text screen on your desktop, but one
 which can easily share the screen with your graphical
 applications. &Windows; users may be familiar with the 
 <application>MS-DOS Prompt</application> utility, which has the analogous 
-functionof offering a <trademark>DOS</trademark> command-line under
+function of offering a <trademark>DOS</trademark> command-line under
 &Windows;. (Although the &UNIX; <acronym>CLI</acronym>s offer far more
 power and ease of use than does <acronym>DOS</acronym>!)</para>
 
