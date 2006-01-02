@@ -27,6 +27,7 @@
 #include <q3dict.h>
 #include <qstringlist.h>
 #include <q3listview.h>
+#include <Q3PtrList>
 
 #include <kcmodule.h>
 
