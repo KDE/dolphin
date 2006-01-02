@@ -100,7 +100,7 @@ QString FaviconsModule::iconForURL(const KURL &url)
     if (iconURL)
         icon = *iconURL;
     else
-        icon = d->config->readEntry( removeSlash(simplifiedURL) );
+        icon = d->config->readEntry( removeSlash(simplifiedURL), QString() );
 
     if (!icon.isEmpty())
         icon = iconNameFromURL(KURL( icon ));

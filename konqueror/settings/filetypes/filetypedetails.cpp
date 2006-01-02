@@ -225,7 +225,7 @@ void FileTypeDetails::updateAskSave()
 
   KSharedConfig::Ptr config = KSharedConfig::openConfig("konquerorrc", false, false);
   config->setGroup("Notification Messages");
-  bool ask = config->readEntry(dontAskAgainName).isEmpty();
+  bool ask = config->readEntry(dontAskAgainName, QString()).isEmpty();
   m_item->getAskSave(ask);
   
   bool neverAsk = false;

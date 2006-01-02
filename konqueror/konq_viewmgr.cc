@@ -1461,8 +1461,8 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
         serviceType = "text/html";
         serviceName = "html";
     } else {
-        serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), "inode/directory");
-        serviceName = cfg.readEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ) );
+        serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), QString("inode/directory"));
+        serviceName = cfg.readEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ), QString() );
     }
     //kdDebug(1202) << "ServiceType: " << serviceType << " " << serviceName << endl;
 
@@ -1565,7 +1565,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     //kdDebug(1202) << "Item is Container" << endl;
 
     //load container config
-    QString ostr = cfg.readEntry( QString::fromLatin1( "Orientation" ).prepend( prefix ) );
+    QString ostr = cfg.readEntry( QString::fromLatin1( "Orientation" ).prepend( prefix ), QString() );
     //kdDebug(1202) << "Orientation: " << ostr << endl;
     Qt::Orientation o;
     if( ostr == "Vertical" )

@@ -92,7 +92,7 @@ void KonqSidebarDirTreeModule::addTopLevelItem( KonqSidebarTreeTopLevelItem * it
 			QStringList list = configured.split( ':');
 			KConfig config(list[0]);
 			if (list[1] != "noGroup") config.setGroup(list[1]);
-			QString conf_url = config.readEntry(list[2]);
+			QString conf_url = config.readEntry(list[2], QString());
 			if (!conf_url.isEmpty()) {
 				targetURL = conf_url;
 			}

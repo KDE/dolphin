@@ -5001,7 +5001,7 @@ void KonqMainWindow::updateViewModeActions()
           {
               // if we don't have it in the map, we should look for a setting
               // for this library in the config file.
-              QString preferredService = barServicesGroup.readEntry( library );
+              QString preferredService = barServicesGroup.readEntry( library, QString() );
               if ( !preferredService.isEmpty() && desktopEntryName != preferredService )
               {
                   //kdDebug(1202) << " Inserting into preferredServiceMap(" << library << ") : " << preferredService << endl;
