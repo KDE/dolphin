@@ -36,6 +36,7 @@
 #include <QToolButton>
 #include <QApplication>
 #include <QLabel>
+#include <QLinkedList>
 
 
 

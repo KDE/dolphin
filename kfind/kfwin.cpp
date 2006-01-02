@@ -20,6 +20,9 @@
 #include <qclipboard.h>
 #include <qpixmap.h>
 #include <q3dragobject.h>
+#include <QTextDocument>
+#include <q3ptrlist.h>
+#include <QDateTime>
 
 #include <kfiledialog.h>
 #include <klocale.h>
@@ -34,10 +37,8 @@
 #include <kmenu.h>
 #include <kio/netaccess.h>
 #include <k3urldrag.h>
-#include <q3ptrlist.h>
 #include <kdebug.h>
 #include <kiconloader.h>
-#include <QDateTime>
 
 #include "kfwin.h"
 
@@ -236,7 +237,7 @@ void KfindWindow::saveResults()
       while(item != NULL)
 	{
 	  QString path=((KfFileLVI*)item)->fileitem.url().url();
-	  QString pretty=((KfFileLVI*)item)->fileitem.url().htmlURL();
+	  QString pretty=Qt::escape(((KfFileLVI*)item)->fileitem.url().prettyURL());
 	  stream << QString::fromLatin1("<DT><A HREF=\"") << path
 		 << QString::fromLatin1("\">") << pretty
 		 << QString::fromLatin1("</A>\n");
