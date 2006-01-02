@@ -147,15 +147,15 @@ public:
      * @param title The title of the URL. If you don't know it (yet), you may
                     specify it in @ref confirmPending().
      */
-    void addPending( const KURL& url, const QString& typedURL = QString::null,
-		     const QString& title = QString::null );
+    void addPending( const KURL& url, const QString& typedURL = QString(),
+		     const QString& title = QString() );
 
     /**
      * Confirms and updates the entry for @p url.
      */
     void confirmPending( const KURL& url,
-			 const QString& typedURL = QString::null,
-			 const QString& title = QString::null );
+			 const QString& typedURL = QString(),
+			 const QString& title = QString() );
 
     /**
      * Removes a pending url from the history, e.g. when the url does not
@@ -301,8 +301,8 @@ protected:
      * (if available) and NOT be added again in that case.
      */
     void addToHistory( bool pending, const KURL& url,
-		       const QString& typedURL = QString::null,
-		       const QString& title = QString::null );
+		       const QString& typedURL = QString(),
+		       const QString& title = QString() );
 
 
     /**

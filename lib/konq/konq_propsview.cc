@@ -191,7 +191,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
   KURL u ( dir );
   u.addPath(".directory");
   bool dotDirExists = u.isLocalFile() && QFile::exists( u.path() );
-  dotDirectory = u.isLocalFile() ? u.path() : QString::null;
+  dotDirectory = u.isLocalFile() ? u.path() : QString();
 
   // Revert to default setting first - unless there is no .directory
   // in the previous dir nor in this one (then we can keep the current settings)

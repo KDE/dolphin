@@ -52,7 +52,7 @@ public:
 
     /**
      * Looks up an icon for @p url and returns its name if found
-     * or QString::null otherwise
+     * or QString() otherwise
      */
     static QString iconForURL(const QString &url);
 

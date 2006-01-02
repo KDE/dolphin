@@ -326,7 +326,7 @@ void KonqIconViewWidget::slotOnItem( Q3IconViewItem *_item )
                         delete d->m_movie;
                         d->m_movie = 0;
                         // No movie available, remember it
-                        d->pActiveItem->setMouseOverAnimation( QString::null );
+                        d->pActiveItem->setMouseOverAnimation( QString() );
                     }
                 }
             } // animations
@@ -469,7 +469,7 @@ void KonqIconViewWidget::slotMovieUpdate( const QRect& rect )
             d->pActiveItem->setAnimated( false );
             d->m_movie->setPaused(true);
             // No movie available, remember it
-            d->pActiveItem->setMouseOverAnimation( QString::null );
+            d->pActiveItem->setMouseOverAnimation( QString() );
             d->pActiveItem->setActive( true );
             return;
         }
@@ -485,7 +485,7 @@ void KonqIconViewWidget::slotMovieStatus( int status )
         // Error playing the MNG -> forget about it and do normal iconeffect
         if ( d->pActiveItem && d->pActiveItem->isAnimated() ) {
             d->pActiveItem->setAnimated( false );
-            d->pActiveItem->setMouseOverAnimation( QString::null );
+            d->pActiveItem->setMouseOverAnimation( QString() );
             d->pActiveItem->setActive( true );
         }
     }
@@ -795,7 +795,7 @@ void KonqIconViewWidget::setURL( const KURL &kurl )
     if ( m_url.isLocalFile() )
         m_dotDirectoryPath = m_url.path(1).append( ".directory" );
     else
-        m_dotDirectoryPath = QString::null;
+        m_dotDirectoryPath.clear();
 }
 
 void KonqIconViewWidget::startImagePreview( const QStringList &, bool force )

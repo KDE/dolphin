@@ -265,7 +265,7 @@ QString KonqUndoManager::undoText() const
   else
     assert( false );
   /* NOTREACHED */
-  return QString::null;
+  return QString();
 }
 
 void KonqUndoManager::undo()

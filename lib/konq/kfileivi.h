@@ -145,7 +145,7 @@ public:
     /**
      * Sets an icon to be shown over the bottom left corner of the icon.
      * Currently used for directory overlays.
-     * setOverlay(QString::null) to remove icon.
+     * setOverlay(QString()) to remove icon.
      */
     void setOverlay( const QString & iconName);
 
@@ -176,7 +176,7 @@ public:
     /**
      * Return true if the icon _might_ have an animation available.
      * This doesn't mean the .mng exists (only determined when hovering on the
-     * icon - and if it doesn't exist setMouseOverAnimation(QString::null) is called),
+     * icon - and if it doesn't exist setMouseOverAnimation(QString()) is called),
      * and it doesn't mean that it's currently running either.
      */
     bool hasAnimation() const;

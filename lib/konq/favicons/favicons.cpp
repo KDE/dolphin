@@ -91,7 +91,7 @@ QString removeSlash(QString result)
 QString FaviconsModule::iconForURL(const KURL &url)
 {
     if (url.host().isEmpty())
-        return QString::null;
+        return QString();
 
     QString icon;
     QString simplifiedURL = simplifyURL(url);
@@ -112,7 +112,7 @@ QString FaviconsModule::iconForURL(const KURL &url)
     if (QFile::exists(d->faviconsDir+icon+".png"))
         return icon;
 
-    return QString::null;
+    return QString();
 }
 
 QString FaviconsModule::simplifyURL(const KURL &url)
@@ -235,7 +235,7 @@ void FaviconsModule::slotResult(KIO::Job *job)
 
                 iconName = "favicons/" + iconName;
                 if( !img.save( d->faviconsDir + iconName + ".png", "PNG" ) )
-                    iconName = QString::null;
+                    iconName.clear();
                 else if (!download.isHost)
                     d->config->writeEntry( removeSlash(download.hostOrURL), iconURL.url());
             }

@@ -419,7 +419,7 @@ void KNewMenu::slotNewFile()
                 //kdDebug(1203) << "second arg=" << (*it).url() << endl;
                 //kdDebug(1203) << "third arg=" << entry.text << endl;
                 QString text = entry.text;
-                text.replace( "...", QString::null ); // the ... is fine for the menu item but not for the default filename
+                text.replace( "...", QString() ); // the ... is fine for the menu item but not for the default filename
                 
 		KURL defaultFile( *it );
 		defaultFile.addPath( KIO::encodeFileName( text ) );
@@ -439,14 +439,14 @@ void KNewMenu::slotNewFile()
         // Show the small dialog for getting the destination filename
         bool ok;
         QString text = entry.text;
-        text.replace( "...", QString::null ); // the ... is fine for the menu item but not for the default filename
+        text.replace( "...", QString() ); // the ... is fine for the menu item but not for the default filename
         
 	KURL defaultFile( *(popupFiles.begin()) );
 	defaultFile.addPath( KIO::encodeFileName( text ) );
 	if ( defaultFile.isLocalFile() && QFile::exists( defaultFile.path() ) )
 	    text = KIO::RenameDlg::suggestName( *(popupFiles.begin()), text);
 
-        name = KInputDialog::getText( QString::null, entry.comment,
+        name = KInputDialog::getText( QString(), entry.comment,
     	text, &ok, d->m_parentWidget );
         if ( !ok )
 	    return;
@@ -522,17 +522,17 @@ void KNewMenu::slotResult( KIO::Job * job )
 //////////
 
 KURLDesktopFileDlg::KURLDesktopFileDlg( const QString& textFileName, const QString& textUrl )
-    : KDialogBase( Plain, QString::null, Ok|Cancel|User1, Ok, 0L /*parent*/, 0L, true,
+    : KDialogBase( Plain, QString(), Ok|Cancel|User1, Ok, 0L /*parent*/, 0L, true,
                    true, KStdGuiItem::clear() )
 {
-    initDialog( textFileName, QString::null, textUrl, QString::null );
+    initDialog( textFileName, QString(), textUrl, QString() );
 }
 
 KURLDesktopFileDlg::KURLDesktopFileDlg( const QString& textFileName, const QString& textUrl, QWidget *parent )
-    : KDialogBase( Plain, QString::null, Ok|Cancel|User1, Ok, parent, 0L, true,
+    : KDialogBase( Plain, QString(), Ok|Cancel|User1, Ok, parent, 0L, true,
                    true, KStdGuiItem::clear() )
 {
-    initDialog( textFileName, QString::null, textUrl, QString::null );
+    initDialog( textFileName, QString(), textUrl, QString() );
 }
 
 void KURLDesktopFileDlg::initDialog( const QString& textFileName, const QString& defaultName, const QString& textUrl, const QString& defaultUrl )
@@ -576,7 +576,7 @@ QString KURLDesktopFileDlg::url() const
     if ( result() == QDialog::Accepted )
         return m_urlRequester->url();
     else
-        return QString::null;
+        return QString();
 }
 
 QString KURLDesktopFileDlg::fileName() const
@@ -584,12 +584,12 @@ QString KURLDesktopFileDlg::fileName() const
     if ( result() == QDialog::Accepted )
         return m_leFileName->text();
     else
-        return QString::null;
+        return QString();
 }
 
 void KURLDesktopFileDlg::slotClear()
 {
-    m_leFileName->setText( QString::null );
+    m_leFileName->setText( QString() );
     m_urlRequester->clear();
     m_fileNameEdited = false;
 }

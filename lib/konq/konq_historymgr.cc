@@ -283,7 +283,7 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& _url,
 
     KURL url( _url );
     bool hasPass = url.hasPass();
-    url.setPass( QString::null ); // No password in the history, especially not in the completion!
+    url.setPass( QString() ); // No password in the history, especially not in the completion!
     url.setHost( url.host().toLower() ); // All host parts lower case
     KonqHistoryEntry entry;
     QString u = url.prettyURL();
@@ -601,7 +601,7 @@ bool KonqHistoryManager::loadFallback()
 	entry = createFallbackEntry( *it );
 	if ( entry ) {
 	    m_history.append( entry );
-	    addToCompletion( entry->url.prettyURL(), QString::null, entry->numberOfTimesVisited );
+	    addToCompletion( entry->url.prettyURL(), QString(), entry->numberOfTimesVisited );
 
 	    KParts::HistoryProvider::insert( entry->url.url() );
    	}

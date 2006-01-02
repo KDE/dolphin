@@ -382,10 +382,10 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         // Determine if common mimetype among all URLs
         if ( m_sMimeType != (*it)->mimetype() )
         {
-            m_sMimeType = QString::null; // mimetypes are different => null
+            m_sMimeType.clear(); // mimetypes are different => null
 
             if ( mimeGroup != (*it)->mimetype().left((*it)->mimetype().find('/')))
-                mimeGroup = QString::null; // mimetype groups are different as well!
+                mimeGroup.clear(); // mimetype groups are different as well!
         }
 
         if ( mimeTypeList.findIndex( (*it)->mimetype() ) == -1 )
