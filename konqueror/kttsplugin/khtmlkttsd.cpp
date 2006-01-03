@@ -42,7 +42,7 @@ KHTMLPluginKTTSD::KHTMLPluginKTTSD( QObject* parent, const char* name, const QSt
     KTrader::OfferList offers = KTrader::self()->query("DCOP/Text-to-Speech", "Name == 'KTTSD'");
     if (offers.count() > 0)
     {
-        (void) new KAction( "&Speak Text",
+        (void) new KAction( i18n("&Speak Text"),
             "kttsd", 0,
             this, SLOT(slotReadOut()),
             actionCollection(), "tools_kttsd" );
