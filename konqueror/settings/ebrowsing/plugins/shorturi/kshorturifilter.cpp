@@ -522,7 +522,7 @@ void KShortURIFilter::configure()
   if ( m_bVerbose )
     kdDebug() << "KShortURIFilter::configure: Config reload request..." << endl;
 
-  m_strDefaultProtocol = config.readEntry( "DefaultProtocol", QFL1("http://") );
+  m_strDefaultProtocol = config.readEntry( "DefaultProtocol", QString("http://") );
   EntryMap patterns = config.entryMap( QFL1("Pattern") );
   const EntryMap protocols = config.entryMap( QFL1("Protocol") );
   config.setGroup("Type");
