@@ -196,9 +196,9 @@ void KJavaOptions::load()
     // *** load ***
     java_global_policies.load();
     bool bJavaGlobal      = java_global_policies.isFeatureEnabled();
-    bool bSecurityManager = m_pConfig->readBoolEntry( "UseSecurityManager", true );
-    bool bUseKio = m_pConfig->readBoolEntry( "UseKio", false );
-    bool bServerShutdown  = m_pConfig->readBoolEntry( "ShutdownAppletServer", true );
+    bool bSecurityManager = m_pConfig->readEntry( "UseSecurityManager", QVariant(true )).toBool();
+    bool bUseKio = m_pConfig->readEntry( "UseKio", QVariant(false )).toBool();
+    bool bServerShutdown  = m_pConfig->readEntry( "ShutdownAppletServer", QVariant(true )).toBool();
     int  serverTimeout    = m_pConfig->readNumEntry( "AppletServerTimeout", 60 );
 #if defined(PATH_JAVA)
     QString sJavaPath     = m_pConfig->readPathEntry( "JavaPath", PATH_JAVA );

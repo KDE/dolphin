@@ -348,7 +348,7 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, co
 
     KConfig cfg( QLatin1String( "konquerorrc" ), true );
     cfg.setGroup( "FMSettings" );
-    if ( newTab || cfg.readBoolEntry( "KonquerorTabforExternalURL", false ) )
+    if ( newTab || cfg.readEntry( "KonquerorTabforExternalURL", QVariant(false )).toBool() )
     {
         needDCOP();
         DCOPCString foundApp, foundObj;

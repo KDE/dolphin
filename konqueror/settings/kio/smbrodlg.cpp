@@ -96,7 +96,7 @@ void SMBRoOptions::load()
    cfg->setGroup( "Browser Settings/SMBro" );
    m_userLe->setText(cfg->readEntry("User"));
 //   m_workgroupLe->setText(cfg->readEntry("Workgroup"));
-//   m_showHiddenShares->setChecked(cfg->readBoolEntry("ShowHiddenShares",false));
+//   m_showHiddenShares->setChecked(cfg->readEntry("ShowHiddenShares", QVariant(false)).toBool());
 
    QStringList _strList = KGlobal::charsets()->availableEncodingNames();
    QString m_encoding = QTextCodec::codecForLocale()->name();

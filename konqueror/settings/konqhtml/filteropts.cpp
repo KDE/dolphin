@@ -252,8 +252,8 @@ void KCMFilter::load()
     QStringList paths;
 
     mConfig->setGroup( mGroupname );
-    mEnableCheck->setChecked( mConfig->readBoolEntry("Enabled",false));
-    mKillCheck->setChecked( mConfig->readBoolEntry("Shrink",false));
+    mEnableCheck->setChecked( mConfig->readEntry("Enabled", QVariant(false)).toBool());
+    mKillCheck->setChecked( mConfig->readEntry("Shrink", QVariant(false)).toBool());
 
     QMap<QString,QString> entryMap = mConfig->entryMap( mGroupname );
     QMap<QString,QString>::ConstIterator it;

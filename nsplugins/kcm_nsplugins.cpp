@@ -40,8 +40,8 @@ extern "C"
     {
         KConfig *config = new KConfig("kcmnspluginrc", true /* readonly */, false /* no globals*/);
         config->setGroup("Misc");
-        bool scan = config->readBoolEntry( "startkdeScan", false );
-        bool firstTime = config->readBoolEntry( "firstTime", true );
+        bool scan = config->readEntry( "startkdeScan", QVariant(false )).toBool();
+        bool firstTime = config->readEntry( "firstTime", QVariant(true )).toBool();
         delete config;
 
         if ( scan || firstTime )

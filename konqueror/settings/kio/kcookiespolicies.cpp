@@ -285,7 +285,7 @@ void KCookiesPolicies::load()
   KConfig cfg ("kcookiejarrc", true);
   cfg.setGroup ("Cookie Policy");
 
-  bool enableCookies = cfg.readBoolEntry("Cookies", true);
+  bool enableCookies = cfg.readEntry("Cookies", QVariant(true)).toBool();
   dlg->cbEnableCookies->setChecked (enableCookies);
   cookiesEnabled( enableCookies );
 
@@ -305,12 +305,12 @@ void KCookiesPolicies::load()
       dlg->rbPolicyAsk->setChecked (true);
   }
 
-  bool enable = cfg.readBoolEntry("RejectCrossDomainCookies", true);
+  bool enable = cfg.readEntry("RejectCrossDomainCookies", QVariant(true)).toBool();
   dlg->cbRejectCrossDomainCookies->setChecked (enable);
 
-  bool sessionCookies = cfg.readBoolEntry("AcceptSessionCookies", true);
+  bool sessionCookies = cfg.readEntry("AcceptSessionCookies", QVariant(true)).toBool();
   dlg->cbAutoAcceptSessionCookies->setChecked (sessionCookies);
-  bool cookieExpiration = cfg.readBoolEntry("IgnoreExpirationDate", false);
+  bool cookieExpiration = cfg.readEntry("IgnoreExpirationDate", QVariant(false)).toBool();
   dlg->cbIgnoreCookieExpirationDate->setChecked (cookieExpiration);
 
   if (enableCookies)

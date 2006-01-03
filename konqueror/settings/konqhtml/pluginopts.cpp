@@ -189,15 +189,15 @@ void KPluginOptions::load()
   KConfig *config = new KConfig("kcmnspluginrc", true);
 
   config->setGroup("Misc");
-  m_widget->scanAtStartup->setChecked( config->readBoolEntry( "startkdeScan", false ) );
+  m_widget->scanAtStartup->setChecked( config->readEntry( "startkdeScan", QVariant(false )).toBool() );
 
   m_widget->dirEdit->setURL("");
   m_widget->dirEdit->setEnabled( false );
   m_widget->dirRemove->setEnabled( false );
   m_widget->dirUp->setEnabled( false );
   m_widget->dirDown->setEnabled( false );
-  enableHTTPOnly->setChecked( config->readBoolEntry("HTTP URLs Only", false) );
-  enableUserDemand->setChecked( config->readBoolEntry("demandLoad", false) );
+  enableHTTPOnly->setChecked( config->readEntry("HTTP URLs Only", QVariant(false)).toBool() );
+  enableUserDemand->setChecked( config->readEntry("demandLoad", QVariant(false)).toBool() );
   priority->setValue(100 - qBound(0, config->readNumEntry("Nice Level", 0), 19) * 5);
   updatePLabel(priority->value());
 
@@ -419,7 +419,7 @@ void KPluginOptions::dirLoad( KConfig *config )
     m_widget->dirList->insertStringList( paths );
 
     // setup other widgets
-    bool useArtsdsp = config->readBoolEntry( "useArtsdsp", false );
+    bool useArtsdsp = config->readEntry( "useArtsdsp", QVariant(false )).toBool();
     m_widget->useArtsdsp->setChecked( useArtsdsp );
 }
 

@@ -198,7 +198,7 @@ void KSocksConfig::libSelection()
 void KSocksConfig::load()
 {
   KConfigGroup config(KGlobal::config(), "Socks");
-  base->_c_enableSocks->setChecked(config.readBoolEntry("SOCKS_enable", false));
+  base->_c_enableSocks->setChecked(config.readEntry("SOCKS_enable", QVariant(false)).toBool());
   int id = config.readNumEntry("SOCKS_method", 1);
   base->bg->setButton(id);
   if (id == 4) {

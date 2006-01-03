@@ -237,7 +237,7 @@ void DesktopBehavior::fillMediaListView()
     KMimeType::List mimetypes = KMimeType::allMimeTypes();
     KMimeType::List::const_iterator it2(mimetypes.begin());
     g_pConfig->setGroup( "Media" );
-    enableMediaBox->setChecked(g_pConfig->readBoolEntry("enabled",false));
+    enableMediaBox->setChecked(g_pConfig->readEntry("enabled", QVariant(false)).toBool());
     QString excludedMedia=g_pConfig->readEntry("exclude","media/hdd_mounted,media/hdd_unmounted,media/floppy_unmounted,media/cdrom_unmounted,media/floppy5_unmounted");
     for (; it2 != mimetypes.end(); ++it2) {
        if ( ((*it2)->name().startsWith("media/")) )
@@ -280,9 +280,9 @@ void DesktopBehavior::fillMenuCombo( QComboBox * combo )
 void DesktopBehavior::load()
 {
     g_pConfig->setGroup( "Desktop Icons" );
-    bool bShowHidden = g_pConfig->readBoolEntry("ShowHidden", DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
+    bool bShowHidden = g_pConfig->readEntry("ShowHidden", QVariant(DEFAULT_SHOW_HIDDEN_ROOT_ICONS)).toBool();
     showHiddenBox->setChecked(bShowHidden);
-    //bool bVertAlign = g_pConfig->readBoolEntry("VertAlign", DEFAULT_VERT_ALIGN);
+    //bool bVertAlign = g_pConfig->readEntry("VertAlign", QVariant(DEFAULT_VERT_ALIGN)).toBool();
     KTrader::OfferList plugins = KTrader::self()->query("ThumbCreator");
     previewListView->clear();
     QStringList previews = g_pConfig->readListEntry("Preview");
@@ -291,12 +291,12 @@ void DesktopBehavior::load()
     new DesktopBehaviorPreviewItem(this, previewListView, previews.contains("audio/"));
     //
     g_pConfig->setGroup( "FMSettings" );
-    toolTipBox->setChecked(g_pConfig->readBoolEntry( "ShowFileTips", true ) );
+    toolTipBox->setChecked(g_pConfig->readEntry( "ShowFileTips", QVariant(true )).toBool() );
     g_pConfig->setGroup( "Menubar" );
     KConfig config( "kdeglobals" );
     config.setGroup("KDE");
-    bool globalMenuBar = config.readBoolEntry("macStyle", false);
-    bool desktopMenuBar = g_pConfig->readBoolEntry("ShowMenubar", false);
+    bool globalMenuBar = config.readEntry("macStyle", QVariant(false)).toBool();
+    bool desktopMenuBar = g_pConfig->readEntry("ShowMenubar", QVariant(false)).toBool();
     if ( globalMenuBar )
         desktopMenuGroup->setButton( 2 );
     else if ( desktopMenuBar )
@@ -304,9 +304,9 @@ void DesktopBehavior::load()
     else
         desktopMenuGroup->setButton( 0 );
     g_pConfig->setGroup( "General" );
-    vrootBox->setChecked( g_pConfig->readBoolEntry( "SetVRoot", false ) );
-    iconsEnabledBox->setChecked( g_pConfig->readBoolEntry( "Enabled", true ) );
-    autoLineupIconsBox->setChecked( g_pConfig->readBoolEntry( "AutoLineUpIcons", false ) );
+    vrootBox->setChecked( g_pConfig->readEntry( "SetVRoot", QVariant(false )).toBool() );
+    iconsEnabledBox->setChecked( g_pConfig->readEntry( "Enabled", QVariant(true )).toBool() );
+    autoLineupIconsBox->setChecked( g_pConfig->readEntry( "AutoLineUpIcons", QVariant(false )).toBool() );
 
     //
     g_pConfig->setGroup( "Mouse Buttons" );
@@ -370,7 +370,7 @@ void DesktopBehavior::save()
     KConfig config( "kdeglobals" );
     config.setGroup("KDE");
     bool globalMenuBar = desktopMenuGroup->selectedId() == 2;
-    if ( globalMenuBar != config.readBoolEntry("macStyle", false) )
+    if ( globalMenuBar != config.readEntry("macStyle", QVariant(false)).toBool() )
     {
         config.writeEntry( "macStyle", globalMenuBar, true, true );
         config.sync();

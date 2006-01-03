@@ -63,7 +63,7 @@ void KonqSidebarHistorySettings::readSettings(bool global)
     metric = config->readEntry("Metric olderThan", days );
     m_metricOlderThan = (metric == days) ? DAYS : MINUTES;
 
-    m_detailedTips = config->readBoolEntry("Detailed Tooltips", true);
+    m_detailedTips = config->readEntry("Detailed Tooltips", QVariant(true)).toBool();
 
     m_fontYoungerThan = config->readFontEntry( "Font youngerThan",
 					       &m_fontYoungerThan );

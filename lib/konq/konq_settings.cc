@@ -94,27 +94,27 @@ void KonqFMSettings::init( KConfig * config )
 
   m_iconTextHeight = config->readNumEntry( "TextHeight", 0 );
   if ( m_iconTextHeight == 0 ) {
-    if ( config->readBoolEntry( "WordWrapText", true ) )
+    if ( config->readEntry( "WordWrapText", QVariant(true )).toBool() )
       m_iconTextHeight = DEFAULT_TEXTHEIGHT;
     else
       m_iconTextHeight = 1;
   }
   m_bWordWrapText = ( m_iconTextHeight > 1 );
   
-  m_underlineLink = config->readBoolEntry( "UnderlineLinks", DEFAULT_UNDERLINELINKS );
-  d->m_renameIconDirectly = config->readBoolEntry( "RenameIconDirectly", DEFAULT_RENAMEICONDIRECTLY );
-  m_fileSizeInBytes = config->readBoolEntry( "DisplayFileSizeInBytes", DEFAULT_FILESIZEINBYTES );
+  m_underlineLink = config->readEntry( "UnderlineLinks", QVariant(DEFAULT_UNDERLINELINKS )).toBool();
+  d->m_renameIconDirectly = config->readEntry( "RenameIconDirectly", QVariant(DEFAULT_RENAMEICONDIRECTLY )).toBool();
+  m_fileSizeInBytes = config->readEntry( "DisplayFileSizeInBytes", QVariant(DEFAULT_FILESIZEINBYTES )).toBool();
   m_iconTransparency = config->readNumEntry( "TextpreviewIconOpacity", DEFAULT_TEXTPREVIEW_ICONTRANSPARENCY );
   if ( m_iconTransparency < 0 || m_iconTransparency > 255 )
       m_iconTransparency = DEFAULT_TEXTPREVIEW_ICONTRANSPARENCY;
 
   // Behaviour
-  m_alwaysNewWin = config->readBoolEntry( "AlwaysNewWin", FALSE );
+  m_alwaysNewWin = config->readEntry( "AlwaysNewWin", QVariant(FALSE )).toBool();
 
   m_homeURL = config->readPathEntry("HomeURL", "~");
 
-  m_showFileTips = config->readBoolEntry("ShowFileTips", true);
-  d->showPreviewsInFileTips = config->readBoolEntry("ShowPreviewsInFileTips", true);
+  m_showFileTips = config->readEntry("ShowFileTips", QVariant(true)).toBool();
+  d->showPreviewsInFileTips = config->readEntry("ShowPreviewsInFileTips", QVariant(true)).toBool();
   m_numFileTips = config->readNumEntry("FileTipsItems", 6);
 
   m_embedMap = config->entryMap( "EmbedSettings" );
@@ -136,7 +136,7 @@ bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
                              true /*readonly*/, "mime");
         if ( deFile.hasKey( "X-KDE-AutoEmbed" ) )
         {
-            bool autoEmbed = deFile.readBoolEntry( "X-KDE-AutoEmbed" );
+            bool autoEmbed = deFile.readEntry( "X-KDE-AutoEmbed" , QVariant(false)).toBool();
             kdDebug(1203) << "X-KDE-AutoEmbed set to " << (autoEmbed ? "true" : "false") << endl;
             return autoEmbed;
         } else

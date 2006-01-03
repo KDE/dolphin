@@ -566,7 +566,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 }
                 else {
                     KConfigGroup configGroup( KGlobal::config(), "KDE" );
-                    if ( configGroup.readBoolEntry( "ShowDeleteCommand", false ) )
+                    if ( configGroup.readEntry( "ShowDeleteCommand", QVariant(false )).toBool() )
                         addDel = true;
                 }
             }

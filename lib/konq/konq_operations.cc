@@ -252,7 +252,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
         config.setGroup( "Trash" );
         keyName = ( m_method == DEL ? "ConfirmDelete" : m_method == SHRED ? "ConfirmShred" : "ConfirmTrash" );
         bool defaultValue = ( m_method == DEL ? DEFAULT_CONFIRMDELETE : m_method == SHRED ? DEFAULT_CONFIRMSHRED : DEFAULT_CONFIRMTRASH );
-        ask = config.readBoolEntry( keyName, defaultValue );
+        ask = config.readEntry( keyName, QVariant(defaultValue )).toBool();
     }
     if ( ask )
     {
@@ -303,7 +303,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
          // Check kmessagebox setting... erase & copy to konquerorrc.
          KConfig *config = KGlobal::config();
          KConfigGroup saver(config, "Notification Messages");
-         if (!saver.readBoolEntry(keyName, true))
+         if (!saver.readEntry(keyName, QVariant(true)).toBool())
          {
             saver.writeEntry(keyName, true);
             saver.sync();
@@ -449,7 +449,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
                     doFileCopy();
                 else
                 {
-                    bool ro = desktopFile.readBoolEntry( "ReadOnly", false );
+                    bool ro = desktopFile.readEntry( "ReadOnly", QVariant(false )).toBool();
                     QString fstype = desktopFile.readEntry( "FSType" );
                     KAutoMount* am = new KAutoMount( ro, fstype, dev, point, m_destURL.path(), false );
                     connect( am, SIGNAL( finished() ), this, SLOT( doFileCopy() ) );

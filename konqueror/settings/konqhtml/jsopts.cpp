@@ -122,8 +122,8 @@ void KJavaScriptOptions::load()
     js_policies_frame->load();
     enableJavaScriptGloballyCB->setChecked(
     		js_global_policies.isFeatureEnabled());
-    reportErrorsCB->setChecked( m_pConfig->readBoolEntry("ReportJavaScriptErrors",false));
-    jsDebugWindow->setChecked( m_pConfig->readBoolEntry( "EnableJavaScriptDebug",false ) );
+    reportErrorsCB->setChecked( m_pConfig->readEntry("ReportJavaScriptErrors", QVariant(false)).toBool());
+    jsDebugWindow->setChecked( m_pConfig->readEntry( "EnableJavaScriptDebug", QVariant(false )).toBool() );
 //    js_popup->setButton( m_pConfig->readUnsignedNumEntry("WindowOpenPolicy", 0) );
     emit changed(false);
 }

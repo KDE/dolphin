@@ -517,7 +517,7 @@ QString KShortURIFilter::configName() const
 void KShortURIFilter::configure()
 {
   KConfig config( name() + QFL1("rc"), false, false );
-  m_bVerbose = config.readBoolEntry( "Verbose", false );
+  m_bVerbose = config.readEntry( "Verbose", QVariant(false )).toBool();
 
   if ( m_bVerbose )
     kdDebug() << "KShortURIFilter::configure: Config reload request..." << endl;

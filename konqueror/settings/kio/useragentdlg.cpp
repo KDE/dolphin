@@ -106,7 +106,7 @@ void UserAgentDlg::load()
 
   // Update buttons and checkboxes...
   m_config->setGroup(QString());
-  bool b = m_config->readBoolEntry("SendUserAgent", true);
+  bool b = m_config->readEntry("SendUserAgent", QVariant(true)).toBool();
   dlg->cbSendUAString->setChecked( b );
   m_ua_keys = m_config->readEntry("UserAgentKeys", DEFAULT_USER_AGENT_KEYS).toLower();
   dlg->leDefaultId->setSqueezedText( KProtocolManager::defaultUserAgent( m_ua_keys ) );

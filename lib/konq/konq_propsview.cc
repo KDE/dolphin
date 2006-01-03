@@ -87,15 +87,15 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
 
   d = new Private;
   d->previewsToShow = 0;
-  d->caseInsensitiveSort=cgs.readBoolEntry( "CaseInsensitiveSort", true );
+  d->caseInsensitiveSort=cgs.readEntry( "CaseInsensitiveSort", QVariant(true )).toBool();
 
   m_iIconSize = cgs.readNumEntry( "IconSize", 0 );
   m_iItemTextPos = cgs.readNumEntry( "ItemTextPos", Qt::DockBottom );
   d->sortcriterion = cgs.readEntry( "SortingCriterion", "sort_nci" );
-  d->dirsfirst = cgs.readBoolEntry( "SortDirsFirst", true );
-  d->descending = cgs.readBoolEntry( "SortDescending", false );
-  m_bShowDot = cgs.readBoolEntry( "ShowDotFiles", false );
-  m_bShowDirectoryOverlays = cgs.readBoolEntry( "ShowDirectoryOverlays", false );
+  d->dirsfirst = cgs.readEntry( "SortDirsFirst", QVariant(true )).toBool();
+  d->descending = cgs.readEntry( "SortDescending", QVariant(false )).toBool();
+  m_bShowDot = cgs.readEntry( "ShowDotFiles", QVariant(false )).toBool();
+  m_bShowDirectoryOverlays = cgs.readEntry( "ShowDirectoryOverlays", QVariant(false )).toBool();
 
   m_dontPreview = cgs.readListEntry( "DontPreview" );
   m_dontPreview.remove("audio/"); //Use the separate setting.
@@ -103,13 +103,13 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
 
   //The setting for sound previews is stored separately, so we can force
   //the default-to-off bias to propagate up.
-  if (!cgs.readBoolEntry("EnableSoundPreviews", false))
+  if (!cgs.readEntry("EnableSoundPreviews", QVariant(false)).toBool())
   {
     if (!m_dontPreview.contains("audio/"))
       m_dontPreview.append("audio/");
   }
 
-  d->previewsEnabled = cgs.readBoolEntry( "PreviewsEnabled", true );
+  d->previewsEnabled = cgs.readEntry( "PreviewsEnabled", QVariant(true )).toBool();
 
   QColor tc = KonqFMSettings::settings()->normalTextColor();
   m_textColor = cgs.readColorEntry( "TextColor", &tc );
@@ -219,11 +219,11 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_iIconSize = config->readNumEntry( "IconSize", m_iIconSize );
     m_iItemTextPos = config->readNumEntry( "ItemTextPos", m_iItemTextPos );
     d->sortcriterion = config->readEntry( "SortingCriterion" , d->sortcriterion );
-    d->dirsfirst = config->readBoolEntry( "SortDirsFirst", d->dirsfirst );
-    d->descending = config->readBoolEntry( "SortDescending", d->descending );
-    m_bShowDot = config->readBoolEntry( "ShowDotFiles", m_bShowDot );
-    d->caseInsensitiveSort=config->readBoolEntry("CaseInsensitiveSort",d->caseInsensitiveSort);
-    m_bShowDirectoryOverlays = config->readBoolEntry( "ShowDirectoryOverlays", m_bShowDirectoryOverlays );
+    d->dirsfirst = config->readEntry( "SortDirsFirst", QVariant(d->dirsfirst )).toBool();
+    d->descending = config->readEntry( "SortDescending", QVariant(d->descending )).toBool();
+    m_bShowDot = config->readEntry( "ShowDotFiles", QVariant(m_bShowDot )).toBool();
+    d->caseInsensitiveSort=config->readEntry("CaseInsensitiveSort", QVariant(d->caseInsensitiveSort)).toBool();
+    m_bShowDirectoryOverlays = config->readEntry( "ShowDirectoryOverlays", QVariant(m_bShowDirectoryOverlays )).toBool();
     if (config->hasKey( "DontPreview" ))
     {
         m_dontPreview = config->readListEntry( "DontPreview" );
@@ -235,7 +235,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
         if (config->hasKey("EnableSoundPreviews"))
         {
 
-            if (!config->readBoolEntry("EnableSoundPreviews", false))
+            if (!config->readEntry("EnableSoundPreviews", QVariant(false)).toBool())
                 if (!m_dontPreview.contains("audio/"))
                     m_dontPreview.append("audio/");
         }
@@ -253,7 +253,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_bgColor = config->readColorEntry( "BgColor", &m_bgColor );
     m_bgPixmapFile = config->readPathEntry( "BgImage", m_bgPixmapFile );
     //kdDebug(1203) << "KonqPropsView::enterDir m_bgPixmapFile=" << m_bgPixmapFile << endl;
-    d->previewsEnabled = config->readBoolEntry( "PreviewsEnabled", d->previewsEnabled );
+    d->previewsEnabled = config->readEntry( "PreviewsEnabled", QVariant(d->previewsEnabled )).toBool();
     delete config;
   }
   //if there is or was a .directory then the settings probably have changed

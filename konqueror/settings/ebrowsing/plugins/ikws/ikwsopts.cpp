@@ -125,7 +125,7 @@ void FilterOptions::load()
                             ((*it)->desktopEntryName() == defaultSearchEngine));
     }
 
-    bool webShortcutsEnabled = config.readBoolEntry("EnableWebShortcuts", true);
+    bool webShortcutsEnabled = config.readEntry("EnableWebShortcuts", QVariant(true)).toBool();
     m_dlg->cbEnableShortcuts->setChecked( webShortcutsEnabled );
 
     setDelimiter (config.readNumEntry ("KeywordDelimiter", ':'));

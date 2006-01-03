@@ -52,7 +52,7 @@ void Policies::load() {
 
   QString key = prefix + feature_key;
   if (config->hasKey(key))
-    feature_enabled = config->readBoolEntry(key);
+    feature_enabled = config->readEntry(key, QVariant(false)).toBool();
   else
     feature_enabled = is_global ? true : INHERIT_POLICY;
 }

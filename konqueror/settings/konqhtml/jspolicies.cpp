@@ -52,8 +52,8 @@ void JSPolicies::load() {
 
   QString key;
 
-//  enableJavaScriptDebugCB->setChecked( m_pConfig->readBoolEntry("EnableJavaScriptDebug",false));
-//  enableDebugOutputCB->setChecked( m_pConfig->readBoolEntry("EnableJSDebugOutput") );
+//  enableJavaScriptDebugCB->setChecked( m_pConfig->readEntry("EnableJavaScriptDebug", QVariant(false)).toBool());
+//  enableDebugOutputCB->setChecked( m_pConfig->readEntry("EnableJSDebugOutput", QVariant(false)).toBool() );
   key = prefix + "WindowOpenPolicy";
   window_open = config->readUnsignedNumEntry(key,
   	is_global ? KHTMLSettings::KJSWindowOpenSmart : INHERIT_POLICY);
