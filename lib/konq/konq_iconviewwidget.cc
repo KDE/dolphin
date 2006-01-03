@@ -742,8 +742,10 @@ void KonqIconViewWidget::gridValues( int* x, int* y, int* dx, int* dy,
     // TODO: Check that items->count() <= nx * ny
 
     // Let have exactly nx columns and ny rows
-    *dx = w / *nx;
-    *dy = h / *ny;
+    if(*nx && *ny) {
+      *dx = w / *nx;
+      *dy = h / *ny;
+    }
     kdDebug(1203) << "x=" << *x << " y=" << *y << " spacing=" << spacing() << " iconSize=" << iconSize
                   << " w=" << w << " h=" << h
                   << " nx=" << *nx << " ny=" << *ny
