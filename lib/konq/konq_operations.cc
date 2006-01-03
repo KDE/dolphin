@@ -214,8 +214,8 @@ void KonqOperations::_del( int method, const KURL::List & _selectedURLs, int con
         QDataStream stream( &packedArgs, QIODevice::WriteOnly );
         stream << (int)1;
         job = KIO::special( "trash:/", packedArgs );
-        KNotification::event(0, "Trash: emptied");
-        break;
+       KNotification::event("Trash: emptied", QString() , QPixmap() , 0l , QStringList() , KNotification::ContextList() , KNotification::DefaultEvent );
+       break;
       }
       case DEL:
         job = KIO::del( selectedURLs );
