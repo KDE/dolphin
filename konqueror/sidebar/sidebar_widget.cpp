@@ -1158,30 +1158,30 @@ void Sidebar_Widget::connectModule(QObject *mod)
 		connect(mod,SIGNAL(completed()),this,SIGNAL(completed()));
 	}
 
-	if (mod->metaObject()->indexOfSignal("popupMenu(const QPoint&,const KURL&,const QString&,mode_t)") != -1) {
+	if (mod->metaObject()->indexOfSignal("popupMenu(QPoint,KURL,QString,mode_t)") != -1) {
 		connect(mod,SIGNAL(popupMenu( const QPoint &, const KURL &,
 			const QString &, mode_t)),this,SLOT(popupMenu( const
 			QPoint &, const KURL&, const QString &, mode_t)));
 	}
 
-	if (mod->metaObject()->indexOfSignal("popupMenu(KXMLGUIClient*,const QPoint&,const KURL&,const QString&,mode_t)") != -1) {
+	if (mod->metaObject()->indexOfSignal("popupMenu(KXMLGUIClient*,QPoint,KURL,QString,mode_t)") != -1) {
 		connect(mod,SIGNAL(popupMenu( KXMLGUIClient *, const QPoint &,
 			const KURL &,const QString &, mode_t)),this,
 			SLOT(popupMenu( KXMLGUIClient *, const QPoint &,
 			const KURL &,const QString &, mode_t)));
 	}
 
-	if (mod->metaObject()->indexOfSignal("popupMenu(const QPoint&,const KFileItemList&)") != -1) {
+	if (mod->metaObject()->indexOfSignal("popupMenu(QPoint,KFileItemList)") != -1) {
 		connect(mod,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )),
 			this,SLOT(popupMenu( const QPoint &, const KFileItemList & )));
 	}
 
-	if (mod->metaObject()->indexOfSignal("openURLRequest(const KURL&,const KParts::URLArgs&)") != -1) {
+	if (mod->metaObject()->indexOfSignal("openURLRequest(KURL,KParts::URLArgs)") != -1) {
 		connect(mod,SIGNAL(openURLRequest( const KURL &, const KParts::URLArgs &)),
 			this,SLOT(openURLRequest( const KURL &, const KParts::URLArgs &)));
 	}
 
-	if (mod->metaObject()->indexOfSignal("submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&)") != -1) {
+	if (mod->metaObject()->indexOfSignal("submitFormRequest(const char*,QString,QByteArray,QString,QString,QString)") != -1) {
 		connect(mod,
 			SIGNAL(submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&)),
 			this,
@@ -1193,7 +1193,7 @@ void Sidebar_Widget::connectModule(QObject *mod)
 			this,SLOT(enableAction(const char *, bool)));
 	}
 
-	if (mod->metaObject()->indexOfSignal("createNewWindow(const KURL&,const KParts::URLArgs&)") != -1) {
+	if (mod->metaObject()->indexOfSignal("createNewWindow(KURL,KParts::URLArgs)") != -1) {
 		connect(mod,SIGNAL(createNewWindow( const KURL &, const KParts::URLArgs &)),
 			this,SLOT(createNewWindow( const KURL &, const KParts::URLArgs &)));
 	}
