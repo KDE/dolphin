@@ -303,6 +303,22 @@ static DCOPCString konqyToReuse( const QString& url, const QString& mimetype, co
     return ret;
 }
 
+void clientApp::sendASNChange()
+{
+    KStartupInfoId id;
+    id.initId( startup_id_str );
+    KStartupInfoData data;
+    data.addPid( 0 );   // say there's another process for this ASN with unknown PID
+    data.setHostname(); // ( no need to bother to get this konqy's PID )
+    Display* dpy = QX11Info::display();
+    if( dpy == NULL ) // we may be running without QApplication here
+        dpy = XOpenDisplay( NULL );
+    if( dpy != NULL )
+        KStartupInfo::sendChangeX( dpy, id, data );
+    if( dpy != NULL && dpy != QX11Info::display())
+        XCloseDisplay( dpy );
+}
+
 bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, const QString & mimetype)
 {
     kdDebug( 1202 ) << "clientApp::createNewWindow " << url.url() << " mimetype=" << mimetype << endl;
@@ -374,18 +390,7 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, co
         kdDebug( 1202 ) << "clientApp::createNewWindow using existing konqueror" << endl;
         KonquerorIface_stub konqy( appId, "KonquerorIface" );
         konqy.createNewWindowASN( url.url(), mimetype, startup_id_str, tempFile );
-        KStartupInfoId id;
-        id.initId( startup_id_str );
-        KStartupInfoData data;
-        data.addPid( 0 );   // say there's another process for this ASN with unknown PID
-        data.setHostname(); // ( no need to bother to get this konqy's PID )
-        Display* dpy = QX11Info::display();
-        if( dpy == NULL ) // we may be running without QApplication here
-            dpy = XOpenDisplay( NULL );
-        if( dpy != NULL )
-            KStartupInfo::sendChangeX( dpy, id, data );
-        if( dpy != NULL && dpy != QX11Info::display())
-            XCloseDisplay( dpy );
+        sendASNChange();
     }
     else
     {
@@ -446,18 +451,7 @@ bool clientApp::openProfile( const QString & profileName, const QString & url, c
   else
       konqy.createBrowserWindowFromProfileAndURLASN( profile, profileName, url, mimetype, startup_id_str );
   sleep(2); // Martin Schenk <martin@schenk.com> says this is necessary to let the server read from the socket
-  KStartupInfoId id;
-  id.initId( startup_id_str );
-  KStartupInfoData sidata;
-  sidata.addPid( 0 );   // say there's another process for this ASN with unknown PID
-  sidata.setHostname(); // ( no need to bother to get this konqy's PID )
-  Display* dpy = QX11Info::display();
-  if( dpy == NULL ) // we may be running without QApplication here
-      dpy = XOpenDisplay( NULL );
-  if( dpy != NULL )
-      KStartupInfo::sendChangeX( dpy, id, sidata );
-  if( dpy != NULL && dpy != QX11Info::display())
-      XCloseDisplay( dpy );
+  sendASNChange();
   return true;
 }
 

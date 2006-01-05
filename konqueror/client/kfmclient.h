@@ -43,6 +43,7 @@ protected slots:
   void delayedQuit();
 
 private:
+  static void sendASNChange();
   static bool m_ok;
   static QByteArray startup_id_str;
 
