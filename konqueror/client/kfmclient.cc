@@ -376,9 +376,9 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, co
             "windowCanBeUsedForTab()", data, foundApp, foundObj, false, 3000 ) )
         {
             DCOPRef ref( foundApp, foundObj );
-            DCOPReply reply = ref.call( "newTab", url.url(), tempFile );
+            DCOPReply reply = ref.call( "newTabASN", url.url(), startup_id_str, tempFile );
             if ( reply.isValid() ) {
-                KStartupInfo::appStarted();
+                sendASNChange();
                 return true;
             }
       }

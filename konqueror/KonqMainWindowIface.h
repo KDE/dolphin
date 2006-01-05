@@ -47,6 +47,8 @@ k_dcop:
   void openURL( QString url, bool tempFile );
   void newTab( QString url, bool tempFile );
 
+  void newTabASN( QString url, const DCOPCString& startup_id, bool tempFile );
+
   /**
    * Reloads the current view.
    */

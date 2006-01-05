@@ -28,6 +28,7 @@
 #include <kdcopactionproxy.h>
 #include <kdcoppropertyproxy.h>
 #include <kdebug.h>
+#include <kstartupinfo.h>
 #include <kwin.h>
 
 KonqMainWindowIface::KonqMainWindowIface( KonqMainWindow * mainWindow )
@@ -61,6 +62,12 @@ void KonqMainWindowIface::openURL( QString url, bool tempFile )
 
 void KonqMainWindowIface::newTab( QString url, bool tempFile )
 {
+  m_pMainWindow->openFilteredURL( url, true, tempFile );
+}
+
+void KonqMainWindowIface::newTabASN( QString url, const DCOPCString& startup_id, bool tempFile )
+{
+  KStartupInfo::setNewStartupId( m_pMainWindow, startup_id );
   m_pMainWindow->openFilteredURL( url, true, tempFile );
 }
 
@@ -133,10 +140,6 @@ bool KonqMainWindowIface::windowCanBeUsedForTab()
         return false; // this window shows on different desktop
     if( KonqMainWindow::isPreloaded() )
         return false; // we want a tab in an already shown window
-    if ( m_pMainWindow->isMinimized() )
-        m_pMainWindow->showNormal();
-
-    m_pMainWindow->raise();
     return true;
 }
 

@@ -45,7 +45,6 @@ k_dcop:
   /**
    * Like @ref openBrowserWindow , with setting the application startup notification ( ASN )
    * property on the window.
-   * This DCOP call is internal to kfmclient, don't use.
    */
   DCOPRef openBrowserWindowASN( const QString &url, const DCOPCString &startup_id );
 
@@ -56,7 +55,6 @@ k_dcop:
   /**
    * Like @ref createNewWindow , with setting the application startup notification ( ASN )
    * property on the window.
-   * This DCOP call is internal to kfmclient.
    */
   DCOPRef createNewWindowASN( const QString &url, const DCOPCString &startup_id, bool tempFile );
 
@@ -67,7 +65,6 @@ k_dcop:
   /**
    * Like @ref createNewWindowWithSelection, with setting the application startup notification ( ASN )
    * property on the window.
-   * This DCOP call is internal to kfmclient.
    */
   DCOPRef createNewWindowWithSelectionASN( const QString &url, QStringList filesToSelect, const DCOPCString &startup_id );
 
@@ -79,7 +76,6 @@ k_dcop:
   /**
    * Like @ref createNewWindow , with setting the application startup notification ( ASN )
    * property on the window.
-   * This DCOP call is internal to kfmclient.
    */
   DCOPRef createNewWindowASN( const QString &url, const QString & mimetype,
       const DCOPCString &startup_id, bool tempFile );
@@ -92,7 +88,6 @@ k_dcop:
   /**
    * Like @ref createBrowserWindowFromProfile , with setting the application startup
    * notification ( ASN ) property on the window.
-   * This DCOP call is internal to kfmclient.
    */
   DCOPRef createBrowserWindowFromProfileASN( const QString &path, const DCOPCString &startup_id );
 
@@ -106,7 +101,6 @@ k_dcop:
   /**
    * Like @ref createBrowserWindowFromProfile , with setting the application startup
    * notification ( ASN ) property on the window.
-   * This DCOP call is internal to kfmclient.
    */
   DCOPRef createBrowserWindowFromProfileASN( const QString &path, const QString &filename,
       const DCOPCString &startup_id );
@@ -123,7 +117,6 @@ k_dcop:
   /**
    * Like @ref createBrowserWindowFromProfileAndURL , with setting the application startup
    * notification ( ASN ) property on the window.
-   * This DCOP call is internal to kfmclient.
    */
   DCOPRef createBrowserWindowFromProfileAndURLASN( const QString &path, const QString &filename, const QString &url,
       const DCOPCString &startup_id );
@@ -140,7 +133,6 @@ k_dcop:
   /**
    * Like @ref createBrowserWindowFromProfileAndURL , with setting the application startup
    * notification ( ASN ) property on the window.
-   * This DCOP call is internal to kfmclient.
    */
   DCOPRef createBrowserWindowFromProfileAndURLASN( const QString &path, const QString &filename, const QString &url, const QString &mimetype,
       const DCOPCString& startup_id );
