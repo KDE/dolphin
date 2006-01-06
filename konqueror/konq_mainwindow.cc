@@ -1411,7 +1411,7 @@ void KonqMainWindow::slotOpenLocation()
   // Don't pre-fill the url, as it is auto-selected and thus overwrites the
   // X clipboard, making it impossible to paste in the url you really wanted.
   // Another example of why the X clipboard sux
-  KURLRequesterDlg dlg( QString(), this, 0, true);
+   KURLRequesterDlg dlg( QString::null, this, 0, true);
   dlg.setCaption( i18n("Open Location") );
   // Set current directory for relative paths.
   // Testcase: konqueror www.kde.org; Ctrl+O; file in $HOME; would open http://$file
