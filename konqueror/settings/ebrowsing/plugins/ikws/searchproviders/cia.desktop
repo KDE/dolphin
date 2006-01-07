@@ -2,26 +2,6 @@
 Hidden=false
 Keys=cia
 Name=CIA World Fact Book
-Name[bn]=সি-আই-এ ওয়ার্ল্ড ফ্যাক্ট বুক
-Name[da]=CIA Bog over verdens fakta
-Name[el]=Παγκόσμιο Βιβλίο Γεγονότων της CIA
-Name[it]=World Fact Book della CIA
-Name[lt]=CIA pasaulio faktų knyga
-Name[pa]=CIA ਸੰਸਾਰ ਜਾਣਕਾਰੀ ਕਿਤਾਬ
-Name[ru]=Всемирная книга фактов (ЦРУ)
-Name[sr]=Књига светских чињеница CIA-е
-Name[sr@Latn]=Knjiga svetskih činjenica CIA-e
-Name[sv]=CIA-världsfaktabok
-Name[ta]=CIA உலக உண்மைப் புத்தகம்
-Name[tr]=CIA Dünya Gerçekleri Kitabı
-Name[uk]=Всесвітня книга фактів ЦРУ
-Name[xx]=xxCIA World Fact Bookxx
 Query=http://www.google.com/search?q=allintitle%3A\\{@}+world+fact+book+site%3Awww.cia.gov&ie=UTF-8&btnI=I%27m+Feeling+Lucky
-Query[en_GB]=http://www.google.co.uk/search?q=allintitle%3A\\{@}+world+fact+book+site%3Awww.cia.gov&ie=UTF-8&btnI=I%27m+Feeling+Lucky
-Query[fi]=http://www.google.fi/search?q=allintitle%3A\\{@}+world+fact+book+site%3Awww.cia.gov&ie=UTF-8&btnI=I%27m+Feeling+Lucky
-Query[fr]=http://www.google.fr/search?q=allintitle%3A\\{@}+world+fact+book+site%3Awww.cia.gov&ie=UTF-8&btnI=I%27m+Feeling+Lucky
-Query[he]=http://www.google.co.il/search?q=allintitle%3A\\{@}+world+fact+book+site%3Awww.cia.gov&ie=UTF-8&btnI=I%27m+Feeling+Lucky
-Query[nb]=http://www.google.no/search?q=allintitle%3A\\{@}+world+fact+book+site%3Awww.cia.gov&ie=UTF-8&btnI=I%27m+Feeling+Lucky
-Query[xx]=xxhttp://www.google.com/search?q=allintitle%3A\\{@}+world+fact+book+site%3Awww.cia.gov&ie=UTF-8&btnI=I%27m+Feeling+Luckyxx
 ServiceTypes=SearchProvider
 Type=Service

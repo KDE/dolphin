@@ -2,15 +2,8 @@
 Encoding=UTF-8
 Type=Service
 Name=GO.com
-Name[af]=Gaan.com
-Name[de]=go.com
-Name[eo]=Go.com
-Name[hi]=गो.कॉम
-Name[mn]=go.com
-Name[nso]=EYA.com
-Name[th]=Go.com
-Name[xx]=xxGO.comxx
+Name[x-test]=xxGO.comxx
 ServiceTypes=SearchProvider
 Keys=seek
 Query=http://www.go.com/Titles?col=WW&qt=\\{@}&svx=home_searchbox&sv=IS&lk=noframeso
-Query[xx]=xxhttp://www.go.com/Titles?col=WW&qt=\\{@}&svx=home_searchbox&sv=IS&lk=noframesoxx
+Query[x-test]=xxhttp://www.go.com/Titles?col=WW&qt=\\{@}&svx=home_searchbox&sv=IS&lk=noframesoxx

@@ -2,72 +2,9 @@
 Encoding=UTF-8
 Type=Service
 Name=Wikipedia - The Free Encyclopedia
-Name[ar]=ويكيبيديا - الموسوعة الحرّة
-Name[az]=Wikipedia - Pulsuz Ensiklopediya
-Name[be]=Wikipedia - вольная энцыкляпэдыя
-Name[bn]=উইকিপেডিয়া - মুক্ত বিশ্বকোষ
-Name[bs]=Wikipedia - Slobodna enciklopedija
-Name[ca]=Wikipedia - L'enciclopèdia lliure
-Name[cs]=Wikipedia - volně dostupná encyklopedie
-Name[cy]=Wikipedia - Y Gwyddoniadur Rhydd
-Name[da]=Wikipedia - Det frie leksikon
-Name[de]=Wikipedia - Die freie Enzyklopädie
-Name[el]=Wikipedia - Η ελεύθερη εγκυκλοπαίδεια
-Name[eo]=Vikipedio - la libera enciklopedio
-Name[es]=Wikipedia - La enciclopedia libre
-Name[et]=Wikipedia - Vaba entsüklopeedia
-Name[eu]=Wikipedia - Entziklopedia librea
-Name[fi]=Wikipedia - Vapaa tietosanakirja
-Name[fr]=Wikipedia - L'encyclopédie libre
-Name[fy]=Wikipedia - de frije ensyklopedy
-Name[ga]=Wikipedia - An Chiclipéid Shaor
-Name[gl]=Wikipedia - A Enciclopedia Ceibe
-Name[he]=וויקיפדיה - האנציקלופדיה החופשית
-Name[hi]=विकिपेडिया- मुफ्त विश्वकोश
-Name[hu]=Wikipedia - egy szabadon hozzáférhető enciklopédia
-Name[is]=Wikipedia - Frítt alfræðiorðasafn
-Name[it]=Wikipedia - L'enciclopedia libera
-Name[ja]=Wikipedia - フリーな辞書
-Name[lt]=Wikipedia - laisva enciklopedija
-Name[lv]=Wikipedia - Brīvā enciklopēdija
-Name[mk]=Wikipedia - Слободната енциклопедија
-Name[mn]=Wikipedia - Чөлөөт толь бичиг
-Name[mt]=Wikipedia - L-Enċiklopedija Ħielsa
-Name[nb]=Wikipedia - det frie leksikonet
-Name[nds]=Wikipedia - dat fre'e Nakieksel
-Name[nl]=Wikipedia - de vrije encyclopedie
-Name[nn]=Wikipedia – det frie leksikonet
-Name[pa]=ਵਿੱਕੀਪੀਡਿਆ - ਮੁਫਤ ਵਿਸ਼ਵਕੋਸ਼
-Name[pl]=Wikipedia - encyklopedia otwarta
-Name[pt]=Wikipedia - A Enciclopédia Livre
-Name[pt_BR]=Wikipedia - A Enciclopédia Livre
-Name[ro]=Wikipedia - Enciclopedia gratuită
-Name[ru]=Wikipedia - свободная энциклопедия
-Name[se]=Wikipedia – fridja leksikona
-Name[sk]=Wikipedia - voľne dostupná encyklopédia
-Name[sl]=Wikipedia - Prosta enciklopedija
-Name[sr]=Wikipedia — Слободна енциклопедија
-Name[sr@Latn]=Wikipedia — Slobodna enciklopedija
-Name[sv]=Wikipedia - den fria encyklopedin
-Name[ta]=விகிபிடியா - இலவச கலைக்களஞ்சியம்
-Name[tg]=Wikipedia - Энсиклопедияи озод
-Name[th]=วิกิพีเดีย - สารานุกรมฟรี
-Name[tr]=Wikipedia - Ücretsiz Ansiklopedi
-Name[uk]=Wikipedia - вільна енциклопедія
-Name[uz]=Wikipedia - Бепул энциклопедия
-Name[vi]=Wikipedia -Bộ từ điển bách khoa mễn phí
-Name[wa]=Wikipedia - Li libe eciclopedeye
-Name[xx]=xxWikipedia - The Free Encyclopediaxx
-Name[zh_CN]=Wikipedia - 免费的百科全书
-Name[zh_TW]=Wikipedia - 免費的 Encyclopedia
+Name[x-test]=xxWikipedia - The Free Encyclopediaxx
 ServiceTypes=SearchProvider
 Keys=wp
 Query=http://en.wikipedia.org/wiki/Special:Search?search=\{@}&go=Go
-Query[de]=http://de.wikipedia.org/wiki/Special:Search?search=\{@}&go=Go
-Query[fi]=http://fi.wikipedia.org/wiki/Special:Search?search=\{@}&go=Go
-Query[fr]=http://fr.wikipedia.org/wiki/Special:Search?search=\{@}&go=Go
-Query[it]=http://it.wikipedia.org/wiki/Special:Search?search=\{@}&go=Go
-Query[nb]=http://no.wikipedia.org/wiki/Special:Search?search=\{@}&go=Go
-Query[pa]=http://en.wikipedia.org/wiki/Special:Search?search=\{@}&go=ਜਾਓ
-Query[xx]=xxhttp://en.wikipedia.org/wiki/Special:Search?search=\{@}&go=Goxx
+Query[x-test]=xxhttp://en.wikipedia.org/wiki/Special:Search?search=\{@}&go=Goxx
 Charset=utf8

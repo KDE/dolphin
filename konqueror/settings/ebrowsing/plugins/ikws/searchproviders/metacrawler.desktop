@@ -2,18 +2,8 @@
 Encoding=UTF-8
 Type=Service
 Name=MetaCrawler
-Name[af]=Metacrawler
-Name[ar]=MetaCrwaler
-Name[bn]=মেটা-ক্রলার
-Name[hi]=मेटा-क्राउलर
-Name[ko]=메타 크로울러
-Name[pa]=ਮੈਟਾਕਰਾਵਲੀਰ
-Name[pl]=MetaCrawler - wyszukiwarka stron WWW
-Name[ta]=மெடா க்ராவ்லெர்
-Name[th]=เมทาคลอเรอร์
-Name[ven]=Tshikokovhi tsha Meta
-Name[xx]=xxMetaCrawlerxx
+Name[x-test]=xxMetaCrawlerxx
 ServiceTypes=SearchProvider
 Keys=mc,meta,metacrawler
 Query=http://search.metacrawler.com/crawler?general=\\{@}&method=0&cat=Web&target=metaworld&redirect=web&rpp=20&hpe=10&region=0&timeout=0&sort=0&format=beta99&theme=classic&refer=mc-search&refer=mc-search
-Query[xx]=xxhttp://search.metacrawler.com/crawler?general=\\{@}&method=0&cat=Web&target=metaworld&redirect=web&rpp=20&hpe=10&region=0&timeout=0&sort=0&format=beta99&theme=classic&refer=mc-search&refer=mc-searchxx
+Query[x-test]=xxhttp://search.metacrawler.com/crawler?general=\\{@}&method=0&cat=Web&target=metaworld&redirect=web&rpp=20&hpe=10&region=0&timeout=0&sort=0&format=beta99&theme=classic&refer=mc-search&refer=mc-searchxx

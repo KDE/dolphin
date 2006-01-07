@@ -2,40 +2,8 @@
 Encoding=UTF-8
 Type=Service
 Name=LEO-Translate
-Name[bs]=LEO-Prevodilac
-Name[cy]=LEO-Cyfieithu
-Name[de]=LEO-Übersetzung
-Name[eo]=LEO-Tradukilo
-Name[fa]=LEO-ترجمه
-Name[fi]=LEO-käännös
-Name[fo]=LEO-Umset
-Name[fy]=LEO-oersetting (oersetting: Dûtsk-Ingelsk-Dûtsk)
-Name[ga]=Aistriúchán LEO
-Name[he]=LEO־תרגום
-Name[hi]=लिओ-अनुवाद
-Name[hr]=LEO-Prijevod
-Name[is]=LEO-þýðandi
-Name[ko]=레오-번역
-Name[lv]=LEO-Tulkot
-Name[mk]=LEO-Преведи
-Name[mn]=LEO-Орчуулга
-Name[nb]=LEO-oversetter
-Name[nds]=LEO-Översetten
-Name[nl]=LEO-Translate (Vertaling Duits-Engels-Duits)
-Name[nso]=Thlathollo ya LEO
-Name[pa]=LEO-ਅਨੁਵਾਦ
-Name[pl]=LEO - dwustronny słownik angielsko-niemiecki
-Name[pt_BR]=LEO-Tradutor
-Name[ss]=Humusha LEO
-Name[ta]=லியோ-மொழிபெயர்ப்பு
-Name[tg]=LEO-Тарҷума
-Name[th]=ตัวแปลภาษาของลีโอ
-Name[uz]=LEO таржима
-Name[ven]=Hu dologa-LEO
-Name[xh]=LEO-Guqulela
-Name[xx]=xxLEO-Translatexx
-Name[zu]=Uguqulelo-LEO
+Name[x-test]=xxLEO-Translatexx
 ServiceTypes=SearchProvider
 Keys=leo
 Query=http://dict.leo.org/?search=\\{@}
-Query[xx]=xxhttp://dict.leo.org/?search=\\{@}xx
+Query[x-test]=xxhttp://dict.leo.org/?search=\\{@}xx

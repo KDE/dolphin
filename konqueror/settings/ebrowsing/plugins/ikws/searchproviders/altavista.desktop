@@ -2,23 +2,8 @@
 Encoding=UTF-8
 Type=Service
 Name=AltaVista
-Name[af]=Altavista
-Name[eo]=Altavisto
-Name[et]=Altavista
-Name[fa]=آلتا ویستا
-Name[hi]=अल्टाविस्टा
-Name[ko]=알타비스타
-Name[lo]=Altavista
-Name[pa]=ਅਲਟਾ ਵੀਸਟਾ
-Name[pl]=AltaVista - wyszukiwarka stron WWW
-Name[sv]=Altavista
-Name[ta]=அல்டாவிஸ்டா
-Name[th]=อัลต้าวิสต้า
-Name[xx]=xxAltaVistaxx
+Name[x-test]=xxAltaVistaxx
 ServiceTypes=SearchProvider
 Keys=av,altavista
 Query=http://www.altavista.com/cgi-bin/query?pg=q&kl=XX&stype=stext&q=\\{@}
-Query[nb]=http://no.altavista.com/cgi-bin/query?pg=q&kl=XX&stype=stext&q=\\{@}
-Query[nn]=http://no.altavista.com/cgi-bin/query?pg=q&kl=XX&stype=stext&q=\\{@}
-Query[ro]=http://www.altavista.com/cgi-bin/query?pg=q&kl=ro&stype=stext&q=\\{@}
-Query[xx]=xxhttp://www.altavista.com/cgi-bin/query?pg=q&kl=XX&stype=stext&q=\\{@}xx
+Query[x-test]=xxhttp://www.altavista.com/cgi-bin/query?pg=q&kl=XX&stype=stext&q=\\{@}xx

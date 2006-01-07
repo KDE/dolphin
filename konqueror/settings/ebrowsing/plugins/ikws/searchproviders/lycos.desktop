@@ -2,16 +2,8 @@
 Encoding=UTF-8
 Type=Service
 Name=Lycos
-Name[bn]=লাইকস
-Name[fa]=لایکوس
-Name[hi]=लायकोस
-Name[ko]=라이코스
-Name[pa]=ਲੁਕੋਸ
-Name[pl]=Lycos - wyszukiwarka stron WWW
-Name[ta]=லைகோஸ்
-Name[th]=ไลคอส
-Name[xx]=xxLycosxx
+Name[x-test]=xxLycosxx
 ServiceTypes=SearchProvider
 Keys=lycos,ly
 Query=http://www.lycos.com/cgi-bin/pursuit?cat=dir&query=\\{@}
-Query[xx]=xxhttp://www.lycos.com/cgi-bin/pursuit?cat=dir&query=\\{@}xx
+Query[x-test]=xxhttp://www.lycos.com/cgi-bin/pursuit?cat=dir&query=\\{@}xx

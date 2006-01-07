@@ -2,16 +2,9 @@
 Encoding=UTF-8
 Type=Service
 Name=Google Movies
-Name[da]=Google film
-Name[es]=Películas de Google
-Name[ga]=Scannáin Google
-Name[pa]=Google ਫਿਲਮਾਂ
-Name[ru]=Видео Google
-Name[sv]=Google filmer
-Name[ta]=கூகுல் படங்கள்
-Name[tr]=Google Filmleri
+Name[x-test]=xxGoogle Moviesxx
 ServiceTypes=SearchProvider
 Keys=ggmovie
 Query=http://www.google.com/search?q=movie:\{@}&ie=UTF-8&oe=UTF-8
-Query[en_GB]=http://www.google.co.uk/search?q=movie:\{@}&ie=UTF-8&oe=UTF-8
+Query[x-test]=xxhttp://www.google.com/search?q=movie:\{@}&ie=UTF-8&oe=UTF-8xx
 Charset=utf8

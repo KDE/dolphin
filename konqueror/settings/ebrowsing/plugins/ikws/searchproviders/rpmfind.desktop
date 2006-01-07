@@ -2,35 +2,8 @@
 Encoding=UTF-8
 Type=Service
 Name=RPM-Find
-Name[be]=Пошук RPM
-Name[de]=RPM-Suche
-Name[el]=RPM-Αναζήτηση
-Name[eo]=RPM-trovilo
-Name[fa]=RPM-جستجوی
-Name[fi]=RPM-haku
-Name[fo]=RPM-finn
-Name[hi]=आरपीएम-फाइंड
-Name[is]=RPM-leit
-Name[ko]=RPM 찾기
-Name[lv]=RPM-Meklēšana
-Name[mk]=RPM-Пронајди
-Name[mn]=RPM-хайлт
-Name[nds]=RPM-Söök
-Name[nso]=RPM-Hwetsa
-Name[pl]=Rpmfind - wyszukiwarka pakietów RPM
-Name[ro]=Căutare pachete RPM
-Name[ru]=Поиск RPM
-Name[ss]=Tfola i-RPM
-Name[ta]=RPM-தேடு
-Name[tg]=Ҷустуҷӯи RPM
-Name[th]=ค้นหา RPM
-Name[uz]=RPM қидириш
-Name[ven]=RPM-Toda
-Name[xh]=RPM-Fumana
-Name[xx]=xxRPM-Findxx
-Name[zu]=RPM-Thola
+Name[x-test]=xxRPM-Findxx
 ServiceTypes=SearchProvider
 Keys=rf,rpmfind
 Query=http://www.rpmfind.net/linux/rpm2html/search.php?query=\{@}
-Query[en_GB]=http://fr.rpmfind.net/linux/rpm2html/search.php?query=\{@}
-Query[xx]=xxhttp://www.rpmfind.net/linux/rpm2html/search.php?query=\{@}xx
+Query[x-test]=xxhttp://www.rpmfind.net/linux/rpm2html/search.php?query=\{@}xx

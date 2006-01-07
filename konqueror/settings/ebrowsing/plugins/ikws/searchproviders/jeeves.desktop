@@ -2,26 +2,8 @@
 Encoding=UTF-8
 Type=Service
 Name=Ask Jeeves
-Name[af]=Vra Jeeves
-Name[de]=Frag Jeeves
-Name[eo]=Demandu Jeeves
-Name[fo]=Spyr Jeeves
-Name[he]=שאל את Jeeves
-Name[hi]=आस्क जीव्स
-Name[is]=Spyrja Jeeves
-Name[ko]=지브에게 묻기
-Name[mk]=Прашајте го Jeeves
-Name[mn]=Frag Jeeves
-Name[nds]=Fraag Jeeves
-Name[nso]=Botsisa Jeeves
-Name[pl]=Ask Jeeves - zapytaj o coś
-Name[ss]=Buta Jeeves 
-Name[ta]=ஜீவசை கேள்
-Name[th]=อาร์ค จีเวส
-Name[ven]=Vhudzisani Jeeves
-Name[xx]=xxAsk Jeevesxx
+Name[x-test]=xxAsk Jeevesxx
 ServiceTypes=SearchProvider
 Keys=ask,jeeves
 Query=http://www.ask.com/main/askJeeves.asp?origin=0&qSource=4&site_name=Jeeves&metasearch=yes&ask=\\{@}
-Query[en_GB]=http://www.ask.co.uk/main/askJeeves.asp?origin=0&qSource=4&site_name=Jeeves&metasearch=yes&ask=\\{@}
-Query[xx]=xxhttp://www.ask.com/main/askJeeves.asp?origin=0&qSource=4&site_name=Jeeves&metasearch=yes&ask=\\{@}xx
+Query[x-test]=xxhttp://www.ask.com/main/askJeeves.asp?origin=0&qSource=4&site_name=Jeeves&metasearch=yes&ask=\\{@}xx

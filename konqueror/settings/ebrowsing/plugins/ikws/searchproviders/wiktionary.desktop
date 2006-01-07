@@ -2,10 +2,9 @@
 Encoding=UTF-8
 Type=Service
 Name=Wiktionary - The Free Dictionary
-Name[et]=Wiktionary - Vaba sõnaraamat
-Name[ga]=Wiktionary - An Foclóir Saor
-Name[ru]=Wiktionary - свободный словарь
+Name[x-test]=xxWiktionary - The Free Dictionaryxx
 ServiceTypes=SearchProvider
 Keys=wt,wikt
 Query=http://en.wiktionary.org/wiki/Special:Search?search=\{@}&go=Go
+Query[x-test]=xxhttp://en.wiktionary.org/wiki/Special:Search?search=\{@}&go=Goxx
 Charset=utf8

@@ -2,15 +2,7 @@
 Encoding=UTF-8
 Type=Service
 Name=Voila
-Name[bn]=ভয়লা
-Name[hi]=वाइला
-Name[ko]=보일라
-Name[pa]=ਵੋਈਲਾ
-Name[ta]=வாய்லா
-Name[th]=เวยลา
-Name[wa]=Voilà
-Name[xx]=xxVoilaxx
+Name[x-test]=xxVoilaxx
 ServiceTypes=SearchProvider
 Keys=voila
 Query=http://www.voila.com/S/geek?an=1&kw=\\{@}&dt=*
-Query[xx]=xxhttp://www.voila.com/S/geek?an=1&kw=\\{@}&dt=*xx
