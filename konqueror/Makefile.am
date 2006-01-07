@@ -63,10 +63,16 @@ konqueror_la_LIBADD = ../libkonq/libkonq.la libkonqueror_intern.la $(LIBMALLOC) 
 #konqueror_static_LDADD = konqueror.la *view/*.la dirtree/*.la $(libdir)/libkhtml.la
 #konqueror_static_LDFLAGS = $(all_libraries) -static
 
-messages: rc.cpp
+messages-old: rc.cpp
 	$(EXTRACTRC) *.rc */*.rc >> rc.cpp
 	$(EXTRACTRC) sidebar/trees/history_module/history_dlg.ui >> rc.cpp
 	$(XGETTEXT) -kaliasLocal rc.cpp *.h *.cc *view/*h *view/*cc  kedit*/*.cpp about/*.h about/*.cc remoteencodingplugin/*.cpp remoteencodingplugin/*.h shellcmdplugin/*.cpp -o `find sidebar -name "*.cpp"` `find sidebar -name "*.h"` -o $(podir)/konqueror.pot
+
+### TEMPORARY for KDE4, might extract too much
+messages: rc.cpp
+	$(EXTRACTRC) `find . -name \*.rc` >> rc.cpp
+	$(EXTRACTRC) sidebar/trees/history_module/history_dlg.ui >> rc.cpp
+	$(XGETTEXT) -kaliasLocal `find . -name \*.cc -o -name \*.cpp -o -name \*.h` -o $(podir)/konqueror.pot
 
 xdg_apps_DATA = kfmclient.desktop kfmclient_dir.desktop kfmclient_html.desktop \
 	kfmclient_war.desktop konqbrowser.desktop konquerorsu.desktop Home.desktop
