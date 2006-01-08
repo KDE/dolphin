@@ -5757,15 +5757,15 @@ static int current_memory_usage( int* limit )
 {
 #ifdef __linux__
 // Check whole memory usage - VmSize
-    QFile f( Q3CString().sprintf( "/proc/%i/statm", getpid()));
+    QFile f( QString::fromLatin1( "/proc/%1/statm" ).arg(getpid()) );
     if( f.open( QIODevice::ReadOnly ))
     {
-        QString line;
-        while (!f.atEnd())
+        QByteArray buffer( 100 );
+        const int bytes = f.readLine( buffer.data(), buffer.size()-1 );
+        if ( bytes != -1 )
         {
-            line = f.readLine();
-            line = line.trimmed();
-            int usage = line.section( ' ', 0, 0 ).toInt();
+            QString line = QString::fromLatin1( buffer ).trimmed();
+            const int usage = line.section( ' ', 0, 0 ).toInt();
             if( usage > 0 )
             {
                 int pagesize = sysconf (_SC_PAGE_SIZE);
