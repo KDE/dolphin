@@ -737,6 +737,13 @@ void KonqIconViewWidget::gridValues( int* x, int* y, int* dx, int* dy,
         *y = 0; h = viewport()->height();
     }
 
+    // bug:110775 avoid div by zero (happens e.g. when iconTextHeight or iconTextWidth are very large)
+    if ( *dx > w )
+        *dx = w;
+
+    if ( *dy > h )
+        *dy = h;
+
     *nx = w / *dx;
     *ny = h / *dy;
     // TODO: Check that items->count() <= nx * ny
