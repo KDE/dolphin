@@ -728,7 +728,7 @@ void KonqIconViewWidget::gridValues( int* x, int* y, int* dx, int* dy,
 
     // Icon Area
     int w, h;
-    if ( !m_IconRect.isNull() ) {  // w and h must be != 0, otherwise we would get a div by zero
+    if ( m_IconRect.isValid() ) {  // w and h must be != 0, otherwise we would get a div by zero
         *x = m_IconRect.left(); w = m_IconRect.width();
         *y = m_IconRect.top();  h = m_IconRect.height();
     }
