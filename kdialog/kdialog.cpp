@@ -295,7 +295,6 @@ static int directCommand(KCmdLineArgs *args)
 						       QString::fromLocal8Bit( args->getOption("passivepopup") ),
 						       QPixmap() /* don't crash 0*/, // icon
 						       (QWidget*)0UL, // parent
-						       0, // name
 						       duration );
 	QTimer *timer = new QTimer();
 	QObject::connect( timer, SIGNAL( timeout() ), kapp, SLOT( quit() ) );

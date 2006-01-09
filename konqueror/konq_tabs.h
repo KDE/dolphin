@@ -52,7 +52,7 @@ class KonqFrameTabs : public KTabWidget, public KonqFrameContainerBase
 
 public:
   KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer,
-		KonqViewManager* viewManager, const char * name = 0);
+		KonqViewManager* viewManager);
   virtual ~KonqFrameTabs();
 
   virtual void listViews( ChildViewList *viewList );

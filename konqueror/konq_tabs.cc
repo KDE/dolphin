@@ -58,8 +58,8 @@
 //###################################################################
 
 KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer,
-                             KonqViewManager* viewManager, const char * name)
-  : KTabWidget(parent, name), m_rightWidget(0), m_leftWidget(0), m_alwaysTabBar(false),
+                             KonqViewManager* viewManager)
+  : KTabWidget(parent), m_rightWidget(0), m_leftWidget(0), m_alwaysTabBar(false),
     m_closeOtherTabsId(0)
 {
   KAcceleratorManager::setNoAccel(this);

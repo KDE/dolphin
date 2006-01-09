@@ -24,7 +24,7 @@
 #include "kfinddlg.moc"
 
 KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
-  : KDialogBase( Plain, QString(),
+  : KDialog( Plain, QString(),
 	User1 | User2 | Apply | Close | Help, Apply,
         parent, name, true, true,
 	KGuiItem(i18n("Stop"), "stop"),
@@ -230,7 +230,7 @@ void KfindDlg::copySelection()
 
 void  KfindDlg::about ()
 {
-  KAboutApplication dlg(this, "about", true);
+  KAboutApplication dlg(0, this, true);
   dlg.exec ();
 }
 

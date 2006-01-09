@@ -34,9 +34,9 @@ KDateCombo::KDateCombo(const QDate & date, QWidget *parent) : QComboBox(false, p
 void KDateCombo::initObject(const QDate & date)
 {
   clearValidator();
-  popupFrame = new KPopupFrame(this, "popupFrame");
+  popupFrame = new KPopupFrame(this);
   popupFrame->installEventFilter(this);
-  datePicker = new KDatePicker(popupFrame, date, "datePicker");
+  datePicker = new KDatePicker(date, popupFrame);
   datePicker->setMinimumSize(datePicker->sizeHint());
   datePicker->installEventFilter(this);
   popupFrame->setMainWidget(datePicker);
