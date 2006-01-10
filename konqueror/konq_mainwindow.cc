@@ -1543,12 +1543,11 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   QString locationBarURL = m_currentView->locationBarURL();
   QStringList filesToSelect;
   if( m_currentView->part()->inherits( "KonqDirPart" ) ) {
-     KFileItemList fileItemsToSelect = static_cast<KonqDirPart*>(m_currentView->part())->selectedFileItems();
+     const KFileItemList fileItemsToSelect = static_cast<KonqDirPart*>(m_currentView->part())->selectedFileItems();
      KFileItemList::const_iterator it = fileItemsToSelect.begin();
      const KFileItemList::const_iterator end = fileItemsToSelect.end();
      for ( ; it != end; ++it ) {
          filesToSelect += (*it)->name();
-         ++it;
      }
   }
 
@@ -2626,9 +2625,9 @@ void KonqMainWindow::slotPopupNewWindow()
 {
     kdDebug(1202) << "KonqMainWindow::slotPopupNewWindow()" << endl;
 
-     KFileItemList::const_iterator it = popupItems.begin();
-     const KFileItemList::const_iterator end = popupItems.end();
-     for ( ; it != end; ++it ) 
+    KFileItemList::const_iterator it = popupItems.begin();
+    const KFileItemList::const_iterator end = popupItems.end();
+    for ( ; it != end; ++it )
     {
         KonqMisc::createNewWindow( (*it)->url(), popupUrlArgs );
     }
@@ -2638,7 +2637,7 @@ void KonqMainWindow::slotPopupThisWindow()
 {
     kdDebug(1202) << "KonqMainWindow::slotPopupThisWindow()" << endl;
 
-    openURL( 0L, popupItems.getFirst()->url() );
+    openURL( 0L, popupItems.first()->url() );
 }
 
 void KonqMainWindow::slotPopupNewTab()
@@ -2667,22 +2666,19 @@ void KonqMainWindow::popupNewTab(bool infront, bool openAfterCurrentPage)
   kdDebug(1202) << "KonqMainWindow::popupNewTab()" << endl;
 
 
-  KFileItemList::const_iterator it = popupItems.begin();
-  const KFileItemList::const_iterator end = popupItems.end();
-  
   KonqOpenURLRequest req;
   req.newTab = true;
   req.newTabInFront = false;
   req.openAfterCurrentPage = openAfterCurrentPage;
   req.args = popupUrlArgs;
 
-  for ( ; it != end; ++it )
+  for ( int i = 0; i < popupItems.count(); ++i )
   {
-    if ( infront && it.atLast() )
+    if ( infront && i == popupItems.count()-1 )
     {
       req.newTabInFront = true;
     }
-    openURL( 0L, (*it)->url(), QString(), req );
+    openURL( 0L, popupItems[i]->url(), QString(), req );
   }
 }
 
@@ -2950,13 +2946,10 @@ KURL::List KonqMainWindow::currentURLs() const
     urls.append( m_currentView->url() );
     if ( m_currentView->part()->inherits("KonqDirPart") )
     {
-      KFileItemList tmpList= static_cast<KonqDirPart *>(m_currentView->part())->selectedFileItems();
-      KFileItem *item=tmpList.first();
-      if (item) // Return list of selected items only if we have a selection
+      const KFileItemList itemList = static_cast<KonqDirPart *>(m_currentView->part())->selectedFileItems();
+      if (!itemList.isEmpty()) // Return list of selected items only if we have a selection
       {
-        urls.clear();
-        for (; item!=0; item=tmpList.next())
-          urls.append(item->url());
+        urls = itemList.urlList();
       }
     }
   }
@@ -4605,10 +4598,10 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   bool sReading = false;
   if ( _items.count() > 0 )
   {
-    m_popupURL = _items.getFirst()->url();
+    m_popupURL = _items.first()->url();
     sReading = KProtocolInfo::supportsReading( m_popupURL );
     if (sReading)
-      m_popupServiceType = _items.getFirst()->mimetype();
+      m_popupServiceType = _items.first()->mimetype();
   }
   else
   {
@@ -4645,14 +4638,14 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
   if ( _items.count() == 1 )
   {
-      KURL firstURL = _items.getFirst()->url();
+      const KURL firstURL = _items.first()->url();
       if ( !viewURL.isEmpty() )
       {
 	  //firstURL.cleanPath();
           openedForViewURL = firstURL.equals( viewURL, true );
       }
       devicesFile = firstURL.protocol().find("device", 0, false) == 0;
-      //dirsSelected = S_ISDIR( _items.getFirst()->mode() );
+      //dirsSelected = S_ISDIR( _items.first()->mode() );
   }
     //check if current url is trash
   KURL url = viewURL;
