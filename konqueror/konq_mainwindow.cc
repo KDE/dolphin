@@ -1544,9 +1544,10 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   QStringList filesToSelect;
   if( m_currentView->part()->inherits( "KonqDirPart" ) ) {
      KFileItemList fileItemsToSelect = static_cast<KonqDirPart*>(m_currentView->part())->selectedFileItems();
-     KFileItemListIterator it( fileItemsToSelect );
-     while( it.current() ){
-         filesToSelect += it.current()->name();
+     KFileItemList::const_iterator it = fileItemsToSelect.begin();
+     const KFileItemList::const_iterator end = fileItemsToSelect.end();
+     for ( ; it != end; ++it ) {
+         filesToSelect += (*it)->name();
          ++it;
      }
   }
@@ -2625,8 +2626,9 @@ void KonqMainWindow::slotPopupNewWindow()
 {
     kdDebug(1202) << "KonqMainWindow::slotPopupNewWindow()" << endl;
 
-    KFileItemListIterator it ( popupItems );
-    for ( ; it.current(); ++it )
+     KFileItemList::const_iterator it = popupItems.begin();
+     const KFileItemList::const_iterator end = popupItems.end();
+     for ( ; it != end; ++it ) 
     {
         KonqMisc::createNewWindow( (*it)->url(), popupUrlArgs );
     }
@@ -2664,14 +2666,17 @@ void KonqMainWindow::popupNewTab(bool infront, bool openAfterCurrentPage)
 {
   kdDebug(1202) << "KonqMainWindow::popupNewTab()" << endl;
 
-  KFileItemListIterator it ( popupItems );
+
+  KFileItemList::const_iterator it = popupItems.begin();
+  const KFileItemList::const_iterator end = popupItems.end();
+  
   KonqOpenURLRequest req;
   req.newTab = true;
   req.newTabInFront = false;
   req.openAfterCurrentPage = openAfterCurrentPage;
   req.args = popupUrlArgs;
 
-  for ( ; it.current(); ++it )
+  for ( ; it != end; ++it )
   {
     if ( infront && it.atLast() )
     {
