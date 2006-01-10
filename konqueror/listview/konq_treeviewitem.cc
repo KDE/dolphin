@@ -55,7 +55,6 @@ void KonqListViewDir::open( bool _open, bool _reload )
       {
         // we need to add the items to the counts for the statusbar
         KFileItemList lst;
-        lst.setAutoDelete( false );
 
         Q3ListViewItem* it = firstChild();
         while ( it )

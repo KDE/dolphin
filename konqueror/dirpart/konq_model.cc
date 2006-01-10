@@ -42,11 +42,13 @@ void KonqModel::clearFileItems()
 
 void KonqModel::appendFileItems( const KFileItemList& items )
 {
-    for ( KFileItemListIterator it( items ); it.current(); ++it )
-        if ( (*it)->isDir() )
-            m_dirList.append( *it );
+    KFileItemList::const_iterator kit = items.begin();
+    const KFileItemList::const_iterator kend = items.end();
+    for (; kit != kend; ++kit )
+        if ( (*kit)->isDir() )
+            m_dirList.append( *kit );
         else
-            m_fileList.append( *it );
+            m_fileList.append( *kit );
 }
 
 KFileItem* KonqModel::fileItem( const QModelIndex& index ) const
@@ -63,7 +65,7 @@ KFileItem* KonqModel::fileItem( const QModelIndex& index ) const
 void KonqModel::setItemFont( const QFont& font )
 {
     m_font = font;
-}   
+}
 
 void KonqModel::setItemColor( const QColor& color )
 {
@@ -95,7 +97,7 @@ QVariant KonqModel::headerData( int section, Qt::Orientation orientation, int ro
         if ( section == 1 )
             return int( Qt::AlignRight|Qt::AlignVCenter );
 
-        
+
     return QVariant();
 }
 
@@ -163,13 +165,13 @@ LESS_THAN( user )
 LESS_THAN( group )
 
 typedef bool (*LessThan)( const KFileItem*, const KFileItem* );
-    
+
 #define MAKE( col )\
     { &col##LessThan<true>, &col##LessThan<false> }
 
 static LessThan columns[ 5 ][ 2 ] =
     { MAKE( text ), MAKE( size ), MAKE( mimeComment ), MAKE( user ), MAKE( group ) };
-    
+
 void KonqModel::sort( int column, Qt::SortOrder order )
 {
     LessThan lessThan = columns[ column ][ order == Qt::AscendingOrder ? 0 : 1 ];

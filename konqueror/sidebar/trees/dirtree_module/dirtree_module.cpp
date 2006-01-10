@@ -402,7 +402,7 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
     kdDebug(1201) << this << " KonqSidebarDirTreeModule::slotNewItems " << entries.count() << endl;
 
     Q_ASSERT(entries.count());
-    KFileItem * firstItem = const_cast<KFileItemList&>(entries).first(); // qlist sucks for constness
+    KFileItem * firstItem = entries.first();
 
     // Find parent item - it's the same for all the items
     KURL dir( firstItem->url().url(-1) );
@@ -430,13 +430,14 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
     do
     {
     	kdDebug()<<"Parent Item URL:"<<parentItem->externalURL()<<endl;
-        Q3PtrListIterator<KFileItem> kit ( entries );
-        for( ; kit.current(); ++kit )
+        KFileItemList::const_iterator kit = entries.begin();
+        const KFileItemList::const_iterator kend = entries.end();
+        for (; kit != kend; ++kit )
         {
             KFileItem * fileItem = *kit;
 
-          if (! fileItem->isDir() )
-          {
+            if (! fileItem->isDir() )
+            {
               if ( !fileItem->url().isLocalFile() )
                   continue;
 	      KMimeType::Ptr ptr = fileItem->determineMimeType();
@@ -448,7 +449,7 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
                   //kdError() << "Item " << fileItem->url().prettyURL() << " is not a directory!" << endl;
                   continue;
 	      }
-          }
+            }
 
             KonqSidebarDirTreeItem *dirTreeItem = new KonqSidebarDirTreeItem( parentItem, m_topLevelItem, fileItem );
             dirTreeItem->setPixmap( 0, fileItem->pixmap( size ) );
@@ -463,11 +464,13 @@ void KonqSidebarDirTreeModule::slotRefreshItems( const KFileItemList &entries )
 {
     int size = KGlobal::iconLoader()->currentSize( KIcon::Small );
 
-    Q3PtrListIterator<KFileItem> kit ( entries );
-    kdDebug(1201) << "KonqSidebarDirTreeModule::slotRefreshItems " << entries.count() << " entries. First: " << kit.current()->url().url() << endl;
-    for( ; kit.current(); ++kit )
+    kdDebug(1201) << "KonqSidebarDirTreeModule::slotRefreshItems " << entries.count() << " entries. First: " << entries.first()->url().url() << endl;
+
+    KFileItemList::const_iterator kit = entries.begin();
+    const KFileItemList::const_iterator kend = entries.end();
+    for (; kit != kend; ++kit )
     {
-        KFileItem *fileItem = kit.current();
+        KFileItem *fileItem = *kit;
 
         Q3PtrList<KonqSidebarTreeItem> *itemList;
         KonqSidebarTreeItem * item;
@@ -475,7 +478,7 @@ void KonqSidebarDirTreeModule::slotRefreshItems( const KFileItemList &entries )
 
         if (!item)
         {
-            kdWarning(1201) << "KonqSidebarDirTreeModule::slotRefreshItems can't find old entry for " << kit.current()->url().url(-1) << endl;
+            kdWarning(1201) << "KonqSidebarDirTreeModule::slotRefreshItems can't find old entry for " << (*kit)->url().url(-1) << endl;
             continue;
         }
 
@@ -483,7 +486,7 @@ void KonqSidebarDirTreeModule::slotRefreshItems( const KFileItemList &entries )
         {
             if ( item->isTopLevelItem() ) // we only have dirs and one toplevel item in the dict
             {
-                kdWarning(1201) << "KonqSidebarDirTreeModule::slotRefreshItems entry for " << kit.current()->url().url(-1) << " matches against toplevel." << endl;
+                kdWarning(1201) << "KonqSidebarDirTreeModule::slotRefreshItems entry for " << (*kit)->url().url(-1) << " matches against toplevel." << endl;
                 break;
             }
 

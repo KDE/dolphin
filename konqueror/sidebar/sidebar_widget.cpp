@@ -97,7 +97,7 @@ void addBackEnd::aboutToShowAddMenu()
 			menu->addAction(confFile.readEntry("Name"))->setData(libs);
 		}
 	}
-	
+
 	menu->addSeparator();
 	menu->addAction(i18n("Rollback to System Default"), this, SLOT(doRollBack()));
 }
@@ -247,7 +247,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 		splitterWidget->setOpaqueResize( false );
 		connect(splitterWidget,SIGNAL(setRubberbandCalled()),SLOT(userMovedSplitter()));
 	}
-		
+
 	m_area = new K3DockArea(this);
 	m_area->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 	m_mainDockWidget = m_area->createDockWidget("free", QPixmap());
@@ -387,7 +387,7 @@ void Sidebar_Widget::doLayout()
 		m_buttonBar->setPosition(KMultiTabBar::Right);
 	}
 	m_layout->activate();
-	if (m_hideTabs) m_buttonBar->hide(); 
+	if (m_hideTabs) m_buttonBar->hide();
 		else m_buttonBar->show();
 }
 
@@ -480,7 +480,7 @@ void Sidebar_Widget::slotSetName( )
 		// Write the name in the .desktop file of this side button.
 		KSimpleConfig ksc(m_path+m_currentButton->file);
 		ksc.setGroup("Desktop Entry");
-		ksc.writeEntry("Name", name, true, false, true /*localized*/ );
+		ksc.writeEntry("Name", name, KConfigBase::NLS /*localized*/ );
 		ksc.sync();
 
 		// Update the buttons with a QTimer (why?)
@@ -1000,7 +1000,7 @@ void Sidebar_Widget::collapseExpandSidebar()
 {
 	if (!parentWidget())
 		return; // Can happen during destruction
-		
+
 	if (m_visibleViews.count()==0)
 	{
 		m_somethingVisible = false;
@@ -1227,7 +1227,7 @@ void Sidebar_Widget::customEvent(QCustomEvent* ev)
 		} else {
 			emit fileMouseOver(*static_cast<KonqFileMouseOverEvent*>(ev)->item());
 		}
-	} 
+	}
 }
 
 void Sidebar_Widget::resizeEvent(QResizeEvent* ev)

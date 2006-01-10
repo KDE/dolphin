@@ -28,8 +28,9 @@
 #include "kshellcmdexecutor.h"
 
 KShellCommandDialog::KShellCommandDialog(const QString& title, const QString& command, QWidget* parent, bool modal)
-   :KDialog(parent,"p",modal)
+   :KDialog(parent)
 {
+   setModal( modal );
    QVBoxLayout * box=new QVBoxLayout (this,marginHint(),spacingHint());
 
    QLabel *label=new QLabel(title,this);

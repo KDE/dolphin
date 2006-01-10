@@ -143,7 +143,7 @@ void KonqTreeViewWidget::slotClear( const KURL & _url )
    // its children will be deleted by Qt immediately!
 
    kdDebug(1202) << k_funcinfo << _url << endl;
-   
+
    KonqListViewDir *item = m_dictSubDirs[_url.url(-1)];
    if ( item )
    {
@@ -161,7 +161,7 @@ void KonqTreeViewWidget::slotClear( const KURL & _url )
          else
             ++it;
       }
-      
+
       // Remark: This code works only if we have exactly one tree which is the
       // case for Konqy's treeview. It will break if m_dictSubDirs contains two
       // subdirectories where only one of them will have its items deleted by
@@ -190,8 +190,7 @@ void KonqTreeViewWidget::slotRedirection( const KURL &oldUrl, const KURL &newUrl
 void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
 {
     // Find parent item - it's the same for all the items
-    Q3PtrListIterator<KFileItem> kit( entries );
-    KURL dir( (*kit)->url().upURL() );
+    KURL dir( entries.first()->url().upURL() );
 
     KonqListViewDir *parentDir = 0L;
     if ( !m_url.equals( dir, true ) ) // ignore trailing slash
@@ -203,7 +202,9 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
 	parentDir = m_dictSubDirs[ dir.url(-1) ];
     }
 
-    for ( ; kit.current(); ++kit )
+    KFileItemList::const_iterator kit = entries.begin();
+    const KFileItemList::const_iterator kend = entries.end();
+    for (; kit != kend; ++kit )
     {
         KonqListViewDir *dirItem = 0;
         KonqListViewItem *fileItem = 0;
@@ -242,7 +243,7 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
                 m_itemFound = true;
             }
         }
-        
+
         if ( !m_itemsToSelect.isEmpty() ) {
            QStringList::Iterator tsit = m_itemsToSelect.find( (*kit)->name() );
            if ( tsit != m_itemsToSelect.end() ) {
@@ -282,7 +283,7 @@ void KonqTreeViewWidget::slotDeleteItem( KFileItem *_fileItem )
 
     // Check if this item is in m_dictSubDirs, and if yes, then remove it
     slotClear( _fileItem->url() );
-   
+
     m_dictSubDirs.remove( url );
     m_urlsToOpen.remove( url );
     m_urlsToReload.remove( url );

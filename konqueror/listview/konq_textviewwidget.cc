@@ -79,8 +79,10 @@ void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
 {
    //kdDebug(1202) << k_funcinfo << entries.count() << endl;
 
-   for ( Q3PtrListIterator<KFileItem> kit ( entries ); kit.current(); ++kit )
-   {
+  KFileItemList::const_iterator kit = entries.begin();
+  const KFileItemList::const_iterator kend = entries.end();
+  for (; kit != kend; ++kit )
+  {
       KonqTextViewItem *tmp = new KonqTextViewItem( this, *kit );
       if ( !m_itemFound && tmp->text(0) == m_itemToGoTo )
       {

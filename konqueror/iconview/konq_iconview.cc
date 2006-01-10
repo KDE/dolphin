@@ -48,19 +48,16 @@
 
 #include <config.h>
 
-template class Q3PtrList<KFileIVI>;
-//template class QValueList<int>;
-
-class KonQ3IconViewFactory : public KParts::Factory
+class KonqIconViewFactory : public KParts::Factory
 {
 public:
-   KonQ3IconViewFactory()
+   KonqIconViewFactory()
    {
       s_defaultViewProps = 0;
       s_instance = 0;
    }
 
-   virtual ~KonQ3IconViewFactory()
+   virtual ~KonqIconViewFactory()
    {
       if ( s_instance )
          delete s_instance;
@@ -103,11 +100,11 @@ public:
       static KonqPropsView *s_defaultViewProps;
 };
 
-KInstance *KonQ3IconViewFactory::s_instance = 0;
-KonqPropsView *KonQ3IconViewFactory::s_defaultViewProps = 0;
+KInstance *KonqIconViewFactory::s_instance = 0;
+KonqPropsView *KonqIconViewFactory::s_defaultViewProps = 0;
 
 
-K_EXPORT_COMPONENT_FACTORY( konq_iconview, KonQ3IconViewFactory )
+K_EXPORT_COMPONENT_FACTORY( konq_iconview, KonqIconViewFactory )
 
 
 IconViewBrowserExtension::IconViewBrowserExtension( KonqKfmIconView *iconView )
@@ -178,9 +175,9 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     setBrowserExtension( new IconViewBrowserExtension( this ) );
 
     // Create a properties instance for this view
-    m_pProps = new KonqPropsView( KonQ3IconViewFactory::instance(), KonQ3IconViewFactory::defaultViewProps() );
+    m_pProps = new KonqPropsView( KonqIconViewFactory::instance(), KonqIconViewFactory::defaultViewProps() );
 
-    m_pIconView = new KonqIconViewWidget( parentWidget, "Q3IconView" );
+    m_pIconView = new KonqIconViewWidget( parentWidget );
     m_pIconView->initConfig( true );
 
     connect( m_pIconView,  SIGNAL(imagePreviewFinished()),
@@ -203,7 +200,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     setWidget( m_pIconView );
     m_mimeTypeResolver = new KMimeTypeResolver<KFileIVI,KonqKfmIconView>(this);
 
-    setInstance( KonQ3IconViewFactory::instance() );
+    setInstance( KonqIconViewFactory::instance() );
 
     setXMLFile( "konq_iconview.rc" );
 
@@ -273,21 +270,21 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     connect( aSortByDate, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByDate( bool ) ) );
 
     //enable menu item representing the saved sorting criterion
-    QString sortcrit = KonQ3IconViewFactory::defaultViewProps()->sortCriterion();
+    QString sortcrit = KonqIconViewFactory::defaultViewProps()->sortCriterion();
     KRadioAction *sort_action = dynamic_cast<KRadioAction *>(actionCollection()->action(sortcrit.toLatin1().constData()));
     if(sort_action!=NULL) sort_action->activate();
 
     m_paSortDirsFirst = new KToggleAction( i18n( "Folders First" ), 0, actionCollection(), "sort_directoriesfirst" );
     KToggleAction *aSortDescending = new KToggleAction( i18n( "Descending" ), 0, actionCollection(), "sort_descend" );
 
-    m_paSortDirsFirst->setChecked( KonQ3IconViewFactory::defaultViewProps()->isDirsFirst() );
+    m_paSortDirsFirst->setChecked( KonqIconViewFactory::defaultViewProps()->isDirsFirst() );
 
     connect( aSortDescending, SIGNAL( toggled( bool ) ), this, SLOT( slotSortDescending() ) );
     connect( m_paSortDirsFirst, SIGNAL( toggled( bool ) ), this, SLOT( slotSortDirsFirst() ) );
 
     //enable stored settings
     slotSortDirsFirst();
-    if (KonQ3IconViewFactory::defaultViewProps()->isDescending())
+    if (KonqIconViewFactory::defaultViewProps()->isDescending())
     {
      aSortDescending->setChecked(true);
      m_pIconView->setSorting(true,true);//enable sort ascending in Q3IconView
@@ -592,7 +589,7 @@ void KonqKfmIconView::slotSortByNameCaseSensitive( bool toggle )
     if ( !toggle )
         return;
 
-    KonQ3IconViewFactory::defaultViewProps()->setSortCriterion("sort_nc");
+    KonqIconViewFactory::defaultViewProps()->setSortCriterion("sort_nc");
     setupSorting( NameCaseSensitive );
 }
 
@@ -601,7 +598,7 @@ void KonqKfmIconView::slotSortByNameCaseInsensitive( bool toggle )
     if ( !toggle )
         return;
 
-    KonQ3IconViewFactory::defaultViewProps()->setSortCriterion("sort_nci");
+    KonqIconViewFactory::defaultViewProps()->setSortCriterion("sort_nci");
     setupSorting( NameCaseInsensitive );
 }
 
@@ -610,7 +607,7 @@ void KonqKfmIconView::slotSortBySize( bool toggle )
     if ( !toggle )
         return;
 
-    KonQ3IconViewFactory::defaultViewProps()->setSortCriterion("sort_size");
+    KonqIconViewFactory::defaultViewProps()->setSortCriterion("sort_size");
     setupSorting( Size );
 }
 
@@ -619,7 +616,7 @@ void KonqKfmIconView::slotSortByType( bool toggle )
   if ( !toggle )
     return;
 
-  KonQ3IconViewFactory::defaultViewProps()->setSortCriterion("sort_type");
+  KonqIconViewFactory::defaultViewProps()->setSortCriterion("sort_type");
   setupSorting( Type );
 }
 
@@ -628,7 +625,7 @@ void KonqKfmIconView::slotSortByDate( bool toggle )
   if( !toggle)
     return;
 
-  KonQ3IconViewFactory::defaultViewProps()->setSortCriterion("sort_date");
+  KonqIconViewFactory::defaultViewProps()->setSortCriterion("sort_date");
   setupSorting( Date );
 }
 
@@ -652,7 +649,7 @@ void KonqKfmIconView::slotSortDescending()
 
     m_pIconView->sort( m_pIconView->sortDirection() );
 
-    KonQ3IconViewFactory::defaultViewProps()->setDescending( !m_pIconView->sortDirection() );
+    KonqIconViewFactory::defaultViewProps()->setDescending( !m_pIconView->sortDirection() );
 }
 
 void KonqKfmIconView::slotSortDirsFirst()
@@ -663,7 +660,7 @@ void KonqKfmIconView::slotSortDirsFirst()
 
     m_pIconView->sort( m_pIconView->sortDirection() );
 
-    KonQ3IconViewFactory::defaultViewProps()->setDirsFirst( m_paSortDirsFirst->isChecked() );
+    KonqIconViewFactory::defaultViewProps()->setDirsFirst( m_paSortDirsFirst->isChecked() );
 }
 
 void KonqKfmIconView::newIconSize( int size )
@@ -781,9 +778,10 @@ void KonqKfmIconView::slotContextMenuRequested(Q3IconViewItem* _item, const QPoi
     if ( rootItem ) {
         KURL parentDirURL = rootItem->url();
         // Check if parentDirURL applies to the selected items (usually yes, but not with search results)
-        Q3PtrListIterator<KFileItem> kit( items );
-        for ( ; kit.current(); ++kit )
-            if ( kit.current()->url().directory( 1 ) != rootItem->url().path() )
+        KFileItemList::const_iterator kit = items.begin();
+        const KFileItemList::const_iterator kend = items.end();
+        for ( ; kit != kend; ++kit )
+            if ( (*kit)->url().directory( 1 ) != rootItem->url().path() )
                 parentDirURL = KURL();
         // If rootItem is the parent of the selected items, then we can use isWritable() on it.
         if ( !parentDirURL.isEmpty() && !rootItem->isWritable() )
@@ -954,14 +952,15 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
     // inserting items, or else a blank paint operation will be
     // performed on the top-left corner for each inserted item!
     m_pIconView->setUpdatesEnabled( false );
-    for (KFileItemListIterator it(entries); it.current(); ++it)
+    KFileItemList::const_iterator kit = entries.begin();
+    const KFileItemList::const_iterator kend = entries.end();
+    for (; kit != kend; ++kit )
     {
         //kdDebug(1202) << "KonqKfmIconView::slotNewItem(...)" << _fileitem->url().url() << endl;
-        KFileIVI* item = new KFileIVI( m_pIconView, *it, m_pIconView->iconSize() );
+        KFileIVI* item = new KFileIVI( m_pIconView, *kit, m_pIconView->iconSize() );
         item->setRenameEnabled( false );
 
         KFileItem* fileItem = item->item();
-
         if ( !m_itemsToSelect.isEmpty() ) {
            QStringList::Iterator tsit = m_itemsToSelect.find( fileItem->name() );
            if ( tsit != m_itemsToSelect.end() ) {
@@ -1000,11 +999,11 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 
         item->setKey( key );
 
-        //kdDebug() << "KonqKfmIconView::slotNewItems " << (*it)->url().url() << " " << (*it)->mimeTypePtr()->name() << " mimetypeknown:" << (*it)->isMimeTypeKnown() << endl;
-        if ( !(*it)->isMimeTypeKnown() )
+        //kdDebug() << "KonqKfmIconView::slotNewItems " << (*kit)->url().url() << " " << (*kit)->mimeTypePtr()->name() << " mimetypeknown:" << (*kit)->isMimeTypeKnown() << endl;
+        if ( !(*kit)->isMimeTypeKnown() )
             m_mimeTypeResolver->m_lstPendingMimeIconItems.append( item );
 
-        m_itemDict.insert( *it, item );
+        m_itemDict.insert( *kit, item );
     }
     // After filtering out updates-on-insertions we can re-enable updates
     m_pIconView->setUpdatesEnabled( true );
@@ -1099,12 +1098,13 @@ void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
 {
     bool bNeedRepaint = false;
     bool bNeedPreviewJob = false;
-    KFileItemListIterator rit(entries);
-    for (; rit.current(); ++rit)
+    KFileItemList::const_iterator kit = entries.begin();
+    const KFileItemList::const_iterator kend = entries.end();
+    for (; kit != kend; ++kit )
     {
-        KFileIVI * ivi = m_itemDict[ rit.current() ];
+        KFileIVI * ivi = m_itemDict[ *kit ];
         Q_ASSERT(ivi);
-        kdDebug() << "KonqKfmIconView::slotRefreshItems '" << rit.current()->name() << "' ivi=" << ivi << endl;
+        kdDebug() << "KonqKfmIconView::slotRefreshItems '" << (*kit)->name() << "' ivi=" << ivi << endl;
         if (ivi)
         {
             QSize oldSize = ivi->pixmap()->size();
@@ -1114,9 +1114,9 @@ void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
             }
             else
                 ivi->refreshIcon( true );
-            ivi->setText( rit.current()->text() );
-            if ( rit.current()->isMimeTypeKnown() )
-                ivi->setMouseOverAnimation( rit.current()->iconName() );
+            ivi->setText( (*kit)->text() );
+            if ( (*kit)->isMimeTypeKnown() )
+                ivi->setMouseOverAnimation( (*kit)->iconName() );
             if ( !bNeedRepaint && oldSize != ivi->pixmap()->size() )
                 bNeedRepaint = true;
         }
@@ -1271,9 +1271,11 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
         m_extension->setURLArgs( args );
 
         m_filesToSelect.clear();
-        KFileItemList fil( selectedFileItems() );
-        for (KFileItemListIterator fi_it(fil); fi_it.current(); ++fi_it)
-            m_filesToSelect += (*fi_it)->name();
+        const KFileItemList selItems = selectedFileItems();
+        KFileItemList::const_iterator kit = selItems.begin();
+        const KFileItemList::const_iterator kend = selItems.end();
+        for (; kit != kend; ++kit )
+            m_filesToSelect += (*kit)->name();
     }
 
     m_itemsToSelect = m_filesToSelect;

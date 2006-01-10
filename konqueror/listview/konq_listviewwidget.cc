@@ -1138,8 +1138,10 @@ void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
 {
    //kdDebug(1202) << k_funcinfo << entries.count() << endl;
 
-   for ( Q3PtrListIterator<KFileItem> kit ( entries ); kit.current(); ++kit )
-   {
+  KFileItemList::const_iterator kit = entries.begin();
+  const KFileItemList::const_iterator kend = entries.end();
+  for (; kit != kend; ++kit )
+  {
       KonqListViewItem * tmp = new KonqListViewItem( this, *kit );
       if ( !m_itemFound && tmp->text(0) == m_itemToGoTo )
       {
@@ -1208,12 +1210,13 @@ void KonqBaseListViewWidget::slotRefreshItems( const KFileItemList & entries )
 {
    //kdDebug(1202) << k_funcinfo << endl;
 
-   Q3PtrListIterator<KFileItem> kit ( entries );
-   for ( ; kit.current(); ++kit )
-   {
+  KFileItemList::const_iterator kit = entries.begin();
+  const KFileItemList::const_iterator kend = entries.end();
+  for (; kit != kend; ++kit )
+  {
       iterator it = begin();
       for ( ; it != end(); ++it )
-         if ( (*it).item() == kit.current() )
+         if ( (*it).item() == (*kit) )
          {
             it->updateContents();
             break;

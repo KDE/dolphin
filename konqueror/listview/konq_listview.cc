@@ -121,10 +121,13 @@ void ListViewBrowserExtension::updateActions()
   int canDel = 0;
   int canTrash = 0;
   bool bInTrash = false;
-  KFileItemList lstItems = m_listView->selectedFileItems();
+  const KFileItemList lstItems = m_listView->selectedFileItems();
 
-  for (KFileItem *item = lstItems.first(); item; item = lstItems.next())
+  KFileItemList::const_iterator kit = lstItems.begin();
+  const KFileItemList::const_iterator kend = lstItems.end();
+  for (; kit != kend; ++kit )
   {
+    KFileItem* item = *kit;
     canCopy++;
     KURL url = item->url();
 #warning hardcoded protocol: find a better way to determine if a url is a trash url.

@@ -157,7 +157,9 @@ void KonqInfoListViewWidget::rebuildView()
     clear();
 
     // and rebuild them
-    for (Q3PtrListIterator<KFileItem> kit(list); kit.current(); ++kit)
+    KFileItemList::const_iterator kit = list.begin();
+    const KFileItemList::const_iterator kend = list.end();
+    for (; kit != kend; ++kit )
     {
         KonqInfoListViewItem* tmp = new KonqInfoListViewItem( this, *kit );
 //        if (m_goToFirstItem==false)
@@ -187,10 +189,12 @@ void KonqInfoListViewWidget::rebuildView()
     }
 }
 
-void KonqInfoListViewWidget::slotNewItems( const KFileItemList& list)
+void KonqInfoListViewWidget::slotNewItems( const KFileItemList& entries )
 {
     slotStarted(); // ############# WHY?
-    for (Q3PtrListIterator<KFileItem> kit ( list ); kit.current(); ++kit )
+    KFileItemList::const_iterator kit = entries.begin();
+    const KFileItemList::const_iterator kend = entries.end();
+    for (; kit != kend; ++kit )
     {
         KonqInfoListViewItem * tmp = new KonqInfoListViewItem( this, *kit );
 
@@ -211,7 +215,7 @@ void KonqInfoListViewWidget::slotNewItems( const KFileItemList& list)
         if ( !(*kit)->isMimeTypeKnown() )
             m_pBrowserView->lstPendingMimeIconItems().append( tmp );
     }
-    m_pBrowserView->newItems( list );
+    m_pBrowserView->newItems( entries );
 
     if ( !viewport()->isUpdatesEnabled() )
     {
@@ -223,19 +227,21 @@ void KonqInfoListViewWidget::slotNewItems( const KFileItemList& list)
     slotUpdateBackground();
 
     if ( !m_favorite.mimetype )
-        determineCounts(list);
+        determineCounts( entries );
 
     kdDebug(1203) << " ------------------------ startin metainfo job ------\n";
 
     // start getting metainfo from the files
     if (m_metaInfoJob)
     {
-       for (Q3PtrListIterator<KFileItem> kit ( list ); kit.current(); ++kit )
-          m_metaInfoTodo.append(kit.current());
+        KFileItemList::const_iterator kit = entries.begin();
+        const KFileItemList::const_iterator kend = entries.end();
+        for (; kit != kend; ++kit )
+            m_metaInfoTodo.append(*kit);
     }
     else
     {
-        m_metaInfoJob = KIO::fileMetaInfo(list);
+        m_metaInfoJob = KIO::fileMetaInfo( entries );
         connect( m_metaInfoJob, SIGNAL( gotMetaInfo( const KFileItem*)),
              this, SLOT( slotMetaInfo( const KFileItem*)));
         connect( m_metaInfoJob, SIGNAL( result( KIO::Job*)),
@@ -243,30 +249,32 @@ void KonqInfoListViewWidget::slotNewItems( const KFileItemList& list)
     }
 }
 
-void KonqInfoListViewWidget::slotRefreshItems( const KFileItemList& list)
+void KonqInfoListViewWidget::slotRefreshItems( const KFileItemList& entries )
 {
-    kdDebug(1203) << " ------------------------ startin metainfo job ------\n";
+    kdDebug(1203) << " ------------------------ starting metainfo job ------\n";
 
     // start getting metainfo from the files
     if (m_metaInfoJob)
     {
-       for (Q3PtrListIterator<KFileItem> kit ( list ); kit.current(); ++kit )
-          m_metaInfoTodo.append(kit.current());
+        KFileItemList::const_iterator kit = entries.begin();
+        const KFileItemList::const_iterator kend = entries.end();
+        for (; kit != kend; ++kit )
+          m_metaInfoTodo.append(*kit);
     }
     else
     {
-        m_metaInfoJob = KIO::fileMetaInfo(list);
+        m_metaInfoJob = KIO::fileMetaInfo( entries );
         connect( m_metaInfoJob, SIGNAL( gotMetaInfo( const KFileItem*)),
              this, SLOT( slotMetaInfo( const KFileItem*)));
         connect( m_metaInfoJob, SIGNAL( result( KIO::Job*)),
              this, SLOT( slotMetaInfoResult()));
     }
-    KonqBaseListViewWidget::slotRefreshItems(list);
+    KonqBaseListViewWidget::slotRefreshItems( entries );
 }
 
 void KonqInfoListViewWidget::slotDeleteItem( KFileItem * item )
 {
-    m_metaInfoTodo.removeRef(item);
+    m_metaInfoTodo.removeAll(item);
     if (m_metaInfoJob)
        m_metaInfoJob->removeItem(item);
 
@@ -325,12 +333,14 @@ void KonqInfoListViewWidget::determineCounts(const KFileItemList& list)
     m_counts.clear();
     m_favorite = KonqILVMimeType();
     // get the counts
-    for (KFileItemListIterator it(list); it.current(); ++it)
+    KFileItemList::const_iterator kit = list.begin();
+    const KFileItemList::const_iterator kend = list.end();
+    for (; kit != kend; ++kit )
     {
-        QString mt = it.current()->mimetype();
+        const QString mt = (*kit)->mimetype();
         m_counts[mt].count++;
         if (!m_counts[mt].mimetype)
-            m_counts[mt].mimetype = it.current()->determineMimeType();
+            m_counts[mt].mimetype = (*kit)->determineMimeType();
     }
 
     // and look for the plugins
