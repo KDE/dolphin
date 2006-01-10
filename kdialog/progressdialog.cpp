@@ -82,7 +82,7 @@ bool ProgressDialog::autoClose() const
 
 void ProgressDialog::close()
 {
-    slotClose();
+    slotButtonClicked(KDialog::Close);
 }
 
 #include "progressdialog.moc"
