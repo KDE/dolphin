@@ -24,7 +24,7 @@
 #include "kfinddlg.moc"
 
 KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
-  : KDialog( Plain, QString(),
+  : KDialogBase( Plain, QString(),
 	User1 | User2 | Apply | Close | Help, Apply,
         parent, name, true, true,
 	KGuiItem(i18n("Stop"), "stop"),
@@ -37,7 +37,7 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
   enableButton(User1, false); // Disable "Stop"
   enableButton(User2, false); // Disable "Save As..."
 
-  setButtonApply(KGuiItem(i18n("&Find"), "find"));
+  setButtonGuiItem(KDialog::Apply, KGuiItem(i18n("&Find"), "find"));
 
   isResultReported = false;
 
@@ -88,7 +88,7 @@ KfindDlg::~KfindDlg()
 
 void KfindDlg::closeEvent(QCloseEvent *)
 {
-   slotClose();
+   slotButtonClicked(KDialog::Close);
 }
 
 void KfindDlg::setProgressMsg(const QString &msg)

@@ -98,7 +98,7 @@ private:
     /**
      * The internal storage of file items
      */
-    Q3PtrList<KFileItem> m_lstFileItems;
+    KFileItemList m_lstFileItems;
 };
 
 #endif

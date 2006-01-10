@@ -68,12 +68,12 @@ KFindPart::KFindPart( QWidget * parentWidget, const char *widgetName,
 
     m_kfindWidget->setQuery(query);
     m_bShowsResult = false;
-
-    m_lstFileItems.setAutoDelete( true );
 }
 
 KFindPart::~KFindPart()
 {
+    qDeleteAll(m_lstFileItems);
+    m_lstFileItems.clear();
 }
 
 KAboutData *KFindPart::createAboutData()
@@ -130,7 +130,7 @@ void KFindPart::removeFile(KFileItem *item)
 
   m_lstFileItems.remove( item );  //not working ?
 
-  for(iter=m_lstFileItems.first(); iter; iter=m_lstFileItems.next() ) {
+  foreach(iter, m_lstFileItems) {
     if(iter->url()!=item->url())
       listiter.append(iter);
   }
@@ -178,12 +178,10 @@ void KFindPart::saveState( QDataStream& stream )
 
   m_kfindWidget->saveState( &stream );
   //Now we'll save the search result
-  KFileItem *fileitem=m_lstFileItems.first();
   stream << m_lstFileItems.count();
-  while(fileitem!=NULL)
+  foreach(KFileItem *fileitem, m_lstFileItems)
   {
         stream << *fileitem;
-        fileitem=m_lstFileItems.next();
   }
 }
 
