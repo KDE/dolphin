@@ -639,7 +639,7 @@ void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const KURL& 
         kdDebug(1203) << "That rename was the Desktop path, updating config files" << endl;
         KConfig *globalConfig = KGlobal::config();
         KConfigGroup cgs( globalConfig, "Paths" );
-        cgs.writePathEntry("Desktop" , newurl.path(), true, true );
+        cgs.writePathEntry("Desktop" , newurl.path(), KConfigBase::Persistent|KConfigBase::Global );
         cgs.sync();
         KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
     }

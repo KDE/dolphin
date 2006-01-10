@@ -451,12 +451,15 @@ void KonqDirPart::emitTotalCount()
         m_lFileCount = 0;
         m_lDirCount = 0;
         KFileItemList entries = d->dirLister->items();
-        for (KFileItemListIterator it(entries); it.current(); ++it)
+
+		KFileItemList::const_iterator it = entries.begin();
+		const KFileItemList::const_iterator end = entries.end();
+		for ( ; it != end; ++it )		
         {
-            if ( !it.current()->isDir() )
+            if ( !(*it)->isDir() )
             {
-                if (!it.current()->isLink()) // symlinks don't contribute to the size
-                    m_lDirSize += it.current()->size();
+                if (!(*it)->isLink()) // symlinks don't contribute to the size
+                    m_lDirSize += (*it)->size();
                 m_lFileCount++;
             }
             else
@@ -490,15 +493,16 @@ void KonqDirPart::emitCounts( const KFileItemList & lst )
         long long fileSizeSum = 0;
         uint fileCount = 0;
         uint dirCount = 0;
-
-        for ( KFileItemListIterator it( lst ); it.current(); ++it )
+        KFileItemList::const_iterator it = lst.begin();
+        const KFileItemList::const_iterator end = lst.end();
+        for ( ; it != end; ++it )
         {
-            if ( it.current()->isDir() )
+            if ( (*it)->isDir() )
                 dirCount++;
             else
             {
-                if ( !it.current()->isLink() ) // ignore symlinks
-                    fileSizeSum += it.current()->size();
+                if ( !(*it)->isLink() ) // ignore symlinks
+                    fileSizeSum += (*it)->size();
                 fileCount++;
             }
         }

@@ -21,7 +21,6 @@
 #include <qdir.h>
 //Added by qt3to4:
 #include <QPixmap>
-
 #include <klocale.h>
 #include <kapplication.h>
 #include <kbookmarkmanager.h>
@@ -365,10 +364,11 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     m_factory = new KXMLGUIFactory( m_builder );
 
     KURL url;
-    KFileItemListIterator it ( m_lstItems );
+	KFileItemList::const_iterator it = m_lstItems.begin();
+	const KFileItemList::const_iterator kend = m_lstItems.end();
     QStringList mimeTypeList;
     // Check whether all URLs are correct
-    for ( ; it.current(); ++it )
+	for ( ; it != kend; ++it )
     {
         url = (*it)->url();
 

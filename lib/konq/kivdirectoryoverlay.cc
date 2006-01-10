@@ -116,10 +116,11 @@ void KIVDirectoryOverlay::slotNewItems( const KFileItemList& items )
 {
     if ( !m_popularIcons) return;
 
-    KFileItemListIterator files( items );
-
-    KFileItem* file;
-    for ( ; (file = files.current()) != 0; ++files ) {
+    KFileItemList::const_iterator it = items.begin();
+    const KFileItemList::const_iterator end = items.end();
+     // Check whether all URLs are correct
+    for ( ; it != end; ++it ) {
+		KFileItem* file = *it;
         if ( file -> isFile() ) {
 
         QString iconName = file -> iconName();
