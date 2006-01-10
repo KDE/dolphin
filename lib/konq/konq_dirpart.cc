@@ -1,5 +1,5 @@
 /* This file is part of the KDE projects
-   Copyright (C) 2000 David Faure <faure@kde.org>
+   Copyright (C) 2000-2006 David Faure <faure@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -33,7 +33,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kparts/browserextension.h>
-#include <k3urldrag.h>
 #include <kuserprofile.h>
 #include <kurifilter.h>
 #include <kglobalsettings.h>
@@ -211,14 +210,6 @@ KonqDirPart::KonqDirPart( QObject *parent )
     d->iconSize.append(0); // Default value
     adjustIconSizes();
 #endif
-
-    // Remove in KDE4 ...
-    // These are here in the event subclasses access them.
-    m_iIconSize[1] = KIcon::SizeSmall;
-    m_iIconSize[2] = KIcon::SizeMedium;
-    m_iIconSize[3] = KIcon::SizeLarge;
-    m_iIconSize[4] = KIcon::SizeHuge;
-    // ... up to here
 
     KAction *a = new KAction( i18n( "Configure Background..." ), "background", 0, this, SLOT( slotBackgroundSettings() ),
                               actionCollection(), "bgsettings" );
@@ -450,11 +441,10 @@ void KonqDirPart::emitTotalCount()
         m_lDirSize = 0;
         m_lFileCount = 0;
         m_lDirCount = 0;
-        KFileItemList entries = d->dirLister->items();
-
-		KFileItemList::const_iterator it = entries.begin();
-		const KFileItemList::const_iterator end = entries.end();
-		for ( ; it != end; ++it )		
+        const KFileItemList entries = d->dirLister->items();
+        KFileItemList::const_iterator it = entries.begin();
+        const KFileItemList::const_iterator end = entries.end();
+        for ( ; it != end; ++it )
         {
             if ( !(*it)->isDir() )
             {
@@ -487,7 +477,7 @@ void KonqDirPart::emitTotalCount()
 void KonqDirPart::emitCounts( const KFileItemList & lst )
 {
     if ( lst.count() == 1 )
-        emit setStatusBarText( ((KFileItemList)lst).first()->getStatusBarInfo() );
+        emit setStatusBarText( lst.first()->getStatusBarInfo() );
     else
     {
         long long fileSizeSum = 0;

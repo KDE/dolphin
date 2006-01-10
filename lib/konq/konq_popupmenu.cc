@@ -1,5 +1,5 @@
 /* This file is part of the KDE project
-   Copyright (C) 1998, 1999 David Faure <faure@kde.org>
+   Copyright (C) 1998-2006 David Faure <faure@kde.org>
    Copyright (C) 2001 Holger Freyther <freyther@yahoo.com>
 
    This library is free software; you can redistribute it and/or
@@ -364,11 +364,11 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     m_factory = new KXMLGUIFactory( m_builder );
 
     KURL url;
-	KFileItemList::const_iterator it = m_lstItems.begin();
-	const KFileItemList::const_iterator kend = m_lstItems.end();
+    KFileItemList::const_iterator it = m_lstItems.begin();
+    const KFileItemList::const_iterator kend = m_lstItems.end();
     QStringList mimeTypeList;
     // Check whether all URLs are correct
-	for ( ; it != kend; ++it )
+    for ( ; it != kend; ++it )
     {
         url = (*it)->url();
 

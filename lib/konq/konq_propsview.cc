@@ -550,7 +550,8 @@ void KonqPropsView::applyColors(QWidget * widget) const
         // e.g. the rename textedit widget when renaming a QIconViewItem
         // Qt-issue: N64698
         if ( ! pix.isNull() )
-            widget->setPaletteBackgroundPixmap( pix );
+            widget->setBackgroundPixmap( pix );
+        // setPaletteBackgroundPixmap leads to flicker on window activation(!)
     }
 
     if ( m_textColor.isValid() )

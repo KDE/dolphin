@@ -118,22 +118,21 @@ void KIVDirectoryOverlay::slotNewItems( const KFileItemList& items )
 
     KFileItemList::const_iterator it = items.begin();
     const KFileItemList::const_iterator end = items.end();
-     // Check whether all URLs are correct
     for ( ; it != end; ++it ) {
-		KFileItem* file = *it;
-        if ( file -> isFile() ) {
+        KFileItem* file = *it;
+        if ( file->isFile() ) {
+            QString iconName = file->iconName();
+            if (iconName.isEmpty())
+                continue;
 
-        QString iconName = file -> iconName();
-        if (iconName.isEmpty()) continue;
-
-        int* iconCount = m_popularIcons -> find( file -> iconName() );
-        if (!iconCount) {
-            iconCount = new int(0);
-            Q_ASSERT(file);
-            m_popularIcons -> insert(file -> iconName(), iconCount);
-        }
-        (*iconCount)++;
-        } else if ( file -> isDir() ) {
+            int* iconCount = m_popularIcons->find( file->iconName() );
+            if (!iconCount) {
+                iconCount = new int(0);
+                Q_ASSERT(file);
+                m_popularIcons->insert(file->iconName(), iconCount);
+            }
+            (*iconCount)++;
+        } else if ( file->isDir() ) {
             m_containsFolder = true;
         }
     }

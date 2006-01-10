@@ -309,7 +309,7 @@ protected:
     KonqDirPartBrowserExtension * m_extension;
 
     // Remove all those in KDE4
-    int m_iIconSize[5];
+    // DF: why?
     KIO::filesize_t m_lDirSize;
     uint m_lFileCount;
     uint m_lDirCount;

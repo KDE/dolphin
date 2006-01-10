@@ -3,11 +3,8 @@
 
 #include <kparts/event.h>
 #include <QList>
-//Added by qt3to4:
 #include <QEvent>
 #include <libkonq_export.h>
-#include <kfileitem.h>
-
 
 namespace KParts
 {
@@ -16,7 +13,7 @@ namespace KParts
 
 class KConfig;
 class KFileItem;
-//typedef QList<KFileItem*> KFileItemList;
+class KFileItemList;
 
 class LIBKONQ_EXPORT KonqFileSelectionEvent : public KParts::Event
 {
