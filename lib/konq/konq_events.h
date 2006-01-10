@@ -6,6 +6,8 @@
 //Added by qt3to4:
 #include <QEvent>
 #include <libkonq_export.h>
+#include <kfileitem.h>
+
 
 namespace KParts
 {
