@@ -57,9 +57,10 @@ void UALineEdit::keyPressEvent( QKeyEvent* e )
 }
 
 UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
-                              FakeUASProvider* provider, const char *name )
-              :KDialog(parent, name, true), m_provider(provider)
+                              FakeUASProvider* provider )
+              :KDialog(parent), m_provider(provider)
 {
+  setModal( true );
   setCaption ( caption );
 
   QVBoxLayout* mainLayout = new QVBoxLayout(this, 0, 0);

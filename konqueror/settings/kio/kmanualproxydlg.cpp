@@ -80,7 +80,7 @@ void KManualProxyDlg::init()
 void KManualProxyDlg::setProxyData( const KProxyData &data )
 {
     KURL url;
-        
+
     // Set the HTTP proxy...
     if (!isValidURL(data.proxyList["http"], &url))
         mDlg->sbHttp->setValue( DEFAULT_PROXY_PORT );
@@ -89,7 +89,7 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
         int port = url.port();
         if ( port <= 0 )
             port = DEFAULT_PROXY_PORT;
-            
+
         url.setPort( 0 );
         mDlg->leHttp->setText( url.url() );
         mDlg->sbHttp->setValue( port );
@@ -148,7 +148,7 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
       // based configuration. We ignore it here as it is not applicable...
       if ((*it).toLower() != "no_proxy" && !(*it).isEmpty())
       {
-        // Validate the NOPROXYFOR entries and use only hostnames if the entry is 
+        // Validate the NOPROXYFOR entries and use only hostnames if the entry is
         // a valid or legitimate URL. NOTE: needed to catch manual manipulation
         // of the proxy config files...
         if( isValidURL( *it ) || ((*it).length() >= 3 && (*it).startsWith(".")) )
@@ -167,7 +167,7 @@ const KProxyData KManualProxyDlg::data() const
       return data;
 
     data.proxyList["http"] = urlFromInput( mDlg->leHttp, mDlg->sbHttp );
-    
+
     if ( mDlg->cbSameProxy->isChecked () )
     {
         data.proxyList["https"] = data.proxyList["http"];
@@ -216,10 +216,10 @@ void KManualProxyDlg::sameProxy( bool enable )
 
       mDlg->sbFtp->setValue (port);
       mDlg->sbHttps->setValue (port);
-      
+
       if (mDlg->lbHttps->font().bold())
         setHighLight( mDlg->lbHttps, false );
-      
+
       if (mDlg->lbFtp->font().bold())
         setHighLight( mDlg->lbFtp, false );
     }
@@ -346,7 +346,7 @@ bool KManualProxyDlg::handleDuplicate( const QString& site )
             KMessageBox::detailedError( this, msg, details, i18n("Duplicate Entry") );
             return true;
         }
-        
+
         item = item->next();
     }
     return false;
@@ -362,7 +362,7 @@ void KManualProxyDlg::newPressed()
 void KManualProxyDlg::changePressed()
 {
   QString result;
-  if( getException( result, i18n("Change Exception"), 
+  if( getException( result, i18n("Change Exception"),
                     mDlg->lbExceptions->currentText() ) &&
       !handleDuplicate( result ) )
       mDlg->lbExceptions->changeItem( result, mDlg->lbExceptions->currentItem() );
@@ -385,64 +385,64 @@ void KManualProxyDlg::updateButtons()
 {
     bool hasItems = mDlg->lbExceptions->count() > 0;
     bool itemSelected = (hasItems && mDlg->lbExceptions->selectedItem()!=0);
-    
+
     mDlg->pbDeleteAll->setEnabled( hasItems );
     mDlg->pbDelete->setEnabled( itemSelected );
     mDlg->pbChange->setEnabled( itemSelected );
 }
 
-QString KManualProxyDlg::urlFromInput(const KLineEdit* edit, 
+QString KManualProxyDlg::urlFromInput(const KLineEdit* edit,
                                       const QSpinBox* spin) const
 {
   if (!edit)
     return QString();
-    
+
   KURL u( edit->text() );
-  
+
   if (spin)
     u.setPort( spin->value() );
-  
+
   return u.url();
 }
 
 bool KManualProxyDlg::isValidURL( const QString& _url, KURL* result ) const
 {
     KURL url (_url);
-    
+
     QStringList filters;
     filters << "kshorturifilter" << "localdomainurifilter";
-    
+
     // If the typed URL is malformed, and the filters cannot filter it
     // then it must be an invalid entry.
-    if( !(url.isValid() || KURIFilter::self()->filterURI(url, filters)) && 
+    if( !(url.isValid() || KURIFilter::self()->filterURI(url, filters)) &&
         !url.hasHost() )
       return false;
-      
+
     QString host (url.host());
-    
-    // We only check for a relevant subset of characters that are 
+
+    // We only check for a relevant subset of characters that are
     // not allowed in <authority> component of a URL.
     if ( host.contains ('*') || host.contains (' ') || host.contains ('?') )
       return false;
-      
+
     if ( result )
       *result = url;
-          
+
     return true;
 }
 
-void KManualProxyDlg::showErrorMsg( const QString& caption, 
+void KManualProxyDlg::showErrorMsg( const QString& caption,
                                     const QString& message )
 {
   QString cap( caption );
   QString msg( message );
-   
+
   if ( cap.isNull() )
     cap = i18n("Invalid Entry");
-  
+
   if ( msg.isNull() )
     msg = i18n("The address you have entered is not valid.");
-  
+
   QString details = i18n("<qt>Make sure none of the addresses or URLs you "
                           "specified contain invalid or wildcard characters "
                           "such as spaces, asterisks (*), or question marks(?).<p>"
@@ -452,16 +452,16 @@ void KManualProxyDlg::showErrorMsg( const QString& caption,
                           "<u>Examples of INVALID entries:</u><br/>"
                           "<code>http://my company.com, http:/mycompany,com "
                           "file:/localhost</code></qt>");
-  
+
   KMessageBox::detailedError( this, msg, details, cap );
 }
 
 bool KManualProxyDlg::getException ( QString& result,
-                                     const QString& caption, 
+                                     const QString& caption,
                                      const QString& value )
 {
     QString label;
-    
+
     // Specify the appropriate message...
     if ( mDlg->cbReverseProxy->isChecked() )
       label = i18n("Enter the URL or address that should use the above proxy "
@@ -469,27 +469,27 @@ bool KManualProxyDlg::getException ( QString& result,
     else
       label = i18n("Enter the address or URL that should be excluded from "
                    "using the above proxy settings:");
-    
+
     QString whatsThis = i18n("<qt>Enter a valid address or url.<p>"
                             "<b><u>NOTE:</u></b> Wildcard matching such as "
                             "<code>*.kde.org</code> is not supported. If you want "
                             "to match any host in the <code>.kde.org</code> domain, "
                             "e.g. <code>printing.kde.org</code>, then simply enter "
                             "<code>.kde.org</code></qt>");
-                            
+
     bool ok;
-    result = KInputDialog::getText( caption, label, value, &ok, 0, 0, 0, 
-                                QString(), whatsThis );
-    
+    result = KInputDialog::getText( caption, label, value, &ok, this,
+                                    0, QString(), whatsThis );
+
     // If the user pressed cancel, do nothing...
     if (!ok)
       return false;
-    
+
     // If the typed URL is malformed, and the filters cannot filter it
-    // then it must be an invalid entry, 
+    // then it must be an invalid entry,
     if( isValidURL(result) || (result.length() >= 3 && result.startsWith(".")))
       return true;
-    
+
     showErrorMsg();
     return false;
 }

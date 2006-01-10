@@ -79,7 +79,7 @@ bool KURISearchFilter::filterURI( KURIFilterData &data ) const
 
 KCModule *KURISearchFilter::configModule(QWidget *parent, const char *) const
 {
-  return new FilterOptions( KURISearchFilterFactory::instance(), parent, "kcmkurifilt");
+  return new FilterOptions( KURISearchFilterFactory::instance(), parent);
 }
 
 QString KURISearchFilter::configName() const

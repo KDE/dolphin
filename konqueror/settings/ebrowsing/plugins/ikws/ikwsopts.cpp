@@ -73,7 +73,7 @@ private:
     SearchProvider *m_provider;
 };
 
-FilterOptions::FilterOptions(KInstance *instance, QWidget *parent, const char *name)
+FilterOptions::FilterOptions(KInstance *instance, QWidget *parent)
               :KCModule(instance, parent)
 {
     QVBoxLayout *mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
@@ -192,7 +192,7 @@ void FilterOptions::save()
 
   config.setGroup("General");
   config.writeEntry("EnableWebShortcuts", m_dlg->cbEnableShortcuts->isChecked());
-  config.writeEntry("KeywordDelimiter", delimiter() );
+  config.writeEntry("KeywordDelimiter", QString( delimiter() ) );
 
   QString engine;
 

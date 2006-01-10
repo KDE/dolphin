@@ -198,7 +198,7 @@ void KSocksConfig::libSelection()
 void KSocksConfig::load()
 {
   KConfigGroup config(KGlobal::config(), "Socks");
-  base->_c_enableSocks->setChecked(config.readEntry("SOCKS_enable", QVariant(false)).toBool());
+  base->_c_enableSocks->setChecked(config.readEntry("SOCKS_enable", false));
   int id = config.readNumEntry("SOCKS_method", 1);
   base->bg->setButton(id);
   if (id == 4) {
@@ -232,9 +232,9 @@ void KSocksConfig::load()
 void KSocksConfig::save()
 {
   KConfigGroup config(KGlobal::config(), "Socks");
-  config.writeEntry("SOCKS_enable",base-> _c_enableSocks->isChecked(), true, true);
-  config.writeEntry("SOCKS_method", base->bg->id(base->bg->selected()), true, true);
-  config.writePathEntry("SOCKS_lib", base->_c_customPath->url(), true, true);
+  config.writeEntry("SOCKS_enable",base-> _c_enableSocks->isChecked(), KConfigBase::Normal | KConfigBase::Global);
+  config.writeEntry("SOCKS_method", base->bg->id(base->bg->selected()), KConfigBase::Normal | KConfigBase::Global);
+  config.writePathEntry("SOCKS_lib", base->_c_customPath->url(), KConfigBase::Normal | KConfigBase::Global);
   Q3ListViewItem *thisitem = base->_c_libs->firstChild();
 
   QStringList libs;
@@ -242,7 +242,7 @@ void KSocksConfig::save()
     libs << thisitem->text(0);
     thisitem = thisitem->itemBelow();
   }
-  config.writePathEntry("SOCKS_lib_path", libs, ',', true, true);
+  config.writePathEntry("SOCKS_lib_path", libs, ',', KConfigBase::Normal | KConfigBase::Global);
 
   KGlobal::config()->sync();
 

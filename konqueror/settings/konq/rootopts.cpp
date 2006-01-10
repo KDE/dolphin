@@ -201,8 +201,7 @@ void DesktopPathConfig::save()
 
         if ( moveDir( KURL( KGlobalSettings::desktopPath() ), KURL( urlDesktop ), i18n("Desktop") ) )
         {
-//            configGroup.writeEntry( "Desktop", urDesktop->url());
-            configGroup.writePathEntry( "Desktop", urlDesktop, true, true );
+            configGroup.writePathEntry( "Desktop", urlDesktop, KConfigBase::Normal | KConfigBase::Global );
             pathChanged = true;
         }
     }
@@ -214,7 +213,7 @@ void DesktopPathConfig::save()
         if (autostartMoved)
         {
 //            configGroup.writeEntry( "Autostart", Autostart->url());
-            configGroup.writePathEntry( "Autostart", urAutostart->url(), true, true );
+            configGroup.writePathEntry( "Autostart", urAutostart->url(), KConfigBase::Normal | KConfigBase::Global );
             pathChanged = true;
         }
     }
@@ -235,7 +234,7 @@ void DesktopPathConfig::save()
 
         if (pathOk)
         {
-            configGroup.writePathEntry( "Documents", path, true, true );
+            configGroup.writePathEntry( "Documents", path, KConfigBase::Normal | KConfigBase::Global );
             pathChanged = true;
         }
     }

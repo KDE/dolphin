@@ -44,7 +44,7 @@ class UAProviderDlg : public KDialog
 
 public:
   UAProviderDlg( const QString& caption, QWidget *parent = 0,
-                 FakeUASProvider* provider = 0, const char *name = 0 );
+                 FakeUASProvider* provider = 0 );
   ~UAProviderDlg();
 
   void setSiteName( const QString& );

@@ -198,12 +198,12 @@ void KPreviewOptions::save()
     Q3PtrListIterator<Q3CheckListItem> it( m_items );
     for ( ; it.current() ; ++it ) {
         QString protocol( it.current()->text() );
-        group.writeEntry( protocol, it.current()->isOn(), true, true );
+        group.writeEntry( protocol, it.current()->isOn(), KConfigBase::Normal | KConfigBase::Global );
     }
     // config key is in bytes, numinput is in MB
-    group.writeEntry( "MaximumSize", qRound( m_maxSize->value() *1024*1024 ), true, true );
-    group.writeEntry( "BoostSize", m_boostSize->isChecked(), true, true );
-    group.writeEntry( "UseFileThumbnails", m_useFileThumbnails->isChecked(), true, true );
+    group.writeEntry( "MaximumSize", qRound( m_maxSize->value() *1024*1024 ), KConfigBase::Normal | KConfigBase::Global );
+    group.writeEntry( "BoostSize", m_boostSize->isChecked(), KConfigBase::Normal | KConfigBase::Global );
+    group.writeEntry( "UseFileThumbnails", m_useFileThumbnails->isChecked(), KConfigBase::Normal | KConfigBase::Global );
     group.sync();
 
     // Send signal to konqueror
