@@ -5,6 +5,7 @@
 #include <QList>
 #include <QEvent>
 #include <libkonq_export.h>
+#include <kfileitem.h>
 
 namespace KParts
 {
@@ -12,8 +13,6 @@ namespace KParts
 }
 
 class KConfig;
-class KFileItem;
-class KFileItemList;
 
 class LIBKONQ_EXPORT KonqFileSelectionEvent : public KParts::Event
 {
