@@ -63,7 +63,7 @@ void TypesListItem::initMeta( const QString & major )
   KSharedConfig::Ptr config = KSharedConfig::openConfig("konquerorrc", false, false);
   config->setGroup("EmbedSettings");
   bool defaultValue = defaultEmbeddingSetting( major );
-  m_autoEmbed = config->readBoolEntry( QLatin1String("embed-")+m_major, defaultValue ) ? 0 : 1;
+  m_autoEmbed = config->readEntry( QLatin1String("embed-")+m_major, defaultValue ) ? 0 : 1;
 }
 
 bool TypesListItem::defaultEmbeddingSetting( const QString& major )
@@ -212,7 +212,7 @@ bool TypesListItem::isDirty() const
     KSharedConfig::Ptr config = KSharedConfig::openConfig("konquerorrc", false, false);
     config->setGroup("EmbedSettings");
     bool defaultValue = defaultEmbeddingSetting(m_major);
-    unsigned int oldAutoEmbed = config->readBoolEntry( QLatin1String("embed-")+m_major, defaultValue ) ? 0 : 1;
+    unsigned int oldAutoEmbed = config->readEntry( QLatin1String("embed-")+m_major, defaultValue ) ? 0 : 1;
     if ( m_autoEmbed != oldAutoEmbed )
       return true;
   }
@@ -291,7 +291,7 @@ void TypesListItem::sync()
     // are not in m_services
     if ( profile.readEntry( "ServiceType" ) == name()
          && profile.readNumEntry( "Preference" ) > 0
-         && profile.readBoolEntry( "AllowAsDefault" ) )
+         && profile.readEntry( "AllowAsDefault",false ) )
     {
       profile.deleteGroup( *it );
     }

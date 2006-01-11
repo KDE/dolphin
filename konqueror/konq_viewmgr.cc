@@ -1275,7 +1275,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   // Window size
   if ( !m_pMainWindow->initialGeometrySet() )
   {
-     if (cfg.readBoolEntry( "FullScreen" ))
+     if (cfg.readEntry( "FullScreen",false ))
      {
          // Full screen on
          m_pMainWindow->showFullScreen();
@@ -1476,17 +1476,17 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
       return; //ugh..
     }
 
-    bool passiveMode = cfg.readBoolEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), false );
+    bool passiveMode = cfg.readEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), false );
 
     //kdDebug(1202) << "Creating View Stuff" << endl;
     KonqView *childView = setupView( parent, viewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode, openAfterCurrentPage );
 
-    if (!childView->isFollowActive()) childView->setLinkedView( cfg.readBoolEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), false ) );
-    childView->setToggleView( cfg.readBoolEntry( QString::fromLatin1( "ToggleView" ).prepend( prefix ), false ) );
-    if( !cfg.readBoolEntry( QString::fromLatin1( "ShowStatusBar" ).prepend( prefix ), true ) )
+    if (!childView->isFollowActive()) childView->setLinkedView( cfg.readEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), false ) );
+    childView->setToggleView( cfg.readEntry( QString::fromLatin1( "ToggleView" ).prepend( prefix ), false ) );
+    if( !cfg.readEntry( QString::fromLatin1( "ShowStatusBar" ).prepend( prefix ), true ) )
       childView->frame()->statusbar()->hide();
 
-    if (cfg.readBoolEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), false ))
+    if (cfg.readEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), false ))
       m_pDocContainer = childView->frame();
 
     if (!m_pDocContainer)
@@ -1559,7 +1559,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
       }
     }
     // Do this after opening the URL, so that it's actually possible to open it :)
-    childView->setLockedLocation( cfg.readBoolEntry( QString::fromLatin1( "LockedLocation" ).prepend( prefix ), false ) );
+    childView->setLockedLocation( cfg.readEntry( QString::fromLatin1( "LockedLocation" ).prepend( prefix ), false ) );
   }
   else if( name.startsWith("Container") ) {
     //kdDebug(1202) << "Item is Container" << endl;
@@ -1600,7 +1600,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
       parent->insertChildFrame( newContainer, tabindex );
 
 
-      if (cfg.readBoolEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), false ))
+      if (cfg.readEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), false ))
         m_pDocContainer = newContainer;
 
       loadItem( cfg, newContainer, childList.at(0), defaultURL, openURL );

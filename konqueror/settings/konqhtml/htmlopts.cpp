@@ -220,7 +220,7 @@ void KMiscHTMLOptions::load()
 {
     KConfig khtmlrc("khtmlrc", true, false);
 #define SET_GROUP(x) m_pConfig->setGroup(x); khtmlrc.setGroup(x)
-#define READ_BOOL(x,y) m_pConfig->readBoolEntry(x, khtmlrc.readBoolEntry(x, y))
+#define READ_BOOL(x,y) m_pConfig->readEntry(x, khtmlrc.readEntry(x, y))
 #define READ_ENTRY(x) m_pConfig->readEntry(x, khtmlrc.readEntry(x))
 
 
@@ -236,7 +236,7 @@ void KMiscHTMLOptions::load()
     bool bUnfinishedImageFrame = READ_BOOL( "UnfinishedImageFrame", true );
     QString strAnimations = READ_ENTRY( "ShowAnimations" ).toLower();
 
-    bool bAutoRedirect = m_pConfig->readBoolEntry( "AutoDelayedActions", true );
+    bool bAutoRedirect = m_pConfig->readEntry( "AutoDelayedActions", true );
 
     // *** apply to GUI ***
     m_cbCursor->setChecked( changeCursor );
@@ -267,18 +267,18 @@ void KMiscHTMLOptions::load()
     else
        m_pAnimationsCombo->setCurrentItem( AnimationsAlways );
 
-    m_pFormCompletionCheckBox->setChecked( m_pConfig->readBoolEntry( "FormCompletion", true ) );
+    m_pFormCompletionCheckBox->setChecked( m_pConfig->readEntry( "FormCompletion", true ) );
     m_pMaxFormCompletionItems->setValue( m_pConfig->readNumEntry( "MaxFormCompletionItems", 10 ) );
     m_pMaxFormCompletionItems->setEnabled( m_pFormCompletionCheckBox->isChecked() );
 
     m_pConfig->setGroup("FMSettings");
-    m_pShowMMBInTabs->setChecked( m_pConfig->readBoolEntry( "MMBOpensTab", false ) );
-    m_pDynamicTabbarHide->setChecked( ! (m_pConfig->readBoolEntry( "AlwaysTabbedMode", false )) );
+    m_pShowMMBInTabs->setChecked( m_pConfig->readEntry( "MMBOpensTab", false ) );
+    m_pDynamicTabbarHide->setChecked( ! (m_pConfig->readEntry( "AlwaysTabbedMode", false )) );
 
     KConfig config("kbookmarkrc", true, false);
     config.setGroup("Bookmarks");
-    m_pAdvancedAddBookmarkCheckBox->setChecked( config.readBoolEntry("AdvancedAddBookmarkDialog", false) );
-    m_pOnlyMarkedBookmarksCheckBox->setChecked( config.readBoolEntry("FilteredToolbar", false) );
+    m_pAdvancedAddBookmarkCheckBox->setChecked( config.readEntry("AdvancedAddBookmarkDialog", false) );
+    m_pOnlyMarkedBookmarksCheckBox->setChecked( config.readEntry("FilteredToolbar", false) );
 }
 
 void KMiscHTMLOptions::defaults()
