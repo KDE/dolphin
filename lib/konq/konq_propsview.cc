@@ -112,8 +112,8 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   d->previewsEnabled = cgs.readEntry( "PreviewsEnabled", QVariant(true )).toBool();
 
   QColor tc = KonqFMSettings::settings()->normalTextColor();
-  m_textColor = cgs.readColorEntry( "TextColor", &tc );
-  m_bgColor = cgs.readColorEntry( "BgColor" ); // will be set to QColor() if not found
+  m_textColor = cgs.readEntry( "TextColor", tc );
+  m_bgColor = cgs.readEntry( "BgColor",QColor() ); // will be set to QColor() if not found
   m_bgPixmapFile = cgs.readPathEntry( "BgImage" );
   //kdDebug(1203) << "KonqPropsView::KonqPropsView from \"config\" : BgImage=" << m_bgPixmapFile << endl;
 
@@ -124,8 +124,8 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   if (!defaultProps)
   {
       KConfigGroup cgs2(KGlobal::config(), "Settings");
-      m_textColor = KGlobal::config()->readColorEntry( "TextColor", &m_textColor );
-      m_bgColor = KGlobal::config()->readColorEntry( "BgColor", &m_bgColor );
+      m_textColor = KGlobal::config()->readEntry( "TextColor", m_textColor );
+      m_bgColor = KGlobal::config()->readEntry( "BgColor", m_bgColor );
       m_bgPixmapFile = KGlobal::config()->readPathEntry( "BgImage", m_bgPixmapFile );
       //kdDebug(1203) << "KonqPropsView::KonqPropsView from KGlobal : BgImage=" << m_bgPixmapFile << endl;
   }
@@ -249,8 +249,8 @@ bool KonqPropsView::enterDir( const KURL & dir )
 
 
 
-    m_textColor = config->readColorEntry( "TextColor", &m_textColor );
-    m_bgColor = config->readColorEntry( "BgColor", &m_bgColor );
+    m_textColor = config->readEntry( "TextColor", m_textColor );
+    m_bgColor = config->readEntry( "BgColor", m_bgColor );
     m_bgPixmapFile = config->readPathEntry( "BgImage", m_bgPixmapFile );
     //kdDebug(1203) << "KonqPropsView::enterDir m_bgPixmapFile=" << m_bgPixmapFile << endl;
     d->previewsEnabled = config->readEntry( "PreviewsEnabled", QVariant(d->previewsEnabled )).toBool();

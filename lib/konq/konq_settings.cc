@@ -83,10 +83,10 @@ void KonqFMSettings::init( KConfig * config )
   m_standardFont = config->readFontEntry( "StandardFont" );
 
   m_normalTextColor = KGlobalSettings::textColor();
-  m_normalTextColor = config->readColorEntry( "NormalTextColor", &m_normalTextColor );
+  m_normalTextColor = config->readEntry( "NormalTextColor", m_normalTextColor );
   m_highlightedTextColor = KGlobalSettings::highlightedTextColor();
-  m_highlightedTextColor = config->readColorEntry( "HighlightedTextColor", &m_highlightedTextColor );
-  m_itemTextBackground = config->readColorEntry( "ItemTextBackground" );
+  m_highlightedTextColor = config->readEntry( "HighlightedTextColor", m_highlightedTextColor );
+  m_itemTextBackground = config->readEntry( "ItemTextBackground", QColor() );
   
   d->m_iconTextWidth = config->readEntry( "TextWidth", DEFAULT_TEXTWIDTH );
   if ( d->m_iconTextWidth == DEFAULT_TEXTWIDTH )
