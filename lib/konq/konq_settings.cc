@@ -80,7 +80,7 @@ KonqFMSettings::~KonqFMSettings()
 void KonqFMSettings::init( KConfig * config )
 {
   // Fonts and colors
-  m_standardFont = config->readFontEntry( "StandardFont" );
+  m_standardFont = config->readEntry( "StandardFont", QFont() );
 
   m_normalTextColor = KGlobalSettings::textColor();
   m_normalTextColor = config->readEntry( "NormalTextColor", m_normalTextColor );
