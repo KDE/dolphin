@@ -43,9 +43,9 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
     // defaults
     KConfig *config = KGlobal::config();
     KConfigGroup cs( config, "HistorySettings" );
-    m_maxCount = cs.readNumEntry( "Maximum of History entries", 500 );
+    m_maxCount = cs.readEntry( "Maximum of History entries", 500 );
     m_maxCount = qMax( (quint32)1, m_maxCount );
-    m_maxAgeDays = cs.readNumEntry( "Maximum age of History entries", 90);
+    m_maxAgeDays = cs.readEntry( "Maximum age of History entries", 90);
 
     m_history.setAutoDelete( true );
     m_filename = locateLocal( "data",

@@ -89,12 +89,12 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   d->previewsToShow = 0;
   d->caseInsensitiveSort=cgs.readEntry( "CaseInsensitiveSort", QVariant(true )).toBool();
 
-  m_iIconSize = cgs.readNumEntry( "IconSize", 0 );
-  m_iItemTextPos = cgs.readNumEntry( "ItemTextPos", Qt::DockBottom );
+  m_iIconSize = cgs.readEntry( "IconSize", 0 );
+  m_iItemTextPos = cgs.readEntry( "ItemTextPos", int(Qt::DockBottom) );
   d->sortcriterion = cgs.readEntry( "SortingCriterion", "sort_nci" );
-  d->dirsfirst = cgs.readEntry( "SortDirsFirst", QVariant(true )).toBool();
-  d->descending = cgs.readEntry( "SortDescending", QVariant(false )).toBool();
-  m_bShowDot = cgs.readEntry( "ShowDotFiles", QVariant(false )).toBool();
+  d->dirsfirst = cgs.readEntry( "SortDirsFirst", true );
+  d->descending = cgs.readEntry( "SortDescending", false );
+  m_bShowDot = cgs.readEntry( "ShowDotFiles", false );
   m_bShowDirectoryOverlays = cgs.readEntry( "ShowDirectoryOverlays", QVariant(false )).toBool();
 
   m_dontPreview = cgs.readListEntry( "DontPreview" );
@@ -216,8 +216,8 @@ bool KonqPropsView::enterDir( const KURL & dir )
     KSimpleConfig * config = new KSimpleConfig( dotDirectory, true );
     config->setGroup("URL properties");
 
-    m_iIconSize = config->readNumEntry( "IconSize", m_iIconSize );
-    m_iItemTextPos = config->readNumEntry( "ItemTextPos", m_iItemTextPos );
+    m_iIconSize = config->readEntry( "IconSize", m_iIconSize );
+    m_iItemTextPos = config->readEntry( "ItemTextPos", m_iItemTextPos );
     d->sortcriterion = config->readEntry( "SortingCriterion" , d->sortcriterion );
     d->dirsfirst = config->readEntry( "SortDirsFirst", QVariant(d->dirsfirst )).toBool();
     d->descending = config->readEntry( "SortDescending", QVariant(d->descending )).toBool();

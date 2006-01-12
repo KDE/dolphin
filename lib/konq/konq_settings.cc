@@ -88,11 +88,11 @@ void KonqFMSettings::init( KConfig * config )
   m_highlightedTextColor = config->readColorEntry( "HighlightedTextColor", &m_highlightedTextColor );
   m_itemTextBackground = config->readColorEntry( "ItemTextBackground" );
   
-  d->m_iconTextWidth = config->readNumEntry( "TextWidth", DEFAULT_TEXTWIDTH );
+  d->m_iconTextWidth = config->readEntry( "TextWidth", DEFAULT_TEXTWIDTH );
   if ( d->m_iconTextWidth == DEFAULT_TEXTWIDTH )
     d->m_iconTextWidth = QFontMetrics(m_standardFont).width("0000000000");
 
-  m_iconTextHeight = config->readNumEntry( "TextHeight", 0 );
+  m_iconTextHeight = config->readEntry( "TextHeight", 0 );
   if ( m_iconTextHeight == 0 ) {
     if ( config->readEntry( "WordWrapText", QVariant(true )).toBool() )
       m_iconTextHeight = DEFAULT_TEXTHEIGHT;
@@ -104,7 +104,7 @@ void KonqFMSettings::init( KConfig * config )
   m_underlineLink = config->readEntry( "UnderlineLinks", QVariant(DEFAULT_UNDERLINELINKS )).toBool();
   d->m_renameIconDirectly = config->readEntry( "RenameIconDirectly", QVariant(DEFAULT_RENAMEICONDIRECTLY )).toBool();
   m_fileSizeInBytes = config->readEntry( "DisplayFileSizeInBytes", QVariant(DEFAULT_FILESIZEINBYTES )).toBool();
-  m_iconTransparency = config->readNumEntry( "TextpreviewIconOpacity", DEFAULT_TEXTPREVIEW_ICONTRANSPARENCY );
+  m_iconTransparency = config->readEntry( "TextpreviewIconOpacity", DEFAULT_TEXTPREVIEW_ICONTRANSPARENCY );
   if ( m_iconTransparency < 0 || m_iconTransparency > 255 )
       m_iconTransparency = DEFAULT_TEXTPREVIEW_ICONTRANSPARENCY;
 
@@ -115,7 +115,7 @@ void KonqFMSettings::init( KConfig * config )
 
   m_showFileTips = config->readEntry("ShowFileTips", QVariant(true)).toBool();
   d->showPreviewsInFileTips = config->readEntry("ShowPreviewsInFileTips", QVariant(true)).toBool();
-  m_numFileTips = config->readNumEntry("FileTipsItems", 6);
+  m_numFileTips = config->readEntry("FileTipsItems", 6);
 
   m_embedMap = config->entryMap( "EmbedSettings" );
 
