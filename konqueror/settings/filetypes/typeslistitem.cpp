@@ -290,7 +290,7 @@ void TypesListItem::sync()
     // Entries with Preference <= 0 or AllowAsDefault == false
     // are not in m_services
     if ( profile.readEntry( "ServiceType" ) == name()
-         && profile.readNumEntry( "Preference" ) > 0
+         && profile.readEntry( "Preference" ) > 0
          && profile.readEntry( "AllowAsDefault",false ) )
     {
       profile.deleteGroup( *it );
