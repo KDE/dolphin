@@ -199,7 +199,7 @@ void KJavaOptions::load()
     bool bSecurityManager = m_pConfig->readEntry( "UseSecurityManager", QVariant(true )).toBool();
     bool bUseKio = m_pConfig->readEntry( "UseKio", QVariant(false )).toBool();
     bool bServerShutdown  = m_pConfig->readEntry( "ShutdownAppletServer", QVariant(true )).toBool();
-    int  serverTimeout    = m_pConfig->readNumEntry( "AppletServerTimeout", 60 );
+    int  serverTimeout    = m_pConfig->readEntry( "AppletServerTimeout", 60 );
 #if defined(PATH_JAVA)
     QString sJavaPath     = m_pConfig->readPathEntry( "JavaPath", PATH_JAVA );
 #else

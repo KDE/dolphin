@@ -257,7 +257,7 @@ void KCMFilter::load()
 
     QMap<QString,QString> entryMap = mConfig->entryMap( mGroupname );
     QMap<QString,QString>::ConstIterator it;
-    int num = mConfig->readNumEntry("Count",0);
+    int num = mConfig->readEntry("Count",0);
     for (int i=0; i<num; ++i)
     {
         QString key = "Filter-" + QString::number(i);

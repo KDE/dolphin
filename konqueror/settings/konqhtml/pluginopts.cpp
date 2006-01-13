@@ -198,7 +198,7 @@ void KPluginOptions::load()
   m_widget->dirDown->setEnabled( false );
   enableHTTPOnly->setChecked( config->readEntry("HTTP URLs Only", QVariant(false)).toBool() );
   enableUserDemand->setChecked( config->readEntry("demandLoad", QVariant(false)).toBool() );
-  priority->setValue(100 - qBound(0, config->readNumEntry("Nice Level", 0), 19) * 5);
+  priority->setValue(100 - qBound(0, config->readEntry("Nice Level", 0), 19) * 5);
   updatePLabel(priority->value());
 
   dirLoad( config );

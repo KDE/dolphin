@@ -55,23 +55,23 @@ void JSPolicies::load() {
 //  enableJavaScriptDebugCB->setChecked( m_pConfig->readEntry("EnableJavaScriptDebug", QVariant(false)).toBool());
 //  enableDebugOutputCB->setChecked( m_pConfig->readEntry("EnableJSDebugOutput", QVariant(false)).toBool() );
   key = prefix + "WindowOpenPolicy";
-  window_open = config->readUnsignedNumEntry(key,
+  window_open = config->readEntry(key,
   	is_global ? KHTMLSettings::KJSWindowOpenSmart : INHERIT_POLICY);
 
   key = prefix + "WindowResizePolicy";
-  window_resize = config->readUnsignedNumEntry(key,
+  window_resize = config->readEntry(key,
   	is_global ? KHTMLSettings::KJSWindowResizeAllow : INHERIT_POLICY);
 
   key = prefix + "WindowMovePolicy";
-  window_move = config->readUnsignedNumEntry(key,
+  window_move = config->readEntry(key,
   	is_global ? KHTMLSettings::KJSWindowMoveAllow : INHERIT_POLICY);
 
   key = prefix + "WindowFocusPolicy";
-  window_focus = config->readUnsignedNumEntry(key,
+  window_focus = config->readEntry(key,
   	is_global ? KHTMLSettings::KJSWindowFocusAllow : INHERIT_POLICY);
 
   key = prefix + "WindowStatusPolicy";
-  window_status = config->readUnsignedNumEntry(key,
+  window_status = config->readEntry(key,
   	is_global ? KHTMLSettings::KJSWindowStatusAllow : INHERIT_POLICY);
 }
 

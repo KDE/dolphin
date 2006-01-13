@@ -268,7 +268,7 @@ void KMiscHTMLOptions::load()
        m_pAnimationsCombo->setCurrentItem( AnimationsAlways );
 
     m_pFormCompletionCheckBox->setChecked( m_pConfig->readEntry( "FormCompletion", true ) );
-    m_pMaxFormCompletionItems->setValue( m_pConfig->readNumEntry( "MaxFormCompletionItems", 10 ) );
+    m_pMaxFormCompletionItems->setValue( m_pConfig->readEntry( "MaxFormCompletionItems", 10 ) );
     m_pMaxFormCompletionItems->setEnabled( m_pFormCompletionCheckBox->isChecked() );
 
     m_pConfig->setGroup("FMSettings");

@@ -320,7 +320,7 @@ void KAppearanceOptions::load()
 {
     KConfig khtmlrc("khtmlrc", true, false);
 #define SET_GROUP(x) m_pConfig->setGroup(x); khtmlrc.setGroup(x)
-#define READ_NUM(x,y) m_pConfig->readNumEntry(x, khtmlrc.readNumEntry(x, y))
+#define READ_NUM(x,y) m_pConfig->readEntry(x, khtmlrc.readEntry(x, y))
 #define READ_ENTRY(x,y) m_pConfig->readEntry(x, khtmlrc.readEntry(x, y))
 #define READ_LIST(x) m_pConfig->readListEntry(x, khtmlrc.readListEntry(x))
 
