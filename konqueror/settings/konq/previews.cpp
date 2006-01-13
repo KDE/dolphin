@@ -175,7 +175,7 @@ void KPreviewOptions::load(bool useDefaults)
           it.current()->setOn( group.readEntry( protocol, QVariant(false )).toBool() );
     }
     // config key is in bytes (default value 1MB), numinput is in MB
-    m_maxSize->setValue( ((double)group.readNumEntry( "MaximumSize", DEFAULT_MAXSIZE )) / (1024*1024) );
+    m_maxSize->setValue( ((double)group.readEntry( "MaximumSize", DEFAULT_MAXSIZE )) / (1024*1024) );
 
     m_boostSize->setChecked( group.readEntry( "BoostSize", QVariant(false /*default*/ )).toBool() );
     m_useFileThumbnails->setChecked( group.readEntry( "UseFileThumbnails", QVariant(true /*default*/ )).toBool() );

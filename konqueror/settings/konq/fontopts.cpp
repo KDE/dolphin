@@ -225,7 +225,7 @@ void KonqFontOptions::load()
 {
     g_pConfig->setGroup(groupname);
 
-    QFont stdFont = g_pConfig->readFontEntry( "StandardFont" );
+    QFont stdFont = g_pConfig->readEntry( "StandardFont", QFont() );
     m_stdName = stdFont.family();
     m_fSize = stdFont.pointSize();
     // we have to use QFontInfo, in case the font was specified with a pixel size
@@ -233,17 +233,17 @@ void KonqFontOptions::load()
         m_fSize = QFontInfo(stdFont).pointSize();
 
     normalTextColor = KGlobalSettings::textColor();
-    normalTextColor = g_pConfig->readColorEntry( "NormalTextColor", &normalTextColor );
+    normalTextColor = g_pConfig->readEntry( "NormalTextColor", normalTextColor );
     m_pNormalText->setColor( normalTextColor );
 
     /* highlightedTextColor = KGlobalSettings::highlightedTextColor();
-    highlightedTextColor = g_pConfig->readColorEntry( "HighlightedTextColor", &highlightedTextColor );
+    highlightedTextColor = g_pConfig->readEntry( "HighlightedTextColor", &highlightedTextColor );
     m_pHighlightedText->setColor( highlightedTextColor );
     */
 
     if ( m_bDesktop )
     {
-        textBackgroundColor = g_pConfig->readColorEntry( "ItemTextBackground" );
+        textBackgroundColor = g_pConfig->readEntry( "ItemTextBackground" );
         m_cbTextBackground->setChecked(textBackgroundColor.isValid());
         m_pTextBackground->setEnabled(textBackgroundColor.isValid());
         m_pTextBackground->setColor( textBackgroundColor );
@@ -253,7 +253,7 @@ void KonqFontOptions::load()
     }
     else
     {
-        int n = g_pConfig->readNumEntry( "TextHeight", 0 );
+        int n = g_pConfig->readEntry( "TextHeight", 0 );
         if ( n == 0 ) {
             if ( g_pConfig->readEntry( "WordWrapText", QVariant(true )).toBool() )
                 n = DEFAULT_TEXTHEIGHT;
@@ -262,7 +262,7 @@ void KonqFontOptions::load()
         }
         m_pNbLines->setValue( n );
 
-        n = g_pConfig->readNumEntry( "TextWidth", DEFAULT_TEXTWIDTH_MULTICOLUMN );
+        n = g_pConfig->readEntry( "TextWidth", DEFAULT_TEXTWIDTH_MULTICOLUMN );
         m_pNbWidth->setValue( n );
 
         m_pSizeInBytes->setChecked( g_pConfig->readEntry( "DisplayFileSizeInBytes", QVariant(DEFAULT_FILESIZEINBYTES )).toBool() );

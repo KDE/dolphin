@@ -209,7 +209,7 @@ void KBehaviourOptions::load()
 //    if (!stips) sbToolTip->setEnabled( false );
     if (!stips) cbShowPreviewsInTips->setEnabled( false );
 
-//    sbToolTip->setValue( g_pConfig->readNumEntry( "FileTipItems", 6 ) );
+//    sbToolTip->setValue( g_pConfig->readEntry( "FileTipItems", 6 ) );
 
     KConfig config("uiserverrc");
     config.setGroup( "UIServer" );
