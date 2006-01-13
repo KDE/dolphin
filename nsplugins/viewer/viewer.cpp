@@ -120,11 +120,11 @@ int main(int argc, char** argv)
    {
       KConfig cfg("kcmnspluginrc", true);
       cfg.setGroup("Misc");
-      int v = qBound(0, cfg.readNumEntry("Nice Level", 0), 19);
+      int v = qBound(0, cfg.readEntry("Nice Level", 0), 19);
       if (v > 0) {
          nice(v);
       }
-      v = cfg.readNumEntry("Max Memory", 0);
+      v = cfg.readEntry("Max Memory", 0);
       if (v > 0) {
          rlimit rl;
          memset(&rl, 0, sizeof(rl));

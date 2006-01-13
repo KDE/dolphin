@@ -198,7 +198,7 @@ void registerPlugin( const QString &name, const QString &description,
 {
     // global stuff
     infoConfig->setGroup( QString() );
-    int num = infoConfig->readNumEntry( "number", 0 );
+    int num = infoConfig->readEntry( "number", 0 );
     infoConfig->writeEntry( "number", num+1 );
 
     // create plugin info
