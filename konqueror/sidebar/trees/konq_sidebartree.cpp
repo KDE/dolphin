@@ -624,7 +624,7 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
             const int currentVersion = 6;
             QString key = QString::fromLatin1("X-KDE-DirTreeVersionNumber");
             KSimpleConfig versionCfg( path + "/.directory" );
-            int versionNumber = versionCfg.readNumEntry( key, 1 );
+            int versionNumber = versionCfg.readEntry( key, 1 );
             kdDebug(1201) << "KonqSidebarTree::scanDir found version " << versionNumber << endl;
             if ( versionNumber < currentVersion )
             {

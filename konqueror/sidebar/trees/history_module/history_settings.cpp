@@ -53,8 +53,8 @@ void KonqSidebarHistorySettings::readSettings(bool global)
       config = new KConfig("konquerorrc");
 
     config->setGroup("HistorySettings");
-    m_valueYoungerThan = config->readNumEntry("Value youngerThan", 1 );
-    m_valueOlderThan = config->readNumEntry("Value olderThan", 2 );
+    m_valueYoungerThan = config->readEntry("Value youngerThan", 1 );
+    m_valueOlderThan = config->readEntry("Value olderThan", 2 );
 
     QString minutes = QLatin1String("minutes");
     QString days = QLatin1String("days");
@@ -65,10 +65,10 @@ void KonqSidebarHistorySettings::readSettings(bool global)
 
     m_detailedTips = config->readEntry("Detailed Tooltips", QVariant(true)).toBool();
 
-    m_fontYoungerThan = config->readFontEntry( "Font youngerThan",
-					       &m_fontYoungerThan );
-    m_fontOlderThan   = config->readFontEntry( "Font olderThan",
-					       &m_fontOlderThan );
+    m_fontYoungerThan = config->readEntry( "Font youngerThan",
+					       m_fontYoungerThan );
+    m_fontOlderThan   = config->readEntry( "Font olderThan",
+					       m_fontOlderThan );
     if (global)
       config->setGroup( oldgroup );
     else

@@ -65,7 +65,7 @@ KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent,
 
 	KSimpleConfig ksc(_desktopName);
 	ksc.setGroup("Desktop Entry");
-        reloadTimeout = ksc.readNumEntry("Reload", 0);
+        reloadTimeout = ksc.readEntry("Reload", 0);
 	_url = ksc.readPathEntry("URL");
 	_htmlPart->openURL(_url );
 	// Must load this delayed

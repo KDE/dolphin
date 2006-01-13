@@ -413,7 +413,7 @@ void Sidebar_Widget::initialCopy()
 
 	int nVersion=-1;
 	KSimpleConfig lcfg(m_path+".version");
-	int lVersion=lcfg.readNumEntry("Version",0);
+	int lVersion=lcfg.readEntry("Version",0);
 
 
 	for (QStringList::const_iterator ddit=dirtree_dirs.begin();ddit!=dirtree_dirs.end();++ddit) {
@@ -426,7 +426,7 @@ void Sidebar_Widget::initialCopy()
 	        if ( !dirtree_dir.isEmpty() && dirtree_dir != m_path )
         	{
 			KSimpleConfig gcfg(dirtree_dir+".version");
-			int gversion = gcfg.readNumEntry("Version", 1);
+			int gversion = gcfg.readEntry("Version", 1);
 			nVersion=(nVersion>gversion)?nVersion:gversion;
 			if (lVersion >= gversion)
 				continue;
@@ -620,7 +620,7 @@ void Sidebar_Widget::readConfig()
 	m_hideTabs = m_config->readEntry("HideTabs", QVariant(false)).toBool();
 	if (m_initial) {
 		m_openViews = m_config->readListEntry("OpenViews");
-		m_savedWidth = m_config->readNumEntry("SavedWidth",200);
+		m_savedWidth = m_config->readEntry("SavedWidth",200);
 		m_initial=false;
 	}
 }
