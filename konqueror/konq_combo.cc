@@ -116,7 +116,7 @@ KonqCombo::KonqCombo( QWidget *parent )
     Q_ASSERT( s_config );
 
     KConfigGroup locationBarGroup( s_config, "Location Bar" );
-    setMaxCount( locationBarGroup.readNumEntry("Maximum of URLs in combo", 20 ));
+    setMaxCount( locationBarGroup.readEntry("Maximum of URLs in combo", 20 ));
 
     // We should also connect the completionBox' highlighted signal to
     // our setEditText() slot, because we're handling the signals ourselves.

@@ -1580,7 +1580,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     QList<int> sizes =
         cfg.readIntListEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ));
 
-    int index = cfg.readNumEntry( QString::fromLatin1( "activeChildIndex" ).prepend(prefix), -1 );
+    int index = cfg.readEntry( QString::fromLatin1( "activeChildIndex" ).prepend(prefix), -1 );
 
     QStringList childList = cfg.readListEntry( QString::fromLatin1( "Children" ).prepend( prefix ) );
     if( childList.count() < 2 )
@@ -1626,7 +1626,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     parent->insertChildFrame( newContainer );
     m_pDocContainer = newContainer;
 
-    int index = cfg.readNumEntry( QString::fromLatin1( "activeChildIndex" ).prepend(prefix), 0 );
+    int index = cfg.readEntry( QString::fromLatin1( "activeChildIndex" ).prepend(prefix), 0 );
 
     QStringList childList = cfg.readListEntry( QString::fromLatin1( "Children" ).prepend( prefix ) );
     for ( QStringList::Iterator it = childList.begin(); it != childList.end(); ++it )
