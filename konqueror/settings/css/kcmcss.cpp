@@ -112,7 +112,7 @@ void CSSConfig::load()
   configDialog->urlRequester->setURL(c->readEntry("SheetName"));
 
   c->setGroup("Font");
-  customDialog->basefontsize->setEditText(QString::number(c->readNumEntry("BaseSize", 12)));
+  customDialog->basefontsize->setEditText(QString::number(c->readEntry("BaseSize", 12)));
   customDialog->dontScale->setChecked(c->readEntry("DontScale", QVariant(false)).toBool());
 
   QString fname = c->readEntry("Family", "Arial");
@@ -133,9 +133,9 @@ void CSSConfig::load()
   
   QColor white (Qt::white);
   QColor black (Qt::black);
-  customDialog->backgroundColorButton->setColor(c->readColorEntry("BackColor", &white));
-  customDialog->foregroundColorButton->setColor(c->readColorEntry("ForeColor", &black));
-  customDialog->sameColor->setChecked(c->readEntry("SameColor", QVariant(false)).toBool());
+  customDialog->backgroundColorButton->setColor(c->readEntry("BackColor", white));
+  customDialog->foregroundColorButton->setColor(c->readEntry("ForeColor", black));
+  customDialog->sameColor->setChecked(c->readEntry("SameColor", false));
 
   // Images
   c->setGroup("Images");

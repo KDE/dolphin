@@ -23,9 +23,6 @@
             <property name="name">
                 <cstring>Line1</cstring>
             </property>
-            <property name="orientation">
-                <number>5</number>
-            </property>
         </widget>
         <spacer row="2" column="0">
             <property name="name">

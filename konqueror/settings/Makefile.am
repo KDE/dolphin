@@ -1,1 +1,1 @@
-SUBDIRS = ebrowsing konq konqhtml performance kio filetypes pics
+SUBDIRS = ebrowsing konq konqhtml performance kio filetypes pics css
