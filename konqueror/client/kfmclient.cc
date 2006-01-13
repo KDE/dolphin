@@ -273,7 +273,7 @@ static DCOPCString getPreloadedKonqy()
     needInstance();
     KConfig cfg( QLatin1String( "konquerorrc" ), true );
     cfg.setGroup( "Reusing" );
-    if( cfg.readNumEntry( "MaxPreloadCount", 1 ) == 0 )
+    if( cfg.readEntry( "MaxPreloadCount", 1 ) == 0 )
         return "";
     needDCOP();
     DCOPRef ref( "kded", "konqy_preloader" );
