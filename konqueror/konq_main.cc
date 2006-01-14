@@ -31,7 +31,6 @@
 #include <kdebug.h>
 #include <kcmdlineargs.h>
 #include <dcopclient.h>
-#include <kimageio.h>
 #include <qfile.h>
 #include <QApplication>
 #include <qwidget.h>
@@ -64,7 +63,6 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
   app.dcopClient()->setDefaultObject( kiface->objId() );
 
   KGlobal::locale()->insertCatalog("libkonq"); // needed for apps using libkonq
-  KImageIO::registerFormats();
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 

@@ -325,7 +325,6 @@ inline KURL *KCMUserAccount::decodeImgDrop(QDropEvent *e, QWidget *wdg)
   {
     KURL *url = new KURL(uris.first());
 
-    KImageIO::registerFormats();
     if( KImageIO::canRead(KImageIO::type(url->fileName())) )
       return url;
 

@@ -29,7 +29,6 @@
 
 #include <kdatastream.h> // DO NOT REMOVE, otherwise bool marshalling breaks
 #include <kicontheme.h>
-#include <kimageio.h>
 #include <ksimpleconfig.h>
 #include <kstandarddirs.h>
 #include <kio/job.h>
@@ -261,7 +260,6 @@ void FaviconsModule::slotKill()
 extern "C" {
     KDE_EXPORT KDEDModule *create_favicons(const DCOPCString &obj)
     {
-        KImageIO::registerFormats();
         return new FaviconsModule(obj);
     }
 }
