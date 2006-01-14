@@ -656,9 +656,15 @@ void KonqView::setLocationBarURL( const QString & locationBarURL )
 }
 
 void KonqView::setIconURL( const KURL & iconURL )
+// This function sets the favIcon in konqui's window if enabled,
+// thus it is responsible for the icon in the taskbar.
+// It does not set the tab's favIcon.
 {
-  KonqPixmapProvider::setIconForURL( KURL( m_sLocationBarURL ), iconURL );
-  m_bGotIconURL = true;
+  if ( KonqSettings::enableFavicon() )
+  {
+    KonqPixmapProvider::setIconForURL( KURL( m_sLocationBarURL ), iconURL );
+    m_bGotIconURL = true;
+  }
 }
 
 void KonqView::setPageSecurity( int pageSecurity )
