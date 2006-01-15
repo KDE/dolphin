@@ -414,7 +414,7 @@ void KonqMainWindow::removeContainer( QWidget *container, QWidget *parent, QDomE
 // Note that KShortURIFilter does the same, but we have no way of getting it from there
 //
 // Note: this removes the filter from the URL.
-static QString detectNameFilter( KURL & url )
+QString KonqMainWindow::detectNameFilter( KURL & url )
 {
     if ( !KProtocolInfo::supportsListing(url) )
         return QString();
@@ -431,12 +431,15 @@ static QString detectNameFilter( KURL & url )
         }
         QString fileName = path.mid( lastSlash + 1 );
         QString testPath = path.left( lastSlash + 1 );
-        if ( ( fileName.find( '*' ) != -1 || fileName.find( '[' ) != -1 || fileName.find( '?' ) != -1 )
-             && ( !url.isLocalFile() || QFile::exists( testPath ) ) && KIO::NetAccess::exists( url, true, 0L ) )
+        if ( fileName.find( '*' ) != -1 || fileName.find( '[' ) != -1 || fileName.find( '?' ) != -1 )
         {
-            nameFilter = fileName;
-            url.setFileName( QString() );
-            kdDebug(1202) << "Found wildcard. nameFilter=" << nameFilter << "  New url=" << url << endl;
+            // Check that a file or dir with all the special chars in the filename doesn't exist
+            if ( url.isLocalFile() ? !QFile::exists( path ) : !KIO::NetAccess::exists( url, false, this ) )
+            {
+                nameFilter = fileName;
+                url.setFileName( QString() );
+                kdDebug(1202) << "Found wildcard. nameFilter=" << nameFilter << "  New url=" << url << endl;
+            }
         }
     }
 

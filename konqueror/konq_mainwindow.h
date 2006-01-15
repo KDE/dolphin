@@ -560,6 +560,8 @@ private slots:
   void showPageSecurity();
 
 private:
+  QString detectNameFilter( KURL & url );
+
   /**
    * takes care of hiding the bookmarkbar and calling setChecked( false ) on the
    * corresponding action
