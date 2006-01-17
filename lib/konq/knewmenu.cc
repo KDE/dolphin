@@ -110,7 +110,7 @@ void KNewMenu::slotCheckUpToDate( )
         for( QList<KAction*>::Iterator it = actions.begin(); it != actions.end(); ++it )
         {
             remove( *it );
-            d->m_actionCollection->remove( *it );
+            delete( *it );
         }
 
         if (!s_templatesList) { // No templates list up to now
