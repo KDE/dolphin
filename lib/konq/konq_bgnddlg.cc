@@ -18,7 +18,6 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <q3buttongroup.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qradiobutton.h>
