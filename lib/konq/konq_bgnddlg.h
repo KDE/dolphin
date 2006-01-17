@@ -24,18 +24,19 @@
 #include <qstring.h>
 #include <qpixmap.h>
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 class KColorButton;
 class KURLRequester;
 class QGroupBox;
 class QRadioButton;
+class QFrame;
 
 /**
  * Dialog for configuring the background
  * Currently it defines and shows the pixmaps under the tiles resource
  */
-class KonqBgndDialog : public KDialogBase
+class KonqBgndDialog : public KDialog
 {
   Q_OBJECT
 public:
