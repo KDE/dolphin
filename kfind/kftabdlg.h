@@ -49,16 +49,16 @@ public:
 
   void setURL( const KURL & url );
 
-public slots:
+public Q_SLOTS:
   void setFocus();
 
-private slots:
+private Q_SLOTS:
   void getDirectory();
   void fixLayout();
   void slotSizeBoxChanged(int);
   void slotEditRegExp();
 
-signals:
+Q_SIGNALS:
     void startSearch();
 
 protected:

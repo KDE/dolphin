@@ -59,7 +59,7 @@ public:
    */
   static KonqProfileMap readAllProfiles();
 
-protected slots:
+protected Q_SLOTS:
   virtual void slotUser1(); // User1 is "Rename Profile" button
   virtual void slotUser2(); // User2 is "Delete Profile" button
   virtual void slotUser3(); // User3 is Save button

@@ -14,7 +14,7 @@ public:
 
     uint historyLength() const;
 
-public slots:
+public Q_SLOTS:
     void goHistory( int );
 
 private:

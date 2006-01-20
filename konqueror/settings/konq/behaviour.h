@@ -45,7 +45,7 @@ public:
   virtual void save();
   virtual void defaults();
 
-protected slots:
+protected Q_SLOTS:
 
   void updateWinPixmap(bool);
   void slotShowTips(bool);

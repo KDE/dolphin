@@ -44,7 +44,7 @@ class KonqInfoListViewWidget : public KonqBaseListViewWidget
       
       virtual bool openURL( const KURL &url );
 
-   protected slots:
+   protected Q_SLOTS:
       // slots connected to the directory lister
 //      virtual void setComplete();
       virtual void slotNewItems( const KFileItemList & );

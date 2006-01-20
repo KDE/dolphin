@@ -37,7 +37,7 @@ private:
   /*Return a QStringList of all subdirs of d*/
   QStringList getAllSubdirs(QDir d);
 
-public slots:
+public Q_SLOTS:
   void startSearch();
   void stopSearch();
   void newSearch();
@@ -49,7 +49,7 @@ public slots:
   void slotDeleteItem(const QString&);
   void slotNewItems( const QString&  );
 
-signals:
+Q_SIGNALS:
   void haveResults(bool);
   void resultSelected(bool);
 

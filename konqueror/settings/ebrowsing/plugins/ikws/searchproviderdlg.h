@@ -34,7 +34,7 @@ public:
 
     SearchProvider *provider() { return m_provider; }
 
-protected slots:
+protected Q_SLOTS:
     void slotChanged();
     void slotOk();
 

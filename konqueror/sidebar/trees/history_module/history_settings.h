@@ -50,7 +50,7 @@ public:
     QFont m_fontYoungerThan;
     QFont m_fontOlderThan;
 
-signals:
+Q_SIGNALS:
     void settingsChanged();
 
 protected:

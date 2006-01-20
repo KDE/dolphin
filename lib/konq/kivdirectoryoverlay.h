@@ -38,13 +38,13 @@ public:
     virtual ~KIVDirectoryOverlay();
     void start();
 
-signals:
+Q_SIGNALS:
     void finished();
 
 protected:
     virtual void timerEvent(QTimerEvent *);
 
-private slots:
+private Q_SLOTS:
     void slotCompleted();
     void slotNewItems( const KFileItemList& items );
 

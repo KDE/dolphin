@@ -38,7 +38,7 @@ public:
 			const QStringList &);
   ~KRemoteEncodingPlugin();
 
-protected slots:
+protected Q_SLOTS:
   void slotAboutToOpenURL();
   void slotAboutToShow();
   void slotItemSelected(int);

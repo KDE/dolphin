@@ -285,7 +285,7 @@ public:
 
   QString profileHomeURL() const { return m_profileHomeURL; }
 
-protected slots:
+protected Q_SLOTS:
   void emitActivePartChanged();
 
   void slotProfileDlg();

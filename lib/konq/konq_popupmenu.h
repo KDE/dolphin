@@ -163,7 +163,7 @@ public:
   KURL::List popupURLList( ) const;
   ProtocolInfo protocolInfo() const;
 
-public slots: // KDE4: why public?
+public Q_SLOTS: // KDE4: why public?
   void slotPopupNewDir();
   void slotPopupNewView();
   void slotPopupEmptyTrashBin();

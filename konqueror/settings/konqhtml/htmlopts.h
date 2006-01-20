@@ -39,7 +39,7 @@ public:
     virtual void save();
     virtual void defaults();
 
-private slots:
+private Q_SLOTS:
     void slotChanged();
     void launchAdvancedTabDialog();
 

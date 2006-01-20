@@ -60,7 +60,7 @@ public:
   virtual void save();
   virtual void defaults();
 
-public slots:
+public Q_SLOTS:
   void slotFontSize(int i);
   void slotStandardFont(const QString& n);
   void slotTextBackgroundClicked();

@@ -99,7 +99,7 @@ protected:
   void setupActions();
   void guiActivateEvent( KParts::GUIActivateEvent *event );
 
-protected slots:
+protected Q_SLOTS:
   void slotSelect();
   void slotUnselect();
   void slotSelectAll();
@@ -180,7 +180,7 @@ class ListViewBrowserExtension : public KonqDirPartBrowserExtension
       virtual int xOffset();
       virtual int yOffset();
 
-   protected slots:
+   protected Q_SLOTS:
       void updateActions();
 
       void copy() { copySelection( false ); }

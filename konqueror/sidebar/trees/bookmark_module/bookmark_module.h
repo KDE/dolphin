@@ -48,7 +48,7 @@ public:
     void showPopupMenu();
 
 
-protected slots:
+protected Q_SLOTS:
     void slotBookmarksChanged( const QString & );
     void slotMoved(Q3ListViewItem*,Q3ListViewItem*,Q3ListViewItem*);
     void slotDropped(KListView*,QDropEvent*,Q3ListViewItem*,Q3ListViewItem*);
@@ -64,7 +64,7 @@ protected:
     void fillGroup( KonqSidebarTreeItem * parentItem, KBookmarkGroup group );
     KonqSidebarBookmarkItem * findByAddress( const QString & address ) const;
 
-private slots:
+private Q_SLOTS:
     void slotOpenChange(Q3ListViewItem*);
 
 private:
@@ -89,7 +89,7 @@ public:
     QString finalUrl() const;
     QString finalTitle() const;
 
-protected slots:
+protected Q_SLOTS:
     void slotOk();
     void slotCancel();
 

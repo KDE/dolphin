@@ -30,11 +30,11 @@ protected:
   void updateRemoveButton();
   void updateAskSave();
 
-signals:
+Q_SIGNALS:
   void embedMajor(const QString &major, bool &embed); // To adjust whether major type is being embedded
   void changed(bool);
 
-protected slots:
+protected Q_SLOTS:
   void updateIcon(QString icon);
   void updateDescription(const QString &desc);
   void addExtension();

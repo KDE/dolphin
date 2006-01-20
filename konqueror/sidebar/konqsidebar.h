@@ -47,7 +47,7 @@ class KonqSidebarBrowserExtension : public KParts::BrowserExtension
 
 
 // The following slots are needed for konqueror's standard actions
-	protected slots:
+	protected Q_SLOTS:
 	    void copy(){if (widget) widget->stdAction("copy()");}
 	    void cut(){if (widget) widget->stdAction("cut()");}
 	    void paste(){if (widget) widget->stdAction("paste()");}

@@ -41,7 +41,7 @@ class SMBRoOptions : public KCModule
       virtual void defaults();
       QString quickHelp() const;
 
-   private slots:
+   private Q_SLOTS:
       void changed();
 
    private:

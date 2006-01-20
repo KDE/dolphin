@@ -40,7 +40,7 @@ Q_OBJECT
 
     QString defaultCharsets;
 
-private slots:
+private Q_SLOTS:
     void slotChanged();
 
 };

@@ -113,7 +113,7 @@ class KonqFrameStatusBar : public KStatusBar
        */
       void updateActiveStatus();
 
-   public slots:
+   public Q_SLOTS:
       void slotConnectToNewView(KonqView *, KParts::ReadOnlyPart *oldOne,KParts::ReadOnlyPart *newOne);
       void slotLoadingProgress( int percent );
       void slotSpeedProgress( int bytesPerSecond );
@@ -122,7 +122,7 @@ class KonqFrameStatusBar : public KStatusBar
       void slotClear();
       void message ( const QString & message );
 
-   signals:
+   Q_SIGNALS:
       /**
        * This signal is emitted when the user clicked the bar.
        */
@@ -277,7 +277,7 @@ public:
 
   QString title() const { return m_title; }
 
-public slots:
+public Q_SLOTS:
 
   /**
    * Is called when the frame statusbar has been clicked
@@ -405,7 +405,7 @@ public:
   //inherited
   virtual void childEvent( QChildEvent * );
 
-signals:
+Q_SIGNALS:
   void ctrlTabPressed();
   void setRubberbandCalled();
   

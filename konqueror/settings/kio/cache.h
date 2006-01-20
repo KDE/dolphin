@@ -39,7 +39,7 @@ public:
   virtual void defaults();
   QString quickHelp() const;
 
-protected slots:
+protected Q_SLOTS:
   void configChanged();
   void slotClearCache();
 

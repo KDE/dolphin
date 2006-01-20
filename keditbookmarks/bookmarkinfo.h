@@ -39,7 +39,7 @@ public:
     KBookmark bookmark() { return m_bk; }
     void updateStatus(); //FIXME where was this called?
 
-public slots:
+public Q_SLOTS:
     void slotTextChangedURL(const QString &);
     void slotTextChangedTitle(const QString &);
     void slotTextChangedComment(const QString &);

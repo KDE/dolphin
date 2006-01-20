@@ -327,11 +327,11 @@ public:
 
   QStringList configModules() const;
 
-signals:
+Q_SIGNALS:
   void viewAdded( KonqView *view );
   void viewRemoved( KonqView *view );
 
-public slots:
+public Q_SLOTS:
   void slotCtrlTabPressed();
 
   // for KBookmarkMenu and KBookmarkBar
@@ -424,7 +424,7 @@ public slots:
 
   void slotAddTab();
 
-protected slots:
+protected Q_SLOTS:
   void slotViewCompleted( KonqView * view );
 
   void slotURLEntered( const QString &text, int );
@@ -543,7 +543,7 @@ protected:
 
   bool askForTarget(const QString& text, KURL& url);
 
-private slots:
+private Q_SLOTS:
   void slotRequesterClicked( KURLRequester * );
   void slotIntro();
   /**

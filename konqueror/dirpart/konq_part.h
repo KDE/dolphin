@@ -43,7 +43,7 @@ private:
     QAbstractItemView* m_view;
     KonqModel* m_model;
     KonqFileTip* m_fileTip;
-protected slots:
+protected Q_SLOTS:
     virtual void slotNewItems( const KFileItemList& );
     virtual bool openFile() { return true; }
     virtual void disableIcons( const KURL::List& ) {}
@@ -57,7 +57,7 @@ protected slots:
     virtual void slotRedirection( const KURL& ) {}
     virtual bool doOpenURL( const KURL& );
     virtual bool doCloseURL() { return true; }
-private slots:
+private Q_SLOTS:
     void slotExecute( const QModelIndex& index, Qt::MouseButton mb );
     void slotToolTip( const QModelIndex& index );
     void slotContextMenu( const QPoint& pos, const QModelIndexList& indexes );

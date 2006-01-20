@@ -40,7 +40,7 @@ public:
 
   QString quickHelp() const;
 
-private slots:
+private Q_SLOTS:
   void configChanged();
 
   void slotGetFontNewer();

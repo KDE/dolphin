@@ -37,10 +37,10 @@ public:
         friend class DesktopBehaviorPreviewItem;
 	friend class DesktopBehaviorMediaItem;
 
-signals:
+Q_SIGNALS:
         void changed();
 
-private slots:
+private Q_SLOTS:
         void enableChanged();
 	void comboBoxChanged();
 	void editButtonPressed();
@@ -68,7 +68,7 @@ public:
         virtual void save() { m_behavior->save(); emit KCModule::changed( false ); }
         virtual void defaults() { m_behavior->defaults(); emit KCModule::changed( true ); }
 
-private slots:
+private Q_SLOTS:
         void changed();
 
 private:

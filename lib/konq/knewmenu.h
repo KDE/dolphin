@@ -74,14 +74,14 @@ public:
         popupFiles.append( _file );
     }
 
-public slots:
+public Q_SLOTS:
     /**
      * Checks if updating the list is necessary
      * IMPORTANT : Call this in the slot for aboutToShow.
      */
     void slotCheckUpToDate( );
 
-protected slots:
+protected Q_SLOTS:
     /**
      * Called when New->Directory... is clicked
      */
@@ -200,7 +200,7 @@ public:
      */
     QString url() const;
 
-protected slots:
+protected Q_SLOTS:
     void slotClear();
     void slotNameTextChanged( const QString& );
     void slotURLTextChanged( const QString& );

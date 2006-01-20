@@ -76,7 +76,7 @@ public:
   int pos() { return _pos; }
   void stop();
 
-signals:
+Q_SIGNALS:
   void finished( NSPluginStreamBase *strm );
 
 protected:
@@ -123,7 +123,7 @@ public:
   bool get(const QString& url, const QString& mimeType, void *notifyData, bool reload = false);
   bool post(const QString& url, const QByteArray& data, const QString& mimeType, void *notifyData, const KParts::URLArgs& args);
 
-protected slots:
+protected Q_SLOTS:
   void data(KIO::Job *job, const QByteArray &data);
   void totalSize(KIO::Job *job, KIO::filesize_t size);
   void mimetype(KIO::Job * job, const QString &mimeType);
@@ -146,7 +146,7 @@ public:
 
   bool get( const QString& url, const QString& mimeType, const QByteArray &buf, void *notifyData, bool singleShot=false );
 
-protected slots:
+protected Q_SLOTS:
   void timer();
 
 protected:
@@ -205,10 +205,10 @@ public:
 
   QString normalizedURL(const QString& url) const;
 
-public slots:
+public Q_SLOTS:
   void streamFinished( NSPluginStreamBase *strm );
 
-private slots:
+private Q_SLOTS:
   void timer();
 
 private:
@@ -287,7 +287,7 @@ public:
   void setApp(const QByteArray& app) { _app = app; }
   const QByteArray& app() const { return _app; }
 
-protected slots:
+protected Q_SLOTS:
   void timer();
 
 private:
@@ -324,7 +324,7 @@ public:
    void shutdown();
    DCOPRef newClass( QString plugin );
 
-private slots:
+private Q_SLOTS:
    void appUnregistered(const QByteArray& id);
 
 private:

@@ -34,7 +34,7 @@ public:
     FavIconWebGrabber(KParts::ReadOnlyPart *part, const KURL &url);
     ~FavIconWebGrabber() {}
 
-protected slots:
+protected Q_SLOTS:
     void slotMimetype(KIO::Job *job, const QString &_type);
     void slotFinished(KIO::Job *job);
 
@@ -58,11 +58,11 @@ public:
     virtual void notifyChange(bool isHost, QString hostOrURL, 
                               QString iconName);
 
-protected slots:
+protected Q_SLOTS:
     void setIconURL(const KURL &iconURL);
     void slotCompleted();
 
-signals:
+Q_SIGNALS:
     void done(bool succeeded);
 
 private:

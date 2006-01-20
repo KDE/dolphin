@@ -40,7 +40,7 @@ class KShellCommandDialog:public KDialog
       KShellCommandExecutor *m_shell;
       KPushButton *cancelButton;
       KPushButton *closeButton;
-   protected slots:
+   protected Q_SLOTS:
       void disableStopButton();
       void slotClose();
 };

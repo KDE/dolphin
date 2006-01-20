@@ -37,7 +37,7 @@ class KonqyPreloader
         ASYNC unregisterPreloadedKonqy( DCOPCString id );
         void reconfigure();
         void unloadAllPreloaded();
-    private slots:
+    private Q_SLOTS:
         void appRemoved( const QByteArray& id );
 	void checkAlwaysPreloaded();
     private:

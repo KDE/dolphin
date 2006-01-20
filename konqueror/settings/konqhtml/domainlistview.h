@@ -132,7 +132,7 @@ public:
   void save(const QString &group, const QString &domainListKey);
 
 
-signals:
+Q_SIGNALS:
   /**
    * indicates that a configuration has been changed within this list view.
    * @param state true if changed, false if not
@@ -181,7 +181,7 @@ protected:
   virtual void setupPolicyDlg(PushButton trigger,PolicyDialog &pDlg,
   		Policies *copy);
 
-private slots:
+private Q_SLOTS:
   void addPressed();
   void changePressed();
   void deletePressed();

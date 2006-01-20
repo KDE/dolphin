@@ -126,7 +126,7 @@ protected:
     void dragEnterEvent( QDragEnterEvent *ev );
     void dropEvent( QDropEvent* ev );
 
-private slots:
+private Q_SLOTS:
     void delayedOpenURL();
 
 private:

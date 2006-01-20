@@ -39,7 +39,7 @@ public:
      * Destructor.
      */
     virtual ~KHTMLPluginKTTSD();
-public slots:
+public Q_SLOTS:
     void slotReadOut();
 };
  

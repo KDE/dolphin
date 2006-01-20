@@ -41,7 +41,7 @@ class KonqExtensionManager : public KDialogBase
 
 		void apply();
 
-	public slots:
+	public Q_SLOTS:
 		void setChanged(bool c);
 
 		virtual void slotDefault();

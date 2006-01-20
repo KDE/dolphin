@@ -51,7 +51,7 @@ public:
 
     void addNewPolicy(const QString& domain);
 
-protected slots:
+protected Q_SLOTS:
     void autoAcceptSessionCookies ( bool );
     void ignoreCookieExpirationDate ( bool );
     void cookiesEnabled( bool );

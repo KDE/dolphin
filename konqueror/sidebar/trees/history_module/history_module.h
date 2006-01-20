@@ -65,10 +65,10 @@ public:
 	return url.host().isEmpty() ? misc : url.host();
     }
 
-public slots:
+public Q_SLOTS:
     void clear();
 
-private slots:
+private Q_SLOTS:
     void slotCreateItems();
     void slotEntryAdded( const KonqHistoryEntry * );
     void slotEntryRemoved( const KonqHistoryEntry * );

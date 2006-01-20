@@ -32,7 +32,7 @@ public:
   FileTypeDialog( KMimeType::Ptr mime );
   FileTypeDialog( KMimeType::Ptr mime, bool newItem );
 
-protected slots:
+protected Q_SLOTS:
 
   //virtual void slotDefault();
   //virtual void slotUser1(); // Reset

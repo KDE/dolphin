@@ -75,7 +75,7 @@ public:
   KonqCommandRecorder( KonqCommand::Type op, const KURL::List &src, const KURL &dst, KIO::Job *job );
   virtual ~KonqCommandRecorder();
 
-private slots:
+private Q_SLOTS:
   void slotResult( KIO::Job *job );
 
   void slotCopyingDone( KIO::Job *, const KURL &from, const KURL &to, bool directory, bool renamed );
@@ -106,10 +106,10 @@ public:
   bool undoAvailable() const;
   QString undoText() const;
 
-public slots:
+public Q_SLOTS:
   void undo();
 
-signals:
+Q_SIGNALS:
   void undoAvailable( bool avail );
   void undoTextChanged( const QString &text );
 
@@ -128,7 +128,7 @@ k_dcop:
 
   virtual KonqCommand::Stack get() const;
 
-private slots:
+private Q_SLOTS:
   void slotResult( KIO::Job *job );
 
 private:

@@ -40,7 +40,7 @@ public:
   TestNSPlugin();
   virtual ~TestNSPlugin();
 
-public slots:
+public Q_SLOTS:
   void newView();
   void closeView();
   void viewDestroyed( NSPluginInstance *inst );

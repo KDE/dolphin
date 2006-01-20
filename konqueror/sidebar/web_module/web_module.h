@@ -70,7 +70,7 @@ class KHTMLSideBar : public KHTMLPart
 		}
 		virtual ~KHTMLSideBar() {}
 
-	signals:
+	Q_SIGNALS:
 		void submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&);
 		void openURLRequest(const QString& url, KParts::URLArgs args);
 		void openURLNewWindow(const QString& url, KParts::URLArgs args);
@@ -104,7 +104,7 @@ class KHTMLSideBar : public KHTMLPart
 			KHTMLPart::urlSelected(url,button,state,_target,args);
 		}
 
-	protected slots:
+	protected Q_SLOTS:
 		void loadPage() {
 			emit openURLRequest(completeURL(_lastUrl).url(),
 						KParts::URLArgs());
@@ -173,14 +173,14 @@ class KonqSideBarWebModule : public KonqSidebarPlugin
 		virtual QWidget *getWidget();
 		virtual void *provides(const QString &);
 
-	signals:
+	Q_SIGNALS:
 		void submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&);
 		void openURLRequest(const KURL &url, const KParts::URLArgs &args);
 		void createNewWindow(const KURL &url, const KParts::URLArgs &args);
 	protected:
 		virtual void handleURL(const KURL &url);
 
-	private slots:
+	private Q_SLOTS:
 		void urlClicked(const QString& url, KParts::URLArgs args);
 		void formClicked(const KURL& url, const KParts::URLArgs& args);
 		void urlNewWindow(const QString& url, KParts::URLArgs args);

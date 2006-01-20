@@ -40,9 +40,9 @@ public:
     void defaults();
     QString quickHelp() const;
     
-public slots:
+public Q_SLOTS:
 
-protected slots:
+protected Q_SLOTS:
     void insertFilter();
     void updateFilter();
     void removeFilter();

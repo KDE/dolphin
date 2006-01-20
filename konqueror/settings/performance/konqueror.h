@@ -33,9 +33,9 @@ class Konqueror
         void load();
         void save();
         void defaults();
-    signals:
+    Q_SIGNALS:
         void changed();
-    private slots:
+    private Q_SLOTS:
 	void preload_count_changed( int );
     private:
         QString allowed_parts;

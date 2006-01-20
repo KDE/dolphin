@@ -96,7 +96,7 @@ public:
 
     bool _removeJavaScriptDomainAdvice;
 
-private slots:
+private Q_SLOTS:
     void slotChanged();
     void toggleJavaControls();
 

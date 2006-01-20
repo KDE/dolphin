@@ -38,7 +38,7 @@ public:
     void save();
     void defaults();
 
-protected slots:
+protected Q_SLOTS:
     void moduleChanged(bool state);
 
 private:

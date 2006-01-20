@@ -51,7 +51,7 @@ public:
    ~FavIconsItr();
    virtual FavIconsItrHolder* holder() const { return FavIconsItrHolder::self(); }
 
-public slots:
+public Q_SLOTS:
    void slotDone(bool succeeded);
 
 protected:

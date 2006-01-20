@@ -49,10 +49,10 @@ public:
   int buttons();
   QString quickHelp() const;
 
-public slots:
+public Q_SLOTS:
   void configChanged();
 
-private slots:
+private Q_SLOTS:
   void enableChanged();
   void methodChanged(int id);
   void testClicked();

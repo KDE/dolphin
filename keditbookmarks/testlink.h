@@ -57,7 +57,7 @@ public:
    ~TestLinkItr();
    virtual TestLinkItrHolder* holder() const { return TestLinkItrHolder::self(); }
 
-public slots:
+public Q_SLOTS:
    void slotJobResult(KIO::Job *job);
    void slotJobData(KIO::Job *job, const QByteArray &data);
 

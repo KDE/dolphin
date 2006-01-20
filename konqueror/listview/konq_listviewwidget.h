@@ -148,16 +148,16 @@ public:
    KonqListView *m_pBrowserView;
    KonqFMSettings *m_pSettings;
 
-signals:
+Q_SIGNALS:
    void viewportAdjusted();
 
-public slots:
+public Q_SLOTS:
    //virtual void slotOnItem( KonqBaseListViewItem* _item );
    void slotMouseButtonClicked( int _button, Q3ListViewItem *_item, const QPoint& pos, int );
    virtual void slotExecuted( Q3ListViewItem *_item );
    void slotItemRenamed( Q3ListViewItem *, const QString &, int );
 
-protected slots:
+protected Q_SLOTS:
    void slotAutoScroll();
 
    // from QListView

@@ -38,7 +38,7 @@ public:
     virtual const KProxyData data() const;
     virtual void setProxyData( const KProxyData &data );
 
-protected slots:
+protected Q_SLOTS:
     virtual void slotOk();
 
     void showValue();

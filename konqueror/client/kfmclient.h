@@ -38,7 +38,7 @@ public:
   /** Make konqueror open a window for @p profile, @p url and @p mimetype */
   static bool openProfile(const QString & profile, const QString & url, const QString & mimetype = QString());
 
-protected slots:
+protected Q_SLOTS:
   void slotResult( KIO::Job * );
   void delayedQuit();
 

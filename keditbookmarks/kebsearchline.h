@@ -118,7 +118,7 @@ public:
      */
     QAbstractItemView *view() const;
 
-public slots:
+public Q_SLOTS:
     /**
      * Updates search to only make visible the items that match \a s.  If
      * \a s is null then the line edit's text will be used.
@@ -180,7 +180,7 @@ protected:
     */
     virtual void contextMenuEvent( QContextMenuEvent*e );
 
-protected slots:
+protected Q_SLOTS:
     /**
      * When keys are pressed a new search string is created and a timer is
      * activated.  The most recent search is activated when this timer runs out
@@ -252,7 +252,7 @@ private:
      */
     QModelIndex nextRow(const QModelIndex & index);
 
-private slots:
+private Q_SLOTS:
     void listViewDeleted();
     void slotDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
     void slotRowsInserted(const QModelIndex &parent, int first, int last);
@@ -301,7 +301,7 @@ public:
      */
     KViewSearchLine *searchLine() const;
 
-protected slots:
+protected Q_SLOTS:
     /**
      * Creates the widgets inside of the widget.  This is called from the
      * constructor via a single shot timer so that it it guaranteed to run
@@ -310,7 +310,7 @@ protected slots:
      */
     virtual void createWidgets();
 
-private slots:
+private Q_SLOTS:
     void positionInToolBar();
 
 private:

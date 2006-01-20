@@ -66,7 +66,7 @@ public:
     // The pointer to the event is retrieved in dropMimeData()
     void saveDropEventPointer(QDropEvent * event);
 
-signals:
+Q_SIGNALS:
     //FIXME searchline should respond too
     void aboutToMoveRows(const QModelIndex &, int, int, const QModelIndex &, int);
     void rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int);

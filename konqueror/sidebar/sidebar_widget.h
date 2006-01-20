@@ -75,12 +75,12 @@ class addBackEnd: public QObject
 public:
 	addBackEnd(QWidget *parent,class QMenu *addmenu, bool univeral, const QString &currentProfile, const char *name=0);
 	~addBackEnd(){;}
-protected slots:
+protected Q_SLOTS:
 	void aboutToShowAddMenu();
 	void triggeredAddMenu(QAction* action);
 	void doRollBack();
 
-signals:
+Q_SIGNALS:
 	void updateNeeded();
 	void initialCopyNeeded();
 private:
@@ -106,7 +106,7 @@ public:
 	KParts::BrowserExtension *getExtension();
         virtual QSize sizeHint() const;	
 
-public slots:
+public Q_SLOTS:
 	void addWebSideBar(const KURL& url, const QString& name);
 
 protected:
@@ -115,7 +115,7 @@ protected:
 	virtual bool eventFilter(QObject*,QEvent*);
 	virtual void mousePressEvent(QMouseEvent*);
 
-protected slots:
+protected Q_SLOTS:
 	void showHidePage(int value);
 	void createButtons();
 	void updateButtons();
@@ -133,7 +133,7 @@ protected slots:
 	void slotSetIcon();
 	void slotRemove();
 
-signals:
+Q_SIGNALS:
 	void started(KIO::Job *);
 	void completed();
 	void fileSelection(const KFileItemList& iems);
@@ -148,7 +148,7 @@ public:
 
 
  /* The following public slots are wrappers for browserextension fields */
-public slots:
+public Q_SLOTS:
 	void openURLRequest( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
 	/* @internal
 	 * @since 3.2
@@ -218,7 +218,7 @@ private:
 	QStringList m_visibleViews; // The views that are actually open
 	QStringList m_openViews; // The views that should be opened
 
-signals:
+Q_SIGNALS:
 	void panelHasBeenExpanded(bool);
 };
 

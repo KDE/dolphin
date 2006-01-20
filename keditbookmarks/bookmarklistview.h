@@ -43,7 +43,7 @@ public:
     virtual void setModel(QAbstractItemModel * view);
     virtual void dragEnterEvent(QDragEnterEvent *event);
     virtual void dragMoveEvent(QDragMoveEvent *event);
-public slots:
+public Q_SLOTS:
     void aboutToMoveRows(const QModelIndex & oldParent, int first, int last, const QModelIndex & newParent, int position);
     void rowsMoved(const QModelIndex & oldParent, int first, int last, const QModelIndex & newParent, int position);
 protected:

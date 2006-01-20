@@ -78,7 +78,7 @@ protected:
     void paintEvent( QPaintEvent * );
     void selectWord(QKeyEvent *e);
 
-signals:
+Q_SIGNALS:
     /** 
       Specialized signal that emits the state of the modifier
       keys along with the actual activated text.
@@ -90,7 +90,7 @@ signals:
      */
     void showPageSecurity();
 
-private slots:
+private Q_SLOTS:
     void slotCleared();
     void slotSetIcon( int index );
     void slotActivated( const QString& text );

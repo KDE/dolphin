@@ -26,7 +26,7 @@ public:
 
     QString quickHelp() const;
 
-protected slots:
+protected Q_SLOTS:
     void configChanged() { emit changed(true); }
 
 private:

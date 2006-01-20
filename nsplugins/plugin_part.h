@@ -93,7 +93,7 @@ public:
 protected:
   void resizeEvent(QResizeEvent *e);
 
-signals:
+Q_SIGNALS:
   void resized(int,int);
 };
 
@@ -119,7 +119,7 @@ protected:
   virtual bool closeURL();
   virtual bool openFile() { return false; };
 
-protected slots:
+protected Q_SLOTS:
   void pluginResized(int,int);
   void saveAs();
 
@@ -147,7 +147,7 @@ public:
 
     QString evalJavaScript( const QString & script );
 
-signals:
+Q_SIGNALS:
     void partEvent( const unsigned long objid, const QString & event, const KParts::LiveConnectExtension::ArgList & args );
 
 private:

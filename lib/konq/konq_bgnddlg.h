@@ -50,7 +50,7 @@ public:
   QColor color() const;
   const QString& pixmapFile() const { return m_pixmapFile; }
 
-private slots:
+private Q_SLOTS:
   void slotBackgroundModeChanged();
   void slotPictureChanged();
   void slotColorChanged();

@@ -82,7 +82,7 @@ public:
 
   void setMainWidget(QWidget *widget);
 
-private slots:
+private Q_SLOTS:
   virtual void slotClose();
 
 private:
@@ -103,7 +103,7 @@ public:
     virtual void defaults();
     QString quickHelp() const;
 
-private slots:
+private Q_SLOTS:
     void slotChanged();
     void slotTogglePluginsEnabled();
     void slotShowDomainDlg();
@@ -116,7 +116,7 @@ private:
     QCheckBox *enablePluginsGloballyCB, *enableHTTPOnly, *enableUserDemand;
 
 
- protected slots:
+ protected Q_SLOTS:
   void progress(KProcIO *);
   void updatePLabel(int);
   void change() { change( true ); };
@@ -141,7 +141,7 @@ private:
   void dirLoad( KConfig *config );
   void dirSave( KConfig *config );
 
- protected slots:
+ protected Q_SLOTS:
   void dirNew();
   void dirRemove();
   void dirUp();

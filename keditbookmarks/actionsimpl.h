@@ -29,7 +29,7 @@ class ActionsImpl : public QObject
 public:
    bool save();
 
-public slots:
+public Q_SLOTS:
    void slotLoad();
    void slotSaveAs();
    void slotCut();

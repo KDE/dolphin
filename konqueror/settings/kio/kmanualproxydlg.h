@@ -43,7 +43,7 @@ protected:
   void init();
   bool validate();
   
-protected slots:
+protected Q_SLOTS:
   virtual void slotOk();
   
   void copyDown();

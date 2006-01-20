@@ -28,7 +28,7 @@ class KonqSelectionModel : public QItemSelectionModel
 public:
     KonqSelectionModel( QAbstractItemModel* model );
     ~KonqSelectionModel();
-public slots:
+public Q_SLOTS:
     virtual void select( const QItemSelection& selection, QItemSelectionModel::SelectionFlags command );
     virtual void select( const QModelIndex& index, QItemSelectionModel::SelectionFlags command );
 };

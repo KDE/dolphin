@@ -55,7 +55,7 @@ public:
       return QPixmap();
   }
 
-private slots:
+private Q_SLOTS:
   void slotFaceWidgetSelectionChanged( Q3IconViewItem *item )
   	{ enableButtonOK( !item->pixmap()->isNull() ); }
 

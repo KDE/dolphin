@@ -29,7 +29,7 @@ public:
     KShellCmdPlugin( QObject* parent, const char* name, const QStringList & );
     ~KShellCmdPlugin() {}
 
-public slots:
+public Q_SLOTS:
     void slotExecuteShellCommand();
 };
 

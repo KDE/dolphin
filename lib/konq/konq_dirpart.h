@@ -185,7 +185,7 @@ public:
      */
     bool closeURL ();
 
-signals:
+Q_SIGNALS:
 
     /**
      * Emitted whenever the current URL is about to be changed.
@@ -227,7 +227,7 @@ signals:
      */
     void itemsFilteredByMime( const KFileItemList& );
 
-public slots:
+public Q_SLOTS:
 
     /**
      * Re-implemented for internal reasons.  API is unaffected.  All inheriting
@@ -280,7 +280,7 @@ public slots:
     virtual void slotClear() = 0;
     virtual void slotRedirection( const KURL & ) = 0;
 
-private slots:
+private Q_SLOTS:
     void slotIconChanged(int group);
 protected:
     /**

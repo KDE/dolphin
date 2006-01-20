@@ -49,7 +49,7 @@ class KDE_EXPORT KonqSidebarPlugin : public QObject
 	private:
 		KonqSidebarPluginPrivate *d;
 
-	signals:
+	Q_SIGNALS:
 		void requestURL(KURL&);
 		void started(KIO::Job *);
 		void completed();
@@ -59,7 +59,7 @@ class KDE_EXPORT KonqSidebarPlugin : public QObject
 
 	protected:
 		bool universalMode();
-	public slots:
+	public Q_SLOTS:
 	  void openURL(const KURL& url);
 
 	  void openPreview(const KFileItemList& items);

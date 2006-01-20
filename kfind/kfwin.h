@@ -42,11 +42,11 @@ public:
 
   QString reducedDir(const QString& fullDir);
 
-public slots:
+public Q_SLOTS:
   void copySelection();
   void slotContextMenu(KListView *,Q3ListViewItem *item,const QPoint&p);
 
-private slots:
+private Q_SLOTS:
   void deleteFiles();
   void fileProperties();
   void openFolder();
@@ -61,7 +61,7 @@ protected:
 
   virtual Q3DragObject *dragObject();
 
-signals:
+Q_SIGNALS:
   void resultSelected(bool);
 
 private:

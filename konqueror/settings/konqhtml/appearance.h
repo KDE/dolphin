@@ -30,7 +30,7 @@ public:
   virtual void save();
   virtual void defaults();
 
-public slots:
+public Q_SLOTS:
   void slotFontSize( int );
   void slotMinimumFontSize( int );
   void slotStandardFont(const QString& n);

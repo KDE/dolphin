@@ -38,7 +38,7 @@ class KonqTextViewWidget : public KonqBaseListViewWidget
       ~KonqTextViewWidget();
       virtual bool isExecuteArea( const QPoint& point );
 
-   protected slots:
+   protected Q_SLOTS:
       // slots connected to the directory lister
       virtual void setComplete();
       virtual void slotNewItems( const KFileItemList & );

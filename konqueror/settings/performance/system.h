@@ -35,7 +35,7 @@ class SystemWidget
         void load();
         void save();
         void defaults();
-    signals:
+    Q_SIGNALS:
         void changed();
     };
 

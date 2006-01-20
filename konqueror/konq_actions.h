@@ -52,10 +52,10 @@ public:
                            bool checkCurrentItem = false,
                            uint startPos = 0 );
 
-protected slots:
+protected Q_SLOTS:
     void slotActivated( int );
 
-signals:
+Q_SIGNALS:
     void menuAboutToShow();
     // -1 for one step back, 0 for don't move, +1 for one step forward, etc.
     void activated( int );
@@ -107,7 +107,7 @@ public:
     QMenu *popupMenu() const { return m_menu; }
     QString desktopEntryName() const { return m_desktopEntryName; }
 
-private slots:
+private Q_SLOTS:
     void slotPopupAboutToShow();
     void slotPopupActivated();
     void slotPopupAboutToHide();
@@ -136,10 +136,10 @@ public:
 			     const char *name );
     virtual ~KonqMostOftenURLSAction();
 
-signals:
+Q_SIGNALS:
     void activated( const KURL& );
 
-private slots:
+private Q_SLOTS:
     void slotHistoryCleared();
     void slotEntryAdded( const KonqHistoryEntry *entry );
     void slotEntryRemoved( const KonqHistoryEntry *entry );

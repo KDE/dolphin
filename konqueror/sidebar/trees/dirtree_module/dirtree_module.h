@@ -49,7 +49,7 @@ public:
     void addSubDir( KonqSidebarTreeItem *item );
     void removeSubDir( KonqSidebarTreeItem *item, bool childrenonly = false );
 
-private slots:
+private Q_SLOTS:
     void slotNewItems( const KFileItemList & );
     void slotRefreshItems( const KFileItemList & );
     void slotDeleteItem( KFileItem *item );

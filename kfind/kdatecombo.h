@@ -42,7 +42,7 @@ protected:
   bool eventFilter (QObject*, QEvent*);
   virtual void mousePressEvent (QMouseEvent * e);
 
-protected slots:
+protected Q_SLOTS:
    void dateEnteredEvent(QDate d=QDate());
 };
 

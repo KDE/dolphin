@@ -242,13 +242,13 @@ public:
     refresh();
   }
 
-signals:
+Q_SIGNALS:
   /**
    * emitted every time an option has been changed
    */
   void changed();
 
-private slots:
+private Q_SLOTS:
   void setWindowOpenPolicy(int id);
   void setWindowResizePolicy(int id);
   void setWindowMovePolicy(int id);

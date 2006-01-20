@@ -65,7 +65,7 @@ public:
 
   bool _removeJavaScriptDomainAdvice;
 
-private slots:
+private Q_SLOTS:
   void slotChangeJSEnabled();
 
 private:

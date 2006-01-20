@@ -85,7 +85,7 @@ public:
 
   void saveConfig( bool add, const QString &serviceName );
 
-private slots:
+private Q_SLOTS:
   void slotToggleView( bool toggle );
   void slotViewAdded( KonqView *view );
   void slotViewRemoved( KonqView *view );

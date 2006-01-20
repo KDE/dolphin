@@ -35,7 +35,7 @@ public:
   void save();
   void defaults();
 
-protected slots:
+protected Q_SLOTS:
   /** fill in the various graphical elements, set up other stuff. */
   void init();
 

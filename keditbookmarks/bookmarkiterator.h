@@ -36,12 +36,12 @@ public:
    virtual ~BookmarkIterator();
    virtual BookmarkIteratorHolder* holder() const = 0;
 
-public slots:
+public Q_SLOTS:
    void nextOne();
    void delayedEmitNextOne();
    void slotCancelTest(BookmarkIterator *t);
 
-signals:
+Q_SIGNALS:
    void deleteSelf(BookmarkIterator *);
 
 protected:

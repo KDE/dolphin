@@ -32,10 +32,10 @@ public:
 
     virtual bool eventFilter( QObject *receiver, QEvent *event );
 
-signals:
+Q_SIGNALS:
     void initialize();
 
-private slots:
+private Q_SLOTS:
     void slotInitialize();
 private:
     int m_eventType;

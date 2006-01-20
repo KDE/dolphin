@@ -42,7 +42,7 @@ public:
         virtual void save();
         virtual void defaults();
 
-private slots:
+private Q_SLOTS:
     void slotEntries( KIO::Job * job, const KIO::UDSEntryList& list);
 
 private:
@@ -56,7 +56,7 @@ private:
         KURL m_copyToDest; // used when the destination directory already exists
         KURL m_copyFromSrc;
 
-private slots:
+private Q_SLOTS:
         void slotResult( KIO::Job * job );
 };
 

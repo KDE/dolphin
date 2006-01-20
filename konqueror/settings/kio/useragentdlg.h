@@ -44,7 +44,7 @@ public:
   virtual void defaults();
   QString quickHelp() const;
 
-private slots:
+private Q_SLOTS:
   void updateButtons();
   void selectionChanged();
 

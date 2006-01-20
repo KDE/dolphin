@@ -78,7 +78,7 @@ public:
   void setEnableHostEdit( bool, const QString& host = QString() );
   void setPolicy (int policy);
 
-protected slots:
+protected Q_SLOTS:
   void slotTextChanged( const QString& );
 
 private:

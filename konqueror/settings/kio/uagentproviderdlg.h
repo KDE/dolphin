@@ -54,7 +54,7 @@ public:
   QString identity();
   QString alias();
 
-protected slots:
+protected Q_SLOTS:
   void slotActivated( const QString& );
   void slotTextChanged( const QString& );
 

@@ -58,7 +58,7 @@ class LocalDomainURIFilter : public KURIFilterPlugin, public DCOPObject
     mutable QString m_fullname;
     QRegExp m_hostPortPattern;
 
-  private slots:
+  private Q_SLOTS:
     void receiveOutput( KProcess *, char *, int );
 };
 

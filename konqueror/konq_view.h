@@ -325,7 +325,7 @@ public:
 
   static KParts::BrowserHostExtension *hostExtension( KParts::ReadOnlyPart *part, const QString &name );
 
-signals:
+Q_SIGNALS:
 
   /**
    * Signal the main window that the embedded part changed (e.g. because of changeViewMode)
@@ -342,7 +342,7 @@ signals:
    */
   void backRightClick();
 
-public slots:
+public Q_SLOTS:
   /**
    * Store location-bar URL in the child view
    * and updates the main view if this view is the current one
@@ -364,7 +364,7 @@ public slots:
   // but also to KonqRun's job
   void slotInfoMessage( KIO::Job *, const QString &msg );
 
-protected slots:
+protected Q_SLOTS:
   // connected to the KROP's KIO::Job
   void slotStarted( KIO::Job * job );
   void slotCompleted();

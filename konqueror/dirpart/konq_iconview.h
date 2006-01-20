@@ -36,7 +36,7 @@ protected:
     virtual void mouseReleaseEvent( QMouseEvent* ev );
     virtual void keyPressEvent( QKeyEvent* ev );
     virtual QStyleOptionViewItem viewOptions() const;
-signals:
+Q_SIGNALS:
     void toolTip( const QModelIndex& index );
     void contextMenu( const QPoint& pos, const QModelIndexList& indexes );
     void execute( const QModelIndex& index, Qt::MouseButton mb );

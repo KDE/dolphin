@@ -54,7 +54,7 @@ public:
 protected:
     void load(bool useDefaults);
 
-public slots:
+public Q_SLOTS:
     void changed();
 
 private:

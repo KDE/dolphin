@@ -186,7 +186,7 @@ public:
     virtual void clear() {}
 
 
-public slots:
+public Q_SLOTS:
     /**
      * Loads the history and fills the completion object.
      */
@@ -205,7 +205,7 @@ public slots:
     void emitClear();
 
 
-signals:
+Q_SIGNALS:
     /**
      * Emitted after the entire history was loaded from disk.
      */
@@ -324,7 +324,7 @@ protected:
      */
     QStringList m_updateURLs;
 
-private slots:
+private Q_SLOTS:
     /**
      * Called by the updateTimer to emit the KParts::HistoryProvider::updated()
      * signal so that khtml can repaint the updated links.

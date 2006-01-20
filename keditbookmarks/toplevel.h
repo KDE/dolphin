@@ -53,7 +53,7 @@ public:
 
     static CmdHistory *self();
 
-protected slots:
+protected Q_SLOTS:
     void slotCommandExecuted(KCommand *k);
 
 private:
@@ -90,7 +90,7 @@ public:
     static QString makeTimeStr(const QString &);
     static QString makeTimeStr(int);
 
-protected slots:
+protected Q_SLOTS:
     void slotBookmarksChanged(const QString &, const QString &);
 
 private:
@@ -151,10 +151,10 @@ public:
     KBookmark::List selectedBookmarksExpanded() const;
     KBookmark::List allBookmarks() const
         { return KBookmark::List();} //FIXME look up what it is suppposed to do, seems like only bookmarks but not folder are returned
-public slots:
+public Q_SLOTS:
     void slotConfigureToolbars();
 
-protected slots:
+protected Q_SLOTS:
     void slotClipboardDataChanged();
     void slotNewToolbarConfig();
     void selectionChanged();

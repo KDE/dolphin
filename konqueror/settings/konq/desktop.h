@@ -43,7 +43,7 @@ class KDesktopConfig : public KCModule
   void save();
   void defaults();
   
- protected slots:
+ protected Q_SLOTS:
   void slotValueChanged(int);
     
  private:

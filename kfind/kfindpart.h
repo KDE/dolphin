@@ -63,7 +63,7 @@ public:
   virtual void disableIcons( const KURL::List & ){};
   virtual const KFileItem * currentItem(){return 0;};
 
-signals:
+Q_SIGNALS:
     // Konqueror connects directly to those signals
     void started(); // started a search
     void clear(); // delete all items
@@ -73,7 +73,7 @@ signals:
     void findClosed(); // close us
     void deleteItem( KFileItem *item);
 
-protected slots:
+protected Q_SLOTS:
     void slotStarted();
     void slotDestroyMe();
     void addFile(const KFileItem *item, const QString& matchingLine);

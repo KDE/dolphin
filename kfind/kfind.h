@@ -34,13 +34,13 @@ public:
     void saveState( QDataStream *stream );
     void restoreState( QDataStream *stream );
 
-public slots:
+public Q_SLOTS:
     void startSearch();
     void stopSearch();
     //void newSearch();
     void saveResults();
 
-signals:
+Q_SIGNALS:
     void haveResults(bool);
     void resultSelected(bool);
 

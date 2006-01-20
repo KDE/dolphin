@@ -70,7 +70,7 @@ class LIBKONQ_EXPORT KonqFileTip : public Q3Frame
     virtual void drawContents( QPainter *p );
     virtual void resizeEvent( QResizeEvent * );
 
-  private slots:
+  private Q_SLOTS:
     void gotPreview( const KFileItem*, const QPixmap& );
     void gotPreviewResult();
 

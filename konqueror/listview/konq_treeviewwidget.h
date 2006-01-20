@@ -42,7 +42,7 @@ public:
    virtual void saveState( QDataStream &stream );
    virtual void restoreState( QDataStream &stream );
 
-protected slots:
+protected Q_SLOTS:
    // slots connected to the directory lister
    virtual void slotCompleted();
    virtual void slotCompleted( const KURL & );

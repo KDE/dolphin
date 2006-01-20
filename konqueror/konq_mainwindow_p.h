@@ -30,7 +30,7 @@ public:
   virtual void openBookmarkURL( const QString & _url );
   virtual QString currentTitle() const;
   virtual QString currentURL() const;
-public slots:
+public Q_SLOTS:
   // for KExtendedBookmarkOwner
   void slotFillBookmarksList( KExtendedBookmarkOwner::QStringPairList & list );
 private:

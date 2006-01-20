@@ -53,10 +53,10 @@ public:
 
   void setTypeItem( TypesListItem * item );
 
-signals:
+Q_SIGNALS:
   void changed(bool);
 
-protected slots:
+protected Q_SLOTS:
   void promoteService();
   void demoteService();
   void addService();

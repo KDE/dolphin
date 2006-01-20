@@ -41,7 +41,7 @@ public:
   void save();
   void defaults();
 
-public slots:
+public Q_SLOTS:
  
   void slotPreview();
   void slotCustomize();

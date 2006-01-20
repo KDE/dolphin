@@ -59,7 +59,7 @@ protected:
   virtual void init();
   virtual void scanFile();
 
-protected slots:
+protected Q_SLOTS:
   void slotRedirection( KIO::Job *, const KURL& );
 
 protected:

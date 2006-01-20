@@ -33,16 +33,16 @@ class KShellCommandExecutor:public Q3TextView
       KShellCommandExecutor(const QString& command, QWidget* parent=0);
       virtual ~KShellCommandExecutor();
       int exec();
-   signals:
+   Q_SIGNALS:
       void finished();
-   public slots:
+   public Q_SLOTS:
       void slotFinished();
    protected:
       PtyProcess *m_shellProcess;
       QString m_command;
       QSocketNotifier *m_readNotifier;
       QSocketNotifier *m_writeNotifier;
-   protected slots:
+   protected Q_SLOTS:
       void readDataFromShell();
       void writeDataToShell();
 };

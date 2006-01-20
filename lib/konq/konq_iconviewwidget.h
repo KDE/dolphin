@@ -255,7 +255,7 @@ public:
     const QStringList& previewSettings();
     void setNewURL( const QString& url );
 
-public slots:
+public Q_SLOTS:
     /**
      * Checks the new selection and emits enableAction() signals
      */
@@ -266,7 +266,7 @@ public slots:
     void renameSelectedItem();
     void renameCurrentItem();
 
-signals:
+Q_SIGNALS:
     /**
      * For cut/copy/paste/move/delete (see kparts/browserextension.h)
      */
@@ -291,7 +291,7 @@ signals:
      */
     void dragFinished();
 
-protected slots:
+protected Q_SLOTS:
     virtual void slotDropped( QDropEvent *e, const QList<Q3IconDragItem> & );
 
     void slotItemRenamed(Q3IconViewItem *item, const QString &name);

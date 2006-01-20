@@ -90,7 +90,7 @@ private:
     QString iconNameFromURL(const KURL &);
     bool isIconOld(const QString &);
 
-private slots:
+private Q_SLOTS:
     void slotData(KIO::Job *, const QByteArray &);
     void slotResult(KIO::Job *);
     void slotInfoMessage(KIO::Job *, const QString &);

@@ -73,7 +73,7 @@ public:
   void determineIcon( KFileIVI * item );
   int iconSize() { return m_pIconView->iconSize(); }
 
-public slots:
+public Q_SLOTS:
   void slotPreview( bool toggle );
   void slotShowDirectoryOverlays();
   void slotShowDot();
@@ -91,7 +91,7 @@ public slots:
   void slotSortDescending();
   void slotSortDirsFirst();
 
-protected slots:
+protected Q_SLOTS:
   // slots connected to Q3IconView
   void slotReturnPressed( Q3IconViewItem *item );
   void slotMouseButtonPressed(int, Q3IconViewItem*, const QPoint&);
@@ -238,7 +238,7 @@ public:
   virtual int xOffset();
   virtual int yOffset();
 
-public slots:
+public Q_SLOTS:
   // Those slots are automatically connected by the shell
   void reparseConfiguration();
   void setSaveViewPropertiesLocally( bool value );
@@ -283,7 +283,7 @@ public:
     void dragEntered(KonqKfmIconView *view);
     void dragFinished(KonqKfmIconView *view);
 
-private slots:
+private Q_SLOTS:
     void finished();
 
 private:

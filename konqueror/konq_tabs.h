@@ -91,11 +91,11 @@ public:
   void moveTabForward(int index);
 
 
-public slots:
+public Q_SLOTS:
   void slotCurrentChanged( QWidget* newPage );
   void setAlwaysTabbedMode( bool );
 
-signals:
+Q_SIGNALS:
   void ctrlTabPressed();
   void removeTabPopup();
 
@@ -105,7 +105,7 @@ protected:
 
   Q3PtrList<KonqFrameBase>* m_pChildFrameList;
 
-private slots:
+private Q_SLOTS:
   void slotContextMenu( const QPoint& );
   void slotContextMenu( QWidget*, const QPoint& );
   void slotCloseRequest( QWidget* );

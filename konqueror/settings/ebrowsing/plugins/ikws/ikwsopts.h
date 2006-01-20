@@ -42,7 +42,7 @@ public:
     void defaults();
     QString quickHelp() const;
 
-protected slots:
+protected Q_SLOTS:
     void configChanged();
     void checkFavoritesChanged();
 

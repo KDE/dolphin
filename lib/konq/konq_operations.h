@@ -129,7 +129,7 @@ public:
      */
     static void newDir( QWidget * parent, const KURL & baseURL );
 
-signals:
+Q_SIGNALS:
     void statFinished( const KFileItem * item );
     void aboutToCreate(const QPoint &pos, const QList<KIO::CopyInfo> &files);
 
@@ -166,7 +166,7 @@ protected:
     };
     void setPasteInfo( KIOPasteInfo * info ) { m_pasteInfo = info; }
 
-protected slots:
+protected Q_SLOTS:
 
     void slotAboutToCreate(KIO::Job *job, const QList<KIO::CopyInfo> &files);
     void slotResult( KIO::Job * job );
@@ -193,7 +193,7 @@ class KonqMultiRestoreJob : public KIO::Job
 public:
     KonqMultiRestoreJob( const KURL::List& urls, bool showProgressInfo );
 
-protected slots:
+protected Q_SLOTS:
     virtual void slotStart();
     virtual void slotResult( KIO::Job *job );
 

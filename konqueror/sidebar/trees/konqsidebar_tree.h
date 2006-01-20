@@ -26,7 +26,7 @@ class KonqSidebar_Tree: public KonqSidebarPlugin
                         class QWidget *widget;
                         class KonqSidebarTree *tree;
                         virtual void handleURL(const KURL &url);
-		protected slots:
+		protected Q_SLOTS:
 			void copy();
 			void cut();
 			void paste();
@@ -34,7 +34,7 @@ class KonqSidebar_Tree: public KonqSidebarPlugin
 			void del();
 			void shred();
 			void rename();
-signals:
+Q_SIGNALS:
 			void openURLRequest( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
   			void createNewWindow( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
 			void popupMenu( const QPoint &global, const KURL &url,

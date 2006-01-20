@@ -54,7 +54,7 @@ public:
     NSPluginInstance(QWidget *parent, const DCOPCString& app, const DCOPCString& id);
     ~NSPluginInstance();
 
-private slots:
+private Q_SLOTS:
     void doLoadPlugin();
 
 protected:
@@ -92,7 +92,7 @@ protected:
   bool loadViewer();
   void unloadViewer();
 
-protected slots:
+protected Q_SLOTS:
   void applicationRegistered( const QByteArray& appId );
   void processTerminated( KProcess *proc );
 

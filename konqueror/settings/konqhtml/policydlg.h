@@ -110,7 +110,7 @@ public:
      */
     void addPolicyPanel(QWidget *panel);
 
-protected slots:
+protected Q_SLOTS:
 
     virtual void accept();
     void slotTextChanged( const QString &text);

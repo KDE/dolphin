@@ -63,7 +63,7 @@ public:
 	 */
 	bool eventFilter(QObject *, QEvent *e);
 
-private slots:
+private Q_SLOTS:
 	void slotChangePassword();
 	//void configChanged() { emit changed(true); };
 	void slotFaceButtonClicked();
