@@ -1578,7 +1578,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     }
 
     QList<int> sizes =
-        cfg.readIntListEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ));
+        cfg.readEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ),QList<int>());
 
     int index = cfg.readEntry( QString::fromLatin1( "activeChildIndex" ).prepend(prefix), -1 );
 
