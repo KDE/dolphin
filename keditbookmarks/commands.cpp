@@ -32,10 +32,10 @@
 #include <klocale.h>
 #include <kbookmarkmanager.h>
 #include <kdesktopfile.h>
-
+#include <Q3PtrListIterator>
 QString KEBMacroCommand::affectedBookmarks() const
 {
-    Q3PtrListIterator<KCommand> it(m_commands);
+    QList<KCommand*>::Iterator it(m_commands);
     QString affectBook;
     if(it.current())
         affectBook = dynamic_cast<IKEBCommand *>(it.current())->affectedBookmarks();

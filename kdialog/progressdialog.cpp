@@ -20,6 +20,7 @@
 #include "progressdialog.h"
 #include "kdebug.h"
 #include "widgets.h"
+#include <kprogressdialog.h>
 
 ProgressDialog::ProgressDialog(QWidget* parent, const QString& caption, const QString& text, int totalSteps)
     : DCOPObject( "ProgressDialog" ), KProgressDialog(parent, 0, caption, text, false)
