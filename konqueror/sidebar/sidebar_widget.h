@@ -100,14 +100,14 @@ public:
 						const char * name,bool universalMode, 
 						const QString &currentProfile);
 	~Sidebar_Widget();
-	bool openURL(const class KURL &url);
+	bool openURL(const class KUrl &url);
 	void stdAction(const char *handlestd);
 	//virtual KParts::ReadOnlyPart *getPart();
 	KParts::BrowserExtension *getExtension();
         virtual QSize sizeHint() const;	
 
 public Q_SLOTS:
-	void addWebSideBar(const KURL& url, const QString& name);
+	void addWebSideBar(const KUrl& url, const QString& name);
 
 protected:
 	void customEvent(QCustomEvent* ev);
@@ -149,22 +149,22 @@ public:
 
  /* The following public slots are wrappers for browserextension fields */
 public Q_SLOTS:
-	void openURLRequest( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
+	void openURLRequest( const KUrl &url, const KParts::URLArgs &args = KParts::URLArgs() );
 	/* @internal
 	 * @since 3.2
 	 * ### KDE4 remove me
 	 */
 	void submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&);
-  	void createNewWindow( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
-	void createNewWindow( const KURL &url, const KParts::URLArgs &args,
+  	void createNewWindow( const KUrl &url, const KParts::URLArgs &args = KParts::URLArgs() );
+	void createNewWindow( const KUrl &url, const KParts::URLArgs &args,
              const KParts::WindowArgs &windowArgs, KParts::ReadOnlyPart *&part );
 
 	void popupMenu( const QPoint &global, const KFileItemList &items );
   	void popupMenu( KXMLGUIClient *client, const QPoint &global, const KFileItemList &items );
-	void popupMenu( const QPoint &global, const KURL &url,
+	void popupMenu( const QPoint &global, const KUrl &url,
 		const QString &mimeType, mode_t mode = (mode_t)-1 );
 	void popupMenu( KXMLGUIClient *client,
-		const QPoint &global, const KURL &url,
+		const QPoint &global, const KUrl &url,
 		const QString &mimeType, mode_t mode = (mode_t)-1 );
 	void enableAction( const char * name, bool enabled );
 	void userMovedSplitter();
@@ -199,7 +199,7 @@ private:
 	KConfig *m_config;
 	QTimer m_configTimer;
 	
-	KURL m_storedUrl;
+	KUrl m_storedUrl;
 	int m_savedWidth;
 	int m_latestViewed;
 

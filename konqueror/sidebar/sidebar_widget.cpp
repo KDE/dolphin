@@ -718,7 +718,7 @@ void Sidebar_Widget::createButtons()
         m_noUpdate=false;
 }
 
-bool Sidebar_Widget::openURL(const class KURL &url)
+bool Sidebar_Widget::openURL(const class KUrl &url)
 {
 	if (url.protocol()=="sidebar")
 	{
