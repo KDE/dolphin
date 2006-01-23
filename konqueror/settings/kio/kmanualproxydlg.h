@@ -59,7 +59,7 @@ protected Q_SLOTS:
   
 private:
   QString urlFromInput( const KLineEdit* edit, const QSpinBox* spin ) const;
-  bool isValidURL( const QString&, KURL* = 0 ) const;
+  bool isValidURL( const QString&, KUrl* = 0 ) const;
   bool handleDuplicate( const QString& );
   bool getException ( QString&, const QString&,
                       const QString& value = QString() );
