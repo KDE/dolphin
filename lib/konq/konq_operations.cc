@@ -543,7 +543,8 @@ void KonqOperations::doFileCopy()
 	{
             KURL url = lst.first();
             KMimeType::Ptr mime = KMimeType::findByURL( url );
-            if ( ( !KImageIO::type(url.path()).isEmpty() ) ||
+#warning "kde4: is it correct ? !KImageIO::type(url.path()).isEmpty() -> mime.isNull() ?"
+            if ( ( !mime.isNull() ) ||
                  ( KImageIO::isSupported(mime->name(), KImageIO::Reading) ) ||
                  mime->is( "image/svg+xml" ) )
             {
