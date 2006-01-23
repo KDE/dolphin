@@ -110,7 +110,7 @@
                                 </size>
                             </property>
                         </spacer>
-                        <widget class="KURLRequester">
+                        <widget class="KUrlRequester">
                             <property name="name">
                                 <cstring>urlRequester</cstring>
                             </property>

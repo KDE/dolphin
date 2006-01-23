@@ -15,7 +15,7 @@ class QString;
 class KPushButton;
 
 class KQuery;
-class KURL;
+class KUrl;
 class KfindTabWidget;
 
 class Kfind: public QWidget

@@ -59,12 +59,12 @@ KSocksConfig::KSocksConfig(KInstance *inst, QWidget *parent)
   connect(base->bg, SIGNAL(clicked(int)), this, SLOT(methodChanged(int)));
 
   // The custom library
-  connect(base->_c_customPath, SIGNAL(openFileDialog(KURLRequester *)), this, SLOT(chooseCustomLib(KURLRequester *)));
+  connect(base->_c_customPath, SIGNAL(openFileDialog(KUrlRequester *)), this, SLOT(chooseCustomLib(KUrlRequester *)));
   connect(base->_c_customPath, SIGNAL(textChanged(const QString&)),
                      this, SLOT(customPathChanged(const QString&)));
 
   // Additional libpaths
-  connect(base->_c_newPath, SIGNAL(openFileDialog(KURLRequester *)), this, SLOT(chooseCustomLib(KURLRequester *)));
+  connect(base->_c_newPath, SIGNAL(openFileDialog(KUrlRequester *)), this, SLOT(chooseCustomLib(KUrlRequester *)));
   connect(base->_c_newPath, SIGNAL(returnPressed(const QString&)),
           this, SLOT(addThisLibrary(const QString&)));
   connect(base->_c_newPath, SIGNAL(textChanged(const QString&)),
@@ -140,7 +140,7 @@ void KSocksConfig::testClicked()
 }
 
 
-void KSocksConfig::chooseCustomLib(KURLRequester * url)
+void KSocksConfig::chooseCustomLib(KUrlRequester * url)
 {
   url->setMode( KFile::Directory );
 /*  QString newFile = KFileDialog::getOpenFileName();

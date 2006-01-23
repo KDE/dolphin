@@ -490,7 +490,7 @@ void Sidebar_Widget::slotSetName( )
 
 void Sidebar_Widget::slotSetURL( )
 {
-	KURLRequesterDlg dlg( m_currentButton->URL, i18n("Enter a URL:"), this, "url_dlg" );
+	KUrlRequesterDlg dlg( m_currentButton->URL, i18n("Enter a URL:"), this, "url_dlg" );
 	dlg.fileDialog()->setMode( KFile::Directory );
 	if (dlg.exec())
 	{

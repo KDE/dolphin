@@ -19,7 +19,7 @@
 
 #include <kparts/plugin.h>
 
-class KURL;
+class KUrl;
 class KInstance;
 
 /**

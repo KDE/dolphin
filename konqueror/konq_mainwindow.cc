@@ -1414,7 +1414,7 @@ void KonqMainWindow::slotOpenLocation()
   // Don't pre-fill the url, as it is auto-selected and thus overwrites the
   // X clipboard, making it impossible to paste in the url you really wanted.
   // Another example of why the X clipboard sux
-   KURLRequesterDlg dlg( QString::null, this, 0, true);
+   KUrlRequesterDlg dlg( QString::null, this, 0, true);
   dlg.setCaption( i18n("Open Location") );
   // Set current directory for relative paths.
   // Testcase: konqueror www.kde.org; Ctrl+O; file in $HOME; would open http://$file
@@ -2892,7 +2892,7 @@ bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
 {
    const KURL initialUrl = (viewCount()==2) ? otherView(m_currentView)->url() : m_currentView->url();
    QString label = text.arg( m_currentView->url().pathOrURL() );
-   KURLRequesterDlg dlg(initialUrl.pathOrURL(), label, this, "urlrequester", true);
+   KUrlRequesterDlg dlg(initialUrl.pathOrURL(), label, this, "urlrequester", true);
    dlg.setCaption(i18n("Enter Target"));
    dlg.urlRequester()->setMode( KFile::File | KFile::ExistingOnly | KFile::Directory );
    if (dlg.exec())
@@ -2909,7 +2909,7 @@ bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
    return false;
 }
 
-void KonqMainWindow::slotRequesterClicked( KURLRequester *req )
+void KonqMainWindow::slotRequesterClicked( KUrlRequester *req )
 {
     req->fileDialog()->setMode(KFile::Directory|KFile::ExistingOnly);
 }
@@ -3184,7 +3184,7 @@ void KonqMainWindow::initCombo()
   connect( m_combo, SIGNAL(showPageSecurity()),
            this, SLOT(showPageSecurity()) );
 
-  m_pURLCompletion = new KURLCompletion();
+  m_pURLCompletion = new KUrlCompletion();
   m_pURLCompletion->setCompletionMode( s_pCompletion->completionMode() );
 
   // This only turns completion off. ~ is still there in the result

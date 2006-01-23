@@ -27,7 +27,7 @@
 #include <kdialog.h>
 
 class KColorButton;
-class KURLRequester;
+class KUrlRequester;
 class QGroupBox;
 class QRadioButton;
 class QFrame;
@@ -67,7 +67,7 @@ private:
   QGroupBox* m_buttonGroup;
   QRadioButton* m_radioColor;
   QRadioButton* m_radioPicture;
-  KURLRequester* m_comboPicture;
+  KUrlRequester* m_comboPicture;
   KColorButton* m_buttonColor;
   
 };

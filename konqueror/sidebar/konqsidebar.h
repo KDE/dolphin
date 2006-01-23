@@ -28,7 +28,7 @@
 class QWidget;
 class QPainter;
 class QCustomEvent;
-class KURL;
+class KUrl;
 
 
 class KonqSidebar;

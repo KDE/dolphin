@@ -76,7 +76,7 @@ DesktopPathConfig::DesktopPathConfig(KInstance *inst, QWidget *parent )
   row++;
   tmpLabel = new QLabel(i18n("Des&ktop path:"), this);
   lay->addWidget(tmpLabel, row, 0);
-  urDesktop = new KURLRequester(this);
+  urDesktop = new KUrlRequester(this);
   urDesktop->setMode( KFile::Directory );
   tmpLabel->setBuddy( urDesktop );
   lay->addMultiCellWidget(urDesktop, row, row, 1, RO_LASTCOL);
@@ -91,7 +91,7 @@ DesktopPathConfig::DesktopPathConfig(KInstance *inst, QWidget *parent )
   row++;
   tmpLabel = new QLabel(i18n("A&utostart path:"), this);
   lay->addWidget(tmpLabel, row, 0);
-  urAutostart = new KURLRequester(this);
+  urAutostart = new KUrlRequester(this);
   urAutostart->setMode( KFile::Directory );
   tmpLabel->setBuddy( urAutostart );
   lay->addMultiCellWidget(urAutostart, row, row, 1, RO_LASTCOL);
@@ -107,7 +107,7 @@ DesktopPathConfig::DesktopPathConfig(KInstance *inst, QWidget *parent )
   row++;
   tmpLabel = new QLabel(i18n("D&ocuments path:"), this);
   lay->addWidget(tmpLabel, row, 0);
-  urDocument = new KURLRequester(this);
+  urDocument = new KUrlRequester(this);
   urDocument->setMode( KFile::Directory );
   tmpLabel->setBuddy( urDocument );
   lay->addMultiCellWidget(urDocument, row, row, 1, RO_LASTCOL);

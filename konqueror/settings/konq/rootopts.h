@@ -25,7 +25,7 @@ class QPushButton;
 
 class KConfig;
 class KListView;
-class KURLRequester;
+class KUrlRequester;
 
 namespace KIO { class Job; }
 
@@ -47,9 +47,9 @@ private Q_SLOTS:
 
 private:
         // Desktop Paths
-        KURLRequester *urDesktop;
-        KURLRequester *urAutostart;
-        KURLRequester *urDocument;
+        KUrlRequester *urDesktop;
+        KUrlRequester *urAutostart;
+        KUrlRequester *urDocument;
 
         bool moveDir( const KURL & src, const KURL & dest, const QString & type );
         bool m_ok;

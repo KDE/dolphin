@@ -119,7 +119,7 @@ Automatic detection is performed using the &lt;b&gt;Web Proxy Auto-Discovery Pro
                                 </size>
                             </property>
                         </spacer>
-                        <widget class="KURLRequester">
+                        <widget class="KUrlRequester">
                             <property name="name">
                                 <cstring>location</cstring>
                             </property>

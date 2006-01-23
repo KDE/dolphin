@@ -123,7 +123,7 @@
                                 <cstring>_c_customPath</cstring>
                             </property>
                         </widget>
-                        <widget class="KURLRequester">
+                        <widget class="KUrlRequester">
                             <property name="name">
                                 <cstring>_c_customPath</cstring>
                             </property>
@@ -207,7 +207,7 @@
                         <string>This is the list of additional paths that will be searched.</string>
                     </property>
                 </widget>
-                <widget class="KURLRequester">
+                <widget class="KUrlRequester">
                     <property name="name">
                         <cstring>_c_newPath</cstring>
                     </property>

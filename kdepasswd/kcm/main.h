@@ -32,7 +32,7 @@ class KUser;
 class KEmailSettings;
 class QEvent;
 class QObject;
-class KURL;
+class KUrl;
 class Config;
 
 /**

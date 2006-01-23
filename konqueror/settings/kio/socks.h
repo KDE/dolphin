@@ -56,7 +56,7 @@ private Q_SLOTS:
   void enableChanged();
   void methodChanged(int id);
   void testClicked();
-  void chooseCustomLib(KURLRequester *url);
+  void chooseCustomLib(KUrlRequester *url);
   void customPathChanged(const QString&);
   void addLibrary();
   void libTextChanged(const QString& lib);

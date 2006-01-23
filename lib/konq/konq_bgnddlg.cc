@@ -73,7 +73,7 @@ KonqBgndDialog::KonqBgndDialog( QWidget* parent,
     // picture
     m_radioPicture = new QRadioButton( i18n("&Picture:"), m_buttonGroup );
     groupLayout->addWidget( m_radioPicture, 1, 0 );
-    m_comboPicture = new KURLComboRequester( m_buttonGroup );
+    m_comboPicture = new KUrlComboRequester( m_buttonGroup );
     groupLayout->addMultiCellWidget( m_comboPicture, 1, 1, 1, 2 );
     initPictures();
 

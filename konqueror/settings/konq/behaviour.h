@@ -30,7 +30,7 @@ class QSpinBox;
 class Q3VButtonGroup;
 
 class KConfig;
-class KURLRequester;
+class KUrlRequester;
 
 //-----------------------------------------------------------------------------
 
@@ -59,7 +59,7 @@ private:
 
   QLabel *winPixmap;
 
-  KURLRequester *homeURL;
+  KUrlRequester *homeURL;
 
   Q3VButtonGroup *bgOneProcess;
   //QLabel *fileTips;

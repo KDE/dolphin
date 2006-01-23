@@ -23,7 +23,7 @@
 class KColorButton;
 class KConfig;
 class KListView;
-class KURLRequester;
+class KUrlRequester;
 class KIntNumInput;
 
 class QCheckBox;
@@ -112,7 +112,7 @@ private:
     QCheckBox*     enableShutdownCB;
     KIntNumInput*  serverTimeoutSB;
     QLineEdit*     addArgED;
-    KURLRequester* pathED;
+    KUrlRequester* pathED;
     bool           _removeJavaDomainSettings;
 
     JavaDomainListView *domainSpecific;

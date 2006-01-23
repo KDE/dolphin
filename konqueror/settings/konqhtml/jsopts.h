@@ -17,7 +17,7 @@
 
 class KColorButton;
 class KConfig;
-class KURLRequester;
+class KUrlRequester;
 class QCheckBox;
 class QComboBox;
 class QLineEdit;

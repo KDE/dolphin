@@ -125,7 +125,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, KInstance *
     label = new QLabel(i18n("Home &URL:"), this);
 	hlay->addWidget( label );
 
-	homeURL = new KURLRequester(this);
+	homeURL = new KUrlRequester(this);
 	homeURL->setMode(KFile::Directory);
 	homeURL->setCaption(i18n("Select Home Folder"));
 	hlay->addWidget( homeURL );

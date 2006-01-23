@@ -34,7 +34,7 @@ namespace KIO { class Job; }
 
 class KDirWatch;
 class KLineEdit;
-class KURLRequester;
+class KUrlRequester;
 
 /**
  * The 'New' submenu, both for the File menu and the RMB popup menu.
@@ -180,7 +180,7 @@ private:
 /**
  * @internal
  * Dialog to ask for a filename and a URL, when creating a link to a URL.
- * Basically a merge of KLineEditDlg and KURLRequesterDlg ;)
+ * Basically a merge of KLineEditDlg and KUrlRequesterDlg ;)
  * @author David Faure <faure@kde.org>
  */
 class KURLDesktopFileDlg : public KDialogBase
@@ -214,7 +214,7 @@ private:
     /**
      * The URL requester for the URL :)
      */
-    KURLRequester *m_urlRequester;
+    KUrlRequester *m_urlRequester;
 
     /**
      * True if the filename was manually edited.

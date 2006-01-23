@@ -31,7 +31,7 @@
 
 #include <kservice.h>
 
-class KURL;
+class KUrl;
 
 
 class KURISearchFilterEngine

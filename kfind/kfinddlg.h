@@ -14,7 +14,7 @@
 class QString;
 
 class KQuery;
-class KURL;
+class KUrl;
 class KFileItem;
 class KfindTabWidget;
 class KfindWindow;

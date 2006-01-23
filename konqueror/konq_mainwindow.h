@@ -79,7 +79,7 @@ class ViewModeGUIClient;
 class KonqMainWindowIface;
 class KonqDirPart;
 class KonqRun;
-class KURLRequester;
+class KUrlRequester;
 class KZip;
 struct HistoryEntry;
 
@@ -544,7 +544,7 @@ protected:
   bool askForTarget(const QString& text, KURL& url);
 
 private Q_SLOTS:
-  void slotRequesterClicked( KURLRequester * );
+  void slotRequesterClicked( KUrlRequester * );
   void slotIntro();
   /**
    * Loads the url displayed currently in the lineedit of the locationbar, by
@@ -727,7 +727,7 @@ private:
   QLabel* m_locationLabel;
   QPointer<KonqCombo> m_combo;
   static KConfig *s_comboConfig;
-  KURLCompletion *m_pURLCompletion;
+  KUrlCompletion *m_pURLCompletion;
   // just a reference to KonqHistoryManager's completionObject
   static KCompletion *s_pCompletion;
 

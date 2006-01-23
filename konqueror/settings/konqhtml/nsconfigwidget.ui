@@ -128,7 +128,7 @@
                                     <string>&amp;New</string>
                                 </property>
                             </widget>
-                            <widget class="KURLRequester" row="0" column="0" rowspan="1" colspan="2">
+                            <widget class="KUrlRequester" row="0" column="0" rowspan="1" colspan="2">
                                 <property name="name">
                                     <cstring>dirEdit</cstring>
                                 </property>

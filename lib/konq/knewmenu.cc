@@ -557,7 +557,7 @@ void KURLDesktopFileDlg::initDialog( const QString& textFileName, const QString&
     KHBox * urlBox = new KHBox( plainPage() );
     topLayout->addWidget( urlBox );
     label = new QLabel( textUrl, urlBox );
-    m_urlRequester = new KURLRequester( defaultUrl, urlBox);
+    m_urlRequester = new KUrlRequester( defaultUrl, urlBox);
 	m_urlRequester->setObjectName("urlRequester");
     m_urlRequester->setMode( KFile::File | KFile::Directory );
 
