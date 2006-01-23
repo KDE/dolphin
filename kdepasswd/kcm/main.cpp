@@ -35,7 +35,7 @@
 #include <kpushbutton.h>
 #include <kguiitem.h>
 #include <kemailsettings.h>
-#include <kpassdlg.h>
+#include <kpassworddialog.h>
 #include <kuser.h>
 #include <kdialog.h>
 #include <kimageio.h>

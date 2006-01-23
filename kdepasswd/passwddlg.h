@@ -9,7 +9,7 @@
 #ifndef __PasswdDlg_h_Incluced__
 #define __PasswdDlg_h_Incluced__
 
-#include <kpassdlg.h>
+#include <kpassworddialog.h>
 #include <QByteArray>
 
 class KDEpasswd1Dialog

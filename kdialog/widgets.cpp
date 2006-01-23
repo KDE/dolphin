@@ -25,7 +25,7 @@
 #include "klistboxdialog.h"
 #include "progressdialog.h"
 #include <kinputdialog.h>
-#include <kpassdlg.h>
+#include <kpassworddialog.h>
 #include <kcombobox.h>
 #include <kdebug.h>
 #include <kapplication.h>
