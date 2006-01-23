@@ -23,36 +23,36 @@
 #include <kprogressdialog.h>
 
 ProgressDialog::ProgressDialog(QWidget* parent, const QString& caption, const QString& text, int totalSteps)
-    : DCOPObject( "ProgressDialog" ), KProgressDialog(parent, 0, caption, text, false)
+    : DCOPObject( "ProgressDialog" ), KProgressDialog(parent, caption, text, false)
 {
     setAutoClose( false );
-    setTotalSteps( totalSteps );
+    progressBar()->setMaximum( totalSteps );
     showCancelButton( false );
     Widgets::handleXGeometry(this);
 }
 
-void ProgressDialog::setTotalSteps( int totalSteps )
+void ProgressDialog::setMaximum( int totalSteps )
 {
-    progressBar()->setTotalSteps( totalSteps );
-    if ( progress()>=totalSteps )
+    progressBar()->setMaximum( totalSteps );
+    if ( progressBar()->value()>=totalSteps )
       showCancelButton( false );
 }
 
-int ProgressDialog::totalSteps() const
+int ProgressDialog::maximum() const
 {
-    return progressBar()->totalSteps();
+    return progressBar()->maximum();
 }
     
-void ProgressDialog::setProgress( int progress )
+void ProgressDialog::setValue( int progress )
 {
-    progressBar()->setProgress( progress );
-    if (progress>=totalSteps() )
+    progressBar()->setValue( progress );
+    if (progress>=maximum() )
       showCancelButton( false );
 }      
       
-int ProgressDialog::progress() const
+int ProgressDialog::value() const
 {
-    return progressBar()->progress();
+    return progressBar()->value();
 }
 
 void ProgressDialog::setLabel(const QString& label)

@@ -29,11 +29,11 @@ class ProgressDialog : public KProgressDialog, virtual public ProgressDialogIfac
     public:
       ProgressDialog(QWidget* parent = 0, const QString& caption = QString(), const QString& text = QString(), int totalSteps = 100);
       
-      void setTotalSteps( int );
-      int totalSteps() const;
+      void setMaximum( int );
+      int maximum() const;
     
-      void setProgress( int );
-      int progress() const;
+      void setValue( int );
+      int value() const;
       
       void setLabel(const QString&);
     
