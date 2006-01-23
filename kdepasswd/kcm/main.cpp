@@ -61,6 +61,8 @@ KCMUserAccount::KCMUserAccount( QWidget *parent, const char *name,
 	const QStringList &)
 	: KCModule( Factory::instance(), parent)
 {
+        Q_UNUSED(name);
+
 	QVBoxLayout *topLayout = new QVBoxLayout(this);
 	_mw = new MainWidget(this);
 	topLayout->addWidget( _mw );
@@ -325,7 +327,7 @@ inline KURL *KCMUserAccount::decodeImgDrop(QDropEvent *e, QWidget *wdg)
   {
     KURL *url = new KURL(uris.first());
 
-    if( KImageIO::canRead(KImageIO::type(url->fileName())) )
+    if( KImageIO::types(KImageIO::Reading).contains(url->fileName()) )
       return url;
 
     QStringList qs = KImageIO::pattern().split( '\n');
