@@ -35,13 +35,17 @@
 #include <Q3PtrListIterator>
 QString KEBMacroCommand::affectedBookmarks() const
 {
-    QList<KCommand*>::Iterator it(m_commands);
+    QList<KCommand*>::const_iterator it;
+    it = m_commands.constBegin();
     QString affectBook;
-    if(it.current())
-        affectBook = dynamic_cast<IKEBCommand *>(it.current())->affectedBookmarks();
+    if(*it)
+        affectBook = dynamic_cast<IKEBCommand *>(*it)->affectedBookmarks();
     ++it;
-    for ( ; it.current() ; ++it )
-        affectBook = KBookmark::commonParent( affectBook, dynamic_cast<IKEBCommand *>(it.current())->affectedBookmarks());
+    while( it != m_commands.constEnd())
+    {
+        affectBook = KBookmark::commonParent( affectBook, dynamic_cast<IKEBCommand *>(*it)->affectedBookmarks());
+        ++it;
+    }
     return affectBook;
 }
 
