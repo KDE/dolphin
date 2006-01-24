@@ -58,12 +58,12 @@ public:
     /**
      * Create a new window with a single view, showing @p url
      */
-    static KonqMainWindow * createSimpleWindow( const KURL &url, const QString &frameName = QString() );
+    static KonqMainWindow * createSimpleWindow( const KUrl &url, const QString &frameName = QString() );
 
     /**
      * Create a new window with a single view, showing @p url, using @p args
      */
-    static KonqMainWindow * createSimpleWindow( const KURL &url, const KParts::URLArgs &args, 
+    static KonqMainWindow * createSimpleWindow( const KUrl &url, const KParts::URLArgs &args, 
 						bool tempFile = false);
 
     /**
@@ -71,7 +71,7 @@ public:
      * @param forbidUseHTML internal. True when called by "Find Files"
      * @param openURL If it is false, no url is openend in the new window. The url is used to guess the profile
      */
-    static KonqMainWindow * createNewWindow( const KURL &url,
+    static KonqMainWindow * createNewWindow( const KUrl &url,
                                              const KParts::URLArgs &args = KParts::URLArgs(),
                                              bool forbidUseHTML = false,
                                              QStringList filesToSelect = QStringList(),
@@ -86,7 +86,7 @@ public:
      */
     static KonqMainWindow * createBrowserWindowFromProfile( const QString &path,
                                                             const QString &filename,
-                                                            const KURL &url = KURL(),
+                                                            const KUrl &url = KURL(),
                                                             const KParts::URLArgs &args = KParts::URLArgs(),
                                                             bool forbidUseHTML = false,
                                                             const QStringList& filesToSelect = QStringList(),
@@ -133,7 +133,7 @@ private:
     QPoint startDragPos;
     bool validDrag;
     KonqMainWindow * m_mw;
-    KURL::List _savedLst;
+    KUrl::List _savedLst;
 };
 
 #endif

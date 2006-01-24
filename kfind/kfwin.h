@@ -35,7 +35,7 @@ class KfindWindow: public   KListView
 public:
   KfindWindow( QWidget * parent = 0 );
 
-  void beginSearch(const KURL& baseUrl);
+  void beginSearch(const KUrl& baseUrl);
   void endSearch();
 
   void insertItem(const KFileItem &item, const QString& matchingLine);

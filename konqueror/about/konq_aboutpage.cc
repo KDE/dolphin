@@ -423,7 +423,7 @@ KonqAboutPage::~KonqAboutPage()
 {
 }
 
-bool KonqAboutPage::openURL( const KURL &u )
+bool KonqAboutPage::openURL( const KUrl &u )
 {
     if (u.url() == "about:plugins")
        serve( KonqAboutPageFactory::plugins(), "plugins" );
@@ -460,7 +460,7 @@ void KonqAboutPage::serve( const QString& html, const QString& what )
 
 void KonqAboutPage::urlSelected( const QString &url, int button, int state, const QString &target, KParts::URLArgs _args )
 {
-    KURL u( url );
+    KUrl u( url );
     if ( u.protocol() == "exec" )
     {
         QStringList args = QStringList::split( QChar( ' ' ), url.mid( 6 ) );

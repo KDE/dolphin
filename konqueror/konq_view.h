@@ -46,7 +46,7 @@ namespace KParts
 
 struct HistoryEntry
 {
-  KURL url;
+  KUrl url;
   QString locationBarURL; // can be different from url when showing a index.html
   QString title;
   QByteArray buffer;
@@ -99,7 +99,7 @@ public:
    * @param nameFilter e.g. *.cpp
    * @param tempFile whether to delete the file after use
    */
-  void openURL( const KURL &url,
+  void openURL( const KUrl &url,
                 const QString & locationBarURL,
                 const QString &nameFilter = QString(),
                 bool tempFile = false );
@@ -184,9 +184,9 @@ public:
   /**
    * Retrieve view's URL
    */
-  KURL url() const;
+  KUrl url() const;
 
-  KURL upURL() const;
+  KUrl upURL() const;
 
   /**
    * Get view's location bar URL, i.e. the one that the view signals
@@ -292,7 +292,7 @@ public:
   bool callExtensionMethod( const char *methodName );
   bool callExtensionBoolMethod( const char *methodName, bool value );
   bool callExtensionStringMethod( const char *methodName, QString value );
-  bool callExtensionURLMethod( const char *methodName, const KURL& value );
+  bool callExtensionURLMethod( const char *methodName, const KUrl& value );
 
   void setViewName( const QString &name );
   QString viewName() const;
@@ -319,7 +319,7 @@ public:
   bool prepareReload( KParts::URLArgs& args );
 
   // overload for the QString version
-  void setLocationBarURL( const KURL& locationBarURL );
+  void setLocationBarURL( const KUrl& locationBarURL );
 
   static QStringList childFrameNames( KParts::ReadOnlyPart *part );
 
@@ -352,7 +352,7 @@ public Q_SLOTS:
   /**
    * get an icon for the URL from the BrowserExtension
    */
-  void setIconURL( const KURL &iconURL );
+  void setIconURL( const KUrl &iconURL );
 
   void setTabIcon( const QString &url );
 
@@ -410,7 +410,7 @@ private:
    */
   void updateHistoryEntry(bool saveLocationBarURL);
 
-  void aboutToOpenURL( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
+  void aboutToOpenURL( const KUrl &url, const KParts::URLArgs &args = KParts::URLArgs() );
 
   void setServiceTypeInExtension();
 

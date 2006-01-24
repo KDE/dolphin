@@ -31,7 +31,7 @@ class FavIconWebGrabber : public QObject
 {
     Q_OBJECT
 public:
-    FavIconWebGrabber(KParts::ReadOnlyPart *part, const KURL &url);
+    FavIconWebGrabber(KParts::ReadOnlyPart *part, const KUrl &url);
     ~FavIconWebGrabber() {}
 
 protected Q_SLOTS:
@@ -40,7 +40,7 @@ protected Q_SLOTS:
 
 private:
     KParts::ReadOnlyPart *m_part;
-    KURL m_url;
+    KUrl m_url;
 };
 
 class FavIconBrowserInterface;
@@ -59,7 +59,7 @@ public:
                               QString iconName);
 
 protected Q_SLOTS:
-    void setIconURL(const KURL &iconURL);
+    void setIconURL(const KUrl &iconURL);
     void slotCompleted();
 
 Q_SIGNALS:

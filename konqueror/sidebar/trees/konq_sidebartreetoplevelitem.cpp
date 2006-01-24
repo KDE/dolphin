@@ -69,10 +69,10 @@ void KonqSidebarTreeTopLevelItem::drop( QDropEvent * ev )
     {
         // When dropping something to "Network" or its subdirs, we want to create
         // a desktop link, not to move/copy/link - except for .desktop files :-}
-        KURL::List lst;
+        KUrl::List lst;
         if ( K3URLDrag::decode( ev, lst ) && !lst.isEmpty() ) // Are they urls ?
         {
-            KURL::List::Iterator it = lst.begin();
+            KUrl::List::Iterator it = lst.begin();
             for ( ; it != lst.end() ; it++ )
             {
                 tree()->addURL(this, *it);
@@ -90,12 +90,12 @@ void KonqSidebarTreeTopLevelItem::drop( QDropEvent * ev )
 bool KonqSidebarTreeTopLevelItem::populateMimeData( QMimeData* mimeData, bool move )
 {
     // 100% duplicated from KonqDirTreeItem::dragObject :(
-    KURL::List lst;
-    KURL url;
+    KUrl::List lst;
+    KUrl url;
     url.setPath( path() );
     lst.append( url );
 
-    KonqMimeData::populateMimeData( mimeData, KURL::List(), lst, move );
+    KonqMimeData::populateMimeData( mimeData, KUrl::List(), lst, move );
 
 #if 0 // was this ever used? Seems populateMimeData is only used for copy/cut, not for dragging?
     const QPixmap * pix = pixmap(0);
@@ -118,7 +118,7 @@ void KonqSidebarTreeTopLevelItem::middleButtonClicked()
 
 void KonqSidebarTreeTopLevelItem::rightButtonPressed()
 {
-    KURL url;
+    KUrl url;
     url.setPath( m_path );
     // We don't show "edit file type" (useless here) and "properties" (shows the wrong name,
     // i.e. the filename instead of the Name field). There's the Rename item for that.
@@ -148,9 +148,9 @@ void KonqSidebarTreeTopLevelItem::shred()
 
 void KonqSidebarTreeTopLevelItem::delOperation( int method )
 {
-    KURL url;
+    KUrl url;
     url.setPath( m_path );
-    KURL::List lst;
+    KUrl::List lst;
     lst.append(url);
 
     KonqOperations::del(tree(), method, lst);
@@ -166,7 +166,7 @@ void KonqSidebarTreeTopLevelItem::paste()
         kdDebug(1201) << "move (from clipboard data) = " << move << endl;
     }
 
-    KURL destURL;
+    KUrl destURL;
     if ( m_bTopLevelGroup )
         destURL.setPath( m_path );
     else
@@ -182,7 +182,7 @@ void KonqSidebarTreeTopLevelItem::rename()
 
 void KonqSidebarTreeTopLevelItem::rename( const QString & name )
 {
-    KURL url;
+    KUrl url;
     url.setPath( m_path );
 
     // Well, it's not really the file we want to rename, it's the Name field
@@ -198,7 +198,7 @@ void KonqSidebarTreeTopLevelItem::rename( const QString & name )
     cfg.sync();
 
     // Notify about the change
-    KURL::List lst;
+    KUrl::List lst;
     lst.append(url);
     KDirNotify_stub allDirNotify("*", "KDirNotify*");
     allDirNotify.FilesChanged( lst );

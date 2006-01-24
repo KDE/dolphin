@@ -50,7 +50,7 @@ public:
 
     static KAboutData *createAboutData();
 
-    virtual bool doOpenURL( const KURL &url );
+    virtual bool doOpenURL( const KUrl &url );
     virtual bool doCloseURL() { return true; }
     virtual bool openFile() { return false; }
 
@@ -60,7 +60,7 @@ public:
     virtual void restoreState( QDataStream &stream );
 
   // "Cut" icons : disable those whose URL is in lst, enable the rest //added for konqdirpart
-  virtual void disableIcons( const KURL::List & ){};
+  virtual void disableIcons( const KUrl::List & ){};
   virtual const KFileItem * currentItem(){return 0;};
 
 Q_SIGNALS:
@@ -89,7 +89,7 @@ protected Q_SLOTS:
   virtual void slotDeleteItem( KFileItem * ){};
   virtual void slotRefreshItems( const KFileItemList& ){};
   virtual void slotClear(){};
-  virtual void slotRedirection( const KURL & ){};
+  virtual void slotRedirection( const KUrl & ){};
 
 private:
     Kfind * m_kfindWidget;

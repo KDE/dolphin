@@ -201,7 +201,7 @@ public:
    * settings, they will be reset to the defaults
    */
   void loadViewProfile( KConfig &cfg, const QString & filename,
-                        const KURL & forcedURL = KURL(),
+                        const KUrl & forcedURL = KURL(),
                         const KonqOpenURLRequest &req = KonqOpenURLRequest(),
                         bool resetWindow = false, bool openURL = true );
 
@@ -216,7 +216,7 @@ public:
    * settings, they will be reset to the defaults
    */
   void loadViewProfile( const QString & path, const QString & filename,
-                        const KURL & forcedURL = KURL(),
+                        const KUrl & forcedURL = KURL(),
                         const KonqOpenURLRequest &req = KonqOpenURLRequest(),
                         bool resetWindow = false, bool openURL = true );
   /**
@@ -309,7 +309,7 @@ protected:
    *  (this is set to false when we have a forcedURL to open)
    */
   void loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
-                 const QString &name, const KURL & defaultURL, bool openURL, bool openAfterCurrentPage = false );
+                 const QString &name, const KUrl & defaultURL, bool openURL, bool openAfterCurrentPage = false );
 
   // Disabled - we do it ourselves
   virtual void setActiveInstance( KInstance * ) {}

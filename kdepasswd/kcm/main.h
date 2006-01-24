@@ -70,7 +70,7 @@ private Q_SLOTS:
 
 private:
 	void changeFace(const QPixmap& pix);
-	inline KURL* decodeImgDrop(QDropEvent *e, QWidget *wdg);
+	inline KUrl* decodeImgDrop(QDropEvent *e, QWidget *wdg);
 
 	KEMailSettings *_kes;
 	KUser *_ku;

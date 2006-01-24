@@ -23,7 +23,7 @@
 #include "kfinddlg.h"
 #include "kfinddlg.moc"
 
-KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
+KfindDlg::KfindDlg(const KUrl & url, QWidget *parent, const char *name)
   : KDialogBase( Plain, QString(),
 	User1 | User2 | Apply | Close | Help, Apply,
         parent, name, true, true,

@@ -49,7 +49,7 @@ int main( int argc, char ** argv )
 
   KCmdLineArgs *args= KCmdLineArgs::parsedArgs();
 
-  KURL url;
+  KUrl url;
   if (args->count() > 0)
     url = args->url(0);
   if (url.isEmpty())

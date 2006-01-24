@@ -71,7 +71,7 @@ public:
    * Returns TRUE if the settings for the new directories are
    * different from the settings in the old directory.
    */
-  bool enterDir( const KURL & dir );
+  bool enterDir( const KUrl & dir );
 
   /**
    * Turn on/off saving properties locally

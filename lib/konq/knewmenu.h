@@ -66,10 +66,10 @@ public:
      * Set the files the popup is shown for
      * Call this before showing up the menu
      */
-    void setPopupFiles(KURL::List & _files) {
+    void setPopupFiles(KUrl::List & _files) {
         popupFiles = _files;
     }
-    void setPopupFiles(const KURL & _file) {
+    void setPopupFiles(const KUrl & _file) {
         popupFiles.clear();
         popupFiles.append( _file );
     }
@@ -99,7 +99,7 @@ protected Q_SLOTS:
 
     void slotResult( KIO::Job * );
     // Special case (filename conflict when creating a link=url file)
-    void slotRenamed( KIO::Job *, const KURL&, const KURL& );
+    void slotRenamed( KIO::Job *, const KUrl&, const KUrl& );
 
 private:
 
@@ -166,7 +166,7 @@ private:
      * When the user pressed the right mouse button over an URL a popup menu
      * is displayed. The URL belonging to this popup menu is stored here.
      */
-    KURL::List popupFiles;
+    KUrl::List popupFiles;
 
     /**
      * True when a desktop file with Type=URL is being copied

@@ -110,7 +110,7 @@ public:
     /**
      * "Cut" icons : disable those whose URL is in lst, enable the others
      */
-    virtual void disableIcons( const KURL::List & lst ) = 0;
+    virtual void disableIcons( const KUrl::List & lst ) = 0;
 
     /**
      * This class takes care of the counting of items, size etc. in the
@@ -233,7 +233,7 @@ public Q_SLOTS:
      * Re-implemented for internal reasons.  API is unaffected.  All inheriting
      * classes should re-implement @ref doOpenURL() instead instead of this one.
      */
-     bool openURL (const KURL&);
+     bool openURL (const KUrl&);
 
     /**
      * This is called either by the part's close button, or by the
@@ -278,7 +278,7 @@ public Q_SLOTS:
     virtual void slotDeleteItem( KFileItem * ) = 0;
     virtual void slotRefreshItems( const KFileItemList& ) = 0;
     virtual void slotClear() = 0;
-    virtual void slotRedirection( const KURL & ) = 0;
+    virtual void slotRedirection( const KUrl & ) = 0;
 
 private Q_SLOTS:
     void slotIconChanged(int group);
@@ -287,7 +287,7 @@ protected:
      * Invoked from openURL to enable childern classes to
      * handle open URL requests.
      */
-    virtual bool doOpenURL( const KURL& ) = 0;
+    virtual bool doOpenURL( const KUrl& ) = 0;
     virtual bool doCloseURL () = 0;
 
 protected:

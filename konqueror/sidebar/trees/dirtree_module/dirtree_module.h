@@ -42,7 +42,7 @@ public:
 
     virtual void openTopLevelItem( KonqSidebarTreeTopLevelItem * item );
 
-    virtual void followURL( const KURL & url );
+    virtual void followURL( const KUrl & url );
 
     // Called by KonqSidebarDirTreeItem
     void openSubFolder( KonqSidebarTreeItem *item );
@@ -53,13 +53,13 @@ private Q_SLOTS:
     void slotNewItems( const KFileItemList & );
     void slotRefreshItems( const KFileItemList & );
     void slotDeleteItem( KFileItem *item );
-    void slotRedirection( const KURL & oldUrl, const KURL & newUrl );
-    void slotListingStopped( const KURL & url );
+    void slotRedirection( const KUrl & oldUrl, const KUrl & newUrl );
+    void slotListingStopped( const KUrl & url );
 
 private:
-    //KonqSidebarTreeItem * findDir( const KURL &_url );
+    //KonqSidebarTreeItem * findDir( const KUrl &_url );
     void listDirectory( KonqSidebarTreeItem *item );
-    KURL::List selectedUrls();
+    KUrl::List selectedUrls();
 
     // URL -> item
     // Each KonqSidebarDirTreeItem is indexed on item->id() and
@@ -71,7 +71,7 @@ private:
 
     KDirLister * m_dirLister;
 
-    KURL m_selectAfterOpening;
+    KUrl m_selectAfterOpening;
 
     KonqSidebarTreeTopLevelItem * m_topLevelItem;
 

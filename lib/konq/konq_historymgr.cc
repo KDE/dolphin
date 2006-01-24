@@ -121,7 +121,7 @@ bool KonqHistoryManager::loadHistory()
 
 	if ( version == 3 )
 	{
-	    //Use KURL marshalling for V3 format.
+	    //Use KUrl marshalling for V3 format.
 	    KonqHistoryEntry::marshalURLAsStrings = false;
 	}
 
@@ -212,7 +212,7 @@ bool KonqHistoryManager::saveHistory()
     QByteArray data;
     QDataStream stream( &data, QIODevice::WriteOnly );
 
-    //We use KURL for marshalling URLs in entries in the V3
+    //We use KUrl for marshalling URLs in entries in the V3
     //file format
     KonqHistoryEntry::marshalURLAsStrings = false;
     Q3PtrListIterator<KonqHistoryEntry> it( m_history );
@@ -254,13 +254,13 @@ void KonqHistoryManager::adjustSize()
 }
 
 
-void KonqHistoryManager::addPending( const KURL& url, const QString& typedURL,
+void KonqHistoryManager::addPending( const KUrl& url, const QString& typedURL,
 				     const QString& title )
 {
     addToHistory( true, url, typedURL, title );
 }
 
-void KonqHistoryManager::confirmPending( const KURL& url,
+void KonqHistoryManager::confirmPending( const KUrl& url,
 					 const QString& typedURL,
 					 const QString& title )
 {
@@ -268,7 +268,7 @@ void KonqHistoryManager::confirmPending( const KURL& url,
 }
 
 
-void KonqHistoryManager::addToHistory( bool pending, const KURL& _url,
+void KonqHistoryManager::addToHistory( bool pending, const KUrl& _url,
 				       const QString& typedURL,
 				       const QString& title )
 {
@@ -281,7 +281,7 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& _url,
     if ( _url.path().isEmpty() && _url.protocol().startsWith("http") )
 	return;
 
-    KURL url( _url );
+    KUrl url( _url );
     bool hasPass = url.hasPass();
     url.setPass( QString() ); // No password in the history, especially not in the completion!
     url.setHost( url.host().toLower() ); // All host parts lower case
@@ -336,7 +336,7 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& _url,
 // Moreover, we  don't get any pending/confirming entries, just one insert()
 void KonqHistoryManager::insert( const QString& url )
 {
-    KURL u ( url );
+    KUrl u ( url );
     if ( !filterOut( u ) || u.protocol() == "about" ) { // remote URL
 	return;
     }
@@ -359,7 +359,7 @@ void KonqHistoryManager::emitAddToHistory( const KonqHistoryEntry& entry )
 }
 
 
-void KonqHistoryManager::removePending( const KURL& url )
+void KonqHistoryManager::removePending( const KUrl& url )
 {
     // kdDebug(1203) << "## Removing pending... " << url.prettyURL() << endl;
 
@@ -390,7 +390,7 @@ void KonqHistoryManager::clearPending()
     m_pending.clear();
 }
 
-void KonqHistoryManager::emitRemoveFromHistory( const KURL& url )
+void KonqHistoryManager::emitRemoveFromHistory( const KUrl& url )
 {
     QByteArray data;
     QDataStream stream( &data, QIODevice::WriteOnly );
@@ -399,13 +399,13 @@ void KonqHistoryManager::emitRemoveFromHistory( const KURL& url )
 			      "notifyRemove(KURL, QCString)", data );
 }
 
-void KonqHistoryManager::emitRemoveFromHistory( const KURL::List& urls )
+void KonqHistoryManager::emitRemoveFromHistory( const KUrl::List& urls )
 {
     QByteArray data;
     QDataStream stream( &data, QIODevice::WriteOnly );
     stream << urls << objId();
     kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
-			      "notifyRemove(KURL::List, QCString)", data );
+			      "notifyRemove(KUrl::List, QCString)", data );
 }
 
 void KonqHistoryManager::emitClear()
@@ -529,7 +529,7 @@ void KonqHistoryManager::notifyClear( QByteArray )
     KParts::HistoryProvider::clear(); // also emits the cleared() signal
 }
 
-void KonqHistoryManager::notifyRemove( KURL url, QByteArray )
+void KonqHistoryManager::notifyRemove( KUrl url, QByteArray )
 {
     kdDebug(1203) << "#### Broadcast: remove entry:: " << url.prettyURL() << endl;
     
@@ -553,12 +553,12 @@ void KonqHistoryManager::notifyRemove( KURL url, QByteArray )
     }
 }
 
-void KonqHistoryManager::notifyRemove( KURL::List urls, QByteArray )
+void KonqHistoryManager::notifyRemove( KUrl::List urls, QByteArray )
 {
     kdDebug(1203) << "#### Broadcast: removing list!" << endl;
 
     bool doSave = false;
-    KURL::List::Iterator it = urls.begin();
+    KUrl::List::Iterator it = urls.begin();
     while ( it != urls.end() ) {
 	KonqHistoryEntry *entry = m_history.findEntry( *it );
 	
@@ -637,7 +637,7 @@ KonqHistoryEntry * KonqHistoryManager::createFallbackEntry(const QString& item) 
 
 
     KonqHistoryEntry *entry = 0L;
-    KURL u( item.left( len ));
+    KUrl u( item.left( len ));
     if ( u.isValid() ) {
 	entry = new KonqHistoryEntry;
 	// that's the only entries we know about...
@@ -650,7 +650,7 @@ KonqHistoryEntry * KonqHistoryManager::createFallbackEntry(const QString& item) 
     return entry;
 }
 
-KonqHistoryEntry * KonqHistoryManager::findEntry( const KURL& url )
+KonqHistoryEntry * KonqHistoryManager::findEntry( const KUrl& url )
 {
     // small optimization (dict lookup) for items _not_ in our history
     if ( !KParts::HistoryProvider::contains( url.url() ) )
@@ -659,7 +659,7 @@ KonqHistoryEntry * KonqHistoryManager::findEntry( const KURL& url )
     return m_history.findEntry( url );
 }
 
-bool KonqHistoryManager::filterOut( const KURL& url )
+bool KonqHistoryManager::filterOut( const KUrl& url )
 {
     return ( url.isLocalFile() || url.host().isEmpty() );
 }
@@ -697,7 +697,7 @@ void KonqHistoryManager::removeFromCompletion( const QString& url, const QString
 //////////////////////////////////////////////////////////////////
 
 
-KonqHistoryEntry * KonqHistoryList::findEntry( const KURL& url )
+KonqHistoryEntry * KonqHistoryList::findEntry( const KUrl& url )
 {
     // we search backwards, probably faster to find an entry
     KonqHistoryEntry *entry = last();

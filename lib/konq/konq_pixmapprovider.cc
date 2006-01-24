@@ -70,7 +70,7 @@ QString KonqPixmapProvider::iconNameFor( const QString& url )
     }
     else
     {
-        KURL u;
+        KUrl u;
         if ( url.at(0) == '/' )
 	    u.setPath( url );
         else
@@ -137,7 +137,7 @@ void KonqPixmapProvider::notifyChange( bool isHost, QString hostOrURL,
           it != iconMap.end();
           ++it )
     {
-        KURL url( it.key() );
+        KUrl url( it.key() );
         if ( url.protocol().startsWith("http") &&
             ( ( isHost && url.host() == hostOrURL ) ||
                 ( url.host() + url.path() == hostOrURL ) ) )
@@ -164,7 +164,7 @@ QPixmap KonqPixmapProvider::loadIcon( const QString& url, const QString& icon,
     if ( size <= KIcon::SizeSmall )
 	return SmallIcon( icon, size );
 
-    KURL u;
+    KUrl u;
     if ( url.at(0) == '/' )
 	u.setPath( url );
     else

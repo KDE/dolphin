@@ -97,8 +97,8 @@ void FavIconUpdater::downloadIconActual(const KBookmark &bk) {
         m_browserIface = new FavIconBrowserInterface(this);
         ext->setBrowserInterface(m_browserIface);
 
-        connect(ext, SIGNAL( setIconURL(const KURL &) ),
-                this, SLOT( setIconURL(const KURL &) ));
+        connect(ext, SIGNAL( setIconURL(const KUrl &) ),
+                this, SLOT( setIconURL(const KUrl &) ));
 
         m_part = part;
     }
@@ -107,7 +107,7 @@ void FavIconUpdater::downloadIconActual(const KBookmark &bk) {
 }
 
 // khtml callback
-void FavIconUpdater::setIconURL(const KURL &iconURL) {
+void FavIconUpdater::setIconURL(const KUrl &iconURL) {
     setIconForURL(m_bk.url(), iconURL);
 }
 
@@ -125,7 +125,7 @@ void FavIconUpdater::notifyChange(bool isHost, QString hostOrURL, QString iconNa
 
 /* -------------------------- */
 
-FavIconWebGrabber::FavIconWebGrabber(KParts::ReadOnlyPart *part, const KURL &url)
+FavIconWebGrabber::FavIconWebGrabber(KParts::ReadOnlyPart *part, const KUrl &url)
     : m_part(part), m_url(url) {
 
     // kdDebug() << "FavIconWebGrabber::FavIconWebGrabber starting KIO::get()" << endl;

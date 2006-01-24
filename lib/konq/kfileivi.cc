@@ -300,11 +300,11 @@ bool KFileIVI::acceptDrop( const QMimeSource *mime ) const
             return true;
 
         // Use cache
-        KURL::List uris = ( static_cast<KonqIconViewWidget*>(iconView()) )->dragURLs();
+        KUrl::List uris = ( static_cast<KonqIconViewWidget*>(iconView()) )->dragURLs();
 
         // Check if we want to drop something on itself
         // (Nothing will happen, but it's a convenient way to move icons)
-        KURL::List::Iterator it = uris.begin();
+        KUrl::List::Iterator it = uris.begin();
         for ( ; it != uris.end() ; it++ )
         {
             if ( m_fileitem->url().equals( *it, true /*ignore trailing slashes*/ ) )

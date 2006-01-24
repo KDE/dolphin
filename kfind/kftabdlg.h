@@ -47,7 +47,7 @@ public:
   void saveHistory();
   bool isSearchRecursive();
 
-  void setURL( const KURL & url );
+  void setURL( const KUrl & url );
 
 public Q_SLOTS:
   void setFocus();
@@ -109,7 +109,7 @@ private:
   QCheckBox *regexpContentCb;
   QDialog *regExpDialog;
 
-  KURL m_url;
+  KUrl m_url;
 
   KMimeType::List m_types;
   QStringList m_ImageTypes;

@@ -60,7 +60,7 @@ k_dcop:
      * @return the icon name suitable to pass to @ref KIconLoader or
      *         QString() if no icon for this URL was found.
      */
-    QString iconForURL(const KURL &url);
+    QString iconForURL(const KUrl &url);
     /**
      * Assiciates an icon with the given URL. If the icon was not
      * downloaded before or the downloaded was too long ago, a
@@ -70,7 +70,7 @@ k_dcop:
      * @param url the URL which will be associated with the icon
      * @param iconURL the URL of the icon to be downloaded
      */
-    ASYNC setIconForURL(const KURL &url, const KURL &iconURL);
+    ASYNC setIconForURL(const KUrl &url, const KUrl &iconURL);
     /**
      * Downloads the icon for a given host if it was not downloaded before
      * or the download was too long ago. If the download finishes
@@ -78,16 +78,16 @@ k_dcop:
      *
      * @param url any URL on the host for which the icon is to be downloaded
      */
-    ASYNC downloadHostIcon(const KURL &url);
+    ASYNC downloadHostIcon(const KUrl &url);
 
 k_dcop_signals:
     void iconChanged(bool isHost, QString hostOrURL, QString iconName);
-    void infoMessage(KURL iconURL, QString msg);
+    void infoMessage(KUrl iconURL, QString msg);
 
 private:
-    void startDownload(const QString &, bool, const KURL &);
-    QString simplifyURL(const KURL &);
-    QString iconNameFromURL(const KURL &);
+    void startDownload(const QString &, bool, const KUrl &);
+    QString simplifyURL(const KUrl &);
+    QString iconNameFromURL(const KUrl &);
     bool isIconOld(const QString &);
 
 private Q_SLOTS:

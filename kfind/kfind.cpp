@@ -98,7 +98,7 @@ Kfind::~Kfind()
   kdDebug() << "Kfind::~Kfind" << endl;
 }
 
-void Kfind::setURL( const KURL &url )
+void Kfind::setURL( const KUrl &url )
 {
   tabWidget->setURL( url );
 }

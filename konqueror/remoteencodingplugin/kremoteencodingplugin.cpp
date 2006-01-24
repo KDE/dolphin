@@ -86,7 +86,7 @@ KRemoteEncodingPlugin::loadSettings()
 void
 KRemoteEncodingPlugin::slotAboutToOpenURL()
 {
-  KURL oldURL = m_currentURL;
+  KUrl oldURL = m_currentURL;
   m_currentURL = m_part->url();
 
   if (m_currentURL.protocol() != oldURL.protocol())

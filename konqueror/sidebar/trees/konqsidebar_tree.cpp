@@ -32,14 +32,14 @@ KonqSidebar_Tree::KonqSidebar_Tree(KInstance *instance,QObject *parent,QWidget *
 		tree=new KonqSidebarTree(this,widget,virt,desktopName_);
 	}
 
-	connect(tree, SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs &)),
-		this,SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs &)));
+	connect(tree, SIGNAL( openURLRequest( const KUrl &, const KParts::URLArgs &)),
+		this,SIGNAL( openURLRequest( const KUrl &, const KParts::URLArgs &)));
 
-	connect(tree,SIGNAL(createNewWindow( const KURL &, const KParts::URLArgs &)),
-		this,SIGNAL(createNewWindow( const KURL &, const KParts::URLArgs &)));
+	connect(tree,SIGNAL(createNewWindow( const KUrl &, const KParts::URLArgs &)),
+		this,SIGNAL(createNewWindow( const KUrl &, const KParts::URLArgs &)));
 
-	connect(tree,SIGNAL(popupMenu( const QPoint &, const KURL &, const QString &, mode_t )),
-		this,SIGNAL(popupMenu( const QPoint &, const KURL &, const QString &, mode_t )));
+	connect(tree,SIGNAL(popupMenu( const QPoint &, const KUrl &, const QString &, mode_t )),
+		this,SIGNAL(popupMenu( const QPoint &, const KUrl &, const QString &, mode_t )));
 
 	connect(tree,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )),
 		this,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )));
@@ -58,7 +58,7 @@ void* KonqSidebar_Tree::provides(const QString &) {return 0;}
 
 QWidget *KonqSidebar_Tree::getWidget(){return widget;}
 
-void KonqSidebar_Tree::handleURL(const KURL &url)
+void KonqSidebar_Tree::handleURL(const KUrl &url)
     {
 	emit started( 0 );
         tree->followURL( url );

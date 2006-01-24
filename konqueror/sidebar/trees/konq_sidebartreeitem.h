@@ -69,7 +69,7 @@ public:
     virtual void rename() {}
 
     // The URL to open when this link is clicked
-    virtual KURL externalURL() const = 0;
+    virtual KUrl externalURL() const = 0;
 
     // The mimetype to use when this link is clicked
     // If unknown, return QString(), konq will determine the mimetype itself

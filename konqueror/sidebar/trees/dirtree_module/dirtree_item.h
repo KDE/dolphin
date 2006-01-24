@@ -51,7 +51,7 @@ public:
     virtual void shred();
 
     // The URL to open when this link is clicked
-    virtual KURL externalURL() const;
+    virtual KUrl externalURL() const;
     virtual QString externalMimeType() const;
     virtual QString toolTipText() const;
 

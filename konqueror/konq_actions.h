@@ -137,7 +137,7 @@ public:
     virtual ~KonqMostOftenURLSAction();
 
 Q_SIGNALS:
-    void activated( const KURL& );
+    void activated( const KUrl& );
 
 private Q_SLOTS:
     void slotHistoryCleared();
@@ -155,7 +155,7 @@ private:
 
     static MostOftenList *s_mostEntries;
     static uint s_maxEntries;
-    KURL::List m_popupList;
+    KUrl::List m_popupList;
 };
 
 #endif

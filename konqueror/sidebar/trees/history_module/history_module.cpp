@@ -278,7 +278,7 @@ void KonqSidebarHistoryModule::slotRemoveEntry()
 void KonqSidebarHistoryModule::slotPreferences()
 {
     // Run the history sidebar settings.
-    KRun::run( "kcmshell kcmhistory", KURL::List() );
+    KRun::run( "kcmshell kcmhistory", KUrl::List() );
 }
 
 void KonqSidebarHistoryModule::slotSortByName()
@@ -321,7 +321,7 @@ void KonqSidebarHistoryModule::groupOpened( KonqSidebarHistoryGroupItem *item, b
 }
 
 
-KonqSidebarHistoryGroupItem * KonqSidebarHistoryModule::getGroupItem( const KURL& url )
+KonqSidebarHistoryGroupItem * KonqSidebarHistoryModule::getGroupItem( const KUrl& url )
 {
     const QString& groupKey = groupForURL( url );
     KonqSidebarHistoryGroupItem *group = m_dict.find( groupKey );

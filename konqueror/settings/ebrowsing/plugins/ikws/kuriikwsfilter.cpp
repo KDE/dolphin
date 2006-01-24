@@ -61,7 +61,7 @@ bool KAutoWebSearch::filterURI( KURIFilterData &data ) const
   if (KURISearchFilterEngine::self()->verbose())
     kdDebug() << "KAutoWebSearch::filterURI: '" <<  data.uri().url() << "'" << endl;
 
-  KURL u = data.uri();
+  KUrl u = data.uri();
   if ( u.pass().isEmpty() )
   {
     QString result = KURISearchFilterEngine::self()->autoWebSearchQuery( data.typedString() );

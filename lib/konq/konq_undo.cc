@@ -84,7 +84,7 @@ public:
   KonqCommand m_cmd;
 };
 
-KonqCommandRecorder::KonqCommandRecorder( KonqCommand::Type op, const KURL::List &src, const KURL &dst, KIO::Job *job )
+KonqCommandRecorder::KonqCommandRecorder( KonqCommand::Type op, const KUrl::List &src, const KUrl &dst, KIO::Job *job )
   : QObject( job, "konqcmdrecorder" )
 {
   d = new KonqCommandRecorderPrivate;
@@ -96,10 +96,10 @@ KonqCommandRecorder::KonqCommandRecorder( KonqCommand::Type op, const KURL::List
            this, SLOT( slotResult( KIO::Job * ) ) );
 
   if ( op != KonqCommand::MKDIR ) {
-      connect( job, SIGNAL( copyingDone( KIO::Job *, const KURL &, const KURL &, bool, bool ) ),
-               this, SLOT( slotCopyingDone( KIO::Job *, const KURL &, const KURL &, bool, bool ) ) );
-      connect( job, SIGNAL( copyingLinkDone( KIO::Job *, const KURL &, const QString &, const KURL & ) ),
-               this, SLOT( slotCopyingLinkDone( KIO::Job *, const KURL &, const QString &, const KURL & ) ) );
+      connect( job, SIGNAL( copyingDone( KIO::Job *, const KUrl &, const KUrl &, bool, bool ) ),
+               this, SLOT( slotCopyingDone( KIO::Job *, const KUrl &, const KUrl &, bool, bool ) ) );
+      connect( job, SIGNAL( copyingLinkDone( KIO::Job *, const KUrl &, const QString &, const KUrl & ) ),
+               this, SLOT( slotCopyingLinkDone( KIO::Job *, const KUrl &, const QString &, const KUrl & ) ) );
   }
 
   KonqUndoManager::incRef();
@@ -119,7 +119,7 @@ void KonqCommandRecorder::slotResult( KIO::Job *job )
   KonqUndoManager::self()->addCommand( d->m_cmd );
 }
 
-void KonqCommandRecorder::slotCopyingDone( KIO::Job *job, const KURL &from, const KURL &to, bool directory, bool renamed )
+void KonqCommandRecorder::slotCopyingDone( KIO::Job *job, const KUrl &from, const KUrl &to, bool directory, bool renamed )
 {
   KonqBasicOperation op;
   op.m_valid = true;
@@ -144,7 +144,7 @@ void KonqCommandRecorder::slotCopyingDone( KIO::Job *job, const KURL &from, cons
   d->m_cmd.m_opStack.prepend( op );
 }
 
-void KonqCommandRecorder::slotCopyingLinkDone( KIO::Job *, const KURL &from, const QString &target, const KURL &to )
+void KonqCommandRecorder::slotCopyingLinkDone( KIO::Job *, const KUrl &from, const QString &target, const KUrl &to )
 {
   KonqBasicOperation op;
   op.m_valid = true;
@@ -317,8 +317,8 @@ void KonqUndoManager::undo()
    *    directory stack
   if ( d->m_undoState == MAKINGDIRS )
   {
-    KURL::List::ConstIterator it = d->m_current.m_src.begin();
-    KURL::List::ConstIterator end = d->m_current.m_src.end();
+    KUrl::List::ConstIterator it = d->m_current.m_src.begin();
+    KUrl::List::ConstIterator end = d->m_current.m_src.end();
     for (; it != end; ++it )
       if ( !d->m_dirStack.contains( *it) )
         d->m_dirStack.push( *it );
@@ -369,7 +369,7 @@ void KonqUndoManager::slotResult( KIO::Job *job )
 }
 
 
-void KonqUndoManager::addDirToUpdate( const KURL& url )
+void KonqUndoManager::addDirToUpdate( const KUrl& url )
 {
   if ( d->m_dirsToUpdate.find( url ) == d->m_dirsToUpdate.end() )
     d->m_dirsToUpdate.prepend( url );
@@ -399,7 +399,7 @@ void KonqUndoManager::undoStep()
 void KonqUndoManager::undoMakingDirectories()
 {
     if ( !d->m_dirStack.isEmpty() ) {
-      KURL dir = d->m_dirStack.pop();
+      KUrl dir = d->m_dirStack.pop();
       kdDebug(1203) << "KonqUndoManager::undoStep creatingDir " << dir.prettyURL() << endl;
       d->m_currentJob = KIO::mkdir( dir );
       d->m_uiserver->creatingDir( d->m_uiserverJobId, dir );
@@ -447,7 +447,7 @@ void KonqUndoManager::undoMovingFiles()
 
       // The above KIO jobs are lowlevel, they don't trigger KDirNotify notification
       // So we need to do it ourselves (but schedule it to the end of the undo, to compress them)
-      KURL url( op.m_dst );
+      KUrl url( op.m_dst );
       url.setPath( url.directory() );
       addDirToUpdate( url );
 
@@ -464,12 +464,12 @@ void KonqUndoManager::undoRemovingFiles()
     kdDebug(1203) << "KonqUndoManager::undoStep REMOVINGFILES" << endl;
     if ( !d->m_fileCleanupStack.isEmpty() )
     {
-      KURL file = d->m_fileCleanupStack.pop();
+      KUrl file = d->m_fileCleanupStack.pop();
       kdDebug(1203) << "KonqUndoManager::undoStep file_delete " << file.prettyURL() << endl;
       d->m_currentJob = KIO::file_delete( file );
       d->m_uiserver->deleting( d->m_uiserverJobId, file );
 
-      KURL url( file );
+      KUrl url( file );
       url.setPath( url.directory() );
       addDirToUpdate( url );
     }
@@ -486,7 +486,7 @@ void KonqUndoManager::undoRemovingDirectories()
 {
     if ( !d->m_dirCleanupStack.isEmpty() )
     {
-      KURL dir = d->m_dirCleanupStack.pop();
+      KUrl dir = d->m_dirCleanupStack.pop();
       kdDebug(1203) << "KonqUndoManager::undoStep rmdir " << dir.prettyURL() << endl;
       d->m_currentJob = KIO::rmdir( dir );
       d->m_uiserver->deleting( d->m_uiserverJobId, dir );

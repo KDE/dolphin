@@ -41,8 +41,8 @@ public:
     virtual void itemSelected();
 
     // The URL to open when this link is clicked
-    virtual KURL externalURL() const { return m_entry->url; }
-    const KURL& url() const { return m_entry->url; } // a faster one
+    virtual KUrl externalURL() const { return m_entry->url; }
+    const KUrl& url() const { return m_entry->url; } // a faster one
     virtual QString toolTipText() const;
 
     QString host() const { return m_entry->url.host(); }
@@ -72,7 +72,7 @@ class KonqSidebarHistoryGroupItem : public KonqSidebarTreeItem
 {
 public:
 
-    KonqSidebarHistoryGroupItem( const KURL& url, KonqSidebarTreeTopLevelItem * );
+    KonqSidebarHistoryGroupItem( const KUrl& url, KonqSidebarTreeTopLevelItem * );
 
     /**
      * removes itself and all its children from the history (not just the view)
@@ -98,11 +98,11 @@ public:
     // we don't support the following of KonqSidebarTreeItem
     bool acceptsDrops( const QStrList& ) { return false; }
     virtual void drop( QDropEvent * ) {}
-    virtual KURL externalURL() const { return KURL(); }
+    virtual KUrl externalURL() const { return KURL(); }
 
 private:
     bool m_hasFavIcon;
-    const KURL m_url;
+    const KUrl m_url;
     QDateTime m_lastVisited;
 
 };

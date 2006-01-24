@@ -459,7 +459,7 @@ void KQuery::setRecursive(bool recursive)
   m_recursive = recursive;
 }
 
-void KQuery::setPath(const KURL &url)
+void KQuery::setPath(const KUrl &url)
 {
   m_url = url;
 }

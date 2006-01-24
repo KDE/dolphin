@@ -37,7 +37,7 @@ public:
    * optionnal child view.
    */
   KonqRun( KonqMainWindow* mainWindow, KonqView *childView,
-           const KURL &url, const KonqOpenURLRequest & req = KonqOpenURLRequest(),
+           const KUrl &url, const KonqOpenURLRequest & req = KonqOpenURLRequest(),
            bool trustedSource = false );
 
   virtual ~KonqRun();
@@ -51,7 +51,7 @@ public:
 
   const QString & typedURL() const { return m_req.typedURL; }
 
-  KURL mailtoURL() const { return m_mailto; }
+  KUrl mailtoURL() const { return m_mailto; }
 
 protected:
   virtual void foundMimeType( const QString & _type );
@@ -60,14 +60,14 @@ protected:
   virtual void scanFile();
 
 protected Q_SLOTS:
-  void slotRedirection( KIO::Job *, const KURL& );
+  void slotRedirection( KIO::Job *, const KUrl& );
 
 protected:
   QPointer<KonqMainWindow> m_pMainWindow;
   QPointer<KonqView> m_pView;
   bool m_bFoundMimeType;
   KonqOpenURLRequest m_req;
-  KURL m_mailto;
+  KUrl m_mailto;
 };
 
 #endif

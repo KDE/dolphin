@@ -305,7 +305,7 @@ bool KCMUserAccount::eventFilter(QObject *, QEvent *e)
 			return true;
 		}
 
-		KURL *url = decodeImgDrop( (QDropEvent *) e, this);
+		KUrl *url = decodeImgDrop( (QDropEvent *) e, this);
 		if (url)
 		{
 			QString pixPath;
@@ -319,13 +319,13 @@ bool KCMUserAccount::eventFilter(QObject *, QEvent *e)
 	return false;
 }
 
-inline KURL *KCMUserAccount::decodeImgDrop(QDropEvent *e, QWidget *wdg)
+inline KUrl *KCMUserAccount::decodeImgDrop(QDropEvent *e, QWidget *wdg)
 {
-  KURL::List uris;
+  KUrl::List uris;
 
   if (K3URLDrag::decode(e, uris) && (uris.count() > 0))
   {
-    KURL *url = new KURL(uris.first());
+    KUrl *url = new KURL(uris.first());
 
     if( KImageIO::types(KImageIO::Reading).contains(url->fileName()) )
       return url;

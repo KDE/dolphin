@@ -78,7 +78,7 @@ public:
     virtual QByteArray encodedData( const char* mime ) const;
 
     void append( const Q3IconDragItem &item, const QRect &pr,
-                 const QRect &tr, const QString &url, const KURL &mostLocalURL );
+                 const QRect &tr, const QString &url, const KUrl &mostLocalURL );
 
 private:
     QStringList m_kdeURLs;

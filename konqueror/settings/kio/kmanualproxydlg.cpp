@@ -79,7 +79,7 @@ void KManualProxyDlg::init()
 
 void KManualProxyDlg::setProxyData( const KProxyData &data )
 {
-    KURL url;
+    KUrl url;
 
     // Set the HTTP proxy...
     if (!isValidURL(data.proxyList["http"], &url))
@@ -235,7 +235,7 @@ void KManualProxyDlg::sameProxy( bool enable )
 
 bool KManualProxyDlg::validate()
 {
-    KURL filteredURL;
+    KUrl filteredURL;
     unsigned short count = 0;
 
     if ( isValidURL( mDlg->leHttp->text(), &filteredURL ) )
@@ -397,7 +397,7 @@ QString KManualProxyDlg::urlFromInput(const KLineEdit* edit,
   if (!edit)
     return QString();
 
-  KURL u( edit->text() );
+  KUrl u( edit->text() );
 
   if (spin)
     u.setPort( spin->value() );
@@ -405,9 +405,9 @@ QString KManualProxyDlg::urlFromInput(const KLineEdit* edit,
   return u.url();
 }
 
-bool KManualProxyDlg::isValidURL( const QString& _url, KURL* result ) const
+bool KManualProxyDlg::isValidURL( const QString& _url, KUrl* result ) const
 {
-    KURL url (_url);
+    KUrl url (_url);
 
     QStringList filters;
     filters << "kshorturifilter" << "localdomainurifilter";

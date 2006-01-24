@@ -156,7 +156,7 @@ QString KfindWindow::reducedDir(const QString& fullDir)
    return fullDir;
 }
 
-void KfindWindow::beginSearch(const KURL& baseUrl)
+void KfindWindow::beginSearch(const KUrl& baseUrl)
 {
   kdDebug()<<QString("beginSearch in: %1").arg(baseUrl.path())<<endl;
   m_baseDir=baseUrl.path(+1);
@@ -205,7 +205,7 @@ void KfindWindow::saveResults()
 
   dlg->exec();
 
-  KURL u = dlg->selectedURL();
+  KUrl u = dlg->selectedURL();
   KMimeType::Ptr mimeType = dlg->currentFilterMimeType();
   delete dlg;
 
@@ -314,7 +314,7 @@ void KfindWindow::fileProperties()
 void KfindWindow::openFolder()
 {
   KFileItem fileitem = ((KfFileLVI *)currentItem())->fileitem;
-  KURL url = fileitem.url();
+  KUrl url = fileitem.url();
   url.setFileName(QString());
 
   (void) new KRun(url, this);
@@ -342,7 +342,7 @@ void KfindWindow::resizeEvent(QResizeEvent *e)
 
 Q3DragObject * KfindWindow::dragObject()
 {
-  KURL::List uris;
+  KUrl::List uris;
   QList<Q3ListViewItem*> selected = selectedItems();
 
   // create a list of URIs from selection
@@ -431,5 +431,5 @@ void KfindWindow::slotContextMenu(KListView *,Q3ListViewItem *item,const QPoint&
 
 void KfindWindow::slotOpenWith()
 {
-   KRun::displayOpenWithDialog( KURL::split(((KfFileLVI*)currentItem())->fileitem.url()) );
+   KRun::displayOpenWithDialog( KUrl::split(((KfFileLVI*)currentItem())->fileitem.url()) );
 }

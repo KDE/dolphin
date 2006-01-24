@@ -99,7 +99,7 @@ DCOPRef KonquerorIface::createNewWindow( const QString &url, const QString &mime
     KParts::URLArgs args;
     args.serviceType = mimetype;
     // Filter the URL, so that "kfmclient openURL gg:foo" works also when konq is already running
-    KURL finalURL = KonqMisc::konqFilteredURL( 0, url );
+    KUrl finalURL = KonqMisc::konqFilteredURL( 0, url );
     KonqMainWindow *res = KonqMisc::createNewWindow( finalURL, args, false, QStringList(), tempFile );
     if ( !res )
         return DCOPRef();

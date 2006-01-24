@@ -36,8 +36,8 @@ public:
      * @param cut if true, the user selected "cut" (saved as application/x-kde-cutselection in the mimedata).
      */
     static void populateMimeData( QMimeData* mimeData,
-                                  const KURL::List& kdeURLs,
-                                  const KURL::List& mostLocalURLs,
+                                  const KUrl::List& kdeURLs,
+                                  const KUrl::List& mostLocalURLs,
                                   bool cut = false );
 
     // TODO other methods for icon positions

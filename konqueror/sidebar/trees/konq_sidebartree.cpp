@@ -240,7 +240,7 @@ void KonqSidebarTree::clearTree()
     }
 }
 
-void KonqSidebarTree::followURL( const KURL &url )
+void KonqSidebarTree::followURL( const KUrl &url )
 {
     // Maybe we're there already ?
     KonqSidebarTreeItem *selection = static_cast<KonqSidebarTreeItem *>( selectedItem() );
@@ -339,10 +339,10 @@ void KonqSidebarTree::contentsDropEvent( QDropEvent *ev )
         if ( !selectedItem() )
         {
     //        KonqOperations::doDrop( 0L, m_dirtreeDir.dir, ev, this );
-            KURL::List urls;
+            KUrl::List urls;
             if ( K3URLDrag::decode( ev, urls ) )
             {
-               for(KURL::List::ConstIterator it = urls.begin();
+               for(KUrl::List::ConstIterator it = urls.begin();
                    it != urls.end(); ++it)
                {
                   addURL(0, *it);
@@ -373,7 +373,7 @@ static QString findUniqueFilename(const QString &path, QString filename)
     return path+filename+".desktop";
 }
 
-void KonqSidebarTree::addURL(KonqSidebarTreeTopLevelItem* item, const KURL & url)
+void KonqSidebarTree::addURL(KonqSidebarTreeTopLevelItem* item, const KUrl & url)
 {
     QString path;
     if (item)
@@ -381,7 +381,7 @@ void KonqSidebarTree::addURL(KonqSidebarTreeTopLevelItem* item, const KURL & url
     else
        path = m_dirtreeDir.dir.path();
 
-    KURL destUrl;
+    KUrl destUrl;
 
     if (url.isLocalFile() && url.fileName().endsWith(".desktop"))
     {
@@ -490,7 +490,7 @@ void KonqSidebarTree::slotExecuted( Q3ListViewItem *item )
 
     args.serviceType = dItem->externalMimeType();
     args.trustedSource = true;
-    KURL externalURL = dItem->externalURL();
+    KUrl externalURL = dItem->externalURL();
     if ( !externalURL.isEmpty() )
 	openURLRequest( externalURL, args );
 }
@@ -565,7 +565,7 @@ void KonqSidebarTree::slotSelectionChanged()
     }
 }
 
-void KonqSidebarTree::FilesAdded( const KURL & dir )
+void KonqSidebarTree::FilesAdded( const KUrl & dir )
 {
     kdDebug(1201) << "KonqSidebarTree::FilesAdded " << dir.url() << endl;
     if ( m_dirtreeDir.dir.isParentOf( dir ) )
@@ -573,10 +573,10 @@ void KonqSidebarTree::FilesAdded( const KURL & dir )
         QTimer::singleShot( 0, this, SLOT( rescanConfiguration() ) );
 }
 
-void KonqSidebarTree::FilesRemoved( const KURL::List & urls )
+void KonqSidebarTree::FilesRemoved( const KUrl::List & urls )
 {
     //kdDebug(1201) << "KonqSidebarTree::FilesRemoved " << urls.count() << endl;
-    for ( KURL::List::ConstIterator it = urls.begin() ; it != urls.end() ; ++it )
+    for ( KUrl::List::ConstIterator it = urls.begin() ; it != urls.end() ; ++it )
     {
         //kdDebug(1201) <<  "KonqSidebarTree::FilesRemoved " << (*it).prettyURL() << endl;
         if ( m_dirtreeDir.dir.isParentOf( *it ) )
@@ -588,7 +588,7 @@ void KonqSidebarTree::FilesRemoved( const KURL::List & urls )
     }
 }
 
-void KonqSidebarTree::FilesChanged( const KURL::List & urls )
+void KonqSidebarTree::FilesChanged( const KUrl::List & urls )
 {
     //kdDebug(1201) << "KonqSidebarTree::FilesChanged" << endl;
     // not same signal, but same implementation
@@ -694,7 +694,7 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
     for (; eIt != eEnd; ++eIt )
     {
         QString filePath = QString( *eIt ).prepend( path );
-        KURL u;
+        KUrl u;
         u.setPath( filePath );
         if ( KMimeType::findByURL( u, 0, true )->name() == "application/x-desktop" )
             loadTopLevelItem( parent, filePath );
@@ -1021,7 +1021,7 @@ void KonqSidebarTree::slotProperties()
 {
     if (!m_currentTopLevelItem) return;
 
-    KURL url;
+    KUrl url;
     url.setPath(m_currentTopLevelItem->path());
 
     KPropertiesDialog *dlg = new KPropertiesDialog( url );
@@ -1046,7 +1046,7 @@ void KonqSidebarTree::slotOpenTab()
 void KonqSidebarTree::slotCopyLocation()
 {
     if (!m_currentTopLevelItem) return;
-    KURL url = m_currentTopLevelItem->externalURL();
+    KUrl url = m_currentTopLevelItem->externalURL();
     kapp->clipboard()->setData( new K3URLDrag(url, 0), QClipboard::Selection );
     kapp->clipboard()->setData( new K3URLDrag(url, 0), QClipboard::Clipboard );
 }

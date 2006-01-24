@@ -152,7 +152,7 @@ KonqExtendedBookmarkOwner::KonqExtendedBookmarkOwner(KonqMainWindow *w)
    m_pKonqMainWindow = w;
 }
 
-KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, const char *name, const QString& xmluiFile)
+KonqMainWindow::KonqMainWindow( const KUrl &initialURL, bool openInitialURL, const char *name, const QString& xmluiFile)
  : KParts::MainWindow( NoDCOPObject, 0L, name, Qt::WDestructiveClose | Qt::WStyle_ContextHelp )
 {
   setPreloadedFlag( false );
@@ -275,7 +275,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   }
   else if ( openInitialURL )
   {
-    KURL homeURL;
+    KUrl homeURL;
     homeURL.setPath( QDir::homePath() );
     openURL( 0L, homeURL );
   }
@@ -414,7 +414,7 @@ void KonqMainWindow::removeContainer( QWidget *container, QWidget *parent, QDomE
 // Note that KShortURIFilter does the same, but we have no way of getting it from there
 //
 // Note: this removes the filter from the URL.
-QString KonqMainWindow::detectNameFilter( KURL & url )
+QString KonqMainWindow::detectNameFilter( KUrl & url )
 {
     if ( !KProtocolInfo::supportsListing(url) )
         return QString();
@@ -452,7 +452,7 @@ void KonqMainWindow::openFilteredURL( const QString & url, KonqOpenURLRequest & 
     if (m_currentDir.isEmpty() && m_currentView)
        m_currentDir = m_currentView->url().path(1);
 
-    KURL filteredURL ( KonqMisc::konqFilteredURL( this, url, m_currentDir ) );
+    KUrl filteredURL ( KonqMisc::konqFilteredURL( this, url, m_currentDir ) );
     kdDebug(1202) << "url " << url << " filtered into " << filteredURL.prettyURL() << endl;
 
     if ( filteredURL.isEmpty() ) // initially empty, or error (e.g. ~unknown_user)
@@ -480,7 +480,7 @@ void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab, bool 
     openFilteredURL( _url, req );
 }
 
-void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
+void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
                               const QString &_serviceType, KonqOpenURLRequest& req,
                               bool trustedSource )
 {
@@ -490,7 +490,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
                 << "' view=" << _view << endl;
 #endif
 
-  KURL url( _url );
+  KUrl url( _url );
   QString serviceType( _serviceType );
   if ( url.url() == "about:blank" )
   {
@@ -602,7 +602,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
             }
             if ( open )
             {
-                KURL::List lst;
+                KUrl::List lst;
                 lst.append(url);
                 //kdDebug(1202) << "Got offer " << (offer ? offer->name().toLatin1() : "0") << endl;
                 if ( ( trustedSource || KonqRun::allowExecution( serviceType, url ) ) &&
@@ -649,7 +649,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   }
 }
 
-bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *childView, KonqOpenURLRequest& req )
+bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *childView, KonqOpenURLRequest& req )
 {
   // Second argument is referring URL
   if ( !KAuthorized::authorizeURLAction("open", childView ? childView->url() : KURL(), _url) )
@@ -694,7 +694,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
   QString indexFile;
 
-  KURL url( _url );
+  KUrl url( _url );
 
   // Generic mechanism for redirecting to tar:/<path>/ when clicking on a tar file,
   // zip:/<path>/ when clicking on a zip file, etc.
@@ -762,7 +762,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
       if ( url.isLocalFile() ) // local, we can do better (.directory)
         {
           // Read it in the .directory file, default to m_bHTMLAllowed
-          KURL urlDotDir( url );
+          KUrl urlDotDir( url );
           urlDotDir.addPath(".directory");
           bool HTMLAllowed = m_bHTMLAllowed;
           QFile f( urlDotDir.path() );
@@ -899,7 +899,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   return ok || bOthersFollowed;
 }
 
-void KonqMainWindow::slotOpenURLRequest( const KURL &url, const KParts::URLArgs &args )
+void KonqMainWindow::slotOpenURLRequest( const KUrl &url, const KParts::URLArgs &args )
 {
   kdDebug(1202) << "KonqMainWindow::slotOpenURLRequest frameName=" << args.frameName << endl;
 
@@ -956,7 +956,7 @@ void KonqMainWindow::slotOpenURLRequest( const KURL &url, const KParts::URLArgs 
 }
 
 //Called by slotOpenURLRequest
-void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts::URLArgs &args )
+void KonqMainWindow::openURL( KonqView *childView, const KUrl &url, const KParts::URLArgs &args )
 {
   kdDebug(1202) << "KonqMainWindow::openURL (from slotOpenURLRequest) url=" << url.prettyURL() << endl;
   KonqOpenURLRequest req;
@@ -994,7 +994,7 @@ QObject *KonqMainWindow::lastFrame( KonqView *view )
 }
 
 // Linked-views feature, plus "sidebar follows URL opened in the active view" feature
-bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &args,
+bool KonqMainWindow::makeViewsFollow( const KUrl & url, const KParts::URLArgs &args,
                                       const QString & serviceType, KonqView * senderView )
 {
   if ( !senderView->isLinkedView() && senderView != m_currentView )
@@ -1076,7 +1076,7 @@ void KonqMainWindow::abortLoading()
   }
 }
 
-void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args )
+void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs &args )
 {
     kdDebug(1202) << "KonqMainWindow::slotCreateNewWindow url=" << url.prettyURL() << endl;
 
@@ -1099,7 +1099,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 }
 
 // This is mostly for the JS window.open call
-void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args,
+void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs &args,
                                           const KParts::WindowArgs &windowArgs, KParts::ReadOnlyPart *&part )
 {
     kdDebug(1202) << "KonqMainWindow::slotCreateNewWindow(4 args) url=" << url.prettyURL()
@@ -1309,10 +1309,10 @@ void KonqMainWindow::slotDuplicateWindow()
 
 void KonqMainWindow::slotSendURL()
 {
-  KURL::List lst = currentURLs();
+  KUrl::List lst = currentURLs();
   QString body;
   QString fileNameList;
-  for ( KURL::List::Iterator it = lst.begin() ; it != lst.end() ; ++it )
+  for ( KUrl::List::Iterator it = lst.begin() ; it != lst.end() ; ++it )
   {
     if ( !body.isEmpty() ) body += '\n';
     body += (*it).prettyURL();
@@ -1330,10 +1330,10 @@ void KonqMainWindow::slotSendURL()
 
 void KonqMainWindow::slotSendFile()
 {
-  KURL::List lst = currentURLs();
+  KUrl::List lst = currentURLs();
   QStringList urls;
   QString fileNameList;
-  for ( KURL::List::Iterator it = lst.begin() ; it != lst.end() ; ++it )
+  for ( KUrl::List::Iterator it = lst.begin() ; it != lst.end() ; ++it )
   {
     if ( !fileNameList.isEmpty() ) fileNameList += ", ";
     if ( (*it).isLocalFile() && QFileInfo((*it).path()).isDir() )
@@ -1379,7 +1379,7 @@ void KonqMainWindow::slotOpenTerminal()
   //Try to get the directory of the current view
   if ( m_currentView )
   {
-      KURL u( m_currentView->url() );
+      KUrl u( m_currentView->url() );
 
       // If the given directory is not local, it can still be the URL of an
       // ioslave using UDS_LOCAL_PATH which to be converted first.
@@ -1424,7 +1424,7 @@ void KonqMainWindow::slotOpenLocation()
   dlg.urlRequester()->completionObject()->setDir( currentDir );
   dlg.urlRequester()->setMode( KFile::File | KFile::Directory | KFile::ExistingOnly );
   dlg.exec();
-  const KURL& url = dlg.selectedURL();
+  const KUrl& url = dlg.selectedURL();
   if (!url.isEmpty())
      openFilteredURL( url.url().trimmed() );
 }
@@ -1463,7 +1463,7 @@ void KonqMainWindow::slotToolFind()
   }
   else if ( sender()->inherits( "KAction" ) ) // don't go there if called by the singleShot below
   {
-      KURL url;
+      KUrl url;
       if ( m_currentView && m_currentView->url().isLocalFile() )
           url = m_currentView->locationBarURL();
       else
@@ -1506,7 +1506,7 @@ void KonqMainWindow::slotIconsChanged()
 
 void KonqMainWindow::slotOpenWith()
 {
-  KURL::List lst;
+  KUrl::List lst;
   lst.append( m_currentView->url() );
 
   QString serviceName = sender()->name();
@@ -1542,7 +1542,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   m_currentView->lockHistory();
 
   // Save those, because changeViewMode will lose them
-  KURL url = m_currentView->url();
+  KUrl url = m_currentView->url();
   QString locationBarURL = m_currentView->locationBarURL();
   QStringList filesToSelect;
   if( m_currentView->part()->inherits( "KonqDirPart" ) ) {
@@ -1623,7 +1623,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   if ( !bQuickViewModeChange )
   {
     m_currentView->changeViewMode( m_currentView->serviceType(), modeName );
-    KURL locURL = KURL::fromPathOrURL( locationBarURL );
+    KUrl locURL = KUrl::fromPathOrURL( locationBarURL );
     QString nameFilter = detectNameFilter( locURL );
     if( m_currentView->part()->inherits( "KonqDirPart" ) )
        static_cast<KonqDirPart*>( m_currentView->part() )->setFilesToSelect( filesToSelect );
@@ -1635,7 +1635,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   // once we do, we might want to implement per-mimetype global-saving)
   if ( m_bSaveViewPropertiesLocally && m_currentView->supportsServiceType( "inode/directory" ) )
   {
-      KURL u ( m_currentView->url() );
+      KUrl u ( m_currentView->url() );
       u.addPath(".directory");
       if ( u.isLocalFile() )
       {
@@ -1661,7 +1661,7 @@ void KonqMainWindow::showHTML( KonqView * _view, bool b, bool _activateView )
   // This has to be done before calling openView since it relies on it
   if ( m_bSaveViewPropertiesLocally )
   {
-      KURL u ( b ? _view->url() : KURL( _view->url().directory() ) );
+      KUrl u ( b ? _view->url() : KURL( _view->url().directory() ) );
       u.addPath(".directory");
       if ( u.isLocalFile() )
       {
@@ -1685,7 +1685,7 @@ void KonqMainWindow::showHTML( KonqView * _view, bool b, bool _activateView )
   }
   else if ( !b && _view->supportsServiceType( "text/html" ) )
   {
-    KURL u( _view->url() );
+    KUrl u( _view->url() );
     QString fileName = u.fileName().lower();
     if ( KProtocolInfo::supportsListing( u ) && fileName.startsWith("index.htm") ) {
         _view->lockHistory();
@@ -1806,7 +1806,7 @@ void KonqMainWindow::slotHome(KAction::ActivationReason, Qt::MouseButtons button
 	    openFilteredURL( homeURL, req);
 	else
 	{
-	    KURL finalURL = KonqMisc::konqFilteredURL( this, homeURL );
+	    KUrl finalURL = KonqMisc::konqFilteredURL( this, homeURL );
 	    KonqMisc::createNewWindow( finalURL.url() );
 	}
     }
@@ -1847,7 +1847,7 @@ void KonqMainWindow::slotGoSettings()
 
 void KonqMainWindow::slotGoDirTree()
 {
-  KURL u;
+  KUrl u;
   u.setPath( locateLocal( "data", "konqueror/dirtree/" ) );
   openURL( 0L, u );
 }
@@ -1859,7 +1859,7 @@ void KonqMainWindow::slotGoTrash()
 
 void KonqMainWindow::slotGoAutostart()
 {
-  KURL u;
+  KUrl u;
   u.setPath( KGlobalSettings::autostartPath() );
   openURL( 0L, u );
 }
@@ -2082,7 +2082,7 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   // changes the directory!! (DA)
   if( m_pURLCompletion )
   {
-    KURL u( view->locationBarURL() );
+    KUrl u( view->locationBarURL() );
     if( u.isLocalFile() )
       m_pURLCompletion->setDir( u.path() );
     else
@@ -2685,10 +2685,10 @@ void KonqMainWindow::popupNewTab(bool infront, bool openAfterCurrentPage)
   }
 }
 
-void KonqMainWindow::openMultiURL( KURL::List url )
+void KonqMainWindow::openMultiURL( KUrl::List url )
 {
-    KURL::List::ConstIterator it = url.begin();
-    KURL::List::ConstIterator end = url.end();
+    KUrl::List::ConstIterator it = url.begin();
+    KUrl::List::ConstIterator end = url.end();
     for (; it != end; ++it )
     {
         KonqView* newView = m_pViewManager->addTab();
@@ -2866,7 +2866,7 @@ void KonqMainWindow::slotSaveViewPropertiesLocally()
 void KonqMainWindow::slotRemoveLocalProperties()
 {
   assert( m_currentView );
-  KURL u ( m_currentView->url() );
+  KUrl u ( m_currentView->url() );
   u.addPath(".directory");
   if ( u.isLocalFile() )
   {
@@ -2888,9 +2888,9 @@ void KonqMainWindow::slotRemoveLocalProperties()
   }
 }
 
-bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
+bool KonqMainWindow::askForTarget(const QString& text, KUrl& url)
 {
-   const KURL initialUrl = (viewCount()==2) ? otherView(m_currentView)->url() : m_currentView->url();
+   const KUrl initialUrl = (viewCount()==2) ? otherView(m_currentView)->url() : m_currentView->url();
    QString label = text.arg( m_currentView->url().pathOrURL() );
    KUrlRequesterDlg dlg(initialUrl.pathOrURL(), label, this, "urlrequester", true);
    dlg.setCaption(i18n("Enter Target"));
@@ -2917,7 +2917,7 @@ void KonqMainWindow::slotRequesterClicked( KUrlRequester *req )
 void KonqMainWindow::slotCopyFiles()
 {
   //kdDebug(1202) << "KonqMainWindow::slotCopyFiles()" << endl;
-  KURL dest;
+  KUrl dest;
   if (!askForTarget(i18n("Copy selected files from %1 to:"),dest))
      return;
 
@@ -2927,7 +2927,7 @@ void KonqMainWindow::slotCopyFiles()
 void KonqMainWindow::slotMoveFiles()
 {
   //kdDebug(1202) << "KonqMainWindow::slotMoveFiles()" << endl;
-  KURL dest;
+  KUrl dest;
   if (!askForTarget(i18n("Move selected files from %1 to:"),dest))
      return;
 
@@ -2941,9 +2941,9 @@ void KonqMainWindow::slotNewDir()
         KonqOperations::newDir(this, m_currentView->url());
 }
 
-KURL::List KonqMainWindow::currentURLs() const
+KUrl::List KonqMainWindow::currentURLs() const
 {
-  KURL::List urls;
+  KUrl::List urls;
   if ( m_currentView )
   {
     urls.append( m_currentView->url() );
@@ -2999,7 +2999,7 @@ void KonqMainWindow::slotUpAboutToShow()
 
   // Use the location bar URL, because in case we display a index.html
   // we want to go up from the dir, not from the index.html
-  KURL u( m_currentView->locationBarURL() );
+  KUrl u( m_currentView->locationBarURL() );
   u = u.upURL();
   while ( u.hasPath() )
   {
@@ -3058,7 +3058,7 @@ void KonqMainWindow::slotUpDelayed()
 
 void KonqMainWindow::slotUpActivated( int id )
 {
-  KURL u( m_currentView->locationBarURL() );
+  KUrl u( m_currentView->locationBarURL() );
   kdDebug(1202) << "slotUpActivated. Start URL is " << u << endl;
   for ( int i = 0 ; i < m_paUp->popupMenu()->indexOf( id ) + 1 ; i ++ )
       u = u.upURL();
@@ -3591,7 +3591,7 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
   }
 }
 
-void KonqMainWindow::setLocationBarURL( const KURL &url )
+void KonqMainWindow::setLocationBarURL( const KUrl &url )
 {
     setLocationBarURL( url.pathOrURL() );
 }
@@ -3680,7 +3680,7 @@ void KonqMainWindow::stopAnimation()
   m_paStop->setEnabled( false );
 }
 
-void KonqMainWindow::setUpEnabled( const KURL &url )
+void KonqMainWindow::setUpEnabled( const KUrl &url )
 {
   //kdDebug(1202) << "KonqMainWindow::setUpEnabled(" << url << ")" << endl;
   //kdDebug(1202) << "hasPath=" << url.hasPath() << endl;
@@ -3767,8 +3767,8 @@ void KonqMainWindow::initActions()
   (void) new KAction( i18n( "Trash" ), "trashcan_full", 0, this, SLOT( slotGoTrash() ), actionCollection(), "go_trash" );
   (void) new KAction( i18n( "Autostart" ), 0, this, SLOT( slotGoAutostart() ), actionCollection(), "go_autostart" );
   KonqMostOftenURLSAction *mostOften = new KonqMostOftenURLSAction( i18n("Most Often Visited"), actionCollection(), "go_most_often" );
-  connect( mostOften, SIGNAL( activated( const KURL& )),
-	   SLOT( slotOpenURL( const KURL& )));
+  connect( mostOften, SIGNAL( activated( const KUrl& )),
+	   SLOT( slotOpenURL( const KUrl& )));
   (void) new KAction( i18n( "History" ), "history", 0, this, SLOT( slotGoHistory() ), actionCollection(), "go_history" );
 
   // Settings menu
@@ -4025,7 +4025,7 @@ void KonqMainWindow::slotOpenBookmarkURL( const QString & url, Qt::ButtonState s
 	    openFilteredURL( url, req);
 	else
 	{
-	    KURL finalURL = KonqMisc::konqFilteredURL( this, url );
+	    KUrl finalURL = KonqMisc::konqFilteredURL( this, url );
 	    KonqMisc::createNewWindow( finalURL.url() );
 	}
     }
@@ -4513,12 +4513,12 @@ QString KonqMainWindow::currentTitle() const
   return m_currentView ? m_currentView->caption() : QString();
 }
 
-void KonqMainWindow::slotPopupMenu( const QPoint &_global, const KURL &url, const QString &_mimeType, mode_t _mode )
+void KonqMainWindow::slotPopupMenu( const QPoint &_global, const KUrl &url, const QString &_mimeType, mode_t _mode )
 {
   slotPopupMenu( 0L, _global, url, _mimeType, _mode );
 }
 
-void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &url, const QString &_mimeType, mode_t _mode )
+void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KUrl &url, const QString &_mimeType, mode_t _mode )
 {
   KFileItem item( url, _mimeType, _mode );
   KFileItemList items;
@@ -4526,7 +4526,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   slotPopupMenu( client, _global, items, KParts::URLArgs(), KParts::BrowserExtension::DefaultPopupItems, false ); //BE CAREFUL WITH sender() !
 }
 
-void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &url, const KParts::URLArgs &_args, KParts::BrowserExtension::PopupFlags f, mode_t _mode )
+void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KUrl &url, const KParts::URLArgs &_args, KParts::BrowserExtension::PopupFlags f, mode_t _mode )
 {
   KFileItem item( url, _args.serviceType, _mode );
   KFileItemList items;
@@ -4633,7 +4633,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   // (This is a bit of a hack for the directory tree....)
   // ## should use the new currentView->isHierarchicalView() instead?
   // Would this be correct for the konqlistview tree view?
-  KURL viewURL = currentView->isToggleView() ? KURL() : currentView->url();
+  KUrl viewURL = currentView->isToggleView() ? KURL() : currentView->url();
 
   bool openedForViewURL = false;
   //bool dirsSelected = false;
@@ -4641,7 +4641,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
   if ( _items.count() == 1 )
   {
-      const KURL firstURL = _items.first()->url();
+      const KUrl firstURL = _items.first()->url();
       if ( !viewURL.isEmpty() )
       {
 	  //firstURL.cleanPath();
@@ -4651,7 +4651,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
       //dirsSelected = S_ISDIR( _items.first()->mode() );
   }
     //check if current url is trash
-  KURL url = viewURL;
+  KUrl url = viewURL;
   url.cleanPath();
   bool isIntoTrash = url.protocol() == "trash" || url.url().startsWith( "system:/trash" );
   bool doTabHandling = !openedForViewURL && !isIntoTrash && sReading;
@@ -4797,7 +4797,7 @@ void KonqMainWindow::slotPopupPasteTo()
 {
     if ( !m_currentView || m_popupURL.isEmpty() )
         return;
-    m_currentView->callExtensionURLMethod( "pasteTo(const KURL&)", m_popupURL );
+    m_currentView->callExtensionURLMethod( "pasteTo(const KUrl&)", m_popupURL );
 }
 
 void KonqMainWindow::slotReconfigure()
@@ -5260,7 +5260,7 @@ void KonqMainWindow::slotLocationLabelActivated()
   m_combo->lineEdit()->selectAll();
 }
 
-void KonqMainWindow::slotOpenURL( const KURL& url )
+void KonqMainWindow::slotOpenURL( const KUrl& url )
 {
     openURL( 0L, url );
 }
@@ -5271,7 +5271,7 @@ KAction *a = m_toggleViewGUIClient->action("konq_sidebartng");
 return (a && static_cast<KToggleAction*>(a)->isChecked());
 }
 
-void KonqMainWindow::slotAddWebSideBar(const KURL& url, const QString& name)
+void KonqMainWindow::slotAddWebSideBar(const KUrl& url, const QString& name)
 {
     if (url.url().isEmpty() && name.isEmpty())
         return;
@@ -5325,7 +5325,7 @@ void KonqMainWindow::bookmarksIntoCompletion( const KBookmarkGroup& group )
             continue;
         }
 
-        KURL url = bm.url();
+        KUrl url = bm.url();
         if ( !url.isValid() )
             continue;
 

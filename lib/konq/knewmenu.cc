@@ -413,7 +413,7 @@ void KNewMenu::slotNewFile()
     	}
     	else // any other desktop file (Device, App, etc.)
     	{
-    	    KURL::List::Iterator it = popupFiles.begin();
+    	    KUrl::List::Iterator it = popupFiles.begin();
     	    for ( ; it != popupFiles.end(); ++it )
     	    {
                 //kdDebug(1203) << "first arg=" << entry.templatePath << endl;
@@ -422,12 +422,12 @@ void KNewMenu::slotNewFile()
                 QString text = entry.text;
                 text.replace( "...", QString() ); // the ... is fine for the menu item but not for the default filename
                 
-		KURL defaultFile( *it );
+		KUrl defaultFile( *it );
 		defaultFile.addPath( KIO::encodeFileName( text ) );
 		if ( defaultFile.isLocalFile() && QFile::exists( defaultFile.path() ) )
 		    text = KIO::RenameDlg::suggestName( *it, text);
 
-                KURL templateURL;
+                KUrl templateURL;
                 templateURL.setPath( entry.templatePath );
                 (void) new KPropertiesDialog( templateURL, *it, text, d->m_parentWidget );
     	    }
@@ -442,7 +442,7 @@ void KNewMenu::slotNewFile()
         QString text = entry.text;
         text.replace( "...", QString() ); // the ... is fine for the menu item but not for the default filename
         
-	KURL defaultFile( *(popupFiles.begin()) );
+	KUrl defaultFile( *(popupFiles.begin()) );
 	defaultFile.addPath( KIO::encodeFileName( text ) );
 	if ( defaultFile.isLocalFile() && QFile::exists( defaultFile.path() ) )
 	    text = KIO::RenameDlg::suggestName( *(popupFiles.begin()), text);
@@ -455,16 +455,16 @@ void KNewMenu::slotNewFile()
 
     // The template is not a desktop file [or it's a URL one]
     // Copy it.
-    KURL::List::Iterator it = popupFiles.begin();
+    KUrl::List::Iterator it = popupFiles.begin();
 
     QString src = entry.templatePath;
     for ( ; it != popupFiles.end(); ++it )
     {
-        KURL dest( *it );
+        KUrl dest( *it );
         dest.addPath( KIO::encodeFileName(name) ); // Chosen destination file name
         d->m_destPath = dest.path(); // will only be used if m_isURLDesktopFile and dest is local
 
-        KURL uSrc;
+        KUrl uSrc;
         uSrc.setPath( src );
         //kdDebug(1203) << "KNewMenu : KIO::copyAs( " << uSrc.url() << ", " << dest.url() << ")" << endl;
         KIO::CopyJob * job = KIO::copyAs( uSrc, dest );
@@ -472,9 +472,9 @@ void KNewMenu::slotNewFile()
         connect( job, SIGNAL( result( KIO::Job * ) ),
                 SLOT( slotResult( KIO::Job * ) ) );
         if ( m_isURLDesktopFile )
-		connect( job, SIGNAL( renamed( KIO::Job *, const KURL&, const KURL& ) ),
-        	     SLOT( slotRenamed( KIO::Job *, const KURL&, const KURL& ) ) );
-    	KURL::List lst;
+		connect( job, SIGNAL( renamed( KIO::Job *, const KUrl&, const KUrl& ) ),
+        	     SLOT( slotRenamed( KIO::Job *, const KUrl&, const KUrl& ) ) );
+    	KUrl::List lst;
     	lst.append( uSrc );
     	(void)new KonqCommandRecorder( KonqCommand::COPY, lst, dest, job );
     }
@@ -482,7 +482,7 @@ void KNewMenu::slotNewFile()
 
 // Special case (filename conflict when creating a link=url file)
 // We need to update m_destURL
-void KNewMenu::slotRenamed( KIO::Job *, const KURL& from , const KURL& to )
+void KNewMenu::slotRenamed( KIO::Job *, const KUrl& from , const KUrl& to )
 {
     if ( from.isLocalFile() )
     {
@@ -498,7 +498,7 @@ void KNewMenu::slotResult( KIO::Job * job )
         job->showErrorDialog();
     else
     {
-        KURL destURL = static_cast<KIO::CopyJob*>(job)->destURL();
+        KUrl destURL = static_cast<KIO::CopyJob*>(job)->destURL();
         if ( destURL.isLocalFile() )
         {
             if ( m_isURLDesktopFile )
@@ -609,7 +609,7 @@ void KURLDesktopFileDlg::slotURLTextChanged( const QString& )
         // use URL as default value for the filename
         // (we copy only its filename if protocol supports listing,
         // but for HTTP we don't want tons of index.html links)
-        KURL url( m_urlRequester->url() );
+        KUrl url( m_urlRequester->url() );
         if ( KProtocolInfo::supportsListing( url ) )
             m_leFileName->setText( url.fileName() );
         else

@@ -308,7 +308,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 		this, SLOT(dockWidgetHasUndocked(K3DockWidget*)));
 }
 
-void Sidebar_Widget::addWebSideBar(const KURL& url, const QString& /*name*/) {
+void Sidebar_Widget::addWebSideBar(const KUrl& url, const QString& /*name*/) {
 	//kdDebug() << "Web sidebar entry to be added: " << url.url()
 	//	<< " [" << name << "]" << endl;
 
@@ -1060,17 +1060,17 @@ KParts::URLArgs args;
 	emit getExtension()->openURLRequest(KURL( url ), args);
 }
 
-void Sidebar_Widget::openURLRequest( const KURL &url, const KParts::URLArgs &args)
+void Sidebar_Widget::openURLRequest( const KUrl &url, const KParts::URLArgs &args)
 {
 	getExtension()->openURLRequest(url,args);
 }
 
-void Sidebar_Widget::createNewWindow( const KURL &url, const KParts::URLArgs &args)
+void Sidebar_Widget::createNewWindow( const KUrl &url, const KParts::URLArgs &args)
 {
 	getExtension()->createNewWindow(url,args);
 }
 
-void Sidebar_Widget::createNewWindow( const KURL &url, const KParts::URLArgs &args,
+void Sidebar_Widget::createNewWindow( const KUrl &url, const KParts::URLArgs &args,
 	const KParts::WindowArgs &windowArgs, KParts::ReadOnlyPart *&part )
 {
 	getExtension()->createNewWindow(url,args,windowArgs,part);
@@ -1133,7 +1133,7 @@ void Sidebar_Widget::popupMenu( KXMLGUIClient *client, const QPoint &global, con
 		getExtension()->popupMenu(client,global,items);
 }
 
-void Sidebar_Widget::popupMenu( const QPoint &global, const KURL &url,
+void Sidebar_Widget::popupMenu( const QPoint &global, const KUrl &url,
 	const QString &mimeType, mode_t mode)
 {
 	if (doEnableActions())
@@ -1141,7 +1141,7 @@ void Sidebar_Widget::popupMenu( const QPoint &global, const KURL &url,
 }
 
 void Sidebar_Widget::popupMenu( KXMLGUIClient *client,
-	const QPoint &global, const KURL &url,
+	const QPoint &global, const KUrl &url,
 	const QString &mimeType, mode_t mode )
 {
 	if (doEnableActions())
@@ -1159,16 +1159,16 @@ void Sidebar_Widget::connectModule(QObject *mod)
 	}
 
 	if (mod->metaObject()->indexOfSignal("popupMenu(QPoint,KURL,QString,mode_t)") != -1) {
-		connect(mod,SIGNAL(popupMenu( const QPoint &, const KURL &,
+		connect(mod,SIGNAL(popupMenu( const QPoint &, const KUrl &,
 			const QString &, mode_t)),this,SLOT(popupMenu( const
-			QPoint &, const KURL&, const QString &, mode_t)));
+			QPoint &, const KUrl&, const QString &, mode_t)));
 	}
 
 	if (mod->metaObject()->indexOfSignal("popupMenu(KXMLGUIClient*,QPoint,KURL,QString,mode_t)") != -1) {
 		connect(mod,SIGNAL(popupMenu( KXMLGUIClient *, const QPoint &,
-			const KURL &,const QString &, mode_t)),this,
+			const KUrl &,const QString &, mode_t)),this,
 			SLOT(popupMenu( KXMLGUIClient *, const QPoint &,
-			const KURL &,const QString &, mode_t)));
+			const KUrl &,const QString &, mode_t)));
 	}
 
 	if (mod->metaObject()->indexOfSignal("popupMenu(QPoint,KFileItemList)") != -1) {
@@ -1177,8 +1177,8 @@ void Sidebar_Widget::connectModule(QObject *mod)
 	}
 
 	if (mod->metaObject()->indexOfSignal("openURLRequest(KURL,KParts::URLArgs)") != -1) {
-		connect(mod,SIGNAL(openURLRequest( const KURL &, const KParts::URLArgs &)),
-			this,SLOT(openURLRequest( const KURL &, const KParts::URLArgs &)));
+		connect(mod,SIGNAL(openURLRequest( const KUrl &, const KParts::URLArgs &)),
+			this,SLOT(openURLRequest( const KUrl &, const KParts::URLArgs &)));
 	}
 
 	if (mod->metaObject()->indexOfSignal("submitFormRequest(const char*,QString,QByteArray,QString,QString,QString)") != -1) {
@@ -1194,8 +1194,8 @@ void Sidebar_Widget::connectModule(QObject *mod)
 	}
 
 	if (mod->metaObject()->indexOfSignal("createNewWindow(KURL,KParts::URLArgs)") != -1) {
-		connect(mod,SIGNAL(createNewWindow( const KURL &, const KParts::URLArgs &)),
-			this,SLOT(createNewWindow( const KURL &, const KParts::URLArgs &)));
+		connect(mod,SIGNAL(createNewWindow( const KUrl &, const KParts::URLArgs &)),
+			this,SLOT(createNewWindow( const KUrl &, const KParts::URLArgs &)));
 	}
 }
 

@@ -144,7 +144,7 @@ KonqView::~KonqView()
   //kdDebug(1202) << "KonqView::~KonqView " << this << " done" << endl;
 }
 
-void KonqView::openURL( const KURL &url, const QString & locationBarURL,
+void KonqView::openURL( const KUrl &url, const QString & locationBarURL,
                         const QString & nameFilter, bool tempFile )
 {
   kdDebug(1202) << "KonqView::openURL url=" << url << " locationBarURL=" << locationBarURL << endl;
@@ -397,8 +397,8 @@ void KonqView::connectPart(  )
   {
       ext->setBrowserInterface( m_browserIface );
 
-      connect( ext, SIGNAL( openURLRequestDelayed( const KURL &, const KParts::URLArgs &) ),
-               m_pMainWindow, SLOT( slotOpenURLRequest( const KURL &, const KParts::URLArgs & ) ) );
+      connect( ext, SIGNAL( openURLRequestDelayed( const KUrl &, const KParts::URLArgs &) ),
+               m_pMainWindow, SLOT( slotOpenURLRequest( const KUrl &, const KParts::URLArgs & ) ) );
 
       if ( m_bPopupMenuEnabled )
       {
@@ -409,17 +409,17 @@ void KonqView::connectPart(  )
       connect( ext, SIGNAL( setLocationBarURL( const QString & ) ),
                this, SLOT( setLocationBarURL( const QString & ) ) );
 
-      connect( ext, SIGNAL( setIconURL( const KURL & ) ),
-               this, SLOT( setIconURL( const KURL & ) ) );
+      connect( ext, SIGNAL( setIconURL( const KUrl & ) ),
+               this, SLOT( setIconURL( const KUrl & ) ) );
 
       connect( ext, SIGNAL( setPageSecurity( int ) ),
                this, SLOT( setPageSecurity( int ) ) );
 
-      connect( ext, SIGNAL( createNewWindow( const KURL &, const KParts::URLArgs & ) ),
-               m_pMainWindow, SLOT( slotCreateNewWindow( const KURL &, const KParts::URLArgs & ) ) );
+      connect( ext, SIGNAL( createNewWindow( const KUrl &, const KParts::URLArgs & ) ),
+               m_pMainWindow, SLOT( slotCreateNewWindow( const KUrl &, const KParts::URLArgs & ) ) );
 
-      connect( ext, SIGNAL( createNewWindow( const KURL &, const KParts::URLArgs &, const KParts::WindowArgs &, KParts::ReadOnlyPart *& ) ),
-               m_pMainWindow, SLOT( slotCreateNewWindow( const KURL &, const KParts::URLArgs &, const KParts::WindowArgs &, KParts::ReadOnlyPart *& ) ) );
+      connect( ext, SIGNAL( createNewWindow( const KUrl &, const KParts::URLArgs &, const KParts::WindowArgs &, KParts::ReadOnlyPart *& ) ),
+               m_pMainWindow, SLOT( slotCreateNewWindow( const KUrl &, const KParts::URLArgs &, const KParts::WindowArgs &, KParts::ReadOnlyPart *& ) ) );
 
       connect( ext, SIGNAL( loadingProgress( int ) ),
                m_pKonqFrame->statusbar(), SLOT( slotLoadingProgress( int ) ) );
@@ -456,9 +456,9 @@ void KonqView::connectPart(  )
                m_pKonqFrame->statusbar(), SLOT( message( const QString & ) ) );
 
           connect( ext,
-                   SIGNAL( addWebSideBar(const KURL&, const QString&) ),
+                   SIGNAL( addWebSideBar(const KUrl&, const QString&) ),
                    m_pMainWindow,
-                   SLOT( slotAddWebSideBar(const KURL&, const QString&) ) );
+                   SLOT( slotAddWebSideBar(const KUrl&, const QString&) ) );
       }
 
       callExtensionBoolMethod( "setSaveViewPropertiesLocally(bool)", m_pMainWindow->saveViewPropertiesLocally() );
@@ -636,7 +636,7 @@ void KonqView::slotMouseOverInfo( const KFileItem *item )
   QApplication::sendEvent( m_pMainWindow, &ev );
 }
 
-void KonqView::setLocationBarURL( const KURL& locationBarURL )
+void KonqView::setLocationBarURL( const KUrl& locationBarURL )
 {
   setLocationBarURL( locationBarURL.pathOrURL() );
 }
@@ -655,7 +655,7 @@ void KonqView::setLocationBarURL( const QString & locationBarURL )
   if (!m_bPassiveMode) setTabIcon( m_sLocationBarURL );
 }
 
-void KonqView::setIconURL( const KURL & iconURL )
+void KonqView::setIconURL( const KUrl & iconURL )
 // This function sets the favIcon in konqui's window if enabled,
 // thus it is responsible for the icon in the taskbar.
 // It does not set the tab's favIcon.
@@ -689,7 +689,7 @@ void KonqView::setCaption( const QString & caption )
   if (url().isLocalFile())
   {
      // Is the caption a URL?  If so, is it local?  If so, only display the filename!
-     KURL url(caption);
+     KUrl url(caption);
      if (url.isValid() && url.isLocalFile() && url.fileName() == this->url().fileName())
         adjustedCaption = url.fileName();
   }
@@ -897,19 +897,19 @@ void KonqView::copyHistory( KonqView *other )
     m_lstHistory.at(other->m_lstHistory.at());
 }
 
-KURL KonqView::url() const
+KUrl KonqView::url() const
 {
   assert( m_pPart );
   return m_pPart->url();
 }
 
-KURL KonqView::upURL() const
+KUrl KonqView::upURL() const
 {
-    KURL currentURL;
+    KUrl currentURL;
     if ( m_pRun )
 	currentURL = m_pRun->url();
     else
-	currentURL = KURL::fromPathOrURL( m_sLocationBarURL );
+	currentURL = KUrl::fromPathOrURL( m_sLocationBarURL );
     return currentURL.upURL();
 }
 
@@ -1012,7 +1012,7 @@ void KonqView::setLockedLocation( bool b )
   m_bLockedLocation = b;
 }
 
-void KonqView::aboutToOpenURL( const KURL &url, const KParts::URLArgs &args )
+void KonqView::aboutToOpenURL( const KUrl &url, const KParts::URLArgs &args )
 {
   KParts::OpenURLEvent ev( m_pPart, url, args );
   QApplication::sendEvent( m_pMainWindow, &ev );
@@ -1122,7 +1122,7 @@ bool KonqView::callExtensionStringMethod( const char *methodName, QString value 
   return true;
 }
 
-bool KonqView::callExtensionURLMethod( const char *methodName, const KURL& value )
+bool KonqView::callExtensionURLMethod( const char *methodName, const KUrl& value )
 {
   QObject *obj = KParts::BrowserExtension::childObject( m_pPart );
   if ( !obj ) // not all views have a browser extension !
@@ -1168,8 +1168,8 @@ void KonqView::enablePopupMenu( bool b )
     connect( ext, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
              m_pMainWindow, SLOT( slotPopupMenu( const QPoint &, const KFileItemList & ) ) );
 
-    connect( ext, SIGNAL( popupMenu( const QPoint &, const KURL &, const QString &, mode_t ) ),
-             m_pMainWindow, SLOT( slotPopupMenu( const QPoint &, const KURL &, const QString &, mode_t ) ) );
+    connect( ext, SIGNAL( popupMenu( const QPoint &, const KUrl &, const QString &, mode_t ) ),
+             m_pMainWindow, SLOT( slotPopupMenu( const QPoint &, const KUrl &, const QString &, mode_t ) ) );
 
     connect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KFileItemList & ) ),
              m_pMainWindow, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KFileItemList & ) ) );
@@ -1177,11 +1177,11 @@ void KonqView::enablePopupMenu( bool b )
     connect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KFileItemList &, const KParts::URLArgs &, KParts::BrowserExtension::PopupFlags ) ),
              m_pMainWindow, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KFileItemList &, const KParts::URLArgs &, KParts::BrowserExtension::PopupFlags ) ) );
 
-    connect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const QString &, mode_t ) ),
-             m_pMainWindow, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const QString &, mode_t ) ) );
+    connect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KUrl &, const QString &, mode_t ) ),
+             m_pMainWindow, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KUrl &, const QString &, mode_t ) ) );
 
-    connect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const KParts::URLArgs &, KParts::BrowserExtension::PopupFlags, mode_t ) ),
-             m_pMainWindow, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const KParts::URLArgs &, KParts::BrowserExtension::PopupFlags, mode_t ) ) );
+    connect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KUrl &, const KParts::URLArgs &, KParts::BrowserExtension::PopupFlags, mode_t ) ),
+             m_pMainWindow, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KUrl &, const KParts::URLArgs &, KParts::BrowserExtension::PopupFlags, mode_t ) ) );
   }
   else // disable context popup
   {
@@ -1190,14 +1190,14 @@ void KonqView::enablePopupMenu( bool b )
     disconnect( ext, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
              m_pMainWindow, SLOT( slotPopupMenu( const QPoint &, const KFileItemList & ) ) );
 
-    disconnect( ext, SIGNAL( popupMenu( const QPoint &, const KURL &, const QString &, mode_t ) ),
-             m_pMainWindow, SLOT( slotPopupMenu( const QPoint &, const KURL &, const QString &, mode_t ) ) );
+    disconnect( ext, SIGNAL( popupMenu( const QPoint &, const KUrl &, const QString &, mode_t ) ),
+             m_pMainWindow, SLOT( slotPopupMenu( const QPoint &, const KUrl &, const QString &, mode_t ) ) );
 
     disconnect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KFileItemList & ) ),
              m_pMainWindow, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KFileItemList & ) ) );
 
-    disconnect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const QString &, mode_t ) ),
-             m_pMainWindow, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const QString &, mode_t ) ) );
+    disconnect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KUrl &, const QString &, mode_t ) ),
+             m_pMainWindow, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KUrl &, const QString &, mode_t ) ) );
   }
   enableBackRightClick( m_bBackRightClick );
 }
@@ -1252,7 +1252,7 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
 
         if ( K3URLDrag::canDecode( ev ) )
         {
-            KURL::List lstDragURLs;
+            KUrl::List lstDragURLs;
             bool ok = K3URLDrag::decode( ev, lstDragURLs );
 
             QObjectList children = m_pPart->widget()->queryList( "QWidget" );
@@ -1268,7 +1268,7 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
     {
         QDropEvent *ev = static_cast<QDropEvent *>( e );
 
-        KURL::List lstDragURLs;
+        KUrl::List lstDragURLs;
         bool ok = K3URLDrag::decode( ev, lstDragURLs );
 
         KParts::BrowserExtension *ext = browserExtension();

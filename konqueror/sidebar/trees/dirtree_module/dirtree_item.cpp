@@ -61,7 +61,7 @@ void KonqSidebarDirTreeItem::reset()
     // For local dirs, find out if they have no children, to remove the "+"
     if ( m_fileItem->isDir() )
     {
-        KURL url = m_fileItem->url();
+        KUrl url = m_fileItem->url();
         if ( url.isLocalFile() )
         {
             QByteArray path( QFile::encodeName(url.path()));
@@ -119,7 +119,7 @@ void KonqSidebarDirTreeItem::paintCell( QPainter *_painter, const QColorGroup & 
     Q3ListViewItem::paintCell( _painter, _cg, _column, _width, _alignment );
 }
 
-KURL KonqSidebarDirTreeItem::externalURL() const
+KUrl KonqSidebarDirTreeItem::externalURL() const
 {
     return m_fileItem->url();
 }
@@ -146,10 +146,10 @@ void KonqSidebarDirTreeItem::drop( QDropEvent * ev )
 
 bool KonqSidebarDirTreeItem::populateMimeData( QMimeData* mimeData, bool move )
 {
-    KURL::List lst;
+    KUrl::List lst;
     lst.append( m_fileItem->url() );
 
-    KonqMimeData::populateMimeData( mimeData, KURL::List(), lst, move );
+    KonqMimeData::populateMimeData( mimeData, KUrl::List(), lst, move );
 
     return true;
 }
@@ -223,7 +223,7 @@ void KonqSidebarDirTreeItem::shred()
 
 void KonqSidebarDirTreeItem::delOperation( int method )
 {
-    KURL::List lst;
+    KUrl::List lst;
     lst.append(m_fileItem->url());
 
     KonqOperations::del(tree(), method, lst);

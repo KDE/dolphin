@@ -32,7 +32,7 @@
 #define HINT_UTF8	106
 
 KonqRun::KonqRun( KonqMainWindow* mainWindow, KonqView *_childView,
-                  const KURL & _url, const KonqOpenURLRequest & req, bool trustedSource )
+                  const KUrl & _url, const KonqOpenURLRequest & req, bool trustedSource )
     : KParts::BrowserRun( _url, req.args, _childView ? _childView->part() : 0L, mainWindow,
                           //remove referrer if request was typed in manually.
                           // ### TODO: turn this off optionally.
@@ -161,8 +161,8 @@ void KonqRun::scanFile()
     // BrowserRun changes
     KIO::TransferJob *job = dynamic_cast<KIO::TransferJob*>( m_job );
     if ( job && !job->error() ) {
-        connect( job, SIGNAL( redirection( KIO::Job *, const KURL& )),
-                 SLOT( slotRedirection( KIO::Job *, const KURL& ) ));
+        connect( job, SIGNAL( redirection( KIO::Job *, const KUrl& )),
+                 SLOT( slotRedirection( KIO::Job *, const KUrl& ) ));
         if ( m_pView && m_pView->service()->desktopEntryName() != "konq_sidebartng") {
             connect( job, SIGNAL( infoMessage( KIO::Job*, const QString& ) ),
                      m_pView, SLOT( slotInfoMessage(KIO::Job*, const QString& ) ) );
@@ -170,9 +170,9 @@ void KonqRun::scanFile()
     }
 }
 
-void KonqRun::slotRedirection( KIO::Job *job, const KURL& redirectedToURL )
+void KonqRun::slotRedirection( KIO::Job *job, const KUrl& redirectedToURL )
 {
-    KURL redirectFromURL = static_cast<KIO::TransferJob *>(job)->url();
+    KUrl redirectFromURL = static_cast<KIO::TransferJob *>(job)->url();
     kdDebug(1202) << "KonqRun::slotRedirection from " <<
         redirectFromURL.prettyURL() << " to " << redirectedToURL.prettyURL() << endl;
     KonqHistoryManager::kself()->confirmPending( redirectFromURL );

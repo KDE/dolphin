@@ -66,7 +66,7 @@ public:
   QString viewMode() const { return m_mode; }
 
   // "Cut" icons : disable those whose URL is in lst, enable the rest
-  virtual void disableIcons( const KURL::List & lst );
+  virtual void disableIcons( const KUrl::List & lst );
 
   // See KMimeTypeResolver
   void mimeTypeDeterminationFinished();
@@ -112,13 +112,13 @@ protected Q_SLOTS:
   // They are reimplemented from KonqDirPart.
   virtual void slotStarted();
   virtual void slotCanceled();
-  void slotCanceled( const KURL& url );
+  void slotCanceled( const KUrl& url );
   virtual void slotCompleted();
   virtual void slotNewItems( const KFileItemList& );
   virtual void slotDeleteItem( KFileItem * );
   virtual void slotRefreshItems( const KFileItemList& );
   virtual void slotClear();
-  virtual void slotRedirection( const KURL & );
+  virtual void slotRedirection( const KUrl & );
   virtual void slotDirectoryOverlayStart();
   virtual void slotDirectoryOverlayFinished();
 
@@ -136,7 +136,7 @@ protected Q_SLOTS:
 
 protected:
   virtual bool openFile() { return true; }
-  virtual bool doOpenURL( const KURL& );
+  virtual bool doOpenURL( const KUrl& );
   virtual bool doCloseURL();
 
   virtual void newIconSize( int size );
@@ -250,7 +250,7 @@ public Q_SLOTS:
   void cut() { m_iconView->iconViewWidget()->cutSelection(); }
   void copy() { m_iconView->iconViewWidget()->copySelection(); }
   void paste() { m_iconView->iconViewWidget()->pasteSelection(); }
-  void pasteTo( const KURL &u ) { m_iconView->iconViewWidget()->paste( u ); }
+  void pasteTo( const KUrl &u ) { m_iconView->iconViewWidget()->paste( u ); }
 
   void trash();
   void del() { KonqOperations::del(m_iconView->iconViewWidget(),
@@ -287,7 +287,7 @@ private Q_SLOTS:
     void finished();
 
 private:
-    KURL m_startURL;
+    KUrl m_startURL;
     KParts::ReadOnlyPart *m_startPart;
 
     // Timer allowing to know the user wants to abort the spring loading

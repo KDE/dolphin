@@ -87,7 +87,7 @@ QString removeSlash(QString result)
 }
 
 
-QString FaviconsModule::iconForURL(const KURL &url)
+QString FaviconsModule::iconForURL(const KUrl &url)
 {
     if (url.host().isEmpty())
         return QString();
@@ -114,7 +114,7 @@ QString FaviconsModule::iconForURL(const KURL &url)
     return QString();
 }
 
-QString FaviconsModule::simplifyURL(const KURL &url)
+QString FaviconsModule::simplifyURL(const KUrl &url)
 {
     // splat any = in the URL so it can be safely used as a config key
     QString result = url.host() + url.path();
@@ -124,7 +124,7 @@ QString FaviconsModule::simplifyURL(const KURL &url)
     return result;
 }
 
-QString FaviconsModule::iconNameFromURL(const KURL &iconURL)
+QString FaviconsModule::iconNameFromURL(const KUrl &iconURL)
 {
     if (iconURL.path() == "/favicon.ico")
        return iconURL.host();
@@ -151,7 +151,7 @@ bool FaviconsModule::isIconOld(const QString &icon)
     return (time(0) - st.st_mtime) > 604800; // arbitrary value (one week)
 }
 
-void FaviconsModule::setIconForURL(const KURL &url, const KURL &iconURL)
+void FaviconsModule::setIconForURL(const KUrl &url, const KUrl &iconURL)
 {
     QString simplifiedURL = simplifyURL(url);
 
@@ -168,7 +168,7 @@ void FaviconsModule::setIconForURL(const KURL &url, const KURL &iconURL)
     startDownload(simplifiedURL, false, iconURL);
 }
 
-void FaviconsModule::downloadHostIcon(const KURL &url)
+void FaviconsModule::downloadHostIcon(const KUrl &url)
 {
     QString iconFile = d->faviconsDir + "favicons/" + url.host() + ".png";
     if (!isIconOld(iconFile))
@@ -177,7 +177,7 @@ void FaviconsModule::downloadHostIcon(const KURL &url)
     startDownload(url.host(), true, KURL(url, "/favicon.ico"));
 }
 
-void FaviconsModule::startDownload(const QString &hostOrURL, bool isHost, const KURL &iconURL)
+void FaviconsModule::startDownload(const QString &hostOrURL, bool isHost, const KUrl &iconURL)
 {
     if (d->failedDownloads.contains(iconURL.url()))
         return;
@@ -210,7 +210,7 @@ void FaviconsModule::slotResult(KIO::Job *job)
 {
     FaviconsModulePrivate::DownloadInfo download = d->downloads[job];
     d->downloads.remove(job);
-    KURL iconURL = static_cast<KIO::TransferJob *>(job)->url();
+    KUrl iconURL = static_cast<KIO::TransferJob *>(job)->url();
     QString iconName;
     if (!job->error())
     {

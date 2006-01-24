@@ -143,7 +143,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
             this, SIGNAL(viewportAdjusted()) );
 
    // Connect the directory lister
-   connect( m_dirLister, SIGNAL(started( const KURL & )),
+   connect( m_dirLister, SIGNAL(started( const KUrl & )),
             this, SLOT(slotStarted()) );
    connect( m_dirLister, SIGNAL(completed()), this, SLOT(slotCompleted()) );
    connect( m_dirLister, SIGNAL(canceled()), this, SLOT(slotCanceled()) );
@@ -154,8 +154,8 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
             this, SLOT(slotDeleteItem( KFileItem * )) );
    connect( m_dirLister, SIGNAL(refreshItems( const KFileItemList & )),
             this, SLOT( slotRefreshItems( const KFileItemList & )) );
-   connect( m_dirLister, SIGNAL(redirection( const KURL & )),
-            this, SLOT(slotRedirection( const KURL & )) );
+   connect( m_dirLister, SIGNAL(redirection( const KUrl & )),
+            this, SLOT(slotRedirection( const KUrl & )) );
    connect( m_dirLister, SIGNAL(itemsFilteredByMime( const KFileItemList & )),
             m_pBrowserView, SIGNAL(itemsFilteredByMime( const KFileItemList & )) );
 
@@ -191,7 +191,7 @@ KonqBaseListViewWidget::~KonqBaseListViewWidget()
    delete m_fileTip;
 }
 
-void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
+void KonqBaseListViewWidget::readProtocolConfig( const KUrl & url )
 {
    const QString protocol = url.protocol();
    KonqListViewSettings config( protocol );
@@ -372,7 +372,7 @@ void KonqBaseListViewWidget::stop()
    m_dirLister->stop();
 }
 
-const KURL & KonqBaseListViewWidget::url()
+const KUrl & KonqBaseListViewWidget::url()
 {
    return m_url;
 }
@@ -744,7 +744,7 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
        isExecuteArea( ev->pos() ) ? (KonqBaseListViewItem*)itemAt( ev->pos() ) : 0;
 
    KFileItem * destItem = (item) ? item->item() : m_dirLister->rootItem();
-   KURL u = destItem ? destItem->url() : url();
+   KUrl u = destItem ? destItem->url() : url();
    if ( u.isEmpty() )
       return;
    KonqOperations::doDrop( destItem /*may be 0L*/, u, ev, this );
@@ -753,7 +753,7 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
 void KonqBaseListViewWidget::startDrag()
 {
    m_fileTip->setItem( 0 );
-   KURL::List urls = selectedUrls( false );
+   KUrl::List urls = selectedUrls( false );
 
    Q3ListViewItem * m_pressedItem = currentItem();
 
@@ -877,10 +877,10 @@ KFileItemList KonqBaseListViewWidget::selectedFileItems()
    return list;
 }
 
-KURL::List KonqBaseListViewWidget::selectedUrls( bool mostLocal )
+KUrl::List KonqBaseListViewWidget::selectedUrls( bool mostLocal )
 {
    bool dummy;
-   KURL::List list;
+   KUrl::List list;
    iterator it = begin();
    for ( ; it != end(); it++ )
       if ( it->isSelected() )
@@ -901,7 +901,7 @@ void KonqBaseListViewWidget::slotReturnPressed( Q3ListViewItem *_item )
    if ( !fileItem )
       return;
 
-   KURL url = fileItem->url();
+   KUrl url = fileItem->url();
    url.cleanPath();
 #warning hardcoded protocol: find a better way to determine if a url is a trash url.
    bool isIntoTrash = url.protocol() == "trash";
@@ -969,7 +969,7 @@ void KonqBaseListViewWidget::updateListContents()
       it->updateContents();
 }
 
-bool KonqBaseListViewWidget::openURL( const KURL &url )
+bool KonqBaseListViewWidget::openURL( const KUrl &url )
 {
    kdDebug(1202) << k_funcinfo << "protocol: " << url.protocol()
                                << " url: " << url.path() << endl;
@@ -1226,7 +1226,7 @@ void KonqBaseListViewWidget::slotRefreshItems( const KFileItemList & entries )
    reportItemCounts();
 }
 
-void KonqBaseListViewWidget::slotRedirection( const KURL & url )
+void KonqBaseListViewWidget::slotRedirection( const KUrl & url )
 {
    kdDebug(1202) << k_funcinfo << url << endl;
 
@@ -1321,7 +1321,7 @@ void KonqBaseListViewWidget::paintEmptyArea( QPainter *p, const QRect &r )
    }
 }
 
-void KonqBaseListViewWidget::disableIcons( const KURL::List & lst )
+void KonqBaseListViewWidget::disableIcons( const KUrl::List & lst )
 {
    iterator kit = begin();
    for( ; kit != end(); ++kit )
@@ -1329,7 +1329,7 @@ void KonqBaseListViewWidget::disableIcons( const KURL::List & lst )
       bool bFound = false;
       // Wow. This is ugly. Matching two lists together....
       // Some sorting to optimise this would be a good idea ?
-      for (KURL::List::ConstIterator it = lst.begin(); !bFound && it != lst.end(); ++it)
+      for (KUrl::List::ConstIterator it = lst.begin(); !bFound && it != lst.end(); ++it)
       {
          if ( (*kit).item()->url() == *it ) // *it is encoded already
          {
@@ -1354,7 +1354,7 @@ void KonqBaseListViewWidget::restoreState( QDataStream & ds )
    m_restored = true;
 
    QString str;
-   KURL url;
+   KUrl url;
    ds >> str >> url;
    if ( !str.isEmpty() )
       m_itemToGoTo = str;

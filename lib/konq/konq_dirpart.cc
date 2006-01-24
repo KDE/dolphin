@@ -292,7 +292,7 @@ void KonqDirPart::slotBackgroundSettings()
 
 void KonqDirPart::lmbClicked( KFileItem * fileItem )
 {
-    KURL url = fileItem->url();
+    KUrl url = fileItem->url();
     if ( !fileItem->isReadable() )
     {
         // No permissions or local file that doesn't exist - need to find out which
@@ -312,7 +312,7 @@ void KonqDirPart::lmbClicked( KFileItem * fileItem )
     args.trustedSource = true;
 
     if ( fileItem->isLink() && fileItem->isLocalFile() ) // see KFileItem::run
-        url = KURL( url, KURL::encode_string( fileItem->linkDest() ) );
+        url = KURL( url, KUrl::encode_string( fileItem->linkDest() ) );
 
     if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->isDir()) {
         //args.frameName = "_blank"; // open new window
@@ -403,11 +403,11 @@ void KonqDirPart::slotClipboardDataChanged()
 {
     // This is very related to KDIconView::slotClipboardDataChanged in kdesktop
 
-    KURL::List lst;
+    KUrl::List lst;
     const QMimeData *data = QApplication::clipboard()->mimeData();
     if ( data->hasFormat( "application/x-kde-cutselection" ) && data->hasFormat( "text/uri-list" ) )
         if ( KonqMimeData::decodeIsCutSelection( data ) )
-            lst = KURL::List::fromMimeData( data );
+            lst = KUrl::List::fromMimeData( data );
 
     disableIcons( lst );
 
@@ -614,7 +614,7 @@ bool KonqDirPart::closeURL()
     return doCloseURL();
 }
 
-bool KonqDirPart::openURL(const KURL& url)
+bool KonqDirPart::openURL(const KUrl& url)
 {
     if ( m_findPart )
     {

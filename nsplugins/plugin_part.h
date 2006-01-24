@@ -115,7 +115,7 @@ public:
   void changeSrc(const QString& url);
 
 protected:
-  virtual bool openURL(const KURL &url);
+  virtual bool openURL(const KUrl &url);
   virtual bool closeURL();
   virtual bool openFile() { return false; };
 

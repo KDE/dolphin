@@ -51,7 +51,7 @@ class KonqSidebarBrowserExtension : public KParts::BrowserExtension
 	    void copy(){if (widget) widget->stdAction("copy()");}
 	    void cut(){if (widget) widget->stdAction("cut()");}
 	    void paste(){if (widget) widget->stdAction("paste()");}
-	    void pasteTo(const KURL&){if (widget) widget->stdAction("paste()");}
+	    void pasteTo(const KUrl&){if (widget) widget->stdAction("paste()");}
 	    void trash(){if (widget) widget->stdAction("trash()");}
 	    void del(){if (widget) widget->stdAction("del()");}
 	    void rename(){if (widget) widget->stdAction("rename()");}
@@ -85,7 +85,7 @@ public:
      */
     virtual ~KonqSidebar();
 
-    virtual bool openURL(const KURL &url);
+    virtual bool openURL(const KUrl &url);
     KonqSidebarBrowserExtension* extension() const
        { return m_extension; }
     KInstance *getInstance();

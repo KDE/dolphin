@@ -56,7 +56,7 @@ void KonqSidebarBookmarkItem::del()
     //maybe todo
 }
 
-KURL KonqSidebarBookmarkItem::externalURL() const
+KUrl KonqSidebarBookmarkItem::externalURL() const
 {
     return m_bk.isGroup() ? KURL() : m_bk.url();
 }

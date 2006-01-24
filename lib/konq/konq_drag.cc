@@ -134,7 +134,7 @@ KonqIconDrag2::KonqIconDrag2( QWidget * dragSource )
 }
 
 void KonqIconDrag2::append( const Q3IconDragItem &item, const QRect &pr,
-                            const QRect &tr, const QString& url, const KURL &mostLocalURL )
+                            const QRect &tr, const QString& url, const KUrl &mostLocalURL )
 {
     QString mostLocalURLStr = K3URLDrag::urlToString(mostLocalURL);
     m_kdeURLs.append( url );

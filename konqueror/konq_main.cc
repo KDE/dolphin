@@ -108,7 +108,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
        QStringList filesToSelect;
        if (args->count() == 1)
            url = QString::fromLocal8Bit(args->arg(0));
-       KURL kurl(url);
+       KUrl kurl(url);
        KParts::URLArgs urlargs;
        if (args->isSet("mimetype"))
            urlargs.serviceType = QString::fromLocal8Bit(args->getOption("mimetype"));
@@ -162,13 +162,13 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
          }
          else
          {
-             KURL::List urlList;
+             KUrl::List urlList;
              KonqMainWindow * mainwin = 0L;
              for ( int i = 0; i < args->count(); i++ )
              {
                  // KonqMisc::konqFilteredURL doesn't cope with local files... A bit of hackery below
-                 KURL url = args->url(i);
-                 KURL urlToOpen;
+                 KUrl url = args->url(i);
+                 KUrl urlToOpen;
                  QStringList filesToSelect;
 
                  if (url.isLocalFile() && QFile::exists(url.path())) // "konqueror index.html"

@@ -37,7 +37,7 @@ public:
    KonqTreeViewWidget( KonqListView *parent, QWidget *parentWidget );
    virtual ~KonqTreeViewWidget();
 
-   virtual bool openURL( const KURL &url );
+   virtual bool openURL( const KUrl &url );
 
    virtual void saveState( QDataStream &stream );
    virtual void restoreState( QDataStream &stream );
@@ -45,10 +45,10 @@ public:
 protected Q_SLOTS:
    // slots connected to the directory lister
    virtual void slotCompleted();
-   virtual void slotCompleted( const KURL & );
+   virtual void slotCompleted( const KUrl & );
    virtual void slotClear();
-   virtual void slotClear( const KURL & );
-   virtual void slotRedirection( const KURL &, const KURL & );
+   virtual void slotClear( const KUrl & );
+   virtual void slotRedirection( const KUrl &, const KUrl & );
    virtual void slotNewItems( const KFileItemList & );
    virtual void slotDeleteItem( KFileItem *_fileTtem );
 

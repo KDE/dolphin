@@ -81,7 +81,7 @@ KAboutData *KFindPart::createAboutData()
     return new KAboutData( "kfindpart", I18N_NOOP( "Find Component" ), "1.0" );
 }
 
-bool KFindPart::doOpenURL( const KURL &url )
+bool KFindPart::doOpenURL( const KUrl &url )
 {
     m_kfindWidget->setURL( url );
     return true;
@@ -189,7 +189,7 @@ void KFindPart::restoreState( QDataStream& stream )
 {
   KonqDirPart::restoreState(stream); 
   int nbitems;
-  KURL itemUrl;
+  KUrl itemUrl;
 
   m_kfindWidget->restoreState( &stream );
 

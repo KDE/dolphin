@@ -33,8 +33,8 @@
 void testKonqIconDrag2()
 {
     // Those URLs don't have to exist.
-    KURL mediaURL = "media:/hda1/tmp/Mat%C3%A9riel";
-    KURL localURL = "file:///tmp/Mat%C3%A9riel";
+    KUrl mediaURL = "media:/hda1/tmp/Mat%C3%A9riel";
+    KUrl localURL = "file:///tmp/Mat%C3%A9riel";
     KonqIconDrag2 iconDrag( 0 );
     QIconDragItem item;
     iconDrag.append( item, QRect( 1, 2, 3, 4 ), QRect( 5, 6, 7, 8 ),
@@ -42,7 +42,7 @@ void testKonqIconDrag2()
 
 
     VERIFY( KURLDrag::canDecode( &iconDrag ) );
-    KURL::List lst;
+    KUrl::List lst;
     KURLDrag::decode( &iconDrag, lst );
     VERIFY( !lst.isEmpty() );
     COMPARE( lst.count(), 1 );

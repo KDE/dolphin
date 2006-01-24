@@ -40,7 +40,7 @@ class KDE_EXPORT KonqSidebarPlugin : public QObject
 		virtual void *provides(const QString &)=0;
 		KInstance *parentInstance();
 	protected:
-		virtual void handleURL(const KURL &url)=0;
+		virtual void handleURL(const KUrl &url)=0;
 		virtual void handlePreview(const KFileItemList & items);
 		virtual void handlePreviewOnMouseOver(const KFileItem &items); //not used yet, perhaps in KDE 3.1
 		QString desktopName;
@@ -50,7 +50,7 @@ class KDE_EXPORT KonqSidebarPlugin : public QObject
 		KonqSidebarPluginPrivate *d;
 
 	Q_SIGNALS:
-		void requestURL(KURL&);
+		void requestURL(KUrl&);
 		void started(KIO::Job *);
 		void completed();
 		void setIcon(const QString& icon);
@@ -60,7 +60,7 @@ class KDE_EXPORT KonqSidebarPlugin : public QObject
 	protected:
 		bool universalMode();
 	public Q_SLOTS:
-	  void openURL(const KURL& url);
+	  void openURL(const KUrl& url);
 
 	  void openPreview(const KFileItemList& items);
 
@@ -74,17 +74,17 @@ class KDE_EXPORT KonqSidebarPlugin : public QObject
 
 	/* signals, which could be, but need not to be added
 
-		void openURLRequest( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
-  		void createNewWindow( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
+		void openURLRequest( const KUrl &url, const KParts::URLArgs &args = KParts::URLArgs() );
+  		void createNewWindow( const KUrl &url, const KParts::URLArgs &args = KParts::URLArgs() );
 
 		void enableAction( const char * name, bool enabled );
 
 		void popupMenu( const QPoint &global, const KFileItemList &items );
   		void popupMenu( KXMLGUIClient *client, const QPoint &global, const KFileItemList &items );
-		void popupMenu( const QPoint &global, const KURL &url,
+		void popupMenu( const QPoint &global, const KUrl &url,
 			const QString &mimeType, mode_t mode = (mode_t)-1 );
 		void popupMenu( KXMLGUIClient *client,
-			const QPoint &global, const KURL &url,
+			const QPoint &global, const KUrl &url,
 			const QString &mimeType, mode_t mode = (mode_t)-1 );
 
 		void showError(QString &);	//for later extension

@@ -77,7 +77,7 @@ public:
    */
   KonqPopupMenu( KBookmarkManager* manager,
                  const KFileItemList &items,
-                 KURL viewURL,
+                 KUrl viewURL,
                  KActionCollection & actions,
                  KNewMenu * newMenu,
                  bool showPropertiesAndFileType = true ) KDE_DEPRECATED;
@@ -88,7 +88,7 @@ public:
    */
   KonqPopupMenu( KBookmarkManager* manager,
                  const KFileItemList &items,
-                 KURL viewURL,
+                 KUrl viewURL,
                  KActionCollection & actions,
                  KNewMenu * newMenu,
 		 QWidget * parentWidget,
@@ -116,7 +116,7 @@ public:
    */
   KonqPopupMenu( KBookmarkManager* manager,
                  const KFileItemList &items,
-                 const KURL& viewURL,
+                 const KUrl& viewURL,
                  KActionCollection & actions,
                  KNewMenu * newMenu,
                  QWidget * parentWidget,
@@ -158,9 +158,9 @@ public:
 
   virtual KActionCollection *actionCollection() const;
   QString mimeType( ) const;
-  KURL url( ) const;
+  KUrl url( ) const;
   KFileItemList fileItemList() const;
-  KURL::List popupURLList( ) const;
+  KUrl::List popupURLList( ) const;
   ProtocolInfo protocolInfo() const;
 
 public Q_SLOTS: // KDE4: why public?
@@ -190,10 +190,10 @@ private:
   class KonqPopupMenuPrivate;
   KonqPopupMenuPrivate *d;
   KNewMenu *m_pMenuNew;
-  KURL m_sViewURL;
+  KUrl m_sViewURL;
   QString m_sMimeType;
   KFileItemList m_lstItems;
-  KURL::List m_lstPopupURLs;
+  KUrl::List m_lstPopupURLs;
   QMap<int,KService::Ptr> m_mapPopup;
   QMap<int,KDEDesktopMimeType::Service> m_mapPopupServices;
   bool m_bHandleEditOperations;

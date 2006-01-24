@@ -54,7 +54,7 @@ private:
   KonqDirPart *m_part;
   KActionMenu *m_menu;
   QStringList m_encodingDescriptions;
-  KURL m_currentURL;
+  KUrl m_currentURL;
 
   bool m_loaded;
   int m_idDefault;

@@ -51,10 +51,10 @@ private:
         KUrlRequester *urAutostart;
         KUrlRequester *urDocument;
 
-        bool moveDir( const KURL & src, const KURL & dest, const QString & type );
+        bool moveDir( const KUrl & src, const KUrl & dest, const QString & type );
         bool m_ok;
-        KURL m_copyToDest; // used when the destination directory already exists
-        KURL m_copyFromSrc;
+        KUrl m_copyToDest; // used when the destination directory already exists
+        KUrl m_copyFromSrc;
 
 private Q_SLOTS:
         void slotResult( KIO::Job * job );

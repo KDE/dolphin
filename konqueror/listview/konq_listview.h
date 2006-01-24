@@ -79,7 +79,7 @@ public:
   virtual void restoreState( QDataStream &stream );
 
   // "Cut" icons : disable those whose URL is in lst, enable the others
-  virtual void disableIcons( const KURL::List & lst );
+  virtual void disableIcons( const KUrl::List & lst );
 
   // See KMimeTypeResolver
   void mimeTypeDeterminationFinished() {}
@@ -92,7 +92,7 @@ public:
   virtual void newIconSize( int );
 
 protected:
-  virtual bool doOpenURL( const KURL &url );
+  virtual bool doOpenURL( const KUrl &url );
   virtual bool doCloseURL();
   virtual bool openFile() { return true; }
 
@@ -135,7 +135,7 @@ protected Q_SLOTS:
   virtual void slotDeleteItem( KFileItem * item ) { m_pListView->slotDeleteItem( item ); }
   virtual void slotRefreshItems( const KFileItemList& lst ) { m_pListView->slotRefreshItems( lst ); }
   virtual void slotClear() { m_pListView->slotClear(); }
-  virtual void slotRedirection( const KURL & u ) { m_pListView->slotRedirection( u ); }
+  virtual void slotRedirection( const KUrl & u ) { m_pListView->slotRedirection( u ); }
 
   // Connected to KonqDirPart
   void slotKFindOpened();
@@ -186,7 +186,7 @@ class ListViewBrowserExtension : public KonqDirPartBrowserExtension
       void copy() { copySelection( false ); }
       void cut() { copySelection( true ); }
       void paste();
-      void pasteTo( const KURL & );
+      void pasteTo( const KUrl & );
       void rename();
       void trash();
       void del() { KonqOperations::del(m_listView->listViewWidget(),

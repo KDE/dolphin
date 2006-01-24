@@ -86,7 +86,7 @@ public:
    unsigned int NumberOfAtoms;
 
    virtual void stop();
-   const KURL& url();
+   const KUrl& url();
 
    struct iterator
    {
@@ -106,12 +106,12 @@ public:
    iterator begin() { iterator it( (KonqBaseListViewItem *)firstChild() ); return it; }
    iterator end() { iterator it; return it; }
 
-   virtual bool openURL( const KURL &url );
+   virtual bool openURL( const KUrl &url );
 
    void selectedItems( Q3PtrList<KonqBaseListViewItem> *_list );
    KFileItemList visibleFileItems();
    KFileItemList selectedFileItems();
-   KURL::List selectedUrls( bool mostLocal = false );
+   KUrl::List selectedUrls( bool mostLocal = false );
 
    /** @return the KonqListViewDir which handles the directory _url */
    //virtual KonqListViewDir *findDir ( const QString & _url );
@@ -143,7 +143,7 @@ public:
    virtual void saveState( QDataStream & );
    virtual void restoreState( QDataStream & );
 
-   virtual void disableIcons( const KURL::List& lst );
+   virtual void disableIcons( const KUrl::List& lst );
 
    KonqListView *m_pBrowserView;
    KonqFMSettings *m_pSettings;
@@ -172,7 +172,7 @@ protected Q_SLOTS:
    virtual void slotNewItems( const KFileItemList & );
    virtual void slotDeleteItem( KFileItem * );
    virtual void slotRefreshItems( const KFileItemList & );
-   virtual void slotRedirection( const KURL & );
+   virtual void slotRedirection( const KUrl & );
    void slotPopupMenu( Q3ListViewItem *, const QPoint&, int );
 
    // forces a repaint on column size changes / branch expansion
@@ -189,7 +189,7 @@ protected:
    //reads the configuration for the columns of the current
    //protocol, it is called when the protocol changes
    //it checks/unchecks the menu items and sets confColumns
-   void readProtocolConfig( const KURL& url );
+   void readProtocolConfig( const KUrl& url );
    //calls updateContents of every ListViewItem, called after
    //the columns changed
    void updateListContents();
@@ -257,7 +257,7 @@ protected:
    int m_filenameColumn;
    int m_filenameColumnWidth;
 
-   KURL m_url;
+   KUrl m_url;
 
    QString m_itemToGoTo;
    QStringList m_itemsToSelect;

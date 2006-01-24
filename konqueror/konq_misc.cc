@@ -68,12 +68,12 @@ void KonqMisc::abortFullScreenMode()
 }
 
 // #### this can probably be removed
-KonqMainWindow * KonqMisc::createSimpleWindow( const KURL & _url, const QString &frameName )
+KonqMainWindow * KonqMisc::createSimpleWindow( const KUrl & _url, const QString &frameName )
 {
   abortFullScreenMode();
 
   // If _url is 0L, open $HOME [this doesn't happen anymore]
-  KURL url;
+  KUrl url;
   if (_url.isEmpty())
      url.setPath(QDir::homePath());
   else
@@ -87,7 +87,7 @@ KonqMainWindow * KonqMisc::createSimpleWindow( const KURL & _url, const QString 
   return win;
 }
 
-KonqMainWindow * KonqMisc::createSimpleWindow( const KURL & url, const KParts::URLArgs &args, bool tempFile )
+KonqMainWindow * KonqMisc::createSimpleWindow( const KUrl & url, const KParts::URLArgs &args, bool tempFile )
 {
   abortFullScreenMode();
 
@@ -101,7 +101,7 @@ KonqMainWindow * KonqMisc::createSimpleWindow( const KURL & url, const KParts::U
   return win;
 }
 
-KonqMainWindow * KonqMisc::createNewWindow( const KURL &url, const KParts::URLArgs &args, bool forbidUseHTML, QStringList filesToSelect, bool tempFile, bool openURL )
+KonqMainWindow * KonqMisc::createNewWindow( const KUrl &url, const KParts::URLArgs &args, bool forbidUseHTML, QStringList filesToSelect, bool tempFile, bool openURL )
 {
   kdDebug() << "KonqMisc::createNewWindow url=" << url << endl;
 
@@ -116,7 +116,7 @@ KonqMainWindow * KonqMisc::createNewWindow( const KURL &url, const KParts::URLAr
 					forbidUseHTML, filesToSelect, tempFile, openURL );
 }
 
-KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, const QString &filename, const KURL &url, const KParts::URLArgs &args, bool forbidUseHTML, const QStringList& filesToSelect, bool tempFile, bool openURL )
+KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, const QString &filename, const KUrl &url, const KParts::URLArgs &args, bool forbidUseHTML, const QStringList& filesToSelect, bool tempFile, bool openURL )
 {
   kdDebug(1202) << "void KonqMisc::createBrowserWindowFromProfile() " << endl;
   kdDebug(1202) << "path=" << path << ",filename=" << filename << ",url=" << url.prettyURL() << endl;
@@ -216,7 +216,7 @@ QString KonqMisc::konqFilteredURL( QWidget* parent, const QString& _url, const Q
     }
   }
   else if ( _url.startsWith( "about:" ) && _url != "about:blank" ) {
-    // We can't use "about:" as it is, KURL doesn't parse it.
+    // We can't use "about:" as it is, KUrl doesn't parse it.
     if (_url == "about:plugins")
        return "about:plugins";
     return "about:konqueror";
@@ -249,7 +249,7 @@ void KonqDraggableLabel::mouseMoveEvent( QMouseEvent * ev )
     validDrag = false;
     if ( m_mw->currentView() )
     {
-      KURL::List lst;
+      KUrl::List lst;
       lst.append( m_mw->currentView()->url() );
       Q3DragObject * drag = new K3URLDrag( lst, m_mw );
       drag->setPixmap( KMimeType::pixmapForURL( lst.first(), 0, KIcon::Small ) );

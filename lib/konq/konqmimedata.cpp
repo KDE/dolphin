@@ -21,18 +21,18 @@
 #include <kdebug.h>
 
 void KonqMimeData::populateMimeData( QMimeData* mimeData,
-                                     const KURL::List& kdeURLs,
-                                     const KURL::List& mostLocalURLs,
+                                     const KUrl::List& kdeURLs,
+                                     const KUrl::List& mostLocalURLs,
                                      bool cut )
 {
     mostLocalURLs.populateMimeData( mimeData );
 
-    // Mostly copied from KURL::List::populateMimeData
+    // Mostly copied from KUrl::List::populateMimeData
     if ( !kdeURLs.isEmpty() )
     {
         QList<QByteArray> urlStringList;
-        KURL::List::ConstIterator uit = kdeURLs.begin();
-        const KURL::List::ConstIterator uEnd = kdeURLs.end();
+        KUrl::List::ConstIterator uit = kdeURLs.begin();
+        const KUrl::List::ConstIterator uEnd = kdeURLs.end();
         for ( ; uit != uEnd ; ++uit )
         {
             // Get each URL encoded in toUtf8 - and since we get it in escaped

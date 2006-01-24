@@ -53,15 +53,15 @@ KonqSidebarDirTreeModule::~KonqSidebarDirTreeModule()
     // KDirLister may still emit canceled while being deleted.
     if (m_dirLister)
     {
-       disconnect( m_dirLister, SIGNAL( canceled( const KURL & ) ),
-                   this, SLOT( slotListingStopped( const KURL & ) ) );
+       disconnect( m_dirLister, SIGNAL( canceled( const KUrl & ) ),
+                   this, SLOT( slotListingStopped( const KUrl & ) ) );
        delete m_dirLister;
     }
 }
 
-KURL::List KonqSidebarDirTreeModule::selectedUrls()
+KUrl::List KonqSidebarDirTreeModule::selectedUrls()
 {
-    KURL::List lst;
+    KUrl::List lst;
     KonqSidebarDirTreeItem *selection = static_cast<KonqSidebarDirTreeItem *>( m_pTree->selectedItem() );
     if( !selection )
     {
@@ -80,7 +80,7 @@ void KonqSidebarDirTreeModule::addTopLevelItem( KonqSidebarTreeTopLevelItem * it
     KDesktopFile cfg( item->path(), true );
     cfg.setDollarExpansion(true);
 
-    KURL targetURL;
+    KUrl targetURL;
     targetURL.setPath(item->path());
 
     if ( cfg.hasLinkType() )
@@ -313,12 +313,12 @@ void KonqSidebarDirTreeModule::openSubFolder( KonqSidebarTreeItem *item )
                  this, SLOT( slotRefreshItems( const KFileItemList & ) ) );
         connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
                  this, SLOT( slotDeleteItem( KFileItem * ) ) );
-        connect( m_dirLister, SIGNAL( completed( const KURL & ) ),
-                 this, SLOT( slotListingStopped( const KURL & ) ) );
-        connect( m_dirLister, SIGNAL( canceled( const KURL & ) ),
-                 this, SLOT( slotListingStopped( const KURL & ) ) );
-        connect( m_dirLister, SIGNAL( redirection( const KURL &, const KURL & ) ),
-                 this, SLOT( slotRedirection( const KURL &, const KURL & ) ) );
+        connect( m_dirLister, SIGNAL( completed( const KUrl & ) ),
+                 this, SLOT( slotListingStopped( const KUrl & ) ) );
+        connect( m_dirLister, SIGNAL( canceled( const KUrl & ) ),
+                 this, SLOT( slotListingStopped( const KUrl & ) ) );
+        connect( m_dirLister, SIGNAL( redirection( const KUrl &, const KUrl & ) ),
+                 this, SLOT( slotRedirection( const KUrl &, const KUrl & ) ) );
     }
 
 
@@ -339,7 +339,7 @@ void KonqSidebarDirTreeModule::listDirectory( KonqSidebarTreeItem *item )
 {
     // This causes a reparsing, but gets rid of the trailing slash
     QString strUrl = item->externalURL().url(-1);
-    KURL url( strUrl );
+    KUrl url( strUrl );
 
     Q3PtrList<KonqSidebarTreeItem> *itemList;
     KonqSidebarTreeItem * openItem;
@@ -405,7 +405,7 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
     KFileItem * firstItem = entries.first();
 
     // Find parent item - it's the same for all the items
-    KURL dir( firstItem->url().url(-1) );
+    KUrl dir( firstItem->url().url(-1) );
     dir.setFileName( "" );
     kdDebug(1201) << this << " KonqSidebarDirTreeModule::slotNewItems dir=" << dir.url(-1) << endl;
 
@@ -537,7 +537,7 @@ void KonqSidebarDirTreeModule::slotDeleteItem( KFileItem *fileItem )
     delete itemList;
 }
 
-void KonqSidebarDirTreeModule::slotRedirection( const KURL & oldUrl, const KURL & newUrl )
+void KonqSidebarDirTreeModule::slotRedirection( const KUrl & oldUrl, const KUrl & newUrl )
 {
     kdDebug(1201) << "******************************KonqSidebarDirTreeModule::slotRedirection(" << newUrl.prettyURL() << ")" << endl;
 
@@ -568,7 +568,7 @@ void KonqSidebarDirTreeModule::slotRedirection( const KURL & oldUrl, const KURL 
     delete itemList;
 }
 
-void KonqSidebarDirTreeModule::slotListingStopped( const KURL & url )
+void KonqSidebarDirTreeModule::slotListingStopped( const KUrl & url )
 {
     kdDebug(1201) << "KonqSidebarDirTree::slotListingStopped " << url.url(-1) << endl;
 
@@ -592,13 +592,13 @@ void KonqSidebarDirTreeModule::slotListingStopped( const KURL & url )
     kdDebug(1201) << "m_selectAfterOpening " << m_selectAfterOpening.prettyURL() << endl;
     if ( !m_selectAfterOpening.isEmpty() && url.isParentOf( m_selectAfterOpening ) )
     {
-        KURL theURL( m_selectAfterOpening );
+        KUrl theURL( m_selectAfterOpening );
         m_selectAfterOpening = KURL();
         followURL( theURL );
     }
 }
 
-void KonqSidebarDirTreeModule::followURL( const KURL & url )
+void KonqSidebarDirTreeModule::followURL( const KUrl & url )
 {
     // Check if we already know this URL
     KonqSidebarTreeItem * item = m_dictSubDirs[ url.url(-1) ];
@@ -609,7 +609,7 @@ void KonqSidebarDirTreeModule::followURL( const KURL & url )
         return;
     }
 
-    KURL uParent( url );
+    KUrl uParent( url );
     KonqSidebarTreeItem * parentItem = 0L;
     // Go up to the first known parent
     do

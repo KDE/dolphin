@@ -71,7 +71,7 @@ public:
     // Whether the item is a toplevel item - true
     virtual bool isTopLevelItem() const { return true; }
 
-    virtual KURL externalURL() const { return m_externalURL; }
+    virtual KUrl externalURL() const { return m_externalURL; }
 
     virtual QString toolTipText() const;
 
@@ -79,7 +79,7 @@ public:
 
     // The module should call this for each toplevel item that is passed to it
     // unless it calls setClickable(false)
-    void setExternalURL( const KURL & url ) { m_externalURL = url; }
+    void setExternalURL( const KUrl & url ) { m_externalURL = url; }
 
     // Whether the item is a toplevel group. [Only matters for dnd]
     void setTopLevelGroup( bool b ) { m_bTopLevelGroup = b; }
@@ -96,7 +96,7 @@ protected:
     KonqSidebarTreeModule *m_module;
     QString m_path;
     QString m_comment;
-    KURL m_externalURL;
+    KUrl m_externalURL;
     bool m_bTopLevelGroup;
 };
 

@@ -213,7 +213,7 @@ KonqView* KonqViewManager::splitWindow( Qt::Orientation orientation,
   if (!m_pMainWindow || !m_pMainWindow->currentView())
     return 0L;
 
-  KURL url = m_pMainWindow->currentView()->url();
+  KUrl url = m_pMainWindow->currentView()->url();
   QString locationBarURL = m_pMainWindow->currentView()->locationBarURL();
 
   KService::Ptr service;
@@ -1123,7 +1123,7 @@ void KonqViewManager::saveViewProfile( KConfig & cfg, bool saveURLs, bool saveWi
 }
 
 void KonqViewManager::loadViewProfile( const QString & path, const QString & filename,
-                                       const KURL & forcedURL, const KonqOpenURLRequest &req,
+                                       const KUrl & forcedURL, const KonqOpenURLRequest &req,
                                        bool resetWindow, bool openURL )
 {
   KConfig cfg( path, true );
@@ -1133,7 +1133,7 @@ void KonqViewManager::loadViewProfile( const QString & path, const QString & fil
 }
 
 void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
-                                       const KURL & forcedURL, const KonqOpenURLRequest &req,
+                                       const KUrl & forcedURL, const KonqOpenURLRequest &req,
                                        bool resetWindow, bool openURL )
 {
   if ( docContainer() && docContainer()->frameType()=="Tabs" )
@@ -1192,7 +1192,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   m_profileHomeURL = cfg.readEntry("HomeURL", QString());
 
   m_pMainWindow->currentProfileChanged();
-  KURL defaultURL;
+  KUrl defaultURL;
   if ( m_pMainWindow->currentView() )
     defaultURL = m_pMainWindow->currentView()->url();
 
@@ -1443,7 +1443,7 @@ QSize KonqViewManager::readConfigSize( KConfig &cfg, QWidget *widget )
 }
 
 void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
-                                const QString &name, const KURL & defaultURL, bool openURL, bool openAfterCurrentPage )
+                                const QString &name, const KUrl & defaultURL, bool openURL, bool openAfterCurrentPage )
 {
   QString prefix;
   if( name != "InitialView" )
@@ -1535,7 +1535,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     QString key = QString::fromLatin1( "URL" ).prepend( prefix );
     if ( openURL )
     {
-      KURL url;
+      KUrl url;
 
       if ( cfg.hasKey( key ) )
       {
@@ -1706,7 +1706,7 @@ void KonqViewManager::slotProfileActivated( int id )
 
   for(int i=0; iter != end; ++iter, ++i) {
     if( i == id ) {
-      KURL u;
+      KUrl u;
       u.setPath( *iter );
       loadViewProfile( *iter, u.fileName() );
       break;

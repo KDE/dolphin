@@ -72,7 +72,7 @@ public:
   NSPluginStreamBase( class NSPluginInstance *instance );
   ~NSPluginStreamBase();
 
-  KURL url() { return _url; }
+  KUrl url() { return _url; }
   int pos() { return _pos; }
   void stop();
 
@@ -92,7 +92,7 @@ protected:
   uint16 _streamType;
   NPStream *_stream;
   void *_notifyData;
-  KURL _url;
+  KUrl _url;
   QString _fileURL;
   QString _mimeType;
   QByteArray _data;

@@ -41,14 +41,14 @@ public:
     /**
      * Downloads an icon from @p iconURL and associates @p url with it.
      */
-    static void setIconForURL(const KURL &url, const KURL &iconURL);
+    static void setIconForURL(const KUrl &url, const KUrl &iconURL);
 
     /**
      * Downloads /favicon.ico from the host of @p url and associates all
      * URLs on that host with it
      * (unless a more specific entry for a URL exists)
      */
-    static void downloadHostIcon(const KURL &url);
+    static void downloadHostIcon(const KUrl &url);
 
     /**
      * Looks up an icon for @p url and returns its name if found

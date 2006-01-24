@@ -108,7 +108,7 @@ public:
   enum ComboAction { ComboClear, ComboAdd, ComboRemove };
   enum PageSecurity { NotCrypted, Encrypted, Mixed };
 
-  KonqMainWindow( const KURL &initialURL = KURL(), bool openInitialURL = true, const char *name = 0, const QString& xmluiFile="konqueror.rc");
+  KonqMainWindow( const KUrl &initialURL = KURL(), bool openInitialURL = true, const char *name = 0, const QString& xmluiFile="konqueror.rc");
   ~KonqMainWindow();
 
 
@@ -125,7 +125,7 @@ public:
   /**
    * The main openURL method.
    */
-  void openURL( KonqView * view, const KURL & url,
+  void openURL( KonqView * view, const KUrl & url,
                 const QString &serviceType = QString(),
                 KonqOpenURLRequest & req = KonqOpenURLRequest::null, bool trustedSource = false );
 
@@ -133,13 +133,13 @@ public:
    * Called by openURL when it knows the service type (either directly,
    * or using KonqRun)
    */
-  bool openView( QString serviceType, const KURL &_url, KonqView *childView,
+  bool openView( QString serviceType, const KUrl &_url, KonqView *childView,
                  KonqOpenURLRequest & req = KonqOpenURLRequest::null );
 
 
   void abortLoading();
 
-    void openMultiURL( KURL::List url );
+    void openMultiURL( KUrl::List url );
 
   KonqViewManager *viewManager() const { return m_pViewManager; }
 
@@ -187,7 +187,7 @@ public:
   KParts::ReadOnlyPart *currentPart() const;
 
   /** URL of current part, or URLs of selected items for directory views */
-  KURL::List currentURLs() const;
+  KUrl::List currentURLs() const;
 
   // Only valid if there are one or two views
   KonqView * otherView( KonqView * view ) const;
@@ -209,7 +209,7 @@ public:
   /**
    * Overload for convenience
    */
-  void setLocationBarURL( const KURL &url );
+  void setLocationBarURL( const KUrl &url );
   /**
    * Return URL displayed in the location bar - for KonqViewManager
    */
@@ -338,9 +338,9 @@ public Q_SLOTS:
   void slotFillContextMenu( const KBookmark &, QMenu * );
   void slotOpenBookmarkURL( const QString & url, Qt::ButtonState state );
 
-  void slotPopupMenu( const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
-  void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
-  void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &_url, const KParts::URLArgs &_args, KParts::BrowserExtension::PopupFlags f, mode_t mode );
+  void slotPopupMenu( const QPoint &_global, const KUrl &_url, const QString &_mimeType, mode_t mode );
+  void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KUrl &_url, const QString &_mimeType, mode_t mode );
+  void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KUrl &_url, const KParts::URLArgs &_args, KParts::BrowserExtension::PopupFlags f, mode_t mode );
 
   void slotPopupMenu( const QPoint &_global, const KFileItemList &_items );
   void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items );
@@ -352,12 +352,12 @@ public Q_SLOTS:
   /**
    * __NEEEEVER__ call this method directly. It relies on sender() (the part)
    */
-  void slotOpenURLRequest( const KURL &url, const KParts::URLArgs &args );
+  void slotOpenURLRequest( const KUrl &url, const KParts::URLArgs &args );
 
-  void openURL( KonqView *childView, const KURL &url, const KParts::URLArgs &args );
+  void openURL( KonqView *childView, const KUrl &url, const KParts::URLArgs &args );
 
-  void slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args );
-  void slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args,
+  void slotCreateNewWindow( const KUrl &url, const KParts::URLArgs &args );
+  void slotCreateNewWindow( const KUrl &url, const KParts::URLArgs &args,
                             const KParts::WindowArgs &windowArgs, KParts::ReadOnlyPart *&part );
 
   void slotNewWindow();
@@ -503,7 +503,7 @@ protected Q_SLOTS:
 
   void slotShowMenuBar();
 
-  void slotOpenURL( const KURL& );
+  void slotOpenURL( const KUrl& );
 
   void slotActionStatusText( const QString &text );
   void slotClearStatusText();
@@ -518,7 +518,7 @@ protected Q_SLOTS:
   void slotMoveTabLeft();
   void slotMoveTabRight();
 
-  void slotAddWebSideBar(const KURL& url, const QString& name);
+  void slotAddWebSideBar(const KUrl& url, const QString& name);
 
   void slotUpdateFullScreen( bool set ); // do not call directly
 
@@ -527,7 +527,7 @@ protected:
 
   void fillHistoryPopup( QMenu *menu, const Q3PtrList<HistoryEntry> &history );
 
-  bool makeViewsFollow( const KURL & url, const KParts::URLArgs &args, const QString & serviceType,
+  bool makeViewsFollow( const KUrl & url, const KParts::URLArgs &args, const QString & serviceType,
                         KonqView * senderView );
 
   void applyKonqMainWindowSettings();
@@ -541,7 +541,7 @@ protected:
   virtual void closeEvent( QCloseEvent * );
   virtual bool queryExit();
 
-  bool askForTarget(const QString& text, KURL& url);
+  bool askForTarget(const QString& text, KUrl& url);
 
 private Q_SLOTS:
   void slotRequesterClicked( KUrlRequester * );
@@ -560,7 +560,7 @@ private Q_SLOTS:
   void showPageSecurity();
 
 private:
-  QString detectNameFilter( KURL & url );
+  QString detectNameFilter( KUrl & url );
 
   /**
    * takes care of hiding the bookmarkbar and calling setChecked( false ) on the
@@ -584,7 +584,7 @@ private:
   void startAnimation();
   void stopAnimation();
 
-  void setUpEnabled( const KURL &url );
+  void setUpEnabled( const KUrl &url );
 
   void initCombo();
   void initActions();
@@ -736,7 +736,7 @@ private:
   KTrader::OfferList m_popupEmbeddingServices;
   QString m_popupService;
   QString m_popupServiceType;
-  KURL m_popupURL;
+  KUrl m_popupURL;
 
   QString m_initialFrameName;
 

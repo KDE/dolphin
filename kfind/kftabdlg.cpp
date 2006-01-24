@@ -389,7 +389,7 @@ KfindTabWidget::~KfindTabWidget()
   delete pages[2];
 }
 
-void KfindTabWidget::setURL( const KURL & url )
+void KfindTabWidget::setURL( const KUrl & url )
 {
   KConfig *conf = KGlobal::config();
   conf->setGroup("History");

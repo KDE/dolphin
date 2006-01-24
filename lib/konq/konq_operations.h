@@ -58,7 +58,7 @@ public:
      * @param method should be TRASH, DEL or SHRED
      * @param selectedURLs the URLs to be deleted
      */
-    static void del( QWidget * parent, int method, const KURL::List & selectedURLs );
+    static void del( QWidget * parent, int method, const KUrl::List & selectedURLs );
 
     /**
      * Copy the @p selectedURLs to the destination @p destURL.
@@ -70,7 +70,7 @@ public:
      *
      * @todo document restrictions on the kind of destination
      */
-    static void copy( QWidget * parent, int method, const KURL::List & selectedURLs, const KURL& destURL );
+    static void copy( QWidget * parent, int method, const KUrl::List & selectedURLs, const KUrl& destURL );
     /**
      * Drop
      * @param destItem destination KFileItem for the drop (background or item)
@@ -80,21 +80,21 @@ public:
      *
      * If destItem is 0L, doDrop will stat the URL to determine it.
      */
-    static void doDrop( const KFileItem * destItem, const KURL & destURL, QDropEvent * ev, QWidget * parent );
+    static void doDrop( const KFileItem * destItem, const KUrl & destURL, QDropEvent * ev, QWidget * parent );
 
     /**
      * Paste the clipboard contents
      */
-    static void doPaste( QWidget * parent, const KURL & destURL, const QPoint &pos );
-    static void doPaste( QWidget * parent, const KURL & destURL );
+    static void doPaste( QWidget * parent, const KUrl & destURL, const QPoint &pos );
+    static void doPaste( QWidget * parent, const KUrl & destURL );
 
     static void emptyTrash();
-    static void restoreTrashedItems( const KURL::List& urls );
+    static void restoreTrashedItems( const KUrl::List& urls );
 
     /**
      * Create a directory
      */
-    static void mkdir( QWidget *parent, const KURL & url );
+    static void mkdir( QWidget *parent, const KUrl & url );
 
     /**
      * Get info about a given URL, and when that's done (it's asynchronous!),
@@ -102,7 +102,7 @@ public:
      * The KFileItem will be deleted by statURL after calling the slot. Make a copy
      * if you need one !
      */
-    static void statURL( const KURL & url, const QObject *receiver, const char *member );
+    static void statURL( const KUrl & url, const QObject *receiver, const char *member );
 
     /**
      * Do a renaming.
@@ -110,7 +110,7 @@ public:
      * @param oldurl the current url of the file to be renamed
      * @param name the new name for the file. Shouldn't include '/'.
      */
-    static void rename( QWidget * parent, const KURL & oldurl, const QString & name );
+    static void rename( QWidget * parent, const KUrl & oldurl, const QString & name );
 
     /**
      * Do a renaming.
@@ -120,14 +120,14 @@ public:
      * Use this version if the other one wouldn't work :)  (e.g. because name could
      * be a relative path, including a '/').
      */
-    static void rename( QWidget * parent, const KURL & oldurl, const KURL & newurl );
+    static void rename( QWidget * parent, const KUrl & oldurl, const KUrl & newurl );
 
     /**
      * Ask for the name of a new directory and create it.
      * @param parent the parent widget
      * @param baseURL the directory to create the new directory in
      */
-    static void newDir( QWidget * parent, const KURL & baseURL );
+    static void newDir( QWidget * parent, const KUrl & baseURL );
 
 Q_SIGNALS:
     void statFinished( const KFileItem * item );
@@ -135,21 +135,21 @@ Q_SIGNALS:
 
 protected:
     enum { DEFAULT_CONFIRMATION, SKIP_CONFIRMATION, FORCE_CONFIRMATION };
-    bool askDeleteConfirmation( const KURL::List & selectedURLs, int confirmation );
-    void _del( int method, const KURL::List & selectedURLs, int confirmation );
-    void _restoreTrashedItems( const KURL::List& urls );
-    void _statURL( const KURL & url, const QObject *receiver, const char *member );
+    bool askDeleteConfirmation( const KUrl::List & selectedURLs, int confirmation );
+    void _del( int method, const KUrl::List & selectedURLs, int confirmation );
+    void _restoreTrashedItems( const KUrl::List& urls );
+    void _statURL( const KUrl & url, const QObject *receiver, const char *member );
 
     // internal, for COPY/MOVE/LINK/MKDIR
-    void setOperation( KIO::Job * job, int method, const KURL::List & src, const KURL & dest );
+    void setOperation( KIO::Job * job, int method, const KUrl::List & src, const KUrl & dest );
 
     struct DropInfo
     {
-        DropInfo( uint k, const KURL::List & l, const QMap<QString,QString> &m,
+        DropInfo( uint k, const KUrl::List & l, const QMap<QString,QString> &m,
                   int x, int y, QDropEvent::Action a ) :
             keybstate(k), lst(l), metaData(m), mousePos(x,y), action(a) {}
         uint keybstate;
-        KURL::List lst;
+        KUrl::List lst;
         QMap<QString,QString> metaData;
         QPoint mousePos;
         QDropEvent::Action action;
@@ -160,7 +160,7 @@ protected:
     struct KIOPasteInfo // KDE4: remove and use DropInfo instead or a QPoint member
     {
         QByteArray data;  // unused
-        KURL destURL;     // unused
+        KUrl destURL;     // unused
         QPoint mousePos;
         QString dialogText; // unused
     };
@@ -176,8 +176,8 @@ protected Q_SLOTS:
 
 private:
     int m_method;
-    //KURL::List m_srcURLs;
-    KURL m_destURL;
+    //KUrl::List m_srcURLs;
+    KUrl m_destURL;
     // for doDrop
     DropInfo * m_info;
     KIOPasteInfo * m_pasteInfo;
@@ -191,15 +191,15 @@ class KonqMultiRestoreJob : public KIO::Job
     Q_OBJECT
 
 public:
-    KonqMultiRestoreJob( const KURL::List& urls, bool showProgressInfo );
+    KonqMultiRestoreJob( const KUrl::List& urls, bool showProgressInfo );
 
 protected Q_SLOTS:
     virtual void slotStart();
     virtual void slotResult( KIO::Job *job );
 
 private:
-    const KURL::List m_urls;
-    KURL::List::const_iterator m_urlsIterator;
+    const KUrl::List m_urls;
+    KUrl::List::const_iterator m_urlsIterator;
     int m_progress;
 };
 

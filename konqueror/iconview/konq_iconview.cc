@@ -359,10 +359,10 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     setDirLister( m_dirLister );
     m_dirLister->setMainWindow(m_pIconView->topLevelWidget());
 
-    connect( m_dirLister, SIGNAL( started( const KURL & ) ),
+    connect( m_dirLister, SIGNAL( started( const KUrl & ) ),
              this, SLOT( slotStarted() ) );
     connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
-    connect( m_dirLister, SIGNAL( canceled( const KURL& ) ), this, SLOT( slotCanceled( const KURL& ) ) );
+    connect( m_dirLister, SIGNAL( canceled( const KUrl& ) ), this, SLOT( slotCanceled( const KUrl& ) ) );
     connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
     connect( m_dirLister, SIGNAL( newItems( const KFileItemList& ) ),
              this, SLOT( slotNewItems( const KFileItemList& ) ) );
@@ -370,8 +370,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
              this, SLOT( slotDeleteItem( KFileItem * ) ) );
     connect( m_dirLister, SIGNAL( refreshItems( const KFileItemList& ) ),
              this, SLOT( slotRefreshItems( const KFileItemList& ) ) );
-    connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
-             this, SLOT( slotRedirection( const KURL & ) ) );
+    connect( m_dirLister, SIGNAL( redirection( const KUrl & ) ),
+             this, SLOT( slotRedirection( const KUrl & ) ) );
     connect( m_dirLister, SIGNAL( itemsFilteredByMime(const KFileItemList& ) ),
              SIGNAL( itemsFilteredByMime(const KFileItemList& ) ) );
     connect( m_dirLister, SIGNAL( infoMessage( const QString& ) ),
@@ -776,7 +776,7 @@ void KonqKfmIconView::slotContextMenuRequested(Q3IconViewItem* _item, const QPoi
 
     KFileItem * rootItem = m_dirLister->rootItem();
     if ( rootItem ) {
-        KURL parentDirURL = rootItem->url();
+        KUrl parentDirURL = rootItem->url();
         // Check if parentDirURL applies to the selected items (usually yes, but not with search results)
         KFileItemList::const_iterator kit = items.begin();
         const KFileItemList::const_iterator kend = items.end();
@@ -852,7 +852,7 @@ void KonqKfmIconView::slotCanceled()
     slotCanceled( m_pIconView->url() );
 }
 
-void KonqKfmIconView::slotCanceled( const KURL& url )
+void KonqKfmIconView::slotCanceled( const KUrl& url )
 {
     // Check if this canceled() signal is about the URL we're listing.
     // It could be about the URL we were listing, and openURL() aborted it.
@@ -1170,7 +1170,7 @@ void KonqKfmIconView::slotClear()
     slotSelectionChanged();
 }
 
-void KonqKfmIconView::slotRedirection( const KURL & url )
+void KonqKfmIconView::slotRedirection( const KUrl & url )
 {
     const QString prettyURL = url.pathOrURL();
     emit m_extension->setLocationBarURL( prettyURL );
@@ -1244,7 +1244,7 @@ void KonqKfmIconView::slotRefreshViewport()
     vp->setUpdatesEnabled( prevState );
 }
 
-bool KonqKfmIconView::doOpenURL( const KURL & url )
+bool KonqKfmIconView::doOpenURL( const KUrl & url )
 {
     // Store url in the icon view
     m_pIconView->setURL( url );
@@ -1410,7 +1410,7 @@ QString KonqKfmIconView::makeSizeKey( KFileIVI *item )
     return KIO::number( item->item()->size() ).rightJustified( 20, '0' );
 }
 
-void KonqKfmIconView::disableIcons( const KURL::List & lst )
+void KonqKfmIconView::disableIcons( const KUrl::List & lst )
 {
     m_pIconView->disableIcons( lst );
 }
@@ -1466,7 +1466,7 @@ void SpringLoadingManager::springLoadTrigger(KonqKfmIconView *view,
     item->setSelected( false, true );
     view->iconViewWidget()->visualActivate(item);
 
-    KURL url = file->url();
+    KUrl url = file->url();
 
     KParts::URLArgs args;
     file->determineMimeType();
@@ -1512,7 +1512,7 @@ void SpringLoadingManager::finished()
 {
     kdDebug() << "SpringLoadManager::finished()" << endl;
 
-    KURL url = m_startURL;
+    KUrl url = m_startURL;
     m_startURL = KURL();
 
     KParts::ReadOnlyPart *part = m_startPart;

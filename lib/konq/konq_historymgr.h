@@ -51,7 +51,7 @@ public:
      * If no matching entry is found, 0L is returned and current() will be
      * the first item in the list.
      */
-    KonqHistoryEntry * findEntry( const KURL& url );
+    KonqHistoryEntry * findEntry( const KUrl& url );
 
 protected:
     /**
@@ -110,7 +110,7 @@ public:
      *
      * The history is saved after receiving the DCOP call.
      */
-    void emitRemoveFromHistory( const KURL& url );
+    void emitRemoveFromHistory( const KUrl& url );
 
     /**
      * Removes the history entries for the given list of @p urls. Tells all
@@ -118,7 +118,7 @@ public:
      *
      * The history is saved after receiving the DCOP call.
      */
-    void emitRemoveFromHistory( const KURL::List& urls );
+    void emitRemoveFromHistory( const KUrl::List& urls );
 
     /**
      * @returns the current maximum number of history entries.
@@ -147,13 +147,13 @@ public:
      * @param title The title of the URL. If you don't know it (yet), you may
                     specify it in @ref confirmPending().
      */
-    void addPending( const KURL& url, const QString& typedURL = QString(),
+    void addPending( const KUrl& url, const QString& typedURL = QString(),
 		     const QString& title = QString() );
 
     /**
      * Confirms and updates the entry for @p url.
      */
-    void confirmPending( const KURL& url,
+    void confirmPending( const KUrl& url,
 			 const QString& typedURL = QString(),
 			 const QString& title = QString() );
 
@@ -161,7 +161,7 @@ public:
      * Removes a pending url from the history, e.g. when the url does not
      * exist, or the user aborted loading.
      */
-    void removePending( const KURL& url );
+    void removePending( const KUrl& url );
 
     /**
      * @returns the KCompletion object.
@@ -276,13 +276,13 @@ protected:
      * Notifes about a url that has to be removed from the history.
      * The instance where saveId == objId() has to save the history.
      */
-    virtual void notifyRemove( KURL url, QByteArray saveId );
+    virtual void notifyRemove( KUrl url, QByteArray saveId );
 
     /**
      * Notifes about a list of urls that has to be removed from the history.
      * The instance where saveId == objId() has to save the history.
      */
-    virtual void notifyRemove( KURL::List urls, QByteArray saveId );
+    virtual void notifyRemove( KUrl::List urls, QByteArray saveId );
 
     /**
      * @returns a list of all urls in the history.
@@ -300,7 +300,7 @@ protected:
      * If @p pending is false, @p url will be removed from the pending urls
      * (if available) and NOT be added again in that case.
      */
-    void addToHistory( bool pending, const KURL& url,
+    void addToHistory( bool pending, const KUrl& url,
 		       const QString& typedURL = QString(),
 		       const QString& title = QString() );
 
@@ -310,7 +310,7 @@ protected:
      * added to the history. By default, all local urls (url.isLocalFile())
      * will return true, as well as urls with an empty host.
      */
-    virtual bool filterOut( const KURL& url );
+    virtual bool filterOut( const KUrl& url );
 
     void addToUpdateList( const QString& url ) {
         m_updateURLs.append( url );
@@ -344,7 +344,7 @@ private:
      * Can't be used everywhere, because it always returns 0L for "pending"
      * entries, as those are not added to the dict, currently.
      */
-    KonqHistoryEntry * findEntry( const KURL& url );
+    KonqHistoryEntry * findEntry( const KUrl& url );
 
     /**
      * Stuff to create a proper history out of KDE 2.0's konq_history for

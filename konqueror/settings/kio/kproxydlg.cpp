@@ -213,7 +213,7 @@ void KProxyDialog::save()
     }
     else if ( mDlg->rbAutoScript->isChecked() )
     {
-      KURL u( mDlg->location->lineEdit()->text() );
+      KUrl u( mDlg->location->lineEdit()->text() );
 
       if ( !u.isValid() )
       {
@@ -237,7 +237,7 @@ void KProxyDialog::save()
       {
         // Let's try a bit harder to determine if the previous
         // proxy setting was indeed a manual proxy
-        KURL u ( mData->proxyList["http"] );
+        KUrl u ( mData->proxyList["http"] );
         bool validProxy = (u.isValid() && u.port() != 0);
         u= mData->proxyList["https"];
         validProxy |= (u.isValid() && u.port() != 0);

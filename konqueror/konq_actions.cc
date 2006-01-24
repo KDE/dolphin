@@ -483,7 +483,7 @@ void KonqMostOftenURLSAction::slotActivated( int id )
     Q_ASSERT( !m_popupList.isEmpty() ); // can not happen
     Q_ASSERT( id < (int)m_popupList.count() );
 
-    KURL url = m_popupList[ id ];
+    KUrl url = m_popupList[ id ];
     if ( url.isValid() )
 	emit activated( url );
     else

@@ -135,7 +135,7 @@ class KHTMLSideBar : public KHTMLPart
 
 			if (QString(action).toLower() != "post") {
 				// GET
-				KURL kurl = completeURL(url);
+				KUrl kurl = completeURL(url);
 				kurl.setQuery(formData.data());
 				u = kurl.url();
 			} else {
@@ -175,14 +175,14 @@ class KonqSideBarWebModule : public KonqSidebarPlugin
 
 	Q_SIGNALS:
 		void submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&);
-		void openURLRequest(const KURL &url, const KParts::URLArgs &args);
-		void createNewWindow(const KURL &url, const KParts::URLArgs &args);
+		void openURLRequest(const KUrl &url, const KParts::URLArgs &args);
+		void createNewWindow(const KUrl &url, const KParts::URLArgs &args);
 	protected:
-		virtual void handleURL(const KURL &url);
+		virtual void handleURL(const KUrl &url);
 
 	private Q_SLOTS:
 		void urlClicked(const QString& url, KParts::URLArgs args);
-		void formClicked(const KURL& url, const KParts::URLArgs& args);
+		void formClicked(const KUrl& url, const KParts::URLArgs& args);
 		void urlNewWindow(const QString& url, KParts::URLArgs args);
 		void pageLoaded();
 		void loadFavicon();
@@ -192,7 +192,7 @@ class KonqSideBarWebModule : public KonqSidebarPlugin
 
 	private:
 		KHTMLSideBar *_htmlPart;
-		KURL _url;
+		KUrl _url;
 		int reloadTimeout;
 		QString _desktopName;
 };

@@ -178,8 +178,8 @@ public:
     void setThumbnailPixmap( KFileIVI * item, const QPixmap & pixmap );
     void disableSoundPreviews();
 
-    void setURL ( const KURL & kurl );
-    const KURL & url() const { return m_url; }
+    void setURL ( const KUrl & kurl );
+    const KUrl & url() const { return m_url; }
     QString urlString() const { return m_url.url(); }
     void setRootItem ( const KFileItem * item ) { m_rootItem = item; }
 
@@ -196,9 +196,9 @@ public:
     virtual void pasteSelection();
 
     enum UrlFlags { UserVisibleUrls = 0, MostLocalUrls = 1 };
-    KURL::List selectedUrls( UrlFlags flags = UserVisibleUrls ) const;
+    KUrl::List selectedUrls( UrlFlags flags = UserVisibleUrls ) const;
 
-    void paste( const KURL &url );
+    void paste( const KUrl &url );
 
     bool sortDirectoriesFirst() const;
     void setSortDirectoriesFirst( bool b );
@@ -209,7 +209,7 @@ public:
     /**
      * Cache of the dragged URLs over the icon view, used by KFileIVI
      */
-    const KURL::List & dragURLs() { return m_lstDragURLs; }
+    const KUrl::List & dragURLs() { return m_lstDragURLs; }
 
     /**
      * Reimplemented from QIconView
@@ -241,12 +241,12 @@ public:
     /**
      * Provided for KDesktop.
      */
-    virtual void setWallpaper(const KURL&) { }
+    virtual void setWallpaper(const KUrl&) { }
 
     bool maySetWallpaper();
     void setMaySetWallpaper(bool b);
 
-    void disableIcons( const KURL::List & lst );
+    void disableIcons( const KUrl::List & lst );
 
     QString iconPositionGroupPrefix() const { return m_iconPositionGroupPrefix; }
     QString dotDirectoryPath() const { return m_dotDirectoryPath; }
@@ -344,10 +344,10 @@ protected:
     void updatePreviewMimeTypes();
 
 private:
-    KURL m_url;
+    KUrl m_url;
     const KFileItem * m_rootItem;
 
-    KURL::List m_lstDragURLs;
+    KUrl::List m_lstDragURLs;
 
     int m_size;
 

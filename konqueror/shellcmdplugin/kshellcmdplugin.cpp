@@ -46,7 +46,7 @@ void KShellCmdPlugin::slotExecuteShellCommand()
       KMessageBox::sorry(0L, "KShellCmdPlugin::slotExecuteShellCommand: Program error, please report a bug.");
       return;
    }
-   KURL url = part->url();
+   KUrl url = part->url();
    if ( !url.isLocalFile() )
    {
       KMessageBox::sorry(part->widget(),i18n("Executing shell commands works only on local directories."));
@@ -58,7 +58,7 @@ void KShellCmdPlugin::slotExecuteShellCommand()
       // Putting the complete path to the selected file isn't really necessary,
       // since we'll cd to the directory first. But we do need to get the 
       // complete relative path.
-      path = KURL::relativePath( url.path(), 
+      path = KUrl::relativePath( url.path(), 
                                  part->currentItem()->url().path() );
    }
    else

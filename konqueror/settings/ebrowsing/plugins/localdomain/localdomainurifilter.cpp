@@ -48,7 +48,7 @@ LocalDomainURIFilter::LocalDomainURIFilter( QObject *parent, const char *name,
 
 bool LocalDomainURIFilter::filterURI( KURIFilterData& data ) const
 {
-    KURL url = data.uri();
+    KUrl url = data.uri();
     QString cmd = url.url();
     
     kdDebug() << "LocalDomainURIFilter::filterURI: " << url << endl;

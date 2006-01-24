@@ -248,7 +248,7 @@ PluginPart::~PluginPart()
 }
 
 
-bool PluginPart::openURL(const KURL &url)
+bool PluginPart::openURL(const KUrl &url)
 {
     closeURL();
     kdDebug(1432) << "-> PluginPart::openURL" << endl;
@@ -341,7 +341,7 @@ void PluginPart::postURL(const QString& url, const QString& target, const QByteA
     kdDebug(1432) << "PluginPart::postURL( url=" << url
                   << ", target=" << target << endl;
 
-    KURL new_url(this->url(), url);
+    KUrl new_url(this->url(), url);
     KParts::URLArgs args;
     args.setDoPost(true);
     args.frameName = target;
@@ -356,7 +356,7 @@ void PluginPart::requestURL(const QString& url, const QString& target)
     kdDebug(1432) << "PluginPart::requestURL( url=" << url
                   << ", target=" << target << endl;
 
-    KURL new_url(this->url(), url);
+    KUrl new_url(this->url(), url);
     KParts::URLArgs args;
     args.frameName = target;
     args.setDoPost(false);
@@ -406,7 +406,7 @@ void PluginPart::changeSrc(const QString& url) {
 
 
 void PluginPart::saveAs() {
-    KURL savefile = KFileDialog::getSaveURL(QString(), QString(), _widget);
+    KUrl savefile = KFileDialog::getSaveURL(QString(), QString(), _widget);
     KIO::NetAccess::copy(m_url, savefile, _widget);
 }
 

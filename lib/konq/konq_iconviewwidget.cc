@@ -215,8 +215,8 @@ void KonqIconViewWidget::slotItemRenamed(Q3IconViewItem *item, const QString &na
     if( !name.isEmpty() )
     {
         // Actually attempt the rename. If it succeeds, KDirLister will update the name.
-        KURL oldurl( fileItem->url() );
-        KURL newurl( oldurl );
+        KUrl oldurl( fileItem->url() );
+        KUrl newurl( oldurl );
         newurl.setPath( newurl.directory(false) + KIO::encodeFileName( name ) );
         kdDebug(1203)<<" newurl :"<<newurl<<endl;
         // We use url()+name so that it also works if the name is a relative path (#51176)
@@ -794,7 +794,7 @@ void KonqIconViewWidget::refreshMimeTypes()
     setIcons( m_size );
 }
 
-void KonqIconViewWidget::setURL( const KURL &kurl )
+void KonqIconViewWidget::setURL( const KUrl &kurl )
 {
     stopImagePreview();
     m_url = kurl;
@@ -896,7 +896,7 @@ KFileItemList KonqIconViewWidget::selectedFileItems()
 void KonqIconViewWidget::slotDropped( QDropEvent *ev, const QList<Q3IconDragItem> & )
 {
     // Drop on background
-    KURL dirURL = url();
+    KUrl dirURL = url();
     if ( m_rootItem ) {
         bool dummy;
         dirURL = m_rootItem->mostLocalURL(dummy);
@@ -957,9 +957,9 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
           if (!primaryItem)
              primaryItem = it;
           KFileItem* fileItem = (static_cast<KFileIVI *>(it))->item();
-          KURL url = fileItem->url();
+          KUrl url = fileItem->url();
           bool dummy;
-          KURL mostLocalURL = fileItem->mostLocalURL(dummy);
+          KUrl mostLocalURL = fileItem->mostLocalURL(dummy);
           QString itemURL = url.url(); // was: K3URLDrag::urlToString(url);
           kdDebug(1203) << "itemURL=" << itemURL << endl;
           Q3IconDragItem id;
@@ -983,7 +983,7 @@ void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
 {
     // Cache the URLs, since we need them every time we move over a file
     // (see KFileIVI)
-    m_lstDragURLs = KURL::List::fromMimeData( e->mimeData() );
+    m_lstDragURLs = KUrl::List::fromMimeData( e->mimeData() );
 
     if ( !m_lstDragURLs.isEmpty() && m_lstDragURLs.first().protocol() == "programs" )
     {
@@ -1035,14 +1035,14 @@ QColor KonqIconViewWidget::itemColor() const
     return iColor;
 }
 
-void KonqIconViewWidget::disableIcons( const KURL::List & lst )
+void KonqIconViewWidget::disableIcons( const KUrl::List & lst )
 {
   for ( Q3IconViewItem *kit = firstItem(); kit; kit = kit->nextItem() )
   {
       bool bFound = false;
       // Wow. This is ugly. Matching two lists together....
       // Some sorting to optimise this would be a good idea ?
-      for (KURL::List::ConstIterator it = lst.begin(); !bFound && it != lst.end(); ++it)
+      for (KUrl::List::ConstIterator it = lst.begin(); !bFound && it != lst.end(); ++it)
       {
           if ( static_cast<KFileIVI *>( kit )->item()->url() == *it )
           {
@@ -1071,7 +1071,7 @@ void KonqIconViewWidget::slotSelectionChanged()
             canCopy++;
 
             KFileItem *item = ( static_cast<KFileIVI *>( it ) )->item();
-            KURL url = item->url();
+            KUrl url = item->url();
             QString local_path = item->localPath();
 
             /*if ( url.directory(false) == KGlobalSettings::trashPath() )
@@ -1137,14 +1137,14 @@ void KonqIconViewWidget::pasteSelection()
     paste( url() );
 }
 
-void KonqIconViewWidget::paste( const KURL &url )
+void KonqIconViewWidget::paste( const KUrl &url )
 {
     KonqOperations::doPaste( this, url );
 }
 
-KURL::List KonqIconViewWidget::selectedUrls( UrlFlags flags ) const
+KUrl::List KonqIconViewWidget::selectedUrls( UrlFlags flags ) const
 {
-    KURL::List lstURLs;
+    KUrl::List lstURLs;
 
     bool dummy;
     for ( Q3IconViewItem *it = firstItem(); it; it = it->nextItem() )
@@ -1253,7 +1253,7 @@ void KonqIconViewWidget::doubleClickTimeout()
     {
         QMouseEvent e( QEvent::MouseButtonPress,d->mousePos , 1, d->mouseState);
         Q3IconViewItem* item = findItem( e.pos() );
-        KURL url;
+        KUrl url;
         if ( item )
         {
             url= ( static_cast<KFileIVI *>( item ) )->item()->url();
@@ -1332,7 +1332,7 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
         d->pActivateDoubleClick->stop();
      Q3IconViewItem* item = findItem( e->pos() );
      m_mousePos = e->pos();
-     KURL url;
+     KUrl url;
      if ( item )
      {
          url = ( static_cast<KFileIVI *>( item ) )->item()->url();
@@ -1844,7 +1844,7 @@ const QStringList& KonqIconViewWidget::previewSettings()
 
 void KonqIconViewWidget::setNewURL( const QString& url )
 {
-    KURL u;
+    KUrl u;
     if ( url.startsWith( "/" ) )
         u.setPath( url );
     else

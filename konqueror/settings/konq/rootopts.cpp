@@ -148,19 +148,19 @@ void DesktopPathConfig::save()
     bool pathChanged = false;
     bool autostartMoved = false;
 
-    KURL desktopURL;
+    KUrl desktopURL;
     desktopURL.setPath( KGlobalSettings::desktopPath() );
-    KURL newDesktopURL;
+    KUrl newDesktopURL;
     newDesktopURL.setPath(urDesktop->url());
 
-    KURL autostartURL;
+    KUrl autostartURL;
     autostartURL.setPath( KGlobalSettings::autostartPath() );
-    KURL newAutostartURL;
+    KUrl newAutostartURL;
     newAutostartURL.setPath(urAutostart->url());
 
-    KURL documentURL;
+    KUrl documentURL;
     documentURL.setPath( KGlobalSettings::documentPath() );
-    KURL newDocumentURL;
+    KUrl newDocumentURL;
     newDocumentURL.setPath(urDocument->url());
 
     if ( !newDesktopURL.equals( desktopURL, true ) )
@@ -190,7 +190,7 @@ void DesktopPathConfig::save()
             // or it has been changed (->need to move it from here)
             else
             {
-                KURL futureAutostartURL;
+                KUrl futureAutostartURL;
                 futureAutostartURL.setPath( urlDesktop + "Autostart/" );
                 if ( newAutostartURL.equals( futureAutostartURL, true ) )
                     autostartMoved = true;
@@ -261,7 +261,7 @@ void DesktopPathConfig::save()
     kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
 }
 
-bool DesktopPathConfig::moveDir( const KURL & src, const KURL & dest, const QString & type )
+bool DesktopPathConfig::moveDir( const KUrl & src, const KUrl & dest, const QString & type )
 {
     if (!src.isLocalFile() || !dest.isLocalFile())
         return true;

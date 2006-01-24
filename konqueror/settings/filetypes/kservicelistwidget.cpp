@@ -308,7 +308,7 @@ void KServiceListWidget::editService()
       // If the path to the desktop file is relative, try to get the full
       // path from KStdDirs.
       path = locate("apps", path);
-      KURL serviceURL;
+      KUrl serviceURL;
       serviceURL.setPath( path );
       KFileItem item( serviceURL, "application/x-desktop", KFileItem::Unknown );
       KPropertiesDialog dlg( &item, this, 0, true /*modal*/, false /*no auto-show*/ );

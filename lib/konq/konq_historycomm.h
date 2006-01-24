@@ -34,7 +34,7 @@ public:
     KonqHistoryEntry()
 	: numberOfTimesVisited(1) {}
 
-    KURL url;
+    KUrl url;
     QString typedURL;
     QString title;
     quint32 numberOfTimesVisited;
@@ -68,8 +68,8 @@ k_dcop:
     virtual ASYNC notifyMaxCount( quint32 count, QByteArray saveId ) = 0;
     virtual ASYNC notifyMaxAge( quint32 days, QByteArray saveId ) = 0;
 	virtual ASYNC notifyClear( QByteArray saveId ) = 0;
-    virtual ASYNC notifyRemove( KURL url, QByteArray saveId ) = 0;
-    virtual ASYNC notifyRemove( KURL::List url, QByteArray saveId ) = 0;
+    virtual ASYNC notifyRemove( KUrl url, QByteArray saveId ) = 0;
+    virtual ASYNC notifyRemove( KUrl::List url, QByteArray saveId ) = 0;
     virtual QStringList allURLs() const = 0;
 
 };

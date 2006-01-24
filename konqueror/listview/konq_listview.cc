@@ -129,7 +129,7 @@ void ListViewBrowserExtension::updateActions()
   {
     KFileItem* item = *kit;
     canCopy++;
-    KURL url = item->url();
+    KUrl url = item->url();
 #warning hardcoded protocol: find a better way to determine if a url is a trash url.
     if ( url.protocol() == "trash" )
       bInTrash = true;
@@ -161,7 +161,7 @@ void ListViewBrowserExtension::paste()
   KonqOperations::doPaste( m_listView->listViewWidget(), m_listView->url() );
 }
 
-void ListViewBrowserExtension::pasteTo( const KURL& url )
+void ListViewBrowserExtension::pasteTo( const KUrl& url )
 {
   KonqOperations::doPaste( m_listView->listViewWidget(), url );
 }
@@ -318,9 +318,9 @@ void KonqListView::guiActivateEvent( KParts::GUIActivateEvent *event )
    ((ListViewBrowserExtension*)m_extension)->updateActions();
 }
 
-bool KonqListView::doOpenURL( const KURL &url )
+bool KonqListView::doOpenURL( const KUrl &url )
 {
-  KURL u( url );
+  KUrl u( url );
   const QString prettyURL = url.pathOrURL();
   emit setWindowCaption( prettyURL );
   return m_pListView->openURL( url );
@@ -367,7 +367,7 @@ void KonqListView::restoreState( QDataStream &stream )
     m_pListView->restoreState( stream );
 }
 
-void KonqListView::disableIcons( const KURL::List &lst )
+void KonqListView::disableIcons( const KUrl::List &lst )
 {
     m_pListView->disableIcons( lst );
 }

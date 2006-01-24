@@ -150,7 +150,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
   * hackable and is missing a config dialog.
   */
 
-  KURL url = data.uri();
+  KUrl url = data.uri();
   QString cmd = data.typedString();
   bool isMalformed = !url.isValid();
   //kdDebug() << "url=" << url.url() << " cmd=" << cmd << " isMalformed=" << isMalformed << endl;
@@ -221,7 +221,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
   QString query;
   QString nameFilter;
 
-  if (KURL::isRelativeURL(cmd) && QDir::isRelativePath(cmd)) {
+  if (KUrl::isRelativeURL(cmd) && QDir::isRelativePath(cmd)) {
      path = cmd;
   }
   else
@@ -295,7 +295,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
   if ( expanded )
   {
     // Look for #ref again, after $ and ~ expansion (testcase: $QTDIR/doc/html/functions.html#s)
-    // Can't use KURL here, setPath would escape it...
+    // Can't use KUrl here, setPath would escape it...
     int pos = path.find('#');
     if ( pos > -1 )
     {
@@ -367,7 +367,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
   //kdDebug() << "path =" << path << " isLocalFullPath=" << isLocalFullPath << " exists=" << exists << endl;
   if( exists )
   {
-    KURL u;
+    KUrl u;
     u.setPath(path);
     u.setRef(ref);
     u.setQuery(query);
@@ -481,7 +481,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
   // and if it doesn't exist, then error
   if( isLocalFullPath && !exists )
   {
-    KURL u;
+    KUrl u;
     u.setPath(path);
     u.setRef(ref);
 

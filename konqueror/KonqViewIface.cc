@@ -35,7 +35,7 @@ KonqViewIface::~KonqViewIface()
 
 void KonqViewIface::openURL( QString url, const QString & locationBarURL, const QString & nameFilter )
 {
-  KURL u(url);
+  KUrl u(url);
   m_pView->openURL( u, locationBarURL, nameFilter );
 }
 

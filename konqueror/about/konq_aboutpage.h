@@ -41,7 +41,7 @@ public:
                    QObject *parent, const char *name );
     ~KonqAboutPage();
 
-    virtual bool openURL( const KURL &url );
+    virtual bool openURL( const KUrl &url );
 
     virtual bool openFile();
 

@@ -46,7 +46,7 @@ private:
 protected Q_SLOTS:
     virtual void slotNewItems( const KFileItemList& );
     virtual bool openFile() { return true; }
-    virtual void disableIcons( const KURL::List& ) {}
+    virtual void disableIcons( const KUrl::List& ) {}
     virtual const KFileItem* currentItem();
     virtual void slotStarted() {}
     virtual void slotCanceled() {}
@@ -54,8 +54,8 @@ protected Q_SLOTS:
     virtual void slotDeleteItem( KFileItem* ) {}
     virtual void slotRefreshItems( const KFileItemList& ) {}
     virtual void slotClear();
-    virtual void slotRedirection( const KURL& ) {}
-    virtual bool doOpenURL( const KURL& );
+    virtual void slotRedirection( const KUrl& ) {}
+    virtual bool doOpenURL( const KUrl& );
     virtual bool doCloseURL() { return true; }
 private Q_SLOTS:
     void slotExecute( const QModelIndex& index, Qt::MouseButton mb );

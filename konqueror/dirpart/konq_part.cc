@@ -121,7 +121,7 @@ const KFileItem* KonqPart::currentItem()
     return m_model->fileItem( m_view->currentIndex() );
 }
 
-bool KonqPart::doOpenURL( const KURL& url )
+bool KonqPart::doOpenURL( const KUrl& url )
 {
     emit setWindowCaption( url.pathOrURL() );
     KParts::URLArgs args = extension()->urlArgs();

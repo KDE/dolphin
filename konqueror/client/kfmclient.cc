@@ -319,7 +319,7 @@ void clientApp::sendASNChange()
         XCloseDisplay( dpy );
 }
 
-bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, const QString & mimetype)
+bool clientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, const QString & mimetype)
 {
     kdDebug( 1202 ) << "clientApp::createNewWindow " << url.url() << " mimetype=" << mimetype << endl;
     needInstance();
@@ -502,7 +502,7 @@ bool clientApp::doIt()
     bool tempFile = KCmdLineArgs::isTempFileSet();
     if ( argc == 1 )
     {
-      KURL url;
+      KUrl url;
       url.setPath(QDir::homePath());
       return createNewWindow( url, command == "newTab", tempFile );
     }
@@ -549,7 +549,7 @@ bool clientApp::doIt()
     }
     else if ( argc == 3 )
     {
-      KURL::List urls;
+      KUrl::List urls;
       urls.append( args->url(1) );
       const KTrader::OfferList offers = KTrader::self()->query( QString::fromLocal8Bit( args->arg( 2 ) ), QLatin1String( "Application" ), QString(), QString() );
       if (offers.isEmpty()) return 1;
@@ -560,7 +560,7 @@ bool clientApp::doIt()
   else if ( command == "move" )
   {
     checkArgumentCount(argc, 2, 0);
-    KURL::List srcLst;
+    KUrl::List srcLst;
     for ( int i = 1; i <= argc - 2; i++ )
       srcLst.append( args->url(i) );
 
@@ -574,10 +574,10 @@ bool clientApp::doIt()
   else if ( command == "download" )
   {
     checkArgumentCount(argc, 0, 0);
-    KURL::List srcLst;
+    KUrl::List srcLst;
     if (argc == 1) {
        while(true) {
-          KURL src = KUrlRequesterDlg::getURL();
+          KUrl src = KUrlRequesterDlg::getURL();
           if (!src.isEmpty()) {
              if (!src.isValid()) {
                 KMessageBox::error(0, i18n("Unable to download from an invalid URL."));
@@ -597,7 +597,7 @@ bool clientApp::doIt()
        KFileDialog::getSaveFileName( (argc<2) ? (QString::null) : (args->url(1).fileName()) );
     if (dst.isEmpty()) // cancelled
        return m_ok; // AK - really okay?
-    KURL dsturl;
+    KUrl dsturl;
     dsturl.setPath( dst );
     KIO::Job * job = KIO::copy( srcLst, dsturl );
     if ( !s_interactive )
@@ -609,7 +609,7 @@ bool clientApp::doIt()
   else if ( command == "copy" )
   {
     checkArgumentCount(argc, 2, 0);
-    KURL::List srcLst;
+    KUrl::List srcLst;
     for ( int i = 1; i <= argc - 2; i++ )
       srcLst.append( args->url(i) );
 

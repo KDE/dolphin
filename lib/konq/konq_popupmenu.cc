@@ -186,7 +186,7 @@ ServiceList* PopupServices::selectList( const QString& priority, const QString& 
 //////////////////
 
 KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
-                              KURL viewURL,
+                              KUrl viewURL,
                               KActionCollection & actions,
                               KNewMenu * newMenu,
                               bool showProperties )
@@ -199,7 +199,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
 }
 
 KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
-                              KURL viewURL,
+                              KUrl viewURL,
                               KActionCollection & actions,
                               KNewMenu * newMenu,
                               QWidget * parentWidget,
@@ -211,7 +211,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
 }
 
 KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
-                              const KURL& viewURL,
+                              const KUrl& viewURL,
                               KActionCollection & actions,
                               KNewMenu * newMenu,
                               QWidget * parentWidget,
@@ -363,7 +363,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     m_builder = new KonqPopupMenuGUIBuilder( this );
     m_factory = new KXMLGUIFactory( m_builder );
 
-    KURL url;
+    KUrl url;
     KFileItemList::const_iterator it = m_lstItems.begin();
     const KFileItemList::const_iterator kend = m_lstItems.end();
     QStringList mimeTypeList;
@@ -421,7 +421,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     //check if url is current directory
     if ( m_lstItems.count() == 1 )
     {
-        KURL firstPopupURL( m_lstItems.first()->url() );
+        KUrl firstPopupURL( m_lstItems.first()->url() );
         firstPopupURL.cleanPath();
         //kdDebug(1203) << "View path is " << url.url() << endl;
         //kdDebug(1203) << "First popup path is " << firstPopupURL.url() << endl;
@@ -621,7 +621,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     //////////////////////////////////////////////////////
 
     PopupServices s;
-    KURL urlForServiceMenu( m_lstItems.first()->url() );
+    KUrl urlForServiceMenu( m_lstItems.first()->url() );
 
     // 1 - Look for builtin and user-defined services
     if ( m_sMimeType == "application/x-desktop" && isSingleLocal ) // .desktop file
@@ -707,8 +707,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 		    QByteArray replyData;
 		    DCOPCString object =    dcopcall.section(' ', 1,-2).utf8();
 		    QString function =  dcopcall.section(' ', -1);
-		    if(!function.endsWith("(KURL::List)")) {
-			kdWarning() << "Desktop file " << *eIt << " contains an invalid X-KDE-ShowIfDcopCall - the function must take the exact parameter (KURL::List) and must be specified." << endl;
+		    if(!function.endsWith("(KUrl::List)")) {
+			kdWarning() << "Desktop file " << *eIt << " contains an invalid X-KDE-ShowIfDcopCall - the function must take the exact parameter (KUrl::List) and must be specified." << endl;
 			continue; //Be safe.
 		    }
 
@@ -992,7 +992,7 @@ void KonqPopupMenu::setURLTitle( const QString& urlTitle )
 
 void KonqPopupMenu::slotPopupNewView()
 {
-  KURL::List::ConstIterator it = m_lstPopupURLs.begin();
+  KUrl::List::ConstIterator it = m_lstPopupURLs.begin();
   for ( ; it != m_lstPopupURLs.end(); it++ )
     (void) new KRun(*it,this);
 }
@@ -1024,14 +1024,14 @@ void KonqPopupMenu::slotPopupAddToBookmark()
 {
   KBookmarkGroup root;
   if ( m_lstPopupURLs.count() == 1 ) {
-    KURL url = m_lstPopupURLs.first();
+    KUrl url = m_lstPopupURLs.first();
     QString title = d->m_urlTitle.isEmpty() ? url.prettyURL() : d->m_urlTitle;
     root = m_pManager->addBookmarkDialog( url.prettyURL(), title );
   }
   else
   {
     root = m_pManager->root();
-    KURL::List::ConstIterator it = m_lstPopupURLs.begin();
+    KUrl::List::ConstIterator it = m_lstPopupURLs.begin();
     for ( ; it != m_lstPopupURLs.end(); it++ )
       root.addBookmark( m_pManager, (*it).prettyURL(), (*it) );
   }
@@ -1153,7 +1153,7 @@ void KonqPopupMenu::addPlugins()
     addMerge( "plugins" );
 }
 
-KURL KonqPopupMenu::url() const // ### should be viewURL()
+KUrl KonqPopupMenu::url() const // ### should be viewURL()
 {
   return m_sViewURL;
 }
@@ -1163,7 +1163,7 @@ KFileItemList KonqPopupMenu::fileItemList() const
   return m_lstItems;
 }
 
-KURL::List KonqPopupMenu::popupURLList() const
+KUrl::List KonqPopupMenu::popupURLList() const
 {
   return m_lstPopupURLs;
 }

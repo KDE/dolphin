@@ -46,8 +46,8 @@ struct KonqBasicOperation
   bool m_directory;
   bool m_renamed;
   bool m_link;
-  KURL m_src;
-  KURL m_dst;
+  KUrl m_src;
+  KUrl m_dst;
   QString m_target;
 };
 
@@ -64,22 +64,22 @@ struct KonqCommand
 
   Type m_type;
   KonqBasicOperation::Stack m_opStack;
-  KURL::List m_src;
-  KURL m_dst;
+  KUrl::List m_src;
+  KUrl m_dst;
 };
 
 class KonqCommandRecorder : public QObject
 {
   Q_OBJECT
 public:
-  KonqCommandRecorder( KonqCommand::Type op, const KURL::List &src, const KURL &dst, KIO::Job *job );
+  KonqCommandRecorder( KonqCommand::Type op, const KUrl::List &src, const KUrl &dst, KIO::Job *job );
   virtual ~KonqCommandRecorder();
 
 private Q_SLOTS:
   void slotResult( KIO::Job *job );
 
-  void slotCopyingDone( KIO::Job *, const KURL &from, const KURL &to, bool directory, bool renamed );
-  void slotCopyingLinkDone( KIO::Job *, const KURL &from, const QString &target, const KURL &to );
+  void slotCopyingDone( KIO::Job *, const KUrl &from, const KUrl &to, bool directory, bool renamed );
+  void slotCopyingLinkDone( KIO::Job *, const KUrl &from, const QString &target, const KUrl &to );
 
 private:
   class KonqCommandRecorderPrivate;
@@ -144,7 +144,7 @@ private:
   void broadcastLock();
   void broadcastUnlock();
 
-  void addDirToUpdate( const KURL& url );
+  void addDirToUpdate( const KUrl& url );
   bool initializeFromKDesky();
 
   class KonqUndoManagerPrivate;

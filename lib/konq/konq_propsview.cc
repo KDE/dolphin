@@ -181,14 +181,14 @@ KonqPropsView::~KonqPropsView()
    d=0;
 }
 
-bool KonqPropsView::enterDir( const KURL & dir )
+bool KonqPropsView::enterDir( const KUrl & dir )
 {
   //kdDebug(1203) << "enterDir " << dir.prettyURL() << endl;
   // Can't do that with default properties
   assert( !isDefaultProperties() );
 
   // Check for .directory
-  KURL u ( dir );
+  KUrl u ( dir );
   u.addPath(".directory");
   bool dotDirExists = u.isLocalFile() && QFile::exists( u.path() );
   dotDirectory = u.isLocalFile() ? u.path() : QString();

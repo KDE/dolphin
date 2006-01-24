@@ -60,7 +60,7 @@ public:
     const QDateTime& currentTime() const { return m_currentTime; }
     bool sortsByName() const { return m_sortsByName; }
 
-    static QString groupForURL( const KURL& url ) {
+    static QString groupForURL( const KUrl& url ) {
 	static const QString& misc = KGlobal::staticQString(i18n("Miscellaneous"));
 	return url.host().isEmpty() ? misc : url.host();
     }
@@ -86,7 +86,7 @@ private Q_SLOTS:
     void slotClearHistory();
 
 private:
-    KonqSidebarHistoryGroupItem *getGroupItem( const KURL& url );
+    KonqSidebarHistoryGroupItem *getGroupItem( const KUrl& url );
 
     void sortingChanged();
     typedef Q3DictIterator<KonqSidebarHistoryGroupItem> HistoryItemIterator;

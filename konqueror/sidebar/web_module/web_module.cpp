@@ -47,9 +47,9 @@ KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent,
 		this,
 		SLOT(urlClicked(const QString&, KParts::URLArgs)));
 	connect(_htmlPart->browserExtension(),
-		SIGNAL(openURLRequest(const KURL&, const KParts::URLArgs&)),
+		SIGNAL(openURLRequest(const KUrl&, const KParts::URLArgs&)),
 		this,
-		SLOT(formClicked(const KURL&, const KParts::URLArgs&)));
+		SLOT(formClicked(const KUrl&, const KParts::URLArgs&)));
 	connect(_htmlPart,
 		SIGNAL(setAutoReload()), this, SLOT( setAutoReload() ));
 	connect(_htmlPart,
@@ -115,7 +115,7 @@ void *KonqSideBarWebModule::provides(const QString &) {
 }
 
 
-void KonqSideBarWebModule::handleURL(const KURL &) {
+void KonqSideBarWebModule::handleURL(const KUrl &) {
 }
 
 
@@ -131,7 +131,7 @@ void KonqSideBarWebModule::urlClicked(const QString& url, KParts::URLArgs args)
 }
 
 
-void KonqSideBarWebModule::formClicked(const KURL& url, const KParts::URLArgs& args) 
+void KonqSideBarWebModule::formClicked(const KUrl& url, const KParts::URLArgs& args) 
 {
 	_htmlPart->browserExtension()->setURLArgs(args);
 	_htmlPart->openURL(url);
@@ -193,7 +193,7 @@ extern "C" {
 	KDE_EXPORT bool add_konqsidebar_web(QString* fn, QString* param, QMap<QString,QString> *map) {
 		Q_UNUSED(param);
 		KGlobal::dirs()->addResourceType("websidebardata", KStandardDirs::kde_default("data") + "konqsidebartng/websidebar");
-		KURL url;
+		KUrl url;
 		url.setProtocol("file");
 		QStringList paths = KGlobal::dirs()->resourceDirs("websidebardata");
 		for (QStringList::Iterator i = paths.begin(); i != paths.end(); ++i) {

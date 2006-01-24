@@ -36,8 +36,8 @@ KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
 	connect(m_widget,SIGNAL(started(KIO::Job *)),
 		this, SIGNAL(started(KIO::Job*)));
 	connect(m_widget,SIGNAL(completed()),this,SIGNAL(completed()));
-	connect(m_extension, SIGNAL(addWebSideBar(const KURL&, const QString&)),
-		m_widget, SLOT(addWebSideBar(const KURL&, const QString&)));
+	connect(m_extension, SIGNAL(addWebSideBar(const KUrl&, const QString&)),
+		m_widget, SLOT(addWebSideBar(const KUrl&, const QString&)));
         KAcceleratorManager::setNoAccel(m_widget);
 	setWidget(m_widget);
 }
@@ -57,7 +57,7 @@ bool KonqSidebar::openFile()
 	return true;
 }
 
-bool KonqSidebar::openURL(const KURL &url) {
+bool KonqSidebar::openURL(const KUrl &url) {
 	if (m_widget)
 		return m_widget->openURL(url);
 	else return false;

@@ -135,7 +135,7 @@ void KonqInfoListViewWidget::createFavoriteColumns()
 
 }
 
-bool KonqInfoListViewWidget::openURL( const KURL &url )
+bool KonqInfoListViewWidget::openURL( const KUrl &url )
 {
     bool ret = KonqBaseListViewWidget::openURL(url);
     m_bTopLevelComplete = true;

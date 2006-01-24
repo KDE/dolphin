@@ -53,7 +53,7 @@ typedef KonqSidebarTreeModule*(*getModule)(KonqSidebarTree*, const bool);
 
 typedef struct DirTreeConfigData_
 {
-  KURL dir;
+  KUrl dir;
   int type;
   QString relDir;
 } DirTreeConfigData;
@@ -76,7 +76,7 @@ public:
     KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidget, int virt, const QString& path );
     virtual ~KonqSidebarTree();
 
-    void followURL( const KURL &url );
+    void followURL( const KUrl &url );
 
     /**
      * @return the current (i.e. selected) item
@@ -87,9 +87,9 @@ public:
     void stopAnimation( KonqSidebarTreeItem * item );
 
     // Reimplemented from KDirNotify
-    void FilesAdded( const KURL & dir );
-    void FilesRemoved( const KURL::List & urls );
-    void FilesChanged( const KURL::List & urls );
+    void FilesAdded( const KUrl & dir );
+    void FilesRemoved( const KUrl::List & urls );
+    void FilesChanged( const KUrl::List & urls );
 
     KonqSidebarPlugin * part() { return m_part; }
 
@@ -108,7 +108,7 @@ public:
     void showToplevelContextMenu();
 
     // Add an URL
-    void addURL(KonqSidebarTreeTopLevelItem* item, const KURL&url);
+    void addURL(KonqSidebarTreeTopLevelItem* item, const KUrl&url);
 
     // If we can use dcop to open tabs
     bool tabSupport();
@@ -189,7 +189,7 @@ private:
     QTimer *m_autoOpenTimer;
 
     // The base URL for our configuration directory
-    //KURL m_dirtreeDir;
+    //KUrl m_dirtreeDir;
     DirTreeConfigData m_dirtreeDir;
 
     bool m_scrollingLocked;
@@ -213,9 +213,9 @@ signals:
 #undef signals
 #define signals protected
 #endif
-    void openURLRequest( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
-    void createNewWindow( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
-    void popupMenu( const QPoint &global, const KURL &url,
+    void openURLRequest( const KUrl &url, const KParts::URLArgs &args = KParts::URLArgs() );
+    void createNewWindow( const KUrl &url, const KParts::URLArgs &args = KParts::URLArgs() );
+    void popupMenu( const QPoint &global, const KUrl &url,
          const QString &mimeType, mode_t mode = (mode_t)-1 );
     void popupMenu( const QPoint &global, const KFileItemList &items );
     void enableAction( const char * name, bool enabled );

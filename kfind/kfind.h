@@ -26,7 +26,7 @@ public:
     Kfind(QWidget * parent = 0, const char * name = 0);
     ~Kfind();
 
-    void setURL( const KURL &url );
+    void setURL( const KUrl &url );
 
     void setQuery(KQuery * q) { query = q; }
     void searchFinished();

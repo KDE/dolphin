@@ -602,7 +602,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    _waitingRequests.setAutoDelete( true );
    _callback = new NSPluginCallbackIface_stub( appId.latin1(), callbackId.latin1() );
 
-   KURL base(src);
+   KUrl base(src);
    base.setFileName( QString() );
    _baseURL = base.url();
 
@@ -765,12 +765,12 @@ void NSPluginInstance::timer()
         // make absolute url
         if ( req.url.left(11).lower()=="javascript:" )
             url = req.url;
-        else if ( KURL::isRelativeURL(req.url) ) {
-            KURL bu( _baseURL );
-            KURL absUrl( bu, req.url );
+        else if ( KUrl::isRelativeURL(req.url) ) {
+            KUrl bu( _baseURL );
+            KUrl absUrl( bu, req.url );
             url = absUrl.url();
         } else if ( req.url[0]=='/' && KURL(_baseURL).hasHost() ) {
-            KURL absUrl( _baseURL );
+            KUrl absUrl( _baseURL );
             absUrl.setPath( req.url );
             url = absUrl.url();
         } else
@@ -835,8 +835,8 @@ void NSPluginInstance::timer()
 
 
 QString NSPluginInstance::normalizedURL(const QString& url) const {
-    KURL bu( _baseURL );
-    KURL inURL(bu, url);
+    KUrl bu( _baseURL );
+    KUrl inURL(bu, url);
     KConfig cfg("kcmnspluginrc", true);
     cfg.setGroup("Misc");
 
@@ -1525,7 +1525,7 @@ void NSPluginStreamBase::inform()
 
     if (! _informed)
     {
-        KURL src(_url);
+        KUrl src(_url);
 
         _informed = true;
 

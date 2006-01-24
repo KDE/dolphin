@@ -507,7 +507,7 @@ static int directCommand(KCmdLineArgs *args)
 	dlg.exec();
 
 	if ( args->isSet("getsaveurl") ) {
-	    KURL result = dlg.selectedURL();
+	    KUrl result = dlg.selectedURL();
 	    if ( result.isValid())  {
 
 		cout << result.url().local8Bit().data() << endl;
@@ -533,7 +533,7 @@ static int directCommand(KCmdLineArgs *args)
 	result = QFileDialog::getExistingDirectory(startDir, 0, "getExistingDirectory",
 							   title, true, true);
 #else
-	KURL url;
+	KUrl url;
 	KDirSelectDialog myDialog( startDir, true, 0,
 				   "kdirselect dialog", true );
 
@@ -578,13 +578,13 @@ static int directCommand(KCmdLineArgs *args)
 	dlg.exec();
 
         if (args->isSet("multiple")) {
-	    KURL::List result = dlg.selectedURLs();
+	    KUrl::List result = dlg.selectedURLs();
 	    if ( !result.isEmpty() ) {
 		outputStringList( result.toStringList(), separateOutput );
 		return 0;
 	    }
 	} else {
-	    KURL result = dlg.selectedURL();
+	    KUrl result = dlg.selectedURL();
 	    if (!result.isEmpty())  {
 		cout << result.url().local8Bit().data() << endl;
 		return 0;

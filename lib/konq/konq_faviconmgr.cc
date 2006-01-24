@@ -39,7 +39,7 @@ QString KonqFavIconMgr::iconForURL(const QString &url)
     return KMimeType::favIconForURL( KURL(url) );
 }
 
-void KonqFavIconMgr::setIconForURL(const KURL &url, const KURL &iconURL)
+void KonqFavIconMgr::setIconForURL(const KUrl &url, const KUrl &iconURL)
 {
     QByteArray data;
     QDataStream str(&data, QIODevice::WriteOnly);
@@ -47,7 +47,7 @@ void KonqFavIconMgr::setIconForURL(const KURL &url, const KURL &iconURL)
     kapp->dcopClient()->send("kded", "favicons", "setIconForURL(KURL, KURL)", data);
 }
 
-void KonqFavIconMgr::downloadHostIcon(const KURL &url)
+void KonqFavIconMgr::downloadHostIcon(const KUrl &url)
 {
     QByteArray data;
     QDataStream str(&data, QIODevice::WriteOnly);

@@ -97,7 +97,7 @@ KPreviewOptions::KPreviewOptions( KInstance *inst, QWidget *parent )
     protocolList.sort();
     QStringList::Iterator it = protocolList.begin();
 
-    KURL url;
+    KUrl url;
     url.setPath("/");
 
     for ( ; it != protocolList.end() ; ++it )

@@ -35,12 +35,12 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqListView *parent, QWidget *parentWid
    setRootIsDecorated( true );
    setTreeStepSize( 20 );
 
-   connect( m_dirLister, SIGNAL( completed( const KURL & ) ),
-            this, SLOT( slotCompleted( const KURL & ) ) );
-   connect( m_dirLister, SIGNAL( clear( const KURL & ) ),
-            this, SLOT( slotClear( const KURL & ) ) );
-   connect( m_dirLister, SIGNAL( redirection( const KURL &, const KURL & ) ),
-            this, SLOT( slotRedirection( const KURL &, const KURL & ) ) );
+   connect( m_dirLister, SIGNAL( completed( const KUrl & ) ),
+            this, SLOT( slotCompleted( const KUrl & ) ) );
+   connect( m_dirLister, SIGNAL( clear( const KUrl & ) ),
+            this, SLOT( slotClear( const KUrl & ) ) );
+   connect( m_dirLister, SIGNAL( redirection( const KUrl &, const KUrl & ) ),
+            this, SLOT( slotRedirection( const KUrl &, const KUrl & ) ) );
 }
 
 KonqTreeViewWidget::~KonqTreeViewWidget()
@@ -53,7 +53,7 @@ KonqTreeViewWidget::~KonqTreeViewWidget()
    m_dictSubDirs.clear();
 }
 
-bool KonqTreeViewWidget::openURL( const KURL &url )
+bool KonqTreeViewWidget::openURL( const KUrl &url )
 {
    //kdDebug(1202) << k_funcinfo << url.prettyURL() << endl;
 
@@ -107,7 +107,7 @@ void KonqTreeViewWidget::slotCompleted()
    KonqBaseListViewWidget::slotCompleted();
 }
 
-void KonqTreeViewWidget::slotCompleted( const KURL & _url )
+void KonqTreeViewWidget::slotCompleted( const KUrl & _url )
 {
     // do nothing if the view itself is finished
     if ( m_url.equals( _url, true ) )
@@ -135,7 +135,7 @@ void KonqTreeViewWidget::slotClear()
    KonqBaseListViewWidget::slotClear();
 }
 
-void KonqTreeViewWidget::slotClear( const KURL & _url )
+void KonqTreeViewWidget::slotClear( const KUrl & _url )
 {
    // normally this means we have to delete only the contents of directory _url
    // but we are allowed to delete the subdirs as well since the opening of
@@ -177,7 +177,7 @@ void KonqTreeViewWidget::slotClear( const KURL & _url )
    }
 }
 
-void KonqTreeViewWidget::slotRedirection( const KURL &oldUrl, const KURL &newUrl )
+void KonqTreeViewWidget::slotRedirection( const KUrl &oldUrl, const KUrl &newUrl )
 {
    kdDebug(1202) << k_funcinfo << oldUrl.url() << " -> " << newUrl.url() << endl;
 
@@ -190,7 +190,7 @@ void KonqTreeViewWidget::slotRedirection( const KURL &oldUrl, const KURL &newUrl
 void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
 {
     // Find parent item - it's the same for all the items
-    KURL dir( entries.first()->url().upURL() );
+    KUrl dir( entries.first()->url().upURL() );
 
     KonqListViewDir *parentDir = 0L;
     if ( !m_url.equals( dir, true ) ) // ignore trailing slash

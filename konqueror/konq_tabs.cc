@@ -443,7 +443,7 @@ void KonqFrameTabs::slotSubPopupMenuTabActivated( int _id)
 
 void KonqFrameTabs::slotMouseMiddleClick()
 {
-  KURL filteredURL ( KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text(QClipboard::Selection) ) );
+  KUrl filteredURL ( KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text(QClipboard::Selection) ) );
   if ( !filteredURL.isEmpty() ) {
     KonqView* newView = m_pViewManager->addTab(QString(), QString(), false, false);
     if (newView == 0L) return;
@@ -463,7 +463,7 @@ void KonqFrameTabs::slotMouseMiddleClick( QWidget *w )
     }
   }
   else {
-  KURL filteredURL ( KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text(QClipboard::Selection ) ) );
+  KUrl filteredURL ( KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text(QClipboard::Selection ) ) );
   if ( !filteredURL.isEmpty() ) {
     KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>(w);
     if (frame) {
@@ -475,12 +475,12 @@ void KonqFrameTabs::slotMouseMiddleClick( QWidget *w )
 
 void KonqFrameTabs::slotTestCanDecode(const QDragMoveEvent *e, bool &accept /* result */)
 {
-  accept = KURL::List::canDecode( e->mimeData() );
+  accept = KUrl::List::canDecode( e->mimeData() );
 }
 
 void KonqFrameTabs::slotReceivedDropEvent( QDropEvent *e )
 {
-  KURL::List lstDragURLs = KURL::List::fromMimeData( e->mimeData() );
+  KUrl::List lstDragURLs = KUrl::List::fromMimeData( e->mimeData() );
   if ( lstDragURLs.count() ) {
     KonqView* newView = m_pViewManager->addTab(QString(), QString(), false, false);
     if (newView == 0L) return;
@@ -492,10 +492,10 @@ void KonqFrameTabs::slotReceivedDropEvent( QDropEvent *e )
 
 void KonqFrameTabs::slotReceivedDropEvent( QWidget *w, QDropEvent *e )
 {
-  KURL::List lstDragURLs = KURL::List::fromMimeData( e->mimeData() );
+  KUrl::List lstDragURLs = KUrl::List::fromMimeData( e->mimeData() );
   KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>(w);
   if ( lstDragURLs.count() && frame ) {
-    KURL lstDragURL = lstDragURLs.first();
+    KUrl lstDragURL = lstDragURLs.first();
     if ( lstDragURL != frame->activeChildView()->url() )
       m_pViewManager->mainWindow()->openURL( frame->activeChildView(), lstDragURL );
   }

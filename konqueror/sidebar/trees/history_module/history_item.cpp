@@ -156,7 +156,7 @@ void KonqSidebarHistoryItem::paintCell( QPainter *p, const QColorGroup & cg,
 ///////////////////////////////////////////////////////////////////
 
 
-KonqSidebarHistoryGroupItem::KonqSidebarHistoryGroupItem( const KURL& url,
+KonqSidebarHistoryGroupItem::KonqSidebarHistoryGroupItem( const KUrl& url,
 					    KonqSidebarTreeTopLevelItem *topLevelItem)
     : KonqSidebarTreeItem( topLevelItem, topLevelItem ),
       m_hasFavIcon( false ),
@@ -174,7 +174,7 @@ void KonqSidebarHistoryGroupItem::setFavIcon( const QPixmap& pix )
 // when the last child is removed
 void KonqSidebarHistoryGroupItem::remove()
 {
-    KURL::List list;
+    KUrl::List list;
     KonqSidebarHistoryItem *child = static_cast<KonqSidebarHistoryItem*>( firstChild() );
     while( child ) {
 	list.append( child->externalURL() );
