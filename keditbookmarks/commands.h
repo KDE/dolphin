@@ -131,14 +131,14 @@ class DeleteCommand : public KCommand, public IKEBCommand
 {
 public:
    DeleteCommand(const QString &from, bool contentOnly = false)
-      : KCommand(), m_from(from), m_cmd(0L), m_subCmd(0L), m_contentOnly(contentOnly)
+      : KCommand(), m_from(from), m_cmd(0), m_subCmd(0), m_contentOnly(contentOnly)
    { ; }
-   virtual ~DeleteCommand() { delete m_cmd; delete m_subCmd;}
+   virtual ~DeleteCommand() { delete m_cmd; delete m_subCmd; }
    virtual void execute();
    virtual void unexecute();
    virtual QString name() const { 
       // NOTE - DeleteCommand needs no name, its always embedded in a macrocommand
-      return ""; 
+      return QString();
    };
    virtual QString affectedBookmarks() const;
    static KEBMacroCommand* deleteAll(const KBookmarkGroup &parentGroup);

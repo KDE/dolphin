@@ -32,19 +32,18 @@
 #include <klocale.h>
 #include <kbookmarkmanager.h>
 #include <kdesktopfile.h>
-#include <Q3PtrListIterator>
+
 QString KEBMacroCommand::affectedBookmarks() const
 {
-    QList<KCommand*>::const_iterator it;
-    it = m_commands.constBegin();
-    QString affectBook;
-    if(*it)
-        affectBook = dynamic_cast<IKEBCommand *>(*it)->affectedBookmarks();
+    QList<KCommand*>::const_iterator it = m_commands.constBegin();
+    if ( it == m_commands.constEnd() )
+        return QString();
+    // Need to use dynamic_cast here due to going cross-hierarchy, but it should never return 0.
+    QString affectBook = dynamic_cast<IKEBCommand *>(*it)->affectedBookmarks();
     ++it;
-    while( it != m_commands.constEnd())
+    for( ; it != m_commands.constEnd() ; ++it )
     {
         affectBook = KBookmark::commonParent( affectBook, dynamic_cast<IKEBCommand *>(*it)->affectedBookmarks());
-        ++it;
     }
     return affectBook;
 }
