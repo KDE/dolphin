@@ -472,7 +472,7 @@ void KfindTabWidget::loadHistory()
   // Load pattern history
   KConfig *conf = KGlobal::config();
   conf->setGroup("History");
-  QStringList sl = conf->readListEntry("Patterns");
+  QStringList sl = conf->readEntry("Patterns", QStringList());
   if(!sl.isEmpty())
     nameBox->insertStringList(sl);
   else
