@@ -317,7 +317,7 @@ void KCookiesPolicies::load()
   {
     ignoreCookieExpirationDate( cookieExpiration );
     autoAcceptSessionCookies( sessionCookies );
-    updateDomainList(cfg.readListEntry("CookieDomainAdvice"));
+    updateDomainList(cfg.readEntry("CookieDomainAdvice", QStringList() ));
     updateButtons();
   }
 

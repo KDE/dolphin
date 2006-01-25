@@ -109,12 +109,12 @@ void KJavaScriptOptions::load()
     m_pConfig->setGroup(m_groupname);
 
     if( m_pConfig->hasKey( "ECMADomains" ) )
-	domainSpecific->initialize(m_pConfig->readListEntry("ECMADomains"));
+	domainSpecific->initialize(m_pConfig->readEntry("ECMADomains", QStringList() ));
     else if( m_pConfig->hasKey( "ECMADomainSettings" ) ) {
-        domainSpecific->updateDomainListLegacy( m_pConfig->readListEntry( "ECMADomainSettings" ) );
+        domainSpecific->updateDomainListLegacy( m_pConfig->readEntry( "ECMADomainSettings" , QStringList() ) );
 	_removeECMADomainSettings = true;
     } else {
-        domainSpecific->updateDomainListLegacy(m_pConfig->readListEntry("JavaScriptDomainAdvice") );
+        domainSpecific->updateDomainListLegacy(m_pConfig->readEntry("JavaScriptDomainAdvice", QStringList() ) );
 	_removeJavaScriptDomainAdvice = true;
     }
 

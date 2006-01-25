@@ -114,7 +114,7 @@ void FilterOptions::load()
 
     m_favoriteEngines.clear();
     m_favoriteEngines << "google" << "google_groups" << "google_news" << "webster" << "dmoz" << "wikipedia";
-    m_favoriteEngines = config.readListEntry("FavoriteSearchEngines", m_favoriteEngines);
+    m_favoriteEngines = config.readEntry("FavoriteSearchEngines", m_favoriteEngines );
 
     const KTrader::OfferList services = KTrader::self()->query("SearchProvider");
 

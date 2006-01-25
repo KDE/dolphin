@@ -285,7 +285,7 @@ void DesktopBehavior::load()
     //bool bVertAlign = g_pConfig->readEntry("VertAlign", DEFAULT_VERT_ALIGN);
     KTrader::OfferList plugins = KTrader::self()->query("ThumbCreator");
     previewListView->clear();
-    QStringList previews = g_pConfig->readListEntry("Preview");
+    QStringList previews = g_pConfig->readEntry("Preview", QStringList() );
     for (KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it)
         new DesktopBehaviorPreviewItem(this, previewListView, *it, previews.contains((*it)->desktopEntryName()));
     new DesktopBehaviorPreviewItem(this, previewListView, previews.contains("audio/"));

@@ -182,7 +182,7 @@ void KPluginOptions::load()
     // *** apply to GUI ***
     enablePluginsGloballyCB->setChecked( bPluginGlobal );
 
-    domainSpecific->initialize(m_pConfig->readListEntry("PluginDomains"));
+    domainSpecific->initialize(m_pConfig->readEntry("PluginDomains", QStringList() ));
 
 /****************************************************************************/
 
@@ -394,7 +394,7 @@ void KPluginOptions::dirLoad( KConfig *config )
 
     config->setGroup("Misc");
     if ( config->hasKey( "scanPaths" ) )
-        paths = config->readListEntry( "scanPaths" );
+        paths = config->readEntry( "scanPaths" , QStringList() );
     else {//keep sync with kdebase/nsplugins/pluginscan
         paths.append("$HOME/.mozilla/plugins");
         paths.append("$HOME/.netscape/plugins");

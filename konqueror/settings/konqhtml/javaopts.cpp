@@ -210,12 +210,12 @@ void KJavaOptions::load()
         sJavaPath = "java";
 
     if( m_pConfig->hasKey( "JavaDomains" ) )
-    	domainSpecific->initialize(m_pConfig->readListEntry("JavaDomains"));
+    	domainSpecific->initialize(m_pConfig->readEntry("JavaDomains", QStringList() ));
     else if( m_pConfig->hasKey( "JavaDomainSettings" ) ) {
-        domainSpecific->updateDomainListLegacy( m_pConfig->readListEntry("JavaDomainSettings") );
+        domainSpecific->updateDomainListLegacy( m_pConfig->readEntry("JavaDomainSettings", QStringList() ) );
 	_removeJavaDomainSettings = true;
     } else {
-        domainSpecific->updateDomainListLegacy( m_pConfig->readListEntry("JavaScriptDomainAdvice") );
+        domainSpecific->updateDomainListLegacy( m_pConfig->readEntry("JavaScriptDomainAdvice", QStringList() ) );
 	_removeJavaScriptDomainAdvice = true;
     }
 

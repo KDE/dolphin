@@ -322,7 +322,7 @@ void KAppearanceOptions::load()
 #define SET_GROUP(x) m_pConfig->setGroup(x); khtmlrc.setGroup(x)
 #define READ_NUM(x,y) m_pConfig->readEntry(x, khtmlrc.readEntry(x, y))
 #define READ_ENTRY(x,y) m_pConfig->readEntry(x, khtmlrc.readEntry(x, y))
-#define READ_LIST(x) m_pConfig->readListEntry(x, khtmlrc.readListEntry(x))
+#define READ_LIST(x) m_pConfig->readEntry(x, khtmlrc.readListEntry(x, QStringList() ))
 
     SET_GROUP(m_groupname);
     fSize = READ_NUM( "MediumFontSize", 12 );
@@ -340,9 +340,9 @@ void KAppearanceOptions::load()
     defaultFonts.append( QString("0") ); // default font size adjustment
 
     if (m_pConfig->hasKey("Fonts"))
-       fonts = m_pConfig->readListEntry( "Fonts" );
+       fonts = m_pConfig->readEntry( "Fonts" , QStringList() );
     else
-       fonts = khtmlrc.readListEntry( "Fonts" );
+       fonts = khtmlrc.readEntry( "Fonts" , QStringList() );
     while (fonts.count() < 7)
        fonts.append(QString());
 

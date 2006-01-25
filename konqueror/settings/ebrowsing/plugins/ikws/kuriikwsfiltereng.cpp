@@ -454,7 +454,7 @@ void KURISearchFilterEngine::loadConfig()
       // User has an old config file in his local config dir
       PIDDBG << "Migrating config file to .desktop files..." << endl;
       QString fallback = oldConfig.readEntry("InternetKeywordsSearchFallback");
-      QStringList engines = oldConfig.readListEntry("SearchEngines");
+      QStringList engines = oldConfig.readEntry("SearchEngines", QStringList() );
       for (QStringList::ConstIterator it = engines.begin(); it != engines.end(); ++it)
       {
         if (!oldConfig.hasGroup(*it + " Search"))
@@ -462,7 +462,7 @@ void KURISearchFilterEngine::loadConfig()
 
         oldConfig.setGroup(*it + " Search");
         QString query = oldConfig.readEntry("Query");
-        QStringList keys = oldConfig.readListEntry("Keys");
+        QStringList keys = oldConfig.readEntry("Keys", QStringList() );
         QString charset = oldConfig.readEntry("Charset");
         oldConfig.deleteGroup(*it + " Search");
 
