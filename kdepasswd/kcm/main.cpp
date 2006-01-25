@@ -39,6 +39,7 @@
 #include <kuser.h>
 #include <kdialog.h>
 #include <kimageio.h>
+#include <kmimetype.h>
 #include <kstandarddirs.h>
 #include <kaboutdata.h>
 #include <kgenericfactory.h>
@@ -327,7 +328,8 @@ inline KUrl *KCMUserAccount::decodeImgDrop(QDropEvent *e, QWidget *wdg)
   {
     KUrl *url = new KURL(uris.first());
 
-    if( KImageIO::types(KImageIO::Reading).contains(url->fileName()) )
+    KMimeType::Ptr mime = KMimeType::findByURL( *url );
+    if ( mime && KImageIO::isSupported( mime->name(), KImageIO::Reading ) )
       return url;
 
     QStringList qs = KImageIO::pattern().split( '\n');

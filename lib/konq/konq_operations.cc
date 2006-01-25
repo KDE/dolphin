@@ -543,10 +543,8 @@ void KonqOperations::doFileCopy()
 	{
             KUrl url = lst.first();
             KMimeType::Ptr mime = KMimeType::findByURL( url );
-#warning "kde4: is it correct ? !KImageIO::type(url.path()).isEmpty() -> mime.isNull() ?"
-            if ( ( !mime.isNull() ) ||
-                 ( KImageIO::isSupported(mime->name(), KImageIO::Reading) ) ||
-                 mime->is( "image/svg+xml" ) )
+            if ( mime && ( ( KImageIO::isSupported(mime->name(), KImageIO::Reading) ) ||
+                 mime->is( "image/svg+xml" ) ) )
             {
                 bSetWallpaper = true;
             }
