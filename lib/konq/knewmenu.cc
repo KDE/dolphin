@@ -107,11 +107,7 @@ void KNewMenu::slotCheckUpToDate( )
         // We need to clean up the action collection
         // We look for our actions using the group
         QList<KAction*> actions = d->m_actionCollection->actions( "KNewMenu" );
-        for( QList<KAction*>::Iterator it = actions.begin(); it != actions.end(); ++it )
-        {
-            remove( *it );
-            delete *it;
-        }
+        qDeleteAll( actions );
         actions.clear();
 
         if (!s_templatesList) { // No templates list up to now
