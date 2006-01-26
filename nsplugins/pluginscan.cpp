@@ -465,7 +465,7 @@ QStringList getSearchPaths()
 
     // read paths
     config->setDollarExpansion( true );
-    searchPaths = config->readListEntry( "scanPaths" );
+    searchPaths = config->readEntry( "scanPaths",QStringList() );
     delete config;
 
     // append environment variable NPX_PLUGIN_PATH
