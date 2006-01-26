@@ -594,7 +594,7 @@ bool KonqHistoryManager::loadFallback()
     KonqHistoryEntry *entry;
     KSimpleConfig config( file );
     config.setGroup("History");
-    QStringList items = config.readListEntry( "CompletionItems" );
+    QStringList items = config.readEntry( "CompletionItems" , QStringList() );
     QStringList::Iterator it = items.begin();
 
     while ( it != items.end() ) {

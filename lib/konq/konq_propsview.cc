@@ -97,7 +97,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_bShowDot = cgs.readEntry( "ShowDotFiles", false );
   m_bShowDirectoryOverlays = cgs.readEntry( "ShowDirectoryOverlays", QVariant(false )).toBool();
 
-  m_dontPreview = cgs.readListEntry( "DontPreview" );
+  m_dontPreview = cgs.readEntry( "DontPreview" , QStringList() );
   m_dontPreview.remove("audio/"); //Use the separate setting.
   //We default to this off anyway, so it's no harm to remove this
 
@@ -226,7 +226,7 @@ bool KonqPropsView::enterDir( const KUrl & dir )
     m_bShowDirectoryOverlays = config->readEntry( "ShowDirectoryOverlays", QVariant(m_bShowDirectoryOverlays )).toBool();
     if (config->hasKey( "DontPreview" ))
     {
-        m_dontPreview = config->readListEntry( "DontPreview" );
+        m_dontPreview = config->readEntry( "DontPreview" , QStringList() );
 
         //If the .directory file says something about sound previews,
         //obey it, otherwise propagate the setting up from the defaults

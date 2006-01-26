@@ -311,7 +311,7 @@ bool KonqPopupMenu::KIOSKAuthorizedAction(KConfig& cfg)
         return true;
     }
 
-    QStringList list = cfg.readListEntry("X-KDE-AuthorizeAction");
+    QStringList list = cfg.readEntry("X-KDE-AuthorizeAction", QStringList() );
     if (kapp && !list.isEmpty())
     {
         for(QStringList::ConstIterator it = list.begin();
@@ -736,14 +736,14 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
                 if ( cfg.hasKey( "X-KDE-Require" ) )
                 {
-                    const QStringList capabilities = cfg.readListEntry( "X-KDE-Require" );
+                    const QStringList capabilities = cfg.readEntry( "X-KDE-Require" , QStringList() );
                     if ( capabilities.contains( "Write" ) && !sWriting )
                         continue;
                 }
                 if ( (cfg.hasKey( "Actions" ) || cfg.hasKey( "X-KDE-GetActionMenu") ) && cfg.hasKey( "ServiceTypes" ) )
                 {
-                    const QStringList types = cfg.readListEntry( "ServiceTypes" );
-                    const QStringList excludeTypes = cfg.readListEntry( "ExcludeServiceTypes" );
+                    const QStringList types = cfg.readEntry( "ServiceTypes" , QStringList() );
+                    const QStringList excludeTypes = cfg.readEntry( "ExcludeServiceTypes" , QStringList() );
                     bool ok = false;
 
                     // check for exact matches or a typeglob'd mimetype if we have a mimetype
