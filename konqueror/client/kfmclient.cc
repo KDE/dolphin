@@ -236,7 +236,7 @@ static bool startNewKonqueror( QString url, QString mimetype, const QString& pro
 	mimetype = KMimeType::findByURL( KURL( url ) )->name();
     KTrader::OfferList offers = KTrader::self()->query( mimetype, QLatin1String( "KParts/ReadOnlyPart" ),
 	QString(), QString() );
-    KService::Ptr serv = 0;
+    KService::Ptr serv;
     if( offers.count() > 0 )
         serv = offers.first();
     return !serv || !allowed_parts.contains( serv->desktopEntryName() + QLatin1String(".desktop") );

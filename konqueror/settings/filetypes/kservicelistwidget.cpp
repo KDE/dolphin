@@ -236,7 +236,7 @@ void KServiceListWidget::addService()
   if (!m_item)
       return;
 
-  KService::Ptr service = 0L;
+  KService::Ptr service;
   if ( m_kind == SERVICELIST_APPLICATIONS )
   {
       KOpenWithDlg dlg(m_item->name(), QString(), 0L);

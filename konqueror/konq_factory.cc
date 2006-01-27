@@ -115,7 +115,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     }
   }
 
-  KService::Ptr service = 0L;
+  KService::Ptr service;
 
   // Look for this service
   if ( !serviceName.isEmpty() )

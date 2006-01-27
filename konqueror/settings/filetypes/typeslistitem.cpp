@@ -414,7 +414,7 @@ static bool inheritsMimetype(KMimeType::Ptr m, const QStringList &mimeTypeList)
 KMimeType::Ptr TypesListItem::findImplicitAssociation(const QString &desktop)
 {
     KService::Ptr s = KService::serviceByDesktopPath(desktop);
-    if (!s) return 0; // Hey, where did that one go?
+    if (!s) return KMimeType::Ptr(); // Hey, where did that one go?
 
     if( s_changedServices == NULL )
        deleter.setObject( s_changedServices, new QMap< QString, QStringList > );
@@ -429,7 +429,7 @@ KMimeType::Ptr TypesListItem::findImplicitAssociation(const QString &desktop)
           return KMimeType::mimeType(*it);
        }
     }
-    return 0;
+    return KMimeType::Ptr();
 }
 
 void TypesListItem::saveServices( KConfig & profile, QStringList services, const QString & genericServiceType )
