@@ -26,7 +26,6 @@
 #include <kregexpeditorinterface.h>
 #include <kparts/componentfactory.h>
 #include <kstandarddirs.h>
-#include <q3ptrlist.h>
 #include "kquery.h"
 #include "kftabdlg.h"
 
@@ -35,18 +34,12 @@ static void save_pattern(QComboBox *, const QString &, const QString &);
 
 #define SPECIAL_TYPES 7
 
-class KSortedMimeTypeList : public Q3PtrList<KMimeType>
+struct LessMimeType_ByComment
 {
-public:
-  KSortedMimeTypeList() { };
-  int compareItems(Q3PtrCollection::Item s1, Q3PtrCollection::Item s2)
-  {
-     KMimeType *item1 = (KMimeType *) s1;
-     KMimeType *item2 = (KMimeType *) s2;
-     if (item1->comment() > item2->comment()) return 1;
-     if (item1->comment() == item2->comment()) return 0;
-     return -1;
-  }
+    bool operator()(const KMimeType::Ptr& lhs, const KMimeType::Ptr& rhs) const
+    {
+        return lhs->comment() < rhs->comment();
+    }
 };
 
 KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
@@ -424,22 +417,16 @@ void KfindTabWidget::setURL( const KUrl & url )
 
 void KfindTabWidget::initMimeTypes()
 {
-    KMimeType::List tmp = KMimeType::allMimeTypes();
-    KSortedMimeTypeList sortedList;
-    for ( KMimeType::List::ConstIterator it = tmp.begin();
-          it != tmp.end(); ++it )
+    KMimeType::List sortedList;
+    foreach ( KMimeType::Ptr type, KMimeType::allMimeTypes() )
     {
-	  const KMimeType*type = (*it).data();
-      if ((!type->comment().isEmpty())
-         && (!type->name().startsWith("kdedevice/"))
-         && (!type->name().startsWith("all/")))
+      if ( (!type->comment().isEmpty())
+           && (!type->name().startsWith("kdedevice/"))
+           && (!type->name().startsWith("all/")) )
         sortedList.append(type);
     }
-    sortedList.sort();
-    for ( KMimeType *type = sortedList.first(); type; type = sortedList.next())
-    {
-       m_types.append(type);
-    }
+    qSort( sortedList.begin(), sortedList.end(), LessMimeType_ByComment() );
+    m_types += sortedList;
 }
 
 void KfindTabWidget::initSpecialMimeTypes()
