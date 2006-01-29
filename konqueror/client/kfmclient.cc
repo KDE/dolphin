@@ -202,7 +202,7 @@ static bool startNewKonqueror( QString url, QString mimetype, const QString& pro
                   << QLatin1String( "konq_detailedlistview.desktop" );
     if( cfg.hasKey( "SafeParts" )
         && cfg.readEntry( "SafeParts" ) != QLatin1String( "SAFE" ))
-        allowed_parts = cfg.readListEntry( "SafeParts" );
+        allowed_parts = cfg.readEntry( "SafeParts",QStringList() );
     if( allowed_parts.count() == 1 && allowed_parts.first() == QLatin1String( "ALL" ))
 	return false; // all parts allowed
     if( url.isEmpty())

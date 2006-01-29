@@ -619,7 +619,7 @@ void Sidebar_Widget::readConfig()
 	m_showTabsLeft = m_config->readEntry("ShowTabsLeft", QVariant(true)).toBool();
 	m_hideTabs = m_config->readEntry("HideTabs", QVariant(false)).toBool();
 	if (m_initial) {
-		m_openViews = m_config->readListEntry("OpenViews");
+		m_openViews = m_config->readEntry("OpenViews",QStringList());
 		m_savedWidth = m_config->readEntry("SavedWidth",200);
 		m_initial=false;
 	}

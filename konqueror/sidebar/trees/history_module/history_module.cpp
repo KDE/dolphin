@@ -145,7 +145,7 @@ void KonqSidebarHistoryModule::slotCreateItems()
 
     KConfig *kc = KGlobal::config();
     KConfigGroup cs( kc, "HistorySettings" );
-    QStringList openGroups = cs.readListEntry("OpenGroups");
+    QStringList openGroups = cs.readEntry("OpenGroups",QStringList());
     QStringList::Iterator it2 = openGroups.begin();
     KonqSidebarHistoryGroupItem *group;
     while ( it2 != openGroups.end() ) {
