@@ -351,7 +351,7 @@ void TypesListItem::sync()
           desktop->setDesktopGroup();
 
           mimeTypeList = s_changedServices->contains( pService->desktopEntryPath())
-            ? (*s_changedServices)[ pService->desktopEntryPath() ] : desktop->readListEntry("MimeType", ';');
+            ? (*s_changedServices)[ pService->desktopEntryPath() ] : desktop->readEntry("MimeType",QStringList(), ';');
 
           // Remove entry and the number that might follow.
           QStringList::Iterator it;
@@ -476,7 +476,7 @@ void TypesListItem::saveServices( KConfig & profile, QStringList services, const
 
       desktop->setDesktopGroup();
       mimeTypeList = s_changedServices->contains( pService->desktopEntryPath())
-            ? (*s_changedServices)[ pService->desktopEntryPath() ] : desktop->readListEntry("MimeType", ';');
+            ? (*s_changedServices)[ pService->desktopEntryPath() ] : desktop->readEntry("MimeType", QStringList(),';');
       mimeTypeList.append(name());
 
       desktop->writeEntry("MimeType", mimeTypeList, ';');
