@@ -134,7 +134,7 @@ void KonqBgndDialog::initPictures()
 {
     KGlobal::dirs()->addResourceType( "tiles",
         KGlobal::dirs()->kde_default("data") + "konqueror/tiles/");
-    kdDebug(1203) << KGlobal::dirs()->kde_default("data") + "konqueror/tiles/" << endl;
+    kDebug(1203) << KGlobal::dirs()->kde_default("data") + "konqueror/tiles/" << endl;
 
     QStringList list = KGlobal::dirs()->findAllResources("tiles");
 
@@ -175,7 +175,7 @@ void KonqBgndDialog::slotPictureChanged()
     if ( file.isEmpty() )
         file = locate("wallpaper", m_pixmapFile); // add fallback for compatibility
     if ( file.isEmpty() ) {
-        kdWarning(1203) << "Couldn't locate wallpaper " << m_pixmapFile << endl;
+        kWarning(1203) << "Couldn't locate wallpaper " << m_pixmapFile << endl;
         m_preview->unsetPalette();
         m_pixmap = QPixmap();
         m_pixmapFile = "";
@@ -184,7 +184,7 @@ void KonqBgndDialog::slotPictureChanged()
         m_pixmap.load( file );
 
         if ( m_pixmap.isNull() )
-            kdWarning(1203) << "Could not load wallpaper " << file << endl;
+            kWarning(1203) << "Could not load wallpaper " << file << endl;
     }
     m_preview->setPaletteBackgroundPixmap( m_pixmap );
 }

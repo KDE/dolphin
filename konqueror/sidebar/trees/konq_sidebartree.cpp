@@ -77,15 +77,15 @@ getModule KonqSidebarTree::getPluginFactory(QString name)
       {
         getModule func = (getModule)create;
         pluginFactories.insert(name, func);
-        kdDebug()<<"Added a module"<<endl;
+        kDebug()<<"Added a module"<<endl;
       }
       else
       {
-        kdWarning()<<"No create function found in"<<libName<<endl;
+        kWarning()<<"No create function found in"<<libName<<endl;
       }
     }
     else
-      kdWarning() << "Module " << libName << " can't be loaded!" << endl;
+      kWarning() << "Module " << libName << " can't be loaded!" << endl;
   }
 
   return pluginFactories[name];
@@ -106,7 +106,7 @@ void KonqSidebarTree::loadModuleFactories()
     QString name    = ksc.readEntry("X-KDE-TreeModule");
     QString libName = ksc.readEntry("X-KDE-TreeModule-Lib");
     if ((name.isEmpty()) || (libName.isEmpty()))
-        {kdWarning()<<"Bad Configuration file for a dirtree module "<<*it<<endl; continue;}
+        {kWarning()<<"Bad Configuration file for a dirtree module "<<*it<<endl; continue;}
 
     //Register the library info.
     pluginInfo[name] = libName;
@@ -185,7 +185,7 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
 		}
 	else
 		m_dirtreeDir.dir.setPath( path );
-    kdDebug(1201)<<m_dirtreeDir.dir.path()<<endl;
+    kDebug(1201)<<m_dirtreeDir.dir.path()<<endl;
     m_dirtreeDir.type=virt;
     // Initial parsing
     rescanConfiguration();
@@ -250,7 +250,7 @@ void KonqSidebarTree::followURL( const KUrl &url )
         return;
     }
 
-    kdDebug(1201) << "KonqDirTree::followURL: " << url.url() << endl;
+    kDebug(1201) << "KonqDirTree::followURL: " << url.url() << endl;
     Q3PtrListIterator<KonqSidebarTreeTopLevelItem> topItem ( m_topLevelItems );
     for (; topItem.current(); ++topItem )
     {
@@ -260,7 +260,7 @@ void KonqSidebarTree::followURL( const KUrl &url )
             return; // done
         }
     }
-    kdDebug(1201) << "KonqDirTree::followURL: Not found" << endl;
+    kDebug(1201) << "KonqDirTree::followURL: Not found" << endl;
 }
 
 void KonqSidebarTree::contentsDragEnterEvent( QDragEnterEvent *ev )
@@ -464,7 +464,7 @@ void KonqSidebarTree::leaveEvent( QEvent *e )
 
 void KonqSidebarTree::slotDoubleClicked( Q3ListViewItem *item )
 {
-    //kdDebug(1201) << "KonqSidebarTree::slotDoubleClicked " << item << endl;
+    //kDebug(1201) << "KonqSidebarTree::slotDoubleClicked " << item << endl;
     if ( !item )
         return;
 
@@ -477,7 +477,7 @@ void KonqSidebarTree::slotDoubleClicked( Q3ListViewItem *item )
 
 void KonqSidebarTree::slotExecuted( Q3ListViewItem *item )
 {
-    kdDebug(1201) << "KonqSidebarTree::slotExecuted " << item << endl;
+    kDebug(1201) << "KonqSidebarTree::slotExecuted " << item << endl;
     if ( !item )
         return;
 
@@ -537,18 +537,18 @@ void KonqSidebarTree::slotAutoOpenFolder()
 
 void KonqSidebarTree::rescanConfiguration()
 {
-    kdDebug(1201) << "KonqSidebarTree::rescanConfiguration()" << endl;
+    kDebug(1201) << "KonqSidebarTree::rescanConfiguration()" << endl;
     m_autoOpenTimer->stop();
     clearTree();
     if (m_dirtreeDir.type==VIRT_Folder)
 	{
-	         kdDebug(1201)<<"KonqSidebarTree::rescanConfiguration()-->scanDir"<<endl;
+	         kDebug(1201)<<"KonqSidebarTree::rescanConfiguration()-->scanDir"<<endl;
 		 scanDir( 0, m_dirtreeDir.dir.path(), true);
 
 	}
 	else
 		{
-			    kdDebug(1201)<<"KonqSidebarTree::rescanConfiguration()-->loadTopLevel"<<endl;
+			    kDebug(1201)<<"KonqSidebarTree::rescanConfiguration()-->loadTopLevel"<<endl;
 		            loadTopLevelItem( 0, m_dirtreeDir.dir.path() );
 		}
 }
@@ -567,7 +567,7 @@ void KonqSidebarTree::slotSelectionChanged()
 
 void KonqSidebarTree::FilesAdded( const KUrl & dir )
 {
-    kdDebug(1201) << "KonqSidebarTree::FilesAdded " << dir.url() << endl;
+    kDebug(1201) << "KonqSidebarTree::FilesAdded " << dir.url() << endl;
     if ( m_dirtreeDir.dir.isParentOf( dir ) )
         // We use a timer in case of DCOP re-entrance..
         QTimer::singleShot( 0, this, SLOT( rescanConfiguration() ) );
@@ -575,14 +575,14 @@ void KonqSidebarTree::FilesAdded( const KUrl & dir )
 
 void KonqSidebarTree::FilesRemoved( const KUrl::List & urls )
 {
-    //kdDebug(1201) << "KonqSidebarTree::FilesRemoved " << urls.count() << endl;
+    //kDebug(1201) << "KonqSidebarTree::FilesRemoved " << urls.count() << endl;
     for ( KUrl::List::ConstIterator it = urls.begin() ; it != urls.end() ; ++it )
     {
-        //kdDebug(1201) <<  "KonqSidebarTree::FilesRemoved " << (*it).prettyURL() << endl;
+        //kDebug(1201) <<  "KonqSidebarTree::FilesRemoved " << (*it).prettyURL() << endl;
         if ( m_dirtreeDir.dir.isParentOf( *it ) )
         {
             QTimer::singleShot( 0, this, SLOT( rescanConfiguration() ) );
-            kdDebug(1201) << "KonqSidebarTree::FilesRemoved done" << endl;
+            kDebug(1201) << "KonqSidebarTree::FilesRemoved done" << endl;
             return;
         }
     }
@@ -590,7 +590,7 @@ void KonqSidebarTree::FilesRemoved( const KUrl::List & urls )
 
 void KonqSidebarTree::FilesChanged( const KUrl::List & urls )
 {
-    //kdDebug(1201) << "KonqSidebarTree::FilesChanged" << endl;
+    //kDebug(1201) << "KonqSidebarTree::FilesChanged" << endl;
     // not same signal, but same implementation
     FilesRemoved( urls );
 }
@@ -602,7 +602,7 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
     if ( !dir.isReadable() )
         return;
 
-    kdDebug(1201) << "scanDir " << path << endl;
+    kDebug(1201) << "scanDir " << path << endl;
 
     QStringList entries = dir.entryList( QDir::Files );
     QStringList dirEntries = dir.entryList( QDir::Dirs | QDir::NoSymLinks );
@@ -625,7 +625,7 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
             QString key = QString::fromLatin1("X-KDE-DirTreeVersionNumber");
             KSimpleConfig versionCfg( path + "/.directory" );
             int versionNumber = versionCfg.readEntry( key, 1 );
-            kdDebug(1201) << "KonqSidebarTree::scanDir found version " << versionNumber << endl;
+            kDebug(1201) << "KonqSidebarTree::scanDir found version " << versionNumber << endl;
             if ( versionNumber < currentVersion )
             {
                 versionCfg.writeEntry( key, currentVersion );
@@ -640,7 +640,7 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
 
 
 //            QString dirtree_dir = KGlobal::dirs()->findDirs("data","konqsidebartng/virtual_folders/"+m_dirtreeDir.relDir+"/").last();  // most global
-//            kdDebug(1201) << "KonqSidebarTree::scanDir dirtree_dir=" << dirtree_dir << endl;
+//            kDebug(1201) << "KonqSidebarTree::scanDir dirtree_dir=" << dirtree_dir << endl;
 
             /*
             // debug code
@@ -649,7 +649,7 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
             QStringList::ConstIterator eIt = blah.begin();
             QStringList::ConstIterator eEnd = blah.end();
             for (; eIt != eEnd; ++eIt )
-                kdDebug(1201) << "KonqSidebarTree::scanDir findDirs got me " << *eIt << endl;
+                kDebug(1201) << "KonqSidebarTree::scanDir findDirs got me " << *eIt << endl;
             // end debug code
             */
 
@@ -666,7 +666,7 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
 	                QStringList::ConstIterator eEnd = globalDirEntries.end();
         	        for (; eIt != eEnd; ++eIt )
                 	{
-	                    //kdDebug(1201) << "KonqSidebarTree::scanDir dirtree_dir contains " << *eIt << endl;
+	                    //kDebug(1201) << "KonqSidebarTree::scanDir dirtree_dir contains " << *eIt << endl;
         	            if ( *eIt != "." && *eIt != ".."
                 	         && !entries.contains( *eIt ) && !dirEntries.contains( *eIt ) )
 	                    { // we don't have that one yet -> copy it.
@@ -674,7 +674,7 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
         	                cp += KProcess::quote(dirtree_dir + *eIt);
 	                        cp += " ";
         	                cp += KProcess::quote(path);
-                	        kdDebug(1201) << "KonqSidebarTree::scanDir executing " << cp << endl;
+                	        kDebug(1201) << "KonqSidebarTree::scanDir executing " << cp << endl;
                         	::system( QFile::encodeName(cp) );
 	                    }
         	        }
@@ -721,13 +721,13 @@ void KonqSidebarTree::loadTopLevelGroup( KonqSidebarTreeItem *parent, const QStr
     QString icon = "folder";
     bool    open = false;
 
-    kdDebug(1201) << "Scanning " << path << endl;
+    kDebug(1201) << "Scanning " << path << endl;
 
     QString dotDirectoryFile = QString( path ).append( "/.directory" );
 
     if ( QFile::exists( dotDirectoryFile ) )
     {
-        kdDebug(1201) << "Reading the .directory" << endl;
+        kDebug(1201) << "Reading the .directory" << endl;
         KSimpleConfig cfg( dotDirectoryFile, true );
         cfg.setDesktopGroup();
         name = cfg.readEntry( "Name", name );
@@ -739,7 +739,7 @@ void KonqSidebarTree::loadTopLevelGroup( KonqSidebarTreeItem *parent, const QStr
     KonqSidebarTreeTopLevelItem *item;
     if ( parent )
     {
-        kdDebug(1201) << "KonqSidebarTree::loadTopLevelGroup Inserting new group under parent " << endl;
+        kDebug(1201) << "KonqSidebarTree::loadTopLevelGroup Inserting new group under parent " << endl;
         item = new KonqSidebarTreeTopLevelItem( parent, 0 /* no module */, path );
     }
     else
@@ -753,7 +753,7 @@ void KonqSidebarTree::loadTopLevelGroup( KonqSidebarTreeItem *parent, const QStr
 
     m_topLevelItems.append( item );
 
-    kdDebug(1201) << "Inserting group " << name << "   " << path << endl;
+    kDebug(1201) << "Inserting group " << name << "   " << path << endl;
 
     scanDir( item, path );
 
@@ -784,17 +784,17 @@ void KonqSidebarTree::loadTopLevelItem( KonqSidebarTreeItem *parent,  const QStr
     QString showHidden=cfg.readEntry("X-KDE-TreeModule-ShowHidden");
 
     if (moduleName.isEmpty()) moduleName="Directory";
-    kdDebug(1201) << "##### Loading module: " << moduleName << " file: " << filename << endl;
+    kDebug(1201) << "##### Loading module: " << moduleName << " file: " << filename << endl;
 
     getModule func;
     func = getPluginFactory(moduleName);
     if (func!=0)
 	{
-		kdDebug(1201)<<"showHidden: "<<showHidden<<endl;
+		kDebug(1201)<<"showHidden: "<<showHidden<<endl;
 		module=func(this,showHidden.toUpper()=="TRUE");
 	}
 
-    if (module==0) {kdDebug()<<"No Module loaded"<<endl; return;}
+    if (module==0) {kDebug()<<"No Module loaded"<<endl; return;}
 
     KonqSidebarTreeTopLevelItem *item;
     if ( parent )
@@ -879,7 +879,7 @@ void KonqSidebarTree::slotItemRenamed(Q3ListViewItem* item, const QString &name,
         topLevelItem->rename( name );
     }
     else
-        kdWarning() << "slotItemRenamed: rename not implemented for non-toplevel items" << endl;
+        kWarning() << "slotItemRenamed: rename not implemented for non-toplevel items" << endl;
 }
 
 

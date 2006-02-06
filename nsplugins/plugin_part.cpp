@@ -60,7 +60,7 @@ bool PluginLiveConnectExtension::get(const unsigned long, const QString &field, 
 Q_UNUSED(type);
 Q_UNUSED(retobj);
 Q_UNUSED(value);
-    kdDebug(1432) << "PLUGIN:LiveConnect::get " << field << endl;
+    kDebug(1432) << "PLUGIN:LiveConnect::get " << field << endl;
     return false;
 }
 
@@ -68,12 +68,12 @@ bool PluginLiveConnectExtension::call(const unsigned long, const QString &func, 
 Q_UNUSED(type);
 Q_UNUSED(retobjid);
 Q_UNUSED(value);
-    kdDebug(1432) << "PLUGIN:LiveConnect::call " << func << " args: " << args << endl;
+    kDebug(1432) << "PLUGIN:LiveConnect::call " << func << " args: " << args << endl;
     return false;
 }
 
 bool PluginLiveConnectExtension::put( const unsigned long, const QString &field, const QString &value) {
-    kdDebug(1432) << "PLUGIN:LiveConnect::put " << field << " " << value << endl;
+    kDebug(1432) << "PLUGIN:LiveConnect::put " << field << " " << value << endl;
     if (_retval && field == "__nsplugin") {
         *_retval = value;
         return true;
@@ -86,11 +86,11 @@ bool PluginLiveConnectExtension::put( const unsigned long, const QString &field,
 
 QString PluginLiveConnectExtension::evalJavaScript( const QString & script )
 {
-    kdDebug(1432) << "PLUGIN:LiveConnect::evalJavaScript " << script << endl;
+    kDebug(1432) << "PLUGIN:LiveConnect::evalJavaScript " << script << endl;
     ArgList args;
     QString jscode;
     jscode.sprintf("this.__nsplugin=eval(\"%s\")",  QString(script).replace('\\', "\\\\").replace('"', "\\\"").latin1());
-    //kdDebug(1432) << "String is [" << jscode << "]" << endl;
+    //kDebug(1432) << "String is [" << jscode << "]" << endl;
     args.push_back(qMakePair(KParts::LiveConnectExtension::TypeString, jscode));
     QString nsplugin("Undefined");
     _retval = &nsplugin;
@@ -149,7 +149,7 @@ KInstance *PluginFactory::s_instance = 0L;
 
 PluginFactory::PluginFactory()
 {
-    kdDebug(1432) << "PluginFactory::PluginFactory" << endl;
+    kDebug(1432) << "PluginFactory::PluginFactory" << endl;
     s_instance = 0;
 
     // preload plugin loader
@@ -159,7 +159,7 @@ PluginFactory::PluginFactory()
 
 PluginFactory::~PluginFactory()
 {
-   kdDebug(1432) << "PluginFactory::~PluginFactory" << endl;
+   kDebug(1432) << "PluginFactory::~PluginFactory" << endl;
 
    _loader->release();
 
@@ -175,7 +175,7 @@ KParts::Part * PluginFactory::createPartObject(QWidget *parentWidget, const char
                                          const char *classname, const QStringList &args)
 {
     Q_UNUSED(classname)
-    kdDebug(1432) << "PluginFactory::create" << endl;
+    kDebug(1432) << "PluginFactory::create" << endl;
     KParts::Part *obj = new PluginPart(parentWidget, widgetName, parent, name, args);
     return obj;
 }
@@ -183,7 +183,7 @@ KParts::Part * PluginFactory::createPartObject(QWidget *parentWidget, const char
 
 KInstance *PluginFactory::instance()
 {
-    kdDebug(1432) << "PluginFactory::instance" << endl;
+    kDebug(1432) << "PluginFactory::instance" << endl;
 
     if ( !s_instance )
         s_instance = new KInstance( aboutData() );
@@ -206,7 +206,7 @@ PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *p
       _destructed(0L)
 {
     setInstance(PluginFactory::instance());
-    kdDebug(1432) << "PluginPart::PluginPart" << endl;
+    kDebug(1432) << "PluginPart::PluginPart" << endl;
 
     // we have to keep the class name of KParts::PluginBrowserExtension
     // to let khtml find it
@@ -239,7 +239,7 @@ PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *p
 
 PluginPart::~PluginPart()
 {
-    kdDebug(1432) << "PluginPart::~PluginPart" << endl;
+    kDebug(1432) << "PluginPart::~PluginPart" << endl;
 
     delete _callback;
     _loader->release();
@@ -251,7 +251,7 @@ PluginPart::~PluginPart()
 bool PluginPart::openURL(const KUrl &url)
 {
     closeURL();
-    kdDebug(1432) << "-> PluginPart::openURL" << endl;
+    kDebug(1432) << "-> PluginPart::openURL" << endl;
 
     m_url = url;
     QString surl = url.url();
@@ -273,13 +273,13 @@ bool PluginPart::openURL(const KUrl &url)
             if (value[0] == '"' && value[value.length()-1] == '"')
                 value = value.mid(1, value.length()-2);
 
-            kdDebug(1432) << "name=" << name << " value=" << value << endl;
+            kDebug(1432) << "name=" << name << " value=" << value << endl;
 
             if (!name.isEmpty()) {
                 // hack to pass view mode from khtml
                 if ( name=="__KHTML__PLUGINEMBED" ) {
                     embed = true;
-                    kdDebug(1432) << "__KHTML__PLUGINEMBED found" << endl;
+                    kDebug(1432) << "__KHTML__PLUGINEMBED found" << endl;
                 } else {
                     argn << name;
                     argv << value;
@@ -291,7 +291,7 @@ bool PluginPart::openURL(const KUrl &url)
     }
 
     if (surl.isEmpty()) {
-        kdDebug(1432) << "<- PluginPart::openURL - false (no url passed to nsplugin)" << endl;
+        kDebug(1432) << "<- PluginPart::openURL - false (no url passed to nsplugin)" << endl;
         return false;
     }
 
@@ -316,14 +316,14 @@ bool PluginPart::openURL(const KUrl &url)
     _widget->resize(_canvas->width(), _canvas->height());
     _widget->show();
 
-    kdDebug(1432) << "<- PluginPart::openURL = " << (inst!=0) << endl;
+    kDebug(1432) << "<- PluginPart::openURL = " << (inst!=0) << endl;
     return inst != 0L;
 }
 
 
 bool PluginPart::closeURL()
 {
-    kdDebug(1432) << "PluginPart::closeURL" << endl;
+    kDebug(1432) << "PluginPart::closeURL" << endl;
     delete _widget;
     _widget = 0;
     return true;
@@ -332,13 +332,13 @@ bool PluginPart::closeURL()
 
 void PluginPart::reloadPage()
 {
-    kdDebug(1432) << "PluginPart::reloadPage()" << endl;
+    kDebug(1432) << "PluginPart::reloadPage()" << endl;
     _extension->browserInterface()->callMethod("goHistory(int)", 0);
 }
 
 void PluginPart::postURL(const QString& url, const QString& target, const QByteArray& data, const QString& mime)
 {
-    kdDebug(1432) << "PluginPart::postURL( url=" << url
+    kDebug(1432) << "PluginPart::postURL( url=" << url
                   << ", target=" << target << endl;
 
     KUrl new_url(this->url(), url);
@@ -353,7 +353,7 @@ void PluginPart::postURL(const QString& url, const QString& target, const QByteA
 
 void PluginPart::requestURL(const QString& url, const QString& target)
 {
-    kdDebug(1432) << "PluginPart::requestURL( url=" << url
+    kDebug(1432) << "PluginPart::requestURL( url=" << url
                   << ", target=" << target << endl;
 
     KUrl new_url(this->url(), url);
@@ -366,16 +366,16 @@ void PluginPart::requestURL(const QString& url, const QString& target)
 
 void PluginPart::evalJavaScript(int id, const QString & script)
 {
-    kdDebug(1432) <<"evalJavascript: before widget check"<<endl;
+    kDebug(1432) <<"evalJavascript: before widget check"<<endl;
     if (_widget) {
         bool destructed = false;
         _destructed = &destructed;
-	kdDebug(1432) <<"evalJavascript: there is a widget" <<endl;	
+	kDebug(1432) <<"evalJavascript: there is a widget" <<endl;	
         QString rc = _liveconnect->evalJavaScript(script);
         if (destructed)
             return;
         _destructed = 0L;
-        kdDebug(1432) << "Liveconnect: script [" << script << "] evaluated to [" << rc << "]" << endl;
+        kDebug(1432) << "Liveconnect: script [" << script << "] evaluated to [" << rc << "]" << endl;
         NSPluginInstance *ni = dynamic_cast<NSPluginInstance*>(_widget.operator->());
         if (ni)
             ni->javascriptResult(id, rc);
@@ -384,14 +384,14 @@ void PluginPart::evalJavaScript(int id, const QString & script)
 
 void PluginPart::statusMessage(QString msg)
 {
-    kdDebug(1422) << "PluginPart::statusMessage " << msg << endl;
+    kDebug(1422) << "PluginPart::statusMessage " << msg << endl;
     emit setStatusBarText(msg);
 }
 
 
 void PluginPart::pluginResized(int w, int h)
 {
-    kdDebug(1432) << "PluginPart::pluginResized()" << endl;
+    kDebug(1432) << "PluginPart::pluginResized()" << endl;
 
     if (_widget) {
         _widget->resize(w, h);

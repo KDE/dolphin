@@ -154,7 +154,7 @@ static QString findFileName(const QString* tmpl,bool universal, const QString &p
 
 void addBackEnd::triggeredAddMenu(QAction* action)
 {
-	kdDebug() << k_funcinfo << action->text() << endl;
+	kDebug() << k_funcinfo << action->text() << endl;
 
 	if (!action->data().canConvert(QVariant::StringList))
 		return;
@@ -187,26 +187,26 @@ void addBackEnd::triggeredAddMenu(QAction* action)
 
 				if (!myFile.isEmpty())
 				{
-					kdDebug() <<"trying to save to file: "<<myFile << endl;
+					kDebug() <<"trying to save to file: "<<myFile << endl;
 					KSimpleConfig scf(myFile,false);
 					scf.setGroup("Desktop Entry");
 					for (QMap<QString,QString>::ConstIterator it = map.begin(); it != map.end(); ++it) {
-						kdDebug() <<"writing:"<<it.key()<<" / "<<it.data()<<endl;
+						kDebug() <<"writing:"<<it.key()<<" / "<<it.data()<<endl;
 						scf.writePathEntry(it.key(), it.data());
 					}
 					scf.sync();
 					emit updateNeeded();
 
 				} else {
-					kdWarning() << "No unique filename found" << endl;
+					kWarning() << "No unique filename found" << endl;
 				}
 			} else {
-				kdWarning() << "No new entry (error?)" << endl;
+				kWarning() << "No new entry (error?)" << endl;
 			}
 			delete tmp;
 		}
 	} else {
-		kdWarning() << "libname:" << libname
+		kWarning() << "libname:" << libname
 			<< " doesn't specify a library!" << endl;
 	}
 }
@@ -226,7 +226,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	m_currentButton = 0;
 	m_activeModule = 0;
 	m_userMovedSplitter = false;
-        //kdDebug() << "**** Sidebar_Widget:SidebarWidget()"<<endl;
+        //kDebug() << "**** Sidebar_Widget:SidebarWidget()"<<endl;
 	if (universalMode)
 	{
 		m_relPath = "konqsidebartng/kicker_entries/";
@@ -309,7 +309,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 }
 
 void Sidebar_Widget::addWebSideBar(const KUrl& url, const QString& /*name*/) {
-	//kdDebug() << "Web sidebar entry to be added: " << url.url()
+	//kDebug() << "Web sidebar entry to be added: " << url.url()
 	//	<< " [" << name << "]" << endl;
 
 	// Look for existing ones with this URL
@@ -402,7 +402,7 @@ void Sidebar_Widget::aboutToShowConfigMenu()
 
 void Sidebar_Widget::initialCopy()
 {
-	kdDebug()<<"Initial copy"<<endl;
+	kDebug()<<"Initial copy"<<endl;
 	QStringList dirtree_dirs;
 	if (m_universalMode)
 		dirtree_dirs = KGlobal::dirs()->findDirs("data","konqsidebartng/kicker_entries/");
@@ -421,7 +421,7 @@ void Sidebar_Widget::initialCopy()
 		if (dirtree_dir == m_path) continue;
 
 
-		kdDebug()<<"************************************ retrieving directory info:"<<dirtree_dir<<endl;
+		kDebug()<<"************************************ retrieving directory info:"<<dirtree_dir<<endl;
 
 	        if ( !dirtree_dir.isEmpty() && dirtree_dir != m_path )
         	{
@@ -445,7 +445,7 @@ void Sidebar_Widget::initialCopy()
 	                QStringList::ConstIterator eEnd = globalDirEntries.end();
         	        for (; eIt != eEnd; ++eIt )
                 	{
-                		//kdDebug(1201) << "KonqSidebarTree::scanDir dirtree_dir contains " << *eIt << endl;
+                		//kDebug(1201) << "KonqSidebarTree::scanDir dirtree_dir contains " << *eIt << endl;
 	                	if ( *eIt != "." && *eIt != ".." &&
 					!entries.contains( *eIt ) &&
 					!dirEntries.contains( *eIt ) )
@@ -454,7 +454,7 @@ void Sidebar_Widget::initialCopy()
 					cp += KProcess::quote(dirtree_dir + *eIt);
 					cp += " ";
 					cp += KProcess::quote(m_path);
-					kdDebug() << "SidebarWidget::intialCopy executing " << cp << endl;
+					kDebug() << "SidebarWidget::intialCopy executing " << cp << endl;
 					::system( QFile::encodeName(cp) );
 				}
 			}
@@ -517,7 +517,7 @@ void Sidebar_Widget::slotSetIcon( )
 	KIconDialog kicd(this);
 //	kicd.setStrictIconSize(true);
 	QString iconname=kicd.selectIcon(KIcon::Small);
-	kdDebug()<<"New Icon Name:"<<iconname<<endl;
+	kDebug()<<"New Icon Name:"<<iconname<<endl;
 	if (!iconname.isEmpty())
 	{
 		KSimpleConfig ksc(m_path+m_currentButton->file);
@@ -578,7 +578,7 @@ void Sidebar_Widget::slotMultipleViews( )
 					button->dock->undock();
 					button->dock->setEnableDocking(K3DockWidget::DockTop|
 						K3DockWidget::DockBottom/*|K3DockWidget::DockDesktop*/);
-					kdDebug()<<"Reconfiguring multi view mode"<<endl;
+					kDebug()<<"Reconfiguring multi view mode"<<endl;
 					m_buttonBar->setTab(tmpLatestViewed,true);
 					showHidePage(tmpLatestViewed);
 				}
@@ -634,12 +634,12 @@ void Sidebar_Widget::stdAction(const char *handlestd)
 	if (!(mod->module))
 		return;
 
-	kdDebug() << "Try calling >active< module's action" << handlestd << endl;
+	kDebug() << "Try calling >active< module's action" << handlestd << endl;
 
 	int id = mod->module->metaObject()->indexOfSlot( handlestd );
   	if ( id == -1 )
 		return;
-	kdDebug() << "Action slot was found, it will be called now" << endl;
+	kDebug() << "Action slot was found, it will be called now" << endl;
 	QMetaObject::invokeMethod( mod->module, handlestd );
   	return;
 }
@@ -680,7 +680,7 @@ void Sidebar_Widget::createButtons()
 {
 	if (!m_path.isEmpty())
 	{
-		kdDebug()<<"m_path: "<<m_path<<endl;
+		kDebug()<<"m_path: "<<m_path<<endl;
 		QDir dir(m_path);
 		QStringList list=dir.entryList("*.desktop");
 		for (QStringList::Iterator it=list.begin(); it!=list.end(); ++it)
@@ -758,7 +758,7 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 
   	KSimpleConfig *confFile;
 
-	kdDebug() << "addButton:" << (m_path+desktoppath) << endl;
+	kDebug() << "addButton:" << (m_path+desktoppath) << endl;
 
 	confFile = new KSimpleConfig(m_path+desktoppath,true);
 	confFile->setGroup("Desktop Entry");
@@ -799,7 +799,7 @@ bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 		KMultiTabBarTab *bt=dynamic_cast<KMultiTabBarTab*>(obj);
 		if (bt)
 		{
-			kdDebug()<<"Request for popup"<<endl;
+			kDebug()<<"Request for popup"<<endl;
 			m_currentButton = 0;
 			for (uint i=0;i<m_buttons.count();i++)
 			{
@@ -864,7 +864,7 @@ KonqSidebarPlugin *Sidebar_Widget::loadModule(QWidget *par,QString &desktopName,
 			return  (KonqSidebarPlugin*)func(getInstance(),bi,par,fullPath,0);
 		}
 	} else {
-		kdWarning() << "Module " << lib_name << " doesn't specify a library!" << endl;
+		kWarning() << "Module " << lib_name << " doesn't specify a library!" << endl;
 	}
 	return 0;
 }
@@ -1024,7 +1024,7 @@ QSize Sidebar_Widget::sizeHint() const
 
 void Sidebar_Widget::dockWidgetHasUndocked(K3DockWidget* wid)
 {
-	kdDebug()<<" Sidebar_Widget::dockWidgetHasUndocked(K3DockWidget*)"<<endl;
+	kDebug()<<" Sidebar_Widget::dockWidgetHasUndocked(K3DockWidget*)"<<endl;
 	for (unsigned int i=0;i<m_buttons.count();i++)
 	{
 		ButtonInfo *button = m_buttons.at(i);
@@ -1105,7 +1105,7 @@ bool  Sidebar_Widget::doEnableActions()
 {
  	if (!(sender()->parent()->isA("ButtonInfo")))
 	{
-		kdDebug()<<"Couldn't set active module, aborting"<<endl;
+		kDebug()<<"Couldn't set active module, aborting"<<endl;
 		return false;
 	} else {
 		m_activeModule=static_cast<ButtonInfo*>(sender()->parent());

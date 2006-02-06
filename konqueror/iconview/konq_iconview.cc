@@ -73,7 +73,7 @@ public:
                                       QObject *parent, const char *name, const char*, const QStringList &args )
    {
       if( args.count() < 1 )
-         kdWarning() << "KonqKfmIconView: Missing Parameter" << endl;
+         kWarning() << "KonqKfmIconView: Missing Parameter" << endl;
 
       KonqKfmIconView *obj = new KonqKfmIconView( parentWidget, parent, args.first() );
       obj->setObjectName( name );
@@ -158,7 +158,7 @@ void IconViewBrowserExtension::setSaveViewPropertiesLocally( bool value )
 
 void IconViewBrowserExtension::setNameFilter( const QString &nameFilter )
 {
-  //kdDebug(1202) << "IconViewBrowserExtension::setNameFilter " << nameFilter << endl;
+  //kDebug(1202) << "IconViewBrowserExtension::setNameFilter " << nameFilter << endl;
   m_iconView->m_nameFilter = nameFilter;
 }
 
@@ -170,7 +170,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     , m_pTimeoutRefreshTimer( 0 )
     , m_itemDict( 43 )
 {
-    kdDebug(1202) << "+KonqKfmIconView" << endl;
+    kDebug(1202) << "+KonqKfmIconView" << endl;
 
     setBrowserExtension( new IconViewBrowserExtension( this ) );
 
@@ -411,7 +411,7 @@ KonqKfmIconView::~KonqKfmIconView()
     // and it will only be destroyed togetierh with our widget
     m_pIconView->stopImagePreview();
 
-    kdDebug(1202) << "-KonqKfmIconView" << endl;
+    kDebug(1202) << "-KonqKfmIconView" << endl;
     m_dirLister->disconnect( this );
     delete m_dirLister;
     delete m_mimeTypeResolver;
@@ -434,7 +434,7 @@ void KonqKfmIconView::slotPreview( bool toggle )
         m_pIconView->setPreviewSettings( m_pProps->previewSettings() );
         if ( !toggle )
         {
-            kdDebug() << "KonqKfmIconView::slotPreview stopping all previews for " << name << endl;
+            kDebug() << "KonqKfmIconView::slotPreview stopping all previews for " << name << endl;
             m_pIconView->disableSoundPreviews();
 
             bool previewRunning = m_pIconView->isPreviewRunning();
@@ -458,7 +458,7 @@ void KonqKfmIconView::slotPreview( bool toggle )
             m_pIconView->setPreviewSettings( m_pProps->previewSettings() );
             if ( !toggle )
             {
-                kdDebug() << "KonqKfmIconView::slotPreview stopping image preview for " << *it << endl;
+                kDebug() << "KonqKfmIconView::slotPreview stopping image preview for " << *it << endl;
                 if ( *it == "audio/" )
                     m_pIconView->disableSoundPreviews();
                 else
@@ -719,7 +719,7 @@ void KonqKfmIconView::slotReturnPressed( Q3IconViewItem *item )
 
 void KonqKfmIconView::slotDragHeld( Q3IconViewItem *item )
 {
-    kdDebug() << "KonqKfmIconView::slotDragHeld()" << endl;
+    kDebug() << "KonqKfmIconView::slotDragHeld()" << endl;
 
     // This feature is not usable if the user wants one window per folder
     if ( KonqFMSettings::settings()->alwaysNewWin() )
@@ -741,7 +741,7 @@ void KonqKfmIconView::slotDragEntered( bool )
 
 void KonqKfmIconView::slotDragLeft()
 {
-    kdDebug() << "KonqKfmIconView::slotDragLeft()" << endl;
+    kDebug() << "KonqKfmIconView::slotDragLeft()" << endl;
 
     if ( SpringLoadingManager::exists() )
         SpringLoadingManager::self().dragLeft(this);
@@ -755,7 +755,7 @@ void KonqKfmIconView::slotDragMove( bool accepted )
 
 void KonqKfmIconView::slotDragFinished()
 {
-    kdDebug() << "KonqKfmIconView::slotDragFinished()" << endl;
+    kDebug() << "KonqKfmIconView::slotDragFinished()" << endl;
 
     if ( SpringLoadingManager::exists() )
         SpringLoadingManager::self().dragFinished(this);
@@ -802,7 +802,7 @@ void KonqKfmIconView::slotMouseButtonPressed(int _button, Q3IconViewItem* _item,
         {
             if ( m_bLoading )
             {
-                kdDebug(1202) << "slotViewportRightClicked : still loading and no root item -> dismissed" << endl;
+                kDebug(1202) << "slotViewportRightClicked : still loading and no root item -> dismissed" << endl;
                 return; // too early, '.' not yet listed
             }
             else
@@ -956,7 +956,7 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
     const KFileItemList::const_iterator kend = entries.end();
     for (; kit != kend; ++kit )
     {
-        //kdDebug(1202) << "KonqKfmIconView::slotNewItem(...)" << _fileitem->url().url() << endl;
+        //kDebug(1202) << "KonqKfmIconView::slotNewItem(...)" << _fileitem->url().url() << endl;
         KFileIVI* item = new KFileIVI( m_pIconView, *kit, m_pIconView->iconSize() );
         item->setRenameEnabled( false );
 
@@ -999,7 +999,7 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 
         item->setKey( key );
 
-        //kdDebug() << "KonqKfmIconView::slotNewItems " << (*kit)->url().url() << " " << (*kit)->mimeTypePtr()->name() << " mimetypeknown:" << (*kit)->isMimeTypeKnown() << endl;
+        //kDebug() << "KonqKfmIconView::slotNewItems " << (*kit)->url().url() << " " << (*kit)->mimeTypePtr()->name() << " mimetypeknown:" << (*kit)->isMimeTypeKnown() << endl;
         if ( !(*kit)->isMimeTypeKnown() )
             m_mimeTypeResolver->m_lstPendingMimeIconItems.append( item );
 
@@ -1023,7 +1023,7 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
         return;
     }
 
-    //kdDebug(1202) << "KonqKfmIconView::slotDeleteItem(...)" << endl;
+    //kDebug(1202) << "KonqKfmIconView::slotDeleteItem(...)" << endl;
     // we need to find out the iconcontainer item containing the fileitem
     KFileIVI * ivi = m_itemDict[ _fileitem ];
     // It can be that we know nothing about this item, e.g. because it's filtered out
@@ -1104,7 +1104,7 @@ void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
     {
         KFileIVI * ivi = m_itemDict[ *kit ];
         Q_ASSERT(ivi);
-        kdDebug() << "KonqKfmIconView::slotRefreshItems '" << (*kit)->name() << "' ivi=" << ivi << endl;
+        kDebug() << "KonqKfmIconView::slotRefreshItems '" << (*kit)->name() << "' ivi=" << ivi << endl;
         if (ivi)
         {
             QSize oldSize = ivi->pixmap()->size();
@@ -1193,7 +1193,7 @@ void KonqKfmIconView::slotSelectionChanged()
 
 void KonqKfmIconView::determineIcon( KFileIVI * item )
 {
-  // kdDebug() << "KonqKfmIconView::determineIcon " << item->item()->name() << endl;
+  // kDebug() << "KonqKfmIconView::determineIcon " << item->item()->name() << endl;
   //int oldSerial = item->pixmap()->serialNumber();
 
   (void) item->item()->determineMimeType();
@@ -1219,24 +1219,24 @@ void KonqKfmIconView::mimeTypeDeterminationFinished()
 
 void KonqKfmIconView::slotRenderingFinished()
 {
-    kdDebug(1202) << "KonqKfmIconView::slotRenderingFinished()" << endl;
+    kDebug(1202) << "KonqKfmIconView::slotRenderingFinished()" << endl;
     if ( m_bNeedEmitCompleted )
     {
-        kdDebug(1202) << "KonqKfmIconView completed() after rendering" << endl;
+        kDebug(1202) << "KonqKfmIconView completed() after rendering" << endl;
         emit completed();
         m_bNeedEmitCompleted = false;
     }
     if ( m_bNeedAlign )
     {
         m_bNeedAlign = false;
-        kdDebug(1202) << "arrangeItemsInGrid" << endl;
+        kDebug(1202) << "arrangeItemsInGrid" << endl;
         m_pIconView->arrangeItemsInGrid();
     }
 }
 
 void KonqKfmIconView::slotRefreshViewport()
 {
-    kdDebug(1202) << "KonqKfmIconView::slotRefreshViewport()" << endl;
+    kDebug(1202) << "KonqKfmIconView::slotRefreshViewport()" << endl;
     QWidget * vp = m_pIconView->viewport();
     bool prevState = vp->isUpdatesEnabled();
     vp->setUpdatesEnabled( true );
@@ -1510,7 +1510,7 @@ void SpringLoadingManager::dragFinished(KonqKfmIconView */*view*/)
 
 void SpringLoadingManager::finished()
 {
-    kdDebug() << "SpringLoadManager::finished()" << endl;
+    kDebug() << "SpringLoadManager::finished()" << endl;
 
     KUrl url = m_startURL;
     m_startURL = KURL();

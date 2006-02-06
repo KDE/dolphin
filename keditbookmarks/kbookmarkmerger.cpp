@@ -78,7 +78,7 @@ int main( int argc, char**argv )
 
 	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 	if ( args->count() != 1 ) {
-		kdError() << "No directory to scan for bookmarks specified." << endl;
+		kError() << "No directory to scan for bookmarks specified." << endl;
 		return 1;
 	}
 
@@ -103,7 +103,7 @@ int main( int argc, char**argv )
 	QString extraBookmarksDirName = QFile::decodeName( args->arg( 0 ) );
 	QDir extraBookmarksDir( extraBookmarksDirName, "*.xml" );
 	if ( !extraBookmarksDir.isReadable() ) {
-		kdError() << "Failed to read files in directory " << extraBookmarksDirName << endl;
+		kError() << "Failed to read files in directory " << extraBookmarksDirName << endl;
 		return 1;
 	}
 
@@ -128,7 +128,7 @@ int main( int argc, char**argv )
 
 	if ( didMergeBookmark ) {
 		if ( !konqBookmarks->save() ) {
-			kdError() << "Failed to write merged bookmarks." << endl;
+			kError() << "Failed to write merged bookmarks." << endl;
 			return 1;
 		}
 		if ( kdeRunning ) {

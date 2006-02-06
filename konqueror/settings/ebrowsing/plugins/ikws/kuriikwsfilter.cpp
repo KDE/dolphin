@@ -51,7 +51,7 @@ KAutoWebSearch::~KAutoWebSearch()
 void KAutoWebSearch::configure()
 {
   if ( KURISearchFilterEngine::self()->verbose() )
-    kdDebug() << "KAutoWebSearch::configure: Config reload requested..." << endl;
+    kDebug() << "KAutoWebSearch::configure: Config reload requested..." << endl;
 
   KURISearchFilterEngine::self()->loadConfig();
 }
@@ -59,7 +59,7 @@ void KAutoWebSearch::configure()
 bool KAutoWebSearch::filterURI( KURIFilterData &data ) const
 {
   if (KURISearchFilterEngine::self()->verbose())
-    kdDebug() << "KAutoWebSearch::filterURI: '" <<  data.uri().url() << "'" << endl;
+    kDebug() << "KAutoWebSearch::filterURI: '" <<  data.uri().url() << "'" << endl;
 
   KUrl u = data.uri();
   if ( u.pass().isEmpty() )
@@ -68,7 +68,7 @@ bool KAutoWebSearch::filterURI( KURIFilterData &data ) const
     if( !result.isEmpty() )
     {
       if ( KURISearchFilterEngine::self()->verbose() )
-        kdDebug () << "Filtered URL: " << result << endl;
+        kDebug () << "Filtered URL: " << result << endl;
 
       setFilteredURI( data, KURL( result ) );
       setURIType( data, KURIFilterData::NET_PROTOCOL );

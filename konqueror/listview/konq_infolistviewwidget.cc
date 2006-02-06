@@ -41,7 +41,7 @@ KonqInfoListViewWidget::KonqInfoListViewWidget( KonqListView* parent,
                                      SLOT(slotSelectMimeType()),
                                      parent->actionCollection(), "view_as" );
 
-    kdDebug(1203) << "created info list view\n";
+    kDebug(1203) << "created info list view\n";
 }
 
 KonqInfoListViewWidget::~KonqInfoListViewWidget()
@@ -83,7 +83,7 @@ void KonqInfoListViewWidget::createFavoriteColumns()
 {
     while (columns()>1)
     {
-        kdDebug(1203) << "removing column " << columnText(columns()-1) << endl;
+        kDebug(1203) << "removing column " << columnText(columns()-1) << endl;
         removeColumn(columns()-1);
     }
 
@@ -166,15 +166,15 @@ void KonqInfoListViewWidget::rebuildView()
 //            if (m_itemFound==false)
 //                if (tmp->text(0)==m_itemToGoTo)
 //                {
-//kdDebug() << "Line " << __LINE__ << endl;
+//kDebug() << "Line " << __LINE__ << endl;
 //                    setCurrentItem(tmp);
-//kdDebug() << "Line " << __LINE__ << endl;
+//kDebug() << "Line " << __LINE__ << endl;
 //                    ensureItemVisible(tmp);
-//kdDebug() << "Line " << __LINE__ << endl;
+//kDebug() << "Line " << __LINE__ << endl;
 //                    emit selectionChanged();
                     //selectCurrentItemAndEnableSelectedBySimpleMoveMode();
 //                    m_itemFound=true;
-//kdDebug() << "Line " << __LINE__ << endl;
+//kDebug() << "Line " << __LINE__ << endl;
 //                };
 
         tmp->gotMetaInfo();
@@ -229,7 +229,7 @@ void KonqInfoListViewWidget::slotNewItems( const KFileItemList& entries )
     if ( !m_favorite.mimetype )
         determineCounts( entries );
 
-    kdDebug(1203) << " ------------------------ startin metainfo job ------\n";
+    kDebug(1203) << " ------------------------ startin metainfo job ------\n";
 
     // start getting metainfo from the files
     if (m_metaInfoJob)
@@ -251,7 +251,7 @@ void KonqInfoListViewWidget::slotNewItems( const KFileItemList& entries )
 
 void KonqInfoListViewWidget::slotRefreshItems( const KFileItemList& entries )
 {
-    kdDebug(1203) << " ------------------------ starting metainfo job ------\n";
+    kDebug(1203) << " ------------------------ starting metainfo job ------\n";
 
     // start getting metainfo from the files
     if (m_metaInfoJob)
@@ -314,7 +314,7 @@ void KonqInfoListViewWidget::slotMetaInfoResult()
     if (m_metaInfoTodo.isEmpty())
     {
        m_bTopLevelComplete = false;
-       kdDebug(1203) << "emitting completed!!!!!!!!!!!!!!!!\n";
+       kDebug(1203) << "emitting completed!!!!!!!!!!!!!!!!\n";
        slotCompleted();
     }
     else
@@ -344,7 +344,7 @@ void KonqInfoListViewWidget::determineCounts(const KFileItemList& list)
     }
 
     // and look for the plugins
-    kdDebug(1203) << "counts are:\n";
+    kDebug(1203) << "counts are:\n";
 
     KFileMetaInfoProvider* prov = KFileMetaInfoProvider::self();
 
@@ -369,7 +369,7 @@ void KonqInfoListViewWidget::determineCounts(const KFileItemList& list)
                 m_favorite = *it;
         }
 
-        kdDebug(1203) << it.key() << " -> " << (*it).count
+        kDebug(1203) << it.key() << " -> " << (*it).count
                       << " item(s) / plugin: "
                       << ((*it).hasPlugin ? "yes" : "no ") << endl;
     }
@@ -386,7 +386,7 @@ void KonqInfoListViewWidget::determineCounts(const KFileItemList& list)
     if (m_favorite.mimetype)
     {
           m_mtSelector->setCurrentItem(mtlist.findIndex(m_favorite.mimetype->comment()));
-          kdDebug(1203) << "favorite mimetype is " << m_favorite.mimetype->name() << endl;
+          kDebug(1203) << "favorite mimetype is " << m_favorite.mimetype->name() << endl;
     }
     createFavoriteColumns();
 }

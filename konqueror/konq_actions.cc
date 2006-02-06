@@ -51,7 +51,7 @@ void KonqBidiHistoryAction::fillHistoryPopup( const Q3PtrList<HistoryEntry> &his
 {
   assert ( popup ); // kill me if this 0... :/
 
-  //kdDebug(1202) << "fillHistoryPopup position: " << history.at() << endl;
+  //kDebug(1202) << "fillHistoryPopup position: " << history.at() << endl;
   HistoryEntry * current = history.current();
   Q3PtrListIterator<HistoryEntry> it( history );
   if (onlyBack || onlyForward)
@@ -78,7 +78,7 @@ void KonqBidiHistoryAction::fillHistoryPopup( const Q3PtrList<HistoryEntry> &his
           break;
       if ( !onlyForward ) --it; else ++it;
   }
-  //kdDebug(1202) << "After fillHistoryPopup position: " << history.at() << endl;
+  //kDebug(1202) << "After fillHistoryPopup position: " << history.at() << endl;
 }
 
 ///////////////////////////////
@@ -105,7 +105,7 @@ int KonqBidiHistoryAction::plug( QWidget *widget, int index )
              this, SIGNAL( menuAboutToShow() ) );
     connect( m_goMenu, SIGNAL( activated( int ) ),
              this, SLOT( slotActivated( int ) ) );
-    //kdDebug(1202) << "m_goMenu->count()=" << m_goMenu->count() << endl;
+    //kDebug(1202) << "m_goMenu->count()=" << m_goMenu->count() << endl;
     // Store how many items the menu already contains.
     // This means, the KonqBidiHistoryAction has to be plugged LAST in a menu !
     m_firstIndex = m_goMenu->count();
@@ -119,7 +119,7 @@ void KonqBidiHistoryAction::fillGoMenu( const Q3PtrList<HistoryEntry> & history 
     if (history.isEmpty())
         return; // nothing to do
 
-    //kdDebug(1202) << "fillGoMenu position: " << history.at() << endl;
+    //kDebug(1202) << "fillGoMenu position: " << history.at() << endl;
     if ( m_firstIndex == 0 ) // should never happen since done in plug
         m_firstIndex = m_goMenu->count();
     else
@@ -148,7 +148,7 @@ void KonqBidiHistoryAction::fillGoMenu( const Q3PtrList<HistoryEntry> & history 
     Q_ASSERT( m_startPos >= 0 && (uint)m_startPos < history.count() );
     if ( m_startPos < 0 || (uint)m_startPos >= history.count() )
     {
-        kdWarning() << "m_startPos=" << m_startPos << " history.count()=" << history.count() << endl;
+        kWarning() << "m_startPos=" << m_startPos << " history.count()=" << history.count() << endl;
         return;
     }
     m_currentPos = history.at(); // for slotActivated
@@ -161,10 +161,10 @@ void KonqBidiHistoryAction::slotActivated( int id )
   int index = m_goMenu->indexOf(id) - m_firstIndex + 1;
   if ( index > 0 )
   {
-      kdDebug(1202) << "Item clicked has index " << index << endl;
+      kDebug(1202) << "Item clicked has index " << index << endl;
       // -1 for one step back, 0 for don't move, +1 for one step forward, etc.
       int steps = ( m_startPos+1 ) - index - m_currentPos; // make a drawing to understand this :-)
-      kdDebug(1202) << "Emit activated with steps = " << steps << endl;
+      kDebug(1202) << "Emit activated with steps = " << steps << endl;
       emit activated( steps );
   }
 }
@@ -487,7 +487,7 @@ void KonqMostOftenURLSAction::slotActivated( int id )
     if ( url.isValid() )
 	emit activated( url );
     else
-	kdWarning() << "Invalid url: " << url.prettyURL() << endl;
+	kWarning() << "Invalid url: " << url.prettyURL() << endl;
     m_popupList.clear();
 }
 

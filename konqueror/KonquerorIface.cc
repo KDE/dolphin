@@ -116,8 +116,8 @@ DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const QString &m
 DCOPRef KonquerorIface::createBrowserWindowFromProfile( const QString &path )
 {
     QX11Info::setAppUserTime( 0 );
-    kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( const QString &path ) " << endl;
-    kdDebug(1202) << path << endl;
+    kDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( const QString &path ) " << endl;
+    kDebug(1202) << path << endl;
     KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, QString() );
     if ( !res )
         return DCOPRef();
@@ -133,8 +133,8 @@ DCOPRef KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, 
 DCOPRef KonquerorIface::createBrowserWindowFromProfile( const QString & path, const QString &filename )
 {
     QX11Info::setAppUserTime( 0 );
-    kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( path, filename ) " << endl;
-    kdDebug(1202) << path << "," << filename << endl;
+    kDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( path, filename ) " << endl;
+    kDebug(1202) << path << "," << filename << endl;
     KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename );
     if ( !res )
         return DCOPRef();
@@ -277,13 +277,13 @@ bool KonquerorIface::processCanBeReused( int screen )
          it1 != NULL;
          ++it1 )
     {
-        kdDebug(1202) << "processCanBeReused: count=" << (*it1)->viewCount() << endl;
+        kDebug(1202) << "processCanBeReused: count=" << (*it1)->viewCount() << endl;
         const KonqMainWindow::MapViews& views = (*it1)->viewMap();
         for( KonqMainWindow::MapViews::ConstIterator it2 = views.begin();
              it2 != views.end();
              ++it2 )
         {
-            kdDebug(1202) << "processCanBeReused: part=" << (*it2)->service()->desktopEntryPath() << ", URL=" << (*it2)->url().prettyURL() << endl;
+            kDebug(1202) << "processCanBeReused: part=" << (*it2)->service()->desktopEntryPath() << ", URL=" << (*it2)->url().prettyURL() << endl;
             if( !allowed_parts.contains( (*it2)->service()->desktopEntryPath()))
                 return false;
         }

@@ -116,7 +116,7 @@ void KCMUserAccount::slotChangePassword()
 	QString bin = KGlobal::dirs()->findExe("kdepasswd");
 	if ( bin.isNull() )
 	{
-		kdDebug() << "kcm_useraccount: kdepasswd was not found." << endl;
+		kDebug() << "kcm_useraccount: kdepasswd was not found." << endl;
 		KMessageBox::sorry ( this, i18n( "A program error occurred: the internal "
 			"program 'kdepasswd' could not be found. You will "
 			"not be able to change your password."));
@@ -236,7 +236,7 @@ void KCMUserAccount::save()
 				KMessageBox::sorry( this, i18n("An error occurred and your password has "
 							"probably not been changed. The error "
 							"message was:\n%1").arg(QString::fromLocal8Bit(proc->error())));
-				kdDebug() << "ChfnProcess->exec() failed. Error code: " << ret 
+				kDebug() << "ChfnProcess->exec() failed. Error code: " << ret 
 					<< "\nOutput:" << proc->error() << endl;
 			}	
 		}	

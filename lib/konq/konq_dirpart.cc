@@ -68,7 +68,7 @@ void KonqDirPart::KonqDirPartPrivate::findAvailableIconSizes(void)
     iconSize.resize(1);
     if (root) {
 	QList<int> avSizes = root->querySizes(KIcon::Desktop);
-       // kdDebug(1203) << "The icon theme handles the sizes:" << avSizes << endl;
+       // kDebug(1203) << "The icon theme handles the sizes:" << avSizes << endl;
 	qStableSort(avSizes);
 	int oldSize = -1;
 	if (avSizes.count() < 10) {
@@ -88,7 +88,7 @@ void KonqDirPart::KonqDirPartPrivate::findAvailableIconSizes(void)
 		while (j++ != avSizes.end()) {
 		    if (*j >= progression[i]) {
 			iconSize.append(*j);
-			kdDebug(1203) << "appending " << *j << " size." << endl;
+			kDebug(1203) << "appending " << *j << " size." << endl;
 			break;
 		    }
 		}
@@ -100,7 +100,7 @@ void KonqDirPart::KonqDirPartPrivate::findAvailableIconSizes(void)
 	iconSize.append(KIcon::SizeLarge); // 48
 	iconSize.append(KIcon::SizeHuge); // 64
     }
-    kdDebug(1203) << "Using " << iconSize.count() << " icon sizes." << endl;
+    kDebug(1203) << "Using " << iconSize.count() << " icon sizes." << endl;
 }
 
 int KonqDirPart::KonqDirPartPrivate::findNearestIconSize(int preferred)
@@ -187,7 +187,7 @@ KonqDirPart::KonqDirPart( QObject *parent )
     if (root)
     {
       QList<int> avSizes = root->querySizes(KIcon::Desktop);
-      kdDebug(1203) << "the icon theme handles the following sizes:" << avSizes << endl;
+      kDebug(1203) << "the icon theme handles the following sizes:" << avSizes << endl;
       if (avSizes.count() < 10) {
 	// Use the icon sizes supplied by the theme.
 	// If avSizes contains more than 10 entries, assume a scalable
@@ -196,12 +196,12 @@ KonqDirPart::KonqDirPart( QObject *parent )
 	for (i=1, it=avSizes.begin(); (it!=avSizes.end()) && (i<7); it++, i++)
 	{
 	  d->iconSize[i] = *it;
-	  kdDebug(1203) << "m_iIconSize[" << i << "] = " << *it << endl;
+	  kDebug(1203) << "m_iIconSize[" << i << "] = " << *it << endl;
 	}
 	// Generate missing sizes
 	for (; i < 7; i++) {
 	  d->iconSize[i] = d->iconSize[i - 1] + d->iconSize[i - 1] / 2 ;
-	  kdDebug(1203) << "m_iIconSize[" << i << "] = " << d->iconSize[i] << endl;
+	  kDebug(1203) << "m_iIconSize[" << i << "] = " << d->iconSize[i] << endl;
 	}
       }
     }
@@ -327,7 +327,7 @@ void KonqDirPart::lmbClicked( KFileItem * fileItem )
     }
     else
     {
-        kdDebug() << "emit m_extension->openURLRequest( " << url.url() << "," << args.serviceType << ")" << endl;
+        kDebug() << "emit m_extension->openURLRequest( " << url.url() << "," << args.serviceType << ")" << endl;
         emit m_extension->openURLRequest( url, args );
     }
 }
@@ -339,7 +339,7 @@ void KonqDirPart::mmbClicked( KFileItem * fileItem )
         // Optimisation to avoid KRun to call kfmclient that then tells us
         // to open a window :-)
         KService::Ptr offer = KServiceTypeProfile::preferredService(fileItem->mimetype(), "Application");
-        //if (offer) kdDebug(1203) << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
+        //if (offer) kDebug(1203) << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
         if ( offer && offer->desktopEntryName().startsWith("kfmclient") )
         {
             KParts::URLArgs args;
@@ -470,7 +470,7 @@ void KonqDirPart::emitTotalCount()
         QVariant prop = m_findPart->property( "showsResult" );
         bShowsResult = prop.isValid() && prop.toBool();
     }
-    //kdDebug(1203) << "KonqDirPart::emitTotalCount bShowsResult=" << bShowsResult << endl;
+    //kDebug(1203) << "KonqDirPart::emitTotalCount bShowsResult=" << bShowsResult << endl;
     emit setStatusBarText( bShowsResult ? i18n("Search result: %1").arg(summary) : summary );
 }
 
@@ -528,7 +528,7 @@ void KonqDirPart::emitMouseOver( const KFileItem* item )
 
 void KonqDirPart::slotIconSizeToggled( bool toggleOn )
 {
-    //kdDebug(1203) << "KonqDirPart::slotIconSizeToggled" << endl;
+    //kDebug(1203) << "KonqDirPart::slotIconSizeToggled" << endl;
 
     // This slot is called when an iconsize action is checked or by calling
     // action->setChecked(false) (previously true). So we must filter out
@@ -603,7 +603,7 @@ void KonqDirPart::newIconSize( int size /*0=default, or 16,32,48....*/ )
 // Stores the new icon size and updates the GUI
 void KonqDirPart::setIconSize( int size )
 {
-    //kdDebug(1203) << "KonqDirPart::setIconSize " << size << " -> updating props and GUI" << endl;
+    //kDebug(1203) << "KonqDirPart::setIconSize " << size << " -> updating props and GUI" << endl;
     m_pProps->setIconSize( size );
     newIconSize( size );
 }
@@ -618,7 +618,7 @@ bool KonqDirPart::openURL(const KUrl& url)
 {
     if ( m_findPart )
     {
-        kdDebug(1203) << "KonqDirPart::openURL -> emit findClosed " << this << endl;
+        kDebug(1203) << "KonqDirPart::openURL -> emit findClosed " << this << endl;
         delete m_findPart;
         m_findPart = 0L;
         emit findClosed( this );
@@ -662,7 +662,7 @@ void KonqDirPart::setFindPart( KParts::ReadOnlyPart * part )
 
 void KonqDirPart::slotFindClosed()
 {
-    kdDebug(1203) << "KonqDirPart::slotFindClosed -> emit findClosed " << this << endl;
+    kDebug(1203) << "KonqDirPart::slotFindClosed -> emit findClosed " << this << endl;
     delete m_findPart;
     m_findPart = 0L;
     emit findClosed( this );

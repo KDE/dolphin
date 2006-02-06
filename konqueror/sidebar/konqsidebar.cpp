@@ -44,7 +44,7 @@ KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
 
 KInstance *KonqSidebar::getInstance()
 {
-	kdDebug() << "KonqSidebar::getInstance()" << endl;
+	kDebug() << "KonqSidebar::getInstance()" << endl;
 	return KonqSidebarFactory::instance(); 
 }
 

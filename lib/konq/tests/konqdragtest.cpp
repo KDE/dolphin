@@ -46,8 +46,8 @@ void testKonqIconDrag2()
     KURLDrag::decode( &iconDrag, lst );
     VERIFY( !lst.isEmpty() );
     COMPARE( lst.count(), 1 );
-    kdDebug() << "lst[0]=" << lst << endl;
-    kdDebug() << "mediaURL=" << mediaURL << endl;
+    kDebug() << "lst[0]=" << lst << endl;
+    kDebug() << "mediaURL=" << mediaURL << endl;
     COMPARE( lst[0].url(), mediaURL.url() );
 }
 

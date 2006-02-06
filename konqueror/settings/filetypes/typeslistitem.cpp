@@ -145,23 +145,23 @@ bool TypesListItem::isMimeTypeDirty() const
   if ((m_mimetype->name() != name()) &&
       (name() != "application/octet-stream"))
   {
-    kdDebug() << "Mimetype Name Dirty: old=" << m_mimetype->name() << " name()=" << name() << endl;
+    kDebug() << "Mimetype Name Dirty: old=" << m_mimetype->name() << " name()=" << name() << endl;
     return true;
   }
   if (m_mimetype->comment(QString(), false) != m_comment)
   {
-    kdDebug() << "Mimetype Comment Dirty: old=" << m_mimetype->comment(QString(),false) << " m_comment=" << m_comment << endl;
+    kDebug() << "Mimetype Comment Dirty: old=" << m_mimetype->comment(QString(),false) << " m_comment=" << m_comment << endl;
     return true;
   }
   if (m_mimetype->icon(QString(), false) != m_icon)
   {
-    kdDebug() << "Mimetype Icon Dirty: old=" << m_mimetype->icon(QString(),false) << " m_icon=" << m_icon << endl;
+    kDebug() << "Mimetype Icon Dirty: old=" << m_mimetype->icon(QString(),false) << " m_icon=" << m_icon << endl;
     return true;
   }
 
   if (m_mimetype->patterns() != m_patterns)
   {
-    kdDebug() << "Mimetype Patterns Dirty: old=" << m_mimetype->patterns().join(";")
+    kDebug() << "Mimetype Patterns Dirty: old=" << m_mimetype->patterns().join(";")
               << " m_patterns=" << m_patterns.join(";") << endl;
     return true;
   }
@@ -182,7 +182,7 @@ bool TypesListItem::isDirty() const
 
   if ( m_bNewItem )
   {
-    kdDebug() << "New item, need to save it" << endl;
+    kDebug() << "New item, need to save it" << endl;
     return true;
   }
 
@@ -194,13 +194,13 @@ bool TypesListItem::isDirty() const
 
     if (oldAppServices != m_appServices)
     {
-      kdDebug() << "App Services Dirty: old=" << oldAppServices.join(";")
+      kDebug() << "App Services Dirty: old=" << oldAppServices.join(";")
                 << " m_appServices=" << m_appServices.join(";") << endl;
       return true;
     }
     if (oldEmbedServices != m_embedServices)
     {
-      kdDebug() << "Embed Services Dirty: old=" << oldEmbedServices.join(";")
+      kDebug() << "Embed Services Dirty: old=" << oldEmbedServices.join(";")
                 << " m_embedServices=" << m_embedServices.join(";") << endl;
       return true;
     }
@@ -524,7 +524,7 @@ bool TypesListItem::isEssential() const
 
 void TypesListItem::refresh()
 {
-    kdDebug() << "TypesListItem refresh " << name() << endl;
+    kDebug() << "TypesListItem refresh " << name() << endl;
     m_mimetype = KMimeType::mimeType( name() );
 }
 

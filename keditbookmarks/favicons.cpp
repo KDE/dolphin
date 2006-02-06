@@ -36,11 +36,11 @@ FavIconsItrHolder::FavIconsItrHolder()
 }
 
 void FavIconsItrHolder::doItrListChanged() {
-    kdDebug()<<"FavIconsItrHolder::doItrListChanged() "<<count()<<" iterators"<<endl;
+    kDebug()<<"FavIconsItrHolder::doItrListChanged() "<<count()<<" iterators"<<endl;
     KEBApp::self()->setCancelFavIconUpdatesEnabled(count() > 0);
     if(count() == 0)
     {
-        kdDebug()<<"Notifing managers "<<m_affectedBookmark<<endl;
+        kDebug()<<"Notifing managers "<<m_affectedBookmark<<endl;
         CurrentMgr::self()->notifyManagers(CurrentMgr::bookmarkAt(m_affectedBookmark).toGroup());
         m_affectedBookmark.clear();
     }
@@ -48,12 +48,12 @@ void FavIconsItrHolder::doItrListChanged() {
 
 void FavIconsItrHolder::addAffectedBookmark( const QString & address )
 {
-    kdDebug()<<"addAffectedBookmark "<<address<<endl;
+    kDebug()<<"addAffectedBookmark "<<address<<endl;
     if(m_affectedBookmark.isNull())
         m_affectedBookmark = address;
     else
         m_affectedBookmark = KBookmark::commonParent(m_affectedBookmark, address);
-    kdDebug()<<" m_affectedBookmark is now "<<m_affectedBookmark<<endl;
+    kDebug()<<" m_affectedBookmark is now "<<m_affectedBookmark<<endl;
 }
 
 /* -------------------------- */
@@ -70,7 +70,7 @@ FavIconsItr::~FavIconsItr() {
 }
 
 void FavIconsItr::slotDone(bool succeeded) {
-    // kdDebug() << "FavIconsItr::slotDone()" << endl;
+    // kDebug() << "FavIconsItr::slotDone()" << endl;
     //FIXME curItem()->setTmpStatus(succeeded ? i18n("OK") : i18n("No favicon found"));
     Q_UNUSED(succeeded);
     holder()->addAffectedBookmark(KBookmark::parentAddress(curBk().address()));
@@ -82,7 +82,7 @@ bool FavIconsItr::isApplicable(const KBookmark &bk) const {
 }
 
 void FavIconsItr::doAction() {
-    // kdDebug() << "FavIconsItr::doAction()" << endl;
+    // kDebug() << "FavIconsItr::doAction()" << endl;
     //FIXME curItem()->setTmpStatus(i18n("Updating favicon..."));
     if (!m_updater) {
         m_updater = new FavIconUpdater(kapp);

@@ -136,7 +136,7 @@ bool CurrentMgr::showNSBookmarks() const { return mgr()->showNSBookmarks(); }
 
 void CurrentMgr::createManager(const QString &filename) {
     if (m_mgr) {
-        kdDebug()<<"ERROR calling createManager twice"<<endl;
+        kDebug()<<"ERROR calling createManager twice"<<endl;
         disconnect(m_mgr, 0, 0, 0);
         // still todo - delete old m_mgr
     }
@@ -469,7 +469,7 @@ void KEBApp::updateActions() {
 }
 
 void KEBApp::slotClipboardDataChanged() {
-    // kdDebug() << "KEBApp::slotClipboardDataChanged" << endl;
+    // kDebug() << "KEBApp::slotClipboardDataChanged" << endl;
     if (!m_readOnly) {
         m_canPaste = KBookmark::List::canDecode(
                         QApplication::clipboard()->mimeData());
@@ -480,7 +480,7 @@ void KEBApp::slotClipboardDataChanged() {
 /* -------------------------- */
 
 void KEBApp::notifyCommandExecuted() {
-    // kdDebug() << "KEBApp::notifyCommandExecuted()" << endl;
+    // kDebug() << "KEBApp::notifyCommandExecuted()" << endl;
     updateActions();
 }
 

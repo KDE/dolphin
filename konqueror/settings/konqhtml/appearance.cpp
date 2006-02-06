@@ -347,7 +347,7 @@ void KAppearanceOptions::load()
        fonts.append(QString());
 
     encodingName = READ_ENTRY( "DefaultEncoding", QString() );
-    //kdDebug(0) << "encoding = " << encodingName << endl;
+    //kDebug(0) << "encoding = " << encodingName << endl;
 
     updateGUI();
     emit changed(false);
@@ -363,7 +363,7 @@ void KAppearanceOptions::defaults()
 
 void KAppearanceOptions::updateGUI()
 {
-    //kdDebug() << "KAppearanceOptions::updateGUI " << charset << endl;
+    //kDebug() << "KAppearanceOptions::updateGUI " << charset << endl;
     for ( int f = 0; f < 6; f++ ) {
         QString ff = fonts[f];
         if (ff.isEmpty())

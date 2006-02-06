@@ -68,7 +68,7 @@ KonqListViewFactory::~KonqListViewFactory()
 KParts::Part* KonqListViewFactory::createPartObject( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList &args )
 {
   if( args.count() < 1 )
-    kdWarning() << "KonqListView: Missing Parameter" << endl;
+    kWarning() << "KonqListView: Missing Parameter" << endl;
 
   KParts::Part *obj = new KonqListView( parentWidget, parent, args.first() );
   obj->setObjectName( name );
@@ -104,13 +104,13 @@ ListViewBrowserExtension::ListViewBrowserExtension( KonqListView *listView )
 
 int ListViewBrowserExtension::xOffset()
 {
-  //kdDebug(1202) << k_funcinfo << endl;
+  //kDebug(1202) << k_funcinfo << endl;
   return m_listView->listViewWidget()->contentsX();
 }
 
 int ListViewBrowserExtension::yOffset()
 {
-  //kdDebug(1202) << k_funcinfo << endl;
+  //kDebug(1202) << k_funcinfo << endl;
   return m_listView->listViewWidget()->contentsY();
 }
 
@@ -241,25 +241,25 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const QStrin
 
    if (mode=="TextView")
    {
-      kdDebug(1202) << "Creating KonqTextViewWidget" << endl;
+      kDebug(1202) << "Creating KonqTextViewWidget" << endl;
       xmlFile = "konq_textview.rc";
       m_pListView=new KonqTextViewWidget(this, parentWidget);
    }
    else if (mode=="MixedTree")
    {
-      kdDebug(1202) << "Creating KonqTreeViewWidget" << endl;
+      kDebug(1202) << "Creating KonqTreeViewWidget" << endl;
       xmlFile = "konq_treeview.rc";
       m_pListView=new KonqTreeViewWidget(this,parentWidget);
    }
    else if (mode=="InfoListView")
    {
-      kdDebug(1202) << "Creating KonqInfoListViewWidget" << endl;
+      kDebug(1202) << "Creating KonqInfoListViewWidget" << endl;
       xmlFile = "konq_infolistview.rc";
       m_pListView=new KonqInfoListViewWidget(this,parentWidget);
    }
    else
    {
-      kdDebug(1202) << "Creating KonqDetailedListViewWidget" << endl;
+      kDebug(1202) << "Creating KonqDetailedListViewWidget" << endl;
       xmlFile = "konq_detailedlistview.rc";
       m_pListView = new KonqBaseListViewWidget( this, parentWidget);
    }
@@ -355,14 +355,14 @@ void KonqListView::determineIcon( KonqBaseListViewItem * item )
 
 void KonqListView::saveState( QDataStream &stream )
 {
-    //kdDebug(1202) << k_funcinfo << endl;
+    //kDebug(1202) << k_funcinfo << endl;
     KonqDirPart::saveState( stream );
     m_pListView->saveState( stream );
 }
 
 void KonqListView::restoreState( QDataStream &stream )
 {
-    //kdDebug(1202) << k_funcinfo << endl;
+    //kDebug(1202) << k_funcinfo << endl;
     KonqDirPart::restoreState( stream );
     m_pListView->restoreState( stream );
 }
@@ -474,7 +474,7 @@ void KonqListView::slotCaseInsensitive()
 
 void KonqListView::slotColumnToggled()
 {
-   kdDebug(1202) << "::slotColumnToggled" << endl;
+   kDebug(1202) << "::slotColumnToggled" << endl;
    for (uint i=0; i<m_pListView->NumberOfAtoms; i++)
    {
       m_pListView->confColumns[i].displayThisOne=!m_pListView->confColumns[i].toggleThisOne
@@ -507,11 +507,11 @@ void KonqListView::slotColumnToggled()
    int currentColumn(m_pListView->m_filenameColumn+1);
    for (int i=0; i<(int)m_pListView->NumberOfAtoms; i++)
    {
-      kdDebug(1202)<<"checking: -"<<m_pListView->confColumns[i].name<<"-"<<endl;
+      kDebug(1202)<<"checking: -"<<m_pListView->confColumns[i].name<<"-"<<endl;
       if ((m_pListView->confColumns[i].displayThisOne) && (currentColumn==m_pListView->confColumns[i].displayInColumn))
       {
           lstColumns.append(m_pListView->confColumns[i].name);
-          kdDebug(1202)<<" adding"<<endl;
+          kDebug(1202)<<" adding"<<endl;
           currentColumn++;
           i=-1;
       }
@@ -527,11 +527,11 @@ void KonqListView::slotColumnToggled()
 
 void KonqListView::slotHeaderClicked(int sec)
 {
-   kdDebug(1202)<<"section: "<<sec<<" clicked"<<endl;
+   kDebug(1202)<<"section: "<<sec<<" clicked"<<endl;
    int clickedColumn(-1);
    for (uint i=0; i<m_pListView->NumberOfAtoms; i++)
       if (m_pListView->confColumns[i].displayInColumn==sec) clickedColumn=i;
-   kdDebug(1202)<<"atom index "<<clickedColumn<<endl;
+   kDebug(1202)<<"atom index "<<clickedColumn<<endl;
    QString nameOfSortColumn;
    //we clicked the file name column
    if (clickedColumn==-1)
@@ -556,7 +556,7 @@ void KonqListView::slotHeaderClicked(int sec)
 
 void KonqListView::headerDragged(int sec, int from, int to)
 {
-   kdDebug(1202)<<"section: "<<sec<<" fromIndex: "<<from<<" toIndex "<<to<<endl;
+   kDebug(1202)<<"section: "<<sec<<" fromIndex: "<<from<<" toIndex "<<to<<endl;
    //at this point the columns aren't moved yet, so I let the listview
    //rearrange the stuff and use a single shot timer
    QTimer::singleShot(200,this,SLOT(slotSaveAfterHeaderDrag()));

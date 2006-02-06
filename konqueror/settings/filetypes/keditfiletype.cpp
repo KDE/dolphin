@@ -158,7 +158,7 @@ int main(int argc, char ** argv)
   else { 
     mime = KMimeType::mimeType( arg );
     if (!mime)
-      kdFatal() << "Mimetype " << arg << " not found" << endl;
+      kFatal() << "Mimetype " << arg << " not found" << endl;
   }
 
   FileTypeDialog dlg( mime, createType );

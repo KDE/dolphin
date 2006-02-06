@@ -57,7 +57,7 @@ ImportCommand* ImportCommand::importerFactory(const QString &type) {
     else if (type == "Moz") return new MozImportCommand();
     else if (type == "NS") return new NSImportCommand();
     else {
-        kdError() << "ImportCommand::importerFactory() - invalid type (" << type << ")!" << endl;
+        kError() << "ImportCommand::importerFactory() - invalid type (" << type << ")!" << endl;
         return 0;
     }
 }

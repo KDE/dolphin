@@ -423,8 +423,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     {
         KUrl firstPopupURL( m_lstItems.first()->url() );
         firstPopupURL.cleanPath();
-        //kdDebug(1203) << "View path is " << url.url() << endl;
-        //kdDebug(1203) << "First popup path is " << firstPopupURL.url() << endl;
+        //kDebug(1203) << "View path is " << url.url() << endl;
+        //kDebug(1203) << "First popup path is " << firstPopupURL.url() << endl;
         currentDir = firstPopupURL.equals( url, true /* ignore_trailing */ );
         if ( isLocal && m_sMimeType == "application/x-desktop" ) {
             KSimpleConfig cfg( firstPopupURL.path(), true );
@@ -447,7 +447,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     // isCurrentTrash: popup on trash:/ itself, or on the trash.desktop link
     bool isCurrentTrash = ( m_lstItems.count() == 1 && bTrashIncluded ) || isTrashLink;
     bool isIntoTrash = ( url.protocol() == "trash" || url.url().startsWith( "system:/trash" ) ) && !isCurrentTrash; // trashed file, not trash:/ itself
-    //kdDebug() << "isLocal=" << isLocal << " url=" << url << " isCurrentTrash=" << isCurrentTrash << " isIntoTrash=" << isIntoTrash << " bTrashIncluded=" << bTrashIncluded << endl;
+    //kDebug() << "isLocal=" << isLocal << " url=" << url << " isCurrentTrash=" << isCurrentTrash << " isIntoTrash=" << isIntoTrash << " bTrashIncluded=" << bTrashIncluded << endl;
     bool isSingleMedium = m_lstItems.count() == 1 && mediaFiles;
     clear();
 
@@ -708,7 +708,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 		    DCOPCString object =    dcopcall.section(' ', 1,-2).utf8();
 		    QString function =  dcopcall.section(' ', -1);
 		    if(!function.endsWith("(KUrl::List)")) {
-			kdWarning() << "Desktop file " << *eIt << " contains an invalid X-KDE-ShowIfDcopCall - the function must take the exact parameter (KUrl::List) and must be specified." << endl;
+			kWarning() << "Desktop file " << *eIt << " contains an invalid X-KDE-ShowIfDcopCall - the function must take the exact parameter (KUrl::List) and must be specified." << endl;
 			continue; //Be safe.
 		    }
 
@@ -965,7 +965,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     }
 
     KonqXMLGUIClient::addMerge( 0 );
-    //kdDebug() << k_funcinfo << domDocument().toString() << endl;
+    //kDebug() << k_funcinfo << domDocument().toString() << endl;
 
     m_factory->addClient( this );
 }
@@ -982,7 +982,7 @@ KonqPopupMenu::~KonqPopupMenu()
   delete m_factory;
   delete m_builder;
   delete d;
-  //kdDebug(1203) << "~KonqPopupMenu leave" << endl;
+  //kDebug(1203) << "~KonqPopupMenu leave" << endl;
 }
 
 void KonqPopupMenu::setURLTitle( const QString& urlTitle )
@@ -1135,7 +1135,7 @@ void KonqPopupMenu::addPlugins()
     addGroup( "plugins" );
     // travers the offerlist
     for(; iterator != end; ++iterator, ++pluginCount ) {
-        //kdDebug() << (*iterator)->library() << endl;
+        //kDebug() << (*iterator)->library() << endl;
         KonqPopupMenuPlugin *plugin =
             KLibLoader::createInstance<KonqPopupMenuPlugin>( QFile::encodeName( (*iterator)->library() ),
                                                             this,

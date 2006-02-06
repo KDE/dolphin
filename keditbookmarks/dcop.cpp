@@ -54,7 +54,7 @@ void KBookmarkEditorIface::slotDcopUpdatedAccessMetadata(QString filename, QStri
     // TODO - i'm not sure this is really true :)
 
     if (/*KEBApp::self()->modified() &&*/ filename == CurrentMgr::self()->path()) {
-        kdDebug() << "slotDcopUpdatedAccessMetadata(" << url << ")" << endl;
+        kDebug() << "slotDcopUpdatedAccessMetadata(" << url << ")" << endl;
         // no undo
         CurrentMgr::self()->mgr()->updateAccessMetadata(url, false);
         //FIXME ListView::self()->updateStatus(url);

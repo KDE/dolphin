@@ -103,7 +103,7 @@ KonqMainWindow * KonqMisc::createSimpleWindow( const KUrl & url, const KParts::U
 
 KonqMainWindow * KonqMisc::createNewWindow( const KUrl &url, const KParts::URLArgs &args, bool forbidUseHTML, QStringList filesToSelect, bool tempFile, bool openURL )
 {
-  kdDebug() << "KonqMisc::createNewWindow url=" << url << endl;
+  kDebug() << "KonqMisc::createNewWindow url=" << url << endl;
 
   // For HTTP or html files, use the web browsing profile, otherwise use filemanager profile
   QString profileName = (!(KProtocolInfo::supportsListing(url)) ||
@@ -118,8 +118,8 @@ KonqMainWindow * KonqMisc::createNewWindow( const KUrl &url, const KParts::URLAr
 
 KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, const QString &filename, const KUrl &url, const KParts::URLArgs &args, bool forbidUseHTML, const QStringList& filesToSelect, bool tempFile, bool openURL )
 {
-  kdDebug(1202) << "void KonqMisc::createBrowserWindowFromProfile() " << endl;
-  kdDebug(1202) << "path=" << path << ",filename=" << filename << ",url=" << url.prettyURL() << endl;
+  kDebug(1202) << "void KonqMisc::createBrowserWindowFromProfile() " << endl;
+  kDebug(1202) << "path=" << path << ",filename=" << filename << ",url=" << url.prettyURL() << endl;
   abortFullScreenMode();
 
   KonqMainWindow * mainWindow;

@@ -42,7 +42,7 @@ KonqRun::KonqRun( KonqMainWindow* mainWindow, KonqView *_childView,
                           !req.args.reload || req.userRequestedReload ),
     m_pMainWindow( mainWindow ), m_pView( _childView ), m_bFoundMimeType( false ), m_req( req )
 {
-  //kdDebug(1202) << "KonqRun::KonqRun() " << this << endl;
+  //kDebug(1202) << "KonqRun::KonqRun() " << this << endl;
   assert( !m_pMainWindow.isNull() );
   if (m_pView)
     m_pView->setLoading(true);
@@ -50,14 +50,14 @@ KonqRun::KonqRun( KonqMainWindow* mainWindow, KonqView *_childView,
 
 KonqRun::~KonqRun()
 {
-  //kdDebug(1202) << "KonqRun::~KonqRun() " << this << endl;
+  //kDebug(1202) << "KonqRun::~KonqRun() " << this << endl;
   if (m_pView && m_pView->run() == this)
     m_pView->setRun(0L);
 }
 
 void KonqRun::foundMimeType( const QString & _type )
 {
-  //kdDebug(1202) << "KonqRun::foundMimeType " << _type << " m_req=" << m_req.debug() << endl;
+  //kDebug(1202) << "KonqRun::foundMimeType " << _type << " m_req=" << m_req.debug() << endl;
 
   QString mimeType = _type; // this ref comes from the job, we lose it when using KIO again
 
@@ -125,13 +125,13 @@ void KonqRun::foundMimeType( const QString & _type )
     return;
   }
 
-  kdDebug(1202) << "Nothing special to do in KonqRun, falling back to KRun" << endl;
+  kDebug(1202) << "Nothing special to do in KonqRun, falling back to KRun" << endl;
   KRun::foundMimeType( mimeType );
 }
 
 void KonqRun::handleError( KIO::Job *job )
 {
-  kdDebug(1202) << "KonqRun::handleError error:" << job->errorString() << endl;
+  kDebug(1202) << "KonqRun::handleError error:" << job->errorString() << endl;
   if (!m_mailto.isEmpty())
   {
      m_job = 0;
@@ -173,7 +173,7 @@ void KonqRun::scanFile()
 void KonqRun::slotRedirection( KIO::Job *job, const KUrl& redirectedToURL )
 {
     KUrl redirectFromURL = static_cast<KIO::TransferJob *>(job)->url();
-    kdDebug(1202) << "KonqRun::slotRedirection from " <<
+    kDebug(1202) << "KonqRun::slotRedirection from " <<
         redirectFromURL.prettyURL() << " to " << redirectedToURL.prettyURL() << endl;
     KonqHistoryManager::kself()->confirmPending( redirectFromURL );
 

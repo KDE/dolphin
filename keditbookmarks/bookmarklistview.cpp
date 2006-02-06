@@ -96,7 +96,7 @@ void BookmarkView::rowsMoved(const QModelIndex & oldParent, int, int, const QMod
 void BookmarkView::setModel(QAbstractItemModel * model)
 {
     if( !dynamic_cast<BookmarkModel *>(model))
-        kdFatal()<<"BookmarkView needs a BookmarkModel"<<endl;
+        kFatal()<<"BookmarkView needs a BookmarkModel"<<endl;
     connect( model, SIGNAL(aboutToMoveRows(const QModelIndex &, int, int, const QModelIndex &, int)),
             this, SLOT(aboutToMoveRows(const QModelIndex &, int, int, const QModelIndex &, int)));
     connect( model, SIGNAL(rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int)),
@@ -350,7 +350,7 @@ SelcAbilities BookmarkListView::getSelectionAbilities() const
     //FIXME check next line, if it actually works
     selctionAbilities.notEmpty = CurrentMgr::self()->root().first().hasParent(); //FIXME that's insane, checks wheter there exists at least one bookmark
 
-//     kdDebug()<<"sa.itemSelected "<<selctionAbilities.itemSelected<<"\nsa.group "<<selctionAbilities.group<<
+//     kDebug()<<"sa.itemSelected "<<selctionAbilities.itemSelected<<"\nsa.group "<<selctionAbilities.group<<
 //                 "\nsa.separator "<<selctionAbilities.separator<<"\nsa.urlIsEmpty "<<selctionAbilities.urlIsEmpty<<
 //                 "\nsa.root "<<selctionAbilities.root<<"\nsa.multiSelect "<<selctionAbilities.multiSelect<<
 //                 "\nsa.singleSelect "<<selctionAbilities.singleSelect<<endl;

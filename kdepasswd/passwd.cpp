@@ -39,7 +39,7 @@ PasswdProcess::PasswdProcess(QByteArray user)
 	pw = getpwuid(getuid());
 	if (pw == 0L) 
 	{
-	    kdDebug(1512) << "You don't exist!\n";
+	    kDebug(1512) << "You don't exist!\n";
             return;
 	}
 	m_User = pw->pw_name;
@@ -48,7 +48,7 @@ PasswdProcess::PasswdProcess(QByteArray user)
 	pw = getpwnam(user);
 	if (pw == 0L) 
 	{
-	    kdDebug(1512) << k_lineinfo << "User " << user << "does not exist.\n";
+	    kDebug(1512) << k_lineinfo << "User " << user << "does not exist.\n";
 	    return;
 	}
 	m_User = user;
@@ -86,13 +86,13 @@ int PasswdProcess::exec(const char *oldpass, const char *newpass,
     int ret = PtyProcess::exec("passwd", args);
     if (ret < 0)
     {
-	kdDebug(1512) << k_lineinfo << "Passwd not found!\n";
+	kDebug(1512) << k_lineinfo << "Passwd not found!\n";
 	return PasswdNotFound;
     }
 
     ret = ConversePasswd(oldpass, newpass, check);
     if (ret < 0)
-        kdDebug(1512) << k_lineinfo << "Conversation with passwd failed. pid = " << pid() << endl;
+        kDebug(1512) << k_lineinfo << "Conversation with passwd failed. pid = " << pid() << endl;
 
     if ((waitForChild() != 0) && !check)
         return PasswordNotGood;
@@ -245,7 +245,7 @@ int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass,
 	m_Error += line + "\n"; // Collect error message
     }
 
-    kdDebug(1512) << k_lineinfo << "Conversation ended successfully.\n";
+    kDebug(1512) << k_lineinfo << "Conversation ended successfully.\n";
     return 0;
 }
     

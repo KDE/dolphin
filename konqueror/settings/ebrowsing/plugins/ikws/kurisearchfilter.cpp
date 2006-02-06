@@ -52,7 +52,7 @@ KURISearchFilter::~KURISearchFilter()
 void KURISearchFilter::configure()
 {
   if ( KURISearchFilterEngine::self()->verbose() )
-    kdDebug() << "KURISearchFilter::configure: Config reload request..." << endl;
+    kDebug() << "KURISearchFilter::configure: Config reload request..." << endl;
 
   KURISearchFilterEngine::self()->loadConfig();
 }
@@ -60,14 +60,14 @@ void KURISearchFilter::configure()
 bool KURISearchFilter::filterURI( KURIFilterData &data ) const
 {
   if ( KURISearchFilterEngine::self()->verbose() )
-    kdDebug() << "KURISearchFilter::filterURI: '" << data.typedString() << "'" << endl;
+    kDebug() << "KURISearchFilter::filterURI: '" << data.typedString() << "'" << endl;
 
   QString result = KURISearchFilterEngine::self()->webShortcutQuery( data.typedString() );
 
   if ( !result.isEmpty() )
   {
     if ( KURISearchFilterEngine::self()->verbose() )
-      kdDebug() << "Filtered URL: " << result << endl;
+      kDebug() << "Filtered URL: " << result << endl;
 
     setFilteredURI( data, KURL( result ) );
     setURIType( data, KURIFilterData::NET_PROTOCOL );

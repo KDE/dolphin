@@ -344,7 +344,7 @@ QStringList BookmarkModel::mimeTypes () const
 
 void BookmarkModel::saveDropEventPointer(QDropEvent * event)
 {
-    kdDebug()<<"saving event "<<event<<endl;
+    kDebug()<<"saving event "<<event<<endl;
     dropEvent = event;
 }
 
@@ -374,7 +374,7 @@ bool BookmarkModel::dropMimeData(const QMimeData * data, Qt::DropAction action, 
         KCommand * mcmd = CmdGen::insertMimeSource("FIXME", data, addr);
         CmdHistory::self()->didCommand(mcmd);
     }
-    kdDebug()<<"resetting dropEvent"<<endl;
+    kDebug()<<"resetting dropEvent"<<endl;
     dropEvent = 0;
     return true;
 }

@@ -321,7 +321,7 @@ void clientApp::sendASNChange()
 
 bool clientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, const QString & mimetype)
 {
-    kdDebug( 1202 ) << "clientApp::createNewWindow " << url.url() << " mimetype=" << mimetype << endl;
+    kDebug( 1202 ) << "clientApp::createNewWindow " << url.url() << " mimetype=" << mimetype << endl;
     needInstance();
 #if 0
     // check if user wants to use external browser
@@ -333,7 +333,7 @@ bool clientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, co
     if (!strBrowser.isEmpty())
     {
         if ( tempFile )
-            kdWarning() << "kfmclient used with --tempfile but is passing to an external browser! Tempfile will never be deleted" << endl;
+            kWarning() << "kfmclient used with --tempfile but is passing to an external browser! Tempfile will never be deleted" << endl;
         KProcess proc;
         proc << strBrowser << url.url();
         proc.start( KProcess::DontCare );
@@ -349,7 +349,7 @@ bool clientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, co
         config.setGroup("General");
         if (!config.readEntry("BrowserApplication").isEmpty())
         {
-            kdDebug() << config.readEntry( "BrowserApplication" ) << endl;
+            kDebug() << config.readEntry( "BrowserApplication" ) << endl;
             Q_ASSERT( qApp );
             //clientApp app;
             KStartupInfo::appStarted();
@@ -387,7 +387,7 @@ bool clientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, co
     DCOPCString appId = konqyToReuse( url.url(), mimetype, QString() );
     if( !appId.isEmpty())
     {
-        kdDebug( 1202 ) << "clientApp::createNewWindow using existing konqueror" << endl;
+        kDebug( 1202 ) << "clientApp::createNewWindow using existing konqueror" << endl;
         KonquerorIface_stub konqy( appId, "KonquerorIface" );
         konqy.createNewWindowASN( url.url(), mimetype, startup_id_str, tempFile );
         sendASNChange();
@@ -399,7 +399,7 @@ bool clientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, co
         if ( KToolInvocation::startServiceByDesktopPath( QLatin1String("konqueror.desktop"),
                                                       url.url(), &error ) > 0 )
         {
-            kdError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
+            kError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
             */
             // pass kfmclient's startup id to konqueror using kshell
             KStartupInfoId id;
@@ -414,7 +414,7 @@ bool clientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, co
             proc << url.url();
             proc.start( KProcess::DontCare );
             KStartupInfo::resetStartupEnv();
-            kdDebug( 1202 ) << "clientApp::createNewWindow KProcess started" << endl;
+            kDebug( 1202 ) << "clientApp::createNewWindow KProcess started" << endl;
         //}
     }
     return true;
@@ -430,7 +430,7 @@ bool clientApp::openProfile( const QString & profileName, const QString & url, c
     if ( KToolInvocation::startServiceByDesktopPath( QLatin1String("konqueror.desktop"),
         QLatin1String("--silent"), &error, &appId, NULL, startup_id_str ) > 0 )
     {
-      kdError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
+      kError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
       return false;
     }
       // startServiceByDesktopPath waits for the app to register with DCOP
@@ -490,7 +490,7 @@ bool clientApp::doIt()
   // read ASN env. variable for non-KApp cases
   startup_id_str = KStartupInfo::currentStartupIdEnv().id();
 
-  kdDebug() << "Creating clientApp" << endl;
+  kDebug() << "Creating clientApp" << endl;
   int fake_argc = 0;
   char** fake_argv = 0;
   clientApp app( fake_argc, fake_argv );

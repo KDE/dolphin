@@ -60,7 +60,7 @@ bool KonqMimeData::decodeIsCutSelection( const QMimeData *mimeData )
     return false;
   else
   {
-    kdDebug(1203) << "KonqDrag::decodeIsCutSelection : a=" << a << endl;
+    kDebug(1203) << "KonqDrag::decodeIsCutSelection : a=" << a << endl;
     return (a.at(0) == '1'); // true if 1
   }
 }

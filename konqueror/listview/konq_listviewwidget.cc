@@ -105,7 +105,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    ,m_backgroundTimer(0)
    ,m_fileTip(new KonqFileTip(this))
 {
-   kdDebug(1202) << "+KonqBaseListViewWidget" << endl;
+   kDebug(1202) << "+KonqBaseListViewWidget" << endl;
 
    m_dirLister->setMainWindow(topLevelWidget());
 
@@ -180,7 +180,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 
 KonqBaseListViewWidget::~KonqBaseListViewWidget()
 {
-   kdDebug(1202) << "-KonqBaseListViewWidget" << endl;
+   kDebug(1202) << "-KonqBaseListViewWidget" << endl;
 
    delete m_selected; m_selected = 0;
 
@@ -302,7 +302,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const KUrl & url )
    }
    //check what the protocol provides
    QStringList listingList = KProtocolInfo::listing( url );
-   kdDebug(1202) << k_funcinfo << "protocol: " << protocol << endl;
+   kDebug(1202) << k_funcinfo << "protocol: " << protocol << endl;
 
    // Even if this is not given by the protocol, we can determine it.
    // Please don't remove this ;-). It makes it possible to show the file type
@@ -732,7 +732,7 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
 {
    if ( m_dirLister->url().isEmpty() )
       return;
-   kdDebug() << "KonqBaseListViewWidget::viewportDropEvent" << endl;
+   kDebug() << "KonqBaseListViewWidget::viewportDropEvent" << endl;
    if ( m_dragOverItem != 0L )
       setSelected( m_dragOverItem, false );
    m_dragOverItem = 0L;
@@ -767,7 +767,7 @@ void KonqBaseListViewWidget::startDrag()
       iconSize = iconSize ? iconSize : KGlobal::iconLoader()->currentSize( KIcon::Small ); // Default = small
       pixmap2 = DesktopIcon( "kmultiple", iconSize );
       if ( pixmap2.isNull() )
-          kdWarning(1202) << "Could not find multiple pixmap" << endl;
+          kWarning(1202) << "Could not find multiple pixmap" << endl;
    }
 
    QDrag* drag = new QDrag( viewport() );
@@ -913,7 +913,7 @@ void KonqBaseListViewWidget::slotReturnPressed( Q3ListViewItem *_item )
 
 void KonqBaseListViewWidget::slotPopupMenu( Q3ListViewItem *i, const QPoint &point, int c )
 {
-   kdDebug(1202) << "KonqBaseListViewWidget::slotPopupMenu" << endl;
+   kDebug(1202) << "KonqBaseListViewWidget::slotPopupMenu" << endl;
    popupMenu( point, ( i != 0 && c == -1 ) ); // i != 0 && c == -1 when activated by keyboard
 }
 
@@ -971,7 +971,7 @@ void KonqBaseListViewWidget::updateListContents()
 
 bool KonqBaseListViewWidget::openURL( const KUrl &url )
 {
-   kdDebug(1202) << k_funcinfo << "protocol: " << url.protocol()
+   kDebug(1202) << k_funcinfo << "protocol: " << url.protocol()
                                << " url: " << url.path() << endl;
 
    // The first time or new protocol? So create the columns first.
@@ -1049,7 +1049,7 @@ bool KonqBaseListViewWidget::openURL( const KUrl &url )
 
 void KonqBaseListViewWidget::setComplete()
 {
-   kdDebug(1202) << k_funcinfo << "Update Contents Pos: "
+   kDebug(1202) << k_funcinfo << "Update Contents Pos: "
                  << m_bUpdateContentsPosAfterListing << endl;
 
    m_bTopLevelComplete = true;
@@ -1095,7 +1095,7 @@ void KonqBaseListViewWidget::setComplete()
 
 void KonqBaseListViewWidget::slotStarted()
 {
-   //kdDebug(1202) << k_funcinfo << endl;
+   //kDebug(1202) << k_funcinfo << endl;
 
    if (!m_bTopLevelComplete)
       emit m_pBrowserView->started( 0 );
@@ -1103,7 +1103,7 @@ void KonqBaseListViewWidget::slotStarted()
 
 void KonqBaseListViewWidget::slotCompleted()
 {
-   //kdDebug(1202) << k_funcinfo << endl;
+   //kDebug(1202) << k_funcinfo << endl;
 
    setComplete();
    if ( m_bTopLevelComplete )
@@ -1113,7 +1113,7 @@ void KonqBaseListViewWidget::slotCompleted()
 
 void KonqBaseListViewWidget::slotCanceled()
 {
-   //kdDebug(1202) << k_funcinfo << endl;
+   //kDebug(1202) << k_funcinfo << endl;
 
    setComplete();
    emit m_pBrowserView->canceled( QString() );
@@ -1121,7 +1121,7 @@ void KonqBaseListViewWidget::slotCanceled()
 
 void KonqBaseListViewWidget::slotClear()
 {
-   //kdDebug(1202) << k_funcinfo << endl;
+   //kDebug(1202) << k_funcinfo << endl;
 
    m_activeItem = 0;
    m_fileTip->setItem( 0 );
@@ -1136,7 +1136,7 @@ void KonqBaseListViewWidget::slotClear()
 
 void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
 {
-   //kdDebug(1202) << k_funcinfo << entries.count() << endl;
+   //kDebug(1202) << k_funcinfo << entries.count() << endl;
 
   KFileItemList::const_iterator kit = entries.begin();
   const KFileItemList::const_iterator kend = entries.end();
@@ -1175,7 +1175,7 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
   for( ; it != end(); ++it )
     if ( (*it).item() == _fileitem )
     {
-      kdDebug(1202) << k_funcinfo << "removing " << _fileitem->url().url() << " from tree!" << endl;
+      kDebug(1202) << k_funcinfo << "removing " << _fileitem->url().url() << " from tree!" << endl;
 
       m_pBrowserView->deleteItem( _fileitem );
       m_pBrowserView->lstPendingMimeIconItems().remove( &(*it) );
@@ -1208,7 +1208,7 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
 
 void KonqBaseListViewWidget::slotRefreshItems( const KFileItemList & entries )
 {
-   //kdDebug(1202) << k_funcinfo << endl;
+   //kDebug(1202) << k_funcinfo << endl;
 
   KFileItemList::const_iterator kit = entries.begin();
   const KFileItemList::const_iterator kend = entries.end();
@@ -1228,7 +1228,7 @@ void KonqBaseListViewWidget::slotRefreshItems( const KFileItemList & entries )
 
 void KonqBaseListViewWidget::slotRedirection( const KUrl & url )
 {
-   kdDebug(1202) << k_funcinfo << url << endl;
+   kDebug(1202) << k_funcinfo << url << endl;
 
    if ( (columns() < 1) || (url.protocol() != m_url.protocol()) )
    {
@@ -1313,7 +1313,7 @@ void KonqBaseListViewWidget::paintEmptyArea( QPainter *p, const QRect &r )
        QRect devRect = p->xForm( r );
        int ax = (devRect.x() + contentsX());
        int ay = (devRect.y() + contentsY());
-       /* kdDebug() << "KonqBaseListViewWidget::paintEmptyArea "
+       /* kDebug() << "KonqBaseListViewWidget::paintEmptyArea "
                   << r.x() << "," << r.y() << " " << r.width() << "x" << r.height()
                   << " drawing pixmap with offset " << ax << "," << ay
                   << endl;*/

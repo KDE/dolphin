@@ -113,7 +113,7 @@ void KonqyPreloader::updateCount()
 	    if( KToolInvocation::kdeinitExec( QLatin1String( "konqueror" ),
 		QStringList() << QLatin1String( "--preload" ), NULL, NULL, "0" ) == 0 )
 		{
-		kdDebug( 1202 ) << "Preloading Konqueror instance" << endl;
+		kDebug( 1202 ) << "Preloading Konqueror instance" << endl;
 	        check_always_preloaded_timer.start( 5000, true );
 		}
 	    // else do nothing, the launching failed

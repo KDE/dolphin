@@ -376,7 +376,7 @@ bool FileTypesView::sync( QList<TypesListItem *>& itemsModified )
   while ( it1 != m_majorMap.end() ) {
     TypesListItem *tli = *it1;
     if (tli->isDirty()) {
-      kdDebug() << "Entry " << tli->name() << " is dirty. Saving." << endl;
+      kDebug() << "Entry " << tli->name() << " is dirty. Saving." << endl;
       tli->sync();
       itemsModified.append( tli );
       didIt = true;
@@ -387,7 +387,7 @@ bool FileTypesView::sync( QList<TypesListItem *>& itemsModified )
   while ( it2.current() ) {
     TypesListItem *tli = *it2;
     if (tli->isDirty()) {
-      kdDebug() << "Entry " << tli->name() << " is dirty. Saving." << endl;
+      kDebug() << "Entry " << tli->name() << " is dirty. Saving." << endl;
       tli->sync();
       itemsModified.append( tli );
       didIt = true;

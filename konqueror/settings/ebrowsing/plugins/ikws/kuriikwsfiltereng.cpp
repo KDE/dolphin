@@ -41,7 +41,7 @@
 #include "kuriikwsfiltereng.h"
 #include "searchprovider.h"
 
-#define PIDDBG kdDebug(7023) << "(" << getpid() << ") "
+#define PIDDBG kDebug(7023) << "(" << getpid() << ") "
 #define PDVAR(n,v) PIDDBG << n << " = '" << v << "'\n"
 
 /**

@@ -65,7 +65,7 @@ static int x_errhandler(Display *dpy, XErrorEvent *error)
 {
   char errstr[256];
   XGetErrorText(dpy, error->error_code, errstr, 256);
-  kdDebug(1430) << "Detected X Error: " << errstr << endl;
+  kDebug(1430) << "Detected X Error: " << errstr << endl;
   return 1;
 }
 
@@ -99,20 +99,20 @@ int main(int argc, char** argv)
    setenv( "SESSION_MANAGER", "", 1 );
 
    // trap X errors
-   kdDebug(1430) << "1 - XSetErrorHandler" << endl;
+   kDebug(1430) << "1 - XSetErrorHandler" << endl;
    XSetErrorHandler(x_errhandler);
    setvbuf( stderr, NULL, _IONBF, 0 );
 
-   kdDebug(1430) << "2 - parseCommandLine" << endl;
+   kDebug(1430) << "2 - parseCommandLine" << endl;
    parseCommandLine(argc, argv);
 
-   kdDebug(1430) << "3 - create QXtEventLoop" << endl;
+   kDebug(1430) << "3 - create QXtEventLoop" << endl;
 #warning QXtEventLoop is missing
    // QXtEventLoop integrator( "nspluginviewer" );
    parseCommandLine(argc, argv);
    KLocale::setMainCatalog("nsplugin");
 
-   kdDebug(1430) << "4 - create KApplication" << endl;
+   kDebug(1430) << "4 - create KApplication" << endl;
 
    KCmdLineArgs::init(argc, argv, "nspluginviewer", "nspluginviewer", "", "");
    KApplication app;
@@ -136,7 +136,7 @@ int main(int argc, char** argv)
    }
 
    // initialize the dcop client
-   kdDebug(1430) << "5 - app.dcopClient" << endl;
+   kDebug(1430) << "5 - app.dcopClient" << endl;
    DCOPClient *dcop = app.dcopClient();
    if (!dcop->attach())
    {
@@ -149,7 +149,7 @@ int main(int argc, char** argv)
       exit(1);
    }
 
-   kdDebug(1430) << "6 - dcop->registerAs" << endl;
+   kDebug(1430) << "6 - dcop->registerAs" << endl;
 #warning QByteArray -> !QByteArray.isEmpty
    if (!g_dcopId.isEmpty())
       g_dcopId = dcop->registerAs( g_dcopId, false );
@@ -159,11 +159,11 @@ int main(int argc, char** argv)
    dcop->setNotifications(true);
 
    // create dcop interface
-   kdDebug(1430) << "7 - new NSPluginViewer" << endl;
+   kDebug(1430) << "7 - new NSPluginViewer" << endl;
    NSPluginViewer *viewer = new NSPluginViewer( "viewer", 0 );
 
    // start main loop
-   kdDebug(1430) << "8 - app.exec()" << endl;
+   kDebug(1430) << "8 - app.exec()" << endl;
    app.exec();
 
    // delete viewer

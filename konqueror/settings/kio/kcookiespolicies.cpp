@@ -71,7 +71,7 @@ KCookiesPolicies::~KCookiesPolicies()
 
 void KCookiesPolicies::configChanged ()
 {
-  //kdDebug() << "KCookiesPolicies::configChanged..." << endl;
+  //kDebug() << "KCookiesPolicies::configChanged..." << endl;
   emit changed((d_configChanged=true));
 }
 

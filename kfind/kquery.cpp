@@ -282,7 +282,7 @@ void KQuery::processQuery( KFileItem* file)
     {
 
        if( !m_search_binary && ignore_mimetypes.findIndex(file->mimetype()) != -1 ) {
-         kdDebug() << "ignoring, mime type is in exclusion list: " << file->url() << endl;
+         kDebug() << "ignoring, mime type is in exclusion list: " << file->url() << endl;
          return;
        }
 
@@ -315,7 +315,7 @@ void KQuery::processQuery( KFileItem* file)
              zipfileEntry = (KZipFileEntry*)zipfileContent->entry("content.xml"); //for OpenOffice.org
 
            if(!zipfileEntry) {
-             kdWarning() << "Expected XML file not found in ZIP archive " << file->url() << endl;
+             kWarning() << "Expected XML file not found in ZIP archive " << file->url() << endl;
              return;
            }
 
@@ -326,13 +326,13 @@ void KQuery::processQuery( KFileItem* file)
            stream->setEncoding(QTextStream::UnicodeUTF8);
            isZippedOfficeDocument = true;
          } else {
-           kdWarning() << "Cannot open supposed ZIP file " << file->url() << endl;
+           kWarning() << "Cannot open supposed ZIP file " << file->url() << endl;
          }
        } else if( !m_search_binary && !file->mimetype().startsWith("text/") &&
            file->url().isLocalFile() ) {
          KMimeType::Format f = KMimeType::findFormatByFileContent(file->url().path());
          if ( !f.text ) {
-           kdDebug() << "ignoring, not a text file: " << file->url() << endl;
+           kDebug() << "ignoring, not a text file: " << file->url() << endl;
            return;
          }
        }

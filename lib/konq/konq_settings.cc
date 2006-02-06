@@ -131,27 +131,27 @@ bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
 
     if ( serviceTypePtr )
     {
-        kdDebug(1203) << serviceTypePtr->desktopEntryPath() << endl;
+        kDebug(1203) << serviceTypePtr->desktopEntryPath() << endl;
         KDesktopFile deFile( serviceTypePtr->desktopEntryPath(),
                              true /*readonly*/, "mime");
         if ( deFile.hasKey( "X-KDE-AutoEmbed" ) )
         {
             bool autoEmbed = deFile.readEntry( "X-KDE-AutoEmbed" , QVariant(false)).toBool();
-            kdDebug(1203) << "X-KDE-AutoEmbed set to " << (autoEmbed ? "true" : "false") << endl;
+            kDebug(1203) << "X-KDE-AutoEmbed set to " << (autoEmbed ? "true" : "false") << endl;
             return autoEmbed;
         } else
-            kdDebug(1203) << "No X-KDE-AutoEmbed, looking for group" << endl;
+            kDebug(1203) << "No X-KDE-AutoEmbed, looking for group" << endl;
     }
     // 2 - in the configuration for the group if nothing was found in the mimetype
     QString serviceTypeGroup = serviceType.left(serviceType.find("/"));
-    kdDebug(1203) << "KonqFMSettings::shouldEmbed : serviceTypeGroup=" << serviceTypeGroup << endl;
+    kDebug(1203) << "KonqFMSettings::shouldEmbed : serviceTypeGroup=" << serviceTypeGroup << endl;
     if ( serviceTypeGroup == "inode" || serviceTypeGroup == "Browser" || serviceTypeGroup == "Konqueror" )
         return true; //always embed mimetype inode/*, Browser/* and Konqueror/*
     QMap<QString, QString>::ConstIterator it = m_embedMap.find( QLatin1String("embed-")+serviceTypeGroup );
     if ( it == m_embedMap.end() )
         return (serviceTypeGroup=="image"); // embedding is false by default except for image/*
     // Note: if you change the above default, also change kcontrol/filetypes/typeslistitem.cpp !
-    kdDebug(1203) << "KonqFMSettings::shouldEmbed: " << it.data() << endl;
+    kDebug(1203) << "KonqFMSettings::shouldEmbed: " << it.data() << endl;
     return it.data() == QLatin1String("true");
 }
 

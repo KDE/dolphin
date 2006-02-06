@@ -57,7 +57,7 @@ void Widgets::handleXGeometry(QWidget * dlg)
 	if ( (m & YNegative) )
 	    y = KApplication::desktop()->height() + y - h;
 	dlg->setGeometry(x, y, w, h);
-	// kdDebug() << "x: " << x << "  y: " << y << "  w: " << w << "  h: " << h << endl;
+	// kDebug() << "x: " << x << "  y: " << y << "  w: " << w << "  h: " << h << endl;
     }
 #endif
 }
@@ -99,7 +99,7 @@ int Widgets::textBox(QWidget *parent, int width, int height, const QString& titl
   QFile f(file);
   if (!f.open(QIODevice::ReadOnly))
   {
-    kdError() << i18n("kdialog: could not open file ") << file << endl;
+    kError() << i18n("kdialog: could not open file ") << file << endl;
     return -1;
   }
   QTextStream s(&f);

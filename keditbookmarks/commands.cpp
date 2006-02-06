@@ -83,7 +83,7 @@ void CreateCommand::execute()
 
     QString previousSibling = KBookmark::previousAddress(m_to);
 
-    // kdDebug() << "CreateCommand::execute previousSibling=" 
+    // kDebug() << "CreateCommand::execute previousSibling=" 
     //           << previousSibling << endl;
     KBookmark prev = (previousSibling.isEmpty())
         ? KBookmark(QDomElement())
@@ -130,7 +130,7 @@ QString CreateCommand::finalAddress() const {
 }
 
 void CreateCommand::unexecute() {
-    // kdDebug() << "CreateCommand::unexecute deleting " << m_to << endl;
+    // kDebug() << "CreateCommand::unexecute deleting " << m_to << endl;
 
     KBookmark bk = CurrentMgr::bookmarkAt(m_to);
     Q_ASSERT(!bk.isNull() && !bk.parentGroup().isNull());
@@ -286,7 +286,7 @@ QString EditCommand::setNodeText(KBookmark bk, const QStringList &nodehier,
 /* -------------------------------------- */
 
 void DeleteCommand::execute() {
-    kdDebug() << "DeleteCommand::execute " << m_from << endl;
+    kDebug() << "DeleteCommand::execute " << m_from << endl;
 
     KBookmark bk = CurrentMgr::bookmarkAt(m_from);
     Q_ASSERT(!bk.isNull());
@@ -298,7 +298,7 @@ void DeleteCommand::execute() {
         while (!n.isNull()) {
             QDomElement e = n.toElement();
             if (!e.isNull()) {
-                // kdDebug() << e.tagName() << endl;
+                // kDebug() << e.tagName() << endl;
             }
             QDomNode next = n.nextSibling();
             groupRoot.removeChild(n);
@@ -330,7 +330,7 @@ void DeleteCommand::execute() {
 }
 
 void DeleteCommand::unexecute() {
-    // kdDebug() << "DeleteCommand::unexecute " << m_from << endl;
+    // kDebug() << "DeleteCommand::unexecute " << m_from << endl;
 
     if (m_contentOnly) {
         // TODO - recover saved metadata
@@ -369,7 +369,7 @@ QString MoveCommand::name() const {
 }
 
 void MoveCommand::execute() {
-    // kdDebug() << "MoveCommand::execute moving from=" << m_from 
+    // kDebug() << "MoveCommand::execute moving from=" << m_from 
     //           << " to=" << m_to << endl;
 
     KBookmark bk = CurrentMgr::bookmarkAt(m_from);
@@ -403,7 +403,7 @@ void MoveCommand::execute() {
     } else {
         QString afterAddress = KBookmark::previousAddress(m_to);
 
-        // kdDebug() << "MoveCommand::execute afterAddress=" 
+        // kDebug() << "MoveCommand::execute afterAddress=" 
         //           << afterAddress << endl;
         KBookmark afterNow = CurrentMgr::bookmarkAt(afterAddress);
         Q_ASSERT(!afterNow.isNull());
@@ -411,7 +411,7 @@ void MoveCommand::execute() {
         bool movedOkay = newParent.toGroup().moveItem(bk, afterNow);
         Q_ASSERT(movedOkay);
 
-        // kdDebug() << "MoveCommand::execute after moving in the dom tree"
+        // kDebug() << "MoveCommand::execute after moving in the dom tree"
         //              ": item=" << bk.address() << endl;
     }
 
@@ -421,7 +421,7 @@ void MoveCommand::execute() {
     m_from = (wasFirstChild)
         ? (oldParent.address() + "/0")
         : KBookmark::nextAddress(oldPreviousSibling.address());
-    // kdDebug() << "MoveCommand::execute : new addresses from=" 
+    // kDebug() << "MoveCommand::execute : new addresses from=" 
     //           << m_from << " to=" << m_to << endl;
 }
 

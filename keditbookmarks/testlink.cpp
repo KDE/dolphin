@@ -47,7 +47,7 @@ void TestLinkItrHolder::doItrListChanged() {
     KEBApp::self()->setCancelTestsEnabled(count() > 0);
     if(count() == 0)
     {
-        kdDebug()<<"Notifing managers "<<m_affectedBookmark<<endl;
+        kDebug()<<"Notifing managers "<<m_affectedBookmark<<endl;
         CurrentMgr::self()->notifyManagers(CurrentMgr::bookmarkAt(m_affectedBookmark).toGroup());
         m_affectedBookmark.clear();
     }
@@ -55,12 +55,12 @@ void TestLinkItrHolder::doItrListChanged() {
 
 void TestLinkItrHolder::addAffectedBookmark( const QString & address )
 {
-    kdDebug()<<"addAffectedBookmark "<<address<<endl;
+    kDebug()<<"addAffectedBookmark "<<address<<endl;
     if(m_affectedBookmark.isNull())
         m_affectedBookmark = address;
     else
         m_affectedBookmark = KBookmark::commonParent(m_affectedBookmark, address);
-    kdDebug()<<" m_affectedBookmark is now "<<m_affectedBookmark<<endl;
+    kDebug()<<" m_affectedBookmark is now "<<m_affectedBookmark<<endl;
 }
 
 /* -------------------------- */
@@ -73,7 +73,7 @@ TestLinkItr::TestLinkItr(QList<KBookmark> bks)
 TestLinkItr::~TestLinkItr() {
     //FIXME set status
     if (m_job) {
-        // kdDebug() << "JOB kill\n";
+        // kDebug() << "JOB kill\n";
         m_job->disconnect();
         m_job->kill(false);
     }
@@ -222,7 +222,7 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
     }
 
 
-//    kdDebug() << "TestLink " << url << " " << "booktime=" << nVisit << " urltime=" << newModStr << 
+//    kDebug() << "TestLink " << url << " " << "booktime=" << nVisit << " urltime=" << newModStr << 
 //               " Modify=" << Modify << " init=" << initial << " newMod=" << newMod << "\n";
 
     QString visitStr;
@@ -249,7 +249,7 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
     QString statusStr;
     KEBListViewItem::PaintStyle style = KEBListViewItem::DefaultStyle;
 
-//    kdDebug() << "TestLink " << "isNull=" << newModStr.isNull() << "newModValid=" 
+//    kDebug() << "TestLink " << "isNull=" << newModStr.isNull() << "newModValid=" 
 //              << newModValid << "newMod > visit " << newMod << ">" << visit << "\n";
 
     if (!newModStr.isNull() && !newModValid) { 
@@ -306,7 +306,7 @@ static void parseInfo (KBookmark &bk, QString &nVisited) {
         NodeEditCommand::getNodeText(bk, QStringList() << "info" << "metadata"
                                      << "time_visited" );
 
-//    kdDebug() << " Visited=" << nVisited << "\n";
+//    kDebug() << " Visited=" << nVisited << "\n";
 }
 */
 
@@ -339,7 +339,7 @@ static const QString updateNsInfoMod(const QString &_nsinfo, const QString &nm) 
     tmp += " LAST_VISIT=\"" + ((nAccess.isEmpty()) ? QString("0") : nAccess) + "\"";
     tmp += " LAST_MODIFIED=\"" + ((numValid) ? nm : QString("1")) + "\"";
 
-//  if (!numValid) kdDebug() << tmp << "\n";
+//  if (!numValid) kDebug() << tmp << "\n";
     return tmp;
 }
 
@@ -380,13 +380,13 @@ void KEBListViewItem::modUpdate() {
 // KEBListViewItem !!!!!!!!!!!
 /*
 void KEBListViewItem::setOldStatus(const QString &oldStatus) {
-    // kdDebug() << "KEBListViewItem::setOldStatus" << endl;
+    // kDebug() << "KEBListViewItem::setOldStatus" << endl;
     m_oldStatus = oldStatus;
 }
 
 // KEBListViewItem !!!!!!!!!!!
 void KEBListViewItem::setTmpStatus(const QString &status) {
-    // kdDebug() << "KEBListViewItem::setTmpStatus" << endl;
+    // kDebug() << "KEBListViewItem::setTmpStatus" << endl;
     m_paintStyle = KEBListViewItem::BoldStyle;
     setText(KEBListView::StatusColumn, status);
 }
@@ -394,7 +394,7 @@ void KEBListViewItem::setTmpStatus(const QString &status) {
 // KEBListViewItem !!!!!!!!!!!
 void KEBListViewItem::restoreStatus() {
     if (!m_oldStatus.isNull()) {
-        // kdDebug() << "KEBListViewItem::restoreStatus" << endl;
+        // kDebug() << "KEBListViewItem::restoreStatus" << endl;
         TestLinkItrHolder::self()->resetToValue(m_bookmark.url().url(), m_oldStatus);
         modUpdate();
     }

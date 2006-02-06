@@ -121,7 +121,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
         menu.appendChild( separatorElement );
     }
 
-    //kdDebug() << k_funcinfo << m_doc.toString() << endl;
+    //kDebug() << k_funcinfo << m_doc.toString() << endl;
 
     setDOMDocument( m_doc );
 }
@@ -190,7 +190,7 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
   {
     QString description = i18n( "Show %1" ).arg( (*cIt)->name() );
     QString name = (*cIt)->desktopEntryName();
-    //kdDebug(1202) << "ToggleViewGUIClient: name=" << name << endl;
+    //kDebug(1202) << "ToggleViewGUIClient: name=" << name << endl;
     KToggleAction *action = new KToggleAction( description, 0, mainWindow->actionCollection(), name.toLatin1() );
     action->setCheckedState( i18n( "Hide %1" ).arg( (*cIt)->name() ) );
 
@@ -275,7 +275,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
     if (!childView->isPassiveMode())
       viewManager->setActivePart( childView->part() );
 
-    kdDebug() << "ToggleViewGUIClient::slotToggleView setToggleView(true) on " << childView << endl;
+    kDebug() << "ToggleViewGUIClient::slotToggleView setToggleView(true) on " << childView << endl;
     childView->setToggleView( true );
 
     m_mainWindow->viewCountChanged();

@@ -310,7 +310,7 @@ void KPluginOptions::scan()
     QString scanExe = KGlobal::dirs()->findExe("nspluginscan");
 #warning !QString? i guess that meant isEmpty?
     if (scanExe.isEmpty()) {
-        kdDebug() << "can't find nspluginviewer" << endl;
+        kDebug() << "can't find nspluginviewer" << endl;
         delete nspluginscan;
 
         KMessageBox::sorry ( this,
@@ -326,7 +326,7 @@ void KPluginOptions::scan()
 
     // start nspluginscan
     *nspluginscan << scanExe << "--verbose";
-    kdDebug() << "Running nspluginscan" << endl;
+    kDebug() << "Running nspluginscan" << endl;
     connect(nspluginscan, SIGNAL(readReady(KProcIO*)),
             this, SLOT(progress(KProcIO*)));
     connect(nspluginscan, SIGNAL(processExited(KProcess *)),
@@ -526,14 +526,14 @@ void KPluginOptions::pluginInit()
 
 void KPluginOptions::pluginLoad( KConfig* /*config*/ )
 {
-    kdDebug() << "-> KPluginOptions::fillPluginList" << endl;
+    kDebug() << "-> KPluginOptions::fillPluginList" << endl;
     m_widget->pluginList->clear();
     QRegExp version(";version=[^:]*:");
 
     // open the cache file
     QFile cachef( locate("data", "nsplugins/cache") );
     if ( !cachef.exists() || !cachef.open(QIODevice::ReadOnly) ) {
-        kdDebug() << "Could not load plugin cache file!" << endl;
+        kDebug() << "Could not load plugin cache file!" << endl;
         return;
     }
 
@@ -553,14 +553,14 @@ void KPluginOptions::pluginLoad( KConfig* /*config*/ )
     while ( !cache.atEnd() ) {
 
         line = cache.readLine();
-        //kdDebug() << line << endl;
+        //kDebug() << line << endl;
         if (line.isEmpty() || (line.left(1) == "#"))
             continue;
 
         if (line.left(1) == "[") {
 
             plugin = line.mid(1,line.length()-2);
-            //kdDebug() << "plugin=" << plugin << endl;
+            //kDebug() << "plugin=" << plugin << endl;
 
             // add plugin root item
             next = new Q3ListViewItem( root, i18n("Plugin"), plugin );
@@ -579,7 +579,7 @@ void KPluginOptions::pluginLoad( KConfig* /*config*/ )
         QString suffixes = desc[1];
 
         if (!mime.isEmpty()) {
-            //kdDebug() << "mime=" << mime << " desc=" << name << " suffix=" << suffixes << endl;
+            //kDebug() << "mime=" << mime << " desc=" << name << " suffix=" << suffixes << endl;
             lastMIME = new Q3ListViewItem( next, lastMIME, i18n("MIME type"), mime );
             lastMIME->setOpen( false );
             lastMIME->setSelectable( false );
@@ -597,7 +597,7 @@ void KPluginOptions::pluginLoad( KConfig* /*config*/ )
         }
     }
 
-    //kdDebug() << "<- KPluginOptions::fillPluginList" << endl;
+    //kDebug() << "<- KPluginOptions::fillPluginList" << endl;
 }
 
 

@@ -56,11 +56,11 @@ static QPixmap wallpaperPixmap( const QString & _wallpaper )
       // pix.load( path, 0, KPixmap::LowColor );
       pix.load( path );
       if ( pix.isNull() )
-        kdWarning(1203) << "Could not load wallpaper " << path << endl;
+        kWarning(1203) << "Could not load wallpaper " << path << endl;
       else
         QPixmapCache::insert( key, pix );
       return pix;
-    } else kdWarning(1203) << "Couldn't locate wallpaper " << _wallpaper << endl;
+    } else kWarning(1203) << "Couldn't locate wallpaper " << _wallpaper << endl;
     return QPixmap();
 }
 
@@ -115,7 +115,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_textColor = cgs.readEntry( "TextColor", tc );
   m_bgColor = cgs.readEntry( "BgColor",QColor() ); // will be set to QColor() if not found
   m_bgPixmapFile = cgs.readPathEntry( "BgImage" );
-  //kdDebug(1203) << "KonqPropsView::KonqPropsView from \"config\" : BgImage=" << m_bgPixmapFile << endl;
+  //kDebug(1203) << "KonqPropsView::KonqPropsView from \"config\" : BgImage=" << m_bgPixmapFile << endl;
 
   // colorsConfig is either the local file (.directory) or the application global file
   // (we want the same colors for all types of view)
@@ -127,7 +127,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
       m_textColor = KGlobal::config()->readEntry( "TextColor", m_textColor );
       m_bgColor = KGlobal::config()->readEntry( "BgColor", m_bgColor );
       m_bgPixmapFile = KGlobal::config()->readPathEntry( "BgImage", m_bgPixmapFile );
-      //kdDebug(1203) << "KonqPropsView::KonqPropsView from KGlobal : BgImage=" << m_bgPixmapFile << endl;
+      //kDebug(1203) << "KonqPropsView::KonqPropsView from KGlobal : BgImage=" << m_bgPixmapFile << endl;
   }
 
   KGlobal::dirs()->addResourceType("tiles",
@@ -183,7 +183,7 @@ KonqPropsView::~KonqPropsView()
 
 bool KonqPropsView::enterDir( const KUrl & dir )
 {
-  //kdDebug(1203) << "enterDir " << dir.prettyURL() << endl;
+  //kDebug(1203) << "enterDir " << dir.prettyURL() << endl;
   // Can't do that with default properties
   assert( !isDefaultProperties() );
 
@@ -212,7 +212,7 @@ bool KonqPropsView::enterDir( const KUrl & dir )
 
   if (dotDirExists)
   {
-    //kdDebug(1203) << "Found .directory file" << endl;
+    //kDebug(1203) << "Found .directory file" << endl;
     KSimpleConfig * config = new KSimpleConfig( dotDirectory, true );
     config->setGroup("URL properties");
 
@@ -252,7 +252,7 @@ bool KonqPropsView::enterDir( const KUrl & dir )
     m_textColor = config->readEntry( "TextColor", m_textColor );
     m_bgColor = config->readEntry( "BgColor", m_bgColor );
     m_bgPixmapFile = config->readPathEntry( "BgImage", m_bgPixmapFile );
-    //kdDebug(1203) << "KonqPropsView::enterDir m_bgPixmapFile=" << m_bgPixmapFile << endl;
+    //kDebug(1203) << "KonqPropsView::enterDir m_bgPixmapFile=" << m_bgPixmapFile << endl;
     d->previewsEnabled = config->readEntry( "PreviewsEnabled", QVariant(d->previewsEnabled )).toBool();
     delete config;
   }
@@ -260,14 +260,14 @@ bool KonqPropsView::enterDir( const KUrl & dir )
   bool configChanged=(m_dotDirExists|| dotDirExists);
   m_dotDirExists = dotDirExists;
   m_currentConfig = 0L; // new dir, not current config for saving yet
-  //kdDebug(1203) << "KonqPropsView::enterDir returning " << configChanged << endl;
+  //kDebug(1203) << "KonqPropsView::enterDir returning " << configChanged << endl;
   return configChanged;
 }
 
 void KonqPropsView::setSaveViewPropertiesLocally( bool value )
 {
     assert( !isDefaultProperties() );
-    //kdDebug(1203) << "KonqPropsView::setSaveViewPropertiesLocally " << value << endl;
+    //kDebug(1203) << "KonqPropsView::setSaveViewPropertiesLocally " << value << endl;
 
     if ( m_bSaveViewPropertiesLocally )
         delete m_currentConfig; // points to a KSimpleConfig
@@ -343,16 +343,16 @@ void KonqPropsView::setDescending( bool descend)
 
 void KonqPropsView::setShowingDotFiles( bool show )
 {
-    kdDebug(1203) << "KonqPropsView::setShowingDotFiles " << show << endl;
+    kDebug(1203) << "KonqPropsView::setShowingDotFiles " << show << endl;
     m_bShowDot = show;
     if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
     {
-        kdDebug(1203) << "Saving in default properties" << endl;
+        kDebug(1203) << "Saving in default properties" << endl;
         m_defaultProps->setShowingDotFiles( show );
     }
     else if (currentConfig())
     {
-        kdDebug(1203) << "Saving in current config" << endl;
+        kDebug(1203) << "Saving in current config" << endl;
         KConfigGroup cgs(currentConfig(), currentGroup());
         cgs.writeEntry( "ShowDotFiles", m_bShowDot );
         cgs.sync();
@@ -361,16 +361,16 @@ void KonqPropsView::setShowingDotFiles( bool show )
 
 void KonqPropsView::setCaseInsensitiveSort( bool on )
 {
-    kdDebug(1203) << "KonqPropsView::setCaseInsensitiveSort " << on << endl;
+    kDebug(1203) << "KonqPropsView::setCaseInsensitiveSort " << on << endl;
     d->caseInsensitiveSort = on;
     if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
     {
-        kdDebug(1203) << "Saving in default properties" << endl;
+        kDebug(1203) << "Saving in default properties" << endl;
         m_defaultProps->setCaseInsensitiveSort( on );
     }
     else if (currentConfig())
     {
-        kdDebug(1203) << "Saving in current config" << endl;
+        kDebug(1203) << "Saving in current config" << endl;
         KConfigGroup cgs(currentConfig(), currentGroup());
         cgs.writeEntry( "CaseInsensitiveSort", d->caseInsensitiveSort );
         cgs.sync();
@@ -379,16 +379,16 @@ void KonqPropsView::setCaseInsensitiveSort( bool on )
 
 void KonqPropsView::setShowingDirectoryOverlays( bool show )
 {
-    kdDebug(1203) << "KonqPropsView::setShowingDirectoryOverlays " << show << endl;
+    kDebug(1203) << "KonqPropsView::setShowingDirectoryOverlays " << show << endl;
     m_bShowDirectoryOverlays = show;
     if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
     {
-        kdDebug(1203) << "Saving in default properties" << endl;
+        kDebug(1203) << "Saving in default properties" << endl;
         m_defaultProps->setShowingDirectoryOverlays( show );
     }
     else if (currentConfig())
     {
-        kdDebug(1203) << "Saving in current config" << endl;
+        kDebug(1203) << "Saving in current config" << endl;
         KConfigGroup cgs(currentConfig(), currentGroup());
         cgs.writeEntry( "ShowDirectoryOverlays", m_bShowDirectoryOverlays );
         cgs.sync();
@@ -434,12 +434,12 @@ void KonqPropsView::setShowingPreview( bool show )
 
     if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
     {
-        kdDebug(1203) << "Saving in default properties" << endl;
+        kDebug(1203) << "Saving in default properties" << endl;
         m_defaultProps-> setShowingPreview( show );
     }
     else if (currentConfig())
     {
-        kdDebug(1203) << "Saving in current config" << endl;
+        kDebug(1203) << "Saving in current config" << endl;
         KConfigGroup cgs(currentConfig(), currentGroup());
         cgs.writeEntry( "PreviewsEnabled", d->previewsEnabled );
         cgs.sync();
@@ -530,7 +530,7 @@ void KonqPropsView::setBgPixmapFile( const QString & file )
 
 QPixmap KonqPropsView::loadPixmap() const
 {
-    //kdDebug(1203) << "KonqPropsView::loadPixmap " << m_bgPixmapFile << endl;
+    //kDebug(1203) << "KonqPropsView::loadPixmap " << m_bgPixmapFile << endl;
     QPixmap bgPixmap;
     if ( !m_bgPixmapFile.isEmpty() )
         bgPixmap = wallpaperPixmap( m_bgPixmapFile );

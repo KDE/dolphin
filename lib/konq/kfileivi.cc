@@ -249,10 +249,10 @@ void KFileIVI::setEffect( int state )
     bool haveEffect = effect->hasEffect( KIcon::Desktop, m_state ) !=
                       effect->hasEffect( KIcon::Desktop, state );
 
-                //kdDebug(1203) << "desktop;defaultstate=" <<
+                //kDebug(1203) << "desktop;defaultstate=" <<
                 //      effect->fingerprint(KIcon::Desktop, KIcon::DefaultState) <<
                 //      endl;
-                //kdDebug(1203) << "desktop;activestate=" <<
+                //kDebug(1203) << "desktop;activestate=" <<
                 //      effect->fingerprint(KIcon::Desktop, KIcon::ActiveState) <<
                 //      endl;
 
@@ -414,7 +414,7 @@ void KFileIVI::setMouseOverAnimation( const QString& movieFileName )
 {
     if ( !movieFileName.isEmpty() )
     {
-        //kdDebug(1203) << "KIconViewItem::setMouseOverAnimation " << movieFileName << endl;
+        //kDebug(1203) << "KIconViewItem::setMouseOverAnimation " << movieFileName << endl;
         d->m_animatedIcon = movieFileName;
     }
 }
@@ -469,7 +469,7 @@ QPixmap KFileIVI::Private::cachedPixmap( QIcon::Mode mode) const
 void KFileIVI::Private::addCachedPixmap( const QPixmap& pixmap, QIcon::Mode mode )
 {
     if ( pixmap.isNull() )
-        kdWarning(1203) << k_funcinfo << "pixmap is null" << endl;
+        kWarning(1203) << k_funcinfo << "pixmap is null" << endl;
     cachedPixmaps.insert( mode, pixmap );
 }
 

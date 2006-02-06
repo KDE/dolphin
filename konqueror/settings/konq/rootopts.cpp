@@ -170,21 +170,21 @@ void DesktopPathConfig::save()
         // * Inside destination -> let them be moved with the desktop (but adjust name if necessary)
         // * Not inside destination -> move first
         // !!!
-        kdDebug() << "desktopURL=" << desktopURL.url() << endl;
+        kDebug() << "desktopURL=" << desktopURL.url() << endl;
         QString urlDesktop = urDesktop->url();
         if ( !urlDesktop.endsWith( "/" ))
             urlDesktop+="/";
 
         if ( desktopURL.isParentOf( autostartURL ) )
         {
-            kdDebug() << "Autostart is on the desktop" << endl;
+            kDebug() << "Autostart is on the desktop" << endl;
 
             // Either the Autostart field wasn't changed (-> need to update it)
             if ( newAutostartURL.equals( autostartURL, true ) )
             {
                 // Hack. It could be in a subdir inside desktop. Hmmm... Argl.
                 urAutostart->setURL( urlDesktop + "Autostart/" );
-                kdDebug() << "Autostart is moved with the desktop" << endl;
+                kDebug() << "Autostart is moved with the desktop" << endl;
                 autostartMoved = true;
             }
             // or it has been changed (->need to move it from here)
@@ -243,7 +243,7 @@ void DesktopPathConfig::save()
 
     if (pathChanged)
     {
-        kdDebug() << "DesktopPathConfig::save sending message SettingsChanged" << endl;
+        kDebug() << "DesktopPathConfig::save sending message SettingsChanged" << endl;
         KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
     }
 
@@ -294,7 +294,7 @@ bool DesktopPathConfig::moveDir( const KUrl & src, const KUrl & dest, const QStr
             qApp->enter_loop();
         }
     }
-    kdDebug() << "DesktopPathConfig::slotResult returning " << m_ok << endl;
+    kDebug() << "DesktopPathConfig::slotResult returning " << m_ok << endl;
     return m_ok;
 }
 

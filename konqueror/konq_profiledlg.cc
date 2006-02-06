@@ -142,7 +142,7 @@ void KonqProfileDlg::loadAllProfiles(const QString & preselectProfile)
     {
         Q3ListViewItem *item = new KonqProfileItem( m_pListView, eIt.key() );
         QString filename = eIt.data().mid( eIt.data().lastIndexOf( '/' ) + 1 );
-        kdDebug(1202) << filename << endl;
+        kDebug(1202) << filename << endl;
         if ( filename == preselectProfile )
         {
             profileFound = true;
@@ -169,7 +169,7 @@ void KonqProfileDlg::slotUser3() // Save button
     }
   }
 
-  kdDebug(1202) << "Saving as " << name << endl;
+  kDebug(1202) << "Saving as " << name << endl;
   m_pViewManager->saveViewProfile( name, m_pProfileNameLineEdit->text(),
             m_cbSaveURLs->isChecked(), m_cbSaveSize->isChecked() );
 

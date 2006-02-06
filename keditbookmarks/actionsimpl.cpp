@@ -302,7 +302,7 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
     for ( QStringList::Iterator it = toEnable.begin();
             it != toEnable.end(); ++it )
     {
-        //kdDebug() <<" enabling action "<<(*it) << endl;
+        //kDebug() <<" enabling action "<<(*it) << endl;
         coll->action((*it).ascii())->setEnabled(true);
     }
 }
@@ -383,7 +383,7 @@ void ActionsImpl::slotInsertSeparator()
 
 void ActionsImpl::slotImport() {
     KEBApp::self()->bkInfo()->commitChanges();
-    // kdDebug() << "ActionsImpl::slotImport() where sender()->name() == "
+    // kDebug() << "ActionsImpl::slotImport() where sender()->name() == "
     //           << sender()->name() << endl;
     ImportCommand* import
         = ImportCommand::performImport(sender()->name()+6, KEBApp::self());

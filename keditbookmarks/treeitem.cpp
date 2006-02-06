@@ -39,7 +39,7 @@ TreeItem * TreeItem::child(int row)
 {
 #ifdef DEBUG_STUPID_QT
     if(deleted)
-        kdFatal()<<"child for deleted "<<endl;
+        kFatal()<<"child for deleted "<<endl;
 #endif
     if(!init)
         initChildren();
@@ -57,7 +57,7 @@ TreeItem * TreeItem::parent()
 {
 #ifdef DEBUG_STUPID_QT
     if(deleted)
-        kdFatal()<<"parent for deleted "<<endl;
+        kFatal()<<"parent for deleted "<<endl;
 #endif
     return mparent;
 }
@@ -96,13 +96,13 @@ void TreeItem::insertChildren(int first, int last)
 
 void TreeItem::deleteChildren(int first, int last)
 {
-    kdDebug()<<"deleteChildren of "<<bookmark().address()<<" "<<first<<" "<<last<<endl;
+    kDebug()<<"deleteChildren of "<<bookmark().address()<<" "<<first<<" "<<last<<endl;
     QList<TreeItem *>::iterator firstIt, lastIt, it;
     firstIt = children.begin() + first;
     lastIt = children.begin() + last + 1;
     for( it = firstIt; it != lastIt; ++it)
     {
-        kdDebug()<<"removing child "<<(*it)->bookmark().address()<<endl;
+        kDebug()<<"removing child "<<(*it)->bookmark().address()<<endl;
 #ifndef DEBUG_STUPID_QT
         delete *it;
 #else
@@ -157,7 +157,7 @@ KBookmark TreeItem::bookmark()
 {
 #ifdef DEBUG_STUPID_QT
     if(deleted)
-        kdFatal()<<"child for deleted "<<endl;
+        kFatal()<<"child for deleted "<<endl;
 #endif
     return mbk;
 }

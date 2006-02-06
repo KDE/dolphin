@@ -70,7 +70,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
 			  "navigate through tabs. The text on the tab is the title of the website "
 			  "currently open in it, put your mouse over the tab too see the full title in "
 			  "case it was truncated to fit the tab size." ) );
-  //kdDebug(1202) << "KonqFrameTabs::KonqFrameTabs()" << endl;
+  //kDebug(1202) << "KonqFrameTabs::KonqFrameTabs()" << endl;
 
   m_pParentContainer = parentContainer;
   m_pChildFrameList = new Q3PtrList<KonqFrameBase>;
@@ -180,7 +180,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
 
 KonqFrameTabs::~KonqFrameTabs()
 {
-  //kdDebug(1202) << "KonqFrameTabs::~KonqFrameTabs() " << this << " - " << className() << endl;
+  //kDebug(1202) << "KonqFrameTabs::~KonqFrameTabs() " << this << " - " << className() << endl;
   m_pChildFrameList->setAutoDelete(true);
   delete m_pChildFrameList;
 }
@@ -215,7 +215,7 @@ void KonqFrameTabs::saveConfig( KConfig* config, const QString &prefix, bool sav
 void KonqFrameTabs::copyHistory( KonqFrameBase *other )
 {
   if( other->frameType() != "Tabs" ) {
-    kdDebug(1202) << "Frame types are not the same" << endl;
+    kDebug(1202) << "Frame types are not the same" << endl;
     return;
   }
 
@@ -227,12 +227,12 @@ void KonqFrameTabs::copyHistory( KonqFrameBase *other )
 
 void KonqFrameTabs::printFrameInfo( const QString& spaces )
 {
-  kdDebug(1202) << spaces << "KonqFrameTabs " << this << " visible="
+  kDebug(1202) << spaces << "KonqFrameTabs " << this << " visible="
                 << QString("%1").arg(isVisible()) << " activeChild="
                 << m_pActiveChild << endl;
 
   if (!m_pActiveChild)
-      kdDebug(1202) << "WARNING: " << this << " has a null active child!" << endl;
+      kDebug(1202) << "WARNING: " << this << " has a null active child!" << endl;
 
   KonqFrameBase* child;
   int childFrameCount = m_pChildFrameList->count();
@@ -241,7 +241,7 @@ void KonqFrameTabs::printFrameInfo( const QString& spaces )
     if (child != 0L)
       child->printFrameInfo(spaces + "  ");
     else
-      kdDebug(1202) << spaces << "  Null child" << endl;
+      kDebug(1202) << spaces << "  Null child" << endl;
   }
 }
 
@@ -252,13 +252,13 @@ void KonqFrameTabs::reparentFrame( QWidget* parent, const QPoint & p, bool showI
 
 void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
 {
-  // kdDebug(1202) << "KonqFrameTabs::setTitle( " << title << " , " << sender << " )" << endl;
+  // kDebug(1202) << "KonqFrameTabs::setTitle( " << title << " , " << sender << " )" << endl;
   setTabLabel( sender,title );
 }
 
 void KonqFrameTabs::setTabIcon( const QString &url, QWidget* sender )
 {
-  //kdDebug(1202) << "KonqFrameTabs::setTabIcon( " << url << " , " << sender << " )" << endl;
+  //kDebug(1202) << "KonqFrameTabs::setTabIcon( " << url << " , " << sender << " )" << endl;
   QIcon iconSet;
   if (m_permanentCloseButtons)
     iconSet =  SmallIcon( "fileclose" );
@@ -279,11 +279,11 @@ void KonqFrameTabs::activateChild()
 
 void KonqFrameTabs::insertChildFrame( KonqFrameBase* frame, int index )
 {
-  //kdDebug(1202) << "KonqFrameTabs " << this << ": insertChildFrame " << frame << endl;
+  //kDebug(1202) << "KonqFrameTabs " << this << ": insertChildFrame " << frame << endl;
 
   if (frame)
     {
-      //kdDebug(1202) << "Adding frame" << endl;
+      //kDebug(1202) << "Adding frame" << endl;
       bool showTabBar = (count() == 1);
       insertTab(frame->widget(),"", index);
       frame->setParentContainer(this);
@@ -302,12 +302,12 @@ void KonqFrameTabs::insertChildFrame( KonqFrameBase* frame, int index )
           this->hideTabBar();//the first frame inserted (initialization)
     }
   else
-    kdWarning(1202) << "KonqFrameTabs " << this << ": insertChildFrame(0L) !" << endl;
+    kWarning(1202) << "KonqFrameTabs " << this << ": insertChildFrame(0L) !" << endl;
 }
 
 void KonqFrameTabs::removeChildFrame( KonqFrameBase * frame )
 {
-  //kdDebug(1202) << "KonqFrameTabs::RemoveChildFrame " << this << ". Child " << frame << " removed" << endl;
+  //kDebug(1202) << "KonqFrameTabs::RemoveChildFrame " << this << ". Child " << frame << " removed" << endl;
   if (frame) {
     removePage(frame->widget());
     m_pChildFrameList->remove(frame);
@@ -317,9 +317,9 @@ void KonqFrameTabs::removeChildFrame( KonqFrameBase * frame )
       hideTabBar();
   }
   else
-    kdWarning(1202) << "KonqFrameTabs " << this << ": removeChildFrame(0L) !" << endl;
+    kWarning(1202) << "KonqFrameTabs " << this << ": removeChildFrame(0L) !" << endl;
 
-  //kdDebug(1202) << "KonqFrameTabs::RemoveChildFrame finished" << endl;
+  //kDebug(1202) << "KonqFrameTabs::RemoveChildFrame finished" << endl;
 }
 
 void KonqFrameTabs::slotCurrentChanged( QWidget* newPage )

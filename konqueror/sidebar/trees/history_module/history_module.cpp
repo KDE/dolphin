@@ -250,13 +250,13 @@ void KonqSidebarHistoryModule::showPopupMenu( int which, const QPoint& pos )
 
 void KonqSidebarHistoryModule::slotNewWindow()
 {
-    kdDebug(1201)<<"void KonqSidebarHistoryModule::slotNewWindow()"<<endl;
+    kDebug(1201)<<"void KonqSidebarHistoryModule::slotNewWindow()"<<endl;
 
     Q3ListViewItem *item = tree()->selectedItem();
     KonqSidebarHistoryItem *hi = dynamic_cast<KonqSidebarHistoryItem*>( item );
     if ( hi )
        {
-          kdDebug(1201)<<"void KonqSidebarHistoryModule::slotNewWindow(): emitting createNewWindow"<<endl;
+          kDebug(1201)<<"void KonqSidebarHistoryModule::slotNewWindow(): emitting createNewWindow"<<endl;
    	  emit tree()->createNewWindow( hi->url() );
        }
 }

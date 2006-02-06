@@ -30,7 +30,7 @@ template class Q3Dict<KonqListViewDir>;
 KonqTreeViewWidget::KonqTreeViewWidget( KonqListView *parent, QWidget *parentWidget)
    : KonqBaseListViewWidget( parent, parentWidget )
 {
-   kdDebug(1202) << "+KonqTreeViewWidget" << endl;
+   kDebug(1202) << "+KonqTreeViewWidget" << endl;
 
    setRootIsDecorated( true );
    setTreeStepSize( 20 );
@@ -45,7 +45,7 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqListView *parent, QWidget *parentWid
 
 KonqTreeViewWidget::~KonqTreeViewWidget()
 {
-   kdDebug(1202) << "-KonqTreeViewWidget" << endl;
+   kDebug(1202) << "-KonqTreeViewWidget" << endl;
 
    // Remove all items
    clear();
@@ -55,7 +55,7 @@ KonqTreeViewWidget::~KonqTreeViewWidget()
 
 bool KonqTreeViewWidget::openURL( const KUrl &url )
 {
-   //kdDebug(1202) << k_funcinfo << url.prettyURL() << endl;
+   //kDebug(1202) << k_funcinfo << url.prettyURL() << endl;
 
    if ( m_pBrowserView->extension()->urlArgs().reload )
    {
@@ -117,7 +117,7 @@ void KonqTreeViewWidget::slotCompleted( const KUrl & _url )
     if ( dir )
         dir->setComplete( true );
     else
-        kdWarning() << "KonqTreeViewWidget::slotCompleted : dir " << _url.url(-1) << " not found in dict!" << endl;
+        kWarning() << "KonqTreeViewWidget::slotCompleted : dir " << _url.url(-1) << " not found in dict!" << endl;
 
     if ( !viewport()->isUpdatesEnabled() )
     {
@@ -129,7 +129,7 @@ void KonqTreeViewWidget::slotCompleted( const KUrl & _url )
 
 void KonqTreeViewWidget::slotClear()
 {
-   kdDebug(1202) << k_funcinfo << endl;
+   kDebug(1202) << k_funcinfo << endl;
 
    m_dictSubDirs.clear();
    KonqBaseListViewWidget::slotClear();
@@ -142,7 +142,7 @@ void KonqTreeViewWidget::slotClear( const KUrl & _url )
    // subdirs happens level per level. If a subdir is deleted with delete, all
    // its children will be deleted by Qt immediately!
 
-   kdDebug(1202) << k_funcinfo << _url << endl;
+   kDebug(1202) << k_funcinfo << _url << endl;
 
    KonqListViewDir *item = m_dictSubDirs[_url.url(-1)];
    if ( item )
@@ -179,7 +179,7 @@ void KonqTreeViewWidget::slotClear( const KUrl & _url )
 
 void KonqTreeViewWidget::slotRedirection( const KUrl &oldUrl, const KUrl &newUrl )
 {
-   kdDebug(1202) << k_funcinfo << oldUrl.url() << " -> " << newUrl.url() << endl;
+   kDebug(1202) << k_funcinfo << oldUrl.url() << " -> " << newUrl.url() << endl;
 
    KonqListViewDir *dir = m_dictSubDirs.take( oldUrl.url(-1) );
    Q_ASSERT( dir );

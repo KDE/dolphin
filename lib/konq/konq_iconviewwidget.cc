@@ -202,7 +202,7 @@ void KonqIconViewWidget::focusOutEvent( QFocusEvent * ev )
 
 void KonqIconViewWidget::slotItemRenamed(Q3IconViewItem *item, const QString &name)
 {
-    kdDebug(1203) << "KonqIconViewWidget::slotItemRenamed" << endl;
+    kDebug(1203) << "KonqIconViewWidget::slotItemRenamed" << endl;
     KFileIVI *viewItem = static_cast<KFileIVI *>(item);
     KFileItem *fileItem = viewItem->item();
 
@@ -210,7 +210,7 @@ void KonqIconViewWidget::slotItemRenamed(Q3IconViewItem *item, const QString &na
     // completed. Unfortunately, KIconView forces us to allow the text to be changed
     // before we try the rename, so set it back to the pre-rename state.
     viewItem->setText( fileItem->text() );
-    kdDebug(1203)<<" fileItem->text() ;"<<fileItem->text()<<endl;
+    kDebug(1203)<<" fileItem->text() ;"<<fileItem->text()<<endl;
     // Don't do anything if the user renamed to a blank name.
     if( !name.isEmpty() )
     {
@@ -218,7 +218,7 @@ void KonqIconViewWidget::slotItemRenamed(Q3IconViewItem *item, const QString &na
         KUrl oldurl( fileItem->url() );
         KUrl newurl( oldurl );
         newurl.setPath( newurl.directory(false) + KIO::encodeFileName( name ) );
-        kdDebug(1203)<<" newurl :"<<newurl<<endl;
+        kDebug(1203)<<" newurl :"<<newurl<<endl;
         // We use url()+name so that it also works if the name is a relative path (#51176)
         KonqOperations::rename( this, oldurl, newurl );
     }
@@ -282,18 +282,18 @@ void KonqIconViewWidget::slotOnItem( Q3IconViewItem *_item )
 
             if ( d->doAnimations && d->pActiveItem && d->pActiveItem->hasAnimation() )
             {
-                //kdDebug(1203) << "Playing animation for: " << d->pActiveItem->mouseOverAnimation() << endl;
+                //kDebug(1203) << "Playing animation for: " << d->pActiveItem->mouseOverAnimation() << endl;
                 // Check if cached movie can be used
                 if ( d->m_movie && d->movieFileName == d->pActiveItem->mouseOverAnimation() )
                 {
                     d->pActiveItem->setAnimated( true );
                     if (d->m_movieBlocked) {
-                        kdDebug(1203) << "onitem, but blocked" << endl;
+                        kDebug(1203) << "onitem, but blocked" << endl;
                         d->m_movie->start();
                         d->m_movie->setPaused(true);
                     }
                     else {
-                        kdDebug(1203) << "we go ahead.." << endl;
+                        kDebug(1203) << "we go ahead.." << endl;
                         d->m_movieBlocked++;
                         QTimer::singleShot(300, this, SLOT(slotReenableAnimation()));
                         d->m_movie->start();
@@ -400,7 +400,7 @@ void KonqIconViewWidget::slotOnViewport()
         if (d->m_movie->state() == QMovie::Running) {
             d->m_movie->setPaused(true);
             d->m_movieBlocked++;
-            kdDebug(1203) << "on viewport, blocking" << endl;
+            kDebug(1203) << "on viewport, blocking" << endl;
             QTimer::singleShot(300, this, SLOT(slotReenableAnimation()));
         }
         d->pActiveItem->refreshIcon( true );
@@ -455,7 +455,7 @@ void KonqIconViewWidget::slotPreviewResult()
 
 void KonqIconViewWidget::slotMovieUpdate( const QRect& rect )
 {
-    //kdDebug(1203) << "KonqIconViewWidget::slotMovieUpdate " << rect.x() << "," << rect.y() << " " << rect.width() << "x" << rect.height() << endl;
+    //kDebug(1203) << "KonqIconViewWidget::slotMovieUpdate " << rect.x() << "," << rect.y() << " " << rect.width() << "x" << rect.height() << endl;
     Q_ASSERT( d );
     Q_ASSERT( d->m_movie );
     // seems stopAnimation triggers one last update
@@ -495,7 +495,7 @@ void KonqIconViewWidget::slotReenableAnimation()
 {
     if (!--d->m_movieBlocked) {
         if ( d->pActiveItem && d->m_movie && d->m_movie->paused()) {
-            kdDebug(1203) << "reenabled animation" << endl;
+            kDebug(1203) << "reenabled animation" << endl;
             d->m_movie->setPaused(false);
         }
     }
@@ -753,7 +753,7 @@ void KonqIconViewWidget::gridValues( int* x, int* y, int* dx, int* dy,
       *dx = w / *nx;
       *dy = h / *ny;
     }
-    kdDebug(1203) << "x=" << *x << " y=" << *y << " spacing=" << spacing() << " iconSize=" << iconSize
+    kDebug(1203) << "x=" << *x << " y=" << *y << " spacing=" << spacing() << " iconSize=" << iconSize
                   << " w=" << w << " h=" << h
                   << " nx=" << *nx << " ny=" << *ny
                   << " dx=" << *dx << " dy=" << *dy << endl;
@@ -782,7 +782,7 @@ int KonqIconViewWidget::gridXValue() const
     else
         newGridX = qMax( sz, previewIconSize( sz ) ) + m_pSettings->iconTextWidth();
 
-    //kdDebug(1203) << "gridXValue: " << newGridX << " sz=" << sz << endl;
+    //kDebug(1203) << "gridXValue: " << newGridX << " sz=" << sz << endl;
     return newGridX;
 }
 
@@ -813,7 +813,7 @@ void KonqIconViewWidget::startImagePreview( const QStringList &, bool force )
 
     // Check config
     if ( !KGlobalSettings::showFilePreview( url() ) ) {
-        kdDebug(1203) << "Previews disabled for protocol " << url().protocol() << endl;
+        kDebug(1203) << "Previews disabled for protocol " << url().protocol() << endl;
         emit imagePreviewFinished();
         return;
     }
@@ -947,7 +947,7 @@ Q3DragObject * KonqIconViewWidget::dragObject()
 
 KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
 {
-    //kdDebug(1203) << "KonqIconViewWidget::konqDragObject" << endl;
+    //kDebug(1203) << "KonqIconViewWidget::konqDragObject" << endl;
 
     KonqIconDrag2 * drag = new KonqIconDrag2( dragSource );
     Q3IconViewItem *primaryItem = currentItem();
@@ -961,7 +961,7 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
           bool dummy;
           KUrl mostLocalURL = fileItem->mostLocalURL(dummy);
           QString itemURL = url.url(); // was: K3URLDrag::urlToString(url);
-          kdDebug(1203) << "itemURL=" << itemURL << endl;
+          kDebug(1203) << "itemURL=" << itemURL << endl;
           Q3IconDragItem id;
           id.setData( QByteArray(itemURL.latin1()) );
           drag->append( id,
@@ -1100,7 +1100,7 @@ void KonqIconViewWidget::renameCurrentItem()
 
 void KonqIconViewWidget::renameSelectedItem()
 {
-    kdDebug(1203) << " -- KonqIconViewWidget::renameSelectedItem() -- " << endl;
+    kDebug(1203) << " -- KonqIconViewWidget::renameSelectedItem() -- " << endl;
     Q3IconViewItem * item = 0L;
     Q3IconViewItem *it = firstItem();
     for (; it; it = it->nextItem() )
@@ -1119,7 +1119,7 @@ void KonqIconViewWidget::renameSelectedItem()
 
 void KonqIconViewWidget::cutSelection()
 {
-    kdDebug(1203) << " -- KonqIconViewWidget::cutSelection() -- " << endl;
+    kDebug(1203) << " -- KonqIconViewWidget::cutSelection() -- " << endl;
     KonqIconDrag * obj = konqDragObject( /* no parent ! */ );
     obj->setMoveSelection( true );
     QApplication::clipboard()->setData( obj );
@@ -1127,7 +1127,7 @@ void KonqIconViewWidget::cutSelection()
 
 void KonqIconViewWidget::copySelection()
 {
-    kdDebug(1203) << " -- KonqIconViewWidget::copySelection() -- " << endl;
+    kDebug(1203) << " -- KonqIconViewWidget::copySelection() -- " << endl;
     KonqIconDrag * obj = konqDragObject( /* no parent ! */ );
     QApplication::clipboard()->setData( obj );
 }
@@ -1314,7 +1314,7 @@ void KonqIconViewWidget::leaveEvent( QEvent *e )
 
 void KonqIconViewWidget::mousePressChangeValue()
 {
-  //kdDebug(1203) << "KonqIconViewWidget::contentsMousePressEvent" << endl;
+  //kDebug(1203) << "KonqIconViewWidget::contentsMousePressEvent" << endl;
   m_bMousePressed = true;
   if (d->pSoundPlayer)
     d->pSoundPlayer->stop();
@@ -1391,7 +1391,7 @@ void KonqIconViewWidget::slotSaveIconPositions()
     return;
   if ( !m_bDesktop )
     return; // Currently not available in Konqueror
-  kdDebug(1214) << "KonqIconViewWidget::slotSaveIconPositions" << endl;
+  kDebug(1214) << "KonqIconViewWidget::slotSaveIconPositions" << endl;
   KSimpleConfig dotDirectory( m_dotDirectoryPath );
   Q3IconViewItem *it = firstItem();
   if ( !it )
@@ -1402,7 +1402,7 @@ void KonqIconViewWidget::slotSaveIconPositions()
     KFileItem *item = ivi->item();
 
     dotDirectory.setGroup( QString( m_iconPositionGroupPrefix ).append( item->url().fileName() ) );
-    kdDebug(1214) << "KonqIconViewWidget::slotSaveIconPositions " << item->url().fileName() << " " << it->x() << " " << it->y() << endl;
+    kDebug(1214) << "KonqIconViewWidget::slotSaveIconPositions " << item->url().fileName() << " " << it->x() << " " << it->y() << endl;
     dotDirectory.writeEntry( QString( "X %1" ).arg( width() ), it->x() );
     dotDirectory.writeEntry( QString( "Y %1" ).arg( height() ), it->y() );
     dotDirectory.writeEntry( "Exists", true );
@@ -1421,7 +1421,7 @@ void KonqIconViewWidget::slotSaveIconPositions()
         dotDirectory.deleteEntry( "Exists", false );
       else
       {
-        kdDebug(1214) << "KonqIconViewWidget::slotSaveIconPositions deleting group " << *gIt << endl;
+        kDebug(1214) << "KonqIconViewWidget::slotSaveIconPositions deleting group " << *gIt << endl;
         dotDirectory.deleteGroup( *gIt );
       }
     }
@@ -1531,7 +1531,7 @@ void KonqIconViewWidget::lineupIcons()
     }
 
     if ( !firstItem() ) {
-        kdDebug(1203) << "No icons at all ?\n";
+        kDebug(1203) << "No icons at all ?\n";
         return;
     }
 
@@ -1708,7 +1708,7 @@ void KonqIconViewWidget::lineupIcons()
         // Repaint only repaintRegion...
         Q3MemArray<QRect> rects = repaintRegion.rects();
         for ( uint l = 0; l < rects.count(); l++ ) {
-            kdDebug( 1203 ) << "Repainting (" << rects[l].x() << ","
+            kDebug( 1203 ) << "Repainting (" << rects[l].x() << ","
                             << rects[l].y() << ")\n";
             repaintContents( rects[l], false );
         }
@@ -1767,7 +1767,7 @@ void KonqIconViewWidget::lineupIcons( Q3IconView::Arrangement arrangement )
     // Repaint only repaintRegion...
     Q3MemArray<QRect> rects = repaintRegion.rects();
     for ( uint l = 0; l < rects.count(); l++ ) {
-        kdDebug( 1203 ) << "Repainting (" << rects[l].x() << ","
+        kDebug( 1203 ) << "Repainting (" << rects[l].x() << ","
                         << rects[l].y() << ")\n";
         repaintContents( rects[l], false );
     }

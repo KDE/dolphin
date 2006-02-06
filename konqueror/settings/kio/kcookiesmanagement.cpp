@@ -351,7 +351,7 @@ bool KCookiesManagement::cookieDetails(CookieProp *cookie)
 
 void KCookiesManagement::showCookieDetails(Q3ListViewItem* item)
 {
-  kdDebug () << "::showCookieDetails... " << endl;
+  kDebug () << "::showCookieDetails... " << endl;
   CookieProp *cookie = static_cast<CookieListViewItem*>(item)->cookie();
   if( cookie )
   {

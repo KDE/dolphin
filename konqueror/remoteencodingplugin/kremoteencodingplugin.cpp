@@ -146,10 +146,10 @@ KRemoteEncodingPlugin::updateMenu()
 	if ((*it).find(charset) != -1)
 	  break;
 
-      kdDebug() << k_funcinfo << "URL=" << m_currentURL << " charset=" << charset << endl;
+      kDebug() << k_funcinfo << "URL=" << m_currentURL << " charset=" << charset << endl;
 
       if (it == m_encodingDescriptions.end())
-	kdWarning() << k_funcinfo << "could not find entry for charset=" << charset << endl;
+	kWarning() << k_funcinfo << "could not find entry for charset=" << charset << endl;
       else
 	m_menu->popupMenu()->setItemChecked(id, true);
     }
@@ -216,7 +216,7 @@ KRemoteEncodingPlugin::slotDefault()
       for (QStringList::Iterator it = domains.begin(); it != domains.end();
 	   it++)
 	{
-	  kdDebug() << k_funcinfo << "Domain to remove: " << *it << endl;
+	  kDebug() << k_funcinfo << "Domain to remove: " << *it << endl;
 	  if (config.hasGroup(*it))
 	    config.deleteGroup(*it);
 	  else if (config.hasKey(*it))
@@ -236,7 +236,7 @@ KRemoteEncodingPlugin::updateBrowser()
   DCOPClient *client = new DCOPClient();
 
   if (!client->attach())
-    kdDebug() << "Can't connect with DCOP server." << endl;
+    kDebug() << "Can't connect with DCOP server." << endl;
 
   QByteArray data;
   QDataStream stream(&data, QIODevice::WriteOnly);

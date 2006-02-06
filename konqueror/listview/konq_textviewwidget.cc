@@ -32,7 +32,7 @@
 KonqTextViewWidget::KonqTextViewWidget( KonqListView *parent, QWidget *parentWidget )
 :KonqBaseListViewWidget(parent,parentWidget)
 {
-   kdDebug(1202) << "+KonqTextViewWidget" << endl;
+   kDebug(1202) << "+KonqTextViewWidget" << endl;
    m_filenameColumn=1;
 
    // David: This breaks dropping things towards the current directory
@@ -77,7 +77,7 @@ void KonqTextViewWidget::createColumns()
 
 void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
 {
-   //kdDebug(1202) << k_funcinfo << entries.count() << endl;
+   //kDebug(1202) << k_funcinfo << entries.count() << endl;
 
   KFileItemList::const_iterator kit = entries.begin();
   const KFileItemList::const_iterator kend = entries.end();
@@ -112,7 +112,7 @@ void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
 
 void KonqTextViewWidget::setComplete()
 {
-   kdDebug(1202) << k_funcinfo << "Update Contents Pos: "
+   kDebug(1202) << k_funcinfo << "Update Contents Pos: "
                  << m_bUpdateContentsPosAfterListing << endl;
 
    m_bTopLevelComplete = true;
@@ -206,7 +206,7 @@ void KonqTextViewWidget::viewportDropEvent( QDropEvent *ev  )
 {
    if ( m_dirLister->url().isEmpty() )
       return;
-   kdDebug() << "KonqTextViewWidget::viewportDropEvent" << endl;
+   kDebug() << "KonqTextViewWidget::viewportDropEvent" << endl;
    if ( m_dragOverItem != 0L )
       setSelected( m_dragOverItem, false );
    m_dragOverItem = 0L;

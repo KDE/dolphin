@@ -88,7 +88,7 @@ bool KonqHistoryManager::loadHistory()
     QFile file( m_filename );
     if ( !file.open( QIODevice::ReadOnly ) ) {
 	if ( file.exists() )
-	    kdWarning() << "Can't open " << file.name() << endl;
+	    kWarning() << "Can't open " << file.name() << endl;
 
 	// try to load the old completion history
 	bool ret = loadFallback();
@@ -142,7 +142,7 @@ bool KonqHistoryManager::loadHistory()
 	}
 
         if ( s_historyVersion != version || ( crcChecked && !crcOk ) ) {
-	    kdWarning() << "The history version doesn't match, aborting loading" << endl;
+	    kWarning() << "The history version doesn't match, aborting loading" << endl;
 	    file.close();
 	    emit loadingFinished();
 	    return false;
@@ -153,7 +153,7 @@ bool KonqHistoryManager::loadHistory()
 	    KonqHistoryEntry *entry = new KonqHistoryEntry;
 	    Q_CHECK_PTR( entry );
             *stream >> *entry;
-	    // kdDebug(1203) << "## loaded entry: " << entry->url << ",  Title: " << entry->title << endl;
+	    // kDebug(1203) << "## loaded entry: " << entry->url << ",  Title: " << entry->title << endl;
 	    m_history.append( entry );
 	    QString urlString2 = entry->url.prettyURL();    
 
@@ -169,7 +169,7 @@ bool KonqHistoryManager::loadHistory()
                 KParts::HistoryProvider::insert( urlString2 );
 	}
 
-	kdDebug(1203) << "## loaded: " << m_history.count() << " entries." << endl;
+	kDebug(1203) << "## loaded: " << m_history.count() << " entries." << endl;
 
 	m_history.sort();
 	adjustSize();
@@ -202,7 +202,7 @@ bool KonqHistoryManager::saveHistory()
 {
     KSaveFile file( m_filename );
     if ( file.status() != 0 ) {
-	kdWarning() << "Can't open " << file.name() << endl;
+	kWarning() << "Can't open " << file.name() << endl;
 	return false;
     }
 
@@ -272,7 +272,7 @@ void KonqHistoryManager::addToHistory( bool pending, const KUrl& _url,
 				       const QString& typedURL,
 				       const QString& title )
 {
-    kdDebug(1203) << "## addToHistory: " << _url.prettyURL() << " Typed URL: " << typedURL << ", Title: " << title << endl;
+    kDebug(1203) << "## addToHistory: " << _url.prettyURL() << " Typed URL: " << typedURL << ", Title: " << title << endl;
 
     if ( filterOut( _url ) ) // we only want remote URLs
 	return;
@@ -361,7 +361,7 @@ void KonqHistoryManager::emitAddToHistory( const KonqHistoryEntry& entry )
 
 void KonqHistoryManager::removePending( const KUrl& url )
 {
-    // kdDebug(1203) << "## Removing pending... " << url.prettyURL() << endl;
+    // kDebug(1203) << "## Removing pending... " << url.prettyURL() << endl;
 
     if ( url.isLocalFile() )
 	return;
@@ -441,7 +441,7 @@ void KonqHistoryManager::emitSetMaxAge( quint32 days )
 void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
 					     QByteArray  )
 {
-    //kdDebug(1203) << "Got new entry from Broadcast: " << e.url.prettyURL() << endl;
+    //kDebug(1203) << "Got new entry from Broadcast: " << e.url.prettyURL() << endl;
 
     KonqHistoryEntry *entry = findEntry( e.url );
     QString urlString = e.url.url();
@@ -531,7 +531,7 @@ void KonqHistoryManager::notifyClear( QByteArray )
 
 void KonqHistoryManager::notifyRemove( KUrl url, QByteArray )
 {
-    kdDebug(1203) << "#### Broadcast: remove entry:: " << url.prettyURL() << endl;
+    kDebug(1203) << "#### Broadcast: remove entry:: " << url.prettyURL() << endl;
     
 
     KonqHistoryEntry *entry = m_history.findEntry( url );
@@ -555,7 +555,7 @@ void KonqHistoryManager::notifyRemove( KUrl url, QByteArray )
 
 void KonqHistoryManager::notifyRemove( KUrl::List urls, QByteArray )
 {
-    kdDebug(1203) << "#### Broadcast: removing list!" << endl;
+    kDebug(1203) << "#### Broadcast: removing list!" << endl;
 
     bool doSave = false;
     KUrl::List::Iterator it = urls.begin();
