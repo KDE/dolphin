@@ -896,7 +896,10 @@ void NSPluginInstance::streamFinished( NSPluginStreamBase* strm )
 {
    kDebug(1431) << "-> NSPluginInstance::streamFinished" << endl;
    emitStatus( QString() );
-   _streams.remove(strm); // deletes automatically
+   _streams.setAutoDelete(false);
+   _streams.remove(strm);
+   _streams.setAutoDelete(true);
+   strm->deleteLater();
    _timer->start( 100, true );
 }
 
