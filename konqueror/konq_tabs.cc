@@ -324,7 +324,7 @@ void KonqFrameTabs::removeChildFrame( KonqFrameBase * frame )
 
 void KonqFrameTabs::slotCurrentChanged( QWidget* newPage )
 {
-  // setTabColor( newPage, KGlobalSettings::textColor() ); ### 
+  setTabTextColor( indexOf( newPage ), KGlobalSettings::textColor() );
   KonqFrameBase* currentFrame = dynamic_cast<KonqFrameBase*>(newPage);
 
   if (currentFrame && !m_pViewManager->isLoadingProfile()) {

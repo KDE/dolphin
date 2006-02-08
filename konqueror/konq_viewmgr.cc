@@ -1757,7 +1757,7 @@ void KonqViewManager::setLoading( KonqView *view, bool loading )
       else
         color = KGlobalSettings::textColor();
     }
-    //konqframetabs->setTabColor( view->frame(), color ); ### FIXME, KDE4, no call
+    konqframetabs->setTabTextColor( konqframetabs->indexOf( view->frame() ), color );
   }
 }
 
