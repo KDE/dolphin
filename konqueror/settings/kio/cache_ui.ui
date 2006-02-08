@@ -57,10 +57,10 @@
             <property name="enabled">
                 <bool>false</bool>
             </property>
-            <property name="minValue">
+            <property name="minimum">
                 <number>1</number>
             </property>
-            <property name="maxValue">
+            <property name="maximum">
                 <number>999999</number>
             </property>
             <property name="suffix">
