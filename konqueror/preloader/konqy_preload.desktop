@@ -7,3 +7,4 @@ Name[x-test]=xxKonqueror Preloading During KDE startupxx
 X-KDE-autostart-condition=konquerorrc:Reusing:PreloadOnStartup:false
 X-KDE-StartupNotify=false
 X-KDE-autostart-phase=2
+OnlyShowIn=KDE;
