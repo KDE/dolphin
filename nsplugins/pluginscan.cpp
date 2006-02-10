@@ -354,7 +354,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
            if (!data) continue;
 
            // when the child closes, we'll get an EOF (size == 0)
-           while (int size = q_read_pipe.readBlock(data, 4096)) {
+           while (int size = q_read_pipe.read(data, 4096)) {
                if (size > 0)
                    m_buffer.write(data, size);
            }
