@@ -126,7 +126,7 @@ KonqView::~KonqView()
         part_url = "";
      Q3CString line;
      line = ( QString("close(%1):%2\n").arg(m_randID,0,16).arg(part_url) ).toUtf8();
-     KonqMainWindow::s_crashlog_file->writeBlock(line, line.length());
+     KonqMainWindow::s_crashlog_file->write(line, line.length());
      KonqMainWindow::s_crashlog_file->flush();
   }
 
@@ -164,9 +164,9 @@ void KonqView::openURL( const KUrl &url, const QString & locationBarURL,
      Q3CString line;
 
      line = ( QString("closed(%1):%2\n").arg(m_randID,0,16).arg(part_url) ).toUtf8();
-     KonqMainWindow::s_crashlog_file->writeBlock(line,line.length());
+     KonqMainWindow::s_crashlog_file->write(line,line.length());
      line = ( QString("opened(%3):%4\n").arg(m_randID,0,16).arg(url_url)  ).toUtf8();
-     KonqMainWindow::s_crashlog_file->writeBlock(line,line.length());
+     KonqMainWindow::s_crashlog_file->write(line,line.length());
      KonqMainWindow::s_crashlog_file->flush();
   }
 

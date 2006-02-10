@@ -334,7 +334,7 @@ NPError g_NPN_PostURLNotify(NPP instance, const char* url, const char* target,
 #if 0
    QFile f("/tmp/nspostdata");
    f.open(QIODevice::WriteOnly);
-   f.writeBlock(postdata);
+   f.write(postdata);
    f.close();
 #endif
 
@@ -431,7 +431,7 @@ NPError g_NPN_PostURL(NPP instance, const char* url, const char* target,
 #if 0
    QFile f("/tmp/nspostdata");
    f.open(QIODevice::WriteOnly);
-   f.writeBlock(postdata);
+   f.write(postdata);
    f.close();
 #endif
 
