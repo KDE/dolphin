@@ -25,6 +25,7 @@
 #include <kapplication.h>
 #include <kiconloader.h>
 #include <kmimetype.h>
+#include <kshell.h>
 #include <kprotocolinfo.h>
 
 #include "konq_pixmapprovider.h"
@@ -67,19 +68,14 @@ QString KonqPixmapProvider::iconNameFor( const QString& url )
     if ( url.isEmpty() ) {
         // Use the folder icon for the empty URL
         icon = KMimeType::mimeType( "inode/directory" )->KServiceType::icon();
+        Q_ASSERT( !icon.isEmpty() );
     }
     else
     {
-        KUrl u;
-        if ( url.at(0) == '/' )
-	    u.setPath( url );
-        else
-	    u = url;
-
+        KUrl u = KUrl::fromPathOrURL( url );
         icon = KMimeType::iconNameForURL( u );
+        Q_ASSERT( !icon.isEmpty() );
     }
-
-    //Q_ASSERT( !icon.isEmpty() ); ### Disable for now
 
     // cache the icon found for url
     iconMap.insert( url, icon );
