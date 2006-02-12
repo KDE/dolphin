@@ -652,7 +652,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
 bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *childView, KonqOpenURLRequest& req )
 {
   // Second argument is referring URL
-  if ( !KAuthorized::authorizeURLAction("open", childView ? childView->url() : KURL(), _url) )
+  if ( !KAuthorized::authorizeURLAction("open", childView ? childView->url() : KUrl(), _url) )
   {
      QString msg = KIO::buildErrorString(KIO::ERR_ACCESS_DENIED, _url.prettyURL());
      KMessageBox::queuedMessageBox( this, KMessageBox::Error, msg );
@@ -779,7 +779,7 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
                ( ( indexFile = findIndexFile( url.path() ) ) != QString() ) )
             {
               serviceType = "text/html";
-              url = KURL();
+              url = KUrl();
               url.setPath( indexFile );
               serviceName.clear(); // cancel what we just set, this is not a dir finally
             }
@@ -1137,14 +1137,14 @@ void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs
         if (newtabsinfront)
           m_pViewManager->showTab( newView );
 
-        openURL( newView, url.isEmpty() ? KURL("about:blank") : url, QString());
+        openURL( newView, url.isEmpty() ? KUrl("about:blank") : url, QString());
         newView->setViewName( args.frameName );
         part=newView->part();
 
         return;
     }
 
-    mainWindow = new KonqMainWindow( KURL(), false );
+    mainWindow = new KonqMainWindow( KUrl(), false );
     mainWindow->setInitialFrameName( args.frameName );
     mainWindow->resetAutoSaveSettings(); // Don't autosave
 
@@ -1294,7 +1294,7 @@ void KonqMainWindow::slotDuplicateWindow()
   config.setGroup( "View Profile" );
   m_pViewManager->saveViewProfile( config, true, true );
 
-  KonqMainWindow *mainWindow = new KonqMainWindow( KURL(), false, 0, xmlFile());
+  KonqMainWindow *mainWindow = new KonqMainWindow( KUrl(), false, 0, xmlFile());
   mainWindow->viewManager()->loadViewProfile( config, m_pViewManager->currentProfile() );
   if (mainWindow->currentView())
   {
@@ -1661,7 +1661,7 @@ void KonqMainWindow::showHTML( KonqView * _view, bool b, bool _activateView )
   // This has to be done before calling openView since it relies on it
   if ( m_bSaveViewPropertiesLocally )
   {
-      KUrl u ( b ? _view->url() : KURL( _view->url().directory() ) );
+      KUrl u ( b ? _view->url() : KUrl( _view->url().directory() ) );
       u.addPath(".directory");
       if ( u.isLocalFile() )
       {
@@ -1822,27 +1822,27 @@ void KonqMainWindow::slotHome()
 
 void KonqMainWindow::slotGoSystem()
 {
-  openURL( 0L, KURL( "system:/" ) );
+  openURL( 0L, KUrl( "system:/" ) );
 }
 
 void KonqMainWindow::slotGoApplications()
 {
-  openURL( 0L, KURL( "programs:/" ) );
+  openURL( 0L, KUrl( "programs:/" ) );
 }
 
 void KonqMainWindow::slotGoMedia()
 {
-  openURL( 0L, KURL( "media:/" ) );
+  openURL( 0L, KUrl( "media:/" ) );
 }
 
 void KonqMainWindow::slotGoNetworkFolders()
 {
-    openURL( 0L, KURL( "remote:/" ) );
+    openURL( 0L, KUrl( "remote:/" ) );
 }
 
 void KonqMainWindow::slotGoSettings()
 {
-  openURL( 0L, KURL( "settings:/" ) );
+  openURL( 0L, KUrl( "settings:/" ) );
 }
 
 void KonqMainWindow::slotGoDirTree()
@@ -1854,7 +1854,7 @@ void KonqMainWindow::slotGoDirTree()
 
 void KonqMainWindow::slotGoTrash()
 {
-  openURL( 0L, KURL( "trash:/" ) );
+  openURL( 0L, KUrl( "trash:/" ) );
 }
 
 void KonqMainWindow::slotGoAutostart()
@@ -2538,7 +2538,7 @@ void KonqMainWindow::slotFileNewAboutToShow()
   // As requested by KNewMenu :
   m_pMenuNew->slotCheckUpToDate();
   // And set the files that the menu apply on :
-  m_pMenuNew->setPopupFiles( KURL( m_currentView->url().url() ) );
+  m_pMenuNew->setPopupFiles( KUrl( m_currentView->url().url() ) );
 }
 
 void KonqMainWindow::slotSplitViewHorizontal()
@@ -2562,7 +2562,7 @@ void KonqMainWindow::slotAddTab()
                                              false,
                                              KonqSettings::openAfterCurrentPage());
   if (newView == 0L) return;
-  openURL( newView, KURL("about:blank"),QString());
+  openURL( newView, KUrl("about:blank"),QString());
   m_pViewManager->showTab( newView );
   focusLocationBar();
   m_pWorkingTab = 0L;
@@ -4073,7 +4073,7 @@ void KonqMainWindow::updateToolBarActions( bool pendingAction /*=false*/)
           m_ptaUseHTML->setEnabled( true );
       else if ( m_currentView->serviceTypes().contains(  "text/html" ) ) {
           // Currently viewing an index.html file via this feature (i.e. url points to a dir)
-          QString locPath = KURL( m_currentView->locationBarURL() ).path();
+          QString locPath = KUrl( m_currentView->locationBarURL() ).path();
           m_ptaUseHTML->setEnabled( QFileInfo( locPath ).isDir() );
       } else
           m_ptaUseHTML->setEnabled( false );
@@ -4349,7 +4349,7 @@ void KonqMainWindow::enableAllActions( bool enable )
   // So the code below is where actions that should initially be disabled are disabled.
   if (enable)
   {
-      setUpEnabled( m_currentView ? m_currentView->url() : KURL() );
+      setUpEnabled( m_currentView ? m_currentView->url() : KUrl() );
       // we surely don't have any history buffers at this time
       m_paBack->setEnabled( false );
       m_paForward->setEnabled( false );
@@ -4608,7 +4608,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   }
   else
   {
-    m_popupURL = KURL();
+    m_popupURL = KUrl();
     m_popupServiceType.clear();
   }
 
@@ -4633,7 +4633,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   // (This is a bit of a hack for the directory tree....)
   // ## should use the new currentView->isHierarchicalView() instead?
   // Would this be correct for the konqlistview tree view?
-  KUrl viewURL = currentView->isToggleView() ? KURL() : currentView->url();
+  KUrl viewURL = currentView->isToggleView() ? KUrl() : currentView->url();
 
   bool openedForViewURL = false;
   //bool dirsSelected = false;
@@ -5241,7 +5241,7 @@ void KonqMainWindow::setIcon( const QPixmap& pix )
 
 void KonqMainWindow::slotIntro()
 {
-  openURL( 0L, KURL("about:konqueror") );
+  openURL( 0L, KUrl("about:konqueror") );
 }
 
 void KonqMainWindow::goURL()

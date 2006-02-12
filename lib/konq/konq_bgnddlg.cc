@@ -145,7 +145,7 @@ void KonqBgndDialog::initPictures()
         for ( it = list.begin(); it != list.end(); it++ )
             m_comboPicture->comboBox()->insertItem(
                 ( (*it).at(0) == '/' ) ?    // if absolute path
-                KURL( *it ).fileName() :  // then only fileName
+                KUrl( *it ).fileName() :  // then only fileName
                 *it );
     }
 }

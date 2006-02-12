@@ -233,7 +233,7 @@ static bool startNewKonqueror( QString url, QString mimetype, const QString& pro
 	mimetype = QLatin1String( "" );
     }
     if( mimetype.isEmpty())
-	mimetype = KMimeType::findByURL( KURL( url ) )->name();
+	mimetype = KMimeType::findByURL( KUrl( url ) )->name();
     KTrader::OfferList offers = KTrader::self()->query( mimetype, QLatin1String( "KParts/ReadOnlyPart" ),
 	QString(), QString() );
     KService::Ptr serv;

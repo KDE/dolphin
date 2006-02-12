@@ -578,7 +578,7 @@ void KfindTabWidget::setQuery(KQuery *query)
   // only start if we have valid dates
   if (!isDateValid()) return;
 
-  query->setPath(KURL(dirBox->currentText().trimmed()));
+  query->setPath(KUrl(dirBox->currentText().trimmed()));
 
   for (int idx=0; idx<dirBox->count(); idx++)
      if (dirBox->text(idx)==dirBox->currentText())
@@ -753,7 +753,7 @@ void KfindTabWidget::getDirectory()
 
 void KfindTabWidget::beginSearch()
 {
-///  dirlister->openURL(KURL(dirBox->currentText().trimmed()));
+///  dirlister->openURL(KUrl(dirBox->currentText().trimmed()));
 
   saveHistory();
   setEnabled( false );

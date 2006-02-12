@@ -769,7 +769,7 @@ void NSPluginInstance::timer()
             KUrl bu( _baseURL );
             KUrl absUrl( bu, req.url );
             url = absUrl.url();
-        } else if ( req.url[0]=='/' && KURL(_baseURL).hasHost() ) {
+        } else if ( req.url[0]=='/' && KUrl(_baseURL).hasHost() ) {
             KUrl absUrl( _baseURL );
             absUrl.setPath( req.url );
             url = absUrl.url();
@@ -1542,10 +1542,10 @@ void NSPluginStreamBase::inform()
 
         if ( _streamType==NP_ASFILE || _streamType==NP_ASFILEONLY ) {
             _onlyAsFile = _streamType==NP_ASFILEONLY;
-            if ( KURL(_url).isLocalFile() )  {
+            if ( KUrl(_url).isLocalFile() )  {
                 kDebug(1431) << "local file" << endl;
                 // local file can be passed directly
-                _fileURL = KURL(_url).path();
+                _fileURL = KUrl(_url).path();
 
                 // without streaming stream is finished already
                 if ( _onlyAsFile ) {
@@ -1805,7 +1805,7 @@ bool NSPluginStream::get( const QString& url, const QString& mimeType,
     // create new stream
     if ( create( url, mimeType, notify ) ) {
         // start the kio job
-        _job = KIO::get(KURL( url ), false, false);
+        _job = KIO::get(KUrl( url ), false, false);
         _job->addMetaData("errorPage", "false");
         _job->addMetaData("AllowCompressedPage", "false");
         if (reload) {
@@ -1830,7 +1830,7 @@ bool NSPluginStream::post( const QString& url, const QByteArray& data,
     // create new stream
     if ( create( url, mimeType, notify ) ) {
         // start the kio job
-        _job = KIO::http_post(KURL( url ), data, false);
+        _job = KIO::http_post(KUrl( url ), data, false);
         _job->addMetaData("content-type", args.contentType());
         _job->addMetaData("errorPage", "false");
         _job->addMetaData("AllowCompressedPage", "false");

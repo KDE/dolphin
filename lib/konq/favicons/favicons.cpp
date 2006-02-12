@@ -102,7 +102,7 @@ QString FaviconsModule::iconForURL(const KUrl &url)
         icon = d->config->readEntry( removeSlash(simplifiedURL), QString() );
 
     if (!icon.isEmpty())
-        icon = iconNameFromURL(KURL( icon ));
+        icon = iconNameFromURL(KUrl( icon ));
     else 
         icon = url.host();
         
@@ -174,7 +174,7 @@ void FaviconsModule::downloadHostIcon(const KUrl &url)
     if (!isIconOld(iconFile))
         return;
 
-    startDownload(url.host(), true, KURL(url, "/favicon.ico"));
+    startDownload(url.host(), true, KUrl(url, "/favicon.ico"));
 }
 
 void FaviconsModule::startDownload(const QString &hostOrURL, bool isHost, const KUrl &iconURL)

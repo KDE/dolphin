@@ -115,7 +115,7 @@ void addBackEnd::doRollBack()
 		dirEntries.remove("..");
 		for ( QStringList::Iterator it = dirEntries.begin(); it != dirEntries.end(); ++it ) {
 			if ((*it)!="add")
-				 KIO::NetAccess::del(KURL( loc+(*it) ), m_parent);
+				 KIO::NetAccess::del(KUrl( loc+(*it) ), m_parent);
 		}
 		emit initialCopyNeeded();
 	}
@@ -1057,7 +1057,7 @@ KParts::URLArgs args;
 	args.postData = formData;
 	args.setDoPost(QByteArray(action).toLower() == "post");
 	// boundary?
-	emit getExtension()->openURLRequest(KURL( url ), args);
+	emit getExtension()->openURLRequest(KUrl( url ), args);
 }
 
 void Sidebar_Widget::openURLRequest( const KUrl &url, const KParts::URLArgs &args)
@@ -1223,7 +1223,7 @@ void Sidebar_Widget::customEvent(QCustomEvent* ev)
 		emit fileSelection(static_cast<KonqFileSelectionEvent*>(ev)->selection());
 	} else if (KonqFileMouseOverEvent::test(ev)) {
 		if (!(static_cast<KonqFileMouseOverEvent*>(ev)->item())) {
-			emit fileMouseOver(KFileItem(KURL(),QString(),KFileItem::Unknown));
+			emit fileMouseOver(KFileItem(KUrl(),QString(),KFileItem::Unknown));
 		} else {
 			emit fileMouseOver(*static_cast<KonqFileMouseOverEvent*>(ev)->item());
 		}

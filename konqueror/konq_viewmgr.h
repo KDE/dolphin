@@ -201,7 +201,7 @@ public:
    * settings, they will be reset to the defaults
    */
   void loadViewProfile( KConfig &cfg, const QString & filename,
-                        const KUrl & forcedURL = KURL(),
+                        const KUrl & forcedURL = KUrl(),
                         const KonqOpenURLRequest &req = KonqOpenURLRequest(),
                         bool resetWindow = false, bool openURL = true );
 
@@ -216,7 +216,7 @@ public:
    * settings, they will be reset to the defaults
    */
   void loadViewProfile( const QString & path, const QString & filename,
-                        const KUrl & forcedURL = KURL(),
+                        const KUrl & forcedURL = KUrl(),
                         const KonqOpenURLRequest &req = KonqOpenURLRequest(),
                         bool resetWindow = false, bool openURL = true );
   /**

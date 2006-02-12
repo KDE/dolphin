@@ -370,7 +370,7 @@ void ActionsImpl::slotNewBookmark()
     // TODO - make a setCurrentItem(Command *) which uses finaladdress interface
     CreateCommand * cmd = new CreateCommand(
                                 KEBApp::self()->insertAddress(),
-                                QString(), "www", KURL("http://"));
+                                QString(), "www", KUrl("http://"));
     CmdHistory::self()->addCommand(cmd);
 }
 
@@ -425,7 +425,7 @@ void ActionsImpl::slotPrint() {
     s_part->setProperty("javaScriptEnabled", QVariant(false, 1));
     s_part->setProperty("javaEnabled", QVariant(false, 1));
 
-    // doc->openStream( "text/html", KURL() );
+    // doc->openStream( "text/html", KUrl() );
     // doc->writeStream( QCString( "<HTML><BODY>FOO</BODY></HTML>" ) );
     // doc->closeStream();
 
@@ -440,7 +440,7 @@ void ActionsImpl::slotPrint() {
     s_objId = s_part->property("dcopObjectId").toString().toLatin1();
     connect(s_part, SIGNAL(completed()), this, SLOT(slotDelayedPrint()));
 
-    s_part->openURL(KURL( tmpf.name() ));
+    s_part->openURL(KUrl( tmpf.name() ));
 }
 
 void ActionsImpl::slotDelayedPrint() {

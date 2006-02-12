@@ -55,7 +55,7 @@ KonquerorIface::~KonquerorIface()
 DCOPRef KonquerorIface::openBrowserWindow( const QString &url )
 {
     QX11Info::setAppUserTime( 0 );
-    KonqMainWindow *res = KonqMisc::createSimpleWindow( KURL(url) );
+    KonqMainWindow *res = KonqMisc::createSimpleWindow( KUrl(url) );
     if ( !res )
         return DCOPRef();
     return res->dcopObject();
@@ -81,7 +81,7 @@ DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const DCOPCStrin
 DCOPRef KonquerorIface::createNewWindowWithSelection( const QString &url, QStringList filesToSelect )
 {
     QX11Info::setAppUserTime( 0 );
-    KonqMainWindow *res = KonqMisc::createNewWindow( KURL(url), KParts::URLArgs(), false, filesToSelect );
+    KonqMainWindow *res = KonqMisc::createNewWindow( KUrl(url), KParts::URLArgs(), false, filesToSelect );
     if ( !res )
         return DCOPRef();
     return res->dcopObject();
@@ -151,7 +151,7 @@ DCOPRef KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, 
 DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURL( const QString & path, const QString &filename, const QString &url )
 {
     QX11Info::setAppUserTime( 0 );
-    KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename, KURL(url) );
+    KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename, KUrl(url) );
     if ( !res )
         return DCOPRef();
     return res->dcopObject();
@@ -169,7 +169,7 @@ DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURL( const QString &pat
     QX11Info::setAppUserTime( 0 );
     KParts::URLArgs args;
     args.serviceType = mimetype;
-    KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename, KURL(url), args );
+    KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename, KUrl(url), args );
     if ( !res )
         return DCOPRef();
     return res->dcopObject();

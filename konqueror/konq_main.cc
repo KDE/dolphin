@@ -76,7 +76,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
     {
       QString className = KMainWindow::classNameOfToplevel( n );
       if( className == QLatin1String( "KonqMainWindow" ))
-          (new KonqMainWindow( KURL(), false ) )->restore( n );
+          (new KonqMainWindow( KUrl(), false ) )->restore( n );
       else
           kWarning() << "Unknown class " << className << " in session saved data!" << endl;
       n++;
@@ -135,7 +135,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
                      if( !ref.callExt( "registerPreloadedKonqy", DCOPRef::NoEventLoop, 5000,
                          app.dcopClient()->appId(), info.screen()))
                          return 0; // too many preloaded or failed
-		     KonqMainWindow* win = new KonqMainWindow( KURL(), false ); // prepare an empty window too
+		     KonqMainWindow* win = new KonqMainWindow( KUrl(), false ); // prepare an empty window too
 		     // KonqMainWindow ctor sets always the preloaded flag to false, so create the window before this
                      KonqMainWindow::setPreloadedFlag( true );
 		     KonqMainWindow::setPreloadedWindow( win );
@@ -174,7 +174,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
                  if (url.isLocalFile() && QFile::exists(url.path())) // "konqueror index.html"
                      urlToOpen = url;
                  else
-                     urlToOpen = KURL( KonqMisc::konqFilteredURL(0L, QString::fromLocal8Bit(args->arg(i))) ); // "konqueror slashdot.org"
+                     urlToOpen = KUrl( KonqMisc::konqFilteredURL(0L, QString::fromLocal8Bit(args->arg(i))) ); // "konqueror slashdot.org"
 
                  if ( !mainwin ) {
                      KParts::URLArgs urlargs;

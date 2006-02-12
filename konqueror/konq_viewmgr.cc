@@ -436,7 +436,7 @@ void KonqViewManager::duplicateTab( KonqFrameBase* tab, bool openAfterCurrentPag
   // from profile loading (e.g. in switchView)
   m_bLoadingProfile = true;
 
-  loadItem( config, tabContainer, rootItem, KURL(""), true, openAfterCurrentPage );
+  loadItem( config, tabContainer, rootItem, KUrl(""), true, openAfterCurrentPage );
 
   m_bLoadingProfile = false;
 
@@ -499,7 +499,7 @@ void KonqViewManager::breakOffTab( KonqFrameBase* tab )
   config.writeEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), true );
   currentFrame->saveConfig( &config, prefix, true, 0L, 0, 1);
 
-  KonqMainWindow *mainWindow = new KonqMainWindow( KURL(), false );
+  KonqMainWindow *mainWindow = new KonqMainWindow( KUrl(), false );
   if (mainWindow == 0L) return;
 
   mainWindow->viewManager()->loadViewProfile( config, "" );

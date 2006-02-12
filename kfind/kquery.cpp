@@ -162,7 +162,7 @@ void KQuery::slotListEntries( QStringList  list )
 
   for (; it != end; ++it)
   {
-    file = new KFileItem( KFileItem::Unknown,  KFileItem::Unknown, KURL(*it));
+    file = new KFileItem( KFileItem::Unknown,  KFileItem::Unknown, KUrl(*it));
     processQuery(file);
     delete file;
   }

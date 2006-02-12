@@ -195,11 +195,11 @@ void DesktopPathConfig::save()
                 if ( newAutostartURL.equals( futureAutostartURL, true ) )
                     autostartMoved = true;
                 else
-                    autostartMoved = moveDir( KURL( KGlobalSettings::autostartPath() ), KURL( urAutostart->url() ), i18n("Autostart") );
+                    autostartMoved = moveDir( KUrl( KGlobalSettings::autostartPath() ), KUrl( urAutostart->url() ), i18n("Autostart") );
             }
         }
 
-        if ( moveDir( KURL( KGlobalSettings::desktopPath() ), KURL( urlDesktop ), i18n("Desktop") ) )
+        if ( moveDir( KUrl( KGlobalSettings::desktopPath() ), KUrl( urlDesktop ), i18n("Desktop") ) )
         {
             configGroup.writePathEntry( "Desktop", urlDesktop, KConfigBase::Normal | KConfigBase::Global );
             pathChanged = true;
@@ -209,7 +209,7 @@ void DesktopPathConfig::save()
     if ( !newAutostartURL.equals( autostartURL, true ) )
     {
         if (!autostartMoved)
-            autostartMoved = moveDir( KURL( KGlobalSettings::autostartPath() ), KURL( urAutostart->url() ), i18n("Autostart") );
+            autostartMoved = moveDir( KUrl( KGlobalSettings::autostartPath() ), KUrl( urAutostart->url() ), i18n("Autostart") );
         if (autostartMoved)
         {
 //            configGroup.writeEntry( "Autostart", Autostart->url());

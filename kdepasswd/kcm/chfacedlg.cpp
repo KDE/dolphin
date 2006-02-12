@@ -141,7 +141,7 @@ void ChFaceDlg::addCustomPixmap( QString imPath, bool saveCopy )
       userfaces.mkdir( userfaces.absolutePath() );
 
     pix.save( userfaces.absolutePath() + "/.userinfo-tmp" , "PNG" );
-    KonqOperations::copy( this, KonqOperations::COPY, KUrl::List( KURL( userfaces.absolutePath() + "/.userinfo-tmp" ) ), KURL( userfaces.absPath() + "/" + QFileInfo(imPath).fileName().section(".",0,0) ) );
+    KonqOperations::copy( this, KonqOperations::COPY, KUrl::List( KUrl( userfaces.absolutePath() + "/.userinfo-tmp" ) ), KUrl( userfaces.absPath() + "/" + QFileInfo(imPath).fileName().section(".",0,0) ) );
 #if 0
   if ( !pix.save( userfaces.absolutePath() + "/" + imPath , "PNG" ) )
     KMessageBox::sorry(this, i18n("There was an error saving the image:\n%1").arg( userfaces.absolutePath() ) );

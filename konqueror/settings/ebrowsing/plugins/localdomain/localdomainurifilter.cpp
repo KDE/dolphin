@@ -57,7 +57,7 @@ bool LocalDomainURIFilter::filterURI( KURIFilterData& data ) const
         isLocalDomainHost( cmd ) )
     {
         cmd.prepend( QLatin1String("http://") );
-        setFilteredURI( data, KURL( cmd ) );
+        setFilteredURI( data, KUrl( cmd ) );
         setURIType( data, KURIFilterData::NET_PROTOCOL );
         
         kDebug() << "FilteredURI: " << data.uri() << endl;

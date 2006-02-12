@@ -121,13 +121,13 @@ void KonqSideBarWebModule::handleURL(const KUrl &) {
 
 void KonqSideBarWebModule::urlNewWindow(const QString& url, KParts::URLArgs args)
 {
-	emit createNewWindow(KURL(url), args);
+	emit createNewWindow(KUrl(url), args);
 }
 
 
 void KonqSideBarWebModule::urlClicked(const QString& url, KParts::URLArgs args) 
 {
-	emit openURLRequest(KURL(url), args);
+	emit openURLRequest(KUrl(url), args);
 }
 
 

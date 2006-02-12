@@ -108,7 +108,7 @@ public:
   enum ComboAction { ComboClear, ComboAdd, ComboRemove };
   enum PageSecurity { NotCrypted, Encrypted, Mixed };
 
-  KonqMainWindow( const KUrl &initialURL = KURL(), bool openInitialURL = true, const char *name = 0, const QString& xmluiFile="konqueror.rc");
+  KonqMainWindow( const KUrl &initialURL = KUrl(), bool openInitialURL = true, const char *name = 0, const QString& xmluiFile="konqueror.rc");
   ~KonqMainWindow();
 
 

@@ -177,7 +177,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
   const QString starthere_proto = QFL1("start-here:");
   if (cmd.find(starthere_proto, 0, true) == 0 )
   {
-    setFilteredURI( data, KURL("system:/") );
+    setFilteredURI( data, KUrl("system:/") );
     setURIType( data, KURIFilterData::LOCAL_DIR );
     return true;
   }
@@ -197,7 +197,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
     else if ((cmd==info_proto) || (cmd==man_proto))
       cmd+='/';
 
-    setFilteredURI( data, KURL( cmd ));
+    setFilteredURI( data, KUrl( cmd ));
     setURIType( data, KURIFilterData::HELP );
     return true;
   }
@@ -208,7 +208,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
     // make sure path is unix style
     cmd.replace('\\', '/');
     cmd.prepend( QLatin1String( "smb:" ) );
-    setFilteredURI( data, KURL( cmd ));
+    setFilteredURI( data, KUrl( cmd ));
     setURIType( data, KURIFilterData::NET_PROTOCOL );
     return true;
   }
@@ -372,7 +372,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
     u.setRef(ref);
     u.setQuery(query);
 
-    if (!KAuthorized::authorizeURLAction( QLatin1String("open"), KURL(), u))
+    if (!KAuthorized::authorizeURLAction( QLatin1String("open"), KUrl(), u))
     {
       // No authorisation, we pretend it's a file will get
       // an access denied error later on.
@@ -415,7 +415,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
   if( !KStandardDirs::findExe( exe ).isNull() && data.checkForExecutables() )
   {
     //kDebug() << "EXECUTABLE  exe=" << exe << endl;
-    setFilteredURI( data, KURL( exe ));
+    setFilteredURI( data, KUrl( exe ));
     // check if we have command line arguments
     if( exe != cmd )
         setArguments(data, cmd.right(cmd.length() - exe.length()));
@@ -456,7 +456,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
       {
         //kDebug() << "match - prepending " << (*it).prepend << endl;
         cmd.prepend( (*it).prepend );
-        setFilteredURI( data, KURL( cmd ) );
+        setFilteredURI( data, KUrl( cmd ) );
         setURIType( data, (*it).type );
         return true;
       }
@@ -471,7 +471,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
                   << m_strDefaultProtocol << endl;
 
       cmd.insert( 0, m_strDefaultProtocol );
-      setFilteredURI( data, KURL( cmd ));
+      setFilteredURI( data, KUrl( cmd ));
       setURIType( data, KURIFilterData::NET_PROTOCOL );
       return true;
     }
@@ -485,7 +485,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
     u.setPath(path);
     u.setRef(ref);
 
-    if (!KAuthorized::authorizeURLAction( QLatin1String("open"), KURL(), u))
+    if (!KAuthorized::authorizeURLAction( QLatin1String("open"), KUrl(), u))
     {
       // No authorisation, we pretend it exists and will get
       // an access denied error later on.

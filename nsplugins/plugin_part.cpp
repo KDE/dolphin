@@ -401,7 +401,7 @@ void PluginPart::pluginResized(int w, int h)
 
 void PluginPart::changeSrc(const QString& url) {
     closeURL();
-    openURL(KURL( url ));
+    openURL(KUrl( url ));
 }
 
 

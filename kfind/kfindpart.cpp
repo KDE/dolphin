@@ -197,7 +197,7 @@ void KFindPart::restoreState( QDataStream& stream )
   slotStarted();
   for(int i=0;i<nbitems;i++)
   {
-    KFileItem* item = new KFileItem( KFileItem::Unknown, KFileItem::Unknown, KURL() );
+    KFileItem* item = new KFileItem( KFileItem::Unknown, KFileItem::Unknown, KUrl() );
     stream >> *item;
     m_lstFileItems.append(item);
   }

@@ -159,7 +159,7 @@ void KNewMenu::parseFiles()
                     if ( templatePath[0] != '/' )
                     {
                         if ( templatePath.startsWith("file:/") )
-                            templatePath = KURL(templatePath).path();
+                            templatePath = KUrl(templatePath).path();
                         else
                         {
                             // A relative path, then (that's the default in the files we ship)
@@ -182,7 +182,7 @@ void KNewMenu::parseFiles()
             }
             if (text.isEmpty())
             {
-                text = KURL(filePath).fileName();
+                text = KUrl(filePath).fileName();
                 if ( text.endsWith(".desktop") )
                     text.truncate( text.length() - 8 );
                 else if ( text.endsWith(".kdelnk") )
@@ -507,7 +507,7 @@ void KNewMenu::slotResult( KIO::Job * job )
                 // But in case of a renaming (due to a conflict), the real path is in m_destPath
                 kDebug(1203) << " destURL=" << destURL.path() << " " << " d->m_destPath=" << d->m_destPath << endl;
                 KDesktopFile df( d->m_destPath );
-                df.writeEntry( "Icon", KProtocolInfo::icon( KURL(m_linkURL).protocol() ) );
+                df.writeEntry( "Icon", KProtocolInfo::icon( KUrl(m_linkURL).protocol() ) );
                 df.writePathEntry( "URL", m_linkURL );
                 df.sync();
             }

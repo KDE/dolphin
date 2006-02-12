@@ -107,7 +107,7 @@ void KonqOperations::del( QWidget * parent, int method, const KUrl::List & selec
 void KonqOperations::emptyTrash()
 {
   KonqOperations *op = new KonqOperations( 0L );
-  op->_del( EMPTYTRASH, KURL("trash:/"), SKIP_CONFIRMATION );
+  op->_del( EMPTYTRASH, KUrl("trash:/"), SKIP_CONFIRMATION );
 }
 
 void KonqOperations::restoreTrashedItems( const KUrl::List& urls )
@@ -121,7 +121,7 @@ void KonqOperations::mkdir( QWidget *parent, const KUrl & url )
     KIO::Job * job = KIO::mkdir( url );
     KonqOperations * op = new KonqOperations( parent );
     op->setOperation( job, MKDIR, KUrl::List(), url );
-    (void) new KonqCommandRecorder( KonqCommand::MKDIR, KURL(), url, job ); // no support yet, apparently
+    (void) new KonqCommandRecorder( KonqCommand::MKDIR, KUrl(), url, job ); // no support yet, apparently
 }
 
 void KonqOperations::doPaste( QWidget * parent, const KUrl & destURL )

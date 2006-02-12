@@ -593,7 +593,7 @@ void KonqSidebarDirTreeModule::slotListingStopped( const KUrl & url )
     if ( !m_selectAfterOpening.isEmpty() && url.isParentOf( m_selectAfterOpening ) )
     {
         KUrl theURL( m_selectAfterOpening );
-        m_selectAfterOpening = KURL();
+        m_selectAfterOpening = KUrl();
         followURL( theURL );
     }
 }

@@ -782,7 +782,7 @@ void KonqKfmIconView::slotContextMenuRequested(Q3IconViewItem* _item, const QPoi
         const KFileItemList::const_iterator kend = items.end();
         for ( ; kit != kend; ++kit )
             if ( (*kit)->url().directory( 1 ) != rootItem->url().path() )
-                parentDirURL = KURL();
+                parentDirURL = KUrl();
         // If rootItem is the parent of the selected items, then we can use isWritable() on it.
         if ( !parentDirURL.isEmpty() && !rootItem->isWritable() )
             popupFlags |= KParts::BrowserExtension::NoDeletion;
@@ -1513,7 +1513,7 @@ void SpringLoadingManager::finished()
     kDebug() << "SpringLoadManager::finished()" << endl;
 
     KUrl url = m_startURL;
-    m_startURL = KURL();
+    m_startURL = KUrl();
 
     KParts::ReadOnlyPart *part = m_startPart;
     m_startPart = 0L;

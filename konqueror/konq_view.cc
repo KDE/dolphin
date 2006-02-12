@@ -662,7 +662,7 @@ void KonqView::setIconURL( const KUrl & iconURL )
 {
   if ( KonqSettings::enableFavicon() )
   {
-    KonqPixmapProvider::setIconForURL( KURL( m_sLocationBarURL ), iconURL );
+    KonqPixmapProvider::setIconForURL( KUrl( m_sLocationBarURL ), iconURL );
     m_bGotIconURL = true;
   }
 }

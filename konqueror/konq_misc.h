@@ -86,7 +86,7 @@ public:
      */
     static KonqMainWindow * createBrowserWindowFromProfile( const QString &path,
                                                             const QString &filename,
-                                                            const KUrl &url = KURL(),
+                                                            const KUrl &url = KUrl(),
                                                             const KParts::URLArgs &args = KParts::URLArgs(),
                                                             bool forbidUseHTML = false,
                                                             const QStringList& filesToSelect = QStringList(),

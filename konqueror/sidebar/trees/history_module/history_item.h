@@ -98,7 +98,7 @@ public:
     // we don't support the following of KonqSidebarTreeItem
     bool acceptsDrops( const QStrList& ) { return false; }
     virtual void drop( QDropEvent * ) {}
-    virtual KUrl externalURL() const { return KURL(); }
+    virtual KUrl externalURL() const { return KUrl(); }
 
 private:
     bool m_hasFavIcon;
