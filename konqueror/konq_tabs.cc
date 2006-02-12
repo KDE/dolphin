@@ -253,7 +253,7 @@ void KonqFrameTabs::reparentFrame( QWidget* parent, const QPoint & p, bool showI
 void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
 {
   // kDebug(1202) << "KonqFrameTabs::setTitle( " << title << " , " << sender << " )" << endl;
-  setTabLabel( sender,title );
+  setTabText( indexOf( sender ), title );
 }
 
 void KonqFrameTabs::setTabIcon( const QString &url, QWidget* sender )
@@ -508,6 +508,7 @@ void KonqFrameTabs::slotInitiateDrag( QWidget *w )
     QDrag *d = new QDrag( this );
     QMimeData* md = new QMimeData();
     frame->activeChildView()->url().populateMimeData(md);
+    d->setMimeData( md );
     d->setPixmap( KMimeType::pixmapForURL( frame->activeChildView()->url(), 0, KIcon::Small ) );
     d->start();
   }
