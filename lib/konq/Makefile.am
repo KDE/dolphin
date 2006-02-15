@@ -50,7 +50,7 @@ include_HEADERS = konq_popupmenu.h knewmenu.h \
     konq_undo.h konq_historymgr.h konq_historycomm.h \
     konq_pixmapprovider.h \
     kivdirectoryoverlay.h \
-    konq_faviconmgr.h konq_xmlguiclient.h konqbookmarkmanager.h konq_filetip.h
+    konq_faviconmgr.h konq_xmlguiclient.h konqbookmarkmanager.h konq_filetip.h konqmimedata.h
 
 
 if include_ARTS
