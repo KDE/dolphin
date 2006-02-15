@@ -115,7 +115,7 @@
                     <property name="name">
                         <cstring>sbFtp</cstring>
                     </property>
-                    <property name="maxValue">
+                    <property name="maximum">
                         <number>65536</number>
                     </property>
                     <property name="whatsThis" stdset="0">
@@ -126,7 +126,7 @@
                     <property name="name">
                         <cstring>sbHttps</cstring>
                     </property>
-                    <property name="maxValue">
+                    <property name="maximum">
                         <number>65536</number>
                     </property>
                     <property name="whatsThis" stdset="0">
@@ -143,7 +143,7 @@
                             <height>32767</height>
                         </size>
                     </property>
-                    <property name="maxValue">
+                    <property name="maximum">
                         <number>65536</number>
                     </property>
                     <property name="whatsThis" stdset="0">
