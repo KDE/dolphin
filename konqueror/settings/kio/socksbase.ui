@@ -12,7 +12,7 @@
             <height>402</height>
         </rect>
     </property>
-    <property name="caption">
+    <property name="windowTitle">
         <string>SOCKS</string>
     </property>
     <property name="layoutMargin" stdset="0">

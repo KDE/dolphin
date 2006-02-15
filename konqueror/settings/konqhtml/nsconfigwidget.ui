@@ -13,7 +13,7 @@
             <height>373</height>
         </rect>
     </property>
-    <property name="caption">
+    <property name="windowTitle">
         <string>Netscape Plugin Config</string>
     </property>
     <property name="layoutMargin" stdset="0">
