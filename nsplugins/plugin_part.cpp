@@ -77,7 +77,7 @@ bool PluginLiveConnectExtension::put( const unsigned long, const QString &field,
     if (_retval && field == "__nsplugin") {
         *_retval = value;
         return true;
-    } else if (field.lower() == "src") {
+    } else if (field.toLower() == "src") {
         _part->changeSrc(value);
         return true;
     }
@@ -89,7 +89,7 @@ QString PluginLiveConnectExtension::evalJavaScript( const QString & script )
     kDebug(1432) << "PLUGIN:LiveConnect::evalJavaScript " << script << endl;
     ArgList args;
     QString jscode;
-    jscode.sprintf("this.__nsplugin=eval(\"%s\")",  QString(script).replace('\\', "\\\\").replace('"', "\\\"").latin1());
+    jscode.sprintf("this.__nsplugin=eval(\"%s\")",  qPrintable( QString(script).replace('\\', "\\\\").replace('"', "\\\"")));
     //kDebug(1432) << "String is [" << jscode << "]" << endl;
     args.push_back(qMakePair(KParts::LiveConnectExtension::TypeString, jscode));
     QString nsplugin("Undefined");
@@ -201,7 +201,7 @@ KAboutData *PluginFactory::aboutData()
 
 
 PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *parent,
-                       const char *name, const QStringList &args)
+                       const char*, const QStringList &args)
     : KParts::ReadOnlyPart(parent), _widget(0), _args(args),
       _destructed(0L)
 {
@@ -229,7 +229,6 @@ PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *p
     _canvas->setObjectName( widgetName );
     //_canvas->setFocusPolicy( QWidget::ClickFocus );
     _canvas->setFocusPolicy( Qt::WheelFocus );
-    _canvas->setBackgroundMode( Qt::NoBackground );
     setWidget(_canvas);
     _canvas->show();
     QObject::connect( _canvas, SIGNAL(resized(int,int)),
@@ -265,10 +264,10 @@ bool PluginPart::openURL(const KUrl &url)
     QStringList::Iterator it = _args.begin();
     for ( ; it != _args.end(); ) {
 
-        int equalPos = (*it).find("=");
+        int equalPos = (*it).indexOf("=");
         if (equalPos>0) {
 
-            QString name = (*it).left(equalPos).upper();
+            QString name = (*it).left(equalPos).toUpper();
             QString value = (*it).mid(equalPos+1);
             if (value[0] == '"' && value[value.length()-1] == '"')
                 value = value.mid(1, value.length()-2);
@@ -309,7 +308,8 @@ bool PluginPart::openURL(const KUrl &url)
         _widget = inst;
     } else {
         QLabel *label = new QLabel( i18n("Unable to load Netscape plugin for %1").arg(url.url()), _canvas );
-        label->setAlignment( Qt::AlignCenter | Qt::TextWordWrap );
+        label->setAlignment( Qt::AlignCenter );
+        label->setWordWrap( true );
         _widget = label;
     }
 

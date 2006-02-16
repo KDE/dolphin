@@ -150,7 +150,6 @@ int main(int argc, char** argv)
    }
 
    kDebug(1430) << "6 - dcop->registerAs" << endl;
-#warning QByteArray -> !QByteArray.isEmpty
    if (!g_dcopId.isEmpty())
       g_dcopId = dcop->registerAs( g_dcopId, false );
    else

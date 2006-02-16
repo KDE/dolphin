@@ -327,7 +327,7 @@ NPError g_NPN_PostURLNotify(NPP instance, const char* url, const char* target,
          }
       }
 
-      postdata.duplicate(previousStart, len - l + 1);
+      postdata = QByteArray(previousStart, len - l + 1);
    }
 
    kDebug(1431) << "Post data: " << postdata.size() << " bytes" << endl;
@@ -424,7 +424,7 @@ NPError g_NPN_PostURL(NPP instance, const char* url, const char* target,
          }
       }
 
-      postdata.duplicate(previousStart, len - l + 1);
+      postdata = QByteArray(previousStart, len - l + 1);
    }
 
    kDebug(1431) << "Post data: " << postdata.size() << " bytes" << endl;
@@ -485,7 +485,7 @@ const char *g_NPN_UserAgent(NPP /*instance*/)
     KProtocolManager kpm;
     QString agent = kpm.userAgentForHost("nspluginviewer");
     kDebug(1431) << "g_NPN_UserAgent() = " << agent << endl;
-    return agent.latin1();
+    return agent.toLatin1();
 }
 
 
@@ -586,8 +586,10 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
                                    QString appId, QString callbackId,
                                    bool embed,
                                    QObject *parent, const char* name )
-   : DCOPObject(), QObject( parent, name ) 
+   : DCOPObject(), QObject( parent )
 {
+   setObjectName( name );
+
     Q_UNUSED(embed);
    _firstResize = true;
    _visible = false;
@@ -600,7 +602,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    _tempFiles.setAutoDelete( true );
    _streams.setAutoDelete( true );
    _waitingRequests.setAutoDelete( true );
-   _callback = new NSPluginCallbackIface_stub( appId.latin1(), callbackId.latin1() );
+   _callback = new NSPluginCallbackIface_stub( appId.toLatin1(), callbackId.toLatin1() );
 
    KUrl base(src);
    base.setFileName( QString() );
@@ -642,9 +644,9 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
 
    // Create form window that is searched for by flash plugin
    _form = XtVaCreateWidget("form", compositeWidgetClass, _toplevel, NULL);
-   XtSetArg(args[nargs], XtNvisual, QPaintDevice::x11AppVisual()); nargs++;
-   XtSetArg(args[nargs], XtNdepth, QPaintDevice::x11AppDepth()); nargs++;
-   XtSetArg(args[nargs], XtNcolormap, QPaintDevice::x11AppColormap()); nargs++;
+   XtSetArg(args[nargs], XtNvisual, QX11Info::appVisual()); nargs++;
+   XtSetArg(args[nargs], XtNdepth, QX11Info::appDepth()); nargs++;
+   XtSetArg(args[nargs], XtNcolormap, QX11Info::appColormap()); nargs++;
    XtSetValues(_form, args, nargs);
    XSync(QX11Info::display(), false);
 
@@ -747,7 +749,8 @@ void NSPluginInstance::shutdown()
 void NSPluginInstance::timer()
 {
     if (!_visible) {
-         _timer->start( 100, true );
+         _timer->setSingleShot( true );
+         _timer->start( 100 );
          return;
     }
 
@@ -763,7 +766,7 @@ void NSPluginInstance::timer()
         QString url;
 
         // make absolute url
-        if ( req.url.left(11).lower()=="javascript:" )
+        if ( req.url.left(11).toLower()=="javascript:" )
             url = req.url;
         else if ( KUrl::isRelativeURL(req.url) ) {
             KUrl bu( _baseURL );
@@ -806,7 +809,7 @@ void NSPluginInstance::timer()
 
                     emitStatus( i18n("Submitting data to %1").arg(url) );
                     s->post( url, req.data, req.mime, req.notify, req.args );
-                } else if (url.lower().startsWith("javascript:")){
+                } else if (url.toLower().startsWith("javascript:")){
                     if (_callback) {
                         static int _jsrequestid = 0;
 			_jsrequests.insert(_jsrequestid, new Request(req));
@@ -864,7 +867,8 @@ void NSPluginInstance::requestURL( const QString &url, const QString &mime,
 
     kDebug(1431) << "NSPluginInstance::requestURL url=" << nurl << " target=" << target << " notify=" << notify << endl;
     _waitingRequests.enqueue( new Request( nurl, mime, target, notify, forceNotify, reload ) );
-    _timer->start( 100, true );
+    _timer->setSingleShot( true );
+    _timer->start( 100 );
 }
 
 
@@ -881,7 +885,8 @@ void NSPluginInstance::postURL( const QString &url, const QByteArray& data,
 
     kDebug(1431) << "NSPluginInstance::postURL url=" << nurl << " target=" << target << " notify=" << notify << endl;
     _waitingRequests.enqueue( new Request( nurl, data, mime, target, notify, args, forceNotify) );
-    _timer->start( 100, true );
+    _timer->setSingleShot( true );
+    _timer->start( 100 );
 }
 
 
@@ -900,7 +905,8 @@ void NSPluginInstance::streamFinished( NSPluginStreamBase* strm )
    _streams.remove(strm);
    _streams.setAutoDelete(true);
    strm->deleteLater();
-   _timer->start( 100, true );
+   _timer->setSingleShot( true );
+   _timer->start( 100 );
 }
 
 
@@ -978,9 +984,9 @@ void NSPluginInstance::resizePlugin(int w, int h)
    Cardinal nargs = 0;
    XtSetArg(args[nargs], XtNwidth, _width); nargs++;
    XtSetArg(args[nargs], XtNheight, _height); nargs++;
-   XtSetArg(args[nargs], XtNvisual, QPaintDevice::x11AppVisual()); nargs++;
-   XtSetArg(args[nargs], XtNdepth, QPaintDevice::x11AppDepth()); nargs++;
-   XtSetArg(args[nargs], XtNcolormap, QPaintDevice::x11AppColormap()); nargs++;
+   XtSetArg(args[nargs], XtNvisual, QX11Info::appVisual()); nargs++;
+   XtSetArg(args[nargs], XtNdepth, QX11Info::appDepth()); nargs++;
+   XtSetArg(args[nargs], XtNcolormap, QX11Info::appColormap()); nargs++;
    XtSetArg(args[nargs], XtNborderWidth, 0); nargs++;
 
    XtSetValues(_toplevel, args, nargs);
@@ -1000,8 +1006,8 @@ void NSPluginInstance::resizePlugin(int w, int h)
 void NSPluginInstance::javascriptResult(int id, QString result) {
     QMap<int, Request*>::iterator i = _jsrequests.find( id );
     if (i != _jsrequests.end()) {
-        Request *req = i.data();
-        _jsrequests.remove( i );
+        Request *req = i.value();
+        _jsrequests.erase( i );
         NSPluginStream *s = new NSPluginStream( this );
         connect( s, SIGNAL(finished(NSPluginStreamBase*)),
                  SLOT(streamFinished(NSPluginStreamBase*)) );
@@ -1011,13 +1017,13 @@ void NSPluginInstance::javascriptResult(int id, QString result) {
         s->create( req->url, QString("text/plain"), req->notify, req->forceNotify );
         kDebug(1431) << "javascriptResult has been called with: "<<result<<endl;
         if (len > 0) {
-            QByteArray data(len + 1);
-            memcpy(data.data(), result.latin1(), len);
+            QByteArray data(len + 1, 0);
+            memcpy(data.data(), result.toLatin1(), len);
             data[len] = 0;
             s->process(data, 0);
         } else {
             len = 7; //  "unknown"
-            QByteArray data(len + 1);
+            QByteArray data(len + 1, 0);
             memcpy(data.data(), "unknown", len);
             data[len] = 0;
             s->process(data, 0);
@@ -1171,7 +1177,7 @@ void NSPluginInstance::NPURLNotify(QString url, NPReason reason, void *notifyDat
    if (!_pluginFuncs.urlnotify)
       return;
 
-   _pluginFuncs.urlnotify(_npp, url.ascii(), reason, notifyData);
+   _pluginFuncs.urlnotify(_npp, url.toAscii(), reason, notifyData);
 }
 
 
@@ -1199,8 +1205,10 @@ void NSPluginInstance::displayPlugin()
 
 NSPluginViewer::NSPluginViewer( DCOPCString dcopId,
                                 QObject *parent, const char *name )
-   : DCOPObject(dcopId), QObject( parent, name ) 
+   : DCOPObject(dcopId), QObject( parent )
 {
+    setObjectName( name );
+
     _classes.setAutoDelete( true );
     connect(KApplication::dcopClient(),
             SIGNAL(applicationRemoved(const QByteArray&)),
@@ -1277,8 +1285,10 @@ DCOPRef NSPluginViewer::newClass( QString plugin )
 
 NSPluginClass::NSPluginClass( const QString &library,
                               QObject *parent, const char *name )
-   : DCOPObject(), QObject( parent, name ) 
+   : DCOPObject(), QObject( parent ) 
 {
+    setObjectName( name );
+
     // initialize members
     _handle = KLibLoader::self()->library(QFile::encodeName(library));
     _libname = library;
@@ -1422,8 +1432,8 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
 
    for (unsigned int i=0; i<argc; i++)
    {
-      QByteArray encN = argn[i].utf8();
-      QByteArray encV = argv[i].utf8();
+      QByteArray encN = argn[i].toUtf8();
+      QByteArray encV = argv[i].toUtf8();
 
       const char *n = encN;
       const char *v = encV;
@@ -1439,7 +1449,7 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
 
    // create plugin instance
    char mime[256];
-   strncpy(mime, mimeType.ascii(), 255);
+   strncpy(mime, mimeType.toAscii(), 255);
    mime[255] = 0;
    NPP npp = (NPP)malloc(sizeof(NPP_t));   // I think we should be using
                                            // malloc here, just to be safe,
@@ -1510,11 +1520,6 @@ NSPluginStreamBase::~NSPluginStreamBase()
 
    delete _tempFile;
    _tempFile = 0;
-#warning delete a QByteArray? how was this working? is this needed? i guess not
-#if 0
-   delete _queue;
-   _queue = 0;
-#endif
 }
 
 
@@ -1533,7 +1538,7 @@ void NSPluginStreamBase::inform()
         _informed = true;
 
         // inform the plugin
-        _instance->NPNewStream( _mimeType.isEmpty() ? (char *) "text/plain" :  (char*)_mimeType.ascii(),
+        _instance->NPNewStream( _mimeType.isEmpty() ? (char *) "text/plain" :  (char*)_mimeType.data(),
                     _stream, false, &_streamType );
         kDebug(1431) << "NewStream stype=" << _streamType << " url=" << _url << " mime=" << _mimeType << endl;
 
@@ -1584,7 +1589,7 @@ bool NSPluginStreamBase::create( const QString& url, const QString& mimeType, vo
     // create new stream
     _stream = new NPStream;
     _stream->ndata = this;
-    _stream->url = strdup(url.ascii());
+    _stream->url = strdup(url.toAscii());
     _stream->end = 0;
     _stream->pdata = 0;
     _stream->lastmodified = 0;
@@ -1609,7 +1614,7 @@ int NSPluginStreamBase::process( const QByteArray &data, int start )
 
       max = _instance->NPWriteReady(_stream);
       //kDebug(1431) << "to_sent == " << to_sent << " and max = " << max << endl;
-      len = QMIN(max, to_sent);
+      len = qMin(max, to_sent);
 
       //kDebug(1431) << "-> Feeding stream to plugin: offset=" << _pos << ", len=" << len << endl;
       sent = _instance->NPWrite( _stream, _pos, len, d );
@@ -1626,7 +1631,7 @@ int NSPluginStreamBase::process( const QByteArray &data, int start )
       }
 
       if (_tempFile) {
-          _tempFile->dataStream()->writeRawBytes(d, sent);
+          _tempFile->dataStream()->writeRawData(d, sent);
       }
 
       to_sent -= sent;
@@ -1650,7 +1655,7 @@ bool NSPluginStreamBase::pump()
         // handle AS_FILE_ONLY streams
         if ( _onlyAsFile ) {
             if (_tempFile) {
-                _tempFile->dataStream()->writeRawBytes( _queue, _queue.size() );
+                _tempFile->dataStream()->writeRawData( _queue, _queue.size() );
 	    }
             newPos = _queuePos+_queue.size();
         } else {
@@ -1707,7 +1712,7 @@ void NSPluginStreamBase::finish( bool err )
 
         if ( !_fileURL.isEmpty() ) {
             kDebug() << "stream as file " << _fileURL << endl;
-             _instance->NPStreamAsFile( _stream, _fileURL.ascii() );
+             _instance->NPStreamAsFile( _stream, _fileURL.toAscii() );
         }
 
         _instance->NPDestroyStream( _stream, NPRES_DONE );
@@ -1759,7 +1764,8 @@ bool NSPluginBufStream::get( const QString& url, const QString& mimeType,
     _singleShot = singleShot;
     if ( create( url, mimeType, notifyData ) ) {
         queue( buf );
-        _timer->start( 100, true );
+        _timer->setSingleShot( true );
+        _timer->start( 100 );
     }
 
     return false;
@@ -1773,9 +1779,10 @@ void NSPluginBufStream::timer()
         finish( false );
     else {
 
-        if ( !finished && tries()<=8 )
-            _timer->start( 100, true );
-        else
+        if ( !finished && tries()<=8 ) {
+            _timer->setSingleShot( true );
+            _timer->start( 100 );
+        } else
             finish( error() || tries()>8 );
     }
 }
@@ -1847,13 +1854,14 @@ bool NSPluginStream::post( const QString& url, const QByteArray& data,
 }
 
 
-void NSPluginStream::data(KIO::Job * job, const QByteArray &data)
+void NSPluginStream::data(KIO::Job*, const QByteArray &data)
 {
     //kDebug(1431) << "NSPluginStream::data - job=" << (void*)job << " data size=" << data.size() << endl;
     queue( data );
     if ( !pump() ) {
         _job->suspend();
-        _resumeTimer->start( 100, TRUE );
+        _resumeTimer->setSingleShot( true );
+        _resumeTimer->start( 100 );
     }
 }
 
@@ -1885,7 +1893,8 @@ void NSPluginStream::resume()
       _job->resume();
    } else {
        kDebug(1431) << "restart timer" << endl;
-       _resumeTimer->start( 100, TRUE );
+       _resumeTimer->setSingleShot( true );
+       _resumeTimer->start( 100 );
    }
 }
 

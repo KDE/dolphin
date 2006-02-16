@@ -61,7 +61,9 @@ NSPluginInstance::NSPluginInstance(QWidget *parent, const DCOPCString& app, cons
 {
     _loader = 0L;
     shown = false;
-    QGridLayout *_layout = new QGridLayout(this, 1, 1);
+    QGridLayout *_layout = new QGridLayout(this);
+    _layout->setMargin(1);
+    _layout->setSpacing(1);
     KConfig cfg("kcmnspluginrc", false);
     cfg.setGroup("Misc");
     if (cfg.readEntry("demandLoad", QVariant(false)).toBool()) {
@@ -81,12 +83,9 @@ void NSPluginInstance::doLoadPlugin() {
         delete _button;
         _button = 0L;
         _loader = NSPluginLoader::instance();
-        setBackgroundMode(Qt::NoBackground);
-#warning Please check  "setProtocol(QX11EmbedWidget::XPLAIN);"
-#if 0
-        setProtocol(QX11EmbedWidget::XPLAIN);
-        embed( NSPluginInstanceIface_stub::winId() );
-#endif
+
+        embedInto( NSPluginInstanceIface_stub::winId() );
+
         displayPlugin();
         show();
         shown = true;
@@ -106,7 +105,6 @@ NSPluginInstance::~NSPluginInstance()
 
 void NSPluginInstance::windowChanged(WId w)
 {
-    setBackgroundMode(w == 0 ? Qt::PaletteBackground : Qt::NoBackground);
     if (w == 0) {
         // FIXME: Put a notice here to tell the user that it crashed.
         repaint();
@@ -208,9 +206,9 @@ void NSPluginLoader::scanPlugins()
           continue;
         }
 
-      QStringList desc = QStringList::split(':', line, TRUE);
+      QStringList desc = line.split(':', QString::KeepEmptyParts);
       QString mime = desc[0].trimmed();
-      QStringList suffixes = QStringList::split(',', desc[1].trimmed());
+      QStringList suffixes = desc[1].trimmed().split(',');
       if (!mime.isEmpty())
         {
           // insert the mimetype -> plugin mapping
@@ -280,7 +278,6 @@ bool NSPluginLoader::loadViewer()
 
    // find the external viewer process
    QString viewer = KGlobal::dirs()->findExe("nspluginviewer");
-#warning more !QString -> isEmpty()
    if (viewer.isEmpty())
    {
       kDebug() << "can't find nspluginviewer" << endl;
@@ -292,7 +289,6 @@ bool NSPluginLoader::loadViewer()
    if( !_useArtsdsp ) {
        kDebug() << "trying to use artsdsp" << endl;
        QString artsdsp = KGlobal::dirs()->findExe("artsdsp");
-#warning more !QString -> isEmpty()
        if (artsdsp.isEmpty())
        {
            kDebug() << "can't find artsdsp" << endl;

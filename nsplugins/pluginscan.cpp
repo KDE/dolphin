@@ -148,7 +148,7 @@ void generateMimeType( QString mime, QString extensions, QString pluginName, QSt
     // get directory from mime string
     QString dir;
     QString name;
-    int pos = mime.findRev('/');
+    int pos = mime.lastIndexOf('/');
     if ( pos<0 ) {
         kDebug(1433) << "Invalid MIME type " << mime << endl;
         kDebug(1433) << "<- generateMimeType" << endl;
@@ -173,7 +173,7 @@ void generateMimeType( QString mime, QString extensions, QString pluginName, QSt
         ts << "X-KDE-nsplugin=true" << endl;
 
         if (!extensions.isEmpty()) {
-            QStringList exts = QStringList::split(",", extensions);
+            QStringList exts = extensions.split(",");
             QStringList patterns;
             for (QStringList::Iterator it=exts.begin(); it != exts.end(); ++it)
                 patterns.append( "*." + (*it).trimmed() );
@@ -273,7 +273,7 @@ int tryCheck(int write_fd, const QString &absFile)
     // create a QDataStream for our IPC pipe (to send plugin info back to the parent)
     FILE *write_pipe = fdopen(write_fd, "w");
     QFile stream_file;
-    stream_file.open(QIODevice::WriteOnly, write_pipe);
+    stream_file.open(write_pipe, QIODevice::WriteOnly);
     QDataStream stream(&stream_file);
 
     // return the gathered info to the parent
@@ -299,7 +299,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
 
     for (unsigned int i=0; i<files.count(); i++) {
         QString extension;
-        int j = files[i].findRev('.');
+        int j = files[i].lastIndexOf('.');
         if (j > 0)
            extension = files[i].mid(j+1);
 
@@ -348,7 +348,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
 
            FILE *read_pipe = fdopen(pipes[0], "r");
            QFile q_read_pipe;
-           q_read_pipe.open(QIODevice::ReadOnly, read_pipe);
+           q_read_pipe.open(read_pipe, QIODevice::ReadOnly);
 
            char *data = (char *)malloc(4096);
            if (!data) continue;
@@ -379,7 +379,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
            bool actuallyUsing = false;
 
            // get mime types from string
-           QStringList types = QStringList::split( ';', mimeInfo );
+           QStringList types = mimeInfo.split( ';' );
            QStringList::Iterator type;
            for ( type=types.begin(); type!=types.end(); ++type ) {
 
@@ -395,10 +395,10 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
                   }
 
                   // write into type cache
-                  QStringList tokens = QStringList::split(':', *type, TRUE);
+                  QStringList tokens = (*type).split(':', QString::KeepEmptyParts);
                   QStringList::Iterator token;
                   token = tokens.begin();
-                  cache << (*token).lower();
+                  cache << (*token).toLower();
                   ++token;
                   for ( ; token!=tokens.end(); ++token )
                       cache << ":" << *token;
@@ -469,7 +469,7 @@ QStringList getSearchPaths()
     delete config;
 
     // append environment variable NPX_PLUGIN_PATH
-    QStringList envs = QStringList::split(':', getenv("NPX_PLUGIN_PATH"));
+    QStringList envs = QString( getenv("NPX_PLUGIN_PATH") ).split(':');
     QStringList::Iterator it;
     for (it = envs.begin(); it != envs.end(); ++it)
         searchPaths.append(*it);
@@ -511,7 +511,7 @@ void writeServicesFile( QStringList mimeTypes )
 void removeExistingExtensions( QString &extension )
 {
     QStringList filtered;
-    QStringList exts = QStringList::split( ",", extension );
+    QStringList exts = extension.split( "," );
     for ( QStringList::Iterator it=exts.begin(); it!=exts.end(); ++it ) {
         QString ext = (*it).trimmed();
         if ( ext == "*" ) // some plugins have that, but we don't want to associate a mimetype with *.*!
@@ -636,10 +636,10 @@ int main( int argc, char **argv )
 
       kDebug(1433) << "Handling MIME type " << *it << endl;
 
-      QStringList info = QStringList::split(":", *it, true);
+      QStringList info = (*it).split(":", QString::KeepEmptyParts);
       if ( info.count()==4 ) {
           QString pluginName = info[0];
-          QString type = info[1].lower();
+          QString type = info[1].toLower();
           QString extension = info[2];
           QString desc = info[3];
 
