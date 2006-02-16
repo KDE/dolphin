@@ -97,7 +97,7 @@ QString KonqAboutPageFactory::launch()
 
   KIconLoader *iconloader = KGlobal::iconLoader();
   int iconSize = iconloader->currentSize(KIcon::Desktop);
-  QString home_icon_path = iconloader->iconPath("kfm_home", KIcon::Desktop );
+  QString home_icon_path = iconloader->iconPath("folder_home", KIcon::Desktop );
   QString storage_icon_path = iconloader->iconPath("system", KIcon::Desktop );
   QString remote_icon_path = iconloader->iconPath("network", KIcon::Desktop );
   QString wastebin_icon_path = iconloader->iconPath("trashcan_full", KIcon::Desktop );
@@ -460,7 +460,7 @@ void KonqAboutPage::serve( const QString& html, const QString& what )
 
 void KonqAboutPage::urlSelected( const QString &url, int button, int state, const QString &target, KParts::URLArgs _args )
 {
-    KUrl u( url );
+    KUrl u = KUrl::fromPathOrURL( url );
     if ( u.protocol() == "exec" )
     {
         QStringList args = QStringList::split( QChar( ' ' ), url.mid( 6 ) );
