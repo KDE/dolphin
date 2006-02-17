@@ -770,15 +770,15 @@ int KonqComboListBoxPixmap::height( const Q3ListBox* lb ) const
     if ( text().isEmpty() )
         h = pm.height();
     else
-        h = QMAX( pm.height(), lb->fontMetrics().lineSpacing() + 2 );
-    return QMAX( h, QApplication::globalStrut().height() );
+        h = qMax( pm.height(), lb->fontMetrics().lineSpacing() + 2 );
+    return qMax( h, QApplication::globalStrut().height() );
 }
 
 int KonqComboListBoxPixmap::width( const Q3ListBox* lb ) const
 {
     if ( text().isEmpty() )
-        return QMAX( pm.width() + 6, QApplication::globalStrut().width() );
-    return QMAX( pm.width() + lb->fontMetrics().width( text() ) + 6,
+        return qMax( pm.width() + 6, QApplication::globalStrut().width() );
+    return qMax( pm.width() + lb->fontMetrics().width( text() ) + 6,
                  QApplication::globalStrut().width() );
 }
 

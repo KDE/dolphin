@@ -281,7 +281,7 @@ static void np_do_timers( void*, void* )
     timeval *tm = qt_wait_timer();
 
     if (tm) {
-        int interval = QMIN(tm->tv_sec,INT_MAX/1000)*1000 + tm->tv_usec/1000;
+        int interval = qMin(tm->tv_sec,INT_MAX/1000)*1000 + tm->tv_usec/1000;
         np_set_timer( interval );
     }
     qxtapp->sendPostedEvents();

@@ -83,7 +83,7 @@ void KSaveIOConfig::setReadTimeout( int _timeout )
 {
   KConfig* cfg = config ();
   cfg->setGroup( QString() );
-  cfg->writeEntry("ReadTimeout", QMAX(MIN_TIMEOUT_VALUE,_timeout));
+  cfg->writeEntry("ReadTimeout", qMax(MIN_TIMEOUT_VALUE,_timeout));
   cfg->sync();
 }
 
@@ -91,7 +91,7 @@ void KSaveIOConfig::setConnectTimeout( int _timeout )
 {
   KConfig* cfg = config ();
   cfg->setGroup( QString() );
-  cfg->writeEntry("ConnectTimeout", QMAX(MIN_TIMEOUT_VALUE,_timeout));
+  cfg->writeEntry("ConnectTimeout", qMax(MIN_TIMEOUT_VALUE,_timeout));
   cfg->sync();
 }
 
@@ -99,7 +99,7 @@ void KSaveIOConfig::setProxyConnectTimeout( int _timeout )
 {
   KConfig* cfg = config ();
   cfg->setGroup( QString() );
-  cfg->writeEntry("ProxyConnectTimeout", QMAX(MIN_TIMEOUT_VALUE,_timeout));
+  cfg->writeEntry("ProxyConnectTimeout", qMax(MIN_TIMEOUT_VALUE,_timeout));
   cfg->sync();
 }
 
@@ -107,7 +107,7 @@ void KSaveIOConfig::setResponseTimeout( int _timeout )
 {
   KConfig* cfg = config ();
   cfg->setGroup( QString() );
-  cfg->writeEntry("ResponseTimeout", QMAX(MIN_TIMEOUT_VALUE,_timeout));
+  cfg->writeEntry("ResponseTimeout", qMax(MIN_TIMEOUT_VALUE,_timeout));
   cfg->sync();
 }
 
