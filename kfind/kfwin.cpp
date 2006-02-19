@@ -112,7 +112,7 @@ KfindWindow::KfindWindow( QWidget *parent )
 ,m_menu(0)
 {
   setSelectionMode( Q3ListView::Extended );
-  setShowSortIndicator( TRUE );
+  setShowSortIndicator( true );
 
   addColumn(i18n("Name"));
   addColumn(i18n("In Subfolder"));
