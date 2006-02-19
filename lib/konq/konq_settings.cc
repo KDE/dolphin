@@ -109,7 +109,7 @@ void KonqFMSettings::init( KConfig * config )
       m_iconTransparency = DEFAULT_TEXTPREVIEW_ICONTRANSPARENCY;
 
   // Behaviour
-  m_alwaysNewWin = config->readEntry( "AlwaysNewWin", QVariant(FALSE )).toBool();
+  m_alwaysNewWin = config->readEntry( "AlwaysNewWin", QVariant(false )).toBool();
 
   m_homeURL = config->readPathEntry("HomeURL", "~");
 

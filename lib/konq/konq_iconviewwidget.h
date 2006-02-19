@@ -67,7 +67,7 @@ public:
     /**
      * Constructor
      */
-    KonqIconViewWidget( QWidget *parent = 0L, const char *name = 0L, Qt::WFlags f = 0, bool kdesktop = FALSE );
+    KonqIconViewWidget( QWidget *parent = 0L, const char *name = 0L, Qt::WFlags f = 0, bool kdesktop = false );
     virtual ~KonqIconViewWidget();
 
     /**

@@ -1461,7 +1461,7 @@ void KonqIconViewWidget::insertInGrid(Q3IconViewItem *item)
 
     Q3MemArray<QRect> rects = r.rects();
     Q3MemArray<QRect>::Iterator it = rects.begin();
-    bool foundPlace = FALSE;
+    bool foundPlace = false;
     for (; it != rects.end(); ++it)
     {
         QRect rect = *it;

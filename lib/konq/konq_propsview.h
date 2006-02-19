@@ -68,7 +68,7 @@ public:
    * Called when entering a directory
    * Checks for a .directory, read it.
    * Don't do this on the default properties instance
-   * Returns TRUE if the settings for the new directories are
+   * Returns true if the settings for the new directories are
    * different from the settings in the old directory.
    */
   bool enterDir( const KUrl & dir );
