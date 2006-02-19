@@ -92,6 +92,9 @@ void parseCommandLine(int argc, char *argv[])
    }
 }
 
+#if defined(__OpenBSD__) && !defined(RLIMIT_AS)
+#define RLIMIT_AS	RLIMIT_DATA
+#endif
 
 int main(int argc, char** argv)
 {
