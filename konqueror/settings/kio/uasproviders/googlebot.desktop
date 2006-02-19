@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=UADescription (Googlebot/2.1)
+Name[fr]=Identité du navigateur (Googlebot/2.1)
 Name[x-test]=xxUADescription (Googlebot/2.1)xx
 Type=Service
 ServiceTypes=UserAgentStrings

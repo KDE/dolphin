@@ -3,4 +3,5 @@ Encoding=UTF-8
 Type=ServiceType
 X-KDE-ServiceType=KonqPopupMenu/Plugin
 Comment=Plugin for the Konqueror Popup Menu
+Comment[fr]=Module pour le menu contextuel de Konqueror
 Comment[x-test]=xxPlugin for the Konqueror Popup Menuxx

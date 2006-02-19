@@ -13,8 +13,10 @@ X-KDE-ParentApp=kcontrol
 Name=Cache
 Name[x-test]=xxCachexx
 Comment=Configure web cache settings
+Comment[fr]=Configuration des réglages du cache web
 Comment[x-test]=xxConfigure web cache settingsxx
 Keywords=Cache,History,Browsing History,Ports,Size
+Keywords[fr]=Cache,historique,navigation de l'historique,ports,taille
 Keywords[x-test]=xxCache,History,Browsing History,Ports,Sizexx
 
 Categories=Qt;KDE;X-KDE-settings-webbrowsing;

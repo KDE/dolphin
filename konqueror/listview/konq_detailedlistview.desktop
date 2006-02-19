@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Type=Service
 Name=Detailed List View
+Name[fr]=Liste détaillée
 Name[x-test]=xxDetailed List Viewxx
 MimeType=inode/directory
 ServiceTypes=KParts/ReadOnlyPart,Browser/View

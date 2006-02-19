@@ -12,6 +12,7 @@ X-KDE-PluginInfo-License=GPL
 X-KDE-PluginInfo-EnabledByDefault=true
 X-KDE-ParentApp=konqueror
 Name=Text-to-Speech Plugin
+Name[fr]=Module de synthèse vocale
 Name[x-test]=xxText-to-Speech Pluginxx
 Icon=kttsd
 

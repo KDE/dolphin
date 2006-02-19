@@ -1,8 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Hard Disc Device...
+Name[fr]=Disque dur...
 Name[x-test]=xxHard Disc Device...xx
 Comment=New Hard Disc
+Comment[fr]=Nouveau disque dur
 Comment[x-test]=xxNew Hard Discxx
 Type=Link
 URL=.source/HD.desktop

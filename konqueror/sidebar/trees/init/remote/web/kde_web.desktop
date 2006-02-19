@@ -3,6 +3,7 @@ Encoding=UTF-8
 Type=Link
 URL=http://www.kde.org
 Name=KDE Home Page
+Name[fr]=Page d'accueil de KDE
 Name[x-test]=xxKDE Home Pagexx
 Icon=www
 Open=false

@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=UADescription (Netscape 7.1 on XP)
+Name[fr]=Identité du navigateur (Netscape 7.1 sous Windows XP)
 Name[x-test]=xxUADescription (Netscape 7.1 on XP)xx
 Type=Service
 ServiceTypes=UserAgentStrings

@@ -3,6 +3,7 @@ Encoding=UTF-8
 Type=Link
 URL=http://dot.kde.org/
 Name=KDE News
+Name[fr]=Les nouvelles sur KDE
 Name[x-test]=xxKDE Newsxx
 Icon=www
 Open=false

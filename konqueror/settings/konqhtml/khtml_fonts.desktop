@@ -10,10 +10,13 @@ X-KDE-Library=konqhtml
 X-KDE-FactoryName=khtml_fonts
 
 Name=Fonts
+Name[fr]=Polices
 Name[x-test]=xxFontsxx
 Comment=Configure the fonts used on web pages
+Comment[fr]=Configuration des polices utilisées sur les pages web
 Comment[x-test]=xxConfigure the fonts used on web pagesxx
 Keywords=konqueror,kfm,browser,html,web,www,fonts,charsets,character sets,encoding
+Keywords[fr]=konqueror,kfm,navigateur,html,web,www,polices,couleurs,java,javascript,curseur,liens,images,jeu de caractères,caractères,codage,encodage
 Keywords[x-test]=xxkonqueror,kfm,browser,html,web,www,fonts,charsets,character sets,encodingxx
 
 Categories=Qt;KDE;X-KDE-settings-webbrowsing;

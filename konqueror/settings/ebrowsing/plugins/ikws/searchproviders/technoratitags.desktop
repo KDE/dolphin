@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Type=Service
 Name=Technorati Tags
+Name[fr]=Balises Technorati
 Name[x-test]=xxTechnorati Tagsxx
 ServiceTypes=SearchProvider
 Keys=tags,tag,technoratitags

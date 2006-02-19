@@ -3,6 +3,7 @@ Encoding=UTF-8
 Exec=konqueror --preload
 Type=Application
 Name=Konqueror Preloading During KDE startup
+Name[fr]=Préchargement de Konqueror lors du démarrage de KDE
 Name[x-test]=xxKonqueror Preloading During KDE startupxx
 X-KDE-autostart-condition=konquerorrc:Reusing:PreloadOnStartup:false
 X-KDE-StartupNotify=false

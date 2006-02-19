@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Type=Service
 Name=Free On-Line Dictionary of Computing
+Name[fr]=Dictionnaire de l'informatique gratuit en ligne
 Name[x-test]=xxFree On-Line Dictionary of Computingxx
 ServiceTypes=SearchProvider
 Keys=fd,foldoc

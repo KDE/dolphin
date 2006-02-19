@@ -4,6 +4,7 @@ Type=Link
 URL=print:/
 Icon=fileprint
 Name=Print System Browser
+Name[fr]=Navigateur dans le système d'impression
 Name[x-test]=xxPrint System Browserxx
 Open=false
 X-KDE-TreeModule=Directory

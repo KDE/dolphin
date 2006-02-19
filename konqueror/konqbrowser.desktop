@@ -8,5 +8,6 @@ DocPath=konqueror/index.html
 Name=Konqueror
 Name[x-test]=xxKonquerorxx
 GenericName=Web Browser
+GenericName[fr]=Navigateur web
 GenericName[x-test]=xxWeb Browserxx
 Categories=Qt;KDE;Network;

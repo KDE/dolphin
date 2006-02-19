@@ -14,9 +14,11 @@ Name=Cookies
 Name[x-test]=xxCookiesxx
 
 Comment=Configure the way cookies work
+Comment[fr]=Configuration de la manière dont les cookies fonctionnent
 Comment[x-test]=xxConfigure the way cookies workxx
 
 Keywords=Cookies,Browsing,Internet,WWW,Network,Policy,Domains
+Keywords[fr]=Cookies,navigation,internet,WWW,Web,réseau,règle,politique,domaine
 Keywords[x-test]=xxCookies,Browsing,Internet,WWW,Network,Policy,Domainsxx
 
 Categories=Qt;KDE;X-KDE-settings-webbrowsing;

@@ -11,11 +11,14 @@ X-KDE-FactoryName=kcmcss
 X-KDE-ParentApp=kcontrol
 
 Name=Stylesheets
+Name[fr]=Feuilles de style
 Name[x-test]=xxStylesheetsxx
 Comment=Configure the stylesheets used to render web pages
+Comment[fr]=Configuration des feuilles de style utilisées pour l'affichage HTML
 Comment[x-test]=xxConfigure the stylesheets used to render web pagesxx
 
 Keywords=CSS,HTML,style,stylesheet,accessibility
+Keywords[fr]=css,html,style,feuille de style,accessibilité
 Keywords[x-test]=xxCSS,HTML,style,stylesheet,accessibilityxx
 
 Categories=Qt;KDE;X-KDE-settings-webbrowsing;

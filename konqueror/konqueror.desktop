@@ -6,6 +6,7 @@ Name=Konqueror
 Name[x-test]=xxKonquerorxx
 Exec=konqueror %U
 Comment=KDE File Manager & Web Browser
+Comment[fr]=Gestionnaire de fichiers et navigateur web de KDE
 Comment[x-test]=xxKDE File Manager & Web Browserxx
 Icon=konqueror
 X-DCOP-ServiceType=multi

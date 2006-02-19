@@ -1,6 +1,7 @@
 [Profile]
 FullScreen=false
 Name=Tabbed Browsing
+Name[fr]=Navigation par onglets
 Name[x-test]=xxTabbed Browsingxx
 RootItem=Tabs0
 Tabs0_Children=ViewT0,ViewT1,ViewT2,ViewT3

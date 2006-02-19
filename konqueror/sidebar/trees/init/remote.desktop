@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Network
+Name[fr]=Réseau
 Name[x-test]=xxNetworkxx
 Icon=network
 Open=false

@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Type=Service
 Name=Text View
+Name[fr]=Affichage de Texte
 Name[x-test]=xxText Viewxx
 MimeType=inode/directory
 ServiceTypes=Browser/View

@@ -3,6 +3,7 @@ Encoding=UTF-8
 Type=ServiceType
 X-KDE-ServiceType=SearchProvider
 Comment=Search Engine
+Comment[fr]=Moteur de recherche
 Comment[x-test]=xxSearch Enginexx
 
 [PropertyDef::Keys]

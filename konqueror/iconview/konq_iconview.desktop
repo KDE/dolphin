@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Type=Service
 Name=Icon View
+Name[fr]=Icônes
 Name[x-test]=xxIcon Viewxx
 MimeType=inode/directory
 ServiceTypes=KParts/ReadOnlyPart,Browser/View

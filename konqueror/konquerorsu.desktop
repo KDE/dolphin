@@ -7,6 +7,7 @@ Icon=kfm
 X-KDE-SubstituteUID=true
 
 Name=File Manager - Super User Mode
+Name[fr]=Konqueror (mode superutilisateur)
 Name[x-test]=xxFile Manager - Super User Modexx
 
 

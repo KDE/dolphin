@@ -3,6 +3,7 @@ Container0_Children=View1,View2
 Container0_Orientation=Horizontal
 Container0_SplitterSizes=30,100
 Name=File Management
+Name[fr]=Gestion de fichiers
 Name[x-test]=xxFile Managementxx
 RootItem=Container0
 View1_LinkedView=true

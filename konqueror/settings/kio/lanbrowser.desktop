@@ -9,12 +9,15 @@ X-KDE-Library=kio
 X-KDE-FactoryName=lanbrowser
 
 Name=Local Network Browsing
+Name[fr]=Navigation dans le réseau local
 Name[x-test]=xxLocal Network Browsingxx
 
 Comment=Setup lisa, reslisa and the ioslaves
+Comment[fr]=Configuration de LISa, ResLISa et des modules d'entrées-sorties
 Comment[x-test]=xxSetup lisa, reslisa and the ioslavesxx
 
 Keywords=samba,smb,windows,network
+Keywords[fr]=samba,smb,windows,réseau
 Keywords[x-test]=xxsamba,smb,windows,networkxx
 
 Categories=Qt;KDE;X-KDE-settings-network;

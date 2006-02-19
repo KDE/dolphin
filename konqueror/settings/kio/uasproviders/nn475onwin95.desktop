@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=UADescription (NN 4.7 on Windows 95)
+Name[fr]=Identité du navigateur (Navigator 4.7 sous Windows 95)
 Name[x-test]=xxUADescription (NN 4.7 on Windows 95)xx
 Type=Service
 ServiceTypes=UserAgentStrings

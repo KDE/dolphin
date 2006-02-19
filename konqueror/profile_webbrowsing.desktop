@@ -1,5 +1,6 @@
 [Profile]
 Name=Web Browsing
+Name[fr]=Navigation web
 Name[x-test]=xxWeb Browsingxx
 RootItem=View0
 View0_ServiceName=konq_aboutpage

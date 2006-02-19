@@ -11,12 +11,15 @@ X-KDE-FactoryName=kurifilt
 X-KDE-ParentApp=kcontrol
 
 Name=Web Shortcuts
+Name[fr]=Raccourcis Web
 Name[x-test]=xxWeb Shortcutsxx
 
 Comment=Configure enhanced browsing
+Comment[fr]=Configuration de la navigation avancée
 Comment[x-test]=xxConfigure enhanced browsingxx
 
 Keywords=Enhanced Browsing,Browsing,WWW,Internet,Internet Keywords,Internet Filters,Network,Search Engines,Shortcuts
+Keywords[fr]=navigation avancée,navigation,www,web,internet,mots-clés internet,filtres internet,réseau,moteurs de recherche,raccourcis
 Keywords[x-test]=xxEnhanced Browsing,Browsing,WWW,Internet,Internet Keywords,Internet Filters,Network,Search Engines,Shortcutsxx
 
 Categories=Qt;KDE;X-KDE-settings-webbrowsing;

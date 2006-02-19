@@ -1,8 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=CD-ROM Device...
+Name[fr]=Lecteur de CD-ROM...
 Name[x-test]=xxCD-ROM Device...xx
 Comment=New CD-ROM Device
+Comment[fr]=Nouveau lecteur de CD-ROM
 Comment[x-test]=xxNew CD-ROM Devicexx
 Type=Link
 URL=.source/CDROM-Device.desktop

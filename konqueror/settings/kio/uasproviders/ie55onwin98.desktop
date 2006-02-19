@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=UADescription (IE 5.5 on Win 98)
+Name[fr]=Identité du navigateur (IE 5.5 sous Windows 98)
 Name[x-test]=xxUADescription (IE 5.5 on Win 98)xx
 Type=Service
 ServiceTypes=UserAgentStrings

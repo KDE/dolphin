@@ -8,4 +8,5 @@ Categories=Qt;KDE;Settings;
 NoDisplay=true
 X-DCOP-ServiceType=Unique
 Name=Change Password
+Name[fr]=Modifier le mot de passe
 Name[x-test]=xxChange Passwordxx

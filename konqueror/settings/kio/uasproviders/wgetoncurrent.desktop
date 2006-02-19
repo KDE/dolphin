@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=UADescription (Wget 1.5.3)
+Name[fr]=Identité du navigateur (Wget 1.5.3)
 Name[x-test]=xxUADescription (Wget 1.5.3)xx
 Type=Service
 ServiceTypes=UserAgentStrings

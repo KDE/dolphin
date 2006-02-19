@@ -1,6 +1,7 @@
 [Profile]
 FullScreen=false
 Name=KDE Development
+Name[fr]=Développement de KDE
 Name[x-test]=xxKDE Developmentxx
 RootItem=Tabs0
 Tabs0_Children=ViewT0,ViewT1,ViewT2,ViewT3,ViewT4

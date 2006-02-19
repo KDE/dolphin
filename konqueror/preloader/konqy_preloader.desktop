@@ -2,8 +2,10 @@
 Encoding=UTF-8
 Type=Service
 Name=KDED Konqueror Preloader Module
+Name[fr]=Module KDED de préchargement de Konqueror
 Name[x-test]=xxKDED Konqueror Preloader Modulexx
 Comment=Reduces Konqueror startup time
+Comment[fr]=Réduit le temps de démarrage de Konqueror
 Comment[x-test]=xxReduces Konqueror startup timexx
 ServiceTypes=KDEDModule
 X-KDE-ModuleType=Library

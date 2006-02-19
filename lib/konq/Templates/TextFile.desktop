@@ -1,8 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Text File...
+Name[fr]=Fichier texte...
 Name[x-test]=xxText File...xx
 Comment=Enter text filename:
+Comment[fr]=Donnez le nom du fichier de texte :
 Comment[x-test]=xxEnter text filename:xx
 Type=Link
 URL=.source/TextFile.txt

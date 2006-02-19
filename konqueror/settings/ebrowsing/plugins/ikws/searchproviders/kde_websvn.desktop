@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Type=Service
 Name=KDE WebSVN
+Name[fr]=WebSVN de KDE
 Name[x-test]=xxKDE WebSVNxx
 ServiceTypes=SearchProvider
 Keys=websvn,kdesvn,ksvn,kvs

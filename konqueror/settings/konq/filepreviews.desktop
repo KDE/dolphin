@@ -11,9 +11,12 @@ X-KDE-FactoryName=previews
 X-KDE-ParentApp=kcontrol
 
 Name=Previews & Meta-Data
+Name[fr]=Aperçus & Méta-informations
 Name[x-test]=xxPreviews & Meta-Dataxx
 
 Comment=You can configure how Konqueror Previews & Meta-data work here
+Comment[fr]=Fonctionnement des aperçus et méta-informations de Konqueror
 Comment[x-test]=xxYou can configure how Konqueror Previews & Meta-data work herexx
 Keywords=konqueror,filemanager,previews,file previews,maximum size
+Keywords[fr]=konqueror,gestionnaire de fichiers,explorateur,aperçus,taille maximale
 Keywords[x-test]=xxkonqueror,filemanager,previews,file previews,maximum sizexx

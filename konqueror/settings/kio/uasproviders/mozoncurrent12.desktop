@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=UADescription (Mozilla 1.2.1 on current)
+Name[fr]=Identité du navigateur (Mozilla 1.2.1 sous le système actuel)
 Name[x-test]=xxUADescription (Mozilla 1.2.1 on current)xx
 Type=Service
 ServiceTypes=UserAgentStrings

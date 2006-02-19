@@ -4,6 +4,7 @@ Type=Link
 URL=settings:/
 Icon=kcontrol
 Name=Settings
+Name[fr]=Configuration
 Name[x-test]=xxSettingsxx
 Open=false
 X-KDE-TreeModule=Directory

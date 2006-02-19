@@ -1,8 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=ZIP Device...
+Name[fr]=Lecteur ZIP...
 Name[x-test]=xxZIP Device...xx
 Comment=New ZIP Device
+Comment[fr]=Nouveau lecteur ZIP
 Comment[x-test]=xxNew ZIP Devicexx
 Type=Link
 URL=.source/ZIP-Device.desktop

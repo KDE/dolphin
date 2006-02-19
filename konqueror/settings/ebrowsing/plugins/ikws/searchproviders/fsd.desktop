@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Type=Service
 Name=FSF/UNESCO Free Software Directory
+Name[fr]=Catalogue de logiciels libres FSF/UNESCO
 Name[x-test]=xxFSF/UNESCO Free Software Directoryxx
 ServiceTypes=SearchProvider
 Keys=fsd

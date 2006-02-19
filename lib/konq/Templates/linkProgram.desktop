@@ -1,8 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Link to Application...
+Name[fr]=Lien vers une application...
 Name[x-test]=xxLink to Application...xx
 Comment=New Link to Application
+Comment[fr]=Nouveau lien vers une application
 Comment[x-test]=xxNew Link to Applicationxx
 Icon=exec
 Type=Link

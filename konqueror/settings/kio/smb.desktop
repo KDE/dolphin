@@ -11,11 +11,14 @@ X-KDE-FactoryName=smb
 X-KDE-ParentApp=kcontrol
 
 Name=Windows Shares
+Name[fr]=Partages Windows
 Name[x-test]=xxWindows Sharesxx
 
 Comment=Use to configure which windows (SMB) filesystems you can browse
+Comment[fr]=Configuration des systèmes de fichiers Windows (SMB)
 Comment[x-test]=xxUse to configure which windows (SMB) filesystems you can browsexx
 
 Keywords=SMB,SAMBA,SMB client,Windows network,LAN,Network,neighborhood,Server,Broadcast,WINS,Share,Login,Passwords
+Keywords[fr]=smb,samba,client smb,réseau Windows,lan,réseau local,réseau,voisinage,serveur,broadcast,diffusion,wins,partage,connexion,mot de passe,windows,login
 Keywords[x-test]=xxSMB,SAMBA,SMB client,Windows network,LAN,Network,neighborhood,Server,Broadcast,WINS,Share,Login,Passwordsxx
 

@@ -3,6 +3,7 @@ Encoding=UTF-8
 Type=Link
 URL=http://www.kde-apps.org/
 Name=KDE Applications
+Name[fr]=Applications KDE
 Name[x-test]=xxKDE Applicationsxx
 Icon=www
 Open=false

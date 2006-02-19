@@ -1,8 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Folder...
+Name[fr]=Dossier...
 Name[x-test]=xxFolder...xx
 Comment=Enter folder name:
+Comment[fr]=Donnez le nom du dossier :
 Comment[x-test]=xxEnter folder name:xx
 Type=Link
 URL=.source/emptydir

@@ -1,8 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Camera Device...
+Name[fr]=Appareil photo
 Name[x-test]=xxCamera Device...xx
 Comment=New camera
+Comment[fr]=Nouvel appareil photo
 Comment[x-test]=xxNew cameraxx
 Type=Link
 URL=.source/CAMERA-Device.desktop

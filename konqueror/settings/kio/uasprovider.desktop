@@ -3,6 +3,7 @@ Encoding=UTF-8
 Type=ServiceType
 X-KDE-ServiceType=UserAgentStrings
 Comment=UserAgent Strings
+Comment[fr]=Chaînes d'identité du navigateur
 Comment[x-test]=xxUserAgent Stringsxx
 
 [PropertyDef::X-KDE-UA-TAG]

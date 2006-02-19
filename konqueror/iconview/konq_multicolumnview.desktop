@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Type=Service
 Name=MultiColumn View
+Name[fr]=Multicolonne
 Name[x-test]=xxMultiColumn Viewxx
 MimeType=inode/directory
 ServiceTypes=KParts/ReadOnlyPart,Browser/View

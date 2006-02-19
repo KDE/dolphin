@@ -4,6 +4,7 @@ Type=Link
 URL=ftp://ftp.kde.org/pub/kde
 Icon=ftp
 Name=KDE Official FTP
+Name[fr]=Site FTP officiel de KDE
 Name[x-test]=xxKDE Official FTPxx
 Open=false
 X-KDE-TreeModule=Directory

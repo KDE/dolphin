@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Type=Service
 Name=Find Part
+Name[fr]=Composant de recherche
 Name[x-test]=xxFind Partxx
 MimeType=
 ServiceTypes=Konqueror/FindPart

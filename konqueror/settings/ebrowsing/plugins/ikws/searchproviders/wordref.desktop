@@ -3,6 +3,7 @@ Charset=
 Hidden=false
 Keys=wordref
 Name=WordReference.com English Dictionary
+Name[fr]=Dictionnaire anglais de WordReference.com
 Name[x-test]=xxWordReference.com English Dictionaryxx
 Query=http://www.wordreference.com/english/definition.asp?en=\\{@}
 Query[x-test]=xxhttp://www.wordreference.com/english/definition.asp?en=\\{@}xx

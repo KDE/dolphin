@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Telephonebook Search Provider
+Name[fr]=Moteur de recherche Telephonebook
 Name[x-test]=xxTelephonebook Search Providerxx
 Type=Service
 ServiceTypes=SearchProvider

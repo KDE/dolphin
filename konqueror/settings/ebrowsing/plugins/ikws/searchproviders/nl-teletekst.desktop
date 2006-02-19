@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Teletekst Search Provider
+Name[fr]=Moteur de recherche Teletekst
 Name[x-test]=xxTeletekst Search Providerxx
 Type=Service
 ServiceTypes=SearchProvider

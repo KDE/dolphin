@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=UADescription (Lynx 2.8.3)
+Name[fr]=Identité du navigateur (Lynx 2.8.3)
 Name[x-test]=xxUADescription (Lynx 2.8.3)xx
 Type=Service
 ServiceTypes=UserAgentStrings

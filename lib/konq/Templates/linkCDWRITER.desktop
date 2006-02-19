@@ -1,8 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=CDWRITER Device...
+Name[fr]=Graveur de CD-ROM...
 Name[x-test]=xxCDWRITER Device...xx
 Comment=New CDWRITER Device
+Comment[fr]=Nouveau graveur de CD-ROM
 Comment[x-test]=xxNew CDWRITER Devicexx
 Type=Link
 URL=.source/CDWRITER-Device.desktop

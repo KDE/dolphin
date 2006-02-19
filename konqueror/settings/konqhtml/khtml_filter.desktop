@@ -9,9 +9,11 @@ X-KDE-Library=konqhtml
 X-KDE-FactoryName=khtml_filter
 
 Name=AdBlocK Filters
+Name[fr]=Filtres AdBlocK
 Name[x-test]=xxAdBlocK Filtersxx
 
 Comment=Configure Konqueror AdBlocK filters
+Comment[fr]=Configurer les filtres AdBlocK de Konqueror
 Comment[x-test]=xxConfigure Konqueror AdBlocK filtersxx
 
 Categories=Qt;KDE;X-KDE-settings-webbrowsing;

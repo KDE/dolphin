@@ -2,8 +2,10 @@
 Encoding=UTF-8
 Type=Service
 Name=KDED Favicon Module
+Name[fr]=Icône préférée
 Name[x-test]=xxKDED Favicon Modulexx
 Comment=Shortcut icon support
+Comment[fr]=Gestion d'icône de raccourci
 Comment[x-test]=xxShortcut icon supportxx
 ServiceTypes=KDEDModule
 X-KDE-ModuleType=Library

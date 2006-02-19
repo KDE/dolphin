@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=UADescription (w3m 0.1.9)
+Name[fr]=Identité du navigateur (w3m 0.1.9)
 Name[x-test]=xxUADescription (w3m 0.1.9)xx
 Type=Service
 ServiceTypes=UserAgentStrings

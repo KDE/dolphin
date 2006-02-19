@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=UADescription (IE 4.01 on Win 2000)
+Name[fr]=Identité du navigateur (IE 4.01 sous Windows 2000)
 Name[x-test]=xxUADescription (IE 4.01 on Win 2000)xx
 Type=Service
 ServiceTypes=UserAgentStrings

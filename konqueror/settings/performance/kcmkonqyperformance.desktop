@@ -13,8 +13,10 @@ Name=Performance
 Name[x-test]=xxPerformancexx
 
 Comment=Configure settings that can improve Konqueror performance
+Comment[fr]=Amélioration des performances de Konqueror
 Comment[x-test]=xxConfigure settings that can improve Konqueror performancexx
 
 Keywords=konqueror,reuse,preloading
+Keywords[fr]=konqueror,réutilisation,préchargement
 Keywords[x-test]=xxkonqueror,reuse,preloadingxx
 

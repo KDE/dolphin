@@ -13,10 +13,13 @@ X-KDE-Init=nsplugin
 X-KDE-ParentApp=kcontrol
 
 Name=Plugins
+Name[fr]=Modules externes
 Name[x-test]=xxPluginsxx
 Comment=Configure the browser plugins
+Comment[fr]=Configuration des modules externes du navigateur
 Comment[x-test]=xxConfigure the browser pluginsxx
 Keywords=konqueror,kfm,browser,html,web,www,fonts,plugins
+Keywords[fr]=konqueror,kfm,navigateur,html,web,www,polices,plugins,modules externes
 Keywords[x-test]=xxkonqueror,kfm,browser,html,web,www,fonts,pluginsxx
 
 Categories=Qt;KDE;X-KDE-settings-webbrowsing;

@@ -1,8 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=DVD-ROM Device...
+Name[fr]=Lecteur de DVD-ROM...
 Name[x-test]=xxDVD-ROM Device...xx
 Comment=New DVD-ROM Device
+Comment[fr]=Nouveau lecteur de DVD-ROM
 Comment[x-test]=xxNew DVD-ROM Devicexx
 Type=Link
 URL=.source/DVDROM-Device.desktop

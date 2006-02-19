@@ -4,6 +4,7 @@ Type=Link
 URL=
 Icon=folder
 Name=Folder
+Name[fr]=Dossier
 Name[x-test]=xxFolderxx
 
 Open=false

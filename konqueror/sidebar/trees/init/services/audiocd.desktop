@@ -4,6 +4,7 @@ Type=Link
 URL=audiocd:/
 Icon=cdaudio_unmount
 Name=Audio CD Browser
+Name[fr]=Navigateur de CD audio
 Name[x-test]=xxAudio CD Browserxx
 Open=false
 X-KDE-TreeModule=Directory

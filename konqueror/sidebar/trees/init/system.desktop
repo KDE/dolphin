@@ -4,6 +4,7 @@ Type=Link
 URL=system:/
 Icon=system
 Name=System
+Name[fr]=Système
 Name[x-test]=xxSystemxx
 Comment=This folder allows to access common places in your computer
 Comment[x-test]=xxThis folder allows to access common places in your computerxx

@@ -1,5 +1,6 @@
 [Profile]
 Name=Simple Browser
+Name[fr]=Navigateur simple
 Name[x-test]=xxSimple Browserxx
 XMLUIFile=konq-simplebrowser.rc
 RootItem=View0

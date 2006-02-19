@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Type=Service
 Name=Merriam-Webster Thesaurus
+Name[fr]=Thésaurus Merriam-Webster
 Name[x-test]=xxMerriam-Webster Thesaurusxx
 ServiceTypes=SearchProvider
 Keys=ths,thesaurus

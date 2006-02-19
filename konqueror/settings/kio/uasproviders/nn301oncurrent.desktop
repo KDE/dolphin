@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=UADescription (NN 3.01 on current)
+Name[fr]=Identité du navigateur (Navigator 3.01 sous le système actuel)
 Name[x-test]=xxUADescription (NN 3.01 on current)xx
 Type=Service
 ServiceTypes=UserAgentStrings

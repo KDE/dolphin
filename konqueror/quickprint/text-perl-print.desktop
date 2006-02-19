@@ -5,6 +5,7 @@ Actions=Print;
 
 [Desktop Action Print]
 Name=Print...
+Name[fr]=Imprimer...
 Name[x-test]=xxPrint...xx
 Exec=kprinter -t %n --caption %n %i %U
 Icon=filequickprint

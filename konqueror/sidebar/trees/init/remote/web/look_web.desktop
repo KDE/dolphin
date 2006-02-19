@@ -3,6 +3,7 @@ Encoding=UTF-8
 Type=Link
 URL=http://themes.kde.org/
 Name=KDE Eye Candy
+Name[fr]=Agrément visuel KDE
 Name[x-test]=xxKDE Eye Candyxx
 Icon=www
 Open=false

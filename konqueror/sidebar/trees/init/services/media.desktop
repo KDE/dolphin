@@ -4,6 +4,7 @@ Type=Link
 URL=media:/
 Icon=system
 Name=Storage Media
+Name[fr]=Support de stockage
 Name[x-test]=xxStorage Mediaxx
 Open=false
 X-KDE-TreeModule=Directory

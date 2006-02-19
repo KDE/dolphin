@@ -10,10 +10,13 @@ X-KDE-Library=konqhtml
 X-KDE-FactoryName=khtml_behavior
 
 Name=Web Behavior
+Name[fr]=Comportement web
 Name[x-test]=xxWeb Behaviorxx
 Comment=Configure the browser behavior
+Comment[fr]=Configuration du comportement du navigateur
 Comment[x-test]=xxConfigure the browser behaviorxx
 Keywords=konqueror,kfm,browser,html,web,www,fonts,colours,colors,java,javascript,cursor,links,images,charsets,character sets,encoding
+Keywords[fr]=konqueror,kfm,navigateur,html,web,www,polices,couleurs,java,javascript,curseur,liens,images,jeu de caractères,caractères,codage,encodage
 Keywords[x-test]=xxkonqueror,kfm,browser,html,web,www,fonts,colours,colors,java,javascript,cursor,links,images,charsets,character sets,encodingxx
 
 Categories=Qt;KDE;X-KDE-settings-webbrowsing;

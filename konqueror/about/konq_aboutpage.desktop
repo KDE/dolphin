@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Type=Service
 Name=About-Page for Konqueror
+Name[fr]=À propos de Konqueror
 Name[x-test]=xxAbout-Page for Konquerorxx
 ServiceTypes=KonqAboutPage,KParts/ReadOnlyPart
 X-KDE-Library=konq_aboutpage

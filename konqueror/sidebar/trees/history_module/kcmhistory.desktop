@@ -9,9 +9,12 @@ X-KDE-Library=history
 X-KDE-FactoryName=history
 
 Name=History Sidebar
+Name[fr]=Barre latérale d'historique
 Name[x-test]=xxHistory Sidebarxx
 Comment=Configure the history sidebar
+Comment[fr]=Configuration de l'historique de la barre latérale
 Comment[x-test]=xxConfigure the history sidebarxx
 Keywords=history,expire
+Keywords[fr]=historique,expiration
 Keywords[x-test]=xxhistory,expirexx
 Categories=Qt;KDE;X-KDE-settings-webbrowsing;

@@ -10,12 +10,15 @@ X-KDE-FactoryName=performance
 X-KDE-ParentApp=kcontrol
 
 Name=KDE Performance
+Name[fr]=Performance de KDE
 Name[x-test]=xxKDE Performancexx
 
 Comment=Configure settings that can improve KDE performance
+Comment[fr]=Configuration de paramètres qui peuvent améliorer les performances de KDE
 Comment[x-test]=xxConfigure settings that can improve KDE performancexx
 
 Keywords=performance,speed,memory,improve
+Keywords[fr]=performances,vitesse,mémoire,améliorer
 Keywords[x-test]=xxperformance,speed,memory,improvexx
 
 Categories=Qt;KDE;X-KDE-settings-components;

@@ -3,6 +3,7 @@ Encoding=UTF-8
 Name=NFS...
 Name[x-test]=xxNFS...xx
 Comment=New NFS Link
+Comment[fr]=Nouveau lien NFS
 Comment[x-test]=xxNew NFS Linkxx
 Type=Link
 URL=.source/NFS.desktop

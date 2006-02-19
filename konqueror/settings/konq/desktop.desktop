@@ -11,11 +11,14 @@ X-KDE-FactoryName=ddesktop
 X-KDE-ParentApp=kcontrol
 
 Name=Multiple Desktops
+Name[fr]=Bureaux multiples
 Name[x-test]=xxMultiple Desktopsxx
 
 Comment=You can configure how many virtual desktops there are.
+Comment[fr]=Configuration du nombre de bureaux virtuels
 Comment[x-test]=xxYou can configure how many virtual desktops there are.xx
 Keywords=desktop,desktops,number,virtual desktop
+Keywords[fr]=bureau,bureaux,numéro,bureaux virtuels
 Keywords[x-test]=xxdesktop,desktops,number,virtual desktopxx
 
 Categories=Qt;KDE;X-KDE-settings-desktop;

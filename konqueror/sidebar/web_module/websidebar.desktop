@@ -4,6 +4,7 @@ Type=Link
 URL=
 Icon=www
 Name=Web SideBar Module
+Name[fr]=Module de barre de navigation sur le web
 Name[x-test]=xxWeb SideBar Modulexx
 Open=false
 X-KDE-KonqSidebarModule=konqsidebar_web

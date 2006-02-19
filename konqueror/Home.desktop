@@ -6,9 +6,11 @@ Icon=folder_home
 Terminal=false
 
 Name=Home
+Name[fr]=Dossier personnel
 Name[x-test]=xxHomexx
 
 GenericName=Personal Files
+GenericName[fr]=Fichiers personnels
 GenericName[x-test]=xxPersonal Filesxx
 Categories=Qt;KDE;Core;
 OnlyShowIn=KDE;

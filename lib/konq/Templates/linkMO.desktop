@@ -1,8 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=MO Device...
+Name[fr]=Périphérique MO...
 Name[x-test]=xxMO Device...xx
 Comment=New MO Device
+Comment[fr]=Nouveau périphérique MO
 Comment[x-test]=xxNew MO Devicexx
 Type=Link
 URL=.source/MO-Device.desktop

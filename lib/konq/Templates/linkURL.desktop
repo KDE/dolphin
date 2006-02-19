@@ -1,8 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Link to Location (URL)...
+Name[fr]=Lien vers une URL...
 Name[x-test]=xxLink to Location (URL)...xx
 Comment=Enter link to location (URL):
+Comment[fr]=Nouveau lien vers une URL :
 Comment[x-test]=xxEnter link to location (URL):xx
 URL=.source/URL.desktop
 Type=Link

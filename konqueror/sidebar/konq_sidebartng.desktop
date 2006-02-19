@@ -3,6 +3,7 @@ Encoding=UTF-8
 Type=Service
 Icon=view_sidetree
 Name=Navigation Panel
+Name[fr]=Panneau de navigation
 Name[x-test]=xxNavigation Panelxx
 MimeType=inode/directory
 ServiceTypes=KParts/ReadOnlyPart,Browser/View

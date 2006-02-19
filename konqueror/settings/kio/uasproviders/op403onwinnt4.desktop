@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=UADescription (Opera 4.03 on NT)
+Name[fr]=Identité du navigateur (Opera 4.03 sous Windows NT)
 Name[x-test]=xxUADescription (Opera 4.03 on NT)xx
 Type=Service
 ServiceTypes=UserAgentStrings
