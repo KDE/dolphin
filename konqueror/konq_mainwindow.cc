@@ -3562,9 +3562,9 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
     // Qt bug (see below)
 //### KDE4: still relevant?
 #if 0
-    setAcceptDrops( FALSE );
+    setAcceptDrops( false );
     topData()->dnd = 0;
-    setAcceptDrops( TRUE );
+    setAcceptDrops( true );
 #endif
   }
   else
@@ -3584,9 +3584,9 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
 
 #if 0 //### KDE4: is this still relevant?
     // Other Qt bug
-    setAcceptDrops( FALSE );
+    setAcceptDrops( false );
     topData()->dnd = 0;
-    setAcceptDrops( TRUE );
+    setAcceptDrops( true );
 #endif
   }
 }

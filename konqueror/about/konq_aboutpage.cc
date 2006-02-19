@@ -81,7 +81,7 @@ QString KonqAboutPageFactory::loadFile( const QString& file )
 		       file.left( file.lastIndexOf( '/' )) +
 		       QLatin1String("/\">\n");
     QRegExp reg("<head>");
-    reg.setCaseSensitive(FALSE);
+    reg.setCaseSensitive(false);
     res.replace(reg, "<head>\n\t" + basehref);
     return res;
 }

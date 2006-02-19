@@ -40,7 +40,7 @@ KonqTextViewWidget::KonqTextViewWidget( KonqListView *parent, QWidget *parentWid
    // I know, but I want to have it this way and I use it all the time.
    // If I want to have free space, I disable some columns.
    // If people don't like it, they can use a different view type. Alex
-   setAllColumnsShowFocus(TRUE);
+   setAllColumnsShowFocus(true);
    setRootIsDecorated(false);
 
    colors[KTVI_REGULAR]=Qt::black;
@@ -55,7 +55,7 @@ KonqTextViewWidget::KonqTextViewWidget( KonqListView *parent, QWidget *parentWid
    colors[KTVI_CHARDEV]=Qt::blue;
    colors[KTVI_BLOCKDEV]=Qt::blue;
 
-   m_showIcons=FALSE;
+   m_showIcons=false;
 }
 
 KonqTextViewWidget::~KonqTextViewWidget()

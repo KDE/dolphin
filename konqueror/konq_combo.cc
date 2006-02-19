@@ -652,7 +652,7 @@ void KonqCombo::paintEvent( QPaintEvent *pe )
         p.fillRect( re.right() - pix.width() - 3 , re.y(), pix.width() + 4, re.height(),
 		    QBrush( useColor ? color : edit->paletteBackgroundColor() ));
         p.drawPixmap( re.right() - pix.width() -1 , re.y() + ( re.height() - pix.height() ) / 2, pix );
-        p.setClipping( FALSE );
+        p.setClipping( false );
     }
     else {
         QRect r = edit->geometry();

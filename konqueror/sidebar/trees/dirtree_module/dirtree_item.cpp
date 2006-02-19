@@ -113,7 +113,7 @@ void KonqSidebarDirTreeItem::paintCell( QPainter *_painter, const QColorGroup & 
     if (m_fileItem->isLink())
     {
         QFont f( _painter->font() );
-        f.setItalic( TRUE );
+        f.setItalic( true );
         _painter->setFont( f );
     }
     Q3ListViewItem::paintCell( _painter, _cg, _column, _width, _alignment );

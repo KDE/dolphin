@@ -573,7 +573,7 @@ void KPluginOptions::pluginLoad( KConfig* /*config*/ )
             continue;
         }
 
-        QStringList desc = QStringList::split(':', line, TRUE);
+        QStringList desc = QStringList::split(':', line, true);
         QString mime = desc[0].trimmed();
         QString name = desc[2];
         QString suffixes = desc[1];

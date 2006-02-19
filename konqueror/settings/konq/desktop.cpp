@@ -194,7 +194,7 @@ void KDesktopConfig::save()
   info.setNumberOfDesktops(_numInput->value());
   info.activate();
 
-  XSync(QX11Info::display(), FALSE);
+  XSync(QX11Info::display(), false);
 
   KConfig *desktopConfig = new KConfig("kdesktoprc");
   desktopConfig->setGroup("Mouse Buttons");
