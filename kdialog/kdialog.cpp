@@ -448,7 +448,7 @@ static int directCommand(KCmdLineArgs *args)
         if (args->count() >= 1)  {
             filter = QString::fromLocal8Bit(args->arg(0));
         }
-	KFileDialog dlg(startDir, filter, 0, "filedialog", true);
+	KFileDialog dlg( startDir, filter, 0 );
 	dlg.setOperationMode( KFileDialog::Opening );
 
 	dlg.setCaption(title.isNull() ? i18n("Open") : title);
@@ -493,7 +493,7 @@ static int directCommand(KCmdLineArgs *args)
         }
 	// copied from KFileDialog::getSaveFileName(), so we can add geometry
 	bool specialDir = ( startDir.at(0) == ':' );
-	KFileDialog dlg( specialDir ? startDir : QString(), filter, 0, "filedialog", true );
+	KFileDialog dlg( specialDir ? startDir : QString(), filter, 0 );
 	if ( !specialDir )
 	    dlg.setSelection( startDir );
 	dlg.setOperationMode( KFileDialog::Saving );
@@ -534,8 +534,7 @@ static int directCommand(KCmdLineArgs *args)
 							   title, true, true);
 #else
 	KUrl url;
-	KDirSelectDialog myDialog( startDir, true, 0,
-				   "kdirselect dialog", true );
+	KDirSelectDialog myDialog( startDir, true, 0 );
 
 	kapp->setTopWidget( &myDialog );
 
@@ -564,7 +563,7 @@ static int directCommand(KCmdLineArgs *args)
         if (args->count() >= 1)  {
             filter = QString::fromLocal8Bit(args->arg(0));
         }
-	KFileDialog dlg(startDir, filter, 0, "filedialog", true);
+	KFileDialog dlg( startDir, filter, 0 );
 	dlg.setOperationMode( KFileDialog::Opening );
 
 	dlg.setCaption(title.isNull() ? i18n("Open") : title);
