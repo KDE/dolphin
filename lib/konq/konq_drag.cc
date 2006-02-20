@@ -87,8 +87,9 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
         {
             QStringList uris;
 
+#warning "KDE4: url(0, 4) -> url(0) : correct ?"
             for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it)
-               uris.append(K3URLDrag::stringToUrl((*it).latin1()).url(0, 4)); // 4 for latin1
+               uris.append(K3URLDrag::stringToUrl((*it).latin1()).url(0)); // 4 for latin1
 
             Q3CString s = uris.join( "\n" ).latin1();
             if( uris.count() > 1 )
