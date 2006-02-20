@@ -22,6 +22,7 @@
 #include <assert.h>
 
 #include <ktoolbarbutton.h>
+#include <ktoolbar.h>
 #include <kanimwidget.h>
 #include <kdebug.h>
 #include <kstringhandler.h>

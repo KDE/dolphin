@@ -79,6 +79,7 @@
 #include <dcopclient.h>
 #include <kaboutdata.h>
 #include <kbookmarkbar.h>
+#include <ktoolbar.h>
 #include <kbookmarkmenu.h>
 #include <kcmultidialog.h>
 #include <kdebug.h>

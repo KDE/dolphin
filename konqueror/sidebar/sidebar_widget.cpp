@@ -490,7 +490,7 @@ void Sidebar_Widget::slotSetName( )
 
 void Sidebar_Widget::slotSetURL( )
 {
-	KUrlRequesterDlg dlg( m_currentButton->URL, i18n("Enter a URL:"), this, "url_dlg" );
+	KUrlRequesterDlg dlg( m_currentButton->URL, i18n("Enter a URL:"), this );
 	dlg.fileDialog()->setMode( KFile::Directory );
 	if (dlg.exec())
 	{
@@ -1216,7 +1216,7 @@ Sidebar_Widget::~Sidebar_Widget()
 	}
 }
 
-void Sidebar_Widget::customEvent(QCustomEvent* ev)
+void Sidebar_Widget::event(QEvent* ev)
 {
 	if (KonqFileSelectionEvent::test(ev))
 	{
@@ -1227,6 +1227,8 @@ void Sidebar_Widget::customEvent(QCustomEvent* ev)
 		} else {
 			emit fileMouseOver(*static_cast<KonqFileMouseOverEvent*>(ev)->item());
 		}
+	} else {
+		QWidget::event( ev );
 	}
 }
 
