@@ -204,7 +204,7 @@ void KonqOperations::_del( int method, const KUrl::List & _selectedURLs, int con
       case TRASH:
       {
         job = KIO::trash( selectedURLs );
-        (void) new KonqCommandRecorder( KonqCommand::TRASH, selectedURLs, "trash:/", job );
+        (void) new KonqCommandRecorder( KonqCommand::TRASH, selectedURLs, KUrl("trash:/"), job );
          break;
       }
       case EMPTYTRASH:
@@ -213,7 +213,7 @@ void KonqOperations::_del( int method, const KUrl::List & _selectedURLs, int con
         QByteArray packedArgs;
         QDataStream stream( &packedArgs, QIODevice::WriteOnly );
         stream << (int)1;
-        job = KIO::special( "trash:/", packedArgs );
+        job = KIO::special( KUrl("trash:/"), packedArgs );
        KNotification::event("Trash: emptied", QString() , QPixmap() , 0l , QStringList() , KNotification::ContextList() , KNotification::DefaultEvent );
        break;
       }
@@ -450,7 +450,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
                 else
                 {
                     bool ro = desktopFile.readEntry( "ReadOnly", QVariant(false )).toBool();
-                    QString fstype = desktopFile.readEntry( "FSType" );
+                    QByteArray fstype = desktopFile.readEntry( "FSType" ).toLatin1();
                     KAutoMount* am = new KAutoMount( ro, fstype, dev, point, m_destURL.path(), false );
                     connect( am, SIGNAL( finished() ), this, SLOT( doFileCopy() ) );
                 }
@@ -711,7 +711,7 @@ void KonqOperations::slotResult( KIO::Job * job )
     if ( m_method == EMPTYTRASH ) {
         // Update konq windows opened on trash:/
         KDirNotify_stub allDirNotify("*", "KDirNotify*");
-        allDirNotify.FilesAdded( "trash:/" ); // yeah, files were removed, but we don't know which ones...
+        allDirNotify.FilesAdded( KUrl("trash:/") ); // yeah, files were removed, but we don't know which ones...
     }
     delete this;
 }
