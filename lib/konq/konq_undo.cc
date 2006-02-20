@@ -180,10 +180,10 @@ public:
   KonqCommand m_current;
   KIO::Job *m_currentJob;
   UndoState m_undoState;
-  QStack<KURL> m_dirStack;
-  QStack<KURL> m_dirCleanupStack;
-  QStack<KURL> m_fileCleanupStack;
-  QList<KURL> m_dirsToUpdate;
+  QStack<KUrl> m_dirStack;
+  QStack<KUrl> m_dirCleanupStack;
+  QStack<KUrl> m_fileCleanupStack;
+  QList<KUrl> m_dirsToUpdate;
 
   bool m_lock;
 
@@ -504,7 +504,7 @@ void KonqUndoManager::undoRemovingDirectories()
           d->m_undoJob = 0;
       }
       KDirNotify_stub allDirNotify( "*", "KDirNotify*" );
-      QList<KURL>::ConstIterator it = d->m_dirsToUpdate.begin();
+      QList<KUrl>::ConstIterator it = d->m_dirsToUpdate.begin();
       for( ; it != d->m_dirsToUpdate.end(); ++it ) {
           kDebug() << "Notifying FilesAdded for " << *it << endl;
           allDirNotify.FilesAdded( *it );
