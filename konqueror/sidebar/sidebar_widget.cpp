@@ -1158,13 +1158,13 @@ void Sidebar_Widget::connectModule(QObject *mod)
 		connect(mod,SIGNAL(completed()),this,SIGNAL(completed()));
 	}
 
-	if (mod->metaObject()->indexOfSignal("popupMenu(QPoint,KURL,QString,mode_t)") != -1) {
+	if (mod->metaObject()->indexOfSignal("popupMenu(QPoint,KUrl,QString,mode_t)") != -1) {
 		connect(mod,SIGNAL(popupMenu( const QPoint &, const KUrl &,
 			const QString &, mode_t)),this,SLOT(popupMenu( const
 			QPoint &, const KUrl&, const QString &, mode_t)));
 	}
 
-	if (mod->metaObject()->indexOfSignal("popupMenu(KXMLGUIClient*,QPoint,KURL,QString,mode_t)") != -1) {
+	if (mod->metaObject()->indexOfSignal("popupMenu(KXMLGUIClient*,QPoint,KUrl,QString,mode_t)") != -1) {
 		connect(mod,SIGNAL(popupMenu( KXMLGUIClient *, const QPoint &,
 			const KUrl &,const QString &, mode_t)),this,
 			SLOT(popupMenu( KXMLGUIClient *, const QPoint &,
@@ -1176,7 +1176,7 @@ void Sidebar_Widget::connectModule(QObject *mod)
 			this,SLOT(popupMenu( const QPoint &, const KFileItemList & )));
 	}
 
-	if (mod->metaObject()->indexOfSignal("openURLRequest(KURL,KParts::URLArgs)") != -1) {
+	if (mod->metaObject()->indexOfSignal("openURLRequest(KUrl,KParts::URLArgs)") != -1) {
 		connect(mod,SIGNAL(openURLRequest( const KUrl &, const KParts::URLArgs &)),
 			this,SLOT(openURLRequest( const KUrl &, const KParts::URLArgs &)));
 	}
@@ -1193,7 +1193,7 @@ void Sidebar_Widget::connectModule(QObject *mod)
 			this,SLOT(enableAction(const char *, bool)));
 	}
 
-	if (mod->metaObject()->indexOfSignal("createNewWindow(KURL,KParts::URLArgs)") != -1) {
+	if (mod->metaObject()->indexOfSignal("createNewWindow(KUrl,KParts::URLArgs)") != -1) {
 		connect(mod,SIGNAL(createNewWindow( const KUrl &, const KParts::URLArgs &)),
 			this,SLOT(createNewWindow( const KUrl &, const KParts::URLArgs &)));
 	}

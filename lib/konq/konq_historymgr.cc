@@ -396,7 +396,7 @@ void KonqHistoryManager::emitRemoveFromHistory( const KUrl& url )
     QDataStream stream( &data, QIODevice::WriteOnly );
     stream << url << objId();
     kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
-			      "notifyRemove(KURL, QCString)", data );
+			      "notifyRemove(KUrl, QCString)", data );
 }
 
 void KonqHistoryManager::emitRemoveFromHistory( const KUrl::List& urls )

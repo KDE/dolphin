@@ -1132,7 +1132,7 @@ bool KonqView::callExtensionURLMethod( const char *methodName, const KUrl& value
   if ( id == -1 )
     return false;
 
-  QMetaObject::invokeMethod( obj, methodName,  Qt::DirectConnection, Q_ARG(KURL, value));
+  QMetaObject::invokeMethod( obj, methodName,  Qt::DirectConnection, Q_ARG(KUrl, value));
 
   return true;
 }

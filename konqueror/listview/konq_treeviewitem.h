@@ -68,7 +68,7 @@ public:
 
   /**
    * URL of this directory
-   * @param _trailing set to true for a trailing slash (see KURL)
+   * @param _trailing set to true for a trailing slash (see KUrl)
    */
   QString url( int _trailing );
 
