@@ -189,8 +189,7 @@ void KfindWindow::saveResults()
 {
   Q3ListViewItem *item;
 
-  KFileDialog *dlg = new KFileDialog(QString(), QString(), this,
-	"filedialog", true);
+  KFileDialog *dlg = new KFileDialog(QString(), QString(), this);
   dlg->setOperationMode (KFileDialog::Saving);
 
   dlg->setCaption(i18n("Save Results As"));
