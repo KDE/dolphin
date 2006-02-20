@@ -3992,8 +3992,8 @@ void KonqMainWindow::slotFillContextMenu( const KBookmark &bk, QMenu * pm )
   if ( bk.isGroup() )
   {
     KBookmarkGroup grp = bk.toGroup();
-    QList<KURL> list = grp.groupUrlList();
-    QList<KURL>::Iterator it = list.begin();
+    QList<KUrl> list = grp.groupUrlList();
+    QList<KUrl>::Iterator it = list.begin();
     for (; it != list.end(); ++it )
       popupItems.append( new KFileItem( (*it), QString(), KFileItem::Unknown) );
     pm->insertItem( SmallIcon("tab_new"), i18n( "Open Folder in Tabs" ), this, SLOT( slotPopupNewTabRight() ) );
