@@ -364,7 +364,7 @@ void KonqSidebarBookmarkModule::slotProperties(KonqSidebarBookmarkItem *bi)
     if ( !dlg.finalUrl().isNull() )
     {
         KUrl u = KUrl::fromPathOrURL(dlg.finalUrl());
-        bookmark.internalElement().setAttribute("href", u.url(0, 106));
+        bookmark.internalElement().setAttribute("href", u.url());
     }
 
     KBookmarkGroup parentBookmark = bookmark.parentGroup();

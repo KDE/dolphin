@@ -1216,19 +1216,21 @@ Sidebar_Widget::~Sidebar_Widget()
 	}
 }
 
-void Sidebar_Widget::event(QEvent* ev)
+bool Sidebar_Widget::event(QEvent* ev)
 {
 	if (KonqFileSelectionEvent::test(ev))
 	{
 		emit fileSelection(static_cast<KonqFileSelectionEvent*>(ev)->selection());
+		return true;
 	} else if (KonqFileMouseOverEvent::test(ev)) {
 		if (!(static_cast<KonqFileMouseOverEvent*>(ev)->item())) {
 			emit fileMouseOver(KFileItem(KUrl(),QString(),KFileItem::Unknown));
 		} else {
 			emit fileMouseOver(*static_cast<KonqFileMouseOverEvent*>(ev)->item());
 		}
+		return true;
 	} else {
-		QWidget::event( ev );
+		return QWidget::event( ev );
 	}
 }
 

@@ -211,11 +211,12 @@ QStringList KURISearchFilterEngine::modifySubstitutionMap(SubstMap& map,
 
 static QString encodeString(const QString &s, int mib)
 {
+  Q_UNUSED( mib ); // removed in KDE4/Qt4.
   QStringList l = QStringList::split(" ", s, true);
   for(QStringList::Iterator it = l.begin();
       it != l.end(); ++it)
   {
-     *it = KUrl::encode_string(*it, mib);
+     *it = KUrl::encode_string(*it);
   }
   return l.join("+");
 }
@@ -419,7 +420,7 @@ QString KURISearchFilterEngine::formatResult( const QString& url,
   }
 
   // Decode user query:
-  QString userquery = KUrl::decode_string(query, 106 /* utf-8*/);
+  QString userquery = KUrl::decode_string(query);
 
   PDVAR ("user query", userquery);
   PDVAR ("query definition", url);
