@@ -365,7 +365,7 @@ QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDo
     {
         // The actual menu needs a different action collection, so that the bookmarks
         // don't appear in kedittoolbar
-        m_bookmarkBarActionCollection = new KActionCollection( this );
+        m_bookmarkBarActionCollection = new KActionCollection( static_cast<QWidget *>(this) );
         m_bookmarkBarActionCollection->setHighlightingEnabled( true );
         connectActionCollection( m_bookmarkBarActionCollection );
         DelayedInitializer *initializer = new DelayedInitializer( QEvent::Show, res );
@@ -1415,7 +1415,7 @@ void KonqMainWindow::slotOpenLocation()
   // Don't pre-fill the url, as it is auto-selected and thus overwrites the
   // X clipboard, making it impossible to paste in the url you really wanted.
   // Another example of why the X clipboard sux
-   KUrlRequesterDlg dlg( QString::null, this, 0, true);
+  KUrlRequesterDlg dlg( QString::null, this );
   dlg.setCaption( i18n("Open Location") );
   // Set current directory for relative paths.
   // Testcase: konqueror www.kde.org; Ctrl+O; file in $HOME; would open http://$file
@@ -1887,7 +1887,7 @@ void KonqMainWindow::slotGoHistory()
     if (view) {
       KService::Ptr svc = view->service();
       if (svc->desktopEntryName() == "konq_sidebartng") {
-        if (!view->part()->openURL("sidebar:history.desktop"))
+        if (!view->part()->openURL( KUrl( "sidebar:history.desktop" ) ) )
           KMessageBox::sorry(0L, i18n("Cannot find running history plugin in your sidebar."), i18n("Show History Sidebar"));
         break;
       }
