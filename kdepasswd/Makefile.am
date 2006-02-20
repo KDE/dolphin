@@ -13,5 +13,5 @@ noinst_HEADERS = passwd.h passwddlg.h
 xdg_apps_DATA = kdepasswd.desktop
 
 messages:
-	$(XGETTEXT) $(kdepasswd_SOURCES)  -o $(podir)/kdepasswd.pot
+	$(XGETTEXT) *.cpp  -o $(podir)/kdepasswd.pot
 
