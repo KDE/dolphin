@@ -2893,7 +2893,7 @@ bool KonqMainWindow::askForTarget(const QString& text, KUrl& url)
 {
    const KUrl initialUrl = (viewCount()==2) ? otherView(m_currentView)->url() : m_currentView->url();
    QString label = text.arg( m_currentView->url().pathOrURL() );
-   KUrlRequesterDlg dlg(initialUrl.pathOrURL(), label, this, "urlrequester", true);
+   KUrlRequesterDlg dlg(initialUrl.pathOrURL(), label, this);
    dlg.setCaption(i18n("Enter Target"));
    dlg.urlRequester()->setMode( KFile::File | KFile::ExistingOnly | KFile::Directory );
    if (dlg.exec())
@@ -3893,7 +3893,10 @@ void KonqMainWindow::initActions()
 
   // The actual menu needs a different action collection, so that the bookmarks
   // don't appear in kedittoolbar
-  m_bookmarksActionCollection = new KActionCollection( this );
+#ifdef __GNUC__
+# warning "Verify the (QWidget*) cast for KActionCollection"
+#endif
+  m_bookmarksActionCollection = new KActionCollection( (QWidget*)( this ) );
   m_bookmarksActionCollection->setHighlightingEnabled( true );
   connectActionCollection( m_bookmarksActionCollection );
 
