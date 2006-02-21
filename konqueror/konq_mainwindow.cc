@@ -2480,7 +2480,7 @@ void KonqMainWindow::customEvent( QCustomEvent *event )
   }
   if ( KParts::OpenURLEvent::test( event ) )
   {
-    KParts::OpenURLEvent * ev = static_cast<KParts::OpenURLEvent*>(event);
+    KParts::OpenURLEvent * ev = static_cast<KParts::OpenURLEvent*>((QEvent*)event);
     KonqView * senderChildView = childView(ev->part());
 
     // Enable/disable local properties actions if current view

@@ -31,6 +31,7 @@
 #include <kiconloader.h>
 #include <kmenu.h>
 #include <kapplication.h>
+#include <ktoolbar.h>
 
 #include "konq_view.h"
 #include "konq_settingsxt.h"
