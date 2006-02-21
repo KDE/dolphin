@@ -118,7 +118,7 @@ void KonqPixmapProvider::save( KConfigGroup& kc, const QString& key,
 	mit = iconMap.find( *it );
 	if ( mit != iconMap.end() ) {
 	    list.append( mit.key() );
-	    list.append( mit.data() );
+	    list.append( mit.value() );
 	}
 
 	++it;

@@ -141,7 +141,7 @@ void KonqProfileDlg::loadAllProfiles(const QString & preselectProfile)
     for (; eIt != eEnd; ++eIt )
     {
         Q3ListViewItem *item = new KonqProfileItem( m_pListView, eIt.key() );
-        QString filename = eIt.data().mid( eIt.data().lastIndexOf( '/' ) + 1 );
+        QString filename = eIt.value().mid( eIt.value().lastIndexOf( '/' ) + 1 );
         kDebug(1202) << filename << endl;
         if ( filename == preselectProfile )
         {
@@ -210,7 +210,7 @@ void KonqProfileDlg::slotItemRenamed( Q3ListViewItem * item )
 
     if ( it != m_mapEntries.end() )
     {
-      QString fileName = it.data();
+      QString fileName = it.value();
       KSimpleConfig cfg( fileName );
       cfg.setGroup( "Profile" );
       cfg.writeEntry( "Name", newName );

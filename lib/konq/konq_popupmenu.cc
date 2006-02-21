@@ -240,7 +240,7 @@ int KonqPopupMenu::insertServicesSubmenus(const QMap<QString, ServiceList>& subm
 
     for (it = submenus.begin(); it != submenus.end(); ++it)
     {
-        if (it.data().isEmpty())
+        if (it.value().isEmpty())
         {
             //avoid empty sub-menus
             continue;
@@ -252,7 +252,7 @@ int KonqPopupMenu::insertServicesSubmenus(const QMap<QString, ServiceList>& subm
         QDomElement subtext = domDocument().createElement( "text" );
         actionSubmenu.appendChild( subtext );
         subtext.appendChild( domDocument().createTextNode( it.key() ) );
-        count += insertServices(it.data(), actionSubmenu, isBuiltin);
+        count += insertServices(it.value(), actionSubmenu, isBuiltin);
     }
 
     return count;

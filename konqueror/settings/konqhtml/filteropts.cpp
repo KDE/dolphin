@@ -263,7 +263,7 @@ void KCMFilter::load()
         QString key = "Filter-" + QString::number(i);
         it = entryMap.find(key);
         if (it != entryMap.end())
-            paths.append(it.data());
+            paths.append(it.value());
     }
 
     mListBox->insertStringList( paths );

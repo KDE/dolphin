@@ -1012,7 +1012,7 @@ bool KonqMainWindow::makeViewsFollow( const KUrl & url, const KParts::URLArgs &a
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
-    listViews.append( it.data() );
+    listViews.append( it.value());
 
   QObject *senderFrame = lastFrame( senderView );
 
@@ -1168,7 +1168,7 @@ void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs
     if ( mainWindow->viewMap().count() )
     {
       MapViews::ConstIterator it = mainWindow->viewMap().begin();
-      view = it.data();
+      view = it.value();
       part = it.key();
     }
 
@@ -1883,7 +1883,7 @@ void KonqMainWindow::slotGoHistory()
   // Tell it to show the history plugin
   MapViews::ConstIterator it;
   for (it = viewMap().begin(); it != viewMap().end(); ++it) {
-    KonqView *view = it.data();
+    KonqView *view = it.value();
     if (view) {
       KService::Ptr svc = view->service();
       if (svc->desktopEntryName() == "konq_sidebartng") {
@@ -2333,7 +2333,7 @@ KonqView * KonqMainWindow::childView( KParts::ReadOnlyPart *view )
 {
   MapViews::ConstIterator it = m_mapViews.find( view );
   if ( it != m_mapViews.end() )
-    return it.data();
+    return it.value();
   else
     return 0L;
 }
@@ -2346,7 +2346,7 @@ KonqView * KonqMainWindow::childView( KParts::ReadOnlyPart *callingPart, const Q
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
   {
-    KonqView* view = it.data();
+    KonqView* view = it.value();
     QString viewName = view->viewName();
     kDebug() << "       - viewName=" << viewName << "   "
               << "frame names:" << view->frameNames().join( "," ) << endl;
@@ -2422,7 +2422,7 @@ int KonqMainWindow::activeViewsCount() const
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
-    if ( !it.data()->isPassiveMode() )
+    if ( !it.value()->isPassiveMode() )
       ++res;
 
   return res;
@@ -2434,7 +2434,7 @@ int KonqMainWindow::linkableViewsCount() const
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
-    if ( !it.data()->isFollowActive() )
+    if ( !it.value()->isFollowActive() )
       ++res;
 
   return res;
@@ -2446,7 +2446,7 @@ int KonqMainWindow::mainViewsCount() const
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
-    if ( !it.data()->isPassiveMode() && !it.data()->isToggleView() )
+    if ( !it.value()->isPassiveMode() && !it.value()->isToggleView() )
     {
       //kDebug(1202) << "KonqMainWindow::mainViewsCount " << res << " " << it.data() << " " << it.data()->part()->widget() << endl;
       ++res;
@@ -2734,7 +2734,7 @@ void KonqMainWindow::slotRemoveOtherTabsPopup()
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it ) {
-    KonqView *view = it.data();
+    KonqView *view = it.value();
     if ( view != originalView && view && view->part() && (view->part()->metaObject()->indexOfProperty("modified") != -1) ) {
       QVariant prop = view->part()->property("modified");
       if (prop.isValid() && prop.toBool()) {
@@ -2767,7 +2767,7 @@ void KonqMainWindow::slotReloadAllTabs()
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it ) {
-    KonqView *view = it.data();
+    KonqView *view = it.value();
     if (view && view->part() && (view->part()->metaObject()->indexOfProperty("modified") != -1) ) {
       QVariant prop = view->part()->property("modified");
       if (prop.isValid() && prop.toBool()) {
@@ -4201,7 +4201,7 @@ void KonqMainWindow::connectExtension( KParts::BrowserExtension *ext )
       if ( ext->metaObject()->indexOfSlot( it.key()+"()" ) != -1 )
       {
           if ( it.key() != "trash" )
-              connect( act, SIGNAL( activated() ), ext, it.data() /* SLOT(slot name) */ );
+              connect( act, SIGNAL( activated() ), ext, it.value() /* SLOT(slot name) */ );
           act->setEnabled( ext->isActionEnabled( it.key() ) );
           const QString text = ext->actionText( it.key() );
           if ( !text.isEmpty() )
@@ -5042,7 +5042,7 @@ void KonqMainWindow::saveToolBarServicesMap()
     KConfig * config = KGlobal::config();
     KConfigGroup barServicesGroup( config, "ModeToolBarServices" );
     for ( ; serviceIt != serviceEnd ; ++serviceIt )
-        barServicesGroup.writeEntry( serviceIt.key(), serviceIt.data()->desktopEntryName() );
+        barServicesGroup.writeEntry( serviceIt.key(), serviceIt.value()->desktopEntryName() );
     barServicesGroup.sync();
 }
 
@@ -5260,7 +5260,7 @@ void KonqMainWindow::slotAddWebSideBar(const KUrl& url, const QString& name)
         // Tell it to add a new panel
         MapViews::ConstIterator it;
         for (it = viewMap().begin(); it != viewMap().end(); ++it) {
-            KonqView *view = it.data();
+            KonqView *view = it.value();
             if (view) {
                 KService::Ptr svc = view->service();
                 if (svc->desktopEntryName() == "konq_sidebartng") {

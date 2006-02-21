@@ -137,7 +137,7 @@ void KonqCommandRecorder::slotCopyingDone( KIO::Job *job, const KUrl &from, cons
       QMap<QString, QString>::ConstIterator it = metaData.find( "trashURL-" + from.path() );
       if ( it != metaData.end() ) {
           // Update URL
-          op.m_dst = it.data();
+          op.m_dst = it.value();
       }
   }
 

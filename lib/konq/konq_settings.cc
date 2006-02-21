@@ -151,8 +151,8 @@ bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
     if ( it == m_embedMap.end() )
         return (serviceTypeGroup=="image"); // embedding is false by default except for image/*
     // Note: if you change the above default, also change kcontrol/filetypes/typeslistitem.cpp !
-    kDebug(1203) << "KonqFMSettings::shouldEmbed: " << it.data() << endl;
-    return it.data() == QLatin1String("true");
+    kDebug(1203) << "KonqFMSettings::shouldEmbed: " << it.value() << endl;
+    return it.value() == QLatin1String("true");
 }
 
 bool KonqFMSettings::showPreviewsInFileTips() const

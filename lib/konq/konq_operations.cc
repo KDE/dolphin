@@ -328,7 +328,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KUrl & dest, QDro
         QMap<QString,QString>::ConstIterator mit;
         for( mit = metaData.begin(); mit != metaData.end(); ++mit )
         {
-            kDebug(1203) << "metaData: key=" << mit.key() << " value=" << mit.data() << endl;
+            kDebug(1203) << "metaData: key=" << mit.key() << " value=" << mit.value() << endl;
         }
         // Check if we dropped something on itself
         KUrl::List::ConstIterator it = lst.begin();

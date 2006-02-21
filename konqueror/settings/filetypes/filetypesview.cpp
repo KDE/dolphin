@@ -186,7 +186,7 @@ void FileTypesView::readFileTypes()
 	    m_majorMap.insert( maj, groupItem );
 	}
 	else
-	    groupItem = mit.data();
+	    groupItem = mit.value();
 
 	TypesListItem *item = new TypesListItem(groupItem, (*it2));
 	m_itemList.append( item );
@@ -202,7 +202,7 @@ void FileTypesView::slotEmbedMajor(const QString &major, bool &embed)
     if ( mit == m_majorMap.end() )
         return;
         
-    groupItem = mit.data();
+    groupItem = mit.value();
     
     embed = (groupItem->autoEmbed() == 0);
 }

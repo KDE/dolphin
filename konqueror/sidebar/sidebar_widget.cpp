@@ -191,8 +191,8 @@ void addBackEnd::triggeredAddMenu(QAction* action)
 					KSimpleConfig scf(myFile,false);
 					scf.setGroup("Desktop Entry");
 					for (QMap<QString,QString>::ConstIterator it = map.begin(); it != map.end(); ++it) {
-						kDebug() <<"writing:"<<it.key()<<" / "<<it.data()<<endl;
-						scf.writePathEntry(it.key(), it.data());
+						kDebug() <<"writing:"<<it.key()<<" / "<<it.value()<<endl;
+						scf.writePathEntry(it.key(), it.value());
 					}
 					scf.sync();
 					emit updateNeeded();
