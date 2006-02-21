@@ -3893,10 +3893,7 @@ void KonqMainWindow::initActions()
 
   // The actual menu needs a different action collection, so that the bookmarks
   // don't appear in kedittoolbar
-#ifdef __GNUC__
-# warning "Verify the (QWidget*) cast for KActionCollection"
-#endif
-  m_bookmarksActionCollection = new KActionCollection( (QWidget*)( this ) );
+  m_bookmarksActionCollection = new KActionCollection( static_cast<QWidget*>( this ) );
   m_bookmarksActionCollection->setHighlightingEnabled( true );
   connectActionCollection( m_bookmarksActionCollection );
 
