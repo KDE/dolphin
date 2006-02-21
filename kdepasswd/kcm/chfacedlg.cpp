@@ -159,7 +159,7 @@ void ChFaceDlg::slotGetCustomImage(  )
   QCheckBox* checkWidget = new QCheckBox( i18n("&Save copy in custom faces folder for future use"), 0 );
 
   KFileDialog *dlg = new KFileDialog( QDir::homePath(), KImageIO::pattern( KImageIO::Reading ),
-                  this, 0, true, checkWidget);
+                  this, checkWidget);
 
   dlg->setOperationMode( KFileDialog::Opening );
   dlg->setCaption( i18n("Choose Image") );
