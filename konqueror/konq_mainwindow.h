@@ -192,8 +192,6 @@ public:
   // Only valid if there are one or two views
   KonqView * otherView( KonqView * view ) const;
 
-  virtual void customEvent( QCustomEvent *event );
-
   /// Overloaded of KMainWindow
   virtual void setCaption( const QString &caption );
 

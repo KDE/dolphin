@@ -2464,45 +2464,6 @@ KParts::ReadOnlyPart * KonqMainWindow::currentPart() const
     return 0L;
 }
 
-void KonqMainWindow::customEvent( QCustomEvent *event )
-{
-  KParts::MainWindow::customEvent( event );
-
-  if ( KonqFileSelectionEvent::test( event ) ||
-       KonqFileMouseOverEvent::test( event ) )
-  {
-    // Forward the event to all views
-    MapViews::ConstIterator it = m_mapViews.begin();
-    MapViews::ConstIterator end = m_mapViews.end();
-    for (; it != end; ++it )
-      QApplication::sendEvent( (*it)->part(), event );
-    return;
-  }
-  if ( KParts::OpenURLEvent::test( event ) )
-  {
-    KParts::OpenURLEvent * ev = static_cast<KParts::OpenURLEvent*>((QEvent*)event);
-    KonqView * senderChildView = childView(ev->part());
-
-    // Enable/disable local properties actions if current view
-    if ( senderChildView == m_currentView )
-        updateLocalPropsActions();
-
-    // Forward the event to all views
-    MapViews::ConstIterator it = m_mapViews.begin();
-    MapViews::ConstIterator end = m_mapViews.end();
-    for (; it != end; ++it )
-    {
-      // Don't resend to sender
-      if (it.key() != ev->part())
-      {
-        //kDebug(1202) << "Sending event to view " << it.key()->className() << endl;
-        QApplication::sendEvent( it.key(), event );
-
-      }
-    }
-  }
-}
-
 void KonqMainWindow::updateLocalPropsActions()
 {
     bool canWrite = false;
@@ -5675,14 +5636,46 @@ bool KonqMainWindow::event( QEvent* e )
 {
     if( e->type() == QEvent::DeferredDelete )
     {
-    // since the preloading code tries to reuse KonqMainWindow,
-    // the last window shouldn't be really deleted, but only hidden
-    // deleting WDestructiveClose windows is done using deleteLater(),
-    // so catch QEvent::DefferedDelete and check if this window should stay
+        // since the preloading code tries to reuse KonqMainWindow,
+        // the last window shouldn't be really deleted, but only hidden
+        // deleting WDestructiveClose windows is done using deleteLater(),
+        // so catch QEvent::DefferedDelete and check if this window should stay
         if( stayPreloaded())
         {
             setAttribute(Qt::WA_DeleteOnClose); // was reset before deleteLater()
             return true; // no deleting
+        }
+    }
+    if ( KonqFileSelectionEvent::test( e ) ||
+         KonqFileMouseOverEvent::test( e ) )
+    {
+        // Forward the event to all views
+        MapViews::ConstIterator it = m_mapViews.begin();
+        MapViews::ConstIterator end = m_mapViews.end();
+        for (; it != end; ++it )
+            QApplication::sendEvent( (*it)->part(), e );
+        return true;
+    }
+    if ( KParts::OpenURLEvent::test( e ) )
+    {
+        KParts::OpenURLEvent * ev = static_cast<KParts::OpenURLEvent*>(e);
+        KonqView * senderChildView = childView(ev->part());
+
+        // Enable/disable local properties actions if current view
+        if ( senderChildView == m_currentView )
+            updateLocalPropsActions();
+
+        // Forward the event to all views
+        MapViews::ConstIterator it = m_mapViews.begin();
+        MapViews::ConstIterator end = m_mapViews.end();
+        for (; it != end; ++it )
+        {
+            // Don't resend to sender
+            if (it.key() != ev->part())
+            {
+                //kDebug(1202) << "Sending event to view " << it.key()->className() << endl;
+                QApplication::sendEvent( it.key(), e );
+            }
         }
     }
     return KParts::MainWindow::event( e );
