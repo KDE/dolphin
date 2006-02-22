@@ -165,7 +165,7 @@ void KEnvVarProxyDlg::autoDetectPressed()
     {
       mEnvVarsMap ["http"].name = *it;
       mEnvVarsMap ["http"].value = env;
-      mDlg->leHttp->setText( (mDlg->cbShowValue->isOn() ? env : *it) );
+      mDlg->leHttp->setText( (mDlg->cbShowValue->isChecked() ? env : *it) );
       found |= true;
       break;
     }
@@ -180,7 +180,7 @@ void KEnvVarProxyDlg::autoDetectPressed()
     {
       mEnvVarsMap ["https"].name = *it;
       mEnvVarsMap ["https"].value = env;
-      mDlg->leHttps->setText( (mDlg->cbShowValue->isOn() ? env : *it) );
+      mDlg->leHttps->setText( (mDlg->cbShowValue->isChecked() ? env : *it) );
       found |= true;
       break;
     }
@@ -195,7 +195,7 @@ void KEnvVarProxyDlg::autoDetectPressed()
     {
       mEnvVarsMap ["ftp"].name = *it;
       mEnvVarsMap ["ftp"].value = env;
-      mDlg->leFtp->setText( (mDlg->cbShowValue->isOn() ? env : *it) );
+      mDlg->leFtp->setText( (mDlg->cbShowValue->isChecked() ? env : *it) );
       found |= true;
       break;
     }
@@ -210,7 +210,7 @@ void KEnvVarProxyDlg::autoDetectPressed()
     {
       mEnvVarsMap ["noProxy"].name = *it;
       mEnvVarsMap ["noProxy"].value = env;
-      mDlg->leNoProxy->setText( (mDlg->cbShowValue->isOn() ? env : *it) );
+      mDlg->leNoProxy->setText( (mDlg->cbShowValue->isChecked() ? env : *it) );
       break;
     }
   }

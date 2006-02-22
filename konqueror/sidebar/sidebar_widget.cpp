@@ -726,7 +726,7 @@ bool Sidebar_Widget::openURL(const class KUrl &url)
 			if (m_buttons.at(i)->file==url.path())
 			{
 				KMultiTabBarTab *tab = m_buttonBar->tab(i);
-				if (!tab->isOn())
+				if (!tab->isChecked())
 					tab->animateClick();
 				return true;
 			}

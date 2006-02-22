@@ -62,7 +62,7 @@ void KonqCheckBox::drawButton( QPainter *p )
     static QPixmap indicator_connect( UserIcon( "indicator_connect" ) );
     static QPixmap indicator_noconnect( UserIcon( "indicator_noconnect" ) );
 
-   if (isOn() || isDown())
+   if (isChecked() || isDown())
       p->drawPixmap(0,0,indicator_connect);
    else
       p->drawPixmap(0,0,indicator_noconnect);

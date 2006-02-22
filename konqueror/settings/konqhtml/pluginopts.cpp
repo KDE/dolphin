@@ -436,7 +436,7 @@ void KPluginOptions::dirSave( KConfig *config )
     // write entry
     config->setGroup( "Misc" );
     config->writeEntry( "scanPaths", paths );
-    config->writeEntry( "useArtsdsp", m_widget->useArtsdsp->isOn() );
+    config->writeEntry( "useArtsdsp", m_widget->useArtsdsp->isChecked() );
 }
 
 
