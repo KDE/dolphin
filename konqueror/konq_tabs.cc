@@ -142,7 +142,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
     m_leftWidget = new QToolButton( this );
     connect( m_leftWidget, SIGNAL( clicked() ),
              m_pViewManager->mainWindow(), SLOT( slotAddTab() ) );
-    m_leftWidget->setIconSet( SmallIcon( "tab_new" ) );
+    m_leftWidget->setIcon( SmallIcon( "tab_new" ) );
     m_leftWidget->adjustSize();
     m_leftWidget->setToolTip( i18n("Open a new tab"));
     setCornerWidget( m_leftWidget, Qt::TopLeftCorner );
@@ -151,7 +151,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
     m_rightWidget = new QToolButton( this );
     connect( m_rightWidget, SIGNAL( clicked() ),
              m_pViewManager->mainWindow(), SLOT( slotRemoveTab() ) );
-    m_rightWidget->setIconSet( SmallIconSet( "tab_remove" ) );
+    m_rightWidget->setIcon( SmallIconSet( "tab_remove" ) );
     m_rightWidget->adjustSize();
     m_rightWidget->setToolTip( i18n("Close the current tab"));
     setCornerWidget( m_rightWidget, Qt::TopRightCorner );

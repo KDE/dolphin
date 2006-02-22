@@ -109,7 +109,7 @@ KCookiesManagement::KCookiesManagement(KInstance *inst, QWidget *parent)
 
   dlg = new KCookiesManagementDlgUI (this);
   
-  dlg->tbClearSearchLine->setIconSet(SmallIconSet(QApplication::isRightToLeft() ? "clear_left" : "locationbar_erase"));
+  dlg->tbClearSearchLine->setIcon(SmallIconSet(QApplication::isRightToLeft() ? "clear_left" : "locationbar_erase"));
   dlg->kListViewSearchLine->setListView(dlg->lvCookies);
   
   mainLayout->addWidget(dlg);
