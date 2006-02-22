@@ -110,7 +110,7 @@ KonqCombo::KonqCombo( QWidget *parent )
             m_modifier( Qt::NoButton ),
 	    m_pageSecurity( KonqMainWindow::NotCrypted )
 {
-    setInsertionPolicy( NoInsertion );
+    setInsertPolicy( NoInsertion );
     setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed ));
 
     Q_ASSERT( s_config );
