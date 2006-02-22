@@ -107,7 +107,7 @@ QString KonqAboutPageFactory::launch()
   QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
 
   res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
-  if ( kapp->reverseLayout() )
+  if ( kapp->layoutDirection() == Qt::RightToLeft )
     res = res.arg( "@import \"%1\";" ).arg( locate( "data", "kdeui/about/kde_infopage_rtl.css" ) );
   else
     res = res.arg( "" );
@@ -172,7 +172,7 @@ QString KonqAboutPageFactory::intro()
     QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
 
     res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
-    if ( kapp->reverseLayout() )
+    if ( kapp->layoutDirection() == Qt::RightToLeft )
 	res = res.arg( "@import \"%1\";" ).arg( locate( "data", "kdeui/about/kde_infopage_rtl.css" ) );
     else
 	res = res.arg( "" );
@@ -227,7 +227,7 @@ QString KonqAboutPageFactory::specs()
 	return res;
 
     res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
-    if ( kapp->reverseLayout() )
+    if ( kapp->layoutDirection() == Qt::RightToLeft )
 	res = res.arg( "@import \"%1\";" ).arg( locate( "data", "kdeui/about/kde_infopage_rtl.css" ) );
     else
 	res = res.arg( "" );
@@ -324,7 +324,7 @@ QString KonqAboutPageFactory::tips()
     QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
 
     res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
-    if ( kapp->reverseLayout() )
+    if ( kapp->layoutDirection() == Qt::RightToLeft )
 	res = res.arg( "@import \"%1\";" ).arg( locate( "data", "kdeui/about/kde_infopage_rtl.css" ) );
     else
 	res = res.arg( "" );
@@ -388,7 +388,7 @@ QString KonqAboutPageFactory::plugins()
     if ( s_plugins_html )
         return *s_plugins_html;
 
-    QString res = loadFile( locate( "data", kapp->reverseLayout() ? "konqueror/about/plugins_rtl.html" : "konqueror/about/plugins.html" ))
+    QString res = loadFile( locate( "data", kapp->layoutDirection() == Qt::RightToLeft ? "konqueror/about/plugins_rtl.html" : "konqueror/about/plugins.html" ))
                   .arg(i18n("Installed Plugins"))
                   .arg(i18n("<td>Plugin</td><td>Description</td><td>File</td><td>Types</td>"))
                   .arg(i18n("Installed"))
