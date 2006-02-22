@@ -12,5 +12,4 @@ pluginsdir = $(kde_datadir)/khtml/kpartplugins
 plugins_DATA = khtmlkttsd.rc khtmlkttsd.desktop
 
 messages: rc.cpp
-	$(EXTRACTRC) *.rc > rc.cpp
 	$(XGETTEXT) *.cpp -o $(podir)/khtmlkttsd.pot
