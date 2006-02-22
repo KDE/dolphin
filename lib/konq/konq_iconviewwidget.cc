@@ -1833,10 +1833,10 @@ void KonqIconViewWidget::visualActivate(Q3IconViewItem * item)
 
     // Adjust to correct position. If this isn't done, the fact that the
     // text may be wider than the pixmap puts us off-centre.
-    rect.moveBy(irect.x(), irect.y());
+    rect.translate(irect.x(), irect.y());
 
     // Adjust for scrolling (David)
-    rect.moveBy( -contentsX(), -contentsY() );
+    rect.translate( -contentsX(), -contentsY() );
 
     KIconEffect::visualActivate(viewport(), rect);
 }

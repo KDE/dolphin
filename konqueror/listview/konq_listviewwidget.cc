@@ -613,11 +613,11 @@ void KonqBaseListViewWidget::slotAutoScroll()
          cur = cur->itemBelow();
          if (cur && !allColumnsShowFocus())
             rect.setWidth( executeArea( cur ) );
-         rect.moveBy( 0, rect.height() );
+         rect.translate( 0, rect.height() );
       }
 
       rect = r;
-      rect.moveBy( 0, -rect.height() );
+      rect.translate( 0, -rect.height() );
       cur = tmp->itemAbove();
 
       while ( cur && rect.bottom() >= oldTop )
@@ -632,7 +632,7 @@ void KonqBaseListViewWidget::slotAutoScroll()
          cur = cur->itemAbove();
          if (cur && !allColumnsShowFocus())
             rect.setWidth( executeArea( cur ) );
-         rect.moveBy( 0, -rect.height() );
+         rect.translate( 0, -rect.height() );
       }
    }
 
