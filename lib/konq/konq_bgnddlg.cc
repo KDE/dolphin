@@ -112,7 +112,7 @@ KonqBgndDialog::KonqBgndDialog( QWidget* parent,
     }
     else {
         m_buttonColor->setColor( theColor );
-        m_comboPicture->comboBox()->setCurrentItem( 0 );
+        m_comboPicture->comboBox()->setCurrentIndex( 0 );
         m_radioColor->setChecked( true );
     }
     slotBackgroundModeChanged();
@@ -155,17 +155,17 @@ void KonqBgndDialog::loadPicture( const QString& fileName )
     int i ;
     for ( i = 0; i < m_comboPicture->comboBox()->count(); i++ ) {
         if ( fileName == m_comboPicture->comboBox()->text( i ) ) {
-            m_comboPicture->comboBox()->setCurrentItem( i );
+            m_comboPicture->comboBox()->setCurrentIndex( i );
             return;
         }
     }
 
     if ( !fileName.isEmpty() ) {
         m_comboPicture->comboBox()->insertItem( fileName );
-        m_comboPicture->comboBox()->setCurrentItem( i );
+        m_comboPicture->comboBox()->setCurrentIndex( i );
     }
     else
-        m_comboPicture->comboBox()->setCurrentItem( 0 );
+        m_comboPicture->comboBox()->setCurrentIndex( 0 );
 }
 
 void KonqBgndDialog::slotPictureChanged()

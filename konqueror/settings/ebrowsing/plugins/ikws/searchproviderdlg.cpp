@@ -59,7 +59,7 @@ SearchProviderDialog::SearchProviderDialog(SearchProvider *provider,
         m_dlg->leName->setText(m_provider->name());
         m_dlg->leQuery->setText(m_provider->query());
         m_dlg->leShortcut->setText(m_provider->keys().join(","));
-        m_dlg->cbCharset->setCurrentItem(m_provider->charset().isEmpty() ? 0 : charsets.findIndex(m_provider->charset()));
+        m_dlg->cbCharset->setCurrentIndex(m_provider->charset().isEmpty() ? 0 : charsets.findIndex(m_provider->charset()));
         m_dlg->leName->setEnabled(false);
         m_dlg->leQuery->setFocus();
     }

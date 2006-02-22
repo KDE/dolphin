@@ -84,7 +84,7 @@ void PolicyDlg::setEnableHostEdit( bool state, const QString& host )
 void PolicyDlg::setPolicy (int policy)
 {
   if ( policy > -1 && policy <= static_cast<int>(m_dlgUI->cbPolicy->count()) )
-    m_dlgUI->cbPolicy->setCurrentItem(policy-1);
+    m_dlgUI->cbPolicy->setCurrentIndex(policy-1);
 
   if ( !m_dlgUI->leDomain->isEnabled() )
     m_dlgUI->cbPolicy->setFocus();

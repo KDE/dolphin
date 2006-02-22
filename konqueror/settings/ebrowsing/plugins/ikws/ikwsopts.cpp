@@ -178,11 +178,11 @@ void FilterOptions::setDelimiter (char sep)
   switch (sep)
   {
     case ' ':
-      m_dlg->cmbDelimiter->setCurrentItem (1);
+      m_dlg->cmbDelimiter->setCurrentIndex (1);
       break;
     case ':':
     default:
-      m_dlg->cmbDelimiter->setCurrentItem (0);
+      m_dlg->cmbDelimiter->setCurrentIndex (0);
   };
 }
 
@@ -309,7 +309,7 @@ void FilterOptions::save()
 void FilterOptions::defaults()
 {
   setDelimiter (':');
-  m_dlg->cmbDefaultEngine->setCurrentItem (0);
+  m_dlg->cmbDefaultEngine->setCurrentIndex (0);
   m_dlg->cbEnableShortcuts->setChecked( true );
   setWebShortcutState();
 }
@@ -389,9 +389,9 @@ void FilterOptions::deleteSearchProvider()
     {
       m_dlg->cmbDefaultEngine->removeItem(i);
       if (i == current)
-        m_dlg->cmbDefaultEngine->setCurrentItem(0);
+        m_dlg->cmbDefaultEngine->setCurrentIndex(0);
       else if (current > i)
-        m_dlg->cmbDefaultEngine->setCurrentItem(current - 1);
+        m_dlg->cmbDefaultEngine->setCurrentIndex(current - 1);
 
       break;
     }
@@ -454,7 +454,7 @@ SearchProviderItem *FilterOptions::displaySearchProvider(SearchProvider *p, bool
         m_dlg->cmbDefaultEngine->insertItem(p->name(), itemCount);
         m_defaultEngineMap[p->name ()] = p->desktopEntryName ();
         if (currentItem >= itemCount)
-          m_dlg->cmbDefaultEngine->setCurrentItem(currentItem+1);
+          m_dlg->cmbDefaultEngine->setCurrentIndex(currentItem+1);
         break;
       }
     }
@@ -467,7 +467,7 @@ SearchProviderItem *FilterOptions::displaySearchProvider(SearchProvider *p, bool
     }
 
     if (fallback)
-      m_dlg->cmbDefaultEngine->setCurrentItem(itemCount);
+      m_dlg->cmbDefaultEngine->setCurrentIndex(itemCount);
   }
 
   if (!it.current())

@@ -193,7 +193,7 @@ void KonqCombo::setTemporary( const QString& url, const QPixmap& pix )
         updateItem( pix, url, temporary, titleOfURL( url ) );
     }
 
-    setCurrentItem( temporary );
+    setCurrentIndex( temporary );
 }
 
 void KonqCombo::removeDuplicates( int index )
@@ -406,7 +406,7 @@ void KonqCombo::clearTemporary( bool makeCurrent )
     applyPermanent();
     changeItem( QString(), temporary ); // ### default pixmap?
     if ( makeCurrent )
-      setCurrentItem( temporary );
+      setCurrentIndex( temporary );
 }
 
 bool KonqCombo::eventFilter( QObject *o, QEvent *ev )
@@ -833,7 +833,7 @@ void KonqComboLineEdit::setCompletedItems( const QStringList& items )
             }
             if ( item ) {
                 completionbox->blockSignals( true );
-                completionbox->setCurrentItem( item );
+                completionbox->setCurrentIndex( item );
                 completionbox->setSelected( item, wasSelected );
                 completionbox->blockSignals( false );
             }

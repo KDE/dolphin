@@ -125,7 +125,7 @@ void UAProviderDlg::setIdentity( const QString& text )
 {
   int id = dlg->cbAlias->findText( text );
   if ( id != -1 )
-     dlg->cbAlias->setCurrentItem( id );
+     dlg->cbAlias->setCurrentIndex( id );
   slotActivated( dlg->cbAlias->currentText() );
   if ( !dlg->leSite->isEnabled() )
     dlg->cbAlias->setFocus();
