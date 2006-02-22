@@ -366,7 +366,7 @@ void KPluginOptions::scanDone()
 
 void KPluginOptions::dirInit()
 {
-    m_widget->dirEdit->setCaption(i18n("Select Plugin Scan Folder"));
+    m_widget->dirEdit->setWindowTitle(i18n("Select Plugin Scan Folder"));
     connect( m_widget->dirNew, SIGNAL(clicked()), SLOT(dirNew()));
     connect( m_widget->dirRemove, SIGNAL(clicked()), SLOT(dirRemove()));
     connect( m_widget->dirUp, SIGNAL(clicked()), SLOT(dirUp()));
@@ -610,7 +610,7 @@ void KPluginOptions::pluginSave( KConfig* /*config*/ )
 
 PluginDomainDialog::PluginDomainDialog(QWidget *parent) :
 	QWidget(parent,"PluginDomainDialog") {
-  setCaption(i18n("Domain-Specific Policies"));
+  setWindowTitle(i18n("Domain-Specific Policies"));
 
   thisLayout = new QVBoxLayout(this);
   thisLayout->addSpacing(6);
@@ -661,7 +661,7 @@ void PluginDomainListView::setupPolicyDlg(PushButton trigger,PolicyDialog &pDlg,
     case ChangeButton: caption = i18n( "Change Plugin Policy" ); break;
     default: ; // inhibit gcc warning
   }/*end switch*/
-  pDlg.setCaption(caption);
+  pDlg.setWindowTitle(caption);
   pDlg.setFeatureEnabledLabel(i18n("&Plugin policy:"));
   pDlg.setFeatureEnabledWhatsThis(i18n("Select a plugin policy for "
                                     "the above host or domain."));

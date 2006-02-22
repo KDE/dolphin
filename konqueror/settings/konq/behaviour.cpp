@@ -127,7 +127,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, KInstance *
 
 	homeURL = new KUrlRequester(this);
 	homeURL->setMode(KFile::Directory);
-	homeURL->setCaption(i18n("Select Home Folder"));
+	homeURL->setWindowTitle(i18n("Select Home Folder"));
 	hlay->addWidget( homeURL );
     connect(homeURL, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
     label->setBuddy(homeURL);
