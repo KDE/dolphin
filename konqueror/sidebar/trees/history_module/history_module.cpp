@@ -328,7 +328,7 @@ KonqSidebarHistoryGroupItem * KonqSidebarHistoryModule::getGroupItem( const KUrl
     if ( !group ) {
 	group = new KonqSidebarHistoryGroupItem( url, m_topLevelItem );
 
-	QString icon = KonqFavIconMgr::iconForURL( url.url() );
+	QString icon = KonqFavIconMgr::iconForURL( url );
 	if ( icon.isEmpty() )
 	    group->setPixmap( 0, m_folderClosed );
 	else

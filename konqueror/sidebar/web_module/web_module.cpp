@@ -139,10 +139,10 @@ void KonqSideBarWebModule::formClicked(const KUrl& url, const KParts::URLArgs& a
 
 
 void KonqSideBarWebModule::loadFavicon() {
-	QString icon = KonqPixmapProvider::iconForURL(_url.url());
+	QString icon = KonqPixmapProvider::iconForURL(_url);
 	if (icon.isEmpty()) {
 		KonqFavIconMgr::downloadHostIcon(_url);
-		icon = KonqPixmapProvider::iconForURL(_url.url());
+		icon = KonqPixmapProvider::iconForURL(_url);
 	}
 
 	if (!icon.isEmpty()) {
