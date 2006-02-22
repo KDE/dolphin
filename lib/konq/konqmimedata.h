@@ -23,7 +23,10 @@
 #include <kurl.h>
 class QMimeData;
 
-// Clipboard/dnd data for: (kde) urls, most-local urls, isCut
+/**
+ * This class provides functions for creating and decoding clipboard/drag-n-drop data
+ * of URLs. In particular it ships: (kde) urls, most-local urls, and an "is cut" boolean.
+ */
 class LIBKONQ_EXPORT KonqMimeData
 {
 public:
