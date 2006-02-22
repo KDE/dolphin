@@ -101,7 +101,7 @@ void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
 
    m_pBrowserView->newItems( entries );
 
-   if ( !viewport()->isUpdatesEnabled() )
+   if ( !viewport()->updatesEnabled() )
    {
       viewport()->setUpdatesEnabled( true );
       setUpdatesEnabled( true );
@@ -146,7 +146,7 @@ void KonqTextViewWidget::setComplete()
    // Show totals
    slotOnViewport();
 
-   if ( !isUpdatesEnabled() || !viewport()->isUpdatesEnabled() )
+   if ( !updatesEnabled() || !viewport()->updatesEnabled() )
    {
       viewport()->setUpdatesEnabled( true );
       setUpdatesEnabled( true );

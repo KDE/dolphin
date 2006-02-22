@@ -1082,7 +1082,7 @@ void KonqBaseListViewWidget::setComplete()
 
    m_pBrowserView->emitMouseOver( 0 );
 
-   if ( !isUpdatesEnabled() || !viewport()->isUpdatesEnabled() )
+   if ( !updatesEnabled() || !viewport()->updatesEnabled() )
    {
       viewport()->setUpdatesEnabled( true );
       setUpdatesEnabled( true );
@@ -1160,7 +1160,7 @@ void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
    }
    m_pBrowserView->newItems( entries );
 
-   if ( !viewport()->isUpdatesEnabled() )
+   if ( !viewport()->updatesEnabled() )
    {
       viewport()->setUpdatesEnabled( true );
       setUpdatesEnabled( true );
@@ -1197,7 +1197,7 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
   // I supposed slotUpdateBackground has to be called as well after an item
   // was removed from a listview and was just forgotten previously (Brade).
   // OK, but this code also gets activated when deleting a hidden file... (dfaure)
-  if ( !viewport()->isUpdatesEnabled() )
+  if ( !viewport()->updatesEnabled() )
   {
     viewport()->setUpdatesEnabled( true );
     setUpdatesEnabled( true );

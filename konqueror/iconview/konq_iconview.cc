@@ -869,7 +869,7 @@ void KonqKfmIconView::slotCanceled( const KUrl& url )
 
     // See slotCompleted(). If a listing gets canceled, it doesn't emit
     // the completed() signal, so handle that case.
-    if ( !m_pIconView->viewport()->isUpdatesEnabled() )
+    if ( !m_pIconView->viewport()->updatesEnabled() )
     {
         m_pIconView->viewport()->setUpdatesEnabled( true );
         m_pIconView->viewport()->repaint();
@@ -889,7 +889,7 @@ void KonqKfmIconView::slotCompleted()
 
     // If updates to the viewport are still blocked (so slotNewItems() has
     // not been called), a viewport repaint is forced.
-    if ( !m_pIconView->viewport()->isUpdatesEnabled() )
+    if ( !m_pIconView->viewport()->updatesEnabled() )
     {
         m_pIconView->viewport()->setUpdatesEnabled( true );
         m_pIconView->viewport()->repaint();
@@ -1009,7 +1009,7 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
     m_pIconView->setUpdatesEnabled( true );
     // Locking the viewport has filtered out blanking and now, since we
     // have some items to draw, we can restore updating.
-    if ( !m_pIconView->viewport()->isUpdatesEnabled() )
+    if ( !m_pIconView->viewport()->updatesEnabled() )
         m_pIconView->viewport()->setUpdatesEnabled( true );
     KonqDirPart::newItems( entries );
 }
@@ -1238,7 +1238,7 @@ void KonqKfmIconView::slotRefreshViewport()
 {
     kDebug(1202) << "KonqKfmIconView::slotRefreshViewport()" << endl;
     QWidget * vp = m_pIconView->viewport();
-    bool prevState = vp->isUpdatesEnabled();
+    bool prevState = vp->updatesEnabled();
     vp->setUpdatesEnabled( true );
     vp->repaint();
     vp->setUpdatesEnabled( prevState );

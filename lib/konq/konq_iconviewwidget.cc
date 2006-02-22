@@ -649,7 +649,7 @@ void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreview
     // resized in-place, if the icon size is increasing it can happens that the right
     // or bottom icons exceed the size of the viewport.. here we prevent the repaint
     // event that will be triggered in that case.
-    bool prevUpdatesState = viewport()->isUpdatesEnabled();
+    bool prevUpdatesState = viewport()->updatesEnabled();
     viewport()->setUpdatesEnabled( false );
 
     // Do this even if size didn't change, since this is used by refreshMimeTypes...

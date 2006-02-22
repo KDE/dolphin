@@ -119,7 +119,7 @@ void KonqTreeViewWidget::slotCompleted( const KUrl & _url )
     else
         kWarning() << "KonqTreeViewWidget::slotCompleted : dir " << _url.url(-1) << " not found in dict!" << endl;
 
-    if ( !viewport()->isUpdatesEnabled() )
+    if ( !viewport()->updatesEnabled() )
     {
         viewport()->setUpdatesEnabled( true );
         setUpdatesEnabled( true );
@@ -265,7 +265,7 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
         }
     }
 
-    if ( !viewport()->isUpdatesEnabled() )
+    if ( !viewport()->updatesEnabled() )
     {
         viewport()->setUpdatesEnabled( true );
         setUpdatesEnabled( true );
