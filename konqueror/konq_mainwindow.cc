@@ -72,7 +72,7 @@
 #include <QKeyEvent>
 #include <QEvent>
 #include <Q3CString>
-#include <Q3PtrList>
+#include <QList>
 #include <QCloseEvent>
 #include <QPixmap>
 
@@ -129,10 +129,10 @@
 #include <kauthorized.h>
 #include <ktoolinvocation.h>
 
-template class Q3PtrList<QPixmap>;
-template class Q3PtrList<KToggleAction>;
+template class QList<QPixmap*>;
+template class QList<KToggleAction*>;
 
-Q3PtrList<KonqMainWindow> *KonqMainWindow::s_lstViews = 0;
+QList<KonqMainWindow*> *KonqMainWindow::s_lstViews = 0;
 KConfig * KonqMainWindow::s_comboConfig = 0;
 KCompletion * KonqMainWindow::s_pCompletion = 0;
 QFile * KonqMainWindow::s_crashlog_file = 0;
@@ -159,7 +159,7 @@ KonqMainWindow::KonqMainWindow( const KUrl &initialURL, bool openInitialURL, con
   setPreloadedFlag( false );
 
   if ( !s_lstViews )
-    s_lstViews = new Q3PtrList<KonqMainWindow>;
+    s_lstViews = new QList<KonqMainWindow*>;
 
   s_lstViews->append( this );
 
@@ -307,7 +307,7 @@ KonqMainWindow::~KonqMainWindow()
 
   if ( s_lstViews )
   {
-    s_lstViews->removeRef( this );
+    s_lstViews->removeAll( this );
     if ( s_lstViews->count() == 0 )
     {
       delete s_lstViews;
@@ -1008,15 +1008,11 @@ bool KonqMainWindow::makeViewsFollow( const KUrl & url, const KParts::URLArgs &a
   req.args = args;
   // We can't iterate over the map here, and openURL for each, because the map can get modified
   // (e.g. by part changes). Better copy the views into a list.
-  Q3PtrList<KonqView> listViews;
-  MapViews::ConstIterator it = m_mapViews.begin();
-  MapViews::ConstIterator end = m_mapViews.end();
-  for (; it != end; ++it )
-    listViews.append( it.value());
+  QList<KonqView*> listViews = m_mapViews.values();
 
   QObject *senderFrame = lastFrame( senderView );
 
-  for ( KonqView * view = listViews.first() ; view ; view = listViews.next())
+  foreach ( KonqView * view, listViews )
   {
     bool followed = false;
     // Views that should follow this URL as both views are linked
@@ -2401,14 +2397,13 @@ KonqView * KonqMainWindow::findChildView( KParts::ReadOnlyPart *callingPart, con
   if ( !s_lstViews )
     return 0;
 
-  Q3PtrListIterator<KonqMainWindow> it( *s_lstViews );
-  for (; it.current(); ++it )
+  foreach ( KonqMainWindow* window, *s_lstViews )
   {
-    KonqView *res = it.current()->childView( callingPart, name, hostExtension, part );
+    KonqView *res = window->childView( callingPart, name, hostExtension, part );
     if ( res )
     {
       if ( mainWindow )
-        *mainWindow = it.current();
+        *mainWindow = window;
       return res;
     }
   }
@@ -3192,13 +3187,11 @@ void KonqMainWindow::slotCompletionModeChanged( KGlobalSettings::Completion m )
   KonqSettings::writeConfig();
 
   // tell the other windows too (only this instance currently)
-  KonqMainWindow *window = s_lstViews->first();
-  while ( window ) {
-    if ( window->m_combo ) {
+  foreach ( KonqMainWindow* window, *s_lstViews ) {
+    if ( window && window->m_combo ) {
       window->m_combo->setCompletionMode( m );
       window->m_pURLCompletion->setCompletionMode( m );
     }
-    window = s_lstViews->next();
   }
 }
 
@@ -3590,9 +3583,8 @@ void KonqMainWindow::comboAction( int action, const QString& url, const Q3CStrin
         return;
 
     KonqCombo *combo = 0L;
-    KonqMainWindow *window = s_lstViews->first();
-    while ( window ) {
-        if ( window->m_combo ) {
+    foreach ( KonqMainWindow* window, *s_lstViews ) {
+        if ( window && window->m_combo ) {
             combo = window->m_combo;
 
             switch ( action ) {
@@ -3609,7 +3601,6 @@ void KonqMainWindow::comboAction( int action, const QString& url, const Q3CStrin
               break;
             }
         }
-        window = s_lstViews->next();
     }
 
     // only one instance should save...
@@ -4095,7 +4086,7 @@ void KonqMainWindow::updateViewActions()
         m_paActivateNextTab->setEnabled( state );
         m_paActivatePrevTab->setEnabled( state );
 
-        Q3PtrList<KonqFrameBase>* childFrameList = tabContainer->childFrameList();
+        QList<KonqFrameBase*>* childFrameList = tabContainer->childFrameList();
         m_paMoveTabLeft->setEnabled( currentView() ? currentView()->frame()!=
 	    (QApplication::isRightToLeft() ? childFrameList->last() : childFrameList->first()) : false );
         m_paMoveTabRight->setEnabled( currentView() ? currentView()->frame()!=
@@ -4451,17 +4442,14 @@ void KonqExtendedBookmarkOwner::slotFillBookmarksList( KExtendedBookmarkOwner::Q
 
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(docContainer);
 
-  Q3PtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
-  Q3PtrListIterator<KonqFrameBase> it( frameList );
-
-  for ( it.toFirst(); it != 0L; ++it )
+  foreach ( KonqFrameBase* frame, *tabContainer->childFrameList() )
   {
-    if ( !it.current()->activeChildView() )
+    if ( !frame || !frame->activeChildView() )
       continue;
-    if( it.current()->activeChildView()->locationBarURL().isEmpty() )
+    if( frame->activeChildView()->locationBarURL().isEmpty() )
       continue;
-    list << qMakePair( it.current()->activeChildView()->caption(),
-                       it.current()->activeChildView()->url().url() );
+    list << qMakePair( frame->activeChildView()->caption(),
+                       frame->activeChildView()->url().url() );
   }
 }
 

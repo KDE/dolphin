@@ -567,17 +567,15 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
 
   tabContainer->removeChildFrame(currentFrame);
 
-  Q3PtrList<KonqView> viewList;
-  Q3PtrListIterator<KonqView> it( viewList );
-
+  QList<KonqView*> viewList;
   currentFrame->listViews( &viewList );
 
-  for ( it.toFirst(); it != 0L; ++it )
+  foreach ( KonqView* view, viewList )
   {
-    if (it.current() == m_pMainWindow->currentView())
+    if (view == m_pMainWindow->currentView())
       setActivePart( 0L, true );
-    m_pMainWindow->removeChildView( it.current() );
-    delete it.current();
+    m_pMainWindow->removeChildView( view );
+    delete view;
   }
 
   delete currentFrame;
@@ -598,15 +596,12 @@ void KonqViewManager::reloadAllTabs( )
 
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
 
-  Q3PtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
-  Q3PtrListIterator<KonqFrameBase> it( frameList );
-
-  for ( it.toFirst(); it != 0L; ++it )
+  foreach ( KonqFrameBase* frame, *tabContainer->childFrameList() )
   {
-      if ( it.current()->activeChildView())
+      if ( frame && frame->activeChildView())
       {
-          if( !it.current()->activeChildView()->locationBarURL().isEmpty())
-              it.current()->activeChildView()->openURL( it.current()->activeChildView()->url(),it.current()->activeChildView()->locationBarURL());
+          if( !frame->activeChildView()->locationBarURL().isEmpty())
+              frame->activeChildView()->openURL( frame->activeChildView()->url(), frame->activeChildView()->locationBarURL());
       }
   }
 }
@@ -630,13 +625,10 @@ void KonqViewManager::removeOtherTabs( KonqFrameBase* tab )
     return;
   }
 
-  Q3PtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
-  Q3PtrListIterator<KonqFrameBase> it( frameList );
-
-  for ( it.toFirst(); it != 0L; ++it )
+  foreach ( KonqFrameBase* frame, *tabContainer->childFrameList() )
   {
-    if( it.current() != currentFrame )
-      removeTab(it.current());
+    if ( frame && frame != currentFrame )
+      removeTab(frame);
   }
 
 }
@@ -728,12 +720,11 @@ void KonqViewManager::updatePixmaps()
 
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
 
-  Q3PtrList<KonqView> viewList;
-  Q3PtrListIterator<KonqView> it( viewList );
+  QList<KonqView*> viewList;
 
   tabContainer->listViews( &viewList );
-  for ( it.toFirst(); it != 0L; ++it )
-    it.current()->setTabIcon( it.current()->locationBarURL() );
+  foreach ( KonqView* view, viewList )
+    view->setTabIcon( view->locationBarURL() );
 }
 
 void KonqViewManager::removeView( KonqView *view )
@@ -918,17 +909,16 @@ void KonqViewManager::clear()
 
   if (m_pMainWindow->childFrame() == 0L) return;
 
-  Q3PtrList<KonqView> viewList;
+  QList<KonqView*> viewList;
 
   m_pMainWindow->listViews( &viewList );
 
   kDebug(1202) << viewList.count() << " items" << endl;
 
-  Q3PtrListIterator<KonqView> it( viewList );
-  for ( it.toFirst(); it.current(); ++it ) {
-    m_pMainWindow->removeChildView( it.current() );
-    kDebug(1202) << "Deleting " << it.current() << endl;
-    delete it.current();
+  foreach ( KonqView* view, viewList ) {
+    m_pMainWindow->removeChildView( view );
+    kDebug(1202) << "Deleting " << view << endl;
+    delete view;
   }
 
   kDebug(1202) << "deleting mainFrame " << endl;
@@ -1151,11 +1141,9 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
       }
 
       KonqView *originalView = m_pMainWindow->currentView();
-      Q3PtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
-      Q3PtrListIterator<KonqFrameBase> it( frameList );
-      for ( it.toFirst(); it != 0L; ++it )
+      foreach ( KonqFrameBase* frame, *tabContainer->childFrameList() )
       {
-          KonqView *view = it.current()->activeChildView();
+          KonqView *view = frame->activeChildView();
           if (view && view->part() && (view->part()->metaObject()->indexOfProperty("modified") != -1)) {
             QVariant prop = view->part()->property("modified");
             if (prop.isValid() && prop.toBool()) {
@@ -1768,18 +1756,15 @@ void KonqViewManager::showHTML(bool b)
 
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
 
-  Q3PtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
-  Q3PtrListIterator<KonqFrameBase> it( frameList );
-
-  for ( it.toFirst(); it != 0L; ++it )
+  foreach ( KonqFrameBase* frame, *tabContainer->childFrameList() )
   {
-      if ( it.current()->activeChildView() && it.current()->activeChildView() !=m_pMainWindow->currentView())
+      if ( frame && frame->activeChildView() && frame->activeChildView() != m_pMainWindow->currentView())
       {
-        it.current()->activeChildView()->setAllowHTML( b );
-          if( !it.current()->activeChildView()->locationBarURL().isEmpty())
+        frame->activeChildView()->setAllowHTML( b );
+          if( !frame->activeChildView()->locationBarURL().isEmpty())
           {
 
-            m_pMainWindow->showHTML( it.current()->activeChildView(), b, false );
+            m_pMainWindow->showHTML( frame->activeChildView(), b, false );
           }
       }
   }

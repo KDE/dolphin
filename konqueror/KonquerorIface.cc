@@ -188,24 +188,22 @@ void KonquerorIface::reparseConfiguration()
   KGlobal::config()->reparseConfiguration();
   KonqFMSettings::reparseConfiguration();
 
-  Q3PtrList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
+  QList<KonqMainWindow*> *mainWindows = KonqMainWindow::mainWindowList();
   if ( mainWindows )
   {
-    Q3PtrListIterator<KonqMainWindow> it( *mainWindows );
-    for (; it.current(); ++it )
-        it.current()->reparseConfiguration();
+    foreach ( KonqMainWindow* window, *mainWindows )
+        window->reparseConfiguration();
   }
 }
 
 void KonquerorIface::updateProfileList()
 {
-  Q3PtrList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
+  QList<KonqMainWindow*> *mainWindows = KonqMainWindow::mainWindowList();
   if ( !mainWindows )
     return;
 
-  Q3PtrListIterator<KonqMainWindow> it( *mainWindows );
-  for (; it.current(); ++it )
-    it.current()->viewManager()->profileListDirty( false );
+  foreach ( KonqMainWindow* window, *mainWindows )
+    window->viewManager()->profileListDirty( false );
 }
 
 QString KonquerorIface::crashLogFile()
@@ -216,12 +214,11 @@ QString KonquerorIface::crashLogFile()
 QList<DCOPRef> KonquerorIface::getWindows()
 {
     QList<DCOPRef> lst;
-    Q3PtrList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
+    QList<KonqMainWindow*> *mainWindows = KonqMainWindow::mainWindowList();
     if ( mainWindows )
     {
-      Q3PtrListIterator<KonqMainWindow> it( *mainWindows );
-      for (; it.current(); ++it )
-        lst.append( DCOPRef( kapp->dcopClient()->appId(), it.current()->dcopObject()->objId() ) );
+      foreach ( KonqMainWindow* window, *mainWindows )
+        lst.append( DCOPRef( kapp->dcopClient()->appId(), window->dcopObject()->objId() ) );
     }
     return lst;
 }
@@ -249,7 +246,7 @@ bool KonquerorIface::processCanBeReused( int screen )
         return false; // this instance run on different screen, and Qt apps can't migrate
     if( KonqMainWindow::isPreloaded())
         return false; // will be handled by preloading related code instead
-    Q3PtrList<KonqMainWindow>* windows = KonqMainWindow::mainWindowList();
+    QList<KonqMainWindow*>* windows = KonqMainWindow::mainWindowList();
     if( windows == NULL )
         return true;
     QStringList allowed_parts = KonqSettings::safeParts();
@@ -273,18 +270,14 @@ bool KonquerorIface::processCanBeReused( int screen )
     }
     if( all_parts_allowed )
         return true;
-    for( Q3PtrListIterator<KonqMainWindow> it1( *windows );
-         it1 != NULL;
-         ++it1 )
+    foreach ( KonqMainWindow* window, *windows )
     {
-        kDebug(1202) << "processCanBeReused: count=" << (*it1)->viewCount() << endl;
-        const KonqMainWindow::MapViews& views = (*it1)->viewMap();
-        for( KonqMainWindow::MapViews::ConstIterator it2 = views.begin();
-             it2 != views.end();
-             ++it2 )
+        kDebug(1202) << "processCanBeReused: count=" << window->viewCount() << endl;
+        const KonqMainWindow::MapViews& views = window->viewMap();
+        foreach ( KonqView* view, views )
         {
-            kDebug(1202) << "processCanBeReused: part=" << (*it2)->service()->desktopEntryPath() << ", URL=" << (*it2)->url().prettyURL() << endl;
-            if( !allowed_parts.contains( (*it2)->service()->desktopEntryPath()))
+            kDebug(1202) << "processCanBeReused: part=" << view->service()->desktopEntryPath() << ", URL=" << view->url().prettyURL() << endl;
+            if( !allowed_parts.contains( view->service()->desktopEntryPath()))
                 return false;
         }
     }

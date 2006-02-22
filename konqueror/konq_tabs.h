@@ -29,7 +29,7 @@
 #include <QPixmap>
 #include <QDragMoveEvent>
 #include <QDropEvent>
-#include <Q3PtrList>
+#include <QList>
 
 class QPixmap;
 class QMenu;
@@ -63,7 +63,7 @@ public:
 
   virtual void printFrameInfo( const QString& spaces );
 
-  Q3PtrList<KonqFrameBase>* childFrameList() { return m_pChildFrameList; }
+  QList<KonqFrameBase*>* childFrameList() { return m_pChildFrameList; }
 
   virtual void setTitle( const QString &title, QWidget* sender );
   virtual void setTabIcon( const QString &url, QWidget* sender );
@@ -103,7 +103,7 @@ protected:
   void refreshSubPopupMenuTab();
   void hideTabBar();
 
-  Q3PtrList<KonqFrameBase>* m_pChildFrameList;
+  QList<KonqFrameBase*>* m_pChildFrameList;
 
 private Q_SLOTS:
   void slotContextMenu( const QPoint& );

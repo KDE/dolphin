@@ -51,17 +51,16 @@
 // Terminates fullscreen-mode for any full-screen window on the current desktop
 void KonqMisc::abortFullScreenMode()
 {
-  Q3PtrList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
+  QList<KonqMainWindow*> *mainWindows = KonqMainWindow::mainWindowList();
   if ( mainWindows )
   {
-    Q3PtrListIterator<KonqMainWindow> it( *mainWindows );
-    for (; it.current(); ++it )
+    foreach ( KonqMainWindow* window, *mainWindows )
     {
-      if ( it.current()->fullScreenMode() )
+      if ( window->fullScreenMode() )
       {
-	KWin::WindowInfo info = KWin::windowInfo( it.current()->winId(), NET::WMDesktop );
+	KWin::WindowInfo info = KWin::windowInfo( window->winId(), NET::WMDesktop );
 	if ( info.valid() && info.isOnCurrentDesktop() )
-          it.current()->showNormal();
+          window->showNormal();
       }
     }
   }

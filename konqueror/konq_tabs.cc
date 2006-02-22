@@ -73,8 +73,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   //kDebug(1202) << "KonqFrameTabs::KonqFrameTabs()" << endl;
 
   m_pParentContainer = parentContainer;
-  m_pChildFrameList = new Q3PtrList<KonqFrameBase>;
-  m_pChildFrameList->setAutoDelete(false);
+  m_pChildFrameList = new QList<KonqFrameBase*>;
   m_pActiveChild = 0L;
   m_pViewManager = viewManager;
 
@@ -181,13 +180,14 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
 KonqFrameTabs::~KonqFrameTabs()
 {
   //kDebug(1202) << "KonqFrameTabs::~KonqFrameTabs() " << this << " - " << className() << endl;
-  m_pChildFrameList->setAutoDelete(true);
+  qDeleteAll( *m_pChildFrameList );
+  m_pChildFrameList->clear();
   delete m_pChildFrameList;
 }
 
 void KonqFrameTabs::listViews( ChildViewList *viewList ) {
-  for( Q3PtrListIterator<KonqFrameBase> it( *m_pChildFrameList ); *it; ++it )
-    it.current()->listViews(viewList);
+  foreach ( KonqFrameBase* frame, *m_pChildFrameList )
+    frame->listViews(viewList);
 }
 
 void KonqFrameTabs::saveConfig( KConfig* config, const QString &prefix, bool saveURLs,
@@ -197,12 +197,12 @@ void KonqFrameTabs::saveConfig( KConfig* config, const QString &prefix, bool sav
   QStringList strlst;
   int i = 0;
   QString newPrefix;
-  for (KonqFrameBase* it = m_pChildFrameList->first(); it; it = m_pChildFrameList->next())
+  foreach (KonqFrameBase* frame, *m_pChildFrameList)
     {
-      newPrefix = QString::fromLatin1( it->frameType() ) + "T" + QString::number(i);
+      newPrefix = QString::fromLatin1( frame->frameType() ) + "T" + QString::number(i);
       strlst.append( newPrefix );
       newPrefix.append( QLatin1Char( '_' ) );
-      it->saveConfig( config, newPrefix, saveURLs, docContainer, id, depth + i );
+      frame->saveConfig( config, newPrefix, saveURLs, docContainer, id, depth + i );
       i++;
     }
 
@@ -219,7 +219,7 @@ void KonqFrameTabs::copyHistory( KonqFrameBase *other )
     return;
   }
 
-  for (uint i = 0; i < m_pChildFrameList->count(); i++ )
+  for (int i = 0; i < m_pChildFrameList->count(); i++ )
     {
       m_pChildFrameList->at(i)->copyHistory( static_cast<KonqFrameTabs *>( other )->m_pChildFrameList->at(i) );
     }
@@ -404,9 +404,9 @@ void KonqFrameTabs::refreshSubPopupMenuTab()
                                     SLOT( slotReloadAllTabs() ),
                                     m_pViewManager->mainWindow()->action("reload_all_tabs")->shortcut() );
     m_pSubPopupMenuTab->insertSeparator();
-    for (KonqFrameBase* it = m_pChildFrameList->first(); it; it = m_pChildFrameList->next())
+    foreach (KonqFrameBase* frameBase, *m_pChildFrameList)
     {
-        KonqFrame* frame = dynamic_cast<KonqFrame *>(it);
+        KonqFrame* frame = dynamic_cast<KonqFrame *>(frameBase);
         if ( frame && frame->activeChildView() )
         {
             QString title = frame->title().trimmed();

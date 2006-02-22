@@ -30,7 +30,7 @@
 #include <QPixmap>
 #include <Q3CString>
 #include <QCloseEvent>
-#include <Q3PtrList>
+#include <QList>
 #include <QEvent>
 #include <QLabel>
 #include <QCustomEvent>
@@ -252,7 +252,7 @@ public:
 
   bool saveViewPropertiesLocally() const { return m_bSaveViewPropertiesLocally; }
 
-  static Q3PtrList<KonqMainWindow> *mainWindowList() { return s_lstViews; }
+  static QList<KonqMainWindow*> *mainWindowList() { return s_lstViews; }
 
   // public for konq_guiclients
   void viewCountChanged();
@@ -523,7 +523,7 @@ protected Q_SLOTS:
 protected:
   virtual bool eventFilter(QObject*obj,QEvent *ev);
 
-  void fillHistoryPopup( QMenu *menu, const Q3PtrList<HistoryEntry> &history );
+  void fillHistoryPopup( QMenu *menu, const QList<HistoryEntry*> &history );
 
   bool makeViewsFollow( const KUrl & url, const KParts::URLArgs &args, const QString & serviceType,
                         KonqView * senderView );
@@ -751,7 +751,7 @@ private:
 
   static QStringList *s_plstAnimatedLogo;
 
-  static Q3PtrList<KonqMainWindow> *s_lstViews;
+  static QList<KonqMainWindow*> *s_lstViews;
 
   QString m_currentDir; // stores current dir for relative URLs whenever applicable
 

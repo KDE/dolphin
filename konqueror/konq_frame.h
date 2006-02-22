@@ -31,7 +31,7 @@
 #include <QPixmap>
 #include <QPaintEvent>
 #include <QChildEvent>
-#include <Q3PtrList>
+#include <QList>
 #include <QEvent>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -157,7 +157,7 @@ class KonqFrameStatusBar : public KStatusBar
 };
 
 
-typedef Q3PtrList<KonqView> ChildViewList;
+typedef QList<KonqView*> ChildViewList;
 
 class KonqFrameBase
 {
