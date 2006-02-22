@@ -363,7 +363,7 @@ KonqView* KonqViewManager::addTabFromHistory( int steps, bool openAfterCurrentPa
   }
   if (m_pDocContainer->frameType() != "Tabs") convertDocContainer();
 
-  int oldPos = m_pMainWindow->currentView()->historyPos();
+  int oldPos = m_pMainWindow->currentView()->historyIndex();
   int newPos = oldPos + steps;
 
   const HistoryEntry * he = m_pMainWindow->currentView()->historyAt(newPos);
@@ -377,7 +377,7 @@ KonqView* KonqViewManager::addTabFromHistory( int steps, bool openAfterCurrentPa
       return 0L;
 
   newView->copyHistory(m_pMainWindow->currentView());
-  newView->setHistoryPos(newPos);
+  newView->setHistoryIndex(newPos);
   newView->restoreHistory();
 
   return newView;

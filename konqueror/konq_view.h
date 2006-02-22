@@ -23,12 +23,11 @@
 #include "konq_mainwindow.h"
 #include "konq_factory.h"
 
-#include <q3ptrlist.h>
+#include <qlist.h>
 #include <qstring.h>
 #include <qobject.h>
 #include <qstringlist.h>
 #include <qpointer.h>
-#include <q3cstring.h>
 //Added by qt3to4:
 #include <QEvent>
 
@@ -127,19 +126,19 @@ public:
   /**
    * @return true if view can go back
    */
-  bool canGoBack()const { return m_lstHistory.at() > 0; }
+  bool canGoBack() const { return m_lstHistoryIndex > 0; }
 
   /**
    * @return true if view can go forward
    */
-  bool canGoForward()const { return m_lstHistory.at() != ((int)m_lstHistory.count())-1; }
+  bool canGoForward() const { return m_lstHistoryIndex != m_lstHistory.count()-1; }
 
   /**
    * @return the position in the history
    */
-  int historyPos() const { return m_lstHistory.at(); }
+  int historyIndex() const { return m_lstHistoryIndex; }
 
-  uint historyLength() { return m_lstHistory.count(); }
+  int historyLength() { return m_lstHistory.count(); }
 
   /**
    * Move in history. +1 is "forward", -1 is "back", you can guess the rest.
@@ -151,17 +150,22 @@ public:
    */
   void restoreHistory();
 
-  void setHistoryPos(int newPos) { m_lstHistory.at( newPos ); }
+  void setHistoryIndex(int index) { m_lstHistoryIndex = index; }
 
   /**
    * @return the history of this view
    */
-  const Q3PtrList<HistoryEntry> & history() { return m_lstHistory; }
+  const QList<HistoryEntry*> & history() { return m_lstHistory; }
 
   /**
    * @return the HistoryEntry at postion @p pos
    */
-  const HistoryEntry* historyAt(const int pos);
+  const HistoryEntry* historyAt(int pos);
+
+  /**
+   *
+   */
+  HistoryEntry* currentHistoryEntry() const { return m_lstHistory.value( m_lstHistoryIndex ); }
 
   /**
    * Creates a deep copy of the @p other view's history buffers.
@@ -428,9 +432,12 @@ private:
 
   /**
    * The full history (back + current + forward)
-   * The current position in the history is m_lstHistory.current()
    */
-  Q3PtrList<HistoryEntry> m_lstHistory;
+  QList<HistoryEntry*> m_lstHistory;
+  /**
+   * The current position in the history
+   */
+  int m_lstHistoryIndex;
 
   /**
    * The post data that _resulted_ in this page.

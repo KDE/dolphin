@@ -2043,8 +2043,8 @@ void KonqMainWindow::slotRunFinished()
 
       // Revert to working URL - unless the URL was typed manually
       kDebug(1202) << " typed URL = " << run->typedURL() << endl;
-      if ( run->typedURL().isEmpty() && childView->history().current() ) // not typed
-        childView->setLocationBarURL( childView->history().current()->locationBarURL );
+      if ( run->typedURL().isEmpty() && childView->currentHistoryEntry() ) // not typed
+        childView->setLocationBarURL( childView->currentHistoryEntry()->locationBarURL );
     }
   }
   else // No view, e.g. empty webbrowsing profile
@@ -2083,7 +2083,7 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   // changes the directory!! (DA)
   if( m_pURLCompletion )
   {
-    KUrl u( view->locationBarURL() );
+    KUrl u = KUrl::fromPathOrURL( view->locationBarURL() );
     if( u.isLocalFile() )
       m_pURLCompletion->setDir( u.path() );
     else
@@ -3031,7 +3031,7 @@ void KonqMainWindow::slotGoMenuAboutToShow()
 {
   kDebug(1202) << "KonqMainWindow::slotGoMenuAboutToShow" << endl;
   if ( m_paHistory && m_currentView ) // (maybe this is before initialisation)
-      m_paHistory->fillGoMenu( m_currentView->history() );
+      m_paHistory->fillGoMenu( m_currentView->history(), m_currentView->historyIndex() );
 }
 
 void KonqMainWindow::slotGoHistoryActivated( int steps )
@@ -3095,7 +3095,7 @@ void KonqMainWindow::slotBackAboutToShow()
 {
   m_paBack->popupMenu()->clear();
   if ( m_currentView )
-      KonqBidiHistoryAction::fillHistoryPopup( m_currentView->history(), m_paBack->popupMenu(), true, false );
+      KonqBidiHistoryAction::fillHistoryPopup( m_currentView->history(), m_currentView->historyIndex(), m_paBack->popupMenu(), true, false );
 }
 
 void KonqMainWindow::slotBack()
@@ -3117,7 +3117,7 @@ void KonqMainWindow::slotForwardAboutToShow()
 {
   m_paForward->popupMenu()->clear();
   if ( m_currentView )
-      KonqBidiHistoryAction::fillHistoryPopup( m_currentView->history(), m_paForward->popupMenu(), false, true );
+      KonqBidiHistoryAction::fillHistoryPopup( m_currentView->history(), m_currentView->historyIndex(), m_paForward->popupMenu(), false, true );
 }
 
 void KonqMainWindow::slotForward()
@@ -4035,7 +4035,7 @@ void KonqMainWindow::updateToolBarActions( bool pendingAction /*=false*/)
           m_ptaUseHTML->setEnabled( true );
       else if ( m_currentView->serviceTypes().contains(  "text/html" ) ) {
           // Currently viewing an index.html file via this feature (i.e. url points to a dir)
-          QString locPath = KUrl( m_currentView->locationBarURL() ).path();
+          QString locPath = KUrl::fromPathOrURL( m_currentView->locationBarURL() ).path();
           m_ptaUseHTML->setEnabled( QFileInfo( locPath ).isDir() );
       } else
           m_ptaUseHTML->setEnabled( false );

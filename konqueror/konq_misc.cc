@@ -169,7 +169,7 @@ KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, 
 
 KonqMainWindow * KonqMisc::newWindowFromHistory( KonqView* view, int steps )
 {
-  int oldPos = view->historyPos();
+  int oldPos = view->historyIndex();
   int newPos = oldPos + steps;
 
   const HistoryEntry * he = view->historyAt(newPos);  
@@ -186,7 +186,7 @@ KonqMainWindow * KonqMisc::newWindowFromHistory( KonqView* view, int steps )
       return 0L;
 
   newView->copyHistory(view);
-  newView->setHistoryPos(newPos);
+  newView->setHistoryIndex(newPos);
   newView->restoreHistory();
   return mainwindow;
 }

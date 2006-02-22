@@ -36,49 +36,48 @@
 #include "konq_view.h"
 #include "konq_settingsxt.h"
 //Added by qt3to4:
-#include <Q3PtrList>
 #include <kauthorized.h>
 
-template class Q3PtrList<KonqHistoryEntry>;
+template class QList<KonqHistoryEntry*>;
 
 /////////////////
 
 //static - used by KonqHistoryAction and KonqBidiHistoryAction
-void KonqBidiHistoryAction::fillHistoryPopup( const Q3PtrList<HistoryEntry> &history,
+void KonqBidiHistoryAction::fillHistoryPopup( const QList<HistoryEntry*> &history, int historyIndex,
                                           QMenu * popup,
                                           bool onlyBack,
                                           bool onlyForward,
                                           bool checkCurrentItem,
-                                          uint startPos )
+                                          int startPos )
 {
   assert ( popup ); // kill me if this 0... :/
 
   //kDebug(1202) << "fillHistoryPopup position: " << history.at() << endl;
-  HistoryEntry * current = history.current();
-  Q3PtrListIterator<HistoryEntry> it( history );
+  HistoryEntry * current = history[ historyIndex ];
+  int index = 0;
   if (onlyBack || onlyForward)
   {
-      it += history.at(); // Jump to current item
-      if ( !onlyForward ) --it; else ++it; // And move off it
+      index += historyIndex; // Jump to current item
+      if ( !onlyForward ) --index; else ++index; // And move off it
   } else if ( startPos )
-      it += startPos; // Jump to specified start pos
+      index += startPos; // Jump to specified start pos
 
   uint i = 0;
-  while ( it.current() )
+  while ( index < history.count() && index >= 0 )
   {
-      QString text = it.current()->title;
+      QString text = history[ index ]->title;
       text = KStringHandler::cEmSqueeze(text, popup->fontMetrics(), 30); //CT: squeeze
       text.replace( "&", "&&" );
-      if ( checkCurrentItem && it.current() == current )
+      if ( checkCurrentItem && history[ index ] == current )
       {
           int id = popup->insertItem( text ); // no pixmap if checked
           popup->setItemChecked( id, true );
       } else
           popup->insertItem( QIcon( KonqPixmapProvider::self()->pixmapFor(
-					    it.current()->url.url() ) ), text );
+					    history[ index ]->url ) ), text );
       if ( ++i > 10 )
           break;
-      if ( !onlyForward ) --it; else ++it;
+      if ( !onlyForward ) --index; else ++index;
   }
   //kDebug(1202) << "After fillHistoryPopup position: " << history.at() << endl;
 }
@@ -99,7 +98,7 @@ int KonqBidiHistoryAction::plug( QWidget *widget, int index )
     return -1;
 
   // Go menu
-  if ( widget->inherits("QPopupMenu") )
+  if ( qobject_cast<QMenu*>(widget) )
   {
     m_goMenu = (QMenu*)widget;
     // Forward signal (to main view)
@@ -116,7 +115,7 @@ int KonqBidiHistoryAction::plug( QWidget *widget, int index )
   return KAction::plug( widget, index );
 }
 
-void KonqBidiHistoryAction::fillGoMenu( const Q3PtrList<HistoryEntry> & history )
+void KonqBidiHistoryAction::fillGoMenu( const QList<HistoryEntry*> & history, int historyIndex )
 {
     if (history.isEmpty())
         return; // nothing to do
@@ -126,7 +125,7 @@ void KonqBidiHistoryAction::fillGoMenu( const Q3PtrList<HistoryEntry> & history 
         m_firstIndex = m_goMenu->count();
     else
     { // Clean up old history (from the end, to avoid shifts)
-        for ( uint i = m_goMenu->count()-1 ; i >= m_firstIndex; i-- )
+        for ( int i = m_goMenu->count()-1 ; i >= m_firstIndex; i-- )
             m_goMenu->removeItemAt( i );
     }
     // TODO perhaps smarter algorithm (rename existing items, create new ones only if not enough) ?
@@ -141,20 +140,20 @@ void KonqBidiHistoryAction::fillGoMenu( const Q3PtrList<HistoryEntry> & history 
     // Second case: big history, in one or both directions
     {
         // Assume both directions first (in this case we place the current URL in the middle)
-        m_startPos = history.at() + 4;
+        m_startPos = historyIndex + 4;
 
         // Forward not big enough ?
-        if ( history.at() > (int)history.count() - 4 )
+        if ( historyIndex > history.count() - 4 )
           m_startPos = history.count() - 1;
     }
-    Q_ASSERT( m_startPos >= 0 && (uint)m_startPos < history.count() );
-    if ( m_startPos < 0 || (uint)m_startPos >= history.count() )
+    Q_ASSERT( m_startPos >= 0 && m_startPos < history.count() );
+    if ( m_startPos < 0 || m_startPos >= history.count() )
     {
         kWarning() << "m_startPos=" << m_startPos << " history.count()=" << history.count() << endl;
         return;
     }
-    m_currentPos = history.at(); // for slotActivated
-    KonqBidiHistoryAction::fillHistoryPopup( history, m_goMenu, false, false, true, m_startPos );
+    m_currentPos = historyIndex; // for slotActivated
+    KonqBidiHistoryAction::fillHistoryPopup( history, historyIndex, m_goMenu, false, false, true, m_startPos );
 }
 
 void KonqBidiHistoryAction::slotActivated( int id )

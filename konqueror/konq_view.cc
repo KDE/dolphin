@@ -46,7 +46,6 @@
 #include <qobject.h>
 //Added by qt3to4:
 #include <Q3CString>
-#include <Q3PtrList>
 #include <QEvent>
 #include <QDropEvent>
 #include <QContextMenuEvent>
@@ -60,8 +59,6 @@
 #include <krandom.h>
 
 //#define DEBUG_HISTORY
-
-template class Q3PtrList<HistoryEntry>;
 
 KonqView::KonqView( KonqViewFactory &viewFactory,
                     KonqFrame* viewFrame,
@@ -93,7 +90,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_serviceType = serviceType;
 
   m_bAllowHTML = m_pMainWindow->isHTMLAllowed();
-  m_lstHistory.setAutoDelete( true );
+  m_lstHistoryIndex = -1;
   m_bLoading = false;
   m_bPendingRedirection = false;
   m_bPassiveMode = passiveMode;
@@ -235,7 +232,7 @@ void KonqView::openURL( const KUrl &url, const QString & locationBarURL,
   KonqHistoryManager::kself()->addPending( url, locationBarURL, QString());
 
 #ifdef DEBUG_HISTORY
-  kDebug(1202) << "Current position : " << m_lstHistory.at() << endl;
+  kDebug(1202) << "Current position : " << historyIndex() << endl;
 #endif
 }
 
@@ -340,8 +337,8 @@ bool KonqView::changeViewMode( const QString &serviceType,
   if ( viewFactory.isNull() )
   {
     // Revert location bar's URL to the working one
-    if(history().current())
-      setLocationBarURL( history().current()->locationBarURL );
+    if(currentHistoryEntry())
+      setLocationBarURL( currentHistoryEntry()->locationBarURL );
     return false;
   }
 
@@ -594,9 +591,9 @@ void KonqView::slotCompleted( bool hasPending )
 
       if ( m_bAborted ) // remove the pending entry on error
           KonqHistoryManager::kself()->removePending( url() );
-      else if ( m_lstHistory.current() ) // register as proper history entry
+      else if ( currentHistoryEntry() ) // register as proper history entry
           KonqHistoryManager::kself()->confirmPending(url(), typedURL(),
-						      m_lstHistory.current()->title);
+						      currentHistoryEntry()->title);
 
       emit viewCompleted( this );
   }
@@ -712,41 +709,31 @@ void KonqView::slotOpenURLNotify()
 void KonqView::createHistoryEntry()
 {
     // First, remove any forward history
-    HistoryEntry * current = m_lstHistory.current();
+    HistoryEntry * current = currentHistoryEntry();
     if (current)
     {
 #ifdef DEBUG_HISTORY
         kDebug(1202) << "Truncating history" << endl;
 #endif
-        m_lstHistory.at( m_lstHistory.count() - 1 ); // go to last one
-        for ( ; m_lstHistory.current() != current ; )
-        {
-            if ( !m_lstHistory.removeLast() ) // and remove from the end (faster and easier)
-                assert(0);
-            // go to last one. The documentation says that removeLast()
-            // makes current() null if it's the last item. however in qt2
-            // the behaviour was different than the documentation. this is
-            // changed in qt3 to behave as documented ;-) (Simon)
-            m_lstHistory.at( m_lstHistory.count() - 1 );
-        }
-        // Now current is the current again.
+        while ( current != m_lstHistory.last() )
+            delete m_lstHistory.takeLast();
     }
     // Append a new entry
 #ifdef DEBUG_HISTORY
     kDebug(1202) << "Append a new entry" << endl;
 #endif
-    m_lstHistory.append( new HistoryEntry ); // made current
+    m_lstHistory.append( new HistoryEntry );
+    setHistoryIndex( m_lstHistory.count()-1 ); // made current
 #ifdef DEBUG_HISTORY
-    kDebug(1202) << "at=" << m_lstHistory.at() << " count=" << m_lstHistory.count() << endl;
+    kDebug(1202) << "at=" << historyIndex() << " count=" << m_lstHistory.count() << endl;
 #endif
-    assert( m_lstHistory.at() == (int) m_lstHistory.count() - 1 );
 }
 
 void KonqView::updateHistoryEntry( bool saveLocationBarURL )
 {
   Q_ASSERT( !m_bLockHistory ); // should never happen
 
-  HistoryEntry * current = m_lstHistory.current();
+  HistoryEntry * current = currentHistoryEntry();
   if ( !current )
     return;
 
@@ -759,20 +746,20 @@ void KonqView::updateHistoryEntry( bool saveLocationBarURL )
   }
 
 #ifdef DEBUG_HISTORY
-  kDebug(1202) << "Saving part URL : " << m_pPart->url() << " in history position " << m_lstHistory.at() << endl;
+  kDebug(1202) << "Saving part URL : " << m_pPart->url() << " in history position " << historyIndex() << endl;
 #endif
   current->url = m_pPart->url();
 
   if (saveLocationBarURL)
   {
 #ifdef DEBUG_HISTORY
-    kDebug(1202) << "Saving location bar URL : " << m_sLocationBarURL << " in history position " << m_lstHistory.at() << endl;
+    kDebug(1202) << "Saving location bar URL : " << m_sLocationBarURL << " in history position " << historyIndex() << endl;
 #endif
     current->locationBarURL = m_sLocationBarURL;
     current->pageSecurity = m_pageSecurity;
   }
 #ifdef DEBUG_HISTORY
-  kDebug(1202) << "Saving title : " << m_caption << " in history position " << m_lstHistory.at() << endl;
+  kDebug(1202) << "Saving title : " << m_caption << " in history position " << historyIndex() << endl;
 #endif
   current->title = m_caption;
   current->strServiceType = m_serviceType;
@@ -807,26 +794,22 @@ void KonqView::go( int steps )
       return;
   }
 
-  int newPos = m_lstHistory.at() + steps;
+  int newPos = historyIndex() + steps;
 #ifdef DEBUG_HISTORY
   kDebug(1202) << "go : steps=" << steps
                 << " newPos=" << newPos
                 << " m_lstHistory.count()=" << m_lstHistory.count()
                 << endl;
 #endif
-  if( newPos < 0 || (uint)newPos >= m_lstHistory.count() )
+  if( newPos < 0 || newPos >= m_lstHistory.count() )
     return;
 
   stop();
 
-  // Yay, we can move there without a loop !
-  HistoryEntry *currentHistoryEntry = m_lstHistory.at( newPos ); // sets current item
+  setHistoryIndex( newPos ); // sets current item
 
-  assert( currentHistoryEntry );
-  assert( newPos == m_lstHistory.at() ); // check we moved (i.e. if I understood the docu)
-  assert( currentHistoryEntry == m_lstHistory.current() );
 #ifdef DEBUG_HISTORY
-  kDebug(1202) << "New position " << m_lstHistory.at() << endl;
+  kDebug(1202) << "New position " << historyIndex() << endl;
 #endif
 
   restoreHistory();
@@ -834,7 +817,7 @@ void KonqView::go( int steps )
 
 void KonqView::restoreHistory()
 {
-  HistoryEntry h( *(m_lstHistory.current()) ); // make a copy of the current history entry, as the data
+  HistoryEntry h( *currentHistoryEntry() ); // make a copy of the current history entry, as the data
                                           // the pointer points to will change with the following calls
 
 #ifdef DEBUG_HISTORY
@@ -873,28 +856,23 @@ void KonqView::restoreHistory()
     m_pMainWindow->updateToolBarActions();
 
 #ifdef DEBUG_HISTORY
-  kDebug(1202) << "New position (2) " << m_lstHistory.at() << endl;
+  kDebug(1202) << "New position (2) " << historyIndex() << endl;
 #endif
 }
 
-const HistoryEntry * KonqView::historyAt(const int pos)
+const HistoryEntry * KonqView::historyAt(int pos)
 {
-    if(pos<0 || pos>=(int)m_lstHistory.count())
-	return 0L;
-    int oldpos = m_lstHistory.at();
-    const HistoryEntry* h = m_lstHistory.at(pos);
-    m_lstHistory.at( oldpos );
-    return h;
+    return m_lstHistory.value(pos);
 }
 
 void KonqView::copyHistory( KonqView *other )
 {
+    qDeleteAll( m_lstHistory );
     m_lstHistory.clear();
 
-    Q3PtrListIterator<HistoryEntry> it( other->m_lstHistory );
-    for (; it.current(); ++it )
-        m_lstHistory.append( new HistoryEntry( *it.current() ) );
-    m_lstHistory.at(other->m_lstHistory.at());
+    foreach ( HistoryEntry* he, other->m_lstHistory )
+        m_lstHistory.append( new HistoryEntry( *he ) );
+    setHistoryIndex(other->historyIndex());
 }
 
 KUrl KonqView::url() const
@@ -953,9 +931,9 @@ void KonqView::stop()
     // Revert to working URL - unless the URL was typed manually
     // This is duplicated with KonqMainWindow::slotRunFinished, but we can't call it
     //   since it relies on sender()...
-    if ( history().current() && m_pRun->typedURL().isEmpty() ) { // not typed
-      setLocationBarURL( history().current()->locationBarURL );
-      setPageSecurity( history().current()->pageSecurity );
+    if ( currentHistoryEntry() && m_pRun->typedURL().isEmpty() ) { // not typed
+      setLocationBarURL( currentHistoryEntry()->locationBarURL );
+      setPageSecurity( currentHistoryEntry()->pageSecurity );
     }
 
     setRun( 0L );

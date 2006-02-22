@@ -22,7 +22,7 @@
 
 #include <konq_historymgr.h>
 #include <kaction.h>
-#include <q3ptrlist.h>
+#include <qlist.h>
 
 class HistoryEntry;
 class QMenu;
@@ -42,15 +42,15 @@ public:
     virtual int plug( QWidget *widget, int index = -1 );
     //virtual void unplug( QWidget *widget );
 
-    void fillGoMenu( const Q3PtrList<HistoryEntry> &history );
+    void fillGoMenu( const QList<HistoryEntry*> &history, int historyIndex );
 
     // Used by KonqHistoryAction and KonqBidiHistoryAction
-    static void fillHistoryPopup( const Q3PtrList<HistoryEntry> &history,
+    static void fillHistoryPopup( const QList<HistoryEntry*> &history, int historyIndex,
                            QMenu * popup,
                            bool onlyBack = false,
                            bool onlyForward = false,
                            bool checkCurrentItem = false,
-                           uint startPos = 0 );
+                           int startPos = 0 );
 
 protected Q_SLOTS:
     void slotActivated( int );
@@ -60,7 +60,7 @@ Q_SIGNALS:
     // -1 for one step back, 0 for don't move, +1 for one step forward, etc.
     void activated( int );
 private:
-    uint m_firstIndex; // first index in the Go menu
+    int m_firstIndex; // first index in the Go menu
     int m_startPos;
     int m_currentPos; // == history.at()
     QMenu *m_goMenu; // hack
