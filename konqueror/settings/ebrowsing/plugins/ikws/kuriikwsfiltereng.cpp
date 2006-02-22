@@ -216,7 +216,7 @@ static QString encodeString(const QString &s, int mib)
   for(QStringList::Iterator it = l.begin();
       it != l.end(); ++it)
   {
-     *it = KUrl::encode_string(*it);
+     *it =  QLatin1String( QUrl::toPercentEncoding( *it ) ); //KUrl::encode_string(*it);
   }
   return l.join("+");
 }
@@ -420,7 +420,7 @@ QString KURISearchFilterEngine::formatResult( const QString& url,
   }
 
   // Decode user query:
-  QString userquery = KUrl::decode_string(query);
+  QString userquery = QUrl::fromPercentEncoding( query.toLatin1() );
 
   PDVAR ("user query", userquery);
   PDVAR ("query definition", url);

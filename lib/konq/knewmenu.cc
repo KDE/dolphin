@@ -42,7 +42,7 @@
 #include "knewmenu.h"
 #include <utime.h>
 
-// For KURLDesktopFileDlg
+// For KUrlDesktopFileDlg
 #include <qlayout.h>
 #include <klineedit.h>
 #include <kurlrequester.h>
@@ -397,7 +397,7 @@ void KNewMenu::slotNewFile()
     	{
     	    m_isURLDesktopFile = true;
     	    // entry.comment contains i18n("Enter link to location (URL):"). JFYI :)
-    	    KURLDesktopFileDlg dlg( i18n("File name:"), entry.comment, d->m_parentWidget );
+    	    KUrlDesktopFileDlg dlg( i18n("File name:"), entry.comment, d->m_parentWidget );
     	    // TODO dlg.setCaption( i18n( ... ) );
     	    if ( dlg.exec() )
     	    {
@@ -522,21 +522,21 @@ void KNewMenu::slotResult( KIO::Job * job )
 
 //////////
 
-KURLDesktopFileDlg::KURLDesktopFileDlg( const QString& textFileName, const QString& textUrl )
+KUrlDesktopFileDlg::KUrlDesktopFileDlg( const QString& textFileName, const QString& textUrl )
     : KDialogBase( Plain, QString(), Ok|Cancel|User1, Ok, 0L /*parent*/, 0L, true,
                    true, KStdGuiItem::clear() )
 {
     initDialog( textFileName, QString(), textUrl, QString() );
 }
 
-KURLDesktopFileDlg::KURLDesktopFileDlg( const QString& textFileName, const QString& textUrl, QWidget *parent )
+KUrlDesktopFileDlg::KUrlDesktopFileDlg( const QString& textFileName, const QString& textUrl, QWidget *parent )
     : KDialogBase( Plain, QString(), Ok|Cancel|User1, Ok, parent, 0L, true,
                    true, KStdGuiItem::clear() )
 {
     initDialog( textFileName, QString(), textUrl, QString() );
 }
 
-void KURLDesktopFileDlg::initDialog( const QString& textFileName, const QString& defaultName, const QString& textUrl, const QString& defaultUrl )
+void KUrlDesktopFileDlg::initDialog( const QString& textFileName, const QString& defaultName, const QString& textUrl, const QString& defaultUrl )
 {
     QVBoxLayout * topLayout = new QVBoxLayout( plainPage(), 0, spacingHint() );
 
@@ -572,7 +572,7 @@ void KURLDesktopFileDlg::initDialog( const QString& textFileName, const QString&
     m_fileNameEdited = false;
 }
 
-QString KURLDesktopFileDlg::url() const
+QString KUrlDesktopFileDlg::url() const
 {
     if ( result() == QDialog::Accepted )
         return m_urlRequester->url();
@@ -580,7 +580,7 @@ QString KURLDesktopFileDlg::url() const
         return QString();
 }
 
-QString KURLDesktopFileDlg::fileName() const
+QString KUrlDesktopFileDlg::fileName() const
 {
     if ( result() == QDialog::Accepted )
         return m_leFileName->text();
@@ -588,21 +588,21 @@ QString KURLDesktopFileDlg::fileName() const
         return QString();
 }
 
-void KURLDesktopFileDlg::slotClear()
+void KUrlDesktopFileDlg::slotClear()
 {
     m_leFileName->setText( QString() );
     m_urlRequester->clear();
     m_fileNameEdited = false;
 }
 
-void KURLDesktopFileDlg::slotNameTextChanged( const QString& )
+void KUrlDesktopFileDlg::slotNameTextChanged( const QString& )
 {
     kDebug() << k_funcinfo << endl;
     m_fileNameEdited = true;
     enableButtonOK( !m_leFileName->text().isEmpty() && !m_urlRequester->url().isEmpty() );
 }
 
-void KURLDesktopFileDlg::slotURLTextChanged( const QString& )
+void KUrlDesktopFileDlg::slotURLTextChanged( const QString& )
 {
     if ( !m_fileNameEdited )
     {

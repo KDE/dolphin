@@ -183,13 +183,13 @@ private:
  * Basically a merge of KLineEditDlg and KUrlRequesterDlg ;)
  * @author David Faure <faure@kde.org>
  */
-class KURLDesktopFileDlg : public KDialogBase
+class KUrlDesktopFileDlg : public KDialogBase
 {
     Q_OBJECT
 public:
-    KURLDesktopFileDlg( const QString& textFileName, const QString& textUrl );
-    KURLDesktopFileDlg( const QString& textFileName, const QString& textUrl, QWidget *parent );
-    virtual ~KURLDesktopFileDlg() {}
+    KUrlDesktopFileDlg( const QString& textFileName, const QString& textUrl );
+    KUrlDesktopFileDlg( const QString& textFileName, const QString& textUrl, QWidget *parent );
+    virtual ~KUrlDesktopFileDlg() {}
 
     /**
      * @return the filename the user entered (no path)

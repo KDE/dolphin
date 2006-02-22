@@ -30,23 +30,9 @@ void KonqMimeData::populateMimeData( QMimeData* mimeData,
     // Mostly copied from KUrl::List::populateMimeData
     if ( !kdeURLs.isEmpty() )
     {
-        QList<QByteArray> urlStringList;
-        KUrl::List::ConstIterator uit = kdeURLs.begin();
-        const KUrl::List::ConstIterator uEnd = kdeURLs.end();
-        for ( ; uit != uEnd ; ++uit )
-        {
-            // Get each URL encoded in toUtf8 - and since we get it in escaped
-            // form on top of that, .toLatin1() is fine.
-            urlStringList.append( (*uit).toMimeDataString().toLatin1() );
-        }
-
-        QByteArray uriListData;
-        for ( QList<QByteArray>::const_iterator it = urlStringList.begin(), end = urlStringList.end()
-                                                     ; it != end ; ++it ) {
-            uriListData += (*it);
-            uriListData += "\r\n";
-        }
-        mimeData->setData( "text/uri-list", uriListData );
+    	QMimeData tmpMimeData;
+	kdeURLs.populateMimeData(&tmpMimeData);
+	mimeData->setData("application/x-kde-urilist",tmpMimeData.data("text/uri-list"));
     }
 
     QByteArray cutSelectionData = cut ? "1" : "0";

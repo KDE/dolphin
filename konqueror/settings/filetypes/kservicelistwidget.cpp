@@ -30,7 +30,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <knotifyclient.h>
+#include <knotification.h>
 #include <kopenwith.h>
 
 #include "kservicelistwidget.h"
@@ -188,13 +188,13 @@ void KServiceListWidget::setTypeItem( TypesListItem * item )
 void KServiceListWidget::promoteService()
 {
   if (!servicesLB->isEnabled()) {
-    KNotifyClient::beep();
+    KNotification::beep();
     return;
   }
 
   unsigned int selIndex = servicesLB->currentItem();
   if (selIndex == 0) {
-    KNotifyClient::beep();
+    KNotification::beep();
     return;
   }
 
@@ -211,13 +211,13 @@ void KServiceListWidget::promoteService()
 void KServiceListWidget::demoteService()
 {
   if (!servicesLB->isEnabled()) {
-    KNotifyClient::beep();
+    KNotification::beep();
     return;
   }
 
   unsigned int selIndex = servicesLB->currentItem();
   if (selIndex == servicesLB->count() - 1) {
-    KNotifyClient::beep();
+    KNotification::beep();
     return;
   }
 

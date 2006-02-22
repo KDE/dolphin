@@ -44,13 +44,14 @@
 #include <QDropEvent>
 #include <QDragEnterEvent>
 #include <QPixmap>
+#include <QBuffer>
 
 #include <kapplication.h>
 #include <kdebug.h>
 #include <kio/previewjob.h>
 #include <kfileivi.h>
 #include <konq_settings.h>
-#include <konq_drag.h>
+#include <konqmimedata.h>
 #include <kglobalsettings.h>
 #include <kpropertiesdialog.h>
 #include <kipc.h>
@@ -939,44 +940,58 @@ void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r , const QPo
 
 Q3DragObject * KonqIconViewWidget::dragObject()
 {
+#warning port konqiconviewwidget to a non Q3 class to make that work
+#if 0
     if ( !currentItem() )
         return 0;
 
-    return konqDragObject( viewport() );
+    //return konqDragObject( viewport() );
+    QMimeData *data=konqMimeData(false);
+    QDrag *drag=new QDrag(viewport());
+    drag->setMimeData(data);
+    if (data->hasFormat("application/x-kde-primaryIcon")) {
+       QPixmap pixmap;
+       if (pixmap.loadFromData(data->data("application/x-kde-primaryIcon","PNG")))
+           drag->setPixmap(pixmap);
+       QPoint hotspot(QString(data->data("application/x-kde-dragX")).toInt(),QString(data->data("application/x-kde-dragY")).toInt());
+       drag->setHotSpot	(hotspot);
+    }
+    return drag;
+#else 
+return 0;
+#endif
 }
 
-KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
+QMimeData * KonqIconViewWidget::konqMimeData(bool moveSelection)
 {
-    //kDebug(1203) << "KonqIconViewWidget::konqDragObject" << endl;
-
-    KonqIconDrag2 * drag = new KonqIconDrag2( dragSource );
-    Q3IconViewItem *primaryItem = currentItem();
-    // Append all items to the drag object
-    for ( Q3IconViewItem *it = firstItem(); it; it = it->nextItem() ) {
-        if ( it->isSelected() ) {
-          if (!primaryItem)
-             primaryItem = it;
-          KFileItem* fileItem = (static_cast<KFileIVI *>(it))->item();
-          KUrl url = fileItem->url();
-          bool dummy;
-          KUrl mostLocalURL = fileItem->mostLocalURL(dummy);
-          QString itemURL = url.url(); // was: K3URLDrag::urlToString(url);
-          kDebug(1203) << "itemURL=" << itemURL << endl;
-          Q3IconDragItem id;
-          id.setData( QByteArray(itemURL.latin1()) );
-          drag->append( id,
-                        QRect( it->pixmapRect(false).topLeft() - m_mousePos,
-                               it->pixmapRect().size() ),
-                        QRect( it->textRect(false).topLeft() - m_mousePos,
-                               it->textRect().size() ),
-                        itemURL, mostLocalURL );
-        }
-    }
-
-    if (primaryItem)
-       drag->setPixmap( *primaryItem->pixmap(), m_mousePos - primaryItem->pixmapRect(false).topLeft() );
-
-    return drag;
+	KUrl::List urls;
+	KUrl::List mostLocalUrls;
+        Q3IconViewItem *primaryItem = currentItem();
+	for ( Q3IconViewItem *it = firstItem(); it; it = it->nextItem() ) {
+		if (it->isSelected()) {
+	        	if (!primaryItem)
+       				primaryItem = it;
+			KFileItem* fileItem = static_cast<KFileIVI *>(it)->item();
+			urls.append(fileItem->url());
+			bool dummy;
+			mostLocalUrls.append(fileItem->mostLocalURL(dummy));
+#warning how much of the q3icondragitem stuff do we have to duplicate here.... (TODO: jowenn)
+		}
+	}
+	QMimeData *data=new QMimeData();
+	KonqMimeData::populateMimeData(data,urls,mostLocalUrls,moveSelection);
+#warning perhaps move part of following code into populateMimeData;
+        if (primaryItem) {
+		QByteArray bytes;
+		QBuffer buffer(&bytes);
+		buffer.open(QIODevice::WriteOnly);
+		primaryItem->pixmap()->save(&buffer, "PNG");
+		data->setData("application/x-kde-primaryIcon",bytes);
+		QPoint dragPoint=m_mousePos - primaryItem->pixmapRect(false).topLeft();
+		data->setData("application/x-kde-dragX",QString("%1").arg(dragPoint.x()).toAscii());
+		data->setData("application/x-kde-dragY",QString("%2").arg(dragPoint.y()).toAscii());
+	}
+	return data;
 }
 
 void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
@@ -1120,16 +1135,20 @@ void KonqIconViewWidget::renameSelectedItem()
 void KonqIconViewWidget::cutSelection()
 {
     kDebug(1203) << " -- KonqIconViewWidget::cutSelection() -- " << endl;
-    KonqIconDrag * obj = konqDragObject( /* no parent ! */ );
-    obj->setMoveSelection( true );
-    QApplication::clipboard()->setData( obj );
+//    KonqIconDrag * obj = konqDragObject( /* no parent ! */ );
+//    obj->setMoveSelection( true );
+    QMimeData *data=konqMimeData(true);
+//    QApplication::clipboard()->setData( obj );
+    QApplication::clipboard()->setMimeData(data);
 }
 
 void KonqIconViewWidget::copySelection()
 {
     kDebug(1203) << " -- KonqIconViewWidget::copySelection() -- " << endl;
-    KonqIconDrag * obj = konqDragObject( /* no parent ! */ );
-    QApplication::clipboard()->setData( obj );
+//    KonqIconDrag * obj = konqDragObject( /* no parent ! */ );
+    QMimeData *data=konqMimeData(false);
+//    QApplication::clipboard()->setData( obj );
+    QApplication::clipboard()->setMimeData(data);
 }
 
 void KonqIconViewWidget::pasteSelection()

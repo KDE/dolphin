@@ -312,7 +312,7 @@ protected Q_SLOTS:
 
 protected:
     virtual Q3DragObject *dragObject();
-    KonqIconDrag *konqDragObject( QWidget * dragSource = 0L );
+    QMimeData *konqMimeData(bool moveSelection);
     bool mimeTypeMatch( const QString& mimeType, const QStringList& mimeList ) const;
 
     virtual void drawBackground( QPainter *p, const QRect &r );
