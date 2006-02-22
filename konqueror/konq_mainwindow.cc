@@ -800,7 +800,7 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
           if ( m_pViewManager->docContainer() && m_pViewManager->docContainer()->frameType() == "Tabs")
           {
               tabContainer = static_cast<KonqFrameTabs*>(m_pViewManager->docContainer());
-              index = tabContainer->currentPageIndex();
+              index = tabContainer->currentIndex();
           }
           childView = m_pViewManager->addTab( serviceType, serviceName, false, req.openAfterCurrentPage );
 

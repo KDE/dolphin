@@ -209,7 +209,7 @@ void KonqFrameTabs::saveConfig( KConfig* config, const QString &prefix, bool sav
   config->writeEntry( QString::fromLatin1( "Children" ).prepend( prefix ), strlst );
 
   config->writeEntry( QString::fromLatin1( "activeChildIndex" ).prepend( prefix ),
-                      currentPageIndex() );
+                      currentIndex() );
 }
 
 void KonqFrameTabs::copyHistory( KonqFrameBase *other )

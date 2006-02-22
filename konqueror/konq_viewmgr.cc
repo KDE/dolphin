@@ -648,8 +648,8 @@ void KonqViewManager::moveTabBackward()
     KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
     if( tabContainer->count() == 1 ) return;
 
-    int iTab = tabContainer->currentPageIndex();
-    kDebug()<<" tabContainer->currentPageIndex(); :"<<iTab<<endl;
+    int iTab = tabContainer->currentIndex();
+    kDebug()<<" tabContainer->currentIndex(); :"<<iTab<<endl;
     tabContainer->moveTabBackward(iTab);
 }
 
@@ -660,7 +660,7 @@ void KonqViewManager::moveTabForward()
     KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
     if( tabContainer->count() == 1 ) return;
 
-    int iTab = tabContainer->currentPageIndex();
+    int iTab = tabContainer->currentIndex();
     tabContainer->moveTabForward(iTab);
 }
 
@@ -672,7 +672,7 @@ void KonqViewManager::activateNextTab()
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
   if( tabContainer->count() == 1 ) return;
 
-  int iTab = tabContainer->currentPageIndex();
+  int iTab = tabContainer->currentIndex();
 
   iTab++;
 
@@ -690,7 +690,7 @@ void KonqViewManager::activatePrevTab()
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
   if( tabContainer->count() == 1 ) return;
 
-  int iTab = tabContainer->currentPageIndex();
+  int iTab = tabContainer->currentIndex();
 
   iTab--;
 
@@ -1052,7 +1052,7 @@ KonqView *KonqViewManager::setupView( KonqFrameContainerBase *parentContainer,
   {
       KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
       if ( openAfterCurrentPage )
-          index = tabContainer->currentPageIndex() +1 ;
+          index = tabContainer->currentIndex() +1 ;
   }
 
   parentContainer->insertChildFrame( newViewFrame, index );
@@ -1596,7 +1596,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
 
       int tabindex = -1;
       if(openAfterCurrentPage && parent->frameType() == "Tabs") // Need to honor it, if possible
-	tabindex = static_cast<KonqFrameTabs*>(parent)->currentPageIndex() + 1;
+	tabindex = static_cast<KonqFrameTabs*>(parent)->currentIndex() + 1;
       parent->insertChildFrame( newContainer, tabindex );
 
 
