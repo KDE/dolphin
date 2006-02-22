@@ -388,7 +388,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 mimeGroup.clear(); // mimetype groups are different as well!
         }
 
-        if ( mimeTypeList.findIndex( (*it)->mimetype() ) == -1 )
+        if ( mimeTypeList.indexOf( (*it)->mimetype() ) == -1 )
             mimeTypeList << (*it)->mimetype();
 
         if ( isLocal && !url.isLocalFile() && url.protocol() != "media" && url.protocol() != "system" )

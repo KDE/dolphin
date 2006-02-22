@@ -477,7 +477,7 @@ void KonqCombo::selectWord(QKeyEvent *e)
             count++;
             if( allow_space_break && text[pos].isSpace() && count > 1 )
                 break;
-        } while( pos >= 0 && (chars.findIndex(text[pos]) == -1 || count <= 1) );
+        } while( pos >= 0 && (chars.indexOf(text[pos]) == -1 || count <= 1) );
 
         if( e->modifiers() & Qt::ShiftModifier ) {
                   edit->cursorForward(true, 1-count);
@@ -500,7 +500,7 @@ void KonqCombo::selectWord(QKeyEvent *e)
             count++;
                   if( allow_space_break && text[pos].isSpace() )
                       break;
-        } while( pos < (int) text.length() && chars.findIndex(text[pos]) == -1 );
+        } while( pos < (int) text.length() && chars.indexOf(text[pos]) == -1 );
 
         if( e->modifiers() & Qt::ShiftModifier ) {
             edit->cursorForward(true, count+1);

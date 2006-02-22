@@ -144,7 +144,7 @@ extern "C"
 		i18n( "Select type:" ), names );
 	if (!item.isEmpty())
 		{
-			int id=names.findIndex( item );
+			int id=names.indexOf( item );
 			if (id==-1) return false;
 			KSimpleConfig ksc2(QString(list.at(id)));
 			ksc2.setGroup("Desktop Entry");

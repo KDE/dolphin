@@ -133,7 +133,7 @@ void FakeUASProvider::parseDescription()
 
 QString FakeUASProvider::aliasStr( const QString& name )
 {
-  int id = userAgentStringList().findIndex(name);
+  int id = userAgentStringList().indexOf(name);
   if ( id == -1 )
     return QString();
   else
@@ -142,7 +142,7 @@ QString FakeUASProvider::aliasStr( const QString& name )
 
 QString FakeUASProvider::agentStr( const QString& name )
 {
-  int id = userAgentAliasList().findIndex(name);
+  int id = userAgentAliasList().indexOf(name);
   if ( id == -1 )
     return QString();
   else

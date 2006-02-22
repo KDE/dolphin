@@ -385,7 +385,7 @@ void KonqInfoListViewWidget::determineCounts(const KFileItemList& list)
 
     if (m_favorite.mimetype)
     {
-          m_mtSelector->setCurrentItem(mtlist.findIndex(m_favorite.mimetype->comment()));
+          m_mtSelector->setCurrentItem(mtlist.indexOf(m_favorite.mimetype->comment()));
           kDebug(1203) << "favorite mimetype is " << m_favorite.mimetype->name() << endl;
     }
     createFavoriteColumns();

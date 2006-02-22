@@ -281,7 +281,7 @@ void KQuery::processQuery( KFileItem* file)
     if (!m_context.isEmpty())
     {
 
-       if( !m_search_binary && ignore_mimetypes.findIndex(file->mimetype()) != -1 ) {
+       if( !m_search_binary && ignore_mimetypes.indexOf(file->mimetype()) != -1 ) {
          kDebug() << "ignoring, mime type is in exclusion list: " << file->url() << endl;
          return;
        }
@@ -299,8 +299,8 @@ void KQuery::processQuery( KFileItem* file)
        QByteArray zippedXmlFileContent;
 
        // KWord's and OpenOffice.org's files are zipped...
-       if( ooo_mimetypes.findIndex(file->mimetype()) != -1 ||
-           koffice_mimetypes.findIndex(file->mimetype()) != -1 )
+       if( ooo_mimetypes.indexOf(file->mimetype()) != -1 ||
+           koffice_mimetypes.indexOf(file->mimetype()) != -1 )
        {
          KZip zipfile(file->url().path());
          KZipFileEntry *zipfileEntry;
@@ -309,7 +309,7 @@ void KQuery::processQuery( KFileItem* file)
          {
            const KArchiveDirectory *zipfileContent = zipfile.directory();
 
-           if( koffice_mimetypes.findIndex(file->mimetype()) != -1 )
+           if( koffice_mimetypes.indexOf(file->mimetype()) != -1 )
              zipfileEntry = (KZipFileEntry*)zipfileContent->entry("maindoc.xml");
            else
              zipfileEntry = (KZipFileEntry*)zipfileContent->entry("content.xml"); //for OpenOffice.org
