@@ -34,9 +34,9 @@ KonqFavIconMgr::KonqFavIconMgr(QObject *parent, const char *name)
         "notifyChange(bool, QString, QString)", false);
 }
 
-QString KonqFavIconMgr::iconForURL(const QString &url)
+QString KonqFavIconMgr::iconForURL(const KUrl &url)
 {
-    return KMimeType::favIconForURL( KUrl(url) );
+    return KMimeType::favIconForURL( url );
 }
 
 void KonqFavIconMgr::setIconForURL(const KUrl &url, const KUrl &iconURL)

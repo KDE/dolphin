@@ -62,7 +62,7 @@ public:
      * Looks up an iconname for @p url. Uses a cache for the iconname of url.
      * @since 3.4.1
      */
-    QString iconNameFor( const QString& url );
+    QString iconNameFor( const KUrl& url );
 
 protected:
     KonqPixmapProvider( QObject *parent=0, const char *name=0 );
@@ -75,7 +75,7 @@ protected:
     QPixmap loadIcon( const QString& url, const QString& icon, int size );
 
 private:
-    QMap<QString,QString> iconMap;
+    QMap<KUrl,QString> iconMap;
     static KonqPixmapProvider * s_self;
 };
 

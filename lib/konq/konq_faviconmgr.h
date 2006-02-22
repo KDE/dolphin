@@ -54,7 +54,7 @@ public:
      * Looks up an icon for @p url and returns its name if found
      * or QString() otherwise
      */
-    static QString iconForURL(const QString &url);
+    static QString iconForURL(const KUrl &url);
 
 k_dcop:
     /**

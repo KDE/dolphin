@@ -55,9 +55,9 @@ KonqPixmapProvider::~KonqPixmapProvider()
 // if not available, tries to find the pixmap for the mimetype of url
 // if that fails, gets the icon for the protocol
 // finally, inserts the url/icon pair into the cache
-QString KonqPixmapProvider::iconNameFor( const QString& url )
+QString KonqPixmapProvider::iconNameFor( const KUrl& url )
 {
-    QMap<QString,QString>::iterator it = iconMap.find( url );
+    QMap<KUrl,QString>::iterator it = iconMap.find( url );
     QString icon;
     if ( it != iconMap.end() ) {
         icon = it.data();
@@ -65,15 +65,14 @@ QString KonqPixmapProvider::iconNameFor( const QString& url )
 	    return icon;
     }
 
-    if ( url.isEmpty() ) {
+    if ( url.url().isEmpty() ) {
         // Use the folder icon for the empty URL
         icon = KMimeType::mimeType( "inode/directory" )->KServiceType::icon();
         Q_ASSERT( !icon.isEmpty() );
     }
     else
     {
-        KUrl u = KUrl::fromPathOrURL( url );
-        icon = KMimeType::iconNameForURL( u );
+        icon = KMimeType::iconNameForURL( url );
         Q_ASSERT( !icon.isEmpty() );
     }
 
@@ -113,7 +112,7 @@ void KonqPixmapProvider::save( KConfigGroup& kc, const QString& key,
 {
     QStringList list;
     QStringList::ConstIterator it = items.begin();
-    QMap<QString,QString>::const_iterator mit;
+    QMap<KUrl,QString>::const_iterator mit;
     while ( it != items.end() ) {
 	mit = iconMap.find( *it );
 	if ( mit != iconMap.end() ) {
@@ -129,7 +128,7 @@ void KonqPixmapProvider::save( KConfigGroup& kc, const QString& key,
 void KonqPixmapProvider::notifyChange( bool isHost, QString hostOrURL,
     QString iconName )
 {
-    for ( QMap<QString,QString>::iterator it = iconMap.begin();
+    for ( QMap<KUrl,QString>::iterator it = iconMap.begin();
           it != iconMap.end();
           ++it )
     {
