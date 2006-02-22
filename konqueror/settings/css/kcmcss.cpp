@@ -117,7 +117,7 @@ void CSSConfig::load()
 
   QString fname = c->readEntry("Family", "Arial");
   for (int i=0; i < customDialog->fontFamily->count(); ++i)
-    if (customDialog->fontFamily->text(i) == fname)
+    if (customDialog->fontFamily->itemText(i) == fname)
       {
 	customDialog->fontFamily->setCurrentItem(i);
 	break;
@@ -226,7 +226,7 @@ void CSSConfig::defaults()
 
   QString fname =  "Arial";
   for (int i=0; i < customDialog->fontFamily->count(); ++i)
-    if (customDialog->fontFamily->text(i) == fname)
+    if (customDialog->fontFamily->itemText(i) == fname)
       {
 	customDialog->fontFamily->setCurrentItem(i);
 	break;

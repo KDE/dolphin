@@ -154,7 +154,7 @@ void KonqBgndDialog::loadPicture( const QString& fileName )
 {
     int i ;
     for ( i = 0; i < m_comboPicture->comboBox()->count(); i++ ) {
-        if ( fileName == m_comboPicture->comboBox()->text( i ) ) {
+        if ( fileName == m_comboPicture->comboBox()->itemText( i ) ) {
             m_comboPicture->comboBox()->setCurrentIndex( i );
             return;
         }
