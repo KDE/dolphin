@@ -99,7 +99,7 @@ void KBrowserOptions::save()
 
 QString KBrowserOptions::quickHelp() const
 {
-  QWidget *w = m_tab->currentPage();
+  QWidget *w = m_tab->currentWidget();
   if (w->inherits("KCModule"))
   {
      KCModule *m = static_cast<KCModule *>(w);

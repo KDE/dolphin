@@ -353,7 +353,7 @@ void KonqFrameTabs::slotMovedTab( int from, int to )
   m_pChildFrameList->remove( fromFrame );
   m_pChildFrameList->insert( to, fromFrame );
 
-  KonqFrameBase* currentFrame = dynamic_cast<KonqFrameBase*>( currentPage() );
+  KonqFrameBase* currentFrame = dynamic_cast<KonqFrameBase*>( currentWidget() );
   if ( currentFrame && !m_pViewManager->isLoadingProfile() ) {
     m_pActiveChild = currentFrame;
     currentFrame->activateChild();

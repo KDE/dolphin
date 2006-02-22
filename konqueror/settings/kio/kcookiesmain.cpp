@@ -70,7 +70,7 @@ void KCookiesMain::save()
 
 void KCookiesMain::defaults()
 {
-  KCModule* module = static_cast<KCModule*>(tab->currentPage());
+  KCModule* module = static_cast<KCModule*>(tab->currentWidget());
   
   if ( module == policies )
     policies->defaults();
