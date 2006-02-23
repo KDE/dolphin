@@ -268,6 +268,9 @@ int KonqLogoAction::plug( QWidget *widget, int index )
     bar->insertAnimatedWidget( id_, this, SIGNAL(activated()), QString("kde"), index );
     bar->alignItemRight( id_ );
 
+    KAnimWidget *anim = bar->animatedWidget( id_ );
+    anim->setFrameStyle(QFrame::NoFrame);
+
     addContainer( bar, id_ );
 
     connect( bar, SIGNAL( destroyed() ), this, SLOT( slotDestroyed() ) );
