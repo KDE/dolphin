@@ -68,10 +68,9 @@
 //Added by qt3to4:
 #include <QCustomEvent>
 #include <QFocusEvent>
-#include <Q3StrList>
 #include <QKeyEvent>
 #include <QEvent>
-#include <Q3CString>
+#include <QByteArray>
 #include <QList>
 #include <QCloseEvent>
 #include <QPixmap>
@@ -562,7 +561,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
   // Fast mode for local files: do the stat ourselves instead of letting KRun do it.
   if ( serviceType.isEmpty() && url.isLocalFile() )
   {
-    Q3CString _path( QFile::encodeName(url.path()));
+    QByteArray _path( QFile::encodeName(url.path()));
     KDE_struct_stat buff;
     if ( KDE_stat( _path.data(), &buff ) != -1 )
         serviceType = KMimeType::findByURL( url, buff.st_mode )->name();
@@ -3577,7 +3576,7 @@ void KonqMainWindow::showPageSecurity()
 }
 
 // called via DCOP from KonquerorIface
-void KonqMainWindow::comboAction( int action, const QString& url, const Q3CString& objId )
+void KonqMainWindow::comboAction( int action, const QString& url, const QByteArray& objId )
 {
     if (!s_lstViews) // this happens in "konqueror --silent"
         return;
@@ -3765,10 +3764,10 @@ void KonqMainWindow::initActions()
   m_paActivateNextTab = new KAction( i18n( "Activate Next Tab" ), "tab_next", QApplication::isRightToLeft() ? KStdAccel::tabPrev() : KStdAccel::tabNext(), this, SLOT( slotActivateNextTab() ), actionCollection(), "activatenexttab" );
   m_paActivatePrevTab = new KAction( i18n( "Activate Previous Tab" ), "tab_previous", QApplication::isRightToLeft() ? KStdAccel::tabNext() : KStdAccel::tabPrev(), this, SLOT( slotActivatePrevTab() ), actionCollection(), "activateprevtab" );
 
-  Q3CString actionname;
+  QString actionname;
   for (int i=1;i<13;i++) {
     actionname.sprintf("activate_tab_%02d", i);
-    new KAction(i18n("Activate Tab %1").arg(i), 0, this, SLOT(slotActivateTab()), actionCollection(), actionname);
+    new KAction(i18n("Activate Tab %1").arg(i), 0, this, SLOT(slotActivateTab()), actionCollection(), actionname.toUtf8());
   }
 
   m_paMoveTabLeft = new KAction( i18n("Move Tab Left"), 0 , Qt::CTRL+Qt::SHIFT+Qt::Key_Left,this, SLOT( slotMoveTabLeft()),actionCollection(),"tab_move_left");
@@ -4713,7 +4712,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
 void KonqMainWindow::slotOpenEmbedded()
 {
-  Q3CString name = sender()->name();
+  QByteArray name = sender()->name();
 
   m_popupService = m_popupEmbeddingServices[ name.toInt() ]->desktopEntryName();
 

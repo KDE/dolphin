@@ -38,14 +38,13 @@
 #include <assert.h>
 #include <kdebug.h>
 #include <kcursor.h>
-#include <k3urldrag.h>
 #include <q3scrollview.h>
 
 #include <qapplication.h>
 #include <qmetaobject.h>
 #include <qobject.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 #include <QEvent>
 #include <QDropEvent>
 #include <QContextMenuEvent>
@@ -121,7 +120,7 @@ KonqView::~KonqView()
         part_url = m_pPart->url().url();
      if (part_url.isNull())
         part_url = "";
-     Q3CString line;
+     QByteArray line;
      line = ( QString("close(%1):%2\n").arg(m_randID,0,16).arg(part_url) ).toUtf8();
      KonqMainWindow::s_crashlog_file->write(line, line.length());
      KonqMainWindow::s_crashlog_file->flush();
@@ -158,7 +157,7 @@ void KonqView::openURL( const KUrl &url, const QString & locationBarURL,
      if (url_url.isNull())
         url_url = QString("");
 
-     Q3CString line;
+     QByteArray line;
 
      line = ( QString("closed(%1):%2\n").arg(m_randID,0,16).arg(part_url) ).toUtf8();
      KonqMainWindow::s_crashlog_file->write(line,line.length());
@@ -1228,15 +1227,14 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
     {
         QDragEnterEvent *ev = static_cast<QDragEnterEvent *>( e );
 
-        if ( K3URLDrag::canDecode( ev ) )
+        if ( KUrl::List::canDecode( ev->mimeData() ) )
         {
-            KUrl::List lstDragURLs;
-            bool ok = K3URLDrag::decode( ev, lstDragURLs );
+            KUrl::List lstDragURLs = KUrl::List::fromMimeData( ev->mimeData() );
 
             QObjectList children = m_pPart->widget()->queryList( "QWidget" );
 
-            if ( ok &&
-                 !lstDragURLs.first().url().contains( "javascript:", false ) && // ### this looks like a hack to me
+            if ( !lstDragURLs.isEmpty()
+                 && !lstDragURLs.first().url().contains( "javascript:", false ) && // ### this looks like a hack to me
                  ev->source() != m_pPart->widget() &&
                  children.indexOf( ev->source() ) == -1 )
                 ev->acceptAction();
@@ -1246,11 +1244,9 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
     {
         QDropEvent *ev = static_cast<QDropEvent *>( e );
 
-        KUrl::List lstDragURLs;
-        bool ok = K3URLDrag::decode( ev, lstDragURLs );
-
+        KUrl::List lstDragURLs = KUrl::List::fromMimeData( ev->mimeData() );
         KParts::BrowserExtension *ext = browserExtension();
-        if ( ok && ext && lstDragURLs.first().isValid() )
+        if ( !lstDragURLs.isEmpty() && ext && lstDragURLs.first().isValid() )
             emit ext->openURLRequest( lstDragURLs.first() ); // this will call m_pMainWindow::slotOpenURLRequest delayed
     }
 

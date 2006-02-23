@@ -27,9 +27,6 @@
 #include "konq_settingsxt.h"
 
 #include <qfileinfo.h>
-#include <q3ptrlist.h>
-//Added by qt3to4:
-#include <Q3StrList>
 
 #include <kaccelgen.h>
 #include <kstandarddirs.h>
@@ -45,8 +42,6 @@
 #include <kmenu.h>
 
 // #define DEBUG_VIEWMGR
-
-template class Q3PtrList<KonqView>;
 
 KonqViewManager::KonqViewManager( KonqMainWindow *mainWindow )
  : KParts::PartManager( mainWindow )

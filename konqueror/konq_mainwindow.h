@@ -28,7 +28,7 @@
 #include <qpointer.h>
 //Added by qt3to4:
 #include <QPixmap>
-#include <Q3CString>
+#include <QByteArray>
 #include <QCloseEvent>
 #include <QList>
 #include <QEvent>
@@ -263,7 +263,7 @@ public:
   // operates on all combos of all mainwindows of this instance
   // up to now adds an entry or clears all entries
   static void comboAction( int action, const QString& url,
-			   const Q3CString& objId );
+			   const QByteArray& objId );
 
 #ifndef NDEBUG
   void dumpViewList();

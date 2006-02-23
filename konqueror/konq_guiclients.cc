@@ -26,7 +26,6 @@
 #include "konq_guiclients.h"
 #include "konq_viewmgr.h"
 #include <kiconloader.h>
-#include <Q3PtrList>
 
 PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
                                         const KTrader::OfferList &embeddingServices,
@@ -160,7 +159,6 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
 : QObject( mainWindow )
 {
   m_mainWindow = mainWindow;
-  m_actions.setAutoDelete( true );
 
   KTrader::OfferList offers = KTrader::self()->query( "Browser/View" );
   KTrader::OfferList::Iterator it = offers.begin();
@@ -220,13 +218,7 @@ ToggleViewGUIClient::~ToggleViewGUIClient()
 
 QList<KAction*> ToggleViewGUIClient::actions() const
 {
-  QList<KAction*> res;
-
-  Q3DictIterator<KAction> it( m_actions );
-  for (; it.current(); ++it )
-    res.append( it.current() );
-
-  return res;
+  return m_actions.values();
 }
 
 void ToggleViewGUIClient::slotToggleView( bool toggle )
@@ -317,7 +309,7 @@ void ToggleViewGUIClient::slotViewAdded( KonqView *view )
 {
   QString name = view->service()->desktopEntryName();
 
-  KAction *action = m_actions[ name ];
+  KAction *action = m_actions.value( name );
 
   if ( action )
   {
@@ -346,7 +338,7 @@ void ToggleViewGUIClient::slotViewRemoved( KonqView *view )
 {
   QString name = view->service()->desktopEntryName();
 
-  KAction *action = m_actions[ name ];
+  KAction *action = m_actions.value( name );
 
   if ( action )
   {

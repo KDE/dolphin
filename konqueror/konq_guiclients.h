@@ -22,9 +22,7 @@
 
 #include <kxmlguiclient.h>
 #include <qobject.h>
-#include <q3dict.h>
-//Added by qt3to4:
-#include <Q3PtrList>
+#include <qhash.h>
 #include <ktrader.h>
 
 class KAction;
@@ -91,7 +89,7 @@ private Q_SLOTS:
   void slotViewRemoved( KonqView *view );
 private:
   KonqMainWindow *m_mainWindow;
-  Q3Dict<KAction> m_actions;
+  QHash<QString,KAction*> m_actions;
   bool m_empty;
   QMap<QString,bool> m_mapOrientation;
 };

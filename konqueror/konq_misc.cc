@@ -24,7 +24,6 @@
 #include <QDragEnterEvent>
 #include <QLabel>
 #include <QDropEvent>
-#include <Q3PtrList>
 
 #include <kapplication.h>
 #include <kdebug.h>
@@ -34,7 +33,6 @@
 #include <kstandarddirs.h>
 #include <kwin.h>
 #include <kprotocolinfo.h>
-#include <k3urldrag.h>
 #include <kstartupinfo.h>
 
 #include "konq_misc.h"
@@ -250,9 +248,12 @@ void KonqDraggableLabel::mouseMoveEvent( QMouseEvent * ev )
     {
       KUrl::List lst;
       lst.append( m_mw->currentView()->url() );
-      Q3DragObject * drag = new K3URLDrag( lst, m_mw );
+      QDrag* drag = new QDrag( m_mw );
+      QMimeData* md = new QMimeData();
+      lst.populateMimeData( md );
+      drag->setMimeData( md );
       drag->setPixmap( KMimeType::pixmapForURL( lst.first(), 0, KIcon::Small ) );
-      drag->dragCopy();
+      drag->start();
     }
   }
 }
@@ -264,14 +265,15 @@ void KonqDraggableLabel::mouseReleaseEvent( QMouseEvent * )
 
 void KonqDraggableLabel::dragEnterEvent( QDragEnterEvent *ev )
 {
-  if ( K3URLDrag::canDecode( ev ) )
+  if ( KUrl::List::canDecode( ev->mimeData() ) )
     ev->acceptAction();
 }
 
 void KonqDraggableLabel::dropEvent( QDropEvent* ev )
 {
   _savedLst.clear();
-  if ( K3URLDrag::decode( ev, _savedLst ) ) {
+  _savedLst = KUrl::List::fromMimeData( ev->mimeData() );
+  if ( !_savedLst.isEmpty() ) {
     QTimer::singleShot(0, this, SLOT(delayedOpenURL()));
   }
 }
