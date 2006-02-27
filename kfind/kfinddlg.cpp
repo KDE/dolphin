@@ -55,7 +55,7 @@ KfindDlg::KfindDlg(const KUrl & url, QWidget *parent, const char *name)
   mStatusBar->insertFixedItem(i18n("AMiddleLengthText..."), 0);
   setStatusMsg(i18n("Ready."));
   mStatusBar->setItemAlignment(0, Qt::AlignLeft | Qt::AlignVCenter);
-  mStatusBar->insertItem(QString(), 1, 1);
+  mStatusBar->insertPermanentItem(QString(), 1, 1);
   mStatusBar->setItemAlignment(1, Qt::AlignLeft | Qt::AlignVCenter);
 
   QVBoxLayout *vBox = new QVBoxLayout(frame);
