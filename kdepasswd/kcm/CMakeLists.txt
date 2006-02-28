@@ -2,7 +2,7 @@ kde4_header()
 
 add_subdirectory( pics ) 
 
-include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
+include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/libkonq )
 
 
 ########### next target ###############
@@ -19,7 +19,7 @@ kde4_add_plugin(kcm_useraccount ${kcm_useraccount_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_useraccount )
 
-target_link_libraries(kcm_useraccount  ${QT_AND_KDECORE_LIBS} konq )
+target_link_libraries(kcm_useraccount  ${QT_AND_KDECORE_LIBS} konq ${QT_QTGUI_LIBRARY} kdeui ${QT_QT3SUPPORT_LIBRARY} kio)
 
 install_targets(${LIB_INSTALL_DIR}/kde4 kcm_useraccount )
 
