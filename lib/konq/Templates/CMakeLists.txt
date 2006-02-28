@@ -1,0 +1,37 @@
+kde4_header()
+
+include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
+
+
+########### install files ###############
+
+install_files( ${TEMPLATES_INSTALL_DIR} FILES linkProgram.desktop  	linkURL.desktop linkFloppy.desktop linkHD.desktop linkCDROM.desktop  	Directory.desktop TextFile.desktop HTMLFile.desktop linkZIP.desktop  	linkDVDROM.desktop linkCAMERA.desktop linkNFS.desktop linkCDWRITER.desktop  	linkMO.desktop )
+install_files( ${TEMPLATES_INSTALL_DIR}/.source FILES Program.desktop  	URL.desktop Floppy.desktop HD.desktop CDROM-Device.desktop  	TextFile.txt HTMLFile.html ZIP-Device.desktop DVDROM-Device.desktop  	CAMERA-Device.desktop NFS.desktop CDWRITER-Device.desktop  	MO-Device.desktop )
+
+kde4_footer()
+
+
+
+#original Makefile.am contents follow:
+
+#
+## The links (that contain translations)
+#templ_DATA = linkProgram.desktop \
+#	linkURL.desktop linkFloppy.desktop linkHD.desktop linkCDROM.desktop \
+#	Directory.desktop TextFile.desktop HTMLFile.desktop linkZIP.desktop \
+#	linkDVDROM.desktop linkCAMERA.desktop linkNFS.desktop linkCDWRITER.desktop \
+#	linkMO.desktop
+#
+#templdir = $(kde_templatesdir)
+#
+## The source files (the actual templates)
+#sources_DATA = Program.desktop \
+#	URL.desktop Floppy.desktop HD.desktop CDROM-Device.desktop \
+#	TextFile.txt HTMLFile.html ZIP-Device.desktop DVDROM-Device.desktop \
+#	CAMERA-Device.desktop NFS.desktop CDWRITER-Device.desktop \
+#	MO-Device.desktop
+#
+#sourcesdir = $(kde_templatesdir)/.source
+#
+#install-data-hook:
+#	$(mkinstalldirs) $(DESTDIR)$(sourcesdir)/emptydir

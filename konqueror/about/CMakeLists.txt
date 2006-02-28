@@ -1,0 +1,49 @@
+kde4_header()
+
+include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
+
+
+########### next target ###############
+
+set(konq_aboutpage_PART_SRCS konq_aboutpage.cc )
+
+kde4_automoc(${konq_aboutpage_PART_SRCS})
+
+kde4_add_plugin(konq_aboutpage ${konq_aboutpage_PART_SRCS})
+
+kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_aboutpage )
+
+target_link_libraries(konq_aboutpage  ${QT_AND_KDECORE_LIBS} khtml )
+
+install_targets(${LIB_INSTALL_DIR}/kde4 konq_aboutpage )
+
+
+########### install files ###############
+
+install_files( ${DATA_INSTALL_DIR}/konqueror/about FILES box-centre-konqueror.png  top-right-konqueror.png  lightning.png  	launch.html               intro.html        specs.html               tips.html  	plugins.html              plugins_rtl.html  konq.css )
+install_files( ${SERVICETYPES_INSTALL_DIR} FILES konqaboutpage.desktop )
+install_files( ${SERVICES_INSTALL_DIR} FILES konq_aboutpage.desktop )
+
+kde4_footer()
+
+
+
+#original Makefile.am contents follow:
+
+#kde_module_LTLIBRARIES = konq_aboutpage.la
+#
+#INCLUDES = -I$(srcdir)/.. -I$(top_srcdir)/libkonq $(all_includes)
+#konq_aboutpage_la_SOURCES = konq_aboutpage.cc
+#konq_aboutpage_la_LDFLAGS = $(all_libraries) $(KDE_PLUGIN) -module
+#konq_aboutpage_la_LIBADD = $(LIB_KHTML)
+#
+#kde_services_DATA = konq_aboutpage.desktop
+#kde_servicetypes_DATA = konqaboutpage.desktop
+#
+#METASOURCES = AUTO
+#
+#konq_aboutpage_datadir = $(kde_datadir)/konqueror/about
+#konq_aboutpage_data_DATA = \
+#	box-centre-konqueror.png  top-right-konqueror.png  lightning.png \
+#	launch.html               intro.html        specs.html               tips.html \
+#	plugins.html              plugins_rtl.html  konq.css

@@ -1,0 +1,47 @@
+kde4_header()
+
+add_subdirectory( kcm ) 
+
+include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
+
+
+########### next target ###############
+
+set(kdepasswd_SRCS kdepasswd.cpp passwd.cpp passwddlg.cpp )
+
+kde4_automoc(${kdepasswd_SRCS})
+
+kde4_add_executable(kdepasswd ${kdepasswd_SRCS})
+
+target_link_libraries(kdepasswd  ${QT_AND_KDECORE_LIBS} kio )
+
+install_targets(/bin kdepasswd )
+
+
+########### install files ###############
+
+install_files( ${XDG_APPS_DIR} FILES kdepasswd.desktop )
+
+kde4_footer()
+
+
+
+#original Makefile.am contents follow:
+
+#
+#SUBDIRS = kcm
+#
+#bin_PROGRAMS = kdepasswd
+#kdepasswd_SOURCES = kdepasswd.cpp passwd.cpp passwddlg.cpp
+#kdepasswd_LDFLAGS = $(all_libraries) $(KDE_RPATH)
+#kdepasswd_LDADD = $(LIB_KIO)
+#
+#METASOURCES =  AUTO
+#AM_CPPFLAGS= -I$(top_srcdir)/libkonq $(all_includes)
+#noinst_HEADERS = passwd.h passwddlg.h
+#
+#xdg_apps_DATA = kdepasswd.desktop
+#
+#messages:
+#	$(XGETTEXT) *.cpp  -o $(podir)/kdepasswd.pot
+#

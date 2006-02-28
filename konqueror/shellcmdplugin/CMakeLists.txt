@@ -1,0 +1,45 @@
+kde4_header()
+
+include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
+
+
+########### next target ###############
+
+set(konq_shellcmdplugin_PART_SRCS kshellcmdexecutor.cpp kshellcmddialog.cpp kshellcmdplugin.cpp )
+
+kde4_automoc(${konq_shellcmdplugin_PART_SRCS})
+
+kde4_add_plugin(konq_shellcmdplugin ${konq_shellcmdplugin_PART_SRCS})
+
+kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_shellcmdplugin )
+
+target_link_libraries(konq_shellcmdplugin  ${QT_AND_KDECORE_LIBS} konq )
+
+install_targets(${LIB_INSTALL_DIR}/kde4 konq_shellcmdplugin )
+
+
+########### install files ###############
+
+install_files( ${DATA_INSTALL_DIR}/konqlistview/kpartplugins FILES kshellcmdplugin.rc kshellcmdplugin.desktop )
+install_files( ${DATA_INSTALL_DIR}/konqiconview/kpartplugins FILES kshellcmdplugin.rc kshellcmdplugin.desktop )
+
+kde4_footer()
+
+
+
+#original Makefile.am contents follow:
+
+#INCLUDES= -I$(top_srcdir)/libkonq $(all_includes)
+#METASOURCES=AUTO
+#
+#kde_module_LTLIBRARIES = konq_shellcmdplugin.la
+#konq_shellcmdplugin_la_SOURCES = kshellcmdexecutor.cpp kshellcmddialog.cpp \
+#	kshellcmdplugin.cpp
+#konq_shellcmdplugin_la_LIBADD = $(top_builddir)/libkonq/libkonq.la
+#konq_shellcmdplugin_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
+#
+#iconviewdir = $(kde_datadir)/konqiconview/kpartplugins
+#iconview_DATA = kshellcmdplugin.rc kshellcmdplugin.desktop
+#
+#listviewdir = $(kde_datadir)/konqlistview/kpartplugins
+#listview_DATA = kshellcmdplugin.rc kshellcmdplugin.desktop

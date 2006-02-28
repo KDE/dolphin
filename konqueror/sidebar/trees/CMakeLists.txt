@@ -1,0 +1,54 @@
+kde4_header()
+
+add_subdirectory( init ) 
+add_subdirectory( dirtree_module ) 
+add_subdirectory( history_module ) 
+add_subdirectory( bookmark_module ) 
+
+include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/konqueror ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
+
+
+########### next target ###############
+
+
+########### next target ###############
+
+set(konqsidebar_tree_PART_SRCS konqsidebar_tree.cpp )
+
+kde4_automoc(${konqsidebar_tree_PART_SRCS})
+
+kde4_add_plugin(konqsidebar_tree ${konqsidebar_tree_PART_SRCS})
+
+kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konqsidebar_tree )
+
+target_link_libraries(konqsidebar_tree  ${QT_AND_KDECORE_LIBS} konq konqsidebarplugin konq_sidebar_tree )
+
+install_targets(${LIB_INSTALL_DIR}/kde4 konqsidebar_tree )
+
+
+########### install files ###############
+
+
+kde4_footer()
+
+
+
+#original Makefile.am contents follow:
+
+##SUBDIRS = init dirtree_module history_module bookmark_module .
+#SUBDIRS = init . dirtree_module history_module bookmark_module
+#
+#INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/konqueror -I$(srcdir)/.. $(all_includes)
+#
+#noinst_LTLIBRARIES = libkonq_sidebar_tree.la
+#kde_module_LTLIBRARIES = konqsidebar_tree.la
+#METASOURCES = AUTO
+#
+#libkonq_sidebar_tree_la_SOURCES = konq_sidebartree.cpp konq_sidebartreeitem.cpp konq_sidebartreetoplevelitem.cpp
+##libkonq_sidebar_tree_la_LDFLAGS = $(all_libraries) -avoid-version -no-undefined
+#libkonq_sidebar_tree_la_LIBADD = $(top_builddir)/libkonq/libkonq.la ../libkonqsidebarplugin.la
+#
+#konqsidebar_tree_la_SOURCES = konqsidebar_tree.cpp
+#konqsidebar_tree_la_LDFLAGS = $(all_libraries) -module -avoid-version -no-undefined
+#konqsidebar_tree_la_LIBADD = $(top_builddir)/libkonq/libkonq.la ../libkonqsidebarplugin.la libkonq_sidebar_tree.la
+#

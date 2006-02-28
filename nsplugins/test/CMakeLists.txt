@@ -1,0 +1,39 @@
+kde4_header()
+
+include_directories( ${CMAKE_SOURCE_DIR}/libltdl ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
+
+
+########### next target ###############
+
+set(testnsplugin_SRCS testnsplugin.cpp )
+
+kde4_automoc(${testnsplugin_SRCS})
+
+if(KDE4_BUILD_TESTS)
+
+kde4_add_executable(testnsplugin ${testnsplugin_SRCS})
+
+target_link_libraries(testnsplugin  ${QT_AND_KDECORE_LIBS} kdeui nsplugin )
+
+endif(KDE4_BUILD_TESTS)
+
+########### install files ###############
+
+
+kde4_footer()
+
+
+
+#original Makefile.am contents follow:
+
+#INCLUDES = -I$(top_srcdir)/libltdl -I.. $(all_includes)
+#METASOURCES = AUTO
+#noinst_HEADERS = testnsplugin.h
+#
+#check_PROGRAMS = testnsplugin
+#testnsplugin_SOURCES = testnsplugin.cpp
+#testnsplugin_LDFLAGS = $(all_libraries) $(KDE_RPATH)
+#testnsplugin_LDADD = $(LIB_KDEUI) ../libnsplugin.la
+#
+#$(srcdir)/testnsplugin.cpp: ../NSPluginClassIface_stub.h
+#
