@@ -237,8 +237,9 @@ void KonqCombo::applyPermanent()
         while ( count() >= maxCount() )
             removeItem( --index );
 
-        QString url (temporaryItem());
-        insertItem( KonqPixmapProvider::self()->pixmapFor( url ), url, 1, titleOfURL( url ) );
+        QString item = temporaryItem();
+        KUrl url = KUrl::fromPathOrURL( item );
+        insertItem( KonqPixmapProvider::self()->pixmapFor( item ), item, 1, titleOfURL( url ) );
         //kDebug(1202) << "KonqCombo::applyPermanent: " << url << endl;
 
         // Remove all duplicates starting from index = 2
@@ -335,13 +336,14 @@ void KonqCombo::loadItems()
     while ( it != items.end() ) {
         item = *it;
         if ( !item.isEmpty() ) { // only insert non-empty items
+            KUrl url = KUrl::fromPathOrURL( item );
 	    if( first ) {
                 insertItem( KonqPixmapProvider::self()->pixmapFor( item, KIcon::SizeSmall ),
-                            item, i++, titleOfURL( item ) );
+                            item, i++, titleOfURL( url ) );
 	    }
             else
                 // icons will be loaded on-demand
-                insertItem( item, i++, titleOfURL( item ) );
+                insertItem( item, i++, titleOfURL( url ) );
             first = false;
         }
         ++it;
