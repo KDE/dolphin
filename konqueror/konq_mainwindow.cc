@@ -2370,17 +2370,18 @@ KonqView * KonqMainWindow::childView( KParts::ReadOnlyPart *callingPart, const Q
 
     if ( ext )
     {
-      Q3PtrList<KParts::ReadOnlyPart> frames = ext->frames();
-      Q3PtrListIterator<KParts::ReadOnlyPart> frameIt( frames );
-      for ( ; frameIt.current() ; ++frameIt )
+      const QList<KParts::ReadOnlyPart*> frames = ext->frames();
+      QListIterator<KParts::ReadOnlyPart *> frameIt(frames);
+      while (frameIt.hasNext())
       {
-        if ( frameIt.current()->name() == name )
+        KParts::ReadOnlyPart *item = frameIt.next();
+        if ( item->name() == name )
         {
-          kDebug() << "found a frame of name " << name << " : " << frameIt.current() << endl;
+          kDebug() << "found a frame of name " << name << " : " << item << endl;
           if ( hostExtension )
             *hostExtension = ext;
           if ( part )
-            *part = frameIt.current();
+            *part = item;
           return view;
         }
       }

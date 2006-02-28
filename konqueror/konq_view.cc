@@ -1025,10 +1025,10 @@ QStringList KonqView::childFrameNames( KParts::ReadOnlyPart *part )
 
   res += hostExtension->frameNames();
 
-  const Q3PtrList<KParts::ReadOnlyPart> children = hostExtension->frames();
-  Q3PtrListIterator<KParts::ReadOnlyPart> it( children );
-  for (; it.current(); ++it )
-    res += childFrameNames( it.current() );
+  const QList<KParts::ReadOnlyPart*> children = hostExtension->frames();
+  QListIterator<KParts::ReadOnlyPart *> i(children);
+  while (i.hasNext())
+		res += childFrameNames( i.next() );
 
   return res;
 }
@@ -1043,14 +1043,15 @@ KParts::BrowserHostExtension* KonqView::hostExtension( KParts::ReadOnlyPart *par
   if ( ext->frameNames().contains( name ) )
     return ext;
 
-  const Q3PtrList<KParts::ReadOnlyPart> children = ext->frames();
-  Q3PtrListIterator<KParts::ReadOnlyPart> it( children );
-  for (; it.current(); ++it )
+  const QList<KParts::ReadOnlyPart*> children = ext->frames();
+  QListIterator<KParts::ReadOnlyPart *> i(children);
+  while (i.hasNext())
   {
-    KParts::BrowserHostExtension *childHost = hostExtension( it.current(), name );
+     KParts::BrowserHostExtension *childHost = hostExtension( i.next(), name);
     if ( childHost )
       return childHost;
   }
+  
 
   return 0;
 }
