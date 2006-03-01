@@ -10,7 +10,8 @@ include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${KDE4_INCLUDE_DIR} ${QT_INCLUD
 
 ########### next target ###############
 
-set(kfindpart_PART_SRCS kfindpart.cpp )
+set(libkfindcommon_SRCS kftabdlg.cpp kfind.cpp kquery.cpp kdatecombo.cpp)
+set(kfindpart_PART_SRCS kfindpart.cpp ${libkfindcommon_SRCS})
 
 kde4_automoc(${kfindpart_PART_SRCS})
 
@@ -18,20 +19,20 @@ kde4_add_plugin(kfindpart WITH_PREFIX ${kfindpart_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kfindpart )
 
-target_link_libraries(kfindpart  ${QT_AND_KDECORE_LIBS} kfind_common kparts konq kde3support )
+target_link_libraries(kfindpart  ${QT_AND_KDECORE_LIBS} kparts konq kde3support )
 
 install_targets(${LIB_INSTALL_DIR}/kde4 kfindpart )
 
 
 ########### next target ###############
 
-set(kfind_SRCS kfwin.cpp kfinddlg.cpp main.cpp )
+set(kfind_SRCS kfwin.cpp kfinddlg.cpp main.cpp ${libkfindcommon_SRCS})
 
 kde4_automoc(${kfind_SRCS})
 
 kde4_add_executable(kfind ${kfind_SRCS})
 
-target_link_libraries(kfind  ${QT_AND_KDECORE_LIBS} kfind_common kparts kde3support )
+target_link_libraries(kfind  ${QT_AND_KDECORE_LIBS} kparts kde3support )
 
 install_targets(/bin kfind )
 
