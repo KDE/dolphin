@@ -15,7 +15,7 @@ kde4_add_plugin(kshorturifilter WITH_PREFIX ${kshorturifilter_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kshorturifilter )
 
-target_link_libraries(kshorturifilter  ${QT_AND_KDECORE_LIBS} kdeui )
+target_link_libraries(kshorturifilter  ${QT_AND_KDECORE_LIBS} kdeui DCOP kio ${QT_QT3SUPPORT_LIBRARY})
 
 install_targets(${LIB_INSTALL_DIR}/kde4 kshorturifilter )
 
