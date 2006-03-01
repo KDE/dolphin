@@ -19,7 +19,7 @@ kde4_add_plugin(kcm_useraccount ${kcm_useraccount_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_useraccount )
 
-target_link_libraries(kcm_useraccount  ${QT_AND_KDECORE_LIBS} konq ${QT_QTGUI_LIBRARY} kdeui ${QT_QT3SUPPORT_LIBRARY} kio)
+target_link_libraries(kcm_useraccount  ${QT_AND_KDECORE_LIBS} konq ${QT_QTGUI_LIBRARY} kdeui ${QT_QT3SUPPORT_LIBRARY} kio kdesu)
 
 install_targets(${LIB_INSTALL_DIR}/kde4 kcm_useraccount )
 
