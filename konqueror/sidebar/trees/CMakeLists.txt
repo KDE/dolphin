@@ -5,15 +5,16 @@ add_subdirectory( dirtree_module )
 add_subdirectory( history_module ) 
 add_subdirectory( bookmark_module ) 
 
-include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/konqueror ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
+include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/konqueror ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  ${CMAKE_SOURCE_DIR}/konqueror/sidebar/ )
 
 
 ########### next target ###############
 
 
 ########### next target ###############
+set( libkonqsidebartree_SRCS konq_sidebartreeitem.cpp konq_sidebartreetoplevelitem.cpp )
 
-set(konqsidebar_tree_PART_SRCS konqsidebar_tree.cpp )
+set(konqsidebar_tree_PART_SRCS konqsidebar_tree.cpp ${libkonqsidebartree_SRCS})
 
 kde4_automoc(${konqsidebar_tree_PART_SRCS})
 
@@ -21,7 +22,7 @@ kde4_add_plugin(konqsidebar_tree ${konqsidebar_tree_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konqsidebar_tree )
 
-target_link_libraries(konqsidebar_tree  ${QT_AND_KDECORE_LIBS} konq konqsidebarplugin konq_sidebar_tree )
+target_link_libraries(konqsidebar_tree  ${QT_AND_KDECORE_LIBS} konq konqsidebarplugin )
 
 install_targets(${LIB_INSTALL_DIR}/kde4 konqsidebar_tree )
 

@@ -21,7 +21,10 @@ include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/workspace/k
 
 ########### next target ###############
 
-set(konqueror_KDEINIT_SRCS 
+set(libkonqueror_internal_SRCS "")
+kde4_add_kcfg_files(libkonqueror_internal_SRCS konq_settingsxt.kcfgc )
+
+set(konqueror_KDEINIT_SRCS ${libkonqueror_internal_SRCS} 
    konq_main.cc 
    KonquerorIface.cc 
    KonqMainWindowIface.cc 

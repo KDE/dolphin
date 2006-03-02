@@ -13,7 +13,7 @@ kde4_automoc(${kdepasswd_SRCS})
 
 kde4_add_executable(kdepasswd ${kdepasswd_SRCS})
 
-target_link_libraries(kdepasswd  ${QT_AND_KDECORE_LIBS} kio )
+target_link_libraries(kdepasswd  ${LIB_KIO} )
 
 install_targets(/bin kdepasswd )
 
