@@ -1,6 +1,6 @@
 kde4_header()
 
-include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
+include_directories(${CMAKE_SOURCE_DIR}/konqueror ${CMAKE_SOURCE_DIR}/workspace/kdesktop/ ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
 
 
 ########### next target ###############
@@ -9,11 +9,11 @@ set(kfmclient_KDEINIT_SRCS kfmclient.cc )
 
 kde4_automoc(${kfmclient_KDEINIT_SRCS})
 
-kde4_add_dcop_stubs(kfmclient_KDEINIT_SRCS KonquerorIface.h KDesktopIface.h )
+kde4_add_dcop_stubs(kfmclient_KDEINIT_SRCS ${CMAKE_SOURCE_DIR}/konqueror/KonquerorIface.h ${CMAKE_SOURCE_DIR}/workspace/kdesktop/KDesktopIface.h )
 
 kde4_add_kdeinit_executable( kfmclient ${kfmclient_KDEINIT_SRCS})
 
-target_link_libraries(kdeinit_kfmclient  ${QT_AND_KDECORE_LIBS} kio )
+target_link_libraries(kdeinit_kfmclient  ${LIB_KDE3SUPPORT} )
 
 install_targets(${LIB_INSTALL_DIR} kdeinit_kfmclient )
 
