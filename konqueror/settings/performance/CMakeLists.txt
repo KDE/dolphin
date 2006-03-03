@@ -15,7 +15,7 @@ kde4_add_plugin(kcm_performance ${kcm_performance_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_performance )
 
-target_link_libraries(kcm_performance  ${QT_AND_KDECORE_LIBS} kdeui )
+target_link_libraries(kcm_performance  ${LIB_KDE3SUPPORT} )
 
 install_targets(${LIB_INSTALL_DIR}/kde4 kcm_performance )
 

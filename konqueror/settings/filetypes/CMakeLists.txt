@@ -5,7 +5,9 @@ include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_D
 
 ########### next target ###############
 
-set(kcm_filetypes_PART_SRCS control.cpp )
+set(libfiletypes_SRCS filetypesview.cpp filetypedetails.cpp filegroupdetails.cpp kservicelistwidget.cpp typeslistitem.cpp newtypedlg.cpp kserviceselectdlg.cpp )
+
+set(kcm_filetypes_PART_SRCS control.cpp ${libfiletypes_SRCS})
 
 kde4_automoc(${kcm_filetypes_PART_SRCS})
 
@@ -13,20 +15,20 @@ kde4_add_plugin(kcm_filetypes ${kcm_filetypes_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_filetypes )
 
-target_link_libraries(kcm_filetypes  ${QT_AND_KDECORE_LIBS} )
+target_link_libraries(kcm_filetypes  ${LIB_KDE3SUPPORT} )
 
 install_targets(${LIB_INSTALL_DIR}/kde4 kcm_filetypes )
 
 
 ########### next target ###############
 
-set(keditfiletype_SRCS keditfiletype.cpp )
+set(keditfiletype_SRCS keditfiletype.cpp ${libfiletypes_SRCS})
 
 kde4_automoc(${keditfiletype_SRCS})
 
 kde4_add_executable(keditfiletype ${keditfiletype_SRCS})
 
-target_link_libraries(keditfiletype  ${QT_AND_KDECORE_LIBS} filetypes kio )
+target_link_libraries(keditfiletype  ${LIB_KIO} )
 
 install_targets(/bin keditfiletype )
 
