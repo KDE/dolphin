@@ -19,13 +19,13 @@ kde4_automoc(${kcm_konq_PART_SRCS})
 
 kde4_add_ui3_files(kcm_konq_PART_SRCS desktopbehavior.ui )
 
-kde4_add_dcop_stubs(kcm_konq_PART_SRCS uiserver.h )
+kde4_add_dcop_stubs(kcm_konq_PART_SRCS ${KDE4_INCLUDE_DIR}/kio/uiserver.h )
 
 kde4_add_plugin(kcm_konq ${kcm_konq_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_konq )
 
-target_link_libraries(kcm_konq  ${QT_AND_KDECORE_LIBS} kio kdeui kutils )
+target_link_libraries(kcm_konq  ${LIB_KDE3SUPPORT} kutils )
 
 install_targets(${LIB_INSTALL_DIR}/kde4 kcm_konq )
 
