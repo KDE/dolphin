@@ -29,7 +29,7 @@ install_targets(${LIB_INSTALL_DIR}/kde4 kcm_useraccount )
 install_files( ${XDG_APPS_DIR} FILES kcm_useraccount.desktop  )
 install_files( ${KCFG_INSTALL_DIR} FILES kcm_useraccount.kcfg kcm_useraccount_pass.kcfg )
 
-kde4_install_icons( hicolor crystalsvg )
+kde4_install_icons( ${ICON_INSTALL_DIR} crystalsvg )
 
 kde4_footer()
 

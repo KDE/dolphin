@@ -58,7 +58,7 @@ install_targets(/bin keditbookmarks )
 install_files( ${KCFG_INSTALL_DIR} FILES keditbookmarks.kcfg )
 install_files( ${DATA_INSTALL_DIR}/keditbookmarks FILES keditbookmarksui.rc  keditbookmarks-genui.rc )
 
-kde4_install_icons( hicolor crystalsvg )
+kde4_install_icons( ${ICON_INSTALL_DIR} crystalsvg )
 
 kde4_footer()
 

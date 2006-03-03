@@ -6,7 +6,7 @@ include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_D
 ########### install files ###############
 
 
-kde4_install_icons( hicolor crystalsvg )
+kde4_install_icons( ${ICON_INSTALL_DIR} crystalsvg )
 
 kde4_footer()
 
