@@ -11,11 +11,11 @@ kde4_automoc(${nspluginviewer_SRCS})
 
 kde4_add_dcop_skels(nspluginviewer_SRCS NSPluginClassIface.h )
 
-kde4_add_dcop_stubs(nspluginviewer_SRCS NSPluginCallbackIface.h )
+kde4_add_dcop_stubs(nspluginviewer_SRCS ${CMAKE_SOURCE_DIR}/nsplugins/NSPluginCallbackIface.h )
 
 kde4_add_executable(nspluginviewer ${nspluginviewer_SRCS})
 
-target_link_libraries(nspluginviewer  ${QT_AND_KDECORE_LIBS} kio kparts Xt )
+target_link_libraries(nspluginviewer  ${LIB_KPARTS} ${X11_Xt_LIB} )
 
 install_targets(/bin nspluginviewer )
 

@@ -50,7 +50,7 @@ kde4_automoc(${nspluginscan_SRCS})
 
 kde4_add_executable(nspluginscan ${nspluginscan_SRCS})
 
-target_link_libraries(nspluginscan  ${QT_AND_KDECORE_LIBS} kdeui ${X11_Xt_LIB} kio)
+target_link_libraries(nspluginscan  ${LIB_KIO} ${X11_Xt_LIB})
 
 install_targets(/bin nspluginscan )
 
