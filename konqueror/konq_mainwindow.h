@@ -710,15 +710,11 @@ private:
 
   QString m_title;
 
-  /**
-   * @since 3.4
-   */
   KCMultiDialog* m_configureDialog;
 
   /**
    * A list of the modules to be shown in
    * the configure dialog.
-   * @since 3.4
    */
   QStringList m_configureModules;
 

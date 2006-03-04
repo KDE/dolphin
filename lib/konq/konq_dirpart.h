@@ -149,7 +149,6 @@ public:
      * can be empty.
      *
      * @param lst the list of fileitems for which to display the counts
-     * @since 3.4
      */
     void emitCounts( const KFileItemList & lst );
 

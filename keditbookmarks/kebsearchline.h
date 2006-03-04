@@ -58,8 +58,6 @@ class KViewSearchLinePrivate;
  * 
  *
  * Note: You need to call updateSearch() if you called QListView::setModelColumn()
- *
- * @since 4.0
  */
 
 //FIXME delete KViewSearchLine if there is a replacement in kdelibs
@@ -271,8 +269,6 @@ private:
 /**
  * Creates a widget featuring a KViewSearchLine, a label with the text
  * "Search" and a button to clear the search.
- *
- * @since 3.4
  */
 class KDEUI_EXPORT KViewSearchLineWidget : public QWidget
 {

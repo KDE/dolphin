@@ -60,7 +60,6 @@ public:
 
     /**
      * Looks up an iconname for @p url. Uses a cache for the iconname of url.
-     * @since 3.4.1
      */
     QString iconNameFor( const KUrl& url );
 

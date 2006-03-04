@@ -110,8 +110,6 @@ public:
    * showmenubar, back, forward, up, cut, copy, paste, pasteto, trash, rename, del
    * The others items are automatically inserted.
    *
-   * @since 3.2
-   *
    * @todo that list is probably not be up-to-date
    */
   KonqPopupMenu( KBookmarkManager* manager,

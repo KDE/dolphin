@@ -151,7 +151,6 @@ public:
 public Q_SLOTS:
 	void openURLRequest( const KUrl &url, const KParts::URLArgs &args = KParts::URLArgs() );
 	/* @internal
-	 * @since 3.2
 	 * ### KDE4 remove me
 	 */
 	void submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&);
