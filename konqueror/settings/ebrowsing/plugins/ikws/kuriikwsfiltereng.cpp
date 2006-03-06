@@ -404,7 +404,7 @@ QString KURISearchFilterEngine::formatResult( const QString& url,
   {
     PIDDBG << "Got non-empty substitution map:\n";
     for(SubstMap::Iterator it = map.begin(); it != map.end(); ++it)
-      PDVAR ("    map['" + it.key() + "']", it.data());
+      PDVAR ("    map['" + it.key() + "']", it.value());
   }
 
   // Create a codec for the desired encoding so that we can transcode the user's "url".

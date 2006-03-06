@@ -821,12 +821,12 @@ void KonqSidebarTree::slotAnimation()
     MapCurrentOpeningFolders::Iterator end = m_mapCurrentOpeningFolders.end();
     for (; it != end; ++it )
     {
-        uint & iconNumber = it.data().iconNumber;
-        QString icon = QString::fromLatin1( it.data().iconBaseName ).append( QString::number( iconNumber ) );
+        uint & iconNumber = it.value().iconNumber;
+        QString icon = QString::fromLatin1( it.value().iconBaseName ).append( QString::number( iconNumber ) );
         it.key()->setPixmap( 0, SmallIcon( icon));
 
         iconNumber++;
-        if ( iconNumber > it.data().iconCount )
+        if ( iconNumber > it.value().iconCount )
             iconNumber = 1;
     }
 }
@@ -848,7 +848,7 @@ void KonqSidebarTree::stopAnimation( KonqSidebarTreeItem * item )
     MapCurrentOpeningFolders::Iterator it = m_mapCurrentOpeningFolders.find(item);
     if ( it != m_mapCurrentOpeningFolders.end() )
     {
-        item->setPixmap( 0, it.data().originalPixmap );
+        item->setPixmap( 0, it.value().originalPixmap );
         m_mapCurrentOpeningFolders.remove( item );
 
         if (m_mapCurrentOpeningFolders.isEmpty())

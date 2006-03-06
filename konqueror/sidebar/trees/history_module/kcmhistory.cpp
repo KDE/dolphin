@@ -171,8 +171,8 @@ void HistorySidebarConfig::save()
     m_settings->m_valueYoungerThan = dialog->spinNewer->value();
     m_settings->m_valueOlderThan   = dialog->spinOlder->value();
 
-    m_settings->m_metricYoungerThan = dialog->comboNewer->currentItem();
-    m_settings->m_metricOlderThan   = dialog->comboOlder->currentItem();
+    m_settings->m_metricYoungerThan = dialog->comboNewer->currentIndex();
+    m_settings->m_metricOlderThan   = dialog->comboOlder->currentIndex();
 
     m_settings->m_detailedTips = dialog->cbDetailedTips->isChecked();
 

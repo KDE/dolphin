@@ -88,7 +88,7 @@ KURIFilterModule::KURIFilterModule(QWidget *parent, const char *name, const QStr
         QMap<QString,KCModule*>::iterator it2;
         for (it2 = helper.begin(); it2 != helper.end(); ++it2)
         {
-            tab->addTab(it2.data(), it2.key());
+            tab->addTab(it2.value(), it2.key());
         }
 
         tab->showPage(modules.first());

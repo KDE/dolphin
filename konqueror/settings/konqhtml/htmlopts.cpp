@@ -301,7 +301,7 @@ void KMiscHTMLOptions::save()
     m_pConfig->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
     m_pConfig->writeEntry( "UnfinishedImageFrame", m_pUnfinishedImageFrameCheckBox->isChecked() );
     m_pConfig->writeEntry( "AutoDelayedActions", m_pAutoRedirectCheckBox->isChecked() );
-    switch(m_pUnderlineCombo->currentItem())
+    switch(m_pUnderlineCombo->currentIndex())
     {
       case UnderlineAlways:
         m_pConfig->writeEntry( "UnderlineLinks", true );
@@ -316,7 +316,7 @@ void KMiscHTMLOptions::save()
         m_pConfig->writeEntry( "HoverLinks", true );
         break;
     }
-    switch(m_pAnimationsCombo->currentItem())
+    switch(m_pAnimationsCombo->currentIndex())
     {
       case AnimationsAlways:
         m_pConfig->writeEntry( "ShowAnimations", "Enabled" );

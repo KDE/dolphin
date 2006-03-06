@@ -93,7 +93,7 @@ void SearchProviderDialog::slotOk()
     m_provider->setName(m_dlg->leName->text().trimmed());
     m_provider->setQuery(m_dlg->leQuery->text().trimmed());
     m_provider->setKeys(QStringList::split(",", m_dlg->leShortcut->text().trimmed()));
-    m_provider->setCharset(m_dlg->cbCharset->currentItem() ? m_dlg->cbCharset->currentText() : QString());
+    m_provider->setCharset(m_dlg->cbCharset->currentIndex() ? m_dlg->cbCharset->currentText() : QString());
     KDialog::accept();
 }
 

@@ -296,7 +296,7 @@ void KonqCombo::saveState()
 {
     m_cursorPos = cursorPosition();
     m_currentText = currentText();
-    m_currentIndex = currentItem();
+    m_currentIndex = currentIndex();
 }
 
 void KonqCombo::restoreState()
@@ -550,7 +550,7 @@ void KonqCombo::mousePressEvent( QMouseEvent *e )
 {
     m_dragStart = QPoint(); // null QPoint
 
-    if ( e->button() == Qt::LeftButton && !pixmap( currentItem()).isNull() ) {
+    if ( e->button() == Qt::LeftButton && !pixmap( currentIndex()).isNull() ) {
         // check if the pixmap was clicked
         int x = e->pos().x();
         QStyleOptionComboBox comboOpt;
@@ -824,7 +824,7 @@ void KonqComboLineEdit::setCompletedItems( const QStringList& items )
             setCompletionBox( new KonqComboCompletionBox( this, "completion box" ) );
 
         if ( completionbox->isVisible() ) {
-            bool wasSelected = completionbox->isSelected( completionbox->currentItem() );
+            bool wasSelected = completionbox->isSelected( completionbox->currentIndex() );
             const QString currentSelection = completionbox->currentText();
             completionbox->setItems( items );
             Q3ListBoxItem* item = completionbox->findItem( currentSelection, Qt::ExactMatch );

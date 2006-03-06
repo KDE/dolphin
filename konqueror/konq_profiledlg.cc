@@ -164,7 +164,7 @@ void KonqProfileDlg::slotUser3() // Save button
     KonqProfileMap::Iterator it = m_mapEntries.find( m_pListView->selectedItem()->text(0) );
     if ( it != m_mapEntries.end() )
     {
-      QFileInfo info( it.data() );
+      QFileInfo info( it.value() );
       name = info.baseName();
     }
   }
@@ -182,7 +182,7 @@ void KonqProfileDlg::slotUser2() // Delete button
         return;
   KonqProfileMap::Iterator it = m_mapEntries.find( m_pListView->selectedItem()->text(0) );
 
-  if ( it != m_mapEntries.end() && QFile::remove( it.data() ) )
+  if ( it != m_mapEntries.end() && QFile::remove( it.value() ) )
       loadAllProfiles();
 
   enableButton( BTN_RENAME, m_pListView->selectedItem() != 0 );

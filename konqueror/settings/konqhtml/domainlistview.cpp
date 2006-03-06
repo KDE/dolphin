@@ -94,7 +94,7 @@ DomainListView::~DomainListView() {
   // free all policies
   DomainPolicyMap::Iterator it = domainPolicies.begin();
   for (; it != domainPolicies.end(); ++it) {
-    delete it.data();
+    delete it.value();
   }/*next it*/
 }
 
@@ -167,7 +167,7 @@ void DomainListView::deletePressed()
 
     DomainPolicyMap::Iterator it = domainPolicies.find(index);
     if (it != domainPolicies.end()) {
-      delete it.data();
+      delete it.value();
       domainPolicies.remove(it);
       delete index;
       emit changed(true);
@@ -215,7 +215,7 @@ void DomainListView::save(const QString &group, const QString &domainListKey) {
     DomainPolicyMap::Iterator it = domainPolicies.begin();
     for (; it != domainPolicies.end(); ++it) {
     	Q3ListViewItem *current = it.key();
-	Policies *pol = it.data();
+	Policies *pol = it.value();
 	pol->save();
 	domainList.append(current->text(0));
     }

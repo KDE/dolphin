@@ -55,7 +55,7 @@ PolicyDialog::PolicyDialog( Policies *policies, QWidget *parent, const char *nam
 }
 
 PolicyDialog::FeatureEnabledPolicy PolicyDialog::featureEnabledPolicy() const {
-    return (FeatureEnabledPolicy)cb_feature_policy->currentItem();
+    return (FeatureEnabledPolicy)cb_feature_policy->currentIndex();
 }
 
 void PolicyDialog::slotTextChanged( const QString &text)
@@ -98,7 +98,7 @@ void PolicyDialog::addPolicyPanel(QWidget *panel) {
 }
 
 QString PolicyDialog::featureEnabledPolicyText() const {
-  int pol = cb_feature_policy->currentItem();
+  int pol = cb_feature_policy->currentIndex();
   if (pol >= 0 && pol < 3) // Keep in sync with FeatureEnabledPolicy
     return policy_values[pol];
   else
@@ -114,7 +114,7 @@ void PolicyDialog::accept()
     }
 
     FeatureEnabledPolicy pol = (FeatureEnabledPolicy)
-    		cb_feature_policy->currentItem();
+    		cb_feature_policy->currentIndex();
     if (pol == InheritGlobal) {
       policies->inheritFeatureEnabledPolicy();
     } else if (pol == Reject) {

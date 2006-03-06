@@ -891,9 +891,9 @@ void KonqViewManager::viewCountChanged()
   KonqMainWindow::MapViews::Iterator end = mapViews.end();
   for (  ; it != end ; ++it )
   {
-    KonqFrameStatusBar* sb = it.data()->frame()->statusbar();
-    sb->showActiveViewIndicator( bShowActiveViewIndicator && !it.data()->isPassiveMode() );
-    sb->showLinkedViewIndicator( bShowLinkedViewIndicator && !it.data()->isFollowActive() );
+    KonqFrameStatusBar* sb = it.value()->frame()->statusbar();
+    sb->showActiveViewIndicator( bShowActiveViewIndicator && !it.value()->isPassiveMode() );
+    sb->showLinkedViewIndicator( bShowLinkedViewIndicator && !it.value()->isFollowActive() );
   }
 }
 
@@ -932,7 +932,7 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
   KonqMainWindow::MapViews::Iterator it = mapViews.begin();
   KonqMainWindow::MapViews::Iterator end = mapViews.end();
   if ( view ) // find it in the map - can't use the key since view->part() might be 0L
-      while ( it != end && it.data() != view )
+      while ( it != end && it.value() != view )
           ++it;
 
   // the view should always be in the list
@@ -956,7 +956,7 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
     if ( it == startIt && view )
       break; // no next view found
 
-    KonqView *nextView = it.data();
+    KonqView *nextView = it.value();
     if ( nextView && !nextView->isPassiveMode() )
       return nextView;
     //kDebug(1202) << "KonqViewManager::chooseNextView nextView=" << nextView << " passive=" << nextView->isPassiveMode() << endl;

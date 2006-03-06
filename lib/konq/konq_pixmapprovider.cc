@@ -60,7 +60,7 @@ QString KonqPixmapProvider::iconNameFor( const KUrl& url )
     QMap<KUrl,QString>::iterator it = iconMap.find( url );
     QString icon;
     if ( it != iconMap.end() ) {
-        icon = it.data();
+        icon = it.value();
         if ( !icon.isEmpty() )
 	    return icon;
     }

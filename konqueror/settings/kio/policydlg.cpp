@@ -92,7 +92,7 @@ void PolicyDlg::setPolicy (int policy)
 
 int PolicyDlg::advice () const
 {
-  return m_dlgUI->cbPolicy->currentItem() + 1;
+  return m_dlgUI->cbPolicy->currentIndex() + 1;
 }
 
 QString PolicyDlg::domain () const

@@ -377,9 +377,9 @@ void DesktopBehavior::save()
         KIPC::sendMessageAll(KIPC::ToolbarStyleChanged);
     }
     g_pConfig->setGroup( "Mouse Buttons" );
-    g_pConfig->writeEntry("Left", s_choices[ leftComboBox->currentItem() ] );
-    g_pConfig->writeEntry("Middle", s_choices[ middleComboBox->currentItem() ]);
-    g_pConfig->writeEntry("Right", s_choices[ rightComboBox->currentItem() ]);
+    g_pConfig->writeEntry("Left", s_choices[ leftComboBox->currentIndex() ] );
+    g_pConfig->writeEntry("Middle", s_choices[ middleComboBox->currentIndex() ]);
+    g_pConfig->writeEntry("Right", s_choices[ rightComboBox->currentIndex() ]);
 
     g_pConfig->setGroup( "General" );
     g_pConfig->writeEntry( "SetVRoot", vrootBox->isChecked() );
@@ -428,11 +428,11 @@ void DesktopBehavior::comboBoxChanged()
   // 4 - CustomMenu1
   // 5 - CustomMenu2
   int i;
-  i = leftComboBox->currentItem();
+  i = leftComboBox->currentIndex();
   leftEditButton->setEnabled((i == 4) || (i == 5));
-  i = middleComboBox->currentItem();
+  i = middleComboBox->currentIndex();
   middleEditButton->setEnabled((i == 4) || (i == 5));
-  i = rightComboBox->currentItem();
+  i = rightComboBox->currentIndex();
   rightEditButton->setEnabled((i == 4) || (i == 5));
 }
 
@@ -440,11 +440,11 @@ void DesktopBehavior::editButtonPressed()
 {
    int i = 0;
    if (sender() == leftEditButton)
-      i = leftComboBox->currentItem();
+      i = leftComboBox->currentIndex();
    if (sender() == middleEditButton)
-      i = middleComboBox->currentItem();
+      i = middleComboBox->currentIndex();
    if (sender() == rightEditButton)
-      i = rightComboBox->currentItem();
+      i = rightComboBox->currentIndex();
 
    QString cfgFile;
    if (i == 4) // CustomMenu1

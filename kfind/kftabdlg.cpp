@@ -599,7 +599,7 @@ void KfindTabWidget::setQuery(KQuery *query)
 
   query->setRecursive(subdirsCb->isChecked());
 
-  switch (sizeUnitBox->currentItem())
+  switch (sizeUnitBox->currentIndex())
   {
      case 0:
          size = 1; //one byte
@@ -624,7 +624,7 @@ void KfindTabWidget::setQuery(KQuery *query)
      else
         return;
 
-  switch (sizeBox->currentItem())
+  switch (sizeBox->currentIndex())
   {
     case 1:
       query->setSizeRange(size, -1);
@@ -661,7 +661,7 @@ void KfindTabWidget::setQuery(KQuery *query)
        time_t cur = time(NULL);
        time_t minutes = cur;
 
-       switch (betweenType->currentItem())
+       switch (betweenType->currentIndex())
        {
           case 0: // minutes
                  minutes = timeBox->value();
@@ -689,9 +689,9 @@ void KfindTabWidget::setQuery(KQuery *query)
   query->setUsername( m_usernameBox->currentText() );
   query->setGroupname( m_groupBox->currentText() );
 
-  query->setFileType(typeBox->currentItem());
+  query->setFileType(typeBox->currentIndex());
 
-  int id = typeBox->currentItem()-10;
+  int id = typeBox->currentIndex()-10;
 
   if ((id >= -3) && (id < (int) m_types.count()))
   {
@@ -736,7 +736,7 @@ QDate &KfindTabWidget::string2Date(const QString & str, QDate *qd) {
 void KfindTabWidget::getDirectory()
 {
   QString result =
-  KFileDialog::getExistingDirectory( dirBox->text(dirBox->currentItem()).trimmed(),
+  KFileDialog::getExistingDirectory( dirBox->text(dirBox->currentIndex()).trimmed(),
                                      this );
 
   if (!result.isEmpty())
@@ -793,8 +793,8 @@ void KfindTabWidget::fixLayout()
   }
 
   // Size box on page three
-  sizeEdit->setEnabled(sizeBox->currentItem() != 0);
-  sizeUnitBox->setEnabled(sizeBox->currentItem() != 0);
+  sizeEdit->setEnabled(sizeBox->currentIndex() != 0);
+  sizeUnitBox->setEnabled(sizeBox->currentIndex() != 0);
 }
 
 bool KfindTabWidget::isSearchRecursive()

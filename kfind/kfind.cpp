@@ -169,7 +169,7 @@ void Kfind::saveState( QDataStream *stream )
   query->kill();
   *stream << tabWidget->nameBox->currentText();
   *stream << tabWidget->dirBox->currentText();
-  *stream << tabWidget->typeBox->currentItem();
+  *stream << tabWidget->typeBox->currentIndex();
   *stream << tabWidget->textEdit->text();
   *stream << (int)( tabWidget->subdirsCb->isChecked() ? 0 : 1 );
 }
