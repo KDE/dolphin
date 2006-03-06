@@ -119,7 +119,7 @@ void CSSConfig::load()
   for (int i=0; i < customDialog->fontFamily->count(); ++i)
     if (customDialog->fontFamily->itemText(i) == fname)
       {
-	customDialog->fontFamily->setCurrentItem(i);
+	customDialog->fontFamily->setCurrentIndex(i);
 	break;
       }
 
@@ -228,7 +228,7 @@ void CSSConfig::defaults()
   for (int i=0; i < customDialog->fontFamily->count(); ++i)
     if (customDialog->fontFamily->itemText(i) == fname)
       {
-	customDialog->fontFamily->setCurrentItem(i);
+	customDialog->fontFamily->setCurrentIndex(i);
 	break;
       }
 

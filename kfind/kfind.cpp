@@ -186,7 +186,7 @@ void Kfind::restoreState( QDataStream *stream )
   *stream >> subdirs;
   tabWidget->nameBox->insertItem( namesearched, 0);
   tabWidget->dirBox->insertItem ( dirsearched, 0);
-  tabWidget->typeBox->setCurrentItem(typeIdx);
+  tabWidget->typeBox->setCurrentIndex(typeIdx);
   tabWidget->textEdit->setText ( containing );
   tabWidget->subdirsCb->setChecked( ( subdirs==0 ? true : false ));
 }

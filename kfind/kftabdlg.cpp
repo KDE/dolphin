@@ -149,7 +149,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     betweenType->insertItem(i18n("day(s)"));
     betweenType->insertItem(i18n("month(s)"));
     betweenType->insertItem(i18n("year(s)"));
-    betweenType->setCurrentItem(1);
+    betweenType->setCurrentIndex(1);
 
 
     QDate dt = KGlobal::locale()->calendar()->addYears(QDate::currentDate(), -1);
@@ -185,7 +185,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     sizeUnitBox ->insertItem( i18n("Bytes") );
     sizeUnitBox ->insertItem( i18n("KB") );
     sizeUnitBox ->insertItem( i18n("MB") );
-    sizeUnitBox ->setCurrentItem(1);
+    sizeUnitBox ->setCurrentIndex(1);
 
     int tmp = sizeEdit->fontMetrics().width(" 000000000 ");
     sizeEdit->setMinimumSize(tmp, sizeEdit->sizeHint().height());
@@ -398,7 +398,7 @@ void KfindTabWidget::setURL( const KUrl & url )
     if(indx == -1)
       dirBox->insertItem(m_url.url(), 0); // make it the first one
     else
-      dirBox->setCurrentItem(indx);
+      dirBox->setCurrentIndex(indx);
   }
   else {
     QDir m_dir("/lib");
@@ -474,7 +474,7 @@ void KfindTabWidget::loadHistory()
     if(indx == -1)
       dirBox->insertItem(m_url.url(), 0); // make it the first one
     else
-      dirBox->setCurrentItem(indx);
+      dirBox->setCurrentIndex(indx);
   }
   else {
     QDir m_dir("/lib");
@@ -526,11 +526,11 @@ void KfindTabWidget::setDefaults()
     toDate ->setDate(QDate::currentDate());
 
     timeBox->setValue(1);
-    betweenType->setCurrentItem(1);
+    betweenType->setCurrentIndex(1);
 
-    typeBox ->setCurrentItem(0);
-    sizeBox ->setCurrentItem(0);
-    sizeUnitBox ->setCurrentItem(1);
+    typeBox ->setCurrentIndex(0);
+    sizeBox ->setCurrentIndex(0);
+    sizeUnitBox ->setCurrentIndex(1);
     sizeEdit->setValue(1);
 }
 
@@ -618,7 +618,7 @@ void KfindTabWidget::setQuery(KQuery *query)
            == KMessageBox::Yes)
 		{
          sizeEdit->setValue(INT_MAX);
-	   	sizeUnitBox->setCurrentItem(0);
+	   	sizeUnitBox->setCurrentIndex(0);
 		   size = INT_MAX;
 		}
      else
@@ -743,11 +743,11 @@ void KfindTabWidget::getDirectory()
   {
     for (int i = 0; i < dirBox->count(); i++)
       if (result == dirBox->text(i)) {
-	dirBox->setCurrentItem(i);
+	dirBox->setCurrentIndex(i);
 	return;
       }
     dirBox->insertItem(result, 0);
-    dirBox->setCurrentItem(0);
+    dirBox->setCurrentIndex(0);
   }
 }
 

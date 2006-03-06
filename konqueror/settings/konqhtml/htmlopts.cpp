@@ -251,21 +251,21 @@ void KMiscHTMLOptions::load()
     // has precedence over the UnderlineLinks setting
     if (hoverLinks)
     {
-        m_pUnderlineCombo->setCurrentItem( UnderlineHover );
+        m_pUnderlineCombo->setCurrentIndex( UnderlineHover );
     }
     else
     {
         if (underlineLinks)
-            m_pUnderlineCombo->setCurrentItem( UnderlineAlways );
+            m_pUnderlineCombo->setCurrentIndex( UnderlineAlways );
         else
-            m_pUnderlineCombo->setCurrentItem( UnderlineNever );
+            m_pUnderlineCombo->setCurrentIndex( UnderlineNever );
     }
     if (strAnimations == "disabled")
-       m_pAnimationsCombo->setCurrentItem( AnimationsNever );
+       m_pAnimationsCombo->setCurrentIndex( AnimationsNever );
     else if (strAnimations == "looponce")
-       m_pAnimationsCombo->setCurrentItem( AnimationsLoopOnce );
+       m_pAnimationsCombo->setCurrentIndex( AnimationsLoopOnce );
     else
-       m_pAnimationsCombo->setCurrentItem( AnimationsAlways );
+       m_pAnimationsCombo->setCurrentIndex( AnimationsAlways );
 
     m_pFormCompletionCheckBox->setChecked( m_pConfig->readEntry( "FormCompletion", true ) );
     m_pMaxFormCompletionItems->setValue( m_pConfig->readEntry( "MaxFormCompletionItems", 10 ) );

@@ -314,15 +314,15 @@ void DesktopBehavior::load()
     s = g_pConfig->readEntry( "Left", "" );
     for ( int c = 0 ; c < choiceCount ; c ++ )
     if (s == s_choices[c])
-      { leftComboBox->setCurrentItem( c ); break; }
+      { leftComboBox->setCurrentIndex( c ); break; }
     s = g_pConfig->readEntry( "Middle", "WindowListMenu" );
     for ( int c = 0 ; c < choiceCount ; c ++ )
       if (s == s_choices[c])
-      { middleComboBox->setCurrentItem( c ); break; }
+      { middleComboBox->setCurrentIndex( c ); break; }
     s = g_pConfig->readEntry( "Right", "DesktopMenu" );
     for ( int c = 0 ; c < choiceCount ; c ++ )
       if (s == s_choices[c])
-      { rightComboBox->setCurrentItem( c ); break; }
+      { rightComboBox->setCurrentIndex( c ); break; }
 
     comboBoxChanged();
     if (m_bHasMedia)
@@ -338,9 +338,9 @@ void DesktopBehavior::defaults()
     desktopMenuGroup->setButton( 0 );
     vrootBox->setChecked( false );
     autoLineupIconsBox->setChecked( true );
-    leftComboBox->setCurrentItem( NOTHING );
-    middleComboBox->setCurrentItem( WINDOWLISTMENU );
-    rightComboBox->setCurrentItem( DESKTOPMENU );
+    leftComboBox->setCurrentIndex( NOTHING );
+    middleComboBox->setCurrentIndex( WINDOWLISTMENU );
+    rightComboBox->setCurrentIndex( DESKTOPMENU );
     iconsEnabledBox->setChecked(true);
     autoLineupIconsBox->setChecked(false);
     toolTipBox->setChecked(true);

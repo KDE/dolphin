@@ -124,8 +124,8 @@ void HistorySidebarConfig::load()
     dialog->spinNewer->setValue( m_settings->m_valueYoungerThan );
     dialog->spinOlder->setValue( m_settings->m_valueOlderThan );
 
-    dialog->comboNewer->setCurrentItem( m_settings->m_metricYoungerThan );
-    dialog->comboOlder->setCurrentItem( m_settings->m_metricOlderThan );
+    dialog->comboNewer->setCurrentIndex( m_settings->m_metricYoungerThan );
+    dialog->comboOlder->setCurrentIndex( m_settings->m_metricOlderThan );
 
     dialog->cbDetailedTips->setChecked( m_settings->m_detailedTips );
 
@@ -193,8 +193,8 @@ void HistorySidebarConfig::defaults()
     dialog->spinNewer->setValue( 1 );
     dialog->spinOlder->setValue( 2 );
 
-    dialog->comboNewer->setCurrentItem( KonqSidebarHistorySettings::DAYS );
-    dialog->comboOlder->setCurrentItem( KonqSidebarHistorySettings::DAYS );
+    dialog->comboNewer->setCurrentIndex( KonqSidebarHistorySettings::DAYS );
+    dialog->comboOlder->setCurrentIndex( KonqSidebarHistorySettings::DAYS );
 
     dialog->cbDetailedTips->setChecked( true );
 

@@ -82,7 +82,7 @@ void PolicyDialog::refresh() {
       pol = Accept;
     else
       pol = Reject;
-    cb_feature_policy->setCurrentItem(pol);
+    cb_feature_policy->setCurrentIndex(pol);
 }
 
 void PolicyDialog::setFeatureEnabledLabel(const QString &text) {

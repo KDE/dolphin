@@ -374,9 +374,9 @@ void KAppearanceOptions::updateGUI()
     int i = 0;
     for ( QStringList::Iterator it = encodings.begin(); it != encodings.end(); ++it, ++i )
         if ( encodingName == *it )
-            m_pEncoding->setCurrentItem( i );
+            m_pEncoding->setCurrentIndex( i );
     if(encodingName.isEmpty())
-        m_pEncoding->setCurrentItem( 0 );
+        m_pEncoding->setCurrentIndex( 0 );
     m_pFontSizeAdjust->setValue( fonts[6].toInt() );
     m_MedSize->blockSignals(true);
     m_MedSize->setValue( fSize );
