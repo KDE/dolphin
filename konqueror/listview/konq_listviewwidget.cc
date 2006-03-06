@@ -566,8 +566,8 @@ void KonqBaseListViewWidget::slotAutoScroll()
    if ( vc == m_rubber->bottomRight() )
       return;
 
-   const int oldTop = m_rubber->normalize().top();
-   const int oldBottom = m_rubber->normalize().bottom();
+   const int oldTop = m_rubber->normalized().top();
+   const int oldBottom = m_rubber->normalized().bottom();
 
    drawRubber();
    m_rubber->setBottomRight( vc );
@@ -577,7 +577,7 @@ void KonqBaseListViewWidget::slotAutoScroll()
    bool block = signalsBlocked();
    blockSignals( true );
 
-   QRect nr = m_rubber->normalize();
+   QRect nr = m_rubber->normalized();
    if ( cur )
    {
       QRect rect = itemRect( cur );
