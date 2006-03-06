@@ -309,7 +309,7 @@ void KonqFrameTabs::removeChildFrame( KonqFrameBase * frame )
   //kDebug(1202) << "KonqFrameTabs::RemoveChildFrame " << this << ". Child " << frame << " removed" << endl;
   if (frame) {
     removePage(frame->widget());
-    m_pChildFrameList->remove(frame);
+    m_pChildFrameList->removeAll(frame);
     if (m_rightWidget)
       m_rightWidget->setEnabled( m_pChildFrameList->count()>1 );
     if (count() == 1)
@@ -349,7 +349,7 @@ void KonqFrameTabs::moveTabForward( int index )
 void KonqFrameTabs::slotMovedTab( int from, int to )
 {
   KonqFrameBase* fromFrame = m_pChildFrameList->at( from );
-  m_pChildFrameList->remove( fromFrame );
+  m_pChildFrameList->removeAll( fromFrame );
   m_pChildFrameList->insert( to, fromFrame );
 
   KonqFrameBase* currentFrame = dynamic_cast<KonqFrameBase*>( currentWidget() );

@@ -182,7 +182,7 @@ void FileTypeDetails::removeExtension()
   if ( !m_item )
     return;
   QStringList patt = m_item->patterns();
-  patt.remove(extensionLB->text(extensionLB->currentItem()));
+  patt.removeAll(extensionLB->text(extensionLB->currentItem()));
   m_item->setPatterns(patt);
   extensionLB->removeItem(extensionLB->currentItem());
   updateRemoveButton();

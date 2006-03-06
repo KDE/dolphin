@@ -98,7 +98,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_bShowDirectoryOverlays = cgs.readEntry( "ShowDirectoryOverlays", QVariant(false )).toBool();
 
   m_dontPreview = cgs.readEntry( "DontPreview" , QStringList() );
-  m_dontPreview.remove("audio/"); //Use the separate setting.
+  m_dontPreview.removeAll("audio/"); //Use the separate setting.
   //We default to this off anyway, so it's no harm to remove this
 
   //The setting for sound previews is stored separately, so we can force
@@ -400,7 +400,7 @@ void KonqPropsView::setShowingPreview( const QString &preview, bool show )
     if ( m_dontPreview.contains( preview ) != show )
         return;
     else if ( show )
-        m_dontPreview.remove( preview );
+        m_dontPreview.removeAll( preview );
     else
         m_dontPreview.append( preview );
     if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
@@ -415,7 +415,7 @@ void KonqPropsView::setShowingPreview( const QString &preview, bool show )
 
         //Don't write it out into the DontPreview line
         if (!audioEnabled)
-            m_dontPreview.remove("audio/");
+            m_dontPreview.removeAll("audio/");
         cgs.writeEntry( "DontPreview", m_dontPreview );
         cgs.writeEntry( "EnableSoundPreviews", audioEnabled );
         cgs.sync();

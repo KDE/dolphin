@@ -171,7 +171,7 @@ void UserAgentDlg::save()
     QString userAgent = it->text(2);
     m_config->setGroup(domain);
     m_config->writeEntry("UserAgent", userAgent);
-    deleteList.remove(domain);
+    deleteList.removeAll(domain);
 
     it = it->nextSibling();
   }

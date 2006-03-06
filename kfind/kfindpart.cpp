@@ -128,7 +128,7 @@ void KFindPart::removeFile(KFileItem *item)
   emit started();
   emit clear();
 
-  m_lstFileItems.remove( item );  //not working ?
+  m_lstFileItems.removeAll( item );  //not working ?
 
   foreach(iter, m_lstFileItems) {
     if(iter->url()!=item->url())

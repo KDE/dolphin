@@ -1642,7 +1642,7 @@ void KonqIconViewWidget::lineupIcons()
                         if ( (*it)->y() < movedItem->y() )
                             movedItem = *it;
                     }
-                    items->remove( movedItem );
+                    items->removeAll( movedItem );
                     if ( !bins[i][j-1] )
                         bins[i][j-1] = new Bin;
                     bins[i][j-1]->prepend( movedItem );
@@ -1655,7 +1655,7 @@ void KonqIconViewWidget::lineupIcons()
                         if ( (*it)->y() > movedItem->y() )
                             movedItem = *it;
                     }
-                    items->remove( movedItem );
+                    items->removeAll( movedItem );
                     if ( !bins[i][j+1] )
                         bins[i][j+1] = new Bin;
                     bins[i][j+1]->prepend( movedItem );
@@ -1669,7 +1669,7 @@ void KonqIconViewWidget::lineupIcons()
                         if ( (*it)->x() < movedItem->x() )
                             movedItem = *it;
                     }
-                    items->remove( movedItem );
+                    items->removeAll( movedItem );
                     if ( !bins[i-1][j] )
                         bins[i-1][j] = new Bin;
                     bins[i-1][j]->prepend( movedItem );
@@ -1682,7 +1682,7 @@ void KonqIconViewWidget::lineupIcons()
                         if ( (*it)->x() > movedItem->x() )
                             movedItem = *it;
                     }
-                    items->remove( movedItem );
+                    items->removeAll( movedItem );
                     if ( !bins[i+1][j] )
                         bins[i+1][j] = new Bin;
                     bins[i+1][j]->prepend( movedItem );
@@ -1734,7 +1734,7 @@ void KonqIconViewWidget::lineupIcons()
         // Repaint icons that were moved
         while ( !movedItems.isEmpty() ) {
             repaintItem( movedItems.first() );
-            movedItems.remove( movedItems.first() );
+            movedItems.removeAll( movedItems.first() );
         }
     }
 
@@ -1793,7 +1793,7 @@ void KonqIconViewWidget::lineupIcons( Q3IconView::Arrangement arrangement )
     // Repaint icons that were moved
     while ( !movedItems.isEmpty() ) {
         repaintItem( movedItems.first() );
-        movedItems.remove( movedItems.first() );
+        movedItems.removeAll( movedItems.first() );
     }
 }
 
