@@ -45,6 +45,17 @@ install_files( ${SERVICES_INSTALL_DIR} FILES kfindpart.desktop )
 
 kde4_install_icons( ${ICON_INSTALL_DIR} crystalsvg )
 
+-./share/apps/kfindpart/icons/locolor/22x22/actions/archive.png
+-./share/apps/kfindpart/icons/locolor/22x22/actions/delete.png
+-./share/apps/kfindpart/icons/locolor/22x22/actions/idea.png
+-./share/apps/kfindpart/icons/locolor/22x22/actions/info.png
+-./share/apps/kfindpart/icons/locolor/22x22/actions/openfile.png
+-./share/apps/kfindpart/icons/locolor/22x22/actions/save.png
+-./share/apps/kfindpart/icons/locolor/22x22/actions/search.png
+
+
+install_files( ${DATA_INSTALL_DIR}/kdeprint FILES tileup.png tiledown.png side.png )
+
 kde4_footer()
 
 

@@ -984,9 +984,9 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
         switch ( m_eSortCriterion )
         {
             case NameCaseSensitive: key = item->text(); break;
-            case NameCaseInsensitive: key = item->text().lower(); break;
+            case NameCaseInsensitive: key = item->text().toLower(); break;
             case Size: key = makeSizeKey( item ); break;
-            case Type: key = item->item()->mimetype()+ "\008" +item->text().lower(); break; // ### slows down listing :-(
+            case Type: key = item->item()->mimetype()+ "\008" +item->text().toLower(); break; // ### slows down listing :-(
             case Date:
             {
                 QDateTime dayt;
@@ -1380,7 +1380,7 @@ void KonqKfmIconView::setupSortKeys()
     case NameCaseInsensitive:
         m_pIconView->setCaseInsensitiveSort( true );
         for ( Q3IconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
-            it->setKey( it->text().lower() );
+            it->setKey( it->text().toLower() );
         break;
     case Size:
         for ( Q3IconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
@@ -1389,7 +1389,7 @@ void KonqKfmIconView::setupSortKeys()
     case Type:
         // Sort by Type + Name (#17014)
         for ( Q3IconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
-            it->setKey( static_cast<KFileIVI *>( it )->item()->mimetype() + "\008" + it->text().lower() );
+            it->setKey( static_cast<KFileIVI *>( it )->item()->mimetype() + "\008" + it->text().toLower() );
         break;
     case Date:
     {

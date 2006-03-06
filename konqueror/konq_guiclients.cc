@@ -202,7 +202,7 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
     m_actions.insert( name, action );
 
     QVariant orientation = (*cIt)->property( "X-KDE-BrowserView-ToggableView-Orientation" );
-    bool horizontal = orientation.toString().lower() == "horizontal";
+    bool horizontal = orientation.toString().toLower() == "horizontal";
     m_mapOrientation.insert( name, horizontal );
   }
 
@@ -320,7 +320,7 @@ void ToggleViewGUIClient::slotViewAdded( KonqView *view )
 
 #if 0
     QVariant vert = view->service()->property( "X-KDE-BrowserView-ToggableView-Orientation");
-    bool vertical = vert.toString().lower() == "vertical";
+    bool vertical = vert.toString().toLower() == "vertical";
     QVariant nohead = view->service()->property( "X-KDE-BrowserView-ToggableView-NoHeader");
     bool noheader = nohead.isValid() ? nohead.toBool() : false;
     // if it is a vertical toggle part, turn on the header.

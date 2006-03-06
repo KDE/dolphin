@@ -196,7 +196,7 @@ int KonqInfoListViewItem::compare( Q3ListViewItem *item, int col, bool ascending
     if ( text2.isEmpty() )
         return ascending ? -1 : 1;
 
-    return text1.lower().localeAwareCompare(text2.lower());
+    return text1.toLower().localeAwareCompare(text2.toLower());
 }
 
 void KonqInfoListViewItem::setDisabled( bool disabled )

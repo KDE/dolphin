@@ -272,7 +272,7 @@ int KonqBaseListViewItem::compare( Q3ListViewItem* item, int col, bool ascending
       }
    }
    if ( m_pListViewWidget->caseInsensitiveSort() )
-       return text( col ).lower().localeAwareCompare( k->text( col ).lower() );
+       return text( col ).toLower().localeAwareCompare( k->text( col ).toLower() );
    else {
        return m_pListViewWidget->m_pSettings->caseSensitiveCompare( text( col ), k->text( col ) );
    }
