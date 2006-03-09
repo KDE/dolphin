@@ -863,7 +863,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     QByteArray nam;
                     nam.setNum( id );
 
-                    QString actionName( (*it)->name() );
+                    QString actionName( (*it)->name().replace( "&", "&&" ) );
                     if ( menu == domElement() ) // no submenu -> prefix single offer
                         actionName = i18n( "Open with %1" ).arg( actionName );
 
