@@ -55,7 +55,6 @@
 #include <kio/paste.h>
 #include <kio/netaccess.h>
 #include <kio/renamedlg.h>
-#include <konq_drag.h>
 #include <konq_iconviewwidget.h>
 #include <kprotocolinfo.h>
 #include <kprocess.h>

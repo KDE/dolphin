@@ -31,7 +31,6 @@
 #include <kdirlister.h>
 #include <kinputdialog.h>
 #include <klocale.h>
-#include <konq_drag.h>
 #include <kpropertiesdialog.h>
 #include <kstdaction.h>
 #include <kprotocolinfo.h>

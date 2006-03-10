@@ -22,7 +22,6 @@
 #include "konq_listviewsettings.h"
 #include "konq_listviewwidget.h"
 #include <konq_filetip.h>
-#include <konq_drag.h>
 #include <konq_settings.h>
 
 #include <kdebug.h>

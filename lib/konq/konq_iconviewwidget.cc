@@ -940,8 +940,7 @@ void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r , const QPo
 
 Q3DragObject * KonqIconViewWidget::dragObject()
 {
-#warning port konqiconviewwidget to a non Q3 class to make that work
-#if 0
+#warning make this nicer once now Q3 view is used
     if ( !currentItem() )
         return 0;
 
@@ -951,15 +950,13 @@ Q3DragObject * KonqIconViewWidget::dragObject()
     drag->setMimeData(data);
     if (data->hasFormat("application/x-kde-primaryIcon")) {
        QPixmap pixmap;
-       if (pixmap.loadFromData(data->data("application/x-kde-primaryIcon","PNG")))
+       if (pixmap.loadFromData(data->data("application/x-kde-primaryIcon"),"PNG"))
            drag->setPixmap(pixmap);
        QPoint hotspot(QString(data->data("application/x-kde-dragX")).toInt(),QString(data->data("application/x-kde-dragY")).toInt());
        drag->setHotSpot	(hotspot);
     }
-    return drag;
-#else 
+    drag->start();
 return 0;
-#endif
 }
 
 QMimeData * KonqIconViewWidget::konqMimeData(bool moveSelection)
