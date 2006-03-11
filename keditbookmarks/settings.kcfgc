@@ -1,4 +1,4 @@
-File=keditbookmarks.kcfg 
+File=keditbookmarks.kcfg
 ClassName=KEBSettings
 Singleton=true 
 Mutators=true
