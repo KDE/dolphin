@@ -344,13 +344,13 @@ void KFileIVI::dropped( QDropEvent *e, const QList<Q3IconDragItem> & )
 void KFileIVI::returnPressed()
 {
     if ( static_cast<KonqIconViewWidget*>(iconView())->isDesktop() ) {
-        KURL url = m_fileitem->url();
+        KUrl url = m_fileitem->url();
         // When clicking on a link to e.g. $HOME from the desktop, we want to open $HOME
         // Symlink resolution must only happen on the desktop though (#63014)
         if ( m_fileitem->isLink() && url.isLocalFile() )
-            url = KURL( url, m_fileitem->linkDest() );
+            url = KUrl( url, m_fileitem->linkDest() );
 
-        (void) new KRun( url, m_fileitem->mode(), m_fileitem->isLocalFile() );
+        (void) new KRun( url, 0L ,m_fileitem->mode(), m_fileitem->isLocalFile() );
     } else {
         m_fileitem->run();
     }
