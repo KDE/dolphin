@@ -1,4 +1,4 @@
-File=konq_listview.kcfg 
+File=konq_listview.kcfg
 ClassName=KonqListViewSettings 
 Singleton=false
 Mutators=true

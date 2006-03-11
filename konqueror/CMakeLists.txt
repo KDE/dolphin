@@ -50,7 +50,7 @@ kde4_add_dcop_skels(konqueror_KDEINIT_SRCS KonquerorIface.h KonqMainWindowIface.
 
 kde4_add_kdeinit_executable( konqueror ${konqueror_KDEINIT_SRCS})
 
-target_link_libraries(kdeinit_konqueror  ${QT_AND_KDECORE_LIBS} konq konqueror_intern kutils )
+target_link_libraries(kdeinit_konqueror  ${LIB_KDE3SUPPORT} kutils konq )
 
 install_targets(${LIB_INSTALL_DIR} kdeinit_konqueror )
 
