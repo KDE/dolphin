@@ -46,9 +46,6 @@ install_files( ${SERVICES_INSTALL_DIR} FILES kfindpart.desktop )
 kde4_install_icons( ${ICON_INSTALL_DIR} crystalsvg )
 
 
-
-install_files( ${DATA_INSTALL_DIR}/kdeprint FILES tileup.png tiledown.png side.png )
-
 kde4_footer()
 
 
