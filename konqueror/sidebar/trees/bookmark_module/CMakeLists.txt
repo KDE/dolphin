@@ -1,11 +1,15 @@
 kde4_header()
 
-include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
+include_directories( 
+	${CMAKE_SOURCE_DIR}/libkonq 
+    ${CMAKE_SOURCE_DIR}/konqueror/sidebar/
+    ${CMAKE_SOURCE_DIR}/konqueror/sidebar/trees/
+	${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
 
 
 ########### next target ###############
 
-set(konq_sidebartree_bookmarks_PART_SRCS bookmark_module.cpp bookmark_item.cpp )
+set(konq_sidebartree_bookmarks_PART_SRCS bookmark_module.cpp bookmark_item.cpp ${libkonq_sidebar_tree_SRCS} )
 
 kde4_automoc(${konq_sidebartree_bookmarks_PART_SRCS})
 
@@ -13,7 +17,7 @@ kde4_add_plugin(konq_sidebartree_bookmarks ${konq_sidebartree_bookmarks_PART_SRC
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_sidebartree_bookmarks )
 
-target_link_libraries(konq_sidebartree_bookmarks  ${QT_AND_KDECORE_LIBS} konqsidebarplugin konq_sidebar_tree )
+target_link_libraries(konq_sidebartree_bookmarks  ${LIB_KDEUI} konqsidebarplugin konq)
 
 install_targets(${LIB_INSTALL_DIR}/kde4 konq_sidebartree_bookmarks )
 

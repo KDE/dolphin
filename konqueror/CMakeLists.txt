@@ -1,5 +1,8 @@
 kde4_header()
 
+set(libkonqueror_intern_KCFG_SRCS  ${CMAKE_SOURCE_DIR}/konqueror/konq_settingsxt.kcfgc)
+kde4_add_kcfg_files(libkonqueror_intern_SRCS ${libkonqueror_intern_KCFG_SRCS})
+
 add_subdirectory( client ) 
 add_subdirectory( iconview ) 
 add_subdirectory( listview ) 
@@ -21,7 +24,7 @@ include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/workspace/k
 
 ########### next target ###############
 
-set(konqueror_KDEINIT_SRCS ${libkonqueror_internal_SRCS} 
+set(konqueror_KDEINIT_SRCS  ${libkonqueror_intern_SRCS}
    konq_main.cc 
    KonquerorIface.cc 
    KonqMainWindowIface.cc 
@@ -41,8 +44,6 @@ set(konqueror_KDEINIT_SRCS ${libkonqueror_internal_SRCS}
    delayedinitializer.cc 
    konq_mainwindow.cc 
    konq_extensionmanager.cc )
-
-kde4_add_kcfg_files(konqueror_KDEINIT_SRCS konq_settingsxt.kcfgc )
 
 kde4_automoc(${konqueror_KDEINIT_SRCS})
 

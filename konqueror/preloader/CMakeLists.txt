@@ -1,11 +1,11 @@
 kde4_header()
 
-include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
+include_directories( ${CMAKE_SOURCE_DIR}/konqueror ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
 
 
 ########### next target ###############
 
-set(kded_konqy_preloader_PART_SRCS preloader.cc )
+set(kded_konqy_preloader_PART_SRCS preloader.cc ${libkonqueror_intern_SRCS})
 
 kde4_automoc(${kded_konqy_preloader_PART_SRCS})
 
@@ -15,7 +15,7 @@ kde4_add_plugin(kded_konqy_preloader ${kded_konqy_preloader_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kded_konqy_preloader )
 
-target_link_libraries(kded_konqy_preloader  ${QT_AND_KDECORE_LIBS} konqueror_intern )
+target_link_libraries(kded_konqy_preloader  ${LIB_KDEUI} )
 
 install_targets(${LIB_INSTALL_DIR}/kde4 kded_konqy_preloader )
 

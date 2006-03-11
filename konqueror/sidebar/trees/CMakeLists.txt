@@ -1,5 +1,11 @@
 kde4_header()
 
+set(libkonq_sidebar_tree_SRCS 
+	${CMAKE_SOURCE_DIR}/konqueror/sidebar/trees/konq_sidebartree.cpp 
+	${CMAKE_SOURCE_DIR}/konqueror/sidebar/trees/konq_sidebartreeitem.cpp 
+	${CMAKE_SOURCE_DIR}/konqueror/sidebar/trees/konq_sidebartreetoplevelitem.cpp
+	)
+
 add_subdirectory( init ) 
 add_subdirectory( dirtree_module ) 
 add_subdirectory( history_module ) 
@@ -12,9 +18,7 @@ include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/konqueror $
 
 
 ########### next target ###############
-set( libkonqsidebartree_SRCS konq_sidebartreeitem.cpp konq_sidebartreetoplevelitem.cpp )
-
-set(konqsidebar_tree_PART_SRCS konqsidebar_tree.cpp ${libkonqsidebartree_SRCS})
+set(konqsidebar_tree_PART_SRCS ${libkonq_sidebar_tree_SRCS})
 
 kde4_automoc(${konqsidebar_tree_PART_SRCS})
 

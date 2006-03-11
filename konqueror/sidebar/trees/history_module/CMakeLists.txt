@@ -1,11 +1,15 @@
 kde4_header()
 
-include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
+include_directories( 
+	${CMAKE_SOURCE_DIR}/libkonq 
+	${CMAKE_SOURCE_DIR}/konqueror/sidebar/
+    ${CMAKE_SOURCE_DIR}/konqueror/sidebar/trees/
+	${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
 
 
 ########### next target ###############
 
-set(konq_sidebartree_history_PART_SRCS history_module.cpp history_item.cpp history_settings.cpp )
+set(konq_sidebartree_history_PART_SRCS history_module.cpp history_item.cpp history_settings.cpp ${libkonq_sidebar_tree_SRCS} )
 
 kde4_automoc(${konq_sidebartree_history_PART_SRCS})
 
@@ -15,7 +19,7 @@ kde4_add_plugin(konq_sidebartree_history ${konq_sidebartree_history_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_sidebartree_history )
 
-target_link_libraries(konq_sidebartree_history  ${QT_AND_KDECORE_LIBS} konqsidebarplugin konq_sidebar_tree )
+target_link_libraries(konq_sidebartree_history  ${LIB_KDEUI} konqsidebarplugin konq )
 
 install_targets(${LIB_INSTALL_DIR}/kde4 konq_sidebartree_history )
 
@@ -34,7 +38,7 @@ kde4_add_plugin(kcm_history ${kcm_history_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_history )
 
-target_link_libraries(kcm_history  ${QT_AND_KDECORE_LIBS} kdeui konq )
+target_link_libraries(kcm_history  ${LIB_KDEUI} konq )
 
 install_targets(${LIB_INSTALL_DIR}/kde4 kcm_history )
 

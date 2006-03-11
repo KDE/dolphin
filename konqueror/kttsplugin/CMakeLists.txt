@@ -13,7 +13,7 @@ kde4_add_plugin(khtmlkttsdplugin WITH_PREFIX ${khtmlkttsdplugin_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} khtmlkttsdplugin )
 
-target_link_libraries(khtmlkttsdplugin  ${QT_AND_KDECORE_LIBS} khtml )
+target_link_libraries(khtmlkttsdplugin  ${LIB_KPARTS} khtml )
 
 install_targets(${LIB_INSTALL_DIR}/kde4 khtmlkttsdplugin )
 
