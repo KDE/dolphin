@@ -311,9 +311,6 @@ void KonqDirPart::lmbClicked( KFileItem * fileItem )
         args.serviceType = fileItem->mimetype();
     args.trustedSource = true;
 
-    if ( fileItem->isLink() && fileItem->isLocalFile() ) // see KFileItem::run
-        url = KUrl( url, KUrl::toPercentEncoding( fileItem->linkDest() ) );
-
     if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->isDir()) {
         //args.frameName = "_blank"; // open new window
         // We tried the other option, passing the path as framename so that

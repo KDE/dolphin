@@ -34,6 +34,7 @@
 #include <kiconeffect.h>
 #include <kfileitem.h>
 #include <kdebug.h>
+#include <krun.h>
 
 #undef Bool
 
@@ -342,7 +343,17 @@ void KFileIVI::dropped( QDropEvent *e, const QList<Q3IconDragItem> & )
 
 void KFileIVI::returnPressed()
 {
-    m_fileitem->run();
+    if ( static_cast<KonqIconViewWidget*>(iconView())->isDesktop() ) {
+        KURL url = m_fileitem->url();
+        // When clicking on a link to e.g. $HOME from the desktop, we want to open $HOME
+        // Symlink resolution must only happen on the desktop though (#63014)
+        if ( m_fileitem->isLink() && url.isLocalFile() )
+            url = KURL( url, m_fileitem->linkDest() );
+
+        (void) new KRun( url, m_fileitem->mode(), m_fileitem->isLocalFile() );
+    } else {
+        m_fileitem->run();
+    }
 }
 
 
