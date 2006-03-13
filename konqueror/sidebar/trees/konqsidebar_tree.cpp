@@ -26,7 +26,7 @@ KonqSidebar_Tree::KonqSidebar_Tree(KInstance *instance,QObject *parent,QWidget *
 	if (ksc.readEntry("X-KDE-SearchableTreeModule", QVariant(false)).toBool()) {
 		KVBox* searchLine = new KVBox(widget);
 		tree=new KonqSidebarTree(this,widget,virt,desktopName_);
-		new KListViewSearchLineWidget(tree,searchLine);
+		new K3ListViewSearchLineWidget(tree,searchLine);
 	}
 	else {
 		tree=new KonqSidebarTree(this,widget,virt,desktopName_);
