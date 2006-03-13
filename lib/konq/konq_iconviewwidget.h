@@ -21,7 +21,7 @@
 #define __konq_iconviewwidget_h__
 
 #include <kiconloader.h>
-#include <kiconview.h>
+#include <k3iconview.h>
 #include <kurl.h>
 #include <qpointer.h>
 //Added by qt3to4:

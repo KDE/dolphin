@@ -32,7 +32,7 @@
 //Added by qt3to4:
 #include <QPixmap>
 #include <kdialogbase.h>
-#include <kiconview.h> // declaration below
+#include <k3iconview.h> // declaration below
 
 enum FacePerm { adminOnly = 1, adminFirst = 2, userFirst = 3, userOnly = 4}; 
 

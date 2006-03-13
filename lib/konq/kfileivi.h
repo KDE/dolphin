@@ -20,7 +20,7 @@
 #ifndef __kfileivi_h__
 #define __kfileivi_h__
 
-#include <kiconview.h>
+#include <k3iconview.h>
 #include <kiconloader.h>
 #include <libkonq_export.h>
 //Added by qt3to4:

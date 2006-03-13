@@ -40,7 +40,7 @@
 #include <kdialogbase.h>
 #include <klocale.h>
 #include <kfiledialog.h>
-#include <kiconview.h>
+#include <k3iconview.h>
 #include <kimagefilepreview.h>
 #include <kimageio.h>
 #include <kmessagebox.h>
