@@ -313,7 +313,7 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
         _width = newWidth;
     }
 
-    KListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
+    K3ListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 }
 
 void KonqListViewItem::paintFocus( QPainter * _painter, const QColorGroup & cg, const QRect & _r )
@@ -375,7 +375,7 @@ const char* KonqBaseListViewItem::makeAccessString( const mode_t mode)
 
 
 KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget, KFileItem* _fileitem)
-:KListViewItem(_listViewWidget)
+:K3ListViewItem(_listViewWidget)
 ,sortChar(0)
 ,m_bDisabled(false)
 ,m_bActive(false)
@@ -384,7 +384,7 @@ KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidg
 {}
 
 KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget, KonqBaseListViewItem *_parent, KFileItem* _fileitem)
-:KListViewItem(_parent)
+:K3ListViewItem(_parent)
 ,sortChar(0)
 ,m_bDisabled(false)
 ,m_bActive(false)

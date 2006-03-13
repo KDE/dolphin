@@ -204,7 +204,7 @@ void KonqTextViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
 //   cg.setColor(QColorGroup::HighlightedText, static_cast<KonqTextViewWidget *>(listView())->highlight[type]);
 //   cg.setColor(QColorGroup::Highlight, Qt::darkGray);
 
-   KListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
+   K3ListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 }
 
 /*void KonqTextViewItem::paintFocus( QPainter *_p, const QColorGroup &_cg, const QRect &_r )

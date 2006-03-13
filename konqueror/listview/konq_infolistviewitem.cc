@@ -242,7 +242,7 @@ void KonqInfoListViewItem::paintCell( QPainter *_painter, const QColorGroup & _c
         _width = newWidth;
     }
 
-    KListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
+    K3ListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 }
 
 void KonqInfoListViewItem::paintFocus( QPainter * _painter, const QColorGroup & cg, const QRect & _r )
