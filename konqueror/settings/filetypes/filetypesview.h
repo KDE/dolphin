@@ -13,7 +13,7 @@
 #include "typeslistitem.h"
 
 class QLabel;
-class KListView;
+class K3ListView;
 class Q3ListViewItem;
 class Q3ListBox;
 class QPushButton;
@@ -54,7 +54,7 @@ protected:
   bool sync( QList<TypesListItem *>& itemsModified );
 
 private:
-  KListView *typesLV;
+  K3ListView *typesLV;
   QPushButton *m_removeTypeB;
 
   QStackedWidget * m_widgetStack;

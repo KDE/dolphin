@@ -15,7 +15,7 @@
 #include <qwhatsthis.h>
 #include <q3groupbox.h>
 #include <kconfig.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <kdebug.h>
 #include <kurlrequester.h>
 

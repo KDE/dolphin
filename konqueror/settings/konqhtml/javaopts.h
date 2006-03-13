@@ -22,7 +22,7 @@
 
 class KColorButton;
 class KConfig;
-class KListView;
+class K3ListView;
 class KUrlRequester;
 class KIntNumInput;
 

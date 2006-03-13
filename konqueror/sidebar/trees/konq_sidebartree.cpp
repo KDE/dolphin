@@ -123,7 +123,7 @@ public:
 
 
 KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidget, int virt, const QString& path )
-    : KListView( parentWidget ),
+    : K3ListView( parentWidget ),
       m_currentTopLevelItem( 0 ),
       m_scrollingLocked( false ),
       m_collection( 0 )
@@ -311,7 +311,7 @@ void KonqSidebarTree::contentsDragMoveEvent( QDragMoveEvent *e )
         }
     } else {
         d->m_dropMode = KListViewMode;
-        KListView::contentsDragMoveEvent(e);
+        K3ListView::contentsDragMoveEvent(e);
     }
 }
 
@@ -327,7 +327,7 @@ void KonqSidebarTree::contentsDragLeaveEvent( QDragLeaveEvent *ev )
     m_lstDropFormats.clear();
 
     if (d->m_dropMode == KListViewMode) {
-        KListView::contentsDragLeaveEvent(ev);
+        K3ListView::contentsDragLeaveEvent(ev);
     }
 }
 
@@ -355,7 +355,7 @@ void KonqSidebarTree::contentsDropEvent( QDropEvent *ev )
             selection->drop( ev );
         }
     } else {
-        KListView::contentsDropEvent(ev);
+        K3ListView::contentsDropEvent(ev);
     }
 }
 
@@ -457,7 +457,7 @@ Q3DragObject* KonqSidebarTree::dragObject()
 
 void KonqSidebarTree::leaveEvent( QEvent *e )
 {
-    KListView::leaveEvent( e );
+    K3ListView::leaveEvent( e );
 //    emitStatusBarText( QString() );
 }
 
@@ -864,7 +864,7 @@ KonqSidebarTreeItem * KonqSidebarTree::currentItem() const
 void KonqSidebarTree::setContentsPos( int x, int y )
 {
     if ( !m_scrollingLocked )
-	KListView::setContentsPos( x, y );
+	K3ListView::setContentsPos( x, y );
 }
 
 void KonqSidebarTree::slotItemRenamed(Q3ListViewItem* item, const QString &name, int col)

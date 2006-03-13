@@ -24,7 +24,7 @@ class QComboBox;
 class QPushButton;
 
 class KConfig;
-class KListView;
+class K3ListView;
 class KUrlRequester;
 
 namespace KIO { class Job; }

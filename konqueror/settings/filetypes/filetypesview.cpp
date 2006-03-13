@@ -15,7 +15,7 @@
 #include <kdesktopfile.h>
 #include <kipc.h>
 #include <klineedit.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
 
@@ -77,7 +77,7 @@ FileTypesView::FileTypesView(KInstance *inst, QWidget *parent)
   patternFilterLE->setWhatsThis( wtstr );
   patternFilterLBL->setWhatsThis( wtstr );
 
-  typesLV = new KListView(this);
+  typesLV = new K3ListView(this);
   typesLV->setRootIsDecorated(true);
   typesLV->setFullWidth(true);
 

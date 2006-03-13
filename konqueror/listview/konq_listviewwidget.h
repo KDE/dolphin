@@ -25,7 +25,7 @@
 
 #include <kurl.h>
 #include <kfileitem.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <kparts/browserextension.h>
 #include <konq_propsview.h>
 #include "konq_listviewitems.h"
@@ -70,10 +70,10 @@ public:
 };
 
 /**
- * The tree view widget (based on KListView).
+ * The tree view widget (based on K3ListView).
  * Most of the functionality is here.
  */
-class KonqBaseListViewWidget : public KListView
+class KonqBaseListViewWidget : public K3ListView
 {
    friend class KonqBaseListViewItem;
    friend class KonqListView;
@@ -220,7 +220,7 @@ protected:
    //so the position of the mouse pointer doesn't matter when using keyboard, aleXXX
    virtual void popupMenu( const QPoint& _global, bool alwaysForSelectedFiles = false );
 
-   //this one is called only by KListView, and this is friend anyways (Alex)
+   //this one is called only by K3ListView, and this is friend anyways (Alex)
    //KDirLister *dirLister() const { return m_dirLister; }
 
 protected:

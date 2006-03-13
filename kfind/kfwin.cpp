@@ -107,7 +107,7 @@ QString KfFileLVI::key(int column, bool) const
 }
 
 KfindWindow::KfindWindow( QWidget *parent )
-  : KListView( parent )
+  : K3ListView( parent )
 ,m_baseDir()
 ,m_menu(0)
 {
@@ -136,8 +136,8 @@ KfindWindow::KfindWindow( QWidget *parent )
   connect( this, SIGNAL(selectionChanged()),
 	   this, SLOT( selectionHasChanged() ));
 
-  connect(this, SIGNAL(contextMenu(KListView *, Q3ListViewItem*,const QPoint&)),
-	  this, SLOT(slotContextMenu(KListView *,Q3ListViewItem*,const QPoint&)));
+  connect(this, SIGNAL(contextMenu(K3ListView *, Q3ListViewItem*,const QPoint&)),
+	  this, SLOT(slotContextMenu(K3ListView *,Q3ListViewItem*,const QPoint&)));
 
   connect(this, SIGNAL(executed(Q3ListViewItem*)),
 	  this, SLOT(slotExecute(Q3ListViewItem*)));
@@ -331,10 +331,10 @@ void KfindWindow::slotExecute(Q3ListViewItem* item)
   ((KfFileLVI*)item)->fileitem.run();
 }
 
-// Resizes KListView to occupy all visible space
+// Resizes K3ListView to occupy all visible space
 void KfindWindow::resizeEvent(QResizeEvent *e)
 {
-  KListView::resizeEvent(e);
+  K3ListView::resizeEvent(e);
   resetColumns(false);
   clipper()->repaint();
 }
@@ -390,7 +390,7 @@ void KfindWindow::resetColumns(bool init)
   setColumnWidth(1, dir_w);
 }
 
-void KfindWindow::slotContextMenu(KListView *,Q3ListViewItem *item,const QPoint&p)
+void KfindWindow::slotContextMenu(K3ListView *,Q3ListViewItem *item,const QPoint&p)
 {
   if (!item) return;
   int count = selectedItems().count();

@@ -153,7 +153,7 @@ class MoveCommand : public KCommand, public IKEBCommand
 {
 public:
    // "Create it with itemsAlreadyMoved=true since 
-   // "KListView moves the item before telling us about it."
+   // "K3ListView moves the item before telling us about it."
    MoveCommand(const QString &from, const QString &to, const QString &name = QString())
       : KCommand(), m_from(from), m_to(to), m_mytext(name)
    { ; }

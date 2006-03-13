@@ -30,7 +30,7 @@ class QPushButton;
 class QStringList;
 
 class KConfig;
-class KListView;
+class K3ListView;
 
 class Policies;
 class PolicyDialog;
@@ -80,7 +80,7 @@ public:
   /**
    * returns the list view displaying the domains
    */
-  KListView *listView() const { return domainSpecificLV; }
+  K3ListView *listView() const { return domainSpecificLV; }
 
   /**
    * returns the add push-button.
@@ -193,7 +193,7 @@ protected:
 
     KConfig *config;
 
-  KListView *domainSpecificLV;
+  K3ListView *domainSpecificLV;
 
   QPushButton* addDomainPB;
   QPushButton* changeDomainPB;

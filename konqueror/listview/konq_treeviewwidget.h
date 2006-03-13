@@ -23,7 +23,7 @@
 #include "konq_treeviewitem.h"
 #include <q3dict.h>
 #include <kurl.h>
-#include <klistview.h>
+#include <k3listview.h>
 
 class KonqListView;
 

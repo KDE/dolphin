@@ -23,14 +23,14 @@
 
 
 
-KEBSearchLine::KEBSearchLine(QWidget *parent, KListView *listView)
-    : KListViewSearchLine(parent, listView)
+KEBSearchLine::KEBSearchLine(QWidget *parent, K3ListView *listView)
+    : K3ListViewSearchLine(parent, listView)
 {
     mmode = AND;
 }
 
 KEBSearchLine::KEBSearchLine(QWidget *parent)
-    :KListViewSearchLine(parent)
+    :K3ListViewSearchLine(parent)
 {
     mmode = AND;
 }
@@ -42,7 +42,7 @@ KEBSearchLine::~KEBSearchLine()
 bool KEBSearchLine::itemMatches(const Q3ListViewItem *item, const QString &s) const
 {
     if(mmode == EXACTLY)
-       return KListViewSearchLine::itemMatches(item, s);
+       return K3ListViewSearchLine::itemMatches(item, s);
 
     if(lastpattern != s)
     {
@@ -58,12 +58,12 @@ bool KEBSearchLine::itemMatches(const Q3ListViewItem *item, const QString &s) co
        if(it == end) //Nothing to match
            return true;
        for( ; it != end; ++it)
-           if(KListViewSearchLine::itemMatches(item, *it))
+           if(K3ListViewSearchLine::itemMatches(item, *it))
                return true;
     }
     else if(mmode == AND)
        for( ; it != end; ++it)
-           if(! KListViewSearchLine::itemMatches(item, *it))
+           if(! K3ListViewSearchLine::itemMatches(item, *it))
                return false;
 
     return (mmode == AND);

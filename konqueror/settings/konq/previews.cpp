@@ -33,7 +33,7 @@
 #include <kconfig.h>
 #include <kdialog.h>
 #include <kglobal.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <klocale.h>
 #include <knuminput.h>
 #include <kprotocolinfo.h>
@@ -80,7 +80,7 @@ KPreviewOptions::KPreviewOptions( KInstance *inst, QWidget *parent )
                 "no preview will be generated for files bigger than 1 MB, for speed reasons."));
 
     // Listview containing checkboxes for all protocols that support listing
-    KListView *listView = new KListView( this );
+    K3ListView *listView = new K3ListView( this );
     listView->addColumn( i18n( "Select Protocols" ) );
     listView->setFullWidth( true );
 

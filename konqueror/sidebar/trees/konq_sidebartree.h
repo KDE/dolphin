@@ -20,7 +20,7 @@
 #ifndef konq_tree_h
 #define konq_tree_h
 
-#include <klistview.h>
+#include <k3listview.h>
 #include "konq_sidebartreetoplevelitem.h"
 #include "konqsidebar_tree.h"
 #include <kdirnotify.h>
@@ -60,7 +60,7 @@ typedef struct DirTreeConfigData_
 
 typedef enum {
     SidebarTreeMode, // used if the drop is accepted by a KonqSidebarTreeItem. otherwise
-    KListViewMode    // use KListView's dnd implementation. accepts mime types set with setDropFormats()
+    KListViewMode    // use K3ListView's dnd implementation. accepts mime types set with setDropFormats()
 } DropAcceptType;
 
 /**
@@ -69,7 +69,7 @@ typedef enum {
  * a toplevel item, and creates the modules that will handle the contents
  * of those items.
  */
-class KonqSidebarTree : public KListView, public KDirNotify
+class KonqSidebarTree : public K3ListView, public KDirNotify
 {
     Q_OBJECT
 public:
@@ -102,7 +102,7 @@ public:
 
     void itemDestructed( KonqSidebarTreeItem *item );
 
-    void setDropFormats( const QStringList &formats ); // used in KListView mode
+    void setDropFormats( const QStringList &formats ); // used in K3ListView mode
     
     // Show context menu for toplevel items
     void showToplevelContextMenu();
@@ -121,7 +121,7 @@ protected:
     virtual void contentsDragMoveEvent( QDragMoveEvent *e );
     virtual void contentsDragLeaveEvent( QDragLeaveEvent *e );
     virtual void contentsDropEvent( QDropEvent *ev );
-    virtual bool acceptDrag(QDropEvent* e) const; // used in KListView mode
+    virtual bool acceptDrag(QDropEvent* e) const; // used in K3ListView mode
 
     virtual void leaveEvent( QEvent * );
 

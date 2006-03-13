@@ -19,7 +19,7 @@
 #ifndef __kebsearchline_h
 #define __kebsearchline_h
 
-#include <klistviewsearchline.h>
+#include <k3listviewsearchline.h>
 #include <kglobal.h>
 #include <klocale.h>
 #include <ktoolbar.h>
@@ -288,7 +288,7 @@ public:
 
     /**
      * Creates the search line.  This can be useful to reimplement in cases where
-     * a KListViewSearchLine subclass is used.
+     * a K3ListViewSearchLine subclass is used.
      */
     virtual KViewSearchLine *createSearchLine(QAbstractItemView *view);
 
@@ -316,10 +316,10 @@ private:
 
 
 //FIXME reimplement on top of the searchline
-class KEBSearchLine : public KListViewSearchLine
+class KEBSearchLine : public K3ListViewSearchLine
 {
 public:
-    KEBSearchLine(QWidget *parent = 0, KListView *listView = 0);
+    KEBSearchLine(QWidget *parent = 0, K3ListView *listView = 0);
 
     KEBSearchLine(QWidget *parent);
 

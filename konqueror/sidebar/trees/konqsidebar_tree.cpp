@@ -7,7 +7,7 @@
 #include <ksimpleconfig.h>
 #include <kinputdialog.h>
 #include <kiconloader.h>
-#include <klistviewsearchline.h>
+#include <k3listviewsearchline.h>
 
 #include <qclipboard.h>
 #include <qtoolbutton.h>

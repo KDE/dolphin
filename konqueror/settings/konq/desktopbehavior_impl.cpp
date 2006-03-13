@@ -35,7 +35,7 @@
 #include <Q3CString>
 #include <QDesktopWidget>
 
-#include <klistview.h>
+#include <k3listview.h>
 #include <kservice.h>
 #include <klocale.h>
 #include <kglobalsettings.h>

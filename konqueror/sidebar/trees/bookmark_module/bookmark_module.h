@@ -51,7 +51,7 @@ public:
 protected Q_SLOTS:
     void slotBookmarksChanged( const QString & );
     void slotMoved(Q3ListViewItem*,Q3ListViewItem*,Q3ListViewItem*);
-    void slotDropped(KListView*,QDropEvent*,Q3ListViewItem*,Q3ListViewItem*);
+    void slotDropped(K3ListView*,QDropEvent*,Q3ListViewItem*,Q3ListViewItem*);
     void slotCreateFolder();
     void slotDelete();
     void slotProperties(KonqSidebarBookmarkItem *bi = 0);

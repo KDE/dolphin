@@ -33,7 +33,7 @@
 #include <kdebug.h>
 #include <kconfig.h>
 #include <klocale.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <kmessagebox.h>
 #include <ksimpleconfig.h>
 #include <kio/http_slave_defaults.h>

@@ -26,7 +26,7 @@
 #include <QGridLayout>
 
 #include <kconfig.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -45,7 +45,7 @@ DomainListView::DomainListView(KConfig *config,const QString &title,
   thisLayout->setSpacing(KDialog::spacingHint());
   thisLayout->setMargin(KDialog::marginHint());
 
-  domainSpecificLV = new KListView(this);
+  domainSpecificLV = new K3ListView(this);
   domainSpecificLV->addColumn(i18n("Host/Domain"));
   domainSpecificLV->addColumn(i18n("Policy"), 100);
   connect(domainSpecificLV,SIGNAL(doubleClicked(Q3ListViewItem *)), SLOT(changePressed()));

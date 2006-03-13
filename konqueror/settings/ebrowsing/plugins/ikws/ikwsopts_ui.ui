@@ -168,7 +168,7 @@ Select the search engine to use for input boxes that provide automatic lookup se
                         </size>
                     </property>
                 </spacer>
-                <widget class="KListView" row="0" column="0" rowspan="4" colspan="2">
+                <widget class="K3ListView" row="0" column="0" rowspan="4" colspan="2">
                     <column>
                         <property name="text">
                             <string>Name</string>

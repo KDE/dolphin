@@ -32,7 +32,7 @@
 #include <kfileitem.h>
 #include <kglobalsettings.h>
 #include <kipc.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <kio/job.h>
 #include <klocale.h>
 #include <kmessagebox.h>

@@ -27,7 +27,7 @@
 #include <QVBoxLayout>
 
 #include <kfiledialog.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <kmessagebox.h>
 #include <ksocks.h>
 #include <kapplication.h>

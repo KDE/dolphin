@@ -34,8 +34,8 @@
 #include <kiconloader.h>
 #include <kidna.h>
 #include <kmessagebox.h>
-#include <klistview.h>
-#include <klistviewsearchline.h>
+#include <k3listview.h>
+#include <k3listviewsearchline.h>
 #include <klocale.h>
 #include <kconfig.h>
 #include <dcopref.h>
@@ -52,8 +52,8 @@ KCookiesPolicies::KCookiesPolicies(KInstance *inst, QWidget *parent)
 
     dlg = new KCookiesPolicyDlgUI (this);
     dlg->lvDomainPolicy->header()->setStretchEnabled(true, 0);
-    dlg->lvDomainPolicy->setColumnWidthMode(0, KListView::Manual);
-    dlg->lvDomainPolicy->setColumnWidthMode(1, KListView::Maximum);
+    dlg->lvDomainPolicy->setColumnWidthMode(0, K3ListView::Manual);
+    dlg->lvDomainPolicy->setColumnWidthMode(1, K3ListView::Maximum);
     dlg->tbClearSearchLine->setIcon(SmallIconSet(QApplication::isRightToLeft() ? "clear_left" : "locationbar_erase"));
     dlg->kListViewSearchLine->setListView(dlg->lvDomainPolicy);
     QList<int> columns;

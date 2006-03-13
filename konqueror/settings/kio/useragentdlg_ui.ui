@@ -187,7 +187,7 @@ By default, only minimal identification information is sent to remote sites. The
                 <property name="margin">
                     <number>11</number>
                 </property>
-                <widget class="KListView">
+                <widget class="K3ListView">
                     <column>
                         <property name="text">
                             <string>Site Name</string>

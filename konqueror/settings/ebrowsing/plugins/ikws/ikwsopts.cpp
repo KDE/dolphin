@@ -32,7 +32,7 @@
 #include <kcombobox.h>
 #include <kconfig.h>
 #include <kiconloader.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kservice.h>

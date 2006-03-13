@@ -330,7 +330,7 @@
 &lt;p&gt;For example, files which are named ".directory" are plain text files which contain information for Konqueror, such as the icon to use in displaying a directory, the order in which files should be sorted, etc. You should not change or delete these files unless you know what you are doing.&lt;/p&gt;</string>
                         </property>
                     </widget>
-                    <widget class="KListView" row="2" column="0">
+                    <widget class="K3ListView" row="2" column="0">
                         <column>
                             <property name="text">
                                 <string>Show Icon Previews For</string>
@@ -373,7 +373,7 @@
                             <string>&amp;Show device icons:</string>
                         </property>
                     </widget>
-                    <widget class="KListView">
+                    <widget class="K3ListView">
                         <column>
                             <property name="text">
                                 <string>Device Types to Display</string>

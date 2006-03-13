@@ -84,7 +84,7 @@ void ColumnInfo::setData(const QString& n, const QString& desktopName, int kioUd
 
 
 KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *parentWidget)
-   : KListView(parentWidget)
+   : K3ListView(parentWidget)
    ,sortedByColumn(0)
    ,m_pBrowserView(parent)
    ,m_dirLister(new KDirLister( true /*m_showIcons==false*/))
@@ -110,7 +110,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 
    m_bTopLevelComplete  = true;
 
-   //Adjust KListView behaviour
+   //Adjust K3ListView behaviour
    setMultiSelection(true);
    setSelectionModeExt( FileManager );
    setDragEnabled(true);
@@ -411,7 +411,7 @@ void KonqBaseListViewWidget::contentsMousePressEvent( QMouseEvent *e )
          static_cast<KonqBaseListViewItem*>( itemAt( vp ) ) : 0L;
 
    if ( item )
-      KListView::contentsMousePressEvent( e );
+      K3ListView::contentsMousePressEvent( e );
    else {
       if ( e->button() == Qt::LeftButton )
       {
@@ -448,7 +448,7 @@ void KonqBaseListViewWidget::contentsMouseReleaseEvent( QMouseEvent *e )
    }
 
    delete m_selected; m_selected = 0;
-   KListView::contentsMouseReleaseEvent( e );
+   K3ListView::contentsMouseReleaseEvent( e );
 }
 
 void KonqBaseListViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
@@ -492,7 +492,7 @@ void KonqBaseListViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
       }
    }
 
-   KListView::contentsMouseMoveEvent( e );
+   K3ListView::contentsMouseMoveEvent( e );
 }
 
 void KonqBaseListViewWidget::contentsWheelEvent( QWheelEvent *e )
@@ -508,7 +508,7 @@ void KonqBaseListViewWidget::contentsWheelEvent( QWheelEvent *e )
 
    reportItemCounts();
    m_pBrowserView->emitMouseOver( 0 );
-   KListView::contentsWheelEvent( e );
+   K3ListView::contentsWheelEvent( e );
 }
 
 void KonqBaseListViewWidget::leaveEvent( QEvent *e )
@@ -524,7 +524,7 @@ void KonqBaseListViewWidget::leaveEvent( QEvent *e )
 
    m_fileTip->setItem( 0 );
 
-   KListView::leaveEvent( e );
+   K3ListView::leaveEvent( e );
 }
 
 void KonqBaseListViewWidget::drawRubber()
@@ -669,13 +669,13 @@ void KonqBaseListViewWidget::slotAutoScroll()
 void KonqBaseListViewWidget::viewportPaintEvent( QPaintEvent *e )
 {
    drawRubber();
-   KListView::viewportPaintEvent( e );
+   K3ListView::viewportPaintEvent( e );
    drawRubber();
 }
 
 void KonqBaseListViewWidget::viewportResizeEvent(QResizeEvent * e)
 {
-   KListView::viewportResizeEvent(e);
+   K3ListView::viewportResizeEvent(e);
    emit viewportAdjusted();
 }
 
@@ -786,7 +786,7 @@ void KonqBaseListViewWidget::slotItemRenamed( Q3ListViewItem *item, const QStrin
    Q_ASSERT( item != 0 );
 
    // The correct behavior is to show the old name until the rename has successfully
-   // completed. Unfortunately, KListView forces us to allow the text to be changed
+   // completed. Unfortunately, K3ListView forces us to allow the text to be changed
    // before we try the rename, so set it back to the pre-rename state.
    KonqBaseListViewItem *renamedItem = static_cast<KonqBaseListViewItem*>(item);
    renamedItem->updateContents();

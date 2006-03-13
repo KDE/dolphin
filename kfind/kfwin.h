@@ -7,7 +7,7 @@
 #ifndef KFWIN_H
 #define KFWIN_H
 
-#include <klistview.h>
+#include <k3listview.h>
 #include <kfileitem.h>
 #include <kurl.h>
 
@@ -29,7 +29,7 @@ class KfFileLVI : public Q3ListViewItem
   KFileItem fileitem;
 };
 
-class KfindWindow: public   KListView
+class KfindWindow: public   K3ListView
 {
   Q_OBJECT
 public:
@@ -44,7 +44,7 @@ public:
 
 public Q_SLOTS:
   void copySelection();
-  void slotContextMenu(KListView *,Q3ListViewItem *item,const QPoint&p);
+  void slotContextMenu(K3ListView *,Q3ListViewItem *item,const QPoint&p);
 
 private Q_SLOTS:
   void deleteFiles();

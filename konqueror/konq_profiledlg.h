@@ -33,14 +33,14 @@ class QGridLayout;
 class QCheckBox;
 class QLineEdit;
 class KPushButton;
-class KListView;
+class K3ListView;
 
 typedef QMap<QString, QString> KonqProfileMap;
 
 class KonqProfileItem : public Q3ListViewItem
 {
 public:
-  KonqProfileItem( KListView *, const QString & );
+  KonqProfileItem( K3ListView *, const QString & );
   ~KonqProfileItem() {}
 
   QString m_profileName;
@@ -79,7 +79,7 @@ private:
   QCheckBox *m_cbSaveURLs;
   QCheckBox *m_cbSaveSize;
 
-  KListView *m_pListView;
+  K3ListView *m_pListView;
 };
 
 #endif

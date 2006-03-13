@@ -36,8 +36,8 @@
 #include <kdialog.h>
 #include <kiconloader.h>
 #include <klineedit.h>
-#include <klistview.h>
-#include <klistviewsearchline.h>
+#include <k3listview.h>
+#include <k3listviewsearchline.h>
 #include <kmessagebox.h>
 #include <dcopref.h>
 

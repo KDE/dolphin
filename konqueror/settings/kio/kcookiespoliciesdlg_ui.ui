@@ -210,7 +210,7 @@ To add a new policy, simply click on the &lt;b&gt;Add...&lt;/b&gt; button and su
                         </widget>
                     </vbox>
                 </widget>
-                <widget class="KListView" row="1" column="0" rowspan="2" colspan="1">
+                <widget class="K3ListView" row="1" column="0" rowspan="2" colspan="1">
                     <column>
                         <property name="text">
                             <string>Domain</string>
@@ -284,7 +284,7 @@ List of sites for which you have set a specific cookie policy. Specific policies
                                 <cstring>kListViewSearchLine</cstring>
                             </property>
                         </widget>
-                        <widget class="KListViewSearchLine">
+                        <widget class="K3ListViewSearchLine">
                             <property name="name">
                                 <cstring>kListViewSearchLine</cstring>
                             </property>

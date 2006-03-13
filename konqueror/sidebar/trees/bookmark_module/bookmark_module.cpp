@@ -53,8 +53,8 @@ KonqSidebarBookmarkModule::KonqSidebarBookmarkModule( KonqSidebarTree * parentTr
 
     connect(tree(), SIGNAL(moved(Q3ListViewItem*,Q3ListViewItem*,Q3ListViewItem*)),
             this,   SLOT(slotMoved(Q3ListViewItem*,Q3ListViewItem*,Q3ListViewItem*)));
-    connect(tree(), SIGNAL(dropped(KListView*,QDropEvent*,Q3ListViewItem*,Q3ListViewItem*)),
-            this,   SLOT(slotDropped(KListView*,QDropEvent*,Q3ListViewItem*,Q3ListViewItem*)));
+    connect(tree(), SIGNAL(dropped(K3ListView*,QDropEvent*,Q3ListViewItem*,Q3ListViewItem*)),
+            this,   SLOT(slotDropped(K3ListView*,QDropEvent*,Q3ListViewItem*,Q3ListViewItem*)));
 
     connect(tree(), SIGNAL(expanded(Q3ListViewItem*)),
             this,   SLOT(slotOpenChange(Q3ListViewItem*)));
@@ -165,7 +165,7 @@ void KonqSidebarBookmarkModule::slotMoved(Q3ListViewItem *i, Q3ListViewItem*, Q3
 
     KBookmarkGroup oldParentGroup = bookmark.parentGroup();
     KBookmarkGroup parentGroup;
-    // try to get the parent group (assume that the QListViewItem has been reparented by KListView)...
+    // try to get the parent group (assume that the QListViewItem has been reparented by K3ListView)...
     // if anything goes wrong, use the root.
     if (item->parent()) {
         bool error = false;
@@ -184,7 +184,7 @@ void KonqSidebarBookmarkModule::slotMoved(Q3ListViewItem *i, Q3ListViewItem*, Q3
             parentGroup = KonqBookmarkManager::self()->root();
     } else {
         // No parent! This means the user dropped it before the top level item
-        // And KListView has moved the item there, we need to correct it
+        // And K3ListView has moved the item there, we need to correct it
         tree()->moveItem(item, m_topLevelItem, 0L);
         parentGroup = KonqBookmarkManager::self()->root();
     }
@@ -229,7 +229,7 @@ void KonqSidebarBookmarkModule::slotMoved(Q3ListViewItem *i, Q3ListViewItem*, Q3
     }
 }
 
-void KonqSidebarBookmarkModule::slotDropped(KListView *, QDropEvent *e, Q3ListViewItem *parent, Q3ListViewItem *after)
+void KonqSidebarBookmarkModule::slotDropped(K3ListView *, QDropEvent *e, Q3ListViewItem *parent, Q3ListViewItem *after)
 {
     if (!KBookmark::List::canDecode(e->mimeData()))
         return;

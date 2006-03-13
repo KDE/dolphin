@@ -218,7 +218,7 @@ void KonqInfoListViewItem::paintCell( QPainter *_painter, const QColorGroup & _c
 
     cg.setColor( QColorGroup::Text, m_pListViewWidget->itemColor() );
 
-    KListView *lv = static_cast< KListView* >( listView() );
+    K3ListView *lv = static_cast< K3ListView* >( listView() );
     const QPixmap *pm = lv->viewport()->paletteBackgroundPixmap();
     if ( _column == 0 && isSelected() && !lv->allColumnsShowFocus() )
     {

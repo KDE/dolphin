@@ -28,7 +28,7 @@
 #include <q3header.h>
 #include <qlineedit.h>
 
-#include <klistview.h>
+#include <k3listview.h>
 #include <kdebug.h>
 #include <kstdguiitem.h>
 #include <kio/global.h>
@@ -63,7 +63,7 @@ KonqProfileMap KonqProfileDlg::readAllProfiles()
   return mapProfiles;
 }
 
-KonqProfileItem::KonqProfileItem( KListView *parent, const QString & text )
+KonqProfileItem::KonqProfileItem( K3ListView *parent, const QString & text )
     : Q3ListViewItem( parent, text ), m_profileName( text )
 {
 }
@@ -92,7 +92,7 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
 
   lblName->setBuddy( m_pProfileNameLineEdit );
 
-  m_pListView = new KListView( box );
+  m_pListView = new K3ListView( box );
   m_pListView->setAllColumnsShowFocus(true);
   m_pListView->header()->hide();
   m_pListView->addColumn("");

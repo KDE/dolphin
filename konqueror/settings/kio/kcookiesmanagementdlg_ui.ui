@@ -27,7 +27,7 @@
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="KListView" row="1" column="0">
+                <widget class="K3ListView" row="1" column="0">
                     <column>
                         <property name="text">
                             <string>Domain [Group]</string>
@@ -158,7 +158,7 @@
                                 <cstring>kListViewSearchLine</cstring>
                             </property>
                         </widget>
-                        <widget class="KListViewSearchLine">
+                        <widget class="K3ListViewSearchLine">
                             <property name="name">
                                 <cstring>kListViewSearchLine</cstring>
                             </property>
