@@ -34,12 +34,12 @@ class KIVDirectoryOverlay;
 
 /**
  * KFileIVI (short form of "Konq - File - IconViewItem")
- * is, as expected, an improved KIconViewItem, because
+ * is, as expected, an improved K3IconViewItem, because
  * it represents a file.
  * All the information about the file is contained in the KFileItem
  * pointer.
  */
-class LIBKONQ_EXPORT KFileIVI : public KIconViewItem
+class LIBKONQ_EXPORT KFileIVI : public K3IconViewItem
 {
 public:
     /**
@@ -218,9 +218,9 @@ protected:
 private:
     /** You are not supposed to call this on a KFileIVI, from the outside,
      * it bypasses the icons cache */
-    virtual void setPixmap ( const QPixmap & icon ) { KIconViewItem::setPixmap( icon ); }
+    virtual void setPixmap ( const QPixmap & icon ) { K3IconViewItem::setPixmap( icon ); }
     virtual void setPixmap ( const QPixmap & icon, bool recalc, bool redraw = true )
-        { KIconViewItem::setPixmap( icon, recalc, redraw ); }
+        { K3IconViewItem::setPixmap( icon, recalc, redraw ); }
 
     /** Check if a thumbnail will be generated and calc the size of the icon */
     void updatePixmapSize();

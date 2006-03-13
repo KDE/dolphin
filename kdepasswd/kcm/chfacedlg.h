@@ -65,7 +65,7 @@ private Q_SLOTS:
 private:
   void addCustomPixmap( QString imPath, bool saveCopy );
 
-  KIconView *m_FacesWidget;
+  K3IconView *m_FacesWidget;
 };
 
 #endif // CHFACEDLG_H

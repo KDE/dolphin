@@ -127,7 +127,7 @@ struct KonqIconViewWidgetPrivate
 };
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, Qt::WFlags f, bool kdesktop )
-    : KIconView( parent, name, f ),
+    : K3IconView( parent, name, f ),
       m_rootItem( 0L ), m_size( 0 ) /* default is DesktopIcon size */,
       m_bDesktop( kdesktop ),
       m_bSetGridX( !kdesktop ) /* No line breaking on the desktop */
@@ -198,7 +198,7 @@ void KonqIconViewWidget::focusOutEvent( QFocusEvent * ev )
     // Matt Newell 2004-09-24
     slotOnViewport();
 
-    KIconView::focusOutEvent( ev );
+    K3IconView::focusOutEvent( ev );
 }
 
 void KonqIconViewWidget::slotItemRenamed(Q3IconViewItem *item, const QString &name)
@@ -208,7 +208,7 @@ void KonqIconViewWidget::slotItemRenamed(Q3IconViewItem *item, const QString &na
     KFileItem *fileItem = viewItem->item();
 
     // The correct behavior is to show the old name until the rename has successfully
-    // completed. Unfortunately, KIconView forces us to allow the text to be changed
+    // completed. Unfortunately, K3IconView forces us to allow the text to be changed
     // before we try the rename, so set it back to the pre-rename state.
     viewItem->setText( fileItem->text() );
     kDebug(1203)<<" fileItem->text() ;"<<fileItem->text()<<endl;
@@ -506,7 +506,7 @@ void KonqIconViewWidget::clear()
 {
     d->pFileTip->setItem( 0L );
     stopImagePreview(); // Just in case
-    KIconView::clear();
+    K3IconView::clear();
     d->pActiveItem = 0L;
 }
 
@@ -521,7 +521,7 @@ void KonqIconViewWidget::takeItem( Q3IconViewItem *item )
     if ( d->pPreviewJob )
       d->pPreviewJob->removeItem( static_cast<KFileIVI *>(item)->item() );
 
-    KIconView::takeItem( item );
+    K3IconView::takeItem( item );
 }
 
 // Currently unused - remove in KDE 4.0
@@ -707,7 +707,7 @@ void KonqIconViewWidget::setItemTextPos( ItemTextPos pos )
             setGridX( -1 );
         }
 
-    KIconView::setItemTextPos( pos );
+    K3IconView::setItemTextPos( pos );
 }
 
 void KonqIconViewWidget::gridValues( int* x, int* y, int* dx, int* dy,
@@ -1005,7 +1005,7 @@ void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
         return;
     }
 
-    KIconView::contentsDragEnterEvent( e );
+    K3IconView::contentsDragEnterEvent( e );
     emit dragEntered( true /*accepted*/ );
 }
 
@@ -1027,13 +1027,13 @@ void KonqIconViewWidget::contentsDragMoveEvent( QDragMoveEvent *e )
         return;
     }
     emit dragMove( true );
-    KIconView::contentsDragMoveEvent( e );
+    K3IconView::contentsDragMoveEvent( e );
 }
 
 void KonqIconViewWidget::contentsDragLeaveEvent( QDragLeaveEvent *e )
 {
     d->bProgramsURLdrag = false;
-    KIconView::contentsDragLeaveEvent(e);
+    K3IconView::contentsDragLeaveEvent(e);
     emit dragLeft();
 }
 
@@ -1218,7 +1218,7 @@ void KonqIconViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
         }
     }
     d->renameItem= false;
-    KIconView::contentsMouseMoveEvent( e );
+    K3IconView::contentsMouseMoveEvent( e );
 }
 
 void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
@@ -1239,7 +1239,7 @@ void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
     // First we need to call QIconView though, to clear the drag shape
     bool bMovable = itemsMovable();
     setItemsMovable(false); // hack ? call it what you want :-)
-    KIconView::contentsDropEvent( ev );
+    K3IconView::contentsDropEvent( ev );
     setItemsMovable(bMovable);
 
     QList<Q3IconDragItem> lst;
@@ -1247,7 +1247,7 @@ void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
   }
   else
   {
-    KIconView::contentsDropEvent( ev );
+    K3IconView::contentsDropEvent( ev );
     emit dropped(); // What is this for ? (David)      KDE4: remove
   }
   // Don't do this here, it's too early !
@@ -1289,7 +1289,7 @@ void KonqIconViewWidget::doubleClickTimeout()
     else
     {
         QMouseEvent e( QEvent::MouseMove,d->mousePos , 1, d->mouseState);
-        KIconView::contentsMousePressEvent( &e );
+        K3IconView::contentsMousePressEvent( &e );
     }
     if( d->pActivateDoubleClick->isActive() )
         d->pActivateDoubleClick->stop();
@@ -1317,7 +1317,7 @@ void KonqIconViewWidget::wheelEvent(QWheelEvent* e)
         return;
     }
 
-    KIconView::wheelEvent(e);
+    K3IconView::wheelEvent(e);
 }
 
 void KonqIconViewWidget::leaveEvent( QEvent *e )
@@ -1325,7 +1325,7 @@ void KonqIconViewWidget::leaveEvent( QEvent *e )
     // when leaving the widget, stop possible pending filetip
     d->pFileTip->setItem( 0 );
 
-    KIconView::leaveEvent(e);
+    K3IconView::leaveEvent(e);
 }
 
 void KonqIconViewWidget::mousePressChangeValue()
@@ -1380,13 +1380,13 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
     mousePressChangeValue();
     if(d->pActivateDoubleClick && d->pActivateDoubleClick->isActive())
         d->pActivateDoubleClick->stop();
-    KIconView::contentsMousePressEvent( e );
+    K3IconView::contentsMousePressEvent( e );
 
 }
 
 void KonqIconViewWidget::contentsMouseReleaseEvent( QMouseEvent *e )
 {
-    KIconView::contentsMouseReleaseEvent( e );
+    K3IconView::contentsMouseReleaseEvent( e );
     if(d->releaseMouseEvent && d->pActivateDoubleClick && d->pActivateDoubleClick->isActive ())
         d->pActivateDoubleClick->stop();
     slotSelectionChanged();
@@ -1462,7 +1462,7 @@ void KonqIconViewWidget::insertInGrid(Q3IconViewItem *item)
 
     if (!m_IconRect.isValid())
     {
-        KIconView::insertInGrid(item);
+        K3IconView::insertInGrid(item);
         return;
     }
 

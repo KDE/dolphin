@@ -37,7 +37,7 @@
 			<default>$HOME/.face.icon</default>
 		</entry>
 		<entry name="CustomKey" type="String">
-			<label>Sort key for KIconViewItems</label>
+			<label>Sort key for K3IconViewItems</label>
 			<default>Zz_custom</default>
 		</entry>
 	</group>

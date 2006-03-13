@@ -50,7 +50,7 @@ namespace KIO { class Job; }
  * Used by kdesktop and konq_iconview.
  *
  */
-class LIBKONQ_EXPORT KonqIconViewWidget : public KIconView
+class LIBKONQ_EXPORT KonqIconViewWidget : public K3IconView
 {
     Q_OBJECT
     Q_PROPERTY( bool sortDirectoriesFirst READ sortDirectoriesFirst WRITE setSortDirectoriesFirst )

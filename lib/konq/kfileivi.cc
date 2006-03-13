@@ -58,7 +58,7 @@ struct KFileIVI::Private
 };
 
 KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KFileItem* fileitem, int size )
-    : KIconViewItem( iconview, fileitem->text() ),
+    : K3IconViewItem( iconview, fileitem->text() ),
     m_size( size ), m_state( KIcon::DefaultState ),
     m_bDisabled( false ), m_bThumbnail( false ), m_fileitem( fileitem )
 {
@@ -371,7 +371,7 @@ void KFileIVI::paintItem( QPainter *p, const QColorGroup &c )
         p->setFont( f );
     }*/
 
-    KIconViewItem::paintItem( p, cg );
+    K3IconViewItem::paintItem( p, cg );
     paintOverlay(p);
 
 }
@@ -425,7 +425,7 @@ void KFileIVI::setMouseOverAnimation( const QString& movieFileName )
 {
     if ( !movieFileName.isEmpty() )
     {
-        //kDebug(1203) << "KIconViewItem::setMouseOverAnimation " << movieFileName << endl;
+        //kDebug(1203) << "K3IconViewItem::setMouseOverAnimation " << movieFileName << endl;
         d->m_animatedIcon = movieFileName;
     }
 }

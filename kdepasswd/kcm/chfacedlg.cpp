@@ -66,7 +66,7 @@ ChFaceDlg::ChFaceDlg(const QString& picsdir, QWidget *parent, const char *name, 
   QLabel *header = new QLabel( i18n("Select a new face:"), page );
   top->addWidget( header );
 
-  m_FacesWidget = new KIconView( page );
+  m_FacesWidget = new K3IconView( page );
   m_FacesWidget->setSelectionMode( Q3IconView::Single );
   m_FacesWidget->setItemsMovable( false );
   m_FacesWidget->setMinimumSize( 400, 200 );
