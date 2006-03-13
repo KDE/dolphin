@@ -625,7 +625,7 @@ static int directCommand(KCmdLineArgs *args)
         else if ( contextStr == QLatin1String( "Actions" ) )
             context = KIcon::Action;
 
-	KIconDialog dlg(0, "icon dialog");
+	KIconDialog dlg((QWidget*)0L);
 	kapp->setTopWidget( &dlg );
 	dlg.setup( group, context);
 	if (!title.isNull())

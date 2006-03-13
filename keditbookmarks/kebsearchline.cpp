@@ -20,7 +20,7 @@
 
 #include <QHeaderView>
 #include <QHBoxLayout>
-
+#include <QContextMenuEvent>
 
 
 KEBSearchLine::KEBSearchLine(QWidget *parent, K3ListView *listView)
