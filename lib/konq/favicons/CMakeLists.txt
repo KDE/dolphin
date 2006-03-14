@@ -25,7 +25,7 @@ install_targets(${LIB_INSTALL_DIR}/kde4 kded_favicons )
 ########### install files ###############
 
 install_files( ${SERVICES_INSTALL_DIR}/kded FILES favicons.desktop )
-install_files( ${DATA_INSTALL_DIR}/kconf_update FILES favicons.upd move_favicons.sh )
+install_files( ${KCONF_UPDATE_INSTALL_DIR} FILES favicons.upd move_favicons.sh )
 
 kde4_footer()
 

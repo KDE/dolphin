@@ -22,7 +22,7 @@ install_targets(/bin kfmclient )
 
 ########### install files ###############
 
-install_files( ${DATA_INSTALL_DIR}/kconf_update FILES kfmclient_3_2.upd )
+install_files( ${KCONF_UPDATE_INSTALL_DIR} FILES kfmclient_3_2.upd )
 
 kde4_footer()
 

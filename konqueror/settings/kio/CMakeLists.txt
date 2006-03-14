@@ -54,7 +54,7 @@ install_targets(${LIB_INSTALL_DIR}/kde4 kcm_kio )
 install_files( ${XDG_APPS_DIR} FILES cookies.desktop useragent.desktop cache.desktop                  lanbrowser.desktop netpref.desktop proxy.desktop )
 install_files( ${SERVICETYPES_INSTALL_DIR} FILES uasprovider.desktop )
 install_files( ${APPLNK_INSTALL_DIR}/.hidden FILES smb.desktop )
-install_files( ${DATA_INSTALL_DIR}/kconf_update FILES socks.upd )
+install_files( ${KCONF_UPDATE_INSTALL_DIR} FILES socks.upd )
 
 kde4_footer()
 

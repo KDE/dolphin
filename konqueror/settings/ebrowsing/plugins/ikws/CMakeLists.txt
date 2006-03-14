@@ -50,7 +50,7 @@ install_targets(${LIB_INSTALL_DIR}/kde4 kurisearchfilter )
 
 install_files( ${SERVICES_INSTALL_DIR} FILES kuriikwsfilter.desktop kurisearchfilter.desktop )
 install_files( ${SERVICETYPES_INSTALL_DIR} FILES searchprovider.desktop )
-install_files( ${DATA_INSTALL_DIR}/kconf_update FILES kuriikwsfilter.upd )
+install_files( ${KCONF_UPDATE_INSTALL_DIR} FILES kuriikwsfilter.upd )
 
 kde4_footer()
 

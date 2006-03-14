@@ -41,7 +41,7 @@ install_files( ${SERVICES_INSTALL_DIR} FILES konq_sidebartng.desktop )
 install_files( ${CONFIG_INSTALL_DIR} FILES konqsidebartng.rc )
 install_files( ${DATA_INSTALL_DIR}/konqsidebartng/entries/ FILES .version )
 install_files( /include FILES konqsidebarplugin.h )
-install_files( ${DATA_INSTALL_DIR}/kconf_update FILES konqsidebartng.upd move_konqsidebartng_entries.sh )
+install_files( ${KCONF_UPDATE_INSTALL_DIR} FILES konqsidebartng.upd move_konqsidebartng_entries.sh )
 
 kde4_footer()
 
