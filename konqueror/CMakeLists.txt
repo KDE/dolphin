@@ -1,5 +1,7 @@
 kde4_header()
 
+project(konqueror)
+
 set(libkonqueror_intern_KCFG_SRCS  ${CMAKE_SOURCE_DIR}/konqueror/konq_settingsxt.kcfgc)
 kde4_add_kcfg_files(libkonqueror_intern_SRCS ${libkonqueror_intern_KCFG_SRCS})
 
