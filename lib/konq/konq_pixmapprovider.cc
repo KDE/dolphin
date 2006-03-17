@@ -175,8 +175,9 @@ QPixmap KonqPixmapProvider::loadIcon( const QString& url, const QString& icon,
 
 	int x = big.width()  - small.width();
 	int y = 0;
-
+#ifdef __GNUC__
 #warning This mask merge is probably wrong.  I couldnt find a way to get the old behavior of Qt::OrROP
+#endif
 /* Old code that did the bitmask merge
        if ( big.mask() ) {
            QBitmap mask = *big.mask();

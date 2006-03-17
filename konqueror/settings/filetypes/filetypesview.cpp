@@ -54,19 +54,20 @@ FileTypesView::FileTypesView(KInstance *inst, QWidget *parent)
   setButtons(Help | Apply | Cancel | Ok);
   QString wtstr;
 
-  QHBoxLayout *l = new QHBoxLayout(this, 0, KDialog::marginHint());
-  QGridLayout *leftLayout = new QGridLayout(0, 4, 3);
-  leftLayout->setSpacing( KDialog::spacingHint() );
-  leftLayout->setColStretch(1, 1);
+  QHBoxLayout *l = new QHBoxLayout(this);
+  l->setMargin(KDialog::marginHint());
+  QGridLayout *leftLayout = new QGridLayout((QWidget*)0L);
+  leftLayout->setSpacing(KDialog::spacingHint());
+  leftLayout->setColumnStretch(1, 1);
 
   l->addLayout( leftLayout );
 
   QLabel *patternFilterLBL = new QLabel(i18n("F&ind filename pattern:"), this);
-  leftLayout->addMultiCellWidget(patternFilterLBL, 0, 0, 0, 2);
+  leftLayout->addWidget(patternFilterLBL, 0, 0, 1, 3);
 
   patternFilterLE = new KLineEdit(this);
   patternFilterLBL->setBuddy( patternFilterLE );
-  leftLayout->addMultiCellWidget(patternFilterLE, 1, 1, 0, 2);
+  leftLayout->addWidget(patternFilterLE, 1, 0, 1, 3);
 
   connect(patternFilterLE, SIGNAL(textChanged(const QString &)),
           this, SLOT(slotFilter(const QString &)));
@@ -82,7 +83,7 @@ FileTypesView::FileTypesView(KInstance *inst, QWidget *parent)
   typesLV->setFullWidth(true);
 
   typesLV->addColumn(i18n("Known Types"));
-  leftLayout->addMultiCellWidget(typesLV, 2, 2, 0, 2);
+  leftLayout->addWidget(typesLV, 2, 0, 1, 3);
   connect(typesLV, SIGNAL(selectionChanged(Q3ListViewItem *)),
           this, SLOT(updateDisplay(Q3ListViewItem *)));
   connect(typesLV, SIGNAL(doubleClicked(Q3ListViewItem *)),
@@ -176,7 +177,7 @@ void FileTypesView::readFileTypes()
     KMimeType::List::const_iterator it2(mimetypes.begin());
     for (; it2 != mimetypes.end(); ++it2) {
 	QString mimetype = (*it2)->name();
-	int index = mimetype.find("/");
+	int index = mimetype.indexOf("/");
 	QString maj = mimetype.left(index);
 	QString min = mimetype.right(mimetype.length() - index+1);
 
@@ -223,7 +224,7 @@ void FileTypesView::slotFilter(const QString & patternFilter)
     Q3PtrListIterator<TypesListItem> it( m_itemList );
     while ( it.current() ) {
 	if ( patternFilter.isEmpty() ||
-	     !((*it)->patterns().grep( patternFilter, false )).isEmpty() ) {
+	     !((*it)->patterns().filter( patternFilter, Qt::CaseInsensitive )).isEmpty() ) {
 
 	    TypesListItem *group = m_majorMap[ (*it)->majorType() ];
 	    // QListView makes sure we don't insert a group-item more than once
@@ -427,7 +428,7 @@ void FileTypesView::slotDatabaseChanged()
     QList<TypesListItem *>::Iterator it = m_itemsModified.begin();
     for( ; it != m_itemsModified.end(); ++it ) {
         QString name = (*it)->name();
-        if ( removedList.find( name ) == removedList.end() ) // if not deleted meanwhile
+        if ( removedList.indexOf( name ) == -1 ) // if not deleted meanwhile
             (*it)->refresh();
     }
     m_itemsModified.clear();

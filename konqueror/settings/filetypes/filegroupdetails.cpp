@@ -24,12 +24,12 @@
 #include <kdialog.h>
 #include <klocale.h>
 
-FileGroupDetails::FileGroupDetails(QWidget *parent, const char *name )
-    : QWidget( parent, name )
+FileGroupDetails::FileGroupDetails(QWidget *parent)
+    : QWidget( parent )
 {
   QWidget * parentWidget = this;
-  QVBoxLayout *secondLayout = new QVBoxLayout(parentWidget,
-      0, KDialog::spacingHint());
+  QVBoxLayout *secondLayout = new QVBoxLayout(parentWidget);
+  secondLayout->setSpacing(KDialog::spacingHint());
 
   m_autoEmbed = new Q3ButtonGroup( i18n("Left Click Action"), parentWidget );
   m_autoEmbed->setOrientation( Qt::Vertical );
@@ -40,7 +40,7 @@ FileGroupDetails::FileGroupDetails(QWidget *parent, const char *name )
   new QRadioButton( i18n("Show file in separate viewer"), m_autoEmbed );
   connect(m_autoEmbed, SIGNAL( clicked( int ) ), SLOT( slotAutoEmbedClicked( int ) ));
 
-  QWhatsThis::add( m_autoEmbed, i18n("Here you can configure what the Konqueror file manager"
+  m_autoEmbed->setWhatsThis( i18n("Here you can configure what the Konqueror file manager"
     " will do when you click on a file belonging to this group. Konqueror can display the file in"
     " an embedded viewer or start up a separate application. You can change this setting for a"
     " specific file type in the 'Embedding' tab of the file type configuration.") );

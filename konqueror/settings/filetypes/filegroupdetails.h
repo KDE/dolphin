@@ -30,7 +30,7 @@ class FileGroupDetails : public QWidget
 {
   Q_OBJECT
 public:
-  FileGroupDetails(QWidget *parent = 0, const char *name = 0);
+  FileGroupDetails(QWidget *parent = 0);
 
   void setTypeItem( TypesListItem * item );
 

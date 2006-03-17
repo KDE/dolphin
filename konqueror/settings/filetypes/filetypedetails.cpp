@@ -20,16 +20,18 @@
 #include "filetypedetails.h"
 #include "typeslistitem.h"
 
-FileTypeDetails::FileTypeDetails( QWidget * parent, const char * name )
-  : QTabWidget( parent, name ), m_item( 0L )
+FileTypeDetails::FileTypeDetails( QWidget * parent )
+  : QTabWidget( parent ), m_item( 0L )
 {
   QString wtstr;
   // First tab - General
   QWidget * firstWidget = new QWidget(this);
-  QVBoxLayout *firstLayout = new QVBoxLayout(firstWidget,KDialog::marginHint(),
-                                       KDialog::spacingHint());
+  QVBoxLayout *firstLayout = new QVBoxLayout(firstWidget);
+  firstLayout->setMargin(KDialog::marginHint());
+  firstLayout->setSpacing(KDialog::spacingHint());
 
-  QHBoxLayout *hBox = new QHBoxLayout(0L, 0, KDialog::spacingHint());
+  QHBoxLayout *hBox = new QHBoxLayout((QWidget*)0);
+  hBox->setSpacing(KDialog::spacingHint());
   firstLayout->addLayout(hBox, 1);
 
   iconButton = new KIconButton(firstWidget);
@@ -45,13 +47,14 @@ FileTypeDetails::FileTypeDetails( QWidget * parent, const char * name )
   Q3GroupBox *gb = new Q3GroupBox(i18n("Filename Patterns"), firstWidget);
   hBox->addWidget(gb);
 
-  QGridLayout *grid = new QGridLayout(gb, 3, 2, KDialog::marginHint(),
-                                      KDialog::spacingHint());
-  grid->addRowSpacing(0, fontMetrics().lineSpacing());
+  QGridLayout *grid = new QGridLayout(gb);
+  grid->setMargin(KDialog::marginHint());
+  grid->setSpacing(KDialog::spacingHint());
+  grid->addItem(new QSpacerItem(0,fontMetrics().lineSpacing()), 0, 0);
 
   extensionLB = new Q3ListBox(gb);
   connect(extensionLB, SIGNAL(highlighted(int)), SLOT(enableExtButtons(int)));
-  grid->addMultiCellWidget(extensionLB, 1, 2, 0, 0);
+  grid->addWidget(extensionLB, 1, 0, 2, 1);
   grid->setRowStretch(0, 0);
   grid->setRowStretch(1, 1);
   grid->setRowStretch(2, 0);
@@ -97,14 +100,16 @@ FileTypeDetails::FileTypeDetails( QWidget * parent, const char * name )
 
   // Second tab - Embedding
   QWidget * secondWidget = new QWidget(this);
-  QVBoxLayout *secondLayout = new QVBoxLayout(secondWidget, KDialog::marginHint(),
-                                       KDialog::spacingHint());
+  QVBoxLayout *secondLayout = new QVBoxLayout(secondWidget);
+  secondLayout->setMargin(KDialog::marginHint());
+  secondLayout->setSpacing(KDialog::spacingHint());
 
   m_autoEmbed = new Q3ButtonGroup( i18n("Left Click Action"), secondWidget );
   secondLayout->setSpacing( KDialog::spacingHint() );
   secondLayout->addWidget( m_autoEmbed, 1 );
 
-  m_autoEmbed->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)3, (QSizePolicy::SizeType)0, m_autoEmbed->sizePolicy().hasHeightForWidth() ) );
+  m_autoEmbed->setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Fixed );
+  m_autoEmbed->sizePolicy().setHeightForWidth(m_autoEmbed->sizePolicy().hasHeightForWidth());
 
   // The order of those three items is very important. If you change it, fix typeslistitem.cpp !
   new QRadioButton( i18n("Show file in embedded viewer"), m_autoEmbed );

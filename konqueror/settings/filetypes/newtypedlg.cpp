@@ -19,10 +19,11 @@ NewTypeDialog::NewTypeDialog(QStringList groups,
     Ok|Cancel, Ok, true)
 {
   QFrame *main = makeMainWidget();
-  QVBoxLayout *topl = new QVBoxLayout(main, 0, spacingHint());
+  QVBoxLayout *topl = new QVBoxLayout(main);
+  topl->setSpacing(spacingHint());
 
-  QGridLayout *grid = new QGridLayout(2, 2);
-  grid->setColStretch(1, 1);
+  QGridLayout *grid = new QGridLayout();
+  grid->setColumnStretch(1, 1);
   topl->addLayout(grid);
 
   QLabel *l = new QLabel(i18n("Group:"), main);
@@ -31,7 +32,7 @@ NewTypeDialog::NewTypeDialog(QStringList groups,
   groupCombo = new QComboBox(main);
   //groupCombo->setEditable( true ); M.O.: Currently, the code in filetypesview isn't capable of handling
   //new top level types; so better not let them be added than crash.
-  groupCombo->insertStringList(groups);
+  groupCombo->addItems(groups);
   grid->addWidget(groupCombo, 0, 1);
 
   groupCombo->setWhatsThis( i18n("Select the category under which"

@@ -5,7 +5,11 @@ project(libkonq)
 add_subdirectory( pics ) 
 add_subdirectory( favicons ) 
 
-include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
+include_directories( ${KDE4_INCLUDE_DIR}
+                     ${QT_INCLUDES}
+                     ${CMAKE_CURRENT_SOURCE_DIR}
+                     ${CMAKE_CURRENT_BINARY_DIR}
+                     ${ZLIB_INCLUDE_DIR} )
 
 
 ########### next target ###############
@@ -37,7 +41,7 @@ kde4_add_dcop_skels(konq_LIB_SRCS konq_undo.h konq_historycomm.h konq_faviconmgr
 
 kde4_add_library(konq SHARED ${konq_LIB_SRCS})
 
-target_link_libraries(konq  ${LIB_KDE3SUPPORT} ${QT_QTXML_LIBRARY} kdefx)
+target_link_libraries(konq  ${LIB_KDE3SUPPORT} ${QT_QTXML_LIBRARY} kdefx ${ZLIB_LIBRARY})
 
 set_target_properties(konq PROPERTIES VERSION 4.2.0 SOVERSION 4 )
 install_targets(${LIB_INSTALL_DIR} konq )

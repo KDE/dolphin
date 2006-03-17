@@ -22,7 +22,7 @@ class FileTypeDetails : public QTabWidget
 {
   Q_OBJECT
 public:
-  FileTypeDetails(QWidget *parent = 0, const char *name = 0);
+  FileTypeDetails(QWidget *parent = 0);
 
   void setTypeItem( TypesListItem * item );
 

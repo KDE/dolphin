@@ -85,7 +85,7 @@ void TypesListItem::init(KMimeType::Ptr mimetype)
   m_bFullInit = false;
   m_mimetype = mimetype;
 
-  int index = mimetype->name().find("/");
+  int index = mimetype->name().indexOf("/");
   if (index != -1) {
     m_major = mimetype->name().left(index);
     m_minor = mimetype->name().right(mimetype->name().length() -
@@ -354,17 +354,17 @@ void TypesListItem::sync()
             ? (*s_changedServices)[ pService->desktopEntryPath() ] : desktop->readEntry("MimeType",QStringList(), ';');
 
           // Remove entry and the number that might follow.
-          QStringList::Iterator it;
-          for(;(it = mimeTypeList.find(name())) != mimeTypeList.end();)
+          for(int i=0;(i = mimeTypeList.indexOf(name())) != -1;)
           {
-             it = mimeTypeList.remove(it);
+             it = mimeTypeList.begin()+i;
+             it = mimeTypeList.erase(it);
              if (it != mimeTypeList.end())
              {
                // Check next item
                bool numeric;
                (*it).toInt(&numeric);
                if (numeric)
-                  mimeTypeList.remove(it);
+                  mimeTypeList.erase(it);
              }
           }
 

@@ -65,9 +65,10 @@ KServiceListWidget::KServiceListWidget(int kind, QWidget *parent, const char *na
     m_kind( kind ), m_item( 0L )
 {
   QWidget * gb = this;
-  QGridLayout * grid = new QGridLayout(gb, 7, 2, KDialog::marginHint(),
-                                       KDialog::spacingHint());
-  grid->addRowSpacing(0, fontMetrics().lineSpacing());
+  QGridLayout * grid = new QGridLayout(gb);
+  grid->setMargin(KDialog::marginHint());
+  grid->setSpacing(KDialog::spacingHint());
+  grid->addItem(new QSpacerItem(0,fontMetrics().lineSpacing()), 0, 0);
   grid->setRowStretch(1, 1);
   grid->setRowStretch(2, 1);
   grid->setRowStretch(3, 1);
@@ -77,7 +78,7 @@ KServiceListWidget::KServiceListWidget(int kind, QWidget *parent, const char *na
 
   servicesLB = new Q3ListBox(gb);
   connect(servicesLB, SIGNAL(highlighted(int)), SLOT(enableMoveButtons(int)));
-  grid->addMultiCellWidget(servicesLB, 1, 6, 0, 0);
+  grid->addWidget(servicesLB, 1, 0, 6, 1);
   connect( servicesLB, SIGNAL( doubleClicked ( Q3ListBoxItem * )), this, SLOT( editService()));
 
   QString wtstr =

@@ -27,13 +27,14 @@
 /* needed, because e.g. Q_OS_UNIX is so frequently used */
 #include <qglobal.h>
 
-#ifdef Q_WS_WIN
-
-#else /* Q_OS_UNIX */
-
-/* export statements for unix */
-#define LIBKONQ_EXPORT KDE_EXPORT
-
+#ifdef MAKE_KONQ_LIB
+# define LIBKONQ_EXPORT KDE_EXPORT
+#else
+# ifdef Q_OS_WIN
+#  define LIBKONQ_EXPORT KDE_IMPORT
+# else
+#  define LIBKONQ_EXPORT KDE_EXPORT
+# endif
 #endif
 
 #endif
