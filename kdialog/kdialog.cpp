@@ -139,11 +139,11 @@ static void outputStringList(QStringList list, bool separateOutput)
 {
     if ( separateOutput) {
 	for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) {
-	    cout << (*it).local8Bit().data() << endl;
+	    cout << (*it).toLocal8Bit().data() << endl;
 	}
     } else {
 	for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) {
-	    cout << (*it).local8Bit().data() << " ";
+	    cout << (*it).toLocal8Bit().data() << " ";
 	}
 	cout << endl;
     }
@@ -268,7 +268,7 @@ static int directCommand(KCmdLineArgs *args)
           init = QString::fromLocal8Bit(args->arg(0));
 
       bool retcode = Widgets::inputBox(0, title, QString::fromLocal8Bit(args->getOption("inputbox")), init, result);
-      cout << result.local8Bit().data() << endl;
+      cout << result.toLocal8Bit().data() << endl;
       return retcode ? 0 : 1;
     }
 
@@ -373,7 +373,7 @@ static int directCommand(KCmdLineArgs *args)
 	    }
             QString result;
 	    bool retcode = Widgets::comboBox(0, title, text, list, defaultEntry, result);
-            cout << result.local8Bit().data() << endl;
+            cout << result.toLocal8Bit().data() << endl;
             return retcode ? 0 : 1;
         }
         return -1;
@@ -393,7 +393,7 @@ static int directCommand(KCmdLineArgs *args)
             QString result;
             bool retcode = Widgets::listBox(0, title, text, list, defaultEntry, result);
             if (1 == retcode) { // OK was selected
-	        cout << result.local8Bit().data() << endl;
+	        cout << result.toLocal8Bit().data() << endl;
 	    }
             return retcode ? 0 : 1;
         }
@@ -415,8 +415,8 @@ static int directCommand(KCmdLineArgs *args)
 
             int i;
             for (i=0; i<result.count(); i++)
-                if (!result.at(i).local8Bit().isEmpty()) {
-		    cout << result.at(i).local8Bit().data() << endl;
+                if (!result.at(i).toLocal8Bit().isEmpty()) {
+		    cout << result.at(i).toLocal8Bit().data() << endl;
 		}
             exit( retcode ? 0 : 1 );
         }
@@ -434,7 +434,7 @@ static int directCommand(KCmdLineArgs *args)
             QString text = QString::fromLocal8Bit(args->getOption("radiolist"));
             QString result;
             bool retcode = Widgets::radioBox(0, title, text, list, result);
-            cout << result.local8Bit().data() << endl;
+            cout << result.toLocal8Bit().data() << endl;
             exit( retcode ? 0 : 1 );
         }
         return -1;
@@ -470,7 +470,7 @@ static int directCommand(KCmdLineArgs *args)
 	} else {
 	    QString result = dlg.selectedFile();
 	    if (!result.isEmpty())  {
-		cout << result.local8Bit().data() << endl;
+		cout << result.toLocal8Bit().data() << endl;
 		return 0;
 	    }
 	}
@@ -510,14 +510,14 @@ static int directCommand(KCmdLineArgs *args)
 	    KUrl result = dlg.selectedURL();
 	    if ( result.isValid())  {
 
-		cout << result.url().local8Bit().data() << endl;
+		cout << result.url().toLocal8Bit().data() << endl;
 		return 0;
 	    }
 	} else { // getsavefilename
 	    QString result = dlg.selectedFile();
 	    if (!result.isEmpty())  {
 		KRecentDocument::add(result);
-		cout << result.local8Bit().data() << endl;
+		cout << result.toLocal8Bit().data() << endl;
 		return 0;
 	    }
 	}
@@ -549,7 +549,7 @@ static int directCommand(KCmdLineArgs *args)
 	    result = url.path();
 #endif
         if (!result.isEmpty())  {
-            cout << result.local8Bit().data() << endl;
+            cout << result.toLocal8Bit().data() << endl;
             return 0;
         }
         return 1; // cancelled
@@ -585,7 +585,7 @@ static int directCommand(KCmdLineArgs *args)
 	} else {
 	    KUrl result = dlg.selectedURL();
 	    if (!result.isEmpty())  {
-		cout << result.url().local8Bit().data() << endl;
+		cout << result.url().toLocal8Bit().data() << endl;
 		return 0;
 	    }
 	}
@@ -635,7 +635,7 @@ static int directCommand(KCmdLineArgs *args)
 	QString result = dlg.openDialog();
 
         if (!result.isEmpty())  {
-            cout << result.local8Bit().data() << endl;
+            cout << result.toLocal8Bit().data() << endl;
             return 0;
         }
         return 1; // cancelled
