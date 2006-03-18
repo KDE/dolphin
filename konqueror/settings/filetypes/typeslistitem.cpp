@@ -281,9 +281,8 @@ void TypesListItem::sync()
   // this service type
   //
   QStringList groups = profile.groupList();
-
-  for (QStringList::Iterator it = groups.begin();
-       it != groups.end(); it++ )
+  QStringList::Iterator it;
+  for (it = groups.begin(); it != groups.end(); it++ )
   {
     profile.setGroup(*it);
 
