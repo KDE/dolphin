@@ -4,8 +4,9 @@ include_directories( ${CMAKE_SOURCE_DIR}/konqueror ${KDE4_INCLUDE_DIR} ${QT_INCL
 
 
 ########### next target ###############
+set(kded_konqy_preloader_PART_SRCS preloader.cc )
 
-set(kded_konqy_preloader_PART_SRCS preloader.cc ${libkonqueror_intern_SRCS})
+kde4_add_kcfg_files(libkonqueror_intern_SRCS ${CMAKE_SOURCE_DIR}/konqueror/konq_settingsxt.kcfgc)
 
 kde4_automoc(${kded_konqy_preloader_PART_SRCS})
 
