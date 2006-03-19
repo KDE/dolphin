@@ -73,6 +73,14 @@ install_files( /include FILES KonquerorIface.h )
 install_files( ${APPLNK_INSTALL_DIR} FILES konqueror.desktop )
 install_files( ${DATA_INSTALL_DIR}/konqueror FILES konqueror.rc konq-simplebrowser.rc )
 
+install(FILES profile_webbrowsing.desktop ${CMAKE_INSTALL_PREFIX}${DATA_INSTALL_DIR}/konqueror/profiles/ RENAME webbrowsing)
+install(FILES profile_filemanagement.desktop ${CMAKE_INSTALL_PREFIX}${DATA_INSTALL_DIR}/konqueror/profiles/ RENAME filemanagement)
+install(FILES profile_midnightcommander.desktop ${CMAKE_INSTALL_PREFIX}${DATA_INSTALL_DIR}/konqueror/profiles/ RENAME midnightcommander)
+install(FILES profile_tabbedbrowsing.desktop ${CMAKE_INSTALL_PREFIX}${DATA_INSTALL_DIR}/konqueror/profiles/ RENAME tabbedbrowsing)
+install(FILES profile_kde_devel.desktop ${CMAKE_INSTALL_PREFIX}${DATA_INSTALL_DIR}/konqueror/profiles/ RENAME kde_devel)
+install(FILES profile_simplebrowser.desktop ${CMAKE_INSTALL_PREFIX}${DATA_INSTALL_DIR}/konqueror/profiles/ RENAME simplebrowser)
+
+
 kde4_footer()
 
 
