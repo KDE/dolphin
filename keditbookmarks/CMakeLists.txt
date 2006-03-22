@@ -11,7 +11,7 @@ kde4_automoc(${kbookmarkmerger_SRCS})
 
 kde4_add_executable(kbookmarkmerger ${kbookmarkmerger_SRCS})
 
-target_link_libraries(kbookmarkmerger  ${QT_AND_KDECORE_LIBS} kio )
+target_link_libraries(kbookmarkmerger  ${KDE4_KDECORE_LIBS} kio )
 
 install_targets(/bin kbookmarkmerger )
 
@@ -46,7 +46,7 @@ kde4_add_kcfg_files(keditbookmarks_KDEINIT_SRCS settings.kcfgc )
 
 kde4_add_kdeinit_executable( keditbookmarks ${keditbookmarks_KDEINIT_SRCS})
 
-target_link_libraries(kdeinit_keditbookmarks  ${QT_AND_KDECORE_LIBS} konq )
+target_link_libraries(kdeinit_keditbookmarks  ${KDE4_KDECORE_LIBS} konq )
 
 install_targets(${LIB_INSTALL_DIR} kdeinit_keditbookmarks )
 

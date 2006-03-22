@@ -13,7 +13,7 @@ if(KDE4_BUILD_TESTS)
 
 kde4_add_executable(testnsplugin ${testnsplugin_SRCS})
 
-target_link_libraries(testnsplugin  ${QT_AND_KDECORE_LIBS} kdeui nsplugin )
+target_link_libraries(testnsplugin  ${KDE4_KDECORE_LIBS} kdeui nsplugin )
 
 endif(KDE4_BUILD_TESTS)
 

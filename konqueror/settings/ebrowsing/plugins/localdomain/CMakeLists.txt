@@ -15,7 +15,7 @@ kde4_add_plugin(localdomainurifilter WITH_PREFIX ${localdomainurifilter_PART_SRC
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} localdomainurifilter )
 
-target_link_libraries(localdomainurifilter  ${QT_AND_KDECORE_LIBS} kio kdeui DCOP ${QT_QT3SUPPORT_LIBRARY})
+target_link_libraries(localdomainurifilter  ${KDE4_KDECORE_LIBS} kio kdeui DCOP ${QT_QT3SUPPORT_LIBRARY})
 
 install_targets(${LIB_INSTALL_DIR}/kde4 localdomainurifilter )
 
@@ -28,7 +28,7 @@ kde4_automoc(${klocaldomainurifilterhelper_SRCS})
 
 kde4_add_executable(klocaldomainurifilterhelper ${klocaldomainurifilterhelper_SRCS})
 
-target_link_libraries(klocaldomainurifilterhelper  ${QT_AND_KDECORE_LIBS} )
+target_link_libraries(klocaldomainurifilterhelper  ${KDE4_KDECORE_LIBS} )
 
 install_targets(/bin klocaldomainurifilterhelper )
 

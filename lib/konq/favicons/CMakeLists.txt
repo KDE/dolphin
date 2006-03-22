@@ -15,7 +15,7 @@ kde4_add_dcop_skels(kded_favicons_PART_SRCS ${kded_favicons_DCOP_SKEL_SRCS} )
 
 kde4_add_plugin(kded_favicons ${kded_favicons_PART_SRCS})
 
-target_link_libraries(kded_favicons  ${LIB_KIO}  )
+target_link_libraries(kded_favicons  ${KDE4_KIO_LIBS}  )
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kded_favicons )
 

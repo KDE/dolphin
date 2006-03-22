@@ -13,7 +13,7 @@ kde4_add_plugin(konq_sidebartest ${konq_sidebartest_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_sidebartest )
 
-target_link_libraries(konq_sidebartest  ${QT_AND_KDECORE_LIBS} kparts kio konqsidebarplugin )
+target_link_libraries(konq_sidebartest  ${KDE4_KDECORE_LIBS} kparts kio konqsidebarplugin )
 
 install_targets(${LIB_INSTALL_DIR}/kde4 konq_sidebartest )
 

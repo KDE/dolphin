@@ -17,7 +17,7 @@ kde4_add_dcop_skels(kdialog_SRCS progressdialogiface.h )
 
 kde4_add_executable(kdialog ${kdialog_SRCS})
 
-target_link_libraries(kdialog  ${QT_AND_KDECORE_LIBS} kio )
+target_link_libraries(kdialog  ${KDE4_KDECORE_LIBS} kio )
 
 install_targets(/bin kdialog )
 

@@ -17,7 +17,7 @@ kde4_add_plugin(kuriikwsfilter WITH_PREFIX ${kuriikwsfilter_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kuriikwsfilter )
 
-target_link_libraries(kuriikwsfilter  ${QT_AND_KDECORE_LIBS} kdeui DCOP kio ${QT_QT3SUPPORT_LIBRARY})
+target_link_libraries(kuriikwsfilter  ${KDE4_KDECORE_LIBS} kdeui DCOP kio ${QT_QT3SUPPORT_LIBRARY})
 
 install_targets(${LIB_INSTALL_DIR}/kde4 kuriikwsfilter )
 
@@ -41,7 +41,7 @@ kde4_add_plugin(kurisearchfilter WITH_PREFIX ${kurisearchfilter_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kurisearchfilter )
 
-target_link_libraries(kurisearchfilter  ${QT_AND_KDECORE_LIBS} kdeui DCOP ${QT_QTGUI_LIBRARY} ${QT_QT3SUPPORT_LIBRARY} kio)
+target_link_libraries(kurisearchfilter  ${KDE4_KDECORE_LIBS} kdeui DCOP ${QT_QTGUI_LIBRARY} ${QT_QT3SUPPORT_LIBRARY} kio)
 
 install_targets(${LIB_INSTALL_DIR}/kde4 kurisearchfilter )
 

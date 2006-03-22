@@ -22,7 +22,7 @@ kde4_add_plugin(nsplugin WITH_PREFIX ${nsplugin_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} nsplugin )
 
-target_link_libraries(nsplugin  ${QT_AND_KDECORE_LIBS} kparts DCOP ${QT_QT3SUPPORT_LIBRARY} ${QT_QTGUI_LIBRARY} kdeui kio)
+target_link_libraries(nsplugin  ${KDE4_KDECORE_LIBS} kparts DCOP ${QT_QT3SUPPORT_LIBRARY} ${QT_QTGUI_LIBRARY} kdeui kio)
 
 install_targets(${LIB_INSTALL_DIR}/kde4 nsplugin )
 
@@ -37,7 +37,7 @@ kde4_add_plugin(kcm_nsplugins ${kcm_nsplugins_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_nsplugins )
 
-target_link_libraries(kcm_nsplugins  ${QT_AND_KDECORE_LIBS} )
+target_link_libraries(kcm_nsplugins  ${KDE4_KDECORE_LIBS} )
 
 install_targets(${LIB_INSTALL_DIR}/kde4 kcm_nsplugins )
 

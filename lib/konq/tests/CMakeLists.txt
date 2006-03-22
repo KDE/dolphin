@@ -13,7 +13,7 @@ if(KDE4_BUILD_TESTS)
 
 kde4_add_executable(konqdragtest ${konqdragtest_SRCS})
 
-target_link_libraries(konqdragtest  ${QT_AND_KDECORE_LIBS} konq )
+target_link_libraries(konqdragtest  ${KDE4_KDECORE_LIBS} konq )
 
 endif(KDE4_BUILD_TESTS)
 
