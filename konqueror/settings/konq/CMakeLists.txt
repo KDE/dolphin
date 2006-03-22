@@ -25,7 +25,7 @@ kde4_add_plugin(kcm_konq ${kcm_konq_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_konq )
 
-target_link_libraries(kcm_konq  ${LIB_KDE3SUPPORT} kutils )
+target_link_libraries(kcm_konq  ${KDE4_KDE3SUPPORT_LIBS} kutils )
 
 install_targets(${LIB_INSTALL_DIR}/kde4 kcm_konq )
 

@@ -21,7 +21,7 @@ kde4_add_plugin(kfindpart WITH_PREFIX ${kfindpart_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kfindpart )
 
-target_link_libraries(kfindpart  ${LIB_KDE3SUPPORT} konq )
+target_link_libraries(kfindpart  ${KDE4_KDE3SUPPORT_LIBS} konq )
 
 install_targets(${LIB_INSTALL_DIR}/kde4 kfindpart )
 
@@ -34,7 +34,7 @@ kde4_automoc(${kfind_SRCS})
 
 kde4_add_executable(kfind ${kfind_SRCS})
 
-target_link_libraries(kfind  ${LIB_KDE3SUPPORT} )
+target_link_libraries(kfind  ${KDE4_KDE3SUPPORT_LIBS} )
 
 install_targets(/bin kfind )
 

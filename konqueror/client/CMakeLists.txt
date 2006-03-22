@@ -13,7 +13,7 @@ kde4_add_dcop_stubs(kfmclient_KDEINIT_SRCS ${CMAKE_SOURCE_DIR}/konqueror/Konquer
 
 kde4_add_kdeinit_executable( kfmclient ${kfmclient_KDEINIT_SRCS})
 
-target_link_libraries(kdeinit_kfmclient  ${LIB_KDE3SUPPORT} )
+target_link_libraries(kdeinit_kfmclient  ${KDE4_KDE3SUPPORT_LIBS} )
 
 install_targets(${LIB_INSTALL_DIR} kdeinit_kfmclient )
 

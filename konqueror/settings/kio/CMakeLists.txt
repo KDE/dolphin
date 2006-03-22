@@ -44,7 +44,7 @@ kde4_add_plugin(kcm_kio ${kcm_kio_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_kio )
 
-target_link_libraries(kcm_kio  ${LIB_KDE3SUPPORT} )
+target_link_libraries(kcm_kio  ${KDE4_KDE3SUPPORT_LIBS} )
 
 install_targets(${LIB_INSTALL_DIR}/kde4 kcm_kio )
 

@@ -41,7 +41,7 @@ kde4_add_dcop_skels(konq_LIB_SRCS konq_undo.h konq_historycomm.h konq_faviconmgr
 
 kde4_add_library(konq SHARED ${konq_LIB_SRCS})
 
-target_link_libraries(konq  ${LIB_KDE3SUPPORT} ${QT_QTXML_LIBRARY} kdefx ${ZLIB_LIBRARY})
+target_link_libraries(konq  ${KDE4_KDE3SUPPORT_LIBS} ${QT_QTXML_LIBRARY} kdefx ${ZLIB_LIBRARY})
 
 set_target_properties(konq PROPERTIES VERSION 4.2.0 SOVERSION 4 )
 install_targets(${LIB_INSTALL_DIR} konq )
