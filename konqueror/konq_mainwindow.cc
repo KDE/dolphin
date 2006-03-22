@@ -181,6 +181,11 @@ KonqMainWindow::KonqMainWindow( const KUrl &initialURL, bool openInitialURL, con
 
   m_bViewModeToggled = false;
 
+  m_viewModesGroup = new QActionGroup(this);
+  m_viewModesGroup->setExclusive(true);
+  m_toolBarViewModesGroup = new QActionGroup(this);
+  m_toolBarViewModesGroup->setExclusive(true);
+
   m_pViewManager = new KonqViewManager( this );
 
   m_toggleViewGUIClient = new ToggleViewGUIClient( this );
@@ -271,7 +276,7 @@ KonqMainWindow::KonqMainWindow( const KUrl &initialURL, bool openInitialURL, con
 
   if ( !initialURL.isEmpty() )
   {
-    openFilteredURL( initialURL.url() );
+    openFilteredUrl( initialURL.url() );
   }
   else if ( openInitialURL )
   {
@@ -313,8 +318,6 @@ KonqMainWindow::~KonqMainWindow()
       s_lstViews = 0;
     }
   }
-
-  disconnectActionCollection( actionCollection() );
 
   saveToolBarServicesMap();
 
@@ -365,8 +368,6 @@ QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDo
         // The actual menu needs a different action collection, so that the bookmarks
         // don't appear in kedittoolbar
         m_bookmarkBarActionCollection = new KActionCollection( static_cast<QWidget *>(this) );
-        m_bookmarkBarActionCollection->setHighlightingEnabled( true );
-        connectActionCollection( m_bookmarkBarActionCollection );
         DelayedInitializer *initializer = new DelayedInitializer( QEvent::Show, res );
         connect( initializer, SIGNAL( initialize() ), this, SLOT(initBookmarkBar()) );
     }
@@ -387,11 +388,11 @@ void KonqMainWindow::initBookmarkBar()
            SIGNAL( aboutToShowContextMenu(const KBookmark &, QMenu*) ),
            this, SLOT( slotFillContextMenu(const KBookmark &, QMenu*) ));
   connect( m_paBookmarkBar,
-	   SIGNAL( openBookmark(const QString &, Qt::ButtonState) ),
-	   this, SLOT( slotOpenBookmarkURL(const QString &, Qt::ButtonState) ));
+	   SIGNAL( openBookmark(const QString &, Qt::MouseButtons, Qt::KeyboardModifiers) ),
+	   this, SLOT( slotOpenBookmarkUrl(const QString &, Qt::MouseButtons, Qt::KeyboardModifiers) ));
 
   // hide if empty
-  if (bar->count() == 0 )
+  if (bar->actions().count() == 0 )
      bar->hide();
 }
 
@@ -446,7 +447,7 @@ QString KonqMainWindow::detectNameFilter( KUrl & url )
     return nameFilter;
 }
 
-void KonqMainWindow::openFilteredURL( const QString & url, KonqOpenURLRequest & req )
+void KonqMainWindow::openFilteredUrl( const QString & url, KonqOpenURLRequest & req )
 {
     // Filter URL to build a correct one
     if (m_currentDir.isEmpty() && m_currentView)
@@ -470,14 +471,14 @@ void KonqMainWindow::openFilteredURL( const QString & url, KonqOpenURLRequest & 
 
 }
 
-void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab, bool tempFile )
+void KonqMainWindow::openFilteredUrl( const QString & _url, bool inNewTab, bool tempFile )
 {
     KonqOpenURLRequest req( _url );
     req.newTab = inNewTab;
     req.newTabInFront = true;
     req.tempFile = tempFile;
 
-    openFilteredURL( _url, req );
+    openFilteredUrl( _url, req );
 }
 
 void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
@@ -1207,7 +1208,7 @@ void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs
 
     if ( !windowArgs.toolBarsVisible )
     {
-      foreach (KToolBar* bar, mainWindow->toolBarList())
+      foreach (KToolBar* bar, mainWindow->findChildren<KToolBar*>())
         bar->hide();
     }
 
@@ -1263,7 +1264,7 @@ void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs
     }
 
     if ( windowArgs.fullscreen )
-        mainWindow->action( "fullscreen" )->activate();
+        mainWindow->action( "fullscreen" )->trigger();
 }
 
 void KonqMainWindow::slotNewWindow()
@@ -1422,7 +1423,7 @@ void KonqMainWindow::slotOpenLocation()
   dlg.exec();
   const KUrl& url = dlg.selectedURL();
   if (!url.isEmpty())
-     openFilteredURL( url.url().trimmed() );
+     openFilteredUrl( url.url().trimmed() );
 }
 
 void KonqMainWindow::slotToolFind()
@@ -1602,8 +1603,9 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
 		      if (servicename.isEmpty())
 		          servicename = service->name();
                       action->setText( servicename );
-                      action->setIcon( service->icon() );
-                      action->setName( service->desktopEntryName().ascii() );
+                      action->setIconName( service->icon() );
+                      // Bypassing KAction restriction - this action will not be found via KActionCollection when doing a name search
+                      action->QAction::setName( service->desktopEntryName().ascii() );
 
                       break;
                   }
@@ -1780,7 +1782,7 @@ void KonqMainWindow::slotReloadPopup()
     slotReload( m_pWorkingTab->activeChildView() );
 }
 
-void KonqMainWindow::slotHome(KAction::ActivationReason, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
+void KonqMainWindow::slotHome(Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
 {
     QString homeURL = m_pViewManager->profileHomeURL();
 
@@ -1795,11 +1797,11 @@ void KonqMainWindow::slotHome(KAction::ActivationReason, Qt::MouseButtons button
         req.newTabInFront = !req.newTabInFront;
 
     if( modifiers & Qt::ControlModifier ) // Ctrl Left/MMB
-	openFilteredURL( homeURL, req);
+	openFilteredUrl( homeURL, req);
     else if( buttons & Qt::MidButton )
     {
         if(KonqSettings::mmbOpensTab())
-	    openFilteredURL( homeURL, req);
+	    openFilteredUrl( homeURL, req);
 	else
 	{
 	    KUrl finalURL = KonqMisc::konqFilteredURL( this, homeURL );
@@ -1807,13 +1809,13 @@ void KonqMainWindow::slotHome(KAction::ActivationReason, Qt::MouseButtons button
 	}
     }
     else
-	openFilteredURL( homeURL, false );
+	openFilteredUrl( homeURL, false );
 }
 
 
 void KonqMainWindow::slotHome()
 {
-    slotHome(KAction::UnknownActivation, Qt::LeftButton, Qt::NoModifier);
+    slotHome(Qt::LeftButton, Qt::NoModifier);
 }
 
 void KonqMainWindow::slotGoSystem()
@@ -1870,7 +1872,7 @@ void KonqMainWindow::slotGoHistory()
 
   // Show the sidebar
   if (!static_cast<KToggleAction*>(a)->isChecked()) {
-    a->activate();
+    a->trigger();
     QTimer::singleShot( 0, this, SLOT(slotGoHistory()));
     return;
   }
@@ -2057,7 +2059,7 @@ void KonqMainWindow::applyKonqMainWindowSettings()
   //    KAction * act = m_toggleViewGUIClient->actionCollection()->action( (*togIt).toLatin1() );
     KAction *act = m_toggleViewGUIClient->action( *togIt );
     if ( act )
-      act->activate();
+      act->trigger();
     else
       kWarning(1202) << "Unknown toggable view in ToggableViewsShown " << *togIt << endl;
   }
@@ -2117,13 +2119,6 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       //kDebug(1202) << "Disconnecting extension for view " << oldView << endl;
       disconnectExtension( ext );
     }
-
-    if ( oldView->part() )
-    {
-      KActionCollection *coll = oldView->part()->actionCollection();
-      if ( coll )
-          disconnectActionCollection( coll );
-    }
   }
 
   kDebug(1202) << "New current view " << newView << endl;
@@ -2169,10 +2164,6 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   }
   createGUI( part );
 
-  KActionCollection *coll = m_currentView->part()->actionCollection();
-  if ( coll )
-      connectActionCollection( coll );
-
   // View-dependent GUI
 
   KParts::MainWindow::setCaption( m_currentView->caption() );
@@ -2186,7 +2177,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       // if we just toggled the view mode via the view mode actions, then
       // we don't need to do all the time-taking stuff below (Simon)
       const QString currentServiceDesktopEntryName = m_currentView->service()->desktopEntryName();
-      foreach( KRadioAction* action, m_viewModeActions ) {
+      foreach( KToggleAction* action, m_viewModeActions ) {
           if ( action->name() == currentServiceDesktopEntryName ) {
               action->setChecked( true );
               break;
@@ -2202,8 +2193,9 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 	      if (servicename.isEmpty())
 	          servicename = m_currentView->service()->name();
               ta->setText( servicename );
-              ta->setIcon( m_currentView->service()->icon() );
-              ta->setName( m_currentView->service()->desktopEntryName().ascii() ) ;
+              ta->setIconName( m_currentView->service()->icon() );
+              // Bypassing KAction restriction - this action will not be found via KActionCollection when doing a name search
+              ta->QAction::setName( m_currentView->service()->desktopEntryName().ascii() ) ;
               break;
           }
       }
@@ -2482,10 +2474,10 @@ void KonqMainWindow::slotURLEntered( const QString &text, int state )
   if (state & Qt::ControlModifier || state & Qt::AltModifier)
   {
       m_combo->setURL( m_currentView ? m_currentView->url().prettyURL() : QString() );
-      openFilteredURL( text.trimmed(), true );
+      openFilteredUrl( text.trimmed(), true );
   }
   else
-      openFilteredURL( text.trimmed() );
+      openFilteredUrl( text.trimmed() );
 
   m_bURLEnterLock = false;
 }
@@ -2973,7 +2965,7 @@ void KonqMainWindow::slotUpAboutToShow()
   }
 }
 
-void KonqMainWindow::slotUp(KAction::ActivationReason, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
+void KonqMainWindow::slotUp(Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
 {
     m_goMouseState = buttons;
     m_goKeyboardState = modifiers;
@@ -3000,16 +2992,16 @@ void KonqMainWindow::slotUpDelayed()
 
     const QString& url = m_currentView->upURL().url();
     if(m_goKeyboardState & Qt::ControlModifier)
-	openFilteredURL(url, req );
+	openFilteredUrl(url, req );
     else if(m_goMouseState & Qt::MidButton)
     {
         if(KonqSettings::mmbOpensTab())
-	    openFilteredURL( url, req);
+	    openFilteredUrl( url, req);
 	else
 	    KonqMisc::createNewWindow( url );
     }
     else
-	openFilteredURL( url, false );
+	openFilteredUrl( url, false );
     m_goMouseState = Qt::LeftButton;
 }
 
@@ -3098,7 +3090,7 @@ void KonqMainWindow::slotBack()
   slotGoHistoryActivated(-1);
 }
 
-void KonqMainWindow::slotBack(KAction::ActivationReason, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
+void KonqMainWindow::slotBack(Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
 {
   slotGoHistoryActivated( -1, buttons, modifiers );
 }
@@ -3120,7 +3112,7 @@ void KonqMainWindow::slotForward()
   slotGoHistoryActivated( 1 );
 }
 
-void KonqMainWindow::slotForward(KAction::ActivationReason, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
+void KonqMainWindow::slotForward(Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
 {
     slotGoHistoryActivated( 1, buttons, modifiers );
 }
@@ -3362,8 +3354,8 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
         disconnect( m_paPaste, SIGNAL( activated() ), ext, SLOT( paste() ) );
       if (slotMetaObject && slotMetaObject->indexOfSlot("del()") != -1)
         disconnect( m_paDelete, SIGNAL( activated() ), ext, SLOT( del() ) );
-      disconnect( m_paTrash, SIGNAL( activated( KAction::ActivationReason, Qt::MouseButtons, Qt::KeyboardModifiers ) ),
-                  this, SLOT( slotTrashActivated( KAction::ActivationReason, Qt::MouseButtons, Qt::KeyboardModifiers ) ) );
+      disconnect( m_paTrash, SIGNAL( triggered( Qt::MouseButtons, Qt::KeyboardModifiers ) ),
+                  this, SLOT( slotTrashActivated( Qt::MouseButtons, Qt::KeyboardModifiers ) ) );
 
       connect( m_paCut, SIGNAL( activated() ), m_combo->lineEdit(), SLOT( cut() ) );
       connect( m_paCopy, SIGNAL( activated() ), m_combo->lineEdit(), SLOT( copy() ) );
@@ -3403,8 +3395,8 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
         connect( m_paPaste, SIGNAL( activated() ), ext, SLOT( paste() ) );
       if (slotMetaObject && slotMetaObject->indexOfSlot("del()") != -1)
         connect( m_paDelete, SIGNAL( activated() ), ext, SLOT( del() ) );
-      connect( m_paTrash, SIGNAL( activated( KAction::ActivationReason, Qt::MouseButtons, Qt::KeyboardModifiers ) ),
-               this, SLOT( slotTrashActivated( KAction::ActivationReason, Qt::MouseButtons, Qt::KeyboardModifiers ) ) );
+      connect( m_paTrash, SIGNAL( triggered( Qt::MouseButtons, Qt::KeyboardModifiers ) ),
+               this, SLOT( slotTrashActivated( Qt::MouseButtons, Qt::KeyboardModifiers ) ) );
 
       disconnect( m_paCut, SIGNAL( activated() ), m_combo->lineEdit(), SLOT( cut() ) );
       disconnect( m_paCopy, SIGNAL( activated() ), m_combo->lineEdit(), SLOT( copy() ) );
@@ -3450,7 +3442,7 @@ void KonqMainWindow::slotCheckComboSelection()
   m_paCut->setEnabled( hasSelection );
 }
 
-void KonqMainWindow::slotClearLocationBar( KAction::ActivationReason, Qt::MouseButtons buttons, Qt::KeyboardModifiers )
+void KonqMainWindow::slotClearLocationBar( Qt::MouseButtons buttons, Qt::KeyboardModifiers )
 {
   kDebug(1202) << "slotClearLocationBar" << endl;
   slotStop();
@@ -3490,7 +3482,7 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
     bool haveFullScreenButton = false;
 
     //Walk over the toolbars and check whether there is a show fullscreen button in any of them
-    foreach (KToolBar* bar, toolBarList())
+    foreach (KToolBar* bar, findChildren<KToolBar*>())
     {
         //Are we plugged here, in a visible toolbar?
         if (bar->isVisible() &&
@@ -3572,7 +3564,7 @@ void KonqMainWindow::showPageSecurity()
     if ( m_currentView && m_currentView->part() ) {
       KAction *act = m_currentView->part()->action( "security" );
       if ( act )
-        act->activate();
+        act->trigger();
     }
 }
 
@@ -3649,10 +3641,6 @@ void KonqMainWindow::setUpEnabled( const KUrl &url )
 
 void KonqMainWindow::initActions()
 {
-  actionCollection()->setHighlightingEnabled( true );
-  connectActionCollection( actionCollection() );
-
-
   // Note about this method : don't call setEnabled() on any of the actions.
   // They are all disabled then re-enabled with enableAllActions
   // If any one needs to be initially disabled, put that code in enableAllActions
@@ -3685,31 +3673,31 @@ void KonqMainWindow::initActions()
 
   // Go menu
   m_paUp = new KToolBarPopupAction( i18n( "&Up" ), "up", KStdAccel::shortcut(KStdAccel::Up), actionCollection(), "up" );
-  connect( m_paUp, SIGNAL( activated( KAction::ActivationReason, Qt::MouseButtons, Qt::KeyboardModifiers) ), this,
-	   SLOT( slotUp(KAction::ActivationReason, Qt::MouseButtons, Qt::KeyboardModifiers) ) );
+  connect( m_paUp, SIGNAL( triggered( Qt::MouseButtons, Qt::KeyboardModifiers) ), this,
+	   SLOT( slotUp(Qt::MouseButtons, Qt::KeyboardModifiers) ) );
   connect( m_paUp->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotUpAboutToShow() ) );
   connect( m_paUp->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotUpActivated( int ) ) );
 
   QPair< KGuiItem, KGuiItem > backForward = KStdGuiItem::backAndForward();
   m_paBack = new KToolBarPopupAction( backForward.first, KStdAccel::shortcut(KStdAccel::Back), 0, "", actionCollection(), "back" );
-  connect( m_paBack, SIGNAL( activated( KAction::ActivationReason, Qt::MouseButtons, Qt::KeyboardModifiers) ), this,
-	   SLOT( slotBack(KAction::ActivationReason, Qt::MouseButtons, Qt::KeyboardModifiers) ) );
-  connect( m_paBack->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotBackAboutToShow() ) );
-  connect( m_paBack->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotBackActivated( int ) ) );
+  connect( m_paBack, SIGNAL( triggered( Qt::MouseButtons, Qt::KeyboardModifiers) ), this,
+	   SLOT( slotBack(Qt::MouseButtons, Qt::KeyboardModifiers) ) );
+  connect( m_paBack->menu(), SIGNAL( aboutToShow() ), this, SLOT( slotBackAboutToShow() ) );
+  connect( m_paBack->menu(), SIGNAL( activated( int ) ), this, SLOT( slotBackActivated( int ) ) );
 
   m_paForward = new KToolBarPopupAction( backForward.second, KStdAccel::shortcut(KStdAccel::Forward), 0, "", actionCollection(), "forward" );
-  connect( m_paForward, SIGNAL( activated( KAction::ActivationReason, Qt::MouseButtons, Qt::KeyboardModifiers) ), this,
-	   SLOT( slotForward(KAction::ActivationReason, Qt::MouseButtons, Qt::KeyboardModifiers) ) );
+  connect( m_paForward, SIGNAL( triggered( Qt::MouseButtons, Qt::KeyboardModifiers) ), this,
+	   SLOT( slotForward(Qt::MouseButtons, Qt::KeyboardModifiers) ) );
   connect( m_paForward->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotForwardAboutToShow() ) );
   connect( m_paForward->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotForwardActivated( int ) ) );
 
   m_paHistory = new KonqBidiHistoryAction( i18n("History"), actionCollection(), "history" );
   connect( m_paHistory, SIGNAL( menuAboutToShow() ), this, SLOT( slotGoMenuAboutToShow() ) );
-  connect( m_paHistory, SIGNAL( activated( int ) ), this, SLOT( slotGoHistoryActivated( int ) ) );
+  connect( m_paHistory, SIGNAL( step( int ) ), this, SLOT( slotGoHistoryActivated( int ) ) );
 
   m_paHome = new KAction( i18n( "Home" ), "gohome", KStdAccel::shortcut(KStdAccel::Home), 0, 0, actionCollection(), "home" );
-  connect( m_paHome, SIGNAL( activated( KAction::ActivationReason, Qt::MouseButtons, Qt::KeyboardModifiers) ), this,
-	   SLOT( slotHome(KAction::ActivationReason, Qt::MouseButtons, Qt::KeyboardModifiers) ) );
+  connect( m_paHome, SIGNAL( triggered( Qt::MouseButtons, Qt::KeyboardModifiers) ), this,
+	   SLOT( slotHome(Qt::MouseButtons, Qt::KeyboardModifiers) ) );
 
   (void) new KAction( i18n( "S&ystem" ), "system", 0, this, SLOT( slotGoSystem() ), actionCollection(), "go_system" );
   (void) new KAction( i18n( "App&lications" ), "kmenu", 0, this, SLOT( slotGoApplications() ), actionCollection(), "go_applications" );
@@ -3797,7 +3785,7 @@ void KonqMainWindow::initActions()
   m_paUndo = KStdAction::undo( KonqUndoManager::self(), SLOT( undo() ), actionCollection(), "undo" );
   //m_paUndo->setEnabled( KonqUndoManager::self()->undoAvailable() );
   connect( KonqUndoManager::self(), SIGNAL( undoTextChanged( const QString & ) ),
-           m_paUndo, SLOT( setText( const QString & ) ) );
+           this, SLOT( slotUndoTextChanged( const QString & ) ) );
 
   // Those are connected to the browserextension directly
   m_paCut = KStdAction::cut( 0, 0, actionCollection(), "cut" );
@@ -3811,8 +3799,8 @@ void KonqMainWindow::initActions()
 
   m_paRename = new KAction( i18n( "&Rename" ), /*"editrename",*/ Qt::Key_F2, 0, 0, actionCollection(), "rename" );
   m_paTrash = new KAction( i18n( "&Move to Trash" ), "edittrash", Qt::Key_Delete, 0, 0, actionCollection(), "trash" );
-  connect( m_paTrash, SIGNAL( activated( KAction::ActivationReason, Qt::MouseButtons, Qt::KeyboardModifiers ) ),
-           this, SLOT( slotTrashActivated( KAction::ActivationReason, Qt::MouseButtons, Qt::KeyboardModifiers ) ) );
+  connect( m_paTrash, SIGNAL( triggered( Qt::MouseButtons, Qt::KeyboardModifiers ) ),
+           this, SLOT( slotTrashActivated( Qt::MouseButtons, Qt::KeyboardModifiers ) ) );
 
   m_paDelete = new KAction( i18n( "&Delete" ), "editdelete", Qt::SHIFT+Qt::Key_Delete, 0, 0, actionCollection(), "del" );
 
@@ -3826,7 +3814,6 @@ void KonqMainWindow::initActions()
   KWidgetAction* comboAction = new KWidgetAction( m_combo, i18n( "Location Bar" ), 0,
                   0, 0, actionCollection(), "toolbar_url_combo" );
   comboAction->setShortcutConfigurable( false );
-  comboAction->setAutoSized( true );
 
   m_combo->setWhatsThis( i18n( "Location Bar<p>"
 				  "Enter a web address or search term." ) );
@@ -3834,28 +3821,26 @@ void KonqMainWindow::initActions()
   KAction *clearLocation = new KAction( i18n( "Clear Location Bar" ),
 					QApplication::isRightToLeft() ? "clear_left" : "locationbar_erase",
 					Qt::CTRL+Qt::Key_L, 0, 0, actionCollection(), "clear_location" );
-  connect( clearLocation, SIGNAL( activated( KAction::ActivationReason, Qt::MouseButtons, Qt::KeyboardModifiers ) ),
-           SLOT( slotClearLocationBar( KAction::ActivationReason, Qt::MouseButtons, Qt::KeyboardModifiers ) ) );
+  connect( clearLocation, SIGNAL( triggered( Qt::MouseButtons, Qt::KeyboardModifiers ) ),
+           SLOT( slotClearLocationBar( Qt::MouseButtons, Qt::KeyboardModifiers ) ) );
   clearLocation->setWhatsThis( i18n( "Clear Location bar<p>"
 				     "Clears the content of the location bar." ) );
 
   // Bookmarks menu
-  m_pamBookmarks = new KActionMenu( i18n( "&Bookmarks" ), "bookmark", actionCollection(), "bookmarks" );
-  m_pamBookmarks->setDelayed( false );
+  m_pamBookmarks = new KActionMenu( i18n( "&Bookmarks" ), actionCollection(), "bookmarks" );
+  //m_pamBookmarks->setDelayed( false );
 
   // The actual menu needs a different action collection, so that the bookmarks
   // don't appear in kedittoolbar
   m_bookmarksActionCollection = new KActionCollection( static_cast<QWidget*>( this ) );
-  m_bookmarksActionCollection->setHighlightingEnabled( true );
-  connectActionCollection( m_bookmarksActionCollection );
 
   m_pBookmarkMenu = new KBookmarkMenu( KonqBookmarkManager::self(), m_pBookmarksOwner, m_pamBookmarks->popupMenu(), m_bookmarksActionCollection, true );
   connect( m_pBookmarkMenu,
            SIGNAL( aboutToShowContextMenu(const KBookmark &, QMenu*) ),
            this, SLOT( slotFillContextMenu(const KBookmark &, QMenu*) ));
   connect( m_pBookmarkMenu,
-	   SIGNAL( openBookmark(const QString &, Qt::ButtonState) ),
-	   this, SLOT( slotOpenBookmarkURL(const QString &, Qt::ButtonState) ));
+	   SIGNAL( openBookmark(const QString &, Qt::MouseButtons, Qt::KeyboardModifiers) ),
+	   this, SLOT( slotOpenBookmarkUrl(const QString &, Qt::MouseButtons, Qt::KeyboardModifiers) ));
 
   KAction *addBookmark = actionCollection()->action("add_bookmark");
   if (addBookmark)
@@ -3959,23 +3944,23 @@ void KonqMainWindow::slotFillContextMenu( const KBookmark &bk, QMenu * pm )
   }
 }
 
-void KonqMainWindow::slotOpenBookmarkURL( const QString & url, Qt::ButtonState state)
+void KonqMainWindow::slotOpenBookmarkUrl( const QString & url, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
 {
-    kDebug(1202) << "KonqMainWindow::slotOpenBookmarkURL(" << url << ", " << state << ")" << endl;
+    kDebug(1202) << "KonqMainWindow::slotOpenBookmarkUrl(" << url << ", " << buttons << ", " << modifiers << ")" << endl;
 
     KonqOpenURLRequest req;
     req.newTab = true;
     req.newTabInFront = KonqSettings::newTabsInFront();
 
-    if (state & Qt::ShiftModifier)
+    if (modifiers & Qt::ShiftModifier)
         req.newTabInFront = !req.newTabInFront;
 
-    if( state & Qt::ControlModifier ) // Ctrl Left/MMB
-	openFilteredURL( url, req);
-    else if( state & Qt::MidButton )
+    if( modifiers & Qt::ControlModifier ) // Ctrl Left/MMB
+	openFilteredUrl( url, req);
+    else if( buttons & Qt::MidButton )
     {
         if(KonqSettings::mmbOpensTab())
-	    openFilteredURL( url, req);
+	    openFilteredUrl( url, req);
 	else
 	{
 	    KUrl finalURL = KonqMisc::konqFilteredURL( this, url );
@@ -3983,7 +3968,7 @@ void KonqMainWindow::slotOpenBookmarkURL( const QString & url, Qt::ButtonState s
 	}
     }
     else
-	openFilteredURL( url, false );
+	openFilteredUrl( url, false );
 }
 
 void KonqMainWindow::slotMoveTabLeft()
@@ -4226,11 +4211,12 @@ void KonqMainWindow::disconnectExtension( KParts::BrowserExtension *ext )
   }
 }
 
-void KonqMainWindow::slotTrashActivated( KAction::ActivationReason reason, Qt::MouseButtons, Qt::KeyboardModifiers modifiers )
+void KonqMainWindow::slotTrashActivated( Qt::MouseButtons, Qt::KeyboardModifiers modifiers )
 {
   if ( !m_currentView )
     return;
-  if ( reason == KAction::PopupMenuActivation && ( modifiers & Qt::ShiftModifier ) )
+  // FIXME KAction port - not supported any more
+  if ( /*reason == KAction::PopupMenuActivation &&*/ ( modifiers & Qt::ShiftModifier ) )
       m_currentView->callExtensionMethod( "del()" );
   else
       m_currentView->callExtensionMethod( "trash()" );
@@ -4655,8 +4641,6 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   popupUrlArgs = _args;
   popupUrlArgs.serviceType.clear(); // Reset so that Open in New Window/Tab does mimetype detection
 
-  connectActionCollection( pPopupMenu->actionCollection() );
-
   pPopupMenu->factory()->addClient( konqyMenuClient );
 
   if ( client )
@@ -4685,10 +4669,10 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   // We're sort of misusing KActionCollection here, but we need it for the actionStatusText signal...
   // Anyway. If the action belonged to the view, and the view got deleted, we don't want ~KActionCollection
   // to iterate over those deleted actions
-  KActionPtrList lst = popupMenuCollection.actions();
+  /*KActionPtrList lst = popupMenuCollection.actions();
   KActionPtrList::iterator it = lst.begin();
   for ( ; it != lst.end() ; ++it )
-      popupMenuCollection.take( *it );
+      popupMenuCollection.take( *it );*/
 
   //kDebug(1202) << "-------- KonqMainWindow::slotPopupMenu() - m_oldView = " << m_oldView << ", currentView = " << currentView
   //<< ", m_currentView = " << m_currentView << endl;
@@ -4786,32 +4770,6 @@ void KonqMainWindow::setInitialFrameName( const QString &name )
   m_initialFrameName = name;
 }
 
-void KonqMainWindow::slotActionStatusText( const QString &text )
-{
-  if ( !m_currentView )
-    return;
-
-  KonqFrameStatusBar *statusBar = m_currentView->frame()->statusbar();
-
-  if ( !statusBar )
-    return;
-
-  statusBar->message( text );
-}
-
-void KonqMainWindow::slotClearStatusText()
-{
-  if ( !m_currentView )
-    return;
-
-  KonqFrameStatusBar *statusBar = m_currentView->frame()->statusbar();
-
-  if ( !statusBar )
-    return;
-
-  statusBar->slotClear();
-}
-
 void KonqMainWindow::updateOpenWithActions()
 {
   unplugActionList( "openwith" );
@@ -4827,7 +4785,7 @@ void KonqMainWindow::updateOpenWithActions()
   for (; it != end; ++it )
   {
     KAction *action = new KAction( i18n( "Open with %1" ).arg( (*it)->name() ), 0, 0, 0, actionCollection(), (*it)->desktopEntryName().toLatin1() );
-    action->setIcon( (*it)->icon() );
+    action->setIconName( (*it)->icon() );
 
     connect( action, SIGNAL( activated() ),
              this, SLOT( slotOpenWith() ) );
@@ -4856,7 +4814,7 @@ void KonqMainWindow::updateViewModeActions()
   unplugViewModeActions();
   if ( m_viewModeMenu )
   {
-    foreach( KRadioAction* action, m_viewModeActions )
+    foreach( KToggleAction* action, m_viewModeActions )
       action->unplugAll();
     delete m_viewModeMenu;
   }
@@ -4882,7 +4840,7 @@ void KonqMainWindow::updateViewModeActions()
   if ( services.count() <= 1 )
     return;
 
-  m_viewModeMenu = new KActionMenu( i18n( "&View Mode" ), actionCollection() );
+  m_viewModeMenu = new KActionMenu( i18n( "&View Mode" ), actionCollection(), "viewModeMenu" );
 
   // a temporary map, just like the m_viewModeToolBarServices map, but
   // mapping to a KonqViewModeAction object. It's just temporary as we
@@ -4911,10 +4869,10 @@ void KonqMainWindow::updateViewModeActions()
           itname = (*it)->name();
 
       QString icon = (*it)->icon();
-      // Create a KRadioAction for each view mode, and plug it into the menu
+      // Create a KToggleAction for each view mode, and plug it into the menu
       // we *have* to specify a parent qobject, otherwise the exclusive group stuff doesn't work!(Simon)
-      KRadioAction* action = new KRadioAction( itname, icon, KShortcut(), actionCollection(), (*it)->desktopEntryName().ascii() );
-      action->setExclusiveGroup( "KonqMainWindow_ViewModes" );
+      KToggleAction* action = new KToggleAction( itname, icon, KShortcut(), actionCollection(), (*it)->desktopEntryName().ascii() );
+      action->setActionGroup( m_viewModesGroup );
 
       connect( action, SIGNAL( toggled( bool ) ),
                this, SLOT( slotViewModeToggle( bool ) ) );
@@ -4967,7 +4925,7 @@ void KonqMainWindow::updateViewModeActions()
                                                                  actionCollection(),
                                                                  desktopEntryName.prepend( "viewmode_" ).toLatin1() ); // prefix to avoid conflicts in the actioncollection
 
-          tbAction->setExclusiveGroup( "KonqMainWindow_ToolBarViewModes" );
+          tbAction->setActionGroup( m_toolBarViewModesGroup );
 
           tbAction->setChecked( action->isChecked() );
 
@@ -4998,13 +4956,13 @@ void KonqMainWindow::updateViewModeActions()
           if (mapitname.isEmpty())
               mapitname = (*it)->name();
           (*mapIt)->setText( mapitname );
-          (*mapIt)->setIcon( (*it)->icon() );
-          (*mapIt)->setName( (*it)->desktopEntryName().ascii() ); // tricky...
+          (*mapIt)->setIconName( (*it)->icon() );
+          (*mapIt)->QAction::setName( (*it)->desktopEntryName().ascii() ); // tricky...
           preferredServiceMap.remove( library ); // The current view has priority over the saved settings
       }
 
       // plug action also into the delayed popupmenu of appropriate toolbar action
-      action->plug( (*mapIt)->popupMenu() );
+      action->plug( (*mapIt)->menu() );
   }
 
 #ifndef NDEBUG
@@ -5062,7 +5020,7 @@ void KonqMainWindow::updateBookmarkBar()
   if (!bar) return;
 
   // hide if empty
-  if (m_paBookmarkBar && bar->count() == 0 )
+  if (m_paBookmarkBar && bar->actions().count() == 0 )
         bar->hide();
 
 }
@@ -5184,7 +5142,7 @@ void KonqMainWindow::setIcon( const QPixmap& pix )
   QString url = m_combo->currentText();
 
   if ( !url.isEmpty() )
-    big = KonqPixmapProvider::self()->pixmapFor( url, KIcon::SizeMedium );
+    big = KonqPixmapProvider::self()->pixmapFor( url, K3Icon::SizeMedium );
 
   KWin::setIcons( winId(), big, pix );
 }
@@ -5242,7 +5200,7 @@ void KonqMainWindow::slotAddWebSideBar(const KUrl& url, const QString& name)
     if (rc == KMessageBox::Yes) {
         // Show the sidebar
         if (!static_cast<KToggleAction*>(a)->isChecked()) {
-            a->activate();
+            a->trigger();
         }
 
         // Tell it to add a new panel
@@ -5290,22 +5248,6 @@ void KonqMainWindow::bookmarksIntoCompletion( const KBookmarkGroup& group )
                   url.host().startsWith( ftp ) )
             s_pCompletion->addItem( u.mid( 6 ) );
     }
-}
-
-void KonqMainWindow::connectActionCollection( KActionCollection *coll )
-{
-    connect( coll, SIGNAL( actionStatusText( const QString & ) ),
-             this, SLOT( slotActionStatusText( const QString & ) ) );
-    connect( coll, SIGNAL( clearStatusText() ),
-             this, SLOT( slotClearStatusText() ) );
-}
-
-void KonqMainWindow::disconnectActionCollection( KActionCollection *coll )
-{
-    disconnect( coll, SIGNAL( actionStatusText( const QString & ) ),
-                this, SLOT( slotActionStatusText( const QString & ) ) );
-    disconnect( coll, SIGNAL( clearStatusText() ),
-                this, SLOT( slotClearStatusText() ) );
 }
 
 //
@@ -5633,7 +5575,14 @@ bool KonqMainWindow::event( QEvent* e )
             setAttribute(Qt::WA_DeleteOnClose); // was reset before deleteLater()
             return true; // no deleting
         }
+
+    } else if ( e->type() == QEvent::StatusTip) {
+        if (m_currentView && m_currentView->frame()->statusbar()) {
+            KonqFrameStatusBar *statusBar = m_currentView->frame()->statusbar();
+            statusBar->message(static_cast<QStatusTipEvent*>(e)->tip());
+        }
     }
+
     if ( KonqFileSelectionEvent::test( e ) ||
          KonqFileMouseOverEvent::test( e ) )
     {
@@ -5792,6 +5741,11 @@ static int current_memory_usage( int* limit )
         *limit = 6 * 1024 * 1024;
 #endif
     return usage_sum;
+}
+
+void KonqMainWindow::slotUndoTextChanged( const QString & newText )
+{
+  m_paUndo->setText(newText);
 }
 
 #include "konq_mainwindow.moc"

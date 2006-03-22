@@ -33,7 +33,7 @@ namespace KParts { class BrowserExtension; }
 class KonqPropsView;
 class Q3ScrollView;
 class KAction;
-class KToggleAction;
+class KAction;
 class KonqDirPartBrowserExtension;
 
 class LIBKONQ_EXPORT KonqDirPart: public KParts::ReadOnlyPart
@@ -298,11 +298,11 @@ protected:
 
     KAction *m_paIncIconSize;
     KAction *m_paDecIconSize;
-    KToggleAction *m_paDefaultIcons;
-    KToggleAction *m_paHugeIcons;
-    KToggleAction *m_paLargeIcons;
-    KToggleAction *m_paMediumIcons;
-    KToggleAction *m_paSmallIcons;
+    KAction *m_paDefaultIcons;
+    KAction *m_paHugeIcons;
+    KAction *m_paLargeIcons;
+    KAction *m_paMediumIcons;
+    KAction *m_paSmallIcons;
 
     KParts::ReadOnlyPart * m_findPart;
     KonqDirPartBrowserExtension * m_extension;

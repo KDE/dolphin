@@ -60,7 +60,7 @@ typedef struct DirTreeConfigData_
 
 typedef enum {
     SidebarTreeMode, // used if the drop is accepted by a KonqSidebarTreeItem. otherwise
-    KListViewMode    // use K3ListView's dnd implementation. accepts mime types set with setDropFormats()
+    K3ListViewMode    // use K3ListView's dnd implementation. accepts mime types set with setDropFormats()
 } DropAcceptType;
 
 /**

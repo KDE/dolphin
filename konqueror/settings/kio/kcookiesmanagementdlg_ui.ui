@@ -318,6 +318,6 @@
 <layoutdefaults spacing="6" margin="11"/>
 <layoutfunctions spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
 <includehints>
-    <includehint>klistviewsearchline.h</includehint>
+    <includehint>k3listviewsearchline.h</includehint>
 </includehints>
 </UI>

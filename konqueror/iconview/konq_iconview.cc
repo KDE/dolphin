@@ -217,10 +217,10 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     m_pamPreview = new KActionMenu( i18n( "&Preview" ), actionCollection(), "iconview_preview" );
 
-    m_paEnablePreviews = new KToggleAction( i18n("Enable Previews"), 0, actionCollection(), "iconview_preview_all" );
+    m_paEnablePreviews = new KToggleAction( i18n("Enable Previews"), actionCollection(), "iconview_preview_all" );
     m_paEnablePreviews->setCheckedState( i18n("Disable Previews") );
     connect( m_paEnablePreviews, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );
-    m_paEnablePreviews->setIcon("thumbnail");
+    m_paEnablePreviews->setIconName("thumbnail");
     m_pamPreview->insert( m_paEnablePreviews );
     m_pamPreview->insert( new KActionSeparator(actionCollection()) );
 
@@ -229,33 +229,36 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     for ( KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it )
     {
         if ( KToggleAction*& preview = previewActions[ ( *it )->name() ] )
-            preview->setName( QByteArray( preview->name() ) + ',' + ( *it )->desktopEntryName().toLatin1() );
+            // Bypassing KAction restriction - this action will not be found via KActionCollection when doing a name search
+            preview->QAction::setName( QByteArray( preview->name() ) + ',' + ( *it )->desktopEntryName().toLatin1() );
         else
         {
-            preview = new KToggleAction( (*it)->name(), 0, actionCollection(), (*it)->desktopEntryName().toLatin1() );
+            preview = new KToggleAction( (*it)->name(), actionCollection(), (*it)->desktopEntryName().toLatin1() );
             connect( preview, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );
             m_pamPreview->insert( preview );
             m_paPreviewPlugins.append( preview );
         }
     }
-    KToggleAction *soundPreview = new KToggleAction( i18n("Sound Files"), 0, actionCollection(), "audio/" );
+    KToggleAction *soundPreview = new KToggleAction( i18n("Sound Files"), actionCollection(), "audio/" );
     connect( soundPreview, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );
     m_pamPreview->insert( soundPreview );
     m_paPreviewPlugins.append( soundPreview );
 
     //    m_pamSort = new KActionMenu( i18n( "Sort..." ), actionCollection(), "sort" );
 
-    KToggleAction *aSortByNameCS = new KRadioAction( i18n( "By Name (Case Sensitive)" ), 0, actionCollection(), "sort_nc" );
-    KToggleAction *aSortByNameCI = new KRadioAction( i18n( "By Name (Case Insensitive)" ), 0, actionCollection(), "sort_nci" );
-    KToggleAction *aSortBySize = new KRadioAction( i18n( "By Size" ), 0, actionCollection(), "sort_size" );
-    KToggleAction *aSortByType = new KRadioAction( i18n( "By Type" ), 0, actionCollection(), "sort_type" );
-    KToggleAction *aSortByDate = new KRadioAction( i18n( "By Date" ), 0, actionCollection(), "sort_date" );
+    KToggleAction *aSortByNameCS = new KToggleAction( i18n( "By Name (Case Sensitive)" ), actionCollection(), "sort_nc" );
+    KToggleAction *aSortByNameCI = new KToggleAction( i18n( "By Name (Case Insensitive)" ), actionCollection(), "sort_nci" );
+    KToggleAction *aSortBySize = new KToggleAction( i18n( "By Size" ), actionCollection(), "sort_size" );
+    KToggleAction *aSortByType = new KToggleAction( i18n( "By Type" ), actionCollection(), "sort_type" );
+    KToggleAction *aSortByDate = new KToggleAction( i18n( "By Date" ), actionCollection(), "sort_date" );
 
-    aSortByNameCS->setExclusiveGroup( "sorting" );
-    aSortByNameCI->setExclusiveGroup( "sorting" );
-    aSortBySize->setExclusiveGroup( "sorting" );
-    aSortByType->setExclusiveGroup( "sorting" );
-    aSortByDate->setExclusiveGroup( "sorting" );
+    QActionGroup* sorting = new QActionGroup(this);
+    sorting->setExclusive(true);
+    aSortByNameCS->setActionGroup( sorting );
+    aSortByNameCI->setActionGroup( sorting );
+    aSortBySize->setActionGroup( sorting );
+    aSortByType->setActionGroup( sorting );
+    aSortByDate->setActionGroup( sorting );
 
     aSortByNameCS->setChecked( false );
     aSortByNameCI->setChecked( false );
@@ -271,11 +274,11 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     //enable menu item representing the saved sorting criterion
     QString sortcrit = KonqIconViewFactory::defaultViewProps()->sortCriterion();
-    KRadioAction *sort_action = dynamic_cast<KRadioAction *>(actionCollection()->action(sortcrit.toLatin1().constData()));
-    if(sort_action!=NULL) sort_action->activate();
+    KToggleAction *sort_action = dynamic_cast<KToggleAction *>(actionCollection()->action(sortcrit.toLatin1().constData()));
+    if(sort_action!=NULL) sort_action->trigger();
 
-    m_paSortDirsFirst = new KToggleAction( i18n( "Folders First" ), 0, actionCollection(), "sort_directoriesfirst" );
-    KToggleAction *aSortDescending = new KToggleAction( i18n( "Descending" ), 0, actionCollection(), "sort_descend" );
+    m_paSortDirsFirst = new KToggleAction( i18n( "Folders First" ), actionCollection(), "sort_directoriesfirst" );
+    KToggleAction *aSortDescending = new KToggleAction( i18n( "Descending" ), actionCollection(), "sort_descend" );
 
     m_paSortDirsFirst->setChecked( KonqIconViewFactory::defaultViewProps()->isDirsFirst() );
 
@@ -319,8 +322,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     //m_paBottomText = new KToggleAction( i18n( "Text at &Bottom" ), 0, actionCollection(), "textbottom" );
     //m_paRightText = new KToggleAction( i18n( "Text at &Right" ), 0, actionCollection(), "textright" );
-    //m_paBottomText->setExclusiveGroup( "TextPos" );
-    //m_paRightText->setExclusiveGroup( "TextPos" );
+    //m_paBottomText->setActionGroup( "TextPos" );
+    //m_paRightText->setActionGroup( "TextPos" );
     //connect( m_paBottomText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextBottom( bool ) ) );
     //connect( m_paRightText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextRight( bool ) ) );
 
@@ -669,11 +672,11 @@ void KonqKfmIconView::newIconSize( int size )
     //check for that when checking whether the size changed
     int effSize = size;
     if (effSize == 0)
-       effSize = IconSize(KIcon::Desktop);
+       effSize = IconSize(K3Icon::Desktop);
 
     int oldEffSize = m_pIconView->iconSize();
     if (oldEffSize == 0)
-       oldEffSize = IconSize(KIcon::Desktop);
+       oldEffSize = IconSize(K3Icon::Desktop);
 
     // Make sure all actions are initialized.
     KonqDirPart::newIconSize( size );

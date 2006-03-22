@@ -317,7 +317,7 @@ List of sites for which you have set a specific cookie policy. Specific policies
 <layoutdefaults spacing="6" margin="11"/>
 <layoutfunctions spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
 <includehints>
-    <includehint>klistview.h</includehint>
-    <includehint>klistviewsearchline.h</includehint>
+    <includehint>k3listview.h</includehint>
+    <includehint>k3listviewsearchline.h</includehint>
 </includehints>
 </UI>

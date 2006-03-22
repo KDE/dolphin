@@ -57,10 +57,10 @@ class KonqBaseListViewItem : public K3ListViewItem
       int state() const 
       {
          if (m_bDisabled)
-            return KIcon::DisabledState;
+            return K3Icon::DisabledState;
          if (m_bActive)
-            return KIcon::ActiveState; 
-         return KIcon::DefaultState;
+            return K3Icon::ActiveState; 
+         return K3Icon::DefaultState;
       }
 
       /** For KonqMimeTypeResolver */

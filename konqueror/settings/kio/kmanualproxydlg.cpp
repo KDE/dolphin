@@ -48,7 +48,7 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
     mDlg = new ManualProxyDlgUI (this);
     setMainWidget( mDlg );
 
-    mDlg->pbCopyDown->setPixmap( BarIcon("down", KIcon::SizeSmall) );
+    mDlg->pbCopyDown->setPixmap( BarIcon("down", K3Icon::SizeSmall) );
     QSizePolicy sizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed,
                             mDlg->pbCopyDown->sizePolicy().hasHeightForWidth() );
     mDlg->pbCopyDown->setSizePolicy( sizePolicy );

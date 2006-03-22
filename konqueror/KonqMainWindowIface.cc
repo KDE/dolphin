@@ -47,28 +47,28 @@ KonqMainWindowIface::~KonqMainWindowIface()
 
 void KonqMainWindowIface::openURL( QString url )
 {
-  m_pMainWindow->openFilteredURL( url );
+  m_pMainWindow->openFilteredUrl( url );
 }
 
 void KonqMainWindowIface::newTab( QString url )
 {
-  m_pMainWindow->openFilteredURL( url, true );
+  m_pMainWindow->openFilteredUrl( url, true );
 }
 
 void KonqMainWindowIface::openURL( QString url, bool tempFile )
 {
-  m_pMainWindow->openFilteredURL( url, false, tempFile );
+  m_pMainWindow->openFilteredUrl( url, false, tempFile );
 }
 
 void KonqMainWindowIface::newTab( QString url, bool tempFile )
 {
-  m_pMainWindow->openFilteredURL( url, true, tempFile );
+  m_pMainWindow->openFilteredUrl( url, true, tempFile );
 }
 
 void KonqMainWindowIface::newTabASN( QString url, const DCOPCString& startup_id, bool tempFile )
 {
   KStartupInfo::setNewStartupId( m_pMainWindow, startup_id );
-  m_pMainWindow->openFilteredURL( url, true, tempFile );
+  m_pMainWindow->openFilteredUrl( url, true, tempFile );
 }
 
 void KonqMainWindowIface::reload()

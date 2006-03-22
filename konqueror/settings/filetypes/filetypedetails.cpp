@@ -35,7 +35,7 @@ FileTypeDetails::FileTypeDetails( QWidget * parent )
   firstLayout->addLayout(hBox, 1);
 
   iconButton = new KIconButton(firstWidget);
-  iconButton->setIconType(KIcon::Desktop, KIcon::MimeType);
+  iconButton->setIconType(K3Icon::Desktop, K3Icon::MimeType);
   connect(iconButton, SIGNAL(iconChanged(QString)), SLOT(updateIcon(QString)));
 
   iconButton->setFixedSize(70, 70);

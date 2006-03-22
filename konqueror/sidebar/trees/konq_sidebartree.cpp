@@ -310,7 +310,7 @@ void KonqSidebarTree::contentsDragMoveEvent( QDragMoveEvent *e )
             m_autoOpenTimer->start( autoOpenTimeout );
         }
     } else {
-        d->m_dropMode = KListViewMode;
+        d->m_dropMode = K3ListViewMode;
         K3ListView::contentsDragMoveEvent(e);
     }
 }
@@ -326,7 +326,7 @@ void KonqSidebarTree::contentsDragLeaveEvent( QDragLeaveEvent *ev )
     m_dropItem = 0;
     m_lstDropFormats.clear();
 
-    if (d->m_dropMode == KListViewMode) {
+    if (d->m_dropMode == K3ListViewMode) {
         K3ListView::contentsDragLeaveEvent(ev);
     }
 }
@@ -422,7 +422,7 @@ void KonqSidebarTree::addURL(KonqSidebarTreeTopLevelItem* item, const KUrl & url
 
 bool KonqSidebarTree::acceptDrag(QDropEvent* e) const
 {
-    // for KListViewMode...
+    // for K3ListViewMode...
     for( int i = 0; e->format( i ); i++ )
         if ( d->m_dropFormats.contains(e->format( i ) ) )
             return true;

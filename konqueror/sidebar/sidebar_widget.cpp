@@ -516,7 +516,7 @@ void Sidebar_Widget::slotSetIcon( )
 {
 	KIconDialog kicd(this);
 //	kicd.setStrictIconSize(true);
-	QString iconname=kicd.selectIcon(KIcon::Small);
+	QString iconname=kicd.selectIcon(K3Icon::Small);
 	kDebug()<<"New Icon Name:"<<iconname<<endl;
 	if (!iconname.isEmpty())
 	{

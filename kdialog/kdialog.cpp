@@ -599,31 +599,31 @@ static int directCommand(KCmdLineArgs *args)
         if (args->count() >= 1)  {
             contextStr = QString::fromLocal8Bit(args->arg(0));
         }
-        KIcon::Group group = KIcon::NoGroup;
+        K3Icon::Group group = K3Icon::NoGroup;
         if ( groupStr == QLatin1String( "Desktop" ) )
-            group = KIcon::Desktop;
+            group = K3Icon::Desktop;
         else if ( groupStr == QLatin1String( "Toolbar" ) )
-            group = KIcon::Toolbar;
+            group = K3Icon::Toolbar;
         else if ( groupStr == QLatin1String( "MainToolbar" ) )
-            group = KIcon::MainToolbar;
+            group = K3Icon::MainToolbar;
         else if ( groupStr == QLatin1String( "Small" ) )
-            group = KIcon::Small;
+            group = K3Icon::Small;
         else if ( groupStr == QLatin1String( "Panel" ) )
-            group = KIcon::Panel;
+            group = K3Icon::Panel;
         else if ( groupStr == QLatin1String( "User" ) )
-            group = KIcon::User;
-        KIcon::Context context = KIcon::Any;
+            group = K3Icon::User;
+        K3Icon::Context context = K3Icon::Any;
         // From kicontheme.cpp
         if ( contextStr == QLatin1String( "Devices" ) )
-            context = KIcon::Device;
+            context = K3Icon::Device;
         else if ( contextStr == QLatin1String( "MimeTypes" ) )
-            context = KIcon::MimeType;
+            context = K3Icon::MimeType;
         else if ( contextStr == QLatin1String( "FileSystems" ) )
-            context = KIcon::FileSystem;
+            context = K3Icon::FileSystem;
         else if ( contextStr == QLatin1String( "Applications" ) )
-            context = KIcon::Application;
+            context = K3Icon::Application;
         else if ( contextStr == QLatin1String( "Actions" ) )
-            context = KIcon::Action;
+            context = K3Icon::Action;
 
 	KIconDialog dlg((QWidget*)0L);
 	kapp->setTopWidget( &dlg );

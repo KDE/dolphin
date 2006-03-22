@@ -338,7 +338,7 @@ void KonqCombo::loadItems()
         if ( !item.isEmpty() ) { // only insert non-empty items
             KUrl url = KUrl::fromPathOrURL( item );
 	    if( first ) {
-                insertItem( KonqPixmapProvider::self()->pixmapFor( item, KIcon::SizeSmall ),
+                insertItem( KonqPixmapProvider::self()->pixmapFor( item, K3Icon::SizeSmall ),
                             item, i++, titleOfURL( url ) );
 	    }
             else
@@ -358,7 +358,7 @@ void KonqCombo::slotSetIcon( int index )
     if( pixmap( index ).isNull())
         // on-demand icon loading
         updateItem( KonqPixmapProvider::self()->pixmapFor( text( index ),
-                    KIcon::SizeSmall ), text( index ), index,
+                    K3Icon::SizeSmall ), text( index ), index,
                     titleOfURL( text( index ) ) );
     update();
 }
@@ -382,7 +382,7 @@ void KonqCombo::popup()
         {
             // on-demand icon loading
             updateItem( KonqPixmapProvider::self()->pixmapFor( text( i ),
-                        KIcon::SizeSmall), text( i ), i, titleOfURL( text( i ) ) );
+                        K3Icon::SizeSmall), text( i ), i, titleOfURL( text( i ) ) );
         }
     }
     KHistoryCombo::popup();
@@ -589,7 +589,7 @@ void KonqCombo::mouseMoveEvent( QMouseEvent *e )
             url.populateMimeData(mime);
             drag->setMimeData(mime);
             QPixmap pix = KonqPixmapProvider::self()->pixmapFor( currentText(),
-                                                                 KIcon::SizeMedium );
+                                                                 K3Icon::SizeMedium );
             if ( !pix.isNull() )
                 drag->setPixmap( pix );
             drag->start();
@@ -723,13 +723,13 @@ void KonqComboListBoxPixmap::paint( QPainter *painter )
     if ( lookup_pending ) {
         title = titleOfURL( text() );
         if ( !title.isEmpty() )
-            pm = KonqPixmapProvider::self()->pixmapFor( text(), KIcon::SizeSmall );
+            pm = KonqPixmapProvider::self()->pixmapFor( text(), K3Icon::SizeSmall );
         else if ( text().find( "://" ) == -1 ) {
             title = titleOfURL( "http://"+text() );
             if ( !title.isEmpty() )
-                pm = KonqPixmapProvider::self()->pixmapFor( "http://"+text(), KIcon::SizeSmall );
+                pm = KonqPixmapProvider::self()->pixmapFor( "http://"+text(), K3Icon::SizeSmall );
             else
-                pm = KonqPixmapProvider::self()->pixmapFor( text(), KIcon::SizeSmall );
+                pm = KonqPixmapProvider::self()->pixmapFor( text(), K3Icon::SizeSmall );
         }
         else
             pm = QPixmap();

@@ -597,7 +597,7 @@ void ActionsImpl::slotChangeIcon() {
     KEBApp::self()->bkInfo()->commitChanges();
     KBookmark bk = KEBApp::self()->firstSelected();
     KIconDialog dlg(KEBApp::self());
-    QString newIcon = dlg.selectIcon(KIcon::Small, KIcon::FileSystem);
+    QString newIcon = dlg.selectIcon(K3Icon::Small, K3Icon::FileSystem);
     if (newIcon.isEmpty())
         return;
     EditCommand *cmd = new EditCommand(bk.address(), -1, newIcon);

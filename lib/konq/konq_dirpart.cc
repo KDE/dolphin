@@ -50,8 +50,8 @@ class KonqDirPart::KonqDirPartPrivate
 public:
     KonqDirPartPrivate() : dirLister( 0 ) {}
     QStringList mimeFilters;
-    KToggleAction *aEnormousIcons;
-    KToggleAction *aSmallMediumIcons;
+    KAction *aEnormousIcons;
+    KAction *aSmallMediumIcons;
     QVector<int> iconSize;
 
     KDirLister* dirLister;
@@ -67,7 +67,7 @@ void KonqDirPart::KonqDirPartPrivate::findAvailableIconSizes(void)
     KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
     iconSize.resize(1);
     if (root) {
-	QList<int> avSizes = root->querySizes(KIcon::Desktop);
+	QList<int> avSizes = root->querySizes(K3Icon::Desktop);
        // kDebug(1203) << "The icon theme handles the sizes:" << avSizes << endl;
 	qStableSort(avSizes);
 	int oldSize = -1;
@@ -95,10 +95,10 @@ void KonqDirPart::KonqDirPartPrivate::findAvailableIconSizes(void)
 	    }
 	}
     } else {
-	iconSize.append(KIcon::SizeSmall); // 16
-	iconSize.append(KIcon::SizeMedium); // 32
-	iconSize.append(KIcon::SizeLarge); // 48
-	iconSize.append(KIcon::SizeHuge); // 64
+	iconSize.append(K3Icon::SizeSmall); // 16
+	iconSize.append(K3Icon::SizeMedium); // 32
+	iconSize.append(K3Icon::SizeLarge); // 48
+	iconSize.append(K3Icon::SizeHuge); // 64
     }
     kDebug(1203) << "Using " << iconSize.count() << " icon sizes." << endl;
 }
@@ -106,7 +106,7 @@ void KonqDirPart::KonqDirPartPrivate::findAvailableIconSizes(void)
 int KonqDirPart::KonqDirPartPrivate::findNearestIconSize(int preferred)
 {
     int s1 = iconSize[1];
-    if (preferred == 0) return KGlobal::iconLoader()->currentSize(KIcon::Desktop);
+    if (preferred == 0) return KGlobal::iconLoader()->currentSize(K3Icon::Desktop);
     if (preferred <= s1) return s1;
     for (int i = 2; i <= iconSize.count(); i++) {
         if (preferred <= iconSize[i]) {
@@ -135,28 +135,28 @@ KonqDirPart::KonqDirPart( QObject *parent )
 
     connect( QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()) );
 
-    actionCollection()->setHighlightingEnabled( true );
-
     m_paIncIconSize = new KAction( i18n( "Enlarge Icons" ), "viewmag+", 0, this, SLOT( slotIncIconSize() ), actionCollection(), "incIconSize" );
     m_paDecIconSize = new KAction( i18n( "Shrink Icons" ), "viewmag-", 0, this, SLOT( slotDecIconSize() ), actionCollection(), "decIconSize" );
 
-    m_paDefaultIcons = new KRadioAction( i18n( "&Default Size" ), 0, actionCollection(), "modedefault" );
-    d->aEnormousIcons = new KRadioAction( i18n( "&Huge" ), 0,
-	    actionCollection(), "modeenormous" );
-    m_paHugeIcons = new KRadioAction( i18n( "&Very Large" ), 0, actionCollection(), "modehuge" );
-    m_paLargeIcons = new KRadioAction( i18n( "&Large" ), 0, actionCollection(), "modelarge" );
-    m_paMediumIcons = new KRadioAction( i18n( "&Medium" ), 0, actionCollection(), "modemedium" );
-    d->aSmallMediumIcons = new KRadioAction( i18n( "&Small" ), 0,
-	    actionCollection(), "modesmallmedium" );
-    m_paSmallIcons = new KRadioAction( i18n( "&Tiny" ), 0, actionCollection(), "modesmall" );
+    m_paDefaultIcons = new KAction( i18n( "&Default Size" ), 0, actionCollection(), "modedefault" );
+    d->aEnormousIcons = new KAction( i18n( "&Huge" ), 0,
+           actionCollection(), "modeenormous" );
+    m_paHugeIcons = new KAction( i18n( "&Very Large" ), 0, actionCollection(), "modehuge" );
+    m_paLargeIcons = new KAction( i18n( "&Large" ), 0, actionCollection(), "modelarge" );
+    m_paMediumIcons = new KAction( i18n( "&Medium" ), 0, actionCollection(), "modemedium" );
+    d->aSmallMediumIcons = new KAction( i18n( "&Small" ), 0,
+           actionCollection(), "modesmallmedium" );
+    m_paSmallIcons = new KAction( i18n( "&Tiny" ), 0, actionCollection(), "modesmall" );
 
-    m_paDefaultIcons->setExclusiveGroup( "ViewMode" );
-    d->aEnormousIcons->setExclusiveGroup( "ViewMode" );
-    m_paHugeIcons->setExclusiveGroup( "ViewMode" );
-    m_paLargeIcons->setExclusiveGroup( "ViewMode" );
-    m_paMediumIcons->setExclusiveGroup( "ViewMode" );
-    d->aSmallMediumIcons->setExclusiveGroup( "ViewMode" );
-    m_paSmallIcons->setExclusiveGroup( "ViewMode" );
+    QActionGroup* viewModeGroup = new QActionGroup(this);
+    viewModeGroup->setExclusive(true);
+    m_paDefaultIcons->setActionGroup( viewModeGroup );
+    d->aEnormousIcons->setActionGroup( viewModeGroup );
+    m_paHugeIcons->setActionGroup( viewModeGroup );
+    m_paLargeIcons->setActionGroup( viewModeGroup );
+    m_paMediumIcons->setActionGroup( viewModeGroup );
+    d->aSmallMediumIcons->setActionGroup( viewModeGroup );
+    m_paSmallIcons->setActionGroup( viewModeGroup );
 
     connect( m_paDefaultIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
     connect( d->aEnormousIcons, SIGNAL( toggled( bool ) ),
@@ -175,18 +175,18 @@ KonqDirPart::KonqDirPart( QObject *parent )
     // Use these also if the icon theme is scalable.
     int i;
     d->iconSize[0] = 0; // Default value
-    d->iconSize[1] = KIcon::SizeSmall; // 16
-    d->iconSize[2] = KIcon::SizeSmallMedium; // 22
-    d->iconSize[3] = KIcon::SizeMedium; // 32
-    d->iconSize[4] = KIcon::SizeLarge; // 48
-    d->iconSize[5] = KIcon::SizeHuge; // 64
-    d->iconSize[6] = KIcon::SizeEnormous; // 128
+    d->iconSize[1] = K3Icon::SizeSmall; // 16
+    d->iconSize[2] = K3Icon::SizeSmallMedium; // 22
+    d->iconSize[3] = K3Icon::SizeMedium; // 32
+    d->iconSize[4] = K3Icon::SizeLarge; // 48
+    d->iconSize[5] = K3Icon::SizeHuge; // 64
+    d->iconSize[6] = K3Icon::SizeEnormous; // 128
     d->iconSize[7] = 192;
     d->iconSize[8] = 256;
     KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
     if (root)
     {
-      QList<int> avSizes = root->querySizes(KIcon::Desktop);
+      QList<int> avSizes = root->querySizes(K3Icon::Desktop);
       kDebug(1203) << "the icon theme handles the following sizes:" << avSizes << endl;
       if (avSizes.count() < 10) {
 	// Use the icon sizes supplied by the theme.
@@ -536,23 +536,23 @@ void KonqDirPart::slotIconSizeToggled( bool toggleOn )
     if ( m_paDefaultIcons->isChecked() )
         setIconSize(0);
     else if ( d->aEnormousIcons->isChecked() )
-        setIconSize(d->findNearestIconSize(KIcon::SizeEnormous));
+        setIconSize(d->findNearestIconSize(K3Icon::SizeEnormous));
     else if ( m_paHugeIcons->isChecked() )
-        setIconSize(d->findNearestIconSize(KIcon::SizeHuge));
+        setIconSize(d->findNearestIconSize(K3Icon::SizeHuge));
     else if ( m_paLargeIcons->isChecked() )
-        setIconSize(d->findNearestIconSize(KIcon::SizeLarge));
+        setIconSize(d->findNearestIconSize(K3Icon::SizeLarge));
     else if ( m_paMediumIcons->isChecked() )
-        setIconSize(d->findNearestIconSize(KIcon::SizeMedium));
+        setIconSize(d->findNearestIconSize(K3Icon::SizeMedium));
     else if ( d->aSmallMediumIcons->isChecked() )
-        setIconSize(d->findNearestIconSize(KIcon::SizeSmallMedium));
+        setIconSize(d->findNearestIconSize(K3Icon::SizeSmallMedium));
     else if ( m_paSmallIcons->isChecked() )
-        setIconSize(d->findNearestIconSize(KIcon::SizeSmall));
+        setIconSize(d->findNearestIconSize(K3Icon::SizeSmall));
 }
 
 void KonqDirPart::slotIncIconSize()
 {
     int s = m_pProps->iconSize();
-    s = s ? s : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+    s = s ? s : KGlobal::iconLoader()->currentSize( K3Icon::Desktop );
     int sizeIndex = 0;
     for ( int idx = 1; idx < d->iconSize.count() ; ++idx )
         if (s == d->iconSize[idx]) {
@@ -568,7 +568,7 @@ void KonqDirPart::slotIncIconSize()
 void KonqDirPart::slotDecIconSize()
 {
     int s = m_pProps->iconSize();
-    s = s ? s : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+    s = s ? s : KGlobal::iconLoader()->currentSize( K3Icon::Desktop );
     uint sizeIndex = 0;
     for ( int idx = 1; idx < d->iconSize.count() ; ++idx )
         if (s == d->iconSize[idx]) {
@@ -584,17 +584,17 @@ void KonqDirPart::slotDecIconSize()
 // Only updates Actions, a GUI update is done in the views by reimplementing this
 void KonqDirPart::newIconSize( int size /*0=default, or 16,32,48....*/ )
 {
-    int realSize = (size==0) ? KGlobal::iconLoader()->currentSize( KIcon::Desktop ) : size;
+    int realSize = (size==0) ? KGlobal::iconLoader()->currentSize( K3Icon::Desktop ) : size;
     m_paDecIconSize->setEnabled(realSize > d->iconSize[1]);
     m_paIncIconSize->setEnabled(realSize < d->iconSize.back());
 
     m_paDefaultIcons->setChecked(size == 0);
-    d->aEnormousIcons->setChecked(size == d->findNearestIconSize(KIcon::SizeEnormous));
-    m_paHugeIcons->setChecked(size == d->findNearestIconSize(KIcon::SizeHuge));
-    m_paLargeIcons->setChecked(size == d->findNearestIconSize(KIcon::SizeLarge));
-    m_paMediumIcons->setChecked(size == d->findNearestIconSize(KIcon::SizeMedium));
-    d->aSmallMediumIcons->setChecked(size == d->findNearestIconSize(KIcon::SizeSmallMedium));
-    m_paSmallIcons->setChecked(size == d->findNearestIconSize(KIcon::SizeSmall));
+    d->aEnormousIcons->setChecked(size == d->findNearestIconSize(K3Icon::SizeEnormous));
+    m_paHugeIcons->setChecked(size == d->findNearestIconSize(K3Icon::SizeHuge));
+    m_paLargeIcons->setChecked(size == d->findNearestIconSize(K3Icon::SizeLarge));
+    m_paMediumIcons->setChecked(size == d->findNearestIconSize(K3Icon::SizeMedium));
+    d->aSmallMediumIcons->setChecked(size == d->findNearestIconSize(K3Icon::SizeSmallMedium));
+    m_paSmallIcons->setChecked(size == d->findNearestIconSize(K3Icon::SizeSmall));
 }
 
 // Stores the new icon size and updates the GUI
@@ -669,7 +669,7 @@ void KonqDirPart::slotFindClosed()
 
 void KonqDirPart::slotIconChanged( int group )
 {
-    if (group != KIcon::Desktop) return;
+    if (group != K3Icon::Desktop) return;
     adjustIconSizes();
 }
 

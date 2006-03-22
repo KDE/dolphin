@@ -64,8 +64,9 @@ public:
 };
 
 KNewMenu::KNewMenu( KActionCollection * _collec, const char *name ) :
-  KActionMenu( i18n( "Create New" ), "filenew", _collec, name ),
-  menuItemsVersion( 0 )
+  KActionMenu( KIcon("filenew"), i18n( "Create New" ), _collec, name ),
+  menuItemsVersion( 0 ),
+  m_newMenuGroup(new QActionGroup(this))
 {
     //kDebug(1203) << "KNewMenu::KNewMenu " << this << endl;
     // Don't fill the menu yet
@@ -76,8 +77,9 @@ KNewMenu::KNewMenu( KActionCollection * _collec, const char *name ) :
 }
 
 KNewMenu::KNewMenu( KActionCollection * _collec, QWidget *parentWidget, const char *name ) :
-  KActionMenu( i18n( "Create New" ), "filenew", _collec, name ),
-  menuItemsVersion( 0 )
+  KActionMenu( KIcon("filenew"), i18n( "Create New" ), _collec, name ),
+  menuItemsVersion( 0 ),
+  m_newMenuGroup(new QActionGroup(this))
 {
     d = new KNewMenuPrivate;
     d->m_actionCollection = _collec;
@@ -93,7 +95,7 @@ KNewMenu::~KNewMenu()
 
 void KNewMenu::makeMenus()
 {
-    d->m_menuDev = new KActionMenu( i18n( "Link to Device" ), "kcmdevices", d->m_actionCollection, "devnew" );
+    d->m_menuDev = new KActionMenu( KIcon("kcmdevices"), i18n( "Link to Device" ), d->m_actionCollection, "devnew" );
 }
 
 void KNewMenu::slotCheckUpToDate( )
@@ -106,13 +108,8 @@ void KNewMenu::slotCheckUpToDate( )
         //kDebug(1203) << "KNewMenu::slotCheckUpToDate() : recreating actions" << endl;
         // We need to clean up the action collection
         // We look for our actions using the group
-        QList<KAction*> actions = d->m_actionCollection->actions( "KNewMenu" );
-        for( QList<KAction*>::Iterator it = actions.begin(); it != actions.end(); ++it )
-        {
-            remove( *it );
-            delete *it;
-        }
-        actions.clear();
+        foreach (QAction* action, m_newMenuGroup->actions())
+            delete action;
 
         if (!s_templatesList) { // No templates list up to now
             s_templatesList = new QList<Entry>();
@@ -241,7 +238,7 @@ void KNewMenu::fillMenu()
                 {
                     KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewDir() ),
                                      d->m_actionCollection, QString("newmenu%1").arg( i ).toUtf8() );
-                    act->setGroup( "KNewMenu" );
+                    act->setActionGroup( m_newMenuGroup );
                     act->plug( popupMenu() );
 
                     KActionSeparator *sep = new KActionSeparator();
@@ -251,7 +248,7 @@ void KNewMenu::fillMenu()
                 {
                     KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewFile() ),
                                              d->m_actionCollection, QString("newmenu%1").arg( i ).toUtf8()  );
-                    act->setGroup( "KNewMenu" );
+                    act->setActionGroup( m_newMenuGroup );
 
                     if ( (*templ).templatePath.endsWith( "URL.desktop" ) )
                     {

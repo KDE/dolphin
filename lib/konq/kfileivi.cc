@@ -59,7 +59,7 @@ struct KFileIVI::Private
 
 KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KFileItem* fileitem, int size )
     : K3IconViewItem( iconview, fileitem->text() ),
-    m_size( size ), m_state( KIcon::DefaultState ),
+    m_size( size ), m_state( K3Icon::DefaultState ),
     m_bDisabled( false ), m_bThumbnail( false ), m_fileitem( fileitem )
 {
     d = new KFileIVI::Private;
@@ -95,20 +95,20 @@ void KFileIVI::invalidateThumb( int state, bool redraw )
     QIcon::Mode mode;
     switch( state )
     {
-	case KIcon::DisabledState:
+	case K3Icon::DisabledState:
 	    mode = QIcon::Disabled;
 	    break;
-	case KIcon::ActiveState:
+	case K3Icon::ActiveState:
 	    mode = QIcon::Active;
 	    break;
-	case KIcon::DefaultState:
+	case K3Icon::DefaultState:
 	default:
 	    mode = QIcon::Normal;
 	    break;
     }
 
     const QPixmap newThumb( KGlobal::iconLoader()->iconEffect()->
-                            apply( d->thumb, KIcon::Desktop, state ) );
+                            apply( d->thumb, K3Icon::Desktop, state ) );
     d->setCachedPixmaps( newThumb, mode );
 
     m_state = state;
@@ -121,7 +121,7 @@ void KFileIVI::setIcon( int size, int state, bool recalc, bool redraw )
     m_size = size;
     m_bThumbnail = false;
     if ( m_bDisabled )
-      m_state = KIcon::DisabledState;
+      m_state = K3Icon::DisabledState;
     else
       m_state = state;
 
@@ -130,7 +130,7 @@ void KFileIVI::setIcon( int size, int state, bool recalc, bool redraw )
     else {
         int halfSize;
         if (m_size == 0) {
-            halfSize = IconSize(KIcon::Desktop) / 2;
+            halfSize = IconSize(K3Icon::Desktop) / 2;
         } else {
             halfSize = m_size / 2;
         }
@@ -174,13 +174,13 @@ void KFileIVI::setPixmapDirect( const QPixmap& pixmap, bool recalc, bool redraw 
     QIcon::Mode mode;
     switch( m_state )
     {
-	case KIcon::DisabledState:
+	case K3Icon::DisabledState:
 	    mode = QIcon::Disabled;
 	    break;
-	case KIcon::ActiveState:
+	case K3Icon::ActiveState:
 	    mode = QIcon::Active;
 	    break;
-	case KIcon::DefaultState:
+	case K3Icon::DefaultState:
 	default:
 	    mode = QIcon::Normal;
 	    break;
@@ -197,9 +197,9 @@ void KFileIVI::setDisabled( bool disabled )
     if ( m_bDisabled != disabled )
     {
         m_bDisabled = disabled;
-        bool active = ( m_state == KIcon::ActiveState );
-        setEffect( m_bDisabled ? KIcon::DisabledState : 
-                   ( active ? KIcon::ActiveState : KIcon::DefaultState ) );
+        bool active = ( m_state == K3Icon::ActiveState );
+        setEffect( m_bDisabled ? K3Icon::DisabledState : 
+                   ( active ? K3Icon::ActiveState : K3Icon::DefaultState ) );
     }
 }
 
@@ -209,10 +209,10 @@ void KFileIVI::setThumbnailPixmap( const QPixmap & pixmap )
     d->thumb = pixmap;
 
     const QPixmap newThumb( KGlobal::iconLoader()->iconEffect()
-                            ->apply( pixmap, KIcon::Desktop, KIcon::DefaultState ) );
+                            ->apply( pixmap, K3Icon::Desktop, K3Icon::DefaultState ) );
     d->setCachedPixmaps( newThumb );
 
-    m_state = KIcon::DefaultState;
+    m_state = K3Icon::DefaultState;
 
     // Recalc when setting this pixmap!
     updatePixmapSize();
@@ -222,9 +222,9 @@ void KFileIVI::setThumbnailPixmap( const QPixmap & pixmap )
 void KFileIVI::setActive( bool active )
 {
     if ( active )
-        setEffect( KIcon::ActiveState );
+        setEffect( K3Icon::ActiveState );
     else
-        setEffect( m_bDisabled ? KIcon::DisabledState : KIcon::DefaultState );
+        setEffect( m_bDisabled ? K3Icon::DisabledState : K3Icon::DefaultState );
 }
 
 void KFileIVI::setEffect( int state )
@@ -232,13 +232,13 @@ void KFileIVI::setEffect( int state )
     QIcon::Mode mode;
     switch( state )
     {
-	case KIcon::DisabledState:
+	case K3Icon::DisabledState:
 	    mode = QIcon::Disabled;
 	    break;
-	case KIcon::ActiveState:
+	case K3Icon::ActiveState:
 	    mode = QIcon::Active;
 	    break;
-	case KIcon::DefaultState:
+	case K3Icon::DefaultState:
 	default:
 	    mode = QIcon::Normal;
 	    break;
@@ -247,19 +247,19 @@ void KFileIVI::setEffect( int state )
 
     KIconEffect *effect = KGlobal::iconLoader()->iconEffect();
 
-    bool haveEffect = effect->hasEffect( KIcon::Desktop, m_state ) !=
-                      effect->hasEffect( KIcon::Desktop, state );
+    bool haveEffect = effect->hasEffect( K3Icon::Desktop, m_state ) !=
+                      effect->hasEffect( K3Icon::Desktop, state );
 
                 //kDebug(1203) << "desktop;defaultstate=" <<
-                //      effect->fingerprint(KIcon::Desktop, KIcon::DefaultState) <<
+                //      effect->fingerprint(K3Icon::Desktop, K3Icon::DefaultState) <<
                 //      endl;
                 //kDebug(1203) << "desktop;activestate=" <<
-                //      effect->fingerprint(KIcon::Desktop, KIcon::ActiveState) <<
+                //      effect->fingerprint(K3Icon::Desktop, K3Icon::ActiveState) <<
                 //      endl;
 
     if( haveEffect &&
-        effect->fingerprint( KIcon::Desktop, m_state ) !=
-	effect->fingerprint( KIcon::Desktop, state ) )
+        effect->fingerprint( K3Icon::Desktop, m_state ) !=
+	effect->fingerprint( K3Icon::Desktop, state ) )
     {
 	// Effects on are not applied until they are first accessed to
 	// save memory. Do this now when needed
@@ -267,7 +267,7 @@ void KFileIVI::setEffect( int state )
         if( pixmap.isNull() )
         {
             if( m_bThumbnail )
-                pixmap = effect->apply( d->thumb, KIcon::Desktop, state );
+                pixmap = effect->apply( d->thumb, K3Icon::Desktop, state );
             else
                 pixmap = m_fileitem->pixmap( m_size, state );
             d->addCachedPixmap( pixmap, mode );
@@ -457,7 +457,7 @@ int KFileIVI::compare( Q3IconViewItem *i ) const
 void KFileIVI::updatePixmapSize()
 {
     int size = m_size ? m_size :
-        KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+        KGlobal::iconLoader()->currentSize( K3Icon::Desktop );
 
     KonqIconViewWidget* view = static_cast<KonqIconViewWidget*>( iconView() );
 

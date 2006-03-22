@@ -84,15 +84,18 @@ KonqSidebarHistoryModule::KonqSidebarHistoryModule( KonqSidebarTree * parentTree
     (void) new KAction( i18n("&Preferences..."), "configure", 0, this,
 			SLOT( slotPreferences()), m_collection, "preferences");
 
-    KRadioAction *sort;
-    sort = new KRadioAction( i18n("By &Name"), 0, this,
+    QActionGroup* sortGroup = new QActionGroup(this);
+    sortGroup->setExclusive(true);
+
+    KToggleAction *sort;
+    sort = new KToggleAction( i18n("By &Name"), 0, this,
 			     SLOT( slotSortByName() ), m_collection, "byName");
-    sort->setExclusiveGroup("SortGroup");
+    sort->setActionGroup(sortGroup);
     sort->setChecked( m_sortsByName );
 
-    sort = new KRadioAction( i18n("By &Date"), 0, this,
+    sort = new KToggleAction( i18n("By &Date"), 0, this,
 			     SLOT( slotSortByDate() ), m_collection, "byDate");
-    sort->setExclusiveGroup("SortGroup");
+    sort->setActionGroup(sortGroup);
     sort->setChecked( !m_sortsByName );
 
     m_folderClosed = SmallIcon( "folder" );

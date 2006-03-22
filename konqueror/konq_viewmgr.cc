@@ -1204,7 +1204,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   else
   {
     m_pMainWindow->disableActionsNoView();
-    m_pMainWindow->action( "clear_location" )->activate();
+    m_pMainWindow->action( "clear_location" )->trigger();
   }
 
   if (m_pDocContainer == 0L)

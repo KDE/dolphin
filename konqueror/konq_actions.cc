@@ -21,7 +21,6 @@
 
 #include <assert.h>
 
-#include <ktoolbarbutton.h>
 #include <ktoolbar.h>
 #include <kanimwidget.h>
 #include <kdebug.h>
@@ -89,30 +88,36 @@ KonqBidiHistoryAction::KonqBidiHistoryAction ( const QString & text, KActionColl
 {
   setShortcutConfigurable(false);
   m_firstIndex = 0;
-  m_goMenu = 0L;
+  setMenu(new KMenu);
+
+  connect( menu(), SIGNAL( aboutToShow() ), SIGNAL( menuAboutToShow() ) );
+  connect( menu(), SIGNAL( triggered( QAction* ) ), SLOT( slotTriggered( QAction* ) ) );
 }
 
-int KonqBidiHistoryAction::plug( QWidget *widget, int index )
+KonqBidiHistoryAction::~ KonqBidiHistoryAction( )
 {
-  if (!KAuthorized::authorizeKAction(name()))
-    return -1;
+  delete menu();
+}
 
-  // Go menu
-  if ( qobject_cast<QMenu*>(widget) )
-  {
-    m_goMenu = (QMenu*)widget;
-    // Forward signal (to main view)
-    connect( m_goMenu, SIGNAL( aboutToShow() ),
-             this, SIGNAL( menuAboutToShow() ) );
-    connect( m_goMenu, SIGNAL( activated( int ) ),
-             this, SLOT( slotActivated( int ) ) );
-    //kDebug(1202) << "m_goMenu->count()=" << m_goMenu->count() << endl;
-    // Store how many items the menu already contains.
-    // This means, the KonqBidiHistoryAction has to be plugged LAST in a menu !
-    m_firstIndex = m_goMenu->count();
-    return m_goMenu->count(); // hmmm, what should this be ?
-  }
-  return KAction::plug( widget, index );
+QWidget * KonqBidiHistoryAction::createToolBarWidget( QToolBar * parent )
+{
+  QToolButton* button = new QToolButton(parent);
+  button->setAutoRaise(true);
+  button->setFocusPolicy(Qt::NoFocus);
+  button->setIconSize(parent->iconSize());
+  button->setToolButtonStyle(parent->toolButtonStyle());
+  QObject::connect(parent, SIGNAL(iconSizeChanged(const QSize&)),
+                   button, SLOT(setIconSize(const QSize&)));
+  QObject::connect(parent, SIGNAL(toolButtonStyleChanged(Qt::ToolButtonStyle)),
+                   button, SLOT(setToolButtonStyle(Qt::ToolButtonStyle)));
+  button->setDefaultAction(this);
+  QObject::connect(button, SIGNAL(triggered(QAction*)), parent, SIGNAL(actionTriggered(QAction*)));
+
+  button->setPopupMode(QToolButton::MenuButtonPopup);
+
+  m_firstIndex = menu()->actions().count();
+
+  return button;
 }
 
 void KonqBidiHistoryAction::fillGoMenu( const QList<HistoryEntry*> & history, int historyIndex )
@@ -122,11 +127,11 @@ void KonqBidiHistoryAction::fillGoMenu( const QList<HistoryEntry*> & history, in
 
     //kDebug(1202) << "fillGoMenu position: " << history.at() << endl;
     if ( m_firstIndex == 0 ) // should never happen since done in plug
-        m_firstIndex = m_goMenu->count();
+        m_firstIndex = menu()->actions().count();
     else
     { // Clean up old history (from the end, to avoid shifts)
-        for ( int i = m_goMenu->count()-1 ; i >= m_firstIndex; i-- )
-            m_goMenu->removeItemAt( i );
+        for ( int i = menu()->actions().count()-1 ; i >= m_firstIndex; i-- )
+            menu()->removeAction( menu()->actions()[i] );
     }
     // TODO perhaps smarter algorithm (rename existing items, create new ones only if not enough) ?
 
@@ -153,20 +158,20 @@ void KonqBidiHistoryAction::fillGoMenu( const QList<HistoryEntry*> & history, in
         return;
     }
     m_currentPos = historyIndex; // for slotActivated
-    KonqBidiHistoryAction::fillHistoryPopup( history, historyIndex, m_goMenu, false, false, true, m_startPos );
+    KonqBidiHistoryAction::fillHistoryPopup( history, historyIndex, menu(), false, false, true, m_startPos );
 }
 
-void KonqBidiHistoryAction::slotActivated( int id )
+void KonqBidiHistoryAction::slotTriggered( QAction* action )
 {
   // 1 for first item in the list, etc.
-  int index = m_goMenu->indexOf(id) - m_firstIndex + 1;
+  int index = menu()->actions().indexOf(action) - m_firstIndex + 1;
   if ( index > 0 )
   {
       kDebug(1202) << "Item clicked has index " << index << endl;
       // -1 for one step back, 0 for don't move, +1 for one step forward, etc.
       int steps = ( m_startPos+1 ) - index - m_currentPos; // make a drawing to understand this :-)
       kDebug(1202) << "Emit activated with steps = " << steps << endl;
-      emit activated( steps );
+      emit step( steps );
   }
 }
 
@@ -175,22 +180,26 @@ void KonqBidiHistoryAction::slotActivated( int id )
 KonqLogoAction::KonqLogoAction( const QString& text, const KShortcut& accel, KActionCollection* parent, const char* name )
   : KAction( text, accel, 0L, "", parent, name )
 {
+  setToolBarWidgetFactory(this);
 }
 
 KonqLogoAction::KonqLogoAction( const QString& text, const KShortcut& accel,
                                QObject* receiver, const char* slot, KActionCollection* parent, const char* name )
   : KAction( text, accel, receiver, slot, parent, name )
 {
+  setToolBarWidgetFactory(this);
 }
 
 KonqLogoAction::KonqLogoAction( const QString& text, const QIcon& pix, const KShortcut&  accel, KActionCollection* parent, const char* name )
   : KAction( text, pix, accel, 0L, "", parent, name )
 {
+  setToolBarWidgetFactory(this);
 }
 
 KonqLogoAction::KonqLogoAction( const QString& text, const QIcon& pix, const KShortcut& accel, QObject* receiver, const char* slot, KActionCollection* parent, const char* name )
   : KAction( text, pix, accel, receiver, slot, parent, name )
 {
+  setToolBarWidgetFactory(this);
 }
 
 KonqLogoAction::KonqLogoAction( const QStringList& icons, QObject* receiver,
@@ -199,88 +208,47 @@ KonqLogoAction::KonqLogoAction( const QStringList& icons, QObject* receiver,
     : KAction( 0L, 0, receiver, slot, parent, name ) // text missing !
 {
   iconList = icons;
+  setToolBarWidgetFactory(this);
 }
 
 void KonqLogoAction::start()
 {
-  int len = containerCount();
-  for ( int i = 0; i < len; i++ )
-  {
-    QWidget *w = container( i );
-
-    if ( w->inherits( "KToolBar" ) )
-    {
-      KAnimWidget *anim = ((KToolBar *)w)->animatedWidget( itemId( i ) );
-      anim->start();
-    }
-  }
+  emit startAnimation();
 }
 
 void KonqLogoAction::stop()
 {
-  int len = containerCount();
-  for ( int i = 0; i < len; i++ )
-  {
-    QWidget *w = container( i );
-
-    if ( w->inherits( "KToolBar" ) )
-    {
-      KAnimWidget *anim = ((KToolBar *)w)->animatedWidget( itemId( i ) );
-      anim->stop();
-    }
-  }
-}
-
-void KonqLogoAction::updateIcon(int id)
-{
-    QWidget *w = container( id );
-
-    if ( w->inherits( "KToolBar" ) )
-    {
-      KAnimWidget *anim = ((KToolBar *)w)->animatedWidget( itemId( id ) );
-      anim->setIcons(icon());
-    }
+  emit stopAnimation();
 }
 
 
-
-int KonqLogoAction::plug( QWidget *widget, int index )
+QWidget * KonqLogoAction::createToolBarWidget( QToolBar * parent )
 {
-  if (!KAuthorized::authorizeKAction(name()))
-    return -1;
+  QWidget* container = new QWidget(parent);
 
-/*
-  if ( widget->inherits( "KMainWindow" ) )
-  {
-    ((KMainWindow*)widget)->setIndicatorWidget(m_logoLabel);
+  QHBoxLayout* layout = new QHBoxLayout(container);
+  layout->setMargin(0);
+  layout->setSpacing(0);
+  layout->addStretch();
 
-    addContainer( widget, -1 );
+  KAnimatedButton *button = new KAnimatedButton(container);
+  button->setAutoRaise(true);
+  button->setFocusPolicy(Qt::NoFocus);
+  button->setIconSize(parent->iconSize());
+  button->setToolButtonStyle(Qt::ToolButtonIconOnly);
+  connect(parent, SIGNAL(iconSizeChanged(const QSize&)), button, SLOT(setIconSize(const QSize&)));
+  connect(parent, SIGNAL(iconSizeChanged(const QSize&)), button, SLOT(updateIcons()));
+  connect(button, SIGNAL(triggered(QAction*)), parent, SIGNAL(actionTriggered(QAction*)));
+  button->setDefaultAction(this);
 
-    return containerCount() - 1;
-  }
-*/
-  if ( widget->inherits( "KToolBar" ) )
-  {
-    KToolBar *bar = (KToolBar *)widget;
+  connect(this, SIGNAL(startAnimation()), button, SLOT(start()));
+  connect(this, SIGNAL(stopAnimation()), button, SLOT(stop()));
 
-    int id_ = getToolButtonID();
+  button->setIcons(QString("kde"));
 
-    bar->insertAnimatedWidget( id_, this, SIGNAL(activated()), QString("kde"), index );
-    bar->alignItemRight( id_ );
+  layout->addWidget(button);
 
-    KAnimWidget *anim = bar->animatedWidget( id_ );
-    anim->setFrameStyle(QFrame::NoFrame);
-
-    addContainer( bar, id_ );
-
-    connect( bar, SIGNAL( destroyed() ), this, SLOT( slotDestroyed() ) );
-
-    return containerCount() - 1;
-  }
-
-  int containerId = KAction::plug( widget, index );
-
-  return containerId;
+  return container;
 }
 
 ///////////
@@ -288,41 +256,46 @@ int KonqLogoAction::plug( QWidget *widget, int index )
 KonqViewModeAction::KonqViewModeAction( const QString& desktopEntryName,
                                         const QString &text, const QString &icon,
                                         KActionCollection *parent, const char *name )
-    : KRadioAction( text, icon, 0, 0L, "", parent, name ),
+    : KAction( icon, text, parent, name ),
       m_desktopEntryName( desktopEntryName )
 {
-    m_menu = new QMenu;
+    setMenu(new QMenu());
+    //setToolBarWidgetFactory(this);
 
-    connect( m_menu, SIGNAL( aboutToShow() ),
+    /*connect( m_menu, SIGNAL( aboutToShow() ),
              this, SLOT( slotPopupAboutToShow() ) );
     connect( m_menu, SIGNAL( activated( int ) ),
              this, SLOT( slotPopupActivated() ) );
     connect( m_menu, SIGNAL( aboutToHide() ),
-             this, SLOT( slotPopupAboutToHide() ) );
+             this, SLOT( slotPopupAboutToHide() ) );*/
 }
 
 KonqViewModeAction::~KonqViewModeAction()
 {
-    delete m_menu;
+    delete menu();
 }
 
-int KonqViewModeAction::plug( QWidget *widget, int index )
+QWidget * KonqViewModeAction::createToolBarWidget( QToolBar * parent )
 {
-    int res = KRadioAction::plug( widget, index );
+  QToolButton* button = new QToolButton(parent);
+  button->setAutoRaise(true);
+  button->setFocusPolicy(Qt::NoFocus);
+  button->setIconSize(parent->iconSize());
+  button->setToolButtonStyle(parent->toolButtonStyle());
+  QObject::connect(parent, SIGNAL(iconSizeChanged(const QSize&)),
+                   button, SLOT(setIconSize(const QSize&)));
+  QObject::connect(parent, SIGNAL(toolButtonStyleChanged(Qt::ToolButtonStyle)),
+                   button, SLOT(setToolButtonStyle(Qt::ToolButtonStyle)));
+  button->setDefaultAction(this);
+  QObject::connect(button, SIGNAL(triggered(QAction*)), parent, SIGNAL(actionTriggered(QAction*)));
 
-    if ( widget->inherits( "KToolBar" ) && (res != -1) )
-    {
-        KToolBar *toolBar = static_cast<KToolBar *>( widget );
+  //if (menu()->count() > 1)
+    button->setPopupMode(QToolButton::InstantPopup);
 
-        KToolBarButton *button = toolBar->getButton( itemId( res ) );
-
-        if ( m_menu->count() > 1 )
-            button->setDelayedPopup( m_menu, false );
-    }
-
-    return res;
+  return button;
 }
 
+/*
 void KonqViewModeAction::slotPopupAboutToShow()
 {
     m_popupActivated = false;
@@ -351,7 +324,7 @@ void KonqViewModeAction::slotPopupAboutToHide()
             button->setDown( isChecked() );
         }
     }
-}
+}*/
 
 
 MostOftenList * KonqMostOftenURLSAction::s_mostEntries = 0L;
@@ -360,7 +333,7 @@ uint KonqMostOftenURLSAction::s_maxEntries = 0;
 KonqMostOftenURLSAction::KonqMostOftenURLSAction( const QString& text,
 						  KActionCollection *parent,
 						  const char *name )
-    : KActionMenu( text, "goto", parent, name )
+    : KActionMenu( KIcon("goto"), text, parent, name )
 {
     setDelayed( false );
 

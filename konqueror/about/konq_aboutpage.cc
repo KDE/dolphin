@@ -96,15 +96,15 @@ QString KonqAboutPageFactory::launch()
     return res;
 
   KIconLoader *iconloader = KGlobal::iconLoader();
-  int iconSize = iconloader->currentSize(KIcon::Desktop);
-  QString home_icon_path = iconloader->iconPath("folder_home", KIcon::Desktop );
-  QString storage_icon_path = iconloader->iconPath("system", KIcon::Desktop );
-  QString remote_icon_path = iconloader->iconPath("network", KIcon::Desktop );
-  QString wastebin_icon_path = iconloader->iconPath("trashcan_full", KIcon::Desktop );
-  QString applications_icon_path = iconloader->iconPath("kmenu", KIcon::Desktop );
-  QString settings_icon_path = iconloader->iconPath("kcontrol", KIcon::Desktop );
+  int iconSize = iconloader->currentSize(K3Icon::Desktop);
+  QString home_icon_path = iconloader->iconPath("folder_home", K3Icon::Desktop );
+  QString storage_icon_path = iconloader->iconPath("system", K3Icon::Desktop );
+  QString remote_icon_path = iconloader->iconPath("network", K3Icon::Desktop );
+  QString wastebin_icon_path = iconloader->iconPath("trashcan_full", K3Icon::Desktop );
+  QString applications_icon_path = iconloader->iconPath("kmenu", K3Icon::Desktop );
+  QString settings_icon_path = iconloader->iconPath("kcontrol", K3Icon::Desktop );
   QString home_folder = QDir::homePath();
-  QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
+  QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", K3Icon::Small ):iconloader->iconPath("1rightarrow", K3Icon::Small );
 
   res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
   if ( kapp->layoutDirection() == Qt::RightToLeft )
@@ -147,7 +147,7 @@ QString KonqAboutPageFactory::launch()
       .arg( i18n( "Settings" ) )
       .arg( i18n( "Desktop configuration" ) )
       .arg( continue_icon_path )
-      .arg( KIcon::SizeSmall ).arg( KIcon::SizeSmall )
+      .arg( K3Icon::SizeSmall ).arg( K3Icon::SizeSmall )
       .arg( i18n( "Next: An Introduction to Konqueror" ) )
       ;
   i18n("Search the Web");//i18n for possible future use
@@ -167,9 +167,9 @@ QString KonqAboutPageFactory::intro()
 	return res;
 
     KIconLoader *iconloader = KGlobal::iconLoader();
-    QString back_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("forward", KIcon::Small ):iconloader->iconPath("back", KIcon::Small );
-    QString gohome_icon_path = iconloader->iconPath("gohome", KIcon::Small );
-    QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
+    QString back_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("forward", K3Icon::Small ):iconloader->iconPath("back", K3Icon::Small );
+    QString gohome_icon_path = iconloader->iconPath("gohome", K3Icon::Small );
+    QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", K3Icon::Small ):iconloader->iconPath("1rightarrow", K3Icon::Small );
 
     res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
     if ( kapp->layoutDirection() == Qt::RightToLeft )
@@ -222,7 +222,7 @@ QString KonqAboutPageFactory::specs()
 
     KIconLoader *iconloader = KGlobal::iconLoader();
     QString res = loadFile( locate( "data", "konqueror/about/specs.html" ));
-    QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
+    QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", K3Icon::Small ):iconloader->iconPath("1rightarrow", K3Icon::Small );
     if ( res.isEmpty() )
 	return res;
 
@@ -308,20 +308,20 @@ QString KonqAboutPageFactory::tips()
 
     KIconLoader *iconloader = KGlobal::iconLoader();
     QString viewmag_icon_path =
-	    iconloader->iconPath("viewmag", KIcon::Small );
+	    iconloader->iconPath("viewmag", K3Icon::Small );
     QString history_icon_path =
-	    iconloader->iconPath("history", KIcon::Small );
+	    iconloader->iconPath("history", K3Icon::Small );
     QString openterm_icon_path =
-	    iconloader->iconPath("openterm", KIcon::Small );
+	    iconloader->iconPath("openterm", K3Icon::Small );
     QString locationbar_erase_rtl_icon_path =
-	    iconloader->iconPath("clear_left", KIcon::Small );
+	    iconloader->iconPath("clear_left", K3Icon::Small );
     QString locationbar_erase_icon_path =
-	    iconloader->iconPath("locationbar_erase", KIcon::Small );
+	    iconloader->iconPath("locationbar_erase", K3Icon::Small );
     QString window_fullscreen_icon_path =
-	    iconloader->iconPath("window_fullscreen", KIcon::Small );
+	    iconloader->iconPath("window_fullscreen", K3Icon::Small );
     QString view_left_right_icon_path =
-	    iconloader->iconPath("view_left_right", KIcon::Small );
-    QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
+	    iconloader->iconPath("view_left_right", K3Icon::Small );
+    QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", K3Icon::Small ):iconloader->iconPath("1rightarrow", K3Icon::Small );
 
     res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
     if ( kapp->layoutDirection() == Qt::RightToLeft )

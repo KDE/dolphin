@@ -6,7 +6,8 @@
 			<Action name="tools_kttsd"/>
 		</Menu>
 	</MenuBar>
-	<ToolBar name="Speech Toolbar" hidden="true">
+	<ToolBar name="speechToolbar" hidden="true">
+		<text>Speech Toolbar</text>
 		<Action name="tools_kttsd"/>
 	</ToolBar>
 </kpartgui>

@@ -290,8 +290,7 @@ int KonqPopupMenu::insertServices(const ServiceList& list,
 
             if ( !(*it).m_strIcon.isEmpty() )
             {
-                QPixmap pix = SmallIcon( (*it).m_strIcon );
-                act->setIcon( pix );
+                act->setIcon( KIcon((*it).m_strIcon) );
             }
 
             KonqXMLGUIClient::addAction( act, menu ); // Add to toplevel menu
@@ -333,7 +332,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 {
     assert( m_lstItems.count() >= 1 );
 
-    m_ownActions.setWidget( this );
+    m_ownActions.setAssociatedWidget( this );
 
     const bool bIsLink  = (kpf & IsLink);
     bool currentDir     = false;
@@ -355,7 +354,6 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     int id = 0;
     setFont(KGlobalSettings::menuFont());
     m_pluginList.setAutoDelete( true );
-    m_ownActions.setHighlightingEnabled( true );
 
     attrName = QLatin1String( "name" );
 
@@ -867,7 +865,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     if ( menu == domElement() ) // no submenu -> prefix single offer
                         actionName = i18n( "Open with %1" ).arg( actionName );
 
-                    act = new KAction( actionName, (*it)->pixmap( KIcon::Small ), 0,
+                    act = new KAction( actionName, (*it)->pixmap( K3Icon::Small ), 0,
                                        this, SLOT( slotRunService() ),
                                        &m_ownActions, nam.prepend( "appservice_" ) );
                     KonqXMLGUIClient::addAction( act, menu );

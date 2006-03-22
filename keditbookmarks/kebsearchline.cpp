@@ -723,7 +723,6 @@ void KViewSearchLineWidget::createWidgets()
 {
     d->layout = new QHBoxLayout(this);
     d->layout->setSpacing(5);
-    positionInToolBar();
 
     if(!d->clearButton) {
         d->clearButton = new QToolButton();
@@ -750,36 +749,6 @@ void KViewSearchLineWidget::createWidgets()
 KViewSearchLine *KViewSearchLineWidget::searchLine() const
 {
     return d->searchLine;
-}
-
-void KViewSearchLineWidget::positionInToolBar()
-{
-    KToolBar *toolBar = dynamic_cast<KToolBar *>(parent());
-
-    if(toolBar) {
-
-        // Here we have The Big Ugly.  Figure out how many widgets are in the
-        // and do a hack-ish iteration over them to find this widget so that we
-        // can insert the clear button before it.
-
-        int widgetCount = toolBar->count();
-
-        for(int index = 0; index < widgetCount; index++) {
-            int id = toolBar->idAt(index);
-            if(toolBar->getWidget(id) == this) {
-                toolBar->setItemAutoSized(id);
-                if(!d->clearButton) {
-                    QString icon = QApplication::isRightToLeft() ? "clear_left" : "locationbar_erase";
-                    d->clearButton = new KToolBarButton(icon, 2005, toolBar);
-                }
-                toolBar->insertWidget(2005, d->clearButton->width(), d->clearButton, index);
-                break;
-            }
-        }
-    }
-
-    if(d->searchLine)
-        d->searchLine->show();
 }
 
 #include "kebsearchline.moc"

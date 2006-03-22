@@ -763,7 +763,7 @@ void KonqBaseListViewWidget::startDrag()
    if (( urls.count() > 1 ) || (pixmap0Invalid))
    {
       int iconSize = m_pBrowserView->m_pProps->iconSize();
-      iconSize = iconSize ? iconSize : KGlobal::iconLoader()->currentSize( KIcon::Small ); // Default = small
+      iconSize = iconSize ? iconSize : KGlobal::iconLoader()->currentSize( K3Icon::Small ); // Default = small
       pixmap2 = DesktopIcon( "kmultiple", iconSize );
       if ( pixmap2.isNull() )
           kWarning(1202) << "Could not find multiple pixmap" << endl;
@@ -798,7 +798,7 @@ void KonqBaseListViewWidget::slotItemRenamed( Q3ListViewItem *item, const QStrin
       KonqOperations::rename( this, renamedItem->item()->url(), KIO::encodeFileName( name ) );
    }
 
-   // When the KListViewLineEdit loses focus, focus tends to go to the location bar...
+   // When the K3ListViewLineEdit loses focus, focus tends to go to the location bar...
    setFocus();
 }
 

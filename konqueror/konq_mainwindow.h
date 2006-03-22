@@ -115,12 +115,12 @@ public:
   /**
    * Filters the URL and calls the main openURL method.
    */
-  void openFilteredURL( const QString & _url, KonqOpenURLRequest& _req);
+  void openFilteredUrl( const QString & _url, KonqOpenURLRequest& _req);
 
   /**
    * Filters the URL and calls the main openURL method.
    */
-  void openFilteredURL( const QString &_url, bool inNewTab = false, bool tempFile = false );
+  void openFilteredUrl( const QString &_url, bool inNewTab = false, bool tempFile = false );
 
   /**
    * The main openURL method.
@@ -334,7 +334,7 @@ public Q_SLOTS:
 
   // for KBookmarkMenu and KBookmarkBar
   void slotFillContextMenu( const KBookmark &, QMenu * );
-  void slotOpenBookmarkURL( const QString & url, Qt::ButtonState state );
+  void slotOpenBookmarkUrl( const QString & url, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers );
 
   void slotPopupMenu( const QPoint &_global, const KUrl &_url, const QString &_mimeType, mode_t mode );
   void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KUrl &_url, const QString &_mimeType, mode_t mode );
@@ -379,14 +379,14 @@ public Q_SLOTS:
 
   // Go menu
   void slotUp();
-  void slotUp(KAction::ActivationReason, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers);
+  void slotUp(Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers);
   void slotUpDelayed();
   void slotBack();
-  void slotBack(KAction::ActivationReason, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers);
+  void slotBack(Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers);
   void slotForward();
-  void slotForward(KAction::ActivationReason, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers);
+  void slotForward(Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers);
   void slotHome();
-  void slotHome(KAction::ActivationReason, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers);
+  void slotHome(Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers);
   void slotGoSystem();
   void slotGoApplications();
   void slotGoMedia();
@@ -408,7 +408,7 @@ public Q_SLOTS:
   void slotPartChanged( KonqView *childView, KParts::ReadOnlyPart *oldPart, KParts::ReadOnlyPart *newPart );
 
   void slotRunFinished();
-  void slotClearLocationBar( KAction::ActivationReason reason, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers );
+  void slotClearLocationBar( Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers );
 
   // reimplement from KParts::MainWindow
   virtual void slotSetStatusBarText( const QString &text );
@@ -503,9 +503,6 @@ protected Q_SLOTS:
 
   void slotOpenURL( const KUrl& );
 
-  void slotActionStatusText( const QString &text );
-  void slotClearStatusText();
-
   void slotFindOpen( KonqDirPart * dirPart );
   void slotFindClosed( KonqDirPart * dirPart );
 
@@ -542,6 +539,8 @@ protected:
   bool askForTarget(const QString& text, KUrl& url);
 
 private Q_SLOTS:
+  void slotUndoTextChanged(const QString& newText);
+
   void slotRequesterClicked( KUrlRequester * );
   void slotIntro();
   /**
@@ -553,7 +552,7 @@ private Q_SLOTS:
   void bookmarksIntoCompletion();
 
   void initBookmarkBar();
-  void slotTrashActivated( KAction::ActivationReason reason, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers );
+  void slotTrashActivated( Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers );
 
   void showPageSecurity();
 
@@ -600,9 +599,6 @@ private:
   void plugViewModeActions();
   void unplugViewModeActions();
   static QString viewModeActionKey( KService::Ptr service );
-
-  void connectActionCollection( KActionCollection *coll );
-  void disconnectActionCollection( KActionCollection *coll );
 
   bool stayPreloaded();
   bool checkPreloadResourceUsage();
@@ -736,9 +732,11 @@ private:
 
   QList<KAction *> m_openWithActions;
   KActionMenu *m_viewModeMenu;
+  QActionGroup* m_viewModesGroup;
   QList<KAction*> m_toolBarViewModeActions; // basically holds three KonqViewActions, one of
                                               // iconview, one for listview, and one for externals
-  QList<KRadioAction *> m_viewModeActions;
+  QActionGroup* m_toolBarViewModesGroup;
+  QList<KToggleAction *> m_viewModeActions;
   QMap<QString,KService::Ptr> m_viewModeToolBarServices; // similar to m_toolBarViewModeActions
   // it holds a map library name (libkonqiconview/libkonqlistview) ==> service (service for
   // iconview, multicolumnview, treeview, etc .)

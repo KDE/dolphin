@@ -420,7 +420,7 @@
 </tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>klistview.h</includehint>
-    <includehint>klistview.h</includehint>
+    <includehint>k3listview.h</includehint>
+    <includehint>k3listview.h</includehint>
 </includehints>
 </UI>

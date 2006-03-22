@@ -151,7 +151,7 @@ void PopupMenuGUIClient::addEmbeddingService( QDomElement &menu, int idx, const 
 
   action.setAttribute( "group", "preview" );
 
-  (void)new KAction( name, service->pixmap( KIcon::Small ), 0,
+  (void)new KAction( name, service->pixmap( K3Icon::Small ), 0,
                      m_mainWindow, SLOT( slotOpenEmbedded() ), actionCollection(), actName );
 }
 
@@ -189,12 +189,12 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
     QString description = i18n( "Show %1" ).arg( (*cIt)->name() );
     QString name = (*cIt)->desktopEntryName();
     //kDebug(1202) << "ToggleViewGUIClient: name=" << name << endl;
-    KToggleAction *action = new KToggleAction( description, 0, mainWindow->actionCollection(), name.toLatin1() );
+    KToggleAction *action = new KToggleAction( description, mainWindow->actionCollection(), name.toLatin1() );
     action->setCheckedState( i18n( "Hide %1" ).arg( (*cIt)->name() ) );
 
     // HACK
     if ( (*cIt)->icon() != "unknown" )
-      action->setIcon( (*cIt)->icon() );
+      action->setIconName( (*cIt)->icon() );
 
     connect( action, SIGNAL( toggled( bool ) ),
              this, SLOT( slotToggleView( bool ) ) );

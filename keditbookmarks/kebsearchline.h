@@ -23,7 +23,6 @@
 #include <kglobal.h>
 #include <klocale.h>
 #include <ktoolbar.h>
-#include <ktoolbarbutton.h>
 #include <kiconloader.h>
 #include <kdebug.h>
 
@@ -305,9 +304,6 @@ protected Q_SLOTS:
      * subclasses.
      */
     virtual void createWidgets();
-
-private Q_SLOTS:
-    void positionInToolBar();
 
 private:
     class KViewSearchLineWidgetPrivate;

@@ -175,6 +175,11 @@ private:
     QString m_linkURL; // the url to put in the file
 
     static KDirWatch * s_pDirWatch;
+
+    /**
+     * The action group that our actions belong to
+     */
+    QActionGroup* m_newMenuGroup;
 };
 
 /**

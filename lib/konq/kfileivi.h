@@ -71,12 +71,12 @@ public:
     /**
      * Changes the icon for this item.
      * @param size the icon size (0 for default, otherwise size in pixels)
-     * @param state the state of the icon (enum in KIcon)
+     * @param state the state of the icon (enum in K3Icon)
      * @param recalc whether to update the layout of the icon view when setting the icon
      * @param redraw whether to redraw the item after setting the icon
      */
     virtual void setIcon( int size,
-                          int state=KIcon::DefaultState,
+                          int state=K3Icon::DefaultState,
                           bool recalc=false,
                           bool redraw=false);
 
@@ -96,7 +96,7 @@ public:
      * e.g. because the effect settings have been changed. The thumb itself
      * is assumed to be still valid (use setThumbnailPixmap() instead
      * otherwise).
-     * @param state the state of the icon (enum in KIcon)
+     * @param state the state of the icon (enum in K3Icon)
      * @param redraw whether to redraw the item after setting the icon
      */
     void invalidateThumb( int state, bool redraw = false );
@@ -112,7 +112,7 @@ public:
 
     /**
      * Return the current state of the icon
-     * (KIcon::DefaultState, KIcon::ActiveState etc.)
+     * (K3Icon::DefaultState, K3Icon::ActiveState etc.)
      */
     int state() const { return m_state; }
 
