@@ -15,7 +15,7 @@ kde4_add_dcop_stubs(nspluginviewer_SRCS ${CMAKE_SOURCE_DIR}/nsplugins/NSPluginCa
 
 kde4_add_executable(nspluginviewer ${nspluginviewer_SRCS})
 
-target_link_libraries(nspluginviewer  ${LIB_KPARTS} ${X11_Xt_LIB} )
+target_link_libraries(nspluginviewer  ${KDE4_KPARTS_LIBS} ${X11_Xt_LIB} )
 
 install_targets(/bin nspluginviewer )
 

@@ -16,7 +16,7 @@ kde4_add_plugin(kded_konqy_preloader ${kded_konqy_preloader_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kded_konqy_preloader )
 
-target_link_libraries(kded_konqy_preloader  ${LIB_KDEUI} )
+target_link_libraries(kded_konqy_preloader  ${KDE4_KDEUI_LIBS} )
 
 install_targets(${LIB_INSTALL_DIR}/kde4 kded_konqy_preloader )
 

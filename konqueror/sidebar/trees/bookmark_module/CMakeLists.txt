@@ -17,7 +17,7 @@ kde4_add_plugin(konq_sidebartree_bookmarks ${konq_sidebartree_bookmarks_PART_SRC
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_sidebartree_bookmarks )
 
-target_link_libraries(konq_sidebartree_bookmarks  ${LIB_KDEUI} konqsidebarplugin konq)
+target_link_libraries(konq_sidebartree_bookmarks  ${KDE4_KDEUI_LIBS} konqsidebarplugin konq)
 
 install_targets(${LIB_INSTALL_DIR}/kde4 konq_sidebartree_bookmarks )
 
