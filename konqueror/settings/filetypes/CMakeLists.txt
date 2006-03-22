@@ -28,7 +28,7 @@ kde4_automoc(${keditfiletype_SRCS})
 
 kde4_add_executable(keditfiletype ${keditfiletype_SRCS})
 
-target_link_libraries(keditfiletype  ${LIB_KIO} )
+target_link_libraries(keditfiletype  ${KDE4_KIO_LIBS} )
 
 install_targets(/bin keditfiletype )
 
