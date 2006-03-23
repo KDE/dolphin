@@ -2,8 +2,7 @@ kde4_header()
 
 add_subdirectory( viewer ) 
 add_subdirectory( test ) 
-
-include_directories( ${CMAKE_SOURCE_DIR}/libltdl ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
+include_directories( ${CMAKE_SOURCE_DIR}/libltdl ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} )
 
 
 ########### next target ###############
