@@ -286,7 +286,7 @@ int KonqPopupMenu::insertServices(const ServiceList& list,
             name.prepend( isBuiltin ? "builtinservice_" : "userservice_" );
             KAction * act = new KAction( QString((*it).m_strName).replace('&',"&&"), 0,
                                          this, SLOT( slotRunService() ),
-                                         &m_ownActions, name.latin1() );
+                                         &m_ownActions, name.toLatin1() );
 
             if ( !(*it).m_strIcon.isEmpty() )
             {
@@ -341,7 +341,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     bool sMoving        = sDeleting;
     bool sWriting       = sDeleting && m_lstItems.first()->isWritable();
     m_sMimeType         = m_lstItems.first()->mimetype();
-    QString mimeGroup   = m_sMimeType.left(m_sMimeType.find('/'));
+    QString mimeGroup   = m_sMimeType.left(m_sMimeType.indexOf('/'));
     mode_t mode         = m_lstItems.first()->mode();
     bool isDirectory    = S_ISDIR(mode);
     bool bTrashIncluded = false;
@@ -382,7 +382,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         {
             m_sMimeType.clear(); // mimetypes are different => null
 
-            if ( mimeGroup != (*it)->mimetype().left((*it)->mimetype().find('/')))
+            if ( mimeGroup != (*it)->mimetype().left((*it)->mimetype().indexOf('/')))
                 mimeGroup.clear(); // mimetype groups are different as well!
         }
 
@@ -456,7 +456,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     if (!isCurrentTrash)
         addMerge( "konqueror" );
 
-    bool isKDesktop = QByteArray( kapp->name() ) == "kdesktop";
+    bool isKDesktop = QByteArray( kapp->objectName().toUtf8() ) == "kdesktop";
     KAction *actNewWindow = 0;
 
     if (( kpf & ShowProperties ) && isKDesktop &&
@@ -594,7 +594,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         QString caption;
         if (currentDir)
         {
-           bool httpPage = (m_sViewURL.protocol().find("http", 0, false) == 0);
+           bool httpPage = (m_sViewURL.protocol().indexOf("http", 0, Qt::CaseInsensitive) == 0);
            if (httpPage)
               caption = i18n("&Bookmark This Page");
            else
@@ -669,7 +669,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         {
             QDir dir( *dIt );
 
-            QStringList entries = dir.entryList( "*.desktop", QDir::Files );
+            QStringList entries = dir.entryList( QStringList("*.desktop"), QDir::Files );
             QStringList::ConstIterator eIt = entries.begin();
             QStringList::ConstIterator eEnd = entries.end();
 
@@ -686,13 +686,13 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 if ( cfg.hasKey( "X-KDE-ShowIfRunning" ) )
                 {
                     const QString app = cfg.readEntry( "X-KDE-ShowIfRunning" );
-                    if ( !kapp->dcopClient()->isApplicationRegistered( app.utf8() ) )
+                    if ( !kapp->dcopClient()->isApplicationRegistered( app.toUtf8() ) )
                         continue;
                 }
 		if ( cfg.hasKey( "X-KDE-ShowIfDcopCall" ) )
 		{
 		    QString dcopcall = cfg.readEntry( "X-KDE-ShowIfDcopCall" );
-		    const QByteArray app = dcopcall.section(' ', 0,0).utf8();
+		    const QByteArray app = dcopcall.section(' ', 0,0).toUtf8();
 
 		    //if( !kapp->dcopClient()->isApplicationRegistered( app ))
 		    //	continue; //app does not exist so cannot send call
@@ -703,7 +703,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
 		    DCOPCString replyType;
 		    QByteArray replyData;
-		    DCOPCString object =    dcopcall.section(' ', 1,-2).utf8();
+		    DCOPCString object =    dcopcall.section(' ', 1,-2).toUtf8();
 		    QString function =  dcopcall.section(' ', -1);
 		    if(!function.endsWith("(KUrl::List)")) {
 			kWarning() << "Desktop file " << *eIt << " contains an invalid X-KDE-ShowIfDcopCall - the function must take the exact parameter (KUrl::List) and must be specified." << endl;
@@ -711,7 +711,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 		    }
 
 		    if(!kapp->dcopClient()->call( app, object,
-				    function.utf8(),
+				    function.toUtf8(),
 				    dataToSend, replyType, replyData, true, 1000))
 			continue;
 		    if(replyType != "bool" || !replyData[0])
@@ -771,7 +771,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                               *it == m_sMimeType) ||
                             (!mimeGroup.isEmpty() &&
                              ((*it).right(1) == "*" &&
-                              (*it).left((*it).find('/')) == mimeGroup)))
+                              (*it).left((*it).indexOf('/')) == mimeGroup)))
                         {
                             checkTheMimetypes = true;
                         }
@@ -781,7 +781,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                             ok = true;
                             for (QStringList::ConstIterator itex = excludeTypes.begin(); itex != excludeTypes.end(); ++itex)
                             {
-                                if( ((*itex).right(1) == "*" && (*itex).left((*itex).find('/')) == mimeGroup) ||
+                                if( ((*itex).right(1) == "*" && (*itex).left((*itex).indexOf('/')) == mimeGroup) ||
                                     ((*itex) == m_sMimeType) )
                                 {
                                     ok = false;
@@ -1038,8 +1038,8 @@ void KonqPopupMenu::slotPopupAddToBookmark()
 
 void KonqPopupMenu::slotRunService()
 {
-  QByteArray senderName = sender()->name();
-  int id = senderName.mid( senderName.find( '_' ) + 1 ).toInt();
+  QByteArray senderName = sender()->objectName().toUtf8();
+  int id = senderName.mid( senderName.indexOf( '_' ) + 1 ).toInt();
 
   // Is it a usual service (application)
   QMap<int,KService::Ptr>::Iterator it = m_mapPopup.find( id );
@@ -1053,7 +1053,7 @@ void KonqPopupMenu::slotRunService()
   QMap<int,KDEDesktopMimeType::Service>::Iterator it2 = m_mapPopupServices.find( id );
   if ( it2 != m_mapPopupServices.end() )
   {
-      KDEDesktopMimeType::executeService( m_lstPopupURLs, it2.data() );
+      KDEDesktopMimeType::executeService( m_lstPopupURLs, it2.value() );
   }
 
   return;
@@ -1096,7 +1096,7 @@ KAction *KonqPopupMenu::action( const QDomElement &element ) const
   if ( !res )
     res = m_actions.action( name.data() );
 
-  if ( !res && m_pMenuNew && strcmp( name.data(), m_pMenuNew->name() ) == 0 )
+  if ( !res && m_pMenuNew && strcmp( name.data(), m_pMenuNew->objectName().toUtf8() ) == 0 )
     return m_pMenuNew;
 
   return res;
@@ -1137,7 +1137,7 @@ void KonqPopupMenu::addPlugins()
         KonqPopupMenuPlugin *plugin =
             KLibLoader::createInstance<KonqPopupMenuPlugin>( QFile::encodeName( (*iterator)->library() ),
                                                             this,
-                                                            (*iterator)->name().latin1() );
+                                                            (*iterator)->name().toLatin1() );
         if ( !plugin )
             continue;
         QString pluginClientName = QString::fromLatin1( "Plugin%1" ).arg( pluginCount );
