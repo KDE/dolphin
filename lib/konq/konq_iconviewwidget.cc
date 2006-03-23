@@ -251,7 +251,7 @@ void KonqIconViewWidget::slotOnItem( Q3IconViewItem *_item )
     {
         if ( d->m_movie && d->pActiveItem->isAnimated() )
         {
-            d->m_movie->pause(); // we'll see below what we do with it
+            d->m_movie->setPaused( true ); // we'll see below what we do with it
             d->pActiveItem->setAnimated( false );
             d->pActiveItem->refreshIcon( true );
         }
@@ -369,7 +369,8 @@ void KonqIconViewWidget::slotOnItem( Q3IconViewItem *_item )
         }
         if (d->pSoundTimer->isActive())
             d->pSoundTimer->stop();
-        d->pSoundTimer->start(500, true);
+        d->pSoundTimer->setSingleShot( true );
+        d->pSoundTimer->start( 500 );
     }
     else
     {
@@ -399,7 +400,7 @@ void KonqIconViewWidget::slotOnViewport()
         d->pActiveItem->setAnimated( false );
         // Aborting before the end of the animation ?
         if (d->m_movie->state() == QMovie::Running) {
-            d->m_movie->setPaused(true);
+            d->m_movie->setPaused( true );
             d->m_movieBlocked++;
             kDebug(1203) << "on viewport, blocking" << endl;
             QTimer::singleShot(300, this, SLOT(slotReenableAnimation()));
@@ -495,7 +496,7 @@ void KonqIconViewWidget::slotMovieStatus( int status )
 void KonqIconViewWidget::slotReenableAnimation()
 {
     if (!--d->m_movieBlocked) {
-        if ( d->pActiveItem && d->m_movie && d->m_movie->paused()) {
+        if ( d->pActiveItem && d->m_movie && d->m_movie->state() == QMovie::Paused ) {
             kDebug(1203) << "reenabled animation" << endl;
             d->m_movie->setPaused(false);
         }
@@ -1355,7 +1356,7 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
          bool brenameTrash =false;
          /*if ( url.isLocalFile() && (url.directory(false) == KGlobalSettings::trashPath() || url.path(1).startsWith(KGlobalSettings::trashPath())))
              brenameTrash = true;*/
-         if ( !brenameTrash && !KGlobalSettings::singleClick() && m_pSettings->renameIconDirectly() && e->button() == Qt::LeftButton && item->textRect( false ).contains(e->pos())&& !d->firstClick &&  url.isLocalFile() && (!url.protocol().find("device", 0, false)==0))
+         if ( !brenameTrash && !KGlobalSettings::singleClick() && m_pSettings->renameIconDirectly() && e->button() == Qt::LeftButton && item->textRect( false ).contains(e->pos())&& !d->firstClick &&  url.isLocalFile() && (!url.protocol().indexOf( "device", 0, Qt::CaseInsensitive )==0))
          {
              d->firstClick = true;
              d->mousePos = e->pos();

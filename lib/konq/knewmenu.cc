@@ -160,7 +160,7 @@ void KNewMenu::parseFiles()
                         else
                         {
                             // A relative path, then (that's the default in the files we ship)
-                            QString linkDir = filePath.left( filePath.findRev( '/' ) + 1 /*keep / */ );
+                            QString linkDir = filePath.left( filePath.lastIndexOf( '/' ) + 1 /*keep / */ );
                             //kDebug(1203) << "linkDir=" << linkDir << endl;
                             templatePath = linkDir + templatePath;
                         }
