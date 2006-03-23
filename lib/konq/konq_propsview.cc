@@ -476,7 +476,7 @@ void KonqPropsView::setBgColor( const QColor & color )
 const QColor & KonqPropsView::bgColor( QWidget * widget ) const
 {
     if ( !m_bgColor.isValid() )
-        return widget->colorGroup().base();
+        return widget->palette().base().color();
     else
         return m_bgColor;
 }
@@ -503,7 +503,7 @@ void KonqPropsView::setTextColor( const QColor & color )
 const QColor & KonqPropsView::textColor( QWidget * widget ) const
 {
     if ( !m_textColor.isValid() )
-        return widget->colorGroup().text();
+        return widget->palette().text().color();
     else
         return m_textColor;
 }
@@ -539,8 +539,12 @@ QPixmap KonqPropsView::loadPixmap() const
 
 void KonqPropsView::applyColors(QWidget * widget) const
 {
+    QPalette palette = widget->palette();
+    
     if ( m_bgPixmapFile.isEmpty() )
-        widget->setPaletteBackgroundColor( bgColor( widget ) );
+    {
+        palette.setColor( widget->backgroundRole(), bgColor( widget ) );
+    }
     else
     {
         QPixmap pix = loadPixmap();
@@ -550,12 +554,14 @@ void KonqPropsView::applyColors(QWidget * widget) const
         // e.g. the rename textedit widget when renaming a QIconViewItem
         // Qt-issue: N64698
         if ( ! pix.isNull() )
-            widget->setBackgroundPixmap( pix );
+            palette.setBrush( widget->backgroundRole(), QBrush( pix ) );
         // setPaletteBackgroundPixmap leads to flicker on window activation(!)
     }
 
     if ( m_textColor.isValid() )
-        widget->setPaletteForegroundColor( m_textColor );
+        palette.setColor( widget->foregroundRole(), textColor( widget ) );
+        
+    widget->setPalette( palette );
 }
 
 const QStringList& KonqPropsView::previewSettings()
