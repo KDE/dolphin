@@ -366,11 +366,11 @@ void KNewMenu::slotNewDir()
 
 void KNewMenu::slotNewFile()
 {
-    int id = QString( sender()->name() + 7 ).toInt(); // skip "newmenu"
+    int id = QString( sender()->objectName() + 7 ).toInt(); // skip "newmenu"
     if (id == 0)
     {
 	// run the command for the templates
-	KRun::runCommand(QString(sender()->name()));
+	KRun::runCommand(QString(sender()->objectName()));
 	return;
     }
 
