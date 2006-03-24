@@ -10,7 +10,7 @@ kde4_automoc(${kbookmarkmerger_SRCS})
 
 kde4_add_executable(kbookmarkmerger ${kbookmarkmerger_SRCS})
 
-target_link_libraries(kbookmarkmerger  ${KDE4_KDECORE_LIBS} kio )
+target_link_libraries(kbookmarkmerger  ${KDE4_KIO_LIBS} )
 
 install_targets(/bin kbookmarkmerger )
 
