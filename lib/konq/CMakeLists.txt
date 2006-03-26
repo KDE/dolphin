@@ -8,7 +8,7 @@ include_directories(
       
       ${CMAKE_CURRENT_SOURCE_DIR}
       ${CMAKE_CURRENT_BINARY_DIR}
-      ${ZLIB_INCLUDE_DIR} ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} )
+      ${ZLIB_INCLUDE_DIR} ${KDE4_INCLUDES} )
 
 
 ########### next target ###############
