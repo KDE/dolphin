@@ -69,6 +69,10 @@ public Q_SLOTS:
   //void slotHighlightedTextColorChanged( const QColor &col );
   void slotTextBackgroundColorChanged( const QColor &col );
 
+private slots:
+  void slotPNbLinesChanged(int value);
+  void slotPNbWidthChanged(int value);
+
 private:
   void updateGUI();
 

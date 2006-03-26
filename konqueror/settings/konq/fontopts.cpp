@@ -147,13 +147,13 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, K
     else
     {
         m_pNbLines = new QSpinBox( 1, 10, 1, this );
-        m_pNbLines->setSuffix( i18n( " lines" ) );
-        m_pNbLines->setSpecialValueText( i18n( "1 line" ) );
         QLabel* label = new QLabel( m_pNbLines, i18n("H&eight for icon text:"), this );
         lay->addWidget( label, row, 0 );
         lay->addWidget( m_pNbLines, row, 1 );
         connect( m_pNbLines, SIGNAL( valueChanged(int) ),
                  this, SLOT( changed() ) );
+        connect( m_pNbLines, SIGNAL( valueChanged(int) ),
+                 SLOT( slotPNbLinesChanged(int)) );
 
         QString thwt = i18n("This is the maximum number of lines that can be"
                             " used to draw icon text. Long file names are"
@@ -165,13 +165,14 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, K
 
         // width for the items in multicolumn icon view
         m_pNbWidth = new QSpinBox( 1, 100000, 1, this );
-        m_pNbWidth->setSuffix( i18n( " pixels" ) );
 
         label = new QLabel( m_pNbWidth, i18n("&Width for icon text:"), this );
         lay->addWidget( label, row, 0 );
         lay->addWidget( m_pNbWidth, row, 1 );
         connect( m_pNbWidth, SIGNAL( valueChanged(int) ),
                  this, SLOT( changed() ) );
+        connect( m_pNbWidth, SIGNAL( valueChanged(int) ),
+                 SLOT( slotPNbWidthChanged(int)) );
 
         thwt = i18n( "This is the maximum width for the icon text when konqueror "
                      "is used in multi column view mode." );
@@ -219,6 +220,16 @@ void KonqFontOptions::slotFontSize(int i)
 void KonqFontOptions::slotStandardFont(const QString& n )
 {
     m_stdName = n;
+}
+
+void KonqFontOptions::slotPNbLinesChanged(int value)
+{
+    m_pNbLines->setSuffix( i18n( " line", " lines", value ) );
+}
+
+void KonqFontOptions::slotPNbWidthChanged(int value)
+{
+    m_pNbWidth->setSuffix( i18n( " pixel", " pixels", value ) );
 }
 
 void KonqFontOptions::load()

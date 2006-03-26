@@ -90,9 +90,9 @@ void KonqSideBarWebModule::setAutoReload(){
 	
 	QSpinBox *mins = new QSpinBox( hbox );
 	mins->setRange(0, 120);
-	mins->setSuffix( i18n(" minutes") );
+	mins->setSuffix( i18n(" min") );
 	QSpinBox *secs = new QSpinBox( 0, 59, 1, hbox );
-	secs->setSuffix( i18n(" seconds") );
+	secs->setSuffix( i18n(" sec") );
 
 	if( reloadTimeout > 0 )	{
 		int seconds = reloadTimeout / 1000;

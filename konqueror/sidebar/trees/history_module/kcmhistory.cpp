@@ -213,14 +213,7 @@ QString HistorySidebarConfig::quickHelp() const
 
 void HistorySidebarConfig::slotExpireChanged( int value )
 {
-    if ( value == 1 )
-        dialog->spinExpire->setSuffix( i18n(" day") );
-    else
-        dialog->spinExpire->setSuffix(
-            i18n("'URLs expire after XX days.' Unfortunately the plural "
-                 "handling of KLocale does not work here, as I only need "
-                 "the word 'days' and not the entire sentence here. Sorry.",
-                 " days") );
+    dialog->spinExpire->setSuffix( i18n(" day", " days", value) );
     configChanged();
 }
 
@@ -229,21 +222,10 @@ void HistorySidebarConfig::slotExpireChanged( int value )
 // to enfore newer <= older.
 void HistorySidebarConfig::slotNewerChanged( int value )
 {
-    const QString& days = i18n("Days");
-    const QString& minutes = i18n("Minutes");
-
-    if ( value == 1 ) {
-	dialog->comboNewer->changeItem( i18n("Day"),
-                                        KonqSidebarHistorySettings::DAYS );
-	dialog->comboNewer->changeItem( i18n("Minute"),
-                                        KonqSidebarHistorySettings::MINUTES );
-    }
-    else {
-	dialog->comboNewer->changeItem( days,
-                                        KonqSidebarHistorySettings::DAYS );
-	dialog->comboNewer->changeItem( minutes,
-                                        KonqSidebarHistorySettings::MINUTES);
-    }
+    dialog->comboNewer->changeItem( i18n ( "Day", "Days", value),
+                                    KonqSidebarHistorySettings::DAYS);
+    dialog->comboNewer->changeItem( i18n ( "Minute", "Minutes", value),
+                                    KonqSidebarHistorySettings::MINUTES);
 
     if ( dialog->spinNewer->value() > dialog->spinOlder->value() )
 	dialog->spinOlder->setValue( dialog->spinNewer->value() );
@@ -252,21 +234,10 @@ void HistorySidebarConfig::slotNewerChanged( int value )
 
 void HistorySidebarConfig::slotOlderChanged( int value )
 {
-    const QString& days = i18n("Days");
-    const QString& minutes = i18n("Minutes");
-
-    if ( value == 1 ) {
-	dialog->comboOlder->changeItem( i18n("Day"),
-                                        KonqSidebarHistorySettings::DAYS );
-	dialog->comboOlder->changeItem( i18n("Minute"),
-                                        KonqSidebarHistorySettings::MINUTES );
-    }
-    else {
-	dialog->comboOlder->changeItem( days,
-                                        KonqSidebarHistorySettings::DAYS );
-	dialog->comboOlder->changeItem( minutes,
-                                        KonqSidebarHistorySettings::MINUTES);
-    }
+    dialog->comboOlder->changeItem( i18n ( "Day", "Days", value),
+                                    KonqSidebarHistorySettings::DAYS);
+    dialog->comboOlder->changeItem( i18n ( "Minute", "Minutes", value),
+                                    KonqSidebarHistorySettings::MINUTES);
 
     if ( dialog->spinNewer->value() > dialog->spinOlder->value() )
 	dialog->spinNewer->setValue( dialog->spinOlder->value() );
