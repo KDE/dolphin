@@ -1304,7 +1304,7 @@ void KonqIconViewWidget::wheelEvent(QWheelEvent* e)
     // when scrolling with mousewheel, stop possible pending filetip
     d->pFileTip->setItem( 0 );
 
-    if (e->state() == Qt::ControlModifier)
+    if (e->modifiers() == Qt::ControlModifier)
     {
         if (e->delta() >= 0)
         {
@@ -1360,7 +1360,7 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
          {
              d->firstClick = true;
              d->mousePos = e->pos();
-             d->mouseState = e->state();
+             d->mouseState = e->modifiers();
              if (!d->pActivateDoubleClick)
              {
                  d->pActivateDoubleClick = new QTimer(this);
