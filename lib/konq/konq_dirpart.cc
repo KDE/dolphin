@@ -688,7 +688,7 @@ void KonqDirPartBrowserExtension::saveState( QDataStream &stream )
     m_dirPart->saveState( stream );
     bool hasFindPart = m_dirPart->findPart();
     stream << hasFindPart;
-    assert( ! ( hasFindPart && !strcmp(m_dirPart->className(), "KFindPart") ) );
+    assert( ! ( hasFindPart && !strcmp(m_dirPart->metaObject()->className(), "KFindPart") ) );
     if ( !hasFindPart )
         KParts::BrowserExtension::saveState( stream );
     else {
@@ -701,7 +701,7 @@ void KonqDirPartBrowserExtension::restoreState( QDataStream &stream )
     m_dirPart->restoreState( stream );
     bool hasFindPart;
     stream >> hasFindPart;
-    assert( ! ( hasFindPart && !strcmp(m_dirPart->className(), "KFindPart") ) );
+    assert( ! ( hasFindPart && !strcmp(m_dirPart->metaObject()->className(), "KFindPart") ) );
     if ( !hasFindPart )
         // This calls openURL, that's why we don't want to call it in case of a find part
         KParts::BrowserExtension::restoreState( stream );
