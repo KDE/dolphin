@@ -71,9 +71,10 @@
 KBookmarkManager * KonqBookmarkManager::s_bookmarkManager;
 
 KonqOperations::KonqOperations( QWidget *parent )
-    : QObject( parent, "KonqOperations" ),
+    : QObject( parent ),
       m_method( UNKNOWN ), m_info(0L), m_pasteInfo(0L)
 {
+    setObjectName( "KonqOperations" );
 }
 
 KonqOperations::~KonqOperations()
@@ -91,7 +92,7 @@ void KonqOperations::editMimeType( const QString & mimeType )
 
 void KonqOperations::del( QWidget * parent, int method, const KUrl::List & selectedURLs )
 {
-  kDebug(1203) << "KonqOperations::del " << parent->className() << endl;
+  kDebug(1203) << "KonqOperations::del " << parent->metaObject()->className() << endl;
   if ( selectedURLs.isEmpty() )
   {
     kWarning(1203) << "Empty URL list !" << endl;
@@ -153,7 +154,7 @@ void KonqOperations::doPaste( QWidget * parent, const KUrl & destURL, const QPoi
 
 void KonqOperations::copy( QWidget * parent, int method, const KUrl::List & selectedURLs, const KUrl& destUrl )
 {
-  kDebug(1203) << "KonqOperations::copy() " << parent->className() << endl;
+  kDebug(1203) << "KonqOperations::copy() " << parent->metaObject()->className() << endl;
   if ((method!=COPY) && (method!=MOVE) && (method!=LINK))
   {
     kWarning(1203) << "Illegal copy method !" << endl;
@@ -341,7 +342,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KUrl & dest, QDro
                 if ( !ev->source() || ev->source() != parent && ev->source()->parent() != parent )
                     KMessageBox::sorry( parent, i18n("You cannot drop a folder on to itself") );
                 kDebug(1203) << "Dropped on itself" << endl;
-                ev->accept(false);
+                ev->setAccepted( false );
                 return; // do nothing instead of displaying kfm's annoying error box
             }
         }
