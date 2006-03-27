@@ -5,8 +5,8 @@
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 </authorgroup> 
 
-<date>2005-04-01</date>
-<releaseinfo>3.4</releaseinfo>
+<date>2006-03-08</date>
+<releaseinfo>3.5</releaseinfo>
 </chapterinfo>
 
 <title>&konqueror; the File Manager</title>
@@ -14,29 +14,27 @@
 <sect1 id="dirfolders">
 <title>Folders and Paths</title>
 <para>In &UNIX; and &Linux; all folders are arranged in a simple 
-inverted tree structure descending and branching down from from a single top 
-level folder. This means that you can get from any folder to
-any other by going <quote>up</quote> until you reach a common point then
-<quote>down</quote> through the appropriate subfolders until you reach
-your
-target. </para>  
+hierarchy. Starting from a top level folder (also called the root directory), 
+the structure descends and branches containing various files and subfolders. 
+This means that you can get from any folder to any other by going <quote>up
+</quote> until you reach a common point then <quote>down</quote> through 
+the appropriate subfolders until you reach your target.</para>
 
-<para>The position of any file or folder in the tree can be described by its
-<quote>path</quote>, which is a simple list of the folders you would have
-to descend through to get to the target folder or file. For example 
-<filename class="directory">/home/pam</filename> is the subfolder <filename 
-class="directory">pam</filename> of the subfolder <filename
-class="directory">home</filename> of the top level folder, and <filename>
-/home/pam/words.txt</filename> is the file <filename>words.txt</filename> in 
-that subfolder. The leading <quote>/</quote> in these paths represents the 
-top level folder.</para>
+<para>The position of any file or folder in the structure (also called a 
+directory tree) can be described by its <quote>path</quote>, which is a simple 
+list of the folders you would have to descend through to get to the target 
+folder or file. For example <filename class="directory">/home/pam</filename> 
+is the subfolder <filename class="directory">pam</filename> of the subfolder 
+<filename class="directory">home</filename> of the top level folder, and 
+<filename>/home/pam/words.txt</filename> is the file <filename>words.txt
+</filename> in that subfolder. The leading <quote>/</quote> in these paths 
+represents the top level folder.</para>
 
 <para>Every folder accessible by your system &mdash; including those on
 other hard disk partitions, your floppy and &CD-ROM; &mdash; will appear
-in the tree descending
-from /, their exact paths will depend on how your system was set up (see
-also
-the section on <link linkend="floppy-cd">Floppy and &CD-ROM; Drives</link>).
+in the tree descending from /, their exact paths will depend on how your system
+was set up (see also the section on <link linkend="floppy-cd">Floppy and
+&CD-ROM; Drives</link>).
 </para>
 <para>Every user on a &UNIX; / &Linux; system has their own <quote>home</quote> 
 folder to hold their personal files and settings; for example
@@ -51,39 +49,73 @@ folder, so that <filename>~/letter.txt</filename> refers to the file
 
 <sect1 id="viewmode">
 <title>View Modes</title>
-<para>In File Manager mode, &konqueror; shows you what files and 
-subfolders are held in a folder, and can provide you with some 
-information about them.</para>
-<para>The <quote>path</quote> of the folder you are looking at is shown in 
-the Titlebar, and also in the Location Toolbar, prefixed with <quote>file:
-</quote> to indicate that the folder is part of your computer's normal file 
-system. For example <filename>file:/home/pam</filename>.</para>
-
-<para>The way that &konqueror; displays the files and folders depends mainly
-on your choice of View Mode. This can be selected from the <menuchoice>
-<guimenu>View</guimenu><guisubmenu>View Mode</guisubmenu></menuchoice> 
-sub menu, which gives you the following options:
+<para>In File Manager mode, &konqueror; lists which files and subfolders are
+contained within a given folder and can provide you with some information about
+them. The <quote>path</quote> of the current folder is shown in the Location
+Toolbar. The way that &konqueror; displays the files and folders depends mainly
+on your choice of view mode which can be selected from the
+<menuchoice><guimenu>View</guimenu><guisubmenu>View
+Mode</guisubmenu></menuchoice > sub menu. The view modes &konqueror; provides
+are outlined below.
 </para>
 
 <variablelist>
 
 <varlistentry>
 <term><guimenuitem>Icon View</guimenuitem></term>
-<listitem><para>Displays the name and a suitable icon for each file or folder.
-</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><guimenuitem>MultiColumn View</guimenuitem></term>
-<listitem><para>Similar to <guimenuitem>Icon View</guimenuitem> except that the 
-display is neatly formatted into regular columns.</para>
+<listitem><para>Displays an icon and a name for each file or subfolder in
+the current folder.</para>
+<para>Files of certain types may display a preview of their contents instead of
+the default icon. The file types selected for preview are controlled by the
+<menuchoice><guimenu>View</guimenu><guisubmenu>Preview</guisubmenu></menuchoice>
+sub menu settings. See the section <link linkend="previews">
+File Previews</link> of this handbook for more details.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
+<term><guimenuitem>MultiColumn View</guimenuitem></term>
+<listitem><para>Is similar to <guimenuitem>Icon View</guimenuitem> except that
+the current folder contents are organized into columns instead of rows.
+Files may be previewed in <guimenuitem>MultiColumn View</guimenuitem> as
+they are in <guimenuitem>Icon View</guimenuitem>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Tree View</guimenuitem></term>
+<listitem><para>Can be used to <link linkend="navigation">navigate</link> the
+folder tree starting at the current folder. Each file and subfolder is
+shown on its own line. Folders can be expanded to reveal their contents by
+<mousebutton>left</mousebutton> clicking on the preceding <keycap>+</keycap>
+sign. Similarly, an expanded folder's contents can be hidden by
+<mousebutton>left</mousebutton> clicking on the <keycap>-</keycap> sign.</para>
+<para>In addition to the file name, some file detail information is shown on
+each line. The details are controlled by the <menuchoice>
+<guimenu>View</guimenu><guisubmenu>Show Details</guisubmenu></menuchoice>
+sub menu settings.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Info List View</guimenuitem></term>
+<listitem><para>Displays each file on a separate line similar to the
+<guimenuitem>
+Detailed List View</guimenuitem> except that the detail information is 
+specific to the file type. This feature is controlled by the
+<menuchoice><guimenu>View</guimenu><guisubmenu>View As</guisubmenu></menuchoice>
+sub menu.</para>
+<para>For example: If the file type is <quote>Folder,</quote> then the contents
+information is shown. Viewing as <quote>JPEG Images</quote> shows the pixel
+dimensions and EXIF data if available, and viewing as <quote>Plain Text</quote>
+shows the lines, words, characters, and format.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
 <term><guimenuitem>Detailed List View</guimenuitem></term>
-<listitem><para>Displays each file or folder on a separate line, as a small 
-icon followed by the file or folder name followed by information about the 
+<listitem><para>Displays each file or folder on a separate line, as an icon
+followed by the file or folder name followed by information about the 
 item. The amount of information shown is controlled by the <menuchoice>
 <guimenu>View</guimenu><guisubmenu>Show Details</guisubmenu></menuchoice> 
 sub menu settings.
@@ -92,46 +124,40 @@ sub menu settings.
 
 <varlistentry>
 <term><guimenuitem>Text View</guimenuitem></term>
-<listitem><para>Similar to <guimenuitem>Detailed List View</guimenuitem> 
+<listitem><para>Is similar to the <guimenuitem>Detailed List View</guimenuitem> 
 except that icons are not shown and the first character in each line will be 
 <quote>/</quote> if the item is a folder.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><guimenuitem>Tree View</guimenuitem></term>
-<listitem><para>This option is useful for <link linkend="navigation">
-navigating</link> through the folder tree below the current folder. 
-The display is similar to <guimenuitem>Detailed List View</guimenuitem> 
-except that the start of each line will show a small <keycap>+</keycap> sign 
-in a box if the item is a folder. 
-<mousebutton>Left</mousebutton> clicking on the box will expand the display to
-show the contents of that folder.</para>
-</listitem>
+<term><guimenuitem>Photobook</guimenuitem></term>
+<listitem><para>Transforms &konqueror; into a simple viewing
+application for the current folder. Most of the main window renders a selected
+image, and thumbnails of the image files in the current directory are previewed
+along the side.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><guimenuitem>Info List View</guimenuitem></term>
-<listitem><para>Similar to <guimenuitem>Detailed List View</guimenuitem> 
-except that, where applicable, it shows the number of lines, words and 
-characters and file format for each file.
+<term><guimenuitem>File Size View</guimenuitem></term>
+<listitem><para>Creates a visual representation of the folder tree that reflects
+the file sizes of the folder contents. The window area represents all of the
+disk space used by the contents of the current folder. Subfolders and their
+contents are represented as rectangular blocks. The area of each block is
+proportional to the size of its contents. Various modifications to this
+visualization are controlled via the sub menus of the
+<menuchoice><guimenu>View</guimenu></menuchoice> menu.
 </para></listitem>
 </varlistentry>
 </variablelist>
 
-<para>The default file icons shown in <guimenuitem>Icon View</guimenuitem> and 
-<guimenuitem>MultiColumn View</guimenuitem> modes can be replaced by small 
-preview images of the file contents, see the section <link linkend="previews">
-File Previews</link> of this handbook for more details.</para>
 
 <sect2 id="filetipinfo">
 <title>File Tip Info</title>
 <para>Checking the <guilabel>Show file tips</guilabel> box in the <guilabel>
 Behavior</guilabel> page of the &konqueror; Configuration dialog causes a 
-small pop up information 
-window to appear when the mouse pointer is hovered over a file or folder name 
-or icon in <guimenuitem>Icon View</guimenuitem> or <guimenuitem>
-MultiColumn View</guimenuitem> mode. 
+small pop up information window to appear when the mouse pointer is hovered over
+a file or folder name or icon. 
 </para>
 <para>If the <guilabel>Show previews in file tips</guilabel> checkbox is 
 checked the pop up window will also show a small image of the file contents.
