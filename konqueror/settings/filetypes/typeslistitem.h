@@ -71,6 +71,7 @@ public:
   int autoEmbed() const { return m_autoEmbed; }
   void setAutoEmbed( int a ) { m_autoEmbed = a; }
   const KMimeType::Ptr& mimeType() const { return m_mimetype; }
+  bool canUseGroupSetting() const;
 
   void getAskSave(bool &);
   void setAskSave(bool);
@@ -92,6 +93,7 @@ private:
   void saveServices( KConfig & profile, QStringList services, const QString & servicetype2 );
   void initMeta( const QString & major );
   void init(KMimeType::Ptr mimetype);
+  static int readAutoEmbed( KMimeType::Ptr mimetype );
 
   KMimeType::Ptr m_mimetype;
   unsigned int groupCount:16; // shared between saveServices and sync

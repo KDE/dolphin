@@ -210,8 +210,8 @@ void FileTypeDetails::updateAskSave()
 {
   if ( !m_item )
     return;
-        
-  int button = m_item->autoEmbed();  
+
+  int button = m_item->autoEmbed();
   if (button == 2)
   {
     bool embedParent = TypesListItem::defaultEmbeddingSetting(m_item->majorType());
@@ -232,9 +232,9 @@ void FileTypeDetails::updateAskSave()
   config->setGroup("Notification Messages");
   bool ask = config->readEntry(dontAskAgainName, QString()).isEmpty();
   m_item->getAskSave(ask);
-  
+
   bool neverAsk = false;
-  
+
   if (button == 0)
   {
     KMimeType::Ptr mime = KMimeType::mimeType( mimeType );
@@ -257,12 +257,12 @@ void FileTypeDetails::updateAskSave()
         neverAsk = true;
     }
   }
-  
+
   m_chkAskSave->blockSignals(true);
   m_chkAskSave->setChecked(ask && !neverAsk);
   m_chkAskSave->setEnabled(!neverAsk);
   m_chkAskSave->blockSignals(false);
-}  
+}
 
 void FileTypeDetails::slotAskSaveToggled(bool askSave)
 {
@@ -290,12 +290,13 @@ void FileTypeDetails::setTypeItem( TypesListItem * tlitem )
   serviceListWidget->setTypeItem( tlitem );
   embedServiceListWidget->setTypeItem( tlitem );
   m_autoEmbed->setButton( tlitem ? tlitem->autoEmbed() : -1 );
+  m_rbGroupSettings->setEnabled( tlitem->canUseGroupSetting() );
 
   if ( tlitem )
     extensionLB->insertStringList(tlitem->patterns());
   else
     extensionLB->clear();
-    
+
   updateAskSave();
 }
 

@@ -87,7 +87,7 @@ void KonqFMSettings::init( KConfig * config )
   m_highlightedTextColor = KGlobalSettings::highlightedTextColor();
   m_highlightedTextColor = config->readEntry( "HighlightedTextColor", m_highlightedTextColor );
   m_itemTextBackground = config->readEntry( "ItemTextBackground", QColor() );
-  
+
   d->m_iconTextWidth = config->readEntry( "TextWidth", DEFAULT_TEXTWIDTH );
   if ( d->m_iconTextWidth == DEFAULT_TEXTWIDTH )
     d->m_iconTextWidth = QFontMetrics(m_standardFont).width("0000000000");
@@ -100,7 +100,7 @@ void KonqFMSettings::init( KConfig * config )
       m_iconTextHeight = 1;
   }
   m_bWordWrapText = ( m_iconTextHeight > 1 );
-  
+
   m_underlineLink = config->readEntry( "UnderlineLinks", QVariant(DEFAULT_UNDERLINELINKS )).toBool();
   d->m_renameIconDirectly = config->readEntry( "RenameIconDirectly", QVariant(DEFAULT_RENAMEICONDIRECTLY )).toBool();
   m_fileSizeInBytes = config->readEntry( "DisplayFileSizeInBytes", QVariant(DEFAULT_FILESIZEINBYTES )).toBool();
@@ -128,9 +128,10 @@ bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
     // First check in user's settings whether to embed or not
     // 1 - in the mimetype file itself
     KServiceType::Ptr serviceTypePtr = KServiceType::serviceType( serviceType );
-
+    bool hasLocalProtocolRedirect = false;
     if ( serviceTypePtr )
     {
+        hasLocalProtocolRedirect = !serviceTypePtr->property( "X-KDE-LocalProtocol" ).toString().isEmpty();
         kDebug(1203) << serviceTypePtr->desktopEntryPath() << endl;
         KDesktopFile deFile( serviceTypePtr->desktopEntryPath(),
                              true /*readonly*/, "mime");
@@ -147,12 +148,17 @@ bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
     kDebug(1203) << "KonqFMSettings::shouldEmbed : serviceTypeGroup=" << serviceTypeGroup << endl;
     if ( serviceTypeGroup == "inode" || serviceTypeGroup == "Browser" || serviceTypeGroup == "Konqueror" )
         return true; //always embed mimetype inode/*, Browser/* and Konqueror/*
-    QMap<QString, QString>::ConstIterator it = m_embedMap.find( QLatin1String("embed-")+serviceTypeGroup );
-    if ( it == m_embedMap.end() )
-        return (serviceTypeGroup=="image"); // embedding is false by default except for image/*
-    // Note: if you change the above default, also change kcontrol/filetypes/typeslistitem.cpp !
-    kDebug(1203) << "KonqFMSettings::shouldEmbed: " << it.value() << endl;
-    return it.value() == QLatin1String("true");
+    QMap<QString, QString>::ConstIterator it = m_embedMap.find( QString::fromLatin1("embed-")+serviceTypeGroup );
+    if ( it != m_embedMap.end() ) {
+        kDebug(1203) << "KonqFMSettings::shouldEmbed: " << it.value() << endl;
+        return it.value() == QString::fromLatin1("true");
+    }
+    // 3 - if no config found, use default.
+    // Note: if you change those defaults, also change kcontrol/filetypes/typeslistitem.cpp !
+    // Embedding is false by default except for image/* and for zip, tar etc.
+    if ( serviceTypeGroup == "image" || hasLocalProtocolRedirect )
+        return true;
+    return false;
 }
 
 bool KonqFMSettings::showPreviewsInFileTips() const

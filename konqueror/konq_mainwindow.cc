@@ -706,7 +706,7 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
     if ( ptr )
     {
       const QString protocol = ptr->property("X-KDE-LocalProtocol").toString();
-      if ( !protocol.isEmpty() )
+      if ( !protocol.isEmpty() && KonqFMSettings::settings()->shouldEmbed( serviceType ) )
       {
         url.setProtocol( protocol );
         if ( serviceType == "application/x-webarchive" )

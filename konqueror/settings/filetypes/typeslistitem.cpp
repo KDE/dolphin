@@ -68,7 +68,8 @@ void TypesListItem::initMeta( const QString & major )
 
 bool TypesListItem::defaultEmbeddingSetting( const QString& major )
 {
-  return (major=="image"); // embedding is false by default except for image/*
+  // embedding is false by default except for image/*
+  return ( major=="image" );
 }
 
 void TypesListItem::setup()
@@ -97,9 +98,18 @@ void TypesListItem::init(KMimeType::Ptr mimetype)
   m_comment = mimetype->comment(QString(), false);
   m_icon = mimetype->icon(QString(), false);
   m_patterns = mimetype->patterns();
+  m_autoEmbed = readAutoEmbed( mimetype );
+}
 
+int TypesListItem::readAutoEmbed( KMimeType::Ptr mimetype )
+{
   QVariant v = mimetype->property( "X-KDE-AutoEmbed" );
-  m_autoEmbed = v.isValid() ? (v.toBool() ? 0 : 1) : 2;
+  if ( v.isValid() )
+      return (v.toBool() ? 0 : 1);
+  else if ( !mimetype->property( "X-KDE-LocalProtocol" ).toString().isEmpty() )
+      return 0; // embed by default for zip, tar etc.
+  else
+      return 2;
 }
 
 QStringList TypesListItem::appServices() const
@@ -166,9 +176,7 @@ bool TypesListItem::isMimeTypeDirty() const
     return true;
   }
 
-  QVariant v = m_mimetype->property( "X-KDE-AutoEmbed" );
-  unsigned int oldAutoEmbed = v.isValid() ? (v.toBool() ? 0 : 1) : 2;
-  if ( oldAutoEmbed != m_autoEmbed )
+  if ( readAutoEmbed( m_mimetype ) != (int)m_autoEmbed )
     return true;
   return false;
 }
@@ -216,7 +224,7 @@ bool TypesListItem::isDirty() const
     if ( m_autoEmbed != oldAutoEmbed )
       return true;
   }
-  
+
   if (m_askSave != 2)
     return true;
 
@@ -255,7 +263,7 @@ void TypesListItem::sync()
 
   if (isMimeTypeDirty())
   {
-    // We must use KConfig otherwise config.deleteEntry doesn't 
+    // We must use KConfig otherwise config.deleteEntry doesn't
     // properly cancel out settings already present in system files.
     KConfig config( m_mimetype->desktopEntryPath(), false, false, "mime" );
     config.setDesktopGroup();
@@ -404,7 +412,7 @@ static bool inheritsMimetype(KMimeType::Ptr m, const QStringList &mimeTypeList)
       it != mimeTypeList.end(); ++it)
   {
     if (m->is(*it))
-       return true;  
+       return true;
   }
 
   return false;
@@ -548,3 +556,11 @@ void TypesListItem::setAskSave(bool _askSave)
    else
       m_askSave = 1;
 }
+
+bool TypesListItem::canUseGroupSetting() const
+{
+  // "Use group settings" isn't available for zip, tar etc.; those have a builtin default...
+    bool hasLocalProtocolRedirect = !m_mimetype->property( "X-KDE-LocalProtocol" ).toString().isEmpty();
+    return !hasLocalProtocolRedirect;
+}
+
