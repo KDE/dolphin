@@ -135,18 +135,19 @@ KonqDirPart::KonqDirPart( QObject *parent )
 
     connect( QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()) );
 
-    m_paIncIconSize = new KAction( i18n( "Enlarge Icons" ), "viewmag+", 0, this, SLOT( slotIncIconSize() ), actionCollection(), "incIconSize" );
-    m_paDecIconSize = new KAction( i18n( "Shrink Icons" ), "viewmag-", 0, this, SLOT( slotDecIconSize() ), actionCollection(), "decIconSize" );
+    m_paIncIconSize = new KAction( KIcon( "viewmag+" ), i18n( "Enlarge Icons" ), actionCollection(), "incIconSize" );
+    connect( m_paIncIconSize, SIGNAL( triggered() ), this, SLOT( slotIncIconSize() ) );
+    m_paDecIconSize = new KAction( KIcon( "viewmag-" ), i18n( "Shrink Icons" ), actionCollection(), "decIconSize" );
+    connect( m_paDecIconSize, SIGNAL( triggered() ), this, SLOT( slotDecIconSize() ) );
 
-    m_paDefaultIcons = new KAction( i18n( "&Default Size" ), 0, actionCollection(), "modedefault" );
-    d->aEnormousIcons = new KAction( i18n( "&Huge" ), 0,
-           actionCollection(), "modeenormous" );
-    m_paHugeIcons = new KAction( i18n( "&Very Large" ), 0, actionCollection(), "modehuge" );
-    m_paLargeIcons = new KAction( i18n( "&Large" ), 0, actionCollection(), "modelarge" );
-    m_paMediumIcons = new KAction( i18n( "&Medium" ), 0, actionCollection(), "modemedium" );
-    d->aSmallMediumIcons = new KAction( i18n( "&Small" ), 0,
-           actionCollection(), "modesmallmedium" );
-    m_paSmallIcons = new KAction( i18n( "&Tiny" ), 0, actionCollection(), "modesmall" );
+
+    m_paDefaultIcons = new KAction( i18n( "&Default Size" ), actionCollection(), "modedefault" );
+    d->aEnormousIcons = new KAction( i18n( "&Huge" ), actionCollection(), "modeenormous" );
+    m_paHugeIcons = new KAction( i18n( "&Very Large" ), actionCollection(), "modehuge" );
+    m_paLargeIcons = new KAction( i18n( "&Large" ), actionCollection(), "modelarge" );
+    m_paMediumIcons = new KAction( i18n( "&Medium" ), actionCollection(), "modemedium" );
+    d->aSmallMediumIcons = new KAction( i18n( "&Small" ), actionCollection(), "modesmallmedium" );
+    m_paSmallIcons = new KAction( i18n( "&Tiny" ), actionCollection(), "modesmall" );
 
     QActionGroup* viewModeGroup = new QActionGroup(this);
     viewModeGroup->setExclusive(true);
@@ -211,8 +212,8 @@ KonqDirPart::KonqDirPart( QObject *parent )
     adjustIconSizes();
 #endif
 
-    KAction *a = new KAction( i18n( "Configure Background..." ), "background", 0, this, SLOT( slotBackgroundSettings() ),
-                              actionCollection(), "bgsettings" );
+    KAction *a = new KAction( KIcon( "background" ), i18n( "Configure Background..." ), actionCollection(), "bgsettings" );
+    connect( a, SIGNAL( triggered() ), this, SLOT( slotBackgroundSettings() ) );
 
     a->setToolTip( i18n( "Allows choosing of background settings for this view" ) );
 }
