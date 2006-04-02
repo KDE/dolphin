@@ -146,13 +146,13 @@ protected:
     struct DropInfo
     {
         DropInfo( uint k, const KUrl::List & l, const QMap<QString,QString> &m,
-                  int x, int y, QDropEvent::Action a ) :
+                  int x, int y, Qt::DropAction a ) :
             keybstate(k), lst(l), metaData(m), mousePos(x,y), action(a) {}
         uint keybstate;
         KUrl::List lst;
         QMap<QString,QString> metaData;
         QPoint mousePos;
-        QDropEvent::Action action;
+        Qt::DropAction action;
     };
     // internal, for doDrop
     void setDropInfo( DropInfo * info ) { m_info = info; }

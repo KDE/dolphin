@@ -356,12 +356,12 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KUrl & dest, QDro
         XQueryPointer( QX11Info::display(), QX11Info::appRootWindow(), &root, &child,
                        &root_x, &root_y, &win_x, &win_y, &keybstate );
 
-        QDropEvent::Action action = ev->action();
+        Qt::DropAction action = ev->dropAction();
         // Check for the drop of a bookmark -> we want a Link action
         if ( ev->provides("application/x-xbel") )
         {
             keybstate |= ControlMask | ShiftMask;
-            action = QDropEvent::Link;
+            action = Qt::LinkAction;
             kDebug(1203) << "KonqOperations::doDrop Bookmark -> emulating Link" << endl;
         }
 
@@ -380,7 +380,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KUrl & dest, QDro
         }
         // In both cases asyncDrop will delete op when done
 
-        ev->acceptAction();
+        ev->acceptProposedAction();
     }
     else
     {
@@ -394,7 +394,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KUrl & dest, QDro
             op->setOperation( job, COPY, KUrl::List(), job->destURL() );
             (void) new KonqCommandRecorder( KonqCommand::COPY, KUrl::List(), dest, job );
         }
-        ev->acceptAction();
+        ev->acceptProposedAction();
     }
 }
 
@@ -487,7 +487,7 @@ void KonqOperations::doFileCopy()
 {
     assert(m_info); // setDropInfo - and asyncDrop - should have been called before asyncDrop
     KUrl::List lst = m_info->lst;
-    QDropEvent::Action action = m_info->action;
+    Qt::DropAction action = m_info->action;
     bool isDesktopFile = false;
     bool itemIsOnDesktop = false;
     bool allItemsAreFromTrash = true;
@@ -522,7 +522,7 @@ void KonqOperations::doFileCopy()
 
         m_method = TRASH;
         if ( askDeleteConfirmation( mlst, DEFAULT_CONFIRMATION ) )
-            action = QDropEvent::Move;
+            action = Qt::MoveAction;
         else
         {
             delete this;
@@ -531,7 +531,7 @@ void KonqOperations::doFileCopy()
     }
     else if ( allItemsAreFromTrash || m_destURL.protocol() == "trash" ) {
         // No point in asking copy/move/link when using dnd from or to the trash.
-        action = QDropEvent::Move;
+        action = Qt::MoveAction;
     }
     else if ( (((m_info->keybstate & ControlMask) == 0) && ((m_info->keybstate & ShiftMask) == 0)) ||
               linkOnly )
@@ -563,32 +563,52 @@ void KonqOperations::doFileCopy()
             return;
         }
 
-        Q3PopupMenu popup;
-        if (!mlst.isEmpty() && (sMoving || (sReading && sDeleting)) && !linkOnly )
-            popup.insertItem(SmallIconSet("goto"), i18n( "&Move Here" ) + "\t" + KKey::modFlagLabel( KKey::SHIFT ), 2 );
+        QMenu popup;
+
+        QAction* popupMoveAction = new QAction(i18n( "&Move Here" ) + "\t" + KKey::modFlagLabel( KKey::SHIFT ), 0);
+        popupMoveAction->setIcon(SmallIconSet("goto"));
+        QAction* popupCopyAction = new QAction(i18n( "&Copy Here" ) + "\t" + KKey::modFlagLabel( KKey::CTRL ), 0);
+        popupCopyAction->setIcon(SmallIconSet("editcopy"));
+        QAction* popupLinkAction = new QAction(i18n( "&Link Here" ) + "\t" + KKey::modFlagLabel( (KKey::ModFlag)( KKey::CTRL|KKey::SHIFT ) ), 0);
+        popupLinkAction->setIcon(SmallIconSet("www"));
+        QAction* popupWallAction = new QAction(i18n( "Set as &Wallpaper" ), 0);
+        popupWallAction->setIcon(SmallIconSet("background"));
+        QAction* popupCancelAction = new QAction(i18n( "C&ancel" ) + "\t" + KKey( Qt::Key_Escape ).toString(), 0);
+        popupCancelAction->setIcon(SmallIconSet("cancel"));
+
         if ( sReading && !linkOnly)
-            popup.insertItem(SmallIconSet("editcopy"), i18n( "&Copy Here" ) + "\t" + KKey::modFlagLabel( KKey::CTRL ), 1 );
-        popup.insertItem(SmallIconSet("www"), i18n( "&Link Here" ) + "\t" + KKey::modFlagLabel( (KKey::ModFlag)( KKey::CTRL|KKey::SHIFT ) ), 3 );
+            popup.addAction(popupCopyAction);
+        
+        if (!mlst.isEmpty() && (sMoving || (sReading && sDeleting)) && !linkOnly )        
+            popup.addAction(popupMoveAction);
+        
+        popup.addAction(popupLinkAction);
+        
         if (bSetWallpaper)
-            popup.insertItem(SmallIconSet("background"), i18n( "Set as &Wallpaper" ), 4 );
-        popup.insertSeparator();
-        popup.insertItem(SmallIconSet("cancel"), i18n( "C&ancel" ) + "\t" + KKey( Qt::Key_Escape ).toString(), 5);
+            popup.addAction(popupWallAction);
+        
+        popup.addSeparator();
+        popup.addAction(popupCancelAction);
 
-        int result = popup.exec( m_info->mousePos );
+        QAction* result = popup.exec( m_info->mousePos );
 
-        switch (result) {
-        case 1 : action = QDropEvent::Copy; break;
-        case 2 : action = QDropEvent::Move; break;
-        case 3 : action = QDropEvent::Link; break;
-        case 4 :
+        if(result == popupCopyAction)
+            action = Qt::CopyAction;
+        else if(result == popupMoveAction)
+            action = Qt::MoveAction;
+        else if(result == popupLinkAction)
+            action = Qt::LinkAction;
+        else if(result == popupWallAction)
         {
             kDebug(1203) << "setWallpaper iconView=" << iconView << " url=" << lst.first().url() << endl;
             if (iconView && iconView->isDesktop() ) iconView->setWallpaper(lst.first());
             delete this;
             return;
         }
-        case 5 :
-        default : delete this; return;
+        else if(result = popupCancelAction)
+        {
+            delete this; 
+            return;
         }
     }
 
