@@ -57,10 +57,12 @@ KonqFileTip::KonqFileTip( Q3ScrollView* parent )
     m_textLabel = new QLabel(this);
     m_textLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
-    QGridLayout* layout = new QGridLayout(this, 1, 2, 8, 0);
+    QGridLayout* layout = new QGridLayout(this);
+    layout->setMargin(8);
+    layout->setSpacing(0);
     layout->addWidget(m_iconLabel, 0, 0);
     layout->addWidget(m_textLabel, 0, 1);
-    layout->setResizeMode(QLayout::Fixed);
+    layout->setSizeConstraint(QLayout::SetFixedSize);
 
     setPalette( QToolTip::palette() );
     setMargin( 1 );
@@ -121,7 +123,8 @@ void KonqFileTip::setItem( KFileItem *item, const QRect &rect, const QPixmap *pi
         // This avoids a quick sequence of started preview-jobs
         m_timer->disconnect( this );
         connect(m_timer, SIGNAL(timeout()), this, SLOT(startDelayed()));
-        m_timer->start( 300, true );
+        m_timer->setSingleShot( true );
+        m_timer->start( 300 );
     }
 }
 
@@ -239,7 +242,8 @@ void KonqFileTip::showTip()
 
     m_timer->disconnect( this );
     connect(m_timer, SIGNAL(timeout()), this, SLOT(hideTip()));
-    m_timer->start( 15000, true );
+    m_timer->setSingleShot( true );
+    m_timer->start( 15000 );
 
     m_textLabel->setText( text );
 
@@ -253,8 +257,8 @@ void KonqFileTip::hideTip()
 {
     m_timer->stop();
     setFilter( false );
-    if ( isShown() && m_view && m_view->viewport() &&
-         (m_view->horizontalScrollBar()->isShown() || m_view->verticalScrollBar()->isShown()) )
+    if ( isVisible() && m_view && m_view->viewport() &&
+         (m_view->horizontalScrollBar()->isVisible() || m_view->verticalScrollBar()->isVisible()) )
       m_view->viewport()->update();
     hide();
 }
@@ -273,7 +277,8 @@ void KonqFileTip::startDelayed()
 
     m_timer->disconnect( this );
     connect(m_timer, SIGNAL(timeout()), this, SLOT(showTip()));
-    m_timer->start( 400, true );
+    m_timer->setSingleShot( true );
+    m_timer->start( 400 );
 }
 
 void KonqFileTip::resizeEvent( QResizeEvent* event )

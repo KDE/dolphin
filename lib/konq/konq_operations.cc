@@ -59,7 +59,7 @@
 #include <kprotocolinfo.h>
 #include <kprocess.h>
 #include <kstringhandler.h>
-#include <q3popupmenu.h>
+#include <qmenu.h>
 #include <unistd.h>
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
@@ -565,15 +565,15 @@ void KonqOperations::doFileCopy()
 
         QMenu popup;
 
-        QAction* popupMoveAction = new QAction(i18n( "&Move Here" ) + "\t" + KKey::modFlagLabel( KKey::SHIFT ), 0);
+        QAction* popupMoveAction = new QAction( i18n( "&Move Here" ) + "\t" + KKey::modFlagLabel( KKey::SHIFT ), this );
         popupMoveAction->setIcon(SmallIconSet("goto"));
-        QAction* popupCopyAction = new QAction(i18n( "&Copy Here" ) + "\t" + KKey::modFlagLabel( KKey::CTRL ), 0);
+        QAction* popupCopyAction = new QAction( i18n( "&Copy Here" ) + "\t" + KKey::modFlagLabel( KKey::CTRL ), this );
         popupCopyAction->setIcon(SmallIconSet("editcopy"));
-        QAction* popupLinkAction = new QAction(i18n( "&Link Here" ) + "\t" + KKey::modFlagLabel( (KKey::ModFlag)( KKey::CTRL|KKey::SHIFT ) ), 0);
+        QAction* popupLinkAction = new QAction( i18n( "&Link Here" ) + "\t" + KKey::modFlagLabel( (KKey::ModFlag)( KKey::CTRL|KKey::SHIFT ) ), this );
         popupLinkAction->setIcon(SmallIconSet("www"));
-        QAction* popupWallAction = new QAction(i18n( "Set as &Wallpaper" ), 0);
+        QAction* popupWallAction = new QAction( i18n( "Set as &Wallpaper" ), this );
         popupWallAction->setIcon(SmallIconSet("background"));
-        QAction* popupCancelAction = new QAction(i18n( "C&ancel" ) + "\t" + KKey( Qt::Key_Escape ).toString(), 0);
+        QAction* popupCancelAction = new QAction( i18n( "C&ancel" ) + "\t" + KKey( Qt::Key_Escape ).toString(), this );
         popupCancelAction->setIcon(SmallIconSet("cancel"));
 
         if ( sReading && !linkOnly)
@@ -605,7 +605,7 @@ void KonqOperations::doFileCopy()
             delete this;
             return;
         }
-        else if(result = popupCancelAction)
+        else if(result == popupCancelAction)
         {
             delete this; 
             return;
@@ -614,7 +614,7 @@ void KonqOperations::doFileCopy()
 
     KIO::Job * job = 0;
     switch ( action ) {
-    case QDropEvent::Move :
+    case Qt::MoveAction :
         job = KIO::move( lst, m_destURL );
         job->setMetaData( m_info->metaData );
         setOperation( job, m_method == TRASH ? TRASH : MOVE, lst, m_destURL );
@@ -622,13 +622,13 @@ void KonqOperations::doFileCopy()
             m_method == TRASH ? KonqCommand::TRASH : KonqCommand::MOVE,
             lst, m_destURL, job );
         return; // we still have stuff to do -> don't delete ourselves
-    case QDropEvent::Copy :
+    case Qt::CopyAction :
         job = KIO::copy( lst, m_destURL );
         job->setMetaData( m_info->metaData );
         setOperation( job, COPY, lst, m_destURL );
         (void) new KonqCommandRecorder( KonqCommand::COPY, lst, m_destURL, job );
         return;
-    case QDropEvent::Link :
+    case Qt::LinkAction :
         kDebug(1203) << "KonqOperations::asyncDrop lst.count=" << lst.count() << endl;
         job = KIO::link( lst, m_destURL );
         job->setMetaData( m_info->metaData );

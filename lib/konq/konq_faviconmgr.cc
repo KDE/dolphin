@@ -26,9 +26,11 @@
 #include "konq_faviconmgr.moc"
 
 KonqFavIconMgr::KonqFavIconMgr(QObject *parent, const char *name)
-    : QObject(parent, name),
+    : QObject(parent),
       DCOPObject("KonqFavIconMgr")
 {
+    setObjectName(name);
+
     connectDCOPSignal("kded", "favicons",
         "iconChanged(bool, QString, QString)",
         "notifyChange(bool, QString, QString)", false);
