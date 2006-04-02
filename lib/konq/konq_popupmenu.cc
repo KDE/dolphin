@@ -284,9 +284,8 @@ int KonqPopupMenu::insertServices(const ServiceList& list,
             QString name;
             name.setNum( id );
             name.prepend( isBuiltin ? "builtinservice_" : "userservice_" );
-            KAction * act = new KAction( QString((*it).m_strName).replace('&',"&&"), 0,
-                                         this, SLOT( slotRunService() ),
-                                         &m_ownActions, name.toLatin1() );
+            KAction* act = new KAction(QString((*it).m_strName).replace('&',"&&"), &m_ownActions, name.toLatin1());
+            connect(act, SIGNAL(triggered()), this, SLOT(slotRunService()));
 
             if ( !(*it).m_strIcon.isEmpty() )
             {
@@ -470,7 +469,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     if ( ((kpf & ShowNewWindow) != 0) && sReading )
     {
         QString openStr = isKDesktop ? i18n( "&Open" ) : i18n( "Open in New &Window" );
-        actNewWindow = new KAction( openStr, "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
+        actNewWindow = new KAction( KIcon("window_new"), openStr, &m_ownActions, "newview" ); 
+        connect(actNewWindow, SIGNAL(triggered()), this, SLOT(slotPopupNewView()));
     }
 
     if ( actNewWindow && !isKDesktop )
@@ -499,14 +499,16 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         {
             if (d->m_itemFlags & KParts::BrowserExtension::ShowCreateDirectory)
             {
-                KAction *actNewDir = new KAction( i18n( "Create &Folder..." ), "folder_new", 0, this, SLOT( slotPopupNewDir() ), &m_ownActions, "newdir" );
+                KAction *actNewDir = new KAction( KIcon("folder_new"), i18n( "Create &Folder..." ), &m_ownActions, "newdir" );
+                connect(actNewDir, SIGNAL(triggered()), this, SLOT(slotPopupNewDir()));
                 KonqXMLGUIClient::addAction( actNewDir );
                 KonqXMLGUIClient::addSeparator();
             }
         }
     } else if ( isIntoTrash ) {
         // Trashed item, offer restoring
-        act = new KAction( i18n( "&Restore" ), 0, this, SLOT( slotPopupRestoreTrashedItems() ), &m_ownActions, "restore" );
+        act = new KAction( i18n( "&Restore" ), &m_ownActions, "restore" );
+        connect(act, SIGNAL(triggered()), this, SLOT(slotPopupRestoreTrashedItems()));
         KonqXMLGUIClient::addAction( act );
     }
 
@@ -577,7 +579,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     }
     if ( isCurrentTrash )
     {
-        act = new KAction( i18n( "&Empty Trash Bin" ), "emptytrash", 0, this, SLOT( slotPopupEmptyTrashBin() ), &m_ownActions, "empytrash" );
+        act = new KAction( KIcon("emptytrash"), i18n( "&Empty Trash Bin" ), &m_ownActions, "empytrash" );
+        connect(act, SIGNAL(triggered()), this, SLOT(slotPopupEmptyTrashBin()));
         KonqXMLGUIClient::addAction( act );
     }
     KonqXMLGUIClient::addGroup( "editactions" );
@@ -607,7 +610,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         else
            caption = i18n("&Bookmark This File");
 
-        act = new KAction( caption, "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "bookmark_add" );
+        act = new KAction( KIcon("bookmark_add"), caption, &m_ownActions, "bookmark_add" );
+        connect(act, SIGNAL(triggered()), this, SLOT(slotPopupAddToBookmark()));
         if (m_lstItems.count() > 1)
             act->setEnabled(false);
         if (KAuthorized::authorizeKAction("bookmarks"))
@@ -865,9 +869,10 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     if ( menu == domElement() ) // no submenu -> prefix single offer
                         actionName = i18n( "Open with %1" ).arg( actionName );
 
-                    act = new KAction( actionName, (*it)->pixmap( K3Icon::Small ), 0,
-                                       this, SLOT( slotRunService() ),
-                                       &m_ownActions, nam.prepend( "appservice_" ) );
+                    KIcon actIcon;
+                    actIcon.addPixmap( (*it)->pixmap( K3Icon::Small ) );
+                    act = new KAction( actIcon, actionName, &m_ownActions, nam.prepend( "appservice_" ) );
+                    connect(act, SIGNAL(triggered()), this, SLOT(slotRunService()));
                     KonqXMLGUIClient::addAction( act, menu );
 
                     m_mapPopup[ id++ ] = *it;
@@ -883,12 +888,14 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 {
                     openWithActionName = i18n( "&Open With..." );
                 }
-                KAction *openWithAct = new KAction( openWithActionName, 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
+                KAction *openWithAct = new KAction( openWithActionName, &m_ownActions, "openwith" );
+                connect(openWithAct, SIGNAL(triggered()), this, SLOT(slotPopupOpenWith()));
                 KonqXMLGUIClient::addAction( openWithAct, menu );
             }
             else // no app offers -> Open With...
             {
-                act = new KAction( i18n( "&Open With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
+                act = new KAction( i18n( "&Open With..." ), &m_ownActions, "openwith" );
+                connect(act, SIGNAL(triggered()), this, SLOT(slotPopupOpenWith()));
                 KonqXMLGUIClient::addAction( act );
             }
 
@@ -942,8 +949,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
     if ( KPropertiesDialog::canDisplay( m_lstItems ) && (kpf & ShowProperties) )
     {
-        act = new KAction( i18n( "&Properties" ), 0, this, SLOT( slotPopupProperties() ),
-                           &m_ownActions, "properties" );
+        act = new KAction( i18n( "&Properties" ), &m_ownActions, "properties" );
+        connect(act, SIGNAL(triggered()), this, SLOT(slotPopupProperties()));
         KonqXMLGUIClient::addAction( act );
     }
 
@@ -956,8 +963,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         if ( KFileShare::authorization() == KFileShare::Authorized )
         {
             KonqXMLGUIClient::addSeparator();
-            act = new KAction( i18n("Share"), 0, this, SLOT( slotOpenShareFileDialog() ),
-                               &m_ownActions, "sharefile" );
+            act = new KAction( i18n("Share"), &m_ownActions, "sharefile" );
+            connect(act, SIGNAL(triggered()), this, SLOT(slotOpenShareFileDialog()));
             KonqXMLGUIClient::addAction( act );
         }
     }
@@ -1171,8 +1178,9 @@ KUrl::List KonqPopupMenu::popupURLList() const
 */
 
 KonqPopupMenuPlugin::KonqPopupMenuPlugin( KonqPopupMenu *parent, const char *name )
-    : QObject( parent, name )
+    : QObject( parent )
 {
+    setObjectName( name );
 }
 
 KonqPopupMenuPlugin::~KonqPopupMenuPlugin()
