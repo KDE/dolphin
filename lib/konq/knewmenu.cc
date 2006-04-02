@@ -199,8 +199,8 @@ void KNewMenu::parseFiles()
 void KNewMenu::fillMenu()
 {
     //kDebug(1203) << "KNewMenu::fillMenu()" << endl;
-    popupMenu()->clear();
-    d->m_menuDev->popupMenu()->clear();
+    kMenu()->clear();
+    d->m_menuDev->kMenu()->clear();
 
     KAction *linkURL = 0, *linkApp = 0;  // these shall be put at special positions
 
@@ -236,18 +236,18 @@ void KNewMenu::fillMenu()
                 // The best way to identify the "Create Directory", "Link to Location", "Link to Application" was the template
                 if ( (*templ).templatePath.endsWith( "emptydir" ) )
                 {
-                    KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewDir() ),
-                                     d->m_actionCollection, QString("newmenu%1").arg( i ).toUtf8() );
+                    KAction * act = new KAction( KIcon((*templ).icon), (*templ).text, d->m_actionCollection, QString("newmenu%1").arg( i ).toUtf8() );
+                    connect(act, SIGNAL(triggered()), this, SLOT(slotNewDir()));
                     act->setActionGroup( m_newMenuGroup );
-                    act->plug( popupMenu() );
+                    kMenu()->addAction( act );
 
                     KActionSeparator *sep = new KActionSeparator();
-                    sep->plug( popupMenu() );
+                    kMenu()->addAction( sep );
                 }
                 else
                 {
-                    KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewFile() ),
-                                             d->m_actionCollection, QString("newmenu%1").arg( i ).toUtf8()  );
+                    KAction * act = new KAction( KIcon((*templ).icon), (*templ).text, d->m_actionCollection, QString("newmenu%1").arg( i ).toUtf8() );
+                    connect(act, SIGNAL(triggered()), this, SLOT(slotNewFile()));
                     act->setActionGroup( m_newMenuGroup );
 
                     if ( (*templ).templatePath.endsWith( "URL.desktop" ) )
@@ -262,13 +262,13 @@ void KNewMenu::fillMenu()
                     {
                         KDesktopFile df( entry.templatePath );
                         if(df.readType() == "FSDevice")
-                            act->plug( d->m_menuDev->popupMenu() );
+                            d->m_menuDev->kMenu()->addAction( act );
                         else
-                          act->plug( popupMenu() );
+                            kMenu()->addAction( act );
                     }
                     else
                     {
-                        act->plug( popupMenu() );
+                        kMenu()->addAction( act );
                     }
                 }
             }
@@ -276,15 +276,15 @@ void KNewMenu::fillMenu()
             Q_ASSERT( (*templ).entryType != 0 );
 
             KActionSeparator * act = new KActionSeparator();
-            act->plug( popupMenu() );
+            kMenu()->addAction( act );
         }
     }
 
     KActionSeparator * act = new KActionSeparator();
-    act->plug( popupMenu() );
-    if ( linkURL ) linkURL->plug( popupMenu() );
-    if ( linkApp ) linkApp->plug( popupMenu() );
-    d->m_menuDev->plug( popupMenu() );
+    kMenu()->addAction( act );
+    if ( linkURL ) kMenu()->addAction( linkURL );
+    if ( linkApp ) kMenu()->addAction( linkApp );
+    kMenu()->addAction( d->m_menuDev );
 }
 
 void KNewMenu::slotFillTemplates()
@@ -356,7 +356,7 @@ void KNewMenu::slotFillTemplates()
 
 void KNewMenu::slotNewDir()
 {
-    emit activated(); // for KDIconView::slotNewMenuActivated()
+    slotTriggered(); // for KDIconView::slotNewMenuActivated()
 
     if (popupFiles.isEmpty())
        return;
@@ -374,7 +374,7 @@ void KNewMenu::slotNewFile()
 	return;
     }
 
-    emit activated(); // for KDIconView::slotNewMenuActivated()
+    slotTriggered(); // for KDIconView::slotNewMenuActivated()
 
     Entry entry = (s_templatesList->at( id - 1 ));
     //kDebug(1203) << QString("sFile = %1").arg(sFile) << endl;
@@ -535,7 +535,9 @@ KUrlDesktopFileDlg::KUrlDesktopFileDlg( const QString& textFileName, const QStri
 
 void KUrlDesktopFileDlg::initDialog( const QString& textFileName, const QString& defaultName, const QString& textUrl, const QString& defaultUrl )
 {
-    QVBoxLayout * topLayout = new QVBoxLayout( plainPage(), 0, spacingHint() );
+    QVBoxLayout * topLayout = new QVBoxLayout( plainPage() );
+    topLayout->setMargin( 0 );
+    topLayout->setSpacing( spacingHint() );
 
     // First line: filename
     KHBox * fileNameBox = new KHBox( plainPage() );
