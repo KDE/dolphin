@@ -49,7 +49,9 @@ KonqBgndDialog::KonqBgndDialog( QWidget* parent,
 
     QWidget* page = new QWidget( this );
     setMainWidget( page );
-    QVBoxLayout* mainLayout = new QVBoxLayout( page, 0, KDialog::spacingHint() );
+    QVBoxLayout* mainLayout = new QVBoxLayout( page );
+    mainLayout->setMargin( 0 );
+    mainLayout->setSpacing( KDialog::spacingHint() );
 
     m_buttonGroup = new QGroupBox( i18n("Background"), page );
     QGridLayout* groupLayout = new QGridLayout( m_buttonGroup );
@@ -74,7 +76,7 @@ KonqBgndDialog::KonqBgndDialog( QWidget* parent,
     m_radioPicture = new QRadioButton( i18n("&Picture:"), m_buttonGroup );
     groupLayout->addWidget( m_radioPicture, 1, 0 );
     m_comboPicture = new KUrlComboRequester( m_buttonGroup );
-    groupLayout->addMultiCellWidget( m_comboPicture, 1, 1, 1, 2 );
+    groupLayout->addWidget( m_comboPicture, 1, 1, 1, 2 );
     initPictures();
 
     connect( m_comboPicture->comboBox(), SIGNAL( activated( int ) ),
@@ -87,7 +89,9 @@ KonqBgndDialog::KonqBgndDialog( QWidget* parent,
     groupLayout->addItem( spacer1, 0, 2 );
 
     // preview title
-    QHBoxLayout* hlay = new QHBoxLayout( mainLayout, KDialog::spacingHint() );
+    QHBoxLayout* hlay = new QHBoxLayout();
+    hlay->setParent( mainLayout );
+    hlay->setSpacing( KDialog::spacingHint() );
     //mainLayout->addLayout( hlay );
     QLabel* lbl = new QLabel( i18n("Preview"), page );
     hlay->addWidget( lbl );
@@ -139,11 +143,11 @@ void KonqBgndDialog::initPictures()
     QStringList list = KGlobal::dirs()->findAllResources("tiles");
 
     if ( list.isEmpty() )
-        m_comboPicture->comboBox()->insertItem( i18n("None") );
+        m_comboPicture->comboBox()->addItem( i18n("None") );
     else {
         QStringList::ConstIterator it;
         for ( it = list.begin(); it != list.end(); it++ )
-            m_comboPicture->comboBox()->insertItem(
+            m_comboPicture->comboBox()->addItem(
                 ( (*it).at(0) == '/' ) ?    // if absolute path
                 KUrl( *it ).fileName() :  // then only fileName
                 *it );
@@ -161,7 +165,7 @@ void KonqBgndDialog::loadPicture( const QString& fileName )
     }
 
     if ( !fileName.isEmpty() ) {
-        m_comboPicture->comboBox()->insertItem( fileName );
+        m_comboPicture->comboBox()->addItem( fileName );
         m_comboPicture->comboBox()->setCurrentIndex( i );
     }
     else
