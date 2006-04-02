@@ -120,7 +120,8 @@ struct KonqIconViewWidgetPrivate
     bool firstClick;
     bool releaseMouseEvent;
     QPoint mousePos;
-    int mouseState;
+    Qt::KeyboardModifiers mouseModifiers;
+    Qt::MouseButtons mouseButtons;
     QTimer *pActivateDoubleClick;
     QStringList* pPreviewMimeTypes;
     bool bProgramsURLdrag;
@@ -1228,13 +1229,13 @@ void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
 
     if ( ev->source() != viewport() &&
          !i && m_rootItem && !m_rootItem->isWritable() ) {
-        ev->accept( false );
+        ev->setAccepted( false );
         return;
     }
 
   // Short-circuit QIconView if Ctrl is pressed, so that it's possible
   // to drop a file into its own parent widget to copy it.
-  if ( !i && (ev->action() == QDropEvent::Copy || ev->action() == QDropEvent::Link)
+  if ( !i && (ev->dropAction() == Qt::CopyAction || ev->dropAction() == Qt::LinkAction)
           && ev->source() && ev->source() == viewport())
   {
     // First we need to call QIconView though, to clear the drag shape
@@ -1268,7 +1269,7 @@ void KonqIconViewWidget::doubleClickTimeout()
     mousePressChangeValue();
     if ( d->releaseMouseEvent )
     {
-        QMouseEvent e( QEvent::MouseButtonPress,d->mousePos , 1, d->mouseState);
+        QMouseEvent e( QEvent::MouseButtonPress, d->mousePos, Qt::LeftButton, d->mouseButtons, d->mouseModifiers);
         Q3IconViewItem* item = findItem( e.pos() );
         KUrl url;
         if ( item )
@@ -1289,7 +1290,7 @@ void KonqIconViewWidget::doubleClickTimeout()
     }
     else
     {
-        QMouseEvent e( QEvent::MouseMove,d->mousePos , 1, d->mouseState);
+        QMouseEvent e( QEvent::MouseMove, d->mousePos, Qt::LeftButton, d->mouseButtons, d->mouseModifiers);
         K3IconView::contentsMousePressEvent( &e );
     }
     if( d->pActivateDoubleClick->isActive() )
@@ -1360,7 +1361,8 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
          {
              d->firstClick = true;
              d->mousePos = e->pos();
-             d->mouseState = e->modifiers();
+             d->mouseModifiers = e->modifiers();
+             d->mouseButtons = e->buttons();
              if (!d->pActivateDoubleClick)
              {
                  d->pActivateDoubleClick = new QTimer(this);
