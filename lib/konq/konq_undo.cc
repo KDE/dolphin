@@ -85,8 +85,10 @@ public:
 };
 
 KonqCommandRecorder::KonqCommandRecorder( KonqCommand::Type op, const KUrl::List &src, const KUrl &dst, KIO::Job *job )
-  : QObject( job, "konqcmdrecorder" )
+  : QObject( job )
 {
+  setObjectName( "konqcmdrecorder" );
+
   d = new KonqCommandRecorderPrivate;
   d->m_cmd.m_type = op;
   d->m_cmd.m_valid = true;
@@ -371,7 +373,7 @@ void KonqUndoManager::slotResult( KIO::Job *job )
 
 void KonqUndoManager::addDirToUpdate( const KUrl& url )
 {
-  if ( d->m_dirsToUpdate.find( url ) == d->m_dirsToUpdate.end() )
+  if ( !d->m_dirsToUpdate.contains( url ) )
     d->m_dirsToUpdate.prepend( url );
 }
 
