@@ -314,7 +314,8 @@ protected:
 
     void addToUpdateList( const QString& url ) {
         m_updateURLs.append( url );
-        m_updateTimer->start( 500, true );
+        m_updateTimer->setSingleShot( true );
+        m_updateTimer->start( 500 );
     }
 
     /**

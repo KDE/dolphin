@@ -88,7 +88,7 @@ bool KonqHistoryManager::loadHistory()
     QFile file( m_filename );
     if ( !file.open( QIODevice::ReadOnly ) ) {
 	if ( file.exists() )
-	    kWarning() << "Can't open " << file.name() << endl;
+	    kWarning() << "Can't open " << file.fileName() << endl;
 
 	// try to load the old completion history
 	bool ret = loadFallback();
@@ -303,8 +303,8 @@ void KonqHistoryManager::addToHistory( bool pending, const KUrl& _url,
     // if the map already contains an entry for this key.
     QMap<QString,KonqHistoryEntry*>::iterator it = m_pending.find( u );
     if ( it != m_pending.end() ) {
-        delete it.data();
-        m_pending.remove( it );
+        delete it.value();
+        m_pending.erase( it );
     }
 
     if ( !pending ) {
@@ -368,14 +368,14 @@ void KonqHistoryManager::removePending( const KUrl& url )
 
     QMap<QString,KonqHistoryEntry*>::iterator it = m_pending.find( url.prettyURL() );
     if ( it != m_pending.end() ) {
-	KonqHistoryEntry *oldEntry = it.data(); // the old entry, may be 0L
+	KonqHistoryEntry *oldEntry = it.value(); // the old entry, may be 0L
 	emitRemoveFromHistory( url ); // remove the current pending entry
 
 	if ( oldEntry ) // we had an entry before, now use that instead
 	    emitAddToHistory( *oldEntry );
 
 	delete oldEntry;
-	m_pending.remove( it );
+	m_pending.erase( it );
     }
 }
 
@@ -384,7 +384,7 @@ void KonqHistoryManager::clearPending()
 {
     QMap<QString,KonqHistoryEntry*>::iterator it = m_pending.begin();
     while ( it != m_pending.end() ) {
-	delete it.data();
+	delete it.value();
 	++it;
     }
     m_pending.clear();
@@ -625,7 +625,7 @@ KonqHistoryEntry * KonqHistoryManager::createFallbackEntry(const QString& item) 
     uint weight = 1;
 
     // find out the weighting of this item (appended to the string as ":num")
-    int index = item.findRev(':');
+    int index = item.lastIndexOf(':');
     if ( index > 0 ) {
 	bool ok;
 	weight = item.mid( index + 1 ).toUInt( &ok );
