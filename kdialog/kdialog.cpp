@@ -128,7 +128,7 @@ bool WinIdEmbedder::eventFilter(QObject *o, QEvent *e)
             cout << "winId: " << w->winId() << endl;
 #ifdef Q_WS_X11
         if (id)
-            XSetTransientForHint(w->x11Display(), w->winId(), id);
+            XSetTransientForHint(w->x11Info().display(), w->winId(), id);
 #endif
         delete this; // delete - set the transient hint only on the first dialog
     }
@@ -224,7 +224,7 @@ static int directCommand(KCmdLineArgs *args)
         if (args->isSet("dontagain"))
         {
           QString value = args->getOption("dontagain");
-          QStringList values = QStringList::split( ':', value );
+          QStringList values = value.split( ':', QString::SkipEmptyParts );
           if( values.count() == 2 )
           {
             dontagaincfg = new KConfig( values[ 0 ] );
@@ -238,7 +238,7 @@ static int directCommand(KCmdLineArgs *args)
 
         QString text = QString::fromLocal8Bit(args->getOption( option ));
         int pos;
-        while ((pos = text.find( QLatin1String("\\n") )) >= 0)
+        while ((pos = text.indexOf( QLatin1String("\\n") )) >= 0)
         {
             text.replace(pos, 2, QLatin1String("\n"));
         }
@@ -299,7 +299,8 @@ static int directCommand(KCmdLineArgs *args)
 	QTimer *timer = new QTimer();
 	QObject::connect( timer, SIGNAL( timeout() ), kapp, SLOT( quit() ) );
 	QObject::connect( popup, SIGNAL( clicked() ), kapp, SLOT( quit() ) );
-	timer->start( duration, true );
+        timer->setSingleShot( true );
+	timer->start( duration );
 
 #ifdef Q_WS_X11
 	QString geometry;
@@ -309,7 +310,7 @@ static int directCommand(KCmdLineArgs *args)
 	if ( !geometry.isEmpty()) {
 	    int x, y;
 	    int w, h;
-	    int m = XParseGeometry( geometry.latin1(), &x, &y, (unsigned int*)&w, (unsigned int*)&h);
+	    int m = XParseGeometry( geometry.toLatin1(), &x, &y, (unsigned int*)&w, (unsigned int*)&h);
 	    if ( (m & XNegative) )
 		x = KApplication::desktop()->width()  + x - w;
 	    if ( (m & YNegative) )
