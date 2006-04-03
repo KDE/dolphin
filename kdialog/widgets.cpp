@@ -51,7 +51,7 @@ void Widgets::handleXGeometry(QWidget * dlg)
     if ( ! geometry.isEmpty()) {
 	int x, y;
 	int w, h;
-	int m = XParseGeometry( geometry.latin1(), &x, &y, (unsigned int*)&w, (unsigned int*)&h);
+	int m = XParseGeometry( geometry.toLatin1(), &x, &y, (unsigned int*)&w, (unsigned int*)&h);
 	if ( (m & XNegative) )
 	    x = KApplication::desktop()->width()  + x - w;
 	if ( (m & YNegative) )
@@ -90,10 +90,14 @@ bool Widgets::passwordBox(QWidget *parent, const QString& title, const QString& 
 int Widgets::textBox(QWidget *parent, int width, int height, const QString& title, const QString& file)
 {
 //  KTextBox dlg(parent, 0, true, width, height, file);
-  KDialogBase dlg( parent, 0, true, title, KDialogBase::Ok, KDialogBase::Ok );
+  KDialog dlg( parent, title, KDialog::Ok );
+  dlg.setModal( true );
 
   kapp->setTopWidget( &dlg );
-  KTextEdit *edit = new KTextEdit( dlg.makeVBoxMainWidget() );
+  KVBox* vbox = new KVBox(&dlg);
+  dlg.setMainWidget(vbox);
+ 
+  KTextEdit *edit = new KTextEdit( vbox );
   edit->setReadOnly(true);
 
   QFile f(file);
@@ -123,10 +127,13 @@ int Widgets::textBox(QWidget *parent, int width, int height, const QString& titl
 int Widgets::textInputBox(QWidget *parent, int width, int height, const QString& title, const QStringList& args, QString &result)
 {
 //  KTextBox dlg(parent, 0, true, width, height, file);
-  KDialogBase dlg( parent, 0, true, title, KDialogBase::Ok, KDialogBase::Ok );
-
+  KDialog dlg( parent, title, KDialog::Ok );
+  dlg.setModal( true );
+  
   kapp->setTopWidget( &dlg );
-  KVBox* vbox = dlg.makeVBoxMainWidget();
+  KVBox* vbox = new KVBox(&dlg);
+
+  dlg.setMainWidget(vbox);
 
   if( args.count() > 0 )
   {
@@ -136,11 +143,10 @@ int Widgets::textInputBox(QWidget *parent, int width, int height, const QString&
 
   KTextEdit *edit = new KTextEdit( vbox );
   edit->setReadOnly(false);
-  edit->setTextFormat( Qt::PlainText );
   edit->setFocus();
 
   if( args.count() > 1 )
-    edit->setText( args[1] );
+    edit->insertPlainText( args[1] );
 
   if ( width > 0 && height > 0 )
     dlg.setInitialSize( QSize( width, height ) );
@@ -148,23 +154,25 @@ int Widgets::textInputBox(QWidget *parent, int width, int height, const QString&
   handleXGeometry(&dlg);
   dlg.setCaption(title);
   dlg.exec();
-  result = edit->text().toLocal8Bit();
+  result = edit->toPlainText().toLocal8Bit();
   return 0;
 }
 
 bool Widgets::comboBox(QWidget *parent, const QString& title, const QString& text, const QStringList& args,
 		       const QString& defaultEntry, QString &result)
 {
-  KDialogBase dlg( parent, 0, true, title, KDialogBase::Ok|KDialogBase::Cancel,
-                   KDialogBase::Ok );
+  KDialog dlg( parent, title, KDialog::Ok|KDialog::Cancel );
+  dlg.setModal( true );
+  dlg.setDefaultButton( KDialog::Ok );
 
   kapp->setTopWidget( &dlg );
-  KVBox* vbox = dlg.makeVBoxMainWidget();
+  KVBox* vbox = new KVBox( &dlg );
+  dlg.setMainWidget( vbox );
 
   QLabel label (vbox);
   label.setText (text);
   KComboBox combo (vbox);
-  combo.insertStringList (args);
+  combo.insertItems (0, args);
   combo.setCurrentItem( defaultEntry, false );
 
   handleXGeometry(&dlg);
