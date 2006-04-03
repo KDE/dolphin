@@ -69,7 +69,7 @@ public:
 
     /** Called when LMB'ing an item in a directory view.
      * @param fileItem must be set
-     * @param widget is only set as parent pointer for dialog boxes */
+     */
     void lmbClicked( KFileItem * fileItem );
 
     /** Called when MMB'ing an item in a directory view.
@@ -92,9 +92,9 @@ public:
      * function with a null or empty argument.
      *
      * NOTE: the filter(s) specified here only apply to the current
-     * directory as returned by @ref #url().
+     * directory as returned by url().
      *
-     * @param filter mime-type(s) to filter directory by.
+     * @param filters mime-type(s) to filter directory by.
      */
     void setMimeFilter (const QStringList& filters);
 
@@ -180,7 +180,7 @@ public:
 
     /**
      * Re-implemented for internal reasons.  API is unaffected.  All inheriting
-     * classes should re-implement @ref doCloseURL() instead instead of this one.
+     * classes should re-implement doCloseURL() instead instead of this one.
      */
     bool closeURL ();
 
@@ -287,6 +287,10 @@ protected:
      * handle open URL requests.
      */
     virtual bool doOpenURL( const KUrl& ) = 0;
+    /**
+     * Invoked from closeURL() to enable children classes to
+     * handle close URL requests.
+     */
     virtual bool doCloseURL () = 0;
 
 protected:

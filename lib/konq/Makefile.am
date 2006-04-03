@@ -67,6 +67,6 @@ noinst_HEADERS = konq_sound.h
 messages:
 	$(XGETTEXT) *.cc *.h -o $(podir)/libkonq.pot
 
-DOXYGEN_REFERENCES = dcop kdecore kio/bookmarks
+DOXYGEN_REFERENCES = dcop kdecore kio/bookmarks kparts
 include ../admin/Doxyfile.am
 
