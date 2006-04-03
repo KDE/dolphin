@@ -109,7 +109,7 @@ int main( int argc, char**argv )
 
 	for ( unsigned int i = 0; i < extraBookmarksDir.count(); ++i ) {
 		const QString fileName = extraBookmarksDir[ i ];
-		if ( mergedFiles.find( fileName ) != mergedFiles.end() ) {
+		if ( mergedFiles.contains( fileName ) ) {
 			continue;
 		}
 
