@@ -21,11 +21,11 @@
 #ifndef KLISTBOXDIALOG_H
 #define KLISTBOXDIALOG_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include <q3listbox.h>
 
-class KListBoxDialog : public KDialogBase
+class KListBoxDialog : public KDialog
 {
   Q_OBJECT
 

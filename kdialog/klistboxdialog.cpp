@@ -27,9 +27,13 @@
 #include "klocale.h"
 
 KListBoxDialog::KListBoxDialog(const QString &text, QWidget *parent)
-    : KDialogBase( parent, 0, true, QString(), Ok|Cancel, Ok, true )
+    : KDialog( parent, QString(), KDialog::Ok|KDialog::Cancel )
 {
-  KVBox *page = makeVBoxMainWidget();
+  setModal(true);
+  enableButtonSeparator(true);
+
+  KVBox *page = new KVBox(this);
+  setMainWidget(page);
 
   label = new QLabel(text, page);
   label->setAlignment(Qt::AlignCenter);
