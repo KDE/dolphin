@@ -141,7 +141,8 @@ void BookmarkInfoWidget::slotTextChangedTitle(const QString &str)
     if (m_bk.isNull() || !m_title_le->isModified())
         return;
 
-    timer->start(1000, true);
+    timer->setSingleShot(true);
+    timer->start(1000);
 
     if(titlecmd)
     {
@@ -169,7 +170,9 @@ void BookmarkInfoWidget::slotTextChangedURL(const QString &str) {
     Q_UNUSED(str);
     if (m_bk.isNull() || !m_url_le->isModified())
         return;
-    timer->start(1000, true);
+    
+    timer->setSingleShot(true);
+    timer->start(1000);
 
     if(urlcmd)
     {
@@ -197,7 +200,9 @@ void BookmarkInfoWidget::slotTextChangedComment(const QString &str) {
     Q_UNUSED(str);
     if (m_bk.isNull() || !m_comment_le->isModified())
         return;
-    timer->start(1000, true);
+    
+    timer->setSingleShot(true);
+    timer->start(1000);
 
     if(commentcmd)
     {
@@ -241,14 +246,14 @@ BookmarkInfoWidget::BookmarkInfoWidget(BookmarkListView * lv, QWidget *parent)
     urlcmd = 0;
     commentcmd = 0;
 
-    QBoxLayout *vbox = new QVBoxLayout(this);
-    QGridLayout *grid = new QGridLayout(vbox, 3, 4, 4);
+    QGridLayout *grid = new QGridLayout(this);
+    grid->setSpacing(4);
 
     m_title_le = new KLineEdit(this);
     grid->addWidget(m_title_le, 0, 1);
-    grid->addWidget(
-            new QLabel(m_title_le, i18n("Name:"), this),
-            0, 0);
+    QLabel* label = new QLabel(i18n("Name:"), this);
+    label->setBuddy(m_title_le);
+    grid->addWidget(label, 0, 0);
 
     connect(m_title_le, SIGNAL( textChanged(const QString &) ),
                         SLOT( slotTextChangedTitle(const QString &) ));
@@ -256,9 +261,9 @@ BookmarkInfoWidget::BookmarkInfoWidget(BookmarkListView * lv, QWidget *parent)
 
     m_url_le = new KLineEdit(this);
     grid->addWidget(m_url_le, 1, 1);
-    grid->addWidget(
-            new QLabel(m_url_le, i18n("Location:"), this),
-            1, 0);
+    label = new QLabel(i18n("Location:"), this);
+    label->setBuddy(m_url_le);
+    grid->addWidget(label, 1, 0);
 
     connect(m_url_le, SIGNAL( textChanged(const QString &) ),
                       SLOT( slotTextChangedURL(const QString &) ));
@@ -266,30 +271,31 @@ BookmarkInfoWidget::BookmarkInfoWidget(BookmarkListView * lv, QWidget *parent)
 
     m_comment_le = new KLineEdit(this);
     grid->addWidget(m_comment_le, 2, 1);
-    grid->addWidget(
-            new QLabel(m_comment_le, i18n("Comment:"), this),
-            2, 0);
+    label = new QLabel(i18n("Comment:"), this);
+    label->setBuddy(m_comment_le);
+    grid->addWidget(label, 2, 0);
+
     connect(m_comment_le, SIGNAL( textChanged(const QString &) ),
                           SLOT( slotTextChangedComment(const QString &) ));
     connect(m_comment_le, SIGNAL( lostFocus() ), SLOT( commitComment() ));
 
     m_credate_le = new KLineEdit(this);
     grid->addWidget(m_credate_le, 0, 3);
-    grid->addWidget(
-            new QLabel(m_credate_le, i18n("First viewed:"), this),
-            0, 2);
+    label = new QLabel(i18n("First viewed:"), this);
+    label->setBuddy(m_credate_le);
+    grid->addWidget(label, 0, 2);
 
     m_visitdate_le = new KLineEdit(this);
     grid->addWidget(m_visitdate_le, 1, 3);
-    grid->addWidget(
-            new QLabel(m_visitdate_le, i18n("Viewed last:"), this),
-            1, 2 );
+    label = new QLabel(i18n("Viewed last:"), this);
+    label->setBuddy(m_visitdate_le);
+    grid->addWidget(label, 1, 2 );
 
     m_visitcount_le = new KLineEdit(this);
     grid->addWidget(m_visitcount_le, 2, 3);
-    grid->addWidget(
-            new QLabel(m_visitcount_le, i18n("Times visited:"), this),
-            2, 2);
+    label = new QLabel(i18n("Times visited:"), this);
+    label->setBuddy(m_visitcount_le);
+    grid->addWidget(label, 2, 2);
 
     showBookmark(KBookmark());
 }
