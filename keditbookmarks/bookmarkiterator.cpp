@@ -86,8 +86,7 @@ void BookmarkIteratorHolder::insertItr(BookmarkIterator *itr) {
 }
 
 void BookmarkIteratorHolder::removeItr(BookmarkIterator *itr) {
-    QList<BookmarkIterator *>::iterator it = m_itrs.find(itr);
-    m_itrs.remove(it);
+    m_itrs.removeAll(itr);
     delete itr;
     doItrListChanged();
 }
