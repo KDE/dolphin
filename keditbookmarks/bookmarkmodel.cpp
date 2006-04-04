@@ -350,6 +350,8 @@ void BookmarkModel::saveDropEventPointer(QDropEvent * event)
 
 bool BookmarkModel::dropMimeData(const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent)
 {
+    Q_UNUSED(action)
+
     //FIXME this only works for internal drag and drops
 
     QModelIndex idx;

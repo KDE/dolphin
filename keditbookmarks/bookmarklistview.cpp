@@ -87,6 +87,9 @@ void BookmarkView::dropEvent ( QDropEvent * event )
 
 void BookmarkView::rowsMoved(const QModelIndex & oldParent, int, int, const QModelIndex & newParent, int)
 {
+    Q_UNUSED(oldParent)
+    Q_UNUSED(newParent)
+
     if(moveOldParent.isValid())
         setExpanded(moveOldParent, true);
     if(moveNewParent.isValid())
