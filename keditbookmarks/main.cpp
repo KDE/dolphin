@@ -191,7 +191,6 @@ extern "C" KDE_EXPORT int kdemain(int argc, char **argv) {
     if (askUser(app, (gotArg ? filename : QString()), readonly)) {
         KEBApp *toplevel = new KEBApp(filename, readonly, address, browser, caption);
         toplevel->show();
-        app.setMainWidget(toplevel);
         return app.exec();
     }
 

@@ -354,8 +354,8 @@ bool lessAddress(QString a, QString b)
         if(bLast +1 == bEnd)
             return false;
 
-        uint aNext = a.find("/", aLast + 1);
-        uint bNext = b.find("/", bLast + 1);
+        uint aNext = a.indexOf("/", aLast + 1);
+        uint bNext = b.indexOf("/", bLast + 1);
 
         bool okay;
         uint aNum = a.mid(aLast + 1, aNext - aLast - 1).toUInt(&okay);
