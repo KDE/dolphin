@@ -81,10 +81,10 @@ void FavIconUpdater::downloadIconActual(const KBookmark &bk) {
             = KParts::ComponentFactory
             ::createPartInstanceFromQuery<KParts::ReadOnlyPart>("text/html", QString());
 
-        part->setProperty("pluginsEnabled", QVariant(false, 1));
-        part->setProperty("javaScriptEnabled", QVariant(false, 1));
-        part->setProperty("javaEnabled", QVariant(false, 1));
-        part->setProperty("autoloadImages", QVariant(false, 1));
+        part->setProperty("pluginsEnabled", QVariant(false));
+        part->setProperty("javaScriptEnabled", QVariant(false));
+        part->setProperty("javaEnabled", QVariant(false));
+        part->setProperty("autoloadImages", QVariant(false));
 
         connect(part, SIGNAL( canceled(const QString &) ),
                 this, SLOT( slotCompleted() ));
