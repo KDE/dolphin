@@ -105,9 +105,10 @@ void TestLinkItr::slotJobData(KIO::Job *job, const QByteArray &data) {
     KIO::TransferJob *transfer = (KIO::TransferJob *)job;
 
     if (transfer->isErrorPage()) {
-        QStringList lines = QStringList::split('\n', data);
+        QString strData(data);
+        QStringList lines = strData.split('\n');
         for (QStringList::Iterator it = lines.begin(); it != lines.end(); ++it) {
-            int open_pos = (*it).find("<title>", 0, false);
+            int open_pos = (*it).indexOf("<title>", 0, Qt::CaseInsensitive);
             if (open_pos >= 0) {
                 QString leftover = (*it).mid(open_pos + 7);
                 int close_pos = leftover.lastIndexOf( "</title>", -1, Qt::CaseInsensitive );
@@ -310,11 +311,11 @@ static void parseInfo (KBookmark &bk, QString &nVisited) {
 }
 */
 
-static void parseNsInfo(const QString &nsinfo, QString &nCreate, QString &nAccess, QString &nModify) {
-    QStringList sl = QStringList::split(' ', nsinfo);
+/*static void parseNsInfo(const QString &nsinfo, QString &nCreate, QString &nAccess, QString &nModify) {
+    QStringList sl = nsinfo.split(' ');
 
     for (QStringList::Iterator it = sl.begin(); it != sl.end(); ++it) {
-        QStringList spl = QStringList::split('"', (*it));
+        QStringList spl = (*it).split('"');
 
         if (spl[0] == "LAST_MODIFIED=") {
             nModify = spl[1];
@@ -324,10 +325,10 @@ static void parseNsInfo(const QString &nsinfo, QString &nCreate, QString &nAcces
             nAccess = spl[1];
         }
     }
-}
+}*/
 
 // Still use nsinfo for storing old modify time
-static const QString updateNsInfoMod(const QString &_nsinfo, const QString &nm) {
+/*static const QString updateNsInfoMod(const QString &_nsinfo, const QString &nm) {
     QString nCreate, nAccess, nModify;
     parseNsInfo(_nsinfo, nCreate, nAccess, nModify);
 
@@ -341,7 +342,7 @@ static const QString updateNsInfoMod(const QString &_nsinfo, const QString &nm) 
 
 //  if (!numValid) kDebug() << tmp << "\n";
     return tmp;
-}
+}*/
 
 // KEBListViewItem !!!!!!!!!!!
 //FIXME nsPut
