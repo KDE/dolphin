@@ -5,7 +5,6 @@ project(libkonq)
 add_subdirectory( pics ) 
 add_subdirectory( favicons ) 
 include_directories( 
-      
       ${CMAKE_CURRENT_SOURCE_DIR}
       ${CMAKE_CURRENT_BINARY_DIR}
       ${ZLIB_INCLUDE_DIR} ${KDE4_INCLUDES} )

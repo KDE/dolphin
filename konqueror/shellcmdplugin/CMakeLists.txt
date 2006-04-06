@@ -12,7 +12,7 @@ kde4_add_plugin(konq_shellcmdplugin ${konq_shellcmdplugin_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_shellcmdplugin )
 
-target_link_libraries(konq_shellcmdplugin  ${KDE4_KDECORE_LIBS} konq kdesu)
+target_link_libraries(konq_shellcmdplugin  ${KDE4_KDECORE_LIBS} konq ${KDE4_KDESU_LIBS})
 
 install_targets(${LIB_INSTALL_DIR}/kde4 konq_shellcmdplugin )
 
