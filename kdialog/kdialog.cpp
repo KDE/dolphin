@@ -130,7 +130,7 @@ bool WinIdEmbedder::eventFilter(QObject *o, QEvent *e)
         if (id)
             XSetTransientForHint(w->x11Info().display(), w->winId(), id);
 #endif
-        deleteLater(); // not needed after the first dialog was shown
+        deleteLater(); // WinIdEmbedder is not needed anymore after the first dialog was shown
         return false;
     }
     return QObject::eventFilter(o, e);
