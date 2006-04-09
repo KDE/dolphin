@@ -108,7 +108,6 @@ public:
     WinIdEmbedder(bool printID, WId winId):
         QObject(kapp), print(printID), id(winId)
     {
-        Q_ASSERT( id );
         if (kapp)
             kapp->installEventFilter(this);
     }
@@ -128,9 +127,10 @@ bool WinIdEmbedder::eventFilter(QObject *o, QEvent *e)
         if (print)
             cout << "winId: " << w->winId() << endl;
 #ifdef Q_WS_X11
-        XSetTransientForHint(w->x11Info().display(), w->winId(), id);
+        if (id)
+            XSetTransientForHint(w->x11Info().display(), w->winId(), id);
 #endif
-        deleteLater(); // delete - set the transient hint only on the first dialog
+        deleteLater(); // not needed after the first dialog was shown
         return false;
     }
     return QObject::eventFilter(o, e);
