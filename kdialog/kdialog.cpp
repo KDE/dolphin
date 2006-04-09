@@ -105,9 +105,10 @@ static KCmdLineOptions options[] =
 class WinIdEmbedder: public QObject
 {
 public:
-    WinIdEmbedder(bool printID = false, WId winId = 0):
+    WinIdEmbedder(bool printID, WId winId):
         QObject(kapp), print(printID), id(winId)
     {
+        Q_ASSERT( id );
         if (kapp)
             kapp->installEventFilter(this);
     }
@@ -127,10 +128,10 @@ bool WinIdEmbedder::eventFilter(QObject *o, QEvent *e)
         if (print)
             cout << "winId: " << w->winId() << endl;
 #ifdef Q_WS_X11
-        if (id)
-            XSetTransientForHint(w->x11Info().display(), w->winId(), id);
+        XSetTransientForHint(w->x11Info().display(), w->winId(), id);
 #endif
-        delete this; // delete - set the transient hint only on the first dialog
+        deleteLater(); // delete - set the transient hint only on the first dialog
+        return false;
     }
     return QObject::eventFilter(o, e);
 }
