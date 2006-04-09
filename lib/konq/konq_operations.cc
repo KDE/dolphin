@@ -673,19 +673,18 @@ void KonqOperations::setOperation( KIO::Job * job, int method, const KUrl::List 
     {
         connect( job, SIGNAL( result( KIO::Job * ) ),
                  SLOT( slotResult( KIO::Job * ) ) );
+        KIO::CopyJob *copyJob = dynamic_cast<KIO::CopyJob*>(job);
+        KonqIconViewWidget *iconView = dynamic_cast<KonqIconViewWidget*>(parent());
+        if (copyJob && iconView)
+        {
+            connect(copyJob, SIGNAL(aboutToCreate(KIO::Job *,const QList<KIO::CopyInfo> &)),
+                 this, SLOT(slotAboutToCreate(KIO::Job *,const QList<KIO::CopyInfo> &)));
+            connect(this, SIGNAL(aboutToCreate(const QPoint &, const QList<KIO::CopyInfo> &)),
+                 iconView, SLOT(slotAboutToCreate(const QPoint &, const QList<KIO::CopyInfo> &)));
+        }
     }
     else // for link
         slotResult( 0L );
-
-    KIO::CopyJob *copyJob = dynamic_cast<KIO::CopyJob*>(job);
-    KonqIconViewWidget *iconView = dynamic_cast<KonqIconViewWidget*>(parent());
-    if (copyJob && iconView)
-    {
-        connect(copyJob, SIGNAL(aboutToCreate(KIO::Job *,const QList<KIO::CopyInfo> &)),
-             this, SLOT(slotAboutToCreate(KIO::Job *,const QList<KIO::CopyInfo> &)));
-        connect(this, SIGNAL(aboutToCreate(const QPoint &, const QList<KIO::CopyInfo> &)),
-             iconView, SLOT(slotAboutToCreate(const QPoint &, const QList<KIO::CopyInfo> &)));
-    }
 }
 
 void KonqOperations::slotAboutToCreate(KIO::Job *, const QList<KIO::CopyInfo> &files)
