@@ -46,7 +46,7 @@ bool KEBSearchLine::itemMatches(const Q3ListViewItem *item, const QString &s) co
 
     if(lastpattern != s)
     {
-       splitted = QStringList::split(QChar(' '), s);
+       splitted = s.split(QChar(' '));
        lastpattern = s;
     }
 
@@ -277,7 +277,7 @@ bool KViewSearchLine::itemMatches(const QModelIndex & item, const QString &s) co
                 if(*it < columnCount)
                 {
                     const QString & text = model()->data(parent.child(row, *it)).toString();
-                    if(text.find(s, 0, d->caseSensitive) >= 0)
+                    if(text.indexOf(s, 0, d->caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive) >= 0)
                         return true;
                 }
             }
@@ -288,7 +288,7 @@ bool KViewSearchLine::itemMatches(const QModelIndex & item, const QString &s) co
                 if(d->treeView->isColumnHidden(i) == false)
                 {
                     const QString & text = model()->data(parent.child(row, i)).toString();
-                    if(text.find(s, 0, d->caseSensitive) >= 0)
+                    if(text.indexOf(s, 0, d->caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive) >= 0)
                         return true;
                 }
             }
@@ -298,7 +298,7 @@ bool KViewSearchLine::itemMatches(const QModelIndex & item, const QString &s) co
     else
     {
         QString text = model()->data(item).toString();
-        if(text.find(s, 0, d->caseSensitive) >= 0)
+        if(text.indexOf(s, 0, d->caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive) >= 0)
             return true;
         else
             return false;
@@ -330,7 +330,7 @@ void KViewSearchLine::contextMenuEvent( QContextMenuEvent*e )
                     columnText = i18n("Column number %1","Column No. %1").arg(i);
                 QAction * act = new QAction(columnText, 0); 
                 act->setCheckable(true);
-                if( d->searchColumns.isEmpty() || d->searchColumns.find(logicalIndex) != d->searchColumns.constEnd())
+                if( d->searchColumns.isEmpty() || d->searchColumns.contains(logicalIndex) )
                     act->setChecked(true);
     
                 actions[logicalIndex] = act;
@@ -405,9 +405,8 @@ void KViewSearchLine::searchColumnsMenuActivated(QAction * action)
     }
     else
     {
-        QLinkedList<int>::iterator it = d->searchColumns.find(index);
-        if(it != d->searchColumns.end())
-            d->searchColumns.remove(it);
+        if(d->searchColumns.contains(index))
+            d->searchColumns.removeAll(index);
         else
         {
             if(d->searchColumns.isEmpty()) //all columns was checked
@@ -733,7 +732,8 @@ void KViewSearchLineWidget::createWidgets()
 
     d->clearButton->show();
 
-    QLabel *label = new QLabel(i18n("S&earch:"), 0, "kde toolbar widget");
+    QLabel *label = new QLabel(i18n("S&earch:"));
+    label->setObjectName("kde toolbar widget");
     d->layout->addWidget(label);
 
     d->searchLine = createSearchLine(d->view);
