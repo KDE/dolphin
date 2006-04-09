@@ -99,12 +99,12 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
 
   // We ask ourselves whether to do it or not only if no service was specified.
   // If it was (from the View menu or from RMB + Embedding service), just do it.
-  forceAutoEmbed |= !serviceName.isEmpty();
+  forceAutoEmbed = forceAutoEmbed || !serviceName.isEmpty();
   // Or if we have no associated app anyway, then embed.
-  forceAutoEmbed |= appOffers.isEmpty() && !offers.isEmpty();
+  forceAutoEmbed = forceAutoEmbed || ( appOffers.isEmpty() && !offers.isEmpty() );
   // Or if the associated app is konqueror itself, then embed.
   if ( !appOffers.isEmpty() )
-    forceAutoEmbed |= KonqMainWindow::isMimeTypeAssociatedWithSelf( serviceType, appOffers.first() );
+    forceAutoEmbed = forceAutoEmbed || KonqMainWindow::isMimeTypeAssociatedWithSelf( serviceType, appOffers.first() );
 
   if ( ! forceAutoEmbed )
   {

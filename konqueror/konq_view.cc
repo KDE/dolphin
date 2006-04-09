@@ -555,7 +555,7 @@ void KonqView::setLoading( bool loading, bool hasPending /*= false*/)
     if ( m_pMainWindow->currentView() == this )
         m_pMainWindow->updateToolBarActions( hasPending );
 
-    m_pMainWindow->viewManager()->setLoading( this, loading | hasPending );
+    m_pMainWindow->viewManager()->setLoading( this, loading || hasPending );
 }
 
 void KonqView::slotPercent( KIO::Job *, unsigned long percent )
