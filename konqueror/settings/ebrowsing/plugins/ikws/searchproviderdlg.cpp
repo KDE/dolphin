@@ -80,7 +80,7 @@ void SearchProviderDialog::slotChanged()
 
 void SearchProviderDialog::slotOk()
 {
-    if ((m_dlg->leQuery->text().find("\\{") == -1)
+    if ((m_dlg->leQuery->text().indexOf("\\{") == -1)
         && KMessageBox::warningContinueCancel(0,
             i18n("The URI does not contain a \\{...} placeholder for the user query.\n"
                  "This means that the same page is always going to be visited, "

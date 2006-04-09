@@ -37,11 +37,11 @@ FakeUASProvider::FakeUASProvider()
 FakeUASProvider::StatusCode FakeUASProvider::createNewUAProvider( const QString& uaStr )
 {
   QStringList split;
-  int pos = (uaStr).find("::");
+  int pos = (uaStr).indexOf("::");
 
   if ( pos == -1 )
   {
-    pos = (uaStr).find(':');
+    pos = (uaStr).indexOf(':');
     if ( pos != -1 )
     {
       split.append(uaStr.left(pos));

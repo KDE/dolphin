@@ -114,7 +114,7 @@ static QString removeArgs( const QString& _cmd )
 
     do
     {
-      spacePos = cmd.find( ' ', spacePos+1 );
+      spacePos = cmd.indexOf( ' ', spacePos+1 );
     } while ( spacePos > 1 && cmd[spacePos - 1] == '\\' );
 
     if( spacePos > 0 )
@@ -175,7 +175,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
   // You mean caching the last filtering, to try and reuse it, to save stat()s? (David)
 
   const QString starthere_proto = QFL1("start-here:");
-  if (cmd.find(starthere_proto, 0, true) == 0 )
+  if (cmd.indexOf(starthere_proto) == 0 )
   {
     setFilteredURI( data, KUrl("system:/") );
     setURIType( data, KURIFilterData::LOCAL_DIR );
@@ -186,8 +186,8 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
   const QString man_proto = QFL1("man:");
   const QString info_proto = QFL1("info:");
   if( cmd[0] == '#' ||
-      cmd.find( man_proto, 0, true ) == 0 ||
-      cmd.find( info_proto, 0, true ) == 0 )
+      cmd.indexOf( man_proto ) == 0 ||
+      cmd.indexOf( info_proto ) == 0 )
   {
     if( cmd.left(2) == QFL1("##") )
       cmd = QFL1("info:/") + cmd.mid(2);
@@ -250,7 +250,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
 
   if( path[0] == '~' )
   {
-    int slashPos = path.find('/');
+    int slashPos = path.indexOf('/');
     if( slashPos == -1 )
       slashPos = path.length();
     if( slashPos == 1 )   // ~/
@@ -281,7 +281,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
   else if ( path[0] == '$' ) {
     // Environment variable expansion.
     QRegExp r (QFL1(ENV_VAR_PATTERN));
-    if ( r.search( path ) == 0 )
+    if ( r.indexIn( path ) == 0 )
     {
       const char* exp = getenv( path.mid( 1, r.matchedLength() - 1 ).toLocal8Bit().data() );
       if(exp)
@@ -296,7 +296,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
   {
     // Look for #ref again, after $ and ~ expansion (testcase: $QTDIR/doc/html/functions.html#s)
     // Can't use KUrl here, setPath would escape it...
-    int pos = path.find('#');
+    int pos = path.indexOf('#');
     if ( pos > -1 )
     {
       ref = path.mid( pos + 1 );
@@ -348,11 +348,11 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
       // Support for name filter (/foo/*.txt), see also KonqMainWindow::detectNameFilter
       // If the app using this filter doesn't support it, well, it'll simply error out itself
       int lastSlash = path.lastIndexOf( '/' );
-      if ( lastSlash > -1 && path.find( ' ', lastSlash ) == -1 ) // no space after last slash, otherwise it's more likely command-line arguments
+      if ( lastSlash > -1 && path.indexOf( ' ', lastSlash ) == -1 ) // no space after last slash, otherwise it's more likely command-line arguments
       {
         QString fileName = path.mid( lastSlash + 1 );
         QString testPath = path.left( lastSlash + 1 );
-        if ( ( fileName.find( '*' ) != -1 || fileName.find( '[' ) != -1 || fileName.find( '?' ) != -1 )
+        if ( ( fileName.indexOf( '*' ) != -1 || fileName.indexOf( '[' ) != -1 || fileName.indexOf( '?' ) != -1 )
            && stat( QFile::encodeName(testPath).data(), &buff ) == 0 )
         {
           nameFilter = fileName;
@@ -452,7 +452,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
     for( it = m_urlHints.begin(); it != m_urlHints.end(); ++it )
     {
       QRegExp match( (*it).regexp );
-      if ( match.search( cmd, 0 ) == 0 )
+      if ( match.indexIn( cmd ) == 0 )
       {
         //kDebug() << "match - prepending " << (*it).prepend << endl;
         cmd.prepend( (*it).prepend );

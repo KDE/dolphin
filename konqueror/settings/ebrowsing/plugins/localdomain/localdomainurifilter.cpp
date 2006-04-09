@@ -71,8 +71,8 @@ bool LocalDomainURIFilter::filterURI( KURIFilterData& data ) const
 bool LocalDomainURIFilter::isLocalDomainHost( QString& cmd ) const
 {
     // find() returns -1 when no match -> left()/truncate() are noops then
-    QString host( cmd.left( cmd.find( '/' ) ) );
-    host.truncate( host.find( ':' ) ); // Remove port number
+    QString host( cmd.left( cmd.indexOf( '/' ) ) );
+    host.truncate( host.indexOf( ':' ) ); // Remove port number
 
     if( !(host == last_host && last_time > time( NULL ) - 5 ) ) {
 

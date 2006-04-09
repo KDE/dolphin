@@ -148,7 +148,7 @@ KfindWindow::KfindWindow( QWidget *parent )
 
 QString KfindWindow::reducedDir(const QString& fullDir)
 {
-   if (fullDir.find(m_baseDir)==0)
+   if (fullDir.indexOf(m_baseDir)==0)
    {
       QString tmp=fullDir.mid(m_baseDir.length());
       return tmp;

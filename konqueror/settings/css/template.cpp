@@ -25,10 +25,10 @@ bool CSSTemplate::expand(QString destname, const QMap<QString,QString> &dict)
     {
       line = is.readLine();
 
-      int start = line.find('$');
+      int start = line.indexOf('$');
       if (start >= 0)
 	{
-	  int end = line.find('$', start+1);
+	  int end = line.indexOf('$', start+1);
 	  if (end >= 0)
             {
 	      QString expr = line.mid(start+1, end-start-1);

@@ -64,7 +64,7 @@ QString KURISearchFilterEngine::webShortcutQuery( const QString& typedString ) c
   if (m_bWebShortcutsEnabled)
   {
     QString search = typedString;
-    int pos = search.find(m_cKeywordDelimiter);
+    int pos = search.indexOf(m_cKeywordDelimiter);
 
     QString key;
     if ( pos > -1 )
@@ -96,7 +96,7 @@ QString KURISearchFilterEngine::autoWebSearchQuery( const QString& typedString )
   if (m_bWebShortcutsEnabled && !m_defaultSearchEngine.isEmpty())
   {
     // Make sure we ignore supported protocols, e.g. "smb:", "http:"
-    int pos = typedString.find(':');
+    int pos = typedString.indexOf(':');
 
     if (pos == -1 || !KProtocolInfo::isKnownProtocol(typedString.left(pos)))
     {
@@ -140,12 +140,12 @@ QStringList KURISearchFilterEngine::modifySubstitutionMap(SubstMap& map,
 
     // Temporary substitute spaces in quoted strings (" " -> "%20")
     // Needed to split user query into StringList correctly.
-    while ((pos = qsexpr.search(userquery, start)) >= 0)
+    while ((pos = qsexpr.indexIn(userquery, start)) >= 0)
     {
       int i = 0;
       int n = 0;
       QString s = userquery.mid (pos, qsexpr.matchedLength());
-      while ((i = s.find(" ")) != -1)
+      while ((i = s.indexOf(" ")) != -1)
       {
         s = s.replace (i, 1, "%20");
         n++;
@@ -161,7 +161,7 @@ QStringList KURISearchFilterEngine::modifySubstitutionMap(SubstMap& map,
   // Back-substitute quoted strings (%20 -> " "):
   {
     int i = 0;
-    while ((i = userquery.find("%20")) != -1)
+    while ((i = userquery.indexOf("%20")) != -1)
       userquery = userquery.replace(i, 3, " ");
 
     for ( QStringList::Iterator it = l.begin(); it != l.end(); ++it )
@@ -185,7 +185,7 @@ QStringList KURISearchFilterEngine::modifySubstitutionMap(SubstMap& map,
       v = l[i-1];
 
     // Back-substitute quoted strings (%20 -> " "):
-    while ((j = v.find("%20")) != -1)
+    while ((j = v.indexOf("%20")) != -1)
       v = v.replace(j, 3, " ");
 
     // Insert partial queries (referenced by \1 ... \n) to map:
@@ -194,13 +194,13 @@ QStringList KURISearchFilterEngine::modifySubstitutionMap(SubstMap& map,
 
     // Insert named references (referenced by \name) to map:
     j = 0;
-    if ((i>0) && (pos = v.find("=")) > 0)
+    if ((i>0) && (pos = v.indexOf("=")) > 0)
     {
       QString s = v.mid(pos + 1);
       QString k = v.left(pos);
 
       // Back-substitute references contained in references (e.g. '\refname' substitutes to 'thisquery=\0')
-      while ((j = s.find("%5C")) != -1) s = s.replace(j, 3, "\\");
+      while ((j = s.indexOf("%5C")) != -1) s = s.replace(j, 3, "\\");
       map.replace(k, s);
       PDVAR ("  map['" + k + "']", map[k]);
     }
@@ -230,7 +230,7 @@ QString KURISearchFilterEngine::substituteQuery(const QString& url, SubstMap &ma
   // Check, if old style '\1' is found and replace it with \{@} (compatibility mode):
   {
     int pos = -1;
-    if ((pos = newurl.find("\\1")) >= 0)
+    if ((pos = newurl.indexOf("\\1")) >= 0)
     {
       PIDDBG << "WARNING: Using compatibility mode for newurl='" << newurl
              << "'. Please replace old style '\\1' with new style '\\{0}' "
@@ -246,7 +246,7 @@ QString KURISearchFilterEngine::substituteQuery(const QString& url, SubstMap &ma
     QRegExp reflist("\\\\\\{[^\\}]+\\}");
 
     // Substitute reflists (\{ref1,ref2,...}):
-    while ((pos = reflist.search(newurl, 0)) >= 0)
+    while ((pos = reflist.indexIn(newurl)) >= 0)
     {
       bool found = false;
 
@@ -272,9 +272,9 @@ QString KURISearchFilterEngine::substituteQuery(const QString& url, SubstMap &ma
         QRegExp range("[0-9]*\\-[0-9]*");
 
         // Substitute a range of keywords
-        if (range.search(rlitem, 0) >= 0)
+        if (range.indexIn(rlitem) >= 0)
         {
-          int pos = rlitem.find("-");
+          int pos = rlitem.indexOf("-");
           int first = rlitem.left(pos).toInt();
           int last  = rlitem.right(rlitem.length()-pos-1).toInt();
 
@@ -339,7 +339,7 @@ QString KURISearchFilterEngine::substituteQuery(const QString& url, SubstMap &ma
 
           // Encode '+', otherwise it would be interpreted as space in the resulting url:
           int vpos = 0;
-          while ((vpos = v.find('+')) != -1)
+          while ((vpos = v.indexOf('+')) != -1)
             v = v.replace (vpos, 1, "%2B");
 
         }
@@ -369,7 +369,7 @@ QString KURISearchFilterEngine::substituteQuery(const QString& url, SubstMap &ma
 
       // Substitute \{@} with list of unmatched query strings
       int vpos = 0;
-      while ((vpos = newurl.find("\\@")) != -1)
+      while ((vpos = newurl.indexOf("\\@")) != -1)
         newurl = newurl.replace (vpos, 2, v);
     }
   }
@@ -396,7 +396,7 @@ QString KURISearchFilterEngine::formatResult( const QString& url,
 {
   // Return nothing if userquery is empty and it contains
   // substitution strings...
-  if (query.isEmpty() && url.find(QRegExp(QRegExp::escape("\\{"))) > 0)
+  if (query.isEmpty() && url.indexOf(QRegExp(QRegExp::escape("\\{"))) > 0)
     return QString();
 
   // Debug info of map:

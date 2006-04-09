@@ -266,7 +266,7 @@ void KQuery::processQuery( KFileItem* file)
              continue;
           metaitem=metadatas.item(*it);
           strmetakeycontent=metaitem.string();
-          if(strmetakeycontent.find(m_metainfo)!=-1)
+          if(strmetakeycontent.indexOf(m_metainfo)!=-1)
           {
              foundmeta=true;
              break;
@@ -359,7 +359,7 @@ void KQuery::processQuery( KFileItem* file)
 
           if (m_regexpForContent)
           {
-             if (m_regexp.search(str)>=0)
+             if (m_regexp.indexIn(str)>=0)
              {
                 matchingLine=QString::number(matchingLineNumber)+": "+str;
                 found = true;
@@ -368,7 +368,7 @@ void KQuery::processQuery( KFileItem* file)
           }
           else
           {
-             if (str.find(m_context, 0, m_casesensitive) != -1)
+             if (str.indexOf(m_context, 0, m_casesensitive?Qt::CaseSensitive:Qt::CaseInsensitive) != -1)
              {
                 matchingLine=QString::number(matchingLineNumber)+": "+str;
                 found = true;

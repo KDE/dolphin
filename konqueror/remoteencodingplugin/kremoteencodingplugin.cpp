@@ -143,7 +143,7 @@ KRemoteEncodingPlugin::updateMenu()
       int id = 1;
       QStringList::Iterator it;
       for (it = m_encodingDescriptions.begin(); it != m_encodingDescriptions.end(); ++it, ++id)
-	if ((*it).find(charset) != -1)
+	if ((*it).indexOf(charset) != -1)
 	  break;
 
       kDebug() << k_funcinfo << "URL=" << m_currentURL << " charset=" << charset << endl;

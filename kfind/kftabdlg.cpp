@@ -819,7 +819,7 @@ KDigitValidator::~KDigitValidator()
 
 QValidator::State KDigitValidator::validate( QString & input, int & ) const
 {
-  if (r->search(input) < 0) {
+  if (r->indexIn(input) < 0) {
     // Beep on user if he enters non-digit
     QApplication::beep();
     return QValidator::Invalid;

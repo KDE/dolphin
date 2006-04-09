@@ -260,7 +260,7 @@ void KfindDlg::slotNewItems( const QString& file )
   Q3ListViewItem *checkiter;
   QString checkiterwithpath;
 
-  if(file.find(query->url().path(+1))==0)
+  if(file.indexOf(query->url().path(+1))==0)
   {
     kDebug()<<QString("Can be added, path OK")<<endl;
     checkiter=win->firstChild();

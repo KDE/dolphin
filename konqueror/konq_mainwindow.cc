@@ -432,7 +432,7 @@ QString KonqMainWindow::detectNameFilter( KUrl & url )
         }
         QString fileName = path.mid( lastSlash + 1 );
         QString testPath = path.left( lastSlash + 1 );
-        if ( fileName.find( '*' ) != -1 || fileName.find( '[' ) != -1 || fileName.find( '?' ) != -1 )
+        if ( fileName.indexOf( '*' ) != -1 || fileName.indexOf( '[' ) != -1 || fileName.indexOf( '?' ) != -1 )
         {
             // Check that a file or dir with all the special chars in the filename doesn't exist
             if ( url.isLocalFile() ? !QFile::exists( path ) : !KIO::NetAccess::exists( url, false, this ) )
@@ -914,15 +914,15 @@ void KonqMainWindow::slotOpenURLRequest( const KUrl &url, const KParts::URLArgs 
     static QString _parent = QLatin1String( "_parent" );
     static QString _blank = QLatin1String( "_blank" );
 
-    if ( frameName.lower() == _blank )
+    if ( frameName.toLower() == _blank )
     {
       slotCreateNewWindow( url, args );
       return;
     }
 
-    if ( frameName.lower() != _top &&
-         frameName.lower() != _self &&
-         frameName.lower() != _parent )
+    if ( frameName.toLower() != _top &&
+         frameName.toLower() != _self &&
+         frameName.toLower() != _parent )
     {
       KParts::BrowserHostExtension *hostExtension = 0;
       KonqView *view = childView( callingPart, frameName, &hostExtension, 0 );
@@ -1106,7 +1106,7 @@ void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs
     part = 0; // Make sure to be initialized in case of failure...
 
     KonqMainWindow *mainWindow = 0L;
-    if ( !args.frameName.isEmpty() && args.frameName.lower() != "_blank" )
+    if ( !args.frameName.isEmpty() && args.frameName.toLower() != "_blank" )
     {
         KParts::BrowserHostExtension *hostExtension = 0;
         KParts::ReadOnlyPart *ro_part = 0L;
@@ -1684,7 +1684,7 @@ void KonqMainWindow::showHTML( KonqView * _view, bool b, bool _activateView )
   else if ( !b && _view->supportsServiceType( "text/html" ) )
   {
     KUrl u( _view->url() );
-    QString fileName = u.fileName().lower();
+    QString fileName = u.fileName().toLower();
     if ( KProtocolInfo::supportsListing( u ) && fileName.startsWith("index.htm") ) {
         _view->lockHistory();
         u.setPath( u.directory() );
@@ -4583,7 +4583,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 	  //firstURL.cleanPath();
           openedForViewURL = firstURL.equals( viewURL, true );
       }
-      devicesFile = firstURL.protocol().find("device", 0, false) == 0;
+      devicesFile = firstURL.protocol().indexOf("device", 0, Qt::CaseInsensitive) == 0;
       //dirsSelected = S_ISDIR( _items.first()->mode() );
   }
     //check if current url is trash
@@ -5307,7 +5307,7 @@ static void hp_removeDuplicates( KCompletionMatches& l )
          ++it ) {
         QString str = (*it).value();
         if( str.startsWith( http )) {
-            if( str.find( '/', 7 ) < 0 ) { // http://something<noslash>
+            if( str.indexOf( '/', 7 ) < 0 ) { // http://something<noslash>
                 hp_removeDupe( l, str + '/', it );
                 hp_removeDupe( l, str.mid( 7 ) + '/', it );
             } else if( str[ str.length() - 1 ] == '/' ) {

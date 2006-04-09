@@ -177,7 +177,7 @@ void ListViewBrowserExtension::rename()
      const QString txt = le->text();
      QString pattern;
      KMimeType::diagnoseFileName( txt, pattern );
-     if (!pattern.isEmpty() && pattern.at(0)=='*' && pattern.find('*',1)==-1)
+     if (!pattern.isEmpty() && pattern.at(0)=='*' && pattern.indexOf('*',1)==-1)
          le->setSelection(0, txt.length()-pattern.trimmed().length()+1);
      else
      {
@@ -634,7 +634,8 @@ void KonqListView::slotHeaderSizeChanged()
    else
       m_headerTimer->stop();
 
-   m_headerTimer->start( 250, true );
+   m_headerTimer->setSingleShot( true );
+   m_headerTimer->start( 250 );
 }
 
 void KonqListView::slotKFindOpened()
