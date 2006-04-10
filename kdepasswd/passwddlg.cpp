@@ -87,7 +87,7 @@ KDEpasswd2Dialog::KDEpasswd2Dialog(const char *oldpass, QByteArray user)
     if (m_User.isEmpty())
         setPrompt(i18n("Please enter your new password:"));
     else
-        setPrompt(i18n("Please enter the new password for user <b>%1</b>:").arg(QString::fromLocal8Bit(m_User)));
+        setPrompt(i18n("Please enter the new password for user <b>%1</b>:", QString::fromLocal8Bit(m_User)));
 }
 
 

@@ -64,7 +64,9 @@
 #include <qmetaobject.h>
 #include <qlayout.h>
 #include <qfileinfo.h>
+#ifdef Q_WS_X11
 #include <QX11Info>
+#endif
 //Added by qt3to4:
 #include <QCustomEvent>
 #include <QFocusEvent>
@@ -121,10 +123,12 @@
 #include <malloc.h>
 #endif
 
-#include <X11/Xlib.h>
 #include <sys/time.h>
+#ifdef Q_WS_X11
+#include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <fixx11h.h>
+#endif
 #include <kauthorized.h>
 #include <ktoolinvocation.h>
 
@@ -499,12 +503,12 @@ void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
   }
   else if ( !url.isValid() )
   {
-      KMessageBox::error(0, i18n("Malformed URL\n%1").arg(url.url()));
+      KMessageBox::error(0, i18n("Malformed URL\n%1", url.url()));
       return;
   }
   else if ( !KProtocolInfo::isKnownProtocol( url ) && url.protocol() != "about" )
   {
-      KMessageBox::error(0, i18n("Protocol not supported\n%1").arg(url.protocol()));
+      KMessageBox::error(0, i18n("Protocol not supported\n%1", url.protocol()));
       return;
   }
 
@@ -587,7 +591,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
             //kDebug(1202) << "KonqMainWindow::openURL : we were not following. Fire app." << endl;
             // We know the servicetype, let's try its preferred service
             if ( isMimeTypeAssociatedWithSelf( serviceType, offer ) ) {
-                KMessageBox::error( this, i18n("There appears to be a configuration error. You have associated Konqueror with %1, but it cannot handle this file type.").arg(serviceType));
+                KMessageBox::error( this, i18n("There appears to be a configuration error. You have associated Konqueror with %1, but it cannot handle this file type.", serviceType));
                 return;
             }
             if ( !url.isLocalFile() && KonqRun::isTextExecutable( serviceType ) )
@@ -862,7 +866,7 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
 
               KonqRun* run = childView->run();
               if (run)
-                  suggestedFilename = run->suggestedFilename();
+                  suggestedFilename = run->suggestedFileName();
 
               KParts::BrowserRun::AskSaveResult res = KParts::BrowserRun::askEmbedOrSave(
                   url, serviceType, suggestedFilename );
@@ -1230,6 +1234,7 @@ void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs
 // and the WM should take care of it itself.
     bool wm_usertime_support = false;
 
+#ifdef Q_WS_X11
     Time saved_last_input_time = QX11Info::appUserTime();
     if ( windowArgs.lowerWindow )
     {
@@ -1262,6 +1267,9 @@ void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs
                 this->setActiveWindow();
         }
     }
+#else // Q_WS_X11
+    mainWindow->show();
+#endif
 
     if ( windowArgs.fullscreen )
         mainWindow->action( "fullscreen" )->trigger();
@@ -2832,15 +2840,15 @@ void KonqMainWindow::slotRemoveLocalProperties()
       } else
       {
          Q_ASSERT( QFile::exists(u.path()) ); // The action shouldn't be enabled, otherwise.
-         KMessageBox::sorry( this, i18n("No permissions to write to %1").arg(u.path()) );
+         KMessageBox::sorry( this, i18n("No permissions to write to %1", u.path()) );
       }
   }
 }
 
-bool KonqMainWindow::askForTarget(const QString& text, KUrl& url)
+bool KonqMainWindow::askForTarget(const KLocalizedString& text, KUrl& url)
 {
    const KUrl initialUrl = (viewCount()==2) ? otherView(m_currentView)->url() : m_currentView->url();
-   QString label = text.arg( m_currentView->url().pathOrURL() );
+   QString label = text.subs( m_currentView->url().pathOrURL() ).toString();
    KUrlRequesterDlg dlg(initialUrl.pathOrURL(), label, this);
    dlg.setCaption(i18n("Enter Target"));
    dlg.urlRequester()->setMode( KFile::File | KFile::ExistingOnly | KFile::Directory );
@@ -2851,7 +2859,7 @@ bool KonqMainWindow::askForTarget(const QString& text, KUrl& url)
         return true;
       else
       {
-        KMessageBox::error( this, i18n("<qt><b>%1</b> is not valid</qt>").arg(url.url()));
+        KMessageBox::error( this, i18n("<qt><b>%1</b> is not valid</qt>", url.url()));
         return false;
       }
    }
@@ -2867,7 +2875,7 @@ void KonqMainWindow::slotCopyFiles()
 {
   //kDebug(1202) << "KonqMainWindow::slotCopyFiles()" << endl;
   KUrl dest;
-  if (!askForTarget(i18n("Copy selected files from %1 to:"),dest))
+  if (!askForTarget(ki18n("Copy selected files from %1 to:"),dest))
      return;
 
   KonqOperations::copy(this,KonqOperations::COPY,currentURLs(),dest);
@@ -2877,7 +2885,7 @@ void KonqMainWindow::slotMoveFiles()
 {
   //kDebug(1202) << "KonqMainWindow::slotMoveFiles()" << endl;
   KUrl dest;
-  if (!askForTarget(i18n("Move selected files from %1 to:"),dest))
+  if (!askForTarget(ki18n("Move selected files from %1 to:"),dest))
      return;
 
   KonqOperations::copy(this,KonqOperations::MOVE,currentURLs(),dest);
@@ -3672,7 +3680,7 @@ void KonqMainWindow::initActions()
   m_paLinkView = new KToggleAction( i18n( "Lin&k View"), 0, this, SLOT( slotLinkView() ), actionCollection(), "link" );
 
   // Go menu
-  m_paUp = new KToolBarPopupAction( i18n( "&Up" ), "up", KStdAccel::shortcut(KStdAccel::Up), actionCollection(), "up" );
+  m_paUp = new KToolBarPopupAction( i18n( "&Up" ), QString("up"), KStdAccel::shortcut(KStdAccel::Up), actionCollection(), QString("up") );
   connect( m_paUp, SIGNAL( triggered( Qt::MouseButtons, Qt::KeyboardModifiers) ), this,
 	   SLOT( slotUp(Qt::MouseButtons, Qt::KeyboardModifiers) ) );
   connect( m_paUp->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotUpAboutToShow() ) );
@@ -3743,7 +3751,7 @@ void KonqMainWindow::initActions()
   // Window menu
   m_paSplitViewHor = new KAction( i18n( "Split View &Left/Right" ), "view_left_right", Qt::CTRL+Qt::SHIFT+Qt::Key_L, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
   m_paSplitViewVer = new KAction( i18n( "Split View &Top/Bottom" ), "view_top_bottom", Qt::CTRL+Qt::SHIFT+Qt::Key_T, this, SLOT( slotSplitViewVertical() ), actionCollection(), "splitviewv" );
-  m_paAddTab = new KAction( i18n( "&New Tab" ), "tab_new", "CTRL+SHIFT+N;CTRL+T", this, SLOT( slotAddTab() ), actionCollection(), "newtab" );
+  m_paAddTab = new KAction( i18n( "&New Tab" ), "tab_new", KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_N, Qt::CTRL+Qt::Key_T), this, SLOT( slotAddTab() ), actionCollection(), "newtab" );
   m_paDuplicateTab = new KAction( i18n( "&Duplicate Current Tab" ), "tab_duplicate", Qt::CTRL+Qt::SHIFT+Qt::Key_D, this, SLOT( slotDuplicateTab() ), actionCollection(), "duplicatecurrenttab" );
   m_paBreakOffTab = new KAction( i18n( "Detach Current Tab" ), "tab_breakoff", Qt::CTRL+Qt::SHIFT+Qt::Key_B, this, SLOT( slotBreakOffTab() ), actionCollection(), "breakoffcurrenttab" );
   m_paRemoveView = new KAction( i18n( "&Close Active View" ),"view_remove", Qt::CTRL+Qt::SHIFT+Qt::Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
@@ -3756,7 +3764,7 @@ void KonqMainWindow::initActions()
   QString actionname;
   for (int i=1;i<13;i++) {
     actionname.sprintf("activate_tab_%02d", i);
-    new KAction(i18n("Activate Tab %1").arg(i), 0, this, SLOT(slotActivateTab()), actionCollection(), actionname.toUtf8());
+    new KAction(i18n("Activate Tab %1", i), 0, this, SLOT(slotActivateTab()), actionCollection(), actionname.toUtf8());
   }
 
   m_paMoveTabLeft = new KAction( i18n("Move Tab Left"), 0 , Qt::CTRL+Qt::SHIFT+Qt::Key_Left,this, SLOT( slotMoveTabLeft()),actionCollection(),"tab_move_left");
@@ -3773,12 +3781,12 @@ void KonqMainWindow::initActions()
 
   m_ptaFullScreen = KStdAction::fullScreen( 0, 0, actionCollection(), this );
   KShortcut fullScreenShortcut = m_ptaFullScreen->shortcut();
-  fullScreenShortcut.append( KKey( Qt::Key_F11 ) );
+  fullScreenShortcut.append( Qt::Key_F11 );
   m_ptaFullScreen->setShortcut( fullScreenShortcut );
   connect( m_ptaFullScreen, SIGNAL( toggled( bool )), this, SLOT( slotUpdateFullScreen( bool )));
 
   KShortcut reloadShortcut = KStdAccel::shortcut(KStdAccel::Reload);
-  reloadShortcut.append(KKey(Qt::CTRL + Qt::Key_R));
+  reloadShortcut.append(Qt::CTRL + Qt::Key_R);
   m_paReload = new KAction( i18n( "&Reload" ), "reload", reloadShortcut, this, SLOT( slotReload() ), actionCollection(), "reload" );
   m_paReloadAllTabs = new KAction( i18n( "&Reload All Tabs" ), "reload_all_tabs", Qt::SHIFT+Qt::Key_F5, this, SLOT( slotReloadAllTabs() ), actionCollection(), "reload_all_tabs" );
 
@@ -3790,7 +3798,7 @@ void KonqMainWindow::initActions()
   // Those are connected to the browserextension directly
   m_paCut = KStdAction::cut( 0, 0, actionCollection(), "cut" );
   KShortcut cutShortCut = m_paCut->shortcut();
-  cutShortCut.remove( KKey( Qt::SHIFT + Qt::Key_Delete ) ); // used for deleting files
+  cutShortCut.remove( Qt::SHIFT + Qt::Key_Delete ); // used for deleting files
   m_paCut->setShortcut( cutShortCut );
 
   m_paCopy = KStdAction::copy( 0, 0, actionCollection(), "copy" );
@@ -3859,7 +3867,7 @@ void KonqMainWindow::initActions()
   // help stuff
   m_paUp->setWhatsThis( i18n( "Enter the parent folder<p>"
                               "For instance, if the current location is file:/home/%1 clicking this "
-                              "button will take you to file:/home." ).arg( KUser().loginName() ) );
+                              "button will take you to file:/home." ,  KUser().loginName() ) );
   m_paUp->setToolTip( i18n( "Enter the parent folder" ) );
 
   m_paBack->setWhatsThis( i18n( "Move backwards one step in the browsing history<p>" ) );
@@ -4264,7 +4272,7 @@ void KonqMainWindow::currentProfileChanged()
 {
     bool enabled = !m_pViewManager->currentProfile().isEmpty();
     m_paSaveViewProfile->setEnabled( enabled );
-    m_paSaveViewProfile->setText( enabled ? i18n("&Save View Profile \"%1\"...").arg(m_pViewManager->currentProfileText())
+    m_paSaveViewProfile->setText( enabled ? i18n("&Save View Profile \"%1\"...", m_pViewManager->currentProfileText())
                                           : i18n("&Save View Profile...") );
 }
 
@@ -4784,7 +4792,7 @@ void KonqMainWindow::updateOpenWithActions()
   KTrader::OfferList::ConstIterator end = services.end();
   for (; it != end; ++it )
   {
-    KAction *action = new KAction( i18n( "Open with %1" ).arg( (*it)->name() ), 0, 0, 0, actionCollection(), (*it)->desktopEntryName().toLatin1() );
+    KAction *action = new KAction( i18n( "Open with %1" ,  (*it)->name() ), 0, 0, 0, actionCollection(), (*it)->desktopEntryName().toLatin1() );
     action->setIconName( (*it)->icon() );
 
     connect( action, SIGNAL( activated() ),
@@ -5193,8 +5201,8 @@ void KonqMainWindow::slotAddWebSideBar(const KUrl& url, const QString& name)
     }
 
     int rc = KMessageBox::questionYesNo(0L,
-              i18n("Add new web extension \"%1\" to your sidebar?")
-                                .arg(name.isEmpty() ? name : url.prettyURL()),
+              i18n("Add new web extension \"%1\" to your sidebar?",
+                                 name.isEmpty() ? name : url.prettyURL()),
               i18n("Web Sidebar"),i18n("Add"),i18n("Do Not Add"));
 
     if (rc == KMessageBox::Yes) {
@@ -5537,6 +5545,7 @@ void KonqMainWindow::setPreloadedWindow( KonqMainWindow* window )
 // that won't be reset by loading a profile
 void KonqMainWindow::resetWindow()
 {
+#ifdef Q_WS_X11
     char data[ 1 ];
     // empty append to get current X timestamp
     QWidget tmp_widget;
@@ -5556,6 +5565,7 @@ void KonqMainWindow::resetWindow()
 
     static Atom atom3 = XInternAtom( QX11Info::display(), "_NET_WM_USER_TIME", False );
     XDeleteProperty( QX11Info::display(), winId(), atom3 );
+#endif
 // Qt remembers the iconic state if the window was withdrawn while on another virtual desktop
     setWindowState( windowState() & ~Qt::WindowMinimized );
     ignoreInitialGeometry();
@@ -5620,6 +5630,7 @@ bool KonqMainWindow::event( QEvent* e )
 
 bool KonqMainWindow::stayPreloaded()
 {
+#ifdef Q_WS_X11
     // last window?
     if( mainWindowList()->count() > 1 )
         return false;
@@ -5642,6 +5653,9 @@ bool KonqMainWindow::stayPreloaded()
     kDebug(1202) << "Konqy kept for preloading :" << kapp->dcopClient()->appId() << endl;
     KonqMainWindow::setPreloadedWindow( this );
     return true;
+#else
+    return false;
+#endif
 }
 
 // try to avoid staying running when leaking too much memory

@@ -114,7 +114,7 @@ FileTypeDetails::FileTypeDetails( QWidget * parent )
   // The order of those three items is very important. If you change it, fix typeslistitem.cpp !
   new QRadioButton( i18n("Show file in embedded viewer"), m_autoEmbed );
   new QRadioButton( i18n("Show file in separate viewer"), m_autoEmbed );
-  m_rbGroupSettings = new QRadioButton( i18n("Use settings for '%1' group"), m_autoEmbed );
+  m_rbGroupSettings = new QRadioButton( QString("Use settings for '%1' group"), m_autoEmbed );
   connect(m_autoEmbed, SIGNAL( clicked( int ) ), SLOT( slotAutoEmbedClicked( int ) ));
 
   m_chkAskSave = new QCheckBox( i18n("Ask whether to save to disk instead"), m_autoEmbed);
@@ -282,7 +282,7 @@ void FileTypeDetails::setTypeItem( TypesListItem * tlitem )
     iconButton->resetIcon();
   description->setText(tlitem ? tlitem->comment() : QString());
   if ( tlitem )
-    m_rbGroupSettings->setText( i18n("Use settings for '%1' group").arg( tlitem->majorType() ) );
+    m_rbGroupSettings->setText( i18n("Use settings for '%1' group", tlitem->majorType() ) );
   extensionLB->clear();
   addExtButton->setEnabled(true);
   removeExtButton->setEnabled(false);

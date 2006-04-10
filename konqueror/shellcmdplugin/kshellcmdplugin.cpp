@@ -77,7 +77,7 @@ void KShellCmdPlugin::slotExecuteShellCommand()
       chDir+="; ";
       chDir+=cmd;
 
-      KShellCommandDialog *shellCmdDialog=new KShellCommandDialog(i18n("Output from command: \"%1\"").arg(cmd),chDir,part->widget(),true);
+      KShellCommandDialog *shellCmdDialog=new KShellCommandDialog(i18n("Output from command: \"%1\"", cmd),chDir,part->widget(),true);
       shellCmdDialog->resize(500,300);
       shellCmdDialog->executeCommand();
       delete shellCmdDialog;

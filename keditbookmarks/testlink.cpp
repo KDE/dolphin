@@ -92,7 +92,7 @@ void TestLinkItr::doAction() {
 
     connect(m_job, SIGNAL( result( KIO::Job *)),
             this, SLOT( slotJobResult(KIO::Job *)));
-    connect(m_job, SIGNAL( data( KIO::Job *,  const QByteArray &)),
+    connect(m_job, SIGNAL( data( KIO::Job *, const QByteArray &)),
             this, SLOT( slotJobData(KIO::Job *, const QByteArray &)));
 
     //FIXME curItem()->setTmpStatus(i18n("Checking..."));

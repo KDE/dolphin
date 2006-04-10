@@ -381,7 +381,7 @@ void KNewMenu::slotNewFile()
 
     if ( !QFile::exists( entry.templatePath ) ) {
         kWarning(1203) << entry.templatePath << " doesn't exist" << endl;
-        KMessageBox::sorry( 0L, i18n("<qt>The template file <b>%1</b> does not exist.</qt>").arg(entry.templatePath));
+        KMessageBox::sorry( 0L, i18n("<qt>The template file <b>%1</b> does not exist.</qt>", entry.templatePath));
         return;
     }
     m_isURLDesktopFile = false;

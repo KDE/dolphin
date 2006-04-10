@@ -25,7 +25,7 @@ KIOPreferences::KIOPreferences( KInstance *inst, QWidget* parent )
     gb_Timeout->setWhatsThis( i18n("Here you can set timeout values. "
                     "You might want to tweak them if your "
                     "connection is very slow. The maximum "
-                    "allowed value is %1 seconds.").arg(MAX_TIMEOUT_VALUE));
+                    "allowed value is %1 seconds.", MAX_TIMEOUT_VALUE));
     mainLayout->addWidget( gb_Timeout );
 
     sb_socketRead = new KIntNumInput( gb_Timeout);

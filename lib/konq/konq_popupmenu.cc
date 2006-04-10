@@ -867,7 +867,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
                     QString actionName( (*it)->name().replace( "&", "&&" ) );
                     if ( menu == domElement() ) // no submenu -> prefix single offer
-                        actionName = i18n( "Open with %1" ).arg( actionName );
+                        actionName = i18n( "Open with %1" ,  actionName );
 
                     KIcon actIcon;
                     actIcon.addPixmap( (*it)->pixmap( K3Icon::Small ) );

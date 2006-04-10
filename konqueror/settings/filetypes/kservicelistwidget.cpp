@@ -45,7 +45,7 @@ KServiceListItem::KServiceListItem( KService::Ptr pService, int kind )
     if ( kind == KServiceListWidget::SERVICELIST_APPLICATIONS )
         setText( pService->name() );
     else
-        setText( i18n( "%1 (%2)" ).arg( pService->name() ).arg( pService->desktopEntryName() ) );
+        setText( i18n( "%1 (%2)", pService->name(), pService->desktopEntryName() ) );
 
     bool isApplication = pService->type() == "Application";
     if (!isApplication)
@@ -350,18 +350,6 @@ void KServiceListWidget::editService()
 void KServiceListWidget::removeService()
 {
   if (!m_item) return;
-  // Here are some strings already so that we don't have to break translations
-  // later on.
-  QString msg1 = i18n("The service <b>%1</b> can not be removed.");
-  QString msg2 = i18n("The service is listed here because it has been associated "
-                     "with the <b>%1</b> (%2) file type and files of type "
-                     "<b>%3</b> (%4) are per definition also of type "
-                     "<b>%5</b>.");
-  QString msg3 = i18n("Either select the <b>%1</b> file type to remove the "
-                      "service from there or move the service down "
-                      "to deprecate it.");
-  QString msg4 = i18n("Do you want to remove the service from the <b>%1</b> "
-                      "file type or from the <b>%2</b> file type?");
 
   int selected = servicesLB->currentItem();
 
@@ -375,11 +363,21 @@ void KServiceListWidget::removeService()
     }
     else if (mimetype)
     {
-       KMessageBox::sorry(this, "<qt>"+msg1.arg(serviceItem->text())+"<p>"+
-                                msg2.arg(mimetype->name()).arg(mimetype->comment()).
-                                arg(m_item->name()).arg(m_item->comment()).
-                                arg(mimetype->name())+"<p>"+
-                                msg3.arg(mimetype->name()));
+       KMessageBox::sorry(this, "<qt>"+
+                                i18n("The service <b>%1</b> can not be removed.", serviceItem->text())+
+                                "<p>"+
+                                i18n("The service is listed here because it has been associated "
+                                     "with the <b>%1</b> (%2) file type and files of type "
+                                     "<b>%3</b> (%4) are per definition also of type "
+                                     "<b>%5</b>.", mimetype->name(), mimetype->comment(),
+                                     m_item->name(), m_item->comment(), mimetype->name())+
+                                "<p>"+
+                                i18n("Either select the <b>%1</b> file type to remove the "
+                                     "service from there or move the service down "
+                                     "to deprecate it.", mimetype->name()));
+
+                                // i18n("Do you want to remove the service from the <b>%1</b> "
+                                //      "file type or from the <b>%2</b> file type?", ???, ???);
     }
     else
     {

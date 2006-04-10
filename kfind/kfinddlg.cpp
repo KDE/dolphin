@@ -109,7 +109,7 @@ void KfindDlg::startSearch()
   isResultReported = false;
 
   // Reset count - use the same i18n as below
-  setProgressMsg(i18n("one file found", "%n files found", 0));
+  setProgressMsg(i18np("one file found", "%n files found", 0));
 
   emit resultSelected(false);
   emit haveResults(false);
@@ -214,7 +214,7 @@ void KfindDlg::addFile(const KFileItem* item, const QString& matchingLine)
   }
 
   int count = win->childCount();
-  QString str = i18n("one file found", "%n files found", count);
+  QString str = i18np("one file found", "%n files found", count);
   setProgressMsg(str);
 }
 

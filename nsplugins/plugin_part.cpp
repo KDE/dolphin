@@ -89,7 +89,7 @@ QString PluginLiveConnectExtension::evalJavaScript( const QString & script )
     kDebug(1432) << "PLUGIN:LiveConnect::evalJavaScript " << script << endl;
     ArgList args;
     QString jscode;
-    jscode.sprintf("this.__nsplugin=eval(\"%s\")",  qPrintable( QString(script).replace('\\', "\\\\").replace('"', "\\\"")));
+    jscode.sprintf("this.__nsplugin=eval(\"%s\")", qPrintable( QString(script).replace('\\', "\\\\").replace('"', "\\\"")));
     //kDebug(1432) << "String is [" << jscode << "]" << endl;
     args.push_back(qMakePair(KParts::LiveConnectExtension::TypeString, jscode));
     QString nsplugin("Undefined");
@@ -296,7 +296,7 @@ bool PluginPart::openURL(const KUrl &url)
 
     // status messages
     emit setWindowCaption( url.prettyURL() );
-    emit setStatusBarText( i18n("Loading Netscape plugin for %1").arg(url.prettyURL()) );
+    emit setStatusBarText( i18n("Loading Netscape plugin for %1", url.prettyURL()) );
 
     // create plugin widget
     NSPluginInstance *inst = _loader->newInstance( _canvas, surl, smime, embed,
@@ -307,7 +307,7 @@ bool PluginPart::openURL(const KUrl &url)
     if ( inst ) {
         _widget = inst;
     } else {
-        QLabel *label = new QLabel( i18n("Unable to load Netscape plugin for %1").arg(url.url()), _canvas );
+        QLabel *label = new QLabel( i18n("Unable to load Netscape plugin for %1", url.url()), _canvas );
         label->setAlignment( Qt::AlignCenter );
         label->setWordWrap( true );
         _widget = label;

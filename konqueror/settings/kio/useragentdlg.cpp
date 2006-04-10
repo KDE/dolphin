@@ -224,7 +224,7 @@ bool UserAgentDlg::handleDuplicate( const QString& site,
       QString msg = i18n("<qt><center>Found an existing identification for"
                          "<br/><b>%1</b><br/>"
                          "Do you want to replace it?</center>"
-                         "</qt>").arg(site);
+                         "</qt>", site);
       int res = KMessageBox::warningContinueCancel(this, msg,
                                           i18n("Duplicate Identification"),
                                           i18n("Replace"));

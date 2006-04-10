@@ -41,11 +41,11 @@
 #include <kbookmarkdombuilder.h>
 
 QString ImportCommand::name() const {
-    return i18n("Import %1 Bookmarks").arg(visibleName());
+    return i18n("Import %1 Bookmarks", visibleName());
 }
 
 QString ImportCommand::folder() const {
-    return m_folder ? i18n("%1 Bookmarks").arg(visibleName()) : QString();
+    return m_folder ? i18n("%1 Bookmarks", visibleName()) : QString();
 }
 
 ImportCommand* ImportCommand::importerFactory(const QString &type) {
@@ -74,7 +74,7 @@ ImportCommand* ImportCommand::performImport(const QString &type, QWidget *top) {
     int answer =
         KMessageBox::questionYesNoCancel(
                 top, i18n("Import as a new subfolder or replace all the current bookmarks?"),
-                i18n("%1 Import").arg(importer->visibleName()),
+                i18n("%1 Import", importer->visibleName()),
                 i18n("As New Folder"), i18n("Replace"));
 
     if (answer == KMessageBox::Cancel) {

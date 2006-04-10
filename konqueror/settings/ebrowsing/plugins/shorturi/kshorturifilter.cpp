@@ -267,8 +267,8 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
       }
       else
       {
-        QString msg = dir ? i18n("<qt><b>%1</b> does not have a home folder.</qt>").arg(user) :
-                            i18n("<qt>There is no user called <b>%1</b>.</qt>").arg(user);
+        QString msg = dir ? i18n("<qt><b>%1</b> does not have a home folder.</qt>", user) :
+                            i18n("<qt>There is no user called <b>%1</b>.</qt>", user);
         setErrorMsg( data, msg );
         setURIType( data, KURIFilterData::ERROR );
         // Always return true for error conditions so
@@ -494,7 +494,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
       return true;
     }
     //kDebug() << "fileNotFound -> ERROR" << endl;
-    setErrorMsg( data, i18n( "<qt>The file or folder <b>%1</b> does not exist." ).arg( data.uri().prettyURL() ) );
+    setErrorMsg( data, i18n( "<qt>The file or folder <b>%1</b> does not exist.", data.uri().prettyURL() ) );
     setURIType( data, KURIFilterData::ERROR );
     return true;
   }

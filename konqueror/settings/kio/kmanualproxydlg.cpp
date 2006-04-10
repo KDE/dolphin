@@ -342,7 +342,7 @@ bool KManualProxyDlg::handleDuplicate( const QString& site )
             QString msg = i18n("You entered a duplicate address. "
                                "Please try again.");
             QString details = i18n("<qt><center><b>%1</b></center> "
-                                   "is already in the list.</qt>").arg(site);
+                                   "is already in the list.</qt>", site);
             KMessageBox::detailedError( this, msg, details, i18n("Duplicate Entry") );
             return true;
         }

@@ -224,12 +224,12 @@ void KonqFontOptions::slotStandardFont(const QString& n )
 
 void KonqFontOptions::slotPNbLinesChanged(int value)
 {
-    m_pNbLines->setSuffix( i18n( " line", " lines", value ) );
+    m_pNbLines->setSuffix( i18np( " line", " lines", value ) );
 }
 
 void KonqFontOptions::slotPNbWidthChanged(int value)
 {
-    m_pNbWidth->setSuffix( i18n( " pixel", " pixels", value ) );
+    m_pNbWidth->setSuffix( i18np( " pixel", " pixels", value ) );
 }
 
 void KonqFontOptions::load()

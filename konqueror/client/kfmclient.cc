@@ -47,8 +47,10 @@
 #include "KDesktopIface_stub.h"
 #include "kwin.h"
 
+#ifdef Q_WS_X11
 #include <X11/Xlib.h>
 #include <QX11Info>
+#endif
 
 static const char appName[] = "kfmclient";
 static const char programName[] = I18N_NOOP("kfmclient");
@@ -244,6 +246,7 @@ static bool startNewKonqueror( QString url, QString mimetype, const QString& pro
 
 static int currentScreen()
 {
+#ifdef Q_WS_X11
 	QX11Info info;
     if( QX11Info::display() != NULL )
         return info.screen();
@@ -255,6 +258,7 @@ static int currentScreen()
     const char* colonpos = strrchr( env, ':' );
     if( dotpos != NULL && colonpos != NULL && dotpos > colonpos )
         return atoi( dotpos + 1 );
+#endif
     return 0;
 }
 
@@ -305,6 +309,7 @@ static DCOPCString konqyToReuse( const QString& url, const QString& mimetype, co
 
 void clientApp::sendASNChange()
 {
+#ifdef Q_WS_X11
     KStartupInfoId id;
     id.initId( startup_id_str );
     KStartupInfoData data;
@@ -317,6 +322,7 @@ void clientApp::sendASNChange()
         KStartupInfo::sendChangeX( dpy, id, data );
     if( dpy != NULL && dpy != QX11Info::display())
         XCloseDisplay( dpy );
+#endif
 }
 
 bool clientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, const QString & mimetype)
@@ -352,7 +358,9 @@ bool clientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, co
             kDebug() << config.readEntry( "BrowserApplication" ) << endl;
             Q_ASSERT( qApp );
             //clientApp app;
+#ifdef Q_WS_X11
             KStartupInfo::appStarted();
+#endif
 
             KRun * run = new KRun( url,0L ); // TODO pass tempFile [needs support in the KRun ctor]
             QObject::connect( run, SIGNAL( finished() ), qApp, SLOT( delayedQuit() ));
@@ -402,9 +410,11 @@ bool clientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, co
             kError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
             */
             // pass kfmclient's startup id to konqueror using kshell
+#ifdef Q_WS_X11
             KStartupInfoId id;
             id.initId( startup_id_str );
             id.setupStartupEnv();
+#endif
             KProcess proc;
             proc << "kshell" << "konqueror";
             if ( !mimetype.isEmpty() )
@@ -413,7 +423,9 @@ bool clientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, co
                 proc << "-tempfile";
             proc << url.url();
             proc.start( KProcess::DontCare );
+#ifdef Q_WS_X11
             KStartupInfo::resetStartupEnv();
+#endif
             kDebug( 1202 ) << "clientApp::createNewWindow KProcess started" << endl;
         //}
     }
@@ -440,7 +452,7 @@ bool clientApp::openProfile( const QString & profileName, const QString & url, c
   QString profile = locate( "data", QLatin1String("konqueror/profiles/") + profileName );
   if ( profile.isEmpty() )
   {
-      fprintf( stderr, "%s", i18n("Profile %1 not found\n").arg(profileName).toLocal8Bit().data() );
+      fprintf( stderr, "%s", i18n("Profile %1 not found\n", profileName).toLocal8Bit().data() );
       ::exit( 0 );
   }
   KonquerorIface_stub konqy( appId, "KonquerorIface" );
@@ -487,8 +499,10 @@ bool clientApp::doIt()
   }
   QByteArray command = args->arg(0);
 
+#ifdef Q_WS_X11
   // read ASN env. variable for non-KApp cases
   startup_id_str = KStartupInfo::currentStartupIdEnv().id();
+#endif
 
   kDebug() << "Creating clientApp" << endl;
   int fake_argc = 0;
@@ -645,7 +659,7 @@ bool clientApp::doIt()
   }
   else
   {
-    fprintf( stderr, "%s", i18n("Syntax Error: Unknown command '%1'\n").arg(QString::fromLocal8Bit(command)).toLocal8Bit().data() );
+    fprintf( stderr, "%s", i18n("Syntax Error: Unknown command '%1'\n", QString::fromLocal8Bit(command)).toLocal8Bit().data() );
     return false;
   }
   return true;

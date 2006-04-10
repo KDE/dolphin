@@ -95,9 +95,9 @@ static int askUser(KApplication &app, QString filename, bool &readonly) {
     int ret = KMessageBox::warningYesNo(0, 
             i18n("Another instance of %1 is already running, do you really "
                 "want to open another instance or continue work in the same instance?\n"
-                "Please note that, unfortunately, duplicate views are read-only.").arg(kapp->caption()), 
+                "Please note that, unfortunately, duplicate views are read-only.", kapp->caption()), 
             i18n("Warning"),
-            i18n("Run Another"),     /* yes */
+            i18n("Run Another"),    /* yes */
             i18n("Continue in Same") /*  no */);
 
     if (ret == KMessageBox::No) {
@@ -147,14 +147,14 @@ extern "C" KDE_EXPORT int kdemain(int argc, char **argv) {
         CurrentMgr::ExportType exportType = CurrentMgr::MozillaExport; // uumm.. can i just set it to -1 ?
         int got = 0;
         const char *arg, *arg2 = 0, *importType = 0;
-        if (arg = "exportmoz",   args->isSet(arg)) { exportType = CurrentMgr::MozillaExport;  arg2 = arg; got++; }
-        if (arg = "exportns",    args->isSet(arg)) { exportType = CurrentMgr::NetscapeExport; arg2 = arg; got++; }
-        if (arg = "exporthtml",  args->isSet(arg)) { exportType = CurrentMgr::HTMLExport;     arg2 = arg; got++; }
-        if (arg = "exportie",    args->isSet(arg)) { exportType = CurrentMgr::IEExport;       arg2 = arg; got++; }
+        if (arg = "exportmoz",  args->isSet(arg)) { exportType = CurrentMgr::MozillaExport;  arg2 = arg; got++; }
+        if (arg = "exportns",   args->isSet(arg)) { exportType = CurrentMgr::NetscapeExport; arg2 = arg; got++; }
+        if (arg = "exporthtml", args->isSet(arg)) { exportType = CurrentMgr::HTMLExport;     arg2 = arg; got++; }
+        if (arg = "exportie",   args->isSet(arg)) { exportType = CurrentMgr::IEExport;       arg2 = arg; got++; }
         if (arg = "exportopera", args->isSet(arg)) { exportType = CurrentMgr::OperaExport;    arg2 = arg; got++; }
-        if (arg = "importmoz",   args->isSet(arg)) { importType = "Moz";   arg2 = arg; got++; }
-        if (arg = "importns",    args->isSet(arg)) { importType = "NS";    arg2 = arg; got++; }
-        if (arg = "importie",    args->isSet(arg)) { importType = "IE";    arg2 = arg; got++; }
+        if (arg = "importmoz",  args->isSet(arg)) { importType = "Moz";   arg2 = arg; got++; }
+        if (arg = "importns",   args->isSet(arg)) { importType = "NS";    arg2 = arg; got++; }
+        if (arg = "importie",   args->isSet(arg)) { importType = "IE";    arg2 = arg; got++; }
         if (arg = "importopera", args->isSet(arg)) { importType = "Opera"; arg2 = arg; got++; }
         if (!importType && arg2) {
             Q_ASSERT(arg2);

@@ -130,7 +130,9 @@ KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, 
   else if( KonqMainWindow::isPreloaded() && KonqMainWindow::preloadedWindow() != NULL )
   {
       mainWindow = KonqMainWindow::preloadedWindow();
+#ifdef Q_WS_X11
       KStartupInfo::setWindowStartupId( mainWindow->winId(), kapp->startupId());
+#endif
       KonqMainWindow::setPreloadedWindow( NULL );
       KonqMainWindow::setPreloadedFlag( false );
       mainWindow->resetWindow();

@@ -273,7 +273,7 @@ bool KonqOperations::askDeleteConfirmation( const KUrl::List & selectedURLs, int
       {
       case DEL:
           result = KMessageBox::warningContinueCancelList( 0,
-             	i18n( "Do you really want to delete this item?", "Do you really want to delete these %n items?", prettyList.count()),
+             	i18np( "Do you really want to delete this item?", "Do you really want to delete these %n items?", prettyList.count()),
              	prettyList,
 		i18n( "Delete Files" ),
 		KStdGuiItem::del(),
@@ -282,7 +282,7 @@ bool KonqOperations::askDeleteConfirmation( const KUrl::List & selectedURLs, int
 
       case SHRED:
           result = KMessageBox::warningContinueCancelList( 0,
-                i18n( "Do you really want to shred this item?", "Do you really want to shred these %n items?", prettyList.count()),
+                i18np( "Do you really want to shred this item?", "Do you really want to shred these %n items?", prettyList.count()),
                 prettyList,
                 i18n( "Shred Files" ),
 		KGuiItem( i18n( "Shred" ), "editshred" ),
@@ -292,10 +292,10 @@ bool KonqOperations::askDeleteConfirmation( const KUrl::List & selectedURLs, int
       case MOVE:
       default:
           result = KMessageBox::warningContinueCancelList( 0,
-                i18n( "Do you really want to move this item to the trash?", "Do you really want to move these %n items to the trash?", prettyList.count()),
+                i18np( "Do you really want to move this item to the trash?", "Do you really want to move these %n items to the trash?", prettyList.count()),
                 prettyList,
 		i18n( "Move to Trash" ),
-		KGuiItem( i18n( "Verb", "&Trash" ), "edittrash"),
+		KGuiItem( i18nc( "Verb", "&Trash" ), "edittrash"),
 		keyName, KMessageBox::Dangerous);
       }
       if (!keyName.isEmpty())
@@ -349,6 +349,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KUrl & dest, QDro
 
         // Check the state of the modifiers key at the time of the drop
         // TODO port to QApplication::keyboardModifiers()
+#ifdef Q_WS_X11 // removing for now, it should be OK once it uses keyboardModifiers()
         Window root;
         Window child;
         int root_x, root_y, win_x, win_y;
@@ -381,6 +382,11 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KUrl & dest, QDro
         // In both cases asyncDrop will delete op when done
 
         ev->acceptProposedAction();
+#else
+        kdDebug(1203) << "we don't handle keyboard modifiers yet, skip check" << endl;
+        ev->setAccepted( false );
+        return;
+#endif
     }
     else
     {
@@ -533,8 +539,9 @@ void KonqOperations::doFileCopy()
         // No point in asking copy/move/link when using dnd from or to the trash.
         action = Qt::MoveAction;
     }
-    else if ( (((m_info->keybstate & ControlMask) == 0) && ((m_info->keybstate & ShiftMask) == 0)) ||
-              linkOnly )
+    else if ( (
+        ((QApplication::keyboardModifiers() & Qt::ControlModifier) == 0) &&
+        ((QApplication::keyboardModifiers() & Qt::ShiftModifier) == 0) ) || linkOnly )
     {
         // Neither control nor shift are pressed => show popup menu
         KonqIconViewWidget *iconView = dynamic_cast<KonqIconViewWidget*>(parent());
@@ -565,15 +572,15 @@ void KonqOperations::doFileCopy()
 
         QMenu popup;
 
-        QAction* popupMoveAction = new QAction( i18n( "&Move Here" ) + "\t" + KKey::modFlagLabel( KKey::SHIFT ), this );
+        QAction* popupMoveAction = new QAction(i18n( "&Move Here" ) + "\t" + QKeySequence( Qt::Key_Shift ).toString(), this);
         popupMoveAction->setIcon(SmallIconSet("goto"));
-        QAction* popupCopyAction = new QAction( i18n( "&Copy Here" ) + "\t" + KKey::modFlagLabel( KKey::CTRL ), this );
+        QAction* popupCopyAction = new QAction(i18n( "&Copy Here" ) + "\t" + QKeySequence( Qt::Key_Control ).toString(), this);
         popupCopyAction->setIcon(SmallIconSet("editcopy"));
-        QAction* popupLinkAction = new QAction( i18n( "&Link Here" ) + "\t" + KKey::modFlagLabel( (KKey::ModFlag)( KKey::CTRL|KKey::SHIFT ) ), this );
+        QAction* popupLinkAction = new QAction(i18n( "&Link Here" ) + "\t" + QKeySequence( Qt::CTRL + Qt::Key_Shift ).toString(), this);
         popupLinkAction->setIcon(SmallIconSet("www"));
         QAction* popupWallAction = new QAction( i18n( "Set as &Wallpaper" ), this );
         popupWallAction->setIcon(SmallIconSet("background"));
-        QAction* popupCancelAction = new QAction( i18n( "C&ancel" ) + "\t" + KKey( Qt::Key_Escape ).toString(), this );
+        QAction* popupCancelAction = new QAction(i18n( "C&ancel" ) + "\t" + QKeySequence( Qt::Key_Escape ).toString(), this);
         popupCancelAction->setIcon(SmallIconSet("cancel"));
 
         if ( sReading && !linkOnly)

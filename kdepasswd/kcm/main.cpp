@@ -235,7 +235,7 @@ void KCMUserAccount::save()
 			{
 				KMessageBox::sorry( this, i18n("An error occurred and your password has "
 							"probably not been changed. The error "
-							"message was:\n%1").arg(QString::fromLocal8Bit(proc->error())));
+							"message was:\n%1", QString::fromLocal8Bit(proc->error())));
 				kDebug() << "ChfnProcess->exec() failed. Error code: " << ret 
 					<< "\nOutput:" << proc->error() << endl;
 			}	
@@ -246,7 +246,7 @@ void KCMUserAccount::save()
 
 	/* Save the image */
 	if( !_facePixmap.save( KCFGUserAccount::faceFile(), "PNG" ))
-		KMessageBox::error( this, i18n("There was an error saving the image: %1" ).arg(
+		KMessageBox::error( this, i18n("There was an error saving the image: %1" , 
 			KCFGUserAccount::faceFile()) );
 
 }
@@ -337,7 +337,7 @@ inline KUrl *KCMUserAccount::decodeImgDrop(QDropEvent *e, QWidget *wdg)
 
     QString msg = i18n( "%1 does not appear to be an image file.\n"
 			  "Please use files with these extensions:\n"
-			  "%2").arg(url->fileName()).arg(qs.join("\n"));
+			  "%2", url->fileName(), qs.join("\n"));
     KMessageBox::sorry( wdg, msg);
     delete url;
   }

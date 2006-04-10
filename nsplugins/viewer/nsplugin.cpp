@@ -807,7 +807,7 @@ void NSPluginInstance::timer()
 
                     kDebug() << "posting to " << url << endl;
 
-                    emitStatus( i18n("Submitting data to %1").arg(url) );
+                    emitStatus( i18n("Submitting data to %1", url) );
                     s->post( url, req.data, req.mime, req.notify, req.args );
                 } else if (url.toLower().startsWith("javascript:")){
                     if (_callback) {
@@ -826,7 +826,7 @@ void NSPluginInstance::timer()
 
                     kDebug() << "getting " << url << endl;
 
-                    emitStatus( i18n("Requesting %1").arg(url) );
+                    emitStatus( i18n("Requesting %1", url) );
                     s->get( url, req.mime, req.notify, req.reload );
                 }
 

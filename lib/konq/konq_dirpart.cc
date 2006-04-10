@@ -299,10 +299,10 @@ void KonqDirPart::lmbClicked( KFileItem * fileItem )
         // No permissions or local file that doesn't exist - need to find out which
         if ( ( !fileItem->isLocalFile() ) || QFile::exists( url.path() ) )
         {
-            KMessageBox::error( widget(), i18n("<p>You do not have enough permissions to read <b>%1</b></p>").arg(url.prettyURL()) );
+            KMessageBox::error( widget(), i18n("<p>You do not have enough permissions to read <b>%1</b></p>", url.prettyURL()) );
             return;
         }
-        KMessageBox::error( widget(), i18n("<p><b>%1</b> does not seem to exist anymore</p>").arg(url.prettyURL()) );
+        KMessageBox::error( widget(), i18n("<p><b>%1</b> does not seem to exist anymore</p>", url.prettyURL()) );
         return;
     }
 
@@ -469,7 +469,7 @@ void KonqDirPart::emitTotalCount()
         bShowsResult = prop.isValid() && prop.toBool();
     }
     //kDebug(1203) << "KonqDirPart::emitTotalCount bShowsResult=" << bShowsResult << endl;
-    emit setStatusBarText( bShowsResult ? i18n("Search result: %1").arg(summary) : summary );
+    emit setStatusBarText( bShowsResult ? i18n("Search result: %1", summary) : summary );
 }
 
 void KonqDirPart::emitCounts( const KFileItemList & lst )

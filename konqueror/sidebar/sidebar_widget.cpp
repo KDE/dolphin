@@ -498,7 +498,7 @@ void Sidebar_Widget::slotSetURL( )
 		ksc.setGroup("Desktop Entry");
 		if ( !dlg.selectedURL().isValid())
 		{
-			KMessageBox::error(this, i18n("<qt><b>%1</b> does not exist</qt>").arg(dlg.selectedURL().url()));
+			KMessageBox::error(this, i18n("<qt><b>%1</b> does not exist</qt>", dlg.selectedURL().url()));
 		}
 		else
 		{
@@ -530,7 +530,7 @@ void Sidebar_Widget::slotSetIcon( )
 
 void Sidebar_Widget::slotRemove()
 {
-	if (KMessageBox::warningContinueCancel(this,i18n("<qt>Do you really want to remove the <b>%1</b> tab?</qt>").arg(m_currentButton->displayName),
+	if (KMessageBox::warningContinueCancel(this,i18n("<qt>Do you really want to remove the <b>%1</b> tab?</qt>", m_currentButton->displayName),
 		QString(),KStdGuiItem::del())==KMessageBox::Continue)
 	{
 		QFile f(m_path+m_currentButton->file);

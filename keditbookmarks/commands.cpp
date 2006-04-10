@@ -69,7 +69,7 @@ QString CreateCommand::name() const {
     } else if (m_group) {
         return i18n("Create Folder");
     } else if (!m_originalBookmark.isNull()) {
-        return i18n("Copy %1").arg(m_mytext);
+        return i18n("Copy %1", m_mytext);
     } else {
         return i18n("Create Bookmark");
     }
@@ -161,13 +161,13 @@ EditCommand::EditCommand(const QString & address, int col, const QString & newVa
 QString EditCommand::name() const
 {
     if(mCol==-1)
-        return i18n("%1 Change").arg(i18n("Icon"));
+        return i18n("%1 Change", i18n("Icon"));
     else if(mCol==0)
-        return i18n("%1 Change").arg(i18n("Title") );
+        return i18n("%1 Change", i18n("Title") );
     else if(mCol==1)
-        return i18n("%1 Change").arg(i18n("URL"));  
+        return i18n("%1 Change", i18n("URL"));  
     else if(mCol==2)
-        return i18n("%1 Change").arg(i18n("Comment"));
+        return i18n("%1 Change", i18n("Comment"));
     //Never reached
     return QString("");
 }
@@ -365,7 +365,7 @@ KEBMacroCommand* DeleteCommand::deleteAll(const KBookmarkGroup & parentGroup) {
 /* -------------------------------------- */
 
 QString MoveCommand::name() const {
-    return i18n("Move %1").arg(m_mytext);
+    return i18n("Move %1", m_mytext);
 }
 
 void MoveCommand::execute() {

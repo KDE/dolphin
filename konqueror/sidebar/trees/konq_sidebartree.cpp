@@ -761,7 +761,7 @@ void KonqSidebarTree::loadTopLevelGroup( KonqSidebarTreeItem *parent, const QStr
         item->setExpandable( false );
 }
 
-void KonqSidebarTree::loadTopLevelItem( KonqSidebarTreeItem *parent,  const QString &filename )
+void KonqSidebarTree::loadTopLevelItem( KonqSidebarTreeItem *parent, const QString &filename )
 {
     KDesktopFile cfg( filename, true );
     cfg.setDollarExpansion(true);

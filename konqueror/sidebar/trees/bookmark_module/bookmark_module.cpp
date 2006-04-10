@@ -52,14 +52,14 @@ KonqSidebarBookmarkModule::KonqSidebarBookmarkModule( KonqSidebarTree * parentTr
     tree()->setDropFormats(formats);
 
     connect(tree(), SIGNAL(moved(Q3ListViewItem*,Q3ListViewItem*,Q3ListViewItem*)),
-            this,   SLOT(slotMoved(Q3ListViewItem*,Q3ListViewItem*,Q3ListViewItem*)));
+            this,  SLOT(slotMoved(Q3ListViewItem*,Q3ListViewItem*,Q3ListViewItem*)));
     connect(tree(), SIGNAL(dropped(K3ListView*,QDropEvent*,Q3ListViewItem*,Q3ListViewItem*)),
-            this,   SLOT(slotDropped(K3ListView*,QDropEvent*,Q3ListViewItem*,Q3ListViewItem*)));
+            this,  SLOT(slotDropped(K3ListView*,QDropEvent*,Q3ListViewItem*,Q3ListViewItem*)));
 
     connect(tree(), SIGNAL(expanded(Q3ListViewItem*)),
-            this,   SLOT(slotOpenChange(Q3ListViewItem*)));
+            this,  SLOT(slotOpenChange(Q3ListViewItem*)));
     connect(tree(), SIGNAL(collapsed(Q3ListViewItem*)),
-            this,   SLOT(slotOpenChange(Q3ListViewItem*)));
+            this,  SLOT(slotOpenChange(Q3ListViewItem*)));
 
     m_collection = new KActionCollection( this );
     (void) new KAction( i18n("&Create New Folder"), "folder_new", 0, this,
@@ -311,8 +311,8 @@ void KonqSidebarBookmarkModule::slotDelete()
 
     if (KMessageBox::warningYesNo(
             tree(),
-            folder ? i18n("Are you sure you wish to remove the bookmark folder\n\"%1\"?").arg(bookmark.text())
-                    : i18n("Are you sure you wish to remove the bookmark\n\"%1\"?").arg(bookmark.text()),
+            folder ? i18n("Are you sure you wish to remove the bookmark folder\n\"%1\"?", bookmark.text())
+                    : i18n("Are you sure you wish to remove the bookmark\n\"%1\"?", bookmark.text()),
             folder ? i18n("Bookmark Folder Deletion")
                     : i18n("Bookmark Deletion"),
             KGuiItem( i18n("&Delete"), "editdelete"), KStdGuiItem::cancel())

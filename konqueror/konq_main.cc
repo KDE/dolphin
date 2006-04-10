@@ -34,7 +34,10 @@
 #include <qfile.h>
 #include <QApplication>
 #include <qwidget.h>
+
+#ifdef Q_WS_X11
 #include <QX11Info>
+#endif
 
 static const KCmdLineOptions options[] =
 {
@@ -128,6 +131,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
          {
              if (args->isSet("preload"))
              {
+#ifdef Q_WS_X11
                  if( KonqSettings::maxPreloadCount() > 0 )
                  {
                      DCOPRef ref( "kded", "konqy_preloader" );
@@ -145,6 +149,9 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
                  {
                      return 0; // no preloading
                  }
+#else
+                     return 0; // no preloading
+#endif
              }
              else if (!args->isSet("silent"))
              {

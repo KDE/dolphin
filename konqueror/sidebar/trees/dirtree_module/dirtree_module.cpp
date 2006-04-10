@@ -421,7 +421,7 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
 
     if( !parentItem )
     {
-        KMessageBox::error( tree(), i18n("Cannot find parent item %1 in the tree. Internal error.").arg( dir.url(-1) ) );
+        KMessageBox::error( tree(), i18n("Cannot find parent item %1 in the tree. Internal error.", dir.url(-1) ) );
        	return;
     }
 

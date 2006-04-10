@@ -139,8 +139,8 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     factory = KLibLoader::self()->factory( QFile::encodeName(service->library()) );
     if ( !factory )
         KMessageBox::error(0,
-                           i18n("There was an error loading the module %1.\nThe diagnostics is:\n%2")
-                           .arg(service->name()).arg(KLibLoader::self()->lastErrorMessage()));
+                           i18n("There was an error loading the module %1.\nThe diagnostics is:\n%2",
+                            service->name(), KLibLoader::self()->lastErrorMessage()));
   }
 
   KTrader::OfferList::Iterator it = offers.begin();
@@ -157,8 +157,8 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
       factory = KLibLoader::self()->factory( QFile::encodeName(service->library()) );
       if ( !factory )
         KMessageBox::error(0,
-                           i18n("There was an error loading the module %1.\nThe diagnostics is:\n%2")
-                           .arg(service->name()).arg(KLibLoader::self()->lastErrorMessage()));
+                           i18n("There was an error loading the module %1.\nThe diagnostics is:\n%2",
+                            service->name(), KLibLoader::self()->lastErrorMessage()));
       // If this works, we exit the loop.
     } else
       kDebug(1202) << "Not allowed as default " << service->desktopEntryName() << endl;

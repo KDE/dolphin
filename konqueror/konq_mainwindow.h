@@ -36,6 +36,7 @@
 #include <QCustomEvent>
 
 #include <kfileitem.h>
+#include <klocale.h>
 #include "konq_openurlrequest.h"
 
 #include <kparts/mainwindow.h>
@@ -49,6 +50,7 @@
 #include <ktrader.h>
 #include "konq_combo.h"
 #include "konq_frame.h"
+#include <klocalizedstring.h>
 
 class QFile;
 class KAction;
@@ -536,7 +538,7 @@ protected:
   virtual void closeEvent( QCloseEvent * );
   virtual bool queryExit();
 
-  bool askForTarget(const QString& text, KUrl& url);
+  bool askForTarget(const KLocalizedString& text, KUrl& url);
 
 private Q_SLOTS:
   void slotUndoTextChanged(const QString& newText);

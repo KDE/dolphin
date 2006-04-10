@@ -196,15 +196,15 @@ QString KonqAboutPageFactory::intro()
                       "or choose an entry from the Bookmarks menu.") )
           .arg( i18n( "To return to the previous "
 		      "location, press the back button  <img width='16' height='16' src=\"%1\"> "
-                      "in the toolbar. ").arg( back_icon_path ) )
+                      "in the toolbar. ",  back_icon_path ) )
           .arg( i18n( "To quickly go to your Home folder press the "
-                      " home button <img width='16' height='16' src=\"%1\">." ).arg(gohome_icon_path) )
-          .arg( i18n( "For more detailed documentation on Konqueror click <a href=\"%1\">here</a>." )
-                      .arg("exec:/khelpcenter") )
+                      " home button <img width='16' height='16' src=\"%1\">." , gohome_icon_path) )
+          .arg( i18n( "For more detailed documentation on Konqueror click <a href=\"%1\">here</a>." ,
+                      QString("exec:/khelpcenter")) )
           .arg( i18n( "<em>Tuning Tip:</em> If you want the Konqueror web browser to start faster,"
 			" you can turn off this information screen by clicking <a href=\"%1\">here</a>. You can re-enable it"
 			" by choosing the Help -> Konqueror Introduction menu option, and then pressing "
-			"Settings -> Save View Profile \"Web Browsing\".").arg("config:/disable_overview") )
+			"Settings -> Save View Profile \"Web Browsing\".", QString("config:/disable_overview")) )
 	  .arg( "<img width='16' height='16' src=\"%1\">" ).arg( continue_icon_path )
 	  .arg( i18n( "Next: Tips &amp; Tricks" ) )
 	;
@@ -247,26 +247,26 @@ QString KonqAboutPageFactory::specs()
 		     "extra support for other common usability features that arise as "
 		     "de facto standards across the Internet. Along with this support, "
 		     "for such functions as favicons, Internet Keywords, and <A HREF=\"%1\">XBEL bookmarks</A>, "
-                     "Konqueror also implements:").arg("http://pyxml.sourceforge.net/topics/xbel/") )
+                     "Konqueror also implements:", QString("http://pyxml.sourceforge.net/topics/xbel/")) )
           .arg( i18n("Web Browsing") )
           .arg( i18n("Supported standards") )
           .arg( i18n("Additional requirements*") )
           .arg( i18n("<A HREF=\"%1\">DOM</A> (Level 1, partially Level 2) based "
-                     "<A HREF=\"%2\">HTML 4.01</A>").arg("http://www.w3.org/DOM").arg("http://www.w3.org/TR/html4/") )
+                     "<A HREF=\"%2\">HTML 4.01</A>", QString("http://www.w3.org/DOM"), QString("http://www.w3.org/TR/html4/")) )
           .arg( i18n("built-in") )
-          .arg( i18n("<A HREF=\"%1\">Cascading Style Sheets</A> (CSS 1, partially CSS 2)").arg("http://www.w3.org/Style/CSS/") )
+          .arg( i18n("<A HREF=\"%1\">Cascading Style Sheets</A> (CSS 1, partially CSS 2)", QString("http://www.w3.org/Style/CSS/")) )
           .arg( i18n("built-in") )
-          .arg( i18n("<A HREF=\"%1\">ECMA-262</A> Edition 3 (roughly equals JavaScript 1.5)").arg("http://www.ecma.ch/ecma1/STAND/ECMA-262.HTM") )
-          .arg( i18n("JavaScript disabled (globally). Enable JavaScript <A HREF=\"%1\">here</A>.").arg("exec:/kcmshell khtml_java_js") )
-          .arg( i18n("JavaScript enabled (globally). Configure JavaScript <A HREF=\\\"%1\\\">here</A>.").arg("exec:/kcmshell khtml_java_js") ) // leave the double backslashes here, they are necessary for javascript !
-          .arg( i18n("Secure <A HREF=\"%1\">Java</A><SUP>&reg;</SUP> support").arg("http://java.sun.com") )
-          .arg( i18n("JDK 1.2.0 (Java 2) compatible VM (<A HREF=\"%1\">Blackdown</A>, <A HREF=\"%2\">IBM</A> or <A HREF=\"%3\">Sun</A>)")
-                      .arg("http://www.blackdown.org").arg("http://www.ibm.com").arg("http://java.sun.com") )
-          .arg( i18n("Enable Java (globally) <A HREF=\"%1\">here</A>.").arg("exec:/kcmshell khtml_java_js") ) // TODO Maybe test if Java is enabled ?
-          .arg( i18n("Netscape Communicator<SUP>&reg;</SUP> <A HREF=\"%4\">plugins</A> (for viewing <A HREF=\"%1\">Flash<SUP>&reg;</SUP></A>, <A HREF=\"%2\">Real<SUP>&reg;</SUP></A>Audio, <A HREF=\"%3\">Real<SUP>&reg;</SUP></A>Video, etc.)")
-                      .arg("http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash")
-                      .arg("http://www.real.com").arg("http://www.real.com")
-                      .arg("about:plugins") )
+          .arg( i18n("<A HREF=\"%1\">ECMA-262</A> Edition 3 (roughly equals JavaScript 1.5)", QString("http://www.ecma.ch/ecma1/STAND/ECMA-262.HTM")) )
+          .arg( i18n("JavaScript disabled (globally). Enable JavaScript <A HREF=\"%1\">here</A>.", QString("exec:/kcmshell khtml_java_js")) )
+          .arg( i18n("JavaScript enabled (globally). Configure JavaScript <A HREF=\\\"%1\\\">here</A>.", QString("exec:/kcmshell khtml_java_js")) ) // leave the double backslashes here, they are necessary for javascript !
+          .arg( i18n("Secure <A HREF=\"%1\">Java</A><SUP>&reg;</SUP> support", QString("http://java.sun.com")) )
+          .arg( i18n("JDK 1.2.0 (Java 2) compatible VM (<A HREF=\"%1\">Blackdown</A>, <A HREF=\"%2\">IBM</A> or <A HREF=\"%3\">Sun</A>)",
+                       QString("http://www.blackdown.org"), QString("http://www.ibm.com"), QString("http://java.sun.com")) )
+          .arg( i18n("Enable Java (globally) <A HREF=\"%1\">here</A>.", QString("exec:/kcmshell khtml_java_js")) ) // TODO Maybe test if Java is enabled ?
+          .arg( i18n("Netscape Communicator<SUP>&reg;</SUP> <A HREF=\"%4\">plugins</A> (for viewing <A HREF=\"%1\">Flash<SUP>&reg;</SUP></A>, <A HREF=\"%2\">Real<SUP>&reg;</SUP></A>Audio, <A HREF=\"%3\">Real<SUP>&reg;</SUP></A>Video, etc.)",
+                       QString("http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash"),
+                       QString("http://www.real.com"), QString("http://www.real.com"),
+                       QString("about:plugins")) )
           .arg( i18n("built-in") )
           .arg( i18n("Secure Sockets Layer") )
           .arg( i18n("(TLS/SSL v2/3) for secure communications up to 168bit") )
@@ -282,13 +282,13 @@ QString KonqAboutPageFactory::specs()
           .arg( i18n("Transfer protocols") )
           .arg( i18n("HTTP 1.1 (including gzip/bzip2 compression)") )
           .arg( i18n("FTP") )
-          .arg( i18n("and <A HREF=\"%1\">many more...</A>").arg("exec:/kcmshell ioslaveinfo") )
+          .arg( i18n("and <A HREF=\"%1\">many more...</A>", QString("exec:/kcmshell ioslaveinfo")) )
           .arg( i18n("URL-Completion") )
           .arg( i18n("Manual"))
 	  .arg( i18n("Popup"))
 	  .arg( i18n("(Short-) Automatic"))
 	  .arg( "<img width='16' height='16' src=\"%1\">" ).arg( continue_icon_path )
-	  .arg( i18n("<a href=\"%1\">Return to Starting Points</a>").arg("launch.html") )
+	  .arg( i18n("<a href=\"%1\">Return to Starting Points</a>", QString("launch.html")) )
 
           ;
 
@@ -342,37 +342,37 @@ QString KonqAboutPageFactory::tips()
 		      "using Google, for the search phrase \"KDE\". There are a lot of "
 		      "Web-Shortcuts predefined to make searching for software or looking "
 		      "up certain words in an encyclopedia a breeze. You can even "
-                      "<a href=\"%1\">create your own</a> Web-Shortcuts." ).arg("exec:/kcmshell ebrowsing") )
+                      "<a href=\"%1\">create your own</a> Web-Shortcuts." , QString("exec:/kcmshell ebrowsing")) )
 	  .arg( i18n( "Use the magnifier button <img width='16' height='16' src=\"%1\"> in the"
-		      " toolbar to increase the font size on your web page.").arg(viewmag_icon_path) )
+		      " toolbar to increase the font size on your web page.", viewmag_icon_path) )
 	  .arg( i18n( "When you want to paste a new address into the Location toolbar you might want to "
 		      "clear the current entry by pressing the black arrow with the white cross "
-		      "<img width='16' height='16' src=\"%1\"> in the toolbar.")
-              .arg(QApplication::isRightToLeft() ? locationbar_erase_rtl_icon_path : locationbar_erase_icon_path))
+		      "<img width='16' height='16' src=\"%1\"> in the toolbar.",
+               QApplication::isRightToLeft() ? locationbar_erase_rtl_icon_path : locationbar_erase_icon_path))
 	  .arg( i18n( "To create a link on your desktop pointing to the current page, "
 		      "simply drag the \"Location\" label that is to the left of the Location toolbar, drop it on to "
 		      "the desktop, and choose \"Link\"." ) )
 	  .arg( i18n( "You can also find <img width='16' height='16' src=\"%1\"> \"Full-Screen Mode\" "
 		      "in the Settings menu. This feature is very useful for \"Talk\" "
-		      "sessions.").arg(window_fullscreen_icon_path) )
+		      "sessions.", window_fullscreen_icon_path) )
 	  .arg( i18n( "Divide et impera (lat. \"Divide and conquer\") - by splitting a window "
 		      "into two parts (e.g. Window -> <img width='16' height='16' src=\"%1\"> Split View "
 		      "Left/Right) you can make Konqueror appear the way you like. You"
 		      " can even load some example view-profiles (e.g. Midnight Commander)"
-		      ", or create your own ones." ).arg(view_left_right_icon_path))
+		      ", or create your own ones." , view_left_right_icon_path))
 	  .arg( i18n( "Use the <a href=\"%1\">user-agent</a> feature if the website you are visiting "
                       "asks you to use a different browser "
-		      "(and do not forget to send a complaint to the webmaster!)" ).arg("exec:/kcmshell useragent") )
+		      "(and do not forget to send a complaint to the webmaster!)" , QString("exec:/kcmshell useragent")) )
 	  .arg( i18n( "The <img width='16' height='16' src=\"%1\"> History in your SideBar ensures "
-		      "that you can keep track of the pages you have visited recently.").arg(history_icon_path) )
+		      "that you can keep track of the pages you have visited recently.", history_icon_path) )
 	  .arg( i18n( "Use a caching <a href=\"%1\">proxy</a> to speed up your"
-		      " Internet connection.").arg("exec:/kcmshell proxy") )
+		      " Internet connection.", QString("exec:/kcmshell proxy")) )
 	  .arg( i18n( "Advanced users will appreciate the Konsole which you can embed into "
 		      "Konqueror (Window -> <img width='16' height='16' SRC=\"%1\"> Show "
- 		      "Terminal Emulator).").arg(openterm_icon_path))
+ 		      "Terminal Emulator).", openterm_icon_path))
 	  .arg( i18n( "Thanks to <a href=\"%1\">DCOP</a> you can have full control over Konqueror using a script."
-).arg("exec:/kdcop") )
-	  .arg( i18n( "<img width='16' height='16' src=\"%1\">" ).arg( continue_icon_path ) )
+, QString("exec:/kdcop")) )
+	  .arg( i18n( "<img width='16' height='16' src=\"%1\">" ,  continue_icon_path ) )
 	  .arg( i18n( "Next: Specifications" ) )
           ;
 

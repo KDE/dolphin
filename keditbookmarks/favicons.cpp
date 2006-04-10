@@ -87,7 +87,7 @@ void FavIconsItr::doAction() {
     if (!m_updater) {
         m_updater = new FavIconUpdater(kapp);
         connect(m_updater, SIGNAL( done(bool) ),
-                this,      SLOT( slotDone(bool) ) );
+                this,     SLOT( slotDone(bool) ) );
     }
     if (curBk().url().protocol().startsWith("http")) {
         m_updater->downloadIcon(curBk());

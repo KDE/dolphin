@@ -209,7 +209,7 @@ void ActionsImpl::slotLoad()
         = KFileDialog::getOpenFileName(QString(), "*.xml", KEBApp::self());
     if (bookmarksFile.isNull())
         return;
-    KEBApp::self()->reset(QString(),  bookmarksFile);
+    KEBApp::self()->reset(QString(), bookmarksFile);
 }
 
 void ActionsImpl::slotSaveAs() {

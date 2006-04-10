@@ -426,8 +426,10 @@ bool KonqCombo::eventFilter( QObject *o, QEvent *ev )
                 return false;
             }
 
-            if ( KKey( e ) == KKey( int( KStdAccel::deleteWordBack() ) ) ||
-                 KKey( e ) == KKey( int( KStdAccel::deleteWordForward() ) ) ||
+            KShortcut key = e->key() | e->modifiers();
+
+            if ( key == KStdAccel::deleteWordBack() ||
+                 key == KStdAccel::deleteWordForward() ||
                  ((e->modifiers() & Qt::ControlModifier) &&
                    (e->key() == Qt::Key_Left || e->key() == Qt::Key_Right) ) ) {
                 selectWord(e);
@@ -449,8 +451,9 @@ void KonqCombo::keyPressEvent( QKeyEvent *e )
     KHistoryCombo::keyPressEvent( e );
     // we have to set it as temporary, otherwise we wouldn't get our nice
     // pixmap. Yes, QComboBox still sucks.
-    if ( KKey( e ) == KKey( int( KStdAccel::rotateUp() ) ) ||
-         KKey( e ) == KKey( int( KStdAccel::rotateDown() ) ) )
+    KShortcut key = e->key() | e->modifiers();
+    if ( key == KStdAccel::rotateUp() ||
+         key == KStdAccel::rotateDown() )
          setTemporary( currentText() );
 }
 

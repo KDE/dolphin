@@ -327,7 +327,7 @@ void KViewSearchLine::contextMenuEvent( QContextMenuEvent*e )
                 int logicalIndex = d->treeView->header()->logicalIndex(i);
                 QString columnText = model()->headerData(logicalIndex, Qt::Horizontal).toString();
                 if(columnText.isEmpty())
-                    columnText = i18n("Column number %1","Column No. %1").arg(i);
+                    columnText = i18nc("Column number %1","Column No. %1", i);
                 QAction * act = new QAction(columnText, 0); 
                 act->setCheckable(true);
                 if( d->searchColumns.isEmpty() || d->searchColumns.contains(logicalIndex) )

@@ -115,7 +115,7 @@ void KonqRun::foundMimeType( const QString & _type )
 
   if ( !m_bFinished && // only if we're going to open
        KonqMainWindow::isMimeTypeAssociatedWithSelf( mimeType ) ) {
-    KMessageBox::error( m_pMainWindow, i18n( "There appears to be a configuration error. You have associated Konqueror with %1, but it cannot handle this file type." ).arg( mimeType ) );
+    KMessageBox::error( m_pMainWindow, i18n( "There appears to be a configuration error. You have associated Konqueror with %1, but it cannot handle this file type." ,  mimeType ) );
     m_bFinished = true;
   }
 

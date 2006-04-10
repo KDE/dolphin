@@ -36,7 +36,9 @@
 #include <qdom.h>
 #include <qfile.h>
 
+#ifdef Q_WS_X11
 #include <X11/Xlib.h>
+#endif
 
 static const KCmdLineOptions cmdLineOptions[] =
 {
@@ -47,6 +49,7 @@ static const KCmdLineOptions cmdLineOptions[] =
 // The code for this function was taken from kdesktop/kcheckrunning.cpp
 static bool kdeIsRunning()
 {
+#ifdef Q_WS_X11
 	Display *dpy = XOpenDisplay( NULL );
 	if ( !dpy ) {
 		return false;
@@ -54,6 +57,9 @@ static bool kdeIsRunning()
 
 	Atom atom = XInternAtom( dpy, "_KDE_RUNNING", False );
 	return XGetSelectionOwner( dpy, atom ) != None;
+#else
+	return true;
+#endif
 }
 
 int main( int argc, char**argv )

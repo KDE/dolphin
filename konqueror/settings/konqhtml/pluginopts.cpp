@@ -62,7 +62,7 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, KInstance *inst,
     enablePluginsGloballyCB = new QCheckBox( i18n( "&Enable plugins globally" ), globalGB );
     enableHTTPOnly = new QCheckBox( i18n( "Only allow &HTTP and HTTPS URLs for plugins" ), globalGB );
     enableUserDemand = new QCheckBox( i18n( "&Load plugins on demand only" ), globalGB );
-    priorityLabel = new QLabel(i18n("CPU priority for plugins: %1").arg(QString()), globalGB);
+    priorityLabel = new QLabel(i18n("CPU priority for plugins: %1", QString()), globalGB);
     priority = new QSlider(5, 100, 5, 100, Qt::Horizontal, globalGB);
     connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
     connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotTogglePluginsEnabled() ) );
@@ -158,18 +158,18 @@ void KPluginOptions::updatePLabel(int p) {
     QString level;
     p = (100 - p)/5;
     if (p > 15) {
-            level = i18n("lowest priority", "lowest");
+            level = i18nc("lowest priority", "lowest");
     } else if (p > 11) {
-            level = i18n("low priority", "low");
+            level = i18nc("low priority", "low");
     } else if (p > 7) {
-            level = i18n("medium priority", "medium");
+            level = i18nc("medium priority", "medium");
     } else if (p > 3) {
-            level = i18n("high priority", "high");
+            level = i18nc("high priority", "high");
     } else {
-            level = i18n("highest priority", "highest");
+            level = i18nc("highest priority", "highest");
     }
 
-    priorityLabel->setText(i18n("CPU priority for plugins: %1").arg(level));
+    priorityLabel->setText(i18n("CPU priority for plugins: %1", level));
 }
 
 

@@ -28,10 +28,10 @@
 #include <kcmdlineargs.h>
 #include <ksycoca.h>
 #include <kstandarddirs.h>
-#include <QX11Info>
 #include <klocale.h>
 
 #ifdef Q_WS_X11
+#include <QX11Info>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #endif
@@ -106,7 +106,7 @@ void FileTypeDialog::slotDatabaseChanged()
 static KCmdLineOptions options[] =
 {
   { "parent <winid>", I18N_NOOP("Makes the dialog transient for the window specified by winid"), 0 },
-  { "+mimetype",   I18N_NOOP("File type to edit (e.g. text/html)"), 0 },
+  { "+mimetype",  I18N_NOOP("File type to edit (e.g. text/html)"), 0 },
   KCmdLineLastOption
 };
 
@@ -151,7 +151,7 @@ int main(int argc, char ** argv)
     QString comment;
     if ( arg.startsWith( "*." ) && arg.length() >= 3 ) {
 	QString type = arg.mid( 3 ).prepend( arg[2].toUpper() );
-        comment = i18n( "%1 File" ).arg( type );
+        comment = i18n( "%1 File", type );
     }
     mime = new KMimeType( loc, mimeString.arg( inc ), QString(), comment, patterns );
   }
@@ -172,9 +172,9 @@ int main(int argc, char ** argv)
 #endif
   args->clear();
   if ( !createType )
-    dlg.setCaption( i18n("Edit File Type %1").arg(mime->name()) );
+    dlg.setCaption( i18n("Edit File Type %1", mime->name()) );
   else {
-    dlg.setCaption( i18n("Create New File Type %1").arg(mime->name()) );
+    dlg.setCaption( i18n("Create New File Type %1", mime->name()) );
     dlg.enableButton( KDialogBase::Apply, true );
   }
   app.setMainWidget( &dlg );

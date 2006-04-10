@@ -204,7 +204,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     // Layout
 
-    QGridLayout *grid1 = new QGridLayout( pages[1], 5,  6,
+    QGridLayout *grid1 = new QGridLayout( pages[1], 5, 6,
 					  KDialog::marginHint(),
 					  KDialog::spacingHint() );
 
@@ -236,8 +236,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid1->setRowStretch(6,1);
 
     // Connect
-    connect( findCreated,  SIGNAL(toggled(bool)),   SLOT(fixLayout()) );
-    connect( bg,  SIGNAL(buttonClicked(QAbstractButton*)), this,   SLOT(fixLayout()) );
+    connect( findCreated, SIGNAL(toggled(bool)),  SLOT(fixLayout()) );
+    connect( bg, SIGNAL(buttonClicked(QAbstractButton*)), this,  SLOT(fixLayout()) );
     connect( sizeBox, SIGNAL(highlighted(int)), this, SLOT(slotSizeBoxChanged(int)));
 
 

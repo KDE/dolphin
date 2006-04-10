@@ -286,7 +286,7 @@ void KfindWindow::selectionHasChanged()
 
 void KfindWindow::deleteFiles()
 {
-  QString tmp = i18n("Do you really want to delete the selected file?",
+  QString tmp = i18np("Do you really want to delete the selected file?",
                      "Do you really want to delete the %n selected files?",selectedItems().count());
   if (KMessageBox::warningContinueCancel(parentWidget(), tmp, "", KGuiItem( i18n("&Delete"), "editdelete")) == KMessageBox::Cancel)
     return;
@@ -409,7 +409,7 @@ void KfindWindow::slotContextMenu(K3ListView *,Q3ListViewItem *item,const QPoint
   {
      //menu = new KMenu(item->text(0), this);
      m_menu->addTitle(item->text(0));
-     m_menu->addAction(SmallIcon("fileopen"),i18n("Menu item", "Open"), this, SLOT(openBinding()));
+     m_menu->addAction(SmallIcon("fileopen"),i18nc("Menu item", "Open"), this, SLOT(openBinding()));
      m_menu->addAction(SmallIcon("window_new"),i18n("Open Folder"), this, SLOT(openFolder()));
      m_menu->addSeparator();
      m_menu->addAction(SmallIcon("editcopy"),i18n("Copy"), this, SLOT(copySelection()));

@@ -40,7 +40,9 @@
 
 #include "desktop.h"
 #include "desktop.moc"
+#ifdef Q_WS_X11
 #include <QX11Info>
+#endif
 
 extern "C"
 {
@@ -77,7 +79,7 @@ KDesktopConfig::KDesktopConfig(KInstance *inst, QWidget *parent)
   _numInput = new KIntNumInput(4, number_group);
   _numInput->setRange(1, maxDesktops, 1, true);
   connect(_numInput, SIGNAL(valueChanged(int)), SLOT(slotValueChanged(int)));
-  connect(_numInput, SIGNAL(valueChanged(int)),  SLOT( changed() ));
+  connect(_numInput, SIGNAL(valueChanged(int)), SLOT( changed() ));
   label->setBuddy( _numInput );
   QString wtstr = i18n( "Here you can set how many virtual desktops you want on your KDE desktop. Move the slider to change the value." );
   label->setWhatsThis( wtstr );
@@ -96,14 +98,14 @@ KDesktopConfig::KDesktopConfig(KInstance *inst, QWidget *parent)
 
   for(int i = 0; i < (maxDesktops/2); i++)
     {
-      _nameLabel[i] = new QLabel(i18n("Desktop %1:").arg(i+1), name_group);
+      _nameLabel[i] = new QLabel(i18n("Desktop %1:", i+1), name_group);
       _nameInput[i] = new KLineEdit(name_group);
-      _nameLabel[i+(maxDesktops/2)] = new QLabel(i18n("Desktop %1:").arg(i+(maxDesktops/2)+1), name_group);
+      _nameLabel[i+(maxDesktops/2)] = new QLabel(i18n("Desktop %1:", i+(maxDesktops/2)+1), name_group);
       _nameInput[i+(maxDesktops/2)] = new KLineEdit(name_group);
-      _nameLabel[i]->setWhatsThis( i18n( "Here you can enter the name for desktop %1" ).arg( i+1 ) );
-      _nameInput[i]->setWhatsThis( i18n( "Here you can enter the name for desktop %1" ).arg( i+1 ) );
-      _nameLabel[i+(maxDesktops/2)]->setWhatsThis( i18n( "Here you can enter the name for desktop %1" ).arg( i+(maxDesktops/2)+1 ) );
-      _nameInput[i+(maxDesktops/2)]->setWhatsThis( i18n( "Here you can enter the name for desktop %1" ).arg( i+(maxDesktops/2)+1 ) );
+      _nameLabel[i]->setWhatsThis( i18n( "Here you can enter the name for desktop %1", i+1 ) );
+      _nameInput[i]->setWhatsThis( i18n( "Here you can enter the name for desktop %1", i+1 ) );
+      _nameLabel[i+(maxDesktops/2)]->setWhatsThis( i18n( "Here you can enter the name for desktop %1", i+(maxDesktops/2)+1 ) );
+      _nameInput[i+(maxDesktops/2)]->setWhatsThis( i18n( "Here you can enter the name for desktop %1", i+(maxDesktops/2)+1 ) );
 
       connect(_nameInput[i], SIGNAL(textChanged(const QString&)),
            SLOT( changed() ));
@@ -123,7 +125,11 @@ KDesktopConfig::KDesktopConfig(KInstance *inst, QWidget *parent)
   layout->addStretch(1);
 
   // Begin check for immutable
+#ifdef Q_WS_X11
   int kwin_screen_number = DefaultScreen(QX11Info::display());
+#else
+  int kwin_screen_number = 0;
+#endif
 
   KConfig config( "kwinrc" );
 
@@ -153,6 +159,7 @@ KDesktopConfig::KDesktopConfig(KInstance *inst, QWidget *parent)
 
 void KDesktopConfig::load()
 {
+#ifdef Q_WS_X11
   // get number of desktops
   NETRootInfo info( QX11Info::display(), NET::NumberOfDesktops | NET::DesktopNames );
   int n = info.numberOfDesktops();
@@ -179,10 +186,14 @@ void KDesktopConfig::load()
      _wheelOption->setEnabled(false);
 
   delete desktopConfig;
+#else
+  _numInput->setValue(1);
+#endif
 }
 
 void KDesktopConfig::save()
 {
+#ifdef Q_WS_X11
   NETRootInfo info( QX11Info::display(), NET::NumberOfDesktops | NET::DesktopNames );
   // set desktop names
   for(int i = 1; i <= maxDesktops; i++)
@@ -218,6 +229,7 @@ void KDesktopConfig::save()
   kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
 
   emit changed(false);
+#endif
 }
 
 void KDesktopConfig::defaults()
@@ -226,7 +238,7 @@ void KDesktopConfig::defaults()
   _numInput->setValue(n);
 
   for(int i = 0; i < maxDesktops; i++)
-    _nameInput[i]->setText(i18n("Desktop %1").arg(i+1));
+    _nameInput[i]->setText(i18n("Desktop %1", i+1));
 
   for(int i = 0; i < maxDesktops; i++)
     _nameInput[i]->setEnabled(i < n);
@@ -244,7 +256,7 @@ void KDesktopConfig::slotValueChanged(int n)
   {
     _nameInput[i]->setEnabled(i < n);
     if(i<n && _nameInput[i]->text().isEmpty())
-      _nameInput[i]->setText(i18n("Desktop %1").arg(i+1));
+      _nameInput[i]->setText(i18n("Desktop %1", i+1));
   }
   if (!_wheelOptionImmutable)
     _wheelOption->setEnabled(n>1);

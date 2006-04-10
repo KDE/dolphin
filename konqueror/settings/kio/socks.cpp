@@ -29,11 +29,24 @@
 #include <kfiledialog.h>
 #include <k3listview.h>
 #include <kmessagebox.h>
+
+#include "config.h"
+
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+
+#ifdef HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
+
+#include "socks.h"
+#include "unistd.h"
 #include <ksocks.h>
+
 #include <kapplication.h>
 #include <klocale.h>
 
-#include "socks.h"
 #include <kaboutdata.h>
 #include <kglobal.h>
 

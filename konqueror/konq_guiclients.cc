@@ -72,7 +72,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
         if ( embeddingServices.count() == 1 )
         {
             KService::Ptr service = *embeddingServices.begin();
-            addEmbeddingService( menu, 0, i18n( "Preview in %1" ).arg( service->name() ), service );
+            addEmbeddingService( menu, 0, i18n( "Preview in %1" ,  service->name() ), service );
         }
         else if ( embeddingServices.count() > 1 )
         {
@@ -186,11 +186,11 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
   KTrader::OfferList::ConstIterator cEnd = offers.end();
   for (; cIt != cEnd; ++cIt )
   {
-    QString description = i18n( "Show %1" ).arg( (*cIt)->name() );
+    QString description = i18n( "Show %1" ,  (*cIt)->name() );
     QString name = (*cIt)->desktopEntryName();
     //kDebug(1202) << "ToggleViewGUIClient: name=" << name << endl;
     KToggleAction *action = new KToggleAction( description, mainWindow->actionCollection(), name.toLatin1() );
-    action->setCheckedState( i18n( "Hide %1" ).arg( (*cIt)->name() ) );
+    action->setCheckedState( i18n( "Hide %1" ,  (*cIt)->name() ) );
 
     // HACK
     if ( (*cIt)->icon() != "unknown" )

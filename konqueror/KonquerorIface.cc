@@ -30,7 +30,10 @@
 #include <kdebug.h>
 #include <qfile.h>
 //Added by qt3to4:
+#ifdef Q_WS_X11
 #include <QX11Info>
+#include <X11/Xlib.h>
+#endif
 #include "konq_settingsxt.h"
 
 // these DCOP calls come from outside, so any windows created by these
@@ -40,7 +43,6 @@
 // happened
 // TODO a valid timestamp should be passed in the DCOP calls that
 // are not for user scripting
-#include <X11/Xlib.h>
 
 KonquerorIface::KonquerorIface()
  : DCOPObject( "KonquerorIface" )
@@ -53,7 +55,9 @@ KonquerorIface::~KonquerorIface()
 
 DCOPRef KonquerorIface::openBrowserWindow( const QString &url )
 {
+#ifdef Q_WS_X11
     QX11Info::setAppUserTime( 0 );
+#endif
     KonqMainWindow *res = KonqMisc::createSimpleWindow( KUrl(url) );
     if ( !res )
         return DCOPRef();
@@ -79,7 +83,9 @@ DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const DCOPCStrin
 
 DCOPRef KonquerorIface::createNewWindowWithSelection( const QString &url, QStringList filesToSelect )
 {
+#ifdef Q_WS_X11
     QX11Info::setAppUserTime( 0 );
+#endif
     KonqMainWindow *res = KonqMisc::createNewWindow( KUrl(url), KParts::URLArgs(), false, filesToSelect );
     if ( !res )
         return DCOPRef();
@@ -94,7 +100,9 @@ DCOPRef KonquerorIface::createNewWindowWithSelectionASN( const QString &url, QSt
 
 DCOPRef KonquerorIface::createNewWindow( const QString &url, const QString &mimetype, bool tempFile )
 {
+#ifdef Q_WS_X11
     QX11Info::setAppUserTime( 0 );
+#endif
     KParts::URLArgs args;
     args.serviceType = mimetype;
     // Filter the URL, so that "kfmclient openURL gg:foo" works also when konq is already running
@@ -114,7 +122,9 @@ DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const QString &m
 
 DCOPRef KonquerorIface::createBrowserWindowFromProfile( const QString &path )
 {
+#ifdef Q_WS_X11
     QX11Info::setAppUserTime( 0 );
+#endif
     kDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( const QString &path ) " << endl;
     kDebug(1202) << path << endl;
     KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, QString() );
@@ -131,7 +141,9 @@ DCOPRef KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, 
 
 DCOPRef KonquerorIface::createBrowserWindowFromProfile( const QString & path, const QString &filename )
 {
+#ifdef Q_WS_X11
     QX11Info::setAppUserTime( 0 );
+#endif
     kDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( path, filename ) " << endl;
     kDebug(1202) << path << "," << filename << endl;
     KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename );
@@ -149,7 +161,9 @@ DCOPRef KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, 
 
 DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURL( const QString & path, const QString &filename, const QString &url )
 {
+#ifdef Q_WS_X11
     QX11Info::setAppUserTime( 0 );
+#endif
     KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename, KUrl(url) );
     if ( !res )
         return DCOPRef();
@@ -165,7 +179,9 @@ DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURLASN( const QString &
 
 DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype )
 {
+#ifdef Q_WS_X11
     QX11Info::setAppUserTime( 0 );
+#endif
     KParts::URLArgs args;
     args.serviceType = mimetype;
     KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename, KUrl(url), args );
@@ -240,9 +256,11 @@ void KonquerorIface::comboCleared( DCOPCString objId )
 
 bool KonquerorIface::processCanBeReused( int screen )
 {
+#ifdef Q_WS_X11
 	QX11Info info;
     if( info.screen() != screen )
         return false; // this instance run on different screen, and Qt apps can't migrate
+#endif
     if( KonqMainWindow::isPreloaded())
         return false; // will be handled by preloading related code instead
     QList<KonqMainWindow*>* windows = KonqMainWindow::mainWindowList();

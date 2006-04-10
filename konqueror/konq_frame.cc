@@ -233,7 +233,7 @@ void KonqFrameStatusBar::slotSpeedProgress( int bytesPerSecond )
   QString sizeStr;
 
   if ( bytesPerSecond > 0 )
-    sizeStr = i18n( "%1/s" ).arg( KIO::convertSize( bytesPerSecond ) );
+    sizeStr = i18n( "%1/s" ,  KIO::convertSize( bytesPerSecond ) );
   else
     sizeStr = i18n( "Stalled" );
 
