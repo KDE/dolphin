@@ -457,8 +457,10 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
                 {
                     bool ro = desktopFile.readEntry( "ReadOnly", QVariant(false )).toBool();
                     QByteArray fstype = desktopFile.readEntry( "FSType" ).toLatin1();
+#ifndef Q_WS_WIN
                     KAutoMount* am = new KAutoMount( ro, fstype, dev, point, m_destURL.path(), false );
                     connect( am, SIGNAL( finished() ), this, SLOT( doFileCopy() ) );
+#endif                    
                 }
                 return;
             }
