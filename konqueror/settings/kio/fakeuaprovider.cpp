@@ -101,7 +101,7 @@ void FakeUASProvider::parseDescription()
         if( it != languageList.end() )
         {
           if( languageList.contains( QLatin1String("en") ) > 0 )
-            languageList.remove( it );
+            languageList.erase( it );
           else
             (*it) = QLatin1String("en");
         }

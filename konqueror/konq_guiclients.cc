@@ -301,7 +301,7 @@ void ToggleViewGUIClient::saveConfig( bool add, const QString &serviceName )
           toggableViewsShown.append(serviceName);
   }
   else
-      toggableViewsShown.remove(serviceName);
+      toggableViewsShown.removeAll(serviceName);
   KonqSettings::setToggableViewsShown( toggableViewsShown );
 }
 

@@ -207,7 +207,7 @@ void KonqInfoListViewWidget::slotNewItems( const KFileItemList& entries )
         if ( !m_itemsToSelect.isEmpty() ) {
            QStringList::Iterator tsit = m_itemsToSelect.find( (*kit)->name() );
            if ( tsit != m_itemsToSelect.end() ) {
-              m_itemsToSelect.remove( tsit );
+              m_itemsToSelect.erase( tsit );
               setSelected( tmp, true );
            }
         }

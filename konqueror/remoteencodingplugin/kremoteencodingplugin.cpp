@@ -194,7 +194,7 @@ KRemoteEncodingPlugin::slotDefault()
   QStringList partList = QStringList::split('.', m_currentURL.host(), false);
   if (!partList.isEmpty())
     {
-      partList.remove(partList.begin());
+      partList.erase(partList.begin());
 
       QStringList domains;
       // Remove the exact name match...
@@ -210,7 +210,7 @@ KRemoteEncodingPlugin::slotDefault()
 	    break;
 
 	  domains << partList.join(".");
-	  partList.remove(partList.begin());
+	  partList.erase(partList.begin());
 	}
 
       for (QStringList::Iterator it = domains.begin(); it != domains.end();

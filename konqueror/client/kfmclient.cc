@@ -226,7 +226,7 @@ static bool startNewKonqueror( QString url, QString mimetype, const QString& pro
 	{
             // don't read value from map, dollar expansion is needed
             QString value = cfg.readEntry( it.key(), QString());
-	    if( urlregexp.search( it.key()) >= 0 && !value.isEmpty())
+	    if( urlregexp.indexIn( it.key()) >= 0 && !value.isEmpty())
 		urls << value;
 	}
 	if( urls.count() != 1 )

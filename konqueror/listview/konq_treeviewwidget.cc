@@ -154,8 +154,8 @@ void KonqTreeViewWidget::slotClear( const KUrl & _url )
          if ( !_url.equals( it.currentKey(), true )
               && _url.isParentOf( it.currentKey() ) )
          {
-            m_urlsToOpen.remove( it.currentKey() );
-            m_urlsToReload.remove( it.currentKey() );
+            m_urlsToOpen.removeAll( it.currentKey() );
+            m_urlsToReload.removeAll( it.currentKey() );
             m_dictSubDirs.remove( it.currentKey() );  // do last, it changes it.currentKey()!!
          }
          else
@@ -247,7 +247,7 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
         if ( !m_itemsToSelect.isEmpty() ) {
            QStringList::Iterator tsit = m_itemsToSelect.find( (*kit)->name() );
            if ( tsit != m_itemsToSelect.end() ) {
-              m_itemsToSelect.remove( tsit );
+              m_itemsToSelect.erase( tsit );
               setSelected( fileItem ? fileItem : dirItem, true );
            }
         }
@@ -258,9 +258,9 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
         if ( dirItem )
         {
             QString u = (*kit)->url().url( 0 );
-            if ( m_urlsToOpen.remove( u ) )
+            if ( m_urlsToOpen.removeAll( u ) )
                 dirItem->open( true, false );
-            else if ( m_urlsToReload.remove( u ) )
+            else if ( m_urlsToReload.removeAll( u ) )
                 dirItem->open( true, true );
         }
     }
@@ -285,8 +285,8 @@ void KonqTreeViewWidget::slotDeleteItem( KFileItem *_fileItem )
     slotClear( _fileItem->url() );
 
     m_dictSubDirs.remove( url );
-    m_urlsToOpen.remove( url );
-    m_urlsToReload.remove( url );
+    m_urlsToOpen.removeAll( url );
+    m_urlsToReload.removeAll( url );
 
     KonqBaseListViewWidget::slotDeleteItem( _fileItem );
 }

@@ -177,7 +177,7 @@ void KCookiesManagement::save()
       return;
     }
     
-    dIt = deletedDomains.remove(dIt);
+    dIt = deletedDomains.erase(dIt);
   }
 
   // Individual cookies were deleted...

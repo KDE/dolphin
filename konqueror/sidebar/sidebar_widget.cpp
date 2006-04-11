@@ -111,8 +111,8 @@ void addBackEnd::doRollBack()
 		QString loc=dirs->saveLocation("data","konqsidebartng/" + m_currentProfile + "/",true);
 		QDir dir(loc);
 		QStringList dirEntries = dir.entryList( QDir::Dirs | QDir::NoSymLinks );
-		dirEntries.remove(".");
-		dirEntries.remove("..");
+		dirEntries.removeAll(".");
+		dirEntries.removeAll("..");
 		for ( QStringList::Iterator it = dirEntries.begin(); it != dirEntries.end(); ++it ) {
 			if ((*it)!="add")
 				 KIO::NetAccess::del(KUrl( loc+(*it) ), m_parent);
@@ -298,6 +298,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 		m_config = new KConfig("konqsidebartng.rc");
 		m_config->setGroup(currentProfile);
 	}
+	m_configTimer.setSingleShot(true);
 	connect(&m_configTimer, SIGNAL(timeout()),
 		this, SLOT(saveConfig()));
         readConfig();
@@ -434,8 +435,8 @@ void Sidebar_Widget::initialCopy()
 	 	        QDir dir(m_path);
     		        QStringList entries = dir.entryList( QDir::Files );
                 	QStringList dirEntries = dir.entryList( QDir::Dirs | QDir::NoSymLinks );
-	                dirEntries.remove( "." );
-        	        dirEntries.remove( ".." );
+	                dirEntries.removeAll( "." );
+        	        dirEntries.removeAll( ".." );
 
 	                QDir globalDir( dirtree_dir );
         	        Q_ASSERT( globalDir.isReadable() );
@@ -585,14 +586,14 @@ void Sidebar_Widget::slotMultipleViews( )
 			}
 		}
 	}
-	m_configTimer.start(400, true);
+	m_configTimer.start(400);
 }
 
 void Sidebar_Widget::slotShowTabsLeft( )
 {
 	m_showTabsLeft = ! m_showTabsLeft;
 	doLayout();
-	m_configTimer.start(400, true);
+	m_configTimer.start(400);
 }
 
 void Sidebar_Widget::slotShowConfigurationButton( )
@@ -610,7 +611,7 @@ void Sidebar_Widget::slotShowConfigurationButton( )
 		i18n("You have hidden the navigation panel configuration button. To make it visible again, click the right mouse button on any of the navigation panel buttons and select \"Show Configuration Button\"."));
 
 	}
-	m_configTimer.start(400, true);
+	m_configTimer.start(400);
 }
 void Sidebar_Widget::readConfig()
 {
@@ -987,7 +988,7 @@ void Sidebar_Widget::showHidePage(int page)
 			}
 			info->dock->undock();
 			m_latestViewed = -1;
-			m_visibleViews.remove(info->file);
+			m_visibleViews.removeAll(info->file);
 		}
 	}
 
@@ -1247,7 +1248,7 @@ void Sidebar_Widget::resizeEvent(QResizeEvent* ev)
 			{
 				m_savedWidth = newWidth;
 				updateGeometry();
-				m_configTimer.start(400, true);
+				m_configTimer.start(400);
 			}
 		}
 	}

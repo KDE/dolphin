@@ -385,7 +385,7 @@ void FilterOptions::deleteSearchProvider()
   int current = m_dlg->cmbDefaultEngine->currentItem();
   for (int i = 1, count = m_dlg->cmbDefaultEngine->count(); i < count; ++i)
   {
-    if (m_dlg->cmbDefaultEngine->text(i) == item->provider()->name())
+    if (m_dlg->cmbDefaultEngine->itemText(i) == item->provider()->name())
     {
       m_dlg->cmbDefaultEngine->removeItem(i);
       if (i == current)
@@ -448,7 +448,7 @@ SearchProviderItem *FilterOptions::displaySearchProvider(SearchProvider *p, bool
 
     for (itemCount = 1; itemCount < totalCount; itemCount++)
     {
-      if (m_dlg->cmbDefaultEngine->text(itemCount) > p->name())
+      if (m_dlg->cmbDefaultEngine->itemText(itemCount) > p->name())
       {
         int currentItem = m_dlg->cmbDefaultEngine->currentItem();
         m_dlg->cmbDefaultEngine->insertItem(p->name(), itemCount);

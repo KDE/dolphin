@@ -606,8 +606,8 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
 
     QStringList entries = dir.entryList( QDir::Files );
     QStringList dirEntries = dir.entryList( QDir::Dirs | QDir::NoSymLinks );
-    dirEntries.remove( "." );
-    dirEntries.remove( ".." );
+    dirEntries.removeAll( "." );
+    dirEntries.removeAll( ".." );
 
     if ( isRoot )
     {
@@ -684,8 +684,8 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
 	                dir.setPath(path);
         	        entries = dir.entryList( QDir::Files );
 	                dirEntries = dir.entryList( QDir::Dirs );
-        	        dirEntries.remove( "." );
-	                dirEntries.remove( ".." );
+        	        dirEntries.removeAll( "." );
+	                dirEntries.removeAll( ".." );
              }
 	}
     QStringList::ConstIterator eIt = entries.begin();

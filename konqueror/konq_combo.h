@@ -100,7 +100,7 @@ private:
     void saveState();
     void restoreState();
     void applyPermanent();
-    QString temporaryItem() const { return text( temporary ); }
+    QString temporaryItem() const { return itemText( temporary ); }
     void removeDuplicates( int index );
     bool hasSufficientContrast(const QColor &c1, const QColor &c2);
 

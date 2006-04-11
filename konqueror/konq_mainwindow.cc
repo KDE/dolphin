@@ -5293,7 +5293,7 @@ static void hp_removeDupe( KCompletionMatches& l, const QString& dupe,
         }
         if( (*it).value() == dupe ) {
             (*it_orig).first = qMax( (*it_orig).first, (*it).index());
-            it = l.remove( it );
+            it = l.erase( it );
             continue;
         }
         ++it;
@@ -5339,7 +5339,7 @@ static void hp_removeCommonPrefix( KCompletionMatches& l, const QString& prefix 
          it != l.end();
          ) {
         if( (*it).value().startsWith( prefix )) {
-            it = l.remove( it );
+            it = l.erase( it );
             continue;
         }
         ++it;

@@ -207,7 +207,7 @@ void KonqCombo::removeDuplicates( int index )
     // Remove all dupes, if available...
     for ( int i = index; i < count(); i++ )
     {
-        QString item (text(i));
+        QString item (itemText(i));
         if (item.endsWith("/"))
           item.truncate(item.length()-1);
 
@@ -263,7 +263,7 @@ void KonqCombo::insertItem( const QPixmap &pixmap, const QString& text, int inde
 void KonqCombo::updateItem( const QPixmap& pix, const QString& t, int index, const QString& title )
 {
     // No need to flicker
-    if (text( index ) == t &&
+    if (itemText( index ) == t &&
         (!pixmap(index).isNull() && pixmap(index).serialNumber() == pix.serialNumber()))
         return;
 
@@ -312,7 +312,7 @@ void KonqCombo::updatePixmaps()
     setUpdatesEnabled( false );
     KonqPixmapProvider *prov = KonqPixmapProvider::self();
     for ( int i = 1; i < count(); i++ ) {
-        updateItem( prov->pixmapFor( text( i ) ), text( i ), i, titleOfURL( text( i ) ) );
+        updateItem( prov->pixmapFor( itemText( i ) ), itemText( i ), i, titleOfURL( itemText( i ) ) );
     }
     setUpdatesEnabled( true );
     repaint();
@@ -357,9 +357,9 @@ void KonqCombo::slotSetIcon( int index )
 {
     if( pixmap( index ).isNull())
         // on-demand icon loading
-        updateItem( KonqPixmapProvider::self()->pixmapFor( text( index ),
-                    K3Icon::SizeSmall ), text( index ), index,
-                    titleOfURL( text( index ) ) );
+        updateItem( KonqPixmapProvider::self()->pixmapFor( itemText( index ),
+                    K3Icon::SizeSmall ), itemText( index ), index,
+                    titleOfURL( itemText( index ) ) );
     update();
 }
 
@@ -381,8 +381,8 @@ void KonqCombo::popup()
         if( pixmap( i ).isNull() )
         {
             // on-demand icon loading
-            updateItem( KonqPixmapProvider::self()->pixmapFor( text( i ),
-                        K3Icon::SizeSmall), text( i ), i, titleOfURL( text( i ) ) );
+            updateItem( KonqPixmapProvider::self()->pixmapFor( itemText( i ),
+                        K3Icon::SizeSmall), itemText( i ), i, titleOfURL( itemText( i ) ) );
         }
     }
     KHistoryCombo::popup();
@@ -394,7 +394,7 @@ void KonqCombo::saveItems()
     int i = m_permanent ? 0 : 1;
 
     for ( ; i < count(); i++ )
-        items.append( text( i ) );
+        items.append( itemText( i ) );
 
     KConfigGroup locationBarGroup( s_config, "Location Bar" );
     locationBarGroup.writePathEntry( "ComboContents", items );

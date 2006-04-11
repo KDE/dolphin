@@ -650,10 +650,11 @@ void KonqBaseListViewWidget::slotAutoScroll()
       if ( !m_scrollTimer )
       {
          m_scrollTimer = new QTimer( this );
+         m_scrollTimer->setSingleShot( false );
 
          connect( m_scrollTimer, SIGNAL( timeout() ),
                   this, SLOT( slotAutoScroll() ) );
-         m_scrollTimer->start( 100, false );
+         m_scrollTimer->start( 100 );
       }
    }
    else if ( m_scrollTimer )
@@ -1150,7 +1151,7 @@ void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
       if ( !m_itemsToSelect.isEmpty() ) {
          QStringList::Iterator tsit = m_itemsToSelect.find( (*kit)->name() );
          if ( tsit != m_itemsToSelect.end() ) {
-            m_itemsToSelect.remove( tsit );
+            m_itemsToSelect.erase( tsit );
             setSelected( tmp, true );
          }
       }
@@ -1177,7 +1178,7 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
       kDebug(1202) << k_funcinfo << "removing " << _fileitem->url().url() << " from tree!" << endl;
 
       m_pBrowserView->deleteItem( _fileitem );
-      m_pBrowserView->lstPendingMimeIconItems().remove( &(*it) );
+      m_pBrowserView->lstPendingMimeIconItems().removeAll( &(*it) );
 
       if ( m_activeItem == &(*it) ) {
           m_fileTip->setItem( 0 );
@@ -1376,12 +1377,13 @@ void KonqBaseListViewWidget::slotUpdateBackground()
       if ( !m_backgroundTimer )
       {
          m_backgroundTimer = new QTimer( this );
+         m_backgroundTimer->setSingleShot( true );
          connect( m_backgroundTimer, SIGNAL( timeout() ), viewport(), SLOT( update() ) );
       }
       else
          m_backgroundTimer->stop();
 
-      m_backgroundTimer->start( 50, true );
+      m_backgroundTimer->start( 50 );
    }
 }
 

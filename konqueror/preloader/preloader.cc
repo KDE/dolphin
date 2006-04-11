@@ -33,6 +33,7 @@ KonqyPreloader::KonqyPreloader( const DCOPCString& obj )
     reconfigure();
     connect( kapp->dcopClient(), SIGNAL( applicationRemoved( const QByteArray& )),
         SLOT( appRemoved( const QByteArray& )));
+    check_always_preloaded_timer.setSingleShot( true );
     connect( &check_always_preloaded_timer, SIGNAL( timeout()),
 	SLOT( checkAlwaysPreloaded()));
     }
@@ -61,8 +62,8 @@ DCOPCString KonqyPreloader::getPreloadedKonqy( int screen )
         if( (*it).screen == screen )
             {
            DCOPCString ret = (*it).id;
-            instances.remove( it );
-            check_always_preloaded_timer.start( 5000, true );
+            instances.erase( it );
+            check_always_preloaded_timer.start( 5000 );
             return ret;
             }
         }
@@ -76,7 +77,7 @@ void KonqyPreloader::unregisterPreloadedKonqy( DCOPCString id_P )
          ++it )
         if( (*it).id == id_P )
             {
-            instances.remove( it );
+            instances.erase( it );
             return;
             }
     }
@@ -114,7 +115,7 @@ void KonqyPreloader::updateCount()
 		QStringList() << QLatin1String( "--preload" ), NULL, NULL, "0" ) == 0 )
 		{
 		kDebug( 1202 ) << "Preloading Konqueror instance" << endl;
-	        check_always_preloaded_timer.start( 5000, true );
+	        check_always_preloaded_timer.start( 5000 );
 		}
 	    // else do nothing, the launching failed
 	    }

@@ -1235,7 +1235,7 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
             QObjectList children = m_pPart->widget()->queryList( "QWidget" );
 
             if ( !lstDragURLs.isEmpty()
-                 && !lstDragURLs.first().url().contains( "javascript:", false ) && // ### this looks like a hack to me
+                 && !lstDragURLs.first().url().contains( "javascript:", Qt::CaseInsensitive ) && // ### this looks like a hack to me
                  ev->source() != m_pPart->widget() &&
                  children.indexOf( ev->source() ) == -1 )
                 ev->acceptAction();

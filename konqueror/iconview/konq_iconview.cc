@@ -967,7 +967,7 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
         if ( !m_itemsToSelect.isEmpty() ) {
            QStringList::Iterator tsit = m_itemsToSelect.find( fileItem->name() );
            if ( tsit != m_itemsToSelect.end() ) {
-              m_itemsToSelect.remove( tsit );
+              m_itemsToSelect.erase( tsit );
               m_pIconView->setSelected( item, true, true );
               if ( m_bNeedSetCurrentItem ){
                  m_pIconView->setCurrentItem( item );
@@ -1039,10 +1039,10 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
         KonqDirPart::deleteItem( _fileitem );
 
         m_pIconView->takeItem( ivi );
-        m_mimeTypeResolver->m_lstPendingMimeIconItems.remove( ivi );
+        m_mimeTypeResolver->m_lstPendingMimeIconItems.removeAll( ivi );
         m_itemDict.remove( _fileitem );
         if (m_paOutstandingOverlays.first() == ivi) // Being processed?
-           m_paOutstandingOverlaysTimer->start(20, true); // Restart processing...
+           m_paOutstandingOverlaysTimer->start(20); // Restart processing...
 
         m_paOutstandingOverlays.remove(ivi);
         delete ivi;
@@ -1060,10 +1060,11 @@ void KonqKfmIconView::showDirectoryOverlay(KFileIVI* item)
            if (!m_paOutstandingOverlaysTimer)
            {
               m_paOutstandingOverlaysTimer = new QTimer(this);
+              m_paOutstandingOverlaysTimer->setSingleShot(true);
               connect(m_paOutstandingOverlaysTimer, SIGNAL(timeout()),
                       SLOT(slotDirectoryOverlayStart()));
            }
-           m_paOutstandingOverlaysTimer->start(20, true);
+           m_paOutstandingOverlaysTimer->start(20);
         }
     }
 }
@@ -1093,7 +1094,7 @@ void KonqKfmIconView::slotDirectoryOverlayFinished()
     m_paOutstandingOverlays.removeFirst();
 
     if (m_paOutstandingOverlays.count() > 0)
-        m_paOutstandingOverlaysTimer->start(0, true); // Don't call directly to prevent deep recursion.
+        m_paOutstandingOverlaysTimer->start(0); // Don't call directly to prevent deep recursion.
 }
 
 // see also KDesktop::slotRefreshItems
@@ -1149,10 +1150,11 @@ void KonqKfmIconView::slotClear()
     if ( !m_pTimeoutRefreshTimer )
     {
         m_pTimeoutRefreshTimer = new QTimer( this );
+        m_pTimeoutRefreshTimer->setSingleShot( true );
         connect( m_pTimeoutRefreshTimer, SIGNAL( timeout() ),
                  this, SLOT( slotRefreshViewport() ) );
     }
-    m_pTimeoutRefreshTimer->start( 700, true );
+    m_pTimeoutRefreshTimer->start( 700 );
 
     // Clear contents but don't clear graphics as updates are disabled.
     m_pIconView->clear();
@@ -1489,7 +1491,8 @@ void SpringLoadingManager::dragLeft(KonqKfmIconView */*view*/)
     // We leave a view maybe the user tries to cancel the current spring loading
     if ( !m_startURL.isEmpty() )
     {
-        m_endTimer.start(1000, true);
+        m_endTimer.setSingleShot(true);
+        m_endTimer.start(1000);
     }
 }
 
