@@ -665,145 +665,138 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
             }
         }
 
-        QStringList dirs = KGlobal::dirs()->findDirs( "data", "konqueror/servicemenus/" );
-        QStringList::ConstIterator dIt = dirs.begin();
-        QStringList::ConstIterator dEnd = dirs.end();
-
-        for (; dIt != dEnd; ++dIt )
+        // findAllResources() also removes duplicates
+        const QStringList entries = KGlobal::dirs()->findAllResources( "data",
+                                                                       "konqueror/servicemenus/*.desktop",
+                                                                       false /* recursive */,
+                                                                       true /* unique */ );
+        QStringList::ConstIterator eIt = entries.begin();
+        const QStringList::ConstIterator eEnd = entries.end();
+        for (; eIt != eEnd; ++eIt )
         {
-            QDir dir( *dIt );
+            KSimpleConfig cfg( *eIt, true );
+            cfg.setDesktopGroup();
 
-            QStringList entries = dir.entryList( QStringList("*.desktop"), QDir::Files );
-            QStringList::ConstIterator eIt = entries.begin();
-            QStringList::ConstIterator eEnd = entries.end();
-
-            for (; eIt != eEnd; ++eIt )
+            if (!KIOSKAuthorizedAction(cfg))
             {
-                KSimpleConfig cfg( *dIt + *eIt, true );
-                cfg.setDesktopGroup();
+                continue;
+            }
 
-                if (!KIOSKAuthorizedAction(cfg))
-                {
+            if ( cfg.hasKey( "X-KDE-ShowIfRunning" ) )
+            {
+                const QString app = cfg.readEntry( "X-KDE-ShowIfRunning" );
+                if ( !kapp->dcopClient()->isApplicationRegistered( app.toUtf8() ) )
                     continue;
+            }
+            if ( cfg.hasKey( "X-KDE-ShowIfDcopCall" ) )
+            {
+                QString dcopcall = cfg.readEntry( "X-KDE-ShowIfDcopCall" );
+                const QByteArray app = dcopcall.section(' ', 0,0).toUtf8();
+
+                //if( !kapp->dcopClient()->isApplicationRegistered( app ))
+                //	continue; //app does not exist so cannot send call
+
+                QByteArray dataToSend;
+                QDataStream dataStream(&dataToSend, QIODevice::WriteOnly);
+                dataStream << m_lstPopupURLs;
+
+                DCOPCString replyType;
+                QByteArray replyData;
+                DCOPCString object =    dcopcall.section(' ', 1,-2).toUtf8();
+                QString function =  dcopcall.section(' ', -1);
+                if(!function.endsWith("(KUrl::List)")) {
+                    kWarning() << "Desktop file " << *eIt << " contains an invalid X-KDE-ShowIfDcopCall - the function must take the exact parameter (KUrl::List) and must be specified." << endl;
+                    continue; //Be safe.
                 }
 
-                if ( cfg.hasKey( "X-KDE-ShowIfRunning" ) )
-                {
-                    const QString app = cfg.readEntry( "X-KDE-ShowIfRunning" );
-                    if ( !kapp->dcopClient()->isApplicationRegistered( app.toUtf8() ) )
-                        continue;
-                }
-		if ( cfg.hasKey( "X-KDE-ShowIfDcopCall" ) )
-		{
-		    QString dcopcall = cfg.readEntry( "X-KDE-ShowIfDcopCall" );
-		    const QByteArray app = dcopcall.section(' ', 0,0).toUtf8();
-
-		    //if( !kapp->dcopClient()->isApplicationRegistered( app ))
-		    //	continue; //app does not exist so cannot send call
-
-		    QByteArray dataToSend;
-		    QDataStream dataStream(&dataToSend, QIODevice::WriteOnly);
-		    dataStream << m_lstPopupURLs;
-
-		    DCOPCString replyType;
-		    QByteArray replyData;
-		    DCOPCString object =    dcopcall.section(' ', 1,-2).toUtf8();
-		    QString function =  dcopcall.section(' ', -1);
-		    if(!function.endsWith("(KUrl::List)")) {
-			kWarning() << "Desktop file " << *eIt << " contains an invalid X-KDE-ShowIfDcopCall - the function must take the exact parameter (KUrl::List) and must be specified." << endl;
-			continue; //Be safe.
-		    }
-
-		    if(!kapp->dcopClient()->call( app, object,
-				    function.toUtf8(),
-				    dataToSend, replyType, replyData, true, 1000))
-			continue;
-		    if(replyType != "bool" || !replyData[0])
-			continue;
-
-		}
-                if ( cfg.hasKey( "X-KDE-Protocol" ) )
-                {
-                    const QString protocol = cfg.readEntry( "X-KDE-Protocol" );
-                    if ( protocol != urlForServiceMenu.protocol() )
-                        continue;
-                }
-                else if ( urlForServiceMenu.protocol() == "trash" || urlForServiceMenu.url().startsWith( "system:/trash" ) )
-                {
-                    // Require servicemenus for the trash to ask for protocol=trash explicitely.
-                    // Trashed files aren't supposed to be available for actions.
-                    // One might want a servicemenu for trash.desktop itself though.
+                if(!kapp->dcopClient()->call( app, object,
+                                              function.toUtf8(),
+                                              dataToSend, replyType, replyData, true, 1000))
                     continue;
-                }
+                if(replyType != "bool" || !replyData[0])
+                    continue;
 
-                if ( cfg.hasKey( "X-KDE-Require" ) )
-                {
-                    const QStringList capabilities = cfg.readEntry( "X-KDE-Require" , QStringList() );
-                    if ( capabilities.contains( "Write" ) && !sWriting )
-                        continue;
-                }
-                if ( (cfg.hasKey( "Actions" ) || cfg.hasKey( "X-KDE-GetActionMenu") ) && cfg.hasKey( "ServiceTypes" ) )
-                {
-                    const QStringList types = cfg.readEntry( "ServiceTypes" , QStringList() );
-                    const QStringList excludeTypes = cfg.readEntry( "ExcludeServiceTypes" , QStringList() );
-                    bool ok = false;
+            }
+            if ( cfg.hasKey( "X-KDE-Protocol" ) )
+            {
+                const QString protocol = cfg.readEntry( "X-KDE-Protocol" );
+                if ( protocol != urlForServiceMenu.protocol() )
+                    continue;
+            }
+            else if ( urlForServiceMenu.protocol() == "trash" || urlForServiceMenu.url().startsWith( "system:/trash" ) )
+            {
+                // Require servicemenus for the trash to ask for protocol=trash explicitely.
+                // Trashed files aren't supposed to be available for actions.
+                // One might want a servicemenu for trash.desktop itself though.
+                continue;
+            }
 
-                    // check for exact matches or a typeglob'd mimetype if we have a mimetype
-                    for (QStringList::ConstIterator it = types.begin();
-                         it != types.end() && !ok;
-                         ++it)
+            if ( cfg.hasKey( "X-KDE-Require" ) )
+            {
+                const QStringList capabilities = cfg.readEntry( "X-KDE-Require" , QStringList() );
+                if ( capabilities.contains( "Write" ) && !sWriting )
+                    continue;
+            }
+            if ( (cfg.hasKey( "Actions" ) || cfg.hasKey( "X-KDE-GetActionMenu") ) && cfg.hasKey( "ServiceTypes" ) )
+            {
+                const QStringList types = cfg.readEntry( "ServiceTypes" , QStringList() );
+                const QStringList excludeTypes = cfg.readEntry( "ExcludeServiceTypes" , QStringList() );
+                bool ok = false;
+
+                // check for exact matches or a typeglob'd mimetype if we have a mimetype
+                for (QStringList::ConstIterator it = types.begin();
+                     it != types.end() && !ok;
+                     ++it)
+                {
+                    // first check if we have an all mimetype
+                    bool checkTheMimetypes = false;
+                    if (*it == "all/all" ||
+                        *it == "allfiles" /*compat with KDE up to 3.0.3*/)
                     {
-                        // first check if we have an all mimetype
-                        bool checkTheMimetypes = false;
-                        if (*it == "all/all" ||
-                            *it == "allfiles" /*compat with KDE up to 3.0.3*/)
-                        {
-                            checkTheMimetypes = true;
-                        }
+                        checkTheMimetypes = true;
+                    }
 
-                        // next, do we match all files?
-                        if (!ok &&
-                            !isDirectory &&
-                            *it == "all/allfiles")
-                        {
-                            checkTheMimetypes = true;
-                        }
+                    // next, do we match all files?
+                    if (!ok &&
+                        !isDirectory &&
+                        *it == "all/allfiles")
+                    {
+                        checkTheMimetypes = true;
+                    }
 
-                        // if we have a mimetype, see if we have an exact or a type globbed match
-                        if (!ok &&
-                            (!m_sMimeType.isEmpty() &&
-                              *it == m_sMimeType) ||
-                            (!mimeGroup.isEmpty() &&
-                             ((*it).right(1) == "*" &&
-                              (*it).left((*it).indexOf('/')) == mimeGroup)))
-                        {
-                            checkTheMimetypes = true;
-                        }
+                    // if we have a mimetype, see if we have an exact or a type globbed match
+                    if (!ok &&
+                        (!m_sMimeType.isEmpty() &&
+                         *it == m_sMimeType) ||
+                        (!mimeGroup.isEmpty() &&
+                         ((*it).right(1) == "*" &&
+                          (*it).left((*it).indexOf('/')) == mimeGroup)))
+                    {
+                        checkTheMimetypes = true;
+                    }
 
-                        if (checkTheMimetypes)
+                    if (checkTheMimetypes)
+                    {
+                        ok = true;
+                        for (QStringList::ConstIterator itex = excludeTypes.begin(); itex != excludeTypes.end(); ++itex)
                         {
-                            ok = true;
-                            for (QStringList::ConstIterator itex = excludeTypes.begin(); itex != excludeTypes.end(); ++itex)
+                            if( ((*itex).right(1) == "*" && (*itex).left((*itex).indexOf('/')) == mimeGroup) ||
+                                ((*itex) == m_sMimeType) )
                             {
-                                if( ((*itex).right(1) == "*" && (*itex).left((*itex).indexOf('/')) == mimeGroup) ||
-                                    ((*itex) == m_sMimeType) )
-                                {
-                                    ok = false;
-                                    break;
-                                }
+                                ok = false;
+                                break;
                             }
                         }
                     }
+                }
 
-                    if ( ok )
-                    {
-                        const QString priority = cfg.readEntry("X-KDE-Priority");
-                        const QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
+                if ( ok )
+                {
+                    const QString priority = cfg.readEntry("X-KDE-Priority");
+                    const QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
 
-                        ServiceList* list = s.selectList( priority, submenuName );
-                        (*list) += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, cfg, url.isLocalFile(), m_lstPopupURLs );
-		    }
-
+                    ServiceList* list = s.selectList( priority, submenuName );
+                    (*list) += KDEDesktopMimeType::userDefinedServices( *eIt, cfg, url.isLocalFile(), m_lstPopupURLs );
                 }
             }
         }
