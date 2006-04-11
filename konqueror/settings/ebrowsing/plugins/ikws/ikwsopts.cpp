@@ -163,7 +163,7 @@ void FilterOptions::load()
 
 char FilterOptions::delimiter ()
 {
-  switch (m_dlg->cmbDelimiter->currentItem())
+  switch (m_dlg->cmbDelimiter->currentIndex())
   {
     case 1:
       return ' ';
@@ -196,7 +196,7 @@ void FilterOptions::save()
 
   QString engine;
 
-  if (m_dlg->cmbDefaultEngine->currentItem() != 0)
+  if (m_dlg->cmbDefaultEngine->currentIndex() != 0)
     engine = m_dlg->cmbDefaultEngine->currentText();
 
   config.writeEntry("DefaultSearchEngine", m_defaultEngineMap[engine]);
@@ -382,7 +382,7 @@ void FilterOptions::deleteSearchProvider()
   Q_ASSERT(item);
 
   // Update the combo box to go to None if the fallback was deleted.
-  int current = m_dlg->cmbDefaultEngine->currentItem();
+  int current = m_dlg->cmbDefaultEngine->currentIndex();
   for (int i = 1, count = m_dlg->cmbDefaultEngine->count(); i < count; ++i)
   {
     if (m_dlg->cmbDefaultEngine->itemText(i) == item->provider()->name())
@@ -450,7 +450,7 @@ SearchProviderItem *FilterOptions::displaySearchProvider(SearchProvider *p, bool
     {
       if (m_dlg->cmbDefaultEngine->itemText(itemCount) > p->name())
       {
-        int currentItem = m_dlg->cmbDefaultEngine->currentItem();
+        int currentItem = m_dlg->cmbDefaultEngine->currentIndex();
         m_dlg->cmbDefaultEngine->insertItem(p->name(), itemCount);
         m_defaultEngineMap[p->name ()] = p->desktopEntryName ();
         if (currentItem >= itemCount)

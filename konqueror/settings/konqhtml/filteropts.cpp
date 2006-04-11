@@ -182,7 +182,7 @@ void KCMFilter::importFilters()
                     else
                     {
                         QRegExp rx(line);
-                        rx.setWildcard(true);
+                        rx.setPatternSyntax(QRegExp::Wildcard);
                         if (!rx.isValid())
                             continue;
                     }

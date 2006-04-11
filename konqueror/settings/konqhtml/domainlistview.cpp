@@ -168,7 +168,7 @@ void DomainListView::deletePressed()
     DomainPolicyMap::Iterator it = domainPolicies.find(index);
     if (it != domainPolicies.end()) {
       delete it.value();
-      domainPolicies.remove(it);
+      domainPolicies.erase(it);
       delete index;
       emit changed(true);
     }

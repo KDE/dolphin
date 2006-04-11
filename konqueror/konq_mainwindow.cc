@@ -2279,7 +2279,7 @@ void KonqMainWindow::removeChildView( KonqView *childView )
 
   kDebug(1202) << "Removing view " << childView << endl;
 
-  m_mapViews.remove( it );
+  m_mapViews.erase( it );
 
   kDebug(1202) << "View " << childView << " removed from map" << endl;
 
