@@ -15,11 +15,13 @@
 #include "kquery.h"
 
 KQuery::KQuery(QObject *parent, const char * name)
-  : QObject(parent, name),
+  : QObject(parent),
     m_minsize(-1), m_maxsize(-1),
     m_timeFrom(0), m_timeTo(0),
     job(0), m_insideCheckEntries(false), m_result(0)
 {
+  setObjectName( name );
+
   processLocate = new KProcess(this);
   connect(processLocate,SIGNAL(receivedStdout(KProcess*, char*, int)),this,SLOT(slotreceivedSdtout(KProcess*,char*,int)));
   connect(processLocate,SIGNAL(receivedStderr(KProcess*, char*, int)),this,SLOT(slotreceivedSdterr(KProcess*,char*,int)));
@@ -80,7 +82,7 @@ void KQuery::start()
   {
     processLocate->clearArguments();
     *processLocate << "locate";
-    *processLocate << m_url.path().latin1();
+    *processLocate << m_url.path().toLatin1();
     bufferLocate=NULL;
     bufferLocateLength=0;
     processLocate->start(KProcess::NotifyOnExit,KProcess::AllOutput);
@@ -136,7 +138,8 @@ void KQuery::checkEntries()
   if (m_insideCheckEntries)
      return;
   m_insideCheckEntries=true;
-  metaKeyRx=new QRegExp(m_metainfokey,true,true);
+  metaKeyRx=new QRegExp(m_metainfokey);
+  metaKeyRx->setPatternSyntax( QRegExp::Wildcard );
   KFileItem * file = 0;
   while ( !m_fileItems.isEmpty() )
   {
@@ -155,7 +158,8 @@ void KQuery::checkEntries()
 void KQuery::slotListEntries( QStringList  list )
 {
   KFileItem * file = 0;
-  metaKeyRx=new QRegExp(m_metainfokey,true,true);
+  metaKeyRx=new QRegExp(m_metainfokey);
+  metaKeyRx->setPatternSyntax( QRegExp::Wildcard );
 
   QStringList::Iterator it = list.begin();
   QStringList::Iterator end = list.end();
@@ -323,7 +327,7 @@ void KQuery::processQuery( KFileItem* file)
            xmlTags.setPattern("<.*>");
            xmlTags.setMinimal(true);
            stream = new QTextStream(zippedXmlFileContent, QIODevice::ReadOnly);
-           stream->setEncoding(QTextStream::UnicodeUTF8);
+           stream->setCodec("UTF-8");
            isZippedOfficeDocument = true;
          } else {
            kWarning() << "Cannot open supposed ZIP file " << file->url() << endl;
@@ -342,10 +346,10 @@ void KQuery::processQuery( KFileItem* file)
          filename = file->url().path();
          if(filename.startsWith("/dev/"))
             return;
-         qf.setName(filename);
+         qf.setFileName(filename);
          qf.open(QIODevice::ReadOnly);
          stream=new QTextStream(&qf);
-         stream->setEncoding(QTextStream::Locale);
+         stream->setCodec(QTextCodec::codecForLocale());
        }
 
        while ( ! stream->atEnd() )
@@ -392,8 +396,14 @@ void KQuery::setContext(const QString & context, bool casesensitive,
   m_casesensitive = casesensitive;
   m_search_binary = search_binary;
   m_regexpForContent=useRegexp;
-  m_regexp.setWildcard(!m_regexpForContent);
-  m_regexp.setCaseSensitive(casesensitive);
+  if ( !m_regexpForContent )
+    m_regexp.setPatternSyntax(QRegExp::Wildcard);
+  else
+    m_regexp.setPatternSyntax(QRegExp::RegExp);
+  if ( casesensitive )
+    m_regexp.setCaseSensitivity(Qt::CaseSensitive);
+  else
+    m_regexp.setCaseSensitivity(Qt::CaseInsensitive);
   if (m_regexpForContent)
      m_regexp.setPattern(m_context);
 }
@@ -448,7 +458,7 @@ void KQuery::setRegExp(const QString &regexp, bool caseSensitive)
 
 //  m_regexpsContainsGlobs.clear();
   for ( QStringList::ConstIterator it = strList.begin(); it != strList.end(); ++it ) {
-    regExp = new QRegExp((*it),caseSensitive,true);
+    regExp = new QRegExp((*it),( caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive ), QRegExp::Wildcard);
 //    m_regexpsContainsGlobs.append(regExp->pattern().contains(globChars));
     m_regexps.append(regExp);
   }

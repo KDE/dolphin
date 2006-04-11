@@ -220,7 +220,7 @@ void KfindWindow::saveResults()
 		       i18n("Unable to save results."));
   else {
     QTextStream stream( &file );
-    stream.setEncoding( QTextStream::Locale );
+    stream.setCodec( QTextCodec::codecForLocale() );
 
     if ( mimeType->name() == "text/html") {
       stream << QString::fromLatin1("<HTML><HEAD>\n"
@@ -425,7 +425,7 @@ void KfindWindow::slotContextMenu(K3ListView *,Q3ListViewItem *item,const QPoint
      m_menu->addAction(SmallIcon("editcopy"),i18n("Copy"), this, SLOT(copySelection()));
      m_menu->addAction(SmallIcon("editdelete"),i18n("Delete"), this, SLOT(deleteFiles()));
   }
-  m_menu->popup(p, 1);
+  m_menu->exec(p);
 }
 
 void KfindWindow::slotOpenWith()

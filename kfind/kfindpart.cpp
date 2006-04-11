@@ -38,6 +38,8 @@ KFindPart::KFindPart( QWidget * parentWidget, const char *widgetName,
 		      const QStringList & /*args*/ )
     : KonqDirPart (parent)/*KParts::ReadOnlyPart*/
 {
+    setObjectName( name );
+
     setInstance( KFindFactory::instance() );
 
     setBrowserExtension( new KonqDirPartBrowserExtension( this ) );

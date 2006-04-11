@@ -20,20 +20,24 @@
 
 #include "kdatecombo.moc"
 
-KDateCombo::KDateCombo(QWidget *parent ) : QComboBox(false, parent)
+KDateCombo::KDateCombo(QWidget *parent) : QComboBox(parent)
 {
+  setEditable( false );
+
   QDate date = QDate::currentDate();
   initObject(date);
 }
 
-KDateCombo::KDateCombo(const QDate & date, QWidget *parent) : QComboBox(false, parent)
+KDateCombo::KDateCombo(const QDate & date, QWidget *parent) : QComboBox(parent)
 {
+  setEditable( false );
+
   initObject(date);
 }
 
 void KDateCombo::initObject(const QDate & date)
 {
-  clearValidator();
+  setValidator(0);
   popupFrame = new KPopupFrame(this);
   popupFrame->installEventFilter(this);
   datePicker = new KDatePicker(date, popupFrame);
@@ -72,7 +76,7 @@ bool KDateCombo::setDate(const QDate & newDate)
   {
     if (count())
       clear();
-    insertItem(date2String(newDate));
+    addItem(date2String(newDate));
     return true;
   }
   return false;

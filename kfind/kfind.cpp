@@ -43,11 +43,14 @@
 #include "kfind.moc"
 
 Kfind::Kfind(QWidget *parent, const char *name)
-  : QWidget( parent, name )
+  : QWidget( parent )
 {
+  setObjectName( name );
+
   kDebug() << "Kfind::Kfind " << this << endl;
-  QBoxLayout * mTopLayout = new QBoxLayout( this, QBoxLayout::LeftToRight,
-                                            KDialog::marginHint(), KDialog::spacingHint() );
+  QBoxLayout * mTopLayout = new QBoxLayout( QBoxLayout::LeftToRight, this );
+  mTopLayout->setMargin( KDialog::marginHint() );
+  mTopLayout->setSpacing( KDialog::spacingHint() );
 
   // create tabwidget
   tabWidget = new KfindTabWidget( this );
@@ -184,8 +187,8 @@ void Kfind::restoreState( QDataStream *stream )
   *stream >> typeIdx;
   *stream >> containing;
   *stream >> subdirs;
-  tabWidget->nameBox->insertItem( namesearched, 0);
-  tabWidget->dirBox->insertItem ( dirsearched, 0);
+  tabWidget->nameBox->addItem( namesearched, 0);
+  tabWidget->dirBox->addItem ( dirsearched, 0);
   tabWidget->typeBox->setCurrentIndex(typeIdx);
   tabWidget->textEdit->setText ( containing );
   tabWidget->subdirsCb->setChecked( ( subdirs==0 ? true : false ));
