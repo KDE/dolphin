@@ -56,12 +56,14 @@
  * TODO: It would be nice if the widget were in a .ui
  */
 ChFaceDlg::ChFaceDlg(const QString& picsdir, QWidget *parent, const char *name, bool modal)
-  : KDialogBase( parent, name, modal, i18n("Change your Face"), Ok|Cancel, Ok, true )
+  : KDialogBase( Swallow, 0, parent, name, modal, i18n("Change your Face"), Ok|Cancel, Ok, true )
 {
   QWidget *page = new QWidget(this);
   setMainWidget( page );
 
-  QVBoxLayout *top = new QVBoxLayout(page, 0, spacingHint());
+  QVBoxLayout *top = new QVBoxLayout(page);
+  top->setMargin(0);
+  top->setSpacing(spacingHint());
 
   QLabel *header = new QLabel( i18n("Select a new face:"), page );
   top->addWidget( header );
@@ -78,7 +80,9 @@ ChFaceDlg::ChFaceDlg(const QString& picsdir, QWidget *parent, const char *name, 
   top->addWidget( m_FacesWidget );
 
   // Buttons to get more pics
-  QHBoxLayout * morePics = new QHBoxLayout( 0, 0, spacingHint() );
+  QHBoxLayout * morePics = new QHBoxLayout();
+  morePics->setMargin(0);
+  morePics->setSpacing(spacingHint());
   QPushButton *browseBtn = new QPushButton( i18n("Custom &Image..."), page );
   connect( browseBtn, SIGNAL( clicked() ), SLOT( slotGetCustomImage() ) );
   morePics->addWidget( browseBtn );
@@ -141,14 +145,14 @@ void ChFaceDlg::addCustomPixmap( QString imPath, bool saveCopy )
       userfaces.mkdir( userfaces.absolutePath() );
 
     pix.save( userfaces.absolutePath() + "/.userinfo-tmp" , "PNG" );
-    KonqOperations::copy( this, KonqOperations::COPY, KUrl::List( KUrl( userfaces.absolutePath() + "/.userinfo-tmp" ) ), KUrl( userfaces.absPath() + "/" + QFileInfo(imPath).fileName().section(".",0,0) ) );
+    KonqOperations::copy( this, KonqOperations::COPY, KUrl::List( KUrl( userfaces.absolutePath() + "/.userinfo-tmp" ) ), KUrl( userfaces.absolutePath() + "/" + QFileInfo(imPath).fileName().section(".",0,0) ) );
 #if 0
   if ( !pix.save( userfaces.absolutePath() + "/" + imPath , "PNG" ) )
     KMessageBox::sorry(this, i18n("There was an error saving the image:\n%1", userfaces.absolutePath() ) );
 #endif
   }
 
-  Q3IconViewItem* newface = new Q3IconViewItem( m_FacesWidget, QFileInfo(imPath).fileName().section(".",0,0) ,QPixmap( pix) );
+  Q3IconViewItem* newface = new Q3IconViewItem( m_FacesWidget, QFileInfo(imPath).fileName().section(".",0,0), QPixmap::fromImage(pix) );
   newface->setKey( KCFGUserAccount::customKey() );// Add custom items to end
   m_FacesWidget->ensureItemVisible( newface );
   m_FacesWidget->setCurrentItem( newface );
@@ -158,19 +162,17 @@ void ChFaceDlg::slotGetCustomImage(  )
 {
   QCheckBox* checkWidget = new QCheckBox( i18n("&Save copy in custom faces folder for future use"), 0 );
 
-  KFileDialog *dlg = new KFileDialog( QDir::homePath(), KImageIO::pattern( KImageIO::Reading ),
+  KFileDialog dlg( QDir::homePath(), KImageIO::pattern( KImageIO::Reading ),
                   this, checkWidget);
 
-  dlg->setOperationMode( KFileDialog::Opening );
-  dlg->setCaption( i18n("Choose Image") );
-  dlg->setMode( KFile::File | KFile::LocalOnly );
+  dlg.setOperationMode( KFileDialog::Opening );
+  dlg.setCaption( i18n("Choose Image") );
+  dlg.setMode( KFile::File | KFile::LocalOnly );
 
-  KImageFilePreview *ip = new KImageFilePreview( dlg );
-  dlg->setPreviewWidget( ip );
-  if (dlg->exec() == QDialog::Accepted)
-      addCustomPixmap( dlg->selectedFile(), checkWidget->isChecked() );
-  // Because we give it a parent we have to close it ourselves.
-  dlg->close(true);
+  KImageFilePreview *ip = new KImageFilePreview( &dlg );
+  dlg.setPreviewWidget( ip );
+  if (dlg.exec() == QDialog::Accepted)
+      addCustomPixmap( dlg.selectedFile(), checkWidget->isChecked() );
 }
 
 #if 0

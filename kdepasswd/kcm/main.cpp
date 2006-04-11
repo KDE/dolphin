@@ -170,7 +170,7 @@ void KCMUserAccount::load()
 		if ( _facePixmap.isNull() )
 			_facePerm = userFirst;
 		else
-			_mw->btnChangeFace->setPixmap( _facePixmap );
+			_mw->btnChangeFace->setIcon( _facePixmap );
 	}
 
 	if ( _facePerm >= userFirst )
@@ -185,7 +185,7 @@ void KCMUserAccount::load()
 		if ( _facePixmap.isNull() )
 			_facePixmap = QPixmap( _userPicsDir + KCFGUserAccount::defaultFile() );
 
-		_mw->btnChangeFace->setPixmap( _facePixmap );
+		_mw->btnChangeFace->setIcon( _facePixmap );
 	}
 	else if ( _facePerm <= adminOnly )
 	{
@@ -193,7 +193,7 @@ void KCMUserAccount::load()
 		_facePixmap = QPixmap( _userPicsDir + _ku->loginName() + ".face.icon" );
 		if ( _facePixmap.isNull() )
 			_facePixmap = QPixmap( _userPicsDir + KCFGUserAccount::defaultFile() );
-		_mw->btnChangeFace->setPixmap( _facePixmap );
+		_mw->btnChangeFace->setIcon( _facePixmap );
 	}
 
 	KCModule::load(); /* KConfigXT */
@@ -225,7 +225,7 @@ void KCMUserAccount::save()
 		}
 
 		ChfnProcess *proc = new ChfnProcess();
-		ret = proc->exec(password, _mw->leRealname->text().ascii() );
+		ret = proc->exec(password, _mw->leRealname->text().toAscii() );
 		if ( ret )
 			{
 			if ( ret == ChfnProcess::PasswordError )
@@ -262,7 +262,7 @@ void KCMUserAccount::changeFace(const QPixmap &pix)
   }
 
   _facePixmap = pix;
-  _mw->btnChangeFace->setPixmap( _facePixmap );
+  _mw->btnChangeFace->setIcon( _facePixmap );
   emit changed( true );
 }
 
@@ -293,7 +293,10 @@ bool KCMUserAccount::eventFilter(QObject *, QEvent *e)
 	if (e->type() == QEvent::DragEnter)
 		{
 		QDragEnterEvent *ee = (QDragEnterEvent *) e;
-		ee->accept( K3URLDrag::canDecode(ee) );
+    if ( K3URLDrag::canDecode( ee ) )
+      ee->accept();
+    else
+      ee->ignore();
 		return true;
 	}
 
@@ -333,7 +336,7 @@ inline KUrl *KCMUserAccount::decodeImgDrop(QDropEvent *e, QWidget *wdg)
       return url;
 
     QStringList qs = KImageIO::pattern().split( '\n');
-    qs.remove(qs.begin());
+    qs.erase(qs.begin());
 
     QString msg = i18n( "%1 does not appear to be an image file.\n"
 			  "Please use files with these extensions:\n"
