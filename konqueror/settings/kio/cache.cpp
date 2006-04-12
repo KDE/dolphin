@@ -41,7 +41,9 @@
 KCacheConfigDialog::KCacheConfigDialog( KInstance *inst, QWidget* parent )
                    :KCModule( inst, parent )
 {
-  QVBoxLayout* mainLayout = new QVBoxLayout(this, 0, 0);
+  QVBoxLayout* mainLayout = new QVBoxLayout(this);
+  mainLayout->setMargin(0);
+  mainLayout->setSpacing(0);
   m_dlg = new CacheDlgUI(this);
   mainLayout->addWidget(m_dlg);
   mainLayout->addStretch();

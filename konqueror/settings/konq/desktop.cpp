@@ -66,7 +66,9 @@ KDesktopConfig::KDesktopConfig(KInstance *inst, QWidget *parent)
 
   Q_ASSERT(maxDesktops % 2 == 0);
 
-  QVBoxLayout *layout = new QVBoxLayout(this, 0, KDialog::spacingHint());
+  QVBoxLayout *layout = new QVBoxLayout(this);
+  layout->setMargin(0);
+  layout->setSpacing(KDialog::spacingHint());
 
   // number group
   Q3GroupBox *number_group = new Q3GroupBox(this);

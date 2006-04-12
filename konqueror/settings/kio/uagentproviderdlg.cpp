@@ -63,7 +63,9 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   setModal( true );
   setCaption ( caption );
 
-  QVBoxLayout* mainLayout = new QVBoxLayout(this, 0, 0);
+  QVBoxLayout* mainLayout = new QVBoxLayout(this);
+  mainLayout->setMargin(0);
+  mainLayout->setSpacing(0);
 
   dlg = new UAProviderDlgUI (this);
   mainLayout->addWidget(dlg);

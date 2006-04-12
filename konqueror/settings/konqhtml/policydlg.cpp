@@ -23,7 +23,9 @@ PolicyDialog::PolicyDialog( Policies *policies, QWidget *parent, const char *nam
   QFrame *main = makeMainWidget();
 
   insertIdx = 1;	// index where to insert additional panels
-  topl = new QVBoxLayout(main, 0, spacingHint());
+  topl = new QVBoxLayout(main);
+  topl->setMargin(0);
+  topl->setSpacing(spacingHint());
 
   QGridLayout *grid = new QGridLayout(topl, 2, 2);
   grid->setColStretch(1, 1);

@@ -48,7 +48,9 @@
 KCookiesPolicies::KCookiesPolicies(KInstance *inst, QWidget *parent)
                  :KCModule(inst, parent)
 {
-    QVBoxLayout *mainLayout = new QVBoxLayout(this, 0, 0);
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    mainLayout->setMargin(0);
+    mainLayout->setSpacing(0);
 
     dlg = new KCookiesPolicyDlgUI (this);
     dlg->lvDomainPolicy->header()->setStretchEnabled(true, 0);

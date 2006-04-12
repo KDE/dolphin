@@ -76,8 +76,9 @@ private:
 FilterOptions::FilterOptions(KInstance *instance, QWidget *parent)
               :KCModule(instance, parent)
 {
-    QVBoxLayout *mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
-        KDialog::spacingHint());
+    QVBoxLayout *mainLayout = new QVBoxLayout( this );
+    mainLayout->setMargin( KDialog::marginHint() );
+    mainLayout->setSpacing( KDialog::spacingHint() );
 
     m_dlg = new FilterOptionsUI (this);
     mainLayout->addWidget(m_dlg);

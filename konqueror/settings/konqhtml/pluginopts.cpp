@@ -51,7 +51,9 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, KInstance *inst,
       m_groupname( group ),
       global_policies(config,group,true)
 {
-    QVBoxLayout* toplevel = new QVBoxLayout( this, 0, KDialog::spacingHint() );
+    QVBoxLayout* toplevel = new QVBoxLayout( this );
+    topLevel->setMargin( 0 );
+    topLevel->setSpacing( KDialog::spacingHint() );
 
     /**************************************************************************
      ******************** Global Settings *************************************
@@ -63,7 +65,11 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, KInstance *inst,
     enableHTTPOnly = new QCheckBox( i18n( "Only allow &HTTP and HTTPS URLs for plugins" ), globalGB );
     enableUserDemand = new QCheckBox( i18n( "&Load plugins on demand only" ), globalGB );
     priorityLabel = new QLabel(i18n("CPU priority for plugins: %1", QString()), globalGB);
-    priority = new QSlider(5, 100, 5, 100, Qt::Horizontal, globalGB);
+    //priority = new QSlider(5, 100, 5, 100, Qt::Horizontal, globalGB);
+    priority = new QSlider(Qt::Horizontal, globalGB);
+    priority->setMinimum(5);
+    priority->setMaximum(100);
+    priority->setPageStep(5);
     connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
     connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotTogglePluginsEnabled() ) );
     connect( enableHTTPOnly, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );

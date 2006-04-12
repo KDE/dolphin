@@ -50,7 +50,9 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, KInstance *
 
     setQuickHelp( i18n("<h1>Konqueror Behavior</h1> You can configure how Konqueror behaves as a file manager here."));
 
-    QVBoxLayout *lay = new QVBoxLayout( this, 0, KDialog::spacingHint() );
+    QVBoxLayout *lay = new QVBoxLayout( this );
+    lay->setMargin( 0 );
+    lay->setSpacing( KDialog::spacingHint() );
 
 	QGroupBox * miscGb = new QGroupBox(i18n("Misc Options"), this);
 	KHBox *hbox = new KHBox(miscGb);

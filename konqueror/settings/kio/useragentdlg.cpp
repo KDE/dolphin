@@ -48,7 +48,9 @@
 UserAgentDlg::UserAgentDlg( KInstance *inst, QWidget * parent )
              :KCModule( inst, parent )
 {
-  QVBoxLayout *mainLayout = new QVBoxLayout(this, 0, KDialog::spacingHint());
+  QVBoxLayout *mainLayout = new QVBoxLayout(this);
+  mainLayout->setMargin(0);
+  mainLayout->setSpacing(KDialog::spacingHint());
 
   dlg = new UserAgentDlgUI (this);
   mainLayout->addWidget(dlg);

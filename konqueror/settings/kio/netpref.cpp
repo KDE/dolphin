@@ -19,8 +19,9 @@
 KIOPreferences::KIOPreferences( KInstance *inst, QWidget* parent )
                :KCModule( inst, parent )
 {
-    QVBoxLayout* mainLayout = new QVBoxLayout( this, 0,
-                                               KDialog::spacingHint() );
+    QVBoxLayout* mainLayout = new QVBoxLayout( this );
+    mainLayout->setMargin( 0 );
+    mainLayout->setSpacing( KDialog::spacingHint() );
     gb_Timeout = new Q3GroupBox( 1, Qt::Horizontal, i18n("Timeout Values"), this, "gb_Timeout" );
     gb_Timeout->setWhatsThis( i18n("Here you can set timeout values. "
                     "You might want to tweak them if your "

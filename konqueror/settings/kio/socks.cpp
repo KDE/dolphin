@@ -63,7 +63,9 @@ KSocksConfig::KSocksConfig(KInstance *inst, QWidget *parent)
   setAboutData( about );
 
 
-  QVBoxLayout *layout = new QVBoxLayout(this, KDialog::marginHint(), KDialog::spacingHint());
+  QVBoxLayout *layout = new QVBoxLayout(this);
+  layout->setMargin(KDialog::marginHint());
+  layout->setSpacing(KDialog::spacingHint());
   base = new SocksBase(this);
   layout->add(base);
 

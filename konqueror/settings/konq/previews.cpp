@@ -63,7 +63,9 @@ class PreviewCheckListItem : public Q3CheckListItem
 KPreviewOptions::KPreviewOptions( KInstance *inst, QWidget *parent )
     : KCModule( inst, parent )
 {
-    QVBoxLayout *lay = new QVBoxLayout(this, 0, KDialog::spacingHint());
+    QVBoxLayout *lay = new QVBoxLayout(this);
+    lay->setMargin(0);
+    lay->setSpacing(KDialog::spacingHint());
 
     lay->addWidget( new QLabel( i18n("<p>Allow previews, \"Folder Icons Reflect Contents\", and "
                                      "retrieval of meta-data on protocols:</p>"), this ) );

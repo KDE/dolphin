@@ -11,7 +11,9 @@
 KHTTPOptions::KHTTPOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent)
   : KCModule( inst, parent ), m_pConfig(config), m_groupname(group)
 {
-  QVBoxLayout *lay = new QVBoxLayout(this, 10, 5);
+  QVBoxLayout *lay = new QVBoxLayout(this);
+  lay->setMargin(10);
+  lay->setSpacing(5);
 
   lay->addWidget( new QLabel(i18n("Accept languages:"), this) );
 

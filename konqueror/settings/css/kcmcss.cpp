@@ -93,7 +93,9 @@ CSSConfig::CSSConfig(QWidget *parent, const char *, const QStringList &)
   connect(customDialog->hideBackground, SIGNAL(clicked()),
 	  SLOT(changed()));
 
-  QVBoxLayout *vbox = new QVBoxLayout(this, 0, 0);
+  QVBoxLayout *vbox = new QVBoxLayout(this);
+  vbox->setMargin(0);
+  vbox->setSpacing(0);
   vbox->addWidget(configDialog);
 
   load();
