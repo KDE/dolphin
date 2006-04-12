@@ -42,7 +42,6 @@
 
 #include "socks.h"
 #include "unistd.h"
-#include <ksocks.h>
 
 #include <kapplication.h>
 #include <klocale.h>
@@ -137,7 +136,8 @@ void KSocksConfig::testClicked()
   save();   // we have to save before we can test!  Perhaps
             // it would be best to warn, though.
 
-  if (KSocks::self()->hasSocks()) {
+  KDECORE_EXPORT bool kdeHasSocks(); // defined in kdecore/ksocks.cpp
+  if (kdeHasSocks()) {
      KMessageBox::information(NULL,
                               i18n("Success: SOCKS was found and initialized."),
                               i18n("SOCKS Support"));
@@ -147,9 +147,6 @@ void KSocksConfig::testClicked()
                                i18n("SOCKS could not be loaded."),
                                i18n("SOCKS Support"));
   }
-
-  KSocks::self()->die();
-
 }
 
 
