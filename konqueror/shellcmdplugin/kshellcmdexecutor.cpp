@@ -127,7 +127,11 @@ void KShellCommandExecutor::writeDataToShell()
    }
    else
       slotFinished();
-   m_writeNotifier->setEnabled(false);
+
+   if (m_writeNotifier)
+   {
+      m_writeNotifier->setEnabled(false);
+   }
 }
 
 void KShellCommandExecutor::slotFinished()
@@ -135,10 +139,11 @@ void KShellCommandExecutor::slotFinished()
    setTextFormat(Qt::PlainText);
    if (m_shellProcess!=0)
    {
-      if (m_readNotifier!=0)
-         delete m_readNotifier;
-      if (m_writeNotifier!=0)
-         delete m_writeNotifier;
+      delete m_readNotifier;
+      m_readNotifier = 0;
+      delete m_writeNotifier;
+      m_writeNotifier = 0;
+
       //kDebug()<<"slotFinished: pid: "<<m_shellProcess->pid()<<endl;
       ::kill(m_shellProcess->pid()+1, SIGTERM);
       ::kill(m_shellProcess->pid(), SIGTERM);
