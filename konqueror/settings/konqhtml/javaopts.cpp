@@ -56,8 +56,8 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
       _removeJavaDomainSettings(false)
 {
     QVBoxLayout* toplevel = new QVBoxLayout( this );
-    topLevel->setMargin( 10 );
-    topLevel->setSpacing( 5 );
+    toplevel->setMargin( 10 );
+    toplevel->setSpacing( 5 );
 
     /***************************************************************************
      ********************* Global Settings *************************************

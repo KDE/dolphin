@@ -52,8 +52,8 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, KInstance *inst,
       global_policies(config,group,true)
 {
     QVBoxLayout* toplevel = new QVBoxLayout( this );
-    topLevel->setMargin( 0 );
-    topLevel->setSpacing( KDialog::spacingHint() );
+    toplevel->setMargin( 0 );
+    toplevel->setSpacing( KDialog::spacingHint() );
 
     /**************************************************************************
      ******************** Global Settings *************************************

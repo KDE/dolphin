@@ -42,8 +42,8 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, KInstanc
   _removeECMADomainSettings(false)
 {
   QVBoxLayout* toplevel = new QVBoxLayout( this );
-  topLevel->setMargin( 10 );
-  topLevel->setSpacing( 5 );
+  toplevel->setMargin( 10 );
+  toplevel->setSpacing( 5 );
 
   // the global checkbox
   Q3GroupBox* globalGB = new Q3GroupBox( 2, Qt::Vertical, i18n( "Global Settings" ), this );
