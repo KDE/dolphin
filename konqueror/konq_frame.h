@@ -173,7 +173,7 @@ class KonqFrameBase
   virtual void reparentFrame( QWidget* parent,
                               const QPoint & p, bool showIt=false ) = 0;
 
-  virtual KonqFrameContainerBase* parentContainer() { return m_pParentContainer; }
+  virtual KonqFrameContainerBase* parentContainer() const { return m_pParentContainer; }
   virtual void setParentContainer(KonqFrameContainerBase* parent) { m_pParentContainer = parent; }
 
   virtual void setTitle( const QString &title , QWidget* sender) = 0;
