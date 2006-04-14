@@ -60,7 +60,7 @@ static const char description[] = I18N_NOOP("KDE tool for opening URLs from the 
 static const char version[] = "2.0";
 
 QByteArray clientApp::startup_id_str;
-bool clientApp::m_ok;
+bool clientApp::m_ok = true;
 bool s_interactive = true;
 
 static KInstance* s_instance = 0;
@@ -366,7 +366,7 @@ bool clientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, co
             QObject::connect( run, SIGNAL( finished() ), qApp, SLOT( delayedQuit() ));
             QObject::connect( run, SIGNAL( error() ), qApp, SLOT( delayedQuit() ));
             qApp->exec();
-            return m_ok;
+            return !run->hasError();
         }
     }
 
@@ -542,6 +542,7 @@ bool clientApp::doIt()
     checkArgumentCount(argc, 2, 2);
     KPropertiesDialog * p = new KPropertiesDialog( args->url(1) );
     QObject::connect( p, SIGNAL( destroyed() ), &app, SLOT( quit() ));
+    QObject::connect( p, SIGNAL( canceled() ), &app, SLOT( slotDialogCanceled() ));
     app.exec();
     return m_ok;
   }
@@ -559,7 +560,7 @@ bool clientApp::doIt()
       QObject::connect( run, SIGNAL( finished() ), &app, SLOT( delayedQuit() ));
       QObject::connect( run, SIGNAL( error() ), &app, SLOT( delayedQuit() ));
       app.exec();
-      return m_ok;
+      return !run->hasError();
     }
     else if ( argc == 3 )
     {
@@ -671,6 +672,12 @@ void clientApp::slotResult( KIO::Job * job )
     job->showErrorDialog();
   m_ok = !job->error();
   quit();
+}
+
+void clientApp::slotDialogCanceled()
+{
+    m_ok = false;
+    quit();
 }
 
 #include "kfmclient.moc"

@@ -41,6 +41,7 @@ public:
 protected Q_SLOTS:
   void slotResult( KIO::Job * );
   void delayedQuit();
+  void slotDialogCanceled();
 
 private:
   static void sendASNChange();
