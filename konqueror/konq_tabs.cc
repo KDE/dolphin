@@ -508,7 +508,9 @@ void KonqFrameTabs::slotInitiateDrag( QWidget *w )
     QMimeData* md = new QMimeData();
     frame->activeChildView()->url().populateMimeData(md);
     d->setMimeData( md );
-    d->setPixmap( KGlobal::iconLoader()->loadMimeTypeIcon(KMimeType::pixmapForURL( frame->activeChildView()->url(), 0), K3Icon::Small ) );
+    QString iconName = KMimeType::iconNameForURL(frame->activeChildView()->url());
+    d->setPixmap(KGlobal::iconLoader()->loadIcon(iconName, K3Icon::Small, 0));
+    //d->setPixmap( KGlobal::iconLoader()->loadMimeTypeIcon(KMimeType::pixmapForURL( frame->activeChildView()->url(), 0), K3Icon::Small ) );
     d->start();
   }
 }

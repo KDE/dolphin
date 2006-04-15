@@ -34,6 +34,7 @@
 #include <kwin.h>
 #include <kprotocolinfo.h>
 #include <kstartupinfo.h>
+#include <kiconloader.h>
 
 #include "konq_misc.h"
 #include "konq_mainwindow.h"
