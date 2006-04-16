@@ -224,10 +224,10 @@ void HistorySidebarConfig::slotExpireChanged( int value )
 // to enfore newer <= older.
 void HistorySidebarConfig::slotNewerChanged( int value )
 {
-    dialog->comboNewer->changeItem( i18np ( "Day", "Days", value),
-                                    KonqSidebarHistorySettings::DAYS);
-    dialog->comboNewer->changeItem( i18np ( "Minute", "Minutes", value),
-                                    KonqSidebarHistorySettings::MINUTES);
+    dialog->comboNewer->setItemText( KonqSidebarHistorySettings::DAYS, 
+                                     i18np ( "Day", "Days", value) );
+    dialog->comboNewer->setItemText( KonqSidebarHistorySettings::MINUTES,
+		                     i18np ( "Minute", "Minutes", value) );
 
     if ( dialog->spinNewer->value() > dialog->spinOlder->value() )
 	dialog->spinOlder->setValue( dialog->spinNewer->value() );
@@ -236,10 +236,10 @@ void HistorySidebarConfig::slotNewerChanged( int value )
 
 void HistorySidebarConfig::slotOlderChanged( int value )
 {
-    dialog->comboOlder->changeItem( i18np ( "Day", "Days", value),
-                                    KonqSidebarHistorySettings::DAYS);
-    dialog->comboOlder->changeItem( i18np ( "Minute", "Minutes", value),
-                                    KonqSidebarHistorySettings::MINUTES);
+    dialog->comboOlder->setItemText( KonqSidebarHistorySettings::DAYS,
+		                     i18np ( "Day", "Days", value) );
+    dialog->comboOlder->setItemText( KonqSidebarHistorySettings::MINUTES,
+		                     i18np ( "Minute", "Minutes", value) );
 
     if ( dialog->spinNewer->value() > dialog->spinOlder->value() )
 	dialog->spinNewer->setValue( dialog->spinOlder->value() );

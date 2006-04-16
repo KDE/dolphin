@@ -406,7 +406,7 @@ void KonqCombo::saveItems()
 void KonqCombo::clearTemporary( bool makeCurrent )
 {
     applyPermanent();
-    changeItem( QString(), temporary ); // ### default pixmap?
+    setItemText( temporary, QString() ); // ### default pixmap?
     if ( makeCurrent )
       setCurrentIndex( temporary );
 }
