@@ -255,7 +255,12 @@ void KonqDraggableLabel::mouseMoveEvent( QMouseEvent * ev )
       QMimeData* md = new QMimeData();
       lst.populateMimeData( md );
       drag->setMimeData( md );
-      drag->setPixmap(KGlobal::iconLoader()->loadMimeTypeIcon(KMimeType::iconNameForURL( lst.first() ), K3Icon::Small));
+      QString iconName = KMimeType::iconNameForURL( lst.first() );
+
+#warning switch the following statements on next kdelibs snapshot update
+      drag->setPixmap(KGlobal::iconLoader()->loadIcon(iconName, K3Icon::Small));
+      //drag->setPixmap(KGlobal::iconLoader()->loadMimeTypeIcon(iconName, K3Icon::Small));
+
       drag->start();
     }
   }
