@@ -69,7 +69,7 @@ Config::Config( QWidget* parent_P )
     system_widget->layout()->setMargin( KDialog::marginHint() );
     connect( system_widget, SIGNAL( changed()), SLOT( changed()));
     tabs->addTab( system_widget, i18n( "System" ));
-    topLayout->add( tabs );
+    topLayout->addWidget( tabs );
     load();
     }
 
@@ -102,7 +102,7 @@ KonquerorConfig::KonquerorConfig( QWidget* parent_P )
     QVBoxLayout *topLayout = new QVBoxLayout( this );
     widget = new Konqueror( this );
     connect( widget, SIGNAL( changed()), SLOT( changed()));
-    topLayout->add( widget );
+    topLayout->addWidget( widget );
     load();
     }
 

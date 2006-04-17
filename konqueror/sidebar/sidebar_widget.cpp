@@ -379,12 +379,12 @@ void Sidebar_Widget::doLayout()
         m_layout->setSpacing( 0 );
 	if  (m_showTabsLeft)
 	{
-		m_layout->add(m_buttonBar);
-		m_layout->add(m_area);
+		m_layout->addWidget(m_buttonBar);
+		m_layout->addWidget(m_area);
 		m_buttonBar->setPosition(KMultiTabBar::Left);
 	} else {
-		m_layout->add(m_area);
-		m_layout->add(m_buttonBar);
+		m_layout->addWidget(m_area);
+		m_layout->addWidget(m_buttonBar);
 		m_buttonBar->setPosition(KMultiTabBar::Right);
 	}
 	m_layout->activate();

@@ -67,7 +67,7 @@ KSocksConfig::KSocksConfig(KInstance *inst, QWidget *parent)
   layout->setMargin(KDialog::marginHint());
   layout->setSpacing(KDialog::spacingHint());
   base = new SocksBase(this);
-  layout->add(base);
+  layout->addWidget(base);
 
   connect(base->_c_enableSocks, SIGNAL(clicked()), this, SLOT(enableChanged()));
   connect(base->bg, SIGNAL(clicked(int)), this, SLOT(methodChanged(int)));

@@ -106,7 +106,7 @@ HistorySidebarConfig::HistorySidebarConfig( QWidget *parent, const char* name, c
              SLOT( configChanged() ));
 
     dialog->show();
-    topLayout->add(dialog);
+    topLayout->addWidget(dialog);
     load();
 }
 
