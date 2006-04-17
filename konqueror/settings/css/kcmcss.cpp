@@ -50,7 +50,7 @@ CSSConfig::CSSConfig(QWidget *parent, const char *, const QStringList &)
 
   QStringList fonts;
   KFontChooser::getFontList(fonts, 0);
-  customDialog->fontFamily->insertStringList(fonts);
+  customDialog->fontFamily->addItems(fonts);
 
   connect(configDialog->useDefault, SIGNAL(clicked()),
 	  SLOT(changed()));

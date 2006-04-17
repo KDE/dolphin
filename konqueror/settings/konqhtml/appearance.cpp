@@ -217,7 +217,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   m_pEncoding->setEditable( false );
   encodings = KGlobal::charsets()->availableEncodingNames();
   encodings.prepend(i18n("Use Language Encoding"));
-  m_pEncoding->insertStringList( encodings );
+  m_pEncoding->addItems( encodings );
   lay->addMultiCellWidget(m_pEncoding,r, r, M, W);
 
   wtstr = i18n( "Select the default encoding to be used; normally, you will be fine with 'Use language encoding' "

@@ -51,7 +51,7 @@ SearchProviderDialog::SearchProviderDialog(SearchProvider *provider,
     // Data init
     QStringList charsets = KGlobal::charsets()->availableEncodingNames();
     charsets.prepend(i18n("Default"));
-    m_dlg->cbCharset->insertStringList(charsets);
+    m_dlg->cbCharset->addItems(charsets);
 
     if (m_provider)
     {

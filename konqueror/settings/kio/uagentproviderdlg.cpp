@@ -96,7 +96,7 @@ void UAProviderDlg::init()
                 SLOT(slotActivated(const QString&)) );
 
   dlg->cbAlias->clear();
-  dlg->cbAlias->insertStringList( m_provider->userAgentAliasList() );
+  dlg->cbAlias->addItems( m_provider->userAgentAliasList() );
   dlg->cbAlias->insertItem( 0, "" );
   dlg->cbAlias->model()->sort( 0 );
 
