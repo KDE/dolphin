@@ -20,7 +20,6 @@
 
 #include <qdir.h>
 #include <qpushbutton.h>
-#include <qwhatsthis.h>
 #include <qlayout.h>
 #include <qstringlist.h>
 #include <QSplitter>
@@ -784,7 +783,7 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 
 		// Set Whats This help
 		// This uses the comments in the .desktop files
-		QWhatsThis::add(tab, comment);
+		tab->setWhatsThis(comment);
 	}
 
 	return true;

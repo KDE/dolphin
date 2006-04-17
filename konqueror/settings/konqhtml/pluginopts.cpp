@@ -14,7 +14,6 @@
 #include <qslider.h>
 #include <q3groupbox.h>
 #include <qtextstream.h>
-#include <qwhatsthis.h>
 
 #include <dcopclient.h>
 #include <kapplication.h>
@@ -102,7 +101,7 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, KInstance *inst,
     /**************************************************************************
      ********************** WhatsThis? items **********************************
      *************************************************************************/
-    QWhatsThis::add( enablePluginsGloballyCB, i18n("Enables the execution of plugins "
+    enablePluginsGloballyCB->setWhatsThis( i18n("Enables the execution of plugins "
           "that can be contained in HTML pages, e.g. Macromedia Flash. "
           "Note that, as with any browser, enabling active contents can be a security problem.") );
 
@@ -111,14 +110,14 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, KInstance *inst,
                          "instead of the default policy for enabling or disabling plugins on pages sent by these "
                          "domains or hosts. <p>Select a policy and use the controls on "
                          "the right to modify it.");
-    QWhatsThis::add( domainSpecific->listView(), wtstr );
-    QWhatsThis::add( domainSpecific->importButton(), i18n("Click this button to choose the file that contains "
+    domainSpecific->listView()->setWhatsThis( wtstr );
+    domainSpecific->importButton()->setWhatsThis( i18n("Click this button to choose the file that contains "
                                           "the plugin policies. These policies will be merged "
                                           "with the existing ones. Duplicate entries are ignored.") );
-    QWhatsThis::add( domainSpecific->exportButton(), i18n("Click this button to save the plugin policy to a zipped "
+    domainSpecific->exportButton()->setWhatsThis( i18n("Click this button to save the plugin policy to a zipped "
                                           "file. The file, named <b>plugin_policy.tgz</b>, will be "
                                           "saved to a location of your choice." ) );
-    QWhatsThis::add( domainSpecific, i18n("Here you can set specific plugin policies for any particular "
+    domainSpecific->setWhatsThis( i18n("Here you can set specific plugin policies for any particular "
                                             "host or domain. To add a new policy, simply click the <i>New...</i> "
                                             "button and supply the necessary information requested by the "
                                             "dialog box. To change an existing policy, click on the <i>Change...</i> "

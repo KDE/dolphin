@@ -31,7 +31,6 @@
 #include <qlabel.h>
 #include <qcheckbox.h>
 #include <qtextstream.h>
-#include <qwhatsthis.h>
 #include <qregexp.h>
 
 #include "filteropts.h"
@@ -86,15 +85,15 @@ KCMFilter::KCMFilter(KConfig *config, QString group,
 /*
  * Whats this items
  */
-    QWhatsThis::add( mEnableCheck, i18n("Enable or disable AdBlocK filters. When enabled a set of expressions "
+    mEnableCheck->setWhatsThis( i18n("Enable or disable AdBlocK filters. When enabled a set of expressions "
                                         "to be blocked should be defined in the filter list for blocking to "
                                         "take effect."));
-    QWhatsThis::add( mKillCheck, i18n("When enabled blocked images will be removed from the page completely "
+    mKillCheck->setWhatsThis( i18n("When enabled blocked images will be removed from the page completely "
                                       "otherwise a placeholder 'blocked' image will be used."));
-    QWhatsThis::add( mListBox, i18n("This is the list of URL filters that will be applied to all linked "
+    mListBox->setWhatsThis( i18n("This is the list of URL filters that will be applied to all linked "
                                     "images and frames. The filters are processed in order so place "
                                     "more generic filters towards the top of the list."));
-    QWhatsThis::add( mString, i18n("Enter an expression to filter. Expressions can be defined as either "
+    mString->setWhatsThis( i18n("Enter an expression to filter. Expressions can be defined as either "
                                    "a filename style wildcard e.g. http://www.site.com/ads* or as a full "
                                    "regular expression by surrounding the string with '/' e.g. "
                                    " //(ad|banner)\\./"));

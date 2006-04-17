@@ -12,7 +12,6 @@
 // (c) Leo Savernik 2002-2003
 
 #include <qlayout.h>
-#include <qwhatsthis.h>
 #include <q3groupbox.h>
 #include <kconfig.h>
 #include <k3listview.h>
@@ -50,19 +49,19 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, KInstanc
   toplevel->addWidget( globalGB );
 
   enableJavaScriptGloballyCB = new QCheckBox( i18n( "Ena&ble JavaScript globally" ), globalGB );
-  QWhatsThis::add( enableJavaScriptGloballyCB, i18n("Enables the execution of scripts written in ECMA-Script "
+  enableJavaScriptGloballyCB->setWhatsThis( i18n("Enables the execution of scripts written in ECMA-Script "
         "(also known as JavaScript) that can be contained in HTML pages. "
         "Note that, as with any browser, enabling scripting languages can be a security problem.") );
   connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), SLOT( changed() ) );
   connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChangeJSEnabled() ) );
 
   reportErrorsCB = new QCheckBox( i18n( "Report &errors" ), globalGB );
-  QWhatsThis::add( reportErrorsCB, i18n("Enables the reporting of errors that occur when JavaScript "
+  reportErrorsCB->setWhatsThis( i18n("Enables the reporting of errors that occur when JavaScript "
 	"code is executed.") );
   connect( reportErrorsCB, SIGNAL( clicked() ), SLOT( changed() ) );
 
   jsDebugWindow = new QCheckBox( i18n( "Enable debu&gger" ), globalGB );
-  QWhatsThis::add( jsDebugWindow, i18n( "Enables builtin JavaScript debugger." ) );
+  jsDebugWindow->setWhatsThis( i18n( "Enables builtin JavaScript debugger." ) );
   connect( jsDebugWindow, SIGNAL( clicked() ), SLOT( changed() ) );
 
   // the domain-specific listview
@@ -70,29 +69,29 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, KInstanc
   connect(domainSpecific,SIGNAL(changed(bool)),SLOT(changed()));
   toplevel->addWidget( domainSpecific, 2 );
 
-  QWhatsThis::add( domainSpecific, i18n("Here you can set specific JavaScript policies for any particular "
-                                          "host or domain. To add a new policy, simply click the <i>New...</i> "
-                                          "button and supply the necessary information requested by the "
-                                          "dialog box. To change an existing policy, click on the <i>Change...</i> "
-                                          "button and choose the new policy from the policy dialog box. Clicking "
-                                          "on the <i>Delete</i> button will remove the selected policy causing the default "
-                                          "policy setting to be used for that domain. The <i>Import</i> and <i>Export</i> "
-                                          "button allows you to easily share your policies with other people by allowing "
-                                          "you to save and retrieve them from a zipped file.") );
+  domainSpecific->setWhatsThis( i18n("Here you can set specific JavaScript policies for any particular "
+                                     "host or domain. To add a new policy, simply click the <i>New...</i> "
+                                     "button and supply the necessary information requested by the "
+                                     "dialog box. To change an existing policy, click on the <i>Change...</i> "
+                                     "button and choose the new policy from the policy dialog box. Clicking "
+                                     "on the <i>Delete</i> button will remove the selected policy causing the default "
+                                     "policy setting to be used for that domain. The <i>Import</i> and <i>Export</i> "
+                                     "button allows you to easily share your policies with other people by allowing "
+                                     "you to save and retrieve them from a zipped file.") );
 
   QString wtstr = i18n("This box contains the domains and hosts you have set "
                        "a specific JavaScript policy for. This policy will be used "
                        "instead of the default policy for enabling or disabling JavaScript on pages sent by these "
                        "domains or hosts. <p>Select a policy and use the controls on "
                        "the right to modify it.");
-  QWhatsThis::add( domainSpecific->listView(), wtstr );
+  domainSpecific->listView()->setWhatsThis( wtstr );
 
-  QWhatsThis::add( domainSpecific->importButton(), i18n("Click this button to choose the file that contains "
-                                        "the JavaScript policies. These policies will be merged "
-                                        "with the existing ones. Duplicate entries are ignored.") );
-  QWhatsThis::add( domainSpecific->exportButton(), i18n("Click this button to save the JavaScript policy to a zipped "
-                                        "file. The file, named <b>javascript_policy.tgz</b>, will be "
-                                        "saved to a location of your choice." ) );
+  domainSpecific->importButton()->setWhatsThis( i18n("Click this button to choose the file that contains "
+                                                     "the JavaScript policies. These policies will be merged "
+                                                     "with the existing ones. Duplicate entries are ignored.") );
+  domainSpecific->exportButton()->setWhatsThis( i18n("Click this button to save the JavaScript policy to a zipped "
+                                                     "file. The file, named <b>javascript_policy.tgz</b>, will be "
+                                                     "saved to a location of your choice." ) );
 
   // the frame containing the JavaScript policies settings
   js_policies_frame = new JSPoliciesFrame(&js_global_policies,

@@ -3,7 +3,6 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <q3groupbox.h>
-#include <qwhatsthis.h>
 
 #include <dcopclient.h>
 
@@ -46,14 +45,14 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   Q3GroupBox* gb = new Q3GroupBox( 1, Qt::Horizontal, i18n("Font Si&ze"), this );
   lay->addMultiCellWidget(gb, r, r, E, W);
 
-  QWhatsThis::add( gb, i18n("This is the relative font size Konqueror uses to display web sites.") );
+  gb->setWhatsThis( i18n("This is the relative font size Konqueror uses to display web sites.") );
 
   m_minSize = new KIntNumInput( fMinSize, gb );
   m_minSize->setLabel( i18n( "M&inimum font size:" ) );
   m_minSize->setRange( 2, 30 );
   connect( m_minSize, SIGNAL( valueChanged( int ) ), this, SLOT( slotMinimumFontSize( int ) ) );
   connect( m_minSize, SIGNAL( valueChanged( int ) ), this, SLOT( changed() ) );
-  QWhatsThis::add( m_minSize, i18n( "Konqueror will never display text smaller than "
+  m_minSize->setWhatsThis( i18n( "Konqueror will never display text smaller than "
                                     "this size,<br>overriding any other settings" ) );
 
   m_MedSize = new KIntNumInput( m_minSize, fSize, gb );
@@ -61,7 +60,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   m_MedSize->setRange( 2, 30 );
   connect( m_MedSize, SIGNAL( valueChanged( int ) ), this, SLOT( slotFontSize( int ) ) );
   connect( m_MedSize, SIGNAL( valueChanged( int ) ), this, SLOT( changed() ) );
-  QWhatsThis::add( m_MedSize,
+  m_MedSize->setWhatsThis(
                    i18n("This is the relative font size Konqueror uses "
                         "to display web sites.") );
 
@@ -76,8 +75,8 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   lay->addMultiCellWidget(m_pFonts[0], r, r, M, W);
 
   wtstr = i18n("This is the font used to display normal text in a web page.");
-  QWhatsThis::add( label, wtstr );
-  QWhatsThis::add( m_pFonts[0], wtstr );
+  label->setWhatsThis( wtstr );
+  m_pFonts[0]->setWhatsThis( wtstr );
 
   connect( m_pFonts[0], SIGNAL( activated(const QString&) ),
 	   SLOT( slotStandardFont(const QString&) ) );
@@ -97,8 +96,8 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   lay->addMultiCellWidget(m_pFonts[1], r, r, M, W);
 
   wtstr = i18n("This is the font used to display fixed-width (i.e. non-proportional) text.");
-  QWhatsThis::add( label, wtstr );
-  QWhatsThis::add( m_pFonts[1], wtstr );
+  label->setWhatsThis( wtstr );
+  m_pFonts[1]->setWhatsThis( wtstr );
 
   connect( m_pFonts[1], SIGNAL( activated(const QString&) ),
 	   SLOT( slotFixedFont(const QString&) ) );
@@ -118,8 +117,8 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   lay->addMultiCellWidget( m_pFonts[2], r, r, M, W );
 
   wtstr= i18n( "This is the font used to display text that is marked up as serif." );
-  QWhatsThis::add( label, wtstr );
-  QWhatsThis::add( m_pFonts[2], wtstr );
+  label->setWhatsThis( wtstr );
+  m_pFonts[2]->setWhatsThis( wtstr );
 
   connect( m_pFonts[2], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotSerifFont( const QString& ) ) );
@@ -139,8 +138,8 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   lay->addMultiCellWidget( m_pFonts[3], r, r, M, W );
 
   wtstr= i18n( "This is the font used to display text that is marked up as sans-serif." );
-  QWhatsThis::add( label, wtstr );
-  QWhatsThis::add( m_pFonts[3], wtstr );
+  label->setWhatsThis( wtstr );
+  m_pFonts[3]->setWhatsThis( wtstr );
 
   connect( m_pFonts[3], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotSansSerifFont( const QString& ) ) );
@@ -161,8 +160,8 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   lay->addMultiCellWidget( m_pFonts[4], r, r, M, W );
 
   wtstr= i18n( "This is the font used to display text that is marked up as italic." );
-  QWhatsThis::add( label, wtstr );
-  QWhatsThis::add( m_pFonts[4], wtstr );
+  label->setWhatsThis( wtstr );
+  m_pFonts[4]->setWhatsThis( wtstr );
 
   connect( m_pFonts[4], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotCursiveFont( const QString& ) ) );
@@ -183,8 +182,8 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   lay->addMultiCellWidget( m_pFonts[5], r, r, M, W );
 
   wtstr= i18n( "This is the font used to display text that is marked up as a fantasy font." );
-  QWhatsThis::add( label, wtstr );
-  QWhatsThis::add( m_pFonts[5], wtstr );
+  label->setWhatsThis( wtstr );
+  m_pFonts[5]->setWhatsThis( wtstr );
 
   connect( m_pFonts[5], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotFantasyFont( const QString& ) ) );
@@ -223,8 +222,8 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
 
   wtstr = i18n( "Select the default encoding to be used; normally, you will be fine with 'Use language encoding' "
 	       "and should not have to change this.");
-  QWhatsThis::add( label, wtstr );
-  QWhatsThis::add( m_pEncoding, wtstr );
+  label->setWhatsThis( wtstr );
+  m_pEncoding->setWhatsThis( wtstr );
 
   connect( m_pEncoding, SIGNAL( activated(const QString& ) ),
 	   SLOT( slotEncoding(const QString&) ) );

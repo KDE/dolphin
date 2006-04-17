@@ -22,7 +22,6 @@
 #include <khbox.h>
 
 #include <qlayout.h>
-#include <qwhatsthis.h>
 #include <q3groupbox.h>
 #include <qlabel.h>
 
@@ -134,7 +133,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     /***************************************************************************
      ********************** WhatsThis? items ***********************************
      **************************************************************************/
-    QWhatsThis::add( enableJavaGloballyCB, i18n("Enables the execution of scripts written in Java "
+    enableJavaGloballyCB->setWhatsThis( i18n("Enables the execution of scripts written in Java "
           "that can be contained in HTML pages. "
           "Note that, as with any browser, enabling active contents can be a security problem.") );
     QString wtstr = i18n("This box contains the domains and hosts you have set "
@@ -142,16 +141,16 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
                          "instead of the default policy for enabling or disabling Java applets on pages sent by these "
                          "domains or hosts. <p>Select a policy and use the controls on "
                          "the right to modify it.");
-    QWhatsThis::add( domainSpecific->listView(), wtstr );
+    domainSpecific->listView()->setWhatsThis( wtstr );
 #if 0
-    QWhatsThis::add( domainSpecific->importButton(), i18n("Click this button to choose the file that contains "
+    domainSpecific->importButton()->setWhatsThis( i18n("Click this button to choose the file that contains "
                                           "the Java policies. These policies will be merged "
                                           "with the existing ones. Duplicate entries are ignored.") );
-    QWhatsThis::add( domainSpecific->exportButton(), i18n("Click this button to save the Java policy to a zipped "
+    domainSpecific->exportButton()->setWhatsThis( i18n("Click this button to save the Java policy to a zipped "
                                           "file. The file, named <b>java_policy.tgz</b>, will be "
                                           "saved to a location of your choice." ) );
 #endif
-    QWhatsThis::add( domainSpecific, i18n("Here you can set specific Java policies for any particular "
+    domainSpecific->setWhatsThis( i18n("Here you can set specific Java policies for any particular "
                                             "host or domain. To add a new policy, simply click the <i>New...</i> "
                                             "button and supply the necessary information requested by the "
                                             "dialog box. To change an existing policy, click on the <i>Change...</i> "
@@ -164,7 +163,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
                                             "you to save and retrieve them from a zipped file.") );
 #endif
 
-    QWhatsThis::add( javaSecurityManagerCB, i18n( "Enabling the security manager will cause the jvm to run with a Security "
+    javaSecurityManagerCB->setWhatsThis( i18n( "Enabling the security manager will cause the jvm to run with a Security "
                                                   "Manager in place. This will keep applets from being able to read and "
                                                   "write to your file system, creating arbitrary sockets, and other actions "
                                                   "which could be used to compromise your system. Disable this option at your "
@@ -172,14 +171,14 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
                                                   "policytool utility to give code downloaded from certain sites more "
                                                   "permissions." ) );
 
-    QWhatsThis::add( useKioCB, i18n( "Enabling this will cause the jvm to use KIO for network transport ") );
+    useKioCB->setWhatsThis( i18n( "Enabling this will cause the jvm to use KIO for network transport ") );
 
-    QWhatsThis::add( pathED, i18n("Enter the path to the java executable. If you want to use the jre in "
+    pathED->setWhatsThis( i18n("Enter the path to the java executable. If you want to use the jre in "
                                   "your path, simply leave it as 'java'. If you need to use a different jre, "
                                   "enter the path to the java executable (e.g. /usr/lib/jdk/bin/java), "
                                   "or the path to the directory that contains 'bin/java' (e.g. /opt/IBMJava2-13).") );
 
-    QWhatsThis::add( addArgED, i18n("If you want special arguments to be passed to the virtual machine, enter them here.") );
+    addArgED->setWhatsThis( i18n("If you want special arguments to be passed to the virtual machine, enter them here.") );
 
     QString shutdown = i18n("When all the applets have been destroyed, the applet server should shut down. "
                                            "However, starting the jvm takes a lot of time. If you would like to "
@@ -187,8 +186,8 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
                                            "browsing, you can set the timeout value to whatever you like. To keep "
                                            "the java process running for the whole time that the konqueror process is, "
                                            "leave the Shutdown Applet Server checkbox unchecked.");
-    QWhatsThis::add( serverTimeoutSB, shutdown);
-    QWhatsThis::add( enableShutdownCB, shutdown);
+    serverTimeoutSB->setWhatsThis(shutdown);
+    enableShutdownCB->setWhatsThis(shutdown);
     // Finally do the loading
     load();
 }

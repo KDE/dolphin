@@ -6,7 +6,6 @@
 // (c) 2001 Waldo Bastian <bastian@kde.org>
 
 #include <qlayout.h>//CT - 12Nov1998
-#include <qwhatsthis.h>
 #include <q3groupbox.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
@@ -51,14 +50,15 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
 	QVBoxLayout *laygroup1 = new QVBoxLayout(bgBookmarks->layout(), KDialog::spacingHint() );
     m_pAdvancedAddBookmarkCheckBox = new QCheckBox(i18n( "Ask for name and folder when adding bookmarks" ), bgBookmarks);
 	laygroup1->addWidget(m_pAdvancedAddBookmarkCheckBox);
-    QWhatsThis::add( m_pAdvancedAddBookmarkCheckBox, i18n( "If this box is checked, Konqueror will allow you to"
-                                                        " change the title of the bookmark and choose a folder in which to store it when you add a new bookmark." ) );
+    m_pAdvancedAddBookmarkCheckBox->setWhatsThis( i18n( "If this box is checked, Konqueror will allow you to"
+                                                        " change the title of the bookmark and choose a folder"
+							" in which to store it when you add a new bookmark." ) );
     connect(m_pAdvancedAddBookmarkCheckBox, SIGNAL(clicked()), SLOT(slotChanged()));
 
     m_pOnlyMarkedBookmarksCheckBox = new QCheckBox(i18n( "Show only marked bookmarks in bookmark toolbar" ), bgBookmarks);
 	laygroup1->addWidget(m_pOnlyMarkedBookmarksCheckBox);
-    QWhatsThis::add( m_pOnlyMarkedBookmarksCheckBox, i18n( "If this box is checked, Konqueror will show only those"
-                                                         " bookmarks in the bookmark toolbar which you have marked to do so in the bookmark editor." ) );
+    m_pOnlyMarkedBookmarksCheckBox->setWhatsThis( i18n( "If this box is checked, Konqueror will show only those"
+                     " bookmarks in the bookmark toolbar which you have marked to do so in the bookmark editor." ) );
     connect(m_pOnlyMarkedBookmarksCheckBox, SIGNAL(clicked()), SLOT(slotChanged()));
 
     lay->addMultiCellWidget( bgBookmarks, row, row, 0, 1 );
@@ -71,15 +71,15 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
     QVBoxLayout *laygroup2 = new QVBoxLayout(bgForm->layout(), KDialog::spacingHint() );
     m_pFormCompletionCheckBox = new QCheckBox(i18n( "Enable completion of &forms" ), bgForm);
     laygroup2->addWidget( m_pFormCompletionCheckBox );
-    QWhatsThis::add( m_pFormCompletionCheckBox, i18n( "If this box is checked, Konqueror will remember"
-                                                        " the data you enter in web forms and suggest it in similar fields for all forms." ) );
+    m_pFormCompletionCheckBox->setWhatsThis( i18n( "If this box is checked, Konqueror will remember"
+                  " the data you enter in web forms and suggest it in similar fields for all forms." ) );
     connect(m_pFormCompletionCheckBox, SIGNAL(clicked()), SLOT(slotChanged()));
 
     m_pMaxFormCompletionItems = new KIntNumInput( bgForm );
     m_pMaxFormCompletionItems->setLabel( i18n( "&Maximum completions:" ) );
     m_pMaxFormCompletionItems->setRange( 0, 100 );
     laygroup2->addWidget( m_pMaxFormCompletionItems );
-    QWhatsThis::add( m_pMaxFormCompletionItems,
+    m_pMaxFormCompletionItems->setWhatsThis(
         i18n( "Here you can select how many values Konqueror will remember for a form field." ) );
     connect(m_pMaxFormCompletionItems, SIGNAL(valueChanged(int)), SLOT(slotChanged()));
 
@@ -92,13 +92,13 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
     QVBoxLayout *laygroup = new QVBoxLayout(bgTabbedBrowsing->layout(), KDialog::spacingHint() );
 
     m_pShowMMBInTabs = new QCheckBox( i18n( "Open &links in new tab instead of in new window" ), bgTabbedBrowsing );
-    QWhatsThis::add( m_pShowMMBInTabs, i18n("This will open a new tab instead of a new window in various situations, "
+    m_pShowMMBInTabs->setWhatsThis( i18n("This will open a new tab instead of a new window in various situations, "
                           "such as choosing a link or a folder with the middle mouse button.") );
     connect(m_pShowMMBInTabs, SIGNAL(clicked()), SLOT(slotChanged()));
     laygroup->addWidget(m_pShowMMBInTabs);
 
     m_pDynamicTabbarHide = new QCheckBox( i18n( "Hide the tab bar when only one tab is open" ), bgTabbedBrowsing );
-    QWhatsThis::add( m_pDynamicTabbarHide, i18n("This will display the tab bar only if there are two or more tabs. Otherwise it will always be displayed.") );
+    m_pDynamicTabbarHide->setWhatsThis( i18n("This will display the tab bar only if there are two or more tabs. Otherwise it will always be displayed.") );
     connect(m_pDynamicTabbarHide, SIGNAL(clicked()), SLOT(slotChanged()));
     laygroup->addWidget(m_pDynamicTabbarHide);
 
@@ -119,20 +119,20 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
 
     m_cbCursor = new QCheckBox(i18n("Chan&ge cursor over links"), bgMouse );
     laygroup3->addWidget( m_cbCursor );
-    QWhatsThis::add( m_cbCursor, i18n("If this option is set, the shape of the cursor will change "
+    m_cbCursor->setWhatsThis( i18n("If this option is set, the shape of the cursor will change "
        "(usually to a hand) if it is moved over a hyperlink.") );
     connect(m_cbCursor, SIGNAL(clicked()), SLOT(slotChanged()));
 
     m_pOpenMiddleClick = new QCheckBox( i18n ("M&iddle click opens URL in selection" ), bgMouse );
     laygroup3->addWidget( m_pOpenMiddleClick );
-    QWhatsThis::add( m_pOpenMiddleClick, i18n (
+    m_pOpenMiddleClick->setWhatsThis( i18n (
       "If this box is checked, you can open the URL in the selection by middle clicking on a "
       "Konqueror view." ) );
     connect(m_pOpenMiddleClick, SIGNAL(clicked()), SLOT(slotChanged()));
 
     m_pBackRightClick = new QCheckBox( i18n( "Right click goes &back in history" ), bgMouse );
     laygroup3->addWidget( m_pBackRightClick );
-    QWhatsThis::add( m_pBackRightClick, i18n(
+    m_pBackRightClick->setWhatsThis( i18n(
       "If this box is checked, you can go back in history by right clicking on a Konqueror view. "
       "To access the context menu, press the right mouse button and move." ) );
     connect(m_pBackRightClick, SIGNAL(clicked()), SLOT(slotChanged()));
@@ -143,20 +143,29 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
     // Misc
 
     m_pAutoLoadImagesCheckBox = new QCheckBox( i18n( "A&utomatically load images"), this );
-    QWhatsThis::add( m_pAutoLoadImagesCheckBox, i18n( "If this box is checked, Konqueror will automatically load any images that are embedded in a web page. Otherwise, it will display placeholders for the images, and you can then manually load the images by clicking on the image button.<br>Unless you have a very slow network connection, you will probably want to check this box to enhance your browsing experience." ) );
+    m_pAutoLoadImagesCheckBox->setWhatsThis( i18n( "If this box is checked, Konqueror will"
+			    " automatically load any images that are embedded in a web page."
+			    " Otherwise, it will display placeholders for the images, and"
+			    " you can then manually load the images by clicking on the image"
+			    " button.<br>Unless you have a very slow network connection, you"
+			    " will probably want to check this box to enhance your browsing"
+			    " experience." ) );
     connect(m_pAutoLoadImagesCheckBox, SIGNAL(clicked()), SLOT(slotChanged()));
     lay->addMultiCellWidget( m_pAutoLoadImagesCheckBox, row, row, 0, 1 );
     row++;
 
     m_pUnfinishedImageFrameCheckBox = new QCheckBox( i18n( "Dra&w frame around not completely loaded images"), this );
-    QWhatsThis::add( m_pUnfinishedImageFrameCheckBox, i18n( "If this box is checked, Konqueror will draw a frame as placeholder around not yet fully loaded images that are embedded in a web page.<br>Especially if you have a slow network connection, you will probably want to check this box to enhance your browsing experience." ) );
+    m_pUnfinishedImageFrameCheckBox->setWhatsThis( i18n( "If this box is checked, Konqueror will draw"
+			    " a frame as placeholder around not yet fully loaded images that are embedded"
+			    " in a web page.<br>Especially if you have a slow network connection, you will"
+			    " probably want to check this box to enhance your browsing experience." ) );
     connect(m_pUnfinishedImageFrameCheckBox, SIGNAL(clicked()), SLOT(slotChanged()));
     lay->addMultiCellWidget( m_pUnfinishedImageFrameCheckBox, row, row, 0, 1 );
     row++;
 
     m_pAutoRedirectCheckBox = new QCheckBox( i18n( "Allow automatic delayed &reloading/redirecting"), this );
-    QWhatsThis::add( m_pAutoRedirectCheckBox,
-    i18n( "Some web pages request an automatic reload or redirection after a certain period of time. By unchecking this box Konqueror will ignore these requests." ) );
+    m_pAutoRedirectCheckBox->setWhatsThis( i18n( "Some web pages request an automatic reload or redirection after"
+			    " a certain period of time. By unchecking this box Konqueror will ignore these requests." ) );
     connect(m_pAutoRedirectCheckBox, SIGNAL(clicked()), SLOT(slotChanged()));
     lay->addMultiCellWidget( m_pAutoRedirectCheckBox, row, row, 0, 1 );
     row++;
@@ -183,8 +192,8 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
 	    "<li><b>Disabled</b>: Never underline links</li>"
 	    "<li><b>Only on Hover</b>: Underline when the mouse is moved over the link</li>"
 	    "</ul><br><i>Note: The site's CSS definitions can override this value</i>");
-    QWhatsThis::add( label, whatsThis);
-    QWhatsThis::add( m_pUnderlineCombo, whatsThis);
+    label->setWhatsThis(whatsThis);
+    m_pUnderlineCombo->setWhatsThis(whatsThis);
     connect(m_pUnderlineCombo, SIGNAL(activated(int)), SLOT(slotChanged()));
 
 
@@ -203,8 +212,8 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
 	    "<ul><li><b>Enabled</b>: Show all animations completely.</li>"
 	    "<li><b>Disabled</b>: Never show animations, show the start image only.</li>"
 	    "<li><b>Show only once</b>: Show all animations completely but do not repeat them.</li>");
-    QWhatsThis::add( label, whatsThis);
-    QWhatsThis::add( m_pAnimationsCombo, whatsThis);
+    label->setWhatsThis(whatsThis);
+    m_pAnimationsCombo->setWhatsThis(whatsThis);
     connect(m_pAnimationsCombo, SIGNAL(activated(int)), SLOT(slotChanged()));
 
     lay->setRowStretch(row, 1);

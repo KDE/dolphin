@@ -4,7 +4,6 @@
 
 #include <qlayout.h>
 #include <qlabel.h>
-#include <qwhatsthis.h>
 #include <qcombobox.h>
 
 #include <klocale.h>
@@ -39,7 +38,7 @@ PolicyDialog::PolicyDialog( Policies *policies, QWidget *parent, const char *nam
   connect( le_domain,SIGNAL(textChanged( const QString & )),
       SLOT(slotTextChanged( const QString &)));
 
-  QWhatsThis::add(le_domain, i18n("Enter the name of a host (like www.kde.org) "
+  le_domain->setWhatsThis( i18n("Enter the name of a host (like www.kde.org) "
                                   "or a domain, starting with a dot (like .kde.org or .org)") );
 
   l_feature_policy = new QLabel(main);
@@ -92,7 +91,7 @@ void PolicyDialog::setFeatureEnabledLabel(const QString &text) {
 }
 
 void PolicyDialog::setFeatureEnabledWhatsThis(const QString &text) {
-  QWhatsThis::add(cb_feature_policy, text);
+  cb_feature_policy->setWhatsThis(text);
 }
 
 void PolicyDialog::addPolicyPanel(QWidget *panel) {
