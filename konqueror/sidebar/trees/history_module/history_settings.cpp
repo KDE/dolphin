@@ -7,9 +7,10 @@
 #include "history_settings.h"
 
 KonqSidebarHistorySettings::KonqSidebarHistorySettings( QObject *parent, const char *name )
-    : QObject( parent, name ),
+    : QObject( parent ),
       DCOPObject( "KonqSidebarHistorySettings" )
 {
+    setObjectName( name );
     m_fontOlderThan.setItalic( true ); // default
 }
 

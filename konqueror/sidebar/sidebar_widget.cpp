@@ -49,9 +49,10 @@
 
 
 addBackEnd::addBackEnd(QWidget *parent,class QMenu *addmenu,bool universal,const QString &currentProfile, const char *name)
- : QObject(parent,name),
+ : QObject(parent),
    m_parent(parent)
 {
+	setObjectName( name );
 	m_universal=universal;
 	m_currentProfile = currentProfile;
 	menu = addmenu;

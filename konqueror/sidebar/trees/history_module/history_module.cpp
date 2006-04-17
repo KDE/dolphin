@@ -39,12 +39,14 @@ static KStaticDeleter<KonqSidebarHistorySettings> sd;
 KonqSidebarHistorySettings * KonqSidebarHistoryModule::s_settings = 0L;
 
 KonqSidebarHistoryModule::KonqSidebarHistoryModule( KonqSidebarTree * parentTree, const char *name )
-    : QObject( 0L, name ), KonqSidebarTreeModule( parentTree ),
+    : QObject( 0L ), KonqSidebarTreeModule( parentTree ),
       m_dict( 349 ),
       m_topLevelItem( 0L ),
       m_dlg( 0L ),
       m_initialized( false )
 {
+    setObjectName( name );
+
     if ( !s_settings ) {
 	sd.setObject( s_settings,
                       new KonqSidebarHistorySettings( 0, "history settings" ));

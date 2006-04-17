@@ -24,8 +24,9 @@
 
 KonqSidebarPlugin::KonqSidebarPlugin(KInstance *instance,QObject *parent,
 	QWidget * /*widgetParent*/, QString &desktopName_, const char* name)
-	: QObject(parent,name), desktopName(desktopName_)
+	: QObject(parent), desktopName(desktopName_)
 {
+  setObjectName( name );
   m_parentInstance=instance;
 }
 
