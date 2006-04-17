@@ -213,8 +213,9 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   //lay->addMultiCellWidget( label, r, r, E, E+1);
   lay->addWidget( label, ++r, E);
 
-  m_pEncoding = new QComboBox( false, this );
+  m_pEncoding = new QComboBox( this );
   label->setBuddy( m_pEncoding );
+  m_pEncoding->setEditable( false );
   encodings = KGlobal::charsets()->availableEncodingNames();
   encodings.prepend(i18n("Use Language Encoding"));
   m_pEncoding->insertStringList( encodings );

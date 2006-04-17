@@ -169,8 +169,9 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
     row++;
 
     QLabel *label = new QLabel( i18n("Und&erline links:"), this);
-    m_pUnderlineCombo = new QComboBox( false, this );
+    m_pUnderlineCombo = new QComboBox( this );
     label->setBuddy(m_pUnderlineCombo);
+    m_pUnderlineCombo->setEditable(false);
     m_pUnderlineCombo->insertItem(UnderlineAlways, i18nc("underline","Enabled"));
     m_pUnderlineCombo->insertItem(UnderlineNever, i18nc("underline","Disabled"));
     m_pUnderlineCombo->insertItem(UnderlineHover, i18n("Only on Hover"));
@@ -189,8 +190,9 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
 
 
     label = new QLabel( i18n("A&nimations:"), this);
-    m_pAnimationsCombo = new QComboBox( false, this );
+    m_pAnimationsCombo = new QComboBox( this );
     label->setBuddy(m_pAnimationsCombo);
+    m_pAnimationsCombo->setEditable(false);
     m_pAnimationsCombo->insertItem(AnimationsAlways, i18nc("animations","Enabled"));
     m_pAnimationsCombo->insertItem(AnimationsNever, i18nc("animations","Disabled"));
     m_pAnimationsCombo->insertItem(AnimationsLoopOnce, i18n("Show Only Once"));

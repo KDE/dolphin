@@ -525,7 +525,7 @@ void KonqKfmIconView::slotSelect()
         i18n( "Select files:" ), "*", &ok, m_pIconView );
     if ( ok )
     {
-        QRegExp re( pattern, true, true );
+        QRegExp re( pattern, Qt::CaseSensitive, QRegExp::Wildcard );
 
         m_pIconView->blockSignals( true );
 
@@ -552,7 +552,7 @@ void KonqKfmIconView::slotUnselect()
         i18n( "Unselect files:" ), "*", &ok, m_pIconView );
     if ( ok )
     {
-        QRegExp re( pattern, true, true );
+        QRegExp re( pattern, Qt::CaseSensitive, QRegExp::Wildcard );
 
         m_pIconView->blockSignals( true );
 

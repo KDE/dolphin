@@ -379,7 +379,7 @@ void KonqListView::slotSelect()
    if ( !ok )
       return;
 
-   QRegExp re( pattern, true, true );
+   QRegExp re( pattern, Qt::CaseSensitive, QRegExp::Wildcard );
 
    m_pListView->blockSignals( true );
 
@@ -410,7 +410,7 @@ void KonqListView::slotUnselect()
    if ( !ok )
       return;
 
-   QRegExp re( pattern, true, true );
+   QRegExp re( pattern, Qt::CaseSensitive, QRegExp::Wildcard );
 
    m_pListView->blockSignals(true);
 
