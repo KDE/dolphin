@@ -463,7 +463,7 @@ void KonqAboutPage::urlSelected( const QString &url, int button, int state, cons
     KUrl u = KUrl::fromPathOrURL( url );
     if ( u.protocol() == "exec" )
     {
-        QStringList args = QStringList::split( QChar( ' ' ), url.mid( 6 ) );
+        QStringList args = url.mid( 6 ).split(QChar( ' ' ), QString::SkipEmptyParts );
         QString executable = args[ 0 ];
         args.erase( args.begin() );
         KToolInvocation::kdeinitExec( executable, args );

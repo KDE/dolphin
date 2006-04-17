@@ -1405,7 +1405,7 @@ void KonqMainWindow::slotOpenTerminal()
   cmd.setWorkingDirectory(dir);
 
   // Compensate for terminal having arguments.
-  QStringList args = QStringList::split(' ', term);
+  QStringList args = term.split(' ', QString::SkipEmptyParts);
   for ( QStringList::iterator it = args.begin(); it != args.end(); ++it )
     cmd << *it;
 

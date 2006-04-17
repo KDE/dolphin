@@ -454,7 +454,7 @@ void KonqKfmIconView::slotPreview( bool toggle )
     }
     else
     {
-        QStringList types = QStringList::split( ',', name );
+        QStringList types = QString(name).split( ',', QString::SkipEmptyParts );
         for ( QStringList::ConstIterator it = types.begin(); it != types.end(); ++it )
         {
             m_pProps->setShowingPreview( *it, toggle );
@@ -1304,7 +1304,7 @@ bool KonqKfmIconView::doOpenURL( const KUrl & url )
       m_paEnablePreviews->setChecked( m_pProps->isShowingPreview() );
       for ( m_paPreviewPlugins.first(); m_paPreviewPlugins.current(); m_paPreviewPlugins.next() )
       {
-          QStringList types = QStringList::split( ',', m_paPreviewPlugins.current()->name() );
+          QStringList types = QString(m_paPreviewPlugins.current()->name()).split(',', QString::SkipEmptyParts );
           bool enabled = false;
           for ( QStringList::ConstIterator it = types.begin(); it != types.end(); ++it )
               if ( m_pProps->isShowingPreview( *it ) )

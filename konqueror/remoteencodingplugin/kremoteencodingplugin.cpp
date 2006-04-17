@@ -191,7 +191,7 @@ KRemoteEncodingPlugin::slotDefault()
   // settings here since it affects what will be matched.
   KConfig config(("kio_" + m_currentURL.protocol() + "rc").toLatin1());
 
-  QStringList partList = QStringList::split('.', m_currentURL.host(), false);
+  QStringList partList = m_currentURL.host().split('.', QString::SkipEmptyParts);
   if (!partList.isEmpty())
     {
       partList.erase(partList.begin());

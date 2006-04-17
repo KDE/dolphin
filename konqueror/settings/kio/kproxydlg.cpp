@@ -151,8 +151,7 @@ void KProxyDialog::load()
   mData->proxyList["ftp"] = proto.proxyFor( "ftp" );
   mData->proxyList["script"] = proto.proxyConfigScript();
   mData->useReverseProxy = proto.useReverseProxy();
-  mData->noProxyFor = QStringList::split( QRegExp("[',''\t'' ']"),
-                                           proto.noProxyFor() );
+  mData->noProxyFor = proto.noProxyFor().split( QRegExp("[',''\t'' ']"), QString::SkipEmptyParts);
 
   mDlg->gbAuth->setEnabled( useProxy );
   mDlg->gbOptions->setEnabled( useProxy );
