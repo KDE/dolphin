@@ -251,7 +251,7 @@ void KonqCombo::applyPermanent()
 void KonqCombo::insertItem( const QString &text, int index, const QString& title )
 {
     //KonqComboListBoxPixmap* item = new KonqComboListBoxPixmap( 0, text, title );
-    KHistoryCombo::insertItem( text /*item*/, index );
+    KHistoryCombo::insertItem( index, text /*item*/ );
 }
 
 void KonqCombo::insertItem( const QPixmap &pixmap, const QString& text, int index, const QString& title )
@@ -385,7 +385,7 @@ void KonqCombo::popup()
                         K3Icon::SizeSmall), itemText( i ), i, titleOfURL( itemText( i ) ) );
         }
     }
-    KHistoryCombo::popup();
+    KHistoryCombo::showPopup();
 }
 
 void KonqCombo::saveItems()

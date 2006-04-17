@@ -97,7 +97,7 @@ void UAProviderDlg::init()
 
   dlg->cbAlias->clear();
   dlg->cbAlias->insertStringList( m_provider->userAgentAliasList() );
-  dlg->cbAlias->insertItem( "", 0 );
+  dlg->cbAlias->insertItem( 0, "" );
   dlg->cbAlias->model()->sort( 0 );
 
   dlg->leSite->setFocus();

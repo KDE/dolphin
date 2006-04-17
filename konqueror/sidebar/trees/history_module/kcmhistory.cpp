@@ -67,15 +67,15 @@ HistorySidebarConfig::HistorySidebarConfig( QWidget *parent, const char* name, c
     dialog->spinNewer->setRange( 0, INT_MAX );
     dialog->spinOlder->setRange( 0, INT_MAX );
 
-    dialog->comboNewer->insertItem( i18n("Minutes"),
-                                    KonqSidebarHistorySettings::MINUTES );
-    dialog->comboNewer->insertItem( i18n("Days"),
-                                    KonqSidebarHistorySettings::DAYS );
+    dialog->comboNewer->insertItem( KonqSidebarHistorySettings::MINUTES,
+		                    i18n("Minutes") );
+    dialog->comboNewer->insertItem( KonqSidebarHistorySettings::DAYS,
+		                    i18n("Days") );
 
-    dialog->comboOlder->insertItem( i18n("Minutes"),
-                                    KonqSidebarHistorySettings::MINUTES );
-    dialog->comboOlder->insertItem( i18n("Days"),
-                                    KonqSidebarHistorySettings::DAYS );
+    dialog->comboOlder->insertItem( KonqSidebarHistorySettings::MINUTES,
+		                    i18n("Minutes") );
+    dialog->comboOlder->insertItem( KonqSidebarHistorySettings::DAYS,
+		                    i18n("Days") );
 
     connect( dialog->cbExpire, SIGNAL( toggled( bool )),
 	     dialog->spinExpire, SLOT( setEnabled( bool )));

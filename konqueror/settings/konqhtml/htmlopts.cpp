@@ -171,9 +171,9 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
     QLabel *label = new QLabel( i18n("Und&erline links:"), this);
     m_pUnderlineCombo = new QComboBox( false, this );
     label->setBuddy(m_pUnderlineCombo);
-    m_pUnderlineCombo->insertItem(i18nc("underline","Enabled"), UnderlineAlways);
-    m_pUnderlineCombo->insertItem(i18nc("underline","Disabled"), UnderlineNever);
-    m_pUnderlineCombo->insertItem(i18n("Only on Hover"), UnderlineHover);
+    m_pUnderlineCombo->insertItem(UnderlineAlways, i18nc("underline","Enabled"));
+    m_pUnderlineCombo->insertItem(UnderlineNever, i18nc("underline","Disabled"));
+    m_pUnderlineCombo->insertItem(UnderlineHover, i18n("Only on Hover"));
     lay->addWidget(label, row, 0);
     lay->addWidget(m_pUnderlineCombo, row, 1);
     row++;
@@ -191,9 +191,9 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
     label = new QLabel( i18n("A&nimations:"), this);
     m_pAnimationsCombo = new QComboBox( false, this );
     label->setBuddy(m_pAnimationsCombo);
-    m_pAnimationsCombo->insertItem(i18nc("animations","Enabled"), AnimationsAlways);
-    m_pAnimationsCombo->insertItem(i18nc("animations","Disabled"), AnimationsNever);
-    m_pAnimationsCombo->insertItem(i18n("Show Only Once"), AnimationsLoopOnce);
+    m_pAnimationsCombo->insertItem(AnimationsAlways, i18nc("animations","Enabled"));
+    m_pAnimationsCombo->insertItem(AnimationsNever, i18nc("animations","Disabled"));
+    m_pAnimationsCombo->insertItem(AnimationsLoopOnce, i18n("Show Only Once"));
     lay->addWidget(label, row, 0);
     lay->addWidget(m_pAnimationsCombo, row, 1);
     row++;

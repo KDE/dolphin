@@ -268,13 +268,13 @@ void DesktopBehavior::saveMediaListView()
 
 void DesktopBehavior::fillMenuCombo( QComboBox * combo )
 {
-  combo->insertItem( i18n("No Action") );
-  combo->insertItem( i18n("Window List Menu") );
-  combo->insertItem( i18n("Desktop Menu") );
-  combo->insertItem( i18n("Application Menu") );
-  combo->insertItem( i18n("Bookmarks Menu") );
-  combo->insertItem( i18n("Custom Menu 1") );
-  combo->insertItem( i18n("Custom Menu 2") );
+  combo->addItem( i18n("No Action") );
+  combo->addItem( i18n("Window List Menu") );
+  combo->addItem( i18n("Desktop Menu") );
+  combo->addItem( i18n("Application Menu") );
+  combo->addItem( i18n("Bookmarks Menu") );
+  combo->addItem( i18n("Custom Menu 1") );
+  combo->addItem( i18n("Custom Menu 2") );
 }
 
 void DesktopBehavior::load()

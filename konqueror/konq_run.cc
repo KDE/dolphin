@@ -46,6 +46,8 @@ KonqRun::KonqRun( KonqMainWindow* mainWindow, KonqView *_childView,
   assert( !m_pMainWindow.isNull() );
   if (m_pView)
     m_pView->setLoading(true);
+
+  m_timer.setSingleShot(true);
 }
 
 KonqRun::~KonqRun()
@@ -71,7 +73,7 @@ void KonqRun::foundMimeType( const QString & _type )
   {
     m_bFinished = true;
     m_bFault = true;
-    m_timer.start( 0, true );
+    m_timer.start( 0 );
     return;
   }
 
@@ -93,7 +95,7 @@ void KonqRun::foundMimeType( const QString & _type )
 
   if ( m_bFinished ) {
     m_pMainWindow = 0L;
-    m_timer.start( 0, true );
+    m_timer.start( 0 );
     return;
   }
 
@@ -121,7 +123,7 @@ void KonqRun::foundMimeType( const QString & _type )
 
   if ( m_bFinished ) {
     m_pMainWindow = 0L;
-    m_timer.start( 0, true );
+    m_timer.start( 0 );
     return;
   }
 
@@ -136,7 +138,7 @@ void KonqRun::handleError( KIO::Job *job )
   {
      m_job = 0;
      m_bFinished = true;
-     m_timer.start( 0, true );
+     m_timer.start( 0 );
      return;
   }
   KParts::BrowserRun::handleError( job );

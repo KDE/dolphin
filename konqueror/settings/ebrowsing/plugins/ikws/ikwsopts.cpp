@@ -452,7 +452,7 @@ SearchProviderItem *FilterOptions::displaySearchProvider(SearchProvider *p, bool
       if (m_dlg->cmbDefaultEngine->itemText(itemCount) > p->name())
       {
         int currentItem = m_dlg->cmbDefaultEngine->currentIndex();
-        m_dlg->cmbDefaultEngine->insertItem(p->name(), itemCount);
+        m_dlg->cmbDefaultEngine->insertItem(itemCount, p->name());
         m_defaultEngineMap[p->name ()] = p->desktopEntryName ();
         if (currentItem >= itemCount)
           m_dlg->cmbDefaultEngine->setCurrentIndex(currentItem+1);
@@ -463,7 +463,7 @@ SearchProviderItem *FilterOptions::displaySearchProvider(SearchProvider *p, bool
     // Append it to the end of the list...
     if (itemCount == totalCount)
     {
-      m_dlg->cmbDefaultEngine->insertItem(p->name(), itemCount);
+      m_dlg->cmbDefaultEngine->insertItem(itemCount, p->name());
       m_defaultEngineMap[p->name ()] = p->desktopEntryName ();
     }
 
