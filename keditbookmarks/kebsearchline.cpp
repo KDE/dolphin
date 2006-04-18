@@ -385,7 +385,7 @@ void KViewSearchLine::listViewDeleted()
 
 void KViewSearchLine::searchColumnsMenuActivated(QAction * action)
 {
-    int index;
+    int index = 0;
     int count = actions.count();
     for(int i=0; i<count; ++i)
     {
