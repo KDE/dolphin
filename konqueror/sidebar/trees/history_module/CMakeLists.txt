@@ -20,7 +20,7 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_sidebartree_history )
 
 target_link_libraries(konq_sidebartree_history  ${KDE4_KDEUI_LIBS} konqsidebarplugin konq )
 
-install_targets(${LIB_INSTALL_DIR}/kde4 konq_sidebartree_history )
+install_targets(${PLUGIN_INSTALL_DIR} konq_sidebartree_history )
 
 
 ########### next target ###############
@@ -39,7 +39,7 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_history )
 
 target_link_libraries(kcm_history  ${KDE4_KDEUI_LIBS} konq )
 
-install_targets(${LIB_INSTALL_DIR}/kde4 kcm_history )
+install_targets(${PLUGIN_INSTALL_DIR} kcm_history )
 
 
 ########### install files ###############

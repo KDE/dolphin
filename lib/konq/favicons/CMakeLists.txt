@@ -18,7 +18,7 @@ target_link_libraries(kded_favicons  ${KDE4_KIO_LIBS}  )
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kded_favicons )
 
-install_targets(${LIB_INSTALL_DIR}/kde4 kded_favicons )
+install_targets(${PLUGIN_INSTALL_DIR} kded_favicons )
 
 
 ########### install files ###############

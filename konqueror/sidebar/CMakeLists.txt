@@ -32,7 +32,7 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_sidebar )
 
 target_link_libraries(konq_sidebar  ${KDE4_KDECORE_LIBS} kparts kio konq konqsidebarplugin kutils )
 
-install_targets(${LIB_INSTALL_DIR}/kde4 konq_sidebar )
+install_targets(${PLUGIN_INSTALL_DIR} konq_sidebar )
 
 
 ########### install files ###############

@@ -21,7 +21,7 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_part )
 
 target_link_libraries(konq_part  ${KDE4_KDECORE_LIBS} konq )
 
-install_targets(${LIB_INSTALL_DIR}/kde4 konq_part )
+install_targets(${PLUGIN_INSTALL_DIR} konq_part )
 
 
 ########### install files ###############

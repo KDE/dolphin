@@ -16,7 +16,7 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_performance )
 
 target_link_libraries(kcm_performance  ${KDE4_KDE3SUPPORT_LIBS} )
 
-install_targets(${LIB_INSTALL_DIR}/kde4 kcm_performance )
+install_targets(${PLUGIN_INSTALL_DIR} kcm_performance )
 
 
 ########### install files ###############

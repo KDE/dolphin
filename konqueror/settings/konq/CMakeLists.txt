@@ -26,7 +26,7 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_konq )
 
 target_link_libraries(kcm_konq  ${KDE4_KDE3SUPPORT_LIBS} kutils )
 
-install_targets(${LIB_INSTALL_DIR}/kde4 kcm_konq )
+install_targets(${PLUGIN_INSTALL_DIR} kcm_konq )
 
 
 ########### install files ###############

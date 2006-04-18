@@ -16,7 +16,7 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kshorturifilter )
 
 target_link_libraries(kshorturifilter  ${KDE4_KDEUI_LIBS} DCOP kio ${QT_QT3SUPPORT_LIBRARY})
 
-install_targets(${LIB_INSTALL_DIR}/kde4 kshorturifilter )
+install_targets(${PLUGIN_INSTALL_DIR} kshorturifilter )
 
 
 ########### install files ###############

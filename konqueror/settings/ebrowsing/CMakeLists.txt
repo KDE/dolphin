@@ -16,7 +16,7 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_kurifilt )
 
 target_link_libraries(kcm_kurifilt  ${KDE4_KDEUI_LIBS} ${QT_QT3SUPPORT_LIBRARY} ${QT_QTGUI_LIBRARY} kio)
 
-install_targets(${LIB_INSTALL_DIR}/kde4 kcm_kurifilt )
+install_targets(${PLUGIN_INSTALL_DIR} kcm_kurifilt )
 
 
 ########### install files ###############

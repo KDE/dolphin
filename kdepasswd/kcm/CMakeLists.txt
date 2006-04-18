@@ -20,7 +20,7 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_useraccount )
 
 target_link_libraries(kcm_useraccount  konq ${KDE4_KDE3SUPPORT_LIBS} ${KDE4_KDESU_LIBS} )
 
-install_targets(${LIB_INSTALL_DIR}/kde4 kcm_useraccount )
+install_targets(${PLUGIN_INSTALL_DIR} kcm_useraccount )
 
 
 ########### install files ###############

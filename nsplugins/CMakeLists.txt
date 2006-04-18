@@ -23,7 +23,7 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} nsplugin )
 
 target_link_libraries(nsplugin  ${KDE4_KDECORE_LIBS} kparts DCOP ${QT_QT3SUPPORT_LIBRARY} ${QT_QTGUI_LIBRARY} kdeui kio)
 
-install_targets(${LIB_INSTALL_DIR}/kde4 nsplugin )
+install_targets(${PLUGIN_INSTALL_DIR} nsplugin )
 
 
 ########### next target ###############
@@ -38,7 +38,7 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_nsplugins )
 
 target_link_libraries(kcm_nsplugins  ${KDE4_KDECORE_LIBS} )
 
-install_targets(${LIB_INSTALL_DIR}/kde4 kcm_nsplugins )
+install_targets(${PLUGIN_INSTALL_DIR} kcm_nsplugins )
 
 
 ########### next target ###############
