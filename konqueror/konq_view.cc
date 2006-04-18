@@ -530,11 +530,8 @@ void KonqView::slotStarted( KIO::Job * job )
   if (job)
   {
       // Manage passwords properly...
-      if (m_pMainWindow)
-      {
-        kDebug(7035) << "slotStarted: Window ID = " << m_pMainWindow->topLevelWidget()->winId() << endl;
-        job->setWindow (m_pMainWindow->topLevelWidget ());
-      }
+      kDebug(7035) << "slotStarted: Window ID = " << m_pMainWindow->topLevelWidget()->winId() << endl;
+      job->setWindow (m_pMainWindow->topLevelWidget ());
 
       connect( job, SIGNAL( percent( KIO::Job *, unsigned long ) ), this, SLOT( slotPercent( KIO::Job *, unsigned long ) ) );
       connect( job, SIGNAL( speed( KIO::Job *, unsigned long ) ), this, SLOT( slotSpeed( KIO::Job *, unsigned long ) ) );
@@ -1051,7 +1048,7 @@ KParts::BrowserHostExtension* KonqView::hostExtension( KParts::ReadOnlyPart *par
     if ( childHost )
       return childHost;
   }
-  
+
 
   return 0;
 }
