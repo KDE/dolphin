@@ -1209,8 +1209,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
 
   if (m_pDocContainer == 0L)
   {
-    if (m_pMainWindow &&
-        m_pMainWindow->currentView() &&
+    if (m_pMainWindow->currentView() &&
         m_pMainWindow->currentView()->frame()) {
        m_pDocContainer = m_pMainWindow->currentView()->frame();
     } else {
