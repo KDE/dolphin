@@ -719,7 +719,7 @@ void KonqViewManager::updatePixmaps()
 
   tabContainer->listViews( &viewList );
   foreach ( KonqView* view, viewList )
-    view->setTabIcon( view->locationBarURL() );
+    view->setTabIcon( KUrl::fromPathOrURL( view->locationBarURL() ) );
 }
 
 void KonqViewManager::removeView( KonqView *view )
@@ -1619,7 +1619,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
           KonqView* activeChildView = dynamic_cast<KonqFrameBase*>(currentPage)->activeChildView();
           if (activeChildView != 0L) {
             activeChildView->setCaption( activeChildView->caption() );
-            activeChildView->setTabIcon( activeChildView->url().url() );
+            activeChildView->setTabIcon( activeChildView->url() );
           }
         }
     }

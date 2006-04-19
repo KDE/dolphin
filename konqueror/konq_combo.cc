@@ -49,14 +49,14 @@ const int KonqCombo::temporary = 0;
 #warning "This needs massive porting, mostly stubbed out"
 #endif
 
-static QString titleOfURL( const KUrl& url )
+static QString titleOfURL( const QString& urlStr )
 {
-    KonqHistoryList historylist = KonqHistoryManager::kself()->entries();
+    KUrl url = KUrl::fromPathOrURL( urlStr );
+    const KonqHistoryList& historylist = KonqHistoryManager::kself()->entries();
     KonqHistoryEntry *historyentry = historylist.findEntry( url );
     if ( !historyentry && !url.url().endsWith( "/" ) ) {
-        KUrl _url = url;
-        _url.setPath( url.path()+'/' );
-        historyentry = historylist.findEntry( _url );
+        url.setPath( url.path()+'/' );
+        historyentry = historylist.findEntry( url );
     }
     return ( historyentry ? historyentry->title : QString() );
 }
@@ -238,8 +238,7 @@ void KonqCombo::applyPermanent()
             removeItem( --index );
 
         QString item = temporaryItem();
-        KUrl url = KUrl::fromPathOrURL( item );
-        insertItem( KonqPixmapProvider::self()->pixmapFor( item ), item, 1, titleOfURL( url ) );
+        insertItem( KonqPixmapProvider::self()->pixmapFor( item ), item, 1, titleOfURL( item ) );
         //kDebug(1202) << "KonqCombo::applyPermanent: " << url << endl;
 
         // Remove all duplicates starting from index = 2
@@ -336,14 +335,13 @@ void KonqCombo::loadItems()
     while ( it != items.end() ) {
         item = *it;
         if ( !item.isEmpty() ) { // only insert non-empty items
-            KUrl url = KUrl::fromPathOrURL( item );
 	    if( first ) {
                 insertItem( KonqPixmapProvider::self()->pixmapFor( item, K3Icon::SizeSmall ),
-                            item, i++, titleOfURL( url ) );
+                            item, i++, titleOfURL( item ) );
 	    }
             else
                 // icons will be loaded on-demand
-                insertItem( item, i++, titleOfURL( url ) );
+                insertItem( item, i++, titleOfURL( item ) );
             first = false;
         }
         ++it;
@@ -584,7 +582,7 @@ void KonqCombo::mouseMoveEvent( QMouseEvent *e )
          (e->pos() - m_dragStart).manhattanLength() >
          KGlobalSettings::dndEventDelay() )
     {
-        KUrl url ( currentText() );
+        KUrl url = KUrl::fromPathOrURL( currentText() );
         if ( url.isValid() )
         {
             QDrag* drag = new QDrag(this);

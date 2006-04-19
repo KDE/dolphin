@@ -433,7 +433,7 @@ void KonqFrame::setTitle( const QString &title , QWidget* /*sender*/)
   if (m_pParentContainer) m_pParentContainer->setTitle( title , this);
 }
 
-void KonqFrame::setTabIcon( const QString &url, QWidget* /*sender*/ )
+void KonqFrame::setTabIcon( const KUrl &url, QWidget* /*sender*/ )
 {
   //kDebug(1202) << "KonqFrame::setTabIcon( " << url << " )" << endl;
   if (m_pParentContainer) m_pParentContainer->setTabIcon( url, this );
@@ -613,13 +613,15 @@ void KonqFrameContainer::swapChildren()
 void KonqFrameContainer::setTitle( const QString &title , QWidget* sender)
 {
   //kDebug(1202) << "KonqFrameContainer::setTitle( " << title << " , " << sender << " )" << endl;
-  if (m_pParentContainer && activeChild() && (sender == activeChild()->widget())) m_pParentContainer->setTitle( title , this);
+  if (m_pParentContainer && activeChild() && (sender == activeChild()->widget()))
+      m_pParentContainer->setTitle( title , this);
 }
 
-void KonqFrameContainer::setTabIcon( const QString &url, QWidget* sender )
+void KonqFrameContainer::setTabIcon( const KUrl &url, QWidget* sender )
 {
   //kDebug(1202) << "KonqFrameContainer::setTabIcon( " << url << " , " << sender << " )" << endl;
-  if (m_pParentContainer && activeChild() && (sender == activeChild()->widget())) m_pParentContainer->setTabIcon( url, this );
+  if (m_pParentContainer && activeChild() && (sender == activeChild()->widget()))
+      m_pParentContainer->setTabIcon( url, this );
 }
 
 void KonqFrameContainer::insertChildFrame( KonqFrameBase* frame, int /*index*/  )

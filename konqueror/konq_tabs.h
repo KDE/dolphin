@@ -66,7 +66,7 @@ public:
   QList<KonqFrameBase*>* childFrameList() { return m_pChildFrameList; }
 
   virtual void setTitle( const QString &title, QWidget* sender );
-  virtual void setTabIcon( const QString &url, QWidget* sender );
+  virtual void setTabIcon( const KUrl &url, QWidget* sender );
 
   virtual QWidget* widget() { return this; }
   virtual QByteArray frameType() { return QByteArray("Tabs"); }

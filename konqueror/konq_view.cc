@@ -645,7 +645,7 @@ void KonqView::setLocationBarURL( const QString & locationBarURL )
     m_pMainWindow->setLocationBarURL( m_sLocationBarURL );
     m_pMainWindow->setPageSecurity( m_pageSecurity );
   }
-  if (!m_bPassiveMode) setTabIcon( m_sLocationBarURL );
+  if (!m_bPassiveMode) setTabIcon( KUrl::fromPathOrURL( m_sLocationBarURL ) );
 }
 
 void KonqView::setIconURL( const KUrl & iconURL )
@@ -668,7 +668,7 @@ void KonqView::setPageSecurity( int pageSecurity )
     m_pMainWindow->setPageSecurity( m_pageSecurity );
 }
 
-void KonqView::setTabIcon( const  QString &url )
+void KonqView::setTabIcon( const KUrl &url )
 {
   if (!m_bPassiveMode) frame()->setTabIcon( url, 0L );
 }
@@ -682,7 +682,7 @@ void KonqView::setCaption( const QString & caption )
   if (url().isLocalFile())
   {
      // Is the caption a URL?  If so, is it local?  If so, only display the filename!
-     KUrl url(caption);
+     KUrl url = KUrl::fromPathOrURL(caption);
      if (url.isValid() && url.isLocalFile() && url.fileName() == this->url().fileName())
         adjustedCaption = url.fileName();
   }

@@ -5486,7 +5486,7 @@ KonqFrameContainerBase* KonqMainWindow::parentContainer()const { return 0L; }
 void KonqMainWindow::setParentContainer(KonqFrameContainerBase* /*parent*/) { return; }
 
 void KonqMainWindow::setTitle( const QString &/*title*/ , QWidget* /*sender*/) { return; }
-void KonqMainWindow::setTabIcon( const QString &/*url*/, QWidget* /*sender*/ ) { return; }
+void KonqMainWindow::setTabIcon( const KUrl &/*url*/, QWidget* /*sender*/ ) { return; }
 
 QWidget* KonqMainWindow::widget() { return this; }
 

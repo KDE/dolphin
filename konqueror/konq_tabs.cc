@@ -255,7 +255,7 @@ void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
   setTabText( indexOf( sender ), title );
 }
 
-void KonqFrameTabs::setTabIcon( const QString &url, QWidget* sender )
+void KonqFrameTabs::setTabIcon( const KUrl &url, QWidget* sender )
 {
   //kDebug(1202) << "KonqFrameTabs::setTabIcon( " << url << " , " << sender << " )" << endl;
   QIcon iconSet;
@@ -293,7 +293,7 @@ void KonqFrameTabs::insertChildFrame( KonqFrameBase* frame, int index )
       KonqView* activeChildView = frame->activeChildView();
       if (activeChildView != 0L) {
         activeChildView->setCaption( activeChildView->caption() );
-        activeChildView->setTabIcon( activeChildView->url().url() );
+        activeChildView->setTabIcon( activeChildView->url() );
       }
       if (showTabBar)
           setTabBarHidden(false);

@@ -358,7 +358,7 @@ public Q_SLOTS:
    */
   void setIconURL( const KUrl &iconURL );
 
-  void setTabIcon( const QString &url );
+  void setTabIcon( const KUrl &url );
 
   void setCaption( const QString & caption );
 
