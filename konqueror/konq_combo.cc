@@ -52,7 +52,7 @@ const int KonqCombo::temporary = 0;
 static QString titleOfURL( const QString& urlStr )
 {
     KUrl url = KUrl::fromPathOrURL( urlStr );
-    const KonqHistoryList& historylist = KonqHistoryManager::kself()->entries();
+    KonqHistoryList historylist = KonqHistoryManager::kself()->entries();
     KonqHistoryEntry *historyentry = historylist.findEntry( url );
     if ( !historyentry && !url.url().endsWith( "/" ) ) {
         url.setPath( url.path()+'/' );
