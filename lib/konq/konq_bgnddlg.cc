@@ -107,6 +107,7 @@ KonqBgndDialog::KonqBgndDialog( QWidget* parent,
     m_preview->setMinimumSize( 370, 180 );
     m_preview->setFrameShape( QFrame::Panel );
     m_preview->setFrameShadow( QFrame::Raised );
+    m_preview->setAutoFillBackground( true );
     mainLayout->addWidget( m_preview );
 
     if ( !pixmapFile.isEmpty() ) {
@@ -149,7 +150,7 @@ void KonqBgndDialog::initPictures()
         for ( it = list.begin(); it != list.end(); it++ )
             m_comboPicture->comboBox()->addItem(
                 ( (*it).at(0) == '/' ) ?    // if absolute path
-                KUrl( *it ).fileName() :  // then only fileName
+                KUrl::fromPath( *it ).fileName() :  // then only fileName
                 *it );
     }
 }
