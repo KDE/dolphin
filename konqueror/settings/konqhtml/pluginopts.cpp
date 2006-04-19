@@ -583,7 +583,7 @@ void KPluginOptions::pluginLoad( KConfig* /*config*/ )
         QString name = desc[2];
         QString suffixes = desc[1];
 
-        if (!mime.isEmpty()) {
+        if (!mime.isEmpty() && next) {
             //kDebug() << "mime=" << mime << " desc=" << name << " suffix=" << suffixes << endl;
             lastMIME = new Q3ListViewItem( next, lastMIME, i18n("MIME type"), mime );
             lastMIME->setOpen( false );
