@@ -47,7 +47,6 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
     m_maxCount = qMax( (quint32)1, m_maxCount );
     m_maxAgeDays = cs.readEntry( "Maximum age of History entries", 90);
 
-    m_history.setAutoDelete( true );
     m_filename = locateLocal( "data",
 			      QLatin1String("konqueror/konq_history" ));
 
@@ -150,32 +149,31 @@ bool KonqHistoryManager::loadHistory()
 
 
         while ( !stream->atEnd() ) {
-	    KonqHistoryEntry *entry = new KonqHistoryEntry;
-	    Q_CHECK_PTR( entry );
-            *stream >> *entry;
+	    KonqHistoryEntry entry;
+            *stream >> entry;
 	    // kDebug(1203) << "## loaded entry: " << entry->url << ",  Title: " << entry->title << endl;
 	    m_history.append( entry );
-	    QString urlString2 = entry->url.prettyURL();    
+	    QString urlString2 = entry.url.prettyURL();
 
-	    addToCompletion( urlString2, entry->typedURL, entry->numberOfTimesVisited );
+	    addToCompletion( urlString2, entry.typedURL, entry.numberOfTimesVisited );
 
 	    // and fill our baseclass.
-            QString urlString = entry->url.url();
+            QString urlString = entry.url.url();
 	    KParts::HistoryProvider::insert( urlString );
             // DF: also insert the "pretty" version if different
             // This helps getting 'visited' links on websites which don't use fully-escaped urls.
-        
+
             if ( urlString != urlString2 )
                 KParts::HistoryProvider::insert( urlString2 );
 	}
 
 	kDebug(1203) << "## loaded: " << m_history.count() << " entries." << endl;
 
-	m_history.sort();
+	qSort( m_history.begin(), m_history.end(), lastVisitedOrder );
 	adjustSize();
     }
-    
-    
+
+
     //This is important - we need to switch to a consistent marshalling format for
     //communicating between different konqueror instances. Since during an upgrade
     //some "old" copies may still running, we use the old format for the DCOP transfers.
@@ -215,11 +213,9 @@ bool KonqHistoryManager::saveHistory()
     //We use KUrl for marshalling URLs in entries in the V3
     //file format
     KonqHistoryEntry::marshalURLAsStrings = false;
-    Q3PtrListIterator<KonqHistoryEntry> it( m_history );
-    KonqHistoryEntry *entry;
-    while ( (entry = it.current()) ) {
-        stream << *entry;
-	++it;
+    QListIterator<KonqHistoryEntry> it( m_history );
+    while ( it.hasNext() ) {
+        stream << it.next();
     }
 
     //For DCOP, transfer strings instead - wire compat.
@@ -236,20 +232,23 @@ bool KonqHistoryManager::saveHistory()
 
 void KonqHistoryManager::adjustSize()
 {
-    KonqHistoryEntry *entry = m_history.getFirst();
+    KonqHistoryEntry entry = m_history.first();
+    const QDateTime expirationDate( QDate::currentDate().addDays( -m_maxAgeDays ) );
 
-    while ( m_history.count() > m_maxCount || isExpired( entry ) ) {
-	removeFromCompletion( entry->url.prettyURL(), entry->typedURL );
+    while ( m_history.count() > m_maxCount ||
+            (m_maxAgeDays > 0 && entry.lastVisited < expirationDate) ) // i.e. entry is expired
+    {
+	removeFromCompletion( entry.url.prettyURL(), entry.typedURL );
 
-        QString urlString = entry->url.url();
+        QString urlString = entry.url.url();
 	KParts::HistoryProvider::remove( urlString );
 
         addToUpdateList( urlString );
 
-	emit entryRemoved( m_history.getFirst() );
-	m_history.removeFirst(); // deletes the entry
+	emit entryRemoved( m_history.first() );
+	m_history.removeFirst();
 
-	entry = m_history.getFirst();
+	entry = m_history.first();
     }
 }
 
@@ -320,9 +319,9 @@ void KonqHistoryManager::addToHistory( bool pending, const KUrl& _url,
 	// We add a copy of the current history entry of the url to the
 	// pending list, so that we can restore it if the user canceled.
 	// If there is no entry for the url yet, we just store the url.
-	KonqHistoryEntry *oldEntry = findEntry( url );
-	m_pending.insert( u, oldEntry ?
-                          new KonqHistoryEntry( *oldEntry ) : 0L );
+        KonqHistoryList::iterator oldEntry = findEntry( url );
+	m_pending.insert( u, oldEntry != m_history.end() ?
+                          new KonqHistoryEntry( *oldEntry ) : 0 );
     }
 
     // notify all konqueror instances about the entry
@@ -368,7 +367,7 @@ void KonqHistoryManager::removePending( const KUrl& url )
 
     QMap<QString,KonqHistoryEntry*>::iterator it = m_pending.find( url.prettyURL() );
     if ( it != m_pending.end() ) {
-	KonqHistoryEntry *oldEntry = it.value(); // the old entry, may be 0L
+	KonqHistoryEntry *oldEntry = it.value(); // the old entry, may be 0
 	emitRemoveFromHistory( url ); // remove the current pending entry
 
 	if ( oldEntry ) // we had an entry before, now use that instead
@@ -443,26 +442,29 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
 {
     //kDebug(1203) << "Got new entry from Broadcast: " << e.url.prettyURL() << endl;
 
-    KonqHistoryEntry *entry = findEntry( e.url );
+    KonqHistoryList::iterator existingEntry = findEntry( e.url );
     QString urlString = e.url.url();
 
-    if ( !entry ) { // create a new history entry
-	entry = new KonqHistoryEntry;
-	entry->url = e.url;
-	entry->firstVisited = e.firstVisited;
-	entry->numberOfTimesVisited = 0; // will get set to 1 below
+    KonqHistoryEntry entry;
+
+    if ( existingEntry != m_history.end() ) {
+        entry = *existingEntry;
+    } else { // create a new history entry
+	entry.url = e.url;
+	entry.firstVisited = e.firstVisited;
+	entry.numberOfTimesVisited = 0; // will get set to 1 below
 	m_history.append( entry );
 	KParts::HistoryProvider::insert( urlString );
     }
 
     if ( !e.typedURL.isEmpty() )
-	entry->typedURL = e.typedURL;
+	entry.typedURL = e.typedURL;
     if ( !e.title.isEmpty() )
-	entry->title = e.title;
-    entry->numberOfTimesVisited += e.numberOfTimesVisited;
-    entry->lastVisited = e.lastVisited;
+	entry.title = e.title;
+    entry.numberOfTimesVisited += e.numberOfTimesVisited;
+    entry.lastVisited = e.lastVisited;
 
-    addToCompletion( entry->url.prettyURL(), entry->typedURL );
+    addToCompletion( entry.url.prettyURL(), entry.typedURL );
 
     // bool pending = (e.numberOfTimesVisited != 0);
 
@@ -477,7 +479,7 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
 	// we are the sender of the broadcast, so we save
 	saveHistory();
 	// note, bk save does not notify, and we don't want to!
-	if (updated) 
+	if (updated)
 	    KonqBookmarkManager::self()->save();
     }
 
@@ -495,7 +497,7 @@ void KonqHistoryManager::notifyMaxCount( quint32 count, QByteArray )
     KConfigGroup cs( config, "HistorySettings" );
     cs.writeEntry( "Maximum of History entries", m_maxCount );
 
-    if ( isSenderOfBroadcast() ) { 
+    if ( isSenderOfBroadcast() ) {
 	saveHistory();
 	cs.sync();
     }
@@ -511,7 +513,7 @@ void KonqHistoryManager::notifyMaxAge( quint32 days, QByteArray  )
     KConfigGroup cs( config, "HistorySettings" );
     cs.writeEntry( "Maximum age of History entries", m_maxAgeDays );
 
-    if ( isSenderOfBroadcast() ) { 
+    if ( isSenderOfBroadcast() ) {
 	saveHistory();
 	cs.sync();
     }
@@ -532,21 +534,20 @@ void KonqHistoryManager::notifyClear( QByteArray )
 void KonqHistoryManager::notifyRemove( KUrl url, QByteArray )
 {
     kDebug(1203) << "#### Broadcast: remove entry:: " << url.prettyURL() << endl;
-    
 
-    KonqHistoryEntry *entry = m_history.findEntry( url );
-    
-    if ( entry ) { // entry is now the current item
-	removeFromCompletion( entry->url.prettyURL(), entry->typedURL );
+    KonqHistoryList::iterator existingEntry = findEntry( url );
 
-        QString urlString = entry->url.url();
+    if ( existingEntry != m_history.end() ) {
+        const KonqHistoryEntry entry = *existingEntry; // make copy, due to erase call below
+	removeFromCompletion( entry.url.prettyURL(), entry.typedURL );
+
+        const QString urlString = entry.url.url();
 	KParts::HistoryProvider::remove( urlString );
 
         addToUpdateList( urlString );
 
-	m_history.take(); // does not delete
+	m_history.erase( existingEntry );
 	emit entryRemoved( entry );
-	delete entry;
 
 	if ( isSenderOfBroadcast() )
 	    saveHistory();
@@ -560,20 +561,20 @@ void KonqHistoryManager::notifyRemove( KUrl::List urls, QByteArray )
     bool doSave = false;
     KUrl::List::Iterator it = urls.begin();
     while ( it != urls.end() ) {
-	KonqHistoryEntry *entry = m_history.findEntry( *it );
-	
-	if ( entry ) { // entry is now the current item
-	    removeFromCompletion( entry->url.prettyURL(), entry->typedURL );
+        KonqHistoryList::iterator existingEntry = m_history.findEntry( *it );
+        if ( existingEntry != m_history.end() ) {
+            const KonqHistoryEntry entry = *existingEntry; // make copy, due to erase call below
+	    removeFromCompletion( entry.url.prettyURL(), entry.typedURL );
 
-            QString urlString = entry->url.url();
+            const QString urlString = entry.url.url();
 	    KParts::HistoryProvider::remove( urlString );
 
             addToUpdateList( urlString );
 
-	    m_history.take(); // does not delete
-	    emit entryRemoved( entry );
-	    delete entry;
-	    doSave = true;
+            m_history.erase( existingEntry );
+            emit entryRemoved( entry );
+
+            doSave = true;
 	}
 
 	++it;
@@ -591,24 +592,23 @@ bool KonqHistoryManager::loadFallback()
     if ( file.isEmpty() )
 	return false;
 
-    KonqHistoryEntry *entry;
     KSimpleConfig config( file );
     config.setGroup("History");
     QStringList items = config.readEntry( "CompletionItems" , QStringList() );
     QStringList::Iterator it = items.begin();
 
     while ( it != items.end() ) {
-	entry = createFallbackEntry( *it );
-	if ( entry ) {
+	KonqHistoryEntry entry = createFallbackEntry( *it );
+	if ( entry.url.isValid() ) {
 	    m_history.append( entry );
-	    addToCompletion( entry->url.prettyURL(), QString(), entry->numberOfTimesVisited );
+	    addToCompletion( entry.url.prettyURL(), QString(), entry.numberOfTimesVisited );
 
-	    KParts::HistoryProvider::insert( entry->url.url() );
+	    KParts::HistoryProvider::insert( entry.url.url() );
    	}
 	++it;
     }
 
-    m_history.sort();
+    qSort( m_history.begin(), m_history.end(), lastVisitedOrder );
     adjustSize();
     saveHistory();
 
@@ -618,7 +618,7 @@ bool KonqHistoryManager::loadFallback()
 // tries to create a small KonqHistoryEntry out of a string, where the string
 // looks like "http://www.bla.com/bla.html:23"
 // the attached :23 is the weighting from KCompletion
-KonqHistoryEntry * KonqHistoryManager::createFallbackEntry(const QString& item) const
+KonqHistoryEntry KonqHistoryManager::createFallbackEntry(const QString& item) const
 {
     // code taken from KCompletion::addItem(), adjusted to use weight = 1
     uint len = item.length();
@@ -636,25 +636,22 @@ KonqHistoryEntry * KonqHistoryManager::createFallbackEntry(const QString& item) 
     }
 
 
-    KonqHistoryEntry *entry = 0L;
+    KonqHistoryEntry entry;
     KUrl u( item.left( len ));
-    if ( u.isValid() ) {
-	entry = new KonqHistoryEntry;
-	// that's the only entries we know about...
-	entry->url = u;
-	entry->numberOfTimesVisited = weight;
-	// to make it not expire immediately...
-	entry->lastVisited = QDateTime::currentDateTime();
-    }
+    // that's the only entries we know about...
+    entry.url = u;
+    entry.numberOfTimesVisited = weight;
+    // to make it not expire immediately...
+    entry.lastVisited = QDateTime::currentDateTime();
 
     return entry;
 }
 
-KonqHistoryEntry * KonqHistoryManager::findEntry( const KUrl& url )
+KonqHistoryList::iterator KonqHistoryManager::findEntry( const KUrl& url )
 {
     // small optimization (dict lookup) for items _not_ in our history
     if ( !KParts::HistoryProvider::contains( url.url() ) )
-        return 0L;
+        return m_history.end();
 
     return m_history.findEntry( url );
 }
@@ -673,14 +670,14 @@ void KonqHistoryManager::slotEmitUpdated()
 QStringList KonqHistoryManager::allURLs() const
 {
     QStringList list;
-    KonqHistoryIterator it ( m_history );
-    for ( ; it.current(); ++it )
-        list.append( it.current()->url.url() );
-    
+    QListIterator<KonqHistoryEntry> it( m_history );
+    while ( it.hasNext() ) {
+        list.append( it.next().url.url() );
+    }
     return list;
 }
 
-void KonqHistoryManager::addToCompletion( const QString& url, const QString& typedURL, 
+void KonqHistoryManager::addToCompletion( const QString& url, const QString& typedURL,
                                           int numberOfTimesVisited )
 {
     m_pCompletion->addItem( url, numberOfTimesVisited );
@@ -697,35 +694,24 @@ void KonqHistoryManager::removeFromCompletion( const QString& url, const QString
 //////////////////////////////////////////////////////////////////
 
 
-KonqHistoryEntry * KonqHistoryList::findEntry( const KUrl& url )
+KonqHistoryList::iterator KonqHistoryList::findEntry( const KUrl& url )
 {
     // we search backwards, probably faster to find an entry
-    KonqHistoryEntry *entry = last();
-    while ( entry ) {
-	if ( entry->url == url )
-	    return entry;
-
-	entry = prev();
+    KonqHistoryList::iterator it = end();
+    while ( it != begin() ) {
+        --it;
+	if ( (*it).url == url )
+	    return it;
     }
-
-    return 0L;
+    return end();
 }
 
-// sort by lastVisited date (oldest go first)
-int KonqHistoryList::compareItems( Q3PtrCollection::Item item1,
-				   Q3PtrCollection::Item item2 )
+void KonqHistoryList::removeEntry( const KUrl& url )
 {
-    KonqHistoryEntry *entry1 = static_cast<KonqHistoryEntry *>( item1 );
-    KonqHistoryEntry *entry2 = static_cast<KonqHistoryEntry *>( item2 );
-
-    if ( entry1->lastVisited > entry2->lastVisited )
-	return 1;
-    else if ( entry1->lastVisited < entry2->lastVisited )
-	return -1;
-    else
-	return 0;
+    iterator it = findEntry( url );
+    if ( it != end() )
+        erase( it );
 }
 
 using namespace KParts; // for IRIX
-
 #include "konq_historymgr.moc"

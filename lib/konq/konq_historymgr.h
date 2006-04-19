@@ -40,24 +40,19 @@
 class KCompletion;
 
 
-typedef Q3PtrList<KonqHistoryEntry> KonqBaseHistoryList;
-typedef Q3PtrListIterator<KonqHistoryEntry> KonqHistoryIterator;
-
-class LIBKONQ_EXPORT KonqHistoryList : public KonqBaseHistoryList
+class LIBKONQ_EXPORT KonqHistoryList : public QList<KonqHistoryEntry>
 {
 public:
     /**
-     * Finds an entry by URL. The found item will also be current().
-     * If no matching entry is found, 0L is returned and current() will be
-     * the first item in the list.
+     * Finds an entry by URL and return an iterator to it.
+     * If no matching entry is found, end() is returned.
      */
-    KonqHistoryEntry * findEntry( const KUrl& url );
+    iterator findEntry( const KUrl& url );
 
-protected:
     /**
-     * Ensures that the items are sorted by the lastVisited date
+     * Finds an entry by URL and removes it
      */
-    virtual int compareItems( Q3PtrCollection::Item, Q3PtrCollection::Item );
+    void removeEntry( const KUrl& url );
 };
 
 
@@ -174,7 +169,7 @@ public:
      */
     const KonqHistoryList& entries() const { return m_history; }
 
-    // HistoryProvider interfae, let konq handle this
+    // HistoryProvider interface, let konq handle this
     /**
      * Reimplemented in such a way that all URLs that would be filtered
      * out normally (see @ref filterOut()) will still be added to the history.
@@ -214,14 +209,14 @@ Q_SIGNALS:
     /**
      * Emitted after a new entry was added
      */
-    void entryAdded( const KonqHistoryEntry *entry );
+    void entryAdded( const KonqHistoryEntry& entry );
 
     /**
      * Emitted after an entry was removed from the history
      * Note, that this entry will be deleted immediately after you got
      * that signal.
      */
-    void entryRemoved( const KonqHistoryEntry *entry );
+    void entryRemoved( const KonqHistoryEntry& entry );
 
 protected:
     /**
@@ -229,15 +224,6 @@ protected:
      * entries. The first (oldest) entries are removed.
      */
     void adjustSize();
-
-    /**
-     * @returns true if @p entry is older than the given maximum age,
-     * otherwise false.
-     */
-    inline bool isExpired( KonqHistoryEntry *entry ) {
-	return (entry && m_maxAgeDays > 0 && entry->lastVisited <
-		QDateTime(QDate::currentDate().addDays( -m_maxAgeDays )));
-    }
 
     /**
      * Notifes all running instances about a new HistoryEntry via DCOP
@@ -342,20 +328,28 @@ private:
     /**
      * a little optimization for KonqHistoryList::findEntry(),
      * checking the dict of KParts::HistoryProvider before traversing the list.
-     * Can't be used everywhere, because it always returns 0L for "pending"
+     * Can't be used everywhere, because it always returns end() for "pending"
      * entries, as those are not added to the dict, currently.
      */
-    KonqHistoryEntry * findEntry( const KUrl& url );
+    KonqHistoryList::iterator findEntry( const KUrl& url );
 
     /**
      * Stuff to create a proper history out of KDE 2.0's konq_history for
      * completion.
      */
     bool loadFallback();
-    KonqHistoryEntry * createFallbackEntry( const QString& ) const;
+    KonqHistoryEntry createFallbackEntry( const QString& ) const;
 
     void addToCompletion( const QString& url, const QString& typedURL, int numberOfTimesVisited = 1 );
     void removeFromCompletion( const QString& url, const QString& typedURL );
+
+    /**
+     * Ensures that the items are sorted by the lastVisited date
+     * (oldest goes first)
+     */
+    static bool lastVisitedOrder( const KonqHistoryEntry& lhs, const KonqHistoryEntry& rhs ) {
+        return lhs.lastVisited < rhs.lastVisited;
+    }
 
     QString m_filename;
     KonqHistoryList m_history;

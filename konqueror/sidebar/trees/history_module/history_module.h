@@ -70,8 +70,8 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void slotCreateItems();
-    void slotEntryAdded( const KonqHistoryEntry * );
-    void slotEntryRemoved( const KonqHistoryEntry * );
+    void slotEntryAdded( const KonqHistoryEntry & );
+    void slotEntryRemoved( const KonqHistoryEntry & );
 
     void slotNewWindow();
     void slotRemoveEntry();

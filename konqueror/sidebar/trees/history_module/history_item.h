@@ -31,7 +31,7 @@ class KonqSidebarHistorySettings;
 class KonqSidebarHistoryItem : public KonqSidebarTreeItem
 {
 public:
-    KonqSidebarHistoryItem( const KonqHistoryEntry *entry,
+    KonqSidebarHistoryItem( const KonqHistoryEntry& entry,
 		     KonqSidebarTreeItem *parentItem,
 		     KonqSidebarTreeTopLevelItem *topLevelItem );
     ~KonqSidebarHistoryItem();
@@ -41,17 +41,17 @@ public:
     virtual void itemSelected();
 
     // The URL to open when this link is clicked
-    virtual KUrl externalURL() const { return m_entry->url; }
-    const KUrl& url() const { return m_entry->url; } // a faster one
+    virtual KUrl externalURL() const { return m_entry.url; }
+    const KUrl& url() const { return m_entry.url; } // a faster one
     virtual QString toolTipText() const;
 
-    QString host() const { return m_entry->url.host(); }
-    QString path() const { return m_entry->url.path(); }
+    QString host() const { return m_entry.url.host(); }
+    QString path() const { return m_entry.url.path(); }
 
-    const QDateTime& lastVisited() const { return m_entry->lastVisited; }
+    const QDateTime& lastVisited() const { return m_entry.lastVisited; }
 
-    void update( const KonqHistoryEntry *entry );
-    const KonqHistoryEntry *entry() const { return m_entry; }
+    void update( const KonqHistoryEntry& entry );
+    const KonqHistoryEntry& entry() const { return m_entry; }
 
     virtual bool populateMimeData( QMimeData* mimeData, bool move );
 
@@ -63,7 +63,7 @@ public:
 			    int width, int alignment );
 
 private:
-    const KonqHistoryEntry *m_entry;
+    const KonqHistoryEntry m_entry;
     static KonqSidebarHistorySettings *s_settings;
 
 };
@@ -79,7 +79,7 @@ public:
      */
     void remove();
 
-    KonqSidebarHistoryItem * findChild( const KonqHistoryEntry *entry ) const;
+    KonqSidebarHistoryItem * findChild( const KonqHistoryEntry& entry ) const;
 
     virtual void rightButtonPressed();
 

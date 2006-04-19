@@ -33,7 +33,7 @@
 
 KonqSidebarHistorySettings * KonqSidebarHistoryItem::s_settings = 0L;
 
-KonqSidebarHistoryItem::KonqSidebarHistoryItem( const KonqHistoryEntry *entry,
+KonqSidebarHistoryItem::KonqSidebarHistoryItem( const KonqHistoryEntry& entry,
 				  KonqSidebarTreeItem * parentItem,
 				  KonqSidebarTreeTopLevelItem *topLevelItem )
     : KonqSidebarTreeItem( parentItem, topLevelItem )
@@ -46,19 +46,16 @@ KonqSidebarHistoryItem::~KonqSidebarHistoryItem()
 {
 }
 
-void KonqSidebarHistoryItem::update( const KonqHistoryEntry *entry )
+void KonqSidebarHistoryItem::update( const KonqHistoryEntry& entry )
 {
     m_entry = entry;
 
-    if (!entry)
-        return;
-
-    QString title( entry->title );
+    QString title( entry.title );
     if ( !title.trimmed().isEmpty() &&
-	 title != entry->url.url() )
+	 title != entry.url.url() )
 	setText( 0, title );
     else {
-	QString path( entry->url.path() );
+	QString path( entry.url.path() );
 	if ( path.isEmpty() )
 	    path += '/';
 	setText( 0, path );
@@ -66,7 +63,7 @@ void KonqSidebarHistoryItem::update( const KonqHistoryEntry *entry )
 
     KonqSidebarHistoryGroupItem *group = MYGROUP;
     assert(group);
-    QString path = entry->url.path();
+    QString path = entry.url.path();
     if ( group->hasFavIcon() && (path.isNull() || path == "/") )
     {
         const QPixmap *pm = group->pixmap(0);
@@ -75,7 +72,7 @@ void KonqSidebarHistoryItem::update( const KonqHistoryEntry *entry )
     }
     else
     {
-	setPixmap( 0, SmallIcon(KProtocolInfo::icon( entry->url.protocol() )));
+	setPixmap( 0, SmallIcon(KProtocolInfo::icon( entry.url.protocol() )));
     }
 
     group->itemUpdated( this ); // update for sorting
@@ -93,9 +90,9 @@ void KonqSidebarHistoryItem::rightButtonPressed()
 
 bool KonqSidebarHistoryItem::populateMimeData( QMimeData* mimeData, bool /*move*/ )
 {
-    QString icon = KonqFavIconMgr::iconForURL( m_entry->url );
-    KBookmark bookmark = KBookmark::standaloneBookmark( m_entry->title,
-                                                        m_entry->url, icon );
+    QString icon = KonqFavIconMgr::iconForURL( m_entry.url );
+    KBookmark bookmark = KBookmark::standaloneBookmark( m_entry.title,
+                                                        m_entry.url, icon );
     bookmark.populateMimeData( mimeData );
     return true;
 }
@@ -107,7 +104,7 @@ QString KonqSidebarHistoryItem::key( int column, bool ascending ) const
 	return KonqSidebarTreeItem::key( column, ascending );
 
     QString tmp;
-    tmp.sprintf( "%08x", m_entry->lastVisited.secsTo(MYMODULE->currentTime()));
+    tmp.sprintf( "%08x", m_entry.lastVisited.secsTo(MYMODULE->currentTime()));
     return tmp;
 }
 
@@ -116,13 +113,13 @@ QString KonqSidebarHistoryItem::toolTipText() const
     if ( s_settings->m_detailedTips ) {
 	return i18n("<qt><center><b>%1</b></center><hr>Last visited: %2<br>"
                     "First visited: %3<br>Number of times visited: %4</qt>",
-                    m_entry->url.url(),
-                    KGlobal::locale()->formatDateTime( m_entry->lastVisited ),
-                    KGlobal::locale()->formatDateTime( m_entry->firstVisited ),
-                    m_entry->numberOfTimesVisited);
+                    m_entry.url.url(),
+                    KGlobal::locale()->formatDateTime( m_entry.lastVisited ),
+                    KGlobal::locale()->formatDateTime( m_entry.firstVisited ),
+                    m_entry.numberOfTimesVisited);
     }
 
-    return m_entry->url.url();
+    return m_entry.url.url();
 }
 
 void KonqSidebarHistoryItem::paintCell( QPainter *p, const QColorGroup & cg,
@@ -136,7 +133,7 @@ void KonqSidebarHistoryItem::paintCell( QPainter *p, const QColorGroup & cg,
     else
 	dt = current.addSecs( - (s_settings->m_valueYoungerThan * 60) );
 
-    if ( m_entry->lastVisited > dt )
+    if ( m_entry.lastVisited > dt )
 	p->setFont( s_settings->m_fontYoungerThan );
 
     else {
@@ -145,7 +142,7 @@ void KonqSidebarHistoryItem::paintCell( QPainter *p, const QColorGroup & cg,
 	else
 	    dt = current.addSecs( - (s_settings->m_valueOlderThan * 60) );
 
-	if ( m_entry->lastVisited < dt )
+	if ( m_entry.lastVisited < dt )
 	    p->setFont( s_settings->m_fontOlderThan );
     }
 
@@ -185,14 +182,14 @@ void KonqSidebarHistoryGroupItem::remove()
 	KonqHistoryManager::kself()->emitRemoveFromHistory( list );
 }
 
-KonqSidebarHistoryItem * KonqSidebarHistoryGroupItem::findChild(const KonqHistoryEntry *entry) const
+KonqSidebarHistoryItem * KonqSidebarHistoryGroupItem::findChild(const KonqHistoryEntry& entry) const
 {
     Q3ListViewItem *child = firstChild();
     KonqSidebarHistoryItem *item = 0L;
 
     while ( child ) {
 	item = static_cast<KonqSidebarHistoryItem *>( child );
-	if ( item->entry() == entry )
+	if ( item->entry().url == entry.url )
 	    return item;
 
 	child = child->nextSibling();

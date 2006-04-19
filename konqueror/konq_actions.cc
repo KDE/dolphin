@@ -34,8 +34,9 @@
 
 #include "konq_view.h"
 #include "konq_settingsxt.h"
-//Added by qt3to4:
 #include <kauthorized.h>
+
+#include <algorithm>
 
 template class QList<KonqHistoryEntry*>;
 
@@ -327,7 +328,7 @@ void KonqViewModeAction::slotPopupAboutToHide()
 }*/
 
 
-MostOftenList * KonqMostOftenURLSAction::s_mostEntries = 0L;
+KonqHistoryList* KonqMostOftenURLSAction::s_mostEntries = 0;
 uint KonqMostOftenURLSAction::s_maxEntries = 0;
 
 KonqMostOftenURLSAction::KonqMostOftenURLSAction( const QString& text,
@@ -357,57 +358,66 @@ void KonqMostOftenURLSAction::init()
     setEnabled( !mgr->entries().isEmpty() && s_maxEntries > 0 );
 }
 
+void KonqMostOftenURLSAction::inSort( const KonqHistoryEntry& entry ) {
+    KonqHistoryList::iterator it = std::lower_bound( s_mostEntries->begin(),
+                                                     s_mostEntries->end(),
+                                                     entry,
+                                                     numberOfVisitOrder );
+    s_mostEntries->insert( it, entry );
+}
+
 void KonqMostOftenURLSAction::parseHistory() // only ever called once
 {
     KonqHistoryManager *mgr = KonqHistoryManager::kself();
-    KonqHistoryIterator it( mgr->entries() );
 
-    connect( mgr, SIGNAL( entryAdded( const KonqHistoryEntry * )),
-             SLOT( slotEntryAdded( const KonqHistoryEntry * )));
-    connect( mgr, SIGNAL( entryRemoved( const KonqHistoryEntry * )),
-             SLOT( slotEntryRemoved( const KonqHistoryEntry * )));
+    connect( mgr, SIGNAL( entryAdded( const KonqHistoryEntry& )),
+             SLOT( slotEntryAdded( const KonqHistoryEntry& )));
+    connect( mgr, SIGNAL( entryRemoved( const KonqHistoryEntry& )),
+             SLOT( slotEntryRemoved( const KonqHistoryEntry& )));
     connect( mgr, SIGNAL( cleared() ), SLOT( slotHistoryCleared() ));
 
-    s_mostEntries = new MostOftenList; // exit() will clean this up for now
-    for ( uint i = 0; it.current() && i < s_maxEntries; i++ ) {
-	s_mostEntries->append( it.current() );
-	++it;
+    s_mostEntries = new KonqHistoryList; // TODO KStaticDeleter
+    const KonqHistoryList mgrEntries = mgr->entries();
+    KonqHistoryList::const_iterator it = mgrEntries.begin();
+    const KonqHistoryList::const_iterator end = mgrEntries.end();
+    for ( uint i = 0; it != end && i < s_maxEntries; ++i, ++it ) {
+	s_mostEntries->append( *it );
     }
-    s_mostEntries->sort();
+    qSort( s_mostEntries->begin(), s_mostEntries->end(), numberOfVisitOrder );
 
-    while ( it.current() ) {
-	KonqHistoryEntry *leastOften = s_mostEntries->first();
-	KonqHistoryEntry *entry = it.current();
-	if ( leastOften->numberOfTimesVisited < entry->numberOfTimesVisited ) {
+    while ( it != end ) {
+	const KonqHistoryEntry& leastOften = s_mostEntries->first();
+	const KonqHistoryEntry& entry = *it;
+	if ( leastOften.numberOfTimesVisited < entry.numberOfTimesVisited ) {
 	    s_mostEntries->removeFirst();
-	    s_mostEntries->inSort( entry );
+	    inSort( entry );
 	}
 
 	++it;
     }
 }
 
-void KonqMostOftenURLSAction::slotEntryAdded( const KonqHistoryEntry *entry )
+void KonqMostOftenURLSAction::slotEntryAdded( const KonqHistoryEntry& entry )
 {
     // if it's already present, remove it, and inSort it
-    s_mostEntries->removeRef( entry );
+    s_mostEntries->removeEntry( entry.url );
 
     if ( s_mostEntries->count() >= s_maxEntries ) {
-	KonqHistoryEntry *leastOften = s_mostEntries->first();
-	if ( leastOften->numberOfTimesVisited < entry->numberOfTimesVisited ) {
+	const KonqHistoryEntry& leastOften = s_mostEntries->first();
+	if ( leastOften.numberOfTimesVisited < entry.numberOfTimesVisited ) {
 	    s_mostEntries->removeFirst();
-	    s_mostEntries->inSort( entry );
+	    inSort( entry );
 	}
     }
 
     else
-	s_mostEntries->inSort( entry );
+	inSort( entry );
     setEnabled( !s_mostEntries->isEmpty() );
 }
 
-void KonqMostOftenURLSAction::slotEntryRemoved( const KonqHistoryEntry *entry )
+void KonqMostOftenURLSAction::slotEntryRemoved( const KonqHistoryEntry& entry )
 {
-    s_mostEntries->removeRef( entry );
+    s_mostEntries->removeEntry( entry.url );
     setEnabled( !s_mostEntries->isEmpty() );
 }
 
@@ -425,23 +435,20 @@ void KonqMostOftenURLSAction::slotFillMenu()
     popupMenu()->clear();
     m_popupList.clear();
 
-    int id = s_mostEntries->count() -1;
-    KonqHistoryEntry *entry = s_mostEntries->at( id );
-    while ( entry ) {
+    for ( int id = s_mostEntries->count() - 1; id > 0; --id ) {
+        const KonqHistoryEntry entry = s_mostEntries->at( id );
 	// we take either title, typedURL or URL (in this order)
-	QString text = entry->title.isEmpty() ? (entry->typedURL.isEmpty() ?
-						 entry->url.prettyURL() :
-						 entry->typedURL) :
-		       entry->title;
+	QString text = entry.title.isEmpty() ? (entry.typedURL.isEmpty() ?
+						 entry.url.prettyURL() :
+						 entry.typedURL) :
+		       entry.title;
 
 	popupMenu()->insertItem(
-		    QIcon(KonqPixmapProvider::self()->pixmapFor( entry->url.url() )),
+		    QIcon(KonqPixmapProvider::self()->pixmapFor( entry.url.url() )),
 		    text, id );
         // Keep a copy of the URLs being shown in the menu
         // This prevents crashes when another process tells us to remove an entry.
-        m_popupList.prepend( entry->url );
-
-	entry = (id > 0) ? s_mostEntries->at( --id ) : 0L;
+        m_popupList.prepend( entry.url );
     }
     setEnabled( !s_mostEntries->isEmpty() );
     Q_ASSERT( (int)s_mostEntries->count() == m_popupList.count() );
@@ -466,21 +473,6 @@ void KonqMostOftenURLSAction::slotActivated( int id )
     else
 	kWarning() << "Invalid url: " << url.prettyURL() << endl;
     m_popupList.clear();
-}
-
-// sort by numberOfTimesVisited (least often goes first)
-int MostOftenList::compareItems( Q3PtrCollection::Item item1,
-				 Q3PtrCollection::Item item2)
-{
-    KonqHistoryEntry *entry1 = static_cast<KonqHistoryEntry *>( item1 );
-    KonqHistoryEntry *entry2 = static_cast<KonqHistoryEntry *>( item2 );
-
-    if ( entry1->numberOfTimesVisited > entry2->numberOfTimesVisited )
-	return 1;
-    else if ( entry1->numberOfTimesVisited < entry2->numberOfTimesVisited )
-	return -1;
-    else
-	return 0;
 }
 
 #include "konq_actions.moc"

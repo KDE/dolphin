@@ -67,7 +67,7 @@ k_dcop:
     virtual ASYNC notifyHistoryEntry( KonqHistoryEntry e, QByteArray saveId) = 0;
     virtual ASYNC notifyMaxCount( quint32 count, QByteArray saveId ) = 0;
     virtual ASYNC notifyMaxAge( quint32 days, QByteArray saveId ) = 0;
-	virtual ASYNC notifyClear( QByteArray saveId ) = 0;
+    virtual ASYNC notifyClear( QByteArray saveId ) = 0;
     virtual ASYNC notifyRemove( KUrl url, QByteArray saveId ) = 0;
     virtual ASYNC notifyRemove( KUrl::List url, QByteArray saveId ) = 0;
     virtual QStringList allURLs() const = 0;

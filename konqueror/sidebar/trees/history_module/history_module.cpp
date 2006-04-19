@@ -68,10 +68,10 @@ KonqSidebarHistoryModule::KonqSidebarHistoryModule( KonqSidebarTree * parentTree
     connect( manager, SIGNAL( loadingFinished() ), SLOT( slotCreateItems() ));
     connect( manager, SIGNAL( cleared() ), SLOT( clear() ));
 
-    connect( manager, SIGNAL( entryAdded( const KonqHistoryEntry * ) ),
-	     SLOT( slotEntryAdded( const KonqHistoryEntry * ) ));
-    connect( manager, SIGNAL( entryRemoved( const KonqHistoryEntry *) ),
-	     SLOT( slotEntryRemoved( const KonqHistoryEntry *) ));
+    connect( manager, SIGNAL( entryAdded( const KonqHistoryEntry & ) ),
+	     SLOT( slotEntryAdded( const KonqHistoryEntry & ) ));
+    connect( manager, SIGNAL( entryRemoved( const KonqHistoryEntry &) ),
+	     SLOT( slotEntryRemoved( const KonqHistoryEntry &) ));
 
     connect( parentTree, SIGNAL( expanded( QListViewItem * )),
 	     SLOT( slotItemExpanded( QListViewItem * )));
@@ -134,18 +134,16 @@ void KonqSidebarHistoryModule::slotCreateItems()
     clear();
 
     KonqSidebarHistoryItem *item;
-    KonqHistoryEntry *entry;
     KonqHistoryList entries( KonqHistoryManager::kself()->entries() );
-    KonqHistoryIterator it( entries );
     m_currentTime = QDateTime::currentDateTime();
 
     // the group item and the item of the serverroot '/' get a fav-icon
     // if available. All others get the protocol icon.
-    while ( (entry = it.current()) ) {
-	KonqSidebarHistoryGroupItem *group = getGroupItem( entry->url );
-	item = new KonqSidebarHistoryItem( entry, group, m_topLevelItem );
-
-	++it;
+    KonqHistoryList::const_iterator it = entries.begin();
+    const KonqHistoryList::const_iterator end = entries.end();
+    for ( ; it != end ; ++it ) {
+	KonqSidebarHistoryGroupItem *group = getGroupItem( (*it).url );
+	item = new KonqSidebarHistoryItem( (*it), group, m_topLevelItem );
     }
 
     KConfig *kc = KGlobal::config();
@@ -171,13 +169,13 @@ void KonqSidebarHistoryModule::clear()
     m_dict.clear();
 }
 
-void KonqSidebarHistoryModule::slotEntryAdded( const KonqHistoryEntry *entry )
+void KonqSidebarHistoryModule::slotEntryAdded( const KonqHistoryEntry& entry )
 {
     if ( !m_initialized )
 	return;
 
     m_currentTime = QDateTime::currentDateTime();
-    KonqSidebarHistoryGroupItem *group = getGroupItem( entry->url );
+    KonqSidebarHistoryGroupItem *group = getGroupItem( entry.url );
     KonqSidebarHistoryItem *item = group->findChild( entry );
     if ( !item )
 	item = new KonqSidebarHistoryItem( entry, group, m_topLevelItem );
@@ -190,16 +188,16 @@ void KonqSidebarHistoryModule::slotEntryAdded( const KonqHistoryEntry *entry )
     t->lockScrolling( true );
     group->sort();
     m_topLevelItem->sort();
-    qApp->processOneEvent();
+    qApp->processOneEvent(); // #####
     t->lockScrolling( false );
 }
 
-void KonqSidebarHistoryModule::slotEntryRemoved( const KonqHistoryEntry *entry )
+void KonqSidebarHistoryModule::slotEntryRemoved( const KonqHistoryEntry& entry )
 {
     if ( !m_initialized )
 	return;
 
-    QString groupKey = groupForURL( entry->url );
+    QString groupKey = groupForURL( entry.url );
     KonqSidebarHistoryGroupItem *group = m_dict.find( groupKey );
     if ( !group )
 	return;

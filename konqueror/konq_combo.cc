@@ -53,12 +53,12 @@ static QString titleOfURL( const QString& urlStr )
 {
     KUrl url = KUrl::fromPathOrURL( urlStr );
     KonqHistoryList historylist = KonqHistoryManager::kself()->entries();
-    KonqHistoryEntry *historyentry = historylist.findEntry( url );
-    if ( !historyentry && !url.url().endsWith( "/" ) ) {
+    KonqHistoryList::iterator historyentry = historylist.findEntry( url );
+    if ( historyentry == historylist.end() && !url.url().endsWith( "/" ) ) {
         url.setPath( url.path()+'/' );
         historyentry = historylist.findEntry( url );
     }
-    return ( historyentry ? historyentry->title : QString() );
+    return ( historyentry != historylist.end() ? (*historyentry).title : QString() );
 }
 
 #if 0

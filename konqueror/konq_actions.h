@@ -116,15 +116,6 @@ private:
     bool m_popupActivated;
 };
 
-class MostOftenList : public KonqBaseHistoryList
-{
-protected:
-    /**
-     * Ensures that the items are sorted by numberOfTimesVisited
-     */
-    virtual int compareItems( Q3PtrCollection::Item, Q3PtrCollection::Item );
-};
-
 class KonqMostOftenURLSAction : public KActionMenu
 {
     Q_OBJECT
@@ -134,13 +125,17 @@ public:
 			     const char *name );
     virtual ~KonqMostOftenURLSAction();
 
+    static bool numberOfVisitOrder( const KonqHistoryEntry& lhs, const KonqHistoryEntry& rhs ) {
+        return lhs.numberOfTimesVisited < rhs.numberOfTimesVisited;
+    }
+
 Q_SIGNALS:
     void activated( const KUrl& );
 
 private Q_SLOTS:
     void slotHistoryCleared();
-    void slotEntryAdded( const KonqHistoryEntry *entry );
-    void slotEntryRemoved( const KonqHistoryEntry *entry );
+    void slotEntryAdded( const KonqHistoryEntry& entry );
+    void slotEntryRemoved( const KonqHistoryEntry& entry );
 
     void slotFillMenu();
     //void slotClearMenu();
@@ -150,8 +145,9 @@ private Q_SLOTS:
 private:
     void init();
     void parseHistory();
+    static void inSort( const KonqHistoryEntry& entry );
 
-    static MostOftenList *s_mostEntries;
+    static KonqHistoryList *s_mostEntries;
     static uint s_maxEntries;
     KUrl::List m_popupList;
 };
