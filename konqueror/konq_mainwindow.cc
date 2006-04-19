@@ -1613,7 +1613,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
                       action->setText( servicename );
                       action->setIconName( service->icon() );
                       // Bypassing KAction restriction - this action will not be found via KActionCollection when doing a name search
-                      action->QAction::setName( service->desktopEntryName().ascii() );
+                      action->QAction::setName( service->desktopEntryName().toAscii() );
 
                       break;
                   }
@@ -2203,7 +2203,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
               ta->setText( servicename );
               ta->setIconName( m_currentView->service()->icon() );
               // Bypassing KAction restriction - this action will not be found via KActionCollection when doing a name search
-              ta->QAction::setName( m_currentView->service()->desktopEntryName().ascii() ) ;
+              ta->QAction::setName( m_currentView->service()->desktopEntryName().toAscii() ) ;
               break;
           }
       }
@@ -4879,7 +4879,7 @@ void KonqMainWindow::updateViewModeActions()
       QString icon = (*it)->icon();
       // Create a KToggleAction for each view mode, and plug it into the menu
       // we *have* to specify a parent qobject, otherwise the exclusive group stuff doesn't work!(Simon)
-      KToggleAction* action = new KToggleAction( itname, icon, KShortcut(), actionCollection(), (*it)->desktopEntryName().ascii() );
+      KToggleAction* action = new KToggleAction( itname, icon, KShortcut(), actionCollection(), (*it)->desktopEntryName().toAscii() );
       action->setActionGroup( m_viewModesGroup );
 
       connect( action, SIGNAL( toggled( bool ) ),
@@ -4965,7 +4965,7 @@ void KonqMainWindow::updateViewModeActions()
               mapitname = (*it)->name();
           (*mapIt)->setText( mapitname );
           (*mapIt)->setIconName( (*it)->icon() );
-          (*mapIt)->QAction::setName( (*it)->desktopEntryName().ascii() ); // tricky...
+          (*mapIt)->QAction::setName( (*it)->desktopEntryName().toAscii() ); // tricky...
           preferredServiceMap.remove( library ); // The current view has priority over the saved settings
       }
 
