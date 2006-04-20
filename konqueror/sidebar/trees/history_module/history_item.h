@@ -63,7 +63,7 @@ public:
 			    int width, int alignment );
 
 private:
-    const KonqHistoryEntry m_entry;
+    KonqHistoryEntry m_entry;
     static KonqSidebarHistorySettings *s_settings;
 
 };
