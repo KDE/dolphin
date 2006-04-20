@@ -79,7 +79,7 @@ DesktopPathConfig::DesktopPathConfig(KInstance *inst, QWidget *parent )
   urDesktop = new KUrlRequester(this);
   urDesktop->setMode( KFile::Directory );
   tmpLabel->setBuddy( urDesktop );
-  lay->addMultiCellWidget(urDesktop, row, row, 1, RO_LASTCOL);
+  lay->addWidget(urDesktop, row, 1, 1, RO_LASTCOL);
   connect(urDesktop, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
   QString wtstr = i18n("This folder contains all the files"
                        " which you see on your desktop. You can change the location of this"
@@ -94,7 +94,7 @@ DesktopPathConfig::DesktopPathConfig(KInstance *inst, QWidget *parent )
   urAutostart = new KUrlRequester(this);
   urAutostart->setMode( KFile::Directory );
   tmpLabel->setBuddy( urAutostart );
-  lay->addMultiCellWidget(urAutostart, row, row, 1, RO_LASTCOL);
+  lay->addWidget(urAutostart, row, 1, 1, RO_LASTCOL);
   connect(urAutostart, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
   wtstr = i18n("This folder contains applications or"
                " links to applications (shortcuts) that you want to have started"
@@ -110,7 +110,7 @@ DesktopPathConfig::DesktopPathConfig(KInstance *inst, QWidget *parent )
   urDocument = new KUrlRequester(this);
   urDocument->setMode( KFile::Directory );
   tmpLabel->setBuddy( urDocument );
-  lay->addMultiCellWidget(urDocument, row, row, 1, RO_LASTCOL);
+  lay->addWidget(urDocument, row, 1, 1, RO_LASTCOL);
   connect(urDocument, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
   wtstr = i18n("This folder will be used by default to "
                "load or save documents from or to.");

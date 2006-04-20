@@ -41,7 +41,7 @@ SMBRoOptions::SMBRoOptions(KInstance *inst, QWidget *parent)
    QGridLayout *layout = new QGridLayout(this,2,-1,KDialog::marginHint(),
          KDialog::spacingHint());
    QLabel *label=new QLabel(i18n("This is the configuration for the samba client only, not the server."),this);
-   layout->addMultiCellWidget(label,0,0,0,1);
+   layout->addWidget(label,0,0, 1, 2 );
 
    m_userLe=new QLineEdit(this);
    label=new QLabel(m_userLe,i18n("Default user name:"),this);
@@ -60,7 +60,7 @@ SMBRoOptions::SMBRoOptions(KInstance *inst, QWidget *parent)
    layout->addWidget(m_workgroupLe,3,1);
 
    m_showHiddenShares=new QCheckBox(i18n("Show hidden shares"),this);
-   layout->addMultiCellWidget(m_showHiddenShares,4,4,0,1);*/
+   layout->addWidget(m_showHiddenShares,4,0, 1, 2 );*/
 
    m_encodingList = new KComboBox( false, this );
    QStringList _strList = KGlobal::charsets()->availableEncodingNames();

@@ -63,7 +63,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, K
     m_pStandard = new KFontCombo( this );
     label = new QLabel( m_pStandard, i18n("&Standard font:"), this );
     lay->addWidget(label,row,0);
-    lay->addMultiCellWidget(m_pStandard,row,row,1,1);
+    lay->addWidget(m_pStandard,row,1, 1, 1);
 
     wtstr = i18n("This is the font used to display text in Konqueror windows.");
     label->setWhatsThis( wtstr );
@@ -82,7 +82,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, K
     m_pSize = new QSpinBox( 4,18,1,this );
     label = new QLabel( m_pSize, i18n("Font si&ze:"), this );
     lay->addWidget(label,row,0);
-    lay->addMultiCellWidget(m_pSize,row,row,1,1);
+    lay->addWidget(m_pSize,row,1, 1, 1);
 
     connect( m_pSize, SIGNAL( valueChanged(int) ),
              this, SLOT( slotFontSize(int) ) );
@@ -183,7 +183,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, K
     }
 
     cbUnderline = new QCheckBox(i18n("&Underline filenames"), this);
-    lay->addMultiCellWidget(cbUnderline,row,row,0,LASTCOLUMN,hAlign);
+    lay->addWidget(cbUnderline,row,0, 1,LASTCOLUMN+1,hAlign);
     connect(cbUnderline, SIGNAL(clicked()), this, SLOT(changed()));
 
     cbUnderline->setWhatsThis( i18n("Checking this option will result in filenames"
@@ -196,7 +196,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, K
         row++;
 
         m_pSizeInBytes = new QCheckBox(i18n("Display file sizes in b&ytes"), this);
-        lay->addMultiCellWidget( m_pSizeInBytes,row,row,0,LASTCOLUMN,hAlign );
+        lay->addWidget( m_pSizeInBytes,row,0, 1,LASTCOLUMN+1,hAlign );
         connect( m_pSizeInBytes, SIGNAL(clicked()), this, SLOT(changed()) );
 
         m_pSizeInBytes->setWhatsThis( i18n("Checking this option will result in file sizes"

@@ -52,7 +52,7 @@ DomainListView::DomainListView(KConfig *config,const QString &title,
   connect(domainSpecificLV,SIGNAL(returnPressed(Q3ListViewItem *)), SLOT(changePressed()));
   connect(domainSpecificLV, SIGNAL( executed( Q3ListViewItem *)), SLOT( updateButton()));
   connect(domainSpecificLV, SIGNAL(selectionChanged()), SLOT(updateButton()));
-  thisLayout->addMultiCellWidget(domainSpecificLV, 0, 5, 0, 0);
+  thisLayout->addWidget(domainSpecificLV, 0, 0, 6, 1);
 
   addDomainPB = new QPushButton(i18n("&New..."), this);
   thisLayout->addWidget(addDomainPB, 0, 1);

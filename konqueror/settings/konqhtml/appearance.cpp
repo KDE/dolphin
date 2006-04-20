@@ -43,7 +43,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   int E = 0, M = 1, W = 3; //CT 3 (instead 2) allows smaller color buttons
 
   Q3GroupBox* gb = new Q3GroupBox( 1, Qt::Horizontal, i18n("Font Si&ze"), this );
-  lay->addMultiCellWidget(gb, r, r, E, W);
+  lay->addWidget(gb, r, E, 1, W- E+1);
 
   gb->setWhatsThis( i18n("This is the relative font size Konqueror uses to display web sites.") );
 
@@ -72,7 +72,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   m_pFonts[0] = new KFontCombo( emptyList, this );
 
   label->setBuddy( m_pFonts[0] );
-  lay->addMultiCellWidget(m_pFonts[0], r, r, M, W);
+  lay->addWidget(m_pFonts[0], r, M, 1, W- M+1);
 
   wtstr = i18n("This is the font used to display normal text in a web page.");
   label->setWhatsThis( wtstr );
@@ -93,7 +93,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   m_pFonts[1] = new KFontCombo( emptyList, this );
 
   label->setBuddy( m_pFonts[1] );
-  lay->addMultiCellWidget(m_pFonts[1], r, r, M, W);
+  lay->addWidget(m_pFonts[1], r, M, 1, W- M+1);
 
   wtstr = i18n("This is the font used to display fixed-width (i.e. non-proportional) text.");
   label->setWhatsThis( wtstr );
@@ -114,7 +114,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   m_pFonts[2] = new KFontCombo( emptyList, this );
 
   label->setBuddy( m_pFonts[2] );
-  lay->addMultiCellWidget( m_pFonts[2], r, r, M, W );
+  lay->addWidget( m_pFonts[2], r, M, 1, W - M+1);
 
   wtstr= i18n( "This is the font used to display text that is marked up as serif." );
   label->setWhatsThis( wtstr );
@@ -135,7 +135,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   m_pFonts[3] = new KFontCombo( emptyList, this );
 
   label->setBuddy( m_pFonts[3] );
-  lay->addMultiCellWidget( m_pFonts[3], r, r, M, W );
+  lay->addWidget( m_pFonts[3], r, M, 1, W - M+1);
 
   wtstr= i18n( "This is the font used to display text that is marked up as sans-serif." );
   label->setWhatsThis( wtstr );
@@ -157,7 +157,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   m_pFonts[4] = new KFontCombo( emptyList, this );
 
   label->setBuddy( m_pFonts[4] );
-  lay->addMultiCellWidget( m_pFonts[4], r, r, M, W );
+  lay->addWidget( m_pFonts[4], r, M, 1, W - M+1);
 
   wtstr= i18n( "This is the font used to display text that is marked up as italic." );
   label->setWhatsThis( wtstr );
@@ -179,7 +179,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   m_pFonts[5] = new KFontCombo( emptyList, this );
 
   label->setBuddy( m_pFonts[5] );
-  lay->addMultiCellWidget( m_pFonts[5], r, r, M, W );
+  lay->addWidget( m_pFonts[5], r, M, 1, W-M+1 );
 
   wtstr= i18n( "This is the font used to display text that is marked up as a fantasy font." );
   label->setWhatsThis( wtstr );
@@ -200,7 +200,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
 
   m_pFontSizeAdjust = new QSpinBox( -5, 5, 1, this );
   label->setBuddy( m_pFontSizeAdjust );
-  lay->addMultiCellWidget( m_pFontSizeAdjust, r, r, M+1, W );
+  lay->addWidget( m_pFontSizeAdjust, r, M+1, 1, W-M+2 );
 
   connect( m_pFontSizeAdjust, SIGNAL( valueChanged( int ) ),
 	   SLOT( slotFontSizeAdjust( int ) ) );
@@ -209,7 +209,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
 
   label = new QLabel( i18n( "Default encoding:"), this );
   //++r;
-  //lay->addMultiCellWidget( label, r, r, E, E+1);
+  //lay->addWidget( label, r, E, 1, 2 );
   lay->addWidget( label, ++r, E);
 
   m_pEncoding = new QComboBox( this );
@@ -218,7 +218,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   encodings = KGlobal::charsets()->availableEncodingNames();
   encodings.prepend(i18n("Use Language Encoding"));
   m_pEncoding->addItems( encodings );
-  lay->addMultiCellWidget(m_pEncoding,r, r, M, W);
+  lay->addWidget(m_pEncoding,r, M, 1, W- M+1);
 
   wtstr = i18n( "Select the default encoding to be used; normally, you will be fine with 'Use language encoding' "
 	       "and should not have to change this.");

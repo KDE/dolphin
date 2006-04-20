@@ -61,7 +61,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
                      " bookmarks in the bookmark toolbar which you have marked to do so in the bookmark editor." ) );
     connect(m_pOnlyMarkedBookmarksCheckBox, SIGNAL(clicked()), SLOT(slotChanged()));
 
-    lay->addMultiCellWidget( bgBookmarks, row, row, 0, 1 );
+    lay->addWidget( bgBookmarks, row, 0, 1, 2 );
     row++;
 
      // Form completion
@@ -83,7 +83,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
         i18n( "Here you can select how many values Konqueror will remember for a form field." ) );
     connect(m_pMaxFormCompletionItems, SIGNAL(valueChanged(int)), SLOT(slotChanged()));
 
-    lay->addMultiCellWidget( bgForm, row, row, 0, 1 );
+    lay->addWidget( bgForm, row, 0, 1, 2 );
     row++;
 
     // Tabbed Browsing
@@ -108,7 +108,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
     laytab->addStretch();
     connect(advancedTabButton, SIGNAL(clicked()), this, SLOT(launchAdvancedTabDialog()));
 
-    lay->addMultiCellWidget( bgTabbedBrowsing, row, row, 0, 1 );
+    lay->addWidget( bgTabbedBrowsing, row, 0, 1, 2 );
     row++;
 
     // Mouse behavior
@@ -137,7 +137,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
       "To access the context menu, press the right mouse button and move." ) );
     connect(m_pBackRightClick, SIGNAL(clicked()), SLOT(slotChanged()));
 
-    lay->addMultiCellWidget( bgMouse, row, row, 0, 1 );
+    lay->addWidget( bgMouse, row, 0, 1, 2 );
     row++;
 
     // Misc
@@ -151,7 +151,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
 			    " will probably want to check this box to enhance your browsing"
 			    " experience." ) );
     connect(m_pAutoLoadImagesCheckBox, SIGNAL(clicked()), SLOT(slotChanged()));
-    lay->addMultiCellWidget( m_pAutoLoadImagesCheckBox, row, row, 0, 1 );
+    lay->addWidget( m_pAutoLoadImagesCheckBox, row, 0, 1, 2 );
     row++;
 
     m_pUnfinishedImageFrameCheckBox = new QCheckBox( i18n( "Dra&w frame around not completely loaded images"), this );
@@ -160,21 +160,21 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
 			    " in a web page.<br>Especially if you have a slow network connection, you will"
 			    " probably want to check this box to enhance your browsing experience." ) );
     connect(m_pUnfinishedImageFrameCheckBox, SIGNAL(clicked()), SLOT(slotChanged()));
-    lay->addMultiCellWidget( m_pUnfinishedImageFrameCheckBox, row, row, 0, 1 );
+    lay->addWidget( m_pUnfinishedImageFrameCheckBox, row, 0, 1, 2 );
     row++;
 
     m_pAutoRedirectCheckBox = new QCheckBox( i18n( "Allow automatic delayed &reloading/redirecting"), this );
     m_pAutoRedirectCheckBox->setWhatsThis( i18n( "Some web pages request an automatic reload or redirection after"
 			    " a certain period of time. By unchecking this box Konqueror will ignore these requests." ) );
     connect(m_pAutoRedirectCheckBox, SIGNAL(clicked()), SLOT(slotChanged()));
-    lay->addMultiCellWidget( m_pAutoRedirectCheckBox, row, row, 0, 1 );
+    lay->addWidget( m_pAutoRedirectCheckBox, row, 0, 1, 2 );
     row++;
 
 
     // More misc
 
     KSeparator *sep = new KSeparator(this);
-    lay->addMultiCellWidget(sep, row, row, 0, 1);
+    lay->addWidget(sep, row, 0, 1, 2 );
     row++;
 
     QLabel *label = new QLabel( i18n("Und&erline links:"), this);
