@@ -114,7 +114,7 @@ void KonqPixmapProvider::save( KConfigGroup& kc, const QString& key,
     QStringList::ConstIterator it = items.begin();
     QMap<KUrl,QString>::const_iterator mit;
     while ( it != items.end() ) {
-	mit = iconMap.find( *it );
+	mit = iconMap.find( KUrl::fromPathOrURL(*it) );
 	if ( mit != iconMap.end() ) {
 	    list.append( mit.key().toString() );
 	    list.append( mit.value() );

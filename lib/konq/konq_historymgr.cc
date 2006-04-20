@@ -232,6 +232,9 @@ bool KonqHistoryManager::saveHistory()
 
 void KonqHistoryManager::adjustSize()
 {
+    if (m_history.isEmpty())
+        return;
+
     KonqHistoryEntry entry = m_history.first();
     const QDateTime expirationDate( QDate::currentDate().addDays( -m_maxAgeDays ) );
 
