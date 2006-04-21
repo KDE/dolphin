@@ -56,7 +56,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, K
     QGridLayout *lay = new QGridLayout(this,LASTLINE+1,LASTCOLUMN+1, 0,
         KDialog::spacingHint());
     lay->setRowStretch(LASTLINE,10);
-    lay->setColStretch(LASTCOLUMN,10);
+    lay->setColumnStretch(LASTCOLUMN,10);
 
     row++;
 

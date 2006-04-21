@@ -62,9 +62,9 @@ DesktopPathConfig::DesktopPathConfig(KInstance *inst, QWidget *parent )
 
   lay->setRowStretch(RO_LASTROW,10); // last line grows
 
-  lay->setColStretch(0,0);
-  lay->setColStretch(1,0);
-  lay->setColStretch(2,10);
+  lay->setColumnStretch(0,0);
+  lay->setColumnStretch(1,0);
+  lay->setColumnStretch(2,10);
 
 
   setQuickHelp( i18n("<h1>Paths</h1>\n"
