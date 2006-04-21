@@ -246,8 +246,7 @@ KonqView* KonqViewManager::splitWindow( Qt::Orientation orientation,
 
   mainFrame->widget()->setUpdatesEnabled( true );
 
-  if( childView )
-    childView->openURL( url, locationBarURL );
+  childView->openURL( url, locationBarURL );
 
   newContainer->setActiveChild( mainFrame );
 
