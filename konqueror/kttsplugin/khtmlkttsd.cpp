@@ -122,13 +122,13 @@ void KHTMLPluginKTTSD::slotReadOut()
         }
         // kDebug() << "KHTMLPluginKTTSD::slotReadOut: query = " << query << endl;
 
-        dataBuf.at(0);  // reset data
+        dataBuf.seek(0);  // reset data
         arg << query << "";
         if ( !client->call("kttsd", "KSpeech", "setText(QString,QString)",
             data, replyType, replyData, true) )
             QMessageBox::warning( 0, i18n( "DCOP Call Failed" ),
                                      i18n( "The DCOP call setText failed." ));
-        dataBuf.at(0);
+        dataBuf.seek(0);
         arg << 0;
         if ( !client->call("kttsd", "KSpeech", "startText(uint)",
             data, replyType, replyData, true) )

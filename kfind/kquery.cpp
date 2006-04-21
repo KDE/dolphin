@@ -187,7 +187,7 @@ void KQuery::processQuery( KFileItem* file)
     while ( nextItem.hasNext() )
     {
         QRegExp *reg = nextItem.next();
-        matched |= ( reg == 0L ) || ( reg->exactMatch( file->url().fileName( true ) ) ) ;
+        matched = matched || ( reg == 0L ) || ( reg->exactMatch( file->url().fileName( true ) ) ) ;
     }
 
     if (!matched)

@@ -239,10 +239,10 @@ void KProxyDialog::save()
         // proxy setting was indeed a manual proxy
         KUrl u ( mData->proxyList["http"] );
         bool validProxy = (u.isValid() && u.port() > 0);
-        u= mData->proxyList["https"];
-        validProxy |= (u.isValid() && u.port() > 0);
-        u= mData->proxyList["ftp"];
-        validProxy |= (u.isValid() && u.port() > 0);
+        u = mData->proxyList["https"];
+        validProxy = validProxy || (u.isValid() && u.port() > 0);
+        u = mData->proxyList["ftp"];
+        validProxy = validProxy || (u.isValid() && u.port() > 0);
 
         if (!validProxy)
         {

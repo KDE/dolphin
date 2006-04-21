@@ -498,10 +498,10 @@ void KViewSearchLine::slotDataChanged(const QModelIndex &topLeft, const QModelIn
         // first check if all of the unchanged rows are hidden
         match = false;
         if(topLeft.row() >= 1)
-            match |= anyVisible( model()->index(0,0, parent), model()->index(topLeft.row()-1, 0, parent));
+            match = match || anyVisible( model()->index(0,0, parent), model()->index(topLeft.row()-1, 0, parent));
         int rowCount = model()->rowCount(parent);
         if(bottomRight.row() + 1 <= rowCount - 1)
-            match |= anyVisible( model()->index(bottomRight.row()+1, 0, parent), model()->index(rowCount-1, 0, parent));
+            match = match || anyVisible( model()->index(bottomRight.row()+1, 0, parent), model()->index(rowCount-1, 0, parent));
         if(!match) //all child rows hidden
         {
             if(itemMatches(parent, d->search))
