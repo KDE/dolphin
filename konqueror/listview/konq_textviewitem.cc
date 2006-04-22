@@ -214,7 +214,7 @@ void KonqTextViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
 
    QPixmap pix( _r.width(), _r.height() );
    bitBlt( &pix, 0, 0, _p->device(), _r.left(), _r.top(), _r.width(), _r.height() );
-   QImage im = pix.convertToImage();
+   QImage im = pix.toImage();
    im = KImageEffect::fade( im, 0.25, Qt::black );
    _p->drawImage( _r.topLeft(), im );
 }*/
