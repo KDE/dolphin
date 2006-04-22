@@ -409,6 +409,7 @@ KfindTabWidget::~KfindTabWidget()
   delete pages[0];
   delete pages[1];
   delete pages[2];
+  delete bg;
 }
 
 void KfindTabWidget::setURL( const KUrl & url )
