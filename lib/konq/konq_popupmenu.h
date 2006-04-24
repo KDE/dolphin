@@ -36,7 +36,7 @@
 #include <libkonq_export.h>
 
 #include <kparts/browserextension.h>
-
+#include <kdedesktopmimetype.h>
 #include "konq_xmlguiclient.h"
 
 typedef QList<KDEDesktopMimeType::Service> ServiceList;
