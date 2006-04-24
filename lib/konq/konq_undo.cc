@@ -94,8 +94,8 @@ KonqCommandRecorder::KonqCommandRecorder( KonqCommand::Type op, const KUrl::List
   d->m_cmd.m_valid = true;
   d->m_cmd.m_src = src;
   d->m_cmd.m_dst = dst;
-  connect( job, SIGNAL( result( KIO::Job * ) ),
-           this, SLOT( slotResult( KIO::Job * ) ) );
+  connect( job, SIGNAL( result( KJob * ) ),
+           this, SLOT( slotResult( KJob * ) ) );
 
   if ( op != KonqCommand::MKDIR ) {
       connect( job, SIGNAL( copyingDone( KIO::Job *, const KUrl &, const KUrl &, bool, bool ) ),
@@ -113,7 +113,7 @@ KonqCommandRecorder::~KonqCommandRecorder()
   delete d;
 }
 
-void KonqCommandRecorder::slotResult( KIO::Job *job )
+void KonqCommandRecorder::slotResult( KJob *job )
 {
   if ( job->error() )
     return;
@@ -352,12 +352,12 @@ void KonqUndoManager::stopUndo( bool step )
         undoStep();
 }
 
-void KonqUndoManager::slotResult( KIO::Job *job )
+void KonqUndoManager::slotResult( KJob *job )
 {
   d->m_uiserver->jobFinished( d->m_uiserverJobId );
   if ( job->error() )
   {
-    job->showErrorDialog( 0L );
+    static_cast<KIO::Job*>(job)->showErrorDialog( 0L );
     d->m_currentJob = 0;
     stopUndo( false );
     if ( d->m_undoJob )
@@ -394,8 +394,8 @@ void KonqUndoManager::undoStep()
       undoRemovingDirectories();
 
   if ( d->m_currentJob )
-    connect( d->m_currentJob, SIGNAL( result( KIO::Job * ) ),
-             this, SLOT( slotResult( KIO::Job * ) ) );
+    connect( d->m_currentJob, SIGNAL( result( KJob * ) ),
+             this, SLOT( slotResult( KJob * ) ) );
 }
 
 void KonqUndoManager::undoMakingDirectories()

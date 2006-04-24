@@ -366,7 +366,7 @@ public Q_SLOTS:
 
   // connected to the KROP's KIO::Job
   // but also to KonqRun's job
-  void slotInfoMessage( KIO::Job *, const QString &msg );
+  void slotInfoMessage( KJob *, const QString &msg );
 
 protected Q_SLOTS:
   // connected to the KROP's KIO::Job
@@ -374,7 +374,7 @@ protected Q_SLOTS:
   void slotCompleted();
   void slotCompleted( bool );
   void slotCanceled( const QString & errMsg );
-  void slotPercent( KIO::Job *, unsigned long percent );
+  void slotPercent( KJob *, unsigned long percent );
   void slotSpeed( KIO::Job *, unsigned long bytesPerSecond );
 
   /**

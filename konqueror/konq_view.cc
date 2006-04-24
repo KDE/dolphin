@@ -533,9 +533,9 @@ void KonqView::slotStarted( KIO::Job * job )
       kDebug(7035) << "slotStarted: Window ID = " << m_pMainWindow->topLevelWidget()->winId() << endl;
       job->setWindow (m_pMainWindow->topLevelWidget ());
 
-      connect( job, SIGNAL( percent( KIO::Job *, unsigned long ) ), this, SLOT( slotPercent( KIO::Job *, unsigned long ) ) );
+      connect( job, SIGNAL( percent( KJob *, unsigned long ) ), this, SLOT( slotPercent( KJob *, unsigned long ) ) );
       connect( job, SIGNAL( speed( KIO::Job *, unsigned long ) ), this, SLOT( slotSpeed( KIO::Job *, unsigned long ) ) );
-      connect( job, SIGNAL( infoMessage( KIO::Job *, const QString & ) ), this, SLOT( slotInfoMessage( KIO::Job *, const QString & ) ) );
+      connect( job, SIGNAL( infoMessage( KJob *, const QString & ) ), this, SLOT( slotInfoMessage( KJob *, const QString & ) ) );
   }
 }
 
@@ -555,7 +555,7 @@ void KonqView::setLoading( bool loading, bool hasPending /*= false*/)
     m_pMainWindow->viewManager()->setLoading( this, loading || hasPending );
 }
 
-void KonqView::slotPercent( KIO::Job *, unsigned long percent )
+void KonqView::slotPercent( KJob *, unsigned long percent )
 {
   m_pKonqFrame->statusbar()->slotLoadingProgress( percent );
 }
@@ -565,7 +565,7 @@ void KonqView::slotSpeed( KIO::Job *, unsigned long bytesPerSecond )
   m_pKonqFrame->statusbar()->slotSpeedProgress( bytesPerSecond );
 }
 
-void KonqView::slotInfoMessage( KIO::Job *, const QString &msg )
+void KonqView::slotInfoMessage( KJob *, const QString &msg )
 {
   m_pKonqFrame->statusbar()->message( msg );
 }

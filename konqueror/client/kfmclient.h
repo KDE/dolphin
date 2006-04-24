@@ -39,7 +39,7 @@ public:
   static bool openProfile(const QString & profile, const QString & url, const QString & mimetype = QString());
 
 protected Q_SLOTS:
-  void slotResult( KIO::Job * );
+  void slotResult( KJob * );
   void delayedQuit();
   void slotDialogCanceled();
 

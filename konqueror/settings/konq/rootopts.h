@@ -25,6 +25,7 @@ class QPushButton;
 
 class KConfig;
 class K3ListView;
+class KJob;
 class KUrlRequester;
 
 namespace KIO { class Job; }
@@ -57,7 +58,7 @@ private:
         KUrl m_copyFromSrc;
 
 private Q_SLOTS:
-        void slotResult( KIO::Job * job );
+        void slotResult( KJob * job );
 };
 
 #endif // __ROOT_OPTIONS_H

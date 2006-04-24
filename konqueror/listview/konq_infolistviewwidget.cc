@@ -244,7 +244,7 @@ void KonqInfoListViewWidget::slotNewItems( const KFileItemList& entries )
         m_metaInfoJob = KIO::fileMetaInfo( entries );
         connect( m_metaInfoJob, SIGNAL( gotMetaInfo( const KFileItem*)),
              this, SLOT( slotMetaInfo( const KFileItem*)));
-        connect( m_metaInfoJob, SIGNAL( result( KIO::Job*)),
+        connect( m_metaInfoJob, SIGNAL( result( KJob*)),
              this, SLOT( slotMetaInfoResult()));
     }
 }
@@ -266,7 +266,7 @@ void KonqInfoListViewWidget::slotRefreshItems( const KFileItemList& entries )
         m_metaInfoJob = KIO::fileMetaInfo( entries );
         connect( m_metaInfoJob, SIGNAL( gotMetaInfo( const KFileItem*)),
              this, SLOT( slotMetaInfo( const KFileItem*)));
-        connect( m_metaInfoJob, SIGNAL( result( KIO::Job*)),
+        connect( m_metaInfoJob, SIGNAL( result( KJob*)),
              this, SLOT( slotMetaInfoResult()));
     }
     KonqBaseListViewWidget::slotRefreshItems( entries );
@@ -322,7 +322,7 @@ void KonqInfoListViewWidget::slotMetaInfoResult()
         m_metaInfoJob = KIO::fileMetaInfo(m_metaInfoTodo);
         connect( m_metaInfoJob, SIGNAL( gotMetaInfo( const KFileItem*)),
              this, SLOT( slotMetaInfo( const KFileItem*)));
-        connect( m_metaInfoJob, SIGNAL( result( KIO::Job*)),
+        connect( m_metaInfoJob, SIGNAL( result( KJob*)),
              this, SLOT( slotMetaInfoResult()));
         m_metaInfoTodo.clear();
     }

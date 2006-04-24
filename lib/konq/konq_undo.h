@@ -34,6 +34,7 @@ namespace KIO
 }
 
 class KonqUndoJob;
+class KJob;
 
 struct KonqBasicOperation
 {
@@ -76,7 +77,7 @@ public:
   virtual ~KonqCommandRecorder();
 
 private Q_SLOTS:
-  void slotResult( KIO::Job *job );
+  void slotResult( KJob *job );
 
   void slotCopyingDone( KIO::Job *, const KUrl &from, const KUrl &to, bool directory, bool renamed );
   void slotCopyingLinkDone( KIO::Job *, const KUrl &from, const QString &target, const KUrl &to );
@@ -129,7 +130,7 @@ k_dcop:
   virtual KonqCommand::Stack get() const;
 
 private Q_SLOTS:
-  void slotResult( KIO::Job *job );
+  void slotResult( KJob *job );
 
 private:
   void undoStep();

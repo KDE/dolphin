@@ -271,7 +271,7 @@ void KonqFileTip::startDelayed()
         m_previewJob = KIO::filePreview( oneItem, 256, 256, 64, 70, true, true, 0);
         connect( m_previewJob, SIGNAL( gotPreview( const KFileItem *, const QPixmap & ) ),
                  this, SLOT( gotPreview( const KFileItem *, const QPixmap & ) ) );
-        connect( m_previewJob, SIGNAL( result( KIO::Job * ) ),
+        connect( m_previewJob, SIGNAL( result( KJob * ) ),
                  this, SLOT( gotPreviewResult() ) );
     }
 

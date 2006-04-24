@@ -582,7 +582,7 @@ bool clientApp::doIt()
     KIO::Job * job = KIO::move( srcLst, args->url(argc - 1) );
     if ( !s_interactive )
         job->setInteractive( false );
-    connect( job, SIGNAL( result( KIO::Job * ) ), &app, SLOT( slotResult( KIO::Job * ) ) );
+    connect( job, SIGNAL( result( KJob * ) ), &app, SLOT( slotResult( KJob * ) ) );
     app.exec();
     return m_ok;
   }
@@ -617,7 +617,7 @@ bool clientApp::doIt()
     KIO::Job * job = KIO::copy( srcLst, dsturl );
     if ( !s_interactive )
         job->setInteractive( false );
-    connect( job, SIGNAL( result( KIO::Job * ) ), &app, SLOT( slotResult( KIO::Job * ) ) );
+    connect( job, SIGNAL( result( KJob * ) ), &app, SLOT( slotResult( KJob * ) ) );
     app.exec();
     return m_ok;
   }
@@ -631,7 +631,7 @@ bool clientApp::doIt()
     KIO::Job * job = KIO::copy( srcLst, args->url(argc - 1) );
     if ( !s_interactive )
         job->setInteractive( false );
-    connect( job, SIGNAL( result( KIO::Job * ) ), &app, SLOT( slotResult( KIO::Job * ) ) );
+    connect( job, SIGNAL( result( KJob * ) ), &app, SLOT( slotResult( KJob * ) ) );
     app.exec();
     return m_ok;
   }
@@ -666,10 +666,10 @@ bool clientApp::doIt()
   return true;
 }
 
-void clientApp::slotResult( KIO::Job * job )
+void clientApp::slotResult( KJob * job )
 {
   if (job->error() && s_interactive)
-    job->showErrorDialog();
+    static_cast<KIO::Job*>(job)->showErrorDialog();
   m_ok = !job->error();
   quit();
 }

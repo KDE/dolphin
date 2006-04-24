@@ -289,7 +289,7 @@ bool DesktopPathConfig::moveDir( const KUrl & src, const KUrl & dest, const QStr
         else
         {
             KIO::Job * job = KIO::move( src, dest );
-            connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
+            connect( job, SIGNAL( result( KJob * ) ), this, SLOT( slotResult( KJob * ) ) );
             // wait for job
             qApp->enter_loop();
         }
@@ -316,13 +316,13 @@ void DesktopPathConfig::slotEntries( KIO::Job * job, const KIO::UDSEntryList& li
         }
 
         KIO::Job * moveJob = KIO::move( file.url(), m_copyToDest );
-        connect( moveJob, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
+        connect( moveJob, SIGNAL( result( KJob * ) ), this, SLOT( slotResult( KJob * ) ) );
         qApp->enter_loop();
     }
     qApp->exit_loop();
 }
 
-void DesktopPathConfig::slotResult( KIO::Job * job )
+void DesktopPathConfig::slotResult( KJob * job )
 {
     if (job->error())
     {
@@ -331,7 +331,7 @@ void DesktopPathConfig::slotResult( KIO::Job * job )
         // If the source doesn't exist, no wonder we couldn't move the dir.
         // In that case, trust the user and set the new setting in any case.
 
-        job->showErrorDialog(this);
+        static_cast<KIO::Job*>(job)->showErrorDialog(this);
     }
     qApp->exit_loop();
 }
