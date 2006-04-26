@@ -453,7 +453,6 @@ static int directCommand(KCmdLineArgs *args)
 	KFileDialog dlg( startDir, filter, 0 );
 	dlg.setOperationMode( KFileDialog::Opening );
 
-	dlg.setCaption(title.isNull() ? i18n("Open") : title);
 	if (args->isSet("multiple")) {
 	    dlg.setMode(KFile::Files | KFile::LocalOnly);
 	} else {
@@ -461,6 +460,7 @@ static int directCommand(KCmdLineArgs *args)
 	}
 	Widgets::handleXGeometry(&dlg);
 	kapp->setTopWidget( &dlg );
+	dlg.setCaption(title.isNull() ? i18n("Open") : title);
 	dlg.exec();
 
         if (args->isSet("multiple")) {
@@ -499,13 +499,9 @@ static int directCommand(KCmdLineArgs *args)
 	if ( !specialDir )
 	    dlg.setSelection( startDir );
 	dlg.setOperationMode( KFileDialog::Saving );
-	if ( title.isNull() ) {
-	    dlg.setCaption( i18n("Save As") );
-	} else {
-	    dlg.setCaption( title );
-	}
 	Widgets::handleXGeometry(&dlg);
 	kapp->setTopWidget( &dlg );
+	dlg.setCaption(title.isNull() ? i18n("Save As") : title);
 	dlg.exec();
 
 	if ( args->isSet("getsaveurl") ) {
@@ -568,7 +564,6 @@ static int directCommand(KCmdLineArgs *args)
 	KFileDialog dlg( startDir, filter, 0 );
 	dlg.setOperationMode( KFileDialog::Opening );
 
-	dlg.setCaption(title.isNull() ? i18n("Open") : title);
 	if (args->isSet("multiple")) {
 	    dlg.setMode(KFile::Files);
 	} else {
@@ -576,6 +571,7 @@ static int directCommand(KCmdLineArgs *args)
 	}
 	Widgets::handleXGeometry(&dlg);
 	kapp->setTopWidget( &dlg );
+	dlg.setCaption(title.isNull() ? i18n("Open") : title);
 	dlg.exec();
 
         if (args->isSet("multiple")) {
