@@ -38,7 +38,6 @@
 #include <QResizeEvent>
 #include <QMouseEvent>
 
-#include <kpixmap.h>
 #include <kpixmapeffect.h>
 #include <kstatusbar.h>
 

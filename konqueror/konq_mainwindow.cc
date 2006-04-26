@@ -4381,7 +4381,7 @@ void KonqMainWindow::setCaption( const QString &caption )
   {
     kDebug(1202) << "KonqMainWindow::setCaption(" << caption << ")" << endl;
 
-    // Keep an unmodified copy of the caption (before kapp->makeStdCaption is applied)
+    // Keep an unmodified copy of the caption (before KInstance::makeStdCaption is applied)
     m_currentView->setCaption( caption );
     KParts::MainWindow::setCaption( m_currentView->caption() );
   }

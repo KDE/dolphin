@@ -108,7 +108,7 @@ public:
     void showToplevelContextMenu();
 
     // Add an URL
-    void addURL(KonqSidebarTreeTopLevelItem* item, const KUrl&url);
+    void addUrl(KonqSidebarTreeTopLevelItem* item, const KUrl&url);
 
     // If we can use dcop to open tabs
     bool tabSupport();

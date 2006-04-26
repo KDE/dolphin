@@ -22,7 +22,6 @@
 
 #include <kdebug.h>
 #include <kstandarddirs.h>
-#include <kpixmap.h>
 #include <qpixmapcache.h>
 #include <q3iconview.h>
 //Added by qt3to4:
@@ -40,7 +39,7 @@ static QPixmap wallpaperPixmap( const QString & _wallpaper )
 {
     QString key = "wallpapers/";
     key += _wallpaper;
-    KPixmap pix;
+    QPixmap pix;
 
     if ( QPixmapCache::find( key, pix ) )
       return pix;
@@ -53,7 +52,6 @@ static QPixmap wallpaperPixmap( const QString & _wallpaper )
       // This looks really ugly, especially on an 8bit display.
       // I'm not sure what it's good for.
       // Anyway, if you change it here, keep konq_bgnddlg in sync (David)
-      // pix.load( path, 0, KPixmap::LowColor );
       pix.load( path );
       if ( pix.isNull() )
         kWarning(1203) << "Could not load wallpaper " << path << endl;
@@ -540,7 +538,7 @@ QPixmap KonqPropsView::loadPixmap() const
 void KonqPropsView::applyColors(QWidget * widget) const
 {
     QPalette palette = widget->palette();
-    
+
     if ( m_bgPixmapFile.isEmpty() )
     {
         palette.setColor( widget->backgroundRole(), bgColor( widget ) );
@@ -560,7 +558,7 @@ void KonqPropsView::applyColors(QWidget * widget) const
 
     if ( m_textColor.isValid() )
         palette.setColor( widget->foregroundRole(), textColor( widget ) );
-        
+
     widget->setPalette( palette );
 }
 

@@ -345,7 +345,7 @@ void KonqSidebarTree::contentsDropEvent( QDropEvent *ev )
                for(KUrl::List::ConstIterator it = urls.begin();
                    it != urls.end(); ++it)
                {
-                  addURL(0, *it);
+                  addUrl(0, *it);
                }
             }
         }
@@ -373,7 +373,7 @@ static QString findUniqueFilename(const QString &path, QString filename)
     return path+filename+".desktop";
 }
 
-void KonqSidebarTree::addURL(KonqSidebarTreeTopLevelItem* item, const KUrl & url)
+void KonqSidebarTree::addUrl(KonqSidebarTreeTopLevelItem* item, const KUrl & url)
 {
     QString path;
     if (item)

@@ -146,8 +146,8 @@ void HistorySidebarConfig::load()
 
 void HistorySidebarConfig::save()
 {
-    Q_UINT32 age   = dialog->cbExpire->isChecked() ? dialog->spinExpire->value() : 0;
-    Q_UINT32 count = dialog->spinEntries->value();
+    quint32 age   = dialog->cbExpire->isChecked() ? dialog->spinExpire->value() : 0;
+    quint32 count = dialog->spinEntries->value();
 
     KConfig config("konquerorrc");
     config.setGroup("HistorySettings");
@@ -160,7 +160,7 @@ void HistorySidebarConfig::save()
     streamAge.setVersion(QDataStream::Qt_3_1);
     streamAge << age << "foo";
     kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
-			      "notifyMaxAge(Q_UINT32, QCString)", dataAge );
+			      "notifyMaxAge(quint32, QCString)", dataAge );
 
     QByteArray dataCount;
     QDataStream streamCount( &dataCount, QIODevice::WriteOnly );
@@ -168,7 +168,7 @@ void HistorySidebarConfig::save()
     streamCount.setVersion(QDataStream::Qt_3_1);
     streamCount << count << "foo";
     kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
-			      "notifyMaxCount(Q_UINT32, QCString)", dataCount );
+			      "notifyMaxCount(quint32, QCString)", dataCount );
 
     m_settings->m_valueYoungerThan = dialog->spinNewer->value();
     m_settings->m_valueOlderThan   = dialog->spinOlder->value();

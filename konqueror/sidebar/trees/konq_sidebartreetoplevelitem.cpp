@@ -75,7 +75,7 @@ void KonqSidebarTreeTopLevelItem::drop( QDropEvent * ev )
             KUrl::List::Iterator it = lst.begin();
             for ( ; it != lst.end() ; it++ )
             {
-                tree()->addURL(this, *it);
+                tree()->addUrl(this, *it);
             }
         } else
             kError(1202) << "No URL !?  " << endl;
