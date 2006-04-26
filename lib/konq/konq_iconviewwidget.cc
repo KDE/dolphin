@@ -863,7 +863,7 @@ void KonqIconViewWidget::startImagePreview( const QStringList &, bool force )
         true /* save */, &(d->previewSettings) );
     connect( d->pPreviewJob, SIGNAL( gotPreview( const KFileItem *, const QPixmap & ) ),
              this, SLOT( slotPreview( const KFileItem *, const QPixmap & ) ) );
-    connect( d->pPreviewJob, SIGNAL( result( KIO::Job * ) ),
+    connect( d->pPreviewJob, SIGNAL( result( KJob * ) ),
              this, SLOT( slotPreviewResult() ) );
 }
 

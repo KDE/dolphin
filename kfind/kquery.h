@@ -31,7 +31,7 @@ class KQuery : public QObject
   void setPath(const KUrl & url );
   void setFileType( int filetype );
   void setMimeType( const QStringList & mimetype );
-  void setContext( const QString & context, bool casesensitive, 
+  void setContext( const QString & context, bool casesensitive,
   bool search_binary, bool useRegexp );
   void setUsername( QString username );
   void setGroupname( QString groupname );
@@ -46,13 +46,13 @@ class KQuery : public QObject
   /* Check if file meets the find's requirements*/
   inline void processQuery(KFileItem*);
 
- public Q_SLOTS: 
+ public Q_SLOTS:
   /* List of files found using slocate */
   void slotListEntries(QStringList);
  protected Q_SLOTS:
   /* List of files found using KIO */
   void slotListEntries(KIO::Job *, const KIO::UDSEntryList &);
-  void slotResult(KIO::Job *);
+  void slotResult(KJob *);
   void slotCanceled(KIO::Job *);
   void slotreceivedSdtout(KProcess*,char*,int);
   void slotreceivedSdterr(KProcess*,char*,int);

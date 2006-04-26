@@ -38,7 +38,7 @@
 
 TestLinkItrHolder *TestLinkItrHolder::s_self = 0;
 
-TestLinkItrHolder::TestLinkItrHolder() 
+TestLinkItrHolder::TestLinkItrHolder()
     : BookmarkIteratorHolder() {
     // do stuff
 }
@@ -90,8 +90,8 @@ void TestLinkItr::doAction() {
     m_job->addMetaData("errorPage", "true");
     m_job->addMetaData( QString("cookies"), QString("none") );
 
-    connect(m_job, SIGNAL( result( KIO::Job *)),
-            this, SLOT( slotJobResult(KIO::Job *)));
+    connect(m_job, SIGNAL( result( KJob *)),
+            this, SLOT( slotJobResult(KJob *)));
     connect(m_job, SIGNAL( data( KIO::Job *, const QByteArray &)),
             this, SLOT( slotJobData(KIO::Job *, const QByteArray &)));
 
@@ -113,7 +113,7 @@ void TestLinkItr::slotJobData(KIO::Job *job, const QByteArray &data) {
                 QString leftover = (*it).mid(open_pos + 7);
                 int close_pos = leftover.lastIndexOf( "</title>", -1, Qt::CaseInsensitive );
                 if (close_pos >= 0) {
-                    // if no end tag found then just 
+                    // if no end tag found then just
                     // print the first line of the <title>
                     leftover = leftover.left(close_pos);
                 }
@@ -133,7 +133,7 @@ void TestLinkItr::slotJobData(KIO::Job *job, const QByteArray &data) {
     transfer->kill(false);
 }
 
-void TestLinkItr::slotJobResult(KIO::Job *job) {
+void TestLinkItr::slotJobResult(KJob *job) {
     m_job = 0;
     //FIXME if ( !curItem() ) return;
 
@@ -167,14 +167,14 @@ void TestLinkItr::slotJobResult(KIO::Job *job) {
 /* -------------------------- */
 
 const QString TestLinkItrHolder::getMod(const QString &url) const {
-    return m_modify.contains(url) 
-        ? m_modify[url] 
+    return m_modify.contains(url)
+        ? m_modify[url]
         : QString();
 }
 
 const QString TestLinkItrHolder::getOldVisit(const QString &url) const {
-    return self()->m_oldModify.contains(url) 
-        ? self()->m_oldModify[url] 
+    return self()->m_oldModify.contains(url)
+        ? self()->m_oldModify[url]
         : QString();
 }
 
@@ -197,7 +197,7 @@ void TestLinkItrHolder::resetToValue(const QString &url, const QString &oldValue
 /* -------------------------- */
 
 /*
-QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::PaintStyle &_style, 
+QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::PaintStyle &_style,
                                           const QString &nVisit, const QString &Modify) {
     bool newModValid = false;
     int newMod = 0;
@@ -216,14 +216,14 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
     if (newModStr.isNull()) {
         newModStr = Modify;
         initial = true;
-    }    
+    }
 
     if (!newModStr.isNull()) {
         newMod = newModStr.toInt(&newModValid);
     }
 
 
-//    kDebug() << "TestLink " << url << " " << "booktime=" << nVisit << " urltime=" << newModStr << 
+//    kDebug() << "TestLink " << url << " " << "booktime=" << nVisit << " urltime=" << newModStr <<
 //               " Modify=" << Modify << " init=" << initial << " newMod=" << newMod << "\n";
 
     QString visitStr;
@@ -250,10 +250,10 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
     QString statusStr;
     KEBListViewItem::PaintStyle style = KEBListViewItem::DefaultStyle;
 
-//    kDebug() << "TestLink " << "isNull=" << newModStr.isNull() << "newModValid=" 
+//    kDebug() << "TestLink " << "isNull=" << newModStr.isNull() << "newModValid="
 //              << newModValid << "newMod > visit " << newMod << ">" << visit << "\n";
 
-    if (!newModStr.isNull() && !newModValid) { 
+    if (!newModStr.isNull() && !newModValid) {
         // Current check has error
         statusStr = newModStr;
         if (oldError) {
@@ -262,20 +262,20 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
             style =  KEBListViewItem::DefaultStyle;
         }
 
-    } else if (initial && oldError) { 
+    } else if (initial && oldError) {
         // Previous check has error
         style = KEBListViewItem::GreyStyle;
         statusStr = i18n("Error ");
 
-    } else if (!initial && !newModStr.isNull() && (newMod == 0)) { 
+    } else if (!initial && !newModStr.isNull() && (newMod == 0)) {
         // Current check has no modify time
         statusStr = i18n("Ok");
 
-    } else if (initial && !newModStr.isNull() && (newMod == 0)) { 
+    } else if (initial && !newModStr.isNull() && (newMod == 0)) {
         // previous check has no modify time recorded
         statusStr.clear();
 
-    } else if (!newModStr.isNull() && (newMod > visit)) { 
+    } else if (!newModStr.isNull() && (newMod > visit)) {
         // if modify time greater than last visit, show bold modify time
         statusStr = CurrentMgr::makeTimeStr(newMod);
         if (initial) {
@@ -284,7 +284,7 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
             style = KEBListViewItem::BoldStyle;
         }
 
-    } else if (visit != 0) { 
+    } else if (visit != 0) {
         // modify time not greater than last visit, show last visit time
         statusStr = CurrentMgr::makeTimeStr(visit);
         if (initial) {
@@ -303,7 +303,7 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
 */
 /*
 static void parseInfo (KBookmark &bk, QString &nVisited) {
-    nVisited = 
+    nVisited =
         NodeEditCommand::getNodeText(bk, QStringList() << "info" << "metadata"
                                      << "time_visited" );
 

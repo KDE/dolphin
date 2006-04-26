@@ -45,7 +45,7 @@ struct FaviconsModulePrivate
         bool isHost;
         QByteArray iconData;
     };
-    QMap<KIO::Job *, DownloadInfo> downloads;
+    QMap<KJob *, DownloadInfo> downloads;
     QStringList failedDownloads;
     KSimpleConfig *config;
     QList<KIO::Job*> killJobs;
@@ -74,7 +74,7 @@ FaviconsModule::~FaviconsModule()
     delete d;
 }
 
-QString removeSlash(QString result) 
+QString removeSlash(QString result)
 {
     for (unsigned int i = result.length() - 1; i > 0; --i)
         if (result[i] != '/')
@@ -103,9 +103,9 @@ QString FaviconsModule::iconForURL(const KUrl &url)
 
     if (!icon.isEmpty())
         icon = iconNameFromURL(KUrl( icon ));
-    else 
+    else
         icon = url.host();
-        
+
     icon = "favicons/" + icon;
 
     if (QFile::exists(d->faviconsDir+icon+".png"))
@@ -185,8 +185,8 @@ void FaviconsModule::startDownload(const QString &hostOrURL, bool isHost, const 
     KIO::Job *job = KIO::get(iconURL, false, false);
     job->addMetaData(d->metaData);
     connect(job, SIGNAL(data(KIO::Job *, const QByteArray &)), SLOT(slotData(KIO::Job *, const QByteArray &)));
-    connect(job, SIGNAL(result(KIO::Job *)), SLOT(slotResult(KIO::Job *)));
-    connect(job, SIGNAL(infoMessage(KIO::Job *, const QString &)), SLOT(slotInfoMessage(KIO::Job *, const QString &)));
+    connect(job, SIGNAL(result(KJob *)), SLOT(slotResult(KJob *)));
+    connect(job, SIGNAL(infoMessage(KJob *, const QString &, const QString &)), SLOT(slotInfoMessage(KJob *, const QString &)));
     FaviconsModulePrivate::DownloadInfo download;
     download.hostOrURL = hostOrURL;
     download.isHost = isHost;
@@ -206,7 +206,7 @@ void FaviconsModule::slotData(KIO::Job *job, const QByteArray &data)
     memcpy(download.iconData.data() + oldSize, data.data(), data.size());
 }
 
-void FaviconsModule::slotResult(KIO::Job *job)
+void FaviconsModule::slotResult(KJob *job)
 {
     FaviconsModulePrivate::DownloadInfo download = d->downloads[job];
     d->downloads.remove(job);
@@ -220,7 +220,7 @@ void FaviconsModule::slotResult(KIO::Job *job)
         QSize desired( 16,16 );
         if( ir.canRead() ) {
 
-            while( ir.imageCount() > 1 
+            while( ir.imageCount() > 1
               && ir.currentImageRect() != QRect( 0, 0, desired.width(), desired.height() )
               && ir.imageCount() >= ir.currentImageNumber() )
                 ir.jumpToNextImage();
@@ -246,7 +246,7 @@ void FaviconsModule::slotResult(KIO::Job *job)
     emit iconChanged(download.isHost, download.hostOrURL, iconName);
 }
 
-void FaviconsModule::slotInfoMessage(KIO::Job *job, const QString &msg)
+void FaviconsModule::slotInfoMessage(KJob *job, const QString &msg)
 {
     emit infoMessage(static_cast<KIO::TransferJob *>( job )->url(), msg);
 }

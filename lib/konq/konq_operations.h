@@ -28,6 +28,7 @@
 #include <QList>
 #include <QDropEvent>
 
+class KJob;
 namespace KIO { class Job; class CopyInfo; }
 class QWidget;
 class KFileItem;
@@ -169,8 +170,8 @@ protected:
 protected Q_SLOTS:
 
     void slotAboutToCreate(KIO::Job *job, const QList<KIO::CopyInfo> &files);
-    void slotResult( KIO::Job * job );
-    void slotStatResult( KIO::Job * job );
+    void slotResult( KJob * job );
+    void slotStatResult( KJob * job );
     void asyncDrop( const KFileItem * item );
     void doFileCopy();
 
@@ -195,7 +196,7 @@ public:
 
 protected Q_SLOTS:
     virtual void slotStart();
-    virtual void slotResult( KIO::Job *job );
+    virtual void slotResult( KJob *job );
 
 private:
     const KUrl::List m_urls;

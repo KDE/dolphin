@@ -228,8 +228,8 @@ void KonqOperations::_del( int method, const KUrl::List & _selectedURLs, int con
         delete this;
         return;
     }
-    connect( job, SIGNAL( result( KIO::Job * ) ),
-             SLOT( slotResult( KIO::Job * ) ) );
+    connect( job, SIGNAL( result( KJob * ) ),
+             SLOT( slotResult( KJob * ) ) );
   } else
     delete this;
 }
@@ -238,8 +238,8 @@ void KonqOperations::_restoreTrashedItems( const KUrl::List& urls )
 {
     m_method = RESTORE;
     KonqMultiRestoreJob* job = new KonqMultiRestoreJob( urls, true );
-    connect( job, SIGNAL( result( KIO::Job * ) ),
-             SLOT( slotResult( KIO::Job * ) ) );
+    connect( job, SIGNAL( result( KJob * ) ),
+             SLOT( slotResult( KJob * ) ) );
 }
 
 bool KonqOperations::askDeleteConfirmation( const KUrl::List & selectedURLs, int confirmation )
@@ -460,7 +460,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
 #ifndef Q_WS_WIN
                     KAutoMount* am = new KAutoMount( ro, fstype, dev, point, m_destURL.path(), false );
                     connect( am, SIGNAL( finished() ), this, SLOT( doFileCopy() ) );
-#endif                    
+#endif
                 }
                 return;
             }
@@ -587,15 +587,15 @@ void KonqOperations::doFileCopy()
 
         if ( sReading && !linkOnly)
             popup.addAction(popupCopyAction);
-        
-        if (!mlst.isEmpty() && (sMoving || (sReading && sDeleting)) && !linkOnly )        
+
+        if (!mlst.isEmpty() && (sMoving || (sReading && sDeleting)) && !linkOnly )
             popup.addAction(popupMoveAction);
-        
+
         popup.addAction(popupLinkAction);
-        
+
         if (bSetWallpaper)
             popup.addAction(popupWallAction);
-        
+
         popup.addSeparator();
         popup.addAction(popupCancelAction);
 
@@ -616,7 +616,7 @@ void KonqOperations::doFileCopy()
         }
         else if(result == popupCancelAction)
         {
-            delete this; 
+            delete this;
             return;
         }
     }
@@ -680,8 +680,8 @@ void KonqOperations::setOperation( KIO::Job * job, int method, const KUrl::List 
     m_destURL = dest;
     if ( job )
     {
-        connect( job, SIGNAL( result( KIO::Job * ) ),
-                 SLOT( slotResult( KIO::Job * ) ) );
+        connect( job, SIGNAL( result( KJob * ) ),
+                 SLOT( slotResult( KJob * ) ) );
         KIO::CopyJob *copyJob = dynamic_cast<KIO::CopyJob*>(job);
         KonqIconViewWidget *iconView = dynamic_cast<KonqIconViewWidget*>(parent());
         if (copyJob && iconView)
@@ -712,14 +712,14 @@ void KonqOperations::_statURL( const KUrl & url, const QObject *receiver, const 
 {
     connect( this, SIGNAL( statFinished( const KFileItem * ) ), receiver, member );
     KIO::StatJob * job = KIO::stat( url /*, false?*/ );
-    connect( job, SIGNAL( result( KIO::Job * ) ),
-             SLOT( slotStatResult( KIO::Job * ) ) );
+    connect( job, SIGNAL( result( KJob * ) ),
+             SLOT( slotStatResult( KJob * ) ) );
 }
 
-void KonqOperations::slotStatResult( KIO::Job * job )
+void KonqOperations::slotStatResult( KJob * job )
 {
     if ( job->error())
-        job->showErrorDialog( (QWidget*)parent() );
+        static_cast<KIO::Job*>( job )->showErrorDialog( (QWidget*)parent() );
     else
     {
         KIO::StatJob * statJob = static_cast<KIO::StatJob*>(job);
@@ -732,10 +732,10 @@ void KonqOperations::slotStatResult( KIO::Job * job )
         delete this;
 }
 
-void KonqOperations::slotResult( KIO::Job * job )
+void KonqOperations::slotResult( KJob * job )
 {
     if (job && job->error())
-        job->showErrorDialog( (QWidget*)parent() );
+        static_cast<KIO::Job*>( job )->showErrorDialog( (QWidget*)parent() );
     if ( m_method == EMPTYTRASH ) {
         // Update konq windows opened on trash:/
         KDirNotify_stub allDirNotify("*", "KDirNotify*");
@@ -823,7 +823,7 @@ void KonqMultiRestoreJob::slotStart()
     }
 }
 
-void KonqMultiRestoreJob::slotResult( KIO::Job *job )
+void KonqMultiRestoreJob::slotResult( KJob *job )
 {
     if ( job->error() )
     {

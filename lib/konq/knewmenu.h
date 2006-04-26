@@ -30,6 +30,7 @@
 #include <kurl.h>
 #include <libkonq_export.h>
 
+class KJob;
 namespace KIO { class Job; }
 
 class KDirWatch;
@@ -97,7 +98,7 @@ protected Q_SLOTS:
      */
     void slotFillTemplates();
 
-    void slotResult( KIO::Job * );
+    void slotResult( KJob * );
     // Special case (filename conflict when creating a link=url file)
     void slotRenamed( KIO::Job *, const KUrl&, const KUrl& );
 

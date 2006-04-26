@@ -29,8 +29,8 @@
 
 class TestLinkItrHolder : public BookmarkIteratorHolder {
 public:
-   static TestLinkItrHolder* self() { 
-      if (!s_self) { s_self = new TestLinkItrHolder(); }; return s_self; 
+   static TestLinkItrHolder* self() {
+      if (!s_self) { s_self = new TestLinkItrHolder(); }; return s_self;
    }
    void addAffectedBookmark( const QString & address );
    void resetToValue(const QString &url, const QString &val);
@@ -58,7 +58,7 @@ public:
    virtual TestLinkItrHolder* holder() const { return TestLinkItrHolder::self(); }
 
 public Q_SLOTS:
-   void slotJobResult(KIO::Job *job);
+   void slotJobResult(KJob *job);
    void slotJobData(KIO::Job *job, const QByteArray &data);
 
 private:

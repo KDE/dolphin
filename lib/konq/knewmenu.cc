@@ -418,7 +418,7 @@ void KNewMenu::slotNewFile()
                 //kDebug(1203) << "third arg=" << entry.text << endl;
                 QString text = entry.text;
                 text.replace( "...", QString() ); // the ... is fine for the menu item but not for the default filename
-                
+
 		KUrl defaultFile( *it );
 		defaultFile.addPath( KIO::encodeFileName( text ) );
 		if ( defaultFile.isLocalFile() && QFile::exists( defaultFile.path() ) )
@@ -438,7 +438,7 @@ void KNewMenu::slotNewFile()
         bool ok;
         QString text = entry.text;
         text.replace( "...", QString() ); // the ... is fine for the menu item but not for the default filename
-        
+
 	KUrl defaultFile( *(popupFiles.begin()) );
 	defaultFile.addPath( KIO::encodeFileName( text ) );
 	if ( defaultFile.isLocalFile() && QFile::exists( defaultFile.path() ) )
@@ -466,8 +466,8 @@ void KNewMenu::slotNewFile()
         //kDebug(1203) << "KNewMenu : KIO::copyAs( " << uSrc.url() << ", " << dest.url() << ")" << endl;
         KIO::CopyJob * job = KIO::copyAs( uSrc, dest );
         job->setDefaultPermissions( true );
-        connect( job, SIGNAL( result( KIO::Job * ) ),
-                SLOT( slotResult( KIO::Job * ) ) );
+        connect( job, SIGNAL( result( KJob * ) ),
+                SLOT( slotResult( KJob * ) ) );
         if ( m_isURLDesktopFile )
 		connect( job, SIGNAL( renamed( KIO::Job *, const KUrl&, const KUrl& ) ),
         	     SLOT( slotRenamed( KIO::Job *, const KUrl&, const KUrl& ) ) );
@@ -489,10 +489,10 @@ void KNewMenu::slotRenamed( KIO::Job *, const KUrl& from , const KUrl& to )
     }
 }
 
-void KNewMenu::slotResult( KIO::Job * job )
+void KNewMenu::slotResult( KJob * job )
 {
     if (job->error())
-        job->showErrorDialog();
+        static_cast<KIO::Job*>( job )->showErrorDialog();
     else
     {
         KUrl destURL = static_cast<KIO::CopyJob*>(job)->destURL();

@@ -125,9 +125,9 @@ public:
 
 protected Q_SLOTS:
   void data(KIO::Job *job, const QByteArray &data);
-  void totalSize(KIO::Job *job, KIO::filesize_t size);
+  void totalSize(KJob *job, qulonglong size);
   void mimetype(KIO::Job * job, const QString &mimeType);
-  void result(KIO::Job *job);
+  void result(KJob *job);
   void resume();
 
 protected:

@@ -77,7 +77,7 @@ void FavIconUpdater::downloadIconActual(const KBookmark &bk) {
     m_bk = bk;
 
     if (!m_part) {
-        KParts::ReadOnlyPart *part 
+        KParts::ReadOnlyPart *part
             = KParts::ComponentFactory
             ::createPartInstanceFromQuery<KParts::ReadOnlyPart>("text/html", QString());
 
@@ -134,8 +134,8 @@ FavIconWebGrabber::FavIconWebGrabber(KParts::ReadOnlyPart *part, const KUrl &url
 
     KIO::Job *job = KIO::get(m_url, false, false);
     job->addMetaData( QString("cookies"), QString("none") );
-    connect(job, SIGNAL( result( KIO::Job *)),
-            this, SLOT( slotFinished(KIO::Job *) ));
+    connect(job, SIGNAL( result( KJob *)),
+            this, SLOT( slotFinished(KJob *) ));
     connect(job, SIGNAL( mimetype( KIO::Job *, const QString &) ),
             this, SLOT( slotMimetype(KIO::Job *, const QString &) ));
 }
@@ -152,7 +152,7 @@ void FavIconWebGrabber::slotMimetype(KIO::Job *job, const QString & /*type*/) {
     m_part->openURL(m_url);
 }
 
-void FavIconWebGrabber::slotFinished(KIO::Job *job) {
+void FavIconWebGrabber::slotFinished(KJob *job) {
     if (job->error()) {
         // kDebug() << "FavIconWebGrabber::slotFinished() " << job->errorString() << endl;
     }

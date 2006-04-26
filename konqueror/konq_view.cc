@@ -535,7 +535,7 @@ void KonqView::slotStarted( KIO::Job * job )
 
       connect( job, SIGNAL( percent( KJob *, unsigned long ) ), this, SLOT( slotPercent( KJob *, unsigned long ) ) );
       connect( job, SIGNAL( speed( KIO::Job *, unsigned long ) ), this, SLOT( slotSpeed( KIO::Job *, unsigned long ) ) );
-      connect( job, SIGNAL( infoMessage( KJob *, const QString & ) ), this, SLOT( slotInfoMessage( KJob *, const QString & ) ) );
+      connect( job, SIGNAL( infoMessage( KJob *, const QString &, const QString & ) ), this, SLOT( slotInfoMessage( KJob *, const QString & ) ) );
   }
 }
 

@@ -663,9 +663,9 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    XtManageChild(_form);
 
    // Register forwarder
-   XtAddEventHandler(_toplevel, (KeyPressMask|KeyReleaseMask), 
+   XtAddEventHandler(_toplevel, (KeyPressMask|KeyReleaseMask),
                      False, forwarder, (XtPointer)this );
-   XtAddEventHandler(_form, (KeyPressMask|KeyReleaseMask), 
+   XtAddEventHandler(_form, (KeyPressMask|KeyReleaseMask),
                      False, forwarder, (XtPointer)this );
    XSync(QX11Info::display(), false);
 }
@@ -718,9 +718,9 @@ void NSPluginInstance::destroy()
         if (saved)
           g_NPN_MemFree(saved);
 
-        XtRemoveEventHandler(_form, (KeyPressMask|KeyReleaseMask), 
+        XtRemoveEventHandler(_form, (KeyPressMask|KeyReleaseMask),
                              False, forwarder, (XtPointer)this);
-        XtRemoveEventHandler(_toplevel, (KeyPressMask|KeyReleaseMask), 
+        XtRemoveEventHandler(_toplevel, (KeyPressMask|KeyReleaseMask),
                              False, forwarder, (XtPointer)this);
         XtDestroyWidget(_form);
 	_form = 0;
@@ -1285,7 +1285,7 @@ DCOPRef NSPluginViewer::newClass( QString plugin )
 
 NSPluginClass::NSPluginClass( const QString &library,
                               QObject *parent, const char *name )
-   : DCOPObject(), QObject( parent ) 
+   : DCOPObject(), QObject( parent )
 {
     setObjectName( name );
 
@@ -1686,7 +1686,7 @@ void NSPluginStreamBase::queue( const QByteArray &data )
 
 /*
     kDebug(1431) << "new queue size=" << data.size()
-                  << " data=" << (void*)data.data() 
+                  << " data=" << (void*)data.data()
                   << " queue=" << (void*)_queue.data() << " qsize="
                   << _queue.size() << endl;
 */
@@ -1820,9 +1820,9 @@ bool NSPluginStream::get( const QString& url, const QString& mimeType,
         }
         connect(_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
                 SLOT(data(KIO::Job *, const QByteArray &)));
-        connect(_job, SIGNAL(result(KIO::Job *)), SLOT(result(KIO::Job *)));
-        connect(_job, SIGNAL(totalSize(KIO::Job *, KIO::filesize_t )),
-                SLOT(totalSize(KIO::Job *, KIO::filesize_t)));
+        connect(_job, SIGNAL(result(KJob *)), SLOT(result(KJob *)));
+        connect(_job, SIGNAL(totalSize(KJob *, qulonglong )),
+                SLOT(totalSize(KJob *, qulonglong)));
         connect(_job, SIGNAL(mimetype(KIO::Job *, const QString &)),
                 SLOT(mimetype(KIO::Job *, const QString &)));
     }
@@ -1831,7 +1831,7 @@ bool NSPluginStream::get( const QString& url, const QString& mimeType,
 }
 
 
-bool NSPluginStream::post( const QString& url, const QByteArray& data, 
+bool NSPluginStream::post( const QString& url, const QByteArray& data,
            const QString& mimeType, void *notify, const KParts::URLArgs& args )
 {
     // create new stream
@@ -1843,9 +1843,9 @@ bool NSPluginStream::post( const QString& url, const QByteArray& data,
         _job->addMetaData("AllowCompressedPage", "false");
         connect(_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
                 SLOT(data(KIO::Job *, const QByteArray &)));
-        connect(_job, SIGNAL(result(KIO::Job *)), SLOT(result(KIO::Job *)));
-        connect(_job, SIGNAL(totalSize(KIO::Job *, KIO::filesize_t )),
-                SLOT(totalSize(KIO::Job *, KIO::filesize_t)));
+        connect(_job, SIGNAL(result(KJob *)), SLOT(result(KJob *)));
+        connect(_job, SIGNAL(totalSize(KJob *, qulonglong )),
+                SLOT(totalSize(KJob *, qulonglong)));
         connect(_job, SIGNAL(mimetype(KIO::Job *, const QString &)),
                 SLOT(mimetype(KIO::Job *, const QString &)));
     }
@@ -1865,7 +1865,7 @@ void NSPluginStream::data(KIO::Job*, const QByteArray &data)
     }
 }
 
-void NSPluginStream::totalSize(KIO::Job * job, KIO::filesize_t size)
+void NSPluginStream::totalSize(KJob * job, qulonglong size)
 {
     kDebug(1431) << "NSPluginStream::totalSize - job=" << (void*)job << " size=" << KIO::number(size) << endl;
     _stream->end = size;
@@ -1899,7 +1899,7 @@ void NSPluginStream::resume()
 }
 
 
-void NSPluginStream::result(KIO::Job *job)
+void NSPluginStream::result(KJob *job)
 {
    int err = job->error();
    _job = 0;

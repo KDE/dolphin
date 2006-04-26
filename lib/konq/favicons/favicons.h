@@ -22,6 +22,7 @@
 #include <kdedmodule.h>
 #include <kurl.h>
 
+class KJob;
 namespace KIO { class Job; }
 
 /**
@@ -92,8 +93,8 @@ private:
 
 private Q_SLOTS:
     void slotData(KIO::Job *, const QByteArray &);
-    void slotResult(KIO::Job *);
-    void slotInfoMessage(KIO::Job *, const QString &);
+    void slotResult(KJob *);
+    void slotInfoMessage(KJob *, const QString &);
     void slotKill();
 
 private:
