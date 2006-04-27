@@ -190,8 +190,8 @@ bool Widgets::listBox(QWidget *parent, const QString& title, const QString& text
 {
   KListBoxDialog box(text,parent);
 
-  box.setCaption(title);
   kapp->setTopWidget( &box );
+  box.setCaption(title);
 
   for (int i = 0; i+1<args.count(); i += 2) {
     box.insertItem(args[i+1]);
@@ -218,8 +218,8 @@ bool Widgets::checkList(QWidget *parent, const QString& title, const QString& te
 
   Q3ListBox &table = box.getTable();
 
-  box.setCaption(title);
   kapp->setTopWidget( &box );
+  box.setCaption(title);
 
   for (int i=0; i+2<args.count(); i += 3) {
     tags.append(args[i]);
@@ -262,8 +262,8 @@ bool Widgets::radioBox(QWidget *parent, const QString& title, const QString& tex
 
   Q3ListBox &table = box.getTable();
 
-  box.setCaption(title);
   kapp->setTopWidget( &box );
+  box.setCaption(title);
 
   for (int i=0; i+2<args.count(); i += 3) {
     tags.append(args[i]);
