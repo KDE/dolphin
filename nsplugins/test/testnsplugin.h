@@ -25,9 +25,12 @@
 
 #include <qstring.h>
 #include <qwidget.h>
+//Added by qt3to4:
+#include <Q3PtrList>
+#include <Q3BoxLayout>
 #include <kmainwindow.h>
 #include <qlayout.h>
-#include <qptrlist.h>
+#include <qlist.h>
 
 class NSPluginLoader;
 class NSPluginInstance;
@@ -47,9 +50,9 @@ public Q_SLOTS:
 
 protected:
   NSPluginLoader *m_loader;
-  QPtrList<QWidget> m_plugins;
+  Q3PtrList<QWidget> m_plugins;
   QWidget *m_client;
-  QBoxLayout *m_layout;
+  Q3BoxLayout *m_layout;
 };
 
 

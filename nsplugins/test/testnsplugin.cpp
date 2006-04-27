@@ -21,6 +21,8 @@
 #include <stdio.h>
 
 #include <qstring.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
 #include <kapplication.h>
 #include <kcmdlineargs.h>
 #include <dcopclient.h>
@@ -41,7 +43,7 @@ TestNSPlugin::TestNSPlugin()
    m_client = new QWidget( this, "m_client" );
    setCentralWidget( m_client );
    m_client->show();
-   m_layout = new QHBoxLayout( m_client );
+   m_layout = new Q3HBoxLayout( m_client );
 
    // file menu
    KStdAction::openNew( this, SLOT(newView()), actionCollection());
@@ -77,7 +79,7 @@ void TestNSPlugin::newView()
 
    _argn << "SRC" << "TYPE" << "WIDTH" << "HEIGHT";
    _argv << src << mime << "400" << "100";
-   QWidget *win = m_loader->newInstance( m_client, src, mime, 1, _argn, _argv, "appid", "callbackid" );
+   QWidget *win = m_loader->newInstance( m_client, src, mime, 1, _argn, _argv, QString("appid"), QString("callbackid"), false );
 
 /*
     _argn << "TYPE" << "WIDTH" << "HEIGHT" << "java_docbase" << "CODE";
@@ -124,7 +126,7 @@ int main(int argc, char *argv[])
 {
    kDebug() << "main" << endl;
    setvbuf( stderr, NULL, _IONBF, 0 );
-   KCmdLineArgs::init(argc, argv, "nsplugin", "A Netscape Plugin test program", "0.1");
+   KCmdLineArgs::init(argc, argv, "nsplugin", "testnsplugin", "A Netscape Plugin test program", "0.1");
 
    KApplication app("nsplugin");
 
