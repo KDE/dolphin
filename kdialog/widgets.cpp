@@ -36,6 +36,7 @@
 #include <qfile.h>
 #include <qdesktopwidget.h>
 #include <qtextstream.h>
+#include <QTextCursor>
 
 #if defined Q_WS_X11 && ! defined K_WS_QTONLY
 #include <netwm.h>
