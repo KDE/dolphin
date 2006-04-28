@@ -1502,7 +1502,7 @@ void NSPluginClass::destroyInstance( NSPluginInstance* inst )
 
 NSPluginStreamBase::NSPluginStreamBase( NSPluginInstance *instance )
    : QObject( instance ), _instance(instance), _stream(0), _tempFile(0L),
-     _pos(0), _queue(0), _queuePos(0), _error(false)
+     _pos(0), _queuePos(0), _error(false)
 {
    _informed = false;
 }
