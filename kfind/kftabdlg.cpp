@@ -67,7 +67,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     dirBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);  // allow smaller than widest entry
     QLabel * lookinL = new QLabel(i18n("Look &in:"), pages[0]);
     lookinL->setBuddy( dirBox );
-    lookinL->setObjectName( "named" );
+    lookinL->setObjectName( "lookin" );
     subdirsCb  = new QCheckBox(i18n("Include &subfolders"), pages[0]);
     caseSensCb  = new QCheckBox(i18n("Case s&ensitive search"), pages[0]);
     browseB    = new QPushButton(i18n("&Browse..."), pages[0]);
@@ -123,12 +123,12 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid->setSpacing( KDialog::spacingHint() );
     QBoxLayout *subgrid = new QVBoxLayout();
     grid->addWidget( namedL, 0, 0 );
-    grid->addWidget( nameBox, 0, 0, 1, 2 );
+    grid->addWidget( nameBox, 0, 1, 1, 3 );
     grid->addWidget( lookinL, 1, 0 );
     grid->addWidget( dirBox, 1, 1 );
     grid->addWidget( browseB, 1, 2);
     grid->setColumnStretch(1,1);
-    grid->addLayout( subgrid, 2, 2, 1, 2 );
+    grid->addLayout( subgrid, 2, 1, 1, 2 );
     subgrid->addWidget( subdirsCb );
     subgrid->addWidget( caseSensCb);
     subgrid->addWidget( useLocateCb );
@@ -151,7 +151,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     bg  = new QButtonGroup();
     rb[0] = new QRadioButton(i18n("&between"), pages[1] );
     rb[1] = new QRadioButton(i18n("&during the previous"), pages[1] );
-    QLabel *andL = new QLabel(i18n("and"), pages[1]);
+    andL = new QLabel(i18n("and"), pages[1]);
     andL->setObjectName( "and" );
     betweenType = new KComboBox( pages[1] );
     betweenType->setEditable( false );
@@ -231,7 +231,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid1->setMargin( KDialog::marginHint() );
     grid1->setSpacing( KDialog::spacingHint() );
 
-    grid1->addWidget(findCreated, 0, 0, 0, 3 );
+    grid1->addWidget(findCreated, 0, 0, 1, 3 );
     grid1->addItem( new QSpacerItem(KDialog::spacingHint(), 0), 0, 0 );
 
     grid1->addWidget(rb[0], 1, 1 );
@@ -240,15 +240,15 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid1->addWidget(toDate, 1, 4 );
 
     grid1->addWidget(rb[1], 2, 1 );
-    grid1->addWidget(timeBox, 2, 2, 2, 3);
+    grid1->addWidget(timeBox, 2, 2, 1, 2);
     grid1->addWidget(betweenType, 2, 4 );
 
-    grid1->addWidget(sizeL,3,3,0,1);
+    grid1->addWidget(sizeL,3,0,1,2);
     grid1->addWidget(sizeBox,3,2);
     grid1->addWidget(sizeEdit,3,3);
     grid1->addWidget(sizeUnitBox,3,4);
 
-    grid1->addWidget(usernameLabel,4,4,0,1);
+    grid1->addWidget(usernameLabel,4,0,1,2);
     grid1->addWidget(m_usernameBox,4,2);
     grid1->addWidget(groupLabel,4,3);
     grid1->addWidget(m_groupBox,4,4);
@@ -355,7 +355,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid2->setSpacing( KDialog::spacingHint() );
     grid2->addWidget( typeL, 0, 0 );
     grid2->addWidget( textL, 1, 0 );
-    grid2->addWidget( typeBox, 0, 0, 1, 3 );
+    grid2->addWidget( typeBox, 0, 1, 1, 3 );
     grid2->addWidget( textEdit, 1, 1, 1, 3 );
     grid2->addWidget( regexpContentCb, 2, 2);
     grid2->addWidget( caseContextCb, 2, 1 );
@@ -807,6 +807,7 @@ void KfindTabWidget::fixLayout()
   if(! findCreated->isChecked())  {
     fromDate->setEnabled(false);
     toDate->setEnabled(false);
+    andL->setEnabled(false);
     timeBox->setEnabled(false);
     for(i=0; i<2; i++)
       rb[i]->setEnabled(false);
@@ -818,6 +819,7 @@ void KfindTabWidget::fixLayout()
 
     fromDate->setEnabled(rb[0]->isChecked());
     toDate->setEnabled(rb[0]->isChecked());
+    andL->setEnabled(rb[0]->isEnabled());
     timeBox->setEnabled(rb[1]->isChecked());
     betweenType->setEnabled(rb[1]->isChecked());
   }

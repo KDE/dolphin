@@ -26,6 +26,7 @@ class QRegExp;
 class QDialog;
 class QComboBox;
 class QSpinBox;
+class QLabel;
 
 class KfDirDialog;
 
@@ -94,6 +95,7 @@ private:
   //2nd page
   QCheckBox   *findCreated;
   QComboBox   *betweenType;
+  QLabel      *andL;
   QButtonGroup *bg;
   QRadioButton *rb[2];
   KDateCombo * fromDate;
