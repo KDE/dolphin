@@ -289,7 +289,7 @@ public:
   void printFrameInfo( const QString &spaces );
 
   void reparentFrame( QWidget* parent,
-                              const QPoint & p, bool showIt=false );
+                      const QPoint & p );
 
   KonqFrameContainerBase* parentContainer()const;
   void setParentContainer(KonqFrameContainerBase* parent);

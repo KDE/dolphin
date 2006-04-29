@@ -5480,7 +5480,7 @@ void KonqMainWindow::copyHistory( KonqFrameBase *other ) { if( m_pChildFrame ) m
 void KonqMainWindow::printFrameInfo( const QString &spaces ) { if( m_pChildFrame ) m_pChildFrame->printFrameInfo( spaces ); }
 
 void KonqMainWindow::reparentFrame( QWidget* /*parent*/,
-                                    const QPoint & /*p*/, bool /*showIt*/ ) { return; }
+                                    const QPoint & /*p*/ ) { return; }
 
 KonqFrameContainerBase* KonqMainWindow::parentContainer()const { return 0L; }
 void KonqMainWindow::setParentContainer(KonqFrameContainerBase* /*parent*/) { return; }

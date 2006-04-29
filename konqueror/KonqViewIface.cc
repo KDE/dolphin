@@ -25,7 +25,7 @@
 #include <dcopclient.h>
 
 KonqViewIface::KonqViewIface( KonqView * view )
-  : DCOPObject( view->name() ), m_pView ( view )
+    : DCOPObject( DCOPCString( view->objectName().toUtf8() ) ), m_pView ( view )
 {
 }
 

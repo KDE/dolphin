@@ -75,8 +75,8 @@ class KonqCheckBox : public QCheckBox
 {
     Q_OBJECT // for classname
 public:
-    KonqCheckBox(QWidget *parent=0, const char *name=0)
-      :QCheckBox( parent, name ) {}
+    KonqCheckBox(QWidget *parent=0)
+      :QCheckBox( parent ) {}
 protected:
     void drawButton( QPainter * );
 };
@@ -170,7 +170,7 @@ class KonqFrameBase
   virtual void printFrameInfo( const QString& spaces );
 
   virtual void reparentFrame( QWidget* parent,
-                              const QPoint & p, bool showIt=false ) = 0;
+                              const QPoint & p ) = 0;
 
   virtual KonqFrameContainerBase* parentContainer() const { return m_pParentContainer; }
   virtual void setParentContainer(KonqFrameContainerBase* parent) { m_pParentContainer = parent; }
@@ -260,7 +260,7 @@ public:
   virtual void setTabIcon( const KUrl &url, QWidget* sender );
 
   virtual void reparentFrame(QWidget * parent,
-                     const QPoint & p, bool showIt=false );
+                     const QPoint & p );
 
   //virtual KonqFrameContainerBase* parentContainer();
   virtual QWidget* widget() { return this; }
@@ -326,7 +326,7 @@ public:
   virtual QByteArray frameType() { return QByteArray("ContainerBase"); }
 
   virtual void reparentFrame(QWidget * parent,
-                             const QPoint & p, bool showIt=false ) = 0;
+                             const QPoint & p ) = 0;
 
   virtual KonqFrameBase* activeChild() { return m_pActiveChild; }
 
@@ -360,8 +360,7 @@ class KonqFrameContainer : public QSplitter, public KonqFrameContainerBase
 public:
   KonqFrameContainer( Qt::Orientation o,
                       QWidget* parent,
-                      KonqFrameContainerBase* parentContainer,
-                      const char * name = 0);
+                      KonqFrameContainerBase* parentContainer );
   virtual ~KonqFrameContainer();
 
   virtual void listViews( ChildViewList *viewList );
@@ -394,7 +393,7 @@ public:
 
   //inherited
   virtual void reparentFrame(QWidget * parent,
-                             const QPoint & p, bool showIt=false );
+                             const QPoint & p );
 
   //make this one public
   int idAfter( QWidget* w ){ return QSplitter::indexOf( w ) + 1; }

@@ -86,7 +86,8 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent )
     m_pStatusLabel->installEventFilter(this);
     addWidget( m_pStatusLabel, 1 /*stretch*/, false ); // status label
 
-    m_pLinkedViewCheckBox = new KonqCheckBox( this, "m_pLinkedViewCheckBox" );
+    m_pLinkedViewCheckBox = new KonqCheckBox( this );
+    m_pLinkedViewCheckBox->setObjectName( "m_pLinkedViewCheckBox" );
     m_pLinkedViewCheckBox->setFocusPolicy(Qt::NoFocus);
     m_pLinkedViewCheckBox->setSizePolicy(QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ));
     m_pLinkedViewCheckBox->setWhatsThis( i18n("Checking this box on at least two views sets those views as 'linked'. "
@@ -439,9 +440,10 @@ void KonqFrame::setTabIcon( const KUrl &url, QWidget* /*sender*/ )
   if (m_pParentContainer) m_pParentContainer->setTabIcon( url, this );
 }
 
-void KonqFrame::reparentFrame( QWidget* parent, const QPoint & p, bool showIt )
+void KonqFrame::reparentFrame( QWidget* parent, const QPoint & p )
 {
-   QWidget::reparent( parent, p, showIt );
+    setParent( parent );
+    move( p );
 }
 
 void KonqFrame::slotStatusBarClicked()
@@ -489,9 +491,8 @@ void KonqFrameContainerBase::printFrameInfo(const QString& spaces)
 
 KonqFrameContainer::KonqFrameContainer( Qt::Orientation o,
                                         QWidget* parent,
-                                        KonqFrameContainerBase* parentContainer,
-                                        const char * name)
-  : QSplitter( o, parent, name ), m_bAboutToBeDeleted(false)
+                                        KonqFrameContainerBase* parentContainer )
+  : QSplitter( o, parent ), m_bAboutToBeDeleted(false)
 {
   m_pParentContainer = parentContainer;
   m_pFirstChild = 0L;
@@ -598,9 +599,10 @@ void KonqFrameContainer::printFrameInfo( const QString& spaces )
             kDebug(1202) << spaces << "  Null child" << endl;
 }
 
-void KonqFrameContainer::reparentFrame( QWidget* parent, const QPoint & p, bool showIt )
+void KonqFrameContainer::reparentFrame( QWidget* parent, const QPoint & p )
 {
-  QWidget::reparent( parent, p, showIt );
+    setParent( parent );
+    move( p );
 }
 
 void KonqFrameContainer::swapChildren()

@@ -223,7 +223,7 @@ void KonquerorIface::updateProfileList()
 
 QString KonquerorIface::crashLogFile()
 {
-  return KonqMainWindow::s_crashlog_file->name();
+    return KonqMainWindow::s_crashlog_file->objectName();
 }
 
 QList<DCOPRef> KonquerorIface::getWindows()
@@ -268,7 +268,7 @@ bool KonquerorIface::processCanBeReused( int screen )
         return true;
     QStringList allowed_parts = KonqSettings::safeParts();
     bool all_parts_allowed = false;
-    
+
     if( allowed_parts.count() == 1 && allowed_parts.first() == QLatin1String( "SAFE" ))
     {
         allowed_parts.clear();

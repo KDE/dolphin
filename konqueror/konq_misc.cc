@@ -109,8 +109,8 @@ KonqMainWindow * KonqMisc::createNewWindow( const KUrl &url, const KParts::URLAr
           ? "webbrowsing" : "filemanagement";
 
   QString profile = locate( "data", QLatin1String("konqueror/profiles/") + profileName );
-  return createBrowserWindowFromProfile(profile, profileName, 
-					url, args, 
+  return createBrowserWindowFromProfile(profile, profileName,
+					url, args,
 					forbidUseHTML, filesToSelect, tempFile, openURL );
 }
 
@@ -172,16 +172,16 @@ KonqMainWindow * KonqMisc::newWindowFromHistory( KonqView* view, int steps )
   int oldPos = view->historyIndex();
   int newPos = oldPos + steps;
 
-  const HistoryEntry * he = view->historyAt(newPos);  
+  const HistoryEntry * he = view->historyAt(newPos);
   if(!he)
       return 0L;
 
-  KonqMainWindow* mainwindow = createNewWindow(he->url, KParts::URLArgs(), 
+  KonqMainWindow* mainwindow = createNewWindow(he->url, KParts::URLArgs(),
 					       false, QStringList(), false, /*openURL*/false);
   if(!mainwindow)
       return 0L;
-  KonqView* newView = mainwindow->currentView();  
-     
+  KonqView* newView = mainwindow->currentView();
+
   if(!newView)
       return 0L;
 
@@ -225,9 +225,10 @@ QString KonqMisc::konqFilteredURL( QWidget* parent, const QString& _url, const Q
 }
 
 KonqDraggableLabel::KonqDraggableLabel( KonqMainWindow* mw, const QString& text )
-  : QLabel( text, 0L, "kde toolbar widget" )	// Use this name for it to be styled!
+  : QLabel( text )	// Use this name for it to be styled!
   , m_mw(mw)
 {
+  setObjectName( "kde toolbar widget" );
   setBackgroundMode( Qt::PaletteButton );
   setAlignment( (QApplication::isRightToLeft() ? Qt::AlignRight : Qt::AlignLeft) |
                  Qt::AlignVCenter | Qt::TextShowMnemonic );

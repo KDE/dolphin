@@ -34,7 +34,7 @@
 KonqMainWindowIface::KonqMainWindowIface( KonqMainWindow * mainWindow )
     :
     // ARGL I hate this "virtual public DCOPObject" stuff!
-    DCOPObject( mainWindow->name() ),
+    DCOPObject( mainWindow->objectName().toUtf8() ),
     KMainWindowInterface( mainWindow ), m_pMainWindow( mainWindow )
 {
   m_dcopActionProxy = new KDCOPActionProxy( mainWindow->actionCollection(), this );

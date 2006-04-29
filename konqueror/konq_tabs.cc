@@ -89,7 +89,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
                             i18n("&Duplicate Tab"),
                             m_pViewManager->mainWindow(),
                             SLOT( slotDuplicateTabPopup() ),
-                            m_pViewManager->mainWindow()->action("duplicatecurrenttab")->shortcut(), 
+                            m_pViewManager->mainWindow()->action("duplicatecurrenttab")->shortcut(),
                             DUPLICATE_ID );
   m_pPopupMenu->insertItem( SmallIconSet( "reload" ),
                             i18n( "&Reload Tab" ),
@@ -244,9 +244,10 @@ void KonqFrameTabs::printFrameInfo( const QString& spaces )
   }
 }
 
-void KonqFrameTabs::reparentFrame( QWidget* parent, const QPoint & p, bool showIt )
+void KonqFrameTabs::reparentFrame( QWidget* parent, const QPoint & p )
 {
-  QWidget::reparent( parent, p, showIt );
+    setParent( parent );
+    move( p );
 }
 
 void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
@@ -362,21 +363,21 @@ void KonqFrameTabs::slotMovedTab( int from, int to )
 void KonqFrameTabs::slotContextMenu( const QPoint &p )
 {
   refreshSubPopupMenuTab();
-  
+
   m_pPopupMenu->setItemEnabled( RELOAD_ID, false );
   m_pPopupMenu->setItemEnabled( DUPLICATE_ID, false );
   m_pPopupMenu->setItemEnabled( BREAKOFF_ID, false );
   m_pPopupMenu->setItemEnabled( CLOSETAB_ID, false );
   m_pPopupMenu->setItemEnabled( OTHERTABS_ID, true );
   m_pSubPopupMenuTab->setItemEnabled( m_closeOtherTabsId, false );
- 
+
   m_pPopupMenu->exec( p );
 }
 
 void KonqFrameTabs::slotContextMenu( QWidget *w, const QPoint &p )
 {
   refreshSubPopupMenuTab();
-  
+
   uint tabCount = m_pChildFrameList->count();
   m_pPopupMenu->setItemEnabled( RELOAD_ID, true );
   m_pPopupMenu->setItemEnabled( DUPLICATE_ID, true );

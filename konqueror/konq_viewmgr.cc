@@ -132,7 +132,8 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
   //kDebug(1202) << "Move out child" << endl;
   QPoint pos = splitFrame->widget()->pos();
   parentContainer->removeChildFrame( splitFrame );
-  splitFrame->widget()->reparent( m_pMainWindow, pos );
+  splitFrame->widget()->setParent( m_pMainWindow );
+  splitFrame->widget()->move( pos );
 
   //kDebug(1202) << "Create new Container" << endl;
   KonqFrameContainer *newContainer = new KonqFrameContainer( orientation, parentContainer->widget(), parentContainer );
@@ -145,7 +146,8 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
   }
 
   //kDebug(1202) << "Move in child" << endl;
-  splitFrame->widget()->reparent( newContainer, pos );
+  splitFrame->widget()->setParent( newContainer );
+  splitFrame->widget()->move( pos );
   newContainer->insertChildFrame( splitFrame );
 
 #ifndef NDEBUG
@@ -233,7 +235,8 @@ KonqView* KonqViewManager::splitWindow( Qt::Orientation orientation,
   m_pMainWindow->insertChildFrame( newContainer );
 
   newContainer->insertChildFrame( mainFrame );
-  mainFrame->widget()->reparent( newContainer, pos );
+  mainFrame->widget()->setParent( newContainer );
+  mainFrame->widget()->move( pos );
 
   KonqView* childView = setupView( newContainer, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType, true );
 
@@ -278,13 +281,15 @@ void KonqViewManager::convertDocContainer()
   //kDebug(1202) << "Move out child" << endl;
   QPoint pos = m_pDocContainer->widget()->pos();
   parentContainer->removeChildFrame( m_pDocContainer );
-  m_pDocContainer->widget()->reparent( m_pMainWindow, pos );
+  m_pDocContainer->widget()->setParent( m_pMainWindow );
+  m_pDocContainer->widget()->move( pos );
 
   KonqFrameTabs* newContainer = new KonqFrameTabs( parentContainer->widget() , parentContainer, this);
   parentContainer->insertChildFrame( newContainer );
   connect( newContainer, SIGNAL(ctrlTabPressed()), m_pMainWindow, SLOT(slotCtrlTabPressed()) );
 
-  m_pDocContainer->widget()->reparent( newContainer, pos );
+  m_pDocContainer->widget()->setParent( newContainer );
+  m_pDocContainer->widget()->move( pos );
   newContainer->insertChildFrame( m_pDocContainer );
 
   if ( moveNewContainer ) {
