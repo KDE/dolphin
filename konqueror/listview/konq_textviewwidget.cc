@@ -90,9 +90,9 @@ void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
          m_itemFound = true;
       }
       if ( !m_itemsToSelect.isEmpty() ) {
-         QStringList::Iterator tsit = m_itemsToSelect.find( (*kit)->name() );
-         if ( tsit != m_itemsToSelect.end() ) {
-            m_itemsToSelect.remove( tsit );
+         int ind = m_itemsToSelect.indexOf( (*kit)->name() );
+         if ( ind >= 0 ) {
+            m_itemsToSelect.removeAt( ind );
             setSelected( tmp, true );
          }
       }

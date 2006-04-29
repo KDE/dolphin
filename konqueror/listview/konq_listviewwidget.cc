@@ -227,7 +227,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const KUrl & url )
    for ( int num = 1; extraFieldsIt != extraFields.end(); ++extraFieldsIt, ++num )
    {
       const QString column = (*extraFieldsIt).name;
-      if ( lstColumns.find(column) == lstColumns.end() )
+      if ( !lstColumns.contains(column) )
          lstColumns << column;
       const QVariant::Type type = static_cast<QVariant::Type>( (*extraFieldsIt).type ); // ## TODO use when sorting
       confColumns[extraIndex++].setData( column, QString("Extra%1").arg(num), KIO::UDS_EXTRA, type, 0);
@@ -317,8 +317,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const KUrl & url )
          continue;
       }
 
-      QStringList::Iterator listIt = listingList.find( confColumns[i].desktopFileName );
-      if ( listIt == listingList.end() ) // not found -> hide
+      if ( !listingList.contains( confColumns[i].desktopFileName ) ) // not found -> hide
       {
          //move all columns behind one to the front
          for ( unsigned int l = 0; l < NumberOfAtoms; l++ )
@@ -1149,9 +1148,9 @@ void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
          m_itemFound = true;
       }
       if ( !m_itemsToSelect.isEmpty() ) {
-         QStringList::Iterator tsit = m_itemsToSelect.find( (*kit)->name() );
-         if ( tsit != m_itemsToSelect.end() ) {
-            m_itemsToSelect.erase( tsit );
+         int tsit = m_itemsToSelect.indexOf( (*kit)->name() );
+         if ( tsit >= 0 ) {
+            m_itemsToSelect.removeAt( tsit );
             setSelected( tmp, true );
          }
       }

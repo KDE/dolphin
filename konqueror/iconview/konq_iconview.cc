@@ -965,9 +965,9 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 
         KFileItem* fileItem = item->item();
         if ( !m_itemsToSelect.isEmpty() ) {
-           QStringList::Iterator tsit = m_itemsToSelect.find( fileItem->name() );
-           if ( tsit != m_itemsToSelect.end() ) {
-              m_itemsToSelect.erase( tsit );
+           int tsit = m_itemsToSelect.indexOf( fileItem->name() );
+           if ( tsit >= 0 ) {
+              m_itemsToSelect.removeAt( tsit );
               m_pIconView->setSelected( item, true, true );
               if ( m_bNeedSetCurrentItem ){
                  m_pIconView->setCurrentItem( item );

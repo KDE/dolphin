@@ -170,7 +170,7 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
     if ( !prop.isValid() || !prop.toBool() ||
          !orientation.isValid() || orientation.toString().isEmpty() )
     {
-      offers.remove( it );
+      offers.erase( it );
       it = offers.begin();
     }
     else

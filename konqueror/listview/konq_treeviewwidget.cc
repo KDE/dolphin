@@ -245,9 +245,9 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
         }
 
         if ( !m_itemsToSelect.isEmpty() ) {
-           QStringList::Iterator tsit = m_itemsToSelect.find( (*kit)->name() );
-           if ( tsit != m_itemsToSelect.end() ) {
-              m_itemsToSelect.erase( tsit );
+           int tsit = m_itemsToSelect.indexOf( (*kit)->name() );
+           if ( tsit >= 0 ) {
+              m_itemsToSelect.removeAt( tsit );
               setSelected( fileItem ? fileItem : dirItem, true );
            }
         }

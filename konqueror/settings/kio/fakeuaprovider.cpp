@@ -97,13 +97,13 @@ void FakeUASProvider::parseDescription()
       QStringList languageList = KGlobal::locale()->languageList();
       if ( languageList.count() )
       {
-        QStringList::Iterator it = languageList.find( QLatin1String("C") );
-        if( it != languageList.end() )
+        int ind = languageList.indexOf( QLatin1String("C") );
+        if( ind >= 0 )
         {
-          if( languageList.contains( QLatin1String("en") ) > 0 )
-            languageList.erase( it );
+          if( languageList.contains( QLatin1String("en") ) )
+            languageList.removeAt( ind );
           else
-            (*it) = QLatin1String("en");
+            languageList.value(ind) = QLatin1String("en");
         }
       }
 
