@@ -287,7 +287,7 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
         _painter->setFont( m_pListViewWidget->itemFont() );
     }
 
-    cg.setColor( QColorGroup::Text, m_pListViewWidget->itemColor() );
+    cg.setColor( QPalette::Text, m_pListViewWidget->itemColor() );
 
     K3ListView *lv = static_cast< K3ListView* >( listView() );
     const QPixmap *pm = lv->viewport()->paletteBackgroundPixmap();
@@ -298,7 +298,7 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
             newWidth = _width;
         if ( pm && !pm->isNull() )
         {
-            cg.setBrush( QColorGroup::Base, QBrush( backgroundColor(_column), *pm ) );
+            cg.setBrush( QPalette::Base, QBrush( backgroundColor(_column), *pm ) );
             QPoint o = _painter->brushOrigin();
             _painter->setBrushOrigin( o.x() - lv->contentsX(), o.y() - lv->contentsY() );
             const QPalette::ColorRole crole = lv->viewport()->backgroundRole();

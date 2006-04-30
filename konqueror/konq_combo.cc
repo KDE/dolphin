@@ -662,7 +662,7 @@ void KonqCombo::paintEvent( QPaintEvent *pe )
         r.setRight( re.right() );
         if ( r != edit->geometry() )
             edit->setGeometry( r );
-        edit->setPaletteBackgroundColor( QApplication::palette( edit ).color( QPalette::Active, QColorGroup::Base ) );
+        edit->setPaletteBackgroundColor( QApplication::palette( edit ).color( QPalette::Active, QPalette::Base ) );
     }
 }
 

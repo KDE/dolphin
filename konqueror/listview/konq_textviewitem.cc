@@ -199,10 +199,10 @@ void KonqTextViewItem::updateContents()
 void KonqTextViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )
 {
    QColorGroup cg( _cg );
-   cg.setColor(QColorGroup::Text, static_cast<KonqTextViewWidget *>(listView())->colors[type]);
+   cg.setColor(QPalette::Text, static_cast<KonqTextViewWidget *>(listView())->colors[type]);
    // Don't do that! Keep things readable whatever the selection background color is
-//   cg.setColor(QColorGroup::HighlightedText, static_cast<KonqTextViewWidget *>(listView())->highlight[type]);
-//   cg.setColor(QColorGroup::Highlight, Qt::darkGray);
+//   cg.setColor(QPalette::HighlightedText, static_cast<KonqTextViewWidget *>(listView())->highlight[type]);
+//   cg.setColor(QPalette::Highlight, Qt::darkGray);
 
    K3ListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 }
