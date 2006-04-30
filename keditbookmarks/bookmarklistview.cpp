@@ -40,7 +40,7 @@ BookmarkView::BookmarkView( QWidget * parent )
 
 BookmarkView::~BookmarkView()
 {
-    
+
 }
 
 void BookmarkView::aboutToMoveRows(const QModelIndex & oldParent, int, int, const QModelIndex & newParent, int)
@@ -120,7 +120,7 @@ BookmarkFolderView::BookmarkFolderView( BookmarkListView * view, QWidget * paren
 
 BookmarkFolderView::~BookmarkFolderView()
 {
-    
+
 }
 
 void BookmarkFolderView::selectionChanged ( const QItemSelection & deselected, const QItemSelection & selected)
@@ -200,7 +200,7 @@ void BookmarkListView::deselectChildren( const QModelIndex & parent)
         QItemSelection deselect;
         deselect.select( parent.child(0,0), parent.child(rowCount-1, model()->columnCount(parent)-1));
         selectionModel()->select(deselect, QItemSelectionModel::Deselect);
-        
+
         for(int i=0; i<rowCount; ++i)
             deselectChildren(parent.child(i, 0));
     }
@@ -297,10 +297,10 @@ void BookmarkListView::drawRow ( QPainter * painter, const QStyleOptionViewItem 
     {
 
         int base_h, base_s, base_v;
-        opt.palette.base().color().getHsv(&base_h, &base_s, &base_v);
+        opt.palette.color( QPalette::Base ).getHsv(&base_h, &base_s, &base_v);
 
         int hilite_h, hilite_s, hilite_v;
-        opt.palette.highlight().color().getHsv(&hilite_h, &hilite_s, &hilite_v);
+        opt.palette.color( QPalette::Highlight ).getHsv(&hilite_h, &hilite_s, &hilite_v);
 
         QColor col;
         col.setHsv(hilite_h,
@@ -339,7 +339,7 @@ SelcAbilities BookmarkListView::getSelectionAbilities() const
     selctionAbilities.singleSelect   = false;
     selctionAbilities.notEmpty       = false;
 
-    if ( sel .count() > 0) 
+    if ( sel .count() > 0)
     {
         KBookmark nbk     = static_cast<TreeItem *>((*sel.constBegin()).internalPointer())->bookmark();
         selctionAbilities.itemSelected   = true;
@@ -360,7 +360,7 @@ SelcAbilities BookmarkListView::getSelectionAbilities() const
     return selctionAbilities;
 }
 
-void BookmarkListView::loadColumnSetting() 
+void BookmarkListView::loadColumnSetting()
 {
     header()->resizeSection(KEBApp::NameColumn, KEBSettings::name());
     header()->resizeSection(KEBApp::UrlColumn, KEBSettings::uRL());
@@ -368,7 +368,7 @@ void BookmarkListView::loadColumnSetting()
     header()->resizeSection(KEBApp::StatusColumn, KEBSettings::status());
 }
 
-void BookmarkListView::saveColumnSetting() 
+void BookmarkListView::saveColumnSetting()
 {
     KEBSettings::setName( header()->sectionSize(KEBApp::NameColumn));
     KEBSettings::setURL( header()->sectionSize(KEBApp::UrlColumn));
