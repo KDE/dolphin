@@ -177,7 +177,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
     lay->addWidget(sep, row, 0, 1, 2 );
     row++;
 
-    QLabel *label = new QLabel( i18n("Und&erline links:"), this);
+    QLabel *label = new QLabel( i18n("Und&erline links:"), this );
     m_pUnderlineCombo = new QComboBox( this );
     label->setBuddy(m_pUnderlineCombo);
     m_pUnderlineCombo->setEditable(false);
@@ -198,7 +198,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
 
 
 
-    label = new QLabel( i18n("A&nimations:"), this);
+    label = new QLabel( i18n("A&nimations:"), this );
     m_pAnimationsCombo = new QComboBox( this );
     label->setBuddy(m_pAnimationsCombo);
     m_pAnimationsCombo->setEditable(false);

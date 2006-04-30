@@ -535,14 +535,16 @@ BookmarkEditDialog::BookmarkEditDialog(const QString& title, const QString& url,
     bool folder = url.isNull();
     QGridLayout *grid = new QGridLayout( main, 2, folder?1:2, spacingHint() );
 
-    QLabel *nameLabel = new QLabel(i18n("Name:"), main, "title label");
+    QLabel *nameLabel = new QLabel(i18n("Name:"), main);
+    nameLabel->setObjectName("title label");
     grid->addWidget(nameLabel, 0, 0);
     m_title = new KLineEdit(main);
     m_title->setText(title);
     nameLabel->setBuddy(m_title);
     grid->addWidget(m_title, 0, 1);
     if(!folder) {
-        QLabel *locationLabel = new QLabel(i18n("Location:"), main, "location label");
+        QLabel *locationLabel = new QLabel(i18n("Location:"), main);
+        locationLabel->setObjectName("location label");
         grid->addWidget(locationLabel, 1, 0);
         m_location = new KLineEdit(main);
         m_location->setText(url);

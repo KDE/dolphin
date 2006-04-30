@@ -125,7 +125,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     laygroup1->addWidget( addArgHB );
 
     addArgHB->setSpacing( 10 );
-    QLabel* addArgLA = new QLabel( i18n( "Additional Java a&rguments:" ), addArgHB  );
+    QLabel* addArgLA = new QLabel( i18n( "Additional Java a&rguments:" ), addArgHB );
     addArgED = new QLineEdit( addArgHB );
     connect( addArgED, SIGNAL(textChanged( const QString& )), this, SLOT(slotChanged()) );
     addArgLA->setBuddy( addArgED );

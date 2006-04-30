@@ -44,13 +44,15 @@ SMBRoOptions::SMBRoOptions(KInstance *inst, QWidget *parent)
    layout->addWidget(label,0,0, 1, 2 );
 
    m_userLe=new QLineEdit(this);
-   label=new QLabel(m_userLe,i18n("Default user name:"),this);
+   label=new QLabel(i18n("Default user name:"),this);
+   label->setBuddy( m_userLe );
    layout->addWidget(label,1,0);
    layout->addWidget(m_userLe,1,1);
 
    m_passwordLe=new QLineEdit(this);
    m_passwordLe->setEchoMode(QLineEdit::Password);
-   label=new QLabel(m_passwordLe,i18n("Default password:"),this);
+   label=new QLabel(i18n("Default password:"),this);
+   label->setBuddy( m_passwordLe );
    layout->addWidget(label,2,0);
    layout->addWidget(m_passwordLe,2,1);
 
@@ -66,7 +68,8 @@ SMBRoOptions::SMBRoOptions(KInstance *inst, QWidget *parent)
    QStringList _strList = KGlobal::charsets()->availableEncodingNames();
    m_encodingList->addItems( _strList );
 
-   label = new QLabel( m_encodingList, i18n( "MS Windows encoding:" ), this );
+   label = new QLabel( i18n( "MS Windows encoding:" ), this );
+   label->setBuddy( m_encodingList );
    layout->addWidget( label, 3, 0 );
    layout->addWidget( m_encodingList, 3, 1 );
 

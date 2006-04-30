@@ -61,7 +61,8 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, K
     row++;
 
     m_pStandard = new KFontCombo( this );
-    label = new QLabel( m_pStandard, i18n("&Standard font:"), this );
+    label = new QLabel( i18n("&Standard font:"), this );
+    label->setBuddy( m_pStandard );
     lay->addWidget(label,row,0);
     lay->addWidget(m_pStandard,row,1, 1, 1);
 
@@ -80,7 +81,8 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, K
              SLOT(changed() ) );
 
     m_pSize = new QSpinBox( 4,18,1,this );
-    label = new QLabel( m_pSize, i18n("Font si&ze:"), this );
+    label = new QLabel( i18n("Font si&ze:"), this );
+    label->setBuddy( m_pSize );
     lay->addWidget(label,row,0);
     lay->addWidget(m_pSize,row,1, 1, 1);
 
@@ -96,7 +98,8 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, K
     //
 #define COLOR_BUTTON_COL 1
     m_pNormalText = new KColorButton( normalTextColor, this );
-    label = new QLabel( m_pNormalText, i18n("Normal te&xt color:"), this );
+    label = new QLabel( i18n("Normal te&xt color:"), this );
+    label->setBuddy( m_pNormalText );
     lay->addWidget(label,row,0);
     lay->addWidget(m_pNormalText,row,COLOR_BUTTON_COL,hAlign);
 
@@ -147,7 +150,8 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, K
     else
     {
         m_pNbLines = new QSpinBox( 1, 10, 1, this );
-        QLabel* label = new QLabel( m_pNbLines, i18n("H&eight for icon text:"), this );
+        QLabel* label = new QLabel( i18n("H&eight for icon text:"), this );
+        label->setBuddy( m_pNbLines );
         lay->addWidget( label, row, 0 );
         lay->addWidget( m_pNbLines, row, 1 );
         connect( m_pNbLines, SIGNAL( valueChanged(int) ),
@@ -166,7 +170,8 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, K
         // width for the items in multicolumn icon view
         m_pNbWidth = new QSpinBox( 1, 100000, 1, this );
 
-        label = new QLabel( m_pNbWidth, i18n("&Width for icon text:"), this );
+        label = new QLabel( i18n("&Width for icon text:"), this );
+        label->setBuddy( m_pNbWidth );
         lay->addWidget( label, row, 0 );
         lay->addWidget( m_pNbWidth, row, 1 );
         connect( m_pNbWidth, SIGNAL( valueChanged(int) ),
