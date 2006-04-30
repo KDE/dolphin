@@ -397,7 +397,7 @@ void KFileIVI::paintFontUpdate( QPainter *p ) const
 QColorGroup KFileIVI::updateColors( const QColorGroup &c ) const
 {
     QColorGroup cg( c );
-    cg.setColor( QColorGroup::Text, static_cast<KonqIconViewWidget*>(iconView())->itemColor() );
+    cg.setColor( QPalette::Text, static_cast<KonqIconViewWidget*>(iconView())->itemColor() );
     return cg;
 }
 
