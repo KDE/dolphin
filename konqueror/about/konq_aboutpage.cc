@@ -74,7 +74,7 @@ QString KonqAboutPageFactory::loadFile( const QString& file )
 
     QTextStream t( &f );
 
-    res = t.read();
+    res = t.readAll();
 
     // otherwise all embedded objects are referenced as about:/...
     QString basehref = QLatin1String("<BASE HREF=\"file:") +

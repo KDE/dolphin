@@ -168,7 +168,7 @@ void KCMFilter::importFilters()
                 line = ts.readLine();
                 if (line.toLower().compare("[adblock]") == 0)
                     continue;
-                
+
                 // Treat leading ! as filter comment, otherwise check expressions
                 // are valid.
                 if (!line.startsWith("!"))
@@ -193,7 +193,7 @@ void KCMFilter::importFilters()
                     paths.append(line);
             }
             f.close();
-            
+
             mListBox->insertStringList( paths );
             emit changed(true);
         }
@@ -209,7 +209,7 @@ void KCMFilter::exportFilters()
     if ( f.open( QIODevice::WriteOnly ) )
     {
       QTextStream ts( &f );
-      ts.setEncoding( QTextStream::UnicodeUTF8 );
+      ts.setCodec( "UTF-8" );
       ts << "[AdBlock]" << endl;
 
       uint i;
