@@ -647,8 +647,8 @@ void PluginDomainDialog::slotClose() {
 // == class PluginDomainListView =====
 
 PluginDomainListView::PluginDomainListView(KConfig *config,const QString &group,
-	KPluginOptions *options,QWidget *parent,const char *name)
-	: DomainListView(config,i18n( "Doma&in-Specific" ), parent, name),
+	KPluginOptions *options,QWidget *parent)
+	: DomainListView(config,i18n( "Doma&in-Specific" ), parent),
 	group(group), options(options) {
 }
 

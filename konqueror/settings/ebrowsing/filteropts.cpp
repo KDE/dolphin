@@ -33,7 +33,9 @@ FilterOptions::FilterOptions(KInstance *inst, QWidget *parent)
     		  :KCModule(inst, parent)
 {
 
-    QGridLayout *lay = new QGridLayout(this, 1, 1, 10, 5);
+    QGridLayout *lay = new QGridLayout(this);
+    lay->setSpacing(5);
+    lay->setMargin(10);
     //QGroupBox =
 
     lay->addWidget(new QLabel(i18n("Under construction..."), this), 0, 0);

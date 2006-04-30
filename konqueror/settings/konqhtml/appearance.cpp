@@ -38,7 +38,9 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
     while (fonts.count() < 7)
        fonts.append(QString());
 
-  QGridLayout *lay = new QGridLayout(this, 1 ,1 , 0, KDialog::spacingHint());
+  QGridLayout *lay = new QGridLayout(this);
+  lay->setSpacing(KDialog::spacingHint());
+  lay->setMargin(0);
   int r = 0;
   int E = 0, M = 1, W = 3; //CT 3 (instead 2) allows smaller color buttons
 

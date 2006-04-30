@@ -65,7 +65,7 @@ class JavaDomainListView : public DomainListView {
   Q_OBJECT
 public:
   JavaDomainListView(KConfig *config,const QString &group,KJavaOptions *opt,
-  		QWidget *parent,const char *name = 0);
+                     QWidget *parent);
   virtual ~JavaDomainListView();
 
   /** remnant for importing pre KDE 3.2 settings

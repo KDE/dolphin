@@ -56,7 +56,7 @@ class PluginDomainListView : public DomainListView {
   Q_OBJECT
 public:
   PluginDomainListView(KConfig *config,const QString &group,KPluginOptions *opt,
-  		QWidget *parent,const char *name = 0);
+                       QWidget *parent);
   virtual ~PluginDomainListView();
 
 protected:

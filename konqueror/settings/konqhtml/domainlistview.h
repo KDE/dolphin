@@ -67,8 +67,7 @@ public:
    * @param parent parent widget
    * @param name internal name for debugging
    */
-  DomainListView(KConfig *config,const QString &title,QWidget *parent,
-  		const char *name = 0);
+  DomainListView(KConfig *config,const QString &title,QWidget *parent );
 
   virtual ~DomainListView();
 

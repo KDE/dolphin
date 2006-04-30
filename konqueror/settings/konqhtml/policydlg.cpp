@@ -16,7 +16,7 @@
 #include "policies.h"
 
 PolicyDialog::PolicyDialog( Policies *policies, QWidget *parent, const char *name )
-    : KDialogBase(parent, name, true, QString(), Ok|Cancel, Ok, true), 
+    : KDialogBase(parent, name, true, QString(), Ok|Cancel, Ok, true),
       policies(policies)
 {
   QFrame *main = makeMainWidget();
@@ -26,7 +26,8 @@ PolicyDialog::PolicyDialog( Policies *policies, QWidget *parent, const char *nam
   topl->setMargin(0);
   topl->setSpacing(spacingHint());
 
-  QGridLayout *grid = new QGridLayout(topl, 2, 2);
+  QGridLayout *grid = new QGridLayout();
+  topl->addItem( grid );
   grid->setColumnStretch(1, 1);
 
   QLabel *l = new QLabel(i18n("&Host or domain name:"), main);

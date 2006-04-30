@@ -35,12 +35,13 @@
 #include "policydlg.h"
 
 DomainListView::DomainListView(KConfig *config,const QString &title,
-		QWidget *parent,const char *name) :
-	Q3GroupBox(title, parent, name), config(config) {
+		QWidget *parent) :
+	Q3GroupBox(title, parent), config(config) {
   setColumnLayout(0, Qt::Vertical);
   layout()->setSpacing(0);
   layout()->setMargin(0);
-  QGridLayout* thisLayout = new QGridLayout(layout());
+  QGridLayout* thisLayout = new QGridLayout();
+  layout()->addItem( thisLayout );
   thisLayout->setAlignment(Qt::AlignTop);
   thisLayout->setSpacing(KDialog::spacingHint());
   thisLayout->setMargin(KDialog::marginHint());

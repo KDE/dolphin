@@ -53,8 +53,8 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, K
 
     int LASTLINE = m_bDesktop ? 8 : 10; // this can be different :)
 #define LASTCOLUMN 2
-    QGridLayout *lay = new QGridLayout(this,LASTLINE+1,LASTCOLUMN+1, 0,
-        KDialog::spacingHint());
+    QGridLayout *lay = new QGridLayout(this );
+    lay->setSpacing( KDialog::spacingHint() );
     lay->setRowStretch(LASTLINE,10);
     lay->setColumnStretch(LASTCOLUMN,10);
 

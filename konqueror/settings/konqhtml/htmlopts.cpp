@@ -34,7 +34,9 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
     : KCModule( inst, parent ), m_pConfig(config), m_groupname(group)
 {
     int row = 0;
-    QGridLayout *lay = new QGridLayout(this, 10, 2, 0, KDialog::spacingHint());
+    QGridLayout *lay = new QGridLayout(this);
+    lay->setSpacing(KDialog::spacingHint());
+    lay->setMargin(0);
 
     // Bookmarks
     setQuickHelp( i18n("<h1>Konqueror Browser</h1> Here you can configure Konqueror's browser "

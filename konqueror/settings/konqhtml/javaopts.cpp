@@ -88,7 +88,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
 
     QWidget* checkboxes = new QWidget( javartGB );
     laygroup1->addWidget( checkboxes );
-    QGridLayout* grid = new QGridLayout( checkboxes, 2, 2 );
+    QGridLayout* grid = new QGridLayout( checkboxes );
 
     javaSecurityManagerCB = new QCheckBox( i18n("&Use security manager" ), checkboxes );
     grid->addWidget( javaSecurityManagerCB, 0, 0 );
@@ -294,8 +294,8 @@ void KJavaOptions::toggleJavaControls()
 // == class JavaDomainListView =====
 
 JavaDomainListView::JavaDomainListView(KConfig *config,const QString &group,
-	KJavaOptions *options,QWidget *parent,const char *name)
-	: DomainListView(config,i18n( "Doma&in-Specific" ), parent, name),
+	KJavaOptions *options,QWidget *parent)
+	: DomainListView(config,i18n( "Doma&in-Specific" ), parent),
 	group(group), options(options) {
 }
 

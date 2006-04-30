@@ -38,8 +38,9 @@
 SMBRoOptions::SMBRoOptions(KInstance *inst, QWidget *parent)
   : KCModule(inst, parent)
 {
-   QGridLayout *layout = new QGridLayout(this,2,-1,KDialog::marginHint(),
-         KDialog::spacingHint());
+   QGridLayout *layout = new QGridLayout(this );
+   layout->setMargin( KDialog::marginHint() );
+   layout->setSpacing( KDialog::spacingHint() );
    QLabel *label=new QLabel(i18n("This is the configuration for the samba client only, not the server."),this);
    layout->addWidget(label,0,0, 1, 2 );
 

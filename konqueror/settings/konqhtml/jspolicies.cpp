@@ -137,7 +137,8 @@ JSPoliciesFrame::JSPoliciesFrame(JSPolicies *policies, const QString &title,
   setColumnLayout(0, Qt::Vertical);
   layout()->setSpacing(0);
   layout()->setMargin(0);
-  QGridLayout *this_layout = new QGridLayout(layout(),5,10+is_per_domain*2);
+  QGridLayout *this_layout = new QGridLayout();
+  layout()->addItem( this_layout );
   this_layout->setAlignment(Qt::AlignTop);
   this_layout->setSpacing(3);
   this_layout->setMargin(11);

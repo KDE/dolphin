@@ -57,8 +57,8 @@ DesktopPathConfig::DesktopPathConfig(KInstance *inst, QWidget *parent )
 #define RO_LASTCOL 2
 
   int row = 0;
-  QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1,
-      0, KDialog::spacingHint());
+  QGridLayout *lay = new QGridLayout(this );
+  lay->setSpacing( KDialog::spacingHint() );
 
   lay->setRowStretch(RO_LASTROW,10); // last line grows
 
@@ -267,7 +267,7 @@ bool DesktopPathConfig::moveDir( const KUrl & src, const KUrl & dest, const QStr
         return true;
     m_ok = true;
     // Ask for confirmation before moving the files
-    if ( KMessageBox::questionYesNo( this, i18n("The path for '%1' has been changed;\ndo you want the files to be moved from '%2' to '%3'?", 
+    if ( KMessageBox::questionYesNo( this, i18n("The path for '%1' has been changed;\ndo you want the files to be moved from '%2' to '%3'?",
                               type, src.path(), dest.path()), i18n("Confirmation Required"),i18n("Move"),KStdGuiItem::cancel() )
             == KMessageBox::Yes )
     {
