@@ -1,63 +1,70 @@
 kde4_header()
 
-add_subdirectory( viewer ) 
-add_subdirectory( test ) 
-include_directories( ${CMAKE_SOURCE_DIR}/libltdl ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${KDE4_INCLUDES} )
+if (X11_Xt_LIB)
+
+  add_subdirectory( viewer ) 
+  add_subdirectory( test ) 
+  include_directories( ${KDE4_INCLUDES} )
 
 
-########### next target ###############
+  ########### next target ###############
 
-set(nsplugin_PART_SRCS plugin_part.cpp nspluginloader.cpp )
+  set(nsplugin_PART_SRCS plugin_part.cpp nspluginloader.cpp )
 
-kde4_automoc(${nsplugin_PART_SRCS})
+  kde4_automoc(${nsplugin_PART_SRCS})
 
-kde4_add_dcop_skels(nsplugin_PART_SRCS NSPluginCallbackIface.h )
-
-
-
-kde4_add_dcop_stubs(nsplugin_PART_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/viewer/NSPluginClassIface.h )
-
-kde4_add_plugin(nsplugin WITH_PREFIX ${nsplugin_PART_SRCS})
-
-kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} nsplugin )
-
-target_link_libraries(nsplugin  ${KDE4_KDECORE_LIBS} kparts DCOP ${QT_QT3SUPPORT_LIBRARY} ${QT_QTGUI_LIBRARY} kdeui kio)
-
-install_targets(${PLUGIN_INSTALL_DIR} nsplugin )
+  kde4_add_dcop_skels(nsplugin_PART_SRCS NSPluginCallbackIface.h )
 
 
-########### next target ###############
 
-set(kcm_nsplugins_PART_SRCS kcm_nsplugins.cpp )
+  kde4_add_dcop_stubs(nsplugin_PART_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/viewer/NSPluginClassIface.h )
 
-kde4_automoc(${kcm_nsplugins_PART_SRCS})
+  kde4_add_plugin(nsplugin WITH_PREFIX ${nsplugin_PART_SRCS})
 
-kde4_add_plugin(kcm_nsplugins ${kcm_nsplugins_PART_SRCS})
+  kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} nsplugin )
 
-kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_nsplugins )
+  target_link_libraries(nsplugin  ${KDE4_KDECORE_LIBS} kparts DCOP ${QT_QT3SUPPORT_LIBRARY} ${QT_QTGUI_LIBRARY} kdeui kio)
 
-target_link_libraries(kcm_nsplugins  ${KDE4_KDECORE_LIBS} )
-
-install_targets(${PLUGIN_INSTALL_DIR} kcm_nsplugins )
+  install_targets(${PLUGIN_INSTALL_DIR} nsplugin )
 
 
-########### next target ###############
+  ########### next target ###############
 
-set(nspluginscan_SRCS pluginscan.cpp )
+  set(kcm_nsplugins_PART_SRCS kcm_nsplugins.cpp )
 
-kde4_automoc(${nspluginscan_SRCS})
+  kde4_automoc(${kcm_nsplugins_PART_SRCS})
 
-kde4_add_executable(nspluginscan ${nspluginscan_SRCS})
+  kde4_add_plugin(kcm_nsplugins ${kcm_nsplugins_PART_SRCS})
 
-target_link_libraries(nspluginscan  ${KDE4_KIO_LIBS} ${X11_Xt_LIB})
+  kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_nsplugins )
 
-install_targets(/bin nspluginscan )
+  target_link_libraries(kcm_nsplugins  ${KDE4_KDECORE_LIBS} )
+
+  install_targets(${PLUGIN_INSTALL_DIR} kcm_nsplugins )
 
 
-########### install files ###############
+  ########### next target ###############
 
-install_files( ${XDG_APPS_DIR} FILES khtml_plugins.desktop )
-install_files( ${DATA_INSTALL_DIR}/plugin FILES nspluginpart.rc )
+  set(nspluginscan_SRCS pluginscan.cpp )
+
+  kde4_automoc(${nspluginscan_SRCS})
+
+  kde4_add_executable(nspluginscan ${nspluginscan_SRCS})
+
+  target_link_libraries(nspluginscan  ${KDE4_KIO_LIBS} ${X11_Xt_LIB})
+
+  install_targets(/bin nspluginscan )
+
+  ########### install files ###############
+
+  install_files( ${XDG_APPS_DIR} FILES khtml_plugins.desktop )
+  install_files( ${DATA_INSTALL_DIR}/plugin FILES nspluginpart.rc )
+
+else (X11_Xt_LIB)
+
+  message(STATUS "libXt not found - browser plugin support disabled")
+
+endif (X11_Xt_LIB)
 
 kde4_footer()
 
