@@ -9,8 +9,6 @@ METASOURCES = AUTO
 
 noinst_HEADERS = konqueror.h system.h
 
-messages: rc.cpp
-	$(XGETTEXT) *.cpp -o $(podir)/kcmperformance.pot
 
 xdg_apps_DATA = kcmperformance.desktop
 

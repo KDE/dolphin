@@ -10,7 +10,4 @@ kcm_css_la_LIBADD = -lkdeui $(LIB_KIO)
 
 METASOURCES = AUTO
  
-messages: rc.cpp
-	$(XGETTEXT) *.cpp -o $(podir)/kcmcss.pot
- 
 xdg_apps_DATA = kcmcss.desktop

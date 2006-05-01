@@ -17,8 +17,6 @@ kcm_konqhtml_la_LIBADD = -lkhtml -lkdeui -lkio
 
 xdg_apps_DATA = khtml_behavior.desktop khtml_java_js.desktop khtml_fonts.desktop khtml_filter.desktop
 
-messages: rc.cpp
-	$(XGETTEXT) *.cpp -o $(podir)/kcmkonqhtml.pot
 
 install-data-local: uninstall.desktop
 	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Settings/WebBrowsing

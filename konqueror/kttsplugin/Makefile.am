@@ -11,5 +11,3 @@ libkhtmlkttsdplugin_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
 pluginsdir = $(kde_datadir)/khtml/kpartplugins
 plugins_DATA = khtmlkttsd.rc khtmlkttsd.desktop
 
-messages: rc.cpp
-	$(XGETTEXT) *.cpp -o $(podir)/khtmlkttsd.pot

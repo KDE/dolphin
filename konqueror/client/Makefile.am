@@ -15,8 +15,6 @@ METASOURCES = AUTO
 KonquerorIface_DIR =  $(srcdir)/..
 KDesktopIface_DIR = $(top_srcdir)/workspace/kdesktop
 
-messages:
-	$(XGETTEXT) -kaliasLocal *.h *.cc -o $(podir)/kfmclient.pot
 
 updatedir = $(kde_datadir)/kconf_update
 update_DATA = kfmclient_3_2.upd

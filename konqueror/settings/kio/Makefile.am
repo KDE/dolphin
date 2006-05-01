@@ -19,8 +19,6 @@ kcm_kio_la_SOURCES = policydlg.cpp kcookiesmain.cpp kcookiespolicies.cpp \
 kcm_kio_la_LDFLAGS = $(all_libraries) -module $(KDE_PLUGIN)
 kcm_kio_la_LIBADD = $(LIB_KIO) $(LIB_KUTILS)
 
-messages: rc.cpp
-	$(XGETTEXT) *.cpp -o $(podir)/kcmkio.pot
 
 update_DATA = socks.upd
 updatedir = $(kde_datadir)/kconf_update

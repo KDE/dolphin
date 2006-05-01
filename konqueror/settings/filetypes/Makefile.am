@@ -23,7 +23,5 @@ keditfiletype_SOURCES = keditfiletype.cpp
 keditfiletype_LDADD = libfiletypes.la $(LIB_KIO)
 keditfiletype_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 
-messages:
-	$(XGETTEXT) *.cpp -o $(podir)/filetypes.pot
 
 xdg_apps_DATA = filetypes.desktop

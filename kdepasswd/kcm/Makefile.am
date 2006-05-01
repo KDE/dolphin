@@ -16,6 +16,4 @@ noinst_HEADERS = main.h chfnprocess.h chfacedlg.h
 xdg_apps_DATA = kcm_useraccount.desktop 
 
 
-messages: rc.cpp
-	$(XGETTEXT) *.cpp -o $(podir)/useraccount.pot
 KDE_ICON=AUTO

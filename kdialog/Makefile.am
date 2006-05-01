@@ -9,5 +9,3 @@ kdialog_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
 METASOURCES = AUTO
 
-messages:        
-	$(XGETTEXT) *.cpp -o $(podir)/kdialog.pot 

@@ -25,6 +25,4 @@ uiserver_DIR = $(kde_includes)/kio
 
 EXTRA_DIST = $(kcm_konq_la_DATA) $(kcmkonq_data_DATA)
 
-messages: rc.cpp
-	$(XGETTEXT) *.cpp -o $(podir)/kcmkonq.pot
 

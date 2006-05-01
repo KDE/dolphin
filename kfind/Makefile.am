@@ -23,8 +23,6 @@ xdg_apps_DATA = Kfind.desktop
 kde_services_DATA = kfindpart.desktop
 kde_servicetypes_DATA = findpart.desktop
 
-messages:
-	$(XGETTEXT) *.cpp *.h -o $(podir)/kfindpart.pot
 
 #And this is for kfind
 
