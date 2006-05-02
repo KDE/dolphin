@@ -1395,7 +1395,7 @@ QSize KonqViewManager::readConfigSize( KConfig &cfg, QWidget *widget )
 
     QRect geom = KGlobalSettings::desktopGeometry(widget);
 
-    if ( widthStr.contains( '%' ) == 1 )
+    if ( widthStr.endsWith( '%' ) )
     {
         widthStr.truncate( widthStr.length() - 1 );
         int relativeWidth = widthStr.toInt( &ok );
@@ -1410,7 +1410,7 @@ QSize KonqViewManager::readConfigSize( KConfig &cfg, QWidget *widget )
             width = -1;
     }
 
-    if ( heightStr.contains( '%' ) == 1 )
+    if ( heightStr.endsWith( '%' ) )
     {
         heightStr.truncate( heightStr.length() - 1 );
         int relativeHeight = heightStr.toInt( &ok );
