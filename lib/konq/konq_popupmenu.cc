@@ -18,9 +18,11 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <qdir.h>
-//Added by qt3to4:
-#include <QPixmap>
+#include "konq_popupmenu.h"
+#include "kpropertiesdialog.h"
+#include "knewmenu.h"
+#include "konq_operations.h"
+
 #include <klocale.h>
 #include <kapplication.h>
 #include <kbookmarkmanager.h>
@@ -34,19 +36,13 @@
 #include <kxmlguifactory.h>
 #include <kxmlguibuilder.h>
 #include <kparts/componentfactory.h>
-
-#include <assert.h>
-
 #include <kfileshare.h>
 #include <kprocess.h>
-
-#include "kpropertiesdialog.h"
-#include "knewmenu.h"
-#include "konq_popupmenu.h"
-#include "konq_operations.h"
-#include <dcopclient.h>
 #include <kauthorized.h>
 #include <kglobal.h>
+#include <dcopclient.h>
+#include <qdir.h>
+#include <QPixmap>
 
 /*
  Test cases:
@@ -73,7 +69,7 @@
 class KonqPopupMenuGUIBuilder : public KXMLGUIBuilder
 {
 public:
-  KonqPopupMenuGUIBuilder( Q3PopupMenu *menu )
+  KonqPopupMenuGUIBuilder( QMenu *menu )
   : KXMLGUIBuilder( 0 )
   {
     m_menu = menu;
@@ -92,7 +88,7 @@ public:
     return KXMLGUIBuilder::createContainer( parent, index, element, id );
   }
 
-  Q3PopupMenu *m_menu;
+  QMenu *m_menu;
 };
 
 class KonqPopupMenu::KonqPopupMenuPrivate
@@ -185,12 +181,13 @@ ServiceList* PopupServices::selectList( const QString& priority, const QString& 
 
 //////////////////
 
+#if 0
 KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KUrl viewURL,
                               KActionCollection & actions,
                               KNewMenu * newMenu,
                               bool showProperties )
-    : Q3PopupMenu( 0L, "konq_popupmenu" ),
+    : QMenu( 0L ),
       m_actions( actions ), m_ownActions( static_cast<QWidget *>( 0 ) ),
 		  m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
@@ -204,11 +201,12 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KNewMenu * newMenu,
                               QWidget * parentWidget,
                               bool showProperties )
-    : Q3PopupMenu( parentWidget, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QWidget *>( 0 ) ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
+    : QMenu( parentWidget ), m_actions( actions ), m_ownActions( static_cast<QWidget *>( 0 ) ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
     KonqPopupFlags kpf = ( showProperties ? ShowProperties : IsLink ) | ShowNewWindow;
     init(parentWidget, kpf, KParts::BrowserExtension::DefaultPopupItems);
 }
+#endif
 
 KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               const KUrl& viewURL,
@@ -217,7 +215,13 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               QWidget * parentWidget,
                               KonqPopupFlags kpf,
                               KParts::BrowserExtension::PopupFlags flags)
-  : Q3PopupMenu( parentWidget, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QWidget *>( 0 ) ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
+  : QMenu( parentWidget ),
+    m_actions( actions ),
+    m_ownActions( static_cast<QWidget *>( 0 ) ),
+    m_pMenuNew( newMenu ),
+    m_sViewURL(viewURL),
+    m_lstItems(items),
+    m_pManager(mgr)
 {
     init(parentWidget, kpf, flags);
 }
@@ -329,7 +333,7 @@ bool KonqPopupMenu::KIOSKAuthorizedAction(KConfig& cfg)
 
 void KonqPopupMenu::setup(KonqPopupFlags kpf)
 {
-    assert( m_lstItems.count() >= 1 );
+    Q_ASSERT( m_lstItems.count() >= 1 );
 
     m_ownActions.setAssociatedWidget( this );
 
@@ -352,7 +356,6 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     m_lstPopupURLs.clear();
     int id = 0;
     setFont(KGlobalSettings::menuFont());
-    m_pluginList.setAutoDelete( true );
 
     attrName = QLatin1String( "name" );
 
@@ -469,7 +472,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     if ( ((kpf & ShowNewWindow) != 0) && sReading )
     {
         QString openStr = isKDesktop ? i18n( "&Open" ) : i18n( "Open in New &Window" );
-        actNewWindow = new KAction( KIcon("window_new"), openStr, &m_ownActions, "newview" ); 
+        actNewWindow = new KAction( KIcon("window_new"), openStr, &m_ownActions, "newview" );
         connect(actNewWindow, SIGNAL(triggered()), this, SLOT(slotPopupNewView()));
     }
 
@@ -976,7 +979,6 @@ void KonqPopupMenu::slotOpenShareFileDialog()
 
 KonqPopupMenu::~KonqPopupMenu()
 {
-  m_pluginList.clear();
   delete m_factory;
   delete m_builder;
   delete d;
@@ -1143,7 +1145,6 @@ void KonqPopupMenu::addPlugins()
         QString pluginClientName = QString::fromLatin1( "Plugin%1" ).arg( pluginCount );
         addMerge( pluginClientName );
         plugin->domDocument().documentElement().setAttribute( "name", pluginClientName );
-        m_pluginList.append( plugin );
         insertChildClient( plugin );
     }
 

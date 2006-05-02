@@ -23,10 +23,8 @@
 
 #include <sys/types.h>
 
-#include <q3popupmenu.h>
+#include <qmenu.h>
 #include <qmap.h>
-//Added by qt3to4:
-#include <Q3PtrList>
 #include <kaction.h>
 
 #include <qstringlist.h>
@@ -47,14 +45,13 @@ class KService;
 class KonqPopupMenuPlugin;
 class KBookmarkManager;
 
-// TODO KDE4: change base class to KMenu, see KAction::slotPopupActivated()
 /**
  * This class implements the popup menu for URLs in konqueror and kdesktop
  * It's usage is very simple : on right click, create the KonqPopupMenu instance
  * with the correct arguments, then exec() to make it appear, then destroy it.
  *
  */
-class LIBKONQ_EXPORT KonqPopupMenu : public Q3PopupMenu, public KonqXMLGUIClient
+class LIBKONQ_EXPORT KonqPopupMenu : public QMenu, public KonqXMLGUIClient
 {
   Q_OBJECT
 public:
@@ -70,6 +67,7 @@ public:
          ShowNewWindow = 4 };
          // WARNING: bitfield. Next item is 8
 
+#if 0
   /**
    * @deprecated lacks parentWidget pointer, and
    * uses bool instead of KonqPopupFlags enum,
@@ -93,6 +91,7 @@ public:
                  KNewMenu * newMenu,
 		 QWidget * parentWidget,
 		 bool showPropertiesAndFileType = true ) KDE_DEPRECATED;
+#endif
 
   /**
    * Constructor
@@ -199,7 +198,6 @@ private:
   KXMLGUIBuilder *m_builder;
   QString attrName;
   ProtocolInfo m_info;
-  Q3PtrList<KonqPopupMenuPlugin> m_pluginList;
   KBookmarkManager* m_pManager;
 };
 
