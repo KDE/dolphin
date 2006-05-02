@@ -1,33 +1,24 @@
 kde4_header()
-include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${KDE4_INCLUDES} )
-
-
-########### next target ###############
-
-set(konqdragtest_SRCS konqdragtest.cpp )
-
-kde4_automoc(${konqdragtest_SRCS})
 
 if(KDE4_BUILD_TESTS)
 
-kde4_add_executable(konqdragtest ${konqdragtest_SRCS})
+  include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${KDE4_INCLUDES} )
 
-target_link_libraries(konqdragtest  ${KDE4_KDECORE_LIBS} konq )
+  # Tests don't need to go into toplevel/bin, they are fine in the current dir.
+  set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR} )
+
+  ########### konqmimedatatest ###############
+
+  kde4_automoc(konqmimedatatest.cpp)
+
+  kde4_add_executable(konqmimedatatest RUN_UNINSTALLED konqmimedatatest.cpp)
+
+  target_link_libraries(konqmimedatatest konq ${KDE4_KDECORE_LIBS} ${QT_QTTEST_LIBRARY})
+
+  add_test(libkonq-konqmimedatatest konqmimedatatest)
+
+  ############################################
 
 endif(KDE4_BUILD_TESTS)
 
-########### install files ###############
-
-
 kde4_footer()
-
-
-
-#original Makefile.am contents follow:
-
-#INCLUDES = -I$(top_srcdir)/libkonq $(all_includes)
-#AM_LDFLAGS = $(all_libraries)
-#check_PROGRAMS = konqdragtest
-#konqdragtest_SOURCES = konqdragtest.cpp
-#konqdragtest_LDADD = ../libkonq.la
-#TESTS = konqdragtest
