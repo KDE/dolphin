@@ -268,7 +268,7 @@ void KonqFrameStatusBar::setLinkedView( bool b )
 
 void KonqFrameStatusBar::updateActiveStatus()
 {
-    if ( !m_led->isShown() )
+    if ( m_led->isHidden() )
     {
         unsetPalette();
         return;
