@@ -383,7 +383,8 @@ void KonqFrame::attachInternal()
    //kDebug(1202) << "KonqFrame::attachInternal()" << endl;
    delete m_pLayout;
 
-   m_pLayout = new QVBoxLayout( this, 0, -1, "KonqFrame's QVBoxLayout" );
+   m_pLayout = new QVBoxLayout( this );
+   m_pLayout->setObjectName( "KonqFrame's QVBoxLayout" );
 
    m_pLayout->addWidget( m_pPart->widget(), 1 );
 

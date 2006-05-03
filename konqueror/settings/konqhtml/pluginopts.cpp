@@ -624,7 +624,9 @@ PluginDomainDialog::PluginDomainDialog(QWidget *parent) :
   thisLayout->addWidget(hrule);
   thisLayout->addSpacing(6);
 
-  QBoxLayout *hl = new QHBoxLayout(this,0,6);
+  QBoxLayout *hl = new QHBoxLayout(this);
+  hl->setSpacing(6);
+  hl->setMargin(0);
   hl->addStretch(10);
 
   QPushButton *closePB = new KPushButton(KStdGuiItem::close(),this);

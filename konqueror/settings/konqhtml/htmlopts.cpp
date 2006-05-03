@@ -48,8 +48,10 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
               "change anything here."));
 
     Q3GroupBox *bgBookmarks = new Q3GroupBox( i18n("Boo&kmarks"), this );
-	bgBookmarks->setOrientation( Qt::Vertical );
-	QVBoxLayout *laygroup1 = new QVBoxLayout(bgBookmarks->layout(), KDialog::spacingHint() );
+    bgBookmarks->setOrientation( Qt::Vertical );
+    QVBoxLayout *laygroup1 = new QVBoxLayout();
+    bgBookmarks->layout()->addItem( laygroup1 );
+    laygroup1->setSpacing(KDialog::spacingHint());
     m_pAdvancedAddBookmarkCheckBox = new QCheckBox(i18n( "Ask for name and folder when adding bookmarks" ), bgBookmarks);
 	laygroup1->addWidget(m_pAdvancedAddBookmarkCheckBox);
     m_pAdvancedAddBookmarkCheckBox->setWhatsThis( i18n( "If this box is checked, Konqueror will allow you to"
@@ -70,7 +72,9 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
 
     Q3GroupBox *bgForm = new Q3GroupBox( i18n("Form Com&pletion"), this );
     bgForm->setOrientation( Qt::Vertical );
-    QVBoxLayout *laygroup2 = new QVBoxLayout(bgForm->layout(), KDialog::spacingHint() );
+    QVBoxLayout *laygroup2 = new QVBoxLayout();
+    bgForm->layout()->addItem( laygroup2 );
+    laygroup2->setSpacing(KDialog::spacingHint());
     m_pFormCompletionCheckBox = new QCheckBox(i18n( "Enable completion of &forms" ), bgForm);
     laygroup2->addWidget( m_pFormCompletionCheckBox );
     m_pFormCompletionCheckBox->setWhatsThis( i18n( "If this box is checked, Konqueror will remember"
@@ -91,7 +95,9 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
     // Tabbed Browsing
 
     Q3GroupBox *bgTabbedBrowsing = new Q3GroupBox( 0, Qt::Vertical, i18n("Tabbed Browsing"), this );
-    QVBoxLayout *laygroup = new QVBoxLayout(bgTabbedBrowsing->layout(), KDialog::spacingHint() );
+    QVBoxLayout *laygroup = new QVBoxLayout();
+    bgTabbedBrowsing->layout()->addItem( laygroup );
+    laygroup->setSpacing(KDialog::spacingHint());
 
     m_pShowMMBInTabs = new QCheckBox( i18n( "Open &links in new tab instead of in new window" ), bgTabbedBrowsing );
     m_pShowMMBInTabs->setWhatsThis( i18n("This will open a new tab instead of a new window in various situations, "
@@ -104,7 +110,8 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
     connect(m_pDynamicTabbarHide, SIGNAL(clicked()), SLOT(slotChanged()));
     laygroup->addWidget(m_pDynamicTabbarHide);
 
-    QHBoxLayout *laytab = new QHBoxLayout(laygroup, KDialog::spacingHint());
+    QHBoxLayout *laytab = new QHBoxLayout(laygroup);
+    laytab->setSpacing(KDialog::spacingHint());
     QPushButton *advancedTabButton = new QPushButton( i18n( "Advanced Options"), bgTabbedBrowsing );
     laytab->addWidget(advancedTabButton);
     laytab->addStretch();
@@ -117,7 +124,9 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
 
     Q3GroupBox *bgMouse = new Q3GroupBox( i18n("Mouse Beha&vior"), this );
     bgMouse->setOrientation( Qt::Vertical );
-    QVBoxLayout *laygroup3 = new QVBoxLayout(bgMouse->layout(), KDialog::spacingHint() );
+    QVBoxLayout *laygroup3 = new QVBoxLayout();
+    bgMouse->layout()->addItem( laygroup3 );
+    laygroup3->setSpacing(KDialog::spacingHint());
 
     m_cbCursor = new QCheckBox(i18n("Chan&ge cursor over links"), bgMouse );
     laygroup3->addWidget( m_cbCursor );

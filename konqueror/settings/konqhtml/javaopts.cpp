@@ -63,7 +63,9 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
      **************************************************************************/
     Q3GroupBox* globalGB = new Q3GroupBox( i18n( "Global Settings" ), this );
     globalGB->setOrientation( Qt::Vertical );
-    QVBoxLayout *laygroup = new QVBoxLayout(globalGB->layout(), KDialog::spacingHint() );
+    QVBoxLayout *laygroup = new QVBoxLayout();
+    globalGB->layout()->addItem( laygroup );
+    laygroup->setSpacing(KDialog::spacingHint());
     toplevel->addWidget( globalGB );
     enableJavaGloballyCB = new QCheckBox( i18n( "Enable Ja&va globally" ), globalGB );
     laygroup->addWidget( enableJavaGloballyCB );
@@ -83,7 +85,9 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
      **************************************************************************/
     Q3GroupBox* javartGB = new Q3GroupBox( i18n( "Java Runtime Settings" ), this );
     javartGB->setOrientation( Qt::Vertical );
-    QVBoxLayout *laygroup1 = new QVBoxLayout(javartGB->layout(), KDialog::spacingHint() );
+    QVBoxLayout *laygroup1 = new QVBoxLayout();
+    javartGB->layout()->addItem( laygroup1 );
+    laygroup1->setSpacing(KDialog::spacingHint());
     toplevel->addWidget( javartGB );
 
     QWidget* checkboxes = new QWidget( javartGB );
