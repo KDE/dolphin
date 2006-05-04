@@ -1,9 +1,9 @@
 kde4_header()
 
 set(libkonq_sidebar_tree_SRCS 
-	${CMAKE_SOURCE_DIR}/konqueror/sidebar/trees/konq_sidebartree.cpp 
-	${CMAKE_SOURCE_DIR}/konqueror/sidebar/trees/konq_sidebartreeitem.cpp 
-	${CMAKE_SOURCE_DIR}/konqueror/sidebar/trees/konq_sidebartreetoplevelitem.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/konq_sidebartree.cpp 
+	${CMAKE_CURRENT_SOURCE_DIR}/konq_sidebartreeitem.cpp 
+	${CMAKE_CURRENT_SOURCE_DIR}/konq_sidebartreetoplevelitem.cpp
 	)
 
 add_subdirectory( init ) 

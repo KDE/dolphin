@@ -2,7 +2,7 @@ kde4_header()
 
 project(konqueror)
 
-set(libkonqueror_intern_KCFG_SRCS  ${CMAKE_SOURCE_DIR}/konqueror/konq_settingsxt.kcfgc)
+set(libkonqueror_intern_KCFG_SRCS  ${CMAKE_CURRENT_SOURCE_DIR}/konq_settingsxt.kcfgc)
 kde4_add_kcfg_files(libkonqueror_intern_SRCS ${libkonqueror_intern_KCFG_SRCS})
 
 add_subdirectory( client ) 
