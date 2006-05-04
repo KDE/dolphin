@@ -73,9 +73,9 @@ KDesktopConfig::KDesktopConfig(KInstance *inst, QWidget *parent)
   // number group
   Q3GroupBox *number_group = new Q3GroupBox(this);
 
-  QHBoxLayout *lay = new QHBoxLayout(number_group,
-                     KDialog::marginHint(),
-                     KDialog::spacingHint());
+  QHBoxLayout *lay = new QHBoxLayout(number_group);
+  lay->setMargin(KDialog::marginHint());
+  lay->setSpacing(KDialog::spacingHint());
 
   QLabel *label = new QLabel(i18n("N&umber of desktops: "), number_group);
   _numInput = new KIntNumInput(4, number_group);
