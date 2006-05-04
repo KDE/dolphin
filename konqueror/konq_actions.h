@@ -98,7 +98,7 @@ class KonqViewModeAction : public KAction, public QActionWidgetFactory
     Q_OBJECT
 public:
     KonqViewModeAction( const QString& desktopEntryName,
-                        const QString &text, const QString &icon,
+                        const QString &text, const KIcon &icon,
                         KActionCollection *parent, const char *name );
     virtual ~KonqViewModeAction();
 

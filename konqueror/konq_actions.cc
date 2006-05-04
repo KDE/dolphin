@@ -255,7 +255,7 @@ QWidget * KonqLogoAction::createToolBarWidget( QToolBar * parent )
 ///////////
 
 KonqViewModeAction::KonqViewModeAction( const QString& desktopEntryName,
-                                        const QString &text, const QString &icon,
+                                        const QString &text, const KIcon &icon,
                                         KActionCollection *parent, const char *name )
     : KAction( icon, text, parent, name ),
       m_desktopEntryName( desktopEntryName )

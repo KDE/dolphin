@@ -4899,7 +4899,7 @@ void KonqMainWindow::updateViewModeActions()
       {
           // default service on this action: the current one (i.e. the first one)
           QString text = itname;
-          QString icon = (*it)->icon();
+          QString icon((*it)->icon());
           QString desktopEntryName = (*it)->desktopEntryName();
 
           // if we previously changed the viewmode (see slotViewModeToggle!)
@@ -4929,7 +4929,7 @@ void KonqMainWindow::updateViewModeActions()
 
           KonqViewModeAction *tbAction = new KonqViewModeAction( desktopEntryName,
                                                                  text,
-                                                                 icon,
+                                                                 KIcon(icon),
                                                                  actionCollection(),
                                                                  desktopEntryName.prepend( "viewmode_" ).toLatin1() ); // prefix to avoid conflicts in the actioncollection
 
