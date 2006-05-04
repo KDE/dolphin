@@ -3658,8 +3658,9 @@ void KonqMainWindow::initActions()
   QObject::connect( m_pMenuNew->popupMenu(), SIGNAL(aboutToShow()),
                     this, SLOT(slotFileNewAboutToShow()) );
 
-  (void) new KAction( i18n( "&Edit File Type..." ), 0, 0, 0, actionCollection(), "editMimeType" );
-  (void) new KAction( i18n( "Properties" ), Qt::ALT+Qt::Key_Return, 0, 0, actionCollection(), "properties" );
+  KAction *action = new KAction( i18n( "&Edit File Type..." ), actionCollection(), "editMimeType" );
+  action = new KAction( i18n( "Properties" ), actionCollection(), "properties" );
+  action->setShortcut(Qt::ALT+Qt::Key_Return);
   (void) new KAction( i18n( "New &Window" ), "window_new", KStdAccel::shortcut(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
   (void) new KAction( i18n( "&Duplicate Window" ), "window_duplicate", Qt::CTRL+Qt::Key_D, this, SLOT( slotDuplicateWindow() ), actionCollection(), "duplicate_window" );
   (void) new KAction( i18n( "Send &Link Address..." ), "mail_generic", 0, this, SLOT( slotSendURL() ), actionCollection(), "sendURL" );
@@ -3714,7 +3715,8 @@ void KonqMainWindow::initActions()
   (void) new KAction( i18n( "Sett&ings" ), "kcontrol", 0, this, SLOT( slotGoSettings() ), actionCollection(), "go_settings" );
   //(void) new KAction( i18n( "Sidebar Configuration" ), 0, this, SLOT( slotGoDirTree() ), actionCollection(), "go_dirtree" );
   (void) new KAction( i18n( "Trash" ), "trashcan_full", 0, this, SLOT( slotGoTrash() ), actionCollection(), "go_trash" );
-  (void) new KAction( i18n( "Autostart" ), 0, this, SLOT( slotGoAutostart() ), actionCollection(), "go_autostart" );
+  action = new KAction( i18n( "Autostart" ), actionCollection(), "go_autostart" );
+  connect(action, SIGNAL(triggered(bool) ), SLOT( slotGoAutostart() ));
   KonqMostOftenURLSAction *mostOften = new KonqMostOftenURLSAction( i18n("Most Often Visited"), actionCollection(), "go_most_often" );
   connect( mostOften, SIGNAL( activated( const KUrl& )),
 	   SLOT( slotOpenURL( const KUrl& )));
@@ -3856,7 +3858,8 @@ void KonqMainWindow::initActions()
 
   m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection() );
 
-  (void) new KAction( i18n( "Kon&queror Introduction" ), 0, this, SLOT( slotIntro() ), actionCollection(), "konqintro" );
+  action = new KAction( i18n( "Kon&queror Introduction" ), actionCollection(), "konqintro" );
+  connect(action, SIGNAL(triggered(bool) ), SLOT( slotIntro() ));
 
   KAction *goUrl = new KAction( i18n( "Go" ), "key_enter", 0, this, SLOT( goURL() ), actionCollection(), "go_url" );
   goUrl->setWhatsThis( i18n( "Go<p>"
