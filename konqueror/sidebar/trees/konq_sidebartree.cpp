@@ -927,8 +927,8 @@ void KonqSidebarTree::showToplevelContextMenu()
                             SLOT( slotCreateFolder() ), m_collection, "create_folder");
         (void) new KAction( i18n("Delete Folder"), "editdelete", 0, this,
                             SLOT( slotDelete() ), m_collection, "delete_folder");
-        (void) new KAction( i18n("Rename"), 0, this,
-                            SLOT( slotRename() ), m_collection, "rename");
+        KAction *action = new KAction( i18n("Rename"), m_collection, "rename");
+        connect(action, SIGNAL(triggered(bool) ), SLOT( slotRename() ));
         (void) new KAction( i18n("Delete Link"), "editdelete", 0, this,
                             SLOT( slotDelete() ), m_collection, "delete_link");
         (void) new KAction( i18n("Properties"), "edit", 0, this,
