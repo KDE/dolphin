@@ -303,13 +303,16 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     m_pamSort->insert( aSortDescending );
     */
-    m_paSelect = new KAction( i18n( "Se&lect..." ), Qt::CTRL+Qt::Key_Plus, this, SLOT( slotSelect() ),
-                              actionCollection(), "select" );
-    m_paUnselect = new KAction( i18n( "Unselect..." ), Qt::CTRL+Qt::Key_Minus, this, SLOT( slotUnselect() ),
-                                actionCollection(), "unselect" );
+    m_paSelect = new KAction( i18n( "Se&lect..." ), actionCollection(), "select" );
+    connect(m_paSelect, SIGNAL(triggered(bool) ), SLOT( slotSelect() ));
+    m_paSelect->setShortcut(Qt::CTRL+Qt::Key_Plus);
+    m_paUnselect = new KAction( i18n( "Unselect..." ), actionCollection(), "unselect" );
+    connect(m_paUnselect, SIGNAL(triggered(bool) ), SLOT( slotUnselect() ));
+    m_paUnselect->setShortcut(Qt::CTRL+Qt::Key_Minus);
     m_paSelectAll = KStdAction::selectAll( this, SLOT( slotSelectAll() ), actionCollection(), "selectall" );
-    m_paUnselectAll = new KAction( i18n( "Unselect All" ), Qt::CTRL+Qt::Key_U, this, SLOT( slotUnselectAll() ),
-                                   actionCollection(), "unselectall" );
+    m_paUnselectAll = new KAction( i18n( "Unselect All" ), actionCollection(), "unselectall" );
+    connect(m_paUnselectAll, SIGNAL(triggered(bool) ), SLOT( slotUnselectAll() ));
+    m_paUnselectAll->setShortcut(Qt::CTRL+Qt::Key_U);
     m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), Qt::CTRL+Qt::Key_Asterisk,
                                        this, SLOT( slotInvertSelection() ),
                                        actionCollection(), "invertselection" );
