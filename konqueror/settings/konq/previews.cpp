@@ -86,7 +86,8 @@ KPreviewOptions::KPreviewOptions( KInstance *inst, QWidget *parent )
     listView->addColumn( i18n( "Select Protocols" ) );
     listView->setFullWidth( true );
 
-    QHBoxLayout *hbox = new QHBoxLayout( lay );
+    QHBoxLayout *hbox = new QHBoxLayout();
+    lay->addItem( hbox );
     hbox->addWidget( listView );
     hbox->addStretch();
 

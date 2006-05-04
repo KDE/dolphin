@@ -122,7 +122,8 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, KInstance *
                                                "renamed by clicking directly on the icon name. "));
     connect(cbRenameDirectlyIcon, SIGNAL(clicked()), this, SLOT(changed()));
 
-	QHBoxLayout *hlay = new QHBoxLayout( lay );
+	QHBoxLayout *hlay = new QHBoxLayout();
+	lay->addItem( hlay );
 
     label = new QLabel(i18n("Home &URL:"), this);
 	hlay->addWidget( label );
