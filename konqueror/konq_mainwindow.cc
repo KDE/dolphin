@@ -3805,11 +3805,15 @@ void KonqMainWindow::initActions()
   QString actionname;
   for (int i=1;i<13;i++) {
     actionname.sprintf("activate_tab_%02d", i);
-    new KAction(i18n("Activate Tab %1", i), 0, this, SLOT(slotActivateTab()), actionCollection(), actionname.toUtf8());
+    new KAction(i18n("Activate Tab %1", i), 0, this, SLOT(slotActivateTab()), actionCollection(), actionname);
   }
 
-  m_paMoveTabLeft = new KAction( i18n("Move Tab Left"), 0 , Qt::CTRL+Qt::SHIFT+Qt::Key_Left,this, SLOT( slotMoveTabLeft()),actionCollection(),"tab_move_left");
-  m_paMoveTabRight = new KAction( i18n("Move Tab Right"), 0 , Qt::CTRL+Qt::SHIFT+Qt::Key_Right,this, SLOT( slotMoveTabRight()),actionCollection(),"tab_move_right");
+  m_paMoveTabLeft = new KAction( i18n("Move Tab Left"), actionCollection(), "tab_move_left");
+  connect(m_paMoveTabLeft, SIGNAL(triggered(bool)), SLOT( slotMoveTabLeft()));
+  m_paMoveTabLeft->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_Left);
+  m_paMoveTabRight = new KAction( i18n("Move Tab Right"), actionCollection(), "tab_move_right");
+  connect(m_paMoveTabRight, SIGNAL(triggered(bool)), SLOT( slotMoveTabRight()));
+  m_paMoveTabRight->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_Right);
 
 #ifndef NDEBUG
   action = new KAction(KIcon("view_dump_debug_info"),  i18n( "Dump Debug Info" ), actionCollection(), "dumpdebuginfo" );
