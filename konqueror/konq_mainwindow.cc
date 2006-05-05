@@ -3858,7 +3858,8 @@ void KonqMainWindow::initActions()
   connect(m_paStop, SIGNAL(triggered(bool)), SLOT( slotStop() ));
   m_paStop->setShortcut(Qt::Key_Escape);
 
-  m_paRename = new KAction( i18n( "&Rename" ), /*"editrename",*/ Qt::Key_F2, 0, 0, actionCollection(), "rename" );
+  m_paRename = new KAction( i18n( "&Rename" ), actionCollection(), "rename" );
+  m_paRename->setShortcut(Qt::Key_F2);
   m_paTrash = new KAction(KIcon("edittrash"),  i18n( "&Move to Trash" ), actionCollection(), "trash" );
   m_paTrash->setShortcut(Qt::Key_Delete);
   connect( m_paTrash, SIGNAL( triggered( Qt::MouseButtons, Qt::KeyboardModifiers ) ),
