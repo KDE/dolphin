@@ -313,9 +313,9 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_paUnselectAll = new KAction( i18n( "Unselect All" ), actionCollection(), "unselectall" );
     connect(m_paUnselectAll, SIGNAL(triggered(bool) ), SLOT( slotUnselectAll() ));
     m_paUnselectAll->setShortcut(Qt::CTRL+Qt::Key_U);
-    m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), Qt::CTRL+Qt::Key_Asterisk,
-                                       this, SLOT( slotInvertSelection() ),
-                                       actionCollection(), "invertselection" );
+    m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), actionCollection(), "invertselection" );
+    connect(m_paInvertSelection, SIGNAL(triggered(bool) ), SLOT( slotInvertSelection() ));
+    m_paInvertSelection->setShortcut(Qt::CTRL+Qt::Key_Asterisk);
 
     m_paSelect->setToolTip( i18n( "Allows selecting of file or folder items based on a given mask" ) );
     m_paUnselect->setToolTip( i18n( "Allows unselecting of file or folder items based on a given mask" ) );
