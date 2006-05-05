@@ -42,10 +42,8 @@ KHTMLPluginKTTSD::KHTMLPluginKTTSD( QObject* parent, const char* name, const QSt
     KTrader::OfferList offers = KTrader::self()->query("DCOP/Text-to-Speech", "Name == 'KTTSD'");
     if (offers.count() > 0)
     {
-        (void) new KAction( i18n("&Speak Text"),
-            "kttsd", 0,
-            this, SLOT(slotReadOut()),
-            actionCollection(), "tools_kttsd" );
+        KAction *action = new KAction(KIcon("kttsd"),  i18n("&Speak Text"), actionCollection(), "tools_kttsd" );
+        connect(action, SIGNAL(triggered(bool) ), SLOT(slotReadOut()));
     }
     else
         kDebug() << "KHTMLPLuginKTTSD::KHTMLPluginKTTSD: KTrader did not find KTTSD." << endl;

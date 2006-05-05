@@ -3882,9 +3882,8 @@ void KonqMainWindow::initActions()
   m_combo->setWhatsThis( i18n( "Location Bar<p>"
 				  "Enter a web address or search term." ) );
 
-  KAction *clearLocation = new KAction( i18n( "Clear Location Bar" ),
-					QApplication::isRightToLeft() ? "clear_left" : "locationbar_erase",
-					Qt::CTRL+Qt::Key_L, 0, 0, actionCollection(), "clear_location" );
+  KAction *clearLocation = new KAction(KIcon(QApplication::isRightToLeft() ? "clear_left" : "locationbar_erase"),  i18n( "Clear Location Bar" ), actionCollection(), "clear_location" );
+  clearLocation->setShortcut(Qt::CTRL+Qt::Key_L);
   connect( clearLocation, SIGNAL( triggered( Qt::MouseButtons, Qt::KeyboardModifiers ) ),
            SLOT( slotClearLocationBar( Qt::MouseButtons, Qt::KeyboardModifiers ) ) );
   clearLocation->setWhatsThis( i18n( "Clear Location bar<p>"
