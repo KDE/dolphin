@@ -163,12 +163,11 @@ void KonqFrameStatusBar::splitFrameMenu()
 
    QMenu menu;
 
-   actionColl->action( "splitviewh" )->plug( &menu );
-   actionColl->action( "splitviewv" )->plug( &menu );
+   menu.addAction( actionColl->action( "splitviewh" ) );
+   menu.addAction( actionColl->action( "splitviewv" ) );
    menu.addSeparator();
-   actionColl->action( "lock" )->plug( &menu );
-
-   actRemoveView.plug( &menu );
+   menu.addAction( actionColl->action( "lock" ) );
+   menu.addAction( &actRemoveView );
 
    menu.exec(QCursor::pos());
 }
