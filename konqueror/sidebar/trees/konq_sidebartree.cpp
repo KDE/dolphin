@@ -923,22 +923,22 @@ void KonqSidebarTree::showToplevelContextMenu()
     {
         m_collection = new KActionCollection( this);
 	    m_collection->setObjectName("bookmark actions");
-        (void) new KAction( i18n("&Create New Folder..."), "folder_new", 0, this,
-                            SLOT( slotCreateFolder() ), m_collection, "create_folder");
-        (void) new KAction( i18n("Delete Folder"), "editdelete", 0, this,
-                            SLOT( slotDelete() ), m_collection, "delete_folder");
-        KAction *action = new KAction( i18n("Rename"), m_collection, "rename");
+        KAction *action = new KAction(KIcon("folder_new"),  i18n("&Create New Folder..."), m_collection, "create_folder");
+        connect(action, SIGNAL(triggered(bool)), SLOT( slotCreateFolder() ));
+        action = new KAction(KIcon("editdelete"),  i18n("Delete Folder"), m_collection, "delete_folder");
+        connect(action, SIGNAL(triggered(bool)), SLOT( slotDelete() ));
+        action = new KAction( i18n("Rename"), m_collection, "rename");
         connect(action, SIGNAL(triggered(bool) ), SLOT( slotRename() ));
-        (void) new KAction( i18n("Delete Link"), "editdelete", 0, this,
-                            SLOT( slotDelete() ), m_collection, "delete_link");
-        (void) new KAction( i18n("Properties"), "edit", 0, this,
-                            SLOT( slotProperties() ), m_collection, "item_properties");
-        (void) new KAction( i18n("Open in New Window"), "window_new", 0, this,
-                            SLOT( slotOpenNewWindow() ), m_collection, "open_window");
-        (void) new KAction( i18n("Open in New Tab"), "tab_new", 0, this,
-                            SLOT( slotOpenTab() ), m_collection, "open_tab");
-        (void) new KAction( i18n("Copy Link Address"), "editcopy", 0, this,
-                            SLOT( slotCopyLocation() ), m_collection, "copy_location");
+        action = new KAction(KIcon("editdelete"),  i18n("Delete Link"), m_collection, "delete_link");
+        connect(action, SIGNAL(triggered(bool)), SLOT( slotDelete() ));
+        action = new KAction(KIcon("edit"),  i18n("Properties"), m_collection, "item_properties");
+        connect(action, SIGNAL(triggered(bool)), SLOT( slotProperties() ));
+        action = new KAction(KIcon("window_new"),  i18n("Open in New Window"), m_collection, "open_window");
+        connect(action, SIGNAL(triggered(bool)), SLOT( slotOpenNewWindow() ));
+        action = new KAction(KIcon("tab_new"),  i18n("Open in New Tab"), m_collection, "open_tab");
+        connect(action, SIGNAL(triggered(bool)), SLOT( slotOpenTab() ));
+        action = new KAction(KIcon("editcopy"),  i18n("Copy Link Address"), m_collection, "copy_location");
+        connect(action, SIGNAL(triggered(bool)), SLOT( slotCopyLocation() ));
     }
 
     QMenu *menu = new QMenu;

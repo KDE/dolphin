@@ -34,8 +34,9 @@ KShellCmdPlugin::KShellCmdPlugin( QObject* parent, const char* name,
     if (!KAuthorized::authorizeKAction("shell_access"))
        return;
 
-    new KAction( i18n( "&Execute Shell Command..." ), "run", Qt::CTRL+Qt::Key_E, this,
-                 SLOT( slotExecuteShellCommand() ), actionCollection(), "executeshellcommand" );
+    KAction *action = new KAction(KIcon("run"),  i18n( "&Execute Shell Command..." ), actionCollection(), "executeshellcommand" );
+    connect(action, SIGNAL(triggered(bool)), SLOT( slotExecuteShellCommand() ));
+    action->setShortcut(Qt::CTRL+Qt::Key_E);
 }
 
 void KShellCmdPlugin::slotExecuteShellCommand()

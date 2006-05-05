@@ -77,14 +77,14 @@ KonqSidebarHistoryModule::KonqSidebarHistoryModule( KonqSidebarTree * parentTree
 	     SLOT( slotItemExpanded( QListViewItem * )));
 
     m_collection = new KActionCollection( this );
-    (void) new KAction( i18n("New &Window"), "window_new", 0, this,
- 			SLOT( slotNewWindow() ), m_collection, "open_new");
-    (void) new KAction( i18n("&Remove Entry"), "editdelete", 0, this,
-			SLOT( slotRemoveEntry() ), m_collection, "remove");
-    (void) new KAction( i18n("C&lear History"), "history_clear", 0, this,
-			SLOT( slotClearHistory() ), m_collection, "clear");
-    (void) new KAction( i18n("&Preferences..."), "configure", 0, this,
-			SLOT( slotPreferences()), m_collection, "preferences");
+    KAction *action = new KAction(KIcon("window_new"),  i18n("New &Window"), m_collection, "open_new");
+    connect(action, SIGNAL(triggered(bool)), SLOT( slotNewWindow() ));
+    action = new KAction(KIcon("editdelete"),  i18n("&Remove Entry"), m_collection, "remove");
+    connect(action, SIGNAL(triggered(bool)), SLOT( slotRemoveEntry() ));
+    action = new KAction(KIcon("history_clear"),  i18n("C&lear History"), m_collection, "clear");
+    connect(action, SIGNAL(triggered(bool)), SLOT( slotClearHistory() ));
+    action = new KAction(KIcon("configure"),  i18n("&Preferences..."), m_collection, "preferences");
+    connect(action, SIGNAL(triggered(bool)), SLOT( slotPreferences()));
 
     QActionGroup* sortGroup = new QActionGroup(this);
     sortGroup->setExclusive(true);
