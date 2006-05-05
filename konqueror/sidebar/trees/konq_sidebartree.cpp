@@ -945,23 +945,23 @@ void KonqSidebarTree::showToplevelContextMenu()
 
     if (item) {
         if (item->isTopLevelGroup()) {
-            m_collection->action("rename")->plug(menu);
-            m_collection->action("delete_folder")->plug(menu);
+            menu->addAction( m_collection->action("rename") );
+            menu->addAction( m_collection->action("delete_folder") );
             menu->insertSeparator();
-            m_collection->action("create_folder")->plug(menu);
+            menu->addAction( m_collection->action("create_folder") );
         } else {
             if (tabSupport())
-                m_collection->action("open_tab")->plug(menu);
-            m_collection->action("open_window")->plug(menu);
-            m_collection->action("copy_location")->plug(menu);
+                menu->addAction( m_collection->action("open_tab") );
+            menu->addAction( m_collection->action("open_window") );
+            menu->addAction( m_collection->action("copy_location") );
             menu->insertSeparator();
-            m_collection->action("rename")->plug(menu);
-            m_collection->action("delete_link")->plug(menu);
+            menu->addAction( m_collection->action("rename") );
+            menu->addAction( m_collection->action("delete_link") );
         }
         menu->insertSeparator();
-        m_collection->action("item_properties")->plug(menu);
+        menu->addAction( m_collection->action("item_properties") );
     } else {
-        m_collection->action("create_folder")->plug(menu);
+        menu->addAction( m_collection->action("create_folder") );
     }
 
     m_currentTopLevelItem = item;

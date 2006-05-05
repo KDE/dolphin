@@ -105,13 +105,13 @@ bool KonqSidebarBookmarkModule::handleTopLevelContextMenu( KonqSidebarTreeTopLev
     QMenu *menu = new QMenu;
 
     if (tree()->tabSupport()) {
-	m_collection->action("folder_open_tabs")->plug(menu);
+	menu->addAction( m_collection->action("folder_open_tabs") );
 	menu->insertSeparator();
     }
-    m_collection->action("create_folder")->plug(menu);
+    menu->addAction( m_collection->action("create_folder") );
  
     menu->insertSeparator();
-    m_collection->action("edit_bookmarks")->plug(menu);
+    menu->addAction( m_collection->action("edit_bookmarks") );
 
     menu->exec( QCursor::pos() );
     delete menu;
@@ -130,22 +130,22 @@ void KonqSidebarBookmarkModule::showPopupMenu()
 
     if (bi->bookmark().isGroup()) {
         if (tabSupported) {
-            m_collection->action("folder_open_tabs")->plug(menu);
+            menu->addAction( m_collection->action("folder_open_tabs") );
             menu->insertSeparator();
         }
-        m_collection->action("create_folder")->plug(menu);
-        m_collection->action("delete_folder")->plug(menu);
+        menu->addAction( m_collection->action("create_folder") );
+        menu->addAction( m_collection->action("delete_folder") );
     } else {
-        m_collection->action("open_window")->plug(menu);
+        menu->addAction( m_collection->action("open_window") );
         if (tabSupported)
-            m_collection->action("open_tab")->plug(menu);
-        m_collection->action("copy_location")->plug(menu);
+            menu->addAction( m_collection->action("open_tab") );
+        menu->addAction( m_collection->action("copy_location") );
         menu->insertSeparator();
-        m_collection->action("create_folder")->plug(menu);
-        m_collection->action("delete_bookmark")->plug(menu);
+        menu->addAction( m_collection->action("create_folder") );
+        menu->addAction( m_collection->action("delete_bookmark") );
     }
     menu->insertSeparator();
-    m_collection->action("item_properties")->plug(menu);
+    menu->addAction( m_collection->action("item_properties") );
 
     menu->exec( QCursor::pos() );
     delete menu;

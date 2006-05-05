@@ -228,23 +228,23 @@ void KonqSidebarHistoryModule::showPopupMenu()
 void KonqSidebarHistoryModule::showPopupMenu( int which, const QPoint& pos )
 {
     QMenu *sortMenu = new QMenu;
-    m_collection->action("byName")->plug( sortMenu );
-    m_collection->action("byDate")->plug( sortMenu );
+    sortMenu->addAction( m_collection->action("byName") );
+    sortMenu->addAction( m_collection->action("byDate") );
 
     QMenu *menu = new QMenu;
 
     if ( which & EntryContextMenu )
     {
-        m_collection->action("open_new")->plug( menu );
+        menu->addAction( m_collection->action("open_new") );
         menu->insertSeparator();
-        m_collection->action("remove")->plug( menu );
+        menu->addAction( m_collection->action("remove") );
     }
 
-    m_collection->action("clear")->plug( menu );
+    menu->addAction( m_collection->action("clear") );
     menu->insertSeparator();
     menu->insertItem( i18n("Sort"), sortMenu );
     menu->insertSeparator();
-    m_collection->action("preferences")->plug( menu );
+    menu->addAction( m_collection->action("preferences") );
 
     menu->exec( pos );
     delete menu;

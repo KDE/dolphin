@@ -4899,7 +4899,7 @@ void KonqMainWindow::updateViewModeActions()
                this, SLOT( slotViewModeToggle( bool ) ) );
 
       m_viewModeActions.append( action );
-      action->plug( m_viewModeMenu->popupMenu() );
+      m_viewModeMenu->popupMenu()->addAction( action );
 
       const QString library = viewModeActionKey( *it );
 
@@ -4983,7 +4983,7 @@ void KonqMainWindow::updateViewModeActions()
       }
 
       // plug action also into the delayed popupmenu of appropriate toolbar action
-      action->plug( (*mapIt)->menu() );
+      (*mapIt)->menu()->addAction( action );
   }
 
 #ifndef NDEBUG
