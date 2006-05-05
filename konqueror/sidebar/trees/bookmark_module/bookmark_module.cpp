@@ -64,19 +64,19 @@ KonqSidebarBookmarkModule::KonqSidebarBookmarkModule( KonqSidebarTree * parentTr
     m_collection = new KActionCollection( this );
     KAction *action = new KAction(KIcon("folder_new"),  i18n("&Create New Folder"), m_collection, "create_folder");
     connect(action, SIGNAL(triggered(bool)), SLOT( slotCreateFolder() ));
-    KAction *action = new KAction(KIcon("editdelete"),  i18n("Delete Folder"), m_collection, "delete_folder");
+    action = new KAction(KIcon("editdelete"),  i18n("Delete Folder"), m_collection, "delete_folder");
     connect(action, SIGNAL(triggered(bool)), SLOT( slotDelete() ));
-    KAction *action = new KAction(KIcon("editdelete"),  i18n("Delete Bookmark"), m_collection, "delete_bookmark");
+    action = new KAction(KIcon("editdelete"),  i18n("Delete Bookmark"), m_collection, "delete_bookmark");
     connect(action, SIGNAL(triggered(bool)), SLOT( slotDelete() ));
-    KAction *action = new KAction(KIcon("edit"),  i18n("Properties"), m_collection, "item_properties");
+    action = new KAction(KIcon("edit"),  i18n("Properties"), m_collection, "item_properties");
     connect(action, SIGNAL(triggered(bool)), SLOT( slotProperties() ));
-    KAction *action = new KAction(KIcon("window_new"),  i18n("Open in New Window"), m_collection, "open_window");
+    action = new KAction(KIcon("window_new"),  i18n("Open in New Window"), m_collection, "open_window");
     connect(action, SIGNAL(triggered(bool)), SLOT( slotOpenNewWindow() ));
-    KAction *action = new KAction(KIcon("tab_new"),  i18n("Open in New Tab"), m_collection, "open_tab");
+    action = new KAction(KIcon("tab_new"),  i18n("Open in New Tab"), m_collection, "open_tab");
     connect(action, SIGNAL(triggered(bool)), SLOT( slotOpenTab() ));
-    KAction *action = new KAction(KIcon("tab_new"),  i18n("Open Folder in Tabs"), m_collection, "folder_open_tabs");
+    action = new KAction(KIcon("tab_new"),  i18n("Open Folder in Tabs"), m_collection, "folder_open_tabs");
     connect(action, SIGNAL(triggered(bool)), SLOT( slotOpenTab() ));
-    KAction *action = new KAction(KIcon("editcopy"),  i18n("Copy Link Address"), m_collection, "copy_location");
+    action = new KAction(KIcon("editcopy"),  i18n("Copy Link Address"), m_collection, "copy_location");
     connect(action, SIGNAL(triggered(bool)), SLOT( slotCopyLocation() ));
 
     KStdAction::editBookmarks( KonqBookmarkManager::self(), SLOT( slotEditBookmarks() ),
@@ -100,7 +100,7 @@ void KonqSidebarBookmarkModule::addTopLevelItem( KonqSidebarTreeTopLevelItem * i
     m_ignoreOpenChange = false;
 }
 
-bool KonqSidebarBookmarkModule::handleTopLevelContextMenu( KonqSidebarTreeTopLevelItem *, const QPoint& ) 
+bool KonqSidebarBookmarkModule::handleTopLevelContextMenu( KonqSidebarTreeTopLevelItem *, const QPoint& )
 {
     QMenu *menu = new QMenu;
 
@@ -109,7 +109,7 @@ bool KonqSidebarBookmarkModule::handleTopLevelContextMenu( KonqSidebarTreeTopLev
 	menu->insertSeparator();
     }
     menu->addAction( m_collection->action("create_folder") );
- 
+
     menu->insertSeparator();
     menu->addAction( m_collection->action("edit_bookmarks") );
 
@@ -278,7 +278,7 @@ void KonqSidebarBookmarkModule::slotDropped(K3ListView *, QDropEvent *e, Q3ListV
 void KonqSidebarBookmarkModule::slotCreateFolder()
 {
     KonqSidebarBookmarkItem *bi = dynamic_cast<KonqSidebarBookmarkItem*>( tree()->selectedItem() );
-    KBookmarkGroup parentGroup;    
+    KBookmarkGroup parentGroup;
     if (bi)
     {
 	if (bi->bookmark().isGroup())
@@ -332,14 +332,14 @@ void makeTextNodeMod(KBookmark bk, const QString &m_nodename, const QString &m_n
         subnode = bk.internalElement().ownerDocument().createElement(m_nodename);
         bk.internalElement().appendChild(subnode);
     }
-    
+
     if (subnode.firstChild().isNull()) {
         QDomText domtext = subnode.ownerDocument().createTextNode("");
         subnode.appendChild(domtext);
     }
-    
+
     QDomText domtext = subnode.firstChild().toText();
-    
+
     QString m_oldText = domtext.data();
     domtext.setData(m_newText);
 }
@@ -389,7 +389,7 @@ void KonqSidebarBookmarkModule::slotOpenTab()
 	bookmark = bi->bookmark();
     }
     else if(tree()->selectedItem() == m_topLevelItem)
-	bookmark = KonqBookmarkManager::self()->root();	
+	bookmark = KonqBookmarkManager::self()->root();
     else
 	return;
 
@@ -575,7 +575,7 @@ QString BookmarkEditDialog::finalUrl() const
 
 QString BookmarkEditDialog::finalTitle() const
 {
-    if (m_title!=0) 
+    if (m_title!=0)
         return m_title->text();
     else
         return QString();
@@ -586,7 +586,7 @@ extern "C"
    KDE_EXPORT KonqSidebarTreeModule* create_konq_sidebartree_bookmarks(KonqSidebarTree* par,const bool)
 	{
 		return new KonqSidebarBookmarkModule(par);
-	} 
+	}
 }
 
 #include "bookmark_module.moc"
