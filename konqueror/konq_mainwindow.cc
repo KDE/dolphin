@@ -3724,10 +3724,12 @@ void KonqMainWindow::initActions()
 
   // Settings menu
 
-  m_paSaveViewProfile = new KAction( i18n( "&Save View Profile..." ), 0, this, SLOT( slotSaveViewProfile() ), actionCollection(), "saveviewprofile" );
+  m_paSaveViewProfile = new KAction( i18n( "&Save View Profile..." ), actionCollection(), "saveviewprofile" );
+  connect(m_paSaveViewProfile, SIGNAL(triggered(bool) ), SLOT( slotSaveViewProfile() ));
   m_paSaveViewPropertiesLocally = new KToggleAction( i18n( "Save View Changes per &Folder" ), 0, this, SLOT( slotSaveViewPropertiesLocally() ), actionCollection(), "saveViewPropertiesLocally" );
    // "Remove" ? "Reset" ? The former is more correct, the latter is more kcontrol-like...
-  m_paRemoveLocalProperties = new KAction( i18n( "Remove Folder Properties" ), 0, this, SLOT( slotRemoveLocalProperties() ), actionCollection(), "removeLocalProperties" );
+  m_paRemoveLocalProperties = new KAction( i18n( "Remove Folder Properties" ), actionCollection(), "removeLocalProperties" );
+  connect(m_paRemoveLocalProperties, SIGNAL(triggered(bool) ), SLOT( slotRemoveLocalProperties() ));
 
 
   m_configureModules << "kde-filebehavior.desktop" << "kde-fileappearance.desktop" <<
@@ -3747,7 +3749,8 @@ void KonqMainWindow::initActions()
   KStdAction::keyBindings( guiFactory(), SLOT( configureShortcuts() ), actionCollection() );
   KStdAction::configureToolbars( this, SLOT( slotConfigureToolbars() ), actionCollection() );
 
-  m_paConfigureExtensions = new KAction( i18n("Configure Extensions..."), 0, this, SLOT( slotConfigureExtensions()), actionCollection(), "options_configure_extensions");
+  m_paConfigureExtensions = new KAction( i18n("Configure Extensions..."), actionCollection(), "options_configure_extensions");
+  connect(m_paConfigureExtensions, SIGNAL(triggered(bool) ), SLOT( slotConfigureExtensions()));
   m_paConfigureSpellChecking = new KAction( i18n("Configure Spell Checking..."), "spellcheck", 0,this, SLOT( slotConfigureSpellChecking()), actionCollection(), "configurespellcheck");
 
   // Window menu
@@ -3776,7 +3779,8 @@ void KonqMainWindow::initActions()
   (void) new KAction( i18n( "Dump Debug Info" ), "view_dump_debug_info", 0, this, SLOT( slotDumpDebugInfo() ), actionCollection(), "dumpdebuginfo" );
 #endif
 
-  m_paSaveRemoveViewProfile = new KAction( i18n( "C&onfigure View Profiles..." ), 0, m_pViewManager, SLOT( slotProfileDlg() ), actionCollection(), "saveremoveviewprofile" );
+  m_paSaveRemoveViewProfile = new KAction( i18n( "C&onfigure View Profiles..." ), actionCollection(), "saveremoveviewprofile" );
+  connect(m_paSaveRemoveViewProfile, SIGNAL(triggered(bool) ), m_pViewManager, SLOT( slotProfileDlg() ));
   m_pamLoadViewProfile = new KActionMenu( i18n( "Load &View Profile" ), actionCollection(), "loadviewprofile" );
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
@@ -4119,13 +4123,18 @@ void KonqMainWindow::updateViewActions()
     {
       // F5 is the default key binding for Reload.... a la Windows.
       // mc users want F5 for Copy and F6 for move, but I can't make that default.
-      m_paCopyFiles = new KAction( i18n("Copy &Files..."), Qt::Key_F7, this, SLOT( slotCopyFiles() ), actionCollection(), "copyfiles" );
-      m_paMoveFiles = new KAction( i18n("M&ove Files..."), Qt::Key_F8, this, SLOT( slotMoveFiles() ), actionCollection(), "movefiles" );
+      m_paCopyFiles = new KAction( i18n("Copy &Files..."), actionCollection(), "copyfiles" );
+      connect(m_paCopyFiles, SIGNAL(triggered(bool) ), SLOT( slotCopyFiles() ));
+      m_paCopyFiles->setShortcut(Qt::Key_F7);
+      m_paMoveFiles = new KAction( i18n("M&ove Files..."), actionCollection(), "movefiles" );
+      connect(m_paMoveFiles, SIGNAL(triggered(bool) ), SLOT( slotMoveFiles() ));
+      m_paMoveFiles->setShortcut(Qt::Key_F8);
 
       // This action doesn't appear in the GUI, it's for the shortcut only.
       // KNewMenu takes care of the GUI stuff.
-      m_paNewDir = new KAction( i18n("Create Folder..." ), Qt::Key_F10, this, SLOT( slotNewDir() ),
-                                actionCollection(), "konq_create_dir" );
+      m_paNewDir = new KAction( i18n("Create Folder..." ), actionCollection(), "konq_create_dir" );
+      connect(m_paNewDir, SIGNAL(triggered(bool) ), SLOT( slotNewDir() ));
+      m_paNewDir->setShortcut(Qt::Key_F10);
 
       QList<KAction*> lst;
       lst.append( m_paCopyFiles );
@@ -4614,7 +4623,8 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   if( doTabHandling )
   {
       if (_args.forcesNewWindow()) {
-        actNewWindow = new KAction( i18n( "Open in T&his Window" ), 0, this, SLOT( slotPopupThisWindow() ), konqyMenuClient->actionCollection(), "sameview" );
+        actNewWindow = new KAction( i18n( "Open in T&his Window" ), konqyMenuClient->actionCollection(), "sameview" );
+        connect(actNewWindow, SIGNAL(triggered(bool) ), SLOT( slotPopupThisWindow() ));
         actNewWindow->setToolTip( i18n( "Open the document in current window" ) );
       }
       actNewWindow = new KAction( i18n( "Open in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), konqyMenuClient->actionCollection(), "newview" );

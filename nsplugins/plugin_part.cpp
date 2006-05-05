@@ -216,7 +216,9 @@ PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *p
     // Only create this if we have no parent since the parent part is
     // responsible for "Save As" then
     if (!parent || !parent->inherits("Part")) {
-        new KAction(i18n("&Save As..."), Qt::CTRL+Qt::Key_S, this, SLOT(saveAs()), actionCollection(), "saveDocument");
+        KAction *action = new KAction(i18n("&Save As..."), actionCollection(), "saveDocument");
+        connect(action, SIGNAL(triggered(bool) ), SLOT(saveAs()));
+        action->setShortcut(Qt::CTRL+Qt::Key_S);
         setXMLFile("nspluginpart.rc");
     }
 
