@@ -29,7 +29,7 @@ kde4_add_executable(keditfiletype ${keditfiletype_SRCS})
 
 target_link_libraries(keditfiletype  ${KDE4_KIO_LIBS} )
 
-install_targets(/bin keditfiletype )
+install(TARGETS keditfiletype DESTINATION bin)
 
 
 ########### next target ###############

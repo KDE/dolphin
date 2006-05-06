@@ -16,7 +16,7 @@ kde4_add_executable(nspluginviewer ${nspluginviewer_SRCS})
 
 target_link_libraries(nspluginviewer  ${KDE4_KPARTS_LIBS} ${X11_Xt_LIB} )
 
-install_targets(/bin nspluginviewer )
+install(TARGETS nspluginviewer DESTINATION bin)
 
 
 ########### install files ###############

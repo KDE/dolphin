@@ -17,7 +17,7 @@ target_link_libraries(kdeinit_kfmclient  ${KDE4_KDE3SUPPORT_LIBS} )
 install_targets(${LIB_INSTALL_DIR} kdeinit_kfmclient )
 
 target_link_libraries( kfmclient kdeinit_kfmclient )
-install_targets(/bin kfmclient )
+install(TARGETS kfmclient DESTINATION bin)
 
 ########### install files ###############
 

@@ -18,7 +18,7 @@ kde4_add_executable(kdialog ${kdialog_SRCS})
 
 target_link_libraries(kdialog  ${KDE4_KIO_LIBS} )
 
-install_targets(/bin kdialog )
+install(TARGETS kdialog DESTINATION bin)
 
 
 ########### install files ###############
