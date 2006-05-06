@@ -72,10 +72,10 @@ Kfind::Kfind(QWidget *parent, const char *name)
   lay->addStretch(1);
   mTopLayout->addWidget(mButtonBox);
 
-  mSearch = new KPushButton( KGuiItem(i18n("&Find"), "find"), mButtonBox );
+  mSearch = new KPushButton( KStdGuiItem::find(), mButtonBox );
   mButtonBox->setSpacing( (tabWidget->sizeHint().height()-4*mSearch->sizeHint().height()) / 4);
   connect( mSearch, SIGNAL(clicked()), this, SLOT( startSearch() ) );
-  mStop = new KPushButton( KGuiItem(i18n("Stop"), "stop"), mButtonBox );
+  mStop = new KPushButton( KStdGuiItem::stop(), mButtonBox );
   connect( mStop, SIGNAL(clicked()), this, SLOT( stopSearch() ) );
   mSave = new KPushButton( KStdGuiItem::saveAs(), mButtonBox );
   connect( mSave, SIGNAL(clicked()), this, SLOT( saveResults() ) );

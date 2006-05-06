@@ -315,7 +315,7 @@ void KonqSidebarBookmarkModule::slotDelete()
                     : i18n("Are you sure you wish to remove the bookmark\n\"%1\"?", bookmark.text()),
             folder ? i18n("Bookmark Folder Deletion")
                     : i18n("Bookmark Deletion"),
-            KGuiItem( i18n("&Delete"), "editdelete"), KStdGuiItem::cancel())
+            KStdGuiItem::del(), KStdGuiItem::cancel())
             != KMessageBox::Yes
         )
         return;

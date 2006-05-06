@@ -27,7 +27,7 @@ KfindDlg::KfindDlg(const KUrl & url, QWidget *parent, const char *name)
   : KDialogBase( Plain, QString(),
 	User1 | User2 | Apply | Close | Help, Apply,
         parent, name, true, true,
-	KGuiItem(i18n("Stop"), "stop"),
+        KStdGuiItem::stop(),
 	KStdGuiItem::saveAs())
 {
   QWidget::setWindowTitle( i18n("Find Files/Folders" ) );
@@ -37,7 +37,7 @@ KfindDlg::KfindDlg(const KUrl & url, QWidget *parent, const char *name)
   enableButton(User1, false); // Disable "Stop"
   enableButton(User2, false); // Disable "Save As..."
 
-  setButtonGuiItem(KDialog::Apply, KGuiItem(i18n("&Find"), "find"));
+  setButtonGuiItem(KDialog::Apply, KStdGuiItem::find());
 
   isResultReported = false;
 
