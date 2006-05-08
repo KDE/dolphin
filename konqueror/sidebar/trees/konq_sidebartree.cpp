@@ -39,6 +39,7 @@
 #include <dcopref.h>
 
 #include <kaction.h>
+#include <kactioncollection.h>
 #include <kapplication.h>
 #include <kdebug.h>
 #include <kdesktopfile.h>
@@ -244,7 +245,7 @@ void KonqSidebarTree::followURL( const KUrl &url )
 {
     // Maybe we're there already ?
     KonqSidebarTreeItem *selection = static_cast<KonqSidebarTreeItem *>( selectedItem() );
-    if (selection && selection->externalURL().equals( url, true ))
+    if (selection && selection->externalURL().equals( url, KUrl::CompareWithoutTrailingSlash ))
     {
         ensureItemVisible( selection );
         return;

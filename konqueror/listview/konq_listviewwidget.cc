@@ -26,11 +26,11 @@
 
 #include <kdebug.h>
 #include <kdirlister.h>
+#include <kiconloader.h>
 #include <klocale.h>
 #include <kprotocolinfo.h>
-#include <kaction.h>
 #include <kmessagebox.h>
-#include <kiconloader.h>
+#include <ktoggleaction.h>
 
 #include <q3header.h>
 #include <qpainter.h>
@@ -983,8 +983,8 @@ bool KonqBaseListViewWidget::openURL( const KUrl &url )
    m_bTopLevelComplete = false;
    m_itemFound = false;
 
-   if ( m_itemToGoTo.isEmpty() && url.equals( m_url.upURL(), true ) )
-      m_itemToGoTo = m_url.fileName( true );
+   if ( m_itemToGoTo.isEmpty() && url.equals( m_url.upURL(), KUrl::CompareWithoutTrailingSlash ) )
+      m_itemToGoTo = m_url.fileName( KUrl::IgnoreTrailingSlash );
 
    // Check for new properties in the new dir
    // newProps returns true the first time, and any time something might
@@ -1344,7 +1344,7 @@ void KonqBaseListViewWidget::saveState( QDataStream & ds )
 {
    QString str;
    if ( currentItem() )
-      str = static_cast<KonqBaseListViewItem*>(currentItem())->item()->url().fileName(true);
+      str = static_cast<KonqBaseListViewItem*>(currentItem())->item()->url().fileName( KUrl::IgnoreTrailingSlash );
    ds << str << m_url;
 }
 

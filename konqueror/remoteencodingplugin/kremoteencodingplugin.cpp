@@ -25,7 +25,7 @@
  */
 
 #include <kdebug.h>
-#include <kaction.h>
+#include <kactionmenu.h>
 #include <klocale.h>
 #include <kglobal.h>
 #include <kconfig.h>
@@ -44,11 +44,9 @@
 #define DATA_KEY	QLatin1String("Charset")
 
 KRemoteEncodingPlugin::KRemoteEncodingPlugin(QObject * parent,
-					     const char *name,
 					     const QStringList &)
   : KParts::Plugin(parent), m_loaded(false), m_idDefault(0)
 {
-  setObjectName(name);
   m_menu = new KActionMenu(KIcon("charset"), i18n("Select Remote Charset"),
 			   actionCollection(), "changeremoteencoding");
   connect(m_menu->popupMenu(), SIGNAL(aboutToShow()),

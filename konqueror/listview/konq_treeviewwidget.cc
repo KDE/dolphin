@@ -62,7 +62,7 @@ bool KonqTreeViewWidget::openURL( const KUrl &url )
       Q3DictIterator<KonqListViewDir> it( m_dictSubDirs );
       for (; it.current(); ++it )
          if ( it.current()->isOpen() )
-            m_urlsToReload.append( it.current()->url( -1 ) );
+            m_urlsToReload.append( it.current()->url( KUrl::RemoveTrailingSlash ) );
 
       // Someone could press reload while the listing is still in progess
       // -> move the items that are not opened yet to m_urlsToReload.
@@ -83,7 +83,7 @@ void KonqTreeViewWidget::saveState( QDataStream &stream )
     for (; it.current(); ++it )
     {
         if ( it.current()->isOpen() )
-            openDirList.append( it.current()->url( -1 ) );
+            openDirList.append( it.current()->url( KUrl::RemoveTrailingSlash ) );
     }
 
     stream << openDirList;
@@ -110,14 +110,14 @@ void KonqTreeViewWidget::slotCompleted()
 void KonqTreeViewWidget::slotCompleted( const KUrl & _url )
 {
     // do nothing if the view itself is finished
-    if ( m_url.equals( _url, true ) )
+    if ( m_url.equals( _url, KUrl::CompareWithoutTrailingSlash ) )
         return;
 
-    KonqListViewDir *dir = m_dictSubDirs[ _url.url(-1) ];
+    KonqListViewDir *dir = m_dictSubDirs[ _url.url( KUrl::RemoveTrailingSlash ) ];
     if ( dir )
         dir->setComplete( true );
     else
-        kWarning() << "KonqTreeViewWidget::slotCompleted : dir " << _url.url(-1) << " not found in dict!" << endl;
+        kWarning() << "KonqTreeViewWidget::slotCompleted : dir " << _url.url( KUrl::RemoveTrailingSlash ) << " not found in dict!" << endl;
 
     if ( !viewport()->updatesEnabled() )
     {
@@ -144,14 +144,14 @@ void KonqTreeViewWidget::slotClear( const KUrl & _url )
 
    kDebug(1202) << k_funcinfo << _url << endl;
 
-   KonqListViewDir *item = m_dictSubDirs[_url.url(-1)];
+   KonqListViewDir *item = m_dictSubDirs[_url.url( KUrl::RemoveTrailingSlash )];
    if ( item )
    {
       // search all subdirs of _url (item)
       Q3DictIterator<KonqListViewDir> it( m_dictSubDirs );
       while ( it.current() )
       {
-         if ( !_url.equals( it.currentKey(), true )
+         if ( !_url.equals( it.currentKey(), KUrl::CompareWithoutTrailingSlash )
               && _url.isParentOf( it.currentKey() ) )
          {
             m_urlsToOpen.removeAll( it.currentKey() );
@@ -181,9 +181,9 @@ void KonqTreeViewWidget::slotRedirection( const KUrl &oldUrl, const KUrl &newUrl
 {
    kDebug(1202) << k_funcinfo << oldUrl.url() << " -> " << newUrl.url() << endl;
 
-   KonqListViewDir *dir = m_dictSubDirs.take( oldUrl.url(-1) );
+   KonqListViewDir *dir = m_dictSubDirs.take( oldUrl.url( KUrl::RemoveTrailingSlash ) );
    Q_ASSERT( dir );
-   m_dictSubDirs.insert( newUrl.url(-1), dir );
+   m_dictSubDirs.insert( newUrl.url( KUrl::RemoveTrailingSlash ), dir );
    // TODO: do we need to rename the fileitem in dir as well?
 }
 
@@ -193,13 +193,13 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
     KUrl dir( entries.first()->url().upURL() );
 
     KonqListViewDir *parentDir = 0L;
-    if ( !m_url.equals( dir, true ) ) // ignore trailing slash
-        parentDir = m_dictSubDirs[ dir.url(-1) ];
+    if ( !m_url.equals( dir, KUrl::CompareWithoutTrailingSlash ) ) // ignore trailing slash
+        parentDir = m_dictSubDirs[ dir.url( KUrl::RemoveTrailingSlash ) ];
 
     if ( !parentDir )   // hack for zeroconf://domain/type/service listed in zeroconf:/type/ dir
     {
     	dir.setHost( QString() );
-	parentDir = m_dictSubDirs[ dir.url(-1) ];
+	parentDir = m_dictSubDirs[ dir.url( KUrl::RemoveTrailingSlash ) ];
     }
 
     KFileItemList::const_iterator kit = entries.begin();
@@ -214,7 +214,7 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
             if ( (*kit)->isDir() )
             {
                 dirItem = new KonqListViewDir( this, parentDir, *kit );
-                m_dictSubDirs.insert( (*kit)->url().url(-1), dirItem );
+                m_dictSubDirs.insert( (*kit)->url().url( KUrl::RemoveTrailingSlash ), dirItem );
             }
             else
                 fileItem = new KonqListViewItem( this, parentDir, *kit );
@@ -224,7 +224,7 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
             if ( (*kit)->isDir() )
             {
                 dirItem = new KonqListViewDir( this, *kit );
-                m_dictSubDirs.insert( (*kit)->url().url(-1), dirItem );
+                m_dictSubDirs.insert( (*kit)->url().url( KUrl::RemoveTrailingSlash ), dirItem );
             }
             else
                 fileItem = new KonqListViewItem( this, *kit );
@@ -257,7 +257,7 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
 
         if ( dirItem )
         {
-            QString u = (*kit)->url().url( 0 );
+            QString u = (*kit)->url().url( KUrl::LeaveTrailingSlash );
             if ( m_urlsToOpen.removeAll( u ) )
                 dirItem->open( true, false );
             else if ( m_urlsToReload.removeAll( u ) )
@@ -279,7 +279,7 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
 
 void KonqTreeViewWidget::slotDeleteItem( KFileItem *_fileItem )
 {
-    QString url = _fileItem->url().url(-1);
+    QString url = _fileItem->url().url( KUrl::RemoveTrailingSlash );
 
     // Check if this item is in m_dictSubDirs, and if yes, then remove it
     slotClear( _fileItem->url() );

@@ -44,7 +44,7 @@ class LocalDomainURIFilter : public KURIFilterPlugin, public DCOPObject
   Q_OBJECT
 
   public:
-    LocalDomainURIFilter( QObject* parent, const char* name, const QStringList& args );
+    LocalDomainURIFilter( QObject* parent, const QStringList& args );
     virtual bool filterURI( KURIFilterData &data ) const;
 
   k_dcop:

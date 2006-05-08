@@ -77,6 +77,8 @@
 #include <QCloseEvent>
 #include <QPixmap>
 
+#include <k3widgetaction.h>
+
 #include <dcopclient.h>
 #include <kaboutdata.h>
 #include <kbookmarkbar.h>
@@ -96,11 +98,13 @@
 #include "konq_main.h"
 #include <konq_undo.h>
 #include <kprotocolinfo.h>
+#include <kseparatoraction.h>
 #include <kstdaccel.h>
 #include <kstdaction.h>
 #include <kstandarddirs.h>
 #include <ksycoca.h>
 #include <ktempfile.h>
+#include <ktoolbarpopupaction.h>
 #include <kurlrequesterdlg.h>
 #include <kurlrequester.h>
 #include <kuserprofile.h>
@@ -455,7 +459,7 @@ void KonqMainWindow::openFilteredUrl( const QString & url, KonqOpenURLRequest & 
 {
     // Filter URL to build a correct one
     if (m_currentDir.isEmpty() && m_currentView)
-       m_currentDir = m_currentView->url().path(1);
+       m_currentDir = m_currentView->url().path( KUrl::AddTrailingSlash );
 
     KUrl filteredURL ( KonqMisc::konqFilteredURL( this, url, m_currentDir ) );
     kDebug(1202) << "url " << url << " filtered into " << filteredURL.prettyURL() << endl;
@@ -969,7 +973,8 @@ void KonqMainWindow::openURL( KonqView *childView, const KUrl &url, const KParts
 
   // Clicking on a link that points to the page itself (e.g. anchor)
   if ( !args.doPost() && !args.reload &&
-          childView && urlcmp( url.url(), childView->url().url(), true, true ) )
+          childView && urlcmp( url.url(), childView->url().url(),
+                               KUrl::CompareWithoutTrailingSlash | KUrl::CompareWithoutFragment ) )
   {
     QString serviceType = args.serviceType;
     if ( serviceType.isEmpty() )
@@ -1425,7 +1430,7 @@ void KonqMainWindow::slotOpenLocation()
   // Testcase: konqueror www.kde.org; Ctrl+O; file in $HOME; would open http://$file
   QString currentDir;
   if (m_currentView && m_currentView->url().isLocalFile())
-      currentDir = m_currentView->url().path(1);
+      currentDir = m_currentView->url().path( KUrl::AddTrailingSlash );
   dlg.urlRequester()->completionObject()->setDir( currentDir );
   dlg.urlRequester()->setMode( KFile::File | KFile::Directory | KFile::ExistingOnly );
   dlg.exec();
@@ -1456,7 +1461,7 @@ void KonqMainWindow::slotToolFind()
         return;
     }
 
-    KParts::ReadOnlyPart* findPart = factory.create( m_currentView->frame(), "findPartWidget", dirPart, "findPart" );
+    KParts::ReadOnlyPart* findPart = factory.create( m_currentView->frame(), dirPart );
     dirPart->setFindPart( findPart );
 
     m_currentView->frame()->insertTopWidget( findPart->widget() );
@@ -3872,10 +3877,10 @@ void KonqMainWindow::initActions()
 
   // Location bar
   m_locationLabel = new KonqDraggableLabel( this, i18n("L&ocation: ") );
-  (void) new KWidgetAction( m_locationLabel, i18n("L&ocation: "), Qt::Key_F6, this, SLOT( slotLocationLabelActivated() ), actionCollection(), "location_label" );
+  (void) new K3WidgetAction( m_locationLabel, i18n("L&ocation: "), Qt::Key_F6, this, SLOT( slotLocationLabelActivated() ), actionCollection(), "location_label" );
   m_locationLabel->setBuddy( m_combo );
 
-  KWidgetAction* comboAction = new KWidgetAction( m_combo, i18n( "Location Bar" ), 0,
+  K3WidgetAction* comboAction = new K3WidgetAction( m_combo, i18n( "Location Bar" ), 0,
                   0, 0, actionCollection(), "toolbar_url_combo" );
   comboAction->setShortcutConfigurable( false );
 
@@ -4651,7 +4656,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
       if ( !viewURL.isEmpty() )
       {
 	  //firstURL.cleanPath();
-          openedForViewURL = firstURL.equals( viewURL, true );
+          openedForViewURL = firstURL.equals( viewURL, KUrl::CompareWithoutTrailingSlash );
       }
       devicesFile = firstURL.protocol().indexOf("device", 0, Qt::CaseInsensitive) == 0;
       //dirsSelected = S_ISDIR( _items.first()->mode() );

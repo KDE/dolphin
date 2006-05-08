@@ -82,7 +82,7 @@ void KonqSidebarDirTreeItem::reset()
         }
     }
     setExpandable( expandable );
-    id = m_fileItem->url().url(-1);
+    id = m_fileItem->url().url( KUrl::RemoveTrailingSlash );
 }
 
 void KonqSidebarDirTreeItem::setOpen( bool open )

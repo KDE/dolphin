@@ -216,8 +216,8 @@ void addBackEnd::triggeredAddMenu(QAction* action)
 /*                      Sidebar_Widget                        */
 /**************************************************************/
 
-Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char *name,bool universalMode, const QString &currentProfile)
-	:QWidget(parent,name),m_universalMode(universalMode),m_partParent(par),m_currentProfile(currentProfile)
+Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, bool universalMode, const QString &currentProfile)
+	:QWidget(parent),m_universalMode(universalMode),m_partParent(par),m_currentProfile(currentProfile)
 {
 	m_somethingVisible = false;
 	m_initial = true;

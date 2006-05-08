@@ -27,21 +27,24 @@
 #include <unistd.h>
 #include <qfile.h>
 
-#include <kaction.h>
+#include <kactioncollection.h>
+#include <kactionmenu.h>
 #include <kapplication.h>
 #include <kdebug.h>
 #include <kdirlister.h>
 #include <kglobalsettings.h>
 #include <kinputdialog.h>
+#include <kivdirectoryoverlay.h>
+#include <klocale.h>
+#include <kmessagebox.h>
 #include <konq_settings.h>
 #include <kpropertiesdialog.h>
+#include <kseparatoraction.h>
+#include <kstaticdeleter.h>
 #include <kstdaction.h>
 #include <kparts/factory.h>
 #include <ktrader.h>
-#include <klocale.h>
-#include <kivdirectoryoverlay.h>
-#include <kmessagebox.h>
-#include <kstaticdeleter.h>
+#include <ktoggleaction.h>
 
 #include <qregexp.h>
 #include <qdatetime.h>
@@ -69,14 +72,13 @@ public:
       s_defaultViewProps = 0;
    }
 
-    virtual KParts::Part* createPartObject( QWidget *parentWidget, const char *,
-                                      QObject *parent, const char *name, const char*, const QStringList &args )
+    virtual KParts::Part* createPartObject( QWidget *parentWidget,
+                                      QObject *parent, const char*, const QStringList &args )
    {
       if( args.count() < 1 )
          kWarning() << "KonqKfmIconView: Missing Parameter" << endl;
 
       KonqKfmIconView *obj = new KonqKfmIconView( parentWidget, parent, args.first() );
-      obj->setObjectName( name );
       return obj;
    }
 
@@ -787,7 +789,7 @@ void KonqKfmIconView::slotContextMenuRequested(Q3IconViewItem* _item, const QPoi
         KFileItemList::const_iterator kit = items.begin();
         const KFileItemList::const_iterator kend = items.end();
         for ( ; kit != kend; ++kit )
-            if ( (*kit)->url().directory( 1 ) != rootItem->url().path() )
+            if ( (*kit)->url().directory( ) != rootItem->url().path() )
                 parentDirURL = KUrl();
         // If rootItem is the parent of the selected items, then we can use isWritable() on it.
         if ( !parentDirURL.isEmpty() && !rootItem->isWritable() )
@@ -862,7 +864,7 @@ void KonqKfmIconView::slotCanceled( const KUrl& url )
 {
     // Check if this canceled() signal is about the URL we're listing.
     // It could be about the URL we were listing, and openURL() aborted it.
-    if ( m_bLoading && url.equals( m_pIconView->url(), true ) )
+    if ( m_bLoading && url.equals( m_pIconView->url(), KUrl::CompareWithoutTrailingSlash ) )
     {
         emit canceled( QString() );
         m_bLoading = false;

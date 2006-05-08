@@ -35,7 +35,7 @@ class KURIFilterModule : public KCModule {
     Q_OBJECT
 
 public:
-    KURIFilterModule(QWidget *parent, const char *name, const QStringList &);
+    KURIFilterModule(QWidget *parent, const QStringList &);
 
     void load();
     void save();

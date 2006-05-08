@@ -34,8 +34,7 @@ class KAutoWebSearch : public KURIFilterPlugin, public DCOPObject
     K_DCOP
     Q_OBJECT
 public:
-    KAutoWebSearch(QObject *parent = 0, const char *name = 0,
-                   const QStringList &args = QStringList() );
+    KAutoWebSearch(QObject *parent = 0, const QStringList &args = QStringList() );
     ~KAutoWebSearch();
 
     virtual bool filterURI( KURIFilterData& ) const;

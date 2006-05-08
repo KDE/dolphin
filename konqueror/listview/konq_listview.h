@@ -44,7 +44,7 @@ public:
   KonqListViewFactory();
   virtual ~KonqListViewFactory();
 
-  virtual KParts::Part* createPartObject( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList &args );
+  virtual KParts::Part* createPartObject( QWidget *parentWidget, QObject *parent, const char*, const QStringList &args );
 
   static KInstance *instance();
   static KonqPropsView *defaultViewProps();

@@ -5,14 +5,15 @@
 #include <QTextStream>
 
 #include <kaboutdata.h>
+#include <kaction.h>
+#include <kactioncollection.h>
 #include <kapplication.h>
 #include <kdebug.h>
+#include <kiconloader.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <ksavefile.h>
 #include <kstandarddirs.h>
-#include <kaction.h>
-#include <kiconloader.h>
 #include <ktoolinvocation.h>
 
 #include <assert.h>
@@ -50,15 +51,13 @@ KonqAboutPageFactory::~KonqAboutPageFactory()
     s_plugins_html = 0;
 }
 
-KParts::Part *KonqAboutPageFactory::createPartObject( QWidget *parentWidget, const char *widgetName,
-                                                      QObject *parent, const char *name,
+KParts::Part *KonqAboutPageFactory::createPartObject( QWidget *parentWidget, QObject *parent,
                                                       const char *, const QStringList & )
 {
     //KonqFrame *frame = dynamic_cast<KonqFrame *>( parentWidget );
     //if ( !frame ) return 0;
 
-    return new KonqAboutPage( //frame->childView()->mainWindow(),
-                              parentWidget, widgetName, parent, name );
+    return new KonqAboutPage( parentWidget, parent );
 }
 
 QString KonqAboutPageFactory::loadFile( const QString& file )
@@ -403,9 +402,8 @@ QString KonqAboutPageFactory::plugins()
 
 
 KonqAboutPage::KonqAboutPage( //KonqMainWindow *
-                              QWidget *parentWidget, const char *widgetName,
-                              QObject *parent, const char *name )
-    : KHTMLPart( parentWidget, widgetName, parent, name, BrowserViewGUI )
+                              QWidget *parentWidget, QObject *parent )
+    : KHTMLPart( parentWidget, parent, BrowserViewGUI )
 {
     //m_mainWindow = mainWindow;
     QTextCodec* codec = KGlobal::locale()->codecForEncoding();

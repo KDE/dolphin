@@ -29,6 +29,7 @@
 #include <qfileinfo.h>
 
 #include <kaccelgen.h>
+#include <kactionmenu.h>
 #include <kstandarddirs.h>
 #include <kdebug.h>
 #include <kapplication.h>

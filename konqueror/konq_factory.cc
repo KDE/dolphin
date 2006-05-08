@@ -46,8 +46,7 @@ KonqViewFactory::KonqViewFactory( KLibFactory *factory, const QStringList &args,
         m_args << QLatin1String( "Browser/View" );
 }
 
-KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parentWidget, const char *widgetName,
-                                               QObject * parent, const char *name )
+KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parentWidget, QObject * parent )
 {
   if ( !m_factory )
     return 0L;
@@ -57,18 +56,18 @@ KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parentWidget, const char
   if ( m_factory->inherits( "KParts::Factory" ) )
   {
     if ( m_createBrowser )
-      obj = static_cast<KParts::Factory *>(m_factory)->createPart( parentWidget, widgetName, parent, name, "Browser/View", m_args );
+      obj = static_cast<KParts::Factory *>(m_factory)->createPart( parentWidget, parent, "Browser/View", m_args );
 
     if ( !obj )
-      obj = static_cast<KParts::Factory *>(m_factory)->createPart( parentWidget, widgetName, parent, name, "KParts::ReadOnlyPart", m_args );
+      obj = static_cast<KParts::Factory *>(m_factory)->createPart( parentWidget, parent, "KParts::ReadOnlyPart", m_args );
   }
   else
   {
     if ( m_createBrowser )
-      obj = m_factory->create( parentWidget, name, "Browser/View", m_args );
+      obj = m_factory->create( parentWidget, "Browser/View", m_args );
 
     if ( !obj )
-      obj = m_factory->create( parentWidget, name, "KParts::ReadOnlyPart", m_args );
+      obj = m_factory->create( parentWidget, "KParts::ReadOnlyPart", m_args );
   }
 
   if ( !obj->inherits( "KParts::ReadOnlyPart" ) )

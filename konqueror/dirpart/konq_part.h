@@ -35,7 +35,7 @@ class KonqPart : public KonqDirPart
 {
     Q_OBJECT
 public:
-    KonqPart( QWidget* parentWidget, const char*, QObject* parent, const char*, const QStringList& );
+    KonqPart( QWidget* parentWidget, QObject* parent, const QStringList& );
     virtual ~KonqPart();
     static KAboutData* createAboutData();
 private:

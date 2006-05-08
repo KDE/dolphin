@@ -26,11 +26,9 @@
 #include <kgenericfactory.h>
 #include <kauthorized.h>
 
-KShellCmdPlugin::KShellCmdPlugin( QObject* parent, const char* name,
-                                  const QStringList & )
+KShellCmdPlugin::KShellCmdPlugin( QObject* parent, const QStringList & )
     : KParts::Plugin( parent )
 {
-    setObjectName(name);
     if (!KAuthorized::authorizeKAction("shell_access"))
        return;
 

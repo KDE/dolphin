@@ -20,8 +20,9 @@
 #include <qapplication.h>
 #include <qmenu.h>
 
-#include <kapplication.h>
 #include <kaction.h>
+#include <kactioncollection.h>
+#include <kapplication.h>
 #include <kcursor.h>
 #include <kconfig.h>
 #include <kdebug.h>
@@ -29,6 +30,7 @@
 #include <kmessagebox.h>
 #include <krun.h>
 #include <kstaticdeleter.h>
+#include <ktoggleaction.h>
 
 #include <konq_faviconmgr.h>
 

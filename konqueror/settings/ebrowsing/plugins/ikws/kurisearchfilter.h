@@ -34,8 +34,7 @@ class KURISearchFilter : public KURIFilterPlugin, public DCOPObject
     Q_OBJECT
     K_DCOP
 public:
-    KURISearchFilter(QObject *parent = 0, const char *name = 0, 
-                     const QStringList &args = QStringList() );
+    KURISearchFilter(QObject *parent = 0, const QStringList &args = QStringList() );
     ~KURISearchFilter();
 
     virtual bool filterURI( KURIFilterData& ) const;

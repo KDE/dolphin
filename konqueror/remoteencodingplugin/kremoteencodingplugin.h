@@ -34,8 +34,7 @@ class KRemoteEncodingPlugin: public KParts::Plugin
 {
   Q_OBJECT
 public:
-  KRemoteEncodingPlugin(QObject * parent, const char *name,
-			const QStringList &);
+  KRemoteEncodingPlugin(QObject * parent, const QStringList &);
   ~KRemoteEncodingPlugin();
 
 protected Q_SLOTS:

@@ -51,6 +51,7 @@
 #include "konq_combo.h"
 #include "konq_frame.h"
 #include <klocalizedstring.h>
+#include <ktogglefullscreenaction.h>
 
 class QFile;
 class KAction;

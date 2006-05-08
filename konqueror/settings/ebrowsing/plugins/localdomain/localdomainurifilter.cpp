@@ -36,9 +36,8 @@
  * kdelibs/kio/tests/kurifiltertest
  */
  
-LocalDomainURIFilter::LocalDomainURIFilter( QObject *parent, const char *name,
-                                            const QStringList & /*args*/ )
-    : KURIFilterPlugin( name ? name : "localdomainurifilter", parent, 1.0 ),
+LocalDomainURIFilter::LocalDomainURIFilter( QObject *parent, const QStringList & /*args*/ )
+    : KURIFilterPlugin( "localdomainurifilter", parent, 1.0 ),
       DCOPObject( "LocalDomainURIFilterIface" ),
       last_time( 0 ),
       m_hostPortPattern( QLatin1String(HOSTPORT_PATTERN) )

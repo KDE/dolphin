@@ -97,7 +97,7 @@ public:
 	friend class ButtonInfo;
 public:
 	Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par,
-						const char * name,bool universalMode, 
+						bool universalMode, 
 						const QString &currentProfile);
 	~Sidebar_Widget();
 	bool openURL(const class KUrl &url);

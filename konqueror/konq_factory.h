@@ -52,8 +52,7 @@ public:
     return *this;
   }
 
-  KParts::ReadOnlyPart *create( QWidget *parentWidget, const char *widgetName,
-                                QObject *parent, const char *name );
+  KParts::ReadOnlyPart *create( QWidget *parentWidget, QObject *parent );
 
   bool isNull() const { return m_factory ? false : true; }
 

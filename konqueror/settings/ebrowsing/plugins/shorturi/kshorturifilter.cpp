@@ -127,9 +127,8 @@ static QString removeArgs( const QString& _cmd )
   return cmd;
 }
 
-KShortURIFilter::KShortURIFilter( QObject *parent, const char *name,
-                                  const QStringList & /*args*/ )
-                :KURIFilterPlugin( name ? name : "kshorturifilter", parent, 1.0),
+KShortURIFilter::KShortURIFilter( QObject *parent, const QStringList & /*args*/ )
+                :KURIFilterPlugin( "kshorturifilter", parent, 1.0),
                  DCOPObject("KShortURIFilterIface")
 {
     configure();

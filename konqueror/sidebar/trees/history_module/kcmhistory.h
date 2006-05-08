@@ -32,7 +32,7 @@ class HistorySidebarConfig : public KCModule
   Q_OBJECT
 
 public:
-  HistorySidebarConfig( QWidget *parent=0, const char* name=0, const QStringList &list=QStringList() );
+  HistorySidebarConfig( QWidget *parent=0, const QStringList &list=QStringList() );
 
   void load();
   void save();

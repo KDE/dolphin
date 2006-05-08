@@ -33,6 +33,7 @@
 #include <kiconloader.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
+#include <kstdaction.h>
 
 #include <dcopclient.h>
 #include <dcopref.h>

@@ -35,7 +35,7 @@ class CSSConfig : public KCModule
 
 public:
 	  
-  CSSConfig(QWidget *parent = 0L, const char *name = 0L, const QStringList &list =QStringList() );
+  CSSConfig(QWidget *parent = 0L, const QStringList &list =QStringList() );
 
   void load();
   void save();

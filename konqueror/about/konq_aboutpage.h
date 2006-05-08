@@ -13,8 +13,7 @@ public:
     KonqAboutPageFactory( QObject *parent = 0 );
     virtual ~KonqAboutPageFactory();
 
-    virtual KParts::Part *createPartObject( QWidget *parentWidget, const char *widgetName,
-                                            QObject *parent, const char *name,
+    virtual KParts::Part *createPartObject( QWidget *parentWidget, QObject *parent,
                                             const char *classname, const QStringList &args );
 
     static KInstance *instance() { return s_instance; }
@@ -36,9 +35,7 @@ class KonqAboutPage : public KHTMLPart
 {
     Q_OBJECT
 public:
-    KonqAboutPage( /*KonqMainWindow *mainWindow,*/
-                   QWidget *parentWidget, const char *widgetName,
-                   QObject *parent, const char *name );
+    KonqAboutPage( QWidget *parentWidget, QObject *parent );
     ~KonqAboutPage();
 
     virtual bool openURL( const KUrl &url );

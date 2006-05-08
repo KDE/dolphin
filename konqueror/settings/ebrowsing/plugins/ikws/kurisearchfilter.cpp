@@ -38,9 +38,9 @@
 typedef KGenericFactory<KURISearchFilter> KURISearchFilterFactory;
 K_EXPORT_COMPONENT_FACTORY(libkurisearchfilter, KURISearchFilterFactory("kcmkurifilt"))
 
-KURISearchFilter::KURISearchFilter(QObject *parent, const char *name,
+KURISearchFilter::KURISearchFilter(QObject *parent,
                                    const QStringList &)
-                 :KURIFilterPlugin(name ? name : "kurisearchfilter", parent, 1.0),
+                 :KURIFilterPlugin( "KURISearchFilter", parent, 1.0),
                   DCOPObject("KURISearchFilterIface")
 {
 }

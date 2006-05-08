@@ -163,7 +163,7 @@ void DesktopPathConfig::save()
     KUrl newDocumentURL;
     newDocumentURL.setPath(urDocument->url());
 
-    if ( !newDesktopURL.equals( desktopURL, true ) )
+    if ( !newDesktopURL.equals( desktopURL, KUrl::CompareWithoutTrailingSlash ) )
     {
         // Test which other paths were inside this one (as it is by default)
         // and for each, test where it should go.
@@ -180,7 +180,7 @@ void DesktopPathConfig::save()
             kDebug() << "Autostart is on the desktop" << endl;
 
             // Either the Autostart field wasn't changed (-> need to update it)
-            if ( newAutostartURL.equals( autostartURL, true ) )
+            if ( newAutostartURL.equals( autostartURL, KUrl::CompareWithoutTrailingSlash ) )
             {
                 // Hack. It could be in a subdir inside desktop. Hmmm... Argl.
                 urAutostart->setURL( urlDesktop + "Autostart/" );
@@ -192,7 +192,7 @@ void DesktopPathConfig::save()
             {
                 KUrl futureAutostartURL;
                 futureAutostartURL.setPath( urlDesktop + "Autostart/" );
-                if ( newAutostartURL.equals( futureAutostartURL, true ) )
+                if ( newAutostartURL.equals( futureAutostartURL, KUrl::CompareWithoutTrailingSlash ) )
                     autostartMoved = true;
                 else
                     autostartMoved = moveDir( KUrl( KGlobalSettings::autostartPath() ), KUrl( urAutostart->url() ), i18n("Autostart") );
@@ -206,7 +206,7 @@ void DesktopPathConfig::save()
         }
     }
 
-    if ( !newAutostartURL.equals( autostartURL, true ) )
+    if ( !newAutostartURL.equals( autostartURL, KUrl::CompareWithoutTrailingSlash ) )
     {
         if (!autostartMoved)
             autostartMoved = moveDir( KUrl( KGlobalSettings::autostartPath() ), KUrl( urAutostart->url() ), i18n("Autostart") );
@@ -218,7 +218,7 @@ void DesktopPathConfig::save()
         }
     }
 
-    if ( !newDocumentURL.equals( documentURL, true ) )
+    if ( !newDocumentURL.equals( documentURL, KUrl::CompareWithoutTrailingSlash ) )
     {
         bool pathOk = true;
         QString path = urDocument->url();

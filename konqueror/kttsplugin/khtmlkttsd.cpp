@@ -34,10 +34,9 @@
 #include <ktrader.h>
 #include <ktoolinvocation.h>
 
-KHTMLPluginKTTSD::KHTMLPluginKTTSD( QObject* parent, const char* name, const QStringList& )
+KHTMLPluginKTTSD::KHTMLPluginKTTSD( QObject* parent, const QStringList& )
     : Plugin( parent )
 {
-    setObjectName(name);
     // If KTTSD is not installed, hide action.
     KTrader::OfferList offers = KTrader::self()->query("DCOP/Text-to-Speech", "Name == 'KTTSD'");
     if (offers.count() > 0)

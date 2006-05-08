@@ -38,9 +38,9 @@ class KonqSidebarBrowserExtension : public KParts::BrowserExtension
 {
 	Q_OBJECT
 	public:
-	KonqSidebarBrowserExtension(KonqSidebar *part_,Sidebar_Widget *widget_,const char *name):
-	KParts::BrowserExtension((KParts::ReadOnlyPart*)part_),widget(widget_){setObjectName(name);}
-	~KonqSidebarBrowserExtension(){;}
+	KonqSidebarBrowserExtension(KonqSidebar *part_,Sidebar_Widget *widget_):
+	KParts::BrowserExtension((KParts::ReadOnlyPart*)part_),widget(widget_){ }
+	~KonqSidebarBrowserExtension(){}
 
 	protected:
 	QPointer<Sidebar_Widget> widget;
@@ -77,8 +77,7 @@ public:
     /**
      * Default constructor
      */
-    KonqSidebar(QWidget *parentWidget, const char *widgetName,
-                    QObject *parent, const char *name,bool universalMode);
+    KonqSidebar(QWidget *parentWidget, QObject *parent, bool universalMode);
 
     /**
      * Destructor
@@ -113,8 +112,7 @@ class KonqSidebarFactory : public KParts::Factory
 public:
     KonqSidebarFactory();
     virtual ~KonqSidebarFactory();
-    virtual KParts::Part* createPartObject( QWidget *parentWidget, const char *widgetName,
-                                            QObject *parent, const char *name,
+    virtual KParts::Part* createPartObject( QWidget *parentWidget, QObject *parent,
                                             const char *classname, const QStringList &args );
     static KInstance* instance();
 

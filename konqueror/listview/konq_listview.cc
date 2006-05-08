@@ -30,12 +30,13 @@
 #include <kdebug.h>
 #include <kdirlister.h>
 #include <kinputdialog.h>
+#include <klineedit.h>
 #include <klocale.h>
+#include <kmimetype.h>
 #include <kpropertiesdialog.h>
 #include <kstdaction.h>
+#include <ktoggleaction.h>
 #include <kprotocolinfo.h>
-#include <klineedit.h>
-#include <kmimetype.h>
 
 #include <qapplication.h>
 #include <qclipboard.h>
@@ -64,13 +65,12 @@ KonqListViewFactory::~KonqListViewFactory()
   s_defaultViewProps = 0;
 }
 
-KParts::Part* KonqListViewFactory::createPartObject( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList &args )
+KParts::Part* KonqListViewFactory::createPartObject( QWidget *parentWidget, QObject *parent, const char*, const QStringList &args )
 {
   if( args.count() < 1 )
     kWarning() << "KonqListView: Missing Parameter" << endl;
 
   KParts::Part *obj = new KonqListView( parentWidget, parent, args.first() );
-  obj->setObjectName( name );
   return obj;
 }
 

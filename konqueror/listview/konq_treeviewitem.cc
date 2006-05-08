@@ -88,8 +88,8 @@ void KonqListViewDir::open( bool _open, bool _reload )
   }
 }
 
-QString KonqListViewDir::url( int _trailing )
+QString KonqListViewDir::url( KUrl::AdjustPathOption trailing )
 {
-  return item()->url().url( _trailing );
+  return item()->url().url( trailing );
 }
 

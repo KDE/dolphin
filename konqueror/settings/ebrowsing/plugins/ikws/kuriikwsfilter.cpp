@@ -38,8 +38,8 @@
 typedef KGenericFactory<KAutoWebSearch> KAutoWebSearchFactory;
 K_EXPORT_COMPONENT_FACTORY (libkuriikwsfilter, KAutoWebSearchFactory("kcmkurifilt"))
 
-KAutoWebSearch::KAutoWebSearch(QObject *parent, const char *name, const QStringList&)
-               :KURIFilterPlugin(name ? name : "kuriikwsfilter", parent, 1.0),
+KAutoWebSearch::KAutoWebSearch(QObject *parent, const QStringList&)
+               :KURIFilterPlugin( "KURIIKWSFilterIface", parent, 1.0),
                 DCOPObject("KURIIKWSFilterIface")
 {
 }

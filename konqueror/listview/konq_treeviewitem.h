@@ -70,7 +70,7 @@ public:
    * URL of this directory
    * @param _trailing set to true for a trailing slash (see KUrl)
    */
-  QString url( int _trailing );
+  QString url( KUrl::AdjustPathOption _trailing );
 
 protected:
   bool m_bComplete;

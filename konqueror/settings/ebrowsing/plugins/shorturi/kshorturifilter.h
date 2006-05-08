@@ -51,8 +51,7 @@ public:
      * @param parent the parent of this class.
      * @param name the internal name for this object.
      */
-    KShortURIFilter( QObject *parent = 0, const char *name = 0,
-	             const QStringList &args = QStringList() );
+    KShortURIFilter( QObject *parent = 0, const QStringList &args = QStringList() );
 
     /**
      * Destructor
