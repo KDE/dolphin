@@ -24,7 +24,7 @@
 #include <qstringlist.h>
 //Added by qt3to4:
 #include <QList>
-
+#include <kactionmenu.h>
 #include <kaction.h>
 #include <kdialogbase.h>
 #include <kurl.h>

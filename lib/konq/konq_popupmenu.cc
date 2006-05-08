@@ -425,7 +425,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         firstPopupURL.cleanPath();
         //kDebug(1203) << "View path is " << url.url() << endl;
         //kDebug(1203) << "First popup path is " << firstPopupURL.url() << endl;
-        currentDir = firstPopupURL.equals( url, true /* ignore_trailing */ );
+		KUrl::EqualsOptions flags = KUrl::CompareWithoutTrailingSlash;
+        currentDir = firstPopupURL.equals( url, flags/* ignore_trailing */ );
         if ( isLocal && m_sMimeType == "application/x-desktop" ) {
             KSimpleConfig cfg( firstPopupURL.path(), true );
             cfg.setDesktopGroup();

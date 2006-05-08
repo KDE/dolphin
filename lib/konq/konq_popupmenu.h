@@ -22,7 +22,7 @@
 #define __konqpopupmenu_h
 
 #include <sys/types.h>
-
+#include <kactioncollection.h>
 #include <qmenu.h>
 #include <qmap.h>
 #include <kaction.h>
