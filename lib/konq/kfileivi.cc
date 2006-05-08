@@ -308,7 +308,8 @@ bool KFileIVI::acceptDrop( const QMimeSource *mime ) const
         KUrl::List::Iterator it = uris.begin();
         for ( ; it != uris.end() ; it++ )
         {
-            if ( m_fileitem->url().equals( *it, true /*ignore trailing slashes*/ ) )
+	    KUrl::EqualsOptions flags = KUrl::CompareWithoutTrailingSlash;
+            if ( m_fileitem->url().equals( *it, flags /*ignore trailing slashes*/ ) )
                 return true;
         }
     }

@@ -515,7 +515,7 @@ void KonqOperations::doFileCopy()
 
     bool linkOnly = false;
     if (isDesktopFile && !KAuthorized::authorizeKAction("run_desktop_files") &&
-        (m_destURL.path(1) == KGlobalSettings::desktopPath()) )
+        (m_destURL.path(KUrl::AddTrailingSlash) == KGlobalSettings::desktopPath()) )
     {
        linkOnly = true;
     }
@@ -662,7 +662,7 @@ void KonqOperations::rename( QWidget * parent, const KUrl & oldurl, const KUrl& 
     op->setOperation( job, MOVE, lst, newurl );
     (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, newurl, job );
     // if moving the desktop then update config file and emit
-    if ( oldurl.isLocalFile() && oldurl.path(1) == KGlobalSettings::desktopPath() )
+    if ( oldurl.isLocalFile() && oldurl.path(KUrl::AddTrailingSlash) == KGlobalSettings::desktopPath() )
     {
         kDebug(1203) << "That rename was the Desktop path, updating config files" << endl;
         KConfig *globalConfig = KGlobal::config();
@@ -747,8 +747,10 @@ void KonqOperations::slotResult( KJob * job )
 void KonqOperations::rename( QWidget * parent, const KUrl & oldurl, const QString & name )
 {
     KUrl newurl( oldurl );
-    newurl.setPath( oldurl.directory(false, true) + name );
-    kDebug(1203) << "KonqOperations::rename("<<name<<") called. newurl=" << newurl << endl;
+    //newurl.setPath( oldurl.directory(false, true) + name );
+	KUrl::DirectoryOption flags = KUrl::IgnoreTrailingSlash;
+    newurl.setPath( oldurl.directory( flags ) +name);
+	kDebug(1203) << "KonqOperations::rename("<<name<<") called. newurl=" << newurl << endl;
     rename( parent, oldurl, newurl );
 }
 
@@ -756,7 +758,7 @@ void KonqOperations::newDir( QWidget * parent, const KUrl & baseURL )
 {
     bool ok;
     QString name = i18n( "New Folder" );
-    if ( baseURL.isLocalFile() && QFileInfo( baseURL.path(+1) + name ).exists() )
+    if ( baseURL.isLocalFile() && QFileInfo( baseURL.path(KUrl::AddTrailingSlash) + name ).exists() )
         name = KIO::RenameDlg::suggestName( baseURL, i18n( "New Folder" ) );
 
     name = KInputDialog::getText ( i18n( "New Folder" ),
