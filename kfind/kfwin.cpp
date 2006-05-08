@@ -159,7 +159,7 @@ QString KfindWindow::reducedDir(const QString& fullDir)
 void KfindWindow::beginSearch(const KUrl& baseUrl)
 {
   kDebug()<<QString("beginSearch in: %1").arg(baseUrl.path())<<endl;
-  m_baseDir=baseUrl.path(+1);
+  m_baseDir=baseUrl.path(KUrl::AddTrailingSlash);
   haveSelection = false;
   clear();
 }

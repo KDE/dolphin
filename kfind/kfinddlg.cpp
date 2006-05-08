@@ -242,7 +242,7 @@ void KfindDlg::slotDeleteItem(const QString& file)
 
   iter=win->firstChild();
   while( iter ) {
-    iterwithpath=query->url().path(+1)+iter->text(1)+iter->text(0);
+    iterwithpath=query->url().path(KUrl::AddTrailingSlash)+iter->text(1)+iter->text(0);
 
     if(iterwithpath==file)
     {
@@ -260,12 +260,12 @@ void KfindDlg::slotNewItems( const QString& file )
   Q3ListViewItem *checkiter;
   QString checkiterwithpath;
 
-  if(file.indexOf(query->url().path(+1))==0)
+  if(file.indexOf(query->url().path(KUrl::AddTrailingSlash))==0)
   {
     kDebug()<<QString("Can be added, path OK")<<endl;
     checkiter=win->firstChild();
     while( checkiter ) {
-      checkiterwithpath=query->url().path(+1)+checkiter->text(1)+checkiter->text(0);
+      checkiterwithpath=query->url().path(KUrl::AddTrailingSlash)+checkiter->text(1)+checkiter->text(0);
       if(file==checkiterwithpath)
         return;
       checkiter = checkiter->nextSibling();

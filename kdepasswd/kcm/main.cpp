@@ -58,12 +58,9 @@
 typedef KGenericFactory<KCMUserAccount, QWidget> Factory;
 K_EXPORT_COMPONENT_FACTORY( kcm_useraccount, Factory("useraccount") )
 
-KCMUserAccount::KCMUserAccount( QWidget *parent, const char *name,
-	const QStringList &)
+KCMUserAccount::KCMUserAccount( QWidget *parent, const QStringList &)
 	: KCModule( Factory::instance(), parent)
 {
-        Q_UNUSED(name);
-
 	QVBoxLayout *topLayout = new QVBoxLayout(this);
 	_mw = new MainWidget(this);
 	topLayout->addWidget( _mw );

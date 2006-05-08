@@ -44,8 +44,7 @@ class KFindPart : public KonqDirPart//KParts::ReadOnlyPart
     Q_OBJECT
     Q_PROPERTY( bool showsResult READ showsResult )
 public:
-    KFindPart( QWidget * parentWidget, const char *widgetName, 
-	       QObject *parent, const char *name, const QStringList & /*args*/ );
+    KFindPart( QWidget * parentWidget, QObject *parent, const QStringList & /*args*/ );
     virtual ~KFindPart();
 
     static KAboutData *createAboutData();

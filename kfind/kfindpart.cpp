@@ -33,19 +33,15 @@ class KonqDirPart;
 typedef KParts::GenericFactory<KFindPart> KFindFactory;
 K_EXPORT_COMPONENT_FACTORY( libkfindpart, KFindFactory )
 
-KFindPart::KFindPart( QWidget * parentWidget, const char *widgetName, 
-	              QObject *parent, const char *name ,
-		      const QStringList & /*args*/ )
+KFindPart::KFindPart( QWidget * parentWidget, QObject *parent, const QStringList & /*args*/ )
     : KonqDirPart (parent)/*KParts::ReadOnlyPart*/
 {
-    setObjectName( name );
-
     setInstance( KFindFactory::instance() );
 
     setBrowserExtension( new KonqDirPartBrowserExtension( this ) );
 
     kDebug() << "KFindPart::KFindPart " << this << endl;
-    m_kfindWidget = new Kfind( parentWidget, widgetName );
+    m_kfindWidget = new Kfind( parentWidget );
     m_kfindWidget->setMaximumHeight(m_kfindWidget->minimumSizeHint().height());
     const KFileItem *item = ((KonqDirPart*)parent)->currentItem();
     kDebug() << "Kfind: currentItem:  " << ( item ? item->url().path().toLocal8Bit() : QString("null") ) << endl;

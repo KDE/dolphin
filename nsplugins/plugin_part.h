@@ -67,8 +67,7 @@ public:
   PluginFactory();
   virtual ~PluginFactory();
 
-  virtual KParts::Part * createPartObject(QWidget *parentWidget = 0, const char *widgetName = 0,
-  		            	    QObject *parent = 0, const char *name = 0,
+  virtual KParts::Part * createPartObject(QWidget *parentWidget = 0, QObject *parent = 0,
   			            const char *classname = "KParts::Part",
    			            const QStringList &args = QStringList());
 
@@ -102,8 +101,8 @@ class PluginPart: public KParts::ReadOnlyPart
 {
   Q_OBJECT
 public:
-  PluginPart(QWidget *parentWidget, const char *widgetName, QObject *parent,
-             const char *name, const QStringList &args = QStringList());
+  PluginPart(QWidget *parentWidget, QObject *parent,
+             const QStringList &args = QStringList());
   virtual ~PluginPart();
 
   void postURL(const QString& url, const QString& target, const QByteArray& data, const QString& mime);

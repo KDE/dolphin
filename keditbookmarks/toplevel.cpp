@@ -37,24 +37,22 @@
 #include <qlayout.h>
 #include <qlabel.h>
 
-#include <klocale.h>
-#include <kdebug.h>
-
-#include <kapplication.h>
-#include <kstdaction.h>
 #include <kaction.h>
+#include <kactioncollection.h>
+#include <ktoggleaction.h>
+#include <kapplication.h>
+#include <kbookmark.h>
+#include <kbookmarkmanager.h>
+#include <kdebug.h>
+#include <kedittoolbar.h>
+#include <kfiledialog.h>
+#include <klineedit.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <kstdaction.h>
 #include <dcopclient.h>
 #include <dcopref.h>
 
-#include <kedittoolbar.h>
-#include <kmessagebox.h>
-#include <klineedit.h>
-#include <kfiledialog.h>
-
-#include <kdebug.h>
-
-#include <kbookmark.h>
-#include <kbookmarkmanager.h>
 #include <assert.h>
 #include <qglobal.h>
 

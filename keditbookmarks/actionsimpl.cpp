@@ -34,30 +34,30 @@
 #include <qclipboard.h>
 #include <qpainter.h>
 
-#include <klocale.h>
 #include <dcopclient.h>
 #include <dcopref.h>
 #include <kdebug.h>
 #include <kapplication.h>
 
 #include <kaction.h>
-#include <kstdaction.h>
-#include <kedittoolbar.h>
-#include <kfiledialog.h>
-#include <kkeydialog.h>
-#include <kmessagebox.h>
-#include <kinputdialog.h>
-#include <krun.h>
-
+#include <kactioncollection.h>
 #include <kdatastream.h>
-#include <ktempfile.h>
+#include <kedittoolbar.h>
+#include <kicondialog.h>
+#include <kiconloader.h>
+#include <kinputdialog.h>
+#include <kkeydialog.h>
+#include <klocale.h>
+#include <kstdaction.h>
+#include <kfiledialog.h>
+#include <kmessagebox.h>
+#include <krun.h>
 #include <kstandarddirs.h>
+#include <ktempfile.h>
+#include <ktoggleaction.h>
 
 #include <kparts/part.h>
 #include <kparts/componentfactory.h>
-
-#include <kicondialog.h>
-#include <kiconloader.h>
 
 #include <kbookmark.h>
 #include <kbookmarkmanager.h>

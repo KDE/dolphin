@@ -43,8 +43,7 @@ class KCMUserAccount : public KCModule
 	Q_OBJECT
 
 public:
-	KCMUserAccount(QWidget* parent, const char* name = "KCMUserAccount",
-		const QStringList& list=QStringList());
+	KCMUserAccount(QWidget* parent, const QStringList& list=QStringList());
 	~KCMUserAccount();
 
 	/**

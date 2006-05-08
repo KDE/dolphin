@@ -170,13 +170,12 @@ PluginFactory::~PluginFactory()
    s_instance = 0;
 }
 
-KParts::Part * PluginFactory::createPartObject(QWidget *parentWidget, const char *widgetName,
-                                         QObject *parent, const char *name,
+KParts::Part * PluginFactory::createPartObject(QWidget *parentWidget, QObject *parent,
                                          const char *classname, const QStringList &args)
 {
     Q_UNUSED(classname)
     kDebug(1432) << "PluginFactory::create" << endl;
-    KParts::Part *obj = new PluginPart(parentWidget, widgetName, parent, name, args);
+    KParts::Part *obj = new PluginPart(parentWidget, parent, args);
     return obj;
 }
 
@@ -200,8 +199,7 @@ KAboutData *PluginFactory::aboutData()
 /**************************************************************************/
 
 
-PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *parent,
-                       const char*, const QStringList &args)
+PluginPart::PluginPart(QWidget *parentWidget, QObject *parent, const QStringList &args)
     : KParts::ReadOnlyPart(parent), _widget(0), _args(args),
       _destructed(0L)
 {
@@ -228,7 +226,6 @@ PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *p
 
     // create a canvas to insert our widget
     _canvas = new PluginCanvasWidget( parentWidget );
-    _canvas->setObjectName( widgetName );
     //_canvas->setFocusPolicy( QWidget::ClickFocus );
     _canvas->setFocusPolicy( Qt::WheelFocus );
     setWidget(_canvas);
