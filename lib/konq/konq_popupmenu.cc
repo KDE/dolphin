@@ -425,8 +425,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         firstPopupURL.cleanPath();
         //kDebug(1203) << "View path is " << url.url() << endl;
         //kDebug(1203) << "First popup path is " << firstPopupURL.url() << endl;
-		KUrl::EqualsOptions flags = KUrl::CompareWithoutTrailingSlash;
-        currentDir = firstPopupURL.equals( url, flags/* ignore_trailing */ );
+        currentDir = firstPopupURL.equals( url, KUrl::CompareWithoutTrailingSlash );
         if ( isLocal && m_sMimeType == "application/x-desktop" ) {
             KSimpleConfig cfg( firstPopupURL.path(), true );
             cfg.setDesktopGroup();
@@ -656,7 +655,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         // first check the .directory if this is a directory
         if (isDirectory && isSingleLocal)
         {
-            QString dotDirectoryFile = m_lstItems.first()->url().path(KUrl::AddTrailingSlash).append(".directory");
+            QString dotDirectoryFile = m_lstItems.first()->url().path( KUrl::AddTrailingSlash ).append(".directory");
             KSimpleConfig cfg( dotDirectoryFile, true );
             cfg.setDesktopGroup();
 
@@ -1139,8 +1138,8 @@ void KonqPopupMenu::addPlugins()
         //kDebug() << (*iterator)->library() << endl;
         KonqPopupMenuPlugin *plugin =
             KLibLoader::createInstance<KonqPopupMenuPlugin>( QFile::encodeName( (*iterator)->library() ),
-                                                            this,
-                                                            QStringList((*iterator)->name().toLatin1()) );
+                                                            this );
+        plugin->setName( (*iterator)->name().toLatin1() );
         if ( !plugin )
             continue;
         QString pluginClientName = QString::fromLatin1( "Plugin%1" ).arg( pluginCount );

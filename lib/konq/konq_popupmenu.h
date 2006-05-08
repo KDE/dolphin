@@ -26,6 +26,7 @@
 #include <qmenu.h>
 #include <qmap.h>
 #include <kaction.h>
+#include <kactioncollection.h>
 
 #include <qstringlist.h>
 

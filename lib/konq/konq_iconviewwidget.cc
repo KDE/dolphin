@@ -805,7 +805,7 @@ void KonqIconViewWidget::setURL( const KUrl &kurl )
     d->pFileTip->setPreview( KGlobalSettings::showFilePreview(m_url) );
 
     if ( m_url.isLocalFile() )
-        m_dotDirectoryPath = m_url.path(KUrl::AddTrailingSlash).append( ".directory" );
+        m_dotDirectoryPath = m_url.path( KUrl::AddTrailingSlash ).append( ".directory" );
     else
         m_dotDirectoryPath.clear();
 }
@@ -826,8 +826,10 @@ void KonqIconViewWidget::startImagePreview( const QStringList &, bool force )
     {
       KLibFactory *factory = KLibLoader::self()->factory("konq_sound");
       if (factory)
-        d->pSoundPlayer = static_cast<KonqSoundPlayer *>(
-          factory->create(this, "KonqSoundPlayer"));
+      {
+          d->pSoundPlayer = static_cast<KonqSoundPlayer *>(
+            factory->create(this, "KonqSoundPlayer"));
+      }
       d->bSoundPreviews = (d->pSoundPlayer != 0L);
     }
 

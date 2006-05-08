@@ -25,7 +25,7 @@
 //Added by qt3to4:
 #include <QList>
 #include <kactionmenu.h>
-#include <kaction.h>
+#include <kactionmenu.h>
 #include <kdialogbase.h>
 #include <kurl.h>
 #include <libkonq_export.h>

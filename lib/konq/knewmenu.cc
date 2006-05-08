@@ -21,6 +21,8 @@
 //Added by qt3to4:
 #include <QVBoxLayout>
 #include <QList>
+#include <kactioncollection.h>
+#include <kseparatoraction.h>
 #include <kdebug.h>
 #include <kdesktopfile.h>
 #include <kdirwatch.h>
