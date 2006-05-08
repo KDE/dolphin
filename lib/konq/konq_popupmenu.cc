@@ -656,7 +656,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         // first check the .directory if this is a directory
         if (isDirectory && isSingleLocal)
         {
-            QString dotDirectoryFile = m_lstItems.first()->url().path(1).append(".directory");
+            QString dotDirectoryFile = m_lstItems.first()->url().path(KUrl::AddTrailingSlash).append(".directory");
             KSimpleConfig cfg( dotDirectoryFile, true );
             cfg.setDesktopGroup();
 
@@ -1140,7 +1140,7 @@ void KonqPopupMenu::addPlugins()
         KonqPopupMenuPlugin *plugin =
             KLibLoader::createInstance<KonqPopupMenuPlugin>( QFile::encodeName( (*iterator)->library() ),
                                                             this,
-                                                            (*iterator)->name().toLatin1() );
+                                                            QStringList((*iterator)->name().toLatin1()) );
         if ( !plugin )
             continue;
         QString pluginClientName = QString::fromLatin1( "Plugin%1" ).arg( pluginCount );
