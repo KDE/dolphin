@@ -32,7 +32,8 @@
 #include <kprotocolinfo.h>
 #include <kmenu.h>
 #include <krun.h>
-
+#include <kactioncollection.h>
+#include <kseparatoraction.h>
 #include <kio/job.h>
 #include <kio/renamedlg.h>
 
@@ -241,7 +242,7 @@ void KNewMenu::fillMenu()
                     act->setActionGroup( m_newMenuGroup );
                     kMenu()->addAction( act );
 
-                    KActionSeparator *sep = new KActionSeparator();
+                    KSeparatorAction *sep = new KSeparatorAction();
                     kMenu()->addAction( sep );
                 }
                 else
@@ -275,12 +276,12 @@ void KNewMenu::fillMenu()
         } else { // Separate system from personal templates
             Q_ASSERT( (*templ).entryType != 0 );
 
-            KActionSeparator * act = new KActionSeparator();
+            KSeparatorAction * act = new KSeparatorAction();
             kMenu()->addAction( act );
         }
     }
 
-    KActionSeparator * act = new KActionSeparator();
+    KSeparatorAction * act = new KSeparatorAction();
     kMenu()->addAction( act );
     if ( linkURL ) kMenu()->addAction( linkURL );
     if ( linkApp ) kMenu()->addAction( linkApp );

@@ -222,7 +222,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     connect( m_paEnablePreviews, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );
     m_paEnablePreviews->setIconName("thumbnail");
     m_pamPreview->insert( m_paEnablePreviews );
-    m_pamPreview->insert( new KActionSeparator(actionCollection()) );
+    m_pamPreview->insert( new KSeparatorAction(actionCollection()) );
 
     KTrader::OfferList plugins = KTrader::self()->query( "ThumbCreator" );
     QMap< QString, KToggleAction* > previewActions;

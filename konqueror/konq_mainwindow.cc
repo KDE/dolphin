@@ -4867,7 +4867,7 @@ void KonqMainWindow::updateOpenWithActions()
   }
   if ( services.count() > 0 )
   {
-      m_openWithActions.append( new KActionSeparator );
+      m_openWithActions.append( new KSeparatorAction );
       plugActionList( "openwith", m_openWithActions );
   }
 }
