@@ -58,7 +58,6 @@ KonqBgndDialog::KonqBgndDialog( QWidget* parent,
     groupLayout->setAlignment( Qt::AlignTop );
     mainLayout->addWidget( m_buttonGroup );
 
-
     // color
     m_radioColor = new QRadioButton( i18n("Co&lor:"), m_buttonGroup );
     groupLayout->addWidget( m_radioColor, 0, 0 );
@@ -90,7 +89,6 @@ KonqBgndDialog::KonqBgndDialog( QWidget* parent,
 
     // preview title
     QHBoxLayout* hlay = new QHBoxLayout();
-    hlay->setParent( mainLayout );
     hlay->setSpacing( KDialog::spacingHint() );
     //mainLayout->addLayout( hlay );
     QLabel* lbl = new QLabel( i18n("Preview"), page );
@@ -100,6 +98,8 @@ KonqBgndDialog::KonqBgndDialog( QWidget* parent,
     frame->setFrameShape( QFrame::HLine );
     frame->setFrameShadow( QFrame::Sunken );
     hlay->addWidget( frame );
+
+    mainLayout->addItem(hlay);
 
     // preview frame
     m_preview = new QFrame( page );

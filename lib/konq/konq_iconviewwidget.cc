@@ -305,6 +305,7 @@ void KonqIconViewWidget::slotOnItem( Q3IconViewItem *_item )
                 {
                     delete d->m_movie;
                     d->m_movie = KGlobal::iconLoader()->loadMovie( d->pActiveItem->mouseOverAnimation(), K3Icon::Desktop, d->pActiveItem->iconSize() );
+#if 0
                     if ( d->m_movie && d->m_movie->isValid() )
                     {
                         // Fix alpha-channel - currently only if no background pixmap,
@@ -330,6 +331,7 @@ void KonqIconViewWidget::slotOnItem( Q3IconViewItem *_item )
                         // No movie available, remember it
                         d->pActiveItem->setMouseOverAnimation( QString() );
                     }
+#endif
                 }
             } // animations
             // Only do the normal "mouseover" effect if no animation is in use
@@ -921,6 +923,9 @@ void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )
 
 void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r , const QPoint &pt)
 {
+    Q3IconView::drawBackground(p, r);
+    return;
+#if 0
     const QPixmap *pm  = backgroundPixmap();
     bool hasPixmap = pm && !pm->isNull();
     if ( !hasPixmap ) {
@@ -940,6 +945,7 @@ void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r , const QPo
         int ay = (r.y() + contentsY() + topMargin()) % pm->height();
         p->drawTiledPixmap(rtgt, *pm, QPoint(ax, ay));
     }
+#endif
 }
 
 Q3DragObject * KonqIconViewWidget::dragObject()
