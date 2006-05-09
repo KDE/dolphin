@@ -29,6 +29,9 @@ class QSlider;
 class KDialogBase;
 class KPluginOptions;
 class KProcIO;
+namespace Ui {
+class NSConfigWidget;
+}
 
 /** policies with plugin-specific constructor
   */
@@ -126,7 +129,7 @@ private:
   void scanDone();
 
  private:
-  NSConfigWidget *m_widget;
+  Ui::NSConfigWidget *m_widget;
   bool m_changed;
   QProgressDialog *m_progress;
   QSlider *priority;

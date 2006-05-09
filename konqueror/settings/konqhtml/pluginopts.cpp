@@ -28,6 +28,7 @@
 #include <kurlrequester.h>
 
 #include "htmlopts.h"
+#include "ui_nsconfigwidget.h"
 #include "pluginopts.h"
 #include "policydlg.h"
 
@@ -51,14 +52,13 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, KInstance *inst,
       global_policies(config,group,true)
 {
     QVBoxLayout* toplevel = new QVBoxLayout( this );
-    toplevel->setMargin( 0 );
-    toplevel->setSpacing( KDialog::spacingHint() );
+    toplevel->setSpacing( 0 /* KDialog::spacingHint() */ );
+    toplevel->setMargin(0);
 
     /**************************************************************************
      ******************** Global Settings *************************************
      *************************************************************************/
-    Q3GroupBox* globalGB = new Q3GroupBox( i18n( "Global Settings" ), this );
-    globalGB->setOrientation( Qt::Vertical );
+    QGroupBox* globalGB = new QGroupBox( i18n( "Global Settings" ), this );
     toplevel->addWidget( globalGB );
     enablePluginsGloballyCB = new QCheckBox( i18n( "&Enable plugins globally" ), globalGB );
     enableHTTPOnly = new QCheckBox( i18n( "Only allow &HTTP and HTTPS URLs for plugins" ), globalGB );
@@ -69,6 +69,14 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, KInstance *inst,
     priority->setMinimum(5);
     priority->setMaximum(100);
     priority->setPageStep(5);
+
+    QVBoxLayout *vbox = new QVBoxLayout;
+    vbox->addWidget(enablePluginsGloballyCB);
+    vbox->addWidget(enableHTTPOnly);
+    vbox->addWidget(enableUserDemand);
+    vbox->addWidget(priorityLabel);
+    vbox->addWidget(priority);
+
     connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
     connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotTogglePluginsEnabled() ) );
     connect( enableHTTPOnly, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
@@ -87,6 +95,11 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, KInstance *inst,
     						globalGB);
     domainSpecPB->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
     connect(domainSpecPB,SIGNAL(clicked()),SLOT(slotShowDomainDlg()));
+
+    vbox->addWidget(hrule);
+    vbox->addWidget(domainSpecPB);
+
+    globalGB->setLayout(vbox);
 
     domainSpecificDlg = new KDialogBase(KDialogBase::Swallow,
     			i18n("Domain-Specific Policies"),KDialogBase::Close,
@@ -132,13 +145,20 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, KInstance *inst,
 
 /*****************************************************************************/
 
-    Q3GroupBox* netscapeGB = new Q3GroupBox( i18n( "Netscape Plugins" ), this );
-    netscapeGB->setOrientation( Qt::Vertical );
+    QGroupBox* netscapeGB = new QGroupBox( i18n( "Netscape Plugins" ), this );
     toplevel->addWidget( netscapeGB );
 
     // create Designer made widget
-    m_widget = new NSConfigWidget( netscapeGB, "configwidget" );
-	m_widget->dirEdit->setMode(KFile::ExistingOnly | KFile::LocalOnly | KFile::Directory);
+    QWidget *dummy = new QWidget(netscapeGB);
+    m_widget = new Ui::NSConfigWidget();
+    m_widget->setupUi( dummy );
+    dummy->setObjectName( "configwidget" );
+    m_widget->dirEdit->setMode(KFile::ExistingOnly | KFile::LocalOnly | KFile::Directory);
+
+    vbox = new QVBoxLayout();
+    vbox->addWidget(dummy);
+    vbox->setMargin( KDialog::marginHint());
+    netscapeGB->setLayout(vbox);
 
     // setup widgets
     connect( m_widget->scanAtStartup, SIGNAL(clicked()), SLOT(change()) );
@@ -614,7 +634,9 @@ void KPluginOptions::pluginSave( KConfig* /*config*/ )
 // == class PluginDomainDialog =====
 
 PluginDomainDialog::PluginDomainDialog(QWidget *parent) :
-	QWidget(parent,"PluginDomainDialog") {
+	QWidget(parent) 
+{
+  setObjectName("PluginDomainDialog");
   setWindowTitle(i18n("Domain-Specific Policies"));
 
   thisLayout = new QVBoxLayout(this);

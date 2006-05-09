@@ -1,273 +1,290 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
-<class>NSConfigWidget</class>
-<author>Stefan Schimanski &lt;1Stein@gmx.de&gt;</author>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>NSConfigWidget</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>458</width>
-            <height>373</height>
-        </rect>
-    </property>
-    <property name="windowTitle">
-        <string>Netscape Plugin Config</string>
-    </property>
-    <property name="layoutMargin" stdset="0">
-    </property>
-    <vbox>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <property name="margin">
-            <number>0</number>
-        </property>
-        <property name="spacing">
-            <number>6</number>
-        </property>
-        <widget class="QTabWidget">
-            <property name="name">
-                <cstring>TabWidget2</cstring>
+<ui version="4.0" >
+ <author>Stefan Schimanski &lt;1Stein@gmx.de></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>NSConfigWidget</class>
+ <widget class="QWidget" name="NSConfigWidget" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>523</width>
+    <height>398</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Netscape Plugin Config</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <property name="margin" >
+    <number>9</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item>
+    <widget class="QTabWidget" name="TabWidget2" >
+     <property name="enabled" >
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="tab" >
+      <attribute name="title" >
+       <string>Scan</string>
+      </attribute>
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>3</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="scanButton" >
+           <property name="whatsThis" >
+            <string>Click here to scan for newly installed Netscape plugins now.</string>
+           </property>
+           <property name="text" >
+            <string>&amp;Scan for New Plugins</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType" >
+            <enum>QSizePolicy::Expanding</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="Q3GroupBox" name="GroupBox1" >
+         <property name="minimumSize" >
+          <size>
+           <width>300</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="title" >
+          <string>Scan Folders</string>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>6</number>
+          </property>
+          <property name="spacing" >
+           <number>3</number>
+          </property>
+          <item row="1" column="2" >
+           <widget class="QPushButton" name="dirRemove" >
+            <property name="enabled" >
+             <bool>false</bool>
             </property>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>tab</cstring>
-                </property>
-                <attribute name="title">
-                    <string>Scan</string>
-                </attribute>
-                <vbox>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <widget class="QLayoutWidget">
-                        <property name="name">
-                            <cstring>Layout1</cstring>
-                        </property>
-                        <hbox>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <widget class="QPushButton">
-                                <property name="name">
-                                    <cstring>scanButton</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>&amp;Scan for New Plugins</string>
-                                </property>
-                                <property name="whatsThis" stdset="0">
-                                    <string>Click here to scan for newly installed Netscape plugins now.</string>
-                                </property>
-                            </widget>
-                            <spacer>
-                                <property name="name">
-                                    <cstring>Spacer1_2</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Horizontal</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>20</width>
-                                        <height>20</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                        </hbox>
-                    </widget>
-                    <widget class="QCheckBox">
-                        <property name="name">
-                            <cstring>scanAtStartup</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Scan for new plugins at &amp;KDE startup</string>
-                        </property>
-                        <property name="whatsThis" stdset="0">
-                            <string>If this option is enabled, KDE will look for new Netscape plugins every time it starts up. This makes it easier for you if you often install new plugins, but it may also slow down KDE startup. You might want to disable this option, especially if you seldom install plugins.</string>
-                        </property>
-                    </widget>
-                    <widget class="QGroupBox">
-                        <property name="name">
-                            <cstring>GroupBox1</cstring>
-                        </property>
-                        <property name="minimumSize">
-                            <size>
-                                <width>300</width>
-                                <height>0</height>
-                            </size>
-                        </property>
-                        <property name="title">
-                            <string>Scan Folders</string>
-                        </property>
-                        <grid>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <widget class="QPushButton" row="1" column="2">
-                                <property name="name">
-                                    <cstring>dirRemove</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="text">
-                                    <string>&amp;Remove</string>
-                                </property>
-                            </widget>
-                            <widget class="QPushButton" row="0" column="2">
-                                <property name="name">
-                                    <cstring>dirNew</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>&amp;New</string>
-                                </property>
-                            </widget>
-                            <widget class="KUrlRequester" row="0" column="0" rowspan="1" colspan="2">
-                                <property name="name">
-                                    <cstring>dirEdit</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="mode" stdset="0">
-                                    <number>18</number>
-                                </property>
-                            </widget>
-                            <widget class="QPushButton" row="3" column="2">
-                                <property name="name">
-                                    <cstring>dirDown</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="text">
-                                    <string>Do&amp;wn</string>
-                                </property>
-                            </widget>
-                            <widget class="QPushButton" row="2" column="2">
-                                <property name="name">
-                                    <cstring>dirUp</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="text">
-                                    <string>&amp;Up</string>
-                                </property>
-                            </widget>
-                            <widget class="KListBox" row="1" column="0" rowspan="4" colspan="2">
-                                <property name="name">
-                                    <cstring>dirList</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>7</hsizetype>
-                                        <vsizetype>7</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                            </widget>
-                            <spacer row="4" column="2">
-                                <property name="name">
-                                    <cstring>Spacer3</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Vertical</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>20</width>
-                                        <height>20</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                        </grid>
-                    </widget>
-                </vbox>
-            </widget>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>tab</cstring>
-                </property>
-                <attribute name="title">
-                    <string>Plugins</string>
-                </attribute>
-                <grid>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <widget class="QListView" row="1" column="0">
-                        <column>
-                            <property name="text">
-                                <string>Information</string>
-                            </property>
-                            <property name="clickable">
-                                <bool>true</bool>
-                            </property>
-                            <property name="resizable">
-                                <bool>true</bool>
-                            </property>
-                        </column>
-                        <column>
-                            <property name="text">
-                                <string>Value</string>
-                            </property>
-                            <property name="clickable">
-                                <bool>true</bool>
-                            </property>
-                            <property name="resizable">
-                                <bool>true</bool>
-                            </property>
-                        </column>
-                        <property name="name">
-                            <cstring>pluginList</cstring>
-                        </property>
-                        <property name="allColumnsShowFocus">
-                            <bool>true</bool>
-                        </property>
-                        <property name="whatsThis" stdset="0">
-                            <string>Here you can see a list of the Netscape plugins KDE has found.</string>
-                        </property>
-                    </widget>
-                    <widget class="QCheckBox" row="0" column="0">
-                        <property name="name">
-                            <cstring>useArtsdsp</cstring>
-                        </property>
-                        <property name="enabled">
-                            <bool>true</bool>
-                        </property>
-                        <property name="text">
-                            <string>Use a&amp;rtsdsp to pipe plugin sound through aRts</string>
-                        </property>
-                    </widget>
-                </grid>
-            </widget>
+            <property name="text" >
+             <string>&amp;Remove</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2" >
+           <widget class="QPushButton" name="dirNew" >
+            <property name="text" >
+             <string>&amp;New</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" colspan="2" >
+           <widget class="KUrlRequester" name="dirEdit" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2" >
+           <widget class="QPushButton" name="dirDown" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+            <property name="text" >
+             <string>Do&amp;wn</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2" >
+           <widget class="QPushButton" name="dirUp" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+            <property name="text" >
+             <string>&amp;Up</string>
+            </property>
+           </widget>
+          </item>
+          <item rowspan="4" row="1" column="0" colspan="2" >
+           <widget class="KListBox" name="dirList" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>7</hsizetype>
+              <vsizetype>7</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2" >
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType" >
+             <enum>QSizePolicy::Expanding</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </widget>
-    </vbox>
-</widget>
-<includes>
-    <include location="global" impldecl="in declaration">klocale.h</include>
-    <include location="global" impldecl="in declaration">kurlrequester.h</include>
-    <include location="global" impldecl="in declaration">klistbox.h</include>
-    <include location="local" impldecl="in declaration">kdialog.h</include>
-</includes>
-<layoutdefaults spacing="3" margin="6"/>
-<layoutfunctions spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
-<includehints>
-    <includehint>qwidget.h</includehint>
-    <includehint>kurlrequester.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>klistbox.h</includehint>
-</includehints>
-</UI>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="scanAtStartup" >
+         <property name="whatsThis" >
+          <string>If this option is enabled, KDE will look for new Netscape plugins every time it starts up. This makes it easier for you if you often install new plugins, but it may also slow down KDE startup. You might want to disable this option, especially if you seldom install plugins.</string>
+         </property>
+         <property name="layoutDirection" >
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text" >
+          <string>Scan for new plugins at &amp;KDE startup</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab" >
+      <attribute name="title" >
+       <string>Plugins</string>
+      </attribute>
+      <layout class="QHBoxLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <layout class="QVBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QCheckBox" name="useArtsdsp" >
+           <property name="enabled" >
+            <bool>true</bool>
+           </property>
+           <property name="text" >
+            <string>Use a&amp;rtsdsp to pipe plugin sound through aRts</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Q3ListView" name="pluginList" >
+           <property name="whatsThis" >
+            <string>Here you can see a list of the Netscape plugins KDE has found.</string>
+           </property>
+           <property name="allColumnsShowFocus" >
+            <bool>true</bool>
+           </property>
+           <column>
+            <property name="text" >
+             <string>Information</string>
+            </property>
+           </column>
+           <column>
+            <property name="text" >
+             <string>Value</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="17" margin="14" />
+ <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>Q3ListBox</class>
+   <extends></extends>
+   <header>q3listbox.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>Q3GroupBox</class>
+   <extends></extends>
+   <header>Qt3Support/Q3GroupBox</header>
+   <container>1</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QWidget</extends>
+   <header>kurlrequester.h</header>
+   <container>1</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>Q3ListView</class>
+   <extends></extends>
+   <header>q3listview.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KListBox</class>
+   <extends>Q3ListBox</extends>
+   <header>klistbox.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <includes>
+  <include location="global" >klocale.h</include>
+  <include location="global" >kurlrequester.h</include>
+  <include location="global" >klistbox.h</include>
+  <include location="local" >kdialog.h</include>
+ </includes>
+ <resources/>
+ <connections/>
+</ui>
