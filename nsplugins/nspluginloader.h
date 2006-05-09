@@ -67,7 +67,7 @@ protected:
 };
 
 
-class NSPluginLoader : public QObject
+class KDE_EXPORT NSPluginLoader : public QObject
 {
   Q_OBJECT
 

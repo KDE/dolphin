@@ -16,7 +16,6 @@ if (X11_Xt_LIB)
   kde4_add_dcop_skels(nsplugin_PART_SRCS NSPluginCallbackIface.h )
 
 
-
   kde4_add_dcop_stubs(nsplugin_PART_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/viewer/NSPluginClassIface.h )
 
   kde4_add_plugin(nsplugin WITH_PREFIX ${nsplugin_PART_SRCS})
