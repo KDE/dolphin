@@ -222,7 +222,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_paEnablePreviews = new KToggleAction( i18n("Enable Previews"), actionCollection(), "iconview_preview_all" );
     m_paEnablePreviews->setCheckedState( i18n("Disable Previews") );
     connect( m_paEnablePreviews, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );
-    m_paEnablePreviews->setIconName("thumbnail");
+    m_paEnablePreviews->setIcon(KIcon("thumbnail"));
     m_pamPreview->insert( m_paEnablePreviews );
     m_pamPreview->insert( new KSeparatorAction(actionCollection()) );
 
