@@ -20,7 +20,7 @@ class KConfig;
 class QCheckBox;
 
 #include <kcmodule.h>
-#include "nsconfigwidget.h"
+#include "ui_nsconfigwidget.h"
 
 class QBoxLayout;
 class QLabel;
