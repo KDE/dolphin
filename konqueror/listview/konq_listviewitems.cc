@@ -151,6 +151,7 @@ void KonqListViewItem::setDisabled( bool disabled )
     KonqBaseListViewItem::setDisabled( disabled );
     int iconSize = m_pListViewWidget->iconSize();
     iconSize = iconSize ? iconSize : KGlobal::iconLoader()->currentSize( K3Icon::Small ); // Default = small
+    Q_ASSERT(iconSize >= 0);
     setPixmap( 0, m_fileitem->pixmap( iconSize, state() ) );
 }
 
@@ -163,6 +164,7 @@ void KonqListViewItem::setActive( bool active )
     KonqBaseListViewItem::setActive( active );
     int iconSize = m_pListViewWidget->iconSize();
     iconSize = iconSize ? iconSize : KGlobal::iconLoader()->currentSize( K3Icon::Small ); // Default = small
+    Q_ASSERT(iconSize >= 0);
     setPixmap( 0, m_fileitem->pixmap( iconSize, state() ) );
 }
 
