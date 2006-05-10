@@ -3693,9 +3693,12 @@ void KonqMainWindow::initActions()
   m_paPrint = KStdAction::print( 0, 0, actionCollection(), "print" );
   (void) KStdAction::quit( this, SLOT( close() ), actionCollection(), "quit" );
 
-  m_ptaUseHTML = new KToggleAction( i18n( "&Use index.html" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
-  m_paLockView = new KToggleAction( i18n( "Lock to Current Location"), 0, this, SLOT( slotLockView() ), actionCollection(), "lock" );
-  m_paLinkView = new KToggleAction( i18n( "Lin&k View"), 0, this, SLOT( slotLinkView() ), actionCollection(), "link" );
+  m_ptaUseHTML = new KToggleAction( i18n( "&Use index.html" ), actionCollection(), "usehtml" );
+  connect(m_ptaUseHTML, SIGNAL(triggered(bool) ), SLOT( slotShowHTML() ));
+  m_paLockView = new KToggleAction( i18n( "Lock to Current Location"), actionCollection(), "lock" );
+  connect(m_paLockView, SIGNAL(triggered(bool) ), SLOT( slotLockView() ));
+  m_paLinkView = new KToggleAction( i18n( "Lin&k View"), actionCollection(), "link" );
+  connect(m_paLinkView, SIGNAL(triggered(bool) ), SLOT( slotLinkView() ));
 
   // Go menu
   m_paUp = new KToolBarPopupAction( i18n( "&Up" ), QString("up"), KStdAccel::shortcut(KStdAccel::Up), actionCollection(), QString("up") );
@@ -3751,7 +3754,8 @@ void KonqMainWindow::initActions()
 
   m_paSaveViewProfile = new KAction( i18n( "&Save View Profile..." ), actionCollection(), "saveviewprofile" );
   connect(m_paSaveViewProfile, SIGNAL(triggered(bool) ), SLOT( slotSaveViewProfile() ));
-  m_paSaveViewPropertiesLocally = new KToggleAction( i18n( "Save View Changes per &Folder" ), 0, this, SLOT( slotSaveViewPropertiesLocally() ), actionCollection(), "saveViewPropertiesLocally" );
+  m_paSaveViewPropertiesLocally = new KToggleAction( i18n( "Save View Changes per &Folder" ), actionCollection(), "saveViewPropertiesLocally" );
+  connect(m_paSaveViewPropertiesLocally, SIGNAL(triggered(bool) ), SLOT( slotSaveViewPropertiesLocally() ));
    // "Remove" ? "Reset" ? The former is more correct, the latter is more kcontrol-like...
   m_paRemoveLocalProperties = new KAction( i18n( "Remove Folder Properties" ), actionCollection(), "removeLocalProperties" );
   connect(m_paRemoveLocalProperties, SIGNAL(triggered(bool) ), SLOT( slotRemoveLocalProperties() ));

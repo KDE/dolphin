@@ -209,13 +209,13 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     // Don't repaint on configuration changes during construction
     m_bInit = true;
 
-    m_paDotFiles = new KToggleAction( i18n( "Show &Hidden Files" ), 0, this, SLOT( slotShowDot() ),
-                                      actionCollection(), "show_dot" );
+    m_paDotFiles = new KToggleAction( i18n( "Show &Hidden Files" ), actionCollection(), "show_dot" );
+    connect(m_paDotFiles, SIGNAL(triggered(bool) ), SLOT( slotShowDot() ));
 //    m_paDotFiles->setCheckedState(i18n("Hide &Hidden Files"));
     m_paDotFiles->setToolTip( i18n( "Toggle displaying of hidden dot files" ) );
 
-    m_paDirectoryOverlays = new KToggleAction( i18n( "&Folder Icons Reflect Contents" ), 0, this, SLOT( slotShowDirectoryOverlays() ),
-                                      actionCollection(), "show_directory_overlays" );
+    m_paDirectoryOverlays = new KToggleAction( i18n( "&Folder Icons Reflect Contents" ), actionCollection(), "show_directory_overlays" );
+    connect(m_paDirectoryOverlays, SIGNAL(triggered(bool) ), SLOT( slotShowDirectoryOverlays() ));
 
     m_pamPreview = new KActionMenu( i18n( "&Preview" ), actionCollection(), "iconview_preview" );
 
