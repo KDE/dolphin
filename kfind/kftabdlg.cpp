@@ -208,6 +208,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     sizeUnitBox ->addItem( i18n("Bytes") );
     sizeUnitBox ->addItem( i18n("KB") );
     sizeUnitBox ->addItem( i18n("MB") );
+    sizeUnitBox ->addItem( i18n("GB") );
     sizeUnitBox ->setCurrentIndex(1);
 
     int tmp = sizeEdit->fontMetrics().width(" 000000000 ");
@@ -603,7 +604,8 @@ bool KfindTabWidget::isDateValid()
 
 void KfindTabWidget::setQuery(KQuery *query)
 {
-	int size;
+  KIO::filesize_t size;
+  KIO::filesize_t sizeunit;
   bool itemAlreadyContained(false);
   // only start if we have valid dates
   if (!isDateValid()) return;
@@ -632,42 +634,41 @@ void KfindTabWidget::setQuery(KQuery *query)
   switch (sizeUnitBox->currentIndex())
   {
      case 0:
-         size = 1; //one byte
+         sizeunit = 1; //one byte
 			break;
      case 2:
-         size = 1048576; //1M
+         sizeunit = 1048576; //1M
 			break;
-		case 1:
-		default:
-			size=1024; //1k
+     case 3:
+         sizeunit = 1073741824; //1G
 			break;
+     case 1: // fall to default case
+     default:
+         sizeunit=1024; //1k
+            break;
   }
-  size = sizeEdit->value() * size;
+  size = sizeEdit->value() * sizeunit;
+
+// TODO: troeder: do we need this check since it is very unlikely 
+// to exceed ULLONG_MAX with INT_MAX * 1024^3. 
+// Or is there an arch where this can happen?
+#if 0 
   if (size < 0)  // overflow
-     if (KMessageBox::warningYesNo(this, i18n("Size is too big. Set maximum size value?"), i18n("Error"),i18n("Set"),i18n("Do Not Set"))
+  {
+	if (KMessageBox::warningYesNo(this, i18n("Size is too big. Set maximum size value?"), i18n("Error"),i18n("Set"),i18n("Do Not Set"))
            == KMessageBox::Yes)
 		{
          sizeEdit->setValue(INT_MAX);
-	   	sizeUnitBox->setCurrentIndex(0);
-		   size = INT_MAX;
+		 sizeUnitBox->setCurrentIndex(0);
+		 size = INT_MAX;
 		}
      else
         return;
-
-  switch (sizeBox->currentIndex())
-  {
-    case 1:
-      query->setSizeRange(size, -1);
-      break;
-    case 2:
-      query->setSizeRange(-1, size);
-      break;
-    case 3:
-      query->setSizeRange(size,size);
-      break;
-    default:
-      query->setSizeRange(-1, -1);
   }
+#endif
+
+  // set range mode and size value
+  query->setSizeRange(sizeBox->currentIndex(),size,0);
 
   // dates
   QDateTime epoch;

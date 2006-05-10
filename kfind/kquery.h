@@ -24,7 +24,7 @@ class KQuery : public QObject
   KQuery(QObject *parent = 0, const char * name = 0);
   ~KQuery();
 
-  void setSizeRange( int min, int max );
+  void setSizeRange( int mode, KIO::filesize_t value1, KIO::filesize_t value2);
   void setTimeRange( time_t from, time_t to );
   void setRegExp( const QString &regexp, bool caseSensitive );
   void setRecursive( bool recursive );
@@ -66,8 +66,9 @@ class KQuery : public QObject
   void checkEntries();
 
   int m_filetype;
-  int m_minsize;
-  int m_maxsize;
+  int m_sizemode;
+  KIO::filesize_t m_sizeboundary1;
+  KIO::filesize_t m_sizeboundary2;
   KUrl m_url;
   time_t m_timeFrom;
   time_t m_timeTo;

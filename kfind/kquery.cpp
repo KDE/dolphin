@@ -16,7 +16,7 @@
 
 KQuery::KQuery(QObject *parent, const char * name)
   : QObject(parent),
-    m_minsize(-1), m_maxsize(-1),
+    m_sizemode(0), m_sizeboundary1(0), m_sizeboundary2(0),
     m_timeFrom(0), m_timeTo(0),
     job(0), m_insideCheckEntries(false), m_result(0)
 {
@@ -194,9 +194,25 @@ void KQuery::processQuery( KFileItem* file)
       return;
 
     // make sure the files are in the correct range
-    if (  ( m_minsize >= 0 && (int)file->size() < m_minsize ) ||
-          ( m_maxsize >= 0 && (int)file->size() > m_maxsize ) )
-      return;
+    switch( m_sizemode )
+	{
+		case 1: // "at least"
+				if ( file->size() < m_sizeboundary1 ) return;
+				break;
+		case 2: // "at most"
+				if ( file->size() > m_sizeboundary1 ) return;
+				break;
+		case 3: // "equal"
+				if ( file->size() != m_sizeboundary1 ) return;
+				break;
+		case 4: // "between"
+				if ( (file->size() < m_sizeboundary1) || 
+		 				(file->size() > m_sizeboundary2) ) return;
+				break;
+		case 0: // "none" -> Fall to default
+        default:
+				break;
+	}
 
     // make sure it's in the correct date range
     // what about 0 times?
@@ -424,10 +440,11 @@ void KQuery::setFileType(int filetype)
   m_filetype = filetype;
 }
 
-void KQuery::setSizeRange(int min, int max)
+void KQuery::setSizeRange(int mode, KIO::filesize_t value1, KIO::filesize_t value2)
 {
-  m_minsize = min;
-  m_maxsize = max;
+  m_sizemode = mode;
+  m_sizeboundary1 = value1;
+  m_sizeboundary2 = value2;
 }
 
 void KQuery::setTimeRange(time_t from, time_t to)
@@ -445,7 +462,6 @@ void KQuery::setGroupname(QString groupname)
 {
    m_groupname = groupname;
 }
-
 
 void KQuery::setRegExp(const QString &regexp, bool caseSensitive)
 {
