@@ -1139,9 +1139,9 @@ void KonqPopupMenu::addPlugins()
         KonqPopupMenuPlugin *plugin =
             KLibLoader::createInstance<KonqPopupMenuPlugin>( QFile::encodeName( (*iterator)->library() ),
                                                             this );
-        plugin->setObjectName( (*iterator)->name() );
         if ( !plugin )
             continue;
+        plugin->setObjectName( (*iterator)->name() );
         QString pluginClientName = QString::fromLatin1( "Plugin%1" ).arg( pluginCount );
         addMerge( pluginClientName );
         plugin->domDocument().documentElement().setAttribute( "name", pluginClientName );
