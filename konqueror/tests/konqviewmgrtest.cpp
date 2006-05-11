@@ -33,6 +33,7 @@ MyMainWindow::MyMainWindow( QWidget* parent )
 void MyMainWindow::slotSwitchCentralWidget()
 {
     QLabel* widget2 = new QLabel( "widget2" );
+    delete centralWidget(); // ## workaround for the crash
     setCentralWidget( widget2 );
 }
 
