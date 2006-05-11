@@ -49,7 +49,7 @@
 #include <kxmlguiclient.h>
 #include <ktrader.h>
 #include "konq_combo.h"
-#include "konq_frame.h"
+#include "konq_framecontainer.h"
 #include <klocalizedstring.h>
 #include <ktogglefullscreenaction.h>
 
@@ -185,7 +185,7 @@ public:
 
   const MapViews & viewMap() const { return m_mapViews; }
 
-  KonqView *currentView() const { return m_currentView; }
+  KonqView *currentView() const;
 
   KParts::ReadOnlyPart *currentPart() const;
 

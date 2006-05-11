@@ -5838,6 +5838,12 @@ void KonqMainWindow::slotUndoTextChanged( const QString & newText )
   m_paUndo->setText(newText);
 }
 
+// outlined because of QPointer and gcc3
+KonqView * KonqMainWindow::currentView() const
+{
+     return m_currentView;
+}
+
 #include "konq_mainwindow.moc"
 #include "konq_mainwindow_p.moc"
 /* vim: et sw=4 ts=4

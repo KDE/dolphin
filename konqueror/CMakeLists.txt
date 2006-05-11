@@ -20,8 +20,9 @@ add_subdirectory( remoteencodingplugin )
 add_subdirectory( kttsplugin ) 
 add_subdirectory( dirpart ) 
 add_subdirectory( settings ) 
-include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/workspace/kcontrol/input ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${KDE4_INCLUDES} )
+add_subdirectory( tests ) 
 
+include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/workspace/kcontrol/input ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${KDE4_INCLUDES} )
 
 ########### next target ###############
 
@@ -36,6 +37,7 @@ set(konqueror_KDEINIT_SRCS  ${libkonqueror_intern_SRCS}
    konq_viewmgr.cc 
    konq_misc.cc 
    konq_frame.cc 
+   konq_framecontainer.cc 
    konq_tabs.cc 
    konq_actions.cc 
    konq_profiledlg.cc 
@@ -58,8 +60,6 @@ install_targets(${LIB_INSTALL_DIR} kdeinit_konqueror )
 
 target_link_libraries( konqueror kdeinit_konqueror )
 install(TARGETS konqueror DESTINATION bin)
-
-########### next target ###############
 
 
 ########### install files ###############

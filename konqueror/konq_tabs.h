@@ -22,7 +22,7 @@
 #ifndef __konq_tabs_h__
 #define __konq_tabs_h__
 
-#include "konq_frame.h"
+#include "konq_framecontainer.h"
 
 #include <ktabwidget.h>
 //Added by qt3to4:
