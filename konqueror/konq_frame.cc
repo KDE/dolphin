@@ -32,7 +32,6 @@
 #include <kstdaccel.h>
 
 #include <qpainter.h>
-#include <QLayout>
 #include <qtoolbutton.h>
 #include <qtabbar.h>
 #include <qmenu.h>
@@ -381,6 +380,8 @@ void KonqFrame::attachInternal()
 
    m_pLayout = new QVBoxLayout( this );
    m_pLayout->setObjectName( "KonqFrame's QVBoxLayout" );
+   m_pLayout->setMargin( 0 );
+   m_pLayout->setSpacing( 0 );
 
    m_pLayout->addWidget( m_pPart->widget(), 1 );
 

@@ -1011,7 +1011,7 @@ bool KonqMainWindow::makeViewsFollow( const KUrl & url, const KParts::URLArgs &a
     return false; // none of those features apply -> return
 
   bool res = false;
-  //kDebug(1202) << "makeViewsFollow " << senderView->className() << " url=" << url << " serviceType=" << serviceType << endl;
+  //kDebug(1202) << "makeViewsFollow " << senderView->metaObject()->className() << " url=" << url << " serviceType=" << serviceType << endl;
   KonqOpenURLRequest req;
   req.followMode = true;
   req.args = args;
@@ -1033,7 +1033,7 @@ bool KonqMainWindow::makeViewsFollow( const KUrl & url, const KParts::URLArgs &a
       if ( senderFrame && viewFrame && viewFrame != senderFrame )
         continue;
 
-      kDebug(1202) << "makeViewsFollow: Sending openURL to view " << view->part()->className() << " url=" << url << endl;
+      kDebug(1202) << "makeViewsFollow: Sending openURL to view " << view->part()->metaObject()->className() << " url=" << url << endl;
 
       // XXX duplicate code from ::openURL
       if ( view == m_currentView )
@@ -1353,7 +1353,7 @@ void KonqMainWindow::slotSendFile()
         QString zipFileName = zipFile.name();
         zipFile.unlink();
 
-        QDir().mkdir(zipFileName,true);
+        QDir().mkdir(zipFileName);
         zipFileName = zipFileName+"/"+(*it).fileName()+".zip";
         KZip zip( zipFileName );
         if ( !zip.open( QIODevice::WriteOnly ) )
@@ -1441,7 +1441,7 @@ void KonqMainWindow::slotOpenLocation()
 
 void KonqMainWindow::slotToolFind()
 {
-  kDebug() << "KonqMainWindow::slotToolFind sender:" << sender()->className() << endl;
+  kDebug() << "KonqMainWindow::slotToolFind sender:" << sender()->metaObject()->className() << endl;
 
   if ( m_currentView && m_currentView->part()->inherits("KonqDirPart") )
   {
@@ -1499,7 +1499,7 @@ void KonqMainWindow::slotFindOpen( KonqDirPart * dirPart )
 void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
 {
     kDebug(1202) << "KonqMainWindow::slotFindClosed " << dirPart << endl;
-    KonqView * dirView = m_mapViews.find( dirPart ).data();
+    KonqView * dirView = m_mapViews.value( dirPart );
     Q_ASSERT(dirView);
     kDebug(1202) << "dirView=" << dirView << endl;
     if ( dirView && dirView == m_currentView )
@@ -1519,7 +1519,7 @@ void KonqMainWindow::slotOpenWith()
   KUrl::List lst;
   lst.append( m_currentView->url() );
 
-  QString serviceName = sender()->name();
+  QString serviceName = sender()->objectName();
 
   KTrader::OfferList offers = m_currentView->appServiceOffers();
   KTrader::OfferList::ConstIterator it = offers.begin();
@@ -1538,7 +1538,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
     return;
 
   const KAction* action = static_cast<const KAction*>( sender() );
-  QString modeName = action->name();
+  QString modeName = action->objectName();
   // for KonqViewModeActions the service name is stored as a member
   if ( const KonqViewModeAction* kvmAction = qobject_cast<const KonqViewModeAction *>( action ) )
       modeName = kvmAction->desktopEntryName();
@@ -1605,7 +1605,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
               // action and set new text,icon,etc. properties, to show the new
               // current viewmode
               for (int i = 0; i < m_toolBarViewModeActions.size(); ++i)
-                  if ( QLatin1String( m_toolBarViewModeActions.at(i)->name() ) == oldService->desktopEntryName() )
+                  if ( m_toolBarViewModeActions.at(i)->objectName() == oldService->desktopEntryName() )
                   {
                       assert( m_toolBarViewModeActions.at(i)->inherits( "KonqViewModeAction" ) );
 
@@ -1618,7 +1618,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
                       action->setText( servicename );
                       action->setIconName( service->icon() );
                       // Bypassing KAction restriction - this action will not be found via KActionCollection when doing a name search
-                      action->QAction::setName( service->desktopEntryName().toAscii() );
+                      action->QAction::setObjectName( service->desktopEntryName() );
 
                       break;
                   }
@@ -2111,7 +2111,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   if ( part )
   {
-    newView = m_mapViews.find( static_cast<KParts::ReadOnlyPart *>( part ) ).data();
+    newView = m_mapViews.value( static_cast<KParts::ReadOnlyPart *>( part ) );
 
     if ( newView->isPassiveMode() )
     {
@@ -2191,14 +2191,14 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       // we don't need to do all the time-taking stuff below (Simon)
       const QString currentServiceDesktopEntryName = m_currentView->service()->desktopEntryName();
       foreach( KToggleAction* action, m_viewModeActions ) {
-          if ( action->name() == currentServiceDesktopEntryName ) {
+          if ( action->objectName() == currentServiceDesktopEntryName ) {
               action->setChecked( true );
               break;
           }
       }
       const QString currentServiceLibrary = viewModeActionKey( m_currentView->service() );
       for (int i = 0; i < m_toolBarViewModeActions.size(); ++i) {
-          KService::Ptr serv = KService::serviceByDesktopName(  m_toolBarViewModeActions.at(i)->name() );
+          KService::Ptr serv = KService::serviceByDesktopName(  m_toolBarViewModeActions.at(i)->objectName() );
           if ( serv && viewModeActionKey( serv ) == currentServiceLibrary ) {
               KToggleAction* ta = static_cast<KToggleAction*>( m_toolBarViewModeActions.at(i));
               ta->setChecked( true );
@@ -2271,7 +2271,7 @@ void KonqMainWindow::removeChildView( KonqView *childView )
 
   kDebug(1202) << "Searching map" << endl;
 
-  while ( it != end && it.data() != childView )
+  while ( it != end && it.value() != childView )
       ++it;
 
   kDebug(1202) << "Verifying search results" << endl;
@@ -2311,7 +2311,7 @@ void KonqMainWindow::viewCountChanged()
       MapViews::Iterator it = m_mapViews.begin();
       MapViews::Iterator end = m_mapViews.end();
       for (; it != end; ++it )
-          it.data()->setLinkedView( false );
+          it.value()->setLinkedView( false );
   }
 
   viewsChanged();
@@ -2380,7 +2380,7 @@ KonqView * KonqMainWindow::childView( KParts::ReadOnlyPart *callingPart, const Q
       while (frameIt.hasNext())
       {
         KParts::ReadOnlyPart *item = frameIt.next();
-        if ( item->name() == name )
+        if ( item->objectName() == name )
         {
           kDebug() << "found a frame of name " << name << " : " << item << endl;
           if ( hostExtension )
@@ -2448,7 +2448,7 @@ int KonqMainWindow::mainViewsCount() const
   for (; it != end; ++it )
     if ( !it.value()->isPassiveMode() && !it.value()->isToggleView() )
     {
-      //kDebug(1202) << "KonqMainWindow::mainViewsCount " << res << " " << it.data() << " " << it.data()->part()->widget() << endl;
+      //kDebug(1202) << "KonqMainWindow::mainViewsCount " << res << " " << it.value() << " " << it.value()->part()->widget() << endl;
       ++res;
     }
 
@@ -2801,7 +2801,7 @@ void KonqMainWindow::slotActivatePrevTab()
 
 void KonqMainWindow::slotActivateTab()
 {
-  m_pViewManager->activateTab( QString( sender()->name() ).right( 2 ).toInt() -1 );
+  m_pViewManager->activateTab( sender()->objectName().right( 2 ).toInt() -1 );
 }
 
 void KonqMainWindow::slotDumpDebugInfo()
@@ -2953,7 +2953,7 @@ void KonqMainWindow::slotSaveViewProfile()
 
 void KonqMainWindow::slotUpAboutToShow()
 {
-  QMenu *popup = m_paUp->popupMenu();
+  QMenu *popup = m_paUp->menu();
 
   popup->clear();
 
@@ -3022,7 +3022,7 @@ void KonqMainWindow::slotUpActivated( int id )
 {
   KUrl u( m_currentView->locationBarURL() );
   kDebug(1202) << "slotUpActivated. Start URL is " << u << endl;
-  for ( int i = 0 ; i < m_paUp->popupMenu()->indexOf( id ) + 1 ; i ++ )
+  for ( int i = 0 ; i < m_paUp->menu()->indexOf( id ) + 1 ; i ++ )
       u = u.upURL();
   openURL( 0L, u );
 }
@@ -3093,9 +3093,9 @@ void KonqMainWindow::slotGoHistoryDelayed()
 
 void KonqMainWindow::slotBackAboutToShow()
 {
-  m_paBack->popupMenu()->clear();
+  m_paBack->menu()->clear();
   if ( m_currentView )
-      KonqBidiHistoryAction::fillHistoryPopup( m_currentView->history(), m_currentView->historyIndex(), m_paBack->popupMenu(), true, false );
+      KonqBidiHistoryAction::fillHistoryPopup( m_currentView->history(), m_currentView->historyIndex(), m_paBack->menu(), true, false );
 }
 
 void KonqMainWindow::slotBack()
@@ -3110,14 +3110,15 @@ void KonqMainWindow::slotBack(Qt::MouseButtons buttons, Qt::KeyboardModifiers mo
 
 void KonqMainWindow::slotBackActivated( int id )
 {
-    slotGoHistoryActivated( -(m_paBack->popupMenu()->indexOf( id ) + 1), m_paBack->popupMenu()->mouseButtons(), m_paBack->popupMenu()->keyboardModifiers());
+    KMenu* backMenu = static_cast<KMenu *>( m_paBack->menu() );
+    slotGoHistoryActivated( -(backMenu->indexOf( id ) + 1), backMenu->mouseButtons(), backMenu->keyboardModifiers());
 }
 
 void KonqMainWindow::slotForwardAboutToShow()
 {
-  m_paForward->popupMenu()->clear();
+  m_paForward->menu()->clear();
   if ( m_currentView )
-      KonqBidiHistoryAction::fillHistoryPopup( m_currentView->history(), m_currentView->historyIndex(), m_paForward->popupMenu(), false, true );
+      KonqBidiHistoryAction::fillHistoryPopup( m_currentView->history(), m_currentView->historyIndex(), m_paForward->menu(), false, true );
 }
 
 void KonqMainWindow::slotForward()
@@ -3132,7 +3133,8 @@ void KonqMainWindow::slotForward(Qt::MouseButtons buttons, Qt::KeyboardModifiers
 
 void KonqMainWindow::slotForwardActivated( int id )
 {
-    slotGoHistoryActivated( m_paForward->popupMenu()->indexOf( id ) + 1, m_paForward->popupMenu()->mouseButtons(), m_paForward->popupMenu()->keyboardModifiers() );
+    KMenu* forwardMenu = static_cast<KMenu *>( m_paForward->menu() );
+    slotGoHistoryActivated( forwardMenu->indexOf( id ) + 1, forwardMenu->mouseButtons(), forwardMenu->keyboardModifiers() );
 }
 
 void KonqMainWindow::initCombo()
@@ -3319,7 +3321,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
   if ( ( ev->type()==QEvent::FocusIn || ev->type()==QEvent::FocusOut ) &&
        m_combo && m_combo->lineEdit() == obj )
   {
-    //kDebug(1202) << "KonqMainWindow::eventFilter " << obj << " " << obj->className() << " " << obj->name() << endl;
+    //kDebug(1202) << "KonqMainWindow::eventFilter " << obj << " " << obj->metaObject()->className() << " " << obj->name() << endl;
 
     QFocusEvent * focusEv = static_cast<QFocusEvent*>(ev);
     if (focusEv->reason() == Qt::PopupFocusReason)
@@ -3442,8 +3444,8 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
 void KonqMainWindow::slotClipboardDataChanged()
 {
   //kDebug(1202) << "KonqMainWindow::slotClipboardDataChanged()" << endl;
-  QMimeSource *data = QApplication::clipboard()->data();
-  m_paPaste->setEnabled( data->provides( "text/plain" ) );
+  const QMimeData *data = QApplication::clipboard()->mimeData();
+  m_paPaste->setEnabled( data->hasText() );
   slotCheckComboSelection();
 }
 
@@ -3660,7 +3662,7 @@ void KonqMainWindow::initActions()
 
   // File menu
   m_pMenuNew = new KNewMenu ( actionCollection(), this, "new_menu" );
-  QObject::connect( m_pMenuNew->popupMenu(), SIGNAL(aboutToShow()),
+  QObject::connect( m_pMenuNew->menu(), SIGNAL(aboutToShow()),
                     this, SLOT(slotFileNewAboutToShow()) );
 
   KAction *action = new KAction( i18n( "&Edit File Type..." ), actionCollection(), "editMimeType" );
@@ -3704,8 +3706,8 @@ void KonqMainWindow::initActions()
   m_paUp = new KToolBarPopupAction( i18n( "&Up" ), QString("up"), KStdAccel::shortcut(KStdAccel::Up), actionCollection(), QString("up") );
   connect( m_paUp, SIGNAL( triggered( Qt::MouseButtons, Qt::KeyboardModifiers) ), this,
 	   SLOT( slotUp(Qt::MouseButtons, Qt::KeyboardModifiers) ) );
-  connect( m_paUp->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotUpAboutToShow() ) );
-  connect( m_paUp->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotUpActivated( int ) ) );
+  connect( m_paUp->menu(), SIGNAL( aboutToShow() ), this, SLOT( slotUpAboutToShow() ) );
+  connect( m_paUp->menu(), SIGNAL( activated( int ) ), this, SLOT( slotUpActivated( int ) ) );
 
   QPair< KGuiItem, KGuiItem > backForward = KStdGuiItem::backAndForward();
   m_paBack = new KToolBarPopupAction( backForward.first, KStdAccel::shortcut(KStdAccel::Back), 0, "", actionCollection(), "back" );
@@ -3717,8 +3719,8 @@ void KonqMainWindow::initActions()
   m_paForward = new KToolBarPopupAction( backForward.second, KStdAccel::shortcut(KStdAccel::Forward), 0, "", actionCollection(), "forward" );
   connect( m_paForward, SIGNAL( triggered( Qt::MouseButtons, Qt::KeyboardModifiers) ), this,
 	   SLOT( slotForward(Qt::MouseButtons, Qt::KeyboardModifiers) ) );
-  connect( m_paForward->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotForwardAboutToShow() ) );
-  connect( m_paForward->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotForwardActivated( int ) ) );
+  connect( m_paForward->menu(), SIGNAL( aboutToShow() ), this, SLOT( slotForwardAboutToShow() ) );
+  connect( m_paForward->menu(), SIGNAL( activated( int ) ), this, SLOT( slotForwardActivated( int ) ) );
 
   m_paHistory = new KonqBidiHistoryAction( i18n("History"), actionCollection(), "history" );
   connect( m_paHistory, SIGNAL( menuAboutToShow() ), this, SLOT( slotGoMenuAboutToShow() ) );
@@ -4360,8 +4362,8 @@ void KonqMainWindow::enableAllActions( bool enable )
   for (; it != end; ++it )
   {
     KAction *act = *it;
-    if ( !QString(act->name()).startsWith("options_configure") /* do not touch the configureblah actions */
-         && ( !enable || !actionSlotMap->contains( act->name() ) ) ) /* don't enable BE actions */
+    if ( !act->objectName().startsWith("options_configure") /* do not touch the configureblah actions */
+         && ( !enable || !actionSlotMap->contains( act->objectName().toLatin1() ) ) ) /* don't enable BE actions */
       act->setEnabled( enable );
   }
   // This method is called with enable=false on startup, and
@@ -4589,7 +4591,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   // but KonqViewManager delays the GUI-rebuilding with a single-shot timer.
   // Right after the popup shows up, currentView _will_ be m_currentView.
 
-  //kDebug(1202) << "KonqMainWindow::slotPopupMenu( " << client << "...)" << " current view=" << m_currentView << " " << m_currentView->part()->className() << endl;
+  //kDebug(1202) << "KonqMainWindow::slotPopupMenu( " << client << "...)" << " current view=" << m_currentView << " " << m_currentView->part()->metaObject()->className() << endl;
 
   // This action collection is used to pass actions to KonqPopupMenu.
   // It has to be a KActionCollection instead of a KActionPtrList because we need
@@ -4730,12 +4732,12 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   if ( client )
     pPopupMenu->factory()->addClient( client );
 
-  QObject::disconnect( m_pMenuNew->popupMenu(), SIGNAL(aboutToShow()),
+  QObject::disconnect( m_pMenuNew->menu(), SIGNAL(aboutToShow()),
                        this, SLOT(slotFileNewAboutToShow()) );
 
   pPopupMenu->exec( _global );
 
-  QObject::connect( m_pMenuNew->popupMenu(), SIGNAL(aboutToShow()),
+  QObject::connect( m_pMenuNew->menu(), SIGNAL(aboutToShow()),
                        this, SLOT(slotFileNewAboutToShow()) );
 
   delete pPopupMenu;
@@ -4781,7 +4783,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
 void KonqMainWindow::slotOpenEmbedded()
 {
-  QByteArray name = sender()->name();
+  QString name = sender()->objectName();
 
   m_popupService = m_popupEmbeddingServices[ name.toInt() ]->desktopEntryName();
 
@@ -4911,7 +4913,7 @@ void KonqMainWindow::updateViewModeActions()
   // make sure to also clear our [libiconview,liblistview]->service-for-viewmode
   // map
   if ( m_viewModeToolBarServices.count() > 0 &&
-       !m_viewModeToolBarServices.begin().data()->serviceTypes().contains( m_currentView->serviceType() ) )
+       !m_viewModeToolBarServices.begin().value()->serviceTypes().contains( m_currentView->serviceType() ) )
   {
       // Save the current map to the config file, for later reuse
       saveToolBarServicesMap();
@@ -4962,7 +4964,7 @@ void KonqMainWindow::updateViewModeActions()
                this, SLOT( slotViewModeToggle( bool ) ) );
 
       m_viewModeActions.append( action );
-      m_viewModeMenu->popupMenu()->addAction( action );
+      m_viewModeMenu->kMenu()->addAction( action );
 
       const QString library = viewModeActionKey( *it );
 
@@ -5041,7 +5043,7 @@ void KonqMainWindow::updateViewModeActions()
               mapitname = (*it)->name();
           (*mapIt)->setText( mapitname );
           (*mapIt)->setIconName( (*it)->icon() );
-          (*mapIt)->QAction::setName( (*it)->desktopEntryName().toAscii() ); // tricky...
+          (*mapIt)->QAction::setObjectName( (*it)->desktopEntryName() ); // tricky...
           preferredServiceMap.remove( library ); // The current view has priority over the saved settings
       }
 
@@ -5056,7 +5058,7 @@ void KonqMainWindow::updateViewModeActions()
   QMap<QString,QString>::Iterator debugIt = preferredServiceMap.begin();
   QMap<QString,QString>::Iterator debugEnd = preferredServiceMap.end();
   for ( ; debugIt != debugEnd ; ++debugIt )
-      kDebug(1202) << " STILL IN preferredServiceMap : " << debugIt.key() << " | " << debugIt.data() << endl;
+      kDebug(1202) << " STILL IN preferredServiceMap : " << debugIt.key() << " | " << debugIt.value() << endl;
 #endif
 
   if ( !m_currentView->isToggleView() ) // No view mode for toggable views
@@ -5159,7 +5161,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
       MapViews::ConstIterator it = m_mapViews.begin();
       MapViews::ConstIterator end = m_mapViews.end();
       for (; it != end; ++it ) {
-        KonqView *view = it.data();
+        KonqView *view = it.value();
         if (view && view->part() && (view->part()->metaObject()->indexOfProperty("modified") != -1) ) {
           QVariant prop = view->part()->property("modified");
           if (prop.isValid() && prop.toBool()) {
@@ -5242,7 +5244,7 @@ void KonqMainWindow::goURL()
   if ( !lineEdit )
     return;
 
-  QKeyEvent event( QEvent::KeyPress, Qt::Key_Return, '\n', 0 );
+  QKeyEvent event( QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier, QChar('\n') );
   QApplication::sendEvent( lineEdit, &event );
 }
 
@@ -5522,7 +5524,7 @@ void KonqMainWindow::dumpViewList()
 
   for (MapViews::Iterator it = m_mapViews.begin(); it != end; it++)
   {
-    kDebug(1202) << it.data() << endl;
+    kDebug(1202) << it.value() << endl;
   }
 }
 #endif
@@ -5537,7 +5539,10 @@ void KonqMainWindow::insertChildFrame( KonqFrameBase * frame, int /*index*/ )
   m_pChildFrame = frame;
   m_pActiveChild = frame;
   frame->setParentContainer(this);
-  delete centralWidget(); // workaround Qt-4.1.2 crash (reported)
+  if ( centralWidget() && centralWidget() != frame->widget() ) {
+      centralWidget()->setParent( 0 ); // workaround Qt-4.1.2 crash (reported)
+      setCentralWidget( 0 );
+  }
   setCentralWidget( frame->widget() );
 }
 
@@ -5697,7 +5702,7 @@ bool KonqMainWindow::event( QEvent* e )
             // Don't resend to sender
             if (it.key() != ev->part())
             {
-                //kDebug(1202) << "Sending event to view " << it.key()->className() << endl;
+                //kDebug(1202) << "Sending event to view " << it.key()->metaObject()->className() << endl;
                 QApplication::sendEvent( it.key(), e );
             }
         }
@@ -5783,7 +5788,7 @@ static int current_memory_usage( int* limit )
     QFile f( QString::fromLatin1( "/proc/%1/statm" ).arg(getpid()) );
     if( f.open( QIODevice::ReadOnly ))
     {
-        QByteArray buffer( 100 );
+        QByteArray buffer; buffer.resize( 100 );
         const int bytes = f.readLine( buffer.data(), buffer.size()-1 );
         if ( bytes != -1 )
         {
