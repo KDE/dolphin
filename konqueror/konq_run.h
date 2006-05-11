@@ -47,7 +47,7 @@ public:
    */
   bool foundMimeType() const { return m_bFoundMimeType; }
 
-  KonqView *childView() const { return m_pView; }
+  KonqView *childView() const;
 
   const QString & typedURL() const { return m_req.typedURL; }
 

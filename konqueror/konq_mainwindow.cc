@@ -5537,6 +5537,7 @@ void KonqMainWindow::insertChildFrame( KonqFrameBase * frame, int /*index*/ )
   m_pChildFrame = frame;
   m_pActiveChild = frame;
   frame->setParentContainer(this);
+  delete centralWidget(); // workaround Qt-4.1.2 crash (reported)
   setCentralWidget( frame->widget() );
 }
 

@@ -193,4 +193,9 @@ void KonqRun::slotRedirection( KIO::Job *job, const KUrl& redirectedToURL )
     m_args.setRedirectedRequest(true);
 }
 
+KonqView * KonqRun::childView() const
+{
+  return m_pView;
+}
+
 #include "konq_run.moc"
