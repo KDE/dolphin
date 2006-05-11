@@ -318,7 +318,7 @@ void KNewMenu::slotFillTemplates()
 
     // Look into "templates" dirs.
     QStringList files = d->m_actionCollection->instance()->dirs()->findAllResources("templates");
-    KSortableValueList<Entry,QString> slist;
+    QMap<QString, Entry> slist; // used for sorting
     for ( QStringList::Iterator it = files.begin() ; it != files.end() ; ++it )
     {
         //kDebug(1203) << *it << endl;
@@ -341,18 +341,17 @@ void KNewMenu::slotFillTemplates()
                 // because this filetype is the most used (according kde-core discussion)
                 QString key = config.readEntry("Name");
                 if ( (*it).endsWith( "TextFile.desktop" ) )
-                    key = "1_" + key;
+                    key.prepend( '1' );
                 else
-                    key = "2_" + key;
+                    key.prepend( '2' );
 
                 slist.insert( key, e );
             }
         }
     }
-    slist.sort();
-    for(KSortableValueList<Entry, QString>::ConstIterator it = slist.begin(); it != slist.end(); ++it)
+    for(QMap<QString, Entry>::const_iterator it = slist.begin(); it != slist.end(); ++it)
     {
-        s_templatesList->append( (*it).value() );
+        s_templatesList->append( it.value() );
     }
 
 }
