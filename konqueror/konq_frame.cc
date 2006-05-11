@@ -294,7 +294,7 @@ void KonqFrameBase::printFrameInfo(const QString& spaces)
 //###################################################################
 
 KonqFrame::KonqFrame( QWidget* parent, KonqFrameContainerBase *parentContainer, const char *name )
-:QWidget(parent,name)
+    : QWidget (parent, name )
 {
    //kDebug(1202) << "KonqFrame::KonqFrame()" << endl;
 
@@ -353,7 +353,7 @@ void KonqFrame::copyHistory( KonqFrameBase *other )
 void KonqFrame::printFrameInfo( const QString& spaces )
 {
    QString className = "NoPart";
-   if (part()) className = part()->widget()->className();
+   if (part()) className = part()->widget()->metaObject()->className();
    kDebug(1202) << spaces << "KonqFrame " << this << " visible=" << QString("%1").arg(isVisible()) << " containing view "
                  << childView() << " visible=" << QString("%1").arg(isVisible())
                  << " and part " << part() << " whose widget is a " << className << endl;
@@ -481,11 +481,21 @@ void KonqFrame::activateChild()
     m_pView->mainWindow()->viewManager()->setActivePart( part() );
 }
 
+KonqView* KonqFrame::childView() const
+{
+  return m_pView;
+}
+
+KonqView* KonqFrame::activeChildView()
+{
+  return m_pView;
+}
+
 //###################################################################
 
 void KonqFrameContainerBase::printFrameInfo(const QString& spaces)
 {
-	kDebug(1202) << spaces << "KonqFrameContainerBase " << this << ", this shouldn't happen!" << endl;
+  kDebug(1202) << spaces << "KonqFrameContainerBase " << this << ", this shouldn't happen!" << endl;
 }
 
 //###################################################################
@@ -675,7 +685,5 @@ void KonqFrameContainer::childEvent( QChildEvent *c )
   if (!m_bAboutToBeDeleted)
       QSplitter::childEvent(c);
 }
-
-//emit s;
 
 #include "konq_frame.moc"

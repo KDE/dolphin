@@ -244,7 +244,7 @@ public:
   /**
    * Returns the view that is currently connected to the Frame.
    */
-  KonqView* childView()const { return m_pView; }
+  KonqView* childView() const;
 
   bool isActivePart();
 
@@ -272,7 +272,7 @@ public:
 
   virtual void activateChild();
 
-  KonqView* activeChildView() { return m_pView; }
+  virtual KonqView* activeChildView();
 
   QString title() const { return m_title; }
 
