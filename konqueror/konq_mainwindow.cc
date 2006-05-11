@@ -1475,7 +1475,7 @@ void KonqMainWindow::slotToolFind()
   {
       KUrl url;
       if ( m_currentView && m_currentView->url().isLocalFile() )
-          url = m_currentView->locationBarURL();
+          url = KUrl::fromPathOrURL( m_currentView->locationBarURL() );
       else
           url.setPath( QDir::homePath() );
       KonqMainWindow * mw = KonqMisc::createBrowserWindowFromProfile(
@@ -2500,7 +2500,7 @@ void KonqMainWindow::slotFileNewAboutToShow()
   // As requested by KNewMenu :
   m_pMenuNew->slotCheckUpToDate();
   // And set the files that the menu apply on :
-  m_pMenuNew->setPopupFiles( KUrl( m_currentView->url().url() ) );
+  m_pMenuNew->setPopupFiles( m_currentView->url() );
 }
 
 void KonqMainWindow::slotSplitViewHorizontal()
@@ -2961,7 +2961,7 @@ void KonqMainWindow::slotUpAboutToShow()
 
   // Use the location bar URL, because in case we display a index.html
   // we want to go up from the dir, not from the index.html
-  KUrl u( m_currentView->locationBarURL() );
+  KUrl u = KUrl::fromPathOrURL( m_currentView->locationBarURL() );
   u = u.upURL();
   while ( u.hasPath() )
   {
@@ -3020,7 +3020,7 @@ void KonqMainWindow::slotUpDelayed()
 
 void KonqMainWindow::slotUpActivated( int id )
 {
-  KUrl u( m_currentView->locationBarURL() );
+  KUrl u = KUrl::fromPathOrURL( m_currentView->locationBarURL() );
   kDebug(1202) << "slotUpActivated. Start URL is " << u << endl;
   for ( int i = 0 ; i < m_paUp->menu()->indexOf( id ) + 1 ; i ++ )
       u = u.upURL();
