@@ -7,10 +7,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include <qlabel.h>
-#include <qlayout.h>
+#include <QLabel>
+#include <QLayout>
 #include <qprogressdialog.h>
-#include <qregexp.h>
+#include <QRegExp>
 #include <qslider.h>
 #include <q3groupbox.h>
 #include <qtextstream.h>

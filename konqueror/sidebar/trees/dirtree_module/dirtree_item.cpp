@@ -27,7 +27,7 @@
 #include <qapplication.h>
 #include <qclipboard.h>
 #include <kio/paste.h>
-#include <qfile.h>
+#include <QFile>
 #include <qpainter.h>
 #include <kiconloader.h>
 #include <qcursor.h>

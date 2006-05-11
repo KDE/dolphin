@@ -19,7 +19,7 @@
 #ifndef konq_treemodule_h
 #define konq_treemodule_h
 
-#include <qobject.h>
+#include <QObject>
 #include "konq_sidebartree.h"
 class QDragObject;
 class KonqSidebarTreeItem;

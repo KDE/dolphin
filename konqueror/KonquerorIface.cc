@@ -28,7 +28,7 @@
 #include <kapplication.h>
 #include <dcopclient.h>
 #include <kdebug.h>
-#include <qfile.h>
+#include <QFile>
 //Added by qt3to4:
 #ifdef Q_WS_X11
 #include <QX11Info>

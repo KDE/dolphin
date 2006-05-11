@@ -19,7 +19,7 @@
 #include "typeslistitem.h"
 #include "keditfiletype.h"
 
-#include <qfile.h>
+#include <QFile>
 
 #include <dcopclient.h>
 #include <kapplication.h>

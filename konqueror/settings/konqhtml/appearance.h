@@ -11,8 +11,8 @@
 #ifndef __APPEARANCE_H__
 #define __APPEARANCE_H__
 
-#include <qwidget.h>
-#include <qmap.h>
+#include <QWidget>
+#include <QMap>
 
 #include <kcmodule.h>
 

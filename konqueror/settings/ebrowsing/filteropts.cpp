@@ -21,8 +21,8 @@
 
 #include <unistd.h>
 
-#include <qlayout.h>
-#include <qlabel.h>
+#include <QLayout>
+#include <QLabel>
 
 #include <dcopclient.h>
 #include <klocale.h>

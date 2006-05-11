@@ -7,7 +7,7 @@
 
 #include <kdialogbase.h>
 
-#include <qlineedit.h>
+#include <QLineEdit>
 #include <qstringlist.h>
 
 class QLabel;

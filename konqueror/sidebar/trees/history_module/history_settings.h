@@ -20,8 +20,8 @@
 #ifndef HISTORY_SETTINGS_H
 #define HISTORY_SETTINGS_H
 
-#include <qfont.h>
-#include <qobject.h>
+#include <QFont>
+#include <QObject>
 
 #include <dcopobject.h>
 

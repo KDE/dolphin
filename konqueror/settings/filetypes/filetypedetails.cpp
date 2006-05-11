@@ -1,5 +1,5 @@
-#include <qcheckbox.h>
-#include <qlayout.h>
+#include <QCheckBox>
+#include <QLayout>
 #include <qradiobutton.h>
 
 //Added by qt3to4:

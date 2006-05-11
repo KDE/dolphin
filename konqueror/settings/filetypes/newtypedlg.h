@@ -1,7 +1,7 @@
 #ifndef _NEWTYPEDLG_H
 #define _NEWTYPEDLG_H
 
-#include <qstring.h>
+#include <QString>
 #include <qstringlist.h>
 #include <kdialogbase.h>
 

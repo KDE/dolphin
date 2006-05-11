@@ -40,7 +40,7 @@
 #include "konqbookmarkmanager.h"
 
 // For doDrop
-#include <qdir.h>//first
+#include <QDir>//first
 #include <assert.h>
 #include <kapplication.h>
 #include <kipc.h>

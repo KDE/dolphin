@@ -18,8 +18,8 @@
 
 #include "web_module.h"
 #include <qfileinfo.h>
-#include <qspinbox.h>
-#include <qtimer.h>
+#include <QSpinBox>
+#include <QTimer>
 
 #include <dom/html_inline.h>
 #include <kdebug.h>

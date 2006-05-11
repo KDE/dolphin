@@ -1,7 +1,7 @@
 // File khttpoptdlg.cpp by Jacek Konieczny <jajcus@zeus.posl.gliwice.pl>
 // Port to KControl by David Faure <faure@kde.org>
 
-#include <qlayout.h> //CT
+#include <QLayout> //CT
 
 #include <klocale.h>
 #include <kglobal.h>

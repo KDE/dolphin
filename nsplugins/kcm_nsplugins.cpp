@@ -20,8 +20,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include <qregexp.h>
-#include <qlayout.h>
+#include <QRegExp>
+#include <QLayout>
 #include <kstandarddirs.h>
 #include <klocale.h>
 #include <kiconloader.h>

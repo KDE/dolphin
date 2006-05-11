@@ -28,11 +28,11 @@
 #define __NS_PLUGINLOADER_H__
 
 
-#include <qstring.h>
+#include <QString>
 #include <qstringlist.h>
 #include <q3dict.h>
-#include <qobject.h>
-#include <qwidget.h>
+#include <QObject>
+#include <QWidget>
 #include <qx11embed_x11.h>
 //Added by qt3to4:
 #include <QGridLayout>

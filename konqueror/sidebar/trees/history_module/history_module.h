@@ -19,8 +19,8 @@
 #ifndef HISTORY_MODULE_H
 #define HISTORY_MODULE_H
 
-#include <qdatetime.h>
-#include <qobject.h>
+#include <QDateTime>
+#include <QObject>
 #include <q3dict.h>
 #include <qpixmap.h>
 

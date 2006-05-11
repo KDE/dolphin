@@ -32,9 +32,9 @@
 #include <unistd.h>
 
 #include <q3dict.h>
-#include <qdir.h>
-#include <qfile.h>
-#include <qtimer.h>
+#include <QDir>
+#include <QFile>
+#include <QTimer>
 
 #include "kxt.h"
 #include "nsplugin.h"

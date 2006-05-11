@@ -22,10 +22,10 @@
 
 #include <qclipboard.h>
 #include <qcursor.h>
-#include <qdir.h>
+#include <QDir>
 #include <q3header.h>
 #include <qmenu.h>
-#include <qtimer.h>
+#include <QTimer>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QDragLeaveEvent>

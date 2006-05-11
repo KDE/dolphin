@@ -26,7 +26,7 @@
 
 #include <unistd.h>
 
-#include <qregexp.h>
+#include <QRegExp>
 #include <qtextcodec.h>
 
 #include <kurl.h>

@@ -23,7 +23,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-#include <qdir.h>
+#include <QDir>
 
 #include <ktoolinvocation.h>
 #include <kio/job.h>
@@ -40,7 +40,7 @@
 #include <kdebug.h>
 #include <dcopclient.h>
 #include <kservice.h>
-#include <qregexp.h>
+#include <QRegExp>
 
 #include "kfmclient.h"
 #include "KonquerorIface_stub.h"

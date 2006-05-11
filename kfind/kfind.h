@@ -7,7 +7,7 @@
 #ifndef KFIND_H
 #define KFIND_H
 
-#include <qwidget.h>
+#include <QWidget>
 #include <kfileitem.h>
 #include <kdirlister.h>
 

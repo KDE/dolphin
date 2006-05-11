@@ -20,9 +20,9 @@
  */
 
 
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
+#include <QLayout>
+#include <QLabel>
+#include <QCheckBox>
 //Added by qt3to4:
 #include <QVBoxLayout>
 

@@ -41,7 +41,7 @@
 #include <kauthorized.h>
 #include <kglobal.h>
 #include <dcopclient.h>
-#include <qdir.h>
+#include <QDir>
 #include <QPixmap>
 
 /*

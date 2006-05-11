@@ -1,8 +1,8 @@
 
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qpushbutton.h>
-#include <qtimer.h>
+#include <QLabel>
+#include <QLayout>
+#include <QPushButton>
+#include <QTimer>
 //Added by qt3to4:
 #include <QGridLayout>
 #include <QHBoxLayout>

@@ -21,10 +21,10 @@
 #include <time.h>
 
 #include <qbuffer.h>
-#include <qfile.h>
+#include <QFile>
 #include <qcache.h>
 #include <qimage.h>
-#include <qtimer.h>
+#include <QTimer>
 #include <QImageReader>
 
 #include <kdatastream.h> // DO NOT REMOVE, otherwise bool marshalling breaks

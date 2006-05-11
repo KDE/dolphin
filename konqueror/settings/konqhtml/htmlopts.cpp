@@ -5,10 +5,10 @@
 // (c) David Faure 1998
 // (c) 2001 Waldo Bastian <bastian@kde.org>
 
-#include <qlayout.h>//CT - 12Nov1998
+#include <QLayout>//CT - 12Nov1998
 #include <q3groupbox.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
+#include <QLabel>
+#include <QPushButton>
 
 #include "htmlopts.h"
 #include "advancedTabDialog.h"

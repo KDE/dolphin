@@ -20,7 +20,7 @@
 #ifndef __testlink_h
 #define __testlink_h
 
-#include <qobject.h>
+#include <QObject>
 
 #include <kio/job.h>
 #include <kbookmark.h>

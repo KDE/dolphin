@@ -20,7 +20,7 @@
 #ifndef SHELLCOMMANDEXECUTOR_H
 #define SHELLCOMMANDEXECUTOR_H
 
-#include <qstring.h>
+#include <QString>
 #include <q3textview.h>
 
 class PtyProcess;

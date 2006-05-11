@@ -20,7 +20,7 @@
 #ifndef __konq_treeviewitem_h__
 #define __konq_treeviewitem_h__
 
-#include <qstring.h>
+#include <QString>
 #include "konq_listviewitems.h"
 
 class KFileItem;

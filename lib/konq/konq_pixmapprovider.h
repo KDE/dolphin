@@ -25,7 +25,7 @@
 
 #include <libkonq_export.h>
 
-#include <qmap.h>
+#include <QMap>
 #include <QPixmap>
 
 class KConfigGroup;

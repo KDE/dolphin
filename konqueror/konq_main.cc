@@ -31,9 +31,9 @@
 #include <kdebug.h>
 #include <kcmdlineargs.h>
 #include <dcopclient.h>
-#include <qfile.h>
+#include <QFile>
 #include <QApplication>
-#include <qwidget.h>
+#include <QWidget>
 
 #ifdef Q_WS_X11
 #include <QX11Info>

@@ -21,10 +21,10 @@
 
 #include <stdlib.h>
 
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qcheckbox.h>
-#include <qpushbutton.h>
+#include <QLabel>
+#include <QLayout>
+#include <QCheckBox>
+#include <QPushButton>
 
 #include <kdebug.h>
 #include <klocale.h>

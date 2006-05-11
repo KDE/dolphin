@@ -24,8 +24,8 @@
 #include "konq_factory.h"
 
 #include <qlist.h>
-#include <qstring.h>
-#include <qobject.h>
+#include <QString>
+#include <QObject>
 #include <qstringlist.h>
 #include <qpointer.h>
 //Added by qt3to4:

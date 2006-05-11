@@ -26,12 +26,12 @@
 #include <kstandarddirs.h>
 #include <kapplication.h>
 
-#include <qlabel.h>
-#include <qtooltip.h>
-#include <qlayout.h>
+#include <QLabel>
+#include <QToolTip>
+#include <QLayout>
 #include <qpainter.h>
 #include <q3scrollview.h>
-#include <qtimer.h>
+#include <QTimer>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QGridLayout>

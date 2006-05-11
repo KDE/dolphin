@@ -32,10 +32,10 @@
 #include <signal.h>
 #include <unistd.h>
 
-#include <qdir.h>
-#include <qfile.h>
+#include <QDir>
+#include <QFile>
 #include <qtextstream.h>
-#include <qregexp.h>
+#include <QRegExp>
 #include <qbuffer.h>
 
 #include <dcopclient.h>

@@ -26,7 +26,7 @@
 #include <dcopobject.h>
 #include <kgenericfactory.h>
 #include <kurifilter.h>
-#include <qregexp.h>
+#include <QRegExp>
 
 class KInstance;
 class KProcess;

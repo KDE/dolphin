@@ -24,8 +24,8 @@
 #include <kiconloader.h>
 #include <qmessagebox.h>
 #include <klocale.h>
-#include <qstring.h>
-#include <qtimer.h>
+#include <QString>
+#include <QTimer>
 #include <kspeech.h>
 #include <qbuffer.h>
 

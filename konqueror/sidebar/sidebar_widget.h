@@ -18,8 +18,8 @@
 #define _SIDEBAR_WIDGET_
 
 #include <q3ptrvector.h>
-#include <qtimer.h>
-#include <qstring.h>
+#include <QTimer>
+#include <QString>
 #include <qpointer.h>
 
 #include <k3dockwidget.h>

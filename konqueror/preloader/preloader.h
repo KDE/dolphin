@@ -21,7 +21,7 @@
 #define _KONQUEROR_PRELOADER_H
 
 #include <kdedmodule.h>
-#include <qtimer.h>
+#include <QTimer>
 
 class KonqyPreloader
     : public KDEDModule

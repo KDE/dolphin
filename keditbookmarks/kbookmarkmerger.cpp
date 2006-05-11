@@ -32,9 +32,9 @@
 
 #include <dcopclient.h>
 
-#include <qdir.h>
+#include <QDir>
 #include <qdom.h>
-#include <qfile.h>
+#include <QFile>
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>

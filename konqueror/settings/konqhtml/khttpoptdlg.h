@@ -2,10 +2,10 @@
 #ifndef __KHTTPOPTDLG_H
 #define __KHTTPOPTDLG_H
 
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <qcheckbox.h>
-#include <qstring.h>
+#include <QLabel>
+#include <QLineEdit>
+#include <QCheckBox>
+#include <QString>
 
 #include <kcmodule.h>
 #include <kconfig.h>

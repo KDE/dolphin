@@ -11,7 +11,7 @@
 // Big changes to accommodate per-domain settings
 // (c) Leo Savernik 2002-2003
 
-#include <qlayout.h>
+#include <QLayout>
 #include <q3groupbox.h>
 #include <kconfig.h>
 #include <k3listview.h>

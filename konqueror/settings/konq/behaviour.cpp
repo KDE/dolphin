@@ -18,9 +18,9 @@
 
 // Behaviour options for konqueror
 
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qlayout.h>
+#include <QCheckBox>
+#include <QLabel>
+#include <QLayout>
 #include <kvbox.h>
 #include <khbox.h>
 

@@ -111,7 +111,7 @@ public:
 
 };
 
-#include <qlabel.h>
+#include <QLabel>
 
 class KonqDraggableLabel : public QLabel
 {

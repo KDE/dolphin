@@ -20,9 +20,9 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include <qfile.h>
-#include <qlabel.h>
-#include <qlayout.h>
+#include <QFile>
+#include <QLabel>
+#include <QLayout>
 #include <qtabwidget.h>
 
 #include <kcmoduleloader.h>

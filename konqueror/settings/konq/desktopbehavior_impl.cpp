@@ -22,11 +22,11 @@
 
 #include "desktopbehavior_impl.h"
 
-#include <qlayout.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qcombobox.h>
-#include <qpushbutton.h>
+#include <QLayout>
+#include <QCheckBox>
+#include <QLabel>
+#include <QComboBox>
+#include <QPushButton>
 #include <q3buttongroup.h>
 #include <qtabwidget.h>
 

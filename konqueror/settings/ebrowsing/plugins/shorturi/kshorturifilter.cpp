@@ -26,8 +26,8 @@
 #include <pwd.h>
 #include <sys/stat.h>
 
-#include <qdir.h>
-#include <qregexp.h>
+#include <QDir>
+#include <QRegExp>
 //Added by qt3to4:
 #include <QList>
 

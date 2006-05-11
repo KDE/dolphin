@@ -18,7 +18,7 @@
 */
 
 #include <qstyle.h>
-#include <qdir.h>
+#include <QDir>
 //Added by qt3to4:
 #include <QMouseEvent>
 #include <QDragEnterEvent>

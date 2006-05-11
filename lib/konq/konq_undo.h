@@ -19,8 +19,8 @@
 #ifndef __konq_undo_h__
 #define __konq_undo_h__
 
-#include <qobject.h>
-#include <qstring.h>
+#include <QObject>
+#include <QString>
 #include <qstack.h>
 
 #include <dcopobject.h>

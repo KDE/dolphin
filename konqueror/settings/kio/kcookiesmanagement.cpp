@@ -20,12 +20,12 @@
  */
 
 #include <qapplication.h>
-#include <qlayout.h>
-#include <qpushbutton.h>
+#include <QLayout>
+#include <QPushButton>
 #include <q3groupbox.h>
-#include <qlabel.h>
-#include <qtimer.h>
-#include <qdatetime.h>
+#include <QLabel>
+#include <QTimer>
+#include <QDateTime>
 #include <qtoolbutton.h>
 #include <QVBoxLayout>
 #include <QList>

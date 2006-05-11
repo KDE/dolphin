@@ -21,7 +21,7 @@
 #ifndef __konq_bgnd_h
 #define __konq_bgnd_h
 
-#include <qstring.h>
+#include <QString>
 #include <qpixmap.h>
 
 #include <kdialog.h>

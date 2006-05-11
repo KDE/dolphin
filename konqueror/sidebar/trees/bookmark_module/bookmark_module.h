@@ -19,8 +19,8 @@
 #ifndef bookmark_module_h
 #define bookmark_module_h
 
-#include <qmap.h>
-#include <qobject.h>
+#include <QMap>
+#include <QObject>
 //Added by qt3to4:
 #include <QDropEvent>
 #include <konq_sidebartreemodule.h>

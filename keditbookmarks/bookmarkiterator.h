@@ -20,7 +20,7 @@
 #ifndef __bookmarkiterator_h
 #define __bookmarkiterator_h
 
-#include <qobject.h>
+#include <QObject>
 #include <QList>
 #include <kbookmark.h>
 

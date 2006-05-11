@@ -22,7 +22,7 @@
 #include "konq_listviewwidget.h"
 
 #include <kurl.h>
-#include <qmap.h>
+#include <QMap>
 #include <qpair.h>
 
 namespace KIO {class MetaInfoJob;}

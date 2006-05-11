@@ -22,7 +22,7 @@
 #ifndef __POLICIES_H__
 #define __POLICIES_H__
 
-#include <qstring.h>
+#include <QString>
 
 class KConfig;
 

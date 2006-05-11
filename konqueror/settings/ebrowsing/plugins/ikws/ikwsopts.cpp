@@ -17,11 +17,11 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include <qcheckbox.h>
-#include <qfile.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qpushbutton.h>
+#include <QCheckBox>
+#include <QFile>
+#include <QLabel>
+#include <QLayout>
+#include <QPushButton>
 //Added by qt3to4:
 #include <QVBoxLayout>
 

@@ -24,10 +24,10 @@
 #include <stdlib.h>
 #include <iostream>
 
-#include <qfile.h>
-#include <qdatastream.h>
-#include <qregexp.h>
-#include <qtimer.h>
+#include <QFile>
+#include <QDataStream>
+#include <QRegExp>
+#include <QTimer>
 #include <qdesktopwidget.h>
 #include <kmessagebox.h>
 #include <kapplication.h>

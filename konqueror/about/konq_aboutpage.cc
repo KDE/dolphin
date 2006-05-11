@@ -17,8 +17,8 @@
 #include <ktoolinvocation.h>
 
 #include <assert.h>
-#include <qfile.h>
-#include <qdir.h>
+#include <QFile>
+#include <QDir>
 
 K_EXPORT_COMPONENT_FACTORY( konq_aboutpage, KonqAboutPageFactory )
 

@@ -8,9 +8,9 @@
 #ifndef __KMISCHTML_OPTIONS_H
 #define __KMISCHTML_OPTIONS_H
 
-#include <qcheckbox.h>
-#include <qlineedit.h>
-#include <qcombobox.h>
+#include <QCheckBox>
+#include <QLineEdit>
+#include <QComboBox>
 
 
 //-----------------------------------------------------------------------------
@@ -22,7 +22,7 @@
 // ... there is room for others :))
 
 
-#include <qstring.h>
+#include <QString>
 #include <kconfig.h>
 #include <kcmodule.h>
 class QRadioButton;

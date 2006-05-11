@@ -18,9 +18,9 @@
 
 #include <limits.h>
 
-#include <qdir.h>
-#include <qpushbutton.h>
-#include <qlayout.h>
+#include <QDir>
+#include <QPushButton>
+#include <QLayout>
 #include <qstringlist.h>
 #include <QSplitter>
 #include <Q3PopupMenu>

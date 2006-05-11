@@ -21,9 +21,9 @@
 #ifndef __SMBRODLG_H
 #define __SMBRODLG_H
 
-#include <qwidget.h>
-#include <qlineedit.h>
-#include <qcheckbox.h>
+#include <QWidget>
+#include <QLineEdit>
+#include <QCheckBox>
 
 #include <kcmodule.h>
 

@@ -1,7 +1,7 @@
 
-#include <qcheckbox.h>
-#include <qcombobox.h>
-#include <qlayout.h>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QLayout>
 #include <qradiobutton.h>
 #include <q3textbrowser.h>
 //Added by qt3to4:

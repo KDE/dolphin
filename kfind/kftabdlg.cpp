@@ -6,14 +6,14 @@
 
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qcheckbox.h>
+#include <QLabel>
+#include <QLayout>
+#include <QCheckBox>
 #include <qwhatsthis.h>
-#include <qtooltip.h>
-#include <qcombobox.h>
-#include <qspinbox.h>
-#include <qpushbutton.h>
+#include <QToolTip>
+#include <QComboBox>
+#include <QSpinBox>
+#include <QPushButton>
 #include <qapplication.h>
 
 #include <kcalendarsystem.h>

@@ -1,16 +1,16 @@
 #ifndef _konq_sidebar_test_h_
 #define _konq_sidebar_test_h_
 #include <konqsidebarplugin.h>
-#include <qlabel.h>
-#include <qlayout.h>
+#include <QLabel>
+#include <QLayout>
 #include <kparts/part.h>
 #include <kparts/factory.h>
 #include <kparts/browserextension.h>
 #include <kdialogbase.h>
-#include <qcombobox.h>
+#include <QComboBox>
 #include <qstringlist.h>
 #include <klocale.h>
-#include <qlineedit.h>
+#include <QLineEdit>
 class KonqSidebarTree;
 
 class KonqSidebar_Tree: public KonqSidebarPlugin

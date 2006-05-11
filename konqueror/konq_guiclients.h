@@ -21,7 +21,7 @@
 #define __konq_guiclients_h__
 
 #include <kxmlguiclient.h>
-#include <qobject.h>
+#include <QObject>
 #include <qhash.h>
 #include <ktrader.h>
 

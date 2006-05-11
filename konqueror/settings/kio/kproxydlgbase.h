@@ -22,8 +22,8 @@
 #ifndef KPROXY_DIALOG_BASE_H
 #define KPROXY_DIALOG_BASE_H
 
-#include <qmap.h>
-#include <qstring.h>
+#include <QMap>
+#include <QString>
 #include <qstringlist.h>
 
 #include <kdialogbase.h>

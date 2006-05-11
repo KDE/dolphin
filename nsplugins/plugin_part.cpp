@@ -31,7 +31,7 @@
 #include <kparts/browserinterface.h>
 #include <kparts/browserextension.h>
 
-#include <qlabel.h>
+#include <QLabel>
 
 #include "nspluginloader.h"
 #include "plugin_part.h"

@@ -26,8 +26,8 @@
 #include <kstandarddirs.h>
 #include <kdebug.h>
 
-#include <qregexp.h>
-#include <qfile.h>
+#include <QRegExp>
+#include <QFile>
 
 #define HOSTPORT_PATTERN "[a-zA-Z0-9][a-zA-Z0-9+-]*(?:\\:[0-9]{1,5})?(?:/[\\w:@&=+$,-.!~*'()]*)*"
 

@@ -24,7 +24,7 @@
 */
 
 
-#include <qdir.h>
+#include <QDir>
 #include <QGridLayout>
 #include <QResizeEvent>
 
@@ -38,12 +38,12 @@
 #include <kconfig.h>
 #include <dcopclient.h>
 #include <dcopstub.h>
-#include <qlayout.h>
-#include <qobject.h>
-#include <qpushbutton.h>
+#include <QLayout>
+#include <QObject>
+#include <QPushButton>
 #include <qx11embed_x11.h>
 #include <qtextstream.h>
-#include <qregexp.h>
+#include <QRegExp>
 
 #include "nspluginloader.h"
 #include "nspluginloader.moc"

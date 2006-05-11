@@ -24,10 +24,10 @@
 #include "konq_sidebartreetoplevelitem.h"
 #include "konqsidebar_tree.h"
 #include <kdirnotify.h>
-#include <qmap.h>
-#include <qpoint.h>
+#include <QMap>
+#include <QPoint>
 #include <q3strlist.h>
-#include <qtooltip.h>
+#include <QToolTip>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QByteArray>

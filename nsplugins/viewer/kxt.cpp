@@ -48,11 +48,11 @@
 #if QT_VERSION < 0x030100
 
 #include <kapplication.h>
-#include <qwidget.h>
+#include <QWidget>
 #include <qobjectlist.h>
 #include <qwidgetlist.h>
 #include <kdebug.h>
-#include <qtimer.h>
+#include <QTimer>
 
 #include "kxt.h"
 

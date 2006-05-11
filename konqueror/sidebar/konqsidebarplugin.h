@@ -18,10 +18,10 @@
 */
 #ifndef _konqsidebarplugin_h_
 #define _konqsidebarplugin_h_
-#include <qwidget.h>
-#include <qobject.h>
+#include <QWidget>
+#include <QObject>
 #include <kurl.h>
-#include <qstring.h>
+#include <QString>
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
 #include <kio/job.h>

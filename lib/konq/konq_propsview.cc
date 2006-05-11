@@ -27,7 +27,7 @@
 //Added by qt3to4:
 #include <QPixmap>
 #include <unistd.h>
-#include <qfile.h>
+#include <QFile>
 #include <iostream>
 #include <ktrader.h>
 #include <kinstance.h>

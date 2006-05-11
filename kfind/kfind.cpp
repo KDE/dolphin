@@ -26,15 +26,15 @@
  **********************************************************************/
 
 #include <kpushbutton.h>
-#include <qlayout.h>
+#include <QLayout>
 #include <kvbox.h>
 
 #include <kdialog.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kseparator.h>
-#include <qlineedit.h>
-#include <qcheckbox.h>
+#include <QLineEdit>
+#include <QCheckBox>
 #include <kstdguiitem.h>
 
 #include "kftabdlg.h"

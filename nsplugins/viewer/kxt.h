@@ -50,7 +50,7 @@
 #if QT_VERSION < 0x030100
 
 #include <kapplication.h>
-#include <qwidget.h>
+#include <QWidget>
 #include <X11/Intrinsic.h>
 
 class KXtApplication : public KApplication {

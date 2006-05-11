@@ -20,8 +20,8 @@
 
 #include <unistd.h>
 
-#include <qpushbutton.h>
-#include <qlayout.h>
+#include <QPushButton>
+#include <QLayout>
 
 //Added by qt3to4:
 #include <QGridLayout>

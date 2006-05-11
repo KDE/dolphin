@@ -19,9 +19,9 @@
 // File previews configuration
 //
 
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qlayout.h>
+#include <QCheckBox>
+#include <QLabel>
+#include <QLayout>
 
 //Added by qt3to4:
 #include <QVBoxLayout>

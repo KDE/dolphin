@@ -32,12 +32,12 @@
 #include "NSPluginCallbackIface_stub.h"
 
 
-#include <qobject.h>
-#include <qstring.h>
+#include <QObject>
+#include <QString>
 #include <qstringlist.h>
 #include <q3ptrqueue.h>
 #include <q3dict.h>
-#include <qmap.h>
+#include <QMap>
 #include <q3intdict.h>
 #include <qpointer.h>
 //Added by qt3to4:

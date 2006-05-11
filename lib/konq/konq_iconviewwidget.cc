@@ -24,13 +24,13 @@
 #include "konq_filetip.h"
 
 #include <qclipboard.h>
-#include <qlayout.h>
-#include <qtimer.h>
+#include <QLayout>
+#include <QTimer>
 #include <qpainter.h>
-#include <qtooltip.h>
-#include <qlabel.h>
+#include <QToolTip>
+#include <QLabel>
 #include <qmovie.h>
-#include <qregexp.h>
+#include <QRegExp>
 #include <qcursor.h>
 //Added by qt3to4:
 #include <QMouseEvent>

@@ -19,10 +19,10 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qregexp.h>
-#include <qcheckbox.h>
+#include <QLabel>
+#include <QLayout>
+#include <QRegExp>
+#include <QCheckBox>
 #include <qradiobutton.h>
 #include <qtabwidget.h>
 //Added by qt3to4:

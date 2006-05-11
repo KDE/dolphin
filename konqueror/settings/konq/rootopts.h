@@ -13,7 +13,7 @@
 #define __ROOT_OPTIONS_H
 
 
-#include <qstring.h>
+#include <QString>
 
 #include <kcmodule.h>
 #include <kio/global.h>

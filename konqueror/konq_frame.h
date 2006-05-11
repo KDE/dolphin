@@ -22,11 +22,11 @@
 #include "konq_factory.h"
 
 #include <qpointer.h>
-#include <qcolor.h>
-#include <qwidget.h>
+#include <QColor>
+#include <QWidget>
 #include <qsplitter.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
+#include <QCheckBox>
+#include <QLabel>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QPaintEvent>

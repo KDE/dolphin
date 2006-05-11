@@ -28,7 +28,7 @@
 #ifndef CHFACEDLG_H
 #define CHFACEDLG_H
 
-#include <qobject.h>
+#include <QObject>
 //Added by qt3to4:
 #include <QPixmap>
 #include <kdialogbase.h>

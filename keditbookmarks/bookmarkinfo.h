@@ -22,7 +22,7 @@
 #define __bookmarkinfo_h
 
 #include <kbookmark.h>
-#include <qwidget.h>
+#include <QWidget>
 
 class BookmarkListView;
 class EditCommand;

@@ -26,7 +26,7 @@
 
 #include <kcommand.h>
 
-#include <qobject.h>
+#include <QObject>
 #include <QString>
 
 class KBookmark;

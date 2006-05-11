@@ -25,7 +25,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-#include <qdir.h>
+#include <QDir>
 #include <kinstance.h>
 
 class KonqDirPart;

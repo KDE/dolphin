@@ -1,8 +1,8 @@
 
-#include <qlayout.h>
-#include <qlabel.h>
+#include <QLayout>
+#include <QLabel>
 
-#include <qcombobox.h>
+#include <QComboBox>
 //Added by qt3to4:
 #include <QVBoxLayout>
 #include <QFrame>

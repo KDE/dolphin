@@ -23,8 +23,8 @@
 #include "konq_factory.h"
 
 #include <qnamespace.h>
-#include <qobject.h>
-#include <qmap.h>
+#include <QObject>
+#include <QMap>
 #include <qpointer.h>
 
 #include <ktrader.h>

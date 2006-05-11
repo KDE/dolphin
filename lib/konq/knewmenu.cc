@@ -17,7 +17,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <qdir.h>
+#include <QDir>
 //Added by qt3to4:
 #include <QVBoxLayout>
 #include <QList>
@@ -46,10 +46,10 @@
 #include <utime.h>
 
 // For KUrlDesktopFileDlg
-#include <qlayout.h>
+#include <QLayout>
 #include <klineedit.h>
 #include <kurlrequester.h>
-#include <qlabel.h>
+#include <QLabel>
 
 QList<KNewMenu::Entry> * KNewMenu::s_templatesList = 0L;
 int KNewMenu::s_templatesVersion = 0;

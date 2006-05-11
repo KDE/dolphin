@@ -42,7 +42,7 @@
 
 #include <qapplication.h>
 #include <qmetaobject.h>
-#include <qobject.h>
+#include <QObject>
 //Added by qt3to4:
 #include <QByteArray>
 #include <QEvent>

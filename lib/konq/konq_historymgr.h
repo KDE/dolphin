@@ -20,12 +20,12 @@
 #ifndef KONQ_HISTORY_H
 #define KONQ_HISTORY_H
 
-#include <qdatastream.h>
-#include <qfile.h>
+#include <QDataStream>
+#include <QFile>
 #include <q3ptrlist.h>
-#include <qobject.h>
-#include <qmap.h>
-#include <qtimer.h>
+#include <QObject>
+#include <QMap>
+#include <QTimer>
 
 #include <dcopobject.h>
 

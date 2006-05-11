@@ -23,7 +23,7 @@
 #define __DOMAINLISTVIEW_H__
 
 #include <q3groupbox.h>
-#include <qmap.h>
+#include <QMap>
 
 class Q3ListViewItem;
 class QPushButton;

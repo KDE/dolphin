@@ -22,7 +22,7 @@
 #include <kurl.h>
 #include <libkonq_export.h>
 
-#include <qobject.h>
+#include <QObject>
 #include <qevent.h>
 //Added by qt3to4:
 #include <QList>

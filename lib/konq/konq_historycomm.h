@@ -20,7 +20,7 @@
 #ifndef KONQ_HISTORYCOMM_H
 #define KONQ_HISTORYCOMM_H
 
-#include <qdatetime.h>
+#include <QDateTime>
 #include <qstringlist.h>
 
 #include <dcopobject.h>

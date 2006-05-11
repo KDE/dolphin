@@ -24,7 +24,7 @@
 #include "toplevel.h"
 
 #include <kdebug.h>
-#include <qtimer.h>
+#include <QTimer>
 #include <assert.h>
 
 BookmarkIterator::BookmarkIterator(QList<KBookmark> bks) : m_bklist(bks) {

@@ -24,7 +24,7 @@
 #include <sys/types.h>
 #include <kactioncollection.h>
 #include <qmenu.h>
-#include <qmap.h>
+#include <QMap>
 #include <kaction.h>
 #include <kactioncollection.h>
 

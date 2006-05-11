@@ -21,7 +21,7 @@
 #define __konq_infolistviewitems_h__
 
 #include "konq_listview.h"
-#include <qstring.h>
+#include <QString>
 #include <kicontheme.h>
 
 // for mode_t

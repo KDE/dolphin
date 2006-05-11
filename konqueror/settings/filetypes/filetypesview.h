@@ -2,7 +2,7 @@
 #define _FILETYPESVIEW_H
 
 #include <q3ptrlist.h>
-#include <qmap.h>
+#include <QMap>
 //Added by qt3to4:
 #include <QLabel>
 #include <QStackedWidget>

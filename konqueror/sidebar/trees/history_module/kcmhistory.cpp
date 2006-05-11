@@ -20,10 +20,10 @@
  *  along with this program; if not, write to the Free Software
  */
 
-#include <qcheckbox.h>
-#include <qcombobox.h>
-#include <qlayout.h>
-#include <qpushbutton.h>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QLayout>
+#include <QPushButton>
 #include <qradiobutton.h>
 
 #include <dcopclient.h>

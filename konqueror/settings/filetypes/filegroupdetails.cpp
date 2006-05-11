@@ -17,7 +17,7 @@
 */
 #include "filegroupdetails.h"
 #include "typeslistitem.h"
-#include <qlayout.h>
+#include <QLayout>
 #include <qradiobutton.h>
 #include <q3buttongroup.h>
 #include <qwhatsthis.h>

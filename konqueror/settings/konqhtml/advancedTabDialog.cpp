@@ -18,8 +18,8 @@
  */
 
 #include <qbuttongroup.h>
-#include <qcheckbox.h>
-#include <qlayout.h>
+#include <QCheckBox>
+#include <QLayout>
 #include <kpushbutton.h>
 #include <qradiobutton.h>
 #include <qslider.h>

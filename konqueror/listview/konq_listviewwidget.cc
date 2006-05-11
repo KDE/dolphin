@@ -35,10 +35,10 @@
 #include <q3header.h>
 #include <qpainter.h>
 #include <qstyle.h>
-#include <qtimer.h>
+#include <QTimer>
 #include <qevent.h>
 #include <qcursor.h>
-#include <qtooltip.h>
+#include <QToolTip>
 #include <qdrag.h>
 
 #include <stdlib.h>

@@ -30,10 +30,10 @@
 #include <kdebug.h>
 #include <kapplication.h>
 #include <kcmdlineargs.h>
-#include <qlabel.h>
+#include <QLabel>
 #include <ktextedit.h>
 #include <kvbox.h>
-#include <qfile.h>
+#include <QFile>
 #include <qdesktopwidget.h>
 #include <qtextstream.h>
 #include <QTextCursor>

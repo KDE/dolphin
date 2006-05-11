@@ -23,7 +23,7 @@
 #define __JSPOLICIES_H__
 
 #include <q3groupbox.h>
-#include <qstring.h>
+#include <QString>
 
 #include <khtml_settings.h>
 

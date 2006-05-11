@@ -25,7 +25,7 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <unistd.h>
-#include <qfile.h>
+#include <QFile>
 
 #include <kactioncollection.h>
 #include <kactionmenu.h>
@@ -46,8 +46,8 @@
 #include <ktrader.h>
 #include <ktoggleaction.h>
 
-#include <qregexp.h>
-#include <qdatetime.h>
+#include <QRegExp>
+#include <QDateTime>
 
 #include <config.h>
 

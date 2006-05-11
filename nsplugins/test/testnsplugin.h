@@ -23,13 +23,13 @@
 #ifndef __TESTNSPLUGIN_H__
 #define __TESTNSPLUGIN_H__
 
-#include <qstring.h>
-#include <qwidget.h>
+#include <QString>
+#include <QWidget>
 //Added by qt3to4:
 #include <Q3PtrList>
 #include <Q3BoxLayout>
 #include <kmainwindow.h>
-#include <qlayout.h>
+#include <QLayout>
 #include <qlist.h>
 
 class NSPluginLoader;

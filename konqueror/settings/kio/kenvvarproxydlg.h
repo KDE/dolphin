@@ -21,7 +21,7 @@
 #ifndef KENVVAR_PROXY_DIALOG_H
 #define KENVVAR_PROXY_DIALOG_H
 
-#include <qmap.h>
+#include <QMap>
 
 #include "kproxydlgbase.h"
 

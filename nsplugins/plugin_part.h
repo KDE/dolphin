@@ -28,7 +28,7 @@
 #include <kparts/factory.h>
 #include <kparts/part.h>
 #include <klibloader.h>
-#include <qwidget.h>
+#include <QWidget>
 #include <qpointer.h>
 
 class KAboutData;

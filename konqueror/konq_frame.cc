@@ -19,7 +19,7 @@
 #include <math.h>
 
 #include <qpainter.h>
-#include <qlayout.h>
+#include <QLayout>
 #include <qtoolbutton.h>
 #include <qtabbar.h>
 #include <qmenu.h>

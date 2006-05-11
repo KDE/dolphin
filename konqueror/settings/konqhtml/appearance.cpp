@@ -1,7 +1,7 @@
 
 #include <qfontdatabase.h>
-#include <qlabel.h>
-#include <qlayout.h>
+#include <QLabel>
+#include <QLayout>
 #include <q3groupbox.h>
 
 #include <dcopclient.h>

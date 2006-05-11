@@ -2,8 +2,8 @@
 #define __TEMPLATE_H__
 
 
-#include <qstring.h>
-#include <qmap.h>
+#include <QString>
+#include <QMap>
 
 class CSSTemplate
 {

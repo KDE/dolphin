@@ -24,11 +24,11 @@
 
 #include <stdlib.h>
 
-#include <qtimer.h>
+#include <QTimer>
 #include <qclipboard.h>
 #include <qsplitter.h>
-#include <qlayout.h>
-#include <qlabel.h>
+#include <QLayout>
+#include <QLabel>
 //Added by qt3to4:
 #include <QVBoxLayout>
 #include <QGridLayout>

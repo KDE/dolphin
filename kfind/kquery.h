@@ -3,11 +3,11 @@
 
 #include <time.h>
 
-#include <qobject.h>
-#include <qregexp.h>
+#include <QObject>
+#include <QRegExp>
 #include <QQueue>
 #include <QList>
-#include <qdir.h>
+#include <QDir>
 #include <qstringlist.h>
 
 #include <kio/job.h>

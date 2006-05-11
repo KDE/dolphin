@@ -19,7 +19,7 @@
 #define __KCMCSS_H__
 
 
-#include <qmap.h>
+#include <QMap>
 
 #include <kcmodule.h>
 

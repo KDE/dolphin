@@ -28,7 +28,7 @@
 #include <kapplication.h>
 #include <dcopclient.h>
 #include <qtabwidget.h>
-#include <qlayout.h>
+#include <QLayout>
 
 #include "jsopts.h"
 #include "javaopts.h"

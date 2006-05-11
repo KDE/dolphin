@@ -26,7 +26,7 @@
 #ifndef __KCOOKIESPOLICIES_H
 #define __KCOOKIESPOLICIES_H
 
-#include <qmap.h>
+#include <QMap>
 #include <kcmodule.h>
 
 #include "policydlg.h"

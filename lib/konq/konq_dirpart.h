@@ -20,7 +20,7 @@
 #ifndef __konqdirpart_h
 #define __konqdirpart_h
 
-#include <qstring.h>
+#include <QString>
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
 #include <kfileitem.h>

@@ -41,7 +41,7 @@
 #include <qapplication.h>
 #include <qclipboard.h>
 #include <q3header.h>
-#include <qregexp.h>
+#include <QRegExp>
 
 #include <assert.h>
 #include <string.h>

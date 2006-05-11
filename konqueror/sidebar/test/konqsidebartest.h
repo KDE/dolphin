@@ -17,8 +17,8 @@
 #ifndef _konq_sidebar_test_h_
 #define _konq_sidebar_test_h_
 #include <konqsidebarplugin.h>
-#include <qlabel.h>
-#include <qlayout.h>
+#include <QLabel>
+#include <QLayout>
 
 class SidebarTest : public KonqSidebarPlugin
 	{

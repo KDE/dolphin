@@ -20,7 +20,7 @@
 #ifndef __actionsimpl_h
 #define __actionsimpl_h
 
-#include <qobject.h>
+#include <QObject>
 
 class ActionsImpl : public QObject
 {

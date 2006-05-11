@@ -59,10 +59,10 @@
 #include <time.h>
 #include <unistd.h>
 
-#include <qfile.h>
+#include <QFile>
 #include <qclipboard.h>
 #include <qmetaobject.h>
-#include <qlayout.h>
+#include <QLayout>
 #include <qfileinfo.h>
 #ifdef Q_WS_X11
 #include <QX11Info>

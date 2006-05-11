@@ -25,14 +25,14 @@
  * @author Braden MacDonald
  */
 
-#include <qstring.h>
-#include <qlayout.h>
-#include <qlabel.h>
+#include <QString>
+#include <QLayout>
+#include <QLabel>
 #include <qpixmap.h>
 #include <qimage.h>
-#include <qpushbutton.h>
-#include <qdir.h>
-#include <qcheckbox.h>
+#include <QPushButton>
+#include <QDir>
+#include <QCheckBox>
 //Added by qt3to4:
 #include <QVBoxLayout>
 #include <QHBoxLayout>

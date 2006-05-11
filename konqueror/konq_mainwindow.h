@@ -22,9 +22,9 @@
 #ifndef __konq_mainwindow_h__
 #define __konq_mainwindow_h__
 
-#include <qmap.h>
-#include <qpoint.h>
-#include <qtimer.h>
+#include <QMap>
+#include <QPoint>
+#include <QTimer>
 #include <qpointer.h>
 //Added by qt3to4:
 #include <QPixmap>

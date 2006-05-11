@@ -16,7 +16,7 @@
 
 #include <qtextstream.h>
 #include <qfileinfo.h>
-#include <qdir.h>
+#include <QDir>
 #include <qclipboard.h>
 #include <qpixmap.h>
 #include <q3dragobject.h>

@@ -31,8 +31,8 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
-#include <qwidget.h>
-#include <qfile.h>
+#include <QWidget>
+#include <QFile>
 
 #include <assert.h>
 

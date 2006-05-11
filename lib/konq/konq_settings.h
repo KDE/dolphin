@@ -21,10 +21,10 @@
 #define __konq_settings_h__
 
 class KConfig;
-#include <qcolor.h>
-#include <qstring.h>
-#include <qfont.h>
-#include <qmap.h>
+#include <QColor>
+#include <QString>
+#include <QFont>
+#include <QMap>
 
 #include <libkonq_export.h>
 

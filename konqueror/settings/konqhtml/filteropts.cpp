@@ -23,15 +23,15 @@
 #include <kfiledialog.h>
 #include <dcopclient.h>
 #include <Q3ListBox>
-#include <qlayout.h>
-#include <qpushbutton.h>
+#include <QLayout>
+#include <QPushButton>
 #include <q3groupbox.h>
 #include <khbox.h>
-#include <qlineedit.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
+#include <QLineEdit>
+#include <QLabel>
+#include <QCheckBox>
 #include <qtextstream.h>
-#include <qregexp.h>
+#include <QRegExp>
 
 #include "filteropts.h"
 #include "filteropts.moc"

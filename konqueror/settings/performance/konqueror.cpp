@@ -22,9 +22,9 @@
 #include <kconfig.h>
 
 #include <qradiobutton.h>
-#include <qspinbox.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
+#include <QSpinBox>
+#include <QLabel>
+#include <QCheckBox>
 #include <klocale.h>
 
 namespace KCMPerformance

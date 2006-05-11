@@ -21,7 +21,7 @@
 #define __konq_listviewitems_h__
 
 #include <k3listview.h>
-#include <qstring.h>
+#include <QString>
 #include <kicontheme.h>
 
 

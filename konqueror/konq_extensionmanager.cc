@@ -14,8 +14,8 @@
     *************************************************************************
 */
 
-#include <qlayout.h>
-#include <qtimer.h>
+#include <QLayout>
+#include <QTimer>
 //Added by qt3to4:
 #include <QVBoxLayout>
 

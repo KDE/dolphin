@@ -23,8 +23,8 @@
 
 #include <unistd.h>
 
-#include <qlayout.h>
-#include <qmap.h>
+#include <QLayout>
+#include <QMap>
 #include <qtabwidget.h>
 //Added by qt3to4:
 #include <QVBoxLayout>

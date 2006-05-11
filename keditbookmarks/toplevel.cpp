@@ -34,8 +34,8 @@
 
 #include <qclipboard.h>
 #include <qsplitter.h>
-#include <qlayout.h>
-#include <qlabel.h>
+#include <QLayout>
+#include <QLabel>
 
 #include <kaction.h>
 #include <kactioncollection.h>

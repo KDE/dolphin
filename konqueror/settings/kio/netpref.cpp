@@ -1,5 +1,5 @@
-#include <qlayout.h>
-#include <qcheckbox.h>
+#include <QLayout>
+#include <QCheckBox>
 
 #include <q3groupbox.h>
 //Added by qt3to4:
