@@ -1,4 +1,3 @@
-kde4_header()
 
 
 
@@ -6,7 +5,6 @@ kde4_header()
 
 install_files( ${DATA_INSTALL_DIR}/konqsidebartng/virtual_folders/services FILES .directory audiocd.desktop printsystem.desktop media.desktop settings.desktop applications.desktop )
 
-kde4_footer()
 
 
 

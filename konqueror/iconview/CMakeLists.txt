@@ -1,4 +1,3 @@
-kde4_header()
 include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/konqueror )
 
 
@@ -22,7 +21,6 @@ install_targets(${PLUGIN_INSTALL_DIR} konq_iconview )
 install_files( ${DATA_INSTALL_DIR}/konqiconview FILES konq_iconview.rc konq_multicolumnview.rc )
 install_files( ${SERVICES_INSTALL_DIR} FILES konq_iconview.desktop konq_multicolumnview.desktop )
 
-kde4_footer()
 
 
 

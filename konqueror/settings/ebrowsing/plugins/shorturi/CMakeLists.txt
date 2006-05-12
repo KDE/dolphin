@@ -1,4 +1,3 @@
-kde4_header()
 
 
 
@@ -24,7 +23,6 @@ install_targets(${PLUGIN_INSTALL_DIR} kshorturifilter )
 install_files( ${SERVICES_INSTALL_DIR} FILES kshorturifilter.desktop )
 install_files( ${CONFIG_INSTALL_DIR} FILES kshorturifilterrc )
 
-kde4_footer()
 
 
 

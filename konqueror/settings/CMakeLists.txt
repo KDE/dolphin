@@ -1,4 +1,3 @@
-kde4_header()
 
 add_subdirectory( ebrowsing ) 
 add_subdirectory( konq ) 
@@ -13,7 +12,6 @@ add_subdirectory( css )
 ########### install files ###############
 
 
-kde4_footer()
 
 
 

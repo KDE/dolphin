@@ -1,4 +1,3 @@
-kde4_header()
 
 if (X11_Xt_LIB)
 
@@ -64,7 +63,6 @@ else (X11_Xt_LIB)
 
 endif (X11_Xt_LIB)
 
-kde4_footer()
 
 
 

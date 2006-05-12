@@ -1,4 +1,3 @@
-kde4_header()
 
 project(kdepasswd)
 
@@ -21,7 +20,6 @@ install(TARGETS kdepasswd DESTINATION bin)
 
 install_files( ${XDG_APPS_DIR} FILES kdepasswd.desktop )
 
-kde4_footer()
 
 
 

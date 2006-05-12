@@ -1,4 +1,3 @@
-kde4_header()
 
 project(konqueror)
 
@@ -83,7 +82,6 @@ install(FILES profile_kde_devel.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}${DAT
 install(FILES profile_simplebrowser.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}${DATA_INSTALL_DIR}/konqueror/profiles/ RENAME simplebrowser)
 
 
-kde4_footer()
 
 
 

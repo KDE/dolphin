@@ -1,4 +1,3 @@
-kde4_header()
 
 
 
@@ -6,7 +5,6 @@ kde4_header()
 
 install_files( ${DATA_INSTALL_DIR}/konqueror/pics FILES indicator_connect.png  	indicator_noconnect.png indicator_empty.png indicator_viewactive.png )
 
-kde4_footer()
 
 
 

@@ -1,4 +1,3 @@
-kde4_header()
 include_directories( 
 	${CMAKE_SOURCE_DIR}/konqueror/sidebar/ 
 	${CMAKE_SOURCE_DIR}/konqueror/sidebar/trees/
@@ -24,7 +23,6 @@ install_targets(${PLUGIN_INSTALL_DIR} konq_sidebartree_dirtree )
 ########### install files ###############
 
 
-kde4_footer()
 
 
 

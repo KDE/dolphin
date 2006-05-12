@@ -1,4 +1,3 @@
-kde4_header()
 
 project(kfind)
 
@@ -44,7 +43,6 @@ install_files( ${SERVICES_INSTALL_DIR} FILES kfindpart.desktop )
 kde4_install_icons( ${ICON_INSTALL_DIR} hicolor )
 
 
-kde4_footer()
 
 
 

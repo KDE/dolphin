@@ -1,4 +1,3 @@
-kde4_header()
 
 
 
@@ -7,7 +6,6 @@ kde4_header()
 install_files( ${TEMPLATES_INSTALL_DIR} FILES linkProgram.desktop  	linkURL.desktop linkFloppy.desktop linkHD.desktop linkCDROM.desktop  	Directory.desktop TextFile.desktop HTMLFile.desktop linkZIP.desktop  	linkDVDROM.desktop linkCAMERA.desktop linkNFS.desktop linkCDWRITER.desktop  	linkMO.desktop )
 install_files( ${TEMPLATES_INSTALL_DIR}/.source FILES Program.desktop  	URL.desktop Floppy.desktop HD.desktop CDROM-Device.desktop  	TextFile.txt HTMLFile.html ZIP-Device.desktop DVDROM-Device.desktop  	CAMERA-Device.desktop NFS.desktop CDWRITER-Device.desktop  	MO-Device.desktop )
 
-kde4_footer()
 
 
 

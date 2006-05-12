@@ -1,4 +1,3 @@
-kde4_header()
 include_directories( 
 	${CMAKE_SOURCE_DIR}/libkonq 
 	${CMAKE_SOURCE_DIR}/konqueror/sidebar/
@@ -46,7 +45,6 @@ install_targets(${PLUGIN_INSTALL_DIR} kcm_history )
 
 install_files( ${XDG_APPS_DIR} FILES kcmhistory.desktop )
 
-kde4_footer()
 
 
 

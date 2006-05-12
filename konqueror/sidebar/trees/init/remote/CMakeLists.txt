@@ -1,4 +1,3 @@
-kde4_header()
 
 add_subdirectory( ftp ) 
 add_subdirectory( web ) 
@@ -9,7 +8,6 @@ add_subdirectory( web )
 
 install_files( ${DATA_INSTALL_DIR}/konqsidebartng/virtual_folders/remote FILES .directory )
 
-kde4_footer()
 
 
 

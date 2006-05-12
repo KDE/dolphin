@@ -1,4 +1,3 @@
-kde4_header()
 
 set(libkonq_sidebar_tree_SRCS 
 	${CMAKE_CURRENT_SOURCE_DIR}/konq_sidebartree.cpp 
@@ -33,7 +32,6 @@ install_targets(${PLUGIN_INSTALL_DIR} konqsidebar_tree )
 ########### install files ###############
 
 
-kde4_footer()
 
 
 

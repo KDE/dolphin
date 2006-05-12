@@ -1,4 +1,3 @@
-kde4_header()
 
 
 
@@ -21,7 +20,6 @@ install_targets(${PLUGIN_INSTALL_DIR} konq_sidebartest )
 
 install_files( ${DATA_INSTALL_DIR}/konqsidebartng/entries FILES test.desktop )
 
-kde4_footer()
 
 
 

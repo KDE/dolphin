@@ -1,4 +1,3 @@
-kde4_header()
 include_directories( ${CMAKE_SOURCE_DIR}/libkonq )
 
 
@@ -41,7 +40,6 @@ install(FILES uninstall.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}${APPLNK_INST
 install(FILES uninstall.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}${APPLNK_INSTALL_DIR}/Settings/WebBrowsing/ RENAME khtml_appearance.desktop)
 
 
-kde4_footer()
 
 
 

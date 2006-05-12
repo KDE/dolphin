@@ -1,4 +1,3 @@
-kde4_header()
 
 
 
@@ -39,7 +38,6 @@ install(TARGETS keditfiletype DESTINATION bin)
 
 install_files( ${XDG_APPS_DIR} FILES filetypes.desktop )
 
-kde4_footer()
 
 
 

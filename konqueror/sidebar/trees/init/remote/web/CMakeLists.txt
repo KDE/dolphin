@@ -1,4 +1,3 @@
-kde4_header()
 
 
 
@@ -6,7 +5,6 @@ kde4_header()
 
 install_files( ${DATA_INSTALL_DIR}/konqsidebartng/virtual_folders/remote/web FILES .directory apps_web.desktop dot_web.desktop kde_web.desktop look_web.desktop )
 
-kde4_footer()
 
 
 

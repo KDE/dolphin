@@ -1,4 +1,3 @@
-kde4_header()
 include_directories( ${CMAKE_SOURCE_DIR}/libkonq )
 
 
@@ -35,7 +34,6 @@ install_files( ${XDG_APPS_DIR} FILES desktopbehavior.desktop desktop.desktop des
 install_files( ${APPLNK_INSTALL_DIR}/.hidden FILES filebehavior.desktop fileappearance.desktop filepreviews.desktop )
 install_files( ${DATA_INSTALL_DIR}/kcontrol/pics FILES overlapping.png onlyone.png )
 
-kde4_footer()
 
 
 

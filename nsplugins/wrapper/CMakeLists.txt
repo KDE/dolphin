@@ -1,4 +1,3 @@
-kde4_header()
 include_directories( ${CMAKE_SOURCE_DIR}/nsplugins )
 
 
@@ -19,7 +18,6 @@ install_targets(${LIB_INSTALL_DIR} nswrapper )
 ########### install files ###############
 
 
-kde4_footer()
 
 
 

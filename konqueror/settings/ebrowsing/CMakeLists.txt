@@ -1,4 +1,3 @@
-kde4_header()
 
 add_subdirectory( plugins ) 
 
@@ -23,7 +22,6 @@ install_targets(${PLUGIN_INSTALL_DIR} kcm_kurifilt )
 
 install_files( ${XDG_APPS_DIR} FILES ebrowsing.desktop )
 
-kde4_footer()
 
 
 

@@ -1,4 +1,3 @@
-kde4_header()
 
 
 
@@ -6,7 +5,6 @@ kde4_header()
 
 install_files( ${DATA_INSTALL_DIR}/konqueror/pics FILES thumbnailfont_7x4.png arrow_topleft.png arrow_topright.png arrow_bottomleft.png arrow_bottomright.png )
 
-kde4_footer()
 
 
 

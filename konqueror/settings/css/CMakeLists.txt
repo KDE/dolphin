@@ -1,4 +1,3 @@
-kde4_header()
 
 
 
@@ -24,7 +23,6 @@ install_targets(${PLUGIN_INSTALL_DIR} kcm_css )
 install_files( ${XDG_APPS_DIR} FILES kcmcss.desktop )
 install_files( ${DATA_INSTALL_DIR}/kcmcss FILES template.css )
 
-kde4_footer()
 
 
 

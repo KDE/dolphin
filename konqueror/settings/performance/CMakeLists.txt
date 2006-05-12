@@ -1,4 +1,3 @@
-kde4_header()
 
 
 
@@ -24,7 +23,6 @@ install_targets(${PLUGIN_INSTALL_DIR} kcm_performance )
 install_files( ${XDG_APPS_DIR} FILES kcmperformance.desktop )
 install_files( ${APPLNK_INSTALL_DIR}/.hidden FILES kcmkonqyperformance.desktop )
 
-kde4_footer()
 
 
 

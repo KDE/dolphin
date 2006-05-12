@@ -1,4 +1,3 @@
-kde4_header()
 include_directories( ${CMAKE_SOURCE_DIR}/konqueror )
 
 
@@ -25,7 +24,6 @@ install_targets(${PLUGIN_INSTALL_DIR} kded_konqy_preloader )
 install_files( /share/autostart FILES konqy_preload.desktop )
 install_files( ${SERVICES_INSTALL_DIR}/kded FILES konqy_preloader.desktop )
 
-kde4_footer()
 
 
 

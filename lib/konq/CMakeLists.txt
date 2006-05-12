@@ -1,4 +1,3 @@
-kde4_header()
 
 project(libkonq)
 
@@ -50,7 +49,6 @@ install_files( ${DATA_INSTALL_DIR}/kbookmark FILES directory_bookmarkbar.desktop
 install_files( /include FILES konq_popupmenu.h knewmenu.h      kfileivi.h konq_iconviewwidget.h      konq_defaults.h konq_settings.h      konq_operations.h libkonq_export.h      konq_dirpart.h konq_propsview.h konq_events.h      konq_undo.h konq_historymgr.h konq_historycomm.h      konq_pixmapprovider.h      kivdirectoryoverlay.h      konq_faviconmgr.h konq_xmlguiclient.h konqbookmarkmanager.h konq_filetip.h konqmimedata.h )
 install_files( ${SERVICETYPES_INSTALL_DIR} FILES konqpopupmenuplugin.desktop )
 
-kde4_footer()
 
 
 

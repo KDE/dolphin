@@ -1,4 +1,3 @@
-kde4_header()
 include_directories( ${CMAKE_SOURCE_DIR}/konqueror ${CMAKE_SOURCE_DIR}/workspace/kdesktop/ )
 
 
@@ -25,7 +24,6 @@ install_files( ${KCONF_UPDATE_INSTALL_DIR} FILES kfmclient_3_2.upd )
 install_files( ${KCONF_UPDATE_INSTALL_DIR} FILES kfmclient_3_2_update.sh )
 
 
-kde4_footer()
 
 
 

@@ -1,4 +1,3 @@
-kde4_header()
 include_directories(  ${CMAKE_SOURCE_DIR}/konqueror/sidebar/ ${CMAKE_SOURCE_DIR}/libkonq  )
 
 
@@ -22,7 +21,6 @@ install_targets(${PLUGIN_INSTALL_DIR} konqsidebar_web )
 install_files( ${DATA_INSTALL_DIR}/konqsidebartng/websidebar FILES websidebar.html )
 install_files( ${DATA_INSTALL_DIR}/konqsidebartng/add FILES webmodule_add.desktop )
 
-kde4_footer()
 
 
 

@@ -1,4 +1,3 @@
-kde4_header()
 
 add_subdirectory( trees ) 
 add_subdirectory( web_module ) 
@@ -43,7 +42,6 @@ install_files( ${DATA_INSTALL_DIR}/konqsidebartng/entries/ FILES .version )
 install_files( /include FILES konqsidebarplugin.h )
 install_files( ${KCONF_UPDATE_INSTALL_DIR} FILES konqsidebartng.upd move_konqsidebartng_entries.sh )
 
-kde4_footer()
 
 
 

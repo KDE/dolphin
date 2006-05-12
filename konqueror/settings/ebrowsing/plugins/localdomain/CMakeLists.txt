@@ -1,4 +1,3 @@
-kde4_header()
 
 
 
@@ -36,7 +35,6 @@ install(TARGETS klocaldomainurifilterhelper DESTINATION bin)
 
 install_files( ${SERVICES_INSTALL_DIR} FILES localdomainurifilter.desktop )
 
-kde4_footer()
 
 
 

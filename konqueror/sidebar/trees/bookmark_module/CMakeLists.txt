@@ -1,4 +1,3 @@
-kde4_header()
 include_directories( 
 	${CMAKE_SOURCE_DIR}/libkonq 
  ${CMAKE_SOURCE_DIR}/konqueror/sidebar/
@@ -24,7 +23,6 @@ install_targets(${PLUGIN_INSTALL_DIR} konq_sidebartree_bookmarks )
 ########### install files ###############
 
 
-kde4_footer()
 
 
 

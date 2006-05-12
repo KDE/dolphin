@@ -1,4 +1,3 @@
-kde4_header()
 
 add_subdirectory( searchproviders ) 
 
@@ -51,7 +50,6 @@ install_files( ${SERVICES_INSTALL_DIR} FILES kuriikwsfilter.desktop kurisearchfi
 install_files( ${SERVICETYPES_INSTALL_DIR} FILES searchprovider.desktop )
 install_files( ${KCONF_UPDATE_INSTALL_DIR} FILES kuriikwsfilter.upd )
 
-kde4_footer()
 
 
 

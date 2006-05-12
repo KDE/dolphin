@@ -1,4 +1,3 @@
-kde4_header()
 
 
 
@@ -24,7 +23,6 @@ install(TARGETS kdialog DESTINATION bin)
 ########### install files ###############
 
 
-kde4_footer()
 
 
 

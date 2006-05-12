@@ -1,4 +1,3 @@
-kde4_header()
 include_directories( ${CMAKE_SOURCE_DIR}/libkonq )
 
 
@@ -23,7 +22,6 @@ install_files( ${DATA_INSTALL_DIR}/konqueror/about FILES box-centre-konqueror.pn
 install_files( ${SERVICETYPES_INSTALL_DIR} FILES konqaboutpage.desktop )
 install_files( ${SERVICES_INSTALL_DIR} FILES konq_aboutpage.desktop )
 
-kde4_footer()
 
 
 

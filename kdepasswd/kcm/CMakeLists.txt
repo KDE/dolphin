@@ -1,4 +1,3 @@
-kde4_header()
 
 add_subdirectory( pics ) 
 include_directories( ${CMAKE_SOURCE_DIR}/libkonq  )
@@ -30,7 +29,6 @@ install_files( ${KCFG_INSTALL_DIR} FILES kcm_useraccount.kcfg kcm_useraccount_pa
 
 kde4_install_icons( ${ICON_INSTALL_DIR} crystalsvg )
 
-kde4_footer()
 
 
 

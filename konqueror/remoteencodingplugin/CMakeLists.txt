@@ -1,4 +1,3 @@
-kde4_header()
 include_directories( ${CMAKE_SOURCE_DIR}/libkonq )
 
 
@@ -22,7 +21,6 @@ install_targets(${PLUGIN_INSTALL_DIR} konq_remoteencoding )
 install_files( ${DATA_INSTALL_DIR}/konqlistview/kpartplugins FILES kremoteencodingplugin.rc kremoteencodingplugin.desktop )
 install_files( ${DATA_INSTALL_DIR}/konqiconview/kpartplugins FILES kremoteencodingplugin.rc kremoteencodingplugin.desktop )
 
-kde4_footer()
 
 
 

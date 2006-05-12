@@ -1,4 +1,3 @@
-kde4_header()
 
 add_subdirectory( uasproviders ) 
 
@@ -58,7 +57,6 @@ install_files( ${KCONF_UPDATE_INSTALL_DIR} FILES socks.upd )
 install(FILES uninstall.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}${APPLNK_INSTALL_DIR}/Settings/WebBrowsing RENAME smb.desktop)
 
 
-kde4_footer()
 
 
 

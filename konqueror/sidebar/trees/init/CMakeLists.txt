@@ -1,4 +1,3 @@
-kde4_header()
 
 add_subdirectory( remote ) 
 add_subdirectory( services ) 
@@ -12,7 +11,6 @@ install_files( ${DATA_INSTALL_DIR}/konqsidebartng/dirtree FILES history_module.d
 install_files( ${DATA_INSTALL_DIR}/konqsidebartng/add FILES virtualfolderadd.desktop  )
 install_files( ${DATA_INSTALL_DIR}/konqsidebartng/entries FILES home.desktop root.desktop history.desktop bookmarks.desktop                   services.desktop remote.desktop system.desktop )
 
-kde4_footer()
 
 
 
