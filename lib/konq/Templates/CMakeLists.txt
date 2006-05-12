@@ -1,5 +1,5 @@
 kde4_header()
-include_directories( ${KDE4_INCLUDES} )
+
 
 
 ########### install files ###############

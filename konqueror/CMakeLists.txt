@@ -8,9 +8,11 @@ kde4_add_kcfg_files(libkonqueror_intern_SRCS ${libkonqueror_intern_KCFG_SRCS})
 add_subdirectory( client ) 
 add_subdirectory( iconview ) 
 add_subdirectory( listview ) 
+
 if(UNIX)
-	add_subdirectory( shellcmdplugin ) 
+   add_subdirectory( shellcmdplugin ) 
 endif(UNIX)
+
 add_subdirectory( about ) 
 add_subdirectory( pics ) 
 add_subdirectory( sidebar ) 
@@ -20,9 +22,10 @@ add_subdirectory( remoteencodingplugin )
 add_subdirectory( kttsplugin ) 
 add_subdirectory( dirpart ) 
 add_subdirectory( settings ) 
+
+include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/workspace/kcontrol/input )
 add_subdirectory( tests ) 
 
-include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/workspace/kcontrol/input ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${KDE4_INCLUDES} )
 
 ########### next target ###############
 

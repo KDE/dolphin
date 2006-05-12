@@ -3,10 +3,7 @@ kde4_header()
 project(kfind)
 
 add_subdirectory( pics ) 
-include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${KDE4_INCLUDES} )
-
-
-########### next target ###############
+include_directories( ${CMAKE_SOURCE_DIR}/libkonq )
 
 
 ########### next target ###############

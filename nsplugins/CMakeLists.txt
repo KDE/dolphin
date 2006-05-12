@@ -4,7 +4,6 @@ if (X11_Xt_LIB)
 
   add_subdirectory( viewer ) 
   add_subdirectory( test ) 
-  include_directories( ${KDE4_INCLUDES} )
 
 
   ########### next target ###############

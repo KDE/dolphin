@@ -5,7 +5,8 @@ project(libkonq)
 add_subdirectory( pics ) 
 add_subdirectory( favicons ) 
 add_subdirectory( tests ) 
-include_directories( ${KDE4_INCLUDES} )
+
+include_directories( ${ZLIB_INCLUDE_DIR}  )
 
 
 ########### next target ###############

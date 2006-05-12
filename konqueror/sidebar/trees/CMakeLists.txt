@@ -10,7 +10,7 @@ add_subdirectory( init )
 add_subdirectory( dirtree_module ) 
 add_subdirectory( history_module ) 
 add_subdirectory( bookmark_module ) 
-include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/konqueror ${CMAKE_SOURCE_DIR}/konqueror/sidebar/ ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${KDE4_INCLUDES} )
+include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/konqueror ${CMAKE_SOURCE_DIR}/konqueror/sidebar/ )
 
 
 ########### next target ###############
