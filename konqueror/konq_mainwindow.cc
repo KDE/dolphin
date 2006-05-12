@@ -4957,7 +4957,7 @@ void KonqMainWindow::updateViewModeActions()
       QString icon = (*it)->icon();
       // Create a KToggleAction for each view mode, and plug it into the menu
       // we *have* to specify a parent qobject, otherwise the exclusive group stuff doesn't work!(Simon)
-      KToggleAction* action = new KToggleAction( itname, icon, KShortcut(), actionCollection(), (*it)->desktopEntryName().toAscii() );
+      KToggleAction* action = new KToggleAction( KIcon(icon), itname, actionCollection(), (*it)->desktopEntryName() );
       action->setActionGroup( m_viewModesGroup );
 
       connect( action, SIGNAL( toggled( bool ) ),

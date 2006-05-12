@@ -92,13 +92,13 @@ KonqSidebarHistoryModule::KonqSidebarHistoryModule( KonqSidebarTree * parentTree
     sortGroup->setExclusive(true);
 
     KToggleAction *sort;
-    sort = new KToggleAction( i18n("By &Name"), 0, this,
-			     SLOT( slotSortByName() ), m_collection, "byName");
+    sort = new KToggleAction( i18n("By &Name"), m_collection, "byName");
+    connect(sort, SIGNAL(triggered(bool) ), SLOT( slotSortByName() ));
     sort->setActionGroup(sortGroup);
     sort->setChecked( m_sortsByName );
 
-    sort = new KToggleAction( i18n("By &Date"), 0, this,
-			     SLOT( slotSortByDate() ), m_collection, "byDate");
+    sort = new KToggleAction( i18n("By &Date"), m_collection, "byDate");
+    connect(sort, SIGNAL(triggered(bool) ), SLOT( slotSortByDate() ));
     sort->setActionGroup(sortGroup);
     sort->setChecked( !m_sortsByName );
 
