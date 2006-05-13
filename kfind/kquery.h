@@ -8,7 +8,7 @@
 #include <QQueue>
 #include <QList>
 #include <QDir>
-#include <qstringlist.h>
+#include <QStringList>
 
 #include <kio/job.h>
 #include <kurl.h>

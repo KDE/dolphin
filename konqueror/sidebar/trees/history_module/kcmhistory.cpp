@@ -24,7 +24,7 @@
 #include <QComboBox>
 #include <QLayout>
 #include <QPushButton>
-#include <qradiobutton.h>
+#include <QRadioButton>
 
 #include <dcopclient.h>
 #include <dcopref.h>

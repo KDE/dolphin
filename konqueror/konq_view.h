@@ -23,11 +23,11 @@
 #include "konq_mainwindow.h"
 #include "konq_factory.h"
 
-#include <qlist.h>
+#include <QList>
 #include <QString>
 #include <QObject>
-#include <qstringlist.h>
-#include <qpointer.h>
+#include <QStringList>
+#include <QPointer>
 //Added by qt3to4:
 #include <QEvent>
 

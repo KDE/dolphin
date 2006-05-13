@@ -23,9 +23,9 @@
 #include <QLayout>
 #include <QLabel>
 #include <QLineEdit>
-#include <qevent.h>
-#include <qpixmap.h>
-#include <qstringlist.h>
+#include <QEvent>
+#include <QPixmap>
+#include <QStringList>
 #include <QLayout>
 //Added by qt3to4:
 #include <QDragEnterEvent>

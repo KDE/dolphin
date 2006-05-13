@@ -19,7 +19,7 @@
 
 #include <konq_events.h>
 #include <kdebug.h>
-#include <qapplication.h>
+#include <QApplication>
 #include <kacceleratormanager.h>
 
 KonqSidebar::KonqSidebar( QWidget *parentWidget, QObject *parent, bool universalMode )

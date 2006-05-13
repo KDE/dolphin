@@ -21,7 +21,7 @@
 #define __IKWSOPTS_H___
 
 #include <QLayout>
-#include <qtabwidget.h>
+#include <QTabWidget>
 
 #include <kcmodule.h>
 #include <kservice.h>

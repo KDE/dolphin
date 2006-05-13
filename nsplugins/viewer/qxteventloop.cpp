@@ -32,7 +32,7 @@
 ** not clear to you.
 **
 **********************************************************************/
-#include <qapplication.h>
+#include <QApplication>
 #include "qxteventloop.h"
 
 

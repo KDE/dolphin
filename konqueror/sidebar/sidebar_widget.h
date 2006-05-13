@@ -20,7 +20,7 @@
 #include <q3ptrvector.h>
 #include <QTimer>
 #include <QString>
-#include <qpointer.h>
+#include <QPointer>
 
 #include <k3dockwidget.h>
 #include <kurl.h>

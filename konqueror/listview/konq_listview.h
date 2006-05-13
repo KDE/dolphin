@@ -28,8 +28,8 @@
 #include <kmimetyperesolver.h>
 
 
-#include <qlistview.h>
-#include <qstringlist.h>
+#include <QListView>
+#include <QStringList>
 
 #include <konq_propsview.h>
 #include "konq_listviewwidget.h"

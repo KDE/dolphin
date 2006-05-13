@@ -23,7 +23,7 @@
 #define __konq_factory_h__
 
 #include <QString>
-#include <qstringlist.h>
+#include <QStringList>
 
 #include <klibloader.h>
 #include <ktrader.h>

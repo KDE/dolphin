@@ -24,7 +24,7 @@
 #include <dcopobject.h>
 #include <dcopref.h>
 
-#include <qstringlist.h>
+#include <QStringList>
 /**
  * DCOP interface for konqueror
  */

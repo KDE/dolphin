@@ -22,7 +22,7 @@
 #define __konq_bgnd_h
 
 #include <QString>
-#include <qpixmap.h>
+#include <QPixmap>
 
 #include <kdialog.h>
 

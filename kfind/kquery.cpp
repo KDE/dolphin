@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
-#include <qfileinfo.h>
-#include <qtextstream.h>
+#include <QFileInfo>
+#include <QTextStream>
 #include <QListIterator>
 #include <kdebug.h>
 #include <kfileitem.h>

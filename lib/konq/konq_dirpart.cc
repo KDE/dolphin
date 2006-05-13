@@ -37,8 +37,8 @@
 #include <kurifilter.h>
 #include <kglobalsettings.h>
 
-#include <qapplication.h>
-#include <qclipboard.h>
+#include <QApplication>
+#include <QClipboard>
 #include <QFile>
 //Added by qt3to4:
 #include <assert.h>

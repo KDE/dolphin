@@ -21,7 +21,7 @@
 #include <QDir>
 #include <QPushButton>
 #include <QLayout>
-#include <qstringlist.h>
+#include <QStringList>
 #include <QSplitter>
 #include <Q3PopupMenu>
 

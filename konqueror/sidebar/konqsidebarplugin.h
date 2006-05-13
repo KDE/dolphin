@@ -25,7 +25,7 @@
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
 #include <kio/job.h>
-#include <qpointer.h>
+#include <QPointer>
 #include <kfileitem.h>
 
 class KonqSidebarPluginPrivate;

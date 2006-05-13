@@ -17,7 +17,7 @@
 */
 
 #include "web_module.h"
-#include <qfileinfo.h>
+#include <QFileInfo>
 #include <QSpinBox>
 #include <QTimer>
 

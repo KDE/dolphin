@@ -23,7 +23,7 @@
 #include "konq_operations.h"
 #include "konq_settings.h"
 
-#include <qpainter.h>
+#include <QPainter>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QList>

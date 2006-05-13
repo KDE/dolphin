@@ -19,14 +19,14 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include <qapplication.h>
+#include <QApplication>
 #include <QLayout>
 #include <QPushButton>
 #include <q3groupbox.h>
 #include <QLabel>
 #include <QTimer>
 #include <QDateTime>
-#include <qtoolbutton.h>
+#include <QToolButton>
 #include <QVBoxLayout>
 #include <QList>
 

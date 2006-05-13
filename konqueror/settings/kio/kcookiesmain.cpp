@@ -4,7 +4,7 @@
 // This dialog box created by David Faure <faure@kde.org>
 
 #include <QLayout>
-#include <qtabwidget.h>
+#include <QTabWidget>
 
 #include <klocale.h>
 #include <kapplication.h>

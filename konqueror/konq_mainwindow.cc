@@ -60,10 +60,10 @@
 #include <unistd.h>
 
 #include <QFile>
-#include <qclipboard.h>
-#include <qmetaobject.h>
+#include <QClipboard>
+#include <QMetaObject>
 #include <QLayout>
-#include <qfileinfo.h>
+#include <QFileInfo>
 #ifdef Q_WS_X11
 #include <QX11Info>
 #endif

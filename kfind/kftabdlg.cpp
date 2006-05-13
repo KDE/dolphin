@@ -4,17 +4,17 @@
  *
  **********************************************************************/
 
-#include <qbuttongroup.h>
-#include <qradiobutton.h>
+#include <QButtonGroup>
+#include <QRadioButton>
 #include <QLabel>
 #include <QLayout>
 #include <QCheckBox>
-#include <qwhatsthis.h>
+#include <QWhatsThis>
 #include <QToolTip>
 #include <QComboBox>
 #include <QSpinBox>
 #include <QPushButton>
-#include <qapplication.h>
+#include <QApplication>
 
 #include <kcalendarsystem.h>
 #include <kglobal.h>

@@ -30,7 +30,7 @@
 #include <Q3BoxLayout>
 #include <kmainwindow.h>
 #include <QLayout>
-#include <qlist.h>
+#include <QList>
 
 class NSPluginLoader;
 class NSPluginInstance;

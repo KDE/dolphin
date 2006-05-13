@@ -25,7 +25,7 @@
 #include <kdesktopfile.h>
 #include <kdebug.h>
 #include <assert.h>
-#include <qfontmetrics.h>
+#include <QFontMetrics>
 
 struct KonqFMSettingsPrivate
 {

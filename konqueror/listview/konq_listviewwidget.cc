@@ -33,11 +33,11 @@
 #include <ktoggleaction.h>
 
 #include <q3header.h>
-#include <qpainter.h>
-#include <qstyle.h>
+#include <QPainter>
+#include <QStyle>
 #include <QTimer>
-#include <qevent.h>
-#include <qcursor.h>
+#include <QEvent>
+#include <QCursor>
 #include <QToolTip>
 #include <qdrag.h>
 

@@ -38,8 +38,8 @@
 #include <ktoggleaction.h>
 #include <kprotocolinfo.h>
 
-#include <qapplication.h>
-#include <qclipboard.h>
+#include <QApplication>
+#include <QClipboard>
 #include <q3header.h>
 #include <QRegExp>
 

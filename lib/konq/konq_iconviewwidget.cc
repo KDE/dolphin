@@ -23,15 +23,15 @@
 #include "konq_sound.h"
 #include "konq_filetip.h"
 
-#include <qclipboard.h>
+#include <QClipboard>
 #include <QLayout>
 #include <QTimer>
-#include <qpainter.h>
+#include <QPainter>
 #include <QToolTip>
 #include <QLabel>
-#include <qmovie.h>
+#include <QMovie>
 #include <QRegExp>
-#include <qcursor.h>
+#include <QCursor>
 //Added by qt3to4:
 #include <QMouseEvent>
 #include <QFocusEvent>

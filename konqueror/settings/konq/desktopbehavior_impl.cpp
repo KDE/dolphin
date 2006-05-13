@@ -28,7 +28,7 @@
 #include <QComboBox>
 #include <QPushButton>
 #include <q3buttongroup.h>
-#include <qtabwidget.h>
+#include <QTabWidget>
 
 //Added by qt3to4:
 #include <QVBoxLayout>

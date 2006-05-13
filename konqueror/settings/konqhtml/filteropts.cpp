@@ -30,7 +30,7 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QCheckBox>
-#include <qtextstream.h>
+#include <QTextStream>
 #include <QRegExp>
 
 #include "filteropts.h"

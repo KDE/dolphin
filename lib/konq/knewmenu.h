@@ -21,7 +21,7 @@
 #define __knewmenu_h
 
 #include <q3intdict.h>
-#include <qstringlist.h>
+#include <QStringList>
 //Added by qt3to4:
 #include <QList>
 #include <kactionmenu.h>

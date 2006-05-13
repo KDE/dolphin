@@ -25,7 +25,7 @@
 #define __NSPluginClassIface_h__
 
 
-#include <qstringlist.h>
+#include <QStringList>
 #include <q3cstring.h>
 #include <dcopobject.h>
 #include <dcopref.h>

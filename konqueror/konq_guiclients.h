@@ -22,7 +22,7 @@
 
 #include <kxmlguiclient.h>
 #include <QObject>
-#include <qhash.h>
+#include <QHash>
 #include <ktrader.h>
 
 class KAction;

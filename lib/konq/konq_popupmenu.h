@@ -23,12 +23,12 @@
 
 #include <sys/types.h>
 #include <kactioncollection.h>
-#include <qmenu.h>
+#include <QMenu>
 #include <QMap>
 #include <kaction.h>
 #include <kactioncollection.h>
 
-#include <qstringlist.h>
+#include <QStringList>
 
 #include <kfileitem.h>
 #include <kmimetype.h> // for KDEDesktopMimeType

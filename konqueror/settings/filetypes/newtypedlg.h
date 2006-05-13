@@ -2,7 +2,7 @@
 #define _NEWTYPEDLG_H
 
 #include <QString>
-#include <qstringlist.h>
+#include <QStringList>
 #include <kdialogbase.h>
 
 class KLineEdit;

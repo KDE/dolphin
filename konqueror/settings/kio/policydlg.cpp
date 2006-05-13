@@ -17,10 +17,10 @@
  */
 
 #include <QPushButton>
-#include <qwhatsthis.h>
+#include <QWhatsThis>
 #include <QLayout>
 #include <QLabel>
-#include <qvalidator.h>
+#include <QValidator>
 
 #include <klineedit.h>
 #include <kcombobox.h>

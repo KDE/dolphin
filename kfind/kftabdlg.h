@@ -7,8 +7,8 @@
 #ifndef KFTABDLG_H
 #define KFTABDLG_H
 
-#include <qtabwidget.h>
-#include <qvalidator.h> // for KDigitValidator
+#include <QTabWidget>
+#include <QValidator> // for KDigitValidator
 
 #include <kurl.h>
 #include <kmimetype.h>

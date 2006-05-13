@@ -11,9 +11,9 @@
 #include <QLayout>
 #include <qprogressdialog.h>
 #include <QRegExp>
-#include <qslider.h>
+#include <QSlider>
 #include <q3groupbox.h>
-#include <qtextstream.h>
+#include <QTextStream>
 
 #include <dcopclient.h>
 #include <kapplication.h>

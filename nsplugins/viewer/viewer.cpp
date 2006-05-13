@@ -36,7 +36,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <q3ptrlist.h>
-#include <qsocketnotifier.h>
+#include <QSocketNotifier>
 //Added by qt3to4:
 #include <QEvent>
 #include <stdlib.h>

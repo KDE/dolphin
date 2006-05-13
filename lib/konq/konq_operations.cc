@@ -16,7 +16,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#include <qclipboard.h>
+#include <QClipboard>
 //Added by qt3to4:
 #include <QDropEvent>
 #include <QList>
@@ -59,7 +59,7 @@
 #include <kprotocolinfo.h>
 #include <kprocess.h>
 #include <kstringhandler.h>
-#include <qmenu.h>
+#include <QMenu>
 #include <unistd.h>
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>

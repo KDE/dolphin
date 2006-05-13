@@ -22,7 +22,7 @@
 #include <QDateTime>
 #include <QObject>
 #include <q3dict.h>
-#include <qpixmap.h>
+#include <QPixmap>
 
 #include <kglobal.h>
 #include <klocale.h>

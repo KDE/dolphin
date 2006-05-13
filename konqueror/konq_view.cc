@@ -40,8 +40,8 @@
 #include <kcursor.h>
 #include <q3scrollview.h>
 
-#include <qapplication.h>
-#include <qmetaobject.h>
+#include <QApplication>
+#include <QMetaObject>
 #include <QObject>
 //Added by qt3to4:
 #include <QByteArray>

@@ -21,7 +21,7 @@
 #define KONQ_HISTORYCOMM_H
 
 #include <QDateTime>
-#include <qstringlist.h>
+#include <QStringList>
 
 #include <dcopobject.h>
 #include <kurl.h>

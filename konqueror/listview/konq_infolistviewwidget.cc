@@ -30,7 +30,7 @@
 #include <kuserprofile.h>
 #include <kio/metainfojob.h>
 
-#include <qstringlist.h>
+#include <QStringList>
 
 KonqInfoListViewWidget::KonqInfoListViewWidget( KonqListView* parent,
                                                 QWidget* parentWidget)

@@ -28,8 +28,8 @@
 #include <QString>
 #include <QLayout>
 #include <QLabel>
-#include <qpixmap.h>
-#include <qimage.h>
+#include <QPixmap>
+#include <QImage>
 #include <QPushButton>
 #include <QDir>
 #include <QCheckBox>

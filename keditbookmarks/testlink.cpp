@@ -25,7 +25,7 @@
 #include "bookmarkiterator.h"
 
 #include <QTimer>
-#include <qpainter.h>
+#include <QPainter>
 
 #include <kdebug.h>
 

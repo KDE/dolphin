@@ -31,8 +31,8 @@
 
 #include <stdlib.h>
 
-#include <qclipboard.h>
-#include <qpainter.h>
+#include <QClipboard>
+#include <QPainter>
 
 #include <dcopclient.h>
 #include <dcopref.h>

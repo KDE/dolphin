@@ -26,7 +26,7 @@
 #include "konq_events.h"
 #include "konq_settingsxt.h"
 
-#include <qfileinfo.h>
+#include <QFileInfo>
 
 #include <kaccelgen.h>
 #include <kactionmenu.h>

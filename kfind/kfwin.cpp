@@ -14,11 +14,11 @@
 #include <sys/stat.h>
 #include <time.h>
 
-#include <qtextstream.h>
-#include <qfileinfo.h>
+#include <QTextStream>
+#include <QFileInfo>
 #include <QDir>
-#include <qclipboard.h>
-#include <qpixmap.h>
+#include <QClipboard>
+#include <QPixmap>
 #include <q3dragobject.h>
 #include <QTextDocument>
 #include <q3ptrlist.h>

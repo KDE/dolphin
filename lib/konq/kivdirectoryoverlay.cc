@@ -18,10 +18,10 @@
 */
 
 #include <q3dict.h>
-#include <qpixmap.h>
-#include <qpainter.h>
-#include <qbitmap.h>
-#include <qimage.h>
+#include <QPixmap>
+#include <QPainter>
+#include <QBitmap>
+#include <QImage>
 //Added by qt3to4:
 #include <QTimerEvent>
 

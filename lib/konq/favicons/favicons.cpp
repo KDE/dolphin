@@ -20,10 +20,10 @@
 #include <string.h>
 #include <time.h>
 
-#include <qbuffer.h>
+#include <QBuffer>
 #include <QFile>
 #include <qcache.h>
-#include <qimage.h>
+#include <QImage>
 #include <QTimer>
 #include <QImageReader>
 

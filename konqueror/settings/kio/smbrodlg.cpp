@@ -20,7 +20,7 @@
 
 #include <QLayout>
 #include <QLabel>
-#include <qtextcodec.h>
+#include <QTextCodec>
 
 #include <klocale.h>
 #include <kconfig.h>

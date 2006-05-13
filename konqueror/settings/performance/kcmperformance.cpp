@@ -17,7 +17,7 @@
  */
 
 #include <QLayout>
-#include <qtabwidget.h>
+#include <QTabWidget>
 #include <QVBoxLayout>
 
 #include <klocale.h>

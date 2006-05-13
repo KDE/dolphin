@@ -35,7 +35,7 @@
 #include <kvbox.h>
 #include <QFile>
 #include <qdesktopwidget.h>
-#include <qtextstream.h>
+#include <QTextStream>
 #include <QTextCursor>
 
 #if defined Q_WS_X11 && ! defined K_WS_QTONLY

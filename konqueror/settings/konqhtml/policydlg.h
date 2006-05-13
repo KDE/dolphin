@@ -8,7 +8,7 @@
 #include <kdialogbase.h>
 
 #include <QLineEdit>
-#include <qstringlist.h>
+#include <QStringList>
 
 class QLabel;
 class QComboBox;

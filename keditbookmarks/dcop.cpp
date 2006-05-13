@@ -25,8 +25,8 @@
 
 #include <stdlib.h>
 
-#include <qclipboard.h>
-#include <qpainter.h>
+#include <QClipboard>
+#include <QPainter>
 
 #include <klocale.h>
 #include <kbookmarkmanager.h>

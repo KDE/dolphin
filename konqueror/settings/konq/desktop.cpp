@@ -22,7 +22,7 @@
 #include <QLayout>
 
 #include <QCheckBox>
-#include <qslider.h>
+#include <QSlider>
 //Added by qt3to4:
 #include <QVBoxLayout>
 #include <QHBoxLayout>

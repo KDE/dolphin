@@ -23,7 +23,7 @@
 #include <QFile>
 #include <QLabel>
 #include <QLayout>
-#include <qtabwidget.h>
+#include <QTabWidget>
 
 #include <kcmoduleloader.h>
 #include <klocale.h>

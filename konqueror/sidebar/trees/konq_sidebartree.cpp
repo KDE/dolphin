@@ -20,11 +20,11 @@
 
 #include "konq_sidebartreemodule.h"
 
-#include <qclipboard.h>
-#include <qcursor.h>
+#include <QClipboard>
+#include <QCursor>
 #include <QDir>
 #include <q3header.h>
-#include <qmenu.h>
+#include <QMenu>
 #include <QTimer>
 //Added by qt3to4:
 #include <QPixmap>

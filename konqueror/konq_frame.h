@@ -21,7 +21,7 @@
 
 #include "konq_factory.h"
 
-#include <qpointer.h>
+#include <QPointer>
 #include <QColor>
 #include <QWidget>
 #include <QCheckBox>

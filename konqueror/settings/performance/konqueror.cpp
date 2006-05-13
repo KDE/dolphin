@@ -21,7 +21,7 @@
 #include <dcopref.h>
 #include <kconfig.h>
 
-#include <qradiobutton.h>
+#include <QRadioButton>
 #include <QSpinBox>
 #include <QLabel>
 #include <QCheckBox>

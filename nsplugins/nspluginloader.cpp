@@ -42,7 +42,7 @@
 #include <QObject>
 #include <QPushButton>
 #include <qx11embed_x11.h>
-#include <qtextstream.h>
+#include <QTextStream>
 #include <QRegExp>
 
 #include "nspluginloader.h"

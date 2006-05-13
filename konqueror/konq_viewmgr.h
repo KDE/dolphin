@@ -25,7 +25,7 @@
 #include <qnamespace.h>
 #include <QObject>
 #include <QMap>
-#include <qpointer.h>
+#include <QPointer>
 
 #include <ktrader.h>
 

@@ -25,7 +25,7 @@
 #include <QMap>
 #include <QPoint>
 #include <QTimer>
-#include <qpointer.h>
+#include <QPointer>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QByteArray>

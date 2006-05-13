@@ -24,7 +24,7 @@
 
 #include <kaction.h>
 #include <kxmlguiclient.h>
-#include <qstringlist.h>
+#include <QStringList>
 #include <libkonq_export.h>
 
 /**

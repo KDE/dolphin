@@ -29,7 +29,7 @@
 #include <QLabel>
 #include <QToolTip>
 #include <QLayout>
-#include <qpainter.h>
+#include <QPainter>
 #include <q3scrollview.h>
 #include <QTimer>
 //Added by qt3to4:

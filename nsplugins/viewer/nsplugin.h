@@ -34,12 +34,12 @@
 
 #include <QObject>
 #include <QString>
-#include <qstringlist.h>
+#include <QStringList>
 #include <q3ptrqueue.h>
 #include <q3dict.h>
 #include <QMap>
 #include <q3intdict.h>
-#include <qpointer.h>
+#include <QPointer>
 //Added by qt3to4:
 #include <Q3PtrList>
 

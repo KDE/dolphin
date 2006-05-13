@@ -17,12 +17,12 @@
  *  along with this program; if not, write to the Free Software
  */
 
-#include <qbuttongroup.h>
+#include <QButtonGroup>
 #include <QCheckBox>
 #include <QLayout>
 #include <kpushbutton.h>
-#include <qradiobutton.h>
-#include <qslider.h>
+#include <QRadioButton>
+#include <QSlider>
 
 #include <kapplication.h>
 #include <dcopclient.h>

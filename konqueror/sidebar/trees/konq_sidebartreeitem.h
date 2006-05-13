@@ -20,8 +20,8 @@
 #ifndef konq_treeitem_h
 #define konq_treeitem_h
 
-#include <qlistview.h>
-#include <qstringlist.h>
+#include <QListView>
+#include <QStringList>
 #include <Q3ListViewItem>
 #include <Q3DragObject>
 #include <kurl.h>

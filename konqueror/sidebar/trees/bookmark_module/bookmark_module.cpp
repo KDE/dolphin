@@ -16,9 +16,9 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <qclipboard.h>
-#include <qcursor.h>
-#include <qmenu.h>
+#include <QClipboard>
+#include <QCursor>
+#include <QMenu>
 //Added by qt3to4:
 #include <QGridLayout>
 #include <QDropEvent>

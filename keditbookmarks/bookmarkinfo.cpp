@@ -25,8 +25,8 @@
 #include <stdlib.h>
 
 #include <QTimer>
-#include <qclipboard.h>
-#include <qsplitter.h>
+#include <QClipboard>
+#include <QSplitter>
 #include <QLayout>
 #include <QLabel>
 //Added by qt3to4:
@@ -51,7 +51,7 @@
 
 #include <kbookmark.h>
 #include <kbookmarkmanager.h>
-#include <qevent.h>
+#include <QEvent>
 
 // SHUFFLE all these functions around, the order is just plain stupid
 void BookmarkInfoWidget::showBookmark(const KBookmark &bk) {

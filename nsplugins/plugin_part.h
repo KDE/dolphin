@@ -29,7 +29,7 @@
 #include <kparts/part.h>
 #include <klibloader.h>
 #include <QWidget>
-#include <qpointer.h>
+#include <QPointer>
 
 class KAboutData;
 class KInstance;

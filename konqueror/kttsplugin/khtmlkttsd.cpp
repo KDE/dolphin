@@ -22,12 +22,12 @@
 #include <kaction.h>
 #include <kgenericfactory.h>
 #include <kiconloader.h>
-#include <qmessagebox.h>
+#include <QMessageBox>
 #include <klocale.h>
 #include <QString>
 #include <QTimer>
 #include <kspeech.h>
-#include <qbuffer.h>
+#include <QBuffer>
 
 #include <kapplication.h>
 #include <dcopclient.h>

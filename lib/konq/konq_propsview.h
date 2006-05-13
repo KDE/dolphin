@@ -20,8 +20,8 @@
 #ifndef __konq_viewprops_h__
 #define __konq_viewprops_h__
 
-#include <qpixmap.h>
-#include <qstringlist.h>
+#include <QPixmap>
+#include <QStringList>
 
 #include <kurl.h>
 #include <libkonq_export.h>

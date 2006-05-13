@@ -1,6 +1,6 @@
 #include "konq_aboutpage.h"
 
-#include <qtextcodec.h>
+#include <QTextCodec>
 //Added by qt3to4:
 #include <QTextStream>
 

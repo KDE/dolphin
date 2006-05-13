@@ -34,7 +34,7 @@
 #ifndef __KONQFONT_OPTIONS_H__
 #define __KONQFONT_OPTIONS_H__
 
-#include <qstringlist.h>
+#include <QStringList>
 #include <QSpinBox>
 
 #include <kcmodule.h>

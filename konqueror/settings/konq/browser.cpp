@@ -17,7 +17,7 @@
 */
 
 #include <QLayout>
-#include <qtabwidget.h>
+#include <QTabWidget>
 #include <QFile>
 //Added by qt3to4:
 #include <QVBoxLayout>

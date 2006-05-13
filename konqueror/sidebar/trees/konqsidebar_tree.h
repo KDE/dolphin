@@ -8,7 +8,7 @@
 #include <kparts/browserextension.h>
 #include <kdialogbase.h>
 #include <QComboBox>
-#include <qstringlist.h>
+#include <QStringList>
 #include <klocale.h>
 #include <QLineEdit>
 class KonqSidebarTree;

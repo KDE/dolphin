@@ -41,7 +41,7 @@
 #include "widgets.h"
 
 #include <klocale.h>
-#include <qdialog.h>
+#include <QDialog>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <kfiledialog.h>

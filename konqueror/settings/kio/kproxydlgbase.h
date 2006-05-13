@@ -24,7 +24,7 @@
 
 #include <QMap>
 #include <QString>
-#include <qstringlist.h>
+#include <QStringList>
 
 #include <kdialogbase.h>
 #include <kprotocolmanager.h>

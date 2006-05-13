@@ -23,7 +23,7 @@
 #include <libkonq_export.h>
 
 #include <QObject>
-#include <qevent.h>
+#include <QEvent>
 //Added by qt3to4:
 #include <QList>
 #include <QDropEvent>

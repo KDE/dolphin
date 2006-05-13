@@ -20,7 +20,7 @@
 #ifndef KONQ_COMBO_H
 #define KONQ_COMBO_H
 
-#include <qevent.h>
+#include <QEvent>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QMouseEvent>

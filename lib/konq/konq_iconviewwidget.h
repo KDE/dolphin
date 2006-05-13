@@ -23,7 +23,7 @@
 #include <kiconloader.h>
 #include <k3iconview.h>
 #include <kurl.h>
-#include <qpointer.h>
+#include <QPointer>
 //Added by qt3to4:
 #include <QWheelEvent>
 #include <QPixmap>

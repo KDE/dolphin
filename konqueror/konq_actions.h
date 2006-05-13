@@ -22,7 +22,7 @@
 
 #include <konq_historymgr.h>
 #include <kactionmenu.h>
-#include <qlist.h>
+#include <QList>
 
 class HistoryEntry;
 class QMenu;

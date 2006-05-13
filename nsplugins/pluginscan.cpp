@@ -34,9 +34,9 @@
 
 #include <QDir>
 #include <QFile>
-#include <qtextstream.h>
+#include <QTextStream>
 #include <QRegExp>
-#include <qbuffer.h>
+#include <QBuffer>
 
 #include <dcopclient.h>
 

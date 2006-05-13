@@ -9,7 +9,7 @@
 #ifndef __Passwd_h_Included__
 #define __Passwd_h_Included__
 
-#include <qbytearray.h>
+#include <QByteArray>
 #include <kdesu/process.h>
 
 /**

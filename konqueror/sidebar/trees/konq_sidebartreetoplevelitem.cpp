@@ -26,9 +26,9 @@
 #include <k3urldrag.h>
 #include <q3cstring.h>
 #include <kmimetype.h>
-#include <qapplication.h>
-#include <qclipboard.h>
-#include <qcursor.h>
+#include <QApplication>
+#include <QClipboard>
+#include <QCursor>
 #include <qmimedata.h>
 #include <konqmimedata.h>
 

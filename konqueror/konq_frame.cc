@@ -31,10 +31,10 @@
 #include <ksqueezedtextlabel.h>
 #include <kstdaccel.h>
 
-#include <qpainter.h>
-#include <qtoolbutton.h>
+#include <QPainter>
+#include <QToolButton>
 #include <qtabbar.h>
-#include <qmenu.h>
+#include <QMenu>
 #include <qkeysequence.h>
 #include <QProgressBar>
 //Added by qt3to4:

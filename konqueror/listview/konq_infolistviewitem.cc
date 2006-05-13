@@ -24,7 +24,7 @@
 #include <klocale.h>
 #include <assert.h>
 #include <stdio.h>
-#include <qpainter.h>
+#include <QPainter>
 #include <q3header.h>
 #include <kiconloader.h>
 #include "konq_infolistviewitem.h"

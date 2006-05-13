@@ -38,8 +38,8 @@
 
 #include <qglobal.h>
 
-#include <qeventloop.h>
-#include <qsocketnotifier.h>
+#include <QEventLoop>
+#include <QSocketNotifier>
 
 
 

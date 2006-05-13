@@ -1,5 +1,5 @@
 
-#include <qfontdatabase.h>
+#include <QFontDatabase>
 #include <QLabel>
 #include <QLayout>
 #include <q3groupbox.h>

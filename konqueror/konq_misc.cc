@@ -17,7 +17,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <qstyle.h>
+#include <QStyle>
 #include <QDir>
 //Added by qt3to4:
 #include <QMouseEvent>

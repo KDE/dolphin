@@ -26,8 +26,8 @@
 #include <QLayout>
 #include <QCheckBox>
 #include <QPushButton>
-#include <qradiobutton.h>
-#include <qtoolbutton.h>
+#include <QRadioButton>
+#include <QToolButton>
 //Added by qt3to4:
 #include <QVBoxLayout>
 

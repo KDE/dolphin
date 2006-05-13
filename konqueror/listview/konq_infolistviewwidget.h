@@ -23,7 +23,7 @@
 
 #include <kurl.h>
 #include <QMap>
-#include <qpair.h>
+#include <QPair>
 
 namespace KIO {class MetaInfoJob;}
 class KonqListView;
