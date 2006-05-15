@@ -3690,7 +3690,7 @@ void KonqMainWindow::initActions()
 
   m_paFindFiles = new KToggleAction(KIcon("filefind"),  i18n( "&Find File..." ), actionCollection(), "findfile" );
   connect(m_paFindFiles, SIGNAL(triggered(bool) ), SLOT( slotToolFind() ));
-  m_paFindFiles->setShortcut(0 /*not KStdAccel::find!*/);
+  m_paFindFiles->setShortcut(KStdAccel::shortcut(KStdAccel::Find));
 
   m_paPrint = KStdAction::print( 0, 0, actionCollection(), "print" );
   (void) KStdAction::quit( this, SLOT( close() ), actionCollection(), "quit" );
