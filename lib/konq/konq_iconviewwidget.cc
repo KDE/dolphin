@@ -465,7 +465,7 @@ void KonqIconViewWidget::slotMovieUpdate( const QRect& rect )
     Q_ASSERT( d->m_movie );
     // seems stopAnimation triggers one last update
     if ( d->pActiveItem && d->m_movie && d->pActiveItem->isAnimated() ) {
-        const QPixmap &frame = d->m_movie->framePixmap();
+        const QPixmap &frame = d->m_movie->currentPixmap();
         // This can happen if the icon was scaled to the desired size, so KIconLoader
         // will happily return a movie with different dimensions than the icon
         int iconSize=d->pActiveItem->iconSize();

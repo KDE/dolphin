@@ -181,7 +181,7 @@ void KonqBgndDialog::slotPictureChanged()
         file = locate("wallpaper", m_pixmapFile); // add fallback for compatibility
     if ( file.isEmpty() ) {
         kWarning(1203) << "Couldn't locate wallpaper " << m_pixmapFile << endl;
-        m_preview->unsetPalette();
+        m_preview->setPalette(QPalette());
         m_pixmap = QPixmap();
         m_pixmapFile = "";
     }
@@ -191,12 +191,16 @@ void KonqBgndDialog::slotPictureChanged()
         if ( m_pixmap.isNull() )
             kWarning(1203) << "Could not load wallpaper " << file << endl;
     }
-    m_preview->setPaletteBackgroundPixmap( m_pixmap );
+	QPalette palette;
+	palette.setBrush( m_preview->backgroundRole(), QBrush( m_pixmap ) );
+    m_preview->setPalette( palette );
 }
 
 void KonqBgndDialog::slotColorChanged()
 {
-    m_preview->setPaletteBackgroundColor( m_buttonColor->color() );
+    QPalette palette;
+    palette.setColor( m_preview->backgroundRole(), m_buttonColor->color() );
+    m_preview->setPalette(palette);
 }
 
 void KonqBgndDialog::slotBackgroundModeChanged()
