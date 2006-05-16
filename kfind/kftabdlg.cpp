@@ -889,4 +889,18 @@ static void save_pattern(QComboBox *obj,
   conf->writePathEntry(entry, sl);
 }
 
+QSize KfindTabWidget::sizeHint() const
+{
+  // #44662: avoid a huge default size when the comboboxes have very large items
+  // Like in minicli, we changed the combobox size policy so that they can resize down,
+  // and then we simply provide a reasonable size hint for the whole window, depending
+  // on the screen width.
+  QSize sz = QTabWidget::sizeHint();
+  KfindTabWidget* me = const_cast<KfindTabWidget*>( this );
+  const int screenWidth = qApp->desktop()->screenGeometry(me).width();
+  if ( sz.width() > screenWidth / 2 )
+    sz.setWidth( screenWidth / 2 );
+  return sz;
+}
+
 #include "kftabdlg.moc"

@@ -50,6 +50,8 @@ public:
 
   void setURL( const KUrl & url );
 
+  virtual QSize sizeHint() const;
+
 public Q_SLOTS:
   void setFocus();
 
