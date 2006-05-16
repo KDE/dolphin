@@ -1171,10 +1171,9 @@ KUrl::List KonqPopupMenu::popupURLList() const
         Plugin
 */
 
-KonqPopupMenuPlugin::KonqPopupMenuPlugin( KonqPopupMenu *parent, const char *name )
+KonqPopupMenuPlugin::KonqPopupMenuPlugin( KonqPopupMenu *parent )
     : QObject( parent )
 {
-    setObjectName( name );
 }
 
 KonqPopupMenuPlugin::~KonqPopupMenuPlugin()

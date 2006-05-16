@@ -212,7 +212,7 @@ public:
   * Create a KAction and use _popup->addAction(new KAction );
   * If you want to create a submenu use _popup->addGroup( );
   */
-  KonqPopupMenuPlugin( KonqPopupMenu *_popup, const char *name ); // this should also be the parent
+  KonqPopupMenuPlugin( KonqPopupMenu *_popup); // this should also be the parent
   virtual ~KonqPopupMenuPlugin ( );
 };
 
