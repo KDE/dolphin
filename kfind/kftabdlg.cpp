@@ -15,6 +15,7 @@
 #include <QSpinBox>
 #include <QPushButton>
 #include <QApplication>
+#include <QDesktopWidget>
 
 #include <kcalendarsystem.h>
 #include <kglobal.h>
