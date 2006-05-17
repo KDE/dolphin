@@ -4776,6 +4776,9 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
             connectExtension( m_oldView->browserExtension() );
             m_currentView = m_oldView;
         }
+        // Special case: RMB + renaming in sidebar; setFocus would abort editing.
+        QWidget* fw = focusWidget();
+        if ( !fw || !::qobject_cast<QLineEdit*>( fw ) )
         m_oldView->part()->widget()->setFocus();
     }
   }

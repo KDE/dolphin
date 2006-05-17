@@ -231,8 +231,15 @@ void KonqSidebarDirTreeItem::delOperation( int method )
 
 QString KonqSidebarDirTreeItem::toolTipText() const
 {
-    if ( m_fileItem->url().isLocalFile() )
-	return m_fileItem->url().path();
+    return m_fileItem->url().pathOrURL();
+}
 
-    return m_fileItem->url().prettyURL();
+void KonqSidebarDirTreeItem::rename()
+{
+    tree()->rename( this, 0 );
+}
+
+void KonqSidebarDirTreeItem::rename( const QString & name )
+{
+    KonqOperations::rename( tree(), m_fileItem->url(), name );
 }

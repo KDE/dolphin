@@ -67,6 +67,7 @@ public:
     virtual void del() {}
     virtual void shred() {}
     virtual void rename() {}
+    virtual void rename( const QString& ) {}
 
     // The URL to open when this link is clicked
     virtual KUrl externalURL() const = 0;

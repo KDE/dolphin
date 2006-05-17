@@ -635,7 +635,7 @@ void Sidebar_Widget::stdAction(const char *handlestd)
 	if (!(mod->module))
 		return;
 
-	kDebug() << "Try calling >active< module's action" << handlestd << endl;
+	kDebug() << "Try calling >active< module's (" << mod->module->className() << ") slot " << handlestd << endl;
 
 	int id = mod->module->metaObject()->indexOfSlot( handlestd );
   	if ( id == -1 )

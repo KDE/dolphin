@@ -64,7 +64,7 @@ public:
     virtual void del();
     virtual void shred();
     virtual void rename(); // start a rename operation
-    void rename( const QString & name ); // do the actual renaming
+    virtual void rename( const QString & name ); // do the actual renaming
 
     virtual void setOpen( bool open );
 

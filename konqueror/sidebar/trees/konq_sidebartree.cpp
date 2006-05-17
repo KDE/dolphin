@@ -874,13 +874,7 @@ void KonqSidebarTree::slotItemRenamed(Q3ListViewItem* item, const QString &name,
     if (col != 0) return;
     assert(item);
     KonqSidebarTreeItem * treeItem = static_cast<KonqSidebarTreeItem *>(item);
-    if ( treeItem->isTopLevelItem() )
-    {
-        KonqSidebarTreeTopLevelItem * topLevelItem = static_cast<KonqSidebarTreeTopLevelItem *>(treeItem);
-        topLevelItem->rename( name );
-    }
-    else
-        kWarning() << "slotItemRenamed: rename not implemented for non-toplevel items" << endl;
+    treeItem->rename( name );
 }
 
 

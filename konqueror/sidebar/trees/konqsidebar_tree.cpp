@@ -109,6 +109,7 @@ void KonqSidebar_Tree::shred()
 
 void KonqSidebar_Tree::rename()
 {
+    Q_ASSERT( tree->currentItem() );
     if (tree->currentItem())
         tree->currentItem()->rename();
 }
