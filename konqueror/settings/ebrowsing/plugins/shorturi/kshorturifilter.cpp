@@ -533,9 +533,9 @@ void KShortURIFilter::configure()
     {
       int type = config.readEntry(it.key(), -1);
       if (type > -1 && type <= KURIFilterData::UNKNOWN)
-        m_urlHints.append( URLHint(it.data(), protocol, static_cast<KURIFilterData::URITypes>(type) ) );
+        m_urlHints.append( URLHint(it.value(), protocol, static_cast<KURIFilterData::URITypes>(type) ) );
       else
-        m_urlHints.append( URLHint(it.data(), protocol) );
+        m_urlHints.append( URLHint(it.value(), protocol) );
     }
   }
 }
