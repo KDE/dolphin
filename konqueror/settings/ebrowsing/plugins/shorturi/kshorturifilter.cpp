@@ -28,10 +28,8 @@
 
 #include <QDir>
 #include <QRegExp>
-//Added by qt3to4:
 #include <QList>
 
-#include <kapplication.h>
 #include <kdebug.h>
 #include <kprotocolinfo.h>
 #include <kstandarddirs.h>
@@ -151,15 +149,16 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
 
   KUrl url = data.uri();
   QString cmd = data.typedString();
-  bool isMalformed = !url.isValid();
+  const bool isMalformed = !url.isValid();
+  const QString protocol = url.protocol();
   //kDebug() << "url=" << url.url() << " cmd=" << cmd << " isMalformed=" << isMalformed << endl;
 
   if (!isMalformed &&
-      (url.protocol().length() == 4) &&
-      (url.protocol() != QLatin1String("http")) &&
-      (url.protocol()[0]=='h') &&
-      (url.protocol()[1]==url.protocol()[2]) &&
-      (url.protocol()[3]=='p'))
+      (protocol.length() == 4) &&
+      (protocol != QLatin1String("http")) &&
+      (protocol[0]=='h') &&
+      (protocol[1]==protocol[2]) &&
+      (protocol[3]=='p'))
   {
      // Handle "encrypted" URLs like: h++p://www.kde.org
      url.setProtocol( QLatin1String("http"));
@@ -310,14 +309,16 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
   // Checking for local resource match...
   // Determine if "uri" is an absolute path to a local resource  OR
   // A local resource with a supplied absolute path in KURIFilterData
-  QString abs_path = data.absolutePath();
+  const QString abs_path = data.absolutePath();
 
-  bool canBeAbsolute = (isMalformed && !abs_path.isEmpty());
-  bool canBeLocalAbsolute = (canBeAbsolute && abs_path[0] =='/');
+  const bool canBeAbsolute = (protocol.isEmpty() && !abs_path.isEmpty());
+  const bool canBeLocalAbsolute = (canBeAbsolute && abs_path[0] =='/');
   bool exists = false;
 
-  /*kDebug() << "abs_path=" << abs_path << " malformed=" << isMalformed
-            << " canBeLocalAbsolute=" << canBeLocalAbsolute << endl;*/
+  //kDebug() << "abs_path=" << abs_path
+  //         << " protocol=" << protocol
+  //         << " canBeAbsolute=" << canBeAbsolute
+  //         << " canBeLocalAbsolute=" << canBeLocalAbsolute << endl;
 
   struct stat buff;
   if ( canBeLocalAbsolute )
@@ -411,10 +412,10 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
   // line arguments or options that might have been supplied.
   QString exe = removeArgs( cmd );
   //kDebug() << k_funcinfo << "findExe with " << exe << endl;
-  if( !KStandardDirs::findExe( exe ).isNull() && data.checkForExecutables() )
+  if( data.checkForExecutables() && !KStandardDirs::findExe( exe ).isNull() )
   {
     //kDebug() << "EXECUTABLE  exe=" << exe << endl;
-    setFilteredURI( data, KUrl( exe ));
+    setFilteredURI( data, KUrl::fromPath( exe ));
     // check if we have command line arguments
     if( exe != cmd )
         setArguments(data, cmd.right(cmd.length() - exe.length()));
@@ -424,21 +425,18 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
 
   // Process URLs of known and supported protocols so we don't have
   // to resort to the pattern matching scheme below which can possibly
-  // be slow things down...
-  if ( !isMalformed && !isLocalFullPath )
+  // slow things down...
+  if ( !isMalformed && !isLocalFullPath && !protocol.isEmpty() )
   {
-    QStringList protocols = KProtocolInfo::protocols();
-    for( QStringList::ConstIterator it = protocols.begin(); it != protocols.end(); ++it )
+    //kDebug() << "looking for protocol " << protocol << endl;
+    if ( KProtocolInfo::protocols().contains( protocol ) )
     {
-      if( (url.protocol() == *it) )
-      {
-        setFilteredURI( data, url );
-        if ( *it == QFL1("man") || *it == QFL1("help") )
-          setURIType( data, KURIFilterData::HELP );
-        else
-          setURIType( data, KURIFilterData::NET_PROTOCOL );
-        return true;
-      }
+      setFilteredURI( data, url );
+      if ( protocol == QFL1("man") || protocol == QFL1("help") )
+        setURIType( data, KURIFilterData::HELP );
+      else
+        setURIType( data, KURIFilterData::NET_PROTOCOL );
+      return true;
     }
   }
 
@@ -463,7 +461,7 @@ bool KShortURIFilter::filterURI( KURIFilterData& data ) const
 
     // If cmd is NOT a local resource, check if it is a valid "shortURL"
     // candidate and append the default protocol the user supplied. (DA)
-    if ( isMalformed && isValidShortURL(cmd, m_bVerbose) )
+    if ( protocol.isEmpty() && isValidShortURL(cmd, m_bVerbose) )
     {
       if (m_bVerbose)
         kDebug() << "Valid short url, from malformed url -> using default proto="
@@ -516,7 +514,7 @@ QString KShortURIFilter::configName() const
 void KShortURIFilter::configure()
 {
   KConfig config( name() + QFL1("rc"), false, false );
-  m_bVerbose = config.readEntry( "Verbose", QVariant(false )).toBool();
+  m_bVerbose = config.readEntry( "Verbose", false );
 
   if ( m_bVerbose )
     kDebug() << "KShortURIFilter::configure: Config reload request..." << endl;
