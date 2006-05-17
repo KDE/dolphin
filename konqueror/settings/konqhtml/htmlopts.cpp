@@ -223,7 +223,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
     whatsThis = i18n("Controls how Konqueror shows animated images:<br>"
 	    "<ul><li><b>Enabled</b>: Show all animations completely.</li>"
 	    "<li><b>Disabled</b>: Never show animations, show the start image only.</li>"
-	    "<li><b>Show only once</b>: Show all animations completely but do not repeat them.</li>");
+	    "<li><b>Show only once</b>: Show all animations completely but do not repeat them.</li></ul>");
     label->setWhatsThis(whatsThis);
     m_pAnimationsCombo->setWhatsThis(whatsThis);
     connect(m_pAnimationsCombo, SIGNAL(activated(int)), SLOT(slotChanged()));
