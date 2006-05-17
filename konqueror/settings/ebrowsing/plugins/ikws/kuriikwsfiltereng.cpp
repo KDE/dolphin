@@ -32,7 +32,6 @@
 #include <kurl.h>
 #include <kdebug.h>
 #include <kconfig.h>
-#include <kapplication.h>
 #include <kstandarddirs.h>
 #include <kprotocolinfo.h>
 #include <ksimpleconfig.h>
@@ -40,6 +39,7 @@
 
 #include "kuriikwsfiltereng.h"
 #include "searchprovider.h"
+#include <kglobal.h>
 
 #define PIDDBG kDebug(7023) << "(" << getpid() << ") "
 #define PDVAR(n,v) PIDDBG << n << " = '" << v << "'\n"
@@ -447,7 +447,7 @@ void KURISearchFilterEngine::loadConfig()
   // we can assume "every" user has upgraded to a KDE version that
   // contains the sycoca based search provider configuration (malte).
   {
-    KSimpleConfig oldConfig(kapp->dirs()->saveLocation("config") + QString(name()) + "rc");
+    KSimpleConfig oldConfig(KGlobal::dirs()->saveLocation("config") + QString(name()) + "rc");
     oldConfig.setGroup("General");
 
     if (oldConfig.hasKey("SearchEngines"))
@@ -496,7 +496,7 @@ void KURISearchFilterEngine::loadConfig()
           delete provider;
         }
 
-        KSimpleConfig desktop(kapp->dirs()->saveLocation("services", "searchproviders/") + name + ".desktop");
+        KSimpleConfig desktop(KGlobal::dirs()->saveLocation("services", "searchproviders/") + name + ".desktop");
         desktop.setGroup("Desktop Entry");
         desktop.writeEntry("Type", "Service");
         desktop.writeEntry("ServiceTypes", "SearchProvider");
