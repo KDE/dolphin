@@ -156,7 +156,7 @@ DesktopBehavior::DesktopBehavior(KConfig *config, QWidget *parent, const char * 
   connect(leftComboBox, SIGNAL(activated(int)), this, SIGNAL(changed()));
   connect(leftComboBox, SIGNAL(activated(int)), this, SLOT(comboBoxChanged()));
   QString wtstr = strButtonTxt1 +
-                  i18n(" <ul><li><em>No action:</em> as you might guess, nothing happens!</li>"
+                  i18n(" <ul><li><em>No action</em></li>"
                        " <li><em>Window list menu:</em> a menu showing all windows on all"
                        " virtual desktops pops up. You can click on the desktop name to switch"
                        " to that desktop, or on a window name to shift focus to that window,"
@@ -179,7 +179,7 @@ DesktopBehavior::DesktopBehavior(KConfig *config, QWidget *parent, const char * 
   connect(middleComboBox, SIGNAL(activated(int)), this, SLOT(comboBoxChanged()));
   wtstr = i18n("You can choose what happens when"
                " you click the middle button of your pointing device on the desktop:"
-               " <ul><li><em>No action:</em> as you might guess, nothing happens!</li>"
+               " <ul><li><em>No action</em></li>"
                " <li><em>Window list menu:</em> a menu showing all windows on all"
                " virtual desktops pops up. You can click on the desktop name to switch"
                " to that desktop, or on a window name to shift focus to that window,"
