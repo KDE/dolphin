@@ -355,6 +355,9 @@ void KonqHistoryManager::emitAddToHistory( const KonqHistoryEntry& entry )
     QByteArray data;
     QDataStream stream( &data, QIODevice::WriteOnly );
     stream << entry << objId();
+    // Protection against very long urls (like data:)
+    if ( data.size() > 4096 )
+        return;
     kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
 			      "notifyHistoryEntry(KonqHistoryEntry, QCString)",
 			      data );
