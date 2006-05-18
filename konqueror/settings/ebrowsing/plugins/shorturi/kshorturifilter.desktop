@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=ShortURIFilter
-Name[fr]=Filtres d'URL courtes
-Name[x-test]=xxShortURIFilterxx
-X-KDE-Library=libkshorturifilter
-ServiceTypes=KURIFilter/Plugin
-InitialPreference=5

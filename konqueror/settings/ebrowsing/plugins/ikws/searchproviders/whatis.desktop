@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=Whatis Query
-Name[fr]=Requête whatis
-Name[x-test]=xxWhatis Queryxx
-ServiceTypes=SearchProvider
-Keys=wi,whatis
-Query= http://whatis.techtarget.com/definitionsSearchResults/1,289878,sid9,00.html?query=\\{@}

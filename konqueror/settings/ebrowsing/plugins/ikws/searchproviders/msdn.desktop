@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=Microsoft Developer Network Search
-Name[x-test]=xxMicrosoft Developer Network Searchxx
-ServiceTypes=SearchProvider
-Keys=msdn
-Query=http://msdn.microsoft.com/library/shared/searchtab/searchHandoff.asp?handoffurl=%2Fisapi%2Fgosearch.asp%3FTARGET%3D%2Fus%2Fdev%2Fdefault.asp&stcfg=d%3A%2Fhttp%2Fcnfg.xml&qu=\\{@}&btnSearch=GO
-Query[x-test]=xxhttp://msdn.microsoft.com/library/shared/searchtab/searchHandoff.asp?handoffurl=%2Fisapi%2Fgosearch.asp%3FTARGET%3D%2Fus%2Fdev%2Fdefault.asp&stcfg=d%3A%2Fhttp%2Fcnfg.xml&qu=\\{@}&btnSearch=GOxx

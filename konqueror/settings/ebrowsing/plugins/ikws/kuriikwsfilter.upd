@@ -1,7 +1,0 @@
-Id=post-kde3.1/cvs
-File=kuriikwsfilterrc
-Group=General
-Key=SearchEngineShortcutsEnabled,EnableWebShortcuts
-Key=InternetKeywordsSearchFallback,DefaultSearchEngine
-RemoveKey=InternetKeywordsEnabled
-RemoveKey=InternetKeywordsSelectedEngine

@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=GO.com
-Name[x-test]=xxGO.comxx
-ServiceTypes=SearchProvider
-Keys=seek
-Query=http://www.go.com/Titles?col=WW&qt=\\{@}&svx=home_searchbox&sv=IS&lk=noframeso
-Query[x-test]=xxhttp://www.go.com/Titles?col=WW&qt=\\{@}&svx=home_searchbox&sv=IS&lk=noframesoxx

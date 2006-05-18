@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=Alexa
-Name[x-test]=xxAlexaxx
-ServiceTypes=SearchProvider
-Keys=al,alexa
-Query=http://info.alexa.com/search?q=\\{@}
-Query[x-test]=xxhttp://info.alexa.com/search?q=\\{@}xx

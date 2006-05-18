@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=LEO-Translate
-Name[x-test]=xxLEO-Translatexx
-ServiceTypes=SearchProvider
-Keys=leo
-Query=http://dict.leo.org/?search=\\{@}
-Query[x-test]=xxhttp://dict.leo.org/?search=\\{@}xx

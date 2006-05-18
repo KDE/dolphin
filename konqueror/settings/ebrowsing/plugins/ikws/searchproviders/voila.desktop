@@ -1,8 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=Voila
-Name[x-test]=xxVoilaxx
-ServiceTypes=SearchProvider
-Keys=voila
-Query=http://www.voila.com/S/geek?an=1&kw=\\{@}&dt=*

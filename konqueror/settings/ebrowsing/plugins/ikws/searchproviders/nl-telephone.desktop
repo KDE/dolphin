@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Name=Telephonebook Search Provider
-Name[fr]=Moteur de recherche Telephonebook
-Name[x-test]=xxTelephonebook Search Providerxx
-Type=Service
-ServiceTypes=SearchProvider
-Keys=telnl,telefoon
-Query=http://www.detelefoongids.nl/tginl.dll?action=white&type=search&name=\{1}&city=\{2}

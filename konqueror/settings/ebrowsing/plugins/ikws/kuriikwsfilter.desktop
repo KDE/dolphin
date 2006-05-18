@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=InternetKeywordsFilter
-Name[fr]=Mots-clefs internet
-Name[x-test]=xxInternetKeywordsFilterxx
-X-KDE-Library=libkuriikwsfilter
-ServiceTypes=KURIFilter/Plugin
-InitialPreference=1

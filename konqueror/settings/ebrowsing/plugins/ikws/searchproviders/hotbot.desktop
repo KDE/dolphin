@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=Hotbot
-Name[x-test]=xxHotbotxx
-ServiceTypes=SearchProvider
-Keys=hb,hotbot
-Query=http://hotbot.lycos.com/?MT=\\{@}&SM=MC&DV=0&LG=any&DC=10&DE=2
-Query[x-test]=xxhttp://hotbot.lycos.com/?MT=\\{@}&SM=MC&DV=0&LG=any&DC=10&DE=2xx

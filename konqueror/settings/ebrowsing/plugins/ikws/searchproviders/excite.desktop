@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=Excite
-Name[x-test]=xxExcitexx
-ServiceTypes=SearchProvider
-Keys=ex,excite
-Query=http://search.excite.com/search.gw?search=\\{@}
-Query[x-test]=xxhttp://search.excite.com/search.gw?search=\\{@}xx

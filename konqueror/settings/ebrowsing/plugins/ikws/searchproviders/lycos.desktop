@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=Lycos
-Name[x-test]=xxLycosxx
-ServiceTypes=SearchProvider
-Keys=lycos,ly
-Query=http://www.lycos.com/cgi-bin/pursuit?cat=dir&query=\\{@}
-Query[x-test]=xxhttp://www.lycos.com/cgi-bin/pursuit?cat=dir&query=\\{@}xx

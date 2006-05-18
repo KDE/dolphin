@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=RPM-Find
-Name[x-test]=xxRPM-Findxx
-ServiceTypes=SearchProvider
-Keys=rf,rpmfind
-Query=http://www.rpmfind.net/linux/rpm2html/search.php?query=\{@}
-Query[x-test]=xxhttp://www.rpmfind.net/linux/rpm2html/search.php?query=\{@}xx

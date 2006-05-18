@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=HyperDictionary.com
-Name[x-test]=xxHyperDictionary.comxx
-ServiceTypes=SearchProvider
-Keys=hd,hyperdict
-Query=http://www.hyperdictionary.com/search.aspx?define=\\{@}
-Query[x-test]=xxhttp://www.hyperdictionary.com/search.aspx?define=\\{@}xx

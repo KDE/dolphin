@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=Freshmeat
-Name[x-test]=xxFreshmeatxx
-ServiceTypes=SearchProvider
-Keys=fm,freshmeat
-Query=http://freshmeat.net/search/?q=\\{@}
-Query[x-test]=xxhttp://freshmeat.net/search/?q=\\{@}xx

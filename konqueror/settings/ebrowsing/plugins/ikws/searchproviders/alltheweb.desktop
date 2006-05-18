@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=AllTheWeb fast
-Name[x-test]=xxAllTheWeb fastxx
-ServiceTypes=SearchProvider
-Keys=atw,alltheweb
-Query=http://www.alltheweb.com/search?exec=FAST+Search&type=all&query=\\{@}&cat=web
-Query[x-test]=xxhttp://www.alltheweb.com/search?exec=FAST+Search&type=all&query=\\{@}&cat=webxx

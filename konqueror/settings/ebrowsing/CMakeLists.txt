@@ -1,8 +1,4 @@
 
-add_subdirectory( plugins ) 
-
-
-
 ########### next target ###############
 
 set(kcm_kurifilt_PART_SRCS filteropts.cpp main.cpp )
@@ -13,7 +9,7 @@ kde4_add_plugin(kcm_kurifilt ${kcm_kurifilt_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_kurifilt )
 
-target_link_libraries(kcm_kurifilt  ${KDE4_KDEUI_LIBS} ${QT_QT3SUPPORT_LIBRARY} ${QT_QTGUI_LIBRARY} kio)
+target_link_libraries(kcm_kurifilt  ${KDE4_KIO_LIBS} ${QT_QT3SUPPORT_LIBRARY})
 
 install_targets(${PLUGIN_INSTALL_DIR} kcm_kurifilt )
 

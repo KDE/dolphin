@@ -1,9 +1,0 @@
-[Desktop Entry]
-Charset=utf8
-Keys=tvtome
-Name=TV Tome
-Name[x-test]=xxTV Tomexx
-ServiceTypes=SearchProvider
-Query=http://www.tv.com/search.php?type=11&stype=all&qs=\\{@}&x=0&y=0
-Query[x-test]=xxhttp://www.tv.com/search.php?type=11&stype=all&qs=\\{@}&x=0&y=0xx
-Type=Service

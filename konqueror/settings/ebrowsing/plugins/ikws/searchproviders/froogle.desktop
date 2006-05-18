@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=Froogle
-Name[x-test]=xxFrooglexx
-ServiceTypes=SearchProvider
-Keys=froogle
-Query=http://froogle.google.com/froogle?q=\\{@}
-Query[x-test]=xxhttp://froogle.google.com/froogle?q=\\{@}xx

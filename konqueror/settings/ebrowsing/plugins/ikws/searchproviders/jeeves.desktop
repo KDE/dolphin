@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=Ask Jeeves
-Name[x-test]=xxAsk Jeevesxx
-ServiceTypes=SearchProvider
-Keys=ask,jeeves
-Query=http://www.ask.com/main/askJeeves.asp?origin=0&qSource=4&site_name=Jeeves&metasearch=yes&ask=\\{@}
-Query[x-test]=xxhttp://www.ask.com/main/askJeeves.asp?origin=0&qSource=4&site_name=Jeeves&metasearch=yes&ask=\\{@}xx

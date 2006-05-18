@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=Netcraft
-Name[x-test]=xxNetcraftxx
-ServiceTypes=SearchProvider
-Keys=nc,netcraft
-Query=http://uptime.netcraft.com/up/graph?site=\\{@}
-Query[x-test]=xxhttp://uptime.netcraft.com/up/graph?site=\\{@}xx

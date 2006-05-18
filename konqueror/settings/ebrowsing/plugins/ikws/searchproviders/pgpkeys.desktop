@@ -1,9 +1,0 @@
-[Desktop Entry]
-Keys=pgp,pgpkeys
-Name=OpenPGP Key Search
-Name[fr]=Clé de recherche OpenPGP
-Name[x-test]=xxOpenPGP Key Searchxx
-Query=http://pgp.dtype.org:11371/pks/lookup?search=\\{@}&op=vindex
-Query[x-test]=xxhttp://pgp.dtype.org:11371/pks/lookup?search=\\{@}&op=vindexxx
-ServiceTypes=SearchProvider
-Type=Service

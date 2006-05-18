@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Keys=ctan
-Name=CTAN - Comprehensive TeX Archive Network
-Name[fr]=CTAN (Comprehensive TeX Archive Network)
-Name[x-test]=xxCTAN - Comprehensive TeX Archive Networkxx
-Query=http://www.ctan.org/tools/filesearch?action=/search/&filename=\\{@}
-ServiceTypes=SearchProvider
-Type=Service

@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=Ruby Application Archive
-Name[fr]=Archive d'application Ruby
-Name[x-test]=xxRuby Application Archivexx
-ServiceTypes=SearchProvider
-Keys=raa
-Query=http://www.ruby-lang.org/en/raa-list.rhtml?name=\\{@}

@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=LocalDomainFilter
-Name[fr]=Filtre de domaine local
-Name[x-test]=xxLocalDomainFilterxx
-X-KDE-Library=liblocaldomainurifilter
-ServiceTypes=KURIFilter/Plugin
-InitialPreference=2

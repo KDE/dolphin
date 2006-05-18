@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=AltaVista
-Name[x-test]=xxAltaVistaxx
-ServiceTypes=SearchProvider
-Keys=av,altavista
-Query=http://www.altavista.com/cgi-bin/query?pg=q&kl=XX&stype=stext&q=\\{@}
-Query[x-test]=xxhttp://www.altavista.com/cgi-bin/query?pg=q&kl=XX&stype=stext&q=\\{@}xx

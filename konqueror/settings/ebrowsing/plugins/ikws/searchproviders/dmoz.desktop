@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=Open Directory
-Name[x-test]=xxOpen Directoryxx
-ServiceTypes=SearchProvider
-Keys=dmoz,odp
-Query=http://search.dmoz.org/cgi-bin/search?search=\\{@}
-Query[x-test]=xxhttp://search.dmoz.org/cgi-bin/search?search=\\{@}xx
