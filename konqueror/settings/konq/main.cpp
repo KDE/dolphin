@@ -32,8 +32,6 @@
 
 #include <kconfig.h>
 #include <kapplication.h>
-//Added by qt3to4:
-#include <Q3CString>
 #include <QDesktopWidget>
 
 static QString configname()

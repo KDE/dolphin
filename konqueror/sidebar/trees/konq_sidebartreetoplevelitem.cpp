@@ -24,7 +24,6 @@
 #include <konq_operations.h>
 #include <kprotocolinfo.h>
 #include <k3urldrag.h>
-#include <q3cstring.h>
 #include <kmimetype.h>
 #include <QApplication>
 #include <QClipboard>
