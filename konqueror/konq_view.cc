@@ -252,7 +252,7 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
   // Activate the new part
   if ( oldPart )
   {
-    m_pPart->setName( oldPart->name() );
+    m_pPart->setObjectName( oldPart->name() );
     emit sigPartChanged( this, oldPart, m_pPart );
     delete oldPart;
   }
@@ -1116,7 +1116,7 @@ void KonqView::setViewName( const QString &name )
 {
     //kDebug() << "KonqView::setViewName this=" << this << " name=" << name << endl;
     if ( m_pPart )
-        m_pPart->setName( name.toLocal8Bit().data() );
+        m_pPart->setObjectName( name.toLocal8Bit().data() );
 }
 
 QString KonqView::viewName() const

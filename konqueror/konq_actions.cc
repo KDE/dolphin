@@ -75,7 +75,7 @@ void KonqBidiHistoryAction::fillHistoryPopup( const QList<HistoryEntry*> &histor
           popup->setItemChecked( id, true );
       } else
           popup->insertItem( QIcon( KonqPixmapProvider::self()->pixmapFor(
-					    history[ index ]->url ) ), text );
+					    history[ index ]->url.toString() ) ), text );
       if ( ++i > 10 )
           break;
       if ( !onlyForward ) --index; else ++index;

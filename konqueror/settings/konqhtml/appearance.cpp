@@ -200,7 +200,9 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
   label = new QLabel( i18n( "Font &size adjustment for this encoding:" ), this );
   lay->addWidget( label, ++r, M );
 
-  m_pFontSizeAdjust = new QSpinBox( -5, 5, 1, this );
+  m_pFontSizeAdjust = new QSpinBox( this );
+  m_pFontSizeAdjust->setRange( -5, 5 );
+  m_pFontSizeAdjust->setSingleStep( 1 );
   label->setBuddy( m_pFontSizeAdjust );
   lay->addWidget( m_pFontSizeAdjust, r, M+1, 1, W-M+2 );
 

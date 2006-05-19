@@ -635,7 +635,7 @@ void Sidebar_Widget::stdAction(const char *handlestd)
 	if (!(mod->module))
 		return;
 
-	kDebug() << "Try calling >active< module's (" << mod->module->className() << ") slot " << handlestd << endl;
+	kDebug() << "Try calling >active< module's (" << mod->module->metaObject()->className() << ") slot " << handlestd << endl;
 
 	int id = mod->module->metaObject()->indexOfSlot( handlestd );
   	if ( id == -1 )
@@ -1079,7 +1079,7 @@ void Sidebar_Widget::createNewWindow( const KUrl &url, const KParts::URLArgs &ar
 
 void Sidebar_Widget::enableAction( const char * name, bool enabled )
 {
- 	if (sender()->parent()->isA("ButtonInfo"))
+	if ((qstrcmp("ButtonInfo", sender()->parent()->metaObject()->className()) == 0))
 	{
 		ButtonInfo *btninfo = static_cast<ButtonInfo*>(sender()->parent());
 		if (btninfo)
@@ -1104,7 +1104,7 @@ void Sidebar_Widget::enableAction( const char * name, bool enabled )
 
 bool  Sidebar_Widget::doEnableActions()
 {
- 	if (!(sender()->parent()->isA("ButtonInfo")))
+	if ((qstrcmp("ButtonInfo", sender()->parent()->metaObject()->className()) != 0))
 	{
 		kDebug()<<"Couldn't set active module, aborting"<<endl;
 		return false;

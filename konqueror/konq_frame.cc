@@ -245,13 +245,13 @@ void KonqFrameStatusBar::slotConnectToNewView(KonqView *, KParts::ReadOnlyPart *
 
 void KonqFrameStatusBar::showActiveViewIndicator( bool b )
 {
-    m_led->setShown( b );
+    m_led->setVisible( b );
     updateActiveStatus();
 }
 
 void KonqFrameStatusBar::showLinkedViewIndicator( bool b )
 {
-    m_pLinkedViewCheckBox->setShown( b );
+    m_pLinkedViewCheckBox->setVisible( b );
 }
 
 void KonqFrameStatusBar::setLinkedView( bool b )

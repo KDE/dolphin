@@ -232,7 +232,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     {
         if ( KToggleAction*& preview = previewActions[ ( *it )->name() ] )
             // Bypassing KAction restriction - this action will not be found via KActionCollection when doing a name search
-            preview->QAction::setName( QByteArray( preview->name() ) + ',' + ( *it )->desktopEntryName().toLatin1() );
+            preview->QAction::setObjectName( QByteArray( preview->name() ) + ',' + ( *it )->desktopEntryName().toLatin1() );
         else
         {
             preview = new KToggleAction( (*it)->name(), actionCollection(), (*it)->desktopEntryName().toLatin1() );
@@ -435,7 +435,7 @@ const KFileItem * KonqKfmIconView::currentItem()
 
 void KonqKfmIconView::slotPreview( bool toggle )
 {
-    QByteArray name = sender()->name(); // e.g. clipartthumbnail (or audio/, special case)
+    QString name = sender()->objectName(); // e.g. clipartthumbnail (or audio/, special case)
     if (name == "iconview_preview_all")
     {
         m_pProps->setShowingPreview( toggle );
@@ -459,7 +459,7 @@ void KonqKfmIconView::slotPreview( bool toggle )
     }
     else
     {
-        QStringList types = QString(name).split( ',', QString::SkipEmptyParts );
+        QStringList types = name.split( ',', QString::SkipEmptyParts );
         for ( QStringList::ConstIterator it = types.begin(); it != types.end(); ++it )
         {
             m_pProps->setShowingPreview( *it, toggle );
@@ -1309,7 +1309,7 @@ bool KonqKfmIconView::doOpenURL( const KUrl & url )
       m_paEnablePreviews->setChecked( m_pProps->isShowingPreview() );
       for ( m_paPreviewPlugins.first(); m_paPreviewPlugins.current(); m_paPreviewPlugins.next() )
       {
-          QStringList types = QString(m_paPreviewPlugins.current()->name()).split(',', QString::SkipEmptyParts );
+          QStringList types = QString(m_paPreviewPlugins.current()->objectName()).split(',', QString::SkipEmptyParts );
           bool enabled = false;
           for ( QStringList::ConstIterator it = types.begin(); it != types.end(); ++it )
               if ( m_pProps->isShowingPreview( *it ) )
