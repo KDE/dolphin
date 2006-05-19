@@ -410,12 +410,12 @@ void DesktopBehavior::save()
 void DesktopBehavior::enableChanged()
 {
     bool enabled = iconsEnabledBox->isChecked();
-    behaviorTab->setTabEnabled(behaviorTab->page(1), enabled);
+    behaviorTab->setTabEnabled(1, enabled);
     vrootBox->setEnabled(enabled);
 
     if (m_bHasMedia)
     {
-        behaviorTab->setTabEnabled(behaviorTab->page(2), enabled);
+        behaviorTab->setTabEnabled(2, enabled);
         enableMediaBox->setEnabled(enabled);
         mediaListView->setEnabled(enableMediaBox->isChecked());
     }
