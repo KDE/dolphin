@@ -356,7 +356,7 @@ void KPluginOptions::scan()
             this, SLOT(progress(KProcIO*)));
     connect(nspluginscan, SIGNAL(processExited(KProcess *)),
             this, SLOT(scanDone()));
-    connect(m_progress, SIGNAL(cancelled()), this, SLOT(scanDone()));
+    connect(m_progress, SIGNAL(canceled()), this, SLOT(scanDone()));
 
     if (nspluginscan->start())
        kapp->enter_loop();
