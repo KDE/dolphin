@@ -438,7 +438,7 @@ void KonqFrameTabs::slotCloseRequest( QWidget *w )
 
 void KonqFrameTabs::slotSubPopupMenuTabActivated( int _id)
 {
-    setCurrentPage( _id );
+    setCurrentIndex( _id );
 }
 
 void KonqFrameTabs::slotMouseMiddleClick()

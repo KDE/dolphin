@@ -817,9 +817,9 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
               if ( !tabContainer )
                   tabContainer = static_cast<KonqFrameTabs*>(m_pViewManager->docContainer());
               if ( req.openAfterCurrentPage )
-                  tabContainer->setCurrentPage( index + 1 );
+                  tabContainer->setCurrentIndex( index + 1 );
               else
-                  tabContainer->setCurrentPage( tabContainer->count()-1 );
+                  tabContainer->setCurrentIndex( tabContainer->count()-1 );
           }
       }
 

@@ -447,9 +447,9 @@ void KonqViewManager::duplicateTab( KonqFrameBase* tab, bool openAfterCurrentPag
   m_pMainWindow->viewCountChanged();
 
   if (openAfterCurrentPage)
-    tabContainer->setCurrentPage( tabContainer->currentPageIndex () + 1 );
+    tabContainer->setCurrentIndex( tabContainer->currentPageIndex () + 1 );
   else
-  tabContainer->setCurrentPage( tabContainer->count() - 1 );
+    tabContainer->setCurrentIndex( tabContainer->count() - 1 );
 
   KonqFrameBase* duplicatedFrame = dynamic_cast<KonqFrameBase*>(tabContainer->currentWidget());
   if (duplicatedFrame)
@@ -671,7 +671,7 @@ void KonqViewManager::activateNextTab()
   if( iTab == tabContainer->count() )
     iTab = 0;
 
-  tabContainer->setCurrentPage( iTab );
+  tabContainer->setCurrentIndex( iTab );
 }
 
 void KonqViewManager::activatePrevTab()
@@ -689,7 +689,7 @@ void KonqViewManager::activatePrevTab()
   if( iTab == -1 )
     iTab = tabContainer->count() - 1;
 
-  tabContainer->setCurrentPage( iTab );
+  tabContainer->setCurrentIndex( iTab );
 }
 
 void KonqViewManager::activateTab(int position)
@@ -700,7 +700,7 @@ void KonqViewManager::activateTab(int position)
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
   if (position<0 || tabContainer->count() == 1 || position>=tabContainer->count()) return;
 
-  tabContainer->setCurrentPage( position );
+  tabContainer->setCurrentIndex( position );
 }
 
 void KonqViewManager::showTab( KonqView *view )
@@ -1630,7 +1630,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     }
 
     newContainer->setActiveChild( dynamic_cast<KonqFrameBase*>(newContainer->page(index)) );
-    newContainer->setCurrentPage( index );
+    newContainer->setCurrentIndex( index );
 
     newContainer->show();
   }
