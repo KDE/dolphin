@@ -711,7 +711,7 @@ bool KonqMainWindow::openView( QString mimeType, const KUrl &_url, KonqView *chi
   // The name of the protocol to redirect to, is read from the mimetype's .desktop file
   if ( url.isLocalFile() )
   {
-    KServiceType::Ptr ptr = KServiceType::serviceType( mimeType );
+    KMimeType::Ptr ptr = KMimeType::mimeType( mimeType );
     if ( ptr )
     {
       const QString protocol = ptr->property("X-KDE-LocalProtocol").toString();

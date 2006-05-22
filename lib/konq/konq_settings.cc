@@ -21,7 +21,7 @@
 #include "konq_defaults.h"
 #include "kglobalsettings.h"
 #include <kglobal.h>
-#include <kservicetype.h>
+#include <kmimetype.h>
 #include <kdesktopfile.h>
 #include <kdebug.h>
 #include <assert.h>
@@ -123,17 +123,17 @@ void KonqFMSettings::init( KConfig * config )
   d->localeAwareCompareIsCaseSensitive = QString( "a" ).localeAwareCompare( "B" ) > 0; // see #40131
 }
 
-bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
+bool KonqFMSettings::shouldEmbed( const QString & mimeType ) const
 {
     // First check in user's settings whether to embed or not
     // 1 - in the mimetype file itself
-    KServiceType::Ptr serviceTypePtr = KServiceType::serviceType( serviceType );
+    KMimeType::Ptr mimeTypePtr = KMimeType::mimeType( mimeType );
     bool hasLocalProtocolRedirect = false;
-    if ( serviceTypePtr )
+    if ( mimeTypePtr )
     {
-        hasLocalProtocolRedirect = !serviceTypePtr->property( "X-KDE-LocalProtocol" ).toString().isEmpty();
-        kDebug(1203) << serviceTypePtr->desktopEntryPath() << endl;
-        KDesktopFile deFile( serviceTypePtr->desktopEntryPath(),
+        hasLocalProtocolRedirect = !mimeTypePtr->property( "X-KDE-LocalProtocol" ).toString().isEmpty();
+        kDebug(1203) << mimeTypePtr->desktopEntryPath() << endl;
+        KDesktopFile deFile( mimeTypePtr->desktopEntryPath(),
                              true /*readonly*/, "mime");
         if ( deFile.hasKey( "X-KDE-AutoEmbed" ) )
         {
@@ -144,11 +144,11 @@ bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
             kDebug(1203) << "No X-KDE-AutoEmbed, looking for group" << endl;
     }
     // 2 - in the configuration for the group if nothing was found in the mimetype
-    QString serviceTypeGroup = serviceType.left(serviceType.indexOf("/"));
-    kDebug(1203) << "KonqFMSettings::shouldEmbed : serviceTypeGroup=" << serviceTypeGroup << endl;
-    if ( serviceTypeGroup == "inode" || serviceTypeGroup == "Browser" || serviceTypeGroup == "Konqueror" )
+    QString mimeTypeGroup = mimeType.left(mimeType.indexOf("/"));
+    kDebug(1203) << "KonqFMSettings::shouldEmbed : mimeTypeGroup=" << mimeTypeGroup << endl;
+    if ( mimeTypeGroup == "inode" || mimeTypeGroup == "Browser" || mimeTypeGroup == "Konqueror" )
         return true; //always embed mimetype inode/*, Browser/* and Konqueror/*
-    QMap<QString, QString>::ConstIterator it = m_embedMap.find( QString::fromLatin1("embed-")+serviceTypeGroup );
+    QMap<QString, QString>::ConstIterator it = m_embedMap.find( QString::fromLatin1("embed-")+mimeTypeGroup );
     if ( it != m_embedMap.end() ) {
         kDebug(1203) << "KonqFMSettings::shouldEmbed: " << it.value() << endl;
         return it.value() == QString::fromLatin1("true");
@@ -156,7 +156,7 @@ bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
     // 3 - if no config found, use default.
     // Note: if you change those defaults, also change kcontrol/filetypes/typeslistitem.cpp !
     // Embedding is false by default except for image/* and for zip, tar etc.
-    if ( serviceTypeGroup == "image" || hasLocalProtocolRedirect )
+    if ( mimeTypeGroup == "image" || hasLocalProtocolRedirect )
         return true;
     return false;
 }
