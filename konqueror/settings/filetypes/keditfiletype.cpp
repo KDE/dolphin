@@ -27,6 +27,7 @@
 #include <kdebug.h>
 #include <kcmdlineargs.h>
 #include <ksycoca.h>
+#include <kservicetypeprofile.h>
 #include <kstandarddirs.h>
 #include <klocale.h>
 

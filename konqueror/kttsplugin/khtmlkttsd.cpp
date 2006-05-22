@@ -31,14 +31,14 @@
 
 #include <kapplication.h>
 #include <dcopclient.h>
-#include <ktrader.h>
+#include <kservicetypetrader.h>
 #include <ktoolinvocation.h>
 
 KHTMLPluginKTTSD::KHTMLPluginKTTSD( QObject* parent, const QStringList& )
     : Plugin( parent )
 {
     // If KTTSD is not installed, hide action.
-    KTrader::OfferList offers = KTrader::self()->query("DCOP/Text-to-Speech", "Name == 'KTTSD'");
+    KService::List offers = KServiceTypeTrader::self()->query("DCOP/Text-to-Speech", "Name == 'KTTSD'");
     if (offers.count() > 0)
     {
         KAction *action = new KAction(KIcon("kttsd"),  i18n("&Speak Text"), actionCollection(), "tools_kttsd" );

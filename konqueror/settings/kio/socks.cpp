@@ -157,7 +157,7 @@ void KSocksConfig::chooseCustomLib(KUrlRequester * url)
   url->setMode( KFile::Directory );
 /*  QString newFile = KFileDialog::getOpenFileName();
   if (newFile.length() > 0) {
-    base->_c_customPath->setURL(newFile);
+    base->_c_customPath->setUrl(newFile);
     emit changed(true);
   }*/
 }
@@ -220,7 +220,7 @@ void KSocksConfig::load()
     base->_c_customLabel->setEnabled(false);
     base->_c_customPath->setEnabled(false);
   }
-  base->_c_customPath->setURL(config.readPathEntry("SOCKS_lib"));
+  base->_c_customPath->setUrl(config.readPathEntry("SOCKS_lib"));
 
   Q3ListViewItem *thisitem;
   while ((thisitem = base->_c_libs->firstChild())) {
@@ -268,7 +268,7 @@ void KSocksConfig::defaults()
   base->bg->setButton(1);
   base->_c_customLabel->setEnabled(false);
   base->_c_customPath->setEnabled(false);
-  base->_c_customPath->setURL("");
+  base->_c_customPath->setUrl(KUrl());
   Q3ListViewItem *thisitem;
   while ((thisitem = base->_c_libs->firstChild())) {
      base->_c_libs->takeItem(thisitem);

@@ -63,8 +63,8 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
                     KonqFrame* viewFrame,
                     KonqMainWindow *mainWindow,
                     const KService::Ptr &service,
-                    const KTrader::OfferList &partServiceOffers,
-                    const KTrader::OfferList &appServiceOffers,
+                    const KService::List &partServiceOffers,
+                    const KService::List &appServiceOffers,
                     const QString &serviceType,
                     bool passiveMode
                     )
@@ -329,7 +329,7 @@ bool KonqView::changeViewMode( const QString &serviceType,
   }
 
   kDebug(1202) << "Switching view modes..." << endl;
-  KTrader::OfferList partServiceOffers, appServiceOffers;
+  KService::List partServiceOffers, appServiceOffers;
   KService::Ptr service;
   KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &partServiceOffers, &appServiceOffers, forceAutoEmbed );
 
@@ -645,7 +645,7 @@ void KonqView::setLocationBarURL( const QString & locationBarURL )
     m_pMainWindow->setLocationBarURL( m_sLocationBarURL );
     m_pMainWindow->setPageSecurity( m_pageSecurity );
   }
-  if (!m_bPassiveMode) setTabIcon( KUrl::fromPathOrUrl( m_sLocationBarURL ) );
+  if (!m_bPassiveMode) setTabIcon( KUrl( m_sLocationBarURL ) );
 }
 
 void KonqView::setIconURL( const KUrl & iconURL )
@@ -682,7 +682,7 @@ void KonqView::setCaption( const QString & caption )
   if (url().isLocalFile())
   {
      // Is the caption a URL?  If so, is it local?  If so, only display the filename!
-     KUrl url = KUrl::fromPathOrUrl(caption);
+     KUrl url(caption);
      if (url.isValid() && url.isLocalFile() && url.fileName() == this->url().fileName())
         adjustedCaption = url.fileName();
   }
@@ -883,7 +883,7 @@ KUrl KonqView::upUrl() const
     if ( m_pRun )
 	currentURL = m_pRun->url();
     else
-	currentURL = KUrl::fromPathOrUrl( m_sLocationBarURL );
+	currentURL = m_sLocationBarURL;
     return currentURL.upUrl();
 }
 

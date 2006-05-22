@@ -33,8 +33,9 @@
 #include <kmenu.h>
 #include <dcopclient.h>
 #include <kgenericfactory.h>
-#include <kprotocolmanager.h>
 #include <kprotocolinfo.h>
+#include <kprotocolmanager.h>
+#include <kprotocolmanager.h>
 #include <kio/slaveconfig.h>
 #include <konq_dirpart.h>
 #include <kparts/browserextension.h>
@@ -92,7 +93,7 @@ KRemoteEncodingPlugin::slotAboutToOpenURL()
       // This plugin works on ftp, fish, etc.
       // everything whose type is T_FILESYSTEM except for local files
       if (!m_currentURL.isLocalFile() &&
-	  KProtocolInfo::outputType(m_currentURL) == KProtocolInfo::T_FILESYSTEM)
+	  KProtocolManager::outputType(m_currentURL) == KProtocolInfo::T_FILESYSTEM)
 	{
 	  m_menu->setEnabled(true);
 	  loadSettings();

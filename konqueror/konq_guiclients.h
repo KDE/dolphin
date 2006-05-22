@@ -23,7 +23,7 @@
 #include <kxmlguiclient.h>
 #include <QObject>
 #include <QHash>
-#include <ktrader.h>
+#include <kservice.h>
 
 class KAction;
 class KActionCollection;
@@ -55,7 +55,7 @@ class KonqView;
 class PopupMenuGUIClient : public KXMLGUIClient
 {
 public:
-  PopupMenuGUIClient( KonqMainWindow *mainWindow, const KTrader::OfferList &embeddingServices,
+  PopupMenuGUIClient( KonqMainWindow *mainWindow, const KService::List &embeddingServices,
                       bool isIntoTrash, bool doTabHandling );
   virtual ~PopupMenuGUIClient();
 

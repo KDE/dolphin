@@ -29,7 +29,7 @@
 #include <unistd.h>
 #include <QFile>
 #include <iostream>
-#include <ktrader.h>
+#include <kservicetypetrader.h>
 #include <kinstance.h>
 #include <assert.h>
 
@@ -569,15 +569,15 @@ const QStringList& KonqPropsView::previewSettings()
         d->previewsToShow = new QStringList;
 
         if (d->previewsEnabled) {
-            KTrader::OfferList plugins = KTrader::self()->query( "ThumbCreator" );
-            for ( KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it )
+            KService::List plugins = KServiceTypeTrader::self()->query( "ThumbCreator" );
+            for ( KService::List::ConstIterator it = plugins.begin(); it != plugins.end(); ++it )
             {
-            QString name = (*it)->desktopEntryName();
-            if ( ! m_dontPreview.contains(name) )
+                QString name = (*it)->desktopEntryName();
+                if ( ! m_dontPreview.contains(name) )
                     d->previewsToShow->append( name );
             }
             if ( ! m_dontPreview.contains( "audio/" ) )
-            d->previewsToShow->append( "audio/" );
+                d->previewsToShow->append( "audio/" );
         }
     }
 

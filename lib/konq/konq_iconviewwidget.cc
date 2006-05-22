@@ -58,8 +58,8 @@
 #include <kicontheme.h>
 #include <kiconeffect.h>
 #include <kstandarddirs.h>
-#include <kprotocolinfo.h>
-#include <ktrader.h>
+#include <kprotocolmanager.h>
+#include <kservicetypetrader.h>
 
 #include <assert.h>
 #include <unistd.h>
@@ -923,6 +923,8 @@ void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )
 
 void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r , const QPoint &pt)
 {
+    Q_UNUSED(pt)
+
     Q3IconView::drawBackground(p, r);
     return;
 #if 0
@@ -1098,7 +1100,7 @@ void KonqIconViewWidget::slotSelectionChanged()
 
             /*if ( url.directory(false) == KGlobalSettings::trashPath() )
                 bInTrash = true;*/
-            if ( KProtocolInfo::supportsDeleting( url ) )
+            if ( KProtocolManager::supportsDeleting( url ) )
                 canDel++;
             if ( !local_path.isEmpty() )
                 canTrash++;
@@ -1908,8 +1910,8 @@ void KonqIconViewWidget::updatePreviewMimeTypes()
         d->pPreviewMimeTypes->clear();
 
     // Load the list of plugins to determine which mimetypes are supported
-    KTrader::OfferList plugins = KTrader::self()->query("ThumbCreator");
-    KTrader::OfferList::ConstIterator it;
+    KService::List plugins = KServiceTypeTrader::self()->query("ThumbCreator");
+    KService::List::ConstIterator it;
 
     for ( it = plugins.begin(); it != plugins.end(); ++it ) {
         if ( d->previewSettings.contains((*it)->desktopEntryName()) ) {

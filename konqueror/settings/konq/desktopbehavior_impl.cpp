@@ -40,7 +40,7 @@
 #include <klocale.h>
 #include <kglobalsettings.h>
 #include <kmimetype.h>
-#include <ktrader.h>
+#include <kservicetypetrader.h>
 #include <kapplication.h>
 #include <kcustommenueditor.h>
 #include <dcopclient.h>
@@ -283,10 +283,10 @@ void DesktopBehavior::load()
     bool bShowHidden = g_pConfig->readEntry("ShowHidden", DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
     showHiddenBox->setChecked(bShowHidden);
     //bool bVertAlign = g_pConfig->readEntry("VertAlign", DEFAULT_VERT_ALIGN);
-    KTrader::OfferList plugins = KTrader::self()->query("ThumbCreator");
+    KService::List plugins = KServiceTypeTrader::self()->query("ThumbCreator");
     previewListView->clear();
     QStringList previews = g_pConfig->readEntry("Preview", QStringList() );
-    for (KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it)
+    for (KService::List::ConstIterator it = plugins.begin(); it != plugins.end(); ++it)
         new DesktopBehaviorPreviewItem(this, previewListView, *it, previews.contains((*it)->desktopEntryName()));
     new DesktopBehaviorPreviewItem(this, previewListView, previews.contains("audio/"));
     //

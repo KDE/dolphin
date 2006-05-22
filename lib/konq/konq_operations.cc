@@ -56,7 +56,7 @@
 #include <kio/netaccess.h>
 #include <kio/renamedlg.h>
 #include <konq_iconviewwidget.h>
-#include <kprotocolinfo.h>
+#include <kprotocolmanager.h>
 #include <kprocess.h>
 #include <kstringhandler.h>
 #include <QMenu>
@@ -187,7 +187,7 @@ void KonqOperations::_del( int method, const KUrl::List & _selectedURLs, int con
 {
     KUrl::List selectedURLs;
     for (KUrl::List::ConstIterator it = _selectedURLs.begin(); it != _selectedURLs.end(); ++it)
-        if (KProtocolInfo::supportsDeleting(*it))
+        if (KProtocolManager::supportsDeleting(*it))
             selectedURLs.append(*it);
     if (selectedURLs.isEmpty()) {
         delete this;
@@ -503,7 +503,7 @@ void KonqOperations::doFileCopy()
     for (KUrl::List::ConstIterator it = lst.begin(); it != lst.end(); ++it)
     {
         bool local = (*it).isLocalFile();
-        if ( KProtocolInfo::supportsDeleting( *it ) && (!local || QFileInfo((*it).directory()).isWritable() ))
+        if ( KProtocolManager::supportsDeleting( *it ) && (!local || QFileInfo((*it).directory()).isWritable() ))
             mlst.append(*it);
         if ( local && KDesktopFile::isDesktopFile((*it).path()))
             isDesktopFile = true;
@@ -561,11 +561,11 @@ void KonqOperations::doFileCopy()
 
         // Check what the source can do
         KUrl url = lst.first(); // we'll assume it's the same for all URLs (hack)
-        bool sReading = KProtocolInfo::supportsReading( url );
-        bool sDeleting = KProtocolInfo::supportsDeleting( url );
-        bool sMoving = KProtocolInfo::supportsMoving( url );
+        bool sReading = KProtocolManager::supportsReading( url );
+        bool sDeleting = KProtocolManager::supportsDeleting( url );
+        bool sMoving = KProtocolManager::supportsMoving( url );
         // Check what the destination can do
-        bool dWriting = KProtocolInfo::supportsWriting( m_destURL );
+        bool dWriting = KProtocolManager::supportsWriting( m_destURL );
         if ( !dWriting )
         {
             delete this;

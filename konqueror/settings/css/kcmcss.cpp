@@ -111,7 +111,7 @@ void CSSConfig::load()
   configDialog->useDefault->setChecked(u == "default");
   configDialog->useUser->setChecked(u == "user");
   configDialog->useAccess->setChecked(u == "access");
-  configDialog->urlRequester->setURL(c->readEntry("SheetName"));
+  configDialog->urlRequester->setUrl(c->readEntry("SheetName"));
 
   c->setGroup("Font");
   customDialog->basefontsize->setEditText(QString::number(c->readEntry("BaseSize", 12)));
@@ -160,7 +160,7 @@ void CSSConfig::save()
     c->writeEntry("Use", "user");
   if (configDialog->useAccess->isChecked())
     c->writeEntry("Use", "access");
-  c->writeEntry("SheetName", configDialog->urlRequester->url());
+  c->writeEntry("SheetName", configDialog->urlRequester->url().url());
 
   c->setGroup("Font");
   c->writeEntry("BaseSize", customDialog->basefontsize->currentText());
@@ -206,7 +206,7 @@ void CSSConfig::save()
   c->writeEntry("UserStyleSheetEnabled", !configDialog->useDefault->isChecked());
 
   if (configDialog->useUser->isChecked())
-    c->writeEntry("UserStyleSheet", configDialog->urlRequester->url());
+    c->writeEntry("UserStyleSheet", configDialog->urlRequester->url().url());
   if (configDialog->useAccess->isChecked())
     c->writeEntry("UserStyleSheet", dest);
 
@@ -221,7 +221,7 @@ void CSSConfig::defaults()
   configDialog->useDefault->setChecked(true);
   configDialog->useUser->setChecked(false);
   configDialog->useAccess->setChecked(false);
-  configDialog->urlRequester->setURL("");
+  configDialog->urlRequester->setUrl(KUrl());
 
   customDialog->basefontsize->setEditText(QString::number(12));
   customDialog->dontScale->setChecked(false);

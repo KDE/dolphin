@@ -32,8 +32,8 @@
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kmimetypetrader.h>
 #include <kparts/browserextension.h>
-#include <kuserprofile.h>
 #include <kurifilter.h>
 #include <kglobalsettings.h>
 
@@ -336,7 +336,7 @@ void KonqDirPart::mmbClicked( KFileItem * fileItem )
     {
         // Optimisation to avoid KRun to call kfmclient that then tells us
         // to open a window :-)
-        KService::Ptr offer = KServiceTypeProfile::preferredService(fileItem->mimetype(), "Application");
+        KService::Ptr offer = KMimeTypeTrader::self()->preferredService(fileItem->mimetype(), "Application");
         //if (offer) kDebug(1203) << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
         if ( offer && offer->desktopEntryName().startsWith("kfmclient") )
         {

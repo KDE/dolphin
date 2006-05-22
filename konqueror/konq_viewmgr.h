@@ -27,7 +27,7 @@
 #include <QMap>
 #include <QPointer>
 
-#include <ktrader.h>
+#include <kservice.h>
 
 #include <kparts/partmanager.h>
 #include "konq_openurlrequest.h"
@@ -324,8 +324,8 @@ private:
   KonqViewFactory createView( const QString &serviceType,
                               const QString &serviceName,
                               KService::Ptr &service,
-                              KTrader::OfferList &partServiceOffers,
-                              KTrader::OfferList &appServiceOffers,
+                              KService::List &partServiceOffers,
+                              KService::List &appServiceOffers,
 			      bool forceAutoEmbed = false );
 
   /**
@@ -335,8 +335,8 @@ private:
   KonqView *setupView( KonqFrameContainerBase *parentContainer,
                        KonqViewFactory &viewFactory,
                        const KService::Ptr &service,
-                       const KTrader::OfferList &partServiceOffers,
-                       const KTrader::OfferList &appServiceOffers,
+                       const KService::List &partServiceOffers,
+                       const KService::List &appServiceOffers,
                        const QString &serviceType,
                        bool passiveMode, bool openAfterCurrentPage = false);
 

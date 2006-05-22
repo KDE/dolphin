@@ -26,7 +26,7 @@
 #include <QStringList>
 
 #include <klibloader.h>
-#include <ktrader.h>
+#include <kservice.h>
 
 #include <kparts/part.h>
 
@@ -68,13 +68,13 @@ public:
   static KonqViewFactory createView( const QString &serviceType,
 				     const QString &serviceName = QString(),
 				     KService::Ptr *serviceImpl = 0,
-				     KTrader::OfferList *partServiceOffers = 0,
-				     KTrader::OfferList *appServiceOffers = 0,
+				     KService::List *partServiceOffers = 0,
+				     KService::List *appServiceOffers = 0,
 				     bool forceAutoEmbed = false );
 
   static void getOffers( const QString & serviceType,
-                         KTrader::OfferList *partServiceOffers = 0,
-                         KTrader::OfferList *appServiceOffers = 0);
+                         KService::List *partServiceOffers = 0,
+                         KService::List *appServiceOffers = 0);
 
   static const KAboutData* aboutData();
 

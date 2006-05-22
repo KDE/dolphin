@@ -43,7 +43,7 @@
 #include <kstaticdeleter.h>
 #include <kstdaction.h>
 #include <kparts/factory.h>
-#include <ktrader.h>
+#include <kservicetypetrader.h>
 #include <ktoggleaction.h>
 
 #include <QRegExp>
@@ -226,9 +226,9 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_pamPreview->insert( m_paEnablePreviews );
     m_pamPreview->insert( new KSeparatorAction(actionCollection()) );
 
-    KTrader::OfferList plugins = KTrader::self()->query( "ThumbCreator" );
+    KService::List plugins = KServiceTypeTrader::self()->query( "ThumbCreator" );
     QMap< QString, KToggleAction* > previewActions;
-    for ( KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it )
+    for ( KService::List::ConstIterator it = plugins.begin(); it != plugins.end(); ++it )
     {
         if ( KToggleAction*& preview = previewActions[ ( *it )->name() ] )
             // Bypassing KAction restriction - this action will not be found via KActionCollection when doing a name search
@@ -1182,9 +1182,9 @@ void KonqKfmIconView::slotClear()
 
 void KonqKfmIconView::slotRedirection( const KUrl & url )
 {
-    const QString prettyUrl = url.pathOrUrl();
-    emit m_extension->setLocationBarURL( prettyUrl );
-    emit setWindowCaption( prettyUrl );
+    const QString prettyURL = url.pathOrUrl();
+    emit m_extension->setLocationBarURL( prettyURL );
+    emit setWindowCaption( prettyURL );
     m_pIconView->setURL( url );
     m_url = url;
 }
@@ -1322,8 +1322,8 @@ bool KonqKfmIconView::doOpenURL( const KUrl & url )
       }
     }
 
-    const QString prettyUrl = url.pathOrUrl();
-    emit setWindowCaption( prettyUrl );
+    const QString prettyURL = url.pathOrUrl();
+    emit setWindowCaption( prettyURL );
 
     return true;
 }
@@ -1487,8 +1487,8 @@ void SpringLoadingManager::springLoadTrigger(KonqKfmIconView *view,
     // Open the folder URL, we don't want to modify the browser
     // history, hence the use of openURL and setLocationBarURL
     view->openURL(url);
-    const QString prettyUrl = url.pathOrUrl();
-    emit view->extension()->setLocationBarURL( prettyUrl );
+    const QString prettyURL = url.pathOrUrl();
+    emit view->extension()->setLocationBarURL( prettyURL );
 }
 
 void SpringLoadingManager::dragLeft(KonqKfmIconView */*view*/)
@@ -1531,8 +1531,8 @@ void SpringLoadingManager::finished()
 
     KonqKfmIconView *view = static_cast<KonqKfmIconView*>(part);
     view->openURL(url);
-    const QString prettyUrl = url.pathOrUrl();
-    emit view->extension()->setLocationBarURL( prettyUrl );
+    const QString prettyURL = url.pathOrUrl();
+    emit view->extension()->setLocationBarURL( prettyURL );
 
     deleteLater();
     s_self = 0L;

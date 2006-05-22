@@ -38,7 +38,6 @@
 #include <kmessagebox.h>
 #include <kmimetype.h>
 #include <kstandarddirs.h>
-#include <ktrader.h>
 #include <konq_defaults.h> // include default values directly from libkonq
 #include <kurlrequester.h>
 
@@ -126,18 +125,18 @@ DesktopPathConfig::DesktopPathConfig(KInstance *inst, QWidget *parent )
 void DesktopPathConfig::load()
 {
     // Desktop Paths
-    urDesktop->setURL( KGlobalSettings::desktopPath() );
-    urAutostart->setURL( KGlobalSettings::autostartPath() );
-    urDocument->setURL( KGlobalSettings::documentPath() );
+    urDesktop->setUrl( KGlobalSettings::desktopPath() );
+    urAutostart->setUrl( KGlobalSettings::autostartPath() );
+    urDocument->setUrl( KGlobalSettings::documentPath() );
     changed();
 }
 
 void DesktopPathConfig::defaults()
 {
     // Desktop Paths - keep defaults in sync with kglobalsettings.cpp
-    urDesktop->setURL( QDir::homePath() + "/Desktop/" );
-    urAutostart->setURL( KGlobal::dirs()->localkdedir() + "Autostart/" );
-    urDocument->setURL( QDir::homePath() );
+    urDesktop->setUrl( QDir::homePath() + "/Desktop/" );
+    urAutostart->setUrl( KGlobal::dirs()->localkdedir() + "Autostart/" );
+    urDocument->setUrl( QDir::homePath() );
 }
 
 void DesktopPathConfig::save()
@@ -183,7 +182,7 @@ void DesktopPathConfig::save()
             if ( newAutostartURL.equals( autostartURL, KUrl::CompareWithoutTrailingSlash ) )
             {
                 // Hack. It could be in a subdir inside desktop. Hmmm... Argl.
-                urAutostart->setURL( urlDesktop + "Autostart/" );
+                urAutostart->setUrl( urlDesktop + "Autostart/" );
                 kDebug() << "Autostart is moved with the desktop" << endl;
                 autostartMoved = true;
             }
@@ -227,7 +226,7 @@ void DesktopPathConfig::save()
             if (!KStandardDirs::makeDir(path))
             {
                 KMessageBox::sorry(this, KIO::buildErrorString(KIO::ERR_COULD_NOT_MKDIR, path));
-                urDocument->setURL(documentURL.path());
+                urDocument->setUrl(documentURL.path());
                 pathOk = false;
             }
         }

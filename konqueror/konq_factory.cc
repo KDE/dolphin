@@ -30,6 +30,7 @@
 #include <kaboutdata.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kmimetypetrader.h>
 
 #include <QWidget>
 #include <QFile>
@@ -79,14 +80,14 @@ KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parentWidget, QObject * 
 KonqViewFactory KonqFactory::createView( const QString &serviceType,
                                          const QString &serviceName,
                                          KService::Ptr *serviceImpl,
-                                         KTrader::OfferList *partServiceOffers,
-                                         KTrader::OfferList *appServiceOffers,
+                                         KService::List *partServiceOffers,
+                                         KService::List *appServiceOffers,
 					 bool forceAutoEmbed )
 {
   kDebug(1202) << "Trying to create view for \"" << serviceType << "\"" << endl;
 
   // We need to get those in any case
-  KTrader::OfferList offers, appOffers;
+  KService::List offers, appOffers;
 
   // Query the trader
   getOffers( serviceType, &offers, &appOffers );
@@ -119,7 +120,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
   // Look for this service
   if ( !serviceName.isEmpty() )
   {
-      KTrader::OfferList::Iterator it = offers.begin();
+      KService::List::Iterator it = offers.begin();
       for ( ; it != offers.end() && !service ; ++it )
       {
           if ( (*it)->desktopEntryName() == serviceName )
@@ -142,7 +143,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
                             service->name(), KLibLoader::self()->lastErrorMessage()));
   }
 
-  KTrader::OfferList::Iterator it = offers.begin();
+  KService::List::Iterator it = offers.begin();
   for ( ; !factory && it != offers.end() ; ++it )
   {
     service = (*it);
@@ -186,20 +187,18 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
 }
 
 void KonqFactory::getOffers( const QString & serviceType,
-                             KTrader::OfferList *partServiceOffers,
-                             KTrader::OfferList *appServiceOffers )
+                             KService::List *partServiceOffers,
+                             KService::List *appServiceOffers )
 {
     if ( appServiceOffers )
     {
-        *appServiceOffers = KTrader::self()->query( serviceType, "Application",
-"DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'",
-                                                    QString() );
+        *appServiceOffers = KMimeTypeTrader::self()->query( serviceType, "Application",
+"DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'");
     }
 
     if ( partServiceOffers )
     {
-        *partServiceOffers = KTrader::self()->query( serviceType, "KParts/ReadOnlyPart",
-                                                     QString(), QString() );
+        *partServiceOffers = KMimeTypeTrader::self()->query( serviceType, "KParts/ReadOnlyPart" );
     }
 }
 

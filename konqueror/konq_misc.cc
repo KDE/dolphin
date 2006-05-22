@@ -32,7 +32,7 @@
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <kwin.h>
-#include <kprotocolinfo.h>
+#include <kprotocolmanager.h>
 #include <kstartupinfo.h>
 #include <kiconloader.h>
 
@@ -104,7 +104,7 @@ KonqMainWindow * KonqMisc::createNewWindow( const KUrl &url, const KParts::URLAr
   kDebug() << "KonqMisc::createNewWindow url=" << url << endl;
 
   // For HTTP or html files, use the web browsing profile, otherwise use filemanager profile
-  QString profileName = (!(KProtocolInfo::supportsListing(url)) ||
+  QString profileName = (!(KProtocolManager::supportsListing(url)) ||
                         KMimeType::findByURL(url)->name() == "text/html")
           ? "webbrowsing" : "filemanagement";
 

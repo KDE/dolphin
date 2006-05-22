@@ -23,7 +23,6 @@
 #include <q3listview.h>
 
 #include <kmimetype.h>
-#include <kuserprofile.h>
 
 class TypesListItem : public Q3ListViewItem
 {

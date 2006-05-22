@@ -27,7 +27,6 @@
 #include <kaction.h>
 #include <kservicetype.h>
 #include <kselectaction.h>
-#include <kuserprofile.h>
 #include <kio/metainfojob.h>
 
 #include <QStringList>

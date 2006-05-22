@@ -216,7 +216,7 @@ void KPluginOptions::load()
   config->setGroup("Misc");
   m_widget->scanAtStartup->setChecked( config->readEntry( "startkdeScan", QVariant(false )).toBool() );
 
-  m_widget->dirEdit->setURL("");
+  m_widget->dirEdit->setUrl(KUrl());
   m_widget->dirEdit->setEnabled( false );
   m_widget->dirRemove->setEnabled( false );
   m_widget->dirUp->setEnabled( false );
@@ -248,7 +248,7 @@ void KPluginOptions::defaults()
 
     m_widget->scanAtStartup->setChecked( false );
 
-    m_widget->dirEdit->setURL("");
+    m_widget->dirEdit->setUrl(KUrl());
     m_widget->dirEdit->setEnabled( false );
     m_widget->dirRemove->setEnabled( false );
 
@@ -473,7 +473,7 @@ void KPluginOptions::dirSelect( Q3ListBoxItem *item )
     unsigned cur = m_widget->dirList->index(m_widget->dirList->selectedItem());
     m_widget->dirDown->setEnabled( item!=0 && cur<m_widget->dirList->count()-1 );
     m_widget->dirUp->setEnabled( item!=0 && cur>0 );
-    m_widget->dirEdit->setURL( item!=0 ? item->text() : QString() );
+    m_widget->dirEdit->setUrl( item!=0 ? item->text() : QString() );
  }
 
 
@@ -482,7 +482,7 @@ void KPluginOptions::dirNew()
     m_widget->dirList->insertItem( QString(), 0 );
     m_widget->dirList->setCurrentItem( 0 );
     dirSelect( m_widget->dirList->selectedItem() );
-    m_widget->dirEdit->setURL(QString());
+    m_widget->dirEdit->setUrl(QString());
     m_widget->dirEdit->setFocus();
     change();
 }
@@ -490,7 +490,7 @@ void KPluginOptions::dirNew()
 
 void KPluginOptions::dirRemove()
 {
-    m_widget->dirEdit->setURL(QString());
+    m_widget->dirEdit->setUrl(QString());
     delete m_widget->dirList->selectedItem();
     m_widget->dirRemove->setEnabled( false );
     m_widget->dirUp->setEnabled( false );

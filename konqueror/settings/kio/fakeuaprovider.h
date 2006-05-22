@@ -19,7 +19,7 @@
 #ifndef __FAKE_UAS_PROVIDER_H___
 #define __FAKE_UAS_PROVIDER_H___
 
-#include <ktrader.h>
+#include <kservice.h>
 
 class QString;
 class QStringList;
@@ -49,7 +49,7 @@ protected:
   void parseDescription();
 
 private:
-  KTrader::OfferList m_providers;
+  KService::List m_providers;
   QStringList m_lstIdentity;
   QStringList m_lstAlias;
   bool m_bIsDirty;

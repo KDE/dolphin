@@ -29,6 +29,7 @@
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kprotocolinfo.h>
+#include <kprotocolmanager.h>
 #include <kmessagebox.h>
 #include <ktoggleaction.h>
 
@@ -300,7 +301,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const KUrl & url )
       }
    }
    //check what the protocol provides
-   QStringList listingList = KProtocolInfo::listing( url );
+   QStringList listingList = KProtocolManager::listing( url );
    kDebug(1202) << k_funcinfo << "protocol: " << protocol << endl;
 
    // Even if this is not given by the protocol, we can determine it.
@@ -1234,9 +1235,9 @@ void KonqBaseListViewWidget::slotRedirection( const KUrl & url )
       readProtocolConfig( url );
       createColumns();
    }
-   const QString prettyUrl = url.pathOrUrl();
-   emit m_pBrowserView->extension()->setLocationBarURL( prettyUrl );
-   emit m_pBrowserView->setWindowCaption( prettyUrl );
+   const QString prettyURL = url.pathOrUrl();
+   emit m_pBrowserView->extension()->setLocationBarURL( prettyURL );
+   emit m_pBrowserView->setWindowCaption( prettyURL );
    m_pBrowserView->m_url = url;
    m_url = url;
 }

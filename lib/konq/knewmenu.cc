@@ -32,6 +32,7 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 #include <kprotocolinfo.h>
+#include <kprotocolmanager.h>
 #include <kmenu.h>
 #include <krun.h>
 #include <kactioncollection.h>
@@ -611,7 +612,7 @@ void KUrlDesktopFileDlg::slotURLTextChanged( const QString& )
         // (we copy only its filename if protocol supports listing,
         // but for HTTP we don't want tons of index.html links)
         KUrl url( m_urlRequester->url() );
-        if ( KProtocolInfo::supportsListing( url ) )
+        if ( KProtocolManager::supportsListing( url ) )
             m_leFileName->setText( url.fileName() );
         else
             m_leFileName->setText( url.url() );

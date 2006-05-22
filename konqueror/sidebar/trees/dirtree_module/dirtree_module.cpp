@@ -21,7 +21,7 @@
 #include "dirtree_module.h"
 #include "dirtree_item.h"
 #include <kdebug.h>
-#include <kprotocolinfo.h>
+#include <kprotocolmanager.h>
 #include <kdesktopfile.h>
 #include <kmessagebox.h>
 #include <kiconloader.h>
@@ -110,7 +110,7 @@ void KonqSidebarDirTreeModule::addTopLevelItem( KonqSidebarTreeTopLevelItem * it
     else
         return;
 
-    bool bListable = KProtocolInfo::supportsListing( targetURL );
+    bool bListable = KProtocolManager::supportsListing( targetURL );
     //kDebug(1201) << targetURL.prettyUrl() << " listable : " << bListable << endl;
 
     if ( !bListable )

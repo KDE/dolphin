@@ -22,6 +22,7 @@
 
 #include <kdebug.h>
 #include <klocale.h>
+#include <kservicetypetrader.h>
 #include <kstandarddirs.h>
 
 #include "fakeuaprovider.h"
@@ -71,15 +72,15 @@ FakeUASProvider::StatusCode FakeUASProvider::createNewUAProvider( const QString&
 void FakeUASProvider::loadFromDesktopFiles()
 {
   m_providers.clear();
-  m_providers = KTrader::self()->query("UserAgentStrings");
+  m_providers = KServiceTypeTrader::self()->query("UserAgentStrings");
 }
 
 void FakeUASProvider::parseDescription()
 {
   QString tmp;
 
-  KTrader::OfferList::ConstIterator it = m_providers.begin();
-  KTrader::OfferList::ConstIterator lastItem = m_providers.end();
+  KService::List::ConstIterator it = m_providers.begin();
+  KService::List::ConstIterator lastItem = m_providers.end();
 
   for ( ; it != lastItem; ++it )
   {

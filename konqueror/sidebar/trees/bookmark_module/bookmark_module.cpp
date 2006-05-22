@@ -364,7 +364,7 @@ void KonqSidebarBookmarkModule::slotProperties(KonqSidebarBookmarkItem *bi)
     makeTextNodeMod(bookmark, "title", dlg.finalTitle());
     if ( !dlg.finalUrl().isNull() )
     {
-        KUrl u = KUrl::fromPathOrUrl(dlg.finalUrl());
+        KUrl u(dlg.finalUrl());
         bookmark.internalElement().setAttribute("href", u.url());
     }
 

@@ -30,12 +30,12 @@
 #include <kcmdlineargs.h>
 #include <kpropertiesdialog.h>
 #include <klocale.h>
-#include <ktrader.h>
 #include <kprocess.h>
 #include <kstandarddirs.h>
 #include <kopenwith.h>
 #include <kurlrequesterdlg.h>
 #include <kmessagebox.h>
+#include <kmimetypetrader.h>
 #include <kfiledialog.h>
 #include <kdebug.h>
 #include <dcopclient.h>
@@ -178,7 +178,7 @@ static void needInstance()
  is configured to reuse always,
  or it's not configured to never reuse, and the URL to-be-opened is "safe".
  The URL is safe, if the view used to view it is listed in the allowed KPart's.
- In order to find out the part, mimetype is needed, and KTrader is needed.
+ In order to find out the part, mimetype is needed, and KMimeTypeTrader is needed.
  If mimetype is not known, KMimeType is used (which doesn't work e.g. for remote
  URLs, but oh well). Since this function may be running without a KApplication
  instance, I'm actually quite surprised it works, and it may sooner or later break.
@@ -236,8 +236,7 @@ static bool startNewKonqueror( QString url, QString mimetype, const QString& pro
     }
     if( mimetype.isEmpty())
 	mimetype = KMimeType::findByURL( KUrl( url ) )->name();
-    KTrader::OfferList offers = KTrader::self()->query( mimetype, QLatin1String( "KParts/ReadOnlyPart" ),
-	QString(), QString() );
+    KService::List offers = KMimeTypeTrader::self()->query( mimetype, QLatin1String( "KParts/ReadOnlyPart" ) );
     KService::Ptr serv;
     if( offers.count() > 0 )
         serv = offers.first();
@@ -566,10 +565,11 @@ bool clientApp::doIt()
     {
       KUrl::List urls;
       urls.append( args->url(1) );
-      const KTrader::OfferList offers = KTrader::self()->query( QString::fromLocal8Bit( args->arg( 2 ) ), QLatin1String( "Application" ), QString(), QString() );
+      const KService::List offers = KMimeTypeTrader::self()->query( QString::fromLocal8Bit( args->arg( 2 ) ),
+                                                                    QLatin1String( "Application" ) );
       if (offers.isEmpty()) return 1;
       KService::Ptr serv = offers.first();
-      return KRun::run( *serv, urls );
+      return KRun::run( *serv, urls, 0 );
     }
   }
   else if ( command == "move" )

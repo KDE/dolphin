@@ -17,6 +17,7 @@
 #include <klineedit.h>
 #include <k3listview.h>
 #include <klocale.h>
+#include <kservicetypeprofile.h>
 #include <kstandarddirs.h>
 
 #include "newtypedlg.h"

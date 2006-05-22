@@ -61,7 +61,7 @@ KonqView* KonqViewManager::Initialize( const QString &serviceType, const QString
 {
   //kDebug(1202) << "KonqViewManager::Initialize()" << endl;
   KService::Ptr service;
-  KTrader::OfferList partServiceOffers, appServiceOffers;
+  KService::List partServiceOffers, appServiceOffers;
   KonqViewFactory newViewFactory = createView( serviceType, serviceName, service, partServiceOffers, appServiceOffers, true /*forceAutoEmbed*/ );
   if ( newViewFactory.isNull() )
   {
@@ -102,7 +102,7 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
   KonqFrame* splitFrame = m_pMainWindow->currentView()->frame();
 
   KService::Ptr service;
-  KTrader::OfferList partServiceOffers, appServiceOffers;
+  KService::List partServiceOffers, appServiceOffers;
 
   KonqViewFactory newViewFactory = createView( serviceType, serviceName, service, partServiceOffers, appServiceOffers, forceAutoEmbed );
 
@@ -215,7 +215,7 @@ KonqView* KonqViewManager::splitWindow( Qt::Orientation orientation,
   QString locationBarURL = m_pMainWindow->currentView()->locationBarURL();
 
   KService::Ptr service;
-  KTrader::OfferList partServiceOffers, appServiceOffers;
+  KService::List partServiceOffers, appServiceOffers;
 
   KonqViewFactory newViewFactory = createView( serviceType, serviceName, service, partServiceOffers, appServiceOffers );
 
@@ -328,7 +328,7 @@ KonqView* KonqViewManager::addTab(const QString &serviceType, const QString &ser
   }
 
   KService::Ptr service;
-  KTrader::OfferList partServiceOffers, appServiceOffers;
+  KService::List partServiceOffers, appServiceOffers;
 
   KonqViewFactory newViewFactory = createView( serviceType, serviceName, service, partServiceOffers, appServiceOffers, true /*forceAutoEmbed*/ );
 
@@ -724,7 +724,7 @@ void KonqViewManager::updatePixmaps()
 
   tabContainer->listViews( &viewList );
   foreach ( KonqView* view, viewList )
-    view->setTabIcon( KUrl::fromPathOrUrl( view->locationBarURL() ) );
+    view->setTabIcon( KUrl( view->locationBarURL() ) );
 }
 
 void KonqViewManager::removeView( KonqView *view )
@@ -974,8 +974,8 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
 KonqViewFactory KonqViewManager::createView( const QString &serviceType,
                                           const QString &serviceName,
                                           KService::Ptr &service,
-                                          KTrader::OfferList &partServiceOffers,
-                                          KTrader::OfferList &appServiceOffers,
+                                          KService::List &partServiceOffers,
+                                          KService::List &appServiceOffers,
                                           bool forceAutoEmbed )
 {
   kDebug(1202) << "KonqViewManager::createView" << endl;
@@ -1008,8 +1008,8 @@ KonqViewFactory KonqViewManager::createView( const QString &serviceType,
 KonqView *KonqViewManager::setupView( KonqFrameContainerBase *parentContainer,
                                       KonqViewFactory &viewFactory,
                                       const KService::Ptr &service,
-                                      const KTrader::OfferList &partServiceOffers,
-                                      const KTrader::OfferList &appServiceOffers,
+                                      const KService::List &partServiceOffers,
+                                      const KService::List &appServiceOffers,
                                       const QString &serviceType,
                                       bool passiveMode,
                                       bool openAfterCurrentPage )
@@ -1454,7 +1454,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     //kDebug(1202) << "ServiceType: " << serviceType << " " << serviceName << endl;
 
     KService::Ptr service;
-    KTrader::OfferList partServiceOffers, appServiceOffers;
+    KService::List partServiceOffers, appServiceOffers;
 
     KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &partServiceOffers, &appServiceOffers, true /*forceAutoEmbed*/ );
     if ( viewFactory.isNull() )

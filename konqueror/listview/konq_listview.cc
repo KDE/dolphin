@@ -36,7 +36,7 @@
 #include <kpropertiesdialog.h>
 #include <kstdaction.h>
 #include <ktoggleaction.h>
-#include <kprotocolinfo.h>
+#include <kprotocolmanager.h>
 
 #include <QApplication>
 #include <QClipboard>
@@ -132,7 +132,7 @@ void ListViewBrowserExtension::updateActions()
 #warning hardcoded protocol: find a better way to determine if a url is a trash url.
     if ( url.protocol() == "trash" )
       bInTrash = true;
-    if (  KProtocolInfo::supportsDeleting(  url ) )
+    if (  KProtocolManager::supportsDeleting(  url ) )
       canDel++;
     if ( !item->localPath().isEmpty() )
       canTrash++;

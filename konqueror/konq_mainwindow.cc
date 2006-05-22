@@ -98,6 +98,7 @@
 #include "konq_main.h"
 #include <konq_undo.h>
 #include <kprotocolinfo.h>
+#include <kprotocolmanager.h>
 #include <kseparatoraction.h>
 #include <kstdaccel.h>
 #include <kstdaction.h>
@@ -107,7 +108,7 @@
 #include <ktoolbarpopupaction.h>
 #include <kurlrequesterdlg.h>
 #include <kurlrequester.h>
-#include <kuserprofile.h>
+#include <kmimetypetrader.h>
 #include <kwin.h>
 #include <kfiledialog.h>
 #include <klocale.h>
@@ -425,7 +426,7 @@ void KonqMainWindow::removeContainer( QWidget *container, QWidget *parent, QDomE
 // Note: this removes the filter from the URL.
 QString KonqMainWindow::detectNameFilter( KUrl & url )
 {
-    if ( !KProtocolInfo::supportsListing(url) )
+    if ( !KProtocolManager::supportsListing(url) )
         return QString();
 
     // Look for wildcard selection
@@ -580,7 +581,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
   if ( ( !serviceType.isEmpty() && serviceType != "application/octet-stream") ||
          url.url() == "about:konqueror" || url.url() == "about:plugins" )
   {
-    KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType, "Application");
+    KService::Ptr offer = KMimeTypeTrader::self()->preferredService(serviceType, "Application");
     // If the associated app is konqueror itself, then make sure we try to embed before bailing out.
     if ( isMimeTypeAssociatedWithSelf( serviceType, offer ) )
       req.forceAutoEmbed = true;
@@ -615,7 +616,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
                 lst.append(url);
                 //kDebug(1202) << "Got offer " << (offer ? offer->name().toLatin1() : "0") << endl;
                 if ( ( trustedSource || KonqRun::allowExecution( serviceType, url ) ) &&
-                     ( KonqRun::isExecutable( serviceType ) || !offer || !KRun::run( *offer, lst ) ) )
+                     ( KonqRun::isExecutable( serviceType ) || !offer || !KRun::run( *offer, lst, this ) ) )
                 {
                     setLocationBarURL( oldLocationBarURL ); // Revert to previous locationbar URL
                     (void)new KRun( url, this );
@@ -865,7 +866,7 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
           // If the protocol doesn't support writing (e.g. HTTP) then we might want to save instead of just embedding.
           // So (if embedding would succeed, hence the checks above) we ask the user
           // Otherwise the user will get asked 'open or save' in openURL anyway.
-          if ( ok && !forceAutoEmbed && !KProtocolInfo::supportsWriting( url ) ) {
+          if ( ok && !forceAutoEmbed && !KProtocolManager::supportsWriting( url ) ) {
               QString suggestedFilename;
 
               KonqRun* run = childView->run();
@@ -1475,7 +1476,7 @@ void KonqMainWindow::slotToolFind()
   {
       KUrl url;
       if ( m_currentView && m_currentView->url().isLocalFile() )
-          url = KUrl::fromPathOrUrl( m_currentView->locationBarURL() );
+          url =  m_currentView->locationBarURL();
       else
           url.setPath( QDir::homePath() );
       KonqMainWindow * mw = KonqMisc::createBrowserWindowFromProfile(
@@ -1521,13 +1522,13 @@ void KonqMainWindow::slotOpenWith()
 
   QString serviceName = sender()->objectName();
 
-  KTrader::OfferList offers = m_currentView->appServiceOffers();
-  KTrader::OfferList::ConstIterator it = offers.begin();
-  KTrader::OfferList::ConstIterator end = offers.end();
+  KService::List offers = m_currentView->appServiceOffers();
+  KService::List::ConstIterator it = offers.begin();
+  KService::List::ConstIterator end = offers.end();
   for (; it != end; ++it )
     if ( (*it)->desktopEntryName() == serviceName )
     {
-      KRun::run( **it, lst );
+      KRun::run( **it, lst, this );
       return;
     }
 }
@@ -1569,9 +1570,9 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
 
   // iterate over all services, update the toolbar service map
   // and check if we can do a quick property-based viewmode change
-  const KTrader::OfferList offers = m_currentView->partServiceOffers();
-  KTrader::OfferList::ConstIterator oIt = offers.begin();
-  KTrader::OfferList::ConstIterator oEnd = offers.end();
+  const KService::List offers = m_currentView->partServiceOffers();
+  KService::List::ConstIterator oIt = offers.begin();
+  KService::List::ConstIterator oEnd = offers.end();
   const QString currentServiceKey = viewModeActionKey( m_currentView->service() );
   for (; oIt != oEnd; ++oIt )
   {
@@ -1634,7 +1635,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   if ( !bQuickViewModeChange )
   {
     m_currentView->changeViewMode( m_currentView->serviceType(), modeName );
-    KUrl locURL = KUrl::fromPathOrUrl( locationBarURL );
+    KUrl locURL( locationBarURL );
     QString nameFilter = detectNameFilter( locURL );
     if( m_currentView->part()->inherits( "KonqDirPart" ) )
        static_cast<KonqDirPart*>( m_currentView->part() )->setFilesToSelect( filesToSelect );
@@ -1698,7 +1699,7 @@ void KonqMainWindow::showHTML( KonqView * _view, bool b, bool _activateView )
   {
     KUrl u( _view->url() );
     QString fileName = u.fileName().toLower();
-    if ( KProtocolInfo::supportsListing( u ) && fileName.startsWith("index.htm") ) {
+    if ( KProtocolManager::supportsListing( u ) && fileName.startsWith("index.htm") ) {
         _view->lockHistory();
         u.setPath( u.directory() );
         openView( "inode/directory", u, _view );
@@ -2093,7 +2094,7 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   // changes the directory!! (DA)
   if( m_pURLCompletion )
   {
-    KUrl u = KUrl::fromPathOrUrl( view->locationBarURL() );
+    KUrl u( view->locationBarURL() );
     if( u.isLocalFile() )
       m_pURLCompletion->setDir( u.path() );
     else
@@ -2961,7 +2962,7 @@ void KonqMainWindow::slotUpAboutToShow()
 
   // Use the location bar URL, because in case we display a index.html
   // we want to go up from the dir, not from the index.html
-  KUrl u = KUrl::fromPathOrUrl( m_currentView->locationBarURL() );
+  KUrl u( m_currentView->locationBarURL() );
   u = u.upUrl();
   while ( u.hasPath() )
   {
@@ -3020,7 +3021,7 @@ void KonqMainWindow::slotUpDelayed()
 
 void KonqMainWindow::slotUpActivated( int id )
 {
-  KUrl u = KUrl::fromPathOrUrl( m_currentView->locationBarURL() );
+  KUrl u( m_currentView->locationBarURL() );
   kDebug(1202) << "slotUpActivated. Start URL is " << u << endl;
   for ( int i = 0 ; i < m_paUp->menu()->indexOf( id ) + 1 ; i ++ )
       u = u.upUrl();
@@ -4089,7 +4090,7 @@ void KonqMainWindow::updateToolBarActions( bool pendingAction /*=false*/)
           m_ptaUseHTML->setEnabled( true );
       else if ( m_currentView->serviceTypes().contains(  "text/html" ) ) {
           // Currently viewing an index.html file via this feature (i.e. url points to a dir)
-          QString locPath = KUrl::fromPathOrUrl( m_currentView->locationBarURL() ).path();
+          QString locPath = KUrl( m_currentView->locationBarURL() ).path();
           m_ptaUseHTML->setEnabled( QFileInfo( locPath ).isDir() );
       } else
           m_ptaUseHTML->setEnabled( false );
@@ -4620,14 +4621,14 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   bool sReading = false;
   if ( _items.count() > 0 )
   {
-    m_popupURL = _items.first()->url();
-    sReading = KProtocolInfo::supportsReading( m_popupURL );
+    m_popupUrl = _items.first()->url();
+    sReading = KProtocolManager::supportsReading( m_popupUrl );
     if (sReading)
       m_popupServiceType = _items.first()->mimetype();
   }
   else
   {
-    m_popupURL = KUrl();
+    m_popupUrl = KUrl();
     m_popupServiceType.clear();
   }
 
@@ -4635,7 +4636,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
       QString currentServiceName = currentView->service()->desktopEntryName();
 
       // List of services for the "Preview In" submenu.
-      m_popupEmbeddingServices = KTrader::self()->query(
+      m_popupEmbeddingServices = KMimeTypeTrader::self()->query(
           m_popupServiceType,
           "KParts/ReadOnlyPart",
           // Obey "HideFromMenus". It defaults to false so we want "absent or true"
@@ -4643,8 +4644,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
           "(not exist [X-KDE-BrowserView-HideFromMenus] or not [X-KDE-BrowserView-HideFromMenus]) "
           "and DesktopEntryName != '"+currentServiceName+"' "
           // I had an old local dirtree.desktop without lib, no need for invalid entries
-          "and exist [Library]",
-          QString() );
+          "and exist [Library]");
   }
 
 
@@ -4798,11 +4798,11 @@ void KonqMainWindow::slotOpenEmbedded()
 void KonqMainWindow::slotOpenEmbeddedDoIt()
 {
   m_currentView->stop();
-  m_currentView->setLocationBarURL(m_popupURL);
+  m_currentView->setLocationBarURL(m_popupUrl);
   m_currentView->setTypedURL(QString());
   if ( m_currentView->changeViewMode( m_popupServiceType,
                                       m_popupService ) )
-      m_currentView->openURL( m_popupURL, m_popupURL.pathOrUrl() );
+      m_currentView->openURL( m_popupUrl, m_popupUrl.pathOrUrl() );
 }
 
 void KonqMainWindow::slotDatabaseChanged()
@@ -4818,9 +4818,9 @@ void KonqMainWindow::slotDatabaseChanged()
 
 void KonqMainWindow::slotPopupPasteTo()
 {
-    if ( !m_currentView || m_popupURL.isEmpty() )
+    if ( !m_currentView || m_popupUrl.isEmpty() )
         return;
-    m_currentView->callExtensionURLMethod( "pasteTo(const KUrl&)", m_popupURL );
+    m_currentView->callExtensionURLMethod( "pasteTo(const KUrl&)", m_popupUrl );
 }
 
 void KonqMainWindow::slotReconfigure()
@@ -4868,9 +4868,9 @@ void KonqMainWindow::updateOpenWithActions()
   if (!KAuthorized::authorizeKAction("openwith"))
      return;
 
-  const KTrader::OfferList & services = m_currentView->appServiceOffers();
-  KTrader::OfferList::ConstIterator it = services.begin();
-  KTrader::OfferList::ConstIterator end = services.end();
+  const KService::List & services = m_currentView->appServiceOffers();
+  KService::List::ConstIterator it = services.begin();
+  KService::List::ConstIterator end = services.end();
   for (; it != end; ++it )
   {
     KAction *action = new KAction( i18n( "Open with %1" ,  (*it)->name() ), 0, 0, 0, actionCollection(), (*it)->desktopEntryName().toLatin1() );
@@ -4924,7 +4924,7 @@ void KonqMainWindow::updateViewModeActions()
       m_viewModeToolBarServices.clear();
   }
 
-  KTrader::OfferList services = m_currentView->partServiceOffers();
+  KService::List services = m_currentView->partServiceOffers();
 
   if ( services.count() <= 1 )
     return;
@@ -4945,8 +4945,8 @@ void KonqMainWindow::updateViewModeActions()
   KConfig * config = KGlobal::config();
   KConfigGroup barServicesGroup( config, "ModeToolBarServices" );
 
-  KTrader::OfferList::ConstIterator it = services.begin();
-  KTrader::OfferList::ConstIterator end = services.end();
+  KService::List::ConstIterator it = services.begin();
+  KService::List::ConstIterator end = services.end();
   for (; it != end; ++it )
   {
       QVariant prop = (*it)->property( "X-KDE-BrowserView-Toggable" );
@@ -5585,7 +5585,7 @@ void KonqMainWindow::setActiveChild( KonqFrameBase* /*activeChild*/ ) { return; 
 
 bool KonqMainWindow::isMimeTypeAssociatedWithSelf( const QString &mimeType )
 {
-    return isMimeTypeAssociatedWithSelf( mimeType, KServiceTypeProfile::preferredService( mimeType, "Application" ) );
+    return isMimeTypeAssociatedWithSelf( mimeType, KMimeTypeTrader::self()->preferredService( mimeType, "Application" ) );
 }
 
 bool KonqMainWindow::isMimeTypeAssociatedWithSelf( const QString &/*mimeType*/, const KService::Ptr &offer )

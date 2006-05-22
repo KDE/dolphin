@@ -23,7 +23,7 @@
 #include <konq_operations.h>
 #include <kdebug.h>
 #include <kglobalsettings.h>
-#include <kuserprofile.h>
+#include <kmimetypetrader.h>
 #include <QApplication>
 #include <QClipboard>
 #include <kio/paste.h>
@@ -173,7 +173,7 @@ void KonqSidebarDirTreeItem::middleButtonClicked()
     // Duplicated from KonqDirPart :(
     // Optimisation to avoid KRun to call kfmclient that then tells us
     // to open a window :-)
-    KService::Ptr offer = KServiceTypeProfile::preferredService(m_fileItem->mimetype(), "Application");
+    KService::Ptr offer = KMimeTypeTrader::self()->preferredService(m_fileItem->mimetype(), "Application");
     if (offer) kDebug(1201) << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
     if ( offer && offer->desktopEntryName().startsWith("kfmclient") )
     {

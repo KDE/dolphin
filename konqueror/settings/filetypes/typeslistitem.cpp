@@ -22,6 +22,7 @@
 #include <kiconloader.h>
 #include <kstandarddirs.h>
 #include <kdesktopfile.h>
+#include <kmimetypetrader.h>
 #include <kstaticdeleter.h>
 
 #include "typeslistitem.h"
@@ -136,16 +137,16 @@ QStringList TypesListItem::embedServices() const
 
 void TypesListItem::getServiceOffers( QStringList & appServices, QStringList & embedServices ) const
 {
-  KServiceTypeProfile::OfferList offerList =
-    KServiceTypeProfile::offers(m_mimetype->name(), "Application");
-  QList<KServiceOffer>::Iterator it(offerList.begin());
-  for (; it != offerList.end(); ++it)
-    if ((*it).allowAsDefault())
-      appServices.append((*it).service()->desktopEntryPath());
+  KService::List offerList =
+    KMimeTypeTrader::self()->query(m_mimetype->name(), "Application");
+  KService::List::ConstIterator it(offerList.begin());
+  for (; it != offerList.constEnd(); ++it)
+    if ((*it)->allowAsDefault())
+      appServices.append((*it)->desktopEntryPath());
 
-  offerList = KServiceTypeProfile::offers(m_mimetype->name(), "KParts/ReadOnlyPart");
-  for ( it = offerList.begin(); it != offerList.end(); ++it)
-    embedServices.append((*it).service()->desktopEntryPath());
+  offerList = KMimeTypeTrader::self()->query(m_mimetype->name(), "KParts/ReadOnlyPart");
+  for ( it = offerList.begin(); it != offerList.constEnd(); ++it)
+    embedServices.append((*it)->desktopEntryPath());
 }
 
 bool TypesListItem::isMimeTypeDirty() const
@@ -314,16 +315,14 @@ void TypesListItem::sync()
 
   // Handle removed services
 
-  KServiceTypeProfile::OfferList offerList =
-    KServiceTypeProfile::offers(m_mimetype->name(), "Application");
-  offerList += KServiceTypeProfile::offers(m_mimetype->name(), "KParts/ReadOnlyPart");
+  KService::List offerList =
+    KMimeTypeTrader::self()->query(m_mimetype->name(), "Application");
+  offerList += KMimeTypeTrader::self()->query(m_mimetype->name(), "KParts/ReadOnlyPart");
 
-  QList<KServiceOffer>::Iterator it_srv(offerList.begin());
+  KService::List::ConstIterator it_srv(offerList.begin());
 
   for (; it_srv != offerList.end(); ++it_srv) {
-
-
-      KService::Ptr pService = (*it_srv).service();
+      KService::Ptr pService = (*it_srv);
 
       bool isApplication = pService->type() == "Application";
       if (isApplication && !pService->allowAsDefault())

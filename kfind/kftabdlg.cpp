@@ -25,6 +25,7 @@
 #include <kmessagebox.h>
 #include <kfiledialog.h>
 #include <kregexpeditorinterface.h>
+#include <kservicetypetrader.h>
 #include <kparts/componentfactory.h>
 #include <kstandarddirs.h>
 #include "kquery.h"
@@ -304,7 +305,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     binaryContextCb->setToolTip(binaryTooltip);
 
     QPushButton* editRegExp = 0;
-    if ( !KTrader::self()->query("KRegExpEditor/KRegExpEditor").isEmpty() ) {
+    if ( !KServiceTypeTrader::self()->query("KRegExpEditor/KRegExpEditor").isEmpty() ) {
         // The editor is available, so lets use it.
         editRegExp = new QPushButton(i18n("&Edit..."), pages[2]);
         editRegExp->setObjectName( "editRegExp" );
@@ -611,7 +612,7 @@ void KfindTabWidget::setQuery(KQuery *query)
   // only start if we have valid dates
   if (!isDateValid()) return;
 
-  query->setPath(KUrl::fromPathOrUrl(dirBox->currentText().trimmed()));
+  query->setPath(KUrl(dirBox->currentText().trimmed()));
 
   for (int idx=0; idx<dirBox->count(); idx++)
      if (dirBox->itemText(idx)==dirBox->currentText())
@@ -785,7 +786,7 @@ void KfindTabWidget::getDirectory()
 
 void KfindTabWidget::beginSearch()
 {
-///  dirlister->openURL(KUrl::fromPathOrUrl(dirBox->currentText().trimmed()));
+///  dirlister->openURL(KUrl(dirBox->currentText().trimmed()));
 
   saveHistory();
   setEnabled( false );

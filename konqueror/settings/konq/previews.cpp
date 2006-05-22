@@ -36,7 +36,7 @@
 #include <k3listview.h>
 #include <klocale.h>
 #include <knuminput.h>
-#include <kprotocolinfo.h>
+#include <kprotocolmanager.h>
 
 #include "previews.h"
 
@@ -106,7 +106,7 @@ KPreviewOptions::KPreviewOptions( KInstance *inst, QWidget *parent )
     for ( ; it != protocolList.end() ; ++it )
     {
         url.setProtocol( *it );
-        if ( KProtocolInfo::supportsListing( url ) )
+        if ( KProtocolManager::supportsListing( url ) )
         {
             Q3CheckListItem *item;
             if ( KProtocolInfo::protocolClass( *it ) == ":local" )

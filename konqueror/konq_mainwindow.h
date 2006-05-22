@@ -47,7 +47,7 @@
 #include <dcopobject.h>
 #include <kxmlguifactory.h>
 #include <kxmlguiclient.h>
-#include <ktrader.h>
+#include <kservice.h>
 #include "konq_combo.h"
 #include "konq_framecontainer.h"
 #include <klocalizedstring.h>
@@ -726,10 +726,10 @@ private:
 
   ToggleViewGUIClient *m_toggleViewGUIClient;
 
-  KTrader::OfferList m_popupEmbeddingServices;
+  KService::List m_popupEmbeddingServices;
   QString m_popupService;
   QString m_popupServiceType;
-  KUrl m_popupURL;
+  KUrl m_popupUrl;
 
   QString m_initialFrameName;
 

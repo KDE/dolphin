@@ -18,17 +18,19 @@
 */
 
 #include <kdebug.h>
+#include <kiconloader.h>
 #include <klocale.h>
 #include <kmenubar.h>
+#include <kservicetypetrader.h>
+
 #include "konq_view.h"
 #include "konq_settingsxt.h"
 #include "konq_frame.h"
 #include "konq_guiclients.h"
 #include "konq_viewmgr.h"
-#include <kiconloader.h>
 
 PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
-                                        const KTrader::OfferList &embeddingServices,
+                                        const KService::List &embeddingServices,
                                         bool showEmbeddingServices, bool doTabHandling )
 {
     //giving a name to each guiclient: just for debugging
@@ -66,8 +68,8 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
 
     if ( showEmbeddingServices )
     {
-        KTrader::OfferList::ConstIterator it = embeddingServices.begin();
-        KTrader::OfferList::ConstIterator end = embeddingServices.end();
+        KService::List::ConstIterator it = embeddingServices.begin();
+        KService::List::ConstIterator end = embeddingServices.end();
 
         if ( embeddingServices.count() == 1 )
         {
@@ -160,8 +162,8 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
 {
   m_mainWindow = mainWindow;
 
-  KTrader::OfferList offers = KTrader::self()->query( "Browser/View" );
-  KTrader::OfferList::Iterator it = offers.begin();
+  KService::List offers = KServiceTypeTrader::self()->query( "Browser/View" );
+  KService::List::Iterator it = offers.begin();
   while ( it != offers.end() )
   {
     QVariant prop = (*it)->property( "X-KDE-BrowserView-Toggable" );
@@ -182,8 +184,8 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
   if ( m_empty )
     return;
 
-  KTrader::OfferList::ConstIterator cIt = offers.begin();
-  KTrader::OfferList::ConstIterator cEnd = offers.end();
+  KService::List::ConstIterator cIt = offers.begin();
+  KService::List::ConstIterator cEnd = offers.end();
   for (; cIt != cEnd; ++cIt )
   {
     QString description = i18n( "Show %1" ,  (*cIt)->name() );

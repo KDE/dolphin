@@ -31,7 +31,7 @@
 //Added by qt3to4:
 #include <QEvent>
 
-#include <ktrader.h>
+#include <kservice.h>
 
 class KonqRun;
 class KonqFrame;
@@ -83,8 +83,8 @@ public:
             KonqFrame* viewFrame,
             KonqMainWindow * mainWindow,
             const KService::Ptr &service,
-            const KTrader::OfferList &partServiceOffers,
-            const KTrader::OfferList &appServiceOffers,
+            const KService::List &partServiceOffers,
+            const KService::List &appServiceOffers,
             const QString &serviceType,
             bool passiveMode);
 
@@ -287,8 +287,8 @@ public:
 
   QString caption() const { return m_caption; }
 
-  KTrader::OfferList partServiceOffers() { return m_partServiceOffers; }
-  KTrader::OfferList appServiceOffers() { return m_appServiceOffers; }
+  KService::List partServiceOffers() { return m_partServiceOffers; }
+  KService::List appServiceOffers() { return m_appServiceOffers; }
 
   KonqMainWindow *mainWindow() const { return m_pMainWindow; }
 
@@ -474,8 +474,8 @@ private:
   uint m_bBackRightClick:1;
   uint m_bHierarchicalView:1;
   uint m_bDisableScrolling:1;
-  KTrader::OfferList m_partServiceOffers;
-  KTrader::OfferList m_appServiceOffers;
+  KService::List m_partServiceOffers;
+  KService::List m_appServiceOffers;
   KService::Ptr m_service;
   QString m_serviceType;
   QString m_caption;
