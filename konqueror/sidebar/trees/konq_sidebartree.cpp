@@ -579,7 +579,7 @@ void KonqSidebarTree::FilesRemoved( const KUrl::List & urls )
     //kDebug(1201) << "KonqSidebarTree::FilesRemoved " << urls.count() << endl;
     for ( KUrl::List::ConstIterator it = urls.begin() ; it != urls.end() ; ++it )
     {
-        //kDebug(1201) <<  "KonqSidebarTree::FilesRemoved " << (*it).prettyURL() << endl;
+        //kDebug(1201) <<  "KonqSidebarTree::FilesRemoved " << (*it).prettyUrl() << endl;
         if ( m_dirtreeDir.dir.isParentOf( *it ) )
         {
             QTimer::singleShot( 0, this, SLOT( rescanConfiguration() ) );

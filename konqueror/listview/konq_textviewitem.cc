@@ -168,7 +168,7 @@ void KonqTextViewItem::updateContents()
             setText(tmpColumn->displayInColumn,m_fileitem->mimetype());
             break;
          case KIO::UDS_URL:
-            setText(tmpColumn->displayInColumn,m_fileitem->url().prettyURL());
+            setText(tmpColumn->displayInColumn,m_fileitem->url().prettyUrl());
             break;
          case KIO::UDS_SIZE:
             if ( static_cast<KonqBaseListViewWidget *>(listView())->m_pSettings->fileSizeInBytes() )

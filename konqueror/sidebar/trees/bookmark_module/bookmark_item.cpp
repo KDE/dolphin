@@ -63,7 +63,7 @@ KUrl KonqSidebarBookmarkItem::externalURL() const
 
 QString KonqSidebarBookmarkItem::toolTipText() const
 {
-    return m_bk.url().prettyURL();
+    return m_bk.url().prettyUrl();
 }
 
 void KonqSidebarBookmarkItem::itemSelected()

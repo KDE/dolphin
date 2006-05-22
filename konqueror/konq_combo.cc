@@ -51,7 +51,7 @@ const int KonqCombo::temporary = 0;
 
 static QString titleOfURL( const QString& urlStr )
 {
-    KUrl url = KUrl::fromPathOrURL( urlStr );
+    KUrl url = KUrl::fromPathOrUrl( urlStr );
     KonqHistoryList historylist = KonqHistoryManager::kself()->entries();
     KonqHistoryList::iterator historyentry = historylist.findEntry( url );
     if ( historyentry == historylist.end() && !url.url().endsWith( "/" ) ) {
@@ -582,7 +582,7 @@ void KonqCombo::mouseMoveEvent( QMouseEvent *e )
          (e->pos() - m_dragStart).manhattanLength() >
          KGlobalSettings::dndEventDelay() )
     {
-        KUrl url = KUrl::fromPathOrURL( currentText() );
+        KUrl url = KUrl::fromPathOrUrl( currentText() );
         if ( url.isValid() )
         {
             QDrag* drag = new QDrag(this);

@@ -983,7 +983,7 @@ bool KonqBaseListViewWidget::openURL( const KUrl &url )
    m_bTopLevelComplete = false;
    m_itemFound = false;
 
-   if ( m_itemToGoTo.isEmpty() && url.equals( m_url.upURL(), KUrl::CompareWithoutTrailingSlash ) )
+   if ( m_itemToGoTo.isEmpty() && url.equals( m_url.upUrl(), KUrl::CompareWithoutTrailingSlash ) )
       m_itemToGoTo = m_url.fileName( KUrl::IgnoreTrailingSlash );
 
    // Check for new properties in the new dir
@@ -1234,9 +1234,9 @@ void KonqBaseListViewWidget::slotRedirection( const KUrl & url )
       readProtocolConfig( url );
       createColumns();
    }
-   const QString prettyURL = url.pathOrURL();
-   emit m_pBrowserView->extension()->setLocationBarURL( prettyURL );
-   emit m_pBrowserView->setWindowCaption( prettyURL );
+   const QString prettyUrl = url.pathOrUrl();
+   emit m_pBrowserView->extension()->setLocationBarURL( prettyUrl );
+   emit m_pBrowserView->setWindowCaption( prettyUrl );
    m_pBrowserView->m_url = url;
    m_url = url;
 }

@@ -153,7 +153,7 @@ bool KonqHistoryManager::loadHistory()
             *stream >> entry;
 	    // kDebug(1203) << "## loaded entry: " << entry->url << ",  Title: " << entry->title << endl;
 	    m_history.append( entry );
-	    QString urlString2 = entry.url.prettyURL();
+	    QString urlString2 = entry.url.prettyUrl();
 
 	    addToCompletion( urlString2, entry.typedURL, entry.numberOfTimesVisited );
 
@@ -241,7 +241,7 @@ void KonqHistoryManager::adjustSize()
     while ( m_history.count() > m_maxCount ||
             (m_maxAgeDays > 0 && entry.lastVisited < expirationDate) ) // i.e. entry is expired
     {
-	removeFromCompletion( entry.url.prettyURL(), entry.typedURL );
+	removeFromCompletion( entry.url.prettyUrl(), entry.typedURL );
 
         QString urlString = entry.url.url();
 	KParts::HistoryProvider::remove( urlString );
@@ -274,7 +274,7 @@ void KonqHistoryManager::addToHistory( bool pending, const KUrl& _url,
 				       const QString& typedURL,
 				       const QString& title )
 {
-    kDebug(1203) << "## addToHistory: " << _url.prettyURL() << " Typed URL: " << typedURL << ", Title: " << title << endl;
+    kDebug(1203) << "## addToHistory: " << _url.prettyUrl() << " Typed URL: " << typedURL << ", Title: " << title << endl;
 
     if ( filterOut( _url ) ) // we only want remote URLs
 	return;
@@ -288,7 +288,7 @@ void KonqHistoryManager::addToHistory( bool pending, const KUrl& _url,
     url.setPass( QString() ); // No password in the history, especially not in the completion!
     url.setHost( url.host().toLower() ); // All host parts lower case
     KonqHistoryEntry entry;
-    QString u = url.prettyURL();
+    QString u = url.prettyUrl();
     entry.url = url;
     if ( (u != typedURL) && !hasPass )
 	entry.typedURL = typedURL;
@@ -366,12 +366,12 @@ void KonqHistoryManager::emitAddToHistory( const KonqHistoryEntry& entry )
 
 void KonqHistoryManager::removePending( const KUrl& url )
 {
-    // kDebug(1203) << "## Removing pending... " << url.prettyURL() << endl;
+    // kDebug(1203) << "## Removing pending... " << url.prettyUrl() << endl;
 
     if ( url.isLocalFile() )
 	return;
 
-    QMap<QString,KonqHistoryEntry*>::iterator it = m_pending.find( url.prettyURL() );
+    QMap<QString,KonqHistoryEntry*>::iterator it = m_pending.find( url.prettyUrl() );
     if ( it != m_pending.end() ) {
 	KonqHistoryEntry *oldEntry = it.value(); // the old entry, may be 0
 	emitRemoveFromHistory( url ); // remove the current pending entry
@@ -446,7 +446,7 @@ void KonqHistoryManager::emitSetMaxAge( quint32 days )
 void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
 					     QByteArray  )
 {
-    //kDebug(1203) << "Got new entry from Broadcast: " << e.url.prettyURL() << endl;
+    //kDebug(1203) << "Got new entry from Broadcast: " << e.url.prettyUrl() << endl;
 
     KonqHistoryList::iterator existingEntry = findEntry( e.url );
     QString urlString = e.url.url();
@@ -470,7 +470,7 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
     entry.numberOfTimesVisited += e.numberOfTimesVisited;
     entry.lastVisited = e.lastVisited;
 
-    addToCompletion( entry.url.prettyURL(), entry.typedURL );
+    addToCompletion( entry.url.prettyUrl(), entry.typedURL );
 
     // bool pending = (e.numberOfTimesVisited != 0);
 
@@ -539,13 +539,13 @@ void KonqHistoryManager::notifyClear( QByteArray )
 
 void KonqHistoryManager::notifyRemove( KUrl url, QByteArray )
 {
-    kDebug(1203) << "#### Broadcast: remove entry:: " << url.prettyURL() << endl;
+    kDebug(1203) << "#### Broadcast: remove entry:: " << url.prettyUrl() << endl;
 
     KonqHistoryList::iterator existingEntry = findEntry( url );
 
     if ( existingEntry != m_history.end() ) {
         const KonqHistoryEntry entry = *existingEntry; // make copy, due to erase call below
-	removeFromCompletion( entry.url.prettyURL(), entry.typedURL );
+	removeFromCompletion( entry.url.prettyUrl(), entry.typedURL );
 
         const QString urlString = entry.url.url();
 	KParts::HistoryProvider::remove( urlString );
@@ -570,7 +570,7 @@ void KonqHistoryManager::notifyRemove( KUrl::List urls, QByteArray )
         KonqHistoryList::iterator existingEntry = m_history.findEntry( *it );
         if ( existingEntry != m_history.end() ) {
             const KonqHistoryEntry entry = *existingEntry; // make copy, due to erase call below
-	    removeFromCompletion( entry.url.prettyURL(), entry.typedURL );
+	    removeFromCompletion( entry.url.prettyUrl(), entry.typedURL );
 
             const QString urlString = entry.url.url();
 	    KParts::HistoryProvider::remove( urlString );
@@ -607,7 +607,7 @@ bool KonqHistoryManager::loadFallback()
 	KonqHistoryEntry entry = createFallbackEntry( *it );
 	if ( entry.url.isValid() ) {
 	    m_history.append( entry );
-	    addToCompletion( entry.url.prettyURL(), QString(), entry.numberOfTimesVisited );
+	    addToCompletion( entry.url.prettyUrl(), QString(), entry.numberOfTimesVisited );
 
 	    KParts::HistoryProvider::insert( entry.url.url() );
    	}

@@ -355,7 +355,7 @@ void KonqSidebarBookmarkModule::slotProperties(KonqSidebarBookmarkItem *bi)
 
     KBookmark bookmark = bi->bookmark();
 
-    QString folder = bookmark.isGroup() ? QString() : bookmark.url().pathOrURL();
+    QString folder = bookmark.isGroup() ? QString() : bookmark.url().pathOrUrl();
     BookmarkEditDialog dlg( bookmark.fullText(), folder, 0, 0,
                             i18n("Bookmark Properties") );
     if ( dlg.exec() != KDialogBase::Accepted )
@@ -364,7 +364,7 @@ void KonqSidebarBookmarkModule::slotProperties(KonqSidebarBookmarkItem *bi)
     makeTextNodeMod(bookmark, "title", dlg.finalTitle());
     if ( !dlg.finalUrl().isNull() )
     {
-        KUrl u = KUrl::fromPathOrURL(dlg.finalUrl());
+        KUrl u = KUrl::fromPathOrUrl(dlg.finalUrl());
         bookmark.internalElement().setAttribute("href", u.url());
     }
 

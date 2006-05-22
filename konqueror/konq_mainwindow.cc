@@ -462,7 +462,7 @@ void KonqMainWindow::openFilteredUrl( const QString & url, KonqOpenURLRequest & 
        m_currentDir = m_currentView->url().path( KUrl::AddTrailingSlash );
 
     KUrl filteredURL ( KonqMisc::konqFilteredURL( this, url, m_currentDir ) );
-    kDebug(1202) << "url " << url << " filtered into " << filteredURL.prettyURL() << endl;
+    kDebug(1202) << "url " << url << " filtered into " << filteredURL.prettyUrl() << endl;
 
     if ( filteredURL.isEmpty() ) // initially empty, or error (e.g. ~unknown_user)
         return;
@@ -663,7 +663,7 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
   // Second argument is referring URL
   if ( !KAuthorized::authorizeURLAction("open", childView ? childView->url() : KUrl(), _url) )
   {
-     QString msg = KIO::buildErrorString(KIO::ERR_ACCESS_DENIED, _url.prettyURL());
+     QString msg = KIO::buildErrorString(KIO::ERR_ACCESS_DENIED, _url.prettyUrl());
      KMessageBox::queuedMessageBox( this, KMessageBox::Error, msg );
      return true; // Nothing else to do.
   }
@@ -737,7 +737,7 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
   // to still display the original URL (so that 'up' uses that URL,
   // and since that's what the user entered).
   // changeViewMode will take care of setting and storing that url.
-  QString originalURL = url.pathOrURL();
+  QString originalURL = url.pathOrUrl();
   if ( !req.nameFilter.isEmpty() ) // keep filter in location bar
   {
     if (!originalURL.endsWith("/"))
@@ -967,7 +967,7 @@ void KonqMainWindow::slotOpenURLRequest( const KUrl &url, const KParts::URLArgs 
 //Called by slotOpenURLRequest
 void KonqMainWindow::openURL( KonqView *childView, const KUrl &url, const KParts::URLArgs &args )
 {
-  kDebug(1202) << "KonqMainWindow::openURL (from slotOpenURLRequest) url=" << url.prettyURL() << endl;
+  kDebug(1202) << "KonqMainWindow::openURL (from slotOpenURLRequest) url=" << url.prettyUrl() << endl;
   KonqOpenURLRequest req;
   req.args = args;
 
@@ -1084,7 +1084,7 @@ void KonqMainWindow::abortLoading()
 
 void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs &args )
 {
-    kDebug(1202) << "KonqMainWindow::slotCreateNewWindow url=" << url.prettyURL() << endl;
+    kDebug(1202) << "KonqMainWindow::slotCreateNewWindow url=" << url.prettyUrl() << endl;
 
     if ( args.newTab() || ( KonqSettings::mmbOpensTab() &&
          (const_cast<KParts::URLArgs*>(&args)->metaData()["forcenewwindow"]).isEmpty()) ) {
@@ -1108,7 +1108,7 @@ void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs
 void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs &args,
                                           const KParts::WindowArgs &windowArgs, KParts::ReadOnlyPart *&part )
 {
-    kDebug(1202) << "KonqMainWindow::slotCreateNewWindow(4 args) url=" << url.prettyURL()
+    kDebug(1202) << "KonqMainWindow::slotCreateNewWindow(4 args) url=" << url.prettyUrl()
                   << " args.serviceType=" << args.serviceType
                   << " args.frameName=" << args.frameName << endl;
 
@@ -1325,7 +1325,7 @@ void KonqMainWindow::slotSendURL()
   for ( KUrl::List::Iterator it = lst.begin() ; it != lst.end() ; ++it )
   {
     if ( !body.isEmpty() ) body += '\n';
-    body += (*it).prettyURL();
+    body += (*it).prettyUrl();
     if ( !fileNameList.isEmpty() ) fileNameList += ", ";
     fileNameList += (*it).fileName();
   }
@@ -1475,7 +1475,7 @@ void KonqMainWindow::slotToolFind()
   {
       KUrl url;
       if ( m_currentView && m_currentView->url().isLocalFile() )
-          url = KUrl::fromPathOrURL( m_currentView->locationBarURL() );
+          url = KUrl::fromPathOrUrl( m_currentView->locationBarURL() );
       else
           url.setPath( QDir::homePath() );
       KonqMainWindow * mw = KonqMisc::createBrowserWindowFromProfile(
@@ -1634,7 +1634,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   if ( !bQuickViewModeChange )
   {
     m_currentView->changeViewMode( m_currentView->serviceType(), modeName );
-    KUrl locURL = KUrl::fromPathOrURL( locationBarURL );
+    KUrl locURL = KUrl::fromPathOrUrl( locationBarURL );
     QString nameFilter = detectNameFilter( locURL );
     if( m_currentView->part()->inherits( "KonqDirPart" ) )
        static_cast<KonqDirPart*>( m_currentView->part() )->setFilesToSelect( filesToSelect );
@@ -2020,7 +2020,7 @@ void KonqMainWindow::slotRunFinished()
       QDataStream s( &data, QIODevice::WriteOnly );
 
       s.setVersion(QDataStream::Qt_3_1);
-      s << run->url().prettyURL() << kapp->dcopClient()->defaultObject();
+      s << run->url().prettyUrl() << kapp->dcopClient()->defaultObject();
       kapp->dcopClient()->send( "konqueror*", "KonquerorIface",
 				"removeFromCombo(QString,QCString)", data);
   }
@@ -2093,7 +2093,7 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   // changes the directory!! (DA)
   if( m_pURLCompletion )
   {
-    KUrl u = KUrl::fromPathOrURL( view->locationBarURL() );
+    KUrl u = KUrl::fromPathOrUrl( view->locationBarURL() );
     if( u.isLocalFile() )
       m_pURLCompletion->setDir( u.path() );
     else
@@ -2486,7 +2486,7 @@ void KonqMainWindow::slotURLEntered( const QString &text, int state )
 
   if (state & Qt::ControlModifier || state & Qt::AltModifier)
   {
-      m_combo->setURL( m_currentView ? m_currentView->url().prettyURL() : QString() );
+      m_combo->setURL( m_currentView ? m_currentView->url().prettyUrl() : QString() );
       openFilteredUrl( text.trimmed(), true );
   }
   else
@@ -2853,8 +2853,8 @@ void KonqMainWindow::slotRemoveLocalProperties()
 bool KonqMainWindow::askForTarget(const KLocalizedString& text, KUrl& url)
 {
    const KUrl initialUrl = (viewCount()==2) ? otherView(m_currentView)->url() : m_currentView->url();
-   QString label = text.subs( m_currentView->url().pathOrURL() ).toString();
-   KUrlRequesterDlg dlg(initialUrl.pathOrURL(), label, this);
+   QString label = text.subs( m_currentView->url().pathOrUrl() ).toString();
+   KUrlRequesterDlg dlg(initialUrl.pathOrUrl(), label, this);
    dlg.setCaption(i18n("Enter Target"));
    dlg.urlRequester()->setMode( KFile::File | KFile::ExistingOnly | KFile::Directory );
    if (dlg.exec())
@@ -2961,12 +2961,12 @@ void KonqMainWindow::slotUpAboutToShow()
 
   // Use the location bar URL, because in case we display a index.html
   // we want to go up from the dir, not from the index.html
-  KUrl u = KUrl::fromPathOrURL( m_currentView->locationBarURL() );
-  u = u.upURL();
+  KUrl u = KUrl::fromPathOrUrl( m_currentView->locationBarURL() );
+  u = u.upUrl();
   while ( u.hasPath() )
   {
     popup->insertItem( QIcon( KonqPixmapProvider::self()->pixmapFor( u.url() ) ),
-                       u.pathOrURL() );
+                       u.pathOrUrl() );
 
     if ( u.path() == "/" )
         break;
@@ -2974,7 +2974,7 @@ void KonqMainWindow::slotUpAboutToShow()
     if ( ++i > 10 )
       break;
 
-    u = u.upURL();
+    u = u.upUrl();
   }
 }
 
@@ -3003,7 +3003,7 @@ void KonqMainWindow::slotUpDelayed()
     if (m_goKeyboardState & Qt::ShiftModifier)
         req.newTabInFront = !req.newTabInFront;
 
-    const QString& url = m_currentView->upURL().url();
+    const QString& url = m_currentView->upUrl().url();
     if(m_goKeyboardState & Qt::ControlModifier)
 	openFilteredUrl(url, req );
     else if(m_goMouseState & Qt::MidButton)
@@ -3020,10 +3020,10 @@ void KonqMainWindow::slotUpDelayed()
 
 void KonqMainWindow::slotUpActivated( int id )
 {
-  KUrl u = KUrl::fromPathOrURL( m_currentView->locationBarURL() );
+  KUrl u = KUrl::fromPathOrUrl( m_currentView->locationBarURL() );
   kDebug(1202) << "slotUpActivated. Start URL is " << u << endl;
   for ( int i = 0 ; i < m_paUp->menu()->indexOf( id ) + 1 ; i ++ )
-      u = u.upURL();
+      u = u.upUrl();
   openURL( 0L, u );
 }
 
@@ -3555,7 +3555,7 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
 
 void KonqMainWindow::setLocationBarURL( const KUrl &url )
 {
-    setLocationBarURL( url.pathOrURL() );
+    setLocationBarURL( url.pathOrUrl() );
 }
 
 void KonqMainWindow::setLocationBarURL( const QString &url )
@@ -3649,7 +3649,7 @@ void KonqMainWindow::setUpEnabled( const KUrl &url )
   bHasUpURL = ( ( url.hasPath() && url.path() != "/" && ( url.path()[0]=='/' ) )
                 || !url.query().isEmpty() /*e.g. lists.kde.org*/ );
   if ( !bHasUpURL )
-    bHasUpURL = url.hasSubURL();
+    bHasUpURL = url.hasSubUrl();
 
   m_paUp->setEnabled( bHasUpURL );
 }
@@ -4089,7 +4089,7 @@ void KonqMainWindow::updateToolBarActions( bool pendingAction /*=false*/)
           m_ptaUseHTML->setEnabled( true );
       else if ( m_currentView->serviceTypes().contains(  "text/html" ) ) {
           // Currently viewing an index.html file via this feature (i.e. url points to a dir)
-          QString locPath = KUrl::fromPathOrURL( m_currentView->locationBarURL() ).path();
+          QString locPath = KUrl::fromPathOrUrl( m_currentView->locationBarURL() ).path();
           m_ptaUseHTML->setEnabled( QFileInfo( locPath ).isDir() );
       } else
           m_ptaUseHTML->setEnabled( false );
@@ -4489,7 +4489,7 @@ QString KonqMainWindow::currentURL() const
 {
   if ( !m_currentView )
     return QString();
-  QString url = m_currentView->url().prettyURL();
+  QString url = m_currentView->url().prettyUrl();
   if ( m_currentView->part() && m_currentView->part()->inherits("KonqDirPart") )
   {
       QString nameFilter = static_cast<KonqDirPart *>(m_currentView->part())->nameFilter();
@@ -4678,7 +4678,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   PopupMenuGUIClient *konqyMenuClient = new PopupMenuGUIClient( this, m_popupEmbeddingServices,
                                                                 showEmbeddingServices, doTabHandling );
 
-  //kDebug(1202) << "KonqMainWindow::slotPopupMenu " << viewURL.prettyURL() << endl;
+  //kDebug(1202) << "KonqMainWindow::slotPopupMenu " << viewURL.prettyUrl() << endl;
 
 
   // Those actions go into the PopupMenuGUIClient, since that's the one defining them.
@@ -4802,7 +4802,7 @@ void KonqMainWindow::slotOpenEmbeddedDoIt()
   m_currentView->setTypedURL(QString());
   if ( m_currentView->changeViewMode( m_popupServiceType,
                                       m_popupService ) )
-      m_currentView->openURL( m_popupURL, m_popupURL.pathOrURL() );
+      m_currentView->openURL( m_popupURL, m_popupURL.pathOrUrl() );
 }
 
 void KonqMainWindow::slotDatabaseChanged()
@@ -5283,7 +5283,7 @@ void KonqMainWindow::slotAddWebSideBar(const KUrl& url, const QString& name)
 
     int rc = KMessageBox::questionYesNo(0L,
               i18n("Add new web extension \"%1\" to your sidebar?",
-                                 name.isEmpty() ? name : url.prettyURL()),
+                                 name.isEmpty() ? name : url.prettyUrl()),
               i18n("Web Sidebar"),i18n("Add"),i18n("Do Not Add"));
 
     if (rc == KMessageBox::Yes) {
@@ -5326,7 +5326,7 @@ void KonqMainWindow::bookmarksIntoCompletion( const KBookmarkGroup& group )
         if ( !url.isValid() )
             continue;
 
-        QString u = url.prettyURL();
+        QString u = url.prettyUrl();
         s_pCompletion->addItem( u );
 
         if ( url.isLocalFile() )

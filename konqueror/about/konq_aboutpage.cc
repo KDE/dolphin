@@ -458,7 +458,7 @@ void KonqAboutPage::serve( const QString& html, const QString& what )
 
 void KonqAboutPage::urlSelected( const QString &url, int button, int state, const QString &target, KParts::URLArgs _args )
 {
-    KUrl u = KUrl::fromPathOrURL( url );
+    KUrl u = KUrl::fromPathOrUrl( url );
     if ( u.protocol() == "exec" )
     {
         QStringList args = url.mid( 6 ).split(QChar( ' ' ), QString::SkipEmptyParts );

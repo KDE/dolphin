@@ -181,7 +181,7 @@ KonqPropsView::~KonqPropsView()
 
 bool KonqPropsView::enterDir( const KUrl & dir )
 {
-  //kDebug(1203) << "enterDir " << dir.prettyURL() << endl;
+  //kDebug(1203) << "enterDir " << dir.prettyUrl() << endl;
   // Can't do that with default properties
   assert( !isDefaultProperties() );
 

@@ -176,7 +176,7 @@ void KonqRun::slotRedirection( KIO::Job *job, const KUrl& redirectedToURL )
 {
     KUrl redirectFromURL = static_cast<KIO::TransferJob *>(job)->url();
     kDebug(1202) << "KonqRun::slotRedirection from " <<
-        redirectFromURL.prettyURL() << " to " << redirectedToURL.prettyURL() << endl;
+        redirectFromURL.prettyUrl() << " to " << redirectedToURL.prettyUrl() << endl;
     KonqHistoryManager::kself()->confirmPending( redirectFromURL );
 
     if (redirectedToURL.protocol() == "mailto")

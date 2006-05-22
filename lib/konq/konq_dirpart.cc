@@ -299,10 +299,10 @@ void KonqDirPart::lmbClicked( KFileItem * fileItem )
         // No permissions or local file that doesn't exist - need to find out which
         if ( ( !fileItem->isLocalFile() ) || QFile::exists( url.path() ) )
         {
-            KMessageBox::error( widget(), i18n("<p>You do not have enough permissions to read <b>%1</b></p>", url.prettyURL()) );
+            KMessageBox::error( widget(), i18n("<p>You do not have enough permissions to read <b>%1</b></p>", url.prettyUrl()) );
             return;
         }
-        KMessageBox::error( widget(), i18n("<p><b>%1</b> does not seem to exist anymore</p>", url.prettyURL()) );
+        KMessageBox::error( widget(), i18n("<p><b>%1</b> does not seem to exist anymore</p>", url.prettyUrl()) );
         return;
     }
 

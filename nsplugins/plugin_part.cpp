@@ -294,8 +294,8 @@ bool PluginPart::openURL(const KUrl &url)
     }
 
     // status messages
-    emit setWindowCaption( url.prettyURL() );
-    emit setStatusBarText( i18n("Loading Netscape plugin for %1", url.prettyURL()) );
+    emit setWindowCaption( url.prettyUrl() );
+    emit setStatusBarText( i18n("Loading Netscape plugin for %1", url.prettyUrl()) );
 
     // create plugin widget
     NSPluginInstance *inst = _loader->newInstance( _canvas, surl, smime, embed,

@@ -177,7 +177,7 @@ QVariant BookmarkModel::data(const QModelIndex &index, int role) const
             case 0:
                 return QVariant( bk.fullText() );
             case 1:
-                return QVariant( bk.url().pathOrURL() ); 
+                return QVariant( bk.url().pathOrUrl() ); 
             case 2:
                 return QVariant( EditCommand::getNodeText(bk, QStringList() << QString("desc")) );
             case 3:

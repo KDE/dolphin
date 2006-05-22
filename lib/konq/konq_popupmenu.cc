@@ -1025,15 +1025,15 @@ void KonqPopupMenu::slotPopupAddToBookmark()
   KBookmarkGroup root;
   if ( m_lstPopupURLs.count() == 1 ) {
     KUrl url = m_lstPopupURLs.first();
-    QString title = d->m_urlTitle.isEmpty() ? url.prettyURL() : d->m_urlTitle;
-    root = m_pManager->addBookmarkDialog( url.prettyURL(), title );
+    QString title = d->m_urlTitle.isEmpty() ? url.prettyUrl() : d->m_urlTitle;
+    root = m_pManager->addBookmarkDialog( url.prettyUrl(), title );
   }
   else
   {
     root = m_pManager->root();
     KUrl::List::ConstIterator it = m_lstPopupURLs.begin();
     for ( ; it != m_lstPopupURLs.end(); it++ )
-      root.addBookmark( m_pManager, (*it).prettyURL(), (*it) );
+      root.addBookmark( m_pManager, (*it).prettyUrl(), (*it) );
   }
   m_pManager->emitChanged( root );
 }

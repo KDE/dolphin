@@ -485,7 +485,7 @@ void KNewMenu::slotRenamed( KIO::Job *, const KUrl& from , const KUrl& to )
 {
     if ( from.isLocalFile() )
     {
-        kDebug() << k_funcinfo << from.prettyURL() << " -> " << to.prettyURL() << " ( m_destPath=" << d->m_destPath << ")" << endl;
+        kDebug() << k_funcinfo << from.prettyUrl() << " -> " << to.prettyUrl() << " ( m_destPath=" << d->m_destPath << ")" << endl;
         Q_ASSERT( from.path() == d->m_destPath );
         d->m_destPath = to.path();
     }

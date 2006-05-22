@@ -724,7 +724,7 @@ void KonqViewManager::updatePixmaps()
 
   tabContainer->listViews( &viewList );
   foreach ( KonqView* view, viewList )
-    view->setTabIcon( KUrl::fromPathOrURL( view->locationBarURL() ) );
+    view->setTabIcon( KUrl::fromPathOrUrl( view->locationBarURL() ) );
 }
 
 void KonqViewManager::removeView( KonqView *view )
@@ -1536,12 +1536,12 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
 
       if ( !url.isEmpty() )
       {
-        //kDebug(1202) << "loadItem: calling openURL " << url.prettyURL() << endl;
-        //childView->openURL( url, url.prettyURL() );
+        //kDebug(1202) << "loadItem: calling openURL " << url.prettyUrl() << endl;
+        //childView->openURL( url, url.prettyUrl() );
         // We need view-follows-view (for the dirtree, for instance)
         KonqOpenURLRequest req;
         if (url.protocol() != "about")
-          req.typedURL = url.prettyURL();
+          req.typedURL = url.prettyUrl();
         m_pMainWindow->openView( serviceType, url, childView, req );
       }
     }

@@ -768,7 +768,7 @@ void NSPluginInstance::timer()
         // make absolute url
         if ( req.url.left(11).toLower()=="javascript:" )
             url = req.url;
-        else if ( KUrl::isRelativeURL(req.url) ) {
+        else if ( KUrl::isRelativeUrl(req.url) ) {
             KUrl bu( _baseURL );
             KUrl absUrl( bu, req.url );
             url = absUrl.url();

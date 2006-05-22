@@ -123,7 +123,7 @@ const KFileItem* KonqPart::currentItem()
 
 bool KonqPart::doOpenURL( const KUrl& url )
 {
-    emit setWindowCaption( url.pathOrURL() );
+    emit setWindowCaption( url.pathOrUrl() );
     KParts::URLArgs args = extension()->urlArgs();
 
     m_dirLister->openURL( url, false, args.reload );

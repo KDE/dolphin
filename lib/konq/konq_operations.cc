@@ -265,7 +265,7 @@ bool KonqOperations::askDeleteConfirmation( const KUrl::List & selectedURLs, int
 	  // displaying KFileItem::name(), for files under a subdir.
           prettyList.append( path.remove(QRegExp("^/[0-9]*-")) );
         } else
-          prettyList.append( (*it).pathOrURL() );
+          prettyList.append( (*it).pathOrUrl() );
       }
 
       int result;

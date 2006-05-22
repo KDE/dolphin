@@ -117,7 +117,7 @@ KonqMainWindow * KonqMisc::createNewWindow( const KUrl &url, const KParts::URLAr
 KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, const QString &filename, const KUrl &url, const KParts::URLArgs &args, bool forbidUseHTML, const QStringList& filesToSelect, bool tempFile, bool openURL )
 {
   kDebug(1202) << "void KonqMisc::createBrowserWindowFromProfile() " << endl;
-  kDebug(1202) << "path=" << path << ",filename=" << filename << ",url=" << url.prettyURL() << endl;
+  kDebug(1202) << "path=" << path << ",filename=" << filename << ",url=" << url.prettyUrl() << endl;
   abortFullScreenMode();
 
   KonqMainWindow * mainWindow;

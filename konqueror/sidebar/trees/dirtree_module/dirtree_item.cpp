@@ -231,7 +231,7 @@ void KonqSidebarDirTreeItem::delOperation( int method )
 
 QString KonqSidebarDirTreeItem::toolTipText() const
 {
-    return m_fileItem->url().pathOrURL();
+    return m_fileItem->url().pathOrUrl();
 }
 
 void KonqSidebarDirTreeItem::rename()

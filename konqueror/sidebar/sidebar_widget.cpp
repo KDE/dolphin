@@ -503,7 +503,7 @@ void Sidebar_Widget::slotSetURL( )
 		}
 		else
 		{
-			QString newurl= dlg.selectedURL().prettyURL();
+			QString newurl= dlg.selectedURL().prettyUrl();
 			//If we are going to set the name by 'set name', we don't set it here.
 			//ksc.writeEntry("Name",newurl);
 			ksc.writePathEntry("URL",newurl);

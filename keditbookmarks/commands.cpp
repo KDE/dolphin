@@ -151,7 +151,7 @@ EditCommand::EditCommand(const QString & address, int col, const QString & newVa
 {
     if(mCol == 1)
     {
-        KUrl u = KUrl::fromPathOrURL(newValue);
+        KUrl u = KUrl::fromPathOrUrl(newValue);
         mNewValue = u.url( KUrl::LeaveTrailingSlash );
     }
     else
@@ -234,7 +234,7 @@ void EditCommand::modify(QString newValue)
 {
     if(mCol == 1)
     {
-        KUrl u = KUrl::fromPathOrURL(newValue);
+        KUrl u = KUrl::fromPathOrUrl(newValue);
         mNewValue = u.url( KUrl::LeaveTrailingSlash );
     }
     else

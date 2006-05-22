@@ -440,7 +440,7 @@ void KonqMostOftenURLSAction::slotFillMenu()
         const KonqHistoryEntry entry = s_mostEntries->at( id );
 	// we take either title, typedURL or URL (in this order)
 	QString text = entry.title.isEmpty() ? (entry.typedURL.isEmpty() ?
-						 entry.url.prettyURL() :
+						 entry.url.prettyUrl() :
 						 entry.typedURL) :
 		       entry.title;
 
@@ -472,7 +472,7 @@ void KonqMostOftenURLSAction::slotActivated( int id )
     if ( url.isValid() )
 	emit activated( url );
     else
-	kWarning() << "Invalid url: " << url.prettyURL() << endl;
+	kWarning() << "Invalid url: " << url.prettyUrl() << endl;
     m_popupList.clear();
 }
 

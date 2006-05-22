@@ -190,7 +190,7 @@ public:
    */
   KUrl url() const;
 
-  KUrl upURL() const;
+  KUrl upUrl() const;
 
   /**
    * Get view's location bar URL, i.e. the one that the view signals

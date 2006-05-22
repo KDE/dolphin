@@ -55,7 +55,7 @@ KonqTreeViewWidget::~KonqTreeViewWidget()
 
 bool KonqTreeViewWidget::openURL( const KUrl &url )
 {
-   //kDebug(1202) << k_funcinfo << url.prettyURL() << endl;
+   //kDebug(1202) << k_funcinfo << url.prettyUrl() << endl;
 
    if ( m_pBrowserView->extension()->urlArgs().reload )
    {
@@ -190,7 +190,7 @@ void KonqTreeViewWidget::slotRedirection( const KUrl &oldUrl, const KUrl &newUrl
 void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
 {
     // Find parent item - it's the same for all the items
-    KUrl dir( entries.first()->url().upURL() );
+    KUrl dir( entries.first()->url().upUrl() );
 
     KonqListViewDir *parentDir = 0L;
     if ( !m_url.equals( dir, KUrl::CompareWithoutTrailingSlash ) ) // ignore trailing slash

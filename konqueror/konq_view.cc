@@ -631,7 +631,7 @@ void KonqView::slotMouseOverInfo( const KFileItem *item )
 
 void KonqView::setLocationBarURL( const KUrl& locationBarURL )
 {
-  setLocationBarURL( locationBarURL.pathOrURL() );
+  setLocationBarURL( locationBarURL.pathOrUrl() );
 }
 
 void KonqView::setLocationBarURL( const QString & locationBarURL )
@@ -645,7 +645,7 @@ void KonqView::setLocationBarURL( const QString & locationBarURL )
     m_pMainWindow->setLocationBarURL( m_sLocationBarURL );
     m_pMainWindow->setPageSecurity( m_pageSecurity );
   }
-  if (!m_bPassiveMode) setTabIcon( KUrl::fromPathOrURL( m_sLocationBarURL ) );
+  if (!m_bPassiveMode) setTabIcon( KUrl::fromPathOrUrl( m_sLocationBarURL ) );
 }
 
 void KonqView::setIconURL( const KUrl & iconURL )
@@ -682,7 +682,7 @@ void KonqView::setCaption( const QString & caption )
   if (url().isLocalFile())
   {
      // Is the caption a URL?  If so, is it local?  If so, only display the filename!
-     KUrl url = KUrl::fromPathOrURL(caption);
+     KUrl url = KUrl::fromPathOrUrl(caption);
      if (url.isValid() && url.isLocalFile() && url.fileName() == this->url().fileName())
         adjustedCaption = url.fileName();
   }
@@ -877,14 +877,14 @@ KUrl KonqView::url() const
   return m_pPart->url();
 }
 
-KUrl KonqView::upURL() const
+KUrl KonqView::upUrl() const
 {
     KUrl currentURL;
     if ( m_pRun )
 	currentURL = m_pRun->url();
     else
-	currentURL = KUrl::fromPathOrURL( m_sLocationBarURL );
-    return currentURL.upURL();
+	currentURL = KUrl::fromPathOrUrl( m_sLocationBarURL );
+    return currentURL.upUrl();
 }
 
 void KonqView::setRun( KonqRun * run )

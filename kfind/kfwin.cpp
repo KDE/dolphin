@@ -236,7 +236,7 @@ void KfindWindow::saveResults()
       while(item != NULL)
 	{
 	  QString path=((KfFileLVI*)item)->fileitem.url().url();
-	  QString pretty=Qt::escape(((KfFileLVI*)item)->fileitem.url().prettyURL());
+	  QString pretty=Qt::escape(((KfFileLVI*)item)->fileitem.url().prettyUrl());
 	  stream << QString::fromLatin1("<DT><A HREF=\"") << path
 		 << QString::fromLatin1("\">") << pretty
 		 << QString::fromLatin1("</A>\n");

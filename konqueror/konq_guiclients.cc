@@ -258,7 +258,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
 #if 0 // already done by splitWindow
     if ( m_mainWindow->currentView() )
     {
-        QString locBarURL = m_mainWindow->currentView()->url().prettyURL(); // default one in case it doesn't set it
+        QString locBarURL = m_mainWindow->currentView()->url().prettyUrl(); // default one in case it doesn't set it
         childView->openURL( m_mainWindow->currentView()->url(), locBarURL );
     }
 #endif
