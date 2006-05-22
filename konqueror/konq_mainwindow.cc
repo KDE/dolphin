@@ -491,20 +491,20 @@ void KonqMainWindow::openFilteredUrl( const QString & _url, bool inNewTab, bool 
 }
 
 void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
-                              const QString &_serviceType, KonqOpenURLRequest& req,
+                              const QString &_mimeType, KonqOpenURLRequest& req,
                               bool trustedSource )
 {
 #ifndef NDEBUG // needed for req.debug()
   kDebug(1202) << "KonqMainWindow::openURL : url = '" << _url << "'  "
-                << "serviceType='" << _serviceType << " req=" << req.debug()
+                << "mimeType='" << _mimeType << " req=" << req.debug()
                 << "' view=" << _view << endl;
 #endif
 
   KUrl url( _url );
-  QString serviceType( _serviceType );
+  QString mimeType( _mimeType );
   if ( url.url() == "about:blank" )
   {
-    serviceType = "text/html";
+    mimeType = "text/html";
   }
   else if ( !url.isValid() )
   {
@@ -569,25 +569,25 @@ void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
   }
 
   // Fast mode for local files: do the stat ourselves instead of letting KRun do it.
-  if ( serviceType.isEmpty() && url.isLocalFile() )
+  if ( mimeType.isEmpty() && url.isLocalFile() )
   {
     QByteArray _path( QFile::encodeName(url.path()));
     KDE_struct_stat buff;
     if ( KDE_stat( _path.data(), &buff ) != -1 )
-        serviceType = KMimeType::findByURL( url, buff.st_mode )->name();
+        mimeType = KMimeType::findByURL( url, buff.st_mode )->name();
   }
 
-  kDebug(1202) << "trying openView for " << url << " (serviceType " << serviceType << ")" << endl;
-  if ( ( !serviceType.isEmpty() && serviceType != "application/octet-stream") ||
+  kDebug(1202) << "trying openView for " << url << " (mimeType " << mimeType << ")" << endl;
+  if ( ( !mimeType.isEmpty() && mimeType != "application/octet-stream") ||
          url.url() == "about:konqueror" || url.url() == "about:plugins" )
   {
-    KService::Ptr offer = KMimeTypeTrader::self()->preferredService(serviceType, "Application");
+    KService::Ptr offer = KMimeTypeTrader::self()->preferredService(mimeType, "Application");
     // If the associated app is konqueror itself, then make sure we try to embed before bailing out.
-    if ( isMimeTypeAssociatedWithSelf( serviceType, offer ) )
+    if ( isMimeTypeAssociatedWithSelf( mimeType, offer ) )
       req.forceAutoEmbed = true;
 
     // Built-in view ?
-    if ( !openView( serviceType, url, view /* can be 0L */, req ) )
+    if ( !openView( mimeType, url, view /* can be 0L */, req ) )
     {
         //kDebug(1202) << "KonqMainWindow::openURL : openView returned false" << endl;
         // Are we following another view ? Then forget about this URL. Otherwise fire app.
@@ -595,17 +595,17 @@ void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
         {
             //kDebug(1202) << "KonqMainWindow::openURL : we were not following. Fire app." << endl;
             // We know the servicetype, let's try its preferred service
-            if ( isMimeTypeAssociatedWithSelf( serviceType, offer ) ) {
-                KMessageBox::error( this, i18n("There appears to be a configuration error. You have associated Konqueror with %1, but it cannot handle this file type.", serviceType));
+            if ( isMimeTypeAssociatedWithSelf( mimeType, offer ) ) {
+                KMessageBox::error( this, i18n("There appears to be a configuration error. You have associated Konqueror with %1, but it cannot handle this file type.", mimeType));
                 return;
             }
-            if ( !url.isLocalFile() && KonqRun::isTextExecutable( serviceType ) )
-                serviceType = "text/plain"; // view, don't execute
+            if ( !url.isLocalFile() && KonqRun::isTextExecutable( mimeType ) )
+                mimeType = "text/plain"; // view, don't execute
             // Remote URL: save or open ?
             QString protClass = KProtocolInfo::protocolClass(url.protocol());
             bool open = url.isLocalFile() || protClass==":local";
             if ( !open ) {
-                KParts::BrowserRun::AskSaveResult res = KonqRun::askSave( url, offer, serviceType );
+                KParts::BrowserRun::AskSaveResult res = KonqRun::askSave( url, offer, mimeType );
                 if ( res == KParts::BrowserRun::Save )
                     KParts::BrowserRun::simpleSave( url, QString(), this );
                 open = ( res == KParts::BrowserRun::Open );
@@ -615,8 +615,8 @@ void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
                 KUrl::List lst;
                 lst.append(url);
                 //kDebug(1202) << "Got offer " << (offer ? offer->name().toLatin1() : "0") << endl;
-                if ( ( trustedSource || KonqRun::allowExecution( serviceType, url ) ) &&
-                     ( KonqRun::isExecutable( serviceType ) || !offer || !KRun::run( *offer, lst, this ) ) )
+                if ( ( trustedSource || KonqRun::allowExecution( mimeType, url ) ) &&
+                     ( KonqRun::isExecutable( mimeType ) || !offer || !KRun::run( *offer, lst, this ) ) )
                 {
                     setLocationBarURL( oldLocationBarURL ); // Revert to previous locationbar URL
                     (void)new KRun( url, this );
@@ -625,7 +625,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
         }
     }
   }
-  else // no known serviceType, use KonqRun
+  else // no known mimeType, use KonqRun
   {
       if ( ( view && view == m_currentView ) ||
               ( !view && !req.newTab ) ) // startup with argument
@@ -659,7 +659,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
   }
 }
 
-bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *childView, KonqOpenURLRequest& req )
+bool KonqMainWindow::openView( QString mimeType, const KUrl &_url, KonqView *childView, KonqOpenURLRequest& req )
 {
   // Second argument is referring URL
   if ( !KAuthorized::authorizeURLAction("open", childView ? childView->url() : KUrl(), _url) )
@@ -669,12 +669,12 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
      return true; // Nothing else to do.
   }
 
-  if ( KonqRun::isExecutable( serviceType ) )
+  if ( KonqRun::isExecutable( mimeType ) )
      return false; // execute, don't open
   // Contract: the caller of this method should ensure the view is stopped first.
 
 #ifndef NDEBUG
-  kDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url << " " << childView << " req:" << req.debug() << endl;
+  kDebug(1202) << "KonqMainWindow::openView " << mimeType << " " << _url << " " << childView << " req:" << req.debug() << endl;
 #endif
   bool bOthersFollowed = false;
 
@@ -693,10 +693,10 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
         KonqOpenURLRequest newreq;
         newreq.followMode = true;
         newreq.args = req.args;
-        bOthersFollowed = openView( serviceType, _url, m_currentView, newreq );
+        bOthersFollowed = openView( mimeType, _url, m_currentView, newreq );
       }
       // "link views" feature, and "sidebar follows active view" feature
-      bOthersFollowed = makeViewsFollow(_url, req.args, serviceType, childView) || bOthersFollowed;
+      bOthersFollowed = makeViewsFollow(_url, req.args, mimeType, childView) || bOthersFollowed;
     }
     if ( childView->isLockedLocation() && !req.args.reload /* allow to reload a locked view*/ )
       return bOthersFollowed;
@@ -711,22 +711,22 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
   // The name of the protocol to redirect to, is read from the mimetype's .desktop file
   if ( url.isLocalFile() )
   {
-    KServiceType::Ptr ptr = KServiceType::serviceType( serviceType );
+    KServiceType::Ptr ptr = KServiceType::serviceType( mimeType );
     if ( ptr )
     {
       const QString protocol = ptr->property("X-KDE-LocalProtocol").toString();
-      if ( !protocol.isEmpty() && KonqFMSettings::settings()->shouldEmbed( serviceType ) )
+      if ( !protocol.isEmpty() && KonqFMSettings::settings()->shouldEmbed( mimeType ) )
       {
         url.setProtocol( protocol );
-        if ( serviceType == "application/x-webarchive" )
+        if ( mimeType == "application/x-webarchive" )
         {
           url.setPath( url.path() + "/index.html" );
-          serviceType = "text/html";
+          mimeType = "text/html";
         }
         else
         {
           url.setPath( url.path() + '/' );
-          serviceType = "inode/directory";
+          mimeType = "inode/directory";
         }
       }
     }
@@ -750,7 +750,7 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
 
   if ( url.url() == "about:konqueror" || url.url() == "about:plugins" )
   {
-      serviceType = "KonqAboutPage"; // not KParts/ReadOnlyPart, it fills the Location menu ! :)
+      mimeType = "KonqAboutPage"; // not KParts/ReadOnlyPart, it fills the Location menu ! :)
       serviceName = "konq_aboutpage";
       originalURL = req.typedURL.isEmpty() ? QString() : url.url();
       // empty if from profile, about:konqueror if the user typed it (not req.typedURL, it could be "about:")
@@ -762,11 +762,11 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
 
   // Look for which view mode to use, if a directory - not if view locked
   if ( ( !childView || (!childView->isLockedViewMode()) )
-       && serviceType == "inode/directory" )
+       && mimeType == "inode/directory" )
     { // Phew !
 
       // Set view mode if necessary (current view doesn't support directories)
-      if ( !childView || !childView->supportsServiceType( serviceType ) )
+      if ( !childView || !childView->supportsServiceType( mimeType ) )
         serviceName = KonqSettings::mainViewViewMode();
 
       if ( url.isLocalFile() ) // local, we can do better (.directory)
@@ -788,7 +788,7 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
           if ( HTMLAllowed &&
                ( ( indexFile = findIndexFile( url.path() ) ) != QString() ) )
             {
-              serviceType = "text/html";
+              mimeType = "text/html";
               url = KUrl();
               url.setPath( indexFile );
               serviceName.clear(); // cancel what we just set, this is not a dir finally
@@ -811,7 +811,7 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
               tabContainer = static_cast<KonqFrameTabs*>(m_pViewManager->docContainer());
               index = tabContainer->currentIndex();
           }
-          childView = m_pViewManager->addTab( serviceType, serviceName, false, req.openAfterCurrentPage );
+          childView = m_pViewManager->addTab( mimeType, serviceName, false, req.openAfterCurrentPage );
 
           if (req.newTabInFront && childView)
           {
@@ -830,7 +830,7 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
         // Initialize always uses force auto-embed even if user setting is "separate viewer",
         // since this window has no view yet - we don't want to keep an empty mainwindow.
         // This can happen with e.g. application/pdf from a target="_blank" link, or window.open.
-        childView = m_pViewManager->Initialize( serviceType, serviceName );
+        childView = m_pViewManager->Initialize( mimeType, serviceName );
 
         if ( childView )
         {
@@ -857,7 +857,7 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
           if ( url.protocol() == "about" )
               forceAutoEmbed = true;
           // Related to KonqFactory::createView
-          if ( !forceAutoEmbed && !KonqFMSettings::settings()->shouldEmbed( serviceType ) )
+          if ( !forceAutoEmbed && !KonqFMSettings::settings()->shouldEmbed( mimeType ) )
           {
               kDebug(1202) << "openView: KonqFMSettings says: don't embed this servicetype" << endl;
               ok = false;
@@ -874,7 +874,7 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
                   suggestedFilename = run->suggestedFileName();
 
               KParts::BrowserRun::AskSaveResult res = KParts::BrowserRun::askEmbedOrSave(
-                  url, serviceType, suggestedFilename );
+                  url, mimeType, suggestedFilename );
               if ( res == KParts::BrowserRun::Open )
                   forceAutoEmbed = true;
               else if ( res == KParts::BrowserRun::Cancel )
@@ -885,7 +885,7 @@ bool KonqMainWindow::openView( QString serviceType, const KUrl &_url, KonqView *
               }
           }
           if ( ok )
-              ok = childView->changeViewMode( serviceType, serviceName, forceAutoEmbed );
+              ok = childView->changeViewMode( mimeType, serviceName, forceAutoEmbed );
       }
   }
 

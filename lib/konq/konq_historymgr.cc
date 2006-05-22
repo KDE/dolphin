@@ -238,7 +238,7 @@ void KonqHistoryManager::adjustSize()
     KonqHistoryEntry entry = m_history.first();
     const QDateTime expirationDate( QDate::currentDate().addDays( -m_maxAgeDays ) );
 
-    while ( m_history.count() > m_maxCount ||
+    while ( m_history.count() > (qint32)m_maxCount ||
             (m_maxAgeDays > 0 && entry.lastVisited < expirationDate) ) // i.e. entry is expired
     {
 	removeFromCompletion( entry.url.prettyUrl(), entry.typedURL );
