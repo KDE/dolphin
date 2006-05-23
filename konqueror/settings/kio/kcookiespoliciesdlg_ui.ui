@@ -98,7 +98,7 @@ Treat all cookies as session cookies. Session cookies are small pieces of data t
                 <string>&lt;qt&gt;
 Determines how cookies received from a remote machine will be handled: 
 &lt;ul&gt;
-&lt;li&gt;&lt;b&gt;Ask&lt;/b&gt; will cause KDE to ask for your confirmation whenever a server wants to set a cookie."&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Ask&lt;/b&gt; will cause KDE to ask for your confirmation whenever a server wants to set a cookie.&lt;/li&gt;
 &lt;li&gt;&lt;b&gt;Accept&lt;/b&gt; will cause cookies to be accepted without prompting you.&lt;/li&gt;
 &lt;li&gt;&lt;b&gt;Reject&lt;/b&gt; will cause the cookiejar to refuse all cookies it receives.&lt;/li&gt;
 &lt;/ul&gt;&lt;p&gt;
@@ -144,7 +144,7 @@ Determines how cookies received from a remote machine will be handled:
             </property>
             <property name="whatsThis" stdset="0">
                 <string>&lt;qt&gt;
-To add a new policy, simply click on the &lt;b&gt;Add...&lt;/b&gt; button and supply the necessary information. To change an existing policy, use the &lt;b&gt;Change...&lt;/b&gt; button and choose the new policy from the policy dialog box. Clicking on the &lt;b&gt;Delete&lt;/b&gt; button will remove the currently selected policy causing the default policy setting to be used for that domain whereas &lt;b&gt;Delete All&lt;/b&gt; will remove all the site specific policies.
+To add a new policy, simply click on the &lt;b&gt;Add...&lt;/b&gt; button and supply the necessary information. To change an existing policy, use the &lt;b&gt;Change...&lt;/b&gt; button and choose the new policy from the policy dialog box. Clicking on the &lt;b&gt;Delete&lt;/b&gt; button will remove the currently selected policy causing the default policy setting to be used for that domain, whereas &lt;b&gt;Delete All&lt;/b&gt; will remove all the site specific policies.
 &lt;/qt&gt;</string>
             </property>
             <grid>

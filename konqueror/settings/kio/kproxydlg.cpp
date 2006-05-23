@@ -220,7 +220,7 @@ void KProxyDialog::save()
         showInvalidMessage( i18n("The address of the automatic proxy "
                                  "configuration script is invalid. Please "
                                  "correct this problem before proceeding. "
-                                 "Otherwise, your changes you will be "
+                                 "Otherwise, your changes will be "
                                  "ignored.") );
         return;
       }
