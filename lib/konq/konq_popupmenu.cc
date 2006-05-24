@@ -726,6 +726,12 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 if ( protocol != urlForServiceMenu.protocol() )
                     continue;
             }
+            else if ( cfg.hasKey( "X-KDE-Protocols" ) )
+            {
+                const QStringList protocols = cfg.readEntry( "X-KDE-Protocols" ).split( ',' );
+                if ( !protocols.contains( urlForServiceMenu.protocol() ) )
+                    continue;
+            }
             else if ( urlForServiceMenu.protocol() == "trash" || urlForServiceMenu.url().startsWith( "system:/trash" ) )
             {
                 // Require servicemenus for the trash to ask for protocol=trash explicitely.
