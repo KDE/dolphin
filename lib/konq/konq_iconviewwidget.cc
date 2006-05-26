@@ -1735,7 +1735,7 @@ void KonqIconViewWidget::lineupIcons()
         updateContents();
     else {
         // Repaint only repaintRegion...
-        Q3MemArray<QRect> rects = repaintRegion.rects();
+        QVector<QRect> rects = repaintRegion.rects();
         for ( uint l = 0; l < rects.count(); l++ ) {
             kDebug( 1203 ) << "Repainting (" << rects[l].x() << ","
                             << rects[l].y() << ")\n";
