@@ -26,7 +26,9 @@
 #include <dcopobject.h>
 #include <kurl.h>
 
-class KonqHistoryEntry
+#include <libkonq_export.h>
+
+class LIBKONQ_EXPORT KonqHistoryEntry
 {
 public:
     //Should URLs be marshaled as strings (for DCOP, V2 history format)?
@@ -40,6 +42,16 @@ public:
     quint32 numberOfTimesVisited;
     QDateTime firstVisited;
     QDateTime lastVisited;
+
+    // Necessary for QList (on Windows)
+    bool operator==( const KonqHistoryEntry& entry ) const {
+        return url == entry.url &&
+            typedURL == entry.typedURL &&
+            title == entry.title &&
+            numberOfTimesVisited == entry.numberOfTimesVisited &&
+            firstVisited == entry.firstVisited &&
+            lastVisited == entry.lastVisited;
+    }
 };
 
 
