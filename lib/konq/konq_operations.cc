@@ -383,7 +383,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KUrl & dest, QDro
 
         ev->acceptProposedAction();
 #else
-        kdDebug(1203) << "we don't handle keyboard modifiers yet, skip check" << endl;
+        kDebug(1203) << "we don't handle keyboard modifiers yet, skip check" << endl;
         ev->setAccepted( false );
         return;
 #endif
