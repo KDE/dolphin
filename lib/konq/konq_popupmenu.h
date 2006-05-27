@@ -22,27 +22,27 @@
 #define __konqpopupmenu_h
 
 #include <sys/types.h>
-#include <kactioncollection.h>
-#include <QMenu>
-#include <QMap>
-#include <kaction.h>
-#include <kactioncollection.h>
 
+#include <QMap>
+#include <QMenu>
 #include <QStringList>
 
+#include <kaction.h>
+#include <kactioncollection.h>
+#include <kdedesktopmimetype.h>
 #include <kfileitem.h>
 #include <kmimetype.h> // for KDEDesktopMimeType
+#include <kparts/browserextension.h>
+#include <kservice.h>
+
 #include <libkonq_export.h>
 
-#include <kparts/browserextension.h>
-#include <kdedesktopmimetype.h>
 #include "konq_xmlguiclient.h"
 
 typedef QList<KDEDesktopMimeType::Service> ServiceList;
 
 class KPropertiesDialog;
 class KNewMenu;
-class KService;
 class KonqPopupMenuPlugin;
 class KBookmarkManager;
 
