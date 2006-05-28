@@ -31,7 +31,6 @@
 #include <kactioncollection.h>
 #include <kdedesktopmimetype.h>
 #include <kfileitem.h>
-#include <kmimetype.h> // for KDEDesktopMimeType
 #include <kparts/browserextension.h>
 #include <kservice.h>
 
