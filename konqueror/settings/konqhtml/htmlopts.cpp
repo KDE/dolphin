@@ -159,7 +159,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
 			    " automatically load any images that are embedded in a web page."
 			    " Otherwise, it will display placeholders for the images, and"
 			    " you can then manually load the images by clicking on the image"
-			    " button.<br>Unless you have a very slow network connection, you"
+			    " button.<br>Unless you have a fast network connection, you"
 			    " will probably want to check this box to enhance your browsing"
 			    " experience." ) );
     connect(m_pAutoLoadImagesCheckBox, SIGNAL(clicked()), SLOT(slotChanged()));
