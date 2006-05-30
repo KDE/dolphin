@@ -54,11 +54,6 @@ install_files( ${SERVICETYPES_INSTALL_DIR} FILES uasprovider.desktop )
 install_files( ${APPLNK_INSTALL_DIR}/.hidden FILES smb.desktop )
 install_files( ${KCONF_UPDATE_INSTALL_DIR} FILES socks.upd )
 
-install(FILES uninstall.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}${APPLNK_INSTALL_DIR}/Settings/WebBrowsing RENAME smb.desktop)
-
-
-
-
 
 #original Makefile.am contents follow:
 

@@ -58,9 +58,6 @@ install_files( ${DATA_INSTALL_DIR}/keditbookmarks FILES keditbookmarksui.rc  ked
 
 kde4_install_icons( ${ICON_INSTALL_DIR} crystalsvg )
 
-install(FILES uninstall.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}${APPLNK_INSTALL_DIR}/Internet RENAME keditbookmarks.desktop)
-
-
 
 
 

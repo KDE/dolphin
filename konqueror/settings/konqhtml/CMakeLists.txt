@@ -36,11 +36,6 @@ install_targets(${PLUGIN_INSTALL_DIR} kcm_konqhtml )
 
 install_files( ${XDG_APPS_DIR} FILES khtml_behavior.desktop khtml_java_js.desktop khtml_fonts.desktop khtml_filter.desktop )
 
-install(FILES uninstall.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}${APPLNK_INSTALL_DIR}/Settings/WebBrowsing RENAME nsplugin.desktop)
-install(FILES uninstall.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}${APPLNK_INSTALL_DIR}/Settings/WebBrowsing/ RENAME khtml_appearance.desktop)
-
-
-
 
 
 #original Makefile.am contents follow:
