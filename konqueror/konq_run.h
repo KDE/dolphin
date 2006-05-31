@@ -34,7 +34,7 @@ class KonqRun : public KParts::BrowserRun
 public:
   /**
    * Create a KonqRun instance, associated to the main view and an
-   * optionnal child view.
+   * optional child view.
    */
   KonqRun( KonqMainWindow* mainWindow, KonqView *childView,
            const KUrl &url, const KonqOpenURLRequest & req = KonqOpenURLRequest(),

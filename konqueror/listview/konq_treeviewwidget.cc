@@ -64,7 +64,7 @@ bool KonqTreeViewWidget::openURL( const KUrl &url )
          if ( it.current()->isOpen() )
             m_urlsToReload.append( it.current()->url( KUrl::RemoveTrailingSlash ) );
 
-      // Someone could press reload while the listing is still in progess
+      // Someone could press reload while the listing is still in progress
       // -> move the items that are not opened yet to m_urlsToReload.
       // We don't need to check for doubled items since remove() removes
       // all occurrences.

@@ -5607,7 +5607,7 @@ void KonqMainWindow::setPreloadedFlag( bool preloaded )
     s_preloaded = preloaded;
     if( s_preloaded )
     {
-        kapp->disableSessionManagement(); // dont restore preloaded konqy's
+        kapp->disableSessionManagement(); // don't restore preloaded konqy's
         return; // was registered before calling this
     }
     delete s_preloadedWindow; // preloaded state was abandoned without reusing the window

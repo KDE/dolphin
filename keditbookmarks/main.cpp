@@ -87,7 +87,7 @@ static int askUser(KApplication &app, QString filename, bool &readonly) {
     DCOPCString requestedName("keditbookmarks");
 
     if (!filename.isEmpty())
-        requestedName += "-" + filename.toUtf8();
+        requestedName += '-' + filename.toUtf8();
 
     if (app.dcopClient()->registerAs(requestedName, false) == requestedName)
         return true;

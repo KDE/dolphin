@@ -610,7 +610,7 @@ bool clientApp::doIt()
        return m_ok;
     QString dst =
        KFileDialog::getSaveFileName( (argc<2) ? (QString::null) : (args->url(1).fileName()) );
-    if (dst.isEmpty()) // cancelled
+    if (dst.isEmpty()) // canceled
        return m_ok; // AK - really okay?
     KUrl dsturl;
     dsturl.setPath( dst );

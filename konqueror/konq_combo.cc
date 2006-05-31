@@ -232,7 +232,7 @@ void KonqCombo::applyPermanent()
 {
     if ( m_permanent && !temporaryItem().isEmpty() ) {
 
-        // Remove as many items as needed to honour maxCount()
+        // Remove as many items as needed to honor maxCount()
         int index = count();
         while ( count() >= maxCount() )
             removeItem( --index );
@@ -269,7 +269,7 @@ void KonqCombo::updateItem( const QPixmap& pix, const QString& t, int index, con
     // kDebug(1202) << "KonqCombo::updateItem: item='" << t << "', index='"
     //               << index << "'" << endl;
 
-    // QComboBox::changeItem() doesn't honour the pixmap when
+    // QComboBox::changeItem() doesn't honor the pixmap when
     // using an editable combobox, so we just remove and insert
     // ### use QComboBox::changeItem(), once that finally works
     // Well lets try it now as it seems to work fine for me. We

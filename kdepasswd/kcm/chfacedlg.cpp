@@ -107,7 +107,7 @@ ChFaceDlg::ChFaceDlg(const QString& picsdir, QWidget *parent, const char *name, 
   {
     QStringList picslist = facesDir.entryList( QDir::Files );
     for ( QStringList::Iterator it = picslist.begin(); it != picslist.end(); ++it )
-      new Q3IconViewItem( m_FacesWidget, "/"+(*it) == KCFGUserAccount::customFaceFile() ? 
+      new Q3IconViewItem( m_FacesWidget, '/'+(*it) == KCFGUserAccount::customFaceFile() ? 
 		      i18n("(Custom)") : (*it).section(".",0,0),
                       QPixmap( KCFGUserAccount::userFaceDir() + *it ) );
   }
@@ -145,9 +145,9 @@ void ChFaceDlg::addCustomPixmap( QString imPath, bool saveCopy )
       userfaces.mkdir( userfaces.absolutePath() );
 
     pix.save( userfaces.absolutePath() + "/.userinfo-tmp" , "PNG" );
-    KonqOperations::copy( this, KonqOperations::COPY, KUrl::List( KUrl( userfaces.absolutePath() + "/.userinfo-tmp" ) ), KUrl( userfaces.absolutePath() + "/" + QFileInfo(imPath).fileName().section(".",0,0) ) );
+    KonqOperations::copy( this, KonqOperations::COPY, KUrl::List( KUrl( userfaces.absolutePath() + "/.userinfo-tmp" ) ), KUrl( userfaces.absolutePath() + '/' + QFileInfo(imPath).fileName().section(".",0,0) ) );
 #if 0
-  if ( !pix.save( userfaces.absolutePath() + "/" + imPath , "PNG" ) )
+  if ( !pix.save( userfaces.absolutePath() + '/' + imPath , "PNG" ) )
     KMessageBox::sorry(this, i18n("There was an error saving the image:\n%1", userfaces.absolutePath() ) );
 #endif
   }

@@ -131,7 +131,7 @@ int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass,
 	{
 	case 0:
 	    // Eat garbage, wait for prompt
-	    m_Error += line+"\n";
+	    m_Error += line+'\n';
 	    if (isPrompt(line, "password")) 
 	    {
 		WaitSlave();
@@ -197,7 +197,7 @@ int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass,
 	    // Warning or error about the new password
 	    if (m_bTerminal) 
 		fputs(line, stdout);
-	    m_Error = line + "\n";
+	    m_Error = line + '\n';
 	    state++;
 	    break;
 
@@ -219,7 +219,7 @@ int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass,
 	    }
 	    if (m_bTerminal)
 		fputs(line, stdout);
-	    m_Error += line + "\n";
+	    m_Error += line + '\n';
 	    break;
 	}
     }
@@ -242,7 +242,7 @@ int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass,
 	   waitForChild();
 	   return PasswordNotGood;
 	}
-	m_Error += line + "\n"; // Collect error message
+	m_Error += line + '\n'; // Collect error message
     }
 
     kDebug(1512) << k_lineinfo << "Conversation ended successfully.\n";

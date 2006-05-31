@@ -476,7 +476,7 @@ static int directCommand(KCmdLineArgs *args)
 		return 0;
 	    }
 	}
-        return 1; // cancelled
+        return 1; // canceled
     }
 
 
@@ -519,7 +519,7 @@ static int directCommand(KCmdLineArgs *args)
 		return 0;
 	    }
 	}
-        return 1; // cancelled
+        return 1; // canceled
     }
 
     // getexistingdirectory [startDir]
@@ -550,7 +550,7 @@ static int directCommand(KCmdLineArgs *args)
             cout << result.toLocal8Bit().data() << endl;
             return 0;
         }
-        return 1; // cancelled
+        return 1; // canceled
     }
 
     // getopenurl [startDir] [filter]
@@ -587,7 +587,7 @@ static int directCommand(KCmdLineArgs *args)
 		return 0;
 	    }
 	}
-        return 1; // cancelled
+        return 1; // canceled
     }
 
     // geticon [group] [context]
@@ -636,7 +636,7 @@ static int directCommand(KCmdLineArgs *args)
             cout << result.toLocal8Bit().data() << endl;
             return 0;
         }
-        return 1; // cancelled
+        return 1; // canceled
     }
 
     // --progressbar text totalsteps

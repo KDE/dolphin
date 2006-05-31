@@ -319,7 +319,7 @@ public:
   void setActiveInstance();
 
   // Called before reloading this view. Sets args.reload to true, and offers to repost form data.
-  // Returns false in case the reload must be cancelled.
+  // Returns false in case the reload must be canceled.
   bool prepareReload( KParts::URLArgs& args );
 
   // overload for the QString version

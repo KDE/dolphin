@@ -227,7 +227,7 @@ bool BookmarkModel::setData(const QModelIndex &index, const QVariant &value, int
 {
     if(index.isValid() && role == Qt::EditRole)
     {
-        //FIXME don't create a commmand if still the same
+        //FIXME don't create a command if still the same
         // and ignore if name column is empty
         QString addr = static_cast<TreeItem *>(index.internalPointer())->bookmark().address();
         CmdHistory::self()->addCommand(new EditCommand( addr, index.column(), value.toString()) );

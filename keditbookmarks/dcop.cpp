@@ -51,7 +51,7 @@ void KBookmarkEditorIface::slotDcopUpdatedAccessMetadata(QString filename, QStri
     // without caring about our modified state like normal
     // and thusly there is no need to the bkmgr to do a "save"
 
-    // TODO - i'm not sure this is really true :)
+    // TODO - I'm not sure this is really true :)
 
     if (/*KEBApp::self()->modified() &&*/ filename == CurrentMgr::self()->path()) {
         kDebug() << "slotDcopUpdatedAccessMetadata(" << url << ")" << endl;

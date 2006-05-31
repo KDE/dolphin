@@ -80,7 +80,7 @@ public:
 
     /**
      * Create a new window from the profile defined by @p filename and @p path.
-     * @param url an optionnal URL to open in this profile.
+     * @param url an optional URL to open in this profile.
      * @param forbidUseHTML internal. True when called by "Find Files"
      * @param openURL If false no url is opened
      */

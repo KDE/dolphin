@@ -43,7 +43,7 @@ public:
     /** constructor
      * @param policies policies object this dialog will write the settings
      *		into. Note that it always reflects the current settings,
-     *		even if the dialog has been cancelled.
+     *		even if the dialog has been canceled.
      * @param parent parent widget this belongs to
      * @param name internal name
      */

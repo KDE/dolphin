@@ -335,8 +335,8 @@ bool lessAddress(QString a, QString b)
     if(b == error)
         return true;
 
-    a += "/";
-    b += "/";
+    a += '/';
+    b += '/';
 
     uint aLast = 0;
     uint bLast = 0;

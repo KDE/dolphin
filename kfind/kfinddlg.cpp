@@ -131,7 +131,7 @@ void KfindDlg::startSearch()
   // There are 3 problems:
   // 1) addDir() keeps looping on recursive symlinks
   // 2) addDir() scans all subdirectories, so it basically does the same as the process that
-  // is started by KQuery but in-process, undoing the advantages of using a seperate find process
+  // is started by KQuery but in-process, undoing the advantages of using a separate find process
   // A solution could be to let KQuery emit all the directories it has searched in.
   // Either way, putting dirwatchers on a whole file system is probably just too much.
   // 3) FAM has a tendency to deadlock with so many files (See BR77854) This has hopefully
@@ -286,8 +286,8 @@ QStringList KfindDlg::getAllSubdirs(QDir d)
   {
     if((*it==".")||(*it==".."))
       continue;
-    subdirs.append(d.path()+"/"+*it);
-    subdirs+=getAllSubdirs(d.path()+"/"+*it);
+    subdirs.append(d.path()+'/'+*it);
+    subdirs+=getAllSubdirs(d.path()+'/'+*it);
   }
   return subdirs;
 }

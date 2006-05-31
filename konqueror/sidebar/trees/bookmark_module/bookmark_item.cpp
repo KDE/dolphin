@@ -36,7 +36,7 @@ KonqSidebarBookmarkItem::KonqSidebarBookmarkItem( KonqSidebarTreeItem *parentIte
 bool KonqSidebarBookmarkItem::populateMimeData( QMimeData* mimeData, bool move )
 {
     m_bk.populateMimeData( mimeData );
-    // TODO honour bool move ?
+    // TODO honor bool move ?
     Q_UNUSED( move );
     return true;
 }

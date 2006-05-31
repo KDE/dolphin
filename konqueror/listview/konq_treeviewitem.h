@@ -54,7 +54,7 @@ public:
   virtual void setOpen( bool _open );
 
   /**
-   * Called by setOpen, called when opening the directoy via restoreState and called
+   * Called by setOpen, called when opening the directory via restoreState and called
    * when the user presses "Reload".
    * Checks whether its contents are known (@see #setComplete) or whether
    * to reload the directory.

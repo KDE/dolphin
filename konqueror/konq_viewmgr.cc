@@ -1350,7 +1350,7 @@ void KonqViewManager::setActivePart( KParts::Part *part, bool immediate )
         // Otherwise, when e.g. dragging icons, the mouse pointer can already
         // be very far from where it was...
         // TODO: use a QTimer member var, so that if two conflicting calls to
-        // setActivePart(part,immediate=false) happen, the 1st one gets cancelled.
+        // setActivePart(part,immediate=false) happen, the 1st one gets canceled.
         QTimer::singleShot( 0, this, SLOT( emitActivePartChanged() ) );
         // This is not done with right-clicking so that the part is activated before the
         // popup appears (#75201)
