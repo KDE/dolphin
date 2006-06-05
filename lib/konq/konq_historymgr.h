@@ -27,8 +27,6 @@
 #include <QMap>
 #include <QTimer>
 
-#include <dcopobject.h>
-
 #include <kcompletion.h>
 #include <kurl.h>
 #include <kparts/historyprovider.h>

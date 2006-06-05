@@ -18,16 +18,13 @@
 */
 
 #include "konq_undo.h"
-
+#include "uiserveriface.h"
 #undef Always
-
-#include <kio/uiserver_stub.h>
+#include <dbus/qdbus.h>
+#include <kdirnotify.h>
 
 #include <assert.h>
 
-#include <dcopclient.h>
-#include <dcopref.h>
-#include <q3cstring.h>
 #include <kapplication.h>
 #include <kdatastream.h>
 #include <kdebug.h>
@@ -37,7 +34,6 @@
 #include <kipc.h>
 
 #include <kio/job.h>
-#include <kdirnotify_stub.h>
 
 inline const char *dcopTypeName( const KonqCommand & ) { return "KonqCommand"; }
 inline const char *dcopTypeName( const KonqCommand::Stack & ) { return "KonqCommand::Stack"; }
@@ -167,12 +163,11 @@ class KonqUndoManager::KonqUndoManagerPrivate
 public:
   KonqUndoManagerPrivate()
   {
-      m_uiserver = new UIServer_stub( "kio_uiserver", "UIServer" );
+      m_uiserver = QDBus::sessionBus().findInterface<org::kde::KIO::UIServer>("org.kde.kio.uiserver","/UIServer");
       m_undoJob = 0;
   }
   ~KonqUndoManagerPrivate()
   {
-      delete m_uiserver;
   }
 
   bool m_syncronized;
@@ -189,17 +184,15 @@ public:
 
   bool m_lock;
 
-  UIServer_stub *m_uiserver;
+  OrgKdeKIOUIServerInterface *m_uiserver;
   int m_uiserverJobId;
 
   KonqUndoJob *m_undoJob;
 };
 
 KonqUndoManager::KonqUndoManager()
-: DCOPObject( "KonqUndoManager" )
+//DCOPObject( "KonqUndoManager" )
 {
-  if ( !kapp->dcopClient()->isAttached() )
-      kapp->dcopClient()->attach();
 
   d = new KonqUndoManagerPrivate;
   d->m_syncronized = initializeFromKDesky();
@@ -505,11 +498,10 @@ void KonqUndoManager::undoRemovingDirectories()
           delete d->m_undoJob;
           d->m_undoJob = 0;
       }
-      KDirNotify_stub allDirNotify( "*", "KDirNotify*" );
       QList<KUrl>::ConstIterator it = d->m_dirsToUpdate.begin();
       for( ; it != d->m_dirsToUpdate.end(); ++it ) {
           kDebug() << "Notifying FilesAdded for " << *it << endl;
-          allDirNotify.FilesAdded( *it );
+		  org::kde::KDirNotify::emitFilesAdded( *it );
       }
       broadcastUnlock();
     }
@@ -567,6 +559,8 @@ void KonqUndoManager::broadcastPop()
     pop();
     return;
   }
+  QDBusInterfacePtr kdesktop("org.kde.kdesktop","/KonqUndoManager");
+  kdesktop->call("pop");
   DCOPRef( "kdesktop", "KonqUndoManager" ).send( "pop" );
   DCOPRef( "konqueror*", "KonqUndoManager" ).send( "pop" );
 }

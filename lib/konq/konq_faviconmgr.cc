@@ -17,7 +17,6 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <dcopclient.h>
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kglobal.h>
@@ -46,7 +45,8 @@ void KonqFavIconMgr::setIconForURL(const KUrl &url, const KUrl &iconURL)
     QByteArray data;
     QDataStream str(&data, QIODevice::WriteOnly);
     str << url << iconURL;
-    kapp->dcopClient()->send("kded", "favicons", "setIconForURL(KUrl, KUrl)", data);
+	QDBusInterfacePtr favicon("org.kde.kded", "/modules/favicons", "org.kde.Favicons");
+	favicon->send("setIconForURL", url, iconURL);
 }
 
 void KonqFavIconMgr::downloadHostIcon(const KUrl &url)
@@ -54,6 +54,7 @@ void KonqFavIconMgr::downloadHostIcon(const KUrl &url)
     QByteArray data;
     QDataStream str(&data, QIODevice::WriteOnly);
     str << url;
-    kapp->dcopClient()->send("kded", "favicons", "downloadHostIcon(KUrl)", data);
+	QDBusInterfacePtr favicon("org.kde.kded", "/modules/favicons", "org.kde.Favicons");
+	favicon->send("downloadHostIcon", url);
 }
 

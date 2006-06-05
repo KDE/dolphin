@@ -10,7 +10,8 @@ include_directories( ${ZLIB_INCLUDE_DIR}  )
 
 ########### next target ###############
 
-set(konq_LIB_SRCS 
+set(konq_LIB_SRCS
+   uiserveriface.cpp
    konq_popupmenu.cc 
    knewmenu.cc 
    konq_xmlguiclient.cc 

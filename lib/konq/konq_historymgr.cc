@@ -19,7 +19,6 @@
 
 #include "konq_historymgr.h"
 
-#include <dcopclient.h>
 
 #include <kapplication.h>
 #include <kdebug.h>

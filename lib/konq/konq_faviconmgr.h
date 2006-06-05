@@ -20,7 +20,6 @@
 #ifndef __konq_faviconmgr_h__
 #define __konq_faviconmgr_h__ 
 
-#include <dcopobject.h>
 #include <kurl.h>
 #include <libkonq_export.h>
 
