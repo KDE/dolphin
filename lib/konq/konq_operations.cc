@@ -31,9 +31,8 @@
 #include <kshell.h>
 #include <kshortcut.h>
 
-#include <kdirnotify_stub.h>
-
-#include <dcopclient.h>
+#include <dbus/qdbus.h>
+#include <kdirnotify.h>
 #include "konq_undo.h"
 #include "konq_defaults.h"
 #include "konqmimedata.h"
@@ -738,8 +737,7 @@ void KonqOperations::slotResult( KJob * job )
         static_cast<KIO::Job*>( job )->showErrorDialog( (QWidget*)parent() );
     if ( m_method == EMPTYTRASH ) {
         // Update konq windows opened on trash:/
-        KDirNotify_stub allDirNotify("*", "KDirNotify*");
-        allDirNotify.FilesAdded( KUrl("trash:/") ); // yeah, files were removed, but we don't know which ones...
+		org::kde::KDirNotify::emitFilesAdded( "trash:/" ); // yeah, files were removed, but we don't know which ones... 
     }
     delete this;
 }
@@ -817,8 +815,7 @@ void KonqMultiRestoreJob::slotStart()
     }
     else // done!
     {
-        KDirNotify_stub allDirNotify("*", "KDirNotify*");
-        allDirNotify.FilesRemoved( m_urls );
+		org::kde::KDirNotify::emitFilesRemoved(m_urls.toStringList() );
         emitResult();
     }
 }
