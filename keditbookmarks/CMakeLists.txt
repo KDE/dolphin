@@ -36,9 +36,7 @@ set(keditbookmarks_KDEINIT_SRCS
 
 kde4_automoc(${keditbookmarks_KDEINIT_SRCS})
 
-kde4_add_dcop_skels(keditbookmarks_KDEINIT_SRCS dcop.h )
 
-kde4_add_dcop_stubs(keditbookmarks_KDEINIT_SRCS ${KDE4_INCLUDE_DIR}/kbookmarknotifier.h )
 
 kde4_add_kcfg_files(keditbookmarks_KDEINIT_SRCS settings.kcfgc )
 

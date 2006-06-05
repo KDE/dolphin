@@ -11,7 +11,6 @@ set(kdialog_SRCS
 
 kde4_automoc(${kdialog_SRCS})
 
-kde4_add_dcop_skels(kdialog_SRCS progressdialogiface.h )
 
 kde4_add_executable(kdialog ${kdialog_SRCS})
 

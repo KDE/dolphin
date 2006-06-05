@@ -7,7 +7,6 @@ set(kfmclient_KDEINIT_SRCS kfmclient.cc )
 
 kde4_automoc(${kfmclient_KDEINIT_SRCS})
 
-kde4_add_dcop_stubs(kfmclient_KDEINIT_SRCS ${CMAKE_SOURCE_DIR}/konqueror/KonquerorIface.h ${CMAKE_SOURCE_DIR}/workspace/kdesktop/KDesktopIface.h )
 
 kde4_add_kdeinit_executable( kfmclient ${kfmclient_KDEINIT_SRCS})
 

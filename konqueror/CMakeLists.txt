@@ -52,7 +52,6 @@ set(konqueror_KDEINIT_SRCS  ${libkonqueror_intern_SRCS}
 
 kde4_automoc(${konqueror_KDEINIT_SRCS})
 
-kde4_add_dcop_skels(konqueror_KDEINIT_SRCS KonquerorIface.h KonqMainWindowIface.h KonqViewIface.h )
 
 kde4_add_kdeinit_executable( konqueror ${konqueror_KDEINIT_SRCS})
 

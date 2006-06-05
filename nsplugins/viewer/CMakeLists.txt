@@ -7,9 +7,7 @@ set(nspluginviewer_SRCS nsplugin.cpp viewer.cpp kxt.cpp )
 
 kde4_automoc(${nspluginviewer_SRCS})
 
-kde4_add_dcop_skels(nspluginviewer_SRCS NSPluginClassIface.h )
 
-kde4_add_dcop_stubs(nspluginviewer_SRCS ${CMAKE_SOURCE_DIR}/nsplugins/NSPluginCallbackIface.h )
 
 kde4_add_executable(nspluginviewer ${nspluginviewer_SRCS})
 

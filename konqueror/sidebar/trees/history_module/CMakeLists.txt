@@ -11,7 +11,6 @@ set(konq_sidebartree_history_PART_SRCS history_module.cpp history_item.cpp histo
 
 kde4_automoc(${konq_sidebartree_history_PART_SRCS})
 
-kde4_add_dcop_skels(konq_sidebartree_history_PART_SRCS history_settings.h )
 
 kde4_add_plugin(konq_sidebartree_history ${konq_sidebartree_history_PART_SRCS})
 
@@ -30,7 +29,6 @@ kde4_automoc(${kcm_history_PART_SRCS})
 
 kde4_add_ui3_files(kcm_history_PART_SRCS history_dlg.ui )
 
-kde4_add_dcop_skels(kcm_history_PART_SRCS history_settings.h )
 
 kde4_add_plugin(kcm_history ${kcm_history_PART_SRCS})
 

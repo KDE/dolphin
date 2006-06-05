@@ -17,7 +17,6 @@ kde4_automoc(${kcm_konq_PART_SRCS})
 
 kde4_add_ui3_files(kcm_konq_PART_SRCS desktopbehavior.ui )
 
-kde4_add_dcop_stubs(kcm_konq_PART_SRCS ${KDE4_INCLUDE_DIR}/kio/uiserver.h )
 
 kde4_add_plugin(kcm_konq ${kcm_konq_PART_SRCS})
 

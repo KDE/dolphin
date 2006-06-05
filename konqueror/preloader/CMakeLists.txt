@@ -8,7 +8,6 @@ kde4_add_kcfg_files(kded_konqy_preloader_PART_SRCS ${CMAKE_SOURCE_DIR}/konqueror
 
 kde4_automoc(${kded_konqy_preloader_PART_SRCS})
 
-kde4_add_dcop_skels(kded_konqy_preloader_PART_SRCS preloader.h )
 
 kde4_add_plugin(kded_konqy_preloader ${kded_konqy_preloader_PART_SRCS})
 

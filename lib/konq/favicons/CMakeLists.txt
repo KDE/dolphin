@@ -9,7 +9,6 @@ kde4_automoc(${kded_favicons_PART_SRCS})
 
 set( kded_favicons_DCOP_SKEL_SRCS favicons.h )
 
-kde4_add_dcop_skels(kded_favicons_PART_SRCS ${kded_favicons_DCOP_SKEL_SRCS} )
 
 kde4_add_plugin(kded_favicons ${kded_favicons_PART_SRCS})
 
