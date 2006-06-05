@@ -737,7 +737,7 @@ void KonqOperations::slotResult( KJob * job )
         static_cast<KIO::Job*>( job )->showErrorDialog( (QWidget*)parent() );
     if ( m_method == EMPTYTRASH ) {
         // Update konq windows opened on trash:/
-		org::kde::KDirNotify::emitFilesAdded( "trash:/" ); // yeah, files were removed, but we don't know which ones... 
+        org::kde::KDirNotify::emitFilesAdded( "trash:/" ); // yeah, files were removed, but we don't know which ones... 
     }
     delete this;
 }
@@ -815,7 +815,7 @@ void KonqMultiRestoreJob::slotStart()
     }
     else // done!
     {
-		org::kde::KDirNotify::emitFilesRemoved(m_urls.toStringList() );
+        org::kde::KDirNotify::emitFilesRemoved(m_urls.toStringList() );
         emitResult();
     }
 }
