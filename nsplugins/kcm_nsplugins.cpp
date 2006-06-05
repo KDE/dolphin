@@ -30,7 +30,6 @@
 #include <kdebug.h>
 
 #include <kapplication.h>
-#include <dcopclient.h>
 #include <kprocio.h>
 #include <ktoolinvocation.h>
 

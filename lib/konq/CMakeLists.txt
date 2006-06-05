@@ -33,8 +33,6 @@ set(konq_LIB_SRCS
 
 kde4_automoc(${konq_LIB_SRCS})
 
-kde4_add_dcop_skels(konq_LIB_SRCS konq_undo.h konq_historycomm.h konq_faviconmgr.h )
-
 kde4_add_library(konq SHARED ${konq_LIB_SRCS})
 
 target_link_libraries(konq ${KDE4_KDE3SUPPORT_LIBS} ${QT_QTXML_LIBRARY} kdefx ${KDE4_KDESU_LIBS})

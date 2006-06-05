@@ -30,7 +30,7 @@
 #include <kstandarddirs.h>
 #include "kquery.h"
 #include "kftabdlg.h"
-
+#include <kservicetypetrader.h>
 // Static utility functions
 static void save_pattern(QComboBox *, const QString &, const QString &);
 
@@ -527,7 +527,7 @@ void KfindTabWidget::loadHistory()
 void KfindTabWidget::slotEditRegExp()
 {
   if ( ! regExpDialog )
-    regExpDialog = KParts::ComponentFactory::createInstanceFromQuery<QDialog>( "KRegExpEditor/KRegExpEditor", QString(), this );
+    regExpDialog = KServiceTypeTrader::createInstanceFromQuery<QDialog>( "KRegExpEditor/KRegExpEditor", QString(), this );
 
   KRegExpEditorInterface *iface = dynamic_cast<KRegExpEditorInterface *>( regExpDialog );
   if ( !iface )

@@ -40,7 +40,7 @@
 #include <kprocess.h>
 #include <kauthorized.h>
 #include <kglobal.h>
-#include <dcopclient.h>
+#include <dbus/qdbus.h>
 #include <QDir>
 #include <QPixmap>
 
@@ -688,35 +688,30 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
             if ( cfg.hasKey( "X-KDE-ShowIfRunning" ) )
             {
                 const QString app = cfg.readEntry( "X-KDE-ShowIfRunning" );
-                if ( !kapp->dcopClient()->isApplicationRegistered( app.toUtf8() ) )
+                if ( !QDBus::sessionBus().busService()->nameHasOwner( app ) )
                     continue;
             }
-            if ( cfg.hasKey( "X-KDE-ShowIfDcopCall" ) )
+            if ( cfg.hasKey( "X-KDE-ShowIfDBusCall" ) )
             {
-                QString dcopcall = cfg.readEntry( "X-KDE-ShowIfDcopCall" );
-                const QByteArray app = dcopcall.section(' ', 0,0).toUtf8();
-
-                //if( !kapp->dcopClient()->isApplicationRegistered( app ))
-                //	continue; //app does not exist so cannot send call
-
-                QByteArray dataToSend;
-                QDataStream dataStream(&dataToSend, QIODevice::WriteOnly);
-                dataStream << m_lstPopupURLs;
-
-                DCOPCString replyType;
-                QByteArray replyData;
-                DCOPCString object =    dcopcall.section(' ', 1,-2).toUtf8();
-                QString function =  dcopcall.section(' ', -1);
-                if(!function.endsWith("(KUrl::List)")) {
-                    kWarning() << "Desktop file " << *eIt << " contains an invalid X-KDE-ShowIfDcopCall - the function must take the exact parameter (KUrl::List) and must be specified." << endl;
-                    continue; //Be safe.
+                QString calldata = cfg.readEntry( "X-KDE-ShowIfDBusCall" );
+                QStringList parts = calldata.split(' ');
+                const QString &app = parts.at(0);
+                const QString &obj = parts.at(1);
+                QString interface = parts.at(2);
+                QString method;
+                int pos = interface.lastIndexOf( QLatin1Char( '.' ) );
+                if ( pos != -1 ) {
+                    method = interface.mid(pos + 1);
+                    interface.truncate(pos);
                 }
 
-                if(!kapp->dcopClient()->call( app, object,
-                                              function.toUtf8(),
-                                              dataToSend, replyType, replyData, true, 1000))
-                    continue;
-                if(replyType != "bool" || !replyData[0])
+                //if ( !QDBus::sessionBus().busService()->nameHasOwner( app ) )
+                //    continue; //app does not exist so cannot send call
+
+                QDBusMessage reply = QDBusInterfacePtr( app, obj, interface )->
+                                     call( method, m_lstPopupURLs.toStringList() );
+                if ( reply.count() < 1 || reply.at(0).type() != QVariant::Bool ||
+                     !reply.at(0).toBool() )
                     continue;
 
             }

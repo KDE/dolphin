@@ -1,3 +1,4 @@
+/* Missing license header */
 
 #include <QLabel>
 #include <QLayout>
@@ -10,6 +11,7 @@
 #include <dcopclient.h>
 
 #include <kapplication.h>
+#include <kbuildsycocaprogressdialog.h>
 #include <kcursor.h>
 #include <kdebug.h>
 #include <kdesktopfile.h>
@@ -413,7 +415,7 @@ void FileTypesView::save()
   m_itemsModified.clear();
   if (sync(m_itemsModified)) {
     // only rebuild if sync() was necessary
-    KService::rebuildKSycoca(this);
+    KBuildSycocaProgressDialog::rebuildKSycoca(this);
     KIPC::sendMessageAll(KIPC::SettingsChanged);
   }
 }

@@ -24,6 +24,7 @@
 #include <dcopclient.h>
 #include <kapplication.h>
 #include <kaboutdata.h>
+#include <kbuildsycocaprogressdialog.h>
 #include <kdebug.h>
 #include <kcmdlineargs.h>
 #include <ksycoca.h>
@@ -72,7 +73,7 @@ void FileTypeDialog::save()
 {
   if (m_item->isDirty()) {
     m_item->sync();
-    KService::rebuildKSycoca(this);
+    KBuildSycocaProgressDialog::rebuildKSycoca(this);
   }
 }
 

@@ -23,8 +23,6 @@
 #include <QString>
 #include <qstack.h>
 
-#include <dcopobject.h>
-
 #include <kurl.h>
 #include <libkonq_export.h>
 
@@ -87,10 +85,9 @@ private:
   KonqCommandRecorderPrivate *d;
 };
 
-class LIBKONQ_EXPORT KonqUndoManager : public QObject, public DCOPObject
+class LIBKONQ_EXPORT KonqUndoManager : public QObject
 {
   Q_OBJECT
-  K_DCOP
   friend class KonqUndoJob;
 public:
   enum UndoState { MAKINGDIRS, MOVINGFILES, REMOVINGDIRS, REMOVINGFILES };
@@ -120,16 +117,14 @@ protected:
    */
   void stopUndo( bool step );
 
-private:
-k_dcop:
-  virtual ASYNC push( const KonqCommand &cmd );
-  virtual ASYNC pop();
-  virtual ASYNC lock();
-  virtual ASYNC unlock();
+private Q_SLOTS:
+  void push( const KonqCommand &cmd );
+  void pop();
+  void lock();
+  void unlock();
 
   virtual KonqCommand::Stack get() const;
 
-private Q_SLOTS:
   void slotResult( KJob *job );
 
 private:

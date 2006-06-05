@@ -175,10 +175,9 @@ void ListViewBrowserExtension::rename()
   KLineEdit* le = m_listView->listViewWidget()->renameLineEdit();
   if ( le ) {
      const QString txt = le->text();
-     QString pattern;
-     KMimeType::diagnoseFileName( txt, pattern );
-     if (!pattern.isEmpty() && pattern.at(0)=='*' && pattern.indexOf('*',1)==-1)
-         le->setSelection(0, txt.length()-pattern.trimmed().length()+1);
+     QString fileExtension = KMimeType::extractKnownExtension( txt );
+     if (!fileExtension.isEmpty())
+         le->setSelection(0, txt.length()-fileExtension.length()+1);
      else
      {
          int lastDot = txt.lastIndexOf('.');
