@@ -18,14 +18,13 @@
 */
 
 #include "konq_undo.h"
-#include "uiserveriface.h"
+#include "kio/observer.h"
 #undef Always
 #include <dbus/qdbus.h>
 #include <kdirnotify.h>
 
 #include <assert.h>
 
-#include <kapplication.h>
 #include <kdatastream.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -163,7 +162,6 @@ class KonqUndoManager::KonqUndoManagerPrivate
 public:
   KonqUndoManagerPrivate()
   {
-      m_uiserver = QDBus::sessionBus().findInterface<org::kde::KIO::UIServer>("org.kde.kio.uiserver","/UIServer");
       m_undoJob = 0;
   }
   ~KonqUndoManagerPrivate()
@@ -183,9 +181,6 @@ public:
   QList<KUrl> m_dirsToUpdate;
 
   bool m_lock;
-
-  OrgKdeKIOUIServerInterface *m_uiserver;
-  int m_uiserverJobId;
 
   KonqUndoJob *m_undoJob;
 };
@@ -324,7 +319,6 @@ void KonqUndoManager::undo()
     d->m_dirStack.clear();
 
   d->m_undoJob = new KonqUndoJob;
-  d->m_uiserverJobId = d->m_undoJob->progressId();
   undoStep();
 }
 
@@ -347,7 +341,7 @@ void KonqUndoManager::stopUndo( bool step )
 
 void KonqUndoManager::slotResult( KJob *job )
 {
-  d->m_uiserver->jobFinished( d->m_uiserverJobId );
+  Observer::self()->jobFinished( d->m_undoJob->progressId() );
   if ( job->error() )
   {
     static_cast<KIO::Job*>(job)->showErrorDialog( 0L );
@@ -397,7 +391,7 @@ void KonqUndoManager::undoMakingDirectories()
       KUrl dir = d->m_dirStack.pop();
       kDebug(1203) << "KonqUndoManager::undoStep creatingDir " << dir.prettyUrl() << endl;
       d->m_currentJob = KIO::mkdir( dir );
-      d->m_uiserver->creatingDir( d->m_uiserverJobId, dir );
+      Observer::self()->slotCreatingDir( d->m_undoJob, dir );
     }
     else
       d->m_undoState = MOVINGFILES;
@@ -416,7 +410,7 @@ void KonqUndoManager::undoMovingFiles()
         {
           kDebug(1203) << "KonqUndoManager::undoStep rename " << op.m_dst.prettyUrl() << " " << op.m_src.prettyUrl() << endl;
           d->m_currentJob = KIO::rename( op.m_dst, op.m_src, false );
-          d->m_uiserver->moving( d->m_uiserverJobId, op.m_dst, op.m_src );
+          Observer::self()->slotMoving( d->m_undoJob, op.m_dst, op.m_src );
         }
         else
           assert( 0 ); // this should not happen!
@@ -430,14 +424,14 @@ void KonqUndoManager::undoMovingFiles()
       {
         kDebug(1203) << "KonqUndoManager::undoStep file_delete " << op.m_dst.prettyUrl() << endl;
         d->m_currentJob = KIO::file_delete( op.m_dst );
-        d->m_uiserver->deleting( d->m_uiserverJobId, op.m_dst );
+        Observer::self()->slotDeleting( d->m_undoJob, op.m_dst );
       }
       else if ( d->m_current.m_type == KonqCommand::MOVE
                 || d->m_current.m_type == KonqCommand::TRASH )
       {
         kDebug(1203) << "KonqUndoManager::undoStep file_move " << op.m_dst.prettyUrl() << " " << op.m_src.prettyUrl() << endl;
         d->m_currentJob = KIO::file_move( op.m_dst, op.m_src, -1, true );
-        d->m_uiserver->moving( d->m_uiserverJobId, op.m_dst, op.m_src );
+        Observer::self()->slotMoving( d->m_undoJob, op.m_dst, op.m_src );
       }
 
       // The above KIO jobs are lowlevel, they don't trigger KDirNotify notification
@@ -462,7 +456,7 @@ void KonqUndoManager::undoRemovingFiles()
       KUrl file = d->m_fileCleanupStack.pop();
       kDebug(1203) << "KonqUndoManager::undoStep file_delete " << file.prettyUrl() << endl;
       d->m_currentJob = KIO::file_delete( file );
-      d->m_uiserver->deleting( d->m_uiserverJobId, file );
+      Observer::self()->slotDeleting( d->m_undoJob, file );
 
       KUrl url( file );
       url.setPath( url.directory() );
@@ -484,7 +478,7 @@ void KonqUndoManager::undoRemovingDirectories()
       KUrl dir = d->m_dirCleanupStack.pop();
       kDebug(1203) << "KonqUndoManager::undoStep rmdir " << dir.prettyUrl() << endl;
       d->m_currentJob = KIO::rmdir( dir );
-      d->m_uiserver->deleting( d->m_uiserverJobId, dir );
+      Observer::self()->slotDeleting( d->m_undoJob, dir );
       addDirToUpdate( dir );
     }
     else
@@ -494,14 +488,14 @@ void KonqUndoManager::undoRemovingDirectories()
       if ( d->m_undoJob )
       {
           kDebug(1203) << "KonqUndoManager::undoStep deleting undojob" << endl;
-          d->m_uiserver->jobFinished( d->m_uiserverJobId );
+          Observer::self()->jobFinished( d->m_undoJob->progressId() );
           delete d->m_undoJob;
           d->m_undoJob = 0;
       }
       QList<KUrl>::ConstIterator it = d->m_dirsToUpdate.begin();
       for( ; it != d->m_dirsToUpdate.end(); ++it ) {
           kDebug() << "Notifying FilesAdded for " << *it << endl;
-		  org::kde::KDirNotify::emitFilesAdded( *it );
+		  org::kde::KDirNotify::emitFilesAdded( (*it).url() );
       }
       broadcastUnlock();
     }
@@ -601,7 +595,7 @@ bool KonqUndoManager::initializeFromKDesky()
   // undo for now! (Simon)
   // ### FIXME: post 2.1
   return false;
-
+#if 0
   DCOPClient *client = kapp->dcopClient();
 
   if ( client->appId() == "kdesktop" ) // we are master :)
@@ -612,6 +606,7 @@ bool KonqUndoManager::initializeFromKDesky()
 
   d->m_commands = DCOPRef( "kdesktop", "KonqUndoManager" ).call( "get" );
   return true;
+#endif
 }
 
 QDataStream &operator<<( QDataStream &stream, const KonqBasicOperation &op )
