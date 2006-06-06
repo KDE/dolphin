@@ -25,9 +25,9 @@
 ProgressDialog::ProgressDialog(QWidget* parent, const QString& caption, const QString& text, int totalSteps)
     : KProgressDialog(parent, caption, text, false)
 {
-	(void)new ProgressdialogAdaptor(this);
-	QDBus::sessionBus().registerObject(QLatin1String("/ProgressDialog"), this);
-	QDBus::sessionBus().busService()->requestName("org.kde.kdialog", /*flags=*/0);
+    (void)new ProgressDialogAdaptor( this );
+    QDBus::sessionBus().registerObject( QLatin1String("/ProgressDialog"), this );
+    QDBus::sessionBus().busService()->requestName( "org.kde.kdialog", /*flags=*/0 );
     setAutoClose( false );
     progressBar()->setMaximum( totalSteps );
     showCancelButton( false );

@@ -1,0 +1,17 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.kdialog.ProgressDialog">
+    <property name="maximum" type="i" access="readwrite"/>
+    <property name="value" type="i" access="readwrite"/>
+    <property name="label" type="s" access="write"/>
+    <property name="autoClose" type="b" access="readwrite"/>
+    <method name="showCancelButton">
+      <arg name="value" type="b" direction="in"/>
+    </method>
+    <method name="wasCancelled">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="close"/>
+  </interface>
+</node>
