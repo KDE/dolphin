@@ -4,7 +4,8 @@
 ########### next target ###############
 
 set(kdialog_SRCS 
-   kdialog.cpp 
+   kdialogadaptor.cpp
+	kdialog.cpp 
    widgets.cpp 
    klistboxdialog.cpp 
    progressdialog.cpp )

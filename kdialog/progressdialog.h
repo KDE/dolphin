@@ -20,9 +20,8 @@
 #define PROGRESSDIALOG_H
 
 #include <kprogressbar.h>
-#include "progressdialogiface.h"
 #include <kprogressdialog.h>
-class ProgressDialog : public KProgressDialog, virtual public ProgressDialogIface
+class ProgressDialog : public KProgressDialog
 {
     Q_OBJECT
 

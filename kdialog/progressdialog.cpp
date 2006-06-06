@@ -16,15 +16,18 @@
 //  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 
-#include <dcopclient.h>
 #include "progressdialog.h"
 #include "kdebug.h"
 #include "widgets.h"
 #include <kprogressdialog.h>
+#include "kdialogadaptor.h" 
 
 ProgressDialog::ProgressDialog(QWidget* parent, const QString& caption, const QString& text, int totalSteps)
-    : DCOPObject( "ProgressDialog" ), KProgressDialog(parent, caption, text, false)
+    : KProgressDialog(parent, caption, text, false)
 {
+	(void)new ProgressdialogAdaptor(this);
+	QDBus::sessionBus().registerObject(QLatin1String("/ProgressDialog"), this);
+	QDBus::sessionBus().busService()->requestName("org.kde.kdialog", /*flags=*/0);
     setAutoClose( false );
     progressBar()->setMaximum( totalSteps );
     showCancelButton( false );
