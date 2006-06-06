@@ -5,12 +5,12 @@
 
 #include <QLayout>
 #include <QTabWidget>
+#include <dbus/qdbus.h>
 
 #include <klocale.h>
 #include <kapplication.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
-#include <dcopref.h>
 
 #include "kcookiesmain.h"
 #include "kcookiespolicies.h"
@@ -22,10 +22,10 @@ KCookiesMain::KCookiesMain(KInstance *inst, QWidget *parent)
     management = 0;
     bool managerOK = true;
 
-    DCOPReply reply = DCOPRef( "kded", "kded" ).call( "loadModule", 
-        DCOPCString( "kcookiejar" ) );
+    QDBusInterfacePtr kded("org.kde.kded", "/kded", "org.kde.kded.Kded");
+    QDBusReply<bool> reply = kded->call("loadModule",QString( "kcookiejar" ) );
 
-    if( !reply.isValid() )
+    if( !reply.isSuccess() )
     {
        managerOK = false;
        kDebug(7103) << "kcm_kio: KDED could not load KCookiejar!" << endl;
@@ -33,7 +33,7 @@ KCookiesMain::KCookiesMain(KInstance *inst, QWidget *parent)
                              "You will not be able to manage the cookies that "
                              "are stored on your computer."));
     }
-    
+
     QVBoxLayout *layout = new QVBoxLayout(this);
     tab = new QTabWidget(this);
     layout->addWidget(tab);
@@ -71,7 +71,7 @@ void KCookiesMain::save()
 void KCookiesMain::defaults()
 {
   KCModule* module = static_cast<KCModule*>(tab->currentWidget());
-  
+
   if ( module == policies )
     policies->defaults();
   else if( management )

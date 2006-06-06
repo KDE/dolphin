@@ -24,7 +24,6 @@
 #include <QLayout>
 #include <QLabel>
 
-#include <dcopclient.h>
 #include <klocale.h>
 
 #include "filteropts.h"
@@ -46,7 +45,7 @@ FilterOptions::FilterOptions(KInstance *inst, QWidget *parent)
 
 void FilterOptions::load()
 {
-	
+
 }
 
 void FilterOptions::save()

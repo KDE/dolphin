@@ -31,7 +31,6 @@
 #include <QVBoxLayout>
 #include <Q3ButtonGroup>
 
-#include <dcopclient.h>
 
 #include <kapplication.h>
 #include <kconfig.h>

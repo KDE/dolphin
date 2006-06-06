@@ -30,6 +30,8 @@
 #include <QVBoxLayout>
 #include <QList>
 
+#include <dbus/qdbus.h>
+
 #include <kidna.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -39,7 +41,6 @@
 #include <k3listview.h>
 #include <k3listviewsearchline.h>
 #include <kmessagebox.h>
-#include <dcopref.h>
 
 #include "kcookiesmain.h"
 #include "kcookiespolicies.h"
@@ -109,10 +110,10 @@ KCookiesManagement::KCookiesManagement(KInstance *inst, QWidget *parent)
   mainLayout->setSpacing(KDialog::spacingHint());
 
   dlg = new KCookiesManagementDlgUI (this);
-  
+
   dlg->tbClearSearchLine->setIcon(SmallIconSet(QApplication::isRightToLeft() ? "clear_left" : "locationbar_erase"));
   dlg->kListViewSearchLine->setListView(dlg->lvCookies);
-  
+
   mainLayout->addWidget(dlg);
   dlg->lvCookies->setSorting(0);
 
@@ -147,44 +148,40 @@ void KCookiesManagement::save()
   // If delete all cookies was requested!
   if(m_bDeleteAll)
   {
-    if(!DCOPRef("kded", "kcookiejar").send("deleteAllCookies"))
+      QDBusInterfacePtr kded("org.kde.kded", "/Kcookiejar", "org.kde.kded.kcookiejar");
+      QDBusReply<void> reply = kded->call( "deleteAllCookies" );
+    if (!reply.isSuccess())
     {
-      QString caption = i18n ("DCOP Communication Error");
+      QString caption = i18n ("DBUS Communication Error");
       QString message = i18n ("Unable to delete all the cookies as requested.");
       KMessageBox::sorry (this, caption, message);
       return;
     }
-    
-    m_bDeleteAll = false; // deleted[Cookies|Domains] have been cleared yet    
+
+    m_bDeleteAll = false; // deleted[Cookies|Domains] have been cleared yet
   }
 
   // Certain groups of cookies were deleted...
   QStringList::Iterator dIt = deletedDomains.begin();
   while( dIt != deletedDomains.end() )
   {
-    QByteArray call;
-    QByteArray reply;
-    DCOPCString replyType;
-    QDataStream callStream(&call, QIODevice::WriteOnly);
-
-    callStream.setVersion(QDataStream::Qt_3_1);
-    callStream << *dIt;
-
-    if( !DCOPRef("kded", "kcookiejar").send("deleteCookiesFromDomain", (*dIt)) )
+    QDBusInterfacePtr kded("org.kde.kded", "/Kcookiejar", "org.kde.kded.kcookiejar");
+    QDBusReply<void> reply = kded->call( "deleteCookiesFromDomain",( *dIt ) );
+    if( !reply.isSuccess() )
     {
-      QString caption = i18n ("DCOP Communication Error");
+      QString caption = i18n ("DBUS Communication Error");
       QString message = i18n ("Unable to delete cookies as requested.");
       KMessageBox::sorry (this, caption, message);
       return;
     }
-    
+
     dIt = deletedDomains.erase(dIt);
   }
 
   // Individual cookies were deleted...
   bool success = true; // Maybe we can go on...
   Q3DictIterator<CookiePropList> cookiesDom(deletedCookies);
-  
+
   while(cookiesDom.current())
   {
     CookiePropList *list = cookiesDom.current();
@@ -192,23 +189,25 @@ void KCookiesManagement::save()
 
     while(*cookie)
     {
-      if( !DCOPRef("kded", "kcookiejar").send("deleteCookie",(*cookie)->domain,
+        QDBusInterfacePtr kded("org.kde.kded", "/Kcookiejar", "org.kde.kded.kcookiejar");
+        QDBusReply<void> reply = kded->call( "deleteCookie",(*cookie)->domain,
                                               (*cookie)->host, (*cookie)->path,
-                                              (*cookie)->name) )
+                                             (*cookie)->name );
+        if( !reply.isSuccess() )
       {
         success = false;
         break;
       }
-      
+
       list->removeRef(*cookie);
     }
 
     if(!success)
       break;
-    
+
     deletedCookies.remove(cookiesDom.currentKey());
   }
-  
+
   emit changed( false );
 }
 
@@ -223,7 +222,7 @@ void KCookiesManagement::reset(bool deleteAll)
 {
   if ( !deleteAll )
     m_bDeleteAll = false;
-  
+
   clearCookieDetails();
   dlg->lvCookies->clear();
   deletedDomains.clear();
@@ -250,9 +249,9 @@ QString KCookiesManagement::quickHelp() const
 
 void KCookiesManagement::getDomains()
 {
-  DCOPReply reply = DCOPRef("kded", "kcookiejar").call("findDomains");
-
-  if( !reply.isValid() )
+    QDBusInterfacePtr kded("org.kde.kded", "/Kcookiejar", "org.kde.kded.kcookiejar");
+    QDBusReply<QStringList> reply = kded->call( "findDomains" );
+  if( !reply.isSuccess() )
   {
     QString caption = i18n ("Information Lookup Failure");
     QString message = i18n ("Unable to retrieve information about the "
@@ -260,7 +259,7 @@ void KCookiesManagement::getDomains()
     KMessageBox::sorry (this, caption, message);
     return;
   }
-  
+
   QStringList domains = reply;
 
   if ( dlg->lvCookies->childCount() )
@@ -288,14 +287,13 @@ void KCookiesManagement::getCookies(Q3ListViewItem *cookieDom)
 
   QList<int> fields;
   fields << 0 << 1 << 2 << 3;
+  QDBusInterfacePtr kded("org.kde.kded", "/Kcookiejar", "org.kde.kded.kcookiejar");
+  QDBusReply<QStringList> reply = kded->call( "findCookies", fields, ckd->domain(),
+                                          QString(),
+                                          QString(),
+                                          QString() );
 
-  DCOPReply reply = DCOPRef ("kded", "kcookiejar").call ("findCookies",
-                                                         DCOPArg(fields, "QValueList<int>"),
-                                                         ckd->domain(),
-                                                         QString(),
-                                                         QString(),
-                                                         QString());
-  if(reply.isValid())
+  if(reply.isSuccess())
   {
     QStringList fieldVal = reply;
     QStringList::Iterator fIt = fieldVal.begin();
@@ -320,13 +318,13 @@ bool KCookiesManagement::cookieDetails(CookieProp *cookie)
   QList<int> fields;
   fields << 4 << 5 << 7;
 
-  DCOPReply reply = DCOPRef ("kded", "kcookiejar").call ("findCookies",
-                                                         DCOPArg(fields, "QValueList<int>"),
-                                                         cookie->domain,
-                                                         cookie->host,
-                                                         cookie->path,
-                                                         cookie->name);
-  if( !reply.isValid() )
+  QDBusInterfacePtr kded("org.kde.kded", "/Kcookiejar", "org.kde.kded.kcookiejar");
+  QDBusReply<QStringList> reply = kded->call( "findCookies", fields,
+                                          cookie->domain,
+                                          cookie->host,
+                                          cookie->path,
+                                          cookie->name);
+  if( !reply.isSuccess() )
     return false;
 
   QStringList fieldVal = reply;

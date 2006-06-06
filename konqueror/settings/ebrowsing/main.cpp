@@ -29,7 +29,6 @@
 //Added by qt3to4:
 #include <QVBoxLayout>
 
-#include <dcopclient.h>
 #include <kdialog.h>
 #include <kurifilter.h>
 #include <kgenericfactory.h>
