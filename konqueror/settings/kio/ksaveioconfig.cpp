@@ -17,12 +17,12 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <dcopref.h>
 #include <kconfig.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstaticdeleter.h>
 #include <kio/ioslave_defaults.h>
+#include <dbus/qdbus.h>
 
 #include "ksaveioconfig.h"
 
@@ -234,6 +234,8 @@ void KSaveIOConfig::updateRunningIOSlaves (QWidget *parent)
 {
   // Inform all running io-slaves about the changes...
   // if we cannot update, ioslaves inform the end user...
+#warning "kde4: port it to new dbus call"
+#if 0
   if (!DCOPRef("*", "KIO::Scheduler").send("reparseSlaveConfiguration", QString()))
   {
     QString caption = i18n("Update Failed");
@@ -242,13 +244,16 @@ void KSaveIOConfig::updateRunningIOSlaves (QWidget *parent)
     KMessageBox::information (parent, message, caption);
     return;
   }
+#endif
 }
 
 void KSaveIOConfig::updateProxyScout( QWidget * parent )
 {
   // Inform the proxyscout kded module about changes
   // if we cannot update, ioslaves inform the end user...
-  if (!DCOPRef("kded", "proxyscout").send("reset"))
+    QDBusInterfacePtr kded("org.kde.kded", "/Proxyscout", "org.kde.kded.ProxyScout");
+    QDBusReply<void> reply = kded->call( "reset" );
+  if (!reply.isSuccess())
   {
     QString caption = i18n("Update Failed");
     QString message = i18n("You have to restart KDE "
