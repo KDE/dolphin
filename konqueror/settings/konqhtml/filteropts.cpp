@@ -21,7 +21,6 @@
 #include <kglobal.h>
 #include <kaboutdata.h>
 #include <kfiledialog.h>
-#include <dcopclient.h>
 #include <Q3ListBox>
 #include <QLayout>
 #include <QPushButton>
@@ -244,7 +243,10 @@ void KCMFilter::save()
     mConfig->writeEntry("Count",mListBox->count());
 
     mConfig->sync();
+#warning "kde4: port to konqueror*"
+#if 0
     DCOPClient::mainClient()->send("konqueror*","KonquerorIface","reparseConfiguration()",QByteArray());
+#endif
 
 }
 

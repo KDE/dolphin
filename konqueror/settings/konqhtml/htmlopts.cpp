@@ -21,7 +21,6 @@
 #include <kseparator.h>
 
 #include <kapplication.h>
-#include <dcopclient.h>
 
 
 #include "htmlopts.moc"
@@ -365,12 +364,10 @@ void KMiscHTMLOptions::save()
     config.writeEntry("AdvancedAddBookmarkDialog", m_pAdvancedAddBookmarkCheckBox->isChecked());
     config.writeEntry("FilteredToolbar", m_pOnlyMarkedBookmarksCheckBox->isChecked());
     config.sync();
-
-  QByteArray data;
-  if ( !kapp->dcopClient()->isAttached() )
-    kapp->dcopClient()->attach();
+#warning "kde4: port to dbus call konqueror*"
+#if 0
   kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
-
+#endif
     emit changed(false);
 }
 

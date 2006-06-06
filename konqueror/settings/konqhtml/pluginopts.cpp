@@ -15,7 +15,6 @@
 #include <q3groupbox.h>
 #include <QTextStream>
 
-#include <dcopclient.h>
 #include <kapplication.h>
 #include <kdebug.h>
 #include <kfiledialog.h>
@@ -268,12 +267,10 @@ void KPluginOptions::save()
 
     m_pConfig->sync();	// I need a sync here, otherwise "apply" won't work
     			// instantly
-
-  QByteArray data;
-  if ( !kapp->dcopClient()->isAttached() )
-    kapp->dcopClient()->attach();
+#warning "kde4: port to dbus call konqueror*"
+#if 0
   kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
-
+#endif
 /*****************************************************************************/
 
     KConfig *config= new KConfig("kcmnspluginrc", false);
@@ -634,7 +631,7 @@ void KPluginOptions::pluginSave( KConfig* /*config*/ )
 // == class PluginDomainDialog =====
 
 PluginDomainDialog::PluginDomainDialog(QWidget *parent) :
-	QWidget(parent) 
+	QWidget(parent)
 {
   setObjectName("PluginDomainDialog");
   setWindowTitle(i18n("Domain-Specific Policies"));

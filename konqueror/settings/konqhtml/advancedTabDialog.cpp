@@ -25,7 +25,6 @@
 #include <QSlider>
 
 #include <kapplication.h>
-#include <dcopclient.h>
 #include <kcolorbutton.h>
 #include <klocale.h>
 #include <kconfig.h>
@@ -105,11 +104,10 @@ void advancedTabDialog::save()
     if ( m_advancedWidget->m_pTabConfirm->isChecked() ) m_pConfig->deleteEntry( "MultipleTabConfirm" );
     else m_pConfig->writeEntry( "MultipleTabConfirm", true );
 
-    QByteArray data;
-    if ( !KApplication::kApplication()->dcopClient()->isAttached() )
-      kapp->dcopClient()->attach();
+#warning "kde4: port konqueror* dcop call"
+#if 0
     KApplication::kApplication()->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
-
+#endif
     actionButton(Apply)->setEnabled(false);
 }
 

@@ -26,7 +26,6 @@
 #include <unistd.h>
 
 #include <kapplication.h>
-#include <dcopclient.h>
 #include <QTabWidget>
 #include <QLayout>
 
@@ -101,7 +100,7 @@ KJSParts::KJSParts(KConfig *config, KInstance *inst, QWidget *parent)
   about->addAuthor("Dirk Mueller",0,"mueller@kde.org");
   about->addAuthor("Daniel Molkentin",0,"molkentin@kde.org");
   about->addAuthor("Wynn Wilkes",0,"wynnw@caldera.com");
-  
+
   about->addCredit("Leo Savernik",I18N_NOOP("JavaScript access controls\n"
     			"Per-domain policies extensions"),
 			"l.savernik@aon.at");
@@ -138,7 +137,7 @@ void KJSParts::save()
 {
   javascript->save();
   java->save();
-  
+
   // delete old keys after they have been migrated
   if (javascript->_removeJavaScriptDomainAdvice
       || java->_removeJavaScriptDomainAdvice) {
@@ -147,15 +146,15 @@ void KJSParts::save()
     javascript->_removeJavaScriptDomainAdvice = false;
     java->_removeJavaScriptDomainAdvice = false;
   }
-  
+
   mConfig->sync();
 
   // Send signal to konqueror
   // Warning. In case something is added/changed here, keep kfmclient in sync
-  QByteArray data;
-  if ( !kapp->dcopClient()->isAttached() )
-    kapp->dcopClient()->attach();
+#warning "kde4: port to dbus call konqueror*"
+#if 0
   kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
+#endif
 }
 
 

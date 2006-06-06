@@ -4,7 +4,6 @@
 #include <QLayout>
 #include <q3groupbox.h>
 
-#include <dcopclient.h>
 
 #include <kapplication.h>
 #include <kcharsets.h>
@@ -402,12 +401,10 @@ void KAppearanceOptions::save()
         encodingName = "";
     m_pConfig->writeEntry( "DefaultEncoding", encodingName );
     m_pConfig->sync();
-
-  QByteArray data;
-  if ( !kapp->dcopClient()->isAttached() )
-    kapp->dcopClient()->attach();
+#warning "kde4: port to dbus call konqueror*"
+#if 0
   kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
-
+#endif
   emit changed(false);
 }
 
