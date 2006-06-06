@@ -18,9 +18,8 @@
 
 #include "konqueror.h"
 
-#include <dcopref.h>
 #include <kconfig.h>
-
+#include <dbus/qdbus.h>
 #include <QRadioButton>
 #include <QSpinBox>
 #include <QLabel>
@@ -130,10 +129,13 @@ void Konqueror::save()
     cfg.writeEntry( "PreloadOnStartup", cb_preload_on_startup->isChecked() && count >= 1 );
     cfg.writeEntry( "AlwaysHavePreloaded", cb_always_have_preloaded->isChecked() && count >= 2 );
     cfg.sync();
+#warning "kde4: port it konqueror*"
+#if 0
     DCOPRef ref1( "konqueror*", "KonquerorIface" );
     ref1.send( "reparseConfiguration()" );
-    DCOPRef ref2( "kded", "konqy_preloader" );
-    ref2.send( "reconfigure()" );
+#endif
+    QDBusInterfacePtr kded("org.kde.kded", "/Konqy_preloader", "org.kde.kded.Konqy_proxy");
+    kded->call( "reconfigure" );
     }
 
 void Konqueror::defaults()
