@@ -251,7 +251,7 @@ void KSaveIOConfig::updateProxyScout( QWidget * parent )
 {
   // Inform the proxyscout kded module about changes
   // if we cannot update, ioslaves inform the end user...
-    QDBusInterfacePtr kded("org.kde.kded", "/Proxyscout", "org.kde.kded.ProxyScout");
+    QDBusInterfacePtr kded("org.kde.kded", "/modules/Proxyscout", "org.kde.kded.ProxyScout");
     QDBusReply<void> reply = kded->call( "reset" );
   if (!reply.isSuccess())
   {

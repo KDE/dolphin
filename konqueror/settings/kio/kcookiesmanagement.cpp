@@ -148,7 +148,7 @@ void KCookiesManagement::save()
   // If delete all cookies was requested!
   if(m_bDeleteAll)
   {
-      QDBusInterfacePtr kded("org.kde.kded", "/Kcookiejar", "org.kde.kded.kcookiejar");
+      QDBusInterfacePtr kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
       QDBusReply<void> reply = kded->call( "deleteAllCookies" );
     if (!reply.isSuccess())
     {
@@ -165,7 +165,7 @@ void KCookiesManagement::save()
   QStringList::Iterator dIt = deletedDomains.begin();
   while( dIt != deletedDomains.end() )
   {
-    QDBusInterfacePtr kded("org.kde.kded", "/Kcookiejar", "org.kde.kded.kcookiejar");
+    QDBusInterfacePtr kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
     QDBusReply<void> reply = kded->call( "deleteCookiesFromDomain",( *dIt ) );
     if( !reply.isSuccess() )
     {
@@ -189,7 +189,7 @@ void KCookiesManagement::save()
 
     while(*cookie)
     {
-        QDBusInterfacePtr kded("org.kde.kded", "/Kcookiejar", "org.kde.kded.kcookiejar");
+        QDBusInterfacePtr kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
         QDBusReply<void> reply = kded->call( "deleteCookie",(*cookie)->domain,
                                               (*cookie)->host, (*cookie)->path,
                                              (*cookie)->name );
@@ -249,7 +249,7 @@ QString KCookiesManagement::quickHelp() const
 
 void KCookiesManagement::getDomains()
 {
-    QDBusInterfacePtr kded("org.kde.kded", "/Kcookiejar", "org.kde.kded.kcookiejar");
+    QDBusInterfacePtr kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
     QDBusReply<QStringList> reply = kded->call( "findDomains" );
   if( !reply.isSuccess() )
   {
@@ -287,7 +287,7 @@ void KCookiesManagement::getCookies(Q3ListViewItem *cookieDom)
 
   QList<int> fields;
   fields << 0 << 1 << 2 << 3;
-  QDBusInterfacePtr kded("org.kde.kded", "/Kcookiejar", "org.kde.kded.kcookiejar");
+  QDBusInterfacePtr kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
   QDBusReply<QStringList> reply = kded->call( "findCookies", fields, ckd->domain(),
                                           QString(),
                                           QString(),
@@ -318,7 +318,7 @@ bool KCookiesManagement::cookieDetails(CookieProp *cookie)
   QList<int> fields;
   fields << 4 << 5 << 7;
 
-  QDBusInterfacePtr kded("org.kde.kded", "/Kcookiejar", "org.kde.kded.kcookiejar");
+  QDBusInterfacePtr kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
   QDBusReply<QStringList> reply = kded->call( "findCookies", fields,
                                           cookie->domain,
                                           cookie->host,
