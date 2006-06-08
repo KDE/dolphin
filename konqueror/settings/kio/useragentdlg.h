@@ -1,6 +1,6 @@
 /*
    Original Authors:
-   Copyright (c) Kalle Dalheimer 1997
+   Copyright (c) Kalle Dalheimer <kalle@kde.org> 1997
    Copyright (c) David Faure <faure@kde.org> 1998
    Copyright (c) Dirk Mueller <mueller@kde.org> 2000
 
