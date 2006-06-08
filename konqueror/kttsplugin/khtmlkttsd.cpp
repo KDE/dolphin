@@ -29,7 +29,6 @@
 #include <QBuffer>
 
 #include <kapplication.h>
-#include <dcopclient.h>
 #include <kservicetypetrader.h>
 #include <ktoolinvocation.h>
 

@@ -30,7 +30,6 @@
 #include <kstandarddirs.h>
 #include <klocale.h>
 
-#include <dcopclient.h>
 
 #include <QDir>
 #include <qdom.h>
@@ -76,9 +75,6 @@ int main( int argc, char**argv )
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( cmdLineOptions );
 
-	if ( !kdeRunning ) {
-		KApplication::disableAutoDcopRegistration();
-	}
 	KApplication app( false );
 	app.disableSessionManagement();
 
