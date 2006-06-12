@@ -523,48 +523,30 @@ void KNewMenu::slotResult( KJob * job )
 //////////
 
 KUrlDesktopFileDlg::KUrlDesktopFileDlg( const QString& textFileName, const QString& textUrl )
-    : KPageDialog()
-// KDialogBase( Plain, QString(), Ok|Cancel|User1, Ok, 0L /*parent*/, 0L, true,
-//                   true, KStdGuiItem::clear() )
+    : KDialogBase( Plain, QString(), Ok|Cancel|User1, Ok, 0L /*parent*/, 0L, true,
+                   true, KStdGuiItem::clear() )
 {
-    setFaceType(Plain);
-    
-    setCaption(QString());
-    setButtons( KDialog::Ok | KDialog::Cancel | KDialog::User1 );
-    setDefaultButton( KDialog::Ok );
-    setButtonText( KDialog::User1, "Clear" );
-    
     initDialog( textFileName, QString(), textUrl, QString() );
 }
 
 KUrlDesktopFileDlg::KUrlDesktopFileDlg( const QString& textFileName, const QString& textUrl, QWidget *parent )
-    : KPageDialog(parent)
-//    : KDialogBase( Plain, QString(), Ok|Cancel|User1, Ok, parent, 0L, true,
-//                   true, KStdGuiItem::clear() )
+    : KDialogBase( Plain, QString(), Ok|Cancel|User1, Ok, parent, 0L, true,
+                   true, KStdGuiItem::clear() )
 {
-    setFaceType(Plain);
-	
-    setCaption(QString());
-    setButtons( KDialog::Ok | KDialog::Cancel | KDialog::User1 );
-    setDefaultButton( KDialog::Ok );
-    setButtonText( KDialog::User1, "Clear" );
-
     initDialog( textFileName, QString(), textUrl, QString() );
 }
 
 void KUrlDesktopFileDlg::initDialog( const QString& textFileName, const QString& defaultName, const QString& textUrl, const QString& defaultUrl )
 {
-    KPageWidgetItem *page = new KPageWidgetItem( new QLabel(""), i18n("") );
-	
-    QVBoxLayout * topLayout = new QVBoxLayout( page->widget() );
+    QVBoxLayout * topLayout = new QVBoxLayout( plainPage() );
     topLayout->setMargin( 0 );
     topLayout->setSpacing( spacingHint() );
 
     // First line: filename
-    KHBox *fileNameBox = new KHBox( page->widget() );
+    KHBox * fileNameBox = new KHBox( plainPage() );
     topLayout->addWidget( fileNameBox );
 
-    QLabel *label = new QLabel( textFileName, fileNameBox );
+    QLabel * label = new QLabel( textFileName, fileNameBox );
     m_leFileName = new KLineEdit( fileNameBox );
     m_leFileName->setMinimumWidth(m_leFileName->sizeHint().width() * 3);
     label->setBuddy(m_leFileName);  // please "scheck" style
@@ -574,7 +556,7 @@ void KUrlDesktopFileDlg::initDialog( const QString& textFileName, const QString&
              SLOT(slotNameTextChanged(const QString&)) );
 
     // Second line: url
-    KHBox * urlBox = new KHBox( page->widget() );
+    KHBox * urlBox = new KHBox( plainPage() );
     topLayout->addWidget( urlBox );
     label = new QLabel( textUrl, urlBox );
     m_urlRequester = new KUrlRequester( defaultUrl, urlBox);
@@ -590,8 +572,6 @@ void KUrlDesktopFileDlg::initDialog( const QString& textFileName, const QString&
     enableButtonOK( !defaultName.isEmpty() && !defaultUrl.isEmpty() );
     connect( this, SIGNAL(user1Clicked()), this, SLOT(slotClear()) );
     m_fileNameEdited = false;
-
-    addPage(page);
 }
 
 QString KUrlDesktopFileDlg::url() const

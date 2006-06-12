@@ -26,6 +26,7 @@
 #include <kio/paste.h>
 #include <kapplication.h>
 #include <kaction.h>
+#include <kdatastream.h>
 #include <kdebug.h>
 #include <kdirlister.h>
 #include <kiconloader.h>
