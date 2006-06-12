@@ -26,7 +26,7 @@
 #include <QList>
 #include <kactionmenu.h>
 #include <kactionmenu.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <kurl.h>
 #include <libkonq_export.h>
 
@@ -189,7 +189,7 @@ private:
  * Basically a merge of KLineEditDlg and KUrlRequesterDlg ;)
  * @author David Faure <faure@kde.org>
  */
-class KUrlDesktopFileDlg : public KDialogBase
+class KUrlDesktopFileDlg : public KPageDialog
 {
     Q_OBJECT
 public:
