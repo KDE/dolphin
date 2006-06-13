@@ -1,3 +1,4 @@
+/* -*- c-basic-offset:2 -*- */
 /* This file is part of the KDE project
    Copyright (C) 2000 Simon Hausmann <hausmann@kde.org>
 
@@ -18,8 +19,8 @@
 */
 
 #include "konq_undo.h"
+#include "konq_undoadaptor.h"
 #include "kio/observer.h"
-#undef Always
 #include <dbus/qdbus.h>
 #include <kdirnotify.h>
 
@@ -33,9 +34,6 @@
 #include <kipc.h>
 
 #include <kio/job.h>
-
-inline const char *dcopTypeName( const KonqCommand & ) { return "KonqCommand"; }
-inline const char *dcopTypeName( const KonqCommand::Stack & ) { return "KonqCommand::Stack"; }
 
 /**
  * checklist:
@@ -186,9 +184,12 @@ public:
 };
 
 KonqUndoManager::KonqUndoManager()
-//DCOPObject( "KonqUndoManager" )
 {
-
+  KonqUndoManagerAdaptor* dbusAdaptor = new KonqUndoManagerAdaptor( this );
+  connect( dbusAdaptor, SIGNAL(lock()), this, SLOT(lock()) );
+  connect( dbusAdaptor, SIGNAL(pop()), this, SLOT(pop()) );
+  connect( dbusAdaptor, SIGNAL(push(QByteArray)), this, SLOT(push(QByteArray)) );
+  connect( dbusAdaptor, SIGNAL(unlock()), this, SLOT(unlock()) );
   d = new KonqUndoManagerPrivate;
   d->m_syncronized = initializeFromKDesky();
   d->m_lock = false;
@@ -501,62 +502,73 @@ void KonqUndoManager::undoRemovingDirectories()
     }
 }
 
-void KonqUndoManager::push( const KonqCommand &cmd )
+void KonqUndoManager::slotPush( QByteArray data )
+{
+  QDataStream strm( &data, QIODevice::ReadOnly );
+  KonqCommand cmd;
+  strm >> cmd;
+  pushCommand( cmd );
+}
+
+void KonqUndoManager::pushCommand( const KonqCommand& cmd )
 {
   d->m_commands.push( cmd );
   emit undoAvailable( true );
   emit undoTextChanged( undoText() );
 }
 
-void KonqUndoManager::pop()
+void KonqUndoManager::slotPop()
 {
   d->m_commands.pop();
   emit undoAvailable( undoAvailable() );
   emit undoTextChanged( undoText() );
 }
 
-void KonqUndoManager::lock()
+void KonqUndoManager::slotLock()
 {
 //  assert( !d->m_lock );
   d->m_lock = true;
   emit undoAvailable( undoAvailable() );
 }
 
-void KonqUndoManager::unlock()
+void KonqUndoManager::slotUnlock()
 {
 //  assert( d->m_lock );
   d->m_lock = false;
   emit undoAvailable( undoAvailable() );
 }
 
-KonqCommand::Stack KonqUndoManager::get() const
+QByteArray KonqUndoManager::get() const
 {
-  return d->m_commands;
+  QByteArray data;
+  QDataStream stream( &data, QIODevice::WriteOnly );
+  stream << d->m_commands;
+  return data;
 }
 
 void KonqUndoManager::broadcastPush( const KonqCommand &cmd )
 {
   if ( !d->m_syncronized )
   {
-    push( cmd );
+    pushCommand( cmd );
     return;
   }
 
-  DCOPRef( "kdesktop", "KonqUndoManager" ).send( "push", cmd );
-  DCOPRef( "konqueror*", "KonqUndoManager" ).send( "push", cmd );
+  QByteArray data;
+  QDataStream stream( &data, QIODevice::WriteOnly );
+  stream << cmd;
+  emit push( data ); // DBUS signal
 }
 
 void KonqUndoManager::broadcastPop()
 {
   if ( !d->m_syncronized )
   {
-    pop();
+    slotPop();
     return;
   }
-  QDBusInterfacePtr kdesktop("org.kde.kdesktop","/KonqUndoManager");
-  kdesktop->call("pop");
-  DCOPRef( "kdesktop", "KonqUndoManager" ).send( "pop" );
-  DCOPRef( "konqueror*", "KonqUndoManager" ).send( "pop" );
+
+  emit pop(); // DBUS signal
 }
 
 void KonqUndoManager::broadcastLock()
@@ -565,11 +577,10 @@ void KonqUndoManager::broadcastLock()
 
   if ( !d->m_syncronized )
   {
-    lock();
+    slotLock();
     return;
   }
-  DCOPRef( "kdesktop", "KonqUndoManager" ).send( "lock" );
-  DCOPRef( "konqueror*", "KonqUndoManager" ).send( "lock" );
+  emit lock(); // DBUS signal
 }
 
 void KonqUndoManager::broadcastUnlock()
@@ -578,11 +589,10 @@ void KonqUndoManager::broadcastUnlock()
 
   if ( !d->m_syncronized )
   {
-    unlock();
+    slotUnlock();
     return;
   }
-  DCOPRef( "kdesktop", "KonqUndoManager" ).send( "unlock" );
-  DCOPRef( "konqueror*", "KonqUndoManager" ).send( "unlock" );
+  emit unlock(); // DBUS signal
 }
 
 bool KonqUndoManager::initializeFromKDesky()
@@ -594,6 +604,7 @@ bool KonqUndoManager::initializeFromKDesky()
   // of dcop. In order not to run into trouble we disable global
   // undo for now! (Simon)
   // ### FIXME: post 2.1
+  // TODO KDE4: port to DBUS and test
   return false;
 #if 0
   DCOPClient *client = kapp->dcopClient();

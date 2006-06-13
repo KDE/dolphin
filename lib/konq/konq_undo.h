@@ -1,3 +1,4 @@
+/* -*- c-basic-offset:2 -*- */
 /* This file is part of the KDE project
    Copyright (C) 2000 Simon Hausmann <hausmann@kde.org>
 
@@ -58,6 +59,8 @@ struct KonqCommand
 
   KonqCommand()
   { m_valid = false; }
+  //KonqCommand( Type type, KonqBasicOperation::Stack& opStack, const KUrl::List& src, const KUrl& dest )
+  //  : m_type( type ), m_opStack( opStack ), m_src( src ), m_dest( dest ) {}
 
   bool m_valid;
 
@@ -108,6 +111,12 @@ public Q_SLOTS:
   void undo();
 
 Q_SIGNALS:
+  // The four signals below are emitted to dbus
+  void push( const QByteArray &command );
+  void pop();
+  void lock();
+  void unlock();
+
   void undoAvailable( bool avail );
   void undoTextChanged( const QString &text );
 
@@ -118,16 +127,18 @@ protected:
   void stopUndo( bool step );
 
 private Q_SLOTS:
-  void push( const KonqCommand &cmd );
-  void pop();
-  void lock();
-  void unlock();
+  // Those four are connected to DBUS signals
+  void slotPush( QByteArray command ); // const ref doesn't work due to QDataStream
+  void slotPop();
+  void slotLock();
+  void slotUnlock();
+  QByteArray get() const;
 
-  virtual KonqCommand::Stack get() const;
-
+private Q_SLOTS:
   void slotResult( KJob *job );
 
 private:
+  void pushCommand( const KonqCommand& cmd );
   void undoStep();
 
   void undoMakingDirectories();

@@ -1,0 +1,15 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.libkonq.UndoManager">
+    <method name="get">
+      <arg name="commands" type="ay" direction="out"/>
+    </method>
+    <signal name="lock"/>
+    <signal name="pop"/>
+    <signal name="push">
+      <arg name="command" type="ay" direction="out"/>
+    </signal>
+    <signal name="unlock"/>
+  </interface>
+</node>

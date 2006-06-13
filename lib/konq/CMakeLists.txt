@@ -1,35 +1,36 @@
 
 project(libkonq)
 
-add_subdirectory( pics ) 
-add_subdirectory( favicons ) 
-add_subdirectory( tests ) 
+add_subdirectory( pics )
+add_subdirectory( favicons )
+add_subdirectory( tests )
 
 include_directories( ${ZLIB_INCLUDE_DIR}  )
 
 
 ########### next target ###############
 
+# Please use .cpp for new file
 set(konq_LIB_SRCS
-   uiserveriface.cpp
-   konq_popupmenu.cc 
-   knewmenu.cc 
-   konq_xmlguiclient.cc 
-   kfileivi.cc 
-   konq_iconviewwidget.cc 
-   konq_settings.cc 
-   konq_operations.cc 
-   konq_dirpart.cc 
-   konq_propsview.cc 
-   konq_events.cc 
-   konq_bgnddlg.cc 
-   konq_undo.cc 
-   konq_historymgr.cc 
-   konq_historycomm.cc 
-   konq_pixmapprovider.cc 
-   kivdirectoryoverlay.cc 
-   konq_faviconmgr.cc 
-   konq_filetip.cc 
+   konq_popupmenu.cc
+   knewmenu.cc
+   konq_xmlguiclient.cc
+   kfileivi.cc
+   konq_iconviewwidget.cc
+   konq_settings.cc
+   konq_operations.cc
+   konq_dirpart.cc
+   konq_propsview.cc
+   konq_events.cc
+   konq_bgnddlg.cc
+   konq_undo.cc
+   konq_undoadaptor.cpp
+   konq_historymgr.cc
+   konq_historycomm.cc
+   konq_pixmapprovider.cc
+   kivdirectoryoverlay.cc
+   konq_faviconmgr.cc
+   konq_filetip.cc
    konqmimedata.cpp )
 
 kde4_automoc(${konq_LIB_SRCS})
@@ -89,7 +90,7 @@ install_files( ${SERVICETYPES_INSTALL_DIR} FILES konqpopupmenuplugin.desktop )
 #   kivdirectoryoverlay.cc \
 #   konq_faviconmgr.cc konq_faviconmgr.skel konq_filetip.cc konqmimedata.cpp
 #
-#directory_DATA = directory_bookmarkbar.desktop 
+#directory_DATA = directory_bookmarkbar.desktop
 #directorydir   = $(kde_datadir)/kbookmark
 #
 #servicetype_DATA = konqpopupmenuplugin.desktop
