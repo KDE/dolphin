@@ -6,7 +6,7 @@
 #include <kparts/part.h>
 #include <kparts/factory.h>
 #include <kparts/browserextension.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <QComboBox>
 #include <QStringList>
 #include <klocale.h>

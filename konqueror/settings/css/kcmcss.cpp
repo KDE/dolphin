@@ -10,7 +10,7 @@
 #include <kapplication.h>
 #include <kcolorbutton.h>
 #include <kconfig.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <kfontdialog.h>
 #include <kgenericfactory.h>
 #include <kglobalsettings.h>

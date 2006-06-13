@@ -37,7 +37,6 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-#include <kdialogbase.h>
 #include <klocale.h>
 #include <kfiledialog.h>
 #include <k3iconview.h>
