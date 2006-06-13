@@ -31,7 +31,6 @@
 #include "history_item.h"
 
 class KActionCollection;
-class KDialogBase;
 class KonqSidebarHistorySettings;
 class KonqSidebarTree;
 class KonqSidebarTreeItem;
@@ -96,7 +95,6 @@ private:
 
     KActionCollection *m_collection;
 
-    KDialogBase *m_dlg;
     QPixmap m_folderClosed;
     QPixmap m_folderOpen;
     bool m_initialized;

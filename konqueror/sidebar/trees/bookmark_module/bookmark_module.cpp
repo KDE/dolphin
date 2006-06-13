@@ -358,7 +358,7 @@ void KonqSidebarBookmarkModule::slotProperties(KonqSidebarBookmarkItem *bi)
     QString folder = bookmark.isGroup() ? QString() : bookmark.url().pathOrUrl();
     BookmarkEditDialog dlg( bookmark.fullText(), folder, 0, 0,
                             i18n("Bookmark Properties") );
-    if ( dlg.exec() != KDialogBase::Accepted )
+    if ( dlg.exec() != KDialog::Accepted )
         return;
 
     makeTextNodeMod(bookmark, "title", dlg.finalTitle());
@@ -523,12 +523,16 @@ KonqSidebarBookmarkItem * KonqSidebarBookmarkModule::findByAddress( const QStrin
 // Borrowed&modified from KBookmarkMenu...
 BookmarkEditDialog::BookmarkEditDialog(const QString& title, const QString& url,
                                        QWidget * parent, const char * name, const QString& caption )
-  : KDialogBase(parent, name, true, caption,
-                (Ok|Cancel),
-                Ok, false, KGuiItem()),
+  : KDialog( parent ),
     m_title(0), m_location(0)
 {
-    setButtonOK( i18n( "&Update" ) );
+    setObjectName( name );
+    setModal( true );
+    setCaption( caption );
+    setButtons( Ok|Cancel );
+    enableButtonSeparator( false );
+
+    setButtonText( Ok, i18n( "&Update" ) );
 
     QWidget *main = new QWidget( this );
     setMainWidget( main );
@@ -554,16 +558,6 @@ BookmarkEditDialog::BookmarkEditDialog(const QString& title, const QString& url,
         grid->addWidget(m_location, 1, 1);
     }
     main->setMinimumSize( 300, 0 );
-}
-
-void BookmarkEditDialog::slotOk()
-{
-    accept();
-}
-
-void BookmarkEditDialog::slotCancel()
-{
-    reject();
 }
 
 QString BookmarkEditDialog::finalUrl() const

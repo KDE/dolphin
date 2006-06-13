@@ -58,8 +58,14 @@ public:
 
 PolicyDlg::PolicyDlg (const QString& caption, QWidget *parent,
     const char *name)
-    : KDialogBase(parent, name, true, caption, Ok|Cancel, Ok, true)
+    : KDialog( parent )
 {
+  setObjectName( name );
+  setModal( true );
+  setCaption( caption );
+  setButtons( Ok|Cancel );
+  enableButtonSeparator( true );
+
   m_dlgUI = new PolicyDlgUI (this);
   setMainWidget(m_dlgUI);
 

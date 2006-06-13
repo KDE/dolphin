@@ -44,7 +44,6 @@ KonqSidebarHistoryModule::KonqSidebarHistoryModule( KonqSidebarTree * parentTree
     : QObject( 0L ), KonqSidebarTreeModule( parentTree ),
       m_dict( 349 ),
       m_topLevelItem( 0L ),
-      m_dlg( 0L ),
       m_initialized( false )
 {
     setObjectName( name );

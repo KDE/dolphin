@@ -27,9 +27,10 @@
 #include "klocale.h"
 
 KListBoxDialog::KListBoxDialog(const QString &text, QWidget *parent)
-    : KDialog( parent, QString(), KDialog::Ok|KDialog::Cancel )
+    : KDialog( parent )
 {
   setModal(true);
+  setButtons( Ok | Cancel );
   enableButtonSeparator(true);
 
   KVBox *page = new KVBox(this);

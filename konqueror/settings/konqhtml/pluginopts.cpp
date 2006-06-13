@@ -100,9 +100,12 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, KInstance *inst,
 
     globalGB->setLayout(vbox);
 
-    domainSpecificDlg = new KDialogBase(KDialogBase::Swallow,
-    			i18n("Domain-Specific Policies"),KDialogBase::Close,
-			KDialogBase::Close,this,"domainSpecificDlg", true);
+    domainSpecificDlg = new KDialog( this );
+    domainSpecificDlg->setCaption( i18n("Domain-Specific Policies") );
+    domainSpecificDlg->setButtons( KDialog::Close );
+    domainSpecificDlg->setDefaultButton( KDialog::Close );
+    domainSpecificDlg->setObjectName( "domainSpecificDlg" );
+    domainSpecificDlg->setModal( true );
 
     domainSpecific = new PluginDomainListView(config,group,this,domainSpecificDlg);
     domainSpecific->setMinimumSize(320,200);

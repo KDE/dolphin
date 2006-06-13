@@ -25,9 +25,13 @@
 #include <QLabel>
 
 KServiceSelectDlg::KServiceSelectDlg( const QString& /*serviceType*/, const QString& /*value*/, QWidget *parent )
-    : KDialogBase( parent, "serviceSelectDlg", true,
-                   i18n( "Add Service" ), Ok|Cancel, Ok )
+    : KDialog( parent )
 {
+    setObjectName( "serviceSelectDlg" );
+    setModal( true );
+    setCaption( i18n( "Add Service" ) );
+    setButtons( Ok | Cancel );
+
     KVBox *vbox = new KVBox ( this );
 
     vbox->setSpacing( KDialog::spacingHint() );

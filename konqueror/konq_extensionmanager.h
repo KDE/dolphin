@@ -18,7 +18,7 @@
 #ifndef KONQEXTENSIONMANAGER_H
 #define KONQEXTENSIONMANAGER_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 class KonqExtensionManagerPrivate;
 class KonqMainWindow;
@@ -31,7 +31,7 @@ namespace KParts { class ReadOnlyPart; }
  * @author Martijn Klingens <klingens@kde.org>
  * @author Arend van Beelen jr. <arend@auton.nl>
  */
-class KonqExtensionManager : public KDialogBase
+class KonqExtensionManager : public KDialog
 {
 	Q_OBJECT
 
@@ -44,10 +44,10 @@ class KonqExtensionManager : public KDialogBase
 	public Q_SLOTS:
 		void setChanged(bool c);
 
-		virtual void slotDefault();
-		virtual void slotUser1();
-		virtual void slotApply();
-		virtual void slotOk();
+		void slotOk();
+		void slotApply();
+		void slotDefault();
+		void slotUser1();
 		virtual void show();
 
 	private:

@@ -20,7 +20,7 @@
 #ifndef __konq_profiledlg_h__
 #define __konq_profiledlg_h__
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include <q3listview.h>
 #include <QMap>
@@ -46,7 +46,7 @@ public:
   QString m_profileName;
 };
 
-class KonqProfileDlg : public KDialogBase
+class KonqProfileDlg : public KDialog
 {
   Q_OBJECT
 public:

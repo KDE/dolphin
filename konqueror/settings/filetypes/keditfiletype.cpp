@@ -39,16 +39,20 @@
 #endif
 
 FileTypeDialog::FileTypeDialog( KMimeType::Ptr mime )
-  : KDialogBase( 0L, 0, false, QString(), /* Help | */ Cancel | Apply | Ok,
-                 Ok, false )
+  : KDialog( 0 )
 {
+  setButtons( Cancel | Apply | Ok );
+  enableButtonSeparator( false );
+
   init( mime, false );
 }
 
 FileTypeDialog::FileTypeDialog( KMimeType::Ptr mime, bool newItem )
-  : KDialogBase( 0L, 0, false, QString(), /* Help | */ Cancel | Apply | Ok,
-                 Ok, false )
+  : KDialog( 0 )
 {
+  setButtons( Cancel | Apply | Ok );
+  enableButtonSeparator( false );
+
   init( mime, newItem );
 }
 
@@ -67,6 +71,9 @@ void FileTypeDialog::init( KMimeType::Ptr mime, bool newItem )
   enableButton(Apply, false);
 
   connect( KSycoca::self(), SIGNAL( databaseChanged() ), SLOT( slotDatabaseChanged() ) );
+
+  connect( this, SIGNAL( okClicked() ), SLOT( slotOk() ) );
+  connect( this, SIGNAL( applyClicked() ), SLOT( slotApply() ) );
 }
 
 void FileTypeDialog::save()
@@ -77,15 +84,15 @@ void FileTypeDialog::save()
   }
 }
 
-void FileTypeDialog::slotApply()
-{
-  save();
-}
-
 void FileTypeDialog::slotOk()
 {
   save();
   accept();
+}
+
+void FileTypeDialog::slotApply()
+{
+  save();
 }
 
 void FileTypeDialog::clientChanged(bool state)
@@ -177,7 +184,7 @@ int main(int argc, char ** argv)
     dlg.setCaption( i18n("Edit File Type %1", mime->name()) );
   else {
     dlg.setCaption( i18n("Create New File Type %1", mime->name()) );
-    dlg.enableButton( KDialogBase::Apply, true );
+    dlg.enableButton( KDialog::Apply, true );
   }
   app.setMainWidget( &dlg );
   dlg.show(); // non-modal

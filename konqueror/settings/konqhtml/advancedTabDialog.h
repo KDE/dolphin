@@ -20,11 +20,11 @@
 #ifndef __ADVANCEDTABDIALOG_H
 #define __ADVANCEDTABDIALOG_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 class advancedTabOptions;
 
-class advancedTabDialog : public KDialogBase
+class advancedTabDialog : public KDialog
 {
     Q_OBJECT
 

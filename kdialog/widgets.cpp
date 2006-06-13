@@ -91,7 +91,9 @@ bool Widgets::passwordBox(QWidget *parent, const QString& title, const QString& 
 int Widgets::textBox(QWidget *parent, int width, int height, const QString& title, const QString& file)
 {
 //  KTextBox dlg(parent, 0, true, width, height, file);
-  KDialog dlg( parent, title, KDialog::Ok );
+  KDialog dlg( parent );
+  dlg.setCaption( title );
+  dlg.setButtons( KDialog::Ok );
   dlg.setModal( true );
 
   kapp->setTopWidget( &dlg );
@@ -128,7 +130,9 @@ int Widgets::textBox(QWidget *parent, int width, int height, const QString& titl
 int Widgets::textInputBox(QWidget *parent, int width, int height, const QString& title, const QStringList& args, QString &result)
 {
 //  KTextBox dlg(parent, 0, true, width, height, file);
-  KDialog dlg( parent, title, KDialog::Ok );
+  KDialog dlg( parent );
+  dlg.setCaption( title );
+  dlg.setButtons( KDialog::Ok );
   dlg.setModal( true );
   
   kapp->setTopWidget( &dlg );
@@ -162,7 +166,9 @@ int Widgets::textInputBox(QWidget *parent, int width, int height, const QString&
 bool Widgets::comboBox(QWidget *parent, const QString& title, const QString& text, const QStringList& args,
 		       const QString& defaultEntry, QString &result)
 {
-  KDialog dlg( parent, title, KDialog::Ok|KDialog::Cancel );
+  KDialog dlg( parent );
+  dlg.setCaption( title );
+  dlg.setButtons( KDialog::Ok|KDialog::Cancel );
   dlg.setModal( true );
   dlg.setDefaultButton( KDialog::Ok );
 

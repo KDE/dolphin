@@ -26,7 +26,7 @@
 
 class CSSConfigDialog;
 class CSSCustomDialog;
-class KDialogBase;
+class KDialog;
 
 
 class CSSConfig : public KCModule
@@ -52,7 +52,7 @@ private:
 
   CSSConfigDialog *configDialog;
   CSSCustomDialog *customDialog;
-  KDialogBase *customDialogBase;
+  KDialog *customDialogBase;
 };
 
 

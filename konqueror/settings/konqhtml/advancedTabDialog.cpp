@@ -34,23 +34,22 @@
 #include "main.h"
 
 advancedTabDialog::advancedTabDialog(QWidget* parent, KConfig* config, const char* name)
-    : KDialogBase(KDialogBase::Plain,
-                  i18n("Advanced Options"),
-                  KDialogBase::Ok |
-                  KDialogBase::Apply |
-                  KDialogBase::Cancel,
-                  KDialogBase::Ok,
-                  parent,
-                  name,
-                  true, true),
+    : KDialog( parent ),
                   m_pConfig(config)
 {
+    setCaption( i18n("Advanced Options") );
+    setObjectName( name );
+    setModal( true );
+    enableButtonSeparator( true );
+
     connect(this, SIGNAL(applyClicked()),
             this, SLOT(save()));
     connect(this, SIGNAL(okClicked()),
             this, SLOT(save()));
-    actionButton(Apply)->setEnabled(false);
-    QFrame* page = plainPage();
+    enableButton(Apply, false);
+
+    QFrame* page = new QFrame( this );
+    setMainWidget( page );
     QVBoxLayout* layout = new QVBoxLayout(page);
     m_advancedWidget = new advancedTabOptions(page);
     layout->addWidget(m_advancedWidget);
@@ -85,7 +84,7 @@ void advancedTabDialog::load()
     m_pConfig->setGroup("Notification Messages");
     m_advancedWidget->m_pTabConfirm->setChecked( !m_pConfig->hasKey("MultipleTabConfirm") );
 
-    actionButton(Apply)->setEnabled(false);
+    enableButton(Apply, false);
 }
 
 void advancedTabDialog::save()
@@ -108,12 +107,12 @@ void advancedTabDialog::save()
 #if 0
     KApplication::kApplication()->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
 #endif
-    actionButton(Apply)->setEnabled(false);
+    enableButton(Apply, false);
 }
 
 void advancedTabDialog::changed()
 {
-    actionButton(Apply)->setEnabled(true);
+    enableButton(Apply, true);
 }
 
 #include "advancedTabDialog.moc"

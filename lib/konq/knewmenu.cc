@@ -522,28 +522,28 @@ void KNewMenu::slotResult( KJob * job )
 
 //////////
 
-KUrlDesktopFileDlg::KUrlDesktopFileDlg( const QString& textFileName, const QString& textUrl )
-    : KDialogBase( Plain, QString(), Ok|Cancel|User1, Ok, 0L /*parent*/, 0L, true,
-                   true, KStdGuiItem::clear() )
+KUrlDesktopFileDlg::KUrlDesktopFileDlg( const QString& textFileName, const QString& textUrl, QWidget *parent = 0 )
+    : KDialog( parent )
 {
-    initDialog( textFileName, QString(), textUrl, QString() );
-}
+    setModal( true );
+    setButtons( Ok | Cancel | User1 );
+    setButtonGuiItem( User1, KStdGuiItem::clear() );
+    enableButtonSeparator( true );
 
-KUrlDesktopFileDlg::KUrlDesktopFileDlg( const QString& textFileName, const QString& textUrl, QWidget *parent )
-    : KDialogBase( Plain, QString(), Ok|Cancel|User1, Ok, parent, 0L, true,
-                   true, KStdGuiItem::clear() )
-{
     initDialog( textFileName, QString(), textUrl, QString() );
 }
 
 void KUrlDesktopFileDlg::initDialog( const QString& textFileName, const QString& defaultName, const QString& textUrl, const QString& defaultUrl )
 {
-    QVBoxLayout * topLayout = new QVBoxLayout( plainPage() );
+    QFrame *plainPage = new QFrame( this );
+    setMainWidget( plainPage );
+
+    QVBoxLayout * topLayout = new QVBoxLayout( plainPage );
     topLayout->setMargin( 0 );
     topLayout->setSpacing( spacingHint() );
 
     // First line: filename
-    KHBox * fileNameBox = new KHBox( plainPage() );
+    KHBox * fileNameBox = new KHBox( plainPage );
     topLayout->addWidget( fileNameBox );
 
     QLabel * label = new QLabel( textFileName, fileNameBox );
@@ -556,7 +556,7 @@ void KUrlDesktopFileDlg::initDialog( const QString& textFileName, const QString&
              SLOT(slotNameTextChanged(const QString&)) );
 
     // Second line: url
-    KHBox * urlBox = new KHBox( plainPage() );
+    KHBox * urlBox = new KHBox( plainPage );
     topLayout->addWidget( urlBox );
     label = new QLabel( textUrl, urlBox );
     m_urlRequester = new KUrlRequester( defaultUrl, urlBox);

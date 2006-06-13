@@ -26,7 +26,7 @@ class QBoxLayout;
 class QLabel;
 class QProgressDialog;
 class QSlider;
-class KDialogBase;
+class KDialog;
 class KPluginOptions;
 class KProcIO;
 namespace Ui {
@@ -136,7 +136,7 @@ private:
   QLabel *priorityLabel;
   PluginPolicies global_policies;
   PluginDomainListView *domainSpecific;
-  KDialogBase *domainSpecificDlg;
+  KDialog *domainSpecificDlg;
 
 /******************************************************************************/
  protected:

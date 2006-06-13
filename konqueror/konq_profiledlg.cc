@@ -68,17 +68,23 @@ KonqProfileItem::KonqProfileItem( K3ListView *parent, const QString & text )
 {
 }
 
-#define BTN_RENAME KDialogBase::User1
-#define BTN_DELETE KDialogBase::User2
-#define BTN_SAVE   KDialogBase::User3
+#define BTN_RENAME KDialog::User1
+#define BTN_DELETE KDialog::User2
+#define BTN_SAVE   KDialog::User3
 
 KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & preselectProfile, QWidget *parent )
-: KDialogBase( parent, "konq_profile_dialog", true, i18n( "Profile Management" ),
-    KDialogBase::Close | BTN_RENAME | BTN_DELETE | BTN_SAVE, BTN_SAVE, true,
-    KGuiItem( i18n( "&Rename Profile" ) ),
-    KGuiItem( i18n( "&Delete Profile" ), "editdelete"),
-    KStdGuiItem::save() )
+: KDialog( parent )
 {
+  setObjectName( "konq_profile_dialog" );
+  setModal( true );
+  setCaption( i18n( "Profile Management" ) );
+  setButtons( Close | BTN_RENAME | BTN_DELETE | BTN_SAVE );
+  setDefaultButton( BTN_SAVE );
+  enableButtonSeparator( true );
+  setButtonGuiItem( BTN_RENAME, KGuiItem( i18n( "&Rename Profile" ) ) );
+  setButtonGuiItem( BTN_DELETE, KGuiItem( i18n( "&Delete Profile" ), "editdelete" ) );
+  setButtonGuiItem( BTN_SAVE, KStdGuiItem::save() );
+
   m_pViewManager = manager;
 
   KVBox* box = new KVBox( this );
@@ -231,7 +237,7 @@ void KonqProfileDlg::slotSelectionChanged( Q3ListViewItem * item )
 
 void KonqProfileDlg::slotTextChanged( const QString & text )
 {
-  enableButton( KDialogBase::User3, !text.isEmpty() );
+  enableButton( KDialog::User3, !text.isEmpty() );
 
   // If we type the name of a profile, select it in the list
 

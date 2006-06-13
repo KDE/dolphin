@@ -16,10 +16,16 @@
 #include "policies.h"
 
 PolicyDialog::PolicyDialog( Policies *policies, QWidget *parent, const char *name )
-    : KDialogBase(parent, name, true, QString(), Ok|Cancel, Ok, true),
+    : KDialog(parent),
       policies(policies)
 {
-  QFrame *main = makeMainWidget();
+  setObjectName( name );
+  setModal( true );
+  setButtons( Ok|Cancel );
+  enableButtonSeparator( true );
+
+  QFrame *main = new QFrame( this );
+  setMainWidget( main );
 
   insertIdx = 1;	// index where to insert additional panels
   topl = new QVBoxLayout(main);

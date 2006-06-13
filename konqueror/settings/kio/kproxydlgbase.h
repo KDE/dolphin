@@ -26,7 +26,7 @@
 #include <QString>
 #include <QStringList>
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <kprotocolmanager.h>
 
 class KProxyData
@@ -49,7 +49,7 @@ private:
 };
 
 
-class KProxyDialogBase : public KDialogBase
+class KProxyDialogBase : public KDialog
 {
 public:
   KProxyDialogBase( QWidget* parent = 0, const char* name = 0,

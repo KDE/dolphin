@@ -29,16 +29,14 @@
 #define CHFACEDLG_H
 
 #include <QObject>
-//Added by qt3to4:
 #include <QPixmap>
-#include <kdialogbase.h>
+
+#include <kdialog.h>
 #include <k3iconview.h> // declaration below
 
 enum FacePerm { adminOnly = 1, adminFirst = 2, userFirst = 3, userOnly = 4}; 
 
-class KDialogBase;
-
-class ChFaceDlg : public KDialogBase
+class ChFaceDlg : public KDialog
 {
   Q_OBJECT
 public:
@@ -57,7 +55,7 @@ public:
 
 private Q_SLOTS:
   void slotFaceWidgetSelectionChanged( Q3IconViewItem *item )
-  	{ enableButtonOK( !item->pixmap()->isNull() ); }
+  	{ enableButton( Ok, !item->pixmap()->isNull() ); }
 
   void slotGetCustomImage();
   //void slotSaveCustomImage();

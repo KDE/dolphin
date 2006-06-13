@@ -19,17 +19,17 @@
 #ifndef bookmark_module_h
 #define bookmark_module_h
 
+#include <QDropEvent>
 #include <QMap>
 #include <QObject>
-//Added by qt3to4:
-#include <QDropEvent>
+
 #include <konq_sidebartreemodule.h>
 #include <kbookmark.h>
-#include <kdialogbase.h>
-class KonqSidebarBookmarkItem;
+#include <kdialog.h>
 
 class KActionCollection;
 class KLineEdit;
+class KonqSidebarBookmarkItem;
 
 /**
  * This module displays bookmarks in the tree
@@ -77,7 +77,7 @@ private:
     QMap<QString, bool> m_folderOpenState;
 };
 
-class BookmarkEditDialog : public KDialogBase
+class BookmarkEditDialog : public KDialog
 {
     Q_OBJECT
 
@@ -88,10 +88,6 @@ public:
 
     QString finalUrl() const;
     QString finalTitle() const;
-
-protected Q_SLOTS:
-    void slotOk();
-    void slotCancel();
 
 private:
     KLineEdit *m_title, *m_location;

@@ -39,7 +39,7 @@ public:
     virtual void setProxyData( const KProxyData &data );
 
 protected Q_SLOTS:
-    virtual void slotOk();
+    virtual void accept();
 
     void showValue();
     void verifyPressed();

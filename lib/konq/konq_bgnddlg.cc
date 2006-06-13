@@ -43,9 +43,10 @@ KonqBgndDialog::KonqBgndDialog( QWidget* parent,
                                 const QString& pixmapFile,
                                 const QColor& theColor,
                                 const QColor& defaultColor )
- : KDialog( parent, i18n("Background Settings"), Ok|Cancel, Qt::Dialog )
+ : KDialog( parent, Qt::Dialog )
 {
-    setModal(false);
+    setCaption( i18n("Background Settings") );
+    setButtons( Ok | Cancel );
 
     QWidget* page = new QWidget( this );
     setMainWidget( page );

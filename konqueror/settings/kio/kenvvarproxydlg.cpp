@@ -279,7 +279,7 @@ bool KEnvVarProxyDlg::validate()
   return m_bHasValidData;
 }
 
-void KEnvVarProxyDlg::slotOk()
+void KEnvVarProxyDlg::accept()
 {
   if ( !validate() )
   {
@@ -298,11 +298,11 @@ void KEnvVarProxyDlg::slotOk()
                            "actual value http://localhost:3128.</qt>");
 
     KMessageBox::detailedError( this, msg, details,
-                                i18n("Invalid Proxy Setup") );
+                                 i18n("Invalid Proxy Setup") );
     return;
   }
 
-  KDialogBase::slotOk ();
+  KDialog::accept();
 }
 
 #include "kenvvarproxydlg.moc"

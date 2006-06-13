@@ -18,14 +18,14 @@
 #ifndef __keditfiletype_h
 #define __keditfiletype_h
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <kmimetype.h>
 
 class TypesListItem;
 class FileTypeDetails;
 
 // A dialog for ONE file type to be edited.
-class FileTypeDialog : public KDialogBase
+class FileTypeDialog : public KDialog
 {
   Q_OBJECT
 public:
@@ -33,11 +33,8 @@ public:
   FileTypeDialog( KMimeType::Ptr mime, bool newItem );
 
 protected Q_SLOTS:
-
-  //virtual void slotDefault();
-  //virtual void slotUser1(); // Reset
-  virtual void slotApply();
   virtual void slotOk();
+  virtual void slotApply();
   void clientChanged(bool state);
   void slotDatabaseChanged();
 

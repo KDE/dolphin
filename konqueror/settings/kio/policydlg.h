@@ -21,7 +21,7 @@
 
 #include <QString>
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 
 class QPushButton;
@@ -63,7 +63,7 @@ public:
   }
 };
 
-class PolicyDlg : public KDialogBase
+class PolicyDlg : public KDialog
 {
   Q_OBJECT
 

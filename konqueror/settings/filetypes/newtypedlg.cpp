@@ -15,10 +15,16 @@
 
 NewTypeDialog::NewTypeDialog(QStringList groups,
 			     QWidget *parent, const char *name)
-  : KDialogBase(parent, name, true, i18n( "Create New File Type" ), 
-    Ok|Cancel, Ok, true)
+  : KDialog( parent )
 {
-  QFrame *main = makeMainWidget();
+  setObjectName( name );
+  setModal( true );
+  setCaption( i18n( "Create New File Type" ) );
+  setButtons( Ok | Cancel );
+  enableButtonSeparator( true );
+
+  QFrame *main = new QFrame( this );
+  setMainWidget( main );
   QVBoxLayout *topl = new QVBoxLayout(main);
   topl->setSpacing(spacingHint());
 

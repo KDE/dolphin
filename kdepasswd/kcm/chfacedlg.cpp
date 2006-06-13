@@ -56,8 +56,15 @@
  * TODO: It would be nice if the widget were in a .ui
  */
 ChFaceDlg::ChFaceDlg(const QString& picsdir, QWidget *parent, const char *name, bool modal)
-  : KDialogBase( Swallow, 0, parent, name, modal, i18n("Change your Face"), Ok|Cancel, Ok, true )
+  : KDialog( parent )
 {
+  setObjectName( name );
+  setModal( modal );
+  setCaption( i18n("Change your Face") );
+  setButtons( Ok|Cancel );
+  setDefaultButton( Ok );
+  enableButtonSeparator( true );
+
   QWidget *page = new QWidget(this);
   setMainWidget( page );
 

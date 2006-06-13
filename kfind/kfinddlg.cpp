@@ -24,24 +24,29 @@
 #include "kfinddlg.moc"
 
 KfindDlg::KfindDlg(const KUrl & url, QWidget *parent, const char *name)
-  : KDialogBase( Plain, QString(),
-	User1 | User2 | Apply | Close | Help, Apply,
-        parent, name, true, true,
-        KStdGuiItem::stop(),
-	KStdGuiItem::saveAs())
+  : KDialog( parent )
 {
+  setButtons( User1 | User2 | Apply | Close | Help );
+  setDefaultButton( Apply );
+  setObjectName( name );
+  setModal( true );
+  enableButtonSeparator( true );
+
+  setButtonGuiItem( User1, KStdGuiItem::stop() );
+  setButtonGuiItem( User2, KStdGuiItem::saveAs() );
+  setButtonGuiItem( Apply, KStdGuiItem::find());
+
   QWidget::setWindowTitle( i18n("Find Files/Folders" ) );
-  setButtonBoxOrientation(Qt::Vertical);
+  setButtonsOrientation(Qt::Vertical);
 
   enableButton(Apply, true); // Enable "Find"
   enableButton(User1, false); // Disable "Stop"
   enableButton(User2, false); // Disable "Save As..."
 
-  setButtonGuiItem(KDialog::Apply, KStdGuiItem::find());
-
   isResultReported = false;
 
-  QFrame *frame = plainPage();
+  QFrame *frame = new QFrame;
+  setMainWidget( frame );
 
   // create tabwidget
   tabWidget = new KfindTabWidget( frame, "dialog");

@@ -84,9 +84,13 @@ QWidget *KonqSideBarWebModule::getWidget() {
 }
 
 void KonqSideBarWebModule::setAutoReload(){
-	KDialogBase dlg(0, "", true, i18n("Set Refresh Timeout (0 disables)"),
-			KDialogBase::Ok|KDialogBase::Cancel);
-	KHBox *hbox = dlg.makeHBoxMainWidget();
+	KDialog dlg( 0 );
+  dlg.setModal( true );
+  dlg.setCaption( i18n("Set Refresh Timeout (0 disables)" ) );
+  dlg.setButtons( KDialog::Ok | KDialog::Cancel );
+
+	KHBox *hbox = new KHBox( &dlg );
+  dlg.setMainWidget( hbox );
 	
 	QSpinBox *mins = new QSpinBox( hbox );
 	mins->setRange(0, 120);
@@ -100,7 +104,7 @@ void KonqSideBarWebModule::setAutoReload(){
 		mins->setValue( ( seconds - secs->value() ) / 60 );
 	}
 	
-	if( dlg.exec() == QDialog::Accepted ) {
+	if( dlg.exec() == KDialog::Accepted ) {
 		int msec = ( mins->value() * 60 + secs->value() ) * 1000;
 		reloadTimeout = msec;
 		KSimpleConfig ksc(_desktopName);

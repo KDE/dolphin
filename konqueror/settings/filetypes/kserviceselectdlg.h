@@ -18,10 +18,10 @@
 
 #ifndef __kserviceselectdlg_h
 #define __kserviceselectdlg_h
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <kservice.h>
 #include <klistbox.h>
-class KServiceSelectDlg : public KDialogBase
+class KServiceSelectDlg : public KDialog
 {
     Q_OBJECT
 public:

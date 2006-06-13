@@ -7,7 +7,7 @@
 #ifndef KFINDDLG_H
 #define KFINDDLG_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <kdirlister.h>
 #include <kdirwatch.h>
 
@@ -20,7 +20,7 @@ class KfindTabWidget;
 class KfindWindow;
 class KStatusBar;
 
-class KfindDlg: public KDialogBase
+class KfindDlg: public KDialog
 {
 Q_OBJECT
 
