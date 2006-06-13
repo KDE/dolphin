@@ -247,7 +247,7 @@ void FaviconsModule::slotResult(KJob *job)
 
 void FaviconsModule::slotInfoMessage(KJob *job, const QString &msg)
 {
-    emit infoMessage(static_cast<KIO::TransferJob *>( job )->url(), msg);
+    emit infoMessage(static_cast<KIO::TransferJob *>( job )->url().url(), msg);
 }
 
 void FaviconsModule::slotKill()

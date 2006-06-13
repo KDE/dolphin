@@ -18,24 +18,26 @@
 */
 
 #ifndef __konq_faviconmgr_h__
-#define __konq_faviconmgr_h__ 
+#define __konq_faviconmgr_h__
 
 #include <kurl.h>
 #include <libkonq_export.h>
+class QDBusInterface;
 
 /**
  * Maintains a list of custom icons per URL. This is only a stub
  * for the "favicons" KDED Module
  */
-class LIBKONQ_EXPORT KonqFavIconMgr : public QObject, public DCOPObject
+class LIBKONQ_EXPORT KonqFavIconMgr : public QObject
 {
     Q_OBJECT
-    K_DCOP
 public:
     /**
      * Constructor.
      */
-    KonqFavIconMgr(QObject *parent = 0, const char *name = 0);
+    KonqFavIconMgr(QObject *parent);
+
+    ~KonqFavIconMgr();
 
     /**
      * Downloads an icon from @p iconURL and associates @p url with it.
@@ -55,14 +57,17 @@ public:
      */
     static QString iconForURL(const KUrl &url);
 
-k_dcop:
+private slots:
     /**
      * an icon changed, updates the combo box
      */
-    virtual ASYNC notifyChange( bool, QString, QString ) = 0;
+    virtual void notifyChange( bool, QString, QString ) = 0;
 
 signals:
     void changed();
+
+private:
+    QDBusInterface *m_favIconsModule;
 };
 
 #endif

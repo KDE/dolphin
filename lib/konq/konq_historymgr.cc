@@ -49,10 +49,6 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
     m_filename = locateLocal( "data",
 			      QLatin1String("konqueror/konq_history" ));
 
-    if ( !kapp->dcopClient()->isAttached() )
-	kapp->dcopClient()->attach();
-
-
     // take care of the completion object
     m_pCompletion = new KCompletion;
     m_pCompletion->setOrder( KCompletion::Weighted );

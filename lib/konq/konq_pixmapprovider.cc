@@ -17,9 +17,9 @@
    Boston, MA 02110-1301, USA.
 */
 
+#include "konq_pixmapprovider.h"
+
 #include <QBitmap>
-//Added by qt3to4:
-#include <QPixmap>
 #include <QPainter>
 
 #include <kapplication.h>
@@ -28,27 +28,27 @@
 #include <kshell.h>
 #include <kprotocolinfo.h>
 
-#include "konq_pixmapprovider.h"
+#include <kstaticdeleter.h>
 
-KonqPixmapProvider * KonqPixmapProvider::s_self = 0L;
+KonqPixmapProvider * KonqPixmapProvider::s_self = 0;
+static KStaticDeleter<KonqPixmapProvider> s_konqPixmapProviderSd;
 
 KonqPixmapProvider * KonqPixmapProvider::self()
 {
     if ( !s_self )
-	s_self = new KonqPixmapProvider( kapp, "KonqPixmapProvider" );
+        s_konqPixmapProviderSd.setObject( s_self, new KonqPixmapProvider );
 
     return s_self;
 }
 
-KonqPixmapProvider::KonqPixmapProvider( QObject *parent, const char *name )
+KonqPixmapProvider::KonqPixmapProvider()
     : KPixmapProvider(),
-      KonqFavIconMgr( parent, name )
+      KonqFavIconMgr( 0 )
 {
 }
 
 KonqPixmapProvider::~KonqPixmapProvider()
 {
-    s_self = 0L;
 }
 
 // at first, tries to find the iconname in the cache

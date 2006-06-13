@@ -64,7 +64,7 @@ public:
     QString iconNameFor( const KUrl& url );
 
 protected:
-    KonqPixmapProvider( QObject *parent=0, const char *name=0 );
+    KonqPixmapProvider();
 
     /**
      * Overridden from KonqFavIconMgr to update the cache

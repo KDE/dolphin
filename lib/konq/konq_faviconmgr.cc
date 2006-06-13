@@ -17,22 +17,28 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <kapplication.h>
-#include <kconfig.h>
-#include <kglobal.h>
-#include <kmimetype.h>
-
 #include "konq_faviconmgr.moc"
 
-KonqFavIconMgr::KonqFavIconMgr(QObject *parent, const char *name)
-    : QObject(parent),
-      DCOPObject("KonqFavIconMgr")
-{
-    setObjectName(name);
+#include <kglobal.h>
+#include <kmimetype.h>
+#include <dbus/qdbus.h>
+#include "konq_faviconmgr.h"
 
-    connectDCOPSignal("kded", "favicons",
-        "iconChanged(bool, QString, QString)",
-        "notifyChange(bool, QString, QString)", false);
+#define FAVICONINTERFACE "org.kde.KonqFavIcon"
+
+KonqFavIconMgr::KonqFavIconMgr(QObject *parent)
+    : QObject(parent)
+{
+     m_favIconsModule =
+         QDBus::sessionBus().findInterface("org.kde.kded", "/modules/favicons",
+                                           FAVICONINTERFACE);
+     connect( m_favIconsModule, SIGNAL(iconChanged(bool,QString,QString)),
+              this, SLOT(notifyChange(bool,QString,QString)));
+}
+
+KonqFavIconMgr::~KonqFavIconMgr()
+{
+    delete m_favIconsModule;
 }
 
 QString KonqFavIconMgr::iconForURL(const KUrl &url)
@@ -42,19 +48,12 @@ QString KonqFavIconMgr::iconForURL(const KUrl &url)
 
 void KonqFavIconMgr::setIconForURL(const KUrl &url, const KUrl &iconURL)
 {
-    QByteArray data;
-    QDataStream str(&data, QIODevice::WriteOnly);
-    str << url << iconURL;
-	QDBusInterfacePtr favicon("org.kde.kded", "/modules/favicons", "org.kde.Favicons");
-	favicon->send("setIconForURL", url, iconURL);
+    QDBusInterfacePtr favicon("org.kde.kded", "/modules/favicons", FAVICONINTERFACE);
+    favicon->call(QDBusInterface::NoWaitForReply, "setIconForURL", url.url(), iconURL.url());
 }
 
 void KonqFavIconMgr::downloadHostIcon(const KUrl &url)
 {
-    QByteArray data;
-    QDataStream str(&data, QIODevice::WriteOnly);
-    str << url;
-	QDBusInterfacePtr favicon("org.kde.kded", "/modules/favicons", "org.kde.Favicons");
-	favicon->send("downloadHostIcon", url);
+    QDBusInterfacePtr favicon("org.kde.kded", "/modules/favicons", FAVICONINTERFACE);
+    favicon->call(QDBusInterface::NoWaitForReply, "downloadHostIcon", url.url());
 }
-
