@@ -856,19 +856,18 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 KService::List::ConstIterator it = offers.begin();
                 for( ; it != offers.end(); it++ )
                 {
-                    if ((*it)->noDisplay())
+                    KService::Ptr service = (*it);
+                    if (service->noDisplay())
                         continue;
 
                     QByteArray nam;
                     nam.setNum( id );
 
-                    QString actionName( (*it)->name().replace( "&", "&&" ) );
+                    QString actionName( service->name().replace( "&", "&&" ) );
                     if ( menu == domElement() ) // no submenu -> prefix single offer
                         actionName = i18n( "Open with %1" ,  actionName );
 
-                    KIcon actIcon;
-                    actIcon.addPixmap( (*it)->pixmap( K3Icon::Small ) );
-                    act = new KAction( actIcon, actionName, &m_ownActions, nam.prepend( "appservice_" ) );
+                    act = new KAction( KIcon( service->icon() ), actionName, &m_ownActions, nam.prepend( "appservice_" ) );
                     connect(act, SIGNAL(triggered()), this, SLOT(slotRunService()));
                     KonqXMLGUIClient::addAction( act, menu );
 
