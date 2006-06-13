@@ -24,7 +24,6 @@
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
 #include <kfileitem.h>
-#include <kdatastream.h>
 #include <kio/global.h>
 #include <libkonq_export.h>
 

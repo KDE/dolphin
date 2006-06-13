@@ -26,7 +26,6 @@
 
 #include <assert.h>
 
-#include <kdatastream.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kglobalsettings.h>

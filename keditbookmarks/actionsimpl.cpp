@@ -41,7 +41,6 @@
 
 #include <kaction.h>
 #include <kactioncollection.h>
-#include <kdatastream.h>
 #include <kedittoolbar.h>
 #include <kicondialog.h>
 #include <kiconloader.h>
