@@ -31,7 +31,7 @@ namespace KIO { class Job; }
  * URLs and hosts with shortcut icons and the icons' downloads in a central
  * place.
  *
- * After a successful download, the DCOP signal iconChanged() is emitted.
+ * After a successful download, the DBUS signal iconChanged() is emitted.
  * It has the signature void iconChanged(bool, QString, QString);
  * The first parameter is true if the icon is a "host" icon, that is it is
  * the default icon for all URLs on the given host. In this case, the
@@ -46,12 +46,11 @@ namespace KIO { class Job; }
 class FaviconsModule : public KDEDModule
 {
     Q_OBJECT
-    K_DCOP
 public:
-    FaviconsModule(const DCOPCString &obj);
+    FaviconsModule(const QString &obj);
     virtual ~FaviconsModule();
 
-k_dcop:
+public Q_SLOTS: // dbus methods
     /**
      * Looks up an icon name for a given URL. This function does not
      * initiate any download. If no icon for the URL or its host has
@@ -62,28 +61,29 @@ k_dcop:
      *         QString() if no icon for this URL was found.
      */
     QString iconForURL(const KUrl &url);
+
     /**
-     * Assiciates an icon with the given URL. If the icon was not
+     * Associates an icon with the given URL. If the icon was not
      * downloaded before or the downloaded was too long ago, a
-     * download attempt will be started and the iconChanged() DCOP
+     * download attempt will be started and the iconChanged() DBUS
      * signal is emitted after the download finished successfully.
      *
      * @param url the URL which will be associated with the icon
      * @param iconURL the URL of the icon to be downloaded
      */
-    ASYNC setIconForURL(const KUrl &url, const KUrl &iconURL);
+    void /*ASYNC*/ setIconForURL(const KUrl &url, const KUrl &iconURL);
     /**
      * Downloads the icon for a given host if it was not downloaded before
      * or the download was too long ago. If the download finishes
-     * successfully, the iconChanged() DCOP signal is emitted.
+     * successfully, the iconChanged() DBUS signal is emitted.
      *
      * @param url any URL on the host for which the icon is to be downloaded
      */
-    ASYNC downloadHostIcon(const KUrl &url);
+    void /*ASYNC*/ downloadHostIcon(const KUrl &url);
 
-k_dcop_signals:
+signals: // DBUS signals
     void iconChanged(bool isHost, QString hostOrURL, QString iconName);
-    void infoMessage(KUrl iconURL, QString msg);
+    void infoMessage(QString iconURL, QString msg);
 
 private:
     void startDownload(const QString &, bool, const KUrl &);

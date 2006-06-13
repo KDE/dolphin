@@ -27,7 +27,6 @@
 #include <QTimer>
 #include <QImageReader>
 
-#include <kdatastream.h> // DO NOT REMOVE, otherwise bool marshalling breaks
 #include <kicontheme.h>
 #include <ksimpleconfig.h>
 #include <kstandarddirs.h>
@@ -54,7 +53,7 @@ struct FaviconsModulePrivate
     QCache<QString,QString> faviconsCache;
 };
 
-FaviconsModule::FaviconsModule(const DCOPCString &obj)
+FaviconsModule::FaviconsModule(const QString &obj)
     : KDEDModule(obj)
 {
     // create our favicons folder so that KIconLoader knows about it
@@ -74,7 +73,7 @@ FaviconsModule::~FaviconsModule()
     delete d;
 }
 
-QString removeSlash(QString result)
+static QString removeSlash(QString result)
 {
     for (unsigned int i = result.length() - 1; i > 0; --i)
         if (result[i] != '/')
@@ -258,7 +257,7 @@ void FaviconsModule::slotKill()
 }
 
 extern "C" {
-    KDE_EXPORT KDEDModule *create_favicons(const DCOPCString &obj)
+    KDE_EXPORT KDEDModule *create_favicons(const QString &obj)
     {
         return new FaviconsModule(obj);
     }
