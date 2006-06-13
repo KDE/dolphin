@@ -173,7 +173,7 @@ private:
      * True when a desktop file with Type=URL is being copied
      */
     bool m_isURLDesktopFile;
-    QString m_linkURL; // the url to put in the file
+    KUrl m_linkURL; // the url to put in the file
 
     static KDirWatch * s_pDirWatch;
 
@@ -203,7 +203,7 @@ public:
     /**
      * @return the URL the user entered
      */
-    QString url() const;
+    KUrl url() const;
 
 protected Q_SLOTS:
     void slotClear();

@@ -507,8 +507,8 @@ void KNewMenu::slotResult( KJob * job )
                 // But in case of a renaming (due to a conflict), the real path is in m_destPath
                 kDebug(1203) << " destURL=" << destURL.path() << " " << " d->m_destPath=" << d->m_destPath << endl;
                 KDesktopFile df( d->m_destPath );
-                df.writeEntry( "Icon", KProtocolInfo::icon( KUrl(m_linkURL).protocol() ) );
-                df.writePathEntry( "URL", m_linkURL );
+                df.writeEntry( "Icon", KProtocolInfo::icon( m_linkURL.protocol() ) );
+                df.writePathEntry( "URL", m_linkURL.prettyUrl() );
                 df.sync();
             }
             else
@@ -522,7 +522,7 @@ void KNewMenu::slotResult( KJob * job )
 
 //////////
 
-KUrlDesktopFileDlg::KUrlDesktopFileDlg( const QString& textFileName, const QString& textUrl, QWidget *parent = 0 )
+KUrlDesktopFileDlg::KUrlDesktopFileDlg( const QString& textFileName, const QString& textUrl, QWidget *parent )
     : KDialog( parent )
 {
     setModal( true );
@@ -574,12 +574,12 @@ void KUrlDesktopFileDlg::initDialog( const QString& textFileName, const QString&
     m_fileNameEdited = false;
 }
 
-QString KUrlDesktopFileDlg::url() const
+KUrl KUrlDesktopFileDlg::url() const
 {
     if ( result() == QDialog::Accepted )
         return m_urlRequester->url();
     else
-        return QString();
+        return KUrl();
 }
 
 QString KUrlDesktopFileDlg::fileName() const
