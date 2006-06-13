@@ -17,13 +17,12 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef KONQ_HISTORYCOMM_H
-#define KONQ_HISTORYCOMM_H
+#ifndef KONQ_HISTORYENTRY_H
+#define KONQ_HISTORYENTRY_H
 
 #include <QDateTime>
 #include <QStringList>
 
-#include <dcopobject.h>
 #include <kurl.h>
 
 #include <libkonq_export.h>
@@ -31,8 +30,9 @@
 class LIBKONQ_EXPORT KonqHistoryEntry
 {
 public:
-    //Should URLs be marshaled as strings (for DCOP, V2 history format)?
+    //Should URLs be marshaled as strings (V2 history format)?
     static bool marshalURLAsStrings;
+
     KonqHistoryEntry()
 	: numberOfTimesVisited(1) {}
 
@@ -67,7 +67,6 @@ QDataStream& operator>> (QDataStream& s, KonqHistoryEntry& e);
  * DCOP Methods for KonqHistoryManager. Has to be in a separate file, because
  * dcopidl2cpp barfs on every second construct ;(
  * Implementations of the pure virtual methods are in KonqHistoryManager
- */
 class KonqHistoryComm : public DCOPObject
 {
     K_DCOP
@@ -85,5 +84,6 @@ k_dcop:
     virtual QStringList allURLs() const = 0;
 
 };
+ */
 
 #endif // KONQ_HISTORYCOMM_H

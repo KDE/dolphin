@@ -26,7 +26,7 @@ set(konq_LIB_SRCS
    konq_undo.cc
    konq_undoadaptor.cpp
    konq_historymgr.cc
-   konq_historycomm.cc
+   konq_historyentry.cpp
    konq_pixmapprovider.cc
    kivdirectoryoverlay.cc
    konq_faviconmgr.cc
@@ -46,7 +46,29 @@ install_targets(${LIB_INSTALL_DIR} konq )
 ########### install files ###############
 
 install_files( ${DATA_INSTALL_DIR}/kbookmark FILES directory_bookmarkbar.desktop  )
-install_files( /include FILES konq_popupmenu.h knewmenu.h      kfileivi.h konq_iconviewwidget.h      konq_defaults.h konq_settings.h      konq_operations.h libkonq_export.h      konq_dirpart.h konq_propsview.h konq_events.h      konq_undo.h konq_historymgr.h konq_historycomm.h      konq_pixmapprovider.h      kivdirectoryoverlay.h      konq_faviconmgr.h konq_xmlguiclient.h konqbookmarkmanager.h konq_filetip.h konqmimedata.h )
+install_files( /include FILES
+ konq_popupmenu.h
+ knewmenu.h
+ kfileivi.h
+ konq_iconviewwidget.h
+ konq_defaults.h
+ konq_settings.h
+ konq_operations.h
+ libkonq_export.h
+ konq_dirpart.h
+ konq_propsview.h
+ konq_events.h
+ konq_undo.h
+ konq_historymgr.h
+ konq_historyentry.h
+ konq_pixmapprovider.h
+ kivdirectoryoverlay.h
+ konq_faviconmgr.h
+ konq_xmlguiclient.h
+ konqbookmarkmanager.h
+ konq_filetip.h
+ konqmimedata.h
+)
 install_files( ${SERVICETYPES_INSTALL_DIR} FILES konqpopupmenuplugin.desktop )
 
 

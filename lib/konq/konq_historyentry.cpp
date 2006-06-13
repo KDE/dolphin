@@ -1,4 +1,4 @@
-#include "konq_historycomm.h"
+#include "konq_historyentry.h"
 
 bool KonqHistoryEntry::marshalURLAsStrings;
 

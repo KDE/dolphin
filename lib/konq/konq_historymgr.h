@@ -31,7 +31,7 @@
 #include <kurl.h>
 #include <kparts/historyprovider.h>
 
-#include "konq_historycomm.h"
+#include "konq_historyentry.h"
 
 #include <libkonq_export.h>
 
@@ -60,12 +60,11 @@ public:
 /**
  * This class maintains and manages a history of all URLs visited by one
  * Konqueror instance. Additionally it synchronizes the history with other
- * Konqueror instances via DCOP to keep one global and persistant history.
+ * Konqueror instances via DBUS to keep one global and persistant history.
  *
  * It keeps the history in sync with one KCompletion object
  */
-class LIBKONQ_EXPORT KonqHistoryManager : public KParts::HistoryProvider,
-			   public KonqHistoryComm
+class LIBKONQ_EXPORT KonqHistoryManager : public KParts::HistoryProvider
 {
     Q_OBJECT
 
@@ -74,42 +73,42 @@ public:
 	return static_cast<KonqHistoryManager*>( KParts::HistoryProvider::self() );
     }
 
-    KonqHistoryManager( QObject *parent, const char *name );
+    KonqHistoryManager( QObject *parent );
     ~KonqHistoryManager();
 
     /**
      * Sets a new maximum size of history and truncates the current history
-     * if necessary. Notifies all other Konqueror instances via DCOP
+     * if necessary. Notifies all other Konqueror instances via DBUS
      * to do the same.
      *
-     * The history is saved after receiving the DCOP call.
+     * The history is saved after receiving the DBUS call.
      */
     void emitSetMaxCount( quint32 count );
 
     /**
      * Sets a new maximum age of history entries and removes all entries that
-     * are older than @p days. Notifies all other Konqueror instances via DCOP
+     * are older than @p days. Notifies all other Konqueror instances via DBUS
      * to do the same.
      *
      * An age of 0 means no expiry based on the age.
      *
-     * The history is saved after receiving the DCOP call.
+     * The history is saved after receiving the DBUS call.
      */
     void emitSetMaxAge( quint32 days );
 
     /**
      * Removes the history entry for @p url, if existant. Tells all other
-     * Konqueror instances via DCOP to do the same.
+     * Konqueror instances via DBUS to do the same.
      *
-     * The history is saved after receiving the DCOP call.
+     * The history is saved after receiving the DBUS call.
      */
     void emitRemoveFromHistory( const KUrl& url );
 
     /**
      * Removes the history entries for the given list of @p urls. Tells all
-     * other Konqueror instances via DCOP to do the same.
+     * other Konqueror instances via DBUS to do the same.
      *
-     * The history is saved after receiving the DCOP call.
+     * The history is saved after receiving the DBUS call.
      */
     void emitRemoveFromHistory( const KUrl::List& urls );
 
@@ -191,7 +190,7 @@ public Q_SLOTS:
     bool saveHistory();
 
     /**
-     * Clears the history and tells all other Konqueror instances via DCOP
+     * Clears the history and tells all other Konqueror instances via DBUS
      * to do the same.
      * The history is saved afterwards, if necessary.
      */
@@ -224,55 +223,65 @@ protected:
     void adjustSize();
 
     /**
-     * Notifes all running instances about a new HistoryEntry via DCOP
+     * Notifes all running instances about a new HistoryEntry via DBUS
      */
     void emitAddToHistory( const KonqHistoryEntry& entry );
 
+Q_SIGNALS: // DBUS methods/signals
     /**
      * Every konqueror instance broadcasts new history entries to the other
      * konqueror instances. Those add the entry to their list, but don't
      * save the list, because the sender saves the list.
      *
      * @param e the new history entry
-     * @param saveId is the DCOPObject::objId() of the sender so that
+     * @param saveId is the dbus service of the sender so that
      * only the sender saves the new history.
      */
-    virtual void notifyHistoryEntry( KonqHistoryEntry e, QByteArray saveId );
+    void notifyHistoryEntry( const QByteArray & historyEntry, const QString& senderService );
 
     /**
      * Called when the configuration of the maximum count changed.
-     * Called via DCOP by some config-module
+     * Called via DBUS by some config-module
      */
-    virtual void notifyMaxCount( quint32 count, QByteArray saveId );
+    void notifyMaxCount( quint32 count, const QString& senderService );
 
     /**
      * Called when the configuration of the maximum age of history-entries
-     * changed. Called via DCOP by some config-module
+     * changed. Called via DBUS by some config-module
      */
-    virtual void notifyMaxAge( quint32 days, QByteArray saveId );
+    void notifyMaxAge( quint32 days, const QString& senderService );
 
     /**
-     * Clears the history completely. Called via DCOP by some config-module
+     * Clears the history completely. Called via DBUS by some config-module
      */
-    virtual void notifyClear( QByteArray saveId );
+    void notifyClear( const QString& senderService );
 
     /**
      * Notifes about a url that has to be removed from the history.
      * The instance where saveId == objId() has to save the history.
      */
-    virtual void notifyRemove( KUrl url, QByteArray saveId );
+    void notifyRemove( const QString& url, const QString& senderService );
 
     /**
      * Notifes about a list of urls that has to be removed from the history.
      * The instance where saveId == objId() has to save the history.
      */
-    virtual void notifyRemove( KUrl::List urls, QByteArray saveId );
+    void notifyRemove( const QStringList& urls, const QString& senderService );
 
+private Q_SLOTS: // DBUS slots
     /**
      * @returns a list of all urls in the history.
      */
-    virtual QStringList allURLs() const;
+    QStringList allURLs() const;
 
+    void slotNotifyHistoryEntry( QByteArray & historyEntry, const QString& senderService );
+    void slotNotifyMaxCount( quint32 count, const QString& senderService );
+    void slotNotifyMaxAge( quint32 days, const QString& senderService );
+    void slotNotifyClear( const QString& senderService );
+    void slotNotifyRemove( const QString& url, const QString& senderService );
+    void slotNotifyRemove( const QStringList& urls, const QString& senderService );
+
+private:
     /**
      * Does the work for @ref addPending() and @ref confirmPending().
      *
@@ -318,9 +327,9 @@ private Q_SLOTS:
 
 private:
     /**
-     * Returns whether the DCOP call we are handling was a call from us self
+     * Returns whether the DBUS call we are handling was a call from us self
      */
-    bool isSenderOfBroadcast();
+    bool isSenderOfSignal( const QString& senderService );
 
     void clearPending();
     /**
