@@ -3,7 +3,6 @@ Encoding=UTF-8
 Exec=kdepasswd
 Icon=password
 Type=Application
-NoDisplay=true
 Categories=Qt;KDE;Settings;
 NoDisplay=true
 X-DCOP-ServiceType=Unique
