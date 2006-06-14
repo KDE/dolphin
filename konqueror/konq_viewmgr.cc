@@ -35,7 +35,6 @@
 #include <kapplication.h>
 #include <kglobalsettings.h>
 #include <ktempfile.h>
-#include <dcopclient.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -1682,7 +1681,10 @@ void KonqViewManager::profileListDirty( bool broadcast )
     return;
   }
 
-  kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "updateProfileList()", QByteArray() );
+#ifdef __GNUC__
+#warning port to DBUS signal updateProfileList
+#endif
+//  kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "updateProfileList()", QByteArray() );
 }
 
 void KonqViewManager::slotProfileActivated( int id )

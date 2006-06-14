@@ -153,7 +153,7 @@ KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, 
       cfg.setGroup( "Profile" );
       QString xmluiFile=cfg.readEntry("XMLUIFile","konqueror.rc");
 
-      mainWindow = new KonqMainWindow( KUrl(), false, 0, xmluiFile );
+      mainWindow = new KonqMainWindow( KUrl(), false, xmluiFile );
       if ( forbidUseHTML )
           mainWindow->setShowHTML( false );
       KonqOpenURLRequest req;
@@ -258,9 +258,7 @@ void KonqDraggableLabel::mouseMoveEvent( QMouseEvent * ev )
       drag->setMimeData( md );
       QString iconName = KMimeType::iconNameForURL( lst.first() );
 
-#warning switch the following statements on next kdelibs snapshot update
-      drag->setPixmap(KGlobal::iconLoader()->loadIcon(iconName, K3Icon::Small));
-      //drag->setPixmap(KGlobal::iconLoader()->loadMimeTypeIcon(iconName, K3Icon::Small));
+      drag->setPixmap(KGlobal::iconLoader()->loadMimeTypeIcon(iconName, K3Icon::Small));
 
       drag->start();
     }
@@ -275,7 +273,7 @@ void KonqDraggableLabel::mouseReleaseEvent( QMouseEvent * )
 void KonqDraggableLabel::dragEnterEvent( QDragEnterEvent *ev )
 {
   if ( KUrl::List::canDecode( ev->mimeData() ) )
-    ev->acceptAction();
+    ev->accept();
 }
 
 void KonqDraggableLabel::dropEvent( QDropEvent* ev )

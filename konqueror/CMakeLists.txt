@@ -28,11 +28,13 @@ add_subdirectory( tests )
 
 ########### next target ###############
 
+#TODO: port those to DBUS
+#   KonquerorIface.cc 
+#   KonqMainWindowIface.cc 
+#   KonqViewIface.cc 
+
 set(konqueror_KDEINIT_SRCS  ${libkonqueror_intern_SRCS}
    konq_main.cc 
-   KonquerorIface.cc 
-   KonqMainWindowIface.cc 
-   KonqViewIface.cc 
    konq_guiclients.cc 
    konq_run.cc 
    konq_view.cc 

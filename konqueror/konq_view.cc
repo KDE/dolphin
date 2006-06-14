@@ -252,7 +252,7 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
   // Activate the new part
   if ( oldPart )
   {
-    m_pPart->setObjectName( oldPart->name() );
+    m_pPart->setObjectName( oldPart->objectName() );
     emit sigPartChanged( this, oldPart, m_pPart );
     delete oldPart;
   }
@@ -465,7 +465,7 @@ void KonqView::connectPart(  )
   if ( ext )
       urlDropHandling = ext->property( "urlDropHandling" );
   else
-      urlDropHandling = QVariant( true, 0 );
+      urlDropHandling = QVariant( true );
 
   // Handle url drops if
   //  a) either the property says "ok"
@@ -1116,12 +1116,12 @@ void KonqView::setViewName( const QString &name )
 {
     //kDebug() << "KonqView::setViewName this=" << this << " name=" << name << endl;
     if ( m_pPart )
-        m_pPart->setObjectName( name.toLocal8Bit().data() );
+        m_pPart->setObjectName( name );
 }
 
 QString KonqView::viewName() const
 {
-    return m_pPart ? QString::fromLocal8Bit( m_pPart->name() ) : QString();
+    return m_pPart ? m_pPart->objectName() : QString();
 }
 
 void KonqView::enablePopupMenu( bool b )
@@ -1211,8 +1211,9 @@ void KonqView::disableScrolling()
 
 KonqViewIface * KonqView::dcopObject()
 {
-  if ( !m_dcopObject )
-      m_dcopObject = new KonqViewIface( this );
+// TODO
+//  if ( !m_dcopObject )
+//      m_dcopObject = new KonqViewIface( this );
   return m_dcopObject;
 }
 
@@ -1229,13 +1230,13 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
         {
             KUrl::List lstDragURLs = KUrl::List::fromMimeData( ev->mimeData() );
 
-            QObjectList children = m_pPart->widget()->queryList( "QWidget" );
+            QList<QWidget *> children = qFindChildren<QWidget *>( m_pPart->widget() );
 
             if ( !lstDragURLs.isEmpty()
-                 && !lstDragURLs.first().url().contains( "javascript:", Qt::CaseInsensitive ) && // ### this looks like a hack to me
+                 && !lstDragURLs.first().url().startsWith( "javascript:", Qt::CaseInsensitive ) && // ### this looks like a hack to me
                  ev->source() != m_pPart->widget() &&
-                 children.indexOf( ev->source() ) == -1 )
-                ev->acceptAction();
+                 !children.contains( ev->source() ) )
+                ev->acceptProposedAction();
         }
     }
     else if ( e->type() == QEvent::Drop && m_bURLDropHandling && obj == m_pPart->widget() )
@@ -1281,9 +1282,9 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
             if ( ev->button() == Qt::RightButton )
             {
                 obj->removeEventFilter( this );
-                QMouseEvent me( QEvent::MouseButtonPress, ev->pos(), 2, 2 );
+                QMouseEvent me( QEvent::MouseButtonPress, ev->pos(), Qt::RightButton, Qt::RightButton, Qt::NoModifier );
                 QApplication::sendEvent( obj, &me );
-                QContextMenuEvent ce( QContextMenuEvent::Mouse, ev->pos(), 2 );
+                QContextMenuEvent ce( QContextMenuEvent::Mouse, ev->pos(), ev->globalPos() );
                 QApplication::sendEvent( obj, &ce );
                 obj->installEventFilter( this );
                 return true;
@@ -1301,9 +1302,9 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
 void KonqView::setActiveInstance()
 {
   if ( m_bBuiltinView || !m_pPart->instance() /*never!*/)
-      KGlobal::_activeInstance = KGlobal::instance();
+      KGlobal::setActiveInstance( KGlobal::instance() );
   else
-      KGlobal::_activeInstance = m_pPart->instance();
+      KGlobal::setActiveInstance( m_pPart->instance() );
 }
 
 bool KonqView::prepareReload( KParts::URLArgs& args )

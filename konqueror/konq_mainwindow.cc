@@ -79,7 +79,6 @@
 
 #include <k3widgetaction.h>
 
-#include <dcopclient.h>
 #include <kaboutdata.h>
 #include <kbookmarkbar.h>
 #include <ktoolbar.h>
@@ -136,6 +135,9 @@
 #endif
 #include <kauthorized.h>
 #include <ktoolinvocation.h>
+#include <kstaticdeleter.h>
+#include "konq_mainwindow_p.h"
+#include <dbus/qdbus.h>
 
 template class QList<QPixmap*>;
 template class QList<KToggleAction*>;
@@ -151,18 +153,18 @@ time_t KonqMainWindow::s_startupTime;
 int KonqMainWindow::s_preloadUsageCount;
 
 KonqOpenURLRequest KonqOpenURLRequest::null;
+static KStaticDeleter<KonqHistoryManager> konqHistoryManagerSd;
+static KonqHistoryManager* s_konqHistoryManager;
 
 static int current_memory_usage( int* limit = NULL );
-
-#include "konq_mainwindow_p.h"
 
 KonqExtendedBookmarkOwner::KonqExtendedBookmarkOwner(KonqMainWindow *w)
 {
    m_pKonqMainWindow = w;
 }
 
-KonqMainWindow::KonqMainWindow( const KUrl &initialURL, bool openInitialURL, const char *name, const QString& xmluiFile)
- : KParts::MainWindow( NoDCOPObject, 0L, name, Qt::WDestructiveClose | Qt::WStyle_ContextHelp )
+KonqMainWindow::KonqMainWindow( const KUrl &initialURL, bool openInitialURL, const QString& xmluiFile)
+ : KParts::MainWindow()
 {
   setPreloadedFlag( false );
 
@@ -173,20 +175,20 @@ KonqMainWindow::KonqMainWindow( const KUrl &initialURL, bool openInitialURL, con
 
   m_urlCompletionStarted = false;
 
-  m_currentView = 0L;
-  m_pChildFrame = 0L;
-  m_pActiveChild = 0L;
-  m_pWorkingTab = 0L;
-  m_initialKonqRun = 0L;
-  m_pBookmarkMenu = 0L;
-  m_dcopObject = new KonqMainWindowIface( this );
-  m_combo = 0L;
+  m_currentView = 0;
+  m_pChildFrame = 0;
+  m_pActiveChild = 0;
+  m_pWorkingTab = 0;
+  m_initialKonqRun = 0;
+  m_pBookmarkMenu = 0;
+  // TODO m_dcopObject = new KonqMainWindowIface( this );
+  m_combo = 0;
   m_bURLEnterLock = false;
   m_bLocationBarConnected = false;
-  m_paBookmarkBar = 0L;
-  m_pURLCompletion = 0L;
+  m_paBookmarkBar = 0;
+  m_pURLCompletion = 0;
   m_goBuffer = 0;
-  m_configureDialog = 0L;
+  m_configureDialog = 0;
 
   m_bViewModeToggled = false;
 
@@ -206,7 +208,7 @@ KonqMainWindow::KonqMainWindow( const KUrl &initialURL, bool openInitialURL, con
   m_paMoveFiles = 0;
   m_paDelete = 0;
   m_paNewDir = 0;
-  m_bookmarkBarActionCollection = 0L;
+  m_bookmarkBarActionCollection = 0;
   KonqExtendedBookmarkOwner *extOwner = new KonqExtendedBookmarkOwner( this );
   m_pBookmarksOwner = extOwner;
   connect( extOwner,
@@ -216,9 +218,8 @@ KonqMainWindow::KonqMainWindow( const KUrl &initialURL, bool openInitialURL, con
 
   // init history-manager, load history, get completion object
   if ( !s_pCompletion ) {
-    KonqHistoryManager *mgr = new KonqHistoryManager( kapp, "history mgr" );
-    s_pCompletion = mgr->completionObject();
-
+    konqHistoryManagerSd.setObject( s_konqHistoryManager, new KonqHistoryManager );
+    s_pCompletion = s_konqHistoryManager->completionObject();
 
     // setup the completion object before createGUI(), so that the combo
     // picks up the correct mode from the HistoryManager (in slotComboPlugged)
@@ -251,7 +252,7 @@ KonqMainWindow::KonqMainWindow( const KUrl &initialURL, bool openInitialURL, con
 
   setStandardToolBarMenuEnabled( true );
 
-  createGUI( 0L );
+  createGUI( 0 );
 
   connect(toolBarMenuAction(),SIGNAL(activated()),this,SLOT(slotForceSaveMainWindowSettings()) );
 
@@ -291,7 +292,7 @@ KonqMainWindow::KonqMainWindow( const KUrl &initialURL, bool openInitialURL, con
   {
     KUrl homeURL;
     homeURL.setPath( QDir::homePath() );
-    openURL( 0L, homeURL );
+    openURL( 0, homeURL );
   }
   else
       // silent
@@ -341,17 +342,17 @@ KonqMainWindow::~KonqMainWindow()
   if ( s_lstViews == 0 ) {
       delete KonqPixmapProvider::self();
       delete s_comboConfig;
-      s_comboConfig = 0L;
+      s_comboConfig = 0;
   }
 
   delete m_configureDialog;
-  m_configureDialog = 0L;
-  delete m_dcopObject;
-  m_dcopObject = 0L;
+  m_configureDialog = 0;
+  //delete m_dcopObject;
+  //m_dcopObject = 0;
   delete m_combo;
-  m_combo = 0L;
+  m_combo = 0;
   delete m_locationLabel;
-  m_locationLabel = 0L;
+  m_locationLabel = 0;
 
   kDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << " done" << endl;
 }
@@ -387,7 +388,7 @@ QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDo
 
 void KonqMainWindow::initBookmarkBar()
 {
-  KToolBar * bar = static_cast<KToolBar *>( child( "bookmarkToolBar", "KToolBar" ) );
+  KToolBar * bar = qFindChild<KToolBar *>( this, "bookmarkToolBar" );
 
   if (!bar) return;
 
@@ -470,7 +471,7 @@ void KonqMainWindow::openFilteredUrl( const QString & url, KonqOpenURLRequest & 
 
     m_currentDir.clear();
 
-    openURL( 0L, filteredURL, QString(), req );
+    openURL( 0, filteredURL, QString(), req );
 
     // #4070: Give focus to view after URL was entered manually
     // Note: we do it here if the view mode (i.e. part) wasn't changed
@@ -532,7 +533,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
     view = m_currentView;
 
   if ( !view  && !req.newTab )
-    view = m_currentView; /* Note, this can be 0L, e.g. on startup */
+    view = m_currentView; /* Note, this can be 0, e.g. on startup */
   else if ( !view && req.newTab ) {
     view = m_pViewManager->addTab(QString(),
                                   QString(),
@@ -587,7 +588,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
       req.forceAutoEmbed = true;
 
     // Built-in view ?
-    if ( !openView( mimeType, url, view /* can be 0L */, req ) )
+    if ( !openView( mimeType, url, view /* can be 0 */, req ) )
     {
         //kDebug(1202) << "KonqMainWindow::openURL : openView returned false" << endl;
         // Are we following another view ? Then forget about this URL. Otherwise fire app.
@@ -638,7 +639,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
 
       kDebug(1202) << "Creating new konqrun for " << url << " req.typedURL=" << req.typedURL << endl;
 
-      KonqRun * run = new KonqRun( this, view /* can be 0L */, url, req, trustedSource );
+      KonqRun * run = new KonqRun( this, view /* can be 0 */, url, req, trustedSource );
 
       // Never start in external browser
       run->setEnableExternalBrowser(false);
@@ -804,7 +805,7 @@ bool KonqMainWindow::openView( QString mimeType, const KUrl &_url, KonqView *chi
   {
       if (req.newTab)
       {
-          KonqFrameTabs* tabContainer = 0L;
+          KonqFrameTabs* tabContainer = 0;
           int index = 0;
           if ( m_pViewManager->docContainer() && m_pViewManager->docContainer()->frameType() == "Tabs")
           {
@@ -1001,7 +1002,7 @@ QObject *KonqMainWindow::lastFrame( KonqView *view )
     viewFrame = nextFrame;
     nextFrame = nextFrame->parent();
   }
-  return nextFrame ? viewFrame : 0L;
+  return nextFrame ? viewFrame : 0;
 }
 
 // Linked-views feature, plus "sidebar follows URL opened in the active view" feature
@@ -1097,7 +1098,7 @@ void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs
       if (QApplication::keyboardModifiers() & Qt::ShiftModifier)
         req.newTabInFront = !req.newTabInFront;
       req.args = args;
-      openURL( 0L, url, QString(), req );
+      openURL( 0, url, QString(), req );
     }
     else
     {
@@ -1115,11 +1116,11 @@ void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs
 
     part = 0; // Make sure to be initialized in case of failure...
 
-    KonqMainWindow *mainWindow = 0L;
+    KonqMainWindow *mainWindow = 0;
     if ( !args.frameName.isEmpty() && args.frameName.toLower() != "_blank" )
     {
         KParts::BrowserHostExtension *hostExtension = 0;
-        KParts::ReadOnlyPart *ro_part = 0L;
+        KParts::ReadOnlyPart *ro_part = 0;
         KParts::BrowserExtension *be = ::qobject_cast<KParts::BrowserExtension *>(sender());
         if (be)
             ro_part = ::qobject_cast<KParts::ReadOnlyPart *>(be->parent());
@@ -1139,7 +1140,7 @@ void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs
            newtabsinfront =! newtabsinfront;
 
         KonqView* newView = m_pViewManager->addTab(QString(), QString(), false, aftercurrentpage);
-        if (newView == 0L) return;
+        if (newView == 0) return;
 
         if (newtabsinfront)
           m_pViewManager->showTab( newView );
@@ -1159,8 +1160,8 @@ void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs
     req.args = args;
 
     if ( args.serviceType.isEmpty() )
-      mainWindow->openURL( 0L, url, QString(), req );
-    else if ( !mainWindow->openView( args.serviceType, url, 0L, req ) )
+      mainWindow->openURL( 0, url, QString(), req );
+    else if ( !mainWindow->openView( args.serviceType, url, 0, req ) )
     {
       // we have problems. abort.
       delete mainWindow;
@@ -1168,7 +1169,7 @@ void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs
       return;
     }
 
-    KonqView * view = 0L;
+    KonqView * view = 0;
     // cannot use activePart/currentView, because the activation through the partmanager
     // is delayed by a singleshot timer (see KonqViewManager::setActivePart)
     if ( mainWindow->viewMap().count() )
@@ -1305,7 +1306,7 @@ void KonqMainWindow::slotDuplicateWindow()
   config.setGroup( "View Profile" );
   m_pViewManager->saveViewProfile( config, true, true );
 
-  KonqMainWindow *mainWindow = new KonqMainWindow( KUrl(), false, 0, xmlFile());
+  KonqMainWindow *mainWindow = new KonqMainWindow( KUrl(), false, xmlFile());
   mainWindow->viewManager()->loadViewProfile( config, m_pViewManager->currentProfile() );
   if (mainWindow->currentView())
   {
@@ -1834,53 +1835,53 @@ void KonqMainWindow::slotHome()
 
 void KonqMainWindow::slotGoSystem()
 {
-  openURL( 0L, KUrl( "system:/" ) );
+  openURL( 0, KUrl( "system:/" ) );
 }
 
 void KonqMainWindow::slotGoApplications()
 {
-  openURL( 0L, KUrl( "programs:/" ) );
+  openURL( 0, KUrl( "programs:/" ) );
 }
 
 void KonqMainWindow::slotGoMedia()
 {
-  openURL( 0L, KUrl( "media:/" ) );
+  openURL( 0, KUrl( "media:/" ) );
 }
 
 void KonqMainWindow::slotGoNetworkFolders()
 {
-    openURL( 0L, KUrl( "remote:/" ) );
+    openURL( 0, KUrl( "remote:/" ) );
 }
 
 void KonqMainWindow::slotGoSettings()
 {
-  openURL( 0L, KUrl( "settings:/" ) );
+  openURL( 0, KUrl( "settings:/" ) );
 }
 
 void KonqMainWindow::slotGoDirTree()
 {
   KUrl u;
   u.setPath( locateLocal( "data", "konqueror/dirtree/" ) );
-  openURL( 0L, u );
+  openURL( 0, u );
 }
 
 void KonqMainWindow::slotGoTrash()
 {
-  openURL( 0L, KUrl( "trash:/" ) );
+  openURL( 0, KUrl( "trash:/" ) );
 }
 
 void KonqMainWindow::slotGoAutostart()
 {
   KUrl u;
   u.setPath( KGlobalSettings::autostartPath() );
-  openURL( 0L, u );
+  openURL( 0, u );
 }
 
 void KonqMainWindow::slotGoHistory()
 {
   KAction *a = m_toggleViewGUIClient->action("konq_sidebartng");
   if (!a) {
-    KMessageBox::sorry(0L, i18n("Your sidebar is not functional or unavailable."), i18n("Show History Sidebar"));
+    KMessageBox::sorry(0, i18n("Your sidebar is not functional or unavailable."), i18n("Show History Sidebar"));
     return;
   }
 
@@ -1899,7 +1900,7 @@ void KonqMainWindow::slotGoHistory()
       KService::Ptr svc = view->service();
       if (svc->desktopEntryName() == "konq_sidebartng") {
         if (!view->part()->openURL( KUrl( "sidebar:history.desktop" ) ) )
-          KMessageBox::sorry(0L, i18n("Cannot find running history plugin in your sidebar."), i18n("Show History Sidebar"));
+          KMessageBox::sorry(0, i18n("Cannot find running history plugin in your sidebar."), i18n("Show History Sidebar"));
         break;
       }
     }
@@ -1921,7 +1922,8 @@ void KonqMainWindow::slotConfigure()
 {
     if( !m_configureDialog )
     {
-        m_configureDialog = new KCMultiDialog( this, "configureDialog" );
+        m_configureDialog = new KCMultiDialog( this );
+        m_configureDialog->setObjectName( "configureDialog" );
 
         QStringList modules = configModules();
         QStringList::ConstIterator end( modules.end() );
@@ -2009,7 +2011,7 @@ void KonqMainWindow::slotRunFinished()
   const KonqRun *run = static_cast<const KonqRun *>( sender() );
 
   if ( run == m_initialKonqRun )
-      m_initialKonqRun = 0L;
+      m_initialKonqRun = 0;
 
   if ( !run->mailtoURL().isEmpty() )
   {
@@ -2017,13 +2019,17 @@ void KonqMainWindow::slotRunFinished()
   }
 
   if ( run->hasError() ) { // we had an error
+#ifdef __GNUC__
+#warning port to DBUS signal removeFromCombo (and move to KonqCombo)
+#endif
+#if 0
       QByteArray data;
       QDataStream s( &data, QIODevice::WriteOnly );
-
       s.setVersion(QDataStream::Qt_3_1);
       s << run->url().prettyUrl() << kapp->dcopClient()->defaultObject();
       kapp->dcopClient()->send( "konqueror*", "KonquerorIface",
 				"removeFromCombo(QString,QCString)", data);
+#endif
   }
 
   KonqView *childView = run->childView();
@@ -2141,7 +2147,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   {
     kDebug(1202) << "No part activated - returning" << endl;
     unplugViewModeActions();
-    createGUI( 0L );
+    createGUI( 0 );
     KParts::MainWindow::setCaption( "" );
     return;
   }
@@ -2181,7 +2187,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   // View-dependent GUI
 
   KParts::MainWindow::setCaption( m_currentView->caption() );
-  m_currentView->frame()->setTitle( m_currentView->caption() , 0L);
+  m_currentView->frame()->setTitle( m_currentView->caption() , 0);
   updateOpenWithActions();
   updateLocalPropsActions();
   updateViewActions(); // undo, lock, link and other view-dependent actions
@@ -2268,7 +2274,7 @@ void KonqMainWindow::removeChildView( KonqView *childView )
   MapViews::Iterator it = m_mapViews.begin();
   MapViews::Iterator end = m_mapViews.end();
 
-  // find it in the map - can't use the key since childView->part() might be 0L
+  // find it in the map - can't use the key since childView->part() might be 0
 
   kDebug(1202) << "Searching map" << endl;
 
@@ -2336,7 +2342,7 @@ KonqView * KonqMainWindow::childView( KParts::ReadOnlyPart *view )
   if ( it != m_mapViews.end() )
     return it.value();
   else
-    return 0L;
+    return 0;
 }
 
 KonqView * KonqMainWindow::childView( KParts::ReadOnlyPart *callingPart, const QString &name, KParts::BrowserHostExtension **hostExtension, KParts::ReadOnlyPart **part )
@@ -2462,7 +2468,7 @@ KParts::ReadOnlyPart * KonqMainWindow::currentPart() const
   if ( m_currentView )
     return m_currentView->part();
   else
-    return 0L;
+    return 0;
 }
 
 void KonqMainWindow::updateLocalPropsActions()
@@ -2507,14 +2513,14 @@ void KonqMainWindow::slotFileNewAboutToShow()
 void KonqMainWindow::slotSplitViewHorizontal()
 {
   KonqView * newView = m_pViewManager->splitView( Qt::Horizontal );
-  if (newView == 0L) return;
+  if (newView == 0) return;
   newView->openURL( m_currentView->url(), m_currentView->locationBarURL() );
 }
 
 void KonqMainWindow::slotSplitViewVertical()
 {
   KonqView * newView = m_pViewManager->splitView( Qt::Vertical );
-  if (newView == 0L) return;
+  if (newView == 0) return;
   newView->openURL( m_currentView->url(), m_currentView->locationBarURL() );
 }
 
@@ -2524,11 +2530,11 @@ void KonqMainWindow::slotAddTab()
                                              QString(),
                                              false,
                                              KonqSettings::openAfterCurrentPage());
-  if (newView == 0L) return;
+  if (newView == 0) return;
   openURL( newView, KUrl("about:blank"),QString());
   m_pViewManager->showTab( newView );
   focusLocationBar();
-  m_pWorkingTab = 0L;
+  m_pWorkingTab = 0;
 }
 
 void KonqMainWindow::slotDuplicateTab()
@@ -2603,7 +2609,7 @@ void KonqMainWindow::slotPopupThisWindow()
 {
     kDebug(1202) << "KonqMainWindow::slotPopupThisWindow()" << endl;
 
-    openURL( 0L, popupItems.first()->url() );
+    openURL( 0, popupItems.first()->url() );
 }
 
 void KonqMainWindow::slotPopupNewTab()
@@ -2644,7 +2650,7 @@ void KonqMainWindow::popupNewTab(bool infront, bool openAfterCurrentPage)
     {
       req.newTabInFront = true;
     }
-    openURL( 0L, popupItems[i]->url(), QString(), req );
+    openURL( 0, popupItems[i]->url(), QString(), req );
   }
 }
 
@@ -2656,11 +2662,11 @@ void KonqMainWindow::openMultiURL( KUrl::List url )
     {
         KonqView* newView = m_pViewManager->addTab();
         Q_ASSERT( newView );
-        if (newView == 0L) continue;
+        if (newView == 0) continue;
         openURL( newView, *it,QString());
         m_pViewManager->showTab( newView );
         focusLocationBar();
-        m_pWorkingTab = 0L;
+        m_pWorkingTab = 0;
     }
 }
 
@@ -2809,7 +2815,7 @@ void KonqMainWindow::slotDumpDebugInfo()
 {
 #ifndef NDEBUG
   dumpViewList();
-  m_pViewManager->printFullHierarchy( 0L );
+  m_pViewManager->printFullHierarchy( 0 );
 #endif
 }
 
@@ -2931,7 +2937,7 @@ KonqView * KonqMainWindow::otherView( KonqView * view ) const
     ++it;
   if ( it != m_mapViews.end() )
     return (*it);
-  return 0L;
+  return 0;
 }
 
 void KonqMainWindow::slotSaveViewProfile()
@@ -3023,9 +3029,10 @@ void KonqMainWindow::slotUpActivated( int id )
 {
   KUrl u( m_currentView->locationBarURL() );
   kDebug(1202) << "slotUpActivated. Start URL is " << u << endl;
-  for ( int i = 0 ; i < m_paUp->menu()->indexOf( id ) + 1 ; i ++ )
+  const int idx = m_paUp->menu()->indexOf( id ) + 1;
+  for ( int i = 0 ; i < idx ; i ++ )
       u = u.upUrl();
-  openURL( 0L, u );
+  openURL( 0, u );
 }
 
 void KonqMainWindow::slotGoMenuAboutToShow()
@@ -3140,7 +3147,7 @@ void KonqMainWindow::slotForwardActivated( int id )
 
 void KonqMainWindow::initCombo()
 {
-  m_combo = new KonqCombo( 0L );
+  m_combo = new KonqCombo( 0 );
 
   m_combo->init( s_pCompletion );
 
@@ -3584,13 +3591,13 @@ void KonqMainWindow::showPageSecurity()
     }
 }
 
-// called via DCOP from KonquerorIface
+// called via DBUS from KonquerorIface
 void KonqMainWindow::comboAction( int action, const QString& url, const QByteArray& objId )
 {
     if (!s_lstViews) // this happens in "konqueror --silent"
         return;
 
-    KonqCombo *combo = 0L;
+    KonqCombo *combo = 0;
     foreach ( KonqMainWindow* window, *s_lstViews ) {
         if ( window && window->m_combo ) {
             combo = window->m_combo;
@@ -3612,7 +3619,7 @@ void KonqMainWindow::comboAction( int action, const QString& url, const QByteArr
     }
 
     // only one instance should save...
-    if ( combo && DCOPCString(objId) == kapp->dcopClient()->defaultObject() )
+    if ( combo && QString(objId) == QDBus::sessionBus().baseService() )
       combo->saveItems();
 }
 
@@ -4112,7 +4119,7 @@ void KonqMainWindow::updateViewActions()
   slotUndoAvailable( KonqUndoManager::self()->undoAvailable() );
 
   // Can lock a view only if there is a next view
-  //m_paLockView->setEnabled( m_pViewManager->chooseNextView(m_currentView) != 0L && );
+  //m_paLockView->setEnabled( m_pViewManager->chooseNextView(m_currentView) != 0 && );
   //kDebug(1202) << "KonqMainWindow::updateViewActions m_paLockView enabled ? " << m_paLockView->isEnabled() << endl;
 
   m_paLockView->setEnabled( viewCount() > 1 );
@@ -4124,7 +4131,7 @@ void KonqMainWindow::updateViewActions()
 
   KonqFrameBase* docContainer = m_pViewManager->docContainer();
 
-  if ( docContainer == 0L && !(currentView() && currentView()->frame()))
+  if ( docContainer == 0 && !(currentView() && currentView()->frame()))
   {
     m_paAddTab->setEnabled( false );
     m_paDuplicateTab->setEnabled( false );
@@ -4507,7 +4514,7 @@ QString KonqMainWindow::currentURL() const
 void KonqExtendedBookmarkOwner::slotFillBookmarksList( KExtendedBookmarkOwner::QStringPairList & list )
 {
   KonqFrameBase *docContainer = m_pKonqMainWindow->viewManager()->docContainer();
-  if (docContainer == 0L) return;
+  if (docContainer == 0) return;
   if (docContainer->frameType() != "Tabs") return;
 
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(docContainer);
@@ -4535,7 +4542,7 @@ QString KonqMainWindow::currentTitle() const
 
 void KonqMainWindow::slotPopupMenu( const QPoint &_global, const KUrl &url, const QString &_mimeType, mode_t _mode )
 {
-  slotPopupMenu( 0L, _global, url, _mimeType, _mode );
+  slotPopupMenu( 0, _global, url, _mimeType, _mode );
 }
 
 void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KUrl &url, const QString &_mimeType, mode_t _mode )
@@ -4556,7 +4563,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
 void KonqMainWindow::slotPopupMenu( const QPoint &_global, const KFileItemList &_items )
 {
-  slotPopupMenu( 0L, _global, _items );
+  slotPopupMenu( 0, _global, _items );
 }
 
 void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items )
@@ -4682,7 +4689,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
 
   // Those actions go into the PopupMenuGUIClient, since that's the one defining them.
-  KAction *actNewWindow = 0L, *actNewTab = 0L;
+  KAction *actNewWindow = 0, *actNewTab = 0;
   if( doTabHandling )
   {
       if (_args.forcesNewWindow()) {
@@ -5097,10 +5104,11 @@ void KonqMainWindow::unplugViewModeActions()
   unplugActionList( "viewmode_toolbar" );
 }
 
-KonqMainWindowIface* KonqMainWindow::dcopObject()
+/*KonqMainWindowIface* KonqMainWindow::dcopObject()
 {
   return m_dcopObject;
 }
+*/
 
 void KonqMainWindow::updateBookmarkBar()
 {
@@ -5238,7 +5246,7 @@ void KonqMainWindow::setIcon( const QPixmap& pix )
 
 void KonqMainWindow::slotIntro()
 {
-  openURL( 0L, KUrl("about:konqueror") );
+  openURL( 0, KUrl("about:konqueror") );
 }
 
 void KonqMainWindow::goURL()
@@ -5259,7 +5267,7 @@ void KonqMainWindow::slotLocationLabelActivated()
 
 void KonqMainWindow::slotOpenURL( const KUrl& url )
 {
-    openURL( 0L, url );
+    openURL( 0, url );
 }
 
 bool KonqMainWindow::sidebarVisible() const
@@ -5277,11 +5285,11 @@ void KonqMainWindow::slotAddWebSideBar(const KUrl& url, const QString& name)
 
     KAction *a = m_toggleViewGUIClient->action("konq_sidebartng");
     if (!a) {
-        KMessageBox::sorry(0L, i18n("Your sidebar is not functional or unavailable. A new entry cannot be added."), i18n("Web Sidebar"));
+        KMessageBox::sorry(0, i18n("Your sidebar is not functional or unavailable. A new entry cannot be added."), i18n("Web Sidebar"));
         return;
     }
 
-    int rc = KMessageBox::questionYesNo(0L,
+    int rc = KMessageBox::questionYesNo(0,
               i18n("Add new web extension \"%1\" to your sidebar?",
                                  name.isEmpty() ? name : url.prettyUrl()),
               i18n("Web Sidebar"),i18n("Add"),i18n("Do Not Add"));
@@ -5554,8 +5562,8 @@ void KonqMainWindow::insertChildFrame( KonqFrameBase * frame, int /*index*/ )
  */
 void KonqMainWindow::removeChildFrame( KonqFrameBase * /*frame*/ )
 {
-  m_pChildFrame = 0L;
-  m_pActiveChild = 0L;
+  m_pChildFrame = 0;
+  m_pActiveChild = 0;
 }
 
 void KonqMainWindow::saveConfig( KConfig* config, const QString &prefix, bool saveURLs, KonqFrameBase* docContainer, int id, int depth ) { if( m_pChildFrame ) m_pChildFrame->saveConfig( config, prefix, saveURLs, docContainer, id, depth); }
@@ -5567,7 +5575,7 @@ void KonqMainWindow::printFrameInfo( const QString &spaces ) { if( m_pChildFrame
 void KonqMainWindow::reparentFrame( QWidget* /*parent*/,
                                     const QPoint & /*p*/ ) { return; }
 
-KonqFrameContainerBase* KonqMainWindow::parentContainer()const { return 0L; }
+KonqFrameContainerBase* KonqMainWindow::parentContainer()const { return 0; }
 void KonqMainWindow::setParentContainer(KonqFrameContainerBase* /*parent*/) { return; }
 
 void KonqMainWindow::setTitle( const QString &/*title*/ , QWidget* /*sender*/) { return; }
@@ -5613,8 +5621,8 @@ void KonqMainWindow::setPreloadedFlag( bool preloaded )
     delete s_preloadedWindow; // preloaded state was abandoned without reusing the window
     s_preloadedWindow = NULL;
     kapp->enableSessionManagement(); // enable SM again
-    DCOPRef ref( "kded", "konqy_preloader" );
-    ref.send( "unregisterPreloadedKonqy", kapp->dcopClient()->appId());
+    QDBusInterfacePtr ref( QDBus::sessionBus().findInterface("org.kde.kded", "/modules/konqy_preloader", "org.kde.KonqyPreloader") );
+    ref->call( "unregisterPreloadedKonqy", QDBus::sessionBus().baseService() );
 }
 
 void KonqMainWindow::setPreloadedWindow( KonqMainWindow* window )
@@ -5727,15 +5735,16 @@ bool KonqMainWindow::stayPreloaded()
     viewManager()->clear(); // reduce resource usage before checking it
     if( !checkPreloadResourceUsage())
         return false;
-    DCOPRef ref( "kded", "konqy_preloader" );
+    QDBusInterfacePtr ref( QDBus::sessionBus().findInterface("org.kde.kded", "/modules/konqy_preloader", "org.kde.KonqyPreloader") );
     QX11Info info;
-    if( !ref.callExt( "registerPreloadedKonqy", DCOPRef::NoEventLoop, 5000,
-        kapp->dcopClient()->appId(), info.screen()))
+    QDBusReply<bool> retVal = ref->call( QDBusAbstractInterface::NoUseEventLoop, "registerPreloadedKonqy",
+                                         QDBus::sessionBus().baseService(), info.screen());
+    if ( !retVal )
     {
         return false;
     }
     KonqMainWindow::setPreloadedFlag( true );
-    kDebug(1202) << "Konqy kept for preloading :" << kapp->dcopClient()->appId() << endl;
+    kDebug(1202) << "Konqy kept for preloading :" << QDBus::sessionBus().baseService() << endl;
     KonqMainWindow::setPreloadedWindow( this );
     return true;
 #else

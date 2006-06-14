@@ -37,8 +37,6 @@
 #include <konq_mainwindow.h>
 #include <kstringhandler.h>
 
-#include <dcopclient.h>
-
 #include "konq_view.h"
 #include "konq_combo.h"
 
@@ -138,9 +136,6 @@ KonqCombo::KonqCombo( QWidget *parent )
     connect( this, SIGNAL(highlighted( int )), SLOT(slotSetIcon( int )) );
     connect( this, SIGNAL(activated( const QString& )),
              SLOT(slotActivated( const QString& )) );
-
-    if ( !kapp->dcopClient()->isAttached() )
-        kapp->dcopClient()->attach();
 }
 
 KonqCombo::~KonqCombo()
@@ -163,13 +158,17 @@ void KonqCombo::setURL( const QString& url )
 
     if ( m_returnPressed ) { // Really insert...
         m_returnPressed = false;
+#ifdef __GNUC__
+#warning port to DBUS signal addToCombo
+#endif
+#if 0
         QByteArray data;
         QDataStream s( &data, QIODevice::WriteOnly );
-
         s.setVersion(QDataStream::Qt_3_1);
         s << url << kapp->dcopClient()->defaultObject();
         kapp->dcopClient()->send( "konqueror*", "KonquerorIface",
                                   "addToCombo(QString,QCString)", data);
+#endif
     }
 }
 
@@ -216,7 +215,7 @@ void KonqCombo::removeDuplicates( int index )
     }
 }
 
-// called via DCOP in all instances
+// called via DBUS in all instances
 void KonqCombo::insertPermanent( const QString& url )
 {
     //kDebug(1202) << "KonqCombo::insertPermanent: URL = " << url << endl;
@@ -525,12 +524,16 @@ void KonqCombo::selectWord(QKeyEvent *e)
 
 void KonqCombo::slotCleared()
 {
+#ifdef __GNUC__
+#warning port to DBUS signal comboCleared
+#endif
+#if 0
     QByteArray data;
     QDataStream s( &data, QIODevice::WriteOnly );
-
     s.setVersion(QDataStream::Qt_3_1);
     s << kapp->dcopClient()->defaultObject();
     kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "comboCleared(QCString)", data);
+#endif
 }
 
 void KonqCombo::removeURL( const QString& url )

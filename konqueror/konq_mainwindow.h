@@ -44,7 +44,6 @@
 #include <kcompletion.h>
 #include <kurlcompletion.h>
 #include <kglobalsettings.h>
-#include <dcopobject.h>
 #include <kxmlguifactory.h>
 #include <kxmlguiclient.h>
 #include <kservice.h>
@@ -111,7 +110,7 @@ public:
   enum ComboAction { ComboClear, ComboAdd, ComboRemove };
   enum PageSecurity { NotCrypted, Encrypted, Mixed };
 
-  KonqMainWindow( const KUrl &initialURL = KUrl(), bool openInitialURL = true, const char *name = 0, const QString& xmluiFile="konqueror.rc");
+  KonqMainWindow( const KUrl &initialURL = KUrl(), bool openInitialURL = true, const QString& xmluiFile="konqueror.rc");
   ~KonqMainWindow();
 
 
@@ -157,7 +156,7 @@ public:
 
   void setInitialFrameName( const QString &name );
 
-  KonqMainWindowIface * dcopObject();
+//  KonqMainWindowIface * dcopObject();
 
   void reparseConfiguration();
 
@@ -744,7 +743,7 @@ private:
   // it holds a map library name (libkonqiconview/libkonqlistview) ==> service (service for
   // iconview, multicolumnview, treeview, etc .)
 
-  KonqMainWindowIface * m_dcopObject;
+//  KonqMainWindowIface * m_dcopObject;
 
   static QStringList *s_plstAnimatedLogo;
 
