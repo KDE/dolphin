@@ -30,7 +30,6 @@
 #include <kstandarddirs.h>
 #include <kdebug.h>
 #include <kcmdlineargs.h>
-#include <dcopclient.h>
 #include <QFile>
 #include <QApplication>
 #include <QWidget>
@@ -38,6 +37,8 @@
 #ifdef Q_WS_X11
 #include <QX11Info>
 #endif
+
+#include <dbus/qdbus.h>
 
 static const KCmdLineOptions options[] =
 {
@@ -60,10 +61,9 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
 
   KonquerorApplication app;
 
-  app.dcopClient()->registerAs( "konqueror" );
-
-  KonquerorIface *kiface = new KonquerorIface;
-  app.dcopClient()->setDefaultObject( kiface->objId() );
+  // TODO DBUS Interface
+  //KonquerorIface *kiface = new KonquerorIface;
+  //app.dcopClient()->setDefaultObject( kiface->objId() );
 
   KGlobal::locale()->insertCatalog("libkonq"); // needed for apps using libkonq
 
@@ -134,23 +134,24 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
 #ifdef Q_WS_X11
                  if( KonqSettings::maxPreloadCount() > 0 )
                  {
-                     DCOPRef ref( "kded", "konqy_preloader" );
-					 QX11Info info;
-                     if( !ref.callExt( "registerPreloadedKonqy", DCOPRef::NoEventLoop, 5000,
-                         app.dcopClient()->appId(), info.screen()))
+                     QDBusInterfacePtr ref( QDBus::sessionBus().findInterface("org.kde.kded", "/modules/konqy_preloader", "org.kde.KonqyPreloader") );
+                     QX11Info info;
+                     QDBusReply<bool> retVal = ref->call( QDBusAbstractInterface::NoUseEventLoop, "registerPreloadedKonqy",
+                                                          QDBus::sessionBus().baseService(), info.screen());
+                     if( !retVal )
                          return 0; // too many preloaded or failed
 		     KonqMainWindow* win = new KonqMainWindow( KUrl(), false ); // prepare an empty window too
 		     // KonqMainWindow ctor sets always the preloaded flag to false, so create the window before this
                      KonqMainWindow::setPreloadedFlag( true );
 		     KonqMainWindow::setPreloadedWindow( win );
-                     kDebug(1202) << "Konqy preloaded :" << app.dcopClient()->appId() << endl;
+                     kDebug(1202) << "Konqy preloaded :" << QDBus::sessionBus().baseService() << endl;
                  }
                  else
                  {
                      return 0; // no preloading
                  }
 #else
-                     return 0; // no preloading
+                 return 0; // no preloading
 #endif
              }
              else if (!args->isSet("silent"))
@@ -221,7 +222,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
       delete KonqMainWindow::mainWindowList()->first();
   }
 
-  delete kiface;
+  //delete kiface;
 
   crashlog_file.unlink();
 
