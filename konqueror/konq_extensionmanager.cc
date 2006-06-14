@@ -28,7 +28,6 @@
 #include <kplugininfo.h>
 #include <kpluginselector.h>
 #include <ksettings/dispatcher.h>
-#include <dcopref.h>
 
 #include "konq_view.h"
 #include "konq_extensionmanager.h"
