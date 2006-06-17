@@ -27,7 +27,7 @@ namespace KIO { class Job; }
 
 /**
  * KDED Module to handle shortcut icons ("favicons")
- * FaviconsModule implements a KDED Module that handles the association of
+ * FavIconsModule implements a KDED Module that handles the association of
  * URLs and hosts with shortcut icons and the icons' downloads in a central
  * place.
  *
@@ -43,12 +43,12 @@ namespace KIO { class Job; }
  * @short KDED Module for favicons
  * @author Malte Starostik <malte@kde.org>
  */
-class FaviconsModule : public KDEDModule
+class FavIconsModule : public KDEDModule
 {
     Q_OBJECT
 public:
-    FaviconsModule(const QString &obj);
-    virtual ~FaviconsModule();
+    FavIconsModule(const QString &obj);
+    virtual ~FavIconsModule();
 
 public Q_SLOTS: // dbus methods
     /**
@@ -98,7 +98,7 @@ private Q_SLOTS:
     void slotKill();
 
 private:
-    struct FaviconsModulePrivate *d;
+    struct FavIconsModulePrivate *d;
 };
 
 #endif
