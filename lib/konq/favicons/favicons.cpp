@@ -69,6 +69,7 @@ FavIconsModule::FavIconsModule(const QString &obj)
     d->config = new KSimpleConfig(locateLocal("data", "konqueror/faviconrc"));
 
     new FavIconsAdaptor( this );
+    QDBus::sessionBus().registerObject( "/modules/favicons", this );
 }
 
 FavIconsModule::~FavIconsModule()
