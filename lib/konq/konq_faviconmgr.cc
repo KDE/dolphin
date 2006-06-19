@@ -32,8 +32,11 @@ KonqFavIconMgr::KonqFavIconMgr(QObject *parent)
      m_favIconsModule =
          QDBus::sessionBus().findInterface("org.kde.kded", "/modules/favicons",
                                            FAVICONINTERFACE);
-     connect( m_favIconsModule, SIGNAL(iconChanged(bool,QString,QString)),
-              this, SLOT(notifyChange(bool,QString,QString)));
+     if ( !m_favIconsModule->isValid() )
+         kWarning() << "kded not running?" << endl;
+     else
+         connect( m_favIconsModule, SIGNAL(iconChanged(bool,QString,QString)),
+                  this, SLOT(notifyChange(bool,QString,QString)));
 }
 
 KonqFavIconMgr::~KonqFavIconMgr()
