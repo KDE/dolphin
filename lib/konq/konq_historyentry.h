@@ -21,6 +21,7 @@
 #define KONQ_HISTORYENTRY_H
 
 #include <QDateTime>
+#include <QVariant>
 #include <QStringList>
 
 #include <kurl.h>
@@ -37,7 +38,7 @@ public:
 	: numberOfTimesVisited(1) {}
 
     KUrl url;
-    QString typedURL;
+    QString typedUrl;
     QString title;
     quint32 numberOfTimesVisited;
     QDateTime firstVisited;
@@ -46,7 +47,7 @@ public:
     // Necessary for QList (on Windows)
     bool operator==( const KonqHistoryEntry& entry ) const {
         return url == entry.url &&
-            typedURL == entry.typedURL &&
+            typedUrl == entry.typedUrl &&
             title == entry.title &&
             numberOfTimesVisited == entry.numberOfTimesVisited &&
             firstVisited == entry.firstVisited &&
@@ -54,36 +55,11 @@ public:
     }
 };
 
+Q_DECLARE_METATYPE(KonqHistoryEntry)
 
 // QDataStream operators (read and write a KonqHistoryEntry
 // from/into a QDataStream
 QDataStream& operator<< (QDataStream& s, const KonqHistoryEntry& e);
 QDataStream& operator>> (QDataStream& s, KonqHistoryEntry& e);
-
-///////////////////////////////////////////////////////////////////
-
-
-/**
- * DCOP Methods for KonqHistoryManager. Has to be in a separate file, because
- * dcopidl2cpp barfs on every second construct ;(
- * Implementations of the pure virtual methods are in KonqHistoryManager
-class KonqHistoryComm : public DCOPObject
-{
-    K_DCOP
-
-protected:
-    KonqHistoryComm( DCOPCString objId ) : DCOPObject( objId ) {}
-
-k_dcop:
-    virtual ASYNC notifyHistoryEntry( KonqHistoryEntry e, QByteArray saveId) = 0;
-    virtual ASYNC notifyMaxCount( quint32 count, QByteArray saveId ) = 0;
-    virtual ASYNC notifyMaxAge( quint32 days, QByteArray saveId ) = 0;
-    virtual ASYNC notifyClear( QByteArray saveId ) = 0;
-    virtual ASYNC notifyRemove( KUrl url, QByteArray saveId ) = 0;
-    virtual ASYNC notifyRemove( KUrl::List url, QByteArray saveId ) = 0;
-    virtual QStringList allURLs() const = 0;
-
-};
- */
 
 #endif // KONQ_HISTORYCOMM_H

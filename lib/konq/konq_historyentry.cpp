@@ -10,7 +10,7 @@ QDataStream& operator<< (QDataStream& s, const KonqHistoryEntry& e) {
     else
 	s << e.url;
 
-    s << e.typedURL;
+    s << e.typedUrl;
     s << e.title;
     s << e.numberOfTimesVisited;
     s << e.firstVisited;
@@ -31,7 +31,7 @@ QDataStream& operator>> (QDataStream& s, KonqHistoryEntry& e) {
 	s>>e.url;
     }
 
-    s >> e.typedURL;
+    s >> e.typedUrl;
     s >> e.title;
     s >> e.numberOfTimesVisited;
     s >> e.firstVisited;

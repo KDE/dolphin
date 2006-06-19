@@ -10,7 +10,7 @@ include_directories( ${ZLIB_INCLUDE_DIR}  )
 
 ########### next target ###############
 
-# Please use .cpp for new file
+# Please use .cpp for new files
 set(konq_LIB_SRCS
    konq_popupmenu.cc
    knewmenu.cc
@@ -26,6 +26,7 @@ set(konq_LIB_SRCS
    konq_undo.cc
    konq_undoadaptor.cpp
    konq_historymgr.cc
+   konq_historymgr_adaptor.cpp
    konq_historyentry.cpp
    konq_pixmapprovider.cc
    kivdirectoryoverlay.cc
@@ -60,6 +61,7 @@ install_files( /include FILES
  konq_events.h
  konq_undo.h
  konq_historymgr.h
+ konq_historymgr_adaptor.h
  konq_historyentry.h
  konq_pixmapprovider.h
  kivdirectoryoverlay.h

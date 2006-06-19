@@ -18,6 +18,7 @@
 */
 
 #include "konq_historymgr.h"
+#include "konq_historymgr_adaptor.h"
 #include "konqbookmarkmanager.h"
 
 #include <dbus/qdbus.h>
@@ -26,11 +27,12 @@
 #include <ksavefile.h>
 #include <ksimpleconfig.h>
 #include <kstandarddirs.h>
+#include <kcompletion.h>
 
-#include <zlib.h>
+#include <zlib.h> // for crc32
 
 
-const quint32 KonqHistoryManager::s_historyVersion = 3;
+const int KonqHistoryManager::s_historyVersion = 3;
 
 KonqHistoryManager::KonqHistoryManager( QObject *parent )
     : KParts::HistoryProvider( parent )
@@ -41,7 +43,7 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent )
     KConfig *config = KGlobal::config();
     KConfigGroup cs( config, "HistorySettings" );
     m_maxCount = cs.readEntry( "Maximum of History entries", 500 );
-    m_maxCount = qMax( (quint32)1, m_maxCount );
+    m_maxCount = qMax( 1, m_maxCount );
     m_maxAgeDays = cs.readEntry( "Maximum age of History entries", 90);
 
     m_filename = locateLocal( "data",
@@ -55,6 +57,19 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent )
     loadHistory();
 
     connect( m_updateTimer, SIGNAL( timeout() ), SLOT( slotEmitUpdated() ));
+
+    m_adaptor = new KonqHistoryManagerAdaptor( this );
+    const QString dbusPath = "/KonqHistoryManager";
+    const QString dbusInterface = "org.kde.libkonq.KonqHistoryManager";
+    QDBus::sessionBus().registerObject( dbusPath, this );
+    // Can't do stuff like
+    //connect( m_adaptor, SIGNAL( notifyClear() ), this, SLOT( slotNotifyClear() ) );
+    // because of the additional QDBusMessage argument.
+    QDBus::sessionBus().connect(QString(), dbusPath, dbusInterface, "notifyClear", this, SLOT(slotNotifyClear(QDBusMessage)));
+    QDBus::sessionBus().connect(QString(), dbusPath, dbusInterface, "notifyHistoryEntry", this, SLOT(slotNotifyHistoryEntry(QByteArray,QDBusMessage)));
+    QDBus::sessionBus().connect(QString(), dbusPath, dbusInterface, "notifyMaxAge", this, SLOT(slotNotifyMaxAge(int,QDBusMessage)));
+    QDBus::sessionBus().connect(QString(), dbusPath, dbusInterface, "notifyMaxCount", this, SLOT(slotNotifyMaxCount(int,QDBusMessage)));
+    QDBus::sessionBus().connect(QString(), dbusPath, dbusInterface, "notifyRemove", this, SLOT(slotNotifyRemove(QString,QDBusMessage)));
 }
 
 
@@ -62,6 +77,7 @@ KonqHistoryManager::~KonqHistoryManager()
 {
     delete m_pCompletion;
     clearPending();
+    delete m_adaptor;
 }
 
 static QString dbusService()
@@ -69,9 +85,9 @@ static QString dbusService()
     return QDBus::sessionBus().baseService();
 }
 
-bool KonqHistoryManager::isSenderOfSignal( const QString& senderService )
+bool KonqHistoryManager::isSenderOfSignal( const QDBusMessage& msg )
 {
-    return dbusService() == senderService;
+    return dbusService() == msg.sender();
 }
 
 // loads the entire history
@@ -137,7 +153,7 @@ bool KonqHistoryManager::loadHistory()
 	    version = 3;
 	}
 
-        if ( s_historyVersion != version || ( crcChecked && !crcOk ) ) {
+        if ( s_historyVersion != (int)version || ( crcChecked && !crcOk ) ) {
 	    kWarning() << "The history version doesn't match, aborting loading" << endl;
 	    file.close();
 	    emit loadingFinished();
@@ -152,7 +168,7 @@ bool KonqHistoryManager::loadHistory()
 	    m_history.append( entry );
 	    QString urlString2 = entry.url.prettyUrl();
 
-	    addToCompletion( urlString2, entry.typedURL, entry.numberOfTimesVisited );
+	    addToCompletion( urlString2, entry.typedUrl, entry.numberOfTimesVisited );
 
 	    // and fill our baseclass.
             QString urlString = entry.url.url();
@@ -236,9 +252,9 @@ void KonqHistoryManager::adjustSize()
     const QDateTime expirationDate( QDate::currentDate().addDays( -m_maxAgeDays ) );
 
     while ( m_history.count() > (qint32)m_maxCount ||
-            (m_maxAgeDays > 0 && entry.lastVisited < expirationDate) ) // i.e. entry is expired
+            (m_maxAgeDays > 0 && entry.lastVisited.isValid() && entry.lastVisited < expirationDate) ) // i.e. entry is expired
     {
-	removeFromCompletion( entry.url.prettyUrl(), entry.typedURL );
+	removeFromCompletion( entry.url.prettyUrl(), entry.typedUrl );
 
         QString urlString = entry.url.url();
 	KParts::HistoryProvider::remove( urlString );
@@ -248,30 +264,32 @@ void KonqHistoryManager::adjustSize()
 	emit entryRemoved( m_history.first() );
 	m_history.removeFirst();
 
+        if ( m_history.isEmpty() )
+            break;
 	entry = m_history.first();
     }
 }
 
 
-void KonqHistoryManager::addPending( const KUrl& url, const QString& typedURL,
+void KonqHistoryManager::addPending( const KUrl& url, const QString& typedUrl,
 				     const QString& title )
 {
-    addToHistory( true, url, typedURL, title );
+    addToHistory( true, url, typedUrl, title );
 }
 
 void KonqHistoryManager::confirmPending( const KUrl& url,
-					 const QString& typedURL,
+					 const QString& typedUrl,
 					 const QString& title )
 {
-    addToHistory( false, url, typedURL, title );
+    addToHistory( false, url, typedUrl, title );
 }
 
 
 void KonqHistoryManager::addToHistory( bool pending, const KUrl& _url,
-				       const QString& typedURL,
+				       const QString& typedUrl,
 				       const QString& title )
 {
-    kDebug(1203) << "## addToHistory: " << _url.prettyUrl() << " Typed URL: " << typedURL << ", Title: " << title << endl;
+    kDebug(1203) << "## addToHistory: " << _url.prettyUrl() << " Typed URL: " << typedUrl << ", Title: " << title << endl;
 
     if ( filterOut( _url ) ) // we only want remote URLs
 	return;
@@ -287,8 +305,8 @@ void KonqHistoryManager::addToHistory( bool pending, const KUrl& _url,
     KonqHistoryEntry entry;
     QString u = url.prettyUrl();
     entry.url = url;
-    if ( (u != typedURL) && !hasPass )
-	entry.typedURL = typedURL;
+    if ( (u != typedUrl) && !hasPass )
+	entry.typedUrl = typedUrl;
 
     // we only keep the title if we are confirming an entry. Otherwise,
     // we might get bogus titles from the previous url (actually it's just
@@ -355,7 +373,7 @@ void KonqHistoryManager::emitAddToHistory( const KonqHistoryEntry& entry )
     // Protection against very long urls (like data:)
     if ( data.size() > 4096 )
         return;
-    emit notifyHistoryEntry( data, dbusService() );
+    emit notifyHistoryEntry( data );
 }
 
 
@@ -392,63 +410,69 @@ void KonqHistoryManager::clearPending()
 
 void KonqHistoryManager::emitRemoveFromHistory( const KUrl& url )
 {
-    emit notifyRemove( url.url(), dbusService() );
+    emit notifyRemove( url.url() );
 }
 
-void KonqHistoryManager::emitRemoveFromHistory( const KUrl::List& urls )
+/*void KonqHistoryManager::emitRemoveFromHistory( const KUrl::List& urls )
 {
-    emit notifyRemove( urls.toStringList(), dbusService() );
-}
+    emit notifyRemove( urls.toStringList() );
+}*/
 
 void KonqHistoryManager::emitClear()
 {
-    emit notifyClear( dbusService() );
+    emit notifyClear();
 }
 
-void KonqHistoryManager::emitSetMaxCount( quint32 count )
+void KonqHistoryManager::emitSetMaxCount( int count )
 {
-    emit notifyMaxCount( count, dbusService() );
+    emit notifyMaxCount( count );
 }
 
-void KonqHistoryManager::emitSetMaxAge( quint32 days )
+void KonqHistoryManager::emitSetMaxAge( int days )
 {
-    emit notifyMaxAge( days, dbusService() );
+    emit notifyMaxAge( days );
 }
 
 ///////////////////////////////////////////////////////////////////
 // DBUS called methods
 
-void KonqHistoryManager::slotNotifyHistoryEntry( QByteArray & data,
-                                                 const QString& senderService )
+void KonqHistoryManager::slotNotifyHistoryEntry( const QByteArray & data,
+                                                 const QDBusMessage& msg )
 {
     KonqHistoryEntry e;
-    QDataStream stream( &data, QIODevice::ReadOnly );
+    QDataStream stream( const_cast<QByteArray *>( &data ), QIODevice::ReadOnly );
     stream >> e;
     kDebug(1203) << "Got new entry from Broadcast: " << e.url.prettyUrl() << endl;
 
     KonqHistoryList::iterator existingEntry = findEntry( e.url );
     QString urlString = e.url.url();
+    const bool newEntry = existingEntry == m_history.end();
 
     KonqHistoryEntry entry;
 
-    if ( existingEntry != m_history.end() ) {
+    if ( !newEntry ) {
         entry = *existingEntry;
     } else { // create a new history entry
 	entry.url = e.url;
 	entry.firstVisited = e.firstVisited;
 	entry.numberOfTimesVisited = 0; // will get set to 1 below
-	m_history.append( entry );
 	KParts::HistoryProvider::insert( urlString );
     }
 
-    if ( !e.typedURL.isEmpty() )
-	entry.typedURL = e.typedURL;
+    if ( !e.typedUrl.isEmpty() )
+	entry.typedUrl = e.typedUrl;
     if ( !e.title.isEmpty() )
 	entry.title = e.title;
     entry.numberOfTimesVisited += e.numberOfTimesVisited;
     entry.lastVisited = e.lastVisited;
 
-    addToCompletion( entry.url.prettyUrl(), entry.typedURL );
+    if ( newEntry )
+        m_history.append( entry );
+    else {
+        *existingEntry = entry;
+    }
+
+    addToCompletion( entry.url.prettyUrl(), entry.typedUrl );
 
     // bool pending = (e.numberOfTimesVisited != 0);
 
@@ -459,7 +483,7 @@ void KonqHistoryManager::slotNotifyHistoryEntry( QByteArray & data,
     // the history object itself keeps the data consistant.
     bool updated = KonqBookmarkManager::self()->updateAccessMetadata( urlString );
 
-    if ( isSenderOfSignal( senderService ) ) {
+    if ( isSenderOfSignal( msg ) ) {
 	// we are the sender of the broadcast, so we save
 	saveHistory();
 	// note, bk save does not notify, and we don't want to!
@@ -471,7 +495,7 @@ void KonqHistoryManager::slotNotifyHistoryEntry( QByteArray & data,
     emit entryAdded( entry );
 }
 
-void KonqHistoryManager::slotNotifyMaxCount( quint32 count, const QString& senderService )
+void KonqHistoryManager::slotNotifyMaxCount( int count, const QDBusMessage& msg )
 {
     m_maxCount = count;
     clearPending();
@@ -481,13 +505,13 @@ void KonqHistoryManager::slotNotifyMaxCount( quint32 count, const QString& sende
     KConfigGroup cs( config, "HistorySettings" );
     cs.writeEntry( "Maximum of History entries", m_maxCount );
 
-    if ( isSenderOfSignal( senderService ) ) {
+    if ( isSenderOfSignal( msg ) ) {
 	saveHistory();
 	cs.sync();
     }
 }
 
-void KonqHistoryManager::slotNotifyMaxAge( quint32 days, const QString& senderService  )
+void KonqHistoryManager::slotNotifyMaxAge( int days, const QDBusMessage& msg  )
 {
     m_maxAgeDays = days;
     clearPending();
@@ -497,25 +521,25 @@ void KonqHistoryManager::slotNotifyMaxAge( quint32 days, const QString& senderSe
     KConfigGroup cs( config, "HistorySettings" );
     cs.writeEntry( "Maximum age of History entries", m_maxAgeDays );
 
-    if ( isSenderOfSignal( senderService ) ) {
+    if ( isSenderOfSignal( msg ) ) {
 	saveHistory();
 	cs.sync();
     }
 }
 
-void KonqHistoryManager::slotNotifyClear( const QString& senderService )
+void KonqHistoryManager::slotNotifyClear( const QDBusMessage& msg )
 {
     clearPending();
     m_history.clear();
     m_pCompletion->clear();
 
-    if ( isSenderOfSignal( senderService ) )
+    if ( isSenderOfSignal( msg ) )
 	saveHistory();
 
     KParts::HistoryProvider::clear(); // also emits the cleared() signal
 }
 
-void KonqHistoryManager::slotNotifyRemove( const QString& urlStr, const QString& senderService )
+void KonqHistoryManager::slotNotifyRemove( const QString& urlStr, const QDBusMessage& msg )
 {
     KUrl url( urlStr );
     kDebug(1203) << "#### Broadcast: remove entry:: " << url.prettyUrl() << endl;
@@ -524,7 +548,7 @@ void KonqHistoryManager::slotNotifyRemove( const QString& urlStr, const QString&
 
     if ( existingEntry != m_history.end() ) {
         const KonqHistoryEntry entry = *existingEntry; // make copy, due to erase call below
-	removeFromCompletion( entry.url.prettyUrl(), entry.typedURL );
+	removeFromCompletion( entry.url.prettyUrl(), entry.typedUrl );
 
         const QString urlString = entry.url.url();
 	KParts::HistoryProvider::remove( urlString );
@@ -534,12 +558,13 @@ void KonqHistoryManager::slotNotifyRemove( const QString& urlStr, const QString&
 	m_history.erase( existingEntry );
 	emit entryRemoved( entry );
 
-	if ( isSenderOfSignal( senderService ) )
+	if ( isSenderOfSignal( msg ) )
 	    saveHistory();
     }
 }
 
-void KonqHistoryManager::slotNotifyRemove( const QStringList& urls, const QString& senderService )
+#if 0
+void KonqHistoryManager::slotNotifyRemove( const QStringList& urls, const QDBusMessage& msg )
 {
     kDebug(1203) << "#### Broadcast: removing list!" << endl;
 
@@ -550,7 +575,7 @@ void KonqHistoryManager::slotNotifyRemove( const QStringList& urls, const QStrin
         KonqHistoryList::iterator existingEntry = m_history.findEntry( url );
         if ( existingEntry != m_history.end() ) {
             const KonqHistoryEntry entry = *existingEntry; // make copy, due to erase call below
-	    removeFromCompletion( entry.url.prettyUrl(), entry.typedURL );
+	    removeFromCompletion( entry.url.prettyUrl(), entry.typedUrl );
 
             const QString urlString = entry.url.url();
 	    KParts::HistoryProvider::remove( urlString );
@@ -564,10 +589,10 @@ void KonqHistoryManager::slotNotifyRemove( const QStringList& urls, const QStrin
 	}
     }
 
-    if ( doSave && isSenderOfSignal( senderService ) )
+    if ( doSave && isSenderOfSignal( msg ) )
         saveHistory();
 }
-
+#endif
 
 // compatibility fallback, try to load the old completion history
 bool KonqHistoryManager::loadFallback()
@@ -651,6 +676,7 @@ void KonqHistoryManager::slotEmitUpdated()
     m_updateURLs.clear();
 }
 
+#if 0 // unused
 QStringList KonqHistoryManager::allURLs() const
 {
     QStringList list;
@@ -660,19 +686,20 @@ QStringList KonqHistoryManager::allURLs() const
     }
     return list;
 }
+#endif
 
-void KonqHistoryManager::addToCompletion( const QString& url, const QString& typedURL,
+void KonqHistoryManager::addToCompletion( const QString& url, const QString& typedUrl,
                                           int numberOfTimesVisited )
 {
     m_pCompletion->addItem( url, numberOfTimesVisited );
     // typed urls have a higher priority
-    m_pCompletion->addItem( typedURL, numberOfTimesVisited +10 );
+    m_pCompletion->addItem( typedUrl, numberOfTimesVisited +10 );
 }
 
-void KonqHistoryManager::removeFromCompletion( const QString& url, const QString& typedURL )
+void KonqHistoryManager::removeFromCompletion( const QString& url, const QString& typedUrl )
 {
     m_pCompletion->removeItem( url );
-    m_pCompletion->removeItem( typedURL );
+    m_pCompletion->removeItem( typedUrl );
 }
 
 //////////////////////////////////////////////////////////////////

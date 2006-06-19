@@ -26,6 +26,16 @@ if(KDE4_BUILD_TESTS)
 
   add_test(libkonq-favicontest favicontest)
 
+  ########### historymgrtest ###############
+
+  kde4_automoc(historymgrtest.cpp)
+
+  kde4_add_executable(historymgrtest RUN_UNINSTALLED historymgrtest.cpp)
+
+  target_link_libraries(historymgrtest konq ${QT_QTTEST_LIBRARY})
+
+  add_test(libkonq-historymgrtest historymgrtest)
+
   ############################################
 
 endif(KDE4_BUILD_TESTS)

@@ -1,0 +1,19 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.libkonq.KonqHistoryManager">
+    <signal name="notifyHistoryEntry">
+      <arg name="historyEntry" type="ay" direction="out"/>
+    </signal>
+    <signal name="notifyMaxCount">
+      <arg name="count" type="i" direction="out"/>
+    </signal>
+    <signal name="notifyMaxAge">
+      <arg name="days" type="i" direction="out"/>
+    </signal>
+    <signal name="notifyClear">
+    </signal>
+    <signal name="notifyRemove">
+      <arg name="url" type="s" direction="out"/>
+    </signal>
+  </interface>
+</node>
