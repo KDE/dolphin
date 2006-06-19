@@ -29,6 +29,7 @@
 
 #include <kio/job.h>
 
+#include <kmimetype.h>
 #include <kparts/part.h>
 #include <kparts/componentfactory.h>
 #include <kparts/browserextension.h>
@@ -48,7 +49,7 @@ void FavIconUpdater::slotCompleted() {
 }
 
 void FavIconUpdater::downloadIcon(const KBookmark &bk) {
-    QString favicon = KonqFavIconMgr::iconForURL(bk.url().url());
+    QString favicon = KMimeType::favIconForURL(bk.url().url());
     if (!favicon.isNull()) {
         // kDebug() << "downloadIcon() - favicon" << favicon << endl;
         bk.internalElement().setAttribute("icon", favicon);
@@ -58,7 +59,7 @@ void FavIconUpdater::downloadIcon(const KBookmark &bk) {
 
     } else {
         KonqFavIconMgr::downloadHostIcon(bk.url());
-        favicon = KonqFavIconMgr::iconForURL(bk.url().url());
+        favicon = KMimeType::favIconForURL(bk.url().url());
         // kDebug() << "favicon == " << favicon << endl;
         if (favicon.isNull()) {
             downloadIconActual(bk);
