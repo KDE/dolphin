@@ -51,12 +51,6 @@ public:
      */
     static void downloadHostIcon(const KUrl &url);
 
-    /**
-     * Looks up an icon for @p url and returns its name if found
-     * or QString() otherwise
-     */
-    static QString iconForURL(const KUrl &url);
-
 private slots:
     /**
      * an icon changed, updates the combo box

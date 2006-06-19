@@ -12,9 +12,19 @@ if(KDE4_BUILD_TESTS)
 
   kde4_add_executable(konqmimedatatest RUN_UNINSTALLED konqmimedatatest.cpp)
 
-  target_link_libraries(konqmimedatatest konq ${KDE4_KDECORE_LIBS} ${QT_QTTEST_LIBRARY})
+  target_link_libraries(konqmimedatatest konq ${QT_QTTEST_LIBRARY})
 
   add_test(libkonq-konqmimedatatest konqmimedatatest)
+
+  ########### favicontest ###############
+
+  kde4_automoc(favicontest.cpp)
+
+  kde4_add_executable(favicontest RUN_UNINSTALLED favicontest.cpp)
+
+  target_link_libraries(favicontest konq ${QT_QTTEST_LIBRARY})
+
+  add_test(libkonq-favicontest favicontest)
 
   ############################################
 

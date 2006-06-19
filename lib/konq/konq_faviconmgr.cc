@@ -44,11 +44,6 @@ KonqFavIconMgr::~KonqFavIconMgr()
     delete m_favIconsModule;
 }
 
-QString KonqFavIconMgr::iconForURL(const KUrl &url)
-{
-    return KMimeType::favIconForURL( url );
-}
-
 void KonqFavIconMgr::setIconForURL(const KUrl &url, const KUrl &iconURL)
 {
     QDBusInterfacePtr favicon("org.kde.kded", "/modules/favicons", FAVICONINTERFACE);

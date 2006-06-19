@@ -32,6 +32,7 @@
 #include <kstandarddirs.h>
 #include <kio/job.h>
 #include "favicons_adaptor.h"
+#include <ktempfile.h>
 
 #include "favicons.moc"
 
@@ -155,24 +156,24 @@ bool FavIconsModule::isIconOld(const QString &icon)
 
 void FavIconsModule::setIconForURL(const KUrl &url, const KUrl &iconURL)
 {
-    QString simplifiedURL = simplifyURL(url);
+    const QString simplifiedURL = simplifyURL(url);
 
     d->faviconsCache.insert(removeSlash(simplifiedURL), new QString(iconURL.url()) );
 
-    QString iconName = "favicons/" + iconNameFromURL(iconURL);
-    QString iconFile = d->faviconsDir + iconName + ".png";
+    const QString iconName = "favicons/" + iconNameFromURL(iconURL);
+    const QString iconFile = d->faviconsDir + iconName + ".png";
 
     if (!isIconOld(iconFile)) {
-        emit iconChanged(false, simplifiedURL, iconName);
+        emit iconChanged(false, url.url(), iconName);
         return;
     }
 
-    startDownload(simplifiedURL, false, iconURL);
+    startDownload(url.url(), false, iconURL);
 }
 
 void FavIconsModule::downloadHostIcon(const KUrl &url)
 {
-    QString iconFile = d->faviconsDir + "favicons/" + url.host() + ".png";
+    const QString iconFile = d->faviconsDir + "favicons/" + url.host() + ".png";
     if (!isIconOld(iconFile))
         return;
 
@@ -181,8 +182,9 @@ void FavIconsModule::downloadHostIcon(const KUrl &url)
 
 void FavIconsModule::startDownload(const QString &hostOrURL, bool isHost, const KUrl &iconURL)
 {
-    if (d->failedDownloads.contains(iconURL.url()))
+    if (d->failedDownloads.contains(iconURL.url())) {
         return;
+    }
 
     KIO::Job *job = KIO::get(iconURL, false, false);
     job->addMetaData(d->metaData);

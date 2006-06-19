@@ -50,7 +50,7 @@ public:
     FavIconsModule();
     virtual ~FavIconsModule();
 
-public Q_SLOTS: // dbus methods
+public Q_SLOTS: // dbus methods, called by the adaptor
     /**
      * Looks up an icon name for a given URL. This function does not
      * initiate any download. If no icon for the URL or its host has
@@ -71,7 +71,7 @@ public Q_SLOTS: // dbus methods
      * @param url the URL which will be associated with the icon
      * @param iconURL the URL of the icon to be downloaded
      */
-    void /*ASYNC*/ setIconForURL(const KUrl &url, const KUrl &iconURL);
+    void setIconForURL(const KUrl &url, const KUrl &iconURL);
     /**
      * Downloads the icon for a given host if it was not downloaded before
      * or the download was too long ago. If the download finishes
@@ -79,10 +79,16 @@ public Q_SLOTS: // dbus methods
      *
      * @param url any URL on the host for which the icon is to be downloaded
      */
-    void /*ASYNC*/ downloadHostIcon(const KUrl &url);
+    void downloadHostIcon(const KUrl &url);
 
 signals: // DBUS signals
+    /**
+     * Emitting once a new icon is available, for a host or url
+     */
     void iconChanged(bool isHost, QString hostOrURL, QString iconName);
+    /**
+     * Progress info while downloading an icon
+     */
     void infoMessage(QString iconURL, QString msg);
 
 private:

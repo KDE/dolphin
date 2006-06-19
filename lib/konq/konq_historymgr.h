@@ -73,7 +73,7 @@ public:
 	return static_cast<KonqHistoryManager*>( KParts::HistoryProvider::self() );
     }
 
-    KonqHistoryManager( QObject *parent );
+    KonqHistoryManager( QObject *parent = 0 );
     ~KonqHistoryManager();
 
     /**
@@ -228,6 +228,11 @@ protected:
     void emitAddToHistory( const KonqHistoryEntry& entry );
 
 Q_SIGNALS: // DBUS methods/signals
+
+// ####### NOTE: the last arg could be const QDBusMessage &msg, and then use msg.sender(),
+// instead of sending senderService explicitely.
+
+
     /**
      * Every konqueror instance broadcasts new history entries to the other
      * konqueror instances. Those add the entry to their list, but don't
