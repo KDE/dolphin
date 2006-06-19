@@ -29,12 +29,12 @@ class KonqyPreloader
     Q_OBJECT
     K_DCOP
     public:
-        KonqyPreloader( const DCOPCString& obj );
+        KonqyPreloader();
         virtual ~KonqyPreloader();
     k_dcop:
-        bool registerPreloadedKonqy( DCOPCString id, int screen );
-        DCOPCString getPreloadedKonqy( int screen );
-        ASYNC unregisterPreloadedKonqy( DCOPCString id );
+        bool registerPreloadedKonqy( QString id, int screen );
+        QString getPreloadedKonqy( int screen );
+        ASYNC unregisterPreloadedKonqy( QString id );
         void reconfigure();
         void unloadAllPreloaded();
     private Q_SLOTS:
@@ -45,9 +45,9 @@ class KonqyPreloader
         struct KonqyData
             {
             KonqyData() {}; // for QValueList
-            KonqyData( const DCOPCString& id_P, int screen_P )
+            KonqyData( const QString& id_P, int screen_P )
                 : id( id_P ), screen( screen_P ) {}
-            DCOPCString id;
+            QString id;
             int screen;
             };
         typedef QList< KonqyData > InstancesList;

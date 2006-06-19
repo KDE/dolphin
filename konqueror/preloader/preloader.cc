@@ -27,8 +27,8 @@
 #include <kdebug.h>
 #include <ktoolinvocation.h>
 
-KonqyPreloader::KonqyPreloader( const DCOPCString& obj )
-    : KDEDModule( obj )
+KonqyPreloader::KonqyPreloader()
+    : KDEDModule()
     {
     reconfigure();
     connect( kapp->dcopClient(), SIGNAL( applicationRemoved( const QByteArray& )),
@@ -43,7 +43,7 @@ KonqyPreloader::~KonqyPreloader()
     updateCount();
     }
 
-bool KonqyPreloader::registerPreloadedKonqy( DCOPCString id, int screen )
+bool KonqyPreloader::registerPreloadedKonqy( QString id, int screen )
     {
     if( instances.count() >= KonqSettings::maxPreloadCount() )
         return false;
@@ -51,7 +51,7 @@ bool KonqyPreloader::registerPreloadedKonqy( DCOPCString id, int screen )
     return true;
     }
 
-DCOPCString KonqyPreloader::getPreloadedKonqy( int screen )
+QString KonqyPreloader::getPreloadedKonqy( int screen )
     {
     if( instances.count() == 0 )
         return "";
@@ -61,7 +61,7 @@ DCOPCString KonqyPreloader::getPreloadedKonqy( int screen )
         {
         if( (*it).screen == screen )
             {
-           DCOPCString ret = (*it).id;
+           QString ret = (*it).id;
             instances.erase( it );
             check_always_preloaded_timer.start( 5000 );
             return ret;
@@ -70,7 +70,7 @@ DCOPCString KonqyPreloader::getPreloadedKonqy( int screen )
     return "";
     }
 
-void KonqyPreloader::unregisterPreloadedKonqy( DCOPCString id_P )
+void KonqyPreloader::unregisterPreloadedKonqy( QString id_P )
     {
     for( InstancesList::Iterator it = instances.begin();
          it != instances.end();
@@ -145,9 +145,9 @@ void KonqyPreloader::unloadAllPreloaded()
     }
     
 extern "C"
-KDE_EXPORT KDEDModule *create_konqy_preloader( const DCOPCString& obj )
+KDE_EXPORT KDEDModule *create_konqy_preloader()
     {
-    return new KonqyPreloader( obj );
+    return new KonqyPreloader();
     }
 
 #include "preloader.moc"
