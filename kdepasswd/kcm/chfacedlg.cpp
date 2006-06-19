@@ -122,7 +122,7 @@ ChFaceDlg::ChFaceDlg(const QString& picsdir, QWidget *parent, const char *name, 
   //m_FacesWidget->setGridX( FACE_PIX_SIZE - 10 );
   m_FacesWidget->arrangeItemsInGrid();
 
-  enableButtonOK( false );
+  enableButtonOk( false );
   //connect( this, SIGNAL( okClicked() ), SLOT( slotSaveCustomImage() ) );
 
   resize( 420, 400 );

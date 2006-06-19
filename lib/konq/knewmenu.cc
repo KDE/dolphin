@@ -569,7 +569,7 @@ void KUrlDesktopFileDlg::initDialog( const QString& textFileName, const QString&
     label->setBuddy(m_urlRequester);  // please "scheck" style
 
     m_urlRequester->setFocus();
-    enableButtonOK( !defaultName.isEmpty() && !defaultUrl.isEmpty() );
+    enableButtonOk( !defaultName.isEmpty() && !defaultUrl.isEmpty() );
     connect( this, SIGNAL(user1Clicked()), this, SLOT(slotClear()) );
     m_fileNameEdited = false;
 }
@@ -601,7 +601,7 @@ void KUrlDesktopFileDlg::slotNameTextChanged( const QString& )
 {
     kDebug() << k_funcinfo << endl;
     m_fileNameEdited = true;
-    enableButtonOK( !m_leFileName->text().isEmpty() && !m_urlRequester->url().isEmpty() );
+    enableButtonOk( !m_leFileName->text().isEmpty() && !m_urlRequester->url().isEmpty() );
 }
 
 void KUrlDesktopFileDlg::slotURLTextChanged( const QString& )
@@ -618,7 +618,7 @@ void KUrlDesktopFileDlg::slotURLTextChanged( const QString& )
             m_leFileName->setText( url.url() );
         m_fileNameEdited = false; // slotNameTextChanged set it to true erroneously
     }
-    enableButtonOK( !m_leFileName->text().isEmpty() && !m_urlRequester->url().isEmpty() );
+    enableButtonOk( !m_leFileName->text().isEmpty() && !m_urlRequester->url().isEmpty() );
 }
 
 

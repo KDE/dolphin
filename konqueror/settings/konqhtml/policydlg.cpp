@@ -59,7 +59,7 @@ PolicyDialog::PolicyDialog( Policies *policies, QWidget *parent, const char *nam
 
   le_domain->setFocus();
 
-  enableButtonOK(!le_domain->text().isEmpty());
+  enableButtonOk(!le_domain->text().isEmpty());
 }
 
 PolicyDialog::FeatureEnabledPolicy PolicyDialog::featureEnabledPolicy() const {
@@ -68,7 +68,7 @@ PolicyDialog::FeatureEnabledPolicy PolicyDialog::featureEnabledPolicy() const {
 
 void PolicyDialog::slotTextChanged( const QString &text)
 {
-    enableButtonOK(!text.isEmpty());
+    enableButtonOk(!text.isEmpty());
 }
 
 void PolicyDialog::setDisableEdit( bool state, const QString& text )

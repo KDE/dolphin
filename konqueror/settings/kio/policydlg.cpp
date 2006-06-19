@@ -72,7 +72,7 @@ PolicyDlg::PolicyDlg (const QString& caption, QWidget *parent,
   m_dlgUI->leDomain->setValidator(new DomainLineValidator(m_dlgUI->leDomain));
   m_dlgUI->cbPolicy->setMinimumWidth( m_dlgUI->cbPolicy->fontMetrics().maxWidth() * 25 );
   
-  enableButtonOK( false );
+  enableButtonOk( false );
   connect(m_dlgUI->leDomain, SIGNAL(textChanged(const QString&)),
     SLOT(slotTextChanged(const QString&)));
 
@@ -108,6 +108,6 @@ QString PolicyDlg::domain () const
 
 void PolicyDlg::slotTextChanged( const QString& text )
 {
-  enableButtonOK( text.length() > 1 );
+  enableButtonOk( text.length() > 1 );
 }
 #include "policydlg.moc"
