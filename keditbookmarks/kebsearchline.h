@@ -223,7 +223,7 @@ private:
     bool checkItemParentsVisible(QModelIndex index);
 
     /**
-     * returns wheter any row between first and last is visible
+     * returns whether any row between first and last is visible
      */
     bool anyVisible(const QModelIndex & first, const QModelIndex & last);
 

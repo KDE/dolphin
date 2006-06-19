@@ -262,7 +262,7 @@ void KQuery::processQuery( KFileItem* file)
           return;
     }
 
-    // match datas in metainfo...
+    // match data in metainfo...
     if ((!m_metainfo.isEmpty())  && (!m_metainfokey.isEmpty()))
     {
        bool foundmeta=false;

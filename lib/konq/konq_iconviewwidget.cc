@@ -1269,7 +1269,7 @@ void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
 
   // This signal is sent last because we need to ensure it is
   // taken in account when all the slots triggered by the dropped() signal
-  // are executed. This way we know that the Drag and Drop is truely finished
+  // are executed. This way we know that the Drag and Drop is truly finished
   emit dragFinished();
 }
 
@@ -1842,7 +1842,7 @@ void KonqIconViewWidget::visualActivate(Q3IconViewItem * item)
     QRect rect = item->pixmapRect();
 
     // Adjust to correct position. If this isn't done, the fact that the
-    // text may be wider than the pixmap puts us off-centre.
+    // text may be wider than the pixmap puts us off-center.
     rect.translate(irect.x(), irect.y());
 
     // Adjust for scrolling (David)

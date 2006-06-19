@@ -729,7 +729,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
             }
             else if ( urlForServiceMenu.protocol() == "trash" || urlForServiceMenu.url().startsWith( "system:/trash" ) )
             {
-                // Require servicemenus for the trash to ask for protocol=trash explicitely.
+                // Require servicemenus for the trash to ask for protocol=trash explicitly.
                 // Trashed files aren't supposed to be available for actions.
                 // One might want a servicemenu for trash.desktop itself though.
                 continue;

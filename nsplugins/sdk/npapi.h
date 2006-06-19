@@ -225,7 +225,7 @@ typedef struct _NPWindow
     NPRect  clipRect; /* Clipping rectangle in port coordinates */
             /* Used by MAC only.        */
 #ifdef XP_UNIX
-    void *  ws_info;  /* Platform-dependent additonal data */
+    void *  ws_info;  /* Platform-dependent additional data */
 #endif /* XP_UNIX */
     NPWindowType type;  /* Is this a window or a drawable? */
 } NPWindow;

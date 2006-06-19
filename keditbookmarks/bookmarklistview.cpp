@@ -351,7 +351,7 @@ SelcAbilities BookmarkListView::getSelectionAbilities() const
         selctionAbilities.singleSelect   = (!selctionAbilities.multiSelect && selctionAbilities.itemSelected);
     }
     //FIXME check next line, if it actually works
-    selctionAbilities.notEmpty = CurrentMgr::self()->root().first().hasParent(); //FIXME that's insane, checks wheter there exists at least one bookmark
+    selctionAbilities.notEmpty = CurrentMgr::self()->root().first().hasParent(); //FIXME that's insane, checks whether there exists at least one bookmark
 
 //     kDebug()<<"sa.itemSelected "<<selctionAbilities.itemSelected<<"\nsa.group "<<selctionAbilities.group<<
 //                 "\nsa.separator "<<selctionAbilities.separator<<"\nsa.urlIsEmpty "<<selctionAbilities.urlIsEmpty<<

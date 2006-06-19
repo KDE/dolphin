@@ -65,7 +65,7 @@ protected:
  * storage structure for the views. The top most element is a
  * KonqFrameContainer. It's a direct child of the MainView. We can then
  * build up a binary tree of containers. KonqFrameContainers are the nodes.
- * That means that they always have two childs. Which are either again
+ * That means that they always have two children. Which are either again
  * KonqFrameContainers or, as leaves, KonqFrames.
  */
 

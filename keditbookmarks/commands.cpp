@@ -561,7 +561,7 @@ KEBMacroCommand* CmdGen::insertMimeSource(const QString &cmdName, const QMimeDat
     // and included ".desktop" files
     // Instead of adding a bookmark poiting to the .desktop file, the contents
     // of the .desktop file were added.
-    // FIXME decide wheter that is useful and how to port
+    // FIXME decide whether that is useful and how to port
 }
 
 KEBMacroCommand* CmdGen::itemsMoved(const QList<KBookmark> & items, 
