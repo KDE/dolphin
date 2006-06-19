@@ -185,10 +185,10 @@ public:
 KonqUndoManager::KonqUndoManager()
 {
   KonqUndoManagerAdaptor* dbusAdaptor = new KonqUndoManagerAdaptor( this );
-  connect( dbusAdaptor, SIGNAL(lock()), this, SLOT(lock()) );
-  connect( dbusAdaptor, SIGNAL(pop()), this, SLOT(pop()) );
-  connect( dbusAdaptor, SIGNAL(push(QByteArray)), this, SLOT(push(QByteArray)) );
-  connect( dbusAdaptor, SIGNAL(unlock()), this, SLOT(unlock()) );
+  connect( dbusAdaptor, SIGNAL(lock()), this, SLOT(slotLock()) );
+  connect( dbusAdaptor, SIGNAL(pop()), this, SLOT(slotPop()) );
+  connect( dbusAdaptor, SIGNAL(push(QByteArray)), this, SLOT(slotPush(QByteArray)) );
+  connect( dbusAdaptor, SIGNAL(unlock()), this, SLOT(slotUnlock()) );
   d = new KonqUndoManagerPrivate;
   d->m_syncronized = initializeFromKDesky();
   d->m_lock = false;
