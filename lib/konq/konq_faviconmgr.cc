@@ -24,7 +24,7 @@
 #include <dbus/qdbus.h>
 #include "konq_faviconmgr.h"
 
-#define FAVICONINTERFACE "org.kde.KonqFavIcon"
+#define FAVICONINTERFACE "org.kde.FavIcon"
 
 KonqFavIconMgr::KonqFavIconMgr(QObject *parent)
     : QObject(parent)

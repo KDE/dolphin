@@ -61,7 +61,7 @@ private slots:
     /**
      * an icon changed, updates the combo box
      */
-    virtual void notifyChange( bool, QString, QString ) = 0;
+    virtual void notifyChange( bool isHost, QString hostOrURL, QString iconName ) = 0;
 
 signals:
     void changed();
