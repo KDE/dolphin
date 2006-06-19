@@ -20,8 +20,7 @@
 
 
 #include "konq_view.h"
-#include "kapplication.h"
-#include "KonqViewIface.h"
+//#include "KonqViewIface.h"
 #include "konq_settingsxt.h"
 #include "konq_frame.h"
 #include "konq_run.h"
@@ -38,24 +37,22 @@
 #include <assert.h>
 #include <kdebug.h>
 #include <kcursor.h>
-#include <q3scrollview.h>
+#include <kmessagebox.h>
+#include <klocale.h>
+#include <fixx11h.h>
+#include <krandom.h>
 
 #include <QApplication>
 #include <QMetaObject>
 #include <QObject>
-//Added by qt3to4:
 #include <QByteArray>
 #include <QEvent>
 #include <QDropEvent>
 #include <QContextMenuEvent>
 #include <QDragEnterEvent>
 #include <QMouseEvent>
-#include <config.h>
-#include <kmessagebox.h>
-#include <klocale.h>
-
-#include <fixx11h.h>
-#include <krandom.h>
+#include <QFile>
+#include <QScrollArea>
 
 //#define DEBUG_HISTORY
 
@@ -478,7 +475,7 @@ void KonqView::connectPart(  )
 
   if (m_bBackRightClick && m_pPart->widget()->inherits("QScrollView") )
   {
-    (static_cast<Q3ScrollView *>(m_pPart->widget()))->viewport()->installEventFilter( this );
+    (static_cast<QScrollArea *>(m_pPart->widget()))->viewport()->installEventFilter( this );
   }
 
   // KonqDirPart signal
@@ -1197,7 +1194,7 @@ void KonqView::reparseConfiguration()
     {
         if (m_bBackRightClick && m_pPart->widget()->inherits("QScrollView") )
         {
-            (static_cast<Q3ScrollView *>(m_pPart->widget()))->viewport()->installEventFilter( this );
+            (static_cast<QScrollArea *>(m_pPart->widget()))->viewport()->installEventFilter( this );
         }
         enableBackRightClick( b );
     }
