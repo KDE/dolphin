@@ -54,8 +54,8 @@ struct FavIconsModulePrivate
     QCache<QString,QString> faviconsCache;
 };
 
-FavIconsModule::FavIconsModule(const QString &obj)
-    : KDEDModule(obj)
+FavIconsModule::FavIconsModule()
+    : KDEDModule()
 {
     // create our favicons folder so that KIconLoader knows about it
     d = new FavIconsModulePrivate;
@@ -69,7 +69,6 @@ FavIconsModule::FavIconsModule(const QString &obj)
     d->config = new KSimpleConfig(locateLocal("data", "konqueror/faviconrc"));
 
     new FavIconsAdaptor( this );
-    QDBus::sessionBus().registerObject( "/modules/favicons", this );
 }
 
 FavIconsModule::~FavIconsModule()
@@ -261,9 +260,9 @@ void FavIconsModule::slotKill()
 }
 
 extern "C" {
-    KDE_EXPORT KDEDModule *create_favicons(const QString &obj)
+    KDE_EXPORT KDEDModule *create_favicons()
     {
-        return new FavIconsModule(obj);
+        return new FavIconsModule();
     }
 }
 

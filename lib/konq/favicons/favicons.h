@@ -47,7 +47,7 @@ class FavIconsModule : public KDEDModule
 {
     Q_OBJECT
 public:
-    FavIconsModule(const QString &obj);
+    FavIconsModule();
     virtual ~FavIconsModule();
 
 public Q_SLOTS: // dbus methods
