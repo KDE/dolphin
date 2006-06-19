@@ -20,26 +20,20 @@
 */
 
 #include "dcop.h"
-
 #include "toplevel.h"
 
-#include <stdlib.h>
-
-#include <QClipboard>
-#include <QPainter>
-
-#include <klocale.h>
-#include <kbookmarkmanager.h>
-#include <dcopclient.h>
+#include <dbus/qdbus.h>
 #include <kdebug.h>
-#include <kapplication.h>
+#include <kbookmarkmanager.h>
 
 
 KBookmarkEditorIface::KBookmarkEditorIface()
-    : QObject(), DCOPObject("KBookmarkEditor") {
-    // connect(KBookmarkNotifier_stub, SIGNAL( updatedAccessMetadata(QString,QString) ), 
-    //         this,                  SLOT( slotDcopUpdatedAccessMetadata(QString,QString) ));
-    connectDCOPSignal(0, "KBookmarkNotifier", "updatedAccessMetadata(QString,QString)", "slotDcopUpdatedAccessMetadata(QString,QString)", false);
+    : QObject()
+{
+    QDBus::sessionBus().connect( QString(), // any service
+                                 "/", "org.kde.KIO.KBookmarkNotifier", // path and interface, see kbookmarknotifier.cpp
+                                 "updatedAccessMetadata", // signal name
+                                 this, SLOT(slotDcopUpdatedAccessMetadata(QString,QString)) );
 }
 
 void KBookmarkEditorIface::slotDcopUpdatedAccessMetadata(QString filename, QString url) {

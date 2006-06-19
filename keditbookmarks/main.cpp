@@ -24,8 +24,6 @@
 #include "toplevel.h"
 #include "importers.h"
 
-#include <dcopclient.h>
-#include <dcopref.h>
 #include <klocale.h>
 #include <kdebug.h>
 #include <kstandarddirs.h>
@@ -59,6 +57,10 @@ static KCmdLineOptions options[] = {
     KCmdLineLastOption
 };
 
+#ifdef __GNUC__
+#warning TODO port to dbus
+#endif
+#if 0
 static void continueInWindow(QString _wname) {
     DCOPCString wname = _wname.toLatin1();
     int id = -1;
@@ -81,10 +83,12 @@ static void continueInWindow(QString _wname) {
 
     KWin::activateWindow(id);
 }
+#endif
 
 // TODO - make this register() or something like that and move dialog into main
 static int askUser(KApplication &app, QString filename, bool &readonly) {
-    DCOPCString requestedName("keditbookmarks");
+#if 0 // TODO port to DBUS
+    QString requestedName("keditbookmarks");
 
     if (!filename.isEmpty())
         requestedName += '-' + filename.toUtf8();
@@ -92,10 +96,10 @@ static int askUser(KApplication &app, QString filename, bool &readonly) {
     if (app.dcopClient()->registerAs(requestedName, false) == requestedName)
         return true;
 
-    int ret = KMessageBox::warningYesNo(0, 
+    int ret = KMessageBox::warningYesNo(0,
             i18n("Another instance of %1 is already running, do you really "
                 "want to open another instance or continue work in the same instance?\n"
-                "Please note that, unfortunately, duplicate views are read-only.", kapp->caption()), 
+                "Please note that, unfortunately, duplicate views are read-only.", kapp->caption()),
             i18n("Warning"),
             i18n("Run Another"),    /* yes */
             i18n("Continue in Same") /*  no */);
@@ -106,7 +110,7 @@ static int askUser(KApplication &app, QString filename, bool &readonly) {
     } else if (ret == KMessageBox::Yes) {
         readonly = true;
     }
-
+#endif
     return true;
 }
 
@@ -126,14 +130,14 @@ extern "C" KDE_EXPORT int kdemain(int argc, char **argv) {
     KCmdLineArgs::addCmdLineOptions(options);
 
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-    bool isGui = !(args->isSet("exportmoz") || args->isSet("exportns") || args->isSet("exporthtml") 
+    bool isGui = !(args->isSet("exportmoz") || args->isSet("exportns") || args->isSet("exporthtml")
                 || args->isSet("exportie") || args->isSet("exportopera")
                 || args->isSet("importmoz") || args->isSet("importns")
                 || args->isSet("importie") || args->isSet("importopera"));
 
     bool browser = args->isSet("browser");
 
-    KApplication::disableAutoDcopRegistration(); 
+    //KApplication::disableAutoDcopRegistration();
     KApplication app(isGui);
 
     bool gotArg = (args->count() == 1);

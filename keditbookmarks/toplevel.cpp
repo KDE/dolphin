@@ -50,8 +50,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstdaction.h>
-#include <dcopclient.h>
-#include <dcopref.h>
 
 #include <assert.h>
 #include <qglobal.h>
@@ -121,7 +119,7 @@ KBookmarkGroup CurrentMgr::root()
     return mgr()->root();
 }
 
-KBookmark CurrentMgr::bookmarkAt(const QString &a) 
+KBookmark CurrentMgr::bookmarkAt(const QString &a)
 {
     return self()->mgr()->findByAddress(a);
 }
@@ -215,7 +213,7 @@ KEBApp::KEBApp(
 
     m_dcopIface = new KBookmarkEditorIface();
 
-    connect(kapp->clipboard(), SIGNAL( dataChanged() ),
+    connect(qApp->clipboard(), SIGNAL( dataChanged() ),
                                SLOT( slotClipboardDataChanged() ));
 
     KGlobal::locale()->insertCatalog("libkonq");
@@ -233,7 +231,7 @@ KEBApp::KEBApp(
     new KViewSearchLineWidget(mBookmarkListView, toolbar);
 
     mBookmarkFolderView = new BookmarkFolderView(mBookmarkListView);
- 
+
     m_bkinfo = new BookmarkInfoWidget(mBookmarkListView);
 
     vsplitter->setOrientation(Qt::Vertical);
@@ -246,7 +244,7 @@ KEBApp::KEBApp(
     hsplitter->addWidget(mBookmarkFolderView);
     hsplitter->addWidget(vsplitter);
     //FIXME set sensible sizes for vsplitter and hsplitter
- 
+
     setCentralWidget(hsplitter);
 
     expandAll();
@@ -262,7 +260,7 @@ KEBApp::KEBApp(
     updateActions();
 }
 
-void KEBApp::reset(const QString & caption, const QString & bookmarksFileName) 
+void KEBApp::reset(const QString & caption, const QString & bookmarksFileName)
 {
     m_caption = caption;
     m_bookmarksFilename = bookmarksFileName;
@@ -319,7 +317,7 @@ KBookmark KEBApp::firstSelected() const
 QString KEBApp::insertAddress() const
 {
     KBookmark current = firstSelected();
-    return (current.isGroup()) 
+    return (current.isGroup())
         ? (current.address() + "/0") //FIXME internal represantation used
         : KBookmark::nextAddress(current.address());
 }

@@ -25,14 +25,8 @@
 #include <stdlib.h>
 
 #include <QTimer>
-#include <QClipboard>
-#include <QSplitter>
-#include <QLayout>
 #include <QLabel>
-//Added by qt3to4:
-#include <QVBoxLayout>
 #include <QGridLayout>
-#include <QBoxLayout>
 
 #include <klocale.h>
 #include <kdebug.h>
@@ -40,8 +34,6 @@
 #include <kapplication.h>
 #include <kstdaction.h>
 #include <kaction.h>
-#include <dcopclient.h>
-#include <dcopref.h>
 
 #include <kkeydialog.h>
 #include <kedittoolbar.h>
@@ -95,7 +87,7 @@ void BookmarkInfoWidget::showBookmark(const KBookmark &bk) {
 
     // readonly fields
     updateStatus();
- 
+
 }
 
 void BookmarkInfoWidget::updateStatus()
@@ -135,7 +127,7 @@ void BookmarkInfoWidget::commitTitle()
     }
 }
 
-void BookmarkInfoWidget::slotTextChangedTitle(const QString &str) 
+void BookmarkInfoWidget::slotTextChangedTitle(const QString &str)
 {
     Q_UNUSED(str);
     if (m_bk.isNull() || !m_title_le->isModified())
@@ -170,7 +162,7 @@ void BookmarkInfoWidget::slotTextChangedURL(const QString &str) {
     Q_UNUSED(str);
     if (m_bk.isNull() || !m_url_le->isModified())
         return;
-    
+
     timer->setSingleShot(true);
     timer->start(1000);
 
@@ -200,7 +192,7 @@ void BookmarkInfoWidget::slotTextChangedComment(const QString &str) {
     Q_UNUSED(str);
     if (m_bk.isNull() || !m_comment_le->isModified())
         return;
-    
+
     timer->setSingleShot(true);
     timer->start(1000);
 

@@ -1,3 +1,4 @@
+// -*- tab-width:4; indent-tabs-mode:t -*-
 /**
  * kbookmarkmerger.cpp - Copyright (C) 2005 Frerich Raabe <raabe@kde.org>
  *
@@ -129,12 +130,14 @@ int main( int argc, char**argv )
 	}
 
 	if ( didMergeBookmark ) {
-		if ( !konqBookmarks->save() ) {
-			kError() << "Failed to write merged bookmarks." << endl;
-			return 1;
-		}
 		if ( kdeRunning ) {
-			konqBookmarks->notifyChanged( "" );
+			konqBookmarks->emitChanged( konqBookmarks->root() ); // calls save
+			//konqBookmarks->notifyChanged( "" );
+		} else {
+			if ( !konqBookmarks->save() ) {
+				kError() << "Failed to write merged bookmarks." << endl;
+				return 1;
+			}
 		}
 	}
 }

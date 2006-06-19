@@ -1,4 +1,4 @@
-// -*- mode:cperl; cperl-indent-level:4; cperl-continued-statement-offset:4; indent-tabs-mode:nil -*-
+// -*- c-basic-offset: 4; indent-tabs-mode:nil -*-
 // vim: set ts=4 sts=4 sw=4 et:
 /* This file is part of the KDE project
    Copyright (C) 2003 Alexander Kellett <lypanov@kde.org>
@@ -21,15 +21,14 @@
 #ifndef __dcop_h
 #define __dcop_h
 
-#include <dcopobject.h>
+#include <qobject.h>
 
-class KBookmarkEditorIface : public QObject, public DCOPObject
+class KBookmarkEditorIface : public QObject
 {
    Q_OBJECT
-   K_DCOP
 public:
    KBookmarkEditorIface();
-k_dcop_hidden:
+private Q_SLOTS:
    void slotDcopUpdatedAccessMetadata(QString filename, QString url);
 };
 

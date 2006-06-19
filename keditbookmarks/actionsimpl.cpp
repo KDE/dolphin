@@ -34,8 +34,6 @@
 #include <QClipboard>
 #include <QPainter>
 
-#include <dcopclient.h>
-#include <dcopref.h>
 #include <kdebug.h>
 #include <kapplication.h>
 
@@ -202,7 +200,7 @@ void KEBApp::createActions() {
     connect(actnExportMoz, SIGNAL( triggered() ), actn, SLOT( slotExportMoz() ));
 }
 
-void ActionsImpl::slotLoad() 
+void ActionsImpl::slotLoad()
 {
     QString bookmarksFile
         = KFileDialog::getOpenFileName(QString(), "*.xml", KEBApp::self());
@@ -328,7 +326,7 @@ void ActionsImpl::slotCut() {
 
 }
 
-void ActionsImpl::slotCopy() 
+void ActionsImpl::slotCopy()
 {
     KEBApp::self()->bkInfo()->commitChanges();
     // this is not a command, because it can't be undone
@@ -354,7 +352,7 @@ void ActionsImpl::slotPaste() {
 
 /* -------------------------------------- */
 
-void ActionsImpl::slotNewFolder() 
+void ActionsImpl::slotNewFolder()
 {
     KEBApp::self()->bkInfo()->commitChanges();
     bool ok;
@@ -369,7 +367,7 @@ void ActionsImpl::slotNewFolder()
     CmdHistory::self()->addCommand(cmd);
 }
 
-void ActionsImpl::slotNewBookmark() 
+void ActionsImpl::slotNewBookmark()
 {
     KEBApp::self()->bkInfo()->commitChanges();
     // TODO - make a setCurrentItem(Command *) which uses finaladdress interface
@@ -379,7 +377,7 @@ void ActionsImpl::slotNewBookmark()
     CmdHistory::self()->addCommand(cmd);
 }
 
-void ActionsImpl::slotInsertSeparator() 
+void ActionsImpl::slotInsertSeparator()
 {
     KEBApp::self()->bkInfo()->commitChanges();
     CreateCommand * cmd = new CreateCommand(KEBApp::self()->insertAddress());
@@ -418,7 +416,9 @@ void ActionsImpl::slotExportMoz() {
 
 /* -------------------------------------- */
 
+#if 0
 static DCOPCString s_appId, s_objId;
+#endif
 static KParts::ReadOnlyPart *s_part;
 
 void ActionsImpl::slotPrint() {
@@ -441,8 +441,10 @@ void ActionsImpl::slotPrint() {
     (*tstream) << exporter.toString(CurrentMgr::self()->root(), true);
     tmpf.close();
 
+#if 0
     s_appId = kapp->dcopClient()->appId();
     s_objId = s_part->property("dcopObjectId").toString().toLatin1();
+#endif
     connect(s_part, SIGNAL(completed()), this, SLOT(slotDelayedPrint()));
 
     s_part->openURL(KUrl( tmpf.name() ));
@@ -450,7 +452,14 @@ void ActionsImpl::slotPrint() {
 
 void ActionsImpl::slotDelayedPrint() {
     Q_ASSERT(s_part);
+#ifdef __GNUC__
+#warning Re-implement khtml print call without dcop
+#endif
+#if 0
+    // We could just link to khtml and call s_part->view()->print(false)...
+    // Or print could be made a slot in either khtmlpart or khtmlview...
     DCOPRef(s_appId, s_objId).send("print", false);
+#endif
     delete s_part;
     s_part = 0;
 }
@@ -560,7 +569,7 @@ void ActionsImpl::slotDelete() {
     CmdHistory::self()->addCommand(mcmd);
 }
 
-void ActionsImpl::slotOpenLink() 
+void ActionsImpl::slotOpenLink()
 {
     KEBApp::self()->bkInfo()->commitChanges();
     QList<KBookmark> bookmarks = KEBApp::self()->selectedBookmarksExpanded();
@@ -610,12 +619,12 @@ void ActionsImpl::slotChangeIcon() {
     CmdHistory::self()->addCommand(cmd);
 }
 
-void ActionsImpl::slotExpandAll() 
+void ActionsImpl::slotExpandAll()
 {
     KEBApp::self()->expandAll();
 }
 
-void ActionsImpl::slotCollapseAll() 
+void ActionsImpl::slotCollapseAll()
 {
     KEBApp::self()->collapseAll();
 }
