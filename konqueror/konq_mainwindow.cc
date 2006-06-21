@@ -2223,14 +2223,12 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   else
   {
       updateViewModeActions();
-
-      m_pMenuNew->setEnabled( m_currentView->serviceType() == QLatin1String( "inode/directory" ) );
   }
 
   m_bViewModeToggled = false;
 
 
-  m_pMenuNew->setEnabled( m_currentView->serviceType() == QLatin1String( "inode/directory" ) );
+  m_pMenuNew->setEnabled( m_currentView->supportsServiceType( QLatin1String( "inode/directory" ) ));
 
   m_currentView->frame()->statusbar()->updateActiveStatus();
 
