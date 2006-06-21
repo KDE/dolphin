@@ -49,7 +49,7 @@ public:
 
   KonqView *childView() const;
 
-  const QString & typedURL() const { return m_req.typedURL; }
+  const QString & typedUrl() const { return m_req.typedUrl; }
 
   KUrl mailtoURL() const { return m_mailto; }
 

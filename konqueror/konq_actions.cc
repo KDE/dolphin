@@ -438,10 +438,10 @@ void KonqMostOftenURLSAction::slotFillMenu()
 
     for ( int id = s_mostEntries->count() - 1; id > 0; --id ) {
         const KonqHistoryEntry entry = s_mostEntries->at( id );
-	// we take either title, typedURL or URL (in this order)
-	QString text = entry.title.isEmpty() ? (entry.typedURL.isEmpty() ?
+	// we take either title, typedUrl or URL (in this order)
+	QString text = entry.title.isEmpty() ? (entry.typedUrl.isEmpty() ?
 						 entry.url.prettyUrl() :
-						 entry.typedURL) :
+						 entry.typedUrl) :
 		       entry.title;
 
 	popupMenu()->insertItem(

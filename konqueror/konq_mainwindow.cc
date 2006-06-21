@@ -637,7 +637,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
           setLocationBarURL( url );
       }
 
-      kDebug(1202) << "Creating new konqrun for " << url << " req.typedURL=" << req.typedURL << endl;
+      kDebug(1202) << "Creating new konqrun for " << url << " req.typedUrl=" << req.typedUrl << endl;
 
       KonqRun * run = new KonqRun( this, view /* can be 0 */, url, req, trustedSource );
 
@@ -753,10 +753,10 @@ bool KonqMainWindow::openView( QString mimeType, const KUrl &_url, KonqView *chi
   {
       mimeType = "KonqAboutPage"; // not KParts/ReadOnlyPart, it fills the Location menu ! :)
       serviceName = "konq_aboutpage";
-      originalURL = req.typedURL.isEmpty() ? QString() : url.url();
-      // empty if from profile, about:konqueror if the user typed it (not req.typedURL, it could be "about:")
+      originalURL = req.typedUrl.isEmpty() ? QString() : url.url();
+      // empty if from profile, about:konqueror if the user typed it (not req.typedUrl, it could be "about:")
   }
-  else if ( url.url() == "about:blank" && req.typedURL.isEmpty() )
+  else if ( url.url() == "about:blank" && req.typedUrl.isEmpty() )
   {
       originalURL.clear();
   }
@@ -853,7 +853,7 @@ bool KonqMainWindow::openView( QString mimeType, const KUrl &_url, KonqView *chi
       if ( !childView->isLockedViewMode() )
       {
           bool forceAutoEmbed = req.forceAutoEmbed || req.newTab || req.userRequestedReload;
-          if ( !req.typedURL.isEmpty() ) // the user _typed_ the URL, he wants it in Konq.
+          if ( !req.typedUrl.isEmpty() ) // the user _typed_ the URL, he wants it in Konq.
               forceAutoEmbed = true;
           if ( url.protocol() == "about" )
               forceAutoEmbed = true;
@@ -893,10 +893,10 @@ bool KonqMainWindow::openView( QString mimeType, const KUrl &_url, KonqView *chi
   if (ok)
   {
       //kDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
-      //kDebug(1202) << "req.typedURL= " << req.typedURL << endl;
+      //kDebug(1202) << "req.typedUrl= " << req.typedUrl << endl;
       //kDebug(1202) << "Browser extension? " << (childView->browserExtension() ? "YES" : "NO") << endl;
       //kDebug(1202) << "Referrer: " << req.args.metaData()["referrer"] << endl;
-      childView->setTypedURL( req.typedURL );
+      childView->setTypedURL( req.typedUrl );
       if ( childView->browserExtension() )
           childView->browserExtension()->setURLArgs( req.args );
       if ( childView->part()->inherits("KonqDirPart") )
@@ -1780,7 +1780,7 @@ void KonqMainWindow::slotReload( KonqView* reloadView )
         return;
   }
 
-  KonqOpenURLRequest req( reloadView->typedURL() );
+  KonqOpenURLRequest req( reloadView->typedUrl() );
   req.userRequestedReload = true;
   if ( reloadView->prepareReload( req.args ) )
   {
@@ -2059,8 +2059,8 @@ void KonqMainWindow::slotRunFinished()
       stopAnimation();
 
       // Revert to working URL - unless the URL was typed manually
-      kDebug(1202) << " typed URL = " << run->typedURL() << endl;
-      if ( run->typedURL().isEmpty() && childView->currentHistoryEntry() ) // not typed
+      kDebug(1202) << " typed URL = " << run->typedUrl() << endl;
+      if ( run->typedUrl().isEmpty() && childView->currentHistoryEntry() ) // not typed
         childView->setLocationBarURL( childView->currentHistoryEntry()->locationBarURL );
     }
   }

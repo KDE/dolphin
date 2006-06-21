@@ -585,7 +585,7 @@ void KonqView::slotCompleted( bool hasPending )
       if ( m_bAborted ) // remove the pending entry on error
           KonqHistoryManager::kself()->removePending( url() );
       else if ( currentHistoryEntry() ) // register as proper history entry
-          KonqHistoryManager::kself()->confirmPending(url(), typedURL(),
+          KonqHistoryManager::kself()->confirmPending(url(), typedUrl(),
 						      currentHistoryEntry()->title);
 
       emit viewCompleted( this );
@@ -924,7 +924,7 @@ void KonqView::stop()
     // Revert to working URL - unless the URL was typed manually
     // This is duplicated with KonqMainWindow::slotRunFinished, but we can't call it
     //   since it relies on sender()...
-    if ( currentHistoryEntry() && m_pRun->typedURL().isEmpty() ) { // not typed
+    if ( currentHistoryEntry() && m_pRun->typedUrl().isEmpty() ) { // not typed
       setLocationBarURL( currentHistoryEntry()->locationBarURL );
       setPageSecurity( currentHistoryEntry()->pageSecurity );
     }

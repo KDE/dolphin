@@ -35,7 +35,7 @@ KonqRun::KonqRun( KonqMainWindow* mainWindow, KonqView *_childView,
     : KParts::BrowserRun( _url, req.args, _childView ? _childView->part() : 0L, mainWindow,
                           //remove referrer if request was typed in manually.
                           // ### TODO: turn this off optionally.
-                          !req.typedURL.isEmpty(), trustedSource,
+                          !req.typedUrl.isEmpty(), trustedSource,
                           // Don't use inline errors on reloading due to auto-refresh sites, but use them in all other cases
                           // (no reload or user-requested reload)
                           !req.args.reload || req.userRequestedReload ),

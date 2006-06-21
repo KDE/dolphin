@@ -1540,7 +1540,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
         // We need view-follows-view (for the dirtree, for instance)
         KonqOpenURLRequest req;
         if (url.protocol() != "about")
-          req.typedURL = url.prettyUrl();
+          req.typedUrl = url.prettyUrl();
         m_pMainWindow->openView( serviceType, url, childView, req );
       }
     }

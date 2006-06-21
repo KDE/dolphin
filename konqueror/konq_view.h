@@ -201,7 +201,7 @@ public:
   /**
    * Get the URL that was typed to get the current URL.
    */
-  QString typedURL() const { return m_sTypedURL; }
+  QString typedUrl() const { return m_sTypedURL; }
   /**
    * Set the URL that was typed to get the current URL.
    */

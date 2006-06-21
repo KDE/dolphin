@@ -13,7 +13,7 @@ struct KonqOpenURLRequest {
       tempFile(false), userRequestedReload(false) {}
 
   KonqOpenURLRequest( const QString & url ) :
-    typedURL(url), followMode(false), newTab(false), newTabInFront(false),
+    typedUrl(url), followMode(false), newTab(false), newTabInFront(false),
     openAfterCurrentPage(false), forceAutoEmbed(false),
     tempFile(false), userRequestedReload(false) {}
 
@@ -24,8 +24,8 @@ struct KonqOpenURLRequest {
           s << "frameName=" + args.frameName;
       if ( !nameFilter.isEmpty() )
           s << "nameFilter=" + nameFilter;
-      if ( !typedURL.isEmpty() )
-          s << "typedURL=" + typedURL;
+      if ( !typedUrl.isEmpty() )
+          s << "typedUrl=" + typedUrl;
       if ( followMode )
           s << "followMode";
       if ( newTab )
@@ -46,7 +46,7 @@ struct KonqOpenURLRequest {
 #endif
   }
 
-  QString typedURL; // empty if URL wasn't typed manually
+  QString typedUrl; // empty if URL wasn't typed manually
   QString nameFilter; // like *.cpp, extracted from the URL
   bool followMode; // true if following another view - avoids loops
   bool newTab; // open url in new tab
