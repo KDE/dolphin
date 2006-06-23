@@ -58,18 +58,17 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent )
 
     connect( m_updateTimer, SIGNAL( timeout() ), SLOT( slotEmitUpdated() ));
 
-    m_adaptor = new KonqHistoryManagerAdaptor( this );
+    (void) new KonqHistoryManagerAdaptor( this );
     const QString dbusPath = "/KonqHistoryManager";
     const QString dbusInterface = "org.kde.libkonq.KonqHistoryManager";
-    QDBus::sessionBus().registerObject( dbusPath, this );
-    // Can't do stuff like
-    //connect( m_adaptor, SIGNAL( notifyClear() ), this, SLOT( slotNotifyClear() ) );
-    // because of the additional QDBusMessage argument.
-    QDBus::sessionBus().connect(QString(), dbusPath, dbusInterface, "notifyClear", this, SLOT(slotNotifyClear(QDBusMessage)));
-    QDBus::sessionBus().connect(QString(), dbusPath, dbusInterface, "notifyHistoryEntry", this, SLOT(slotNotifyHistoryEntry(QByteArray,QDBusMessage)));
-    QDBus::sessionBus().connect(QString(), dbusPath, dbusInterface, "notifyMaxAge", this, SLOT(slotNotifyMaxAge(int,QDBusMessage)));
-    QDBus::sessionBus().connect(QString(), dbusPath, dbusInterface, "notifyMaxCount", this, SLOT(slotNotifyMaxCount(int,QDBusMessage)));
-    QDBus::sessionBus().connect(QString(), dbusPath, dbusInterface, "notifyRemove", this, SLOT(slotNotifyRemove(QString,QDBusMessage)));
+
+    QDBusConnection& dbus = QDBus::sessionBus();
+    dbus.registerObject( dbusPath, this );
+    dbus.connect(QString(), dbusPath, dbusInterface, "notifyClear", this, SLOT(slotNotifyClear(QDBusMessage)));
+    dbus.connect(QString(), dbusPath, dbusInterface, "notifyHistoryEntry", this, SLOT(slotNotifyHistoryEntry(QByteArray,QDBusMessage)));
+    dbus.connect(QString(), dbusPath, dbusInterface, "notifyMaxAge", this, SLOT(slotNotifyMaxAge(int,QDBusMessage)));
+    dbus.connect(QString(), dbusPath, dbusInterface, "notifyMaxCount", this, SLOT(slotNotifyMaxCount(int,QDBusMessage)));
+    dbus.connect(QString(), dbusPath, dbusInterface, "notifyRemove", this, SLOT(slotNotifyRemove(QString,QDBusMessage)));
 }
 
 
@@ -77,7 +76,6 @@ KonqHistoryManager::~KonqHistoryManager()
 {
     delete m_pCompletion;
     clearPending();
-    delete m_adaptor;
 }
 
 static QString dbusService()

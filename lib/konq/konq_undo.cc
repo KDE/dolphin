@@ -184,11 +184,17 @@ public:
 
 KonqUndoManager::KonqUndoManager()
 {
-  KonqUndoManagerAdaptor* dbusAdaptor = new KonqUndoManagerAdaptor( this );
-  connect( dbusAdaptor, SIGNAL(lock()), this, SLOT(slotLock()) );
-  connect( dbusAdaptor, SIGNAL(pop()), this, SLOT(slotPop()) );
-  connect( dbusAdaptor, SIGNAL(push(QByteArray)), this, SLOT(slotPush(QByteArray)) );
-  connect( dbusAdaptor, SIGNAL(unlock()), this, SLOT(slotUnlock()) );
+  (void) new KonqUndoManagerAdaptor( this );
+  const QString dbusPath = "/KonqUndoManager";
+  const QString dbusInterface = "org.kde.libkonq.UndoManager";
+
+  QDBusConnection& dbus = QDBus::sessionBus();
+  dbus.registerObject( dbusPath, this );
+  dbus.connect(QString(), dbusPath, dbusInterface, "lock", this, SLOT(slotLock()));
+  dbus.connect(QString(), dbusPath, dbusInterface, "pop", this, SLOT(slotPop()));
+  dbus.connect(QString(), dbusPath, dbusInterface, "push", this, SLOT(slotPush(QByteArray)) );
+  dbus.connect(QString(), dbusPath, dbusInterface, "unlock", this, SLOT(slotUnlock()) );
+
   d = new KonqUndoManagerPrivate;
   d->m_syncronized = initializeFromKDesky();
   d->m_lock = false;

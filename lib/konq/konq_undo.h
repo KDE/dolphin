@@ -110,6 +110,9 @@ public:
 public Q_SLOTS:
   void undo();
 
+  // public for KonqUndoManagerAdaptor
+  QByteArray get() const;
+
 Q_SIGNALS:
   // The four signals below are emitted to dbus
   void push( const QByteArray &command );
@@ -132,7 +135,6 @@ private Q_SLOTS:
   void slotPop();
   void slotLock();
   void slotUnlock();
-  QByteArray get() const;
 
 private Q_SLOTS:
   void slotResult( KJob *job );

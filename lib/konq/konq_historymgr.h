@@ -31,7 +31,6 @@
 
 #include <libkonq_export.h>
 
-class KonqHistoryManagerAdaptor;
 class QDBusMessage;
 class KCompletion;
 
@@ -356,8 +355,6 @@ private:
     static bool lastVisitedOrder( const KonqHistoryEntry& lhs, const KonqHistoryEntry& rhs ) {
         return lhs.lastVisited < rhs.lastVisited;
     }
-
-    KonqHistoryManagerAdaptor* m_adaptor;
 
     QString m_filename;
     KonqHistoryList m_history;
