@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=UADescription (Firefox 1.5 on current)
+Name[fr]=Identité du navigateur (Firefox 1.0 sous le système actuel)
+Name[x-test]=xxUADescription (Firefox 1.0 on current)xx
+Type=Service
+ServiceTypes=UserAgentStrings
+X-KDE-UA-TAG=FF
+X-KDE-UA-FULL=Mozilla/5.0 (appPlatform; U; appMachineType appSysName; appLanguage; rv:1.8.0.4) Gecko/20060508 Firefox/1.5.0.4
+X-KDE-UA-NAME=Firefox
+X-KDE-UA-VERSION=1.5.0.4
+X-KDE-UA-DYNAMIC-ENTRY=1
