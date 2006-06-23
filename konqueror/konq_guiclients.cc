@@ -106,7 +106,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
         openInSameWindow.setAttribute( "name", "sameview" );
         openInSameWindow.setAttribute( "group", "tabhandling" );
         menu.appendChild( openInSameWindow );
-        
+
 	QDomElement openInWindow = m_doc.createElement( "action" );
         openInWindow.setAttribute( "name", "newview" );
         openInWindow.setAttribute( "group", "tabhandling" );
@@ -225,7 +225,7 @@ QList<KAction*> ToggleViewGUIClient::actions() const
 
 void ToggleViewGUIClient::slotToggleView( bool toggle )
 {
-  QString serviceName = QLatin1String( sender()->name() );
+  QString serviceName = sender()->objectName();
 
   bool horizontal = m_mapOrientation[ serviceName ];
 

@@ -7,6 +7,7 @@ set(kfmclient_KDEINIT_SRCS kfmclient.cc )
 
 kde4_automoc(${kfmclient_KDEINIT_SRCS})
 
+add_definitions(-DQT_NO_CAST_ASCII)
 
 kde4_add_kdeinit_executable( kfmclient ${kfmclient_KDEINIT_SRCS})
 

@@ -23,7 +23,7 @@
 #include "konq_mainwindow.h"
 #include "konq_view.h"
 #include "konq_settingsxt.h"
-//#include "KonquerorIface.h"
+#include "KonquerorAdaptor.h"
 
 #include <ktempfile.h>
 #include <klocale.h>
@@ -61,9 +61,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
 
   KonquerorApplication app;
 
-  // TODO DBUS Interface
-  //KonquerorIface *kiface = new KonquerorIface;
-  //app.dcopClient()->setDefaultObject( kiface->objId() );
+  new KonquerorAdaptor;
 
   KGlobal::locale()->insertCatalog("libkonq"); // needed for apps using libkonq
 
@@ -221,8 +219,6 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
   { // the list will be deleted by last KonqMainWindow
       delete KonqMainWindow::mainWindowList()->first();
   }
-
-  //delete kiface;
 
   crashlog_file.unlink();
 

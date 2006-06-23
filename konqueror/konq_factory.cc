@@ -72,7 +72,7 @@ KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parentWidget, QObject * 
   }
 
   if ( !obj->inherits( "KParts::ReadOnlyPart" ) )
-      kError(1202) << "Part " << obj << " (" << obj->className() << ") doesn't inherit KParts::ReadOnlyPart !" << endl;
+      kError(1202) << "Part " << obj << " (" << obj->metaObject()->className() << ") doesn't inherit KParts::ReadOnlyPart !" << endl;
 
   return static_cast<KParts::ReadOnlyPart *>(obj);
 }

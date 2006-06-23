@@ -1,5 +1,5 @@
 /* This file is part of the KDE project
-   Copyright (C) 1999 David Faure <faure@kde.org>
+   Copyright (C) 1999-2006 David Faure <faure@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -23,11 +23,11 @@
 #include <kapplication.h>
 #include <krun.h>
 
-class clientApp : public QApplication
+class ClientApp : public QApplication
 {
   Q_OBJECT
 public:
-  clientApp(int &argc, char **argv ) : QApplication( argc, argv ) {}
+  ClientApp(int &argc, char **argv ) : QApplication( argc, argv ) {}
 
   /** Parse command-line arguments and "do it" */
   static bool doIt();

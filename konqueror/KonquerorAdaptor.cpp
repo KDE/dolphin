@@ -1,6 +1,6 @@
 /* This file is part of the KDE project
-   Copyright (C) 1998, 1999 Simon Hausmann <hausmann@kde.org>
-   Copyright (C) 2000 David Faure <faure@kde.org>
+   Copyright 1998, 1999 Simon Hausmann <hausmann@kde.org>
+   Copyright 2000, 2006 David Faure <faure@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -18,88 +18,56 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "KonquerorIface.h"
+#include "KonquerorAdaptor.h"
 #include "konq_misc.h"
-#include "KonqMainWindowIface.h"
+#include "KonqMainWindowAdaptor.h"
 #include "konq_mainwindow.h"
 #include "konq_viewmgr.h"
 #include "konq_view.h"
+#include "konq_settingsxt.h"
 #include <konq_settings.h>
+
 #include <kapplication.h>
-#include <dcopclient.h>
 #include <kdebug.h>
+
 #include <QFile>
-//Added by qt3to4:
 #ifdef Q_WS_X11
 #include <QX11Info>
 #include <X11/Xlib.h>
 #endif
-#include "konq_settingsxt.h"
 
-// these DCOP calls come from outside, so any windows created by these
+// these DBus calls come from outside, so any windows created by these
 // calls would have old user timestamps (for KWin's no-focus-stealing),
 // it's better to reset the timestamp and rely on other means
 // of detecting the time when the user action that triggered all this
 // happened
-// TODO a valid timestamp should be passed in the DCOP calls that
+// TODO a valid timestamp should be passed in the DBus calls that
 // are not for user scripting
 
-KonquerorIface::KonquerorIface()
- : DCOPObject( "KonquerorIface" )
+KonquerorAdaptor::KonquerorAdaptor()
+ : QDBusAbstractAdaptor( kapp )
 {
 }
 
-KonquerorIface::~KonquerorIface()
+KonquerorAdaptor::~KonquerorAdaptor()
 {
 }
 
-DCOPRef KonquerorIface::openBrowserWindow( const QString &url )
+QDBusObjectPath KonquerorAdaptor::openBrowserWindow( const QString& url, const QByteArray& startup_id )
 {
+    kapp->setStartupId( startup_id );
 #ifdef Q_WS_X11
     QX11Info::setAppUserTime( 0 );
 #endif
     KonqMainWindow *res = KonqMisc::createSimpleWindow( KUrl(url) );
     if ( !res )
-        return DCOPRef();
-    return res->dcopObject();
+        return QDBusObjectPath();
+    return QDBusObjectPath( '/' + res->objectName() ); // this is what KMainWindow sets as the dbus object path
 }
 
-DCOPRef KonquerorIface::openBrowserWindowASN( const QString &url, const DCOPCString& startup_id )
+QDBusObjectPath KonquerorAdaptor::createNewWindow( const QString& url, const QString& mimetype, const QByteArray& startup_id, bool tempFile )
 {
     kapp->setStartupId( startup_id );
-    return openBrowserWindow( url );
-}
-
-DCOPRef KonquerorIface::createNewWindow( const QString &url )
-{
-    return createNewWindow( url, QString(), false );
-}
-
-DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const DCOPCString& startup_id, bool tempFile )
-{
-    kapp->setStartupId( startup_id );
-    return createNewWindow( url, QString(), tempFile );
-}
-
-DCOPRef KonquerorIface::createNewWindowWithSelection( const QString &url, QStringList filesToSelect )
-{
-#ifdef Q_WS_X11
-    QX11Info::setAppUserTime( 0 );
-#endif
-    KonqMainWindow *res = KonqMisc::createNewWindow( KUrl(url), KParts::URLArgs(), false, filesToSelect );
-    if ( !res )
-        return DCOPRef();
-    return res->dcopObject();
-}
-
-DCOPRef KonquerorIface::createNewWindowWithSelectionASN( const QString &url, QStringList filesToSelect, const DCOPCString &startup_id )
-{
-    kapp->setStartupId( startup_id );
-    return createNewWindowWithSelection( url, filesToSelect );
-}
-
-DCOPRef KonquerorIface::createNewWindow( const QString &url, const QString &mimetype, bool tempFile )
-{
 #ifdef Q_WS_X11
     QX11Info::setAppUserTime( 0 );
 #endif
@@ -109,76 +77,51 @@ DCOPRef KonquerorIface::createNewWindow( const QString &url, const QString &mime
     KUrl finalURL = KonqMisc::konqFilteredURL( 0, url );
     KonqMainWindow *res = KonqMisc::createNewWindow( finalURL, args, false, QStringList(), tempFile );
     if ( !res )
-        return DCOPRef();
-    return res->dcopObject();
+        return QDBusObjectPath();
+    return QDBusObjectPath( '/' + res->objectName() ); // this is what KMainWindow sets as the dbus object path
 }
 
-DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const QString &mimetype,
-    const DCOPCString& startup_id, bool tempFile )
+QDBusObjectPath KonquerorAdaptor::createNewWindowWithSelection( const QString& url, const QStringList& filesToSelect, const QByteArray& startup_id )
 {
     kapp->setStartupId( startup_id );
-    return createNewWindow( url, mimetype, tempFile );
-}
-
-DCOPRef KonquerorIface::createBrowserWindowFromProfile( const QString &path )
-{
 #ifdef Q_WS_X11
     QX11Info::setAppUserTime( 0 );
 #endif
-    kDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( const QString &path ) " << endl;
-    kDebug(1202) << path << endl;
-    KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, QString() );
+    KonqMainWindow *res = KonqMisc::createNewWindow( KUrl(url), KParts::URLArgs(), false, filesToSelect );
     if ( !res )
-        return DCOPRef();
-    return res->dcopObject();
+        return QDBusObjectPath();
+    return QDBusObjectPath( '/' + res->objectName() ); // this is what KMainWindow sets as the dbus object path
 }
 
-DCOPRef KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, const DCOPCString& startup_id )
+QDBusObjectPath KonquerorAdaptor::createBrowserWindowFromProfile( const QString& path, const QString& filename, const QByteArray& startup_id )
 {
     kapp->setStartupId( startup_id );
-    return createBrowserWindowFromProfile( path );
-}
-
-DCOPRef KonquerorIface::createBrowserWindowFromProfile( const QString & path, const QString &filename )
-{
 #ifdef Q_WS_X11
     QX11Info::setAppUserTime( 0 );
 #endif
-    kDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( path, filename ) " << endl;
+    kDebug(1202) << "void KonquerorAdaptor::createBrowserWindowFromProfile( path, filename ) " << endl;
     kDebug(1202) << path << "," << filename << endl;
     KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename );
     if ( !res )
-        return DCOPRef();
-    return res->dcopObject();
+        return QDBusObjectPath();
+    return QDBusObjectPath( '/' + res->objectName() ); // this is what KMainWindow sets as the dbus object path
 }
 
-DCOPRef KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, const QString &filename,
-    const DCOPCString& startup_id )
+QDBusObjectPath KonquerorAdaptor::createBrowserWindowFromProfileAndUrl( const QString& path, const QString& filename, const QString& url, const QByteArray& startup_id )
 {
     kapp->setStartupId( startup_id );
-    return createBrowserWindowFromProfile( path, filename );
-}
-
-DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURL( const QString & path, const QString &filename, const QString &url )
-{
 #ifdef Q_WS_X11
     QX11Info::setAppUserTime( 0 );
 #endif
     KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename, KUrl(url) );
     if ( !res )
-        return DCOPRef();
-    return res->dcopObject();
+        return QDBusObjectPath();
+    return QDBusObjectPath( '/' + res->objectName() ); // this is what KMainWindow sets as the dbus object path
 }
 
-DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURLASN( const QString & path, const QString &filename, const QString &url,
-    const DCOPCString& startup_id )
+QDBusObjectPath KonquerorAdaptor::createBrowserWindowFromProfileUrlAndMimeType( const QString& path, const QString& filename, const QString& url, const QString& mimetype, const QByteArray& startup_id )
 {
     kapp->setStartupId( startup_id );
-    return createBrowserWindowFromProfileAndURL( path, filename, url );
-}
-
-DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype )
-{
 #ifdef Q_WS_X11
     QX11Info::setAppUserTime( 0 );
 #endif
@@ -186,19 +129,11 @@ DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURL( const QString &pat
     args.serviceType = mimetype;
     KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename, KUrl(url), args );
     if ( !res )
-        return DCOPRef();
-    return res->dcopObject();
+        return QDBusObjectPath();
+    return QDBusObjectPath( '/' + res->objectName() ); // this is what KMainWindow sets as the dbus object path
 }
 
-DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURLASN( const QString & path, const QString &filename, const QString &url, const QString &mimetype,
-    const DCOPCString& startup_id )
-{
-    kapp->setStartupId( startup_id );
-    return createBrowserWindowFromProfileAndURL( path, filename, url, mimetype );
-}
-
-
-void KonquerorIface::reparseConfiguration()
+void KonquerorAdaptor::reparseConfiguration()
 {
   KGlobal::config()->reparseConfiguration();
   KonqFMSettings::reparseConfiguration();
@@ -211,7 +146,7 @@ void KonquerorIface::reparseConfiguration()
   }
 }
 
-void KonquerorIface::updateProfileList()
+void KonquerorAdaptor::updateProfileList()
 {
   QList<KonqMainWindow*> *mainWindows = KonqMainWindow::mainWindowList();
   if ( !mainWindows )
@@ -221,40 +156,39 @@ void KonquerorIface::updateProfileList()
     window->viewManager()->profileListDirty( false );
 }
 
-QString KonquerorIface::crashLogFile()
+QString KonquerorAdaptor::crashLogFile()
 {
     return KonqMainWindow::s_crashlog_file->objectName();
 }
 
-QList<DCOPRef> KonquerorIface::getWindows()
+QList<QDBusObjectPath> KonquerorAdaptor::getWindows()
 {
-    QList<DCOPRef> lst;
+    QList<QDBusObjectPath> lst;
     QList<KonqMainWindow*> *mainWindows = KonqMainWindow::mainWindowList();
     if ( mainWindows )
     {
       foreach ( KonqMainWindow* window, *mainWindows )
-        lst.append( DCOPRef( kapp->dcopClient()->appId(), window->dcopObject()->objId() ) );
+        lst.append( QDBusObjectPath( '/' + window->objectName() ) );
     }
     return lst;
 }
 
-void KonquerorIface::addToCombo( QString url, DCOPCString objId )
+void KonquerorAdaptor::addToCombo( const QString& url, const QDBusMessage& msg )
 {
-    KonqMainWindow::comboAction( KonqMainWindow::ComboAdd, url, objId );
+    KonqMainWindow::comboAction( KonqMainWindow::ComboAdd, url, msg.sender() );
 }
 
-void KonquerorIface::removeFromCombo( QString url, DCOPCString objId )
+void KonquerorAdaptor::removeFromCombo( const QString& url, const QDBusMessage& msg )
 {
-  KonqMainWindow::comboAction( KonqMainWindow::ComboRemove, url, objId );
+    KonqMainWindow::comboAction( KonqMainWindow::ComboRemove, url, msg.sender() );
 }
 
-void KonquerorIface::comboCleared( DCOPCString objId )
+void KonquerorAdaptor::comboCleared( const QDBusMessage& msg )
 {
-    KonqMainWindow::comboAction( KonqMainWindow::ComboClear,
-				 QString(), objId );
+    KonqMainWindow::comboAction( KonqMainWindow::ComboClear, QString(), msg.sender() );
 }
 
-bool KonquerorIface::processCanBeReused( int screen )
+bool KonquerorAdaptor::processCanBeReused( int screen )
 {
 #ifdef Q_WS_X11
 	QX11Info info;
@@ -301,8 +235,10 @@ bool KonquerorIface::processCanBeReused( int screen )
     return true;
 }
 
-void KonquerorIface::terminatePreloaded()
+void KonquerorAdaptor::terminatePreloaded()
 {
     if( KonqMainWindow::isPreloaded())
         kapp->exit();
 }
+
+#include "KonquerorAdaptor.moc"

@@ -1,4 +1,4 @@
-/* -*- c-basic-offset: 2 -*-
+/*
    This file is part of the KDE project
    Copyright (C) 1998-2005 David Faure <faure@kde.org>
 
@@ -20,7 +20,7 @@
 
 
 #include "konq_view.h"
-//#include "KonqViewIface.h"
+#include "KonqViewAdaptor.h"
 #include "konq_settingsxt.h"
 #include "konq_frame.h"
 #include "konq_run.h"
@@ -74,9 +74,8 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bLockHistory = false;
   m_doPost = false;
   m_pMainWindow = mainWindow;
-  m_pRun = 0L;
-  m_pPart = 0L;
-  m_dcopObject = 0L;
+  m_pRun = NULL;
+  m_pPart = NULL;
 
   m_randID = KRandom::random();
 
@@ -1202,16 +1201,31 @@ void KonqView::reparseConfiguration()
 
 void KonqView::disableScrolling()
 {
-  m_bDisableScrolling = true;
-  callExtensionMethod( "disableScrolling()" );
+    m_bDisableScrolling = true;
+    callExtensionMethod( "disableScrolling()" );
 }
 
-KonqViewIface * KonqView::dcopObject()
+QString KonqView::dbusObjectPath()
 {
-// TODO
-//  if ( !m_dcopObject )
-//      m_dcopObject = new KonqViewIface( this );
-  return m_dcopObject;
+    // TODO maybe this can be improved?
+    // E.g. using the part's name, but we'd have to update the name in setViewName maybe?
+    // And to make sure it's a valid dbus object path like in kmainwindow...
+    static int s_viewNumber = 0;
+    if ( m_dbusObjectPath.isEmpty() ) {
+        m_dbusObjectPath = '/' + m_pMainWindow->objectName() + '/' + QString::number( ++s_viewNumber );
+        new KonqViewAdaptor( this );
+        QDBus::sessionBus().registerObject( m_dbusObjectPath, this );
+    }
+    return m_dbusObjectPath;
+}
+
+QString KonqView::partObjectPath()
+{
+    if ( !m_pPart )
+        return QString();
+
+    const QVariant dcopProperty = m_pPart->property( "dbusObjectPath" );
+    return dcopProperty.toString();
 }
 
 bool KonqView::eventFilter( QObject *obj, QEvent *e )

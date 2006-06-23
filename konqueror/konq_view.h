@@ -20,22 +20,20 @@
 #ifndef __konq_view_h__
 #define __konq_view_h__
 
-#include "konq_mainwindow.h"
+#include "konq_mainwindow.h" // hmm, please move PageSecurity out of konq_mainwindow...
 #include "konq_factory.h"
+
+#include <kservice.h>
 
 #include <QList>
 #include <QString>
 #include <QObject>
 #include <QStringList>
 #include <QPointer>
-//Added by qt3to4:
 #include <QEvent>
-
-#include <kservice.h>
 
 class KonqRun;
 class KonqFrame;
-class KonqViewIface;
 class KonqBrowserInterface;
 namespace KParts
 {
@@ -311,7 +309,8 @@ public:
 
   QStringList frameNames() const;
 
-  KonqViewIface * dcopObject();
+  QString dbusObjectPath();
+  QString partObjectPath();
 
   void goHistory( int steps );
 
@@ -480,7 +479,7 @@ private:
   QString m_serviceType;
   QString m_caption;
   QString m_tempFile;
-  KonqViewIface * m_dcopObject;
+  QString m_dbusObjectPath;
   KonqBrowserInterface *m_browserIface;
   int m_randID;
 };

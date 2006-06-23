@@ -4,7 +4,7 @@ project(konqueror)
 set(libkonqueror_intern_KCFG_SRCS  ${CMAKE_CURRENT_SOURCE_DIR}/konq_settingsxt.kcfgc)
 kde4_add_kcfg_files(libkonqueror_intern_SRCS ${libkonqueror_intern_KCFG_SRCS})
 
-add_subdirectory( client ) 
+#add_subdirectory( client ) 
 add_subdirectory( iconview ) 
 add_subdirectory( listview ) 
 
@@ -14,24 +14,19 @@ endif(UNIX)
 
 add_subdirectory( about ) 
 add_subdirectory( pics ) 
-add_subdirectory( sidebar ) 
-add_subdirectory( preloader ) 
-add_subdirectory( quickprint ) 
-add_subdirectory( remoteencodingplugin ) 
-add_subdirectory( kttsplugin ) 
+#add_subdirectory( sidebar ) 
+#add_subdirectory( preloader ) 
+#add_subdirectory( quickprint ) 
+#add_subdirectory( remoteencodingplugin ) 
+#add_subdirectory( kttsplugin ) 
 add_subdirectory( dirpart ) 
-add_subdirectory( settings ) 
+#add_subdirectory( settings ) 
 
 include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/workspace/kcontrol/input )
 add_subdirectory( tests ) 
 
 
 ########### next target ###############
-
-#TODO: port those to DBUS
-#   KonquerorIface.cc 
-#   KonqMainWindowIface.cc 
-#   KonqViewIface.cc 
 
 set(konqueror_KDEINIT_SRCS  ${libkonqueror_intern_SRCS}
    konq_main.cc 
@@ -50,7 +45,11 @@ set(konqueror_KDEINIT_SRCS  ${libkonqueror_intern_SRCS}
    konq_browseriface.cc 
    delayedinitializer.cc 
    konq_mainwindow.cc 
-   konq_extensionmanager.cc )
+   konq_extensionmanager.cc
+   KonquerorAdaptor.cpp 
+   KonqMainWindowAdaptor.cpp
+   KonqViewAdaptor.cpp
+)
 
 kde4_automoc(${konqueror_KDEINIT_SRCS})
 
@@ -70,7 +69,6 @@ install(TARGETS konqueror DESTINATION bin)
 install_files( ${APPLNK_INSTALL_DIR}/.hidden FILES konqfilemgr.desktop )
 install_files( ${XDG_APPS_DIR} FILES kfmclient.desktop kfmclient_dir.desktop kfmclient_html.desktop  	kfmclient_war.desktop konqbrowser.desktop konquerorsu.desktop Home.desktop )
 install_files( ${KCFG_INSTALL_DIR} FILES konqueror.kcfg )
-install_files( /include FILES KonquerorIface.h )
 install_files( ${APPLNK_INSTALL_DIR} FILES konqueror.desktop )
 install_files( ${DATA_INSTALL_DIR}/konqueror FILES konqueror.rc konq-simplebrowser.rc )
 
@@ -130,13 +128,6 @@ install(FILES profile_simplebrowser.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}$
 #	    konq_extensionmanager.cc
 #
 #konqueror_la_PCH = AUTO
-#
-#noinst_HEADERS = KonqMainWindowIface.h KonqViewIface.h delayedinitializer.h \
-#	konq_actions.h konq_browseriface.h konq_combo.h konq_factory.h \
-#	konq_frame.h konq_tabs.h konq_guiclients.h konq_main.h konq_mainwindow.h \
-#	konq_misc.h konq_openurlrequest.h konq_profiledlg.h konq_run.h \
-#	konq_view.h konq_viewmgr.h konq_extensionmanager.h version.h
-#
 #konqueror_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
 #konqueror_la_LIBADD = ../libkonq/libkonq.la libkonqueror_intern.la $(LIBMALLOC) $(LIB_KUTILS)
 #

@@ -265,7 +265,7 @@ public:
   // operates on all combos of all mainwindows of this instance
   // up to now adds an entry or clears all entries
   static void comboAction( int action, const QString& url,
-			   const QByteArray& objId );
+			   const QString& senderId );
 
 #ifndef NDEBUG
   void dumpViewList();

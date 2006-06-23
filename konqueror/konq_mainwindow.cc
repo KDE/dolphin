@@ -21,7 +21,7 @@
 
 #include "konq_mainwindow.h"
 #include "konq_guiclients.h"
-//#include "KonqMainWindowIface.h"
+#include "KonqMainWindowAdaptor.h"
 #include "konq_view.h"
 #include "konq_run.h"
 #include "konq_misc.h"
@@ -181,7 +181,7 @@ KonqMainWindow::KonqMainWindow( const KUrl &initialURL, bool openInitialURL, con
   m_pWorkingTab = 0;
   m_initialKonqRun = 0;
   m_pBookmarkMenu = 0;
-  // TODO m_dcopObject = new KonqMainWindowIface( this );
+  (void) new KonqMainWindowAdaptor( this );
   m_combo = 0;
   m_bURLEnterLock = false;
   m_bLocationBarConnected = false;
@@ -347,8 +347,6 @@ KonqMainWindow::~KonqMainWindow()
 
   delete m_configureDialog;
   m_configureDialog = 0;
-  //delete m_dcopObject;
-  //m_dcopObject = 0;
   delete m_combo;
   m_combo = 0;
   delete m_locationLabel;
@@ -3589,8 +3587,8 @@ void KonqMainWindow::showPageSecurity()
     }
 }
 
-// called via DBUS from KonquerorIface
-void KonqMainWindow::comboAction( int action, const QString& url, const QByteArray& objId )
+// called via DBUS from KonquerorAdaptor
+void KonqMainWindow::comboAction( int action, const QString& url, const QString& senderId )
 {
     if (!s_lstViews) // this happens in "konqueror --silent"
         return;
@@ -3617,7 +3615,7 @@ void KonqMainWindow::comboAction( int action, const QString& url, const QByteArr
     }
 
     // only one instance should save...
-    if ( combo && QString(objId) == QDBus::sessionBus().baseService() )
+    if ( combo && senderId == QDBus::sessionBus().baseService() )
       combo->saveItems();
 }
 
@@ -5102,12 +5100,6 @@ void KonqMainWindow::unplugViewModeActions()
   unplugActionList( "viewmode_toolbar" );
 }
 
-/*KonqMainWindowIface* KonqMainWindow::dcopObject()
-{
-  return m_dcopObject;
-}
-*/
-
 void KonqMainWindow::updateBookmarkBar()
 {
   KToolBar * bar = static_cast<KToolBar *>( child( "bookmarkToolBar", "KToolBar" ) );
@@ -5379,7 +5371,7 @@ static void hp_removeDupe( KCompletionMatches& l, const QString& dupe,
             continue;
         }
         if( (*it).value() == dupe ) {
-            (*it_orig).first = qMax( (*it_orig).first, (*it).index());
+            (*it_orig).first = qMax( (*it_orig).first, (*it).key());
             it = l.erase( it );
             continue;
         }
