@@ -29,23 +29,7 @@ class KonqHistoryManagerAdaptor: public QDBusAbstractAdaptor
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.libkonq.KonqHistoryManager")
-    Q_CLASSINFO("D-Bus Introspection", ""
-"  <interface name=\"org.kde.libkonq.KonqHistoryManager\" >\n"
-"    <signal name=\"notifyHistoryEntry\" >\n"
-"      <arg direction=\"out\" type=\"ay\" name=\"historyEntry\" />\n"
-"    </signal>\n"
-"    <signal name=\"notifyMaxCount\" >\n"
-"      <arg direction=\"out\" type=\"i\" name=\"count\" />\n"
-"    </signal>\n"
-"    <signal name=\"notifyMaxAge\" >\n"
-"      <arg direction=\"out\" type=\"i\" name=\"days\" />\n"
-"    </signal>\n"
-"    <signal name=\"notifyClear\" />\n"
-"    <signal name=\"notifyRemove\" >\n"
-"      <arg direction=\"out\" type=\"s\" name=\"url\" />\n"
-"    </signal>\n"
-"  </interface>\n"
-        "")
+
 public:
     KonqHistoryManagerAdaptor(KonqHistoryManager *parent);
     virtual ~KonqHistoryManagerAdaptor();
@@ -61,6 +45,7 @@ Q_SIGNALS: // SIGNALS
     void notifyMaxAge(int days);
     void notifyMaxCount(int count);
     void notifyRemove(const QString &url);
+    void notifyRemoveList(const QStringList &list);
 };
 
 #endif

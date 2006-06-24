@@ -15,5 +15,8 @@
     <signal name="notifyRemove">
       <arg name="url" type="s" direction="out"/>
     </signal>
+    <signal name="notifyRemoveList">
+      <arg name="list" type="as" direction="out"/>
+    </signal>
   </interface>
 </node>

@@ -69,6 +69,7 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent )
     dbus.connect(QString(), dbusPath, dbusInterface, "notifyMaxAge", this, SLOT(slotNotifyMaxAge(int,QDBusMessage)));
     dbus.connect(QString(), dbusPath, dbusInterface, "notifyMaxCount", this, SLOT(slotNotifyMaxCount(int,QDBusMessage)));
     dbus.connect(QString(), dbusPath, dbusInterface, "notifyRemove", this, SLOT(slotNotifyRemove(QString,QDBusMessage)));
+    dbus.connect(QString(), dbusPath, dbusInterface, "notifyRemoveList", this, SLOT(slotNotifyRemoveList(QStringList,QDBusMessage)));
 }
 
 
@@ -411,10 +412,10 @@ void KonqHistoryManager::emitRemoveFromHistory( const KUrl& url )
     emit notifyRemove( url.url() );
 }
 
-/*void KonqHistoryManager::emitRemoveFromHistory( const KUrl::List& urls )
+void KonqHistoryManager::emitRemoveListFromHistory( const KUrl::List& urls )
 {
-    emit notifyRemove( urls.toStringList() );
-}*/
+    emit notifyRemoveList( urls.toStringList() );
+}
 
 void KonqHistoryManager::emitClear()
 {
@@ -561,8 +562,7 @@ void KonqHistoryManager::slotNotifyRemove( const QString& urlStr, const QDBusMes
     }
 }
 
-#if 0
-void KonqHistoryManager::slotNotifyRemove( const QStringList& urls, const QDBusMessage& msg )
+void KonqHistoryManager::slotNotifyRemoveList( const QStringList& urls, const QDBusMessage& msg )
 {
     kDebug(1203) << "#### Broadcast: removing list!" << endl;
 
@@ -590,7 +590,6 @@ void KonqHistoryManager::slotNotifyRemove( const QStringList& urls, const QDBusM
     if ( doSave && isSenderOfSignal( msg ) )
         saveHistory();
 }
-#endif
 
 // compatibility fallback, try to load the old completion history
 bool KonqHistoryManager::loadFallback()

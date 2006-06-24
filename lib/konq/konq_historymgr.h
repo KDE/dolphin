@@ -107,7 +107,7 @@ public:
      *
      * The history is saved after receiving the DBUS call.
      */
-    //void emitRemoveFromHistory( const KUrl::List& urls );
+    void emitRemoveListFromHistory( const KUrl::List& urls );
 
     /**
      * @returns the current maximum number of history entries.
@@ -264,7 +264,7 @@ Q_SIGNALS: // DBUS methods/signals
      * Notifes about a list of urls that has to be removed from the history.
      * The sender instance has to save the history.
      */
-    //void notifyRemove( const QStringList& urls );
+    void notifyRemoveList( const QStringList& urls );
 
 private Q_SLOTS: // connected to DBUS signals
     /**
@@ -277,7 +277,7 @@ private Q_SLOTS: // connected to DBUS signals
     void slotNotifyMaxAge( int days, const QDBusMessage& msg );
     void slotNotifyClear( const QDBusMessage& msg );
     void slotNotifyRemove( const QString& url, const QDBusMessage& msg );
-    //void slotNotifyRemove( const QStringList& urls, const QDBusMessage& msg );
+    void slotNotifyRemoveList( const QStringList& urls, const QDBusMessage& msg );
 
 private:
     /**
