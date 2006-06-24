@@ -35,9 +35,6 @@
 #include <kmessagebox.h>
 #include <kstdaction.h>
 
-#include <dcopclient.h>
-#include <dcopref.h>
-
 #include "bookmark_module.h"
 #include "bookmark_item.h"
 #include <konqbookmarkmanager.h>
@@ -394,6 +391,10 @@ void KonqSidebarBookmarkModule::slotOpenTab()
     else
 	return;
 
+#ifdef __GNUC__
+#warning newTab hack, must be done otherwise
+#endif
+#if 0
     DCOPRef ref(kapp->dcopClient()->appId(), tree()->topLevelWidget()->name());
 
     if (bookmark.isGroup()) {
@@ -407,6 +408,7 @@ void KonqSidebarBookmarkModule::slotOpenTab()
     } else {
         ref.call( "newTab(QString)", bookmark.url().url() );
     }
+#endif
 }
 
 void KonqSidebarBookmarkModule::slotCopyLocation()

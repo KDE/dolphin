@@ -103,11 +103,6 @@ public slots:
                                                                 const QByteArray& startup_id );
 
   /**
-   * Called by kcontrol when the global configuration changes
-   */
-  Q_ASYNC void reparseConfiguration();
-
-  /**
    * @return the name of the instance's crash log file
    */
   QString crashLogFile();
@@ -148,6 +143,12 @@ public slots:
    * if it's in the preloaded mode, and there are too many preloaded Konqy's
    */
   Q_ASYNC void terminatePreloaded();
+
+Q_SIGNALS:
+  /**
+   * Emitted by kcontrol when the global configuration changes
+   */
+  void reparseConfiguration();
 };
 
 #endif

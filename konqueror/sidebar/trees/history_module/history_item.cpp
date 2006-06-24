@@ -90,7 +90,7 @@ void KonqSidebarHistoryItem::rightButtonPressed()
 
 bool KonqSidebarHistoryItem::populateMimeData( QMimeData* mimeData, bool /*move*/ )
 {
-    QString icon = KonqFavIconMgr::iconForURL( m_entry.url );
+    QString icon = KMimeType::favIconForURL( m_entry.url );
     KBookmark bookmark = KBookmark::standaloneBookmark( m_entry.title,
                                                         m_entry.url, icon );
     bookmark.populateMimeData( mimeData );
@@ -179,7 +179,7 @@ void KonqSidebarHistoryGroupItem::remove()
     }
 
     if ( !list.isEmpty() )
-	KonqHistoryManager::kself()->emitRemoveFromHistory( list );
+	KonqHistoryManager::kself()->emitRemoveListFromHistory( list );
 }
 
 KonqSidebarHistoryItem * KonqSidebarHistoryGroupItem::findChild(const KonqHistoryEntry& entry) const
@@ -235,7 +235,7 @@ void KonqSidebarHistoryGroupItem::itemUpdated( KonqSidebarHistoryItem *item )
 
 bool KonqSidebarHistoryGroupItem::populateMimeData( QMimeData* mimeData, bool /*move*/ )
 {
-    QString icon = KonqFavIconMgr::iconForURL( m_url );
+    QString icon = KMimeType::favIconForURL( m_url );
     KBookmark bookmark = KBookmark::standaloneBookmark( QString(), m_url,
 							icon );
     bookmark.populateMimeData( mimeData );

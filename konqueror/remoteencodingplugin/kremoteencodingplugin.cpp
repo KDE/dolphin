@@ -31,12 +31,12 @@
 #include <kconfig.h>
 #include <kcharsets.h>
 #include <kmenu.h>
-#include <dcopclient.h>
 #include <kgenericfactory.h>
 #include <kprotocolinfo.h>
 #include <kprotocolmanager.h>
 #include <kprotocolmanager.h>
 #include <kio/slaveconfig.h>
+#include <kio/scheduler.h>
 #include <konq_dirpart.h>
 #include <kparts/browserextension.h>
 
@@ -232,19 +232,11 @@ void
 KRemoteEncodingPlugin::updateBrowser()
 {
   // Inform running io-slaves about the change...
-  DCOPClient *client = new DCOPClient();
-
-  if (!client->attach())
-    kDebug() << "Can't connect with DCOP server." << endl;
-
-  QByteArray data;
-  QDataStream stream(&data, QIODevice::WriteOnly);
-
-  stream.setVersion(QDataStream::Qt_3_1);
-  stream << QString();
-  client->send("*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)",
-	       data);
-  delete client;
+  // TODO:
+#ifdef __GNUC__
+#warning enable once KIO::Scheduler::emitReparseSlaveConfiguration is in kdelibs snapshot
+#endif
+  //KIO::Scheduler::emitReparseSlaveConfiguration();
 
   // Reload the page with the new charset
   KParts::URLArgs args = m_part->extension()->urlArgs();

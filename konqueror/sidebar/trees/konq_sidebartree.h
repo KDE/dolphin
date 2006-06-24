@@ -69,7 +69,7 @@ typedef enum {
  * a toplevel item, and creates the modules that will handle the contents
  * of those items.
  */
-class KonqSidebarTree : public K3ListView, public KDirNotify
+class KonqSidebarTree : public K3ListView
 {
     Q_OBJECT
 public:
@@ -86,10 +86,10 @@ public:
     void startAnimation( KonqSidebarTreeItem * item, const char * iconBaseName = "kde", uint iconCount = 6, const QPixmap * originalPixmap = 0L );
     void stopAnimation( KonqSidebarTreeItem * item );
 
-    // Reimplemented from KDirNotify
-    void FilesAdded( const KUrl & dir );
-    void FilesRemoved( const KUrl::List & urls );
-    void FilesChanged( const KUrl::List & urls );
+    // Connected to KDirNotify dbus signals
+    void slotFilesAdded( const QString & dir );
+    void slotFilesRemoved( const QStringList & urls );
+    void slotFilesChanged( const QStringList & urls );
 
     KonqSidebarPlugin * part() { return m_part; }
 
@@ -160,6 +160,9 @@ private:
     
 
 private:
+    // the KDirNotify signals
+    OrgKdeKDirNotifyInterface *kdirnotify;
+
     Q3PtrList<KonqSidebarTreeTopLevelItem> m_topLevelItems;
     KonqSidebarTreeTopLevelItem *m_currentTopLevelItem;
 

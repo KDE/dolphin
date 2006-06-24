@@ -279,6 +279,8 @@ void KCookiesManagement::getDomains()
   dlg->pbDeleteAll->setEnabled(dlg->lvCookies->childCount());
 }
 
+Q_DECLARE_METATYPE( QList<int> )
+
 void KCookiesManagement::getCookies(Q3ListViewItem *cookieDom)
 {
   CookieListViewItem* ckd = static_cast<CookieListViewItem*>(cookieDom);

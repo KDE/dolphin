@@ -390,21 +390,22 @@ void DesktopBehavior::save()
     g_pConfig->sync();
 
     // Tell kdesktop about the new config file
-    if ( !kapp->dcopClient()->isAttached() )
-       kapp->dcopClient()->attach();
-    QByteArray data;
-
     int konq_screen_number = KApplication::desktop()->primaryScreen();
     Q3CString appname;
     if (konq_screen_number == 0)
         appname = "kdesktop";
     else
         appname.sprintf("kdesktop-screen-%d", konq_screen_number);
+#ifdef __GNUC__
+#warning Emit DBus signal, and commit kicker/kwin/kdesktop/plasma/whatever to it
+#endif
+#if 0
     kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
     // for the standalone menubar setting
     kapp->dcopClient()->send( "menuapplet*", "menuapplet", "configure()", data );
     kapp->dcopClient()->send( "kicker", "kicker", "configureMenubar()", data );
     kapp->dcopClient()->send( "kwin*", "", "reconfigure()", data );
+#endif
 }
 
 void DesktopBehavior::enableChanged()

@@ -1,5 +1,5 @@
-#ifndef __konq_main_h
-#define __konq_main_h
+#ifndef KONQ_APPLICATION_H
+#define KONQ_APPLICATION_H
 
 #include <kapplication.h>
 
@@ -8,9 +8,9 @@
 // Credits to Matthias Ettrich for the idea.
 class KonquerorApplication : public KApplication
 {
+  Q_OBJECT
 public:
-  KonquerorApplication() : KApplication(),
-      closed_by_sm( false ) {}
+  KonquerorApplication();
 
   bool closedByUser() const { return !closed_by_sm; }
   void commitData(QSessionManager& sm) {
@@ -18,10 +18,13 @@ public:
     KApplication::commitData( sm );
     closed_by_sm = false;
   }
- 
+
+public slots:
+  void slotReparseConfiguration();
+
 private:
   bool closed_by_sm;
- 
+
 };
 
 #endif

@@ -28,6 +28,7 @@
 #include <kapplication.h>
 #include <QTabWidget>
 #include <QLayout>
+#include <dbus/qdbus.h>
 
 #include "jsopts.h"
 #include "javaopts.h"
@@ -151,10 +152,9 @@ void KJSParts::save()
 
   // Send signal to konqueror
   // Warning. In case something is added/changed here, keep kfmclient in sync
-#warning "kde4: port to dbus call konqueror*"
-#if 0
-  kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
-#endif
+  QDBusMessage message =
+      QDBusMessage::signal("/Konqueror", "org.kde.Konqueror", "reparseConfiguration");
+  QDBus::sessionBus().send(message);
 }
 
 

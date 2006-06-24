@@ -35,20 +35,17 @@
 #include <QDropEvent>
 #include <QDragEnterEvent>
 
-#include <dcopclient.h>
-#include <dcopref.h>
-
 #include <kaction.h>
 #include <kactioncollection.h>
 #include <kapplication.h>
 #include <kdebug.h>
 #include <kdesktopfile.h>
-#include <kdirnotify_stub.h>
 #include <kglobalsettings.h>
 #include <kiconloader.h>
 #include <kinputdialog.h>
 #include <kio/netaccess.h>
 #include <kmimetype.h>
+#include <kdirnotify.h>
 #include <kprocess.h>
 #include <kpropertiesdialog.h>
 #include <kprotocolinfo.h>
@@ -199,6 +196,12 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
     }
 
     setFrameStyle( QFrame::ToolBarPanel | QFrame::Raised );
+
+    kdirnotify = QDBus::sessionBus().findInterface<org::kde::KDirNotify>(QString(), QString());
+    kdirnotify->setParent(this);
+    connect(kdirnotify, SIGNAL(FilesAdded(QString)), SLOT(slotFilesAdded(QString)));
+    connect(kdirnotify, SIGNAL(FilesChanged(QStringList)), SLOT(slotFilesChanged(QStringList)));
+    connect(kdirnotify, SIGNAL(FilesRemoved(QStringList)), SLOT(slotFilesRemoved(QStringList)));
 }
 
 KonqSidebarTree::~KonqSidebarTree()
@@ -413,9 +416,8 @@ void KonqSidebarTree::addUrl(KonqSidebarTreeTopLevelItem* item, const KUrl & url
        cfg.sync();
     }
 
-    KDirNotify_stub allDirNotify( "*", "KDirNotify*" );
     destUrl.setPath( destUrl.directory() );
-    allDirNotify.FilesAdded( destUrl );
+    OrgKdeKDirNotifyInterface::emitFilesAdded( destUrl.url() );
 
     if (item)
        item->setOpen(true);
@@ -566,34 +568,36 @@ void KonqSidebarTree::slotSelectionChanged()
     }
 }
 
-void KonqSidebarTree::FilesAdded( const KUrl & dir )
+void KonqSidebarTree::slotFilesAdded( const QString & dir )
 {
-    kDebug(1201) << "KonqSidebarTree::FilesAdded " << dir.url() << endl;
-    if ( m_dirtreeDir.dir.isParentOf( dir ) )
-        // We use a timer in case of DCOP re-entrance..
+    KUrl urlDir( dir );
+    kDebug(1201) << "KonqSidebarTree::slotFilesAdded " << dir << endl;
+    if ( m_dirtreeDir.dir.isParentOf( urlDir ) )
+        // We use a timer in case of DBus re-entrance..
         QTimer::singleShot( 0, this, SLOT( rescanConfiguration() ) );
 }
 
-void KonqSidebarTree::FilesRemoved( const KUrl::List & urls )
+void KonqSidebarTree::slotFilesRemoved( const QStringList & urls )
 {
-    //kDebug(1201) << "KonqSidebarTree::FilesRemoved " << urls.count() << endl;
-    for ( KUrl::List::ConstIterator it = urls.begin() ; it != urls.end() ; ++it )
+    //kDebug(1201) << "KonqSidebarTree::slotFilesRemoved " << urls.count() << endl;
+    for ( QStringList::ConstIterator it = urls.begin() ; it != urls.end() ; ++it )
     {
-        //kDebug(1201) <<  "KonqSidebarTree::FilesRemoved " << (*it).prettyUrl() << endl;
-        if ( m_dirtreeDir.dir.isParentOf( *it ) )
+        KUrl u( *it );
+        //kDebug(1201) <<  "KonqSidebarTree::slotFilesRemoved " << u << endl;
+        if ( m_dirtreeDir.dir.isParentOf( u ) )
         {
             QTimer::singleShot( 0, this, SLOT( rescanConfiguration() ) );
-            kDebug(1201) << "KonqSidebarTree::FilesRemoved done" << endl;
+            kDebug(1201) << "KonqSidebarTree::slotFilesRemoved done" << endl;
             return;
         }
     }
 }
 
-void KonqSidebarTree::FilesChanged( const KUrl::List & urls )
+void KonqSidebarTree::slotFilesChanged( const QStringList & urls )
 {
-    //kDebug(1201) << "KonqSidebarTree::FilesChanged" << endl;
+    //kDebug(1201) << "KonqSidebarTree::slotFilesChanged" << endl;
     // not same signal, but same implementation
-    FilesRemoved( urls );
+    slotFilesRemoved( urls );
 }
 
 void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path, bool isRoot )
@@ -891,6 +895,11 @@ void KonqSidebarTree::enableActions( bool copy, bool cut, bool paste,
 
 bool KonqSidebarTree::tabSupport()
 {
+    // TODO re-work this (should be part of the interface, not an inter-process call)
+#ifdef __GNUC__
+#warning newTab call via DCOP, must be reworked
+#endif
+#if 0
     // see if the newTab() dcop function is available (i.e. the sidebar is embedded into konqueror)
    DCOPRef ref(kapp->dcopClient()->appId(), topLevelWidget()->name());
     DCOPReply reply = ref.call("functions()");
@@ -904,6 +913,7 @@ bool KonqSidebarTree::tabSupport()
             }
         }
     }
+#endif
     return false;
 }
 
@@ -1034,8 +1044,13 @@ void KonqSidebarTree::slotOpenNewWindow()
 void KonqSidebarTree::slotOpenTab()
 {
     if (!m_currentTopLevelItem) return;
+#ifdef __GNUC__
+#warning newTab call via DCOP, must be reworked
+#endif
+#if 0
     DCOPRef ref(kapp->dcopClient()->appId(), topLevelWidget()->name());
     ref.call( "newTab(QString)", m_currentTopLevelItem->externalURL().url() );
+#endif
 }
 
 void KonqSidebarTree::slotCopyLocation()

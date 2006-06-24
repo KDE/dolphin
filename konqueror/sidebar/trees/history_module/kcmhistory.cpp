@@ -26,8 +26,6 @@
 #include <QPushButton>
 #include <QRadioButton>
 
-#include <dcopclient.h>
-#include <dcopref.h>
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kdialog.h>
@@ -53,7 +51,7 @@ HistorySidebarConfig::HistorySidebarConfig( QWidget *parent, const QStringList &
 {
     KGlobal::locale()->insertCatalog("konqueror");
 
-    m_settings = new KonqSidebarHistorySettings( 0, "history settings" );
+    m_settings = new KonqSidebarHistorySettings( this );
     m_settings->readSettings( false );
 
     QVBoxLayout *topLayout = new QVBoxLayout(this);
@@ -149,26 +147,8 @@ void HistorySidebarConfig::save()
     quint32 age   = dialog->cbExpire->isChecked() ? dialog->spinExpire->value() : 0;
     quint32 count = dialog->spinEntries->value();
 
-    KConfig config("konquerorrc");
-    config.setGroup("HistorySettings");
-    config.writeEntry( "Maximum of History entries", count );
-    config.writeEntry( "Maximum age of History entries", age );
-
-    QByteArray dataAge;
-    QDataStream streamAge( &dataAge, QIODevice::WriteOnly );
-
-    streamAge.setVersion(QDataStream::Qt_3_1);
-    streamAge << age << "foo";
-    kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
-			      "notifyMaxAge(quint32, QCString)", dataAge );
-
-    QByteArray dataCount;
-    QDataStream streamCount( &dataCount, QIODevice::WriteOnly );
-
-    streamCount.setVersion(QDataStream::Qt_3_1);
-    streamCount << count << "foo";
-    kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
-			      "notifyMaxCount(quint32, QCString)", dataCount );
+    KonqHistoryManager::kself()->emitSetMaxAge( age );
+    KonqHistoryManager::kself()->emitSetMaxCount( count );
 
     m_settings->m_valueYoungerThan = dialog->spinNewer->value();
     m_settings->m_valueOlderThan   = dialog->spinOlder->value();
@@ -224,7 +204,7 @@ void HistorySidebarConfig::slotExpireChanged( int value )
 // to enfore newer <= older.
 void HistorySidebarConfig::slotNewerChanged( int value )
 {
-    dialog->comboNewer->setItemText( KonqSidebarHistorySettings::DAYS, 
+    dialog->comboNewer->setItemText( KonqSidebarHistorySettings::DAYS,
                                      i18np ( "Day", "Days", value) );
     dialog->comboNewer->setItemText( KonqSidebarHistorySettings::MINUTES,
 		                     i18np ( "Minute", "Minutes", value) );
@@ -270,8 +250,7 @@ void HistorySidebarConfig::slotClearHistory()
 					  "the entire history?"),
 				     i18n("Clear History?"), guiitem )
 	 == KMessageBox::Continue ) {
-        DCOPRef dcopHistManager( "konqueror*", "KonqHistoryManager" );
-        dcopHistManager.send( "notifyClear", "KonqHistoryManager" );
+        KonqHistoryManager::kself()->emitClear();
     }
 }
 

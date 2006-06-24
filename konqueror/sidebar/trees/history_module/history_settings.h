@@ -22,18 +22,16 @@
 
 #include <QFont>
 #include <QObject>
+#include <dbus/qdbus.h>
 
-#include <dcopobject.h>
-
-class KonqSidebarHistorySettings : public QObject, public DCOPObject
+class KonqSidebarHistorySettings : public QObject
 {
-    K_DCOP
     Q_OBJECT
 
 public:
     enum { MINUTES, DAYS };
 
-    KonqSidebarHistorySettings( QObject *parent, const char *name );
+    KonqSidebarHistorySettings( QObject *parent );
     virtual ~KonqSidebarHistorySettings();
 
     void readSettings(bool global);
@@ -53,14 +51,30 @@ public:
 Q_SIGNALS:
     void settingsChanged();
 
+private Q_SLOTS:
+    void slotSettingsChanged();
+
 protected:
-    KonqSidebarHistorySettings();
-    KonqSidebarHistorySettings( const KonqSidebarHistorySettings& );
+    //KonqSidebarHistorySettings( const KonqSidebarHistorySettings& );
+    Q_DISABLE_COPY( KonqSidebarHistorySettings )
 
-k_dcop:
+Q_SIGNALS:
+    // DBus signals
     void notifySettingsChanged();
+};
 
-private: // to make dcopidl happy :-/
+class KonqSidebarHistorySettingsAdaptor : public QDBusAbstractAdaptor
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.Konqueror.SidebarHistorySettings")
+public:
+    KonqSidebarHistorySettingsAdaptor( KonqSidebarHistorySettings* parent )
+        : QDBusAbstractAdaptor( parent ) {
+        setAutoRelaySignals( true );
+    }
+
+Q_SIGNALS:
+    void notifySettingsChanged();
 };
 
 #endif // HISTORY_SETTINGS_H

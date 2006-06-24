@@ -17,13 +17,12 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "konq_main.h"
+#include "konq_application.h"
 #include "konq_misc.h"
 #include "konq_factory.h"
 #include "konq_mainwindow.h"
 #include "konq_view.h"
 #include "konq_settingsxt.h"
-#include "KonquerorAdaptor.h"
 
 #include <ktempfile.h>
 #include <klocale.h>
@@ -60,8 +59,6 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
   KCmdLineArgs::addTempFileOption();
 
   KonquerorApplication app;
-
-  new KonquerorAdaptor;
 
   KGlobal::locale()->insertCatalog("libkonq"); // needed for apps using libkonq
 

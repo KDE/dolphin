@@ -19,7 +19,7 @@
 //#include "konq_treepart.h"
 #include "konq_sidebartreemodule.h"
 #include <kdebug.h>
-#include <kdirnotify_stub.h>
+#include <kdirnotify.h>
 #include <kio/paste.h>
 #include <konq_operations.h>
 #include <kprotocolinfo.h>
@@ -199,8 +199,7 @@ void KonqSidebarTreeTopLevelItem::rename( const QString & name )
     // Notify about the change
     KUrl::List lst;
     lst.append(url);
-    KDirNotify_stub allDirNotify("*", "KDirNotify*");
-    allDirNotify.FilesChanged( lst );
+    OrgKdeKDirNotifyInterface::emitFilesChanged( lst.toStringList() );
 }
 
 QString KonqSidebarTreeTopLevelItem::toolTipText() const

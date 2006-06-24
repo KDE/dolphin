@@ -50,7 +50,7 @@ KonqSidebarHistoryModule::KonqSidebarHistoryModule( KonqSidebarTree * parentTree
 
     if ( !s_settings ) {
 	sd.setObject( s_settings,
-                      new KonqSidebarHistorySettings( 0, "history settings" ));
+                      new KonqSidebarHistorySettings(0));
 	s_settings->readSettings( true );
     }
 
@@ -332,7 +332,7 @@ KonqSidebarHistoryGroupItem * KonqSidebarHistoryModule::getGroupItem( const KUrl
     if ( !group ) {
 	group = new KonqSidebarHistoryGroupItem( url, m_topLevelItem );
 
-	QString icon = KonqFavIconMgr::iconForURL( url );
+	QString icon = KMimeType::favIconForURL( url );
 	if ( icon.isEmpty() )
 	    group->setPixmap( 0, m_folderClosed );
 	else

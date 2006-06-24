@@ -41,6 +41,7 @@
 #include <kurlrequester.h>
 
 #include "behaviour.h"
+#include <dbus/qdbus.h>
 
 KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent )
     : KCModule(inst, parent), g_pConfig(config), groupname(group)
@@ -274,18 +275,16 @@ void KBehaviourOptions::save()
     config.writeEntry( "ShowList", cbListProgress->isChecked() );
     config.sync();
     // Tell the running server
-    if ( kapp->dcopClient()->isApplicationRegistered( "kio_uiserver" ) )
+    if ( QDBus::sessionBus().busService()->nameHasOwner( "org.kde.kio_uiserver" ) )
     {
-      UIServer_stub uiserver( "kio_uiserver", "UIServer" );
-      uiserver.setListMode( cbListProgress->isChecked() );
+      QDBusInterfacePtr uiserver( QDBus::sessionBus().findInterface("org.kde.kio_uiserver", "/UIServer") );
+      uiserver->call( "setListMode", cbListProgress->isChecked() );
     }
 
-    // Send signal to konqueror
-    QByteArray data;
-    if ( !kapp->dcopClient()->isAttached() )
-      kapp->dcopClient()->attach();
-    kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
-    kapp->dcopClient()->send( "kdesktop", "KDesktopIface", "configure()", data );
+    // Send signal to all konqueror instances
+    QDBusMessage message =
+        QDBusMessage::signal("/Konqueror", "org.kde.Konqueror", "reparseConfiguration");
+    QDBus::sessionBus().send(message);
 }
 
 void KBehaviourOptions::updateWinPixmap(bool b)

@@ -27,7 +27,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-#include <dcopclient.h>
+#include <dbus/qdbus.h>
 
 #include <kapplication.h>
 #include <kconfig.h>
@@ -209,12 +209,10 @@ void KPreviewOptions::save()
     group.writeEntry( "UseFileThumbnails", m_useFileThumbnails->isChecked(), KConfigBase::Normal | KConfigBase::Global );
     group.sync();
 
-    // Send signal to konqueror
-    // Warning. In case something is added/changed here, keep kfmclient in sync
-    QByteArray data;
-    if ( !kapp->dcopClient()->isAttached() )
-      kapp->dcopClient()->attach();
-    kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
+    // Send signal to all konqueror instances
+    QDBusMessage message =
+        QDBusMessage::signal("/Konqueror", "org.kde.Konqueror", "reparseConfiguration");
+    QDBus::sessionBus().send(message);
 }
 
 void KPreviewOptions::changed()

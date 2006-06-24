@@ -4,49 +4,52 @@ project(konqueror)
 set(libkonqueror_intern_KCFG_SRCS  ${CMAKE_CURRENT_SOURCE_DIR}/konq_settingsxt.kcfgc)
 kde4_add_kcfg_files(libkonqueror_intern_SRCS ${libkonqueror_intern_KCFG_SRCS})
 
-#add_subdirectory( client ) 
-add_subdirectory( iconview ) 
-add_subdirectory( listview ) 
+#add_subdirectory( client )
+add_subdirectory( iconview )
+add_subdirectory( listview )
 
 if(UNIX)
-   add_subdirectory( shellcmdplugin ) 
+   add_subdirectory( shellcmdplugin )
 endif(UNIX)
 
-add_subdirectory( about ) 
-add_subdirectory( pics ) 
-#add_subdirectory( sidebar ) 
-#add_subdirectory( preloader ) 
-#add_subdirectory( quickprint ) 
-#add_subdirectory( remoteencodingplugin ) 
-#add_subdirectory( kttsplugin ) 
-add_subdirectory( dirpart ) 
-#add_subdirectory( settings ) 
+add_subdirectory( about )
+add_subdirectory( pics )
+add_subdirectory( sidebar )
+#add_subdirectory( preloader )
+add_subdirectory( quickprint )
+add_subdirectory( remoteencodingplugin )
+#add_subdirectory( kttsplugin )
+add_subdirectory( dirpart )
+add_subdirectory( settings )
+
+message(STATUS "kdebase/konqueror: temporarily disabled from compilation, not yet ported to DBUS: preloader kttsplugin client")
 
 include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/workspace/kcontrol/input )
-add_subdirectory( tests ) 
+add_subdirectory( tests )
 
 
 ########### next target ###############
 
 set(konqueror_KDEINIT_SRCS  ${libkonqueror_intern_SRCS}
-   konq_main.cc 
-   konq_guiclients.cc 
-   konq_run.cc 
-   konq_view.cc 
-   konq_viewmgr.cc 
-   konq_misc.cc 
-   konq_frame.cc 
-   konq_framecontainer.cc 
-   konq_tabs.cc 
-   konq_actions.cc 
-   konq_profiledlg.cc 
-   konq_factory.cc 
-   konq_combo.cc 
-   konq_browseriface.cc 
-   delayedinitializer.cc 
-   konq_mainwindow.cc 
+   konq_main.cc
+   konq_application.cpp
+   konq_guiclients.cc
+   konq_run.cc
+   konq_view.cc
+   konq_viewmgr.cc
+   konq_misc.cc
+   konq_frame.cc
+   konq_framecontainer.cc
+   konq_tabs.cc
+   konq_actions.cc
+   konq_profiledlg.cc
+   konq_factory.cc
+   konq_combo.cc
+   konq_browseriface.cc
+   delayedinitializer.cc
+   konq_mainwindow.cc
    konq_extensionmanager.cc
-   KonquerorAdaptor.cpp 
+   KonquerorAdaptor.cpp
    KonqMainWindowAdaptor.cpp
    KonqViewAdaptor.cpp
 )

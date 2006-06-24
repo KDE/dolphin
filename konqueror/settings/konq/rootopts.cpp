@@ -24,7 +24,7 @@
 #include <Q3CString>
 #include <QDesktopWidget>
 
-#include <dcopclient.h>
+#include <dbus/qdbus.h>
 
 #include <kapplication.h>
 #include <kcustommenueditor.h>
@@ -247,9 +247,6 @@ void DesktopPathConfig::save()
     }
 
     // Tell kdesktop about the new config file
-    if ( !kapp->dcopClient()->isAttached() )
-       kapp->dcopClient()->attach();
-    QByteArray data;
 
     int konq_screen_number = KApplication::desktop()->primaryScreen();
     Q3CString appname;
@@ -257,7 +254,10 @@ void DesktopPathConfig::save()
         appname = "kdesktop";
     else
         appname.sprintf("kdesktop-screen-%d", konq_screen_number);
-    kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
+#ifdef __GNUC__
+#warning TODO Port to kdesktop DBus interface
+#endif
+    //kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
 }
 
 bool DesktopPathConfig::moveDir( const KUrl & src, const KUrl & dest, const QString & type )

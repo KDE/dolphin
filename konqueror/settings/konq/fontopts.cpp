@@ -28,7 +28,7 @@
 #include <Q3CString>
 #include <QDesktopWidget>
 
-#include <dcopclient.h>
+#include <dbus/qdbus.h>
 
 #include <kapplication.h>
 #include <kcolorbutton.h>
@@ -355,10 +355,9 @@ void KonqFontOptions::save()
 
     // Send signal to konqueror
     // Warning. In case something is added/changed here, keep kfmclient in sync
-    QByteArray data;
-    if ( !kapp->dcopClient()->isAttached() )
-      kapp->dcopClient()->attach();
-    kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
+    QDBusMessage message =
+        QDBusMessage::signal("/Konqueror", "org.kde.Konqueror", "reparseConfiguration");
+    QDBus::sessionBus().send(message);
 
     // Tell kdesktop about the new config file
     int konq_screen_number = KApplication::desktop()->primaryScreen();
@@ -367,7 +366,10 @@ void KonqFontOptions::save()
         appname = "kdesktop";
     else
         appname.sprintf("kdesktop-screen-%d", konq_screen_number);
-    kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
+#ifdef __GNUC__
+#warning TODO Port to kdesktop DBus interface
+#endif
+//    kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
 }
 
 void KonqFontOptions::slotTextBackgroundClicked()

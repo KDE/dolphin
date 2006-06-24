@@ -91,7 +91,7 @@ void KonqSideBarWebModule::setAutoReload(){
 
 	KHBox *hbox = new KHBox( &dlg );
   dlg.setMainWidget( hbox );
-	
+
 	QSpinBox *mins = new QSpinBox( hbox );
 	mins->setRange(0, 120);
 	mins->setSuffix( i18n(" min") );
@@ -103,13 +103,13 @@ void KonqSideBarWebModule::setAutoReload(){
 		secs->setValue( seconds % 60 );
 		mins->setValue( ( seconds - secs->value() ) / 60 );
 	}
-	
+
 	if( dlg.exec() == KDialog::Accepted ) {
 		int msec = ( mins->value() * 60 + secs->value() ) * 1000;
 		reloadTimeout = msec;
 		KSimpleConfig ksc(_desktopName);
 		ksc.setGroup("Desktop Entry");
-		ksc.writeEntry("Reload", reloadTimeout);	
+		ksc.writeEntry("Reload", reloadTimeout);
 		reload();
 	}
 }
@@ -129,13 +129,13 @@ void KonqSideBarWebModule::urlNewWindow(const QString& url, KParts::URLArgs args
 }
 
 
-void KonqSideBarWebModule::urlClicked(const QString& url, KParts::URLArgs args) 
+void KonqSideBarWebModule::urlClicked(const QString& url, KParts::URLArgs args)
 {
 	emit openURLRequest(KUrl(url), args);
 }
 
 
-void KonqSideBarWebModule::formClicked(const KUrl& url, const KParts::URLArgs& args) 
+void KonqSideBarWebModule::formClicked(const KUrl& url, const KParts::URLArgs& args)
 {
 	_htmlPart->browserExtension()->setURLArgs(args);
 	_htmlPart->openURL(url);
@@ -143,10 +143,10 @@ void KonqSideBarWebModule::formClicked(const KUrl& url, const KParts::URLArgs& a
 
 
 void KonqSideBarWebModule::loadFavicon() {
-	QString icon = KonqPixmapProvider::iconForURL(_url);
+	QString icon = KMimeType::favIconForURL(_url);
 	if (icon.isEmpty()) {
 		KonqFavIconMgr::downloadHostIcon(_url);
-		icon = KonqPixmapProvider::iconForURL(_url);
+		icon = KMimeType::favIconForURL(_url);
 	}
 
 	if (!icon.isEmpty()) {

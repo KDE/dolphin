@@ -29,7 +29,6 @@
 
 #include <kapplication.h>
 #include <kglobal.h>
-#include <dcopclient.h>
 #include <klocale.h>
 #include <kdialog.h>
 #include <klineedit.h>
@@ -215,10 +214,6 @@ void KDesktopConfig::save()
   delete desktopConfig;
 
   // Tell kdesktop about the new config file
-  if ( !kapp->dcopClient()->isAttached() )
-     kapp->dcopClient()->attach();
-  QByteArray data;
-
   int konq_screen_number = 0;
   if (QX11Info::display())
      konq_screen_number = DefaultScreen(QX11Info::display());
@@ -228,7 +223,10 @@ void KDesktopConfig::save()
       appname = "kdesktop";
   else
       appname = "kdesktop-screen-" + QByteArray::number( konq_screen_number );
-  kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
+#ifdef __GNUC__
+#warning TODO Port to kdesktop DBus interface
+#endif
+  //kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
 
   emit changed(false);
 #endif

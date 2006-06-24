@@ -2,28 +2,25 @@
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kglobal.h>
-#include <dcopclient.h>
 
 #include "history_settings.h"
 
-KonqSidebarHistorySettings::KonqSidebarHistorySettings( QObject *parent, const char *name )
-    : QObject( parent ),
-      DCOPObject( "KonqSidebarHistorySettings" )
-{
-    setObjectName( name );
-    m_fontOlderThan.setItalic( true ); // default
-}
-
-KonqSidebarHistorySettings::KonqSidebarHistorySettings()
-    : QObject(),
-      DCOPObject( "KonqSidebarHistorySettings" )
+KonqSidebarHistorySettings::KonqSidebarHistorySettings( QObject *parent )
+    : QObject( parent )
 {
     m_fontOlderThan.setItalic( true ); // default
+
+    new KonqSidebarHistorySettingsAdaptor( this );
+    const QString dbusPath = "/KonqSidebarHistorySettings";
+    const QString dbusInterface = "org.kde.Konqueror.SidebarHistorySettings";
+    QDBusConnection& dbus = QDBus::sessionBus();
+    dbus.registerObject( dbusPath, this );
+    dbus.connect(QString(), dbusPath, dbusInterface, "notifySettingsChanged", this, SLOT(slotSettingsChanged()));
 }
 
+#if 0 // huh? copying a QObject?
 KonqSidebarHistorySettings::KonqSidebarHistorySettings( const KonqSidebarHistorySettings& s )
-    : QObject(),
-      DCOPObject( "KonqSidebarHistorySettings" )
+    : QObject()
 {
     m_valueYoungerThan = s.m_valueYoungerThan;
     m_valueOlderThan = s.m_valueOlderThan;
@@ -36,6 +33,7 @@ KonqSidebarHistorySettings::KonqSidebarHistorySettings( const KonqSidebarHistory
     m_fontYoungerThan = s.m_fontYoungerThan;
     m_fontOlderThan = s.m_fontOlderThan;
 }
+#endif
 
 KonqSidebarHistorySettings::~KonqSidebarHistorySettings()
 {
@@ -99,11 +97,10 @@ void KonqSidebarHistorySettings::applySettings()
     delete config;
 
     // notify konqueror instances about the new configuration
-    kapp->dcopClient()->send( "konqueror*", "KonqSidebarHistorySettings",
-			      "notifySettingsChanged()", QByteArray() );
+    emit notifySettingsChanged();
 }
 
-void KonqSidebarHistorySettings::notifySettingsChanged()
+void KonqSidebarHistorySettings::slotSettingsChanged()
 {
     readSettings(false);
     emit settingsChanged();

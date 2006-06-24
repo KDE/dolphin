@@ -31,6 +31,7 @@
 #include <QCheckBox>
 #include <QTextStream>
 #include <QRegExp>
+#include <dbus/qdbus.h>
 
 #include "filteropts.h"
 #include "filteropts.moc"
@@ -243,11 +244,10 @@ void KCMFilter::save()
     mConfig->writeEntry("Count",mListBox->count());
 
     mConfig->sync();
-#warning "kde4: port to konqueror*"
-#if 0
-    DCOPClient::mainClient()->send("konqueror*","KonquerorIface","reparseConfiguration()",QByteArray());
-#endif
 
+    QDBusMessage message =
+        QDBusMessage::signal("/Konqueror", "org.kde.Konqueror", "reparseConfiguration");
+    QDBus::sessionBus().send(message);
 }
 
 void KCMFilter::load()

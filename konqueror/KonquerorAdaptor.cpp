@@ -133,19 +133,6 @@ QDBusObjectPath KonquerorAdaptor::createBrowserWindowFromProfileUrlAndMimeType( 
     return QDBusObjectPath( '/' + res->objectName() ); // this is what KMainWindow sets as the dbus object path
 }
 
-void KonquerorAdaptor::reparseConfiguration()
-{
-  KGlobal::config()->reparseConfiguration();
-  KonqFMSettings::reparseConfiguration();
-
-  QList<KonqMainWindow*> *mainWindows = KonqMainWindow::mainWindowList();
-  if ( mainWindows )
-  {
-    foreach ( KonqMainWindow* window, *mainWindows )
-        window->reparseConfiguration();
-  }
-}
-
 void KonquerorAdaptor::updateProfileList()
 {
   QList<KonqMainWindow*> *mainWindows = KonqMainWindow::mainWindowList();
