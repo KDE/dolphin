@@ -1,8 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=UADescription (Firefox 1.5 on current)
-Name[fr]=Identité du navigateur (Firefox 1.0 sous le système actuel)
-Name[x-test]=xxUADescription (Firefox 1.0 on current)xx
 Type=Service
 ServiceTypes=UserAgentStrings
 X-KDE-UA-TAG=FF
