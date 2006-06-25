@@ -18,7 +18,7 @@ if (X11_Xt_LIB)
 
   kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} nsplugin )
 
-  target_link_libraries(nsplugin  ${KDE4_KDECORE_LIBS} kparts DCOP ${QT_QT3SUPPORT_LIBRARY} ${QT_QTGUI_LIBRARY} kdeui kio)
+  target_link_libraries(nsplugin  ${KDE4_KIO_LIBS} kparts ${QT_QT3SUPPORT_LIBRARY} ${QT_QTGUI_LIBRARY} )
 
   install_targets(${PLUGIN_INSTALL_DIR} nsplugin )
 
