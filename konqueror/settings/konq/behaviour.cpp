@@ -18,30 +18,31 @@
 
 // Behaviour options for konqueror
 
+#include "behaviour.h"
+
+#include <kapplication.h>
+#include <kconfig.h>
+#include <klocale.h>
+#include <konq_defaults.h>
+#include <kstandarddirs.h>
+#include <kurlrequester.h>
+
+#include <dbus/qdbus.h>
+#include <kdialog.h>
+
+
 #include <QCheckBox>
 #include <QLabel>
 #include <QLayout>
 #include <kvbox.h>
 #include <khbox.h>
 
-//Added by qt3to4:
 #include <QPixmap>
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <Q3ButtonGroup>
 
-
-#include <kapplication.h>
-#include <kconfig.h>
-#include <kio/uiserver_stub.h>
-#include <klocale.h>
-#include <konq_defaults.h>
-#include <kstandarddirs.h>
-#include <kurlrequester.h>
-
-#include "behaviour.h"
-#include <dbus/qdbus.h>
 
 KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent )
     : KCModule(inst, parent), g_pConfig(config), groupname(group)

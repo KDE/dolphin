@@ -43,7 +43,6 @@
 #include <kservicetypetrader.h>
 #include <kapplication.h>
 #include <kcustommenueditor.h>
-#include <dcopclient.h>
 #include <konq_defaults.h> // include default values directly from libkonq
 #include <kipc.h>
 #include <kprotocolinfo.h>

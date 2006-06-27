@@ -8,8 +8,6 @@
 #include <QGridLayout>
 #include <QHBoxLayout>
 
-#include <dcopclient.h>
-
 #include <kapplication.h>
 #include <kbuildsycocaprogressdialog.h>
 #include <kcursor.h>
@@ -205,9 +203,9 @@ void FileTypesView::slotEmbedMajor(const QString &major, bool &embed)
     QMap<QString,TypesListItem*>::const_iterator mit = m_majorMap.find( major );
     if ( mit == m_majorMap.end() )
         return;
-        
+
     groupItem = mit.value();
-    
+
     embed = (groupItem->autoEmbed() == 0);
 }
 

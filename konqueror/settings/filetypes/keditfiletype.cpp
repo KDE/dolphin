@@ -21,7 +21,6 @@
 
 #include <QFile>
 
-#include <dcopclient.h>
 #include <kapplication.h>
 #include <kaboutdata.h>
 #include <kbuildsycocaprogressdialog.h>
@@ -143,7 +142,7 @@ int main(int argc, char ** argv)
   bool createType = arg.startsWith( "*" );
 
   KMimeType::Ptr mime;
-  
+
   if ( createType ) {
     QString mimeString = "application/x-kdeuser%1";
     QString loc;
@@ -164,7 +163,7 @@ int main(int argc, char ** argv)
     }
     mime = new KMimeType( loc, mimeString.arg( inc ), QString(), comment, patterns );
   }
-  else { 
+  else {
     mime = KMimeType::mimeType( arg );
     if (!mime)
       kFatal() << "Mimetype " << arg << " not found" << endl;
@@ -186,9 +185,8 @@ int main(int argc, char ** argv)
     dlg.setCaption( i18n("Create New File Type %1", mime->name()) );
     dlg.enableButton( KDialog::Apply, true );
   }
-  app.setMainWidget( &dlg );
+
   dlg.show(); // non-modal
 
   return app.exec();
 }
-

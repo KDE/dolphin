@@ -20,6 +20,7 @@
 */
 
 #include "konq_mainwindow.h"
+#include "konq_application.h"
 #include "konq_guiclients.h"
 #include "KonqMainWindowAdaptor.h"
 #include "konq_view.h"
@@ -94,7 +95,6 @@
 #include <konq_dirpart.h>
 #include <konq_popupmenu.h>
 #include <konq_settings.h>
-#include "konq_main.h"
 #include <konq_undo.h>
 #include <kprotocolinfo.h>
 #include <kprotocolmanager.h>
