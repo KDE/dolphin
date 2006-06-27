@@ -23,7 +23,6 @@
 #include <k3listview.h>
 #include "konq_sidebartreetoplevelitem.h"
 #include "konqsidebar_tree.h"
-#include <kdirnotify.h>
 #include <QMap>
 #include <QPoint>
 #include <q3strlist.h>
@@ -160,9 +159,6 @@ private:
     
 
 private:
-    // the KDirNotify signals
-    OrgKdeKDirNotifyInterface *kdirnotify;
-
     Q3PtrList<KonqSidebarTreeTopLevelItem> m_topLevelItems;
     KonqSidebarTreeTopLevelItem *m_currentTopLevelItem;
 

@@ -39,6 +39,7 @@
 #include <kactioncollection.h>
 #include <kapplication.h>
 #include <kdebug.h>
+#include <kdirnotify.h>
 #include <kdesktopfile.h>
 #include <kglobalsettings.h>
 #include <kiconloader.h>
@@ -197,7 +198,7 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
 
     setFrameStyle( QFrame::ToolBarPanel | QFrame::Raised );
 
-    kdirnotify = QDBus::sessionBus().findInterface<org::kde::KDirNotify>(QString(), QString());
+    OrgKdeKDirNotifyInterface *kdirnotify = QDBus::sessionBus().findInterface<org::kde::KDirNotify>(QString(), QString());
     kdirnotify->setParent(this);
     connect(kdirnotify, SIGNAL(FilesAdded(QString)), SLOT(slotFilesAdded(QString)));
     connect(kdirnotify, SIGNAL(FilesChanged(QStringList)), SLOT(slotFilesChanged(QStringList)));
