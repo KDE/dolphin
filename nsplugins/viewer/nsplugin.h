@@ -26,12 +26,6 @@
 #ifndef __NS_PLUGIN_H__
 #define __NS_PLUGIN_H__
 
-
-#include <dcopobject.h>
-#include "NSPluginClassIface.h"
-#include "NSPluginCallbackIface_stub.h"
-
-
 #include <QObject>
 #include <QString>
 #include <QStringList>
@@ -56,10 +50,11 @@ typedef NPError NP_ShutdownUPP(void);
 
 
 #include <X11/Intrinsic.h>
-
+#include <fixx11h.h>
 
 void quitXt();
 
+class OrgKdeNspluginsCallBackInterface;
 class KLibrary;
 class QTimer;
 
@@ -155,7 +150,7 @@ protected:
 };
 
 
-class NSPluginInstance : public QObject, public virtual NSPluginInstanceIface
+class NSPluginInstance : public QObject
 {
   Q_OBJECT
 
@@ -165,10 +160,10 @@ public:
   NSPluginInstance( NPP privateData, NPPluginFuncs *pluginFuncs, KLibrary *handle,
 		    int width, int height, QString src, QString mime,
                     QString appId, QString callbackId, bool embed,
-		    QObject *parent, const char* name=0 );
+		    QObject *parent );
   ~NSPluginInstance();
 
-  // DCOP functions
+  // DBus-exported functions
   void shutdown();
   int winId() { return XtWindow(_form); }
   int setWindow(int remove=0);
@@ -223,7 +218,7 @@ private:
   bool _firstResize;
   void addTempFile(KTempFile *tmpFile);
   Q3PtrList<KTempFile> _tempFiles;
-  NSPluginCallbackIface_stub *_callback;
+  OrgKdeNspluginsCallBackInterface *_callback;
   Q3PtrList<NSPluginStreamBase> _streams;
   KLibrary *_handle;
   QTimer *_timer;
@@ -269,18 +264,18 @@ private:
 };
 
 
-class NSPluginClass : public QObject, virtual public NSPluginClassIface
+class NSPluginClass : public QObject
 {
   Q_OBJECT
 public:
 
-  NSPluginClass( const QString &library, QObject *parent, const char *name=0 );
+  NSPluginClass( const QString &library, QObject *parent );
   ~NSPluginClass();
 
   QString getMIMEDescription();
-  DCOPRef newInstance(QString url, QString mimeType, bool embed,
-		      QStringList argn, QStringList argv,
-                      QString appId, QString callbackId, bool reload );
+  QString newInstance(const QString &url, const QString &mimeType, bool embed,
+                      const QStringList &argn, const QStringList &argv,
+                      const QString &appId, const QString &callbackId, bool reload);
   void destroyInstance( NSPluginInstance* inst );
   bool error() { return _error; }
 
@@ -314,15 +309,15 @@ private:
 };
 
 
-class NSPluginViewer : public QObject, virtual public NSPluginViewerIface
+class NSPluginViewer : public QObject
 {
     Q_OBJECT
 public:
-   NSPluginViewer( DCOPCString dcopId, QObject *parent, const char *name=0 );
+   NSPluginViewer( QObject *parent );
    virtual ~NSPluginViewer();
 
    void shutdown();
-   DCOPRef newClass( QString plugin );
+   QString newClass( const QString& plugin, const QString& senderId );
 
 private Q_SLOTS:
    void appUnregistered(const QByteArray& id);

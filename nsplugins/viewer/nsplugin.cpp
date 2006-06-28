@@ -23,10 +23,10 @@
 
 */
 
-
-#include <kprotocolmanager.h>
-#include "NSPluginCallbackIface_stub.h"
-
+#include "nsplugin.h"
+#include "resolve.h"
+#include "dbusadaptors.h"
+#include "callback_proxy.h"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -36,19 +36,15 @@
 #include <QFile>
 #include <QTimer>
 
-#include "kxt.h"
-#include "nsplugin.h"
-#include "resolve.h"
-
 #ifdef Bool
 #undef Bool
 #endif
 
-#include <dcopclient.h>
 #include <kconfig.h>
 #include <kdebug.h>
 #include <kglobal.h>
 #include <kio/netaccess.h>
+#include <kprotocolmanager.h>
 #include <klibloader.h>
 #include <klocale.h>
 #include <kprocess.h>
@@ -579,16 +575,20 @@ NSPluginInstance::forwarder(Widget w, XtPointer cl_data, XEvent * event, Boolean
   XtDispatchEvent(event);
 }
 
+static int s_instanceCounter = 0;
 
 NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
                                    KLibrary *handle, int width, int height,
                                    QString src, QString /*mime*/,
                                    QString appId, QString callbackId,
                                    bool embed,
-                                   QObject *parent, const char* name )
-   : DCOPObject(), QObject( parent )
+                                   QObject *parent )
+   : QObject( parent )
 {
-   setObjectName( name );
+    // The object name is the dbus object path
+   (void) new InstanceAdaptor( this );
+   setObjectName( QString( "/Instance_" ) + QString::number( ++s_instanceCounter ) );
+   QDBus::sessionBus().registerObject( objectName(), this );
 
     Q_UNUSED(embed);
    _firstResize = true;
@@ -602,7 +602,8 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    _tempFiles.setAutoDelete( true );
    _streams.setAutoDelete( true );
    _waitingRequests.setAutoDelete( true );
-   _callback = new NSPluginCallbackIface_stub( appId.toLatin1(), callbackId.toLatin1() );
+   _callback = QDBus::sessionBus().findInterface<org::kde::nsplugins::CallBack>(
+       appId, callbackId );
 
    KUrl base(src);
    base.setFileName( QString() );
@@ -1203,17 +1204,21 @@ void NSPluginInstance::displayPlugin()
 
 /***************************************************************************/
 
-NSPluginViewer::NSPluginViewer( DCOPCString dcopId,
-                                QObject *parent, const char *name )
-   : DCOPObject(dcopId), QObject( parent )
+NSPluginViewer::NSPluginViewer( QObject *parent )
+   : QObject( parent )
 {
-    setObjectName( name );
+   (void) new ViewerAdaptor( this );
+   QDBus::sessionBus().registerObject( "/Viewer", this );
 
     _classes.setAutoDelete( true );
+
+#warning TODO DBus
+#if 0
     connect(KApplication::dcopClient(),
             SIGNAL(applicationRemoved(const QByteArray&)),
             this,
             SLOT(appUnregistered(const QByteArray&)));
+#endif
 }
 
 
@@ -1252,7 +1257,7 @@ void NSPluginViewer::shutdown()
 }
 
 
-DCOPRef NSPluginViewer::newClass( QString plugin )
+QString NSPluginViewer::newClass( const QString& plugin, const QString& senderId )
 {
    kDebug(1431) << "NSPluginViewer::NewClass( " << plugin << ")" << endl;
 
@@ -1261,33 +1266,32 @@ DCOPRef NSPluginViewer::newClass( QString plugin )
    if ( !cls ) {
        // create new class
        cls = new NSPluginClass( plugin, this );
-       DCOPCString id = "";
-       DCOPClient *dc = callingDcopClient();
-       if (dc) {
-          id = dc->senderId();
-       }
-       cls->setApp(id);
+       cls->setApp(senderId.toLatin1());
        if ( cls->error() ) {
            kError(1431) << "Can't create plugin class" << endl;
            delete cls;
-           return DCOPRef();
+           return QString();
        }
 
        _classes.insert( plugin, cls );
    }
 
-   return DCOPRef( kapp->dcopClient()->appId(), cls->objId() );
+   return cls->objectName();
 }
 
 
 /****************************************************************************/
 
+static int s_classCounter = 0;
 
 NSPluginClass::NSPluginClass( const QString &library,
-                              QObject *parent, const char *name )
-   : DCOPObject(), QObject( parent )
+                              QObject *parent )
+   : QObject( parent )
 {
-    setObjectName( name );
+    (void) new ClassAdaptor( this );
+    // The object name is used to store the dbus object path
+    setObjectName( QString( "/Class_" ) + QString::number( ++s_classCounter ) );
+    QDBus::sessionBus().registerObject( objectName(), this );
 
     // initialize members
     _handle = KLibLoader::self()->library(QFile::encodeName(library));
@@ -1412,14 +1416,14 @@ void NSPluginClass::shutdown()
 }
 
 
-DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
-                                    QStringList argn, QStringList argv,
-                                    QString appId, QString callbackId, bool reload )
+QString NSPluginClass::newInstance( const QString &url, const QString &mimeType, bool embed,
+                                    const QStringList &argn, const QStringList &argv,
+                                    const QString &appId, const QString &callbackId, bool reload )
 {
    kDebug(1431) << "-> NSPluginClass::NewInstance" << endl;
 
    if ( !_constructed )
-       return DCOPRef();
+       return QString();
 
    // copy parameters over
    unsigned int argc = argn.count();
@@ -1478,7 +1482,7 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
       delete inst;
       //delete npp;    double delete!
       kDebug(1431) << "<- PluginClass::NewInstance = 0" << endl;
-      return DCOPRef();
+      return QString();
    }
 
    // create source stream
@@ -1486,7 +1490,7 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
       inst->requestURL( src, mimeType, QString(), 0, false, reload );
 
    _instances.append( inst );
-   return DCOPRef(kapp->dcopClient()->appId(), inst->objId());
+   return inst->objectName();
 }
 
 

@@ -3,7 +3,7 @@ include_directories( ${CMAKE_SOURCE_DIR}/nsplugins )
 
 ########### next target ###############
 
-set(nspluginviewer_SRCS nsplugin.cpp viewer.cpp kxt.cpp )
+set(nspluginviewer_SRCS nsplugin.cpp viewer.cpp dbusadaptors.cpp callback_proxy.cpp)
 
 kde4_automoc(${nspluginviewer_SRCS})
 

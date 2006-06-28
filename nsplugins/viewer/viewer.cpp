@@ -28,7 +28,6 @@
 #include <kapplication.h>
 #include "nsplugin.h"
 
-#include <dcopclient.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <kdebug.h>
@@ -50,6 +49,7 @@
 #include <kconfig.h>
 
 #include "qxteventloop.h"
+#include <dbus/qdbus.h>
 
 /**
  *  Use RLIMIT_DATA on systems that don't define RLIMIT_AS,
@@ -81,7 +81,7 @@ static int x_errhandler(Display *dpy, XErrorEvent *error)
  * the "old style" and keep lot's of global vars. :-)
  */
 
-static DCOPCString g_dcopId;
+static QString g_dbusServiceName;
 
 /**
  * parseCommandLine - get command line parameters
@@ -91,9 +91,9 @@ void parseCommandLine(int argc, char *argv[])
 {
    for (int i=0; i<argc; i++)
    {
-      if (!strcmp(argv[i], "-dcopid") && (i+1 < argc))
+      if (!strcmp(argv[i], "-dcopid") && (i+1 < argc)) // ## TODO rename option
       {
-         g_dcopId = argv[i+1];
+         g_dbusServiceName = argv[i+1];
          i++;
       }
    }
@@ -141,34 +141,21 @@ int main(int argc, char** argv)
       }
    }
 
-   // initialize the dcop client
-   kDebug(1430) << "5 - app.dcopClient" << endl;
-   DCOPClient *dcop = app.dcopClient();
-   if (!dcop->attach())
-   {
-      KMessageBox::error(NULL,
-                            i18n("There was an error connecting to the Desktop "
-                                 "communications server. Please make sure that "
-                                 "the 'dcopserver' process has been started, and "
-                                 "then try again."),
-                            i18n("Error Connecting to DCOP Server"));
-      exit(1);
+   kDebug(1430) << "5 - dbus requestName" << endl;
+   if (!g_dbusServiceName.isEmpty()) {
+       QDBusBusService* bus = QDBus::sessionBus().busService(); // already null-checked by KApplication
+       if ( bus->requestName(g_dbusServiceName, QDBusBusService::DoNotQueueName) == QDBusBusService::NameExistsReply ) {
+          kError(101) << "Couldn't register name '" << g_dbusServiceName << "' with DBUS - another process owns it already!" << endl;
+          ::exit(126);
+      }
    }
 
-   kDebug(1430) << "6 - dcop->registerAs" << endl;
-   if (!g_dcopId.isEmpty())
-      g_dcopId = dcop->registerAs( g_dcopId, false );
-   else
-      g_dcopId = dcop->registerAs("nspluginviewer");
-
-   dcop->setNotifications(true);
-
    // create dcop interface
-   kDebug(1430) << "7 - new NSPluginViewer" << endl;
-   NSPluginViewer *viewer = new NSPluginViewer( "viewer", 0 );
+   kDebug(1430) << "6 - new NSPluginViewer" << endl;
+   NSPluginViewer *viewer = new NSPluginViewer( 0 );
 
    // start main loop
-   kDebug(1430) << "8 - app.exec()" << endl;
+   kDebug(1430) << "7 - app.exec()" << endl;
    app.exec();
 
    // delete viewer
