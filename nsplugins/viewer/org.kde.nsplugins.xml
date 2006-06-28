@@ -1,0 +1,51 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.nsplugins.Viewer">
+    <method name="shutdown">
+    </method>
+    <method name="newClass">
+      <arg type="o" direction="out"/>
+      <arg name="plugin" type="s" direction="in"/>
+    </method>
+  </interface>
+  <interface name="org.kde.nsplugins.Class">
+    <method name="newInstance">
+      <arg type="o" direction="out"/>
+      <arg name="url" type="s" direction="in"/>
+      <arg name="mimeType" type="s" direction="in"/>
+      <arg name="embed" type="b" direction="in"/>
+      <arg name="argn" type="as" direction="in"/>
+      <arg name="argv" type="as" direction="in"/>
+      <arg name="appId" type="s" direction="in"/>
+      <arg name="callbackId" type="s" direction="in"/>
+      <arg name="reload" type="b" direction="in"/>
+    </method>
+    <method name="getMIMEDescription">
+      <arg type="s" direction="out"/>
+    </method>
+  </interface>
+  <interface name="org.kde.nsplugins.Instance">
+    <method name="shutdown">
+    </method>
+    <method name="winId">
+      <arg type="i" direction="out"/>
+    </method>
+    <method name="setWindow">
+      <arg type="i" direction="out"/>
+      <arg name="remove" type="i" direction="in"/>
+    </method>
+    <method name="setWindow">
+      <arg type="i" direction="out"/>
+    </method>
+    <method name="resizePlugin">
+      <arg name="w" type="i" direction="in"/>
+      <arg name="h" type="i" direction="in"/>
+    </method>
+    <method name="javascriptResult">
+      <arg name="id" type="i" direction="in"/>
+      <arg name="result" type="s" direction="in"/>
+    </method>
+    <method name="displayPlugin">
+    </method>
+  </interface>
+</node>
