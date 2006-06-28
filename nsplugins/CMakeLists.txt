@@ -7,7 +7,11 @@ if (X11_Xt_LIB)
 
   ########### next target ###############
 
-  set(nsplugin_PART_SRCS plugin_part.cpp nspluginloader.cpp )
+  set(nsplugin_PART_SRCS
+        plugin_part.cpp
+        nspluginloader.cpp
+        callbackadaptor.cpp
+     )
 
   kde4_automoc(${nsplugin_PART_SRCS})
 

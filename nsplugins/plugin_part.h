@@ -39,26 +39,6 @@ class QLabel;
 class NSPluginInstance;
 class PluginPart;
 
-
-#include "NSPluginCallbackIface.h"
-
-
-class NSPluginCallback : public NSPluginCallbackIface
-{
-public:
-  NSPluginCallback(PluginPart *part);
-
-  ASYNC reloadPage();
-  ASYNC requestURL(QString url, QString target);
-  ASYNC postURL(QString url, QString target, QByteArray data, QString mime);
-  ASYNC statusMessage( QString msg );
-  ASYNC evalJavaScript( int id, QString script );
-
-private:
-  PluginPart *_part;
-};
-
-
 class PluginFactory : public KParts::Factory
 {
   Q_OBJECT
@@ -105,6 +85,7 @@ public:
              const QStringList &args = QStringList());
   virtual ~PluginPart();
 
+  // CallBack interface (DBus-exported)
   void postURL(const QString& url, const QString& target, const QByteArray& data, const QString& mime);
   void requestURL(const QString& url, const QString& target);
   void statusMessage( QString msg );
@@ -127,7 +108,6 @@ private:
   PluginCanvasWidget *_canvas;
   PluginBrowserExtension *_extension;
   PluginLiveConnectExtension *_liveconnect;
-  NSPluginCallback *_callback;
   QStringList _args;
   class NSPluginLoader *_loader;
   bool *_destructed;

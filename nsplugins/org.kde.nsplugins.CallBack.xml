@@ -1,7 +1,7 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
 "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
-  <interface name="org.kde.nsplugins.NsPlugins">
+  <interface name="org.kde.nsplugins.CallBack">
     <method name="requestURL">
     <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
       <arg name="url" type="s" direction="in"/>

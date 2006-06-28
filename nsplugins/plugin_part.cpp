@@ -48,7 +48,7 @@ public:
 };
 
 
-PluginLiveConnectExtension::PluginLiveConnectExtension(PluginPart* part) 
+PluginLiveConnectExtension::PluginLiveConnectExtension(PluginPart* part)
 : KParts::LiveConnectExtension(part), _part(part), _retval(0L) {
 }
 
@@ -110,35 +110,6 @@ extern "C"
 }
 
 
-NSPluginCallback::NSPluginCallback(PluginPart *part)
-  : DCOPObject()
-{
-    _part = part;
-}
-
-
-void NSPluginCallback::postURL(QString url, QString target, QByteArray data, QString mime)
-{
-    _part->postURL( url, target, data, mime );
-}
-
-
-void NSPluginCallback::requestURL(QString url, QString target)
-{
-    _part->requestURL( url, target );
-}
-
-
-void NSPluginCallback::statusMessage( QString msg )
-{
-    _part->statusMessage( msg );
-}
-
-
-void NSPluginCallback::evalJavaScript( int id, QString script )
-{
-    _part->evalJavaScript( id, script );
-}
 /**
  * We need one static instance of the factory for our C 'main'
  * function
@@ -197,11 +168,15 @@ KAboutData *PluginFactory::aboutData()
 
 /**************************************************************************/
 
+static const char* s_callBackObjectPath = "/CallBack";
 
 PluginPart::PluginPart(QWidget *parentWidget, QObject *parent, const QStringList &args)
     : KParts::ReadOnlyPart(parent), _widget(0), _args(args),
       _destructed(0L)
 {
+    (void) new NsPluginsCallBackAdaptor( this );
+    QDBus::sessionBus().registerObject( s_callBackObjectPath, this );
+
     setInstance(PluginFactory::instance());
     kDebug(1432) << "PluginPart::PluginPart" << endl;
 
@@ -221,7 +196,6 @@ PluginPart::PluginPart(QWidget *parentWidget, QObject *parent, const QStringList
 
     // create
     _loader = NSPluginLoader::instance();
-    _callback = new NSPluginCallback(this);
 
     // create a canvas to insert our widget
     _canvas = new PluginCanvasWidget( parentWidget );
@@ -238,7 +212,6 @@ PluginPart::~PluginPart()
 {
     kDebug(1432) << "PluginPart::~PluginPart" << endl;
 
-    delete _callback;
     _loader->release();
     if (_destructed)
         *_destructed = true;
@@ -299,8 +272,8 @@ bool PluginPart::openURL(const KUrl &url)
     // create plugin widget
     NSPluginInstance *inst = _loader->newInstance( _canvas, surl, smime, embed,
                                                    argn, argv,
-                                                   kapp->dcopClient()->appId(),
-                                                   _callback->objId(), reload);
+                                                   QDBus::sessionBus().baseService(),
+                                                   s_callBackObjectPath, reload);
 
     if ( inst ) {
         _widget = inst;
@@ -368,7 +341,7 @@ void PluginPart::evalJavaScript(int id, const QString & script)
     if (_widget) {
         bool destructed = false;
         _destructed = &destructed;
-	kDebug(1432) <<"evalJavascript: there is a widget" <<endl;	
+	kDebug(1432) <<"evalJavascript: there is a widget" <<endl;
         QString rc = _liveconnect->evalJavaScript(script);
         if (destructed)
             return;

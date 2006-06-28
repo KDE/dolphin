@@ -36,8 +36,6 @@
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <kconfig.h>
-#include <dcopclient.h>
-#include <dcopstub.h>
 #include <QLayout>
 #include <QObject>
 #include <QPushButton>
@@ -56,7 +54,7 @@ NSPluginLoader *NSPluginLoader::s_instance = 0;
 int NSPluginLoader::s_refCount = 0;
 
 
-NSPluginInstance::NSPluginInstance(QWidget *parent, const DCOPCString& app, const DCOPCString& id)
+NSPluginInstance::NSPluginInstance(QWidget *parent, const QString& app, const QString& id)
   : DCOPStub(app, id), NSPluginInstanceIface_stub(app, id), EMBEDCLASS(parent)
 {
     _loader = 0L;
@@ -390,10 +388,10 @@ void NSPluginLoader::processTerminated(KProcess *proc)
 }
 
 
-NSPluginInstance *NSPluginLoader::newInstance(QWidget *parent, QString url,
-                                              QString mimeType, bool embed,
-                                              QStringList argn, QStringList argv,
-                                              QString appId, QString callbackId, bool reload )
+NSPluginInstance *NSPluginLoader::newInstance(QWidget *parent, const QString& url,
+                                              const QString& mimeType, bool embed,
+                                              const QStringList& argn, const QStringList& argv,
+                                              const QString& appId, const QString& callbackId, bool reload )
 {
    kDebug() << "-> NSPluginLoader::NewInstance( parent=" << (void*)parent << ", url=" << url << ", mime=" << mimeType << ", ...)" << endl;
 
