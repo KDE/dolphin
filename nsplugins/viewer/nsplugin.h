@@ -30,7 +30,6 @@
 #include <QString>
 #include <QStringList>
 #include <q3ptrqueue.h>
-#include <q3dict.h>
 #include <QMap>
 #include <q3intdict.h>
 #include <QPointer>
@@ -320,10 +319,10 @@ public:
    QString newClass( const QString& plugin, const QString& senderId );
 
 private Q_SLOTS:
-   void appUnregistered(const QByteArray& id);
+   void appUnregistered(const QString& id);
 
 private:
-   Q3Dict<NSPluginClass> _classes;
+   QMap<QString, NSPluginClass *> _classes;
 };
 
 

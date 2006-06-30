@@ -1210,15 +1210,9 @@ NSPluginViewer::NSPluginViewer( QObject *parent )
    (void) new ViewerAdaptor( this );
    QDBus::sessionBus().registerObject( "/Viewer", this );
 
-    _classes.setAutoDelete( true );
-
-#warning TODO DBus
-#if 0
-    connect(KApplication::dcopClient(),
-            SIGNAL(applicationRemoved(const QByteArray&)),
-            this,
-            SLOT(appUnregistered(const QByteArray&)));
-#endif
+    QObject::connect(QDBus::sessionBus().busService(),
+                     SIGNAL(NameLost(const QString&)),
+                     this, SLOT(appUnregistered(const QString&)));
 }
 
 
@@ -1228,18 +1222,17 @@ NSPluginViewer::~NSPluginViewer()
 }
 
 
-void NSPluginViewer::appUnregistered(const QByteArray& id) {
+void NSPluginViewer::appUnregistered(const QString& id) {
    if (id.isEmpty()) {
       return;
    }
 
-   Q3DictIterator<NSPluginClass> it(_classes);
-   NSPluginClass *c;
-   while ( (c = it.current()) ) {
-      QString key = it.currentKey();
-      ++it;
-      if (c->app() == id) {
-         _classes.remove(key);
+   QMap<QString, NSPluginClass*>::iterator it = _classes.begin();
+   const QMap<QString, NSPluginClass*>::iterator end = _classes.end();
+   for ( ; it != end; ++it )
+   {
+      if (it.value()->app() == id) {
+         it = _classes.erase(it);
       }
    }
 
@@ -1262,7 +1255,7 @@ QString NSPluginViewer::newClass( const QString& plugin, const QString& senderId
    kDebug(1431) << "NSPluginViewer::NewClass( " << plugin << ")" << endl;
 
    // search existing class
-   NSPluginClass *cls = _classes[ plugin ];
+   NSPluginClass *cls = _classes.value( plugin );
    if ( !cls ) {
        // create new class
        cls = new NSPluginClass( plugin, this );
