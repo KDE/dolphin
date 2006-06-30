@@ -37,22 +37,25 @@
 //Added by qt3to4:
 #include <QGridLayout>
 #include <QResizeEvent>
-
-#include "NSPluginClassIface_stub.h"
+#include <kdemacros.h>
 
 #define EMBEDCLASS QX11EmbedWidget
 
+class OrgKdeNspluginsViewerInterface;
 class KProcess;
 class QPushButton;
 class QGridLayout;
+class OrgKdeNspluginsInstanceInterface;
 
-class NSPluginInstance : public EMBEDCLASS, virtual public NSPluginInstanceIface_stub
+class NSPluginInstance : public EMBEDCLASS
 {
   Q_OBJECT
 
 public:
-    NSPluginInstance(QWidget *parent, const DCOPCString& app, const DCOPCString& id);
+    NSPluginInstance(QWidget *parent, const QString& app, const QString& id);
     ~NSPluginInstance();
+
+    void javascriptResult(int id, const QString &result);
 
 private Q_SLOTS:
     void doLoadPlugin();
@@ -60,13 +63,15 @@ private Q_SLOTS:
 protected:
     void resizeEvent(QResizeEvent *event);
     void windowChanged(WId w);
+private:
     class NSPluginLoader *_loader;
+    OrgKdeNspluginsInstanceInterface *_instanceInterface;
     bool shown;
     QPushButton *_button;
     QGridLayout *_layout;
 };
 
-
+// class exported for the test program
 class KDE_EXPORT NSPluginLoader : public QObject
 {
   Q_OBJECT
@@ -93,7 +98,7 @@ protected:
   void unloadViewer();
 
 protected Q_SLOTS:
-  void applicationRegistered( const QByteArray& appId );
+  void applicationRegistered( const QString& appId );
   void processTerminated( KProcess *proc );
 
 private:
@@ -102,8 +107,8 @@ private:
 
   KProcess *_process;
   bool _running;
-  QByteArray _dcopid;
-  NSPluginViewerIface_stub *_viewer;
+  QString _dbusService;
+  OrgKdeNspluginsViewerInterface *_viewer;
   bool _useArtsdsp;
 
   static NSPluginLoader *s_instance;

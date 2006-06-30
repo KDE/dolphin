@@ -25,13 +25,11 @@
 #include <Q3HBoxLayout>
 #include <kapplication.h>
 #include <kcmdlineargs.h>
-#include <dcopclient.h>
 #include <kdebug.h>
 #include <kstdaction.h>
 #include <kaction.h>
 
 #include "testnsplugin.h"
-#include "../NSPluginClassIface_stub.h"
 #include "../nspluginloader.h"
 
 
@@ -40,7 +38,7 @@ TestNSPlugin::TestNSPlugin()
    m_loader = NSPluginLoader::instance();
 
    // client area
-   m_client = new QWidget( this, "m_client" );
+   m_client = new QWidget( this );
    setCentralWidget( m_client );
    m_client->show();
    m_layout = new Q3HBoxLayout( m_client );
@@ -130,16 +128,9 @@ int main(int argc, char *argv[])
 
    KApplication app("nsplugin");
 
-   app.dcopClient()->attach();
-   app.dcopClient()->registerAs(app.name());
-   app.dcopClient()->setNotifications(true);
-
-   TestNSPlugin *win = new TestNSPlugin;
-   app.setMainWidget( win );
-   win->show();
+   TestNSPlugin win;
+   win.show();
    app.exec();
-
-   delete win;
 }
 
 #include "testnsplugin.moc"

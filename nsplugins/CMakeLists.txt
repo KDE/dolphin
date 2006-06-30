@@ -11,6 +11,7 @@ if (X11_Xt_LIB)
         plugin_part.cpp
         nspluginloader.cpp
         callbackadaptor.cpp
+	viewer_proxy.cpp
      )
 
   kde4_automoc(${nsplugin_PART_SRCS})
