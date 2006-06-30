@@ -140,13 +140,10 @@ NSPluginLoader::NSPluginLoader()
   _mapping.setAutoDelete( true );
   _filetype.setAutoDelete(true);
 
-  // trap dcop register events
-#warning DBus port: connect to right signal
-#if 0
-  QObject::connect(kapp->dcopClient(),
-                   SIGNAL(applicationRegistered(const QByteArray&)),
-                   this, SLOT(applicationRegistered(const QByteArray&)));
-#endif
+  // trap dbus register events
+  QObject::connect(QDBus::sessionBus().busService(),
+                   SIGNAL(NameAcquired(const QString&)),
+                   this, SLOT(applicationRegistered(const QString&)));
 
   // load configuration
   KConfig cfg("kcmnspluginrc", false);
