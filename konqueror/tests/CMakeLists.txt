@@ -14,8 +14,6 @@ if(KDE4_BUILD_TESTS)
 
   target_link_libraries(konqviewmgrtest konq ${KDE4_KDECORE_LIBS} ${QT_QTTEST_LIBRARY})
 
-  add_test(libkonq-konqviewmgrtest konqviewmgrtest)
-
   ############################################
 
 endif(KDE4_BUILD_TESTS)
