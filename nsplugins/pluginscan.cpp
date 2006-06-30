@@ -38,7 +38,7 @@
 #include <QRegExp>
 #include <QBuffer>
 
-#include <dcopclient.h>
+#include <dbus/qdbus.h>
 
 #include <kapplication.h>
 #include <kdebug.h>
@@ -213,7 +213,7 @@ int tryCheck(int write_fd, const QString &absFile)
 {
     KLibrary *_handle = KLibLoader::self()->library( QFile::encodeName(absFile) );
     if (!_handle) {
-        kDebug(1433) << " - open failed with message " << 
+        kDebug(1433) << " - open failed with message " <<
 		         KLibLoader::self()->lastErrorMessage() << ", skipping " << endl;
         return 1;
     }
@@ -677,9 +677,9 @@ int main( int argc, char **argv )
       printf("90\n"); fflush(stdout);
     }
 
-    DCOPClient *dcc = kapp->dcopClient();
-    if ( !dcc->isAttached() )
-        dcc->attach();
     // Tel kded to update sycoca database.
-    dcc->send("kded", "kbuildsycoca", "recreate()", QByteArray());
+    QDBusInterfacePtr kbuildsycoca("org.kde.kded", "/kbuildsycoca",
+                                   "org.kde.kbuildsycoca");
+    if (kbuildsycoca->isValid())
+        kbuildsycoca->call("recreate");
 }

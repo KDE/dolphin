@@ -20,6 +20,10 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+#include "nspluginloader.h"
+#include "callbackadaptor.h"
+#include "plugin_part.h"
+
 #include <kaboutdata.h>
 #include <kaction.h>
 #include <kapplication.h>
@@ -31,9 +35,6 @@
 #include <kparts/browserextension.h>
 
 #include <QLabel>
-
-#include "nspluginloader.h"
-#include "plugin_part.h"
 
 
 class PluginBrowserExtension : public KParts::BrowserExtension
