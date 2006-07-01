@@ -241,7 +241,7 @@ void BookmarkListView::selectionChanged ( const QItemSelection & selected, const
     {
         if((*it).column() != 0)
             continue;
-        if( static_cast<TreeItem *>((*it).internalPointer())->bookmark().address() == "") //FIXME
+        if( static_cast<TreeItem *>((*it).internalPointer())->bookmark().address().isEmpty() ) //FIXME
             continue;
         rect = merge(rect, rectForRowWithChildren(*it));
     }
@@ -251,7 +251,7 @@ void BookmarkListView::selectionChanged ( const QItemSelection & selected, const
     {
         if((*it).column() != 0)
             continue;
-        if( static_cast<TreeItem *>((*it).internalPointer())->bookmark().address() == "") //FIXME
+        if( static_cast<TreeItem *>((*it).internalPointer())->bookmark().address().isEmpty() ) //FIXME
             continue;
         rect = merge(rect, rectForRowWithChildren(*it));
     }

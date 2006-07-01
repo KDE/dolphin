@@ -166,7 +166,7 @@ QVariant BookmarkModel::data(const QModelIndex &index, int role) const
     if(index.isValid() && (role == Qt::DisplayRole || role == Qt::EditRole))
     {
         KBookmark bk = static_cast<TreeItem *>(index.internalPointer())->bookmark();
-        if(bk.address() == "")
+        if(bk.address().isEmpty())
             if(index.column() == 0)
                 return QVariant( i18n("Bookmarks") );
             else
@@ -191,7 +191,7 @@ QVariant BookmarkModel::data(const QModelIndex &index, int role) const
     if(index.isValid() && role == Qt::DecorationRole && index.column() == 0)
     {
         KBookmark bk = static_cast<TreeItem *>(index.internalPointer())->bookmark();
-        if(bk.address() == "")
+        if(bk.address().isEmpty())
             return QVariant( QIcon(SmallIcon("bookmark")));
         return QVariant( QIcon(SmallIcon(bk.icon())));
     }
@@ -207,7 +207,7 @@ Qt::ItemFlags BookmarkModel::flags(const QModelIndex &index) const
         return Qt::ItemIsEnabled;
 
     KBookmark bk = static_cast<TreeItem *>(index.internalPointer())->bookmark();
-    if( bk.address() != ""  ) // non root
+    if( !bk.address().isEmpty() ) // non root
     {
         if( bk.isGroup())
         {
