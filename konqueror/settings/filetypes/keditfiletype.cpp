@@ -41,7 +41,7 @@ FileTypeDialog::FileTypeDialog( KMimeType::Ptr mime )
   : KDialog( 0 )
 {
   setButtons( Cancel | Apply | Ok );
-  enableButtonSeparator( false );
+  showButtonSeparator( false );
 
   init( mime, false );
 }
@@ -50,7 +50,7 @@ FileTypeDialog::FileTypeDialog( KMimeType::Ptr mime, bool newItem )
   : KDialog( 0 )
 {
   setButtons( Cancel | Apply | Ok );
-  enableButtonSeparator( false );
+  showButtonSeparator( false );
 
   init( mime, newItem );
 }

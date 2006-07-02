@@ -22,7 +22,7 @@ PolicyDialog::PolicyDialog( Policies *policies, QWidget *parent, const char *nam
   setObjectName( name );
   setModal( true );
   setButtons( Ok|Cancel );
-  enableButtonSeparator( true );
+  showButtonSeparator( true );
 
   QFrame *main = new QFrame( this );
   setMainWidget( main );

@@ -5,7 +5,7 @@
 
 #include <QLayout>
 #include <QTabWidget>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 #include <klocale.h>
 #include <kapplication.h>
@@ -22,10 +22,10 @@ KCookiesMain::KCookiesMain(KInstance *inst, QWidget *parent)
     management = 0;
     bool managerOK = true;
 
-    QDBusInterfacePtr kded("org.kde.kded", "/modules/kded", "org.kde.kded.Kded");
-    QDBusReply<bool> reply = kded->call("loadModule",QString( "kcookiejar" ) );
+    QDBusInterface kded("org.kde.kded", "/modules/kded", "org.kde.kded.Kded");
+    QDBusReply<bool> reply = kded.call("loadModule",QString( "kcookiejar" ) );
 
-    if( !reply.isSuccess() )
+    if( !reply.isValid() )
     {
        managerOK = false;
        kDebug(7103) << "kcm_kio: KDED could not load KCookiejar!" << endl;

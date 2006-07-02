@@ -13,7 +13,7 @@
 #define CALLBACKADAPTOR_H_226561151514943
 
 #include <QtCore/QObject>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 #include "plugin_part.h"
 class QByteArray;
 template<class T> class QList;
@@ -63,10 +63,10 @@ public:
 
 public: // PROPERTIES
 public Q_SLOTS: // METHODS
-    Q_ASYNC void evalJavaScript(int id, const QString &script);
-    Q_ASYNC void postURL(const QString &url, const QString &target, const QByteArray &data, const QString &mime);
-    Q_ASYNC void requestURL(const QString &url, const QString &target);
-    Q_ASYNC void statusMessage(const QString &msg);
+    Q_NOREPLY void evalJavaScript(int id, const QString &script);
+    Q_NOREPLY void postURL(const QString &url, const QString &target, const QByteArray &data, const QString &mime);
+    Q_NOREPLY void requestURL(const QString &url, const QString &target);
+    Q_NOREPLY void statusMessage(const QString &msg);
 Q_SIGNALS: // SIGNALS
 };
 

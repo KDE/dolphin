@@ -31,7 +31,7 @@
 #include <kshell.h>
 #include <kshortcut.h>
 
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 #include <kdirnotify.h>
 #include "konq_undo.h"
 #include "konq_defaults.h"

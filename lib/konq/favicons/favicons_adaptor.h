@@ -16,7 +16,7 @@
 #define FAVICONS_ADAPTOR_H_117111150580530
 
 #include <QtCore/QObject>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 class QByteArray;
 template<class T> class QList;

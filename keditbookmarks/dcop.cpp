@@ -22,7 +22,7 @@
 #include "dcop.h"
 #include "toplevel.h"
 
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 #include <kdebug.h>
 #include <kbookmarkmanager.h>
 

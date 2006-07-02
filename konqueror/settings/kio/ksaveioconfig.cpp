@@ -22,7 +22,7 @@
 #include <kmessagebox.h>
 #include <kstaticdeleter.h>
 #include <kio/ioslave_defaults.h>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 #include "ksaveioconfig.h"
 
@@ -251,9 +251,9 @@ void KSaveIOConfig::updateProxyScout( QWidget * parent )
 {
   // Inform the proxyscout kded module about changes
   // if we cannot update, ioslaves inform the end user...
-    QDBusInterfacePtr kded("org.kde.kded", "/modules/Proxyscout", "org.kde.kded.ProxyScout");
-    QDBusReply<void> reply = kded->call( "reset" );
-  if (!reply.isSuccess())
+    QDBusInterface kded("org.kde.kded", "/modules/Proxyscout", "org.kde.kded.ProxyScout");
+    QDBusReply<void> reply = kded.call( "reset" );
+  if (!reply.isValid())
   {
     QString caption = i18n("Update Failed");
     QString message = i18n("You have to restart KDE "

@@ -80,7 +80,7 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
   setCaption( i18n( "Profile Management" ) );
   setButtons( Close | BTN_RENAME | BTN_DELETE | BTN_SAVE );
   setDefaultButton( BTN_SAVE );
-  enableButtonSeparator( true );
+  showButtonSeparator( true );
   setButtonGuiItem( BTN_RENAME, KGuiItem( i18n( "&Rename Profile" ) ) );
   setButtonGuiItem( BTN_DELETE, KGuiItem( i18n( "&Delete Profile" ), "editdelete" ) );
   setButtonGuiItem( BTN_SAVE, KStdGuiItem::save() );

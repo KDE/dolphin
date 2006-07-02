@@ -137,7 +137,7 @@
 #include <ktoolinvocation.h>
 #include <kstaticdeleter.h>
 #include "konq_mainwindow_p.h"
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 template class QList<QPixmap*>;
 template class QList<KToggleAction*>;
@@ -5611,8 +5611,8 @@ void KonqMainWindow::setPreloadedFlag( bool preloaded )
     delete s_preloadedWindow; // preloaded state was abandoned without reusing the window
     s_preloadedWindow = NULL;
     kapp->enableSessionManagement(); // enable SM again
-    QDBusInterfacePtr ref( QDBus::sessionBus().findInterface("org.kde.kded", "/modules/konqy_preloader", "org.kde.KonqyPreloader") );
-    ref->call( "unregisterPreloadedKonqy", QDBus::sessionBus().baseService() );
+    QDBusInterface ref( QDBus::sessionBus().findInterface("org.kde.kded", "/modules/konqy_preloader", "org.kde.KonqyPreloader") );
+    ref.call( "unregisterPreloadedKonqy", QDBus::sessionBus().baseService() );
 }
 
 void KonqMainWindow::setPreloadedWindow( KonqMainWindow* window )
@@ -5725,9 +5725,9 @@ bool KonqMainWindow::stayPreloaded()
     viewManager()->clear(); // reduce resource usage before checking it
     if( !checkPreloadResourceUsage())
         return false;
-    QDBusInterfacePtr ref( QDBus::sessionBus().findInterface("org.kde.kded", "/modules/konqy_preloader", "org.kde.KonqyPreloader") );
+    QDBusInterface ref( QDBus::sessionBus().findInterface("org.kde.kded", "/modules/konqy_preloader", "org.kde.KonqyPreloader") );
     QX11Info info;
-    QDBusReply<bool> retVal = ref->call( QDBusAbstractInterface::NoUseEventLoop, "registerPreloadedKonqy",
+    QDBusReply<bool> retVal = ref.call( QDBusAbstractInterface::NoUseEventLoop, "registerPreloadedKonqy",
                                          QDBus::sessionBus().baseService(), info.screen());
     if ( !retVal )
     {

@@ -38,7 +38,7 @@
 #include <kservice.h>
 #include <kstaticdeleter.h>
 
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 #include <QDir>
 #include <QRegExp>

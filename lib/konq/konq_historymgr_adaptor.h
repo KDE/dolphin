@@ -13,7 +13,7 @@
 #define KONQ_HISTORYMGR_ADAPTOR_H_73691150740458
 
 #include <QtCore/QObject>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 #include "konq_historymgr.h"
 class QByteArray;
 template<class T> class QList;

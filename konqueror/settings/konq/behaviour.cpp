@@ -27,7 +27,7 @@
 #include <kstandarddirs.h>
 #include <kurlrequester.h>
 
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 #include <kdialog.h>
 
 
@@ -278,8 +278,8 @@ void KBehaviourOptions::save()
     // Tell the running server
     if ( QDBus::sessionBus().busService()->nameHasOwner( "org.kde.kio_uiserver" ) )
     {
-      QDBusInterfacePtr uiserver( QDBus::sessionBus().findInterface("org.kde.kio_uiserver", "/UIServer") );
-      uiserver->call( "setListMode", cbListProgress->isChecked() );
+      QDBusInterface uiserver( QDBus::sessionBus().findInterface("org.kde.kio_uiserver", "/UIServer") );
+      uiserver.call( "setListMode", cbListProgress->isChecked() );
     }
 
     // Send signal to all konqueror instances

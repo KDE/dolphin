@@ -37,7 +37,7 @@
 #include <QX11Info>
 #endif
 
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 static const KCmdLineOptions options[] =
 {
@@ -129,10 +129,10 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
 #ifdef Q_WS_X11
                  if( KonqSettings::maxPreloadCount() > 0 )
                  {
-                     QDBusInterfacePtr ref( QDBus::sessionBus().findInterface("org.kde.kded", "/modules/konqy_preloader", "org.kde.KonqyPreloader") );
+                     QDBusInterface ref( QDBus::sessionBus().findInterface("org.kde.kded", "/modules/konqy_preloader", "org.kde.KonqyPreloader") );
                      QX11Info info;
-                     QDBusReply<bool> retVal = ref->call( QDBusAbstractInterface::NoUseEventLoop, "registerPreloadedKonqy",
-                                                          QDBus::sessionBus().baseService(), info.screen());
+                     QDBusReply<bool> retVal = ref.call( QDBusAbstractInterface::NoUseEventLoop, "registerPreloadedKonqy",
+                                                         QDBus::sessionBus().baseService(), info.screen());
                      if( !retVal )
                          return 0; // too many preloaded or failed
 		     KonqMainWindow* win = new KonqMainWindow( KUrl(), false ); // prepare an empty window too

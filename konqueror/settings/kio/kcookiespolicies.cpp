@@ -30,7 +30,7 @@
 #include <QToolButton>
 //Added by qt3to4:
 #include <QVBoxLayout>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 #include <kiconloader.h>
 #include <kidna.h>
@@ -403,14 +403,14 @@ void KCookiesPolicies::save()
   // Update the cookiejar...
   if (!dlg->cbEnableCookies->isChecked())
   {
-      QDBusInterfacePtr kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
-      kded->call( "shutdown" );
+      QDBusInterface kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
+      kded.call( "shutdown" );
   }
   else
   {
-       QDBusInterfacePtr kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
-       QDBusReply<void> reply = kded->call( "reloadPolicy" );
-    if (!reply.isSuccess())
+       QDBusInterface kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
+       QDBusReply<void> reply = kded.call( "reloadPolicy" );
+    if (!reply.isValid())
       KMessageBox::sorry(0, i18n("Unable to communicate with the cookie handler service.\n"
                                  "Any changes you made will not take effect until the service "
                                  "is restarted."));

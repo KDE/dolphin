@@ -31,7 +31,7 @@
 #include <QCheckBox>
 #include <QTextStream>
 #include <QRegExp>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 #include "filteropts.h"
 #include "filteropts.moc"

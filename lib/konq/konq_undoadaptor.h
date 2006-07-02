@@ -13,7 +13,7 @@
 #define KONQ_UNDOADAPTOR_H_188381151072115
 
 #include <QtCore/QObject>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 #include "konq_undo.h"
 class QByteArray;
 template<class T> class QList;

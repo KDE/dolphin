@@ -21,7 +21,7 @@ NewTypeDialog::NewTypeDialog(QStringList groups,
   setModal( true );
   setCaption( i18n( "Create New File Type" ) );
   setButtons( Ok | Cancel );
-  enableButtonSeparator( true );
+  showButtonSeparator( true );
 
   QFrame *main = new QFrame( this );
   setMainWidget( main );

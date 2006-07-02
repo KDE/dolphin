@@ -40,7 +40,7 @@
 #include <kprocess.h>
 #include <kauthorized.h>
 #include <kglobal.h>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 #include <QDir>
 #include <QPixmap>
 
@@ -708,7 +708,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 //if ( !QDBus::sessionBus().busService()->nameHasOwner( app ) )
                 //    continue; //app does not exist so cannot send call
 
-                QDBusMessage reply = QDBusInterfacePtr( app, obj, interface )->
+                QDBusMessage reply = QDBusInterface( app, obj, interface ).
                                      call( method, m_lstPopupURLs.toStringList() );
                 if ( reply.count() < 1 || reply.at(0).type() != QVariant::Bool ||
                      !reply.at(0).toBool() )

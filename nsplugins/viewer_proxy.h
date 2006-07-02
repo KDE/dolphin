@@ -18,7 +18,7 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 /*
  * Proxy class for interface org.kde.nsplugins.Class

@@ -21,7 +21,7 @@
 #ifndef __KonqMainWindowAdaptor_h__
 #define __KonqMainWindowAdaptor_h__
 
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 class KonqMainWindow;
 

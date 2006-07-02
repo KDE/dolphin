@@ -12,7 +12,7 @@
 #define VIEWER_ADAPTOR_H_230831151535345
 
 #include <QtCore/QObject>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 #include "nsplugin.h"
 class QByteArray;
 template<class T> class QList;

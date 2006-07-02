@@ -27,7 +27,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 #include <kapplication.h>
 #include <kconfig.h>

@@ -35,7 +35,7 @@ CSSConfig::CSSConfig(QWidget *parent, const QStringList &)
   customDialogBase->setModal( true );
   customDialogBase->setButtons( KDialog::Close );
   customDialogBase->setDefaultButton( KDialog::Close );
-  customDialogBase->enableButtonSeparator( true );
+  customDialogBase->showButtonSeparator( true );
   customDialog = new CSSCustomDialog(customDialogBase);
   customDialogBase->setMainWidget(customDialog);
   configDialog = new CSSConfigDialog(this);

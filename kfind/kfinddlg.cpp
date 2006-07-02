@@ -30,7 +30,7 @@ KfindDlg::KfindDlg(const KUrl & url, QWidget *parent, const char *name)
   setDefaultButton( Apply );
   setObjectName( name );
   setModal( true );
-  enableButtonSeparator( true );
+  showButtonSeparator( true );
 
   setButtonGuiItem( User1, KStdGuiItem::stop() );
   setButtonGuiItem( User2, KStdGuiItem::saveAs() );

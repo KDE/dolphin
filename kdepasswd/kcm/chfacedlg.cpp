@@ -62,7 +62,7 @@ ChFaceDlg::ChFaceDlg(const QString& picsdir, QWidget *parent, const char *name, 
   setCaption( i18n("Change your Face") );
   setButtons( Ok|Cancel );
   setDefaultButton( Ok );
-  enableButtonSeparator( true );
+  showButtonSeparator( true );
 
   QWidget *page = new QWidget(this);
   setMainWidget( page );

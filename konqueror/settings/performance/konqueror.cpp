@@ -19,7 +19,7 @@
 #include "konqueror.h"
 
 #include <kconfig.h>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 #include <QRadioButton>
 #include <QSpinBox>
 #include <QLabel>
@@ -134,8 +134,8 @@ void Konqueror::save()
     DCOPRef ref1( "konqueror*", "KonquerorIface" );
     ref1.send( "reparseConfiguration()" );
 #endif
-    QDBusInterfacePtr kded("org.kde.kded", "/modules/Konqy_preloader", "org.kde.kded.Konqy_proxy");
-    kded->call( "reconfigure" );
+    QDBusInterface kded("org.kde.kded", "/modules/Konqy_preloader", "org.kde.kded.Konqy_proxy");
+    kded.call( "reconfigure" );
     }
 
 void Konqueror::defaults()

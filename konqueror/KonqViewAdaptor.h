@@ -22,7 +22,7 @@
 #define __KonqViewAdaptor_h__
 
 #include <QStringList>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 class KonqView;
 

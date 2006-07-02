@@ -21,7 +21,7 @@
 #include "konq_historymgr_adaptor.h"
 #include "konqbookmarkmanager.h"
 
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 #include <kapplication.h>
 #include <kdebug.h>
 #include <ksavefile.h>

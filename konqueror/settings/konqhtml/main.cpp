@@ -28,7 +28,7 @@
 #include <kapplication.h>
 #include <QTabWidget>
 #include <QLayout>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 #include "jsopts.h"
 #include "javaopts.h"

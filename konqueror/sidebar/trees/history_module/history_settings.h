@@ -22,7 +22,7 @@
 
 #include <QFont>
 #include <QObject>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 class KonqSidebarHistorySettings : public QObject
 {

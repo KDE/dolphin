@@ -18,7 +18,7 @@
 
 #include "konq_application.h"
 #include <konq_settings.h>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 #include "konq_mainwindow.h"
 #include "KonquerorAdaptor.h"
 

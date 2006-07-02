@@ -40,7 +40,7 @@ advancedTabDialog::advancedTabDialog(QWidget* parent, KConfig* config, const cha
     setCaption( i18n("Advanced Options") );
     setObjectName( name );
     setModal( true );
-    enableButtonSeparator( true );
+    showButtonSeparator( true );
 
     connect(this, SIGNAL(applyClicked()),
             this, SLOT(save()));

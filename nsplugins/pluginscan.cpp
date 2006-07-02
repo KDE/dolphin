@@ -38,7 +38,7 @@
 #include <QRegExp>
 #include <QBuffer>
 
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 #include <kapplication.h>
 #include <kdebug.h>
@@ -678,8 +678,8 @@ int main( int argc, char **argv )
     }
 
     // Tel kded to update sycoca database.
-    QDBusInterfacePtr kbuildsycoca("org.kde.kded", "/kbuildsycoca",
+    QDBusInterface kbuildsycoca("org.kde.kded", "/kbuildsycoca",
                                    "org.kde.kbuildsycoca");
-    if (kbuildsycoca->isValid())
-        kbuildsycoca->call("recreate");
+    if (kbuildsycoca.isValid())
+        kbuildsycoca.call("recreate");
 }

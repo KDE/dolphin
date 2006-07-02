@@ -30,7 +30,7 @@
 #include <QVBoxLayout>
 #include <QList>
 
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 #include <kidna.h>
 #include <kdebug.h>
@@ -148,9 +148,9 @@ void KCookiesManagement::save()
   // If delete all cookies was requested!
   if(m_bDeleteAll)
   {
-      QDBusInterfacePtr kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
-      QDBusReply<void> reply = kded->call( "deleteAllCookies" );
-    if (!reply.isSuccess())
+      QDBusInterface kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
+      QDBusReply<void> reply = kded.call( "deleteAllCookies" );
+    if (!reply.isValid())
     {
       QString caption = i18n ("DBUS Communication Error");
       QString message = i18n ("Unable to delete all the cookies as requested.");
@@ -165,9 +165,9 @@ void KCookiesManagement::save()
   QStringList::Iterator dIt = deletedDomains.begin();
   while( dIt != deletedDomains.end() )
   {
-    QDBusInterfacePtr kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
-    QDBusReply<void> reply = kded->call( "deleteCookiesFromDomain",( *dIt ) );
-    if( !reply.isSuccess() )
+    QDBusInterface kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
+    QDBusReply<void> reply = kded.call( "deleteCookiesFromDomain",( *dIt ) );
+    if( !reply.isValid() )
     {
       QString caption = i18n ("DBUS Communication Error");
       QString message = i18n ("Unable to delete cookies as requested.");
@@ -189,11 +189,11 @@ void KCookiesManagement::save()
 
     while(*cookie)
     {
-        QDBusInterfacePtr kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
-        QDBusReply<void> reply = kded->call( "deleteCookie",(*cookie)->domain,
+        QDBusInterface kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
+        QDBusReply<void> reply = kded.call( "deleteCookie",(*cookie)->domain,
                                               (*cookie)->host, (*cookie)->path,
                                              (*cookie)->name );
-        if( !reply.isSuccess() )
+        if( !reply.isValid() )
       {
         success = false;
         break;
@@ -249,9 +249,9 @@ QString KCookiesManagement::quickHelp() const
 
 void KCookiesManagement::getDomains()
 {
-    QDBusInterfacePtr kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
-    QDBusReply<QStringList> reply = kded->call( "findDomains" );
-  if( !reply.isSuccess() )
+    QDBusInterface kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
+    QDBusReply<QStringList> reply = kded.call( "findDomains" );
+  if( !reply.isValid() )
   {
     QString caption = i18n ("Information Lookup Failure");
     QString message = i18n ("Unable to retrieve information about the "
@@ -289,13 +289,13 @@ void KCookiesManagement::getCookies(Q3ListViewItem *cookieDom)
 
   QList<int> fields;
   fields << 0 << 1 << 2 << 3;
-  QDBusInterfacePtr kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
-  QDBusReply<QStringList> reply = kded->call( "findCookies", fields, ckd->domain(),
+  QDBusInterface kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
+  QDBusReply<QStringList> reply = kded.call( "findCookies", fields, ckd->domain(),
                                           QString(),
                                           QString(),
                                           QString() );
 
-  if(reply.isSuccess())
+  if(reply.isValid())
   {
     QStringList fieldVal = reply;
     QStringList::Iterator fIt = fieldVal.begin();
@@ -320,13 +320,13 @@ bool KCookiesManagement::cookieDetails(CookieProp *cookie)
   QList<int> fields;
   fields << 4 << 5 << 7;
 
-  QDBusInterfacePtr kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
-  QDBusReply<QStringList> reply = kded->call( "findCookies", fields,
+  QDBusInterface kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar");
+  QDBusReply<QStringList> reply = kded.call( "findCookies", fields,
                                           cookie->domain,
                                           cookie->host,
                                           cookie->path,
                                           cookie->name);
-  if( !reply.isSuccess() )
+  if( !reply.isValid() )
     return false;
 
   QStringList fieldVal = reply;

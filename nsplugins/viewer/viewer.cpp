@@ -49,7 +49,7 @@
 #include <kconfig.h>
 
 #include "qxteventloop.h"
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 /**
  *  Use RLIMIT_DATA on systems that don't define RLIMIT_AS,

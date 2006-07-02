@@ -28,7 +28,7 @@
 #include <Q3CString>
 #include <QDesktopWidget>
 
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 #include <kapplication.h>
 #include <kcolorbutton.h>

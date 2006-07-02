@@ -31,7 +31,7 @@ KListBoxDialog::KListBoxDialog(const QString &text, QWidget *parent)
 {
   setModal(true);
   setButtons( Ok | Cancel );
-  enableButtonSeparator(true);
+  showButtonSeparator(true);
 
   KVBox *page = new KVBox(this);
   setMainWidget(page);

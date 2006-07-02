@@ -21,7 +21,7 @@
 
 #include <kglobal.h>
 #include <kmimetype.h>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 #include "konq_faviconmgr.h"
 
 #define FAVICONINTERFACE "org.kde.FavIcon"
@@ -46,12 +46,12 @@ KonqFavIconMgr::~KonqFavIconMgr()
 
 void KonqFavIconMgr::setIconForURL(const KUrl &url, const KUrl &iconURL)
 {
-    QDBusInterfacePtr favicon("org.kde.kded", "/modules/favicons", FAVICONINTERFACE);
-    favicon->call(QDBusInterface::NoWaitForReply, "setIconForURL", url.url(), iconURL.url());
+    QDBusInterface favicon("org.kde.kded", "/modules/favicons", FAVICONINTERFACE);
+    favicon.call(QDBus::NoBlock, "setIconForURL", url.url(), iconURL.url());
 }
 
 void KonqFavIconMgr::downloadHostIcon(const KUrl &url)
 {
-    QDBusInterfacePtr favicon("org.kde.kded", "/modules/favicons", FAVICONINTERFACE);
-    favicon->call(QDBusInterface::NoWaitForReply, "downloadHostIcon", url.url());
+    QDBusInterface favicon("org.kde.kded", "/modules/favicons", FAVICONINTERFACE);
+    favicon.call(QDBus::NoBlock, "downloadHostIcon", url.url());
 }

@@ -18,7 +18,7 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 /*
  * Proxy class for interface org.kde.nsplugins.CallBack
@@ -36,22 +36,22 @@ public:
     ~OrgKdeNspluginsCallBackInterface();
 
 public Q_SLOTS: // METHODS
-    inline Q_ASYNC void evalJavaScript(int id, const QString &script)
+    inline Q_NOREPLY void evalJavaScript(int id, const QString &script)
     {
         call(NoWaitForReply, QLatin1String("evalJavaScript.is"), id, script);
     }
 
-    inline Q_ASYNC void postURL(const QString &url, const QString &target, const QByteArray &data, const QString &mime)
+    inline Q_NOREPLY void postURL(const QString &url, const QString &target, const QByteArray &data, const QString &mime)
     {
         call(NoWaitForReply, QLatin1String("postURL.ssays"), url, target, data, mime);
     }
 
-    inline Q_ASYNC void requestURL(const QString &url, const QString &target)
+    inline Q_NOREPLY void requestURL(const QString &url, const QString &target)
     {
         call(NoWaitForReply, QLatin1String("requestURL.ss"), url, target);
     }
 
-    inline Q_ASYNC void statusMessage(const QString &msg)
+    inline Q_NOREPLY void statusMessage(const QString &msg)
     {
         call(NoWaitForReply, QLatin1String("statusMessage.s"), msg);
     }

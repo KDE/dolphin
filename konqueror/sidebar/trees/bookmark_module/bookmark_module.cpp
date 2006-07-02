@@ -532,7 +532,7 @@ BookmarkEditDialog::BookmarkEditDialog(const QString& title, const QString& url,
     setModal( true );
     setCaption( caption );
     setButtons( Ok|Cancel );
-    enableButtonSeparator( false );
+    showButtonSeparator( false );
 
     setButtonText( Ok, i18n( "&Update" ) );
 

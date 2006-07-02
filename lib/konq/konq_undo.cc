@@ -21,7 +21,7 @@
 #include "konq_undo.h"
 #include "konq_undoadaptor.h"
 #include "kio/observer.h"
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 #include <kdirnotify.h>
 
 #include <assert.h>

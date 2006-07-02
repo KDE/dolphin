@@ -22,7 +22,7 @@
 #define __KonquerorAdaptor_h__
 
 #include <QStringList>
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 
 /**
  * DBus interface of a konqueror process
@@ -115,22 +115,22 @@ public slots:
   /**
    *  Called internally as broadcast when the user adds/removes/renames a view profile
     */
-  Q_ASYNC void updateProfileList();
+  Q_NOREPLY void updateProfileList();
 
   /**
    * Called internally as broadcast when a URL is to be added to the combobox.
    */
-  Q_ASYNC void addToCombo( const QString& url, const QDBusMessage& msg );
+  Q_NOREPLY void addToCombo( const QString& url, const QDBusMessage& msg );
 
   /**
    * Called internall as broadcast when a URL has to be removed from the combo.
    */
-  Q_ASYNC void removeFromCombo( const QString& url, const QDBusMessage& msg );
+  Q_NOREPLY void removeFromCombo( const QString& url, const QDBusMessage& msg );
 
   /**
    * Called internally as a broadcast when the combobox was cleared.
    */
-  Q_ASYNC void comboCleared( const QDBusMessage& msg );
+  Q_NOREPLY void comboCleared( const QDBusMessage& msg );
 
   /**
    * Used by kfmclient when the 'minimize memory usage' setting is set
@@ -142,7 +142,7 @@ public slots:
    * Called from konqy_preloader to terminate this Konqueror instance,
    * if it's in the preloaded mode, and there are too many preloaded Konqy's
    */
-  Q_ASYNC void terminatePreloaded();
+  Q_NOREPLY void terminatePreloaded();
 
 Q_SIGNALS:
   /**
