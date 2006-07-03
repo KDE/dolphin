@@ -67,7 +67,7 @@ KQuery::~KQuery()
 void KQuery::kill()
 {
   if (job)
-     job->kill(false);
+     job->doKill();
   if (processLocate->isRunning())
      processLocate->kill();
   while (!m_fileItems.isEmpty())

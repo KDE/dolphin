@@ -76,7 +76,7 @@ KonqFileTip::KonqFileTip( Q3ScrollView* parent )
 KonqFileTip::~KonqFileTip()
 {
    if ( m_previewJob ) {
-        m_previewJob->kill();
+        m_previewJob->doKill();
         m_previewJob = 0;
     }
 }
@@ -104,7 +104,7 @@ void KonqFileTip::setItem( KFileItem *item, const QRect &rect, const QPixmap *pi
     if (!m_on) return;
 
     if ( m_previewJob ) {
-        m_previewJob->kill();
+        m_previewJob->doKill();
         m_previewJob = 0;
     }
 

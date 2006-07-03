@@ -60,7 +60,7 @@ public:
     KonqUndoJob() : KIO::Job( true ) { KonqUndoManager::incRef(); };
     virtual ~KonqUndoJob() { KonqUndoManager::decRef(); }
 
-    virtual void kill( bool q) { KonqUndoManager::self()->stopUndo( true ); KIO::Job::kill( q ); }
+    virtual void kill( bool q) { KonqUndoManager::self()->stopUndo( true ); KIO::Job::doKill(); }
 };
 
 class KonqCommandRecorder::KonqCommandRecorderPrivate
@@ -188,7 +188,7 @@ KonqUndoManager::KonqUndoManager()
   const QString dbusPath = "/KonqUndoManager";
   const QString dbusInterface = "org.kde.libkonq.UndoManager";
 
-  QDBusConnection& dbus = QDBus::sessionBus();
+  QDBusConnection dbus = QDBus::sessionBus();
   dbus.registerObject( dbusPath, this );
   dbus.connect(QString(), dbusPath, dbusInterface, "lock", this, SLOT(slotLock()));
   dbus.connect(QString(), dbusPath, dbusInterface, "pop", this, SLOT(slotPop()));
@@ -337,7 +337,7 @@ void KonqUndoManager::stopUndo( bool step )
     d->m_undoJob = 0;
 
     if ( d->m_currentJob )
-        d->m_currentJob->kill( true );
+        d->m_currentJob->doKill();
 
     d->m_currentJob = 0;
 

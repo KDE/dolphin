@@ -875,7 +875,7 @@ void KonqIconViewWidget::stopImagePreview()
 {
     if (d->pPreviewJob)
     {
-        d->pPreviewJob->kill();
+        d->pPreviewJob->doKill();
         d->pPreviewJob = 0;
         // Now that previews are updated in-place, calling
         // arrangeItemsInGrid() here is not needed anymore

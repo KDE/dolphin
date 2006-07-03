@@ -22,6 +22,7 @@
 
 #include <sys/types.h>
 
+#include <QtXml/QDomDocument>
 #include <kaction.h>
 #include <kxmlguiclient.h>
 #include <QStringList>

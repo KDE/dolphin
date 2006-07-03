@@ -29,19 +29,15 @@
 KonqFavIconMgr::KonqFavIconMgr(QObject *parent)
     : QObject(parent)
 {
-     m_favIconsModule =
-         QDBus::sessionBus().findInterface("org.kde.kded", "/modules/favicons",
-                                           FAVICONINTERFACE);
-     if ( !m_favIconsModule->isValid() )
-         kWarning() << "kded not running?" << endl;
-     else
-         connect( m_favIconsModule, SIGNAL(iconChanged(bool,QString,QString)),
-                  this, SLOT(notifyChange(bool,QString,QString)));
+    m_favIconsModule = new QDBusInterface("org.kde.kded", "/modules/favicons", FAVICONINTERFACE,
+                                          QDBus::sessionBus(), this);
+
+    connect( m_favIconsModule, SIGNAL(iconChanged(bool,QString,QString)),
+             this, SLOT(notifyChange(bool,QString,QString)));
 }
 
 KonqFavIconMgr::~KonqFavIconMgr()
 {
-    delete m_favIconsModule;
 }
 
 void KonqFavIconMgr::setIconForURL(const KUrl &url, const KUrl &iconURL)
