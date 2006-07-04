@@ -2,6 +2,7 @@
 #include <QFontDatabase>
 #include <QLabel>
 #include <QLayout>
+#include <QLineEdit>
 #include <q3groupbox.h>
 
 

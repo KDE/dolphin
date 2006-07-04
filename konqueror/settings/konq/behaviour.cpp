@@ -276,15 +276,15 @@ void KBehaviourOptions::save()
     config.writeEntry( "ShowList", cbListProgress->isChecked() );
     config.sync();
     // Tell the running server
-    if ( QDBus::sessionBus().busService()->nameHasOwner( "org.kde.kio_uiserver" ) )
+    if ( QDBus::sessionBus().interface()->isServiceRegistered( "org.kde.kio_uiserver" ) )
     {
-      QDBusInterface uiserver( QDBus::sessionBus().findInterface("org.kde.kio_uiserver", "/UIServer") );
+      QDBusInterface uiserver( "org.kde.kio_uiserver", "/UIServer", QString(), QDBus::sessionBus() );
       uiserver.call( "setListMode", cbListProgress->isChecked() );
     }
 
     // Send signal to all konqueror instances
     QDBusMessage message =
-        QDBusMessage::signal("/Konqueror", "org.kde.Konqueror", "reparseConfiguration");
+        QDBusMessage::signal("/Konqueror", "org.kde.Konqueror", "reparseConfiguration", QDBus::sessionBus());
     QDBus::sessionBus().send(message);
 }
 

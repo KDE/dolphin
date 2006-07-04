@@ -253,7 +253,7 @@ void KSaveIOConfig::updateProxyScout( QWidget * parent )
   // if we cannot update, ioslaves inform the end user...
     QDBusInterface kded("org.kde.kded", "/modules/Proxyscout", "org.kde.kded.ProxyScout");
     QDBusReply<void> reply = kded.call( "reset" );
-  if (!reply.isValid())
+  if (reply.isError())
   {
     QString caption = i18n("Update Failed");
     QString message = i18n("You have to restart KDE "

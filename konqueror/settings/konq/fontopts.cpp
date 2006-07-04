@@ -356,7 +356,7 @@ void KonqFontOptions::save()
     // Send signal to konqueror
     // Warning. In case something is added/changed here, keep kfmclient in sync
     QDBusMessage message =
-        QDBusMessage::signal("/Konqueror", "org.kde.Konqueror", "reparseConfiguration");
+        QDBusMessage::signal("/Konqueror", "org.kde.Konqueror", "reparseConfiguration", QDBus::sessionBus());
     QDBus::sessionBus().send(message);
 
     // Tell kdesktop about the new config file
