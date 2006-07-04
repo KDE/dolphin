@@ -13,9 +13,9 @@ KonqSidebarHistorySettings::KonqSidebarHistorySettings( QObject *parent )
     new KonqSidebarHistorySettingsAdaptor( this );
     const QString dbusPath = "/KonqSidebarHistorySettings";
     const QString dbusInterface = "org.kde.Konqueror.SidebarHistorySettings";
-    QDBusConnection& dbus = QDBus::sessionBus();
-    dbus.registerObject( dbusPath, this );
-    dbus.connect(QString(), dbusPath, dbusInterface, "notifySettingsChanged", this, SLOT(slotSettingsChanged()));
+    QDBusConnection *dbus = &QDBus::sessionBus();
+    dbus->registerObject( dbusPath, this );
+    dbus->connect(QString(), dbusPath, dbusInterface, "notifySettingsChanged", this, SLOT(slotSettingsChanged()));
 }
 
 #if 0 // huh? copying a QObject?
