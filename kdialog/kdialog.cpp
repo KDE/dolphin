@@ -505,7 +505,7 @@ static int directCommand(KCmdLineArgs *args)
 	dlg.exec();
 
 	if ( args->isSet("getsaveurl") ) {
-	    KUrl result = dlg.selectedURL();
+	    KUrl result = dlg.selectedUrl();
 	    if ( result.isValid())  {
 
 		cout << result.url().toLocal8Bit().data() << endl;
@@ -575,13 +575,13 @@ static int directCommand(KCmdLineArgs *args)
 	dlg.exec();
 
         if (args->isSet("multiple")) {
-	    KUrl::List result = dlg.selectedURLs();
+	    KUrl::List result = dlg.selectedUrls();
 	    if ( !result.isEmpty() ) {
 		outputStringList( result.toStringList(), separateOutput );
 		return 0;
 	    }
 	} else {
-	    KUrl result = dlg.selectedURL();
+	    KUrl result = dlg.selectedUrl();
 	    if (!result.isEmpty())  {
 		cout << result.url().toLocal8Bit().data() << endl;
 		return 0;

@@ -204,7 +204,7 @@ void KfindWindow::saveResults()
 
   dlg->exec();
 
-  KUrl u = dlg->selectedURL();
+  KUrl u = dlg->selectedUrl();
   KMimeType::Ptr mimeType = dlg->currentFilterMimeType();
   delete dlg;
 
