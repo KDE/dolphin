@@ -24,14 +24,14 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_listview )
 
 target_link_libraries(konq_listview  ${KDE4_KDECORE_LIBS} konq )
 
-install_targets(${PLUGIN_INSTALL_DIR} konq_listview )
+install(TARGETS konq_listview  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-install_files( ${KCFG_INSTALL_DIR} FILES konq_listview.kcfg )
-install_files( ${DATA_INSTALL_DIR}/konqlistview FILES konq_treeview.rc konq_detailedlistview.rc konq_textview.rc            konq_infolistview.rc )
-install_files( ${SERVICES_INSTALL_DIR} FILES konq_treeview.desktop konq_detailedlistview.desktop                      konq_textview.desktop konq_infolistview.desktop )
+install( FILES konq_listview.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
+install( FILES konq_treeview.rc konq_detailedlistview.rc konq_textview.rc            konq_infolistview.rc  DESTINATION  ${DATA_INSTALL_DIR}/konqlistview )
+install( FILES konq_treeview.desktop konq_detailedlistview.desktop                      konq_textview.desktop konq_infolistview.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 
 
 

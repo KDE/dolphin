@@ -13,15 +13,15 @@ kde4_add_kdeinit_executable( kfmclient ${kfmclient_KDEINIT_SRCS})
 
 target_link_libraries(kdeinit_kfmclient  ${KDE4_KDE3SUPPORT_LIBS} )
 
-install_targets(${LIB_INSTALL_DIR} kdeinit_kfmclient )
+install(TARGETS kdeinit_kfmclient  DESTINATION ${LIB_INSTALL_DIR} )
 
 target_link_libraries( kfmclient kdeinit_kfmclient )
 install(TARGETS kfmclient DESTINATION bin)
 
 ########### install files ###############
 
-install_files( ${KCONF_UPDATE_INSTALL_DIR} FILES kfmclient_3_2.upd )
-install_files( ${KCONF_UPDATE_INSTALL_DIR} FILES kfmclient_3_2_update.sh )
+install( FILES kfmclient_3_2.upd  DESTINATION  ${KCONF_UPDATE_INSTALL_DIR} )
+install( FILES kfmclient_3_2_update.sh  DESTINATION  ${KCONF_UPDATE_INSTALL_DIR} )
 
 
 

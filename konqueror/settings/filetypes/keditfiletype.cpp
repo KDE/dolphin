@@ -149,7 +149,7 @@ int main(int argc, char ** argv)
     int inc = 0;
     do {
       ++inc;
-      loc = locateLocal( "mime", mimeString.arg( inc ) + ".desktop" );
+      loc = KStandardDirs::locate( "mime", mimeString.arg( inc ) + ".desktop" );
     }
     while ( QFile::exists( loc ) );
 

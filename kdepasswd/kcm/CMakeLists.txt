@@ -19,13 +19,13 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_useraccount )
 
 target_link_libraries(kcm_useraccount  konq ${KDE4_KDE3SUPPORT_LIBS} ${KDE4_KDESU_LIBS} )
 
-install_targets(${PLUGIN_INSTALL_DIR} kcm_useraccount )
+install(TARGETS kcm_useraccount  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-install_files( ${XDG_APPS_DIR} FILES kcm_useraccount.desktop  )
-install_files( ${KCFG_INSTALL_DIR} FILES kcm_useraccount.kcfg kcm_useraccount_pass.kcfg )
+install( FILES kcm_useraccount.desktop   DESTINATION  ${XDG_APPS_DIR} )
+install( FILES kcm_useraccount.kcfg kcm_useraccount_pass.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
 
 kde4_install_icons( ${ICON_INSTALL_DIR} crystalsvg )
 

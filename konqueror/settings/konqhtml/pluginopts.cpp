@@ -556,7 +556,7 @@ void KPluginOptions::pluginLoad( KConfig* /*config*/ )
     QRegExp version(";version=[^:]*:");
 
     // open the cache file
-    QFile cachef( locate("data", "nsplugins/cache") );
+    QFile cachef( KStandardDirs::locate("data", "nsplugins/cache") );
     if ( !cachef.exists() || !cachef.open(QIODevice::ReadOnly) ) {
         kDebug() << "Could not load plugin cache file!" << endl;
         return;

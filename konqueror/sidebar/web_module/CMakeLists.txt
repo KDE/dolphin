@@ -13,13 +13,13 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konqsidebar_web )
 
 target_link_libraries(konqsidebar_web  ${KDE4_KDECORE_LIBS} kparts khtml konqsidebarplugin konq )
 
-install_targets(${PLUGIN_INSTALL_DIR} konqsidebar_web )
+install(TARGETS konqsidebar_web  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-install_files( ${DATA_INSTALL_DIR}/konqsidebartng/websidebar FILES websidebar.html )
-install_files( ${DATA_INSTALL_DIR}/konqsidebartng/add FILES webmodule_add.desktop )
+install( FILES websidebar.html  DESTINATION  ${DATA_INSTALL_DIR}/konqsidebartng/websidebar )
+install( FILES webmodule_add.desktop  DESTINATION  ${DATA_INSTALL_DIR}/konqsidebartng/add )
 
 
 

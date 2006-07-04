@@ -44,15 +44,15 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_kio )
 
 target_link_libraries(kcm_kio  ${KDE4_KDE3SUPPORT_LIBS} )
 
-install_targets(${PLUGIN_INSTALL_DIR} kcm_kio )
+install(TARGETS kcm_kio  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-install_files( ${XDG_APPS_DIR} FILES cookies.desktop useragent.desktop cache.desktop                  lanbrowser.desktop netpref.desktop proxy.desktop )
-install_files( ${SERVICETYPES_INSTALL_DIR} FILES uasprovider.desktop )
-install_files( ${APPLNK_INSTALL_DIR}/.hidden FILES smb.desktop )
-install_files( ${KCONF_UPDATE_INSTALL_DIR} FILES socks.upd )
+install( FILES cookies.desktop useragent.desktop cache.desktop                  lanbrowser.desktop netpref.desktop proxy.desktop  DESTINATION  ${XDG_APPS_DIR} )
+install( FILES uasprovider.desktop  DESTINATION  ${SERVICETYPES_INSTALL_DIR} )
+install( FILES smb.desktop  DESTINATION  ${APPLNK_INSTALL_DIR}/.hidden )
+install( FILES socks.upd  DESTINATION  ${KCONF_UPDATE_INSTALL_DIR} )
 
 
 #original Makefile.am contents follow:

@@ -16,7 +16,7 @@ kde4_add_library(konqsidebarplugin SHARED ${konqsidebarplugin_LIB_SRCS})
 target_link_libraries(konqsidebarplugin  ${KDE4_KDECORE_LIBS} kparts )
 
 set_target_properties(konqsidebarplugin PROPERTIES VERSION 1.2.0 SOVERSION 1 )
-install_targets(${LIB_INSTALL_DIR} konqsidebarplugin )
+install(TARGETS konqsidebarplugin  DESTINATION ${LIB_INSTALL_DIR} )
 
 
 ########### next target ###############
@@ -31,16 +31,16 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_sidebar )
 
 target_link_libraries(konq_sidebar  ${KDE4_KDECORE_LIBS} kparts kio konq konqsidebarplugin kutils )
 
-install_targets(${PLUGIN_INSTALL_DIR} konq_sidebar )
+install(TARGETS konq_sidebar  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-install_files( ${SERVICES_INSTALL_DIR} FILES konq_sidebartng.desktop )
-install_files( ${CONFIG_INSTALL_DIR} FILES konqsidebartng.rc )
-install_files( ${DATA_INSTALL_DIR}/konqsidebartng/entries/ FILES .version )
+install( FILES konq_sidebartng.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
+install( FILES konqsidebartng.rc  DESTINATION  ${CONFIG_INSTALL_DIR} )
+install( FILES .version  DESTINATION  ${DATA_INSTALL_DIR}/konqsidebartng/entries/ )
 install_files( /include FILES konqsidebarplugin.h )
-install_files( ${KCONF_UPDATE_INSTALL_DIR} FILES konqsidebartng.upd move_konqsidebartng_entries.sh )
+install( FILES konqsidebartng.upd move_konqsidebartng_entries.sh  DESTINATION  ${KCONF_UPDATE_INSTALL_DIR} )
 
 
 

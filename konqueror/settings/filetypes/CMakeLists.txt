@@ -15,7 +15,7 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_filetypes )
 
 target_link_libraries(kcm_filetypes  ${KDE4_KDE3SUPPORT_LIBS} )
 
-install_targets(${PLUGIN_INSTALL_DIR} kcm_filetypes )
+install(TARGETS kcm_filetypes  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### next target ###############
@@ -36,7 +36,7 @@ install(TARGETS keditfiletype DESTINATION bin)
 
 ########### install files ###############
 
-install_files( ${XDG_APPS_DIR} FILES filetypes.desktop )
+install( FILES filetypes.desktop  DESTINATION  ${XDG_APPS_DIR} )
 
 
 

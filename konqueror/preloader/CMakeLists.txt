@@ -15,13 +15,13 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kded_konqy_preloader )
 
 target_link_libraries(kded_konqy_preloader  ${KDE4_KDEUI_LIBS} )
 
-install_targets(${PLUGIN_INSTALL_DIR} kded_konqy_preloader )
+install(TARGETS kded_konqy_preloader  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
 install_files( /share/autostart FILES konqy_preload.desktop )
-install_files( ${SERVICES_INSTALL_DIR}/kded FILES konqy_preloader.desktop )
+install( FILES konqy_preloader.desktop  DESTINATION  ${SERVICES_INSTALL_DIR}/kded )
 
 
 

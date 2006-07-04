@@ -3,7 +3,7 @@
 
 ########### install files ###############
 
-install_files( ${DATA_INSTALL_DIR}/konqueror/pics FILES indicator_connect.png  	indicator_noconnect.png indicator_empty.png indicator_viewactive.png )
+install( FILES indicator_connect.png  	indicator_noconnect.png indicator_empty.png indicator_viewactive.png  DESTINATION  ${DATA_INSTALL_DIR}/konqueror/pics )
 
 
 

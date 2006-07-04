@@ -13,12 +13,12 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_sidebartest )
 
 target_link_libraries(konq_sidebartest  ${KDE4_KDECORE_LIBS} kparts kio konqsidebarplugin )
 
-install_targets(${PLUGIN_INSTALL_DIR} konq_sidebartest )
+install(TARGETS konq_sidebartest  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-install_files( ${DATA_INSTALL_DIR}/konqsidebartng/entries FILES test.desktop )
+install( FILES test.desktop  DESTINATION  ${DATA_INSTALL_DIR}/konqsidebartng/entries )
 
 
 

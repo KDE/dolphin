@@ -58,7 +58,7 @@ static QPixmap wallpaperPixmap( const QString & _wallpaper )
       else
         QPixmapCache::insert( key, pix );
       return pix;
-    } else kWarning(1203) << "Couldn't KStandardDirs::locate wallpaper " << _wallpaper << endl;
+    } else kWarning(1203) << "Couldn't locate wallpaper " << _wallpaper << endl;
     return QPixmap();
 }
 

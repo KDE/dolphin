@@ -13,13 +13,13 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_remoteencoding )
 
 target_link_libraries(konq_remoteencoding  ${KDE4_KDECORE_LIBS} konq )
 
-install_targets(${PLUGIN_INSTALL_DIR} konq_remoteencoding )
+install(TARGETS konq_remoteencoding  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-install_files( ${DATA_INSTALL_DIR}/konqlistview/kpartplugins FILES kremoteencodingplugin.rc kremoteencodingplugin.desktop )
-install_files( ${DATA_INSTALL_DIR}/konqiconview/kpartplugins FILES kremoteencodingplugin.rc kremoteencodingplugin.desktop )
+install( FILES kremoteencodingplugin.rc kremoteencodingplugin.desktop  DESTINATION  ${DATA_INSTALL_DIR}/konqlistview/kpartplugins )
+install( FILES kremoteencodingplugin.rc kremoteencodingplugin.desktop  DESTINATION  ${DATA_INSTALL_DIR}/konqiconview/kpartplugins )
 
 
 

@@ -25,7 +25,7 @@ if (X11_Xt_LIB)
 
   target_link_libraries(nsplugin  ${KDE4_KIO_LIBS} kparts ${QT_QT3SUPPORT_LIBRARY} ${QT_QTGUI_LIBRARY} )
 
-  install_targets(${PLUGIN_INSTALL_DIR} nsplugin )
+install(TARGETS nsplugin  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
   ########### next target ###############
@@ -40,7 +40,7 @@ if (X11_Xt_LIB)
 
   target_link_libraries(kcm_nsplugins  ${KDE4_KDECORE_LIBS} )
 
-  install_targets(${PLUGIN_INSTALL_DIR} kcm_nsplugins )
+install(TARGETS kcm_nsplugins  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
   ########### next target ###############
@@ -57,8 +57,8 @@ if (X11_Xt_LIB)
 
   ########### install files ###############
 
-  install_files( ${XDG_APPS_DIR} FILES khtml_plugins.desktop )
-  install_files( ${DATA_INSTALL_DIR}/plugin FILES nspluginpart.rc )
+install( FILES khtml_plugins.desktop  DESTINATION  ${XDG_APPS_DIR} )
+install( FILES nspluginpart.rc  DESTINATION  ${DATA_INSTALL_DIR}/plugin )
 
 else (X11_Xt_LIB)
 

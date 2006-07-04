@@ -136,7 +136,7 @@ void CSSConfig::load()
   customDialog->blackOnWhite->setChecked(m == "black-on-white");
   customDialog->whiteOnBlack->setChecked(m == "white-on-black");
   customDialog->customColor->setChecked(m == "custom");
-  
+
   QColor white (Qt::white);
   QColor black (Qt::black);
   customDialog->backgroundColorButton->setColor(c->readEntry("BackColor", white));
@@ -191,7 +191,7 @@ void CSSConfig::save()
   delete c;
 
   // generate CSS template
-  QString templ = locate("data", "kcmcss/template.css");
+  QString templ = KStandardDirs::locate("data", "kcmcss/template.css");
   QString dest;
   if (!templ.isEmpty())
     {

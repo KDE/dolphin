@@ -44,15 +44,15 @@ kde4_add_kdeinit_executable( keditbookmarks ${keditbookmarks_KDEINIT_SRCS})
 
 target_link_libraries(kdeinit_keditbookmarks  ${KDE4_KDECORE_LIBS} konq )
 
-install_targets(${LIB_INSTALL_DIR} kdeinit_keditbookmarks )
+install(TARGETS kdeinit_keditbookmarks  DESTINATION ${LIB_INSTALL_DIR} )
 
 target_link_libraries( keditbookmarks kdeinit_keditbookmarks )
 install(TARGETS keditbookmarks DESTINATION bin)
 
 ########### install files ###############
 
-install_files( ${KCFG_INSTALL_DIR} FILES keditbookmarks.kcfg )
-install_files( ${DATA_INSTALL_DIR}/keditbookmarks FILES keditbookmarksui.rc  keditbookmarks-genui.rc )
+install( FILES keditbookmarks.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
+install( FILES keditbookmarksui.rc  keditbookmarks-genui.rc  DESTINATION  ${DATA_INSTALL_DIR}/keditbookmarks )
 
 kde4_install_icons( ${ICON_INSTALL_DIR} crystalsvg )
 

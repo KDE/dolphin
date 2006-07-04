@@ -1066,7 +1066,7 @@ KonqView *KonqViewManager::setupView( KonqFrameContainerBase *parentContainer,
 void KonqViewManager::saveViewProfile( const QString & fileName, const QString & profileName, bool saveURLs, bool saveWindowSize )
 {
 
-  QString path = locateLocal( "data", QString::fromLatin1( "konqueror/profiles/" ) +
+  QString path = KStandardDirs::locateLocal( "data", QString::fromLatin1( "konqueror/profiles/" ) +
                                           fileName, KGlobal::instance() );
 
   if ( QFile::exists( path ) )

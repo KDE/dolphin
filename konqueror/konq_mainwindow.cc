@@ -1184,7 +1184,7 @@ void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs
     }
 
     QString profileName = QLatin1String( url.isLocalFile() ? "konqueror/profiles/filemanagement" : "konqueror/profiles/webbrowsing" );
-    KSimpleConfig cfg( locate( "data", profileName ), true );
+    KSimpleConfig cfg( KStandardDirs::locate( "data", profileName ), true );
     cfg.setGroup( "Profile" );
 
     if ( windowArgs.x != -1 )
@@ -1293,7 +1293,7 @@ void KonqMainWindow::slotNewWindow()
        profile = QLatin1String("filemanagement");
   }
   KonqMisc::createBrowserWindowFromProfile(
-    locate( "data", QLatin1String("konqueror/profiles/")+profile ),
+    KStandardDirs::locate( "data", QLatin1String("konqueror/profiles/")+profile ),
     profile );
 }
 
@@ -1480,7 +1480,7 @@ void KonqMainWindow::slotToolFind()
       else
           url.setPath( QDir::homePath() );
       KonqMainWindow * mw = KonqMisc::createBrowserWindowFromProfile(
-          locate( "data", QLatin1String("konqueror/profiles/filemanagement") ),
+          KStandardDirs::locate( "data", QLatin1String("konqueror/profiles/filemanagement") ),
           "filemanagement", url, KParts::URLArgs(), true /* forbid "use html"*/ );
       mw->m_paFindFiles->setChecked(true);
       // Delay it after the openURL call (hacky!)
@@ -1860,7 +1860,7 @@ void KonqMainWindow::slotGoSettings()
 void KonqMainWindow::slotGoDirTree()
 {
   KUrl u;
-  u.setPath( locateLocal( "data", "konqueror/dirtree/" ) );
+  u.setPath( KStandardDirs::locateLocal( "data", "konqueror/dirtree/" ) );
   openURL( 0, u );
 }
 

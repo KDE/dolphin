@@ -24,14 +24,14 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_konq )
 
 target_link_libraries(kcm_konq  ${KDE4_KDE3SUPPORT_LIBS} kutils )
 
-install_targets(${PLUGIN_INSTALL_DIR} kcm_konq )
+install(TARGETS kcm_konq  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-install_files( ${XDG_APPS_DIR} FILES desktopbehavior.desktop desktop.desktop desktoppath.desktop filebrowser.desktop )
-install_files( ${APPLNK_INSTALL_DIR}/.hidden FILES filebehavior.desktop fileappearance.desktop filepreviews.desktop )
-install_files( ${DATA_INSTALL_DIR}/kcontrol/pics FILES overlapping.png onlyone.png )
+install( FILES desktopbehavior.desktop desktop.desktop desktoppath.desktop filebrowser.desktop  DESTINATION  ${XDG_APPS_DIR} )
+install( FILES filebehavior.desktop fileappearance.desktop filepreviews.desktop  DESTINATION  ${APPLNK_INSTALL_DIR}/.hidden )
+install( FILES overlapping.png onlyone.png  DESTINATION  ${DATA_INSTALL_DIR}/kcontrol/pics )
 
 
 

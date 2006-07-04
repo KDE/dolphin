@@ -49,14 +49,14 @@ KServiceListItem::KServiceListItem( KService::Ptr pService, int kind )
 
     bool isApplication = pService->type() == "Application";
     if (!isApplication)
-      localPath = locateLocal("services", desktopPath);
+      localPath = KStandardDirs::locateLocal("services", desktopPath);
     else
       localPath = pService->locateLocal();
 }
 
 bool KServiceListItem::isImmutable()
 {
-    return !checkAccess(localPath, W_OK);
+    return !KStandardDirs::checkAccess(localPath, W_OK);
 }
 
 KServiceListWidget::KServiceListWidget(int kind, QWidget *parent, const char *name)
@@ -308,7 +308,7 @@ void KServiceListWidget::editService()
 
       // If the path to the desktop file is relative, try to get the full
       // path from KStdDirs.
-      path = locate("apps", path);
+      path = KStandardDirs::locate("apps", path);
       KUrl serviceURL;
       serviceURL.setPath( path );
       KFileItem item( serviceURL, "application/x-desktop", KFileItem::Unknown );

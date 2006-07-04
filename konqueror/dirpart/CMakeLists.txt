@@ -20,13 +20,13 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_part )
 
 target_link_libraries(konq_part  ${KDE4_KDECORE_LIBS} konq )
 
-install_targets(${PLUGIN_INSTALL_DIR} konq_part )
+install(TARGETS konq_part  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-install_files( ${DATA_INSTALL_DIR}/konqpart FILES konq_listview.rc konq_iconview.rc )
-install_files( ${SERVICES_INSTALL_DIR} FILES konq_listview.desktop konq_iconview4.desktop )
+install( FILES konq_listview.rc konq_iconview.rc  DESTINATION  ${DATA_INSTALL_DIR}/konqpart )
+install( FILES konq_listview.desktop konq_iconview4.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 
 
 

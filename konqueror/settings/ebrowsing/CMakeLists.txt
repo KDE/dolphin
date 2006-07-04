@@ -11,12 +11,12 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_kurifilt )
 
 target_link_libraries(kcm_kurifilt  ${KDE4_KIO_LIBS} ${QT_QT3SUPPORT_LIBRARY})
 
-install_targets(${PLUGIN_INSTALL_DIR} kcm_kurifilt )
+install(TARGETS kcm_kurifilt  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-install_files( ${XDG_APPS_DIR} FILES ebrowsing.desktop )
+install( FILES ebrowsing.desktop  DESTINATION  ${XDG_APPS_DIR} )
 
 
 

@@ -15,13 +15,13 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_css )
 
 target_link_libraries(kcm_css  ${KDE4_KDE3SUPPORT_LIBS} )
 
-install_targets(${PLUGIN_INSTALL_DIR} kcm_css )
+install(TARGETS kcm_css  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-install_files( ${XDG_APPS_DIR} FILES kcmcss.desktop )
-install_files( ${DATA_INSTALL_DIR}/kcmcss FILES template.css )
+install( FILES kcmcss.desktop  DESTINATION  ${XDG_APPS_DIR} )
+install( FILES template.css  DESTINATION  ${DATA_INSTALL_DIR}/kcmcss )
 
 
 

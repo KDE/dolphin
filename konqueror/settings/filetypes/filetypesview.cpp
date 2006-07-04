@@ -250,7 +250,7 @@ void FileTypesView::addType()
   if (m.exec()) {
     Q3ListViewItemIterator it(typesLV);
     QString loc = m.group() + "/" + m.text() + ".desktop";
-    loc = locateLocal("mime", loc);
+    loc = KStandardDirs::locate("mime", loc);
     KMimeType::Ptr mimetype(new KMimeType(loc,
                                           m.group() + "/" + m.text(),
                                           QString(), QString(),
@@ -364,7 +364,7 @@ bool FileTypesView::sync( QList<TypesListItem *>& itemsModified )
     KMimeType::Ptr m_ptr = KMimeType::mimeType(*it);
 
     loc = m_ptr->desktopEntryPath();
-    loc = locateLocal("mime", loc);
+    loc = KStandardDirs::locate("mime", loc);
 
     KDesktopFile config(loc, false, "mime");
     config.writeEntry("Type", "MimeType");

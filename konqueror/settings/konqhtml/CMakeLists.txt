@@ -29,12 +29,12 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_konqhtml )
 
 target_link_libraries(kcm_konqhtml  ${KDE4_KDE3SUPPORT_LIBS} khtml)
 
-install_targets(${PLUGIN_INSTALL_DIR} kcm_konqhtml )
+install(TARGETS kcm_konqhtml  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-install_files( ${XDG_APPS_DIR} FILES khtml_behavior.desktop khtml_java_js.desktop khtml_fonts.desktop khtml_filter.desktop )
+install( FILES khtml_behavior.desktop khtml_java_js.desktop khtml_fonts.desktop khtml_filter.desktop  DESTINATION  ${XDG_APPS_DIR} )
 
 
 

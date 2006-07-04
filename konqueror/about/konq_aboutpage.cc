@@ -90,7 +90,7 @@ QString KonqAboutPageFactory::launch()
   if ( s_launch_html )
     return *s_launch_html;
 
-  QString res = loadFile( locate( "data", "konqueror/about/launch.html" ));
+  QString res = loadFile( KStandardDirs::locate( "data", "konqueror/about/launch.html" ));
   if ( res.isEmpty() )
     return res;
 
@@ -105,9 +105,9 @@ QString KonqAboutPageFactory::launch()
   QString home_folder = QDir::homePath();
   QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", K3Icon::Small ):iconloader->iconPath("1rightarrow", K3Icon::Small );
 
-  res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
+  res = res.arg( KStandardDirs::locate( "data", "kdeui/about/kde_infopage.css" ) );
   if ( kapp->layoutDirection() == Qt::RightToLeft )
-    res = res.arg( "@import \"%1\";" ).arg( locate( "data", "kdeui/about/kde_infopage_rtl.css" ) );
+    res = res.arg( "@import \"%1\";" ).arg( KStandardDirs::locate( "data", "kdeui/about/kde_infopage_rtl.css" ) );
   else
     res = res.arg( "" );
 
@@ -161,7 +161,7 @@ QString KonqAboutPageFactory::intro()
     if ( s_intro_html )
         return *s_intro_html;
 
-    QString res = loadFile( locate( "data", "konqueror/about/intro.html" ));
+    QString res = loadFile( KStandardDirs::locate( "data", "konqueror/about/intro.html" ));
     if ( res.isEmpty() )
 	return res;
 
@@ -170,9 +170,9 @@ QString KonqAboutPageFactory::intro()
     QString gohome_icon_path = iconloader->iconPath("gohome", K3Icon::Small );
     QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", K3Icon::Small ):iconloader->iconPath("1rightarrow", K3Icon::Small );
 
-    res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
+    res = res.arg( KStandardDirs::locate( "data", "kdeui/about/kde_infopage.css" ) );
     if ( kapp->layoutDirection() == Qt::RightToLeft )
-	res = res.arg( "@import \"%1\";" ).arg( locate( "data", "kdeui/about/kde_infopage_rtl.css" ) );
+	res = res.arg( "@import \"%1\";" ).arg( KStandardDirs::locate( "data", "kdeui/about/kde_infopage_rtl.css" ) );
     else
 	res = res.arg( "" );
 
@@ -220,14 +220,14 @@ QString KonqAboutPageFactory::specs()
         return *s_specs_html;
 
     KIconLoader *iconloader = KGlobal::iconLoader();
-    QString res = loadFile( locate( "data", "konqueror/about/specs.html" ));
+    QString res = loadFile( KStandardDirs::locate( "data", "konqueror/about/specs.html" ));
     QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", K3Icon::Small ):iconloader->iconPath("1rightarrow", K3Icon::Small );
     if ( res.isEmpty() )
 	return res;
 
-    res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
+    res = res.arg( KStandardDirs::locate( "data", "kdeui/about/kde_infopage.css" ) );
     if ( kapp->layoutDirection() == Qt::RightToLeft )
-	res = res.arg( "@import \"%1\";" ).arg( locate( "data", "kdeui/about/kde_infopage_rtl.css" ) );
+	res = res.arg( "@import \"%1\";" ).arg( KStandardDirs::locate( "data", "kdeui/about/kde_infopage_rtl.css" ) );
     else
 	res = res.arg( "" );
 
@@ -301,7 +301,7 @@ QString KonqAboutPageFactory::tips()
     if ( s_tips_html )
         return *s_tips_html;
 
-    QString res = loadFile( locate( "data", "konqueror/about/tips.html" ));
+    QString res = loadFile( KStandardDirs::locate( "data", "konqueror/about/tips.html" ));
     if ( res.isEmpty() )
 	return res;
 
@@ -322,9 +322,9 @@ QString KonqAboutPageFactory::tips()
 	    iconloader->iconPath("view_left_right", K3Icon::Small );
     QString continue_icon_path = QApplication::isRightToLeft()?iconloader->iconPath("1leftarrow", K3Icon::Small ):iconloader->iconPath("1rightarrow", K3Icon::Small );
 
-    res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
+    res = res.arg( KStandardDirs::locate( "data", "kdeui/about/kde_infopage.css" ) );
     if ( kapp->layoutDirection() == Qt::RightToLeft )
-	res = res.arg( "@import \"%1\";" ).arg( locate( "data", "kdeui/about/kde_infopage_rtl.css" ) );
+	res = res.arg( "@import \"%1\";" ).arg( KStandardDirs::locate( "data", "kdeui/about/kde_infopage_rtl.css" ) );
     else
 	res = res.arg( "" );
 
@@ -387,7 +387,7 @@ QString KonqAboutPageFactory::plugins()
     if ( s_plugins_html )
         return *s_plugins_html;
 
-    QString res = loadFile( locate( "data", kapp->layoutDirection() == Qt::RightToLeft ? "konqueror/about/plugins_rtl.html" : "konqueror/about/plugins.html" ))
+    QString res = loadFile( KStandardDirs::locate( "data", kapp->layoutDirection() == Qt::RightToLeft ? "konqueror/about/plugins_rtl.html" : "konqueror/about/plugins.html" ))
                   .arg(i18n("Installed Plugins"))
                   .arg(i18n("<td>Plugin</td><td>Description</td><td>File</td><td>Types</td>"))
                   .arg(i18n("Installed"))
@@ -501,7 +501,7 @@ void KonqAboutPage::urlSelected( const QString &url, int button, int state, cons
 					 i18n("Faster Startup?"),i18n("Disable"),i18n("Keep") )
 	     == KMessageBox::Yes )
 	{
-	    QString profile = locateLocal("data", "konqueror/profiles/webbrowsing");
+	    QString profile = KStandardDirs::locateLocal("data", "konqueror/profiles/webbrowsing");
 	    KSaveFile file( profile );
 	    if ( file.status() == 0 ) {
 		QByteArray content = "[Profile]\n"

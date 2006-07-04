@@ -13,14 +13,14 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_aboutpage )
 
 target_link_libraries(konq_aboutpage  ${KDE4_KDECORE_LIBS} khtml kdeui kparts  ${QT_QTGUI_LIBRARY})
 
-install_targets(${PLUGIN_INSTALL_DIR} konq_aboutpage )
+install(TARGETS konq_aboutpage  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-install_files( ${DATA_INSTALL_DIR}/konqueror/about FILES box-centre-konqueror.png  top-right-konqueror.png  lightning.png  	launch.html               intro.html        specs.html               tips.html  	plugins.html              plugins_rtl.html  konq.css )
-install_files( ${SERVICETYPES_INSTALL_DIR} FILES konqaboutpage.desktop )
-install_files( ${SERVICES_INSTALL_DIR} FILES konq_aboutpage.desktop )
+install( FILES box-centre-konqueror.png  top-right-konqueror.png  lightning.png  	launch.html               intro.html        specs.html               tips.html  	plugins.html              plugins_rtl.html  konq.css  DESTINATION  ${DATA_INSTALL_DIR}/konqueror/about )
+install( FILES konqaboutpage.desktop  DESTINATION  ${SERVICETYPES_INSTALL_DIR} )
+install( FILES konq_aboutpage.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 
 
 

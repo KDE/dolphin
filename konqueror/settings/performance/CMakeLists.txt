@@ -15,13 +15,13 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcm_performance )
 
 target_link_libraries(kcm_performance  ${KDE4_KDE3SUPPORT_LIBS} )
 
-install_targets(${PLUGIN_INSTALL_DIR} kcm_performance )
+install(TARGETS kcm_performance  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-install_files( ${XDG_APPS_DIR} FILES kcmperformance.desktop )
-install_files( ${APPLNK_INSTALL_DIR}/.hidden FILES kcmkonqyperformance.desktop )
+install( FILES kcmperformance.desktop  DESTINATION  ${XDG_APPS_DIR} )
+install( FILES kcmkonqyperformance.desktop  DESTINATION  ${APPLNK_INSTALL_DIR}/.hidden )
 
 
 

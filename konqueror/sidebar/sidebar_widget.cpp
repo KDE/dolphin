@@ -135,12 +135,12 @@ static QString findFileName(const QString* tmpl,bool universal, const QString &p
 		tmp.prepend("/konqsidebartng/" + profile + "/entries/");
 	}
 	filename = tmp.arg("");
-	myFile = locateLocal("data", filename);
+	myFile = KStandardDirs::locateLocal("data", filename);
 
 	if (QFile::exists(myFile)) {
 		for (ulong l = 0; l < ULONG_MAX; l++) {
 			filename = tmp.arg(l);
-			myFile = locateLocal("data", filename);
+			myFile = KStandardDirs::locateLocal("data", filename);
 			if (!QFile::exists(myFile)) {
 				break;
 			} else {
@@ -317,7 +317,7 @@ void Sidebar_Widget::addWebSideBar(const KUrl& url, const QString& /*name*/) {
 	KStandardDirs *dirs = KGlobal::dirs();
 	QString list;
 	dirs->saveLocation("data", m_relPath, true);
-	list = locateLocal("data", m_relPath);
+	list = KStandardDirs::locateLocal("data", m_relPath);
 
 	// Go through list to see which ones exist.  Check them for the URL
 	QStringList files = QDir(list).entryList("websidebarplugin*.desktop");

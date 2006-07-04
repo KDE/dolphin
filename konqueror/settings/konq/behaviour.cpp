@@ -63,7 +63,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, KInstance *
 
 	winPixmap = new QLabel(hbox);
     winPixmap->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
-    winPixmap->setPixmap(QPixmap(locate("data",
+    winPixmap->setPixmap(QPixmap(KStandardDirs::locate("data",
                                         "kcontrol/pics/onlyone.png")));
     winPixmap->setFixedSize( winPixmap->sizeHint() );
 
@@ -291,10 +291,10 @@ void KBehaviourOptions::save()
 void KBehaviourOptions::updateWinPixmap(bool b)
 {
   if (b)
-    winPixmap->setPixmap(QPixmap(locate("data",
+    winPixmap->setPixmap(QPixmap(KStandardDirs::locate("data",
                                         "kcontrol/pics/overlapping.png")));
   else
-    winPixmap->setPixmap(QPixmap(locate("data",
+    winPixmap->setPixmap(QPixmap(KStandardDirs::locate("data",
                                         "kcontrol/pics/onlyone.png")));
 }
 

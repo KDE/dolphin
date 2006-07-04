@@ -181,7 +181,7 @@ void KonqBgndDialog::slotPictureChanged()
     if ( file.isEmpty() )
         file = KStandardDirs::locate("wallpaper", m_pixmapFile); // add fallback for compatibility
     if ( file.isEmpty() ) {
-        kWarning(1203) << "Couldn't KStandardDirs::locate wallpaper " << m_pixmapFile << endl;
+        kWarning(1203) << "Couldn't locate wallpaper " << m_pixmapFile << endl;
         m_preview->setPalette(QPalette());
         m_pixmap = QPixmap();
         m_pixmapFile = "";

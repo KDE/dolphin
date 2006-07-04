@@ -6,7 +6,7 @@ add_subdirectory( web )
 
 ########### install files ###############
 
-install_files( ${DATA_INSTALL_DIR}/konqsidebartng/virtual_folders/remote FILES .directory )
+install( FILES .directory  DESTINATION  ${DATA_INSTALL_DIR}/konqsidebartng/virtual_folders/remote )
 
 
 

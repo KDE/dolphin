@@ -64,7 +64,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-  KTempFile crashlog_file(locateLocal("tmp", "konqueror-crash-"), ".log");
+  KTempFile crashlog_file(KStandardDirs::locateLocal("tmp", "konqueror-crash-"), ".log");
   KonqMainWindow::s_crashlog_file = crashlog_file.file();
 
   if ( app.isSessionRestored() )
@@ -101,7 +101,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
        QString profile = QString::fromLocal8Bit(args->getOption("profile"));
        QString profilePath = profile;
        if (profile[0] != '/')
-           profilePath = locate( "data", QLatin1String("konqueror/profiles/")+profile );
+           profilePath = KStandardDirs::locate( "data", QLatin1String("konqueror/profiles/")+profile );
        QString url;
        QStringList filesToSelect;
        if (args->count() == 1)
@@ -153,7 +153,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
              {
                  // By default try to open in webbrowser mode. People can use "konqueror ." to get a filemanager.
                  QString profile = "webbrowsing";
-                 QString profilePath = locate( "data", QLatin1String("konqueror/profiles/")+profile );
+                 QString profilePath = KStandardDirs::locate( "data", QLatin1String("konqueror/profiles/")+profile );
                  if ( !profilePath.isEmpty() ) {
                      KonqMisc::createBrowserWindowFromProfile( profilePath, profile );
                  } else {

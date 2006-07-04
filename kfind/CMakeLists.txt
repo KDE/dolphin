@@ -18,7 +18,7 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kfindpart )
 
 target_link_libraries(kfindpart  ${KDE4_KDE3SUPPORT_LIBS} konq )
 
-install_targets(${PLUGIN_INSTALL_DIR} kfindpart )
+install(TARGETS kfindpart  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### next target ###############
@@ -36,9 +36,9 @@ install(TARGETS kfind DESTINATION bin)
 
 ########### install files ###############
 
-install_files( ${XDG_APPS_DIR} FILES Kfind.desktop )
-install_files( ${SERVICETYPES_INSTALL_DIR} FILES findpart.desktop )
-install_files( ${SERVICES_INSTALL_DIR} FILES kfindpart.desktop )
+install( FILES Kfind.desktop  DESTINATION  ${XDG_APPS_DIR} )
+install( FILES findpart.desktop  DESTINATION  ${SERVICETYPES_INSTALL_DIR} )
+install( FILES kfindpart.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 
 kde4_install_icons( ${ICON_INSTALL_DIR} hicolor )
 

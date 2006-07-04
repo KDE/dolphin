@@ -13,12 +13,12 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} khtmlkttsdplugin )
 
 target_link_libraries(khtmlkttsdplugin  ${KDE4_KPARTS_LIBS} khtml )
 
-install_targets(${PLUGIN_INSTALL_DIR} khtmlkttsdplugin )
+install(TARGETS khtmlkttsdplugin  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-install_files( ${DATA_INSTALL_DIR}/khtml/kpartplugins FILES khtmlkttsd.rc khtmlkttsd.desktop )
+install( FILES khtmlkttsd.rc khtmlkttsd.desktop  DESTINATION  ${DATA_INSTALL_DIR}/khtml/kpartplugins )
 
 
 

@@ -13,13 +13,13 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_shellcmdplugin )
 
 target_link_libraries(konq_shellcmdplugin  ${KDE4_KDECORE_LIBS} konq ${KDE4_KDESU_LIBS})
 
-install_targets(${PLUGIN_INSTALL_DIR} konq_shellcmdplugin )
+install(TARGETS konq_shellcmdplugin  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-install_files( ${DATA_INSTALL_DIR}/konqlistview/kpartplugins FILES kshellcmdplugin.rc kshellcmdplugin.desktop )
-install_files( ${DATA_INSTALL_DIR}/konqiconview/kpartplugins FILES kshellcmdplugin.rc kshellcmdplugin.desktop )
+install( FILES kshellcmdplugin.rc kshellcmdplugin.desktop  DESTINATION  ${DATA_INSTALL_DIR}/konqlistview/kpartplugins )
+install( FILES kshellcmdplugin.rc kshellcmdplugin.desktop  DESTINATION  ${DATA_INSTALL_DIR}/konqiconview/kpartplugins )
 
 
 

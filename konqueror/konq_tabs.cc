@@ -213,6 +213,12 @@ void KonqFrameTabs::saveConfig( KConfig* config, const QString &prefix, bool sav
 
 void KonqFrameTabs::copyHistory( KonqFrameBase *other )
 {
+
+  if( !other ) {
+    kDebug(1202) << "The Frame does not exist" << endl;
+    return;
+  }
+
   if( other->frameType() != "Tabs" ) {
     kDebug(1202) << "Frame types are not the same" << endl;
     return;
