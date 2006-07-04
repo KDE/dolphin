@@ -46,7 +46,7 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent )
     m_maxCount = qMax( 1, m_maxCount );
     m_maxAgeDays = cs.readEntry( "Maximum age of History entries", 90);
 
-    m_filename = locateLocal( "data",
+    m_filename = KStandardDirs::locateLocal( "data",
 			      QLatin1String("konqueror/konq_history" ));
 
     // take care of the completion object
@@ -594,7 +594,7 @@ void KonqHistoryManager::slotNotifyRemoveList( const QStringList& urls, const QD
 // compatibility fallback, try to load the old completion history
 bool KonqHistoryManager::loadFallback()
 {
-    QString file = locateLocal( "config", QLatin1String("konq_history"));
+    QString file = KStandardDirs::locateLocal( "config", QLatin1String("konq_history"));
     if ( file.isEmpty() )
 	return false;
 

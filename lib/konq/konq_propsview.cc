@@ -44,9 +44,9 @@ static QPixmap wallpaperPixmap( const QString & _wallpaper )
     if ( QPixmapCache::find( key, pix ) )
       return pix;
 
-    QString path = locate("tiles", _wallpaper);
+    QString path = KStandardDirs::locate("tiles", _wallpaper);
     if (path.isEmpty())
-        path = locate("wallpaper", _wallpaper);
+        path = KStandardDirs::locate("wallpaper", _wallpaper);
     if (!path.isEmpty())
     {
       // This looks really ugly, especially on an 8bit display.
@@ -58,7 +58,7 @@ static QPixmap wallpaperPixmap( const QString & _wallpaper )
       else
         QPixmapCache::insert( key, pix );
       return pix;
-    } else kWarning(1203) << "Couldn't locate wallpaper " << _wallpaper << endl;
+    } else kWarning(1203) << "Couldn't KStandardDirs::locate wallpaper " << _wallpaper << endl;
     return QPixmap();
 }
 

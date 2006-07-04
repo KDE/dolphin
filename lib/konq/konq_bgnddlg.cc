@@ -177,11 +177,11 @@ void KonqBgndDialog::loadPicture( const QString& fileName )
 void KonqBgndDialog::slotPictureChanged()
 {
     m_pixmapFile = m_comboPicture->comboBox()->currentText();
-    QString file = locate( "tiles", m_pixmapFile );
+    QString file = KStandardDirs::locate( "tiles", m_pixmapFile );
     if ( file.isEmpty() )
-        file = locate("wallpaper", m_pixmapFile); // add fallback for compatibility
+        file = KStandardDirs::locate("wallpaper", m_pixmapFile); // add fallback for compatibility
     if ( file.isEmpty() ) {
-        kWarning(1203) << "Couldn't locate wallpaper " << m_pixmapFile << endl;
+        kWarning(1203) << "Couldn't KStandardDirs::locate wallpaper " << m_pixmapFile << endl;
         m_preview->setPalette(QPalette());
         m_pixmap = QPixmap();
         m_pixmapFile = "";

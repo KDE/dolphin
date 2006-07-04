@@ -184,7 +184,7 @@ QString GaleonImportCommand::requestFilename() const {
 
 QString KDE2ImportCommand::requestFilename() const {
     return KFileDialog::getOpenFileName(
-            locateLocal("data", "konqueror"),
+            KStandardDirs::locateLocal("data", "konqueror"),
             i18n("*.xml|KDE Bookmark Files (*.xml)"));
 }
 

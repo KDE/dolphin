@@ -198,7 +198,7 @@ void KonqFileTip::drawContents( QPainter *p )
     }
 
     if ( m_corners[m_corner].isNull())
-        m_corners[m_corner].load( locate( "data", QString::fromLatin1( "konqueror/pics/%1.png" ).arg( names[m_corner] ) ) );
+        m_corners[m_corner].load( KStandardDirs::locate( "data", QString::fromLatin1( "konqueror/pics/%1.png" ).arg( names[m_corner] ) ) );
 
     QPixmap &pix = m_corners[m_corner];
 

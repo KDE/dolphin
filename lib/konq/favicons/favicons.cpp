@@ -67,7 +67,7 @@ FavIconsModule::FavIconsModule()
     d->metaData.insert("UseCache", "false");
     d->metaData.insert("cookies", "none");
     d->metaData.insert("no-auth", "true");
-    d->config = new KSimpleConfig(locateLocal("data", "konqueror/faviconrc"));
+    d->config = new KSimpleConfig(KStandardDirs::locateLocal("data", "konqueror/faviconrc"));
 
     new FavIconsAdaptor( this );
 }
