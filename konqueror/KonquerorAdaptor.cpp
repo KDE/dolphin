@@ -162,17 +162,17 @@ QList<QDBusObjectPath> KonquerorAdaptor::getWindows()
 
 void KonquerorAdaptor::addToCombo( const QString& url, const QDBusMessage& msg )
 {
-    KonqMainWindow::comboAction( KonqMainWindow::ComboAdd, url, msg.sender() );
+    KonqMainWindow::comboAction( KonqMainWindow::ComboAdd, url, msg.service() );
 }
 
 void KonquerorAdaptor::removeFromCombo( const QString& url, const QDBusMessage& msg )
 {
-    KonqMainWindow::comboAction( KonqMainWindow::ComboRemove, url, msg.sender() );
+    KonqMainWindow::comboAction( KonqMainWindow::ComboRemove, url, msg.service() );
 }
 
 void KonquerorAdaptor::comboCleared( const QDBusMessage& msg )
 {
-    KonqMainWindow::comboAction( KonqMainWindow::ComboClear, QString(), msg.sender() );
+    KonqMainWindow::comboAction( KonqMainWindow::ComboClear, QString(), msg.service() );
 }
 
 bool KonquerorAdaptor::processCanBeReused( int screen )

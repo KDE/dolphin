@@ -129,9 +129,9 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
 #ifdef Q_WS_X11
                  if( KonqSettings::maxPreloadCount() > 0 )
                  {
-                     QDBusInterface ref( QDBus::sessionBus().findInterface("org.kde.kded", "/modules/konqy_preloader", "org.kde.KonqyPreloader") );
+                     QDBusInterface ref( "org.kde.kded", "/modules/konqy_preloader", "org.kde.KonqyPreloader", QDBus::sessionBus() );
                      QX11Info info;
-                     QDBusReply<bool> retVal = ref.call( QDBusAbstractInterface::NoUseEventLoop, "registerPreloadedKonqy",
+                     QDBusReply<bool> retVal = ref.call( QDBus::Block, "registerPreloadedKonqy",
                                                          QDBus::sessionBus().baseService(), info.screen());
                      if( !retVal )
                          return 0; // too many preloaded or failed

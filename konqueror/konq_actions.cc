@@ -182,26 +182,26 @@ void KonqBidiHistoryAction::slotTriggered( QAction* action )
 KonqLogoAction::KonqLogoAction( const QString& text, const KShortcut& accel, KActionCollection* parent, const char* name )
   : KAction( text, accel, 0L, "", parent, name )
 {
-  setToolBarWidgetFactory(this);
+  //setToolBarWidgetFactory(this);
 }
 
 KonqLogoAction::KonqLogoAction( const QString& text, const KShortcut& accel,
                                QObject* receiver, const char* slot, KActionCollection* parent, const char* name )
   : KAction( text, accel, receiver, slot, parent, name )
 {
-  setToolBarWidgetFactory(this);
+  //setToolBarWidgetFactory(this);
 }
 
 KonqLogoAction::KonqLogoAction( const QString& text, const QIcon& pix, const KShortcut&  accel, KActionCollection* parent, const char* name )
   : KAction( text, pix, accel, 0L, "", parent, name )
 {
-  setToolBarWidgetFactory(this);
+  //setToolBarWidgetFactory(this);
 }
 
 KonqLogoAction::KonqLogoAction( const QString& text, const QIcon& pix, const KShortcut& accel, QObject* receiver, const char* slot, KActionCollection* parent, const char* name )
   : KAction( text, pix, accel, receiver, slot, parent, name )
 {
-  setToolBarWidgetFactory(this);
+  //setToolBarWidgetFactory(this);
 }
 
 KonqLogoAction::KonqLogoAction( const QStringList& icons, QObject* receiver,
@@ -210,7 +210,7 @@ KonqLogoAction::KonqLogoAction( const QStringList& icons, QObject* receiver,
     : KAction( 0L, 0, receiver, slot, parent, name ) // text missing !
 {
   iconList = icons;
-  setToolBarWidgetFactory(this);
+  //setToolBarWidgetFactory(this);
 }
 
 void KonqLogoAction::start()

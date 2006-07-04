@@ -77,6 +77,7 @@
 #include <QList>
 #include <QCloseEvent>
 #include <QPixmap>
+#include <QLineEdit>
 
 #include <k3widgetaction.h>
 
@@ -5611,7 +5612,7 @@ void KonqMainWindow::setPreloadedFlag( bool preloaded )
     delete s_preloadedWindow; // preloaded state was abandoned without reusing the window
     s_preloadedWindow = NULL;
     kapp->enableSessionManagement(); // enable SM again
-    QDBusInterface ref( QDBus::sessionBus().findInterface("org.kde.kded", "/modules/konqy_preloader", "org.kde.KonqyPreloader") );
+    QDBusInterface ref( "org.kde.kded", "/modules/konqy_preloader", "org.kde.KonqyPreloader", QDBus::sessionBus() );
     ref.call( "unregisterPreloadedKonqy", QDBus::sessionBus().baseService() );
 }
 
@@ -5725,9 +5726,9 @@ bool KonqMainWindow::stayPreloaded()
     viewManager()->clear(); // reduce resource usage before checking it
     if( !checkPreloadResourceUsage())
         return false;
-    QDBusInterface ref( QDBus::sessionBus().findInterface("org.kde.kded", "/modules/konqy_preloader", "org.kde.KonqyPreloader") );
+    QDBusInterface ref( "org.kde.kded", "/modules/konqy_preloader", "org.kde.KonqyPreloader", QDBus::sessionBus() );
     QX11Info info;
-    QDBusReply<bool> retVal = ref.call( QDBusAbstractInterface::NoUseEventLoop, "registerPreloadedKonqy",
+    QDBusReply<bool> retVal = ref.call( QDBus::Block, "registerPreloadedKonqy",
                                          QDBus::sessionBus().baseService(), info.screen());
     if ( !retVal )
     {

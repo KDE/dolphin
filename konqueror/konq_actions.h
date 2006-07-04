@@ -22,6 +22,8 @@
 
 #include <konq_historymgr.h>
 #include <kactionmenu.h>
+#include <QWidget>
+#include <QToolBar>
 #include <QList>
 
 class HistoryEntry;
@@ -65,7 +67,7 @@ private:
 
 /////
 
-class KonqLogoAction : public KAction, public QActionWidgetFactory
+class KonqLogoAction : public KAction
 {
   Q_OBJECT
 public:
@@ -93,7 +95,7 @@ private:
     QStringList iconList;
 };
 
-class KonqViewModeAction : public KAction, public QActionWidgetFactory
+class KonqViewModeAction : public KAction
 {
     Q_OBJECT
 public:
