@@ -17,7 +17,7 @@
 #include <kcmodule.h>
 
 class QSpinBox;
-class KFontCombo;
+class QFontComboBox;
 
 class KAppearanceOptions : public KCModule
 {
@@ -33,12 +33,12 @@ public:
 public Q_SLOTS:
   void slotFontSize( int );
   void slotMinimumFontSize( int );
-  void slotStandardFont(const QString& n);
-  void slotFixedFont(const QString& n);
-  void slotSerifFont( const QString& n );
-  void slotSansSerifFont( const QString& n );
-  void slotCursiveFont( const QString& n );
-  void slotFantasyFont( const QString& n );
+  void slotStandardFont(const QFont& n);
+  void slotFixedFont(const QFont& n);
+  void slotSerifFont( const QFont& n );
+  void slotSansSerifFont( const QFont& n );
+  void slotCursiveFont( const QFont& n );
+  void slotFantasyFont( const QFont& n );
   void slotEncoding( const QString& n);
   void slotFontSizeAdjust( int value );
 
@@ -49,12 +49,11 @@ private:
 
   KConfig *m_pConfig;
   QString m_groupname;
-  QStringList m_families;
 
   KIntNumInput* m_minSize;
   KIntNumInput* m_MedSize;
   KIntNumInput* m_pageDPI;
-  KFontCombo* m_pFonts[6];
+  QFontComboBox* m_pFonts[6];
   QComboBox* m_pEncoding;
   QSpinBox *m_pFontSizeAdjust;
 

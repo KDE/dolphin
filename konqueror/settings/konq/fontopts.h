@@ -41,10 +41,10 @@
 
 class QCheckBox;
 class QRadioButton;
+class QFontComboBox;
 
 class KColorButton;
 class KConfig;
-class KFontCombo;
 
 
 //-----------------------------------------------------------------------------
@@ -62,7 +62,7 @@ public:
 
 public Q_SLOTS:
   void slotFontSize(int i);
-  void slotStandardFont(const QString& n);
+  void slotStandardFont(const QFont& n);
   void slotTextBackgroundClicked();
 
   void slotNormalTextColorChanged( const QColor &col );
@@ -87,7 +87,7 @@ private:
   QRadioButton* m_pMedium;
   QRadioButton* m_pLarge;
   */
-  KFontCombo* m_pStandard;
+  QFontComboBox* m_pStandard;
   QSpinBox* m_pSize;
 
   int m_fSize;

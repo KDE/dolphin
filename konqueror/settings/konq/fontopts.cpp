@@ -27,6 +27,7 @@
 #include <QGridLayout>
 #include <Q3CString>
 #include <QDesktopWidget>
+#include <QFontComboBox>
 
 #include <QtDBus/QtDBus>
 
@@ -34,9 +35,9 @@
 #include <kcolorbutton.h>
 #include <kconfig.h>
 #include <kdebug.h>
-#include <kfontcombo.h>
 #include <kfontdialog.h>
 #include <klocale.h>
+#include <kglobalsettings.h>
 #include <konq_defaults.h> // include default values directly from konqueror
 
 #include "fontopts.h"
@@ -60,7 +61,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, K
 
     row++;
 
-    m_pStandard = new KFontCombo( this );
+    m_pStandard = new QFontComboBox( this );
     label = new QLabel( i18n("&Standard font:"), this );
     label->setBuddy( m_pStandard );
     lay->addWidget(label,row,0);
@@ -73,12 +74,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, K
     row++;
     connect( m_pStandard, SIGNAL( activated(const QString&) ),
              SLOT( slotStandardFont(const QString&) ) );
-    connect( m_pStandard, SIGNAL( activated(const QString&) ),
-             SLOT(changed() ) );
-    connect( m_pStandard, SIGNAL( textChanged(const QString&) ),
-             SLOT( slotStandardFont(const QString&) ) );
-    connect( m_pStandard, SIGNAL( textChanged(const QString&) ),
-             SLOT(changed() ) );
+    connect( m_pStandard, SIGNAL( currentFontChanged(const QFont&) ), SLOT(changed() ) );
 
     m_pSize = new QSpinBox( 4,18,1,this );
     label = new QLabel( i18n("Font si&ze:"), this );
@@ -222,9 +218,9 @@ void KonqFontOptions::slotFontSize(int i)
     changed();
 }
 
-void KonqFontOptions::slotStandardFont(const QString& n )
+void KonqFontOptions::slotStandardFont(const QFont& f )
 {
-    m_stdName = n;
+    m_stdName = f.family();
 }
 
 void KonqFontOptions::slotPNbLinesChanged(int value)
