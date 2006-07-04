@@ -602,8 +602,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    _tempFiles.setAutoDelete( true );
    _streams.setAutoDelete( true );
    _waitingRequests.setAutoDelete( true );
-   _callback = QDBus::sessionBus().findInterface<org::kde::nsplugins::CallBack>(
-       appId, callbackId );
+   _callback = new org::kde::nsplugins::CallBack( appId, callbackId, QDBus::sessionBus() );
 
    KUrl base(src);
    base.setFileName( QString() );
@@ -1210,8 +1209,8 @@ NSPluginViewer::NSPluginViewer( QObject *parent )
    (void) new ViewerAdaptor( this );
    QDBus::sessionBus().registerObject( "/Viewer", this );
 
-    QObject::connect(QDBus::sessionBus().busService(),
-                     SIGNAL(NameLost(const QString&)),
+    QObject::connect(QDBus::sessionBus().interface(),
+                     SIGNAL(serviceUnregistered(const QString&)),
                      this, SLOT(appUnregistered(const QString&)));
 }
 
@@ -1799,7 +1798,7 @@ NSPluginStream::NSPluginStream( NSPluginInstance *instance )
 NSPluginStream::~NSPluginStream()
 {
     if ( _job )
-        _job->kill( true );
+        _job->kill( KJob::Quietly );
 }
 
 
@@ -1880,7 +1879,7 @@ void NSPluginStream::mimetype(KIO::Job * job, const QString &mimeType)
 void NSPluginStream::resume()
 {
    if ( error() || tries()>8 ) {
-       _job->kill( true );
+       _job->kill( KJob::Quietly );
        finish( true );
        return;
    }

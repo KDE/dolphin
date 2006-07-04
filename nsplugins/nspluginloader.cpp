@@ -57,8 +57,7 @@ int NSPluginLoader::s_refCount = 0;
 NSPluginInstance::NSPluginInstance(QWidget *parent, const QString& app, const QString& id)
   : EMBEDCLASS(parent)
 {
-    _instanceInterface = QDBus::sessionBus().findInterface<org::kde::nsplugins::Instance>(
-       app, id );
+    _instanceInterface = new org::kde::nsplugins::Instance( app, id, QDBus::sessionBus() );
 
     _loader = 0;
     shown = false;
@@ -141,8 +140,8 @@ NSPluginLoader::NSPluginLoader()
   _filetype.setAutoDelete(true);
 
   // trap dbus register events
-  QObject::connect(QDBus::sessionBus().busService(),
-                   SIGNAL(NameAcquired(const QString&)),
+  QObject::connect(QDBus::sessionBus().interface(),
+                   SIGNAL(serviceRegistered(const QString&)),
                    this, SLOT(applicationRegistered(const QString&)));
 
   // load configuration
@@ -317,7 +316,7 @@ bool NSPluginLoader::loadViewer()
 
    // wait for the process to run
    int cnt = 0;
-   while (!QDBus::sessionBus().busService()->nameHasOwner(_dbusService))
+   while (!QDBus::sessionBus().interface()->isServiceRegistered(_dbusService))
    {
        //kapp->processEvents(); // would lead to recursive calls in khtml
 #ifdef HAVE_USLEEP
@@ -346,7 +345,7 @@ bool NSPluginLoader::loadViewer()
    }
 
    // get viewer dcop interface
-   _viewer = QDBus::sessionBus().findInterface<org::kde::nsplugins::Viewer>( _dbusService, "/Viewer" );
+   _viewer = new org::kde::nsplugins::Viewer( _dbusService, "/Viewer", QDBus::sessionBus() );
 
    return _viewer!=0;
 }
@@ -446,8 +445,7 @@ NSPluginInstance *NSPluginLoader::newInstance(QWidget *parent, const QString& ur
       kDebug() << "Couldn't create plugin class" << endl;
       return 0;
    }
-   org::kde::nsplugins::Class* cls = QDBus::sessionBus().findInterface<org::kde::nsplugins::Class>(
-       appId, cls_ref.value );
+   org::kde::nsplugins::Class* cls = new org::kde::nsplugins::Class( appId, cls_ref.value, QDBus::sessionBus() );
 
    // handle special plugin cases
    if ( mime=="application/x-shockwave-flash" )

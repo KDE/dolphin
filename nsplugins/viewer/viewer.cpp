@@ -143,8 +143,8 @@ int main(int argc, char** argv)
 
    kDebug(1430) << "5 - dbus requestName" << endl;
    if (!g_dbusServiceName.isEmpty()) {
-       QDBusBusService* bus = QDBus::sessionBus().busService(); // already null-checked by KApplication
-       if ( bus->requestName(g_dbusServiceName, QDBusBusService::DoNotQueueName) == QDBusBusService::NameExistsReply ) {
+       QDBusConnectionInterface* bus = QDBus::sessionBus().interface(); // already null-checked by KApplication
+       if ( bus->registerService(g_dbusServiceName, QDBusConnectionInterface::DontQueueService) == QDBusConnectionInterface::ServiceNotRegistered ) {
           kError(101) << "Couldn't register name '" << g_dbusServiceName << "' with DBUS - another process owns it already!" << endl;
           ::exit(126);
       }
