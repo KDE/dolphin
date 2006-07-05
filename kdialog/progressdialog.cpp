@@ -20,7 +20,7 @@
 #include "kdebug.h"
 #include "widgets.h"
 #include <kprogressdialog.h>
-#include "kdialogadaptor.h" 
+#include "progressdialogadaptor.h" 
 
 ProgressDialog::ProgressDialog(QWidget* parent, const QString& caption, const QString& text, int totalSteps)
     : KProgressDialog(parent, caption, text, false)

@@ -4,11 +4,12 @@
 ########### next target ###############
 
 set(kdialog_SRCS 
-   kdialogadaptor.cpp
 	kdialog.cpp 
    widgets.cpp 
    klistboxdialog.cpp 
    progressdialog.cpp )
+
+qt4_add_dbus_adaptor( kdialog_SRCS org.kde.kdialog.ProgressDialog.xml progressdialog.h KProgressDialog )
 
 kde4_automoc(${kdialog_SRCS})
 
