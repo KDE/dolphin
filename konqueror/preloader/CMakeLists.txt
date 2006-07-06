@@ -6,6 +6,8 @@ set(kded_konqy_preloader_PART_SRCS preloader.cc )
 
 kde4_add_kcfg_files(kded_konqy_preloader_PART_SRCS ${CMAKE_SOURCE_DIR}/konqueror/konq_settingsxt.kcfgc)
 
+qt4_add_dbus_adaptor( kded_konqy_preloader_PART_SRCS org.kde.konqueror.Preloader.xml preloader.h KonqyPreloader )
+
 kde4_automoc(${kded_konqy_preloader_PART_SRCS})
 
 

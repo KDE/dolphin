@@ -27,18 +27,18 @@ class KonqyPreloader
     : public KDEDModule
     {
     Q_OBJECT
-    K_DCOP
     public:
         KonqyPreloader();
         virtual ~KonqyPreloader();
-    k_dcop:
+	
+    public Q_SLOTS:
         bool registerPreloadedKonqy( QString id, int screen );
         QString getPreloadedKonqy( int screen );
-        ASYNC unregisterPreloadedKonqy( QString id );
+        void unregisterPreloadedKonqy( QString id );
         void reconfigure();
         void unloadAllPreloaded();
     private Q_SLOTS:
-        void appRemoved( const QByteArray& id );
+        void appRemoved( const QString& id );
 	void checkAlwaysPreloaded();
     private:
         void updateCount();

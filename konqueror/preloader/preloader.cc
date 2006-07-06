@@ -19,11 +19,10 @@
 
 #include "preloader.h"
 #include "konq_settingsxt.h"
+#include "preloaderadaptor.h"
 
 #include <kconfig.h>
-#include <dcopref.h>
 #include <kapplication.h>
-#include <dcopclient.h>
 #include <kdebug.h>
 #include <ktoolinvocation.h>
 
@@ -31,8 +30,11 @@ KonqyPreloader::KonqyPreloader()
     : KDEDModule()
     {
     reconfigure();
-    connect( kapp->dcopClient(), SIGNAL( applicationRemoved( const QByteArray& )),
-        SLOT( appRemoved( const QByteArray& )));
+
+    (void)new PreloaderAdaptor(this);
+    
+    connect( QDBus::sessionBus().interface(), SIGNAL( serviceUnregistered( const QString & )),
+        SLOT( appRemoved( const QString& )));
     check_always_preloaded_timer.setSingleShot( true );
     connect( &check_always_preloaded_timer, SIGNAL( timeout()),
 	SLOT( checkAlwaysPreloaded()));
@@ -82,7 +84,7 @@ void KonqyPreloader::unregisterPreloadedKonqy( QString id_P )
             }
     }
 
-void KonqyPreloader::appRemoved( const QByteArray& id )
+void KonqyPreloader::appRemoved( const QString& id )
     {
     unregisterPreloadedKonqy( id );
     }
@@ -102,8 +104,8 @@ void KonqyPreloader::updateCount()
         {
         KonqyData konqy = instances.first();
         instances.pop_front();
-        DCOPRef ref( konqy.id, "KonquerorIface" );
-        ref.send( "terminatePreloaded" );
+        QDBusInterface ref( konqy.id, "/", "org.kde.Konqueror" );
+        ref.call( "terminatePreloaded" );
         }
     if( KonqSettings::alwaysHavePreloaded() &&
         KonqSettings::maxPreloadCount() > 0 &&
@@ -138,8 +140,8 @@ void KonqyPreloader::unloadAllPreloaded()
         {
         KonqyData konqy = instances.first();
         instances.pop_front();
-        DCOPRef ref( konqy.id, "KonquerorIface" );
-        ref.send( "terminatePreloaded" );
+        QDBusInterface ref( konqy.id, "/", "org.kde.Konqueror" );
+        ref.call( "terminatePreloaded" );
         }
     // ignore 'always_have_preloaded' here
     }

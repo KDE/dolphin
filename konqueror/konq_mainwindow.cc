@@ -5613,7 +5613,7 @@ void KonqMainWindow::setPreloadedFlag( bool preloaded )
     delete s_preloadedWindow; // preloaded state was abandoned without reusing the window
     s_preloadedWindow = NULL;
     kapp->enableSessionManagement(); // enable SM again
-    QDBusInterface ref( "org.kde.kded", "/modules/konqy_preloader", "org.kde.KonqyPreloader", QDBus::sessionBus() );
+    QDBusInterface ref( "org.kde.kded", "/modules/konqy_preloader", "org.kde.konqueror.Preloader", QDBus::sessionBus() );
     ref.call( "unregisterPreloadedKonqy", QDBus::sessionBus().baseService() );
 }
 
@@ -5727,7 +5727,7 @@ bool KonqMainWindow::stayPreloaded()
     viewManager()->clear(); // reduce resource usage before checking it
     if( !checkPreloadResourceUsage())
         return false;
-    QDBusInterface ref( "org.kde.kded", "/modules/konqy_preloader", "org.kde.KonqyPreloader", QDBus::sessionBus() );
+    QDBusInterface ref( "org.kde.kded", "/modules/konqy_preloader", "org.kde.konqueror.Preloader", QDBus::sessionBus() );
     QX11Info info;
     QDBusReply<bool> retVal = ref.call( QDBus::Block, "registerPreloadedKonqy",
                                          QDBus::sessionBus().baseService(), info.screen());
