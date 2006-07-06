@@ -12,11 +12,11 @@
 #include <kconfig.h>
 #include <kdebug.h>
 #include <kdialog.h>
-#include <kfontcombo.h>
 #include <kglobal.h>
 #include <khtmldefaults.h>
 #include <klocale.h>
 #include <knuminput.h>
+#include <kglobalsettings.h>
 
 #if defined Q_WS_X11 && !defined K_WS_QTONLY
 #include <X11/Xlib.h>
