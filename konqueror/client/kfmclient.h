@@ -20,8 +20,8 @@
 #ifndef __kfmclient_h
 #define __kfmclient_h
 
-#include <kapplication.h>
-#include <krun.h>
+#include <QApplication>
+class KJob;
 
 class ClientApp : public QApplication
 {

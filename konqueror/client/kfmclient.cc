@@ -19,23 +19,18 @@
 
 #include "kfmclient.h"
 #include "KonquerorIface_stub.h"
-#include "KDesktopIface_stub.h"
-#include "kwin.h"
 
 #include <ktoolinvocation.h>
 #include <kio/job.h>
 #include <kcmdlineargs.h>
-#include <kpropertiesdialog.h>
 #include <klocale.h>
 #include <kprocess.h>
 #include <kstandarddirs.h>
-#include <kopenwith.h>
-#include <kurlrequesterdlg.h>
 #include <kmessagebox.h>
 #include <kmimetypetrader.h>
-#include <kfiledialog.h>
 #include <kdebug.h>
 #include <kservice.h>
+#include <krun.h>
 #include <kstaticdeleter.h>
 
 #include <QtDBus/QtDBus>
@@ -105,51 +100,6 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
                 "            #   'profile' is a file under ~/.kde/share/apps/konqueror/profiles.\n"
                 "            #   'url' is an optional URL to open.\n\n").toLocal8Bit());
 
-    puts(i18n("  kfmclient openProperties 'url'\n"
-                "            # Opens a properties menu\n\n").toLocal8Bit());
-    puts(i18n("  kfmclient exec ['url' ['binding']]\n"
-                "            # Tries to execute 'url'. 'url' may be a usual\n"
-                "            #   URL, this URL will be opened. You may omit\n"
-                "            #   'binding'. In this case the default binding\n").toLocal8Bit());
-    puts(i18n("            #   is tried. Of course URL may be the URL of a\n"
-                "            #   document, or it may be a *.desktop file.\n").toLocal8Bit());
-    puts(i18n("            #   This way you could for example mount a device\n"
-                "            #   by passing 'Mount default' as binding to \n"
-                "            #   'cdrom.desktop'\n\n").toLocal8Bit());
-    puts(i18n("  kfmclient move 'src' 'dest'\n"
-                "            # Moves the URL 'src' to 'dest'.\n"
-                "            #   'src' may be a list of URLs.\n").toLocal8Bit());
-    //puts(i18n("            #   'dest' may be \"trash:/\" to move the files\n"
-    //            "            #   in the trash bin.\n\n").toLocal8Bit());
-    puts(i18n("  kfmclient download ['src']\n"
-                "            # Copies the URL 'src' to a user specified location'.\n"
-                "            #   'src' may be a list of URLs, if not present then\n"
-                "            #   a URL will be requested.\n\n").toLocal8Bit());
-    puts(i18n("  kfmclient copy 'src' 'dest'\n"
-                "            # Copies the URL 'src' to 'dest'.\n"
-                "            #   'src' may be a list of URLs.\n\n").toLocal8Bit());
-    puts(i18n("  kfmclient sortDesktop\n"
-                "            # Rearranges all icons on the desktop.\n\n").toLocal8Bit());
-    puts(i18n("  kfmclient configure\n"
-                "            # Re-read Konqueror's configuration.\n\n").toLocal8Bit());
-    puts(i18n("  kfmclient configureDesktop\n"
-                "            # Re-read kdesktop's configuration.\n\n").toLocal8Bit());
-
-    puts(i18n("*** Examples:\n"
-                "  kfmclient exec file:/root/Desktop/cdrom.desktop \"Mount default\"\n"
-                "             // Mounts the CD-ROM\n\n").toLocal8Bit());
-    puts(i18n("  kfmclient exec file:/home/weis/data/test.html\n"
-                "             // Opens the file with default binding\n\n").toLocal8Bit());
-    puts(i18n("  kfmclient exec file:/home/weis/data/test.html Netscape\n"
-                "             // Opens the file with netscape\n\n").toLocal8Bit());
-    puts(i18n("  kfmclient exec ftp://localhost/\n"
-                "             // Opens new window with URL\n\n").toLocal8Bit());
-    puts(i18n("  kfmclient exec file:/root/Desktop/emacs.desktop\n"
-                "             // Starts emacs\n\n").toLocal8Bit());
-    puts(i18n("  kfmclient exec file:/root/Desktop/cdrom.desktop\n"
-                "             // Opens the CD-ROM's mount directory\n\n").toLocal8Bit());
-    puts(i18n("  kfmclient exec .\n"
-                "             // Opens the current directory. Very convenient.\n\n").toLocal8Bit());
     return 0;
   }
 
@@ -346,7 +296,7 @@ bool ClientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, co
             KStartupInfo::appStarted();
 #endif
 
-            KRun * run = new KRun( url,0L ); // TODO pass tempFile [needs support in the KRun ctor]
+            KRun * run = new KRun( url, 0L, false, false /* no progress window */ ); // TODO pass tempFile [needs support in the KRun ctor]
             QObject::connect( run, SIGNAL( finished() ), qApp, SLOT( delayedQuit() ));
             QObject::connect( run, SIGNAL( error() ), qApp, SLOT( delayedQuit() ));
             qApp->exec();
@@ -521,128 +471,6 @@ bool ClientApp::doIt()
     if ( argc == 3 )
       url = args->url(2).url();
     return openProfile( QString::fromLocal8Bit(args->arg(1)), url );
-  }
-  else if ( command == "openProperties" )
-  {
-    checkArgumentCount(argc, 2, 2);
-    KPropertiesDialog * p = new KPropertiesDialog( args->url(1) );
-    QObject::connect( p, SIGNAL( destroyed() ), &app, SLOT( quit() ));
-    QObject::connect( p, SIGNAL( canceled() ), &app, SLOT( slotDialogCanceled() ));
-    app.exec();
-    return m_ok;
-  }
-  else if ( command == "exec" )
-  {
-    checkArgumentCount(argc, 1, 3);
-    if ( argc == 1 )
-    {
-      KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
-      kdesky.popupExecuteCommand();
-    }
-    else if ( argc == 2 )
-    {
-      KRun * run = new KRun( args->url(1), 0L);
-      QObject::connect( run, SIGNAL( finished() ), &app, SLOT( delayedQuit() ));
-      QObject::connect( run, SIGNAL( error() ), &app, SLOT( delayedQuit() ));
-      app.exec();
-      return !run->hasError();
-    }
-    else if ( argc == 3 )
-    {
-      KUrl::List urls;
-      urls.append( args->url(1) );
-      const KService::List offers = KMimeTypeTrader::self()->query( QString::fromLocal8Bit( args->arg( 2 ) ),
-                                                                    QLatin1String( "Application" ) );
-      if (offers.isEmpty()) return 1;
-      KService::Ptr serv = offers.first();
-      return KRun::run( *serv, urls, 0 );
-    }
-  }
-  else if ( command == "move" )
-  {
-    checkArgumentCount(argc, 2, 0);
-    KUrl::List srcLst;
-    for ( int i = 1; i <= argc - 2; i++ )
-      srcLst.append( args->url(i) );
-
-    KIO::Job * job = KIO::move( srcLst, args->url(argc - 1) );
-    if ( !s_interactive )
-        job->setInteractive( false );
-    connect( job, SIGNAL( result( KJob * ) ), &app, SLOT( slotResult( KJob * ) ) );
-    app.exec();
-    return m_ok;
-  }
-  else if ( command == "download" )
-  {
-    checkArgumentCount(argc, 0, 0);
-    KUrl::List srcLst;
-    if (argc == 1) {
-       while(true) {
-          KUrl src = KUrlRequesterDlg::getURL();
-          if (!src.isEmpty()) {
-             if (!src.isValid()) {
-                KMessageBox::error(0, i18n("Unable to download from an invalid URL."));
-                continue;
-             }
-             srcLst.append(src);
-          }
-          break;
-       }
-    } else {
-       for ( int i = 1; i <= argc - 1; i++ )
-          srcLst.append( args->url(i) );
-    }
-    if (srcLst.count() == 0)
-       return m_ok;
-    QString dst =
-       KFileDialog::getSaveFileName( (argc<2) ? (QString::null) : (args->url(1).fileName()) );
-    if (dst.isEmpty()) // canceled
-       return m_ok; // AK - really okay?
-    KUrl dsturl;
-    dsturl.setPath( dst );
-    KIO::Job * job = KIO::copy( srcLst, dsturl );
-    if ( !s_interactive )
-        job->setInteractive( false );
-    connect( job, SIGNAL( result( KJob * ) ), &app, SLOT( slotResult( KJob * ) ) );
-    app.exec();
-    return m_ok;
-  }
-  else if ( command == "copy" )
-  {
-    checkArgumentCount(argc, 2, 0);
-    KUrl::List srcLst;
-    for ( int i = 1; i <= argc - 2; i++ )
-      srcLst.append( args->url(i) );
-
-    KIO::Job * job = KIO::copy( srcLst, args->url(argc - 1) );
-    if ( !s_interactive )
-        job->setInteractive( false );
-    connect( job, SIGNAL( result( KJob * ) ), &app, SLOT( slotResult( KJob * ) ) );
-    app.exec();
-    return m_ok;
-  }
-  else if ( command == "sortDesktop" )
-  {
-    checkArgumentCount(argc, 1, 1);
-
-    KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
-    kdesky.rearrangeIcons( (int)false );
-
-    return true;
-  }
-  else if ( command == "configure" )
-  {
-    needDBus();
-    checkArgumentCount(argc, 1, 1);
-    QByteArray data;
-    kapp->dcopClient()->send( "*", "KonqMainViewIface", "reparseConfiguration()", data );
-    // Warning. In case something is added/changed here, keep kcontrol/konq/main.cpp in sync.
-  }
-  else if ( command == "configureDesktop" )
-  {
-    checkArgumentCount(argc, 1, 1);
-    KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
-    kdesky.configure();
   }
   else
   {
