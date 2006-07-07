@@ -1,10 +1,10 @@
-dcopRef=`./kdialog --progressbar "Press Cancel at Any time" 10`
-dcop $dcopRef showCancelButton true
+dbusRef=`./kdialog --progressbar "Press Cancel at Any time" 10`
+dbus $dbusRef org.kde.kdialog.ProgressDialog.showCancelButton true
 
-until test "true" == `dcop $dcopRef wasCancelled`; do
+until test "true" == `dbus $dbusRef org.kde.kdialog.ProgressDialog.wasCancelled`; do
   sleep 1
-  inc=$((`dcop $dcopRef progress` + 1))
-  dcop $dcopRef setProgress $inc;
+  inc=$((`dbus $dbusRef org.kde.kdialog.ProgressDialog.value` + 1))
+  dbus $dbusRef org.kde.kdialog.ProgressDialog.value $inc;
 done
 
-dcop $dcopRef close
+dbus $dbusRef org.kde.kdialog.ProgressDialog.close
