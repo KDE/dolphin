@@ -284,7 +284,7 @@ void KBehaviourOptions::save()
 
     // Send signal to all konqueror instances
     QDBusMessage message =
-        QDBusMessage::signal("/Konqueror", "org.kde.Konqueror", "reparseConfiguration", QDBus::sessionBus());
+        QDBusMessage::signal("/KonqMain", "org.kde.Konqueror.Main", "reparseConfiguration", QDBus::sessionBus());
     QDBus::sessionBus().send(message);
 }
 

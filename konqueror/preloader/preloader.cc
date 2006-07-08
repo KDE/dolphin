@@ -104,7 +104,7 @@ void KonqyPreloader::updateCount()
         {
         KonqyData konqy = instances.first();
         instances.pop_front();
-        QDBusInterface ref( konqy.id, "/", "org.kde.Konqueror" );
+        QDBusInterface ref( konqy.id, "/", "org.kde.Konqueror.Main" );
         ref.call( "terminatePreloaded" );
         }
     if( KonqSettings::alwaysHavePreloaded() &&
@@ -140,7 +140,7 @@ void KonqyPreloader::unloadAllPreloaded()
         {
         KonqyData konqy = instances.first();
         instances.pop_front();
-        QDBusInterface ref( konqy.id, "/", "org.kde.Konqueror" );
+        QDBusInterface ref( konqy.id, "/", "org.kde.Konqueror.Main" );
         ref.call( "terminatePreloaded" );
         }
     // ignore 'always_have_preloaded' here

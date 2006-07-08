@@ -24,13 +24,15 @@
 #include <QStringList>
 #include <QtDBus/QtDBus>
 
+#define KONQ_MAIN_PATH "/KonqMain"
+
 /**
  * DBus interface of a konqueror process
  */
-class KonquerorAdaptor : public QDBusAbstractAdaptor
+class KonquerorAdaptor : public QObject
 {
   Q_OBJECT
-  Q_CLASSINFO("D-Bus Interface", "org.kde.Konqueror")
+  Q_CLASSINFO("D-Bus Interface", "org.kde.Konqueror.Main")
 
 public:
 
@@ -111,6 +113,11 @@ public slots:
    * @return a list of references to all the windows
    */
   QList<QDBusObjectPath> getWindows();
+
+  /**
+   * Find a window which can be used for a new tab. Called by kfmclient.
+   */
+  QDBusObjectPath windowForTab();
 
   /**
    *  Called internally as broadcast when the user adds/removes/renames a view profile

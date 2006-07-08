@@ -341,7 +341,6 @@ KonqMainWindow::~KonqMainWindow()
   KonqUndoManager::decRef();
 
   if ( s_lstViews == 0 ) {
-      delete KonqPixmapProvider::self();
       delete s_comboConfig;
       s_comboConfig = 0;
   }

@@ -24,7 +24,6 @@
 
 #include <kdebug.h>
 #include <kstartupinfo.h>
-#include <kwin.h>
 
 KonqMainWindowAdaptor::KonqMainWindowAdaptor( KonqMainWindow * mainWindow )
     : QDBusAbstractAdaptor( mainWindow ), m_pMainWindow( mainWindow )
@@ -78,16 +77,5 @@ QDBusObjectPath KonqMainWindowAdaptor::currentPart()
 
   return QDBusObjectPath( view->partObjectPath() );
 }
-
-bool KonqMainWindowAdaptor::windowCanBeUsedForTab()
-{
-    KWin::WindowInfo winfo = KWin::windowInfo( m_pMainWindow->winId(), NET::WMDesktop );
-    if( !winfo.isOnCurrentDesktop() )
-        return false; // this window shows on different desktop
-    if( KonqMainWindow::isPreloaded() )
-        return false; // we want a tab in an already shown window
-    return true;
-}
-
 
 #include "KonqMainWindowAdaptor.moc"

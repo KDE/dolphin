@@ -18,7 +18,6 @@
 */
 
 #include "kfmclient.h"
-#include "KonquerorIface_stub.h"
 
 #include <ktoolinvocation.h>
 #include <kio/job.h>
@@ -28,12 +27,15 @@
 #include <kstandarddirs.h>
 #include <kmessagebox.h>
 #include <kmimetypetrader.h>
+#include <kmimetype.h>
 #include <kdebug.h>
 #include <kservice.h>
 #include <krun.h>
+#include <kinstance.h>
 #include <kstaticdeleter.h>
 
-#include <QtDBus/QtDBus>
+#include <konq_mainwindow_interface.h>
+#include <konq_main_interface.h>
 
 #include <QDir>
 #include <QRegExp>
@@ -144,7 +146,7 @@ static bool startNewKonqueror( QString url, QString mimetype, const QString& pro
     KConfig cfg( QLatin1String( "konquerorrc" ), true );
     cfg.setGroup( "Reusing" );
     QStringList allowed_parts;
-    // is duplicated in ../KonquerorIface.cc
+    // is duplicated in ../KonquerorAdaptor.cpp
     allowed_parts << QLatin1String( "konq_iconview.desktop" )
                   << QLatin1String( "konq_multicolumnview.desktop" )
                   << QLatin1String( "konq_sidebartng.desktop" )
@@ -160,7 +162,7 @@ static bool startNewKonqueror( QString url, QString mimetype, const QString& pro
     {
         if( profile.isEmpty())
             return true;
-	QString profilepath = locate( "data", QLatin1String("konqueror/profiles/") + profile );
+	QString profilepath = KStandardDirs::locate( "data", QLatin1String("konqueror/profiles/") + profile );
 	if( profilepath.isEmpty())
 	    return true;
 	KConfig cfg( profilepath, true );
@@ -210,54 +212,63 @@ static int currentScreen()
     return 0;
 }
 
+static bool s_dbus_initialized = false;
 static void needDBus()
 {
-    if (!QDBus::sessionBus().isConnected() || !(bus = QDBus::sessionBus().busService()))
-        kFatal(101) << "Session bus not found" << endl;
+    if ( !s_dbus_initialized ) {
+        extern void qDBusBindToApplication();
+        qDBusBindToApplication();
+        if (!QDBus::sessionBus().isConnected())
+            kFatal(101) << "Session bus not found" << endl;
+        s_dbus_initialized = true;
+    }
 }
 
 // when reusing a preloaded konqy, make sure your always use a DBus call which opens a profile !
 
-#if 0
-// TODO - we need QDBusRef here; or QPair<QString,QDBusObjectPath>
-static QDBusRef getPreloadedKonqy()
+static QString getPreloadedKonqy()
 {
     needInstance();
     KConfig cfg( QLatin1String( "konquerorrc" ), true );
     cfg.setGroup( "Reusing" );
     if( cfg.readEntry( "MaxPreloadCount", 1 ) == 0 )
-        return "";
+        return QString();
     needDBus();
-    DCOPRef ref( "kded", "konqy_preloader" );
-    DCOPCString ret;
-    if( ref.callExt( "getPreloadedKonqy", DCOPRef::NoEventLoop, 3000, currentScreen()).get( ret ))
-        return ret;
-    return DCOPCString();
+    QDBusInterface ref( "org.kde.kded", "/modules/konqy_preloader", "org.kde.konqueror.Preloader", QDBus::sessionBus() );
+    // ## used to have NoEventLoop and 3s timeout with dcop
+    QDBusReply<QString> reply = ref.call( "getPreloadedKonqy", currentScreen() );
+    if ( reply.isValid() )
+        return reply;
+    return QString();
 }
-#endif
 
-static DCOPCString konqyToReuse( const QString& url, const QString& mimetype, const QString& profile )
+static QString konqyToReuse( const QString& url, const QString& mimetype, const QString& profile )
 { // prefer(?) preloaded ones
 
-    // TODO
-#if 0
-    DCOPCString ret = getPreloadedKonqy();
+    QString ret = getPreloadedKonqy();
     if( !ret.isEmpty())
         return ret;
-#endif
     if( startNewKonqueror( url, mimetype, profile ))
-        return "";
+        return QString();
     needDBus();
-    QString appObj;
-    QByteArray data;
-    QDataStream str( &data, QIODevice::WriteOnly );
+    QDBusConnection dbus = QDBus::sessionBus();
+    QDBusReply<QStringList> reply = dbus.interface()->registeredServiceNames();
+    if ( !reply.isValid() )
+        return QString();
 
-    str.setVersion(QDataStream::Qt_3_1);
-    str << currentScreen();
-    if( !KApplication::dcopClient()->findObject( "konqueror*", "KonquerorIface",
-             "processCanBeReused( int )", data, ret, appObj, false, 3000 ) )
-        return "";
-    return ret;
+    const QStringList allServices = reply;
+    const int screen = currentScreen();
+    for ( QStringList::const_iterator it = allServices.begin(), end = allServices.end() ; it != end ; ++it ) {
+        const QString service = *it;
+        if ( service.startsWith( "org.kde.konqueror" ) ) {
+            org::kde::Konqueror::Main konq( service, "/KonqMain", dbus );
+            QDBusReply<bool> reuse = konq.processCanBeReused( screen );
+            if ( reuse.isValid() && reuse )
+                return service;
+        }
+    }
+
+    return QString();
 }
 
 void ClientApp::sendASNChange()
@@ -304,34 +315,49 @@ bool ClientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, co
         }
     }
 
+    needDBus();
+    QDBusConnection dbus = QDBus::sessionBus();
     KConfig cfg( QLatin1String( "konquerorrc" ), true );
     cfg.setGroup( "FMSettings" );
-    if ( newTab || cfg.readEntry( "KonquerorTabforExternalURL", QVariant(false )).toBool() )
-    {
-        needDBus();
-        DCOPCString foundApp, foundObj;
-        QByteArray data;
-        QDataStream str( &data, QIODevice::WriteOnly );
+    if ( newTab || cfg.readEntry( "KonquerorTabforExternalURL", false) ) {
 
-        str.setVersion(QDataStream::Qt_3_1);
-        if( KApplication::dcopClient()->findObject( "konqueror*", "konqueror-mainwindow*",
-            "windowCanBeUsedForTab()", data, foundApp, foundObj, false, 3000 ) )
-        {
-            DCOPRef ref( foundApp, foundObj );
-            DCOPReply reply = ref.call( "newTabASN", url.url(), startup_id_str, tempFile );
-            if ( reply.isValid() ) {
+        QString foundApp;
+        QDBusObjectPath foundObj;
+        QDBusReply<QStringList> reply = dbus.interface()->registeredServiceNames();
+        if ( reply.isValid() ) {
+            const QStringList allServices = reply;
+            for ( QStringList::const_iterator it = allServices.begin(), end = allServices.end() ; it != end ; ++it ) {
+                const QString service = *it;
+                if ( service.startsWith( "org.kde.konqueror" ) ) {
+                    org::kde::Konqueror::Main konq( service, "/KonqMain", dbus );
+                    QDBusReply<QDBusObjectPath> windowReply = konq.windowForTab();
+                    if ( windowReply.isValid() ) {
+                        QDBusObjectPath path = windowReply;
+                        if ( !path.value.isEmpty() ) {
+                            foundApp = service;
+                            foundObj = path;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ( !foundApp.isEmpty() ) {
+            org::kde::Konqueror::MainWindow konqWindow( foundApp, foundObj.value, dbus );
+            QDBusReply<void> newTabReply = konqWindow.newTabASN( url.url(), startup_id_str, tempFile );
+            if ( newTabReply.isValid() ) {
                 sendASNChange();
                 return true;
             }
       }
     }
 
-    DCOPCString appId = konqyToReuse( url.url(), mimetype, QString() );
+    QString appId = konqyToReuse( url.url(), mimetype, QString() );
     if( !appId.isEmpty())
     {
         kDebug( 1202 ) << "ClientApp::createNewWindow using existing konqueror" << endl;
-        KonquerorIface_stub konqy( appId, "KonquerorIface" );
-        konqy.createNewWindowASN( url.url(), mimetype, startup_id_str, tempFile );
+        org::kde::Konqueror::Main konq( appId, "/KonqMain", dbus );
+        konq.createNewWindow( url.url(), mimetype, startup_id_str, tempFile );
         sendASNChange();
     }
     else
@@ -369,7 +395,7 @@ bool ClientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, co
 bool ClientApp::openProfile( const QString & profileName, const QString & url, const QString & mimetype )
 {
   needInstance();
-  DCOPCString appId = konqyToReuse( url, mimetype, profileName );
+  QString appId = konqyToReuse( url, mimetype, profileName );
   if( appId.isEmpty())
   {
     QString error;
@@ -383,19 +409,20 @@ bool ClientApp::openProfile( const QString & profileName, const QString & url, c
       // so when we arrive here, konq is up and running already, and appId contains the identification
   }
 
-  QString profile = locate( "data", QLatin1String("konqueror/profiles/") + profileName );
+  QString profile = KStandardDirs::locate( "data", QLatin1String("konqueror/profiles/") + profileName );
   if ( profile.isEmpty() )
   {
       fprintf( stderr, "%s", i18n("Profile %1 not found\n", profileName).toLocal8Bit().data() );
       ::exit( 0 );
   }
-  KonquerorIface_stub konqy( appId, "KonquerorIface" );
+  needDBus();
+  org::kde::Konqueror::Main konqy( appId, "/KonqMain", QDBus::sessionBus() );
   if ( url.isEmpty() )
-      konqy.createBrowserWindowFromProfileASN( profile, profileName, startup_id_str );
+      konqy.createBrowserWindowFromProfile( profile, profileName, startup_id_str );
   else if ( mimetype.isEmpty() )
-      konqy.createBrowserWindowFromProfileAndURLASN( profile, profileName, url, startup_id_str );
+      konqy.createBrowserWindowFromProfileAndUrl( profile, profileName, url, startup_id_str );
   else
-      konqy.createBrowserWindowFromProfileAndURLASN( profile, profileName, url, mimetype, startup_id_str );
+      konqy.createBrowserWindowFromProfileUrlAndMimeType( profile, profileName, url, mimetype, startup_id_str );
   sleep(2); // Martin Schenk <martin@schenk.com> says this is necessary to let the server read from the socket
   // ######## so those methods should probably not be ASYNC
   sendASNChange();

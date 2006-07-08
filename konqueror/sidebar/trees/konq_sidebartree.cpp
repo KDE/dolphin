@@ -46,7 +46,6 @@
 #include <kinputdialog.h>
 #include <kio/netaccess.h>
 #include <kmimetype.h>
-#include <kdirnotify.h>
 #include <kprocess.h>
 #include <kpropertiesdialog.h>
 #include <kprotocolinfo.h>

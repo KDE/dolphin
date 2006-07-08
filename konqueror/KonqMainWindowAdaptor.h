@@ -21,6 +21,10 @@
 #ifndef __KonqMainWindowAdaptor_h__
 #define __KonqMainWindowAdaptor_h__
 
+// !!! Don't regenerate this file, I don't want to lose the method documentation
+// Use dbuscpp2xml KonqMainWindowAdaptor.h > org.kde.Konqueror.MainWindow.xml
+// if you change the API.
+
 #include <QtDBus/QtDBus>
 
 class KonqMainWindow;
@@ -68,11 +72,6 @@ public slots:
      * @return reference to the current part
      */
     QDBusObjectPath currentPart();
-
-    /**
-     * Used by kfmclient when searching a window to open a tab within
-     */
-    bool windowCanBeUsedForTab();
 
 private:
 

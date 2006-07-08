@@ -1,15 +1,15 @@
-include_directories( ${CMAKE_SOURCE_DIR}/konqueror ${CMAKE_SOURCE_DIR}/workspace/kdesktop/ )
+########### kfmclient ###############
 
+set(kfmclient_SRCS kfmclient.cpp )
 
-########### next target ###############
+qt4_add_dbus_interface( kfmclient_SRCS ../org.kde.Konqueror.Main.xml konq_main_interface )
+qt4_add_dbus_interface( kfmclient_SRCS ../org.kde.Konqueror.MainWindow.xml konq_mainwindow_interface )
 
-set(kfmclient_KDEINIT_SRCS kfmclient.cc )
-
-kde4_automoc(${kfmclient_KDEINIT_SRCS})
+kde4_automoc(${kfmclient_SRCS})
 
 add_definitions(-DQT_NO_CAST_ASCII)
 
-kde4_add_kdeinit_executable( kfmclient ${kfmclient_KDEINIT_SRCS})
+kde4_add_kdeinit_executable( kfmclient ${kfmclient_SRCS})
 
 target_link_libraries(kdeinit_kfmclient  ${KDE4_KDE3SUPPORT_LIBS} )
 
@@ -22,33 +22,3 @@ install(TARGETS kfmclient DESTINATION bin)
 
 install( FILES kfmclient_3_2.upd  DESTINATION  ${KCONF_UPDATE_INSTALL_DIR} )
 install( FILES kfmclient_3_2_update.sh  DESTINATION  ${KCONF_UPDATE_INSTALL_DIR} )
-
-
-
-
-
-#original Makefile.am contents follow:
-
-#AM_CPPFLAGS = -DQT_NO_CAST_ASCII
-#
-#bin_PROGRAMS= 
-#lib_LTLIBRARIES = 
-#kdeinit_LTLIBRARIES = kfmclient.la
-#
-#INCLUDES= -I.. $(all_includes)
-#kfmclient_la_LDFLAGS = $(all_libraries) -module -avoid-version
-#kfmclient_la_LIBADD =  $(LIB_KIO)
-#kfmclient_la_SOURCES = kfmclient.cc KonquerorIface.stub KDesktopIface.stub
-#
-#noinst_HEADERS = kfmclient.h
-#METASOURCES = AUTO
-#
-#KonquerorIface_DIR =  $(srcdir)/..
-#KDesktopIface_DIR = $(top_srcdir)/workspace/kdesktop
-#
-#messages:
-#	$(XGETTEXT) -kaliasLocal *.h *.cc -o $(podir)/kfmclient.pot
-#
-#updatedir = $(kde_datadir)/kconf_update
-#update_DATA = kfmclient_3_2.upd
-#update_SCRIPTS = kfmclient_3_2_update.sh

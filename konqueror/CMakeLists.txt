@@ -4,7 +4,7 @@ project(konqueror)
 set(libkonqueror_intern_KCFG_SRCS  ${CMAKE_CURRENT_SOURCE_DIR}/konq_settingsxt.kcfgc)
 kde4_add_kcfg_files(libkonqueror_intern_SRCS ${libkonqueror_intern_KCFG_SRCS})
 
-#add_subdirectory( client )
+add_subdirectory( client )
 add_subdirectory( iconview )
 add_subdirectory( listview )
 
@@ -18,11 +18,11 @@ add_subdirectory( sidebar )
 add_subdirectory( preloader )
 add_subdirectory( quickprint )
 add_subdirectory( remoteencodingplugin )
-#add_subdirectory( kttsplugin )
 add_subdirectory( dirpart )
 add_subdirectory( settings )
 
-message(STATUS "kdebase/konqueror: temporarily disabled from compilation, not yet ported to DBUS: kttsplugin client")
+message(STATUS "kdebase/konqueror/kttsplugin: temporarily disabled from compilation, not yet ported to DBUS")
+#add_subdirectory( kttsplugin )
 
 include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/workspace/kcontrol/input )
 add_subdirectory( tests )

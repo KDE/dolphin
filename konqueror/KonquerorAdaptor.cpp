@@ -29,6 +29,7 @@
 
 #include <kapplication.h>
 #include <kdebug.h>
+#include <kwin.h>
 
 #include <QFile>
 #ifdef Q_WS_X11
@@ -45,8 +46,10 @@
 // are not for user scripting
 
 KonquerorAdaptor::KonquerorAdaptor()
- : QDBusAbstractAdaptor( kapp )
+ : QObject( kapp )
 {
+    QDBusConnection dbus = QDBus::sessionBus();
+    dbus.registerObject( KONQ_MAIN_PATH, this, QDBusConnection::ExportNonScriptableSlots );
 }
 
 KonquerorAdaptor::~KonquerorAdaptor()
@@ -135,12 +138,12 @@ QDBusObjectPath KonquerorAdaptor::createBrowserWindowFromProfileUrlAndMimeType( 
 
 void KonquerorAdaptor::updateProfileList()
 {
-  QList<KonqMainWindow*> *mainWindows = KonqMainWindow::mainWindowList();
-  if ( !mainWindows )
-    return;
+    QList<KonqMainWindow*> *mainWindows = KonqMainWindow::mainWindowList();
+    if ( !mainWindows )
+        return;
 
-  foreach ( KonqMainWindow* window, *mainWindows )
-    window->viewManager()->profileListDirty( false );
+    foreach ( KonqMainWindow* window, *mainWindows )
+        window->viewManager()->profileListDirty( false );
 }
 
 QString KonquerorAdaptor::crashLogFile()
@@ -158,6 +161,21 @@ QList<QDBusObjectPath> KonquerorAdaptor::getWindows()
         lst.append( QDBusObjectPath( '/' + window->objectName() ) );
     }
     return lst;
+}
+
+QDBusObjectPath KonquerorAdaptor::windowForTab()
+{
+    QList<KonqMainWindow*> *mainWindows = KonqMainWindow::mainWindowList();
+    if ( mainWindows ) {
+        foreach ( KonqMainWindow* window, *mainWindows ) {
+            KWin::WindowInfo winfo = KWin::windowInfo( window->winId(), NET::WMDesktop );
+            if( winfo.isOnCurrentDesktop() &&
+                !KonqMainWindow::isPreloaded() ) { // we want a tab in an already shown window
+                return QDBusObjectPath( '/' + window->objectName() );
+            }
+        }
+    }
+    return QDBusObjectPath();
 }
 
 void KonquerorAdaptor::addToCombo( const QString& url, const QDBusMessage& msg )

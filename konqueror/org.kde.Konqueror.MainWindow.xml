@@ -1,0 +1,27 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<!-- DON'T EDIT THIS FILE, EDIT THE ADAPTOR -->
+<node>
+  <interface name="org.kde.Konqueror.MainWindow">
+    <method name="openUrl">
+      <arg name="url" type="s" direction="in"/>
+      <arg name="tempFile" type="b" direction="in"/>
+    </method>
+    <method name="newTab">
+      <arg name="url" type="s" direction="in"/>
+      <arg name="tempFile" type="b" direction="in"/>
+    </method>
+    <method name="newTabASN">
+      <arg name="url" type="s" direction="in"/>
+      <arg name="startup_id" type="ay" direction="in"/>
+      <arg name="tempFile" type="b" direction="in"/>
+    </method>
+    <method name="reload">
+    </method>
+    <method name="currentView">
+      <arg type="o" direction="out"/>
+    </method>
+    <method name="currentPart">
+      <arg type="o" direction="out"/>
+    </method>
+  </interface>
+</node>

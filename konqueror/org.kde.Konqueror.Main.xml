@@ -1,0 +1,68 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.Konqueror.Main">
+    <signal name="reparseConfiguration">
+    </signal>
+    <method name="openBrowserWindow">
+      <arg type="o" direction="out"/>
+      <arg name="url" type="s" direction="in"/>
+      <arg name="startup_id" type="ay" direction="in"/>
+    </method>
+    <method name="createNewWindow">
+      <arg type="o" direction="out"/>
+      <arg name="url" type="s" direction="in"/>
+      <arg name="mimetype" type="s" direction="in"/>
+      <arg name="startup_id" type="ay" direction="in"/>
+      <arg name="tempFile" type="b" direction="in"/>
+    </method>
+    <method name="createNewWindowWithSelection">
+      <arg type="o" direction="out"/>
+      <arg name="url" type="s" direction="in"/>
+      <arg name="filesToSelect" type="as" direction="in"/>
+      <arg name="startup_id" type="ay" direction="in"/>
+    </method>
+    <method name="createBrowserWindowFromProfile">
+      <arg type="o" direction="out"/>
+      <arg name="path" type="s" direction="in"/>
+      <arg name="filename" type="s" direction="in"/>
+      <arg name="startup_id" type="ay" direction="in"/>
+    </method>
+    <method name="createBrowserWindowFromProfileAndUrl">
+      <arg type="o" direction="out"/>
+      <arg name="path" type="s" direction="in"/>
+      <arg name="filename" type="s" direction="in"/>
+      <arg name="url" type="s" direction="in"/>
+      <arg name="startup_id" type="ay" direction="in"/>
+    </method>
+    <method name="createBrowserWindowFromProfileUrlAndMimeType">
+      <arg type="o" direction="out"/>
+      <arg name="path" type="s" direction="in"/>
+      <arg name="filename" type="s" direction="in"/>
+      <arg name="url" type="s" direction="in"/>
+      <arg name="mimetype" type="s" direction="in"/>
+      <arg name="startup_id" type="ay" direction="in"/>
+    </method>
+    <method name="crashLogFile">
+      <arg type="s" direction="out"/>
+    </method>
+    <method name="windowForTab">
+      <arg type="o" direction="out"/>
+    </method>
+    <method name="updateProfileList">
+    </method>
+    <method name="addToCombo">
+      <arg name="url" type="s" direction="in"/>
+    </method>
+    <method name="removeFromCombo">
+      <arg name="url" type="s" direction="in"/>
+    </method>
+    <method name="comboCleared">
+    </method>
+    <method name="processCanBeReused">
+      <arg type="b" direction="out"/>
+      <arg name="screen" type="i" direction="in"/>
+    </method>
+    <method name="terminatePreloaded">
+    </method>
+  </interface>
+</node>

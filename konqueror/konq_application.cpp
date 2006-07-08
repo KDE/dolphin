@@ -26,11 +26,10 @@ KonquerorApplication::KonquerorApplication()
     : KApplication(),
       closed_by_sm( false )
 {
-    new KonquerorAdaptor;
-    const QString dbusPath = "/Konqueror";
-    const QString dbusInterface = "org.kde.Konqueror";
-    QDBusConnection *dbus = &QDBus::sessionBus();
-    dbus->connect(QString(), dbusPath, dbusInterface, "reparseConfiguration", this, SLOT(slotReparseConfiguration()));
+    new KonquerorAdaptor; // not really an adaptor
+    const QString dbusInterface = "org.kde.Konqueror.Main";
+    QDBusConnection dbus = QDBus::sessionBus();
+    dbus.connect(QString(), KONQ_MAIN_PATH, dbusInterface, "reparseConfiguration", this, SLOT(slotReparseConfiguration()));
 }
 
 void KonquerorApplication::slotReparseConfiguration()
