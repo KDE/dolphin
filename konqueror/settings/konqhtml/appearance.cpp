@@ -25,11 +25,16 @@
 
 #include "appearance.moc"
 
-KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent)
-    : KCModule( inst, parent ), m_pConfig(config), m_groupname(group),
+#include <kgenericfactory.h>
+typedef KGenericFactory<KAppearanceOptions, QWidget> KAppearanceOptionsFactory;
+K_EXPORT_COMPONENT_FACTORY( khtml_fonts, KAppearanceOptionsFactory("kcmkonqhtml") );
+
+KAppearanceOptions::KAppearanceOptions(QWidget *parent, const QStringList&)
+    : KCModule( KAppearanceOptionsFactory::instance(), parent ), m_groupname("HTML Settings"),
       fSize( 10 ), fMinSize( HTML_DEFAULT_MIN_FONT_SIZE )
 
 {
+  m_pConfig = KSharedConfig::openConfig( "konquerorrc", false, false );
   setQuickHelp( i18n("<h1>Konqueror Fonts</h1>On this page, you can configure "
               "which fonts Konqueror should use to display the web "
               "pages you view."));
@@ -209,7 +214,6 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, KInstance
 
 KAppearanceOptions::~KAppearanceOptions()
 {
-delete m_pConfig;
 }
 
 void KAppearanceOptions::slotFontSize( int i )
@@ -279,11 +283,11 @@ void KAppearanceOptions::slotEncoding(const QString& n)
 
 void KAppearanceOptions::load()
 {
-    KConfig khtmlrc("khtmlrc", true, false);
-#define SET_GROUP(x) m_pConfig->setGroup(x); khtmlrc.setGroup(x)
-#define READ_NUM(x,y) m_pConfig->readEntry(x, khtmlrc.readEntry(x, y))
-#define READ_ENTRY(x,y) m_pConfig->readEntry(x, khtmlrc.readEntry(x, y))
-#define READ_LIST(x) m_pConfig->readEntry(x, khtmlrc.readEntry(x, QStringList() ))
+    KSharedConfig::Ptr khtmlrc = KSharedConfig::openConfig("khtmlrc", true, false);
+#define SET_GROUP(x) m_pConfig->setGroup(x); khtmlrc->setGroup(x)
+#define READ_NUM(x,y) m_pConfig->readEntry(x, khtmlrc->readEntry(x, y))
+#define READ_ENTRY(x,y) m_pConfig->readEntry(x, khtmlrc->readEntry(x, y))
+#define READ_LIST(x) m_pConfig->readEntry(x, khtmlrc->readEntry(x, QStringList() ))
 
     SET_GROUP(m_groupname);
     fSize = READ_NUM( "MediumFontSize", 12 );
@@ -303,7 +307,7 @@ void KAppearanceOptions::load()
     if (m_pConfig->hasKey("Fonts"))
        fonts = m_pConfig->readEntry( "Fonts" , QStringList() );
     else
-       fonts = khtmlrc.readEntry( "Fonts" , QStringList() );
+       fonts = khtmlrc->readEntry( "Fonts" , QStringList() );
     while (fonts.count() < 7)
        fonts.append(QString());
 

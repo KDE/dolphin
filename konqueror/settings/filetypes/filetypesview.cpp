@@ -52,7 +52,7 @@ FileTypesView::FileTypesView(KInstance *inst, QWidget *parent)
     " MIME-type by directly examining the contents of the file."));
 
   KServiceTypeProfile::setConfigurationMode();
-  setButtons(Help | Apply | Cancel | Ok);
+  setButtons(Help | Apply);
   QString wtstr;
 
   QHBoxLayout *l = new QHBoxLayout(this);

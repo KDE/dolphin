@@ -8,7 +8,7 @@
 #include "khttpoptdlg.h"
 
 
-KHTTPOptions::KHTTPOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent)
+KHTTPOptions::KHTTPOptions(KSharedConfig::Ptr config, QString group, KInstance *inst, QWidget *parent)
   : KCModule( inst, parent ), m_pConfig(config), m_groupname(group)
 {
   QVBoxLayout *lay = new QVBoxLayout(this);

@@ -36,13 +36,16 @@
 #include "filteropts.h"
 #include "filteropts.moc"
 
-KCMFilter::KCMFilter(KConfig *config, QString group,
-                     KInstance *inst, QWidget *parent)
-    : KCModule( inst, parent ),
-      mConfig( config ),
-      mGroupname( group ),
+#include <kgenericfactory.h>
+typedef KGenericFactory<KCMFilter, QWidget> KCMFilterFactory;
+K_EXPORT_COMPONENT_FACTORY( khtml_filter, KCMFilterFactory("kcmkonqhtml") );
+
+KCMFilter::KCMFilter( QWidget *parent, const QStringList& )
+    : KCModule( KCMFilterFactory::instance(), parent ),
+      mGroupname( "Filter Settings" ),
       mSelCount(0)
 {
+    mConfig = KSharedConfig::openConfig( "khtmlrc", false, false );
     setButtons(Default|Apply);
 
     QVBoxLayout *topLayout = new QVBoxLayout(this);
@@ -103,7 +106,6 @@ KCMFilter::KCMFilter(KConfig *config, QString group,
 
 KCMFilter::~KCMFilter()
 {
-    delete mConfig;
 }
 
 void KCMFilter::slotKillChecked()

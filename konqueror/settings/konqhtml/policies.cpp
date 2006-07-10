@@ -26,7 +26,7 @@
 
 // == class Policies ==
 
-Policies::Policies(KConfig* config,const QString &group,
+Policies::Policies(KSharedConfig::Ptr config,const QString &group,
 		bool global,const QString &domain, const QString &prefix,
 		const QString &feature_key) :
 	is_global(global), config(config), groupname(group),

@@ -19,7 +19,7 @@ class KHTTPOptions : public KCModule
 {
 Q_OBJECT
   public:
-    KHTTPOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent);
+    KHTTPOptions(KSharedConfig::Ptr config, QString group, KInstance *inst, QWidget *parent);
 
     virtual void load();
     virtual void save();
@@ -27,7 +27,7 @@ Q_OBJECT
 
   private:
 
-    KConfig *m_pConfig;
+    KSharedConfig::Ptr m_pConfig;
     QString m_groupname;
 
     // Acceptable languages "LANG" - locale selected languages

@@ -4,7 +4,6 @@ Icon=history
 Type=Application
 Exec=kcmshell kcmhistory
 
-X-KDE-ModuleType=Library
 X-KDE-Library=history
 X-KDE-FactoryName=history
 

@@ -79,8 +79,6 @@
 #include <QPixmap>
 #include <QLineEdit>
 
-#include <k3widgetaction.h>
-
 #include <kaboutdata.h>
 #include <kbookmarkbar.h>
 #include <ktoolbar.h>

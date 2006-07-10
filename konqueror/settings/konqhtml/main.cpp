@@ -41,54 +41,14 @@
 #include <kaboutdata.h>
 #include "main.moc"
 
-static KInstance *_kcmkonqhtml = 0;
+#include <kgenericfactory.h>
+typedef KGenericFactory<KJSParts, QWidget> KJSPartsFactory;
+K_EXPORT_COMPONENT_FACTORY( khtml_java_js, KJSPartsFactory("kcmkonqhtml") );
 
-inline KInstance *inst() {
-        if (_kcmkonqhtml)
-                return _kcmkonqhtml;
-        _kcmkonqhtml = new KInstance("kcmkonqhtml");
-        return _kcmkonqhtml;
-}
-
-
-
-extern "C"
+KJSParts::KJSParts(QWidget *parent, const QStringList&)
+	: KCModule(KJSPartsFactory::instance(), parent)
 {
-	KDE_EXPORT KCModule *create_khtml_behavior(QWidget *parent, const char *name)
-	{
-		KConfig *c = new KConfig( "konquerorrc", false, false );
-		return new KMiscHTMLOptions(c, "HTML Settings", inst(), parent);
-	}
-
-	KDE_EXPORT KCModule *create_khtml_fonts(QWidget *parent, const char *name)
-	{
-		KConfig *c = new KConfig( "konquerorrc", false, false );
-		return new KAppearanceOptions(c, "HTML Settings", inst(), parent);
-	}
-
-	KDE_EXPORT KCModule *create_khtml_java_js(QWidget *parent, const char* /*name*/)
-	{
-		KConfig *c = new KConfig( "konquerorrc", false, false );
-		return new KJSParts(c, inst(), parent);
-	}
-
-	KDE_EXPORT KCModule *create_khtml_plugins(QWidget *parent, const char *name)
-	{
-		KConfig *c = new KConfig( "konquerorrc", false, false );
-		return new KPluginOptions(c, "Java/JavaScript Settings", inst(), parent);
-	}
-
-        KDE_EXPORT KCModule *create_khtml_filter(QWidget *parent, const char *name )
-        {
-	    KConfig *c = new KConfig( "khtmlrc", false, false );
-            return new KCMFilter(c, "Filter Settings", inst(), parent);
-        }
-}
-
-
-KJSParts::KJSParts(KConfig *config, KInstance *inst, QWidget *parent)
-	: KCModule(inst, parent), mConfig(config)
-{
+  mConfig = KSharedConfig::openConfig( "konquerorrc", false, false );
   KAboutData *about =
   new KAboutData(I18N_NOOP("kcmkonqhtml"), I18N_NOOP("Konqueror Browsing Control Module"),
                 0, 0, KAboutData::License_GPL,
@@ -113,18 +73,13 @@ KJSParts::KJSParts(KConfig *config, KInstance *inst, QWidget *parent)
   layout->addWidget(tab);
 
   // ### the groupname is duplicated in KJSParts::save
-  java = new KJavaOptions( config, "Java/JavaScript Settings", inst, this );
+  java = new KJavaOptions( mConfig, "Java/JavaScript Settings", instance(), this );
   tab->addTab( java, i18n( "&Java" ) );
   connect( java, SIGNAL( changed( bool ) ), SIGNAL( changed( bool ) ) );
 
-  javascript = new KJavaScriptOptions( config, "Java/JavaScript Settings", inst, this );
+  javascript = new KJavaScriptOptions( mConfig, "Java/JavaScript Settings", instance(), this );
   tab->addTab( javascript, i18n( "Java&Script" ) );
   connect( javascript, SIGNAL( changed( bool ) ), SIGNAL( changed( bool ) ) );
-}
-
-KJSParts::~KJSParts()
-{
-  delete mConfig;
 }
 
 void KJSParts::load()

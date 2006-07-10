@@ -15,6 +15,7 @@
 #include <QMap>
 
 #include <kcmodule.h>
+#include <kconfig.h>
 
 class QSpinBox;
 class QFontComboBox;
@@ -23,7 +24,7 @@ class KAppearanceOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KAppearanceOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent);
+  KAppearanceOptions(QWidget *parent, const QStringList&);
   ~KAppearanceOptions();
 
   virtual void load();
@@ -47,7 +48,7 @@ private:
 
 private:
 
-  KConfig *m_pConfig;
+  KSharedConfig::Ptr m_pConfig;
   QString m_groupname;
 
   KIntNumInput* m_minSize;

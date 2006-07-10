@@ -29,7 +29,6 @@
 
 #include "policies.h"
 
-class KConfig;
 class QRadioButton;
 class Q3ButtonGroup;
 
@@ -63,7 +62,7 @@ public:
    * @param domain name of the domain this instance is used to configure the
    *	policies for (case insensitive, ignored if global == true)
    */
-  JSPolicies(KConfig* config, const QString &group, bool global,
+  JSPolicies(KSharedConfig::Ptr config, const QString &group, bool global,
   		const QString &domain = QString());
 		
   /**

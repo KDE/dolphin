@@ -8,7 +8,6 @@ Comment=Reduces Konqueror startup time
 Comment[fr]=Réduit le temps de démarrage de Konqueror
 Comment[x-test]=xxReduces Konqueror startup timexx
 ServiceTypes=KDEDModule
-X-KDE-ModuleType=Library
 X-KDE-Library=konqy_preloader
 X-KDE-FactoryName=konqy_preloader
 X-KDE-Kded-autoload=false

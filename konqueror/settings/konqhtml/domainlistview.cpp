@@ -34,7 +34,7 @@
 #include "policies.h"
 #include "policydlg.h"
 
-DomainListView::DomainListView(KConfig *config,const QString &title,
+DomainListView::DomainListView(KSharedConfig::Ptr config,const QString &title,
 		QWidget *parent) :
 	Q3GroupBox(title, parent), config(config) {
   setColumnLayout(0, Qt::Vertical);

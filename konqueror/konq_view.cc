@@ -41,6 +41,7 @@
 #include <klocale.h>
 #include <fixx11h.h>
 #include <krandom.h>
+#include <kio/jobuidelegate.h>
 
 #include <QApplication>
 #include <QMetaObject>
@@ -53,6 +54,7 @@
 #include <QMouseEvent>
 #include <QFile>
 #include <QScrollArea>
+#include <kjobuidelegate.h>
 
 //#define DEBUG_HISTORY
 
@@ -527,7 +529,7 @@ void KonqView::slotStarted( KIO::Job * job )
   {
       // Manage passwords properly...
       kDebug(7035) << "slotStarted: Window ID = " << m_pMainWindow->topLevelWidget()->winId() << endl;
-      job->setWindow (m_pMainWindow->topLevelWidget ());
+      job->ui()->setWindow (m_pMainWindow->topLevelWidget ());
 
       connect( job, SIGNAL( percent( KJob *, unsigned long ) ), this, SLOT( slotPercent( KJob *, unsigned long ) ) );
       connect( job, SIGNAL( speed( KIO::Job *, unsigned long ) ), this, SLOT( slotSpeed( KIO::Job *, unsigned long ) ) );

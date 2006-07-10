@@ -35,14 +35,16 @@
 
 // == class JSPolicies ==
 
-JSPolicies::JSPolicies(KConfig* config,const QString &group,
+JSPolicies::JSPolicies(KSharedConfig::Ptr config,const QString &group,
 		bool global,const QString &domain) :
 	Policies(config,group,global,domain,"javascript.","EnableJavaScript") {
 }
 
+/*
 JSPolicies::JSPolicies() : Policies(0,QString(),false,
 	QString(),QString(),QString()) {
 }
+*/
 
 JSPolicies::~JSPolicies() {
 }

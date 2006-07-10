@@ -1,15 +1,15 @@
 [Desktop Entry]
 Encoding=UTF-8
-Type=Application
+Type=Service
+ServiceTypes=KCModule,KCModuleInit
 DocPath=kcontrol/khtml/index.html#kbrowse-plugins
 Icon=konqueror
 Exec=kcmshell khtml_plugins
 
-X-KDE-ModuleType=Library
-X-KDE-Library=konqhtml
+X-KDE-Library=kcm_konqhtml
 X-KDE-FactoryName=khtml_plugins
-X-KDE-Init-Library=nsplugins
-X-KDE-Init=nsplugin
+X-KDE-Init-Library=kcminit_nsplugins
+X-KDE-Init-Symbol=kcminit_nsplugin
 X-KDE-ParentApp=kcontrol
 
 Name=Plugins

@@ -16,10 +16,10 @@
 #include "domainlistview.h"
 #include "policies.h"
 
-class KConfig;
 class QCheckBox;
 
 #include <kcmodule.h>
+#include <kconfig.h>
 #include "ui_nsconfigwidget.h"
 
 class QBoxLayout;
@@ -47,7 +47,7 @@ public:
    * @param domain name of the domain this instance is used to configure the
    *	policies for (case insensitive, ignored if global == true)
    */
-  PluginPolicies(KConfig* config, const QString &group, bool global,
+  PluginPolicies(KSharedConfig::Ptr config, const QString &group, bool global,
   		const QString &domain = QString());
 
   virtual ~PluginPolicies();
@@ -58,7 +58,7 @@ public:
 class PluginDomainListView : public DomainListView {
   Q_OBJECT
 public:
-  PluginDomainListView(KConfig *config,const QString &group,KPluginOptions *opt,
+  PluginDomainListView(KSharedConfig::Ptr config,const QString &group,KPluginOptions *opt,
                        QWidget *parent);
   virtual ~PluginDomainListView();
 
@@ -98,8 +98,7 @@ class KPluginOptions : public KCModule
     Q_OBJECT
 
 public:
-    KPluginOptions( KConfig* config, QString group, KInstance *inst, QWidget* parent );
-    ~KPluginOptions();
+    KPluginOptions( QWidget* parent, const QStringList& );
 
     virtual void load();
     virtual void save();
@@ -113,7 +112,7 @@ private Q_SLOTS:
 
 private:
 
-    KConfig* m_pConfig;
+    KSharedConfig::Ptr m_pConfig;
     QString  m_groupname;
 
     QCheckBox *enablePluginsGloballyCB, *enableHTTPOnly, *enableUserDemand;
@@ -141,8 +140,8 @@ private:
 /******************************************************************************/
  protected:
   void dirInit();
-  void dirLoad( KConfig *config );
-  void dirSave( KConfig *config );
+  void dirLoad( KSharedConfig::Ptr config );
+  void dirSave( KSharedConfig::Ptr config );
 
  protected Q_SLOTS:
   void dirNew();
@@ -155,8 +154,8 @@ private:
 /******************************************************************************/
  protected:
   void pluginInit();
-  void pluginLoad( KConfig *config );
-  void pluginSave( KConfig *config );
+  void pluginLoad( KSharedConfig::Ptr config );
+  void pluginSave( KSharedConfig::Ptr config );
 
   friend class PluginDomainListView;
 };

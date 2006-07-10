@@ -23,8 +23,7 @@
 #define __POLICIES_H__
 
 #include <QString>
-
-class KConfig;
+#include <kconfig.h>
 
 // special value for inheriting a global policy
 #define INHERIT_POLICY		32767
@@ -54,7 +53,7 @@ public:
    * @param feature_key key of the "feature enabled" policy. The final
    *	key the policy is stored under will be prefix + featureKey.
    */
-  Policies(KConfig* config, const QString &group, bool global,
+  Policies(KSharedConfig::Ptr config, const QString &group, bool global,
   		const QString &domain, const QString &prefix,
 		const QString &feature_key);
 
@@ -123,7 +122,7 @@ protected:
   unsigned int feature_enabled;
 
   bool is_global;
-  KConfig *config;
+  KSharedConfig::Ptr config;
   QString groupname;
   QString domain;
   QString prefix;

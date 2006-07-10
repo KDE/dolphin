@@ -33,7 +33,7 @@
 #include "advancedTabOptions.h"
 #include "main.h"
 
-advancedTabDialog::advancedTabDialog(QWidget* parent, KConfig* config, const char* name)
+advancedTabDialog::advancedTabDialog(QWidget* parent, KSharedConfig::Ptr config, const char* name)
     : KDialog( parent ),
                   m_pConfig(config)
 {

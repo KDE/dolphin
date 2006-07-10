@@ -29,7 +29,7 @@ class advancedTabDialog : public KDialog
     Q_OBJECT
 
     public:
-        advancedTabDialog(QWidget* parent, KConfig *config, const char* name);
+        advancedTabDialog(QWidget* parent, KSharedConfig::Ptr config, const char* name);
         ~advancedTabDialog();
 
     protected Q_SLOTS:
@@ -38,7 +38,7 @@ class advancedTabDialog : public KDialog
         void changed();
 
     private:
-        KConfig* m_pConfig;
+        KSharedConfig::Ptr m_pConfig;
         advancedTabOptions* m_advancedWidget;
 };
 

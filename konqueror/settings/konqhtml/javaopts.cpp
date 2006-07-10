@@ -31,21 +31,23 @@
 
 // == class JavaPolicies =====
 
-JavaPolicies::JavaPolicies(KConfig* config, const QString &group, bool global,
+JavaPolicies::JavaPolicies(KSharedConfig::Ptr config, const QString &group, bool global,
   		const QString &domain) :
 	Policies(config,group,global,domain,"java.","EnableJava") {
 }
 
+/*
 JavaPolicies::JavaPolicies() : Policies(0,QString(),false,
 	QString(),QString(),QString()) {
 }
+*/
 
 JavaPolicies::~JavaPolicies() {
 }
 
 // == class KJavaOptions =====
 
-KJavaOptions::KJavaOptions( KConfig* config, QString group,
+KJavaOptions::KJavaOptions( KSharedConfig::Ptr config, QString group,
                             KInstance *inst, QWidget *parent )
     : KCModule( inst, parent ),
       _removeJavaScriptDomainAdvice(false),
@@ -297,7 +299,7 @@ void KJavaOptions::toggleJavaControls()
 
 // == class JavaDomainListView =====
 
-JavaDomainListView::JavaDomainListView(KConfig *config,const QString &group,
+JavaDomainListView::JavaDomainListView(KSharedConfig::Ptr config,const QString &group,
 	KJavaOptions *options,QWidget *parent)
 	: DomainListView(config,i18n( "Doma&in-Specific" ), parent),
 	group(group), options(options) {

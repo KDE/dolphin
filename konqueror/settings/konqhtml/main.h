@@ -39,8 +39,7 @@ class KJSParts : public KCModule
 
 public:
 
-  KJSParts(KConfig *config, KInstance *inst, QWidget *parent);
-  virtual ~KJSParts();
+  KJSParts(QWidget *parent, const QStringList&);
 
   void load();
   void save();
@@ -54,7 +53,7 @@ private:
   KJavaScriptOptions *javascript;
   KJavaOptions       *java;
 
-  KConfig *mConfig;
+  KSharedConfig::Ptr mConfig;
 };
 
 #endif

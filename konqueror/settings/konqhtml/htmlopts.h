@@ -23,8 +23,8 @@
 
 
 #include <QString>
-#include <kconfig.h>
 #include <kcmodule.h>
+#include <kconfig.h>
 class QRadioButton;
 class KIntNumInput;
 
@@ -33,8 +33,8 @@ class KMiscHTMLOptions : public KCModule
     Q_OBJECT
 
 public:
-    KMiscHTMLOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent );
-	~KMiscHTMLOptions();
+    KMiscHTMLOptions( QWidget *parent, const QStringList& );
+    ~KMiscHTMLOptions();
     virtual void load();
     virtual void save();
     virtual void defaults();
@@ -44,7 +44,7 @@ private Q_SLOTS:
     void launchAdvancedTabDialog();
 
 private:
-    KConfig* m_pConfig;
+    KSharedConfig::Ptr m_pConfig;
     QString  m_groupname;
 
     QComboBox* m_pUnderlineCombo;

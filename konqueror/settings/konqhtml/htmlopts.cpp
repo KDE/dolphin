@@ -25,13 +25,18 @@
 
 #include "htmlopts.moc"
 
+#include <kgenericfactory.h>
+typedef KGenericFactory<KMiscHTMLOptions, QWidget> KMiscHTMLOptionsFactory;
+K_EXPORT_COMPONENT_FACTORY( khtml_behavior, KMiscHTMLOptionsFactory("kcmkonqhtml") );
+
 enum UnderlineLinkType { UnderlineAlways=0, UnderlineNever=1, UnderlineHover=2 };
 enum AnimationsType { AnimationsAlways=0, AnimationsNever=1, AnimationsLoopOnce=2 };
 //-----------------------------------------------------------------------------
 
-KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent)
-    : KCModule( inst, parent ), m_pConfig(config), m_groupname(group)
+KMiscHTMLOptions::KMiscHTMLOptions(QWidget *parent, const QStringList&)
+    : KCModule( KMiscHTMLOptionsFactory::instance(), parent ), m_groupname("HTML Settings")
 {
+    m_pConfig = KSharedConfig::openConfig( "konquerorrc", false, false );
     int row = 0;
     QGridLayout *lay = new QGridLayout(this);
     lay->setSpacing(KDialog::spacingHint());
@@ -235,15 +240,14 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, KInstance *in
 
 KMiscHTMLOptions::~KMiscHTMLOptions()
 {
-    delete m_pConfig;
 }
 
 void KMiscHTMLOptions::load()
 {
-    KConfig khtmlrc("khtmlrc", true, false);
-#define SET_GROUP(x) m_pConfig->setGroup(x); khtmlrc.setGroup(x)
-#define READ_BOOL(x,y) m_pConfig->readEntry(x, khtmlrc.readEntry(x, y))
-#define READ_ENTRY(x) m_pConfig->readEntry(x, khtmlrc.readEntry(x))
+    KSharedConfig::Ptr khtmlrc = KSharedConfig::openConfig("khtmlrc", true, false);
+#define SET_GROUP(x) m_pConfig->setGroup(x); khtmlrc->setGroup(x)
+#define READ_BOOL(x,y) m_pConfig->readEntry(x, khtmlrc->readEntry(x, y))
+#define READ_ENTRY(x) m_pConfig->readEntry(x, khtmlrc->readEntry(x))
 
 
     // *** load ***
@@ -297,10 +301,10 @@ void KMiscHTMLOptions::load()
     m_pShowMMBInTabs->setChecked( m_pConfig->readEntry( "MMBOpensTab", false ) );
     m_pDynamicTabbarHide->setChecked( ! (m_pConfig->readEntry( "AlwaysTabbedMode", false )) );
 
-    KConfig config("kbookmarkrc", true, false);
-    config.setGroup("Bookmarks");
-    m_pAdvancedAddBookmarkCheckBox->setChecked( config.readEntry("AdvancedAddBookmarkDialog", false) );
-    m_pOnlyMarkedBookmarksCheckBox->setChecked( config.readEntry("FilteredToolbar", false) );
+    KSharedConfig::Ptr config = KSharedConfig::openConfig("kbookmarkrc", true, false);
+    config->setGroup("Bookmarks");
+    m_pAdvancedAddBookmarkCheckBox->setChecked( config->readEntry("AdvancedAddBookmarkDialog", false) );
+    m_pOnlyMarkedBookmarksCheckBox->setChecked( config->readEntry("FilteredToolbar", false) );
 }
 
 void KMiscHTMLOptions::defaults()
@@ -359,11 +363,11 @@ void KMiscHTMLOptions::save()
     m_pConfig->writeEntry( "AlwaysTabbedMode", !(m_pDynamicTabbarHide->isChecked()) );
     m_pConfig->sync();
 
-    KConfig config("kbookmarkrc", false, false);
-    config.setGroup("Bookmarks");
-    config.writeEntry("AdvancedAddBookmarkDialog", m_pAdvancedAddBookmarkCheckBox->isChecked());
-    config.writeEntry("FilteredToolbar", m_pOnlyMarkedBookmarksCheckBox->isChecked());
-    config.sync();
+    KSharedConfig::Ptr config = KSharedConfig::openConfig("kbookmarkrc", false, false);
+    config->setGroup("Bookmarks");
+    config->writeEntry("AdvancedAddBookmarkDialog", m_pAdvancedAddBookmarkCheckBox->isChecked());
+    config->writeEntry("FilteredToolbar", m_pOnlyMarkedBookmarksCheckBox->isChecked());
+    config->sync();
 #warning "kde4: port to dbus call konqueror*"
 #if 0
   kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );

@@ -16,7 +16,6 @@
 #include "jspolicies.h"
 
 class KColorButton;
-class KConfig;
 class KUrlRequester;
 class QCheckBox;
 class QComboBox;
@@ -34,7 +33,7 @@ class KJavaScriptOptions;
 class JSDomainListView : public DomainListView {
   Q_OBJECT
 public:
-  JSDomainListView(KConfig *config,const QString &group,KJavaScriptOptions *opt,
+  JSDomainListView(KSharedConfig::Ptr config,const QString &group,KJavaScriptOptions *opt,
   		QWidget *parent);
   virtual ~JSDomainListView();
 
@@ -57,7 +56,7 @@ class KJavaScriptOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KJavaScriptOptions( KConfig* config, QString group, KInstance *inst, QWidget* parent );
+  KJavaScriptOptions( KSharedConfig::Ptr config, QString group, KInstance *inst, QWidget* parent );
 
   virtual void load();
   virtual void save();
@@ -70,7 +69,7 @@ private Q_SLOTS:
 
 private:
 
-  KConfig *m_pConfig;
+  KSharedConfig::Ptr m_pConfig;
   QString m_groupname;
   JSPolicies js_global_policies;
   QCheckBox *enableJavaScriptGloballyCB;

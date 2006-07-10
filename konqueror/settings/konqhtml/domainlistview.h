@@ -24,12 +24,12 @@
 
 #include <q3groupbox.h>
 #include <QMap>
+#include <kconfig.h>
 
 class Q3ListViewItem;
 class QPushButton;
 class QStringList;
 
-class KConfig;
 class K3ListView;
 
 class Policies;
@@ -67,7 +67,7 @@ public:
    * @param parent parent widget
    * @param name internal name for debugging
    */
-  DomainListView(KConfig *config,const QString &title,QWidget *parent );
+  DomainListView(KSharedConfig::Ptr config,const QString &title,QWidget *parent );
 
   virtual ~DomainListView();
 
@@ -190,7 +190,7 @@ private Q_SLOTS:
 
 protected:
 
-    KConfig *config;
+  KSharedConfig::Ptr config;
 
   K3ListView *domainSpecificLV;
 

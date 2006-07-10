@@ -34,7 +34,7 @@
 
 // == class PluginPolicies =====
 
-PluginPolicies::PluginPolicies(KConfig* config, const QString &group, bool global,
+PluginPolicies::PluginPolicies(KSharedConfig::Ptr config, const QString &group, bool global,
   		const QString &domain) :
 	Policies(config,group,global,domain,"plugins.","EnablePlugins") {
 }
@@ -44,11 +44,15 @@ PluginPolicies::~PluginPolicies() {
 
 // == class KPluginOptions =====
 
-KPluginOptions::KPluginOptions( KConfig* config, QString group, KInstance *inst, QWidget *parent)
-    : KCModule( inst, parent ),
-      m_pConfig( config ),
-      m_groupname( group ),
-      global_policies(config,group,true)
+#include <kgenericfactory.h>
+typedef KGenericFactory<KPluginOptions, QWidget> KPluginOptionsFactory;
+K_EXPORT_COMPONENT_FACTORY( khtml_plugins, KPluginOptionsFactory("kcmkonqhtml") );
+
+KPluginOptions::KPluginOptions( QWidget *parent, const QStringList& )
+    : KCModule( KPluginOptionsFactory::instance(), parent ),
+      m_pConfig( KSharedConfig::openConfig( "konquerorrc", false, false ) ),
+      m_groupname( "Java/JavaScript Settings" ),
+      global_policies(m_pConfig,m_groupname,true)
 {
     QVBoxLayout* toplevel = new QVBoxLayout( this );
     toplevel->setSpacing( 0 /* KDialog::spacingHint() */ );
@@ -107,7 +111,7 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, KInstance *inst,
     domainSpecificDlg->setObjectName( "domainSpecificDlg" );
     domainSpecificDlg->setModal( true );
 
-    domainSpecific = new PluginDomainListView(config,group,this,domainSpecificDlg);
+    domainSpecific = new PluginDomainListView(m_pConfig,m_groupname,this,domainSpecificDlg);
     domainSpecific->setMinimumSize(320,200);
     connect(domainSpecific,SIGNAL(changed(bool)),SLOT(slotChanged()));
 
@@ -175,12 +179,6 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, KInstance *inst,
     load();
 }
 
-KPluginOptions::~KPluginOptions()
-{
-  delete m_pConfig;
-}
-
-
 void KPluginOptions::updatePLabel(int p) {
     QString level;
     p = (100 - p)/5;
@@ -213,7 +211,7 @@ void KPluginOptions::load()
 
 /****************************************************************************/
 
-  KConfig *config = new KConfig("kcmnspluginrc", true);
+  KSharedConfig::Ptr config = KSharedConfig::openConfig("kcmnspluginrc", true);
 
   config->setGroup("Misc");
   m_widget->scanAtStartup->setChecked( config->readEntry( "startkdeScan", QVariant(false )).toBool() );
@@ -231,8 +229,6 @@ void KPluginOptions::load()
   dirLoad( config );
   pluginLoad( config );
 
-  delete config;
-
   change( false );
 }
 
@@ -246,7 +242,7 @@ void KPluginOptions::defaults()
 
 /*****************************************************************************/
 
-    KConfig *config = new KConfig( QString(), true, false );
+    KSharedConfig::Ptr config = KSharedConfig::openConfig( QString(), true, false );
 
     m_widget->scanAtStartup->setChecked( false );
 
@@ -256,8 +252,6 @@ void KPluginOptions::defaults()
 
     dirLoad( config );
     pluginLoad( config );
-
-    delete config;
 
     change();
 }
@@ -276,7 +270,7 @@ void KPluginOptions::save()
 #endif
 /*****************************************************************************/
 
-    KConfig *config= new KConfig("kcmnspluginrc", false);
+    KSharedConfig::Ptr config = KSharedConfig::openConfig("kcmnspluginrc", false);
 
     dirSave( config );
     pluginSave( config );
@@ -287,7 +281,6 @@ void KPluginOptions::save()
     config->writeEntry( "demandLoad", enableUserDemand->isChecked() );
     config->writeEntry("Nice Level", (int)(100 - priority->value()) / 5);
     config->sync();
-    delete config;
 
     change( false );
 }
@@ -411,7 +404,7 @@ void KPluginOptions::dirInit()
 }
 
 
-void KPluginOptions::dirLoad( KConfig *config )
+void KPluginOptions::dirLoad( KSharedConfig::Ptr config )
 {
     QStringList paths;
 
@@ -449,7 +442,7 @@ void KPluginOptions::dirLoad( KConfig *config )
 }
 
 
-void KPluginOptions::dirSave( KConfig *config )
+void KPluginOptions::dirSave( KSharedConfig::Ptr config )
 {
     // create stringlist
     QStringList paths;
@@ -549,7 +542,7 @@ void KPluginOptions::pluginInit()
 }
 
 
-void KPluginOptions::pluginLoad( KConfig* /*config*/ )
+void KPluginOptions::pluginLoad( KSharedConfig::Ptr /*config*/ )
 {
     kDebug() << "-> KPluginOptions::fillPluginList" << endl;
     m_widget->pluginList->clear();
@@ -626,7 +619,7 @@ void KPluginOptions::pluginLoad( KConfig* /*config*/ )
 }
 
 
-void KPluginOptions::pluginSave( KConfig* /*config*/ )
+void KPluginOptions::pluginSave( KSharedConfig::Ptr /*config*/ )
 {
 
 }
@@ -670,7 +663,7 @@ void PluginDomainDialog::slotClose() {
 
 // == class PluginDomainListView =====
 
-PluginDomainListView::PluginDomainListView(KConfig *config,const QString &group,
+PluginDomainListView::PluginDomainListView(KSharedConfig::Ptr config,const QString &group,
 	KPluginOptions *options,QWidget *parent)
 	: DomainListView(config,i18n( "Doma&in-Specific" ), parent),
 	group(group), options(options) {

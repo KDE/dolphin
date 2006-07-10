@@ -26,13 +26,11 @@ class QLineEdit;
 class Q3ListBoxItem;
 class QCheckBox;
 
-class KConfig;
-
 class KCMFilter : public KCModule
 {
     Q_OBJECT
 public:
-    KCMFilter( KConfig* config, QString group, KInstance *inst, QWidget* parent);
+    KCMFilter( QWidget* parent, const QStringList& );
     ~KCMFilter();
     
     void load();
@@ -65,7 +63,7 @@ private:
     QPushButton *mImportButton;
     QPushButton *mExportButton;
 
-    KConfig *mConfig;
+    KSharedConfig::Ptr mConfig;
     QString mGroupname;
     int mSelCount;
 };

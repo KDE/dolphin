@@ -21,7 +21,6 @@
 #include "policies.h"
 
 class KColorButton;
-class KConfig;
 class K3ListView;
 class KUrlRequester;
 class KIntNumInput;
@@ -47,14 +46,14 @@ public:
    * @param domain name of the domain this instance is used to configure the
    *	policies for (case insensitive, ignored if global == true)
    */
-  JavaPolicies(KConfig* config, const QString &group, bool global,
+  JavaPolicies(KSharedConfig::Ptr config, const QString &group, bool global,
   		const QString &domain = QString());
 
   /** empty constructur to make QMap happy
    * don't use for constructing a policies instance.
    * @internal
    */
-  JavaPolicies();
+  //JavaPolicies();
 
   virtual ~JavaPolicies();
 };
@@ -64,7 +63,7 @@ public:
 class JavaDomainListView : public DomainListView {
   Q_OBJECT
 public:
-  JavaDomainListView(KConfig *config,const QString &group,KJavaOptions *opt,
+  JavaDomainListView(KSharedConfig::Ptr config,const QString &group,KJavaOptions *opt,
                      QWidget *parent);
   virtual ~JavaDomainListView();
 
@@ -88,7 +87,7 @@ class KJavaOptions : public KCModule
     Q_OBJECT
 
 public:
-    KJavaOptions( KConfig* config, QString group, KInstance *inst, QWidget* parent );
+    KJavaOptions( KSharedConfig::Ptr config, QString group, KInstance *inst, QWidget* parent );
 
     virtual void load();
     virtual void save();
@@ -102,7 +101,7 @@ private Q_SLOTS:
 
 private:
 
-    KConfig* m_pConfig;
+    KSharedConfig::Ptr m_pConfig;
     QString  m_groupname;
     JavaPolicies java_global_policies;
 

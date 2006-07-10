@@ -1,5 +1,6 @@
 /* This file is part of the KDE Project
    Copyright (c) 2001 Malte Starostik <malte@kde.org>
+   Copyright (c) 2006 Matthias Kretz <kretz@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -16,10 +17,9 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <kartsdispatcher.h>
+#include <phonon/audioplayer.h>
+#include <phonon/backendcapabilities.h>
 #include <kdebug.h>
-#include <kplayobjectfactory.h>
-#include <soundserver.h>
 
 #include "konq_sound.h"
 
@@ -39,78 +39,50 @@ public:
 private:
 	QStringList m_mimeTypes;
 
-	KArtsDispatcher     m_dispatcher;
-	Arts::SoundServerV2 m_soundServer;
-	KDE::PlayObjectFactory *m_factory;
-	KDE::PlayObject        *m_player;
+	Phonon::AudioPlayer m_player;
 };
 
 KonqSoundPlayerImpl::KonqSoundPlayerImpl()
-	: m_player(0)
 {
-	m_soundServer = Arts::Reference("global:Arts_SoundServerV2");
-	m_factory = new KDE::PlayObjectFactory(m_soundServer);
 }
 
 KonqSoundPlayerImpl::~KonqSoundPlayerImpl()
 {
-	delete m_player;
-	delete m_factory;
 }
 
 const QStringList &KonqSoundPlayerImpl::mimeTypes()
 {
-	if (m_mimeTypes.isEmpty())
+	if( m_mimeTypes.isEmpty() ) //TODO or backend has changed
 	{
-		Arts::TraderQuery query;
-		vector<Arts::TraderOffer> *offers = query.query();
-
-		for (vector<Arts::TraderOffer>::iterator it = offers->begin();
-			it != offers->end(); ++it)
+		KMimeType::List mimetypes = Phonon::BackendCapabilities::self()->knownMimeTypes();
+		foreach( KMimeType::Ptr p, mimetypes )
 		{
-			vector<string> *prop = (*it).getProperty("MimeType");
-			for (vector<string>::iterator mt = prop->begin();
-				mt != prop->end(); ++mt)
-				if ((*mt).length()) // && (*mt).find("video/") == string::npos)
-					m_mimeTypes << (*mt).c_str();
-			delete prop;
+			m_mimeTypes << p->name();
 		}
-		delete offers;
 	}
 	return m_mimeTypes;
 }
 
 void KonqSoundPlayerImpl::play(const QString &fileName)
 {
-	if (m_soundServer.isNull())
-		return;
-
-	delete m_player;
-	if ((m_player = m_factory->createPlayObject(fileName, true)))
-	{
-		if (m_player->isNull())
-			stop();
-		else
-			m_player->play();
-	}
+	m_player.play( fileName );
 }
 
 void KonqSoundPlayerImpl::stop()
 {
-	delete m_player;
-	m_player = 0;
+	m_player.stop();
 }
 
 bool KonqSoundPlayerImpl::isPlaying()
 {
-	return m_player ? (m_player->state() == Arts::posPlaying) : false;
+	return m_player.isPlaying();
 }
 
 class KonqSoundFactory : public KLibFactory
 {
 public:
-	KonqSoundFactory(QObject *parent = 0, const char *name = 0)
-		: KLibFactory(parent, name) {};
+	KonqSoundFactory(QObject *parent = 0)
+		: KLibFactory(parent) {};
 	virtual ~KonqSoundFactory() {};
 
 protected:

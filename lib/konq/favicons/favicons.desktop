@@ -8,7 +8,6 @@ Comment=Shortcut icon support
 Comment[fr]=Gestion d'icône de raccourci
 Comment[x-test]=xxShortcut icon supportxx
 ServiceTypes=KDEDModule
-X-KDE-ModuleType=Library
 X-KDE-Library=favicons
 X-KDE-FactoryName=favicons
 X-KDE-Kded-autoload=false
