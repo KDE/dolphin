@@ -27,7 +27,7 @@
 #include <QTimer>
 #include <kspeech.h>
 #include <QBuffer>
-
+#include <QtDBus>
 #include <kapplication.h>
 #include <kservicetypetrader.h>
 #include <ktoolinvocation.h>
@@ -59,9 +59,7 @@ void KHTMLPluginKTTSD::slotReadOut()
                                       "this plugin, sorry." ));
     else
     {
-        // If KTTSD not running, start it.
-        DCOPClient *client = kapp->dcopClient();
-        if (!client->isApplicationRegistered("kttsd"))
+        if (!QDBus::sessionBus().interface()->isServiceRegistered("kttsd"))
         {
             QString error;
             if (KToolInvocation::startServiceByDesktopName("kttsd", QStringList(), &error))
@@ -69,25 +67,15 @@ void KHTMLPluginKTTSD::slotReadOut()
         }
 
         // Find out if KTTSD supports xhtml (rich speak).
-        QByteArray  data;
-        QBuffer     dataBuf(&data);
-        QDataStream arg;
-        dataBuf.open(QIODevice::WriteOnly);
-        arg.setDevice(&dataBuf);
-        arg << "" << KSpeech::mtHtml;
-        DCOPCString    replyType;
-        QByteArray  replyData;
         bool supportsXhtml = false;
-        if ( !client->call("kttsd", "KSpeech", "supportsMarkup(QString,uint)",
-            data, replyType, replyData, true) )
-            QMessageBox::warning( 0, i18n( "DCOP Call Failed" ),
-                                     i18n( "The DCOP call supportsMarkup failed." ));
+		QDBusInterface kttsd( "org.kde.KSpeech", "/KSpeech", "org.kde.KSpeech" );
+		QDBusReply<bool> reply = kttsd.call("supportsMarkup", "", KSpeech::soHtml);
+        if ( !reply.isValid())
+            QMessageBox::warning( 0, i18n( "DBUS Call Failed" ),
+                                     i18n( "The DBUS call supportsMarkup failed." ));
         else
         {
-            QDataStream reply(&replyData, QIODevice::ReadOnly);
-
-            reply.setVersion(QDataStream::Qt_3_1);
-            reply >> supportsXhtml;
+			supportsXhtml = reply;
         }
 
         KHTMLPart *part = (KHTMLPart *) parent();
@@ -117,18 +105,14 @@ void KHTMLPluginKTTSD::slotReadOut()
         }
         // kDebug() << "KHTMLPluginKTTSD::slotReadOut: query = " << query << endl;
 
-        dataBuf.seek(0);  // reset data
-        arg << query << "";
-        if ( !client->call("kttsd", "KSpeech", "setText(QString,QString)",
-            data, replyType, replyData, true) )
-            QMessageBox::warning( 0, i18n( "DCOP Call Failed" ),
-                                     i18n( "The DCOP call setText failed." ));
-        dataBuf.seek(0);
-        arg << 0;
-        if ( !client->call("kttsd", "KSpeech", "startText(uint)",
-            data, replyType, replyData, true) )
-            QMessageBox::warning( 0, i18n( "DCOP Call Failed" ),
-                                     i18n( "The DCOP call startText failed." ));
+		reply = kttsd.call("setText", query, "");
+        if ( !reply.isValid())
+            QMessageBox::warning( 0, i18n( "DBUS Call Failed" ),
+                                     i18n( "The DBUS call setText failed." ));
+		reply = kttsd.call("startText", 0);
+        if ( !reply.isValid())
+            QMessageBox::warning( 0, i18n( "DBUS Call Failed" ),
+                                     i18n( "The DBUS call startText failed." ));
     }
 }
 

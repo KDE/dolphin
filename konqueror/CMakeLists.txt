@@ -21,8 +21,7 @@ add_subdirectory( remoteencodingplugin )
 add_subdirectory( dirpart )
 add_subdirectory( settings )
 
-message(STATUS "kdebase/konqueror/kttsplugin: temporarily disabled from compilation, not yet ported to DBUS")
-#add_subdirectory( kttsplugin )
+add_subdirectory( kttsplugin )
 
 include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/workspace/kcontrol/input )
 add_subdirectory( tests )
