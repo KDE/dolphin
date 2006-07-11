@@ -38,7 +38,7 @@
 
 #include <kgenericfactory.h>
 typedef KGenericFactory<KCMFilter, QWidget> KCMFilterFactory;
-K_EXPORT_COMPONENT_FACTORY( khtml_filter, KCMFilterFactory("kcmkonqhtml") );
+K_EXPORT_COMPONENT_FACTORY( khtml_filter, KCMFilterFactory("kcmkonqhtml") )
 
 KCMFilter::KCMFilter( QWidget *parent, const QStringList& )
     : KCModule( KCMFilterFactory::instance(), parent ),

@@ -46,7 +46,7 @@ PluginPolicies::~PluginPolicies() {
 
 #include <kgenericfactory.h>
 typedef KGenericFactory<KPluginOptions, QWidget> KPluginOptionsFactory;
-K_EXPORT_COMPONENT_FACTORY( khtml_plugins, KPluginOptionsFactory("kcmkonqhtml") );
+K_EXPORT_COMPONENT_FACTORY( khtml_plugins, KPluginOptionsFactory("kcmkonqhtml") )
 
 KPluginOptions::KPluginOptions( QWidget *parent, const QStringList& )
     : KCModule( KPluginOptionsFactory::instance(), parent ),

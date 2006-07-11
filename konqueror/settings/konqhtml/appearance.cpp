@@ -27,7 +27,7 @@
 
 #include <kgenericfactory.h>
 typedef KGenericFactory<KAppearanceOptions, QWidget> KAppearanceOptionsFactory;
-K_EXPORT_COMPONENT_FACTORY( khtml_fonts, KAppearanceOptionsFactory("kcmkonqhtml") );
+K_EXPORT_COMPONENT_FACTORY( khtml_fonts, KAppearanceOptionsFactory("kcmkonqhtml") )
 
 KAppearanceOptions::KAppearanceOptions(QWidget *parent, const QStringList&)
     : KCModule( KAppearanceOptionsFactory::instance(), parent ), m_groupname("HTML Settings"),

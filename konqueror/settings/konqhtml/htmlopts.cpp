@@ -27,7 +27,7 @@
 
 #include <kgenericfactory.h>
 typedef KGenericFactory<KMiscHTMLOptions, QWidget> KMiscHTMLOptionsFactory;
-K_EXPORT_COMPONENT_FACTORY( khtml_behavior, KMiscHTMLOptionsFactory("kcmkonqhtml") );
+K_EXPORT_COMPONENT_FACTORY( khtml_behavior, KMiscHTMLOptionsFactory("kcmkonqhtml") )
 
 enum UnderlineLinkType { UnderlineAlways=0, UnderlineNever=1, UnderlineHover=2 };
 enum AnimationsType { AnimationsAlways=0, AnimationsNever=1, AnimationsLoopOnce=2 };

@@ -43,7 +43,7 @@
 
 #include <kgenericfactory.h>
 typedef KGenericFactory<KJSParts, QWidget> KJSPartsFactory;
-K_EXPORT_COMPONENT_FACTORY( khtml_java_js, KJSPartsFactory("kcmkonqhtml") );
+K_EXPORT_COMPONENT_FACTORY( khtml_java_js, KJSPartsFactory("kcmkonqhtml") )
 
 KJSParts::KJSParts(QWidget *parent, const QStringList&)
 	: KCModule(KJSPartsFactory::instance(), parent)
