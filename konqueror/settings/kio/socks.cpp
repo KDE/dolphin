@@ -186,7 +186,7 @@ void KSocksConfig::addThisLibrary(const QString& lib)
 
 void KSocksConfig::addLibrary()
 {
-   addThisLibrary(base->_c_newPath->url());
+   addThisLibrary(base->_c_newPath->url().toString());
 }
 
 
@@ -246,7 +246,7 @@ void KSocksConfig::save()
   KConfigGroup config(KGlobal::config(), "Socks");
   config.writeEntry("SOCKS_enable",base-> _c_enableSocks->isChecked(), KConfigBase::Normal | KConfigBase::Global);
   config.writeEntry("SOCKS_method", base->bg->id(base->bg->selected()), KConfigBase::Normal | KConfigBase::Global);
-  config.writePathEntry("SOCKS_lib", base->_c_customPath->url(), KConfigBase::Normal | KConfigBase::Global);
+  config.writePathEntry("SOCKS_lib", base->_c_customPath->url().toString(), KConfigBase::Normal | KConfigBase::Global);
   Q3ListViewItem *thisitem = base->_c_libs->firstChild();
 
   QStringList libs;

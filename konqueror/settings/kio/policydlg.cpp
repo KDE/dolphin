@@ -34,8 +34,9 @@ class DomainLineValidator : public QValidator
 {
 public:
   DomainLineValidator(QObject *parent)
-  :QValidator(parent, "domainValidator")
+  :QValidator(parent)
   {
+    setObjectName("domainValidator");
   }
 
   State validate(QString &input, int &) const
