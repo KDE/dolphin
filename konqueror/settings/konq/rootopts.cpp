@@ -21,7 +21,6 @@
 
 //Added by qt3to4:
 #include <QGridLayout>
-#include <Q3CString>
 #include <QDesktopWidget>
 
 #include <QtDBus/QtDBus>
@@ -249,11 +248,11 @@ void DesktopPathConfig::save()
     // Tell kdesktop about the new config file
 
     int konq_screen_number = KApplication::desktop()->primaryScreen();
-    Q3CString appname;
+    QByteArray appname;
     if (konq_screen_number == 0)
         appname = "kdesktop";
     else
-        appname.sprintf("kdesktop-screen-%d", konq_screen_number);
+        appname = "kdesktop-screen-" + QByteArray::number(konq_screen_number);
 #ifdef __GNUC__
 #warning TODO Port to kdesktop DBus interface
 #endif
