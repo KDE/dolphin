@@ -822,7 +822,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 ++it;
             }
 
-            offers = KMimeTypeTrader::self()->query( first, constraint );
+            offers = KMimeTypeTrader::self()->query( first, QString(), constraint );
         }
 
         //// Ok, we have everything, now insert
@@ -1125,7 +1125,7 @@ void KonqPopupMenu::addPlugins()
     //search for a plugin with the right protocol
     KService::List plugin_offers;
     unsigned int pluginCount = 0;
-    plugin_offers = KMimeTypeTrader::self()->query( m_sMimeType.isNull() ? QLatin1String( "all/all" ) : m_sMimeType, "'KonqPopupMenu/Plugin' in ServiceTypes");
+    plugin_offers = KMimeTypeTrader::self()->query( m_sMimeType.isNull() ? QLatin1String( "all/all" ) : m_sMimeType, "KonqPopupMenu/Plugin" );
     if ( plugin_offers.isEmpty() )
         return; // no plugins installed do not bother about it
 
