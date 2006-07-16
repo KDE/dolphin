@@ -572,12 +572,17 @@ void KonqOperations::doFileCopy()
         }
 
         QMenu popup;
-
-        QAction* popupMoveAction = new QAction(i18n( "&Move Here" ) + "\t" + QKeySequence( Qt::Key_Shift ).toString(), this);
+        QString seq = QKeySequence( Qt::ShiftModifier ).toString();
+        seq.chop(1); // chop superfluous '+'
+        QAction* popupMoveAction = new QAction(i18n( "&Move Here" ) + "\t" + seq, this);
         popupMoveAction->setIcon(SmallIconSet("goto"));
-        QAction* popupCopyAction = new QAction(i18n( "&Copy Here" ) + "\t" + QKeySequence( Qt::Key_Control ).toString(), this);
+        seq = QKeySequence( Qt::ControlModifier ).toString();
+        seq.chop(1);
+        QAction* popupCopyAction = new QAction(i18n( "&Copy Here" ) + "\t" + seq, this);
         popupCopyAction->setIcon(SmallIconSet("editcopy"));
-        QAction* popupLinkAction = new QAction(i18n( "&Link Here" ) + "\t" + QKeySequence( Qt::CTRL + Qt::Key_Shift ).toString(), this);
+        seq = QKeySequence( Qt::ControlModifier + Qt::ShiftModifier ).toString();
+        seq.chop(1);
+        QAction* popupLinkAction = new QAction(i18n( "&Link Here" ) + "\t" + seq, this);
         popupLinkAction->setIcon(SmallIconSet("www"));
         QAction* popupWallAction = new QAction( i18n( "Set as &Wallpaper" ), this );
         popupWallAction->setIcon(SmallIconSet("background"));
@@ -599,7 +604,7 @@ void KonqOperations::doFileCopy()
         popup.addAction(popupCancelAction);
 
         QAction* result = popup.exec( m_info->mousePos );
-
+            
         if(result == popupCopyAction)
             action = Qt::CopyAction;
         else if(result == popupMoveAction)
@@ -613,7 +618,7 @@ void KonqOperations::doFileCopy()
             delete this;
             return;
         }
-        else if(result == popupCancelAction)
+        else if(result == popupCancelAction || !result)
         {
             delete this;
             return;
@@ -745,7 +750,7 @@ void KonqOperations::slotResult( KJob * job )
 void KonqOperations::rename( QWidget * parent, const KUrl & oldurl, const QString & name )
 {
     KUrl newurl( oldurl );
-    newurl.setPath( oldurl.directory( KUrl::IgnoreTrailingSlash ) + name );
+    newurl.setPath( oldurl.directory( KUrl::AppendTrailingSlash ) + name );
     kDebug(1203) << "KonqOperations::rename("<<name<<") called. newurl=" << newurl << endl;
     rename( parent, oldurl, newurl );
 }
