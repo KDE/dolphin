@@ -3890,7 +3890,9 @@ void KonqMainWindow::initActions()
 
   // Location bar
   m_locationLabel = new KonqDraggableLabel( this, i18n("L&ocation: ") );
-  KAction* locationAction = new KAction( i18n("L&ocation: "), Qt::Key_F6, this, SLOT( slotLocationLabelActivated() ), actionCollection(), "location_label" );
+  KAction *locationAction = new KAction( i18n("L&ocation: "), actionCollection(), "location_label" );
+  connect(locationAction, SIGNAL(triggered(bool)), SLOT( slotLocationLabelActivated() ));
+  locationAction->setShortcut(Qt::Key_F6);
   locationAction->setDefaultWidget(m_locationLabel);
   m_locationLabel->setBuddy( m_combo );
 

@@ -74,9 +74,9 @@ public:
     KonqLogoAction( const QString& text, const KShortcut& accel = KShortcut(), KActionCollection* parent = 0, const char* name = 0 );
     KonqLogoAction( const QString& text, const KShortcut& accel,
 	            QObject* receiver, const char* slot, KActionCollection* parent, const char* name = 0 );
-    KonqLogoAction( const QString& text, const QIcon& pix, const KShortcut& accel = KShortcut(),
+    KonqLogoAction( const QString& text, const KIcon& pix, const KShortcut& accel = KShortcut(),
 	            KActionCollection* parent = 0, const char* name = 0 );
-    KonqLogoAction( const QString& text, const QIcon& pix, const KShortcut& accel,
+    KonqLogoAction( const QString& text, const KIcon& pix, const KShortcut& accel,
 	            QObject* receiver, const char* slot, KActionCollection* parent, const char* name = 0 );
     // text missing !
     KonqLogoAction( const QStringList& icons, QObject* receiver,
