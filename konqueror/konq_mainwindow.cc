@@ -3794,7 +3794,10 @@ void KonqMainWindow::initActions()
   m_paSplitViewVer = new KAction(KIcon("view_top_bottom"),  i18n( "Split View &Top/Bottom" ), actionCollection(), "splitviewv" );
   connect(m_paSplitViewVer, SIGNAL(triggered(bool)), SLOT( slotSplitViewVertical() ));
   m_paSplitViewVer->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_T);
-  m_paAddTab = new KAction( i18n( "&New Tab" ), "tab_new", KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_N, Qt::CTRL+Qt::Key_T), this, SLOT( slotAddTab() ), actionCollection(), "newtab" );
+  m_paAddTab = new KAction( KIcon("tab_new"), i18n( "&New Tab" ), actionCollection(), "newtab" );
+  connect(m_paAddTab, SIGNAL(triggered(bool)), SLOT( slotAddTab() ));
+  m_paAddTab->setShortcut(KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_N, Qt::CTRL+Qt::Key_T));
+  
   m_paDuplicateTab = new KAction(KIcon("tab_duplicate"),  i18n( "&Duplicate Current Tab" ), actionCollection(), "duplicatecurrenttab" );
   connect(m_paDuplicateTab, SIGNAL(triggered(bool)), SLOT( slotDuplicateTab() ));
   m_paDuplicateTab->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_D);
