@@ -445,7 +445,7 @@ void KonqMostOftenURLSAction::slotFillMenu()
     popupMenu()->clear();
     m_popupList.clear();
 
-    for ( int id = s_mostEntries->count() - 1; id > 0; --id ) {
+    for ( int id = s_mostEntries->count() - 1; id >= 0; --id ) {
         const KonqHistoryEntry entry = s_mostEntries->at( id );
 	// we take either title, typedUrl or URL (in this order)
 	QString text = entry.title.isEmpty() ? (entry.typedUrl.isEmpty() ?
