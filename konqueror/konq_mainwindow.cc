@@ -3823,7 +3823,8 @@ void KonqMainWindow::initActions()
   QString actionname;
   for (int i=1;i<13;i++) {
     actionname.sprintf("activate_tab_%02d", i);
-    new KAction(i18n("Activate Tab %1", i), 0, this, SLOT(slotActivateTab()), actionCollection(), actionname);
+    KAction *action = new KAction(i18n("Activate Tab %1", i), actionCollection(), actionname);
+    connect(action, SIGNAL(triggered(bool)), SLOT(slotActivateTab()));
   }
 
   m_paMoveTabLeft = new KAction( i18n("Move Tab Left"), actionCollection(), "tab_move_left");
@@ -4880,7 +4881,7 @@ void KonqMainWindow::updateOpenWithActions()
   KService::List::ConstIterator end = services.end();
   for (; it != end; ++it )
   {
-    KAction *action = new KAction( i18n( "Open with %1" ,  (*it)->name() ), 0, 0, 0, actionCollection(), (*it)->desktopEntryName().toLatin1() );
+    KAction *action = new KAction( i18n( "Open with %1", (*it)->name() ), actionCollection(), (*it)->desktopEntryName().toLatin1() );
     action->setIconName( (*it)->icon() );
 
     connect( action, SIGNAL( activated() ),

@@ -86,7 +86,7 @@ void KonqBidiHistoryAction::fillHistoryPopup( const QList<HistoryEntry*> &histor
 ///////////////////////////////
 
 KonqBidiHistoryAction::KonqBidiHistoryAction ( const QString & text, KActionCollection* parent, const char* name )
-  : KAction( text, KShortcut(), 0L, "", parent, name )
+  : KAction( text, parent, name )
 {
   setShortcutConfigurable(false);
   m_firstIndex = 0;
@@ -215,9 +215,10 @@ KonqLogoAction::KonqLogoAction( const QString& text, const KIcon& pix, const KSh
 KonqLogoAction::KonqLogoAction( const QStringList& icons, QObject* receiver,
                                 const char* slot, KActionCollection* parent,
                                 const char* name )
-    : KAction( 0L, 0, receiver, slot, parent, name ) // text missing !
+    : KAction( QString(), parent, name ) // text missing !
 {
   iconList = icons;
+  connect(this, SIGNAL(toggled(bool)), receiver, slot);
   //setToolBarWidgetFactory(this);
 }
 
