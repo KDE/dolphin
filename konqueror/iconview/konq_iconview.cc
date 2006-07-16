@@ -223,8 +223,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_paEnablePreviews->setCheckedState( i18n("Disable Previews") );
     connect( m_paEnablePreviews, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );
     m_paEnablePreviews->setIcon(KIcon("thumbnail"));
-    m_pamPreview->insert( m_paEnablePreviews );
-    m_pamPreview->insert( new KSeparatorAction(actionCollection()) );
+    m_pamPreview->addAction( m_paEnablePreviews );
+    m_pamPreview->addAction( new KSeparatorAction(actionCollection()) );
 
     KService::List plugins = KServiceTypeTrader::self()->query( "ThumbCreator" );
     QMap< QString, KToggleAction* > previewActions;
@@ -237,13 +237,13 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
         {
             preview = new KToggleAction( (*it)->name(), actionCollection(), (*it)->desktopEntryName().toLatin1() );
             connect( preview, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );
-            m_pamPreview->insert( preview );
+            m_pamPreview->addAction( preview );
             m_paPreviewPlugins.append( preview );
         }
     }
     KToggleAction *soundPreview = new KToggleAction( i18n("Sound Files"), actionCollection(), "audio/" );
     connect( soundPreview, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );
-    m_pamPreview->insert( soundPreview );
+    m_pamPreview->addAction( soundPreview );
     m_paPreviewPlugins.append( soundPreview );
 
     //    m_pamSort = new KActionMenu( i18n( "Sort..." ), actionCollection(), "sort" );
