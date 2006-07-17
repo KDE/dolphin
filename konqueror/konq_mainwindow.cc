@@ -3797,7 +3797,7 @@ void KonqMainWindow::initActions()
   m_paAddTab = new KAction( KIcon("tab_new"), i18n( "&New Tab" ), actionCollection(), "newtab" );
   connect(m_paAddTab, SIGNAL(triggered(bool)), SLOT( slotAddTab() ));
   m_paAddTab->setShortcut(KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_N, Qt::CTRL+Qt::Key_T));
-  
+
   m_paDuplicateTab = new KAction(KIcon("tab_duplicate"),  i18n( "&Duplicate Current Tab" ), actionCollection(), "duplicatecurrenttab" );
   connect(m_paDuplicateTab, SIGNAL(triggered(bool)), SLOT( slotDuplicateTab() ));
   m_paDuplicateTab->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_D);
@@ -4975,7 +4975,7 @@ void KonqMainWindow::updateViewModeActions()
                this, SLOT( slotViewModeToggle( bool ) ) );
 
       m_viewModeActions.append( action );
-      m_viewModeMenu->kMenu()->addAction( action );
+      m_viewModeMenu->menu()->addAction( action );
 
       const QString library = viewModeActionKey( *it );
 

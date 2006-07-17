@@ -203,8 +203,8 @@ void KNewMenu::parseFiles()
 void KNewMenu::fillMenu()
 {
     //kDebug(1203) << "KNewMenu::fillMenu()" << endl;
-    kMenu()->clear();
-    d->m_menuDev->kMenu()->clear();
+    menu()->clear();
+    d->m_menuDev->menu()->clear();
 
     KAction *linkURL = 0, *linkApp = 0;  // these shall be put at special positions
 
@@ -243,10 +243,10 @@ void KNewMenu::fillMenu()
                     KAction * act = new KAction( KIcon((*templ).icon), (*templ).text, d->m_actionCollection, QString("newmenu%1").arg( i ).toUtf8() );
                     connect(act, SIGNAL(triggered()), this, SLOT(slotNewDir()));
                     act->setActionGroup( m_newMenuGroup );
-                    kMenu()->addAction( act );
+                    menu()->addAction( act );
 
                     KSeparatorAction *sep = new KSeparatorAction();
-                    kMenu()->addAction( sep );
+                    menu()->addAction( sep );
                 }
                 else
                 {
@@ -266,13 +266,13 @@ void KNewMenu::fillMenu()
                     {
                         KDesktopFile df( entry.templatePath );
                         if(df.readType() == "FSDevice")
-                            d->m_menuDev->kMenu()->addAction( act );
+                            d->m_menuDev->menu()->addAction( act );
                         else
-                            kMenu()->addAction( act );
+                            menu()->addAction( act );
                     }
                     else
                     {
-                        kMenu()->addAction( act );
+                        menu()->addAction( act );
                     }
                 }
             }
@@ -280,15 +280,15 @@ void KNewMenu::fillMenu()
             Q_ASSERT( (*templ).entryType != 0 );
 
             KSeparatorAction * act = new KSeparatorAction();
-            kMenu()->addAction( act );
+            menu()->addAction( act );
         }
     }
 
     KSeparatorAction * act = new KSeparatorAction();
-    kMenu()->addAction( act );
-    if ( linkURL ) kMenu()->addAction( linkURL );
-    if ( linkApp ) kMenu()->addAction( linkApp );
-    kMenu()->addAction( d->m_menuDev );
+    menu()->addAction( act );
+    if ( linkURL ) menu()->addAction( linkURL );
+    if ( linkApp ) menu()->addAction( linkApp );
+    menu()->addAction( d->m_menuDev );
 }
 
 void KNewMenu::slotFillTemplates()
