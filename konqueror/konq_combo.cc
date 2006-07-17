@@ -255,7 +255,7 @@ void KonqCombo::insertItem( const QString &text, int index, const QString& title
 void KonqCombo::insertItem( const QPixmap &pixmap, const QString& text, int index, const QString& title )
 {
     //KonqComboListBoxPixmap* item = new KonqComboListBoxPixmap( pixmap, text, title );
-    KHistoryCombo::insertItem( pixmap, text, /*item, */ index );
+    KHistoryCombo::insertItem( index, pixmap, text /*, item */ );
 }
 
 void KonqCombo::updateItem( const QPixmap& pix, const QString& t, int index, const QString& title )
