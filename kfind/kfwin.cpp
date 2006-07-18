@@ -77,7 +77,7 @@ KfFileLVI::KfFileLVI(KfindWindow* lv, const KFileItem &item, const QString& matc
 
   // Fill the item with data
   setText(0, item.url().fileName(false));
-  setText(1, lv->reducedDir(item.url().directory(false)));
+  setText(1, lv->reducedDir(item.url().directory(KUrl::AppendTrailingSlash)));
   setText(2, size);
   setText(3, date);
   setText(4, i18n(perm[perm_index]));

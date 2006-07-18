@@ -219,7 +219,7 @@ void KonqIconViewWidget::slotItemRenamed(Q3IconViewItem *item, const QString &na
         // Actually attempt the rename. If it succeeds, KDirLister will update the name.
         KUrl oldurl( fileItem->url() );
         KUrl newurl( oldurl );
-        newurl.setPath( newurl.directory(false) + KIO::encodeFileName( name ) );
+        newurl.setPath( newurl.directory( KUrl::AppendTrailingSlash ) + KIO::encodeFileName( name ) );
         kDebug(1203)<<" newurl :"<<newurl<<endl;
         // We use url()+name so that it also works if the name is a relative path (#51176)
         KonqOperations::rename( this, oldurl, newurl );
@@ -1098,7 +1098,7 @@ void KonqIconViewWidget::slotSelectionChanged()
             KUrl url = item->url();
             QString local_path = item->localPath();
 
-            /*if ( url.directory(false) == KGlobalSettings::trashPath() )
+            /*if ( url.directory(KUrl::AppendTrailingSlash) == KGlobalSettings::trashPath() )
                 bInTrash = true;*/
             if ( KProtocolManager::supportsDeleting( url ) )
                 canDel++;
@@ -1286,7 +1286,7 @@ void KonqIconViewWidget::doubleClickTimeout()
         {
             url= ( static_cast<KFileIVI *>( item ) )->item()->url();
             bool brenameTrash =false;
-            /*if ( url.isLocalFile() && (url.directory(false) == KGlobalSettings::trashPath() || url.path(1).startsWith(KGlobalSettings::trashPath())))
+            /*if ( url.isLocalFile() && (url.directory(KUrl::AppendTrailingSlash) == KGlobalSettings::trashPath() || url.path(1).startsWith(KGlobalSettings::trashPath())))
                 brenameTrash = true;
             */
             if ( url.isLocalFile() && !brenameTrash && d->renameItem && m_pSettings->renameIconDirectly() && e.button() == Qt::LeftButton && item->textRect( false ).contains(e.pos()))
@@ -1365,7 +1365,7 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
      {
          url = ( static_cast<KFileIVI *>( item ) )->item()->url();
          bool brenameTrash =false;
-         /*if ( url.isLocalFile() && (url.directory(false) == KGlobalSettings::trashPath() || url.path(1).startsWith(KGlobalSettings::trashPath())))
+         /*if ( url.isLocalFile() && (url.directory(KUrl::AppendTrailingSlash) == KGlobalSettings::trashPath() || url.path(1).startsWith(KGlobalSettings::trashPath())))
              brenameTrash = true;*/
          if ( !brenameTrash && !KGlobalSettings::singleClick() && m_pSettings->renameIconDirectly() && e->button() == Qt::LeftButton && item->textRect( false ).contains(e->pos())&& !d->firstClick &&  url.isLocalFile() && (!url.protocol().indexOf( "device", 0, Qt::CaseInsensitive )==0))
          {
