@@ -180,7 +180,7 @@ bool Widgets::comboBox(QWidget *parent, const QString& title, const QString& tex
   label.setText (text);
   KComboBox combo (vbox);
   combo.insertItems (0, args);
-  combo.setCurrentItem( defaultEntry, false );
+  combo.setCurrentIndex( combo.findText( defaultEntry ) );
 
   handleXGeometry(&dlg);
 
