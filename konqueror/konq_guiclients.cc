@@ -153,8 +153,9 @@ void PopupMenuGUIClient::addEmbeddingService( QDomElement &menu, int idx, const 
 
   action.setAttribute( "group", "preview" );
 
-  (void)new KAction( name, service->pixmap( K3Icon::Small ), 0,
-                     m_mainWindow, SLOT( slotOpenEmbedded() ), actionCollection(), actName );
+  KAction *act = new KAction( name, actionCollection(), actName );
+  act->setIcon( KIcon(service->icon()) );
+  QObject::connect(act, SIGNAL(triggered(bool)), m_mainWindow, SLOT( slotOpenEmbedded() ));
 }
 
 ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
