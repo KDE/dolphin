@@ -3919,7 +3919,7 @@ void KonqMainWindow::initActions()
   // don't appear in kedittoolbar
   m_bookmarksActionCollection = new KActionCollection( static_cast<QWidget*>( this ) );
 
-  m_pBookmarkMenu = new KBookmarkMenu( KonqBookmarkManager::self(), m_pBookmarksOwner, m_pamBookmarks->popupMenu(), m_bookmarksActionCollection, true );
+  m_pBookmarkMenu = new KBookmarkMenu( KonqBookmarkManager::self(), m_pBookmarksOwner, m_pamBookmarks->menu(), m_bookmarksActionCollection, true );
   connect( m_pBookmarkMenu,
            SIGNAL( aboutToShowContextMenu(const KBookmark &, QMenu*) ),
            this, SLOT( slotFillContextMenu(const KBookmark &, QMenu*) ));

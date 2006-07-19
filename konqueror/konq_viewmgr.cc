@@ -1646,8 +1646,7 @@ void KonqViewManager::setProfiles( KActionMenu *profiles )
   if ( m_pamProfiles )
   {
     connect( m_pamProfiles->popupMenu(), SIGNAL( activated( int ) ),
-             this, SLOT( slotProfileActivated( int ) ) );
-    connect( m_pamProfiles->popupMenu(), SIGNAL( aboutToShow() ),
+             this, SLOT( slotProfileActivated( int ) ) ); connect( m_pamProfiles->menu(), SIGNAL( aboutToShow() ),
              this, SLOT( slotProfileListAboutToShow() ) );
   }
   //KonqMainWindow::enableAllActions will call it anyway
@@ -1708,7 +1707,7 @@ void KonqViewManager::slotProfileListAboutToShow()
   if ( !m_pamProfiles || !m_bProfileListDirty )
     return;
 
-  KMenu *popup = m_pamProfiles->popupMenu();
+  KMenu *popup = m_pamProfiles->menu();
   popup->clear();
 
   // Fetch profiles

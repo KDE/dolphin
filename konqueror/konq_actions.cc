@@ -348,7 +348,7 @@ KonqMostOftenURLSAction::KonqMostOftenURLSAction( const QString& text,
 {
     setDelayed( false );
 
-    connect( popupMenu(), SIGNAL( aboutToShow() ), SLOT( slotFillMenu() ));
+    connect( menu(), SIGNAL( aboutToShow() ), SLOT( slotFillMenu() ));
     //connect( popupMenu(), SIGNAL( aboutToHide() ), SLOT( slotClearMenu() ));
     connect( popupMenu(), SIGNAL( activated( int ) ),
 	     SLOT( slotActivated(int) ));
@@ -442,7 +442,7 @@ void KonqMostOftenURLSAction::slotFillMenu()
     if ( !s_mostEntries ) // first time
 	parseHistory();
 
-    popupMenu()->clear();
+    menu()->clear();
     m_popupList.clear();
 
     for ( int id = s_mostEntries->count() - 1; id >= 0; --id ) {
