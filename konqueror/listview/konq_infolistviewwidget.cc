@@ -37,9 +37,8 @@ KonqInfoListViewWidget::KonqInfoListViewWidget( KonqListView* parent,
 {
     m_metaInfoJob = 0;
 
-    m_mtSelector = new KSelectAction(i18n("View &As"), 0, this,
-                                     SLOT(slotSelectMimeType()),
-                                     parent->actionCollection(), "view_as" );
+    m_mtSelector = new KSelectAction(i18n("View &As"), parent->actionCollection(), "view_as" );
+    connect(m_mtSelector, SIGNAL(triggered(bool)), SLOT(slotSelectMimeType()));
 
     kDebug(1203) << "created info list view\n";
 }
