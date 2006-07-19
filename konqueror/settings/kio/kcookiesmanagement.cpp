@@ -150,7 +150,7 @@ void KCookiesManagement::save()
   {
       QDBusInterface kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar", QDBus::sessionBus());
       QDBusReply<void> reply = kded.call( "deleteAllCookies" );
-    if (reply.isError())
+    if (!reply.isValid())
     {
       QString caption = i18n ("DBUS Communication Error");
       QString message = i18n ("Unable to delete all the cookies as requested.");
@@ -167,7 +167,7 @@ void KCookiesManagement::save()
   {
     QDBusInterface kded("org.kde.kded", "/modules/Kcookiejar", "org.kde.kded.kcookiejar", QDBus::sessionBus());
     QDBusReply<void> reply = kded.call( "deleteCookiesFromDomain",( *dIt ) );
-    if( reply.isError() )
+    if( !reply.isValid() )
     {
       QString caption = i18n ("DBUS Communication Error");
       QString message = i18n ("Unable to delete cookies as requested.");
@@ -193,7 +193,7 @@ void KCookiesManagement::save()
         QDBusReply<void> reply = kded.call( "deleteCookie",(*cookie)->domain,
                                               (*cookie)->host, (*cookie)->path,
                                              (*cookie)->name );
-        if( reply.isError() )
+        if( !reply.isValid() )
       {
         success = false;
         break;
