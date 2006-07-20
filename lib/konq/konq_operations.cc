@@ -30,6 +30,7 @@
 #include <krun.h>
 #include <kshell.h>
 #include <kshortcut.h>
+#include <kio/jobuidelegate.h>
 
 #include <QtDBus/QtDBus>
 #include <kdirnotify.h>
@@ -604,7 +605,7 @@ void KonqOperations::doFileCopy()
         popup.addAction(popupCancelAction);
 
         QAction* result = popup.exec( m_info->mousePos );
-            
+
         if(result == popupCopyAction)
             action = Qt::CopyAction;
         else if(result == popupMoveAction)
@@ -723,7 +724,10 @@ void KonqOperations::_statURL( const KUrl & url, const QObject *receiver, const 
 void KonqOperations::slotStatResult( KJob * job )
 {
     if ( job->error())
-        static_cast<KIO::Job*>( job )->showErrorDialog( (QWidget*)parent() );
+    {
+        static_cast<KIO::Job*>( job )->ui()->setWindow((QWidget*)parent());
+        static_cast<KIO::Job*>( job )->ui()->showErrorMessage();
+    }
     else
     {
         KIO::StatJob * statJob = static_cast<KIO::StatJob*>(job);
@@ -739,10 +743,13 @@ void KonqOperations::slotStatResult( KJob * job )
 void KonqOperations::slotResult( KJob * job )
 {
     if (job && job->error())
-        static_cast<KIO::Job*>( job )->showErrorDialog( (QWidget*)parent() );
+    {
+        static_cast<KIO::Job*>( job )->ui()->setWindow((QWidget*)parent());
+        static_cast<KIO::Job*>( job )->ui()->showErrorMessage();
+    }
     if ( m_method == EMPTYTRASH ) {
         // Update konq windows opened on trash:/
-        org::kde::KDirNotify::emitFilesAdded( "trash:/" ); // yeah, files were removed, but we don't know which ones... 
+        org::kde::KDirNotify::emitFilesAdded( "trash:/" ); // yeah, files were removed, but we don't know which ones...
     }
     delete this;
 }
