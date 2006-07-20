@@ -264,7 +264,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     // Connect
     connect( findCreated, SIGNAL(toggled(bool)),  SLOT(fixLayout()) );
     connect( bg, SIGNAL(buttonClicked(QAbstractButton*)), this,  SLOT(fixLayout()) );
-    connect( sizeBox, SIGNAL(highlighted(int)), this, SLOT(slotSizeBoxChanged(int)));
+    connect( sizeBox, SIGNAL(activated(int)), this, SLOT(slotSizeBoxChanged(int)));
 
 
     // ************ Page Three
@@ -651,10 +651,10 @@ void KfindTabWidget::setQuery(KQuery *query)
   }
   size = sizeEdit->value() * sizeunit;
 
-// TODO: troeder: do we need this check since it is very unlikely 
-// to exceed ULLONG_MAX with INT_MAX * 1024^3. 
+// TODO: troeder: do we need this check since it is very unlikely
+// to exceed ULLONG_MAX with INT_MAX * 1024^3.
 // Or is there an arch where this can happen?
-#if 0 
+#if 0
   if (size < 0)  // overflow
   {
 	if (KMessageBox::warningYesNo(this, i18n("Size is too big. Set maximum size value?"), i18n("Error"),i18n("Set"),i18n("Do Not Set"))
