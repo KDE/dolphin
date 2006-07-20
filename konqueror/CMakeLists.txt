@@ -63,7 +63,7 @@ target_link_libraries(kdeinit_konqueror  ${KDE4_KDE3SUPPORT_LIBS} kutils konq )
 install(TARGETS kdeinit_konqueror  DESTINATION ${LIB_INSTALL_DIR} )
 
 target_link_libraries( konqueror kdeinit_konqueror )
-install(TARGETS konqueror DESTINATION bin)
+install(TARGETS konqueror DESTINATION ${BIN_INSTALL_DIR})
 
 
 ########### install files ###############

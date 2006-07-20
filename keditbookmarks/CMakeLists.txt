@@ -11,7 +11,7 @@ kde4_add_executable(kbookmarkmerger ${kbookmarkmerger_SRCS})
 
 target_link_libraries(kbookmarkmerger  ${KDE4_KIO_LIBS} )
 
-install(TARGETS kbookmarkmerger DESTINATION bin)
+install(TARGETS kbookmarkmerger DESTINATION ${BIN_INSTALL_DIR})
 
 
 ########### next target ###############
@@ -47,7 +47,7 @@ target_link_libraries(kdeinit_keditbookmarks  ${KDE4_KDECORE_LIBS} konq )
 install(TARGETS kdeinit_keditbookmarks  DESTINATION ${LIB_INSTALL_DIR} )
 
 target_link_libraries( keditbookmarks kdeinit_keditbookmarks )
-install(TARGETS keditbookmarks DESTINATION bin)
+install(TARGETS keditbookmarks DESTINATION ${BIN_INSTALL_DIR})
 
 ########### install files ###############
 

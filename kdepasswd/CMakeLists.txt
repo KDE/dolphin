@@ -13,7 +13,7 @@ kde4_add_executable(kdepasswd ${kdepasswd_SRCS})
 
 target_link_libraries(kdepasswd  ${KDE4_KIO_LIBS} )
 
-install(TARGETS kdepasswd DESTINATION bin)
+install(TARGETS kdepasswd DESTINATION ${BIN_INSTALL_DIR})
 
 
 ########### install files ###############

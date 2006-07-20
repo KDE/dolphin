@@ -54,7 +54,7 @@ install(TARGETS kcm_nsplugins  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
   target_link_libraries(nspluginscan  ${KDE4_KIO_LIBS} ${X11_Xt_LIB})
 
-  install(TARGETS nspluginscan DESTINATION bin)
+  install(TARGETS nspluginscan DESTINATION ${BIN_INSTALL_DIR})
 
   ########### install files ###############
 
