@@ -21,6 +21,7 @@
 #include "konq_undo.h"
 #include "konq_undoadaptor.h"
 #include "kio/observer.h"
+#include <kio/jobuidelegate.h>
 #include <QtDBus/QtDBus>
 #include <kdirnotify.h>
 
@@ -350,7 +351,8 @@ void KonqUndoManager::slotResult( KJob *job )
   Observer::self()->jobFinished( d->m_undoJob->progressId() );
   if ( job->error() )
   {
-    static_cast<KIO::Job*>(job)->showErrorDialog( 0L );
+    static_cast<KIO::Job*>( job )->ui()->setWindow(0L);
+    static_cast<KIO::Job*>( job )->ui()->showErrorMessage();
     d->m_currentJob = 0;
     stopUndo( false );
     if ( d->m_undoJob )

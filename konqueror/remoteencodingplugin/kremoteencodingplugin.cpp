@@ -117,7 +117,7 @@ KRemoteEncodingPlugin::fillMenu()
   int count = 0;
   for (it = m_encodingDescriptions.begin(); it != m_encodingDescriptions.end(); ++it)
     menu->insertItem(*it, this, SLOT(slotItemSelected(int)), 0, ++count);
-  menu->insertSeparator();
+  menu->addSeparator();
 
   menu->insertItem(i18n("Reload"), this, SLOT(slotReload()), 0, ++count);
   menu->insertItem(i18n("Default"), this, SLOT(slotDefault()), 0, ++count);

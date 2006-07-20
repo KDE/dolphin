@@ -952,18 +952,18 @@ void KonqSidebarTree::showToplevelContextMenu()
         if (item->isTopLevelGroup()) {
             menu->addAction( m_collection->action("rename") );
             menu->addAction( m_collection->action("delete_folder") );
-            menu->insertSeparator();
+            menu->addSeparator();
             menu->addAction( m_collection->action("create_folder") );
         } else {
             if (tabSupport())
                 menu->addAction( m_collection->action("open_tab") );
             menu->addAction( m_collection->action("open_window") );
             menu->addAction( m_collection->action("copy_location") );
-            menu->insertSeparator();
+            menu->addSeparator();
             menu->addAction( m_collection->action("rename") );
             menu->addAction( m_collection->action("delete_link") );
         }
-        menu->insertSeparator();
+        menu->addSeparator();
         menu->addAction( m_collection->action("item_properties") );
     } else {
         menu->addAction( m_collection->action("create_folder") );

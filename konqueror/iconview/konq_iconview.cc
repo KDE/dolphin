@@ -301,7 +301,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_pamSort->insert( aSortByNameCI );
     m_pamSort->insert( aSortBySize );
 
-    m_pamSort->popupMenu()->insertSeparator();
+    m_pamSort->popupMenu()->addSeparator();
 
     m_pamSort->insert( aSortDescending );
     */

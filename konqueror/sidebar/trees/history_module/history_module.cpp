@@ -237,14 +237,14 @@ void KonqSidebarHistoryModule::showPopupMenu( int which, const QPoint& pos )
     if ( which & EntryContextMenu )
     {
         menu->addAction( m_collection->action("open_new") );
-        menu->insertSeparator();
+        menu->addSeparator();
         menu->addAction( m_collection->action("remove") );
     }
 
     menu->addAction( m_collection->action("clear") );
-    menu->insertSeparator();
+    menu->addSeparator();
     menu->insertItem( i18n("Sort"), sortMenu );
-    menu->insertSeparator();
+    menu->addSeparator();
     menu->addAction( m_collection->action("preferences") );
 
     menu->exec( pos );

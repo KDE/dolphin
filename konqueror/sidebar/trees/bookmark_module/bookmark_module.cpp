@@ -104,11 +104,11 @@ bool KonqSidebarBookmarkModule::handleTopLevelContextMenu( KonqSidebarTreeTopLev
 
     if (tree()->tabSupport()) {
 	menu->addAction( m_collection->action("folder_open_tabs") );
-	menu->insertSeparator();
+	menu->addSeparator();
     }
     menu->addAction( m_collection->action("create_folder") );
 
-    menu->insertSeparator();
+    menu->addSeparator();
     menu->addAction( m_collection->action("edit_bookmarks") );
 
     menu->exec( QCursor::pos() );
@@ -129,7 +129,7 @@ void KonqSidebarBookmarkModule::showPopupMenu()
     if (bi->bookmark().isGroup()) {
         if (tabSupported) {
             menu->addAction( m_collection->action("folder_open_tabs") );
-            menu->insertSeparator();
+            menu->addSeparator();
         }
         menu->addAction( m_collection->action("create_folder") );
         menu->addAction( m_collection->action("delete_folder") );
@@ -138,11 +138,11 @@ void KonqSidebarBookmarkModule::showPopupMenu()
         if (tabSupported)
             menu->addAction( m_collection->action("open_tab") );
         menu->addAction( m_collection->action("copy_location") );
-        menu->insertSeparator();
+        menu->addSeparator();
         menu->addAction( m_collection->action("create_folder") );
         menu->addAction( m_collection->action("delete_bookmark") );
     }
-    menu->insertSeparator();
+    menu->addSeparator();
     menu->addAction( m_collection->action("item_properties") );
 
     menu->exec( QCursor::pos() );
