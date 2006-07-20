@@ -36,8 +36,9 @@ Configuration of the maximum image size
 #include <Q3PtrList>
 
 #include <kcmodule.h>
+#include <QStringList>
 
-class KConfig;
+class KSharedConfig;
 class QCheckBox;
 class Q3CheckListItem;
 class KDoubleNumInput;
@@ -46,7 +47,7 @@ class KPreviewOptions : public KCModule
 {
     Q_OBJECT
 public:
-    KPreviewOptions( KInstance *inst, QWidget *parent );
+    KPreviewOptions( QWidget *parent, const QStringList &args = QStringList() );
     virtual void load();
     virtual void save();
     virtual void defaults();

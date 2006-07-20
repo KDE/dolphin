@@ -23,10 +23,10 @@ class QCheckBox;
 class QComboBox;
 class QPushButton;
 
-class KConfig;
 class K3ListView;
 class KJob;
 class KUrlRequester;
+class QStringList;
 
 namespace KIO { class Job; }
 
@@ -38,7 +38,7 @@ class DesktopPathConfig : public KCModule
 {
         Q_OBJECT
 public:
-        DesktopPathConfig( KInstance *inst, QWidget *parent );
+        DesktopPathConfig( QWidget *parent, const QStringList &args );
         virtual void load();
         virtual void save();
         virtual void defaults();

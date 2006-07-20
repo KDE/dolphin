@@ -39,6 +39,7 @@
 #include <kprotocolmanager.h>
 
 #include "previews.h"
+#include "konqkcmfactory.h"
 
 //-----------------------------------------------------------------------------
 
@@ -60,8 +61,11 @@ class PreviewCheckListItem : public Q3CheckListItem
     }
 };
 
-KPreviewOptions::KPreviewOptions( KInstance *inst, QWidget *parent )
-    : KCModule( inst, parent )
+typedef KonqKcmFactory<KPreviewOptions> KPreviewOptionsFactory;
+K_EXPORT_COMPONENT_FACTORY(previews, KPreviewOptionsFactory)
+
+KPreviewOptions::KPreviewOptions( QWidget *parent, const QStringList & )
+    : KCModule( _globalInstance(), parent )
 {
     QVBoxLayout *lay = new QVBoxLayout(this);
     lay->setMargin(0);

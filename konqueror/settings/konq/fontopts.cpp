@@ -40,13 +40,34 @@
 #include <konq_defaults.h> // include default values directly from konqueror
 
 #include "fontopts.h"
+#include "konqkcmfactory.h"
 
+class KonqFontOptionsDesktop : public KonqFontOptions
+{
+    public:
+        KonqFontOptionsDesktop(QWidget *parent, const QStringList &args)
+            : KonqFontOptions(parent, args, true)
+        {}
+};
+
+typedef KonqKcmFactory<KonqFontOptions> KonqFontOptionsFactory;
+K_EXPORT_COMPONENT_FACTORY(appearance, KonqFontOptionsFactory)
+
+typedef KonqKcmFactory<KonqFontOptionsDesktop> KonqFontOptionsDesktopFactory;
+K_EXPORT_COMPONENT_FACTORY(dappearance, KonqFontOptionsDesktopFactory)
 
 //-----------------------------------------------------------------------------
 
-KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, KInstance *inst, QWidget *parent)
-    : KCModule( inst, parent ), g_pConfig(config), groupname(group), m_bDesktop(desktop)
+KonqFontOptions::KonqFontOptions(QWidget *parent, const QStringList &, bool desktop)
+    : KCModule( _globalInstance(), parent )
+    , groupname("FMSettings")
+    , m_bDesktop(desktop)
 {
+    if (m_bDesktop) {
+        g_pConfig = KSharedConfig::openConfig(_desktopConfigName(), false, false);
+    } else {
+        g_pConfig = KSharedConfig::openConfig("konquerorrc", false, true);
+    }
     QLabel *label;
     QString wtstr;
     int row = 0;
@@ -280,8 +301,8 @@ void KonqFontOptions::load()
     }
     cbUnderline->setChecked( g_pConfig->readEntry("UnderlineLinks", QVariant(DEFAULT_UNDERLINELINKS )).toBool() );
 
-    KConfig cfg("kdeglobals");
-    cfg.setGroup("DesktopIcons");
+    KSharedConfig::Ptr cfg = KSharedConfig::openConfig("kdeglobals");
+    cfg->setGroup("DesktopIcons");
 
     updateGUI();
     emit KCModule::changed( false );
@@ -345,8 +366,8 @@ void KonqFontOptions::save()
     g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
     g_pConfig->sync();
 
-    KConfig cfg("kdeglobals");
-    cfg.setGroup("DesktopIcons");
+    KSharedConfig::Ptr cfg = KSharedConfig::openConfig("kdeglobals");
+    cfg->setGroup("DesktopIcons");
 
     // Send signal to konqueror
     // Warning. In case something is added/changed here, keep kfmclient in sync

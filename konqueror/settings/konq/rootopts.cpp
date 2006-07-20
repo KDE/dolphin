@@ -41,11 +41,15 @@
 #include <kurlrequester.h>
 
 #include "rootopts.h"
+#include "konqkcmfactory.h"
 
 //-----------------------------------------------------------------------------
 
-DesktopPathConfig::DesktopPathConfig(KInstance *inst, QWidget *parent )
-    : KCModule( inst, parent )
+typedef KonqKcmFactory<DesktopPathConfig> DesktopPathConfigFactory;
+K_EXPORT_COMPONENT_FACTORY(dpath, DesktopPathConfigFactory)
+
+DesktopPathConfig::DesktopPathConfig(QWidget *parent, const QStringList &)
+    : KCModule( _globalInstance(), parent )
 {
   QLabel * tmpLabel;
 

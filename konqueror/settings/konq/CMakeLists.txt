@@ -3,14 +3,14 @@ include_directories( ${CMAKE_SOURCE_DIR}/libkonq )
 
 ########### next target ###############
 
-set(kcm_konq_PART_SRCS 
-   behaviour.cpp 
-   desktop.cpp 
-   rootopts.cpp 
-   fontopts.cpp 
-   previews.cpp 
-   browser.cpp 
-   main.cpp 
+set(kcm_konq_PART_SRCS
+   behaviour.cpp
+   desktop.cpp
+   rootopts.cpp
+   fontopts.cpp
+   previews.cpp
+   browser.cpp
+   konqkcmfactory.cpp
    desktopbehavior_impl.cpp )
 
 kde4_automoc(${kcm_konq_PART_SRCS})
@@ -29,8 +29,9 @@ install(TARGETS kcm_konq  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 ########### install files ###############
 
-install( FILES desktopbehavior.desktop desktop.desktop desktoppath.desktop filebrowser.desktop  DESTINATION  ${XDG_APPS_DIR} )
-install( FILES filebehavior.desktop fileappearance.desktop filepreviews.desktop  DESTINATION  ${APPLNK_INSTALL_DIR}/.hidden )
+install( FILES desktopbehavior.desktop desktop.desktop desktoppath.desktop
+    filebehavior.desktop fileappearance.desktop filepreviews.desktop
+    filebrowser.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 install( FILES overlapping.png onlyone.png  DESTINATION  ${DATA_INSTALL_DIR}/kcontrol/pics )
 
 

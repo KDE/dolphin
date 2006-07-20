@@ -1,12 +1,12 @@
 [Desktop Entry]
 Encoding=UTF-8
-Type=Application
+Type=Service
+ServiceTypes=KCModule
 DocPath=kcontrol/filemanager/index.html
 Icon=kfm
 Exec=kcmshell filebrowser
 
-
-X-KDE-Library=konq
+X-KDE-Library=kcm_konq
 X-KDE-FactoryName=browser
 X-KDE-ParentApp=kcontrol
 
@@ -17,8 +17,7 @@ Name[x-test]=xxFile Managerxx
 Comment=You can configure Konqueror's file manager mode here
 Comment[fr]=Configuration du mode gestionnaire de fichiers de Konqueror
 Comment[x-test]=xxYou can configure Konqueror's file manager mode herexx
+
 Keywords=konqueror,filemanager,word wrap,wrap,underline,display,filesize,bytes,font,color,colour
 Keywords[fr]=konqueror,gestionnaire de fichiers,explorateur,retour à la ligne,soulignement,affichage,taille des fichiers,octets,police,couleur
 Keywords[x-test]=xxkonqueror,filemanager,word wrap,wrap,underline,display,filesize,bytes,font,color,colourxx
-
-Categories=Qt;KDE;X-KDE-settings-components;

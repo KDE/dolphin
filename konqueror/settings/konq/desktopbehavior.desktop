@@ -1,12 +1,12 @@
 [Desktop Entry]
 Encoding=UTF-8
-Type=Application
+Type=Service
+ServiceType=KCModule
 DocPath=kcontrol/desktopbehavior/index.html
 Icon=desktop
 Exec=kcmshell desktopbehavior
 
-
-X-KDE-Library=konq
+X-KDE-Library=kcm_konq
 X-KDE-FactoryName=dbehavior
 X-KDE-ParentApp=kcontrol
 
@@ -20,5 +20,3 @@ Comment[x-test]=xxYou can configure how the desktop behaves herexx
 Keywords=konqueror,filemanager,kfm,tips,file tips,separate window,spawn windows,behavior,behaviour,memory usage,Home URL,
 Keywords[fr]=konqueror,gestionnaire de fichiers,explorateur,kfm,astuces,fenêtre séparée,rafraîchissement des fenêtres,comportement,utilisation de la mémoire,Home URL,URL de démarrage
 Keywords[x-test]=xxkonqueror,filemanager,kfm,tips,file tips,separate window,spawn windows,behavior,behaviour,memory usage,Home URL,xx
-
-Categories=Qt;KDE;X-KDE-settings-desktop;

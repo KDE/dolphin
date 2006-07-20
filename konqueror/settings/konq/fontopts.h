@@ -38,13 +38,13 @@
 #include <QSpinBox>
 
 #include <kcmodule.h>
+#include <kconfig.h>
 
 class QCheckBox;
 class QRadioButton;
 class QFontComboBox;
 
 class KColorButton;
-class KConfig;
 
 
 //-----------------------------------------------------------------------------
@@ -53,7 +53,7 @@ class KonqFontOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KonqFontOptions( KConfig *config, QString group, bool desktop, KInstance *inst, QWidget *parent);
+  KonqFontOptions(QWidget *parent, const QStringList &args = QStringList(), bool desktop = false);
   QString quickHelp() const;
 
   virtual void load();
@@ -78,7 +78,7 @@ private:
 
 private:
 
-  KConfig *g_pConfig;
+  KSharedConfig::Ptr g_pConfig;
   QString groupname;
   bool m_bDesktop;
 

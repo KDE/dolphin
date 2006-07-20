@@ -1,14 +1,13 @@
 [Desktop Entry]
 Encoding=UTF-8
-Type=Application
+Type=Service
+ServiceTypes=KCModule
 DocPath=kcontrol/filemanager/index.html
 Icon=kfm
 Exec=kcmshell filebehavior
 
-
-X-KDE-Library=konq
+X-KDE-Library=kcm_konq
 X-KDE-FactoryName=behavior
-X-KDE-ParentApp=kcontrol
 
 Name=Behavior
 Name[fr]=Comportement
@@ -17,6 +16,7 @@ Name[x-test]=xxBehaviorxx
 Comment=You can configure how Konqueror behaves as a file manager here
 Comment[fr]=Comportement de Konqueror en tant que gestionnaire de fichiers
 Comment[x-test]=xxYou can configure how Konqueror behaves as a file manager herexx
+
 Keywords=konqueror,filemanager,kfm,tips,file tips,separate window,spawn windows,behavior,behaviour,memory usage,Home URL,network operations,progress dialog,trash can,delete,confirmation
 Keywords[fr]=konqueror,gestionnaire de fichiers,explorateur,kfm,astuces,fenêtre séparée,rafraîchissement des fenêtres,comportement,utilisation de la mémoire,Home URL,URL de démarrage,opérations réseau,fenêtre de progression,corbeille,poubelle,effacer,détruire,suppression,confirmation
 Keywords[x-test]=xxkonqueror,filemanager,kfm,tips,file tips,separate window,spawn windows,behavior,behaviour,memory usage,Home URL,network operations,progress dialog,trash can,delete,confirmationxx

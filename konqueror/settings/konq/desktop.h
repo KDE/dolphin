@@ -28,6 +28,7 @@ class QLabel;
 class QCheckBox;
 class KLineEdit;
 class KIntNumInput;
+class QStringList;
 
 // if you change this, update also the number of keyboard shortcuts in kwin/kwinbindings.cpp
 static const int maxDesktops = 20;
@@ -37,7 +38,7 @@ class KDesktopConfig : public KCModule
   Q_OBJECT
   
  public:
-  KDesktopConfig(KInstance *inst, QWidget *parent);
+  KDesktopConfig(QWidget *parent, const QStringList &args);
 
   void load();
   void save();

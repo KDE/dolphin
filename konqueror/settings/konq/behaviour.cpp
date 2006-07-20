@@ -42,10 +42,15 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <Q3ButtonGroup>
+#include "konqkcmfactory.h"
 
+typedef KonqKcmFactory<KBehaviourOptions> KBehaviourOptionsFactory;
+K_EXPORT_COMPONENT_FACTORY(behavior, KBehaviourOptionsFactory)
 
-KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent )
-    : KCModule(inst, parent), g_pConfig(config), groupname(group)
+KBehaviourOptions::KBehaviourOptions(QWidget *parent, const QStringList &)
+    : KCModule(_globalInstance(), parent)
+    , g_pConfig(KSharedConfig::openConfig("konquerorrc", false, true))
+    , groupname("FMSettings")
 {
     QLabel * label;
 
@@ -206,19 +211,19 @@ void KBehaviourOptions::load()
 
     cbRenameDirectlyIcon->setChecked( g_pConfig->readEntry("RenameIconDirectly", QVariant(DEFAULT_RENAMEICONDIRECTLY )).toBool() );
 
-    KConfig globalconfig("kdeglobals", true, false);
-    globalconfig.setGroup( "KDE" );
-    cbShowDeleteCommand->setChecked( globalconfig.readEntry("ShowDeleteCommand", QVariant(false)).toBool() );
+    KSharedConfig::Ptr globalconfig = KSharedConfig::openConfig("kdeglobals", true, false);
+    globalconfig->setGroup( "KDE" );
+    cbShowDeleteCommand->setChecked( globalconfig->readEntry("ShowDeleteCommand", QVariant(false)).toBool() );
 
 //    if (!stips) sbToolTip->setEnabled( false );
     if (!stips) cbShowPreviewsInTips->setEnabled( false );
 
 //    sbToolTip->setValue( g_pConfig->readEntry( "FileTipItems", 6 ) );
 
-    KConfig config("uiserverrc");
-    config.setGroup( "UIServer" );
+    KSharedConfig::Ptr config = KSharedConfig::openConfig("uiserverrc");
+    config->setGroup( "UIServer" );
 
-    cbListProgress->setChecked( config.readEntry( "ShowList", QVariant(false )).toBool() );
+    cbListProgress->setChecked( config->readEntry( "ShowList", QVariant(false )).toBool() );
 
     g_pConfig->setGroup( "Trash" );
     cbMoveToTrash->setChecked( g_pConfig->readEntry("ConfirmTrash", QVariant(DEFAULT_CONFIRMTRASH)).toBool() );
@@ -260,10 +265,10 @@ void KBehaviourOptions::save()
 
     g_pConfig->writeEntry( "RenameIconDirectly", cbRenameDirectlyIcon->isChecked());
 
-    KConfig globalconfig("kdeglobals", false, false);
-    globalconfig.setGroup( "KDE" );
-    globalconfig.writeEntry( "ShowDeleteCommand", cbShowDeleteCommand->isChecked());
-    globalconfig.sync();
+    KSharedConfig::Ptr globalconfig = KSharedConfig::openConfig("kdeglobals", false, false);
+    globalconfig->setGroup( "KDE" );
+    globalconfig->writeEntry( "ShowDeleteCommand", cbShowDeleteCommand->isChecked());
+    globalconfig->sync();
 
     g_pConfig->setGroup( "Trash" );
     g_pConfig->writeEntry( "ConfirmTrash", cbMoveToTrash->isChecked());
@@ -271,10 +276,10 @@ void KBehaviourOptions::save()
     g_pConfig->sync();
 
     // UIServer setting
-    KConfig config("uiserverrc");
-    config.setGroup( "UIServer" );
-    config.writeEntry( "ShowList", cbListProgress->isChecked() );
-    config.sync();
+    KSharedConfig::Ptr config = KSharedConfig::openConfig("uiserverrc");
+    config->setGroup( "UIServer" );
+    config->writeEntry( "ShowList", cbListProgress->isChecked() );
+    config->sync();
     // Tell the running server
     if ( QDBus::sessionBus().interface()->isServiceRegistered( "org.kde.kio_uiserver" ) )
     {

@@ -22,6 +22,8 @@
 #include <kcmodule.h>
 //Added by qt3to4:
 #include <QLabel>
+#include <kconfig.h>
+#include <QStringList>
 
 class QCheckBox;
 class QLabel;
@@ -29,7 +31,6 @@ class QRadioButton;
 class QSpinBox;
 class Q3VButtonGroup;
 
-class KConfig;
 class KUrlRequester;
 
 //-----------------------------------------------------------------------------
@@ -39,7 +40,7 @@ class KBehaviourOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KBehaviourOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent);
+  KBehaviourOptions(QWidget *parent, const QStringList &args = QStringList());
     ~KBehaviourOptions();
   virtual void load();
   virtual void save();
@@ -51,7 +52,7 @@ protected Q_SLOTS:
   void slotShowTips(bool);
 private:
 
-  KConfig *g_pConfig;
+  KSharedConfig::Ptr g_pConfig;
   QString groupname;
 
   QCheckBox *cbNewWin;

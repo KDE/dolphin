@@ -1,12 +1,12 @@
 [Desktop Entry]
 Encoding=UTF-8
-Type=Application
+Type=Service
+ServiceTypes=KCModule
 DocPath=kcontrol/desktop/index.html#desktop-desktop-path
 Icon=kfm
 Exec=kcmshell desktoppath
 
-
-X-KDE-Library=konq
+X-KDE-Library=kcm_konq
 X-KDE-FactoryName=dpath
 X-KDE-ParentApp=kcontrol
 
@@ -20,5 +20,3 @@ Comment[x-test]=xxChange the location important files are storedxx
 Keywords=konqueror,filemanager,paths,desktop,directories,autostart
 Keywords[fr]=konqueror,gestionnaire de fichiers,explorateur,paths,chemins,bureau,dossiers,répertoires,démarrage automatique,autostart
 Keywords[x-test]=xxkonqueror,filemanager,paths,desktop,directories,autostartxx
-
-Categories=Qt;KDE;X-KDE-settings-system;

@@ -45,10 +45,15 @@
 #include <konq_defaults.h> // include default values directly from libkonq
 #include <kipc.h>
 #include <kprotocolinfo.h>
+#include "konqkcmfactory.h"
 
-DesktopBehaviorModule::DesktopBehaviorModule(KConfig *config, KInstance *inst, QWidget *parent )
-    : KCModule( inst, parent )
+typedef KonqKcmFactory<DesktopBehaviorModule> DesktopBehaviorModuleFactory;
+K_EXPORT_COMPONENT_FACTORY(dbehavior, DesktopBehaviorModuleFactory)
+
+DesktopBehaviorModule::DesktopBehaviorModule(QWidget *parent, const QStringList &)
+    : KCModule( _globalInstance(), parent )
 {
+    KSharedConfig::Ptr config = KSharedConfig::openConfig(_desktopConfigName(), false, false);
     QVBoxLayout* layout = new QVBoxLayout(this);
     m_behavior = new DesktopBehavior(config, this);
     layout->addWidget(m_behavior);
@@ -112,7 +117,7 @@ private:
 static const int choiceCount=7;
 static const char * s_choices[7] = { "", "WindowListMenu", "DesktopMenu", "AppMenu", "BookmarksMenu", "CustomMenu1", "CustomMenu2" };
 
-DesktopBehavior::DesktopBehavior(KConfig *config, QWidget *parent, const char * )
+DesktopBehavior::DesktopBehavior(KSharedConfig::Ptr config, QWidget *parent, const char * )
     : DesktopBehaviorBase( parent, "kcmkonq" ), g_pConfig(config)
 {
   QString strMouseButton1, strMouseButton3, strButtonTxt1, strButtonTxt3;
@@ -291,9 +296,9 @@ void DesktopBehavior::load()
     g_pConfig->setGroup( "FMSettings" );
     toolTipBox->setChecked(g_pConfig->readEntry( "ShowFileTips", true) );
     g_pConfig->setGroup( "Menubar" );
-    KConfig config( "kdeglobals" );
-    config.setGroup("KDE");
-    bool globalMenuBar = config.readEntry("macStyle", false);
+    KSharedConfig::Ptr config = KSharedConfig::openConfig( "kdeglobals" );
+    config->setGroup("KDE");
+    bool globalMenuBar = config->readEntry("macStyle", false);
     bool desktopMenuBar = g_pConfig->readEntry("ShowMenubar", false);
     if ( globalMenuBar )
         desktopMenuGroup->setButton( 2 );
@@ -365,13 +370,13 @@ void DesktopBehavior::save()
     g_pConfig->writeEntry( "ShowFileTips", toolTipBox->isChecked() );
     g_pConfig->setGroup( "Menubar" );
     g_pConfig->writeEntry("ShowMenubar", desktopMenuGroup->selectedId() == 1);
-    KConfig config( "kdeglobals" );
-    config.setGroup("KDE");
+    KSharedConfig::Ptr config = KSharedConfig::openConfig( "kdeglobals" );
+    config->setGroup("KDE");
     bool globalMenuBar = desktopMenuGroup->selectedId() == 2;
-    if ( globalMenuBar != config.readEntry("macStyle", false) )
+    if ( globalMenuBar != config->readEntry("macStyle", false) )
     {
-        config.writeEntry( "macStyle", globalMenuBar, KConfigBase::Normal | KConfigBase::Global );
-        config.sync();
+        config->writeEntry( "macStyle", globalMenuBar, KConfigBase::Normal | KConfigBase::Global );
+        config->sync();
         KIPC::sendMessageAll(KIPC::ToolbarStyleChanged);
     }
     g_pConfig->setGroup( "Mouse Buttons" );
@@ -455,13 +460,13 @@ void DesktopBehavior::editButtonPressed()
       return;
 
    KCustomMenuEditor editor(this);
-   KConfig cfg(cfgFile, false, false);
+   KSharedConfig::Ptr cfg = KSharedConfig::openConfig(cfgFile, false, false);
 
-   editor.load(&cfg);
+   editor.load(cfg.data());
    if (editor.exec())
    {
-      editor.save(&cfg);
-      cfg.sync();
+      editor.save(cfg.data());
+      cfg->sync();
       emit changed();
    }
 }

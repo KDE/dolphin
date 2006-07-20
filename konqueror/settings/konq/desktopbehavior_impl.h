@@ -24,12 +24,13 @@
 #include "desktopbehavior.h"
 #include <kconfig.h>
 #include <kcmodule.h>
+class QStringList;
 
 class DesktopBehavior : public DesktopBehaviorBase
 {
         Q_OBJECT
 public:
-        DesktopBehavior(KConfig *config, QWidget *parent = 0L, const char *name = 0L );
+        DesktopBehavior(KSharedConfig::Ptr config, QWidget *parent = 0, const char *name = 0);
         virtual void load();
         virtual void save();
         virtual void defaults();
@@ -46,7 +47,7 @@ private Q_SLOTS:
 	void editButtonPressed();
 
 private:
-        KConfig *g_pConfig;
+        KSharedConfig::Ptr g_pConfig;
 
 	void fillMediaListView();
 	void saveMediaListView();
@@ -63,7 +64,7 @@ class DesktopBehaviorModule : public KCModule
         Q_OBJECT
 
 public:
-        DesktopBehaviorModule(KConfig *config, KInstance *inst, QWidget *parent );
+        DesktopBehaviorModule(QWidget *parent, const QStringList &);
         virtual void load() { m_behavior->load(); emit KCModule::changed( false ); }
         virtual void save() { m_behavior->save(); emit KCModule::changed( false ); }
         virtual void defaults() { m_behavior->defaults(); emit KCModule::changed( true ); }

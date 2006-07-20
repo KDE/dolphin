@@ -21,9 +21,10 @@
 #define __KBROWSER_OPTIONS_H__
 
 #include <kcmodule.h>
+#include <kconfig.h>
 
-class KConfig;
 class QTabWidget;
+class QStringList;
 
 //-----------------------------------------------------------------------------
 
@@ -31,7 +32,7 @@ class KBrowserOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KBrowserOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent);
+  KBrowserOptions(QWidget *parent, const QStringList &args);
 
   virtual void load();
   virtual void save();

@@ -34,6 +34,7 @@
 #include <klineedit.h>
 #include <knuminput.h>
 #include <kconfig.h>
+#include "konqkcmfactory.h"
 
 #include <netwm.h>
 
@@ -43,22 +44,16 @@
 #include <QX11Info>
 #endif
 
-extern "C"
-{
-  KDE_EXPORT KCModule *create_virtualdesktops(QWidget *parent, const char * /*name*/)
-  {
-    KInstance *konq = new KInstance("kcmkonq");
-    return new KDesktopConfig(konq, parent);
-  }
-}
+typedef KonqKcmFactory<KDesktopConfig> KDesktopConfigFactory;
+K_EXPORT_COMPONENT_FACTORY(ddesktop, KDesktopConfigFactory)
 
 // I'm using lineedits by intention as it makes sence to be able
 // to see all desktop names at the same time. It also makes sense to
 // be able to TAB through those line edits fast. So don't send me mails
 // asking why I did not implement a more intelligent/smaller GUI.
 
-KDesktopConfig::KDesktopConfig(KInstance *inst, QWidget *parent)
-  : KCModule(inst, parent)
+KDesktopConfig::KDesktopConfig(QWidget *parent, const QStringList &)
+  : KCModule(_globalInstance(), parent)
 {
 
   setQuickHelp( i18n("<h1>Multiple Desktops</h1>In this module, you can configure how many virtual desktops you want and how these should be labeled."));
@@ -132,7 +127,7 @@ KDesktopConfig::KDesktopConfig(KInstance *inst, QWidget *parent)
   int kwin_screen_number = 0;
 #endif
 
-  KConfig config( "kwinrc" );
+  KSharedConfig::Ptr config = KSharedConfig::openConfig( "kwinrc" );
 
   QByteArray groupname;
   if (kwin_screen_number == 0)
@@ -140,14 +135,14 @@ KDesktopConfig::KDesktopConfig(KInstance *inst, QWidget *parent)
   else
      groupname = "Desktops-screen-" + QByteArray::number ( kwin_screen_number );
 
-  if (config.groupIsImmutable(groupname))
+  if (config->groupIsImmutable(groupname))
   {
      name_group->setEnabled(false);
      number_group->setEnabled(false);
   }
   else
   {
-     KConfigGroup cfgGroup(&config, groupname);
+     KConfigGroup cfgGroup(config.data(), groupname);
      if (cfgGroup.entryIsImmutable("Number"))
      {
         number_group->setEnabled(false);
@@ -177,7 +172,7 @@ void KDesktopConfig::load()
     _nameInput[i-1]->setEnabled(i <= n);
   emit changed(false);
 
-  KConfig *desktopConfig = new KConfig("kdesktoprc", false, false);
+  KSharedConfig::Ptr desktopConfig = KSharedConfig::openConfig("kdesktoprc", false, false);
   desktopConfig->setGroup("Mouse Buttons");
   _wheelOption->setChecked(desktopConfig->readEntry("WheelSwitchesWorkspace", QVariant(false)).toBool());
 
@@ -185,8 +180,6 @@ void KDesktopConfig::load()
 
   if (_wheelOptionImmutable || n<2)
      _wheelOption->setEnabled(false);
-
-  delete desktopConfig;
 #else
   _numInput->setValue(1);
 #endif
@@ -208,10 +201,9 @@ void KDesktopConfig::save()
 
   XSync(QX11Info::display(), false);
 
-  KConfig *desktopConfig = new KConfig("kdesktoprc");
+  KSharedConfig::Ptr desktopConfig = KSharedConfig::openConfig("kdesktoprc");
   desktopConfig->setGroup("Mouse Buttons");
   desktopConfig->writeEntry("WheelSwitchesWorkspace", _wheelOption->isChecked());
-  delete desktopConfig;
 
   // Tell kdesktop about the new config file
   int konq_screen_number = 0;

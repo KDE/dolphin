@@ -31,21 +31,28 @@
 #include "fontopts.h"
 #include "previews.h"
 #include "browser.h"
+#include "konqkcmfactory.h"
 
-KBrowserOptions::KBrowserOptions(KConfig *config, QString group, KInstance *inst, QWidget *parent)
-    : KCModule( inst, parent ) 
+typedef KonqKcmFactory<KBrowserOptions> KBrowserOptionsFactory;
+K_EXPORT_COMPONENT_FACTORY(browser, KBrowserOptionsFactory)
+
+KBrowserOptions::KBrowserOptions(QWidget *parent, const QStringList &)
+    : KCModule( _globalInstance(), parent )
 {
+  KSharedConfig::Ptr config = KSharedConfig::openConfig("konquerorrc", false, true);
+  QString group = "FMSettings";
+
   QVBoxLayout *layout = new QVBoxLayout(this);
   QTabWidget *tab = new QTabWidget(this);
   layout->addWidget(tab);
 
-  appearance = new KonqFontOptions(config, group, false, inst, tab);
+  appearance = new KonqFontOptions(tab);
   appearance->layout()->setMargin( KDialog::marginHint() );
 
-  behavior = new KBehaviourOptions(config, group, inst, tab);
+  behavior = new KBehaviourOptions(tab);
   behavior->layout()->setMargin( KDialog::marginHint() );
 
-  previews = new KPreviewOptions( inst, tab);
+  previews = new KPreviewOptions(tab);
   previews->layout()->setMargin( KDialog::marginHint() );
 
   kuick = KCModuleLoader::loadModule("kcmkuick", KCModuleLoader::None,tab);
