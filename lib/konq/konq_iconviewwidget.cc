@@ -952,7 +952,9 @@ void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r , const QPo
 
 Q3DragObject * KonqIconViewWidget::dragObject()
 {
+#ifdef __GNUC__
 #warning make this nicer once now Q3 view is used
+#endif
     if ( !currentItem() )
         return 0;
 
@@ -984,12 +986,16 @@ QMimeData * KonqIconViewWidget::konqMimeData(bool moveSelection)
 			urls.append(fileItem->url());
 			bool dummy;
 			mostLocalUrls.append(fileItem->mostLocalURL(dummy));
+#ifdef __GNUC__
 #warning how much of the q3icondragitem stuff do we have to duplicate here.... (TODO: jowenn)
+#endif
 		}
 	}
 	QMimeData *data=new QMimeData();
 	KonqMimeData::populateMimeData(data,urls,mostLocalUrls,moveSelection);
+#ifdef __GNUC__
 #warning perhaps move part of following code into populateMimeData;
+#endif
         if (primaryItem) {
 		QByteArray bytes;
 		QBuffer buffer(&bytes);
@@ -1796,9 +1802,9 @@ void KonqIconViewWidget::lineupIcons( Q3IconView::Arrangement arrangement )
     // Repaint only repaintRegion...
     Q3MemArray<QRect> rects = repaintRegion.rects();
     for ( uint l = 0; l < rects.count(); l++ ) {
-        kDebug( 1203 ) << "Repainting (" << rects[l].x() << ","
-                        << rects[l].y() << ")\n";
-        repaintContents( rects[l], false );
+        kDebug( 1203 ) << "Repainting (" << rects[(int)l].x() << ","
+                        << rects[(int)l].y() << ")\n";
+        repaintContents( rects[(int)l], false );
     }
     // Repaint icons that were moved
     while ( !movedItems.isEmpty() ) {

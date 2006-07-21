@@ -54,6 +54,9 @@ public:
             lastVisited == entry.lastVisited;
     }
 };
+#ifdef MAKE_KONQ_LIB
+KDE_DUMMY_QHASH_FUNCTION(KonqHistoryEntry)
+#endif
 
 Q_DECLARE_METATYPE(KonqHistoryEntry)
 

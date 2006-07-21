@@ -29,7 +29,7 @@
 #include <QDropEvent>
 
 class KJob;
-namespace KIO { class Job; class CopyInfo; }
+namespace KIO { class Job; struct CopyInfo; }
 class QWidget;
 class KFileItem;
 class KonqMainWindow;

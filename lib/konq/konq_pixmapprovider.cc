@@ -192,7 +192,9 @@ QPixmap KonqPixmapProvider::loadIcon( const QString& url, const QString& icon,
 	if( !mask.isNull() ) {
 		QBitmap sm( small.mask() );
         QPainter pt(&mask);
+#ifdef __GNUC__
 		#warning
+#endif
         pt.setCompositionMode( QPainter::CompositionMode_Source );
   pt.drawPixmap(QPoint(x,y), sm.isNull() ? small : QPixmap(sm), QRect(0,0,small.width(), small.height()));
 	    big.setMask( mask );
