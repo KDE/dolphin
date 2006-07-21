@@ -19,6 +19,7 @@
 #include <klocale.h>
 #include <kservicetypeprofile.h>
 #include <kstandarddirs.h>
+#include <kgenericfactory.h>
 
 #include "newtypedlg.h"
 #include "filetypedetails.h"
@@ -26,8 +27,11 @@
 #include "filetypesview.h"
 #include <ksycoca.h>
 
-FileTypesView::FileTypesView(KInstance *inst, QWidget *parent)
-  : KCModule(inst, parent)
+typedef KGenericFactory<FileTypesView> FileTypesViewFactory;
+K_EXPORT_COMPONENT_FACTORY(filetypes, FileTypesViewFactory("filetypes"))
+
+FileTypesView::FileTypesView(QWidget *parent, const QStringList &)
+  : KCModule(FileTypesViewFactory::instance(), parent)
 {
   m_konqConfig = KSharedConfig::openConfig("konquerorrc", false, false);
 

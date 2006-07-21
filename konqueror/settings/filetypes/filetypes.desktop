@@ -1,13 +1,12 @@
 [Desktop Entry]
 Encoding=UTF-8
 Icon=filetypes
-Type=Application
+Type=Service
+ServiceTypes=KCModule
 Exec=kcmshell filetypes
 DocPath=kcontrol/filetypes/index.html
-Categories=Qt;KDE;X-KDE-settings-components;
 
-
-X-KDE-Library=filetypes
+X-KDE-Library=kcm_filetypes
 X-KDE-ParentApp=kcontrol
 
 Name=File Associations
@@ -21,4 +20,3 @@ Comment[x-test]=xxConfigure file associationsxx
 Keywords=Filetypes,File Associations,Mime Types,File Patterns,Files,Pattern
 Keywords[fr]=types de fichiers,associations de fichiers,types MIME,motifs de fichier,fichiers,motif,extension,extensions de fichiers,applications
 Keywords[x-test]=xxFiletypes,File Associations,Mime Types,File Patterns,Files,Patternxx
-

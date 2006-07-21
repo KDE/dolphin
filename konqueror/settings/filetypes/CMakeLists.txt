@@ -3,9 +3,9 @@
 
 ########### next target ###############
 
-set(libfiletypes_SRCS filetypesview.cpp filetypedetails.cpp filegroupdetails.cpp kservicelistwidget.cpp typeslistitem.cpp newtypedlg.cpp kserviceselectdlg.cpp )
+set(libfiletypes_SRCS filetypedetails.cpp filegroupdetails.cpp kservicelistwidget.cpp typeslistitem.cpp newtypedlg.cpp kserviceselectdlg.cpp )
 
-set(kcm_filetypes_PART_SRCS control.cpp ${libfiletypes_SRCS})
+set(kcm_filetypes_PART_SRCS filetypesview.cpp ${libfiletypes_SRCS})
 
 kde4_automoc(${kcm_filetypes_PART_SRCS})
 
@@ -36,7 +36,7 @@ install(TARGETS keditfiletype DESTINATION ${BIN_INSTALL_DIR})
 
 ########### install files ###############
 
-install( FILES filetypes.desktop  DESTINATION  ${XDG_APPS_DIR} )
+install( FILES filetypes.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 
 
 
