@@ -1,13 +1,13 @@
 [Desktop Entry]
 Encoding=UTF-8
 Icon=launch
-Type=Application
+Type=Service
+ServiceTypes=KCModule
 Exec=kcmshell kcmkonqyperformance
-
 
 X-KDE-Library=performance
 X-KDE-FactoryName=konqueror
-X-KDE-ParentApp=kcontrol
+#X-KDE-ParentApp=kcontrol
 
 Name=Performance
 Name[x-test]=xxPerformancexx
@@ -19,4 +19,3 @@ Comment[x-test]=xxConfigure settings that can improve Konqueror performancexx
 Keywords=konqueror,reuse,preloading
 Keywords[fr]=konqueror,réutilisation,préchargement
 Keywords[x-test]=xxkonqueror,reuse,preloadingxx
-

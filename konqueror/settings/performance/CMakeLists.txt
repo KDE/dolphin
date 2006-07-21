@@ -20,9 +20,7 @@ install(TARGETS kcm_performance  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 ########### install files ###############
 
-install( FILES kcmperformance.desktop  DESTINATION  ${XDG_APPS_DIR} )
-install( FILES kcmkonqyperformance.desktop  DESTINATION  ${APPLNK_INSTALL_DIR}/.hidden )
-
+install( FILES kcmkonqyperformance.desktop kcmperformance.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 
 
 

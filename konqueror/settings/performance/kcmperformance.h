@@ -20,6 +20,7 @@
 #define _KCM_PERFORMANCE_H
 
 #include <kcmodule.h>
+class QStringList;
 
 namespace KCMPerformance
 {
@@ -32,7 +33,7 @@ class Config
     {
     Q_OBJECT
     public:
-        Config( QWidget* parent_P );
+        Config( QWidget* parent_P, const QStringList &args );
         virtual void load();
         virtual void save();
         virtual void defaults();
@@ -46,7 +47,7 @@ class KonquerorConfig
     {
     Q_OBJECT
     public:
-        KonquerorConfig( QWidget* parent_P );
+        KonquerorConfig( QWidget* parent_P, const QStringList &args );
         virtual void load();
         virtual void save();
         virtual void defaults();

@@ -1,11 +1,11 @@
 [Desktop Entry]
 Encoding=UTF-8
 Icon=launch
-Type=Application
+Type=Service
+ServiceTypes=KCModule
 Exec=kcmshell kcmperformance
 
-
-X-KDE-Library=performance
+X-KDE-Library=kcm_performance
 X-KDE-FactoryName=performance
 X-KDE-ParentApp=kcontrol
 
@@ -20,5 +20,3 @@ Comment[x-test]=xxConfigure settings that can improve KDE performancexx
 Keywords=performance,speed,memory,improve
 Keywords[fr]=performances,vitesse,mémoire,améliorer
 Keywords[x-test]=xxperformance,speed,memory,improvexx
-
-Categories=Qt;KDE;X-KDE-settings-components;
