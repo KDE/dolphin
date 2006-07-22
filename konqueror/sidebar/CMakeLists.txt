@@ -29,7 +29,7 @@ kde4_add_plugin(konq_sidebar ${konq_sidebar_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_sidebar )
 
-target_link_libraries(konq_sidebar  ${KDE4_KDECORE_LIBS} kparts kio konq konqsidebarplugin kutils )
+target_link_libraries(konq_sidebar  ${KDE4_KDECORE_LIBS} kparts ${KDE4_KIO_LIBS} konq konqsidebarplugin kutils )
 
 install(TARGETS konq_sidebar  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
