@@ -3519,7 +3519,8 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
 
 
     menuBar()->hide();
-
+    m_paShowMenuBar->setChecked( false );
+ 
     // Qt bug, the flags are lost. They know about it.
     // happens only with the hackish non-_NET_WM_STATE_FULLSCREEN way
     setAttribute( Qt::WA_DeleteOnClose );
@@ -3537,6 +3538,7 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
     unplugActionList( "fullscreen" );
 
     menuBar()->show(); // maybe we should store this setting instead of forcing it
+    m_paShowMenuBar->setChecked( true );
 
     // Qt bug, the flags aren't restored. They know about it.
     //setWFlags( WType_TopLevel | WDestructiveClose );
