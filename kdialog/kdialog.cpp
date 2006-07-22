@@ -28,6 +28,7 @@
 #include <QDataStream>
 #include <QRegExp>
 #include <QTimer>
+#include <QFileDialog>
 #include <qdesktopwidget.h>
 #include <kmessagebox.h>
 #include <kapplication.h>
@@ -415,8 +416,7 @@ static int directCommand(KCmdLineArgs *args)
 
             bool retcode = Widgets::checkList(0, title, text, list, separateOutput, result);
 
-            int i;
-            for (i=0; i<result.count(); i++)
+            for (int i=0; i<result.count(); i++)
                 if (!result.at(i).toLocal8Bit().isEmpty()) {
 		    cout << result.at(i).toLocal8Bit().data() << endl;
 		}
@@ -528,8 +528,9 @@ static int directCommand(KCmdLineArgs *args)
         startDir = QString::fromLocal8Bit(args->getOption("getexistingdirectory"));
 	QString result;
 #ifdef Q_WS_WIN
-	result = QFileDialog::getExistingDirectory(startDir, 0, "getExistingDirectory",
-							   title, true, true);
+	result = QFileDialog::getExistingDirectory( 0, title, startDir,
+	                                            QFileDialog::DontResolveSymlinks |
+	                                            QFileDialog::ShowDirsOnly);
 #else
 	KUrl url;
 	KDirSelectDialog myDialog( startDir, true, 0 );

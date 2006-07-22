@@ -269,7 +269,7 @@ private:
  * Creates a widget featuring a KViewSearchLine, a label with the text
  * "Search" and a button to clear the search.
  */
-class KDEUI_EXPORT KViewSearchLineWidget : public QWidget
+class KViewSearchLineWidget : public QWidget
 {
     Q_OBJECT
 
