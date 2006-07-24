@@ -39,7 +39,7 @@ install(TARGETS konq_sidebar  DESTINATION ${PLUGIN_INSTALL_DIR} )
 install( FILES konq_sidebartng.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 install( FILES konqsidebartng.rc  DESTINATION  ${CONFIG_INSTALL_DIR} )
 install( FILES .version  DESTINATION  ${DATA_INSTALL_DIR}/konqsidebartng/entries/ )
-install_files( /include FILES konqsidebarplugin.h )
+install( FILES konqsidebarplugin.h DESTINATION ${INCLUDE_INSTALL_DIR} )
 install( FILES konqsidebartng.upd move_konqsidebartng_entries.sh  DESTINATION  ${KCONF_UPDATE_INSTALL_DIR} )
 
 

@@ -38,7 +38,7 @@ kde4_automoc(${konq_LIB_SRCS})
 
 kde4_add_library(konq SHARED ${konq_LIB_SRCS})
 
-target_link_libraries(konq ${KDE4_KDE3SUPPORT_LIBS} ${QT_QTXML_LIBRARY} kdefx ${KDE4_KDESU_LIBS})
+target_link_libraries(konq ${KDE4_KDE3SUPPORT_LIBS} ${QT_QTXML_LIBRARY} ${KDE4_KDEFX_LIBS} ${KDE4_KDESU_LIBS})
 
 set_target_properties(konq PROPERTIES VERSION 6.0.0 SOVERSION 6 )
 install(TARGETS konq  DESTINATION ${LIB_INSTALL_DIR} )
@@ -47,7 +47,7 @@ install(TARGETS konq  DESTINATION ${LIB_INSTALL_DIR} )
 ########### install files ###############
 
 install( FILES directory_bookmarkbar.desktop   DESTINATION  ${DATA_INSTALL_DIR}/kbookmark )
-install_files( /include FILES
+install( FILES
  konq_popupmenu.h
  knewmenu.h
  kfileivi.h
@@ -70,6 +70,7 @@ install_files( /include FILES
  konqbookmarkmanager.h
  konq_filetip.h
  konqmimedata.h
+DESTINATION ${INCLUDE_INSTALL_DIR}
 )
 install( FILES konqpopupmenuplugin.desktop  DESTINATION  ${SERVICETYPES_INSTALL_DIR} )
 
