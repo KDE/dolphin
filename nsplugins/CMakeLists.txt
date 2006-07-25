@@ -3,7 +3,7 @@ if (X11_Xt_LIB)
 
   add_subdirectory( viewer ) 
   message(STATUS "TODO: fix nsplugintest linking (cmake problem)")
-  #add_subdirectory( test ) 
+  add_subdirectory( test ) 
 
 
   ########### next target ###############

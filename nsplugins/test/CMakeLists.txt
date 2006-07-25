@@ -3,11 +3,10 @@ include_directories( ${CMAKE_SOURCE_DIR}/libltdl ${CMAKE_CURRENT_BINARY_DIR}/.. 
 
 ########### next target ###############
 
+if(KDE4_BUILD_TESTS)
 set(testnsplugin_SRCS testnsplugin.cpp )
 
 kde4_automoc(${testnsplugin_SRCS})
-
-if(KDE4_BUILD_TESTS)
 
 kde4_add_executable(testnsplugin ${testnsplugin_SRCS})
 
