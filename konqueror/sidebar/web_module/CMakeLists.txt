@@ -11,7 +11,7 @@ kde4_add_plugin(konqsidebar_web ${konqsidebar_web_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konqsidebar_web )
 
-target_link_libraries(konqsidebar_web  ${KDE4_KDECORE_LIBS} kparts khtml konqsidebarplugin konq )
+target_link_libraries(konqsidebar_web  ${KDE4_KDECORE_LIBS} ${KDE4_KHTML_LIBS} ${KDE4_KPARTS_LIBS} konqsidebarplugin konq )
 
 install(TARGETS konqsidebar_web  DESTINATION ${PLUGIN_INSTALL_DIR} )
 

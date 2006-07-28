@@ -13,7 +13,7 @@ kde4_automoc(${konqsidebarplugin_LIB_SRCS})
 
 kde4_add_library(konqsidebarplugin SHARED ${konqsidebarplugin_LIB_SRCS})
 
-target_link_libraries(konqsidebarplugin  ${KDE4_KDECORE_LIBS} kparts )
+target_link_libraries(konqsidebarplugin  ${KDE4_KDECORE_LIBS} ${KDE4_KPARTS_LIBS} )
 
 set_target_properties(konqsidebarplugin PROPERTIES VERSION 1.2.0 SOVERSION 1 )
 install(TARGETS konqsidebarplugin  DESTINATION ${LIB_INSTALL_DIR} )
@@ -29,7 +29,7 @@ kde4_add_plugin(konq_sidebar ${konq_sidebar_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_sidebar )
 
-target_link_libraries(konq_sidebar  ${KDE4_KDECORE_LIBS} kparts ${KDE4_KIO_LIBS} konq konqsidebarplugin kutils )
+target_link_libraries(konq_sidebar  ${KDE4_KPARTS_LIBS} ${KDE4_KIO_LIBS} konq konqsidebarplugin kutils )
 
 install(TARGETS konq_sidebar  DESTINATION ${PLUGIN_INSTALL_DIR} )
 

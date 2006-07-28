@@ -11,7 +11,7 @@ kde4_add_plugin(konq_aboutpage ${konq_aboutpage_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} konq_aboutpage )
 
-target_link_libraries(konq_aboutpage  ${KDE4_KDECORE_LIBS} khtml ${KDE4_KDEUI_LIBS} kparts  ${QT_QTGUI_LIBRARY})
+target_link_libraries(konq_aboutpage  ${KDE4_KHTML_LIBS} ${KDE4_KPARTS_LIBS} ${KDE4_KDEUI_LIBS}  ${QT_QTGUI_LIBRARY})
 
 install(TARGETS konq_aboutpage  DESTINATION ${PLUGIN_INSTALL_DIR} )
 

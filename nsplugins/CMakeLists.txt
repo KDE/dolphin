@@ -24,7 +24,7 @@ if (X11_Xt_LIB)
 
   kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kcminit_nsplugin )
 
-  target_link_libraries(kcminit_nsplugin  ${KDE4_KIO_LIBS} kparts ${QT_QT3SUPPORT_LIBRARY} ${QT_QTGUI_LIBRARY} )
+  target_link_libraries(kcminit_nsplugin  ${KDE4_KIO_LIBS} ${KDE4_KPARTS_LIBS} ${QT_QT3SUPPORT_LIBRARY} ${QT_QTGUI_LIBRARY} )
 
 install(TARGETS kcminit_nsplugin  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
