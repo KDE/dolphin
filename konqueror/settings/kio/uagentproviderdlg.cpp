@@ -62,14 +62,12 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
 {
   setModal( true );
   setCaption ( caption );
-
-  QVBoxLayout* mainLayout = new QVBoxLayout(this);
-  mainLayout->setMargin(0);
-  mainLayout->setSpacing(0);
+  setButtons( None );
 
   dlg = new UAProviderDlgUI (this);
-  mainLayout->addWidget(dlg);
-  //dlg->leIdentity->setEnableSqueezedText( true );
+  dlg->layout()->setMargin(0);
+  dlg->layout()->setSpacing(0);
+  setMainWidget( dlg );
 
   if (!m_provider)
   {
