@@ -53,6 +53,9 @@ KonqViewManager::KonqViewManager( KonqMainWindow *mainWindow )
   m_bProfileListDirty = true;
   m_bLoadingProfile = false;
 
+  m_activePartChangedTimer = new QTimer(this);
+  m_activePartChangedTimer->setSingleShot(true);
+  connect(m_activePartChangedTimer, SIGNAL(timeout()), this, SLOT( emitActivePartChanged()));
   connect( this, SIGNAL( activePartChanged ( KParts::Part * ) ), this, SLOT( slotActivePartChanged ( KParts::Part * ) ) );
 }
 
@@ -1343,18 +1346,19 @@ void KonqViewManager::setActivePart( KParts::Part *part, bool immediate )
     if (part && part->widget())
         part->widget()->setFocus();
 
-    if (!immediate && reason() != ReasonRightClick)
+    if (!immediate && reason() != ReasonRightClick) {
         // We use a 0s single shot timer so that when left-clicking on a part,
         // we process the mouse event before rebuilding the GUI.
         // Otherwise, when e.g. dragging icons, the mouse pointer can already
         // be very far from where it was...
         // TODO: use a QTimer member var, so that if two conflicting calls to
         // setActivePart(part,immediate=false) happen, the 1st one gets canceled.
-        QTimer::singleShot( 0, this, SLOT( emitActivePartChanged() ) );
+        m_activePartChangedTimer->start( 0 );
         // This is not done with right-clicking so that the part is activated before the
         // popup appears (#75201)
-    else
+    } else {
         emitActivePartChanged();
+    }
 }
 
 void KonqViewManager::slotActivePartChanged ( KParts::Part *newPart )

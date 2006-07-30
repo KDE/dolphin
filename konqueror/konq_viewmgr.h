@@ -34,6 +34,7 @@
 
 class QString;
 class QStringList;
+class QTimer;
 class KConfig;
 class KonqMainWindow;
 class KonqFrameBase;
@@ -359,6 +360,8 @@ private:
   QString m_profileHomeURL;
 
   QMap<QString, QString> m_mapProfileNames;
+
+  QTimer *m_activePartChangedTimer;
 };
 
 #endif
