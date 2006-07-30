@@ -7,7 +7,6 @@ DocPath=kcontrol/kcmcss/index.html
 
 
 X-KDE-Library=css
-X-KDE-FactoryName=kcmcss
 X-KDE-ParentApp=kcontrol
 
 Name=Stylesheets

@@ -44,7 +44,7 @@
 #include "history_settings.h"
 
 typedef KGenericFactory<HistorySidebarConfig, QWidget > KCMHistoryFactory;
-K_EXPORT_COMPONENT_FACTORY (kcm_history, KCMHistoryFactory("kcmhistory") )
+K_EXPORT_COMPONENT_FACTORY (history, KCMHistoryFactory("kcmhistory") )
 
 HistorySidebarConfig::HistorySidebarConfig( QWidget *parent, const QStringList & )
     : KCModule (KCMHistoryFactory::instance(), parent, QStringList())
