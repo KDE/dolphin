@@ -355,7 +355,7 @@ void KonqIconViewWidget::slotOnItem( Q3IconViewItem *_item )
         d->pSoundPlayer->mimeTypes().contains(
             item->item()->mimetype())
         && KGlobalSettings::showFilePreview(item->item()->url())
-        && topLevelWidget() == kapp->activeWindow())
+        && window() == kapp->activeWindow())
     {
         d->pSoundItem = item;
         d->bSoundItemClicked = false;
@@ -1213,7 +1213,7 @@ void KonqIconViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
         // The following call is SO expensive (the ::widgetAt call eats up to 80%
         // of the mouse move cpucycles!), so it's mandatory to place that function
         // under strict checks, such as d->pSoundPlayer->isPlaying()
-        if ( QApplication::topLevelAt( QCursor::pos() ) != topLevelWidget() )
+        if ( QApplication::topLevelAt( QCursor::pos() ) != window() )
             stopSound();
     }
     d->renameItem= false;
