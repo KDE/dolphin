@@ -352,8 +352,7 @@ void KonqIconViewWidget::slotOnItem( Q3IconViewItem *_item )
 
     // ## shouldn't this be disabled during rectangular selection too ?
     if (d->bSoundPreviews && d->pSoundPlayer &&
-        d->pSoundPlayer->mimeTypes().contains(
-            item->item()->mimetype())
+        d->pSoundPlayer->isMimeTypeKnown(item->item()->mimetype())
         && KGlobalSettings::showFilePreview(item->item()->url())
         && window() == kapp->activeWindow())
     {
@@ -367,6 +366,7 @@ void KonqIconViewWidget::slotOnItem( Q3IconViewItem *_item )
             connect(d->pSoundTimer, SIGNAL(timeout()), SLOT(slotStartSoundPreview()));
         }
         d->pSoundTimer->start();
+        d->pSoundPlayer->setUrl(d->pSoundItem->item()->url());
     }
     else
         stopSound();
@@ -409,7 +409,7 @@ void KonqIconViewWidget::slotStartSoundPreview()
   if (!d->pSoundItem || d->bSoundItemClicked)
     return;
 
-  d->pSoundPlayer->play(d->pSoundItem->item()->url().url());
+  d->pSoundPlayer->play();
 }
 
 

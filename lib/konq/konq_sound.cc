@@ -30,47 +30,61 @@ class KonqSoundPlayerImpl : public KonqSoundPlayer
 {
 public:
 	KonqSoundPlayerImpl();
-	virtual ~KonqSoundPlayerImpl();
+	virtual ~KonqSoundPlayerImpl() {}
 
-	virtual const QStringList &mimeTypes();
-	virtual void play(const QString &fileName);
+	virtual bool isMimeTypeKnown(const QString& mimeType);
+	virtual void setUrl(const KUrl &url);
+	virtual void play();
 	virtual void stop();
 	virtual bool isPlaying();
 
 private:
-	QStringList m_mimetypes;
-	Phonon::AudioPlayer m_player;
+	Phonon::AudioPlayer *m_player;
 };
 
 KonqSoundPlayerImpl::KonqSoundPlayerImpl()
-	: m_player(Phonon::MusicCategory)
+	: m_player(0)
 {
 }
 
-KonqSoundPlayerImpl::~KonqSoundPlayerImpl()
+bool KonqSoundPlayerImpl::isMimeTypeKnown(const QString& mimeType)
 {
+	kDebug() << k_funcinfo << mimeType << Phonon::BackendCapabilities::isMimeTypeKnown(mimeType) << endl;
+	return Phonon::BackendCapabilities::isMimeTypeKnown(mimeType);
 }
 
-const QStringList &KonqSoundPlayerImpl::mimeTypes()
-{
-	m_mimetypes = Phonon::BackendCapabilities::self()->knownMimeTypes();
-	return m_mimetypes;
-}
-
-void KonqSoundPlayerImpl::play(const QString &fileName)
+void KonqSoundPlayerImpl::setUrl(const KUrl &url)
 {
 	kDebug() << k_funcinfo << endl;
-	m_player.play(KUrl(fileName));
+	if (!m_player) {
+		kDebug() << "create AudioPlayer" << endl;
+		m_player = new Phonon::AudioPlayer(Phonon::MusicCategory, this);
+	}
+	m_player->load(url);
+}
+
+void KonqSoundPlayerImpl::play()
+{
+	kDebug() << k_funcinfo << endl;
+	if (m_player)
+		m_player->play();
 }
 
 void KonqSoundPlayerImpl::stop()
 {
-	m_player.stop();
+	kDebug() << k_funcinfo << endl;
+	if (m_player)
+		m_player->stop();
 }
 
 bool KonqSoundPlayerImpl::isPlaying()
 {
-	return m_player.isPlaying();
+	if (m_player) {
+		kDebug() << k_funcinfo << m_player->isPlaying() << endl;
+		return m_player->isPlaying();
+	}
+	kDebug() << k_funcinfo << false << endl;
+	return false;
 }
 
 class KonqSoundFactory : public KLibFactory
