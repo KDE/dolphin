@@ -22,6 +22,7 @@
 #include <kdebug.h>
 
 #include "konq_sound.h"
+#include <kurl.h>
 
 using namespace std;
 
@@ -37,12 +38,12 @@ public:
 	virtual bool isPlaying();
 
 private:
-	QStringList m_mimeTypes;
-
+	QStringList m_mimetypes;
 	Phonon::AudioPlayer m_player;
 };
 
 KonqSoundPlayerImpl::KonqSoundPlayerImpl()
+	: m_player(Phonon::MusicCategory)
 {
 }
 
@@ -52,20 +53,14 @@ KonqSoundPlayerImpl::~KonqSoundPlayerImpl()
 
 const QStringList &KonqSoundPlayerImpl::mimeTypes()
 {
-	if( m_mimeTypes.isEmpty() ) //TODO or backend has changed
-	{
-		KMimeType::List mimetypes = Phonon::BackendCapabilities::self()->knownMimeTypes();
-		foreach( KMimeType::Ptr p, mimetypes )
-		{
-			m_mimeTypes << p->name();
-		}
-	}
-	return m_mimeTypes;
+	m_mimetypes = Phonon::BackendCapabilities::self()->knownMimeTypes();
+	return m_mimetypes;
 }
 
 void KonqSoundPlayerImpl::play(const QString &fileName)
 {
-	m_player.play( fileName );
+	kDebug() << k_funcinfo << endl;
+	m_player.play(KUrl(fileName));
 }
 
 void KonqSoundPlayerImpl::stop()
@@ -86,11 +81,11 @@ public:
 	virtual ~KonqSoundFactory() {};
 
 protected:
-	virtual QObject *createObject(QObject * = 0, const char * = 0,
+	virtual QObject *createObject(QObject * = 0,
 		const char *className = "QObject", const QStringList &args = QStringList());
 };
 
-QObject *KonqSoundFactory::createObject(QObject *, const char *,
+QObject *KonqSoundFactory::createObject(QObject *,
 	const char *className, const QStringList &)
 {
 	if (qstrcmp(className, "KonqSoundPlayer") == 0)

@@ -265,13 +265,7 @@ void KonqIconViewWidget::slotOnItem( Q3IconViewItem *_item )
 
     // Stop sound
     if (d->pSoundPlayer != 0 && item != d->pSoundItem)
-    {
-        d->pSoundPlayer->stop();
-
-        d->pSoundItem = 0;
-        if (d->pSoundTimer && d->pSoundTimer->isActive())
-            d->pSoundTimer->stop();
-    }
+        stopSound();
 
     if ( !m_bMousePressed )
     {
@@ -368,32 +362,21 @@ void KonqIconViewWidget::slotOnItem( Q3IconViewItem *_item )
         if (!d->pSoundTimer)
         {
             d->pSoundTimer = new QTimer(this);
+            d->pSoundTimer->setSingleShot( true );
+            d->pSoundTimer->setInterval( 500 );
             connect(d->pSoundTimer, SIGNAL(timeout()), SLOT(slotStartSoundPreview()));
         }
-        if (d->pSoundTimer->isActive())
-            d->pSoundTimer->stop();
-        d->pSoundTimer->setSingleShot( true );
-        d->pSoundTimer->start( 500 );
+        d->pSoundTimer->start();
     }
     else
-    {
-        if (d->pSoundPlayer)
-            d->pSoundPlayer->stop();
-        d->pSoundItem = 0;
-        if (d->pSoundTimer && d->pSoundTimer->isActive())
-            d->pSoundTimer->stop();
-    }
+        stopSound();
 }
 
 void KonqIconViewWidget::slotOnViewport()
 {
     d->pFileTip->setItem( 0L );
 
-    if (d->pSoundPlayer)
-      d->pSoundPlayer->stop();
-    d->pSoundItem = 0;
-    if (d->pSoundTimer && d->pSoundTimer->isActive())
-      d->pSoundTimer->stop();
+    stopSound();
 
     if (d->pActiveItem == 0L)
         return;
@@ -615,12 +598,7 @@ bool KonqIconViewWidget::boostPreview() const
 void KonqIconViewWidget::disableSoundPreviews()
 {
     d->bSoundPreviews = false;
-
-    if (d->pSoundPlayer)
-      d->pSoundPlayer->stop();
-    d->pSoundItem = 0;
-    if (d->pSoundTimer && d->pSoundTimer->isActive())
-      d->pSoundTimer->stop();
+    stopSound();
 }
 
 void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreviewFor )
@@ -1219,6 +1197,15 @@ void KonqIconViewWidget::setSortDirectoriesFirst( bool b )
   m_bSortDirsFirst = b;
 }
 
+void KonqIconViewWidget::stopSound()
+{
+    if (d->pSoundPlayer)
+        d->pSoundPlayer->stop();
+    d->pSoundItem = 0;
+    if (d->pSoundTimer && d->pSoundTimer->isActive())
+        d->pSoundTimer->stop();
+}
+
 void KonqIconViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
 {
     if ( (d->pSoundPlayer && d->pSoundPlayer->isPlaying()) || (d->pSoundTimer && d->pSoundTimer->isActive()))
@@ -1226,14 +1213,8 @@ void KonqIconViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
         // The following call is SO expensive (the ::widgetAt call eats up to 80%
         // of the mouse move cpucycles!), so it's mandatory to place that function
         // under strict checks, such as d->pSoundPlayer->isPlaying()
-        if ( QApplication::widgetAt( QCursor::pos() ) != topLevelWidget() )
-        {
-            if (d->pSoundPlayer)
-                d->pSoundPlayer->stop();
-            d->pSoundItem = 0;
-            if (d->pSoundTimer && d->pSoundTimer->isActive())
-                d->pSoundTimer->stop();
-        }
+        if ( QApplication::topLevelAt( QCursor::pos() ) != topLevelWidget() )
+            stopSound();
     }
     d->renameItem= false;
     K3IconView::contentsMouseMoveEvent( e );

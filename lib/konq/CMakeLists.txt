@@ -43,6 +43,14 @@ target_link_libraries(konq ${KDE4_KDE3SUPPORT_LIBS} ${QT_QTXML_LIBRARY} ${KDE4_K
 set_target_properties(konq PROPERTIES VERSION 6.0.0 SOVERSION 6 )
 install(TARGETS konq  DESTINATION ${LIB_INSTALL_DIR} )
 
+########### next target ###############
+
+set(konq_sound_LIB_SRCS konq_sound.cc)
+kde4_automoc(${konq_sound_LIB_SRCS})
+kde4_add_plugin(konq_sound ${konq_sound_LIB_SRCS})
+kde4_install_libtool_file(${PLUGIN_INSTALL_DIR} konq_sound)
+target_link_libraries(konq_sound ${KDE4_KDECORE_LIBS} ${KDE4_PHONONCORE_LIBRARY})
+install(TARGETS konq_sound  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 ########### install files ###############
 

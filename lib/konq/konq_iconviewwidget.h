@@ -344,6 +344,8 @@ protected:
     void updatePreviewMimeTypes();
 
 private:
+    void stopSound();
+
     KUrl m_url;
     const KFileItem * m_rootItem;
 
