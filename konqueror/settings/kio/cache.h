@@ -29,11 +29,11 @@ class CacheDlgUI;
 class KCacheConfigDialog : public KCModule
 {
   Q_OBJECT
-  
+
 public:
-  KCacheConfigDialog( KInstance *inst, QWidget* parent );
+  KCacheConfigDialog(QWidget *parent, const QStringList &args);
   ~KCacheConfigDialog() {}
-  
+
   virtual void load();
   virtual void save();
   virtual void defaults();

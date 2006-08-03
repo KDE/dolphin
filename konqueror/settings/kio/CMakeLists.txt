@@ -49,9 +49,9 @@ install(TARGETS kcm_kio  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 ########### install files ###############
 
-install( FILES cookies.desktop useragent.desktop cache.desktop                  lanbrowser.desktop netpref.desktop proxy.desktop  DESTINATION  ${XDG_APPS_DIR} )
+install( FILES smb.desktop cookies.desktop useragent.desktop cache.desktop lanbrowser.desktop
+    netpref.desktop proxy.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 install( FILES uasprovider.desktop  DESTINATION  ${SERVICETYPES_INSTALL_DIR} )
-install( FILES smb.desktop  DESTINATION  ${APPLNK_INSTALL_DIR}/.hidden )
 install( FILES socks.upd  DESTINATION  ${KCONF_UPDATE_INSTALL_DIR} )
 
 

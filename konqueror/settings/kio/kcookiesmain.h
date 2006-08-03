@@ -17,7 +17,7 @@ class KCookiesMain : public KCModule
 {
     Q_OBJECT
 public:
-    KCookiesMain(KInstance *inst, QWidget *parent);
+    KCookiesMain(QWidget *parent, const QStringList &args);
     ~KCookiesMain();
 
     KCookiesPolicies* policyDlg() { return policies; }

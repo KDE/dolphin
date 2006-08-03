@@ -1,12 +1,12 @@
 [Desktop Entry]
 Encoding=UTF-8
-Type=Application
+Type=Service
+ServiceTypes=KCModule
 DocPath=kcontrol/cookies/index.html
 Icon=cookie
 Exec=kcmshell cookies
 
-
-X-KDE-Library=kio
+X-KDE-Library=kcm_kio
 X-KDE-FactoryName=cookie
 X-KDE-ParentApp=kcontrol
 
@@ -20,5 +20,3 @@ Comment[x-test]=xxConfigure the way cookies workxx
 Keywords=Cookies,Browsing,Internet,WWW,Network,Policy,Domains
 Keywords[fr]=Cookies,navigation,internet,WWW,Web,réseau,règle,politique,domaine
 Keywords[x-test]=xxCookies,Browsing,Internet,WWW,Network,Policy,Domainsxx
-
-Categories=Qt;KDE;X-KDE-settings-webbrowsing;

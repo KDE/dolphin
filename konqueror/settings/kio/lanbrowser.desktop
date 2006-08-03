@@ -1,12 +1,13 @@
 [Desktop Entry]
 Encoding=UTF-8
-Type=Application
+Type=Service
+ServiceTypes=KCModule
 Icon=samba
 Exec=kcmshell lanbrowser
 
-
-X-KDE-Library=kio
+X-KDE-Library=kcm_kio
 X-KDE-FactoryName=lanbrowser
+X-KDE-ParentApp=kcontrol
 
 Name=Local Network Browsing
 Name[fr]=Navigation dans le réseau local
@@ -19,5 +20,3 @@ Comment[x-test]=xxSetup lisa, reslisa and the ioslavesxx
 Keywords=samba,smb,windows,network
 Keywords[fr]=samba,smb,windows,réseau
 Keywords[x-test]=xxsamba,smb,windows,networkxx
-
-Categories=Qt;KDE;X-KDE-settings-network;

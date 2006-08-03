@@ -44,9 +44,13 @@
 
 #include "useragentdlg.h"
 #include "useragentdlg_ui.h"
+#include <kgenericfactory.h>
 
-UserAgentDlg::UserAgentDlg( KInstance *inst, QWidget * parent )
-             :KCModule( inst, parent )
+typedef KGenericFactory<UserAgentDlg> UserAgentDlgFactory;
+K_EXPORT_COMPONENT_FACTORY(useragent, UserAgentDlgFactory("kcmkio"))
+
+UserAgentDlg::UserAgentDlg(QWidget *parent, const QStringList &)
+    : KCModule(UserAgentDlgFactory::instance(), parent)
 {
   QVBoxLayout *mainLayout = new QVBoxLayout(this);
   mainLayout->setMargin(0);

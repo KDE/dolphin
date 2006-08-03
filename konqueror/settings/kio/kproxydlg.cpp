@@ -39,17 +39,21 @@
 #include "socks.h"
 #include "kproxydlg.h"
 #include "kproxydlg_ui.h"
+#include <kgenericfactory.h>
 
-KProxyOptions::KProxyOptions ( KInstance *inst, QWidget* parent )
-              :KCModule ( inst, parent )
+typedef KGenericFactory<KProxyOptions> KProxyOptionsFactory;
+K_EXPORT_COMPONENT_FACTORY(proxy, KProxyOptionsFactory("kcmkio"))
+
+KProxyOptions::KProxyOptions(QWidget *parent, const QStringList &)
+    : KCModule(KProxyOptionsFactory::instance(), parent)
 {
   QVBoxLayout *layout = new QVBoxLayout(this);
   
   mTab = new QTabWidget(this);
   layout->addWidget(mTab);
 
-  mProxy  = new KProxyDialog(inst, mTab);
-  mSocks = new KSocksConfig(inst, mTab);
+  mProxy  = new KProxyDialog(instance(), mTab);
+  mSocks = new KSocksConfig(instance(), mTab);
 
   mTab->addTab(mProxy, i18n("&Proxy"));
   mTab->addTab(mSocks, i18n("&SOCKS"));

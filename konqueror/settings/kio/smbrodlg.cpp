@@ -28,15 +28,18 @@
 #include <kcharsets.h>
 #include <kcombobox.h>
 #include <kdialog.h>
+#include <kgenericfactory.h>
 
 #include "smbrodlg.h"
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
+typedef KGenericFactory<SMBRoOptions> SMBRoOptionsFactory;
+K_EXPORT_COMPONENT_FACTORY(smb, SMBRoOptionsFactory("kcmkio"))
 
-SMBRoOptions::SMBRoOptions(KInstance *inst, QWidget *parent)
-  : KCModule(inst, parent)
+SMBRoOptions::SMBRoOptions(QWidget *parent, const QStringList &, KInstance* inst)
+  : KCModule(inst ? inst : SMBRoOptionsFactory::instance(), parent)
 {
    QGridLayout *layout = new QGridLayout(this );
    layout->setMargin( KDialog::marginHint() );

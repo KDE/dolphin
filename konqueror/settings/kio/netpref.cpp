@@ -13,11 +13,15 @@
 
 #include "ksaveioconfig.h"
 #include "netpref.h"
+#include <kgenericfactory.h>
 
 #define MAX_TIMEOUT_VALUE  3600
 
-KIOPreferences::KIOPreferences( KInstance *inst, QWidget* parent )
-               :KCModule( inst, parent )
+typedef KGenericFactory<KIOPreferences> KIOPreferencesFactory;
+K_EXPORT_COMPONENT_FACTORY(netpref, KIOPreferencesFactory("kcmkio"))
+
+KIOPreferences::KIOPreferences(QWidget *parent, const QStringList &)
+    : KCModule(KIOPreferencesFactory::instance(), parent)
 {
     QVBoxLayout* mainLayout = new QVBoxLayout( this );
     mainLayout->setMargin( 0 );

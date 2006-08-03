@@ -35,63 +35,17 @@
 #include "useragentdlg.h"
 #include "kproxydlg.h"
 #include "cache.h"
+#include <kgenericfactory.h>
 
 #include "main.h"
 
-static KInstance *_kcmkio = 0;
+typedef KGenericFactory<LanBrowser> LanBrowserFactory;
+K_EXPORT_COMPONENT_FACTORY(lanbrowser, LanBrowserFactory("kcmkio"))
 
-inline KInstance *inst() {
-        if (_kcmkio)
-                return _kcmkio;
-        _kcmkio = new KInstance("kcmkio");
-        return _kcmkio;
-}
-
-
-extern "C"
-{
-
-  KDE_EXPORT KCModule *create_cookie(QWidget *parent, const char /**name*/)
-  {
-    return new KCookiesMain(inst(), parent);
-  }
-
-  KDE_EXPORT KCModule *create_smb(QWidget *parent, const char /**name*/)
-  {
-    return new SMBRoOptions(inst(), parent);
-  }
-
-  KDE_EXPORT KCModule *create_useragent(QWidget *parent, const char /**name*/)
-  {
-    return new UserAgentDlg(inst(), parent);
-  }
-
-  KDE_EXPORT KCModule *create_proxy(QWidget *parent, const char /**name*/)
-  {
-    return new KProxyOptions(inst(), parent);
-  }
-
-  KDE_EXPORT KCModule *create_cache(QWidget *parent, const char /**name*/)
-  {
-    return new KCacheConfigDialog( inst(), parent );
-  }
-
-  KDE_EXPORT KCModule *create_netpref(QWidget *parent, const char /**name*/)
-  {
-    return new KIOPreferences( inst(), parent );
-  }
-
-  KDE_EXPORT KCModule *create_lanbrowser(QWidget *parent, const char *)
-  {
-    return new LanBrowser( parent );
-  }
-
-}
-
-LanBrowser::LanBrowser(QWidget *parent)
-:KCModule(inst(), parent)
-,layout(this)
-,tabs(this)
+LanBrowser::LanBrowser(QWidget *parent, const QStringList &)
+    : KCModule(LanBrowserFactory::instance(), parent)
+    , layout(this)
+    , tabs(this)
 {
    setQuickHelp( i18n("<h1>Local Network Browsing</h1>Here you setup your "
 		"<b>\"Network Neighborhood\"</b>. You "
@@ -112,7 +66,7 @@ LanBrowser::LanBrowser(QWidget *parent)
    
    layout.addWidget(&tabs);
 
-   smbPage = create_smb(&tabs, 0);
+   smbPage = new SMBRoOptions(&tabs, QStringList(), instance());
    tabs.addTab(smbPage, i18n("&Windows Shares"));
    connect(smbPage,SIGNAL(changed(bool)), SLOT( changed() ));
 

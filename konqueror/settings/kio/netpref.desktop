@@ -1,21 +1,23 @@
 [Desktop Entry]
 Encoding=UTF-8
-Comment=Configure generic network preferences, like timeout values
-Comment[fr]=Configuration générique du réseau, comme par exemple les valeurs des délais d'attente
-Comment[x-test]=xxConfigure generic network preferences, like timeout valuesxx
 Exec=kcmshell netpref
 Icon=network
-Keywords=timeout,iopref,netpref,network preferences,ftp
-Keywords[fr]=délai,configuration du réseau,réseau,entrées/sorties,ftp
-Keywords[x-test]=xxtimeout,iopref,netpref,network preferences,ftpxx
+Type=Service
+ServiceTypes=KCModule
+DocPath=kcontrol/netpref/index.html
+
+X-KDE-Library=kcm_kio
+X-KDE-FactoryName=netpref
+X-KDE-ParentApp=kcontrol
+
 Name=Connection Preferences
 Name[fr]=Préférences de connexion
 Name[x-test]=xxConnection Preferencesxx
-Type=Application
-DocPath=kcontrol/netpref/index.html
-X-KDE-FactoryName=netpref
-X-KDE-Library=kio
 
-X-KDE-ParentApp=kcontrol
+Comment=Configure generic network preferences, like timeout values
+Comment[fr]=Configuration générique du réseau, comme par exemple les valeurs des délais d'attente
+Comment[x-test]=xxConfigure generic network preferences, like timeout valuesxx
 
-Categories=Qt;KDE;X-KDE-settings-network;
+Keywords=timeout,iopref,netpref,network preferences,ftp
+Keywords[fr]=délai,configuration du réseau,réseau,entrées/sorties,ftp
+Keywords[x-test]=xxtimeout,iopref,netpref,network preferences,ftpxx

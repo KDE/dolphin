@@ -15,9 +15,13 @@
 #include "kcookiesmain.h"
 #include "kcookiespolicies.h"
 #include "kcookiesmanagement.h"
+#include <kgenericfactory.h>
 
-KCookiesMain::KCookiesMain(KInstance *inst, QWidget *parent)
-  : KCModule(inst, parent)
+typedef KGenericFactory<KCookiesMain> KCookiesMainFactory;
+K_EXPORT_COMPONENT_FACTORY(cookie, KCookiesMainFactory("kcmkio"))
+
+KCookiesMain::KCookiesMain(QWidget *parent, const QStringList &)
+  : KCModule(KCookiesMainFactory::instance(), parent)
 {
     management = 0;
     bool managerOK = true;
@@ -38,13 +42,13 @@ KCookiesMain::KCookiesMain(KInstance *inst, QWidget *parent)
     tab = new QTabWidget(this);
     layout->addWidget(tab);
 
-    policies = new KCookiesPolicies(inst, this);
+    policies = new KCookiesPolicies(instance(), this);
     tab->addTab(policies, i18n("&Policy"));
     connect(policies, SIGNAL(changed(bool)), SIGNAL(changed(bool)));
 
     if( managerOK )
     {
-        management = new KCookiesManagement(inst, this);
+        management = new KCookiesManagement(instance(), this);
         tab->addTab(management, i18n("&Management"));
         connect(management, SIGNAL(changed(bool)), SIGNAL(changed(bool)));
     }

@@ -1,14 +1,13 @@
 [Desktop Entry]
 Encoding=UTF-8
-Type=Application
+Type=Service
+ServiceTypes=KCModule
 DocPath=kcontrol/smb/index.html
 Icon=samba
 Exec=kcmshell smb
 
-
-X-KDE-Library=kio
+X-KDE-Library=kcm_kio
 X-KDE-FactoryName=smb
-X-KDE-ParentApp=kcontrol
 
 Name=Windows Shares
 Name[fr]=Partages Windows
@@ -21,4 +20,3 @@ Comment[x-test]=xxUse to configure which windows (SMB) filesystems you can brows
 Keywords=SMB,SAMBA,SMB client,Windows network,LAN,Network,neighborhood,Server,Broadcast,WINS,Share,Login,Passwords
 Keywords[fr]=smb,samba,client smb,réseau Windows,lan,réseau local,réseau,voisinage,serveur,broadcast,diffusion,wins,partage,connexion,mot de passe,windows,login
 Keywords[x-test]=xxSMB,SAMBA,SMB client,Windows network,LAN,Network,neighborhood,Server,Broadcast,WINS,Share,Login,Passwordsxx
-

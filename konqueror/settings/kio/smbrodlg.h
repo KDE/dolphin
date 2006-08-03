@@ -33,7 +33,7 @@ class SMBRoOptions : public KCModule
 {
    Q_OBJECT
    public:
-      SMBRoOptions(KInstance *inst, QWidget *parent);
+      SMBRoOptions(QWidget *parent, const QStringList &args, KInstance *inst = 0);
       ~SMBRoOptions();
 
       virtual void load();

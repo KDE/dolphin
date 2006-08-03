@@ -36,7 +36,7 @@ class KProxyOptions : public KCModule
   Q_OBJECT
 
 public:
-  KProxyOptions( KInstance *inst, QWidget* parent );
+  KProxyOptions(QWidget *parent, const QStringList &args);
   ~KProxyOptions();
 
   virtual void load();

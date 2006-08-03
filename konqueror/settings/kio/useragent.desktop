@@ -1,12 +1,12 @@
 [Desktop Entry]
 Encoding=UTF-8
-Type=Application
+Type=Service
+ServiceTypes=KCModule
 Icon=agent
 Exec=kcmshell useragent
 DocPath=kcontrol/useragent/index.html
 
-
-X-KDE-Library=kio
+X-KDE-Library=kcm_kio
 X-KDE-FactoryName=useragent
 X-KDE-ParentApp=kcontrol
 
@@ -21,5 +21,3 @@ Comment[x-test]=xxConfigure the way Konqueror reports itselfxx
 Keywords=User Agent,Browser,Internet,WWW,Network,agent,bindings,server,login
 Keywords[fr]=identité du navigateur,navigateur,WWW,réseau,associations,serveur,connexion,login,internet
 Keywords[x-test]=xxUser Agent,Browser,Internet,WWW,Network,agent,bindings,server,loginxx
-
-Categories=Qt;KDE;X-KDE-settings-webbrowsing;

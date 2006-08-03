@@ -36,7 +36,7 @@ class UserAgentDlg : public KCModule
   Q_OBJECT
 
 public:
-  UserAgentDlg ( KInstance *inst, QWidget * parent) ;
+  UserAgentDlg(QWidget *parent, const QStringList &args);
   ~UserAgentDlg();
 
   virtual void load();
