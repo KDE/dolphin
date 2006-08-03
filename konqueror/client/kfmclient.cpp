@@ -289,6 +289,8 @@ void ClientApp::sendASNChange()
 #endif
 }
 
+static bool krun_has_error = false;
+
 bool ClientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, const QString & mimetype)
 {
     kDebug( 1202 ) << "ClientApp::createNewWindow " << url.url() << " mimetype=" << mimetype << endl;
@@ -311,7 +313,7 @@ bool ClientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, co
             QObject::connect( run, SIGNAL( finished() ), qApp, SLOT( delayedQuit() ));
             QObject::connect( run, SIGNAL( error() ), qApp, SLOT( delayedQuit() ));
             qApp->exec();
-            return !run->hasError();
+            return !krun_has_error;
         }
     }
 
@@ -434,6 +436,9 @@ void ClientApp::delayedQuit()
     // Quit in 2 seconds. This leaves time for KRun to pop up
     // "app not found" in KProcessRunner, if that was the case.
     QTimer::singleShot( 2000, this, SLOT(deref()) );
+    // don't access the KRun instance later, it will be deleted after calling slots
+    if( static_cast< const KRun* >( sender())->hasError())
+        krun_has_error = true;
 }
 
 static void checkArgumentCount(int count, int min, int max)
