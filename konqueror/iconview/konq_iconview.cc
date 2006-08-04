@@ -33,6 +33,7 @@
 #include <kdebug.h>
 #include <kdirlister.h>
 #include <kglobalsettings.h>
+#include <kicon.h>
 #include <kinputdialog.h>
 #include <kivdirectoryoverlay.h>
 #include <klocale.h>

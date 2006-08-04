@@ -17,6 +17,7 @@
 */
 
 #include "kshellcmdplugin.h"
+#include <kicon.h>
 #include <kinputdialog.h>
 #include <kmessagebox.h>
 #include <konq_dirpart.h>

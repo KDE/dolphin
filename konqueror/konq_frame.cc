@@ -26,6 +26,7 @@
 #include <kactioncollection.h>
 #include <kapplication.h>
 #include <kdebug.h>
+#include <kicon.h>
 #include <kiconloader.h>
 #include <klocale.h>
 #include <ksqueezedtextlabel.h>

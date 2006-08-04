@@ -30,6 +30,7 @@
 #include <kapplication.h>
 #include <kbookmark.h>
 #include <k3bookmarkdrag.h>
+#include <kicon.h>
 #include <kiconloader.h>
 #include <klineedit.h>
 #include <kmessagebox.h>

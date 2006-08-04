@@ -26,6 +26,7 @@
 #include <kdebug.h>
 #include <kdesktopfile.h>
 #include <kdirwatch.h>
+#include <kicon.h>
 #include <kinstance.h>
 #include <kinputdialog.h>
 #include <klocale.h>

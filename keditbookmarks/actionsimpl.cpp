@@ -40,6 +40,7 @@
 #include <kaction.h>
 #include <kactioncollection.h>
 #include <kedittoolbar.h>
+#include <kicon.h>
 #include <kicondialog.h>
 #include <kiconloader.h>
 #include <kinputdialog.h>

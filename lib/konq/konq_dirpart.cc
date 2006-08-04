@@ -28,6 +28,7 @@
 #include <kaction.h>
 #include <kdebug.h>
 #include <kdirlister.h>
+#include <kicon.h>
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kmessagebox.h>

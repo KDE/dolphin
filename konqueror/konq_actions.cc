@@ -27,6 +27,7 @@
 #include <kstringhandler.h>
 
 #include <konq_pixmapprovider.h>
+#include <kicon.h>
 #include <kiconloader.h>
 #include <kmenu.h>
 #include <kapplication.h>

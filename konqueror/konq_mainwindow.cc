@@ -110,6 +110,7 @@
 #include <kwin.h>
 #include <kfiledialog.h>
 #include <klocale.h>
+#include <kicon.h>
 #include <kiconloader.h>
 #include <kmenu.h>
 #include <kprocess.h>

@@ -42,6 +42,7 @@
 #include <kdirnotify.h>
 #include <kdesktopfile.h>
 #include <kglobalsettings.h>
+#include <kicon.h>
 #include <kiconloader.h>
 #include <kinputdialog.h>
 #include <kio/netaccess.h>

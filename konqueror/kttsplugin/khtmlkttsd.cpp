@@ -20,6 +20,7 @@
 #include "khtmlkttsd.h"
 #include <kaction.h>
 #include <kgenericfactory.h>
+#include <kicon.h>
 #include <kiconloader.h>
 #include <QMessageBox>
 #include <klocale.h>

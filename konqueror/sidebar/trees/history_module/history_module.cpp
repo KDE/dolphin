@@ -26,6 +26,7 @@
 #include <kcursor.h>
 #include <kconfig.h>
 #include <kdebug.h>
+#include <kicon.h>
 #include <kiconloader.h>
 #include <kmessagebox.h>
 #include <krun.h>

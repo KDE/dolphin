@@ -29,6 +29,7 @@
 #include <kdebug.h>
 #include <krun.h>
 #include <kprotocolmanager.h>
+#include <kicon.h>
 #include <kiconloader.h>
 #include <kinputdialog.h>
 #include <kglobalsettings.h>
