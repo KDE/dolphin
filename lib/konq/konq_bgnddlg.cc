@@ -81,7 +81,7 @@ KonqBgndDialog::KonqBgndDialog( QWidget* parent,
 
     connect( m_comboPicture->comboBox(), SIGNAL( activated( int ) ),
 	     this, SLOT( slotPictureChanged() ) );
-    connect( m_comboPicture, SIGNAL( urlSelected(const QString &) ),
+    connect( m_comboPicture, SIGNAL( urlSelected(const KUrl &) ),
              this, SLOT( slotPictureChanged() ) );
 
     QSpacerItem* spacer1 = new QSpacerItem( 0, 0, QSizePolicy::Expanding,
