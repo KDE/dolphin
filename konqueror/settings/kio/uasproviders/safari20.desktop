@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=UADescription (Safari 2.0 on MacOS X)
+Name[x-test]=xxUADescription (Safari 2.0 on MacOS X)xx
 Type=Service
 ServiceTypes=UserAgentStrings
 X-KDE-UA-TAG=SAF

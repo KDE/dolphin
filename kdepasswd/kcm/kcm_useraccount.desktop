@@ -10,6 +10,7 @@ Name=Password & User Account
 Name[fr]=Compte utilisateur et mot de passe
 Name[x-test]=xxPassword & User Accountxx
 Keywords=password;email;name;organization;realname;login image;face; echo mode;
+Keywords[x-test]=xxpassword;email;name;organization;realname;login image;face; echo mode;xx
 Comment=User information such as password, name and email
 Comment[fr]=Informations sur l'utilisateur, comme le mot de passe, le nom, et l'adresse électronique
 Comment[x-test]=xxUser information such as password, name and emailxx

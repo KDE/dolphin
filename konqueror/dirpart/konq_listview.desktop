@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Type=Service
 Name=List Part
+Name[x-test]=xxList Partxx
 MimeType=inode/directory
 ServiceTypes=KParts/ReadOnlyPart,Browser/View
 X-KDE-Library=konq_part

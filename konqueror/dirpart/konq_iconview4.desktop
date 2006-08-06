@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Type=Service
 Name=Icon Part
+Name[x-test]=xxIcon Partxx
 MimeType=inode/directory
 ServiceTypes=KParts/ReadOnlyPart,Browser/View
 X-KDE-Library=konq_part
