@@ -65,7 +65,7 @@ KonqExtensionManager::KonqExtensionManager(QWidget *parent, KonqMainWindow *main
 	QVBoxLayout *vb = new QVBoxLayout( page );
 	vb->setAutoAdd(true);
 	vb->setSpacing( 0 );
-	d->pluginSelector = new KPluginSelector( page );
+	d->pluginSelector = new KPluginSelector(this);
 	setMainWidget(d->pluginSelector);
 	connect(d->pluginSelector, SIGNAL(changed(bool)), this, SLOT(setChanged(bool)));
 	connect(d->pluginSelector, SIGNAL(configCommitted(const QByteArray &)),
