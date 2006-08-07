@@ -21,6 +21,7 @@
 
 #include <ktoolinvocation.h>
 #include <kio/job.h>
+#include <kio/jobuidelegate.h>
 #include <kcmdlineargs.h>
 #include <klocale.h>
 #include <kprocess.h>
@@ -515,7 +516,10 @@ bool ClientApp::doIt()
 void ClientApp::slotResult( KJob * job )
 {
   if (job->error() && s_interactive)
-    static_cast<KIO::Job*>(job)->showErrorDialog();
+  {
+    static_cast<KIO::Job*>(job)->ui()->setWindow(0);
+    static_cast<KIO::Job*>(job)->ui()->showErrorMessage();
+  }
   m_ok = !job->error();
   quit();
 }

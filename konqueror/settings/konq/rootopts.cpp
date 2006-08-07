@@ -33,6 +33,7 @@
 #include <kipc.h>
 #include <k3listview.h>
 #include <kio/job.h>
+#include <kio/jobuidelegate.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kmimetype.h>
@@ -304,7 +305,8 @@ void DesktopPathConfig::slotEntries( KIO::Job * job, const KIO::UDSEntryList& li
 {
     if (job->error())
     {
-        job->showErrorDialog(this);
+        job->ui()->setWindow(this);
+        job->ui()->showErrorMessage();
         return;
     }
 
@@ -333,7 +335,8 @@ void DesktopPathConfig::slotResult( KJob * job )
         // If the source doesn't exist, no wonder we couldn't move the dir.
         // In that case, trust the user and set the new setting in any case.
 
-        static_cast<KIO::Job*>(job)->showErrorDialog(this);
+        static_cast<KIO::Job*>(job)->ui()->setWindow(this);
+        static_cast<KIO::Job*>(job)->ui()->showErrorMessage();
     }
     qApp->exit_loop();
 }

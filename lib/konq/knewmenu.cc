@@ -39,6 +39,7 @@
 #include <kactioncollection.h>
 #include <kseparatoraction.h>
 #include <kio/job.h>
+#include <kio/jobuidelegate.h>
 #include <kio/renamedlg.h>
 
 #include <kpropertiesdialog.h>
@@ -496,7 +497,10 @@ void KNewMenu::slotRenamed( KIO::Job *, const KUrl& from , const KUrl& to )
 void KNewMenu::slotResult( KJob * job )
 {
     if (job->error())
-        static_cast<KIO::Job*>( job )->showErrorDialog();
+    {
+        static_cast<KIO::Job*>( job )->ui()->setWindow( 0 );
+        static_cast<KIO::Job*>( job )->ui()->showErrorMessage();
+    }
     else
     {
         KUrl destURL = static_cast<KIO::CopyJob*>(job)->destURL();
