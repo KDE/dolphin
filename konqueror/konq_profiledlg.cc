@@ -127,6 +127,10 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
   enableButton( BTN_RENAME, m_pListView->selectedItem ()!=0 );
   enableButton( BTN_DELETE, m_pListView->selectedItem ()!=0 );
 
+  connect( this,SIGNAL(user1Clicked()),SLOT(slotUser1()));
+  connect( this,SIGNAL(user2Clicked()),SLOT(slotUser2()));
+  connect( this,SIGNAL(user3Clicked()),SLOT(slotUser3()));
+
   resize( sizeHint() );
 }
 
