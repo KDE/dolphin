@@ -110,7 +110,7 @@
                             <cstring>desktopMenuGroup</cstring>
                         </property>
                         <property name="title">
-                            <string>Menu Bar at Qt::DockTop of Screen</string>
+                            <string>Menu Bar at top of Screen</string>
                         </property>
                         <vbox>
                             <property name="name">
