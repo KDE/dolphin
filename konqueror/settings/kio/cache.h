@@ -23,8 +23,18 @@
 #define CACHE_H
 
 #include <kcmodule.h>
+#include "ui_cache_ui.h"
 
-class CacheDlgUI;
+class CacheDlgUI : public QWidget, public Ui::CacheDlgUI
+{
+    public:
+        CacheDlgUI(QWidget *parent = 0)
+        : QWidget(parent)
+        {
+            setupUi(this);
+        }
+};
+
 
 class KCacheConfigDialog : public KCModule
 {

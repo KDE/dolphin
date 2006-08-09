@@ -36,7 +36,7 @@
 #include <kio/http_slave_defaults.h>
 
 #include "cache.h"
-#include "cache_ui.h"
+#include "ui_cache_ui.h"
 #include <kgenericfactory.h>
 
 typedef KGenericFactory<KCacheConfigDialog> KCacheConfigDialogFactory;
@@ -73,7 +73,9 @@ void KCacheConfigDialog::load()
 
   // Config changed notifications...
   connect ( m_dlg->cbUseCache, SIGNAL(toggled(bool)), SLOT(configChanged()) );
-  connect ( m_dlg->bgCachePolicy, SIGNAL(clicked (int)), SLOT(configChanged()) );
+  connect ( m_dlg->rbVerifyCache, SIGNAL(toggled(bool)), SLOT(configChanged()) );
+  connect ( m_dlg->rbOfflineMode, SIGNAL(toggled(bool)), SLOT(configChanged()) );
+  connect ( m_dlg->rbCacheIfPossible, SIGNAL(toggled(bool)), SLOT(configChanged()) );
   connect ( m_dlg->sbMaxCacheSize, SIGNAL(valueChanged(int)), SLOT(configChanged()) );
   connect ( m_dlg->pbClearCache, SIGNAL(clicked()), SLOT(slotClearCache()) );
   emit changed( false );
