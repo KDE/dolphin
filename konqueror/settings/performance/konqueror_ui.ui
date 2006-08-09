@@ -19,7 +19,7 @@
         <property name="margin">
             <number>0</number>
         </property>
-        <widget class="QButtonGroup">
+        <widget class="QGroupBox">
             <property name="name">
                 <cstring>reuse_group</cstring>
             </property>
