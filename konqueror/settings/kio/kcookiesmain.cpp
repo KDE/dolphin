@@ -26,7 +26,7 @@ KCookiesMain::KCookiesMain(QWidget *parent, const QStringList &)
     management = 0;
     bool managerOK = true;
 
-    QDBusInterface kded("org.kde.kded", "/modules/kded", "org.kde.kded.Kded");
+    QDBusInterface kded("org.kde.kded", "/kded", "org.kde.kded");
     QDBusReply<bool> reply = kded.call("loadModule",QString( "kcookiejar" ) );
 
     if( !reply.isValid() )
