@@ -54,7 +54,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     // ************ Page One ************
 
-    pages[0] = new QWidget( this );
+    pages[0] = new QWidget;
     pages[0]->setObjectName( "page1" );
 
     nameBox = new KComboBox(pages[0]);
@@ -146,7 +146,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     // ************ Page Two
 
-    pages[1] = new QWidget( this );
+    pages[1] = new QWidget;
     pages[1]->setObjectName( "page2" );
 
     findCreated =  new QCheckBox(i18n("Find all files created or &modified:"), pages[1]);
@@ -269,7 +269,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     // ************ Page Three
 
-    pages[2] = new QWidget( this );
+    pages[2] = new QWidget;
     pages[2]->setObjectName( "page3" );
 
     typeBox =new KComboBox( pages[2] );
