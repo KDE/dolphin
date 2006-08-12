@@ -249,6 +249,7 @@ KonqView* KonqViewManager::splitWindow( Qt::Orientation orientation,
   }
 
   newContainer->show();
+  mainFrame->widget()->show();
 
   mainFrame->widget()->setUpdatesEnabled( true );
 

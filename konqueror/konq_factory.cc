@@ -30,7 +30,8 @@
 #include <kaboutdata.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kmimetypetrader.h>
+#include <kmimetypetrader.h> 
+#include <kservicetypetrader.h>
 
 #include <QWidget>
 #include <QFile>
@@ -190,6 +191,13 @@ void KonqFactory::getOffers( const QString & serviceType,
                              KService::List *partServiceOffers,
                              KService::List *appServiceOffers )
 {
+#warning Temporary hack
+    if ( partServiceOffers && serviceType[0].isUpper() ) {
+        *partServiceOffers = KServiceTypeTrader::self()->query( serviceType, 
+                    "DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'");
+        return;
+
+    }
     if ( appServiceOffers )
     {
         *appServiceOffers = KMimeTypeTrader::self()->query( serviceType, "Application",

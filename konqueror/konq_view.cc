@@ -317,7 +317,7 @@ bool KonqView::changeViewMode( const QString &serviceType,
                 << " serviceName is " << serviceName
                 << " current service name is " << m_service->desktopEntryName() << endl;
 
-  if ( KMimeType::mimeType(serviceType)->is(m_serviceType) && (serviceName.isEmpty() || serviceName == m_service->desktopEntryName()) )
+  if ( KMimeType::mimeType(serviceType) && KMimeType::mimeType(serviceType)->is(m_serviceType) && (serviceName.isEmpty() || serviceName == m_service->desktopEntryName()) )
     return true;
 
   if ( isLockedViewMode() )
