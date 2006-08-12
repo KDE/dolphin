@@ -111,7 +111,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
        if (args->isSet("mimetype"))
            urlargs.serviceType = QString::fromLocal8Bit(args->getOption("mimetype"));
        if (args->isSet("select")) {
-           QString fn = kurl.fileName(false);
+           QString fn = kurl.fileName(KUrl::ObeyTrailingSlash);
            if( !fn.isEmpty() ){
               filesToSelect += fn;
               kurl.setFileName("");
@@ -188,7 +188,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
                      }
                      if (args->isSet("select"))
                      {
-                        QString fn = urlToOpen.fileName(false);
+                        QString fn = urlToOpen.fileName(KUrl::ObeyTrailingSlash);
                         if( !fn.isEmpty() ){
                            filesToSelect += fn;
                            urlToOpen.setFileName("");
