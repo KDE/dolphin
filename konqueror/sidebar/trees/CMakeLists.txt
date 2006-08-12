@@ -16,7 +16,7 @@ include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/konqueror $
 
 
 ########### next target ###############
-set(konqsidebar_tree_PART_SRCS ${libkonq_sidebar_tree_SRCS})
+set(konqsidebar_tree_PART_SRCS konqsidebar_tree.cpp ${libkonq_sidebar_tree_SRCS})
 
 kde4_automoc(${konqsidebar_tree_PART_SRCS})
 
