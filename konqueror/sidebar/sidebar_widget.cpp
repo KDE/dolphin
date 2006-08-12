@@ -278,8 +278,6 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, bool 
 	}
         connect(m_menu, SIGNAL(aboutToShow()),
 		this, SLOT(aboutToShowConfigMenu()));
-	connect(m_menu, SIGNAL(activated(int)),
-		this, SLOT(activatedMenu(int)));
 
 	m_buttonPopup = 0;
 	m_buttonPopupTitle = 0;
@@ -1216,21 +1214,17 @@ Sidebar_Widget::~Sidebar_Widget()
 	}
 }
 
-bool Sidebar_Widget::event(QEvent* ev)
+void Sidebar_Widget::customEvent(QEvent* ev)
 {
 	if (KonqFileSelectionEvent::test(ev))
 	{
 		emit fileSelection(static_cast<KonqFileSelectionEvent*>(ev)->selection());
-		return true;
 	} else if (KonqFileMouseOverEvent::test(ev)) {
 		if (!(static_cast<KonqFileMouseOverEvent*>(ev)->item())) {
 			emit fileMouseOver(KFileItem(KUrl(),QString(),KFileItem::Unknown));
 		} else {
 			emit fileMouseOver(*static_cast<KonqFileMouseOverEvent*>(ev)->item());
 		}
-		return true;
-	} else {
-		return QWidget::event( ev );
 	}
 }
 

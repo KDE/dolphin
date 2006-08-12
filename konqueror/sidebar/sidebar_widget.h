@@ -110,7 +110,7 @@ public Q_SLOTS:
 	void addWebSideBar(const KUrl& url, const QString& name);
 
 protected:
-	virtual bool event(QEvent* ev);
+	void customEvent(QEvent* ev);
 	void resizeEvent(QResizeEvent* ev);
 	virtual bool eventFilter(QObject*,QEvent*);
 	virtual void mousePressEvent(QMouseEvent*);
