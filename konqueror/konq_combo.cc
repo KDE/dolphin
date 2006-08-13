@@ -19,7 +19,6 @@
 
 #include <QPainter>
 #include <QStyle>
-//Added by qt3to4:
 #include <QPixmap>
 #include <QPaintEvent>
 #include <QEvent>
@@ -43,10 +42,6 @@
 KConfig * KonqCombo::s_config = 0L;
 const int KonqCombo::temporary = 0;
 
-#ifdef __GNUC__
-#warning "This needs massive porting, mostly stubbed out"
-#endif
-
 static QString titleOfURL( const QString& urlStr )
 {
     KUrl url( urlStr );
@@ -59,8 +54,7 @@ static QString titleOfURL( const QString& urlStr )
     return ( historyentry != historylist.end() ? (*historyentry).title : QString() );
 }
 
-#if 0
-class Q_EXPORT KonqComboListBoxPixmap : public Q3ListBoxItem
+class KonqComboListBoxPixmap : public Q3ListBoxItem
 {
 public:
     KonqComboListBoxPixmap( const QString& text );
@@ -88,18 +82,17 @@ private:
 class KonqComboLineEdit : public KLineEdit
 {
 public:
-    KonqComboLineEdit( QWidget *parent=0, const char *name=0 );
+    KonqComboLineEdit( QWidget *parent=0 );
     void setCompletedItems( const QStringList& items );
 };
 
 class KonqComboCompletionBox : public KCompletionBox
 {
 public:
-    KonqComboCompletionBox( QWidget *parent, const char *name = 0 );
+    KonqComboCompletionBox( QWidget *parent );
     void setItems( const QStringList& items );
     void insertStringList( const QStringList & list, int index = -1 );
 };
-#endif
 
 KonqCombo::KonqCombo( QWidget *parent )
           : KHistoryCombo( parent ),
@@ -122,10 +115,10 @@ KonqCombo::KonqCombo( QWidget *parent )
     // handling of signals later.
     setHandleSignals( true );
 
-    //KonqComboLineEdit *edit = new KonqComboLineEdit( this, "combo lineedit" );
-    //edit->setHandleSignals( true );
-    //edit->setCompletionBox( new KonqComboCompletionBox( edit, "completion box" ) );
-    //setLineEdit( edit );
+    KonqComboLineEdit *edit = new KonqComboLineEdit( this );
+    edit->setHandleSignals( true );
+    edit->setCompletionBox( new KonqComboCompletionBox( edit ) );
+    setLineEdit( edit );
 
     completionBox()->setTabHandling( true );
 
@@ -248,14 +241,14 @@ void KonqCombo::applyPermanent()
 
 void KonqCombo::insertItem( const QString &text, int index, const QString& title )
 {
-    //KonqComboListBoxPixmap* item = new KonqComboListBoxPixmap( 0, text, title );
-    KHistoryCombo::insertItem( index, text /*item*/ );
+    KonqComboListBoxPixmap* item = new KonqComboListBoxPixmap( 0, text, title );
+    KHistoryCombo::insertItem( index, text, item );
 }
 
 void KonqCombo::insertItem( const QPixmap &pixmap, const QString& text, int index, const QString& title )
 {
-    //KonqComboListBoxPixmap* item = new KonqComboListBoxPixmap( pixmap, text, title );
-    KHistoryCombo::insertItem( index, pixmap, text /*, item */ );
+    KonqComboListBoxPixmap* item = new KonqComboListBoxPixmap( pixmap, text, title );
+    KHistoryCombo::insertItem( index, pixmap, text, item );
 }
 
 void KonqCombo::updateItem( const QPixmap& pix, const QString& t, int index, const QString& title )
@@ -277,7 +270,6 @@ void KonqCombo::updateItem( const QPixmap& pix, const QString& t, int index, con
     //listBox()->changeItem( item, index );
     changeItem( pix, t, index );
 
-    /*
     setUpdatesEnabled( false );
     lineEdit()->setUpdatesEnabled( false );
 
@@ -287,7 +279,6 @@ void KonqCombo::updateItem( const QPixmap& pix, const QString& t, int index, con
     setUpdatesEnabled( true );
     lineEdit()->setUpdatesEnabled( true );
     update();
-    */
 }
 
 void KonqCombo::saveState()
@@ -705,7 +696,6 @@ bool KonqCombo::hasSufficientContrast(const QColor &c1, const QColor &c2)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-#if 0
 KonqComboListBoxPixmap::KonqComboListBoxPixmap( const QString& text )
     : Q3ListBoxItem()
 {
@@ -750,8 +740,8 @@ void KonqComboListBoxPixmap::paint( QPainter *painter )
         pmWidth = pm->width() + 5;
     }
 
-    int entryWidth = listBox()->width() - listBox()->style().pixelMetric( QStyle::PM_ScrollBarExtent ) -
-                     2 * listBox()->style().pixelMetric( QStyle::PM_DefaultFrameWidth );
+    int entryWidth = listBox()->width() - listBox()->style()->pixelMetric( QStyle::PM_ScrollBarExtent ) -
+                     2 * listBox()->style()->pixelMetric( QStyle::PM_DefaultFrameWidth );
     int titleWidth = ( entryWidth / 3 ) - 1;
     int urlWidth = entryWidth - titleWidth - pmWidth - 2;
 
@@ -760,7 +750,7 @@ void KonqComboListBoxPixmap::paint( QPainter *painter )
         painter->drawText( pmWidth, 0, urlWidth + pmWidth, itemHeight,
                            Qt::AlignLeft | Qt::AlignTop, squeezedText );
 
-        //painter->setPen( KGlobalSettings::inactiveTextColor() );
+        painter->setPen( KGlobalSettings::inactiveTextColor() );
         squeezedText = KStringHandler::rPixelSqueeze( title, listBox()->fontMetrics(), titleWidth );
         QFont font = painter->font();
         font.setItalic( true );
@@ -804,12 +794,10 @@ bool KonqComboListBoxPixmap::reuse( const QString& newText )
     setText( newText );
     return true;
 }
-#endif
 ///////////////////////////////////////////////////////////////////////////////
 
-#if 0
-KonqComboLineEdit::KonqComboLineEdit( QWidget *parent, const char *name )
-                  :KLineEdit( parent, name ) {}
+KonqComboLineEdit::KonqComboLineEdit( QWidget *parent )
+                  :KLineEdit( parent ) {}
 
 void KonqComboLineEdit::setCompletedItems( const QStringList& items )
 {
@@ -825,13 +813,13 @@ void KonqComboLineEdit::setCompletedItems( const QStringList& items )
 
     if ( !items.isEmpty() && !(items.count() == 1 && txt == items.first()) ) {
         if ( !completionBox( false ) )
-            setCompletionBox( new KonqComboCompletionBox( this, "completion box" ) );
+            setCompletionBox( new KonqComboCompletionBox( this ) );
 
         if ( completionbox->isVisible() ) {
-            bool wasSelected = completionbox->isSelected( completionbox->currentIndex() );
+            bool wasSelected = completionbox->isSelected( completionbox->currentItem() );
             const QString currentSelection = completionbox->currentText();
             completionbox->setItems( items );
-            Q3ListBoxItem* item = completionbox->findItem( currentSelection, Qt::ExactMatch );
+            Q3ListBoxItem* item = completionbox->findItem( currentSelection, Q3ListBox::ExactMatch );
             if( !item || !wasSelected )
             {
                 wasSelected = false;
@@ -839,7 +827,7 @@ void KonqComboLineEdit::setCompletedItems( const QStringList& items )
             }
             if ( item ) {
                 completionbox->blockSignals( true );
-                completionbox->setCurrentIndex( item );
+                completionbox->setCurrentItem( item );
                 completionbox->setSelected( item, wasSelected );
                 completionbox->blockSignals( false );
             }
@@ -862,12 +850,10 @@ void KonqComboLineEdit::setCompletedItems( const QStringList& items )
         if ( completionbox && completionbox->isVisible() )
             completionbox->hide();
 }
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////
-#if 0
-KonqComboCompletionBox::KonqComboCompletionBox( QWidget *parent, const char *name )
-                       :KCompletionBox( parent, name ) {}
+KonqComboCompletionBox::KonqComboCompletionBox( QWidget *parent )
+                       :KCompletionBox( parent ) {}
 
 void KonqComboCompletionBox::setItems( const QStringList& items )
 {
@@ -930,5 +916,4 @@ void KonqComboCompletionBox::insertStringList( const QStringList & list, int ind
     for ( QStringList::ConstIterator it = list.begin(); it != list.end(); ++it )
         insertItem( new KonqComboListBoxPixmap( *it ), index++ );
 }
-#endif
 #include "konq_combo.moc"
