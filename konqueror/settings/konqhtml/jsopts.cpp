@@ -45,25 +45,30 @@ KJavaScriptOptions::KJavaScriptOptions( KSharedConfig::Ptr config, QString group
   toplevel->setSpacing( 5 );
 
   // the global checkbox
-  Q3GroupBox* globalGB = new Q3GroupBox( 2, Qt::Vertical, i18n( "Global Settings" ), this );
+  QGroupBox* globalGB = new QGroupBox(i18n( "Global Settings" ));
+  QGridLayout *hbox = new QGridLayout;
   toplevel->addWidget( globalGB );
 
-  enableJavaScriptGloballyCB = new QCheckBox( i18n( "Ena&ble JavaScript globally" ), globalGB );
+  enableJavaScriptGloballyCB = new QCheckBox( i18n( "Ena&ble JavaScript globally" ));
   enableJavaScriptGloballyCB->setWhatsThis( i18n("Enables the execution of scripts written in ECMA-Script "
         "(also known as JavaScript) that can be contained in HTML pages. "
         "Note that, as with any browser, enabling scripting languages can be a security problem.") );
   connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), SLOT( changed() ) );
   connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChangeJSEnabled() ) );
-
-  reportErrorsCB = new QCheckBox( i18n( "Report &errors" ), globalGB );
+  hbox->addWidget(enableJavaScriptGloballyCB, 0, 0);
+  
+  reportErrorsCB = new QCheckBox( i18n( "Report &errors" ) );
   reportErrorsCB->setWhatsThis( i18n("Enables the reporting of errors that occur when JavaScript "
 	"code is executed.") );
   connect( reportErrorsCB, SIGNAL( clicked() ), SLOT( changed() ) );
-
-  jsDebugWindow = new QCheckBox( i18n( "Enable debu&gger" ), globalGB );
+  hbox->addWidget(reportErrorsCB,1,0);
+  
+  jsDebugWindow = new QCheckBox( i18n( "Enable debu&gger" ) );
   jsDebugWindow->setWhatsThis( i18n( "Enables builtin JavaScript debugger." ) );
   connect( jsDebugWindow, SIGNAL( clicked() ), SLOT( changed() ) );
-
+  hbox->addWidget(jsDebugWindow,0,1);
+  globalGB->setLayout(hbox);
+  
   // the domain-specific listview
   domainSpecific = new JSDomainListView(m_pConfig,m_groupname,this,this);
   connect(domainSpecific,SIGNAL(changed(bool)),SLOT(changed()));
