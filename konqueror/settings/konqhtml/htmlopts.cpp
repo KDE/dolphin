@@ -51,20 +51,22 @@ KMiscHTMLOptions::KMiscHTMLOptions(QWidget *parent, const QStringList&)
               "the web pages it loads. It is usually not necessary to "
               "change anything here."));
 
-    Q3GroupBox *bgBookmarks = new Q3GroupBox( i18n("Boo&kmarks"), this );
-    bgBookmarks->setOrientation( Qt::Vertical );
-    QVBoxLayout *laygroup1 = new QVBoxLayout();
-    bgBookmarks->layout()->addItem( laygroup1 );
+    QGroupBox *bgBookmarks = new QGroupBox( i18n("Boo&kmarks"));
+    QVBoxLayout *laygroup1 = new QVBoxLayout;
+    
     laygroup1->setSpacing(KDialog::spacingHint());
-    m_pAdvancedAddBookmarkCheckBox = new QCheckBox(i18n( "Ask for name and folder when adding bookmarks" ), bgBookmarks);
-	laygroup1->addWidget(m_pAdvancedAddBookmarkCheckBox);
+    
+    m_pAdvancedAddBookmarkCheckBox = new QCheckBox(i18n( "Ask for name and folder when adding bookmarks" ));
+    laygroup1->addWidget(m_pAdvancedAddBookmarkCheckBox);
+    
     m_pAdvancedAddBookmarkCheckBox->setWhatsThis( i18n( "If this box is checked, Konqueror will allow you to"
                                                         " change the title of the bookmark and choose a folder"
 							" in which to store it when you add a new bookmark." ) );
     connect(m_pAdvancedAddBookmarkCheckBox, SIGNAL(clicked()), SLOT(slotChanged()));
-
+    bgBookmarks->setLayout(laygroup1);
+    
     m_pOnlyMarkedBookmarksCheckBox = new QCheckBox(i18n( "Show only marked bookmarks in bookmark toolbar" ), bgBookmarks);
-	laygroup1->addWidget(m_pOnlyMarkedBookmarksCheckBox);
+    laygroup1->addWidget(m_pOnlyMarkedBookmarksCheckBox);
     m_pOnlyMarkedBookmarksCheckBox->setWhatsThis( i18n( "If this box is checked, Konqueror will show only those"
                      " bookmarks in the bookmark toolbar which you have marked to do so in the bookmark editor." ) );
     connect(m_pOnlyMarkedBookmarksCheckBox, SIGNAL(clicked()), SLOT(slotChanged()));
@@ -74,42 +76,44 @@ KMiscHTMLOptions::KMiscHTMLOptions(QWidget *parent, const QStringList&)
 
      // Form completion
 
-    Q3GroupBox *bgForm = new Q3GroupBox( i18n("Form Com&pletion"), this );
-    bgForm->setOrientation( Qt::Vertical );
+    QGroupBox *bgForm = new QGroupBox( i18n("Form Com&pletion") );
+    
     QVBoxLayout *laygroup2 = new QVBoxLayout();
-    bgForm->layout()->addItem( laygroup2 );
     laygroup2->setSpacing(KDialog::spacingHint());
-    m_pFormCompletionCheckBox = new QCheckBox(i18n( "Enable completion of &forms" ), bgForm);
+    
+    m_pFormCompletionCheckBox = new QCheckBox(i18n( "Enable completion of &forms" ));
     laygroup2->addWidget( m_pFormCompletionCheckBox );
+    
     m_pFormCompletionCheckBox->setWhatsThis( i18n( "If this box is checked, Konqueror will remember"
                   " the data you enter in web forms and suggest it in similar fields for all forms." ) );
     connect(m_pFormCompletionCheckBox, SIGNAL(clicked()), SLOT(slotChanged()));
 
-    m_pMaxFormCompletionItems = new KIntNumInput( bgForm );
+    m_pMaxFormCompletionItems = new KIntNumInput;
     m_pMaxFormCompletionItems->setLabel( i18n( "&Maximum completions:" ) );
     m_pMaxFormCompletionItems->setRange( 0, 100 );
     laygroup2->addWidget( m_pMaxFormCompletionItems );
     m_pMaxFormCompletionItems->setWhatsThis(
         i18n( "Here you can select how many values Konqueror will remember for a form field." ) );
     connect(m_pMaxFormCompletionItems, SIGNAL(valueChanged(int)), SLOT(slotChanged()));
-
+    bgForm->setLayout(laygroup2);
+    
     lay->addWidget( bgForm, row, 0, 1, 2 );
     row++;
 
     // Tabbed Browsing
 
-    Q3GroupBox *bgTabbedBrowsing = new Q3GroupBox( 0, Qt::Vertical, i18n("Tabbed Browsing"), this );
+    QGroupBox *bgTabbedBrowsing = new QGroupBox( i18n("Tabbed Browsing") );
     QVBoxLayout *laygroup = new QVBoxLayout();
-    bgTabbedBrowsing->layout()->addItem( laygroup );
+    
     laygroup->setSpacing(KDialog::spacingHint());
 
-    m_pShowMMBInTabs = new QCheckBox( i18n( "Open &links in new tab instead of in new window" ), bgTabbedBrowsing );
+    m_pShowMMBInTabs = new QCheckBox( i18n( "Open &links in new tab instead of in new window" ) );
     m_pShowMMBInTabs->setWhatsThis( i18n("This will open a new tab instead of a new window in various situations, "
                           "such as choosing a link or a folder with the middle mouse button.") );
     connect(m_pShowMMBInTabs, SIGNAL(clicked()), SLOT(slotChanged()));
     laygroup->addWidget(m_pShowMMBInTabs);
 
-    m_pDynamicTabbarHide = new QCheckBox( i18n( "Hide the tab bar when only one tab is open" ), bgTabbedBrowsing );
+    m_pDynamicTabbarHide = new QCheckBox( i18n( "Hide the tab bar when only one tab is open" ) );
     m_pDynamicTabbarHide->setWhatsThis( i18n("This will display the tab bar only if there are two or more tabs. Otherwise it will always be displayed.") );
     connect(m_pDynamicTabbarHide, SIGNAL(clicked()), SLOT(slotChanged()));
     laygroup->addWidget(m_pDynamicTabbarHide);
@@ -117,42 +121,43 @@ KMiscHTMLOptions::KMiscHTMLOptions(QWidget *parent, const QStringList&)
     QHBoxLayout *laytab = new QHBoxLayout();
     laygroup->addItem(laytab);
     laytab->setSpacing(KDialog::spacingHint());
-    QPushButton *advancedTabButton = new QPushButton( i18n( "Advanced Options"), bgTabbedBrowsing );
+    QPushButton *advancedTabButton = new QPushButton( i18n( "Advanced Options") );
     laytab->addWidget(advancedTabButton);
     laytab->addStretch();
     connect(advancedTabButton, SIGNAL(clicked()), this, SLOT(launchAdvancedTabDialog()));
+
+    bgTabbedBrowsing->setLayout(laygroup);
 
     lay->addWidget( bgTabbedBrowsing, row, 0, 1, 2 );
     row++;
 
     // Mouse behavior
 
-    Q3GroupBox *bgMouse = new Q3GroupBox( i18n("Mouse Beha&vior"), this );
-    bgMouse->setOrientation( Qt::Vertical );
+    QGroupBox *bgMouse = new QGroupBox( i18n("Mouse Beha&vior") );
     QVBoxLayout *laygroup3 = new QVBoxLayout();
-    bgMouse->layout()->addItem( laygroup3 );
     laygroup3->setSpacing(KDialog::spacingHint());
 
-    m_cbCursor = new QCheckBox(i18n("Chan&ge cursor over links"), bgMouse );
+    m_cbCursor = new QCheckBox(i18n("Chan&ge cursor over links") );
     laygroup3->addWidget( m_cbCursor );
     m_cbCursor->setWhatsThis( i18n("If this option is set, the shape of the cursor will change "
        "(usually to a hand) if it is moved over a hyperlink.") );
     connect(m_cbCursor, SIGNAL(clicked()), SLOT(slotChanged()));
 
-    m_pOpenMiddleClick = new QCheckBox( i18n ("M&iddle click opens URL in selection" ), bgMouse );
+    m_pOpenMiddleClick = new QCheckBox( i18n ("M&iddle click opens URL in selection" ) );
     laygroup3->addWidget( m_pOpenMiddleClick );
     m_pOpenMiddleClick->setWhatsThis( i18n (
       "If this box is checked, you can open the URL in the selection by middle clicking on a "
       "Konqueror view." ) );
     connect(m_pOpenMiddleClick, SIGNAL(clicked()), SLOT(slotChanged()));
 
-    m_pBackRightClick = new QCheckBox( i18n( "Right click goes &back in history" ), bgMouse );
+    m_pBackRightClick = new QCheckBox( i18n( "Right click goes &back in history" ) );
     laygroup3->addWidget( m_pBackRightClick );
     m_pBackRightClick->setWhatsThis( i18n(
       "If this box is checked, you can go back in history by right clicking on a Konqueror view. "
       "To access the context menu, press the right mouse button and move." ) );
     connect(m_pBackRightClick, SIGNAL(clicked()), SLOT(slotChanged()));
 
+    bgMouse->setLayout(laygroup3);
     lay->addWidget( bgMouse, row, 0, 1, 2 );
     row++;
 
