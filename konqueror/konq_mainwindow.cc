@@ -3708,20 +3708,24 @@ void KonqMainWindow::initActions()
   connect(m_paLinkView, SIGNAL(triggered(bool) ), SLOT( slotLinkView() ));
 
   // Go menu
-  m_paUp = new KToolBarPopupAction( i18n( "&Up" ), QString("up"), KStdAccel::shortcut(KStdAccel::Up), actionCollection(), QString("up") );
+  m_paUp = new KToolBarPopupAction( KIcon("up"), i18n( "&Up" ), actionCollection(), "up" );
+  m_paUp->setShortcut( KStdAccel::shortcut(KStdAccel::Up) );
   connect( m_paUp, SIGNAL( triggered( Qt::MouseButtons, Qt::KeyboardModifiers) ), this,
 	   SLOT( slotUp(Qt::MouseButtons, Qt::KeyboardModifiers) ) );
   connect( m_paUp->menu(), SIGNAL( aboutToShow() ), this, SLOT( slotUpAboutToShow() ) );
   connect( m_paUp->menu(), SIGNAL( activated( int ) ), this, SLOT( slotUpActivated( int ) ) );
 
   QPair< KGuiItem, KGuiItem > backForward = KStdGuiItem::backAndForward();
-  m_paBack = new KToolBarPopupAction( backForward.first, KStdAccel::shortcut(KStdAccel::Back), 0, "", actionCollection(), "back" );
+
+  m_paBack = new KToolBarPopupAction( KIcon(backForward.first.iconName()), backForward.first.text(), actionCollection(), "back" );
+  m_paBack->setShortcut( KStdAccel::shortcut(KStdAccel::Back) );
   connect( m_paBack, SIGNAL( triggered( Qt::MouseButtons, Qt::KeyboardModifiers) ), this,
 	   SLOT( slotBack(Qt::MouseButtons, Qt::KeyboardModifiers) ) );
   connect( m_paBack->menu(), SIGNAL( aboutToShow() ), this, SLOT( slotBackAboutToShow() ) );
   connect( m_paBack->menu(), SIGNAL( activated( int ) ), this, SLOT( slotBackActivated( int ) ) );
 
-  m_paForward = new KToolBarPopupAction( backForward.second, KStdAccel::shortcut(KStdAccel::Forward), 0, "", actionCollection(), "forward" );
+  m_paForward = new KToolBarPopupAction( KIcon(backForward.second.iconName()), backForward.second.text(), actionCollection(), "forward" );
+  m_paForward->setShortcut( KStdAccel::shortcut(KStdAccel::Forward) );
   connect( m_paForward, SIGNAL( triggered( Qt::MouseButtons, Qt::KeyboardModifiers) ), this,
 	   SLOT( slotForward(Qt::MouseButtons, Qt::KeyboardModifiers) ) );
   connect( m_paForward->menu(), SIGNAL( aboutToShow() ), this, SLOT( slotForwardAboutToShow() ) );
