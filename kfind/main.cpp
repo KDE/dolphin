@@ -10,8 +10,7 @@
 #include "kfinddlg.h"
 #include "version.h"
 
-static const char description[] =
-	I18N_NOOP("KDE file find utility");
+static const char description[] = I18N_NOOP("KDE file find utility");
 
 static KCmdLineOptions options[] =
 {
@@ -58,8 +57,6 @@ int main( int argc, char ** argv )
     url = QDir::homePath();
   args->clear();
 
-  KfindDlg kfinddlg(url, 0, "dialog");
+  KfindDlg kfinddlg(url);
   return kfinddlg.exec();
 }
-
-

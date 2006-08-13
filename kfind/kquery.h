@@ -21,7 +21,7 @@ class KQuery : public QObject
   Q_OBJECT
 
  public:
-  KQuery(QObject *parent = 0, const char * name = 0);
+  KQuery(QObject *parent = 0);
   ~KQuery();
 
   void setSizeRange( int mode, KIO::filesize_t value1, KIO::filesize_t value2);

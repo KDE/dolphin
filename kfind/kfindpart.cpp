@@ -24,9 +24,11 @@
 #include <kparts/genericfactory.h>
 #include <kdebug.h>
 #include <klocale.h>
+#include <kfileitem.h>
+#include <kdirlister.h>
+#include <kinstance.h>
 
 #include <QDir>
-#include <kinstance.h>
 
 class KonqDirPart;
 
@@ -46,8 +48,8 @@ KFindPart::KFindPart( QWidget * parentWidget, QObject *parent, const QStringList
     const KFileItem *item = ((KonqDirPart*)parent)->currentItem();
     kDebug() << "Kfind: currentItem:  " << ( item ? item->url().path().toLocal8Bit() : QString("null") ) << endl;
     QDir d;
-  	if( item && d.exists( item->url().path() ))
-	  	m_kfindWidget->setURL( item->url() );
+    if( item && d.exists( item->url().path() ))
+        m_kfindWidget->setURL( item->url() );
 
     setWidget( m_kfindWidget );
 

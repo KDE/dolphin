@@ -35,7 +35,7 @@ class KfindTabWidget: public QTabWidget
   Q_OBJECT
 
 public:
-  KfindTabWidget(QWidget * parent = 0, const char *name=0);
+  KfindTabWidget(QWidget * parent = 0);
   virtual ~KfindTabWidget();
   void initMimeTypes();
   void initSpecialMimeTypes();
@@ -126,7 +126,7 @@ class KDigitValidator : public QValidator
   Q_OBJECT
 
 public:
-  KDigitValidator(QWidget * parent, const char *name = 0 );
+  KDigitValidator(QWidget * parent);
   ~KDigitValidator();
 
   QValidator::State validate(QString & input, int &) const;

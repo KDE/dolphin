@@ -14,14 +14,12 @@
 
 #include "kquery.h"
 
-KQuery::KQuery(QObject *parent, const char * name)
+KQuery::KQuery(QObject *parent)
   : QObject(parent),
     m_sizemode(0), m_sizeboundary1(0), m_sizeboundary2(0),
     m_timeFrom(0), m_timeTo(0),
     job(0), m_insideCheckEntries(false), m_result(0)
 {
-  setObjectName( name );
-
   processLocate = new KProcess(this);
   connect(processLocate,SIGNAL(receivedStdout(KProcess*, char*, int)),this,SLOT(slotreceivedSdtout(KProcess*,char*,int)));
   connect(processLocate,SIGNAL(receivedStderr(KProcess*, char*, int)),this,SLOT(slotreceivedSdterr(KProcess*,char*,int)));

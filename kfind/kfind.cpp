@@ -25,28 +25,26 @@
 
  **********************************************************************/
 
-#include <kpushbutton.h>
 #include <QLayout>
-#include <kvbox.h>
+#include <QLineEdit>
+#include <QCheckBox>
 
+#include <kpushbutton.h>
+#include <kvbox.h>
 #include <kdialog.h>
 #include <kdebug.h>
 #include <klocale.h>
-#include <kseparator.h>
-#include <QLineEdit>
-#include <QCheckBox>
 #include <kstdguiitem.h>
+#include <kdirlister.h>
 
 #include "kftabdlg.h"
 #include "kquery.h"
 
 #include "kfind.moc"
 
-Kfind::Kfind(QWidget *parent, const char *name)
+Kfind::Kfind(QWidget *parent)
   : QWidget( parent )
 {
-  setObjectName( name );
-
   kDebug() << "Kfind::Kfind " << this << endl;
   QBoxLayout * mTopLayout = new QBoxLayout( QBoxLayout::LeftToRight, this );
   mTopLayout->setMargin( KDialog::marginHint() );
@@ -55,16 +53,6 @@ Kfind::Kfind(QWidget *parent, const char *name)
   // create tabwidget
   tabWidget = new KfindTabWidget( this );
   mTopLayout->addWidget(tabWidget);
-
-  /*
-   * This is ugly.  Might be a KSeparator bug, but it makes a small black
-   * pixel for me which is visually distracting (GS).
-  // create separator
-  KSeparator * mActionSep = new KSeparator( this );
-  mActionSep->setFocusPolicy( QWidget::ClickFocus );
-  mActionSep->setOrientation( QFrame::VLine );
-  mTopLayout->addWidget(mActionSep);
-  */
 
   // create button box
   KVBox * mButtonBox = new KVBox( this );
@@ -130,21 +118,6 @@ void Kfind::stopSearch()
   // will call KFindPart::slotResult, which calls searchFinished here
   query->kill();
 }
-
-/*
-void Kfind::newSearch()
-{
-  // WABA: Not used any longer?
-  stopSearch();
-
-  tabWidget->setDefaults();
-
-  emit haveResults(false);
-  emit resultSelected(false);
-
-  setFocus();
-}
-*/
 
 void Kfind::searchFinished()
 {

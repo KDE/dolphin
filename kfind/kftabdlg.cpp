@@ -44,11 +44,9 @@ struct LessMimeType_ByComment
     }
 };
 
-KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
+KfindTabWidget::KfindTabWidget(QWidget *parent)
   : QTabWidget( parent ), regExpDialog(0)
 {
-    setObjectName( name );
-
     // This validator will be used for all numeric edit fields
     //KDigitValidator *digitV = new KDigitValidator(this);
 
@@ -81,7 +79,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     caseSensCb->setChecked(false);
     useLocateCb->setChecked(false);
     if(KStandardDirs::findExe("locate").isEmpty())
-    	useLocateCb->setEnabled(false);
+        useLocateCb->setEnabled(false);
 
     nameBox->setDuplicatesEnabled(false);
     nameBox->setFocus();
@@ -841,11 +839,9 @@ bool KfindTabWidget::isSearchRecursive()
 /**
    Digit validator. Allows only digits to be typed.
 **/
-KDigitValidator::KDigitValidator( QWidget * parent, const char *name )
+KDigitValidator::KDigitValidator( QWidget * parent )
   : QValidator( parent )
 {
-  setObjectName( name );
-
   r = new QRegExp("^[0-9]*$");
 }
 

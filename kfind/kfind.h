@@ -8,8 +8,6 @@
 #define KFIND_H
 
 #include <QWidget>
-#include <kfileitem.h>
-#include <kdirlister.h>
 
 class QString;
 class KPushButton;
@@ -17,13 +15,14 @@ class KPushButton;
 class KQuery;
 class KUrl;
 class KfindTabWidget;
+class KDirLister;
 
 class Kfind: public QWidget
 {
     Q_OBJECT
 
 public:
-    Kfind(QWidget * parent = 0, const char * name = 0);
+    Kfind(QWidget * parent = 0);
     ~Kfind();
 
     void setURL( const KUrl &url );
@@ -37,7 +36,6 @@ public:
 public Q_SLOTS:
     void startSearch();
     void stopSearch();
-    //void newSearch();
     void saveResults();
 
 Q_SIGNALS:
@@ -60,5 +58,3 @@ public:
 };
 
 #endif
-
-

@@ -23,25 +23,23 @@
 #include "kfinddlg.h"
 #include "kfinddlg.moc"
 
-KfindDlg::KfindDlg(const KUrl & url, QWidget *parent, const char *name)
+KfindDlg::KfindDlg(const KUrl & url, QWidget *parent)
   : KDialog( parent )
 {
-  setButtons( User1 | User2 | Apply | Close | Help );
-  setDefaultButton( Apply );
-  setObjectName( name );
+  setButtons( User1 | User2 | User3 | Close | Help );
+  setDefaultButton( User3 );
   setModal( true );
-  showButtonSeparator( true );
 
-  setButtonGuiItem( User1, KStdGuiItem::stop() );
-  setButtonGuiItem( User2, KStdGuiItem::saveAs() );
-  setButtonGuiItem( Apply, KStdGuiItem::find());
+  setButtonGuiItem( User3, KStdGuiItem::find());
+  setButtonGuiItem( User2, KStdGuiItem::stop() );
+  setButtonGuiItem( User1, KStdGuiItem::saveAs() );
 
   QWidget::setWindowTitle( i18n("Find Files/Folders" ) );
-  setButtonsOrientation(Qt::Horizontal);
+  setButtonsOrientation(Qt::Vertical);
 
-  enableButton(Apply, true); // Enable "Find"
-  enableButton(User1, false); // Disable "Stop"
-  enableButton(User2, false); // Disable "Save As..."
+  enableButton(User3, true); // Enable "Find"
+  enableButton(User2, false); // Disable "Stop"
+  enableButton(User1, false); // Disable "Save As..."
 
   isResultReported = false;
 
@@ -49,12 +47,11 @@ KfindDlg::KfindDlg(const KUrl & url, QWidget *parent, const char *name)
   setMainWidget( frame );
 
   // create tabwidget
-  tabWidget = new KfindTabWidget( frame, "dialog");
+  tabWidget = new KfindTabWidget( frame );
   tabWidget->setURL( url );
 
   // prepare window for find results
   win = new KfindWindow(frame );
-  win->setObjectName( "window" );
 
   mStatusBar = new KStatusBar(frame);
   mStatusBar->insertFixedItem(i18n("AMiddleLengthText..."), 0);
@@ -68,11 +65,11 @@ KfindDlg::KfindDlg(const KUrl & url, QWidget *parent, const char *name)
   vBox->addWidget(win, 1);
   vBox->addWidget(mStatusBar, 0);
 
-  connect(this, SIGNAL(applyClicked()),
+  connect(this, SIGNAL(user3Clicked()),
 	  this, SLOT(startSearch()));
-  connect(this, SIGNAL(user1Clicked()),
-	  this, SLOT(stopSearch()));
   connect(this, SIGNAL(user2Clicked()),
+	  this, SLOT(stopSearch()));
+  connect(this, SIGNAL(user1Clicked()),
 	  win, SLOT(saveResults()));
 
   connect(win ,SIGNAL(resultSelected(bool)),
@@ -119,9 +116,9 @@ void KfindDlg::startSearch()
   emit resultSelected(false);
   emit haveResults(false);
 
-  enableButton(Apply, false); // Disable "Find"
-  enableButton(User1, true); // Enable "Stop"
-  enableButton(User2, false); // Disable "Save As..."
+  enableButton(User3, false); // Disable "Find"
+  enableButton(User2, true); // Enable "Stop"
+  enableButton(User1, false); // Disable "Save As..."
 
   if(dirwatch!=NULL)
     delete dirwatch;
@@ -198,9 +195,9 @@ void KfindDlg::slotResult(int errorCode)
      setStatusMsg(i18n("Error."));
   };
 
-  enableButton(Apply, true); // Enable "Find"
-  enableButton(User1, false); // Disable "Stop"
-  enableButton(User2, true); // Enable "Save As..."
+  enableButton(User3, true); // Enable "Find"
+  enableButton(User2, false); // Disable "Stop"
+  enableButton(User1, true); // Enable "Save As..."
 
   win->endSearch();
   tabWidget->endSearch();
