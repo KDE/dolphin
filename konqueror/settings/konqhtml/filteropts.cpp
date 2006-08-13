@@ -58,17 +58,23 @@ KCMFilter::KCMFilter( QWidget *parent, const QStringList& )
     mKillCheck = new QCheckBox(i18n("Hide filtered images"), this);
     topLayout->addWidget( mKillCheck );
 
-    Q3GroupBox *topBox = new Q3GroupBox( 1, Qt::Horizontal, i18n("URL Expressions to Filter"), this );
+    QGroupBox *topBox = new QGroupBox( i18n("URL Expressions to Filter") );
     topLayout->addWidget( topBox );
 
-    mListBox = new Q3ListBox( topBox );
+    QVBoxLayout *vbox = new QVBoxLayout;
+    
+    mListBox = new Q3ListBox;
     mListBox->setSelectionMode(Q3ListBox::Extended);
-    new QLabel( i18n("Expression (e.g. http://www.site.com/ad/*):"), topBox);
-    mString = new QLineEdit( topBox );
+    vbox->addWidget(mListBox);
+    vbox->addWidget(new QLabel( i18n("Expression (e.g. http://www.site.com/ad/*):")));
+    mString = new QLineEdit;
+    vbox->addWidget(mString);
 
-    KHBox *buttonBox = new KHBox( topBox );
+    KHBox *buttonBox = new KHBox;
+    vbox->addWidget(buttonBox);
     buttonBox->setSpacing( KDialog::spacingHint() );
 
+    topBox->setLayout(vbox);
     mInsertButton = new QPushButton( i18n("Insert"), buttonBox );
     connect( mInsertButton, SIGNAL( clicked() ), SLOT( insertFilter() ) );
     mUpdateButton = new QPushButton( i18n("Update"), buttonBox );
