@@ -75,8 +75,8 @@ KonqSidebarHistoryModule::KonqSidebarHistoryModule( KonqSidebarTree * parentTree
     connect( manager, SIGNAL( entryRemoved( const KonqHistoryEntry &) ),
 	     SLOT( slotEntryRemoved( const KonqHistoryEntry &) ));
 
-    connect( parentTree, SIGNAL( expanded( QListViewItem * )),
-	     SLOT( slotItemExpanded( QListViewItem * )));
+    connect( parentTree, SIGNAL( expanded( Q3ListViewItem * )),
+	     SLOT( slotItemExpanded( Q3ListViewItem * )));
 
     m_collection = new KActionCollection( this );
     KAction *action = new KAction(KIcon("window_new"),  i18n("New &Window"), m_collection, "open_new");

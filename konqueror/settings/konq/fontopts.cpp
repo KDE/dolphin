@@ -92,8 +92,8 @@ KonqFontOptions::KonqFontOptions(QWidget *parent, const QStringList &, bool desk
     m_pStandard->setWhatsThis( wtstr );
 
     row++;
-    connect( m_pStandard, SIGNAL( activated(const QString&) ),
-             SLOT( slotStandardFont(const QString&) ) );
+    connect( m_pStandard, SIGNAL( currentFontChanged(QFont) ),
+             SLOT( slotStandardFont(QFont) ) );
     connect( m_pStandard, SIGNAL( currentFontChanged(const QFont&) ), SLOT(changed() ) );
 
     m_pSize = new QSpinBox( 4,18,1,this );

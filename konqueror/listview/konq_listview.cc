@@ -290,7 +290,7 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const QStrin
    connect( m_pListView, SIGNAL( selectionChanged() ),
             this, SLOT( slotSelectionChanged() ) );
 
-   connect( m_pListView, SIGNAL( currentChanged(QListViewItem*) ),
+   connect( m_pListView, SIGNAL( currentChanged(Q3ListViewItem*) ),
             m_extension, SLOT( updateActions() ) );
    connect(m_pListView->header(),SIGNAL(indexChange(int,int,int)),this,SLOT(headerDragged(int,int,int)));
    connect(m_pListView->header(),SIGNAL(clicked(int)),this,SLOT(slotHeaderClicked(int)));
