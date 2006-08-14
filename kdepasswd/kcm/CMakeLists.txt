@@ -27,7 +27,7 @@ install(TARGETS kcm_useraccount  DESTINATION ${PLUGIN_INSTALL_DIR} )
 install( FILES kcm_useraccount.desktop   DESTINATION  ${XDG_APPS_DIR} )
 install( FILES kcm_useraccount.kcfg kcm_useraccount_pass.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
 
-kde4_install_icons( ${ICON_INSTALL_DIR} crystalsvg )
+kde4_install_icons( ${ICON_INSTALL_DIR}  )
 
 
 

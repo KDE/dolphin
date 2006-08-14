@@ -39,4 +39,4 @@ install( FILES kfind.desktop  DESTINATION  ${XDG_APPS_DIR} )
 install( FILES findpart.desktop  DESTINATION  ${SERVICETYPES_INSTALL_DIR} )
 install( FILES kfindpart.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 
-kde4_install_icons( ${ICON_INSTALL_DIR} hicolor )
+kde4_install_icons( ${ICON_INSTALL_DIR}  )
