@@ -50,20 +50,23 @@ KAppearanceOptions::KAppearanceOptions(QWidget *parent, const QStringList&)
   int r = 0;
   int E = 0, M = 1, W = 3; //CT 3 (instead 2) allows smaller color buttons
 
-  Q3GroupBox* gb = new Q3GroupBox( 1, Qt::Horizontal, i18n("Font Si&ze"), this );
-  lay->addWidget(gb, r, E, 1, W- E+1);
+  QGroupBox* gb = new QGroupBox( i18n("Font Si&ze"));
+  QVBoxLayout *laygroup1 = new QVBoxLayout;
 
+  gb->setLayout(laygroup1);
   gb->setWhatsThis( i18n("This is the relative font size Konqueror uses to display web sites.") );
 
-  m_minSize = new KIntNumInput( fMinSize, gb );
+  m_minSize = new KIntNumInput( fMinSize);
   m_minSize->setLabel( i18n( "M&inimum font size:" ) );
   m_minSize->setRange( 2, 30 );
+  laygroup1->addWidget(m_minSize);
   connect( m_minSize, SIGNAL( valueChanged( int ) ), this, SLOT( slotMinimumFontSize( int ) ) );
   connect( m_minSize, SIGNAL( valueChanged( int ) ), this, SLOT( changed() ) );
   m_minSize->setWhatsThis( i18n( "Konqueror will never display text smaller than "
                                     "this size,<br>overriding any other settings" ) );
 
-  m_MedSize = new KIntNumInput( m_minSize, fSize, gb );
+  m_MedSize = new KIntNumInput( fSize,m_minSize );
+  laygroup1->addWidget(m_MedSize);
   m_MedSize->setLabel( i18n( "&Medium font size:" ) );
   m_MedSize->setRange( 2, 30 );
   connect( m_MedSize, SIGNAL( valueChanged( int ) ), this, SLOT( slotFontSize( int ) ) );
@@ -72,6 +75,7 @@ KAppearanceOptions::KAppearanceOptions(QWidget *parent, const QStringList&)
                    i18n("This is the relative font size Konqueror uses "
                         "to display web sites.") );
 
+  lay->addWidget(gb, r, E, 1, W- E+1);
   QLabel* label = new QLabel( i18n("S&tandard font:"), this );
   lay->addWidget( label , ++r, E);
 
