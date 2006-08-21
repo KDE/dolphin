@@ -1440,7 +1440,7 @@ void KonqMainWindow::slotOpenLocation()
 
 void KonqMainWindow::slotToolFind()
 {
-  kDebug() << "KonqMainWindow::slotToolFind sender:" << sender()->metaObject()->className() << endl;
+  kDebug(1202) << "KonqMainWindow::slotToolFind sender:" << sender()->metaObject()->className() << endl;
 
   if ( m_currentView && m_currentView->part()->inherits("KonqDirPart") )
   {
@@ -1508,6 +1508,7 @@ void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
 
 void KonqMainWindow::slotIconsChanged()
 {
+    kDebug(1202) << "KonqMainWindow::slotIconsChanged" << endl;
     m_combo->updatePixmaps();
     m_pViewManager->updatePixmaps();
     setIcon( KonqPixmapProvider::self()->pixmapFor( m_combo->currentText() ));
@@ -2121,7 +2122,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
     {
       // Passive view. Don't connect anything, don't change m_currentView
       // Another view will become the current view very soon
-      kDebug(1202) << "Passive mode - return" << endl;
+      kDebug(1202) << "KonqMainWindow::slotPartActivated: Passive mode - return" << endl;
       return;
     }
   }
@@ -2138,11 +2139,11 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
     }
   }
 
-  kDebug(1202) << "New current view " << newView << endl;
+  kDebug(1202) << "KonqMainWindow::slotPartActivated: New current view " << newView << endl;
   m_currentView = newView;
   if ( !part )
   {
-    kDebug(1202) << "No part activated - returning" << endl;
+    kDebug(1202) << "KonqMainWindow::slotPartActivated: No part activated - returning" << endl;
     unplugViewModeActions();
     createGUI( 0 );
     KParts::MainWindow::setCaption( "" );
@@ -2157,7 +2158,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   }
   else
   {
-    kDebug(1202) << "No Browser Extension for the new part" << endl;
+    kDebug(1202) << "KonqMainWindow::slotPartActivated: No Browser Extension for the new part" << endl;
     // Disable all browser-extension actions
 
     KParts::BrowserExtension::ActionSlotMap * actionSlotMap = KParts::BrowserExtension::actionSlotMapPtr();
@@ -2232,7 +2233,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   if ( oldView && oldView->frame() )
     oldView->frame()->statusbar()->updateActiveStatus();
 
-  //kDebug(1202) << "slotPartActivated: setting location bar url to "
+  //kDebug(1202) << "KonqMainWindow::slotPartActivated: setting location bar url to "
   //              << m_currentView->locationBarURL() << " m_currentView=" << m_currentView << endl;
   m_currentView->setLocationBarURL( m_currentView->locationBarURL() );
 
@@ -2243,14 +2244,14 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
 void KonqMainWindow::insertChildView( KonqView *childView )
 {
-    kDebug() << "KonqMainWindow::insertChildView " << childView << endl;
+  kDebug(1202) << "KonqMainWindow::insertChildView " << childView << endl;
   m_mapViews.insert( childView->part(), childView );
 
   connect( childView, SIGNAL( viewCompleted( KonqView * ) ),
            this, SLOT( slotViewCompleted( KonqView * ) ) );
 
   if ( !m_pViewManager->isLoadingProfile() ) // see KonqViewManager::loadViewProfile
-      viewCountChanged();
+    viewCountChanged();
   emit viewAdded( childView );
 }
 
@@ -3569,9 +3570,7 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
 
   m_combo->setURL( url );
 
-  if ( !url.isEmpty() ) {
-      setIcon( KonqPixmapProvider::self()->pixmapFor( url ) );
-  }
+  setIcon( KonqPixmapProvider::self()->pixmapFor( url ) );
 }
 
 void KonqMainWindow::setPageSecurity( PageSecurity pageSecurity )
