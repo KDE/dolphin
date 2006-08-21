@@ -57,7 +57,7 @@ int NSPluginLoader::s_refCount = 0;
 NSPluginInstance::NSPluginInstance(QWidget *parent, const QString& app, const QString& id)
   : EMBEDCLASS(parent)
 {
-    _instanceInterface = new org::kde::nsplugins::Instance( app, id, QDBus::sessionBus() );
+    _instanceInterface = new org::kde::nsplugins::Instance( app, id, QDBusConnection::sessionBus() );
 
     _loader = 0;
     shown = false;
@@ -140,7 +140,7 @@ NSPluginLoader::NSPluginLoader()
   _filetype.setAutoDelete(true);
 
   // trap dbus register events
-  QObject::connect(QDBus::sessionBus().interface(),
+  QObject::connect(QDBusConnection::sessionBus().interface(),
                    SIGNAL(serviceRegistered(const QString&)),
                    this, SLOT(applicationRegistered(const QString&)));
 
@@ -316,7 +316,7 @@ bool NSPluginLoader::loadViewer()
 
    // wait for the process to run
    int cnt = 0;
-   while (!QDBus::sessionBus().interface()->isServiceRegistered(_dbusService))
+   while (!QDBusConnection::sessionBus().interface()->isServiceRegistered(_dbusService))
    {
        //kapp->processEvents(); // would lead to recursive calls in khtml
 #ifdef HAVE_USLEEP
@@ -345,7 +345,7 @@ bool NSPluginLoader::loadViewer()
    }
 
    // get viewer dcop interface
-   _viewer = new org::kde::nsplugins::Viewer( _dbusService, "/Viewer", QDBus::sessionBus() );
+   _viewer = new org::kde::nsplugins::Viewer( _dbusService, "/Viewer", QDBusConnection::sessionBus() );
 
    return _viewer!=0;
 }
@@ -440,12 +440,12 @@ NSPluginInstance *NSPluginLoader::newInstance(QWidget *parent, const QString& ur
 
    // get plugin class object
    QDBusObjectPath cls_ref = _viewer->newClass( plugin_name );
-   if ( cls_ref.value.isEmpty() )
+   if ( cls_ref.path().isEmpty() )
    {
       kDebug() << "Couldn't create plugin class" << endl;
       return 0;
    }
-   org::kde::nsplugins::Class* cls = new org::kde::nsplugins::Class( appId, cls_ref.value, QDBus::sessionBus() );
+   org::kde::nsplugins::Class* cls = new org::kde::nsplugins::Class( appId, cls_ref.path(), QDBusConnection::sessionBus() );
 
    // handle special plugin cases
    if ( mime=="application/x-shockwave-flash" )
@@ -454,15 +454,14 @@ NSPluginInstance *NSPluginLoader::newInstance(QWidget *parent, const QString& ur
 
    // get plugin instance
    QDBusObjectPath inst_ref = cls->newInstance( url, mime, embed, argn, argv, appId, callbackId, reload );
-   if ( inst_ref.value.isEmpty() )
+   if ( inst_ref.path().isEmpty() )
    {
       kDebug() << "Couldn't create plugin instance" << endl;
       delete cls;
       return 0;
    }
 
-   NSPluginInstance *plugin = new NSPluginInstance( parent, appId,
-                                                    inst_ref.value );
+   NSPluginInstance *plugin = new NSPluginInstance( parent, appId, inst_ref.path() );
 
    kDebug() << "<- NSPluginLoader::NewInstance = " << (void*)plugin << endl;
 

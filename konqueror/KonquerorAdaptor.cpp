@@ -48,7 +48,7 @@
 KonquerorAdaptor::KonquerorAdaptor()
  : QObject( kapp )
 {
-    QDBusConnection dbus = QDBus::sessionBus();
+    QDBusConnection dbus = QDBusConnection::sessionBus();
     dbus.registerObject( KONQ_MAIN_PATH, this, QDBusConnection::ExportNonScriptableSlots );
 }
 

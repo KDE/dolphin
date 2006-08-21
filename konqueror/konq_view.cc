@@ -1216,7 +1216,7 @@ QString KonqView::dbusObjectPath()
     if ( m_dbusObjectPath.isEmpty() ) {
         m_dbusObjectPath = '/' + m_pMainWindow->objectName() + '/' + QString::number( ++s_viewNumber );
         new KonqViewAdaptor( this );
-        QDBus::sessionBus().registerObject( m_dbusObjectPath, this );
+        QDBusConnection::sessionBus().registerObject( m_dbusObjectPath, this );
     }
     return m_dbusObjectPath;
 }

@@ -176,7 +176,7 @@ PluginPart::PluginPart(QWidget *parentWidget, QObject *parent, const QStringList
       _destructed(0L)
 {
     (void) new NsPluginsCallBackAdaptor( this );
-    QDBus::sessionBus().registerObject( s_callBackObjectPath, this );
+    QDBusConnection::sessionBus().registerObject( s_callBackObjectPath, this );
 
     setInstance(PluginFactory::instance());
     kDebug(1432) << "PluginPart::PluginPart" << endl;
@@ -273,7 +273,7 @@ bool PluginPart::openURL(const KUrl &url)
     // create plugin widget
     NSPluginInstance *inst = _loader->newInstance( _canvas, surl, smime, embed,
                                                    argn, argv,
-                                                   QDBus::sessionBus().baseService(),
+                                                   QDBusConnection::sessionBus().baseService(),
                                                    s_callBackObjectPath, reload);
 
     if ( inst ) {

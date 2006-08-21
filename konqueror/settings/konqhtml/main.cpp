@@ -108,8 +108,8 @@ void KJSParts::save()
   // Send signal to konqueror
   // Warning. In case something is added/changed here, keep kfmclient in sync
   QDBusMessage message =
-      QDBusMessage::signal("/KonqMain", "org.kde.Konqueror.Main", "reparseConfiguration", QDBus::sessionBus());
-  QDBus::sessionBus().send(message);
+      QDBusMessage::createSignal("/KonqMain", "org.kde.Konqueror.Main", "reparseConfiguration");
+  QDBusConnection::sessionBus().send(message);
 }
 
 

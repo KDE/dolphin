@@ -30,7 +30,7 @@
 KBookmarkEditorIface::KBookmarkEditorIface()
     : QObject()
 {
-    QDBus::sessionBus().connect( QString(), // any service
+    QDBusConnection::sessionBus().connect( QString(), // any service
                                  "/", "org.kde.KIO.KBookmarkNotifier", // path and interface, see kbookmarknotifier.cpp
                                  "updatedAccessMetadata", // signal name
                                  this, SLOT(slotDcopUpdatedAccessMetadata(QString,QString)) );

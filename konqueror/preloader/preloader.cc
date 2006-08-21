@@ -32,8 +32,8 @@ KonqyPreloader::KonqyPreloader()
     reconfigure();
 
     (void)new PreloaderAdaptor(this);
-    
-    connect( QDBus::sessionBus().interface(), SIGNAL( serviceUnregistered( const QString & )),
+
+    connect( QDBusConnection::sessionBus().interface(), SIGNAL( serviceUnregistered( const QString & )),
         SLOT( appRemoved( const QString& )));
     check_always_preloaded_timer.setSingleShot( true );
     connect( &check_always_preloaded_timer, SIGNAL( timeout()),
@@ -88,7 +88,7 @@ void KonqyPreloader::appRemoved( const QString& id )
     {
     unregisterPreloadedKonqy( id );
     }
-    
+
 void KonqyPreloader::reconfigure()
     {
     KonqSettings::self()->readConfig();
@@ -133,7 +133,7 @@ void KonqyPreloader::checkAlwaysPreloaded()
     // but I have no idea how to do it
     updateCount();
     }
-    
+
 void KonqyPreloader::unloadAllPreloaded()
     {
     while( instances.count() > 0 )
@@ -145,7 +145,7 @@ void KonqyPreloader::unloadAllPreloaded()
         }
     // ignore 'always_have_preloaded' here
     }
-    
+
 extern "C"
 KDE_EXPORT KDEDModule *create_konqy_preloader()
     {

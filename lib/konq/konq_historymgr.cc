@@ -62,7 +62,7 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent )
     const QString dbusPath = "/KonqHistoryManager";
     const QString dbusInterface = "org.kde.libkonq.KonqHistoryManager";
 
-    QDBusConnection dbus = QDBus::sessionBus();
+    QDBusConnection dbus = QDBusConnection::sessionBus();
     dbus.registerObject( dbusPath, this );
     dbus.connect(QString(), dbusPath, dbusInterface, "notifyClear", this, SLOT(slotNotifyClear(QDBusMessage)));
     dbus.connect(QString(), dbusPath, dbusInterface, "notifyHistoryEntry", this, SLOT(slotNotifyHistoryEntry(QByteArray,QDBusMessage)));
@@ -81,7 +81,7 @@ KonqHistoryManager::~KonqHistoryManager()
 
 static QString dbusService()
 {
-    return QDBus::sessionBus().baseService();
+    return QDBusConnection::sessionBus().baseService();
 }
 
 bool KonqHistoryManager::isSenderOfSignal( const QDBusMessage& msg )

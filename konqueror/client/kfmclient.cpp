@@ -219,7 +219,7 @@ static void needDBus()
     if ( !s_dbus_initialized ) {
         extern void qDBusBindToApplication();
         qDBusBindToApplication();
-        if (!QDBus::sessionBus().isConnected())
+        if (!QDBusConnection::sessionBus().isConnected())
             kFatal(101) << "Session bus not found" << endl;
         s_dbus_initialized = true;
     }
@@ -235,7 +235,7 @@ static QString getPreloadedKonqy()
     if( cfg.readEntry( "MaxPreloadCount", 1 ) == 0 )
         return QString();
     needDBus();
-    QDBusInterface ref( "org.kde.kded", "/modules/konqy_preloader", "org.kde.konqueror.Preloader", QDBus::sessionBus() );
+    QDBusInterface ref( "org.kde.kded", "/modules/konqy_preloader", "org.kde.konqueror.Preloader", QDBusConnection::sessionBus() );
     // ## used to have NoEventLoop and 3s timeout with dcop
     QDBusReply<QString> reply = ref.call( "getPreloadedKonqy", currentScreen() );
     if ( reply.isValid() )
@@ -252,7 +252,7 @@ static QString konqyToReuse( const QString& url, const QString& mimetype, const 
     if( startNewKonqueror( url, mimetype, profile ))
         return QString();
     needDBus();
-    QDBusConnection dbus = QDBus::sessionBus();
+    QDBusConnection dbus = QDBusConnection::sessionBus();
     QDBusReply<QStringList> reply = dbus.interface()->registeredServiceNames();
     if ( !reply.isValid() )
         return QString();
@@ -319,7 +319,7 @@ bool ClientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, co
     }
 
     needDBus();
-    QDBusConnection dbus = QDBus::sessionBus();
+    QDBusConnection dbus = QDBusConnection::sessionBus();
     KConfig cfg( QLatin1String( "konquerorrc" ), true );
     cfg.setGroup( "FMSettings" );
     if ( newTab || cfg.readEntry( "KonquerorTabforExternalURL", false) ) {
@@ -336,7 +336,7 @@ bool ClientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, co
                     QDBusReply<QDBusObjectPath> windowReply = konq.windowForTab();
                     if ( windowReply.isValid() ) {
                         QDBusObjectPath path = windowReply;
-                        if ( !path.value.isEmpty() ) {
+                        if ( !path.path().isEmpty() ) {
                             foundApp = service;
                             foundObj = path;
                         }
@@ -346,7 +346,7 @@ bool ClientApp::createNewWindow(const KUrl & url, bool newTab, bool tempFile, co
         }
 
         if ( !foundApp.isEmpty() ) {
-            org::kde::Konqueror::MainWindow konqWindow( foundApp, foundObj.value, dbus );
+            org::kde::Konqueror::MainWindow konqWindow( foundApp, foundObj.path(), dbus );
             QDBusReply<void> newTabReply = konqWindow.newTabASN( url.url(), startup_id_str, tempFile );
             if ( newTabReply.isValid() ) {
                 sendASNChange();
@@ -419,7 +419,7 @@ bool ClientApp::openProfile( const QString & profileName, const QString & url, c
       ::exit( 0 );
   }
   needDBus();
-  org::kde::Konqueror::Main konqy( appId, "/KonqMain", QDBus::sessionBus() );
+  org::kde::Konqueror::Main konqy( appId, "/KonqMain", QDBusConnection::sessionBus() );
   if ( url.isEmpty() )
       konqy.createBrowserWindowFromProfile( profile, profileName, startup_id_str );
   else if ( mimetype.isEmpty() )

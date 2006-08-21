@@ -29,8 +29,7 @@
 KonqFavIconMgr::KonqFavIconMgr(QObject *parent)
     : QObject(parent)
 {
-    m_favIconsModule = new QDBusInterface("org.kde.kded", "/modules/favicons", FAVICONINTERFACE,
-                                          QDBus::sessionBus(), this);
+    m_favIconsModule = new QDBusInterface("org.kde.kded", "/modules/favicons", FAVICONINTERFACE, QDBusConnection::sessionBus(), this);
 
     connect( m_favIconsModule, SIGNAL(iconChanged(bool,QString,QString)),
              this, SLOT(notifyChange(bool,QString,QString)));

@@ -13,7 +13,7 @@ KonqSidebarHistorySettings::KonqSidebarHistorySettings( QObject *parent )
     new KonqSidebarHistorySettingsAdaptor( this );
     const QString dbusPath = "/KonqSidebarHistorySettings";
     const QString dbusInterface = "org.kde.Konqueror.SidebarHistorySettings";
-    QDBusConnection *dbus = &QDBus::sessionBus();
+    QDBusConnection *dbus = &QDBusConnection::sessionBus();
     dbus->registerObject( dbusPath, this );
     dbus->connect(QString(), dbusPath, dbusInterface, "notifySettingsChanged", this, SLOT(slotSettingsChanged()));
 }

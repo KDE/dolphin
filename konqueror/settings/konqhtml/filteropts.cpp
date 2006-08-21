@@ -62,7 +62,7 @@ KCMFilter::KCMFilter( QWidget *parent, const QStringList& )
     topLayout->addWidget( topBox );
 
     QVBoxLayout *vbox = new QVBoxLayout;
-    
+
     mListBox = new Q3ListBox;
     mListBox->setSelectionMode(Q3ListBox::Extended);
     vbox->addWidget(mListBox);
@@ -254,8 +254,8 @@ void KCMFilter::save()
     mConfig->sync();
 
     QDBusMessage message =
-        QDBusMessage::signal("/KonqMain", "org.kde.Konqueror.Main", "reparseConfiguration", QDBus::sessionBus());
-    QDBus::sessionBus().send(message);
+        QDBusMessage::createSignal("/KonqMain", "org.kde.Konqueror.Main", "reparseConfiguration");
+    QDBusConnection::sessionBus().send(message);
 }
 
 void KCMFilter::load()

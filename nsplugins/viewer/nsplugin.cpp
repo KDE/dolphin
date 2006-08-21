@@ -588,7 +588,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
     // The object name is the dbus object path
    (void) new InstanceAdaptor( this );
    setObjectName( QString( "/Instance_" ) + QString::number( ++s_instanceCounter ) );
-   QDBus::sessionBus().registerObject( objectName(), this );
+   QDBusConnection::sessionBus().registerObject( objectName(), this );
 
     Q_UNUSED(embed);
    _firstResize = true;
@@ -602,7 +602,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    _tempFiles.setAutoDelete( true );
    _streams.setAutoDelete( true );
    _waitingRequests.setAutoDelete( true );
-   _callback = new org::kde::nsplugins::CallBack( appId, callbackId, QDBus::sessionBus() );
+   _callback = new org::kde::nsplugins::CallBack( appId, callbackId, QDBusConnection::sessionBus() );
 
    KUrl base(src);
    base.setFileName( QString() );
@@ -1207,9 +1207,9 @@ NSPluginViewer::NSPluginViewer( QObject *parent )
    : QObject( parent )
 {
    (void) new ViewerAdaptor( this );
-   QDBus::sessionBus().registerObject( "/Viewer", this );
+   QDBusConnection::sessionBus().registerObject( "/Viewer", this );
 
-    QObject::connect(QDBus::sessionBus().interface(),
+    QObject::connect(QDBusConnection::sessionBus().interface(),
                      SIGNAL(serviceUnregistered(const QString&)),
                      this, SLOT(appUnregistered(const QString&)));
 }
@@ -1283,7 +1283,7 @@ NSPluginClass::NSPluginClass( const QString &library,
     (void) new ClassAdaptor( this );
     // The object name is used to store the dbus object path
     setObjectName( QString( "/Class_" ) + QString::number( ++s_classCounter ) );
-    QDBus::sessionBus().registerObject( objectName(), this );
+    QDBusConnection::sessionBus().registerObject( objectName(), this );
 
     // initialize members
     _handle = KLibLoader::self()->library(QFile::encodeName(library));

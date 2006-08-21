@@ -129,17 +129,16 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
 #ifdef Q_WS_X11
                  if( KonqSettings::maxPreloadCount() > 0 )
                  {
-                     QDBusInterface ref( "org.kde.kded", "/modules/konqy_preloader", "org.kde.konqueror.Preloader", QDBus::sessionBus() );
+                     QDBusInterface ref( "org.kde.kded", "/modules/konqy_preloader", "org.kde.konqueror.Preloader", QDBusConnection::sessionBus() );
                      QX11Info info;
-                     QDBusReply<bool> retVal = ref.call( QDBus::Block, "registerPreloadedKonqy",
-                                                         QDBus::sessionBus().baseService(), info.screen());
+                     QDBusReply<bool> retVal = ref.call( QDBus::Block, "registerPreloadedKonqy", QDBusConnection::sessionBus().baseService(), info.screen());
                      if( !retVal )
                          return 0; // too many preloaded or failed
 		     KonqMainWindow* win = new KonqMainWindow( KUrl(), false ); // prepare an empty window too
 		     // KonqMainWindow ctor sets always the preloaded flag to false, so create the window before this
                      KonqMainWindow::setPreloadedFlag( true );
 		     KonqMainWindow::setPreloadedWindow( win );
-                     kDebug(1202) << "Konqy preloaded :" << QDBus::sessionBus().baseService() << endl;
+                     kDebug(1202) << "Konqy preloaded :" << QDBusConnection::sessionBus().baseService() << endl;
                  }
                  else
                  {

@@ -215,8 +215,8 @@ void KPreviewOptions::save()
 
     // Send signal to all konqueror instances
     QDBusMessage message =
-        QDBusMessage::signal("/KonqMain", "org.kde.Konqueror.Main", "reparseConfiguration", QDBus::sessionBus());
-    QDBus::sessionBus().send(message);
+        QDBusMessage::createSignal("/KonqMain", "org.kde.Konqueror.Main", "reparseConfiguration");
+    QDBusConnection::sessionBus().send(message);
 }
 
 void KPreviewOptions::changed()

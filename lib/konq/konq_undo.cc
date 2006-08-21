@@ -189,7 +189,7 @@ KonqUndoManager::KonqUndoManager()
   const QString dbusPath = "/KonqUndoManager";
   const QString dbusInterface = "org.kde.libkonq.UndoManager";
 
-  QDBusConnection dbus = QDBus::sessionBus();
+  QDBusConnection dbus = QDBusConnection::sessionBus();
   dbus.registerObject( dbusPath, this );
   dbus.connect(QString(), dbusPath, dbusInterface, "lock", this, SLOT(slotLock()));
   dbus.connect(QString(), dbusPath, dbusInterface, "pop", this, SLOT(slotPop()));

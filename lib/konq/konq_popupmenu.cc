@@ -689,7 +689,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
             if ( cfg.hasKey( "X-KDE-ShowIfRunning" ) )
             {
                 const QString app = cfg.readEntry( "X-KDE-ShowIfRunning" );
-                if ( QDBus::sessionBus().interface()->serviceOwner( app ).value().isEmpty() )
+                if ( QDBusConnection::sessionBus().interface()->serviceOwner( app ).value().isEmpty() )
                     continue;
             }
             if ( cfg.hasKey( "X-KDE-ShowIfDBusCall" ) )
@@ -711,8 +711,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
                 QDBusMessage reply = QDBusInterface( app, obj, interface ).
                                      call( method, m_lstPopupURLs.toStringList() );
-                if ( reply.count() < 1 || reply.at(0).type() != QVariant::Bool ||
-                     !reply.at(0).toBool() )
+                if ( reply.arguments().count() < 1 || reply.arguments().at(0).type() != QVariant::Bool || !reply.arguments().at(0).toBool() )
                     continue;
 
             }

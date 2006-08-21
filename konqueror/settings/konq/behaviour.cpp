@@ -281,16 +281,16 @@ void KBehaviourOptions::save()
     config->writeEntry( "ShowList", cbListProgress->isChecked() );
     config->sync();
     // Tell the running server
-    if ( QDBus::sessionBus().interface()->isServiceRegistered( "org.kde.kio_uiserver" ) )
+    if ( QDBusConnection::sessionBus().interface()->isServiceRegistered( "org.kde.kio_uiserver" ) )
     {
-      QDBusInterface uiserver( "org.kde.kio_uiserver", "/UIServer", QString(), QDBus::sessionBus() );
+      QDBusInterface uiserver( "org.kde.kio_uiserver", "/UIServer", QString(), QDBusConnection::sessionBus() );
       uiserver.call( "setListMode", cbListProgress->isChecked() );
     }
 
     // Send signal to all konqueror instances
     QDBusMessage message =
-        QDBusMessage::signal("/KonqMain", "org.kde.Konqueror.Main", "reparseConfiguration", QDBus::sessionBus());
-    QDBus::sessionBus().send(message);
+        QDBusMessage::createSignal("/KonqMain", "org.kde.Konqueror.Main", "reparseConfiguration");
+    QDBusConnection::sessionBus().send(message);
 }
 
 void KBehaviourOptions::updateWinPixmap(bool b)

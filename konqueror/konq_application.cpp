@@ -28,7 +28,7 @@ KonquerorApplication::KonquerorApplication()
 {
     new KonquerorAdaptor; // not really an adaptor
     const QString dbusInterface = "org.kde.Konqueror.Main";
-    QDBusConnection dbus = QDBus::sessionBus();
+    QDBusConnection dbus = QDBusConnection::sessionBus();
     dbus.connect(QString(), KONQ_MAIN_PATH, dbusInterface, "reparseConfiguration", this, SLOT(slotReparseConfiguration()));
 }
 

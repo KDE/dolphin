@@ -3615,7 +3615,7 @@ void KonqMainWindow::comboAction( int action, const QString& url, const QString&
     }
 
     // only one instance should save...
-    if ( combo && senderId == QDBus::sessionBus().baseService() )
+    if ( combo && senderId == QDBusConnection::sessionBus().baseService() )
       combo->saveItems();
 }
 
@@ -5622,8 +5622,8 @@ void KonqMainWindow::setPreloadedFlag( bool preloaded )
     delete s_preloadedWindow; // preloaded state was abandoned without reusing the window
     s_preloadedWindow = NULL;
     kapp->enableSessionManagement(); // enable SM again
-    QDBusInterface ref( "org.kde.kded", "/modules/konqy_preloader", "org.kde.konqueror.Preloader", QDBus::sessionBus() );
-    ref.call( "unregisterPreloadedKonqy", QDBus::sessionBus().baseService() );
+    QDBusInterface ref( "org.kde.kded", "/modules/konqy_preloader", "org.kde.konqueror.Preloader", QDBusConnection::sessionBus() );
+    ref.call( "unregisterPreloadedKonqy", QDBusConnection::sessionBus().baseService() );
 }
 
 void KonqMainWindow::setPreloadedWindow( KonqMainWindow* window )
@@ -5736,16 +5736,15 @@ bool KonqMainWindow::stayPreloaded()
     viewManager()->clear(); // reduce resource usage before checking it
     if( !checkPreloadResourceUsage())
         return false;
-    QDBusInterface ref( "org.kde.kded", "/modules/konqy_preloader", "org.kde.konqueror.Preloader", QDBus::sessionBus() );
+    QDBusInterface ref( "org.kde.kded", "/modules/konqy_preloader", "org.kde.konqueror.Preloader", QDBusConnection::sessionBus() );
     QX11Info info;
-    QDBusReply<bool> retVal = ref.call( QDBus::Block, "registerPreloadedKonqy",
-                                         QDBus::sessionBus().baseService(), info.screen());
+    QDBusReply<bool> retVal = ref.call( QDBus::Block, "registerPreloadedKonqy", QDBusConnection::sessionBus().baseService(), info.screen());
     if ( !retVal )
     {
         return false;
     }
     KonqMainWindow::setPreloadedFlag( true );
-    kDebug(1202) << "Konqy kept for preloading :" << QDBus::sessionBus().baseService() << endl;
+    kDebug(1202) << "Konqy kept for preloading :" << QDBusConnection::sessionBus().baseService() << endl;
     KonqMainWindow::setPreloadedWindow( this );
     return true;
 #else
