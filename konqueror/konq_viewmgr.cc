@@ -1191,7 +1191,8 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
 
   QString rootItem = cfg.readEntry( "RootItem", "empty" );
 
-  //kDebug(1202) << "KonqViewManager::loadViewProfile : loading RootItem " << rootItem << endl;
+  //kDebug(1202) << "KonqViewManager::loadViewProfile : loading RootItem " << rootItem << 
+  //" forcedURL " << forcedURL.url() << endl;
 
   if ( forcedURL.url() != "about:blank" )
   {
@@ -1215,6 +1216,8 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
     m_pMainWindow->action( "clear_location" )->trigger();
   }
 
+  //kDebug(1202) << "KonqViewManager::loadViewProfile : after loadItem " << endl;
+
   if (m_pDocContainer == 0L)
   {
     if (m_pMainWindow->currentView() &&
@@ -1227,7 +1230,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   }
 
 
-    if ( m_pDocContainer->frameType() != "Tabs")
+  if ( m_pDocContainer->frameType() != "Tabs")
     convertDocContainer();
 
   static_cast<KonqFrameTabs*>( m_pDocContainer )->setAlwaysTabbedMode( alwaysTabbedMode );
@@ -1440,7 +1443,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
   if( name != "InitialView" )
     prefix = name + QLatin1Char( '_' );
 
-  //kDebug(1202) << "begin loadItem: " << name << endl;
+  //kDebug(1202) << "KonqViewManager::loadItem: begin name " << name << " openURL " << openURL << endl;
 
   if( name.startsWith("View") || name == "empty" ) {
     //load view config
@@ -1455,7 +1458,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
         serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), QString("inode/directory"));
         serviceName = cfg.readEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ), QString() );
     }
-    //kDebug(1202) << "ServiceType: " << serviceType << " " << serviceName << endl;
+    //kDebug(1202) << "KonqViewManager::loadItem: ServiceType " << serviceType << " " << serviceName << endl;
 
     KService::Ptr service;
     KService::List partServiceOffers, appServiceOffers;
@@ -1469,7 +1472,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
 
     bool passiveMode = cfg.readEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), false );
 
-    //kDebug(1202) << "Creating View Stuff" << endl;
+    //kDebug(1202) << "KonqViewManager::loadItem: Creating View Stuff" << endl;
     KonqView *childView = setupView( parent, viewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode, openAfterCurrentPage );
 
     if (!childView->isFollowActive()) childView->setLinkedView( cfg.readEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), false ) );
@@ -1528,6 +1531,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     {
       KUrl url;
 
+      //kDebug(1202) << "KonqViewManager::loadItem: key " << key << endl;
       if ( cfg.hasKey( key ) )
       {
         QString u = cfg.readPathEntry( key );
@@ -1535,12 +1539,14 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
           u = QString::fromLatin1("about:blank");
         url = u;
       }
+      else if(key == "empty_URL")
+        url = QString::fromLatin1("about:blank");
       else
         url = defaultURL;
 
       if ( !url.isEmpty() )
       {
-        //kDebug(1202) << "loadItem: calling openURL " << url.prettyUrl() << endl;
+        //kDebug(1202) << "KonqViewManager::loadItem: calling openURL " << url.prettyURL() << endl;
         //childView->openURL( url, url.prettyUrl() );
         // We need view-follows-view (for the dirtree, for instance)
         KonqOpenURLRequest req;
@@ -1548,16 +1554,17 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
           req.typedUrl = url.prettyUrl();
         m_pMainWindow->openView( serviceType, url, childView, req );
       }
+      //else kDebug(1202) << "KonqViewManager::loadItem: url is empty" << endl;
     }
     // Do this after opening the URL, so that it's actually possible to open it :)
     childView->setLockedLocation( cfg.readEntry( QString::fromLatin1( "LockedLocation" ).prepend( prefix ), false ) );
   }
   else if( name.startsWith("Container") ) {
-    //kDebug(1202) << "Item is Container" << endl;
+    //kDebug(1202) << "KonqViewManager::loadItem Item is Container" << endl;
 
     //load container config
     QString ostr = cfg.readEntry( QString::fromLatin1( "Orientation" ).prepend( prefix ), QString() );
-    //kDebug(1202) << "Orientation: " << ostr << endl;
+    //kDebug(1202) << "KonqViewManager::loadItem Orientation: " << ostr << endl;
     Qt::Orientation o;
     if( ostr == "Vertical" )
       o = Qt::Vertical;
@@ -1609,7 +1616,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
   }
   else if( name.startsWith("Tabs") )
   {
-    //kDebug(1202) << "Item is a Tabs" << endl;
+    //kDebug(1202) << "KonqViewManager::loadItem Item is a Tabs" << endl;
 
     KonqFrameTabs *newContainer = new KonqFrameTabs( parent->widget(), parent, this );
     connect(newContainer,SIGNAL(ctrlTabPressed()),m_pMainWindow,SLOT(slotCtrlTabPressed()));
@@ -1641,7 +1648,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
   else
       kWarning() << "Profile Loading Error: Unknown item " << name;
 
-  //kDebug(1202) << "end loadItem: " << name << endl;
+  //kDebug(1202) << "KonqViewManager::loadItem: end " << name << endl;
 }
 
 void KonqViewManager::setProfiles( KActionMenu *profiles )
