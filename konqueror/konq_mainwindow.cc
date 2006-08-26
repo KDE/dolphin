@@ -5822,27 +5822,16 @@ static int current_memory_usage( int* limit )
 // Check malloc() usage - very imprecise, but better than nothing.
     int usage_sum = 0;
 #if defined(KDE_MALLINFO_STDLIB) || defined(KDE_MALLINFO_MALLOC)
-    // ugly hack for kdecore/malloc
-    extern int kde_malloc_is_used;
-    free( calloc( 4, 4 )); // trigger setting kde_malloc_is_used
-    if( kde_malloc_is_used )
-    {
-	struct mallinfo m = mallinfo();
-	usage_sum = m.hblkhd + m.uordblks;
-    }
-    else
-    {
-        struct mallinfo m = mallinfo();
+    struct mallinfo m = mallinfo();
 #ifdef KDE_MALLINFO_FIELD_hblkhd
-        usage_sum += m.hblkhd;
+    usage_sum += m.hblkhd;
 #endif
 #ifdef KDE_MALLINFO_FIELD_uordblks
-        usage_sum += m.uordblks;
+    usage_sum += m.uordblks;
 #endif
 #ifdef KDE_MALLINFO_FIELD_usmblks
-        usage_sum += m.usmblks;
+    usage_sum += m.usmblks;
 #endif
-    }
     // unlike /proc , this doesn't include things like size of dlopened modules,
     // and also doesn't include malloc overhead
     if( limit != NULL )
