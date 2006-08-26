@@ -241,7 +241,7 @@ void KonqCombo::applyPermanent()
 
 void KonqCombo::insertItem( const QString &text, int index, const QString& title )
 {
-    KonqComboListBoxPixmap* item = new KonqComboListBoxPixmap( 0, text, title );
+    KonqComboListBoxPixmap* item = new KonqComboListBoxPixmap( QPixmap(), text, title );
     KHistoryCombo::insertItem( index, text, item );
 }
 
