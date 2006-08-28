@@ -32,7 +32,7 @@
 #include <zlib.h> // for crc32
 
 
-const int KonqHistoryManager::s_historyVersion = 3;
+const int KonqHistoryManager::s_historyVersion = 4;
 
 KonqHistoryManager::KonqHistoryManager( QObject *parent )
     : KParts::HistoryProvider( parent )
@@ -130,9 +130,10 @@ bool KonqHistoryManager::loadHistory()
             stream = &crcStream; // pick up the right stream
         }
 
-	if ( version == 3 )
-	{
-	    //Use KUrl marshalling for V3 format.
+        // We can't read v3 history anymore, because operator<<(KURL) disappeared.
+        if ( version == 4)
+        {
+            // Use QUrl marshalling for V4 format.
 	    KonqHistoryEntry::marshalURLAsStrings = false;
 	}
 
@@ -222,7 +223,7 @@ bool KonqHistoryManager::saveHistory()
     QByteArray data;
     QDataStream stream( &data, QIODevice::WriteOnly );
 
-    //We use KUrl for marshalling URLs in entries in the V3
+    //We use QUrl for marshalling URLs in entries in the V4
     //file format
     KonqHistoryEntry::marshalURLAsStrings = false;
     QListIterator<KonqHistoryEntry> it( m_history );
