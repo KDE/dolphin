@@ -320,7 +320,7 @@ void PluginPart::postURL(const QString& url, const QString& target, const QByteA
     args.postData = data;
     args.setContentType(mime);
 
-    emit _extension->openURLRequest(new_url, args);
+    emit _extension->openUrlRequest(new_url, args);
 }
 
 void PluginPart::requestURL(const QString& url, const QString& target)
@@ -333,7 +333,7 @@ void PluginPart::requestURL(const QString& url, const QString& target)
     args.frameName = target;
     args.setDoPost(false);
 
-    emit _extension->openURLRequest(new_url, args);
+    emit _extension->openUrlRequest(new_url, args);
 }
 
 void PluginPart::evalJavaScript(int id, const QString & script)

@@ -53,7 +53,7 @@
 #include "pass.h"
 #include "chfnprocess.h"
 #include "chfacedlg.h"
-#include "main.h" 
+#include "main.h"
 
 typedef KGenericFactory<KCMUserAccount, QWidget> Factory;
 K_EXPORT_COMPONENT_FACTORY( kcm_useraccount, Factory("useraccount") )
@@ -68,7 +68,7 @@ KCMUserAccount::KCMUserAccount( QWidget *parent, const QStringList &)
 	connect( _mw->btnChangeFace, SIGNAL(clicked()), SLOT(slotFaceButtonClicked()));
 	connect( _mw->btnChangePassword, SIGNAL(clicked()), SLOT(slotChangePassword()));
 	_mw->btnChangePassword->setGuiItem( KGuiItem( i18n("Change &Password..."), "password" ));
-	
+
 	connect( _mw->leRealname, SIGNAL(textChanged(const QString&)), SLOT(changed()));
 	connect( _mw->leOrganization, SIGNAL(textChanged(const QString&)), SLOT(changed()));
 	connect( _mw->leEmail, SIGNAL(textChanged(const QString&)), SLOT(changed()));
@@ -80,7 +80,7 @@ KCMUserAccount::KCMUserAccount( QWidget *parent, const QStringList &)
 	_mw->lblUsername->setText( _ku->loginName() );
 	_mw->lblUID->setText( QString().number(_ku->uid()) );
 
-	KAboutData *about = new KAboutData(I18N_NOOP("kcm_useraccount"), 
+	KAboutData *about = new KAboutData(I18N_NOOP("kcm_useraccount"),
 		I18N_NOOP("Password & User Information"), 0, 0,
 		KAboutData::License_GPL,
 		I18N_NOOP("(C) 2002, Braden MacDonald, "
@@ -91,7 +91,7 @@ KCMUserAccount::KCMUserAccount( QWidget *parent, const QStringList &)
 	about->addAuthor("Michael H\303\244ckel", "haeckel@kde.org" );
 
 	about->addAuthor("Braden MacDonald", I18N_NOOP("Face editor"), "bradenm_k@shaw.ca");
-	about->addAuthor("Geert Jansen", I18N_NOOP("Password changer"), "jansen@kde.org", 
+	about->addAuthor("Geert Jansen", I18N_NOOP("Password changer"), "jansen@kde.org",
 			"http://www.stack.nl/~geertj/");
 	about->addAuthor("Daniel Molkentin");
 	about->addAuthor("Alex Zepeda");
@@ -147,7 +147,7 @@ void KCMUserAccount::load()
 	_mw->leOrganization->setText( _kes->getSetting( KEMailSettings::Organization ));
 	_mw->leSMTP->setText( _kes->getSetting( KEMailSettings::OutServer ));
 
-	QString _userPicsDir = KCFGUserAccount::faceDir() +  
+	QString _userPicsDir = KCFGUserAccount::faceDir() +
 		KGlobal::dirs()->resourceDirs("data").last() + "kdm/faces/";
 
 	QString fs = KCFGUserAccount::faceSource();
@@ -214,7 +214,7 @@ void KCMUserAccount::save()
 		int ret = KPasswordDialog::getPassword( _mw, password, i18n("Please enter "
 			"your password in order to save your settings:"));
 
-		if ( !ret ) 
+		if ( !ret )
 		{
 			KMessageBox::sorry( this, i18n("You must enter "
 				"your password in order to change your information."));
@@ -228,22 +228,22 @@ void KCMUserAccount::save()
 			if ( ret == ChfnProcess::PasswordError )
 				KMessageBox::sorry( this, i18n("You must enter a correct password."));
 
-			else 
+			else
 			{
 				KMessageBox::sorry( this, i18n("An error occurred and your password has "
 							"probably not been changed. The error "
 							"message was:\n%1", QString::fromLocal8Bit(proc->error())));
-				kDebug() << "ChfnProcess->exec() failed. Error code: " << ret 
+				kDebug() << "ChfnProcess->exec() failed. Error code: " << ret
 					<< "\nOutput:" << proc->error() << endl;
-			}	
-		}	
+			}
+		}
 
 		delete proc;
-	}	
+	}
 
 	/* Save the image */
 	if( !_facePixmap.save( KCFGUserAccount::faceFile(), "PNG" ))
-		KMessageBox::error( this, i18n("There was an error saving the image: %1" , 
+		KMessageBox::error( this, i18n("There was an error saving the image: %1" ,
 			KCFGUserAccount::faceFile()) );
 
 }
@@ -282,7 +282,7 @@ void KCMUserAccount::slotFaceButtonClicked()
 
 /**
  * I merged faceButtonDropEvent into this /Frans
- * The function was called after checking event type and 
+ * The function was called after checking event type and
  * the code is now below that if statement
  */
 bool KCMUserAccount::eventFilter(QObject *, QEvent *e)
@@ -328,7 +328,7 @@ inline KUrl *KCMUserAccount::decodeImgDrop(QDropEvent *e, QWidget *wdg)
   {
     KUrl *url = new KUrl(uris.first());
 
-    KMimeType::Ptr mime = KMimeType::findByURL( *url );
+    KMimeType::Ptr mime = KMimeType::findByUrl( *url );
     if ( mime && KImageIO::isSupported( mime->name(), KImageIO::Reading ) )
       return url;
 

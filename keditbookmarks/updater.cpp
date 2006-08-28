@@ -49,7 +49,7 @@ void FavIconUpdater::slotCompleted() {
 }
 
 void FavIconUpdater::downloadIcon(const KBookmark &bk) {
-    QString favicon = KMimeType::favIconForURL(bk.url().url());
+    QString favicon = KMimeType::favIconForUrl(bk.url().url());
     if (!favicon.isNull()) {
         // kDebug() << "downloadIcon() - favicon" << favicon << endl;
         bk.internalElement().setAttribute("icon", favicon);
@@ -59,7 +59,7 @@ void FavIconUpdater::downloadIcon(const KBookmark &bk) {
 
     } else {
         KonqFavIconMgr::downloadHostIcon(bk.url());
-        favicon = KMimeType::favIconForURL(bk.url().url());
+        favicon = KMimeType::favIconForUrl(bk.url().url());
         // kDebug() << "favicon == " << favicon << endl;
         if (favicon.isNull()) {
             downloadIconActual(bk);
@@ -150,7 +150,7 @@ void FavIconWebGrabber::slotMimetype(KIO::Job *job, const QString & /*type*/) {
     // kDebug() << "slotMimetype : " << typeLocal << endl;
     // TODO - what to do if typeLocal is not text/html ??
 
-    m_part->openURL(m_url);
+    m_part->openUrl(m_url);
 }
 
 void FavIconWebGrabber::slotFinished(KJob *job) {

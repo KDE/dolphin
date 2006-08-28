@@ -64,7 +64,7 @@ void KIVDirectoryOverlay::start()
     if ( m_directory->item()->isReadable() ) {
         m_popularIcons = new Q3Dict<int>;
         m_popularIcons->setAutoDelete(true);
-        m_lister->openURL(m_directory->item()->url());
+        m_lister->openUrl(m_directory->item()->url());
     } else {
         emit finished();
     }

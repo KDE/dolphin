@@ -45,7 +45,7 @@ KURIFilterModule::KURIFilterModule(QWidget *parent, const QStringList &)
                  :KCModule(KURIFactory::instance(), parent)
 {
 
-    filter = KURIFilter::self();
+    filter = KUriFilter::self();
 
     setQuickHelp( i18n("<h1>Enhanced Browsing</h1> In this module you can configure some enhanced browsing"
       " features of KDE. <h2>Internet Keywords</h2>Internet Keywords let you"
@@ -68,7 +68,7 @@ KURIFilterModule::KURIFilterModule(QWidget *parent, const QStringList &)
     modules.setAutoDelete(true);
 
     QMap<QString,KCModule*> helper;
-    Q3PtrListIterator<KURIFilterPlugin> it = filter->pluginsIterator();
+    Q3PtrListIterator<KUriFilterPlugin> it = filter->pluginsIterator();
     for (; it.current(); ++it)
     {
         KCModule *module = it.current()->configModule(this, 0);

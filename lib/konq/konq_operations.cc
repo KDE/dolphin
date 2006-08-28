@@ -147,7 +147,7 @@ void KonqOperations::doPaste( QWidget * parent, const KUrl & destURL, const QPoi
         KIOPasteInfo * pi = new KIOPasteInfo;
         pi->mousePos = pos;
         op->setPasteInfo( pi );
-        op->setOperation( job, move ? MOVE : COPY, copyJob->srcURLs(), copyJob->destURL() );
+        op->setOperation( job, move ? MOVE : COPY, copyJob->srcUrls(), copyJob->destUrl() );
         (void) new KonqCommandRecorder( move ? KonqCommand::MOVE : KonqCommand::COPY, KUrl::List(), destURL, job );
     }
 }
@@ -397,7 +397,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KUrl & dest, QDro
                                                   parent );
         if ( job ) // 0 if canceled by user
         {
-            op->setOperation( job, COPY, KUrl::List(), job->destURL() );
+            op->setOperation( job, COPY, KUrl::List(), job->destUrl() );
             (void) new KonqCommandRecorder( KonqCommand::COPY, KUrl::List(), dest, job );
         }
         ev->acceptProposedAction();
@@ -551,7 +551,7 @@ void KonqOperations::doFileCopy()
         if ( iconView && iconView->maySetWallpaper() && lst.count() == 1 )
 	{
             KUrl url = lst.first();
-            KMimeType::Ptr mime = KMimeType::findByURL( url );
+            KMimeType::Ptr mime = KMimeType::findByUrl( url );
             if ( mime && ( ( KImageIO::isSupported(mime->name(), KImageIO::Reading) ) ||
                  mime->is( "image/svg+xml" ) ) )
             {

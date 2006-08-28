@@ -29,7 +29,7 @@
 //Added by qt3to4:
 #include <Q3PtrList>
 
-class KURIFilter;
+class KUriFilter;
 
 class KURIFilterModule : public KCModule {
     Q_OBJECT
@@ -42,7 +42,7 @@ public:
     void defaults();
 
 private:
-    KURIFilter *filter;
+    KUriFilter *filter;
 
     QWidget *widget;
     FilterOptions *opts;

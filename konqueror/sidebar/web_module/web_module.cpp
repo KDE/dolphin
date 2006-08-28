@@ -137,16 +137,16 @@ void KonqSideBarWebModule::urlClicked(const QString& url, KParts::URLArgs args)
 
 void KonqSideBarWebModule::formClicked(const KUrl& url, const KParts::URLArgs& args)
 {
-	_htmlPart->browserExtension()->setURLArgs(args);
+	_htmlPart->browserExtension()->setUrlArgs(args);
 	_htmlPart->openURL(url);
 }
 
 
 void KonqSideBarWebModule::loadFavicon() {
-	QString icon = KMimeType::favIconForURL(_url);
+	QString icon = KMimeType::favIconForUrl(_url);
 	if (icon.isEmpty()) {
 		KonqFavIconMgr::downloadHostIcon(_url);
-		icon = KMimeType::favIconForURL(_url);
+		icon = KMimeType::favIconForUrl(_url);
 	}
 
 	if (!icon.isEmpty()) {

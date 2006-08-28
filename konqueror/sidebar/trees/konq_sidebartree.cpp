@@ -408,7 +408,7 @@ void KonqSidebarTree::addUrl(KonqSidebarTreeTopLevelItem* item, const KUrl & url
        cfg.writeEntry("URL", url.url());
        QString icon = "folder";
        if (!url.isLocalFile())
-          icon = KMimeType::favIconForURL(url);
+          icon = KMimeType::favIconForUrl(url);
        if (icon.isEmpty())
           icon = KProtocolInfo::icon( url.protocol() );
        cfg.writeEntry("Icon", icon);
@@ -702,7 +702,7 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
         QString filePath = QString( *eIt ).prepend( path );
         KUrl u;
         u.setPath( filePath );
-        if ( KMimeType::findByURL( u, 0, true )->name() == "application/x-desktop" )
+        if ( KMimeType::findByUrl( u, 0, true )->name() == "application/x-desktop" )
             loadTopLevelItem( parent, filePath );
     }
 

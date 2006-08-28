@@ -3,20 +3,20 @@
   <interface name="org.kde.FavIcon">
     <signal name="iconChanged">
       <arg name="isHost" type="b" direction="out"/>
-      <arg name="hostOrURL" type="s" direction="out"/>
+      <arg name="hostOrUrl" type="s" direction="out"/>
       <arg name="iconName" type="s" direction="out"/>
     </signal>
     <signal name="infoMessage">
-      <arg name="iconURL" type="s" direction="out"/>
+      <arg name="iconUrl" type="s" direction="out"/>
       <arg name="msg" type="s" direction="out"/>
     </signal>
-    <method name="iconForURL">
+    <method name="iconForUrl">
       <arg type="s" direction="out"/>
       <arg name="url" type="s" direction="in"/>
     </method>
-    <method name="setIconForURL">
+    <method name="setIconForUrl">
       <arg name="url" type="s" direction="in"/>
-      <arg name="iconURL" type="s" direction="in"/>
+      <arg name="iconUrl" type="s" direction="in"/>
     </method>
     <method name="downloadHostIcon">
       <arg name="url" type="s" direction="in"/>

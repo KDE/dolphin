@@ -65,7 +65,7 @@ KonqPart::KonqPart( QWidget* parentWidget, QObject* parent, const QStringList& a
     m_model->setItemColor( color );
 
     setWidget( m_view );
-        
+
     m_dirLister->setMainWindow( widget()->topLevelWidget() );
     m_fileTip->setOptions( settings->showFileTips(), settings->showPreviewsInFileTips(), settings->numFileTips() );
 
@@ -126,7 +126,7 @@ bool KonqPart::doOpenURL( const KUrl& url )
     emit setWindowCaption( url.pathOrUrl() );
     KParts::URLArgs args = extension()->urlArgs();
 
-    m_dirLister->openURL( url, false, args.reload );
+    m_dirLister->openUrl( url, false, args.reload );
     return true;
 }
 
@@ -162,10 +162,10 @@ void KonqPart::slotContextMenu( const QPoint& pos, const QModelIndexList& indexe
 void KonqPart::slotUpdateActions()
 {
     bool canDelete = true;
-    
+
     QModelIndexList indexes = static_cast<KonqListView*>(m_view)->selectedIndexes(); // ### FIXME
     foreach ( QModelIndex index, indexes ) {
-       // ### TODO 
+       // ### TODO
     }
     emit extension()->enableAction( "copy", !indexes.isEmpty() );
     emit extension()->enableAction( "cut", canDelete );
@@ -174,7 +174,7 @@ void KonqPart::slotUpdateActions()
     emit extension()->enableAction( "properties", !indexes.isEmpty() );
     emit extension()->enableAction( "editMimeType", indexes.count() == 1 );
     emit extension()->enableAction( "rename", indexes.count() == 1 );
-        
+
 }
 
 void KonqPart::slotPreview( const KFileItem* item, const QPixmap& pixmap )

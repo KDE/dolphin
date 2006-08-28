@@ -108,7 +108,7 @@ void Kfind::startSearch()
 
   tabWidget->beginSearch();
 
-  dirlister->openURL(KUrl(tabWidget->dirBox->currentText().trimmed()));
+  dirlister->openUrl(KUrl(tabWidget->dirBox->currentText().trimmed()));
 
   query->start();
 }

@@ -241,8 +241,8 @@ KRemoteEncodingPlugin::updateBrowser()
   // Reload the page with the new charset
   KParts::URLArgs args = m_part->extension()->urlArgs();
   args.reload = true;
-  m_part->extension()->setURLArgs(args);
-  m_part->openURL(m_currentURL);
+  m_part->extension()->setUrlArgs(args);
+  m_part->openUrl(m_currentURL);
 }
 
 typedef KGenericFactory < KRemoteEncodingPlugin > KRemoteEncodingPluginFactory;

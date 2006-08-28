@@ -470,25 +470,25 @@ void KonqAboutPage::urlSelected( const QString &url, int button, int state, cons
 
     if ( url == QLatin1String("launch.html") )
     {
-        emit browserExtension()->openURLNotify();
+        emit browserExtension()->openUrlNotify();
 	serve( KonqAboutPageFactory::launch(), "konqueror" );
         return;
     }
     else if ( url == QLatin1String("intro.html") )
     {
-        emit browserExtension()->openURLNotify();
+        emit browserExtension()->openUrlNotify();
         serve( KonqAboutPageFactory::intro(), "konqueror" );
         return;
     }
     else if ( url == QLatin1String("specs.html") )
     {
-        emit browserExtension()->openURLNotify();
+        emit browserExtension()->openUrlNotify();
 	serve( KonqAboutPageFactory::specs(), "konqueror" );
         return;
     }
     else if ( url == QLatin1String("tips.html") )
     {
-        emit browserExtension()->openURLNotify();
+        emit browserExtension()->openUrlNotify();
         serve( KonqAboutPageFactory::tips(), "konqueror" );
         return;
     }

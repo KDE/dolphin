@@ -1184,9 +1184,9 @@ void KonqKfmIconView::slotClear()
 void KonqKfmIconView::slotRedirection( const KUrl & url )
 {
     const QString prettyURL = url.pathOrUrl();
-    emit m_extension->setLocationBarURL( prettyURL );
+    emit m_extension->setLocationBarUrl( prettyURL );
     emit setWindowCaption( prettyURL );
-    m_pIconView->setURL( url );
+    m_pIconView->setUrl( url );
     m_url = url;
 }
 
@@ -1258,7 +1258,7 @@ void KonqKfmIconView::slotRefreshViewport()
 bool KonqKfmIconView::doOpenURL( const KUrl & url )
 {
     // Store url in the icon view
-    m_pIconView->setURL( url );
+    m_pIconView->setUrl( url );
 
     m_bLoading = true;
     m_bNeedSetCurrentItem = true;
@@ -1279,7 +1279,7 @@ bool KonqKfmIconView::doOpenURL( const KUrl & url )
     {
         args.xOffset = m_pIconView->contentsX();
         args.yOffset = m_pIconView->contentsY();
-        m_extension->setURLArgs( args );
+        m_extension->setUrlArgs( args );
 
         m_filesToSelect.clear();
         const KFileItemList selItems = selectedFileItems();
@@ -1299,7 +1299,7 @@ bool KonqKfmIconView::doOpenURL( const KUrl & url )
     m_paOutstandingOverlays.clear();
 
     // Start the directory lister !
-    m_dirLister->openURL( url, false, args.reload );
+    m_dirLister->openUrl( url, false, args.reload );
 
     // View properties (icon size, background, ..) will be applied into slotClear()
     // if m_bDirPropertiesChanged is set. If so, here we update preview actions.
@@ -1487,9 +1487,9 @@ void SpringLoadingManager::springLoadTrigger(KonqKfmIconView *view,
 
     // Open the folder URL, we don't want to modify the browser
     // history, hence the use of openURL and setLocationBarURL
-    view->openURL(url);
+    view->openUrl(url);
     const QString prettyURL = url.pathOrUrl();
-    emit view->extension()->setLocationBarURL( prettyURL );
+    emit view->extension()->setLocationBarUrl( prettyURL );
 }
 
 void SpringLoadingManager::dragLeft(KonqKfmIconView */*view*/)
@@ -1533,7 +1533,7 @@ void SpringLoadingManager::finished()
     KonqKfmIconView *view = static_cast<KonqKfmIconView*>(part);
     view->openURL(url);
     const QString prettyURL = url.pathOrUrl();
-    emit view->extension()->setLocationBarURL( prettyURL );
+    emit view->extension()->setLocationBarUrl( prettyURL );
 
     deleteLater();
     s_self = 0L;

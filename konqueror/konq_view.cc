@@ -175,7 +175,7 @@ void KonqView::openURL( const KUrl &url, const QString & locationBarURL,
     if ( !prepareReload( args ) )
       return;
     if ( ext )
-      ext->setURLArgs( args );
+      ext->setUrlArgs( args );
   }
 
 #ifdef DEBUG_HISTORY
@@ -222,7 +222,7 @@ void KonqView::openURL( const KUrl &url, const QString & locationBarURL,
 
   aboutToOpenURL( url, args );
 
-  m_pPart->openURL( url );
+  m_pPart->openUrl( url );
 
   updateHistoryEntry(false /* don't save location bar URL yet */);
   // add pending history entry
@@ -844,7 +844,7 @@ void KonqView::restoreHistory()
     m_pageReferrer = h.pageReferrer;
   }
   else
-    m_pPart->openURL( h.url );
+    m_pPart->openUrl( h.url );
 
   if ( m_pMainWindow->currentView() == this )
     m_pMainWindow->updateToolBarActions();
@@ -915,7 +915,7 @@ void KonqView::stop()
     KonqHistoryManager::kself()->confirmPending( url(), m_sTypedURL );
 
     //kDebug(1202) << "m_pPart->closeURL()" << endl;
-    m_pPart->closeURL();
+    m_pPart->closeUrl();
     m_bAborted = true;
     m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
     setLoading( false, false );
@@ -1001,7 +1001,7 @@ void KonqView::setServiceTypeInExtension()
 
   KParts::URLArgs args( ext->urlArgs() );
   args.serviceType = m_serviceType;
-  ext->setURLArgs( args );
+  ext->setUrlArgs( args );
 }
 
 QStringList KonqView::frameNames() const
@@ -1259,7 +1259,7 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
         KUrl::List lstDragURLs = KUrl::List::fromMimeData( ev->mimeData() );
         KParts::BrowserExtension *ext = browserExtension();
         if ( !lstDragURLs.isEmpty() && ext && lstDragURLs.first().isValid() )
-            emit ext->openURLRequest( lstDragURLs.first() ); // this will call m_pMainWindow::slotOpenURLRequest delayed
+            emit ext->openUrlRequest( lstDragURLs.first() ); // this will call m_pMainWindow::slotOpenURLRequest delayed
     }
 
     if ( m_bBackRightClick )

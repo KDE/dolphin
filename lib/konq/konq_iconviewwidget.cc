@@ -777,7 +777,7 @@ void KonqIconViewWidget::refreshMimeTypes()
     setIcons( m_size );
 }
 
-void KonqIconViewWidget::setURL( const KUrl &kurl )
+void KonqIconViewWidget::setUrl( const KUrl &kurl )
 {
     stopImagePreview();
     m_url = kurl;
@@ -884,7 +884,7 @@ void KonqIconViewWidget::slotDropped( QDropEvent *ev, const QList<Q3IconDragItem
     KUrl dirURL = url();
     if ( m_rootItem ) {
         bool dummy;
-        dirURL = m_rootItem->mostLocalURL(dummy);
+        dirURL = m_rootItem->mostLocalUrl(dummy);
     }
     KonqOperations::doDrop( m_rootItem /* may be 0L */, dirURL, ev, this );
 }
@@ -963,7 +963,7 @@ QMimeData * KonqIconViewWidget::konqMimeData(bool moveSelection)
 			KFileItem* fileItem = static_cast<KFileIVI *>(it)->item();
 			urls.append(fileItem->url());
 			bool dummy;
-			mostLocalUrls.append(fileItem->mostLocalURL(dummy));
+			mostLocalUrls.append(fileItem->mostLocalUrl(dummy));
 #ifdef __GNUC__
 #warning how much of the q3icondragitem stuff do we have to duplicate here.... (TODO: jowenn)
 #endif
@@ -1162,7 +1162,7 @@ KUrl::List KonqIconViewWidget::selectedUrls( UrlFlags flags ) const
     for ( Q3IconViewItem *it = firstItem(); it; it = it->nextItem() )
         if ( it->isSelected() ) {
             KFileItem* item = (static_cast<KFileIVI *>( it ))->item();
-            lstURLs.append( flags == MostLocalUrls ? item->mostLocalURL( dummy ) : item->url() );
+            lstURLs.append( flags == MostLocalUrls ? item->mostLocalUrl( dummy ) : item->url() );
         }
     return lstURLs;
 }
@@ -1865,7 +1865,7 @@ void KonqIconViewWidget::setNewURL( const QString& url )
         u.setPath( url );
     else
         u = url;
-    setURL( u );
+    setUrl( u );
 }
 
 void KonqIconViewWidget::setCaseInsensitiveSort( bool b )

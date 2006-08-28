@@ -884,7 +884,7 @@ KUrl::List KonqBaseListViewWidget::selectedUrls( bool mostLocal )
    iterator it = begin();
    for ( ; it != end(); it++ )
       if ( it->isSelected() )
-         list.append( mostLocal ? it->item()->mostLocalURL( dummy ) : it->item()->url() );
+         list.append( mostLocal ? it->item()->mostLocalUrl( dummy ) : it->item()->url() );
    return list;
 }
 
@@ -1001,7 +1001,7 @@ bool KonqBaseListViewWidget::openURL( const KUrl &url )
    {
       args.xOffset = contentsX();
       args.yOffset = contentsY();
-      m_pBrowserView->extension()->setURLArgs( args );
+      m_pBrowserView->extension()->setUrlArgs( args );
 
       if ( currentItem() && itemRect( currentItem() ).isValid() )
          m_itemToGoTo = currentItem()->text(0);
@@ -1024,7 +1024,7 @@ bool KonqBaseListViewWidget::openURL( const KUrl &url )
    m_bUpdateContentsPosAfterListing = true;
 
    // Start the directory lister !
-   m_dirLister->openURL( url, false /* new url */, args.reload );
+   m_dirLister->openUrl( url, false /* new url */, args.reload );
 
    // Apply properties and reflect them on the actions
    // do it after starting the dir lister to avoid changing the properties
@@ -1236,7 +1236,7 @@ void KonqBaseListViewWidget::slotRedirection( const KUrl & url )
       createColumns();
    }
    const QString prettyURL = url.pathOrUrl();
-   emit m_pBrowserView->extension()->setLocationBarURL( prettyURL );
+   emit m_pBrowserView->extension()->setLocationBarUrl( prettyURL );
    emit m_pBrowserView->setWindowCaption( prettyURL );
    m_pBrowserView->m_url = url;
    m_url = url;

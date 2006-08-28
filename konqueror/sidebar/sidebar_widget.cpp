@@ -495,13 +495,13 @@ void Sidebar_Widget::slotSetURL( )
 	{
 		KSimpleConfig ksc(m_path+m_currentButton->file);
 		ksc.setGroup("Desktop Entry");
-		if ( !dlg.selectedURL().isValid())
+		if ( !dlg.selectedUrl().isValid())
 		{
-			KMessageBox::error(this, i18n("<qt><b>%1</b> does not exist</qt>", dlg.selectedURL().url()));
+			KMessageBox::error(this, i18n("<qt><b>%1</b> does not exist</qt>", dlg.selectedUrl().url()));
 		}
 		else
 		{
-			QString newurl= dlg.selectedURL().prettyUrl();
+			QString newurl= dlg.selectedUrl().prettyUrl();
 			//If we are going to set the name by 'set name', we don't set it here.
 			//ksc.writeEntry("Name",newurl);
 			ksc.writePathEntry("URL",newurl);
@@ -1055,12 +1055,12 @@ KParts::URLArgs args;
 	args.postData = formData;
 	args.setDoPost(QByteArray(action).toLower() == "post");
 	// boundary?
-	emit getExtension()->openURLRequest(KUrl( url ), args);
+	emit getExtension()->openUrlRequest(KUrl( url ), args);
 }
 
 void Sidebar_Widget::openURLRequest( const KUrl &url, const KParts::URLArgs &args)
 {
-	getExtension()->openURLRequest(url,args);
+	getExtension()->openUrlRequest(url,args);
 }
 
 void Sidebar_Widget::createNewWindow( const KUrl &url, const KParts::URLArgs &args)

@@ -503,14 +503,14 @@ void KNewMenu::slotResult( KJob * job )
     }
     else
     {
-        KUrl destURL = static_cast<KIO::CopyJob*>(job)->destURL();
-        if ( destURL.isLocalFile() )
+        KUrl destUrl = static_cast<KIO::CopyJob*>(job)->destUrl();
+        if ( destUrl.isLocalFile() )
         {
             if ( m_isURLDesktopFile )
             {
                 // destURL is the original destination for the new file.
                 // But in case of a renaming (due to a conflict), the real path is in m_destPath
-                kDebug(1203) << " destURL=" << destURL.path() << " " << " d->m_destPath=" << d->m_destPath << endl;
+                kDebug(1203) << " destUrl=" << destUrl.path() << " " << " d->m_destPath=" << d->m_destPath << endl;
                 KDesktopFile df( d->m_destPath );
                 df.writeEntry( "Icon", KProtocolInfo::icon( m_linkURL.protocol() ) );
                 df.writePathEntry( "URL", m_linkURL.prettyUrl() );
@@ -519,7 +519,7 @@ void KNewMenu::slotResult( KJob * job )
             else
             {
                 // Normal (local) file. Need to "touch" it, kio_file copied the mtime.
-                (void) ::utime( QFile::encodeName( destURL.path() ), 0 );
+                (void) ::utime( QFile::encodeName( destUrl.path() ), 0 );
             }
         }
     }

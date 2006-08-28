@@ -178,7 +178,7 @@ public:
     void setThumbnailPixmap( KFileIVI * item, const QPixmap & pixmap );
     void disableSoundPreviews();
 
-    void setURL ( const KUrl & kurl );
+    void setUrl ( const KUrl & kurl );
     const KUrl & url() const { return m_url; }
     QString urlString() const { return m_url.url(); }
     void setRootItem ( const KFileItem * item ) { m_rootItem = item; }

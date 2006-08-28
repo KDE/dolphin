@@ -448,7 +448,7 @@ void ActionsImpl::slotPrint() {
 #endif
     connect(s_part, SIGNAL(completed()), this, SLOT(slotDelayedPrint()));
 
-    s_part->openURL(KUrl( tmpf.name() ));
+    s_part->openUrl(KUrl( tmpf.name() ));
 }
 
 void ActionsImpl::slotDelayedPrint() {

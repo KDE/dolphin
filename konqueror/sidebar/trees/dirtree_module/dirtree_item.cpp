@@ -105,7 +105,7 @@ bool KonqSidebarDirTreeItem::hasStandardIcon()
 {
     // The reason why we can't use KFileItem::iconName() is that it doesn't
     // take custom icons in .directory files into account
-    return m_fileItem->determineMimeType()->icon( m_fileItem->url()/*, m_fileItem->isLocalFile()*/ ) == "folder";
+    return m_fileItem->determineMimeType()->iconName( m_fileItem->url()/*, m_fileItem->isLocalFile()*/ ) == "folder";
 }
 
 void KonqSidebarDirTreeItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )

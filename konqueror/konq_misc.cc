@@ -105,7 +105,7 @@ KonqMainWindow * KonqMisc::createNewWindow( const KUrl &url, const KParts::URLAr
 
   // For HTTP or html files, use the web browsing profile, otherwise use filemanager profile
   QString profileName = (!(KProtocolManager::supportsListing(url)) ||
-                        KMimeType::findByURL(url)->name() == "text/html")
+                        KMimeType::findByUrl(url)->name() == "text/html")
           ? "webbrowsing" : "filemanagement";
 
   QString profile = KStandardDirs::locate( "data", QLatin1String("konqueror/profiles/") + profileName );
@@ -195,7 +195,7 @@ QString KonqMisc::konqFilteredURL( QWidget* parent, const QString& _url, const Q
 {
   if ( !_url.startsWith( "about:" ) ) // Don't filter "about:" URLs
   {
-    KURIFilterData data = _url;
+    KUriFilterData data = _url;
 
     if( !_path.isEmpty() )
       data.setAbsolutePath(_path);
@@ -204,9 +204,9 @@ QString KonqMisc::konqFilteredURL( QWidget* parent, const QString& _url, const Q
     // from the location bar.
     data.setCheckForExecutables (false);
 
-    if( KURIFilter::self()->filterURI( data ) )
+    if( KUriFilter::self()->filterUri( data ) )
     {
-      if( data.uriType() == KURIFilterData::ERROR && !data.errorMsg().isEmpty() )
+      if( data.uriType() == KUriFilterData::ERROR && !data.errorMsg().isEmpty() )
       {
         KMessageBox::sorry( parent, i18n( data.errorMsg().toUtf8() ) );
         return QString();
@@ -256,7 +256,7 @@ void KonqDraggableLabel::mouseMoveEvent( QMouseEvent * ev )
       QMimeData* md = new QMimeData();
       lst.populateMimeData( md );
       drag->setMimeData( md );
-      QString iconName = KMimeType::iconNameForURL( lst.first() );
+      QString iconName = KMimeType::iconNameForUrl( lst.first() );
 
       drag->setPixmap(KGlobal::iconLoader()->loadMimeTypeIcon(iconName, K3Icon::Small));
 

@@ -97,7 +97,7 @@ void TypesListItem::init(KMimeType::Ptr mimetype)
     m_minor = "";
   }
   m_comment = mimetype->comment(QString());
-  m_icon = mimetype->icon(QString());
+  m_icon = mimetype->iconName(QString());
   m_patterns = mimetype->patterns();
   m_autoEmbed = readAutoEmbed( mimetype );
 }
@@ -164,9 +164,9 @@ bool TypesListItem::isMimeTypeDirty() const
     kDebug() << "Mimetype Comment Dirty: old=" << m_mimetype->comment(QString()) << " m_comment=" << m_comment << endl;
     return true;
   }
-  if (m_mimetype->icon(QString()) != m_icon)
+  if (m_mimetype->iconName(QString()) != m_icon)
   {
-    kDebug() << "Mimetype Icon Dirty: old=" << m_mimetype->icon(QString()) << " m_icon=" << m_icon << endl;
+    kDebug() << "Mimetype Icon Dirty: old=" << m_mimetype->iconName(QString()) << " m_icon=" << m_icon << endl;
     return true;
   }
 

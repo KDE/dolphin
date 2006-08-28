@@ -333,7 +333,7 @@ KonqSidebarHistoryGroupItem * KonqSidebarHistoryModule::getGroupItem( const KUrl
     if ( !group ) {
 	group = new KonqSidebarHistoryGroupItem( url, m_topLevelItem );
 
-	QString icon = KMimeType::favIconForURL( url );
+	QString icon = KMimeType::favIconForUrl( url );
 	if ( icon.isEmpty() )
 	    group->setPixmap( 0, m_folderClosed );
 	else

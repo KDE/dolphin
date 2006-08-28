@@ -85,7 +85,7 @@ void KonqSidebarDirTreeModule::addTopLevelItem( KonqSidebarTreeTopLevelItem * it
 
     if ( cfg.hasLinkType() )
     {
-        targetURL = cfg.readURL();
+        targetURL = cfg.readUrl();
 		// some services might want to make their URL configurable in kcontrol
 		QString configured = cfg.readEntry("X-KDE-ConfiguredURL");
 		if (!configured.isEmpty()) {
@@ -394,7 +394,7 @@ void KonqSidebarDirTreeModule::listDirectory( KonqSidebarTreeItem *item )
     if (tree()->isOpeningFirstChild()) m_dirLister->setAutoErrorHandlingEnabled(false,0);
 	else m_dirLister->setAutoErrorHandlingEnabled(true,tree());
 
-    m_dirLister->openURL( url, true /*keep*/ );
+    m_dirLister->openUrl( url, true /*keep*/ );
 }
 
 void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )

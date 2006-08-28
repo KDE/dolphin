@@ -326,7 +326,7 @@ void KonqDirPart::lmbClicked( KFileItem * fileItem )
     else
     {
         kDebug() << "emit m_extension->openURLRequest( " << url.url() << "," << args.serviceType << ")" << endl;
-        emit m_extension->openURLRequest( url, args );
+        emit m_extension->openUrlRequest( url, args );
     }
 }
 
@@ -655,7 +655,7 @@ void KonqDirPart::setFindPart( KParts::ReadOnlyPart * part )
     emit findOpened( this );
 
     // set the initial URL in the find part
-    m_findPart->openURL( url() );
+    m_findPart->openUrl( url() );
 }
 
 void KonqDirPart::slotFindClosed()

@@ -572,7 +572,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
     QByteArray _path( QFile::encodeName(url.path()));
     KDE_struct_stat buff;
     if ( KDE_stat( _path.data(), &buff ) != -1 )
-        mimeType = KMimeType::findByURL( url, buff.st_mode )->name();
+        mimeType = KMimeType::findByUrl( url, buff.st_mode )->name();
   }
 
   kDebug(1202) << "trying openView for " << url << " (mimeType " << mimeType << ")" << endl;
@@ -660,7 +660,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KUrl &_url,
 bool KonqMainWindow::openView( QString mimeType, const KUrl &_url, KonqView *childView, KonqOpenURLRequest& req )
 {
   // Second argument is referring URL
-  if ( !KAuthorized::authorizeURLAction("open", childView ? childView->url() : KUrl(), _url) )
+  if ( !KAuthorized::authorizeUrlAction("open", childView ? childView->url() : KUrl(), _url) )
   {
      QString msg = KIO::buildErrorString(KIO::ERR_ACCESS_DENIED, _url.prettyUrl());
      KMessageBox::queuedMessageBox( this, KMessageBox::Error, msg );
@@ -895,7 +895,7 @@ bool KonqMainWindow::openView( QString mimeType, const KUrl &_url, KonqView *chi
       //kDebug(1202) << "Referrer: " << req.args.metaData()["referrer"] << endl;
       childView->setTypedURL( req.typedUrl );
       if ( childView->browserExtension() )
-          childView->browserExtension()->setURLArgs( req.args );
+          childView->browserExtension()->setUrlArgs( req.args );
       if ( childView->part()->inherits("KonqDirPart") )
           static_cast<KonqDirPart *>(childView->part())->setFilesToSelect( req.filesToSelect );
       if ( !url.isEmpty() )
@@ -945,14 +945,14 @@ void KonqMainWindow::slotOpenURLRequest( const KUrl &url, const KParts::URLArgs 
         }
 
         if ( hostExtension )
-          hostExtension->openURLInFrame( url, args );
+          hostExtension->openUrlInFrame( url, args );
         else
           mainWindow->openURL( view, url, args );
         return;
       }
 
       if ( hostExtension )
-        hostExtension->openURLInFrame( url, args );
+        hostExtension->openUrlInFrame( url, args );
       else
         openURL( view, url, args );
       return;
@@ -1392,7 +1392,7 @@ void KonqMainWindow::slotOpenTerminal()
 
       // If the given directory is not local, it can still be the URL of an
       // ioslave using UDS_LOCAL_PATH which to be converted first.
-      u = KIO::NetAccess::mostLocalURL(u, this);
+      u = KIO::NetAccess::mostLocalUrl(u, this);
 
       //If the URL is local after the above conversion, set the directory.
       if ( u.isLocalFile() )
@@ -1433,7 +1433,7 @@ void KonqMainWindow::slotOpenLocation()
   dlg.urlRequester()->completionObject()->setDir( currentDir );
   dlg.urlRequester()->setMode( KFile::File | KFile::Directory | KFile::ExistingOnly );
   dlg.exec();
-  const KUrl& url = dlg.selectedURL();
+  const KUrl& url = dlg.selectedUrl();
   if (!url.isEmpty())
      openFilteredUrl( url.url().trimmed() );
 }
@@ -1897,7 +1897,7 @@ void KonqMainWindow::slotGoHistory()
     if (view) {
       KService::Ptr svc = view->service();
       if (svc->desktopEntryName() == "konq_sidebartng") {
-        if (!view->part()->openURL( KUrl( "sidebar:history.desktop" ) ) )
+        if (!view->part()->openUrl( KUrl( "sidebar:history.desktop" ) ) )
           KMessageBox::sorry(0, i18n("Cannot find running history plugin in your sidebar."), i18n("Show History Sidebar"));
         break;
       }
@@ -2862,7 +2862,7 @@ bool KonqMainWindow::askForTarget(const KLocalizedString& text, KUrl& url)
    dlg.urlRequester()->setMode( KFile::File | KFile::ExistingOnly | KFile::Directory );
    if (dlg.exec())
    {
-      url = dlg.selectedURL();
+      url = dlg.selectedUrl();
       if ( url.isValid() )
         return true;
       else
@@ -3522,7 +3522,7 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
 
     menuBar()->hide();
     m_paShowMenuBar->setChecked( false );
- 
+
     // Qt bug, the flags are lost. They know about it.
     // happens only with the hackish non-_NET_WM_STATE_FULLSCREEN way
     setAttribute( Qt::WA_DeleteOnClose );

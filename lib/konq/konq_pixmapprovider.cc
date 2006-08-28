@@ -67,12 +67,12 @@ QString KonqPixmapProvider::iconNameFor( const KUrl& url )
 
     if ( url.url().isEmpty() ) {
         // Use the folder icon for the empty URL
-        icon = KMimeType::mimeType( "inode/directory" )->icon();
+        icon = KMimeType::mimeType( "inode/directory" )->iconName();
         Q_ASSERT( !icon.isEmpty() );
     }
     else
     {
-        icon = KMimeType::iconNameForURL( url );
+        icon = KMimeType::iconNameForUrl( url );
         Q_ASSERT( !icon.isEmpty() );
     }
 
@@ -139,7 +139,7 @@ void KonqPixmapProvider::notifyChange( bool isHost, QString hostOrURL,
         {
             // For host default-icons still query the favicon manager to get
             // the correct icon for pages that have an own one.
-            QString icon = isHost ? KMimeType::favIconForURL( url ) : iconName;
+            QString icon = isHost ? KMimeType::favIconForUrl( url ) : iconName;
             if ( !icon.isEmpty() )
                 *it = icon;
         }

@@ -517,7 +517,7 @@ void removeExistingExtensions( QString &extension )
         if ( ext == "*" ) // some plugins have that, but we don't want to associate a mimetype with *.*!
             continue;
 
-        KMimeType::Ptr mime = KMimeType::findByURL( KUrl("file:///foo."+ext ),
+        KMimeType::Ptr mime = KMimeType::findByUrl( KUrl("file:///foo."+ext ),
                                                     0, true, true );
         if( mime->name()=="application/octet-stream" ||
             mime->comment().left(8)=="Netscape" ) {
