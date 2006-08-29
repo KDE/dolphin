@@ -116,7 +116,7 @@ void FavIconTest::testSetIconForURL()
 
 void FavIconTest::testIconForURL()
 {
-    QString icon = KMimeType::favIconForURL( KUrl( s_hostUrl ) );
+    QString icon = KMimeType::favIconForUrl( KUrl( s_hostUrl ) );
     QCOMPARE( icon, QString( "favicons/www.kde.org" ) );
 }
 

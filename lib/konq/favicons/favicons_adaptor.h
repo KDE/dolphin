@@ -44,7 +44,7 @@ class FavIconsAdaptor: public QDBusAbstractAdaptor
 "      <arg direction=\"out\" type=\"s\" name=\"iconURL\" />\n"
 "      <arg direction=\"out\" type=\"s\" name=\"msg\" />\n"
 "    </signal>\n"
-"    <method name=\"iconForURL\" >\n"
+"    <method name=\"iconForUrl\" >\n"
 "      <arg direction=\"out\" type=\"s\" />\n"
 "      <arg direction=\"in\" type=\"s\" name=\"url\" />\n"
 "    </method>\n"
@@ -64,7 +64,7 @@ public:
 public: // PROPERTIES
 public Q_SLOTS: // METHODS
     void downloadHostIcon(const QString &url);
-    QString iconForURL(const QString &url);
+    QString iconForUrl(const QString &url);
     void setIconForURL(const QString &url, const QString &iconURL);
 
 Q_SIGNALS: // SIGNALS

@@ -44,10 +44,10 @@ void FavIconsAdaptor::downloadHostIcon(const QString &url)
     static_cast<FavIconsModule *>(parent())->downloadHostIcon( KUrl(url) );
 }
 
-QString FavIconsAdaptor::iconForURL(const QString &url)
+QString FavIconsAdaptor::iconForUrl(const QString &url)
 {
-    // handle method call org.kde.FavIcon.iconForURL
-    return static_cast<FavIconsModule *>(parent())->iconForURL( KUrl(url) );
+    // handle method call org.kde.FavIcon.iconForUrl
+    return static_cast<FavIconsModule *>(parent())->iconForUrl( KUrl(url) );
 }
 
 void FavIconsAdaptor::setIconForURL(const QString &url, const QString &iconURL)

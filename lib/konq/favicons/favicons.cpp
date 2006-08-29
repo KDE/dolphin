@@ -90,7 +90,7 @@ static QString removeSlash(QString result)
 }
 
 
-QString FavIconsModule::iconForURL(const KUrl &url)
+QString FavIconsModule::iconForUrl(const KUrl &url)
 {
     if (url.host().isEmpty())
         return QString();

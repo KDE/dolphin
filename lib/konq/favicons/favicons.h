@@ -38,7 +38,7 @@ namespace KIO { class Job; }
  * second parameter is a host name, otherwise the second parameter is the
  * URL which is associated with the icon. The third parameter is the
  * @ref KIconLoader friendly name of the downloaded icon, the same as
- * @ref iconForURL will from now on return for any matching URL.
+ * @ref iconForUrl will from now on return for any matching URL.
  *
  * @short KDED Module for favicons
  * @author Malte Starostik <malte@kde.org>
@@ -60,7 +60,7 @@ public Q_SLOTS: // dbus methods, called by the adaptor
      * @return the icon name suitable to pass to @ref KIconLoader or
      *         QString() if no icon for this URL was found.
      */
-    QString iconForURL(const KUrl &url);
+    QString iconForUrl(const KUrl &url);
 
     /**
      * Associates an icon with the given URL. If the icon was not
