@@ -737,7 +737,9 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
       setSelected( m_dragOverItem, false );
    m_dragOverItem = 0L;
 
-   ev->accept();
+   ev->acceptProposedAction();
+   ev->acceptAction();
+   kDebug() << ev->dropAction() << endl;
 
    // We dropped on an item only if we dropped on the Name column.
    KonqBaseListViewItem *item =
@@ -771,14 +773,16 @@ void KonqBaseListViewWidget::startDrag()
    }
 
    QDrag* drag = new QDrag( viewport() );
-   KonqMimeData::populateMimeData( drag->mimeData(), urls, selectedUrls(true) );
+   QMimeData* md = new QMimeData();
+   KonqMimeData::populateMimeData( md, urls, selectedUrls(true) );
+   drag->setMimeData( md );
 
    if ( !pixmap2.isNull() )
       drag->setPixmap( pixmap2 );
    else if ( !pixmap0Invalid )
       drag->setPixmap( *m_pressedItem->pixmap( 0 ) );
 
-   drag->start();
+   drag->start(Qt::CopyAction|Qt::MoveAction|Qt::LinkAction);
 }
 
 void KonqBaseListViewWidget::slotItemRenamed( Q3ListViewItem *item, const QString &name, int col )
@@ -969,7 +973,7 @@ void KonqBaseListViewWidget::updateListContents()
       it->updateContents();
 }
 
-bool KonqBaseListViewWidget::openURL( const KUrl &url )
+bool KonqBaseListViewWidget::openUrl( const KUrl &url )
 {
    kDebug(1202) << k_funcinfo << "protocol: " << url.protocol()
                                << " url: " << url.path() << endl;

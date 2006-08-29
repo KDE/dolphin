@@ -84,7 +84,7 @@ public:
      */
     virtual ~KonqSidebar();
 
-    virtual bool openURL(const KUrl &url);
+    virtual bool openUrl(const KUrl &url);
     KonqSidebarBrowserExtension* extension() const
        { return m_extension; }
     KInstance *getInstance();

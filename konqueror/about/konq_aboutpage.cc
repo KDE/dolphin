@@ -421,7 +421,7 @@ KonqAboutPage::~KonqAboutPage()
 {
 }
 
-bool KonqAboutPage::openURL( const KUrl &u )
+bool KonqAboutPage::openUrl( const KUrl &u )
 {
     if (u.url() == "about:plugins")
        serve( KonqAboutPageFactory::plugins(), "plugins" );

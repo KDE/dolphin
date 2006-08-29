@@ -391,7 +391,7 @@ void KonqView::connectPart(  )
   {
       ext->setBrowserInterface( m_browserIface );
 
-      connect( ext, SIGNAL( openURLRequestDelayed( const KUrl &, const KParts::URLArgs &) ),
+      connect( ext, SIGNAL( openUrlRequestDelayed( const KUrl &, const KParts::URLArgs &) ),
                m_pMainWindow, SLOT( slotOpenURLRequest( const KUrl &, const KParts::URLArgs & ) ) );
 
       if ( m_bPopupMenuEnabled )
@@ -400,10 +400,10 @@ void KonqView::connectPart(  )
           enablePopupMenu( true );
       }
 
-      connect( ext, SIGNAL( setLocationBarURL( const QString & ) ),
+      connect( ext, SIGNAL( setLocationBarUrl( const QString & ) ),
                this, SLOT( setLocationBarURL( const QString & ) ) );
 
-      connect( ext, SIGNAL( setIconURL( const KUrl & ) ),
+      connect( ext, SIGNAL( setIconUrl( const KUrl & ) ),
                this, SLOT( setIconURL( const KUrl & ) ) );
 
       connect( ext, SIGNAL( setPageSecurity( int ) ),
@@ -427,7 +427,7 @@ void KonqView::connectPart(  )
       connect( ext, SIGNAL( mouseOverInfo( const KFileItem * ) ),
                this, SLOT( slotMouseOverInfo( const KFileItem * ) ) );
 
-      connect( ext, SIGNAL( openURLNotify() ),
+      connect( ext, SIGNAL( openUrlNotify() ),
                this, SLOT( slotOpenURLNotify() ) );
 
       connect( ext, SIGNAL( enableAction( const char *, bool ) ),

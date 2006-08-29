@@ -106,7 +106,7 @@ public:
    iterator begin() { iterator it( (KonqBaseListViewItem *)firstChild() ); return it; }
    iterator end() { iterator it; return it; }
 
-   virtual bool openURL( const KUrl &url );
+   virtual bool openUrl( const KUrl &url );
 
    void selectedItems( Q3PtrList<KonqBaseListViewItem> *_list );
    KFileItemList visibleFileItems();

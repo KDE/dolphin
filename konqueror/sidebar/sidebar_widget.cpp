@@ -1174,8 +1174,8 @@ void Sidebar_Widget::connectModule(QObject *mod)
 			this,SLOT(popupMenu( const QPoint &, const KFileItemList & )));
 	}
 
-	if (mod->metaObject()->indexOfSignal("openURLRequest(KUrl,KParts::URLArgs)") != -1) {
-		connect(mod,SIGNAL(openURLRequest( const KUrl &, const KParts::URLArgs &)),
+	if (mod->metaObject()->indexOfSignal("openUrlRequest(KUrl,KParts::URLArgs)") != -1) {
+		connect(mod,SIGNAL(openUrlRequest( const KUrl &, const KParts::URLArgs &)),
 			this,SLOT(openURLRequest( const KUrl &, const KParts::URLArgs &)));
 	}
 

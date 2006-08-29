@@ -231,7 +231,7 @@ public Q_SLOTS:
      * Re-implemented for internal reasons.  API is unaffected.  All inheriting
      * classes should re-implement @ref doOpenURL() instead instead of this one.
      */
-     bool openURL (const KUrl&);
+     bool openUrl (const KUrl&);
 
     /**
      * This is called either by the part's close button, or by the

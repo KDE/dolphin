@@ -38,7 +38,7 @@ public:
     KonqAboutPage( QWidget *parentWidget, QObject *parent );
     ~KonqAboutPage();
 
-    virtual bool openURL( const KUrl &url );
+    virtual bool openUrl( const KUrl &url );
 
     virtual bool openFile();
 

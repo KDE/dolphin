@@ -83,7 +83,7 @@ class KHTMLSideBar : public KHTMLPart
 				KParts::URLArgs args = KParts::URLArgs()) {
 			if (button == Qt::LeftButton ){
 				if (_target.toLower() == "_self") {
-					openURL(url);
+					openUrl(url);
 				} else if (_target.toLower() == "_blank") {
 					emit openURLNewWindow(completeURL(url).url(), args);
 				} else { // isEmpty goes here too
@@ -98,7 +98,7 @@ class KHTMLSideBar : public KHTMLPart
 			}
 			// A refresh
 			if (button == 0 && _target.toLower() == "_self") {
-				openURL(completeURL(url));
+				openUrl(completeURL(url));
 				return;
 			}
 			KHTMLPart::urlSelected(url,button,state,_target,args);

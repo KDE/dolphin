@@ -43,11 +43,11 @@ KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent,
 		this,
 		SLOT(setTitle(const QString&)));
 	connect(_htmlPart,
-		SIGNAL(openURLRequest(const QString&, KParts::URLArgs)),
+		SIGNAL(openUrlRequest(const QString&, KParts::URLArgs)),
 		this,
 		SLOT(urlClicked(const QString&, KParts::URLArgs)));
 	connect(_htmlPart->browserExtension(),
-		SIGNAL(openURLRequest(const KUrl&, const KParts::URLArgs&)),
+		SIGNAL(openUrlRequest(const KUrl&, const KParts::URLArgs&)),
 		this,
 		SLOT(formClicked(const KUrl&, const KParts::URLArgs&)));
 	connect(_htmlPart,
@@ -67,7 +67,7 @@ KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent,
 	ksc.setGroup("Desktop Entry");
         reloadTimeout = ksc.readEntry("Reload", 0);
 	_url = ksc.readPathEntry("URL");
-	_htmlPart->openURL(_url );
+	_htmlPart->openUrl(_url );
 	// Must load this delayed
 	QTimer::singleShot(0, this, SLOT(loadFavicon()));
 }
@@ -138,7 +138,7 @@ void KonqSideBarWebModule::urlClicked(const QString& url, KParts::URLArgs args)
 void KonqSideBarWebModule::formClicked(const KUrl& url, const KParts::URLArgs& args)
 {
 	_htmlPart->browserExtension()->setUrlArgs(args);
-	_htmlPart->openURL(url);
+	_htmlPart->openUrl(url);
 }
 
 
@@ -162,7 +162,7 @@ void KonqSideBarWebModule::loadFavicon() {
 
 
 void KonqSideBarWebModule::reload() {
-	_htmlPart->openURL(_url);
+	_htmlPart->openUrl(_url);
 }
 
 

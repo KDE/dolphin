@@ -32,7 +32,7 @@ KonqSidebar_Tree::KonqSidebar_Tree(KInstance *instance,QObject *parent,QWidget *
 		tree=new KonqSidebarTree(this,widget,virt,desktopName_);
 	}
 
-	connect(tree, SIGNAL( openURLRequest( const KUrl &, const KParts::URLArgs &)),
+	connect(tree, SIGNAL( openUrlRequest( const KUrl &, const KParts::URLArgs &)),
 		this,SIGNAL( openURLRequest( const KUrl &, const KParts::URLArgs &)));
 
 	connect(tree,SIGNAL(createNewWindow( const KUrl &, const KParts::URLArgs &)),

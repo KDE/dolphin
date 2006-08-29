@@ -42,7 +42,7 @@ class KonqInfoListViewWidget : public KonqBaseListViewWidget
       
      const QStringList columnKeys() {return m_columnKeys;}
       
-      virtual bool openURL( const KUrl &url );
+      virtual bool openUrl( const KUrl &url );
 
    protected Q_SLOTS:
       // slots connected to the directory lister

@@ -1531,7 +1531,7 @@ void SpringLoadingManager::finished()
     m_startPart = 0L;
 
     KonqKfmIconView *view = static_cast<KonqKfmIconView*>(part);
-    view->openURL(url);
+    view->openUrl(url);
     const QString prettyURL = url.pathOrUrl();
     emit view->extension()->setLocationBarUrl( prettyURL );
 

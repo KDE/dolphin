@@ -612,7 +612,7 @@ bool KonqDirPart::closeURL()
     return doCloseURL();
 }
 
-bool KonqDirPart::openURL(const KUrl& url)
+bool KonqDirPart::openUrl(const KUrl& url)
 {
     if ( m_findPart )
     {
@@ -665,7 +665,7 @@ void KonqDirPart::slotFindClosed()
     m_findPart = 0L;
     emit findClosed( this );
     // reload where we were before
-    openURL( url() );
+    openUrl( url() );
 }
 
 void KonqDirPart::slotIconChanged( int group )

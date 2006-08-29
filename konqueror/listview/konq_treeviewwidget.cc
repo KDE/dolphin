@@ -53,7 +53,7 @@ KonqTreeViewWidget::~KonqTreeViewWidget()
    m_dictSubDirs.clear();
 }
 
-bool KonqTreeViewWidget::openURL( const KUrl &url )
+bool KonqTreeViewWidget::openUrl( const KUrl &url )
 {
    //kDebug(1202) << k_funcinfo << url.prettyUrl() << endl;
 
@@ -72,7 +72,7 @@ bool KonqTreeViewWidget::openURL( const KUrl &url )
       m_urlsToOpen.clear();
    }
 
-   return KonqBaseListViewWidget::openURL( url );
+   return KonqBaseListViewWidget::openUrl( url );
 }
 
 void KonqTreeViewWidget::saveState( QDataStream &stream )
