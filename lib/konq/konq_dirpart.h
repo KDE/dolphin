@@ -181,7 +181,7 @@ public:
      * Re-implemented for internal reasons.  API is unaffected.  All inheriting
      * classes should re-implement doCloseURL() instead instead of this one.
      */
-    bool closeURL ();
+    bool closeUrl ();
 
 Q_SIGNALS:
 
@@ -287,7 +287,7 @@ protected:
      */
     virtual bool doOpenURL( const KUrl& ) = 0;
     /**
-     * Invoked from closeURL() to enable children classes to
+     * Invoked from closeUrl() to enable children classes to
      * handle close URL requests.
      */
     virtual bool doCloseURL () = 0;

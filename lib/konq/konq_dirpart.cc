@@ -606,7 +606,7 @@ void KonqDirPart::setIconSize( int size )
     newIconSize( size );
 }
 
-bool KonqDirPart::closeURL()
+bool KonqDirPart::closeUrl()
 {
     // Tell all the childern objects to clean themselves up for dinner :)
     return doCloseURL();
