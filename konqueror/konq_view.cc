@@ -914,7 +914,7 @@ void KonqView::stop()
     // we decided to keep it :)
     KonqHistoryManager::kself()->confirmPending( url(), m_sTypedURL );
 
-    //kDebug(1202) << "m_pPart->closeURL()" << endl;
+    //kDebug(1202) << "m_pPart->closeUrl()" << endl;
     m_pPart->closeUrl();
     m_bAborted = true;
     m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );

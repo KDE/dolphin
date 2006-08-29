@@ -219,10 +219,10 @@ PluginPart::~PluginPart()
 }
 
 
-bool PluginPart::openURL(const KUrl &url)
+bool PluginPart::openUrl(const KUrl &url)
 {
-    closeURL();
-    kDebug(1432) << "-> PluginPart::openURL" << endl;
+    closeUrl();
+    kDebug(1432) << "-> PluginPart::openUrl" << endl;
 
     m_url = url;
     QString surl = url.url();
@@ -262,7 +262,7 @@ bool PluginPart::openURL(const KUrl &url)
     }
 
     if (surl.isEmpty()) {
-        kDebug(1432) << "<- PluginPart::openURL - false (no url passed to nsplugin)" << endl;
+        kDebug(1432) << "<- PluginPart::openUrl - false (no url passed to nsplugin)" << endl;
         return false;
     }
 
@@ -288,14 +288,14 @@ bool PluginPart::openURL(const KUrl &url)
     _widget->resize(_canvas->width(), _canvas->height());
     _widget->show();
 
-    kDebug(1432) << "<- PluginPart::openURL = " << (inst!=0) << endl;
+    kDebug(1432) << "<- PluginPart::openUrl = " << (inst!=0) << endl;
     return inst != 0L;
 }
 
 
-bool PluginPart::closeURL()
+bool PluginPart::closeUrl()
 {
-    kDebug(1432) << "PluginPart::closeURL" << endl;
+    kDebug(1432) << "PluginPart::closeUrl" << endl;
     delete _widget;
     _widget = 0;
     return true;
@@ -372,8 +372,8 @@ void PluginPart::pluginResized(int w, int h)
 
 
 void PluginPart::changeSrc(const QString& url) {
-    closeURL();
-    openURL(KUrl( url ));
+    closeUrl();
+    openUrl(KUrl( url ));
 }
 
 

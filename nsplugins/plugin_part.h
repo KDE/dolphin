@@ -95,8 +95,8 @@ public:
   void changeSrc(const QString& url);
 
 protected:
-  virtual bool openURL(const KUrl &url);
-  virtual bool closeURL();
+  virtual bool openUrl(const KUrl &url);
+  virtual bool closeUrl();
   virtual bool openFile() { return false; };
 
 protected Q_SLOTS:
