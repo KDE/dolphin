@@ -8,13 +8,3 @@ add_subdirectory( filetypes )
 add_subdirectory( pics ) 
 add_subdirectory( css ) 
 
-
-########### install files ###############
-
-
-
-
-
-#original Makefile.am contents follow:
-
-#SUBDIRS = ebrowsing konq konqhtml performance kio filetypes pics css
