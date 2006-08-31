@@ -80,7 +80,7 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const QStringList &)
   tmpLabel = new QLabel(i18n("Des&ktop path:"), this);
   lay->addWidget(tmpLabel, row, 0);
   urDesktop = new KUrlRequester(this);
-  urDesktop->setMode( KFile::Directory );
+  urDesktop->setMode( KFile::Directory | KFile::LocalOnly );
   tmpLabel->setBuddy( urDesktop );
   lay->addWidget(urDesktop, row, 1, 1, RO_LASTCOL);
   connect(urDesktop, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
@@ -95,7 +95,7 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const QStringList &)
   tmpLabel = new QLabel(i18n("A&utostart path:"), this);
   lay->addWidget(tmpLabel, row, 0);
   urAutostart = new KUrlRequester(this);
-  urAutostart->setMode( KFile::Directory );
+  urAutostart->setMode( KFile::Directory | KFile::LocalOnly );
   tmpLabel->setBuddy( urAutostart );
   lay->addWidget(urAutostart, row, 1, 1, RO_LASTCOL);
   connect(urAutostart, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
@@ -111,7 +111,7 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const QStringList &)
   tmpLabel = new QLabel(i18n("D&ocuments path:"), this);
   lay->addWidget(tmpLabel, row, 0);
   urDocument = new KUrlRequester(this);
-  urDocument->setMode( KFile::Directory );
+  urDocument->setMode( KFile::Directory | KFile::LocalOnly );
   tmpLabel->setBuddy( urDocument );
   lay->addWidget(urDocument, row, 1, 1, RO_LASTCOL);
   connect(urDocument, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
@@ -129,18 +129,18 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const QStringList &)
 void DesktopPathConfig::load()
 {
     // Desktop Paths
-    urDesktop->setUrl( KGlobalSettings::desktopPath() );
-    urAutostart->setUrl( KGlobalSettings::autostartPath() );
-    urDocument->setUrl( KGlobalSettings::documentPath() );
+    urDesktop->setPath( KGlobalSettings::desktopPath() );
+    urAutostart->setPath( KGlobalSettings::autostartPath() );
+    urDocument->setPath( KGlobalSettings::documentPath() );
     changed();
 }
 
 void DesktopPathConfig::defaults()
 {
     // Desktop Paths - keep defaults in sync with kglobalsettings.cpp
-    urDesktop->setUrl( QDir::homePath() + "/Desktop/" );
-    urAutostart->setUrl( KGlobal::dirs()->localkdedir() + "Autostart/" );
-    urDocument->setUrl( QDir::homePath() );
+    urDesktop->setPath( QDir::homePath() + "/Desktop/" );
+    urAutostart->setPath( KGlobal::dirs()->localkdedir() + "Autostart/" );
+    urDocument->setPath( QDir::homePath() );
 }
 
 void DesktopPathConfig::save()
@@ -153,18 +153,15 @@ void DesktopPathConfig::save()
 
     KUrl desktopURL;
     desktopURL.setPath( KGlobalSettings::desktopPath() );
-    KUrl newDesktopURL;
-    newDesktopURL.setPath(urDesktop->url());
+    KUrl newDesktopURL = urDesktop->url();
 
     KUrl autostartURL;
     autostartURL.setPath( KGlobalSettings::autostartPath() );
-    KUrl newAutostartURL;
-    newAutostartURL.setPath(urAutostart->url());
+    KUrl newAutostartURL = urAutostart->url();
 
     KUrl documentURL;
     documentURL.setPath( KGlobalSettings::documentPath() );
-    KUrl newDocumentURL;
-    newDocumentURL.setPath(urDocument->url());
+    KUrl newDocumentURL = urDocument->url();
 
     if ( !newDesktopURL.equals( desktopURL, KUrl::CompareWithoutTrailingSlash ) )
     {
@@ -173,8 +170,8 @@ void DesktopPathConfig::save()
         // * Inside destination -> let them be moved with the desktop (but adjust name if necessary)
         // * Not inside destination -> move first
         // !!!
-        kDebug() << "desktopURL=" << desktopURL.url() << endl;
-        QString urlDesktop = urDesktop->url();
+        kDebug() << "desktopURL=" << desktopURL << endl;
+        QString urlDesktop = urDesktop->url().path();
         if ( !urlDesktop.endsWith( "/" ))
             urlDesktop+="/";
 
@@ -186,7 +183,7 @@ void DesktopPathConfig::save()
             if ( newAutostartURL.equals( autostartURL, KUrl::CompareWithoutTrailingSlash ) )
             {
                 // Hack. It could be in a subdir inside desktop. Hmmm... Argl.
-                urAutostart->setUrl( urlDesktop + "Autostart/" );
+                urAutostart->setPath( urlDesktop + "Autostart/" );
                 kDebug() << "Autostart is moved with the desktop" << endl;
                 autostartMoved = true;
             }
@@ -216,7 +213,7 @@ void DesktopPathConfig::save()
         if (autostartMoved)
         {
 //            configGroup.writeEntry( "Autostart", Autostart->url());
-            configGroup.writePathEntry( "Autostart", urAutostart->url(), KConfigBase::Normal | KConfigBase::Global );
+            configGroup.writePathEntry( "Autostart", urAutostart->url().path(), KConfigBase::Normal | KConfigBase::Global );
             pathChanged = true;
         }
     }
@@ -224,13 +221,13 @@ void DesktopPathConfig::save()
     if ( !newDocumentURL.equals( documentURL, KUrl::CompareWithoutTrailingSlash ) )
     {
         bool pathOk = true;
-        QString path = urDocument->url();
+        QString path = urDocument->url().path();
         if (!QDir(path).exists())
         {
             if (!KStandardDirs::makeDir(path))
             {
                 KMessageBox::sorry(this, KIO::buildErrorString(KIO::ERR_COULD_NOT_MKDIR, path));
-                urDocument->setUrl(documentURL.path());
+                urDocument->setPath(documentURL.path());
                 pathOk = false;
             }
         }

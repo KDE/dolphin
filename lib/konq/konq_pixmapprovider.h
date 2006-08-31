@@ -38,6 +38,7 @@ public:
 
     virtual ~KonqPixmapProvider();
 
+    // #### Shouldn't url be a KUrl?
     /**
      * Looks up a pixmap for @p url. Uses a cache for the iconname of url.
      */
