@@ -26,6 +26,7 @@ class FavIconTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
+    void initTestCase();
     void testSetIconForURL();
     void testIconForURL();
     //void testDownloadHostIcon();

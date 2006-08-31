@@ -81,6 +81,15 @@ static void waitForSignal( TestFavIconMgr* mgr )
     // qDebug() << QDateTime::currentDateTime() << " waiting done";
 }
 
+void FavIconTest::initTestCase()
+{
+    // Disable kwallet, I don't want kwallet wizard to come up ;)
+    KConfig cfg("kwalletrc");
+    cfg.setGroup("Wallet");
+    cfg.writeEntry("First Use", false);
+    cfg.writeEntry("Enabled", false);
+}
+
 // To avoid hitting the cache, we first set the icon to s_altIconUrl (koffice.org),
 // then back to s_iconUrl (kde.org) (to avoid messing up the favicons for the user ;)
 void FavIconTest::testSetIconForURL()
