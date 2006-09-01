@@ -14,16 +14,3 @@ target_link_libraries(nswrapper  ${KDE4_KDECORE_LIBS} )
 set_target_properties(nswrapper PROPERTIES VERSION 1.0.0 SOVERSION 1 )
 install(TARGETS nswrapper  DESTINATION ${LIB_INSTALL_DIR} )
 
-
-########### install files ###############
-
-
-
-
-
-#original Makefile.am contents follow:
-
-#lib_LTLIBRARIES = libnswrapper.la
-#libnswrapper_la_SOURCES = wrapper.c
-#INCLUDES = -I$(top_srcdir)/nsplugins
-#
