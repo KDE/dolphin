@@ -77,7 +77,7 @@ KBehaviourOptions::KBehaviourOptions(QWidget *parent, const QStringList &)
 
     cbNewWin = new QCheckBox(i18n("Open folders in separate &windows"), vbox);
     cbNewWin->setWhatsThis( i18n("If this option is checked, Konqueror will open a new window when "
-                                    "you open a folder, rather than showing that folders's contents in the current window."));
+                                    "you open a folder, rather than showing that folder's contents in the current window."));
     connect(cbNewWin, SIGNAL(clicked()), this, SLOT(changed()));
     connect(cbNewWin, SIGNAL(toggled(bool)), SLOT(updateWinPixmap(bool)));
 
