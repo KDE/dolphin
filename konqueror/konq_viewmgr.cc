@@ -253,7 +253,7 @@ KonqView* KonqViewManager::splitWindow( Qt::Orientation orientation,
 
   mainFrame->widget()->setUpdatesEnabled( true );
 
-  childView->openURL( url, locationBarURL );
+  childView->openUrl( url, locationBarURL );
 
   newContainer->setActiveChild( mainFrame );
 
@@ -604,7 +604,7 @@ void KonqViewManager::reloadAllTabs( )
       if ( frame && frame->activeChildView())
       {
           if( !frame->activeChildView()->locationBarURL().isEmpty())
-              frame->activeChildView()->openURL( frame->activeChildView()->url(), frame->activeChildView()->locationBarURL());
+              frame->activeChildView()->openUrl( frame->activeChildView()->url(), frame->activeChildView()->locationBarURL());
       }
   }
 }
@@ -1117,17 +1117,17 @@ void KonqViewManager::saveViewProfile( KConfig & cfg, bool saveURLs, bool saveWi
 
 void KonqViewManager::loadViewProfile( const QString & path, const QString & filename,
                                        const KUrl & forcedURL, const KonqOpenURLRequest &req,
-                                       bool resetWindow, bool openURL )
+                                       bool resetWindow, bool openUrl )
 {
   KConfig cfg( path, true );
   cfg.setDollarExpansion( true );
   cfg.setGroup( "Profile" );
-  loadViewProfile( cfg, filename, forcedURL, req, resetWindow, openURL );
+  loadViewProfile( cfg, filename, forcedURL, req, resetWindow, openUrl );
 }
 
 void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
                                        const KUrl & forcedURL, const KonqOpenURLRequest &req,
-                                       bool resetWindow, bool openURL )
+                                       bool resetWindow, bool openUrl )
 {
   if ( docContainer() && docContainer()->frameType()=="Tabs" )
   {
@@ -1200,7 +1200,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
     // from profile loading (e.g. in switchView)
     m_bLoadingProfile = true;
 
-    loadItem( cfg, m_pMainWindow, rootItem, defaultURL, openURL && forcedURL.isEmpty() );
+    loadItem( cfg, m_pMainWindow, rootItem, defaultURL, openUrl && forcedURL.isEmpty() );
 
     m_bLoadingProfile = false;
 
@@ -1247,13 +1247,13 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
       nextChildView->setViewName( req.args.frameName );
   }
 
-  if ( openURL && !forcedURL.isEmpty())
+  if ( openUrl && !forcedURL.isEmpty())
   {
       KonqOpenURLRequest _req(req);
       _req.openAfterCurrentPage = KonqSettings::openAfterCurrentPage();
       _req.forceAutoEmbed = true; // it's a new window, let's use it
 
-      m_pMainWindow->openURL( nextChildView /* can be 0 for an empty profile */,
+      m_pMainWindow->openUrl( nextChildView /* can be 0 for an empty profile */,
                               forcedURL, _req.args.serviceType, _req, _req.args.trustedSource );
 
       // TODO choose a linked view if any (instead of just the first one),
@@ -1437,13 +1437,13 @@ QSize KonqViewManager::readConfigSize( KConfig &cfg, QWidget *widget )
 }
 
 void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
-                                const QString &name, const KUrl & defaultURL, bool openURL, bool openAfterCurrentPage )
+                                const QString &name, const KUrl & defaultURL, bool openUrl, bool openAfterCurrentPage )
 {
   QString prefix;
   if( name != "InitialView" )
     prefix = name + QLatin1Char( '_' );
 
-  //kDebug(1202) << "KonqViewManager::loadItem: begin name " << name << " openURL " << openURL << endl;
+  //kDebug(1202) << "KonqViewManager::loadItem: begin name " << name << " openUrl " << openURL << endl;
 
   if( name.startsWith("View") || name == "empty" ) {
     //load view config
@@ -1527,7 +1527,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     childView->frame()->show();
 
     QString key = QString::fromLatin1( "URL" ).prepend( prefix );
-    if ( openURL )
+    if ( openUrl )
     {
       KUrl url;
 
@@ -1546,8 +1546,8 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
 
       if ( !url.isEmpty() )
       {
-        //kDebug(1202) << "KonqViewManager::loadItem: calling openURL " << url.prettyURL() << endl;
-        //childView->openURL( url, url.prettyUrl() );
+        //kDebug(1202) << "KonqViewManager::loadItem: calling openUrl " << url.prettyURL() << endl;
+        //childView->openUrl( url, url.prettyUrl() );
         // We need view-follows-view (for the dirtree, for instance)
         KonqOpenURLRequest req;
         if (url.protocol() != "about")
@@ -1585,7 +1585,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     {
       kWarning() << "Profile Loading Error: Less than two children in " << name << endl;
       // fallback to defaults
-      loadItem( cfg, parent, "InitialView", defaultURL, openURL );
+      loadItem( cfg, parent, "InitialView", defaultURL, openUrl );
     }
     else
     {
@@ -1601,8 +1601,8 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
       if (cfg.readEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), false ))
         m_pDocContainer = newContainer;
 
-      loadItem( cfg, newContainer, childList.at(0), defaultURL, openURL );
-      loadItem( cfg, newContainer, childList.at(1), defaultURL, openURL );
+      loadItem( cfg, newContainer, childList.at(0), defaultURL, openUrl );
+      loadItem( cfg, newContainer, childList.at(1), defaultURL, openUrl );
 
       newContainer->setSizes( sizes );
 
@@ -1629,7 +1629,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     QStringList childList = cfg.readEntry( QString::fromLatin1( "Children" ).prepend( prefix ),QStringList() );
     for ( QStringList::Iterator it = childList.begin(); it != childList.end(); ++it )
     {
-        loadItem( cfg, newContainer, *it, defaultURL, openURL );
+        loadItem( cfg, newContainer, *it, defaultURL, openUrl );
         QWidget* currentPage = newContainer->currentWidget();
         if (currentPage != 0L) {
           KonqView* activeChildView = dynamic_cast<KonqFrameBase*>(currentPage)->activeChildView();

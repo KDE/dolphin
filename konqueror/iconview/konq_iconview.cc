@@ -845,7 +845,7 @@ void KonqKfmIconView::slotMouseButtonClicked(int _button, Q3IconViewItem* _item,
 
 void KonqKfmIconView::slotStarted()
 {
-    // Only emit started if this comes after openURL, i.e. it's not for an update.
+    // Only emit started if this comes after openUrl, i.e. it's not for an update.
     // We don't want to start a spinning wheel during updates.
     if ( m_bLoading )
         emit started( 0 );
@@ -864,7 +864,7 @@ void KonqKfmIconView::slotCanceled()
 void KonqKfmIconView::slotCanceled( const KUrl& url )
 {
     // Check if this canceled() signal is about the URL we're listing.
-    // It could be about the URL we were listing, and openURL() aborted it.
+    // It could be about the URL we were listing, and openUrl() aborted it.
     if ( m_bLoading && url.equals( m_pIconView->url(), KUrl::CompareWithoutTrailingSlash ) )
     {
         emit canceled( QString() );
@@ -1272,7 +1272,7 @@ bool KonqKfmIconView::doOpenURL( const KUrl & url )
 
     m_dirLister->setMimeFilter( mimeFilter() );
 
-    // This *must* happen before m_dirLister->openURL because it emits
+    // This *must* happen before m_dirLister->openUrl because it emits
     // clear() and Q3IconView::clear() calls setContentsPos(0,0)!
     KParts::URLArgs args = m_extension->urlArgs();
     if ( args.reload )
@@ -1486,7 +1486,7 @@ void SpringLoadingManager::springLoadTrigger(KonqKfmIconView *view,
     args.trustedSource = true;
 
     // Open the folder URL, we don't want to modify the browser
-    // history, hence the use of openURL and setLocationBarURL
+    // history, hence the use of openUrl and setLocationBarURL
     view->openUrl(url);
     const QString prettyURL = url.pathOrUrl();
     emit view->extension()->setLocationBarUrl( prettyURL );

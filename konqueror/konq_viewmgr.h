@@ -204,7 +204,7 @@ public:
   void loadViewProfile( KConfig &cfg, const QString & filename,
                         const KUrl & forcedURL = KUrl(),
                         const KonqOpenURLRequest &req = KonqOpenURLRequest(),
-                        bool resetWindow = false, bool openURL = true );
+                        bool resetWindow = false, bool openUrl = true );
 
   /**
    * Loads a view layout from a config file. Removes all views before loading.
@@ -219,7 +219,7 @@ public:
   void loadViewProfile( const QString & path, const QString & filename,
                         const KUrl & forcedURL = KUrl(),
                         const KonqOpenURLRequest &req = KonqOpenURLRequest(),
-                        bool resetWindow = false, bool openURL = true );
+                        bool resetWindow = false, bool openUrl = true );
   /**
    * Return the filename of the last profile that was loaded
    * by the view manager. For "save settings".
@@ -306,11 +306,11 @@ protected:
    * @param cfg the config file
    * ...
    * @param defaultURL the URL to use if the profile doesn't contain urls
-   * @param openURL whether to open urls at all (from the profile or using @p defaultURL).
+   * @param openUrl whether to open urls at all (from the profile or using @p defaultURL).
    *  (this is set to false when we have a forcedURL to open)
    */
   void loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
-                 const QString &name, const KUrl & defaultURL, bool openURL, bool openAfterCurrentPage = false );
+                 const QString &name, const KUrl & defaultURL, bool openUrl, bool openAfterCurrentPage = false );
 
   // Disabled - we do it ourselves
   virtual void setActiveInstance( KInstance * ) {}

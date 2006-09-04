@@ -212,7 +212,7 @@ signals:
 #undef signals
 #define signals protected
 #endif
-    void openURLRequest( const KUrl &url, const KParts::URLArgs &args = KParts::URLArgs() );
+    void openUrlRequest( const KUrl &url, const KParts::URLArgs &args = KParts::URLArgs() );
     void createNewWindow( const KUrl &url, const KParts::URLArgs &args = KParts::URLArgs() );
     void popupMenu( const QPoint &global, const KUrl &url,
          const QString &mimeType, mode_t mode = (mode_t)-1 );

@@ -282,7 +282,7 @@ private Q_SLOTS:
     void slotIconChanged(int group);
 protected:
     /**
-     * Invoked from openURL to enable childern classes to
+     * Invoked from openUrl to enable childern classes to
      * handle open URL requests.
      */
     virtual bool doOpenURL( const KUrl& ) = 0;

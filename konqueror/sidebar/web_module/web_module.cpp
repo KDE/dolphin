@@ -53,7 +53,7 @@ KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent,
 	connect(_htmlPart,
 		SIGNAL(setAutoReload()), this, SLOT( setAutoReload() ));
 	connect(_htmlPart,
-		SIGNAL(openURLNewWindow(const QString&, KParts::URLArgs)),
+		SIGNAL(openUrlNewWindow(const QString&, KParts::URLArgs)),
 		this,
 		SLOT(urlNewWindow(const QString&, KParts::URLArgs)));
 	connect(_htmlPart,
@@ -131,7 +131,7 @@ void KonqSideBarWebModule::urlNewWindow(const QString& url, KParts::URLArgs args
 
 void KonqSideBarWebModule::urlClicked(const QString& url, KParts::URLArgs args)
 {
-	emit openURLRequest(KUrl(url), args);
+	emit openUrlRequest(KUrl(url), args);
 }
 
 

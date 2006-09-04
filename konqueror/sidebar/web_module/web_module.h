@@ -72,8 +72,8 @@ class KHTMLSideBar : public KHTMLPart
 
 	Q_SIGNALS:
 		void submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&);
-		void openURLRequest(const QString& url, KParts::URLArgs args);
-		void openURLNewWindow(const QString& url, KParts::URLArgs args);
+		void openUrlRequest(const QString& url, KParts::URLArgs args);
+		void openUrlNewWindow(const QString& url, KParts::URLArgs args);
 		void reload();
 		void setAutoReload();
 
@@ -85,14 +85,14 @@ class KHTMLSideBar : public KHTMLPart
 				if (_target.toLower() == "_self") {
 					openUrl(url);
 				} else if (_target.toLower() == "_blank") {
-					emit openURLNewWindow(completeURL(url).url(), args);
+					emit openUrlNewWindow(completeURL(url).url(), args);
 				} else { // isEmpty goes here too
-					emit openURLRequest(completeURL(url).url(), args);
+					emit openUrlRequest(completeURL(url).url(), args);
 				}
 				return;
 			}
 			if (button == Qt::MidButton) {
-				emit openURLNewWindow(completeURL(url).url(),
+				emit openUrlNewWindow(completeURL(url).url(),
 						args);
 				return;
 			}
@@ -106,12 +106,12 @@ class KHTMLSideBar : public KHTMLPart
 
 	protected Q_SLOTS:
 		void loadPage() {
-			emit openURLRequest(completeURL(_lastUrl).url(),
+			emit openUrlRequest(completeURL(_lastUrl).url(),
 						KParts::URLArgs());
 		}
 
 		void loadNewWindow() {
-			emit openURLNewWindow(completeURL(_lastUrl).url(),
+			emit openUrlNewWindow(completeURL(_lastUrl).url(),
 						KParts::URLArgs());
 		}
 
@@ -175,7 +175,7 @@ class KonqSideBarWebModule : public KonqSidebarPlugin
 
 	Q_SIGNALS:
 		void submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&);
-		void openURLRequest(const KUrl &url, const KParts::URLArgs &args);
+		void openUrlRequest(const KUrl &url, const KParts::URLArgs &args);
 		void createNewWindow(const KUrl &url, const KParts::URLArgs &args);
 	protected:
 		virtual void handleURL(const KUrl &url);

@@ -51,7 +51,7 @@ KonqMainWindow:
   openFilteredURL or slotOpenURLRequest
                     |
                     |
-            -----openURL----
+            -----openUrl----
              |   |        |
              |   |        |
              |  KonqRun  KRun
@@ -64,10 +64,10 @@ KonqView:      |
                |
        [switchView if different mode required]
                |
-          openURL  [emits openURLEvent (after calling openURL)]
+          openUrl  [emits openURLEvent (after calling openURL)]
 Part:          |
                |
-          openURL [emits started, progress info, completed]
+          openUrl [emits started, progress info, completed]
               ...
 
 
@@ -92,7 +92,7 @@ KHTMLPart saves the whole structure (all frames, and their URL) in the
 history buffer (saveState/restoreState).
 Every time a frame changes its URL, we want a new item in the history.
 But when this happens, since it's internal to khtml, konqueror wouldn't know
-about it. That's why there is the openURLNotify() signal in browser extension
+about it. That's why there is the openUrlNotify() signal in browser extension
 (see there for extensive docu about it).
 When khtml emits it, KonqView creates a new history entry and fills it
 (calling saveState).

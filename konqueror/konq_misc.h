@@ -69,20 +69,20 @@ public:
     /**
      * Create a new window for @p url using @p args and the appropriate profile for this URL.
      * @param forbidUseHTML internal. True when called by "Find Files"
-     * @param openURL If it is false, no url is openend in the new window. The url is used to guess the profile
+     * @param openUrl If it is false, no url is openend in the new window. The url is used to guess the profile
      */
     static KonqMainWindow * createNewWindow( const KUrl &url,
                                              const KParts::URLArgs &args = KParts::URLArgs(),
                                              bool forbidUseHTML = false,
                                              QStringList filesToSelect = QStringList(),
                                              bool tempFile = false,
-					     bool openURL = true);
+					     bool openUrl = true);
 
     /**
      * Create a new window from the profile defined by @p filename and @p path.
      * @param url an optional URL to open in this profile.
      * @param forbidUseHTML internal. True when called by "Find Files"
-     * @param openURL If false no url is opened
+     * @param openUrl If false no url is opened
      */
     static KonqMainWindow * createBrowserWindowFromProfile( const QString &path,
                                                             const QString &filename,
@@ -91,7 +91,7 @@ public:
                                                             bool forbidUseHTML = false,
                                                             const QStringList& filesToSelect = QStringList(),
                                                             bool tempFile = false,
-							    bool openURL = true);
+							    bool openUrl = true);
 
     /**
      * Creates a new window from the history of a view, copies the history

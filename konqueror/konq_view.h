@@ -96,7 +96,7 @@ public:
    * @param nameFilter e.g. *.cpp
    * @param tempFile whether to delete the file after use
    */
-  void openURL( const KUrl &url,
+  void openUrl( const KUrl &url,
                 const QString & locationBarURL,
                 const QString &nameFilter = QString(),
                 bool tempFile = false );
@@ -114,7 +114,7 @@ public:
                        bool forceAutoEmbed = false );
 
   /**
-   * Call this to prevent next openURL() call from changing history lists
+   * Call this to prevent next openUrl() call from changing history lists
    * Used when the same URL is reloaded (for instance with another view mode)
    *
    * Calling with lock=false is a hack reserved to the "find" feature.
@@ -409,7 +409,7 @@ private:
   /**
    * Updates the current entry in the history.
    * @param saveLocationBarURL whether to save the location bar URL as part of it
-   * (not done in openURL, to be able to revert if aborting)
+   * (not done in openUrl, to be able to revert if aborting)
    */
   void updateHistoryEntry(bool saveLocationBarURL);
 

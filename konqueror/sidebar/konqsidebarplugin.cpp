@@ -34,7 +34,7 @@ KonqSidebarPlugin::~KonqSidebarPlugin() { }
 
 KInstance *KonqSidebarPlugin::parentInstance(){return m_parentInstance;}
 
-void KonqSidebarPlugin::openURL(const KUrl& url){handleURL(url);}
+void KonqSidebarPlugin::openUrl(const KUrl& url){handleURL(url);}
 
 void KonqSidebarPlugin::openPreview(const KFileItemList& items)
 {

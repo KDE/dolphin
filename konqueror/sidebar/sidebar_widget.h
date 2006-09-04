@@ -100,7 +100,7 @@ public:
 						bool universalMode, 
 						const QString &currentProfile);
 	~Sidebar_Widget();
-	bool openURL(const class KUrl &url);
+	bool openUrl(const class KUrl &url);
 	void stdAction(const char *handlestd);
 	//virtual KParts::ReadOnlyPart *getPart();
 	KParts::BrowserExtension *getExtension();
@@ -149,7 +149,7 @@ public:
 
  /* The following public slots are wrappers for browserextension fields */
 public Q_SLOTS:
-	void openURLRequest( const KUrl &url, const KParts::URLArgs &args = KParts::URLArgs() );
+	void openUrlRequest( const KUrl &url, const KParts::URLArgs &args = KParts::URLArgs() );
 	/* @internal
 	 * ### KDE4 remove me
 	 */

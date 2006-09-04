@@ -115,24 +115,24 @@ public:
 
 
   /**
-   * Filters the URL and calls the main openURL method.
+   * Filters the URL and calls the main openUrl method.
    */
   void openFilteredUrl( const QString & _url, KonqOpenURLRequest& _req);
 
   /**
-   * Filters the URL and calls the main openURL method.
+   * Filters the URL and calls the main openUrl method.
    */
   void openFilteredUrl( const QString &_url, bool inNewTab = false, bool tempFile = false );
 
   /**
-   * The main openURL method.
+   * The main openUrl method.
    */
-  void openURL( KonqView * view, const KUrl & url,
+  void openUrl( KonqView * view, const KUrl & url,
                 const QString &serviceType = QString(),
                 KonqOpenURLRequest & req = KonqOpenURLRequest::null, bool trustedSource = false );
 
   /**
-   * Called by openURL when it knows the service type (either directly,
+   * Called by openUrl when it knows the service type (either directly,
    * or using KonqRun)
    */
   bool openView( QString serviceType, const KUrl &_url, KonqView *childView,
@@ -354,7 +354,7 @@ public Q_SLOTS:
    */
   void slotOpenURLRequest( const KUrl &url, const KParts::URLArgs &args );
 
-  void openURL( KonqView *childView, const KUrl &url, const KParts::URLArgs &args );
+  void openUrl( KonqView *childView, const KUrl &url, const KParts::URLArgs &args );
 
   void slotCreateNewWindow( const KUrl &url, const KParts::URLArgs &args );
   void slotCreateNewWindow( const KUrl &url, const KParts::URLArgs &args,

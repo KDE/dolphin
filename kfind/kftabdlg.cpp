@@ -784,7 +784,7 @@ void KfindTabWidget::getDirectory()
 
 void KfindTabWidget::beginSearch()
 {
-///  dirlister->openURL(KUrl(dirBox->currentText().trimmed()));
+///  dirlister->openUrl(KUrl(dirBox->currentText().trimmed()));
 
   saveHistory();
   setEnabled( false );

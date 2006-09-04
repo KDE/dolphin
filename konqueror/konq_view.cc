@@ -138,10 +138,10 @@ KonqView::~KonqView()
   //kDebug(1202) << "KonqView::~KonqView " << this << " done" << endl;
 }
 
-void KonqView::openURL( const KUrl &url, const QString & locationBarURL,
+void KonqView::openUrl( const KUrl &url, const QString & locationBarURL,
                         const QString & nameFilter, bool tempFile )
 {
-  kDebug(1202) << "KonqView::openURL url=" << url << " locationBarURL=" << locationBarURL << endl;
+  kDebug(1202) << "KonqView::openUrl url=" << url << " locationBarURL=" << locationBarURL << endl;
   setServiceTypeInExtension();
 
   if (KonqMainWindow::s_crashlog_file) {

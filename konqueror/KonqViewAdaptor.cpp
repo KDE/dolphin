@@ -32,7 +32,7 @@ KonqViewAdaptor::~KonqViewAdaptor()
 
 void KonqViewAdaptor::openUrl( const QString& url, const QString & locationBarURL, const QString & nameFilter )
 {
-    m_pView->openURL( KUrl(url), locationBarURL, nameFilter );
+    m_pView->openUrl( KUrl(url), locationBarURL, nameFilter );
 }
 
 bool KonqViewAdaptor::changeViewMode( const QString &serviceType,

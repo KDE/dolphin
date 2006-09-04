@@ -79,7 +79,7 @@ KonqMainWindow * KonqMisc::createSimpleWindow( const KUrl & _url, const QString 
 
   KonqMainWindow *win = new KonqMainWindow( KUrl(), false );
   win->setInitialFrameName( frameName );
-  win->openURL( 0L, url );
+  win->openUrl( 0L, url );
   win->show();
 
   return win;
@@ -93,13 +93,13 @@ KonqMainWindow * KonqMisc::createSimpleWindow( const KUrl & url, const KParts::U
   req.args = args;
   req.tempFile = tempFile;
   KonqMainWindow *win = new KonqMainWindow( KUrl(), false );
-  win->openURL( 0L, url, QString(), req );
+  win->openUrl( 0L, url, QString(), req );
   win->show();
 
   return win;
 }
 
-KonqMainWindow * KonqMisc::createNewWindow( const KUrl &url, const KParts::URLArgs &args, bool forbidUseHTML, QStringList filesToSelect, bool tempFile, bool openURL )
+KonqMainWindow * KonqMisc::createNewWindow( const KUrl &url, const KParts::URLArgs &args, bool forbidUseHTML, QStringList filesToSelect, bool tempFile, bool openUrl )
 {
   kDebug() << "KonqMisc::createNewWindow url=" << url << endl;
 
@@ -111,10 +111,10 @@ KonqMainWindow * KonqMisc::createNewWindow( const KUrl &url, const KParts::URLAr
   QString profile = KStandardDirs::locate( "data", QLatin1String("konqueror/profiles/") + profileName );
   return createBrowserWindowFromProfile(profile, profileName,
 					url, args,
-					forbidUseHTML, filesToSelect, tempFile, openURL );
+					forbidUseHTML, filesToSelect, tempFile, openUrl );
 }
 
-KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, const QString &filename, const KUrl &url, const KParts::URLArgs &args, bool forbidUseHTML, const QStringList& filesToSelect, bool tempFile, bool openURL )
+KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, const QString &filename, const KUrl &url, const KParts::URLArgs &args, bool forbidUseHTML, const QStringList& filesToSelect, bool tempFile, bool openUrl )
 {
   kDebug(1202) << "void KonqMisc::createBrowserWindowFromProfile() " << endl;
   kDebug(1202) << "path=" << path << ",filename=" << filename << ",url=" << url.prettyUrl() << endl;
@@ -160,7 +160,7 @@ KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, 
       req.args = args;
       req.filesToSelect = filesToSelect;
       req.tempFile = tempFile;
-      mainWindow->viewManager()->loadViewProfile( cfg, filename, url, req, false, openURL );
+      mainWindow->viewManager()->loadViewProfile( cfg, filename, url, req, false, openUrl );
   }
   mainWindow->setInitialFrameName( args.frameName );
   mainWindow->show();
@@ -177,7 +177,7 @@ KonqMainWindow * KonqMisc::newWindowFromHistory( KonqView* view, int steps )
       return 0L;
 
   KonqMainWindow* mainwindow = createNewWindow(he->url, KParts::URLArgs(),
-					       false, QStringList(), false, /*openURL*/false);
+					       false, QStringList(), false, /*openUrl*/false);
   if(!mainwindow)
       return 0L;
   KonqView* newView = mainwindow->currentView();
@@ -287,7 +287,7 @@ void KonqDraggableLabel::dropEvent( QDropEvent* ev )
 
 void KonqDraggableLabel::delayedOpenURL()
 {
-    m_mw->openURL( 0L, _savedLst.first() );
+    m_mw->openUrl( 0L, _savedLst.first() );
 }
 
 #include "konq_misc.moc"

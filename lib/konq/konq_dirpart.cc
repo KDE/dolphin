@@ -325,7 +325,7 @@ void KonqDirPart::lmbClicked( KFileItem * fileItem )
     }
     else
     {
-        kDebug() << "emit m_extension->openURLRequest( " << url.url() << "," << args.serviceType << ")" << endl;
+        kDebug() << "emit m_extension->openUrlRequest( " << url.url() << "," << args.serviceType << ")" << endl;
         emit m_extension->openUrlRequest( url, args );
     }
 }
@@ -616,7 +616,7 @@ bool KonqDirPart::openUrl(const KUrl& url)
 {
     if ( m_findPart )
     {
-        kDebug(1203) << "KonqDirPart::openURL -> emit findClosed " << this << endl;
+        kDebug(1203) << "KonqDirPart::openUrl -> emit findClosed " << this << endl;
         delete m_findPart;
         m_findPart = 0L;
         emit findClosed( this );
@@ -704,7 +704,7 @@ void KonqDirPartBrowserExtension::restoreState( QDataStream &stream )
     stream >> hasFindPart;
     assert( ! ( hasFindPart && !strcmp(m_dirPart->metaObject()->className(), "KFindPart") ) );
     if ( !hasFindPart )
-        // This calls openURL, that's why we don't want to call it in case of a find part
+        // This calls openUrl, that's why we don't want to call it in case of a find part
         KParts::BrowserExtension::restoreState( stream );
     else {
         m_dirPart->restoreFindState( stream );

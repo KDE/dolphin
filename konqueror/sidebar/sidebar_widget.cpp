@@ -716,7 +716,7 @@ void Sidebar_Widget::createButtons()
         m_noUpdate=false;
 }
 
-bool Sidebar_Widget::openURL(const class KUrl &url)
+bool Sidebar_Widget::openUrl(const class KUrl &url)
 {
 	if (url.protocol()=="sidebar")
 	{
@@ -742,7 +742,7 @@ bool Sidebar_Widget::openURL(const class KUrl &url)
 			if ((button->dock->isVisibleTo(this)) && (button->module))
 			{
 				ret = true;
-				button->module->openURL(url);
+				button->module->openUrl(url);
 			}
 		}
 	}
@@ -950,7 +950,7 @@ void Sidebar_Widget::showHidePage(int page)
 			info->dock->show();
 
 			if (m_hasStoredUrl)
-				info->module->openURL(m_storedUrl);
+				info->module->openUrl(m_storedUrl);
 			m_visibleViews<<info->file;
 			m_latestViewed=page;
 		}
@@ -974,7 +974,7 @@ void Sidebar_Widget::showHidePage(int page)
 			info->dock->show();
 			m_latestViewed = page;
 			if (m_hasStoredUrl)
-				info->module->openURL(m_storedUrl);
+				info->module->openUrl(m_storedUrl);
 			m_visibleViews << info->file;
 			m_buttonBar->setTab(page,true);
 		} else {
@@ -1058,7 +1058,7 @@ KParts::URLArgs args;
 	emit getExtension()->openUrlRequest(KUrl( url ), args);
 }
 
-void Sidebar_Widget::openURLRequest( const KUrl &url, const KParts::URLArgs &args)
+void Sidebar_Widget::openUrlRequest( const KUrl &url, const KParts::URLArgs &args)
 {
 	getExtension()->openUrlRequest(url,args);
 }
@@ -1176,7 +1176,7 @@ void Sidebar_Widget::connectModule(QObject *mod)
 
 	if (mod->metaObject()->indexOfSignal("openUrlRequest(KUrl,KParts::URLArgs)") != -1) {
 		connect(mod,SIGNAL(openUrlRequest( const KUrl &, const KParts::URLArgs &)),
-			this,SLOT(openURLRequest( const KUrl &, const KParts::URLArgs &)));
+			this,SLOT(openUrlRequest( const KUrl &, const KParts::URLArgs &)));
 	}
 
 	if (mod->metaObject()->indexOfSignal("submitFormRequest(const char*,QString,QByteArray,QString,QString,QString)") != -1) {

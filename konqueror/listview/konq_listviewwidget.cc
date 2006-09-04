@@ -1039,7 +1039,7 @@ bool KonqBaseListViewWidget::openUrl( const KUrl &url )
       m_pBrowserView->m_paShowDot->setChecked( m_pBrowserView->m_pProps->isShowingDotFiles() );
       if ( m_pBrowserView->m_paCaseInsensitive->isChecked() != m_pBrowserView->m_pProps->isCaseInsensitiveSort() ) {
           m_pBrowserView->m_paCaseInsensitive->setChecked( m_pBrowserView->m_pProps->isCaseInsensitiveSort() );
-          // This is in case openURL returned all items synchronously.
+          // This is in case openUrl returned all items synchronously.
           sort();
       }
 

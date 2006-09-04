@@ -60,7 +60,7 @@ class KDE_EXPORT KonqSidebarPlugin : public QObject
 	protected:
 		bool universalMode();
 	public Q_SLOTS:
-	  void openURL(const KUrl& url);
+	  void openUrl(const KUrl& url);
 
 	  void openPreview(const KFileItemList& items);
 
@@ -74,7 +74,7 @@ class KDE_EXPORT KonqSidebarPlugin : public QObject
 
 	/* signals, which could be, but need not to be added
 
-		void openURLRequest( const KUrl &url, const KParts::URLArgs &args = KParts::URLArgs() );
+		void openUrlRequest( const KUrl &url, const KParts::URLArgs &args = KParts::URLArgs() );
   		void createNewWindow( const KUrl &url, const KParts::URLArgs &args = KParts::URLArgs() );
 
 		void enableAction( const char * name, bool enabled );
