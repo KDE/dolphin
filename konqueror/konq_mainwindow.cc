@@ -211,10 +211,6 @@ KonqMainWindow::KonqMainWindow( const KUrl &initialURL, bool openInitialURL, con
   m_bookmarkBarActionCollection = 0;
   KonqExtendedBookmarkOwner *extOwner = new KonqExtendedBookmarkOwner( this );
   m_pBookmarksOwner = extOwner;
-  connect( extOwner,
-           SIGNAL( signalFillBookmarksList(KExtendedBookmarkOwner::QStringPairList &) ),
-           extOwner,
-           SLOT( slotFillBookmarksList(KExtendedBookmarkOwner::QStringPairList &) ) );
 
   // init history-manager, load history, get completion object
   if ( !s_pCompletion ) {
@@ -395,8 +391,8 @@ void KonqMainWindow::initBookmarkBar()
            SIGNAL( aboutToShowContextMenu(const KBookmark &, QMenu*) ),
            this, SLOT( slotFillContextMenu(const KBookmark &, QMenu*) ));
   connect( m_paBookmarkBar,
-	   SIGNAL( openBookmark(const QString &, Qt::MouseButtons, Qt::KeyboardModifiers) ),
-	   this, SLOT( slotOpenBookmarkUrl(const QString &, Qt::MouseButtons, Qt::KeyboardModifiers) ));
+	   SIGNAL( openBookmark(KBookmark, Qt::MouseButtons, Qt::KeyboardModifiers) ),
+	   this, SLOT( slotOpenBookmark(KBookmark, Qt::MouseButtons, Qt::KeyboardModifiers) ));
 
   // hide if empty
   if (bar->actions().count() == 0 )
@@ -3925,13 +3921,13 @@ void KonqMainWindow::initActions()
   // don't appear in kedittoolbar
   m_bookmarksActionCollection = new KActionCollection( static_cast<QWidget*>( this ) );
 
-  m_pBookmarkMenu = new KBookmarkMenu( KonqBookmarkManager::self(), m_pBookmarksOwner, m_pamBookmarks->menu(), m_bookmarksActionCollection, true );
+  m_pBookmarkMenu = new KBookmarkMenu( KonqBookmarkManager::self(), m_pBookmarksOwner, m_pamBookmarks->menu(), m_bookmarksActionCollection );
   connect( m_pBookmarkMenu,
            SIGNAL( aboutToShowContextMenu(const KBookmark &, QMenu*) ),
            this, SLOT( slotFillContextMenu(const KBookmark &, QMenu*) ));
   connect( m_pBookmarkMenu,
-	   SIGNAL( openBookmark(const QString &, Qt::MouseButtons, Qt::KeyboardModifiers) ),
-	   this, SLOT( slotOpenBookmarkUrl(const QString &, Qt::MouseButtons, Qt::KeyboardModifiers) ));
+	   SIGNAL( openBookmark(KBookmark, Qt::MouseButtons, Qt::KeyboardModifiers) ),
+	   this, SLOT( slotOpenBookmark(KBookmark, Qt::MouseButtons, Qt::KeyboardModifiers) ));
 
   KAction *addBookmark = actionCollection()->action("add_bookmark");
   if (addBookmark)
@@ -4037,31 +4033,33 @@ void KonqMainWindow::slotFillContextMenu( const KBookmark &bk, QMenu * pm )
   }
 }
 
-void KonqMainWindow::slotOpenBookmarkUrl( const QString & url, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
+void KonqMainWindow::slotOpenBookmark( KBookmark bm, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
 {
-    kDebug(1202) << "KonqMainWindow::slotOpenBookmarkUrl(" << url << ", " << buttons << ", " << modifiers << ")" << endl;
+  kDebug(1202) << "KonqMainWindow::slotOpenBookmark(" << bm.url().prettyUrl() << ", " << buttons << ", " << modifiers << ")" << endl;
 
-    KonqOpenURLRequest req;
-    req.newTab = true;
-    req.newTabInFront = KonqSettings::newTabsInFront();
+  QString url = bm.url();
 
-    if (modifiers & Qt::ShiftModifier)
-        req.newTabInFront = !req.newTabInFront;
+  KonqOpenURLRequest req;
+  req.newTab = true;
+  req.newTabInFront = KonqSettings::newTabsInFront();
 
-    if( modifiers & Qt::ControlModifier ) // Ctrl Left/MMB
-	openFilteredUrl( url, req);
-    else if( buttons & Qt::MidButton )
-    {
-        if(KonqSettings::mmbOpensTab())
-	    openFilteredUrl( url, req);
-	else
-	{
-	    KUrl finalURL = KonqMisc::konqFilteredURL( this, url );
-	    KonqMisc::createNewWindow( finalURL.url() );
-	}
-    }
+  if (modifiers & Qt::ShiftModifier)
+    req.newTabInFront = !req.newTabInFront;
+
+  if( modifiers & Qt::ControlModifier ) // Ctrl Left/MMB
+    openFilteredUrl( url, req);
+  else if( buttons & Qt::MidButton )
+  {
+    if(KonqSettings::mmbOpensTab())
+      openFilteredUrl( url, req);
     else
-	openFilteredUrl( url, false );
+	{
+      KUrl finalURL = KonqMisc::konqFilteredURL( this, url );
+      KonqMisc::createNewWindow( finalURL.url() );
+	}
+   }
+   else
+     openFilteredUrl( url, false );
 }
 
 void KonqMainWindow::slotMoveTabLeft()
@@ -4457,11 +4455,6 @@ void KonqMainWindow::disableActionsNoView()
     updateLocalPropsActions();
 }
 
-void KonqExtendedBookmarkOwner::openBookmarkURL( const QString & /*url*/ )
-{
-  // Do nothing, we catch the signal
-}
-
 void KonqMainWindow::setCaption( const QString &caption )
 {
   // KParts sends us empty captions when activating a brand new part
@@ -4490,7 +4483,7 @@ void KonqMainWindow::show()
   KParts::MainWindow::show();
 }
 
-QString KonqExtendedBookmarkOwner::currentURL() const
+QString KonqExtendedBookmarkOwner::currentUrl() const
 {
    return m_pKonqMainWindow->currentURL();
 }
@@ -4518,11 +4511,17 @@ QString KonqMainWindow::currentURL() const
   return url;
 }
 
-void KonqExtendedBookmarkOwner::slotFillBookmarksList( KExtendedBookmarkOwner::QStringPairList & list )
+bool KonqExtendedBookmarkOwner::supportsTabs() const
 {
+  return true;
+}
+
+QList<QPair<QString, QString> > KonqExtendedBookmarkOwner::currentBookmarkList() const
+{
+  QList<QPair<QString, QString> > list;
   KonqFrameBase *docContainer = m_pKonqMainWindow->viewManager()->docContainer();
-  if (docContainer == 0) return;
-  if (docContainer->frameType() != "Tabs") return;
+  if (docContainer == 0) return QList<QPair<QString, QString> >();
+  if (docContainer->frameType() != "Tabs") return QList<QPair<QString, QString> >();
 
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(docContainer);
 
@@ -4535,6 +4534,7 @@ void KonqExtendedBookmarkOwner::slotFillBookmarksList( KExtendedBookmarkOwner::Q
     list << qMakePair( frame->activeChildView()->caption(),
                        frame->activeChildView()->url().url() );
   }
+  return list;
 }
 
 QString KonqExtendedBookmarkOwner::currentTitle() const

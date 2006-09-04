@@ -336,7 +336,7 @@ public Q_SLOTS:
 
   // for KBookmarkMenu and KBookmarkBar
   void slotFillContextMenu( const KBookmark &, QMenu * );
-  void slotOpenBookmarkUrl( const QString & url, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers );
+  void slotOpenBookmark( KBookmark, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers );
 
   void slotPopupMenu( const QPoint &_global, const KUrl &_url, const QString &_mimeType, mode_t mode );
   void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KUrl &_url, const QString &_mimeType, mode_t mode );

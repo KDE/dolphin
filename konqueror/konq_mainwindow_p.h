@@ -21,18 +21,15 @@
 #ifndef __konq_mainwindow_p_h__
 #define __konq_mainwindow_p_h__
 
-class KonqExtendedBookmarkOwner : public KExtendedBookmarkOwner
+class KonqExtendedBookmarkOwner : public KBookmarkOwner
 {
-  Q_OBJECT
 public:
   KonqExtendedBookmarkOwner(KonqMainWindow *);
-  // for KBookmarkOwner
-  virtual void openBookmarkURL( const QString & _url );
   virtual QString currentTitle() const;
-  virtual QString currentURL() const;
-public Q_SLOTS:
-  // for KExtendedBookmarkOwner
-  void slotFillBookmarksList( KExtendedBookmarkOwner::QStringPairList & list );
+  virtual QString currentUrl() const;
+  virtual bool supportsTabs() const;
+  virtual QList<QPair<QString, QString> > currentBookmarkList() const;
+
 private:
   KonqMainWindow *m_pKonqMainWindow;
 };
