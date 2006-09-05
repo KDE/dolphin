@@ -4037,7 +4037,7 @@ void KonqMainWindow::slotOpenBookmark( KBookmark bm, Qt::MouseButtons buttons, Q
 {
   kDebug(1202) << "KonqMainWindow::slotOpenBookmark(" << bm.url().prettyUrl() << ", " << buttons << ", " << modifiers << ")" << endl;
 
-  QString url = bm.url();
+  const QString url = bm.url().url();
 
   KonqOpenURLRequest req;
   req.newTab = true;
