@@ -607,6 +607,8 @@ private:
 
   QObject* lastFrame( KonqView *view );
 
+private: // members
+
   KNewMenu * m_pMenuNew;
 
   KAction *m_paPrint;
@@ -674,14 +676,16 @@ private:
 
   KToggleFullScreenAction *m_ptaFullScreen;
 
-  uint m_bLocationBarConnected:1;
-  uint m_bURLEnterLock:1;
+  bool m_bLocationBarConnected:1;
+  bool m_bURLEnterLock:1;
   // Global settings
-  uint m_bSaveViewPropertiesLocally:1;
-  uint m_bHTMLAllowed:1;
+  bool m_bSaveViewPropertiesLocally:1;
+  bool m_bHTMLAllowed:1;
   // Set in constructor, used in slotRunFinished
-  uint m_bNeedApplyKonqMainWindowSettings:1;
-  uint m_bViewModeToggled:1;
+  bool m_bNeedApplyKonqMainWindowSettings:1;
+  bool m_bViewModeToggled:1;
+  bool m_urlCompletionStarted:1;
+  bool m_prevMenuBarVisible:1;
 
   int m_goBuffer;
   Qt::MouseButtons m_goMouseState;
@@ -750,8 +754,6 @@ private:
   static QList<KonqMainWindow*> *s_lstViews;
 
   QString m_currentDir; // stores current dir for relative URLs whenever applicable
-
-  bool m_urlCompletionStarted;
 
   static bool s_preloaded;
   static KonqMainWindow* s_preloadedWindow;

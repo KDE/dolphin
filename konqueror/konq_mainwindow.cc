@@ -197,6 +197,8 @@ KonqMainWindow::KonqMainWindow( const KUrl &initialURL, bool openInitialURL, con
   m_toolBarViewModesGroup = new QActionGroup(this);
   m_toolBarViewModesGroup->setExclusive(true);
 
+  m_prevMenuBarVisible = true;
+
   m_pViewManager = new KonqViewManager( this );
 
   m_toggleViewGUIClient = new ToggleViewGUIClient( this );
@@ -3516,6 +3518,7 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
     }
 
 
+    m_prevMenuBarVisible = menuBar()->isVisible();
     menuBar()->hide();
     m_paShowMenuBar->setChecked( false );
 
@@ -3535,8 +3538,11 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
     setWindowState( windowState() & ~Qt::WindowFullScreen );
     unplugActionList( "fullscreen" );
 
-    menuBar()->show(); // maybe we should store this setting instead of forcing it
-    m_paShowMenuBar->setChecked( true );
+    if (m_prevMenuBarVisible)
+    {
+        menuBar()->show();
+        m_paShowMenuBar->setChecked( true );
+    }
 
     // Qt bug, the flags aren't restored. They know about it.
     //setWFlags( WType_TopLevel | WDestructiveClose );
