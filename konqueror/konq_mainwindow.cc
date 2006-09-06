@@ -3767,15 +3767,15 @@ void KonqMainWindow::initActions()
   connect(m_paRemoveLocalProperties, SIGNAL(triggered(bool) ), SLOT( slotRemoveLocalProperties() ));
 
 
-  m_configureModules << "kde-filebehavior.desktop" << "kde-fileappearance.desktop" <<
-      "kde-filepreviews.desktop" << "kde-filetypes.desktop" <<
-      "kde-khtml_behavior.desktop" << "kde-khtml_java_js.desktop" <<
-      "kde-khtml_filter.desktop" <<
-      "kde-khtml_fonts.desktop" << "kde-ebrowsing.desktop" <<
-      "kde-kcmhistory.desktop" << "kde-cookies.desktop" <<
-      "kde-cache.desktop" << "kde-proxy.desktop" << "kde-kcmcss.desktop" <<
-      "kde-crypto.desktop" << "kde-useragent.desktop" <<
-      "kde-khtml_plugins.desktop" << "kde-kcmkonqyperformance.desktop";
+  m_configureModules << "filebehavior" << "fileappearance" <<
+      "filepreviews" << "filetypes" <<
+      "khtml_behavior" << "khtml_java_js" <<
+      "khtml_filter" <<
+      "khtml_fonts" << "ebrowsing" <<
+      "kcmhistory" << "cookies" <<
+      "cache" << "proxy" << "kcmcss" <<
+      "crypto" << "useragent" <<
+      "khtml_plugins" << "kcmkonqyperformance";
 
 
   if (!KAuthorized::authorizeControlModules(configModules()).isEmpty())
