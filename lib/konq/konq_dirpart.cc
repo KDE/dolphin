@@ -223,6 +223,7 @@ KonqDirPart::~KonqDirPart()
     // Close the find part with us
     delete m_findPart;
     delete d;
+    d = 0;
 }
 
 void KonqDirPart::adjustIconSizes()
@@ -273,21 +274,33 @@ void KonqDirPart::slotBackgroundSettings()
 {
     QColor bgndColor = m_pProps->bgColor( widget() );
     QColor defaultColor = KGlobalSettings::baseColor();
-    KonqBgndDialog dlg( widget(), m_pProps->bgPixmapFile(), bgndColor, defaultColor );
-    if ( dlg.exec() == KonqBgndDialog::Accepted )
+    // dlg must be created on the heap as widget() can get deleted while dlg.exec(),
+    // trying to delete dlg as its child then (#124210) - Frank Osterfeld
+    KonqBgndDialog* dlg = new KonqBgndDialog( widget(), 
+                                              m_pProps->bgPixmapFile(),
+                                              bgndColor,
+                                              defaultColor );
+    
+    if ( dlg->exec() == KonqBgndDialog::Accepted )
     {
-        if ( dlg.color().isValid() )
+        if ( dlg->color().isValid() )
         {
-            m_pProps->setBgColor( dlg.color() );
+            m_pProps->setBgColor( dlg->color() );
         m_pProps->setBgPixmapFile( "" );
     }
         else
     {
             m_pProps->setBgColor( defaultColor );
-        m_pProps->setBgPixmapFile( dlg.pixmapFile() );
+        m_pProps->setBgPixmapFile( dlg->pixmapFile() );
         }
         m_pProps->applyColors( scrollWidget()->viewport() );
         scrollWidget()->viewport()->repaint();
+    }
+    
+    if (d) // if !d, this part was destroyed while waiting for exec() to return. 
+           // dlg is deleted by widget()'s dtor then, so we do not leak memory 
+    {
+        delete dlg;
     }
 }
 
