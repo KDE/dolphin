@@ -40,6 +40,8 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QFile>
+#include <QGuardedPtr>
+
 //Added by qt3to4:
 #include <assert.h>
 
@@ -276,7 +278,7 @@ void KonqDirPart::slotBackgroundSettings()
     QColor defaultColor = KGlobalSettings::baseColor();
     // dlg must be created on the heap as widget() can get deleted while dlg.exec(),
     // trying to delete dlg as its child then (#124210) - Frank Osterfeld
-    KonqBgndDialog* dlg = new KonqBgndDialog( widget(), 
+    QGuardedPtr<KonqBgndDialog> dlg = new KonqBgndDialog( widget(), 
                                               m_pProps->bgPixmapFile(),
                                               bgndColor,
                                               defaultColor );
@@ -297,11 +299,7 @@ void KonqDirPart::slotBackgroundSettings()
         scrollWidget()->viewport()->repaint();
     }
     
-    if (d) // if !d, this part was destroyed while waiting for exec() to return. 
-           // dlg is deleted by widget()'s dtor then, so we do not leak memory 
-    {
-        delete dlg;
-    }
+    delete dlg;
 }
 
 void KonqDirPart::lmbClicked( KFileItem * fileItem )
