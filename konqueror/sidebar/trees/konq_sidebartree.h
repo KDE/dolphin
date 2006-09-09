@@ -85,11 +85,6 @@ public:
     void startAnimation( KonqSidebarTreeItem * item, const char * iconBaseName = "kde", uint iconCount = 6, const QPixmap * originalPixmap = 0L );
     void stopAnimation( KonqSidebarTreeItem * item );
 
-    // Connected to KDirNotify dbus signals
-    void slotFilesAdded( const QString & dir );
-    void slotFilesRemoved( const QStringList & urls );
-    void slotFilesChanged( const QStringList & urls );
-
     KonqSidebarPlugin * part() { return m_part; }
 
     void lockScrolling( bool lock ) { m_scrollingLocked = lock; }
@@ -113,6 +108,11 @@ public:
     bool tabSupport();
 
 public slots:
+    // Connected to KDirNotify dbus signals
+    void slotFilesAdded( const QString & dir );
+    void slotFilesRemoved( const QStringList & urls );
+    void slotFilesChanged( const QStringList & urls );
+
     virtual void setContentsPos( int x, int y );
 
 protected:
