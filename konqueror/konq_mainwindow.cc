@@ -243,7 +243,7 @@ KonqMainWindow::KonqMainWindow( const KUrl &initialURL, bool openInitialURL, con
   connect( KSycoca::self(), SIGNAL( databaseChanged() ),
            this, SLOT( slotDatabaseChanged() ) );
 
-  connect( kapp, SIGNAL( kdisplayFontChanged()), SLOT(slotReconfigure()));
+  connect( KGlobalSettings::self(), SIGNAL( kdisplayFontChanged()), SLOT(slotReconfigure()));
 
   //load the xmlui file specified in the profile or the default konqueror.rc
   setXMLFile( xmluiFile );

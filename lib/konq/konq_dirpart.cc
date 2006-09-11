@@ -171,7 +171,7 @@ KonqDirPart::KonqDirPart( QObject *parent )
 	    this, SLOT( slotIconSizeToggled( bool ) ) );
     connect( m_paSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
 
-    connect( kapp, SIGNAL(iconChanged(int)), SLOT(slotIconChanged(int)) );
+    connect( KGlobalSettings::self(), SIGNAL(iconChanged(int)), SLOT(slotIconChanged(int)) );
 #if 0
     // Extract 6 icon sizes from the icon theme.
     // Use 16,22,32,48,64,128 as default.
