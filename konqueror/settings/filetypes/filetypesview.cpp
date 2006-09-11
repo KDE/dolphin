@@ -13,7 +13,6 @@
 #include <kcursor.h>
 #include <kdebug.h>
 #include <kdesktopfile.h>
-#include <kipc.h>
 #include <klineedit.h>
 #include <k3listview.h>
 #include <klocale.h>
@@ -418,7 +417,7 @@ void FileTypesView::save()
   if (sync(m_itemsModified)) {
     // only rebuild if sync() was necessary
     KBuildSycocaProgressDialog::rebuildKSycoca(this);
-    KIPC::sendMessageAll(KIPC::SettingsChanged);
+    KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged);
   }
 }
 

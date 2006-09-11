@@ -43,7 +43,6 @@
 #include <kapplication.h>
 #include <kcustommenueditor.h>
 #include <konq_defaults.h> // include default values directly from libkonq
-#include <kipc.h>
 #include <kprotocolinfo.h>
 #include "konqkcmfactory.h"
 
@@ -377,7 +376,7 @@ void DesktopBehavior::save()
     {
         config->writeEntry( "macStyle", globalMenuBar, KConfigBase::Normal | KConfigBase::Global );
         config->sync();
-        KIPC::sendMessageAll(KIPC::ToolbarStyleChanged);
+        KGlobalSettings::self()->emitChange(KGlobalSettings::ToolbarStyleChanged);
     }
     g_pConfig->setGroup( "Mouse Buttons" );
     g_pConfig->writeEntry("Left", s_choices[ leftComboBox->currentIndex() ] );

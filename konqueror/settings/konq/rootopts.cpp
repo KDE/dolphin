@@ -30,7 +30,6 @@
 #include <kdebug.h>
 #include <kfileitem.h>
 #include <kglobalsettings.h>
-#include <kipc.h>
 #include <k3listview.h>
 #include <kio/job.h>
 #include <kio/jobuidelegate.h>
@@ -244,7 +243,7 @@ void DesktopPathConfig::save()
     if (pathChanged)
     {
         kDebug() << "DesktopPathConfig::save sending message SettingsChanged" << endl;
-        KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
+        KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged, KGlobalSettings::SETTINGS_PATHS);
     }
 
     // Tell kdesktop about the new config file

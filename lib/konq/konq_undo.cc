@@ -31,7 +31,6 @@
 #include <klocale.h>
 #include <kglobalsettings.h>
 #include <kconfig.h>
-#include <kipc.h>
 
 #include <kio/job.h>
 

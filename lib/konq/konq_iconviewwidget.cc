@@ -46,7 +46,6 @@
 #include <QPixmap>
 #include <QBuffer>
 
-#include <kapplication.h>
 #include <kdebug.h>
 #include <kio/previewjob.h>
 #include <kfileivi.h>
@@ -54,7 +53,6 @@
 #include <konqmimedata.h>
 #include <kglobalsettings.h>
 #include <kpropertiesdialog.h>
-#include <kipc.h>
 #include <kicontheme.h>
 #include <kiconeffect.h>
 #include <kstandarddirs.h>
@@ -140,8 +138,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, Qt:
     connect( this, SIGNAL( selectionChanged() ),
              this, SLOT( slotSelectionChanged() ) );
 
-    kapp->addKipcEventMask( KIPC::IconChanged );
-    connect( kapp, SIGNAL(iconChanged(int)), SLOT(slotIconChanged(int)) );
+    connect( KGlobalSettings::self(), SIGNAL(iconChanged(int)), SLOT(slotIconChanged(int)) );
     connect( this, SIGNAL(onItem(Q3IconViewItem *)), SLOT(slotOnItem(Q3IconViewItem *)) );
     connect( this, SIGNAL(onViewport()), SLOT(slotOnViewport()) );
     connect( this, SIGNAL(itemRenamed(Q3IconViewItem *, const QString &)), SLOT(slotItemRenamed(Q3IconViewItem *, const QString &)) );
@@ -354,7 +351,7 @@ void KonqIconViewWidget::slotOnItem( Q3IconViewItem *_item )
     if (d->bSoundPreviews && d->pSoundPlayer &&
         d->pSoundPlayer->isMimeTypeKnown(item->item()->mimetype())
         && KGlobalSettings::showFilePreview(item->item()->url())
-        && window() == kapp->activeWindow())
+        && window() == qApp->activeWindow())
     {
         d->pSoundItem = item;
         d->bSoundItemClicked = false;

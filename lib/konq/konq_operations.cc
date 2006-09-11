@@ -43,7 +43,7 @@
 #include <QDir>//first
 #include <assert.h>
 #include <kapplication.h>
-#include <kipc.h>
+#include <kglobalsettings.h>
 #include <kdebug.h>
 #include <kfileitem.h>
 #include <kdesktopfile.h>
@@ -674,7 +674,7 @@ void KonqOperations::rename( QWidget * parent, const KUrl & oldurl, const KUrl& 
         KConfigGroup cgs( globalConfig, "Paths" );
         cgs.writePathEntry("Desktop" , newurl.path(), KConfigBase::Persistent|KConfigBase::Global );
         cgs.sync();
-        KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
+        KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged, KGlobalSettings::SETTINGS_PATHS);
     }
 }
 
