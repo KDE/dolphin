@@ -330,6 +330,7 @@ public:
 Q_SIGNALS:
   void viewAdded( KonqView *view );
   void viewRemoved( KonqView *view );
+  void popupItemsDisturbed();
 
 public Q_SLOTS:
   void slotCtrlTabPressed();
@@ -545,6 +546,7 @@ private Q_SLOTS:
 
   void slotRequesterClicked( KUrlRequester * );
   void slotIntro();
+  void slotItemsRemoved(const KFileItemList &);
   /**
    * Loads the url displayed currently in the lineedit of the locationbar, by
    * emulating a enter key press event.

@@ -4752,6 +4752,14 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   if ( client )
     pPopupMenu->factory()->addClient( client );
 
+  KParts::BrowserExtension *be = ::qobject_cast<KParts::BrowserExtension *>(sender());
+
+  if (be) {
+    QObject::connect( this, SIGNAL(popupItemsDisturbed()), pPopupMenu, SLOT(close()) );
+    QObject::connect( be, SIGNAL(itemsRemoved(const KFileItemList &)),
+                      this, SLOT(slotItemsRemoved(const KFileItemList &)) );
+  }
+
   QObject::disconnect( m_pMenuNew->menu(), SIGNAL(aboutToShow()),
                        this, SLOT(slotFileNewAboutToShow()) );
 
@@ -4759,6 +4767,12 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
   QObject::connect( m_pMenuNew->menu(), SIGNAL(aboutToShow()),
                        this, SLOT(slotFileNewAboutToShow()) );
+
+  if (be) {
+    QObject::disconnect( this, SIGNAL(popupItemsDisturbed()), pPopupMenu, SLOT(close()) );
+    QObject::disconnect( be, SIGNAL(itemsRemoved(const KFileItemList &)),
+                         this, SLOT(slotItemsRemoved(const KFileItemList &)) );
+  }
 
   delete pPopupMenu;
 
@@ -4802,6 +4816,17 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
         m_oldView->part()->widget()->setFocus();
     }
   }
+}
+
+void KonqMainWindow::slotItemsRemoved(const KFileItemList &items)
+{
+    QListIterator<KFileItem *> it(items);
+    while (it.hasNext()) {
+        if (popupItems.contains(it.next())) {
+            emit popupItemsDisturbed();
+            return;
+        }
+    }
 }
 
 void KonqMainWindow::slotOpenEmbedded()

@@ -1175,6 +1175,10 @@ void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
 
 void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
 {
+  KFileItemList list;
+  list.append(_fileitem);
+  emit m_pBrowserView->extension()->itemsRemoved(list);
+
   iterator it = begin();
   for( ; it != end(); ++it )
     if ( (*it).item() == _fileitem )
