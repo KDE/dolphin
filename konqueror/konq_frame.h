@@ -174,7 +174,7 @@ class KonqFrameBase
   virtual void setTitle( const QString &title , QWidget* sender) = 0;
   virtual void setTabIcon( const KUrl &url, QWidget* sender ) = 0;
 
-  virtual QWidget* widget() = 0;
+  virtual QWidget* asQWidget() = 0;
 
   virtual void listViews( ChildViewList *viewList ) = 0;
   virtual QByteArray frameType() = 0;
@@ -206,8 +206,7 @@ class KonqFrame : public QWidget, public KonqFrameBase
   Q_OBJECT
 
 public:
-  KonqFrame( QWidget* parent, KonqFrameContainerBase *parentContainer = 0L,
-             const char *name = 0L );
+  KonqFrame( QWidget* parent, KonqFrameContainerBase *parentContainer = 0L );
   virtual ~KonqFrame();
 
   /**
@@ -259,7 +258,7 @@ public:
                      const QPoint & p );
 
   //virtual KonqFrameContainerBase* parentContainer();
-  virtual QWidget* widget() { return this; }
+  virtual QWidget* asQWidget() { return this; }
   virtual QByteArray frameType() { return QByteArray("View"); }
 
   QVBoxLayout *layout()const { return m_pLayout; }

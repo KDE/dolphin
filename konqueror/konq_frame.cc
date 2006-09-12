@@ -74,14 +74,14 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent )
     m_led = new QLabel( this );
     m_led->setAlignment( Qt::AlignCenter );
     m_led->setSizePolicy(QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ));
-    addWidget( m_led, 0, false ); // led (active view indicator)
+    addWidget( m_led, 0 ); // led (active view indicator)
     m_led->hide();
 
     m_pStatusLabel = new KSqueezedTextLabel( this );
     m_pStatusLabel->setMinimumSize( 0, 0 );
     m_pStatusLabel->setSizePolicy(QSizePolicy( QSizePolicy::Ignored, QSizePolicy::Fixed ));
     m_pStatusLabel->installEventFilter(this);
-    addWidget( m_pStatusLabel, 1 /*stretch*/, false ); // status label
+    addWidget( m_pStatusLabel, 1 /*stretch*/ ); // status label
 
     m_pLinkedViewCheckBox = new KonqCheckBox( this );
     m_pLinkedViewCheckBox->setObjectName( "m_pLinkedViewCheckBox" );
@@ -93,14 +93,14 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent )
                           "This is especially useful with different types of views, such as a "
                           "directory tree with an icon view or detailed view, and possibly a "
                           "terminal emulator window." ) );
-    addWidget( m_pLinkedViewCheckBox, 0, true /*permanent->right align*/ );
+    addPermanentWidget( m_pLinkedViewCheckBox, 0 );
     connect( m_pLinkedViewCheckBox, SIGNAL(toggled(bool)),
             this, SIGNAL(linkedViewClicked(bool)) );
 
     m_progressBar = new QProgressBar( this );
     m_progressBar->setMaximumHeight(fontMetrics().height());
     m_progressBar->hide();
-    addWidget( m_progressBar, 0, true /*permanent->right align*/ );
+    addPermanentWidget( m_progressBar, 0 );
 
     fontChange(QFont());
     installEventFilter( this );
@@ -290,8 +290,8 @@ void KonqFrameBase::printFrameInfo(const QString& spaces)
 
 //###################################################################
 
-KonqFrame::KonqFrame( QWidget* parent, KonqFrameContainerBase *parentContainer, const char *name )
-    : QWidget (parent, name )
+KonqFrame::KonqFrame( QWidget* parent, KonqFrameContainerBase *parentContainer )
+    : QWidget ( parent )
 {
    //kDebug(1202) << "KonqFrame::KonqFrame()" << endl;
 

@@ -95,7 +95,7 @@ public:
   virtual void setTitle( const QString &title, QWidget* sender );
   virtual void setTabIcon( const KUrl &url, QWidget* sender );
 
-  virtual QWidget* widget() { return this; }
+  virtual QWidget* asQWidget() { return this; }
   virtual QByteArray frameType() { return QByteArray("Container"); }
 
   /**

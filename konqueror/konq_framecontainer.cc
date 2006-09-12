@@ -157,14 +157,14 @@ void KonqFrameContainer::swapChildren()
 void KonqFrameContainer::setTitle( const QString &title , QWidget* sender)
 {
   //kDebug(1202) << "KonqFrameContainer::setTitle( " << title << " , " << sender << " )" << endl;
-  if (m_pParentContainer && activeChild() && (sender == activeChild()->widget()))
+  if (m_pParentContainer && activeChild() && (sender == activeChild()->asQWidget()))
       m_pParentContainer->setTitle( title , this);
 }
 
 void KonqFrameContainer::setTabIcon( const KUrl &url, QWidget* sender )
 {
   //kDebug(1202) << "KonqFrameContainer::setTabIcon( " << url << " , " << sender << " )" << endl;
-  if (m_pParentContainer && activeChild() && (sender == activeChild()->widget()))
+  if (m_pParentContainer && activeChild() && (sender == activeChild()->asQWidget()))
       m_pParentContainer->setTabIcon( url, this );
 }
 

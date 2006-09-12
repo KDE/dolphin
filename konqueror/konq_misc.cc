@@ -231,7 +231,7 @@ KonqDraggableLabel::KonqDraggableLabel( KonqMainWindow* mw, const QString& text 
   setObjectName( "kde toolbar widget" );
   setBackgroundRole( QPalette::Button );
   setAlignment( (QApplication::isRightToLeft() ? Qt::AlignRight : Qt::AlignLeft) |
-                 Qt::AlignVCenter | Qt::TextShowMnemonic );
+                 Qt::AlignVCenter );
   setAcceptDrops(true);
   adjustSize();
   validDrag = false;

@@ -198,7 +198,7 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
 
     // HACK
     if ( (*cIt)->icon() != "unknown" )
-      action->setIconName( (*cIt)->icon() );
+      action->setIcon( KIcon((*cIt)->icon()) );
 
     connect( action, SIGNAL( toggled( bool ) ),
              this, SLOT( slotToggleView( bool ) ) );

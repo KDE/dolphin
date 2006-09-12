@@ -1266,7 +1266,7 @@ void KonqMainWindow::slotCreateNewWindow( const KUrl &url, const KParts::URLArgs
             mainWindow->lower();
             mainWindow->stackUnder( this );
             if( this->isActiveWindow())
-                this->setActiveWindow();
+                this->activateWindow();
         }
     }
 #else // Q_WS_X11
@@ -1614,7 +1614,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
 		      if (servicename.isEmpty())
 		          servicename = service->name();
                       action->setText( servicename );
-                      action->setIconName( service->icon() );
+                      action->setIcon( KIcon( service->icon() ) );
                       // Bypassing KAction restriction - this action will not be found via KActionCollection when doing a name search
                       action->QAction::setObjectName( service->desktopEntryName() );
 
@@ -2209,9 +2209,9 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 	      if (servicename.isEmpty())
 	          servicename = m_currentView->service()->name();
               ta->setText( servicename );
-              ta->setIconName( m_currentView->service()->icon() );
+              ta->setIcon( KIcon( m_currentView->service()->icon() ) );
               // Bypassing KAction restriction - this action will not be found via KActionCollection when doing a name search
-              ta->QAction::setName( m_currentView->service()->desktopEntryName().toAscii() ) ;
+              ta->QAction::setObjectName( m_currentView->service()->desktopEntryName().toAscii() ) ;
               break;
           }
       }
@@ -4919,7 +4919,7 @@ void KonqMainWindow::updateOpenWithActions()
   for (; it != end; ++it )
   {
     KAction *action = new KAction( i18n( "Open with %1", (*it)->name() ), actionCollection(), (*it)->desktopEntryName().toLatin1() );
-    action->setIconName( (*it)->icon() );
+    action->setIcon( KIcon( (*it)->icon() ) );
 
     connect( action, SIGNAL( activated() ),
              this, SLOT( slotOpenWith() ) );
@@ -5090,7 +5090,7 @@ void KonqMainWindow::updateViewModeActions()
           if (mapitname.isEmpty())
               mapitname = (*it)->name();
           (*mapIt)->setText( mapitname );
-          (*mapIt)->setIconName( (*it)->icon() );
+          (*mapIt)->setIcon( KIcon((*it)->icon()) );
           (*mapIt)->QAction::setObjectName( (*it)->desktopEntryName() ); // tricky...
           preferredServiceMap.remove( library ); // The current view has priority over the saved settings
       }
@@ -5264,7 +5264,7 @@ bool KonqMainWindow::queryExit()
 
 void KonqMainWindow::setIcon( const QPixmap& pix )
 {
-  KParts::MainWindow::setIcon( pix );
+  KParts::MainWindow::setWindowIcon( pix );
 
   QPixmap big = pix;
 
@@ -5582,11 +5582,11 @@ void KonqMainWindow::insertChildFrame( KonqFrameBase * frame, int /*index*/ )
   m_pChildFrame = frame;
   m_pActiveChild = frame;
   frame->setParentContainer(this);
-  if ( centralWidget() && centralWidget() != frame->widget() ) {
+  if ( centralWidget() && centralWidget() != frame->asQWidget() ) {
       centralWidget()->setParent( 0 ); // workaround Qt-4.1.2 crash (reported)
       setCentralWidget( 0 );
   }
-  setCentralWidget( frame->widget() );
+  setCentralWidget( frame->asQWidget() );
 }
 
 /**
@@ -5613,7 +5613,7 @@ void KonqMainWindow::setParentContainer(KonqFrameContainerBase* /*parent*/) { re
 void KonqMainWindow::setTitle( const QString &/*title*/ , QWidget* /*sender*/) { return; }
 void KonqMainWindow::setTabIcon( const KUrl &/*url*/, QWidget* /*sender*/ ) { return; }
 
-QWidget* KonqMainWindow::widget() { return this; }
+QWidget* KonqMainWindow::asQWidget() { return this; }
 
 void KonqMainWindow::listViews( ChildViewList *viewList ) { if( m_pChildFrame ) m_pChildFrame->listViews( viewList ); }
 

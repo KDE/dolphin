@@ -297,7 +297,7 @@ public:
   void setTitle( const QString &title , QWidget* sender);
   void setTabIcon( const KUrl &url, QWidget* sender );
 
-  QWidget* widget();
+  QWidget* asQWidget();
 
   void listViews( ChildViewList *viewList );
   QByteArray frameType();

@@ -270,15 +270,15 @@ void KonqFrameTabs::setTabIcon( const KUrl &url, QWidget* sender )
     iconSet =  SmallIcon( "fileclose" );
   else
     iconSet =  SmallIconSet( KonqPixmapProvider::self()->iconNameFor( url ) );
-  if (tabIconSet( sender ).pixmap().serialNumber() != iconSet.pixmap().serialNumber())
-    setTabIconSet( sender, iconSet );
+  if (tabIcon( indexOf( sender ) ).pixmap().serialNumber() != iconSet.pixmap().serialNumber())
+    KTabWidget::setTabIcon( indexOf( sender ), iconSet );
 }
 
 void KonqFrameTabs::activateChild()
 {
   if (m_pActiveChild)
     {
-      showPage( m_pActiveChild->widget() );
+      setCurrentIndex( indexOf( m_pActiveChild->asQWidget() ) );
       m_pActiveChild->activateChild();
     }
 }
@@ -291,7 +291,7 @@ void KonqFrameTabs::insertChildFrame( KonqFrameBase* frame, int index )
     {
       //kDebug(1202) << "Adding frame" << endl;
       bool showTabBar = (count() == 1);
-      insertTab(frame->widget(),"", index);
+      insertTab(index, frame->asQWidget(), "");
       frame->setParentContainer(this);
       if (index == -1) m_pChildFrameList->append(frame);
       else m_pChildFrameList->insert(index, frame);
@@ -315,7 +315,7 @@ void KonqFrameTabs::removeChildFrame( KonqFrameBase * frame )
 {
   //kDebug(1202) << "KonqFrameTabs::RemoveChildFrame " << this << ". Child " << frame << " removed" << endl;
   if (frame) {
-    removePage(frame->widget());
+    removePage(frame->asQWidget());
     m_pChildFrameList->removeAll(frame);
     if (m_rightWidget)
       m_rightWidget->setEnabled( m_pChildFrameList->count()>1 );
