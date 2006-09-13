@@ -1140,7 +1140,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
                   i18n("You have multiple tabs open in this window.\n"
                         "Loading a view profile will close them."),
                   i18n("Confirmation"),
-                  i18n("Load View Profile"),
+                  KGuiItem(i18n("Load View Profile")),
                   "LoadProfileTabsConfirm" ) == KMessageBox::Cancel )
               return;
       }
@@ -1155,7 +1155,8 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
                 showTab( view );
                 if ( KMessageBox::warningContinueCancel( 0,
                    i18n("This tab contains changes that have not been submitted.\nLoading a profile will discard these changes."),
-                   i18n("Discard Changes?"), i18n("&Discard Changes"), "discardchangesloadprofile") != KMessageBox::Continue )
+                   i18n("Discard Changes?"), KGuiItem(i18n("&Discard Changes")), "discardchangesloadprofile") != KMessageBox::Continue )
+			/* WE: maybe KStdGuiItem(Discard) here? */
                 {
                     showTab( originalView );
                     return;
@@ -1173,7 +1174,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
         if (prop.isValid() && prop.toBool())
             if ( KMessageBox::warningContinueCancel( 0,
                i18n("This page contains changes that have not been submitted.\nLoading a profile will discard these changes."),
-	       i18n("Discard Changes?"), i18n("&Discard Changes"), "discardchangesloadprofile") != KMessageBox::Continue )
+	       i18n("Discard Changes?"), KGuiItem(i18n("&Discard Changes")), "discardchangesloadprofile") != KMessageBox::Continue )
             return;
       }
   }

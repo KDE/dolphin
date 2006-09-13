@@ -5324,7 +5324,7 @@ void KonqMainWindow::slotAddWebSideBar(const KUrl& url, const QString& name)
     int rc = KMessageBox::questionYesNo(0,
               i18n("Add new web extension \"%1\" to your sidebar?",
                                  name.isEmpty() ? name : url.prettyUrl()),
-              i18n("Web Sidebar"),i18n("Add"),i18n("Do Not Add"));
+              i18n("Web Sidebar"),KGuiItem(i18n("Add")),KGuiItem(i18n("Do Not Add")));
 
     if (rc == KMessageBox::Yes) {
         // Show the sidebar

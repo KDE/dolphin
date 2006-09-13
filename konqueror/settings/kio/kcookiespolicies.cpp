@@ -179,7 +179,7 @@ bool KCookiesPolicies::handleDuplicate( const QString& domain, int advice )
                          "Do you want to replace it?</qt>", domain);
       int res = KMessageBox::warningContinueCancel(this, msg,
                                           i18n("Duplicate Policy"),
-                                          i18n("Replace"));
+                                          KGuiItem(i18n("Replace")));
       if ( res == KMessageBox::Continue )
       {
         m_pDomainPolicy[item]= KCookieAdvice::adviceToStr(advice);

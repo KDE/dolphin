@@ -233,7 +233,7 @@ bool UserAgentDlg::handleDuplicate( const QString& site,
                          "</qt>", site);
       int res = KMessageBox::warningContinueCancel(this, msg,
                                           i18n("Duplicate Identification"),
-                                          i18n("Replace"));
+                                          KGuiItem(i18n("Replace")));
       if ( res == KMessageBox::Continue )
       {
         item->setText(0, site);

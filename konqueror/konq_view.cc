@@ -1329,7 +1329,7 @@ bool KonqView::prepareReload( KParts::URLArgs& args )
         if ( KMessageBox::warningContinueCancel( 0, i18n(
             "The page you are trying to view is the result of posted form data. "
             "If you resend the data, any action the form carried out (such as search or online purchase) will be repeated. "),
-            i18n( "Warning" ), i18n( "Resend" ) ) == KMessageBox::Continue )
+            i18n( "Warning" ), KGuiItem(i18n( "Resend" )) ) == KMessageBox::Continue )
         {
             args.setDoPost( true );
             args.setContentType( m_postContentType );

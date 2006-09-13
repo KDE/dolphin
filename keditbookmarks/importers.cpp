@@ -75,7 +75,7 @@ ImportCommand* ImportCommand::performImport(const QString &type, QWidget *top) {
         KMessageBox::questionYesNoCancel(
                 top, i18n("Import as a new subfolder or replace all the current bookmarks?"),
                 i18n("%1 Import", importer->visibleName()),
-                i18n("As New Folder"), i18n("Replace"));
+                KGuiItem(i18n("As New Folder")), KGuiItem(i18n("Replace")));
 
     if (answer == KMessageBox::Cancel) {
         delete importer;

@@ -194,7 +194,7 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
     QString name = (*cIt)->desktopEntryName();
     //kDebug(1202) << "ToggleViewGUIClient: name=" << name << endl;
     KToggleAction *action = new KToggleAction( description, mainWindow->actionCollection(), name.toLatin1() );
-    action->setCheckedState( i18n( "Hide %1" ,  (*cIt)->name() ) );
+    action->setCheckedState( KGuiItem(i18n( "Hide %1" ,  (*cIt)->name() )) );
 
     // HACK
     if ( (*cIt)->icon() != "unknown" )

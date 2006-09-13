@@ -112,8 +112,8 @@ bool KDEpasswd2Dialog::checkPassword(const char *password)
 			"the password to 8 characters, or leave it as it is.")
 			,
 		i18n("Password Too Long"),
-		i18n("Truncate"),
-		i18n("Use as Is"),
+		KGuiItem(i18n("Truncate")),
+		KGuiItem(i18n("Use as Is")),
 		"truncatePassword"))
 	{
 	case KMessageBox::Yes :
