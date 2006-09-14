@@ -392,7 +392,7 @@ void KonqSidebarTree::addUrl(KonqSidebarTreeTopLevelItem* item, const KUrl & url
     {
        QString filename = findUniqueFilename(path, url.fileName());
        destUrl.setPath(filename);
-       KIO::NetAccess::copy(url, destUrl, this);
+       KIO::NetAccess::file_copy(url, destUrl, this);
     }
     else
     {

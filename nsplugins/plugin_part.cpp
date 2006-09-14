@@ -379,7 +379,7 @@ void PluginPart::changeSrc(const QString& url) {
 
 void PluginPart::saveAs() {
     KUrl savefile = KFileDialog::getSaveUrl(QString(), QString(), _widget);
-    KIO::NetAccess::copy(m_url, savefile, _widget);
+    KIO::NetAccess::file_copy(m_url, savefile, _widget);
 }
 
 
