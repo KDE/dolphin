@@ -809,7 +809,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
         if (KAuthorized::authorizeKAction("openwith"))
         {
-            QString constraint = "Type == 'Application' and DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'";
+            QString constraint = "DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'";
             QString subConstraint = " and '%1' in ServiceTypes";
 
             QStringList::ConstIterator it = mimeTypeList.begin();
@@ -822,7 +822,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 ++it;
             }
 
-            offers = KMimeTypeTrader::self()->query( first, QString(), constraint );
+            offers = KMimeTypeTrader::self()->query( first, "Application", constraint );
         }
 
         //// Ok, we have everything, now insert
