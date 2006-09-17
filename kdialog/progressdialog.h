@@ -19,7 +19,6 @@
 #ifndef PROGRESSDIALOG_H
 #define PROGRESSDIALOG_H
 
-#include <kprogressbar.h>
 #include <kprogressdialog.h>
 class ProgressDialog : public KProgressDialog
 {
