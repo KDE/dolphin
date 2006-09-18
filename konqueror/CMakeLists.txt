@@ -60,7 +60,7 @@ kde4_automoc(${konqueror_KDEINIT_SRCS})
 
 kde4_add_kdeinit_executable( konqueror ${konqueror_KDEINIT_SRCS})
 
-target_link_libraries(kdeinit_konqueror  ${KDE4_KDE3SUPPORT_LIBS} kutils konq )
+target_link_libraries(kdeinit_konqueror  ${KDE4_KDE3SUPPORT_LIBS} ${KDE4_KUTILS_LIBS} konq )
 
 install(TARGETS kdeinit_konqueror  DESTINATION ${LIB_INSTALL_DIR} )
 
@@ -70,10 +70,10 @@ install(TARGETS konqueror DESTINATION ${BIN_INSTALL_DIR})
 
 ########### install files ###############
 MESSAGE( STATUS "MIGRATE ALL APPLNK DESKTOP FILE TO XDG DIRECTORY")
-install( FILES konqfilemgr.desktop  DESTINATION  ${APPLNK_INSTALL_DIR}/.hidden )
+install( FILES konqfilemgr.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 install( FILES kfmclient.desktop kfmclient_dir.desktop kfmclient_html.desktop  	kfmclient_war.desktop konqbrowser.desktop konquerorsu.desktop Home.desktop  DESTINATION  ${XDG_APPS_DIR} )
 install( FILES konqueror.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
-install( FILES konqueror.desktop  DESTINATION  ${APPLNK_INSTALL_DIR} )
+install( FILES konqueror.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 install( FILES konqueror.rc konq-simplebrowser.rc  DESTINATION  ${DATA_INSTALL_DIR}/konqueror )
 
 install(FILES profile_webbrowsing.desktop DESTINATION ${DATA_INSTALL_DIR}/konqueror/profiles/ RENAME webbrowsing)
