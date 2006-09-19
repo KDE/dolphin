@@ -56,7 +56,7 @@
 #include "main.h"
 
 typedef KGenericFactory<KCMUserAccount, QWidget> Factory;
-K_EXPORT_COMPONENT_FACTORY( kcm_useraccount, Factory("useraccount") )
+K_EXPORT_COMPONENT_FACTORY( useraccount, Factory("useraccount") )
 
 KCMUserAccount::KCMUserAccount( QWidget *parent, const QStringList &)
 	: KCModule( Factory::instance(), parent)

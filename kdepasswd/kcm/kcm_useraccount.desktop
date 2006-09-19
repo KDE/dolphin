@@ -4,7 +4,11 @@ Icon=personal
 Categories=QT;KDE;X-KDE-settings-security;
 X-KDE-ParentApp=kcontrol
 X-KDE-Library=useraccount
-Type=Application
+X-KDE-FactoryName=useraccount
+
+Type=Service
+ServiceTypes=KCModule
+
 Exec=kcmshell kcm_useraccount
 Name=Password & User Account
 Name[fr]=Compte utilisateur et mot de passe
