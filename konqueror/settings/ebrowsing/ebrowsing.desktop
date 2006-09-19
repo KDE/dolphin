@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
-Type=Application
+Type=Service
+ServiceTypes=KCModule
 DocPath=kcontrol/ebrowsing/index.html
 Icon=enhanced_browsing
 Exec=kcmshell ebrowsing

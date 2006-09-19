@@ -1,12 +1,16 @@
 [Desktop Entry]
 Encoding=UTF-8
-Type=Application
+Type=Service
+ServiceTypes=KCModule
+
 DocPath=kcontrol/khtml/index.html#khtml-adblock
 Icon=filter
 Exec=kcmshell khtml_filter
 
 X-KDE-Library=konqhtml
 X-KDE-FactoryName=khtml_filter
+X-KDE-ParentApp=kcontrol
+
 
 Name=AdBlocK Filters
 Name[fr]=Filtres AdBlocK

@@ -1,9 +1,11 @@
 [Desktop Entry]
 Encoding=UTF-8
-Type=Application
+Type=Service
+ServiceTypes=KCModule
 DocPath=kcontrol/khtml/index.html#kbrowse-html
 Icon=konqueror
 Exec=kcmshell khtml_behavior
+X-KDE-ParentApp=kcontrol
 
 
 X-KDE-Library=konqhtml

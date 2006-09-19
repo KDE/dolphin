@@ -20,6 +20,6 @@ install(TARGETS kcm_css  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 ########### install files ###############
 
-install( FILES kcmcss.desktop  DESTINATION  ${XDG_APPS_DIR} )
+install( FILES kcmcss.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 install( FILES template.css  DESTINATION  ${DATA_INSTALL_DIR}/kcmcss )
 

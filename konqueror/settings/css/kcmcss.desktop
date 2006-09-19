@@ -1,7 +1,8 @@
 [Desktop Entry]
 Encoding=UTF-8
 Icon=stylesheet
-Type=Application
+Type=Service
+ServiceTypes=KCModule
 Exec=kcmshell kcmcss
 DocPath=kcontrol/kcmcss/index.html
 

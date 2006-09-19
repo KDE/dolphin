@@ -16,5 +16,5 @@ install(TARGETS kcm_kurifilt  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 ########### install files ###############
 
-install( FILES ebrowsing.desktop  DESTINATION  ${XDG_APPS_DIR} )
+install( FILES ebrowsing.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 

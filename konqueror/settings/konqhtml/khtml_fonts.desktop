@@ -1,9 +1,12 @@
 [Desktop Entry]
 Encoding=UTF-8
-Type=Application
+Type=Service
+ServiceTypes=KCModule
+
 DocPath=kcontrol/khtml/index.html#kbrowse-appearance
 Icon=fonts
 Exec=kcmshell khtml_fonts
+X-KDE-ParentApp=kcontrol
 
 
 X-KDE-Library=konqhtml
