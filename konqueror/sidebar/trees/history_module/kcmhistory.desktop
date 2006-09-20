@@ -1,11 +1,13 @@
 [Desktop Entry]
 Encoding=UTF-8
 Icon=history
-Type=Application
+Type=Service
+ServiceTypes=KCModule
 Exec=kcmshell kcmhistory
 
 X-KDE-Library=history
 X-KDE-FactoryName=history
+X-KDE-ParentApp=kcontrol
 
 Name=History Sidebar
 Name[fr]=Barre latérale d'historique

@@ -41,5 +41,5 @@ install(TARGETS kcm_history  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 ########### install files ###############
 
-install( FILES kcmhistory.desktop  DESTINATION  ${XDG_APPS_DIR} )
+install( FILES kcmhistory.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 
