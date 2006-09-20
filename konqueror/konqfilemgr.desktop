@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Type=Application
+Type=Service
 Exec=kfmclient openProfile filemanagement
 Icon=kfm
 DocPath=konqueror/index.html
