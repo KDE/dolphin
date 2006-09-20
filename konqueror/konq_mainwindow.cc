@@ -333,6 +333,7 @@ KonqMainWindow::~KonqMainWindow()
 
   delete m_pBookmarkMenu;
   delete m_paBookmarkBar;
+  delete m_pBookmarksOwner;
   delete m_pURLCompletion;
 
   KonqUndoManager::decRef();
