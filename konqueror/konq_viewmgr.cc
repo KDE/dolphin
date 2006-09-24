@@ -1660,7 +1660,7 @@ void KonqViewManager::setProfiles( KActionMenu *profiles )
 
   if ( m_pamProfiles )
   {
-    connect( m_pamProfiles->popupMenu(), SIGNAL( activated( int ) ),
+    connect( m_pamProfiles->menu(), SIGNAL( activated( int ) ),
              this, SLOT( slotProfileActivated( int ) ) ); connect( m_pamProfiles->menu(), SIGNAL( aboutToShow() ),
              this, SLOT( slotProfileListAboutToShow() ) );
   }

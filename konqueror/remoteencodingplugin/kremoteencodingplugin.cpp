@@ -111,7 +111,7 @@ KRemoteEncodingPlugin::slotAboutToOpenURL()
 void
 KRemoteEncodingPlugin::fillMenu()
 {
-  KMenu *menu = m_menu->popupMenu();
+  KMenu *menu = m_menu->menu();
   menu->clear();
 
   QStringList::ConstIterator it;
@@ -132,8 +132,8 @@ KRemoteEncodingPlugin::updateMenu()
     loadSettings();
 
   // uncheck everything
-  for (unsigned i =  0; i < m_menu->popupMenu()->count(); i++)
-    m_menu->menu()->setItemChecked(m_menu->popupMenu()->idAt(i), false);
+  for (unsigned i =  0; i < m_menu->menu()->count(); i++)
+    m_menu->menu()->setItemChecked(m_menu->menu()->idAt(i), false);
 
   QString charset = KIO::SlaveConfig::self()->configData(m_currentURL.protocol(), m_currentURL.host(),
 							 DATA_KEY);
@@ -150,10 +150,10 @@ KRemoteEncodingPlugin::updateMenu()
       if (it == m_encodingDescriptions.end())
 	kWarning() << k_funcinfo << "could not find entry for charset=" << charset << endl;
       else
-	m_menu->popupMenu()->setItemChecked(id, true);
+	m_menu->menu()->setItemChecked(id, true);
     }
   else
-    m_menu->popupMenu()->setItemChecked(m_idDefault, true);
+    m_menu->menu()->setItemChecked(m_idDefault, true);
 }
 
 void
@@ -170,7 +170,7 @@ KRemoteEncodingPlugin::slotItemSelected(int id)
   KConfig config(("kio_" + m_currentURL.protocol() + "rc").toLatin1());
   QString host = m_currentURL.host();
 
-  if (!m_menu->popupMenu()->isItemChecked(id))
+  if (!m_menu->menu()->isItemChecked(id))
     {
       QString charset = KGlobal::charsets()->encodingForName(m_encodingDescriptions[id - 1]);
 

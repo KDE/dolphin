@@ -351,7 +351,7 @@ KonqMostOftenURLSAction::KonqMostOftenURLSAction( const QString& text,
 
     connect( menu(), SIGNAL( aboutToShow() ), SLOT( slotFillMenu() ));
     //connect( popupMenu(), SIGNAL( aboutToHide() ), SLOT( slotClearMenu() ));
-    connect( popupMenu(), SIGNAL( activated( int ) ),
+    connect( menu(), SIGNAL( activated( int ) ),
 	     SLOT( slotActivated(int) ));
     // Need to do all this upfront for a correct initial state
     init();
@@ -454,7 +454,7 @@ void KonqMostOftenURLSAction::slotFillMenu()
 						 entry.typedUrl) :
 		       entry.title;
 
-	popupMenu()->insertItem(
+	menu()->insertItem(
 		    QIcon(KonqPixmapProvider::self()->pixmapFor( entry.url.url() )),
 		    text, id );
         // Keep a copy of the URLs being shown in the menu

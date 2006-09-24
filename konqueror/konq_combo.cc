@@ -746,12 +746,12 @@ void KonqComboListBoxPixmap::paint( QPainter *painter )
     int urlWidth = entryWidth - titleWidth - pmWidth - 2;
 
     if ( !text().isEmpty() ) {
-        QString squeezedText = KStringHandler::rPixelSqueeze( text(), listBox()->fontMetrics(), urlWidth );
+        QString squeezedText = listBox()->fontMetrics().elidedText( text(), Qt::ElideRight, urlWidth );
         painter->drawText( pmWidth, 0, urlWidth + pmWidth, itemHeight,
                            Qt::AlignLeft | Qt::AlignTop, squeezedText );
 
         painter->setPen( KGlobalSettings::inactiveTextColor() );
-        squeezedText = KStringHandler::rPixelSqueeze( title, listBox()->fontMetrics(), titleWidth );
+        squeezedText = listBox()->fontMetrics().elidedText( title, Qt::ElideRight, titleWidth );
         QFont font = painter->font();
         font.setItalic( true );
         painter->setFont( font );
