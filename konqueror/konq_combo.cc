@@ -125,6 +125,7 @@ KonqCombo::KonqCombo( QWidget *parent )
     // Make the lineedit consume the Qt::Key_Enter event...
     setTrapReturnKey( true );
 
+    connect( KonqHistoryManager::kself(), SIGNAL(cleared()), SLOT(slotCleared()) );
     connect( this, SIGNAL(cleared() ), SLOT(slotCleared()) );
     connect( this, SIGNAL(highlighted( int )), SLOT(slotSetIcon( int )) );
     connect( this, SIGNAL(activated( const QString& )),
