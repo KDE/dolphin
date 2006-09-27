@@ -22,11 +22,20 @@
 #include <QMap>
 
 #include <kcmodule.h>
-
+#include "ui_csscustom.h"
 
 class CSSConfigDialog;
 class CSSCustomDialog;
 class KDialog;
+
+class CSSCustomDialog : public QWidget, public Ui::CSSCustomDialog
+{
+public:
+  CSSCustomDialog( QWidget *parent ) : QWidget( parent ) {
+    setupUi( this );
+  }
+};
+
 
 
 class CSSConfig : public KCModule

@@ -18,7 +18,6 @@
 #include <kurlrequester.h>
 
 #include "cssconfig.h"
-#include "csscustom.h"
 #include "template.h"
 #include "preview.h"
 
