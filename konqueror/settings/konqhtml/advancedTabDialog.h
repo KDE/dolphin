@@ -20,9 +20,16 @@
 #ifndef __ADVANCEDTABDIALOG_H
 #define __ADVANCEDTABDIALOG_H
 
+#include "ui_advancedTabOptions.h"
 #include <kdialog.h>
 
-class advancedTabOptions;
+class advancedTabOptions : public QWidget, public Ui::advancedTabOptions
+{
+public:
+  advancedTabOptions( QWidget *parent ) : QWidget( parent ) {
+    setupUi( this );
+  }
+};
 
 class advancedTabDialog : public KDialog
 {

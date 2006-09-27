@@ -20,8 +20,7 @@ set(kcm_konqhtml_PART_SRCS
 
 kde4_automoc(${kcm_konqhtml_PART_SRCS})
 
-kde4_add_ui3_files(kcm_konqhtml_PART_SRCS advancedTabOptions.ui )
-kde4_add_ui_files(kcm_konqhtml_PART_SRCS nsconfigwidget.ui )
+kde4_add_ui_files(kcm_konqhtml_PART_SRCS nsconfigwidget.ui advancedTabOptions.ui )
 
 kde4_add_plugin(kcm_konqhtml ${kcm_konqhtml_PART_SRCS})
 

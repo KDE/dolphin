@@ -1,155 +1,137 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
-<class>advancedTabOptions</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>advancedTabOptions</cstring>
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>advancedTabOptions</class>
+  <widget class="QWidget" name="advancedTabOptions" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>644</width>
+        <height>208</height>
+      </rect>
     </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>644</width>
-            <height>208</height>
-        </rect>
-    </property>
-    <vbox>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <property name="margin">
+    <layout class="QVBoxLayout" >
+      <property name="margin" >
+        <number>0</number>
+      </property>
+      <item>
+        <widget class="QLabel" name="TextLabel3" >
+          <property name="text" >
+            <string>&lt;b>Advanced Options&lt;/b></string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+      </item>
+      <item>
+        <widget class="Line" name="Line1" >
+          <property name="frameShape" >
+            <enum>QFrame::HLine</enum>
+          </property>
+          <property name="frameShadow" >
+            <enum>QFrame::Sunken</enum>
+          </property>
+        </widget>
+      </item>
+      <item>
+        <layout class="QVBoxLayout" >
+          <property name="margin" >
             <number>0</number>
-        </property>
-        <widget class="QLabel">
-            <property name="name">
-                <cstring>TextLabel3</cstring>
-            </property>
-            <property name="text">
-                <string>&lt;b&gt;Advanced Options&lt;/b&gt;</string>
-            </property>
-        </widget>
-        <widget class="Line">
-            <property name="name">
-                <cstring>Line1</cstring>
-            </property>
-            <property name="frameShape">
-                <enum>HLine</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Sunken</enum>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-        </widget>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>layout</cstring>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_pNewTabsInBackground</cstring>
-                    </property>
-                    <property name="text">
-                        <string>O&amp;pen new tabs in the background</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>This will open a new tab in the background, instead of in the foreground.</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_pOpenAfterCurrentPage</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Open &amp;new tab after current tab</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>This will open a new tab opened from a page after the current tab, instead of after the last tab.</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_pTabConfirm</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Confirm &amp;when closing windows with multiple tabs</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>This will ask you whether you are sure you want to close a window when it has multiple tabs opened in it.</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_pPermanentCloseButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Show close button instead of website icon</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>This will display close buttons inside each tab instead of websites' icons.</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                       <cstring>m_pPopupsWithinTabs</cstring>
-                    </property>
-                   <property name="text">
-                       <string>Open pop&amp;ups in new tab instead of in new window</string>
-                   </property>
-                   <property name="whatsThis" stdset="0">
-                       <string>Whether or not JavaScript popups if allowed shall open in a new tab or in a new window.</string>
-                   </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                       <cstring>m_pTabCloseActivatePrevious</cstring>
-                    </property>
-                   <property name="text">
-                       <string>Activate previous used tab when closing the current tab</string>
-                   </property>
-                   <property name="whatsThis" stdset="0">
-                       <string>When checking this the previous used or opened tab will be activated when you close the current active tab instead of the one right to the current tab.</string>
-                   </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_pKonquerorTabforExternalURL</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Open as tab in existing Konqueror when URL is called externally</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>When you click a URL in another KDE program or call kfmclient to open a URL, the current desktop will be searched for a non-minimized Konqueror and, if found, the URL opened as a new tab within it. Otherwise a new Konqueror window will be opened with the required URL.</string>
-                    </property>
-                </widget>
-            </vbox>
-        </widget>
-        <spacer>
-            <property name="name">
-                <cstring>spacer</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>20</width>
-                    <height>0</height>
-                </size>
-            </property>
+          </property>
+          <item>
+            <widget class="QCheckBox" name="m_pNewTabsInBackground" >
+              <property name="text" >
+                <string>O&amp;pen new tabs in the background</string>
+              </property>
+              <property name="whatsThis" stdset="0" >
+                <string>This will open a new tab in the background, instead of in the foreground.</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QCheckBox" name="m_pOpenAfterCurrentPage" >
+              <property name="text" >
+                <string>Open &amp;new tab after current tab</string>
+              </property>
+              <property name="whatsThis" stdset="0" >
+                <string>This will open a new tab opened from a page after the current tab, instead of after the last tab.</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QCheckBox" name="m_pTabConfirm" >
+              <property name="text" >
+                <string>Confirm &amp;when closing windows with multiple tabs</string>
+              </property>
+              <property name="whatsThis" stdset="0" >
+                <string>This will ask you whether you are sure you want to close a window when it has multiple tabs opened in it.</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QCheckBox" name="m_pPermanentCloseButton" >
+              <property name="text" >
+                <string>&amp;Show close button instead of website icon</string>
+              </property>
+              <property name="whatsThis" stdset="0" >
+                <string>This will display close buttons inside each tab instead of websites' icons.</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QCheckBox" name="m_pPopupsWithinTabs" >
+              <property name="text" >
+                <string>Open pop&amp;ups in new tab instead of in new window</string>
+              </property>
+              <property name="whatsThis" stdset="0" >
+                <string>Whether or not JavaScript popups if allowed shall open in a new tab or in a new window.</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QCheckBox" name="m_pTabCloseActivatePrevious" >
+              <property name="text" >
+                <string>Activate previous used tab when closing the current tab</string>
+              </property>
+              <property name="whatsThis" stdset="0" >
+                <string>When checking this the previous used or opened tab will be activated when you close the current active tab instead of the one right to the current tab.</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QCheckBox" name="m_pKonquerorTabforExternalURL" >
+              <property name="text" >
+                <string>Open as tab in existing Konqueror when URL is called externally</string>
+              </property>
+              <property name="whatsThis" stdset="0" >
+                <string>When you click a URL in another KDE program or call kfmclient to open a URL, the current desktop will be searched for a non-minimized Konqueror and, if found, the URL opened as a new tab within it. Otherwise a new Konqueror window will be opened with the required URL.</string>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+      <item>
+        <spacer name="spacer" >
+          <property name="sizeHint" >
+            <size>
+              <width>20</width>
+              <height>0</height>
+            </size>
+          </property>
+          <property name="sizeType" >
+            <enum>Expanding</enum>
+          </property>
+          <property name="orientation" >
+            <enum>Vertical</enum>
+          </property>
         </spacer>
-    </vbox>
-</widget>
-<includes>
-    <include location="local" impldecl="in implementation">kdialog.h</include>
-</includes>
-<layoutdefaults spacing="3" margin="6"/>
-<layoutfunctions spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
-</UI>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="3" margin="6" />
+  <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+</ui>

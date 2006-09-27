@@ -30,7 +30,6 @@
 #include <kconfig.h>
 
 #include "advancedTabDialog.h"
-#include "advancedTabOptions.h"
 #include "main.h"
 
 advancedTabDialog::advancedTabDialog(QWidget* parent, KSharedConfig::Ptr config, const char* name)
