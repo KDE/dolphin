@@ -1,281 +1,276 @@
-<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
-<class>MainWidget</class>
-<author>Frans Englich &lt;frans.englich@telia.com&gt;</author>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>MainWidget</cstring>
+<ui version="4.0" stdsetdef="1" >
+  <author>Frans Englich &lt;frans.englich@telia.com></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>MainWidget</class>
+  <widget class="QWidget" name="MainWidget" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>518</width>
+        <height>561</height>
+      </rect>
     </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>518</width>
-            <height>561</height>
-        </rect>
+    <property name="windowTitle" >
+      <string>KCMUserAccount</string>
     </property>
-    <property name="windowTitle">
-        <string>KCMUserAccount</string>
-    </property>
-    <grid>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <widget class="KPushButton" row="0" column="0">
-            <property name="name">
-                <cstring>btnChangeFace</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="minimumSize">
-                <size>
-                    <width>74</width>
-                    <height>74</height>
-                </size>
-            </property>
-            <property name="maximumSize">
-                <size>
-                    <width>74</width>
-                    <height>74</height>
-                </size>
-            </property>
-            <property name="acceptDrops">
-                <bool>true</bool>
-            </property>
-            <property name="text">
-                <string></string>
-            </property>
+    <layout class="QGridLayout" >
+      <item row="0" column="0" >
+        <widget class="KPushButton" name="btnChangeFace" >
+          <property name="sizePolicy" >
+            <sizepolicy>
+              <hsizetype>0</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+            </sizepolicy>
+          </property>
+          <property name="minimumSize" >
+            <size>
+              <width>74</width>
+              <height>74</height>
+            </size>
+          </property>
+          <property name="maximumSize" >
+            <size>
+              <width>74</width>
+              <height>74</height>
+            </size>
+          </property>
+          <property name="acceptDrops" >
+            <bool>true</bool>
+          </property>
+          <property name="text" >
+            <string/>
+          </property>
         </widget>
-        <widget class="QGroupBox" row="1" column="0" rowspan="1" colspan="4">
-            <property name="name">
-                <cstring>grpUserInformation</cstring>
+      </item>
+      <item rowspan="1" row="1" column="0" colspan="4" >
+        <widget class="Q3GroupBox" name="grpUserInformation" >
+          <property name="title" >
+            <string>User Information</string>
+          </property>
+          <layout class="QGridLayout" >
+            <property name="margin" >
+              <number>0</number>
             </property>
-            <property name="title">
-                <string>User Information</string>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
+            <item row="1" column="0" >
+              <widget class="QLabel" name="lblOrganisation" >
+                <property name="text" >
+                  <string>&amp;Organization:</string>
                 </property>
-                <widget class="QLabel" row="1" column="0">
-                    <property name="name">
-                        <cstring>lblOrganisation</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Organization:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>leOrganization</cstring>
-                    </property>
-                </widget>
-                <widget class="QLineEdit" row="0" column="1">
-                    <property name="name">
-                        <cstring>leRealname</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="0" column="0">
-                    <property name="name">
-                        <cstring>lblRealName</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Name:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>leRealname</cstring>
-                    </property>
-                </widget>
-                <widget class="QLineEdit" row="1" column="1">
-                    <property name="name">
-                        <cstring>leOrganization</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="2" column="0">
-                    <property name="name">
-                        <cstring>lblEmail</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Email address:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>leEmail</cstring>
-                    </property>
-                </widget>
-                <widget class="QLineEdit" row="2" column="1">
-                    <property name="name">
-                        <cstring>leEmail</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="3" column="0">
-                    <property name="name">
-                        <cstring>textLabel3</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;SMTP server:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>leSMTP</cstring>
-                    </property>
-                </widget>
-                <widget class="QLineEdit" row="3" column="1">
-                    <property name="name">
-                        <cstring>leSMTP</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="5" column="0">
-                    <property name="name">
-                        <cstring>lblUIDTell</cstring>
-                    </property>
-                    <property name="text">
-                        <string>User ID:</string>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="5" column="1">
-                    <property name="name">
-                        <cstring>lblUID</cstring>
-                    </property>
-                    <property name="text">
-                        <string></string>
-                    </property>
-                </widget>
-            </grid>
+                <property name="buddy" stdset="0" >
+                  <cstring>leOrganization</cstring>
+                </property>
+                <property name="wordWrap" >
+                  <bool>false</bool>
+                </property>
+              </widget>
+            </item>
+            <item row="0" column="1" >
+              <widget class="QLineEdit" name="leRealname" />
+            </item>
+            <item row="0" column="0" >
+              <widget class="QLabel" name="lblRealName" >
+                <property name="text" >
+                  <string>&amp;Name:</string>
+                </property>
+                <property name="buddy" stdset="0" >
+                  <cstring>leRealname</cstring>
+                </property>
+                <property name="wordWrap" >
+                  <bool>false</bool>
+                </property>
+              </widget>
+            </item>
+            <item row="1" column="1" >
+              <widget class="QLineEdit" name="leOrganization" />
+            </item>
+            <item row="2" column="0" >
+              <widget class="QLabel" name="lblEmail" >
+                <property name="text" >
+                  <string>&amp;Email address:</string>
+                </property>
+                <property name="buddy" stdset="0" >
+                  <cstring>leEmail</cstring>
+                </property>
+                <property name="wordWrap" >
+                  <bool>false</bool>
+                </property>
+              </widget>
+            </item>
+            <item row="2" column="1" >
+              <widget class="QLineEdit" name="leEmail" />
+            </item>
+            <item row="3" column="0" >
+              <widget class="QLabel" name="textLabel3" >
+                <property name="text" >
+                  <string>&amp;SMTP server:</string>
+                </property>
+                <property name="buddy" stdset="0" >
+                  <cstring>leSMTP</cstring>
+                </property>
+                <property name="wordWrap" >
+                  <bool>false</bool>
+                </property>
+              </widget>
+            </item>
+            <item row="3" column="1" >
+              <widget class="QLineEdit" name="leSMTP" />
+            </item>
+            <item row="5" column="0" >
+              <widget class="QLabel" name="lblUIDTell" >
+                <property name="text" >
+                  <string>User ID:</string>
+                </property>
+                <property name="wordWrap" >
+                  <bool>false</bool>
+                </property>
+              </widget>
+            </item>
+            <item row="5" column="1" >
+              <widget class="QLabel" name="lblUID" >
+                <property name="text" >
+                  <string/>
+                </property>
+                <property name="wordWrap" >
+                  <bool>false</bool>
+                </property>
+              </widget>
+            </item>
+          </layout>
         </widget>
-        <spacer row="4" column="2">
-            <property name="name">
-                <cstring>spacer3</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>20</width>
-                    <height>16</height>
-                </size>
-            </property>
+      </item>
+      <item row="4" column="2" >
+        <spacer name="spacer3" >
+          <property name="sizeHint" >
+            <size>
+              <width>20</width>
+              <height>16</height>
+            </size>
+          </property>
+          <property name="sizeType" >
+            <enum>Expanding</enum>
+          </property>
+          <property name="orientation" >
+            <enum>Qt::Vertical</enum>
+          </property>
         </spacer>
-        <widget class="QLayoutWidget" row="0" column="1" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>layout1</cstring>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>lblUsername</cstring>
-                    </property>
-                    <property name="font">
-                        <font>
-                            <family>Bitstream Charter</family>
-                            <pointsize>14</pointsize>
-                        </font>
-                    </property>
-                    <property name="text">
-                        <string></string>
-                    </property>
-                    <property name="alignment">
-                        <set>Qt::AlignVCenter</set>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>lblClickButtonInfo</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&lt;i&gt;(Click the button to change your image)&lt;/i&gt;</string>
-                    </property>
-                    <property name="alignment">
-                        <set>Qt::AlignVCenter</set>
-                    </property>
-                </widget>
-            </vbox>
+      </item>
+      <item rowspan="1" row="0" column="1" colspan="3" >
+        <layout class="QVBoxLayout" >
+          <property name="margin" >
+            <number>0</number>
+          </property>
+          <item>
+            <widget class="QLabel" name="lblUsername" >
+              <property name="font" >
+                <font>
+                  <family>Bitstream Charter</family>
+                  <pointsize>14</pointsize>
+                </font>
+              </property>
+              <property name="text" >
+                <string/>
+              </property>
+              <property name="alignment" >
+                <set>Qt::AlignVCenter</set>
+              </property>
+              <property name="wordWrap" >
+                <bool>false</bool>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QLabel" name="lblClickButtonInfo" >
+              <property name="text" >
+                <string>&lt;i>(Click the button to change your image)&lt;/i></string>
+              </property>
+              <property name="alignment" >
+                <set>Qt::AlignVCenter</set>
+              </property>
+              <property name="wordWrap" >
+                <bool>false</bool>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+      <item rowspan="1" row="3" column="0" colspan="2" >
+        <widget class="KPushButton" name="btnChangePassword" >
+          <property name="text" >
+            <string>Change Password...</string>
+          </property>
         </widget>
-        <widget class="KPushButton" row="3" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>btnChangePassword</cstring>
-            </property>
-            <property name="text">
-                <string>Change Password...</string>
-            </property>
-        </widget>
-        <spacer row="3" column="3">
-            <property name="name">
-                <cstring>spacer2</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>111</width>
-                    <height>20</height>
-                </size>
-            </property>
+      </item>
+      <item row="3" column="3" >
+        <spacer name="spacer2" >
+          <property name="sizeHint" >
+            <size>
+              <width>111</width>
+              <height>20</height>
+            </size>
+          </property>
+          <property name="sizeType" >
+            <enum>Expanding</enum>
+          </property>
+          <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+          </property>
         </spacer>
-        <widget class="QButtonGroup" row="2" column="0" rowspan="1" colspan="4">
-            <property name="name">
-                <cstring>kcfg_EchoMode</cstring>
+      </item>
+      <item rowspan="1" row="2" column="0" colspan="4" >
+        <widget class="Q3ButtonGroup" name="kcfg_EchoMode" >
+          <property name="title" >
+            <string>At Password Prompt</string>
+          </property>
+          <property name="flat" >
+            <bool>false</bool>
+          </property>
+          <property name="checkable" >
+            <bool>false</bool>
+          </property>
+          <property name="checked" >
+            <bool>false</bool>
+          </property>
+          <property name="selectedId" stdset="0" >
+            <number>0</number>
+          </property>
+          <layout class="QGridLayout" >
+            <property name="margin" >
+              <number>0</number>
             </property>
-            <property name="title">
-                <string>At Password Prompt</string>
-            </property>
-            <property name="flat">
-                <bool>false</bool>
-            </property>
-            <property name="checkable">
-                <bool>false</bool>
-            </property>
-            <property name="checked">
-                <bool>false</bool>
-            </property>
-            <property name="selectedId" stdset="0">
-                <number>0</number>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
+            <item row="0" column="0" >
+              <widget class="QRadioButton" name="rdbOneStar" >
+                <property name="text" >
+                  <string>Show one star for each letter</string>
                 </property>
-                <widget class="QRadioButton" row="0" column="0">
-                    <property name="name">
-                        <cstring>rdbOneStar</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show one star for each letter</string>
-                    </property>
-                </widget>
-                <widget class="QRadioButton" row="1" column="0">
-                    <property name="name">
-                        <cstring>rdbThreeStars</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show three stars for each letter</string>
-                    </property>
-                </widget>
-                <widget class="QRadioButton" row="2" column="0">
-                    <property name="name">
-                        <cstring>rdbShowPassword</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show nothing</string>
-                    </property>
-                </widget>
-            </grid>
+              </widget>
+            </item>
+            <item row="1" column="0" >
+              <widget class="QRadioButton" name="rdbThreeStars" >
+                <property name="text" >
+                  <string>Show three stars for each letter</string>
+                </property>
+              </widget>
+            </item>
+            <item row="2" column="0" >
+              <widget class="QRadioButton" name="rdbShowPassword" >
+                <property name="text" >
+                  <string>Show nothing</string>
+                </property>
+              </widget>
+            </item>
+          </layout>
         </widget>
-    </grid>
-</widget>
-<tabstops>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <tabstops>
     <tabstop>btnChangeFace</tabstop>
     <tabstop>leRealname</tabstop>
     <tabstop>leOrganization</tabstop>
@@ -285,10 +280,5 @@
     <tabstop>rdbThreeStars</tabstop>
     <tabstop>rdbShowPassword</tabstop>
     <tabstop>btnChangePassword</tabstop>
-</tabstops>
-<includes>
-    <include location="local" impldecl="in implementation">kdialog.h</include>
-</includes>
-<layoutdefaults spacing="6" margin="11"/>
-<layoutfunctions spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
-</UI>
+  </tabstops>
+</ui>

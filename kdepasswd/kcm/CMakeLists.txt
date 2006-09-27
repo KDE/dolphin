@@ -9,7 +9,7 @@ set(kcm_useraccount_PART_SRCS chfnprocess.cpp main.cpp chfacedlg.cpp )
 
 kde4_automoc(${kcm_useraccount_PART_SRCS})
 
-kde4_add_ui3_files(kcm_useraccount_PART_SRCS main_widget.ui )
+kde4_add_ui_files(kcm_useraccount_PART_SRCS main_widget.ui )
 
 kde4_add_kcfg_files(kcm_useraccount_PART_SRCS settings.kcfgc pass.kcfgc )
 
