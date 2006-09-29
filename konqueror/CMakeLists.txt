@@ -69,7 +69,6 @@ install(TARGETS konqueror DESTINATION ${BIN_INSTALL_DIR})
 
 
 ########### install files ###############
-MESSAGE( STATUS "MIGRATE ALL APPLNK DESKTOP FILE TO XDG DIRECTORY")
 install( FILES konqfilemgr.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 install( FILES kfmclient.desktop kfmclient_dir.desktop kfmclient_html.desktop  	kfmclient_war.desktop konqbrowser.desktop konquerorsu.desktop Home.desktop  DESTINATION  ${XDG_APPS_DIR} )
 install( FILES konqueror.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
