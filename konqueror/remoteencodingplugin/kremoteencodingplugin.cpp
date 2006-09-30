@@ -231,12 +231,7 @@ KRemoteEncodingPlugin::slotDefault()
 void
 KRemoteEncodingPlugin::updateBrowser()
 {
-  // Inform running io-slaves about the change...
-  // TODO:
-#ifdef __GNUC__
-#warning enable once KIO::Scheduler::emitReparseSlaveConfiguration is in kdelibs snapshot
-#endif
-  //KIO::Scheduler::emitReparseSlaveConfiguration();
+  KIO::Scheduler::emitReparseSlaveConfiguration();
 
   // Reload the page with the new charset
   KParts::URLArgs args = m_part->extension()->urlArgs();
