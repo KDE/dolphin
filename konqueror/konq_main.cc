@@ -24,7 +24,7 @@
 #include "konq_view.h"
 #include "konq_settingsxt.h"
 
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <kdebug.h>
@@ -64,8 +64,11 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-  KTempFile crashlog_file(KStandardDirs::locateLocal("tmp", "konqueror-crash-"), ".log");
-  KonqMainWindow::s_crashlog_file = crashlog_file.file();
+  KTemporaryFile crashlog_file;
+  crashlog_file.setPrefix("konqueror-crash-");
+  crashlog_file.setSuffix(".log");
+  crashlog_file.open();
+  KonqMainWindow::s_crashlog_file = &crashlog_file;
 
   if ( app.isSessionRestored() )
   {
@@ -215,8 +218,6 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
   { // the list will be deleted by last KonqMainWindow
       delete KonqMainWindow::mainWindowList()->first();
   }
-
-  crashlog_file.unlink();
 
   return 0;
 }

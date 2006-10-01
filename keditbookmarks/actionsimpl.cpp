@@ -51,7 +51,7 @@
 #include <kmessagebox.h>
 #include <krun.h>
 #include <kstandarddirs.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <ktoggleaction.h>
 
 #include <kparts/part.h>
@@ -436,11 +436,14 @@ void ActionsImpl::slotPrint() {
     // doc->closeStream();
 
     HTMLExporter exporter;
-    KTempFile tmpf(KStandardDirs::locateLocal("tmp", "print_bookmarks"), ".html");
-    QTextStream *tstream = tmpf.textStream();
-    tstream->setCodec("UTF-16");
-    (*tstream) << exporter.toString(CurrentMgr::self()->root(), true);
-    tmpf.close();
+    KTemporaryFile tmpf;
+    tmpf.setPrefix("print_bookmarks");
+    tmpf.setSuffix(".html");
+    tmpf.setAutoRemove(false);
+    QTextStream tstream ( &tmpf );
+    tstream.setCodec("UTF-16");
+    tstream << exporter.toString(CurrentMgr::self()->root(), true);
+    tstream.flush();
 
 #if 0
     s_appId = kapp->dcopClient()->appId();
@@ -448,7 +451,7 @@ void ActionsImpl::slotPrint() {
 #endif
     connect(s_part, SIGNAL(completed()), this, SLOT(slotDelayedPrint()));
 
-    s_part->openUrl(KUrl( tmpf.name() ));
+    s_part->openUrl(KUrl( tmpf.fileName() ));
 }
 
 void ActionsImpl::slotDelayedPrint() {

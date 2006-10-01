@@ -34,7 +34,7 @@
 #include <kdebug.h>
 #include <kapplication.h>
 #include <kglobalsettings.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -423,9 +423,9 @@ void KonqViewManager::duplicateTab( KonqFrameBase* tab, bool openAfterCurrentPag
     return;
   }
 
-  KTempFile tempFile;
-  tempFile.setAutoDelete( true );
-  KConfig config( tempFile.name() );
+  KTemporaryFile tempFile;
+  tempFile.open();
+  KConfig config( tempFile.fileName() );
   config.setGroup( "View Profile" );
 
   QString prefix = QString::fromLatin1( currentFrame->frameType() ) + QString::number(0);
@@ -493,9 +493,9 @@ void KonqViewManager::breakOffTab( KonqFrameBase* tab )
     return;
   }
 
-  KTempFile tempFile;
-  tempFile.setAutoDelete( true );
-  KConfig config( tempFile.name() );
+  KTemporaryFile tempFile;
+  tempFile.open();
+  KConfig config( tempFile.fileName() );
   config.setGroup( "View Profile" );
 
   QString prefix = QString::fromLatin1( currentFrame->frameType() ) + QString::number(0);

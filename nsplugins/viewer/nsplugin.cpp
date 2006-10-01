@@ -49,7 +49,7 @@
 #include <klocale.h>
 #include <kprocess.h>
 #include <kstandarddirs.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <kurl.h>
 #include <QX11Info>
 
@@ -1181,7 +1181,7 @@ void NSPluginInstance::NPURLNotify(QString url, NPReason reason, void *notifyDat
 }
 
 
-void NSPluginInstance::addTempFile(KTempFile *tmpFile)
+void NSPluginInstance::addTempFile(KTemporaryFile *tmpFile)
 {
    _tempFiles.append(tmpFile);
 }
@@ -1558,9 +1558,9 @@ void NSPluginStreamBase::inform()
 
                 // stream into temporary file (use lower() in case the
                 // filename as an upper case X in it)
-                _tempFile = new KTempFile;
-                _tempFile->setAutoDelete( TRUE );
-                _fileURL = _tempFile->name();
+                _tempFile = new KTemporaryFile;
+                _tempFile->open();
+                _fileURL = _tempFile->fileName();
                 kDebug() << "saving into " << _fileURL << endl;
             }
         }
@@ -1627,7 +1627,7 @@ int NSPluginStreamBase::process( const QByteArray &data, int start )
       }
 
       if (_tempFile) {
-          _tempFile->dataStream()->writeRawData(d, sent);
+          _tempFile->write(d, sent);
       }
 
       to_sent -= sent;
@@ -1651,7 +1651,7 @@ bool NSPluginStreamBase::pump()
         // handle AS_FILE_ONLY streams
         if ( _onlyAsFile ) {
             if (_tempFile) {
-                _tempFile->dataStream()->writeRawData( _queue, _queue.size() );
+                _tempFile->write( _queue, _queue.size() );
 	    }
             newPos = _queuePos+_queue.size();
         } else {

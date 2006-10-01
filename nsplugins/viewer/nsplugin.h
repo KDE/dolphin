@@ -90,7 +90,7 @@ protected:
   QString _fileURL;
   QString _mimeType;
   QByteArray _data;
-  class KTempFile *_tempFile;
+  class KTemporaryFile *_tempFile;
 
 private:
   int process( const QByteArray &data, int start );
@@ -215,8 +215,8 @@ private:
   bool _destroyed;
   bool _visible;
   bool _firstResize;
-  void addTempFile(KTempFile *tmpFile);
-  Q3PtrList<KTempFile> _tempFiles;
+  void addTempFile(KTemporaryFile *tmpFile);
+  Q3PtrList<KTemporaryFile> _tempFiles;
   OrgKdeNspluginsCallBackInterface *_callback;
   Q3PtrList<NSPluginStreamBase> _streams;
   KLibrary *_handle;

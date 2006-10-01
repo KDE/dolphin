@@ -102,7 +102,7 @@
 #include <kstdaction.h>
 #include <kstandarddirs.h>
 #include <ksycoca.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <ktoolbarpopupaction.h>
 #include <kurlrequesterdlg.h>
 #include <kurlrequester.h>
@@ -1296,9 +1296,9 @@ void KonqMainWindow::slotNewWindow()
 
 void KonqMainWindow::slotDuplicateWindow()
 {
-  KTempFile tempFile;
-  tempFile.setAutoDelete( true );
-  KConfig config( tempFile.name() );
+  KTemporaryFile tempFile;
+  tempFile.open();
+  KConfig config( tempFile.fileName() );
   config.setGroup( "View Profile" );
   m_pViewManager->saveViewProfile( config, true, true );
 
@@ -1347,9 +1347,13 @@ void KonqMainWindow::slotSendFile()
     if ( (*it).isLocalFile() && QFileInfo((*it).path()).isDir() )
     {
         // Create a temp dir, so that we can put the ZIP file in it with a proper name
-        KTempFile zipFile;
-        QString zipFileName = zipFile.name();
-        zipFile.unlink();
+        QString zipFileName;
+        {
+          //TODO This should use KTempDir
+          KTemporaryFile zipFile;
+          zipFile.open();
+          zipFileName = zipFile.fileName();
+        }
 
         QDir().mkdir(zipFileName);
         zipFileName = zipFileName+"/"+(*it).fileName()+".zip";
