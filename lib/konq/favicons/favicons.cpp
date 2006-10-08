@@ -32,7 +32,7 @@
 #include <kstandarddirs.h>
 #include <kio/job.h>
 #include "favicons_adaptor.h"
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 
 #include "favicons.moc"
 
