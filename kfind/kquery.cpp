@@ -81,7 +81,7 @@ void KQuery::start()
     m_url.cleanPath();
     processLocate->clearArguments();
     *processLocate << "locate";
-    *processLocate << m_url.path(1).toLatin1();
+    *processLocate << m_url.path( KUrl::AddTrailingSlash ).toLatin1();
     bufferLocate=NULL;
     bufferLocateLength=0;
     processLocate->start(KProcess::NotifyOnExit,KProcess::AllOutput);
