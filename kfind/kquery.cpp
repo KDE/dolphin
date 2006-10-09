@@ -78,9 +78,10 @@ void KQuery::start()
       delete m_fileItems.dequeue();
   if(m_useLocate) //use "locate" instead of the internal search method
   {
+    m_url.cleanPath();
     processLocate->clearArguments();
     *processLocate << "locate";
-    *processLocate << m_url.path().toLatin1();
+    *processLocate << m_url.path(1).toLatin1();
     bufferLocate=NULL;
     bufferLocateLength=0;
     processLocate->start(KProcess::NotifyOnExit,KProcess::AllOutput);
@@ -204,7 +205,7 @@ void KQuery::processQuery( KFileItem* file)
 				if ( file->size() != m_sizeboundary1 ) return;
 				break;
 		case 4: // "between"
-				if ( (file->size() < m_sizeboundary1) || 
+				if ( (file->size() < m_sizeboundary1) ||
 		 				(file->size() > m_sizeboundary2) ) return;
 				break;
 		case 0: // "none" -> Fall to default
