@@ -21,14 +21,22 @@
 #ifndef __konq_mainwindow_p_h__
 #define __konq_mainwindow_p_h__
 
-class KonqExtendedBookmarkOwner : public KBookmarkOwner
+class KonqExtendedBookmarkOwner : public QObject, public KonqBookmarkOwner
 {
+  Q_OBJECT
 public:
   KonqExtendedBookmarkOwner(KonqMainWindow *);
   virtual QString currentTitle() const;
   virtual QString currentUrl() const;
   virtual bool supportsTabs() const;
   virtual QList<QPair<QString, QString> > currentBookmarkList() const;
+  virtual void openBookmark(KBookmark bm, Qt::MouseButtons mb, Qt::KeyboardModifiers km);
+  virtual void openInNewTab(KBookmark bm);
+  virtual void openInNewWindow(KBookmark bm);
+  virtual void openFolderinTabs(KBookmark bm);
+
+Q_SIGNALS:
+  void openBookmarkSignal(KBookmark bm, Qt::MouseButtons mb, Qt::KeyboardModifiers km);
 
 private:
   KonqMainWindow *m_pKonqMainWindow;

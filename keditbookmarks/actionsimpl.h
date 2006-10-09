@@ -47,7 +47,6 @@ public Q_SLOTS:
    void slotSort();
    void slotSetAsToolbar();
    void slotOpenLink();
-   void slotShowNS();
    void slotTestSelection();
    void slotTestAll();
    void slotCancelAllTests();

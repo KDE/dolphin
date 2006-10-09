@@ -82,7 +82,7 @@
 #include <kaboutdata.h>
 #include <kbookmarkbar.h>
 #include <ktoolbar.h>
-#include <kbookmarkmenu.h>
+#include <konqbookmarkmenu.h>
 #include <kcmultidialog.h>
 #include <kdebug.h>
 #include <kedittoolbar.h>
@@ -210,7 +210,7 @@ KonqMainWindow::KonqMainWindow( const KUrl &initialURL, bool openInitialURL, con
   m_paMoveFiles = 0;
   m_paDelete = 0;
   m_paNewDir = 0;
-  m_bookmarkBarActionCollection = 0;
+  m_bookmarkBarInitialized = false;
   KonqExtendedBookmarkOwner *extOwner = new KonqExtendedBookmarkOwner( this );
   m_pBookmarksOwner = extOwner;
 
@@ -369,11 +369,11 @@ QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDo
         return 0;
     }
 
-    if ( !m_bookmarkBarActionCollection )
+    if ( !m_bookmarkBarInitialized )
     {
         // The actual menu needs a different action collection, so that the bookmarks
         // don't appear in kedittoolbar
-        m_bookmarkBarActionCollection = new KActionCollection( static_cast<QWidget *>(this) );
+        m_bookmarkBarInitialized = true;
         DelayedInitializer *initializer = new DelayedInitializer( QEvent::Show, res );
         connect( initializer, SIGNAL( initialize() ), this, SLOT(initBookmarkBar()) );
     }
@@ -389,13 +389,7 @@ void KonqMainWindow::initBookmarkBar()
   if (!bar) return;
 
   delete m_paBookmarkBar;
-  m_paBookmarkBar = new KBookmarkBar( KonqBookmarkManager::self(), m_pBookmarksOwner, bar, m_bookmarkBarActionCollection, this );
-  connect( m_paBookmarkBar,
-           SIGNAL( aboutToShowContextMenu(const KBookmark &, QMenu*) ),
-           this, SLOT( slotFillContextMenu(const KBookmark &, QMenu*) ));
-  connect( m_paBookmarkBar,
-	   SIGNAL( openBookmark(KBookmark, Qt::MouseButtons, Qt::KeyboardModifiers) ),
-	   this, SLOT( slotOpenBookmark(KBookmark, Qt::MouseButtons, Qt::KeyboardModifiers) ));
+  m_paBookmarkBar = new KBookmarkBar( KonqBookmarkManager::self(), m_pBookmarksOwner, bar, this );
 
   // hide if empty
   if (bar->actions().count() == 0 )
@@ -2622,16 +2616,6 @@ void KonqMainWindow::slotPopupNewTab()
     popupNewTab(newTabsInFront, openAfterCurrentPage);
 }
 
-void KonqMainWindow::slotPopupNewTabRight()
-{
-    bool newTabsInFront = KonqSettings::newTabsInFront();
-
-    if (QApplication::keyboardModifiers() & Qt::ShiftModifier)
-      newTabsInFront = !newTabsInFront;
-
-    popupNewTab(newTabsInFront, false);
-}
-
 void KonqMainWindow::popupNewTab(bool infront, bool openAfterCurrentPage)
 {
   kDebug(1202) << "KonqMainWindow::popupNewTab()" << endl;
@@ -3925,20 +3909,16 @@ void KonqMainWindow::initActions()
 				     "Clears the content of the location bar." ) );
 
   // Bookmarks menu
-  m_pamBookmarks = new KActionMenu( i18n( "&Bookmarks" ), actionCollection(), "bookmarks" );
-  //m_pamBookmarks->setDelayed( false );
+  m_pamBookmarks = new KonqBookmarkActionMenu(KonqBookmarkManager::self()->root(),
+                                              i18n( "&Bookmarks" ),
+                                              actionCollection(),
+                                              "bookmarks" );
 
   // The actual menu needs a different action collection, so that the bookmarks
   // don't appear in kedittoolbar
   m_bookmarksActionCollection = new KActionCollection( static_cast<QWidget*>( this ) );
 
-  m_pBookmarkMenu = new KBookmarkMenu( KonqBookmarkManager::self(), m_pBookmarksOwner, m_pamBookmarks->menu(), m_bookmarksActionCollection );
-  connect( m_pBookmarkMenu,
-           SIGNAL( aboutToShowContextMenu(const KBookmark &, QMenu*) ),
-           this, SLOT( slotFillContextMenu(const KBookmark &, QMenu*) ));
-  connect( m_pBookmarkMenu,
-	   SIGNAL( openBookmark(KBookmark, Qt::MouseButtons, Qt::KeyboardModifiers) ),
-	   this, SLOT( slotOpenBookmark(KBookmark, Qt::MouseButtons, Qt::KeyboardModifiers) ));
+  m_pBookmarkMenu = new KonqBookmarkMenu( KonqBookmarkManager::self(), m_pBookmarksOwner, m_pamBookmarks, m_bookmarksActionCollection );
 
   KAction *addBookmark = actionCollection()->action("add_bookmark");
   if (addBookmark)
@@ -4022,31 +4002,9 @@ void KonqMainWindow::initActions()
   m_paLinkView->setToolTip( i18n("Sets the view as 'linked'. A linked view follows folder changes made in other linked views.") );
 }
 
-void KonqMainWindow::slotFillContextMenu( const KBookmark &bk, QMenu * pm )
+void KonqExtendedBookmarkOwner::openBookmark(KBookmark bm, Qt::MouseButtons mb, Qt::KeyboardModifiers km)
 {
-  kDebug() << "KonqMainWindow::slotFillContextMenu(bk, pm == " << pm << ")" << endl;
-  popupItems.clear();
-  popupUrlArgs = KParts::URLArgs();
-  if ( bk.isGroup() )
-  {
-    KBookmarkGroup grp = bk.toGroup();
-    QList<KUrl> list = grp.groupUrlList();
-    QList<KUrl>::Iterator it = list.begin();
-    for (; it != list.end(); ++it )
-      popupItems.append( new KFileItem( (*it), QString(), KFileItem::Unknown) );
-    pm->insertItem( SmallIcon("tab_new"), i18n( "Open Folder in Tabs" ), this, SLOT( slotPopupNewTabRight() ) );
-  }
-  else
-  {
-    popupItems.append( new KFileItem( bk.url(), QString(), KFileItem::Unknown) );
-    pm->insertItem( SmallIcon("window_new"), i18n( "Open in New Window" ), this, SLOT( slotPopupNewWindow() ) );
-    pm->insertItem( SmallIcon("tab_new"), i18n( "Open in New Tab" ), this, SLOT( slotPopupNewTabRight() ) );
-  }
-}
-
-void KonqMainWindow::slotOpenBookmark( KBookmark bm, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
-{
-  kDebug(1202) << "KonqMainWindow::slotOpenBookmark(" << bm.url().prettyUrl() << ", " << buttons << ", " << modifiers << ")" << endl;
+  kDebug(1202) << "KonqExtendedBookmarkOwner::openBookmark(" << bm.url().prettyUrl() << ", " << km << ", " << mb << ")" << endl;
 
   const QString url = bm.url().url();
 
@@ -4054,23 +4012,23 @@ void KonqMainWindow::slotOpenBookmark( KBookmark bm, Qt::MouseButtons buttons, Q
   req.newTab = true;
   req.newTabInFront = KonqSettings::newTabsInFront();
 
-  if (modifiers & Qt::ShiftModifier)
+  if (km & Qt::ShiftModifier)
     req.newTabInFront = !req.newTabInFront;
 
-  if( modifiers & Qt::ControlModifier ) // Ctrl Left/MMB
-    openFilteredUrl( url, req);
-  else if( buttons & Qt::MidButton )
+  if( km & Qt::ControlModifier ) // Ctrl Left/MMB
+    m_pKonqMainWindow->openFilteredUrl( url, req);
+  else if( mb & Qt::MidButton )
   {
     if(KonqSettings::mmbOpensTab())
-      openFilteredUrl( url, req);
+      m_pKonqMainWindow->openFilteredUrl( url, req);
     else
 	{
-      KUrl finalURL = KonqMisc::konqFilteredURL( this, url );
+      KUrl finalURL = KonqMisc::konqFilteredURL( m_pKonqMainWindow, url );
       KonqMisc::createNewWindow( finalURL.url() );
 	}
    }
    else
-     openFilteredUrl( url, false );
+     m_pKonqMainWindow->openFilteredUrl( url, false );
 }
 
 void KonqMainWindow::slotMoveTabLeft()
@@ -4551,6 +4509,53 @@ QList<QPair<QString, QString> > KonqExtendedBookmarkOwner::currentBookmarkList()
 QString KonqExtendedBookmarkOwner::currentTitle() const
 {
    return m_pKonqMainWindow->currentTitle();
+}
+
+void KonqExtendedBookmarkOwner::openInNewTab(KBookmark bm)
+{
+  bool newTabsInFront = KonqSettings::newTabsInFront();
+  if (QApplication::keyboardModifiers() & Qt::ShiftModifier)
+    newTabsInFront = !newTabsInFront;
+
+  KonqOpenURLRequest req;
+  req.newTab = true;
+  req.newTabInFront = newTabsInFront;
+  req.openAfterCurrentPage = false;
+  req.args = KParts::URLArgs();
+
+  m_pKonqMainWindow->openUrl( 0, bm.url(), QString(), req );
+}
+
+void KonqExtendedBookmarkOwner::openFolderinTabs(KBookmark bm)
+{
+  bool newTabsInFront = KonqSettings::newTabsInFront();
+  if (QApplication::keyboardModifiers() & Qt::ShiftModifier)
+    newTabsInFront = !newTabsInFront;
+  KonqOpenURLRequest req;
+  req.newTab = true;
+  req.newTabInFront = false;
+  req.openAfterCurrentPage = false;
+  req.args = KParts::URLArgs();
+
+  KBookmarkGroup grp = bm.toGroup();
+  QList<KUrl> list = grp.groupUrlList();
+  QList<KUrl>::Iterator it = list.begin();
+  QList<KUrl>::Iterator end = list.end();
+  --end;
+  for (; it != end; ++it )
+  {
+    m_pKonqMainWindow->openUrl( 0, *it, QString(), req );
+  }
+  if ( newTabsInFront )
+  {
+    req.newTabInFront = true;
+  }
+  m_pKonqMainWindow->openUrl( 0, *end, QString(), req );
+}
+
+void KonqExtendedBookmarkOwner::openInNewWindow(KBookmark bm)
+{
+  KonqMisc::createNewWindow( bm.url(), KParts::URLArgs() );
 }
 
 QString KonqMainWindow::currentTitle() const

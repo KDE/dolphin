@@ -128,7 +128,6 @@ bool CurrentMgr::managerSave() { return mgr()->save(); }
 void CurrentMgr::saveAs(const QString &fileName) { mgr()->saveAs(fileName); }
 void CurrentMgr::setUpdate(bool update) { mgr()->setUpdate(update); }
 QString CurrentMgr::path() const { return mgr()->path(); }
-bool CurrentMgr::showNSBookmarks() const { return mgr()->showNSBookmarks(); }
 
 void CurrentMgr::createManager(const QString &filename) {
     if (m_mgr) {
@@ -445,13 +444,6 @@ void KEBApp::resetActions() {
 
     if (!m_readOnly)
         stateChanged("notreadonly");
-
-    getToggleAction("settings_showNS")
-        ->setChecked(CurrentMgr::self()->showNSBookmarks());
-}
-
-bool KEBApp::nsShown() const {
-    return getToggleAction("settings_showNS")->isChecked();
 }
 
 void  KEBApp::selectionChanged()
@@ -460,6 +452,9 @@ void  KEBApp::selectionChanged()
 }
 
 void KEBApp::updateActions() {
+    // FIXME if nothing is selected in the item view, the folder in the group view
+    // is selected. 
+    // Change setActionsEnabled() and firstSelected() to match that
     resetActions();
     setActionsEnabled(mBookmarkListView->getSelectionAbilities());
 }

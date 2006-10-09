@@ -93,10 +93,6 @@ void KEBApp::createActions() {
     (void) KStdAction::paste(actn, SLOT( slotPaste() ), actionCollection());
     (void) KStdAction::print(actn, SLOT( slotPrint() ), actionCollection());
 
-    // settings menu
-    KToggleAction* actnShowNS = new KToggleAction(i18n("&Show Netscape Bookmarks in Konqueror"), actionCollection(), "settings_showNS");
-    connect(actnShowNS, SIGNAL( triggered() ), actn, SLOT( slotShowNS() ));
-
     // actions
     KAction* actnDelete = new KAction(KIcon("editdelete"), i18n("&Delete"), actionCollection(), "delete");
     actnDelete->setShortcut(Qt::Key_Delete);
@@ -469,14 +465,6 @@ void ActionsImpl::slotDelayedPrint() {
 }
 
 /* -------------------------------------- */
-
-void ActionsImpl::slotShowNS() {
-    KEBApp::self()->bkInfo()->commitChanges();
-    bool shown = KEBApp::self()->nsShown();
-    CurrentMgr::self()->mgr()->setShowNSBookmarks(shown);
-    // TODO - need to force a save here
-    CurrentMgr::self()->reloadConfig();
-}
 
 void ActionsImpl::slotCancelFavIconUpdates() {
     FavIconsItrHolder::self()->cancelAllItrs();

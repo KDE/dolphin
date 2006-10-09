@@ -76,7 +76,6 @@
 <Menu name="settings"><text>&amp;Settings</text>
   <Action name="settings_saveonclose" append="save_merge"/>
 <!--  <Action name="settings_splitview" append="save_merge"/> -->
-  <Action name="settings_showNS" append="save_merge"/>
 </Menu>
 
 </MenuBar>

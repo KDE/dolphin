@@ -74,7 +74,6 @@ public:
     static KBookmark bookmarkAt(const QString & a);
 
     KBookmarkManager* mgr() const { return m_mgr; }
-    bool showNSBookmarks() const;
     QString path() const;
 
     void createManager(const QString &filename);

@@ -57,6 +57,7 @@ class KAction;
 class KActionCollection;
 class KActionMenu;
 class KBookmarkMenu;
+class KonqBookmarkActionMenu;
 class KCMultiDialog;
 class KHistoryCombo;
 class KNewMenu;
@@ -335,10 +336,6 @@ Q_SIGNALS:
 public Q_SLOTS:
   void slotCtrlTabPressed();
 
-  // for KBookmarkMenu and KBookmarkBar
-  void slotFillContextMenu( const KBookmark &, QMenu * );
-  void slotOpenBookmark( KBookmark, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers );
-
   void slotPopupMenu( const QPoint &_global, const KUrl &_url, const QString &_mimeType, mode_t mode );
   void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KUrl &_url, const QString &_mimeType, mode_t mode );
   void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KUrl &_url, const KParts::URLArgs &_args, KParts::BrowserExtension::PopupFlags f, mode_t mode );
@@ -445,7 +442,6 @@ protected Q_SLOTS:
   void slotPopupNewWindow();
   void slotPopupThisWindow();
   void slotPopupNewTab();
-  void slotPopupNewTabRight();
   void slotPopupPasteTo();
   void slotRemoveView();
 
@@ -615,7 +611,7 @@ private: // members
 
   KAction *m_paPrint;
 
-  KActionMenu *m_pamBookmarks;
+  KonqBookmarkActionMenu *m_pamBookmarks;
 
   KToolBarPopupAction *m_paUp;
   KToolBarPopupAction *m_paBack;
@@ -700,7 +696,7 @@ private: // members
   KBookmarkMenu* m_pBookmarkMenu;
   KonqExtendedBookmarkOwner *m_pBookmarksOwner;
   KActionCollection* m_bookmarksActionCollection;
-  KActionCollection* m_bookmarkBarActionCollection;
+  bool m_bookmarkBarInitialized;
 
   KonqViewManager *m_pViewManager;
   KonqFrameBase* m_pChildFrame;
