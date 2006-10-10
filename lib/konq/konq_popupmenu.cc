@@ -857,8 +857,24 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 for( ; it != offers.end(); it++ )
                 {
                     KService::Ptr service = (*it);
-                    if (service->noDisplay())
-                        continue;
+
+                    // Skip OnlyShowIn=Foo and NotShowIn=KDE entries,
+                    // but still offer NoDisplay=true entries, that's the
+                    // whole point of such desktop files. This is why we don't
+                    // use service->noDisplay() here.
+                    const QString onlyShowIn = service->property("OnlyShowIn", QVariant::String).toString();
+                    if ( !onlyShowIn.isEmpty() ) {
+                        const QStringList aList = QStringList::split(';', onlyShowIn);
+                        if (!aList.contains("KDE"))
+                            continue;
+                    }
+                    const QString notShowIn = service->property("NotShowIn", QVariant::String).toString();
+                    if ( !notShowIn.isEmpty() ) {
+                        const QStringList aList = QStringList::split(';', notShowIn);
+                        if (aList.contains("KDE"))
+                            continue;
+                    }
+
 
                     QByteArray nam;
                     nam.setNum( id );
