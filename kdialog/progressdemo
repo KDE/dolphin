@@ -1,17 +1,17 @@
 dbusRef=`./kdialog --geometry 300x200+100-100 --progressbar "Initialising" 6`
-dbus $dbusRef org.kde.kdialog.ProgressDialog.value 1
-dbus $dbusRef org.kde.kdialog.ProgressDialog.label "Thinking really hard"
+qdbus $dbusRef org.kde.kdialog.ProgressDialog.value 1
+qdbus $dbusRef org.kde.kdialog.ProgressDialog.label "Thinking really hard"
 sleep 2
-dbus $dbusRef org.kde.kdialog.ProgressDialog.value 2
+qdbus $dbusRef org.kde.kdialog.ProgressDialog.value 2
 sleep 2
-dbus $dbusRef org.kde.kdialog.ProgressDialog.label "Thinking some more"
-dbus $dbusRef org.kde.kdialog.ProgressDialog.value 3
+qdbus $dbusRef org.kde.kdialog.ProgressDialog.label "Thinking some more"
+qdbus $dbusRef org.kde.kdialog.ProgressDialog.value 3
 sleep 2
-dbus $dbusRef org.kde.kdialog.ProgressDialog.value 4
+qdbus $dbusRef org.kde.kdialog.ProgressDialog.value 4
 sleep 2
-dbus $dbusRef org.kde.kdialog.ProgressDialog.label "Finishing up"
-dbus $dbusRef org.kde.kdialog.ProgressDialog.value 5
+qdbus $dbusRef org.kde.kdialog.ProgressDialog.label "Finishing up"
+qdbus $dbusRef org.kde.kdialog.ProgressDialog.value 5
 sleep 1
-dbus $dbusRef org.kde.kdialog.ProgressDialog.value 6
+qdbus $dbusRef org.kde.kdialog.ProgressDialog.value 6
 sleep 1
-dbus $dbusRef org.kde.kdialog.ProgressDialog.close
+qdbus $dbusRef org.kde.kdialog.ProgressDialog.close

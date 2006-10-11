@@ -1,10 +1,10 @@
 dbusRef=`./kdialog --progressbar "Press Cancel at Any time" 10`
-dbus $dbusRef org.kde.kdialog.ProgressDialog.showCancelButton true
+qdbus $dbusRef org.kde.kdialog.ProgressDialog.showCancelButton true
 
-until test "true" == `dbus $dbusRef org.kde.kdialog.ProgressDialog.wasCancelled`; do
+until test "true" == `qdbus $dbusRef org.kde.kdialog.ProgressDialog.wasCancelled`; do
   sleep 1
-  inc=$((`dbus $dbusRef org.kde.kdialog.ProgressDialog.value` + 1))
+  inc=$((`qdbus $dbusRef org.kde.kdialog.ProgressDialog.value` + 1))
   dbus $dbusRef org.kde.kdialog.ProgressDialog.value $inc;
 done
 
-dbus $dbusRef org.kde.kdialog.ProgressDialog.close
+qdbus $dbusRef org.kde.kdialog.ProgressDialog.close
