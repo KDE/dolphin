@@ -4,7 +4,7 @@ project(konqueror)
 add_definitions(-D_LARGEFILE64_SOURCE )
 
 set(libkonqueror_intern_KCFG_SRCS  ${CMAKE_CURRENT_SOURCE_DIR}/konq_settingsxt.kcfgc)
-kde4_add_kcfg_files(libkonqueror_intern_SRCS ${libkonqueror_intern_KCFG_SRCS})
+kde4_add_kcfg_files(libkonqueror_intern libkonqueror_intern_SRCS ${libkonqueror_intern_KCFG_SRCS})
 
 add_subdirectory( client )
 add_subdirectory( iconview )

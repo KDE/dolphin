@@ -38,7 +38,7 @@ kde4_automoc(keditbookmarks ${keditbookmarks_KDEINIT_SRCS})
 
 
 
-kde4_add_kcfg_files(keditbookmarks_KDEINIT_SRCS settings.kcfgc )
+kde4_add_kcfg_files(keditbookmarks keditbookmarks_KDEINIT_SRCS settings.kcfgc )
 
 kde4_add_kdeinit_executable( keditbookmarks ${keditbookmarks_KDEINIT_SRCS})
 

@@ -16,7 +16,7 @@ set(konq_listview_PART_SRCS
 
 kde4_automoc(konq_listview ${konq_listview_PART_SRCS})
 
-kde4_add_kcfg_files(konq_listview_PART_SRCS konq_listviewsettings.kcfgc )
+kde4_add_kcfg_files(konq_listview konq_listview_PART_SRCS konq_listviewsettings.kcfgc )
 
 kde4_add_plugin(konq_listview ${konq_listview_PART_SRCS})
 
