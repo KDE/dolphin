@@ -5,7 +5,7 @@ include_directories( ${CMAKE_SOURCE_DIR}/nsplugins )
 
 set(nswrapper_LIB_SRCS wrapper.c )
 
-kde4_automoc(${nswrapper_LIB_SRCS})
+kde4_automoc(nswrapper ${nswrapper_LIB_SRCS})
 
 kde4_add_library(nswrapper SHARED ${nswrapper_LIB_SRCS})
 

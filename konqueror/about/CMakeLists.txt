@@ -5,7 +5,7 @@ include_directories( ${CMAKE_SOURCE_DIR}/libkonq )
 
 set(konq_aboutpage_PART_SRCS konq_aboutpage.cc )
 
-kde4_automoc(${konq_aboutpage_PART_SRCS})
+kde4_automoc(konq_aboutpage ${konq_aboutpage_PART_SRCS})
 
 kde4_add_plugin(konq_aboutpage ${konq_aboutpage_PART_SRCS})
 

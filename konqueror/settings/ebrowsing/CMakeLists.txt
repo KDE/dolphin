@@ -3,7 +3,7 @@
 
 set(kcm_kurifilt_PART_SRCS filteropts.cpp main.cpp )
 
-kde4_automoc(${kcm_kurifilt_PART_SRCS})
+kde4_automoc(kcm_kurifilt ${kcm_kurifilt_PART_SRCS})
 
 kde4_add_plugin(kcm_kurifilt ${kcm_kurifilt_PART_SRCS})
 

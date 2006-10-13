@@ -5,7 +5,7 @@ include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/konqueror )
 
 set(konq_iconview_PART_SRCS konq_iconview.cc )
 
-kde4_automoc(${konq_iconview_PART_SRCS})
+kde4_automoc(konq_iconview ${konq_iconview_PART_SRCS})
 
 kde4_add_plugin(konq_iconview ${konq_iconview_PART_SRCS})
 

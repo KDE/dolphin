@@ -14,7 +14,7 @@ set(konq_listview_PART_SRCS
    konq_infolistviewwidget.cc 
    konq_infolistviewitem.cc )
 
-kde4_automoc(${konq_listview_PART_SRCS})
+kde4_automoc(konq_listview ${konq_listview_PART_SRCS})
 
 kde4_add_kcfg_files(konq_listview_PART_SRCS konq_listviewsettings.kcfgc )
 

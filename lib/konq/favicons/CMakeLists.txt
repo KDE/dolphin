@@ -1,6 +1,6 @@
 set(kded_favicons_SRCS favicons.cpp favicons_adaptor.cpp)
 
-kde4_automoc(${kded_favicons_SRCS})
+kde4_automoc(kded_favicons ${kded_favicons_SRCS})
 
 kde4_add_plugin(kded_favicons ${kded_favicons_SRCS})
 

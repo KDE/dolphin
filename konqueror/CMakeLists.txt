@@ -55,7 +55,7 @@ set(konqueror_KDEINIT_SRCS  ${libkonqueror_intern_SRCS}
    KonqViewAdaptor.cpp
 )
 
-kde4_automoc(${konqueror_KDEINIT_SRCS})
+kde4_automoc(konqueror ${konqueror_KDEINIT_SRCS})
 
 
 kde4_add_kdeinit_executable( konqueror ${konqueror_KDEINIT_SRCS})

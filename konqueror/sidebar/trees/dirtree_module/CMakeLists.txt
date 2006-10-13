@@ -9,7 +9,7 @@ include_directories(
 
 set(konq_sidebartree_dirtree_PART_SRCS dirtree_module.cpp dirtree_item.cpp ${libkonq_sidebar_tree_SRCS} )
 
-kde4_automoc(${konq_sidebartree_dirtree_PART_SRCS})
+kde4_automoc(konq_sidebartree_dirtree ${konq_sidebartree_dirtree_PART_SRCS})
 
 kde4_add_plugin(konq_sidebartree_dirtree ${konq_sidebartree_dirtree_PART_SRCS})
 

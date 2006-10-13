@@ -5,7 +5,7 @@ include_directories( ${CMAKE_SOURCE_DIR}/libkonq )
 
 set(konq_shellcmdplugin_PART_SRCS kshellcmdexecutor.cpp kshellcmddialog.cpp kshellcmdplugin.cpp )
 
-kde4_automoc(${konq_shellcmdplugin_PART_SRCS})
+kde4_automoc(konq_shellcmdplugin ${konq_shellcmdplugin_PART_SRCS})
 
 kde4_add_plugin(konq_shellcmdplugin ${konq_shellcmdplugin_PART_SRCS})
 

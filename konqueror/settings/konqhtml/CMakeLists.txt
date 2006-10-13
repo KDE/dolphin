@@ -18,7 +18,7 @@ set(kcm_konqhtml_PART_SRCS
    domainlistview.cpp 
    filteropts.cpp )
 
-kde4_automoc(${kcm_konqhtml_PART_SRCS})
+kde4_automoc(kcm_konqhtml ${kcm_konqhtml_PART_SRCS})
 
 kde4_add_ui_files(kcm_konqhtml_PART_SRCS nsconfigwidget.ui advancedTabOptions.ui )
 

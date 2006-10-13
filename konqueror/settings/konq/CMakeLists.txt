@@ -13,7 +13,7 @@ set(kcm_konq_PART_SRCS
    konqkcmfactory.cpp
    desktopbehavior_impl.cpp )
 
-kde4_automoc(${kcm_konq_PART_SRCS})
+kde4_automoc(kcm_konq ${kcm_konq_PART_SRCS})
 
 kde4_add_ui3_files(kcm_konq_PART_SRCS desktopbehavior.ui )
 
