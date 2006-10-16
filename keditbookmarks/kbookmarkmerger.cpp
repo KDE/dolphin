@@ -117,7 +117,7 @@ int main( int argc, char**argv )
 		}
 
 		const QString absPath = extraBookmarksDir.filePath( fileName );
-		KBookmarkManager *mgr = KBookmarkManager::managerForFile( absPath, false );
+		KBookmarkManager *mgr = KBookmarkManager::managerForFile( absPath, "", false );
 		KBookmarkGroup root = mgr->root();
 		for ( KBookmark bm = root.first(); !bm.isNull(); bm = root.next( bm ) ) {
 			if ( bm.isGroup() ) {

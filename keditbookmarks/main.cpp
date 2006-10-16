@@ -53,6 +53,9 @@ static KCmdLineOptions options[] = {
     {"address <address>", I18N_NOOP("Open at the given position in the bookmarks file"), 0},
     {"customcaption <caption>", I18N_NOOP("Set the user readable caption for example \"Konsole\""), 0},
     {"nobrowser", I18N_NOOP("Hide all browser related functions"), 0},
+    {"dbusObjectName <name>", I18N_NOOP("A unique name that represents this bookmark collection, usually the kinstance name.\n"
+                                 "This should be \"konqueror\" for the konqueror bookmarks, \"kfile\" for KFileDialog bookmarks, etc.\n"
+                                 "The final DBus object path is /KBookmarkManager/dbusObjectName"), 0},
     {"+[file]", I18N_NOOP("File to edit"), 0},
     KCmdLineLastOption
 };
@@ -140,14 +143,14 @@ extern "C" KDE_EXPORT int kdemain(int argc, char **argv) {
     //KApplication::disableAutoDcopRegistration();
     KApplication app(isGui);
 
-    bool gotArg = (args->count() == 1);
+    bool gotFilenameArg = (args->count() == 1);
 
-    QString filename = gotArg
+    QString filename = gotFilenameArg
         ? QLatin1String(args->arg(0))
         : KStandardDirs::locateLocal("data", QLatin1String("konqueror/bookmarks.xml"));
 
     if (!isGui) {
-        CurrentMgr::self()->createManager(filename);
+        CurrentMgr::self()->createManager(filename, QString());
         CurrentMgr::ExportType exportType = CurrentMgr::MozillaExport; // uumm.. can i just set it to -1 ?
         int got = 0;
         const char *arg, *arg2 = 0, *importType = 0;
@@ -188,12 +191,25 @@ extern "C" KDE_EXPORT int kdemain(int argc, char **argv) {
         ? QString::fromLocal8Bit(args->getOption("customcaption"))
         : QString();
 
+    QString dbusObjectName;
+    if(args->isSet("dbusObjectName"))
+    {
+        dbusObjectName = QString::fromLocal8Bit(args->getOption("dbusObjectName"));
+    }
+    else
+    {
+        if(gotFilenameArg)
+          dbusObjectName = QString();
+        else
+          dbusObjectName = "konqueror";
+    }
+
     args->clear();
 
     bool readonly = false; // passed by ref
 
-    if (askUser(app, (gotArg ? filename : QString()), readonly)) {
-        KEBApp *toplevel = new KEBApp(filename, readonly, address, browser, caption);
+    if (askUser(app, (gotFilenameArg ? filename : QString()), readonly)) {
+        KEBApp *toplevel = new KEBApp(filename, readonly, address, browser, caption, dbusObjectName);
         toplevel->show();
         return app.exec();
     }

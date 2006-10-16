@@ -129,14 +129,15 @@ void CurrentMgr::saveAs(const QString &fileName) { mgr()->saveAs(fileName); }
 void CurrentMgr::setUpdate(bool update) { mgr()->setUpdate(update); }
 QString CurrentMgr::path() const { return mgr()->path(); }
 
-void CurrentMgr::createManager(const QString &filename) {
+void CurrentMgr::createManager(const QString &filename, const QString &dbusObjectName) {
     if (m_mgr) {
         kDebug()<<"ERROR calling createManager twice"<<endl;
         disconnect(m_mgr, 0, 0, 0);
         // still todo - delete old m_mgr
     }
 
-    m_mgr = KBookmarkManager::managerForFile(filename, false);
+    kDebug()<<"DBus Object name: "<<dbusObjectName<<endl;
+    m_mgr = KBookmarkManager::managerForFile(filename, dbusObjectName, false);
 
     connect(m_mgr, SIGNAL( changed(const QString &, const QString &) ),
             SLOT( slotBookmarksChanged(const QString &, const QString &) ));
@@ -192,9 +193,12 @@ KEBApp *KEBApp::s_topLevel = 0;
 
 KEBApp::KEBApp(
     const QString &bookmarksFile, bool readonly,
-    const QString &address, bool browser, const QString &caption
+    const QString &address, bool browser, const QString &caption,
+    const QString &dbusObjectName
 ) : KMainWindow(), m_dcopIface(0), m_bookmarksFilename(bookmarksFile),
-    m_caption(caption), m_readOnly(readonly), m_browser(browser) {
+    m_caption(caption), m_readOnly(readonly), m_browser(browser), 
+    m_dbusObjectName(dbusObjectName)
+ {
 
     Q_UNUSED(address);//FIXME sets the current item
 
@@ -219,7 +223,7 @@ KEBApp::KEBApp(
 
     m_canPaste = false;
 
-    CurrentMgr::self()->createManager(m_bookmarksFilename);
+    CurrentMgr::self()->createManager(m_bookmarksFilename, m_dbusObjectName);
 
     mBookmarkListView = new BookmarkListView();
     mBookmarkListView->setModel( BookmarkModel::self() );
@@ -263,7 +267,7 @@ void KEBApp::reset(const QString & caption, const QString & bookmarksFileName)
 {
     m_caption = caption;
     m_bookmarksFilename = bookmarksFileName;
-    CurrentMgr::self()->createManager(m_bookmarksFilename); //FIXME this is still a memory leak (iff called by slotLoad)
+    CurrentMgr::self()->createManager(m_bookmarksFilename, m_dbusObjectName); //FIXME this is still a memory leak (iff called by slotLoad)
     BookmarkModel::self()->resetModel();
     expandAll();
     updateActions();

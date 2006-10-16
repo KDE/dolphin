@@ -4002,7 +4002,7 @@ void KonqMainWindow::initActions()
   m_paLinkView->setToolTip( i18n("Sets the view as 'linked'. A linked view follows folder changes made in other linked views.") );
 }
 
-void KonqExtendedBookmarkOwner::openBookmark(KBookmark bm, Qt::MouseButtons mb, Qt::KeyboardModifiers km)
+void KonqExtendedBookmarkOwner::openBookmark(const KBookmark & bm, Qt::MouseButtons mb, Qt::KeyboardModifiers km)
 {
   kDebug(1202) << "KonqExtendedBookmarkOwner::openBookmark(" << bm.url().prettyUrl() << ", " << km << ", " << mb << ")" << endl;
 

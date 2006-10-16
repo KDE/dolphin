@@ -76,7 +76,7 @@ public:
     KBookmarkManager* mgr() const { return m_mgr; }
     QString path() const;
 
-    void createManager(const QString &filename);
+    void createManager(const QString &filename, const QString &dbusObjectName);
     void notifyManagers(KBookmarkGroup grp);
     void notifyManagers();
     bool managerSave();
@@ -104,7 +104,7 @@ class KEBApp : public KMainWindow {
 public:
     static KEBApp* self() { return s_topLevel; }
 
-    KEBApp(const QString & bookmarksFile, bool readonly, const QString &address, bool browser, const QString &caption);
+    KEBApp(const QString & bookmarksFile, bool readonly, const QString &address, bool browser, const QString &caption, const QString& dbusObjectName);
     virtual ~KEBApp();
 
     void reset(const QString & caption, const QString & bookmarksFileName);
@@ -177,8 +177,8 @@ private:
     CmdHistory *m_cmdHistory;
     QString m_bookmarksFilename;
     QString m_caption;
+    QString m_dbusObjectName;
 
-private:
     BookmarkInfoWidget *m_bkinfo;
 
     bool m_canPaste:1;
