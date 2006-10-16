@@ -643,9 +643,9 @@ static int directCommand(KCmdLineArgs *args)
     // --progressbar text totalsteps
     if (args->isSet("progressbar"))
     {
-       cout << "org.kde.kdialog_" << getpid() << " /ProgressDialog" << endl;
+       cout << "org.kde.kdialog-" << getpid() << " /ProgressDialog" << endl;
        if (fork())
-           exit(0);
+           _exit(0);
        close(1);
 
        int totalsteps = 100;
