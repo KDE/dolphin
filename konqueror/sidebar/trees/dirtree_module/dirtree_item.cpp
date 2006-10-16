@@ -88,7 +88,7 @@ void KonqSidebarDirTreeItem::reset()
 void KonqSidebarDirTreeItem::setOpen( bool open )
 {
     kDebug(1201) << "KonqSidebarDirTreeItem::setOpen " << open << endl;
-    if ( open & !childCount() && m_bListable )
+    if ( open && !childCount() && m_bListable )
         MYMODULE->openSubFolder( this );
     else if ( hasStandardIcon() )
     {
