@@ -212,13 +212,13 @@ bool KonqHistoryManager::loadHistory()
 bool KonqHistoryManager::saveHistory()
 {
     KSaveFile file( m_filename );
-    if ( file.status() != 0 ) {
-	kWarning() << "Can't open " << file.name() << endl;
-	return false;
+    if ( !file.open() ) {
+        kWarning() << "Can't open " << file.fileName() << endl;
+        return false;
     }
 
-    QDataStream *fileStream = file.dataStream();
-    *fileStream << s_historyVersion;
+    QDataStream fileStream ( &file );
+    fileStream << s_historyVersion;
 
     QByteArray data;
     QDataStream stream( &data, QIODevice::WriteOnly );
@@ -235,9 +235,9 @@ bool KonqHistoryManager::saveHistory()
     KonqHistoryEntry::marshalURLAsStrings = true;
 
     quint32 crc = crc32( 0, reinterpret_cast<unsigned char *>( data.data() ), data.size() );
-    *fileStream << crc << data;
+    fileStream << crc << data;
 
-    file.close();
+    file.finalize(); //check for error here?
 
     return true;
 }
