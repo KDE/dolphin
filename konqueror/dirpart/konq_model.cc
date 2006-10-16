@@ -218,12 +218,12 @@ QStringList KonqModel::mimeTypes() const
 
 QMimeData* KonqModel::mimeData( const QModelIndexList& indexes ) const
 {
-    QList<KUrl> urls;
+    KUrl::List urls;
     foreach ( QModelIndex index, indexes ) {
         urls << fileItem( index )->url();
     }
     QMimeData *data = new QMimeData();
-    //data->setUrls( urls );
+    urls.populateMimeData( data );
     return data;
 }
 

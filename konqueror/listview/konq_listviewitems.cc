@@ -328,6 +328,7 @@ void KonqListViewItem::paintFocus( QPainter * _painter, const QColorGroup & cg, 
     Q3ListViewItem::paintFocus( _painter, cg, r );
 }
 
+// ######### Obsoleted by KFileItem::permissionString()
 const char* KonqBaseListViewItem::makeAccessString( const mode_t mode)
 {
    static char buffer[ 12 ];

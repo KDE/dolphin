@@ -85,7 +85,7 @@ public:
 
   //inherited
   virtual void reparentFrame(QWidget * parent,
-                             const QPoint & parent );
+                             const QPoint & pos );
 
   void moveTabBackward(int index);
   void moveTabForward(int index);
