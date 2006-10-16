@@ -813,8 +813,10 @@ void KonqComboLineEdit::setCompletedItems( const QStringList& items )
         txt = text();
 
     if ( !items.isEmpty() && !(items.count() == 1 && txt == items.first()) ) {
-        if ( !completionBox( false ) )
+        if ( !completionBox( false ) ) {
             setCompletionBox( new KonqComboCompletionBox( this ) );
+            completionbox = static_cast<KonqComboCompletionBox*>( completionBox() );
+        }
 
         if ( completionbox->isVisible() ) {
             bool wasSelected = completionbox->isSelected( completionbox->currentItem() );
