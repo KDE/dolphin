@@ -276,26 +276,20 @@ void FileTypeDetails::slotAskSaveToggled(bool askSave)
 void FileTypeDetails::setTypeItem( TypesListItem * tlitem )
 {
   m_item = tlitem;
-  if ( tlitem )
-    iconButton->setIcon(tlitem->icon());
-  else
-    iconButton->resetIcon();
-  description->setText(tlitem ? tlitem->comment() : QString());
-  if ( tlitem )
-    m_rbGroupSettings->setText( i18n("Use settings for '%1' group", tlitem->majorType() ) );
+  Q_ASSERT(tlitem);
+  iconButton->setIcon(tlitem->icon());
+  description->setText(tlitem->comment());
+  m_rbGroupSettings->setText( i18n("Use settings for '%1' group", tlitem->majorType() ) );
   extensionLB->clear();
   addExtButton->setEnabled(true);
   removeExtButton->setEnabled(false);
 
   serviceListWidget->setTypeItem( tlitem );
   embedServiceListWidget->setTypeItem( tlitem );
-  m_autoEmbed->setButton( tlitem ? tlitem->autoEmbed() : -1 );
+  m_autoEmbed->setButton( tlitem->autoEmbed() );
   m_rbGroupSettings->setEnabled( tlitem->canUseGroupSetting() );
 
-  if ( tlitem )
-    extensionLB->insertStringList(tlitem->patterns());
-  else
-    extensionLB->clear();
+  extensionLB->insertStringList(tlitem->patterns());
 
   updateAskSave();
 }
