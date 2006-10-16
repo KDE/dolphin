@@ -274,7 +274,7 @@ bool NSPluginLoader::loadViewer()
    // get the dcop app id
    int pid = (int)getpid();
    QString tmp;
-   tmp.sprintf("nspluginviewer-%d",pid);
+   tmp.sprintf("org.kde.nspluginviewer-%d",pid);
    _dbusService =tmp.toLatin1();
 
    connect( _process, SIGNAL(processExited(KProcess*)),
