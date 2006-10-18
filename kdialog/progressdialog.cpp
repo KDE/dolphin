@@ -75,7 +75,7 @@ bool ProgressDialog::wasCancelled() const
 
 void ProgressDialog::ignoreCancel() 
 { 
-    KProgressDialog::setAllowCancel(false); 
+    KProgressDialog::ignoreCancel(); 
 } 
 
 void ProgressDialog::setAutoClose( bool close )
