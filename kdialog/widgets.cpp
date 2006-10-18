@@ -167,12 +167,12 @@ bool Widgets::comboBox(QWidget *parent, const QString& title, const QString& tex
 		       const QString& defaultEntry, QString &result)
 {
   KDialog dlg( parent );
+  kapp->setTopWidget( &dlg );
   dlg.setCaption( title );
   dlg.setButtons( KDialog::Ok|KDialog::Cancel );
   dlg.setModal( true );
   dlg.setDefaultButton( KDialog::Ok );
 
-  kapp->setTopWidget( &dlg );
   KVBox* vbox = new KVBox( &dlg );
   dlg.setMainWidget( vbox );
 
