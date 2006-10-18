@@ -36,6 +36,7 @@ class ProgressDialogIface : virtual public DCOPObject
     
     virtual void showCancelButton ( bool ) =0;
     virtual bool wasCancelled() const =0;
+    virtual void ignoreCancel() =0;
     
     virtual void setAutoClose( bool ) =0;
     virtual bool autoClose() const =0;    

@@ -73,6 +73,11 @@ bool ProgressDialog::wasCancelled() const
     return KProgressDialog::wasCancelled();
 }   
 
+void ProgressDialog::ignoreCancel() 
+{ 
+    KProgressDialog::ignoreCancel(); 
+} 
+
 void ProgressDialog::setAutoClose( bool close )
 {
     KProgressDialog::setAutoClose( close );

@@ -37,6 +37,7 @@ class ProgressDialog : public KProgressDialog
     
       void showCancelButton(bool show);
       bool wasCancelled() const;
+      void ignoreCancel();
 
       void setAutoClose( bool );
       bool autoClose() const;
