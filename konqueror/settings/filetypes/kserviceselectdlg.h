@@ -40,6 +40,8 @@ public:
      * @return the chosen service
      */
     KService::Ptr service();
+protected slots:
+    void slotOk();	
 private:
     KListBox * m_listbox;
 };
