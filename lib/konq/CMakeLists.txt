@@ -34,7 +34,7 @@ set(konq_LIB_SRCS
    konq_filetip.cc
    konqmimedata.cpp )
 
-kde4_automoc(konq ${konq_LIB_SRCS})
+kde4_automoc(${konq_LIB_SRCS})
 
 kde4_add_library(konq SHARED ${konq_LIB_SRCS})
 
@@ -46,7 +46,7 @@ install(TARGETS konq  DESTINATION ${LIB_INSTALL_DIR} )
 ########### next target ###############
 
 set(konq_sound_LIB_SRCS konq_sound.cc)
-kde4_automoc(konq_sound ${konq_sound_LIB_SRCS})
+kde4_automoc(${konq_sound_LIB_SRCS})
 kde4_add_plugin(konq_sound ${konq_sound_LIB_SRCS})
 kde4_install_libtool_file(${PLUGIN_INSTALL_DIR} konq_sound)
 target_link_libraries(konq_sound ${KDE4_KDECORE_LIBS} ${KDE4_PHONONCORE_LIBRARY})

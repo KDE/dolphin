@@ -9,7 +9,7 @@ include_directories(
 
 set(konq_sidebartree_bookmarks_PART_SRCS bookmark_module.cpp bookmark_item.cpp ${libkonq_sidebar_tree_SRCS} )
 
-kde4_automoc(konq_sidebartree_bookmarks ${konq_sidebartree_bookmarks_PART_SRCS})
+kde4_automoc(${konq_sidebartree_bookmarks_PART_SRCS})
 
 kde4_add_plugin(konq_sidebartree_bookmarks ${konq_sidebartree_bookmarks_PART_SRCS})
 

@@ -15,7 +15,7 @@ if (X11_Xt_LIB)
 	viewer_proxy.cpp
      )
 
-  kde4_automoc(kcminit_nsplugin ${kcminit_nsplugin_PART_SRCS})
+  kde4_automoc(${kcminit_nsplugin_PART_SRCS})
 
 
 
@@ -33,7 +33,7 @@ install(TARGETS kcminit_nsplugin  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
   set(kcm_nsplugins_PART_SRCS kcm_nsplugins.cpp )
 
-  kde4_automoc(kcm_nsplugins ${kcm_nsplugins_PART_SRCS})
+  kde4_automoc(${kcm_nsplugins_PART_SRCS})
 
   kde4_add_plugin(kcm_nsplugins ${kcm_nsplugins_PART_SRCS})
 
@@ -48,7 +48,7 @@ install(TARGETS kcm_nsplugins  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
   set(nspluginscan_SRCS pluginscan.cpp )
 
-  kde4_automoc(nspluginscan ${nspluginscan_SRCS})
+  kde4_automoc(${nspluginscan_SRCS})
 
   kde4_add_executable(nspluginscan ${nspluginscan_SRCS})
 

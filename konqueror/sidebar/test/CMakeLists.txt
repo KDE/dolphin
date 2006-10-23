@@ -5,7 +5,7 @@
 
 set(konq_sidebartest_PART_SRCS konqsidebartest.cpp )
 
-kde4_automoc(konq_sidebartest ${konq_sidebartest_PART_SRCS})
+kde4_automoc(${konq_sidebartest_PART_SRCS})
 
 kde4_add_plugin(konq_sidebartest ${konq_sidebartest_PART_SRCS})
 

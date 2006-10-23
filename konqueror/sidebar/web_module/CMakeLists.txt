@@ -5,7 +5,7 @@ include_directories(  ${CMAKE_SOURCE_DIR}/konqueror/sidebar/ ${CMAKE_SOURCE_DIR}
 
 set(konqsidebar_web_PART_SRCS web_module.cpp )
 
-kde4_automoc(konqsidebar_web ${konqsidebar_web_PART_SRCS})
+kde4_automoc(${konqsidebar_web_PART_SRCS})
 
 kde4_add_plugin(konqsidebar_web ${konqsidebar_web_PART_SRCS})
 

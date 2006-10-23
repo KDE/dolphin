@@ -4,11 +4,11 @@ include_directories( ${CMAKE_SOURCE_DIR}/konqueror )
 ########### next target ###############
 set(kded_konqy_preloader_PART_SRCS preloader.cc )
 
-kde4_add_kcfg_files(kded_konqy_preloader kded_konqy_preloader_PART_SRCS ${CMAKE_SOURCE_DIR}/konqueror/konq_settingsxt.kcfgc)
+kde4_add_kcfg_files(kded_konqy_preloader_PART_SRCS ${CMAKE_SOURCE_DIR}/konqueror/konq_settingsxt.kcfgc)
 
 qt4_add_dbus_adaptor(kded_konqy_preloader_PART_SRCS org.kde.konqueror.Preloader.xml preloader.h KonqyPreloader)
 
-kde4_automoc(kded_konqy_preloader ${kded_konqy_preloader_PART_SRCS})
+kde4_automoc(${kded_konqy_preloader_PART_SRCS})
 
 
 kde4_add_plugin(kded_konqy_preloader ${kded_konqy_preloader_PART_SRCS})

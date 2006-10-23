@@ -7,7 +7,7 @@ add_subdirectory( kcm )
 
 set(kdepasswd_SRCS kdepasswd.cpp passwd.cpp passwddlg.cpp )
 
-kde4_automoc(kdepasswd ${kdepasswd_SRCS})
+kde4_automoc(${kdepasswd_SRCS})
 
 kde4_add_executable(kdepasswd ${kdepasswd_SRCS})
 

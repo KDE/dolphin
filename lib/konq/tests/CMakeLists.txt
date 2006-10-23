@@ -8,7 +8,7 @@ if(KDE4_BUILD_TESTS)
 
   ########### konqmimedatatest ###############
 
-  kde4_automoc(konqmimedatatest konqmimedatatest.cpp)
+  kde4_automoc(konqmimedatatest.cpp)
 
   kde4_add_executable(konqmimedatatest RUN_UNINSTALLED konqmimedatatest.cpp)
 
@@ -18,7 +18,7 @@ if(KDE4_BUILD_TESTS)
 
   ########### favicontest ###############
 
-  kde4_automoc(favicontest favicontest.cpp)
+  kde4_automoc(favicontest.cpp)
 
   kde4_add_executable(favicontest RUN_UNINSTALLED favicontest.cpp)
 
@@ -28,7 +28,7 @@ if(KDE4_BUILD_TESTS)
 
   ########### historymgrtest ###############
 
-  kde4_automoc(historymgrtest historymgrtest.cpp)
+  kde4_automoc(historymgrtest.cpp)
 
   kde4_add_executable(historymgrtest RUN_UNINSTALLED historymgrtest.cpp)
 

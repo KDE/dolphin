@@ -5,7 +5,7 @@ include_directories( ${CMAKE_SOURCE_DIR}/libkonq  )
 
 set(kbookmarkmerger_SRCS kbookmarkmerger.cpp )
 
-kde4_automoc(kbookmarkmerger ${kbookmarkmerger_SRCS})
+kde4_automoc(${kbookmarkmerger_SRCS})
 
 kde4_add_executable(kbookmarkmerger ${kbookmarkmerger_SRCS})
 
@@ -34,11 +34,11 @@ set(keditbookmarks_KDEINIT_SRCS
    bookmarklistview.cpp 
    treeitem.cpp )
 
-kde4_automoc(keditbookmarks ${keditbookmarks_KDEINIT_SRCS})
+kde4_automoc(${keditbookmarks_KDEINIT_SRCS})
 
 
 
-kde4_add_kcfg_files(keditbookmarks keditbookmarks_KDEINIT_SRCS settings.kcfgc )
+kde4_add_kcfg_files(keditbookmarks_KDEINIT_SRCS settings.kcfgc )
 
 kde4_add_kdeinit_executable( keditbookmarks ${keditbookmarks_KDEINIT_SRCS})
 

@@ -7,7 +7,7 @@ set(libfiletypes_SRCS filetypedetails.cpp filegroupdetails.cpp kservicelistwidge
 
 set(kcm_filetypes_PART_SRCS filetypesview.cpp ${libfiletypes_SRCS})
 
-kde4_automoc(kcm_filetypes ${kcm_filetypes_PART_SRCS})
+kde4_automoc(${kcm_filetypes_PART_SRCS})
 
 kde4_add_plugin(kcm_filetypes ${kcm_filetypes_PART_SRCS})
 
@@ -22,7 +22,7 @@ install(TARGETS kcm_filetypes  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 set(keditfiletype_SRCS keditfiletype.cpp ${libfiletypes_SRCS})
 
-kde4_automoc(keditfiletype ${keditfiletype_SRCS})
+kde4_automoc(${keditfiletype_SRCS})
 
 kde4_add_executable(keditfiletype ${keditfiletype_SRCS})
 

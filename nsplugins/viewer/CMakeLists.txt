@@ -5,7 +5,7 @@ include_directories( ${CMAKE_SOURCE_DIR}/nsplugins )
 
 set(nspluginviewer_SRCS nsplugin.cpp viewer.cpp dbusadaptors.cpp callback_proxy.cpp)
 
-kde4_automoc(nspluginviewer ${nspluginviewer_SRCS})
+kde4_automoc(${nspluginviewer_SRCS})
 
 
 

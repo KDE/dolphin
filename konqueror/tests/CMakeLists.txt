@@ -8,7 +8,7 @@ if(KDE4_BUILD_TESTS)
 
   ########### konqviewmgrtest ###############
 
-  kde4_automoc(konqviewmgrtest konqviewmgrtest.cpp)
+  kde4_automoc(konqviewmgrtest.cpp)
 
   kde4_add_executable(konqviewmgrtest RUN_UNINSTALLED konqviewmgrtest.cpp)
 
