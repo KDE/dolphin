@@ -26,8 +26,9 @@
 #include <QLayout>
 #include <QMap>
 #include <QTabWidget>
-//Added by qt3to4:
 #include <QVBoxLayout>
+#include <kservice.h>
+#include <kservicetypetrader.h>
 
 #include <kdialog.h>
 #include <kurifilter.h>
@@ -65,17 +66,19 @@ KURIFilterModule::KURIFilterModule(QWidget *parent, const QStringList &)
     connect(opts, SIGNAL(changed(bool)), SIGNAL(changed(bool)));
 #endif
 
-    modules.setAutoDelete(true);
-
     QMap<QString,KCModule*> helper;
-    Q3PtrListIterator<KUriFilterPlugin> it = filter->pluginsIterator();
-    for (; it.current(); ++it)
+    // Load the plugins. This saves a public method in KUriFilter just for this.
+    const KService::List offers = KServiceTypeTrader::self()->query( "KUriFilter/Plugin" );
+    KService::List::ConstIterator it = offers.begin();
+    const KService::List::ConstIterator end = offers.end();
+    for (; it != end; ++it )
     {
-        KCModule *module = it.current()->configModule(this, 0);
+        KUriFilterPlugin *plugin = KService::createInstance<KUriFilterPlugin>( *it );
+        KCModule *module = plugin->configModule(this, 0);
         if (module)
         {
             modules.append(module);
-            helper.insert(it.current()->configName(), module);
+            helper.insert(plugin->configName(), module);
             connect(module, SIGNAL(changed(bool)), SIGNAL(changed(bool)));
         }
     }
@@ -96,7 +99,8 @@ KURIFilterModule::KURIFilterModule(QWidget *parent, const QStringList &)
     else if (modules.count() == 1)
     {
         widget = modules.first();
-        layout->setMargin(-KDialog::marginHint());
+        // Huh? A negative margin?
+        //        layout->setMargin(-KDialog::marginHint());
     }
 
     layout->addWidget(widget);
@@ -104,29 +108,31 @@ KURIFilterModule::KURIFilterModule(QWidget *parent, const QStringList &)
 
 void KURIFilterModule::load()
 {
-    Q3PtrListIterator<KCModule> it(modules);
-    for (; it.current(); ++it)
+    foreach( KCModule* module, modules )
     {
-	  it.current()->load();
+	  module->load();
     }
 }
 
 void KURIFilterModule::save()
 {
-    Q3PtrListIterator<KCModule> it(modules);
-    for (; it.current(); ++it)
+    foreach( KCModule* module, modules )
     {
-	  it.current()->save();
+	  module->save();
     }
 }
 
 void KURIFilterModule::defaults()
 {
-    Q3PtrListIterator<KCModule> it(modules);
-    for (; it.current(); ++it)
+    foreach( KCModule* module, modules )
     {
-	  it.current()->defaults();
+	  module->defaults();
     }
+}
+
+KURIFilterModule::~KURIFilterModule()
+{
+    qDeleteAll( modules );
 }
 
 #include "main.moc"

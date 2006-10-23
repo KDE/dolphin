@@ -26,8 +26,7 @@
 #define __MAIN_H__
 
 #include <kcmodule.h>
-//Added by qt3to4:
-#include <Q3PtrList>
+#include <QList>
 
 class KUriFilter;
 
@@ -36,6 +35,7 @@ class KURIFilterModule : public KCModule {
 
 public:
     KURIFilterModule(QWidget *parent, const QStringList &);
+    ~KURIFilterModule();
 
     void load();
     void save();
@@ -46,7 +46,7 @@ private:
 
     QWidget *widget;
     FilterOptions *opts;
-    Q3PtrList<KCModule> modules;
+    QList<KCModule *> modules;
 };
 
 #endif
