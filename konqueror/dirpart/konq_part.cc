@@ -26,8 +26,8 @@
 #include <konq_filetip.h>
 #include <konq_settings.h>
 #include <kparts/genericfactory.h>
+#include <kdirmodel.h>
 
-#include "konq_model.h"
 #include "konq_selectionmodel.h"
 #include "konq_iconview.h"
 #include "konq_listview.h"
@@ -36,14 +36,13 @@ K_EXPORT_COMPONENT_FACTORY( konq_part, KonqFactory )
 
 KonqPart::KonqPart( QWidget* parentWidget, QObject* parent, const QStringList& args )
         : KonqDirPart( parent )
-        ,m_dirLister( new KDirLister() )
-        ,m_model( new KonqModel( parent ) )
+        ,m_model( new KDirModel( this ) )
         ,m_fileTip( new KonqFileTip( 0 /* m_view*/ ) )
 {
     KonqFMSettings* settings = KonqFMSettings::settings();
     setInstance( KonqFactory::instance() );
     setBrowserExtension( new KonqDirPartBrowserExtension( this ) );
-    setDirLister( m_dirLister );
+    setDirLister( m_model->dirLister() );
 
     QString mode = args.first();
     if ( mode == "DetailedList" ) {
@@ -60,18 +59,20 @@ KonqPart::KonqPart( QWidget* parentWidget, QObject* parent, const QStringList& a
     QFont font( settings->standardFont() );
     QColor color = settings->normalTextColor();
     m_view->setFont( font );
+#if 0 // TODO
     font.setUnderline( settings->underlineLink() );
     m_model->setItemFont( font );
     m_model->setItemColor( color );
+#endif
 
     setWidget( m_view );
 
-    m_dirLister->setMainWindow( widget()->topLevelWidget() );
+    m_model->dirLister()->setMainWindow( widget()->topLevelWidget() );
     m_fileTip->setOptions( settings->showFileTips(), settings->showPreviewsInFileTips(), settings->numFileTips() );
 
-    connect( m_dirLister, SIGNAL( newItems(const KFileItemList&) ),
+    connect( m_model->dirLister(), SIGNAL( newItems(const KFileItemList&) ),
              SLOT( slotNewItems(const KFileItemList&) ) );
-    connect( m_dirLister, SIGNAL( clear() ), SLOT( slotClear() ) );
+    connect( m_model->dirLister(), SIGNAL( clear() ), SLOT( slotClear() ) );
 
     connect( m_view, SIGNAL( execute(const QModelIndex&, Qt::MouseButton) ),
              SLOT( slotExecute(const QModelIndex&, Qt::MouseButton) ) );
@@ -86,7 +87,6 @@ KonqPart::KonqPart( QWidget* parentWidget, QObject* parent, const QStringList& a
 
 KonqPart::~KonqPart()
 {
-    delete m_dirLister;
 }
 
 KAboutData* KonqPart::createAboutData()
@@ -96,8 +96,6 @@ KAboutData* KonqPart::createAboutData()
 
 void KonqPart::slotNewItems( const KFileItemList& items )
 {
-    m_model->appendFileItems( items );
-    m_model->insertRows( m_model->rowCount(), items.count() );
     newItems( items );
     KIO::PreviewJob* job = KIO::filePreview( items, 128 );
     connect( job, SIGNAL( gotPreview(const KFileItem*,const QPixmap&) ),
@@ -111,14 +109,13 @@ void KonqPart::slotCompleted()
 
 void KonqPart::slotClear()
 {
+    kDebug() << k_funcinfo << endl;
     resetCount();
-    m_model->clearFileItems();
-    m_model->removeRows( 0, m_model->rowCount()-1 );
 }
 
 const KFileItem* KonqPart::currentItem()
 {
-    return m_model->fileItem( m_view->currentIndex() );
+    return m_model->itemForIndex( m_view->currentIndex() );
 }
 
 bool KonqPart::doOpenURL( const KUrl& url )
@@ -126,13 +123,13 @@ bool KonqPart::doOpenURL( const KUrl& url )
     emit setWindowCaption( url.pathOrUrl() );
     KParts::URLArgs args = extension()->urlArgs();
 
-    m_dirLister->openUrl( url, false, args.reload );
+    m_model->dirLister()->openUrl( url, false, args.reload );
     return true;
 }
 
 void KonqPart::slotExecute( const QModelIndex& index, Qt::MouseButton mb )
 {
-    KFileItem* item = m_model->fileItem( index );
+    KFileItem* item = m_model->itemForIndex( index );
     if ( !item )
         return;
 
@@ -144,18 +141,18 @@ void KonqPart::slotExecute( const QModelIndex& index, Qt::MouseButton mb )
 
 void KonqPart::slotToolTip( const QModelIndex& index )
 {
-    m_fileTip->setItem( m_model->fileItem( index ) );
+    m_fileTip->setItem( m_model->itemForIndex( index ) );
 }
 
 void KonqPart::slotContextMenu( const QPoint& pos, const QModelIndexList& indexes )
 {
     KFileItemList items;
     if ( indexes.isEmpty() )
-        items.append( m_dirLister->rootItem() );
+        items.append( m_model->itemForIndex( QModelIndex() ) ); // root item
     else
         foreach( QModelIndex index, indexes )
             if ( index.column() == 0 )
-                items.append( m_model->fileItem( index ) );
+                items.append( m_model->itemForIndex( index ) );
     emit extension()->popupMenu( pos, items );
 }
 
@@ -179,7 +176,9 @@ void KonqPart::slotUpdateActions()
 
 void KonqPart::slotPreview( const KFileItem* item, const QPixmap& pixmap )
 {
-    m_model->addPreview( item, pixmap );
+#if 0 // TODO
+    //m_model->addPreview( item, pixmap );
+#endif
 }
 
 

@@ -28,7 +28,7 @@ class QModelIndex;
 typedef QList<QModelIndex> QModelIndexList;
 class KAboutData;
 class KDirLister;
-class KonqModel;
+class KDirModel;
 class KonqFileTip;
 
 class KonqPart : public KonqDirPart
@@ -39,9 +39,8 @@ public:
     virtual ~KonqPart();
     static KAboutData* createAboutData();
 private:
-    KDirLister* m_dirLister;
     QAbstractItemView* m_view;
-    KonqModel* m_model;
+    KDirModel* m_model;
     KonqFileTip* m_fileTip;
 protected Q_SLOTS:
     virtual void slotNewItems( const KFileItemList& );

@@ -5,7 +5,6 @@ include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${CMAKE_SOURCE_DIR}/konqueror )
 
 set(konq_part_PART_SRCS 
    konq_part.cc 
-   konq_model.cc 
    konq_listview.cc 
    konq_iconview.cc 
    konq_selectionmodel.cc 

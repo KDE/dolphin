@@ -17,6 +17,8 @@
    Boston, MA 02110-1301, USA.
 */
 
+// ####### NOT COMPILED ANYMORE, REPLACED WITH KDIRMODEL #######
+
 #include "konq_model.h"
 
 #include <QMimeData>
@@ -226,5 +228,7 @@ QMimeData* KonqModel::mimeData( const QModelIndexList& indexes ) const
     urls.populateMimeData( data );
     return data;
 }
+
+// ####### NOT COMPILED ANYMORE, REPLACED WITH KDIRMODEL #######
 
 #include "konq_model.moc"
