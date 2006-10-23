@@ -27,7 +27,10 @@
 #include <QHash>
 #include <QFont>
 
-class KonqModel : public QAbstractTableModel 
+
+// ####### NOT COMPILED ANYMORE, REPLACED WITH KDIRMODEL
+
+class KonqModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
