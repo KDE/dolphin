@@ -165,6 +165,7 @@ QList<QDBusObjectPath> KonquerorAdaptor::getWindows()
 
 QDBusObjectPath KonquerorAdaptor::windowForTab()
 {
+#ifdef Q_OS_UNIX	
     QList<KonqMainWindow*> *mainWindows = KonqMainWindow::mainWindowList();
     if ( mainWindows ) {
         foreach ( KonqMainWindow* window, *mainWindows ) {
@@ -175,6 +176,7 @@ QDBusObjectPath KonquerorAdaptor::windowForTab()
             }
         }
     }
+#endif    
     return QDBusObjectPath();
 }
 

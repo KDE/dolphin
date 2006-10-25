@@ -5274,7 +5274,8 @@ bool KonqMainWindow::queryExit()
 
 void KonqMainWindow::setIcon( const QPixmap& pix )
 {
-  KParts::MainWindow::setWindowIcon( pix );
+#ifdef Q_OS_UNIX
+    KParts::MainWindow::setWindowIcon( pix );
 
   QPixmap big = pix;
 
@@ -5284,6 +5285,7 @@ void KonqMainWindow::setIcon( const QPixmap& pix )
     big = KonqPixmapProvider::self()->pixmapFor( url, K3Icon::SizeMedium );
 
   KWin::setIcons( winId(), big, pix );
+#endif
 }
 
 void KonqMainWindow::slotIntro()

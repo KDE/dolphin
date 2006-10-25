@@ -50,6 +50,7 @@
 // Terminates fullscreen-mode for any full-screen window on the current desktop
 void KonqMisc::abortFullScreenMode()
 {
+#ifdef Q_OS_UNIX	
   QList<KonqMainWindow*> *mainWindows = KonqMainWindow::mainWindowList();
   if ( mainWindows )
   {
@@ -63,6 +64,7 @@ void KonqMisc::abortFullScreenMode()
       }
     }
   }
+#endif  
 }
 
 // #### this can probably be removed
