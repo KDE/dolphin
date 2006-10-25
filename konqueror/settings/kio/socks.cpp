@@ -138,7 +138,7 @@ void KSocksConfig::testClicked()
 {
   save();   // we have to save before we can test!  Perhaps
             // it would be best to warn, though.
-
+#ifdef Q_OS_UNIX
   KDECORE_EXPORT bool kdeHasSocks(); // defined in kdecore/ksocks.cpp
   if (kdeHasSocks()) {
      KMessageBox::information(NULL,
@@ -150,6 +150,7 @@ void KSocksConfig::testClicked()
                                i18n("SOCKS could not be loaded."),
                                i18n("SOCKS Support"));
   }
+#endif  
 }
 
 
