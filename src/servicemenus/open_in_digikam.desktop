@@ -3,25 +3,6 @@ Exec=digikam --download-from %u
 Icon=digikam
 Name=Open in Digikam
 
-Name[bg]=Отваряне в digiKam
-Name[cs]=Otevřít v digiKamu
-Name[el]=Άνοιξε στο Digikam
-Name[es]=Abrir en digiKam
-Name[fi]=Avaa digiKamissa
-Name[fr]=Ouvert dans Digikam
-Name[hu]=Megnyitás Digikammel
-Name[ja]=Digikamでオープン
-Name[km]=បើក​ក្នុង Digikam
-Name[nb]=Åpne i digiKam
-Name[nl]=Openen in digiKam
-Name[pa]=ਡਿਜ਼ੀਕੈਮ 'ਚ ਖੋਲੋ
-Name[pl]=Otwórz w Digikam
-Name[pt]=Abrir no DigiKam
-Name[pt_BR]=Aberto no Digikam
-Name[sv]=Öppna med Digikam
-Name[uk]=Відкрити в Digikam
-Name[zh_CN]=在 Digikam 中打开
-Name[zh_TW]=在 Digikam 中開啟
 [Desktop Entry]
 Actions=OpenDigikam;
 ServiceTypes=media/gphoto2camera,media/camera_mounted,media/camera_unmounted

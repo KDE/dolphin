@@ -7,5 +7,4 @@ Type=Application
 DocPath=dolphin/dolphin.html
 Categories=System;FileManager;
 GenericName=File Manager
-GenericName[de]=Datei Manager
 Terminal=false

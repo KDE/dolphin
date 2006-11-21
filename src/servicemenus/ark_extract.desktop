@@ -6,7 +6,6 @@ Actions=extractHere
 
 [Desktop Action extractHere]
 Name=Extract Here
-Name[de]=Hierher extrahieren
 Exec=ark --extract-to %d %u
 Icon=ark
 

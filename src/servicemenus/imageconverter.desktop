@@ -6,56 +6,25 @@
 ServiceTypes=image/*
 Actions=convToJPEG;convToPNG;convToGIF;convToTIF;
 X-KDE-Submenu=Convert To
-X-KDE-Submenu[bg]=Конвертиране в
-X-KDE-Submenu[ca]=Converteix a
-X-KDE-Submenu[cs]=Převést na
-X-KDE-Submenu[da]=Konvertér til
-X-KDE-Submenu[de]=Konvertieren nach
-X-KDE-Submenu[es]=Convertir a
-X-KDE-Submenu[fi]=Muunna
-X-KDE-Submenu[fr]=Convertir en
-X-KDE-Submenu[hu]=Átalakítás
-X-KDE-Submenu[is]=Umbreyta í
-X-KDE-Submenu[it]=Converti in
-X-KDE-Submenu[nb]=Konverter til
-X-KDE-Submenu[nl]=Converteren naar
-X-KDE-Submenu[pl]=Konwertuj do
-X-KDE-Submenu[pt]=Converter Para
-X-KDE-Submenu[pt_BR]=Converter Para
-X-KDE-Submenu[ru]=Сохранить как
-X-KDE-Submenu[sr]=Претвори у
-X-KDE-Submenu[sr@Latn]=Pretvori u
-X-KDE-Submenu[sv]=Konvertera till
-X-KDE-Submenu[uk]=Перетворити в
-X-KDE-Submenu[xx]=xxConvert Toxx
-X-KDE-Submenu[zh_CN]=转换为
 TryExec=convert
 
 [Desktop Action convToJPEG]
 Name=JPEG
-Name[hi]=जेपीईजी
-Name[xx]=xxJPEGxx
 Icon=image
 Exec=convert %f "`echo %f | perl -pe 's/\.[^.]+$//'`.jpg"
 
 [Desktop Action convToPNG]
 Name=PNG
-Name[hi]=पीएनजी
-Name[xx]=xxPNGxx
 Icon=image
 Exec=convert %f "`echo %f | perl -pe 's/\.[^.]+$//'`.png"
 
 [Desktop Action convToTIF]
 Name=TIF
-Name[hi]=टिफ़
-Name[xx]=xxTIFxx
 Icon=image
 Exec=convert %f "`echo %f | perl -pe 's/\.[^.]+$//'`.tif"
 
 [Desktop Action convToGIF]
 Name=GIF
-Name[hi]=जिफ़
-Name[xx]=xxGIFxx
 Icon=image
 Exec=convert %f "`echo %f | perl -pe 's/\.[^.]+$//'`.gif"
 

@@ -5,6 +5,5 @@ Actions=mail_as_attachment
 
 [Desktop Action mail_as_attachment]
 Name=Mail as Attachment...
-Name[de]=Verschicken als Anhang...
 Icon=mail_send
 Exec=kmail --attach %U
