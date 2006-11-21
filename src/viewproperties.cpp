@@ -27,6 +27,7 @@
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <kurl.h>
+#include <kinstance.h>
 
 #include "viewproperties.h"
 
@@ -40,7 +41,7 @@ ViewProperties::ViewProperties(KUrl url) :
       m_subDirValidityHidden(false),
       m_node(0)
 {
-    url.cleanPath(true);
+    url.cleanPath();
     m_filepath = url.path();
 
     if ((m_filepath.length() < 1) || (m_filepath.at(0) != QChar('/'))) {
@@ -58,14 +59,14 @@ ViewProperties::ViewProperties(KUrl url) :
         if (!info.isWritable()) {
             QString basePath = KGlobal::instance()->instanceName();
             basePath.append("/view_properties/local");
-            rootDir = locateLocal("data", basePath);
+            rootDir = KStandardDirs::locateLocal("data", basePath);
             m_filepath = rootDir + m_filepath;
         }
     }
     else {
         QString basePath = KGlobal::instance()->instanceName();
         basePath.append("/view_properties/remote/").append(url.host());
-        rootDir = locateLocal("data", basePath);
+        rootDir = KStandardDirs::locateLocal("data", basePath);
         m_filepath = rootDir + m_filepath;
     }
 
@@ -86,7 +87,8 @@ ViewProperties::ViewProperties(KUrl url) :
                                   (parentNode.timestamp() > m_node->timestamp());
 
         if (inheritProps) {
-            *m_node = parentNode;
+            delete m_node;
+            m_node = new ViewPropertySettings(KSharedConfig::openConfig(dir.path() + FILE_NAME));
             break;
         }
     }

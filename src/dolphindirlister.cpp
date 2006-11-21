@@ -25,7 +25,7 @@
 #include <stdio.h>
 
 DolphinDirLister::DolphinDirLister() :
-    KDirLister(true)
+    KDirLister()
 {
 }
 

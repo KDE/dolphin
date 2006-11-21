@@ -20,7 +20,6 @@
 
 #include "dolphindetailsview.h"
 
-#include <kurldrag.h>
 #include <qpainter.h>
 #include <qobject.h>
 #include <q3header.h>
@@ -35,8 +34,10 @@
 #include <QMouseEvent>
 #include <QEvent>
 #include <QPaintEvent>
+#include <QStyleOptionFocusRect>
 #include <klocale.h>
 #include <kglobalsettings.h>
+#include <kicontheme.h>
 #include <qscrollbar.h>
 #include <qcursor.h>
 #include <qstyle.h>
@@ -51,7 +52,7 @@
 #include "detailsmodesettings.h"
 
 DolphinDetailsView::DolphinDetailsView(DolphinView* parent) :
-    KFileDetailView(parent, 0),
+    KFileDetailView(parent),
     m_dolphinView(parent),
     m_resizeTimer(0),
     m_scrollTimer(0),
@@ -195,8 +196,8 @@ void DolphinDetailsView::zoomIn()
     if (isZoomInPossible()) {
         DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
         switch (settings->iconSize()) {
-            case KIcon::SizeSmall:  settings->setIconSize(KIcon::SizeMedium); break;
-            case KIcon::SizeMedium: settings->setIconSize(KIcon::SizeLarge); break;
+            case K3Icon::SizeSmall:  settings->setIconSize(K3Icon::SizeMedium); break;
+            case K3Icon::SizeMedium: settings->setIconSize(K3Icon::SizeLarge); break;
             default: assert(false); break;
         }
         ItemEffectsManager::zoomIn();
@@ -208,8 +209,8 @@ void DolphinDetailsView::zoomOut()
     if (isZoomOutPossible()) {
         DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
         switch (settings->iconSize()) {
-            case KIcon::SizeLarge:  settings->setIconSize(KIcon::SizeMedium); break;
-            case KIcon::SizeMedium: settings->setIconSize(KIcon::SizeSmall); break;
+            case K3Icon::SizeLarge:  settings->setIconSize(K3Icon::SizeMedium); break;
+            case K3Icon::SizeMedium: settings->setIconSize(K3Icon::SizeSmall); break;
             default: assert(false); break;
         }
         ItemEffectsManager::zoomOut();
@@ -219,13 +220,13 @@ void DolphinDetailsView::zoomOut()
 bool DolphinDetailsView::isZoomInPossible() const
 {
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    return settings->iconSize() < KIcon::SizeLarge;
+    return settings->iconSize() < K3Icon::SizeLarge;
 }
 
 bool DolphinDetailsView::isZoomOutPossible() const
 {
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    return settings->iconSize() > KIcon::SizeSmall;
+    return settings->iconSize() > K3Icon::SizeSmall;
 }
 
 void DolphinDetailsView::resizeContents(int width, int height)
@@ -255,7 +256,7 @@ void DolphinDetailsView::slotOnItem(Q3ListViewItem* item)
 void DolphinDetailsView::slotOnViewport()
 {
     resetActivatedItem();
-    m_dolphinView->requestItemInfo(KURL());
+    m_dolphinView->requestItemInfo(KUrl());
 }
 
 void DolphinDetailsView::setContextPixmap(void* context,
@@ -322,7 +323,8 @@ void DolphinDetailsView::resizeEvent(QResizeEvent* event)
 
 bool DolphinDetailsView::acceptDrag(QDropEvent* event) const
 {
-    bool accept = KURLDrag::canDecode(event) &&
+    KUrl::List uriList = KUrl::List::fromMimeData( event->mimeData() );
+    bool accept = !uriList.isEmpty() &&
                   (event->action() == QDropEvent::Copy ||
                    event->action() == QDropEvent::Move ||
                    event->action() == QDropEvent::Link);
@@ -369,9 +371,9 @@ void DolphinDetailsView::contentsDropEvent(QDropEvent* event)
     }
 
     emit dropped(event, 0);
-    KURL::List urls;
-    if (KURLDrag::decode(event, urls) && !urls.isEmpty()) {
-        emit dropped(event, urls, KURL());
+    KUrl::List urls = KUrl::List::fromMimeData( event->mimeData() );
+    if (!urls.isEmpty()) {
+        emit dropped(event, urls, KUrl());
         sig->dropURLs(0, event, urls);
     }
 }
@@ -395,9 +397,9 @@ void DolphinDetailsView::contentsMousePressEvent(QMouseEvent* event)
         KFileDetailView::contentsMousePressEvent(event);
     }
     else if (event->button() == Qt::LeftButton) {
-        const ButtonState keyboardState = KApplication::keyboardMouseState();
-        const bool isSelectionActive = (keyboardState & ShiftButton) ||
-                                       (keyboardState & ControlButton);
+        const Qt::KeyboardModifiers keyboardState = QApplication::keyboardModifiers();
+        const bool isSelectionActive = (keyboardState & Qt::ShiftModifier) ||
+                                       (keyboardState & Qt::ControlModifier);
         if (!isSelectionActive) {
             clearSelection();
         }
@@ -475,15 +477,16 @@ void DolphinDetailsView::drawRubber()
 
     QPainter p;
     p.begin(viewport());
-    p.setRasterOp(NotROP);
-    p.setPen(QPen(color0, 1));
-    p.setBrush(NoBrush);
+    //p.setRasterOp(NotROP);
+    p.setPen(QPen(Qt::color0, 1));
+    p.setBrush(Qt::NoBrush);
 
     QPoint point(m_rubber->x(), m_rubber->y());
     point = contentsToViewport(point);
-    style().drawPrimitive(QStyle::PE_FocusRect, &p,
-                          QRect(point.x(), point.y(), m_rubber->width(), m_rubber->height()),
-                          colorGroup(), QStyle::Style_Default, colorGroup().base());
+    QStyleOptionFocusRect option;
+    option.initFrom(this);
+    option.rect = QRect(point.x(), point.y(), m_rubber->width(), m_rubber->height());
+    style()->drawPrimitive(QStyle::PE_FrameFocusRect, &option, &p);
     p.end();
 }
 
@@ -506,19 +509,19 @@ void DolphinDetailsView::slotActivationUpdate()
 
     // TODO: there must be a simpler way to say
     // "update all children"
-    const QObjectList* list = children();
-    if (list == 0) {
+    const QList<QObject*> list = children();
+    if (list.isEmpty()) {
         return;
     }
 
-    QObjectListIterator it(*list);
+    QListIterator<QObject*> it(list);
     QObject* object = 0;
-    while ((object = it.current()) != 0) {
+    while (it.hasNext()) {
+        object = it.next();
         if (object->inherits("QWidget")) {
             QWidget* widget = static_cast<QWidget*>(object);
             widget->update();
         }
-        ++it;
     }
 }
 
@@ -647,7 +650,7 @@ void DolphinDetailsView::slotItemRenamed(Q3ListViewItem* item,
                                          int /* column */)
 {
     KFileItem* fileInfo = static_cast<KFileListViewItem*>(item)->fileInfo();
-    m_dolphinView->rename(KURL(fileInfo->url()), name);
+    m_dolphinView->rename(KUrl(fileInfo->url()), name);
 }
 
 void DolphinDetailsView::slotHeaderClicked(int /* section */)

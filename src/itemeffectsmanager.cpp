@@ -26,7 +26,6 @@
 #include <QPixmap>
 #include <kglobalsettings.h>
 #include <qclipboard.h>
-#include <kurldrag.h>
 #include <klocale.h>
 
 #include "dolphin.h"
@@ -76,8 +75,8 @@ void ItemEffectsManager::activateItem(void* context)
         // apply an icon effect to the item below the mouse pointer
         KIconEffect iconEffect;
         QPixmap pixmap = iconEffect.apply(*itemPixmap,
-                                          KIcon::Desktop,
-                                          KIcon::ActiveState);
+                                          K3Icon::Desktop,
+                                          K3Icon::ActiveState);
         setContextPixmap(context, pixmap);
     }
 
@@ -99,8 +98,8 @@ void ItemEffectsManager::resetActivatedItem()
             // the highlighted item has been found and is restored to the default state
             KIconEffect iconEffect;
             QPixmap pixmap = iconEffect.apply(*m_pixmapCopy,
-                                              KIcon::Desktop,
-                                              KIcon::DefaultState);
+                                              K3Icon::Desktop,
+                                              K3Icon::DefaultState);
 
             // TODO: KFileIconView does not emit any signal when the preview has been finished.
             // Hence check the size to prevent that a preview is hidden by restoring a
@@ -144,15 +143,14 @@ void ItemEffectsManager::updateDisabledItems()
     }
 
     QClipboard* clipboard = QApplication::clipboard();
-    QMimeSource* data = clipboard->data();
-    if (!KUrlDrag::canDecode(data)) {
+    const QMimeData* data = clipboard->mimeData();
+    KUrl::List urls = KUrl::List::fromMimeData(data);
+    if (urls.isEmpty()) {
         return;
     }
 
     // The clipboard contains items, which have been cutted. Change the pixmaps of all those
     // items to the disabled state.
-    KUrl::List urls;
-    KUrlDrag::decode(data, urls);
     for (void* context = firstContext(); context != 0; context = nextContext(context)) {
         const KFileItem* fileInfo = contextFileInfo(context);
         const KUrl& fileURL = fileInfo->url();
@@ -168,8 +166,8 @@ void ItemEffectsManager::updateDisabledItems()
 
                     KIconEffect iconEffect;
                     QPixmap disabledPixmap = iconEffect.apply(*itemPixmap,
-                                                              KIcon::Desktop,
-                                                              KIcon::DisabledState);
+                                                              K3Icon::Desktop,
+                                                              K3Icon::DisabledState);
                     setContextPixmap(context, disabledPixmap);
                 }
                 break;

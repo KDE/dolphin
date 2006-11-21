@@ -38,7 +38,7 @@ BookmarkSelector::BookmarkSelector(URLNavigator* parent) :
     URLButton(parent),
     m_selectedIndex(0)
 {
-    setFocusPolicy(QWidget::NoFocus);
+    setFocusPolicy(Qt::NoFocus);
 
     m_bookmarksMenu = new Q3PopupMenu(this);
 
@@ -83,7 +83,7 @@ void BookmarkSelector::updateSelection(const KUrl& url)
     while (!bookmark.isNull()) {
         const KUrl bookmarkURL = bookmark.url();
         if (bookmarkURL.isParentOf(url)) {
-            const int length = bookmarkURL.prettyURL().length();
+            const int length = bookmarkURL.prettyUrl().length();
             if (length > maxLength) {
                 m_selectedIndex = i;
                 setPixmap(SmallIcon(bookmark.icon()));
@@ -144,7 +144,7 @@ void BookmarkSelector::drawButton(QPainter* painter)
     }
 
     // draw button backround
-    painter->setPen(NoPen);
+    painter->setPen(Qt::NoPen);
     painter->setBrush(backgroundColor);
     painter->drawRect(0, 0, buttonWidth, buttonHeight);
 

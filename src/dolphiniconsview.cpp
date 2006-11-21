@@ -31,12 +31,12 @@
 #include <kapplication.h>
 #include <qobject.h>
 #include <kglobalsettings.h>
-#include <kurldrag.h>
 #include <qclipboard.h>
 #include <assert.h>
 #include <kaction.h>
 #include <kstdaction.h>
 #include <kfileitem.h>
+#include <kactioncollection.h>
 
 #include "dolphinview.h"
 #include "viewproperties.h"
@@ -52,7 +52,7 @@ DolphinIconsView::DolphinIconsView(DolphinView* parent, LayoutMode layoutMode) :
     m_dolphinView(parent)
 {
     setAcceptDrops(true);
-    setMode(KIconView::Execute);
+    setMode(K3IconView::Execute);
     setSelectionMode(KFile::Extended);
     Dolphin& dolphin = Dolphin::mainWin();
 
@@ -216,13 +216,13 @@ bool DolphinIconsView::isZoomInPossible() const
 {
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     const int size = (m_layoutMode == Icons) ? settings->iconSize() : settings->previewSize();
-    return size < KIcon::SizeEnormous;
+    return size < K3Icon::SizeEnormous;
 }
 
 bool DolphinIconsView::isZoomOutPossible() const
 {
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    return settings->iconSize() > KIcon::SizeSmall;
+    return settings->iconSize() > K3Icon::SizeSmall;
 }
 
 void DolphinIconsView::arrangeItemsInGrid( bool updated )
@@ -309,11 +309,11 @@ void DolphinIconsView::drawBackground(QPainter* painter, const QRect& rect)
 
 Q3DragObject* DolphinIconsView::dragObject()
 {
-    KURL::List urls;
-    KFileItemListIterator it(*KFileView::selectedItems());
-    while (it.current() != 0) {
-        urls.append((*it)->url());
-        ++it;
+    KUrl::List urls;
+    QListIterator<KFileItem*> it(*KFileView::selectedItems());
+    while (it.hasNext()) {
+        KFileItem *item = it.next();
+        urls.append(item->url());
     }
 
     QPixmap pixmap;
@@ -331,9 +331,12 @@ Q3DragObject* DolphinIconsView::dragObject()
         pixmap = currentFileItem()->pixmap(iconSize());
     }
 
+    /* This should be ported to QMimeData
     Q3DragObject* dragObj = new KURLDrag(urls, widget());
     dragObj->setPixmap(pixmap);
     return dragObj;
+    */
+    return 0;
 }
 
 void DolphinIconsView::contentsDragEnterEvent(QDragEnterEvent* event)
@@ -351,7 +354,8 @@ void DolphinIconsView::contentsDragEnterEvent(QDragEnterEvent* event)
         return;
     }
 
-    const bool accept = KURLDrag::canDecode(event) &&
+    KUrl::List uriList = KUrl::List::fromMimeData( event->mimeData() );
+    const bool accept = !uriList.isEmpty() &&
                         (event->action() == QDropEvent::Copy ||
                          event->action() == QDropEvent::Move ||
                          event->action() == QDropEvent::Link );
@@ -397,7 +401,8 @@ void DolphinIconsView::contentsDropEvent(QDropEvent* event)
     }
 
     KFileIconViewItem* item = static_cast<KFileIconViewItem*>(findItem(contentsToViewport(event->pos())));
-    const bool accept = KURLDrag::canDecode(event) &&
+    KUrl::List urls = KUrl::List::fromMimeData( event->mimeData() );
+    const bool accept = !urls.isEmpty() &&
                         (event->action() == QDropEvent::Copy ||
                          event->action() == QDropEvent::Move ||
                          event->action() == QDropEvent::Link ) &&
@@ -412,9 +417,8 @@ void DolphinIconsView::contentsDropEvent(QDropEvent* event)
         return;
     }
     emit dropped(event, fileItem);
-    KURL::List urls;
-    if (KURLDrag::decode(event, urls) && !urls.isEmpty()) {
-        emit dropped(event, urls, fileItem != 0 ? fileItem->url() : KURL());
+    if (!urls.isEmpty()) {
+        emit dropped(event, urls, fileItem != 0 ? fileItem->url() : KUrl());
         sig->dropURLs(fileItem, event, urls);
     }
 }
@@ -431,7 +435,7 @@ void DolphinIconsView::slotOnItem(Q3IconViewItem* item)
 void DolphinIconsView::slotOnViewport()
 {
     resetActivatedItem();
-    m_dolphinView->requestItemInfo(KURL());
+    m_dolphinView->requestItemInfo(KUrl());
 }
 
 void DolphinIconsView::slotContextMenuRequested(Q3IconViewItem* item,
@@ -448,7 +452,7 @@ void DolphinIconsView::slotItemRenamed(Q3IconViewItem* item,
                                        const QString& name)
 {
     KFileItem* fileInfo = static_cast<KFileIconViewItem*>(item)->fileInfo();
-    m_dolphinView->rename(KURL(fileInfo->url()), name);
+    m_dolphinView->rename(KUrl(fileInfo->url()), name);
 }
 
 void DolphinIconsView::slotActivationUpdate()
@@ -457,19 +461,19 @@ void DolphinIconsView::slotActivationUpdate()
 
     // TODO: there must be a simpler way to say
     // "update all children"
-    const QObjectList* list = children();
-    if (list == 0) {
+    const QList<QObject*> list = children();
+    if (list.isEmpty()) {
         return;
     }
 
-    QObjectListIterator it(*list);
+    QListIterator<QObject*> it(list);
     QObject* object = 0;
-    while ((object = it.current()) != 0) {
+    while (it.hasNext()) {
+        object = it.next();
         if (object->inherits("QWidget")) {
             QWidget* widget = static_cast<QWidget*>(object);
             widget->update();
         }
-        ++it;
     }
 }
 
@@ -482,11 +486,11 @@ int DolphinIconsView::increasedIconSize(int size) const
 {
     int incSize = 0;
     switch (size) {
-        case KIcon::SizeSmall:       incSize = KIcon::SizeSmallMedium; break;
-        case KIcon::SizeSmallMedium: incSize = KIcon::SizeMedium; break;
-        case KIcon::SizeMedium:      incSize = KIcon::SizeLarge; break;
-        case KIcon::SizeLarge:       incSize = KIcon::SizeHuge; break;
-        case KIcon::SizeHuge:        incSize = KIcon::SizeEnormous; break;
+        case K3Icon::SizeSmall:       incSize = K3Icon::SizeSmallMedium; break;
+        case K3Icon::SizeSmallMedium: incSize = K3Icon::SizeMedium; break;
+        case K3Icon::SizeMedium:      incSize = K3Icon::SizeLarge; break;
+        case K3Icon::SizeLarge:       incSize = K3Icon::SizeHuge; break;
+        case K3Icon::SizeHuge:        incSize = K3Icon::SizeEnormous; break;
         default: assert(false); break;
     }
     return incSize;
@@ -496,11 +500,11 @@ int DolphinIconsView::decreasedIconSize(int size) const
 {
     int decSize = 0;
     switch (size) {
-        case KIcon::SizeSmallMedium: decSize = KIcon::SizeSmall; break;
-        case KIcon::SizeMedium: decSize = KIcon::SizeSmallMedium; break;
-        case KIcon::SizeLarge: decSize = KIcon::SizeMedium; break;
-        case KIcon::SizeHuge: decSize = KIcon::SizeLarge; break;
-        case KIcon::SizeEnormous: decSize = KIcon::SizeHuge; break;
+        case K3Icon::SizeSmallMedium: decSize = K3Icon::SizeSmall; break;
+        case K3Icon::SizeMedium: decSize = K3Icon::SizeSmallMedium; break;
+        case K3Icon::SizeLarge: decSize = K3Icon::SizeMedium; break;
+        case K3Icon::SizeHuge: decSize = K3Icon::SizeLarge; break;
+        case K3Icon::SizeEnormous: decSize = K3Icon::SizeHuge; break;
         default: assert(false); break;
     }
     return decSize;

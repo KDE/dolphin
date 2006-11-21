@@ -66,9 +66,9 @@ KBookmarkManager* DolphinSettings::bookmarkManager() const
 {
     QString basePath = KGlobal::instance()->instanceName();
     basePath.append("/bookmarks.xml");
-    const QString file = locateLocal("data", basePath);
+    const QString file = KStandardDirs::locateLocal("data", basePath);
 
-    return KBookmarkManager::managerForFile(file, false);
+    return KBookmarkManager::managerForFile(file, "dolphin", false);
 }
 
 void DolphinSettings::save()
@@ -81,9 +81,9 @@ void DolphinSettings::save()
 
     QString basePath = KGlobal::instance()->instanceName();
     basePath.append("/bookmarks.xml");
-    const QString file = locateLocal( "data", basePath);
+    const QString file = KStandardDirs::locateLocal( "data", basePath);
 
-    KBookmarkManager* manager = KBookmarkManager::managerForFile(file, false);
+    KBookmarkManager* manager = KBookmarkManager::managerForFile(file, "dolphin", false);
     manager->save(false);
 }
 
@@ -100,14 +100,14 @@ void DolphinSettings::calculateGridSize(int hint)
     int gridHeight = 0;
     if (arrangement == Q3IconView::LeftToRight) {
         int widthUnit = maxSize + (maxSize / 2);
-        if (widthUnit < KIcon::SizeLarge) {
-            widthUnit = KIcon::SizeLarge;
+        if (widthUnit < K3Icon::SizeLarge) {
+            widthUnit = K3Icon::SizeLarge;
         }
 
-        gridWidth = widthUnit + hint * KIcon::SizeLarge;
+        gridWidth = widthUnit + hint * K3Icon::SizeLarge;
 
         gridHeight = iconSize;
-        if (gridHeight <= KIcon::SizeMedium) {
+        if (gridHeight <= K3Icon::SizeMedium) {
             gridHeight = gridHeight * 2;
         }
         else {
@@ -141,10 +141,10 @@ int DolphinSettings::textWidthHint() const
     int hint = 0;
     if (arrangement == Q3IconView::LeftToRight) {
         int widthUnit = maxSize + (maxSize / 2);
-        if (widthUnit < KIcon::SizeLarge) {
-            widthUnit = KIcon::SizeLarge;
+        if (widthUnit < K3Icon::SizeLarge) {
+            widthUnit = K3Icon::SizeLarge;
         }
-        hint = (gridWidth - widthUnit) / KIcon::SizeLarge;
+        hint = (gridWidth - widthUnit) / K3Icon::SizeLarge;
     }
     else {
         assert(arrangement == Q3IconView::TopToBottom);

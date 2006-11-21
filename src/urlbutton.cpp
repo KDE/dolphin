@@ -25,8 +25,6 @@
 #include <qfontmetrics.h>
 //Added by qt3to4:
 #include <QEvent>
-#include <kurldrag.h>
-#include <kpopupmenu.h>
 #include <kiconloader.h>
 #include <klocale.h>
 
@@ -91,8 +89,8 @@ void URLButton::leaveEvent(QEvent* event)
 QColor URLButton::mixColors(const QColor& c1,
                             const QColor& c2) const
 {
-    const int Qt::red   = (c1.Qt::red()   + c2.Qt::red())   / 2;
-    const int Qt::green = (c1.Qt::green() + c2.Qt::green()) / 2;
-    const int Qt::blue  = (c1.Qt::blue()  + c2.Qt::blue())  / 2;
-    return QColor(Qt::red, Qt::green, Qt::blue);
+    const int red   = (c1.red()   + c2.red())   / 2;
+    const int green = (c1.green() + c2.green()) / 2;
+    const int blue  = (c1.blue()  + c2.blue())  / 2;
+    return QColor(red, green, blue);
 }
