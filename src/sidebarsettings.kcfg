@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<kcfg> 
+    <kcfgfile name="dolphinrc"/>
+    <group name="Sidebar">
+        <entry name="SelectedPage" type="String">
+            <label>Selected page</label>
+            <default>Information</default>
+        </entry>
+        <entry name="Visible" type="Bool">
+            <label>Is the sidebar visible</label>
+            <default>true</default>
+        </entry>
+        <entry name="Width" type="Int">
+            <label>Sidebar with</label>
+            <default>150</default>
+        </entry>
+    </group>
+</kcfg>

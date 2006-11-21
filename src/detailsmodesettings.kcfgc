@@ -1,0 +1,4 @@
+File=detailsmodesettings.kcfg
+ClassName=DetailsModeSettings
+Singleton=false 
+Mutators=true

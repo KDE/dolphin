@@ -1,0 +1,6 @@
+File=directoryviewpropertysettings.kcfg
+Singleton=false
+ClassName=ViewPropertySettings
+Mutators=true
+GlobalEnums=true
+IncludeFiles=dolphinview.h,qnamespace.h

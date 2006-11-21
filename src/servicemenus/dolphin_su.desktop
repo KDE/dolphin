@@ -1,0 +1,10 @@
+[Desktop Entry]
+ServiceTypes=inode/directory
+Actions=DolphinSU;
+
+[Desktop Action DolphinSU]
+ServiceTypes=inode/directory
+Name=Open as Root
+Name[de]=Öffne als Root
+Icon=dolphin
+Exec=kdesu -c 'dolphin %U'

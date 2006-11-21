@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<kcfg>
+    <kcfgfile name="dolphinrc"/>
+    <include>kiconloader.h</include>
+    <group name="DetailsMode">
+        <entry name="FontFamily" type="String">
+            <label>Font family</label>
+            <default code="true">KGlobalSettings::generalFont().family()</default>
+        </entry>
+        <entry name="FontSize" type="Int">
+            <label>Font size</label>
+            <default code="true">KGlobalSettings::generalFont().pointSize()</default>
+        </entry>
+        <entry name="IconSize" type="Int">
+            <label>Icon size</label>
+            <default code="true">KIcon::SizeSmall</default>
+        </entry>
+        <entry name="ShowDate" type="Bool">
+            <label>Show date</label>
+            <default>true</default>
+        </entry>
+        <entry name="ShowGroup" type="Bool">
+            <label>Show group</label>
+            <default>false</default>
+        </entry>
+        <entry name="ShowOwner" type="Bool">
+            <label>Show owner</label>
+            <default>false</default>
+        </entry>
+        <entry name="ShowPermissions" type="Bool">
+            <label>Show permissions</label>
+            <default>false</default>
+        </entry>
+        <entry name="ShowSize" type="Bool">
+            <label>Show size</label>
+            <default>false</default>
+        </entry>
+    </group>
+</kcfg>

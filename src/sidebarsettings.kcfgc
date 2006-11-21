@@ -1,0 +1,4 @@
+File=sidebarsettings.kcfg
+ClassName=SidebarSettings
+Singleton=false 
+Mutators=true

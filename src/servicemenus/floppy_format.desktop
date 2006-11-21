@@ -1,0 +1,36 @@
+[Desktop Action Format]
+Exec=kfloppy %u
+Icon=kfloppy
+Name=Format
+Name[bg]=Форматиране
+Name[br]=Furmadiñ
+Name[ca]=Dona format
+Name[cs]=Formátovat
+Name[cy]=Fformat
+Name[de]=Formatieren
+Name[eo]=Formato
+Name[es]=Formatear
+Name[fr]=Formater
+Name[ga]=Formáid
+Name[it]=Formatta
+Name[ja]=フォーマット
+Name[lt]=Formatas
+Name[nl]=Formatteren
+Name[pa]=ਫਾਰਮਿਟ
+Name[pl]=Formatuj
+Name[pt]=Formatar
+Name[pt_BR]=Formatar
+Name[ru]=Форматирование дискет
+Name[rw]=Imiterere
+Name[sr]=Форматирај
+Name[sr@Latn]=Formatiraj
+Name[sv]=Formatera
+Name[uk]=Форматування
+Name[xx]=xxFormatxx
+Name[zh_CN]=格式化
+
+[Desktop Entry]
+Actions=Format;
+ServiceTypes=media/floppy_unmounted,media/floppy5_unmounted
+X-KDE-Priority=TopLevel
+X-KDE-MediaNotifierHide=true

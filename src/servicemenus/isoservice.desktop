@@ -1,0 +1,14 @@
+[Desktop Entry]
+Encoding=UTF-8
+Actions=OpenISO
+ServiceTypes=inode/blockdevice,application/x-iso
+
+[Desktop Action OpenISO]
+Comment=ISO9660 View
+Comment[hu]=ISO9660 Nézet
+Comment[fr]=Lecteur ISO9660
+Icon=cd
+Name=ISO9660 View
+Name[hu]=ISO9660 Nézet
+Name[fr]=Lecteur ISO9660
+Exec=

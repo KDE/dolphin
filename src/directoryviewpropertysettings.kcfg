@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+
+<kcfgfile arg="true" />
+
+<group name="Settings">
+
+<entry name="ShowHiddenFiles" key="ShowDotFiles" type="Bool" >
+      <label>Show hidden files</label>
+      <whatsthis>When this option is enabled hidden files, such as those starting with a '.', will be shown in the file view.</whatsthis>
+      <default>false</default>
+   </entry>
+
+</group>
+
+<group name="Dolphin">
+
+<entry name="ViewMode" type="Int" >
+      <label>View Mode</label>
+      <whatsthis>This option controls the style of the view. Currently supported values include icons (0), details (1) and previews (2) views.</whatsthis>
+      <default>DolphinView::PreviewsView</default>
+      <min>0</min>
+      <max code="true">DolphinView::MaxModeEnum</max>
+   </entry>
+
+<entry name="Sorting" type="Int" >
+      <label>Sort files by</label>
+      <whatsthis>This option defines which attribute (name, size, date, etc) sorting is performed on.</whatsthis>
+      <default code="true">DolphinView::SortByName</default>
+      <min>0</min>
+      <max code="true">DolphinView::MaxSortEnum</max>
+   </entry>
+
+<entry name="SortOrder" type="Int" >
+      <label>Order to sort files in</label>
+      <default code="true">Qt::Ascending</default>
+      <min code="true">Qt::Ascending</min>
+      <max code="true">Qt::Descending</max>
+   </entry>
+
+<entry name="ValidForSubDirs" type="Bool" >
+      <label>Apply view setting to sub-directories</label>
+      <default>false</default>
+   </entry>
+
+
+<entry name="Timestamp" type="DateTime" >
+      <label>Properties last changed</label>
+      <whatsthis>The last time these properties were changed by the user.</whatsthis>
+   </entry>
+
+</group>
+
+</kcfg>
+
+

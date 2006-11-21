@@ -1,0 +1,15 @@
+
+include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES}  )
+
+
+########### install files ###############
+
+install( FILES  amarok_append.desktop ark_compress.desktop ark_extract.desktop floppy_format.desktop imageconverter.desktop installfont.desktop isoservice.desktop jpegorient.desktop k3b_create_audio_cd.desktop k3b_create_video_cd.desktop k3b_write_bin_image.desktop k3b_write_iso_image.desktop mail_as_attachment.desktop media_eject.desktop media_mount.desktop media_realfolder.desktop media_safelyremove.desktop media_unmount.desktop open_in_digikam.desktop dolphin_su.desktop DESTINATION ${DATA_INSTALL_DIR}/dolphin/servicemenus )
+
+
+
+#original Makefile.am contents follow:
+
+#servicemenusdir = $(kde_datadir)/dolphin/servicemenus
+#servicemenus_DATA = amarok_append.desktop ark_compress.desktop ark_extract.desktop floppy_format.desktop imageconverter.desktop installfont.desktop isoservice.desktop jpegorient.desktop k3b_create_audio_cd.desktop k3b_create_video_cd.desktop k3b_write_bin_image.desktop k3b_write_iso_image.desktop mail_as_attachment.desktop media_eject.desktop media_mount.desktop media_realfolder.desktop media_safelyremove.desktop media_unmount.desktop open_in_digikam.desktop dolphin_su.desktop
+#

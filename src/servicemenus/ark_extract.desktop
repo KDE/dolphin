@@ -1,0 +1,13 @@
+[Desktop Entry]
+X-SuSE-translate=true
+Encoding=UTF-8
+ServiceTypes=application/x-tbz,application/x-tgz
+Actions=extractHere
+
+[Desktop Action extractHere]
+Name=Extract Here
+Name[de]=Hierher extrahieren
+Exec=ark --extract-to %d %u
+Icon=ark
+
+

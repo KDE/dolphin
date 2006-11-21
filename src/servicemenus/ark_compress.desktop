@@ -1,0 +1,11 @@
+[Desktop Entry]
+X-SuSE-translate=true
+Encoding=UTF-8
+ServiceTypes=inode/directory
+Actions=compressHere
+
+[Desktop Action compressHere]
+Name=Compress Here
+Name[de]=Hierher komprimieren
+Exec=ark --add-to %u %u.tar.gz
+Icon=ark
