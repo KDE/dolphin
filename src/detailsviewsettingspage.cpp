@@ -22,7 +22,7 @@
 #include <qcheckbox.h>
 #include <klocale.h>
 #include <kdialog.h>
-#include <kfontcombo.h>
+#include <qfontcombobox.h>
 #include <qspinbox.h>
 #include <qlabel.h>
 #include <q3grid.h>
@@ -107,7 +107,7 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget *parent) :
     textGroup->setMargin(margin);
 
     new QLabel(i18n("Font family:"), textGroup);
-    m_fontFamilyBox = new KFontCombo(textGroup);
+    m_fontFamilyBox = new QFontComboBox(textGroup);
     m_fontFamilyBox->setCurrentFont(settings->fontFamily());
 
     new QLabel(i18n("Font size:"), textGroup);
@@ -144,7 +144,7 @@ void DetailsViewSettingsPage::applySettings()
     }
     settings->setIconSize(iconSize);
 
-    settings->setFontFamily(m_fontFamilyBox->currentFont());
+    settings->setFontFamily(m_fontFamilyBox->currentFont().family());
     settings->setFontSize(m_fontSizeBox->value());
 }
 

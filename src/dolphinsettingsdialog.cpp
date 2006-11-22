@@ -20,7 +20,7 @@
 
 #include "dolphinsettingsdialog.h"
 #include <klocale.h>
-#include <kiconloader.h>
+#include <kicon.h>
 #include "generalsettingspage.h"
 #include "viewsettingspage.h"
 #include "bookmarkssettingspage.h"
@@ -29,43 +29,36 @@
 #include <Q3Frame>
 
 DolphinSettingsDialog::DolphinSettingsDialog() :
-    KDialogBase(IconList, i18n("Dolphin Preferences"),
-                Ok|Apply|Cancel, Ok)
+    KPageDialog()
 {
-    KIconLoader iconLoader;
-    QFrame* generalSettingsFrame = addPage(i18n("General"), 0,
-                                                iconLoader.loadIcon("exec",
-                                                                    K3Icon::NoGroup,
-                                                                    K3Icon::SizeMedium));
-    m_generalSettingsPage = new GeneralSettingsPage(generalSettingsFrame);
+    setFaceType( List);
+    setCaption(i18n("Dolphin Preferences"));
+    setButtons(Ok|Apply|Cancel);
+    setDefaultButton(Ok);
 
-    QFrame* viewSettingsFrame = addPage(i18n("View Modes"), 0,
-                                        iconLoader.loadIcon("view_choose",
-                                                            K3Icon::NoGroup,
-                                                            K3Icon::SizeMedium));
-    m_viewSettingsPage = new ViewSettingsPage(viewSettingsFrame);
+    m_generalSettingsPage = new GeneralSettingsPage(this);
+    KPageWidgetItem* generalSettingsFrame = addPage(m_generalSettingsPage, i18n("General"));
+    generalSettingsFrame->setIcon(KIcon("exec"));
 
-    QFrame* bookmarksSettingsFrame = addPage(i18n("Bookmarks"), 0,
-                                             iconLoader.loadIcon("bookmark",
-                                                                 K3Icon::NoGroup,
-                                                                 K3Icon::SizeMedium));
-    m_bookmarksSettingsPage = new BookmarksSettingsPage(bookmarksSettingsFrame);
+    m_viewSettingsPage = new ViewSettingsPage(this);
+    KPageWidgetItem* viewSettingsFrame = addPage(m_viewSettingsPage, i18n("View Modes"));
+    viewSettingsFrame->setIcon(KIcon("view_choose"));
+
+    m_bookmarksSettingsPage = new BookmarksSettingsPage(this);
+    KPageWidgetItem* bookmarksSettingsFrame = addPage(m_bookmarksSettingsPage, i18n("Bookmarks"));
+    bookmarksSettingsFrame->setIcon(KIcon("bookmark"));
 }
 
 DolphinSettingsDialog::~DolphinSettingsDialog()
 {
 }
 
-void DolphinSettingsDialog::slotOk()
+void DolphinSettingsDialog::slotButtonClicked(int button)
 {
-    applySettings();
-    KDialogBase::slotOk();
-}
-
-void DolphinSettingsDialog::slotApply()
-{
-    applySettings();
-    KDialogBase::slotApply();
+    if (button==Ok || button==Apply) {
+        applySettings();
+    }
+    KPageDialog::slotButtonClicked(button);
 }
 
 void DolphinSettingsDialog::applySettings()

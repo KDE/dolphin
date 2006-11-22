@@ -385,3 +385,5 @@ bool URLNavigatorButton::isTextClipped() const
     QFontMetrics fontMetrics(font());
     return fontMetrics.width(text()) >= availableWidth;
 }
+
+#include "urlnavigatorbutton.moc"

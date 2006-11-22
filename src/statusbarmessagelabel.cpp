@@ -217,3 +217,5 @@ QColor StatusBarMessageLabel::mixColors(const QColor& c1,
     const int blue  = (c1.blue()  * recip + c2.blue()  * percent) / 100;
     return QColor(red, green, blue);
 }
+
+#include "statusbarmessagelabel.moc"

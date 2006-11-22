@@ -108,3 +108,5 @@ int Sidebar::indexForName(const QString& name) const
 
     return 0;
 }
+
+#include "sidebar.moc"

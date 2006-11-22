@@ -31,8 +31,8 @@
 #include <Q3PtrList>
 
 #include <kurl.h>
-#include <ksortablevaluelist.h>
 #include <kmimetype.h>
+#include <kdedesktopmimetype.h>
 
 namespace KIO {
     class Job;

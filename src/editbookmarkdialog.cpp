@@ -47,27 +47,36 @@ KBookmark EditBookmarkDialog::getBookmark(const QString& title,
     return dialog.m_bookmark;
 }
 
-void EditBookmarkDialog::slotOk()
+void EditBookmarkDialog::slotButtonClicked(int button)
 {
-    m_bookmark = KBookmark::standaloneBookmark(m_name->text(),
-                                               KUrl(m_location->text()),
-                                               m_iconName);
+    if (button==Ok) {
+        m_bookmark = KBookmark::standaloneBookmark(m_name->text(),
+                                                   KUrl(m_location->text()),
+                                                   m_iconName);
+    }
 
-    KDialogBase::slotOk();
+    KDialog::slotButtonClicked(button);
 }
 
 EditBookmarkDialog::EditBookmarkDialog(const QString& title,
                                        const QString& name,
                                        const KUrl& url,
                                        const QString& icon) :
-    KDialogBase(Plain, title, Ok|Cancel, Ok),
+    KDialog(),
     m_iconButton(0),
     m_name(0),
     m_location(0)
 {
-    Q3VBoxLayout* topLayout = new Q3VBoxLayout(plainPage(), 0, spacingHint());
+    setCaption(title);
+    setButtons(Ok|Cancel);
+    setDefaultButton(Ok);
 
-    Q3Grid* grid = new Q3Grid(2, Qt::Horizontal, plainPage());
+    QWidget *page = new QWidget(this);
+    setMainWidget(page);
+
+    Q3VBoxLayout* topLayout = new Q3VBoxLayout(page, 0, spacingHint());
+
+    Q3Grid* grid = new Q3Grid(2, Qt::Horizontal, page);
     grid->setSpacing(spacingHint());
 
     // create icon widgets
@@ -113,7 +122,7 @@ void EditBookmarkDialog::selectIcon()
 void EditBookmarkDialog::selectLocation()
 {
     const QString location(m_location->text());
-    KUrl url(KFileDialog::getExistingURL(location));
+    KUrl url(KFileDialog::getExistingUrl(location));
     if (!url.isEmpty()) {
         m_location->setText(url.prettyUrl());
     }

@@ -24,7 +24,6 @@
 #include <qpoint.h>
 #include <qstring.h>
 #include <q3valuelist.h>
-#include <kmountpoint.h>
 #include <q3valuevector.h>
 #include <kservice.h>
 #include <kpropertiesdialog.h>
@@ -84,8 +83,8 @@ private:
      *                       All succeeding identifiers have an increased value of 1
      *                       to the predecessor.
      */
-    int insertOpenWithItems(KMenu* popup,
-                            Q3ValueVector<KService::Ptr>& openWithVector);
+    QList<QAction*> insertOpenWithItems(KMenu* popup,
+                                        Q3ValueVector<KService::Ptr>& openWithVector);
 
     /**
      * Inserts the 'Actions...' submenu to \a popup.
@@ -94,8 +93,8 @@ private:
      * @param openWithVector Output parameter which contains all 'Actions...'
      *                       services.
      */
-    void insertActionItems(KMenu* popup,
-                           Q3ValueVector<KDEDesktopMimeType::Service>& actionsVector);
+    QList<QAction*> insertActionItems(KMenu* popup,
+                                      Q3ValueVector<KDEDesktopMimeType::Service>& actionsVector);
 
     /**
      * Returns true, if 'menu' contains already

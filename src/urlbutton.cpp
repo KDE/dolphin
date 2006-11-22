@@ -94,3 +94,5 @@ QColor URLButton::mixColors(const QColor& c1,
     const int blue  = (c1.blue()  + c2.blue())  / 2;
     return QColor(red, green, blue);
 }
+
+#include "urlbutton.moc"

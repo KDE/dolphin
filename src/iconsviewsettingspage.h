@@ -29,7 +29,7 @@ class QComboBox;
 class QCheckBox;
 class QPushButton;
 class QSpinBox;
-class KFontCombo;
+class QFontComboBox;
 class PixmapViewer;
 
 /**
@@ -78,7 +78,7 @@ private:
     PixmapViewer* m_previewSizeViewer;
     QComboBox* m_textWidthBox;
     QComboBox* m_gridSpacingBox;
-    KFontCombo* m_fontFamilyBox;
+    QFontComboBox* m_fontFamilyBox;
     QSpinBox* m_fontSizeBox;
     QSpinBox* m_textlinesCountBox;
     QComboBox* m_arrangementBox;

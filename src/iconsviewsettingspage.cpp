@@ -26,7 +26,7 @@
 #include <qradiobutton.h>
 #include <qspinbox.h>
 #include <kiconloader.h>
-#include <kfontcombo.h>
+#include <qfontcombobox.h>
 #include <kdialog.h>
 #include <klocale.h>
 #include <assert.h>
@@ -117,7 +117,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinIconsView::LayoutMode mode,
     textGroup->setMargin(margin);
 
     new QLabel(i18n("Font family:"), textGroup);
-    m_fontFamilyBox = new KFontCombo(textGroup);
+    m_fontFamilyBox = new QFontComboBox(textGroup);
     m_fontFamilyBox->setCurrentFont(settings->fontFamily());
 
     new QLabel(i18n("Font size:"), textGroup);
@@ -138,7 +138,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinIconsView::LayoutMode mode,
     gridGroup->setSizePolicy(sizePolicy);
     gridGroup->setMargin(margin);
 
-    const bool leftToRightArrangement = (settings->arrangement() == Q3IconView::LeftToRight);
+    const bool leftToRightArrangement = (settings->arrangement() == "LeftToRight");
     new QLabel(i18n("Arrangement:"), gridGroup);
     m_arrangementBox = new QComboBox(gridGroup);
     m_arrangementBox->insertItem(i18n("Left to right"));
@@ -189,7 +189,7 @@ void IconsViewSettingsPage::applySettings()
     settings->setArrangement(arrangement);
     DolphinSettings::instance().calculateGridSize(m_textWidthBox->currentItem());
 
-    settings->setFontFamily(m_fontFamilyBox->currentFont());
+    settings->setFontFamily(m_fontFamilyBox->currentFont().family());
     settings->setFontSize(fontSize);
     settings->setNumberOfTexlines(m_textlinesCountBox->value());
 

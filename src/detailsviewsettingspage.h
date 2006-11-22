@@ -23,7 +23,7 @@
 
 #include <q3vbox.h>
 class QCheckBox;
-class KFontCombo;
+class QFontComboBox;
 class QSpinBox;
 class QComboBox;
 class QRadioButton;
@@ -58,7 +58,7 @@ private:
     QRadioButton* m_mediumIconSize;
     QRadioButton* m_largeIconSize;
 
-    KFontCombo* m_fontFamilyBox;
+    QFontComboBox* m_fontFamilyBox;
     QSpinBox* m_fontSizeBox;
 };
 

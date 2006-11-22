@@ -21,6 +21,7 @@
 
 #include <kdebug.h>
 #include <kprotocolinfo.h>
+#include <kprotocolmanager.h>
 
 #include "protocolcombo.h"
 
@@ -42,7 +43,7 @@ ProtocolCombo::ProtocolCombo(const QString& protocol, URLNavigator* parent)
         //      if a protocol is appropriate for use in a file manager. hum!
         //if (KProtocolInfo::capabilities(*it).findIndex("filemanager") == -1)
         if (KProtocolInfo::protocolClass(*it) == ":" ||
-            !KProtocolInfo::supportsWriting(*it))
+            !KProtocolManager::supportsWriting(*it))
         {
         //kDebug() << "!!! removing " << *it << endl;
             QStringList::iterator tempIt = it;

@@ -246,7 +246,7 @@ bool InfoSidebarPage::applyBookmark()
     KBookmarkGroup root = DolphinSettings::instance().bookmarkManager()->root();
     KBookmark bookmark = root.first();
     while (!bookmark.isNull()) {
-        if (m_shownURL.equals(bookmark.url(), true)) {
+        if (m_shownURL.equals(bookmark.url(), KUrl::CompareWithoutTrailingSlash)) {
             QString text("<b>");
             text.append(bookmark.text());
             text.append("</b>");
@@ -457,12 +457,11 @@ void InfoSidebarPage::insertActions()
                     if ((*it) == "all/allfiles") {
                         // The service type is valid for all files, but not for directories.
                         // Check whether the selected items only consist of files...
-                        KFileItemListIterator mimeIt(*itemList);
-                        KFileItem* item = 0;
+                        QListIterator<KFileItem*> mimeIt(*itemList);
                         insert = true;
-                        while (insert && ((item = mimeIt.current()) != 0)) {
+                        while (insert && mimeIt.hasNext()) {
+                            KFileItem* item = mimeIt.next();
                             insert = !item->isDir();
-                            ++mimeIt;
                         }
                     }
 
@@ -470,17 +469,16 @@ void InfoSidebarPage::insertActions()
                         // Check whether the MIME types of all selected files match
                         // to the mimetype of the service action. As soon as one MIME
                         // type does not match, no service menu is shown at all.
-                        KFileItemListIterator mimeIt(*itemList);
-                        KFileItem* item = 0;
+                        QListIterator<KFileItem*> mimeIt(*itemList);
                         insert = true;
-                        while (insert && ((item = mimeIt.current()) != 0)) {
-                            const QString mimeType((*mimeIt)->mimetype());
+                        while (insert && mimeIt.hasNext()) {
+                            KFileItem* item = mimeIt.next();
+                            const QString mimeType(item->mimetype());
                             const QString mimeGroup(mimeType.left(mimeType.find('/')));
 
                             insert  = (*it == mimeType) ||
                                       ((*it).right(1) == "*") &&
                                       ((*it).left((*it).find('/')) == mimeGroup);
-                            ++mimeIt;
                         }
                     }
 
@@ -566,7 +564,7 @@ void ServiceButton::drawButton(QPainter* painter)
     }
 
     // draw button background
-    painter->setPen(NoPen);
+    painter->setPen(Qt::NoPen);
     painter->setBrush(backgroundColor);
     painter->drawRect(0, 0, buttonWidth, buttonHeight);
 
@@ -632,3 +630,4 @@ void ServiceButton::slotReleased()
     emit requestServiceStart(m_index);
 }
 
+#include "infosidebarpage.moc"

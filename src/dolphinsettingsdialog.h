@@ -21,7 +21,7 @@
 #ifndef DOLPHINSETTINGSDIALOG_H
 #define DOLPHINSETTINGSDIALOG_H
 
-#include <kdialog.h>
+#include <kpagedialog.h>
 class GeneralSettingsPage;
 class ViewSettingsPage;
 class BookmarksSettingsPage;
@@ -34,7 +34,7 @@ class BookmarksSettingsPage;
  *
  * @author Peter Penz <peter.penz@gmx.at>
  */
-class DolphinSettingsDialog : public KDialog {
+class DolphinSettingsDialog : public KPageDialog {
     Q_OBJECT
 
 public:
@@ -42,8 +42,7 @@ public:
     virtual ~DolphinSettingsDialog();
 
 protected slots:
-    virtual void slotOk();
-    virtual void slotApply();
+    virtual void slotButtonClicked(int button);
 
 private:
     GeneralSettingsPage* m_generalSettingsPage;

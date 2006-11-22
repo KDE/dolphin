@@ -29,19 +29,25 @@
 #include <klineedit.h>
 
 RenameDialog::RenameDialog(const KUrl::List& items) :
-    KDialogBase(Plain, i18n("Rename Items"),
-                Ok|Cancel, Ok)
+    KDialog()
 {
-    setButtonOK(KGuiItem(i18n("Rename"), "apply"));
+    setCaption(i18n("Rename Items"));
+    setButtons(Ok|Cancel);
+    setDefaultButton(Ok);
 
-    Q3VBoxLayout* topLayout = new Q3VBoxLayout(plainPage(), 0, spacingHint());
+    setButtonGuiItem(Ok, KGuiItem(i18n("Rename"), "apply"));
+
+    QWidget *page = new QWidget(this);
+    setMainWidget(page);
+
+    Q3VBoxLayout* topLayout = new Q3VBoxLayout(page, 0, spacingHint());
     topLayout->setMargin(KDialog::marginHint());
 
     const int itemCount = items.count();
     QLabel* editLabel = new QLabel(i18n("Rename the %1 selected items to:").arg(itemCount),
-                                   plainPage());
+                                   page);
 
-    m_lineEdit = new KLineEdit(plainPage());
+    m_lineEdit = new KLineEdit(page);
     m_newName = i18n("New name #");
     assert(itemCount > 1);
     QString postfix(items[0].prettyUrl().section('.',1));
@@ -67,7 +73,7 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
     m_lineEdit->setSelection(0, selectionLength - 1);
     m_lineEdit->setFocus();
 
-    QLabel* infoLabel = new QLabel(i18n("(# will be replaced by ascending numbers)"), plainPage());
+    QLabel* infoLabel = new QLabel(i18n("(# will be replaced by ascending numbers)"), page);
 
     topLayout->addWidget(editLabel);
     topLayout->addWidget(m_lineEdit);
@@ -78,14 +84,16 @@ RenameDialog::~RenameDialog()
 {
 }
 
-void RenameDialog::slotOk()
+void RenameDialog::slotButtonClicked(int button)
 {
-    m_newName = m_lineEdit->text();
-    if (m_newName.contains('#') != 1) {
-        m_newName.truncate(0);
+    if (button==Ok) {
+        m_newName = m_lineEdit->text();
+        if (m_newName.contains('#') != 1) {
+            m_newName.truncate(0);
+        }
     }
 
-    KDialogBase::slotOk();
+    KDialog::slotButtonClicked(button);
 }
 
 #include "renamedialog.moc"

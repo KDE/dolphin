@@ -275,3 +275,4 @@ int BookmarkItem::height(const Q3ListBox* listBox) const
     return Q3ListBoxPixmap::height(listBox) + 8;
 }
 
+#include "bookmarkssidebarpage.moc"

@@ -21,7 +21,7 @@
 #define EDITBOOKMARKDIALOG_H
 
 #include <kbookmark.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 class Bookmark;
 class QLineEdit;
@@ -41,7 +41,7 @@ class QPushButton;
  * }
  * \endcode
  */
-class EditBookmarkDialog : public KDialogBase
+class EditBookmarkDialog : public KDialog
 {
     Q_OBJECT
 
@@ -60,7 +60,7 @@ public:
                                  const QString& icon);
 
 protected slots:
-    virtual void slotOk();
+    virtual void slotButtonClicked(int button);
 
 protected:
     EditBookmarkDialog(const QString& title,

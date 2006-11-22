@@ -34,3 +34,5 @@ SidebarPage::~SidebarPage()
 void SidebarPage::activeViewChanged()
 {
 }
+
+#include "sidebarpage.moc"

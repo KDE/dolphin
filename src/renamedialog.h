@@ -57,7 +57,7 @@ public:
     const QString& newName() const { return m_newName; }
 
 protected slots:
-    virtual void slotOk();
+    virtual void slotButtonClicked(int button);
 
 private:
     KLineEdit* m_lineEdit;
