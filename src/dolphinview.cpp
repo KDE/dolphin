@@ -763,8 +763,8 @@ void DolphinView::slotCompleted()
     m_fileCount = 0;
     m_folderCount = 0;
 
-    KFileItem* item = 0;
     while (it != end) {
+        KFileItem* item = *it;
         view->insertItem(item);
         if (item->isDir()) {
             ++m_folderCount;
