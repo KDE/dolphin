@@ -77,6 +77,9 @@ X-SuSE-translate=true
 X-SuSE-translate=true
 [Desktop Action MediaEject]
 Name=Eject
+Name[da]=Skub ud
+Name[pt]=Ejectar
+Name[sv]=Mata ut
 #SUSE-Overwrite Name[hu]=Kidobás
 #SUSE-Overwrite Name[km]=ច្រាន​ចេញ
 Exec=kio_media_mounthelper -e %u

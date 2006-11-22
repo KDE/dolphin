@@ -2,6 +2,9 @@
 Exec=digikam --download-from %u
 Icon=digikam
 Name=Open in Digikam
+Name[da]=Åbn med Digikam
+Name[pt]=Abrir no Digikam
+Name[sv]=Öppna med Digikam
 
 [Desktop Entry]
 Actions=OpenDigikam;

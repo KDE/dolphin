@@ -77,6 +77,9 @@ X-SuSE-translate=true
 X-SuSE-translate=true
 [Desktop Action MediaRealFolder]
 Name=Open Medium System Folder
+Name[da]=Åbn mediesystemmappe
+Name[pt]=Abrir a Pasta de Sistema do Dispositivo
+Name[sv]=Öppna mediumsystemkatalog
 #SUSE-Overwrite Name[pa]=ਮੀਡੀਅਮ ਸਿਸਟਮ ਫੋਲਡਰ ਖੋਲੋ
 Exec=kio_media_realfolder %u
 

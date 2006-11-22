@@ -77,6 +77,9 @@ X-SuSE-translate=true
 X-SuSE-translate=true
 [Desktop Action MediaMount]
 Name=Mount
+Name[da]=Montér
+Name[pt]=Montar
+Name[sv]=Montera
 #SUSE-Overwrite Name[km]=រៀបចំ
 #SUSE-Overwrite Name[pa]=ਮਾਊਟ
 Exec=kio_media_mounthelper -m %u

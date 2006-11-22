@@ -75,6 +75,9 @@ X-SuSE-translate=true
 X-SuSE-translate=true
 [Desktop Action installFont]
 Name=Install
+Name[da]=Installér
+Name[pt]=Instalar
+Name[sv]=Installera
 #SUSE-Overwrite Name[hr]=Instaliraj
 #SUSE-Overwrite Name[pl]=Instaluj
 #SUSE-Overwrite Name[vi]=Cài đặt

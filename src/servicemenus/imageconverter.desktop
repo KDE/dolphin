@@ -6,6 +6,9 @@
 ServiceTypes=image/*
 Actions=convToJPEG;convToPNG;convToGIF;convToTIF;
 X-KDE-Submenu=Convert To
+X-KDE-Submenu[da]=Konvertér til
+X-KDE-Submenu[pt]=Converter Para
+X-KDE-Submenu[sv]=Konvertera till
 TryExec=convert
 
 [Desktop Action convToJPEG]

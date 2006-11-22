@@ -7,4 +7,7 @@ Type=Application
 DocPath=dolphin/dolphin.html
 Categories=System;FileManager;
 GenericName=File Manager
+GenericName[da]=Filhåndtering
+GenericName[pt]=Gestor de Ficheiros
+GenericName[sv]=Filhanterare
 Terminal=false

@@ -6,6 +6,9 @@ Actions=extractHere
 
 [Desktop Action extractHere]
 Name=Extract Here
+Name[da]=Pak ud her
+Name[pt]=Extrair Aqui
+Name[sv]=Packa upp här
 Exec=ark --extract-to %d %u
 Icon=ark
 
