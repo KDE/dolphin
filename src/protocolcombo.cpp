@@ -27,8 +27,8 @@
 
 const static int customProtocolIndex = 0;
 
-ProtocolCombo::ProtocolCombo(const QString& protocol, URLNavigator* parent)
-    : URLNavigatorButton(-1, parent),
+ProtocolCombo::ProtocolCombo(const QString& protocol, UrlNavigator* parent)
+    : UrlNavigatorButton(-1, parent),
       m_protocols(KProtocolInfo::protocols())
 {
     qSort(m_protocols);

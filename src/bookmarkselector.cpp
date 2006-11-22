@@ -34,8 +34,8 @@
 #include "dolphin.h"
 #include "urlnavigator.h"
 
-BookmarkSelector::BookmarkSelector(URLNavigator* parent) :
-    URLButton(parent),
+BookmarkSelector::BookmarkSelector(UrlNavigator* parent) :
+    UrlButton(parent),
     m_selectedIndex(0)
 {
     setFocusPolicy(Qt::NoFocus);
@@ -76,14 +76,14 @@ void BookmarkSelector::updateSelection(const KUrl& url)
     int maxLength = 0;
     m_selectedIndex = -1;
 
-    // Search the bookmark which is equal to the URL or at least is a parent URL.
-    // If there are more than one possible parent URL candidates, choose the bookmark
-    // which covers the bigger range of the URL.
+    // Search the bookmark which is equal to the Url or at least is a parent Url.
+    // If there are more than one possible parent Url candidates, choose the bookmark
+    // which covers the bigger range of the Url.
     int i = 0;
     while (!bookmark.isNull()) {
-        const KUrl bookmarkURL = bookmark.url();
-        if (bookmarkURL.isParentOf(url)) {
-            const int length = bookmarkURL.prettyUrl().length();
+        const KUrl bookmarkUrl = bookmark.url();
+        if (bookmarkUrl.isParentOf(url)) {
+            const int length = bookmarkUrl.prettyUrl().length();
             if (length > maxLength) {
                 m_selectedIndex = i;
                 setPixmap(SmallIcon(bookmark.icon()));
@@ -95,7 +95,7 @@ void BookmarkSelector::updateSelection(const KUrl& url)
     }
 
     if (m_selectedIndex < 0) {
-        // No bookmark has been found which matches to the given URL. Show
+        // No bookmark has been found which matches to the given Url. Show
         // a generic folder icon as pixmap for indication:
         setPixmap(SmallIcon("folder"));
     }

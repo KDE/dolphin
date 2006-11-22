@@ -39,7 +39,7 @@ DolphinStatusBar::DolphinStatusBar(DolphinView* parent) :
     m_messageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
 
     m_spaceInfo = new StatusBarSpaceInfo(this);
-    m_spaceInfo->setURL(parent->url());
+    m_spaceInfo->setUrl(parent->url());
 
     m_progressText = new QLabel(this);
     m_progressText->hide();
@@ -56,8 +56,8 @@ DolphinStatusBar::DolphinStatusBar(DolphinView* parent) :
     setMinimumHeight(size.height());
     m_messageLabel->setMinimumTextHeight(size.height());
 
-    connect(parent, SIGNAL(signalURLChanged(const KUrl&)),
-            this, SLOT(slotURLChanged(const KUrl&)));
+    connect(parent, SIGNAL(signalUrlChanged(const KUrl&)),
+            this, SLOT(slotUrlChanged(const KUrl&)));
 }
 
 
@@ -158,9 +158,9 @@ void DolphinStatusBar::slotProgressTimer()
     }
 }
 
-void DolphinStatusBar::slotURLChanged(const KUrl& url)
+void DolphinStatusBar::slotUrlChanged(const KUrl& url)
 {
-    m_spaceInfo->setURL(url);
+    m_spaceInfo->setUrl(url);
 }
 
 #include "dolphinstatusbar.moc"

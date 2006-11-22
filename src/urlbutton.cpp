@@ -32,7 +32,7 @@
 #include "dolphin.h"
 
 
-URLButton::URLButton(URLNavigator* parent)
+UrlButton::UrlButton(UrlNavigator* parent)
 : QPushButton(parent),
   m_displayHint(0),
   m_urlNavigator(parent)
@@ -46,16 +46,16 @@ URLButton::URLButton(URLNavigator* parent)
             this, SLOT(update()));
 }
 
-URLButton::~URLButton()
+UrlButton::~UrlButton()
 {
 }
 
-URLNavigator* URLButton::urlNavigator() const
+UrlNavigator* UrlButton::urlNavigator() const
 {
     return m_urlNavigator;
 }
 
-void URLButton::setDisplayHintEnabled(DisplayHint hint,
+void UrlButton::setDisplayHintEnabled(DisplayHint hint,
                                       bool enable)
 {
     if (enable) {
@@ -67,26 +67,26 @@ void URLButton::setDisplayHintEnabled(DisplayHint hint,
     update();
 }
 
-bool URLButton::isDisplayHintEnabled(DisplayHint hint) const
+bool UrlButton::isDisplayHintEnabled(DisplayHint hint) const
 {
     return (m_displayHint & hint) > 0;
 }
 
-void URLButton::enterEvent(QEvent* event)
+void UrlButton::enterEvent(QEvent* event)
 {
     QPushButton::enterEvent(event);
     setDisplayHintEnabled(EnteredHint, true);
     update();
 }
 
-void URLButton::leaveEvent(QEvent* event)
+void UrlButton::leaveEvent(QEvent* event)
 {
     QPushButton::leaveEvent(event);
     setDisplayHintEnabled(EnteredHint, false);
     update();
 }
 
-QColor URLButton::mixColors(const QColor& c1,
+QColor UrlButton::mixColors(const QColor& c1,
                             const QColor& c2) const
 {
     const int red   = (c1.red()   + c2.red())   / 2;

@@ -41,7 +41,7 @@ ItemEffectsManager::~ItemEffectsManager()
     delete m_pixmapCopy;
     m_pixmapCopy = 0;
 
-    m_highlightedURL = 0;
+    m_highlightedUrl = 0;
 }
 
 void ItemEffectsManager::zoomIn()
@@ -57,8 +57,8 @@ void ItemEffectsManager::zoomOut()
 void ItemEffectsManager::activateItem(void* context)
 {
     KFileItem* fileInfo = contextFileInfo(context);
-    const KUrl itemURL(fileInfo->url());
-    if (m_highlightedURL == itemURL) {
+    const KUrl itemUrl(fileInfo->url());
+    if (m_highlightedUrl == itemUrl) {
         // the item is already highlighted
         return;
     }
@@ -70,7 +70,7 @@ void ItemEffectsManager::activateItem(void* context)
         // remember the pixmap and item to be able to
         // restore it to the old state later
         *m_pixmapCopy = *itemPixmap;
-        m_highlightedURL = itemURL;
+        m_highlightedUrl = itemUrl;
 
         // apply an icon effect to the item below the mouse pointer
         KIconEffect iconEffect;
@@ -88,13 +88,13 @@ void ItemEffectsManager::activateItem(void* context)
 
 void ItemEffectsManager::resetActivatedItem()
 {
-    if (m_highlightedURL.isEmpty()) {
+    if (m_highlightedUrl.isEmpty()) {
         return;
     }
 
     for (void* context = firstContext(); context != 0; context = nextContext(context)) {
-        KUrl itemURL(contextFileInfo(context)->url());
-        if (itemURL == m_highlightedURL) {
+        KUrl itemUrl(contextFileInfo(context)->url());
+        if (itemUrl == m_highlightedUrl) {
             // the highlighted item has been found and is restored to the default state
             KIconEffect iconEffect;
             QPixmap pixmap = iconEffect.apply(*m_pixmapCopy,
@@ -114,7 +114,7 @@ void ItemEffectsManager::resetActivatedItem()
         }
     }
 
-    m_highlightedURL = 0;
+    m_highlightedUrl = 0;
 
     DolphinStatusBar* statusBar = Dolphin::mainWin().activeView()->statusBar();
     statusBar->clear();
@@ -126,10 +126,10 @@ void ItemEffectsManager::updateDisabledItems()
         // restore all disabled items with their original pixmap
         for (void* context = firstContext(); context != 0; context = nextContext(context)) {
             const KFileItem* fileInfo = contextFileInfo(context);
-            const KUrl& fileURL = fileInfo->url();
+            const KUrl& fileUrl = fileInfo->url();
             Q3ValueListIterator<DisabledItem> it = m_disabledItems.begin();
             while (it != m_disabledItems.end()) {
-                if (fileURL == (*it).url) {
+                if (fileUrl == (*it).url) {
                     setContextPixmap(context, (*it).pixmap);
                 }
                 ++it;
@@ -153,14 +153,14 @@ void ItemEffectsManager::updateDisabledItems()
     // items to the disabled state.
     for (void* context = firstContext(); context != 0; context = nextContext(context)) {
         const KFileItem* fileInfo = contextFileInfo(context);
-        const KUrl& fileURL = fileInfo->url();
+        const KUrl& fileUrl = fileInfo->url();
         for(KUrl::List::ConstIterator it = urls.begin(); it != urls.end(); ++it) {
-            if (fileURL == (*it)) {
+            if (fileUrl == (*it)) {
                 const QPixmap* itemPixmap = contextPixmap(context);
                 if (itemPixmap != 0) {
                     // remember old pixmap
                     DisabledItem disabledItem;
-                    disabledItem.url = fileURL;
+                    disabledItem.url = fileUrl;
                     disabledItem.pixmap = *itemPixmap;
                     m_disabledItems.append(disabledItem);
 

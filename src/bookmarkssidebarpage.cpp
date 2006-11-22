@@ -98,7 +98,7 @@ void BookmarksSidebarPage::slotMouseButtonClicked(int button, Q3ListBoxItem* ite
 
     const int index = m_bookmarksList->index(item);
     KBookmark bookmark = DolphinSettings::instance().bookmark(index);
-    Dolphin::mainWin().activeView()->setURL(bookmark.url());
+    Dolphin::mainWin().activeView()->setUrl(bookmark.url());
 }
 
 void BookmarksSidebarPage::slotContextMenuRequested(Q3ListBoxItem* item,
@@ -203,14 +203,14 @@ void BookmarksSidebarPage::adjustSelection(const KUrl& url)
     int maxLength = 0;
     int selectedIndex = -1;
 
-    // Search the bookmark which is equal to the URL or at least is a parent URL.
-    // If there are more than one possible parent URL candidates, choose the bookmark
-    // which covers the bigger range of the URL.
+    // Search the bookmark which is equal to the Url or at least is a parent Url.
+    // If there are more than one possible parent Url candidates, choose the bookmark
+    // which covers the bigger range of the Url.
     int i = 0;
     while (!bookmark.isNull()) {
-        const KUrl bookmarkURL = bookmark.url();
-        if (bookmarkURL.isParentOf(url)) {
-            const int length = bookmarkURL.prettyUrl().length();
+        const KUrl bookmarkUrl = bookmark.url();
+        if (bookmarkUrl.isParentOf(url)) {
+            const int length = bookmarkUrl.prettyUrl().length();
             if (length > maxLength) {
                 selectedIndex = i;
                 maxLength = length;
@@ -228,13 +228,13 @@ void BookmarksSidebarPage::adjustSelection(const KUrl& url)
         m_bookmarksList->setSelected(currentIndex, false);
     }
     else {
-        // select the bookmark which is part of the current URL
+        // select the bookmark which is part of the current Url
         m_bookmarksList->setSelected(selectedIndex, true);
     }
     m_bookmarksList->blockSignals(block);
 }
 
-void BookmarksSidebarPage::slotURLChanged(const KUrl& url)
+void BookmarksSidebarPage::slotUrlChanged(const KUrl& url)
 {
     adjustSelection(url);
 }
@@ -243,8 +243,8 @@ void BookmarksSidebarPage::connectToActiveView()
 {
     DolphinView* view = Dolphin::mainWin().activeView();
     adjustSelection(view->url());
-    connect(view, SIGNAL(signalURLChanged(const KUrl&)),
-            this, SLOT(slotURLChanged(const KUrl&)));
+    connect(view, SIGNAL(signalUrlChanged(const KUrl&)),
+            this, SLOT(slotUrlChanged(const KUrl&)));
 }
 
 BookmarksListBox::BookmarksListBox(QWidget* parent) :

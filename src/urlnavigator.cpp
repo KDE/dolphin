@@ -58,7 +58,7 @@
 #include "protocolcombo.h"
 #include "urlnavigatorbutton.h"
 
-URLNavigator::HistoryElem::HistoryElem()
+UrlNavigator::HistoryElem::HistoryElem()
  :  m_url(),
     m_currentFileName(),
     m_contentsX(0),
@@ -66,7 +66,7 @@ URLNavigator::HistoryElem::HistoryElem()
 {
 }
 
-URLNavigator::HistoryElem::HistoryElem(const KUrl& url)
+UrlNavigator::HistoryElem::HistoryElem(const KUrl& url)
  :  m_url(url),
     m_currentFileName(),
     m_contentsX(0),
@@ -74,11 +74,11 @@ URLNavigator::HistoryElem::HistoryElem(const KUrl& url)
 {
 }
 
-URLNavigator::HistoryElem::~HistoryElem()
+UrlNavigator::HistoryElem::~HistoryElem()
 {
 }
 
-URLNavigator::URLNavigator(const KUrl& url,
+UrlNavigator::UrlNavigator(const KUrl& url,
                            DolphinView* dolphinView) :
     Q3HBox(dolphinView),
     m_historyIndex(0),
@@ -99,7 +99,7 @@ URLNavigator::URLNavigator(const KUrl& url,
     m_toggleButton->setMinimumHeight(minimumHeight());
     connect(m_toggleButton, SIGNAL(clicked()),
             this, SLOT(slotClicked()));
-    if (DolphinSettings::instance().generalSettings()->editableURL()) {
+    if (DolphinSettings::instance().generalSettings()->editableUrl()) {
         m_toggleButton->toggle();
     }
 
@@ -116,7 +116,7 @@ URLNavigator::URLNavigator(const KUrl& url,
     connect(m_pathBox, SIGNAL(returnPressed(const QString&)),
             this, SLOT(slotReturnPressed(const QString&)));
     connect(m_pathBox, SIGNAL(urlActivated(const KUrl&)),
-            this, SLOT(slotURLActivated(const KUrl&)));
+            this, SLOT(slotUrlActivated(const KUrl&)));
 
     connect(dolphinView, SIGNAL(contentsMoved(int, int)),
             this, SLOT(slotContentsMoved(int, int)));
@@ -127,53 +127,53 @@ URLNavigator::URLNavigator(const KUrl& url,
     updateContent();
 }
 
-URLNavigator::~URLNavigator()
+UrlNavigator::~UrlNavigator()
 {
 }
 
-void URLNavigator::setURL(const KUrl& url)
+void UrlNavigator::setUrl(const KUrl& url)
 {
     QString urlStr(url.pathOrUrl());
-    //kDebug() << "setURL(" << url << ")" << endl;
+    //kDebug() << "setUrl(" << url << ")" << endl;
     if (urlStr.at(0) == '~') {
         // replace '~' by the home directory
         urlStr.remove(0, 1);
         urlStr.insert(0, QDir::home().path());
     }
 
-    const KUrl transformedURL(urlStr);
+    const KUrl transformedUrl(urlStr);
 
     if (m_historyIndex > 0) {
-        // Check whether the previous element of the history has the same URL.
+        // Check whether the previous element of the history has the same Url.
         // If yes, just go forward instead of inserting a duplicate history
         // element.
-        const KUrl& nextURL = m_history[m_historyIndex - 1].url();
-        if (transformedURL == nextURL) {
+        const KUrl& nextUrl = m_history[m_historyIndex - 1].url();
+        if (transformedUrl == nextUrl) {
             goForward();
 //             kDebug() << "goin' forward in history" << endl;
             return;
         }
     }
 
-    const KUrl& currURL = m_history[m_historyIndex].url();
-    if (currURL == transformedURL) {
+    const KUrl& currUrl = m_history[m_historyIndex].url();
+    if (currUrl == transformedUrl) {
         // don't insert duplicate history elements
-//         kDebug() << "currURL == transformedURL" << endl;
+//         kDebug() << "currUrl == transformedUrl" << endl;
         return;
     }
 
     updateHistoryElem();
 
-    const Q3ValueListIterator<URLNavigator::HistoryElem> it = m_history.at(m_historyIndex);
-    m_history.insert(it, HistoryElem(transformedURL));
+    const Q3ValueListIterator<UrlNavigator::HistoryElem> it = m_history.at(m_historyIndex);
+    m_history.insert(it, HistoryElem(transformedUrl));
 
     updateContent();
 
-    emit urlChanged(transformedURL);
+    emit urlChanged(transformedUrl);
     emit historyChanged();
 
     // Prevent an endless growing of the history: remembering
-    // the last 100 URLs should be enough...
+    // the last 100 Urls should be enough...
     if (m_historyIndex > 100) {
         m_history.erase(m_history.begin());
         --m_historyIndex;
@@ -181,7 +181,7 @@ void URLNavigator::setURL(const KUrl& url)
 
 /*    kDebug() << "history starting ====================" << endl;
     int i = 0;
-    for (QValueListIterator<URLNavigator::HistoryElem> it = m_history.begin();
+    for (QValueListIterator<UrlNavigator::HistoryElem> it = m_history.begin();
          it != m_history.end();
          ++it, ++i)
     {
@@ -190,13 +190,13 @@ void URLNavigator::setURL(const KUrl& url)
     kDebug() << "history done ========================" << endl;*/
 }
 
-const KUrl& URLNavigator::url() const
+const KUrl& UrlNavigator::url() const
 {
     assert(!m_history.empty());
     return m_history[m_historyIndex].url();
 }
 
-KUrl URLNavigator::url(int index) const
+KUrl UrlNavigator::url(int index) const
 {
     assert(index >= 0);
     QString path(url().pathOrUrl());
@@ -210,13 +210,13 @@ KUrl URLNavigator::url(int index) const
     return path;
 }
 
-const Q3ValueList<URLNavigator::HistoryElem>& URLNavigator::history(int& index) const
+const Q3ValueList<UrlNavigator::HistoryElem>& UrlNavigator::history(int& index) const
 {
     index = m_historyIndex;
     return m_history;
 }
 
-void URLNavigator::goBack()
+void UrlNavigator::goBack()
 {
     updateHistoryElem();
 
@@ -229,7 +229,7 @@ void URLNavigator::goBack()
     }
 }
 
-void URLNavigator::goForward()
+void UrlNavigator::goForward()
 {
     if (m_historyIndex > 0) {
         --m_historyIndex;
@@ -239,32 +239,32 @@ void URLNavigator::goForward()
     }
 }
 
-void URLNavigator::goUp()
+void UrlNavigator::goUp()
 {
-    setURL(url().upUrl());
+    setUrl(url().upUrl());
 }
 
-void URLNavigator::goHome()
+void UrlNavigator::goHome()
 {
-    setURL(DolphinSettings::instance().generalSettings()->homeURL());
+    setUrl(DolphinSettings::instance().generalSettings()->homeUrl());
 }
 
-void URLNavigator::setURLEditable(bool editable)
+void UrlNavigator::setUrlEditable(bool editable)
 {
-    if (isURLEditable() != editable) {
+    if (isUrlEditable() != editable) {
         m_toggleButton->toggle();
         slotClicked();
     }
 }
 
-bool URLNavigator::isURLEditable() const
+bool UrlNavigator::isUrlEditable() const
 {
     return m_toggleButton->isChecked();
 }
 
-void URLNavigator::editURL(bool editOrBrowse)
+void UrlNavigator::editUrl(bool editOrBrowse)
 {
-    setURLEditable(editOrBrowse);
+    setUrlEditable(editOrBrowse);
 
     if (editOrBrowse)
     {
@@ -272,20 +272,20 @@ void URLNavigator::editURL(bool editOrBrowse)
     }
 }
 
-DolphinView* URLNavigator::dolphinView() const
+DolphinView* UrlNavigator::dolphinView() const
 {
     return m_dolphinView;
 }
 
-void URLNavigator::keyReleaseEvent(QKeyEvent* event)
+void UrlNavigator::keyReleaseEvent(QKeyEvent* event)
 {
     Q3HBox::keyReleaseEvent(event);
-    if (isURLEditable() && (event->key() == Qt::Key_Escape)) {
-        setURLEditable(false);
+    if (isUrlEditable() && (event->key() == Qt::Key_Escape)) {
+        setUrlEditable(false);
     }
 }
 
-void URLNavigator::slotReturnPressed(const QString& text)
+void UrlNavigator::slotReturnPressed(const QString& text)
 {
     // Parts of the following code have been taken
     // from the class KateFileSelector located in
@@ -294,28 +294,28 @@ void URLNavigator::slotReturnPressed(const QString& text)
     // Copyright (C) 2001 Joseph Wenninger <jowenn@kde.org>
     // Copyright (C) 2001 Anders Lund <anders.lund@lund.tdcadsl.dk>
 
-    KUrl typedURL(text);
-    if (typedURL.hasPass()) {
-        typedURL.setPass(QString::null);
+    KUrl typedUrl(text);
+    if (typedUrl.hasPass()) {
+        typedUrl.setPass(QString::null);
     }
 
     QStringList urls = m_pathBox->urls();
-    urls.remove(typedURL.url());
-    urls.prepend(typedURL.url());
+    urls.remove(typedUrl.url());
+    urls.prepend(typedUrl.url());
     m_pathBox->setUrls(urls, KUrlComboBox::RemoveBottom);
 
-    setURL(typedURL);
-    // The URL might have been adjusted by URLNavigator::setURL(), hence
+    setUrl(typedUrl);
+    // The Url might have been adjusted by UrlNavigator::setUrl(), hence
     // synchronize the result in the path box.
     m_pathBox->setUrl(url());
 }
 
-void URLNavigator::slotURLActivated(const KUrl& url)
+void UrlNavigator::slotUrlActivated(const KUrl& url)
 {
-    setURL(url);
+    setUrl(url);
 }
 
-void URLNavigator::slotRemoteHostActivated()
+void UrlNavigator::slotRemoteHostActivated()
 {
     KUrl u = url();
 
@@ -358,11 +358,11 @@ void URLNavigator::slotRemoteHostActivated()
             }
         }
 
-        setURL(u);
+        setUrl(u);
     }
 }
 
-void URLNavigator::slotProtocolChanged(const QString& protocol)
+void UrlNavigator::slotProtocolChanged(const QString& protocol)
 {
     KUrl url;
     url.setProtocol(protocol);
@@ -377,7 +377,7 @@ void URLNavigator::slotProtocolChanged(const QString& protocol)
     m_navButtons.clear();
 
     if (KProtocolInfo::protocolClass(protocol) == ":local") {
-        setURL(url);
+        setUrl(url);
     }
     else {
         if (!m_host) {
@@ -398,21 +398,21 @@ void URLNavigator::slotProtocolChanged(const QString& protocol)
     }
 }
 
-void URLNavigator::slotRequestActivation()
+void UrlNavigator::slotRequestActivation()
 {
     m_dolphinView->requestActivation();
 }
 
-void URLNavigator::slotBookmarkActivated(int index)
+void UrlNavigator::slotBookmarkActivated(int index)
 {
     m_dolphinView->statusBar()->clear();
     m_dolphinView->requestActivation();
 
     KBookmark bookmark = DolphinSettings::instance().bookmark(index);
-    m_dolphinView->setURL(bookmark.url());
+    m_dolphinView->setUrl(bookmark.url());
 }
 
-void URLNavigator::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
+void UrlNavigator::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
 {
 // kDebug() << "received redirection to " << newUrl << endl;
 kDebug() << "received redirection from " << oldUrl << " to " << newUrl << endl;
@@ -425,25 +425,25 @@ kDebug() << "received redirection from " << oldUrl << " to " << newUrl << endl;
     m_urls.append(newUrl);*/
 }
 
-void URLNavigator::slotContentsMoved(int x, int y)
+void UrlNavigator::slotContentsMoved(int x, int y)
 {
     m_history[m_historyIndex].setContentsX(x);
     m_history[m_historyIndex].setContentsY(y);
 }
 
-void URLNavigator::slotClicked()
+void UrlNavigator::slotClicked()
 {
-    if (isURLEditable()) {
+    if (isUrlEditable()) {
         m_pathBox->setFocus();
         updateContent();
     }
     else {
-        setURL(m_pathBox->currentText());
+        setUrl(m_pathBox->currentText());
         m_dolphinView->setFocus();
     }
 }
 
-void URLNavigator::updateHistoryElem()
+void UrlNavigator::updateHistoryElem()
 {
     assert(m_historyIndex >= 0);
     const KFileItem* item = m_dolphinView->currentFileItem();
@@ -454,9 +454,9 @@ void URLNavigator::updateHistoryElem()
     m_history[m_historyIndex].setContentsY(m_dolphinView->contentsY());
 }
 
-void URLNavigator::updateContent()
+void UrlNavigator::updateContent()
 {
-    // delete all existing URL navigator buttons
+    // delete all existing Url navigator buttons
     Q3ValueList<QWidget*>::const_iterator it = m_navButtons.constBegin();
     while (it != m_navButtons.constEnd()) {
         (*it)->close();
@@ -496,7 +496,7 @@ void URLNavigator::updateContent()
 
         QString bookmarkPath;
         if (bookmark.isNull()) {
-            // No bookmark is a part of the current URL.
+            // No bookmark is a part of the current Url.
             // The following code tries to guess the bookmark
             // path. E. g. "fish://root@192.168.0.2/var/lib" writes
             // "fish://root@192.168.0.2" to 'bookmarkPath', which leads to the
@@ -510,8 +510,8 @@ void URLNavigator::updateContent()
         }
         const uint len = bookmarkPath.length();
 
-        // calculate the start point for the URL navigator buttons by counting
-        // the slashs inside the bookmark URL
+        // calculate the start point for the Url navigator buttons by counting
+        // the slashs inside the bookmark Url
         int slashCount = 0;
         for (uint i = 0; i < len; ++i) {
             if (bookmarkPath.at(i) == QChar('/')) {
@@ -573,7 +573,7 @@ void URLNavigator::updateContent()
             }
         }
 
-        // create URL navigator buttons
+        // create Url navigator buttons
         int idx = slashCount;
         bool hasNext = true;
         do {
@@ -581,9 +581,9 @@ void URLNavigator::updateContent()
             const bool isFirstButton = (idx == slashCount);
             hasNext = isFirstButton || !dir_name.isEmpty();
             if (hasNext) {
-                URLNavigatorButton* button = new URLNavigatorButton(idx, this);
+                UrlNavigatorButton* button = new UrlNavigatorButton(idx, this);
                 if (isFirstButton) {
-                    // the first URL navigator button should get the name of the
+                    // the first Url navigator button should get the name of the
                     // bookmark instead of the directory name
                     QString text = bookmark.text();
                     if (text.isEmpty()) {

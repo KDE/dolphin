@@ -46,9 +46,9 @@ Sidebar::Sidebar(QWidget* parent) :
     m_pagesSelector->insertItem(i18n("Information"));
     m_pagesSelector->insertItem(i18n("Bookmarks"));
 
-    // Assure that the combo box has the same height as the URL navigator for
+    // Assure that the combo box has the same height as the Url navigator for
     // a clean layout.
-    // TODO: the following 2 lines have been copied from the URLNavigator
+    // TODO: the following 2 lines have been copied from the UrlNavigator
     // constructor (-> provide a shared height setting?)
     QFontMetrics fontMetrics(font());
     m_pagesSelector->setMinimumHeight(fontMetrics.height() + 8);

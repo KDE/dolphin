@@ -33,7 +33,7 @@ class BookmarksListBox;
  *
  * It is possible to add, remove and edit bookmarks
  * by a context menu. The selection of the bookmark
- * is automatically adjusted to the URL given by
+ * is automatically adjusted to the Url given by
  * the active view.
  */
 class BookmarksSidebarPage : public SidebarPage
@@ -54,7 +54,7 @@ private slots:
 
     /**
      * Checks whether the left mouse button has been clicked above a bookmark.
-     * If this is the case, the URL for the currently active view is adjusted.
+     * If this is the case, the Url for the currently active view is adjusted.
      */
     void slotMouseButtonClicked(int button, Q3ListBoxItem* item);
 
@@ -62,24 +62,24 @@ private slots:
     void slotContextMenuRequested(Q3ListBoxItem* item, const QPoint& pos);
 
     /**
-     * Is invoked whenever the URL of the active view has been changed. Adjusts
-     * the selection of the listbox to the bookmark which is part of the current URL.
+     * Is invoked whenever the Url of the active view has been changed. Adjusts
+     * the selection of the listbox to the bookmark which is part of the current Url.
      */
-    void slotURLChanged(const KUrl& url);
+    void slotUrlChanged(const KUrl& url);
 
 private:
     /**
-     * Updates the selection dependent from the given URL \a url. The
-     * URL must not match exactly to one of the available bookmarks:
-     * The bookmark which is equal to the URL or at least is a parent URL
-     * is selected. If there are more than one possible parent URL candidates,
-     * the bookmark which covers the bigger range of the URL is selected.
+     * Updates the selection dependent from the given Url \a url. The
+     * Url must not match exactly to one of the available bookmarks:
+     * The bookmark which is equal to the Url or at least is a parent Url
+     * is selected. If there are more than one possible parent Url candidates,
+     * the bookmark which covers the bigger range of the Url is selected.
      */
     void adjustSelection(const KUrl& url);
 
     /**
      * Connects to signals from the currently active Dolphin view to get
-     * informed about URL and bookmark changes.
+     * informed about Url and bookmark changes.
      */
     void connectToActiveView();
 

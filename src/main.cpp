@@ -27,7 +27,7 @@
 
 static KCmdLineOptions options[] =
 {
-    { "+[URL]", I18N_NOOP( "Document to open" ), 0 },
+    { "+[Url]", I18N_NOOP( "Document to open" ), 0 },
     KCmdLineLastOption
 };
 
@@ -68,7 +68,7 @@ int main(int argc, char **argv)
     } else {
         KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
         if (args->count() > 0) {
-            mainWin.activeView()->setURL(args->url(0));
+            mainWin.activeView()->setUrl(args->url(0));
 
             for (int i = 1; i < args->count(); ++i) {
                 KRun::run("dolphin", args->url(i));

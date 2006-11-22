@@ -26,7 +26,7 @@
 //Added by qt3to4:
 #include <Q3PopupMenu>
 
-class URLNavigator;
+class UrlNavigator;
 class Q3PopupMenu;
 class KUrl;
 
@@ -36,10 +36,10 @@ class KUrl;
  * The icon from the current selected bookmark is shown
  * inside the bookmark selector.
  *
- * @see URLNavigator
+ * @see UrlNavigator
  * @author Peter Penz <peter.penz@gmx.at>
  */
-class BookmarkSelector : public URLButton
+class BookmarkSelector : public UrlButton
 {
     Q_OBJECT
 
@@ -48,16 +48,16 @@ public:
      * @param parent Parent widget where the bookmark selector
      *               is embedded into.
      */
-    BookmarkSelector(URLNavigator* parent);
+    BookmarkSelector(UrlNavigator* parent);
 
     virtual ~BookmarkSelector();
 
     /**
-     * Updates the selection dependent from the given URL \a url. The
-     * URL must not match exactly to one of the available bookmarks:
-     * The bookmark which is equal to the URL or at least is a parent URL
-     * is selected. If there are more than one possible parent URL candidates,
-     * the bookmark which covers the bigger range of the URL is selected.
+     * Updates the selection dependent from the given Url \a url. The
+     * Url must not match exactly to one of the available bookmarks:
+     * The bookmark which is equal to the Url or at least is a parent Url
+     * is selected. If there are more than one possible parent Url candidates,
+     * the bookmark which covers the bigger range of the Url is selected.
      */
     void updateSelection(const KUrl& url);
 
@@ -79,7 +79,7 @@ signals:
 
 protected:
     /**
-     * Draws the icon of the selected URL as content of the URL
+     * Draws the icon of the selected Url as content of the Url
      * selector.
      */
     virtual void drawButton(QPainter* painter);

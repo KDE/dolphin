@@ -31,8 +31,8 @@ class ProgressIndicator;
 /**
  * @short Represents a file manager command which can be undone and redone.
  *
- * A command is specified by a type, a list of source URLs and a
- * destination URL.
+ * A command is specified by a type, a list of source Urls and a
+ * destination Url.
  *
  * Due to the fixed set of commands a file manager offers this class is
  * a very simplified version of the classic command pattern.

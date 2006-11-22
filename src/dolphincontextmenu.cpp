@@ -177,7 +177,7 @@ void DolphinContextMenu::openItemContextMenu()
 
     KMenu* popup = new KMenu(m_dolphinView);
     Dolphin& dolphin = Dolphin::mainWin();
-    const KUrl::List urls = m_dolphinView->selectedURLs();
+    const KUrl::List urls = m_dolphinView->selectedUrls();
 
     // insert 'Cut', 'Copy' and 'Paste'
     const KStdAction::StdAction actionNames[] = { KStdAction::Cut, KStdAction::Copy, KStdAction::Paste };
@@ -194,7 +194,7 @@ void DolphinContextMenu::openItemContextMenu()
     KAction* renameAction = dolphin.actionCollection()->action("rename");
     renameAction->plug(popup);
 
-    // insert 'Move to Trash' for local URLs, otherwise insert 'Delete'
+    // insert 'Move to Trash' for local Urls, otherwise insert 'Delete'
     const KUrl& url = dolphin.activeView()->url();
     if (url.isLocalFile()) {
         KAction* moveToTrashAction = dolphin.actionCollection()->action("move_to_trash");
@@ -231,10 +231,10 @@ void DolphinContextMenu::openItemContextMenu()
     QAction *activatedAction = popup->exec(m_pos);
 
     if (bookmarkAction!=0 && activatedAction == bookmarkAction) {
-        const KUrl selectedURL(m_fileInfo->url());
+        const KUrl selectedUrl(m_fileInfo->url());
         KBookmark bookmark = EditBookmarkDialog::getBookmark(i18n("Add folder as bookmark"),
-                                                             selectedURL.fileName(),
-                                                             selectedURL,
+                                                             selectedUrl.fileName(),
+                                                             selectedUrl,
                                                              "bookmark");
         if (!bookmark.isNull()) {
             KBookmarkManager* manager = DolphinSettings::instance().bookmarkManager();

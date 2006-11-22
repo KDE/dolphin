@@ -17,8 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef URLNAVIGATORBUTTON_H
-#define URLNAVIGATORBUTTON_H
+#ifndef UrlNAVIGATORBUTTON_H
+#define UrlNAVIGATORBUTTON_H
 
 #include <qstringlist.h>
 //Added by qt3to4:
@@ -32,7 +32,7 @@
 #include <urlbutton.h>
 
 class KUrl;
-class URLNavigator;
+class UrlNavigator;
 class QPainter;
 
 namespace KIO
@@ -41,20 +41,20 @@ namespace KIO
 }
 
 /**
- * @brief Button of the URL navigator which contains one part of an URL.
+ * @brief Button of the Url navigator which contains one part of an Url.
  *
- * It is possible to drop a various number of items to an URL button. In this case
+ * It is possible to drop a various number of items to an Url button. In this case
  * a context menu is opened where the user must select whether he wants
- * to copy, move or link the dropped items to the URL part indicated by
+ * to copy, move or link the dropped items to the Url part indicated by
  * the button.
  */
-class URLNavigatorButton : public URLButton
+class UrlNavigatorButton : public UrlButton
 {
     Q_OBJECT
 
 public:
-    URLNavigatorButton(int index, URLNavigator* parent = 0);
-    virtual ~URLNavigatorButton();
+    UrlNavigatorButton(int index, UrlNavigator* parent = 0);
+    virtual ~UrlNavigatorButton();
     void setIndex(int index);
     int index() const;
 
@@ -67,7 +67,7 @@ protected:
     virtual void dragLeaveEvent(QDragLeaveEvent* event);
 
 private slots:
-    void updateNavigatorURL();
+    void updateNavigatorUrl();
     void startPopupDelay();
     void stopPopupDelay();
     void startListJob();

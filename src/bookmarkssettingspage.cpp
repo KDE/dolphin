@@ -117,7 +117,7 @@ BookmarksSettingsPage::BookmarksSettingsPage(QWidget*parent) :
         Q3ListViewItem* item = new Q3ListViewItem(m_listView);
         item->setPixmap(PixmapIdx, SmallIcon(bookmark.icon()));
         item->setText(NameIdx, bookmark.text());
-        item->setText(URLIdx, bookmark.url().prettyUrl());
+        item->setText(UrlIdx, bookmark.url().prettyUrl());
 
         // add hidden column to be able to retrieve the icon name again
         item->setText(IconIdx, bookmark.icon());
@@ -156,7 +156,7 @@ void BookmarksSettingsPage::applySettings()
     while (item != 0) {
         root.addBookmark(manager,
                          item->text(NameIdx),
-                         KUrl(item->text(URLIdx)),
+                         KUrl(item->text(UrlIdx)),
                          item->text(IconIdx)); // hidden column
         item = item->itemBelow();
     }
@@ -206,7 +206,7 @@ void BookmarksSettingsPage::slotAddButtonClicked()
         Q3ListViewItem* item = new Q3ListViewItem(m_listView);
         item->setPixmap(PixmapIdx, SmallIcon(bookmark.icon()));
         item->setText(NameIdx, bookmark.text());
-        item->setText(URLIdx, bookmark.url().prettyUrl());
+        item->setText(UrlIdx, bookmark.url().prettyUrl());
         item->setText(IconIdx, bookmark.icon());
         m_listView->insertItem(item);
 
@@ -227,12 +227,12 @@ void BookmarksSettingsPage::slotEditButtonClicked()
 
     KBookmark bookmark = EditBookmarkDialog::getBookmark(i18n("Edit Bookmark"),
                                                          item->text(NameIdx),
-                                                         KUrl(item->text(URLIdx)),
+                                                         KUrl(item->text(UrlIdx)),
                                                          item->text(IconIdx));
     if (!bookmark.isNull()) {
         item->setPixmap(PixmapIdx, SmallIcon(bookmark.icon()));
         item->setText(NameIdx, bookmark.text());
-        item->setText(URLIdx, bookmark.url().prettyUrl());
+        item->setText(UrlIdx, bookmark.url().prettyUrl());
         item->setText(IconIdx, bookmark.icon());
     }
 }
@@ -297,19 +297,19 @@ void BookmarksSettingsPage::moveBookmark(int direction)
         pixmap = *(item->pixmap(0));
     }
     QString name(item->text(NameIdx));
-    QString url(item->text(URLIdx));
+    QString url(item->text(UrlIdx));
     QString icon(item->text(IconIdx));
 
     if (selectedItem->pixmap(0) != 0) {
         item->setPixmap(PixmapIdx, *(selectedItem->pixmap(0)));
     }
     item->setText(NameIdx, selectedItem->text(NameIdx));
-    item->setText(URLIdx, selectedItem->text(URLIdx));
+    item->setText(UrlIdx, selectedItem->text(UrlIdx));
     item->setText(IconIdx, selectedItem->text(IconIdx));
 
     selectedItem->setPixmap(PixmapIdx, pixmap);
     selectedItem->setText(NameIdx, name);
-    selectedItem->setText(URLIdx, url);
+    selectedItem->setText(UrlIdx, url);
     selectedItem->setText(IconIdx, icon);
 
     m_listView->setSelected(item, true);

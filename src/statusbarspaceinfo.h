@@ -41,7 +41,7 @@ public:
     StatusBarSpaceInfo(QWidget* parent);
     virtual ~StatusBarSpaceInfo();
 
-    void setURL(const KUrl& url);
+    void setUrl(const KUrl& url);
     const KUrl& url() const { return m_url; }
 
 protected:
@@ -60,7 +60,7 @@ private slots:
                              const QString& mountPoint);
     void slotDone();
 
-    /** Refreshs the space information for the current set URL. */
+    /** Refreshs the space information for the current set Url. */
     void refresh();
 
 private:

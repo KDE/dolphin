@@ -48,7 +48,7 @@ public:
 signals:
 	/**
 	 * The user selected an item on sidebar widget and item has
-	 * URL property, so inform the parent togo to this URL;
+	 * Url property, so inform the parent togo to this Url;
 	 */
 	void urlChanged(const KUrl& url);
 

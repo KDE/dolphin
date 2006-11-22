@@ -140,7 +140,7 @@ void InfoSidebarPage::requestItemInfo(const KUrl& url)
     cancelRequest();
 
     if (!url.isEmpty() && !m_multipleSelection) {
-        m_shownURL = url;
+        m_shownUrl = url;
         showItemInfo();
     }
 }
@@ -169,7 +169,7 @@ void InfoSidebarPage::showItemInfo()
     else if (!applyBookmark()) {
         // try to get a preview pixmap from the item...
         KUrl::List list;
-        list.append(m_shownURL);
+        list.append(m_shownUrl);
 
         m_pendingPreview = true;
         m_preview->setPixmap(QPixmap());
@@ -183,7 +183,7 @@ void InfoSidebarPage::showItemInfo()
                 this, SLOT(slotPreviewFailed(const KFileItem*)));
 
         QString text("<b>");
-        text.append(m_shownURL.fileName());
+        text.append(m_shownUrl.fileName());
         text.append("</b>");
         m_name->setText(text);
     }
@@ -194,7 +194,7 @@ void InfoSidebarPage::showItemInfo()
 
 void InfoSidebarPage::slotTimeout()
 {
-    m_shownURL = m_urlCandidate;
+    m_shownUrl = m_urlCandidate;
     showItemInfo();
 }
 
@@ -219,11 +219,11 @@ void InfoSidebarPage::startService(int index)
 {
     DolphinView* view = Dolphin::mainWin().activeView();
     if (view->hasSelection()) {
-        KUrl::List selectedURLs = view->selectedURLs();
-        KDEDesktopMimeType::executeService(selectedURLs, m_actionsVector[index]);
+        KUrl::List selectedUrls = view->selectedUrls();
+        KDEDesktopMimeType::executeService(selectedUrls, m_actionsVector[index]);
     }
     else {
-        KDEDesktopMimeType::executeService(m_shownURL, m_actionsVector[index]);
+        KDEDesktopMimeType::executeService(m_shownUrl, m_actionsVector[index]);
     }
 }
 
@@ -234,10 +234,10 @@ void InfoSidebarPage::connectToActiveView()
     DolphinView* view = Dolphin::mainWin().activeView();
     connect(view, SIGNAL(signalRequestItemInfo(const KUrl&)),
             this, SLOT(requestDelayedItemInfo(const KUrl&)));
-    connect(view, SIGNAL(signalURLChanged(const KUrl&)),
+    connect(view, SIGNAL(signalUrlChanged(const KUrl&)),
             this, SLOT(requestItemInfo(const KUrl&)));
 
-    m_shownURL = view->url();
+    m_shownUrl = view->url();
     showItemInfo();
 }
 
@@ -246,7 +246,7 @@ bool InfoSidebarPage::applyBookmark()
     KBookmarkGroup root = DolphinSettings::instance().bookmarkManager()->root();
     KBookmark bookmark = root.first();
     while (!bookmark.isNull()) {
-        if (m_shownURL.equals(bookmark.url(), KUrl::CompareWithoutTrailingSlash)) {
+        if (m_shownUrl.equals(bookmark.url(), KUrl::CompareWithoutTrailingSlash)) {
             QString text("<b>");
             text.append(bookmark.text());
             text.append("</b>");
@@ -280,7 +280,7 @@ void InfoSidebarPage::createMetaInfo()
     beginInfoLines();
     DolphinView* view = Dolphin::mainWin().activeView();
     if (!view->hasSelection()) {
-        KFileItem fileItem(S_IFDIR, KFileItem::Unknown, m_shownURL);
+        KFileItem fileItem(S_IFDIR, KFileItem::Unknown, m_shownUrl);
         fileItem.refresh();
 
         if (fileItem.isDir()) {
@@ -426,8 +426,8 @@ void InfoSidebarPage::insertActions()
 
     // The algorithm for searching the available actions works on a list
     // of KFileItems. If no selection is given, a temporary KFileItem
-    // by the given URL 'url' is created and added to the list.
-    KFileItem fileItem(S_IFDIR, KFileItem::Unknown, m_shownURL);
+    // by the given Url 'url' is created and added to the list.
+    KFileItem fileItem(S_IFDIR, KFileItem::Unknown, m_shownUrl);
     KFileItemList localList;
     const KFileItemList* itemList = Dolphin::mainWin().activeView()->selectedItems();
     if ((itemList == 0) || itemList->isEmpty()) {
@@ -592,7 +592,7 @@ void ServiceButton::drawButton(QPainter* painter)
         // Blend the right area of the text with the background, as the
         // text is clipped.
         // TODO #1: use alpha blending in Qt4 instead of drawing the text that often
-        // TODO #2: same code as in URLNavigatorButton::drawButton() -> provide helper class?
+        // TODO #2: same code as in UrlNavigatorButton::drawButton() -> provide helper class?
         const int blendSteps = 16;
 
         QColor blendColor(backgroundColor);

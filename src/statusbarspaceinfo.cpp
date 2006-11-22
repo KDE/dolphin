@@ -48,7 +48,7 @@ StatusBarSpaceInfo::~StatusBarSpaceInfo()
 {
 }
 
-void StatusBarSpaceInfo::setURL(const KUrl& url)
+void StatusBarSpaceInfo::setUrl(const KUrl& url)
 {
     m_url = url;
     refresh();

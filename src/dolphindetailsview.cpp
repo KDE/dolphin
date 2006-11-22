@@ -86,7 +86,7 @@ DolphinDetailsView::DolphinDetailsView(DolphinView* parent) :
     connect(this, SIGNAL(itemRenamed(Q3ListViewItem*, const QString&, int)),
             this, SLOT(slotItemRenamed(Q3ListViewItem*, const QString&, int)));
     connect(this, SIGNAL(dropped(QDropEvent*, const KUrl::List&, const KUrl&)),
-            parent, SLOT(slotURLListDropped(QDropEvent*, const KUrl::List&, const KUrl&)));
+            parent, SLOT(slotUrlListDropped(QDropEvent*, const KUrl::List&, const KUrl&)));
 
     QClipboard* clipboard = QApplication::clipboard();
     connect(clipboard, SIGNAL(dataChanged()),
@@ -127,7 +127,7 @@ void DolphinDetailsView::endItemUpdates()
     }
 
     int index = 0;
-    const Q3ValueList<URLNavigator::HistoryElem> history = m_dolphinView->urlHistory(index);
+    const Q3ValueList<UrlNavigator::HistoryElem> history = m_dolphinView->urlHistory(index);
     if (!history.isEmpty()) {
         KFileView* fileView = static_cast<KFileView*>(this);
         fileView->setCurrentItem(history[index].currentFileName());
@@ -345,9 +345,9 @@ bool DolphinDetailsView::acceptDrag(QDropEvent* event) const
 void DolphinDetailsView::contentsDropEvent(QDropEvent* event)
 {
     // KFileDetailView::contentsDropEvent does not care whether the mouse
-    // cursor is above a filename or not, the destination URL is always
-    // the URL of the item. This is fixed here in a way that the destination
-    // URL is only the URL of the item if the cursor is above the filename.
+    // cursor is above a filename or not, the destination Url is always
+    // the Url of the item. This is fixed here in a way that the destination
+    // Url is only the Url of the item if the cursor is above the filename.
     const QPoint pos(QCursor::pos());
     const QPoint viewportPos(viewport()->mapToGlobal(QPoint(0, 0)));
     Q3ListViewItem* item = itemAt(QPoint(pos.x() - viewportPos.x(), pos.y() - viewportPos.y()));

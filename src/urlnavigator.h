@@ -18,8 +18,8 @@
 *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
 ***************************************************************************/
 
-#ifndef URLNAVIGATOR_H
-#define URLNAVIGATOR_H
+#ifndef UrlNAVIGATOR_H
+#define UrlNAVIGATOR_H
 
 #include <q3hbox.h>
 //Added by qt3to4:
@@ -45,20 +45,20 @@ class DolphinView;
 class ProtocolCombo;
 
 /**
- * @brief Navigation bar which contains the current shown URL.
+ * @brief Navigation bar which contains the current shown Url.
  *
- * The URL navigator offers two modes:
- * - Editable:     Represents the 'classic' mode, where the current URL
+ * The Url navigator offers two modes:
+ * - Editable:     Represents the 'classic' mode, where the current Url
  *                 is editable inside a line editor.
- * - Non editable: The URL is represented by a number of buttons, where
- *                 clicking on a button results in activating the URL
+ * - Non editable: The Url is represented by a number of buttons, where
+ *                 clicking on a button results in activating the Url
  *                 the button represents. This mode also supports drag
  *                 and drop of items.
  *
  * The mode can be changed by a toggle button located on the left side of
  * the navigator.
  *
- * The URL navigator also remembers the URL history and allows to go
+ * The Url navigator also remembers the Url history and allows to go
  * back and forward within this history.
  *
  * @author Peter Penz
@@ -66,15 +66,15 @@ class ProtocolCombo;
 
 typedef Q3ValueList<KUrl> UrlStack;
 
-class URLNavigator : public Q3HBox
+class UrlNavigator : public Q3HBox
 {
     Q_OBJECT
 
 public:
     /**
-     * @brief Represents the history element of an URL.
+     * @brief Represents the history element of an Url.
      *
-     * A history element contains the URL, the name of the current file
+     * A history element contains the Url, the name of the current file
      * (the 'current file' is the file where the cursor is located) and
      * the x- and y-position of the content.
      */
@@ -102,24 +102,24 @@ public:
         int m_contentsY;
     };
 
-    URLNavigator(const KUrl& url, DolphinView* dolphinView);;
-    virtual ~URLNavigator();
+    UrlNavigator(const KUrl& url, DolphinView* dolphinView);;
+    virtual ~UrlNavigator();
 
     /**
-     * Sets the current active URL.
-     * The signals URLNavigator::urlChanged and URLNavigator::historyChanged
+     * Sets the current active Url.
+     * The signals UrlNavigator::urlChanged and UrlNavigator::historyChanged
      * are submitted.
      */
-    void setURL(const KUrl& url);
+    void setUrl(const KUrl& url);
 
-    /** Returns the current active URL. */
+    /** Returns the current active Url. */
     const KUrl& url() const;
 
-    /** Returns the portion of the current active URL up to the button at index. */
+    /** Returns the portion of the current active Url up to the button at index. */
     KUrl url(int index) const;
 
     /**
-     * Returns the complete URL history. The index 0 indicates the oldest
+     * Returns the complete Url history. The index 0 indicates the oldest
      * history element.
      * @param index     Output parameter which indicates the current
      *                  index of the location.
@@ -127,44 +127,44 @@ public:
     const Q3ValueList<HistoryElem>& history(int& index) const;
 
     /**
-     * Goes back one step in the URL history. The signals
-     * URLNavigator::urlChanged and URLNavigator::historyChanged
+     * Goes back one step in the Url history. The signals
+     * UrlNavigator::urlChanged and UrlNavigator::historyChanged
      * are submitted.
      */
     void goBack();
 
     /**
-     * Goes forward one step in the URL history. The signals
-     * URLNavigator::urlChanged and URLNavigator::historyChanged
+     * Goes forward one step in the Url history. The signals
+     * UrlNavigator::urlChanged and UrlNavigator::historyChanged
      * are submitted.
      */
     void goForward();
 
     /**
-     * Goes up one step of the URL path. The signals
-     * URLNavigator::urlChanged and URLNavigator::historyChanged
+     * Goes up one step of the Url path. The signals
+     * UrlNavigator::urlChanged and UrlNavigator::historyChanged
      * are submitted.
      */
     void goUp();
 
     /**
-     * Goes to the home URL. The signals URLNavigator::urlChanged
-     * and URLNavigator::historyChanged are submitted.
+     * Goes to the home Url. The signals UrlNavigator::urlChanged
+     * and UrlNavigator::historyChanged are submitted.
      */
     void goHome();
 
     /**
-     * @return True, if the URL is editable by the user within a line editor.
-     *         If false is returned, each part of the URL is presented by a button
+     * @return True, if the Url is editable by the user within a line editor.
+     *         If false is returned, each part of the Url is presented by a button
      *         for fast navigation.
      */
-    bool isURLEditable() const;
+    bool isUrlEditable() const;
 
     /**
      * Switches to the edit mode and assures that the keyboard focus
      * is assigned.
      */
-    void editURL(bool editOrBrowse); //TODO: switch to an enum
+    void editUrl(bool editOrBrowse); //TODO: switch to an enum
 
     DolphinView* dolphinView() const;
 
@@ -179,7 +179,7 @@ protected:
 
 private slots:
     void slotReturnPressed(const QString& text);
-    void slotURLActivated(const KUrl& url);
+    void slotUrlActivated(const KUrl& url);
     void slotRemoteHostActivated();
     void slotProtocolChanged(const QString& protocol);
 
@@ -197,7 +197,7 @@ private slots:
 
     /**
      * Switches the navigation bar between the editable and noneditable
-     * state (see setURLEditable()) and is connected to the clicked signal
+     * state (see setUrlEditable()) and is connected to the clicked signal
      * of the navigation bar button.
      */
     void slotClicked();
@@ -216,11 +216,11 @@ private:
     //UrlStack m_urls;
 
     /**
-     * Allows to edit the URL of the navigation bar if \a editable
+     * Allows to edit the Url of the navigation bar if \a editable
      * is true. If \a editable is false, each part of
-     * the URL is presented by a button for a fast navigation.
+     * the Url is presented by a button for a fast navigation.
      */
-    void setURLEditable(bool editable);
+    void setUrlEditable(bool editable);
 
     /**
      * Updates the history element with the current file item

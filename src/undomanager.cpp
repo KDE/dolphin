@@ -144,10 +144,10 @@ void UndoManager::undo()
             emit redoTextChanged(i18n("Redo"));
         }
 
-        KUrl::List sourceURLs = command.source();
-        KUrl::List::Iterator it = sourceURLs.begin();
-        const KUrl::List::Iterator end = sourceURLs.end();
-        const QString destURL(command.destination().prettyUrl(KUrl::AddTrailingSlash));
+        KUrl::List sourceUrls = command.source();
+        KUrl::List::Iterator it = sourceUrls.begin();
+        const KUrl::List::Iterator end = sourceUrls.end();
+        const QString destUrl(command.destination().prettyUrl(KUrl::AddTrailingSlash));
 
         KIO::Job* job = 0;
         switch (command.type()) {
@@ -155,8 +155,8 @@ void UndoManager::undo()
             case DolphinCommand::Copy: {
                 KUrl::List list;
                 while (it != end) {
-                    const KUrl deleteURL(destURL + (*it).fileName());
-                    list.append(deleteURL);
+                    const KUrl deleteUrl(destUrl + (*it).fileName());
+                    list.append(deleteUrl);
                     ++it;
                 }
                 job = KIO::del(list, false, false);
@@ -165,18 +165,18 @@ void UndoManager::undo()
 
             case DolphinCommand::Move: {
                 KUrl::List list;
-                const KUrl newDestURL((*it).directory());
+                const KUrl newDestUrl((*it).directory());
                 while (it != end) {
-                    const KUrl newSourceURL(destURL + (*it).fileName());
-                    list.append(newSourceURL);
+                    const KUrl newSourceUrl(destUrl + (*it).fileName());
+                    list.append(newSourceUrl);
                     ++it;
                 }
-                job = KIO::move(list, newDestURL, false);
+                job = KIO::move(list, newDestUrl, false);
                 break;
             }
 
             case DolphinCommand::Rename: {
-                assert(sourceURLs.count() == 1);
+                assert(sourceUrls.count() == 1);
                 KIO::NetAccess::move(command.destination(), (*it));
                 break;
             }
@@ -186,8 +186,8 @@ void UndoManager::undo()
                     // TODO: use KIO::special for accessing the trash protocol. See
                     // also Dolphin::slotJobResult() for further details.
                     const QString originalFileName((*it).fileName().section('-', 1));
-                    KUrl newDestURL(destURL + originalFileName);
-                    KIO::NetAccess::move(*it, newDestURL);
+                    KUrl newDestUrl(destUrl + originalFileName);
+                    KIO::NetAccess::move(*it, newDestUrl);
                     ++it;
 
                     m_progressIndicator->execOperation();
@@ -252,36 +252,36 @@ void UndoManager::redo()
 
         Dolphin& dolphin = Dolphin::mainWin();
 
-        KUrl::List sourceURLs = command.source();
-        KUrl::List::Iterator it = sourceURLs.begin();
-        const KUrl::List::Iterator end = sourceURLs.end();
+        KUrl::List sourceUrls = command.source();
+        KUrl::List::Iterator it = sourceUrls.begin();
+        const KUrl::List::Iterator end = sourceUrls.end();
 
         KIO::Job* job = 0;
         switch (command.type()) {
             case DolphinCommand::Link: {
-                job = KIO::link(sourceURLs, command.destination(), false);
+                job = KIO::link(sourceUrls, command.destination(), false);
                 break;
             }
 
             case DolphinCommand::Copy: {
-                job = KIO::copy(sourceURLs, command.destination(), false);
+                job = KIO::copy(sourceUrls, command.destination(), false);
                 break;
             }
 
             case DolphinCommand::Rename:
             case DolphinCommand::Move: {
-                job = KIO::move(sourceURLs, command.destination(), false);
+                job = KIO::move(sourceUrls, command.destination(), false);
                 break;
             }
 
             case DolphinCommand::Trash: {
-                const QString destURL(command.destination().prettyUrl());
+                const QString destUrl(command.destination().prettyUrl());
                 while (it != end) {
                    // TODO: use KIO::special for accessing the trash protocol. See
                     // also Dolphin::slotJobResult() for further details.
                     const QString originalFileName((*it).fileName().section('-', 1));
-                    KUrl originalSourceURL(destURL + "/" + originalFileName);
-                    KIO::Job* moveToTrashJob = KIO::trash(originalSourceURL);
+                    KUrl originalSourceUrl(destUrl + "/" + originalFileName);
+                    KIO::Job* moveToTrashJob = KIO::trash(originalSourceUrl);
                     KIO::NetAccess::synchronousRun(moveToTrashJob, &dolphin);
                     ++it;
 
@@ -297,8 +297,8 @@ void UndoManager::redo()
 
             case DolphinCommand::CreateFile: {
                 m_progressIndicator->execOperation();
-                KUrl::List::Iterator it = sourceURLs.begin();
-                assert(sourceURLs.count() == 1);
+                KUrl::List::Iterator it = sourceUrls.begin();
+                assert(sourceUrls.count() == 1);
                 KIO::CopyJob* copyJob = KIO::copyAs(*it, command.destination(), false);
                 copyJob->setDefaultPermissions(true);
                 job = copyJob;

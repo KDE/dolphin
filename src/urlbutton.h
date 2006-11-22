@@ -18,34 +18,34 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef URLBUTTON_H
-#define URLBUTTON_H
+#ifndef UrlBUTTON_H
+#define UrlBUTTON_H
 
 #include <qpushbutton.h>
 //Added by qt3to4:
 #include <QEvent>
 
 class KUrl;
-class URLNavigator;
+class UrlNavigator;
 class QPainter;
 
 /**
- * @brief Base class for buttons of the URL navigator.
+ * @brief Base class for buttons of the Url navigator.
  *
- * Each button of the URL navigator contains an URL, which
+ * Each button of the Url navigator contains an Url, which
  * is set as soon as the button has been clicked.
 *
  * @author Peter Penz
  */
-class URLButton : public QPushButton
+class UrlButton : public QPushButton
 {
     Q_OBJECT
 
 public:
-    URLButton(URLNavigator* parent);
-    virtual ~URLButton();
+    UrlButton(UrlNavigator* parent);
+    virtual ~UrlButton();
 
-    URLNavigator* urlNavigator() const;
+    UrlNavigator* urlNavigator() const;
 
 protected:
     enum DisplayHint {
@@ -65,7 +65,7 @@ protected:
 
 private:
     int m_displayHint;
-    URLNavigator* m_urlNavigator;
+    UrlNavigator* m_urlNavigator;
 };
 
 #endif

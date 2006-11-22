@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
-<kcfg> 
+<kcfg>
     <kcfgfile name="dolphinrc"/>
     <group name="General">
         <entry name="DefaultViewMode" type="Int">
             <label>Default view mode</label>
             <default>0</default>
         </entry>
-        <entry name="EditableURL" type="Bool">
+        <entry name="EditableUrl" type="Bool">
             <label>Should the URL be editable for the user</label>
             <default>false</default>
         </entry>
@@ -15,7 +15,7 @@
             <label>Is the application started the first time</label>
             <default>true</default>
         </entry>
-        <entry name="HomeURL" type="String">
+        <entry name="HomeUrl" type="String">
             <label>Home URL</label>
             <default>~</default>
         </entry>

@@ -67,7 +67,7 @@ protected:
 
 private slots:
     /**
-     * Does a delayed request of information for the item of the given URL and
+     * Does a delayed request of information for the item of the given Url and
      * provides default actions.
      *
      * @see InfoSidebarPage::showItemInfo()
@@ -75,7 +75,7 @@ private slots:
     void requestDelayedItemInfo(const KUrl& url);
 
     /**
-     * Does a request of information for the item of the given URL and
+     * Does a request of information for the item of the given Url and
      * provides default actions.
      *
      * @see InfoSidebarPage::showItemInfo()
@@ -83,7 +83,7 @@ private slots:
     void requestItemInfo(const KUrl& url);
 
     /**
-     * Shows the information for the item of the URL which has been provided by
+     * Shows the information for the item of the Url which has been provided by
      * InfoSidebarPage::requestItemInfo() and provides default actions.
      */
     void showItemInfo();
@@ -108,7 +108,7 @@ private slots:
 
     /**
      * Starts the service of m_actionsVector with the index \index on
-     * the shown URL (or the selected items if available).
+     * the shown Url (or the selected items if available).
      */
     void startService(int index);
 
@@ -120,9 +120,9 @@ private:
     void connectToActiveView();
 
     /**
-     * Checks whether the current URL is repesented by a bookmark. If yes,
+     * Checks whether the current Url is repesented by a bookmark. If yes,
      * then the bookmark icon and name are shown instead of a preview.
-     * @return True, if the URL represents exactly a bookmark.
+     * @return True, if the Url represents exactly a bookmark.
      */
     bool applyBookmark();
 
@@ -151,7 +151,7 @@ private:
     bool m_multipleSelection;
     bool m_pendingPreview;
     QTimer* m_timer;
-    KUrl m_shownURL;
+    KUrl m_shownUrl;
     KUrl m_urlCandidate;
 
     PixmapViewer* m_preview;
@@ -167,7 +167,7 @@ private:
 };
 
 // TODO #1: move to SidebarPage?
-// TODO #2: quite same button from the optical point of view as URLNavigatorButton
+// TODO #2: quite same button from the optical point of view as UrlNavigatorButton
 // -> provide helper class or common base class
 class ServiceButton : public QPushButton
 {

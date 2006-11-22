@@ -37,7 +37,7 @@
 class QPainter;
 class KUrl;
 class QLineEdit;
-class URLNavigator;
+class UrlNavigator;
 class QTimer;
 class Q3IconViewItem;
 class Q3ListViewItem;
@@ -62,7 +62,7 @@ class FilterBar;
  *
  * @see DolphinIconsView
  * @see DolphinDetailsView
- * @see URLNavigator
+ * @see UrlNavigator
  * @see DolphinStatusBar
  *
  * @author Peter Penz <peter.penz@gmx.at>
@@ -117,13 +117,13 @@ public:
     virtual ~DolphinView();
 
     /**
-     * Sets the current active URL.
-     * The signals URLNavigator::urlChanged and URLNavigator::historyChanged
+     * Sets the current active Url.
+     * The signals UrlNavigator::urlChanged and UrlNavigator::historyChanged
      * are submitted.
      */
-    void setURL(const KUrl& url);
+    void setUrl(const KUrl& url);
 
-    /** Returns the current active URL. */
+    /** Returns the current active Url. */
     const KUrl& url() const;
 
     void requestActivation();
@@ -156,46 +156,46 @@ public:
     void invertSelection();
 
     /**
-     * Goes back one step in the URL history. The signals
-     * URLNavigator::urlChanged and URLNavigator::historyChanged
+     * Goes back one step in the Url history. The signals
+     * UrlNavigator::urlChanged and UrlNavigator::historyChanged
      * are submitted.
      */
     void goBack();
 
     /**
-     * Goes forward one step in the URL history. The signals
-     * URLNavigator::urlChanged and URLNavigator::historyChanged
+     * Goes forward one step in the Url history. The signals
+     * UrlNavigator::urlChanged and UrlNavigator::historyChanged
      * are submitted.
      */
     void goForward();
 
     /**
-     * Goes up one step of the URL path. The signals
-     * URLNavigator::urlChanged and URLNavigator::historyChanged
+     * Goes up one step of the Url path. The signals
+     * UrlNavigator::urlChanged and UrlNavigator::historyChanged
      * are submitted.
      */
     void goUp();
 
     /**
-     * Goes to the home URL. The signals URLNavigator::urlChanged
-     * and URLNavigator::historyChanged are submitted.
+     * Goes to the home Url. The signals UrlNavigator::urlChanged
+     * and UrlNavigator::historyChanged are submitted.
      */
     void goHome();
 
     /**
-     * Sets the URL of the navigation bar to an editable state
+     * Sets the Url of the navigation bar to an editable state
      * if \a editable is true. If \a editable is false, each part of
      * the location is presented by a button for a fast navigation.
      */
-    void setURLEditable(bool editable);
+    void setUrlEditable(bool editable);
 
     /**
-     * Returns the complete URL history. The index 0 indicates the oldest
+     * Returns the complete Url history. The index 0 indicates the oldest
      * history element.
      * @param index     Output parameter which indicates the current
      *                  index of the location.
      */
-    const Q3ValueList<URLNavigator::HistoryElem> urlHistory(int& index) const;
+    const Q3ValueList<UrlNavigator::HistoryElem> urlHistory(int& index) const;
 
     /**
      * Returns true, if at least one item is selected.
@@ -205,16 +205,16 @@ public:
     /**
      * Returns the selected items. 0 is returned, if no item
      * is selected.
-     * @see DolphinView::selectedURLs()
+     * @see DolphinView::selectedUrls()
      */
     const KFileItemList* selectedItems() const;
 
     /**
-     * Returns a list of URLs for all selected items. An empty list
+     * Returns a list of Urls for all selected items. An empty list
      * is returned, if no item is selected.
      * @see DolphinView::selectedItems()
      */
-    KUrl::List selectedURLs() const;
+    KUrl::List selectedUrls() const;
 
     /**
      * Returns the current item, where the cursor is. 0 is returned, if there is no
@@ -232,7 +232,7 @@ public:
     void openContextMenu(KFileItem* fileInfo, const QPoint& pos);
 
     /**
-     * Renames the filename of the source URL by the new file name.
+     * Renames the filename of the source Url by the new file name.
      * If the new file name already exists, a dialog is opened which
      * asks the user to enter a new name.
      */
@@ -256,10 +256,10 @@ public:
     int contentsY() const;
 
     /**
-     * Returns true, if the URL shown by the navigation bar is editable.
-     * @see URLNavigator
+     * Returns true, if the Url shown by the navigation bar is editable.
+     * @see UrlNavigator
      */
-    bool isURLEditable() const;
+    bool isUrlEditable() const;
 
     /** Increases the size of the current set view mode. */
     void zoomIn();
@@ -301,12 +301,12 @@ public:
      */
     void updateStatusBar();
 
-    /** Returns the URLNavigator of the view for read access. */
-    const URLNavigator* urlNavigator() const { return m_urlNavigator; }
+    /** Returns the UrlNavigator of the view for read access. */
+    const UrlNavigator* urlNavigator() const { return m_urlNavigator; }
 
     /**
      * Triggers to request user information for the item given
-     * by the URL \a url. The signal signalRequestItemInfo is emitted,
+     * by the Url \a url. The signal signalRequestItemInfo is emitted,
      * which provides a way for widgets to get an indication to update
      * the item information.
      */
@@ -322,7 +322,7 @@ public:
 
 public slots:
     void reload();
-    void slotURLListDropped(QDropEvent* event,
+    void slotUrlListDropped(QDropEvent* event,
                             const KUrl::List& urls,
                             const KUrl& url);
 
@@ -332,8 +332,8 @@ public slots:
     void slotShowFilterBar(bool show);
 
 signals:
-    /** Is emitted if URL of the view has been changed to \a url. */
-    void signalURLChanged(const KUrl& url);
+    /** Is emitted if Url of the view has been changed to \a url. */
+    void signalUrlChanged(const KUrl& url);
 
     /**
      * Is emitted if the view mode (IconsView, DetailsView,
@@ -352,7 +352,7 @@ signals:
 
     /**
      * Is emitted if information of an item is requested to be shown e. g. in the sidebar.
-     * It the URL is empty, no item information request is pending.
+     * It the Url is empty, no item information request is pending.
      */
     void signalRequestItemInfo(const KUrl& url);
 
@@ -362,7 +362,7 @@ signals:
     /**
      * Is emitted whenever the selection has been changed. The current selection can
      * be retrieved by Dolphin::mainWin().activeView()->selectedItems() or by
-     * Dolphin::mainWin().activeView()->selectedURLs().
+     * Dolphin::mainWin().activeView()->selectedUrls().
      */
     void signalSelectionChanged();
 
@@ -376,13 +376,13 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent* event);
 
 private slots:
-    void slotURLChanged(const KUrl& kurl);
+    void slotUrlChanged(const KUrl& kurl);
     void triggerIconsViewItem(Q3IconViewItem *item);
     void triggerDetailsViewItem(Q3ListViewItem* item,
                                 const QPoint& pos,
                                 int column);
     void triggerDetailsViewItem(Q3ListViewItem* item);
-    void updateURL();
+    void updateUrl();
 
     void slotPercent(int percent);
     void slotClear();
@@ -440,7 +440,7 @@ private:
     Mode m_mode;
 
     Q3VBoxLayout* m_topLayout;
-    URLNavigator* m_urlNavigator;
+    UrlNavigator* m_urlNavigator;
 
     DolphinIconsView* m_iconsView;
     DolphinDetailsView* m_detailsView;

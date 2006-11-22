@@ -117,10 +117,10 @@ private slots:
     void slotProgressTimer();
 
     /**
-     * Is invoked, when the URL of the DolphinView, where the
+     * Is invoked, when the Url of the DolphinView, where the
      * statusbar belongs too, has been changed.
      */
-    void slotURLChanged(const KUrl& url);
+    void slotUrlChanged(const KUrl& url);
 
 private:
     StatusBarMessageLabel* m_messageLabel;

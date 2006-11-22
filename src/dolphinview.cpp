@@ -76,11 +76,11 @@ DolphinView::DolphinView(QWidget *parent,
     connect(this, SIGNAL(signalSortOrderChanged(Qt::SortOrder)),
             &dolphin, SLOT(slotSortOrderChanged(Qt::SortOrder)));
 
-    m_urlNavigator = new URLNavigator(url, this);
+    m_urlNavigator = new UrlNavigator(url, this);
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(slotURLChanged(const KUrl&)));
+            this, SLOT(slotUrlChanged(const KUrl&)));
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
-            &dolphin, SLOT(slotURLChanged(const KUrl&)));
+            &dolphin, SLOT(slotUrlChanged(const KUrl&)));
     connect(m_urlNavigator, SIGNAL(historyChanged()),
             &dolphin, SLOT(slotHistoryChanged()));
 
@@ -129,9 +129,9 @@ DolphinView::~DolphinView()
     m_dirLister = 0;
 }
 
-void DolphinView::setURL(const KUrl& url)
+void DolphinView::setUrl(const KUrl& url)
 {
-    m_urlNavigator->setURL(url);
+    m_urlNavigator->setUrl(url);
 }
 
 const KUrl& DolphinView::url() const
@@ -212,7 +212,7 @@ void DolphinView::setViewProperties(const ViewProperties& props)
 
 void DolphinView::renameSelectedItems()
 {
-    const KUrl::List urls = selectedURLs();
+    const KUrl::List urls = selectedUrls();
     if (urls.count() > 1) {
         // More than one item has been selected for renaming. Open
         // a rename dialog and rename all items afterwards.
@@ -376,9 +376,9 @@ void DolphinView::requestItemInfo(const KUrl& url)
     emit signalRequestItemInfo(url);
 }
 
-bool DolphinView::isURLEditable() const
+bool DolphinView::isUrlEditable() const
 {
-    return m_urlNavigator->isURLEditable();
+    return m_urlNavigator->isUrlEditable();
 }
 
 void DolphinView::zoomIn()
@@ -480,12 +480,12 @@ void DolphinView::goHome()
     m_urlNavigator->goHome();
 }
 
-void DolphinView::setURLEditable(bool editable)
+void DolphinView::setUrlEditable(bool editable)
 {
-    m_urlNavigator->editURL(editable);
+    m_urlNavigator->editUrl(editable);
 }
 
-const Q3ValueList<URLNavigator::HistoryElem> DolphinView::urlHistory(int& index) const
+const Q3ValueList<UrlNavigator::HistoryElem> DolphinView::urlHistory(int& index) const
 {
     return m_urlNavigator->history(index);
 }
@@ -501,7 +501,7 @@ const KFileItemList* DolphinView::selectedItems() const
     return fileView()->selectedItems();
 }
 
-KUrl::List DolphinView::selectedURLs() const
+KUrl::List DolphinView::selectedUrls() const
 {
     KUrl::List urls;
 
@@ -596,7 +596,7 @@ void DolphinView::reload()
     startDirLister(m_urlNavigator->url(), true);
 }
 
-void DolphinView::slotURLListDropped(QDropEvent* /* event */,
+void DolphinView::slotUrlListDropped(QDropEvent* /* event */,
                                      const KUrl::List& urls,
                                      const KUrl& url)
 {
@@ -605,8 +605,8 @@ void DolphinView::slotURLListDropped(QDropEvent* /* event */,
         destination = m_urlNavigator->url();
     }
     else {
-        // Check whether the destination URL is a directory. If this is not the
-        // case, use the navigator URL as destination (otherwise the destination,
+        // Check whether the destination Url is a directory. If this is not the
+        // case, use the navigator Url as destination (otherwise the destination,
         // which represents a file, would be replaced by a copy- or move-operation).
         KFileItem fileItem(KFileItem::Unknown, KFileItem::Unknown, destination);
         if (!fileItem.isDir()) {
@@ -614,7 +614,7 @@ void DolphinView::slotURLListDropped(QDropEvent* /* event */,
         }
     }
 
-    Dolphin::mainWin().dropURLs(urls, destination);
+    Dolphin::mainWin().dropUrls(urls, destination);
 }
 
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)
@@ -623,7 +623,7 @@ void DolphinView::mouseReleaseEvent(QMouseEvent* event)
     Dolphin::mainWin().setActiveView(this);
 }
 
-void DolphinView::slotURLChanged(const KUrl& url)
+void DolphinView::slotUrlChanged(const KUrl& url)
 {
     const ViewProperties props(url);
     setMode(props.viewMode());
@@ -643,7 +643,7 @@ void DolphinView::slotURLChanged(const KUrl& url)
     // changed so that it can update it's actions.
     Dolphin::mainWin().slotSelectionChanged();
 
-    emit signalURLChanged(url);
+    emit signalUrlChanged(url);
 }
 
 void DolphinView::triggerIconsViewItem(Q3IconViewItem* item)
@@ -654,9 +654,9 @@ void DolphinView::triggerIconsViewItem(Q3IconViewItem* item)
                                    ((keyboardState & Qt::ControlModifier) > 0);*/
     const bool isSelectionActive = false;
     if ((item != 0) && !isSelectionActive) {
-        // Updating the URL must be done outside the scope of this slot,
+        // Updating the Url must be done outside the scope of this slot,
         // as iconview items will get deleted.
-        QTimer::singleShot(0, this, SLOT(updateURL()));
+        QTimer::singleShot(0, this, SLOT(updateUrl()));
         Dolphin::mainWin().setActiveView(this);
     }
 }
@@ -670,9 +670,9 @@ void DolphinView::triggerDetailsViewItem(Q3ListViewItem* item,
     }
 
     if (m_detailsView->isOnFilename(item, pos)) {
-        // Updating the URL must be done outside the scope of this slot,
+        // Updating the Url must be done outside the scope of this slot,
         // as listview items will get deleted.
-        QTimer::singleShot(0, this, SLOT(updateURL()));
+        QTimer::singleShot(0, this, SLOT(updateUrl()));
         Dolphin::mainWin().setActiveView(this);
     }
     else {
@@ -686,7 +686,7 @@ void DolphinView::triggerDetailsViewItem(Q3ListViewItem* item)
     triggerDetailsViewItem(item, pos, 0);
 }
 
-void DolphinView::updateURL()
+void DolphinView::updateUrl()
 {
     KFileView* fileView = (m_iconsView != 0) ? static_cast<KFileView*>(m_iconsView) :
                                                static_cast<KFileView*>(m_detailsView);
@@ -697,17 +697,17 @@ void DolphinView::updateURL()
     }
 
     if (fileItem->isDir()) {
-        // Prefer the local path over the URL. This assures that the
-        // volume space information is correct. Assuming that the URL is media:/sda1,
-        // and the local path is /windows/C: For the URL the space info is related
+        // Prefer the local path over the Url. This assures that the
+        // volume space information is correct. Assuming that the Url is media:/sda1,
+        // and the local path is /windows/C: For the Url the space info is related
         // to the root partition (and hence wrong) and for the local path the space
         // info is related to the windows partition (-> correct).
         const QString localPath(fileItem->localPath());
         if (localPath.isEmpty()) {
-            setURL(fileItem->url());
+            setUrl(fileItem->url());
         }
         else {
-            setURL(KUrl(localPath));
+            setUrl(KUrl(localPath));
         }
     }
     else {

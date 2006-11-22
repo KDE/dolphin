@@ -23,17 +23,17 @@
 #include "urlbutton.h"
 #include "urlnavigatorbutton.h"
 
-class URLNavigator;
+class UrlNavigator;
 
 /**
  * A combobox listing available protocols
  */
-class ProtocolCombo : public URLNavigatorButton
+class ProtocolCombo : public UrlNavigatorButton
 {
     Q_OBJECT
 
     public:
-        ProtocolCombo(const QString& protocol, URLNavigator* parent = 0);
+        ProtocolCombo(const QString& protocol, UrlNavigator* parent = 0);
 
         QString currentProtocol() const;
 

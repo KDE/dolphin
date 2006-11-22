@@ -28,7 +28,7 @@ class QLineEdit;
 class QPushButton;
 
 /**
- * @brief Allows to edit the icon, URL and name of a bookmark.
+ * @brief Allows to edit the icon, Url and name of a bookmark.
  *
  * The default usage is like this:
  * \code
@@ -49,8 +49,8 @@ public:
     virtual ~EditBookmarkDialog();
 
     /**
-     * Opens a dialog where the current icon, URL and name of
-     * an URL are editable. The title of the dialog is set to \a title.
+     * Opens a dialog where the current icon, Url and name of
+     * an Url are editable. The title of the dialog is set to \a title.
      * @return A valid bookmark, if the user has pressed OK. Otherwise
      *         a null bookmark is returned (see Bookmark::isNull()).
      */

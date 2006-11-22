@@ -66,7 +66,7 @@ private:
     enum ColumnIndex {
         PixmapIdx = 0,
         NameIdx   = 1,
-        URLIdx    = 2,
+        UrlIdx    = 2,
         IconIdx   = 3
     };
 

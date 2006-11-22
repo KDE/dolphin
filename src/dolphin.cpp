@@ -105,7 +105,7 @@ void Dolphin::setActiveView(DolphinView* view)
     emit activeViewChanged();
 }
 
-void Dolphin::dropURLs(const KUrl::List& urls,
+void Dolphin::dropUrls(const KUrl::List& urls,
                        const KUrl& destination)
 {
     int selectedIndex = -1;
@@ -153,14 +153,14 @@ void Dolphin::dropURLs(const KUrl::List& urls,
         case 0: {
             // 'Move Here' has been selected
             updateViewProperties(urls);
-            moveURLs(urls, destination);
+            moveUrls(urls, destination);
             break;
         }
 
         case 1: {
             // 'Copy Here' has been selected
             updateViewProperties(urls);
-            copyURLs(urls, destination);
+            copyUrls(urls, destination);
             break;
         }
 
@@ -215,17 +215,17 @@ void Dolphin::slotHistoryChanged()
     updateHistory();
 }
 
-void Dolphin::slotURLChanged(const KUrl& url)
+void Dolphin::slotUrlChanged(const KUrl& url)
 {
     updateEditActions();
     updateGoActions();
     setCaption(url.fileName());
 }
 
-void Dolphin::slotURLChangeRequest(const KUrl& url)
+void Dolphin::slotUrlChangeRequest(const KUrl& url)
 {
 	clearStatusBar();
-	m_activeView->setURL(url);
+	m_activeView->setUrl(url);
 }
 
 void Dolphin::slotViewModeChanged()
@@ -282,13 +282,13 @@ void Dolphin::slotSelectionChanged()
     updateEditActions();
 
     assert(m_view[PrimaryIdx] != 0);
-    int selectedURLsCount = m_view[PrimaryIdx]->selectedURLs().count();
+    int selectedUrlsCount = m_view[PrimaryIdx]->selectedUrls().count();
     if (m_view[SecondaryIdx] != 0) {
-        selectedURLsCount += m_view[SecondaryIdx]->selectedURLs().count();
+        selectedUrlsCount += m_view[SecondaryIdx]->selectedUrls().count();
     }
 
     KAction* compareFilesAction = actionCollection()->action("compare_files");
-    compareFilesAction->setEnabled(selectedURLsCount == 2);
+    compareFilesAction->setEnabled(selectedUrlsCount == 2);
 
     m_activeView->updateStatusBar();
 
@@ -321,27 +321,27 @@ void Dolphin::closeEvent(QCloseEvent* event)
 void Dolphin::saveProperties(KConfig* config)
 {
     config->setGroup("Primary view");
-    config->writeEntry("URL", m_view[PrimaryIdx]->url().url());
-    config->writeEntry("Editable URL", m_view[PrimaryIdx]->isURLEditable());
+    config->writeEntry("Url", m_view[PrimaryIdx]->url().url());
+    config->writeEntry("Editable Url", m_view[PrimaryIdx]->isUrlEditable());
     if (m_view[SecondaryIdx] != 0) {
         config->setGroup("Secondary view");
-        config->writeEntry("URL", m_view[SecondaryIdx]->url().url());
-        config->writeEntry("Editable URL", m_view[SecondaryIdx]->isURLEditable());
+        config->writeEntry("Url", m_view[SecondaryIdx]->url().url());
+        config->writeEntry("Editable Url", m_view[SecondaryIdx]->isUrlEditable());
     }
 }
 
 void Dolphin::readProperties(KConfig* config)
 {
     config->setGroup("Primary view");
-    m_view[PrimaryIdx]->setURL(config->readEntry("URL"));
-    m_view[PrimaryIdx]->setURLEditable(config->readBoolEntry("Editable URL"));
+    m_view[PrimaryIdx]->setUrl(config->readEntry("Url"));
+    m_view[PrimaryIdx]->setUrlEditable(config->readBoolEntry("Editable Url"));
     if (config->hasGroup("Secondary view")) {
         config->setGroup("Secondary view");
         if (m_view[SecondaryIdx] == 0) {
             toggleSplitView();
         }
-        m_view[SecondaryIdx]->setURL(config->readEntry("URL"));
-        m_view[SecondaryIdx]->setURLEditable(config->readBoolEntry("Editable URL"));
+        m_view[SecondaryIdx]->setUrl(config->readEntry("Url"));
+        m_view[SecondaryIdx]->setUrlEditable(config->readBoolEntry("Editable Url"));
     }
     else if (m_view[SecondaryIdx] != 0) {
         toggleSplitView();
@@ -359,14 +359,14 @@ void Dolphin::createFolder()
     clearStatusBar();
 
     DolphinStatusBar* statusBar = m_activeView->statusBar();
-    const KUrl baseURL(m_activeView->url());
+    const KUrl baseUrl(m_activeView->url());
 
     QString name(i18n("New Folder"));
-    baseURL.path(KUrl::AddTrailingSlash);
+    baseUrl.path(KUrl::AddTrailingSlash);
 
 
-    if (baseURL.isLocalFile() && QFileInfo(baseURL.path(KUrl::AddTrailingSlash) + name).exists()) {
-        name = KIO::RenameDlg::suggestName(baseURL, i18n("New Folder"));
+    if (baseUrl.isLocalFile() && QFileInfo(baseUrl.path(KUrl::AddTrailingSlash) + name).exists()) {
+        name = KIO::RenameDlg::suggestName(baseUrl, i18n("New Folder"));
     }
 
     bool ok = false;
@@ -389,7 +389,7 @@ void Dolphin::createFolder()
     }
     else {
         name = KIO::encodeFileName(name);
-        url = baseURL;
+        url = baseUrl;
         url.addPath(name);
     }
     ok = KIO::NetAccess::mkdir(url, this);
@@ -452,10 +452,10 @@ void Dolphin::createFile()
     }
 
     // Get the source path of the template which should be copied.
-    // The source path is part of the URL entry of the desktop file.
+    // The source path is part of the Url entry of the desktop file.
     const int pos = entry.templatePath.findRev('/');
     QString sourcePath(entry.templatePath.left(pos + 1));
-    sourcePath += KDesktopFile(entry.templatePath, true).readPathEntry("URL");
+    sourcePath += KDesktopFile(entry.templatePath, true).readPathEntry("Url");
 
     QString name(i18n(entry.name.ascii()));
     // Most entry names end with "..." (e. g. "HTML File..."), which is ok for
@@ -467,11 +467,11 @@ void Dolphin::createFile()
 
     // Check whether a file with the current name already exists. If yes suggest automatically
     // a unique file name (e. g. "HTML File" will be replaced by "HTML File_1").
-    const KUrl viewURL(m_activeView->url());
-    const bool fileExists = viewURL.isLocalFile() &&
-                            QFileInfo(viewURL.path(KUrl::AddTrailingSlash) + KIO::encodeFileName(name)).exists();
+    const KUrl viewUrl(m_activeView->url());
+    const bool fileExists = viewUrl.isLocalFile() &&
+                            QFileInfo(viewUrl.path(KUrl::AddTrailingSlash) + KIO::encodeFileName(name)).exists();
     if (fileExists) {
-        name = KIO::RenameDlg::suggestName(viewURL, name);
+        name = KIO::RenameDlg::suggestName(viewUrl, name);
     }
 
     // let the user change the suggested file name
@@ -488,25 +488,25 @@ void Dolphin::createFile()
 
     // before copying the template to the destination path check whether a file
     // with the given name already exists
-    const QString destPath(viewURL.pathOrUrl() + "/" + KIO::encodeFileName(name));
-    const KUrl destURL(destPath);
-    if (KIO::NetAccess::exists(destURL, false, this)) {
+    const QString destPath(viewUrl.pathOrUrl() + "/" + KIO::encodeFileName(name));
+    const KUrl destUrl(destPath);
+    if (KIO::NetAccess::exists(destUrl, false, this)) {
         statusBar->setMessage(i18n("A file named %1 already exists.").arg(name),
                               DolphinStatusBar::Error);
         return;
     }
 
     // copy the template to the destination path
-    const KUrl sourceURL(sourcePath);
-    KIO::CopyJob* job = KIO::copyAs(sourceURL, destURL);
+    const KUrl sourceUrl(sourcePath);
+    KIO::CopyJob* job = KIO::copyAs(sourceUrl, destUrl);
     job->setDefaultPermissions(true);
     if (KIO::NetAccess::synchronousRun(job, this)) {
         statusBar->setMessage(i18n("Created file %1.").arg(name),
                               DolphinStatusBar::OperationCompleted);
 
         KUrl::List list;
-        list.append(sourceURL);
-        DolphinCommand command(DolphinCommand::CreateFile, list, destURL);
+        list.append(sourceUrl);
+        DolphinCommand command(DolphinCommand::CreateFile, list, destUrl);
         UndoManager::instance().addCommand(command);
 
     }
@@ -525,16 +525,16 @@ void Dolphin::rename()
 void Dolphin::moveToTrash()
 {
     clearStatusBar();
-    KUrl::List selectedURLs = m_activeView->selectedURLs();
-    KIO::Job* job = KIO::trash(selectedURLs);
-    addPendingUndoJob(job, DolphinCommand::Trash, selectedURLs, m_activeView->url());
+    KUrl::List selectedUrls = m_activeView->selectedUrls();
+    KIO::Job* job = KIO::trash(selectedUrls);
+    addPendingUndoJob(job, DolphinCommand::Trash, selectedUrls, m_activeView->url());
 }
 
 void Dolphin::deleteItems()
 {
     clearStatusBar();
 
-    KUrl::List list = m_activeView->selectedURLs();
+    KUrl::List list = m_activeView->selectedUrls();
     const uint itemCount = list.count();
     assert(itemCount >= 1);
 
@@ -642,7 +642,7 @@ void Dolphin::slotRedoTextChanged(const QString& text)
 void Dolphin::cut()
 {
     m_clipboardContainsCutData = true;
-    /* KDE4-TODO: Q3DragObject* data = new KURLDrag(m_activeView->selectedURLs(),
+    /* KDE4-TODO: Q3DragObject* data = new KUrlDrag(m_activeView->selectedUrls(),
                                        widget());
     QApplication::clipboard()->setData(data);*/
 }
@@ -651,7 +651,7 @@ void Dolphin::copy()
 {
     m_clipboardContainsCutData = false;
     /* KDE4-TODO:
-    Q3DragObject* data = new KUrlDrag(m_activeView->selectedURLs(),
+    Q3DragObject* data = new KUrlDrag(m_activeView->selectedUrls(),
                                      widget());
     QApplication::clipboard()->setData(data);*/
 }
@@ -667,35 +667,35 @@ void Dolphin::paste()
 
     clearStatusBar();
 
-    KUrl::List sourceURLs;
-    KUrlDrag::decode(data, sourceURLs);
+    KUrl::List sourceUrls;
+    KUrlDrag::decode(data, sourceUrls);
 
-    // per default the pasting is done into the current URL of the view
-    KUrl destURL(m_activeView->url());
+    // per default the pasting is done into the current Url of the view
+    KUrl destUrl(m_activeView->url());
 
     // check whether the pasting should be done into a selected directory
-    KUrl::List selectedURLs = m_activeView->selectedURLs();
-    if (selectedURLs.count() == 1) {
+    KUrl::List selectedUrls = m_activeView->selectedUrls();
+    if (selectedUrls.count() == 1) {
         const KFileItem fileItem(S_IFDIR,
                                  KFileItem::Unknown,
-                                 selectedURLs.first(),
+                                 selectedUrls.first(),
                                  true);
         if (fileItem.isDir()) {
             // only one item is selected which is a directory, hence paste
             // into this directory
-            destURL = selectedURLs.first();
+            destUrl = selectedUrls.first();
         }
     }
 
 
-    updateViewProperties(sourceURLs);
+    updateViewProperties(sourceUrls);
     if (m_clipboardContainsCutData) {
-        moveURLs(sourceURLs, destURL);
+        moveUrls(sourceUrls, destUrl);
         m_clipboardContainsCutData = false;
         clipboard->clear();
     }
     else {
-        copyURLs(sourceURLs, destURL);
+        copyUrls(sourceUrls, destUrl);
     }*/
 }
 
@@ -729,7 +729,7 @@ void Dolphin::updatePasteAction()
     //}
 
     if (pasteAction->isEnabled()) {
-        KUrl::List urls = m_activeView->selectedURLs();
+        KUrl::List urls = m_activeView->selectedUrls();
         const uint count = urls.count();
         if (count > 1) {
             // pasting should not be allowed when more than one file
@@ -877,14 +877,14 @@ void Dolphin::toggleEditLocation()
 
     bool editOrBrowse = action->isChecked();
 //    action->setChecked(action->setChecked);
-    m_activeView->setURLEditable(editOrBrowse);
+    m_activeView->setUrlEditable(editOrBrowse);
 }
 
 void Dolphin::editLocation()
 {
     KToggleAction* action = static_cast<KToggleAction*>(actionCollection()->action("editable_location"));
     action->setChecked(true);
-    m_activeView->setURLEditable(true);
+    m_activeView->setUrlEditable(true);
 }
 
 void Dolphin::adjustViewProperties()
@@ -944,12 +944,12 @@ void Dolphin::compareFiles()
 
     KUrl urlA;
     KUrl urlB;
-    KUrl::List urls = m_view[PrimaryIdx]->selectedURLs();
+    KUrl::List urls = m_view[PrimaryIdx]->selectedUrls();
 
     switch (urls.count()) {
         case 0: {
             assert(m_view[SecondaryIdx] != 0);
-            urls = m_view[SecondaryIdx]->selectedURLs();
+            urls = m_view[SecondaryIdx]->selectedUrls();
             assert(urls.count() == 2);
             urlA = urls[0];
             urlB = urls[1];
@@ -959,7 +959,7 @@ void Dolphin::compareFiles()
         case 1: {
             urlA = urls[0];
             assert(m_view[SecondaryIdx] != 0);
-            urls = m_view[SecondaryIdx]->selectedURLs();
+            urls = m_view[SecondaryIdx]->selectedUrls();
             assert(urls.count() == 1);
             urlB = urls[0];
             break;
@@ -1019,24 +1019,24 @@ void Dolphin::addUndoOperation(KIO::Job* job)
             DolphinCommand command = (*it).command;
             if (command.type() == DolphinCommand::Trash) {
                 // To be able to perform an undo for the 'Move to Trash' operation
-                // all source URLs must be updated with the trash URL. E. g. when moving
+                // all source Urls must be updated with the trash Url. E. g. when moving
                 // a file "test.txt" and a second file "test.txt" to the trash,
                 // then the filenames in the trash are "0-test.txt" and "1-test.txt".
                 QMap<QString, QString> metaData = job->metaData();
-                KUrl::List newSourceURLs;
+                KUrl::List newSourceUrls;
 
-                KUrl::List sourceURLs = command.source();
-                KUrl::List::Iterator sourceIt = sourceURLs.begin();
-                const KUrl::List::Iterator sourceEnd = sourceURLs.end();
+                KUrl::List sourceUrls = command.source();
+                KUrl::List::Iterator sourceIt = sourceUrls.begin();
+                const KUrl::List::Iterator sourceEnd = sourceUrls.end();
 
                 while (sourceIt != sourceEnd) {
-                    QMap<QString, QString>::ConstIterator metaIt = metaData.find("trashURL-" + (*sourceIt).path());
+                    QMap<QString, QString>::ConstIterator metaIt = metaData.find("trashUrl-" + (*sourceIt).path());
                     if (metaIt != metaData.end()) {
-                        newSourceURLs.append(KUrl(metaIt.data()));
+                        newSourceUrls.append(KUrl(metaIt.data()));
                     }
                     ++sourceIt;
                 }
-                command.setSource(newSourceURLs);
+                command.setSource(newSourceUrls);
             }
 
             UndoManager::instance().addCommand(command);
@@ -1128,7 +1128,7 @@ void Dolphin::init()
     assert(manager != 0);
     KBookmarkGroup root = manager->root();
     if (root.first().isNull()) {
-        root.addBookmark(manager, i18n("Home"), settings.generalSettings()->homeURL(), "folder_home");
+        root.addBookmark(manager, i18n("Home"), settings.generalSettings()->homeUrl(), "folder_home");
         root.addBookmark(manager, i18n("Storage Media"), KUrl("media:/"), "blockdevice");
         root.addBookmark(manager, i18n("Network"), KUrl("remote:/"), "network_local");
         root.addBookmark(manager, i18n("Root"), KUrl("/"), "folder_red");
@@ -1138,11 +1138,11 @@ void Dolphin::init()
     setupActions();
     setupGUI(Keys|Save|Create|ToolBar);
 
-    const KUrl& homeURL = root.first().url();
-    setCaption(homeURL.fileName());
-    ViewProperties props(homeURL);
+    const KUrl& homeUrl = root.first().url();
+    setCaption(homeUrl.fileName());
+    ViewProperties props(homeUrl);
     m_view[PrimaryIdx] = new DolphinView(m_splitter,
-                                         homeURL,
+                                         homeUrl,
                                          props.viewMode(),
                                          props.isShowHiddenFilesEnabled());
 
@@ -1377,7 +1377,7 @@ void Dolphin::setupCreateNewMenuActions()
             const QString name(config.readEntry("Name"));
             QString key(name);
 
-            const QString path(config.readPathEntry("URL"));
+            const QString path(config.readPathEntry("Url"));
             if (!path.endsWith("emptydir")) {
                 if (path.endsWith("TextFile.txt")) {
                     key = "1" + key;
@@ -1385,7 +1385,7 @@ void Dolphin::setupCreateNewMenuActions()
                 else if (!KDesktopFile::isDesktopFile(path)) {
                     key = "2" + key;
                 }
-                else if (path.endsWith("URL.desktop")){
+                else if (path.endsWith("Url.desktop")){
                     key = "3" + key;
                 }
                 else if (path.endsWith("Program.desktop")){
@@ -1463,7 +1463,7 @@ void Dolphin::setupCreateNewMenuActions()
 void Dolphin::updateHistory()
 {
     int index = 0;
-    const Q3ValueList<URLNavigator::HistoryElem> list = m_activeView->urlHistory(index);
+    const Q3ValueList<UrlNavigator::HistoryElem> list = m_activeView->urlHistory(index);
 
     KAction* backAction = actionCollection()->action("go_back");
     if (backAction != 0) {
@@ -1563,8 +1563,8 @@ void Dolphin::updateViewActions()
 void Dolphin::updateGoActions()
 {
     KAction* goUpAction = actionCollection()->action(KStdAction::stdName(KStdAction::Up));
-    const KUrl& currentURL = m_activeView->url();
-    goUpAction->setEnabled(currentURL.upUrl() != currentURL);
+    const KUrl& currentUrl = m_activeView->url();
+    goUpAction->setEnabled(currentUrl.upUrl() != currentUrl);
 }
 
 void Dolphin::updateViewProperties(const KUrl::List& urls)
@@ -1574,7 +1574,7 @@ void Dolphin::updateViewProperties(const KUrl::List& urls)
     }
 
     // Updating the view properties might take up to several seconds
-    // when dragging several thousand URLs. Writing a KIO slave for this
+    // when dragging several thousand Urls. Writing a KIO slave for this
     // use case is not worth the effort, but at least the main widget
     // must be disabled and a progress should be shown.
     ProgressIndicator progressIndicator(i18n("Updating view properties..."),
@@ -1590,13 +1590,13 @@ void Dolphin::updateViewProperties(const KUrl::List& urls)
     }
 }
 
-void Dolphin::copyURLs(const KUrl::List& source, const KUrl& dest)
+void Dolphin::copyUrls(const KUrl::List& source, const KUrl& dest)
 {
     KIO::Job* job = KIO::copy(source, dest);
     addPendingUndoJob(job, DolphinCommand::Copy, source, dest);
 }
 
-void Dolphin::moveURLs(const KUrl::List& source, const KUrl& dest)
+void Dolphin::moveUrls(const KUrl::List& source, const KUrl& dest)
 {
     KIO::Job* job = KIO::move(source, dest);
     addPendingUndoJob(job, DolphinCommand::Move, source, dest);
@@ -1632,7 +1632,7 @@ void Dolphin::openSidebar()
     m_sidebar->show();
 
     connect(m_sidebar, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(slotURLChangeRequest(const KUrl&)));
+            this, SLOT(slotUrlChangeRequest(const KUrl&)));
     m_splitter->setCollapsible(m_sidebar, false);
     m_splitter->setResizeMode(m_sidebar, QSplitter::KeepSize);
     m_splitter->moveToFirst(m_sidebar);

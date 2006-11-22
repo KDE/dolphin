@@ -34,7 +34,7 @@ class QFile;
  *
  * The view properties are automatically stored inside
  * the directory as hidden file called '.dolphinview'. To read out the view properties
- * just construct an instance by passing the URL of the directory:
+ * just construct an instance by passing the Url of the directory:
  * \code
  * ViewProperties props(KUrl("/home/peter/Documents"));
  * const DolphinView::Mode mode = props.viewMode();

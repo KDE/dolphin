@@ -33,9 +33,9 @@ class SidebarSettings;
  * @brief Manages and stores all settings from Dolphin.
  *
  * The following properties are stored:
- * - home URL
+ * - home Url
  * - default view mode
- * - URL navigator state (editable or not)
+ * - Url navigator state (editable or not)
  * - split view
  * - bookmarks
  * - properties for icons and details view

@@ -108,7 +108,7 @@ private:
     };
 
     QPixmap* m_pixmapCopy;
-    KUrl m_highlightedURL;
+    KUrl m_highlightedUrl;
 
     // contains all items which have been disabled by a 'cut' operation
     Q3ValueList<DisabledItem> m_disabledItems;

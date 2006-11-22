@@ -43,7 +43,7 @@
 
 GeneralSettingsPage::GeneralSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
-    m_homeURL(0),
+    m_homeUrl(0),
     m_startSplit(0),
     m_startEditable(0)
 {
@@ -61,21 +61,21 @@ GeneralSettingsPage::GeneralSettingsPage(QWidget* parent) :
     vBox->setMargin(margin);
     vBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
 
-    // create 'Home URL' editor
-    Q3GroupBox* homeGroup = new Q3GroupBox(1, Qt::Horizontal, i18n("Home URL"), vBox);
+    // create 'Home Url' editor
+    Q3GroupBox* homeGroup = new Q3GroupBox(1, Qt::Horizontal, i18n("Home Url"), vBox);
     homeGroup->setSizePolicy(sizePolicy);
     homeGroup->setMargin(margin);
 
-    Q3HBox* homeURLBox = new Q3HBox(homeGroup);
-    homeURLBox->setSizePolicy(sizePolicy);
-    homeURLBox->setSpacing(spacing);
+    Q3HBox* homeUrlBox = new Q3HBox(homeGroup);
+    homeUrlBox->setSizePolicy(sizePolicy);
+    homeUrlBox->setSpacing(spacing);
 
-    new QLabel(i18n("Location:"), homeURLBox);
-    m_homeURL = new QLineEdit(settings->homeURL(), homeURLBox);
+    new QLabel(i18n("Location:"), homeUrlBox);
+    m_homeUrl = new QLineEdit(settings->homeUrl(), homeUrlBox);
 
-    QPushButton* selectHomeURLButton = new QPushButton(SmallIcon("folder"), QString::null, homeURLBox);
-    connect(selectHomeURLButton, SIGNAL(clicked()),
-            this, SLOT(selectHomeURL()));
+    QPushButton* selectHomeUrlButton = new QPushButton(SmallIcon("folder"), QString::null, homeUrlBox);
+    connect(selectHomeUrlButton, SIGNAL(clicked()),
+            this, SLOT(selectHomeUrl()));
 
     Q3HBox* buttonBox = new Q3HBox(homeGroup);
     buttonBox->setSizePolicy(sizePolicy);
@@ -108,7 +108,7 @@ GeneralSettingsPage::GeneralSettingsPage(QWidget* parent) :
 
     // create 'Start with editable navigation bar' checkbox
     m_startEditable = new QCheckBox(i18n("Start with editable navigation bar"), vBox);
-    m_startEditable->setChecked(settings->editableURL());
+    m_startEditable->setChecked(settings->editableUrl());
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -127,10 +127,10 @@ void GeneralSettingsPage::applySettings()
 {
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
 
-    const KUrl url(m_homeURL->text());
+    const KUrl url(m_homeUrl->text());
     KFileItem fileItem(S_IFDIR, KFileItem::Unknown, url);
     if (url.isValid() && fileItem.isDir()) {
-        settings->setHomeURL(url.prettyUrl());
+        settings->setHomeUrl(url.prettyUrl());
     }
 
     DolphinView::Mode viewMode = DolphinView::IconsView;
@@ -143,27 +143,27 @@ void GeneralSettingsPage::applySettings()
     settings->setDefaultViewMode(viewMode);
 
     settings->setSplitView(m_startSplit->isChecked());
-    settings->setEditableURL(m_startEditable->isChecked());
+    settings->setEditableUrl(m_startEditable->isChecked());
 }
 
-void GeneralSettingsPage::selectHomeURL()
+void GeneralSettingsPage::selectHomeUrl()
 {
-    const QString homeURL(m_homeURL->text());
-    KUrl url(KFileDialog::getExistingUrl(homeURL));
+    const QString homeUrl(m_homeUrl->text());
+    KUrl url(KFileDialog::getExistingUrl(homeUrl));
     if (!url.isEmpty()) {
-        m_homeURL->setText(url.prettyUrl());
+        m_homeUrl->setText(url.prettyUrl());
     }
 }
 
 void GeneralSettingsPage::useCurrentLocation()
 {
     const DolphinView* view = Dolphin::mainWin().activeView();
-    m_homeURL->setText(view->url().prettyUrl());
+    m_homeUrl->setText(view->url().prettyUrl());
 }
 
 void GeneralSettingsPage::useDefaulLocation()
 {
-    m_homeURL->setText("file://" + QDir::homePath());
+    m_homeUrl->setText("file://" + QDir::homePath());
 }
 
 #include "generalsettingspage.moc"

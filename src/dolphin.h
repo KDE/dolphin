@@ -46,7 +46,7 @@ class Q3HBox;
 class Q3IconViewItem;
 class QSplitter;
 class KAction;
-class URLNavigator;
+class UrlNavigator;
 class Sidebar;
 
 /**
@@ -84,17 +84,17 @@ public:
     DolphinView* activeView() const { return m_activeView; }
 
     /**
-     * Handles the dropping of URLs to the given
+     * Handles the dropping of Urls to the given
      * destination. A context menu with the options
      * 'Move Here', 'Copy Here', 'Link Here' and
      * 'Cancel' is offered to the user.
-     * @param urls        List of URLs which have been
+     * @param urls        List of Urls which have been
      *                    dropped.
-     * @param destination Destination URL, where the
-     *                    list or URLs should be moved,
+     * @param destination Destination Url, where the
+     *                    list or Urls should be moved,
      *                    copied or linked to.
      */
-    void dropURLs(const KUrl::List& urls,
+    void dropUrls(const KUrl::List& urls,
                   const KUrl& destination);
 
     /**
@@ -140,14 +140,14 @@ public slots:
 
     /**
      * Updates the caption of the main window and the state
-     * of all menu actions which depend from a changed URL.
+     * of all menu actions which depend from a changed Url.
      */
-    void slotURLChanged(const KUrl& url);
+    void slotUrlChanged(const KUrl& url);
 
     /**
-     * Go to the given URL.
+     * Go to the given Url.
      */
-    void slotURLChangeRequest(const KUrl& url);
+    void slotUrlChangeRequest(const KUrl& url);
 
     /** Updates the state of all 'View' menu actions. */
     void slotViewModeChanged();
@@ -337,16 +337,16 @@ private slots:
      */
     void adjustViewProperties();
 
-    /** Goes back on step of the URL history. */
+    /** Goes back on step of the Url history. */
     void goBack();
 
-    /** Goes forward one step of the URL history. */
+    /** Goes forward one step of the Url history. */
     void goForward();
 
-    /** Goes up one hierarchy of the current URL. */
+    /** Goes up one hierarchy of the current Url. */
     void goUp();
 
-    /** Goes to the home URL. */
+    /** Goes to the home Url. */
     void goHome();
 
     /** Opens a terminal for the current shown directory. */
@@ -389,8 +389,8 @@ private:
     void updateViewActions();
     void updateGoActions();
     void updateViewProperties(const KUrl::List& urls);
-    void copyURLs(const KUrl::List& source, const KUrl& dest);
-    void moveURLs(const KUrl::List& source, const KUrl& dest);
+    void copyUrls(const KUrl::List& source, const KUrl& dest);
+    void moveUrls(const KUrl::List& source, const KUrl& dest);
     void addPendingUndoJob(KIO::Job* job,
                            DolphinCommand::Type commandType,
                            const KUrl::List& source,

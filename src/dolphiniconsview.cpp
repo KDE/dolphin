@@ -69,7 +69,7 @@ DolphinIconsView::DolphinIconsView(DolphinView* parent, LayoutMode layoutMode) :
     connect(this, SIGNAL(itemRenamed(Q3IconViewItem*, const QString&)),
             this, SLOT(slotItemRenamed(Q3IconViewItem*, const QString&)));
     connect(this, SIGNAL(dropped(QDropEvent*, const KUrl::List&, const KUrl&)),
-            parent, SLOT(slotURLListDropped(QDropEvent*, const KUrl::List&, const KUrl&)));
+            parent, SLOT(slotUrlListDropped(QDropEvent*, const KUrl::List&, const KUrl&)));
 
     QClipboard* clipboard = QApplication::clipboard();
     connect(clipboard, SIGNAL(dataChanged()),
@@ -126,7 +126,7 @@ void DolphinIconsView::endItemUpdates()
     }
 
     int index = 0;
-    const Q3ValueList<URLNavigator::HistoryElem> history = m_dolphinView->urlHistory(index);
+    const Q3ValueList<UrlNavigator::HistoryElem> history = m_dolphinView->urlHistory(index);
     if (!history.isEmpty()) {
         KFileView* fileView = static_cast<KFileView*>(this);
         fileView->setCurrentItem(history[index].currentFileName());
@@ -332,7 +332,7 @@ Q3DragObject* DolphinIconsView::dragObject()
     }
 
     /* This should be ported to QMimeData
-    Q3DragObject* dragObj = new KURLDrag(urls, widget());
+    Q3DragObject* dragObj = new KUrlDrag(urls, widget());
     dragObj->setPixmap(pixmap);
     return dragObj;
     */

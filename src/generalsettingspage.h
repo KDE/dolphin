@@ -28,7 +28,7 @@ class QCheckBox;
 /**
  * @brief Page for the 'General' settings of the Dolphin settings dialog.
  *
- * The general settings allow to set the home URL, the default view mode
+ * The general settings allow to set the home Url, the default view mode
  * and the split view mode.
  *
  *	@author Peter Penz <peter.penz@gmx.at>
@@ -46,12 +46,12 @@ public:
     virtual void applySettings();
 
 private slots:
-    void selectHomeURL();
+    void selectHomeUrl();
     void useCurrentLocation();
     void useDefaulLocation();
 
 private:
-    QLineEdit* m_homeURL;
+    QLineEdit* m_homeUrl;
     QRadioButton* m_iconsView;
     QRadioButton* m_detailsView;
     QRadioButton* m_previewsView;

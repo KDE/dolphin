@@ -42,26 +42,26 @@
 #include "dolphinview.h"
 #include "dolphin.h"
 
-URLNavigatorButton::URLNavigatorButton(int index, URLNavigator* parent) :
-    URLButton(parent),
+UrlNavigatorButton::UrlNavigatorButton(int index, UrlNavigator* parent) :
+    UrlButton(parent),
     m_index(-1),
     m_listJob(0)
 {
     setAcceptDrops(true);
     setMinimumWidth(arrowWidth());
     setIndex(index);
-    connect(this, SIGNAL(clicked()), this, SLOT(updateNavigatorURL()));
+    connect(this, SIGNAL(clicked()), this, SLOT(updateNavigatorUrl()));
 
     m_popupDelay = new QTimer(this);
     connect(m_popupDelay, SIGNAL(timeout()), this, SLOT(startListJob()));
     connect(this, SIGNAL(pressed()), this, SLOT(startPopupDelay()));
 }
 
-URLNavigatorButton::~URLNavigatorButton()
+UrlNavigatorButton::~UrlNavigatorButton()
 {
 }
 
-void URLNavigatorButton::setIndex(int index)
+void UrlNavigatorButton::setIndex(int index)
 {
     m_index = index;
 
@@ -72,7 +72,7 @@ void URLNavigatorButton::setIndex(int index)
     QString path(urlNavigator()->url().pathOrUrl());
     setText(path.section('/', index, index));
 
-    // Check whether the button indicates the full path of the URL. If
+    // Check whether the button indicates the full path of the Url. If
     // this is the case, the button is marked as 'active'.
     ++index;
     QFont adjustedFont(font());
@@ -89,12 +89,12 @@ void URLNavigatorButton::setIndex(int index)
     update();
 }
 
-int URLNavigatorButton::index() const
+int UrlNavigatorButton::index() const
 {
     return m_index;
 }
 
-void URLNavigatorButton::drawButton(QPainter* painter)
+void UrlNavigatorButton::drawButton(QPainter* painter)
 {
     const int buttonWidth  = width();
     const int buttonHeight = height();
@@ -183,9 +183,9 @@ void URLNavigatorButton::drawButton(QPainter* painter)
     }
 }
 
-void URLNavigatorButton::enterEvent(QEvent* event)
+void UrlNavigatorButton::enterEvent(QEvent* event)
 {
-    URLButton::enterEvent(event);
+    UrlButton::enterEvent(event);
 
     // if the text is clipped due to a small window width, the text should
     // be shown as tooltip
@@ -194,13 +194,13 @@ void URLNavigatorButton::enterEvent(QEvent* event)
     }
 }
 
-void URLNavigatorButton::leaveEvent(QEvent* event)
+void UrlNavigatorButton::leaveEvent(QEvent* event)
 {
-    URLButton::leaveEvent(event);
+    UrlButton::leaveEvent(event);
     QToolTip::remove(this);
 }
 
-void URLNavigatorButton::dropEvent(QDropEvent* event)
+void UrlNavigatorButton::dropEvent(QDropEvent* event)
 {
     if (m_index < 0) {
         return;
@@ -214,14 +214,14 @@ void URLNavigatorButton::dropEvent(QDropEvent* event)
         QString path(urlNavigator()->url().prettyUrl());
         path = path.section('/', 0, m_index);
 
-        Dolphin::mainWin().dropURLs(urls, KUrl(path));
+        Dolphin::mainWin().dropUrls(urls, KUrl(path));
 
         setDisplayHintEnabled(DraggedHint, false);
         update();
     }*/
 }
 
-void URLNavigatorButton::dragEnterEvent(QDragEnterEvent* event)
+void UrlNavigatorButton::dragEnterEvent(QDragEnterEvent* event)
 {
     /* KDE4-TODO:
     event->accept(KUrlDrag::canDecode(event));
@@ -230,27 +230,27 @@ void URLNavigatorButton::dragEnterEvent(QDragEnterEvent* event)
     update();
 }
 
-void URLNavigatorButton::dragLeaveEvent(QDragLeaveEvent* event)
+void UrlNavigatorButton::dragLeaveEvent(QDragLeaveEvent* event)
 {
-    URLButton::dragLeaveEvent(event);
+    UrlButton::dragLeaveEvent(event);
 
     setDisplayHintEnabled(DraggedHint, false);
     update();
 }
 
 
-void URLNavigatorButton::updateNavigatorURL()
+void UrlNavigatorButton::updateNavigatorUrl()
 {
     if (m_index < 0) {
         return;
     }
 
-    URLNavigator* navigator = urlNavigator();
+    UrlNavigator* navigator = urlNavigator();
     assert(navigator != 0);
-    navigator->setURL(navigator->url(m_index));
+    navigator->setUrl(navigator->url(m_index));
 }
 
-void URLNavigatorButton::startPopupDelay()
+void UrlNavigatorButton::startPopupDelay()
 {
     if (m_popupDelay->isActive() || m_listJob || m_index < 0) {
         return;
@@ -259,7 +259,7 @@ void URLNavigatorButton::startPopupDelay()
     m_popupDelay->start(300, true);
 }
 
-void URLNavigatorButton::stopPopupDelay()
+void UrlNavigatorButton::stopPopupDelay()
 {
     m_popupDelay->stop();
     if (m_listJob) {
@@ -268,7 +268,7 @@ void URLNavigatorButton::stopPopupDelay()
     }
 }
 
-void URLNavigatorButton::startListJob()
+void UrlNavigatorButton::startListJob()
 {
     if (m_listJob) {
         return;
@@ -283,7 +283,7 @@ void URLNavigatorButton::startListJob()
     connect(m_listJob, SIGNAL(result(KIO::Job*)), this, SLOT(listJobFinished(KIO::Job*)));
 }
 
-void URLNavigatorButton::entriesList(KIO::Job* job, const KIO::UDSEntryList& entries)
+void UrlNavigatorButton::entriesList(KIO::Job* job, const KIO::UDSEntryList& entries)
 {
     if (job != m_listJob) {
         return;
@@ -328,7 +328,7 @@ void URLNavigatorButton::entriesList(KIO::Job* job, const KIO::UDSEntryList& ent
     m_subdirs.sort();
 }
 
-void URLNavigatorButton::listJobFinished(KIO::Job* job)
+void UrlNavigatorButton::listJobFinished(KIO::Job* job)
 {
     if (job != m_listJob) {
         return;
@@ -357,7 +357,7 @@ void URLNavigatorButton::listJobFinished(KIO::Job* job)
     if (result != -1) {
         KUrl url = urlNavigator()->url(m_index);
         url.addPath(m_subdirs[result]);
-        urlNavigator()->setURL(url);
+        urlNavigator()->setUrl(url);
     }
 
     m_listJob = 0;
@@ -366,7 +366,7 @@ void URLNavigatorButton::listJobFinished(KIO::Job* job)
     setDisplayHintEnabled(PopupActiveHint, false);
 }
 
-int URLNavigatorButton::arrowWidth() const
+int UrlNavigatorButton::arrowWidth() const
 {
     int width = (height() / 2) - 7;
     if (width < 4) {
@@ -375,7 +375,7 @@ int URLNavigatorButton::arrowWidth() const
     return width;
 }
 
-bool URLNavigatorButton::isTextClipped() const
+bool UrlNavigatorButton::isTextClipped() const
 {
     int availableWidth = width();
     if (!isDisplayHintEnabled(ActivatedHint)) {
