@@ -67,7 +67,6 @@ install(TARGETS dolphin DESTINATION ${BIN_INSTALL_DIR})
 install( FILES  dolphin.desktop DESTINATION ${XDG_APPS_DIR} )
 install( FILES  directoryviewpropertysettings.kcfg generalsettings.kcfg  				iconsmodesettings.kcfg detailsmodesettings.kcfg previewsmodesettings.kcfg  				sidebarsettings.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
 install( FILES  dolphinui.rc DESTINATION ${DATA_INSTALL_DIR}/dolphin )
-install( FILES  DESTINATION ${APPLNK_INSTALL_DIR}/System )
 
 kde4_install_icons( ${ICON_INSTALL_DIR} )
 
