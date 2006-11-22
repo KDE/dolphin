@@ -24,7 +24,7 @@
 #include <settingspagebase.h>
 #include <q3valuelist.h>
 
-class KListView;
+class K3ListView;
 class KPushButton;
 class Q3ListViewItem;
 
@@ -70,7 +70,7 @@ private:
         IconIdx   = 3
     };
 
-    KListView* m_listView;
+    K3ListView* m_listView;
     KPushButton* m_addButton;
     KPushButton* m_editButton;
     KPushButton* m_removeButton;

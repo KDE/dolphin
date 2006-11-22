@@ -82,15 +82,15 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget *parent) :
     m_mediumIconSize = new QRadioButton(i18n("Medium"), iconSizeGroup);
     m_largeIconSize  = new QRadioButton(i18n("Large"), iconSizeGroup);
     switch (settings->iconSize()) {
-        case KIcon::SizeLarge:
+        case K3Icon::SizeLarge:
             m_largeIconSize->setChecked(true);
             break;
 
-        case KIcon::SizeMedium:
+        case K3Icon::SizeMedium:
             m_mediumIconSize->setChecked(true);
             break;
 
-        case KIcon::SizeSmall:
+        case K3Icon::SizeSmall:
         default:
             m_smallIconSize->setChecked(true);
     }
@@ -135,12 +135,12 @@ void DetailsViewSettingsPage::applySettings()
     settings->setShowOwner(m_ownerBox->isChecked());
     settings->setShowGroup(m_groupBox->isChecked());
 
-    int iconSize = KIcon::SizeSmall;
+    int iconSize = K3Icon::SizeSmall;
     if (m_mediumIconSize->isChecked()) {
-        iconSize = KIcon::SizeMedium;
+        iconSize = K3Icon::SizeMedium;
     }
     else if (m_largeIconSize->isChecked()) {
-        iconSize = KIcon::SizeLarge;
+        iconSize = K3Icon::SizeLarge;
     }
     settings->setIconSize(iconSize);
 

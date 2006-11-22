@@ -25,7 +25,7 @@
 //Added by qt3to4:
 #include <Q3VBoxLayout>
 
-class KURL;
+class KUrl;
 class QComboBox;
 class Q3VBoxLayout;
 class SidebarPage;
@@ -50,7 +50,7 @@ signals:
 	 * The user selected an item on sidebar widget and item has
 	 * URL property, so inform the parent togo to this URL;
 	 */
-	void urlChanged(const KURL& url);
+	void urlChanged(const KUrl& url);
 
 private slots:
     void createPage(int index);

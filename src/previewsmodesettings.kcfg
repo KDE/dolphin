@@ -27,7 +27,7 @@
         </entry>
         <entry name="IconSize" type="Int">
             <label>Icon size</label>
-            <default code="true">KIcon::SizeMedium</default>
+            <default code="true">K3Icon::SizeMedium</default>
         </entry>
         <entry name="NumberOfTexlines" type="Int">
             <label>Number of textlines</label>
@@ -35,7 +35,7 @@
         </entry>
         <entry name="PreviewSize" type="Int">
             <label>Preview size</label>
-            <default code="true">KIcon::SizeMedium</default>
+            <default code="true">K3Icon::SizeMedium</default>
         </entry>
     </group>
 </kcfg>

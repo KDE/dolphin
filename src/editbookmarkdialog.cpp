@@ -39,7 +39,7 @@ EditBookmarkDialog::~EditBookmarkDialog()
 
 KBookmark EditBookmarkDialog::getBookmark(const QString& title,
                                           const QString& name,
-                                          const KURL& url,
+                                          const KUrl& url,
                                           const QString& icon)
 {
     EditBookmarkDialog dialog(title, name, url, icon);
@@ -50,7 +50,7 @@ KBookmark EditBookmarkDialog::getBookmark(const QString& title,
 void EditBookmarkDialog::slotOk()
 {
     m_bookmark = KBookmark::standaloneBookmark(m_name->text(),
-                                               KURL(m_location->text()),
+                                               KUrl(m_location->text()),
                                                m_iconName);
 
     KDialogBase::slotOk();
@@ -58,7 +58,7 @@ void EditBookmarkDialog::slotOk()
 
 EditBookmarkDialog::EditBookmarkDialog(const QString& title,
                                        const QString& name,
-                                       const KURL& url,
+                                       const KUrl& url,
                                        const QString& icon) :
     KDialogBase(Plain, title, Ok|Cancel, Ok),
     m_iconButton(0),
@@ -90,7 +90,7 @@ EditBookmarkDialog::EditBookmarkDialog(const QString& title,
     Q3HBox* locationBox = new Q3HBox(grid);
     locationBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     locationBox->setSpacing(spacingHint());
-    m_location = new QLineEdit(url.prettyURL(), locationBox);
+    m_location = new QLineEdit(url.prettyUrl(), locationBox);
     m_location->setMinimumWidth(320);
 
     QPushButton* selectLocationButton = new QPushButton(SmallIcon("folder"), QString::null, locationBox);
@@ -103,7 +103,7 @@ EditBookmarkDialog::EditBookmarkDialog(const QString& title,
 
 void EditBookmarkDialog::selectIcon()
 {
-    const QString iconName(KIconDialog::getIcon(KIcon::Small, KIcon::FileSystem));
+    const QString iconName(KIconDialog::getIcon(K3Icon::Small, K3Icon::FileSystem));
     if (!iconName.isEmpty()) {
         m_iconName = iconName;
         m_iconButton->setIconSet(SmallIcon(iconName));
@@ -113,9 +113,9 @@ void EditBookmarkDialog::selectIcon()
 void EditBookmarkDialog::selectLocation()
 {
     const QString location(m_location->text());
-    KURL url(KFileDialog::getExistingURL(location));
+    KUrl url(KFileDialog::getExistingURL(location));
     if (!url.isEmpty()) {
-        m_location->setText(url.prettyURL());
+        m_location->setText(url.prettyUrl());
     }
 }
 

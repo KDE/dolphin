@@ -298,7 +298,7 @@ void Dolphin::slotSelectionChanged()
 void Dolphin::closeEvent(QCloseEvent* event)
 {
     // KDE4-TODO
-    //KConfig* config = kapp->config();
+    //KConfig* config = KGlobal::config();
     //config->setGroup("General");
     //config->writeEntry("First Run", false);
 

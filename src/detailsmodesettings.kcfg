@@ -14,7 +14,7 @@
         </entry>
         <entry name="IconSize" type="Int">
             <label>Icon size</label>
-            <default code="true">KIcon::SizeSmall</default>
+            <default code="true">K3Icon::SizeSmall</default>
         </entry>
         <entry name="ShowDate" type="Bool">
             <label>Show date</label>

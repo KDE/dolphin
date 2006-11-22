@@ -68,8 +68,8 @@ DolphinIconsView::DolphinIconsView(DolphinView* parent, LayoutMode layoutMode) :
             this, SLOT(slotActivationUpdate()));
     connect(this, SIGNAL(itemRenamed(Q3IconViewItem*, const QString&)),
             this, SLOT(slotItemRenamed(Q3IconViewItem*, const QString&)));
-    connect(this, SIGNAL(dropped(QDropEvent*, const KURL::List&, const KURL&)),
-            parent, SLOT(slotURLListDropped(QDropEvent*, const KURL::List&, const KURL&)));
+    connect(this, SIGNAL(dropped(QDropEvent*, const KUrl::List&, const KUrl&)),
+            parent, SLOT(slotURLListDropped(QDropEvent*, const KUrl::List&, const KUrl&)));
 
     QClipboard* clipboard = QApplication::clipboard();
     connect(clipboard, SIGNAL(dataChanged()),

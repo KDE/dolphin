@@ -93,7 +93,7 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
 
         text = i18n("%1% of %2 used")
                .arg( 100 - (int)(100.0 * m_kBAvailable / m_kBSize))
-               .arg(KIO::convertSizeFromKB(m_kBSize));
+               .arg(KIO::convertSizeFromKiB(m_kBSize));
     }
     else {
         if (m_gettingSize) {
@@ -108,7 +108,7 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
     // draw text (usually 'X% of Y GB used')
     painter.setPen(KGlobalSettings::textColor());
     painter.drawText(QRect(1, 1, barWidth - 2, barHeight + 4),
-                     Qt::AlignHCenter | Qt::AlignVCenter | Qt::WordBreak,
+                     Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextWordWrap,
                      text);
 }
 

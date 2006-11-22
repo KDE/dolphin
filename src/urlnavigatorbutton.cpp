@@ -211,7 +211,7 @@ void URLNavigatorButton::dropEvent(QDropEvent* event)
     if (KUrlDrag::decode(event, urls) && !urls.isEmpty()) {
         setDisplayHintEnabled(DraggedHint, true);
 
-        QString path(urlNavigator()->url().prettyURL());
+        QString path(urlNavigator()->url().prettyUrl());
         path = path.section('/', 0, m_index);
 
         Dolphin::mainWin().dropURLs(urls, KUrl(path));

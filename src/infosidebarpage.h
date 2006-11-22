@@ -72,7 +72,7 @@ private slots:
      *
      * @see InfoSidebarPage::showItemInfo()
      */
-    void requestDelayedItemInfo(const KURL& url);
+    void requestDelayedItemInfo(const KUrl& url);
 
     /**
      * Does a request of information for the item of the given URL and
@@ -80,7 +80,7 @@ private slots:
      *
      * @see InfoSidebarPage::showItemInfo()
      */
-    void requestItemInfo(const KURL& url);
+    void requestItemInfo(const KUrl& url);
 
     /**
      * Shows the information for the item of the URL which has been provided by
@@ -151,8 +151,8 @@ private:
     bool m_multipleSelection;
     bool m_pendingPreview;
     QTimer* m_timer;
-    KURL m_shownURL;
-    KURL m_urlCandidate;
+    KUrl m_shownURL;
+    KUrl m_urlCandidate;
 
     PixmapViewer* m_preview;
     QLabel* m_name;

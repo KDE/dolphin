@@ -30,8 +30,8 @@
 PixmapViewer::PixmapViewer(QWidget* parent) :
     QWidget(parent)
 {
-    setMinimumWidth(KIcon::SizeEnormous);
-    setMinimumWidth(KIcon::SizeEnormous);
+    setMinimumWidth(K3Icon::SizeEnormous);
+    setMinimumWidth(K3Icon::SizeEnormous);
 }
 
 PixmapViewer::~PixmapViewer()

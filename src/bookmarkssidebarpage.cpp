@@ -79,8 +79,8 @@ void BookmarksSidebarPage::updateBookmarks()
     KBookmark bookmark = root.first();
     while (!bookmark.isNull()) {
         QPixmap icon(iconLoader.loadIcon(bookmark.icon(),
-                                         KIcon::NoGroup,
-                                         KIcon::SizeMedium));
+                                         K3Icon::NoGroup,
+                                         K3Icon::SizeMedium));
         BookmarkItem* item = new BookmarkItem(icon, bookmark.text());
         m_bookmarksList->insertItem(item);
 
@@ -128,7 +128,7 @@ void BookmarksSidebarPage::slotContextMenuRequested(Q3ListBoxItem* item,
         case insertID: {
             KBookmark newBookmark = EditBookmarkDialog::getBookmark(i18n("Insert Bookmark"),
                                                                     "New bookmark",
-                                                                    KURL(),
+                                                                    KUrl(),
                                                                     "bookmark");
             if (!newBookmark.isNull()) {
                 root.addBookmark(manager, newBookmark);
@@ -173,7 +173,7 @@ void BookmarksSidebarPage::slotContextMenuRequested(Q3ListBoxItem* item,
         case addID: {
             KBookmark bookmark = EditBookmarkDialog::getBookmark(i18n("Add Bookmark"),
                                                                  "New bookmark",
-                                                                 KURL(),
+                                                                 KUrl(),
                                                                  "bookmark");
             if (!bookmark.isNull()) {
                 root.addBookmark(manager, bookmark);
@@ -192,7 +192,7 @@ void BookmarksSidebarPage::slotContextMenuRequested(Q3ListBoxItem* item,
 }
 
 
-void BookmarksSidebarPage::adjustSelection(const KURL& url)
+void BookmarksSidebarPage::adjustSelection(const KUrl& url)
 {
     // TODO (remarked in dolphin/TODO): the following code is quite equal
     // to BookmarkSelector::updateSelection().
@@ -208,9 +208,9 @@ void BookmarksSidebarPage::adjustSelection(const KURL& url)
     // which covers the bigger range of the URL.
     int i = 0;
     while (!bookmark.isNull()) {
-        const KURL bookmarkURL = bookmark.url();
+        const KUrl bookmarkURL = bookmark.url();
         if (bookmarkURL.isParentOf(url)) {
-            const int length = bookmarkURL.prettyURL().length();
+            const int length = bookmarkURL.prettyUrl().length();
             if (length > maxLength) {
                 selectedIndex = i;
                 maxLength = length;
@@ -234,7 +234,7 @@ void BookmarksSidebarPage::adjustSelection(const KURL& url)
     m_bookmarksList->blockSignals(block);
 }
 
-void BookmarksSidebarPage::slotURLChanged(const KURL& url)
+void BookmarksSidebarPage::slotURLChanged(const KUrl& url)
 {
     adjustSelection(url);
 }
@@ -243,8 +243,8 @@ void BookmarksSidebarPage::connectToActiveView()
 {
     DolphinView* view = Dolphin::mainWin().activeView();
     adjustSelection(view->url());
-    connect(view, SIGNAL(signalURLChanged(const KURL&)),
-            this, SLOT(slotURLChanged(const KURL&)));
+    connect(view, SIGNAL(signalURLChanged(const KUrl&)),
+            this, SLOT(slotURLChanged(const KUrl&)));
 }
 
 BookmarksListBox::BookmarksListBox(QWidget* parent) :

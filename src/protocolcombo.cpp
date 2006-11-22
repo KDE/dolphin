@@ -36,7 +36,7 @@ ProtocolCombo::ProtocolCombo(const QString& protocol, URLNavigator* parent)
     Q3PopupMenu* menu = new Q3PopupMenu(this);
     while (it != itEnd)
     {
-        //kdDebug() << "info for " << *it << " "
+        //kDebug() << "info for " << *it << " "
         //          << KProtocolInfo::protocolClass(*it) << endl;
         //TODO: wow this is ugly. or .. is it? ;) we need a way to determine
         //      if a protocol is appropriate for use in a file manager. hum!
@@ -44,7 +44,7 @@ ProtocolCombo::ProtocolCombo(const QString& protocol, URLNavigator* parent)
         if (KProtocolInfo::protocolClass(*it) == ":" ||
             !KProtocolInfo::supportsWriting(*it))
         {
-        //kdDebug() << "!!! removing " << *it << endl;
+        //kDebug() << "!!! removing " << *it << endl;
             QStringList::iterator tempIt = it;
             ++tempIt;
             m_protocols.remove(it);
@@ -100,7 +100,7 @@ void ProtocolCombo::setProtocol(int index)
     }
 
     QString protocol = m_protocols[index];
-kdDebug() << "setProtocol " << index << " " << protocol << endl;
+kDebug() << "setProtocol " << index << " " << protocol << endl;
     setText(protocol);
     emit activated(protocol);
 /*    */

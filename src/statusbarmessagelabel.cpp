@@ -37,7 +37,7 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
     m_minTextHeight(-1),
     m_timer(0)
 {
-    setMinimumHeight(KIcon::SizeSmall);
+    setMinimumHeight(K3Icon::SizeSmall);
 
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()),
@@ -133,7 +133,7 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
 
     // draw text
     painter.setPen(foregroundColor);
-    painter.drawText(QRect(x, 0, width() - x, height()), Qt::AlignVCenter | Qt::WordBreak, m_text);
+    painter.drawText(QRect(x, 0, width() - x, height()), Qt::AlignVCenter | Qt::TextWordWrap, m_text);
     painter.end();
 
     bitBlt(this, 0, 0, &buffer);

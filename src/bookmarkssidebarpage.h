@@ -25,7 +25,7 @@
 #include <QPaintEvent>
 #include <QPixmap>
 
-class KURL;
+class KUrl;
 class BookmarksListBox;
 
 /**
@@ -65,7 +65,7 @@ private slots:
      * Is invoked whenever the URL of the active view has been changed. Adjusts
      * the selection of the listbox to the bookmark which is part of the current URL.
      */
-    void slotURLChanged(const KURL& url);
+    void slotURLChanged(const KUrl& url);
 
 private:
     /**
@@ -75,7 +75,7 @@ private:
      * is selected. If there are more than one possible parent URL candidates,
      * the bookmark which covers the bigger range of the URL is selected.
      */
-    void adjustSelection(const KURL& url);
+    void adjustSelection(const KUrl& url);
 
     /**
      * Connects to signals from the currently active Dolphin view to get

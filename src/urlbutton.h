@@ -25,7 +25,7 @@
 //Added by qt3to4:
 #include <QEvent>
 
-class KURL;
+class KUrl;
 class URLNavigator;
 class QPainter;
 

@@ -127,10 +127,10 @@ void GeneralSettingsPage::applySettings()
 {
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
 
-    const KURL url(m_homeURL->text());
+    const KUrl url(m_homeURL->text());
     KFileItem fileItem(S_IFDIR, KFileItem::Unknown, url);
     if (url.isValid() && fileItem.isDir()) {
-        settings->setHomeURL(url.prettyURL());
+        settings->setHomeURL(url.prettyUrl());
     }
 
     DolphinView::Mode viewMode = DolphinView::IconsView;
@@ -149,21 +149,21 @@ void GeneralSettingsPage::applySettings()
 void GeneralSettingsPage::selectHomeURL()
 {
     const QString homeURL(m_homeURL->text());
-    KURL url(KFileDialog::getExistingURL(homeURL));
+    KUrl url(KFileDialog::getExistingUrl(homeURL));
     if (!url.isEmpty()) {
-        m_homeURL->setText(url.prettyURL());
+        m_homeURL->setText(url.prettyUrl());
     }
 }
 
 void GeneralSettingsPage::useCurrentLocation()
 {
     const DolphinView* view = Dolphin::mainWin().activeView();
-    m_homeURL->setText(view->url().prettyURL());
+    m_homeURL->setText(view->url().prettyUrl());
 }
 
 void GeneralSettingsPage::useDefaulLocation()
 {
-    m_homeURL->setText("file://" + QDir::homeDirPath());
+    m_homeURL->setText("file://" + QDir::homePath());
 }
 
 #include "generalsettingspage.moc"

@@ -38,6 +38,8 @@
 #include <assert.h>
 #include <ksortablevaluelist.h>
 #include <kio/netaccess.h>
+#include <kmenu.h>
+#include <kstdaction.h>
 
 #include "dolphin.h"
 #include "dolphinview.h"
@@ -111,7 +113,7 @@ void DolphinContextMenu::openViewportContextMenu()
     //    ++linkGroupIt;
     //}
     //
-    //KPopupMenu* linkToDeviceMenu = new KPopupMenu();
+    //KMenu* linkToDeviceMenu = new KMenu();
     //QPtrListIterator<KAction> linkToDeviceIt(dolphin.linkToDeviceActions());
     //while ((action = linkToDeviceIt.current()) != 0) {
     //    action->plug(linkToDeviceMenu);
@@ -151,9 +153,9 @@ void DolphinContextMenu::openViewportContextMenu()
         new KPropertiesDialog(dolphin.activeView()->url());
     }
     else if (id == bookmarkID) {
-        const KURL& url = dolphin.activeView()->url();
+        const KUrl& url = dolphin.activeView()->url();
         KBookmark bookmark = EditBookmarkDialog::getBookmark(i18n("Add folder as bookmark"),
-                                                             url.filename(),
+                                                             url.fileName(),
                                                              url,
                                                              "bookmark");
         if (!bookmark.isNull()) {
@@ -178,7 +180,7 @@ void DolphinContextMenu::openItemContextMenu()
 
     KMenu* popup = new KMenu(m_dolphinView);
     Dolphin& dolphin = Dolphin::mainWin();
-    const KURL::List urls = m_dolphinView->selectedURLs();
+    const KUrl::List urls = m_dolphinView->selectedURLs();
 
     // insert 'Cut', 'Copy' and 'Paste'
     const KStdAction::StdAction actionNames[] = { KStdAction::Cut, KStdAction::Copy, KStdAction::Paste };
@@ -196,7 +198,7 @@ void DolphinContextMenu::openItemContextMenu()
     renameAction->plug(popup);
 
     // insert 'Move to Trash' for local URLs, otherwise insert 'Delete'
-    const KURL& url = dolphin.activeView()->url();
+    const KUrl& url = dolphin.activeView()->url();
     if (url.isLocalFile()) {
         KAction* moveToTrashAction = dolphin.actionCollection()->action("move_to_trash");
         moveToTrashAction->plug(popup);
@@ -231,9 +233,9 @@ void DolphinContextMenu::openItemContextMenu()
     int id = popup->exec(m_pos);
 
     if (id == bookmarkID) {
-        const KURL selectedURL(m_fileInfo->url());
+        const KUrl selectedURL(m_fileInfo->url());
         KBookmark bookmark = EditBookmarkDialog::getBookmark(i18n("Add folder as bookmark"),
-                                                             selectedURL.filename(),
+                                                             selectedURL.fileName(),
                                                              selectedURL,
                                                              "bookmark");
         if (!bookmark.isNull()) {
@@ -301,7 +303,7 @@ int DolphinContextMenu::insertOpenWithItems(KMenu* popup,
                 // will be skipped here.
                 const QString appName((*it)->name());
                 if (!containsEntry(openWithMenu, appName)) {
-                    openWithMenu->insertItem((*it)->pixmap(KIcon::Small),
+                    openWithMenu->insertItem((*it)->pixmap(K3Icon::Small),
                                             appName, index);
                     openWithVector.append(*it);
                     ++index;

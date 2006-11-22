@@ -34,7 +34,7 @@ class QPushButton;
  * \code
  * KBookmark bookmark = EditBookmarkDialog::getBookmark(i18n("Add Bookmark"),
  *                                                      i18n("New bookmark"),
- *                                                      KURL(),
+ *                                                      KUrl(),
  *                                                      "bookmark");
  * if (!bookmark.isNull()) {
  *     // ...
@@ -56,7 +56,7 @@ public:
      */
     static KBookmark getBookmark(const QString& title,
                                  const QString& name,
-                                 const KURL& url,
+                                 const KUrl& url,
                                  const QString& icon);
 
 protected slots:
@@ -65,7 +65,7 @@ protected slots:
 protected:
     EditBookmarkDialog(const QString& title,
                        const QString& name,
-                       const KURL& url,
+                       const KUrl& url,
                        const QString& icon);
 
 private slots:

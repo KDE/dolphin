@@ -72,8 +72,8 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
 
     // preview
     m_preview = new PixmapViewer(this);
-    m_preview->setMinimumWidth(KIcon::SizeEnormous);
-    m_preview->setFixedHeight(KIcon::SizeEnormous);
+    m_preview->setMinimumWidth(K3Icon::SizeEnormous);
+    m_preview->setFixedHeight(K3Icon::SizeEnormous);
 
     // name
     m_name = new QLabel(this);
@@ -125,7 +125,7 @@ void InfoSidebarPage::activeViewChanged()
     connectToActiveView();
 }
 
-void InfoSidebarPage::requestDelayedItemInfo(const KURL& url)
+void InfoSidebarPage::requestDelayedItemInfo(const KUrl& url)
 {
     cancelRequest();
 
@@ -135,7 +135,7 @@ void InfoSidebarPage::requestDelayedItemInfo(const KURL& url)
     }
 }
 
-void InfoSidebarPage::requestItemInfo(const KURL& url)
+void InfoSidebarPage::requestItemInfo(const KUrl& url)
 {
     cancelRequest();
 
@@ -161,14 +161,14 @@ void InfoSidebarPage::showItemInfo()
     if (m_multipleSelection) {
         KIconLoader iconLoader;
         QPixmap icon = iconLoader.loadIcon("exec",
-                                           KIcon::NoGroup,
-                                           KIcon::SizeEnormous);
+                                           K3Icon::NoGroup,
+                                           K3Icon::SizeEnormous);
         m_preview->setPixmap(icon);
         m_name->setText(i18n("%1 items selected").arg(selectedItems->count()));
     }
     else if (!applyBookmark()) {
         // try to get a preview pixmap from the item...
-        KURL::List list;
+        KUrl::List list;
         list.append(m_shownURL);
 
         m_pendingPreview = true;
@@ -176,7 +176,7 @@ void InfoSidebarPage::showItemInfo()
 
         KIO::PreviewJob* job = KIO::filePreview(list,
                                                 m_preview->width(),
-                                                KIcon::SizeEnormous);
+                                                K3Icon::SizeEnormous);
         connect(job, SIGNAL(gotPreview(const KFileItem*, const QPixmap&)),
                 this, SLOT(gotPreview(const KFileItem*, const QPixmap&)));
         connect(job, SIGNAL(failed(const KFileItem*)),
@@ -202,7 +202,7 @@ void InfoSidebarPage::slotPreviewFailed(const KFileItem* item)
 {
     m_pendingPreview = false;
     if (!applyBookmark()) {
-        m_preview->setPixmap(item->pixmap(KIcon::SizeEnormous));
+        m_preview->setPixmap(item->pixmap(K3Icon::SizeEnormous));
     }
 }
 
@@ -219,7 +219,7 @@ void InfoSidebarPage::startService(int index)
 {
     DolphinView* view = Dolphin::mainWin().activeView();
     if (view->hasSelection()) {
-        KURL::List selectedURLs = view->selectedURLs();
+        KUrl::List selectedURLs = view->selectedURLs();
         KDEDesktopMimeType::executeService(selectedURLs, m_actionsVector[index]);
     }
     else {
@@ -232,10 +232,10 @@ void InfoSidebarPage::connectToActiveView()
     cancelRequest();
 
     DolphinView* view = Dolphin::mainWin().activeView();
-    connect(view, SIGNAL(signalRequestItemInfo(const KURL&)),
-            this, SLOT(requestDelayedItemInfo(const KURL&)));
-    connect(view, SIGNAL(signalURLChanged(const KURL&)),
-            this, SLOT(requestItemInfo(const KURL&)));
+    connect(view, SIGNAL(signalRequestItemInfo(const KUrl&)),
+            this, SLOT(requestDelayedItemInfo(const KUrl&)));
+    connect(view, SIGNAL(signalURLChanged(const KUrl&)),
+            this, SLOT(requestItemInfo(const KUrl&)));
 
     m_shownURL = view->url();
     showItemInfo();
@@ -254,8 +254,8 @@ bool InfoSidebarPage::applyBookmark()
 
             KIconLoader iconLoader;
             QPixmap icon = iconLoader.loadIcon(bookmark.icon(),
-                                               KIcon::NoGroup,
-                                               KIcon::SizeEnormous);
+                                               K3Icon::NoGroup,
+                                               K3Icon::SizeEnormous);
             m_preview->setPixmap(icon);
             return true;
         }
@@ -399,7 +399,7 @@ void InfoSidebarPage::addInfoLine(const QString& labelText, const QString& infoT
 
         QLabel* info = new QLabel(infoText, m_infoGrid);
         info->setTextFormat(Qt::RichText);
-        info->setAlignment(Qt::AlignTop | Qt::WordBreak);
+        info->setAlignment(Qt::AlignTop | Qt::TextWordWrap);
         info->show();
         m_infoWidgets.append(info);
 
@@ -574,12 +574,12 @@ void ServiceButton::drawButton(QPainter* painter)
 
     // draw icon
     int x = spacing;
-    const int y = (buttonHeight - KIcon::SizeSmall) / 2;
+    const int y = (buttonHeight - K3Icon::SizeSmall) / 2;
     const QIcon* set = iconSet();
     if (set != 0) {
         painter->drawPixmap(x, y, set->pixmap(QIcon::Small, QIcon::Normal));
     }
-    x += KIcon::SizeSmall + spacing;
+    x += K3Icon::SizeSmall + spacing;
 
     // draw text
     painter->setPen(foregroundColor);

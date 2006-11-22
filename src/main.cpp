@@ -59,7 +59,7 @@ int main(int argc, char **argv)
     Dolphin& mainWin = Dolphin::mainWin();
     mainWin.show();
 
-    if (false /* KDE4-TODO: app.isRestored() */) {
+    if (false /* KDE4-TODO: app.isSessionRestored() */) {
         int n = 1;
         while (KMainWindow::canBeRestored(n)){
             Dolphin::mainWin().restore(n);

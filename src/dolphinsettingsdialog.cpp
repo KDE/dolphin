@@ -33,22 +33,22 @@ DolphinSettingsDialog::DolphinSettingsDialog() :
                 Ok|Apply|Cancel, Ok)
 {
     KIconLoader iconLoader;
-    Q3Frame* generalSettingsFrame = addPage(i18n("General"), 0,
+    QFrame* generalSettingsFrame = addPage(i18n("General"), 0,
                                                 iconLoader.loadIcon("exec",
-                                                                    KIcon::NoGroup,
-                                                                    KIcon::SizeMedium));
+                                                                    K3Icon::NoGroup,
+                                                                    K3Icon::SizeMedium));
     m_generalSettingsPage = new GeneralSettingsPage(generalSettingsFrame);
 
-    Q3Frame* viewSettingsFrame = addPage(i18n("View Modes"), 0,
+    QFrame* viewSettingsFrame = addPage(i18n("View Modes"), 0,
                                         iconLoader.loadIcon("view_choose",
-                                                            KIcon::NoGroup,
-                                                            KIcon::SizeMedium));
+                                                            K3Icon::NoGroup,
+                                                            K3Icon::SizeMedium));
     m_viewSettingsPage = new ViewSettingsPage(viewSettingsFrame);
 
-    Q3Frame* bookmarksSettingsFrame = addPage(i18n("Bookmarks"), 0,
+    QFrame* bookmarksSettingsFrame = addPage(i18n("Bookmarks"), 0,
                                              iconLoader.loadIcon("bookmark",
-                                                                 KIcon::NoGroup,
-                                                                 KIcon::SizeMedium));
+                                                                 K3Icon::NoGroup,
+                                                                 K3Icon::SizeMedium));
     m_bookmarksSettingsPage = new BookmarksSettingsPage(bookmarksSettingsFrame);
 }
 

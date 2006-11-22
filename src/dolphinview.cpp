@@ -417,7 +417,7 @@ void DolphinView::setSorting(Sorting sorting)
         ViewProperties props(url());
         props.setSorting(sorting);
 
-        view->setSorting(static_cast<QDir::SortSpec>(spec));
+        view->setSorting(static_cast<QDir::SortFlags>(spec));
 
         emit signalSortingChanged(sorting);
     }
@@ -425,7 +425,7 @@ void DolphinView::setSorting(Sorting sorting)
 
 DolphinView::Sorting DolphinView::sorting() const
 {
-    const QDir::SortSpec spec = fileView()->sorting();
+    const QDir::SortFlags spec = fileView()->sorting();
 
     if (spec & QDir::Time) {
         return SortByDate;
@@ -449,7 +449,7 @@ void DolphinView::setSortOrder(Qt::SortOrder order)
         ViewProperties props(url());
         props.setSortOrder(order);
 
-        view->setSorting(static_cast<QDir::SortSpec>(sorting));
+        view->setSorting(static_cast<QDir::SortFlags>(sorting));
 
         emit signalSortOrderChanged(order);
     }

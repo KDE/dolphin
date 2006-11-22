@@ -214,7 +214,7 @@ void ViewPropertiesDialog::applyViewProperties()
             }
         }
 
-        ViewProperties props(QDir::homeDirPath());
+        ViewProperties props(QDir::homePath());
         props.setViewMode(m_viewProps->viewMode());
         props.setSorting(m_viewProps->sorting());
         props.setSortOrder(m_viewProps->sortOrder());

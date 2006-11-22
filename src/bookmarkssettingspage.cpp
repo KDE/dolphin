@@ -34,7 +34,7 @@
 #include <kbookmarkmanager.h>
 #include <kdialog.h>
 #include <kiconloader.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <klocale.h>
 #include <kpushbutton.h>
 
@@ -57,7 +57,7 @@ BookmarksSettingsPage::BookmarksSettingsPage(QWidget*parent) :
     hBox->setSpacing(spacing);
     hBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
 
-    m_listView = new KListView(hBox);
+    m_listView = new K3ListView(hBox);
     m_listView->addColumn(i18n("Icon"));
     m_listView->addColumn(i18n("Name"));
     m_listView->addColumn(i18n("Location"));
@@ -117,7 +117,7 @@ BookmarksSettingsPage::BookmarksSettingsPage(QWidget*parent) :
         Q3ListViewItem* item = new Q3ListViewItem(m_listView);
         item->setPixmap(PixmapIdx, SmallIcon(bookmark.icon()));
         item->setText(NameIdx, bookmark.text());
-        item->setText(URLIdx, bookmark.url().prettyURL());
+        item->setText(URLIdx, bookmark.url().prettyUrl());
 
         // add hidden column to be able to retrieve the icon name again
         item->setText(IconIdx, bookmark.icon());
@@ -156,7 +156,7 @@ void BookmarksSettingsPage::applySettings()
     while (item != 0) {
         root.addBookmark(manager,
                          item->text(NameIdx),
-                         KURL(item->text(URLIdx)),
+                         KUrl(item->text(URLIdx)),
                          item->text(IconIdx)); // hidden column
         item = item->itemBelow();
     }
@@ -199,14 +199,14 @@ void BookmarksSettingsPage::slotAddButtonClicked()
 {
     KBookmark bookmark = EditBookmarkDialog::getBookmark(i18n("Add Bookmark"),
                                                          i18n("New bookmark"),
-                                                         KURL(),
+                                                         KUrl(),
                                                          "bookmark");
     if (!bookmark.isNull()) {
         // insert bookmark into listview
         Q3ListViewItem* item = new Q3ListViewItem(m_listView);
         item->setPixmap(PixmapIdx, SmallIcon(bookmark.icon()));
         item->setText(NameIdx, bookmark.text());
-        item->setText(URLIdx, bookmark.url().prettyURL());
+        item->setText(URLIdx, bookmark.url().prettyUrl());
         item->setText(IconIdx, bookmark.icon());
         m_listView->insertItem(item);
 
@@ -227,12 +227,12 @@ void BookmarksSettingsPage::slotEditButtonClicked()
 
     KBookmark bookmark = EditBookmarkDialog::getBookmark(i18n("Edit Bookmark"),
                                                          item->text(NameIdx),
-                                                         KURL(item->text(URLIdx)),
+                                                         KUrl(item->text(URLIdx)),
                                                          item->text(IconIdx));
     if (!bookmark.isNull()) {
         item->setPixmap(PixmapIdx, SmallIcon(bookmark.icon()));
         item->setText(NameIdx, bookmark.text());
-        item->setText(URLIdx, bookmark.url().prettyURL());
+        item->setText(URLIdx, bookmark.url().prettyUrl());
         item->setText(IconIdx, bookmark.icon());
     }
 }

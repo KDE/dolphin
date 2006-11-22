@@ -85,8 +85,8 @@ DolphinDetailsView::DolphinDetailsView(DolphinView* parent) :
             this, SLOT(slotActivationUpdate()));
     connect(this, SIGNAL(itemRenamed(Q3ListViewItem*, const QString&, int)),
             this, SLOT(slotItemRenamed(Q3ListViewItem*, const QString&, int)));
-    connect(this, SIGNAL(dropped(QDropEvent*, const KURL::List&, const KURL&)),
-            parent, SLOT(slotURLListDropped(QDropEvent*, const KURL::List&, const KURL&)));
+    connect(this, SIGNAL(dropped(QDropEvent*, const KUrl::List&, const KUrl&)),
+            parent, SLOT(slotURLListDropped(QDropEvent*, const KUrl::List&, const KUrl&)));
 
     QClipboard* clipboard = QApplication::clipboard();
     connect(clipboard, SIGNAL(dataChanged()),
@@ -143,7 +143,7 @@ void DolphinDetailsView::insertItem(KFileItem* fileItem)
 
     DolphinListViewItem* item = new DolphinListViewItem(static_cast<Q3ListView*>(this), fileItem);
 
-    QDir::SortSpec spec = KFileView::sorting();
+    QDir::SortFlags spec = KFileView::sorting();
     if (spec & QDir::Time) {
         item->setKey(sortingKey(fileItem->time(KIO::UDS_MODIFICATION_TIME),
                                 fileItem->isDir(),

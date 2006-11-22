@@ -134,7 +134,7 @@ URLNavigator::~URLNavigator()
 void URLNavigator::setURL(const KUrl& url)
 {
     QString urlStr(url.pathOrUrl());
-    //kdDebug() << "setURL(" << url << ")" << endl;
+    //kDebug() << "setURL(" << url << ")" << endl;
     if (urlStr.at(0) == '~') {
         // replace '~' by the home directory
         urlStr.remove(0, 1);
@@ -150,7 +150,7 @@ void URLNavigator::setURL(const KUrl& url)
         const KUrl& nextURL = m_history[m_historyIndex - 1].url();
         if (transformedURL == nextURL) {
             goForward();
-//             kdDebug() << "goin' forward in history" << endl;
+//             kDebug() << "goin' forward in history" << endl;
             return;
         }
     }
@@ -158,7 +158,7 @@ void URLNavigator::setURL(const KUrl& url)
     const KUrl& currURL = m_history[m_historyIndex].url();
     if (currURL == transformedURL) {
         // don't insert duplicate history elements
-//         kdDebug() << "currURL == transformedURL" << endl;
+//         kDebug() << "currURL == transformedURL" << endl;
         return;
     }
 
@@ -179,15 +179,15 @@ void URLNavigator::setURL(const KUrl& url)
         --m_historyIndex;
     }
 
-/*    kdDebug() << "history starting ====================" << endl;
+/*    kDebug() << "history starting ====================" << endl;
     int i = 0;
     for (QValueListIterator<URLNavigator::HistoryElem> it = m_history.begin();
          it != m_history.end();
          ++it, ++i)
     {
-        kdDebug() << i << ": " << (*it).url() << endl;
+        kDebug() << i << ": " << (*it).url() << endl;
     }
-    kdDebug() << "history done ========================" << endl;*/
+    kDebug() << "history done ========================" << endl;*/
 }
 
 const KUrl& URLNavigator::url() const
@@ -414,8 +414,8 @@ void URLNavigator::slotBookmarkActivated(int index)
 
 void URLNavigator::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
 {
-// kdDebug() << "received redirection to " << newUrl << endl;
-kdDebug() << "received redirection from " << oldUrl << " to " << newUrl << endl;
+// kDebug() << "received redirection to " << newUrl << endl;
+kDebug() << "received redirection from " << oldUrl << " to " << newUrl << endl;
 /*    UrlStack::iterator it = m_urls.find(oldUrl);
     if (it != m_urls.end())
     {

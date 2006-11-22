@@ -44,14 +44,14 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
     m_lineEdit = new KLineEdit(plainPage());
     m_newName = i18n("New name #");
     assert(itemCount > 1);
-    QString postfix(items[0].prettyURL().section('.',1));
+    QString postfix(items[0].prettyUrl().section('.',1));
     if (postfix.length() > 0) {
         // The first item seems to have a postfix (e. g. 'jpg' or 'txt'). Now
         // check whether all other items have the same postfix. If this is the
         // case, add this postfix to the name suggestion.
         postfix.insert(0, '.');
         for (int i = 1; i < itemCount; ++i) {
-            if (!items[i].prettyURL().contains(postfix)) {
+            if (!items[i].prettyUrl().contains(postfix)) {
                 // at least one item does not have the same postfix
                 postfix.truncate(0);
                 break;
