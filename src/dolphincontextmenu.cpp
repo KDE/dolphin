@@ -230,7 +230,7 @@ void DolphinContextMenu::openItemContextMenu()
 
     QAction *activatedAction = popup->exec(m_pos);
 
-    if (activatedAction == bookmarkAction) {
+    if (bookmarkAction!=0 && activatedAction == bookmarkAction) {
         const KUrl selectedURL(m_fileInfo->url());
         KBookmark bookmark = EditBookmarkDialog::getBookmark(i18n("Add folder as bookmark"),
                                                              selectedURL.fileName(),
