@@ -509,8 +509,8 @@ KUrl::List DolphinView::selectedURLs() const
     if (list != 0) {
         KFileItemList::const_iterator it = list->begin();
         const KFileItemList::const_iterator end = list->end();
-        KFileItem* item = 0;
         while (it != end) {
+            KFileItem* item = *it;
             urls.append(item->url());
             ++it;
         }

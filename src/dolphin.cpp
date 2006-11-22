@@ -363,7 +363,7 @@ void Dolphin::createFolder()
 
     QString name(i18n("New Folder"));
     baseURL.path(KUrl::AddTrailingSlash);
-    
+
 
     if (baseURL.isLocalFile() && QFileInfo(baseURL.path(KUrl::AddTrailingSlash) + name).exists()) {
         name = KIO::RenameDlg::suggestName(baseURL, i18n("New Folder"));
@@ -1526,8 +1526,8 @@ void Dolphin::updateEditActions()
 
         KFileItemList::const_iterator it = list->begin();
         const KFileItemList::const_iterator end = list->end();
-        KFileItem* item = 0;
         while (it != end) {
+            KFileItem* item = *it;
             const KUrl& url = item->url();
             // only enable the 'Move to Trash' action for local files
             if (!url.isLocalFile()) {
