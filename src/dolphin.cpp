@@ -1194,42 +1194,25 @@ void Dolphin::loadSettings()
 void Dolphin::setupActions()
 {
     // setup 'File' menu
-    //KAction* createFolder = new KAction(i18n("Folder..."), "Ctrl+N",
-    //                                    this, SLOT(createFolder()),
-    //                                    actionCollection(), "create_folder");
     KAction* createFolder = new KAction(i18n("Folder..."), actionCollection(), "create_folder");
     createFolder->setIcon(KIcon("folder"));
     createFolder->setShortcut(Qt::Key_N);
     connect(createFolder, SIGNAL(triggered()), this, SLOT(createFolder()));
 
-    //new KAction(i18n("Rename"), KKey(Key_F2),
-    //            this, SLOT(rename()),
-    //            actionCollection(), "rename");
     KAction* rename = new KAction(i18n("Rename"), actionCollection(), "rename");
     rename->setShortcut(Qt::Key_F2);
     connect(rename, SIGNAL(triggered()), this, SLOT(rename()));
 
-    //KAction* moveToTrashAction = new KAction(i18n("Move to Trash"), KKey(Key_Delete),
-    //                                         this, SLOT(moveToTrash()),
-    //                                         actionCollection(), "move_to_trash");
-    //moveToTrashAction->setIcon("edittrash");
     KAction* moveToTrash = new KAction(i18n("Move to Trash"), actionCollection(), "move_to_trash");
     moveToTrash->setIcon(KIcon("edittrash"));
     moveToTrash->setShortcut(QKeySequence::Delete);
     connect(moveToTrash, SIGNAL(triggered()), this, SLOT(moveToTrash()));
 
-    //KAction* deleteAction = new KAction(i18n("Delete"), "Shift+Delete",
-    //                                    this, SLOT(deleteItems()),
-    //                                    actionCollection(), "delete");
-    //deleteAction->setIcon("editdelete");
     KAction* deleteAction = new KAction(i18n("Delete"), actionCollection(), "delete");
     deleteAction->setShortcut(Qt::ALT | Qt::Key_Delete);
     deleteAction->setIcon(KIcon("editdelete"));
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteItems()));
 
-    //new KAction(i18n("Propert&ies"), "Alt+Return",
-    //                 this, SLOT(properties()),
-    //                 actionCollection(), "properties");
     KAction* properties = new KAction(i18n("Propert&ies"), actionCollection(), "properties");
     properties->setShortcut(Qt::Key_Alt | Qt::Key_Return);
     connect(properties, SIGNAL(triggered()), this, SLOT(properties()));
@@ -1258,16 +1241,10 @@ void Dolphin::setupActions()
     KStdAction::copy(this, SLOT(copy()), actionCollection());
     KStdAction::paste(this, SLOT(paste()), actionCollection());
 
-    //new KAction(i18n("Select All"), "Ctrl+A",
-    //            this, SLOT(selectAll()),
-    //            actionCollection(), "select_all");
     KAction* selectAll = new KAction(i18n("Select All"), actionCollection(), "select_all");
     selectAll->setShortcut(Qt::CTRL + Qt::Key_A);
     connect(selectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
 
-    //new KAction(i18n("Invert Selection"), "Ctrl+Shift+A",
-    //            this, SLOT(invertSelection()),
-    //            actionCollection(), "invert_selection");
     KAction* invertSelection = new KAction(i18n("Invert Selection"), actionCollection(), "invert_selection");
     invertSelection->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_A);
     connect(invertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
@@ -1281,26 +1258,17 @@ void Dolphin::setupActions()
                         SLOT(zoomOut()),
                         actionCollection());
 
-    //KAction* iconsView = new KRadioAction(i18n("Icons"), "Ctrl+1",
-    //                                      this, SLOT(setIconsView()),
-    //                                      actionCollection(), "icons");
-    KAction* iconsView = new KAction(i18n("Icons"), actionCollection(), "icons");
+    KToggleAction* iconsView = new KToggleAction(i18n("Icons"), actionCollection(), "icons");
     iconsView->setShortcut(Qt::CTRL | Qt::Key_1);
     iconsView->setIcon(KIcon("view_icon"));
     connect(iconsView, SIGNAL(triggered()), this, SLOT(setIconsView()));
 
-    //KRadioAction* detailsView = new KRadioAction(i18n("Details"), "Ctrl+2",
-    //                                             this, SLOT(setDetailsView()),
-    //                                             actionCollection(), "details");
-    KAction* detailsView = new KAction(i18n("Details"), actionCollection(), "details");
+    KToggleAction* detailsView = new KToggleAction(i18n("Details"), actionCollection(), "details");
     detailsView->setShortcut(Qt::CTRL | Qt::Key_2);
     detailsView->setIcon(KIcon("view_text"));
     connect(detailsView, SIGNAL(triggered()), this, SLOT(setIconsView()));
 
-    //KRadioAction* previewsView = new KRadioAction(i18n("Previews"), "Ctrl+3",
-    //                                               this, SLOT(setPreviewsView()),
-    //                                               actionCollection(), "previews");
-    KAction* previewsView = new KAction(i18n("Previews"), actionCollection(), "previews");
+    KToggleAction* previewsView = new KToggleAction(i18n("Previews"), actionCollection(), "previews");
     previewsView->setShortcut(Qt::CTRL | Qt::Key_3);
     previewsView->setIcon(KIcon("gvdirpart"));
     connect(previewsView, SIGNAL(triggered()), this, SLOT(setPreviewsView()));
@@ -1310,13 +1278,13 @@ void Dolphin::setupActions()
     viewModeGroup->addAction(detailsView);
     viewModeGroup->addAction(previewsView);
 
-    KAction* sortByName = new KAction(i18n("By Name"), actionCollection(), "by_name");
+    KToggleAction* sortByName = new KToggleAction(i18n("By Name"), actionCollection(), "by_name");
     connect(sortByName, SIGNAL(triggered()), this, SLOT(sortByName()));
 
-    KAction* sortBySize = new KAction(i18n("By Size"), actionCollection(), "by_name");
+    KToggleAction* sortBySize = new KToggleAction(i18n("By Size"), actionCollection(), "by_size");
     connect(sortBySize, SIGNAL(triggered()), this, SLOT(sortBySize()));
 
-    KAction* sortByDate = new KAction(i18n("By Date"), actionCollection(), "by_name");
+    KToggleAction* sortByDate = new KToggleAction(i18n("By Date"), actionCollection(), "by_date");
     connect(sortByDate, SIGNAL(triggered()), this, SLOT(sortByDate()));
 
     QActionGroup* sortGroup = new QActionGroup(this);
