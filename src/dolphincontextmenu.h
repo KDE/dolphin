@@ -30,7 +30,7 @@
 #include <kpropertiesdialog.h>
 #include <kdedesktopmimetype.h>
 
-class KPopupMenu;
+class KMenu;
 class KFileItem;
 class QPoint;
 class QWidget;
@@ -84,7 +84,7 @@ private:
      *                       All succeeding identifiers have an increased value of 1
      *                       to the predecessor.
      */
-    int insertOpenWithItems(KPopupMenu* popup,
+    int insertOpenWithItems(KMenu* popup,
                             Q3ValueVector<KService::Ptr>& openWithVector);
 
     /**
@@ -94,14 +94,14 @@ private:
      * @param openWithVector Output parameter which contains all 'Actions...'
      *                       services.
      */
-    void insertActionItems(KPopupMenu* popup,
+    void insertActionItems(KMenu* popup,
                            Q3ValueVector<KDEDesktopMimeType::Service>& actionsVector);
 
     /**
      * Returns true, if 'menu' contains already
      * an entry with the name 'entryName'.
      */
-    bool containsEntry(const KPopupMenu* menu,
+    bool containsEntry(const KMenu* menu,
                        const QString& entryName) const;
 
     enum {

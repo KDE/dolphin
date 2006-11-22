@@ -79,11 +79,11 @@ void DolphinContextMenu::openViewportContextMenu()
     const int propertiesID = 100;
 	const int bookmarkID = 101;
 
-    KPopupMenu* popup = new KPopupMenu(m_dolphinView);
+    KMenu* popup = new KMenu(m_dolphinView);
     Dolphin& dolphin = Dolphin::mainWin();
 
     // setup 'Create New' menu
-    KPopupMenu* createNewMenu = new KPopupMenu();
+    KMenu* createNewMenu = new KMenu();
 
     KAction* createFolderAction = dolphin.actionCollection()->action("create_folder");
     if (createFolderAction != 0) {
@@ -127,7 +127,7 @@ void DolphinContextMenu::openViewportContextMenu()
     pasteAction->plug(popup);
 
     // setup 'View Mode' menu
-    KPopupMenu* viewModeMenu = new KPopupMenu();
+    KMenu* viewModeMenu = new KMenu();
 
     KAction* iconsMode = dolphin.actionCollection()->action("icons");
     iconsMode->plug(viewModeMenu);
@@ -176,7 +176,7 @@ void DolphinContextMenu::openItemContextMenu()
 
     assert(m_fileInfo != 0);
 
-    KPopupMenu* popup = new KPopupMenu(m_dolphinView);
+    KMenu* popup = new KMenu(m_dolphinView);
     Dolphin& dolphin = Dolphin::mainWin();
     const KURL::List urls = m_dolphinView->selectedURLs();
 
@@ -264,7 +264,7 @@ void DolphinContextMenu::openItemContextMenu()
     popup->deleteLater();
 }
 
-int DolphinContextMenu::insertOpenWithItems(KPopupMenu* popup,
+int DolphinContextMenu::insertOpenWithItems(KMenu* popup,
                                             Q3ValueVector<KService::Ptr>& openWithVector)
 {
     // Prepare 'Open With' sub menu. Usually a sub menu is created, where all applications
@@ -293,7 +293,7 @@ int DolphinContextMenu::insertOpenWithItems(KPopupMenu* popup,
         int index = openWithIDStart;
         if (offers.count() > 0) {
             KTrader::OfferList::Iterator it;
-            KPopupMenu* openWithMenu = new KPopupMenu();
+            KMenu* openWithMenu = new KMenu();
             for(it = offers.begin(); it != offers.end(); ++it) {
                 // The offer list from the KTrader returns duplicate
                 // application entries. Although this seems to be a configuration
@@ -332,16 +332,16 @@ int DolphinContextMenu::insertOpenWithItems(KPopupMenu* popup,
     return openWithID;
 }
 
-void DolphinContextMenu::insertActionItems(KPopupMenu* popup,
+void DolphinContextMenu::insertActionItems(KMenu* popup,
                                            Q3ValueVector<KDEDesktopMimeType::Service>& actionsVector)
 {
-    KPopupMenu* actionsMenu = new KPopupMenu();
+    KMenu* actionsMenu = new KMenu();
 
     int actionsIndex = 0;
 
     QStringList dirs = KGlobal::dirs()->findDirs("data", "dolphin/servicemenus/");
 
-    KPopupMenu* menu = 0;
+    KMenu* menu = 0;
     for (QStringList::ConstIterator dirIt = dirs.begin(); dirIt != dirs.end(); ++dirIt) {
         QDir dir(*dirIt);
         QStringList entries = dir.entryList("*.desktop", QDir::Files);
@@ -397,7 +397,7 @@ void DolphinContextMenu::insertActionItems(KPopupMenu* popup,
 
                         const QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
                         if (!submenuName.isEmpty()) {
-                            menu = new KPopupMenu();
+                            menu = new KMenu();
                             actionsMenu->insertItem(submenuName, menu, submenuID);
                         }
 
@@ -459,7 +459,7 @@ void DolphinContextMenu::insertActionItems(KPopupMenu* popup,
     }
 }
 
-bool DolphinContextMenu::containsEntry(const KPopupMenu* menu,
+bool DolphinContextMenu::containsEntry(const KMenu* menu,
                                        const QString& entryName) const
 {
     assert(menu != 0);
