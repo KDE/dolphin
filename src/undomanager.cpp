@@ -37,6 +37,8 @@ DolphinCommand::DolphinCommand() :
     // Instead of expressing this implementation detail to the interface by adding a
     // Type::Undefined just Type::Copy is used to assure that all members have
     // a defined state.
+    //
+    // KDE4TODO: QList doesn't require a default constructor iirc - so remove this
 }
 
 DolphinCommand::DolphinCommand(Type type,
@@ -106,6 +108,8 @@ void UndoManager::endMacro()
     m_recordMacro = false;
 }
 
+// KDE4 TODO: consider switching to KCommandHistory (kdeui) for the command history, and to
+// KonqCommandRecorder etc. from libkonq/konq_undo.*
 void UndoManager::undo()
 {
     if (m_recordMacro) {

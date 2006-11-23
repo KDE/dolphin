@@ -143,6 +143,7 @@ void Dolphin::dropUrls(const KUrl::List& urls,
         /* KDE4-TODO: selectedIndex = popup.exec(QCursor::pos()); */
         popup.exec(QCursor::pos());
         selectedIndex = 0; // KD4-TODO: use QAction instead of switch below
+        // See libkonq/konq_operations.cc: KonqOperations::doDropFileCopy() (and doDrop, the main method)
     }
 
     if (selectedIndex < 0) {
@@ -641,6 +642,9 @@ void Dolphin::slotRedoTextChanged(const QString& text)
 
 void Dolphin::cut()
 {
+    // TODO: this boolean doesn't work between instances of dolphin or with konqueror or with other
+    // apps. The "application/x-kde-cutselection" mimetype should be used instead, see KonqMimeData
+    // in libkonq
     m_clipboardContainsCutData = true;
     /* KDE4-TODO: Q3DragObject* data = new KUrlDrag(m_activeView->selectedUrls(),
                                        widget());
@@ -658,7 +662,7 @@ void Dolphin::copy()
 
 void Dolphin::paste()
 {
-    /* KDE4-TODO:
+    /* KDE4-TODO:   - see KonqOperations::doPaste
     QClipboard* clipboard = QApplication::clipboard();
     QMimeSource* data = clipboard->data();
     if (!KUrlDrag::canDecode(data)) {
@@ -739,6 +743,8 @@ void Dolphin::updatePasteAction()
         else if (count == 1) {
             // Only one file is selected. Pasting is only allowed if this
             // file is a directory.
+            // TODO: this doesn't work with remote protocols; instead we need a
+            // m_activeView->selectedFileItems() to get the real KFileItems
             const KFileItem fileItem(S_IFDIR,
                                      KFileItem::Unknown,
                                      urls.first(),
@@ -1418,7 +1424,7 @@ void Dolphin::setupCreateNewMenuActions()
     unplugActionList("create_actions");
     KSortableList<CreateFileEntry, QString>::ConstIterator it = m_createFileTemplates.begin();
     KSortableList<CreateFileEntry, QString>::ConstIterator end = m_createFileTemplates.end();
-    /* KDE4-TODO:
+    /* KDE4-TODO: don't port this code; use KNewMenu instead
     while (it != end) {
         CreateFileEntry entry = (*it).value();
         KAction* action = new KAction(entry.name);

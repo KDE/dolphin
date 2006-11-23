@@ -80,7 +80,7 @@ private:
  *
  *	@author Peter Penz <peter.penz@gmx.at>
  */
-class UndoManager : public QObject
+class UndoManager : public QObject   // TODO switch to KonqUndoManager (multi-process, async, more robust on complex operations, no redo though)
 {
     Q_OBJECT
 
