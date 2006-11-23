@@ -21,8 +21,9 @@
 #ifndef ICONSVIEWSETTINGSPAGE_H
 #define ICONSVIEWSETTINGSPAGE_H
 
-#include <q3vbox.h>
+
 #include <dolphiniconsview.h>
+#include <kvbox.h>
 
 class QSlider;
 class QComboBox;
@@ -49,7 +50,7 @@ class PixmapViewer;
  * @see DolphinIconsViewSettings
  *  @author Peter Penz <peter.penz@gmx.at>
  */
-class IconsViewSettingsPage : public Q3VBox
+class IconsViewSettingsPage : public KVBox
 {
     Q_OBJECT
 

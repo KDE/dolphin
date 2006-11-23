@@ -33,6 +33,7 @@
 #include <kurl.h>
 #include <kmimetype.h>
 #include <kdedesktopmimetype.h>
+#include <kvbox.h>
 
 namespace KIO {
     class Job;
@@ -44,7 +45,7 @@ class QString;
 class QPainter;
 class KFileItem;
 class QLabel;
-class Q3VBox;
+class KVBox;
 class Q3Grid;
 class PixmapViewer;
 
@@ -161,7 +162,7 @@ private:
     Q3Grid* m_infoGrid;
     Q3PtrList<QLabel> m_infoWidgets;       // TODO: use children() from QObject instead
 
-    Q3VBox* m_actionBox;
+    KVBox* m_actionBox;
     Q3PtrList<QWidget> m_actionWidgets;    // TODO: use children() from QObject instead
     Q3ValueVector<KDEDesktopMimeType::Service> m_actionsVector;
 };

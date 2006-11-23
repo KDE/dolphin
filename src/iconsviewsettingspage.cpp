@@ -30,6 +30,7 @@
 #include <kdialog.h>
 #include <klocale.h>
 #include <assert.h>
+#include <kvbox.h>
 
 #include "iconsmodesettings.h"
 #include "dolphinsettings.h"
@@ -40,7 +41,7 @@
 
 IconsViewSettingsPage::IconsViewSettingsPage(DolphinIconsView::LayoutMode mode,
                                              QWidget* parent) :
-    Q3VBox(parent),
+    KVBox(parent),
     m_mode(mode),
     m_iconSizeSlider(0),
     m_previewSizeSlider(0),
@@ -61,7 +62,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinIconsView::LayoutMode mode,
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     assert(settings != 0);
 
-    Q3HBox* sizesLayout = new Q3HBox(this);
+    KHBox* sizesLayout = new KHBox(this);
     sizesLayout->setSpacing(spacing);
     sizesLayout->setSizePolicy(sizePolicy);
 
@@ -72,7 +73,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinIconsView::LayoutMode mode,
 
     const QColor iconBackgroundColor(KGlobalSettings::baseColor());
 
-    Q3HBox* iconSizeVBox = new Q3HBox(iconSizeGroup);
+    KHBox* iconSizeVBox = new KHBox(iconSizeGroup);
     iconSizeVBox->setSpacing(spacing);
     new QLabel(i18n("Small"), iconSizeVBox);
     m_iconSizeSlider = new QSlider(0, 5, 1, 0,  Qt::Horizontal, iconSizeVBox);
@@ -94,7 +95,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinIconsView::LayoutMode mode,
         previewSizeGroup->setSizePolicy(sizePolicy);
         previewSizeGroup->setMargin(margin);
 
-        Q3HBox* previewSizeVBox = new Q3HBox(previewSizeGroup);
+        KHBox* previewSizeVBox = new KHBox(previewSizeGroup);
         previewSizeVBox->setSpacing(spacing);
         new QLabel(i18n("Small"), previewSizeVBox);
         m_previewSizeSlider = new QSlider(0, 5, 1, 0,  Qt::Horizontal, previewSizeVBox);

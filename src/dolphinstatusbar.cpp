@@ -23,13 +23,14 @@
 #include <qlabel.h>
 #include <qtimer.h>
 #include <kiconloader.h>
+#include <kvbox.h>
 
 #include "dolphinview.h"
 #include "statusbarmessagelabel.h"
 #include "statusbarspaceinfo.h"
 
 DolphinStatusBar::DolphinStatusBar(DolphinView* parent) :
-    Q3HBox(parent),
+    KHBox(parent),
     m_messageLabel(0),
     m_spaceInfo(0),
     m_progressBar(0),

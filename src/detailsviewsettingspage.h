@@ -21,7 +21,8 @@
 #ifndef DETAILSVIEWSETTINGSPAGE_H
 #define DETAILSVIEWSETTINGSPAGE_H
 
-#include <q3vbox.h>
+#include <kvbox.h>
+
 class QCheckBox;
 class QFontComboBox;
 class QSpinBox;
@@ -34,7 +35,7 @@ class QRadioButton;
  *
  *  @author Peter Penz <peter.penz@gmx.at>
  */
-class DetailsViewSettingsPage : public Q3VBox
+class DetailsViewSettingsPage : public KVBox
 {
     Q_OBJECT
 

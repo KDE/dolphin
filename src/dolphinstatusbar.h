@@ -21,9 +21,10 @@
 #ifndef DOLPHINSTATUSBAR_H
 #define DOLPHINSTATUSBAR_H
 
-#include <q3hbox.h>
+
 //Added by qt3to4:
 #include <QLabel>
+#include <khbox.h>
 class QProgressBar;
 class QLabel;
 class QTimer;
@@ -40,7 +41,7 @@ class KUrl;
  *
  * @author Peter Penz
  */
-class DolphinStatusBar : public Q3HBox {
+class DolphinStatusBar : public KHBox {
     Q_OBJECT
 
 public:

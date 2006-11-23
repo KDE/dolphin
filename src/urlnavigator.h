@@ -21,7 +21,7 @@
 #ifndef UrlNAVIGATOR_H
 #define UrlNAVIGATOR_H
 
-#include <q3hbox.h>
+
 //Added by qt3to4:
 #include <QLabel>
 #include <Q3ValueList>
@@ -29,6 +29,7 @@
 #include <Q3PopupMenu>
 #include <kurl.h>
 #include <qstring.h>
+#include <kvbox.h>
 
 class QComboBox;
 class QLabel;
@@ -66,7 +67,7 @@ class ProtocolCombo;
 
 typedef Q3ValueList<KUrl> UrlStack;
 
-class UrlNavigator : public Q3HBox
+class UrlNavigator : public KHBox
 {
     Q_OBJECT
 

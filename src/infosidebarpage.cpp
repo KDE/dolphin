@@ -25,7 +25,7 @@
 #include <qlabel.h>
 #include <qtimer.h>
 #include <qpushbutton.h>
-#include <q3vbox.h>
+
 #include <q3vgroupbox.h>
 #include <q3popupmenu.h>
 #include <qpainter.h>
@@ -45,6 +45,7 @@
 #include <kdialog.h>
 #include <kglobalsettings.h>
 #include <kfilemetainfo.h>
+#include <kvbox.h>
 
 #include "dolphin.h"
 #include "pixmapviewer.h"
@@ -94,7 +95,7 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     sep2->setFixedHeight(1);
 
     // actions
-    m_actionBox = new Q3VBox(this);
+    m_actionBox = new KVBox(this);
     m_actionBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     // Add a dummy widget with no restriction regarding a vertical resizing.

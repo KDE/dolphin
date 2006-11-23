@@ -32,12 +32,13 @@
 #include <qcombobox.h>
 #include <q3groupbox.h>
 #include <q3groupbox.h>
+#include <kvbox.h>
 #include "dolphinsettings.h"
 #include "detailsmodesettings.h"
 #include "dolphindetailsview.h"
 
 DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget *parent) :
-    Q3VBox(parent),
+    KVBox(parent),
     m_dateBox(0),
     m_permissionsBox(0),
     m_ownerBox(0),
@@ -61,7 +62,7 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget *parent) :
     columnsGroup->setSizePolicy(sizePolicy);
     columnsGroup->setMargin(margin);
 
-    Q3HBox* visibleColumnsLayout = new Q3HBox(columnsGroup);
+    KHBox* visibleColumnsLayout = new KHBox(columnsGroup);
     m_dateBox = new QCheckBox(i18n("Date"), visibleColumnsLayout);
     m_dateBox->setChecked(settings->showDate());
 

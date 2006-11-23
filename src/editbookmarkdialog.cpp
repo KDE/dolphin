@@ -31,7 +31,8 @@
 #include <kurl.h>
 #include <kfiledialog.h>
 #include <kicondialog.h>
-#include <q3hbox.h>
+#include <kvbox.h>
+
 
 EditBookmarkDialog::~EditBookmarkDialog()
 {
@@ -96,7 +97,7 @@ EditBookmarkDialog::EditBookmarkDialog(const QString& title,
     // create location widgets
     new QLabel(i18n("Location:"), grid);
 
-    Q3HBox* locationBox = new Q3HBox(grid);
+    KHBox* locationBox = new KHBox(grid);
     locationBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     locationBox->setSpacing(spacingHint());
     m_location = new QLineEdit(url.prettyUrl(), locationBox);

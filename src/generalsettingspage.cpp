@@ -26,7 +26,7 @@
 #include <kdialog.h>
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <q3vbox.h>
+
 #include <q3grid.h>
 #include <q3groupbox.h>
 #include <klocale.h>
@@ -35,6 +35,7 @@
 #include <qpushbutton.h>
 #include <kfiledialog.h>
 #include <qradiobutton.h>
+#include <kvbox.h>
 
 #include "dolphinsettings.h"
 #include "dolphin.h"
@@ -55,7 +56,7 @@ GeneralSettingsPage::GeneralSettingsPage(QWidget* parent) :
 
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
 
-    Q3VBox* vBox = new Q3VBox(parent);
+    KVBox* vBox = new KVBox(parent);
     vBox->setSizePolicy(sizePolicy);
     vBox->setSpacing(spacing);
     vBox->setMargin(margin);
@@ -66,7 +67,7 @@ GeneralSettingsPage::GeneralSettingsPage(QWidget* parent) :
     homeGroup->setSizePolicy(sizePolicy);
     homeGroup->setMargin(margin);
 
-    Q3HBox* homeUrlBox = new Q3HBox(homeGroup);
+    KHBox* homeUrlBox = new KHBox(homeGroup);
     homeUrlBox->setSizePolicy(sizePolicy);
     homeUrlBox->setSpacing(spacing);
 
@@ -77,7 +78,7 @@ GeneralSettingsPage::GeneralSettingsPage(QWidget* parent) :
     connect(selectHomeUrlButton, SIGNAL(clicked()),
             this, SLOT(selectHomeUrl()));
 
-    Q3HBox* buttonBox = new Q3HBox(homeGroup);
+    KHBox* buttonBox = new KHBox(homeGroup);
     buttonBox->setSizePolicy(sizePolicy);
     buttonBox->setSpacing(spacing);
     QPushButton* useCurrentButton = new QPushButton(i18n("Use current location"), buttonBox);

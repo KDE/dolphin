@@ -25,7 +25,7 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <q3vbox.h>
+
 //Added by qt3to4:
 #include <QPixmap>
 #include <Q3VBoxLayout>
@@ -37,6 +37,7 @@
 #include <k3listview.h>
 #include <klocale.h>
 #include <kpushbutton.h>
+#include <kvbox.h>
 
 #include "dolphinsettings.h"
 #include "editbookmarkdialog.h"
@@ -52,7 +53,7 @@ BookmarksSettingsPage::BookmarksSettingsPage(QWidget*parent) :
 
     const int spacing = KDialog::spacingHint();
 
-    Q3HBox* hBox = new Q3HBox(parent);
+    KHBox* hBox = new KHBox(parent);
     hBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     hBox->setSpacing(spacing);
     hBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
@@ -72,7 +73,7 @@ BookmarksSettingsPage::BookmarksSettingsPage(QWidget*parent) :
     connect(m_listView, SIGNAL(doubleClicked(Q3ListViewItem*, const QPoint&, int)),
             this, SLOT(slotBookmarkDoubleClicked(Q3ListViewItem*, const QPoint&, int)));
 
-    Q3VBox* buttonBox = new Q3VBox(hBox);
+    KVBox* buttonBox = new KVBox(hBox);
     buttonBox->setSpacing(spacing);
 
     const QSizePolicy buttonSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);

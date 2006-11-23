@@ -34,6 +34,7 @@
 //Added by qt3to4:
 #include <QCloseEvent>
 #include <ksortablelist.h>
+#include <kvbox.h>
 
 #include "dolphinview.h"
 #include "undomanager.h"
@@ -42,7 +43,7 @@ class KPrinter;
 class KUrl;
 class QLineEdit;
 class KFileIconView;
-class Q3HBox;
+class KHBox;
 class Q3IconViewItem;
 class QSplitter;
 class KAction;

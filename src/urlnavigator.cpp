@@ -48,6 +48,7 @@
 #include <kurlcombobox.h>
 #include <kurlcompletion.h>
 #include <kbookmarkmanager.h>
+#include <kvbox.h>
 
 #include "bookmarkselector.h"
 #include "dolphin.h"
@@ -80,7 +81,7 @@ UrlNavigator::HistoryElem::~HistoryElem()
 
 UrlNavigator::UrlNavigator(const KUrl& url,
                            DolphinView* dolphinView) :
-    Q3HBox(dolphinView),
+    KHBox(dolphinView),
     m_historyIndex(0),
     m_dolphinView(dolphinView),
     m_protocols(0),
@@ -279,7 +280,7 @@ DolphinView* UrlNavigator::dolphinView() const
 
 void UrlNavigator::keyReleaseEvent(QKeyEvent* event)
 {
-    Q3HBox::keyReleaseEvent(event);
+    KHBox::keyReleaseEvent(event);
     if (isUrlEditable() && (event->key() == Qt::Key_Escape)) {
         setUrlEditable(false);
     }
