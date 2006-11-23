@@ -255,7 +255,7 @@ void DolphinView::renameSelectedItems()
                     if (destExists) {
                         delete progressIndicator;
                         progressIndicator = 0;
-                        view->statusBar()->setMessage(i18n("Renaming failed (item '%1' already exists).").arg(name),
+                        view->statusBar()->setMessage(i18n("Renaming failed (item '%1' already exists).",name),
                                                       DolphinStatusBar::Error);
                         break;
                     }
@@ -578,14 +578,14 @@ void DolphinView::rename(const KUrl& source, const QString& newName)
     }
 
     if (ok) {
-        m_statusBar->setMessage(i18n("Renamed file '%1' to '%2'.").arg(source.fileName(), dest.fileName()),
+        m_statusBar->setMessage(i18n("Renamed file '%1' to '%2'.",source.fileName(), dest.fileName()),
                                 DolphinStatusBar::OperationCompleted);
 
         DolphinCommand command(DolphinCommand::Rename, source, dest);
         UndoManager::instance().addCommand(command);
     }
     else {
-        m_statusBar->setMessage(i18n("Renaming of file '%1' to '%2' failed.").arg(source.fileName(), dest.fileName()),
+        m_statusBar->setMessage(i18n("Renaming of file '%1' to '%2' failed.",source.fileName(), dest.fileName()),
                                 DolphinStatusBar::Error);
         reload();
     }
@@ -915,7 +915,7 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
             m_statusBar->setMessage(i18n("The location is empty."), DolphinStatusBar::Error);
         }
         else {
-            m_statusBar->setMessage(i18n("The location '%1' is invalid.").arg(location),
+            m_statusBar->setMessage(i18n("The location '%1' is invalid.",location),
                                     DolphinStatusBar::Error);
         }
         return;
@@ -948,7 +948,7 @@ QString DolphinView::defaultStatusBarText() const
         text = i18n("1 Item");
     }
     else {
-        text = i18n("%1 Items").arg(itemCount);
+        text = i18n("%1 Items",itemCount);
     }
 
     text += " (";
@@ -957,7 +957,7 @@ QString DolphinView::defaultStatusBarText() const
         text += i18n("1 Folder");
     }
     else {
-        text += i18n("%1 Folders").arg(m_folderCount);
+        text += i18n("%1 Folders",m_folderCount);
     }
 
     text += ", ";
@@ -966,7 +966,7 @@ QString DolphinView::defaultStatusBarText() const
         text += i18n("1 File");
     }
     else {
-        text += i18n("%1 Files").arg(m_fileCount);
+        text += i18n("%1 Files",m_fileCount);
     }
 
     text += ")";
@@ -1003,7 +1003,7 @@ QString DolphinView::selectionStatusBarText() const
         text = i18n("1 Folder selected");
     }
     else if (folderCount > 1) {
-        text = i18n("%1 Folders selected").arg(folderCount);
+        text = i18n("%1 Folders selected",folderCount);
     }
 
     if ((fileCount > 0) && (folderCount > 0)) {
@@ -1012,10 +1012,10 @@ QString DolphinView::selectionStatusBarText() const
 
     const QString sizeText(KIO::convertSize(byteSize));
     if (fileCount == 1) {
-        text += i18n("1 File selected (%1)").arg(sizeText);
+        text += i18n("1 File selected (%1)",sizeText);
     }
     else if (fileCount > 1) {
-        text += i18n("%1 Files selected (%1)").arg(fileCount).arg(sizeText);
+        text += i18n("%1 Files selected (%1)",fileCount,sizeText);
     }
 
     return text;

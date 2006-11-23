@@ -84,7 +84,7 @@ void UndoManager::addCommand(const DolphinCommand& command)
     }
 
     emit undoAvailable(true);
-    emit undoTextChanged(i18n("Undo: %1").arg(commandText(command)));
+    emit undoTextChanged(i18n("Undo: %1",commandText(command)));
 
     // prevent an endless growing of the Undo history
     if (m_historyIndex > 10000) {
@@ -132,12 +132,12 @@ void UndoManager::undo()
             emit undoTextChanged(i18n("Undo"));
         }
         else {
-            emit undoTextChanged(i18n("Undo: %1").arg(commandText(m_history[m_historyIndex])));
+            emit undoTextChanged(i18n("Undo: %1",commandText(m_history[m_historyIndex])));
         }
 
         if (m_historyIndex < static_cast<int>(m_history.count()) - 1) {
             emit redoAvailable(true);
-            emit redoTextChanged(i18n("Redo: %1").arg(commandText(command)));
+            emit redoTextChanged(i18n("Redo: %1",commandText(command)));
         }
         else {
             emit redoAvailable(false);
@@ -244,11 +244,11 @@ void UndoManager::redo()
             emit redoTextChanged(i18n("Redo"));
         }
         else {
-            emit redoTextChanged(i18n("Redo: %1").arg(commandText(m_history[m_historyIndex + 1])));
+            emit redoTextChanged(i18n("Redo: %1",commandText(m_history[m_historyIndex + 1])));
         }
 
         emit undoAvailable(true);
-        emit undoTextChanged(i18n("Undo: %1").arg(commandText(command)));
+        emit undoTextChanged(i18n("Undo: %1",commandText(command)));
 
         Dolphin& dolphin = Dolphin::mainWin();
 

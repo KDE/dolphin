@@ -396,7 +396,7 @@ void Dolphin::createFolder()
 
     // TODO: provide message type hint
     if (ok) {
-        statusBar->setMessage(i18n("Created folder %1.").arg(url.path()),
+        statusBar->setMessage(i18n("Created folder %1.",url.path()),
                               DolphinStatusBar::OperationCompleted);
 
         DolphinCommand command(DolphinCommand::CreateFolder, KUrl::List(), url);
@@ -406,11 +406,11 @@ void Dolphin::createFolder()
         // Creating of the folder has been failed. Check whether the creating
         // has been failed because a folder with the same name exists...
         if (KIO::NetAccess::exists(url, true, this)) {
-            statusBar->setMessage(i18n("A folder named %1 already exists.").arg(url.path()),
+            statusBar->setMessage(i18n("A folder named %1 already exists.",url.path()),
                                   DolphinStatusBar::Error);
         }
         else {
-            statusBar->setMessage(i18n("Creating of folder %1 failed.").arg(url.path()),
+            statusBar->setMessage(i18n("Creating of folder %1 failed.",url.path()),
                                   DolphinStatusBar::Error);
         }
 
@@ -491,7 +491,7 @@ void Dolphin::createFile()
     const QString destPath(viewUrl.pathOrUrl() + "/" + KIO::encodeFileName(name));
     const KUrl destUrl(destPath);
     if (KIO::NetAccess::exists(destUrl, false, this)) {
-        statusBar->setMessage(i18n("A file named %1 already exists.").arg(name),
+        statusBar->setMessage(i18n("A file named %1 already exists.",name),
                               DolphinStatusBar::Error);
         return;
     }
@@ -501,7 +501,7 @@ void Dolphin::createFile()
     KIO::CopyJob* job = KIO::copyAs(sourceUrl, destUrl);
     job->setDefaultPermissions(true);
     if (KIO::NetAccess::synchronousRun(job, this)) {
-        statusBar->setMessage(i18n("Created file %1.").arg(name),
+        statusBar->setMessage(i18n("Created file %1.",name),
                               DolphinStatusBar::OperationCompleted);
 
         KUrl::List list;
@@ -511,7 +511,7 @@ void Dolphin::createFile()
 
     }
     else {
-        statusBar->setMessage(i18n("Creating of file %1 failed.").arg(name),
+        statusBar->setMessage(i18n("Creating of file %1 failed.",name),
                               DolphinStatusBar::Error);
     }
 }
@@ -540,11 +540,11 @@ void Dolphin::deleteItems()
 
     QString text;
     if (itemCount > 1) {
-        text = i18n("Do you really want to delete the %1 selected items?").arg(itemCount);
+        text = i18n("Do you really want to delete the %1 selected items?",itemCount);
     }
     else {
         const KUrl& url = list.first();
-        text = i18n("Do you really want to delete '%1'?").arg(url.fileName());
+        text = i18n("Do you really want to delete '%1'?",url.fileName());
     }
 
     const bool del = KMessageBox::warningContinueCancel(this,

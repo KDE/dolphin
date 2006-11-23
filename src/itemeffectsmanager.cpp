@@ -182,7 +182,7 @@ QString ItemEffectsManager::statusBarText(KFileItem* fileInfo) const
         // KFileItem::getStatusBar() returns "MyDocuments/ Folder" as
         // status bar text for a folder 'MyDocuments'. This is adjusted
         // to "MyDocuments (Folder)" in Dolphin.
-        return i18n("%1 (Folder)").arg(fileInfo->name());
+        return i18n("%1 (Folder)",fileInfo->name());
     }
 
     return fileInfo->getStatusBarInfo();

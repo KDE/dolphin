@@ -478,14 +478,14 @@ void UrlNavigator::updateContent()
         delete m_protocolSeparator; m_protocolSeparator = 0;
         delete m_host; m_host = 0;
 
-        QToolTip::add(m_toggleButton, i18n("Browse (%1, Escape)").arg(shortcut));
+        QToolTip::add(m_toggleButton, i18n("Browse (%1, Escape)",shortcut));
 
         setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
         m_pathBox->show();
         m_pathBox->setUrl(url());
     }
     else {
-        QToolTip::add(m_toggleButton, i18n("Edit location (%1)").arg(shortcut));
+        QToolTip::add(m_toggleButton, i18n("Edit location (%1)",shortcut));
 
         setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         m_pathBox->hide();
