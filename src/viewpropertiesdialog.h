@@ -23,7 +23,6 @@
 #include <kdialog.h>
 
 class QCheckBox;
-class Q3ButtonGroup;
 class QComboBox;
 class QRadioButton;
 class ViewProperties;
