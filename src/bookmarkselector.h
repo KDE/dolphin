@@ -70,6 +70,9 @@ public:
     /** Returns the selected bookmark. */
     KBookmark selectedBookmark() const;
 
+    /** @see QWidget::sizeHint() */
+    virtual QSize sizeHint() const;
+
 signals:
     /**
      * Is send when a bookmark has been activated by the user.
@@ -82,7 +85,7 @@ protected:
      * Draws the icon of the selected Url as content of the Url
      * selector.
      */
-    virtual void drawButton(QPainter* painter);
+    virtual void paintEvent(QPaintEvent* event);
 
 private slots:
     /**

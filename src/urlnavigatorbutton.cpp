@@ -89,13 +89,15 @@ void UrlNavigatorButton::setIndex(int index)
     update();
 }
 
-int UrlNavigatorButton::index() const
+QSize UrlNavigatorButton::sizeHint() const
 {
-    return m_index;
+    const int width = fontMetrics().width(text()) + (arrowWidth() * 4);
+    return QSize(width, UrlButton::sizeHint().height());
 }
 
-void UrlNavigatorButton::drawButton(QPainter* painter)
+void UrlNavigatorButton::paintEvent(QPaintEvent* event)
 {
+    QPainter painter(this);
     const int buttonWidth  = width();
     const int buttonHeight = height();
 
@@ -127,18 +129,18 @@ void UrlNavigatorButton::drawButton(QPainter* painter)
     }
 
     // draw button background
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(backgroundColor);
-    painter->drawRect(0, 0, buttonWidth, buttonHeight);
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(backgroundColor);
+    painter.drawRect(0, 0, buttonWidth, buttonHeight);
 
     int textWidth = buttonWidth;
     if (isDisplayHintEnabled(ActivatedHint) && isActive || isHighlighted) {
-        painter->setPen(foregroundColor);
+        painter.setPen(foregroundColor);
     }
     else {
         // dimm the foreground color by mixing it with the background
         foregroundColor = mixColors(foregroundColor, backgroundColor);
-        painter->setPen(foregroundColor);
+        painter.setPen(foregroundColor);
     }
 
     if (!isDisplayHintEnabled(ActivatedHint)) {
@@ -150,8 +152,8 @@ void UrlNavigatorButton::drawButton(QPainter* painter)
         const int startTopY = middleY - (width - 1);
         const int startBottomY = middleY + (width - 1);
         for (int i = 0; i < width; ++i) {
-            painter->drawLine(startX, startTopY + i, startX + i, startTopY + i);
-            painter->drawLine(startX, startBottomY - i, startX + i, startBottomY - i);
+            painter.drawLine(startX, startTopY + i, startX + i, startTopY + i);
+            painter.drawLine(startX, startBottomY - i, startX + i, startBottomY - i);
         }
 
         textWidth = startX - border;
@@ -159,7 +161,7 @@ void UrlNavigatorButton::drawButton(QPainter* painter)
 
     const bool clipped = isTextClipped();
     const int align = clipped ? Qt::AlignVCenter : Qt::AlignCenter;
-    painter->drawText(QRect(0, 0, textWidth, buttonHeight), align, text());
+    painter.drawText(QRect(0, 0, textWidth, buttonHeight), align, text());
 
     if (clipped) {
         // Blend the right area of the text with the background, as the
@@ -172,9 +174,9 @@ void UrlNavigatorButton::drawButton(QPainter* painter)
         const int greenInc = (foregroundColor.green() - backgroundColor.green()) / blendSteps;
         const int blueInc  = (foregroundColor.blue()  - backgroundColor.blue())  / blendSteps;
         for (int i = 0; i < blendSteps; ++i) {
-            painter->setClipRect(QRect(textWidth - i, 0, 1, buttonHeight));
-            painter->setPen(blendColor);
-            painter->drawText(QRect(0, 0, textWidth, buttonHeight), align, text());
+            painter.setClipRect(QRect(textWidth - i, 0, 1, buttonHeight));
+            painter.setPen(blendColor);
+            painter.drawText(QRect(0, 0, textWidth, buttonHeight), align, text());
 
             blendColor.setRgb(blendColor.red()   + redInc,
                               blendColor.green() + greenInc,

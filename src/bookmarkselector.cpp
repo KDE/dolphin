@@ -106,15 +106,23 @@ KBookmark BookmarkSelector::selectedBookmark() const
     return DolphinSettings::instance().bookmark(m_selectedIndex);
 }
 
-void BookmarkSelector::drawButton(QPainter* painter)
+QSize BookmarkSelector::sizeHint() const
 {
+    const int height = UrlButton::sizeHint().height();
+    return QSize(height, height);
+}
+
+void BookmarkSelector::paintEvent(QPaintEvent* event)
+{
+    QPainter painter(this);
+
     const int buttonWidth  = width();
     const int buttonHeight = height();
 
     QColor backgroundColor;
     QColor foregroundColor;
     const bool isHighlighted = isDisplayHintEnabled(EnteredHint) ||
-        isDisplayHintEnabled(DraggedHint);
+                               isDisplayHintEnabled(DraggedHint);
     if (isHighlighted) {
         backgroundColor = KGlobalSettings::highlightColor();
         foregroundColor = KGlobalSettings::highlightedTextColor();
@@ -140,21 +148,19 @@ void BookmarkSelector::drawButton(QPainter* painter)
     if (!(isDisplayHintEnabled(ActivatedHint) && isActive) && !isHighlighted) {
         // dimm the foreground color by mixing it with the background
         foregroundColor = mixColors(foregroundColor, backgroundColor);
-        painter->setPen(foregroundColor);
+        painter.setPen(foregroundColor);
     }
 
     // draw button backround
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(backgroundColor);
-    painter->drawRect(0, 0, buttonWidth, buttonHeight);
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(backgroundColor);
+    painter.drawRect(0, 0, buttonWidth, buttonHeight);
 
     // draw icon
-    const QPixmap* icon = pixmap();
-    if (icon != 0) {
-        const int x = (buttonWidth - icon->width()) / 2;
-        const int y = (buttonHeight - icon->height()) / 2;
-        painter->drawPixmap(x, y, *icon);
-    }
+    const QPixmap pixmap = icon().pixmap();
+    const int x = (buttonWidth -  pixmap.width()) / 2;
+    const int y = (buttonHeight - pixmap.height()) / 2;
+    painter.drawPixmap(x, y, pixmap);
 }
 
 void BookmarkSelector::slotBookmarkActivated(int index)

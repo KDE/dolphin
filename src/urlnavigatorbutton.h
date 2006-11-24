@@ -41,11 +41,11 @@ namespace KIO
 }
 
 /**
- * @brief Button of the Url navigator which contains one part of an Url.
+ * @brief Button of the URL navigator which contains one part of an URL.
  *
- * It is possible to drop a various number of items to an Url button. In this case
+ * It is possible to drop a various number of items to an UrlNavigatorButton. In this case
  * a context menu is opened where the user must select whether he wants
- * to copy, move or link the dropped items to the Url part indicated by
+ * to copy, move or link the dropped items to the URL part indicated by
  * the button.
  */
 class UrlNavigatorButton : public UrlButton
@@ -56,10 +56,13 @@ public:
     UrlNavigatorButton(int index, UrlNavigator* parent = 0);
     virtual ~UrlNavigatorButton();
     void setIndex(int index);
-    int index() const;
+    int index() const { return m_index; }
+
+    /** @see QWidget::sizeHint() */
+    virtual QSize sizeHint() const;
 
 protected:
-    virtual void drawButton(QPainter* painter);
+    virtual void paintEvent(QPaintEvent* event);
     virtual void enterEvent(QEvent* event);
     virtual void leaveEvent(QEvent* event);
     virtual void dropEvent(QDropEvent* event);
