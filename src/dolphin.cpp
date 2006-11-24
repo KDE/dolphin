@@ -1272,7 +1272,7 @@ void Dolphin::setupActions()
     KToggleAction* detailsView = new KToggleAction(i18n("Details"), actionCollection(), "details");
     detailsView->setShortcut(Qt::CTRL | Qt::Key_2);
     detailsView->setIcon(KIcon("view_text"));
-    connect(detailsView, SIGNAL(triggered()), this, SLOT(setIconsView()));
+    connect(detailsView, SIGNAL(triggered()), this, SLOT(setDetailsView()));
 
     KToggleAction* previewsView = new KToggleAction(i18n("Previews"), actionCollection(), "previews");
     previewsView->setShortcut(Qt::CTRL | Qt::Key_3);

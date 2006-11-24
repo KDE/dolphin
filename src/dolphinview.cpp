@@ -107,6 +107,7 @@ DolphinView::DolphinView(QWidget *parent,
     m_iconsView = new DolphinIconsView(this);
     connect(m_iconsView, SIGNAL(clicked(const QModelIndex&)),
             this, SLOT(triggerItem(const QModelIndex&)));
+    applyModeToView();
 
     KDirModel* model = new KDirModel();
     model->setDirLister(m_dirLister);
@@ -164,6 +165,7 @@ void DolphinView::setMode(Mode mode)
     ViewProperties props(m_urlNavigator->url());
     props.setViewMode(m_mode);
 
+    applyModeToView();
     startDirLister(m_urlNavigator->url());
 
     emit signalModeChanged();
@@ -994,6 +996,27 @@ void DolphinView::slotChangeNameFilter(const QString& nameFilter)
 bool DolphinView::isFilterBarVisible()
 {
   return m_filterBar->isVisible();
+}
+
+void DolphinView::applyModeToView()
+{
+    // TODO: the following code just tries to test some QListView capabilities
+    switch (m_mode) {
+        case IconsView:
+            m_iconsView->setViewMode(QListView::IconMode);
+            m_iconsView->setGridSize(QSize(128, 64));
+            break;
+
+        case DetailsView:
+            m_iconsView->setViewMode(QListView::ListMode);
+            m_iconsView->setGridSize(QSize(256, 24));
+            break;
+
+        case PreviewsView:
+            m_iconsView->setViewMode(QListView::IconMode);
+            m_iconsView->setGridSize(QSize(128, 128));
+            break;
+    }
 }
 
 #include "dolphinview.moc"

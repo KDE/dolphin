@@ -434,6 +434,12 @@ private:
      */
     QString renameIndexPresentation(int index, int itemCount) const;
 
+    /**
+     * Applies the current view mode m_mode to the
+     * view implementation.
+     */
+    void applyModeToView();
+
     bool m_refreshing;
     bool m_showProgress;
     Mode m_mode;
