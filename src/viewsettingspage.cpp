@@ -26,6 +26,7 @@
 #include <Q3VBoxLayout>
 #include <kdialog.h>
 #include <klocale.h>
+#include <kiconloader.h>
 #include "iconsviewsettingspage.h"
 #include "detailsviewsettingspage.h"
 
@@ -40,7 +41,7 @@ ViewSettingsPage::ViewSettingsPage(QWidget *parent) :
     QTabWidget* tabWidget = new QTabWidget(parent);
 
     // initialize 'Icons' tab
-    m_iconsPage = new IconsViewSettingsPage(DolphinIconsView::Icons, tabWidget);
+    m_iconsPage = new IconsViewSettingsPage(/*DolphinIconsView::Icons,*/ tabWidget);
     tabWidget->addTab(m_iconsPage, SmallIcon("view_icon"), i18n("Icons"));
 
     // initialize 'Details' tab
@@ -48,7 +49,7 @@ ViewSettingsPage::ViewSettingsPage(QWidget *parent) :
     tabWidget->addTab(m_detailsPage, SmallIcon("view_text"), i18n("Details"));
 
     // initialize 'Previews' tab
-    m_previewsPage = new IconsViewSettingsPage(DolphinIconsView::Previews, tabWidget);
+    m_previewsPage = new IconsViewSettingsPage(/*DolphinIconsView::Previews,*/ tabWidget);
     tabWidget->addTab(m_previewsPage, SmallIcon("gvdirpart"), i18n("Previews"));
 
     topLayout->addWidget(tabWidget, 0, 0 );

@@ -7,47 +7,46 @@ include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES}  )
 
 ########### next target ###############
 
-set(dolphin_SRCS 
-   main.cpp 
-   dolphin.cpp 
-   dolphinview.cpp 
-   urlnavigator.cpp 
-   urlnavigatorbutton.cpp 
-   viewpropertiesdialog.cpp 
-   dolphinstatusbar.cpp 
-   dolphindirlister.cpp 
-   viewproperties.cpp 
-   dolphindetailsview.cpp 
-   dolphiniconsview.cpp 
-   dolphinsettings.cpp 
-   bookmarkselector.cpp 
-   urlbutton.cpp 
-   itemeffectsmanager.cpp 
-   dolphincontextmenu.cpp 
-   undomanager.cpp 
-   progressindicator.cpp 
-   iconsviewsettingspage.cpp 
-   pixmapviewer.cpp 
-   dolphinsettingsdialog.cpp 
-   viewsettingspage.cpp 
-   detailsviewsettingspage.cpp 
-   statusbarmessagelabel.cpp 
-   generalsettingspage.cpp 
-   bookmarkssettingspage.cpp 
-   editbookmarkdialog.cpp 
-   settingspagebase.cpp 
-   sidebar.cpp 
-   sidebarpage.cpp 
-   bookmarkssidebarpage.cpp 
-   infosidebarpage.cpp 
-   statusbarspaceinfo.cpp 
-   renamedialog.cpp 
-   filterbar.cpp 
+set(dolphin_SRCS
+   main.cpp
+   dolphin.cpp
+   dolphinview.cpp
+   urlnavigator.cpp
+   urlnavigatorbutton.cpp
+   viewpropertiesdialog.cpp
+   dolphinstatusbar.cpp
+   dolphindirlister.cpp
+   viewproperties.cpp
+   dolphindetailsview.cpp
+   dolphiniconsview.cpp
+   dolphinsettings.cpp
+   bookmarkselector.cpp
+   urlbutton.cpp
+   dolphincontextmenu.cpp
+   undomanager.cpp
+   progressindicator.cpp
+   iconsviewsettingspage.cpp
+   pixmapviewer.cpp
+   dolphinsettingsdialog.cpp
+   viewsettingspage.cpp
+   detailsviewsettingspage.cpp
+   statusbarmessagelabel.cpp
+   generalsettingspage.cpp
+   bookmarkssettingspage.cpp
+   editbookmarkdialog.cpp
+   settingspagebase.cpp
+   sidebar.cpp
+   sidebarpage.cpp
+   bookmarkssidebarpage.cpp
+   infosidebarpage.cpp
+   statusbarspaceinfo.cpp
+   renamedialog.cpp
+   filterbar.cpp
    protocolcombo.cpp )
 
 kde4_automoc(${dolphin_SRCS})
 
-kde4_add_kcfg_files(dolphin_SRCS 
+kde4_add_kcfg_files(dolphin_SRCS
    directoryviewpropertysettings.kcfgc
    generalsettings.kcfgc
    iconsmodesettings.kcfgc

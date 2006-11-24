@@ -34,15 +34,18 @@
 #include <kio/job.h>
 #include <urlnavigator.h>
 
+#include <QListView>
+
 class QPainter;
 class KUrl;
+class KDirModel;
 class QLineEdit;
 class UrlNavigator;
 class QTimer;
 class Q3IconViewItem;
 class Q3ListViewItem;
 class Q3VBoxLayout;
-class KFileView;
+//class KFileView;
 class Dolphin;
 class DolphinDirLister;
 class DolphinStatusBar;
@@ -53,6 +56,9 @@ class Q3ScrollView;
 class KProgress;
 class ItemEffectsManager;
 class FilterBar;
+
+class QModelIndex;
+
 /**
  * @short Represents a view for the directory content
  * including the navigation bar and status bar.
@@ -378,21 +384,15 @@ protected:
 private slots:
     void slotUrlChanged(const KUrl& kurl);
     void triggerIconsViewItem(Q3IconViewItem *item);
-    void triggerDetailsViewItem(Q3ListViewItem* item,
-                                const QPoint& pos,
-                                int column);
-    void triggerDetailsViewItem(Q3ListViewItem* item);
+    void triggerItem(const QModelIndex& index);
     void updateUrl();
 
     void slotPercent(int percent);
     void slotClear();
     void slotDeleteItem(KFileItem* item);
     void slotCompleted();
-    void slotDelayedUpdate();
     void slotInfoMessage(const QString& msg);
     void slotErrorMessage(const QString& msg);
-    void slotRefreshItems(const KFileItemList& list);
-    void slotAddItems(const KFileItemList& list);
 
     void slotGrabActivation();
 
@@ -411,8 +411,7 @@ private slots:
     void slotChangeNameFilter(const QString& nameFilter);
 
 private:
-    void createView();
-    KFileView* fileView() const;
+    //KFileView* fileView() const;
     Q3ScrollView* scrollView() const;
     ItemEffectsManager* itemEffectsManager() const;
     void startDirLister(const KUrl& url, bool reload = false);
@@ -441,9 +440,7 @@ private:
 
     Q3VBoxLayout* m_topLayout;
     UrlNavigator* m_urlNavigator;
-
     DolphinIconsView* m_iconsView;
-    DolphinDetailsView* m_detailsView;
     DolphinStatusBar* m_statusBar;
 
     int m_iconSize;

@@ -39,10 +39,10 @@
 #define GRID_SPACING_BASE 8
 #define GRID_SPACING_INC 12
 
-IconsViewSettingsPage::IconsViewSettingsPage(DolphinIconsView::LayoutMode mode,
+IconsViewSettingsPage::IconsViewSettingsPage(/*DolphinIconsView::LayoutMode mode,*/
                                              QWidget* parent) :
     KVBox(parent),
-    m_mode(mode),
+    //m_mode(mode),
     m_iconSizeSlider(0),
     m_previewSizeSlider(0),
     m_textWidthBox(0),
@@ -89,7 +89,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinIconsView::LayoutMode mode,
     m_iconSizeViewer->setEraseColor(iconBackgroundColor);
     slotIconSizeChanged(m_iconSizeSlider->value());
 
-    if (m_mode == DolphinIconsView::Previews) {
+    if (false /*m_mode == DolphinIconsView::Previews*/) {
         // create 'Preview Size' group including slider and preview
         Q3GroupBox* previewSizeGroup = new Q3GroupBox(2, Qt::Vertical, i18n("Preview Size"), sizesLayout);
         previewSizeGroup->setSizePolicy(sizePolicy);
@@ -173,8 +173,8 @@ void IconsViewSettingsPage::applySettings()
     const int defaultSize = iconSize(m_iconSizeSlider->value());
     settings->setIconSize(defaultSize);
 
-    int previewSize = (m_mode == DolphinIconsView::Previews) ?
-                      iconSize(m_previewSizeSlider->value()) :
+    int previewSize = //(m_mode == DolphinIconsView::Previews) ?
+                      //iconSize(m_previewSizeSlider->value()) :
                       defaultSize;
     if (previewSize < defaultSize) {
         // assure that the preview size is never smaller than the icon size

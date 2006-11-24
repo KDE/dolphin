@@ -20,6 +20,9 @@
 
 #include "dolphinview.h"
 
+#include <kdirmodel.h>
+
+
 #include <qlayout.h>
 //Added by qt3to4:
 #include <Q3ValueList>
@@ -54,8 +57,6 @@ DolphinView::DolphinView(QWidget *parent,
     m_refreshing(false),
     m_showProgress(false),
     m_mode(mode),
-    m_iconsView(0),
-    m_detailsView(0),
     m_statusBar(0),
     m_iconSize(0),
     m_folderCount(0),
@@ -102,25 +103,28 @@ DolphinView::DolphinView(QWidget *parent,
             this, SLOT(slotInfoMessage(const QString&)));
     connect(m_dirLister, SIGNAL(errorMessage(const QString&)),
             this, SLOT(slotErrorMessage(const QString&)));
-    connect(m_dirLister, SIGNAL(refreshItems(const KFileItemList&)),
-            this, SLOT(slotRefreshItems(const KFileItemList&)));
-    connect(m_dirLister, SIGNAL(redirection(const KUrl&, const KUrl&)),
-            this, SIGNAL(redirection(const KUrl&, const KUrl&)));
-    connect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
-           this, SLOT(slotAddItems(const KFileItemList&)));
+
+    m_iconsView = new DolphinIconsView(this);
+    connect(m_iconsView, SIGNAL(clicked(const QModelIndex&)),
+            this, SLOT(triggerItem(const QModelIndex&)));
+
+    KDirModel* model = new KDirModel();
+    model->setDirLister(m_dirLister);
+    m_iconsView->setModel(model);
 
     m_iconSize = K3Icon::SizeMedium;
 
-    m_topLayout->addWidget(m_urlNavigator);
-    createView();
-
     m_filterBar = new FilterBar(this);
     m_filterBar->hide();
-    m_topLayout->addWidget(m_filterBar);
     connect(m_filterBar, SIGNAL(signalFilterChanged(const QString&)),
            this, SLOT(slotChangeNameFilter(const QString&)));
 
+    m_topLayout->addWidget(m_urlNavigator);
+    m_topLayout->addWidget(m_iconsView);
+    m_topLayout->addWidget(m_filterBar);
     m_topLayout->addWidget(m_statusBar);
+
+    startDirLister(m_urlNavigator->url());
 }
 
 DolphinView::~DolphinView()
@@ -155,22 +159,12 @@ void DolphinView::setMode(Mode mode)
         return;         // the wished mode is already set
     }
 
-    QWidget* view = (m_iconsView != 0) ? static_cast<QWidget*>(m_iconsView) :
-                                         static_cast<QWidget*>(m_detailsView);
-    if (view != 0) {
-        m_topLayout->remove(view);
-        view->close();
-        view->deleteLater();
-        m_iconsView = 0;
-        m_detailsView = 0;
-    }
-
     m_mode = mode;
-
-    createView();
 
     ViewProperties props(m_urlNavigator->url());
     props.setViewMode(m_mode);
+
+    startDirLister(m_urlNavigator->url());
 
     emit signalModeChanged();
 }
@@ -279,11 +273,12 @@ void DolphinView::renameSelectedItems()
         // Only one item has been selected for renaming. Use the custom
         // renaming mechanism from the views.
         assert(urls.count() == 1);
-        if (m_mode == DetailsView) {
-            Q3ListViewItem* item = m_detailsView->firstChild();
+        // TODO:
+        /*if (m_mode == DetailsView) {
+            Q3ListViewItem* item = m_iconsView->firstChild();
             while (item != 0) {
                 if (item->isSelected()) {
-                    m_detailsView->rename(item, DolphinDetailsView::NameColumn);
+                    m_iconsView->rename(item, DolphinDetailsView::NameColumn);
                     break;
                 }
                 item = item->nextSibling();
@@ -298,18 +293,18 @@ void DolphinView::renameSelectedItems()
                 }
                 item = static_cast<KFileIconViewItem*>(item->nextItem());
             }
-        }
+        }*/
     }
 }
 
 void DolphinView::selectAll()
 {
-    fileView()->selectAll();
+    //fileView()->selectAll();
 }
 
 void DolphinView::invertSelection()
 {
-    fileView()->invertSelection();
+    //fileView()->invertSelection();
 }
 
 DolphinStatusBar* DolphinView::statusBar() const
@@ -319,33 +314,18 @@ DolphinStatusBar* DolphinView::statusBar() const
 
 int DolphinView::contentsX() const
 {
-    return scrollView()->contentsX();
+
+    return 0; //scrollView()->contentsX();
 }
 
 int DolphinView::contentsY() const
 {
-    return scrollView()->contentsY();
+    return 0; //scrollView()->contentsY();
 }
 
 void DolphinView::refreshSettings()
 {
-    if (m_iconsView != 0) {
-        m_iconsView->refreshSettings();
-    }
-
-    if (m_detailsView != 0) {
-        // TODO: There is no usable interface in QListView/KFileDetailView
-        // to hide/show columns. The easiest approach is to delete
-        // the current instance and recreate a new one, which automatically
-        // refreshs the settings. If a proper interface is available in Qt4
-        // m_detailsView->refreshSettings() would be enough.
-        m_topLayout->remove(m_detailsView);
-        m_detailsView->close();
-        m_detailsView->deleteLater();
-        m_detailsView = 0;
-
-        createView();
-    }
+    startDirLister(m_urlNavigator->url());
 }
 
 void DolphinView::updateStatusBar()
@@ -383,28 +363,28 @@ bool DolphinView::isUrlEditable() const
 
 void DolphinView::zoomIn()
 {
-    itemEffectsManager()->zoomIn();
+    //itemEffectsManager()->zoomIn();
 }
 
 void DolphinView::zoomOut()
 {
-    itemEffectsManager()->zoomOut();
+    //itemEffectsManager()->zoomOut();
 }
 
 bool DolphinView::isZoomInPossible() const
 {
-    return itemEffectsManager()->isZoomInPossible();
+    return false; //itemEffectsManager()->isZoomInPossible();
 }
 
 bool DolphinView::isZoomOutPossible() const
 {
-    return itemEffectsManager()->isZoomOutPossible();
+    return false; //itemEffectsManager()->isZoomOutPossible();
 }
 
 void DolphinView::setSorting(Sorting sorting)
 {
     if (sorting != this->sorting()) {
-        KFileView* view = fileView();
+        /*KFileView* view = fileView();
         int spec = view->sorting() & ~QDir::Name & ~QDir::Size & ~QDir::Time & ~QDir::Unsorted;
 
         switch (sorting) {
@@ -419,13 +399,13 @@ void DolphinView::setSorting(Sorting sorting)
 
         view->setSorting(static_cast<QDir::SortFlags>(spec));
 
-        emit signalSortingChanged(sorting);
+        emit signalSortingChanged(sorting);*/
     }
 }
 
 DolphinView::Sorting DolphinView::sorting() const
 {
-    const QDir::SortFlags spec = fileView()->sorting();
+    /*const QDir::SortFlags spec = fileView()->sorting();
 
     if (spec & QDir::Time) {
         return SortByDate;
@@ -433,7 +413,7 @@ DolphinView::Sorting DolphinView::sorting() const
 
     if (spec & QDir::Size) {
         return SortBySize;
-    }
+    }*/
 
     return SortByName;
 }
@@ -441,7 +421,7 @@ DolphinView::Sorting DolphinView::sorting() const
 void DolphinView::setSortOrder(Qt::SortOrder order)
 {
     if (sortOrder() != order) {
-        KFileView* view = fileView();
+        /*KFileView* view = fileView();
         int sorting = view->sorting();
         sorting = (order == Qt::Ascending) ? (sorting & ~QDir::Reversed) :
                                              (sorting | QDir::Reversed);
@@ -451,13 +431,14 @@ void DolphinView::setSortOrder(Qt::SortOrder order)
 
         view->setSorting(static_cast<QDir::SortFlags>(sorting));
 
-        emit signalSortOrderChanged(order);
+        emit signalSortOrderChanged(order);*/
     }
 }
 
 Qt::SortOrder DolphinView::sortOrder() const
 {
-    return fileView()->isReversed() ? Qt::Descending : Qt::Ascending;
+    //return fileView()->isReversed() ? Qt::Descending : Qt::Ascending;
+    return Qt::Descending;
 }
 
 void DolphinView::goBack()
@@ -498,14 +479,14 @@ bool DolphinView::hasSelection() const
 
 const KFileItemList* DolphinView::selectedItems() const
 {
-    return fileView()->selectedItems();
+    return 0; //fileView()->selectedItems();
 }
 
 KUrl::List DolphinView::selectedUrls() const
 {
     KUrl::List urls;
 
-    const KFileItemList* list = fileView()->selectedItems();
+    /*const KFileItemList* list = fileView()->selectedItems();
     if (list != 0) {
         KFileItemList::const_iterator it = list->begin();
         const KFileItemList::const_iterator end = list->end();
@@ -514,14 +495,14 @@ KUrl::List DolphinView::selectedUrls() const
             urls.append(item->url());
             ++it;
         }
-    }
+    }*/
 
     return urls;
 }
 
 const KFileItem* DolphinView::currentFileItem() const
 {
-    return fileView()->currentFileItem();
+    return 0; // fileView()->currentFileItem();
 }
 
 void DolphinView::openContextMenu(KFileItem* fileInfo, const QPoint& pos)
@@ -661,37 +642,43 @@ void DolphinView::triggerIconsViewItem(Q3IconViewItem* item)
     }
 }
 
-void DolphinView::triggerDetailsViewItem(Q3ListViewItem* item,
-                                         const QPoint& pos,
-                                         int /* column */)
+void DolphinView::triggerItem(const QModelIndex& index)
 {
+    KDirModel* dirModel = static_cast<KDirModel*>(m_iconsView->model());
+    KFileItem* item = dirModel->itemForIndex(index);
     if (item == 0) {
         return;
     }
 
-    if (m_detailsView->isOnFilename(item, pos)) {
-        // Updating the Url must be done outside the scope of this slot,
-        // as listview items will get deleted.
-        QTimer::singleShot(0, this, SLOT(updateUrl()));
-        Dolphin::mainWin().setActiveView(this);
+    if (item->isDir()) {
+        // Prefer the local path over the Url. This assures that the
+        // volume space information is correct. Assuming that the Url is media:/sda1,
+        // and the local path is /windows/C: For the Url the space info is related
+        // to the root partition (and hence wrong) and for the local path the space
+        // info is related to the windows partition (-> correct).
+        //m_dirLister->stop();
+        //m_dirLister->openUrl(item->url());
+        //return;
+
+        const QString localPath(item->localPath());
+        if (localPath.isEmpty()) {
+            setUrl(item->url());
+        }
+        else {
+            setUrl(KUrl(localPath));
+        }
     }
     else {
-        m_detailsView->clearSelection();
+        item->run();
     }
-}
-
-void DolphinView::triggerDetailsViewItem(Q3ListViewItem* item)
-{
-    const QPoint pos(0, item->itemPos());
-    triggerDetailsViewItem(item, pos, 0);
 }
 
 void DolphinView::updateUrl()
 {
-    KFileView* fileView = (m_iconsView != 0) ? static_cast<KFileView*>(m_iconsView) :
-                                               static_cast<KFileView*>(m_detailsView);
+    //KFileView* fileView = (m_iconsView != 0) ? static_cast<KFileView*>(m_iconsView) :
+    //                                           static_cast<KFileView*>(m_iconsView);
 
-    KFileItem* fileItem = fileView->currentFileItem();
+    KFileItem* fileItem = 0; // TODO: fileView->currentFileItem();
     if (fileItem == 0) {
         return;
     }
@@ -724,13 +711,13 @@ void DolphinView::slotPercent(int percent)
 
 void DolphinView::slotClear()
 {
-    fileView()->clearView();
+    //fileView()->clearView();
     updateStatusBar();
 }
 
 void DolphinView::slotDeleteItem(KFileItem* item)
 {
-    fileView()->removeItem(item);
+    //fileView()->removeItem(item);
     updateStatusBar();
 }
 
@@ -738,17 +725,17 @@ void DolphinView::slotCompleted()
 {
     m_refreshing = true;
 
-    KFileView* view = fileView();
-    view->clearView();
+    //KFileView* view = fileView();
+    //view->clearView();
 
     // TODO: in Qt4 the code should get a lot
     // simpler and nicer due to Interview...
-    if (m_iconsView != 0) {
+    /*if (m_iconsView != 0) {
         m_iconsView->beginItemUpdates();
     }
-    if (m_detailsView != 0) {
-        m_detailsView->beginItemUpdates();
-    }
+    if (m_iconsView != 0) {
+        m_iconsView->beginItemUpdates();
+    }*/
 
     if (m_showProgress) {
         m_statusBar->setProgressText(QString::null);
@@ -765,7 +752,7 @@ void DolphinView::slotCompleted()
 
     while (it != end) {
         KFileItem* item = *it;
-        view->insertItem(item);
+        //view->insertItem(item);
         if (item->isDir()) {
             ++m_folderCount;
         }
@@ -777,26 +764,17 @@ void DolphinView::slotCompleted()
 
     updateStatusBar();
 
-    if (m_iconsView != 0) {
+    /*if (m_iconsView != 0) {
         // Prevent a flickering of the icon view widget by giving a small
         // timeslot to swallow asynchronous update events.
         m_iconsView->setUpdatesEnabled(false);
         QTimer::singleShot(10, this, SLOT(slotDelayedUpdate()));
     }
 
-    if (m_detailsView != 0) {
-        m_detailsView->endItemUpdates();
-        m_refreshing = false;
-    }
-}
-
-void DolphinView::slotDelayedUpdate()
-{
     if (m_iconsView != 0) {
-        m_iconsView->setUpdatesEnabled(true);
         m_iconsView->endItemUpdates();
-    }
-    m_refreshing = false;
+        m_refreshing = false;
+    }*/
 }
 
 void DolphinView::slotInfoMessage(const QString& msg)
@@ -807,17 +785,6 @@ void DolphinView::slotInfoMessage(const QString& msg)
 void DolphinView::slotErrorMessage(const QString& msg)
 {
     m_statusBar->setMessage(msg, DolphinStatusBar::Error);
-}
-
-void DolphinView::slotRefreshItems(const KFileItemList& /* list */)
-{
-    QTimer::singleShot(0, this, SLOT(reload()));
-}
-
-void DolphinView::slotAddItems(const KFileItemList& list)
-{
-  fileView()->addItemList(list);
-  fileView()->updateView();
 }
 
 void DolphinView::slotGrabActivation()
@@ -835,76 +802,21 @@ void DolphinView::slotContentsMoving(int x, int y)
     }
 }
 
-void DolphinView::createView()
+/*KFileView* DolphinView::fileView() const
 {
-    assert(m_iconsView == 0);
-    assert(m_detailsView == 0);
-
-    switch (m_mode) {
-    case IconsView:
-    case PreviewsView: {
-        const DolphinIconsView::LayoutMode layoutMode = (m_mode == IconsView) ?
-                                                        DolphinIconsView::Icons :
-                                                        DolphinIconsView::Previews;
-        m_iconsView = new DolphinIconsView(this, layoutMode);
-        m_topLayout->insertWidget(1, m_iconsView);
-        setFocusProxy(m_iconsView);
-
-        connect(m_iconsView, SIGNAL(executed(Q3IconViewItem*)),
-                this, SLOT(triggerIconsViewItem(Q3IconViewItem*)));
-        connect(m_iconsView, SIGNAL(returnPressed(Q3IconViewItem*)),
-                this, SLOT(triggerIconsViewItem(Q3IconViewItem*)));
-        connect(m_iconsView, SIGNAL(signalRequestActivation()),
-                this, SLOT(slotGrabActivation()));
-
-        m_iconsView->endItemUpdates();
-        m_iconsView->show();
-        m_iconsView->setFocus();
-        break;
-    }
-
-    case DetailsView: {
-        m_detailsView = new DolphinDetailsView(this);
-        m_topLayout->insertWidget(1, m_detailsView);
-        setFocusProxy(m_detailsView);
-
-        connect(m_detailsView, SIGNAL(executed(Q3ListViewItem*, const QPoint&, int)),
-                this, SLOT(triggerDetailsViewItem(Q3ListViewItem*, const QPoint&, int)));
-        connect(m_detailsView, SIGNAL(returnPressed(Q3ListViewItem*)),
-                this, SLOT(triggerDetailsViewItem(Q3ListViewItem*)));
-        connect(m_detailsView, SIGNAL(signalRequestActivation()),
-                this, SLOT(slotGrabActivation()));
-        m_detailsView->show();
-        m_detailsView->setFocus();
-        break;
-    }
-
-    default:
-        break;
-    }
-
-    connect(scrollView(), SIGNAL(contentsMoving(int, int)),
-            this, SLOT(slotContentsMoving(int, int)));
-
-    startDirLister(m_urlNavigator->url());
-}
-
-KFileView* DolphinView::fileView() const
-{
-    return (m_mode == DetailsView) ? static_cast<KFileView*>(m_detailsView) :
+    return (m_mode == DetailsView) ? static_cast<KFileView*>(m_iconsView) :
                                      static_cast<KFileView*>(m_iconsView);
-}
+}*/
 
 Q3ScrollView* DolphinView::scrollView() const
 {
-    return (m_mode == DetailsView) ? static_cast<Q3ScrollView*>(m_detailsView) :
-                                     static_cast<Q3ScrollView*>(m_iconsView);
+    return 0; //(m_mode == DetailsView) ? static_cast<Q3ScrollView*>(m_iconsView) :
+              //                       static_cast<Q3ScrollView*>(m_iconsView);
 }
 
 ItemEffectsManager* DolphinView::itemEffectsManager() const
 {
-    return (m_mode == DetailsView) ? static_cast<ItemEffectsManager*>(m_detailsView) :
-                                     static_cast<ItemEffectsManager*>(m_iconsView);
+    return 0;
 }
 
 void DolphinView::startDirLister(const KUrl& url, bool reload)
@@ -1069,14 +981,14 @@ void DolphinView::slotChangeNameFilter(const QString& nameFilter)
     // stay as they are by filtering, only an inserting of an item
     // results to an automatic adjusting of the item position. In Qt4/KDE4
     // this workaround should get obsolete due to Interview.
-    KFileView* view = fileView();
+    /*KFileView* view = fileView();
     if (view == m_iconsView) {
         KFileItem* first = view->firstFileItem();
         if (first != 0) {
             view->removeItem(first);
             view->insertItem(first);
         }
-    }
+    }*/
 }
 
 bool DolphinView::isFilterBarVisible()
