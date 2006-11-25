@@ -24,6 +24,7 @@
 DolphinIconsView::DolphinIconsView(DolphinView* parent) :
     QListView(parent)
 {
+    setResizeMode( QListView::Adjust );
 }
 
 DolphinIconsView::~DolphinIconsView()
