@@ -6,6 +6,7 @@ Actions=DolphinSU;
 ServiceTypes=inode/directory
 Name=Open as Root
 Name[da]=Åbn som systemadministrator
+Name[de]=Als root öffnen
 Name[pt]=Abrir como 'Root'
 Name[sv]=Öppna som systemadministratör
 Icon=dolphin

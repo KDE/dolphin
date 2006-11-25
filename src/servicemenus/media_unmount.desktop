@@ -78,6 +78,8 @@ X-SuSE-translate=true
 [Desktop Action MediaUnmount]
 Name=Unmount
 Name[da]=Afmontér
+Name[de]=Einbindung lösen
+Name[ga]=Dífheistigh
 Name[pt]=Desmontar
 Name[sv]=Avmontera
 #SUSE-Overwrite Name[km]=មិន​រៀបចំ

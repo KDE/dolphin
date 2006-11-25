@@ -6,6 +6,7 @@ X-KDE-Submenu=Amarok
 [Desktop Action appendToPlaylist]
 Name=Append to Playlist
 Name[da]=Tilføj til spillelisten
+Name[de]=An Wiedergabeliste anhängen
 Name[pt]=Adicionar à Lista de Reprodução
 Name[sv]=Lägg till i spellistan
 Icon=amarok
@@ -14,6 +15,7 @@ Exec=amarok -e %U
 [Desktop Action appendAndPlay]
 Name=Append & Play
 Name[da]=Tilføj og spil
+Name[de]=Anhängen & abspielen
 Name[pt]=Adicionar e Reproduzir
 Name[sv]=Lägg till och spela
 Icon=amarok
@@ -22,6 +24,7 @@ Exec=dcop amarok playlist playMedia %U
 [Desktop Action queueTrack]
 Name=Queue Track
 Name[da]=Sæt spor i kø
+Name[de]=Stück in Warteschlange einstellen
 Name[pt]=Colocar a Faixa em Espera
 Name[sv]=Köa spår
 Icon=amarok

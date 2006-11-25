@@ -2,6 +2,7 @@
 Exec=kfloppy %u
 Icon=kfloppy
 Name=Format
+Name[ga]=Formáid
 Name[pt]=Formato
 
 [Desktop Entry]

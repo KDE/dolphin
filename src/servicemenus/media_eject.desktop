@@ -78,6 +78,8 @@ X-SuSE-translate=true
 [Desktop Action MediaEject]
 Name=Eject
 Name[da]=Skub ud
+Name[de]=Auswerfen
+Name[ga]=Díchuir
 Name[pt]=Ejectar
 Name[sv]=Mata ut
 #SUSE-Overwrite Name[hu]=Kidobás

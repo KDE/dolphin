@@ -78,6 +78,7 @@ X-SuSE-translate=true
 [Desktop Action MediaRealFolder]
 Name=Open Medium System Folder
 Name[da]=Åbn mediesystemmappe
+Name[de]=Systemordner für Medien öffnen
 Name[pt]=Abrir a Pasta de Sistema do Dispositivo
 Name[sv]=Öppna mediumsystemkatalog
 #SUSE-Overwrite Name[pa]=ਮੀਡੀਅਮ ਸਿਸਟਮ ਫੋਲਡਰ ਖੋਲੋ

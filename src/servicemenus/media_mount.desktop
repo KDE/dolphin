@@ -78,6 +78,8 @@ X-SuSE-translate=true
 [Desktop Action MediaMount]
 Name=Mount
 Name[da]=Montér
+Name[de]=Einbinden
+Name[ga]=Feistigh
 Name[pt]=Montar
 Name[sv]=Montera
 #SUSE-Overwrite Name[km]=រៀបចំ

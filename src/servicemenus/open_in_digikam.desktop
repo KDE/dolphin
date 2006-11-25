@@ -3,6 +3,8 @@ Exec=digikam --download-from %u
 Icon=digikam
 Name=Open in Digikam
 Name[da]=Åbn med Digikam
+Name[de]=In Digikam öffnen
+Name[ga]=Oscail i Digikam
 Name[pt]=Abrir no Digikam
 Name[sv]=Öppna med Digikam
 
