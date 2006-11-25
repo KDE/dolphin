@@ -203,7 +203,7 @@ KUrl UrlNavigator::url(int index) const
     QString path(url().pathOrUrl());
     path = path.section('/', 0, index);
 
-    if (path.at(path.length()) != '/')
+    if (path.at(path.length()-1) != '/')
     {
         path.append('/');
     }
