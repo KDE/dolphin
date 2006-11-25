@@ -40,6 +40,12 @@ class DolphinIconsView : public QListView
 public:
     DolphinIconsView(DolphinView* parent);
     virtual ~DolphinIconsView();
+
+protected:
+    void mouseReleaseEvent(QMouseEvent* event);
+
+private:
+    DolphinView *m_parentView;
 };
 
 #endif

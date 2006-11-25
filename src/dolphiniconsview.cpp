@@ -20,15 +20,23 @@
 
 #include "dolphiniconsview.h"
 #include "dolphinview.h"
+#include "dolphin.h"
 
 DolphinIconsView::DolphinIconsView(DolphinView* parent) :
     QListView(parent)
+    , m_parentView( parent )
 {
     setResizeMode( QListView::Adjust );
 }
 
 DolphinIconsView::~DolphinIconsView()
 {
+}
+
+void DolphinIconsView::mouseReleaseEvent(QMouseEvent *e)
+{
+    QListView::mouseReleaseEvent(e);
+    Dolphin::mainWin().setActiveView(m_parentView);
 }
 
 #include "dolphiniconsview.moc"
