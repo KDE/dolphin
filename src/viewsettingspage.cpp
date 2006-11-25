@@ -36,9 +36,9 @@ ViewSettingsPage::ViewSettingsPage(QWidget *parent) :
     m_detailsPage(0),
     m_previewsPage(0)
 {
-    Q3VBoxLayout* topLayout = new Q3VBoxLayout(parent, 0, KDialog::spacingHint());
+    Q3VBoxLayout* topLayout = new Q3VBoxLayout(this, 0, KDialog::spacingHint());
 
-    QTabWidget* tabWidget = new QTabWidget(parent);
+    QTabWidget* tabWidget = new QTabWidget(this);
 
     // initialize 'Icons' tab
     m_iconsPage = new IconsViewSettingsPage(/*DolphinIconsView::Icons,*/ tabWidget);

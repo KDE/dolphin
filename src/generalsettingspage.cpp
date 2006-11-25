@@ -48,7 +48,7 @@ GeneralSettingsPage::GeneralSettingsPage(QWidget* parent) :
     m_startSplit(0),
     m_startEditable(0)
 {
-    Q3VBoxLayout* topLayout = new Q3VBoxLayout(parent, 2, KDialog::spacingHint());
+    Q3VBoxLayout* topLayout = new Q3VBoxLayout(this, 2, KDialog::spacingHint());
 
     const int spacing = KDialog::spacingHint();
     const int margin = KDialog::marginHint();
@@ -56,7 +56,7 @@ GeneralSettingsPage::GeneralSettingsPage(QWidget* parent) :
 
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
 
-    KVBox* vBox = new KVBox(parent);
+    KVBox* vBox = new KVBox(this);
     vBox->setSizePolicy(sizePolicy);
     vBox->setSpacing(spacing);
     vBox->setMargin(margin);

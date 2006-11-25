@@ -49,11 +49,11 @@ BookmarksSettingsPage::BookmarksSettingsPage(QWidget*parent) :
     m_moveUpButton(0),
     m_moveDownButton(0)
 {
-    Q3VBoxLayout* topLayout = new Q3VBoxLayout(parent, 2, KDialog::spacingHint());
+    Q3VBoxLayout* topLayout = new Q3VBoxLayout(this, 2, KDialog::spacingHint());
 
     const int spacing = KDialog::spacingHint();
 
-    KHBox* hBox = new KHBox(parent);
+    KHBox* hBox = new KHBox(this);
     hBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     hBox->setSpacing(spacing);
     hBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
