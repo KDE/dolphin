@@ -282,7 +282,7 @@ void UrlNavigatorButton::startListJob()
 
     connect(m_listJob, SIGNAL(entries(KIO::Job*, const KIO::UDSEntryList &)),
             this, SLOT(entriesList(KIO::Job*, const KIO::UDSEntryList&)));
-    connect(m_listJob, SIGNAL(result(KIO::Job*)), this, SLOT(listJobFinished(KIO::Job*)));
+    connect(m_listJob, SIGNAL(result(KJob*)), this, SLOT(listJobFinished(KJob*)));
 }
 
 void UrlNavigatorButton::entriesList(KIO::Job* job, const KIO::UDSEntryList& entries)
@@ -330,7 +330,7 @@ void UrlNavigatorButton::entriesList(KIO::Job* job, const KIO::UDSEntryList& ent
     m_subdirs.sort();
 }
 
-void UrlNavigatorButton::listJobFinished(KIO::Job* job)
+void UrlNavigatorButton::listJobFinished(KJob* job)
 {
     if (job != m_listJob) {
         return;

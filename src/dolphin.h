@@ -215,13 +215,13 @@ private slots:
      * Shows the error information of the job \a job
      * in the status bar.
      */
-    void slotHandleJobError(KIO::Job* job);
+    void slotHandleJobError(KJob* job);
 
     /**
      * Indicates in the status bar that the delete operation
      * of the job \a job has been finished.
      */
-    void slotDeleteFileFinished(KIO::Job* job);
+    void slotDeleteFileFinished(KJob* job);
 
     /**
      * Updates the state of the 'Undo' menu action dependent
@@ -366,7 +366,7 @@ private slots:
      * Adds the undo operation given by \a job
      * to the UndoManager.
      */
-    void addUndoOperation(KIO::Job* job);
+    void addUndoOperation(KJob* job);
 
 
     void toggleSidebar();

@@ -313,8 +313,8 @@ void UndoManager::redo()
         if (job != 0) {
             // Execute the jobs in a synchronous manner and forward the progress
             // information to the Dolphin statusbar.
-            connect(job, SIGNAL(percent(KIO::Job*, unsigned long)),
-                    this, SLOT(slotPercent(KIO::Job*, unsigned long)));
+            connect(job, SIGNAL(percent(KJob*, unsigned long)),
+                    this, SLOT(slotPercent(KJob*, unsigned long)));
             KIO::NetAccess::synchronousRun(job, &dolphin);
         }
 
@@ -358,7 +358,7 @@ QString UndoManager::commandText(const DolphinCommand& command) const
     return text;
 }
 
-void UndoManager::slotPercent(KIO::Job* /* job */, unsigned long /* percent */)
+void UndoManager::slotPercent(KJob* /* job */, unsigned long /* percent */)
 {
     // It is not allowed to update the progress indicator in the context
     // of this slot, hence do an asynchronous triggering.

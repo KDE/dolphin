@@ -165,7 +165,7 @@ private slots:
      * Delegates the updating of the progress information
      * to UndoManager::updateProgress().
      */
-    void slotPercent(KIO::Job* job, unsigned long percent);
+    void slotPercent(KJob* job, unsigned long percent);
 
     /**
      * Updates the progress information of the statusbar

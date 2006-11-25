@@ -75,7 +75,7 @@ private slots:
     void stopPopupDelay();
     void startListJob();
     void entriesList(KIO::Job* job, const KIO::UDSEntryList& entries);
-    void listJobFinished(KIO::Job* job);
+    void listJobFinished(KJob* job);
 
 private:
     int arrowWidth() const;

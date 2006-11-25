@@ -555,10 +555,10 @@ void Dolphin::deleteItems()
                                                        ) == KMessageBox::Continue;
     if (del) {
         KIO::Job* job = KIO::del(list);
-        connect(job, SIGNAL(result(KIO::Job*)),
-                this, SLOT(slotHandleJobError(KIO::Job*)));
-        connect(job, SIGNAL(result(KIO::Job*)),
-                this, SLOT(slotDeleteFileFinished(KIO::Job*)));
+        connect(job, SIGNAL(result(KJob*)),
+                this, SLOT(slotHandleJobError(KJob*)));
+        connect(job, SIGNAL(result(KJob*)),
+                this, SLOT(slotDeleteFileFinished(KJob*)));
     }
 }
 
@@ -586,7 +586,7 @@ void Dolphin::quit()
     close();
 }
 
-void Dolphin::slotHandleJobError(KIO::Job* job)
+void Dolphin::slotHandleJobError(KJob* job)
 {
     if (job->error() != 0) {
         m_activeView->statusBar()->setMessage(job->errorString(),
@@ -594,7 +594,7 @@ void Dolphin::slotHandleJobError(KIO::Job* job)
     }
 }
 
-void Dolphin::slotDeleteFileFinished(KIO::Job* job)
+void Dolphin::slotDeleteFileFinished(KJob* job)
 {
     if (job->error() == 0) {
         m_activeView->statusBar()->setMessage(i18n("Delete operation completed."),
@@ -1000,7 +1000,7 @@ void Dolphin::editSettings()
     dlg.exec();
 }
 
-void Dolphin::addUndoOperation(KIO::Job* job)
+void Dolphin::addUndoOperation(KJob* job)
 {
     if (job->error() != 0) {
         slotHandleJobError(job);
@@ -1028,7 +1028,12 @@ void Dolphin::addUndoOperation(KIO::Job* job)
                 // all source Urls must be updated with the trash Url. E. g. when moving
                 // a file "test.txt" and a second file "test.txt" to the trash,
                 // then the filenames in the trash are "0-test.txt" and "1-test.txt".
-                QMap<QString, QString> metaData = job->metaData();
+                QMap<QString, QString> metaData;
+                KIO::Job *kiojob = qobject_cast<KIO::Job*>( job );
+                if ( kiojob )
+                {
+                    metaData = kiojob->metaData();
+                }
                 KUrl::List newSourceUrls;
 
                 KUrl::List sourceUrls = command.source();
@@ -1613,8 +1618,8 @@ void Dolphin::addPendingUndoJob(KIO::Job* job,
                                 const KUrl::List& source,
                                 const KUrl& dest)
 {
-    connect(job, SIGNAL(result(KIO::Job*)),
-            this, SLOT(addUndoOperation(KIO::Job*)));
+    connect(job, SIGNAL(result(KJob*)),
+            this, SLOT(addUndoOperation(KJob*)));
 
     UndoInfo undoInfo;
     undoInfo.id = job->progressId();
