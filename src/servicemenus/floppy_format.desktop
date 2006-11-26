@@ -3,6 +3,7 @@ Exec=kfloppy %u
 Icon=kfloppy
 Name=Format
 Name[ga]=Formáid
+Name[ja]=フォーマット
 Name[pt]=Formato
 
 [Desktop Entry]
