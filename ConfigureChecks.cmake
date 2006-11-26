@@ -5,12 +5,9 @@ include(CheckFunctionExists)
 include(CheckLibraryExists)
 include(CheckPrototypeExists)
 include(CheckTypeSize)
-include(MacroBoolTo01)
 # The FindKDE4.cmake module sets _KDE4_PLATFORM_DEFINITIONS with
 # definitions like _GNU_SOURCE that are needed on each platform.
 set(CMAKE_REQUIRED_DEFINITIONS ${_KDE4_PLATFORM_DEFINITIONS})
-
-macro_bool_to_01(KDE4_XMMS HAVE_XMMS)
 
 #now check for dlfcn.h using the cmake supplied CHECK_include_FILE() macro
 # If definitions like -D_GNU_SOURCE are needed for these checks they
@@ -37,11 +34,4 @@ check_include_files(sys/ucred.h   HAVE_SYS_UCRED_H)
 check_include_files(sys/vfs.h     HAVE_SYS_VFS_H)
 
 check_function_exists(isinf      HAVE_FUNC_ISINF)
-
-check_type_size("int" SIZEOF_INT)
-check_type_size("char *"  SIZEOF_CHAR_P)
-check_type_size("long" SIZEOF_LONG)
-check_type_size("short" SIZEOF_SHORT)
-check_type_size("size_t" SIZEOF_SIZE_T)
-check_type_size("unsigned long" SIZEOF_UNSIGNED_LONG)
 
