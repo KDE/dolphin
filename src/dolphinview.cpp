@@ -33,6 +33,7 @@
 #include <klocale.h>
 #include <kio/netaccess.h>
 #include <kio/renamedlg.h>
+#include <kmimetyperesolver.h>
 #include <assert.h>
 
 #include "urlnavigator.h"
@@ -112,6 +113,9 @@ DolphinView::DolphinView(QWidget *parent,
     KDirModel* model = new KDirModel();
     model->setDirLister(m_dirLister);
     m_iconsView->setModel(model);
+
+    m_dirLister->setDelayedMimeTypes(true);
+    new KMimeTypeResolver( m_iconsView, model );
 
     m_iconSize = K3Icon::SizeMedium;
 
