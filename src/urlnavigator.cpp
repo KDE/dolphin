@@ -472,7 +472,7 @@ void UrlNavigator::updateContent()
     QString path(url().pathOrUrl());
     const KAction* action = Dolphin::mainWin().actionCollection()->action("editable_location");
     // TODO: registry of default shortcuts
-    QString shortcut = action? action->shortcutText() : "Ctrl+L";
+    QString shortcut = action? action->shortcut().toString() : "Ctrl+L";
     if (m_toggleButton->isChecked()) {
         delete m_protocols; m_protocols = 0;
         delete m_protocolSeparator; m_protocolSeparator = 0;
