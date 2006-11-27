@@ -9,6 +9,7 @@ Name=Extract Here
 Name[da]=Pak ud her
 Name[de]=Hier entpacken
 Name[ja]=ここに展開
+Name[nl]=Hier uitpakken
 Name[pt]=Extrair Aqui
 Name[sv]=Packa upp här
 Exec=ark --extract-to %d %u

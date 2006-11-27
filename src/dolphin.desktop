@@ -11,6 +11,7 @@ GenericName=File Manager
 GenericName[da]=Filhåndtering
 GenericName[de]=Dateiverwaltung
 GenericName[ja]=ファイルマネージャ
+GenericName[nl]=Bestandsbeheerder
 GenericName[pt]=Gestor de Ficheiros
 GenericName[sv]=Filhanterare
 Terminal=false

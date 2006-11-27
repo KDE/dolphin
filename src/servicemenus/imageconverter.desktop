@@ -10,6 +10,7 @@ X-KDE-Submenu[da]=Konvertér til
 X-KDE-Submenu[de]=Konvertieren als
 X-KDE-Submenu[ga]=Tiontaigh Go
 X-KDE-Submenu[ja]=変換
+X-KDE-Submenu[nl]=Converteren naar
 X-KDE-Submenu[pt]=Converter Para
 X-KDE-Submenu[sv]=Konvertera till
 TryExec=convert
@@ -26,6 +27,7 @@ Exec=convert %f "`echo %f | perl -pe 's/\.[^.]+$//'`.png"
 
 [Desktop Action convToTIF]
 Name=TIF
+Name[nl]=TIFF
 Icon=image
 Exec=convert %f "`echo %f | perl -pe 's/\.[^.]+$//'`.tif"
 

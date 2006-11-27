@@ -9,6 +9,7 @@ Name=Compress Here
 Name[da]=Komprimér her
 Name[de]=Hier komprimieren
 Name[ja]=ここに圧縮
+Name[nl]=Hier comprimeren
 Name[pt]=Comprimir Aqui
 Name[sv]=Komprimera här
 Exec=ark --add-to %u %u.tar.gz
