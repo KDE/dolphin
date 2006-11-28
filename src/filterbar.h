@@ -20,14 +20,11 @@
 #ifndef FILTERBAR_H
 #define FILTERBAR_H
 
-#include <qwidget.h>
-//Added by qt3to4:
-#include <QKeyEvent>
-#include <QLabel>
+#include <QWidget>
 
 class QLabel;
+class QToolButton;
 class KLineEdit;
-class KPushButton;
 
 /**
  * @brief Provides an input field for filtering the currently shown items.
@@ -44,25 +41,20 @@ public:
 
 signals:
     /**
-    * Signal that reports the name filter has been
-    * changed to \a nameFilter.
-    */
+     * Signal that reports the name filter has been
+     * changed to \a nameFilter.
+     */
     void signalFilterChanged(const QString& nameFilter);
 
-public slots:
-    /** @see QWidget::hide() */
-    virtual void hide();
-
-    /** @see QWidget::show() */
-    virtual void show();
-
 protected:
+    virtual void hideEvent(QHideEvent* event);
+    virtual void showEvent(QShowEvent* event);
     virtual void keyReleaseEvent(QKeyEvent* event);
 
 private:
     QLabel* m_filter;
     KLineEdit* m_filterInput;
-    KPushButton* m_close;
+    QToolButton* m_close;
 };
 
 #endif

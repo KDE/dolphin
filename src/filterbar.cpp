@@ -19,16 +19,13 @@
  ***************************************************************************/
 #include "filterbar.h"
 
-#include <qlabel.h>
-#include <qlayout.h>
-//Added by qt3to4:
-#include <Q3VBoxLayout>
+#include <QBoxLayout>
 #include <QKeyEvent>
-#include <Q3HBoxLayout>
+#include <QLabel>
+#include <QToolButton>
 
 #include <kdialog.h>
 #include <klocale.h>
-#include <kpushbutton.h>
 #include <klineedit.h>
 #include <kiconloader.h>
 
@@ -39,10 +36,12 @@ FilterBar::FilterBar(QWidget *parent, const char *name) :
 {
     const int gap = 3;
 
-    Q3VBoxLayout* foo = new Q3VBoxLayout(this);
+    QVBoxLayout* foo = new QVBoxLayout(this);
+    foo->setMargin(0);
     foo->addSpacing(gap);
 
-    Q3HBoxLayout* layout = new Q3HBoxLayout(foo);
+    QHBoxLayout* layout = new QHBoxLayout(foo);
+    layout->setMargin(0);
     layout->addSpacing(gap);
 
     m_filter = new QLabel(i18n("Filter:"), this);
@@ -50,11 +49,12 @@ FilterBar::FilterBar(QWidget *parent, const char *name) :
     layout->addSpacing(KDialog::spacingHint());
 
     m_filterInput = new KLineEdit(this);
+    m_filter->setBuddy(m_filterInput);
     layout->addWidget(m_filterInput);
 
-    m_close = new KPushButton(this);
-    m_close->setIconSet(SmallIcon("fileclose"));
-    m_close->setFlat(true);
+    m_close = new QToolButton(this);
+    m_close->setAutoRaise(true);
+    m_close->setIcon(QIcon(SmallIcon("fileclose")));
     layout->addWidget(m_close);
     layout->addSpacing(gap);
 
@@ -69,17 +69,19 @@ FilterBar::~FilterBar()
 {
 }
 
-void FilterBar::hide()
+void FilterBar::hideEvent(QHideEvent* event)
 {
-    m_filterInput->clear();
-    m_filterInput->clearFocus();
-    QWidget::hide();
+    if (!event->spontaneous()) {
+        m_filterInput->clear();
+        m_filterInput->clearFocus();
+    }
 }
 
-void FilterBar::show()
+void FilterBar::showEvent(QShowEvent* event)
 {
-    m_filterInput->setFocus();
-    QWidget::show();
+    if (!event->spontaneous()) {
+        m_filterInput->setFocus();
+    }
 }
 
 void FilterBar::keyReleaseEvent(QKeyEvent* event)
