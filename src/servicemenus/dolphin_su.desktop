@@ -7,6 +7,7 @@ ServiceTypes=inode/directory
 Name=Open as Root
 Name[da]=Åbn som systemadministrator
 Name[de]=Als Systemverwalter öffnen
+Name[es]=Abrir como root
 Name[ja]=root として開く
 Name[nl]=Als root openen
 Name[pt]=Abrir como 'Root'

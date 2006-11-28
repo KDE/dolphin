@@ -2,6 +2,7 @@
 Exec=kfloppy %u
 Icon=kfloppy
 Name=Format
+Name[es]=Formato
 Name[ga]=Formáid
 Name[ja]=フォーマット
 Name[nl]=Formatteren
