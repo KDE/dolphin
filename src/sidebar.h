@@ -21,9 +21,8 @@
 #ifndef _SIDEBAR_H_
 #define _SIDEBAR_H_
 
-#include <qwidget.h>
-//Added by qt3to4:
-#include <Q3VBoxLayout>
+#include <QWidget>
+#include <QVBoxLayout>
 
 class KUrl;
 class QComboBox;
@@ -46,11 +45,11 @@ public:
     virtual QSize sizeHint() const;
 
 signals:
-	/**
-	 * The user selected an item on sidebar widget and item has
-	 * Url property, so inform the parent togo to this Url;
-	 */
-	void urlChanged(const KUrl& url);
+    /**
+     * The user selected an item on sidebar widget and item has
+     * Url property, so inform the parent togo to this Url;
+     */
+    void urlChanged(const KUrl& url);
 
 private slots:
     void createPage(int index);
@@ -60,7 +59,7 @@ private:
 
     QComboBox* m_pagesSelector;
     SidebarPage* m_page;
-    Q3VBoxLayout* m_layout;
+    QVBoxLayout* m_layout;
 };
 
 #endif // _SIDEBAR_H_

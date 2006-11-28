@@ -19,20 +19,16 @@
 
 #include "sidebar.h"
 
-#include <qlayout.h>
-#include <qpixmap.h>
-//Added by qt3to4:
-#include <Q3VBoxLayout>
+#include <QVBoxLayout>
+#include <QComboBox>
+
 #include <kiconloader.h>
 #include <klocale.h>
-#include <qcombobox.h>
 
 #include "dolphinsettings.h"
 #include "sidebarsettings.h"
 #include "bookmarkssidebarpage.h"
 #include "infosidebarpage.h"
-
-#include <assert.h>
 
 Sidebar::Sidebar(QWidget* parent) :
     QWidget(parent),
@@ -40,7 +36,9 @@ Sidebar::Sidebar(QWidget* parent) :
     m_page(0),
     m_layout(0)
 {
-    m_layout = new Q3VBoxLayout(this);
+    m_layout = new QVBoxLayout(this);
+    m_layout->setMargin(0);
+    m_layout->setSpacing(0);
 
     m_pagesSelector = new QComboBox(this);
     m_pagesSelector->insertItem(i18n("Information"));
