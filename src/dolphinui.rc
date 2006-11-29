@@ -1,7 +1,8 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui version="1" name="dolphin" >
+<kpartgui version="2" name="dolphin" >
  <MenuBar>
   <Menu name="file" >
+   <Action name="new_window" />
    <Menu name="create_new" >
     <text>Create New</text>
     <Action name="create_folder" />

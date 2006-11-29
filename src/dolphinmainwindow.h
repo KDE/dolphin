@@ -169,6 +169,9 @@ public slots:
     /** @see slotUndo() */
     void slotUndo();
 
+    /** Open a  new mainwindow */
+    void slotNewMainWindow();
+
 protected:
     /** @see QMainWindow::closeEvent */
     virtual void closeEvent(QCloseEvent* event);

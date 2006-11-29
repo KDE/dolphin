@@ -323,6 +323,11 @@ void DolphinMainWindow::slotUndo()
     UndoManager::instance().undo(this);
 }
 
+void DolphinMainWindow::slotNewMainWindow()
+{
+    DolphinApplication::app()->createMainWindow()->show();
+}
+
 void DolphinMainWindow::closeEvent(QCloseEvent* event)
 {
     // KDE4-TODO
@@ -1216,6 +1221,9 @@ void DolphinMainWindow::loadSettings()
 void DolphinMainWindow::setupActions()
 {
     // setup 'File' menu
+    KAction *action = new KAction(KIcon("window_new"),  i18n( "New &Window" ), actionCollection(), "new_window" );
+    connect(action, SIGNAL(triggered()), this, SLOT(slotNewMainWindow()));
+
     KAction* createFolder = new KAction(i18n("Folder..."), actionCollection(), "create_folder");
     createFolder->setIcon(KIcon("folder"));
     createFolder->setShortcut(Qt::Key_N);
