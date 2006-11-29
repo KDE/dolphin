@@ -27,7 +27,6 @@
 #include <kurl.h>
 #include <kio/jobclasses.h>
 
-class ProgressIndicator;
 class DolphinMainWindow;
 
 /**
@@ -182,7 +181,6 @@ private:
     int m_historyIndex;
     int m_macroCounter;
     Q3ValueList<DolphinCommand> m_history;
-    ProgressIndicator* m_progressIndicator;
 
     /**
      * Dependent from the current history index \a m_historyIndex

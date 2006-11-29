@@ -128,12 +128,16 @@ void UndoManager::undo()
     int macroCount = 1;
     calcStepsCount(macroCount, progressCount);
 
-    m_progressIndicator = new ProgressIndicator(0, i18n("Executing undo operation..."),
-                                                i18n("Executed undo operation."),
-                                                progressCount);
 
     for (int i = 0; i < macroCount; ++i) {
         const DolphinCommand command = m_history[m_historyIndex];
+
+        /*
+         * KDE4, ### TODO Only here to avoid possible crash 
+         */
+        ProgressIndicator progressIndicator(command.mainWindow(), i18n("Executing undo operation..."),
+                                            i18n("Executed undo operation."),
+                                            progressCount);
         --m_historyIndex;
         if (m_historyIndex < 0) {
             emit undoAvailable(false);
@@ -198,7 +202,7 @@ void UndoManager::undo()
                     KIO::NetAccess::move(*it, newDestUrl);
                     ++it;
 
-                    m_progressIndicator->execOperation();
+                    progressIndicator.execOperation();
                 }
                 break;
             }
@@ -218,11 +222,8 @@ void UndoManager::undo()
             KIO::NetAccess::synchronousRun(job, command.mainWindow() );
         }
 
-        m_progressIndicator->execOperation();
+        progressIndicator.execOperation();
     }
-
-    delete m_progressIndicator;
-    m_progressIndicator = 0;
 }
 
 void UndoManager::redo()
@@ -241,13 +242,13 @@ void UndoManager::redo()
     int macroCount = 1;
     calcStepsCount(macroCount, progressCount);
 
-#warning "TOUGH"
-    m_progressIndicator = new ProgressIndicator(0, i18n("Executing redo operation..."),
-                                                i18n("Executed redo operation."),
-                                                progressCount);
 
     for (int i = 0; i < macroCount; ++i) {
         const DolphinCommand command = m_history[m_historyIndex];
+#warning "TOUGH"
+        ProgressIndicator progressIndicator(0, i18n("Executing redo operation..."),
+                                            i18n("Executed redo operation."),
+                                            progressCount);
         if (m_historyIndex >= maxHistoryIndex) {
             emit redoAvailable(false);
             emit redoTextChanged(i18n("Redo"));
@@ -292,7 +293,7 @@ void UndoManager::redo()
                     KIO::NetAccess::synchronousRun(moveToTrashJob, command.mainWindow() );
                     ++it;
 
-                    m_progressIndicator->execOperation();
+                    progressIndicator.execOperation();
                  }
                 break;
             }
@@ -303,7 +304,7 @@ void UndoManager::redo()
             }
 
             case DolphinCommand::CreateFile: {
-                m_progressIndicator->execOperation();
+                progressIndicator.execOperation();
                 KUrl::List::Iterator it = sourceUrls.begin();
                 assert(sourceUrls.count() == 1);
                 KIO::CopyJob* copyJob = KIO::copyAs(*it, command.destination(), false);
@@ -322,27 +323,22 @@ void UndoManager::redo()
         }
 
         ++m_historyIndex;
-        m_progressIndicator->execOperation();
+        progressIndicator.execOperation();
     }
 
     --m_historyIndex;
 
-    delete m_progressIndicator;
-    m_progressIndicator = 0;
 }
 
 UndoManager::UndoManager() :
     m_recordMacro(false),
     m_historyIndex(-1),
-    m_macroCounter(0),
-    m_progressIndicator(0)
+    m_macroCounter(0)
 {
 }
 
 UndoManager::~UndoManager()
 {
-    delete m_progressIndicator;
-    m_progressIndicator = 0;
 }
 
 QString UndoManager::commandText(const DolphinCommand& command) const
@@ -370,7 +366,10 @@ void UndoManager::slotPercent(KJob* /* job */, unsigned long /* percent */)
 
 void UndoManager::updateProgress()
 {
-    m_progressIndicator->execOperation();
+    /*
+     * ### XXX, TODO, KDE4 make this work when switchting to KonqUndoManager
+     */
+    //m_progressIndicator->execOperation();
 }
 
 void UndoManager::calcStepsCount(int& macroCount, int& progressCount)
