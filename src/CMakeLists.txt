@@ -36,7 +36,6 @@ set(dolphin_SRCS
    bookmarkssettingspage.cpp
    editbookmarkdialog.cpp
    settingspagebase.cpp
-   sidebar.cpp
    sidebarpage.cpp
    bookmarkssidebarpage.cpp
    infosidebarpage.cpp
@@ -52,8 +51,7 @@ kde4_add_kcfg_files(dolphin_SRCS
    generalsettings.kcfgc
    iconsmodesettings.kcfgc
    detailsmodesettings.kcfgc
-   previewsmodesettings.kcfgc
-   sidebarsettings.kcfgc )
+   previewsmodesettings.kcfgc )
 
 kde4_add_executable(dolphin ${dolphin_SRCS})
 
@@ -65,7 +63,7 @@ install(TARGETS dolphin DESTINATION ${BIN_INSTALL_DIR})
 ########### install files ###############
 
 install( FILES  dolphin.desktop DESTINATION ${XDG_APPS_DIR} )
-install( FILES  directoryviewpropertysettings.kcfg generalsettings.kcfg  				iconsmodesettings.kcfg detailsmodesettings.kcfg previewsmodesettings.kcfg  				sidebarsettings.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
+install( FILES  directoryviewpropertysettings.kcfg generalsettings.kcfg  				iconsmodesettings.kcfg detailsmodesettings.kcfg previewsmodesettings.kcfg  				DESTINATION ${KCFG_INSTALL_DIR} )
 install( FILES  dolphinui.rc DESTINATION ${DATA_INSTALL_DIR}/dolphin )
 
 kde4_install_icons( ${ICON_INSTALL_DIR} )

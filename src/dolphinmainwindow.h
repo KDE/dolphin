@@ -48,7 +48,6 @@ class Q3IconViewItem;
 class QSplitter;
 class KAction;
 class UrlNavigator;
-class Sidebar;
 class DolphinApplication;
 
 /**
@@ -373,14 +372,6 @@ private slots:
     void addUndoOperation(KJob* job);
 
 
-    void toggleSidebar();
-
-    /**
-     * Stores the current sidebar width and closes
-     * the sidebar.
-     */
-    void closeSidebar();
-
 private:
     DolphinMainWindow();
     void init();
@@ -388,6 +379,7 @@ private:
 
     void setupAccel();
     void setupActions();
+    void setupDockWidgets();
     void setupCreateNewMenuActions();
     void updateHistory();
     void updateEditActions();
@@ -401,10 +393,8 @@ private:
                            const KUrl::List& source,
                            const KUrl& dest);
     void clearStatusBar();
-    void openSidebar();
 
     QSplitter* m_splitter;
-    Sidebar* m_sidebar;
     DolphinView* m_activeView;
 
     /**

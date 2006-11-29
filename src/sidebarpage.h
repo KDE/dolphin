@@ -36,7 +36,7 @@ class SidebarPage : public QWidget
 	Q_OBJECT
 
 public:
-    SidebarPage(DolphinMainWindow* mainwindow, QWidget* parent);
+    SidebarPage(DolphinMainWindow* mainwindow, QWidget* parent=0);
     virtual ~SidebarPage();
 
 protected slots:

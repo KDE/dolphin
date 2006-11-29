@@ -58,6 +58,7 @@
 #include <Q3ValueList>
 #include <QCloseEvent>
 #include <QSplitter>
+#include <QDockWidget>
 
 #include "urlnavigator.h"
 #include "viewpropertiesdialog.h"
@@ -69,8 +70,8 @@
 #include "undomanager.h"
 #include "progressindicator.h"
 #include "dolphinsettings.h"
-#include "sidebar.h"
-#include "sidebarsettings.h"
+#include "bookmarkssidebarpage.h"
+#include "infosidebarpage.h"
 #include "generalsettings.h"
 #include "dolphinapplication.h"
 
@@ -78,7 +79,6 @@
 DolphinMainWindow::DolphinMainWindow() :
     KMainWindow(0, "Dolphin"),
     m_splitter(0),
-    m_sidebar(0),
     m_activeView(0),
     m_clipboardContainsCutData(false)
 {
@@ -338,13 +338,6 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
     DolphinSettings& settings = DolphinSettings::instance();
     GeneralSettings* generalSettings = settings.generalSettings();
     generalSettings->setFirstRun(false);
-
-    SidebarSettings* sidebarSettings = settings.sidebarSettings();
-    const bool isSidebarVisible = (m_sidebar != 0);
-    sidebarSettings->setVisible(isSidebarVisible);
-    if (isSidebarVisible) {
-        sidebarSettings->setWidth(m_sidebar->width());
-    }
 
     settings.save();
 
@@ -1107,36 +1100,6 @@ void DolphinMainWindow::addUndoOperation(KJob* job)
     }
 }
 
-void DolphinMainWindow::toggleSidebar()
-{
-    if (m_sidebar == 0) {
-        openSidebar();
-    }
-    else {
-        closeSidebar();
-    }
-
-    KToggleAction* sidebarAction = static_cast<KToggleAction*>(actionCollection()->action("sidebar"));
-    sidebarAction->setChecked(m_sidebar != 0);
-}
-
-void DolphinMainWindow::closeSidebar()
-{
-    if (m_sidebar == 0) {
-        // the sidebar has already been closed
-        return;
-    }
-
-    // store width of sidebar and remember that the sidebar has been closed
-    SidebarSettings* settings = DolphinSettings::instance().sidebarSettings();
-    settings->setVisible(false);
-    settings->setWidth(m_sidebar->width());
-
-    m_sidebar->deleteLater();
-    m_sidebar = 0;
-}
-
-
 void DolphinMainWindow::init()
 {
     // Check whether Dolphin runs the first time. If yes then
@@ -1162,7 +1125,6 @@ void DolphinMainWindow::init()
     }
 
     setupActions();
-    setupGUI(Keys|Save|Create|ToolBar);
 
     const KUrl& homeUrl = root.first().url();
     setCaption(homeUrl.fileName());
@@ -1176,14 +1138,9 @@ void DolphinMainWindow::init()
     m_activeView = m_view[PrimaryIdx];
 
     setCentralWidget(m_splitter);
+    setupDockWidgets();
 
-    // open sidebar
-    SidebarSettings* sidebarSettings = settings.sidebarSettings();
-    assert(sidebarSettings != 0);
-    if (sidebarSettings->visible()) {
-        openSidebar();
-    }
-
+    setupGUI(Keys|Save|Create|ToolBar);
     createGUI();
 
     stateChanged("new_file");
@@ -1350,10 +1307,6 @@ void DolphinMainWindow::setupActions()
     KToggleAction* editLocation = new KToggleAction(i18n("Edit Location"), actionCollection(), "edit_location");
     editLocation->setShortcut(Qt::Key_F6);
     connect(editLocation, SIGNAL(triggered()), this, SLOT(editLocation()));
-
-    KToggleAction* sidebar = new KToggleAction(i18n("Sidebar"), actionCollection(), "sidebar");
-    sidebar->setShortcut(Qt::Key_F9);
-    connect(sidebar, SIGNAL(triggered()), this, SLOT(toggleSidebar()));
 
     KAction* adjustViewProps = new KAction(i18n("Adjust View Properties..."), actionCollection(), "view_properties");
     connect(adjustViewProps, SIGNAL(triggered()), this, SLOT(adjustViewProperties()));
@@ -1585,9 +1538,6 @@ void DolphinMainWindow::updateViewActions()
 
     KToggleAction* splitAction = static_cast<KToggleAction*>(actionCollection()->action("split_view"));
     splitAction->setChecked(m_view[SecondaryIdx] != 0);
-
-    KToggleAction* sidebarAction = static_cast<KToggleAction*>(actionCollection()->action("sidebar"));
-    sidebarAction->setChecked(m_sidebar != 0);
 }
 
 void DolphinMainWindow::updateGoActions()
@@ -1652,24 +1602,19 @@ void DolphinMainWindow::clearStatusBar()
     m_activeView->statusBar()->clear();
 }
 
-void DolphinMainWindow::openSidebar()
+void DolphinMainWindow::setupDockWidgets()
 {
-    if (m_sidebar != 0) {
-        // the sidebar is already open
-        return;
-    }
+    QDockWidget *shortcutsDock = new QDockWidget(i18n("Shortcuts"));
+    shortcutsDock->setObjectName("shortcutsDock");
+    shortcutsDock->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
+    shortcutsDock->setWidget(new BookmarksSidebarPage(this));
+    addDockWidget(Qt::LeftDockWidgetArea, shortcutsDock);
 
-    m_sidebar = new Sidebar(this, m_splitter);
-    m_sidebar->show();
-
-    connect(m_sidebar, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(slotUrlChangeRequest(const KUrl&)));
-    m_splitter->setCollapsible(m_sidebar, false);
-    m_splitter->setResizeMode(m_sidebar, QSplitter::KeepSize);
-    m_splitter->moveToFirst(m_sidebar);
-
-    SidebarSettings* settings = DolphinSettings::instance().sidebarSettings();
-    settings->setVisible(true);
+    QDockWidget *infoDock = new QDockWidget(i18n("Information"));
+    infoDock->setObjectName("infoDock");
+    infoDock->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
+    infoDock->setWidget(new InfoSidebarPage(this));
+    addDockWidget(Qt::RightDockWidgetArea, infoDock);
 }
 
 #include "dolphinmainwindow.moc"

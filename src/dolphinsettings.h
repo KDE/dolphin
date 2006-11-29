@@ -27,7 +27,6 @@ class GeneralSettings;
 class IconsModeSettings;
 class PreviewsModeSettings;
 class DetailsModeSettings;
-class SidebarSettings;
 
 /**
  * @brief Manages and stores all settings from Dolphin.
@@ -48,7 +47,6 @@ public:
     IconsModeSettings* iconsModeSettings() const { return m_iconsModeSettings; }
     PreviewsModeSettings* previewsModeSettings() const { return m_previewsModeSettings; }
     DetailsModeSettings* detailsModeSettings() const { return m_detailsModeSettings; }
-    SidebarSettings* sidebarSettings() const { return m_sidebarSettings; }
 
     KBookmarkManager* bookmarkManager() const;
 
@@ -97,7 +95,6 @@ private:
     IconsModeSettings* m_iconsModeSettings;
     PreviewsModeSettings* m_previewsModeSettings;
     DetailsModeSettings* m_detailsModeSettings;
-    SidebarSettings* m_sidebarSettings;
 };
 
 #endif

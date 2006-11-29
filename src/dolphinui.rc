@@ -46,7 +46,6 @@
     <Action name="editable_location" />
     <Action name="edit_location" />
    </Menu>
-   <Action name="sidebar" />
    <Action name="view_properties" />
   </Menu>
   <Menu name="tools">

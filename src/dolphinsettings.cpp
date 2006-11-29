@@ -34,7 +34,6 @@
 #include "iconsmodesettings.h"
 #include "previewsmodesettings.h"
 #include "detailsmodesettings.h"
-#include "sidebarsettings.h"
 
 #include <Q3IconView>
 
@@ -78,7 +77,6 @@ void DolphinSettings::save()
     m_iconsModeSettings->writeConfig();
     m_previewsModeSettings->writeConfig();
     m_detailsModeSettings->writeConfig();
-    m_sidebarSettings->writeConfig();
 
     QString basePath = KGlobal::instance()->instanceName();
     basePath.append("/bookmarks.xml");
@@ -163,7 +161,6 @@ DolphinSettings::DolphinSettings()
     m_iconsModeSettings = new IconsModeSettings();
     m_previewsModeSettings = new PreviewsModeSettings();
     m_detailsModeSettings = new DetailsModeSettings();
-    m_sidebarSettings = new SidebarSettings();
 }
 
 DolphinSettings::~DolphinSettings()
@@ -179,7 +176,4 @@ DolphinSettings::~DolphinSettings()
 
     delete m_detailsModeSettings;
     m_detailsModeSettings = 0;
-
-    delete m_sidebarSettings;
-    m_sidebarSettings = 0;
 }

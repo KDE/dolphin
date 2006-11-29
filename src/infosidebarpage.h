@@ -59,7 +59,7 @@ class InfoSidebarPage : public SidebarPage
 	Q_OBJECT
 
 public:
-    InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent);
+    InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent=0);
     virtual ~InfoSidebarPage();
 
 protected:
