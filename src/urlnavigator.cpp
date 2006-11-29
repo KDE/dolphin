@@ -51,7 +51,7 @@
 #include <kvbox.h>
 
 #include "bookmarkselector.h"
-#include "dolphin.h"
+#include "dolphinmainwindow.h"
 #include "dolphinsettings.h"
 #include "dolphinstatusbar.h"
 #include "dolphinview.h"
@@ -470,7 +470,7 @@ void UrlNavigator::updateContent()
 
     QToolTip::remove(m_toggleButton);
     QString path(url().pathOrUrl());
-    const KAction* action = Dolphin::mainWin().actionCollection()->action("editable_location");
+    const KAction* action = dolphinView()->mainWindow()->actionCollection()->action("editable_location");
     // TODO: registry of default shortcuts
     QString shortcut = action? action->shortcut().toString() : "Ctrl+L";
     if (m_toggleButton->isChecked()) {

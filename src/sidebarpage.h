@@ -23,6 +23,7 @@
 
 #include <qwidget.h>
 
+class DolphinMainWindow;
 class Sidebar;
 
 /**
@@ -35,7 +36,7 @@ class SidebarPage : public QWidget
 	Q_OBJECT
 
 public:
-    SidebarPage(QWidget* parent);
+    SidebarPage(DolphinMainWindow* mainwindow, QWidget* parent);
     virtual ~SidebarPage();
 
 protected slots:
@@ -44,6 +45,12 @@ protected slots:
      * The active view can be retrieved by Dolphin::mainWin().activeView();
      */
     virtual void activeViewChanged();
+
+protected:
+    DolphinMainWindow* mainWindow() const;
+
+private:
+    DolphinMainWindow *m_mainWindow;
 };
 
 #endif // _SIDEBARPAGE_H_

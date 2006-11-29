@@ -18,7 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "dolphin.h"
+#include "dolphinapplication.h"
+#include "dolphinmainwindow.h"
 #include <kapplication.h>
 #include <kaboutdata.h>
 #include <kcmdlineargs.h>
@@ -54,11 +55,11 @@ int main(int argc, char **argv)
     KCmdLineArgs::init(argc, argv, &about);
     KCmdLineArgs::addCmdLineOptions(options);
 
-    KApplication app;
+    DolphinApplication app;
 
-    Dolphin& mainWin = Dolphin::mainWin();
-    mainWin.show();
 
+#warning TODO, SessionManagement
+#if 0
     if (false /* KDE4-TODO: app.isSessionRestored() */) {
         int n = 1;
         while (KMainWindow::canBeRestored(n)){
@@ -66,16 +67,20 @@ int main(int argc, char **argv)
             ++n;
         }
     } else {
+#endif
+
         KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
         if (args->count() > 0) {
-            mainWin.activeView()->setUrl(args->url(0));
-
-            for (int i = 1; i < args->count(); ++i) {
-                KRun::run("dolphin", args->url(i));
+            for (int i = 0; i < args->count(); ++i) {
+                DolphinMainWindow *win = app.createMainWindow();
+                win->activeView()->setUrl(args->url(i));
+                win->show();
             }
+        } else {
+            DolphinMainWindow* mainWin = app.createMainWindow();
+            mainWin->show();
         }
         args->clear();
-    }
-
+    
     return app.exec();
 }

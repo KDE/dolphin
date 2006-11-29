@@ -46,7 +46,7 @@ class Q3IconViewItem;
 class Q3ListViewItem;
 class Q3VBoxLayout;
 //class KFileView;
-class Dolphin;
+class DolphinMainWindow;
 class DolphinDirLister;
 class DolphinStatusBar;
 class DolphinIconsView;
@@ -115,7 +115,8 @@ public:
         MaxSortEnum = SortByDate
     };
 
-    DolphinView(QWidget* parent,
+    DolphinView(DolphinMainWindow* mainwindow,
+                QWidget *parent,
                 const KUrl& url,
                 Mode mode = IconsView,
                 bool showHiddenFiles = false);
@@ -326,6 +327,12 @@ public:
      */
     bool isFilterBarVisible();
 
+    /**
+     * Return the DolphinMainWindow this View belongs to. It is guranteed
+     * that we have one.
+     */
+    DolphinMainWindow* mainWindow() const ;
+
 public slots:
     void reload();
     void slotUrlListDropped(QDropEvent* event,
@@ -336,6 +343,11 @@ public slots:
      * Slot that popups the filter bar like FireFox popups his Search bar.
      */
     void slotShowFilterBar(bool show);
+
+    /**
+     * Declare this View as the activeview of the mainWindow()
+     */
+    void declareViewActive();
 
 signals:
     /** Is emitted if Url of the view has been changed to \a url. */
@@ -367,8 +379,8 @@ signals:
 
     /**
      * Is emitted whenever the selection has been changed. The current selection can
-     * be retrieved by Dolphin::mainWin().activeView()->selectedItems() or by
-     * Dolphin::mainWin().activeView()->selectedUrls().
+     * be retrieved by mainWindow()->activeView()->selectedItems() or by
+     * mainWindow()->activeView()->selectedUrls().
      */
     void signalSelectionChanged();
 
@@ -380,6 +392,7 @@ signals:
 protected:
     /** @see QWidget::mouseReleaseEvent */
     virtual void mouseReleaseEvent(QMouseEvent* event);
+
 
 private slots:
     void slotUrlChanged(const KUrl& kurl);
@@ -440,6 +453,7 @@ private:
      */
     void applyModeToView();
 
+    DolphinMainWindow *m_mainWindow;
     bool m_refreshing;
     bool m_showProgress;
     Mode m_mode;

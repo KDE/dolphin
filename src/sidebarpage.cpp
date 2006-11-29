@@ -18,12 +18,13 @@
  ***************************************************************************/
 
 #include "sidebarpage.h"
-#include "dolphin.h"
+#include "dolphinmainwindow.h"
 
-SidebarPage::SidebarPage(QWidget* parent) :
-    QWidget(parent)
+SidebarPage::SidebarPage(DolphinMainWindow *mainWindow, QWidget* parent) :
+    QWidget(parent),
+    m_mainWindow(mainWindow)
 {
-    connect(&Dolphin::mainWin(), SIGNAL(activeViewChanged()),
+    connect(mainWindow, SIGNAL(activeViewChanged()),
             this, SLOT(activeViewChanged()));
 }
 
@@ -33,6 +34,10 @@ SidebarPage::~SidebarPage()
 
 void SidebarPage::activeViewChanged()
 {
+}
+
+DolphinMainWindow* SidebarPage::mainWindow() const {
+    return m_mainWindow;
 }
 
 #include "sidebarpage.moc"

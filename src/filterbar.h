@@ -25,6 +25,7 @@
 class QLabel;
 class QToolButton;
 class KLineEdit;
+class DolphinMainWindow;
 
 /**
  * @brief Provides an input field for filtering the currently shown items.
@@ -36,7 +37,7 @@ class FilterBar : public QWidget
     Q_OBJECT
 
 public:
-    FilterBar(QWidget *parent = 0, const char *name = 0);
+    FilterBar(DolphinMainWindow* mainWindow, QWidget *parent = 0, const char *name = 0);
     virtual ~FilterBar();
 
 signals:
@@ -52,6 +53,7 @@ protected:
     virtual void keyReleaseEvent(QKeyEvent* event);
 
 private:
+    DolphinMainWindow *m_mainWindow;
     QLabel* m_filter;
     KLineEdit* m_filterInput;
     QToolButton* m_close;

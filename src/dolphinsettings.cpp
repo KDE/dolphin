@@ -30,12 +30,13 @@
 #include <klocale.h>
 #include <kstandarddirs.h>
 
-#include "dolphin.h"
 #include "generalsettings.h"
 #include "iconsmodesettings.h"
 #include "previewsmodesettings.h"
 #include "detailsmodesettings.h"
 #include "sidebarsettings.h"
+
+#include <Q3IconView>
 
 DolphinSettings& DolphinSettings::instance()
 {

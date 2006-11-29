@@ -29,10 +29,11 @@
 #include <klineedit.h>
 #include <kiconloader.h>
 
-#include "dolphin.h"
+#include "dolphinmainwindow.h"
 
-FilterBar::FilterBar(QWidget *parent, const char *name) :
-    QWidget(parent, name)
+FilterBar::FilterBar(DolphinMainWindow* mainWindow, QWidget *parent, const char *name) :
+    QWidget(parent, name),
+    m_mainWindow(mainWindow)
 {
     const int gap = 3;
 
@@ -62,7 +63,7 @@ FilterBar::FilterBar(QWidget *parent, const char *name) :
             this, SIGNAL(signalFilterChanged(const QString&)));
     connect(m_close, SIGNAL(clicked()), this, SLOT(hide()));
     connect(m_close, SIGNAL(clicked()),
-            &Dolphin::mainWin(), SLOT(slotShowFilterBarChanged()));
+            mainWindow, SLOT(slotShowFilterBarChanged()));
 }
 
 FilterBar::~FilterBar()
@@ -89,7 +90,7 @@ void FilterBar::keyReleaseEvent(QKeyEvent* event)
     QWidget::keyReleaseEvent(event);
     if ((event->key() == Qt::Key_Escape)) {
         hide();
-        Dolphin::mainWin().slotShowFilterBarChanged();
+        m_mainWindow->slotShowFilterBarChanged();
     }
 }
 

@@ -30,8 +30,9 @@
 #include "bookmarkssidebarpage.h"
 #include "infosidebarpage.h"
 
-Sidebar::Sidebar(QWidget* parent) :
+Sidebar::Sidebar(DolphinMainWindow* mainWindow, QWidget* parent) :
     QWidget(parent),
+    m_mainWindow(mainWindow),
     m_pagesSelector(0),
     m_page(0),
     m_layout(0)
@@ -83,8 +84,8 @@ void Sidebar::createPage(int index)
     }
 
     switch (index) {
-        case 0: m_page = new InfoSidebarPage(this); break;
-        case 1: m_page = new BookmarksSidebarPage(this); break;
+        case 0: m_page = new InfoSidebarPage(m_mainWindow, this); break;
+        case 1: m_page = new BookmarksSidebarPage(m_mainWindow, this); break;
         default: break;
     }
 

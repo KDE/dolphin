@@ -29,7 +29,7 @@
 #include <klocale.h>
 
 #include "urlnavigator.h"
-#include "dolphin.h"
+#include "dolphinmainwindow.h"
 
 
 UrlButton::UrlButton(UrlNavigator* parent)
@@ -42,7 +42,7 @@ UrlButton::UrlButton(UrlNavigator* parent)
     setMinimumHeight(parent->minimumHeight());
 
     connect(this, SIGNAL(clicked()), parent, SLOT(slotRequestActivation()));
-    connect(&Dolphin::mainWin(), SIGNAL(activeViewChanged()),
+    connect(parent->dolphinView()->mainWindow(), SIGNAL(activeViewChanged()),
             this, SLOT(update()));
 }
 

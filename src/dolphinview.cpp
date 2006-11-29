@@ -38,7 +38,7 @@
 
 #include "urlnavigator.h"
 #include "dolphinstatusbar.h"
-#include "dolphin.h"
+#include "dolphinmainwindow.h"
 #include "dolphindirlister.h"
 #include "viewproperties.h"
 #include "dolphindetailsview.h"
@@ -50,11 +50,13 @@
 
 #include "filterbar.h"
 
-DolphinView::DolphinView(QWidget *parent,
+DolphinView::DolphinView(DolphinMainWindow *mainWindow,
+                         QWidget *parent,
                          const KUrl& url,
                          Mode mode,
                          bool showHiddenFiles) :
     QWidget(parent),
+    m_mainWindow(mainWindow),
     m_refreshing(false),
     m_showProgress(false),
     m_mode(mode),
@@ -67,24 +69,22 @@ DolphinView::DolphinView(QWidget *parent,
     setFocusPolicy(Qt::StrongFocus);
     m_topLayout = new Q3VBoxLayout(this);
 
-    Dolphin& dolphin = Dolphin::mainWin();
-
     connect(this, SIGNAL(signalModeChanged()),
-            &dolphin, SLOT(slotViewModeChanged()));
+            mainWindow, SLOT(slotViewModeChanged()));
     connect(this, SIGNAL(signalShowHiddenFilesChanged()),
-            &dolphin, SLOT(slotShowHiddenFilesChanged()));
+            mainWindow, SLOT(slotShowHiddenFilesChanged()));
     connect(this, SIGNAL(signalSortingChanged(DolphinView::Sorting)),
-            &dolphin, SLOT(slotSortingChanged(DolphinView::Sorting)));
+            mainWindow, SLOT(slotSortingChanged(DolphinView::Sorting)));
     connect(this, SIGNAL(signalSortOrderChanged(Qt::SortOrder)),
-            &dolphin, SLOT(slotSortOrderChanged(Qt::SortOrder)));
+            mainWindow, SLOT(slotSortOrderChanged(Qt::SortOrder)));
 
     m_urlNavigator = new UrlNavigator(url, this);
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(slotUrlChanged(const KUrl&)));
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
-            &dolphin, SLOT(slotUrlChanged(const KUrl&)));
+            mainWindow, SLOT(slotUrlChanged(const KUrl&)));
     connect(m_urlNavigator, SIGNAL(historyChanged()),
-            &dolphin, SLOT(slotHistoryChanged()));
+            mainWindow, SLOT(slotHistoryChanged()));
 
     m_statusBar = new DolphinStatusBar(this);
 
@@ -119,7 +119,7 @@ DolphinView::DolphinView(QWidget *parent,
 
     m_iconSize = K3Icon::SizeMedium;
 
-    m_filterBar = new FilterBar(this);
+    m_filterBar = new FilterBar(mainWindow, this);
     m_filterBar->hide();
     connect(m_filterBar, SIGNAL(signalFilterChanged(const QString&)),
            this, SLOT(slotChangeNameFilter(const QString&)));
@@ -150,12 +150,12 @@ const KUrl& DolphinView::url() const
 
 void DolphinView::requestActivation()
 {
-    Dolphin::mainWin().setActiveView(this);
+    mainWindow()->setActiveView(this);
 }
 
 bool DolphinView::isActive() const
 {
-    return (Dolphin::mainWin().activeView() == this);
+    return (mainWindow()->activeView() == this);
 }
 
 void DolphinView::setMode(Mode mode)
@@ -221,7 +221,7 @@ void DolphinView::renameSelectedItems()
             return;
         }
 
-        DolphinView* view = Dolphin::mainWin().activeView();
+        DolphinView* view = mainWindow()->activeView();
         const QString& newName = dialog.newName();
         if (newName.isEmpty()) {
             view->statusBar()->setMessage(i18n("The new item name is invalid."),
@@ -235,7 +235,8 @@ void DolphinView::renameSelectedItems()
 
             const int urlsCount = urls.count();
             ProgressIndicator* progressIndicator =
-                new  ProgressIndicator(i18n("Renaming items..."),
+                new  ProgressIndicator(mainWindow(),
+                                       i18n("Renaming items..."),
                                        i18n("Renaming finished."),
                                        urlsCount);
 
@@ -262,7 +263,7 @@ void DolphinView::renameSelectedItems()
                     else if (KIO::NetAccess::file_move(source, dest)) {
                         // TODO: From the users point of view he executed one 'rename n files' operation,
                         // but internally we store it as n 'rename 1 file' operations for the undo mechanism.
-                        DolphinCommand command(DolphinCommand::Rename, source, dest);
+                        DolphinCommand command(DolphinCommand::Rename, source, dest, mainWindow());
                         undoMan.addCommand(command);
                     }
                 }
@@ -530,7 +531,7 @@ void DolphinView::rename(const KUrl& source, const QString& newName)
 
     const bool destExists = KIO::NetAccess::exists(dest,
                                                    false,
-                                                   Dolphin::mainWin().activeView());
+                                                   mainWindow()->activeView());
     if (destExists) {
         // the destination already exists, hence ask the user
         // how to proceed...
@@ -568,7 +569,7 @@ void DolphinView::rename(const KUrl& source, const QString& newName)
         m_statusBar->setMessage(i18n("Renamed file '%1' to '%2'.",source.fileName(), dest.fileName()),
                                 DolphinStatusBar::OperationCompleted);
 
-        DolphinCommand command(DolphinCommand::Rename, source, dest);
+        DolphinCommand command(DolphinCommand::Rename, source, dest, mainWindow());
         UndoManager::instance().addCommand(command);
     }
     else {
@@ -601,13 +602,18 @@ void DolphinView::slotUrlListDropped(QDropEvent* /* event */,
         }
     }
 
-    Dolphin::mainWin().dropUrls(urls, destination);
+    mainWindow()->dropUrls(urls, destination);
 }
 
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)
 {
     QWidget::mouseReleaseEvent(event);
-    Dolphin::mainWin().setActiveView(this);
+    mainWindow()->setActiveView(this);
+}
+
+DolphinMainWindow* DolphinView::mainWindow() const
+{
+    return m_mainWindow;
 }
 
 void DolphinView::slotUrlChanged(const KUrl& url)
@@ -628,7 +634,7 @@ void DolphinView::slotUrlChanged(const KUrl& url)
     // created. The application does not care whether a view is represented by a
     // different instance, hence inform the application that the selection might have
     // changed so that it can update it's actions.
-    Dolphin::mainWin().slotSelectionChanged();
+    mainWindow()->slotSelectionChanged();
 
     emit signalUrlChanged(url);
 }
@@ -644,7 +650,7 @@ void DolphinView::triggerIconsViewItem(Q3IconViewItem* item)
         // Updating the Url must be done outside the scope of this slot,
         // as iconview items will get deleted.
         QTimer::singleShot(0, this, SLOT(updateUrl()));
-        Dolphin::mainWin().setActiveView(this);
+        mainWindow()->setActiveView(this);
     }
 }
 
@@ -795,7 +801,7 @@ void DolphinView::slotErrorMessage(const QString& msg)
 
 void DolphinView::slotGrabActivation()
 {
-    Dolphin::mainWin().setActiveView(this);
+    mainWindow()->setActiveView(this);
 }
 
 void DolphinView::slotContentsMoving(int x, int y)
@@ -967,6 +973,11 @@ void DolphinView::slotShowFilterBar(bool show)
     else {
         m_filterBar->hide();
     }
+}
+
+void DolphinView::declareViewActive()
+{
+    mainWindow()->setActiveView( this );
 }
 
 void DolphinView::slotChangeNameFilter(const QString& nameFilter)

@@ -28,6 +28,7 @@ class KUrl;
 class QComboBox;
 class Q3VBoxLayout;
 class SidebarPage;
+class DolphinMainWindow;
 
 /**
  * @brief The sidebar allows to access bookmarks, history items and TODO...
@@ -39,7 +40,7 @@ class Sidebar : public QWidget
 	Q_OBJECT
 
 public:
-    Sidebar(QWidget* parent);
+    Sidebar(DolphinMainWindow* mainwindow, QWidget* parent);
     virtual ~Sidebar();
 
     virtual QSize sizeHint() const;
@@ -57,6 +58,7 @@ private slots:
 private:
     int indexForName(const QString& name) const;
 
+    DolphinMainWindow *m_mainWindow;
     QComboBox* m_pagesSelector;
     SidebarPage* m_page;
     QVBoxLayout* m_layout;

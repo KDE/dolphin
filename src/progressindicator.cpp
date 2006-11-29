@@ -19,19 +19,21 @@
  ***************************************************************************/
 
 #include "progressindicator.h"
-#include "dolphin.h"
+#include "dolphinmainwindow.h"
 #include "dolphinstatusbar.h"
 
-ProgressIndicator::ProgressIndicator(const QString& progressText,
+ProgressIndicator::ProgressIndicator(DolphinMainWindow* mainWindow,
+                                     const QString& progressText,
                                      const QString& finishedText,
                                      int operationsCount)
- :  m_showProgress(false),
+ :  m_mainWindow(mainWindow),
+    m_showProgress(false),
     m_operationsCount(operationsCount),
     m_operationsIndex(0),
     m_startTime(QTime::currentTime()),
     m_finishedText(finishedText)
 {
-    DolphinStatusBar* statusBar = Dolphin::mainWin().activeView()->statusBar();
+    DolphinStatusBar* statusBar = mainWindow->activeView()->statusBar();
     statusBar->clear();
     statusBar->setProgressText(progressText);
     statusBar->setProgress(0);
@@ -40,13 +42,13 @@ ProgressIndicator::ProgressIndicator(const QString& progressText,
 
 ProgressIndicator::~ProgressIndicator()
 {
-    DolphinStatusBar* statusBar = Dolphin::mainWin().activeView()->statusBar();
+    DolphinStatusBar* statusBar = m_mainWindow->activeView()->statusBar();
     statusBar->setProgressText(QString::null);
     statusBar->setProgress(100);
     statusBar->setMessage(m_finishedText, DolphinStatusBar::OperationCompleted);
 
     if (m_showProgress) {
-        Dolphin::mainWin().setEnabled(true);
+        m_mainWindow->setEnabled(true);
     }
 }
 
@@ -59,7 +61,7 @@ void ProgressIndicator::execOperation()
         if (elapsed > 500) {
             // the operations took already more than 500 milliseconds,
             // therefore show a progress indication
-            Dolphin::mainWin().setEnabled(false);
+            m_mainWindow->setEnabled(false);
             m_showProgress = true;
         }
     }
@@ -69,8 +71,9 @@ void ProgressIndicator::execOperation()
         if (m_startTime.msecsTo(currentTime) > 100) {
             m_startTime = currentTime;
 
-            DolphinStatusBar* statusBar = Dolphin::mainWin().activeView()->statusBar();
+            DolphinStatusBar* statusBar = m_mainWindow->activeView()->statusBar();
             statusBar->setProgress((m_operationsIndex * 100) / m_operationsCount);
+#warning "EVIL, DANGER, FIRE"
             kapp->processEvents();
             statusBar->repaint();
         }

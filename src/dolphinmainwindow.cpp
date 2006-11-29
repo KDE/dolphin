@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "dolphin.h"
+#include "dolphinmainwindow.h"
 
 #include <assert.h>
 
@@ -65,28 +65,44 @@
 #include "dolphinsettings.h"
 #include "dolphinsettingsdialog.h"
 #include "dolphinstatusbar.h"
+#include "dolphinapplication.h"
 #include "undomanager.h"
 #include "progressindicator.h"
 #include "dolphinsettings.h"
 #include "sidebar.h"
 #include "sidebarsettings.h"
 #include "generalsettings.h"
+#include "dolphinapplication.h"
 
-Dolphin& Dolphin::mainWin()
+
+DolphinMainWindow::DolphinMainWindow() :
+    KMainWindow(0, "Dolphin"),
+    m_splitter(0),
+    m_sidebar(0),
+    m_activeView(0),
+    m_clipboardContainsCutData(false)
 {
-    static Dolphin* instance = 0;
-    if (instance == 0) {
-        instance = new Dolphin();
-        instance->init();
-    }
-    return *instance;
+    m_view[PrimaryIdx] = 0;
+    m_view[SecondaryIdx] = 0;
+
+    m_fileGroupActions.setAutoDelete(true);
+
+    // TODO: the following members are not used yet. See documentation
+    // of DolphinMainWindow::linkGroupActions() and DolphinMainWindow::linkToDeviceActions()
+    // in the header file for details.
+    //m_linkGroupActions.setAutoDelete(true);
+    //m_linkToDeviceActions.setAutoDelete(true);
 }
 
-Dolphin::~Dolphin()
+DolphinMainWindow::~DolphinMainWindow()
 {
+    /*
+     * bye, bye managed window
+     */
+    DolphinApplication::app()->removeMainWindow( this );
 }
 
-void Dolphin::setActiveView(DolphinView* view)
+void DolphinMainWindow::setActiveView(DolphinView* view)
 {
     assert((view == m_view[PrimaryIdx]) || (view == m_view[SecondaryIdx]));
     if (m_activeView == view) {
@@ -105,7 +121,7 @@ void Dolphin::setActiveView(DolphinView* view)
     emit activeViewChanged();
 }
 
-void Dolphin::dropUrls(const KUrl::List& urls,
+void DolphinMainWindow::dropUrls(const KUrl::List& urls,
                        const KUrl& destination)
 {
     int selectedIndex = -1;
@@ -178,7 +194,7 @@ void Dolphin::dropUrls(const KUrl::List& urls,
     }
 }
 
-void Dolphin::refreshViews()
+void DolphinMainWindow::refreshViews()
 {
     const bool split = DolphinSettings::instance().generalSettings()->splitView();
     const bool isPrimaryViewActive = (m_activeView == m_view[PrimaryIdx]);
@@ -196,7 +212,8 @@ void Dolphin::refreshViews()
         if (split || (i == PrimaryIdx)) {
             // ... and recreate it
             ViewProperties props(url);
-            m_view[i] = new DolphinView(m_splitter,
+            m_view[i] = new DolphinView(this,
+                                        m_splitter,
                                         url,
                                         props.viewMode(),
                                         props.isShowHiddenFilesEnabled());
@@ -211,44 +228,44 @@ void Dolphin::refreshViews()
     emit activeViewChanged();
 }
 
-void Dolphin::slotHistoryChanged()
+void DolphinMainWindow::slotHistoryChanged()
 {
     updateHistory();
 }
 
-void Dolphin::slotUrlChanged(const KUrl& url)
+void DolphinMainWindow::slotUrlChanged(const KUrl& url)
 {
     updateEditActions();
     updateGoActions();
     setCaption(url.fileName());
 }
 
-void Dolphin::slotUrlChangeRequest(const KUrl& url)
+void DolphinMainWindow::slotUrlChangeRequest(const KUrl& url)
 {
 	clearStatusBar();
 	m_activeView->setUrl(url);
 }
 
-void Dolphin::slotViewModeChanged()
+void DolphinMainWindow::slotViewModeChanged()
 {
     updateViewActions();
 }
 
-void Dolphin::slotShowHiddenFilesChanged()
+void DolphinMainWindow::slotShowHiddenFilesChanged()
 {
     KToggleAction* showHiddenFilesAction =
         static_cast<KToggleAction*>(actionCollection()->action("show_hidden_files"));
     showHiddenFilesAction->setChecked(m_activeView->isShowHiddenFilesEnabled());
 }
 
-void Dolphin::slotShowFilterBarChanged()
+void DolphinMainWindow::slotShowFilterBarChanged()
 {
     KToggleAction* showFilterBarAction =
         static_cast<KToggleAction*>(actionCollection()->action("show_filter_bar"));
     showFilterBarAction->setChecked(m_activeView->isFilterBarVisible());
 }
 
-void Dolphin::slotSortingChanged(DolphinView::Sorting sorting)
+void DolphinMainWindow::slotSortingChanged(DolphinView::Sorting sorting)
 {
     KAction* action = 0;
     switch (sorting) {
@@ -271,14 +288,14 @@ void Dolphin::slotSortingChanged(DolphinView::Sorting sorting)
     }
 }
 
-void Dolphin::slotSortOrderChanged(Qt::SortOrder order)
+void DolphinMainWindow::slotSortOrderChanged(Qt::SortOrder order)
 {
     KToggleAction* descending = static_cast<KToggleAction*>(actionCollection()->action("descending"));
     const bool sortDescending = (order == Qt::Descending);
     descending->setChecked(sortDescending);
 }
 
-void Dolphin::slotSelectionChanged()
+void DolphinMainWindow::slotSelectionChanged()
 {
     updateEditActions();
 
@@ -296,7 +313,7 @@ void Dolphin::slotSelectionChanged()
     emit selectionChanged();
 }
 
-void Dolphin::closeEvent(QCloseEvent* event)
+void DolphinMainWindow::closeEvent(QCloseEvent* event)
 {
     // KDE4-TODO
     //KConfig* config = KGlobal::config();
@@ -319,7 +336,7 @@ void Dolphin::closeEvent(QCloseEvent* event)
     KMainWindow::closeEvent(event);
 }
 
-void Dolphin::saveProperties(KConfig* config)
+void DolphinMainWindow::saveProperties(KConfig* config)
 {
     config->setGroup("Primary view");
     config->writeEntry("Url", m_view[PrimaryIdx]->url().url());
@@ -331,7 +348,7 @@ void Dolphin::saveProperties(KConfig* config)
     }
 }
 
-void Dolphin::readProperties(KConfig* config)
+void DolphinMainWindow::readProperties(KConfig* config)
 {
     config->setGroup("Primary view");
     m_view[PrimaryIdx]->setUrl(config->readEntry("Url"));
@@ -349,7 +366,7 @@ void Dolphin::readProperties(KConfig* config)
     }
 }
 
-void Dolphin::createFolder()
+void DolphinMainWindow::createFolder()
 {
     // Parts of the following code have been taken
     // from the class KonqPopupMenu located in
@@ -400,7 +417,7 @@ void Dolphin::createFolder()
         statusBar->setMessage(i18n("Created folder %1.",url.path()),
                               DolphinStatusBar::OperationCompleted);
 
-        DolphinCommand command(DolphinCommand::CreateFolder, KUrl::List(), url);
+        DolphinCommand command(DolphinCommand::CreateFolder, KUrl::List(), url, this);
         UndoManager::instance().addCommand(command);
     }
     else {
@@ -418,7 +435,7 @@ void Dolphin::createFolder()
     }
 }
 
-void Dolphin::createFile()
+void DolphinMainWindow::createFile()
 {
     // Parts of the following code have been taken
     // from the class KonqPopupMenu located in
@@ -507,7 +524,7 @@ void Dolphin::createFile()
 
         KUrl::List list;
         list.append(sourceUrl);
-        DolphinCommand command(DolphinCommand::CreateFile, list, destUrl);
+        DolphinCommand command(DolphinCommand::CreateFile, list, destUrl, this);
         UndoManager::instance().addCommand(command);
 
     }
@@ -517,13 +534,13 @@ void Dolphin::createFile()
     }
 }
 
-void Dolphin::rename()
+void DolphinMainWindow::rename()
 {
     clearStatusBar();
     m_activeView->renameSelectedItems();
 }
 
-void Dolphin::moveToTrash()
+void DolphinMainWindow::moveToTrash()
 {
     clearStatusBar();
     KUrl::List selectedUrls = m_activeView->selectedUrls();
@@ -531,7 +548,7 @@ void Dolphin::moveToTrash()
     addPendingUndoJob(job, DolphinCommand::Trash, selectedUrls, m_activeView->url());
 }
 
-void Dolphin::deleteItems()
+void DolphinMainWindow::deleteItems()
 {
     clearStatusBar();
 
@@ -562,7 +579,7 @@ void Dolphin::deleteItems()
     }
 }
 
-void Dolphin::properties()
+void DolphinMainWindow::properties()
 {
     const KFileItemList* sourceList = m_activeView->selectedItems();
     if (sourceList == 0) {
@@ -581,12 +598,12 @@ void Dolphin::properties()
     new KPropertiesDialog(list, this);
 }
 
-void Dolphin::quit()
+void DolphinMainWindow::quit()
 {
     close();
 }
 
-void Dolphin::slotHandleJobError(KJob* job)
+void DolphinMainWindow::slotHandleJobError(KJob* job)
 {
     if (job->error() != 0) {
         m_activeView->statusBar()->setMessage(job->errorString(),
@@ -594,7 +611,7 @@ void Dolphin::slotHandleJobError(KJob* job)
     }
 }
 
-void Dolphin::slotDeleteFileFinished(KJob* job)
+void DolphinMainWindow::slotDeleteFileFinished(KJob* job)
 {
     if (job->error() == 0) {
         m_activeView->statusBar()->setMessage(i18n("Delete operation completed."),
@@ -608,7 +625,7 @@ void Dolphin::slotDeleteFileFinished(KJob* job)
     }
 }
 
-void Dolphin::slotUndoAvailable(bool available)
+void DolphinMainWindow::slotUndoAvailable(bool available)
 {
     KAction* undoAction = actionCollection()->action(KStdAction::stdName(KStdAction::Undo));
     if (undoAction != 0) {
@@ -616,7 +633,7 @@ void Dolphin::slotUndoAvailable(bool available)
     }
 }
 
-void Dolphin::slotUndoTextChanged(const QString& text)
+void DolphinMainWindow::slotUndoTextChanged(const QString& text)
 {
     KAction* undoAction = actionCollection()->action(KStdAction::stdName(KStdAction::Undo));
     if (undoAction != 0) {
@@ -624,7 +641,7 @@ void Dolphin::slotUndoTextChanged(const QString& text)
     }
 }
 
-void Dolphin::slotRedoAvailable(bool available)
+void DolphinMainWindow::slotRedoAvailable(bool available)
 {
     KAction* redoAction = actionCollection()->action(KStdAction::stdName(KStdAction::Redo));
     if (redoAction != 0) {
@@ -632,7 +649,7 @@ void Dolphin::slotRedoAvailable(bool available)
     }
 }
 
-void Dolphin::slotRedoTextChanged(const QString& text)
+void DolphinMainWindow::slotRedoTextChanged(const QString& text)
 {
     KAction* redoAction = actionCollection()->action(KStdAction::stdName(KStdAction::Redo));
     if (redoAction != 0) {
@@ -640,7 +657,7 @@ void Dolphin::slotRedoTextChanged(const QString& text)
     }
 }
 
-void Dolphin::cut()
+void DolphinMainWindow::cut()
 {
     // TODO: this boolean doesn't work between instances of dolphin or with konqueror or with other
     // apps. The "application/x-kde-cutselection" mimetype should be used instead, see KonqMimeData
@@ -651,7 +668,7 @@ void Dolphin::cut()
     QApplication::clipboard()->setData(data);*/
 }
 
-void Dolphin::copy()
+void DolphinMainWindow::copy()
 {
     m_clipboardContainsCutData = false;
     /* KDE4-TODO:
@@ -660,7 +677,7 @@ void Dolphin::copy()
     QApplication::clipboard()->setData(data);*/
 }
 
-void Dolphin::paste()
+void DolphinMainWindow::paste()
 {
     /* KDE4-TODO:   - see KonqOperations::doPaste
     QClipboard* clipboard = QApplication::clipboard();
@@ -703,7 +720,7 @@ void Dolphin::paste()
     }*/
 }
 
-void Dolphin::updatePasteAction()
+void DolphinMainWindow::updatePasteAction()
 {
     KAction* pasteAction = actionCollection()->action(KStdAction::stdName(KStdAction::Paste));
     if (pasteAction == 0) {
@@ -754,48 +771,48 @@ void Dolphin::updatePasteAction()
     }
 }
 
-void Dolphin::selectAll()
+void DolphinMainWindow::selectAll()
 {
     clearStatusBar();
     m_activeView->selectAll();
 }
 
-void Dolphin::invertSelection()
+void DolphinMainWindow::invertSelection()
 {
     clearStatusBar();
     m_activeView->invertSelection();
 }
-void Dolphin::setIconsView()
+void DolphinMainWindow::setIconsView()
 {
     m_activeView->setMode(DolphinView::IconsView);
 }
 
-void Dolphin::setDetailsView()
+void DolphinMainWindow::setDetailsView()
 {
     m_activeView->setMode(DolphinView::DetailsView);
 }
 
-void Dolphin::setPreviewsView()
+void DolphinMainWindow::setPreviewsView()
 {
     m_activeView->setMode(DolphinView::PreviewsView);
 }
 
-void Dolphin::sortByName()
+void DolphinMainWindow::sortByName()
 {
     m_activeView->setSorting(DolphinView::SortByName);
 }
 
-void Dolphin::sortBySize()
+void DolphinMainWindow::sortBySize()
 {
     m_activeView->setSorting(DolphinView::SortBySize);
 }
 
-void Dolphin::sortByDate()
+void DolphinMainWindow::sortByDate()
 {
     m_activeView->setSorting(DolphinView::SortByDate);
 }
 
-void Dolphin::toggleSortOrder()
+void DolphinMainWindow::toggleSortOrder()
 {
     const Qt::SortOrder order = (m_activeView->sortOrder() == Qt::Ascending) ?
                                 Qt::Descending :
@@ -803,11 +820,12 @@ void Dolphin::toggleSortOrder()
     m_activeView->setSortOrder(order);
 }
 
-void Dolphin::toggleSplitView()
+void DolphinMainWindow::toggleSplitView()
 {
     if (m_view[SecondaryIdx] == 0) {
         // create a secondary view
-        m_view[SecondaryIdx] = new DolphinView(m_splitter,
+        m_view[SecondaryIdx] = new DolphinView(this,
+                                               m_splitter,
                                                m_view[PrimaryIdx]->url(),
                                                m_view[PrimaryIdx]->mode(),
                                                m_view[PrimaryIdx]->isShowHiddenFilesEnabled());
@@ -835,17 +853,17 @@ void Dolphin::toggleSplitView()
     }
 }
 
-void Dolphin::reloadView()
+void DolphinMainWindow::reloadView()
 {
     clearStatusBar();
     m_activeView->reload();
 }
 
-void Dolphin::stopLoading()
+void DolphinMainWindow::stopLoading()
 {
 }
 
-void Dolphin::showHiddenFiles()
+void DolphinMainWindow::showHiddenFiles()
 {
     clearStatusBar();
 
@@ -855,7 +873,7 @@ void Dolphin::showHiddenFiles()
     m_activeView->setShowHiddenFilesEnabled(show);
 }
 
-void Dolphin::showFilterBar()
+void DolphinMainWindow::showFilterBar()
 {
     const KToggleAction* showFilterBarAction =
         static_cast<KToggleAction*>(actionCollection()->action("show_filter_bar"));
@@ -863,19 +881,19 @@ void Dolphin::showFilterBar()
     m_activeView->slotShowFilterBar(show);
 }
 
-void Dolphin::zoomIn()
+void DolphinMainWindow::zoomIn()
 {
     m_activeView->zoomIn();
     updateViewActions();
 }
 
-void Dolphin::zoomOut()
+void DolphinMainWindow::zoomOut()
 {
     m_activeView->zoomOut();
     updateViewActions();
 }
 
-void Dolphin::toggleEditLocation()
+void DolphinMainWindow::toggleEditLocation()
 {
     clearStatusBar();
 
@@ -886,45 +904,45 @@ void Dolphin::toggleEditLocation()
     m_activeView->setUrlEditable(editOrBrowse);
 }
 
-void Dolphin::editLocation()
+void DolphinMainWindow::editLocation()
 {
     KToggleAction* action = static_cast<KToggleAction*>(actionCollection()->action("editable_location"));
     action->setChecked(true);
     m_activeView->setUrlEditable(true);
 }
 
-void Dolphin::adjustViewProperties()
+void DolphinMainWindow::adjustViewProperties()
 {
     clearStatusBar();
     ViewPropertiesDialog dlg(m_activeView);
     dlg.exec();
 }
 
-void Dolphin::goBack()
+void DolphinMainWindow::goBack()
 {
     clearStatusBar();
     m_activeView->goBack();
 }
 
-void Dolphin::goForward()
+void DolphinMainWindow::goForward()
 {
     clearStatusBar();
     m_activeView->goForward();
 }
 
-void Dolphin::goUp()
+void DolphinMainWindow::goUp()
 {
     clearStatusBar();
     m_activeView->goUp();
 }
 
-void Dolphin::goHome()
+void DolphinMainWindow::goHome()
 {
     clearStatusBar();
     m_activeView->goHome();
 }
 
-void Dolphin::openTerminal()
+void DolphinMainWindow::openTerminal()
 {
     QString command("konsole --workdir \"");
     command.append(m_activeView->url().path());
@@ -933,12 +951,12 @@ void Dolphin::openTerminal()
     KRun::runCommand(command, "Konsole", "konsole");
 }
 
-void Dolphin::findFile()
+void DolphinMainWindow::findFile()
 {
     KRun::run("kfind", m_activeView->url());
 }
 
-void Dolphin::compareFiles()
+void DolphinMainWindow::compareFiles()
 {
     // The method is only invoked if exactly 2 files have
     // been selected. The selected files may be:
@@ -993,14 +1011,14 @@ void Dolphin::compareFiles()
 
 }
 
-void Dolphin::editSettings()
+void DolphinMainWindow::editSettings()
 {
     // TODO: make a static method for opening the settings dialog
-    DolphinSettingsDialog dlg;
+    DolphinSettingsDialog dlg(this);
     dlg.exec();
 }
 
-void Dolphin::addUndoOperation(KJob* job)
+void DolphinMainWindow::addUndoOperation(KJob* job)
 {
     if (job->error() != 0) {
         slotHandleJobError(job);
@@ -1074,7 +1092,7 @@ void Dolphin::addUndoOperation(KJob* job)
     }
 }
 
-void Dolphin::toggleSidebar()
+void DolphinMainWindow::toggleSidebar()
 {
     if (m_sidebar == 0) {
         openSidebar();
@@ -1087,7 +1105,7 @@ void Dolphin::toggleSidebar()
     sidebarAction->setChecked(m_sidebar != 0);
 }
 
-void Dolphin::closeSidebar()
+void DolphinMainWindow::closeSidebar()
 {
     if (m_sidebar == 0) {
         // the sidebar has already been closed
@@ -1103,29 +1121,11 @@ void Dolphin::closeSidebar()
     m_sidebar = 0;
 }
 
-Dolphin::Dolphin() :
-    KMainWindow(0, "Dolphin"),
-    m_splitter(0),
-    m_sidebar(0),
-    m_activeView(0),
-    m_clipboardContainsCutData(false)
-{
-    m_view[PrimaryIdx] = 0;
-    m_view[SecondaryIdx] = 0;
 
-    m_fileGroupActions.setAutoDelete(true);
-
-    // TODO: the following members are not used yet. See documentation
-    // of Dolphin::linkGroupActions() and Dolphin::linkToDeviceActions()
-    // in the header file for details.
-    //m_linkGroupActions.setAutoDelete(true);
-    //m_linkToDeviceActions.setAutoDelete(true);
-}
-
-void Dolphin::init()
+void DolphinMainWindow::init()
 {
     // Check whether Dolphin runs the first time. If yes then
-    // a proper default window size is given at the end of Dolphin::init().
+    // a proper default window size is given at the end of DolphinMainWindow::init().
     GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
     const bool firstRun = generalSettings->firstRun();
 
@@ -1152,7 +1152,8 @@ void Dolphin::init()
     const KUrl& homeUrl = root.first().url();
     setCaption(homeUrl.fileName());
     ViewProperties props(homeUrl);
-    m_view[PrimaryIdx] = new DolphinView(m_splitter,
+    m_view[PrimaryIdx] = new DolphinView(this,
+                                         m_splitter,
                                          homeUrl,
                                          props.viewMode(),
                                          props.isShowHiddenFilesEnabled());
@@ -1189,7 +1190,7 @@ void Dolphin::init()
     }
 }
 
-void Dolphin::loadSettings()
+void DolphinMainWindow::loadSettings()
 {
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
 
@@ -1202,7 +1203,7 @@ void Dolphin::loadSettings()
     updateViewActions();
 }
 
-void Dolphin::setupActions()
+void DolphinMainWindow::setupActions()
 {
     // setup 'File' menu
     KAction* createFolder = new KAction(i18n("Folder..."), actionCollection(), "create_folder");
@@ -1369,7 +1370,7 @@ void Dolphin::setupActions()
     KStdAction::preferences(this, SLOT(editSettings()), actionCollection());
 }
 
-void Dolphin::setupCreateNewMenuActions()
+void DolphinMainWindow::setupCreateNewMenuActions()
 {
     // Parts of the following code have been taken
     // from the class KNewMenu located in
@@ -1448,15 +1449,15 @@ void Dolphin::setupCreateNewMenuActions()
 
             case '3':
             case '4': {
-                // TODO: not used yet. See documentation of Dolphin::linkGroupActions()
-                // and Dolphin::linkToDeviceActions() in the header file for details.
+                // TODO: not used yet. See documentation of DolphinMainWindow::linkGroupActions()
+                // and DolphinMainWindow::linkToDeviceActions() in the header file for details.
                 //m_linkGroupActions.append(action);
                 break;
             }
 
             case '5': {
-                // TODO: not used yet. See documentation of Dolphin::linkGroupActions()
-                // and Dolphin::linkToDeviceActions() in the header file for details.
+                // TODO: not used yet. See documentation of DolphinMainWindow::linkGroupActions()
+                // and DolphinMainWindow::linkToDeviceActions() in the header file for details.
                 //m_linkToDeviceActions.append(action);
                 break;
             }
@@ -1471,7 +1472,7 @@ void Dolphin::setupCreateNewMenuActions()
     //plugActionList("link_to_device", m_linkToDeviceActions);*/
 }
 
-void Dolphin::updateHistory()
+void DolphinMainWindow::updateHistory()
 {
     int index = 0;
     const Q3ValueList<UrlNavigator::HistoryElem> list = m_activeView->urlHistory(index);
@@ -1487,7 +1488,7 @@ void Dolphin::updateHistory()
     }
 }
 
-void Dolphin::updateEditActions()
+void DolphinMainWindow::updateEditActions()
 {
     const KFileItemList* list = m_activeView->selectedItems();
     if ((list == 0) || (*list).isEmpty()) {
@@ -1521,7 +1522,7 @@ void Dolphin::updateEditActions()
     updatePasteAction();
 }
 
-void Dolphin::updateViewActions()
+void DolphinMainWindow::updateViewActions()
 {
     KAction* zoomInAction = actionCollection()->action(KStdAction::stdName(KStdAction::ZoomIn));
     if (zoomInAction != 0) {
@@ -1571,14 +1572,14 @@ void Dolphin::updateViewActions()
     sidebarAction->setChecked(m_sidebar != 0);
 }
 
-void Dolphin::updateGoActions()
+void DolphinMainWindow::updateGoActions()
 {
     KAction* goUpAction = actionCollection()->action(KStdAction::stdName(KStdAction::Up));
     const KUrl& currentUrl = m_activeView->url();
     goUpAction->setEnabled(currentUrl.upUrl() != currentUrl);
 }
 
-void Dolphin::updateViewProperties(const KUrl::List& urls)
+void DolphinMainWindow::updateViewProperties(const KUrl::List& urls)
 {
     if (urls.isEmpty()) {
         return;
@@ -1588,7 +1589,8 @@ void Dolphin::updateViewProperties(const KUrl::List& urls)
     // when dragging several thousand Urls. Writing a KIO slave for this
     // use case is not worth the effort, but at least the main widget
     // must be disabled and a progress should be shown.
-    ProgressIndicator progressIndicator(i18n("Updating view properties..."),
+    ProgressIndicator progressIndicator(this,
+                                        i18n("Updating view properties..."),
                                         QString::null,
                                         urls.count());
 
@@ -1601,19 +1603,19 @@ void Dolphin::updateViewProperties(const KUrl::List& urls)
     }
 }
 
-void Dolphin::copyUrls(const KUrl::List& source, const KUrl& dest)
+void DolphinMainWindow::copyUrls(const KUrl::List& source, const KUrl& dest)
 {
     KIO::Job* job = KIO::copy(source, dest);
     addPendingUndoJob(job, DolphinCommand::Copy, source, dest);
 }
 
-void Dolphin::moveUrls(const KUrl::List& source, const KUrl& dest)
+void DolphinMainWindow::moveUrls(const KUrl::List& source, const KUrl& dest)
 {
     KIO::Job* job = KIO::move(source, dest);
     addPendingUndoJob(job, DolphinCommand::Move, source, dest);
 }
 
-void Dolphin::addPendingUndoJob(KIO::Job* job,
+void DolphinMainWindow::addPendingUndoJob(KIO::Job* job,
                                 DolphinCommand::Type commandType,
                                 const KUrl::List& source,
                                 const KUrl& dest)
@@ -1623,23 +1625,23 @@ void Dolphin::addPendingUndoJob(KIO::Job* job,
 
     UndoInfo undoInfo;
     undoInfo.id = job->progressId();
-    undoInfo.command = DolphinCommand(commandType, source, dest);
+    undoInfo.command = DolphinCommand(commandType, source, dest, this);
     m_pendingUndoJobs.append(undoInfo);
 }
 
-void Dolphin::clearStatusBar()
+void DolphinMainWindow::clearStatusBar()
 {
     m_activeView->statusBar()->clear();
 }
 
-void Dolphin::openSidebar()
+void DolphinMainWindow::openSidebar()
 {
     if (m_sidebar != 0) {
         // the sidebar is already open
         return;
     }
 
-    m_sidebar = new Sidebar(m_splitter);
+    m_sidebar = new Sidebar(this, m_splitter);
     m_sidebar->show();
 
     connect(m_sidebar, SIGNAL(urlChanged(const KUrl&)),
@@ -1652,4 +1654,4 @@ void Dolphin::openSidebar()
     settings->setVisible(true);
 }
 
-#include "dolphin.moc"
+#include "dolphinmainwindow.moc"

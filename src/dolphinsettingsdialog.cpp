@@ -24,19 +24,21 @@
 #include "generalsettingspage.h"
 #include "viewsettingspage.h"
 #include "bookmarkssettingspage.h"
-#include "dolphin.h"
+#include "dolphinapplication.h"
+#include "dolphinmainwindow.h"
 //Added by qt3to4:
 #include <QFrame>
 
-DolphinSettingsDialog::DolphinSettingsDialog() :
-    KPageDialog()
+DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
+    KPageDialog(),
+    m_mainWindow(mainWindow)
 {
     setFaceType( List);
     setCaption(i18n("Dolphin Preferences"));
     setButtons(Ok|Apply|Cancel);
     setDefaultButton(Ok);
 
-    m_generalSettingsPage = new GeneralSettingsPage(this);
+    m_generalSettingsPage = new GeneralSettingsPage(mainWindow, this);
     KPageWidgetItem* generalSettingsFrame = addPage(m_generalSettingsPage, i18n("General"));
     generalSettingsFrame->setIcon(KIcon("exec"));
 
@@ -66,7 +68,7 @@ void DolphinSettingsDialog::applySettings()
     m_generalSettingsPage->applySettings();
     m_viewSettingsPage->applySettings();
     m_bookmarksSettingsPage->applySettings();
-    Dolphin::mainWin().refreshViews();
+    DolphinApplication::app()->refreshMainWindows();
 }
 
 #include "dolphinsettingsdialog.moc"

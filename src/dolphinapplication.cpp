@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2006 by Holger 'zecke' Freyther <freyther@kde.org>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,40 +18,47 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef DOLPHINSETTINGSDIALOG_H
-#define DOLPHINSETTINGSDIALOG_H
+#include "dolphinapplication.h"
+#include "dolphinmainwindow.h"
 
-#include <kpagedialog.h>
-class GeneralSettingsPage;
-class ViewSettingsPage;
-class BookmarksSettingsPage;
-class DolphinMainWindow;
+DolphinApplication::DolphinApplication()
+{
+}
 
-/**
- * @brief Settings dialog for Dolphin.
- *
- * Contains the pages for general settings, view settings and
- * bookmark settings.
- *
- * @author Peter Penz <peter.penz@gmx.at>
+/*
+ * cleanup what ever is left from the MainWindows
  */
-class DolphinSettingsDialog : public KPageDialog {
-    Q_OBJECT
+DolphinApplication::~DolphinApplication()
+{
+    while( m_mainWindows.count() != 0 )
+        delete m_mainWindows.takeFirst();
+}
 
-public:
-    DolphinSettingsDialog(DolphinMainWindow* mainWindow);
-    virtual ~DolphinSettingsDialog();
+DolphinApplication* DolphinApplication::app()
+{
+    return qobject_cast<DolphinApplication*>(qApp);
+}
 
-protected slots:
-    virtual void slotButtonClicked(int button);
+DolphinMainWindow* DolphinApplication::createMainWindow()
+{
+    DolphinMainWindow* mainwindow = new DolphinMainWindow;
+    mainwindow->init();
+    
+    m_mainWindows.append( mainwindow );
+    return mainwindow;
+}
 
-private:
-    DolphinMainWindow* m_mainWindow;
-    GeneralSettingsPage* m_generalSettingsPage;
-    ViewSettingsPage* m_viewSettingsPage;
-    BookmarksSettingsPage* m_bookmarksSettingsPage;
+void DolphinApplication::removeMainWindow( DolphinMainWindow *mainwindow )
+{
+    m_mainWindows.remove( mainwindow );
+}
 
-    void applySettings();
-};
+void DolphinApplication::refreshMainWindows()
+{
+    for( int i = 0; i < m_mainWindows.count(); ++i ) {
+        m_mainWindows[i]->refreshViews();
+    }
+}
 
-#endif
+#include "dolphinapplication.moc"
+

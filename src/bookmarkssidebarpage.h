@@ -41,7 +41,7 @@ class BookmarksSidebarPage : public SidebarPage
         Q_OBJECT
 
 public:
-    BookmarksSidebarPage(QWidget* parent);
+    BookmarksSidebarPage(DolphinMainWindow *mainWindow, QWidget* parent);
     virtual ~BookmarksSidebarPage();
 
 protected:

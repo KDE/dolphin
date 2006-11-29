@@ -31,7 +31,7 @@
 #include "bookmarkselector.h"
 #include "dolphinsettings.h"
 #include "dolphinview.h"
-#include "dolphin.h"
+#include "dolphinmainwindow.h"
 #include "urlnavigator.h"
 
 BookmarkSelector::BookmarkSelector(UrlNavigator* parent) :
@@ -134,9 +134,9 @@ void BookmarkSelector::paintEvent(QPaintEvent* event)
 
     // dimm the colors if the parent view does not have the focus
     const DolphinView* parentView = urlNavigator()->dolphinView();
-    const Dolphin& dolphin = Dolphin::mainWin();
+    const DolphinMainWindow* dolphin = parentView->mainWindow();
 
-    const bool isActive = (dolphin.activeView() == parentView);
+    const bool isActive = (dolphin->activeView() == parentView);
     if (!isActive) {
         QColor dimmColor(colorGroup().background());
         foregroundColor = mixColors(foregroundColor, dimmColor);

@@ -47,12 +47,12 @@
 #include <kfilemetainfo.h>
 #include <kvbox.h>
 
-#include "dolphin.h"
+#include "dolphinmainwindow.h"
 #include "pixmapviewer.h"
 #include "dolphinsettings.h"
 
-InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
-    SidebarPage(parent),
+InfoSidebarPage::InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent) :
+    SidebarPage(mainWindow, parent),
     m_multipleSelection(false),
     m_pendingPreview(false),
     m_timer(0),
@@ -111,7 +111,7 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     layout->addWidget(m_actionBox);
     layout->addWidget(dummy);
 
-    connect(&Dolphin::mainWin(), SIGNAL(selectionChanged()),
+    connect(mainWindow, SIGNAL(selectionChanged()),
             this, SLOT(showItemInfo()));
 
     connectToActiveView();
@@ -153,7 +153,7 @@ void InfoSidebarPage::showItemInfo()
     m_multipleSelection = false;
 
     // show the preview...
-    DolphinView* view = Dolphin::mainWin().activeView();
+    DolphinView* view = mainWindow()->activeView();
     const KFileItemList* selectedItems = view->selectedItems();
     if ((selectedItems != 0) && selectedItems->count() > 1) {
         m_multipleSelection = true;
@@ -218,7 +218,7 @@ void InfoSidebarPage::gotPreview(const KFileItem* /* item */,
 
 void InfoSidebarPage::startService(int index)
 {
-    DolphinView* view = Dolphin::mainWin().activeView();
+    DolphinView* view = mainWindow()->activeView();
     if (view->hasSelection()) {
         KUrl::List selectedUrls = view->selectedUrls();
         KDEDesktopMimeType::executeService(selectedUrls, m_actionsVector[index]);
@@ -232,7 +232,7 @@ void InfoSidebarPage::connectToActiveView()
 {
     cancelRequest();
 
-    DolphinView* view = Dolphin::mainWin().activeView();
+    DolphinView* view = mainWindow()->activeView();
     connect(view, SIGNAL(signalRequestItemInfo(const KUrl&)),
             this, SLOT(requestDelayedItemInfo(const KUrl&)));
     connect(view, SIGNAL(signalUrlChanged(const KUrl&)),
@@ -279,7 +279,7 @@ void InfoSidebarPage::createMetaInfo()
     // The methods beginInfoLines(), addInfoLine() and endInfoLines()
     // take care of this.
     beginInfoLines();
-    DolphinView* view = Dolphin::mainWin().activeView();
+    DolphinView* view = mainWindow()->activeView();
     if (!view->hasSelection()) {
         KFileItem fileItem(S_IFDIR, KFileItem::Unknown, m_shownUrl);
         fileItem.refresh();
@@ -430,7 +430,7 @@ void InfoSidebarPage::insertActions()
     // by the given Url 'url' is created and added to the list.
     KFileItem fileItem(S_IFDIR, KFileItem::Unknown, m_shownUrl);
     KFileItemList localList;
-    const KFileItemList* itemList = Dolphin::mainWin().activeView()->selectedItems();
+    const KFileItemList* itemList = mainWindow()->activeView()->selectedItems();
     if ((itemList == 0) || itemList->isEmpty()) {
         fileItem.refresh();
         localList.append(&fileItem);

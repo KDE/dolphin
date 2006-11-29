@@ -40,7 +40,7 @@
 #include <kmenu.h>
 #include <kstdaction.h>
 
-#include "dolphin.h"
+#include "dolphinmainwindow.h"
 #include "dolphinview.h"
 #include "editbookmarkdialog.h"
 #include "dolphinsettings.h"
@@ -79,12 +79,12 @@ void DolphinContextMenu::openViewportContextMenu()
     assert(m_fileInfo == 0);
 
     KMenu* popup = new KMenu(m_dolphinView);
-    Dolphin& dolphin = Dolphin::mainWin();
+    DolphinMainWindow *dolphin = m_dolphinView->mainWindow();
 
     // setup 'Create New' menu
     KMenu* createNewMenu = new KMenu();
 
-    KAction* createFolderAction = dolphin.actionCollection()->action("create_folder");
+    KAction* createFolderAction = dolphin->actionCollection()->action("create_folder");
     if (createFolderAction != 0) {
         createFolderAction->plug(createNewMenu);
     }
@@ -93,7 +93,7 @@ void DolphinContextMenu::openViewportContextMenu()
 
     KAction* action = 0;
 
-    Q3PtrListIterator<KAction> fileGrouptIt(dolphin.fileGroupActions());
+    Q3PtrListIterator<KAction> fileGrouptIt(dolphin->fileGroupActions());
     while ((action = fileGrouptIt.current()) != 0) {
         action->plug(createNewMenu);
         ++fileGrouptIt;
@@ -104,14 +104,14 @@ void DolphinContextMenu::openViewportContextMenu()
     //
     //createNewMenu->insertSeparator();
     //
-    //QPtrListIterator<KAction> linkGroupIt(dolphin.linkGroupActions());
+    //QPtrListIterator<KAction> linkGroupIt(dolphin->linkGroupActions());
     //while ((action = linkGroupIt.current()) != 0) {
     //    action->plug(createNewMenu);
     //    ++linkGroupIt;
     //}
     //
     //KMenu* linkToDeviceMenu = new KMenu();
-    //QPtrListIterator<KAction> linkToDeviceIt(dolphin.linkToDeviceActions());
+    //QPtrListIterator<KAction> linkToDeviceIt(dolphin->linkToDeviceActions());
     //while ((action = linkToDeviceIt.current()) != 0) {
     //    action->plug(linkToDeviceMenu);
     //    ++linkToDeviceIt;
@@ -122,19 +122,19 @@ void DolphinContextMenu::openViewportContextMenu()
     popup->insertItem(SmallIcon("filenew"), i18n("Create New"), createNewMenu);
     popup->insertSeparator();
 
-    KAction* pasteAction = dolphin.actionCollection()->action(KStdAction::stdName(KStdAction::Paste));
+    KAction* pasteAction = dolphin->actionCollection()->action(KStdAction::stdName(KStdAction::Paste));
     pasteAction->plug(popup);
 
     // setup 'View Mode' menu
     KMenu* viewModeMenu = new KMenu();
 
-    KAction* iconsMode = dolphin.actionCollection()->action("icons");
+    KAction* iconsMode = dolphin->actionCollection()->action("icons");
     iconsMode->plug(viewModeMenu);
 
-    KAction* detailsMode = dolphin.actionCollection()->action("details");
+    KAction* detailsMode = dolphin->actionCollection()->action("details");
     detailsMode->plug(viewModeMenu);
 
-    KAction* previewsMode = dolphin.actionCollection()->action("previews");
+    KAction* previewsMode = dolphin->actionCollection()->action("previews");
     previewsMode->plug(viewModeMenu);
 
     popup->insertItem(i18n("View Mode"), viewModeMenu);
@@ -147,10 +147,10 @@ void DolphinContextMenu::openViewportContextMenu()
 
     QAction *activatedAction = popup->exec(m_pos);
     if (activatedAction == propertiesAction) {
-        new KPropertiesDialog(dolphin.activeView()->url());
+        new KPropertiesDialog(dolphin->activeView()->url());
     }
     else if (activatedAction == bookmarkAction) {
-        const KUrl& url = dolphin.activeView()->url();
+        const KUrl& url = dolphin->activeView()->url();
         KBookmark bookmark = EditBookmarkDialog::getBookmark(i18n("Add folder as bookmark"),
                                                              url.fileName(),
                                                              url,
@@ -176,14 +176,14 @@ void DolphinContextMenu::openItemContextMenu()
     assert(m_fileInfo != 0);
 
     KMenu* popup = new KMenu(m_dolphinView);
-    Dolphin& dolphin = Dolphin::mainWin();
+    DolphinMainWindow* dolphin = m_dolphinView->mainWindow();
     const KUrl::List urls = m_dolphinView->selectedUrls();
 
     // insert 'Cut', 'Copy' and 'Paste'
     const KStdAction::StdAction actionNames[] = { KStdAction::Cut, KStdAction::Copy, KStdAction::Paste };
     const int count = sizeof(actionNames) / sizeof(KStdAction::StdAction);
     for (int i = 0; i < count; ++i) {
-        KAction* action = dolphin.actionCollection()->action(KStdAction::stdName(actionNames[i]));
+        KAction* action = dolphin->actionCollection()->action(KStdAction::stdName(actionNames[i]));
         if (action != 0) {
             action->plug(popup);
         }
@@ -191,17 +191,17 @@ void DolphinContextMenu::openItemContextMenu()
     popup->insertSeparator();
 
     // insert 'Rename'
-    KAction* renameAction = dolphin.actionCollection()->action("rename");
+    KAction* renameAction = dolphin->actionCollection()->action("rename");
     renameAction->plug(popup);
 
     // insert 'Move to Trash' for local Urls, otherwise insert 'Delete'
-    const KUrl& url = dolphin.activeView()->url();
+    const KUrl& url = dolphin->activeView()->url();
     if (url.isLocalFile()) {
-        KAction* moveToTrashAction = dolphin.actionCollection()->action("move_to_trash");
+        KAction* moveToTrashAction = dolphin->actionCollection()->action("move_to_trash");
         moveToTrashAction->plug(popup);
     }
     else {
-        KAction* deleteAction = dolphin.actionCollection()->action("delete");
+        KAction* deleteAction = dolphin->actionCollection()->action("delete");
         deleteAction->plug(popup);
     }
 
@@ -225,7 +225,7 @@ void DolphinContextMenu::openItemContextMenu()
 
     // insert 'Properties...' entry
     popup->insertSeparator();
-    KAction* propertiesAction = dolphin.actionCollection()->action("properties");
+    KAction* propertiesAction = dolphin->actionCollection()->action("properties");
     propertiesAction->plug(popup);
 
     QAction *activatedAction = popup->exec(m_pos);

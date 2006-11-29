@@ -24,13 +24,14 @@
 #include <qtimer.h>
 #include <assert.h>
 
-#include "dolphin.h"
+#include "dolphinmainwindow.h"
 #include "dolphinstatusbar.h"
 #include "progressindicator.h"
 
 DolphinCommand::DolphinCommand() :
     m_type(Copy),
-    m_macroIndex(-1)
+    m_macroIndex(-1),
+    m_mainWindow(0)
 {
     // Implementation note: DolphinCommands are stored in a QValueList, whereas
     // QValueList requires a default constructor of the added class.
@@ -43,11 +44,13 @@ DolphinCommand::DolphinCommand() :
 
 DolphinCommand::DolphinCommand(Type type,
                               const KUrl::List& source,
-                              const KUrl& dest) :
+                              const KUrl& dest,
+                              DolphinMainWindow* mainWindow) :
     m_type(type),
     m_macroIndex(-1),
     m_source(source),
-    m_dest(dest)
+    m_dest(dest),
+    m_mainWindow(mainWindow)
 {
 }
 
@@ -60,6 +63,7 @@ DolphinCommand& DolphinCommand::operator = (const DolphinCommand& command)
     m_type = command.m_type;
     m_source = command.m_source;
     m_dest = command.m_dest;
+    m_mainWindow = command.m_mainWindow;
     return *this;
 }
 
@@ -124,7 +128,7 @@ void UndoManager::undo()
     int macroCount = 1;
     calcStepsCount(macroCount, progressCount);
 
-    m_progressIndicator = new ProgressIndicator(i18n("Executing undo operation..."),
+    m_progressIndicator = new ProgressIndicator(0, i18n("Executing undo operation..."),
                                                 i18n("Executed undo operation."),
                                                 progressCount);
 
@@ -201,7 +205,7 @@ void UndoManager::undo()
 
             case DolphinCommand::CreateFolder:
             case DolphinCommand::CreateFile: {
-                KIO::NetAccess::del(command.destination(), &Dolphin::mainWin());
+                KIO::NetAccess::del(command.destination(), command.mainWindow() );
                 break;
             }
         }
@@ -211,7 +215,7 @@ void UndoManager::undo()
             // information to the Dolphin statusbar.
             connect(job, SIGNAL(percent(KIO::Job*, unsigned long)),
                     this, SLOT(slotPercent(KIO::Job*, unsigned long)));
-            KIO::NetAccess::synchronousRun(job, &Dolphin::mainWin());
+            KIO::NetAccess::synchronousRun(job, command.mainWindow() );
         }
 
         m_progressIndicator->execOperation();
@@ -237,7 +241,8 @@ void UndoManager::redo()
     int macroCount = 1;
     calcStepsCount(macroCount, progressCount);
 
-    m_progressIndicator = new ProgressIndicator(i18n("Executing redo operation..."),
+#warning "TOUGH"
+    m_progressIndicator = new ProgressIndicator(0, i18n("Executing redo operation..."),
                                                 i18n("Executed redo operation."),
                                                 progressCount);
 
@@ -253,8 +258,6 @@ void UndoManager::redo()
 
         emit undoAvailable(true);
         emit undoTextChanged(i18n("Undo: %1",commandText(command)));
-
-        Dolphin& dolphin = Dolphin::mainWin();
 
         KUrl::List sourceUrls = command.source();
         KUrl::List::Iterator it = sourceUrls.begin();
@@ -286,7 +289,7 @@ void UndoManager::redo()
                     const QString originalFileName((*it).fileName().section('-', 1));
                     KUrl originalSourceUrl(destUrl + "/" + originalFileName);
                     KIO::Job* moveToTrashJob = KIO::trash(originalSourceUrl);
-                    KIO::NetAccess::synchronousRun(moveToTrashJob, &dolphin);
+                    KIO::NetAccess::synchronousRun(moveToTrashJob, command.mainWindow() );
                     ++it;
 
                     m_progressIndicator->execOperation();
@@ -295,7 +298,7 @@ void UndoManager::redo()
             }
 
             case DolphinCommand::CreateFolder: {
-                KIO::NetAccess::mkdir(command.destination(), &dolphin);
+                KIO::NetAccess::mkdir(command.destination(), command.mainWindow());
                 break;
             }
 
@@ -315,7 +318,7 @@ void UndoManager::redo()
             // information to the Dolphin statusbar.
             connect(job, SIGNAL(percent(KJob*, unsigned long)),
                     this, SLOT(slotPercent(KJob*, unsigned long)));
-            KIO::NetAccess::synchronousRun(job, &dolphin);
+            KIO::NetAccess::synchronousRun(job, command.mainWindow());
         }
 
         ++m_historyIndex;

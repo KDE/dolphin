@@ -9,7 +9,8 @@ include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES}  )
 
 set(dolphin_SRCS
    main.cpp
-   dolphin.cpp
+   dolphinapplication.cpp
+   dolphinmainwindow.cpp
    dolphinview.cpp
    urlnavigator.cpp
    urlnavigatorbutton.cpp

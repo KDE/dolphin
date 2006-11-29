@@ -38,12 +38,13 @@
 #include <kvbox.h>
 
 #include "dolphinsettings.h"
-#include "dolphin.h"
+#include "dolphinmainwindow.h"
 #include "dolphinview.h"
 #include "generalsettings.h"
 
-GeneralSettingsPage::GeneralSettingsPage(QWidget* parent) :
+GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin,QWidget* parent) :
     SettingsPageBase(parent),
+    m_mainWindow(mainWin),
     m_homeUrl(0),
     m_startSplit(0),
     m_startEditable(0)
@@ -158,7 +159,7 @@ void GeneralSettingsPage::selectHomeUrl()
 
 void GeneralSettingsPage::useCurrentLocation()
 {
-    const DolphinView* view = Dolphin::mainWin().activeView();
+    const DolphinView* view = m_mainWindow->activeView();
     m_homeUrl->setText(view->url().prettyUrl());
 }
 

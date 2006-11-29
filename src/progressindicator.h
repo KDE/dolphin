@@ -22,6 +22,8 @@
 
 #include <qdatetime.h>
 
+class DolphinMainWindow;
+
 /**
  * Allows to show a progress of synchronous operations. Sample code:
  * \code
@@ -46,12 +48,14 @@ class ProgressIndicator
 {
 public:
     /**
+     * @param mainWindow        The mainwindow this statusbar should operate on
      * @param progressText      Text for the progress bar (e. g. "Loading...").
      * @param finishedText      Text which is displayed after the operations have been finished
      *                          (e. g. "Loading finished.").
      * @param operationsCount   Number of operations.
      */
-    ProgressIndicator(const QString& progressText,
+    ProgressIndicator(DolphinMainWindow *mainWindow,
+                      const QString& progressText,
                       const QString& finishedText,
                       int operationsCount);
 
@@ -68,6 +72,7 @@ public:
     void execOperation();
 
 private:
+    DolphinMainWindow *m_mainWindow;
     bool m_showProgress;
     int m_operationsCount;
     int m_operationsIndex;

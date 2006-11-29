@@ -22,11 +22,13 @@
 #define UNDOMANAGER_H
 
 #include <qobject.h>
+#include <QPointer>
 #include <q3valuelist.h>
 #include <kurl.h>
 #include <kio/jobclasses.h>
 
 class ProgressIndicator;
+class DolphinMainWindow;
 
 /**
  * @short Represents a file manager command which can be undone and redone.
@@ -54,7 +56,7 @@ public:
     };
 
     DolphinCommand();
-    DolphinCommand(Type type, const KUrl::List& source, const KUrl& dest);
+    DolphinCommand(Type type, const KUrl::List& source, const KUrl& dest, DolphinMainWindow* mainWindow);
     ~DolphinCommand(); // non-virtual
 
     DolphinCommand& operator = (const DolphinCommand& command);
@@ -62,12 +64,14 @@ public:
     void setSource(const KUrl::List source) { m_source = source; }
     const KUrl::List& source() const { return m_source; }
     const KUrl& destination() const { return m_dest; }
+    DolphinMainWindow* mainWindow() const { return m_mainWindow; }
 
 private:
     Type m_type;
     int m_macroIndex;
     KUrl::List m_source;
     KUrl m_dest;
+    QPointer<DolphinMainWindow> m_mainWindow;
 
     friend class UndoManager;   // allow to modify m_macroIndex
 };

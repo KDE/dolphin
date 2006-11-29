@@ -19,8 +19,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _DOLPHIN_H_
-#define _DOLPHIN_H_
+#ifndef _DOLPHIN_MAINWINDOW_H_
+#define _DOLPHIN_MAINWINDOW_H_
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -49,6 +49,7 @@ class QSplitter;
 class KAction;
 class UrlNavigator;
 class Sidebar;
+class DolphinApplication;
 
 /**
  * @short Main window for Dolphin.
@@ -57,18 +58,12 @@ class Sidebar;
  *
  * @author Peter Penz <peter.penz@gmx.at>
 */
-class Dolphin : public KMainWindow
+class DolphinMainWindow: public KMainWindow
 {
     Q_OBJECT
-
+    friend class DolphinApplication;
 public:
-    /**
-     * Returns the instance for the Dolphin main window.
-     */
-    // KXMLGUIClient::instance() already in use :-(
-    static Dolphin& mainWin();
-
-    virtual ~Dolphin();
+    virtual ~DolphinMainWindow();
 
 	/**
      * Activates the given view, which means that
@@ -80,7 +75,7 @@ public:
 
     /**
      * Returns the currently active view. See
-     * Dolphin::setActiveView() for more details.
+     * DolphinMainWindow::setActiveView() for more details.
      */
     DolphinView* activeView() const { return m_activeView; }
 
@@ -378,7 +373,7 @@ private slots:
     void closeSidebar();
 
 private:
-    Dolphin();
+    DolphinMainWindow();
     void init();
     void loadSettings();
 
@@ -404,7 +399,7 @@ private:
     DolphinView* m_activeView;
 
     /**
-     * Dolphin supports only one or two views, which
+     * DolphinMainWindowsupports only one or two views, which
      * are handled internally as primary and secondary view.
      */
     enum ViewIndex
@@ -423,8 +418,8 @@ private:
      * operation is started, it is added to a pending undo jobs list in the meantime.
      * As soon as the job has been finished, the operation is added to the undo mangager.
      * @see UndoManager
-     * @see Dolphin::addPendingUndoJob
-     * @see Dolphin::addUndoOperation
+     * @see DolphinMainWindow::addPendingUndoJob
+     * @see DolphinMainWindow::addUndoOperation
      */
     struct UndoInfo
     {
@@ -446,8 +441,8 @@ private:
     Q3PtrList<KAction> m_fileGroupActions;
     KSortableList<CreateFileEntry,QString> m_createFileTemplates;
 
-    // TODO: not used yet. See documentation of Dolphin::linkGroupActions()
-    // and Dolphin::linkToDeviceActions() in for details.
+    // TODO: not used yet. See documentation of DolphinMainWindow::linkGroupActions()
+    // and DolphinMainWindow::linkToDeviceActions() in for details.
     //QPtrList<KAction> m_linkGroupActions;
     //QPtrList<KAction> m_linkToDeviceActions;
 };

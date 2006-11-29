@@ -103,7 +103,7 @@ public:
         int m_contentsY;
     };
 
-    UrlNavigator(const KUrl& url, DolphinView* dolphinView);;
+    UrlNavigator(const KUrl& url, DolphinView* dolphinView);
     virtual ~UrlNavigator();
 
     /**

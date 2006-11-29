@@ -24,6 +24,7 @@
 class QLineEdit;
 class QRadioButton;
 class QCheckBox;
+class DolphinMainWindow;
 
 /**
  * @brief Page for the 'General' settings of the Dolphin settings dialog.
@@ -38,7 +39,7 @@ class GeneralSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    GeneralSettingsPage(QWidget* parent);
+    GeneralSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
 
     virtual ~GeneralSettingsPage();
 
@@ -51,6 +52,7 @@ private slots:
     void useDefaulLocation();
 
 private:
+    DolphinMainWindow *m_mainWindow;
     QLineEdit* m_homeUrl;
     QRadioButton* m_iconsView;
     QRadioButton* m_detailsView;

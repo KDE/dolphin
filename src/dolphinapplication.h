@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2006 by Holger 'zecke' Freyther <freyther@kde.org>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,40 +18,47 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef DOLPHINSETTINGSDIALOG_H
-#define DOLPHINSETTINGSDIALOG_H
 
-#include <kpagedialog.h>
-class GeneralSettingsPage;
-class ViewSettingsPage;
-class BookmarksSettingsPage;
+#ifndef _DOLPHIN_APPLICATION_H
+#define _DOLPHIN_APPLICATION_H
+
+#include <kapplication.h>
+
 class DolphinMainWindow;
 
 /**
- * @brief Settings dialog for Dolphin.
- *
- * Contains the pages for general settings, view settings and
- * bookmark settings.
- *
- * @author Peter Penz <peter.penz@gmx.at>
+ * 
+ * DolphinApplication will hold application wide data which
+ * can be accessed.
+ * At first this will hold a list of DolphinMainWindows which
+ * we will delete on application exit. 
  */
-class DolphinSettingsDialog : public KPageDialog {
+
+class DolphinApplication : public KApplication {
     Q_OBJECT
-
+    friend class DolphinMainWindow;
 public:
-    DolphinSettingsDialog(DolphinMainWindow* mainWindow);
-    virtual ~DolphinSettingsDialog();
+    DolphinApplication();
+    ~DolphinApplication();
 
-protected slots:
-    virtual void slotButtonClicked(int button);
+    static DolphinApplication* app();
+
+    /**
+     * Construct a new mainwindow which is owned
+     * by the application.
+     */
+    DolphinMainWindow* createMainWindow();
+    void refreshMainWindows();
+
+protected:
+    /**
+     * called by the MainWindow to deregister
+     */
+    void removeMainWindow( DolphinMainWindow* );
 
 private:
-    DolphinMainWindow* m_mainWindow;
-    GeneralSettingsPage* m_generalSettingsPage;
-    ViewSettingsPage* m_viewSettingsPage;
-    BookmarksSettingsPage* m_bookmarksSettingsPage;
-
-    void applySettings();
+    QList<DolphinMainWindow*> m_mainWindows;
 };
+
 
 #endif
