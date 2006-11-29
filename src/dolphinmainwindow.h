@@ -163,6 +163,12 @@ public slots:
     /** Updates the state of the 'Edit' menu actions. */
     void slotSelectionChanged();
 
+    /** Executes Redo operation */
+    void slotRedo();
+
+    /** @see slotUndo() */
+    void slotUndo();
+
 protected:
     /** @see QMainWindow::closeEvent */
     virtual void closeEvent(QCloseEvent* event);

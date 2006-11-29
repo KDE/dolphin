@@ -313,6 +313,16 @@ void DolphinMainWindow::slotSelectionChanged()
     emit selectionChanged();
 }
 
+void DolphinMainWindow::slotRedo()
+{
+    UndoManager::instance().redo(this);
+}
+
+void DolphinMainWindow::slotUndo()
+{
+    UndoManager::instance().undo(this);
+}
+
 void DolphinMainWindow::closeEvent(QCloseEvent* event)
 {
     // KDE4-TODO
@@ -417,7 +427,7 @@ void DolphinMainWindow::createFolder()
         statusBar->setMessage(i18n("Created folder %1.",url.path()),
                               DolphinStatusBar::OperationCompleted);
 
-        DolphinCommand command(DolphinCommand::CreateFolder, KUrl::List(), url, this);
+        DolphinCommand command(DolphinCommand::CreateFolder, KUrl::List(), url);
         UndoManager::instance().addCommand(command);
     }
     else {
@@ -524,7 +534,7 @@ void DolphinMainWindow::createFile()
 
         KUrl::List list;
         list.append(sourceUrl);
-        DolphinCommand command(DolphinCommand::CreateFile, list, destUrl, this);
+        DolphinCommand command(DolphinCommand::CreateFile, list, destUrl);
         UndoManager::instance().addCommand(command);
 
     }
@@ -1233,16 +1243,16 @@ void DolphinMainWindow::setupActions()
 
     // setup 'Edit' menu
     UndoManager& undoManager = UndoManager::instance();
-    KStdAction::undo(&undoManager,
-                     SLOT(undo()),
+    KStdAction::undo(this,
+                     SLOT(slotUndo()),
                      actionCollection());
     connect(&undoManager, SIGNAL(undoAvailable(bool)),
             this, SLOT(slotUndoAvailable(bool)));
     connect(&undoManager, SIGNAL(undoTextChanged(const QString&)),
             this, SLOT(slotUndoTextChanged(const QString&)));
 
-    KStdAction::redo(&undoManager,
-                     SLOT(redo()),
+    KStdAction::redo(this,
+                     SLOT(slotRedo()),
                      actionCollection());
     connect(&undoManager, SIGNAL(redoAvailable(bool)),
             this, SLOT(slotRedoAvailable(bool)));
@@ -1625,7 +1635,7 @@ void DolphinMainWindow::addPendingUndoJob(KIO::Job* job,
 
     UndoInfo undoInfo;
     undoInfo.id = job->progressId();
-    undoInfo.command = DolphinCommand(commandType, source, dest, this);
+    undoInfo.command = DolphinCommand(commandType, source, dest);
     m_pendingUndoJobs.append(undoInfo);
 }
 

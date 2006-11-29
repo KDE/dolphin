@@ -55,7 +55,7 @@ public:
     };
 
     DolphinCommand();
-    DolphinCommand(Type type, const KUrl::List& source, const KUrl& dest, DolphinMainWindow* mainWindow);
+    DolphinCommand(Type type, const KUrl::List& source, const KUrl& dest);
     ~DolphinCommand(); // non-virtual
 
     DolphinCommand& operator = (const DolphinCommand& command);
@@ -63,14 +63,12 @@ public:
     void setSource(const KUrl::List source) { m_source = source; }
     const KUrl::List& source() const { return m_source; }
     const KUrl& destination() const { return m_dest; }
-    DolphinMainWindow* mainWindow() const { return m_mainWindow; }
 
 private:
     Type m_type;
     int m_macroIndex;
     KUrl::List m_source;
     KUrl m_dest;
-    QPointer<DolphinMainWindow> m_mainWindow;
 
     friend class UndoManager;   // allow to modify m_macroIndex
 };
@@ -121,14 +119,18 @@ public slots:
     /**
      * Performs an undo operation on the last command which has
      * been added by UndoManager::addCommand().
+     *
+     * @param mainwindow The mainwindow where to show progress
      */
-    void undo();
+    void undo(DolphinMainWindow* mainwindow);
 
     /**
      * Performs a redo operation on the last command where an undo
      * operation has been applied.
+     * 
+     * @param mainwindow The mainwindow where to show progress
      */
-    void redo();
+    void redo(DolphinMainWindow* mainwindow);
 
 signals:
     /**

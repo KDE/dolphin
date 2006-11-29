@@ -263,7 +263,7 @@ void DolphinView::renameSelectedItems()
                     else if (KIO::NetAccess::file_move(source, dest)) {
                         // TODO: From the users point of view he executed one 'rename n files' operation,
                         // but internally we store it as n 'rename 1 file' operations for the undo mechanism.
-                        DolphinCommand command(DolphinCommand::Rename, source, dest, mainWindow());
+                        DolphinCommand command(DolphinCommand::Rename, source, dest);
                         undoMan.addCommand(command);
                     }
                 }
@@ -569,7 +569,7 @@ void DolphinView::rename(const KUrl& source, const QString& newName)
         m_statusBar->setMessage(i18n("Renamed file '%1' to '%2'.",source.fileName(), dest.fileName()),
                                 DolphinStatusBar::OperationCompleted);
 
-        DolphinCommand command(DolphinCommand::Rename, source, dest, mainWindow());
+        DolphinCommand command(DolphinCommand::Rename, source, dest);
         UndoManager::instance().addCommand(command);
     }
     else {

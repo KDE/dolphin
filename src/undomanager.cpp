@@ -30,8 +30,7 @@
 
 DolphinCommand::DolphinCommand() :
     m_type(Copy),
-    m_macroIndex(-1),
-    m_mainWindow(0)
+    m_macroIndex(-1)
 {
     // Implementation note: DolphinCommands are stored in a QValueList, whereas
     // QValueList requires a default constructor of the added class.
@@ -44,13 +43,11 @@ DolphinCommand::DolphinCommand() :
 
 DolphinCommand::DolphinCommand(Type type,
                               const KUrl::List& source,
-                              const KUrl& dest,
-                              DolphinMainWindow* mainWindow) :
+                              const KUrl& dest) :
     m_type(type),
     m_macroIndex(-1),
     m_source(source),
-    m_dest(dest),
-    m_mainWindow(mainWindow)
+    m_dest(dest)
 {
 }
 
@@ -63,7 +60,6 @@ DolphinCommand& DolphinCommand::operator = (const DolphinCommand& command)
     m_type = command.m_type;
     m_source = command.m_source;
     m_dest = command.m_dest;
-    m_mainWindow = command.m_mainWindow;
     return *this;
 }
 
@@ -114,7 +110,7 @@ void UndoManager::endMacro()
 
 // KDE4 TODO: consider switching to KCommandHistory (kdeui) for the command history, and to
 // KonqCommandRecorder etc. from libkonq/konq_undo.*
-void UndoManager::undo()
+void UndoManager::undo(DolphinMainWindow* mainWindow)
 {
     if (m_recordMacro) {
         endMacro();
@@ -128,16 +124,16 @@ void UndoManager::undo()
     int macroCount = 1;
     calcStepsCount(macroCount, progressCount);
 
+    /*
+     * KDE4, ### TODO Only here to avoid possible crash 
+     */
+    ProgressIndicator progressIndicator(mainWindow, i18n("Executing undo operation..."),
+                                        i18n("Executed undo operation."),
+                                        progressCount);
 
     for (int i = 0; i < macroCount; ++i) {
         const DolphinCommand command = m_history[m_historyIndex];
 
-        /*
-         * KDE4, ### TODO Only here to avoid possible crash 
-         */
-        ProgressIndicator progressIndicator(command.mainWindow(), i18n("Executing undo operation..."),
-                                            i18n("Executed undo operation."),
-                                            progressCount);
         --m_historyIndex;
         if (m_historyIndex < 0) {
             emit undoAvailable(false);
@@ -209,7 +205,7 @@ void UndoManager::undo()
 
             case DolphinCommand::CreateFolder:
             case DolphinCommand::CreateFile: {
-                KIO::NetAccess::del(command.destination(), command.mainWindow() );
+                KIO::NetAccess::del(command.destination(), mainWindow);
                 break;
             }
         }
@@ -219,14 +215,14 @@ void UndoManager::undo()
             // information to the Dolphin statusbar.
             connect(job, SIGNAL(percent(KIO::Job*, unsigned long)),
                     this, SLOT(slotPercent(KIO::Job*, unsigned long)));
-            KIO::NetAccess::synchronousRun(job, command.mainWindow() );
+            KIO::NetAccess::synchronousRun(job, mainWindow);
         }
 
         progressIndicator.execOperation();
     }
 }
 
-void UndoManager::redo()
+void UndoManager::redo(DolphinMainWindow *mainWindow)
 {
     if (m_recordMacro) {
         endMacro();
@@ -242,13 +238,12 @@ void UndoManager::redo()
     int macroCount = 1;
     calcStepsCount(macroCount, progressCount);
 
+    ProgressIndicator progressIndicator(mainWindow, i18n("Executing redo operation..."),
+                                        i18n("Executed redo operation."),
+                                        progressCount);
 
     for (int i = 0; i < macroCount; ++i) {
         const DolphinCommand command = m_history[m_historyIndex];
-#warning "TOUGH"
-        ProgressIndicator progressIndicator(0, i18n("Executing redo operation..."),
-                                            i18n("Executed redo operation."),
-                                            progressCount);
         if (m_historyIndex >= maxHistoryIndex) {
             emit redoAvailable(false);
             emit redoTextChanged(i18n("Redo"));
@@ -290,7 +285,7 @@ void UndoManager::redo()
                     const QString originalFileName((*it).fileName().section('-', 1));
                     KUrl originalSourceUrl(destUrl + "/" + originalFileName);
                     KIO::Job* moveToTrashJob = KIO::trash(originalSourceUrl);
-                    KIO::NetAccess::synchronousRun(moveToTrashJob, command.mainWindow() );
+                    KIO::NetAccess::synchronousRun(moveToTrashJob, mainWindow);
                     ++it;
 
                     progressIndicator.execOperation();
@@ -299,7 +294,7 @@ void UndoManager::redo()
             }
 
             case DolphinCommand::CreateFolder: {
-                KIO::NetAccess::mkdir(command.destination(), command.mainWindow());
+                KIO::NetAccess::mkdir(command.destination(), mainWindow);
                 break;
             }
 
@@ -319,7 +314,7 @@ void UndoManager::redo()
             // information to the Dolphin statusbar.
             connect(job, SIGNAL(percent(KJob*, unsigned long)),
                     this, SLOT(slotPercent(KJob*, unsigned long)));
-            KIO::NetAccess::synchronousRun(job, command.mainWindow());
+            KIO::NetAccess::synchronousRun(job, mainWindow);
         }
 
         ++m_historyIndex;
