@@ -548,8 +548,9 @@ ServiceButton::~ServiceButton()
 {
 }
 
-void ServiceButton::drawButton(QPainter* painter)
+void ServiceButton::paintEvent(QPaintEvent* event)
 {
+    QPainter painter(this);
     const int buttonWidth  = width();
     const int buttonHeight = height();
 
@@ -565,9 +566,9 @@ void ServiceButton::drawButton(QPainter* painter)
     }
 
     // draw button background
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(backgroundColor);
-    painter->drawRect(0, 0, buttonWidth, buttonHeight);
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(backgroundColor);
+    painter.drawRect(0, 0, buttonWidth, buttonHeight);
 
     const int spacing = KDialog::spacingHint();
 
@@ -576,18 +577,18 @@ void ServiceButton::drawButton(QPainter* painter)
     const int y = (buttonHeight - K3Icon::SizeSmall) / 2;
     const QIcon* set = iconSet();
     if (set != 0) {
-        painter->drawPixmap(x, y, set->pixmap(QIcon::Small, QIcon::Normal));
+        painter.drawPixmap(x, y, set->pixmap(QIcon::Small, QIcon::Normal));
     }
     x += K3Icon::SizeSmall + spacing;
 
     // draw text
-    painter->setPen(foregroundColor);
+    painter.setPen(foregroundColor);
 
     const int textWidth = buttonWidth - x;
     QFontMetrics fontMetrics(font());
     const bool clipped = fontMetrics.width(text()) >= textWidth;
     //const int align = clipped ? Qt::AlignVCenter : Qt::AlignCenter;
-    painter->drawText(QRect(x, 0, textWidth, buttonHeight), Qt::AlignVCenter, text());
+    painter.drawText(QRect(x, 0, textWidth, buttonHeight), Qt::AlignVCenter, text());
 
     if (clipped) {
         // Blend the right area of the text with the background, as the
@@ -601,9 +602,9 @@ void ServiceButton::drawButton(QPainter* painter)
         const int greenInc = (foregroundColor.green() - backgroundColor.green()) / blendSteps;
         const int blueInc  = (foregroundColor.blue()  - backgroundColor.blue())  / blendSteps;
         for (int i = 0; i < blendSteps; ++i) {
-            painter->setClipRect(QRect(x + textWidth - i, 0, 1, buttonHeight));
-            painter->setPen(blendColor);
-            painter->drawText(QRect(x, 0, textWidth, buttonHeight), Qt::AlignVCenter, text());
+            painter.setClipRect(QRect(x + textWidth - i, 0, 1, buttonHeight));
+            painter.setPen(blendColor);
+            painter.drawText(QRect(x, 0, textWidth, buttonHeight), Qt::AlignVCenter, text());
 
             blendColor.setRgb(blendColor.red()   + redInc,
                               blendColor.green() + greenInc,

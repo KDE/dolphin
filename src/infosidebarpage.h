@@ -185,7 +185,7 @@ signals:
     void requestServiceStart(int index);
 
 protected:
-    virtual void drawButton(QPainter* painter);
+    virtual void paintEvent(QPaintEvent* event);
     virtual void enterEvent(QEvent* event);
     virtual void leaveEvent(QEvent* event);
 
