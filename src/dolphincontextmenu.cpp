@@ -273,12 +273,11 @@ QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
     // are listed which are registered to open the item. As last entry "Other..." will be
     // attached which allows to select a custom application. If no applications are registered
     // no sub menu is created at all, only "Open With..." will be offered.
-    const KFileItemList* list = m_dolphinView->selectedItems();
-    assert(list != 0);
+    const KFileItemList list = m_dolphinView->selectedItems();
 
     bool insertOpenWithItems = true;
     const QString contextMimeType(m_fileInfo->mimetype());
-    QListIterator<KFileItem*> mimeIt(*list);
+    QListIterator<KFileItem*> mimeIt(list);
     while (insertOpenWithItems && mimeIt.hasNext()) {
         KFileItem* item = mimeIt.next();
         insertOpenWithItems = (contextMimeType == item->mimetype());
@@ -359,10 +358,9 @@ QList<QAction*> DolphinContextMenu::insertActionItems(KMenu* popup,
                     if ((*it) == "all/allfiles") {
                         // The service type is valid for all files, but not for directories.
                         // Check whether the selected items only consist of files...
-                        const KFileItemList* list = m_dolphinView->selectedItems();
-                        assert(list != 0);
+                        const KFileItemList list = m_dolphinView->selectedItems();
 
-                        QListIterator<KFileItem*> mimeIt(*list);
+                        QListIterator<KFileItem*> mimeIt(list);
                         insert = true;
                         while (insert && mimeIt.hasNext()) {
                             KFileItem* item = mimeIt.next();
@@ -374,10 +372,9 @@ QList<QAction*> DolphinContextMenu::insertActionItems(KMenu* popup,
                         // Check whether the MIME types of all selected files match
                         // to the mimetype of the service action. As soon as one MIME
                         // type does not match, no service menu is shown at all.
-                        const KFileItemList* list = m_dolphinView->selectedItems();
-                        assert(list != 0);
+                        const KFileItemList list = m_dolphinView->selectedItems();
 
-                        QListIterator<KFileItem*> mimeIt(*list);
+                        QListIterator<KFileItem*> mimeIt(list);
                         insert = true;
                         while (insert && mimeIt.hasNext()) {
                             KFileItem* item = mimeIt.next();

@@ -154,8 +154,8 @@ void InfoSidebarPage::showItemInfo()
 
     // show the preview...
     DolphinView* view = mainWindow()->activeView();
-    const KFileItemList* selectedItems = view->selectedItems();
-    if ((selectedItems != 0) && selectedItems->count() > 1) {
+    const KFileItemList selectedItems = view->selectedItems();
+    if (selectedItems.count() > 1) {
         m_multipleSelection = true;
     }
 
@@ -165,7 +165,7 @@ void InfoSidebarPage::showItemInfo()
                                            K3Icon::NoGroup,
                                            K3Icon::SizeEnormous);
         m_preview->setPixmap(icon);
-        m_name->setText(i18n("%1 items selected",selectedItems->count()));
+        m_name->setText(i18n("%1 items selected",selectedItems.count()));
     }
     else if (!applyBookmark()) {
         // try to get a preview pixmap from the item...
@@ -429,12 +429,10 @@ void InfoSidebarPage::insertActions()
     // of KFileItems. If no selection is given, a temporary KFileItem
     // by the given Url 'url' is created and added to the list.
     KFileItem fileItem(S_IFDIR, KFileItem::Unknown, m_shownUrl);
-    KFileItemList localList;
-    const KFileItemList* itemList = mainWindow()->activeView()->selectedItems();
-    if ((itemList == 0) || itemList->isEmpty()) {
+    KFileItemList itemList = mainWindow()->activeView()->selectedItems();
+    if (itemList.isEmpty()) {
         fileItem.refresh();
-        localList.append(&fileItem);
-        itemList = &localList;
+        itemList.append(&fileItem);
     }
 
     // 'itemList' contains now all KFileItems, where an item information should be shown.
@@ -458,7 +456,7 @@ void InfoSidebarPage::insertActions()
                     if ((*it) == "all/allfiles") {
                         // The service type is valid for all files, but not for directories.
                         // Check whether the selected items only consist of files...
-                        QListIterator<KFileItem*> mimeIt(*itemList);
+                        QListIterator<KFileItem*> mimeIt(itemList);
                         insert = true;
                         while (insert && mimeIt.hasNext()) {
                             KFileItem* item = mimeIt.next();
@@ -470,7 +468,7 @@ void InfoSidebarPage::insertActions()
                         // Check whether the MIME types of all selected files match
                         // to the mimetype of the service action. As soon as one MIME
                         // type does not match, no service menu is shown at all.
-                        QListIterator<KFileItem*> mimeIt(*itemList);
+                        QListIterator<KFileItem*> mimeIt(itemList);
                         insert = true;
                         while (insert && mimeIt.hasNext()) {
                             KFileItem* item = mimeIt.next();

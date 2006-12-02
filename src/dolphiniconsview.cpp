@@ -21,6 +21,9 @@
 #include "dolphiniconsview.h"
 #include "dolphinview.h"
 
+#include <kdirmodel.h>
+#include <kfileitem.h>
+
 DolphinIconsView::DolphinIconsView(DolphinView* parent) :
     QListView(parent),
     m_parentView( parent )
@@ -32,9 +35,28 @@ DolphinIconsView::~DolphinIconsView()
 {
 }
 
-void DolphinIconsView::mouseReleaseEvent(QMouseEvent *e)
+void DolphinIconsView::mousePressEvent(QMouseEvent* event)
 {
-    QListView::mouseReleaseEvent(e);
+    QListView::mousePressEvent(event);
+
+    if (event->button() != Qt::RightButton) {
+        return;
+    }
+
+    KFileItem* item = 0;
+
+    const QModelIndex index = indexAt(event->pos());
+    if (index.isValid()) {
+        KDirModel* dirModel = static_cast<KDirModel*>(model());
+        item = dirModel->itemForIndex(index);
+    }
+
+    m_parentView->openContextMenu(item, event->globalPos());
+}
+
+void DolphinIconsView::mouseReleaseEvent(QMouseEvent* event)
+{
+    QListView::mouseReleaseEvent(event);
     m_parentView->declareViewActive();
 }
 

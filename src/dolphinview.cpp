@@ -20,8 +20,9 @@
 
 #include "dolphinview.h"
 
-#include <kdirmodel.h>
+#include <QItemSelectionModel>
 
+#include <kdirmodel.h>
 
 #include <qlayout.h>
 //Added by qt3to4:
@@ -480,29 +481,42 @@ const Q3ValueList<UrlNavigator::HistoryElem> DolphinView::urlHistory(int& index)
 
 bool DolphinView::hasSelection() const
 {
-    const KFileItemList* list = selectedItems();
-    return (list != 0) && !list->isEmpty();
+    return m_iconsView->selectionModel()->hasSelection();
 }
 
-const KFileItemList* DolphinView::selectedItems() const
+KFileItemList DolphinView::selectedItems() const
 {
-    return 0; //fileView()->selectedItems();
+    QItemSelectionModel* selModel = m_iconsView->selectionModel();
+    assert(selModel != 0);
+
+    KFileItemList itemList;
+    if (selModel->hasSelection()) {
+       KDirModel* dirModel = static_cast<KDirModel*>(m_iconsView->model());
+       const QModelIndexList indexList = selModel->selectedIndexes();
+
+        QModelIndexList::const_iterator end = indexList.end();
+        for (QModelIndexList::const_iterator it = indexList.begin(); it != end; ++it) {
+           KFileItem* item = dirModel->itemForIndex(*it);
+           if (item != 0) {
+               itemList.append(item);
+           }
+        }
+    }
+    return itemList;
 }
 
 KUrl::List DolphinView::selectedUrls() const
 {
     KUrl::List urls;
 
-    /*const KFileItemList* list = fileView()->selectedItems();
-    if (list != 0) {
-        KFileItemList::const_iterator it = list->begin();
-        const KFileItemList::const_iterator end = list->end();
-        while (it != end) {
-            KFileItem* item = *it;
-            urls.append(item->url());
-            ++it;
-        }
-    }*/
+    const KFileItemList list = selectedItems();
+    KFileItemList::const_iterator it = list.begin();
+    const KFileItemList::const_iterator end = list.end();
+    while (it != end) {
+        KFileItem* item = *it;
+        urls.append(item->url());
+        ++it;
+    }
 
     return urls;
 }
@@ -903,14 +917,18 @@ QString DolphinView::selectionStatusBarText() const
     // TODO: the following code is not suitable for languages where multiple forms
     // of plurals are given (e. g. in Poland three forms of plurals exist).
     QString text;
-    const KFileItemList* list = selectedItems();
-    assert((list != 0) && !list->isEmpty());
+    const KFileItemList list = selectedItems();
+    if (list.isEmpty()) {
+        // TODO: assert(!list.isEmpty()) should be used, as this method is only invoked if
+        // DolphinView::hasSelection() is true. Inconsistent behavior?
+        return QString();
+    }
 
     int fileCount = 0;
     int folderCount = 0;
     KIO::filesize_t byteSize = 0;
-    KFileItemList::const_iterator it = list->begin();
-    const KFileItemList::const_iterator end = list->end();
+    KFileItemList::const_iterator it = list.begin();
+    const KFileItemList::const_iterator end = list.end();
     while (it != end){
         KFileItem* item = *it;
         if (item->isDir()) {

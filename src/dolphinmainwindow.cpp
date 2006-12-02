@@ -589,20 +589,7 @@ void DolphinMainWindow::deleteItems()
 
 void DolphinMainWindow::properties()
 {
-    const KFileItemList* sourceList = m_activeView->selectedItems();
-    if (sourceList == 0) {
-        return;
-    }
-
-    KFileItemList list;
-    KFileItemList::const_iterator it = sourceList->begin();
-    const KFileItemList::const_iterator end = sourceList->end();
-    KFileItem* item = 0;
-    while (it != end) {
-        list.append(item);
-        ++it;
-    }
-
+    const KFileItemList list = m_activeView->selectedItems();
     new KPropertiesDialog(list, this);
 }
 
@@ -1461,8 +1448,8 @@ void DolphinMainWindow::updateHistory()
 
 void DolphinMainWindow::updateEditActions()
 {
-    const KFileItemList* list = m_activeView->selectedItems();
-    if ((list == 0) || (*list).isEmpty()) {
+    const KFileItemList list = m_activeView->selectedItems();
+    if (list.isEmpty()) {
         stateChanged("has_no_selection");
     }
     else {
@@ -1470,13 +1457,13 @@ void DolphinMainWindow::updateEditActions()
 
         KAction* renameAction = actionCollection()->action("rename");
         if (renameAction != 0) {
-            renameAction->setEnabled(list->count() >= 1);
+            renameAction->setEnabled(list.count() >= 1);
         }
 
         bool enableMoveToTrash = true;
 
-        KFileItemList::const_iterator it = list->begin();
-        const KFileItemList::const_iterator end = list->end();
+        KFileItemList::const_iterator it = list.begin();
+        const KFileItemList::const_iterator end = list.end();
         while (it != end) {
             KFileItem* item = *it;
             const KUrl& url = item->url();

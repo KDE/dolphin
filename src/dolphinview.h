@@ -210,11 +210,11 @@ public:
     bool hasSelection() const;
 
     /**
-     * Returns the selected items. 0 is returned, if no item
-     * is selected.
+     * Returns the selected items. The list is empty if no item has been
+     * selected.
      * @see DolphinView::selectedUrls()
      */
-    const KFileItemList* selectedItems() const;
+    KFileItemList selectedItems() const;
 
     /**
      * Returns a list of Urls for all selected items. An empty list

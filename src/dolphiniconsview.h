@@ -42,10 +42,11 @@ public:
     virtual ~DolphinIconsView();
 
 protected:
-    void mouseReleaseEvent(QMouseEvent* event);
+    virtual void mousePressEvent(QMouseEvent* event);
+    virtual void mouseReleaseEvent(QMouseEvent* event);
 
 private:
-    DolphinView *m_parentView;
+    DolphinView* m_parentView;
 };
 
 #endif
