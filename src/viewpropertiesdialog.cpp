@@ -110,12 +110,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     buttonBoxLayout->addWidget(m_applyToAllFolders);
     buttonBox->setLayout(buttonBoxLayout);
 
-    if (m_viewProps->isValidForSubDirs()) {
-        m_applyToSubFolders->setChecked(true);
-    }
-    else {
-        m_applyToCurrentFolder->setChecked(true);
-    }
+    m_applyToCurrentFolder->setChecked(true);
 
     topLayout->addWidget(propsBox);
     topLayout->addWidget(buttonBox);
@@ -135,6 +130,9 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     connect(m_applyToAllFolders, SIGNAL(clicked()),
             this, SLOT(slotApplyToAllFolders()));
 
+    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
+    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+
     main->setLayout(topLayout);
     setMainWidget(main);
 }
@@ -149,13 +147,12 @@ ViewPropertiesDialog::~ViewPropertiesDialog()
 void ViewPropertiesDialog::slotOk()
 {
     applyViewProperties();
-    // KDE4-TODO: KDialog::slotOk();
+    accept();
 }
 
 void ViewPropertiesDialog::slotApply()
 {
     applyViewProperties();
-    // KDE4-TODO: KDialog::slotApply();
 }
 
 void ViewPropertiesDialog::slotViewModeChanged(int index)
@@ -193,13 +190,12 @@ void ViewPropertiesDialog::slotShowHiddenFilesChanged()
 
 void ViewPropertiesDialog::slotApplyToCurrentFolder()
 {
-    m_viewProps->setValidForSubDirs(false);
     m_isDirty = true;
 }
 
 void ViewPropertiesDialog::slotApplyToSubFolders()
 {
-    m_viewProps->setValidForSubDirs(true);
+    //m_viewProps->setValidForSubDirs(true);
     m_isDirty = true;
 }
 
@@ -223,7 +219,7 @@ void ViewPropertiesDialog::applyViewProperties()
         props.setSorting(m_viewProps->sorting());
         props.setSortOrder(m_viewProps->sortOrder());
         props.setShowHiddenFilesEnabled(m_viewProps->isShowHiddenFilesEnabled());
-        props.setValidForSubDirs(true);
+        //props.setValidForSubDirs(true);
     }
     else if (m_applyToSubFolders->isChecked() && m_isDirty) {
         const QString text(i18n("The view properties of all sub folders will be replaced. Do you want to continue?"));

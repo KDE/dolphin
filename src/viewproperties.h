@@ -50,7 +50,7 @@ class QFile;
 class ViewProperties
 {
 public:
-    ViewProperties(KUrl url);
+    ViewProperties(const KUrl& url);
     virtual ~ViewProperties();
 
     void setViewMode(DolphinView::Mode mode);
@@ -65,23 +65,21 @@ public:
     void setSortOrder(Qt::SortOrder sortOrder);
     Qt::SortOrder sortOrder() const;
 
-    void setValidForSubDirs(bool valid);
-    bool isValidForSubDirs() const;
-
     void setAutoSaveEnabled(bool autoSave);
     bool isAutoSaveEnabled() const;
 
     void updateTimeStamp();
     void save();
 
-    ViewProperties& operator = (const ViewProperties& props);
 
 private:
     bool m_changedProps;
     bool m_autoSave;
-    bool m_subDirValidityHidden;
     QString m_filepath;
     ViewPropertySettings* m_node;
+
+    ViewProperties(const ViewProperties& props);
+    ViewProperties& operator= (const ViewProperties& props);
 };
 
 #endif

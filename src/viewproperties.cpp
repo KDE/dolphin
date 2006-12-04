@@ -35,14 +35,15 @@
 
 #define FILE_NAME "/.directory"
 
-ViewProperties::ViewProperties(KUrl url) :
+ViewProperties::ViewProperties(const KUrl& url) :
       m_changedProps(false),
       m_autoSave(true),
-      m_subDirValidityHidden(false),
       m_node(0)
 {
-    url.cleanPath();
-    m_filepath = url.path();
+    KUrl cleanUrl(url);
+
+    cleanUrl.cleanPath();
+    m_filepath = cleanUrl.path();
 
     if ((m_filepath.length() < 1) || (m_filepath.at(0) != QChar('/'))) {
         m_node = new ViewPropertySettings();
@@ -53,7 +54,7 @@ ViewProperties::ViewProperties(KUrl url) :
     // if the directory is not writable by the user or the directory is not local
     // we store the properties information in a local file
     QString rootDir("/"); // TODO: should this be set to the root of the bookmark, if any?
-    if (url.isLocalFile()) {
+    if (cleanUrl.isLocalFile()) {
         QFileInfo info(m_filepath);
 
         if (!info.isWritable()) {
@@ -65,37 +66,12 @@ ViewProperties::ViewProperties(KUrl url) :
     }
     else {
         QString basePath = KGlobal::instance()->instanceName();
-        basePath.append("/view_properties/remote/").append(url.host());
+        basePath.append("/view_properties/remote/").append(cleanUrl.host());
         rootDir = KStandardDirs::locateLocal("data", basePath);
         m_filepath = rootDir + m_filepath;
     }
 
     m_node = new ViewPropertySettings(KSharedConfig::openConfig(m_filepath + FILE_NAME));
-
-    QDir dir(m_filepath);
-    const bool isValidForSubDirs = m_node->validForSubDirs();
-    while ((dir.path() != rootDir) && dir.cdUp()) {
-        QString parentPath(dir.path() + FILE_NAME);
-
-        if (!QFile::exists(parentPath))
-        {
-            continue;
-        }
-
-        ViewPropertySettings parentNode(KSharedConfig::openConfig(dir.path() + FILE_NAME));
-        const bool inheritProps = parentNode.validForSubDirs() &&
-                                  (parentNode.timestamp() > m_node->timestamp());
-
-        if (inheritProps) {
-            delete m_node;
-            m_node = new ViewPropertySettings(KSharedConfig::openConfig(dir.path() + FILE_NAME));
-            break;
-        }
-    }
-
-    if (isValidForSubDirs) {
-        m_subDirValidityHidden = true;
-    }
 }
 
 ViewProperties::~ViewProperties()
@@ -105,6 +81,7 @@ ViewProperties::~ViewProperties()
     }
 
     delete m_node;
+    m_node = 0;
 }
 
 void ViewProperties::setViewMode(DolphinView::Mode mode)
@@ -159,19 +136,6 @@ Qt::SortOrder ViewProperties::sortOrder() const
     return static_cast<Qt::SortOrder>(m_node->sortOrder());
 }
 
-void ViewProperties::setValidForSubDirs(bool valid)
-{
-    if (m_node->validForSubDirs() != valid) {
-        m_node->setValidForSubDirs(valid);
-        updateTimeStamp();
-    }
-}
-
-bool ViewProperties::isValidForSubDirs() const
-{
-    return m_node->validForSubDirs();
-}
-
 void ViewProperties::setAutoSaveEnabled(bool autoSave)
 {
     m_autoSave = autoSave;
@@ -195,16 +159,12 @@ void ViewProperties::save()
     m_changedProps = false;
 }
 
+ViewProperties::ViewProperties(const ViewProperties& props)
+{
+    assert(false);
+}
+
 ViewProperties& ViewProperties::operator = (const ViewProperties& props)
 {
-    if (&props != this) {
-        m_changedProps = props.m_changedProps;
-        m_autoSave = props.m_autoSave;
-        m_subDirValidityHidden = props.m_subDirValidityHidden;
-        m_filepath = props.m_filepath;
-        m_node = new ViewPropertySettings();
-        //*m_node = *(props.m_node);
-    }
-
-    return *this;
+    assert(false);
 }
