@@ -268,7 +268,7 @@ void DolphinMainWindow::slotShowFilterBarChanged()
 
 void DolphinMainWindow::slotSortingChanged(DolphinView::Sorting sorting)
 {
-    KAction* action = 0;
+    QAction* action = 0;
     switch (sorting) {
         case DolphinView::SortByName:
             action = actionCollection()->action("by_name");
@@ -306,7 +306,7 @@ void DolphinMainWindow::slotSelectionChanged()
         selectedUrlsCount += m_view[SecondaryIdx]->selectedUrls().count();
     }
 
-    KAction* compareFilesAction = actionCollection()->action("compare_files");
+    QAction* compareFilesAction = actionCollection()->action("compare_files");
     compareFilesAction->setEnabled(selectedUrlsCount == 2);
 
     m_activeView->updateStatusBar();
@@ -623,7 +623,7 @@ void DolphinMainWindow::slotDeleteFileFinished(KJob* job)
 
 void DolphinMainWindow::slotUndoAvailable(bool available)
 {
-    KAction* undoAction = actionCollection()->action(KStdAction::stdName(KStdAction::Undo));
+    QAction* undoAction = actionCollection()->action(KStdAction::stdName(KStdAction::Undo));
     if (undoAction != 0) {
         undoAction->setEnabled(available);
     }
@@ -631,7 +631,7 @@ void DolphinMainWindow::slotUndoAvailable(bool available)
 
 void DolphinMainWindow::slotUndoTextChanged(const QString& text)
 {
-    KAction* undoAction = actionCollection()->action(KStdAction::stdName(KStdAction::Undo));
+    QAction* undoAction = actionCollection()->action(KStdAction::stdName(KStdAction::Undo));
     if (undoAction != 0) {
         undoAction->setText(text);
     }
@@ -639,7 +639,7 @@ void DolphinMainWindow::slotUndoTextChanged(const QString& text)
 
 void DolphinMainWindow::slotRedoAvailable(bool available)
 {
-    KAction* redoAction = actionCollection()->action(KStdAction::stdName(KStdAction::Redo));
+    QAction* redoAction = actionCollection()->action(KStdAction::stdName(KStdAction::Redo));
     if (redoAction != 0) {
         redoAction->setEnabled(available);
     }
@@ -647,7 +647,7 @@ void DolphinMainWindow::slotRedoAvailable(bool available)
 
 void DolphinMainWindow::slotRedoTextChanged(const QString& text)
 {
-    KAction* redoAction = actionCollection()->action(KStdAction::stdName(KStdAction::Redo));
+    QAction* redoAction = actionCollection()->action(KStdAction::stdName(KStdAction::Redo));
     if (redoAction != 0) {
         redoAction->setText(text);
     }
@@ -718,7 +718,7 @@ void DolphinMainWindow::paste()
 
 void DolphinMainWindow::updatePasteAction()
 {
-    KAction* pasteAction = actionCollection()->action(KStdAction::stdName(KStdAction::Paste));
+    QAction* pasteAction = actionCollection()->action(KStdAction::stdName(KStdAction::Paste));
     if (pasteAction == 0) {
         return;
     }
@@ -1436,12 +1436,12 @@ void DolphinMainWindow::updateHistory()
     int index = 0;
     const Q3ValueList<UrlNavigator::HistoryElem> list = m_activeView->urlHistory(index);
 
-    KAction* backAction = actionCollection()->action("go_back");
+    QAction* backAction = actionCollection()->action("go_back");
     if (backAction != 0) {
         backAction->setEnabled(index < static_cast<int>(list.count()) - 1);
     }
 
-    KAction* forwardAction = actionCollection()->action("go_forward");
+    QAction* forwardAction = actionCollection()->action("go_forward");
     if (forwardAction != 0) {
         forwardAction->setEnabled(index > 0);
     }
@@ -1456,7 +1456,7 @@ void DolphinMainWindow::updateEditActions()
     else {
         stateChanged("has_selection");
 
-        KAction* renameAction = actionCollection()->action("rename");
+        QAction* renameAction = actionCollection()->action("rename");
         if (renameAction != 0) {
             renameAction->setEnabled(list.count() >= 1);
         }
@@ -1475,7 +1475,7 @@ void DolphinMainWindow::updateEditActions()
             ++it;
         }
 
-        KAction* moveToTrashAction = actionCollection()->action("move_to_trash");
+        QAction* moveToTrashAction = actionCollection()->action("move_to_trash");
         moveToTrashAction->setEnabled(enableMoveToTrash);
     }
     updatePasteAction();
@@ -1483,17 +1483,17 @@ void DolphinMainWindow::updateEditActions()
 
 void DolphinMainWindow::updateViewActions()
 {
-    KAction* zoomInAction = actionCollection()->action(KStdAction::stdName(KStdAction::ZoomIn));
+    QAction* zoomInAction = actionCollection()->action(KStdAction::stdName(KStdAction::ZoomIn));
     if (zoomInAction != 0) {
         zoomInAction->setEnabled(m_activeView->isZoomInPossible());
     }
 
-    KAction* zoomOutAction = actionCollection()->action(KStdAction::stdName(KStdAction::ZoomOut));
+    QAction* zoomOutAction = actionCollection()->action(KStdAction::stdName(KStdAction::ZoomOut));
     if (zoomOutAction != 0) {
         zoomOutAction->setEnabled(m_activeView->isZoomOutPossible());
     }
 
-    KAction* action = 0;
+    QAction* action = 0;
     switch (m_activeView->mode()) {
         case DolphinView::IconsView:
             action = actionCollection()->action("icons");
@@ -1530,7 +1530,7 @@ void DolphinMainWindow::updateViewActions()
 
 void DolphinMainWindow::updateGoActions()
 {
-    KAction* goUpAction = actionCollection()->action(KStdAction::stdName(KStdAction::Up));
+    QAction* goUpAction = actionCollection()->action(KStdAction::stdName(KStdAction::Up));
     const KUrl& currentUrl = m_activeView->url();
     goUpAction->setEnabled(currentUrl.upUrl() != currentUrl);
 }

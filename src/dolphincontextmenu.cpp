@@ -84,18 +84,18 @@ void DolphinContextMenu::openViewportContextMenu()
     // setup 'Create New' menu
     KMenu* createNewMenu = new KMenu();
 
-    KAction* createFolderAction = dolphin->actionCollection()->action("create_folder");
+    QAction* createFolderAction = dolphin->actionCollection()->action("create_folder");
     if (createFolderAction != 0) {
-        createFolderAction->plug(createNewMenu);
+        createNewMenu->addAction(createFolderAction);
     }
 
     createNewMenu->insertSeparator();
 
-    KAction* action = 0;
+    QAction* action = 0;
 
     Q3PtrListIterator<KAction> fileGrouptIt(dolphin->fileGroupActions());
     while ((action = fileGrouptIt.current()) != 0) {
-        action->plug(createNewMenu);
+        createNewMenu->addAction(action);
         ++fileGrouptIt;
     }
 
@@ -122,20 +122,20 @@ void DolphinContextMenu::openViewportContextMenu()
     popup->insertItem(SmallIcon("filenew"), i18n("Create New"), createNewMenu);
     popup->insertSeparator();
 
-    KAction* pasteAction = dolphin->actionCollection()->action(KStdAction::stdName(KStdAction::Paste));
-    pasteAction->plug(popup);
+    QAction* pasteAction = dolphin->actionCollection()->action(KStdAction::stdName(KStdAction::Paste));
+    popup->addAction(pasteAction);
 
     // setup 'View Mode' menu
     KMenu* viewModeMenu = new KMenu();
 
-    KAction* iconsMode = dolphin->actionCollection()->action("icons");
-    iconsMode->plug(viewModeMenu);
+    QAction* iconsMode = dolphin->actionCollection()->action("icons");
+    viewModeMenu->addAction(iconsMode);
 
-    KAction* detailsMode = dolphin->actionCollection()->action("details");
-    detailsMode->plug(viewModeMenu);
+    QAction* detailsMode = dolphin->actionCollection()->action("details");
+    viewModeMenu->addAction(detailsMode);
 
-    KAction* previewsMode = dolphin->actionCollection()->action("previews");
-    previewsMode->plug(viewModeMenu);
+    QAction* previewsMode = dolphin->actionCollection()->action("previews");
+    viewModeMenu->addAction(previewsMode);
 
     popup->insertItem(i18n("View Mode"), viewModeMenu);
     popup->insertSeparator();
@@ -183,26 +183,25 @@ void DolphinContextMenu::openItemContextMenu()
     const KStdAction::StdAction actionNames[] = { KStdAction::Cut, KStdAction::Copy, KStdAction::Paste };
     const int count = sizeof(actionNames) / sizeof(KStdAction::StdAction);
     for (int i = 0; i < count; ++i) {
-        KAction* action = dolphin->actionCollection()->action(KStdAction::stdName(actionNames[i]));
-        if (action != 0) {
-            action->plug(popup);
-        }
+        QAction* action = dolphin->actionCollection()->action(KStdAction::stdName(actionNames[i]));
+        if (action)
+            popup->addAction(action);
     }
     popup->insertSeparator();
 
     // insert 'Rename'
-    KAction* renameAction = dolphin->actionCollection()->action("rename");
-    renameAction->plug(popup);
+    QAction* renameAction = dolphin->actionCollection()->action("rename");
+    popup->addAction(renameAction);
 
     // insert 'Move to Trash' for local Urls, otherwise insert 'Delete'
     const KUrl& url = dolphin->activeView()->url();
     if (url.isLocalFile()) {
-        KAction* moveToTrashAction = dolphin->actionCollection()->action("move_to_trash");
-        moveToTrashAction->plug(popup);
+        QAction* moveToTrashAction = dolphin->actionCollection()->action("move_to_trash");
+        popup->addAction(moveToTrashAction);
     }
     else {
-        KAction* deleteAction = dolphin->actionCollection()->action("delete");
-        deleteAction->plug(popup);
+        QAction* deleteAction = dolphin->actionCollection()->action("delete");
+        popup->addAction(deleteAction);
     }
 
     // insert 'Bookmark this folder...' entry
@@ -225,8 +224,8 @@ void DolphinContextMenu::openItemContextMenu()
 
     // insert 'Properties...' entry
     popup->insertSeparator();
-    KAction* propertiesAction = dolphin->actionCollection()->action("properties");
-    propertiesAction->plug(popup);
+    QAction* propertiesAction = dolphin->actionCollection()->action("properties");
+    popup->addAction(propertiesAction);
 
     QAction *activatedAction = popup->exec(m_pos);
 

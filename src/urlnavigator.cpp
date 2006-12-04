@@ -470,7 +470,7 @@ void UrlNavigator::updateContent()
 
     m_toggleButton->setToolTip(QString());
     QString path(url().pathOrUrl());
-    const KAction* action = dolphinView()->mainWindow()->actionCollection()->action("editable_location");
+    const QAction* action = dolphinView()->mainWindow()->actionCollection()->action("editable_location");
     // TODO: registry of default shortcuts
     QString shortcut = action? action->shortcut().toString() : "Ctrl+L";
     if (m_toggleButton->isChecked()) {
