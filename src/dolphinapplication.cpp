@@ -50,7 +50,7 @@ DolphinMainWindow* DolphinApplication::createMainWindow()
 
 void DolphinApplication::removeMainWindow( DolphinMainWindow *mainwindow )
 {
-    m_mainWindows.remove( mainwindow );
+    m_mainWindows.removeAll( mainwindow );
 }
 
 void DolphinApplication::refreshMainWindows()

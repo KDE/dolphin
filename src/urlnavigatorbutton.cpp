@@ -98,6 +98,7 @@ QSize UrlNavigatorButton::sizeHint() const
 void UrlNavigatorButton::paintEvent(QPaintEvent* event)
 {
     QPainter painter(this);
+    painter.setClipRect(event->rect());
     const int buttonWidth  = width();
     const int buttonHeight = height();
 
@@ -111,7 +112,7 @@ void UrlNavigatorButton::paintEvent(QPaintEvent* event)
         foregroundColor = KGlobalSettings::highlightedTextColor();
     }
     else {
-        backgroundColor = colorGroup().background();
+        backgroundColor = palette().brush(QPalette::Background).color();
         foregroundColor = KGlobalSettings::buttonTextColor();
     }
 
@@ -121,7 +122,7 @@ void UrlNavigatorButton::paintEvent(QPaintEvent* event)
 
     const bool isActive = (dolphin->activeView() == parentView);
     if (!isActive) {
-        QColor dimmColor(colorGroup().background());
+        QColor dimmColor(palette().brush(QPalette::Background).color());
         foregroundColor = mixColors(foregroundColor, dimmColor);
         if (isHighlighted) {
             backgroundColor = mixColors(backgroundColor, dimmColor);
@@ -192,14 +193,14 @@ void UrlNavigatorButton::enterEvent(QEvent* event)
     // if the text is clipped due to a small window width, the text should
     // be shown as tooltip
     if (isTextClipped()) {
-        QToolTip::add(this, text());
+        setToolTip(text());
     }
 }
 
 void UrlNavigatorButton::leaveEvent(QEvent* event)
 {
     UrlButton::leaveEvent(event);
-    QToolTip::remove(this);
+    setToolTip(QString());
 }
 
 void UrlNavigatorButton::dropEvent(QDropEvent* event)
@@ -258,7 +259,8 @@ void UrlNavigatorButton::startPopupDelay()
         return;
     }
 
-    m_popupDelay->start(300, true);
+    m_popupDelay->setSingleShot(true);
+    m_popupDelay->start(300);
 }
 
 void UrlNavigatorButton::stopPopupDelay()
@@ -350,8 +352,8 @@ void UrlNavigatorButton::listJobFinished(KJob* job)
     int i = 0;
     while (it != itEnd) {
         dirsMenu->insertItem(*it, i);
-        ++i;
         ++it;
+        ++i;
     }
 
     int result = dirsMenu->exec(urlNavigator()->mapToGlobal(geometry().bottomLeft()));

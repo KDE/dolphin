@@ -51,7 +51,8 @@ BookmarkSelector::BookmarkSelector(UrlNavigator* parent) :
                                     i);
         if (i == m_selectedIndex) {
             QPixmap pixmap = SmallIcon(bookmark.icon());
-            setPixmap(pixmap);
+            setIcon(QIcon(pixmap));
+            setIconSize(pixmap.size());
             setMinimumWidth(pixmap.width() + 2);
         }
         bookmark = root.next(bookmark);
@@ -61,7 +62,7 @@ BookmarkSelector::BookmarkSelector(UrlNavigator* parent) :
     connect(m_bookmarksMenu, SIGNAL(activated(int)),
             this, SLOT(slotBookmarkActivated(int)));
 
-    setPopup(m_bookmarksMenu);
+    setMenu(m_bookmarksMenu);
 }
 
 BookmarkSelector::~BookmarkSelector()
@@ -86,7 +87,7 @@ void BookmarkSelector::updateSelection(const KUrl& url)
             const int length = bookmarkUrl.prettyUrl().length();
             if (length > maxLength) {
                 m_selectedIndex = i;
-                setPixmap(SmallIcon(bookmark.icon()));
+                setIcon(SmallIcon(bookmark.icon()));
                 maxLength = length;
             }
         }
@@ -97,7 +98,7 @@ void BookmarkSelector::updateSelection(const KUrl& url)
     if (m_selectedIndex < 0) {
         // No bookmark has been found which matches to the given Url. Show
         // a generic folder icon as pixmap for indication:
-        setPixmap(SmallIcon("folder"));
+        setIcon(SmallIcon("folder"));
     }
 }
 
@@ -128,7 +129,7 @@ void BookmarkSelector::paintEvent(QPaintEvent* event)
         foregroundColor = KGlobalSettings::highlightedTextColor();
     }
     else {
-        backgroundColor = colorGroup().background();
+        backgroundColor = palette().brush(QPalette::Background).color();
         foregroundColor = KGlobalSettings::buttonTextColor();
     }
 
@@ -138,7 +139,7 @@ void BookmarkSelector::paintEvent(QPaintEvent* event)
 
     const bool isActive = (dolphin->activeView() == parentView);
     if (!isActive) {
-        QColor dimmColor(colorGroup().background());
+        QColor dimmColor(palette().brush(QPalette::Background).color());
         foregroundColor = mixColors(foregroundColor, dimmColor);
         if (isHighlighted) {
             backgroundColor = mixColors(backgroundColor, dimmColor);

@@ -27,7 +27,7 @@
 #include <QDropEvent>
 #include <Q3ValueList>
 #include <QMouseEvent>
-#include <Q3VBoxLayout>
+#include <QVBoxLayout>
 #include <kparts/part.h>
 #include <kfileitem.h>
 #include <kfileiconview.h>
@@ -458,7 +458,7 @@ private:
     bool m_showProgress;
     Mode m_mode;
 
-    Q3VBoxLayout* m_topLayout;
+    QVBoxLayout* m_topLayout;
     UrlNavigator* m_urlNavigator;
     DolphinIconsView* m_iconsView;
     DolphinStatusBar* m_statusBar;

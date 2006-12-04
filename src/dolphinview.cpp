@@ -29,7 +29,7 @@
 #include <Q3ValueList>
 #include <QDropEvent>
 #include <QMouseEvent>
-#include <Q3VBoxLayout>
+#include <QVBoxLayout>
 #include <kurl.h>
 #include <klocale.h>
 #include <kio/netaccess.h>
@@ -68,7 +68,7 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
     m_filterBar(0)
 {
     setFocusPolicy(Qt::StrongFocus);
-    m_topLayout = new Q3VBoxLayout(this);
+    m_topLayout = new QVBoxLayout(this);
 
     connect(this, SIGNAL(signalModeChanged()),
             mainWindow, SLOT(slotViewModeChanged()));
@@ -242,7 +242,7 @@ void DolphinView::renameSelectedItems()
                                        urlsCount);
 
             // iterate through all selected items and rename them...
-            const int replaceIndex = newName.find('#');
+            const int replaceIndex = newName.indexOf('#');
             assert(replaceIndex >= 0);
             for (int i = 0; i < urlsCount; ++i) {
                 const KUrl& source = urls[i];

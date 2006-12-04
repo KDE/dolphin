@@ -116,7 +116,8 @@ void DolphinStatusBar::setProgress(int percent)
 
     m_progress = percent;
     m_progressBar->setValue(m_progress);
-    m_progressTimer->start(300, true);
+    m_progressTimer->setSingleShot(true);
+    m_progressTimer->start(300);
 
     const QString msg(m_messageLabel->text());
     if (msg.isEmpty() || (msg == m_defaultText)) {

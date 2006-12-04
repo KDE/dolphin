@@ -301,7 +301,7 @@ void UrlNavigator::slotReturnPressed(const QString& text)
     }
 
     QStringList urls = m_pathBox->urls();
-    urls.remove(typedUrl.url());
+    urls.removeAll(typedUrl.url());
     urls.prepend(typedUrl.url());
     m_pathBox->setUrls(urls, KUrlComboBox::RemoveBottom);
 
@@ -323,7 +323,7 @@ void UrlNavigator::slotRemoteHostActivated()
     QString host = m_host->text();
     QString user;
 
-    int marker = host.find("@");
+    int marker = host.indexOf("@");
     if (marker != -1)
     {
         user = host.left(marker);
@@ -331,7 +331,7 @@ void UrlNavigator::slotRemoteHostActivated()
         host = host.right(host.length() - marker - 1);
     }
 
-    marker = host.find("/");
+    marker = host.indexOf("/");
     if (marker != -1)
     {
         u.setPath(host.right(host.length() - marker));
@@ -468,7 +468,7 @@ void UrlNavigator::updateContent()
 
     m_bookmarkSelector->updateSelection(url());
 
-    QToolTip::remove(m_toggleButton);
+    m_toggleButton->setToolTip(QString());
     QString path(url().pathOrUrl());
     const KAction* action = dolphinView()->mainWindow()->actionCollection()->action("editable_location");
     // TODO: registry of default shortcuts
@@ -478,14 +478,14 @@ void UrlNavigator::updateContent()
         delete m_protocolSeparator; m_protocolSeparator = 0;
         delete m_host; m_host = 0;
 
-        QToolTip::add(m_toggleButton, i18n("Browse (%1, Escape)",shortcut));
+        m_toggleButton->setToolTip(i18n("Browse (%1, Escape)",shortcut));
 
         setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
         m_pathBox->show();
         m_pathBox->setUrl(url());
     }
     else {
-        QToolTip::add(m_toggleButton, i18n("Edit location (%1)",shortcut));
+        m_toggleButton->setToolTip(i18n("Edit location (%1)",shortcut));
 
         setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         m_pathBox->hide();
@@ -502,8 +502,8 @@ void UrlNavigator::updateContent()
             // path. E. g. "fish://root@192.168.0.2/var/lib" writes
             // "fish://root@192.168.0.2" to 'bookmarkPath', which leads to the
             // navigation indication 'Custom Path > var > lib".
-            int idx = path.find(QString("//"));
-            idx = path.find("/", (idx < 0) ? 0 : idx + 2);
+            int idx = path.indexOf(QString("//"));
+            idx = path.indexOf("/", (idx < 0) ? 0 : idx + 2);
             bookmarkPath = (idx < 0) ? path : path.left(idx);
         }
         else {
