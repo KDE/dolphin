@@ -35,13 +35,9 @@ DolphinIconsView::~DolphinIconsView()
 {
 }
 
-void DolphinIconsView::mousePressEvent(QMouseEvent* event)
+void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)
 {
-    QListView::mousePressEvent(event);
-
-    if (event->button() != Qt::RightButton) {
-        return;
-    }
+    QListView::contextMenuEvent(event);
 
     KFileItem* item = 0;
 

@@ -42,7 +42,7 @@ public:
     virtual ~DolphinIconsView();
 
 protected:
-    virtual void mousePressEvent(QMouseEvent* event);
+    virtual void contextMenuEvent(QContextMenuEvent* event);
     virtual void mouseReleaseEvent(QMouseEvent* event);
 
 private:
