@@ -379,11 +379,11 @@ QList<QAction*> DolphinContextMenu::insertActionItems(KMenu* popup,
                         while (insert && mimeIt.hasNext()) {
                             KFileItem* item = mimeIt.next();
                             const QString mimeType(item->mimetype());
-                            const QString mimeGroup(mimeType.left(mimeType.find('/')));
+                            const QString mimeGroup(mimeType.left(mimeType.indexOf('/')));
 
                             insert  = (*it == mimeType) ||
                                       ((*it).right(1) == "*") &&
-                                      ((*it).left((*it).find('/')) == mimeGroup);
+                                      ((*it).left((*it).indexOf('/')) == mimeGroup);
                         }
                     }
 

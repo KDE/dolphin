@@ -77,11 +77,12 @@
 
 
 DolphinMainWindow::DolphinMainWindow() :
-    KMainWindow(0, "Dolphin"),
+    KMainWindow(0),
     m_splitter(0),
     m_activeView(0),
     m_clipboardContainsCutData(false)
 {
+    setObjectName("Dolphin");
     m_view[PrimaryIdx] = 0;
     m_view[SecondaryIdx] = 0;
 
@@ -458,7 +459,7 @@ void DolphinMainWindow::createFile()
     KSortableList<CreateFileEntry, QString>::ConstIterator it = m_createFileTemplates.begin();
     KSortableList<CreateFileEntry, QString>::ConstIterator end = m_createFileTemplates.end();
 
-    const QString senderName(sender()->name());
+    const QString senderName(sender()->objectName());
     bool found = false;
     CreateFileEntry entry;
     while (!found && (it != end)) {
@@ -483,7 +484,7 @@ void DolphinMainWindow::createFile()
     QString sourcePath(entry.templatePath.left(pos + 1));
     sourcePath += KDesktopFile(entry.templatePath, true).readPathEntry("Url");
 
-    QString name(i18n(entry.name.ascii()));
+    QString name(i18n(entry.name.toAscii()));
     // Most entry names end with "..." (e. g. "HTML File..."), which is ok for
     // menus but no good choice for a new file name -> remove the dots...
     name.replace("...", QString::null);

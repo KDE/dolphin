@@ -48,7 +48,7 @@ ProtocolCombo::ProtocolCombo(const QString& protocol, UrlNavigator* parent)
         //kDebug() << "!!! removing " << *it << endl;
             QStringList::iterator tempIt = it;
             ++tempIt;
-            m_protocols.remove(it);
+            m_protocols.erase(it);
             it = tempIt;
         }
         else

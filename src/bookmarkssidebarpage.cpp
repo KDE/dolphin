@@ -44,7 +44,7 @@ BookmarksSidebarPage::BookmarksSidebarPage(DolphinMainWindow* mainWindow, QWidge
 {
     Q3VBoxLayout* layout = new Q3VBoxLayout(this);
     m_bookmarksList = new BookmarksListBox(this);
-    m_bookmarksList->setPaletteBackgroundColor(colorGroup().background());
+    m_bookmarksList->setPaletteBackgroundColor(palette().brush(QPalette::Background).color());
 
     layout->addWidget(m_bookmarksList);
     connect(m_bookmarksList, SIGNAL(mouseButtonClicked(int, Q3ListBoxItem*, const QPoint&)),

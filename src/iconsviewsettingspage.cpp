@@ -131,9 +131,9 @@ IconsViewSettingsPage::IconsViewSettingsPage(/*DolphinIconsView::LayoutMode mode
 
     new QLabel(i18n("Text width:"), textGroup);
     m_textWidthBox = new QComboBox(textGroup);
-    m_textWidthBox->insertItem(i18n("Small"));
-    m_textWidthBox->insertItem(i18n("Medium"));
-    m_textWidthBox->insertItem(i18n("Large"));
+    m_textWidthBox->addItem(i18n("Small"));
+    m_textWidthBox->addItem(i18n("Medium"));
+    m_textWidthBox->addItem(i18n("Large"));
 
     Q3GroupBox* gridGroup = new Q3GroupBox(2, Qt::Horizontal, i18n("Grid"), this);
     gridGroup->setSizePolicy(sizePolicy);
@@ -142,16 +142,16 @@ IconsViewSettingsPage::IconsViewSettingsPage(/*DolphinIconsView::LayoutMode mode
     const bool leftToRightArrangement = (settings->arrangement() == "LeftToRight");
     new QLabel(i18n("Arrangement:"), gridGroup);
     m_arrangementBox = new QComboBox(gridGroup);
-    m_arrangementBox->insertItem(i18n("Left to right"));
-    m_arrangementBox->insertItem(i18n("Top to bottom"));
-    m_arrangementBox->setCurrentItem(leftToRightArrangement ? 0 : 1);
+    m_arrangementBox->addItem(i18n("Left to right"));
+    m_arrangementBox->addItem(i18n("Top to bottom"));
+    m_arrangementBox->setCurrentIndex(leftToRightArrangement ? 0 : 1);
 
     new QLabel(i18n("Grid spacing:"), gridGroup);
     m_gridSpacingBox = new QComboBox(gridGroup);
-    m_gridSpacingBox->insertItem(i18n("Small"));
-    m_gridSpacingBox->insertItem(i18n("Medium"));
-    m_gridSpacingBox->insertItem(i18n("Large"));
-    m_gridSpacingBox->setCurrentItem((settings->gridSpacing() - GRID_SPACING_BASE) / GRID_SPACING_INC);
+    m_gridSpacingBox->addItem(i18n("Small"));
+    m_gridSpacingBox->addItem(i18n("Medium"));
+    m_gridSpacingBox->addItem(i18n("Large"));
+    m_gridSpacingBox->setCurrentIndex((settings->gridSpacing() - GRID_SPACING_BASE) / GRID_SPACING_INC);
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -184,18 +184,18 @@ void IconsViewSettingsPage::applySettings()
 
     const int fontSize = m_fontSizeBox->value();
 
-    QString arrangement = (m_arrangementBox->currentItem() == 0) ?
+    QString arrangement = (m_arrangementBox->currentIndex() == 0) ?
                           "LeftToRight" :
                           "TopToBottom";
     settings->setArrangement(arrangement);
-    DolphinSettings::instance().calculateGridSize(m_textWidthBox->currentItem());
+    DolphinSettings::instance().calculateGridSize(m_textWidthBox->currentIndex());
 
     settings->setFontFamily(m_fontFamilyBox->currentFont().family());
     settings->setFontSize(fontSize);
     settings->setNumberOfTexlines(m_textlinesCountBox->value());
 
     settings->setGridSpacing(GRID_SPACING_BASE +
-                             m_gridSpacingBox->currentItem() * GRID_SPACING_INC);
+                             m_gridSpacingBox->currentIndex() * GRID_SPACING_INC);
 }
 
 void IconsViewSettingsPage::slotIconSizeChanged(int value)
@@ -257,7 +257,7 @@ void IconsViewSettingsPage::adjustTextWidthSelection()
 {
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     assert(settings != 0);
-    m_textWidthBox->setCurrentItem(DolphinSettings::instance().textWidthHint());
+    m_textWidthBox->setCurrentIndex(DolphinSettings::instance().textWidthHint());
 }
 
 #include "iconsviewsettingspage.moc"

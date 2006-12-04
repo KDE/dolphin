@@ -132,7 +132,8 @@ void InfoSidebarPage::requestDelayedItemInfo(const KUrl& url)
 
     if (!url.isEmpty() && !m_multipleSelection) {
         m_urlCandidate = url;
-        m_timer->start(300, true);
+        m_timer->setSingleShot(true);
+        m_timer->start(300);
     }
 }
 
@@ -473,11 +474,11 @@ void InfoSidebarPage::insertActions()
                         while (insert && mimeIt.hasNext()) {
                             KFileItem* item = mimeIt.next();
                             const QString mimeType(item->mimetype());
-                            const QString mimeGroup(mimeType.left(mimeType.find('/')));
+                            const QString mimeGroup(mimeType.left(mimeType.indexOf('/')));
 
                             insert  = (*it == mimeType) ||
                                       ((*it).right(1) == "*") &&
-                                      ((*it).left((*it).find('/')) == mimeGroup);
+                                      ((*it).left((*it).indexOf('/')) == mimeGroup);
                         }
                     }
 
@@ -536,7 +537,7 @@ ServiceButton::ServiceButton(const QIcon& icon,
     m_hover(false),
     m_index(index)
 {
-    setEraseColor(colorGroup().background());
+    setEraseColor(palette().brush(QPalette::Background).color());
     setFocusPolicy(Qt::NoFocus);
     connect(this, SIGNAL(released()),
             this, SLOT(slotReleased()));
@@ -559,7 +560,7 @@ void ServiceButton::paintEvent(QPaintEvent* event)
         foregroundColor = KGlobalSettings::highlightedTextColor();
     }
     else {
-        backgroundColor = colorGroup().background();
+        backgroundColor = palette().brush(QPalette::Background).color();
         foregroundColor = KGlobalSettings::buttonTextColor();
     }
 
