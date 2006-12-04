@@ -69,6 +69,8 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
 {
     setFocusPolicy(Qt::StrongFocus);
     m_topLayout = new QVBoxLayout(this);
+    m_topLayout->setSpacing(0);
+    m_topLayout->setMargin(0);
 
     connect(this, SIGNAL(signalModeChanged()),
             mainWindow, SLOT(slotViewModeChanged()));
