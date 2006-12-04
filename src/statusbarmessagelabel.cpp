@@ -108,11 +108,10 @@ void StatusBarMessageLabel::setMinimumTextHeight(int min)
 
 void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
 {
-    QPixmap buffer(size());
-    QPainter painter(&buffer);
+    QPainter painter(this);
 
     // draw background
-    QColor backgroundColor(colorGroup().background());
+    QColor backgroundColor(palette().brush(QPalette::Background).color());
     QColor foregroundColor(KGlobalSettings::textColor());
     if (m_illumination > 0) {
         backgroundColor = mixColors(backgroundColor, QColor(255, 255, 64), m_illumination);
@@ -135,8 +134,6 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
     painter.setPen(foregroundColor);
     painter.drawText(QRect(x, 0, width() - x, height()), Qt::AlignVCenter | Qt::TextWordWrap, m_text);
     painter.end();
-
-    bitBlt(this, 0, 0, &buffer);
 }
 
 void StatusBarMessageLabel::resizeEvent(QResizeEvent* event)

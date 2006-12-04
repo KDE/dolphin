@@ -66,7 +66,7 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
 
     const int widthDec = 3;  // visual decrement for the available width
 
-    const QColor c1 = colorGroup().background();
+    const QColor c1 = palette().brush(QPalette::Background).color();
     const QColor c2 = KGlobalSettings::buttonTextColor();
     const QColor frameColor((c1.red()   + c2.red())   / 2,
                             (c1.green() + c2.green()) / 2,
