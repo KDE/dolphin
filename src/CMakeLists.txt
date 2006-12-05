@@ -42,7 +42,9 @@ set(dolphin_SRCS
    statusbarspaceinfo.cpp
    renamedialog.cpp
    filterbar.cpp
-   protocolcombo.cpp )
+   protocolcombo.cpp
+   viewpropsprogressinfo.cpp
+   viewpropsapplier.cpp )
 
 kde4_automoc(${dolphin_SRCS})
 

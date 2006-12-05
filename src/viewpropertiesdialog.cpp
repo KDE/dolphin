@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include "viewpropertiesdialog.h"
+#include "viewpropsprogressinfo.h"
 
 #include <klocale.h>
 #include <kiconloader.h>
@@ -214,11 +215,11 @@ void ViewPropertiesDialog::applyViewProperties()
             }
         }
 
-        ViewProperties props(QDir::homePath());
-        props.setViewMode(m_viewProps->viewMode());
-        props.setSorting(m_viewProps->sorting());
-        props.setSortOrder(m_viewProps->sortOrder());
-        props.setShowHiddenFilesEnabled(m_viewProps->isShowHiddenFilesEnabled());
+        //ViewProperties props(QDir::homePath());
+        //props.setViewMode(m_viewProps->viewMode());
+        //props.setSorting(m_viewProps->sorting());
+        //props.setSortOrder(m_viewProps->sortOrder());
+        //props.setShowHiddenFilesEnabled(m_viewProps->isShowHiddenFilesEnabled());
         //props.setValidForSubDirs(true);
     }
     else if (m_applyToSubFolders->isChecked() && m_isDirty) {
@@ -226,6 +227,9 @@ void ViewPropertiesDialog::applyViewProperties()
         if (KMessageBox::questionYesNo(this, text) == KMessageBox::No) {
             return;
         }
+
+        ViewPropsProgressInfo dlg(this, m_dolphinView->url(), m_viewProps);
+        dlg.exec();
     }
 
     m_viewProps->save();

@@ -17,59 +17,67 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef VIEWPROPERTIESDIALOG_H
-#define VIEWPROPERTIESDIALOG_H
+#ifndef VIEWPROPSAPPLIER_H
+#define VIEWPROPSAPPLIER_H
 
-#include <kdialog.h>
+#include <QObject>
+#include <kdirlister.h>
 
-class QCheckBox;
-class QComboBox;
-class QRadioButton;
+class KUrl;
+class KDirLister;
 class ViewProperties;
-class DolphinView;
 
 /**
- * @brief Dialog for changing the current view properties of a directory.
+ * @brief Applies view properties recursively to sub directories.
  *
- * It is possible to specify the view mode and whether hidden files
- * should be shown. The properties can be assigned to the current folder,
- * recursively to all sub folders or to all folders.
+ * BIG TODO: This class must be rewritten by inheriting from KJob (see
+ * also KDirSize as reference). The current implementation gets nuts
+ * for deep directory hierarchies, as an incredible number of parallel
+ * KDirLister instances will be created.
  *
- * @author Peter Penz
+ * Anyhow when writing this class I was not aware about the capabilities
+ * of the KJob class -> lessons learned ;-)
  */
-class ViewPropertiesDialog : public KDialog
+class ViewPropsApplier : public QObject
 {
     Q_OBJECT
 
 public:
-    ViewPropertiesDialog(DolphinView* dolphinView);
-    virtual ~ViewPropertiesDialog();
+    /**
+     * @param dir       Directory where the view properties should be applied to
+     *                  (including sub directories).
+     * @param viewProps View properties for the directory \a dir including its
+     *                  sub directories.
+     */
+    ViewPropsApplier(const KUrl& dir,
+                     const ViewProperties* viewProps = 0);
+    virtual ~ViewPropsApplier();
+
+signals:
+    void progress(const KUrl& dir, int count);
+    void completed();
 
 private slots:
-    void slotOk();
-    void slotApply();
-    void slotViewModeChanged(int index);
-    void slotSortingChanged(int index);
-    void slotSortOrderChanged(int index);
-    void slotShowHiddenFilesChanged();
-    void slotApplyToCurrentFolder();
-    void slotApplyToSubFolders();
-    void slotApplyToAllFolders();
+    void slotCompleted(const KUrl& dir);
+    void countSubDirs();
 
 private:
-    bool m_isDirty;
-    DolphinView* m_dolphinView;
-    ViewProperties* m_viewProps;
+    struct RootData {
+        int refCount;
+        const ViewProperties* viewProps;
+        ViewPropsApplier* rootApplier;
+    };
 
-    QComboBox* m_viewMode;
-    QComboBox* m_sorting;
-    QComboBox* m_sortOrder;
-    QCheckBox* m_showHiddenFiles;
-    QRadioButton* m_applyToCurrentFolder;
-    QRadioButton* m_applyToSubFolders;
-    QRadioButton* m_applyToAllFolders;
+    ViewPropsApplier(const KUrl& dir,
+                     RootData* rootData);
 
-    void applyViewProperties();
+
+    void start(const KUrl& dir);
+    void emitProgress(const KUrl& dir, int count);
+    void emitCompleted();
+
+    RootData* m_rootData;
+    KDirLister* m_dirLister;
 };
 
 #endif

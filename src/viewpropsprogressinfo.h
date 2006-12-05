@@ -17,59 +17,57 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef VIEWPROPERTIESDIALOG_H
-#define VIEWPROPERTIESDIALOG_H
+#ifndef VIEWPROPSPROGRESSINFO_H
+#define VIEWPROPSPROGRESSINFO_H
 
 #include <kdialog.h>
 
-class QCheckBox;
-class QComboBox;
-class QRadioButton;
+class KDirSize;
+class KJob;
+class KUrl;
+class QLabel;
+class QProgressBar;
+class QTimer;
 class ViewProperties;
-class DolphinView;
 
 /**
- * @brief Dialog for changing the current view properties of a directory.
- *
- * It is possible to specify the view mode and whether hidden files
- * should be shown. The properties can be assigned to the current folder,
- * recursively to all sub folders or to all folders.
- *
- * @author Peter Penz
+ * @brief Shows the progress when applying view properties recursively to
+ *        sub directories.
  */
-class ViewPropertiesDialog : public KDialog
+class ViewPropsProgressInfo : public KDialog
 {
     Q_OBJECT
 
 public:
-    ViewPropertiesDialog(DolphinView* dolphinView);
-    virtual ~ViewPropertiesDialog();
+    /**
+     * @param parent    Parent widget of the dialog.
+     * @param dir       Directory where the view properties should be applied to
+     *                  (including sub directories).
+     * @param viewProps View properties for the directory \a dir including its
+     *                  sub directories.
+     */
+    ViewPropsProgressInfo(QWidget* parent,
+                          const KUrl& dir,
+                          const ViewProperties* viewProps);
+
+    virtual ~ViewPropsProgressInfo();
 
 private slots:
-    void slotOk();
-    void slotApply();
-    void slotViewModeChanged(int index);
-    void slotSortingChanged(int index);
-    void slotSortOrderChanged(int index);
-    void slotShowHiddenFilesChanged();
-    void slotApplyToCurrentFolder();
-    void slotApplyToSubFolders();
-    void slotApplyToAllFolders();
+    void countDirs(const KUrl& dir, int count);
+    //void updateDirCounter();
+    //void slotResult(KJob* job);
+    void applyViewProperties();
+    void showProgress(const KUrl& url, int count);
 
 private:
-    bool m_isDirty;
-    DolphinView* m_dolphinView;
-    ViewProperties* m_viewProps;
-
-    QComboBox* m_viewMode;
-    QComboBox* m_sorting;
-    QComboBox* m_sortOrder;
-    QCheckBox* m_showHiddenFiles;
-    QRadioButton* m_applyToCurrentFolder;
-    QRadioButton* m_applyToSubFolders;
-    QRadioButton* m_applyToAllFolders;
-
-    void applyViewProperties();
+    int m_dirCount;
+    int m_applyCount;
+    const KUrl& m_dir;
+    const ViewProperties* m_viewProps;
+    QLabel* m_label;
+    QProgressBar* m_progressBar;
+    KDirSize* m_dirSizeJob;
+    QTimer* m_timer;
 };
 
 #endif
