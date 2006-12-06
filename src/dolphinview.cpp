@@ -67,6 +67,7 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
     m_fileCount(0),
     m_filterBar(0)
 {
+    hide();
     setFocusPolicy(Qt::StrongFocus);
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->setSpacing(0);

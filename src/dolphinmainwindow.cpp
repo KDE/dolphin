@@ -819,12 +819,15 @@ void DolphinMainWindow::toggleSortOrder()
 void DolphinMainWindow::toggleSplitView()
 {
     if (m_view[SecondaryIdx] == 0) {
+        const int newWidth = (m_view[PrimaryIdx]->width() - m_splitter->handleWidth()) / 2;
         // create a secondary view
         m_view[SecondaryIdx] = new DolphinView(this,
-                                               m_splitter,
+                                               0,
                                                m_view[PrimaryIdx]->url(),
                                                m_view[PrimaryIdx]->mode(),
                                                m_view[PrimaryIdx]->isShowHiddenFilesEnabled());
+        m_splitter->addWidget(m_view[SecondaryIdx]);
+        m_splitter->setSizes(QList<int>() << newWidth << newWidth);
         m_view[SecondaryIdx]->show();
     }
     else {
@@ -841,7 +844,7 @@ void DolphinMainWindow::toggleSplitView()
             // From an implementation point of view it is more efficient to close
             // the primary view and exchange the internal pointers afterwards.
             m_view[PrimaryIdx]->close();
-            m_view[PrimaryIdx]->deleteLater();
+            delete m_view[PrimaryIdx];
             m_view[PrimaryIdx] = m_view[SecondaryIdx];
             m_view[SecondaryIdx] = 0;
             setActiveView(m_view[PrimaryIdx]);
@@ -1122,6 +1125,7 @@ void DolphinMainWindow::init()
                                          homeUrl,
                                          props.viewMode(),
                                          props.isShowHiddenFilesEnabled());
+    m_view[PrimaryIdx]->show();
 
     m_activeView = m_view[PrimaryIdx];
 
