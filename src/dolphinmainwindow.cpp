@@ -1593,15 +1593,25 @@ void DolphinMainWindow::clearStatusBar()
 void DolphinMainWindow::setupDockWidgets()
 {
     QDockWidget *shortcutsDock = new QDockWidget(i18n("Shortcuts"));
+
     shortcutsDock->setObjectName("shortcutsDock");
-    shortcutsDock->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
     shortcutsDock->setWidget(new BookmarksSidebarPage(this));
+
+    shortcutsDock->toggleViewAction()->setObjectName("show_shortcuts_pane");
+    shortcutsDock->toggleViewAction()->setText(i18n("Show Shortcuts Panel"));
+    actionCollection()->insert(shortcutsDock->toggleViewAction());
+
     addDockWidget(Qt::LeftDockWidgetArea, shortcutsDock);
 
     QDockWidget *infoDock = new QDockWidget(i18n("Information"));
+
     infoDock->setObjectName("infoDock");
-    infoDock->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
     infoDock->setWidget(new InfoSidebarPage(this));
+
+    infoDock->toggleViewAction()->setObjectName("show_info_pane");
+    infoDock->toggleViewAction()->setText(i18n("Show Information Panel"));
+    actionCollection()->insert(infoDock->toggleViewAction());
+
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
 }
 

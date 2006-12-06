@@ -46,6 +46,9 @@
     <Action name="editable_location" />
     <Action name="edit_location" />
    </Menu>
+   <Action name="show_shortcuts_pane" />
+   <Action name="show_info_pane" />
+   <Separator/>
    <Action name="view_properties" />
   </Menu>
   <Menu name="tools">
