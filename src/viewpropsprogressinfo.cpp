@@ -62,6 +62,9 @@ ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
 
     m_label = new QLabel(i18n("Counting folders: %1", 0), main);
     m_progressBar = new QProgressBar(main);
+    m_progressBar->setMinimum(0);
+    m_progressBar->setMaximum(0);
+    m_progressBar->setValue(0);
 
     topLayout->addWidget(m_label);
     topLayout->addWidget(m_progressBar);
