@@ -19,15 +19,16 @@
  ***************************************************************************/
 
 #include "dolphinstatusbar.h"
-#include <qprogressbar.h>
-#include <qlabel.h>
-#include <qtimer.h>
-#include <kiconloader.h>
-#include <kvbox.h>
-
 #include "dolphinview.h"
 #include "statusbarmessagelabel.h"
 #include "statusbarspaceinfo.h"
+
+#include <QLabel>
+#include <QProgressBar>
+#include <QTimer>
+
+#include <kiconloader.h>
+#include <kvbox.h>
 
 DolphinStatusBar::DolphinStatusBar(DolphinView* parent) :
     KHBox(parent),
@@ -36,8 +37,10 @@ DolphinStatusBar::DolphinStatusBar(DolphinView* parent) :
     m_progressBar(0),
     m_progress(100)
 {
+    setSpacing(4);
+
     m_messageLabel = new StatusBarMessageLabel(this);
-    m_messageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
+    m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     m_spaceInfo = new StatusBarSpaceInfo(this);
     m_spaceInfo->setUrl(parent->url());
@@ -53,7 +56,7 @@ DolphinStatusBar::DolphinStatusBar(DolphinView* parent) :
             this, SLOT(slotProgressTimer()));
 
     const QSize size(m_progressBar->sizeHint());
-    m_progressBar->setMaximumWidth(size.width());
+    m_progressBar->setMaximumWidth(200);
     setMinimumHeight(size.height());
     m_messageLabel->setMinimumTextHeight(size.height());
 

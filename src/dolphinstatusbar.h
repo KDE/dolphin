@@ -38,8 +38,6 @@ class KUrl;
  *
  * The statusbar allows to show messages and progress
  * information.
- *
- * @author Peter Penz
  */
 class DolphinStatusBar : public KHBox {
     Q_OBJECT
