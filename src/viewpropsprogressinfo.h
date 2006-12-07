@@ -52,9 +52,12 @@ public:
      */
     ViewPropsProgressInfo(QWidget* parent,
                           const KUrl& dir,
-                          const ViewProperties* viewProps);
+                          const ViewProperties& viewProps);
 
     virtual ~ViewPropsProgressInfo();
+
+protected:
+    virtual void closeEvent(QCloseEvent* event);
 
 private slots:
     void updateProgress();
@@ -63,7 +66,7 @@ private slots:
 
 private:
     const KUrl& m_dir;
-    const ViewProperties* m_viewProps;
+    ViewProperties* m_viewProps;
 
     QLabel* m_label;
     QProgressBar* m_progressBar;

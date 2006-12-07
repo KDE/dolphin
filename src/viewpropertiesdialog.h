@@ -34,8 +34,6 @@ class DolphinView;
  * It is possible to specify the view mode and whether hidden files
  * should be shown. The properties can be assigned to the current folder,
  * recursively to all sub folders or to all folders.
- *
- * @author Peter Penz
  */
 class ViewPropertiesDialog : public KDialog
 {
@@ -63,9 +61,7 @@ private:
     QComboBox* m_sorting;
     QComboBox* m_sortOrder;
     QCheckBox* m_showHiddenFiles;
-    QRadioButton* m_applyToCurrentFolder;
-    QRadioButton* m_applyToSubFolders;
-    QRadioButton* m_applyToAllFolders;
+    QCheckBox* m_applyToSubFolders;
 
     void applyViewProperties();
 };

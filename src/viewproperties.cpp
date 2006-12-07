@@ -50,9 +50,9 @@ ViewProperties::ViewProperties(const KUrl& url) :
         return;
     }
 
-    // we try and save it to a file in the directory being viewed
-    // if the directory is not writable by the user or the directory is not local
-    // we store the properties information in a local file
+    // We try and save it to a file in the directory being viewed.
+    // If the directory is not writable by the user or the directory is not local,
+    // we store the properties information in a local file.
     QString rootDir("/"); // TODO: should this be set to the root of the bookmark, if any?
     if (cleanUrl.isLocalFile()) {
         QFileInfo info(m_filepath);

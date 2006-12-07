@@ -34,10 +34,10 @@
 
 ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
                                              const KUrl& dir,
-                                             const ViewProperties* viewProps) :
+                                             const ViewProperties& viewProps) :
     KDialog(parent),
     m_dir(dir),
-    m_viewProps(viewProps),
+    m_viewProps(0),
     m_label(0),
     m_progressBar(0),
     m_dirSizeJob(0),
@@ -46,6 +46,16 @@ ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
 {
     setCaption(i18n("Applying view properties"));
     setButtons(KDialog::Cancel);
+
+    m_viewProps = new ViewProperties(dir);
+    m_viewProps->setViewMode(viewProps.viewMode());
+    m_viewProps->setShowHiddenFilesEnabled(viewProps.isShowHiddenFilesEnabled());
+    m_viewProps->setSorting(viewProps.sorting());
+    m_viewProps->setSortOrder(viewProps.sortOrder());
+
+    // the view properties are stored by the ViewPropsApplierJob, so prevent
+    // that the view properties are saved twice:
+    m_viewProps->setAutoSaveEnabled(false);
 
     QWidget* main = new QWidget();
     QVBoxLayout* topLayout = new QVBoxLayout();
@@ -79,7 +89,15 @@ ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
 
 ViewPropsProgressInfo::~ViewPropsProgressInfo()
 {
+    delete m_viewProps;
+    m_viewProps = 0;
+}
+
+void ViewPropsProgressInfo::closeEvent(QCloseEvent* event)
+{
     m_timer->stop();
+    m_applyViewPropsJob = 0;
+    KDialog::closeEvent(event);
 }
 
 void ViewPropsProgressInfo::updateProgress()
@@ -88,8 +106,8 @@ void ViewPropsProgressInfo::updateProgress()
         const int subdirs = m_dirSizeJob->totalSubdirs();
         m_label->setText(i18n("Counting folders: %1", subdirs));
     }
-    else {
-        assert(m_applyViewPropsJob != 0);
+
+    if (m_applyViewPropsJob != 0) {
         const int progress = m_applyViewPropsJob->progress();
         m_progressBar->setValue(progress);
     }
@@ -117,8 +135,8 @@ void ViewPropsProgressInfo::cancelApplying()
     if (m_dirSizeJob != 0) {
         m_dirSizeJob->doKill();
     }
-    else {
-        assert(m_applyViewPropsJob != 0);
+
+    if (m_applyViewPropsJob != 0) {
         m_applyViewPropsJob->doKill();
     }
 }
