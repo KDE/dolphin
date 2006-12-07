@@ -20,10 +20,10 @@
 
 #include "statusbarspaceinfo.h"
 
-#include <qpainter.h>
-#include <qtimer.h>
-//Added by qt3to4:
+#include <QPainter>
 #include <QPaintEvent>
+#include <QTimer>
+
 #include <kglobalsettings.h>
 #include <kdiskfreesp.h>
 #include <klocale.h>
@@ -85,11 +85,11 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
         int usedWidth = barWidth - static_cast<int>((m_kBAvailable *
                                                     static_cast<float>(barWidth)) / m_kBSize);
         const int left = 1;
-        int right = usedWidth - (widthDec + 1);
+        int right = usedWidth - widthDec;
         if (right < left) {
             right = left;
         }
-        painter.drawRect(QRect(left, barTop + 2, right, barHeight - 2));
+        painter.drawRect(QRect(left, barTop + 2, right, barHeight - 1));
 
         text = i18n("%1% of %2 used", QString::number(100 - (int)(100.0 * m_kBAvailable / m_kBSize)), KIO::convertSizeFromKiB(m_kBSize));
     }
@@ -105,8 +105,8 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
 
     // draw text (usually 'X% of Y GB used')
     painter.setPen(KGlobalSettings::textColor());
-    painter.drawText(QRect(1, 1, barWidth - 2, barHeight + 4),
-                     Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextWordWrap,
+    painter.drawText(QRect(1, 1, barWidth - 2, barHeight + 6),
+                     Qt::AlignCenter | Qt::TextWordWrap,
                      text);
 }
 
