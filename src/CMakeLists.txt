@@ -44,7 +44,7 @@ set(dolphin_SRCS
    filterbar.cpp
    protocolcombo.cpp
    viewpropsprogressinfo.cpp
-   viewpropsapplier.cpp )
+   applyviewpropsjob.cpp )
 
 kde4_automoc(${dolphin_SRCS})
 

@@ -52,9 +52,7 @@ private slots:
     void slotSortingChanged(int index);
     void slotSortOrderChanged(int index);
     void slotShowHiddenFilesChanged();
-    void slotApplyToCurrentFolder();
-    void slotApplyToSubFolders();
-    void slotApplyToAllFolders();
+    void markAsDirty();
 
 private:
     bool m_isDirty;

@@ -125,11 +125,11 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     connect(m_showHiddenFiles, SIGNAL(clicked()),
             this, SLOT(slotShowHiddenFilesChanged()));
     connect(m_applyToCurrentFolder, SIGNAL(clicked()),
-            this, SLOT(slotApplyToCurrentFolder()));
+            this, SLOT(markAsDirty()));
     connect(m_applyToSubFolders, SIGNAL(clicked()),
-            this, SLOT(slotApplyToSubFolders()));
+            this, SLOT(markAsDirty()));
     connect(m_applyToAllFolders, SIGNAL(clicked()),
-            this, SLOT(slotApplyToAllFolders()));
+            this, SLOT(markAsDirty()));
 
     connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
     connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
@@ -189,18 +189,7 @@ void ViewPropertiesDialog::slotShowHiddenFilesChanged()
     m_isDirty = true;
 }
 
-void ViewPropertiesDialog::slotApplyToCurrentFolder()
-{
-    m_isDirty = true;
-}
-
-void ViewPropertiesDialog::slotApplyToSubFolders()
-{
-    //m_viewProps->setValidForSubDirs(true);
-    m_isDirty = true;
-}
-
-void ViewPropertiesDialog::slotApplyToAllFolders()
+void ViewPropertiesDialog::markAsDirty()
 {
     m_isDirty = true;
 }

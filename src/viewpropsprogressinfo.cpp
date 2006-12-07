@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 #include "viewpropsprogressinfo.h"
-#include "viewpropsapplier.h"
+#include "applyviewpropsjob.h"
 #include "viewproperties.h"
 
 #include <QLabel>
@@ -27,7 +27,7 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
-#include <kdirsize.h>
+#include <assert.h>
 #include <klocale.h>
 #include <kurl.h>
 #include <kio/jobclasses.h>
@@ -36,13 +36,12 @@ ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
                                              const KUrl& dir,
                                              const ViewProperties* viewProps) :
     KDialog(parent),
-    m_dirCount(0),
-    m_applyCount(0),
     m_dir(dir),
     m_viewProps(viewProps),
     m_label(0),
     m_progressBar(0),
     m_dirSizeJob(0),
+    m_applyViewPropsJob(0),
     m_timer(0)
 {
     setCaption(i18n("Applying view properties"));
@@ -60,67 +59,68 @@ ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
     main->setLayout(topLayout);
     setMainWidget(main);
 
-    ViewPropsApplier* applier = new ViewPropsApplier(dir);
-    connect(applier, SIGNAL(progress(const KUrl&, int)),
-            this, SLOT(countDirs(const KUrl&, int)));
-    connect(applier, SIGNAL(completed()),
+    // Use the directory size job to count the number of directories first. This
+    // allows to give a progress indication for the user when applying the view
+    // properties later.
+    m_dirSizeJob = KIO::directorySize(dir);
+    connect(m_dirSizeJob, SIGNAL(result(KJob*)),
             this, SLOT(applyViewProperties()));
 
-    // TODO: use KDirSize job instead. Current issue: the signal
-    // 'result' is not emitted with kdelibs 2006-12-05.
-
-    /*m_dirSizeJob = KDirSize::dirSizeJob(dir);
-    connect(m_dirSizeJob, SIGNAL(result(KJob*)),
-            this, SLOT(slotResult(KJob*)));
-
+    // The directory size job cannot emit any progress signal, as it is not aware
+    // about the total number of directories. Therefor a timer is triggered, which
+    // periodically updates the current directory count.
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()),
-            this, SLOT(updateDirCounter()));
-    m_timer->start(300);*/
+            this, SLOT(updateProgress()));
+    m_timer->start(300);
+
+    connect(this, SIGNAL(cancelClicked()), this, SLOT(cancelApplying()));
 }
 
 ViewPropsProgressInfo::~ViewPropsProgressInfo()
 {
+    m_timer->stop();
 }
 
-void ViewPropsProgressInfo::countDirs(const KUrl& /*dir*/, int count)
+void ViewPropsProgressInfo::updateProgress()
 {
-    m_dirCount += count;
-    m_label->setText(i18n("Counting folders: %1", m_dirCount));
+    if (m_dirSizeJob != 0) {
+        const int subdirs = m_dirSizeJob->totalSubdirs();
+        m_label->setText(i18n("Counting folders: %1", subdirs));
+    }
+    else {
+        assert(m_applyViewPropsJob != 0);
+        const int progress = m_applyViewPropsJob->progress();
+        m_progressBar->setValue(progress);
+    }
 }
-
-/*void ViewPropsProgressInfo::updateDirCounter()
-{
-    const int subdirs = m_dirSizeJob->totalSubdirs();
-    m_label->setText(i18n("Counting folders: %1", subdirs));
-}
-
-void ViewPropsProgressInfo::slotResult(KJob*)
-{
-    QTimer::singleShot(0, this, SLOT(applyViewProperties()));
-}*/
 
 void ViewPropsProgressInfo::applyViewProperties()
 {
-    //m_timer->stop();
-    //const int subdirs = m_dirSizeJob->totalSubdirs();
-    //m_label->setText(i18n("Folders: %1", subdirs));
-    //m_progressBar->setMaximum(subdirs);
+    if (m_dirSizeJob->error()) {
+        return;
+    }
 
-    m_label->setText(i18n("Folders: %1", m_dirCount));
-    m_progressBar->setMaximum(m_dirCount);
+    const int subdirs = m_dirSizeJob->totalSubdirs();
+    m_label->setText(i18n("Folders: %1", subdirs));
+    m_progressBar->setMaximum(subdirs);
 
-    ViewPropsApplier* applier = new ViewPropsApplier(m_dir, m_viewProps);
-    connect(applier, SIGNAL(progress(const KUrl&, int)),
-            this, SLOT(showProgress(const KUrl&, int)));
-    connect(applier, SIGNAL(completed()),
+    m_dirSizeJob = 0;
+
+    m_applyViewPropsJob = new ApplyViewPropsJob(m_dir, *m_viewProps);
+    connect(m_applyViewPropsJob, SIGNAL(result(KJob*)),
             this, SLOT(close()));
 }
 
-void ViewPropsProgressInfo::showProgress(const KUrl& url, int count)
+void ViewPropsProgressInfo::cancelApplying()
 {
-    m_applyCount += count;
-    m_progressBar->setValue(m_applyCount);
+    if (m_dirSizeJob != 0) {
+        m_dirSizeJob->doKill();
+    }
+    else {
+        assert(m_applyViewPropsJob != 0);
+        m_applyViewPropsJob->doKill();
+    }
 }
 
 #include "viewpropsprogressinfo.moc"

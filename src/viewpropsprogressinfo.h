@@ -21,8 +21,9 @@
 #define VIEWPROPSPROGRESSINFO_H
 
 #include <kdialog.h>
+#include <kio/directorysizejob.h>
 
-class KDirSize;
+class ApplyViewPropsJob;
 class KJob;
 class KUrl;
 class QLabel;
@@ -31,8 +32,11 @@ class QTimer;
 class ViewProperties;
 
 /**
- * @brief Shows the progress when applying view properties recursively to
- *        sub directories.
+ * @brief Shows the progress information when applying view properties
+ *        recursively to a given directory.
+ *
+ * It is possible to cancel the applying. In this case the already applied
+ * view properties won't get reverted.
  */
 class ViewPropsProgressInfo : public KDialog
 {
@@ -53,20 +57,19 @@ public:
     virtual ~ViewPropsProgressInfo();
 
 private slots:
-    void countDirs(const KUrl& dir, int count);
-    //void updateDirCounter();
-    //void slotResult(KJob* job);
+    void updateProgress();
     void applyViewProperties();
-    void showProgress(const KUrl& url, int count);
+    void cancelApplying();
 
 private:
-    int m_dirCount;
-    int m_applyCount;
     const KUrl& m_dir;
     const ViewProperties* m_viewProps;
+
     QLabel* m_label;
     QProgressBar* m_progressBar;
-    KDirSize* m_dirSizeJob;
+
+    KIO::DirectorySizeJob* m_dirSizeJob;
+    ApplyViewPropsJob* m_applyViewPropsJob;
     QTimer* m_timer;
 };
 
