@@ -236,7 +236,7 @@ void InfoSidebarPage::connectToActiveView()
     DolphinView* view = mainWindow()->activeView();
     connect(view, SIGNAL(requestItemInfo(const KUrl&)),
             this, SLOT(requestDelayedItemInfo(const KUrl&)));
-    connect(view, SIGNAL(signalUrlChanged(const KUrl&)),
+    connect(view, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(requestItemInfo(const KUrl&)));
 
     m_shownUrl = view->url();
