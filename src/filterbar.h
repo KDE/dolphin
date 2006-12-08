@@ -31,13 +31,14 @@ class DolphinMainWindow;
  * @brief Provides an input field for filtering the currently shown items.
  *
  * @author Gregor Kališnik <gregor@podnapisi.net>
+ * @author Peter Penz <peter.penz@gmx.at>
  */
 class FilterBar : public QWidget
 {
     Q_OBJECT
 
 public:
-    FilterBar(DolphinMainWindow* mainWindow, QWidget *parent = 0, const char *name = 0);
+    FilterBar(QWidget* parent = 0);
     virtual ~FilterBar();
 
 signals:
@@ -45,15 +46,22 @@ signals:
      * Signal that reports the name filter has been
      * changed to \a nameFilter.
      */
-    void signalFilterChanged(const QString& nameFilter);
+    void filterChanged(const QString& nameFilter);
+
+    /**
+     * Emitted as soon as the filterbar should get closed.
+     */
+    void closed();
 
 protected:
     virtual void hideEvent(QHideEvent* event);
     virtual void showEvent(QShowEvent* event);
     virtual void keyReleaseEvent(QKeyEvent* event);
 
+private slots:
+    void emitClose();
+
 private:
-    DolphinMainWindow *m_mainWindow;
     QLabel* m_filter;
     KLineEdit* m_filterInput;
     QToolButton* m_close;

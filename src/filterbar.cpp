@@ -31,39 +31,36 @@
 
 #include "dolphinmainwindow.h"
 
-FilterBar::FilterBar(DolphinMainWindow* mainWindow, QWidget *parent, const char *name) :
-    QWidget(parent, name),
-    m_mainWindow(mainWindow)
+FilterBar::FilterBar(QWidget* parent) :
+    QWidget(parent)
 {
     const int gap = 3;
 
-    QVBoxLayout* foo = new QVBoxLayout(this);
-    foo->setMargin(0);
-    foo->addSpacing(gap);
+    QVBoxLayout* vLayout = new QVBoxLayout(this);
+    vLayout->setMargin(0);
+    vLayout->addSpacing(gap);
 
-    QHBoxLayout* layout = new QHBoxLayout(foo);
-    layout->setMargin(0);
-    layout->addSpacing(gap);
+    QHBoxLayout* hLayout = new QHBoxLayout(vLayout);
+    hLayout->setMargin(0);
+    hLayout->addSpacing(gap);
 
     m_filter = new QLabel(i18n("Filter:"), this);
-    layout->addWidget(m_filter);
-    layout->addSpacing(KDialog::spacingHint());
+    hLayout->addWidget(m_filter);
+    hLayout->addSpacing(KDialog::spacingHint());
 
     m_filterInput = new KLineEdit(this);
     m_filter->setBuddy(m_filterInput);
-    layout->addWidget(m_filterInput);
+    hLayout->addWidget(m_filterInput);
 
     m_close = new QToolButton(this);
     m_close->setAutoRaise(true);
     m_close->setIcon(QIcon(SmallIcon("fileclose")));
-    layout->addWidget(m_close);
-    layout->addSpacing(gap);
+    hLayout->addWidget(m_close);
+    hLayout->addSpacing(gap);
 
     connect(m_filterInput, SIGNAL(textChanged(const QString&)),
             this, SIGNAL(signalFilterChanged(const QString&)));
-    connect(m_close, SIGNAL(clicked()), this, SLOT(hide()));
-    connect(m_close, SIGNAL(clicked()),
-            mainWindow, SLOT(slotShowFilterBarChanged()));
+    connect(m_close, SIGNAL(clicked()), this, SLOT(emitClose()));
 }
 
 FilterBar::~FilterBar()
@@ -89,9 +86,13 @@ void FilterBar::keyReleaseEvent(QKeyEvent* event)
 {
     QWidget::keyReleaseEvent(event);
     if ((event->key() == Qt::Key_Escape)) {
-        hide();
-        m_mainWindow->slotShowFilterBarChanged();
+        emitClose();
     }
+}
+
+void FilterBar::emitClose()
+{
+    emit close();
 }
 
 #include "filterbar.moc"

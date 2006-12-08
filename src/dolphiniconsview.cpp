@@ -28,11 +28,26 @@ DolphinIconsView::DolphinIconsView(DolphinView* parent) :
     QListView(parent),
     m_parentView( parent )
 {
-    setResizeMode( QListView::Adjust );
+    setResizeMode(QListView::Adjust);
 }
 
 DolphinIconsView::~DolphinIconsView()
 {
+}
+
+QStyleOptionViewItem DolphinIconsView::viewOptions() const
+{
+    return QListView::viewOptions();
+
+    // TODO: the view options should been read from the settings;
+    // the following code is just for testing...
+    //QStyleOptionViewItem options = QListView::viewOptions();
+    //options.decorationAlignment = Qt::AlignRight;
+    //options.decorationPosition = QStyleOptionViewItem::Right;
+    //options.decorationSize = QSize(100, 100);
+    //options.showDecorationSelected = true;
+    //options.state = QStyle::State_MouseOver;
+    //return options;
 }
 
 void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)

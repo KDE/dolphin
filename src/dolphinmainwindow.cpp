@@ -218,6 +218,7 @@ void DolphinMainWindow::refreshViews()
                                         url,
                                         props.viewMode(),
                                         props.isShowHiddenFilesEnabled());
+            connectViewSignals(i);
             m_view[i]->show();
         }
     }
@@ -227,24 +228,6 @@ void DolphinMainWindow::refreshViews()
 
     updateViewActions();
     emit activeViewChanged();
-}
-
-void DolphinMainWindow::slotHistoryChanged()
-{
-    updateHistory();
-}
-
-void DolphinMainWindow::slotUrlChanged(const KUrl& url)
-{
-    updateEditActions();
-    updateGoActions();
-    setCaption(url.fileName());
-}
-
-void DolphinMainWindow::slotUrlChangeRequest(const KUrl& url)
-{
-	clearStatusBar();
-	m_activeView->setUrl(url);
 }
 
 void DolphinMainWindow::slotViewModeChanged()
@@ -257,13 +240,6 @@ void DolphinMainWindow::slotShowHiddenFilesChanged()
     KToggleAction* showHiddenFilesAction =
         static_cast<KToggleAction*>(actionCollection()->action("show_hidden_files"));
     showHiddenFilesAction->setChecked(m_activeView->isShowHiddenFilesEnabled());
-}
-
-void DolphinMainWindow::slotShowFilterBarChanged()
-{
-    KToggleAction* showFilterBarAction =
-        static_cast<KToggleAction*>(actionCollection()->action("show_filter_bar"));
-    showFilterBarAction->setChecked(m_activeView->isFilterBarVisible());
 }
 
 void DolphinMainWindow::slotSortingChanged(DolphinView::Sorting sorting)
@@ -314,17 +290,36 @@ void DolphinMainWindow::slotSelectionChanged()
     emit selectionChanged();
 }
 
-void DolphinMainWindow::slotRedo()
+void DolphinMainWindow::slotHistoryChanged()
+{
+    updateHistory();
+}
+
+void DolphinMainWindow::slotUrlChanged(const KUrl& url)
+{
+    updateEditActions();
+    updateGoActions();
+    setCaption(url.fileName());
+}
+
+void DolphinMainWindow::updateFilterBarAction(bool show)
+{
+    KToggleAction* showFilterBarAction =
+        static_cast<KToggleAction*>(actionCollection()->action("show_filter_bar"));
+    showFilterBarAction->setChecked(show);
+}
+
+void DolphinMainWindow::redo()
 {
     UndoManager::instance().redo(this);
 }
 
-void DolphinMainWindow::slotUndo()
+void DolphinMainWindow::undo()
 {
     UndoManager::instance().undo(this);
 }
 
-void DolphinMainWindow::slotNewMainWindow()
+void DolphinMainWindow::openNewMainWindow()
 {
     DolphinApplication::app()->createMainWindow()->show();
 }
@@ -826,6 +821,7 @@ void DolphinMainWindow::toggleSplitView()
                                                m_view[PrimaryIdx]->url(),
                                                m_view[PrimaryIdx]->mode(),
                                                m_view[PrimaryIdx]->isShowHiddenFilesEnabled());
+        connectViewSignals(SecondaryIdx);
         m_splitter->addWidget(m_view[SecondaryIdx]);
         m_splitter->setSizes(QList<int>() << newWidth << newWidth);
         m_view[SecondaryIdx]->show();
@@ -1125,6 +1121,7 @@ void DolphinMainWindow::init()
                                          homeUrl,
                                          props.viewMode(),
                                          props.isShowHiddenFilesEnabled());
+    connectViewSignals(PrimaryIdx);
     m_view[PrimaryIdx]->show();
 
     m_activeView = m_view[PrimaryIdx];
@@ -1171,7 +1168,7 @@ void DolphinMainWindow::setupActions()
 {
     // setup 'File' menu
     KAction *action = new KAction(KIcon("window_new"),  i18n( "New &Window" ), actionCollection(), "new_window" );
-    connect(action, SIGNAL(triggered()), this, SLOT(slotNewMainWindow()));
+    connect(action, SIGNAL(triggered()), this, SLOT(openNewMainWindow()));
 
     KAction* createFolder = new KAction(i18n("Folder..."), actionCollection(), "create_folder");
     createFolder->setIcon(KIcon("folder"));
@@ -1201,7 +1198,7 @@ void DolphinMainWindow::setupActions()
     // setup 'Edit' menu
     UndoManager& undoManager = UndoManager::instance();
     KStdAction::undo(this,
-                     SLOT(slotUndo()),
+                     SLOT(undo()),
                      actionCollection());
     connect(&undoManager, SIGNAL(undoAvailable(bool)),
             this, SLOT(slotUndoAvailable(bool)));
@@ -1209,7 +1206,7 @@ void DolphinMainWindow::setupActions()
             this, SLOT(slotUndoTextChanged(const QString&)));
 
     KStdAction::redo(this,
-                     SLOT(slotRedo()),
+                     SLOT(redo()),
                      actionCollection());
     connect(&undoManager, SIGNAL(redoAvailable(bool)),
             this, SLOT(slotRedoAvailable(bool)));
@@ -1331,6 +1328,31 @@ void DolphinMainWindow::setupActions()
 
     // setup 'Settings' menu
     KStdAction::preferences(this, SLOT(editSettings()), actionCollection());
+}
+
+void DolphinMainWindow::setupDockWidgets()
+{
+    QDockWidget *shortcutsDock = new QDockWidget(i18n("Shortcuts"));
+
+    shortcutsDock->setObjectName("shortcutsDock");
+    shortcutsDock->setWidget(new BookmarksSidebarPage(this));
+
+    shortcutsDock->toggleViewAction()->setObjectName("show_shortcuts_pane");
+    shortcutsDock->toggleViewAction()->setText(i18n("Show Shortcuts Panel"));
+    actionCollection()->insert(shortcutsDock->toggleViewAction());
+
+    addDockWidget(Qt::LeftDockWidgetArea, shortcutsDock);
+
+    QDockWidget *infoDock = new QDockWidget(i18n("Information"));
+
+    infoDock->setObjectName("infoDock");
+    infoDock->setWidget(new InfoSidebarPage(this));
+
+    infoDock->toggleViewAction()->setObjectName("show_info_pane");
+    infoDock->toggleViewAction()->setText(i18n("Show Information Panel"));
+    actionCollection()->insert(infoDock->toggleViewAction());
+
+    addDockWidget(Qt::RightDockWidgetArea, infoDock);
 }
 
 void DolphinMainWindow::setupCreateNewMenuActions()
@@ -1594,29 +1616,28 @@ void DolphinMainWindow::clearStatusBar()
     m_activeView->statusBar()->clear();
 }
 
-void DolphinMainWindow::setupDockWidgets()
+void DolphinMainWindow::connectViewSignals(int viewIndex)
 {
-    QDockWidget *shortcutsDock = new QDockWidget(i18n("Shortcuts"));
+    DolphinView* view = m_view[viewIndex];
+    connect(view, SIGNAL(modeChanged()),
+            this, SLOT(slotViewModeChanged()));
+    connect(view, SIGNAL(showHiddenFilesChanged()),
+            this, SLOT(slotShowHiddenFilesChanged()));
+    connect(view, SIGNAL(sortingChanged(DolphinView::Sorting)),
+            this, SLOT(slotSortingChanged(DolphinView::Sorting)));
+    connect(view, SIGNAL(sortOrderChanged(Qt::SortOrder)),
+            this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
+    connect(view, SIGNAL(selectionChanged()),
+            this, SLOT(slotSelectionChanged()));
+    connect(view, SIGNAL(showFilterBarChanged(bool)),
+            this, SLOT(updateFilterBarAction(bool)));
 
-    shortcutsDock->setObjectName("shortcutsDock");
-    shortcutsDock->setWidget(new BookmarksSidebarPage(this));
+    const UrlNavigator* navigator = view->urlNavigator();
+    connect(navigator, SIGNAL(urlChanged(const KUrl&)),
+            this, SLOT(slotUrlChanged(const KUrl&)));
+    connect(navigator, SIGNAL(historyChanged()),
+            this, SLOT(slotHistoryChanged()));
 
-    shortcutsDock->toggleViewAction()->setObjectName("show_shortcuts_pane");
-    shortcutsDock->toggleViewAction()->setText(i18n("Show Shortcuts Panel"));
-    actionCollection()->insert(shortcutsDock->toggleViewAction());
-
-    addDockWidget(Qt::LeftDockWidgetArea, shortcutsDock);
-
-    QDockWidget *infoDock = new QDockWidget(i18n("Information"));
-
-    infoDock->setObjectName("infoDock");
-    infoDock->setWidget(new InfoSidebarPage(this));
-
-    infoDock->toggleViewAction()->setObjectName("show_info_pane");
-    infoDock->toggleViewAction()->setText(i18n("Show Information Panel"));
-    actionCollection()->insert(infoDock->toggleViewAction());
-
-    addDockWidget(Qt::RightDockWidgetArea, infoDock);
 }
 
 #include "dolphinmainwindow.moc"

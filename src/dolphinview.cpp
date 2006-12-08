@@ -21,15 +21,13 @@
 #include "dolphinview.h"
 
 #include <QItemSelectionModel>
-
-#include <kdirmodel.h>
-
-#include <qlayout.h>
-//Added by qt3to4:
 #include <Q3ValueList>
 #include <QDropEvent>
 #include <QMouseEvent>
 #include <QVBoxLayout>
+
+#include <kdirmodel.h>
+#include <kfileitemdelegate.h>
 #include <kurl.h>
 #include <klocale.h>
 #include <kio/netaccess.h>
@@ -48,7 +46,6 @@
 #include "undomanager.h"
 #include "renamedialog.h"
 #include "progressindicator.h"
-
 #include "filterbar.h"
 
 DolphinView::DolphinView(DolphinMainWindow *mainWindow,
@@ -57,10 +54,10 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
                          Mode mode,
                          bool showHiddenFiles) :
     QWidget(parent),
-    m_mainWindow(mainWindow),
     m_refreshing(false),
     m_showProgress(false),
     m_mode(mode),
+    m_mainWindow(mainWindow),
     m_statusBar(0),
     m_iconSize(0),
     m_folderCount(0),
@@ -73,22 +70,9 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
     m_topLayout->setSpacing(0);
     m_topLayout->setMargin(0);
 
-    connect(this, SIGNAL(signalModeChanged()),
-            mainWindow, SLOT(slotViewModeChanged()));
-    connect(this, SIGNAL(signalShowHiddenFilesChanged()),
-            mainWindow, SLOT(slotShowHiddenFilesChanged()));
-    connect(this, SIGNAL(signalSortingChanged(DolphinView::Sorting)),
-            mainWindow, SLOT(slotSortingChanged(DolphinView::Sorting)));
-    connect(this, SIGNAL(signalSortOrderChanged(Qt::SortOrder)),
-            mainWindow, SLOT(slotSortOrderChanged(Qt::SortOrder)));
-
     m_urlNavigator = new UrlNavigator(url, this);
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(slotUrlChanged(const KUrl&)));
-    connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
-            mainWindow, SLOT(slotUrlChanged(const KUrl&)));
-    connect(m_urlNavigator, SIGNAL(historyChanged()),
-            mainWindow, SLOT(slotHistoryChanged()));
+            this, SLOT(loadDirectory(const KUrl&)));
 
     m_statusBar = new DolphinStatusBar(this);
 
@@ -110,28 +94,36 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
             this, SLOT(slotErrorMessage(const QString&)));
 
     m_iconsView = new DolphinIconsView(this);
-    connect(m_iconsView, SIGNAL(clicked(const QModelIndex&)),
-            this, SLOT(triggerItem(const QModelIndex&)));
     applyModeToView();
 
     KDirModel* model = new KDirModel();
     model->setDirLister(m_dirLister);
     m_iconsView->setModel(model);
 
+    KFileItemDelegate* delegate = new KFileItemDelegate(this);
+    m_iconsView->setItemDelegate(delegate);
+
     m_dirLister->setDelayedMimeTypes(true);
-    new KMimeTypeResolver( m_iconsView, model );
+    new KMimeTypeResolver(m_iconsView, model);
 
     m_iconSize = K3Icon::SizeMedium;
 
-    m_filterBar = new FilterBar(mainWindow, this);
+    m_filterBar = new FilterBar(this);
     m_filterBar->hide();
-    connect(m_filterBar, SIGNAL(signalFilterChanged(const QString&)),
+    connect(m_filterBar, SIGNAL(filterChanged(const QString&)),
            this, SLOT(slotChangeNameFilter(const QString&)));
+    connect(m_filterBar, SIGNAL(closed()),
+            this, SLOT(closeFilterBar()));
 
     m_topLayout->addWidget(m_urlNavigator);
     m_topLayout->addWidget(m_iconsView);
     m_topLayout->addWidget(m_filterBar);
     m_topLayout->addWidget(m_statusBar);
+
+    connect(m_iconsView, SIGNAL(clicked(const QModelIndex&)),
+            this, SLOT(triggerItem(const QModelIndex&)));
+    connect(m_iconsView->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
+            this, SLOT(emitSelectionChangedSignal()));
 
     startDirLister(m_urlNavigator->url());
 }
@@ -176,7 +168,7 @@ void DolphinView::setMode(Mode mode)
     applyModeToView();
     startDirLister(m_urlNavigator->url());
 
-    emit signalModeChanged();
+    emit modeChanged();
 }
 
 DolphinView::Mode DolphinView::mode() const
@@ -196,7 +188,7 @@ void DolphinView::setShowHiddenFilesEnabled(bool show)
 
     m_dirLister->setShowingDotFiles(show);
 
-    emit signalShowHiddenFilesChanged();
+    emit showHiddenFilesChanged();
 
     reload();
 }
@@ -362,9 +354,14 @@ void DolphinView::updateStatusBar()
     }
 }
 
-void DolphinView::requestItemInfo(const KUrl& url)
+void DolphinView::emitRequestItemInfo(const KUrl& url)
 {
-    emit signalRequestItemInfo(url);
+    emit requestItemInfo(url);
+}
+
+bool DolphinView::isFilterBarVisible() const
+{
+  return m_filterBar->isVisible();
 }
 
 bool DolphinView::isUrlEditable() const
@@ -633,7 +630,7 @@ DolphinMainWindow* DolphinView::mainWindow() const
     return m_mainWindow;
 }
 
-void DolphinView::slotUrlChanged(const KUrl& url)
+void DolphinView::loadDirectory(const KUrl& url)
 {
     const ViewProperties props(url);
     setMode(props.viewMode());
@@ -646,14 +643,7 @@ void DolphinView::slotUrlChanged(const KUrl& url)
     setSortOrder(props.sortOrder());
 
     startDirLister(url);
-
-    // The selectionChanged signal is not emitted when a new view object is
-    // created. The application does not care whether a view is represented by a
-    // different instance, hence inform the application that the selection might have
-    // changed so that it can update it's actions.
-    mainWindow()->slotSelectionChanged();
-
-    emit signalUrlChanged(url);
+    emit urlChanged(url);
 }
 
 void DolphinView::triggerIconsViewItem(Q3IconViewItem* item)
@@ -819,6 +809,17 @@ void DolphinView::slotErrorMessage(const QString& msg)
 void DolphinView::slotGrabActivation()
 {
     mainWindow()->setActiveView(this);
+}
+
+void DolphinView::emitSelectionChangedSignal()
+{
+    emit selectionChanged();
+}
+
+void DolphinView::closeFilterBar()
+{
+    m_filterBar->hide();
+    emit showFilterBarChanged(false);
 }
 
 void DolphinView::slotContentsMoving(int x, int y)
@@ -1029,13 +1030,11 @@ void DolphinView::slotChangeNameFilter(const QString& nameFilter)
     }*/
 }
 
-bool DolphinView::isFilterBarVisible()
-{
-  return m_filterBar->isVisible();
-}
-
 void DolphinView::applyModeToView()
 {
+    //m_iconsView->setAlternatingRowColors(true);
+    m_iconsView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+
     // TODO: the following code just tries to test some QListView capabilities
     switch (m_mode) {
         case IconsView:

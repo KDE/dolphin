@@ -313,19 +313,14 @@ public:
 
     /**
      * Triggers to request user information for the item given
-     * by the Url \a url. The signal signalRequestItemInfo is emitted,
+     * by the Url \a url. The signal requestItemInfo is emitted,
      * which provides a way for widgets to get an indication to update
      * the item information.
      */
-    void requestItemInfo(const KUrl& url);
+    void emitRequestItemInfo(const KUrl& url);
 
-    /**
-     * Checks if the filter bar is visible.
-     *
-     * @return @c true Filter bar is visible.
-     * @return @c false Filter bar is not visible.
-     */
-    bool isFilterBarVisible();
+    /** Returns true, if the filter bar is visible. */
+    bool isFilterBarVisible() const;
 
     /**
      * Return the DolphinMainWindow this View belongs to. It is guranteed
@@ -351,28 +346,28 @@ public slots:
 
 signals:
     /** Is emitted if Url of the view has been changed to \a url. */
-    void signalUrlChanged(const KUrl& url);
+    void urlChanged(const KUrl& url);
 
     /**
      * Is emitted if the view mode (IconsView, DetailsView,
      * PreviewsView) has been changed.
      */
-    void signalModeChanged();
+    void modeChanged();
 
     /** Is emitted if the 'show hidden files' property has been changed. */
-    void signalShowHiddenFilesChanged();
+    void showHiddenFilesChanged();
 
     /** Is emitted if the sorting by name, size or date has been changed. */
-    void signalSortingChanged(DolphinView::Sorting sorting);
+    void sortingChanged(DolphinView::Sorting sorting);
 
     /** Is emitted if the sort order (ascending or descending) has been changed. */
-    void signalSortOrderChanged(Qt::SortOrder order);
+    void sortOrderChanged(Qt::SortOrder order);
 
     /**
      * Is emitted if information of an item is requested to be shown e. g. in the sidebar.
      * It the Url is empty, no item information request is pending.
      */
-    void signalRequestItemInfo(const KUrl& url);
+    void requestItemInfo(const KUrl& url);
 
     /** Is emitted if the contents has been moved to \a x, \a y. */
     void contentsMoved(int x, int y);
@@ -382,20 +377,19 @@ signals:
      * be retrieved by mainWindow()->activeView()->selectedItems() or by
      * mainWindow()->activeView()->selectedUrls().
      */
-    void signalSelectionChanged();
+    void selectionChanged();
 
     /**
-     * Is emitted whenever the directory view is redirected by an ioslave
+     * Is emitted whenever the filter bar has been turned show or hidden.
      */
-    void redirection(const KUrl& oldUrl, const KUrl& newUrl);
+    void showFilterBarChanged(bool shown);
 
 protected:
     /** @see QWidget::mouseReleaseEvent */
     virtual void mouseReleaseEvent(QMouseEvent* event);
 
-
 private slots:
-    void slotUrlChanged(const KUrl& kurl);
+    void loadDirectory(const KUrl& kurl);
     void triggerIconsViewItem(Q3IconViewItem *item);
     void triggerItem(const QModelIndex& index);
     void updateUrl();
@@ -406,8 +400,9 @@ private slots:
     void slotCompleted();
     void slotInfoMessage(const QString& msg);
     void slotErrorMessage(const QString& msg);
-
     void slotGrabActivation();
+    void emitSelectionChangedSignal();
+    void closeFilterBar();
 
     /**
      * Is invoked shortly before the contents of a view implementation
@@ -453,11 +448,11 @@ private:
      */
     void applyModeToView();
 
-    DolphinMainWindow *m_mainWindow;
     bool m_refreshing;
     bool m_showProgress;
     Mode m_mode;
 
+    DolphinMainWindow* m_mainWindow;
     QVBoxLayout* m_topLayout;
     UrlNavigator* m_urlNavigator;
     DolphinIconsView* m_iconsView;

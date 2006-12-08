@@ -42,6 +42,7 @@ public:
     virtual ~DolphinIconsView();
 
 protected:
+    virtual QStyleOptionViewItem viewOptions() const;
     virtual void contextMenuEvent(QContextMenuEvent* event);
     virtual void mouseReleaseEvent(QMouseEvent* event);
 

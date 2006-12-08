@@ -28,13 +28,14 @@
 
 #include <kapplication.h>
 #include <kmainwindow.h>
-#include <q3valuelist.h>
-#include <q3ptrlist.h>
-#include <qstring.h>
-//Added by qt3to4:
-#include <QCloseEvent>
 #include <ksortablelist.h>
 #include <kvbox.h>
+
+#include <q3valuelist.h>
+#include <q3ptrlist.h>
+
+#include <QCloseEvent>
+#include <QString>
 
 #include "dolphinview.h"
 #include "undomanager.h"
@@ -125,51 +126,6 @@ signals:
      * been changed.
      */
     void selectionChanged();
-
-public slots:
-    /**
-     * Updates the state of the 'Back' and 'Forward' menu
-     * actions corresponding the the current history.
-     */
-    void slotHistoryChanged();
-
-    /**
-     * Updates the caption of the main window and the state
-     * of all menu actions which depend from a changed Url.
-     */
-    void slotUrlChanged(const KUrl& url);
-
-    /**
-     * Go to the given Url.
-     */
-    void slotUrlChangeRequest(const KUrl& url);
-
-    /** Updates the state of all 'View' menu actions. */
-    void slotViewModeChanged();
-
-    /** Updates the state of the 'Show hidden files' menu action. */
-    void slotShowHiddenFilesChanged();
-
-    /** Updates the state of the 'Show filter bar' menu action. */
-    void slotShowFilterBarChanged();
-
-    /** Updates the state of the 'Sort by' actions. */
-    void slotSortingChanged(DolphinView::Sorting sorting);
-
-    /** Updates the state of the 'Sort Ascending/Descending' action. */
-    void slotSortOrderChanged(Qt::SortOrder order);
-
-    /** Updates the state of the 'Edit' menu actions. */
-    void slotSelectionChanged();
-
-    /** Executes Redo operation */
-    void slotRedo();
-
-    /** @see slotUndo() */
-    void slotUndo();
-
-    /** Open a  new mainwindow */
-    void slotNewMainWindow();
 
 protected:
     /** @see QMainWindow::closeEvent */
@@ -371,6 +327,44 @@ private slots:
      */
     void addUndoOperation(KJob* job);
 
+    /** Updates the state of all 'View' menu actions. */
+    void slotViewModeChanged();
+
+    /** Updates the state of the 'Show hidden files' menu action. */
+    void slotShowHiddenFilesChanged();
+
+    /** Updates the state of the 'Sort by' actions. */
+    void slotSortingChanged(DolphinView::Sorting sorting);
+
+    /** Updates the state of the 'Sort Ascending/Descending' action. */
+    void slotSortOrderChanged(Qt::SortOrder order);
+
+    /** Updates the state of the 'Edit' menu actions. */
+    void slotSelectionChanged();
+
+    /**
+     * Updates the state of the 'Back' and 'Forward' menu
+     * actions corresponding the the current history.
+     */
+    void slotHistoryChanged();
+
+    /**
+     * Updates the caption of the main window and the state
+     * of all menu actions which depend from a changed Url.
+     */
+    void slotUrlChanged(const KUrl& url);
+
+    /** Updates the state of the 'Show filter bar' menu action. */
+    void updateFilterBarAction(bool show);
+
+    /** Executes the redo operation (see UndoManager::Redo ()). */
+    void redo();
+
+    /** Executes the undo operation (see UndoManager::Undo()). */
+    void undo();
+
+    /** Open a new main window. */
+    void openNewMainWindow();
 
 private:
     DolphinMainWindow();
@@ -394,6 +388,15 @@ private:
                            const KUrl& dest);
     void clearStatusBar();
 
+    /**
+     * Connects the signals from the created DolphinView with
+     * the index \a viewIndex with the corresponding slots of
+     * the DolphinMainWindow. This method must be invoked each
+     * time a DolphinView has been created.
+     */
+    void connectViewSignals(int viewIndex);
+
+private:
     QSplitter* m_splitter;
     DolphinView* m_activeView;
 
