@@ -86,17 +86,20 @@ DolphinMainWindow::DolphinMainWindow() :
     m_view[PrimaryIdx] = 0;
     m_view[SecondaryIdx] = 0;
 
-    m_fileGroupActions.setAutoDelete(true);
-
     // TODO: the following members are not used yet. See documentation
     // of DolphinMainWindow::linkGroupActions() and DolphinMainWindow::linkToDeviceActions()
     // in the header file for details.
-    //m_linkGroupActions.setAutoDelete(true);
-    //m_linkToDeviceActions.setAutoDelete(true);
 }
 
 DolphinMainWindow::~DolphinMainWindow()
 {
+    qDeleteAll(m_fileGroupActions);
+    //qDeleteAll(m_linkToDeviceActions);
+    //qDeleteAll(m_linkGroupActions);
+    m_fileGroupActions.clear();
+    //m_linkGroupActions.clear();
+    //m_linkToDeviceActions.clear();
+
     /*
      * bye, bye managed window
      */

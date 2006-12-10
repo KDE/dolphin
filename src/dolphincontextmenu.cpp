@@ -91,12 +91,9 @@ void DolphinContextMenu::openViewportContextMenu()
 
     createNewMenu->insertSeparator();
 
-    QAction* action = 0;
-
-    Q3PtrListIterator<KAction> fileGrouptIt(dolphin->fileGroupActions());
-    while ((action = fileGrouptIt.current()) != 0) {
-        createNewMenu->addAction(action);
-        ++fileGrouptIt;
+    QLinkedListIterator<QAction*> fileGrouptIt(dolphin->fileGroupActions());
+    while (fileGrouptIt.hasNext()) {
+        createNewMenu->addAction(fileGrouptIt.next());
     }
 
     // TODO: not used yet. See documentation of Dolphin::linkGroupActions()

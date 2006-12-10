@@ -104,9 +104,9 @@ public:
      * of the 'Create New...' sub menu. Usually the list contains actions
      * for creating folders, text files, HTML files etc.
      */
-    const Q3PtrList<KAction>& fileGroupActions() const { return m_fileGroupActions; }
-    //const QPtrList<KAction>& linkGroupActions() const { return m_linkGroupActions; }
-    //const QPtrList<KAction>& linkToDeviceActions() const { return m_linkToDeviceActions; }
+    QLinkedList<QAction*> fileGroupActions() const { return m_fileGroupActions; }
+    //QLinkedList<QAction*>& linkGroupActions() const { return m_linkGroupActions; }
+    //QLinkedList<QAction*>& linkToDeviceActions() const { return m_linkToDeviceActions; }
 
     /**
      * Refreshs the views of the main window by recreating them dependent from
@@ -440,13 +440,13 @@ private:
         QString comment;
     };
 
-    Q3PtrList<KAction> m_fileGroupActions;
+    QLinkedList<QAction*> m_fileGroupActions;
     KSortableList<CreateFileEntry,QString> m_createFileTemplates;
 
     // TODO: not used yet. See documentation of DolphinMainWindow::linkGroupActions()
     // and DolphinMainWindow::linkToDeviceActions() in for details.
-    //QPtrList<KAction> m_linkGroupActions;
-    //QPtrList<KAction> m_linkToDeviceActions;
+    //QLinkedList<QAction*> m_linkGroupActions;
+    //QLinkedList<QAction*> m_linkToDeviceActions;
 };
 
 #endif // _DOLPHIN_H_
