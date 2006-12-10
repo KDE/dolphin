@@ -356,14 +356,14 @@ void DolphinMainWindow::readProperties(KConfig* config)
 {
     config->setGroup("Primary view");
     m_view[PrimaryIdx]->setUrl(config->readEntry("Url"));
-    m_view[PrimaryIdx]->setUrlEditable(config->readBoolEntry("Editable Url"));
+    m_view[PrimaryIdx]->setUrlEditable(config->readEntry("Editable Url", false));
     if (config->hasGroup("Secondary view")) {
         config->setGroup("Secondary view");
         if (m_view[SecondaryIdx] == 0) {
             toggleSplitView();
         }
         m_view[SecondaryIdx]->setUrl(config->readEntry("Url"));
-        m_view[SecondaryIdx]->setUrlEditable(config->readBoolEntry("Editable Url"));
+        m_view[SecondaryIdx]->setUrlEditable(config->readEntry("Editable Url", false));
     }
     else if (m_view[SecondaryIdx] != 0) {
         toggleSplitView();
@@ -458,7 +458,7 @@ void DolphinMainWindow::createFile()
     bool found = false;
     CreateFileEntry entry;
     while (!found && (it != end)) {
-        if ((*it).index() == senderName) {
+        if ((*it).key() == senderName) {
             entry = (*it).value();
             found = true;
         }
@@ -475,7 +475,7 @@ void DolphinMainWindow::createFile()
 
     // Get the source path of the template which should be copied.
     // The source path is part of the Url entry of the desktop file.
-    const int pos = entry.templatePath.findRev('/');
+    const int pos = entry.templatePath.lastIndexOf('/');
     QString sourcePath(entry.templatePath.left(pos + 1));
     sourcePath += KDesktopFile(entry.templatePath, true).readPathEntry("Url");
 
@@ -485,7 +485,7 @@ void DolphinMainWindow::createFile()
     name.replace("...", QString::null);
 
     // add the file extension to the name
-    name.append(sourcePath.right(sourcePath.length() - sourcePath.findRev('.')));
+    name.append(sourcePath.right(sourcePath.length() - sourcePath.lastIndexOf('.')));
 
     // Check whether a file with the current name already exists. If yes suggest automatically
     // a unique file name (e. g. "HTML File" will be replaced by "HTML File_1").
@@ -720,7 +720,7 @@ void DolphinMainWindow::updatePasteAction()
 
     QString text(i18n("Paste"));
     QClipboard* clipboard = QApplication::clipboard();
-    QMimeSource* data = clipboard->data();
+    const QMimeData* data = clipboard->mimeData();
     /* KDE4-TODO:
     if (KUrlDrag::canDecode(data)) {
         pasteAction->setEnabled(true);
@@ -1056,7 +1056,7 @@ void DolphinMainWindow::addUndoOperation(KJob* job)
                 while (sourceIt != sourceEnd) {
                     QMap<QString, QString>::ConstIterator metaIt = metaData.find("trashUrl-" + (*sourceIt).path());
                     if (metaIt != metaData.end()) {
-                        newSourceUrls.append(KUrl(metaIt.data()));
+                        newSourceUrls.append(KUrl(metaIt.value()));
                     }
                     ++sourceIt;
                 }

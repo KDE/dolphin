@@ -346,7 +346,7 @@ void UrlNavigatorButton::listJobFinished(KJob* job)
     setDisplayHintEnabled(PopupActiveHint, true);
     update(); // ensure the button is drawn highlighted
     Q3PopupMenu* dirsMenu = new Q3PopupMenu(this);
-    //setPopup(dirsMenu);
+    //setMenu(dirsMenu);
     QStringList::const_iterator it = m_subdirs.constBegin();
     QStringList::const_iterator itEnd = m_subdirs.constEnd();
     int i = 0;

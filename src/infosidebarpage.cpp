@@ -448,7 +448,7 @@ void InfoSidebarPage::insertActions()
             KSimpleConfig cfg(*dirIt + *entryIt, true);
             cfg.setDesktopGroup();
             if ((cfg.hasKey("Actions") || cfg.hasKey("X-KDE-GetActionMenu")) && cfg.hasKey("ServiceTypes")) {
-                const QStringList types = cfg.readListEntry("ServiceTypes");
+                const QStringList types = cfg.readListEntry("ServiceTypes", ',');
                 for (QStringList::ConstIterator it = types.begin(); it != types.end(); ++it) {
                     // check whether the mime type is equal or whether the
                     // mimegroup (e. g. image/*) is supported
@@ -493,7 +493,7 @@ void InfoSidebarPage::insertActions()
 
                             QPushButton* button = new QPushButton(submenuName, m_actionBox);
                             button->setFlat(true);
-                            button->setPopup(popup);
+                            button->setMenu(popup);
                             button->show();
                             m_actionWidgets.append(button);
                         }

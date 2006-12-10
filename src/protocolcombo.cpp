@@ -70,7 +70,7 @@ ProtocolCombo::ProtocolCombo(const QString& protocol, UrlNavigator* parent)
     //menu->insertItems(m_protocols);
     connect(menu, SIGNAL(activated(int)), this, SLOT(setProtocol(int)));
     setText(protocol);
-    setPopup(menu);
+    setMenu(menu);
     setFlat(true);
 }
 

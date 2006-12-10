@@ -23,8 +23,6 @@
 
 #include <kbookmark.h>
 #include <urlbutton.h>
-//Added by qt3to4:
-#include <Q3PopupMenu>
 
 class UrlNavigator;
 class Q3PopupMenu;
