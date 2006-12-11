@@ -136,7 +136,7 @@ void UrlNavigator::setUrl(const KUrl& url)
 {
     QString urlStr(url.pathOrUrl());
     //kDebug() << "setUrl(" << url << ")" << endl;
-    if (urlStr.at(0) == '~') {
+    if ( urlStr.length() > 0 && urlStr.at(0) == '~') {
         // replace '~' by the home directory
         urlStr.remove(0, 1);
         urlStr.insert(0, QDir::home().path());
@@ -203,7 +203,7 @@ KUrl UrlNavigator::url(int index) const
     QString path(url().pathOrUrl());
     path = path.section('/', 0, index);
 
-    if (path.at(path.length()-1) != '/')
+    if ( path.length() >= 1 && path.at(path.length()-1) != '/')
     {
         path.append('/');
     }
