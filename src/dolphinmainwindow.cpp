@@ -1267,8 +1267,7 @@ void DolphinMainWindow::setupActions()
     KToggleAction* sortDescending = new KToggleAction(i18n("Descending"), actionCollection(), "descending");
     connect(sortDescending, SIGNAL(triggered()), this, SLOT(toggleSortOrder()));
 
-    KToggleAction* showPreview = new KToggleAction(i18n("Preview"), actionCollection(), "show_preview");
-    showPreview->setIcon(KIcon("gvdirpart"));
+    KToggleAction* showPreview = new KToggleAction(i18n("Show Preview"), actionCollection(), "show_preview");
     connect(showPreview, SIGNAL(triggered()), this, SLOT(togglePreview()));
 
     KToggleAction* showHiddenFiles = new KToggleAction(i18n("Show Hidden Files"), actionCollection(), "show_hidden_files");
