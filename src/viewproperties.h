@@ -54,8 +54,11 @@ public:
     void setViewMode(DolphinView::Mode mode);
     DolphinView::Mode viewMode() const;
 
-    void setShowHiddenFilesEnabled(bool show);
-    bool isShowHiddenFilesEnabled() const;
+    void setShowPreview(bool show);
+    bool showPreview() const;
+
+    void setShowHiddenFiles(bool show);
+    bool showHiddenFiles() const;
 
     void setSorting(DolphinView::Sorting sorting);
     DolphinView::Sorting sorting() const;

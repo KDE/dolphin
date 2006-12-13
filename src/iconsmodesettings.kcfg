@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
-<kcfg> 
+<kcfg>
     <kcfgfile name="dolphinrc"/>
     <include>kiconloader.h</include>
     <group name="IconsMode">
@@ -34,6 +34,10 @@
         <entry name="NumberOfTexlines" type="Int">
             <label>Number of textlines</label>
             <default>2</default>
+        </entry>
+        <entry name="Preview" type="Bool">
+            <label>Show preview</label>
+            <default>true</default>
         </entry>
         <entry name="PreviewSize" type="Int">
             <label>Preview size</label>

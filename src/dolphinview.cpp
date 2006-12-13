@@ -176,14 +176,14 @@ DolphinView::Mode DolphinView::mode() const
     return m_mode;
 }
 
-void DolphinView::setShowHiddenFilesEnabled(bool show)
+void DolphinView::setShowHiddenFiles(bool show)
 {
     if (m_dirLister->showingDotFiles() == show) {
         return;
     }
 
     ViewProperties props(m_urlNavigator->url());
-    props.setShowHiddenFilesEnabled(show);
+    props.setShowHiddenFiles(show);
     props.save();
 
     m_dirLister->setShowingDotFiles(show);
@@ -193,7 +193,7 @@ void DolphinView::setShowHiddenFilesEnabled(bool show)
     reload();
 }
 
-bool DolphinView::isShowHiddenFilesEnabled() const
+bool DolphinView::showHiddenFiles() const
 {
     return m_dirLister->showingDotFiles();
 }
@@ -203,7 +203,7 @@ void DolphinView::setViewProperties(const ViewProperties& props)
     setMode(props.viewMode());
     setSorting(props.sorting());
     setSortOrder(props.sortOrder());
-    setShowHiddenFilesEnabled(props.isShowHiddenFilesEnabled());
+    setShowHiddenFiles(props.showHiddenFiles());
 }
 
 void DolphinView::renameSelectedItems()
@@ -635,8 +635,8 @@ void DolphinView::loadDirectory(const KUrl& url)
     const ViewProperties props(url);
     setMode(props.viewMode());
 
-    const bool showHiddenFiles = props.isShowHiddenFilesEnabled();
-    setShowHiddenFilesEnabled(showHiddenFiles);
+    const bool showHiddenFiles = props.showHiddenFiles();
+    setShowHiddenFiles(showHiddenFiles);
     m_dirLister->setShowingDotFiles(showHiddenFiles);
 
     setSorting(props.sorting());
@@ -1047,10 +1047,10 @@ void DolphinView::applyModeToView()
             m_iconsView->setGridSize(QSize(256, 24));
             break;
 
-        case PreviewsView:
-            m_iconsView->setViewMode(QListView::IconMode);
-            m_iconsView->setGridSize(QSize(128, 128));
-            break;
+        //case PreviewsView:
+        //    m_iconsView->setViewMode(QListView::IconMode);
+        //    m_iconsView->setGridSize(QSize(128, 128));
+        //    break;
     }
 }
 

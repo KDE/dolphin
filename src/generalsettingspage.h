@@ -56,7 +56,6 @@ private:
     QLineEdit* m_homeUrl;
     QRadioButton* m_iconsView;
     QRadioButton* m_detailsView;
-    QRadioButton* m_previewsView;
     QCheckBox* m_startSplit;
     QCheckBox* m_startEditable;
 };

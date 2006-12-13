@@ -39,10 +39,8 @@
 #define GRID_SPACING_BASE 8
 #define GRID_SPACING_INC 12
 
-IconsViewSettingsPage::IconsViewSettingsPage(/*DolphinIconsView::LayoutMode mode,*/
-                                             QWidget* parent) :
+IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
     KVBox(parent),
-    //m_mode(mode),
     m_iconSizeSlider(0),
     m_previewSizeSlider(0),
     m_textWidthBox(0),
@@ -89,29 +87,27 @@ IconsViewSettingsPage::IconsViewSettingsPage(/*DolphinIconsView::LayoutMode mode
     m_iconSizeViewer->setEraseColor(iconBackgroundColor);
     slotIconSizeChanged(m_iconSizeSlider->value());
 
-    if (false /*m_mode == DolphinIconsView::Previews*/) {
-        // create 'Preview Size' group including slider and preview
-        Q3GroupBox* previewSizeGroup = new Q3GroupBox(2, Qt::Vertical, i18n("Preview Size"), sizesLayout);
-        previewSizeGroup->setSizePolicy(sizePolicy);
-        previewSizeGroup->setMargin(margin);
+    // create 'Preview Size' group including slider and preview
+    Q3GroupBox* previewSizeGroup = new Q3GroupBox(2, Qt::Vertical, i18n("Preview Size"), sizesLayout);
+    previewSizeGroup->setSizePolicy(sizePolicy);
+    previewSizeGroup->setMargin(margin);
 
-        KHBox* previewSizeVBox = new KHBox(previewSizeGroup);
-        previewSizeVBox->setSpacing(spacing);
-        new QLabel(i18n("Small"), previewSizeVBox);
-        m_previewSizeSlider = new QSlider(0, 5, 1, 0,  Qt::Horizontal, previewSizeVBox);
-        m_previewSizeSlider->setValue(sliderValue(settings->previewSize()));
-        m_previewSizeSlider->setTickmarks(QSlider::TicksBelow);
-        connect(m_previewSizeSlider, SIGNAL(valueChanged(int)),
-                this, SLOT(slotPreviewSizeChanged(int)));
-        new QLabel(i18n("Large"), previewSizeVBox);
+    KHBox* previewSizeVBox = new KHBox(previewSizeGroup);
+    previewSizeVBox->setSpacing(spacing);
+    new QLabel(i18n("Small"), previewSizeVBox);
+    m_previewSizeSlider = new QSlider(0, 5, 1, 0,  Qt::Horizontal, previewSizeVBox);
+    m_previewSizeSlider->setValue(sliderValue(settings->previewSize()));
+    m_previewSizeSlider->setTickmarks(QSlider::TicksBelow);
+    connect(m_previewSizeSlider, SIGNAL(valueChanged(int)),
+            this, SLOT(slotPreviewSizeChanged(int)));
+    new QLabel(i18n("Large"), previewSizeVBox);
 
-        m_previewSizeViewer = new PixmapViewer(previewSizeGroup);
-        m_previewSizeViewer->setMinimumWidth(K3Icon::SizeEnormous);
-        m_previewSizeViewer->setFixedHeight(K3Icon::SizeEnormous);
-        m_previewSizeViewer->setEraseColor(iconBackgroundColor);
+    m_previewSizeViewer = new PixmapViewer(previewSizeGroup);
+    m_previewSizeViewer->setMinimumWidth(K3Icon::SizeEnormous);
+    m_previewSizeViewer->setFixedHeight(K3Icon::SizeEnormous);
+    m_previewSizeViewer->setEraseColor(iconBackgroundColor);
 
-        slotPreviewSizeChanged(m_previewSizeSlider->value());
-    }
+    slotPreviewSizeChanged(m_previewSizeSlider->value());
 
     Q3GroupBox* textGroup = new Q3GroupBox(2, Qt::Horizontal, i18n("Text"), this);
     textGroup->setSizePolicy(sizePolicy);

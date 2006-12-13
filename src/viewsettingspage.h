@@ -49,7 +49,6 @@ public:
 private:
     IconsViewSettingsPage* m_iconsPage;
     DetailsViewSettingsPage* m_detailsPage;
-    IconsViewSettingsPage* m_previewsPage;
 };
 
 #endif

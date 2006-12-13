@@ -49,6 +49,7 @@ private slots:
     void slotViewModeChanged(int index);
     void slotSortingChanged(int index);
     void slotSortOrderChanged(int index);
+    void slotShowPreviewChanged();
     void slotShowHiddenFilesChanged();
     void markAsDirty();
 
@@ -60,6 +61,7 @@ private:
     QComboBox* m_viewMode;
     QComboBox* m_sorting;
     QComboBox* m_sortOrder;
+    QCheckBox* m_showPreview;
     QCheckBox* m_showHiddenFiles;
     QCheckBox* m_applyToSubFolders;
 

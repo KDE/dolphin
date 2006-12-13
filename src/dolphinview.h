@@ -97,13 +97,7 @@ public:
          * for date, group and permissions.
          */
         DetailsView = 1,
-
-        /**
-         * The directory items are shown as preview if possible. As
-         * fallback the items are shown as icons.
-         */
-        PreviewsView = 2,
-        MaxModeEnum = PreviewsView
+        MaxModeEnum = DetailsView
     };
 
     /** Defines the sort order for the items of a directory. */
@@ -138,8 +132,8 @@ public:
 
     void setMode(Mode mode);
     Mode mode() const;
-    void setShowHiddenFilesEnabled(bool show);
-    bool isShowHiddenFilesEnabled() const;
+    void setShowHiddenFiles(bool show);
+    bool showHiddenFiles() const;
 
     void setViewProperties(const ViewProperties& props);
 

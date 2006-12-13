@@ -40,7 +40,14 @@
 ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     KDialog(dolphinView),
     m_isDirty(false),
-    m_dolphinView(dolphinView)
+    m_dolphinView(dolphinView),
+    m_viewProps(0),
+    m_viewMode(0),
+    m_sorting(0),
+    m_sortOrder(0),
+    m_showPreview(0),
+    m_showHiddenFiles(0),
+    m_applyToSubFolders(0)
 {
     assert(dolphinView != 0);
 
@@ -61,7 +68,6 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_viewMode = new QComboBox(propsBox);
     m_viewMode->addItem(SmallIcon("view_icon"), i18n("Icons"));
     m_viewMode->addItem(SmallIcon("view_text"), i18n("Details"));
-    m_viewMode->addItem(SmallIcon("gvdirpart"), i18n("Previews"));
     const int index = static_cast<int>(m_viewProps->viewMode());
     m_viewMode->setCurrentIndex(index);
 
@@ -86,8 +92,11 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     const int sortOrderIdx = (m_viewProps->sortOrder() == Qt::Ascending) ? 0 : 1;
     m_sortOrder->setCurrentIndex(sortOrderIdx);
 
+    m_showPreview = new QCheckBox(i18n("Show preview"), propsBox);
+    m_showPreview->setChecked(m_viewProps->showPreview());
+
     m_showHiddenFiles = new QCheckBox(i18n("Show hidden files"), propsBox);
-    m_showHiddenFiles->setChecked(m_viewProps->isShowHiddenFilesEnabled());
+    m_showHiddenFiles->setChecked(m_viewProps->showHiddenFiles());
 
     QGridLayout* propsBoxLayout = new QGridLayout(propsBox);
     propsBoxLayout->addWidget(viewModeLabel, 0, 0);
@@ -97,7 +106,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     propsBoxLayout->addWidget(m_sorting, 1, 1);
     propsBoxLayout->addWidget(sortOrderLabel, 2, 0);
     propsBoxLayout->addWidget(m_sortOrder, 2, 1);
-    propsBoxLayout->addWidget(m_showHiddenFiles, 3, 0);
+    propsBoxLayout->addWidget(m_showPreview, 3, 0);
+    propsBoxLayout->addWidget(m_showHiddenFiles, 4, 0);
 
     m_applyToSubFolders = new QCheckBox(i18n("Apply changes to all sub folders"), main);
     topLayout->addWidget(propsBox);
@@ -109,6 +119,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
             this, SLOT(slotSortingChanged(int)));
     connect(m_sortOrder, SIGNAL(activated(int)),
             this, SLOT(slotSortOrderChanged(int)));
+    connect(m_showPreview, SIGNAL(clicked()),
+            this, SLOT(slotShowPreviewChanged()));
     connect(m_showHiddenFiles, SIGNAL(clicked()),
             this, SLOT(slotShowHiddenFilesChanged()));
 
@@ -166,10 +178,17 @@ void ViewPropertiesDialog::slotSortOrderChanged(int index)
     m_isDirty = true;
 }
 
+void ViewPropertiesDialog::slotShowPreviewChanged()
+{
+    const bool show = m_showPreview->isChecked();
+    m_viewProps->setShowPreview(show);
+    m_isDirty = true;
+}
+
 void ViewPropertiesDialog::slotShowHiddenFilesChanged()
 {
     const bool show = m_showHiddenFiles->isChecked();
-    m_viewProps->setShowHiddenFilesEnabled(show);
+    m_viewProps->setShowHiddenFiles(show);
     m_isDirty = true;
 }
 

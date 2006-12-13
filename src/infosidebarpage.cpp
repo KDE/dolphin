@@ -178,7 +178,13 @@ void InfoSidebarPage::showItemInfo()
 
         KIO::PreviewJob* job = KIO::filePreview(list,
                                                 m_preview->width(),
-                                                K3Icon::SizeEnormous);
+                                                K3Icon::SizeEnormous,
+                                                0,
+                                                0,
+                                                true,
+                                                false);
+        job->setIgnoreMaximumSize(true);
+
         connect(job, SIGNAL(gotPreview(const KFileItem*, const QPixmap&)),
                 this, SLOT(gotPreview(const KFileItem*, const QPixmap&)));
         connect(job, SIGNAL(failed(const KFileItem*)),

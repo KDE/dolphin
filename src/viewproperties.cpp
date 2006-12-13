@@ -97,7 +97,21 @@ DolphinView::Mode ViewProperties::viewMode() const
     return static_cast<DolphinView::Mode>(m_node->viewMode());
 }
 
-void ViewProperties::setShowHiddenFilesEnabled(bool show)
+void ViewProperties::setShowPreview(bool show)
+{
+    if (m_node->showPreview() != show) {
+        m_node->setShowPreview(show);
+        updateTimeStamp();
+    }
+}
+
+bool ViewProperties::showPreview() const
+{
+    return m_node->showPreview();
+}
+
+
+void ViewProperties::setShowHiddenFiles(bool show)
 {
     if (m_node->showHiddenFiles() != show) {
         m_node->setShowHiddenFiles(show);
@@ -105,7 +119,7 @@ void ViewProperties::setShowHiddenFilesEnabled(bool show)
     }
 }
 
-bool ViewProperties::isShowHiddenFilesEnabled() const
+bool ViewProperties::showHiddenFiles() const
 {
     return m_node->showHiddenFiles();
 }

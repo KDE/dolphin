@@ -49,7 +49,7 @@ ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
 
     m_viewProps = new ViewProperties(dir);
     m_viewProps->setViewMode(viewProps.viewMode());
-    m_viewProps->setShowHiddenFilesEnabled(viewProps.isShowHiddenFilesEnabled());
+    m_viewProps->setShowHiddenFiles(viewProps.showHiddenFiles());
     m_viewProps->setSorting(viewProps.sorting());
     m_viewProps->setSortOrder(viewProps.sortOrder());
 

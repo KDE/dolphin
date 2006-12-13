@@ -234,9 +234,6 @@ private slots:
     /** The current active view is switched to the details mode. */
     void setDetailsView();
 
-    /** The current active view is switched to the previews mode. */
-    void setPreviewsView();
-
     /** The sorting of the current view should be done by the name. */
     void sortByName();
 
@@ -262,11 +259,14 @@ private slots:
     /** Stops the loading process for the current active view. */
     void stopLoading();
 
+    /** Switches between showing a preview of the file content and showing the icon. */
+    void togglePreview();
+
     /**
      * Switches between showing and hiding of hidden marked files dependent
      * from the current state of the 'Show Hidden Files' menu toggle action.
      */
-    void showHiddenFiles();
+    void toggleShowHiddenFiles();
 
     /**
      * Switches between showing and hiding of the filter bar dependent

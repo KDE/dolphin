@@ -65,7 +65,7 @@ public:
     int progress() const { return m_progress; }
 
 private:
-    void startNextJob(const KUrl & url, const ViewProperties& viewProps);
+    void startNextJob(const KUrl & url);
 
 private slots:
     virtual void slotResult(KJob* job);

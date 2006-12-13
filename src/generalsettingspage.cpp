@@ -96,12 +96,10 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin,QWidget* par
 
     m_iconsView = new QRadioButton(i18n("Icons"), buttonGroup);
     m_detailsView = new QRadioButton(i18n("Details"), buttonGroup);
-    m_previewsView = new QRadioButton(i18n("Previews"), buttonGroup);
 
     switch (settings->defaultViewMode()) {
         case DolphinView::IconsView:    m_iconsView->setChecked(true); break;
         case DolphinView::DetailsView:  m_detailsView->setChecked(true); break;
-        case DolphinView::PreviewsView: m_previewsView->setChecked(true); break;
     }
 
     // create 'Start with split view' checkbox
@@ -135,13 +133,9 @@ void GeneralSettingsPage::applySettings()
         settings->setHomeUrl(url.prettyUrl());
     }
 
-    DolphinView::Mode viewMode = DolphinView::IconsView;
-    if (m_detailsView->isChecked()) {
-        viewMode = DolphinView::DetailsView;
-    }
-    else if (m_previewsView->isChecked()) {
-        viewMode = DolphinView::PreviewsView;
-    }
+    const DolphinView::Mode viewMode = m_detailsView->isChecked() ?
+                                       DolphinView::DetailsView :
+                                       DolphinView::IconsView;
     settings->setDefaultViewMode(viewMode);
 
     settings->setSplitView(m_startSplit->isChecked());

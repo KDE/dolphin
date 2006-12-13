@@ -220,7 +220,7 @@ void DolphinMainWindow::refreshViews()
                                         m_splitter,
                                         url,
                                         props.viewMode(),
-                                        props.isShowHiddenFilesEnabled());
+                                        props.showHiddenFiles());
             connectViewSignals(i);
             m_view[i]->show();
         }
@@ -242,7 +242,7 @@ void DolphinMainWindow::slotShowHiddenFilesChanged()
 {
     KToggleAction* showHiddenFilesAction =
         static_cast<KToggleAction*>(actionCollection()->action("show_hidden_files"));
-    showHiddenFilesAction->setChecked(m_activeView->isShowHiddenFilesEnabled());
+    showHiddenFilesAction->setChecked(m_activeView->showHiddenFiles());
 }
 
 void DolphinMainWindow::slotSortingChanged(DolphinView::Sorting sorting)
@@ -786,11 +786,6 @@ void DolphinMainWindow::setDetailsView()
     m_activeView->setMode(DolphinView::DetailsView);
 }
 
-void DolphinMainWindow::setPreviewsView()
-{
-    m_activeView->setMode(DolphinView::PreviewsView);
-}
-
 void DolphinMainWindow::sortByName()
 {
     m_activeView->setSorting(DolphinView::SortByName);
@@ -823,7 +818,7 @@ void DolphinMainWindow::toggleSplitView()
                                                0,
                                                m_view[PrimaryIdx]->url(),
                                                m_view[PrimaryIdx]->mode(),
-                                               m_view[PrimaryIdx]->isShowHiddenFilesEnabled());
+                                               m_view[PrimaryIdx]->showHiddenFiles());
         connectViewSignals(SecondaryIdx);
         m_splitter->addWidget(m_view[SecondaryIdx]);
         m_splitter->setSizes(QList<int>() << newWidth << newWidth);
@@ -861,14 +856,18 @@ void DolphinMainWindow::stopLoading()
 {
 }
 
-void DolphinMainWindow::showHiddenFiles()
+void DolphinMainWindow::togglePreview()
+{
+}
+
+void DolphinMainWindow::toggleShowHiddenFiles()
 {
     clearStatusBar();
 
     const KToggleAction* showHiddenFilesAction =
         static_cast<KToggleAction*>(actionCollection()->action("show_hidden_files"));
     const bool show = showHiddenFilesAction->isChecked();
-    m_activeView->setShowHiddenFilesEnabled(show);
+    m_activeView->setShowHiddenFiles(show);
 }
 
 void DolphinMainWindow::showFilterBar()
@@ -1123,7 +1122,7 @@ void DolphinMainWindow::init()
                                          m_splitter,
                                          homeUrl,
                                          props.viewMode(),
-                                         props.isShowHiddenFilesEnabled());
+                                         props.showHiddenFiles());
     connectViewSignals(PrimaryIdx);
     m_view[PrimaryIdx]->show();
 
@@ -1247,15 +1246,9 @@ void DolphinMainWindow::setupActions()
     detailsView->setIcon(KIcon("view_text"));
     connect(detailsView, SIGNAL(triggered()), this, SLOT(setDetailsView()));
 
-    KToggleAction* previewsView = new KToggleAction(i18n("Previews"), actionCollection(), "previews");
-    previewsView->setShortcut(Qt::CTRL | Qt::Key_3);
-    previewsView->setIcon(KIcon("gvdirpart"));
-    connect(previewsView, SIGNAL(triggered()), this, SLOT(setPreviewsView()));
-
     QActionGroup* viewModeGroup = new QActionGroup(this);
     viewModeGroup->addAction(iconsView);
     viewModeGroup->addAction(detailsView);
-    viewModeGroup->addAction(previewsView);
 
     KToggleAction* sortByName = new KToggleAction(i18n("By Name"), actionCollection(), "by_name");
     connect(sortByName, SIGNAL(triggered()), this, SLOT(sortByName()));
@@ -1274,9 +1267,13 @@ void DolphinMainWindow::setupActions()
     KToggleAction* sortDescending = new KToggleAction(i18n("Descending"), actionCollection(), "descending");
     connect(sortDescending, SIGNAL(triggered()), this, SLOT(toggleSortOrder()));
 
+    KToggleAction* showPreview = new KToggleAction(i18n("Preview"), actionCollection(), "show_preview");
+    showPreview->setIcon(KIcon("gvdirpart"));
+    connect(showPreview, SIGNAL(triggered()), this, SLOT(togglePreview()));
+
     KToggleAction* showHiddenFiles = new KToggleAction(i18n("Show Hidden Files"), actionCollection(), "show_hidden_files");
     //showHiddenFiles->setShortcut(Qt::ALT | Qt::Key_      KDE4-TODO: what Qt-Key represents '.'?
-    connect(showHiddenFiles, SIGNAL(triggered()), this, SLOT(showHiddenFiles()));
+    connect(showHiddenFiles, SIGNAL(triggered()), this, SLOT(toggleShowHiddenFiles()));
 
     KToggleAction* split = new KToggleAction(i18n("Split View"), actionCollection(), "split_view");
     split->setShortcut(Qt::Key_F10);
@@ -1530,9 +1527,9 @@ void DolphinMainWindow::updateViewActions()
         case DolphinView::DetailsView:
             action = actionCollection()->action("details");
             break;
-        case DolphinView::PreviewsView:
-            action = actionCollection()->action("previews");
-            break;
+        //case DolphinView::PreviewsView:
+        //    action = actionCollection()->action("previews");
+        //    break;
         default:
             break;
     }
@@ -1551,7 +1548,7 @@ void DolphinMainWindow::updateViewActions()
 
     KToggleAction* showHiddenFilesAction =
         static_cast<KToggleAction*>(actionCollection()->action("show_hidden_files"));
-    showHiddenFilesAction->setChecked(m_activeView->isShowHiddenFilesEnabled());
+    showHiddenFilesAction->setChecked(m_activeView->showHiddenFiles());
 
     KToggleAction* splitAction = static_cast<KToggleAction*>(actionCollection()->action("split_view"));
     splitAction->setChecked(m_view[SecondaryIdx] != 0);

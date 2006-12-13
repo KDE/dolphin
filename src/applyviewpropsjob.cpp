@@ -34,11 +34,12 @@ ApplyViewPropsJob::ApplyViewPropsJob(const KUrl& dir,
 {
     m_viewProps = new ViewProperties(dir);
     m_viewProps->setViewMode(viewProps.viewMode());
-    m_viewProps->setShowHiddenFilesEnabled(viewProps.isShowHiddenFilesEnabled());
+    m_viewProps->setShowPreview(viewProps.showPreview());
+    m_viewProps->setShowHiddenFiles(viewProps.showHiddenFiles());
     m_viewProps->setSorting(viewProps.sorting());
     m_viewProps->setSortOrder(viewProps.sortOrder());
 
-    startNextJob(dir, viewProps);
+    startNextJob(dir);
 }
 
 ApplyViewPropsJob::~ApplyViewPropsJob()
@@ -52,8 +53,7 @@ void ApplyViewPropsJob::processNextItem()
     emitResult();
 }
 
-void ApplyViewPropsJob::startNextJob(const KUrl& url,
-                                     const ViewProperties& viewProps)
+void ApplyViewPropsJob::startNextJob(const KUrl& url)
 {
     KIO::ListJob* listJob = KIO::listRecursive(url, false);
     connect(listJob, SIGNAL(entries(KIO::Job*, const KIO::UDSEntryList&)),
@@ -76,7 +76,8 @@ void ApplyViewPropsJob::slotEntries(KIO::Job*, const KIO::UDSEntryList& list)
 
             ViewProperties props(url);
             props.setViewMode(m_viewProps->viewMode());
-            props.setShowHiddenFilesEnabled(m_viewProps->isShowHiddenFilesEnabled());
+            props.setShowPreview(m_viewProps->showPreview());
+            props.setShowHiddenFiles(m_viewProps->showHiddenFiles());
             props.setSorting(m_viewProps->sorting());
             props.setSortOrder(m_viewProps->sortOrder());
         }

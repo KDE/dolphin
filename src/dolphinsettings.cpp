@@ -32,7 +32,6 @@
 
 #include "generalsettings.h"
 #include "iconsmodesettings.h"
-#include "previewsmodesettings.h"
 #include "detailsmodesettings.h"
 
 #include <Q3IconView>
@@ -75,7 +74,6 @@ void DolphinSettings::save()
 {
     m_generalSettings->writeConfig();
     m_iconsModeSettings->writeConfig();
-    m_previewsModeSettings->writeConfig();
     m_detailsModeSettings->writeConfig();
 
     QString basePath = KGlobal::instance()->instanceName();
@@ -159,7 +157,6 @@ DolphinSettings::DolphinSettings()
 {
     m_generalSettings = new GeneralSettings();
     m_iconsModeSettings = new IconsModeSettings();
-    m_previewsModeSettings = new PreviewsModeSettings();
     m_detailsModeSettings = new DetailsModeSettings();
 }
 
@@ -170,9 +167,6 @@ DolphinSettings::~DolphinSettings()
 
     delete m_iconsModeSettings;
     m_iconsModeSettings = 0;
-
-    delete m_previewsModeSettings;
-    m_previewsModeSettings = 0;
 
     delete m_detailsModeSettings;
     m_detailsModeSettings = 0;

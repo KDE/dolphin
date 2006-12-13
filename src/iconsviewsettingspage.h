@@ -55,8 +55,7 @@ class IconsViewSettingsPage : public KVBox
     Q_OBJECT
 
 public:
-    IconsViewSettingsPage(/*DolphinIconsView::LayoutMode mode,*/
-                          QWidget* parent);
+    IconsViewSettingsPage(QWidget* parent);
     virtual ~IconsViewSettingsPage();
 
     /**
@@ -71,8 +70,6 @@ private slots:
     void slotPreviewSizeChanged(int value);
 
 private:
-    //DolphinIconsView::LayoutMode m_mode;
-
     QSlider* m_iconSizeSlider;
     PixmapViewer* m_iconSizeViewer;
     QSlider* m_previewSizeSlider;

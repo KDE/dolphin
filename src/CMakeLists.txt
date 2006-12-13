@@ -52,8 +52,7 @@ kde4_add_kcfg_files(dolphin_SRCS
    directoryviewpropertysettings.kcfgc
    generalsettings.kcfgc
    iconsmodesettings.kcfgc
-   detailsmodesettings.kcfgc
-   previewsmodesettings.kcfgc )
+   detailsmodesettings.kcfgc )
 
 kde4_add_executable(dolphin ${dolphin_SRCS})
 
@@ -65,7 +64,7 @@ install(TARGETS dolphin DESTINATION ${BIN_INSTALL_DIR})
 ########### install files ###############
 
 install( FILES  dolphin.desktop DESTINATION ${XDG_APPS_DIR} )
-install( FILES  directoryviewpropertysettings.kcfg generalsettings.kcfg  				iconsmodesettings.kcfg detailsmodesettings.kcfg previewsmodesettings.kcfg  				DESTINATION ${KCFG_INSTALL_DIR} )
+install( FILES  directoryviewpropertysettings.kcfg generalsettings.kcfg iconsmodesettings.kcfg detailsmodesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
 install( FILES  dolphinui.rc DESTINATION ${DATA_INSTALL_DIR}/dolphin )
 
 kde4_install_icons( ${ICON_INSTALL_DIR} )

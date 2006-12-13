@@ -25,7 +25,6 @@ class KBookmark;
 class KBookmarkManager;
 class GeneralSettings;
 class IconsModeSettings;
-class PreviewsModeSettings;
 class DetailsModeSettings;
 
 /**
@@ -45,7 +44,6 @@ public:
 
     GeneralSettings* generalSettings() const { return m_generalSettings; }
     IconsModeSettings* iconsModeSettings() const { return m_iconsModeSettings; }
-    PreviewsModeSettings* previewsModeSettings() const { return m_previewsModeSettings; }
     DetailsModeSettings* detailsModeSettings() const { return m_detailsModeSettings; }
 
     KBookmarkManager* bookmarkManager() const;
@@ -93,7 +91,6 @@ protected:
 private:
     GeneralSettings* m_generalSettings;
     IconsModeSettings* m_iconsModeSettings;
-    PreviewsModeSettings* m_previewsModeSettings;
     DetailsModeSettings* m_detailsModeSettings;
 };
 

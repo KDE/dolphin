@@ -25,7 +25,6 @@
     <text>View Mode</text>
     <Action name="icons" />
     <Action name="details" />
-    <Action name="previews" />
    </Menu>
    <Menu name="sort" >
     <text>Sort</text>
@@ -35,6 +34,7 @@
     <Separator/>
     <Action name="descending" />
    </Menu>
+   <Action name="show_preview" />
    <Action name="show_hidden_files" />
    <Separator/>
    <Action name="split_view" />
@@ -102,8 +102,8 @@
   <Separator name="separator_1" />
   <Action name="icons" />
   <Action name="details" />
-  <Action name="previews" />
   <Separator name="separator_0" />
+  <Action name="show_preview" />
   <Action name="split_view" />
  </ToolBar>
  <ActionProperties>
