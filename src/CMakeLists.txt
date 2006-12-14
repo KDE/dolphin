@@ -24,6 +24,7 @@ set(dolphin_SRCS
    bookmarkselector.cpp
    urlbutton.cpp
    dolphincontextmenu.cpp
+   dolphinsortfilterproxymodel.cpp
    undomanager.cpp
    progressindicator.cpp
    iconsviewsettingspage.cpp

@@ -39,6 +39,7 @@
 #include "dolphinstatusbar.h"
 #include "dolphinmainwindow.h"
 #include "dolphindirlister.h"
+#include "dolphinsortfilterproxymodel.h"
 #include "viewproperties.h"
 #include "dolphindetailsview.h"
 #include "dolphiniconsview.h"
@@ -57,12 +58,17 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
     m_refreshing(false),
     m_showProgress(false),
     m_mode(mode),
-    m_mainWindow(mainWindow),
-    m_statusBar(0),
     m_iconSize(0),
     m_folderCount(0),
     m_fileCount(0),
-    m_filterBar(0)
+    m_mainWindow(mainWindow),
+    m_topLayout(0),
+    m_urlNavigator(0),
+    m_iconsView(0),
+    m_filterBar(0),
+    m_statusBar(0),
+    m_dirLister(0),
+    m_proxyModel(0)
 {
     hide();
     setFocusPolicy(Qt::StrongFocus);
@@ -98,6 +104,11 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
 
     KDirModel* model = new KDirModel();
     model->setDirLister(m_dirLister);
+
+    m_proxyModel = new DolphinSortFilterProxyModel(this);
+    m_proxyModel->setSourceModel(model);
+    m_proxyModel->setDynamicSortFilter(true);
+
     m_iconsView->setModel(model);
 
     KFileItemDelegate* delegate = new KFileItemDelegate(this);
@@ -395,8 +406,7 @@ void DolphinView::setSorting(Sorting sorting)
         ViewProperties props(url());
         props.setSorting(sorting);
 
-        KDirModel* dirModel = static_cast<KDirModel*>(m_iconsView->model());
-        dirModel->sort(columnIndex(sorting), props.sortOrder());
+        m_proxyModel->setSorting(sorting);
 
         emit sortingChanged(sorting);
     }
@@ -404,10 +414,7 @@ void DolphinView::setSorting(Sorting sorting)
 
 DolphinView::Sorting DolphinView::sorting() const
 {
-    // TODO: instead of getting the sorting from the properties just fetch
-    // them from KDirModel, if such an interface will be offered (David?)
-    ViewProperties props(url());
-    return props.sorting();
+    return m_proxyModel->sorting();
 }
 
 void DolphinView::setSortOrder(Qt::SortOrder order)
@@ -416,8 +423,7 @@ void DolphinView::setSortOrder(Qt::SortOrder order)
         ViewProperties props(url());
         props.setSortOrder(order);
 
-        KDirModel* dirModel = static_cast<KDirModel*>(m_iconsView->model());
-        dirModel->sort(columnIndex(props.sorting()), order);
+        m_proxyModel->setSortOrder(order);
 
         emit sortOrderChanged(order);
     }
@@ -425,10 +431,7 @@ void DolphinView::setSortOrder(Qt::SortOrder order)
 
 Qt::SortOrder DolphinView::sortOrder() const
 {
-    // TODO: instead of getting the order from the properties just fetch
-    // them from KDirModel, if such an interface will be offered (David?)
-    ViewProperties props(url());
-    return props.sortOrder();
+    return m_proxyModel->sortOrder();
 }
 
 void DolphinView::goBack()

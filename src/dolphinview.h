@@ -50,6 +50,7 @@ class DolphinDirLister;
 class DolphinStatusBar;
 class DolphinIconsView;
 class DolphinDetailsView;
+class DolphinSortFilterProxyModel;
 class ViewProperties;
 class KProgress;
 class FilterBar;
@@ -452,19 +453,20 @@ private:
     bool m_showProgress;
     Mode m_mode;
 
-    DolphinMainWindow* m_mainWindow;
-    QVBoxLayout* m_topLayout;
-    UrlNavigator* m_urlNavigator;
-    DolphinIconsView* m_iconsView;
-    DolphinStatusBar* m_statusBar;
-
     int m_iconSize;
     int m_folderCount;
     int m_fileCount;
 
-    DolphinDirLister* m_dirLister;
-
+    DolphinMainWindow* m_mainWindow;
+    QVBoxLayout* m_topLayout;
+    UrlNavigator* m_urlNavigator;
+    DolphinIconsView* m_iconsView;
     FilterBar *m_filterBar;
+    DolphinStatusBar* m_statusBar;
+
+    DolphinDirLister* m_dirLister;
+    DolphinSortFilterProxyModel* m_proxyModel;
+
 };
 
 #endif // _DOLPHINVIEW_H_
