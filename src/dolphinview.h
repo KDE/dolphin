@@ -45,16 +45,13 @@ class QTimer;
 class Q3IconViewItem;
 class Q3ListViewItem;
 class Q3VBoxLayout;
-//class KFileView;
 class DolphinMainWindow;
 class DolphinDirLister;
 class DolphinStatusBar;
 class DolphinIconsView;
 class DolphinDetailsView;
 class ViewProperties;
-class Q3ScrollView;
 class KProgress;
-class ItemEffectsManager;
 class FilterBar;
 
 class QModelIndex;
@@ -413,9 +410,6 @@ private slots:
     void slotChangeNameFilter(const QString& nameFilter);
 
 private:
-    //KFileView* fileView() const;
-    Q3ScrollView* scrollView() const;
-    ItemEffectsManager* itemEffectsManager() const;
     void startDirLister(const KUrl& url, bool reload = false);
 
     /**
@@ -446,6 +440,12 @@ private:
      * Returns the column index used in the KDirModel depending on \a sorting.
      */
     int columnIndex(Sorting sorting) const;
+
+    /**
+     * Selects all items by using the selection flags \a flags. This is a helper
+     * method for the slots DolphinView::selectAll() and DolphinView::invertSelection().
+     */
+    void selectAll(QItemSelectionModel::SelectionFlags flags);
 
 private:
     bool m_refreshing;

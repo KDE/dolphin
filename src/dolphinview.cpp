@@ -302,12 +302,12 @@ void DolphinView::renameSelectedItems()
 
 void DolphinView::selectAll()
 {
-    //fileView()->selectAll();
+    selectAll(QItemSelectionModel::Select);
 }
 
 void DolphinView::invertSelection()
 {
-    //fileView()->invertSelection();
+    selectAll(QItemSelectionModel::Toggle);
 }
 
 DolphinStatusBar* DolphinView::statusBar() const
@@ -814,23 +814,6 @@ void DolphinView::slotContentsMoving(int x, int y)
     }
 }
 
-/*KFileView* DolphinView::fileView() const
-{
-    return (m_mode == DetailsView) ? static_cast<KFileView*>(m_iconsView) :
-                                     static_cast<KFileView*>(m_iconsView);
-}*/
-
-Q3ScrollView* DolphinView::scrollView() const
-{
-    return 0; //(m_mode == DetailsView) ? static_cast<Q3ScrollView*>(m_iconsView) :
-              //                       static_cast<Q3ScrollView*>(m_iconsView);
-}
-
-ItemEffectsManager* DolphinView::itemEffectsManager() const
-{
-    return 0;
-}
-
 void DolphinView::startDirLister(const KUrl& url, bool reload)
 {
     if (!url.isValid()) {
@@ -997,19 +980,6 @@ void DolphinView::slotChangeNameFilter(const QString& nameFilter)
 
     m_dirLister->setNameFilter(adjustedFilter);
     m_dirLister->emitChanges();
-
-    // TODO: this is a workaround for QIconView: the item position
-    // stay as they are by filtering, only an inserting of an item
-    // results to an automatic adjusting of the item position. In Qt4/KDE4
-    // this workaround should get obsolete due to Interview.
-    /*KFileView* view = fileView();
-    if (view == m_iconsView) {
-        KFileItem* first = view->firstFileItem();
-        if (first != 0) {
-            view->removeItem(first);
-            view->insertItem(first);
-        }
-    }*/
 }
 
 void DolphinView::applyModeToView()
@@ -1028,11 +998,6 @@ void DolphinView::applyModeToView()
             m_iconsView->setViewMode(QListView::ListMode);
             m_iconsView->setGridSize(QSize(256, 24));
             break;
-
-        //case PreviewsView:
-        //    m_iconsView->setViewMode(QListView::IconMode);
-        //    m_iconsView->setGridSize(QSize(128, 128));
-        //    break;
     }
 }
 
@@ -1046,6 +1011,19 @@ int DolphinView::columnIndex(Sorting sorting) const
         default: assert(false);
     }
     return index;
+}
+
+void DolphinView::selectAll(QItemSelectionModel::SelectionFlags flags)
+{
+    QItemSelectionModel* selectionModel = m_iconsView->selectionModel();
+    const QAbstractItemModel* itemModel = selectionModel->model();
+
+    const QModelIndex topLeft = itemModel->index(0, 0);
+    const QModelIndex bottomRight = itemModel->index(itemModel->rowCount() - 1,
+                                                     itemModel->columnCount() - 1);
+
+    QItemSelection selection(topLeft, bottomRight);
+    selectionModel->select(selection, flags);
 }
 
 #include "dolphinview.moc"
