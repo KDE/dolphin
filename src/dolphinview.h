@@ -442,6 +442,12 @@ private:
      */
     void applyModeToView();
 
+    /**
+     * Returns the column index used in the KDirModel depending on \a sorting.
+     */
+    int columnIndex(Sorting sorting) const;
+
+private:
     bool m_refreshing;
     bool m_showProgress;
     Mode m_mode;

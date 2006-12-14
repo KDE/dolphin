@@ -392,61 +392,43 @@ bool DolphinView::isZoomOutPossible() const
 void DolphinView::setSorting(Sorting sorting)
 {
     if (sorting != this->sorting()) {
-        /*KFileView* view = fileView();
-        int spec = view->sorting() & ~QDir::Name & ~QDir::Size & ~QDir::Time & ~QDir::Unsorted;
-
-        switch (sorting) {
-            case SortByName: spec = spec | QDir::Name; break;
-            case SortBySize: spec = spec | QDir::Size; break;
-            case SortByDate: spec = spec | QDir::Time; break;
-            default: break;
-        }
-
         ViewProperties props(url());
         props.setSorting(sorting);
 
-        view->setSorting(static_cast<QDir::SortFlags>(spec));
+        KDirModel* dirModel = static_cast<KDirModel*>(m_iconsView->model());
+        dirModel->sort(columnIndex(sorting), props.sortOrder());
 
-        emit signalSortingChanged(sorting);*/
+        emit sortingChanged(sorting);
     }
 }
 
 DolphinView::Sorting DolphinView::sorting() const
 {
-    /*const QDir::SortFlags spec = fileView()->sorting();
-
-    if (spec & QDir::Time) {
-        return SortByDate;
-    }
-
-    if (spec & QDir::Size) {
-        return SortBySize;
-    }*/
-
-    return SortByName;
+    // TODO: instead of getting the sorting from the properties just fetch
+    // them from KDirModel, if such an interface will be offered (David?)
+    ViewProperties props(url());
+    return props.sorting();
 }
 
 void DolphinView::setSortOrder(Qt::SortOrder order)
 {
     if (sortOrder() != order) {
-        /*KFileView* view = fileView();
-        int sorting = view->sorting();
-        sorting = (order == Qt::Ascending) ? (sorting & ~QDir::Reversed) :
-                                             (sorting | QDir::Reversed);
-
         ViewProperties props(url());
         props.setSortOrder(order);
 
-        view->setSorting(static_cast<QDir::SortFlags>(sorting));
+        KDirModel* dirModel = static_cast<KDirModel*>(m_iconsView->model());
+        dirModel->sort(columnIndex(props.sorting()), order);
 
-        emit signalSortOrderChanged(order);*/
+        emit sortOrderChanged(order);
     }
 }
 
 Qt::SortOrder DolphinView::sortOrder() const
 {
-    //return fileView()->isReversed() ? Qt::Descending : Qt::Ascending;
-    return Qt::Descending;
+    // TODO: instead of getting the order from the properties just fetch
+    // them from KDirModel, if such an interface will be offered (David?)
+    ViewProperties props(url());
+    return props.sortOrder();
 }
 
 void DolphinView::goBack()
@@ -1052,6 +1034,18 @@ void DolphinView::applyModeToView()
         //    m_iconsView->setGridSize(QSize(128, 128));
         //    break;
     }
+}
+
+int DolphinView::columnIndex(Sorting sorting) const
+{
+    int index = 0;
+    switch (sorting) {
+        case SortByName: index = KDirModel::Name; break;
+        case SortBySize: index = KDirModel::Size; break;
+        case SortByDate: index = KDirModel::ModifiedTime; break;
+        default: assert(false);
+    }
+    return index;
 }
 
 #include "dolphinview.moc"
