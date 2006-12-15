@@ -242,7 +242,7 @@ void BookmarksSidebarPage::connectToActiveView()
 {
     DolphinView* view = mainWindow()->activeView();
     adjustSelection(view->url());
-    connect(view, SIGNAL(signalUrlChanged(const KUrl&)),
+    connect(view, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(slotUrlChanged(const KUrl&)));
 }
 

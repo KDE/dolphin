@@ -60,7 +60,7 @@ DolphinStatusBar::DolphinStatusBar(DolphinView* parent) :
     setMinimumHeight(size.height());
     m_messageLabel->setMinimumTextHeight(size.height());
 
-    connect(parent, SIGNAL(signalUrlChanged(const KUrl&)),
+    connect(parent, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(slotUrlChanged(const KUrl&)));
 }
 
