@@ -53,6 +53,7 @@ class DolphinDetailsView;
 class DolphinSortFilterProxyModel;
 class ViewProperties;
 class KProgress;
+class KDirModel;
 class FilterBar;
 
 class QModelIndex;
@@ -464,6 +465,7 @@ private:
     FilterBar *m_filterBar;
     DolphinStatusBar* m_statusBar;
 
+    KDirModel* m_dirModel;
     DolphinDirLister* m_dirLister;
     DolphinSortFilterProxyModel* m_proxyModel;
 

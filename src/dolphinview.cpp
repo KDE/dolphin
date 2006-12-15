@@ -67,6 +67,7 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
     m_iconsView(0),
     m_filterBar(0),
     m_statusBar(0),
+    m_dirModel(0),
     m_dirLister(0),
     m_proxyModel(0)
 {
@@ -102,20 +103,19 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
     m_iconsView = new DolphinIconsView(this);
     applyModeToView();
 
-    KDirModel* model = new KDirModel();
-    model->setDirLister(m_dirLister);
+    m_dirModel = new KDirModel();
+    m_dirModel->setDirLister(m_dirLister);
 
     m_proxyModel = new DolphinSortFilterProxyModel(this);
-    m_proxyModel->setSourceModel(model);
-    m_proxyModel->setDynamicSortFilter(true);
+    m_proxyModel->setSourceModel(m_dirModel);
 
-    m_iconsView->setModel(model);
+    m_iconsView->setModel(m_dirModel);   // TODO: using m_proxyModel crashed when clicking on an item
 
     KFileItemDelegate* delegate = new KFileItemDelegate(this);
     m_iconsView->setItemDelegate(delegate);
 
     m_dirLister->setDelayedMimeTypes(true);
-    new KMimeTypeResolver(m_iconsView, model);
+    new KMimeTypeResolver(m_iconsView, m_dirModel);
 
     m_iconSize = K3Icon::SizeMedium;
 
@@ -476,12 +476,11 @@ KFileItemList DolphinView::selectedItems() const
 
     KFileItemList itemList;
     if (selModel->hasSelection()) {
-       KDirModel* dirModel = static_cast<KDirModel*>(m_iconsView->model());
        const QModelIndexList indexList = selModel->selectedIndexes();
 
         QModelIndexList::const_iterator end = indexList.end();
         for (QModelIndexList::const_iterator it = indexList.begin(); it != end; ++it) {
-           KFileItem* item = dirModel->itemForIndex(*it);
+           KFileItem* item = m_dirModel->itemForIndex(*it);
            if (item != 0) {
                itemList.append(item);
            }
@@ -648,8 +647,7 @@ void DolphinView::triggerIconsViewItem(Q3IconViewItem* item)
 
 void DolphinView::triggerItem(const QModelIndex& index)
 {
-    KDirModel* dirModel = static_cast<KDirModel*>(m_iconsView->model());
-    KFileItem* item = dirModel->itemForIndex(index);
+    KFileItem* item = m_dirModel->itemForIndex(index);
     if (item == 0) {
         return;
     }

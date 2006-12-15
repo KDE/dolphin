@@ -58,6 +58,10 @@ void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)
 
     const QModelIndex index = indexAt(event->pos());
     if (index.isValid()) {
+        // TODO: assuming that model() returns an instance of the class
+        // KDirModel is dangerous, especially in combination with a proxy model.
+        // As the current test implementation of proxy model does not work, this
+        // will be cleaned up later.
         KDirModel* dirModel = static_cast<KDirModel*>(model());
         item = dirModel->itemForIndex(index);
     }

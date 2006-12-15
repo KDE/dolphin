@@ -45,8 +45,8 @@ public:
     Qt::SortOrder sortOrder() const { return m_sortOrder; }
 
 protected:
-     virtual bool lessThan(const QModelIndex& left,
-                           const QModelIndex& right) const;
+    virtual bool lessThan(const QModelIndex& left,
+                          const QModelIndex& right) const;
 
 private:
     DolphinView::Sorting m_sorting;
