@@ -21,9 +21,10 @@
 #ifndef UNDOMANAGER_H
 #define UNDOMANAGER_H
 
-#include <qobject.h>
+#include <QObject>
 #include <QPointer>
-#include <q3valuelist.h>
+#include <QList>
+
 #include <kurl.h>
 #include <kio/jobclasses.h>
 
@@ -127,7 +128,7 @@ public slots:
     /**
      * Performs a redo operation on the last command where an undo
      * operation has been applied.
-     * 
+     *
      * @param mainwindow The mainwindow where to show progress
      */
     void redo(DolphinMainWindow* mainwindow);
@@ -182,7 +183,7 @@ private:
     bool m_recordMacro;
     int m_historyIndex;
     int m_macroCounter;
-    Q3ValueList<DolphinCommand> m_history;
+    QList<DolphinCommand> m_history;
 
     /**
      * Dependent from the current history index \a m_historyIndex

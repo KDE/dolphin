@@ -657,33 +657,33 @@ void DolphinMainWindow::cut()
     // apps. The "application/x-kde-cutselection" mimetype should be used instead, see KonqMimeData
     // in libkonq
     m_clipboardContainsCutData = true;
-    /* KDE4-TODO: Q3DragObject* data = new KUrlDrag(m_activeView->selectedUrls(),
-                                       widget());
-    QApplication::clipboard()->setData(data);*/
+
+    QMimeData* mimeData = new QMimeData();
+    const KUrl::List selectedUrls = m_activeView->selectedUrls();
+    selectedUrls.populateMimeData(mimeData);
+
+    QApplication::clipboard()->setMimeData(mimeData);
 }
 
 void DolphinMainWindow::copy()
 {
     m_clipboardContainsCutData = false;
-    /* KDE4-TODO:
-    Q3DragObject* data = new KUrlDrag(m_activeView->selectedUrls(),
-                                     widget());
-    QApplication::clipboard()->setData(data);*/
+
+    QMimeData* mimeData = new QMimeData();
+    const KUrl::List selectedUrls = m_activeView->selectedUrls();
+    selectedUrls.populateMimeData(mimeData);
+
+    QApplication::clipboard()->setMimeData(mimeData);
 }
 
 void DolphinMainWindow::paste()
 {
-    /* KDE4-TODO:   - see KonqOperations::doPaste
     QClipboard* clipboard = QApplication::clipboard();
-    QMimeSource* data = clipboard->data();
-    if (!KUrlDrag::canDecode(data)) {
-        return;
-    }
+    const QMimeData* mimeData = clipboard->mimeData();
 
     clearStatusBar();
 
-    KUrl::List sourceUrls;
-    KUrlDrag::decode(data, sourceUrls);
+    const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData);
 
     // per default the pasting is done into the current Url of the view
     KUrl destUrl(m_activeView->url());
@@ -702,8 +702,12 @@ void DolphinMainWindow::paste()
         }
     }
 
-
-    updateViewProperties(sourceUrls);
+    // TODO #1: use libkonq commands (see doPaste() implementation
+    // KIO::Job* job = KIO::pasteClipboard(destUrl, this, false);
+    // ...
+    // TODO #2: this boolean doesn't work between instances of dolphin or with konqueror or with other
+    // apps. The "application/x-kde-cutselection" mimetype should be used instead, see KonqMimeData
+    // in libkonq
     if (m_clipboardContainsCutData) {
         moveUrls(sourceUrls, destUrl);
         m_clipboardContainsCutData = false;
@@ -711,7 +715,7 @@ void DolphinMainWindow::paste()
     }
     else {
         copyUrls(sourceUrls, destUrl);
-    }*/
+    }
 }
 
 void DolphinMainWindow::updatePasteAction()
@@ -723,13 +727,12 @@ void DolphinMainWindow::updatePasteAction()
 
     QString text(i18n("Paste"));
     QClipboard* clipboard = QApplication::clipboard();
-    const QMimeData* data = clipboard->mimeData();
-    /* KDE4-TODO:
-    if (KUrlDrag::canDecode(data)) {
+    const QMimeData* mimeData = clipboard->mimeData();
+
+    KUrl::List urls = KUrl::List::fromMimeData(mimeData);
+    if (!urls.isEmpty()) {
         pasteAction->setEnabled(true);
 
-        KUrl::List urls;
-        KUrlDrag::decode(data, urls);
         const int count = urls.count();
         if (count == 1) {
             pasteAction->setText(i18n("Paste 1 File"));
@@ -738,10 +741,10 @@ void DolphinMainWindow::updatePasteAction()
             pasteAction->setText(i18n("Paste %1 Files").arg(count));
         }
     }
-    else {*/
+    else {
         pasteAction->setEnabled(false);
         pasteAction->setText(i18n("Paste"));
-    //}
+    }
 
     if (pasteAction->isEnabled()) {
         KUrl::List urls = m_activeView->selectedUrls();
@@ -1597,9 +1600,9 @@ void DolphinMainWindow::moveUrls(const KUrl::List& source, const KUrl& dest)
 }
 
 void DolphinMainWindow::addPendingUndoJob(KIO::Job* job,
-                                DolphinCommand::Type commandType,
-                                const KUrl::List& source,
-                                const KUrl& dest)
+                                          DolphinCommand::Type commandType,
+                                          const KUrl::List& source,
+                                          const KUrl& dest)
 {
     connect(job, SIGNAL(result(KJob*)),
             this, SLOT(addUndoOperation(KJob*)));

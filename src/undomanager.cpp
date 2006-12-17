@@ -76,13 +76,15 @@ void UndoManager::addCommand(const DolphinCommand& command)
 {
     ++m_historyIndex;
 
+    QList<DolphinCommand>::iterator it = m_history.begin();
+    it += m_historyIndex;
     if (m_recordMacro) {
         DolphinCommand macroCommand = command;
         macroCommand.m_macroIndex = m_macroCounter;
-        m_history.insert(m_history.at(m_historyIndex), macroCommand);
+        m_history.insert(it, macroCommand);
     }
     else {
-        m_history.insert(m_history.at(m_historyIndex), command);
+        m_history.insert(it, command);
     }
 
     emit undoAvailable(true);
@@ -125,7 +127,7 @@ void UndoManager::undo(DolphinMainWindow* mainWindow)
     calcStepsCount(macroCount, progressCount);
 
     /*
-     * KDE4, ### TODO Only here to avoid possible crash 
+     * KDE4, ### TODO Only here to avoid possible crash
      */
     ProgressIndicator progressIndicator(mainWindow, i18n("Executing undo operation..."),
                                         i18n("Executed undo operation."),
