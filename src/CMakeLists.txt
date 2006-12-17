@@ -57,7 +57,7 @@ kde4_add_kcfg_files(dolphin_SRCS
 
 kde4_add_executable(dolphin ${dolphin_SRCS})
 
-target_link_libraries(dolphin  ${KDE4_KDECORE_LIBS} ${KDE4_KDEPRINT_LIBS} )
+target_link_libraries(dolphin  ${KDE4_KDECORE_LIBS} ${KDE4_KDEPRINT_LIBS} konq )
 
 install(TARGETS dolphin DESTINATION ${BIN_INSTALL_DIR})
 

@@ -94,19 +94,11 @@ public:
                   const KUrl& destination);
 
     /**
-     * Returns 'true', if the clipboard contains data
-     * which has been cutted by the Cut action (Ctrl + X).
-     */
-    bool clipboardContainsCutData() const { return m_clipboardContainsCutData; }
-
-    /**
      * Returns the list of actions which are part of the file group
      * of the 'Create New...' sub menu. Usually the list contains actions
      * for creating folders, text files, HTML files etc.
      */
     QLinkedList<QAction*> fileGroupActions() const { return m_fileGroupActions; }
-    //QLinkedList<QAction*>& linkGroupActions() const { return m_linkGroupActions; }
-    //QLinkedList<QAction*>& linkToDeviceActions() const { return m_linkToDeviceActions; }
 
     /**
      * Refreshs the views of the main window by recreating them dependent from
@@ -411,9 +403,6 @@ private:
     };
     DolphinView* m_view[SecondaryIdx + 1];
 
-    /// If set to true, the clipboard contains data which should be cutted after pasting.
-    bool m_clipboardContainsCutData;
-
     /**
      * Asynchronous operations like 'Move' and 'Copy' may only be added as undo
      * operation after they have been finished successfully. When an asynchronous
@@ -442,11 +431,6 @@ private:
 
     QLinkedList<QAction*> m_fileGroupActions;
     KSortableList<CreateFileEntry,QString> m_createFileTemplates;
-
-    // TODO: not used yet. See documentation of DolphinMainWindow::linkGroupActions()
-    // and DolphinMainWindow::linkToDeviceActions() in for details.
-    //QLinkedList<QAction*> m_linkGroupActions;
-    //QLinkedList<QAction*> m_linkToDeviceActions;
 };
 
 #endif // _DOLPHIN_H_

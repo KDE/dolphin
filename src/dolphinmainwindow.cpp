@@ -51,6 +51,7 @@
 #include <kstandarddirs.h>
 #include <krun.h>
 #include <klocale.h>
+#include <konqmimedata.h>
 
 #include <qclipboard.h>
 #include <q3dragobject.h>
@@ -79,31 +80,19 @@
 DolphinMainWindow::DolphinMainWindow() :
     KMainWindow(0),
     m_splitter(0),
-    m_activeView(0),
-    m_clipboardContainsCutData(false)
+    m_activeView(0)
 {
     setObjectName("Dolphin");
     m_view[PrimaryIdx] = 0;
     m_view[SecondaryIdx] = 0;
-
-    // TODO: the following members are not used yet. See documentation
-    // of DolphinMainWindow::linkGroupActions() and DolphinMainWindow::linkToDeviceActions()
-    // in the header file for details.
 }
 
 DolphinMainWindow::~DolphinMainWindow()
 {
     qDeleteAll(m_fileGroupActions);
-    //qDeleteAll(m_linkToDeviceActions);
-    //qDeleteAll(m_linkGroupActions);
     m_fileGroupActions.clear();
-    //m_linkGroupActions.clear();
-    //m_linkToDeviceActions.clear();
 
-    /*
-     * bye, bye managed window
-     */
-    DolphinApplication::app()->removeMainWindow( this );
+    DolphinApplication::app()->removeMainWindow(this);
 }
 
 void DolphinMainWindow::setActiveView(DolphinView* view)
@@ -653,25 +642,19 @@ void DolphinMainWindow::slotRedoTextChanged(const QString& text)
 
 void DolphinMainWindow::cut()
 {
-    // TODO: this boolean doesn't work between instances of dolphin or with konqueror or with other
-    // apps. The "application/x-kde-cutselection" mimetype should be used instead, see KonqMimeData
-    // in libkonq
-    m_clipboardContainsCutData = true;
-
     QMimeData* mimeData = new QMimeData();
-    const KUrl::List selectedUrls = m_activeView->selectedUrls();
-    selectedUrls.populateMimeData(mimeData);
-
+    const KUrl::List kdeUrls = m_activeView->selectedUrls();
+    const KUrl::List mostLocalUrls;
+    KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, true);
     QApplication::clipboard()->setMimeData(mimeData);
 }
 
 void DolphinMainWindow::copy()
 {
-    m_clipboardContainsCutData = false;
-
     QMimeData* mimeData = new QMimeData();
-    const KUrl::List selectedUrls = m_activeView->selectedUrls();
-    selectedUrls.populateMimeData(mimeData);
+    const KUrl::List kdeUrls = m_activeView->selectedUrls();
+    const KUrl::List mostLocalUrls;
+    KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, false);
 
     QApplication::clipboard()->setMimeData(mimeData);
 }
@@ -702,15 +685,8 @@ void DolphinMainWindow::paste()
         }
     }
 
-    // TODO #1: use libkonq commands (see doPaste() implementation
-    // KIO::Job* job = KIO::pasteClipboard(destUrl, this, false);
-    // ...
-    // TODO #2: this boolean doesn't work between instances of dolphin or with konqueror or with other
-    // apps. The "application/x-kde-cutselection" mimetype should be used instead, see KonqMimeData
-    // in libkonq
-    if (m_clipboardContainsCutData) {
+    if (KonqMimeData::decodeIsCutSelection(mimeData)) {
         moveUrls(sourceUrls, destUrl);
-        m_clipboardContainsCutData = false;
         clipboard->clear();
     }
     else {
