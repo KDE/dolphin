@@ -1258,7 +1258,8 @@ void DolphinMainWindow::setupActions()
     split->setIcon(KIcon("view_left_right"));
     connect(split, SIGNAL(triggered()), this, SLOT(toggleSplitView()));
 
-    KAction* reload = new KAction(i18n("Reload"), "F5", actionCollection(), "reload");
+    KAction* reload = new KAction(actionCollection(), "reload");
+    reload->setText(i18n("Reload"));
     reload->setShortcut(Qt::Key_F5);
     reload->setIcon(KIcon("reload"));
     connect(reload, SIGNAL(triggered()), this, SLOT(reloadView()));
