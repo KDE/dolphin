@@ -564,7 +564,7 @@ void DolphinMainWindow::deleteItems()
     const bool del = KMessageBox::warningContinueCancel(this,
                                                         text,
                                                         QString::null,
-                                                        KGuiItem(i18n("Delete"), SmallIcon("editdelete"))
+                                                        KGuiItem(i18n("Delete"), KIcon("editdelete"))
                                                        ) == KMessageBox::Continue;
     if (del) {
         KIO::Job* job = KIO::del(list);
