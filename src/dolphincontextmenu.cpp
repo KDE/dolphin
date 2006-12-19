@@ -177,8 +177,8 @@ void DolphinContextMenu::openItemContextMenu()
     const KUrl::List urls = m_dolphinView->selectedUrls();
 
     // insert 'Cut', 'Copy' and 'Paste'
-    const KStandardAction::StdAction actionNames[] = { KStandardAction::Cut, KStandardAction::Copy, KStandardAction::Paste };
-    const int count = sizeof(actionNames) / sizeof(KStandardAction::StdAction);
+    const KStandardAction::StandardAction actionNames[] = { KStandardAction::Cut, KStandardAction::Copy, KStandardAction::Paste };
+    const int count = sizeof(actionNames) / sizeof(KStandardAction::StandardAction);
     for (int i = 0; i < count; ++i) {
         QAction* action = dolphin->actionCollection()->action(KStandardAction::stdName(actionNames[i]));
         if (action)
