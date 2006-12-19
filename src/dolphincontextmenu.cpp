@@ -38,7 +38,7 @@
 #include <assert.h>
 #include <kio/netaccess.h>
 #include <kmenu.h>
-#include <kstdaction.h>
+#include <kstandardaction.h>
 
 #include "dolphinmainwindow.h"
 #include "dolphinview.h"
@@ -119,7 +119,7 @@ void DolphinContextMenu::openViewportContextMenu()
     popup->insertItem(SmallIcon("filenew"), i18n("Create New"), createNewMenu);
     popup->insertSeparator();
 
-    QAction* pasteAction = dolphin->actionCollection()->action(KStdAction::stdName(KStdAction::Paste));
+    QAction* pasteAction = dolphin->actionCollection()->action(KStandardAction::stdName(KStandardAction::Paste));
     popup->addAction(pasteAction);
 
     // setup 'View Mode' menu
@@ -177,10 +177,10 @@ void DolphinContextMenu::openItemContextMenu()
     const KUrl::List urls = m_dolphinView->selectedUrls();
 
     // insert 'Cut', 'Copy' and 'Paste'
-    const KStdAction::StdAction actionNames[] = { KStdAction::Cut, KStdAction::Copy, KStdAction::Paste };
-    const int count = sizeof(actionNames) / sizeof(KStdAction::StdAction);
+    const KStandardAction::StdAction actionNames[] = { KStandardAction::Cut, KStandardAction::Copy, KStandardAction::Paste };
+    const int count = sizeof(actionNames) / sizeof(KStandardAction::StdAction);
     for (int i = 0; i < count; ++i) {
-        QAction* action = dolphin->actionCollection()->action(KStdAction::stdName(actionNames[i]));
+        QAction* action = dolphin->actionCollection()->action(KStandardAction::stdName(actionNames[i]));
         if (action)
             popup->addAction(action);
     }

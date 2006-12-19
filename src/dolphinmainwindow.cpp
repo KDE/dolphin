@@ -38,7 +38,7 @@
 #include <kurl.h>
 #include <kstdaccel.h>
 #include <kaction.h>
-#include <kstdaction.h>
+#include <kstandardaction.h>
 #include <kmenu.h>
 #include <kio/renamedlg.h>
 #include <kinputdialog.h>
@@ -610,7 +610,7 @@ void DolphinMainWindow::slotDeleteFileFinished(KJob* job)
 
 void DolphinMainWindow::slotUndoAvailable(bool available)
 {
-    QAction* undoAction = actionCollection()->action(KStdAction::stdName(KStdAction::Undo));
+    QAction* undoAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::Undo));
     if (undoAction != 0) {
         undoAction->setEnabled(available);
     }
@@ -618,7 +618,7 @@ void DolphinMainWindow::slotUndoAvailable(bool available)
 
 void DolphinMainWindow::slotUndoTextChanged(const QString& text)
 {
-    QAction* undoAction = actionCollection()->action(KStdAction::stdName(KStdAction::Undo));
+    QAction* undoAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::Undo));
     if (undoAction != 0) {
         undoAction->setText(text);
     }
@@ -626,7 +626,7 @@ void DolphinMainWindow::slotUndoTextChanged(const QString& text)
 
 void DolphinMainWindow::slotRedoAvailable(bool available)
 {
-    QAction* redoAction = actionCollection()->action(KStdAction::stdName(KStdAction::Redo));
+    QAction* redoAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::Redo));
     if (redoAction != 0) {
         redoAction->setEnabled(available);
     }
@@ -634,7 +634,7 @@ void DolphinMainWindow::slotRedoAvailable(bool available)
 
 void DolphinMainWindow::slotRedoTextChanged(const QString& text)
 {
-    QAction* redoAction = actionCollection()->action(KStdAction::stdName(KStdAction::Redo));
+    QAction* redoAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::Redo));
     if (redoAction != 0) {
         redoAction->setText(text);
     }
@@ -696,7 +696,7 @@ void DolphinMainWindow::paste()
 
 void DolphinMainWindow::updatePasteAction()
 {
-    QAction* pasteAction = actionCollection()->action(KStdAction::stdName(KStdAction::Paste));
+    QAction* pasteAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::Paste));
     if (pasteAction == 0) {
         return;
     }
@@ -1174,11 +1174,11 @@ void DolphinMainWindow::setupActions()
     properties->setShortcut(Qt::Key_Alt | Qt::Key_Return);
     connect(properties, SIGNAL(triggered()), this, SLOT(properties()));
 
-    KStdAction::quit(this, SLOT(quit()), actionCollection());
+    KStandardAction::quit(this, SLOT(quit()), actionCollection());
 
     // setup 'Edit' menu
     UndoManager& undoManager = UndoManager::instance();
-    KStdAction::undo(this,
+    KStandardAction::undo(this,
                      SLOT(undo()),
                      actionCollection());
     connect(&undoManager, SIGNAL(undoAvailable(bool)),
@@ -1186,7 +1186,7 @@ void DolphinMainWindow::setupActions()
     connect(&undoManager, SIGNAL(undoTextChanged(const QString&)),
             this, SLOT(slotUndoTextChanged(const QString&)));
 
-    KStdAction::redo(this,
+    KStandardAction::redo(this,
                      SLOT(redo()),
                      actionCollection());
     connect(&undoManager, SIGNAL(redoAvailable(bool)),
@@ -1194,9 +1194,9 @@ void DolphinMainWindow::setupActions()
     connect(&undoManager, SIGNAL(redoTextChanged(const QString&)),
             this, SLOT(slotRedoTextChanged(const QString&)));
 
-    KStdAction::cut(this, SLOT(cut()), actionCollection());
-    KStdAction::copy(this, SLOT(copy()), actionCollection());
-    KStdAction::paste(this, SLOT(paste()), actionCollection());
+    KStandardAction::cut(this, SLOT(cut()), actionCollection());
+    KStandardAction::copy(this, SLOT(copy()), actionCollection());
+    KStandardAction::paste(this, SLOT(paste()), actionCollection());
 
     KAction* selectAll = new KAction(i18n("Select All"), actionCollection(), "select_all");
     selectAll->setShortcut(Qt::CTRL + Qt::Key_A);
@@ -1207,11 +1207,11 @@ void DolphinMainWindow::setupActions()
     connect(invertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
 
     // setup 'View' menu
-    KStdAction::zoomIn(this,
+    KStandardAction::zoomIn(this,
                        SLOT(zoomIn()),
                        actionCollection());
 
-    KStdAction::zoomOut(this,
+    KStandardAction::zoomOut(this,
                         SLOT(zoomOut()),
                         actionCollection());
 
@@ -1280,10 +1280,10 @@ void DolphinMainWindow::setupActions()
     connect(adjustViewProps, SIGNAL(triggered()), this, SLOT(adjustViewProperties()));
 
     // setup 'Go' menu
-    KStdAction::back(this, SLOT(goBack()), actionCollection());
-    KStdAction::forward(this, SLOT(goForward()), actionCollection());
-    KStdAction::up(this, SLOT(goUp()), actionCollection());
-    KStdAction::home(this, SLOT(goHome()), actionCollection());
+    KStandardAction::back(this, SLOT(goBack()), actionCollection());
+    KStandardAction::forward(this, SLOT(goForward()), actionCollection());
+    KStandardAction::up(this, SLOT(goUp()), actionCollection());
+    KStandardAction::home(this, SLOT(goHome()), actionCollection());
 
     // setup 'Tools' menu
     KAction* openTerminal = new KAction(i18n("Open Terminal"), actionCollection(), "open_terminal");
@@ -1306,7 +1306,7 @@ void DolphinMainWindow::setupActions()
     connect(compareFiles, SIGNAL(triggered()), this, SLOT(compareFiles()));
 
     // setup 'Settings' menu
-    KStdAction::preferences(this, SLOT(editSettings()), actionCollection());
+    KStandardAction::preferences(this, SLOT(editSettings()), actionCollection());
 }
 
 void DolphinMainWindow::setupDockWidgets()
@@ -1488,12 +1488,12 @@ void DolphinMainWindow::updateEditActions()
 
 void DolphinMainWindow::updateViewActions()
 {
-    QAction* zoomInAction = actionCollection()->action(KStdAction::stdName(KStdAction::ZoomIn));
+    QAction* zoomInAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::ZoomIn));
     if (zoomInAction != 0) {
         zoomInAction->setEnabled(m_activeView->isZoomInPossible());
     }
 
-    QAction* zoomOutAction = actionCollection()->action(KStdAction::stdName(KStdAction::ZoomOut));
+    QAction* zoomOutAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::ZoomOut));
     if (zoomOutAction != 0) {
         zoomOutAction->setEnabled(m_activeView->isZoomOutPossible());
     }
@@ -1535,7 +1535,7 @@ void DolphinMainWindow::updateViewActions()
 
 void DolphinMainWindow::updateGoActions()
 {
-    QAction* goUpAction = actionCollection()->action(KStdAction::stdName(KStdAction::Up));
+    QAction* goUpAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::Up));
     const KUrl& currentUrl = m_activeView->url();
     goUpAction->setEnabled(currentUrl.upUrl() != currentUrl);
 }
