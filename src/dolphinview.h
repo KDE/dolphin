@@ -129,12 +129,34 @@ public:
     void requestActivation();
     bool isActive() const;
 
+    /**
+     * Changes the view mode for the current directory to \a mode.
+     * If the view properties should be remembered for each directory
+     * (GeneralSettings::globalViewProps() returns false), then the
+     * changed view mode will be be stored automatically.
+     */
     void setMode(Mode mode);
     Mode mode() const;
+
+    /**
+     * Turns on the file preview for the all files of the current directory,
+     * if \a show is true.
+     * If the view properties should be remembered for each directory
+     * (GeneralSettings::globalViewProps() returns false), then the
+     * preview setting will be be stored automatically.
+     */
+    void setShowPreview(bool show);
+    bool showPreview() const;
+
+    /**
+     * Shows all hidden files of the current directory,
+     * if \a show is true.
+     * If the view properties should be remembered for each directory
+     * (GeneralSettings::globalViewProps() returns false), then the
+     * show hidden file setting will be be stored automatically.
+     */
     void setShowHiddenFiles(bool show);
     bool showHiddenFiles() const;
-
-    void setViewProperties(const ViewProperties& props);
 
     /**
      * Triggers the renaming of the currently selected items, where
@@ -347,6 +369,9 @@ signals:
      */
     void modeChanged();
 
+    /** Is emitted if the 'show preview' property has been changed. */
+    void showPreviewChanged();
+
     /** Is emitted if the 'show hidden files' property has been changed. */
     void showHiddenFilesChanged();
 
@@ -383,9 +408,7 @@ protected:
 
 private slots:
     void loadDirectory(const KUrl& kurl);
-    void triggerIconsViewItem(Q3IconViewItem *item);
     void triggerItem(const QModelIndex& index);
-    void updateUrl();
 
     void slotPercent(int percent);
     void slotClear();

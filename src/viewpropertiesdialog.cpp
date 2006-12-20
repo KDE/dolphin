@@ -20,6 +20,10 @@
 
 #include "viewpropertiesdialog.h"
 #include "viewpropsprogressinfo.h"
+#include "dolphinview.h"
+#include "dolphinsettings.h"
+#include "generalsettings.h"
+#include "viewproperties.h"
 
 #include <klocale.h>
 #include <kiconloader.h>
@@ -33,9 +37,6 @@
 #include <QLabel>
 #include <QRadioButton>
 #include <QVBoxLayout>
-
-#include "viewproperties.h"
-#include "dolphinview.h"
 
 ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     KDialog(dolphinView),
@@ -110,12 +111,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     propsBoxLayout->addWidget(m_showPreview, 3, 0);
     propsBoxLayout->addWidget(m_showHiddenFiles, 4, 0);
 
-    m_applyToSubFolders = new QCheckBox(i18n("Apply changes to all sub folders"), main);
-    m_useAsDefault = new QCheckBox(i18n("Use as default"), main);
-
     topLayout->addWidget(propsBox);
-    topLayout->addWidget(m_applyToSubFolders);
-    topLayout->addWidget(m_useAsDefault);
 
     connect(m_viewMode, SIGNAL(activated(int)),
             this, SLOT(slotViewModeChanged(int)));
@@ -128,13 +124,22 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     connect(m_showHiddenFiles, SIGNAL(clicked()),
             this, SLOT(slotShowHiddenFilesChanged()));
 
-    connect(m_applyToSubFolders, SIGNAL(clicked()),
-            this, SLOT(markAsDirty()));
-    connect(m_applyToSubFolders, SIGNAL(clicked()),
-            this, SLOT(markAsDirty()));
-
     connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
     connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+
+    // Only show the following settings if the view properties are remembered
+    // for each directory:
+    if (!DolphinSettings::instance().generalSettings()->globalViewProps()) {
+        m_applyToSubFolders = new QCheckBox(i18n("Apply changes to all sub folders"), main);
+        m_useAsDefault = new QCheckBox(i18n("Use as default"), main);
+        topLayout->addWidget(m_applyToSubFolders);
+        topLayout->addWidget(m_useAsDefault);
+
+        connect(m_applyToSubFolders, SIGNAL(clicked()),
+                this, SLOT(markAsDirty()));
+        connect(m_useAsDefault, SIGNAL(clicked()),
+                this, SLOT(markAsDirty()));
+    }
 
     main->setLayout(topLayout);
     setMainWidget(main);
@@ -205,7 +210,10 @@ void ViewPropertiesDialog::markAsDirty()
 
 void ViewPropertiesDialog::applyViewProperties()
 {
-    if (m_applyToSubFolders->isChecked() && m_isDirty) {
+    const bool applyToSubFolders = m_isDirty &&
+                                   (m_applyToSubFolders != 0) &&
+                                   m_applyToSubFolders->isChecked();
+    if (applyToSubFolders) {
         const QString text(i18n("The view properties of all sub folders will be changed. Do you want to continue?"));
         if (KMessageBox::questionYesNo(this, text) == KMessageBox::No) {
             return;
@@ -219,7 +227,13 @@ void ViewPropertiesDialog::applyViewProperties()
     }
 
     m_viewProps->save();
-    m_dolphinView->setViewProperties(*m_viewProps);
+
+    m_dolphinView->setMode(m_viewProps->viewMode());
+    m_dolphinView->setSorting(m_viewProps->sorting());
+    m_dolphinView->setSortOrder(m_viewProps->sortOrder());
+    m_dolphinView->setShowPreview(m_viewProps->showPreview());
+    m_dolphinView->setShowHiddenFiles(m_viewProps->showHiddenFiles());
+
     m_isDirty = false;
 
     // TODO: handle m_useAsDefault setting

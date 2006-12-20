@@ -20,9 +20,8 @@
 
 #include <assert.h>
 
-#include <qdatetime.h>
-#include <qdir.h>
-#include <qfile.h>
+#include <QDateTime>
+#include <QFile>
 
 #include <klocale.h>
 #include <kstandarddirs.h>
@@ -30,8 +29,8 @@
 #include <kinstance.h>
 
 #include "viewproperties.h"
-
 #include "dolphinsettings.h"
+#include "generalsettings.h"
 
 #define FILE_NAME "/.directory"
 
@@ -168,9 +167,12 @@ void ViewProperties::updateTimeStamp()
 
 void ViewProperties::save()
 {
-    KStandardDirs::makeDir(m_filepath);
-    m_node->writeConfig();
-    m_changedProps = false;
+    const bool rememberSettings = !DolphinSettings::instance().generalSettings()->globalViewProps();
+    if (rememberSettings) {
+        KStandardDirs::makeDir(m_filepath);
+        m_node->writeConfig();
+        m_changedProps = false;
+    }
 }
 
 ViewProperties::ViewProperties(const ViewProperties& props)

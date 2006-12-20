@@ -188,6 +188,22 @@ DolphinView::Mode DolphinView::mode() const
     return m_mode;
 }
 
+void DolphinView::setShowPreview(bool show)
+{
+    ViewProperties props(m_urlNavigator->url());
+    props.setShowPreview(show);
+
+    // TODO: wait until previews are possible with KFileItemDelegate
+
+    emit showPreviewChanged();
+}
+
+bool DolphinView::showPreview() const
+{
+    // TODO: wait until previews are possible with KFileItemDelegate
+    return true;
+}
+
 void DolphinView::setShowHiddenFiles(bool show)
 {
     if (m_dirLister->showingDotFiles() == show) {
@@ -208,14 +224,6 @@ void DolphinView::setShowHiddenFiles(bool show)
 bool DolphinView::showHiddenFiles() const
 {
     return m_dirLister->showingDotFiles();
-}
-
-void DolphinView::setViewProperties(const ViewProperties& props)
-{
-    setMode(props.viewMode());
-    setSorting(props.sorting());
-    setSortOrder(props.sortOrder());
-    setShowHiddenFiles(props.showHiddenFiles());
 }
 
 void DolphinView::renameSelectedItems()
@@ -618,32 +626,36 @@ DolphinMainWindow* DolphinView::mainWindow() const
 void DolphinView::loadDirectory(const KUrl& url)
 {
     const ViewProperties props(url);
-    setMode(props.viewMode());
+
+    const Mode mode = props.viewMode();
+    if (m_mode != mode) {
+        m_mode = mode;
+        applyModeToView();
+        emit modeChanged();
+    }
 
     const bool showHiddenFiles = props.showHiddenFiles();
-    setShowHiddenFiles(showHiddenFiles);
-    m_dirLister->setShowingDotFiles(showHiddenFiles);
+    if (showHiddenFiles != m_dirLister->showingDotFiles()) {
+        m_dirLister->setShowingDotFiles(showHiddenFiles);
+        emit showHiddenFilesChanged();
+    }
 
-    setSorting(props.sorting());
-    setSortOrder(props.sortOrder());
+    const DolphinView::Sorting sorting = props.sorting();
+    if (sorting != m_proxyModel->sorting()) {
+        m_proxyModel->setSorting(sorting);
+        emit sortingChanged(sorting);
+    }
+
+    const Qt::SortOrder sortOrder = props.sortOrder();
+    if (sortOrder != m_proxyModel->sortOrder()) {
+        m_proxyModel->setSortOrder(sortOrder);
+        emit sortOrderChanged(sortOrder);
+    }
+
+    // TODO: handle previews (props.showPreview())
 
     startDirLister(url);
     emit urlChanged(url);
-}
-
-void DolphinView::triggerIconsViewItem(Q3IconViewItem* item)
-{
-    /* KDE4-TODO:
-    const Qt::ButtonState keyboardState = KApplication::keyboardMouseState();
-    const bool isSelectionActive = ((keyboardState & Qt::ShiftModifier) > 0) ||
-                                   ((keyboardState & Qt::ControlModifier) > 0);*/
-    const bool isSelectionActive = false;
-    if ((item != 0) && !isSelectionActive) {
-        // Updating the Url must be done outside the scope of this slot,
-        // as iconview items will get deleted.
-        QTimer::singleShot(0, this, SLOT(updateUrl()));
-        mainWindow()->setActiveView(this);
-    }
 }
 
 void DolphinView::triggerItem(const QModelIndex& index)
@@ -673,35 +685,6 @@ void DolphinView::triggerItem(const QModelIndex& index)
     }
     else {
         item->run();
-    }
-}
-
-void DolphinView::updateUrl()
-{
-    //KFileView* fileView = (m_iconsView != 0) ? static_cast<KFileView*>(m_iconsView) :
-    //                                           static_cast<KFileView*>(m_iconsView);
-
-    KFileItem* fileItem = 0; // TODO: fileView->currentFileItem();
-    if (fileItem == 0) {
-        return;
-    }
-
-    if (fileItem->isDir()) {
-        // Prefer the local path over the Url. This assures that the
-        // volume space information is correct. Assuming that the Url is media:/sda1,
-        // and the local path is /windows/C: For the Url the space info is related
-        // to the root partition (and hence wrong) and for the local path the space
-        // info is related to the windows partition (-> correct).
-        const QString localPath(fileItem->localPath());
-        if (localPath.isEmpty()) {
-            setUrl(fileItem->url());
-        }
-        else {
-            setUrl(KUrl(localPath));
-        }
-    }
-    else {
-        fileItem->run();
     }
 }
 

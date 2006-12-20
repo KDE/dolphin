@@ -837,6 +837,12 @@ void DolphinMainWindow::stopLoading()
 
 void DolphinMainWindow::togglePreview()
 {
+    clearStatusBar();
+
+    const KToggleAction* showPreviewAction =
+        static_cast<KToggleAction*>(actionCollection()->action("show_preview"));
+    const bool show = showPreviewAction->isChecked();
+    m_activeView->setShowPreview(show);
 }
 
 void DolphinMainWindow::toggleShowHiddenFiles()

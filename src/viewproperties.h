@@ -66,10 +66,27 @@ public:
     void setSortOrder(Qt::SortOrder sortOrder);
     Qt::SortOrder sortOrder() const;
 
+    /**
+     * If \a autoSave is true, the properties are automatically
+     * saved when the destructor is called. Per default autosaving
+     * is enabled.
+     */
     void setAutoSaveEnabled(bool autoSave);
     bool isAutoSaveEnabled() const;
 
     void updateTimeStamp();
+
+    /**
+     * Saves the view properties for the directory specified
+     * in the constructor. The method is automatically
+     * invoked in the destructor, if
+     * ViewProperties::isAutoSaveEnabled() returns true.
+     *
+     * Note that the saving of the properties will be ignored
+     * if GeneralSettings::globalViewProps() returns true: in
+     * this case view properties may not be remembered for
+     * each directory.
+     */
     void save();
 
 private:
