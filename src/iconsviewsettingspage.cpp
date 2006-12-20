@@ -44,11 +44,12 @@ IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
     m_iconSizeSlider(0),
     m_previewSizeSlider(0),
     m_textWidthBox(0),
-    m_gridSpacingBox(0),
     m_fontFamilyBox(0),
     m_fontSizeBox(0),
     m_textlinesCountBox(0),
-    m_arrangementBox(0)
+    m_additionalInfo(0),
+    m_arrangementBox(0),
+    m_gridSpacingBox(0)
 {
     const int spacing = KDialog::spacingHint();
     const int margin = KDialog::marginHint();
@@ -131,6 +132,14 @@ IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
     m_textWidthBox->addItem(i18n("Medium"));
     m_textWidthBox->addItem(i18n("Large"));
 
+    new QLabel(i18n("Additional information:"), textGroup);
+    m_additionalInfo = new QComboBox(textGroup);
+    m_additionalInfo->addItem(i18n("No Information"));
+    m_additionalInfo->addItem(i18n("MIME Type"));
+    m_additionalInfo->addItem(i18n("Size"));
+    m_additionalInfo->addItem(i18n("Date"));
+    m_additionalInfo->setCurrentIndex(settings->additionalInfo());
+
     Q3GroupBox* gridGroup = new Q3GroupBox(2, Qt::Horizontal, i18n("Grid"), this);
     gridGroup->setSizePolicy(sizePolicy);
     gridGroup->setMargin(margin);
@@ -184,7 +193,7 @@ void IconsViewSettingsPage::applySettings()
                           "LeftToRight" :
                           "TopToBottom";
     settings->setArrangement(arrangement);
-    DolphinSettings::instance().calculateGridSize(m_textWidthBox->currentIndex());
+    //DolphinSettings::instance().calculateGridSize(m_textWidthBox->currentIndex());
 
     settings->setFontFamily(m_fontFamilyBox->currentFont().family());
     settings->setFontSize(fontSize);
@@ -253,7 +262,7 @@ void IconsViewSettingsPage::adjustTextWidthSelection()
 {
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     assert(settings != 0);
-    m_textWidthBox->setCurrentIndex(DolphinSettings::instance().textWidthHint());
+    //m_textWidthBox->setCurrentIndex(DolphinSettings::instance().textWidthHint());
 }
 
 #include "iconsviewsettingspage.moc"

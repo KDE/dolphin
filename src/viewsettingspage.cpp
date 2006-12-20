@@ -19,25 +19,32 @@
  ***************************************************************************/
 
 #include "viewsettingspage.h"
-#include <qtabwidget.h>
-#include <qlayout.h>
-#include <qlabel.h>
-//Added by qt3to4:
-#include <Q3VBoxLayout>
-#include <kdialog.h>
-#include <klocale.h>
-#include <kiconloader.h>
+#include "generalviewsettingspage.h"
 #include "iconsviewsettingspage.h"
 #include "detailsviewsettingspage.h"
 
+#include <Q3VBoxLayout>
+#include <QTabWidget>
+#include <QLayout>
+#include <QLabel>
+
+#include <kdialog.h>
+#include <klocale.h>
+#include <kiconloader.h>
+
 ViewSettingsPage::ViewSettingsPage(QWidget *parent) :
     SettingsPageBase(parent),
+    m_generalPage(0),
     m_iconsPage(0),
     m_detailsPage(0)
 {
     Q3VBoxLayout* topLayout = new Q3VBoxLayout(this, 0, KDialog::spacingHint());
 
     QTabWidget* tabWidget = new QTabWidget(this);
+
+    // initialize 'General' tab
+    m_generalPage = new GeneralViewSettingsPage(tabWidget);
+    tabWidget->addTab(m_generalPage, SmallIcon("view_choose"), i18n("General"));
 
     // initialize 'Icons' tab
     m_iconsPage = new IconsViewSettingsPage(tabWidget);
@@ -56,6 +63,7 @@ ViewSettingsPage::~ViewSettingsPage()
 
 void ViewSettingsPage::applySettings()
 {
+    m_generalPage->applySettings();
     m_iconsPage->applySettings();
     m_detailsPage->applySettings();
 }

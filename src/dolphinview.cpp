@@ -109,9 +109,10 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
     m_proxyModel = new DolphinSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_dirModel);
 
-    m_iconsView->setModel(m_dirModel);   // TODO: using m_proxyModel crashed when clicking on an item
+    m_iconsView->setModel(m_dirModel);   // TODO: using m_proxyModel crashes when clicking on an item
 
     KFileItemDelegate* delegate = new KFileItemDelegate(this);
+    delegate->setAdditionalInformation(KFileItemDelegate::FriendlyMimeType);
     m_iconsView->setItemDelegate(delegate);
 
     m_dirLister->setDelayedMimeTypes(true);
@@ -985,19 +986,22 @@ void DolphinView::slotChangeNameFilter(const QString& nameFilter)
 
 void DolphinView::applyModeToView()
 {
-    //m_iconsView->setAlternatingRowColors(true);
     m_iconsView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     // TODO: the following code just tries to test some QListView capabilities
     switch (m_mode) {
         case IconsView:
             m_iconsView->setViewMode(QListView::IconMode);
-            m_iconsView->setGridSize(QSize(128, 64));
+            m_iconsView->setSpacing(32);
+            // m_iconsView->setAlternatingRowColors(false);
+            // m_iconsView->setGridSize(QSize(128, 64));
             break;
 
         case DetailsView:
             m_iconsView->setViewMode(QListView::ListMode);
-            m_iconsView->setGridSize(QSize(256, 24));
+            m_iconsView->setSpacing(0);
+            // m_iconsView->setAlternatingRowColors(true);
+            // m_iconsView->setGridSize(QSize(256, 24));
             break;
     }
 }

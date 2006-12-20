@@ -8,44 +8,45 @@ include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES}  )
 ########### next target ###############
 
 set(dolphin_SRCS
-   main.cpp
+   applyviewpropsjob.cpp
+   bookmarkselector.cpp
+   bookmarkssettingspage.cpp
+   bookmarkssidebarpage.cpp
+   detailsviewsettingspage.cpp
    dolphinapplication.cpp
    dolphinmainwindow.cpp
    dolphinview.cpp
-   urlnavigator.cpp
-   urlnavigatorbutton.cpp
-   viewpropertiesdialog.cpp
    dolphinstatusbar.cpp
    dolphindirlister.cpp
-   viewproperties.cpp
    dolphindetailsview.cpp
    dolphiniconsview.cpp
    dolphinsettings.cpp
-   bookmarkselector.cpp
-   urlbutton.cpp
    dolphincontextmenu.cpp
    dolphinsortfilterproxymodel.cpp
-   undomanager.cpp
-   progressindicator.cpp
-   iconsviewsettingspage.cpp
-   pixmapviewer.cpp
    dolphinsettingsdialog.cpp
-   viewsettingspage.cpp
-   detailsviewsettingspage.cpp
-   statusbarmessagelabel.cpp
-   generalsettingspage.cpp
-   bookmarkssettingspage.cpp
    editbookmarkdialog.cpp
+   filterbar.cpp
+   generalsettingspage.cpp
+   generalviewsettingspage.cpp
+   iconsviewsettingspage.cpp
+   infosidebarpage.cpp
+   main.cpp
+   progressindicator.cpp
+   protocolcombo.cpp
+   pixmapviewer.cpp
+   renamedialog.cpp
    settingspagebase.cpp
    sidebarpage.cpp
-   bookmarkssidebarpage.cpp
-   infosidebarpage.cpp
    statusbarspaceinfo.cpp
-   renamedialog.cpp
-   filterbar.cpp
-   protocolcombo.cpp
-   viewpropsprogressinfo.cpp
-   applyviewpropsjob.cpp )
+   statusbarmessagelabel.cpp
+   undomanager.cpp
+   urlbutton.cpp
+   urlnavigator.cpp
+   urlnavigatorbutton.cpp
+   viewpropertiesdialog.cpp
+   viewproperties.cpp
+   viewsettingspage.cpp
+   viewpropsprogressinfo.cpp )
 
 kde4_automoc(${dolphin_SRCS})
 

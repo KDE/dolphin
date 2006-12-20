@@ -43,5 +43,9 @@
             <label>Preview size</label>
             <default code="true">K3Icon::SizeMedium</default>
         </entry>
+        <entry name="AdditionalInfo" type="Int">
+            <label>Additional information</label>
+            <default>0</default>
+        </entry>
     </group>
 </kcfg>

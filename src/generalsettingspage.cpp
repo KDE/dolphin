@@ -64,7 +64,7 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin,QWidget* par
     vBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
 
     // create 'Home Url' editor
-    Q3GroupBox* homeGroup = new Q3GroupBox(1, Qt::Horizontal, i18n("Home Url"), vBox);
+    Q3GroupBox* homeGroup = new Q3GroupBox(1, Qt::Horizontal, i18n("Home Folder"), vBox);
     homeGroup->setSizePolicy(sizePolicy);
     homeGroup->setMargin(margin);
 
@@ -89,26 +89,19 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin,QWidget* par
     connect(useDefaultButton, SIGNAL(clicked()),
             this, SLOT(useDefaulLocation()));
 
-    // create 'Default View Mode' group
-    Q3ButtonGroup* buttonGroup = new Q3ButtonGroup(3, Qt::Vertical, i18n("Default View Mode"), vBox);
-    buttonGroup->setSizePolicy(sizePolicy);
-    buttonGroup->setMargin(margin);
-
-    m_iconsView = new QRadioButton(i18n("Icons"), buttonGroup);
-    m_detailsView = new QRadioButton(i18n("Details"), buttonGroup);
-
-    switch (settings->defaultViewMode()) {
-        case DolphinView::IconsView:    m_iconsView->setChecked(true); break;
-        case DolphinView::DetailsView:  m_detailsView->setChecked(true); break;
-    }
+    QGroupBox* startBox = new QGroupBox(i18n("Start"), vBox);
 
     // create 'Start with split view' checkbox
-    m_startSplit = new QCheckBox(i18n("Start with split view"), vBox);
+    m_startSplit = new QCheckBox(i18n("Start with split view"), startBox);
     m_startSplit->setChecked(settings->splitView());
 
     // create 'Start with editable navigation bar' checkbox
-    m_startEditable = new QCheckBox(i18n("Start with editable navigation bar"), vBox);
+    m_startEditable = new QCheckBox(i18n("Start with editable navigation bar"), startBox);
     m_startEditable->setChecked(settings->editableUrl());
+
+    QVBoxLayout* startBoxLayout = new QVBoxLayout(startBox);
+    startBoxLayout->addWidget(m_startSplit);
+    startBoxLayout->addWidget(m_startEditable);
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -132,11 +125,6 @@ void GeneralSettingsPage::applySettings()
     if (url.isValid() && fileItem.isDir()) {
         settings->setHomeUrl(url.prettyUrl());
     }
-
-    const DolphinView::Mode viewMode = m_detailsView->isChecked() ?
-                                       DolphinView::DetailsView :
-                                       DolphinView::IconsView;
-    settings->setDefaultViewMode(viewMode);
 
     settings->setSplitView(m_startSplit->isChecked());
     settings->setEditableUrl(m_startEditable->isChecked());

@@ -15,58 +15,40 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
-#ifndef VIEWPROPERTIESDIALOG_H
-#define VIEWPROPERTIESDIALOG_H
 
-#include <kdialog.h>
+#ifndef GENERALVIEWSETTINGSPAGE_H
+#define GENERALVIEWSETTINGSPAGE_H
 
-class QCheckBox;
-class QComboBox;
+#include <kvbox.h>
+
 class QRadioButton;
-class ViewProperties;
-class DolphinView;
 
 /**
- * @brief Dialog for changing the current view properties of a directory.
+ * @brief Represents the page from the Dolphin Settings which allows
+ * to modify general settings for the view modes.
  *
- * It is possible to specify the view mode and whether hidden files
- * should be shown. The properties can be assigned to the current folder,
- * recursively to all sub folders or to all folders.
+ *  @author Peter Penz <peter.penz@gmx.at>
  */
-class ViewPropertiesDialog : public KDialog
+class GeneralViewSettingsPage : public KVBox
 {
     Q_OBJECT
 
 public:
-    ViewPropertiesDialog(DolphinView* dolphinView);
-    virtual ~ViewPropertiesDialog();
+    GeneralViewSettingsPage(QWidget* parent);
+    virtual ~GeneralViewSettingsPage();
 
-private slots:
-    void slotOk();
-    void slotApply();
-    void slotViewModeChanged(int index);
-    void slotSortingChanged(int index);
-    void slotSortOrderChanged(int index);
-    void slotShowPreviewChanged();
-    void slotShowHiddenFilesChanged();
-    void markAsDirty();
+    /**
+     * Applies the general settings for the view modes
+     * The settings are persisted automatically when
+     * closing Dolphin.
+     */
+    void applySettings();
 
 private:
-    bool m_isDirty;
-    DolphinView* m_dolphinView;
-    ViewProperties* m_viewProps;
-
-    QComboBox* m_viewMode;
-    QComboBox* m_sorting;
-    QComboBox* m_sortOrder;
-    QCheckBox* m_showPreview;
-    QCheckBox* m_showHiddenFiles;
-    QCheckBox* m_applyToSubFolders;
-    QCheckBox* m_useAsDefault;
-
-    void applyViewProperties();
+    QRadioButton* m_localProps;
+    QRadioButton* m_globalProps;
 };
 
 #endif

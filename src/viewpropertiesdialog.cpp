@@ -47,7 +47,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_sortOrder(0),
     m_showPreview(0),
     m_showHiddenFiles(0),
-    m_applyToSubFolders(0)
+    m_applyToSubFolders(0),
+    m_useAsDefault(0)
 {
     assert(dolphinView != 0);
 
@@ -110,8 +111,11 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     propsBoxLayout->addWidget(m_showHiddenFiles, 4, 0);
 
     m_applyToSubFolders = new QCheckBox(i18n("Apply changes to all sub folders"), main);
+    m_useAsDefault = new QCheckBox(i18n("Use as default"), main);
+
     topLayout->addWidget(propsBox);
     topLayout->addWidget(m_applyToSubFolders);
+    topLayout->addWidget(m_useAsDefault);
 
     connect(m_viewMode, SIGNAL(activated(int)),
             this, SLOT(slotViewModeChanged(int)));
@@ -124,6 +128,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     connect(m_showHiddenFiles, SIGNAL(clicked()),
             this, SLOT(slotShowHiddenFilesChanged()));
 
+    connect(m_applyToSubFolders, SIGNAL(clicked()),
+            this, SLOT(markAsDirty()));
     connect(m_applyToSubFolders, SIGNAL(clicked()),
             this, SLOT(markAsDirty()));
 
@@ -215,6 +221,8 @@ void ViewPropertiesDialog::applyViewProperties()
     m_viewProps->save();
     m_dolphinView->setViewProperties(*m_viewProps);
     m_isDirty = false;
+
+    // TODO: handle m_useAsDefault setting
 }
 
 #include "viewpropertiesdialog.moc"

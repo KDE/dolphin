@@ -56,34 +56,6 @@ public:
     /** @see DolphinSettingsBase::save */
     virtual void save();
 
-    /**
-     * TODO: just temporary until the port to KDE4 has been done
-     *
-     * Calculates the width and the height of the grid dependant from \a hint and
-     * the current settings. The hint gives information about the wanted text
-     * width, where a lower value indicates a smaller text width. Currently
-     * in Dolphin the values 0, 1 and 2 are used. See also
-     * DolhinIconsViewSettings::textWidthHint.
-     *
-     * The calculation of the grid width and grid height is a little bit tricky,
-     * as the user model does not fit to the implementation model of QIconView. The user model
-     * allows to specify icon-, preview- and text width sizes, whereas the implementation
-     * model expects only a grid width and height. The nasty thing is that the specified
-     * width and height varies dependant from the arrangement (e. g. the height is totally
-     * ignored for the top-to-bottom arrangement inside QIconView).
-     */
-    void calculateGridSize(int hint);
-
-    /**
-     * TODO: just temporary until the port to KDE4 has been done
-     *
-     * Returns the text width hint dependant from the given settings.
-     * A lower value indicates a smaller text width. Currently
-     * in Dolphin the values 0, 1 and 2 are used. The text width hint can
-     * be used later for DolphinIconsViewSettings::calculateGridSize().
-     */
-    int textWidthHint() const;
-
 protected:
     DolphinSettings();
     virtual ~DolphinSettings();

@@ -75,11 +75,13 @@ private:
     QSlider* m_previewSizeSlider;
     PixmapViewer* m_previewSizeViewer;
     QComboBox* m_textWidthBox;
-    QComboBox* m_gridSpacingBox;
     QFontComboBox* m_fontFamilyBox;
     QSpinBox* m_fontSizeBox;
     QSpinBox* m_textlinesCountBox;
+    QComboBox* m_additionalInfo;
+
     QComboBox* m_arrangementBox;
+    QComboBox* m_gridSpacingBox;
 
     /** Returns the icon size for the given slider value. */
     int iconSize(int sliderValue) const;

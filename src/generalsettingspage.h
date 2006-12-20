@@ -54,8 +54,6 @@ private slots:
 private:
     DolphinMainWindow *m_mainWindow;
     QLineEdit* m_homeUrl;
-    QRadioButton* m_iconsView;
-    QRadioButton* m_detailsView;
     QCheckBox* m_startSplit;
     QCheckBox* m_startEditable;
 };

@@ -23,14 +23,15 @@
 #include <qwidget.h>
 #include <settingspagebase.h>
 
+class GeneralViewSettingsPage;
 class IconsViewSettingsPage;
 class DetailsViewSettingsPage;
 
 /**
  * @brief Page for the 'View' settings of the Dolphin settings dialog.
  *
- * The views settings allow to set the properties for the icons mode,
- * the details mode and the previews mode.
+ * The views settings allow to set the properties for the icons mode and
+ * the details mode.
  *
  *  @author Peter Penz <peter.penz@gmx.at>
  */
@@ -47,6 +48,7 @@ public:
     virtual void applySettings();
 
 private:
+    GeneralViewSettingsPage* m_generalPage;
     IconsViewSettingsPage* m_iconsPage;
     DetailsViewSettingsPage* m_detailsPage;
 };

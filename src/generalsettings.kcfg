@@ -3,10 +3,6 @@
 <kcfg>
     <kcfgfile name="dolphinrc"/>
     <group name="General">
-        <entry name="DefaultViewMode" type="Int">
-            <label>Default view mode</label>
-            <default>0</default>
-        </entry>
         <entry name="EditableUrl" type="Bool">
             <label>Should the URL be editable for the user</label>
             <default>false</default>
@@ -21,6 +17,10 @@
         </entry>
         <entry name="SplitView" type="Bool">
             <label>Split the view into two panes</label>
+            <default>false</default>
+        </entry>
+        <entry name="globalViewProps" type="Bool">
+            <label>Should the view properties used for all directories</label>
             <default>false</default>
         </entry>
     </group>
