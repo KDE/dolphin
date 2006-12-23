@@ -59,7 +59,7 @@ FilterBar::FilterBar(QWidget* parent) :
     hLayout->addSpacing(gap);
 
     connect(m_filterInput, SIGNAL(textChanged(const QString&)),
-            this, SIGNAL(signalFilterChanged(const QString&)));
+            this, SIGNAL(filterChanged(const QString&)));
     connect(m_close, SIGNAL(clicked()), this, SLOT(emitClose()));
 }
 
