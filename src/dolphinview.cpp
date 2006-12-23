@@ -109,7 +109,7 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
     m_proxyModel = new DolphinSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_dirModel);
 
-    m_iconsView->setModel(m_dirModel);   // TODO: using m_proxyModel crashes when clicking on an item
+    m_iconsView->setModel(m_proxyModel);
 
     KFileItemDelegate* delegate = new KFileItemDelegate(this);
     delegate->setAdditionalInformation(KFileItemDelegate::FriendlyMimeType);
@@ -478,23 +478,28 @@ bool DolphinView::hasSelection() const
     return m_iconsView->selectionModel()->hasSelection();
 }
 
+/*
+ * Our view has a selection, we will map them back to the DirModel
+ * and then fill the KFileItemList
+ */
 KFileItemList DolphinView::selectedItems() const
 {
-    QItemSelectionModel* selModel = m_iconsView->selectionModel();
-    assert(selModel != 0);
+    assert( m_iconsView && m_iconsView->selectionModel() );
 
+    const QItemSelection selection = m_proxyModel->mapSelectionToSource( m_iconsView->selectionModel()->selection() );
     KFileItemList itemList;
-    if (selModel->hasSelection()) {
-       const QModelIndexList indexList = selModel->selectedIndexes();
 
-        QModelIndexList::const_iterator end = indexList.end();
-        for (QModelIndexList::const_iterator it = indexList.begin(); it != end; ++it) {
-           KFileItem* item = m_dirModel->itemForIndex(*it);
-           if (item != 0) {
-               itemList.append(item);
-           }
+    const QModelIndexList indexList = selection.indexes();
+    QModelIndexList::const_iterator end = indexList.end();
+    for (QModelIndexList::const_iterator it = indexList.begin(); it != end; ++it) {
+        assert( (*it).isValid()  );
+
+        KFileItem* item = m_dirModel->itemForIndex(*it);
+        if (item != 0) {
+            itemList.append(item);
         }
     }
+
     return itemList;
 }
 
@@ -660,7 +665,7 @@ void DolphinView::loadDirectory(const KUrl& url)
 
 void DolphinView::triggerItem(const QModelIndex& index)
 {
-    KFileItem* item = m_dirModel->itemForIndex(index);
+    KFileItem* item = m_dirModel->itemForIndex(m_proxyModel->mapToSource(index));
     if (item == 0) {
         return;
     }
