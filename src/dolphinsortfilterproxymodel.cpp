@@ -38,7 +38,7 @@ void DolphinSortFilterProxyModel::setSorting(DolphinView::Sorting sorting)
 {
     if (sorting != m_sorting) {
         m_sorting = sorting;
-        // TODO: how to trigger an update?
+        clear();
     }
 }
 
@@ -46,7 +46,7 @@ void DolphinSortFilterProxyModel::setSortOrder(Qt::SortOrder sortOrder)
 {
     if (sortOrder != m_sortOrder) {
         m_sortOrder = sortOrder;
-        // TODO: how to trigger an update?
+        clear();
     }
 }
 
