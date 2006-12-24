@@ -23,50 +23,80 @@
 #include <kdirmodel.h>
 #include <kfileitem.h>
 
+static const int dolphin_map_size = 3;
+static int dolphin_view_to_dir_model_column[] = {
+    /* SortByName */ KDirModel::Name,
+    /* SortBySize */ KDirModel::Size,
+    /* SortByDate */ KDirModel::ModifiedTime 
+};
+
+static DolphinView::Sorting dir_model_column_to_dolphin_view[] = {
+    /* KDirModel::Name */ DolphinView::SortByName,
+    /* KDirModel::Size */ DolphinView::SortBySize,
+    /* KDirModel::ModifiedTime */ DolphinView::SortByDate
+};
+
+
 DolphinSortFilterProxyModel::DolphinSortFilterProxyModel(QObject* parent) :
-    QSortFilterProxyModel(parent),
-    m_sorting(DolphinView::SortByName),
-    m_sortOrder(Qt::Ascending)
+    QSortFilterProxyModel(parent)
 {
+    setDynamicSortFilter(true);
+
+    /*
+     * sort by the user visible string for now
+     */
+    setSortRole(Qt::DisplayRole);
+    setSortCaseSensitivity(Qt::CaseInsensitive);
+    sort(KDirModel::Name, Qt::Ascending);
 }
 
 DolphinSortFilterProxyModel::~DolphinSortFilterProxyModel()
 {
 }
 
+/*
+ * Update the sort column by mapping DolpginView::Sorting to
+ * KDirModel::ModelColumns.
+ * We will keep the sortOrder
+ */
 void DolphinSortFilterProxyModel::setSorting(DolphinView::Sorting sorting)
 {
-    if (sorting != m_sorting) {
-        m_sorting = sorting;
-        clear();
-    }
+    Q_ASSERT( static_cast<int>(sorting) >= 0 && static_cast<int>(sorting) <= dolphin_map_size );
+    sort(dolphin_view_to_dir_model_column[static_cast<int>(sorting)],
+         m_sortOrder );
 }
 
+/**
+ * @reimplemented, @internal
+ *
+ * If the view 'forces' sorting order to change we will
+ * notice now.
+ */
+void DolphinSortFilterProxyModel::sort(int column, Qt::SortOrder sortOrder)
+{
+    m_sortOrder = sortOrder;
+    m_sorting = column >= 0 && column <= dolphin_map_size ?
+                dir_model_column_to_dolphin_view[column]  :
+                DolphinView::SortByName; 
+    QSortFilterProxyModel::sort(column,sortOrder);
+}
+
+/*
+ * change the sort order by keeping the current column
+ */
 void DolphinSortFilterProxyModel::setSortOrder(Qt::SortOrder sortOrder)
 {
-    if (sortOrder != m_sortOrder) {
-        m_sortOrder = sortOrder;
-        clear();
-    }
+    sort(dolphin_view_to_dir_model_column[m_sorting], sortOrder);
 }
 
 bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
                                            const QModelIndex& right) const
 {
-    // TODO: this is just a test implementation
-    KDirModel* model = static_cast<KDirModel*>(sourceModel());
-
-    KFileItem* leftItem = model->itemForIndex(left);
-    if (leftItem == 0) {
-        return true;
-    }
-
-    KFileItem* rightItem = model->itemForIndex(right);
-    if (rightItem == 0) {
-        return false;
-    }
-
-    return leftItem->name() > rightItem->name();
+    /*
+     * We have set a SortRole and trust the ProxyModel to do
+     * the right thing for now
+     */
+    return QSortFilterProxyModel::lessThan(left,right);
 }
 
 #include "dolphinsortfilterproxymodel.moc"

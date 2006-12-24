@@ -41,6 +41,8 @@ public:
     void setSorting(DolphinView::Sorting sorting);
     DolphinView::Sorting sorting() const { return m_sorting; }
 
+    virtual void sort (int column, 
+                       Qt::SortOrder order = Qt::AscendingOrder);
     void setSortOrder(Qt::SortOrder sortOrder);
     Qt::SortOrder sortOrder() const { return m_sortOrder; }
 
