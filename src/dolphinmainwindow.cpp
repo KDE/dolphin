@@ -36,7 +36,6 @@
 #include <kfiledialog.h>
 #include <kconfig.h>
 #include <kurl.h>
-#include <kstdaccel.h>
 #include <kaction.h>
 #include <kstandardaction.h>
 #include <kmenu.h>
