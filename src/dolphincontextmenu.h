@@ -107,7 +107,7 @@ private:
         submenuID       =   90,
         bookmarkID      =   91,
         openWithIDStart =  100,
-        actionsIDStart  = 1000,
+        actionsIDStart  = 1000
     };
 
     DolphinView* m_dolphinView;

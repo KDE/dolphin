@@ -37,7 +37,7 @@
 
 namespace KIO {
     class Job;
-};
+}
 
 class QPixmap;
 class QIcon;
