@@ -31,7 +31,7 @@
 #include <kurl.h>
 #include <klocale.h>
 #include <kio/netaccess.h>
-#include <kio/renamedlg.h>
+#include <kio/renamedialog.h>
 #include <kmimetyperesolver.h>
 #include <assert.h>
 
@@ -547,11 +547,11 @@ void DolphinView::rename(const KUrl& source, const QString& newName)
     if (destExists) {
         // the destination already exists, hence ask the user
         // how to proceed...
-        KIO::RenameDlg renameDialog(this,
-                                    i18n("File Already Exists"),
-                                    source.path(),
-                                    dest.path(),
-                                    KIO::M_OVERWRITE);
+        KIO::RenameDialog renameDialog(this,
+                                       i18n("File Already Exists"),
+                                       source.path(),
+                                       dest.path(),
+                                       KIO::M_OVERWRITE);
         switch (renameDialog.exec()) {
             case KIO::R_OVERWRITE:
                 // the destination should be overwritten

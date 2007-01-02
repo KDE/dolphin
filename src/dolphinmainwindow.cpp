@@ -39,7 +39,7 @@
 #include <kaction.h>
 #include <kstandardaction.h>
 #include <kmenu.h>
-#include <kio/renamedlg.h>
+#include <kio/renamedialog.h>
 #include <kinputdialog.h>
 #include <kshell.h>
 #include <kdesktopfile.h>
@@ -379,7 +379,7 @@ void DolphinMainWindow::createFolder()
 
 
     if (baseUrl.isLocalFile() && QFileInfo(baseUrl.path(KUrl::AddTrailingSlash) + name).exists()) {
-        name = KIO::RenameDlg::suggestName(baseUrl, i18n("New Folder"));
+        name = KIO::RenameDialog::suggestName(baseUrl, i18n("New Folder"));
     }
 
     bool ok = false;
@@ -484,7 +484,7 @@ void DolphinMainWindow::createFile()
     const bool fileExists = viewUrl.isLocalFile() &&
                             QFileInfo(viewUrl.path(KUrl::AddTrailingSlash) + KIO::encodeFileName(name)).exists();
     if (fileExists) {
-        name = KIO::RenameDlg::suggestName(viewUrl, name);
+        name = KIO::RenameDialog::suggestName(viewUrl, name);
     }
 
     // let the user change the suggested file name
