@@ -297,8 +297,8 @@ QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
                 // will be skipped here.
                 const QString appName((*it)->name());
                 if (!containsEntry(openWithMenu, appName)) {
-                    QAction *action = openWithMenu->addAction((*it)->pixmap(K3Icon::Small),
-                                                              appName);
+                    const KIcon icon((*it)->icon());
+                    QAction *action = openWithMenu->addAction(icon, appName);
                     openWithVector.append(*it);
                     openWithActions << action;
                 }

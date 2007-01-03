@@ -19,22 +19,24 @@
  ***************************************************************************/
 
 #include "iconsviewsettingspage.h"
+#include "iconsmodesettings.h"
+#include "dolphinsettings.h"
+#include "pixmapviewer.h"
+
+#include <assert.h>
 
 #include <qlabel.h>
 #include <qslider.h>
 #include <q3buttongroup.h>
 #include <qradiobutton.h>
 #include <qspinbox.h>
-#include <kiconloader.h>
 #include <qfontcombobox.h>
-#include <kdialog.h>
-#include <klocale.h>
-#include <assert.h>
-#include <kvbox.h>
 
-#include "iconsmodesettings.h"
-#include "dolphinsettings.h"
-#include "pixmapviewer.h"
+#include <kiconloader.h>
+#include <kdialog.h>
+#include <kglobalsettings.h>
+#include <klocale.h>
+#include <kvbox.h>
 
 #define GRID_SPACING_BASE 8
 #define GRID_SPACING_INC 12

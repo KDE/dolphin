@@ -3,6 +3,7 @@
 <kcfg>
     <kcfgfile name="dolphinrc"/>
     <include>kiconloader.h</include>
+    <include>kglobalsettings.h</include>
     <group name="DetailsMode">
         <entry name="FontFamily" type="String">
             <label>Font family</label>

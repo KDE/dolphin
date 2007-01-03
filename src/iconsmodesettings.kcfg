@@ -3,6 +3,7 @@
 <kcfg>
     <kcfgfile name="dolphinrc"/>
     <include>kiconloader.h</include>
+    <include>kglobalsettings.h</include>
     <group name="IconsMode">
         <entry name="Arrangement" type="String">
             <label>Arrangement</label>
