@@ -105,6 +105,7 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
 
     m_dirModel = new KDirModel();
     m_dirModel->setDirLister(m_dirLister);
+    m_dirModel->setDropsAllowed(KDirModel::DropOnDirectory);
 
     m_proxyModel = new DolphinSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_dirModel);

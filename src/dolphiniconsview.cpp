@@ -19,14 +19,17 @@
  ***************************************************************************/
 
 #include "dolphiniconsview.h"
+#include "dolphinmainwindow.h"
 #include "dolphinview.h"
 
 #include <kdirmodel.h>
 #include <kfileitem.h>
 
+#include <QAbstractProxyModel>
+
 DolphinIconsView::DolphinIconsView(DolphinView* parent) :
     QListView(parent),
-    m_parentView( parent )
+    m_parentView(parent)
 {
     setResizeMode(QListView::Adjust);
 }
@@ -58,11 +61,8 @@ void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)
 
     const QModelIndex index = indexAt(event->pos());
     if (index.isValid()) {
-        // TODO: assuming that model() returns an instance of the class
-        // KDirModel is dangerous, especially in combination with a proxy model.
-        // As the current test implementation of proxy model does not work, this
-        // will be cleaned up later.
-        KDirModel* dirModel = static_cast<KDirModel*>(model());
+        const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(model());
+        const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
         item = dirModel->itemForIndex(index);
     }
 
@@ -73,6 +73,26 @@ void DolphinIconsView::mouseReleaseEvent(QMouseEvent* event)
 {
     QListView::mouseReleaseEvent(event);
     m_parentView->declareViewActive();
+}
+
+void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
+{
+    if (event->mimeData()->hasUrls()) {
+        event->acceptProposedAction();
+    }
+}
+
+void DolphinIconsView::dropEvent(QDropEvent* event)
+{
+    const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
+    if (!urls.isEmpty()) {
+        event->acceptProposedAction();
+
+        // TODO: handle dropping above a directory
+
+        const KUrl& destination = m_parentView->url();
+        m_parentView->mainWindow()->dropUrls(urls, destination);
+    }
 }
 
 #include "dolphiniconsview.moc"

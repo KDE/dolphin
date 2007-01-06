@@ -45,6 +45,8 @@ protected:
     virtual QStyleOptionViewItem viewOptions() const;
     virtual void contextMenuEvent(QContextMenuEvent* event);
     virtual void mouseReleaseEvent(QMouseEvent* event);
+    virtual void dragEnterEvent(QDragEnterEvent* event);
+    virtual void dropEvent(QDropEvent* event);
 
 private:
     DolphinView* m_parentView;
