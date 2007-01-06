@@ -181,8 +181,9 @@ void DolphinContextMenu::openItemContextMenu()
     const int count = sizeof(actionNames) / sizeof(KStandardAction::StandardAction);
     for (int i = 0; i < count; ++i) {
         QAction* action = dolphin->actionCollection()->action(KStandardAction::stdName(actionNames[i]));
-        if (action)
+        if (action != 0) {
             popup->addAction(action);
+        }
     }
     popup->insertSeparator();
 
@@ -204,7 +205,7 @@ void DolphinContextMenu::openItemContextMenu()
     // insert 'Bookmark this folder...' entry
     // urls is a list of selected items, so insert boolmark menu if
     // urls contains only one item, i.e. no multiple selection made
-    QAction *bookmarkAction = 0;
+    QAction* bookmarkAction = 0;
     if (m_fileInfo->isDir() && (urls.count() == 1)) {
         bookmarkAction = popup->addAction(i18n("Bookmark this folder"));
     }

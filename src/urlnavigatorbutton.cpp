@@ -209,28 +209,31 @@ void UrlNavigatorButton::dropEvent(QDropEvent* event)
         return;
     }
 
-    KUrl::List urls;
-    /* KDE4-TODO:
-    if (KUrlDrag::decode(event, urls) && !urls.isEmpty()) {
+    const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
+    if (!urls.isEmpty()) {
+        event->acceptProposedAction();
+
         setDisplayHintEnabled(DraggedHint, true);
 
         QString path(urlNavigator()->url().prettyUrl());
-        path = path.section('/', 0, m_index);
+        path = path.section('/', 0, m_index + 2);
 
-        Dolphin::mainWin().dropUrls(urls, KUrl(path));
+        DolphinMainWindow* win = urlNavigator()->dolphinView()->mainWindow();
+        win->dropUrls(urls, KUrl(path));
 
         setDisplayHintEnabled(DraggedHint, false);
         update();
-    }*/
+    }
 }
 
 void UrlNavigatorButton::dragEnterEvent(QDragEnterEvent* event)
 {
-    /* KDE4-TODO:
-    event->accept(KUrlDrag::canDecode(event));
+    if (event->mimeData()->hasUrls()) {
+        setDisplayHintEnabled(DraggedHint, true);
+        event->acceptProposedAction();
 
-    setDisplayHintEnabled(DraggedHint, true);*/
-    update();
+        update();
+    }
 }
 
 void UrlNavigatorButton::dragLeaveEvent(QDragLeaveEvent* event)

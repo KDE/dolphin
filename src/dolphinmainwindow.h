@@ -358,6 +358,24 @@ private slots:
     /** Open a new main window. */
     void openNewMainWindow();
 
+    /**
+     * Moves the items indicated by m_droppedUrls to the URL
+     * m_destination.
+     */
+    void moveDroppedItems();
+
+    /**
+     * Copies the items indicated by m_droppedUrls to the URL
+     * m_destination.
+     */
+    void copyDroppedItems();
+
+    /**
+     * Links the items indicated by m_droppedUrls to the URL
+     * m_destination.
+     */
+    void linkDroppedItems();
+
 private:
     DolphinMainWindow();
     void init();
@@ -371,7 +389,6 @@ private:
     void updateEditActions();
     void updateViewActions();
     void updateGoActions();
-    void updateViewProperties(const KUrl::List& urls);
     void copyUrls(const KUrl::List& source, const KUrl& dest);
     void moveUrls(const KUrl::List& source, const KUrl& dest);
     void addPendingUndoJob(KIO::Job* job,
@@ -391,6 +408,9 @@ private:
 private:
     QSplitter* m_splitter;
     DolphinView* m_activeView;
+
+    KUrl m_dropDestination;
+    KUrl::List m_droppedUrls;
 
     /**
      * DolphinMainWindowsupports only one or two views, which

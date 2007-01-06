@@ -18,21 +18,20 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef UrlBUTTON_H
-#define UrlBUTTON_H
+#ifndef URLBUTTON_H
+#define URLBUTTON_H
 
-#include <qpushbutton.h>
-//Added by qt3to4:
 #include <QEvent>
+#include <QPushButton>
 
 class KUrl;
 class UrlNavigator;
 class QPainter;
 
 /**
- * @brief Base class for buttons of the Url navigator.
+ * @brief Base class for buttons of the URL navigator.
  *
- * Each button of the Url navigator contains an Url, which
+ * Each button of the URL navigator contains an URL, which
  * is set as soon as the button has been clicked.
 *
  * @author Peter Penz

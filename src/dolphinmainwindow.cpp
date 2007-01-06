@@ -114,9 +114,10 @@ void DolphinMainWindow::setActiveView(DolphinView* view)
 }
 
 void DolphinMainWindow::dropUrls(const KUrl::List& urls,
-                       const KUrl& destination)
+                                 const KUrl& destination)
 {
-    int selectedIndex = -1;
+    m_dropDestination = destination;
+    m_droppedUrls = urls;
 
     /* KDE4-TODO
     const ButtonState keyboardState = KApplication::keyboardMouseState();
@@ -141,49 +142,22 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
         // no shortcut is used, hence open a popup menu
         KMenu popup(this);
 
-        popup.insertItem(SmallIcon("goto"), i18n("&Move Here") + "\t" /* KDE4-TODO: + KKey::modFlagLabel(KKey::SHIFT)*/, 0);
-        popup.insertItem(SmallIcon("editcopy"), i18n( "&Copy Here" ) /* KDE4-TODO + "\t" + KKey::modFlagLabel(KKey::CTRL)*/, 1);
-        popup.insertItem(i18n("&Link Here") /* KDE4-TODO + "\t" + KKey::modFlagLabel((KKey::ModFlag)(KKey::CTRL|KKey::SHIFT)) */, 2);
-        popup.insertSeparator();
-        popup.insertItem(SmallIcon("stop"), i18n("Cancel"), 3);
-        popup.setAccel(i18n("Escape"), 3);
+        QAction* moveAction = popup.addAction(SmallIcon("goto"), i18n("&Move Here"));
+        connect(moveAction, SIGNAL(triggered()), this, SLOT(moveDroppedItems()));
 
-        /* KDE4-TODO: selectedIndex = popup.exec(QCursor::pos()); */
+        QAction* copyAction = popup.addAction(SmallIcon("editcopy"), i18n( "&Copy Here" ));
+        connect(copyAction, SIGNAL(triggered()), this, SLOT(copyDroppedItems()));
+
+        QAction* linkAction = popup.addAction(i18n("&Link Here"));
+        connect(linkAction, SIGNAL(triggered()), this, SLOT(linkDroppedItems()));
+
+        QAction* cancelAction = popup.addAction(SmallIcon("stop"), i18n("Cancel"));
+        popup.insertSeparator(cancelAction);
+
         popup.exec(QCursor::pos());
-        selectedIndex = 0; // KD4-TODO: use QAction instead of switch below
-        // See libkonq/konq_operations.cc: KonqOperations::doDropFileCopy() (and doDrop, the main method)
     }
 
-    if (selectedIndex < 0) {
-        return;
-    }
-
-    switch (selectedIndex) {
-        case 0: {
-            // 'Move Here' has been selected
-            updateViewProperties(urls);
-            moveUrls(urls, destination);
-            break;
-        }
-
-        case 1: {
-            // 'Copy Here' has been selected
-            updateViewProperties(urls);
-            copyUrls(urls, destination);
-            break;
-        }
-
-        case 2: {
-            // 'Link Here' has been selected
-            KIO::Job* job = KIO::link(urls, destination);
-            addPendingUndoJob(job, DolphinCommand::Link, urls, destination);
-            break;
-        }
-
-        default:
-            // 'Cancel' has been selected
-            break;
-    }
+    m_droppedUrls.clear();
 }
 
 void DolphinMainWindow::refreshViews()
@@ -313,6 +287,22 @@ void DolphinMainWindow::undo()
 void DolphinMainWindow::openNewMainWindow()
 {
     DolphinApplication::app()->createMainWindow()->show();
+}
+
+void DolphinMainWindow::moveDroppedItems()
+{
+    moveUrls(m_droppedUrls, m_dropDestination);
+}
+
+void DolphinMainWindow::copyDroppedItems()
+{
+    copyUrls(m_droppedUrls, m_dropDestination);
+}
+
+void DolphinMainWindow::linkDroppedItems()
+{
+    KIO::Job* job = KIO::link(m_droppedUrls, m_dropDestination);
+    addPendingUndoJob(job, DolphinCommand::Link, m_droppedUrls, m_dropDestination);
 }
 
 void DolphinMainWindow::closeEvent(QCloseEvent* event)
@@ -1543,30 +1533,6 @@ void DolphinMainWindow::updateGoActions()
     QAction* goUpAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::Up));
     const KUrl& currentUrl = m_activeView->url();
     goUpAction->setEnabled(currentUrl.upUrl() != currentUrl);
-}
-
-void DolphinMainWindow::updateViewProperties(const KUrl::List& urls)
-{
-    if (urls.isEmpty()) {
-        return;
-    }
-
-    // Updating the view properties might take up to several seconds
-    // when dragging several thousand Urls. Writing a KIO slave for this
-    // use case is not worth the effort, but at least the main widget
-    // must be disabled and a progress should be shown.
-    ProgressIndicator progressIndicator(this,
-                                        i18n("Updating view properties..."),
-                                        QString::null,
-                                        urls.count());
-
-    KUrl::List::ConstIterator end = urls.end();
-    for(KUrl::List::ConstIterator it = urls.begin(); it != end; ++it) {
-        progressIndicator.execOperation();
-
-        ViewProperties props(*it);
-        props.save();
-    }
 }
 
 void DolphinMainWindow::copyUrls(const KUrl::List& source, const KUrl& dest)
