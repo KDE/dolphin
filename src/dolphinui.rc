@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 <kpartgui version="2" name="dolphin" >
  <MenuBar>
-  <Menu name="file" >
+  <Menu name="file">
    <Action name="new_window" />
    <Menu name="create_new" >
     <text>Create New</text>
@@ -16,17 +16,17 @@
    <Separator/>
    <Action name="properties" />
   </Menu>
-  <Menu name="edit" >
+  <Menu name="edit">
    <Action name="select_all" />
    <Action name="invert_selection" />
   </Menu>
-  <Menu name="view" >
+  <Menu name="view">
    <Menu name="view_mode" >
     <text>View Mode</text>
     <Action name="icons" />
     <Action name="details" />
    </Menu>
-   <Menu name="sort" >
+   <Menu name="sort">
     <text>Sort</text>
     <Action name="by_name" />
     <Action name="by_size" />
@@ -41,13 +41,16 @@
    <Action name="reload" />
    <Action name="stop" />
    <Separator/>
-   <Menu name="navigation_bar" >
+   <Menu name="panels">
+    <text>Panels</text>
+    <Action name="show_shortcuts_panel" />
+    <Action name="show_info_panel" />
+   </Menu>
+   <Menu name="navigation_bar">
     <text>Navigation Bar</text>
     <Action name="editable_location" />
     <Action name="edit_location" />
    </Menu>
-   <Action name="show_shortcuts_pane" />
-   <Action name="show_info_pane" />
    <Separator/>
    <Action name="view_properties" />
   </Menu>
