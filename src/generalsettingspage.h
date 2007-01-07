@@ -21,18 +21,17 @@
 #define GENERALSETTINGSPAGE_H
 
 #include <settingspagebase.h>
+
+class DolphinMainWindow;
 class QLineEdit;
 class QRadioButton;
 class QCheckBox;
-class DolphinMainWindow;
 
 /**
  * @brief Page for the 'General' settings of the Dolphin settings dialog.
  *
  * The general settings allow to set the home Url, the default view mode
  * and the split view mode.
- *
- *	@author Peter Penz <peter.penz@gmx.at>
  */
 class GeneralSettingsPage : public SettingsPageBase
 {
@@ -40,7 +39,6 @@ class GeneralSettingsPage : public SettingsPageBase
 
 public:
     GeneralSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
-
     virtual ~GeneralSettingsPage();
 
     /** @see SettingsPageBase::applySettings */
@@ -52,7 +50,7 @@ private slots:
     void useDefaulLocation();
 
 private:
-    DolphinMainWindow *m_mainWindow;
+    DolphinMainWindow* m_mainWindow;
     QLineEdit* m_homeUrl;
     QCheckBox* m_startSplit;
     QCheckBox* m_startEditable;

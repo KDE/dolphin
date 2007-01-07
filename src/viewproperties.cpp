@@ -40,7 +40,6 @@ ViewProperties::ViewProperties(const KUrl& url) :
       m_node(0)
 {
     KUrl cleanUrl(url);
-
     cleanUrl.cleanPath();
     m_filepath = cleanUrl.path();
 
@@ -52,22 +51,18 @@ ViewProperties::ViewProperties(const KUrl& url) :
     // We try and save it to a file in the directory being viewed.
     // If the directory is not writable by the user or the directory is not local,
     // we store the properties information in a local file.
-    QString rootDir("/"); // TODO: should this be set to the root of the bookmark, if any?
-    if (cleanUrl.isLocalFile()) {
-        QFileInfo info(m_filepath);
-
+    const bool useGlobalViewProps = DolphinSettings::instance().generalSettings()->globalViewProps();
+    if (useGlobalViewProps) {
+        m_filepath = destinationDir("global");
+    }
+    else if (cleanUrl.isLocalFile()) {
+        const QFileInfo info(m_filepath);
         if (!info.isWritable()) {
-            QString basePath = KGlobal::instance()->instanceName();
-            basePath.append("/view_properties/local");
-            rootDir = KStandardDirs::locateLocal("data", basePath);
-            m_filepath = rootDir + m_filepath;
+            m_filepath = destinationDir("local") + m_filepath;
         }
     }
     else {
-        QString basePath = KGlobal::instance()->instanceName();
-        basePath.append("/view_properties/remote/").append(cleanUrl.host());
-        rootDir = KStandardDirs::locateLocal("data", basePath);
-        m_filepath = rootDir + m_filepath;
+        m_filepath = destinationDir("remote") + m_filepath;
     }
 
     m_node = new ViewPropertySettings(KSharedConfig::openConfig(m_filepath + FILE_NAME));
@@ -149,6 +144,15 @@ Qt::SortOrder ViewProperties::sortOrder() const
     return static_cast<Qt::SortOrder>(m_node->sortOrder());
 }
 
+void ViewProperties::setDirProperties(const ViewProperties& props)
+{
+    setViewMode(props.viewMode());
+    setShowPreview(props.showPreview());
+    setShowHiddenFiles(props.showHiddenFiles());
+    setSorting(props.sorting());
+    setSortOrder(props.sortOrder());
+}
+
 void ViewProperties::setAutoSaveEnabled(bool autoSave)
 {
     m_autoSave = autoSave;
@@ -167,12 +171,16 @@ void ViewProperties::updateTimeStamp()
 
 void ViewProperties::save()
 {
-    const bool rememberSettings = !DolphinSettings::instance().generalSettings()->globalViewProps();
-    if (rememberSettings) {
-        KStandardDirs::makeDir(m_filepath);
-        m_node->writeConfig();
-        m_changedProps = false;
-    }
+    KStandardDirs::makeDir(m_filepath);
+    m_node->writeConfig();
+    m_changedProps = false;
+}
+
+QString ViewProperties::destinationDir(const QString& subDir) const
+{
+    QString basePath = KGlobal::instance()->instanceName();
+    basePath.append("/view_properties/").append(subDir);
+    return KStandardDirs::locateLocal("data", basePath);
 }
 
 ViewProperties::ViewProperties(const ViewProperties& props)

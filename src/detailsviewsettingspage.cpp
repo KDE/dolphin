@@ -37,8 +37,10 @@
 #include "detailsmodesettings.h"
 #include "dolphindetailsview.h"
 
-DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget *parent) :
+DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
+                                                 QWidget* parent) :
     KVBox(parent),
+    m_mainWindow(mainWindow),
     m_dateBox(0),
     m_permissionsBox(0),
     m_ownerBox(0),

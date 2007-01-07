@@ -32,7 +32,8 @@
 #include <klocale.h>
 #include <kiconloader.h>
 
-ViewSettingsPage::ViewSettingsPage(QWidget *parent) :
+ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
+                                   QWidget* parent) :
     SettingsPageBase(parent),
     m_generalPage(0),
     m_iconsPage(0),
@@ -43,15 +44,15 @@ ViewSettingsPage::ViewSettingsPage(QWidget *parent) :
     QTabWidget* tabWidget = new QTabWidget(this);
 
     // initialize 'General' tab
-    m_generalPage = new GeneralViewSettingsPage(tabWidget);
+    m_generalPage = new GeneralViewSettingsPage(mainWindow, tabWidget);
     tabWidget->addTab(m_generalPage, SmallIcon("view_choose"), i18n("General"));
 
     // initialize 'Icons' tab
-    m_iconsPage = new IconsViewSettingsPage(tabWidget);
+    m_iconsPage = new IconsViewSettingsPage(mainWindow, tabWidget);
     tabWidget->addTab(m_iconsPage, SmallIcon("view_icon"), i18n("Icons"));
 
     // initialize 'Details' tab
-    m_detailsPage = new DetailsViewSettingsPage(tabWidget);
+    m_detailsPage = new DetailsViewSettingsPage(mainWindow, tabWidget);
     tabWidget->addTab(m_detailsPage, SmallIcon("view_text"), i18n("Details"));
 
     topLayout->addWidget(tabWidget, 0, 0 );

@@ -42,8 +42,10 @@
 #include "dolphinsettings.h"
 #include "editbookmarkdialog.h"
 
-BookmarksSettingsPage::BookmarksSettingsPage(QWidget*parent) :
+BookmarksSettingsPage::BookmarksSettingsPage(DolphinMainWindow* mainWindow,
+                                             QWidget*parent) :
     SettingsPageBase(parent),
+    m_mainWindow(mainWindow),
     m_addButton(0),
     m_removeButton(0),
     m_moveUpButton(0),

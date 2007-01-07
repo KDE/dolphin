@@ -48,10 +48,7 @@ ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
     setButtons(KDialog::Cancel);
 
     m_viewProps = new ViewProperties(dir);
-    m_viewProps->setViewMode(viewProps.viewMode());
-    m_viewProps->setShowHiddenFiles(viewProps.showHiddenFiles());
-    m_viewProps->setSorting(viewProps.sorting());
-    m_viewProps->setSortOrder(viewProps.sortOrder());
+    m_viewProps->setDirProperties(viewProps);
 
     // the view properties are stored by the ViewPropsApplierJob, so prevent
     // that the view properties are saved twice:

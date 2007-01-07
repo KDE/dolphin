@@ -24,6 +24,7 @@
 #include <settingspagebase.h>
 #include <q3valuelist.h>
 
+class DolphinMainWindow;
 class K3ListView;
 class KPushButton;
 class Q3ListViewItem;
@@ -37,7 +38,7 @@ class BookmarksSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    BookmarksSettingsPage(QWidget* parent);
+    BookmarksSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
 
     virtual ~BookmarksSettingsPage();
 
@@ -70,6 +71,7 @@ private:
         IconIdx   = 3
     };
 
+    DolphinMainWindow* m_mainWindow;
     K3ListView* m_listView;
     KPushButton* m_addButton;
     KPushButton* m_editButton;

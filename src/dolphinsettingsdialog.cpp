@@ -42,11 +42,11 @@ DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
     KPageWidgetItem* generalSettingsFrame = addPage(m_generalSettingsPage, i18n("General"));
     generalSettingsFrame->setIcon(KIcon("exec"));
 
-    m_viewSettingsPage = new ViewSettingsPage(this);
+    m_viewSettingsPage = new ViewSettingsPage(mainWindow, this);
     KPageWidgetItem* viewSettingsFrame = addPage(m_viewSettingsPage, i18n("View Modes"));
     viewSettingsFrame->setIcon(KIcon("view_choose"));
 
-    m_bookmarksSettingsPage = new BookmarksSettingsPage(this);
+    m_bookmarksSettingsPage = new BookmarksSettingsPage(mainWindow, this);
     KPageWidgetItem* bookmarksSettingsFrame = addPage(m_bookmarksSettingsPage, i18n("Bookmarks"));
     bookmarksSettingsFrame->setIcon(KIcon("bookmark"));
 }

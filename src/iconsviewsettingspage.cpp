@@ -41,8 +41,10 @@
 #define GRID_SPACING_BASE 8
 #define GRID_SPACING_INC 12
 
-IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
+IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
+                                             QWidget* parent) :
     KVBox(parent),
+    m_mainWindow(mainWindow),
     m_iconSizeSlider(0),
     m_previewSizeSlider(0),
     m_textWidthBox(0),

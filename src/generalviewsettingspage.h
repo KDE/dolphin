@@ -23,20 +23,19 @@
 
 #include <kvbox.h>
 
+class DolphinMainWindow;
 class QRadioButton;
 
 /**
  * @brief Represents the page from the Dolphin Settings which allows
  * to modify general settings for the view modes.
- *
- *  @author Peter Penz <peter.penz@gmx.at>
  */
 class GeneralViewSettingsPage : public KVBox
 {
     Q_OBJECT
 
 public:
-    GeneralViewSettingsPage(QWidget* parent);
+    GeneralViewSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
     virtual ~GeneralViewSettingsPage();
 
     /**
@@ -47,6 +46,7 @@ public:
     void applySettings();
 
 private:
+    DolphinMainWindow* m_mainWindow;
     QRadioButton* m_localProps;
     QRadioButton* m_globalProps;
 };

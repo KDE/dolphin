@@ -23,6 +23,7 @@
 #include <qwidget.h>
 #include <settingspagebase.h>
 
+class DolphinMainWindow;
 class GeneralViewSettingsPage;
 class IconsViewSettingsPage;
 class DetailsViewSettingsPage;
@@ -32,16 +33,13 @@ class DetailsViewSettingsPage;
  *
  * The views settings allow to set the properties for the icons mode and
  * the details mode.
- *
- *  @author Peter Penz <peter.penz@gmx.at>
  */
 class ViewSettingsPage : public SettingsPageBase
 {
     Q_OBJECT
 
 public:
-    ViewSettingsPage(QWidget* parent);
-
+    ViewSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
     virtual ~ViewSettingsPage();
 
     /** @see SettingsPageBase::applySettings */

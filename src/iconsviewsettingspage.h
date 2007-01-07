@@ -21,10 +21,10 @@
 #ifndef ICONSVIEWSETTINGSPAGE_H
 #define ICONSVIEWSETTINGSPAGE_H
 
-
 #include <dolphiniconsview.h>
 #include <kvbox.h>
 
+class DolphinMainWindow;
 class QSlider;
 class QComboBox;
 class QCheckBox;
@@ -48,14 +48,13 @@ class PixmapViewer;
  * - arrangement
  *
  * @see DolphinIconsViewSettings
- *  @author Peter Penz <peter.penz@gmx.at>
  */
 class IconsViewSettingsPage : public KVBox
 {
     Q_OBJECT
 
 public:
-    IconsViewSettingsPage(QWidget* parent);
+    IconsViewSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
     virtual ~IconsViewSettingsPage();
 
     /**
@@ -70,6 +69,7 @@ private slots:
     void slotPreviewSizeChanged(int value);
 
 private:
+    DolphinMainWindow* m_mainWindow;
     QSlider* m_iconSizeSlider;
     PixmapViewer* m_iconSizeViewer;
     QSlider* m_previewSizeSlider;

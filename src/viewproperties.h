@@ -67,6 +67,13 @@ public:
     Qt::SortOrder sortOrder() const;
 
     /**
+     * Sets the directory properties view mode, show preview,
+     * show hidden files, sorting and sort order like
+     * set in \a props.
+     */
+    void setDirProperties(const ViewProperties& props);
+
+    /**
      * If \a autoSave is true, the properties are automatically
      * saved when the destructor is called. Per default autosaving
      * is enabled.
@@ -80,23 +87,27 @@ public:
      * Saves the view properties for the directory specified
      * in the constructor. The method is automatically
      * invoked in the destructor, if
-     * ViewProperties::isAutoSaveEnabled() returns true.
-     *
-     * Note that the saving of the properties will be ignored
-     * if GeneralSettings::globalViewProps() returns true: in
-     * this case view properties may not be remembered for
-     * each directory.
+     * ViewProperties::isAutoSaveEnabled() returns true and
+     * at least one property has been changed.
      */
     void save();
+
+private:
+    /**
+     * Returns the destination directory path where the view
+     * properties are stored. \a subDir specifies the used sub
+     * directory.
+     */
+    QString destinationDir(const QString& subDir) const;
+
+    ViewProperties(const ViewProperties& props);
+    ViewProperties& operator= (const ViewProperties& props);
 
 private:
     bool m_changedProps;
     bool m_autoSave;
     QString m_filepath;
     ViewPropertySettings* m_node;
-
-    ViewProperties(const ViewProperties& props);
-    ViewProperties& operator= (const ViewProperties& props);
 };
 
 #endif

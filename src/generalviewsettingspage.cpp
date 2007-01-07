@@ -19,8 +19,10 @@
  ***************************************************************************/
 
 #include "generalviewsettingspage.h"
+#include "dolphinmainwindow.h"
 #include "dolphinsettings.h"
 #include "generalsettings.h"
+#include "viewproperties.h"
 
 #include <assert.h>
 
@@ -32,8 +34,10 @@
 #include <klocale.h>
 #include <kvbox.h>
 
-GeneralViewSettingsPage::GeneralViewSettingsPage(QWidget* parent) :
+GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
+                                                 QWidget* parent) :
     KVBox(parent),
+    m_mainWindow(mainWindow),
     m_localProps(0),
     m_globalProps(0)
 {
@@ -77,9 +81,23 @@ GeneralViewSettingsPage::~GeneralViewSettingsPage()
 
 void GeneralViewSettingsPage::applySettings()
 {
+    const KUrl& url = m_mainWindow->activeView()->url();
+    ViewProperties props(url);  // read current view properties
+
+    const bool useGlobalProps = m_globalProps->isChecked();
+
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     assert(settings != 0);
-    settings->setGlobalViewProps(m_globalProps->isChecked());
+    settings->setGlobalViewProps(useGlobalProps);
+
+    if (useGlobalProps) {
+        // Remember the global view properties by applying the current view properties.
+        // It is important that GeneralSettings::globalViewProps() is set before
+        // the class ViewProperties is used, as ViewProperties uses this setting
+        // to find the destination folder for storing the view properties.
+        ViewProperties globalProps(url);
+        globalProps.setDirProperties(props);
+    }
 }
 
 #include "generalviewsettingspage.moc"

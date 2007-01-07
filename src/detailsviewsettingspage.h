@@ -23,6 +23,7 @@
 
 #include <kvbox.h>
 
+class DolphinMainWindow;
 class QCheckBox;
 class QFontComboBox;
 class QSpinBox;
@@ -32,15 +33,13 @@ class QRadioButton;
 /**
  * @brief Represents the page from the Dolphin Settings which allows
  * to modify the settings for the details view.
- *
- *  @author Peter Penz <peter.penz@gmx.at>
  */
 class DetailsViewSettingsPage : public KVBox
 {
     Q_OBJECT
 
 public:
-    DetailsViewSettingsPage(QWidget* parent);
+    DetailsViewSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
     virtual ~DetailsViewSettingsPage();
 
     /**
@@ -51,6 +50,7 @@ public:
     void applySettings();
 
 private:
+    DolphinMainWindow* m_mainWindow;
     QCheckBox* m_dateBox;
     QCheckBox* m_permissionsBox;
     QCheckBox* m_ownerBox;

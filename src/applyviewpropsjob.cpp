@@ -23,6 +23,7 @@
 #include "applyviewpropsjob.h"
 #include "viewproperties.h"
 
+#include <assert.h>
 #include <kdebug.h>
 
 ApplyViewPropsJob::ApplyViewPropsJob(const KUrl& dir,
@@ -74,12 +75,10 @@ void ApplyViewPropsJob::slotEntries(KIO::Job*, const KIO::UDSEntryList& list)
             KUrl url(m_dir);
             url.addPath(name);
 
+            assert(m_viewProps != 0);
+
             ViewProperties props(url);
-            props.setViewMode(m_viewProps->viewMode());
-            props.setShowPreview(m_viewProps->showPreview());
-            props.setShowHiddenFiles(m_viewProps->showHiddenFiles());
-            props.setSorting(m_viewProps->sorting());
-            props.setSortOrder(m_viewProps->sortOrder());
+            props.setDirProperties(*m_viewProps);
         }
     }
 }
