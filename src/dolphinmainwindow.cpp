@@ -307,16 +307,22 @@ void DolphinMainWindow::linkDroppedItems()
 
 void DolphinMainWindow::closeEvent(QCloseEvent* event)
 {
-    // KDE4-TODO
-    //KConfig* config = KGlobal::config();
-    //config->setGroup("General");
-    //config->writeEntry("First Run", false);
-
     DolphinSettings& settings = DolphinSettings::instance();
     GeneralSettings* generalSettings = settings.generalSettings();
     generalSettings->setFirstRun(false);
 
     settings.save();
+
+    // TODO: I assume there will be a generic way in KDE 4 to store the docks
+    // of the main window. In the meantime they are stored manually:
+    QString filename = KStandardDirs::locateLocal("data", KGlobal::instance()->instanceName());
+    filename.append("/panels_layout");
+    QFile file(filename);
+    if (file.open(QIODevice::WriteOnly)) {
+        QByteArray data = saveState();
+        file.write(data);
+        file.close();
+    }
 
     KMainWindow::closeEvent(event);
 }
@@ -1138,6 +1144,18 @@ void DolphinMainWindow::loadSettings()
     }
 
     updateViewActions();
+
+    // TODO: I assume there will be a generic way in KDE 4 to restore the docks
+    // of the main window. In the meantime they are restored manually (see also
+    // DolphinMainWindow::closeEvent() for more details):
+    QString filename = KStandardDirs::locateLocal("data", KGlobal::instance()->instanceName());
+    filename.append("/panels_layout");
+    QFile file(filename);
+    if (file.open(QIODevice::ReadOnly)) {
+        QByteArray data = file.readAll();
+        restoreState(data);
+        file.close();
+    }
 }
 
 void DolphinMainWindow::setupActions()
@@ -1306,17 +1324,19 @@ void DolphinMainWindow::setupActions()
 
 void DolphinMainWindow::setupDockWidgets()
 {
-    QDockWidget* shortcutsDock = new QDockWidget(i18n("Shortcuts"));
+    QDockWidget* shortcutsDock = new QDockWidget(i18n("Bookmarks"));
+    shortcutsDock->setObjectName("bookmarksDock");
     shortcutsDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     shortcutsDock->setWidget(new BookmarksSidebarPage(this));
 
-    shortcutsDock->toggleViewAction()->setObjectName("show_shortcuts_panel");
-    shortcutsDock->toggleViewAction()->setText(i18n("Show Shortcuts Panel"));
+    shortcutsDock->toggleViewAction()->setObjectName("show_bookmarks_panel");
+    shortcutsDock->toggleViewAction()->setText(i18n("Show Bookmarks Panel"));
     actionCollection()->insert(shortcutsDock->toggleViewAction());
 
     addDockWidget(Qt::LeftDockWidgetArea, shortcutsDock);
 
     QDockWidget* infoDock = new QDockWidget(i18n("Information"));
+    infoDock->setObjectName("infoDock");
     infoDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     infoDock->setWidget(new InfoSidebarPage(this));
 

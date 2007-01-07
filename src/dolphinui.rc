@@ -43,7 +43,7 @@
    <Separator/>
    <Menu name="panels">
     <text>Panels</text>
-    <Action name="show_shortcuts_panel" />
+    <Action name="show_bookmarks_panel" />
     <Action name="show_info_panel" />
    </Menu>
    <Menu name="navigation_bar">
