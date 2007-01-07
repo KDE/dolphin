@@ -138,7 +138,7 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
     connect(m_iconsView->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
             this, SLOT(emitSelectionChangedSignal()));
 
-    startDirLister(m_urlNavigator->url());
+    loadDirectory(m_urlNavigator->url());
 }
 
 DolphinView::~DolphinView()
@@ -479,21 +479,19 @@ bool DolphinView::hasSelection() const
     return m_iconsView->selectionModel()->hasSelection();
 }
 
-/*
- * Our view has a selection, we will map them back to the DirModel
- * and then fill the KFileItemList
- */
 KFileItemList DolphinView::selectedItems() const
 {
-    assert( m_iconsView && m_iconsView->selectionModel() );
+    // Our view has a selection, we will map them back to the DirModel
+    // and then fill the KFileItemList.
+    assert(m_iconsView && m_iconsView->selectionModel());
 
-    const QItemSelection selection = m_proxyModel->mapSelectionToSource( m_iconsView->selectionModel()->selection() );
+    const QItemSelection selection = m_proxyModel->mapSelectionToSource(m_iconsView->selectionModel()->selection());
     KFileItemList itemList;
 
     const QModelIndexList indexList = selection.indexes();
     QModelIndexList::const_iterator end = indexList.end();
     for (QModelIndexList::const_iterator it = indexList.begin(); it != end; ++it) {
-        assert( (*it).isValid()  );
+        assert((*it).isValid());
 
         KFileItem* item = m_dirModel->itemForIndex(*it);
         if (item != 0) {
@@ -969,14 +967,12 @@ void DolphinView::slotChangeNameFilter(const QString& nameFilter)
     adjustedFilter.insert(0, '*');
     adjustedFilter.append('*');
 
-/*
- * Use the ProxyModel to filter:
- *   This code is #ifdefed as setNameFilter behaves
- *   slightly different than the QSortFilterProxyModel
- *   as it will not remove directories. I will ask
- *   our beloved usability experts for input
- *     -- z.
- */
+    // Use the ProxyModel to filter:
+    // This code is #ifdefed as setNameFilter behaves
+    // slightly different than the QSortFilterProxyModel
+    // as it will not remove directories. I will ask
+    // our beloved usability experts for input
+    // -- z.
 #if 0
     m_dirLister->setNameFilter(adjustedFilter);
     m_dirLister->emitChanges();
