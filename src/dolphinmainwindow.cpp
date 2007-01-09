@@ -1161,29 +1161,36 @@ void DolphinMainWindow::loadSettings()
 void DolphinMainWindow::setupActions()
 {
     // setup 'File' menu
-    KAction *action = new KAction(KIcon("window_new"),  i18n( "New &Window" ), actionCollection(), "new_window" );
+    QAction *action = actionCollection()->addAction("new_window");
+    action->setIcon(KIcon("window_new"));
+    action->setText(i18n("New &Window"));
     connect(action, SIGNAL(triggered()), this, SLOT(openNewMainWindow()));
 
-    KAction* createFolder = new KAction(i18n("Folder..."), actionCollection(), "create_folder");
+    QAction* createFolder = actionCollection()->addAction("create_folder");
+    createFolder->setText(i18n("Folder..."));
     createFolder->setIcon(KIcon("folder"));
     createFolder->setShortcut(Qt::Key_N);
     connect(createFolder, SIGNAL(triggered()), this, SLOT(createFolder()));
 
-    KAction* rename = new KAction(i18n("Rename"), actionCollection(), "rename");
+    QAction* rename = actionCollection()->addAction("rename");
+    rename->setText(i18n("Rename"));
     rename->setShortcut(Qt::Key_F2);
     connect(rename, SIGNAL(triggered()), this, SLOT(rename()));
 
-    KAction* moveToTrash = new KAction(i18n("Move to Trash"), actionCollection(), "move_to_trash");
+    QAction* moveToTrash = actionCollection()->addAction("move_to_trash");
+    moveToTrash->setText(i18n("Move to Trash"));
     moveToTrash->setIcon(KIcon("edittrash"));
     moveToTrash->setShortcut(QKeySequence::Delete);
     connect(moveToTrash, SIGNAL(triggered()), this, SLOT(moveToTrash()));
 
-    KAction* deleteAction = new KAction(i18n("Delete"), actionCollection(), "delete");
+    QAction* deleteAction = actionCollection()->addAction("delete");
+    deleteAction->setText(i18n("Delete"));
     deleteAction->setShortcut(Qt::ALT | Qt::Key_Delete);
     deleteAction->setIcon(KIcon("editdelete"));
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteItems()));
 
-    KAction* properties = new KAction(i18n("Propert&ies"), actionCollection(), "properties");
+    QAction* properties = actionCollection()->addAction("properties");
+    properties->setText(i18n("Propert&ies"));
     properties->setShortcut(Qt::Key_Alt | Qt::Key_Return);
     connect(properties, SIGNAL(triggered()), this, SLOT(properties()));
 
@@ -1211,11 +1218,13 @@ void DolphinMainWindow::setupActions()
     KStandardAction::copy(this, SLOT(copy()), actionCollection());
     KStandardAction::paste(this, SLOT(paste()), actionCollection());
 
-    KAction* selectAll = new KAction(i18n("Select All"), actionCollection(), "select_all");
+    QAction* selectAll = actionCollection()->addAction("select_all");
+    selectAll->setText(i18n("Select All"));
     selectAll->setShortcut(Qt::CTRL + Qt::Key_A);
     connect(selectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
 
-    KAction* invertSelection = new KAction(i18n("Invert Selection"), actionCollection(), "invert_selection");
+    QAction* invertSelection = actionCollection()->addAction("invert_selection");
+    invertSelection->setText(i18n("Invert Selection"));
     invertSelection->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_A);
     connect(invertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
 
@@ -1228,12 +1237,14 @@ void DolphinMainWindow::setupActions()
                         SLOT(zoomOut()),
                         actionCollection());
 
-    KToggleAction* iconsView = new KToggleAction(i18n("Icons"), actionCollection(), "icons");
+    KToggleAction* iconsView = actionCollection()->add<KToggleAction>("icons");
+    iconsView->setText(i18n("Icons"));
     iconsView->setShortcut(Qt::CTRL | Qt::Key_1);
     iconsView->setIcon(KIcon("view_icon"));
     connect(iconsView, SIGNAL(triggered()), this, SLOT(setIconsView()));
 
-    KToggleAction* detailsView = new KToggleAction(i18n("Details"), actionCollection(), "details");
+    KToggleAction* detailsView = actionCollection()->add<KToggleAction>("details");
+    detailsView->setText(i18n("Details"));
     detailsView->setShortcut(Qt::CTRL | Qt::Key_2);
     detailsView->setIcon(KIcon("view_text"));
     connect(detailsView, SIGNAL(triggered()), this, SLOT(setDetailsView()));
@@ -1242,13 +1253,16 @@ void DolphinMainWindow::setupActions()
     viewModeGroup->addAction(iconsView);
     viewModeGroup->addAction(detailsView);
 
-    KToggleAction* sortByName = new KToggleAction(i18n("By Name"), actionCollection(), "by_name");
+    KToggleAction* sortByName = actionCollection()->add<KToggleAction>("by_name");
+    sortByName->setText(i18n("By Name"));
     connect(sortByName, SIGNAL(triggered()), this, SLOT(sortByName()));
 
-    KToggleAction* sortBySize = new KToggleAction(i18n("By Size"), actionCollection(), "by_size");
+    KToggleAction* sortBySize = actionCollection()->add<KToggleAction>("by_size");
+    sortBySize->setText(i18n("By Size"));
     connect(sortBySize, SIGNAL(triggered()), this, SLOT(sortBySize()));
 
-    KToggleAction* sortByDate = new KToggleAction(i18n("By Date"), actionCollection(), "by_date");
+    KToggleAction* sortByDate = actionCollection()->add<KToggleAction>("by_date");
+    sortByDate->setText(i18n("By Date"));
     connect(sortByDate, SIGNAL(triggered()), this, SLOT(sortByDate()));
 
     QActionGroup* sortGroup = new QActionGroup(this);
@@ -1256,40 +1270,48 @@ void DolphinMainWindow::setupActions()
     sortGroup->addAction(sortBySize);
     sortGroup->addAction(sortByDate);
 
-    KToggleAction* sortDescending = new KToggleAction(i18n("Descending"), actionCollection(), "descending");
+    KToggleAction* sortDescending = actionCollection()->add<KToggleAction>("descending");
+    sortDescending->setText(i18n("Descending"));
     connect(sortDescending, SIGNAL(triggered()), this, SLOT(toggleSortOrder()));
 
-    KToggleAction* showPreview = new KToggleAction(i18n("Show Preview"), actionCollection(), "show_preview");
+    KToggleAction* showPreview = actionCollection()->add<KToggleAction>("show_preview");
+    showPreview->setText(i18n("Show Preview"));
     connect(showPreview, SIGNAL(triggered()), this, SLOT(togglePreview()));
 
-    KToggleAction* showHiddenFiles = new KToggleAction(i18n("Show Hidden Files"), actionCollection(), "show_hidden_files");
+    KToggleAction* showHiddenFiles = actionCollection()->add<KToggleAction>("show_hidden_files");
+    showHiddenFiles->setText(i18n("Show Hidden Files"));
     //showHiddenFiles->setShortcut(Qt::ALT | Qt::Key_      KDE4-TODO: what Qt-Key represents '.'?
     connect(showHiddenFiles, SIGNAL(triggered()), this, SLOT(toggleShowHiddenFiles()));
 
-    KToggleAction* split = new KToggleAction(i18n("Split View"), actionCollection(), "split_view");
+    KToggleAction* split = actionCollection()->add<KToggleAction>("split_view");
+    split->setText(i18n("Split View"));
     split->setShortcut(Qt::Key_F10);
     split->setIcon(KIcon("view_left_right"));
     connect(split, SIGNAL(triggered()), this, SLOT(toggleSplitView()));
 
-    KAction* reload = new KAction(actionCollection(), "reload");
+    QAction* reload = actionCollection()->addAction("reload");
     reload->setText(i18n("Reload"));
     reload->setShortcut(Qt::Key_F5);
     reload->setIcon(KIcon("reload"));
     connect(reload, SIGNAL(triggered()), this, SLOT(reloadView()));
 
-    KAction* stop = new KAction(i18n("Stop"), actionCollection(), "stop");
+    QAction* stop = actionCollection()->addAction("stop");
+    stop->setText(i18n("Stop"));
     stop->setIcon(KIcon("stop"));
     connect(stop, SIGNAL(triggered()), this, SLOT(stopLoading()));
 
-    KToggleAction* showFullLocation = new KToggleAction(i18n("Show Full Location"), actionCollection(), "editable_location");
+    KToggleAction* showFullLocation = actionCollection()->add<KToggleAction>("editable_location");
+    showFullLocation->setText(i18n("Show Full Location"));
     showFullLocation->setShortcut(Qt::CTRL | Qt::Key_L);
     connect(showFullLocation, SIGNAL(triggered()), this, SLOT(toggleEditLocation()));
 
-    KToggleAction* editLocation = new KToggleAction(i18n("Edit Location"), actionCollection(), "edit_location");
+    KToggleAction* editLocation = actionCollection()->add<KToggleAction>("edit_location");
+    editLocation->setText(i18n("Edit Location"));
     editLocation->setShortcut(Qt::Key_F6);
     connect(editLocation, SIGNAL(triggered()), this, SLOT(editLocation()));
 
-    KAction* adjustViewProps = new KAction(i18n("Adjust View Properties..."), actionCollection(), "view_properties");
+    QAction* adjustViewProps = actionCollection()->addAction("view_properties");
+    adjustViewProps->setText(i18n("Adjust View Properties..."));
     connect(adjustViewProps, SIGNAL(triggered()), this, SLOT(adjustViewProperties()));
 
     // setup 'Go' menu
@@ -1299,21 +1321,25 @@ void DolphinMainWindow::setupActions()
     KStandardAction::home(this, SLOT(goHome()), actionCollection());
 
     // setup 'Tools' menu
-    KAction* openTerminal = new KAction(i18n("Open Terminal"), actionCollection(), "open_terminal");
+    QAction* openTerminal = actionCollection()->addAction("open_terminal");
+    openTerminal->setText(i18n("Open Terminal"));
     openTerminal->setShortcut(Qt::Key_F4);
     openTerminal->setIcon(KIcon("konsole"));
     connect(openTerminal, SIGNAL(triggered()), this, SLOT(openTerminal()));
 
-    KAction* findFile = new KAction(i18n("Find File..."), actionCollection(), "find_file");
+    QAction* findFile = actionCollection()->addAction("find_file");
+    findFile->setText(i18n("Find File..."));
     findFile->setShortcut(Qt::Key_F);
     findFile->setIcon(KIcon("filefind"));
     connect(findFile, SIGNAL(triggered()), this, SLOT(findFile()));
 
-    KToggleAction* showFilterBar = new KToggleAction(i18n("Show Filter Bar"), actionCollection(), "show_filter_bar");
+    KToggleAction* showFilterBar = actionCollection()->add<KToggleAction>("show_filter_bar");
+    showFilterBar->setText(i18n("Show Filter Bar"));
     showFilterBar->setShortcut(Qt::Key_Slash);
     connect(showFilterBar, SIGNAL(triggered()), this, SLOT(showFilterBar()));
 
-    KAction* compareFiles = new KAction(i18n("Compare Files"), actionCollection(), "compare_files");
+    QAction* compareFiles = actionCollection()->addAction("compare_files");
+    compareFiles->setText(i18n("Compare Files"));
     compareFiles->setIcon(KIcon("kompare"));
     compareFiles->setEnabled(false);
     connect(compareFiles, SIGNAL(triggered()), this, SLOT(compareFiles()));
@@ -1329,9 +1355,8 @@ void DolphinMainWindow::setupDockWidgets()
     shortcutsDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     shortcutsDock->setWidget(new BookmarksSidebarPage(this));
 
-    shortcutsDock->toggleViewAction()->setObjectName("show_bookmarks_panel");
     shortcutsDock->toggleViewAction()->setText(i18n("Show Bookmarks Panel"));
-    actionCollection()->insert(shortcutsDock->toggleViewAction());
+    actionCollection()->addAction("show_bookmarks_panel", shortcutsDock->toggleViewAction());
 
     addDockWidget(Qt::LeftDockWidgetArea, shortcutsDock);
 
@@ -1340,9 +1365,8 @@ void DolphinMainWindow::setupDockWidgets()
     infoDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     infoDock->setWidget(new InfoSidebarPage(this));
 
-    infoDock->toggleViewAction()->setObjectName("show_info_panel");
     infoDock->toggleViewAction()->setText(i18n("Show Information Panel"));
-    actionCollection()->insert(infoDock->toggleViewAction());
+    actionCollection()->addAction("show_info_panel", infoDock->toggleViewAction());
 
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
 }
