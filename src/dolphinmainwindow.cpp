@@ -437,7 +437,7 @@ void DolphinMainWindow::createFile()
     clearStatusBar();
 
     // TODO: const Entry& entry = m_createFileTemplates[QString(sender->name())];
-    // should be enough. Anyway: the implemantation of [] does a linear search internally too.
+    // should be enough. Anyway: the implementation of [] does a linear search internally too.
     KSortableList<CreateFileEntry, QString>::ConstIterator it = m_createFileTemplates.begin();
     KSortableList<CreateFileEntry, QString>::ConstIterator end = m_createFileTemplates.end();
 

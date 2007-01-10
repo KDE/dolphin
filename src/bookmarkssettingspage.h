@@ -38,7 +38,7 @@ class BookmarksSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    BookmarksSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
+    explicit BookmarksSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
 
     virtual ~BookmarksSettingsPage();
 

@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
 #ifndef _SIDEBARPAGE_H_
@@ -36,7 +36,7 @@ class SidebarPage : public QWidget
 	Q_OBJECT
 
 public:
-    SidebarPage(DolphinMainWindow* mainwindow, QWidget* parent=0);
+    explicit SidebarPage(DolphinMainWindow* mainwindow, QWidget* parent=0);
     virtual ~SidebarPage();
 
 protected slots:

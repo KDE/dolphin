@@ -39,7 +39,7 @@ class DolphinSettingsDialog : public KPageDialog {
     Q_OBJECT
 
 public:
-    DolphinSettingsDialog(DolphinMainWindow* mainWindow);
+    explicit DolphinSettingsDialog(DolphinMainWindow* mainWindow);
     virtual ~DolphinSettingsDialog();
 
 protected slots:

@@ -38,7 +38,7 @@ class DolphinIconsView : public QListView
     Q_OBJECT
 
 public:
-    DolphinIconsView(DolphinView* parent);
+    explicit DolphinIconsView(DolphinView* parent);
     virtual ~DolphinIconsView();
 
 protected:

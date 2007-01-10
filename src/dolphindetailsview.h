@@ -40,7 +40,7 @@ class DolphinDetailsView : public QListView
     Q_OBJECT
 
 public:
-    DolphinDetailsView(DolphinView* parent);
+    explicit DolphinDetailsView(DolphinView* parent);
     virtual ~DolphinDetailsView();
 };
 
