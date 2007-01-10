@@ -23,10 +23,10 @@
 #include <assert.h>
 #include <qdir.h>
 
-#include <kapplication.h>
 #include <kbookmark.h>
 #include <kbookmarkmanager.h>
 #include <kicontheme.h>
+#include <kinstance.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
 

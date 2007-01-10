@@ -21,6 +21,7 @@
 #include "progressindicator.h"
 #include "dolphinmainwindow.h"
 #include "dolphinstatusbar.h"
+#include <QApplication>
 
 ProgressIndicator::ProgressIndicator(DolphinMainWindow* mainWindow,
                                      const QString& progressText,
@@ -74,7 +75,7 @@ void ProgressIndicator::execOperation()
             DolphinStatusBar* statusBar = m_mainWindow->activeView()->statusBar();
             statusBar->setProgress((m_operationsIndex * 100) / m_operationsCount);
 #warning "EVIL, DANGER, FIRE"
-            kapp->processEvents();
+            qApp->processEvents();
             statusBar->repaint();
         }
     }

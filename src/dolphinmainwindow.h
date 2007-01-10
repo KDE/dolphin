@@ -22,23 +22,13 @@
 #ifndef _DOLPHIN_MAINWINDOW_H_
 #define _DOLPHIN_MAINWINDOW_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <kapplication.h>
 #include <kmainwindow.h>
 #include <ksortablelist.h>
-#include <kvbox.h>
 
 #include <q3valuelist.h>
-#include <q3ptrlist.h>
-
-#include <QCloseEvent>
-#include <QString>
 
 #include "dolphinview.h"
-#include "undomanager.h"
+#include "undomanager.h" // for DolphinCommand::Type
 
 class KPrinter;
 class KUrl;

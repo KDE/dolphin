@@ -20,7 +20,6 @@
 
 #include "dolphinapplication.h"
 #include "dolphinmainwindow.h"
-#include <kapplication.h>
 #include <kaboutdata.h>
 #include <kcmdlineargs.h>
 #include <klocale.h>
