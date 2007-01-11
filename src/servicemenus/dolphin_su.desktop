@@ -13,6 +13,7 @@ Name[et]=Ava administraatorina
 Name[ja]=root として開く
 Name[nl]=Als root openen
 Name[pt]=Abrir como 'Root'
+Name[pt_BR]=Abrir como 'Root'
 Name[sv]=Öppna som systemadministratör
 Icon=dolphin
 Exec=kdesu -c 'dolphin %U'
