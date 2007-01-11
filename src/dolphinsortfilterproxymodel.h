@@ -27,8 +27,14 @@
  * @brief Acts as proxy model for KDirModel to sort and filter
  *        KFileItems.
  *
- * TODO: implementation does not work yet (the method lessThan is
- * not invoked)
+ * A natural sorting is done. This means that items like:
+ * - item_10.png
+ * - item_1.png
+ * - item_2.png
+ * are sorted like
+ * - item_1.png
+ * - item_2.png
+ * - item_10.png
  */
 class DolphinSortFilterProxyModel : public QSortFilterProxyModel
 {
@@ -41,7 +47,13 @@ public:
     void setSorting(DolphinView::Sorting sorting);
     DolphinView::Sorting sorting() const { return m_sorting; }
 
-    virtual void sort (int column, 
+    /**
+     * @reimplemented, @internal
+     *
+     * If the view 'forces' sorting order to change we will
+     * notice now.
+     */
+    virtual void sort (int column,
                        Qt::SortOrder order = Qt::AscendingOrder);
     void setSortOrder(Qt::SortOrder sortOrder);
     Qt::SortOrder sortOrder() const { return m_sortOrder; }
