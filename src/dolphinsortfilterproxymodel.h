@@ -35,6 +35,8 @@
  * - item_1.png
  * - item_2.png
  * - item_10.png
+ *
+ * It is assured that directories are always sorted before files.
  */
 class DolphinSortFilterProxyModel : public QSortFilterProxyModel
 {
@@ -47,20 +49,24 @@ public:
     void setSorting(DolphinView::Sorting sorting);
     DolphinView::Sorting sorting() const { return m_sorting; }
 
+    void setSortOrder(Qt::SortOrder sortOrder);
+    Qt::SortOrder sortOrder() const { return m_sortOrder; }
+
     /**
      * @reimplemented, @internal
      *
      * If the view 'forces' sorting order to change we will
      * notice now.
      */
-    virtual void sort (int column,
-                       Qt::SortOrder order = Qt::AscendingOrder);
-    void setSortOrder(Qt::SortOrder sortOrder);
-    Qt::SortOrder sortOrder() const { return m_sortOrder; }
+    virtual void sort(int column,
+                      Qt::SortOrder order = Qt::AscendingOrder);
 
 protected:
     virtual bool lessThan(const QModelIndex& left,
                           const QModelIndex& right) const;
+
+private:
+    int naturalCompare(const QString& a, const QString& b) const;
 
 private:
     DolphinView::Sorting m_sorting;

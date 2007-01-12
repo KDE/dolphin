@@ -62,6 +62,12 @@ void DolphinSortFilterProxyModel::setSorting(DolphinView::Sorting sorting)
          m_sortOrder );
 }
 
+void DolphinSortFilterProxyModel::setSortOrder(Qt::SortOrder sortOrder)
+{
+    // change the sort order by keeping the current column
+    sort(dolphinViewToDirModelColumn[m_sorting], sortOrder);
+}
+
 void DolphinSortFilterProxyModel::sort(int column, Qt::SortOrder sortOrder)
 {
     m_sortOrder = sortOrder;
@@ -71,13 +77,41 @@ void DolphinSortFilterProxyModel::sort(int column, Qt::SortOrder sortOrder)
     QSortFilterProxyModel::sort(column,sortOrder);
 }
 
-void DolphinSortFilterProxyModel::setSortOrder(Qt::SortOrder sortOrder)
+bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
+                                           const QModelIndex& right) const
 {
-    // change the sort order by keeping the current column
-    sort(dolphinViewToDirModelColumn[m_sorting], sortOrder);
+    KDirModel* dirModel = static_cast<KDirModel*>(sourceModel());
+
+    QVariant leftData  = dirModel->data(left,  sortRole());
+    QVariant rightData = dirModel->data(right, sortRole());
+
+    if ((leftData.type() == QVariant::String) && (rightData.type() == QVariant::String)) {
+        const QString leftStr  = leftData.toString();
+        const QString rightStr = rightData.toString();
+
+        const bool leftIsDir  = dirModel->itemForIndex(left)->isDir();
+        const bool rightIsDir = dirModel->itemForIndex(right)->isDir();
+
+        // assure that directories are always sorted before files
+        if (leftIsDir && !rightIsDir) {
+            return true;
+        }
+
+        if (!leftIsDir && rightIsDir) {
+            return false;
+        }
+
+        return sortCaseSensitivity() ? (naturalCompare(leftStr, rightStr) < 0) :
+                                       (naturalCompare(leftStr.toLower(), rightStr.toLower()) < 0);
+    }
+
+    // We have set a SortRole and trust the ProxyModel to do
+    // the right thing for now.
+    return QSortFilterProxyModel::lessThan(left, right);
 }
 
-static int naturalCompare(const QString& a, const QString& b)
+int DolphinSortFilterProxyModel::naturalCompare(const QString& a,
+                                                const QString& b) const
 {
     // This method chops the input a and b into pieces of
     // digits and non-digits (a1.05 becomes a | 1 | . | 05)
@@ -124,7 +158,7 @@ static int naturalCompare(const QString& a, const QString& b)
         if ((*currA == '0') || (*currB == '0')) {
             // one digit-sequence starts with 0 -> assume we are in a fraction part
             // do left aligned comparison (numbers are considered left aligend)
-            while ( 1 ) {
+            while (1) {
                 if (!currA->isDigit() && !currB->isDigit()) {
                     break;
                 }
@@ -188,27 +222,6 @@ static int naturalCompare(const QString& a, const QString& b)
     }
 
     return currA->isNull() ? -1 : +1;
-}
-
-
-bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
-                                           const QModelIndex& right) const
-{
-
-    QVariant leftData = sourceModel()->data(left, sortRole());
-    QVariant rightData = sourceModel()->data(right, sortRole());
-
-    if (leftData.type() == QVariant::String && rightData.type() == QVariant::String) {
-        const QString left = leftData.toString();
-        const QString right = rightData.toString();
-
-        return sortCaseSensitivity() ? (naturalCompare(left, right) < 0) :
-                                       (naturalCompare(left.toLower(), right.toLower()) < 0);
-    }
-
-    // We have set a SortRole and trust the ProxyModel to do
-    // the right thing for now.
-    return QSortFilterProxyModel::lessThan(left,right);
 }
 
 #include "dolphinsortfilterproxymodel.moc"
