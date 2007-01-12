@@ -66,7 +66,7 @@ protected:
                           const QModelIndex& right) const;
 
 private:
-    int naturalCompare(const QString& a, const QString& b) const;
+    static int naturalCompare(const QString& a, const QString& b);
 
 private:
     DolphinView::Sorting m_sorting;

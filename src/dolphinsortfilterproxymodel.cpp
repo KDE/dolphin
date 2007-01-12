@@ -111,7 +111,7 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
 }
 
 int DolphinSortFilterProxyModel::naturalCompare(const QString& a,
-                                                const QString& b) const
+                                                const QString& b)
 {
     // This method chops the input a and b into pieces of
     // digits and non-digits (a1.05 becomes a | 1 | . | 05)
@@ -143,9 +143,9 @@ int DolphinSortFilterProxyModel::naturalCompare(const QString& a,
         }
 
         // compare these sequences
-        const QString sub_a(begSeqA, currA - begSeqA);
-        const QString sub_b(begSeqB, currB - begSeqB);
-        int cmp = QString::localeAwareCompare(sub_a, sub_b);
+        const QString subA(begSeqA, currA - begSeqA);
+        const QString subB(begSeqB, currB - begSeqB);
+        const int cmp = QString::localeAwareCompare(subA, subB);
         if (cmp != 0) {
             return cmp;
         }
@@ -157,7 +157,7 @@ int DolphinSortFilterProxyModel::naturalCompare(const QString& a,
         // now some digits follow...
         if ((*currA == '0') || (*currB == '0')) {
             // one digit-sequence starts with 0 -> assume we are in a fraction part
-            // do left aligned comparison (numbers are considered left aligend)
+            // do left aligned comparison (numbers are considered left aligned)
             while (1) {
                 if (!currA->isDigit() && !currB->isDigit()) {
                     break;
@@ -179,19 +179,21 @@ int DolphinSortFilterProxyModel::naturalCompare(const QString& a,
             }
         }
         else {
-            // no digit-sequence starts with 0 -> assume we are looking at some integer
-            // do right aligned comparison
-
-            // The longest run of digits wins.  That aside, the greatest
+            // No digit-sequence starts with 0 -> assume we are looking at some integer
+            // do right aligned comparison.
+            //
+            // The longest run of digits wins. That aside, the greatest
             // value wins, but we can't know that it will until we've scanned
             // both numbers to know that they have the same magnitude, so we
-            // remember it in 'weight'.
+            // remember the values in 'valueA' and 'valueB'.
 
-            int weight = 0;
+            int valueA = 0;
+            int valueB = 0;
+
             while (1) {
                 if (!currA->isDigit() && !currB->isDigit()) {
-                    if (weight != 0) {
-                        return weight;
+                    if (valueA != valueB) {
+                        return valueA - valueB;
                     }
                     break;
                 }
@@ -201,16 +203,14 @@ int DolphinSortFilterProxyModel::naturalCompare(const QString& a,
                 else if (!currB->isDigit()) {
                     return +1;
                 }
-                else if ((*currA < *currB) && (weight != 0)) {
-                    weight = -1;
+                else {
+                    valueA = (valueA * 10) + currA->digitValue();
+                    valueB = (valueB * 10) + currB->digitValue();
                 }
-                else if ((*currA > *currB) && (weight != 0)) {
-                    weight = +1;
-                }
+
                 ++currA;
                 ++currB;
             }
-
         }
 
         begSeqA = currA;
