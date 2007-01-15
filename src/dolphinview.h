@@ -55,7 +55,6 @@ class DolphinSortFilterProxyModel;
 class ViewProperties;
 class KProgress;
 class KDirModel;
-class KMimeTypeResolver;
 class FilterBar;
 
 class QModelIndex;
@@ -502,8 +501,6 @@ private:
     KDirModel* m_dirModel;
     DolphinDirLister* m_dirLister;
     DolphinSortFilterProxyModel* m_proxyModel;
-    KMimeTypeResolver* m_mimeTypeResolver;
-
 };
 
 #endif // _DOLPHINVIEW_H_

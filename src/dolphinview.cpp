@@ -70,8 +70,7 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
     m_statusBar(0),
     m_dirModel(0),
     m_dirLister(0),
-    m_proxyModel(0),
-    m_mimeTypeResolver(0)
+    m_proxyModel(0)
 {
     hide();
     setFocusPolicy(Qt::StrongFocus);
@@ -987,9 +986,6 @@ void DolphinView::createView()
     assert(m_iconsView == 0);
     assert(m_detailsView == 0);
 
-    delete m_mimeTypeResolver;
-    m_mimeTypeResolver = 0;
-
     // ... and recreate it representing the current mode
     switch (m_mode) {
         case IconsView:
@@ -1015,7 +1011,7 @@ void DolphinView::createView()
     delegate->setAdditionalInformation(KFileItemDelegate::FriendlyMimeType);
     view->setItemDelegate(delegate);
 
-    m_mimeTypeResolver = new KMimeTypeResolver(view, m_dirModel);
+    new KMimeTypeResolver(view, m_dirModel);
 
     connect(view, SIGNAL(clicked(const QModelIndex&)),
             this, SLOT(triggerItem(const QModelIndex&)));
