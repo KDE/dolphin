@@ -22,7 +22,7 @@
 #include "dolphinview.h"
 
 DolphinDetailsView::DolphinDetailsView(DolphinView* parent) :
-    QListView(parent)
+    QTreeView(parent)
 {
 }
 

@@ -65,11 +65,13 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
     m_topLayout(0),
     m_urlNavigator(0),
     m_iconsView(0),
+    m_detailsView(0),
     m_filterBar(0),
     m_statusBar(0),
     m_dirModel(0),
     m_dirLister(0),
-    m_proxyModel(0)
+    m_proxyModel(0),
+    m_mimeTypeResolver(0)
 {
     hide();
     setFocusPolicy(Qt::StrongFocus);
@@ -87,6 +89,8 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
     m_dirLister->setAutoUpdate(true);
     m_dirLister->setMainWindow(this);
     m_dirLister->setShowingDotFiles(showHiddenFiles);
+    m_dirLister->setDelayedMimeTypes(true);
+
     connect(m_dirLister, SIGNAL(clear()),
             this, SLOT(slotClear()));
     connect(m_dirLister, SIGNAL(percent(int)),
@@ -100,9 +104,6 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
     connect(m_dirLister, SIGNAL(errorMessage(const QString&)),
             this, SLOT(slotErrorMessage(const QString&)));
 
-    m_iconsView = new DolphinIconsView(this);
-    applyModeToView();
-
     m_dirModel = new KDirModel();
     m_dirModel->setDirLister(m_dirLister);
     m_dirModel->setDropsAllowed(KDirModel::DropOnDirectory);
@@ -110,14 +111,7 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
     m_proxyModel = new DolphinSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_dirModel);
 
-    m_iconsView->setModel(m_proxyModel);
-
-    KFileItemDelegate* delegate = new KFileItemDelegate(this);
-    delegate->setAdditionalInformation(KFileItemDelegate::FriendlyMimeType);
-    m_iconsView->setItemDelegate(delegate);
-
-    m_dirLister->setDelayedMimeTypes(true);
-    new KMimeTypeResolver(m_iconsView, m_dirModel);
+    createView();
 
     m_iconSize = K3Icon::SizeMedium;
 
@@ -129,14 +123,9 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
             this, SLOT(closeFilterBar()));
 
     m_topLayout->addWidget(m_urlNavigator);
-    m_topLayout->addWidget(m_iconsView);
+    m_topLayout->addWidget(itemView());
     m_topLayout->addWidget(m_filterBar);
     m_topLayout->addWidget(m_statusBar);
-
-    connect(m_iconsView, SIGNAL(clicked(const QModelIndex&)),
-            this, SLOT(triggerItem(const QModelIndex&)));
-    connect(m_iconsView->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
-            this, SLOT(emitSelectionChangedSignal()));
 
     loadDirectory(m_urlNavigator->url());
 }
@@ -178,7 +167,7 @@ void DolphinView::setMode(Mode mode)
     ViewProperties props(m_urlNavigator->url());
     props.setViewMode(m_mode);
 
-    applyModeToView();
+    createView();
     startDirLister(m_urlNavigator->url());
 
     emit modeChanged();
@@ -476,16 +465,18 @@ const Q3ValueList<UrlNavigator::HistoryElem> DolphinView::urlHistory(int& index)
 
 bool DolphinView::hasSelection() const
 {
-    return m_iconsView->selectionModel()->hasSelection();
+    return itemView()->selectionModel()->hasSelection();
 }
 
 KFileItemList DolphinView::selectedItems() const
 {
+    const QAbstractItemView* view = itemView();
+
     // Our view has a selection, we will map them back to the DirModel
     // and then fill the KFileItemList.
-    assert(m_iconsView && m_iconsView->selectionModel());
+    assert((view != 0) && (view->selectionModel() != 0));
 
-    const QItemSelection selection = m_proxyModel->mapSelectionToSource(m_iconsView->selectionModel()->selection());
+    const QItemSelection selection = m_proxyModel->mapSelectionToSource(view->selectionModel()->selection());
     KFileItemList itemList;
 
     const QModelIndexList indexList = selection.indexes();
@@ -634,7 +625,7 @@ void DolphinView::loadDirectory(const KUrl& url)
     const Mode mode = props.viewMode();
     if (m_mode != mode) {
         m_mode = mode;
-        applyModeToView();
+        createView();
         emit modeChanged();
     }
 
@@ -981,26 +972,57 @@ void DolphinView::slotChangeNameFilter(const QString& nameFilter)
 #endif
 }
 
-void DolphinView::applyModeToView()
+void DolphinView::createView()
 {
-    m_iconsView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    // delete current view
+    QAbstractItemView* view = itemView();
+    if (view != 0) {
+        m_topLayout->remove(view);
+        view->close();
+        view->deleteLater();
+        m_iconsView = 0;
+        m_detailsView = 0;
+    }
 
-    // TODO: the following code just tries to test some QListView capabilities
+    assert(m_iconsView == 0);
+    assert(m_detailsView == 0);
+
+    delete m_mimeTypeResolver;
+    m_mimeTypeResolver = 0;
+
+    // ... and recreate it representing the current mode
     switch (m_mode) {
         case IconsView:
+            m_iconsView = new DolphinIconsView(this);
             m_iconsView->setViewMode(QListView::IconMode);
             m_iconsView->setSpacing(32);
-            // m_iconsView->setAlternatingRowColors(false);
-            // m_iconsView->setGridSize(QSize(128, 64));
+            view = m_iconsView;
+            // TODO: read out view settings
             break;
 
         case DetailsView:
-            m_iconsView->setViewMode(QListView::ListMode);
-            m_iconsView->setSpacing(0);
-            // m_iconsView->setAlternatingRowColors(true);
-            // m_iconsView->setGridSize(QSize(256, 24));
+            m_detailsView = new DolphinDetailsView(this);
+            view = m_detailsView;
+            // TODO: read out view settings
             break;
     }
+
+    view->setModel(m_proxyModel);
+
+    view->setSelectionMode(QAbstractItemView::ExtendedSelection);
+
+    KFileItemDelegate* delegate = new KFileItemDelegate(this);
+    delegate->setAdditionalInformation(KFileItemDelegate::FriendlyMimeType);
+    view->setItemDelegate(delegate);
+
+    m_mimeTypeResolver = new KMimeTypeResolver(view, m_dirModel);
+
+    connect(view, SIGNAL(clicked(const QModelIndex&)),
+            this, SLOT(triggerItem(const QModelIndex&)));
+    connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
+            this, SLOT(emitSelectionChangedSignal()));
+
+    m_topLayout->insertWidget(1, view);
 }
 
 int DolphinView::columnIndex(Sorting sorting) const
@@ -1017,7 +1039,7 @@ int DolphinView::columnIndex(Sorting sorting) const
 
 void DolphinView::selectAll(QItemSelectionModel::SelectionFlags flags)
 {
-    QItemSelectionModel* selectionModel = m_iconsView->selectionModel();
+    QItemSelectionModel* selectionModel = itemView()->selectionModel();
     const QAbstractItemModel* itemModel = selectionModel->model();
 
     const QModelIndex topLeft = itemModel->index(0, 0);
@@ -1026,6 +1048,15 @@ void DolphinView::selectAll(QItemSelectionModel::SelectionFlags flags)
 
     QItemSelection selection(topLeft, bottomRight);
     selectionModel->select(selection, flags);
+}
+
+QAbstractItemView* DolphinView::itemView() const
+{
+    assert((m_iconsView == 0) || (m_detailsView == 0));
+    if (m_detailsView != 0) {
+        return m_detailsView;
+    }
+    return m_iconsView;
 }
 
 #include "dolphinview.moc"

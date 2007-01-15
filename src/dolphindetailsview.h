@@ -21,7 +21,7 @@
 #ifndef DOLPHINDETAILSVIEW_H
 #define DOLPHINDETAILSVIEW_H
 
-#include <QListView>
+#include <QTreeView>
 
 class DolphinView;
 
@@ -32,10 +32,8 @@ class DolphinView;
  * The width of the columns are automatically adjusted in a way
  * that full available width of the view is used by stretching the width
  * of the name column.
- *
- * @author Peter Penz
  */
-class DolphinDetailsView : public QListView
+class DolphinDetailsView : public QTreeView
 {
     Q_OBJECT
 

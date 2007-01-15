@@ -46,6 +46,7 @@ class Q3IconViewItem;
 class Q3ListViewItem;
 class Q3VBoxLayout;
 class DolphinMainWindow;
+class DolphinDetailsView;
 class DolphinDirLister;
 class DolphinStatusBar;
 class DolphinIconsView;
@@ -54,6 +55,7 @@ class DolphinSortFilterProxyModel;
 class ViewProperties;
 class KProgress;
 class KDirModel;
+class KMimeTypeResolver;
 class FilterBar;
 
 class QModelIndex;
@@ -456,10 +458,10 @@ private:
     QString renameIndexPresentation(int index, int itemCount) const;
 
     /**
-     * Applies the current view mode m_mode to the
-     * view implementation.
+     * Creates a new view representing the given view mode (DolphinView::viewMode()).
+     * The current view will get deleted.
      */
-    void applyModeToView();
+    void createView();
 
     /**
      * Returns the column index used in the KDirModel depending on \a sorting.
@@ -471,6 +473,12 @@ private:
      * method for the slots DolphinView::selectAll() and DolphinView::invertSelection().
      */
     void selectAll(QItemSelectionModel::SelectionFlags flags);
+
+    /**
+     * Returns a pointer to the currently used item view, which is either
+     * a ListView or a TreeView.
+     */
+    QAbstractItemView* itemView() const;
 
 private:
     bool m_refreshing;
@@ -484,13 +492,17 @@ private:
     DolphinMainWindow* m_mainWindow;
     QVBoxLayout* m_topLayout;
     UrlNavigator* m_urlNavigator;
+
     DolphinIconsView* m_iconsView;
+    DolphinDetailsView* m_detailsView;
+
     FilterBar *m_filterBar;
     DolphinStatusBar* m_statusBar;
 
     KDirModel* m_dirModel;
     DolphinDirLister* m_dirLister;
     DolphinSortFilterProxyModel* m_proxyModel;
+    KMimeTypeResolver* m_mimeTypeResolver;
 
 };
 
