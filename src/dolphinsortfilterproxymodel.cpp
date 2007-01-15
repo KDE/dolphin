@@ -184,16 +184,13 @@ int DolphinSortFilterProxyModel::naturalCompare(const QString& a,
             //
             // The longest run of digits wins. That aside, the greatest
             // value wins, but we can't know that it will until we've scanned
-            // both numbers to know that they have the same magnitude, so we
-            // remember the values in 'valueA' and 'valueB'.
+            // both numbers to know that they have the same magnitude.
 
-            int valueA = 0;
-            int valueB = 0;
-
+            int weight = 0;
             while (1) {
                 if (!currA->isDigit() && !currB->isDigit()) {
-                    if (valueA != valueB) {
-                        return valueA - valueB;
+                    if (weight != 0) {
+                        return weight;
                     }
                     break;
                 }
@@ -203,11 +200,12 @@ int DolphinSortFilterProxyModel::naturalCompare(const QString& a,
                 else if (!currB->isDigit()) {
                     return +1;
                 }
-                else {
-                    valueA = (valueA * 10) + currA->digitValue();
-                    valueB = (valueB * 10) + currB->digitValue();
+                else if ((*currA < *currB) && (weight == 0)) {
+                    weight = -1;
                 }
-
+                else if ((*currA > *currB) && (weight == 0)) {
+                    weight = +1;
+                }
                 ++currA;
                 ++currB;
             }
