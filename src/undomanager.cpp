@@ -215,8 +215,8 @@ void UndoManager::undo(DolphinMainWindow* mainWindow)
         if (job != 0) {
             // Execute the jobs in a synchronous manner and forward the progress
             // information to the Dolphin statusbar.
-            connect(job, SIGNAL(percent(KIO::Job*, unsigned long)),
-                    this, SLOT(slotPercent(KIO::Job*, unsigned long)));
+            connect(job, SIGNAL(percent(KJob*, unsigned long)),
+                    this, SLOT(slotPercent(KJob*, unsigned long)));
             KIO::NetAccess::synchronousRun(job, mainWindow);
         }
 
