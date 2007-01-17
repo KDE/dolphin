@@ -5,6 +5,7 @@ X-KDE-Submenu=Amarok
 
 [Desktop Action appendToPlaylist]
 Name=Append to Playlist
+Name[br]=Ouzhpennañ d'ar roll tonioù
 Name[da]=Tilføj til spillelisten
 Name[de]=An Wiedergabeliste anhängen
 Name[el]=Προσθήκη στη λίστα αναπαραγωγής
@@ -20,6 +21,7 @@ Exec=amarok -e %U
 
 [Desktop Action appendAndPlay]
 Name=Append & Play
+Name[br]=Ouzhpennañ ha seniñ
 Name[da]=Tilføj og spil
 Name[de]=Anhängen & abspielen
 Name[el]=Προσθήκη & αναπαραγωγή
