@@ -39,7 +39,6 @@ set(dolphin_SRCS
    sidebarpage.cpp
    statusbarspaceinfo.cpp
    statusbarmessagelabel.cpp
-   undomanager.cpp
    urlbutton.cpp
    urlnavigator.cpp
    urlnavigatorbutton.cpp

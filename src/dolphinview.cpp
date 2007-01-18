@@ -20,34 +20,35 @@
 
 #include "dolphinview.h"
 
+#include <assert.h>
+
 #include <QItemSelectionModel>
-#include <Q3ValueList>
+#include <Q3ValueList>  // TODO
 #include <QDropEvent>
 #include <QMouseEvent>
 #include <QVBoxLayout>
 
 #include <kdirmodel.h>
 #include <kfileitemdelegate.h>
-#include <kurl.h>
 #include <klocale.h>
 #include <kio/netaccess.h>
 #include <kio/renamedialog.h>
 #include <kmimetyperesolver.h>
-#include <assert.h>
+#include <konq_operations.h>
+#include <kurl.h>
 
-#include "urlnavigator.h"
 #include "dolphinstatusbar.h"
 #include "dolphinmainwindow.h"
 #include "dolphindirlister.h"
 #include "dolphinsortfilterproxymodel.h"
-#include "viewproperties.h"
 #include "dolphindetailsview.h"
 #include "dolphiniconsview.h"
 #include "dolphincontextmenu.h"
-#include "undomanager.h"
-#include "renamedialog.h"
-#include "progressindicator.h"
 #include "filterbar.h"
+#include "progressindicator.h"
+#include "renamedialog.h"
+#include "urlnavigator.h"
+#include "viewproperties.h"
 
 DolphinView::DolphinView(DolphinMainWindow *mainWindow,
                          QWidget *parent,
@@ -233,8 +234,10 @@ void DolphinView::renameSelectedItems()
                                           DolphinStatusBar::Error);
         }
         else {
-            UndoManager& undoMan = UndoManager::instance();
-            undoMan.beginMacro();
+            // TODO: check how this can be integrated into KonqUndoManager/KonqOperations
+
+            //UndoManager& undoMan = UndoManager::instance();
+            //undoMan.beginMacro();
 
             assert(newName.contains('#'));
 
@@ -268,8 +271,8 @@ void DolphinView::renameSelectedItems()
                     else if (KIO::NetAccess::file_move(source, dest)) {
                         // TODO: From the users point of view he executed one 'rename n files' operation,
                         // but internally we store it as n 'rename 1 file' operations for the undo mechanism.
-                        DolphinCommand command(DolphinCommand::Rename, source, dest);
-                        undoMan.addCommand(command);
+                        //DolphinCommand command(DolphinCommand::Rename, source, dest);
+                        //undoMan.addCommand(command);
                     }
                 }
 
@@ -278,7 +281,7 @@ void DolphinView::renameSelectedItems()
             delete progressIndicator;
             progressIndicator = 0;
 
-            undoMan.endMacro();
+            //undoMan.endMacro();
         }
     }
     else {
@@ -566,15 +569,15 @@ void DolphinView::rename(const KUrl& source, const QString& newName)
         ok = KIO::NetAccess::file_move(source, dest);
     }
 
+    const QString destFileName = dest.fileName();
     if (ok) {
-        m_statusBar->setMessage(i18n("Renamed file '%1' to '%2'.",source.fileName(), dest.fileName()),
+        m_statusBar->setMessage(i18n("Renamed file '%1' to '%2'.",source.fileName(), destFileName),
                                 DolphinStatusBar::OperationCompleted);
 
-        DolphinCommand command(DolphinCommand::Rename, source, dest);
-        UndoManager::instance().addCommand(command);
+        KonqOperations::rename(this, source, destFileName);
     }
     else {
-        m_statusBar->setMessage(i18n("Renaming of file '%1' to '%2' failed.",source.fileName(), dest.fileName()),
+        m_statusBar->setMessage(i18n("Renaming of file '%1' to '%2' failed.",source.fileName(), destFileName),
                                 DolphinStatusBar::Error);
         reload();
     }

@@ -23,58 +23,53 @@
 
 #include <assert.h>
 
-#include <kactioncollection.h>
-#include <ktoggleaction.h>
-#include <kbookmarkmanager.h>
-#include <kglobal.h>
-#include <kpropertiesdialog.h>
-#include <kicon.h>
-#include <kiconloader.h>
-#include <kdeversion.h>
-#include <kstatusbar.h>
-#include <kio/netaccess.h>
-#include <kfiledialog.h>
-#include <kconfig.h>
-#include <kurl.h>
-#include <kaction.h>
-#include <kstandardaction.h>
-#include <kmenu.h>
-#include <kio/renamedialog.h>
-#include <kinputdialog.h>
-#include <kshell.h>
-#include <kdesktopfile.h>
-#include <kstandarddirs.h>
-#include <kprotocolinfo.h>
-#include <kmessagebox.h>
-#include <kservice.h>
-#include <kstandarddirs.h>
-#include <krun.h>
-#include <klocale.h>
-#include <konqmimedata.h>
-
-#include <qclipboard.h>
-#include <q3dragobject.h>
-//Added by qt3to4:
-#include <Q3ValueList>
-#include <QCloseEvent>
-#include <QSplitter>
-#include <QDockWidget>
-
-#include "urlnavigator.h"
-#include "viewpropertiesdialog.h"
-#include "viewproperties.h"
+#include "dolphinapplication.h"
 #include "dolphinsettings.h"
 #include "dolphinsettingsdialog.h"
 #include "dolphinstatusbar.h"
 #include "dolphinapplication.h"
-#include "undomanager.h"
+#include "urlnavigator.h"
 #include "progressindicator.h"
 #include "dolphinsettings.h"
 #include "bookmarkssidebarpage.h"
 #include "infosidebarpage.h"
 #include "generalsettings.h"
-#include "dolphinapplication.h"
+#include "viewpropertiesdialog.h"
+#include "viewproperties.h"
 
+#include <kaction.h>
+#include <kactioncollection.h>
+#include <kbookmarkmanager.h>
+#include <kconfig.h>
+#include <kdesktopfile.h>
+#include <kdeversion.h>
+#include <kfiledialog.h>
+#include <kglobal.h>
+#include <kicon.h>
+#include <kiconloader.h>
+#include <kio/netaccess.h>
+#include <kio/renamedialog.h>
+#include <kinputdialog.h>
+#include <klocale.h>
+#include <kmenu.h>
+#include <kmessagebox.h>
+#include <konqmimedata.h>
+#include <konq_undo.h>
+#include <kpropertiesdialog.h>
+#include <kprotocolinfo.h>
+#include <ktoggleaction.h>
+#include <krun.h>
+#include <kshell.h>
+#include <kstandarddirs.h>
+#include <kstatusbar.h>
+#include <kstandardaction.h>
+#include <kurl.h>
+
+#include <Q3ValueList>  // TODO
+#include <QCloseEvent>
+#include <QClipboard>
+#include <QSplitter>
+#include <QDockWidget>
 
 DolphinMainWindow::DolphinMainWindow() :
     KMainWindow(0),
@@ -84,10 +79,19 @@ DolphinMainWindow::DolphinMainWindow() :
     setObjectName("Dolphin");
     m_view[PrimaryIdx] = 0;
     m_view[SecondaryIdx] = 0;
+
+    KonqUndoManager::incRef();
+
+    connect(KonqUndoManager::self(), SIGNAL(undoAvailable(bool)),
+            this, SLOT(slotUndoAvailable(bool)));
+    connect(KonqUndoManager::self(), SIGNAL(undoTextChanged(const QString&)),
+            this, SLOT(slotUndoTextChanged(const QString&)));
 }
 
 DolphinMainWindow::~DolphinMainWindow()
 {
+    KonqUndoManager::decRef();
+
     qDeleteAll(m_fileGroupActions);
     m_fileGroupActions.clear();
 
@@ -274,16 +278,6 @@ void DolphinMainWindow::updateFilterBarAction(bool show)
     showFilterBarAction->setChecked(show);
 }
 
-void DolphinMainWindow::redo()
-{
-    UndoManager::instance().redo(this);
-}
-
-void DolphinMainWindow::undo()
-{
-    UndoManager::instance().undo(this);
-}
-
 void DolphinMainWindow::openNewMainWindow()
 {
     DolphinApplication::app()->createMainWindow()->show();
@@ -301,8 +295,8 @@ void DolphinMainWindow::copyDroppedItems()
 
 void DolphinMainWindow::linkDroppedItems()
 {
-    KIO::Job* job = KIO::link(m_droppedUrls, m_dropDestination);
-    addPendingUndoJob(job, DolphinCommand::Link, m_droppedUrls, m_dropDestination);
+    KonqOperations::copy(this, KonqOperations::LINK, m_droppedUrls, m_dropDestination);
+    m_undoOperations.append(KonqOperations::LINK);
 }
 
 void DolphinMainWindow::closeEvent(QCloseEvent* event)
@@ -401,29 +395,26 @@ void DolphinMainWindow::createFolder()
         url = baseUrl;
         url.addPath(name);
     }
-    ok = KIO::NetAccess::mkdir(url, this);
 
-    // TODO: provide message type hint
-    if (ok) {
+    KonqOperations::mkdir(this, url);
+
+    // TODO: is there a possability to check whether the mkdir operation
+    // has been successful?
+    //if (ok) {
         statusBar->setMessage(i18n("Created folder %1.",url.path()),
                               DolphinStatusBar::OperationCompleted);
-
-        DolphinCommand command(DolphinCommand::CreateFolder, KUrl::List(), url);
-        UndoManager::instance().addCommand(command);
-    }
-    else {
-        // Creating of the folder has been failed. Check whether the creating
-        // has been failed because a folder with the same name exists...
-        if (KIO::NetAccess::exists(url, true, this)) {
-            statusBar->setMessage(i18n("A folder named %1 already exists.",url.path()),
-                                  DolphinStatusBar::Error);
-        }
-        else {
-            statusBar->setMessage(i18n("Creating of folder %1 failed.",url.path()),
-                                  DolphinStatusBar::Error);
-        }
-
-    }
+    //}
+    //else {
+    //    // Creating of the folder has been failed. Check whether the creating
+    //    // has been failed because a folder with the same name exists...
+    //    if (KIO::NetAccess::exists(url, true, this)) {
+    //        statusBar->setMessage(i18n("A folder named %1 already exists.",url.path()),
+    //                              DolphinStatusBar::Error);
+    //    }
+    //    else {
+    //        statusBar->setMessage(i18n("Creating of folder %1 failed.",url.path()),
+    //                              DolphinStatusBar::Error);
+    //    }
 }
 
 void DolphinMainWindow::createFile()
@@ -515,8 +506,10 @@ void DolphinMainWindow::createFile()
 
         KUrl::List list;
         list.append(sourceUrl);
-        DolphinCommand command(DolphinCommand::CreateFile, list, destUrl);
-        UndoManager::instance().addCommand(command);
+
+        // TODO: use the KonqUndoManager/KonqOperations instead.
+        //DolphinCommand command(DolphinCommand::CreateFile, list, destUrl);
+        //UndoManager::instance().addCommand(command);
 
     }
     else {
@@ -534,9 +527,12 @@ void DolphinMainWindow::rename()
 void DolphinMainWindow::moveToTrash()
 {
     clearStatusBar();
-    KUrl::List selectedUrls = m_activeView->selectedUrls();
-    KIO::Job* job = KIO::trash(selectedUrls);
-    addPendingUndoJob(job, DolphinCommand::Trash, selectedUrls, m_activeView->url());
+    const KUrl::List selectedUrls = m_activeView->selectedUrls();
+    // TODO: per default a message box is opened which asks whether the item
+    // should really be moved to the trash. This does not make sense, as the
+    // action can be undone anyway by the user.
+    KonqOperations::del(this, KonqOperations::TRASH, selectedUrls);
+    m_undoOperations.append(KonqOperations::TRASH);
 }
 
 void DolphinMainWindow::deleteItems()
@@ -609,6 +605,32 @@ void DolphinMainWindow::slotUndoAvailable(bool available)
     if (undoAction != 0) {
         undoAction->setEnabled(available);
     }
+
+    if (available && (m_undoOperations.count() > 0)) {
+        const KonqOperations::Operation op = m_undoOperations.takeFirst();
+        DolphinStatusBar* statusBar = m_activeView->statusBar();
+        switch (op) {
+            case KonqOperations::COPY:
+                statusBar->setMessage(i18n("Copy operation completed."),
+                                      DolphinStatusBar::OperationCompleted);
+                break;
+            case KonqOperations::MOVE:
+                statusBar->setMessage(i18n("Move operation completed."),
+                                      DolphinStatusBar::OperationCompleted);
+                break;
+            case KonqOperations::LINK:
+                statusBar->setMessage(i18n("Link operation completed."),
+                                      DolphinStatusBar::OperationCompleted);
+                break;
+            case KonqOperations::TRASH:
+                statusBar->setMessage(i18n("Move to trash operation completed."),
+                                      DolphinStatusBar::OperationCompleted);
+                break;
+            default:
+                break;
+        }
+
+    }
 }
 
 void DolphinMainWindow::slotUndoTextChanged(const QString& text)
@@ -616,22 +638,6 @@ void DolphinMainWindow::slotUndoTextChanged(const QString& text)
     QAction* undoAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::Undo));
     if (undoAction != 0) {
         undoAction->setText(text);
-    }
-}
-
-void DolphinMainWindow::slotRedoAvailable(bool available)
-{
-    QAction* redoAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::Redo));
-    if (redoAction != 0) {
-        redoAction->setEnabled(available);
-    }
-}
-
-void DolphinMainWindow::slotRedoTextChanged(const QString& text)
-{
-    QAction* redoAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::Redo));
-    if (redoAction != 0) {
-        redoAction->setText(text);
     }
 }
 
@@ -995,80 +1001,6 @@ void DolphinMainWindow::editSettings()
     dlg.exec();
 }
 
-void DolphinMainWindow::addUndoOperation(KJob* job)
-{
-    if (job->error() != 0) {
-        slotHandleJobError(job);
-    }
-    else {
-        const int id = job->progressId();
-
-        // set iterator to the executed command with the current id...
-        Q3ValueList<UndoInfo>::Iterator it = m_pendingUndoJobs.begin();
-        const Q3ValueList<UndoInfo>::Iterator end = m_pendingUndoJobs.end();
-        bool found = false;
-        while (!found && (it != end)) {
-            if ((*it).id == id) {
-                found = true;
-            }
-            else {
-                ++it;
-            }
-        }
-
-        if (found) {
-            DolphinCommand command = (*it).command;
-            if (command.type() == DolphinCommand::Trash) {
-                // To be able to perform an undo for the 'Move to Trash' operation
-                // all source Urls must be updated with the trash Url. E. g. when moving
-                // a file "test.txt" and a second file "test.txt" to the trash,
-                // then the filenames in the trash are "0-test.txt" and "1-test.txt".
-                QMap<QString, QString> metaData;
-                KIO::Job *kiojob = qobject_cast<KIO::Job*>( job );
-                if ( kiojob )
-                {
-                    metaData = kiojob->metaData();
-                }
-                KUrl::List newSourceUrls;
-
-                KUrl::List sourceUrls = command.source();
-                KUrl::List::Iterator sourceIt = sourceUrls.begin();
-                const KUrl::List::Iterator sourceEnd = sourceUrls.end();
-
-                while (sourceIt != sourceEnd) {
-                    QMap<QString, QString>::ConstIterator metaIt = metaData.find("trashUrl-" + (*sourceIt).path());
-                    if (metaIt != metaData.end()) {
-                        newSourceUrls.append(KUrl(metaIt.value()));
-                    }
-                    ++sourceIt;
-                }
-                command.setSource(newSourceUrls);
-            }
-
-            UndoManager::instance().addCommand(command);
-            m_pendingUndoJobs.erase(it);
-
-            DolphinStatusBar* statusBar = m_activeView->statusBar();
-            switch (command.type()) {
-                case DolphinCommand::Copy:
-                    statusBar->setMessage(i18n("Copy operation completed."),
-                                          DolphinStatusBar::OperationCompleted);
-                    break;
-                case DolphinCommand::Move:
-                    statusBar->setMessage(i18n("Move operation completed."),
-                                          DolphinStatusBar::OperationCompleted);
-                    break;
-                case DolphinCommand::Trash:
-                    statusBar->setMessage(i18n("Move to trash operation completed."),
-                                          DolphinStatusBar::OperationCompleted);
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-}
-
 void DolphinMainWindow::init()
 {
     // Check whether Dolphin runs the first time. If yes then
@@ -1197,22 +1129,9 @@ void DolphinMainWindow::setupActions()
     KStandardAction::quit(this, SLOT(quit()), actionCollection());
 
     // setup 'Edit' menu
-    UndoManager& undoManager = UndoManager::instance();
-    KStandardAction::undo(this,
-                     SLOT(undo()),
-                     actionCollection());
-    connect(&undoManager, SIGNAL(undoAvailable(bool)),
-            this, SLOT(slotUndoAvailable(bool)));
-    connect(&undoManager, SIGNAL(undoTextChanged(const QString&)),
-            this, SLOT(slotUndoTextChanged(const QString&)));
-
-    KStandardAction::redo(this,
-                     SLOT(redo()),
-                     actionCollection());
-    connect(&undoManager, SIGNAL(redoAvailable(bool)),
-            this, SLOT(slotRedoAvailable(bool)));
-    connect(&undoManager, SIGNAL(redoTextChanged(const QString&)),
-            this, SLOT(slotRedoTextChanged(const QString&)));
+    KStandardAction::undo(KonqUndoManager::self(),
+                          SLOT(undo()),
+                          actionCollection());
 
     KStandardAction::cut(this, SLOT(cut()), actionCollection());
     KStandardAction::copy(this, SLOT(copy()), actionCollection());
@@ -1579,28 +1498,14 @@ void DolphinMainWindow::updateGoActions()
 
 void DolphinMainWindow::copyUrls(const KUrl::List& source, const KUrl& dest)
 {
-    KIO::Job* job = KIO::copy(source, dest);
-    addPendingUndoJob(job, DolphinCommand::Copy, source, dest);
+    KonqOperations::copy(this, KonqOperations::COPY, source, dest);
+    m_undoOperations.append(KonqOperations::COPY);
 }
 
 void DolphinMainWindow::moveUrls(const KUrl::List& source, const KUrl& dest)
 {
-    KIO::Job* job = KIO::move(source, dest);
-    addPendingUndoJob(job, DolphinCommand::Move, source, dest);
-}
-
-void DolphinMainWindow::addPendingUndoJob(KIO::Job* job,
-                                          DolphinCommand::Type commandType,
-                                          const KUrl::List& source,
-                                          const KUrl& dest)
-{
-    connect(job, SIGNAL(result(KJob*)),
-            this, SLOT(addUndoOperation(KJob*)));
-
-    UndoInfo undoInfo;
-    undoInfo.id = job->progressId();
-    undoInfo.command = DolphinCommand(commandType, source, dest);
-    m_pendingUndoJobs.append(undoInfo);
+    KonqOperations::copy(this, KonqOperations::MOVE, source, dest);
+    m_undoOperations.append(KonqOperations::MOVE);
 }
 
 void DolphinMainWindow::clearStatusBar()

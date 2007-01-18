@@ -22,13 +22,13 @@
 #ifndef _DOLPHIN_MAINWINDOW_H_
 #define _DOLPHIN_MAINWINDOW_H_
 
+#include "dolphinview.h"
+
 #include <kmainwindow.h>
 #include <ksortablelist.h>
+#include <konq_operations.h>
 
-#include <q3valuelist.h>
-
-#include "dolphinview.h"
-#include "undomanager.h" // for DolphinCommand::Type
+#include <QList>
 
 class KPrinter;
 class KUrl;
@@ -174,15 +174,6 @@ private slots:
     void slotUndoTextChanged(const QString& text);
 
     /**
-     * Updates the state of the 'Redo' menu action dependent
-     * from the parameter \a available.
-     */
-    void slotRedoAvailable(bool available);
-
-    /** Sets the text of the 'Redo' menu action to \a text. */
-    void slotRedoTextChanged(const QString& text);
-
-    /**
      * Copies all selected items to the clipboard and marks
      * the items as cutted.
      */
@@ -303,12 +294,6 @@ private slots:
     /** Opens the settings dialog for Dolphin. */
     void editSettings();
 
-    /**
-     * Adds the undo operation given by \a job
-     * to the UndoManager.
-     */
-    void addUndoOperation(KJob* job);
-
     /** Updates the state of all 'View' menu actions. */
     void slotViewModeChanged();
 
@@ -338,12 +323,6 @@ private slots:
 
     /** Updates the state of the 'Show filter bar' menu action. */
     void updateFilterBarAction(bool show);
-
-    /** Executes the redo operation (see UndoManager::Redo ()). */
-    void redo();
-
-    /** Executes the undo operation (see UndoManager::Undo()). */
-    void undo();
 
     /** Open a new main window. */
     void openNewMainWindow();
@@ -381,10 +360,6 @@ private:
     void updateGoActions();
     void copyUrls(const KUrl::List& source, const KUrl& dest);
     void moveUrls(const KUrl::List& source, const KUrl& dest);
-    void addPendingUndoJob(KIO::Job* job,
-                           DolphinCommand::Type commandType,
-                           const KUrl::List& source,
-                           const KUrl& dest);
     void clearStatusBar();
 
     /**
@@ -413,21 +388,8 @@ private:
     };
     DolphinView* m_view[SecondaryIdx + 1];
 
-    /**
-     * Asynchronous operations like 'Move' and 'Copy' may only be added as undo
-     * operation after they have been finished successfully. When an asynchronous
-     * operation is started, it is added to a pending undo jobs list in the meantime.
-     * As soon as the job has been finished, the operation is added to the undo mangager.
-     * @see UndoManager
-     * @see DolphinMainWindow::addPendingUndoJob
-     * @see DolphinMainWindow::addUndoOperation
-     */
-    struct UndoInfo
-    {
-        int id;
-        DolphinCommand command;
-    };
-    Q3ValueList<UndoInfo> m_pendingUndoJobs;
+    /// remember pending undo operations until they are finished
+    QList<KonqOperations::Operation> m_undoOperations;
 
     /** Contains meta information for creating files. */
     struct CreateFileEntry
