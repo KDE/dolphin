@@ -29,7 +29,6 @@
 #include "dolphinstatusbar.h"
 #include "dolphinapplication.h"
 #include "urlnavigator.h"
-#include "progressindicator.h"
 #include "dolphinsettings.h"
 #include "bookmarkssidebarpage.h"
 #include "infosidebarpage.h"

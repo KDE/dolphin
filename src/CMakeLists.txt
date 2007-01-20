@@ -31,7 +31,6 @@ set(dolphin_SRCS
    iconsviewsettingspage.cpp
    infosidebarpage.cpp
    main.cpp
-   progressindicator.cpp
    protocolcombo.cpp
    pixmapviewer.cpp
    renamedialog.cpp

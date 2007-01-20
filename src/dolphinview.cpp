@@ -45,7 +45,6 @@
 #include "dolphiniconsview.h"
 #include "dolphincontextmenu.h"
 #include "filterbar.h"
-#include "progressindicator.h"
 #include "renamedialog.h"
 #include "urlnavigator.h"
 #include "viewproperties.h"
@@ -242,11 +241,6 @@ void DolphinView::renameSelectedItems()
             assert(newName.contains('#'));
 
             const int urlsCount = urls.count();
-            ProgressIndicator* progressIndicator =
-                new  ProgressIndicator(mainWindow(),
-                                       i18n("Renaming items..."),
-                                       i18n("Renaming finished."),
-                                       urlsCount);
 
             // iterate through all selected items and rename them...
             const int replaceIndex = newName.indexOf('#');
@@ -262,8 +256,6 @@ void DolphinView::renameSelectedItems()
 
                     const bool destExists = KIO::NetAccess::exists(dest, false, view);
                     if (destExists) {
-                        delete progressIndicator;
-                        progressIndicator = 0;
                         view->statusBar()->setMessage(i18n("Renaming failed (item '%1' already exists).",name),
                                                       DolphinStatusBar::Error);
                         break;
@@ -275,11 +267,7 @@ void DolphinView::renameSelectedItems()
                         //undoMan.addCommand(command);
                     }
                 }
-
-                progressIndicator->execOperation();
             }
-            delete progressIndicator;
-            progressIndicator = 0;
 
             //undoMan.endMacro();
         }
