@@ -240,12 +240,9 @@ public:
     KUrl::List selectedUrls() const;
 
     /**
-     * Returns the current item, where the cursor is. 0 is returned, if there is no
-     * current item (e. g. if the view is empty). Note that the current item must
-     * not be a selected item.
-     * @see DolphinView::selectedItems()
+     * Returns the file item for the given model index \a index.
      */
-    const KFileItem* currentFileItem() const;
+    KFileItem* fileItem(const QModelIndex index) const;
 
     /**
      * Opens the context menu for the item indicated by \a fileInfo

@@ -61,9 +61,7 @@ void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)
 
     const QModelIndex index = indexAt(event->pos());
     if (index.isValid()) {
-        const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(model());
-        const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
-        item = dirModel->itemForIndex(index);
+        item = m_parentView->fileItem(index);
     }
 
     m_parentView->openContextMenu(item, event->globalPos());

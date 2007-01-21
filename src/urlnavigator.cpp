@@ -16,7 +16,7 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          * 
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
 #include "urlnavigator.h"
@@ -447,7 +447,7 @@ void UrlNavigator::slotClicked()
 void UrlNavigator::updateHistoryElem()
 {
     assert(m_historyIndex >= 0);
-    const KFileItem* item = m_dolphinView->currentFileItem();
+    const KFileItem* item = 0; // TODO: m_dolphinView->currentFileItem();
     if (item != 0) {
         m_history[m_historyIndex].setCurrentFileName(item->name());
     }

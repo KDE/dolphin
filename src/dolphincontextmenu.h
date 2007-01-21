@@ -21,10 +21,9 @@
 #ifndef DOLPHINCONTEXTMENU_H
 #define DOLPHINCONTEXTMENU_H
 
-#include <qpoint.h>
-#include <qstring.h>
-#include <q3valuelist.h>
-#include <q3valuevector.h>
+#include <QString>
+#include <QVector>
+
 #include <kservice.h>
 #include <kpropertiesdialog.h>
 #include <kdedesktopmimetype.h>
@@ -84,7 +83,7 @@ private:
      *                       to the predecessor.
      */
     QList<QAction*> insertOpenWithItems(KMenu* popup,
-                                        Q3ValueVector<KService::Ptr>& openWithVector);
+                                        QVector<KService::Ptr>& openWithVector);
 
     /**
      * Inserts the 'Actions...' submenu to \a popup.
@@ -94,7 +93,7 @@ private:
      *                       services.
      */
     QList<QAction*> insertActionItems(KMenu* popup,
-                                      Q3ValueVector<KDEDesktopMimeType::Service>& actionsVector);
+                                      QVector<KDEDesktopMimeType::Service>& actionsVector);
 
     /**
      * Returns true, if 'menu' contains already
@@ -102,13 +101,6 @@ private:
      */
     bool containsEntry(const KMenu* menu,
                        const QString& entryName) const;
-
-    enum {
-        submenuID       =   90,
-        bookmarkID      =   91,
-        openWithIDStart =  100,
-        actionsIDStart  = 1000
-    };
 
     DolphinView* m_dolphinView;
     KFileItem* m_fileInfo;

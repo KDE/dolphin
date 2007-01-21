@@ -499,9 +499,9 @@ KUrl::List DolphinView::selectedUrls() const
     return urls;
 }
 
-const KFileItem* DolphinView::currentFileItem() const
+KFileItem* DolphinView::fileItem(const QModelIndex index) const
 {
-    return 0; // fileView()->currentFileItem();
+    return m_dirModel->itemForIndex(index);
 }
 
 void DolphinView::openContextMenu(KFileItem* fileInfo, const QPoint& pos)
