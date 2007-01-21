@@ -94,10 +94,10 @@ void DolphinContextMenu::openViewportContextMenu()
     }
 
     popup->addMenu(createNewMenu);
+    popup->addSeparator();
 
     QAction* pasteAction = dolphin->actionCollection()->action(KStandardAction::stdName(KStandardAction::Paste));
     popup->addAction(pasteAction);
-    popup->insertSeparator(pasteAction);
 
     // setup 'View Mode' menu
     KMenu* viewModeMenu = new KMenu(i18n("View Mode"));
@@ -112,12 +112,12 @@ void DolphinContextMenu::openViewportContextMenu()
     viewModeMenu->addAction(previewsMode);
 
     popup->addMenu(viewModeMenu);
+    popup->addSeparator();
 
     QAction* bookmarkAction = popup->addAction(i18n("Bookmark this folder"));
-    popup->insertSeparator(bookmarkAction);
+    popup->addSeparator();
 
     QAction* propertiesAction = popup->addAction(i18n("Properties..."));
-    popup->insertSeparator(propertiesAction);
 
     QAction* activatedAction = popup->exec(m_pos);
     if (activatedAction == propertiesAction) {
@@ -167,11 +167,11 @@ void DolphinContextMenu::openItemContextMenu()
             popup->addAction(action);
         }
     }
+    popup->addSeparator();
 
     // insert 'Rename'
     QAction* renameAction = dolphin->actionCollection()->action("rename");
     popup->addAction(renameAction);
-    popup->insertSeparator(renameAction);
 
     // insert 'Move to Trash' for local Urls, otherwise insert 'Delete'
     const KUrl& url = dolphin->activeView()->url();
@@ -199,11 +199,11 @@ void DolphinContextMenu::openItemContextMenu()
     // Insert 'Actions' sub menu
     QVector<KDEDesktopMimeType::Service> actionsVector;
     const QList<QAction*> serviceActions = insertActionItems(popup, actionsVector);
+    popup->addSeparator();
 
     // insert 'Properties...' entry
     QAction* propertiesAction = dolphin->actionCollection()->action("properties");
     popup->addAction(propertiesAction);
-    popup->insertSeparator(propertiesAction);
 
     QAction* activatedAction = popup->exec(m_pos);
 
@@ -253,11 +253,7 @@ QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
     const KFileItemList list = m_dolphinView->selectedItems();
 
     bool insertOpenWithItems = true;
-
-    // TODO: a crash occurs in KFileItem although m_fileInfo seems to be valid. Temporary
-    // commented out the following command, otherwise it won't be possible to open a context menu:
-    //const QString contextMimeType(m_fileInfo->mimetype());
-    const QString contextMimeType;
+    const QString contextMimeType(m_fileInfo->mimetype());
 
     QListIterator<KFileItem*> mimeIt(list);
     while (insertOpenWithItems && mimeIt.hasNext()) {
@@ -266,7 +262,6 @@ QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
     }
 
     QList<QAction*> openWithActions;
-
     if (insertOpenWithItems) {
         // fill the 'Open with' sub menu with application types
         const KMimeType::Ptr mimePtr = KMimeType::findByUrl(m_fileInfo->url());
@@ -290,10 +285,11 @@ QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
                 }
             }
 
+            openWithMenu->addSeparator();
             QAction* action = openWithMenu->addAction(i18n("&Other..."));
-            openWithMenu->insertSeparator(action);
 
             openWithActions << action;
+            popup->addSeparator();
             popup->addMenu(openWithMenu);
         }
         else {
@@ -307,8 +303,8 @@ QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
     else {
         // At least one of the selected items has a different MIME type. In this case
         // just show a disabled "Open With..." entry.
+        popup->addSeparator();
         QAction* action = popup->addAction(i18n("Open With..."));
-        popup->insertSeparator(action);
         action->setEnabled(false);
     }
 

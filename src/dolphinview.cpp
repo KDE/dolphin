@@ -501,7 +501,8 @@ KUrl::List DolphinView::selectedUrls() const
 
 KFileItem* DolphinView::fileItem(const QModelIndex index) const
 {
-    return m_dirModel->itemForIndex(index);
+    const QModelIndex dirModelIndex = m_proxyModel->mapToSource(index);
+    return m_dirModel->itemForIndex(dirModelIndex);
 }
 
 void DolphinView::openContextMenu(KFileItem* fileInfo, const QPoint& pos)
