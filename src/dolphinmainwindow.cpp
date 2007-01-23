@@ -860,7 +860,7 @@ void DolphinMainWindow::showFilterBar()
     const KToggleAction* showFilterBarAction =
         static_cast<KToggleAction*>(actionCollection()->action("show_filter_bar"));
     const bool show = showFilterBarAction->isChecked();
-    m_activeView->slotShowFilterBar(show);
+    m_activeView->showFilterBar(show);
 }
 
 void DolphinMainWindow::zoomIn()

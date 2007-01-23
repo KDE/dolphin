@@ -22,56 +22,46 @@
 #ifndef _DOLPHINVIEW_H_
 #define _DOLPHINVIEW_H_
 
-#include <qwidget.h>
-//Added by qt3to4:
-#include <QDropEvent>
-#include <Q3ValueList>
-#include <QMouseEvent>
-#include <QVBoxLayout>
 #include <kparts/part.h>
 #include <kfileitem.h>
 #include <kfileiconview.h>
 #include <kio/job.h>
+
 #include <urlnavigator.h>
 
+#include <QDropEvent>
+#include <QLinkedList>
 #include <QListView>
+#include <QMouseEvent>
+#include <QVBoxLayout>
+#include <QWidget>
 
-class QPainter;
+class FilterBar;
 class KUrl;
 class KDirModel;
-class QLineEdit;
 class UrlNavigator;
-class QTimer;
-class Q3IconViewItem;
-class Q3ListViewItem;
-class Q3VBoxLayout;
-class DolphinMainWindow;
 class DolphinDetailsView;
 class DolphinDirLister;
-class DolphinStatusBar;
 class DolphinIconsView;
-class DolphinDetailsView;
+class DolphinMainWindow;
 class DolphinSortFilterProxyModel;
-class ViewProperties;
-class KProgress;
-class KDirModel;
-class FilterBar;
-
+class DolphinStatusBar;
 class QModelIndex;
+class QPainter;
+class QTimer;
+class ViewProperties;
 
 /**
  * @short Represents a view for the directory content
- * including the navigation bar and status bar.
+ *        including the navigation bar and status bar.
  *
- * View modes for icons, details and previews are supported. Currently
+ * View modes for icons and details are supported. Currently
  * Dolphin allows to have up to two views inside the main window.
  *
  * @see DolphinIconsView
  * @see DolphinDetailsView
  * @see UrlNavigator
  * @see DolphinStatusBar
- *
- * @author Peter Penz <peter.penz@gmx.at>
  */
 class DolphinView : public QWidget
 {
@@ -118,13 +108,13 @@ public:
     virtual ~DolphinView();
 
     /**
-     * Sets the current active Url.
-     * The signals UrlNavigator::urlChanged and UrlNavigator::historyChanged
+     * Sets the current active URL.
+     * The signals UrlNavigator::urlChanged() and UrlNavigator::historyChanged()
      * are submitted.
      */
     void setUrl(const KUrl& url);
 
-    /** Returns the current active Url. */
+    /** Returns the current active URL. */
     const KUrl& url() const;
 
     void requestActivation();
@@ -179,46 +169,46 @@ public:
     void invertSelection();
 
     /**
-     * Goes back one step in the Url history. The signals
-     * UrlNavigator::urlChanged and UrlNavigator::historyChanged
+     * Goes back one step in the URL history. The signals
+     * UrlNavigator::urlChanged() and UrlNavigator::historyChanged()
      * are submitted.
      */
     void goBack();
 
     /**
      * Goes forward one step in the Url history. The signals
-     * UrlNavigator::urlChanged and UrlNavigator::historyChanged
+     * UrlNavigator::urlChanged() and UrlNavigator::historyChanged()
      * are submitted.
      */
     void goForward();
 
     /**
      * Goes up one step of the Url path. The signals
-     * UrlNavigator::urlChanged and UrlNavigator::historyChanged
+     * UrlNavigator::urlChanged() and UrlNavigator::historyChanged()
      * are submitted.
      */
     void goUp();
 
     /**
-     * Goes to the home Url. The signals UrlNavigator::urlChanged
-     * and UrlNavigator::historyChanged are submitted.
+     * Goes to the home URL. The signals UrlNavigator::urlChanged()
+     * and UrlNavigator::historyChanged() are submitted.
      */
     void goHome();
 
     /**
-     * Sets the Url of the navigation bar to an editable state
+     * Sets the URL of the navigation bar to an editable state
      * if \a editable is true. If \a editable is false, each part of
      * the location is presented by a button for a fast navigation.
      */
     void setUrlEditable(bool editable);
 
     /**
-     * Returns the complete Url history. The index 0 indicates the oldest
+     * Returns the complete URL history. The index 0 indicates the oldest
      * history element.
      * @param index     Output parameter which indicates the current
      *                  index of the location.
      */
-    const Q3ValueList<UrlNavigator::HistoryElem> urlHistory(int& index) const;
+    const QLinkedList<UrlNavigator::HistoryElem> urlHistory(int& index) const;
 
     /**
      * Returns true, if at least one item is selected.
@@ -233,7 +223,7 @@ public:
     KFileItemList selectedItems() const;
 
     /**
-     * Returns a list of Urls for all selected items. An empty list
+     * Returns a list of URLs for all selected items. An empty list
      * is returned, if no item is selected.
      * @see DolphinView::selectedItems()
      */
@@ -252,7 +242,7 @@ public:
     void openContextMenu(KFileItem* fileInfo, const QPoint& pos);
 
     /**
-     * Renames the filename of the source Url by the new file name.
+     * Renames the filename of the source URL by the new file name.
      * If the new file name already exists, a dialog is opened which
      * asks the user to enter a new name.
      */
@@ -276,7 +266,7 @@ public:
     int contentsY() const;
 
     /**
-     * Returns true, if the Url shown by the navigation bar is editable.
+     * Returns true, if the URL shown by the navigation bar is editable.
      * @see UrlNavigator
      */
     bool isUrlEditable() const;
@@ -314,19 +304,12 @@ public:
     /** Refreshs the view settings by reading out the stored settings. */
     void refreshSettings();
 
-    /**
-     * Updates the number of items (= number of files + number of
-     * directories) in the statusbar. If files are selected, the number
-     * of selected files and the sum of the filesize is shown.
-     */
-    void updateStatusBar();
-
     /** Returns the UrlNavigator of the view for read access. */
     const UrlNavigator* urlNavigator() const { return m_urlNavigator; }
 
     /**
      * Triggers to request user information for the item given
-     * by the Url \a url. The signal requestItemInfo is emitted,
+     * by the URL \a url. The signal requestItemInfo is emitted,
      * which provides a way for widgets to get an indication to update
      * the item information.
      */
@@ -348,17 +331,24 @@ public slots:
                             const KUrl& url);
 
     /**
-     * Slot that popups the filter bar like FireFox popups his Search bar.
+     * Popups the filter bar above the status bar if \a show is true.
      */
-    void slotShowFilterBar(bool show);
+    void showFilterBar(bool show);
 
     /**
      * Declare this View as the activeview of the mainWindow()
      */
     void declareViewActive();
 
+    /**
+     * Updates the number of items (= number of files + number of
+     * directories) in the statusbar. If files are selected, the number
+     * of selected files and the sum of the filesize is shown.
+     */
+    void updateStatusBar();
+
 signals:
-    /** Is emitted if Url of the view has been changed to \a url. */
+    /** Is emitted if URL of the view has been changed to \a url. */
     void urlChanged(const KUrl& url);
 
     /**
@@ -381,7 +371,7 @@ signals:
 
     /**
      * Is emitted if information of an item is requested to be shown e. g. in the sidebar.
-     * It the Url is empty, no item information request is pending.
+     * It the U is empty, no item information request is pending.
      */
     void requestItemInfo(const KUrl& url);
 
@@ -407,30 +397,28 @@ protected:
 private slots:
     void loadDirectory(const KUrl& kurl);
     void triggerItem(const QModelIndex& index);
-
-    void slotPercent(int percent);
-    void slotClear();
-    void slotDeleteItem(KFileItem* item);
-    void slotCompleted();
-    void slotInfoMessage(const QString& msg);
-    void slotErrorMessage(const QString& msg);
-    void slotGrabActivation();
-    void emitSelectionChangedSignal();
-    void closeFilterBar();
+    void updateProgress(int percent);
 
     /**
-     * Is invoked shortly before the contents of a view implementation
-     * has been moved and emits the signal contentsMoved. Note that no
-     * signal is emitted when the contents moving is only temporary by
-     * e. g. reloading a directory.
+     * Updates the number of items (= number of directories + number of files)
+     * and shows this information in the statusbar.
      */
-    void slotContentsMoving(int x, int y);
+    void updateItemCount();
+
+    /** Shows the information \a msg inside the statusbar. */
+    void showInfoMessage(const QString& msg);
+
+    /** Shows the error message \a msg inside the statusbar. */
+    void showErrorMessage(const QString& msg);
+
+    void emitSelectionChangedSignal();
+    void closeFilterBar();
 
     /**
      * Filters the currently shown items by \a nameFilter. All items
      * which contain the given filter string will be shown.
      */
-    void slotChangeNameFilter(const QString& nameFilter);
+    void changeNameFilter(const QString& nameFilter);
 
 private:
     void startDirLister(const KUrl& url, bool reload = false);
@@ -446,12 +434,6 @@ private:
      * is selected.
      */
     QString selectionStatusBarText() const;
-
-    /**
-     * Returns the string representation for the index \a index
-     * for renaming \itemCount items.
-     */
-    QString renameIndexPresentation(int index, int itemCount) const;
 
     /**
      * Creates a new view representing the given view mode (DolphinView::viewMode()).
@@ -477,7 +459,6 @@ private:
     QAbstractItemView* itemView() const;
 
 private:
-    bool m_refreshing;
     bool m_showProgress;
     Mode m_mode;
 

@@ -22,9 +22,8 @@
 
 #include <assert.h>
 
-#include <QItemSelectionModel>
-#include <Q3ValueList>  // TODO
 #include <QDropEvent>
+#include <QItemSelectionModel>
 #include <QMouseEvent>
 #include <QVBoxLayout>
 
@@ -49,13 +48,12 @@
 #include "urlnavigator.h"
 #include "viewproperties.h"
 
-DolphinView::DolphinView(DolphinMainWindow *mainWindow,
-                         QWidget *parent,
+DolphinView::DolphinView(DolphinMainWindow* mainWindow,
+                         QWidget* parent,
                          const KUrl& url,
                          Mode mode,
                          bool showHiddenFiles) :
     QWidget(parent),
-    m_refreshing(false),
     m_showProgress(false),
     m_mode(mode),
     m_iconSize(0),
@@ -91,17 +89,17 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
     m_dirLister->setDelayedMimeTypes(true);
 
     connect(m_dirLister, SIGNAL(clear()),
-            this, SLOT(slotClear()));
+            this, SLOT(updateStatusBar()));
     connect(m_dirLister, SIGNAL(percent(int)),
-            this, SLOT(slotPercent(int)));
+            this, SLOT(updateProgress(int)));
     connect(m_dirLister, SIGNAL(deleteItem(KFileItem*)),
-            this, SLOT(slotDeleteItem(KFileItem*)));
+            this, SLOT(updateStatusBar()));
     connect(m_dirLister, SIGNAL(completed()),
-            this, SLOT(slotCompleted()));
+            this, SLOT(updateItemCount()));
     connect(m_dirLister, SIGNAL(infoMessage(const QString&)),
-            this, SLOT(slotInfoMessage(const QString&)));
+            this, SLOT(showInfoMessage(const QString&)));
     connect(m_dirLister, SIGNAL(errorMessage(const QString&)),
-            this, SLOT(slotErrorMessage(const QString&)));
+            this, SLOT(showErrorMessage(const QString&)));
 
     m_dirModel = new KDirModel();
     m_dirModel->setDirLister(m_dirLister);
@@ -117,7 +115,7 @@ DolphinView::DolphinView(DolphinMainWindow *mainWindow,
     m_filterBar = new FilterBar(this);
     m_filterBar->hide();
     connect(m_filterBar, SIGNAL(filterChanged(const QString&)),
-           this, SLOT(slotChangeNameFilter(const QString&)));
+           this, SLOT(changeNameFilter(const QString&)));
     connect(m_filterBar, SIGNAL(closed()),
             this, SLOT(closeFilterBar()));
 
@@ -158,7 +156,7 @@ bool DolphinView::isActive() const
 void DolphinView::setMode(Mode mode)
 {
     if (mode == m_mode) {
-        return;         // the wished mode is already set
+        return; // the wished mode is already set
     }
 
     m_mode = mode;
@@ -247,8 +245,11 @@ void DolphinView::renameSelectedItems()
             assert(replaceIndex >= 0);
             for (int i = 0; i < urlsCount; ++i) {
                 const KUrl& source = urls[i];
+                QString number;
+                number.setNum(i + 1);
+
                 QString name(newName);
-                name.replace(replaceIndex, 1, renameIndexPresentation(i + 1, urlsCount));
+                name.replace(replaceIndex, 1, number);
 
                 if (source.fileName() != name) {
                     KUrl dest(source.upUrl());
@@ -329,29 +330,6 @@ int DolphinView::contentsY() const
 void DolphinView::refreshSettings()
 {
     startDirLister(m_urlNavigator->url());
-}
-
-void DolphinView::updateStatusBar()
-{
-    // As the item count information is less important
-    // in comparison with other messages, it should only
-    // be shown if:
-    // - the status bar is empty or
-    // - shows already the item count information or
-    // - shows only a not very important information
-    // - if any progress is given don't show the item count info at all
-    const QString msg(m_statusBar->message());
-    const bool updateStatusBarMsg = (msg.isEmpty() ||
-                                     (msg == m_statusBar->defaultText()) ||
-                                     (m_statusBar->type() == DolphinStatusBar::Information)) &&
-                                    (m_statusBar->progress() == 100);
-
-    const QString text(hasSelection() ? selectionStatusBarText() : defaultStatusBarText());
-    m_statusBar->setDefaultText(text);
-
-    if (updateStatusBarMsg) {
-        m_statusBar->setMessage(text, DolphinStatusBar::Default);
-    }
 }
 
 void DolphinView::emitRequestItemInfo(const KUrl& url)
@@ -448,7 +426,7 @@ void DolphinView::setUrlEditable(bool editable)
     m_urlNavigator->editUrl(editable);
 }
 
-const Q3ValueList<UrlNavigator::HistoryElem> DolphinView::urlHistory(int& index) const
+const QLinkedList<UrlNavigator::HistoryElem> DolphinView::urlHistory(int& index) const
 {
     return m_urlNavigator->history(index);
 }
@@ -657,10 +635,6 @@ void DolphinView::triggerItem(const QModelIndex& index)
         // and the local path is /windows/C: For the Url the space info is related
         // to the root partition (and hence wrong) and for the local path the space
         // info is related to the windows partition (-> correct).
-        //m_dirLister->stop();
-        //m_dirLister->openUrl(item->url());
-        //return;
-
         const QString localPath(item->localPath());
         if (localPath.isEmpty()) {
             setUrl(item->url());
@@ -674,41 +648,15 @@ void DolphinView::triggerItem(const QModelIndex& index)
     }
 }
 
-void DolphinView::slotPercent(int percent)
+void DolphinView::updateProgress(int percent)
 {
     if (m_showProgress) {
         m_statusBar->setProgress(percent);
     }
 }
 
-void DolphinView::slotClear()
+void DolphinView::updateItemCount()
 {
-    //fileView()->clearView();
-    updateStatusBar();
-}
-
-void DolphinView::slotDeleteItem(KFileItem* item)
-{
-    //fileView()->removeItem(item);
-    updateStatusBar();
-}
-
-void DolphinView::slotCompleted()
-{
-    m_refreshing = true;
-
-    //KFileView* view = fileView();
-    //view->clearView();
-
-    // TODO: in Qt4 the code should get a lot
-    // simpler and nicer due to Interview...
-    /*if (m_iconsView != 0) {
-        m_iconsView->beginItemUpdates();
-    }
-    if (m_iconsView != 0) {
-        m_iconsView->beginItemUpdates();
-    }*/
-
     if (m_showProgress) {
         m_statusBar->setProgressText(QString::null);
         m_statusBar->setProgress(100);
@@ -724,7 +672,6 @@ void DolphinView::slotCompleted()
 
     while (it != end) {
         KFileItem* item = *it;
-        //view->insertItem(item);
         if (item->isDir()) {
             ++m_folderCount;
         }
@@ -735,33 +682,16 @@ void DolphinView::slotCompleted()
     }
 
     updateStatusBar();
-
-    /*if (m_iconsView != 0) {
-        // Prevent a flickering of the icon view widget by giving a small
-        // timeslot to swallow asynchronous update events.
-        m_iconsView->setUpdatesEnabled(false);
-        QTimer::singleShot(10, this, SLOT(slotDelayedUpdate()));
-    }
-
-    if (m_iconsView != 0) {
-        m_iconsView->endItemUpdates();
-        m_refreshing = false;
-    }*/
 }
 
-void DolphinView::slotInfoMessage(const QString& msg)
+void DolphinView::showInfoMessage(const QString& msg)
 {
     m_statusBar->setMessage(msg, DolphinStatusBar::Information);
 }
 
-void DolphinView::slotErrorMessage(const QString& msg)
+void DolphinView::showErrorMessage(const QString& msg)
 {
     m_statusBar->setMessage(msg, DolphinStatusBar::Error);
-}
-
-void DolphinView::slotGrabActivation()
-{
-    mainWindow()->setActiveView(this);
 }
 
 void DolphinView::emitSelectionChangedSignal()
@@ -773,16 +703,6 @@ void DolphinView::closeFilterBar()
 {
     m_filterBar->hide();
     emit showFilterBarChanged(false);
-}
-
-void DolphinView::slotContentsMoving(int x, int y)
-{
-    if (!m_refreshing) {
-        // Only emit a 'contents moved' signal if the user
-        // moved the content by adjusting the sliders. Adjustments
-        // resulted by refreshing a directory should not be respected.
-        emit contentsMoved(x, y);
-    }
 }
 
 void DolphinView::startDirLister(const KUrl& url, bool reload)
@@ -810,7 +730,6 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
         m_statusBar->setProgress(0);
     }
 
-    m_refreshing = true;
     m_dirLister->stop();
     m_dirLister->openUrl(url, false, reload);
 }
@@ -903,26 +822,7 @@ QString DolphinView::selectionStatusBarText() const
     return text;
 }
 
-QString DolphinView::renameIndexPresentation(int index, int itemCount) const
-{
-    // assure that the string reprentation for all indicess have the same
-    // number of characters based on the given number of items
-    QString str(QString::number(index));
-    int chrCount = 1;
-    while (itemCount >= 10) {
-        ++chrCount;
-        itemCount /= 10;
-    }
-    str.reserve(chrCount);
-
-    const int insertCount = chrCount - str.length();
-    for (int i = 0; i < insertCount; ++i) {
-        str.insert(0, '0');
-    }
-    return str;
-}
-
-void DolphinView::slotShowFilterBar(bool show)
+void DolphinView::showFilterBar(bool show)
 {
     assert(m_filterBar != 0);
     if (show) {
@@ -938,7 +838,30 @@ void DolphinView::declareViewActive()
     mainWindow()->setActiveView( this );
 }
 
-void DolphinView::slotChangeNameFilter(const QString& nameFilter)
+void DolphinView::updateStatusBar()
+{
+    // As the item count information is less important
+    // in comparison with other messages, it should only
+    // be shown if:
+    // - the status bar is empty or
+    // - shows already the item count information or
+    // - shows only a not very important information
+    // - if any progress is given don't show the item count info at all
+    const QString msg(m_statusBar->message());
+    const bool updateStatusBarMsg = (msg.isEmpty() ||
+                                     (msg == m_statusBar->defaultText()) ||
+                                     (m_statusBar->type() == DolphinStatusBar::Information)) &&
+                                    (m_statusBar->progress() == 100);
+
+    const QString text(hasSelection() ? selectionStatusBarText() : defaultStatusBarText());
+    m_statusBar->setDefaultText(text);
+
+    if (updateStatusBarMsg) {
+        m_statusBar->setMessage(text, DolphinStatusBar::Default);
+    }
+}
+
+void DolphinView::changeNameFilter(const QString& nameFilter)
 {
     // The name filter of KDirLister does a 'hard' filtering, which
     // means that only the items are shown where the names match
