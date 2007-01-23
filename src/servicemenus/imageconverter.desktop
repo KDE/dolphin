@@ -6,6 +6,7 @@
 ServiceTypes=image/*
 Actions=convToJPEG;convToPNG;convToGIF;convToTIF;
 X-KDE-Submenu=Convert To
+X-KDE-Submenu[bg]=Преобразуване в
 X-KDE-Submenu[da]=Konvertér til
 X-KDE-Submenu[de]=Konvertieren als
 X-KDE-Submenu[el]=Μετατροπή σε

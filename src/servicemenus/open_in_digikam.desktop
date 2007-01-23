@@ -2,6 +2,7 @@
 Exec=digikam --download-from %u
 Icon=digikam
 Name=Open in Digikam
+Name[bg]=Отваряне в Digikam
 Name[da]=Åbn med Digikam
 Name[de]=In Digikam öffnen
 Name[el]=Άνοιγμα στο Digikam

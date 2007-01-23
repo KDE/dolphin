@@ -77,6 +77,7 @@ X-SuSE-translate=true
 X-SuSE-translate=true
 [Desktop Action MediaSafelyRemove]
 Name=Safely Remove
+Name[bg]=Безопасно изваждане
 Name[da]=Sikker fjernelse
 Name[de]=Sicher entfernen
 Name[el]=Ασφαλής αφαίρεση

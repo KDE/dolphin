@@ -75,6 +75,7 @@ X-SuSE-translate=true
 X-SuSE-translate=true
 [Desktop Action installFont]
 Name=Install
+Name[bg]=Инсталиране
 Name[br]=Staliañ
 Name[da]=Installér
 Name[de]=Installieren

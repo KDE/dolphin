@@ -2,6 +2,7 @@
 Exec=kfloppy %u
 Icon=kfloppy
 Name=Format
+Name[bg]=Формат
 Name[br]=Furmadiñ
 Name[el]=Τύπος
 Name[es]=Formato

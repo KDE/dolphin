@@ -6,6 +6,7 @@ Actions=extractHere
 
 [Desktop Action extractHere]
 Name=Extract Here
+Name[bg]=Извличане тук
 Name[br]=Eztennañ Amañ
 Name[da]=Pak ud her
 Name[de]=Hier entpacken
