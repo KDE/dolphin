@@ -52,7 +52,7 @@ void StatusBarSpaceInfo::setUrl(const KUrl& url)
 {
     m_url = url;
     refresh();
-    update();
+    QTimer::singleShot(300, this, SLOT(update()));
 }
 
 void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)

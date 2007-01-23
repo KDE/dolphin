@@ -51,17 +51,13 @@ DolphinStatusBar::DolphinStatusBar(DolphinView* parent) :
     m_progressBar = new QProgressBar(this);
     m_progressBar->hide();
 
-    m_progressTimer = new QTimer(this);
-    connect(m_progressTimer, SIGNAL(timeout()),
-            this, SLOT(slotProgressTimer()));
-
     const QSize size(m_progressBar->sizeHint());
     m_progressBar->setMaximumWidth(200);
     setMinimumHeight(size.height());
     m_messageLabel->setMinimumTextHeight(size.height());
 
     connect(parent, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(slotUrlChanged(const KUrl&)));
+            this, SLOT(updateSpaceInfo(const KUrl&)));
 }
 
 
@@ -73,18 +69,17 @@ void DolphinStatusBar::setMessage(const QString& msg,
                                   Type type)
 {
     m_messageLabel->setText(msg);
-    if (msg.isEmpty() || (msg == m_defaultText)) {
-        type = Default;
-    }
     m_messageLabel->setType(type);
 
-    if ((type == Error) && (m_progress < 100)) {
-        // If an error message is shown during a progress is ongoing,
-        // the (never finishing) progress information should be hidden immediately
-        // (invoking 'setProgress(100)' only leads to a delayed hiding).
+    if (type == Error) {
+        // assure that enough space is available for the error message and
+        // hide the space information and progress information
+        m_spaceInfo->hide();
         m_progressBar->hide();
         m_progressText->hide();
-        setProgress(100);
+    }
+    else if (!m_progressBar->isVisible()) {
+        m_spaceInfo->show();
     }
 }
 
@@ -118,19 +113,23 @@ void DolphinStatusBar::setProgress(int percent)
     }
 
     m_progress = percent;
+    if (m_messageLabel->type() == Error) {
+        // don't update any widget or status bar text if an
+        // error message is shown
+        return;
+    }
+
     m_progressBar->setValue(m_progress);
-    m_progressTimer->setSingleShot(true);
-    m_progressTimer->start(300);
+    if (!m_progressBar->isVisible() || (percent == 100)) {
+        QTimer::singleShot(500, this, SLOT(updateProgressInfo()));
+    }
 
     const QString msg(m_messageLabel->text());
-    if (msg.isEmpty() || (msg == m_defaultText)) {
-        if (percent == 0) {
-            m_messageLabel->setText(QString::null);
-            m_messageLabel->setType(Default);
-        }
-        else if (percent == 100) {
-            m_messageLabel->setText(m_defaultText);
-        }
+    if ((percent == 0) && !msg.isEmpty()) {
+        setMessage(QString::null, Default);
+    }
+    else if ((percent == 100) && (msg != m_defaultText)) {
+        setMessage(m_defaultText, Default);
     }
 }
 
@@ -138,8 +137,7 @@ void DolphinStatusBar::clear()
 {
     // TODO: check for timeout, so that it's prevented that
     // a message is cleared too early.
-    m_messageLabel->setText(m_defaultText);
-    m_messageLabel->setType(Default);
+    setMessage(m_defaultText, Default);
 }
 
 void DolphinStatusBar::setDefaultText(const QString& text)
@@ -147,23 +145,28 @@ void DolphinStatusBar::setDefaultText(const QString& text)
     m_defaultText = text;
 }
 
-void DolphinStatusBar::slotProgressTimer()
+void DolphinStatusBar::updateProgressInfo()
 {
+    const bool isErrorShown = (m_messageLabel->type() == Error);
     if (m_progress < 100) {
-        // progress should be shown
-        m_progressBar->show();
-        m_progressText->show();
+        // show the progress information and hide the space information
         m_spaceInfo->hide();
+        if (!isErrorShown) {
+            m_progressText->show();
+            m_progressBar->show();
+        }
     }
     else {
-        // progress should not be shown anymore
-        m_progressBar->hide();
+        // hide the progress information and show the space information
         m_progressText->hide();
-        m_spaceInfo->show();
+        m_progressBar->hide();
+        if (m_messageLabel->type() != Error) {
+            m_spaceInfo->show();
+        }
     }
 }
 
-void DolphinStatusBar::slotUrlChanged(const KUrl& url)
+void DolphinStatusBar::updateSpaceInfo(const KUrl& url)
 {
     m_spaceInfo->setUrl(url);
 }

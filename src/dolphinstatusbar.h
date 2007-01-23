@@ -21,17 +21,15 @@
 #ifndef DOLPHINSTATUSBAR_H
 #define DOLPHINSTATUSBAR_H
 
-
-//Added by qt3to4:
-#include <QLabel>
 #include <khbox.h>
+
+class DolphinView;
+class KUrl;
+class StatusBarMessageLabel;
+class StatusBarSpaceInfo;
 class QProgressBar;
 class QLabel;
 class QTimer;
-class StatusBarMessageLabel;
-class StatusBarSpaceInfo;
-class DolphinView;
-class KUrl;
 
 /**
  * @brief Represents the statusbar of a Dolphin view.
@@ -70,8 +68,8 @@ public:
      * is cleared automatically.
      */
     void setMessage(const QString& msg, Type type);
-
     QString message() const;
+
     Type type() const;
 
     /**
@@ -113,21 +111,23 @@ public:
     const QString& defaultText() const { return m_defaultText; }
 
 private slots:
-    void slotProgressTimer();
+    void updateProgressInfo();
 
     /**
-     * Is invoked, when the Url of the DolphinView, where the
-     * statusbar belongs too, has been changed.
+     * Is invoked, when the URL of the DolphinView, where the
+     * statusbar belongs too, has been changed. The space information
+     * is updated.
      */
-    void slotUrlChanged(const KUrl& url);
+    void updateSpaceInfo(const KUrl& url);
 
 private:
     StatusBarMessageLabel* m_messageLabel;
     StatusBarSpaceInfo* m_spaceInfo;
+
     QLabel* m_progressText;
     QProgressBar* m_progressBar;
-    QTimer* m_progressTimer;
     int m_progress;
+
     QString m_defaultText;
 };
 

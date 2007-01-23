@@ -20,18 +20,18 @@
 #ifndef STATUSBARSPACEINFO_H
 #define STATUSBARSPACEINFO_H
 
-#include <qwidget.h>
-#include <qstring.h>
-//Added by qt3to4:
-#include <QPaintEvent>
 #include <kurl.h>
 #include <qcolor.h>
 
+#include <QPaintEvent>
+#include <QWidget>
+
 class KDiskFreeSp;
+class QTimer;
 
 /**
- * @short Shows the available space for the current volume as part
- *        of the status bar.
+ * @short Shows the available space for the volume represented
+ *        by the given URL as part of the status bar.
  */
 class StatusBarSpaceInfo : public QWidget
 {
@@ -45,7 +45,7 @@ public:
     const KUrl& url() const { return m_url; }
 
 protected:
-    /** @see QWidget::paintEvent */
+    /** @see QWidget::paintEvent() */
     virtual void paintEvent(QPaintEvent* event);
 
 private slots:
@@ -71,11 +71,11 @@ private:
      */
     QColor progressColor(const QColor& bgColor) const;
 
+private:
     KUrl m_url;
     bool m_gettingSize;
     unsigned long m_kBSize;
     unsigned long m_kBAvailable;
-
 };
 
 #endif
