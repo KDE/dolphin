@@ -65,7 +65,6 @@
 #include <kstandardaction.h>
 #include <kurl.h>
 
-#include <Q3ValueList>  // TODO
 #include <QCloseEvent>
 #include <QClipboard>
 #include <QSplitter>
@@ -117,48 +116,79 @@ void DolphinMainWindow::setActiveView(DolphinView* view)
 void DolphinMainWindow::dropUrls(const KUrl::List& urls,
                                  const KUrl& destination)
 {
-    m_dropDestination = destination;
-    m_droppedUrls = urls;
+    Qt::DropAction action = Qt::CopyAction;
 
-    /* KDE4-TODO
-    const ButtonState keyboardState = KApplication::keyboardMouseState();
-    const bool shiftPressed = (keyboardState & ShiftButton) > 0;
-    const bool controlPressed = (keyboardState & ControlButton) > 0;
-
-
-
+    Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
+    const bool shiftPressed   = modifier & Qt::ShiftModifier;
+    const bool controlPressed = modifier & Qt::ControlModifier;
     if (shiftPressed && controlPressed) {
-        // shortcut for 'Linke Here' is used
-        selectedIndex = 2;
-    }
-    else if (controlPressed) {
-        // shortcut for 'Copy Here' is used
-        selectedIndex = 1;
+        // shortcut for 'Link Here' is used
+        action = Qt::LinkAction;
     }
     else if (shiftPressed) {
         // shortcut for 'Move Here' is used
-        selectedIndex = 0;
+        action = Qt::MoveAction;
     }
-    else*/ {
-        // no shortcut is used, hence open a popup menu
+    else if (controlPressed) {
+        // shortcut for 'Copy Here' is used
+        action = Qt::CopyAction;
+    }
+    else {
+        // open a context menu which offers the following actions:
+        // - Move Here
+        // - Copy Here
+        // - Link Here
+        // - Cancel
+
         KMenu popup(this);
 
-        QAction* moveAction = popup.addAction(SmallIcon("goto"), i18n("&Move Here"));
-        connect(moveAction, SIGNAL(triggered()), this, SLOT(moveDroppedItems()));
+        QString seq = QKeySequence(Qt::ShiftModifier).toString();
+        seq.chop(1); // chop superfluous '+'
+        QAction* moveAction = popup.addAction(KIcon("goto"),
+                                              i18n("&Move Here") + "\t" + seq);
 
-        QAction* copyAction = popup.addAction(SmallIcon("editcopy"), i18n( "&Copy Here" ));
-        connect(copyAction, SIGNAL(triggered()), this, SLOT(copyDroppedItems()));
+        seq = QKeySequence(Qt::ControlModifier).toString();
+        seq.chop(1);
+        QAction* copyAction = popup.addAction(KIcon("editcopy"),
+                                              i18n("&Copy Here") + "\t" + seq);
 
-        QAction* linkAction = popup.addAction(i18n("&Link Here"));
-        connect(linkAction, SIGNAL(triggered()), this, SLOT(linkDroppedItems()));
+        seq = QKeySequence(Qt::ControlModifier + Qt::ShiftModifier).toString();
+        seq.chop(1);
+        QAction* linkAction = popup.addAction(KIcon("www"),
+                                              i18n("&Link Here") + "\t" + seq);
 
-        QAction* cancelAction = popup.addAction(SmallIcon("stop"), i18n("Cancel"));
-        popup.insertSeparator(cancelAction);
+        popup.addSeparator();
+        popup.addAction(KIcon("stop"), i18n("Cancel"));
 
-        popup.exec(QCursor::pos());
+        QAction* activatedAction = popup.exec(QCursor::pos());
+        if (activatedAction == moveAction) {
+            action = Qt::MoveAction;
+        }
+        else if (activatedAction == copyAction) {
+            action = Qt::CopyAction;
+        }
+        else if (activatedAction == linkAction) {
+            action = Qt::LinkAction;
+        }
     }
 
-    m_droppedUrls.clear();
+    switch (action) {
+        case Qt::MoveAction:
+            moveUrls(urls, destination);
+            break;
+
+        case Qt::CopyAction:
+            copyUrls(urls, destination);
+            break;
+
+        case Qt::LinkAction:
+            KonqOperations::copy(this, KonqOperations::LINK, urls, destination);
+            m_undoOperations.append(KonqOperations::LINK);
+            break;
+
+        default:
+            break;
+    }
 }
 
 void DolphinMainWindow::refreshViews()
@@ -280,22 +310,6 @@ void DolphinMainWindow::openNewMainWindow()
     DolphinApplication::app()->createMainWindow()->show();
 }
 
-void DolphinMainWindow::moveDroppedItems()
-{
-    moveUrls(m_droppedUrls, m_dropDestination);
-}
-
-void DolphinMainWindow::copyDroppedItems()
-{
-    copyUrls(m_droppedUrls, m_dropDestination);
-}
-
-void DolphinMainWindow::linkDroppedItems()
-{
-    KonqOperations::copy(this, KonqOperations::LINK, m_droppedUrls, m_dropDestination);
-    m_undoOperations.append(KonqOperations::LINK);
-}
-
 void DolphinMainWindow::closeEvent(QCloseEvent* event)
 {
     DolphinSettings& settings = DolphinSettings::instance();
@@ -413,22 +427,18 @@ void DolphinMainWindow::quit()
 void DolphinMainWindow::slotHandleJobError(KJob* job)
 {
     if (job->error() != 0) {
-        m_activeView->statusBar()->setMessage(job->errorString(),
-                                              DolphinStatusBar::Error);
+        DolphinStatusBar* statusBar = m_activeView->statusBar();
+        statusBar->setMessage(job->errorString(),
+                              DolphinStatusBar::Error);
     }
 }
 
 void DolphinMainWindow::slotDeleteFileFinished(KJob* job)
 {
     if (job->error() == 0) {
-        m_activeView->statusBar()->setMessage(i18n("Delete operation completed."),
-                                               DolphinStatusBar::OperationCompleted);
-
-        // TODO: In opposite to the 'Move to Trash' operation in the class KFileIconView
-        // no rearranging of the item position is done when a file has been deleted.
-        // This is bypassed by reloading the view, but it might be worth to investigate
-        // deeper for the root of this issue.
-        m_activeView->reload();
+        DolphinStatusBar* statusBar = m_activeView->statusBar();
+        statusBar->setMessage(i18n("Delete operation completed."),
+                              DolphinStatusBar::OperationCompleted);
     }
 }
 
@@ -1124,7 +1134,7 @@ void DolphinMainWindow::setupDockWidgets()
 void DolphinMainWindow::updateHistory()
 {
     int index = 0;
-    const Q3ValueList<UrlNavigator::HistoryElem> list = m_activeView->urlHistory(index);
+    const QLinkedList<UrlNavigator::HistoryElem> list = m_activeView->urlHistory(index);
 
     QAction* backAction = actionCollection()->action("go_back");
     if (backAction != 0) {
