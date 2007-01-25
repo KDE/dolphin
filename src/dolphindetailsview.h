@@ -27,9 +27,9 @@ class DolphinView;
 
 /**
  * @brief Represents the details view which shows the name, size,
- * date, permissions, owner and group of an item.
+ *        date, permissions, owner and group of an item.
  *
- * The width of the columns are automatically adjusted in a way
+ * The width of the columns is automatically adjusted in a way
  * that full available width of the view is used by stretching the width
  * of the name column.
  */
@@ -40,6 +40,17 @@ class DolphinDetailsView : public QTreeView
 public:
     explicit DolphinDetailsView(DolphinView* parent);
     virtual ~DolphinDetailsView();
+
+protected:
+    virtual bool event(QEvent* event);
+    virtual QStyleOptionViewItem viewOptions() const;
+    virtual void contextMenuEvent(QContextMenuEvent* event);
+    virtual void mouseReleaseEvent(QMouseEvent* event);
+    virtual void dragEnterEvent(QDragEnterEvent* event);
+    virtual void dropEvent(QDropEvent* event);
+
+private:
+    DolphinView* m_parentView;
 };
 
 #endif

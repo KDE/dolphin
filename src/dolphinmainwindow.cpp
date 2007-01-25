@@ -160,7 +160,7 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
                                               i18n("&Link Here") + "\t" + seq);
 
         popup.addSeparator();
-        popup.addAction(KIcon("stop"), i18n("Cancel"));
+        QAction* cancelAction = popup.addAction(KIcon("stop"), i18n("Cancel"));
 
         QAction* activatedAction = popup.exec(QCursor::pos());
         if (activatedAction == moveAction) {
@@ -171,6 +171,9 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
         }
         else if (activatedAction == linkAction) {
             action = Qt::LinkAction;
+        }
+        else if (activatedAction == cancelAction) {
+            return;
         }
     }
 
