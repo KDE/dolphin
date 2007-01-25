@@ -54,7 +54,6 @@
 #include <kmessagebox.h>
 #include <knewmenu.h>
 #include <konqmimedata.h>
-#include <konq_undo.h>
 #include <kpropertiesdialog.h>
 #include <kprotocolinfo.h>
 #include <ktoggleaction.h>
@@ -82,9 +81,12 @@ DolphinMainWindow::DolphinMainWindow() :
 
     KonqUndoManager::incRef();
 
-    connect(KonqUndoManager::self(), SIGNAL(undoAvailable(bool)),
+    KonqUndoManager* undoManager = KonqUndoManager::self();
+    undoManager->setUiInterface(new UndoUiInterface(this));
+
+    connect(undoManager, SIGNAL(undoAvailable(bool)),
             this, SLOT(slotUndoAvailable(bool)));
-    connect(KonqUndoManager::self(), SIGNAL(undoTextChanged(const QString&)),
+    connect(undoManager, SIGNAL(undoTextChanged(const QString&)),
             this, SLOT(slotUndoTextChanged(const QString&)));
 }
 
@@ -182,8 +184,7 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
             break;
 
         case Qt::LinkAction:
-            KonqOperations::copy(this, KonqOperations::LINK, urls, destination);
-            m_undoOperations.append(KonqOperations::LINK);
+            linkUrls(urls, destination);
             break;
 
         default:
@@ -1244,6 +1245,12 @@ void DolphinMainWindow::moveUrls(const KUrl::List& source, const KUrl& dest)
     m_undoOperations.append(KonqOperations::MOVE);
 }
 
+void DolphinMainWindow::linkUrls(const KUrl::List& source, const KUrl& dest)
+{
+    KonqOperations::copy(this, KonqOperations::LINK, source, dest);
+    m_undoOperations.append(KonqOperations::LINK);
+}
+
 void DolphinMainWindow::clearStatusBar()
 {
     m_activeView->statusBar()->clear();
@@ -1271,6 +1278,43 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
     connect(navigator, SIGNAL(historyChanged()),
             this, SLOT(slotHistoryChanged()));
 
+}
+
+DolphinMainWindow::UndoUiInterface::UndoUiInterface(DolphinMainWindow* mainWin) :
+    m_mainWin(mainWin)
+{
+    assert(m_mainWin != 0);
+}
+
+DolphinMainWindow::UndoUiInterface::~UndoUiInterface()
+{
+}
+
+void DolphinMainWindow::UndoUiInterface::jobError(KIO::Job* job)
+{
+    DolphinStatusBar* statusBar = m_mainWin->activeView()->statusBar();
+    statusBar->setMessage(job->errorString(), DolphinStatusBar::Error);
+}
+
+bool DolphinMainWindow::UndoUiInterface::copiedFileWasModified(const KUrl& src,
+                                                               const KUrl& dest,
+                                                               time_t /*srcTime*/,
+                                                               time_t destTime)
+{
+    // The following code has been taken from libkonq/konq_undo.cc
+    // Copyright (C) 2000 Simon Hausmann <hausmann@kde.org>
+    // Copyright (C) 2006 David Faure <faure@kde.org>
+    const QDateTime destDt = QDateTime::fromTime_t(destTime);
+    const QString timeStr = KGlobal::locale()->formatDateTime(destDt, true /* short */);
+    return KMessageBox::warningContinueCancel(
+        m_mainWin,
+        i18n( "The file %1 was copied from %2, but since then it has apparently been modified at %3.\n"
+              "Undoing the copy will delete the file, and all modifications will be lost.\n"
+              "Are you sure you want to delete %4?", dest.pathOrUrl(), src.pathOrUrl(), timeStr, dest.pathOrUrl()),
+        i18n( "Undo File Copy Confirmation" ),
+        KStandardGuiItem::cont(),
+        QString(),
+        KMessageBox::Notify | KMessageBox::Dangerous ) == KMessageBox::Continue;
 }
 
 #include "dolphinmainwindow.moc"

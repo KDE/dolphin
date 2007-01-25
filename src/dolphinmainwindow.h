@@ -27,6 +27,7 @@
 #include <kmainwindow.h>
 #include <ksortablelist.h>
 #include <konq_operations.h>
+#include <konq_undo.h>
 
 #include <QList>
 
@@ -338,6 +339,7 @@ private:
     void updateGoActions();
     void copyUrls(const KUrl::List& source, const KUrl& dest);
     void moveUrls(const KUrl::List& source, const KUrl& dest);
+    void linkUrls(const KUrl::List& source, const KUrl& dest);
     void clearStatusBar();
 
     /**
@@ -367,14 +369,22 @@ private:
     /// remember pending undo operations until they are finished
     QList<KonqOperations::Operation> m_undoOperations;
 
-    /** Contains meta information for creating files. */
-    struct CreateFileEntry
-    {
-        QString name;
-        QString filePath;
-        QString templatePath;
-        QString icon;
-        QString comment;
+    /**
+     * Implements a custom error handling for the undo manager. This
+     * assures that all errors are shown in the status bar of Dolphin
+     * instead as modal error dialog with an OK button.
+     */
+    class UndoUiInterface : public KonqUndoManager::UiInterface {
+    public:
+        UndoUiInterface(DolphinMainWindow* mainWin);
+        virtual ~UndoUiInterface();
+        virtual void jobError(KIO::Job* job);
+        virtual bool copiedFileWasModified(const KUrl& src,
+                                           const KUrl& dest,
+                                           time_t srcTime,
+                                           time_t destTime);
+    private:
+        DolphinMainWindow* m_mainWin;
     };
 };
 
