@@ -52,6 +52,7 @@
 #include <klocale.h>
 #include <kmenu.h>
 #include <kmessagebox.h>
+#include <knewmenu.h>
 #include <konqmimedata.h>
 #include <konq_undo.h>
 #include <kpropertiesdialog.h>
@@ -72,6 +73,7 @@
 
 DolphinMainWindow::DolphinMainWindow() :
     KMainWindow(0),
+    m_newMenu(0),
     m_splitter(0),
     m_activeView(0)
 {
@@ -90,10 +92,6 @@ DolphinMainWindow::DolphinMainWindow() :
 DolphinMainWindow::~DolphinMainWindow()
 {
     KonqUndoManager::decRef();
-
-    qDeleteAll(m_fileGroupActions);
-    m_fileGroupActions.clear();
-
     DolphinApplication::app()->removeMainWindow(this);
 }
 
@@ -350,171 +348,10 @@ void DolphinMainWindow::readProperties(KConfig* config)
     }
 }
 
-void DolphinMainWindow::createFolder()
+void DolphinMainWindow::updateNewMenu()
 {
-    // Parts of the following code have been taken
-    // from the class KonqPopupMenu located in
-    // libqonq/konq_popupmenu.h of Konqueror.
-    // (Copyright (C) 2000  David Faure <faure@kde.org>,
-    // Copyright (C) 2001 Holger Freyther <freyther@yahoo.com>)
-
-    clearStatusBar();
-
-    DolphinStatusBar* statusBar = m_activeView->statusBar();
-    const KUrl baseUrl(m_activeView->url());
-
-    QString name(i18n("New Folder"));
-    baseUrl.path(KUrl::AddTrailingSlash);
-
-
-    if (baseUrl.isLocalFile() && QFileInfo(baseUrl.path(KUrl::AddTrailingSlash) + name).exists()) {
-        name = KIO::RenameDialog::suggestName(baseUrl, i18n("New Folder"));
-    }
-
-    bool ok = false;
-    name = KInputDialog::getText(i18n("New Folder"),
-                                 i18n("Enter folder name:" ),
-                                 name,
-                                 &ok,
-                                 this);
-
-    if (!ok) {
-        // the user has pressed 'Cancel'
-        return;
-    }
-
-    assert(!name.isEmpty());
-
-    KUrl url;
-    if ((name[0] == '/') || (name[0] == '~')) {
-        url.setPath(KShell::tildeExpand(name));
-    }
-    else {
-        name = KIO::encodeFileName(name);
-        url = baseUrl;
-        url.addPath(name);
-    }
-
-    KonqOperations::mkdir(this, url);
-
-    // TODO: is there a possability to check whether the mkdir operation
-    // has been successful?
-    //if (ok) {
-        statusBar->setMessage(i18n("Created folder %1.",url.path()),
-                              DolphinStatusBar::OperationCompleted);
-    //}
-    //else {
-    //    // Creating of the folder has been failed. Check whether the creating
-    //    // has been failed because a folder with the same name exists...
-    //    if (KIO::NetAccess::exists(url, true, this)) {
-    //        statusBar->setMessage(i18n("A folder named %1 already exists.",url.path()),
-    //                              DolphinStatusBar::Error);
-    //    }
-    //    else {
-    //        statusBar->setMessage(i18n("Creating of folder %1 failed.",url.path()),
-    //                              DolphinStatusBar::Error);
-    //    }
-}
-
-void DolphinMainWindow::createFile()
-{
-    // Parts of the following code have been taken
-    // from the class KonqPopupMenu located in
-    // libqonq/konq_popupmenu.h of Konqueror.
-    // (Copyright (C) 2000  David Faure <faure@kde.org>,
-    // Copyright (C) 2001 Holger Freyther <freyther@yahoo.com>)
-
-    clearStatusBar();
-
-    // TODO: const Entry& entry = m_createFileTemplates[QString(sender->name())];
-    // should be enough. Anyway: the implementation of [] does a linear search internally too.
-    KSortableList<CreateFileEntry, QString>::ConstIterator it = m_createFileTemplates.begin();
-    KSortableList<CreateFileEntry, QString>::ConstIterator end = m_createFileTemplates.end();
-
-    const QString senderName(sender()->objectName());
-    bool found = false;
-    CreateFileEntry entry;
-    while (!found && (it != end)) {
-        if ((*it).key() == senderName) {
-            entry = (*it).value();
-            found = true;
-        }
-        else {
-            ++it;
-        }
-    }
-
-    DolphinStatusBar* statusBar = m_activeView->statusBar();
-    if (!found || !QFile::exists(entry.templatePath)) {
-        statusBar->setMessage(i18n("Could not create file."), DolphinStatusBar::Error);
-       return;
-    }
-
-    // Get the source path of the template which should be copied.
-    // The source path is part of the Url entry of the desktop file.
-    const int pos = entry.templatePath.lastIndexOf('/');
-    QString sourcePath(entry.templatePath.left(pos + 1));
-    sourcePath += KDesktopFile(entry.templatePath, true).readPathEntry("Url");
-
-    QString name(i18n(entry.name.toAscii()));
-    // Most entry names end with "..." (e. g. "HTML File..."), which is ok for
-    // menus but no good choice for a new file name -> remove the dots...
-    name.replace("...", QString::null);
-
-    // add the file extension to the name
-    name.append(sourcePath.right(sourcePath.length() - sourcePath.lastIndexOf('.')));
-
-    // Check whether a file with the current name already exists. If yes suggest automatically
-    // a unique file name (e. g. "HTML File" will be replaced by "HTML File_1").
-    const KUrl viewUrl(m_activeView->url());
-    const bool fileExists = viewUrl.isLocalFile() &&
-                            QFileInfo(viewUrl.path(KUrl::AddTrailingSlash) + KIO::encodeFileName(name)).exists();
-    if (fileExists) {
-        name = KIO::RenameDialog::suggestName(viewUrl, name);
-    }
-
-    // let the user change the suggested file name
-    bool ok = false;
-    name = KInputDialog::getText(entry.name,
-                                 entry.comment,
-                                 name,
-                                 &ok,
-                                 this);
-    if (!ok) {
-        // the user has pressed 'Cancel'
-        return;
-    }
-
-    // before copying the template to the destination path check whether a file
-    // with the given name already exists
-    const QString destPath(viewUrl.pathOrUrl() + "/" + KIO::encodeFileName(name));
-    const KUrl destUrl(destPath);
-    if (KIO::NetAccess::exists(destUrl, false, this)) {
-        statusBar->setMessage(i18n("A file named %1 already exists.",name),
-                              DolphinStatusBar::Error);
-        return;
-    }
-
-    // copy the template to the destination path
-    const KUrl sourceUrl(sourcePath);
-    KIO::CopyJob* job = KIO::copyAs(sourceUrl, destUrl);
-    job->setDefaultPermissions(true);
-    if (KIO::NetAccess::synchronousRun(job, this)) {
-        statusBar->setMessage(i18n("Created file %1.",name),
-                              DolphinStatusBar::OperationCompleted);
-
-        KUrl::List list;
-        list.append(sourceUrl);
-
-        // TODO: use the KonqUndoManager/KonqOperations instead.
-        //DolphinCommand command(DolphinCommand::CreateFile, list, destUrl);
-        //UndoManager::instance().addCommand(command);
-
-    }
-    else {
-        statusBar->setMessage(i18n("Creating of file %1 failed.",name),
-                              DolphinStatusBar::Error);
-    }
+    m_newMenu->slotCheckUpToDate();
+    m_newMenu->setPopupFiles(activeView()->url());
 }
 
 void DolphinMainWindow::rename()
@@ -527,9 +364,6 @@ void DolphinMainWindow::moveToTrash()
 {
     clearStatusBar();
     const KUrl::List selectedUrls = m_activeView->selectedUrls();
-    // TODO: per default a message box is opened which asks whether the item
-    // should really be moved to the trash. This does not make sense, as the
-    // action can be undone anyway by the user.
     KonqOperations::del(this, KonqOperations::TRASH, selectedUrls);
     m_undoOperations.append(KonqOperations::TRASH);
 }
@@ -882,7 +716,6 @@ void DolphinMainWindow::toggleEditLocation()
     KToggleAction* action = static_cast<KToggleAction*>(actionCollection()->action("editable_location"));
 
     bool editOrBrowse = action->isChecked();
-//    action->setChecked(action->setChecked);
     m_activeView->setUrlEditable(editOrBrowse);
 }
 
@@ -1054,8 +887,6 @@ void DolphinMainWindow::init()
     updatePasteAction();
     updateGoActions();
 
-    setupCreateNewMenuActions();
-
     loadSettings();
 
     if (firstRun) {
@@ -1092,16 +923,17 @@ void DolphinMainWindow::loadSettings()
 void DolphinMainWindow::setupActions()
 {
     // setup 'File' menu
-    QAction *action = actionCollection()->addAction("new_window");
+    m_newMenu = new KNewMenu(actionCollection(), this, "create_new");
+    KMenu* menu = m_newMenu->menu();
+    menu->setTitle(i18n("Create New..."));
+    menu->setIcon(SmallIcon("filenew"));
+    connect(menu, SIGNAL(aboutToShow()),
+            this, SLOT(updateNewMenu()));
+
+    QAction* action = actionCollection()->addAction("new_window");
     action->setIcon(KIcon("window_new"));
     action->setText(i18n("New &Window"));
     connect(action, SIGNAL(triggered()), this, SLOT(openNewMainWindow()));
-
-    QAction* createFolder = actionCollection()->addAction("create_folder");
-    createFolder->setText(i18n("Folder..."));
-    createFolder->setIcon(KIcon("folder"));
-    createFolder->setShortcut(Qt::Key_N);
-    connect(createFolder, SIGNAL(triggered()), this, SLOT(createFolder()));
 
     QAction* rename = actionCollection()->addAction("rename");
     rename->setText(i18n("Rename"));
@@ -1289,108 +1121,6 @@ void DolphinMainWindow::setupDockWidgets()
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
 }
 
-void DolphinMainWindow::setupCreateNewMenuActions()
-{
-    // Parts of the following code have been taken
-    // from the class KNewMenu located in
-    // libqonq/knewmenu.h of Konqueror.
-    //  Copyright (C) 1998, 1999 David Faure <faure@kde.org>
-    //                2003       Sven Leiber <s.leiber@web.de>
-
-    QStringList files = actionCollection()->instance()->dirs()->findAllResources("templates");
-    for (QStringList::Iterator it = files.begin() ; it != files.end(); ++it) {
-        if ((*it)[0] != '.' ) {
-            KSimpleConfig config(*it, true);
-            config.setDesktopGroup();
-
-            // tricky solution to ensure that TextFile is at the beginning
-            // because this filetype is the most used (according kde-core discussion)
-            const QString name(config.readEntry("Name"));
-            QString key(name);
-
-            const QString path(config.readPathEntry("Url"));
-            if (!path.endsWith("emptydir")) {
-                if (path.endsWith("TextFile.txt")) {
-                    key = "1" + key;
-                }
-                else if (!KDesktopFile::isDesktopFile(path)) {
-                    key = "2" + key;
-                }
-                else if (path.endsWith("Url.desktop")){
-                    key = "3" + key;
-                }
-                else if (path.endsWith("Program.desktop")){
-                    key = "4" + key;
-                }
-                else {
-                    key = "5";
-                }
-
-                const QString icon(config.readEntry("Icon"));
-                const QString comment(config.readEntry("Comment"));
-                const QString type(config.readEntry("Type"));
-
-                const QString filePath(*it);
-
-
-                if (type == "Link") {
-                    CreateFileEntry entry;
-                    entry.name = name;
-                    entry.icon = icon;
-                    entry.comment = comment;
-                    entry.templatePath = filePath;
-                    m_createFileTemplates.insert(key, entry);
-                }
-            }
-        }
-    }
-    m_createFileTemplates.sort();
-
-    unplugActionList("create_actions");
-    KSortableList<CreateFileEntry, QString>::ConstIterator it = m_createFileTemplates.begin();
-    KSortableList<CreateFileEntry, QString>::ConstIterator end = m_createFileTemplates.end();
-    /* KDE4-TODO: don't port this code; use KNewMenu instead
-    while (it != end) {
-        CreateFileEntry entry = (*it).value();
-        KAction* action = new KAction(entry.name);
-        action->setIcon(entry.icon);
-        action->setName((*it).index());
-        connect(action, SIGNAL(activated()),
-                this, SLOT(createFile()));
-
-        const QChar section = ((*it).index()[0]);
-        switch (section) {
-            case '1':
-            case '2': {
-                m_fileGroupActions.append(action);
-                break;
-            }
-
-            case '3':
-            case '4': {
-                // TODO: not used yet. See documentation of DolphinMainWindow::linkGroupActions()
-                // and DolphinMainWindow::linkToDeviceActions() in the header file for details.
-                //m_linkGroupActions.append(action);
-                break;
-            }
-
-            case '5': {
-                // TODO: not used yet. See documentation of DolphinMainWindow::linkGroupActions()
-                // and DolphinMainWindow::linkToDeviceActions() in the header file for details.
-                //m_linkToDeviceActions.append(action);
-                break;
-            }
-            default:
-                break;
-        }
-        ++it;
-    }
-
-    plugActionList("create_file_group", m_fileGroupActions);
-    //plugActionList("create_link_group", m_linkGroupActions);
-    //plugActionList("link_to_device", m_linkToDeviceActions);*/
-}
-
 void DolphinMainWindow::updateHistory()
 {
     int index = 0;
@@ -1461,9 +1191,6 @@ void DolphinMainWindow::updateViewActions()
         case DolphinView::DetailsView:
             action = actionCollection()->action("details");
             break;
-        //case DolphinView::PreviewsView:
-        //    action = actionCollection()->action("previews");
-        //    break;
         default:
             break;
     }

@@ -2,13 +2,8 @@
 <kpartgui version="2" name="dolphin" >
  <MenuBar>
   <Menu name="file">
+   <Action name="create_new" />
    <Action name="new_window" />
-   <Menu name="create_new" >
-    <text>Create New</text>
-    <Action name="create_folder" />
-    <Separator/>
-    <ActionList name="create_file_group" />
-   </Menu>
    <Separator/>
    <Action name="rename" />
    <Action name="move_to_trash" />

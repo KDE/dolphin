@@ -324,21 +324,19 @@ public:
      */
     DolphinMainWindow* mainWindow() const ;
 
-public slots:
+    /** Reloads the current directory. */
     void reload();
-    void slotUrlListDropped(QDropEvent* event,
-                            const KUrl::List& urls,
-                            const KUrl& url);
-
-    /**
-     * Popups the filter bar above the status bar if \a show is true.
-     */
-    void showFilterBar(bool show);
 
     /**
      * Declare this View as the activeview of the mainWindow()
      */
     void declareViewActive();
+
+public slots:
+    /**
+     * Popups the filter bar above the status bar if \a show is true.
+     */
+    void showFilterBar(bool show);
 
     /**
      * Updates the number of items (= number of files + number of
@@ -473,7 +471,7 @@ private:
     DolphinIconsView* m_iconsView;
     DolphinDetailsView* m_detailsView;
 
-    FilterBar *m_filterBar;
+    FilterBar* m_filterBar;
     DolphinStatusBar* m_statusBar;
 
     KDirModel* m_dirModel;

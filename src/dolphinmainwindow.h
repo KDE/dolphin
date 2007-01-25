@@ -30,6 +30,7 @@
 
 #include <QList>
 
+class KNewMenu;
 class KPrinter;
 class KUrl;
 class QLineEdit;
@@ -84,17 +85,16 @@ public:
                   const KUrl& destination);
 
     /**
-     * Returns the list of actions which are part of the file group
-     * of the 'Create New...' sub menu. Usually the list contains actions
-     * for creating folders, text files, HTML files etc.
-     */
-    QLinkedList<QAction*> fileGroupActions() const { return m_fileGroupActions; }
-
-    /**
      * Refreshs the views of the main window by recreating them dependent from
      * the given Dolphin settings.
      */
     void refreshViews();
+
+    /**
+     * Returns the 'Create New...' sub menu which also can be shared
+     * with other menus (e. g. a context menu).
+     */
+    KNewMenu* newMenu() const { return m_newMenu; }
 
 signals:
     /**
@@ -127,11 +127,8 @@ protected:
     void readProperties(KConfig*);
 
 private slots:
-    /** Opens an input dialog for creating a new folder. */
-    void createFolder();
-
-    /** Creates a file with the MIME type given by the sender. */
-    void createFile();
+    /** Updates the 'Create New...' sub menu. */
+    void updateNewMenu();
 
     /** Renames the selected item of the active view. */
     void rename();
@@ -353,7 +350,6 @@ private:
     void setupAccel();
     void setupActions();
     void setupDockWidgets();
-    void setupCreateNewMenuActions();
     void updateHistory();
     void updateEditActions();
     void updateViewActions();
@@ -371,6 +367,7 @@ private:
     void connectViewSignals(int viewIndex);
 
 private:
+    KNewMenu* m_newMenu;
     QSplitter* m_splitter;
     DolphinView* m_activeView;
 
@@ -400,9 +397,6 @@ private:
         QString icon;
         QString comment;
     };
-
-    QLinkedList<QAction*> m_fileGroupActions;
-    KSortableList<CreateFileEntry,QString> m_createFileTemplates;
 };
 
 #endif // _DOLPHIN_H_

@@ -36,6 +36,7 @@
 #include <kio/netaccess.h>
 #include <kmenu.h>
 #include <kmimetypetrader.h>
+#include <knewmenu.h>
 #include <klocale.h>
 #include <kpropertiesdialog.h>
 #include <krun.h>
@@ -69,31 +70,15 @@ DolphinContextMenu::~DolphinContextMenu()
 
 void DolphinContextMenu::openViewportContextMenu()
 {
-    // Parts of the following code have been taken
-    // from the class KonqOperations located in
-    // libqonq/konq_operations.h of Konqueror.
-    // (Copyright (C) 2000  David Faure <faure@kde.org>)
-
     assert(m_fileInfo == 0);
-
     DolphinMainWindow* dolphin = m_dolphinView->mainWindow();
     KMenu* popup = new KMenu(m_dolphinView);
 
     // setup 'Create New' menu
-    KMenu* createNewMenu = new KMenu(i18n("Create New"));
-    createNewMenu->setIcon(SmallIcon("filenew"));
-
-    QAction* createFolderAction = dolphin->actionCollection()->action("create_folder");
-    if (createFolderAction != 0) {
-        createNewMenu->addAction(createFolderAction);
-    }
-
-    QLinkedListIterator<QAction*> fileGrouptIt(dolphin->fileGroupActions());
-    while (fileGrouptIt.hasNext()) {
-        createNewMenu->addAction(fileGrouptIt.next());
-    }
-
-    popup->addMenu(createNewMenu);
+    KNewMenu* newMenu = dolphin->newMenu();
+    newMenu->slotCheckUpToDate();
+    newMenu->setPopupFiles(m_dolphinView->url());
+    popup->addMenu(newMenu->menu());
     popup->addSeparator();
 
     QAction* pasteAction = dolphin->actionCollection()->action(KStandardAction::stdName(KStandardAction::Paste));
@@ -142,11 +127,6 @@ void DolphinContextMenu::openViewportContextMenu()
 
 void DolphinContextMenu::openItemContextMenu()
 {
-    // Parts of the following code have been taken
-    // from the class KonqOperations located in
-    // libkonq/konq_operations.h of Konqueror.
-    // (Copyright (C) 2000  David Faure <faure@kde.org>)
-
     assert(m_fileInfo != 0);
 
     KMenu* popup = new KMenu(m_dolphinView);
@@ -246,6 +226,11 @@ void DolphinContextMenu::openItemContextMenu()
 QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
                                                         QVector<KService::Ptr>& openWithVector)
 {
+    // Parts of the following code have been taken
+    // from the class KonqOperations located in
+    // libqonq/konq_operations.h of Konqueror.
+    // (Copyright (C) 2000  David Faure <faure@kde.org>)
+
     // Prepare 'Open With' sub menu. Usually a sub menu is created, where all applications
     // are listed which are registered to open the item. As last entry "Other..." will be
     // attached which allows to select a custom application. If no applications are registered
@@ -314,6 +299,11 @@ QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
 QList<QAction*> DolphinContextMenu::insertActionItems(KMenu* popup,
                                                       QVector<KDEDesktopMimeType::Service>& actionsVector)
 {
+    // Parts of the following code have been taken
+    // from the class KonqOperations located in
+    // libqonq/konq_operations.h of Konqueror.
+    // (Copyright (C) 2000  David Faure <faure@kde.org>)
+
     KMenu* actionsMenu = new KMenu(i18n("Actions"));
 
     QList<QAction*> serviceActions;

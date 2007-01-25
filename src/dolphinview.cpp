@@ -555,25 +555,9 @@ void DolphinView::reload()
     startDirLister(m_urlNavigator->url(), true);
 }
 
-void DolphinView::slotUrlListDropped(QDropEvent* /* event */,
-                                     const KUrl::List& urls,
-                                     const KUrl& url)
+void DolphinView::declareViewActive()
 {
-    KUrl destination(url);
-    if (destination.isEmpty()) {
-        destination = m_urlNavigator->url();
-    }
-    else {
-        // Check whether the destination Url is a directory. If this is not the
-        // case, use the navigator Url as destination (otherwise the destination,
-        // which represents a file, would be replaced by a copy- or move-operation).
-        KFileItem fileItem(KFileItem::Unknown, KFileItem::Unknown, destination);
-        if (!fileItem.isDir()) {
-            destination = m_urlNavigator->url();
-        }
-    }
-
-    mainWindow()->dropUrls(urls, destination);
+    mainWindow()->setActiveView( this );
 }
 
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)
@@ -831,11 +815,6 @@ void DolphinView::showFilterBar(bool show)
     else {
         m_filterBar->hide();
     }
-}
-
-void DolphinView::declareViewActive()
-{
-    mainWindow()->setActiveView( this );
 }
 
 void DolphinView::updateStatusBar()
