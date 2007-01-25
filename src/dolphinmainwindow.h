@@ -379,10 +379,7 @@ private:
         UndoUiInterface(DolphinMainWindow* mainWin);
         virtual ~UndoUiInterface();
         virtual void jobError(KIO::Job* job);
-        virtual bool copiedFileWasModified(const KUrl& src,
-                                           const KUrl& dest,
-                                           time_t srcTime,
-                                           time_t destTime);
+
     private:
         DolphinMainWindow* m_mainWin;
     };

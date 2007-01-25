@@ -1281,6 +1281,7 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface(DolphinMainWindow* mainWin) :
+    KonqUndoManager::UiInterface(mainWin),
     m_mainWin(mainWin)
 {
     assert(m_mainWin != 0);
@@ -1294,27 +1295,6 @@ void DolphinMainWindow::UndoUiInterface::jobError(KIO::Job* job)
 {
     DolphinStatusBar* statusBar = m_mainWin->activeView()->statusBar();
     statusBar->setMessage(job->errorString(), DolphinStatusBar::Error);
-}
-
-bool DolphinMainWindow::UndoUiInterface::copiedFileWasModified(const KUrl& src,
-                                                               const KUrl& dest,
-                                                               time_t /*srcTime*/,
-                                                               time_t destTime)
-{
-    // The following code has been taken from libkonq/konq_undo.cc
-    // Copyright (C) 2000 Simon Hausmann <hausmann@kde.org>
-    // Copyright (C) 2006 David Faure <faure@kde.org>
-    const QDateTime destDt = QDateTime::fromTime_t(destTime);
-    const QString timeStr = KGlobal::locale()->formatDateTime(destDt, true /* short */);
-    return KMessageBox::warningContinueCancel(
-        m_mainWin,
-        i18n( "The file %1 was copied from %2, but since then it has apparently been modified at %3.\n"
-              "Undoing the copy will delete the file, and all modifications will be lost.\n"
-              "Are you sure you want to delete %4?", dest.pathOrUrl(), src.pathOrUrl(), timeStr, dest.pathOrUrl()),
-        i18n( "Undo File Copy Confirmation" ),
-        KStandardGuiItem::cont(),
-        QString(),
-        KMessageBox::Notify | KMessageBox::Dangerous ) == KMessageBox::Continue;
 }
 
 #include "dolphinmainwindow.moc"
