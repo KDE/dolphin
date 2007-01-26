@@ -24,6 +24,7 @@
 #include <assert.h>
 
 #include "dolphinapplication.h"
+#include "dolphinnewmenu.h"
 #include "dolphinsettings.h"
 #include "dolphinsettingsdialog.h"
 #include "dolphinstatusbar.h"
@@ -52,7 +53,6 @@
 #include <klocale.h>
 #include <kmenu.h>
 #include <kmessagebox.h>
-#include <knewmenu.h>
 #include <konqmimedata.h>
 #include <kpropertiesdialog.h>
 #include <kprotocolinfo.h>
@@ -937,7 +937,7 @@ void DolphinMainWindow::loadSettings()
 void DolphinMainWindow::setupActions()
 {
     // setup 'File' menu
-    m_newMenu = new KNewMenu(actionCollection(), this, "create_new");
+    m_newMenu = new DolphinNewMenu(this);
     KMenu* menu = m_newMenu->menu();
     menu->setTitle(i18n("Create New..."));
     menu->setIcon(SmallIcon("filenew"));

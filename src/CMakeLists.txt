@@ -15,6 +15,7 @@ set(dolphin_SRCS
    detailsviewsettingspage.cpp
    dolphinapplication.cpp
    dolphinmainwindow.cpp
+   dolphinnewmenu.cpp
    dolphinview.cpp
    dolphinstatusbar.cpp
    dolphindirlister.cpp

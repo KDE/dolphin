@@ -351,10 +351,6 @@ private:
     void connectViewSignals(int viewIndex);
 
 private:
-    KNewMenu* m_newMenu;
-    QSplitter* m_splitter;
-    DolphinView* m_activeView;
-
     /**
      * DolphinMainWindowsupports only one or two views, which
      * are handled internally as primary and secondary view.
@@ -364,17 +360,14 @@ private:
         PrimaryIdx = 0,
         SecondaryIdx = 1
     };
-    DolphinView* m_view[SecondaryIdx + 1];
-
-    /// remember pending undo operations until they are finished
-    QList<KonqOperations::Operation> m_undoOperations;
 
     /**
      * Implements a custom error handling for the undo manager. This
      * assures that all errors are shown in the status bar of Dolphin
      * instead as modal error dialog with an OK button.
      */
-    class UndoUiInterface : public KonqUndoManager::UiInterface {
+    class UndoUiInterface : public KonqUndoManager::UiInterface
+    {
     public:
         UndoUiInterface(DolphinMainWindow* mainWin);
         virtual ~UndoUiInterface();
@@ -383,6 +376,15 @@ private:
     private:
         DolphinMainWindow* m_mainWin;
     };
+
+    KNewMenu* m_newMenu;
+    QSplitter* m_splitter;
+    DolphinView* m_activeView;
+
+    DolphinView* m_view[SecondaryIdx + 1];
+
+    /// remember pending undo operations until they are finished
+    QList<KonqOperations::Operation> m_undoOperations;
 };
 
 #endif // _DOLPHIN_H_

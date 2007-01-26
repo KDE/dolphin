@@ -18,21 +18,38 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "dolphindirlister.h"
-#include <kio/jobclasses.h>
+#ifndef DOLPHINNEWMENU_H
+#define DOLPHINNEWMENU_H
 
-DolphinDirLister::DolphinDirLister() :
-    KDirLister()
+//class KActionCollection;  // TODO: only required temporary because of
+                          // missing forward declaration in knewmenu.h
+#include <knewmenu.h>
+
+class DolphinMainWindow;
+class KJob;
+
+/**
+ * @brief Represents the 'Create New...' sub menu for the File menu
+ *        and the context menu.
+ *
+ * The only difference to KNewMenu is the custom error handling.
+ * All errors are shown in the status bar of Dolphin
+ * instead as modal error dialog with an OK button.
+ */
+class DolphinNewMenu : public KNewMenu
 {
-}
+Q_OBJECT
 
-DolphinDirLister::~DolphinDirLister()
-{
-}
+public:
+    DolphinNewMenu(DolphinMainWindow* mainWin);
+    virtual ~DolphinNewMenu();
 
-void DolphinDirLister::handleError(KIO::Job* job)
-{
-    emit errorMessage(job->errorString());
-}
+protected slots:
+    /** @see KNewMenu::slotResult() */
+    virtual void slotResult(KJob* job);
 
-#include "dolphindirlister.moc"
+private:
+    DolphinMainWindow* m_mainWin;
+};
+
+#endif

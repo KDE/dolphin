@@ -18,21 +18,33 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "dolphindirlister.h"
-#include <kio/jobclasses.h>
+#include "dolphinnewmenu.h"
+#include "dolphinmainwindow.h"
+#include "dolphinstatusbar.h"
+#include "dolphinview.h"
 
-DolphinDirLister::DolphinDirLister() :
-    KDirLister()
+#include <kactioncollection.h>
+#include <kio/job.h>
+
+DolphinNewMenu::DolphinNewMenu(DolphinMainWindow* mainWin) :
+    KNewMenu(mainWin->actionCollection(), mainWin, "create_new"),
+    m_mainWin(mainWin)
 {
 }
 
-DolphinDirLister::~DolphinDirLister()
+DolphinNewMenu::~DolphinNewMenu()
 {
 }
 
-void DolphinDirLister::handleError(KIO::Job* job)
+void DolphinNewMenu::slotResult(KJob* job)
 {
-    emit errorMessage(job->errorString());
+    if (job->error()) {
+        DolphinStatusBar* statusBar = m_mainWin->activeView()->statusBar();
+        statusBar->setMessage(job->errorString(), DolphinStatusBar::Error);
+    }
+    else {
+        KNewMenu::slotResult(job);
+    }
 }
 
-#include "dolphindirlister.moc"
+#include "dolphinnewmenu.moc"

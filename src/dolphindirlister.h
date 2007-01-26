@@ -25,7 +25,7 @@
 
 /**
  * @brief Extends the class KDirLister by emitting an error
- * signal containing text.
+ *        signal containing text.
  *
  * @author Peter Penz
  */
