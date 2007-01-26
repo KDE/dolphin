@@ -21,8 +21,6 @@
 #ifndef DOLPHINNEWMENU_H
 #define DOLPHINNEWMENU_H
 
-class KActionCollection;  // TODO: only required temporary because of
-                          // missing forward declaration in knewmenu.h
 #include <knewmenu.h>
 
 class DolphinMainWindow;
