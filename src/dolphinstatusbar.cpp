@@ -57,7 +57,7 @@ DolphinStatusBar::DolphinStatusBar(DolphinView* parent) :
     m_messageLabel->setMinimumTextHeight(size.height());
 
     connect(parent, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(updateSpaceInfo(const KUrl&)));
+            this, SLOT(updateSpaceInfoContent(const KUrl&)));
 }
 
 
@@ -71,16 +71,12 @@ void DolphinStatusBar::setMessage(const QString& msg,
     m_messageLabel->setText(msg);
     m_messageLabel->setType(type);
 
-    if (type == Error) {
-        // assure that enough space is available for the error message and
-        // hide the space information and progress information
-        m_spaceInfo->hide();
+    const int widthGap = m_messageLabel->widthGap();
+    if (widthGap > 0) {
         m_progressBar->hide();
         m_progressText->hide();
     }
-    else if (!m_progressBar->isVisible()) {
-        m_spaceInfo->show();
-    }
+    showSpaceInfo();
 }
 
 DolphinStatusBar::Type DolphinStatusBar::type() const
@@ -145,6 +141,12 @@ void DolphinStatusBar::setDefaultText(const QString& text)
     m_defaultText = text;
 }
 
+void DolphinStatusBar::resizeEvent(QResizeEvent* event)
+{
+    QWidget::resizeEvent(event);
+    QTimer::singleShot(0, this, SLOT(showSpaceInfo()));
+}
+
 void DolphinStatusBar::updateProgressInfo()
 {
     const bool isErrorShown = (m_messageLabel->type() == Error);
@@ -160,15 +162,33 @@ void DolphinStatusBar::updateProgressInfo()
         // hide the progress information and show the space information
         m_progressText->hide();
         m_progressBar->hide();
-        if (m_messageLabel->type() != Error) {
-            m_spaceInfo->show();
-        }
+        showSpaceInfo();
     }
 }
 
-void DolphinStatusBar::updateSpaceInfo(const KUrl& url)
+void DolphinStatusBar::updateSpaceInfoContent(const KUrl& url)
 {
     m_spaceInfo->setUrl(url);
+    showSpaceInfo();
+}
+
+void DolphinStatusBar::showSpaceInfo()
+{
+    const int widthGap = m_messageLabel->widthGap();
+    const bool isProgressBarVisible = m_progressBar->isVisible();
+
+    if (m_spaceInfo->isVisible()) {
+        // The space information is shown currently. Hide it
+        // if the progress bar is visible or if the status bar
+        // text does not fit into the available width.
+        const QSize size(m_progressBar->sizeHint());
+        if (isProgressBarVisible || (widthGap > 0)) {
+            m_spaceInfo->hide();
+        }
+    }
+    else if (widthGap + m_spaceInfo->width() <= 0) {
+        m_spaceInfo->show();
+    }
 }
 
 #include "dolphinstatusbar.moc"

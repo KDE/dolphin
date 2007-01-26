@@ -37,8 +37,6 @@ class QTimer;
  * is shown in front of the text. For message texts having the type
  * DolphinStatusBar::Error a dynamic color blending is done to get the
  * attention from the user.
- *
- * @author Peter Penz
  */
 class StatusBarMessageLabel : public QWidget
 {
@@ -58,16 +56,33 @@ public:
     void setMinimumTextHeight(int min);
     int minimumTextHeight() const { return m_minTextHeight; }
 
+    /**
+     * Returns the gap of the width of the current set text to the
+     * width of the message label. A gap <= 0 means that the text
+     * fits into the available width.
+     */
+    int widthGap() const;
+
 protected:
-    /** @see QWidget::paintEvent */
+    /** @see QWidget::paintEvent() */
     virtual void paintEvent(QPaintEvent* event);
 
-    /** @see QWidget::resizeEvent */
+    /** @see QWidget::resizeEvent() */
     virtual void resizeEvent(QResizeEvent* event);
 
 private slots:
     void timerDone();
+
+    /**
+     * Increases the height of the message label so that
+     * the given text fits into given area.
+     */
     void assureVisibleText();
+
+    /**
+     * Returns the available width in pixels for the text.
+     */
+    int availableTextWidth() const;
 
 private:
     enum State {

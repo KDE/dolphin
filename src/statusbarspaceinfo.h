@@ -58,7 +58,7 @@ private slots:
                              const unsigned long& kBUsed,
                              const unsigned long& kBAvailable,
                              const QString& mountPoint);
-    void slotDone();
+    void showResult();
 
     /** Refreshs the space information for the current set Url. */
     void refresh();

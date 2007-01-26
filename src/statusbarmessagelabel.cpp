@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          * 
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
 #include "statusbarmessagelabel.h"
@@ -106,6 +106,13 @@ void StatusBarMessageLabel::setMinimumTextHeight(int min)
     }
 }
 
+int StatusBarMessageLabel::widthGap() const
+{
+    QFontMetrics fontMetrics(font());
+    const int defaultGap = 10;
+    return fontMetrics.width(m_text) - availableTextWidth() + defaultGap;
+}
+
 void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
 {
     QPainter painter(this);
@@ -189,19 +196,21 @@ void StatusBarMessageLabel::assureVisibleText()
         return;
     }
 
-
-    int availableWidth = width() - m_pixmap.width() - pixmapGap() * 2;
-
     QFontMetrics fontMetrics(font());
-    QRect bounds(fontMetrics.boundingRect(0, 0, availableWidth, height(),
-                                          Qt::AlignVCenter | Qt::TextWordWrap,
-                                          m_text));
+    const QRect bounds(fontMetrics.boundingRect(0, 0, availableTextWidth(), height(),
+                                                Qt::AlignVCenter | Qt::TextWordWrap,
+                                                m_text));
     int requiredHeight = bounds.height();
     if (requiredHeight < m_minTextHeight) {
         requiredHeight = m_minTextHeight;
     }
     setMinimumHeight(requiredHeight);
     updateGeometry();
+}
+
+int StatusBarMessageLabel::availableTextWidth() const
+{
+    return width() - m_pixmap.width() - pixmapGap() * 2;
 }
 
 QColor StatusBarMessageLabel::mixColors(const QColor& c1,

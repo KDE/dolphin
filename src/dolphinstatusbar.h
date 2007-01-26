@@ -110,15 +110,26 @@ public:
     void setDefaultText(const QString& text);
     const QString& defaultText() const { return m_defaultText; }
 
+protected:
+    /** @see QWidget::resizeEvent() */
+    virtual void resizeEvent(QResizeEvent* event);
+
 private slots:
     void updateProgressInfo();
 
     /**
      * Is invoked, when the URL of the DolphinView, where the
      * statusbar belongs too, has been changed. The space information
-     * is updated.
+     * content is updated.
      */
-    void updateSpaceInfo(const KUrl& url);
+    void updateSpaceInfoContent(const KUrl& url);
+
+    /**
+     * Shows the space information if there is enough room to show it
+     * without the need to clip the status bar text. If the progress
+     * bar is shown, the space information won't be shown.
+     */
+    void showSpaceInfo();
 
 private:
     StatusBarMessageLabel* m_messageLabel;

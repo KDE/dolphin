@@ -132,13 +132,9 @@ void StatusBarSpaceInfo::slotFoundMountPoint(const unsigned long& kBSize,
     update();
 }
 
-void StatusBarSpaceInfo::slotDone()
+void StatusBarSpaceInfo::showResult()
 {
     m_gettingSize = false;
-    if ((m_kBSize > 0) && (m_kBAvailable > 0)) {
-       show();
-    }
-
     update();
 }
 
@@ -160,7 +156,7 @@ void StatusBarSpaceInfo::refresh()
                                            const unsigned long&,
                                            const QString& )));
     connect(job, SIGNAL(done()),
-            this, SLOT(slotDone()));
+            this, SLOT(showResult()));
 
     job->readDF(mountPoint);
 }
