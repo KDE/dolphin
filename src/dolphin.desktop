@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Name=Dolphin
 Name[bg]=Делфин
+Name[br]=Daofin
 Name[ga]=Deilf
 Exec=dolphin %i %m -caption "%c"
 Icon=dolphin
@@ -10,6 +11,7 @@ DocPath=dolphin/dolphin.html
 Categories=System;FileManager;
 GenericName=File Manager
 GenericName[bg]=Файлов мениджър
+GenericName[br]=Merour restroù
 GenericName[da]=Filhåndtering
 GenericName[de]=Dateiverwaltung
 GenericName[el]=Διαχειριστής αρχείων

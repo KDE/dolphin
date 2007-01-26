@@ -6,6 +6,7 @@ ServiceTypes=inode/blockdevice,application/x-iso
 [Desktop Action OpenISO]
 Comment=ISO9660 View
 Comment[bg]=Преглед като ISO9660
+Comment[br]=Gwel ISO9660
 Comment[da]=ISO9660-visning
 Comment[de]=Ansicht in ISO-9660
 Comment[el]=Προβολή ISO9660
@@ -20,6 +21,7 @@ Comment[sv]=ISO9660-vy
 Icon=cd
 Name=ISO9660 View
 Name[bg]=ISO9660
+Name[br]=Gwel ISO9660
 Name[da]=ISO9660-visning
 Name[de]=Ansicht als ISO-9660
 Name[el]=Προβολή ISO9660
