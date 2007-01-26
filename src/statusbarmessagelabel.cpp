@@ -79,7 +79,7 @@ void StatusBarMessageLabel::setType(DolphinStatusBar::Type type)
         }
 
         m_pixmap = (iconName == 0) ? QPixmap() : SmallIcon(iconName);
-        assureVisibleText();
+        QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
         update();
     }
 }
@@ -93,7 +93,7 @@ void StatusBarMessageLabel::setText(const QString& text)
             m_state = Illuminate;
         }
         m_text = text;
-        assureVisibleText();
+        QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
         update();
     }
 }
@@ -139,14 +139,18 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
 
     // draw text
     painter.setPen(foregroundColor);
-    painter.drawText(QRect(x, 0, width() - x, height()), Qt::AlignVCenter | Qt::TextWordWrap, m_text);
+    int flags = Qt::AlignVCenter;
+    if (height() > m_minTextHeight) {
+        flags = flags | Qt::TextWordWrap;
+    }
+    painter.drawText(QRect(x, 0, width() - x, height()), flags, m_text);
     painter.end();
 }
 
 void StatusBarMessageLabel::resizeEvent(QResizeEvent* event)
 {
     QWidget::resizeEvent(event);
-    QTimer::singleShot(0, this, SLOT(assureVisibleText()));
+    QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
 }
 
 void StatusBarMessageLabel::timerDone()

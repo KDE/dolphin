@@ -92,6 +92,8 @@ private:
         Desaturate
     };
 
+    enum { GeometryTimeout = 100 };
+
     DolphinStatusBar::Type m_type;
     State m_state;
     int m_illumination;
