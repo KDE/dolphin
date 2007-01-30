@@ -23,6 +23,7 @@
 #include <QDateTime>
 #include <QFile>
 
+#include <kcomponentdata.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <kurl.h>
@@ -178,7 +179,7 @@ void ViewProperties::save()
 
 QString ViewProperties::destinationDir(const QString& subDir) const
 {
-    QString basePath = KGlobal::instance()->instanceName();
+    QString basePath = KGlobal::mainComponent().componentName();
     basePath.append("/view_properties/").append(subDir);
     return KStandardDirs::locateLocal("data", basePath);
 }

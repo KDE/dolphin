@@ -324,7 +324,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
 
     // TODO: I assume there will be a generic way in KDE 4 to store the docks
     // of the main window. In the meantime they are stored manually:
-    QString filename = KStandardDirs::locateLocal("data", KGlobal::instance()->instanceName());
+    QString filename = KStandardDirs::locateLocal("data", KGlobal::mainComponent().componentName());
     filename.append("/panels_layout");
     QFile file(filename);
     if (file.open(QIODevice::WriteOnly)) {
@@ -924,8 +924,7 @@ void DolphinMainWindow::loadSettings()
     // TODO: I assume there will be a generic way in KDE 4 to restore the docks
     // of the main window. In the meantime they are restored manually (see also
     // DolphinMainWindow::closeEvent() for more details):
-    QString filename = KStandardDirs::locateLocal("data", KGlobal::instance()->instanceName());
-    filename.append("/panels_layout");
+    QString filename = KStandardDirs::locateLocal("data", KGlobal::mainComponent().componentName());   filename.append("/panels_layout");
     QFile file(filename);
     if (file.open(QIODevice::ReadOnly)) {
         QByteArray data = file.readAll();

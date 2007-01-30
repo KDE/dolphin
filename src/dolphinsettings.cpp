@@ -25,6 +25,7 @@
 
 #include <kbookmark.h>
 #include <kbookmarkmanager.h>
+#include <kcomponentdata.h>
 #include <kicontheme.h>
 #include <kinstance.h>
 #include <klocale.h>
@@ -63,7 +64,7 @@ KBookmark DolphinSettings::bookmark(int index) const
 
 KBookmarkManager* DolphinSettings::bookmarkManager() const
 {
-    QString basePath = KGlobal::instance()->instanceName();
+    QString basePath = KGlobal::mainComponent().componentName();
     basePath.append("/bookmarks.xml");
     const QString file = KStandardDirs::locateLocal("data", basePath);
 
@@ -76,7 +77,7 @@ void DolphinSettings::save()
     m_iconsModeSettings->writeConfig();
     m_detailsModeSettings->writeConfig();
 
-    QString basePath = KGlobal::instance()->instanceName();
+    QString basePath = KGlobal::mainComponent().componentName();
     basePath.append("/bookmarks.xml");
     const QString file = KStandardDirs::locateLocal( "data", basePath);
 
