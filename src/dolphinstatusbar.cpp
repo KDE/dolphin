@@ -52,9 +52,12 @@ DolphinStatusBar::DolphinStatusBar(DolphinView* parent) :
     m_progressBar->hide();
 
     const QSize size(m_progressBar->sizeHint());
+    const int barHeight = size.height();
+
     m_progressBar->setMaximumWidth(200);
-    setMinimumHeight(size.height());
-    m_messageLabel->setMinimumTextHeight(size.height());
+    setMinimumHeight(barHeight);
+    m_messageLabel->setMinimumTextHeight(barHeight);
+    m_spaceInfo->setFixedHeight(barHeight);
 
     connect(parent, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(updateSpaceInfoContent(const KUrl&)));

@@ -604,6 +604,8 @@ void DolphinView::loadDirectory(const KUrl& url)
 
     startDirLister(url);
     emit urlChanged(url);
+
+    m_statusBar->clear();
 }
 
 void DolphinView::triggerItem(const QModelIndex& index)
@@ -870,7 +872,7 @@ void DolphinView::createView()
     // delete current view
     QAbstractItemView* view = itemView();
     if (view != 0) {
-        m_topLayout->remove(view);
+        m_topLayout->removeWidget(view);
         view->close();
         view->deleteLater();
         m_iconsView = 0;

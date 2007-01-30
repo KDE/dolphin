@@ -19,15 +19,19 @@
  ***************************************************************************/
 
 #include "statusbarmessagelabel.h"
-#include <qpainter.h>
-#include <qtimer.h>
-#include <qfontmetrics.h>
-//Added by qt3to4:
+
+#include <kglobalsettings.h>
+#include <kiconloader.h>
+#include <kicon.h>
+#include <klocale.h>
+
+#include <QFontMetrics>
+#include <QPainter>
+#include <QPaintEvent>
+#include <QPushButton>
 #include <QPixmap>
 #include <QResizeEvent>
-#include <QPaintEvent>
-#include <kiconloader.h>
-#include <kglobalsettings.h>
+#include <QTimer>
 
 StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
     QWidget(parent),
@@ -35,13 +39,17 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
     m_state(Default),
     m_illumination(0),
     m_minTextHeight(-1),
-    m_timer(0)
+    m_timer(0),
+    m_closeButton(0)
 {
     setMinimumHeight(K3Icon::SizeSmall);
 
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()),
             this, SLOT(timerDone()));
+
+    m_closeButton = new QPushButton(KIcon("close"), QString::null, this);
+    m_closeButton->hide();
 }
 
 StatusBarMessageLabel::~StatusBarMessageLabel()
@@ -50,7 +58,7 @@ StatusBarMessageLabel::~StatusBarMessageLabel()
 
 void StatusBarMessageLabel::setType(DolphinStatusBar::Type type)
 {
-    if (type != m_type) {
+    if ((type != m_type) || (type == DolphinStatusBar::Error)) {
         m_type = type;
 
         m_timer->stop();
@@ -62,20 +70,27 @@ void StatusBarMessageLabel::setType(DolphinStatusBar::Type type)
         switch (type) {
             case DolphinStatusBar::OperationCompleted:
                 iconName = "ok";
+                m_closeButton->hide();
                 break;
 
             case DolphinStatusBar::Information:
                 iconName = "info";
+                m_closeButton->hide();
                 break;
 
             case DolphinStatusBar::Error:
                 iconName = "error";
                 m_timer->start(100);
                 m_state = Illuminate;
+
+                updateCloseButtonPosition();
+                m_closeButton->show();
                 break;
 
             case DolphinStatusBar::Default:
-            default: break;
+            default:
+                m_closeButton->hide();
+                break;
         }
 
         m_pixmap = (iconName == 0) ? QPixmap() : SmallIcon(iconName);
@@ -121,7 +136,7 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
     QColor backgroundColor(palette().brush(QPalette::Background).color());
     QColor foregroundColor(KGlobalSettings::textColor());
     if (m_illumination > 0) {
-        backgroundColor = mixColors(backgroundColor, QColor(255, 255, 64), m_illumination);
+        backgroundColor = mixColors(backgroundColor, QColor(255, 255, 128), m_illumination);
         foregroundColor = mixColors(foregroundColor, QColor(0, 0, 0), m_illumination);
     }
     painter.setBrush(backgroundColor);
@@ -129,12 +144,12 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
     painter.drawRect(QRect(0, 0, width(), height()));
 
     // draw pixmap
-    int x = pixmapGap();
-    int y = (height() - m_pixmap.height()) / 2;
+    int x = borderGap();
+    int y = (m_minTextHeight - m_pixmap.height()) / 2;
 
     if (!m_pixmap.isNull()) {
         painter.drawPixmap(x, y, m_pixmap);
-        x += m_pixmap.width() + pixmapGap();
+        x += m_pixmap.width() + borderGap();
     }
 
     // draw text
@@ -143,7 +158,7 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
     if (height() > m_minTextHeight) {
         flags = flags | Qt::TextWordWrap;
     }
-    painter.drawText(QRect(x, 0, width() - x, height()), flags, m_text);
+    painter.drawText(QRect(x, 0, availableTextWidth(), height()), flags, m_text);
     painter.end();
 }
 
@@ -164,7 +179,7 @@ void StatusBarMessageLabel::timerDone()
             }
             else {
                 m_state = Illuminated;
-                m_timer->start(1000);
+                m_timer->start(5000);
             }
             break;
         }
@@ -200,6 +215,8 @@ void StatusBarMessageLabel::assureVisibleText()
         return;
     }
 
+    // calculate the required height of the widget thats
+    // needed for having a fully visible text
     QFontMetrics fontMetrics(font());
     const QRect bounds(fontMetrics.boundingRect(0, 0, availableTextWidth(), height(),
                                                 Qt::AlignVCenter | Qt::TextWordWrap,
@@ -208,13 +225,38 @@ void StatusBarMessageLabel::assureVisibleText()
     if (requiredHeight < m_minTextHeight) {
         requiredHeight = m_minTextHeight;
     }
-    setMinimumHeight(requiredHeight);
-    updateGeometry();
+
+    // Increase/decrease the current height of the widget to the
+    // required height. The increasing/decreasing is done in several
+    // steps to have an animation if the height is modified
+    // (see StatusBarMessageLabel::resizeEvent())
+    const int gap = m_minTextHeight / 2;
+    int minHeight = minimumHeight();
+    if (minHeight < requiredHeight) {
+        minHeight += gap;
+        if (minHeight > requiredHeight) {
+            minHeight = requiredHeight;
+        }
+        setMinimumHeight(minHeight);
+        updateGeometry();
+    }
+    else if (minHeight > requiredHeight) {
+        minHeight -= gap;
+        if (minHeight < requiredHeight) {
+            minHeight = requiredHeight;
+        }
+        setMinimumHeight(minHeight);
+        updateGeometry();
+    }
+
+    updateCloseButtonPosition();
 }
 
 int StatusBarMessageLabel::availableTextWidth() const
 {
-    return width() - m_pixmap.width() - pixmapGap() * 2;
+    const int buttonWidth = (m_type == DolphinStatusBar::Error) ?
+                            m_closeButton->width() + borderGap() : 0;
+    return width() - m_pixmap.width() - (borderGap() * 3) - buttonWidth;
 }
 
 QColor StatusBarMessageLabel::mixColors(const QColor& c1,
@@ -226,6 +268,13 @@ QColor StatusBarMessageLabel::mixColors(const QColor& c1,
     const int green = (c1.green() * recip + c2.green() * percent) / 100;
     const int blue  = (c1.blue()  * recip + c2.blue()  * percent) / 100;
     return QColor(red, green, blue);
+}
+
+void StatusBarMessageLabel::updateCloseButtonPosition()
+{
+    const int x = width() - m_closeButton->width();
+    const int y = 2;
+    m_closeButton->move(x, y);
 }
 
 #include "statusbarmessagelabel.moc"

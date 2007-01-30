@@ -21,13 +21,15 @@
 #ifndef STATUSBARMESSAGELABEL_H
 #define STATUSBARMESSAGELABEL_H
 
-#include <qwidget.h>
-#include <qpixmap.h>
-#include <qstring.h>
-//Added by qt3to4:
-#include <QPaintEvent>
-#include <QResizeEvent>
 #include <dolphinstatusbar.h>
+
+#include <QPixmap>
+#include <QString>
+#include <QWidget>
+
+class QPaintEvent;
+class QResizeEvent;
+class QPushButton;
 class QTimer;
 
 /**
@@ -84,6 +86,12 @@ private slots:
      */
     int availableTextWidth() const;
 
+    /**
+     * Moves the close button to the upper right corner
+     * of the message label.
+     */
+    void updateCloseButtonPosition();
+
 private:
     enum State {
         Default,
@@ -101,12 +109,13 @@ private:
     QTimer* m_timer;
     QString m_text;
     QPixmap m_pixmap;
+    QPushButton* m_closeButton;
 
     QColor mixColors(const QColor& c1,
                      const QColor& c2,
                      int percent) const;
 
-    int pixmapGap() const { return 3; }
+    int borderGap() const { return 3; }
 };
 
 #endif
