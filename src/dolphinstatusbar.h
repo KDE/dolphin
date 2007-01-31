@@ -108,7 +108,7 @@ public:
      * is cleared by DolphinStatusBar::clear().
      */
     void setDefaultText(const QString& text);
-    const QString& defaultText() const { return m_defaultText; }
+    const QString& defaultText() const;
 
 protected:
     /** @see QWidget::resizeEvent() */
@@ -138,8 +138,6 @@ private:
     QLabel* m_progressText;
     QProgressBar* m_progressBar;
     int m_progress;
-
-    QString m_defaultText;
 };
 
 #endif

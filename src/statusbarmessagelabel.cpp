@@ -48,69 +48,73 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
     connect(m_timer, SIGNAL(timeout()),
             this, SLOT(timerDone()));
 
-    m_closeButton = new QPushButton(KIcon("close"), QString::null, this);
+    m_closeButton = new QPushButton(i18n("Close"), this);
     m_closeButton->hide();
+    connect(m_closeButton, SIGNAL(clicked()),
+            this, SLOT(closeErrorMessage()));
 }
 
 StatusBarMessageLabel::~StatusBarMessageLabel()
 {
 }
 
-void StatusBarMessageLabel::setType(DolphinStatusBar::Type type)
+void StatusBarMessageLabel::setMessage(const QString& text,
+                                       DolphinStatusBar::Type type)
 {
-    if ((type != m_type) || (type == DolphinStatusBar::Error)) {
-        m_type = type;
-
-        m_timer->stop();
-        m_illumination = 0;
-        m_state = Default;
-
-        const char* iconName = 0;
-        QPixmap pixmap;
-        switch (type) {
-            case DolphinStatusBar::OperationCompleted:
-                iconName = "ok";
-                m_closeButton->hide();
-                break;
-
-            case DolphinStatusBar::Information:
-                iconName = "info";
-                m_closeButton->hide();
-                break;
-
-            case DolphinStatusBar::Error:
-                iconName = "error";
-                m_timer->start(100);
-                m_state = Illuminate;
-
-                updateCloseButtonPosition();
-                m_closeButton->show();
-                break;
-
-            case DolphinStatusBar::Default:
-            default:
-                m_closeButton->hide();
-                break;
+    if (m_type == DolphinStatusBar::Error) {
+        // If an error is shown currently, other error messages get queued.
+        // Non-error messages are ignored if there are pending error messages.
+        if (type == DolphinStatusBar::Error) {
+            m_pendingMessages.append(text);
+            return;
         }
-
-        m_pixmap = (iconName == 0) ? QPixmap() : SmallIcon(iconName);
-        QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
-        update();
+        if ((m_state != Default) || !m_pendingMessages.isEmpty()) {
+            return;
+        }
     }
-}
 
-void StatusBarMessageLabel::setText(const QString& text)
-{
-    if (text != m_text) {
-        if (m_type == DolphinStatusBar::Error) {
+    if ((text == m_text) && (type == m_type)) {
+        return;
+    }
+
+    m_text = text;
+    m_type = type;
+
+    m_timer->stop();
+    m_illumination = 0;
+    m_state = Default;
+
+    const char* iconName = 0;
+    QPixmap pixmap;
+    switch (type) {
+        case DolphinStatusBar::OperationCompleted:
+            iconName = "ok";
+            m_closeButton->hide();
+            break;
+
+        case DolphinStatusBar::Information:
+            iconName = "info";
+            m_closeButton->hide();
+            break;
+
+        case DolphinStatusBar::Error:
+            iconName = "error";
             m_timer->start(100);
-            m_illumination = 0;
             m_state = Illuminate;
-        }
-        m_text = text;
-        QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
-        update();
+
+            updateCloseButtonPosition();
+            m_closeButton->show();
+            break;
+
+        case DolphinStatusBar::Default:
+        default:
+            m_closeButton->hide();
+            break;
     }
+
+    m_pixmap = (iconName == 0) ? QPixmap() : SmallIcon(iconName);
+    QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
+    update();
 }
 
 void StatusBarMessageLabel::setMinimumTextHeight(int min)
@@ -118,6 +122,7 @@ void StatusBarMessageLabel::setMinimumTextHeight(int min)
     if (min != m_minTextHeight) {
         m_minTextHeight = min;
         setMinimumHeight(min);
+        m_closeButton->setFixedHeight(min - borderGap() * 2);
     }
 }
 
@@ -165,6 +170,7 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
 void StatusBarMessageLabel::resizeEvent(QResizeEvent* event)
 {
     QWidget::resizeEvent(event);
+    updateCloseButtonPosition();
     QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
 }
 
@@ -256,7 +262,7 @@ int StatusBarMessageLabel::availableTextWidth() const
 {
     const int buttonWidth = (m_type == DolphinStatusBar::Error) ?
                             m_closeButton->width() + borderGap() : 0;
-    return width() - m_pixmap.width() - (borderGap() * 3) - buttonWidth;
+    return width() - m_pixmap.width() - (borderGap() * 4) - buttonWidth;
 }
 
 QColor StatusBarMessageLabel::mixColors(const QColor& c1,
@@ -272,9 +278,33 @@ QColor StatusBarMessageLabel::mixColors(const QColor& c1,
 
 void StatusBarMessageLabel::updateCloseButtonPosition()
 {
-    const int x = width() - m_closeButton->width();
-    const int y = 2;
+    const int x = width() - m_closeButton->width() - borderGap();
+    const int y = height() - m_closeButton->height() - borderGap();
     m_closeButton->move(x, y);
+}
+
+void StatusBarMessageLabel::closeErrorMessage()
+{
+    if (!showPendingMessage()) {
+        reset();
+        setMessage(m_defaultText, DolphinStatusBar::Default);
+    }
+}
+
+bool StatusBarMessageLabel::showPendingMessage()
+{
+    if (!m_pendingMessages.isEmpty()) {
+        reset();
+        setMessage(m_pendingMessages.takeFirst(), DolphinStatusBar::Error);
+        return true;
+    }
+    return false;
+}
+
+void StatusBarMessageLabel::reset()
+{
+    m_text = QString::null;
+    m_type = DolphinStatusBar::Default;
 }
 
 #include "statusbarmessagelabel.moc"

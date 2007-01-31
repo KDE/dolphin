@@ -59,8 +59,8 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
 {
     QPainter painter(this);
     const int barWidth = width();
-    const int barTop = 2;
-    const int barHeight = height() - 4;
+    const int barTop = 1;
+    const int barHeight = height() - 5;
 
     QString text;
 
@@ -98,7 +98,7 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
             text = i18n("Getting size...");
         }
         else {
-            text = "";
+            text = QString::null;
             QTimer::singleShot(0, this, SLOT(hide()));
         }
     }

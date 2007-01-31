@@ -60,7 +60,7 @@ private slots:
                              const QString& mountPoint);
     void showResult();
 
-    /** Refreshs the space information for the current set Url. */
+    /** Refreshs the space information for the current set URL. */
     void refresh();
 
 private:

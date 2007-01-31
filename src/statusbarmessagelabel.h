@@ -23,6 +23,7 @@
 
 #include <dolphinstatusbar.h>
 
+#include <QList>
 #include <QPixmap>
 #include <QString>
 #include <QWidget>
@@ -48,11 +49,13 @@ public:
     explicit StatusBarMessageLabel(QWidget* parent);
     virtual ~StatusBarMessageLabel();
 
-    void setType(DolphinStatusBar::Type type);
-    DolphinStatusBar::Type type() const { return m_type; }
+    void setMessage(const QString& text, DolphinStatusBar::Type type);
 
-    void setText(const QString& text);
+    DolphinStatusBar::Type type() const { return m_type; }
     const QString& text() const { return m_text; }
+
+    void setDefaultText(const QString& text) { m_defaultText = text; }
+    const QString& defaultText() const { return m_defaultText; }
 
     // TODO: maybe a better approach is possible with the size hint
     void setMinimumTextHeight(int min);
@@ -92,6 +95,26 @@ private slots:
      */
     void updateCloseButtonPosition();
 
+    /**
+     * Closes the currently shown error message and replaces it
+     * by the next pending message.
+     */
+    void closeErrorMessage();
+
+private:
+    /**
+     * Shows the next pending error message. If no pending message
+     * was in the queue, false is returned.
+     */
+    bool showPendingMessage();
+
+    /**
+     * Resets the message label properties. This is useful when the
+     * result of invoking StatusBarMessageLabel::setMessage() should
+     * not rely on previous states.
+     */
+    void reset();
+
 private:
     enum State {
         Default,
@@ -108,6 +131,8 @@ private:
     int m_minTextHeight;
     QTimer* m_timer;
     QString m_text;
+    QString m_defaultText;
+    QList<QString> m_pendingMessages;
     QPixmap m_pixmap;
     QPushButton* m_closeButton;
 
@@ -115,7 +140,7 @@ private:
                      const QColor& c2,
                      int percent) const;
 
-    int borderGap() const { return 3; }
+    int borderGap() const { return 2; }
 };
 
 #endif

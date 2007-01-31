@@ -71,8 +71,7 @@ DolphinStatusBar::~DolphinStatusBar()
 void DolphinStatusBar::setMessage(const QString& msg,
                                   Type type)
 {
-    m_messageLabel->setText(msg);
-    m_messageLabel->setType(type);
+    m_messageLabel->setMessage(msg, type);
 
     const int widthGap = m_messageLabel->widthGap();
     if (widthGap > 0) {
@@ -123,25 +122,29 @@ void DolphinStatusBar::setProgress(int percent)
         QTimer::singleShot(500, this, SLOT(updateProgressInfo()));
     }
 
+    const QString& defaultText = m_messageLabel->defaultText();
     const QString msg(m_messageLabel->text());
     if ((percent == 0) && !msg.isEmpty()) {
         setMessage(QString::null, Default);
     }
-    else if ((percent == 100) && (msg != m_defaultText)) {
-        setMessage(m_defaultText, Default);
+    else if ((percent == 100) && (msg != defaultText)) {
+        setMessage(defaultText, Default);
     }
 }
 
 void DolphinStatusBar::clear()
 {
-    // TODO: check for timeout, so that it's prevented that
-    // a message is cleared too early.
-    setMessage(m_defaultText, Default);
+    setMessage(m_messageLabel->defaultText(), Default);
 }
 
 void DolphinStatusBar::setDefaultText(const QString& text)
 {
-    m_defaultText = text;
+    m_messageLabel->setDefaultText(text);
+}
+
+const QString& DolphinStatusBar::defaultText() const
+{
+    return m_messageLabel->defaultText();
 }
 
 void DolphinStatusBar::resizeEvent(QResizeEvent* event)
