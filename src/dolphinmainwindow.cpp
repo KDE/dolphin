@@ -488,6 +488,12 @@ void DolphinMainWindow::slotUndoTextChanged(const QString& text)
     }
 }
 
+void DolphinMainWindow::undo()
+{
+    clearStatusBar();
+    KonqUndoManager::self()->undo();
+}
+
 void DolphinMainWindow::cut()
 {
     QMimeData* mimeData = new QMimeData();
@@ -973,7 +979,7 @@ void DolphinMainWindow::setupActions()
     KStandardAction::quit(this, SLOT(quit()), actionCollection());
 
     // setup 'Edit' menu
-    KStandardAction::undo(KonqUndoManager::self(),
+    KStandardAction::undo(this,
                           SLOT(undo()),
                           actionCollection());
 

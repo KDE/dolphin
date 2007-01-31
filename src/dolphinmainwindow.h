@@ -171,6 +171,9 @@ private slots:
     /** Sets the text of the 'Undo' menu action to \a text. */
     void slotUndoTextChanged(const QString& text);
 
+    /** Performs the current undo operation. */
+    void undo();
+
     /**
      * Copies all selected items to the clipboard and marks
      * the items as cutted.
