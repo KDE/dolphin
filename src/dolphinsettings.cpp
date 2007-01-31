@@ -27,7 +27,6 @@
 #include <kbookmarkmanager.h>
 #include <kcomponentdata.h>
 #include <kicontheme.h>
-#include <kinstance.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
 
