@@ -407,7 +407,8 @@ void InfoSidebarPage::addInfoLine(const QString& labelText, const QString& infoT
 
         QLabel* info = new QLabel(infoText, m_infoGrid);
         info->setTextFormat(Qt::RichText);
-        info->setAlignment(Qt::AlignTop | Qt::TextWordWrap);
+        info->setAlignment(Qt::AlignTop);
+        info->setWordWrap(true);
         info->show();
         m_infoWidgets.append(info);
 
@@ -448,13 +449,13 @@ void InfoSidebarPage::insertActions()
     QStringList dirs = KGlobal::dirs()->findDirs("data", "dolphin/servicemenus/");
     for (QStringList::ConstIterator dirIt = dirs.begin(); dirIt != dirs.end(); ++dirIt) {
         QDir dir(*dirIt);
-        QStringList entries = dir.entryList("*.desktop", QDir::Files);
+        QStringList entries = dir.entryList(QStringList("*.desktop"), QDir::Files);
 
         for (QStringList::ConstIterator entryIt = entries.begin(); entryIt != entries.end(); ++entryIt) {
             KSimpleConfig cfg(*dirIt + *entryIt, true);
             cfg.setDesktopGroup();
             if ((cfg.hasKey("Actions") || cfg.hasKey("X-KDE-GetActionMenu")) && cfg.hasKey("ServiceTypes")) {
-                const QStringList types = cfg.readListEntry("ServiceTypes", ',');
+                const QStringList types = cfg.readEntry("ServiceTypes", QStringList(), ',');
                 for (QStringList::ConstIterator it = types.begin(); it != types.end(); ++it) {
                     // check whether the mime type is equal or whether the
                     // mimegroup (e. g. image/*) is supported
@@ -512,7 +513,7 @@ void InfoSidebarPage::insertActions()
                         for (serviceIt = userServices.begin(); serviceIt != userServices.end(); ++serviceIt) {
                             KDEDesktopMimeType::Service service = (*serviceIt);
                             if (popup == 0) {
-                                ServiceButton* button = new ServiceButton(SmallIcon(service.m_strIcon),
+                                ServiceButton* button = new ServiceButton(KIcon(service.m_strIcon),
                                                                           service.m_strName,
                                                                           m_actionBox,
                                                                           actionsIndex);
@@ -522,7 +523,7 @@ void InfoSidebarPage::insertActions()
                                 button->show();
                             }
                             else {
-                                popup->insertItem(SmallIcon(service.m_strIcon), service.m_strName, actionsIndex);
+                                popup->insertItem(KIcon(service.m_strIcon), service.m_strName, actionsIndex);
                             }
 
                             m_actionsVector.append(service);
@@ -580,9 +581,9 @@ void ServiceButton::paintEvent(QPaintEvent* event)
     // draw icon
     int x = spacing;
     const int y = (buttonHeight - K3Icon::SizeSmall) / 2;
-    const QIcon* set = iconSet();
-    if (set != 0) {
-        painter.drawPixmap(x, y, set->pixmap(QIcon::Small, QIcon::Normal));
+    const QIcon &set = icon();
+    if (!set.isNull()) {
+        painter.drawPixmap(x, y, set.pixmap(QIcon::Small, QIcon::Normal));
     }
     x += K3Icon::SizeSmall + spacing;
 

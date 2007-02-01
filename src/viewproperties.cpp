@@ -27,7 +27,7 @@
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <kurl.h>
-#include <kinstance.h>
+#include <kcomponentdata.h>
 
 #include "viewproperties.h"
 #include "dolphinsettings.h"
