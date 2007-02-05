@@ -19,19 +19,32 @@
  ***************************************************************************/
 
 #include "dolphindetailsview.h"
+
+#include <assert.h>
 #include "dolphinmainwindow.h"
 #include "dolphinview.h"
-
+#include "viewproperties.h"
 #include <QHeaderView>
 
 DolphinDetailsView::DolphinDetailsView(DolphinView* parent) :
     QTreeView(parent),
     m_parentView(parent)
 {
+    assert(parent != 0);
+
     setAcceptDrops(true);
     setRootIsDecorated(false);
     setSortingEnabled(true);
     setUniformRowHeights(true);
+
+    const ViewProperties props(parent->url());
+    setSortIndicatorSection(props.sorting());
+    setSortIndicatorOrder(props.sortOrder());
+
+    connect(parent, SIGNAL(sortingChanged(DolphinView::Sorting)),
+            this, SLOT(setSortIndicatorSection(DolphinView::Sorting)));
+    connect(parent, SIGNAL(sortOrderChanged(Qt::SortOrder)),
+            this, SLOT(setSortIndicatorOrder(Qt::SortOrder)));
 }
 
 DolphinDetailsView::~DolphinDetailsView()
@@ -105,6 +118,18 @@ void DolphinDetailsView::dropEvent(QDropEvent* event)
         const KUrl& destination = m_parentView->url();
         m_parentView->mainWindow()->dropUrls(urls, destination);
     }
+}
+
+void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)
+{
+    QHeaderView* headerView = header();
+    headerView->setSortIndicator(sorting, headerView->sortIndicatorOrder());
+}
+
+void DolphinDetailsView::setSortIndicatorOrder(Qt::SortOrder sortOrder)
+{
+    QHeaderView* headerView = header();
+    headerView->setSortIndicator(headerView->sortIndicatorSection(), sortOrder);
 }
 
 #include "dolphindetailsview.moc"

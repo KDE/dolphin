@@ -21,9 +21,8 @@
 #ifndef DOLPHINDETAILSVIEW_H
 #define DOLPHINDETAILSVIEW_H
 
+#include <dolphinview.h>
 #include <QTreeView>
-
-class DolphinView;
 
 /**
  * @brief Represents the details view which shows the name, size,
@@ -48,6 +47,19 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent* event);
     virtual void dragEnterEvent(QDragEnterEvent* event);
     virtual void dropEvent(QDropEvent* event);
+
+private slots:
+    /**
+     * Sets the sort indicator section of the header view
+     * corresponding to \a sorting.
+     */
+    void setSortIndicatorSection(DolphinView::Sorting sorting);
+
+    /**
+     * Sets the sort indicator order of the header view
+     * corresponding to \a sortOrder.
+     */
+    void setSortIndicatorOrder(Qt::SortOrder sortOrder);
 
 private:
     DolphinView* m_parentView;
