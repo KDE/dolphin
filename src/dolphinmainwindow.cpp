@@ -48,6 +48,7 @@
 #include <kicon.h>
 #include <kiconloader.h>
 #include <kio/netaccess.h>
+#include <kio/deletejob.h>
 #include <kio/renamedialog.h>
 #include <kinputdialog.h>
 #include <klocale.h>
