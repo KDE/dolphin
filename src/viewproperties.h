@@ -30,11 +30,12 @@
 class QFile;
 
 /**
- * @brief Maintains the view properties like 'view mode' or 'show hidden files' for a directory.
+ * @brief Maintains the view properties like 'view mode' or
+ *        'show hidden files' for a directory.
  *
- * The view properties are automatically stored inside
- * the directory as hidden file called '.dolphinview'. To read out the view properties
- * just construct an instance by passing the Url of the directory:
+ * The view properties are automatically stored inside the directory inside
+ * the hidden file '.directory'. To read out the view properties
+ * just construct an instance by passing the URL of the directory:
  *
  * \code
  * ViewProperties props(KUrl("/home/peter/Documents"));
@@ -42,7 +43,7 @@ class QFile;
  * const bool showHiddenFiles = props.isShowHiddenFilesEnabled();
  * \endcode
  *
- * When modifying a view property, the '.dolphinview' file is automatically updated
+ * When modifying a view property, the '.directory' file is automatically updated
  * inside the destructor.
  */
 class ViewProperties
