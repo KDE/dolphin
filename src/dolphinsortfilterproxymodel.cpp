@@ -39,7 +39,10 @@ static DolphinView::Sorting dirModelColumnToDolphinView[] = {
 
 
 DolphinSortFilterProxyModel::DolphinSortFilterProxyModel(QObject* parent) :
-    QSortFilterProxyModel(parent)
+    QSortFilterProxyModel(parent),
+    m_sortColumn(0),
+    m_sorting(DolphinView::SortByName),
+    m_sortOrder(Qt::Ascending)
 {
     setDynamicSortFilter(true);
 
@@ -70,11 +73,12 @@ void DolphinSortFilterProxyModel::setSortOrder(Qt::SortOrder sortOrder)
 
 void DolphinSortFilterProxyModel::sort(int column, Qt::SortOrder sortOrder)
 {
+    m_sortColumn = column;
     m_sortOrder = sortOrder;
     m_sorting = (column >= 0) && (column <= dolphinMapSize) ?
                 dirModelColumnToDolphinView[column]  :
                 DolphinView::SortByName;
-    QSortFilterProxyModel::sort(column,sortOrder);
+    QSortFilterProxyModel::sort(column, sortOrder);
 }
 
 bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
@@ -86,20 +90,22 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
     QVariant rightData = dirModel->data(right, sortRole());
 
     if ((leftData.type() == QVariant::String) && (rightData.type() == QVariant::String)) {
+        // assure that directories are always sorted before files
+        // if the sorting is done by the 'Name' column
+        if (m_sortColumn == KDirModel::Name) {
+            const bool leftIsDir  = dirModel->itemForIndex(left)->isDir();
+            const bool rightIsDir = dirModel->itemForIndex(right)->isDir();
+            if (leftIsDir && !rightIsDir) {
+                return true;
+            }
+
+            if (!leftIsDir && rightIsDir) {
+                return false;
+            }
+        }
+
         const QString leftStr  = leftData.toString();
         const QString rightStr = rightData.toString();
-
-        const bool leftIsDir  = dirModel->itemForIndex(left)->isDir();
-        const bool rightIsDir = dirModel->itemForIndex(right)->isDir();
-
-        // assure that directories are always sorted before files
-        if (leftIsDir && !rightIsDir) {
-            return true;
-        }
-
-        if (!leftIsDir && rightIsDir) {
-            return false;
-        }
 
         return sortCaseSensitivity() ? (naturalCompare(leftStr, rightStr) < 0) :
                                        (naturalCompare(leftStr.toLower(), rightStr.toLower()) < 0);

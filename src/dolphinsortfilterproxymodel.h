@@ -69,6 +69,7 @@ private:
     static int naturalCompare(const QString& a, const QString& b);
 
 private:
+    int m_sortColumn;
     DolphinView::Sorting m_sorting;
     Qt::SortOrder m_sortOrder;
 };
