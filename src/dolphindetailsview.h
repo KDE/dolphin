@@ -61,8 +61,15 @@ private slots:
      */
     void setSortIndicatorOrder(Qt::SortOrder sortOrder);
 
+    /**
+     * Synchronizes the sorting state of the Dolphin menu 'View -> Sort'
+     * with the current state of the details view.
+     * @param column Index of the current sorting column.
+     */
+     void synchronizeSortingState(int column);
+
 private:
-    DolphinView* m_parentView;
+    DolphinView* m_dolphinView;
 };
 
 #endif
