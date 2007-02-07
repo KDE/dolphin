@@ -21,6 +21,7 @@
 #include "dolphindetailsview.h"
 
 #include "dolphinmainwindow.h"
+#include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
 #include "viewproperties.h"
 
@@ -142,33 +143,21 @@ void DolphinDetailsView::synchronizeSortingState(int column)
     // The sorting has already been changed in QTreeView if this slot is
     // invoked, but Dolphin was not informed about this. This is bypassed by changing
     // the sorting and sort order to a temporary other value and readjust it again.
-    const bool update = (column == KDirModel::Name) || (column == KDirModel::Size) ||
-                        (column == KDirModel::ModifiedTime);
-    if (update) {
-        DolphinView::Sorting sorting = DolphinView::SortByName;
-        switch (column) {
-            case KDirModel::Size:         sorting = DolphinView::SortBySize; break;
-            case KDirModel::ModifiedTime: sorting = DolphinView::SortByDate; break;
-            case KDirModel::Name:
-            default: break;
-        }
+    DolphinView::Sorting sorting = DolphinSortFilterProxyModel::sortingForColumn(column);
+    const Qt::SortOrder sortOrder = header()->sortIndicatorOrder();
 
-        const Qt::SortOrder sortOrder = header()->sortIndicatorOrder();
+    // temporary adjust the sorting and sort order to different values...
+    const DolphinView::Sorting tempSorting = (sorting == DolphinView::SortByName) ?
+                                             DolphinView::SortBySize :
+                                             DolphinView::SortByName;
+    m_dolphinView->setSorting(tempSorting);
+    const Qt::SortOrder tempSortOrder = (sortOrder == Qt::Ascending) ?
+                                        Qt::Descending : Qt::Ascending;
+    m_dolphinView->setSortOrder(tempSortOrder);
 
-        // temporary adjust the sorting and sort order to different values...
-        const DolphinView::Sorting tempSorting = (sorting == DolphinView::SortByName) ?
-                                                 DolphinView::SortBySize :
-                                                 DolphinView::SortByName;
-        m_dolphinView->setSorting(tempSorting);
-        const Qt::SortOrder tempSortOrder = (sortOrder == Qt::Ascending) ?
-                                            Qt::Descending : Qt::Ascending;
-        m_dolphinView->setSortOrder(tempSortOrder);
-
-        // ... so that setting them again results in storing the new setting.
-        m_dolphinView->setSorting(sorting);
-        m_dolphinView->setSortOrder(sortOrder);
-    }
-
+    // ... so that setting them again results in storing the new setting.
+    m_dolphinView->setSorting(sorting);
+    m_dolphinView->setSortOrder(sortOrder);
 }
 
 #include "dolphindetailsview.moc"

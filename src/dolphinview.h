@@ -94,9 +94,12 @@ public:
     enum Sorting
     {
         SortByName = 0,
-        SortBySize = 1,
-        SortByDate = 2,
-        MaxSortEnum = SortByDate
+        SortBySize,
+        SortByDate,
+        SortByPermissions,
+        SortByOwner,
+        SortByGroup,
+        MaxSortEnum = SortByGroup
     };
 
     DolphinView(DolphinMainWindow* mainwindow,

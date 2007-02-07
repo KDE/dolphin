@@ -217,6 +217,15 @@ private slots:
     /** The sorting of the current view should be done by the date. */
     void sortByDate();
 
+    /** The sorting of the current view should be done by the permissions. */
+    void sortByPermissions();
+
+    /** The sorting of the current view should be done by the owner. */
+    void sortByOwner();
+
+    /** The sorting of the current view should be done by the group. */
+    void sortByGroup();
+
     /** Switches between an ascending and descending sorting order. */
     void toggleSortOrder();
 

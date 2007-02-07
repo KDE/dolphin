@@ -24,17 +24,23 @@
 #include <kdirmodel.h>
 #include <kfileitem.h>
 
-static const int dolphinMapSize = 3;
+static const int dolphinMapSize = 6;
 static int dolphinViewToDirModelColumn[] = {
-    KDirModel::Name,        // DolphinView::SortByName
-    KDirModel::Size,        // DolphinView::SortBySize
-    KDirModel::ModifiedTime // DolphinView::SortByDate
+    KDirModel::Name,         // DolphinView::SortByName
+    KDirModel::Size,         // DolphinView::SortBySize
+    KDirModel::ModifiedTime, // DolphinView::SortByDate
+    KDirModel::Permissions,  // DolphinView::SortByPermissions
+    KDirModel::Owner,        // DolphinView::SortByOwner
+    KDirModel::Group         // DolphinView::SortByGroup
 };
 
 static DolphinView::Sorting dirModelColumnToDolphinView[] = {
-    DolphinView::SortByName, // KDirModel::Name
-    DolphinView::SortBySize, // KDirModel::Size
-    DolphinView::SortByDate  // KDirModel::ModifiedTime
+    DolphinView::SortByName,        // KDirModel::Name
+    DolphinView::SortBySize,        // KDirModel::Size
+    DolphinView::SortByDate,        // KDirModel::ModifiedTime
+    DolphinView::SortByPermissions, // KDirModel::Permissions
+    DolphinView::SortByOwner,       // KDirModel::Owner
+    DolphinView::SortByGroup        // KDirModel::Group
 };
 
 
@@ -79,6 +85,14 @@ void DolphinSortFilterProxyModel::sort(int column, Qt::SortOrder sortOrder)
                 dirModelColumnToDolphinView[column]  :
                 DolphinView::SortByName;
     QSortFilterProxyModel::sort(column, sortOrder);
+}
+
+DolphinView::Sorting DolphinSortFilterProxyModel::sortingForColumn(int column)
+{
+    if ((column >= 0) && (column <= dolphinMapSize)) {
+        return dirModelColumnToDolphinView[column];
+    }
+    return DolphinView::SortByName;
 }
 
 bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,

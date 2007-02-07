@@ -61,6 +61,13 @@ public:
     virtual void sort(int column,
                       Qt::SortOrder order = Qt::AscendingOrder);
 
+    /**
+     * Helper method to get the DolphinView::Sorting type for a given
+     * column \a column. If the column is smaller 0 or greater than the
+     * available columns, DolphinView::SortByName is returned.
+     */
+    static DolphinView::Sorting sortingForColumn(int column);
+
 protected:
     virtual bool lessThan(const QModelIndex& left,
                           const QModelIndex& right) const;

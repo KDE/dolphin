@@ -26,6 +26,9 @@
     <Action name="by_name" />
     <Action name="by_size" />
     <Action name="by_date" />
+    <Action name="by_permissions" />
+    <Action name="by_owner" />
+    <Action name="by_group" />
     <Separator/>
     <Action name="descending" />
    </Menu>

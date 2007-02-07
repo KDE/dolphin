@@ -256,6 +256,15 @@ void DolphinMainWindow::slotSortingChanged(DolphinView::Sorting sorting)
         case DolphinView::SortByDate:
             action = actionCollection()->action("by_date");
             break;
+        case DolphinView::SortByPermissions:
+            action = actionCollection()->action("by_permissions");
+            break;
+        case DolphinView::SortByOwner:
+            action = actionCollection()->action("by_owner");
+            break;
+        case DolphinView::SortByGroup:
+            action = actionCollection()->action("by_group");
+            break;
         default:
             break;
     }
@@ -633,6 +642,21 @@ void DolphinMainWindow::sortBySize()
 void DolphinMainWindow::sortByDate()
 {
     m_activeView->setSorting(DolphinView::SortByDate);
+}
+
+void DolphinMainWindow::sortByPermissions()
+{
+    m_activeView->setSorting(DolphinView::SortByPermissions);
+}
+
+void DolphinMainWindow::sortByOwner()
+{
+    m_activeView->setSorting(DolphinView::SortByOwner);
+}
+
+void DolphinMainWindow::sortByGroup()
+{
+    m_activeView->setSorting(DolphinView::SortByGroup);
 }
 
 void DolphinMainWindow::toggleSortOrder()
@@ -1035,10 +1059,25 @@ void DolphinMainWindow::setupActions()
     sortByDate->setText(i18n("By Date"));
     connect(sortByDate, SIGNAL(triggered()), this, SLOT(sortByDate()));
 
+    KToggleAction* sortByPermissions = actionCollection()->add<KToggleAction>("by_permissions");
+    sortByPermissions->setText(i18n("By Permissions"));
+    connect(sortByPermissions, SIGNAL(triggered()), this, SLOT(sortByPermissions()));
+
+    KToggleAction* sortByOwner = actionCollection()->add<KToggleAction>("by_owner");
+    sortByOwner->setText(i18n("By Owner"));
+    connect(sortByOwner, SIGNAL(triggered()), this, SLOT(sortByOwner()));
+
+    KToggleAction* sortByGroup = actionCollection()->add<KToggleAction>("by_group");
+    sortByGroup->setText(i18n("By Group"));
+    connect(sortByGroup, SIGNAL(triggered()), this, SLOT(sortByGroup()));
+
     QActionGroup* sortGroup = new QActionGroup(this);
     sortGroup->addAction(sortByName);
     sortGroup->addAction(sortBySize);
     sortGroup->addAction(sortByDate);
+    sortGroup->addAction(sortByPermissions);
+    sortGroup->addAction(sortByOwner);
+    sortGroup->addAction(sortByGroup);
 
     KToggleAction* sortDescending = actionCollection()->add<KToggleAction>("descending");
     sortDescending->setText(i18n("Descending"));

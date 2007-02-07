@@ -22,6 +22,7 @@
 #include "viewpropsprogressinfo.h"
 #include "dolphinview.h"
 #include "dolphinsettings.h"
+#include "dolphinsortfilterproxymodel.h"
 #include "generalsettings.h"
 #include "viewproperties.h"
 
@@ -78,14 +79,10 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_sorting->addItem("By Name");
     m_sorting->addItem("By Size");
     m_sorting->addItem("By Date");
-    int sortingIdx = 0;
-    switch (m_viewProps->sorting()) {
-        case DolphinView::SortByName: sortingIdx = 0; break;
-        case DolphinView::SortBySize: sortingIdx = 1; break;
-        case DolphinView::SortByDate: sortingIdx = 2; break;
-        default: break;
-    }
-    m_sorting->setCurrentIndex(sortingIdx);
+    m_sorting->addItem("By Permissions");
+    m_sorting->addItem("By Owner");
+    m_sorting->addItem("By Group");
+    m_sorting->setCurrentIndex(m_viewProps->sorting());
 
     QLabel* sortOrderLabel = new QLabel(i18n("Sort order:"), propsBox);
     m_sortOrder = new QComboBox(propsBox);
@@ -172,12 +169,7 @@ void ViewPropertiesDialog::slotViewModeChanged(int index)
 
 void ViewPropertiesDialog::slotSortingChanged(int index)
 {
-    DolphinView::Sorting sorting = DolphinView::SortByName;
-    switch (index) {
-        case 1: sorting = DolphinView::SortBySize; break;
-        case 2: sorting = DolphinView::SortByDate; break;
-        default: break;
-    }
+    const DolphinView::Sorting sorting = DolphinSortFilterProxyModel::sortingForColumn(index);
     m_viewProps->setSorting(sorting);
     m_isDirty = true;
 }
