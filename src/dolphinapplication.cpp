@@ -25,13 +25,12 @@ DolphinApplication::DolphinApplication()
 {
 }
 
-/*
- * cleanup what ever is left from the MainWindows
- */
 DolphinApplication::~DolphinApplication()
 {
-    while( m_mainWindows.count() != 0 )
+    // cleanup what ever is left from the MainWindows
+    while (m_mainWindows.count() != 0) {
         delete m_mainWindows.takeFirst();
+    }
 }
 
 DolphinApplication* DolphinApplication::app()
@@ -41,24 +40,23 @@ DolphinApplication* DolphinApplication::app()
 
 DolphinMainWindow* DolphinApplication::createMainWindow()
 {
-    DolphinMainWindow* mainwindow = new DolphinMainWindow;
-    mainwindow->init();
-    
-    m_mainWindows.append( mainwindow );
-    return mainwindow;
+    DolphinMainWindow* mainWindow = new DolphinMainWindow();
+    mainWindow->init();
+
+    m_mainWindows.append(mainWindow);
+    return mainWindow;
 }
 
-void DolphinApplication::removeMainWindow( DolphinMainWindow *mainwindow )
+void DolphinApplication::removeMainWindow(DolphinMainWindow* mainWindow)
 {
-    m_mainWindows.removeAll( mainwindow );
+    m_mainWindows.removeAll(mainWindow);
 }
 
 void DolphinApplication::refreshMainWindows()
 {
-    for( int i = 0; i < m_mainWindows.count(); ++i ) {
+    for (int i = 0; i < m_mainWindows.count(); ++i) {
         m_mainWindows[i]->refreshViews();
     }
 }
 
 #include "dolphinapplication.moc"
-

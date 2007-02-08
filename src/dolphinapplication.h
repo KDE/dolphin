@@ -27,19 +27,19 @@
 class DolphinMainWindow;
 
 /**
- * 
- * DolphinApplication will hold application wide data which
- * can be accessed.
+ * @brief Holds the application data which can be accessed.
  * At first this will hold a list of DolphinMainWindows which
- * we will delete on application exit. 
+ * we will delete on application exit.
  */
 
-class DolphinApplication : public KApplication {
+class DolphinApplication : public KApplication
+{
     Q_OBJECT
     friend class DolphinMainWindow;
+
 public:
     DolphinApplication();
-    ~DolphinApplication();
+    virtual ~DolphinApplication();
 
     static DolphinApplication* app();
 
@@ -51,14 +51,11 @@ public:
     void refreshMainWindows();
 
 protected:
-    /**
-     * called by the MainWindow to deregister
-     */
-    void removeMainWindow( DolphinMainWindow* );
+    /** Called by the DolphinMainWindow to deregister. */
+    void removeMainWindow(DolphinMainWindow* mainWindow);
 
 private:
     QList<DolphinMainWindow*> m_mainWindows;
 };
-
 
 #endif
