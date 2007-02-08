@@ -60,7 +60,7 @@ FilterBar::FilterBar(QWidget* parent) :
 
     connect(m_filterInput, SIGNAL(textChanged(const QString&)),
             this, SIGNAL(filterChanged(const QString&)));
-    connect(m_close, SIGNAL(clicked()), this, SLOT(emitClose()));
+    connect(m_close, SIGNAL(clicked()), this, SLOT(emitCloseRequest()));
 }
 
 FilterBar::~FilterBar()
@@ -86,13 +86,13 @@ void FilterBar::keyReleaseEvent(QKeyEvent* event)
 {
     QWidget::keyReleaseEvent(event);
     if ((event->key() == Qt::Key_Escape)) {
-        emitClose();
+        emitCloseRequest();
     }
 }
 
-void FilterBar::emitClose()
+void FilterBar::emitCloseRequest()
 {
-    emit close();
+    emit closeRequest();
 }
 
 #include "filterbar.moc"

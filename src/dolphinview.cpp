@@ -116,7 +116,7 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     m_filterBar->hide();
     connect(m_filterBar, SIGNAL(filterChanged(const QString&)),
            this, SLOT(changeNameFilter(const QString&)));
-    connect(m_filterBar, SIGNAL(closed()),
+    connect(m_filterBar, SIGNAL(closeRequest()),
             this, SLOT(closeFilterBar()));
 
     m_topLayout->addWidget(m_urlNavigator);

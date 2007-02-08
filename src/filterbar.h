@@ -51,7 +51,7 @@ signals:
     /**
      * Emitted as soon as the filterbar should get closed.
      */
-    void closed();
+    void closeRequest();
 
 protected:
     virtual void hideEvent(QHideEvent* event);
@@ -59,7 +59,7 @@ protected:
     virtual void keyReleaseEvent(QKeyEvent* event);
 
 private slots:
-    void emitClose();
+    void emitCloseRequest();
 
 private:
     QLabel* m_filter;
