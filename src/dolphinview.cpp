@@ -319,12 +319,12 @@ DolphinStatusBar* DolphinView::statusBar() const
 int DolphinView::contentsX() const
 {
 
-    return 0; //scrollView()->contentsX();
+    return itemView()->horizontalScrollBar()->value();
 }
 
 int DolphinView::contentsY() const
 {
-    return 0; //scrollView()->contentsY();
+    return itemView()->verticalScrollBar()->value();
 }
 
 void DolphinView::refreshSettings()
@@ -668,6 +668,23 @@ void DolphinView::updateItemCount()
     }
 
     updateStatusBar();
+
+    QTimer::singleShot(0, this, SLOT(restoreContentsPos()));
+}
+
+void DolphinView::restoreContentsPos()
+{
+    int index = 0;
+    const QLinkedList<UrlNavigator::HistoryElem> history = urlHistory(index);
+    if (!history.isEmpty()) {
+        QAbstractItemView* view = itemView();
+        // TODO: view->setCurrentItem(history[index].currentFileName());
+
+        QLinkedList<UrlNavigator::HistoryElem>::const_iterator it = history.begin();
+        it += index;
+        view->horizontalScrollBar()->setValue((*it).contentsX());
+        view->verticalScrollBar()->setValue((*it).contentsY());
+    }
 }
 
 void DolphinView::showInfoMessage(const QString& msg)

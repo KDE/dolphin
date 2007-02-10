@@ -406,6 +406,12 @@ private slots:
      */
     void updateItemCount();
 
+    /**
+     * Restores the x- and y-position of the contents if the
+     * current view is part of the history.
+     */
+    void restoreContentsPos();
+
     /** Shows the information \a msg inside the statusbar. */
     void showInfoMessage(const QString& msg);
 
