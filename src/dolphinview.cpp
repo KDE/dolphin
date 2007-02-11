@@ -789,8 +789,8 @@ QString DolphinView::selectionStatusBarText() const
     QString text;
     const KFileItemList list = selectedItems();
     if (list.isEmpty()) {
-        // TODO: assert(!list.isEmpty()) should be used, as this method is only invoked if
-        // DolphinView::hasSelection() is true. Inconsistent behavior?
+        // when an item is triggered, it is temporary selected but selectedItems()
+        // will return an empty list
         return QString();
     }
 
@@ -815,7 +815,7 @@ QString DolphinView::selectionStatusBarText() const
         text = i18n("1 Folder selected");
     }
     else if (folderCount > 1) {
-        text = i18n("%1 Folders selected",folderCount);
+        text = i18n("%1 Folders selected", folderCount);
     }
 
     if ((fileCount > 0) && (folderCount > 0)) {
@@ -824,10 +824,10 @@ QString DolphinView::selectionStatusBarText() const
 
     const QString sizeText(KIO::convertSize(byteSize));
     if (fileCount == 1) {
-        text += i18n("1 File selected (%1)",sizeText);
+        text += i18n("1 File selected (%1)", sizeText);
     }
     else if (fileCount > 1) {
-        text += i18n("%1 Files selected (%1)",fileCount,sizeText);
+        text += i18n("%1 Files selected (%2)", fileCount, sizeText);
     }
 
     return text;
