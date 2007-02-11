@@ -49,7 +49,7 @@ protected:
     virtual void dropEvent(QDropEvent* event);
 
 private:
-    DolphinView* m_parentView;
+    DolphinView* m_dolphinView;
 };
 
 #endif

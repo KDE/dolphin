@@ -22,6 +22,7 @@
 #include "dolphinmainwindow.h"
 #include "dolphinview.h"
 
+#include <assert.h>
 #include <kdirmodel.h>
 #include <kfileitem.h>
 
@@ -29,7 +30,7 @@
 
 DolphinIconsView::DolphinIconsView(DolphinView* parent) :
     QListView(parent),
-    m_parentView(parent)
+    m_dolphinView(parent)
 {
     setResizeMode(QListView::Adjust);
 }
@@ -61,16 +62,16 @@ void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)
 
     const QModelIndex index = indexAt(event->pos());
     if (index.isValid()) {
-        item = m_parentView->fileItem(index);
+        item = m_dolphinView->fileItem(index);
     }
 
-    m_parentView->openContextMenu(item, event->globalPos());
+    m_dolphinView->openContextMenu(item, event->globalPos());
 }
 
 void DolphinIconsView::mouseReleaseEvent(QMouseEvent* event)
 {
     QListView::mouseReleaseEvent(event);
-    m_parentView->declareViewActive();
+    m_dolphinView->declareViewActive();
 }
 
 void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
@@ -82,14 +83,27 @@ void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
 
 void DolphinIconsView::dropEvent(QDropEvent* event)
 {
+    KFileItem* directory = 0;
+    bool dropIntoDirectory = false;
+    const QModelIndex index = indexAt(event->pos());
+    if (index.isValid()) {
+        KFileItem* item = m_dolphinView->fileItem(index);
+        assert(item != 0);
+        dropIntoDirectory = item->isDir();
+        if (dropIntoDirectory) {
+            directory = item;
+        }
+    }
+
     const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
-    if (!urls.isEmpty()) {
+    if (urls.isEmpty() || (event->source() == this) && !dropIntoDirectory) {
+        QListView::dropEvent(event);
+    }
+    else {
         event->acceptProposedAction();
-
-        // TODO: handle dropping above a directory
-
-        const KUrl& destination = m_parentView->url();
-        m_parentView->mainWindow()->dropUrls(urls, destination);
+        const KUrl& destination = (directory == 0) ? m_dolphinView->url() :
+                                                     directory->url();
+        m_dolphinView->mainWindow()->dropUrls(urls, destination);
     }
 }
 
