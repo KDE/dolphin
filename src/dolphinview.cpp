@@ -747,36 +747,13 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
 
 QString DolphinView::defaultStatusBarText() const
 {
-    // TODO: the following code is not suitable for languages where multiple forms
-    // of plurals are given (e. g. in Poland three forms of plurals exist).
     const int itemCount = m_folderCount + m_fileCount;
 
-    QString text;
-    if (itemCount == 1) {
-        text = i18n("1 Item");
-    }
-    else {
-        text = i18n("%1 Items",itemCount);
-    }
-
+    QString text = i18np("1 Item", "%n Items", itemCount);
     text += " (";
-
-    if (m_folderCount == 1) {
-        text += i18n("1 Folder");
-    }
-    else {
-        text += i18n("%1 Folders",m_folderCount);
-    }
-
+    text += i18np("1 Folder", "%n Folders", m_folderCount);
     text += ", ";
-
-    if (m_fileCount == 1) {
-        text += i18n("1 File");
-    }
-    else {
-        text += i18n("%1 Files",m_fileCount);
-    }
-
+    text += i18np("1 File", "%n Files", m_fileCount);
     text += ")";
 
     return text;
@@ -784,8 +761,6 @@ QString DolphinView::defaultStatusBarText() const
 
 QString DolphinView::selectionStatusBarText() const
 {
-    // TODO: the following code is not suitable for languages where multiple forms
-    // of plurals are given (e. g. in Poland three forms of plurals exist).
     QString text;
     const KFileItemList list = selectedItems();
     if (list.isEmpty()) {
@@ -811,23 +786,16 @@ QString DolphinView::selectionStatusBarText() const
         ++it;
     }
 
-    if (folderCount == 1) {
-        text = i18n("1 Folder selected");
-    }
-    else if (folderCount > 1) {
-        text = i18n("%1 Folders selected", folderCount);
-    }
-
-    if ((fileCount > 0) && (folderCount > 0)) {
-        text += ", ";
+    if (folderCount > 0) {
+        text = i18np("1 Folder selected", "%n Folders selected", folderCount);
+        if (fileCount > 0) {
+            text += ", ";
+        }
     }
 
-    const QString sizeText(KIO::convertSize(byteSize));
-    if (fileCount == 1) {
-        text += i18n("1 File selected (%1)", sizeText);
-    }
-    else if (fileCount > 1) {
-        text += i18n("%1 Files selected (%2)", fileCount, sizeText);
+    if (fileCount > 0) {
+        const QString sizeText(KIO::convertSize(byteSize));
+        text += i18np("1 File selected (%1)", "%n Files selected (%1)", fileCount, sizeText);
     }
 
     return text;
