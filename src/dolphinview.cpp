@@ -22,6 +22,7 @@
 
 #include <assert.h>
 
+#include <QApplication>
 #include <QDropEvent>
 #include <QItemSelectionModel>
 #include <QMouseEvent>
@@ -610,15 +611,22 @@ void DolphinView::loadDirectory(const KUrl& url)
 
 void DolphinView::triggerItem(const QModelIndex& index)
 {
+    const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
+    if ((modifier & Qt::ShiftModifier) || (modifier & Qt::ControlModifier)) {
+        // items are selected by the user, hence don't trigger the
+        // item specified by 'index'
+        return;
+    }
+
     KFileItem* item = m_dirModel->itemForIndex(m_proxyModel->mapToSource(index));
     if (item == 0) {
         return;
     }
 
     if (item->isDir()) {
-        // Prefer the local path over the Url. This assures that the
-        // volume space information is correct. Assuming that the Url is media:/sda1,
-        // and the local path is /windows/C: For the Url the space info is related
+        // Prefer the local path over the URL. This assures that the
+        // volume space information is correct. Assuming that the URL is media:/sda1,
+        // and the local path is /windows/C: For the URL the space info is related
         // to the root partition (and hence wrong) and for the local path the space
         // info is related to the windows partition (-> correct).
         const QString localPath(item->localPath());
