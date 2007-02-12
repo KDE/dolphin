@@ -747,16 +747,10 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
 
 QString DolphinView::defaultStatusBarText() const
 {
-    const int itemCount = m_folderCount + m_fileCount;
-
-    QString text = i18np("1 Item", "%n Items", itemCount);
-    text += " (";
-    text += i18np("1 Folder", "%n Folders", m_folderCount);
-    text += ", ";
-    text += i18np("1 File", "%n Files", m_fileCount);
-    text += ")";
-
-    return text;
+    return KIO::itemsSummaryString(m_fileCount + m_folderCount,
+                                   m_fileCount,
+                                   m_folderCount,
+                                   0, false);
 }
 
 QString DolphinView::selectionStatusBarText() const
