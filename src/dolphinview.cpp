@@ -781,7 +781,7 @@ QString DolphinView::selectionStatusBarText() const
     }
 
     if (folderCount > 0) {
-        text = i18np("1 Folder selected", "%n Folders selected", folderCount);
+        text = i18np("1 Folder selected", "%1 Folders selected", folderCount);
         if (fileCount > 0) {
             text += ", ";
         }
@@ -789,7 +789,7 @@ QString DolphinView::selectionStatusBarText() const
 
     if (fileCount > 0) {
         const QString sizeText(KIO::convertSize(byteSize));
-        text += i18np("1 File selected (%1)", "%n Files selected (%1)", fileCount, sizeText);
+        text += i18np("1 File selected (%2)", "%1 Files selected (%2)", fileCount, sizeText);
     }
 
     return text;
