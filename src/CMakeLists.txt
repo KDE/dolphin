@@ -2,7 +2,7 @@
 add_subdirectory( pics )
 add_subdirectory( servicemenus )
 
-include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES}  )
+include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${KDE4_INCLUDE_DIR} ${QT_INCLUDES}  )
 
 
 ########### next target ###############
