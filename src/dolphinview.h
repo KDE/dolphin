@@ -54,7 +54,7 @@ class ViewProperties;
 
 /**
  * @short Represents a view for the directory content
- *        including the navigation bar and status bar.
+ *        including the navigation bar, filter bar and status bar.
  *
  * View modes for icons and details are supported. Currently
  * Dolphin allows to have up to two views inside the main window.
@@ -114,7 +114,7 @@ public:
     /**
      * Sets the current active URL.
      * The signals UrlNavigator::urlChanged() and UrlNavigator::historyChanged()
-     * are submitted.
+     * are emitted.
      */
     void setUrl(const KUrl& url);
 
@@ -375,7 +375,7 @@ signals:
 
     /**
      * Is emitted if information of an item is requested to be shown e. g. in the sidebar.
-     * It the U is empty, no item information request is pending.
+     * It the URL is empty, no item information request is pending.
      */
     void requestItemInfo(const KUrl& url);
 
