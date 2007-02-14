@@ -14,6 +14,7 @@ set(dolphin_SRCS
    bookmarkssidebarpage.cpp
    detailsviewsettingspage.cpp
    dolphinapplication.cpp
+   dolphincontroller.cpp
    dolphinmainwindow.cpp
    dolphinnewmenu.cpp
    dolphinview.cpp

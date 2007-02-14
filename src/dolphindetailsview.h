@@ -24,6 +24,8 @@
 #include <dolphinview.h>
 #include <QTreeView>
 
+class DolphinController;
+
 /**
  * @brief Represents the details view which shows the name, size,
  *        date, permissions, owner and group of an item.
@@ -37,7 +39,7 @@ class DolphinDetailsView : public QTreeView
     Q_OBJECT
 
 public:
-    explicit DolphinDetailsView(DolphinView* parent);
+    explicit DolphinDetailsView(QWidget* parent, DolphinController* controller);
     virtual ~DolphinDetailsView();
 
 protected:
@@ -69,7 +71,7 @@ private slots:
      void synchronizeSortingState(int column);
 
 private:
-    DolphinView* m_dolphinView;
+    DolphinController* m_controller;
 };
 
 #endif

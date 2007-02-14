@@ -20,27 +20,26 @@
 
 #include "dolphindetailsview.h"
 
-#include "dolphinmainwindow.h"
+#include "dolphincontroller.h"
 #include "dolphinsortfilterproxymodel.h"
-#include "dolphinview.h"
 #include "viewproperties.h"
 
 #include <assert.h>
 #include <kdirmodel.h>
 #include <QHeaderView>
 
-DolphinDetailsView::DolphinDetailsView(DolphinView* parent) :
+DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* controller) :
     QTreeView(parent),
-    m_dolphinView(parent)
+    m_controller(controller)
 {
-    assert(parent != 0);
+    assert(controller != 0);
 
     setAcceptDrops(true);
     setRootIsDecorated(false);
     setSortingEnabled(true);
     setUniformRowHeights(true);
 
-    const ViewProperties props(parent->url());
+    const ViewProperties props(controller->url());
     setSortIndicatorSection(props.sorting());
     setSortIndicatorOrder(props.sortOrder());
 
@@ -51,6 +50,9 @@ DolphinDetailsView::DolphinDetailsView(DolphinView* parent) :
             this, SLOT(setSortIndicatorSection(DolphinView::Sorting)));
     connect(parent, SIGNAL(sortOrderChanged(Qt::SortOrder)),
             this, SLOT(setSortIndicatorOrder(Qt::SortOrder)));
+
+    connect(this, SIGNAL(clicked(const QModelIndex&)),
+            controller, SLOT(triggerItem(const QModelIndex&)));
 }
 
 DolphinDetailsView::~DolphinDetailsView()
@@ -89,21 +91,14 @@ QStyleOptionViewItem DolphinDetailsView::viewOptions() const
 void DolphinDetailsView::contextMenuEvent(QContextMenuEvent* event)
 {
     QTreeView::contextMenuEvent(event);
-
-    KFileItem* item = 0;
-
-    const QModelIndex index = indexAt(event->pos());
-    if (index.isValid()) {
-        item = m_dolphinView->fileItem(index);
-    }
-
-    m_dolphinView->openContextMenu(item, event->globalPos());
+    m_controller->triggerContextMenuRequest(event->pos(),
+                                            event->globalPos());
 }
 
 void DolphinDetailsView::mouseReleaseEvent(QMouseEvent* event)
 {
     QTreeView::mouseReleaseEvent(event);
-    m_dolphinView->declareViewActive();
+    m_controller->triggerActivation();
 }
 
 void DolphinDetailsView::dragEnterEvent(QDragEnterEvent* event)
@@ -115,15 +110,18 @@ void DolphinDetailsView::dragEnterEvent(QDragEnterEvent* event)
 
 void DolphinDetailsView::dropEvent(QDropEvent* event)
 {
-    const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
+    QTreeView::dropEvent(event);
+    // TODO: temporary deactivated until DolphinController will support this
+
+    /*const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
     if (!urls.isEmpty()) {
         event->acceptProposedAction();
 
         // TODO: handle dropping above a directory
 
-        const KUrl& destination = m_dolphinView->url();
-        m_dolphinView->mainWindow()->dropUrls(urls, destination);
-    }
+        const KUrl& destination = m_controller->url();
+        m_controller->emitDropUrlsSignal(urls, destination);
+    }*/
 }
 
 void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)
@@ -141,23 +139,11 @@ void DolphinDetailsView::setSortIndicatorOrder(Qt::SortOrder sortOrder)
 void DolphinDetailsView::synchronizeSortingState(int column)
 {
     // The sorting has already been changed in QTreeView if this slot is
-    // invoked, but Dolphin was not informed about this. This is bypassed by changing
-    // the sorting and sort order to a temporary other value and readjust it again.
+    // invoked, but Dolphin is not informed about this.
     DolphinView::Sorting sorting = DolphinSortFilterProxyModel::sortingForColumn(column);
     const Qt::SortOrder sortOrder = header()->sortIndicatorOrder();
-
-    // temporary adjust the sorting and sort order to different values...
-    const DolphinView::Sorting tempSorting = (sorting == DolphinView::SortByName) ?
-                                             DolphinView::SortBySize :
-                                             DolphinView::SortByName;
-    m_dolphinView->setSorting(tempSorting);
-    const Qt::SortOrder tempSortOrder = (sortOrder == Qt::Ascending) ?
-                                        Qt::Descending : Qt::Ascending;
-    m_dolphinView->setSortOrder(tempSortOrder);
-
-    // ... so that setting them again results in storing the new setting.
-    m_dolphinView->setSorting(sorting);
-    m_dolphinView->setSortOrder(sortOrder);
+    m_controller->indicateSortingChange(sorting);
+    m_controller->indicateSortOrderChange(sortOrder);
 }
 
 #include "dolphindetailsview.moc"

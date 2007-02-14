@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at)                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,8 +18,8 @@
  ***************************************************************************/
 
 #include "dolphiniconsview.h"
-#include "dolphinmainwindow.h"
-#include "dolphinview.h"
+
+#include "dolphincontroller.h"
 
 #include <assert.h>
 #include <kdirmodel.h>
@@ -28,11 +27,20 @@
 
 #include <QAbstractProxyModel>
 
-DolphinIconsView::DolphinIconsView(DolphinView* parent) :
+DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controller) :
     QListView(parent),
-    m_dolphinView(parent)
+    m_controller(controller)
 {
+    assert(controller != 0);
+
     setResizeMode(QListView::Adjust);
+
+    // TODO: read out settings
+    setViewMode(QListView::IconMode);
+    setSpacing(32);
+
+    connect(this, SIGNAL(clicked(const QModelIndex&)),
+            controller, SLOT(triggerItem(const QModelIndex&)));
 }
 
 DolphinIconsView::~DolphinIconsView()
@@ -57,21 +65,14 @@ QStyleOptionViewItem DolphinIconsView::viewOptions() const
 void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)
 {
     QListView::contextMenuEvent(event);
-
-    KFileItem* item = 0;
-
-    const QModelIndex index = indexAt(event->pos());
-    if (index.isValid()) {
-        item = m_dolphinView->fileItem(index);
-    }
-
-    m_dolphinView->openContextMenu(item, event->globalPos());
+    m_controller->triggerContextMenuRequest(event->pos(),
+                                            event->globalPos());
 }
 
 void DolphinIconsView::mouseReleaseEvent(QMouseEvent* event)
 {
     QListView::mouseReleaseEvent(event);
-    m_dolphinView->declareViewActive();
+    m_controller->triggerActivation();
 }
 
 void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
@@ -83,7 +84,10 @@ void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
 
 void DolphinIconsView::dropEvent(QDropEvent* event)
 {
-    KFileItem* directory = 0;
+    QListView::dropEvent(event);
+    // TODO: temporary deactivated until DolphinController will support this
+
+    /*    KFileItem* directory = 0;
     bool dropIntoDirectory = false;
     const QModelIndex index = indexAt(event->pos());
     if (index.isValid()) {
@@ -104,7 +108,7 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
         const KUrl& destination = (directory == 0) ? m_dolphinView->url() :
                                                      directory->url();
         m_dolphinView->mainWindow()->dropUrls(urls, destination);
-    }
+    }*/
 }
 
 #include "dolphiniconsview.moc"

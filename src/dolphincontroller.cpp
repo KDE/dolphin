@@ -14,40 +14,50 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef DOLPHINICONSVIEW_H
-#define DOLPHINICONSVIEW_H
+#include "dolphincontroller.h"
 
-#include <QListView>
-
-class DolphinController;
-class DolphinView;
-
-/**
- * @brief Represents the view, where each item is shown as an icon.
- *
- * It is also possible that instead of the icon a preview of the item
- * content is shown.
- */
-class DolphinIconsView : public QListView
+DolphinController::DolphinController(QObject* parent) :
+    QObject(parent)
 {
-    Q_OBJECT
+}
 
-public:
-    explicit DolphinIconsView(QWidget* parent, DolphinController* controller);
-    virtual ~DolphinIconsView();
+DolphinController::~DolphinController()
+{
+}
 
-protected:
-    virtual QStyleOptionViewItem viewOptions() const;
-    virtual void contextMenuEvent(QContextMenuEvent* event);
-    virtual void mouseReleaseEvent(QMouseEvent* event);
-    virtual void dragEnterEvent(QDragEnterEvent* event);
-    virtual void dropEvent(QDropEvent* event);
+void DolphinController::triggerContextMenuRequest(const QPoint& pos,
+                                                  const QPoint& globalPos)
+{
+    emit activated();
+    emit requestContextMenu(pos, globalPos);
+}
 
-private:
-    DolphinController* m_controller;
-};
+void DolphinController::triggerActivation()
+{
+    emit activated();
+}
 
-#endif
+void DolphinController::indicateSortingChange(DolphinView::Sorting sorting)
+{
+    emit sortingChanged(sorting);
+}
+
+void DolphinController::indicateSortOrderChange(Qt::SortOrder order)
+{
+    emit sortOrderChanged(order);
+}
+
+void DolphinController::triggerItem(const QModelIndex& index)
+{
+    emit itemTriggered(index);
+}
+
+void DolphinController::indicateSelectionChange()
+{
+    emit selectionChanged();
+}
+
+#include "dolphincontroller.moc"

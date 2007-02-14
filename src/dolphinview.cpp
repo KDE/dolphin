@@ -37,6 +37,7 @@
 #include <konq_operations.h>
 #include <kurl.h>
 
+#include "dolphincontroller.h"
 #include "dolphinstatusbar.h"
 #include "dolphinmainwindow.h"
 #include "dolphindirlister.h"
@@ -63,6 +64,7 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     m_mainWindow(mainWindow),
     m_topLayout(0),
     m_urlNavigator(0),
+    m_controller(0),
     m_iconsView(0),
     m_detailsView(0),
     m_filterBar(0),
@@ -109,6 +111,20 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     m_proxyModel = new DolphinSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_dirModel);
 
+    m_controller = new DolphinController(this);
+    connect(m_controller, SIGNAL(requestContextMenu(const QPoint&, const QPoint&)),
+            this, SLOT(openContextMenu(const QPoint&, const QPoint&)));
+    connect(m_controller, SIGNAL(sortingChanged(DolphinView::Sorting)),
+            this, SLOT(updateSorting(DolphinView::Sorting)));
+    connect(m_controller, SIGNAL(sortOrderChanged(Qt::SortOrder)),
+            this, SLOT(updateSortOrder(Qt::SortOrder)));
+    connect(m_controller, SIGNAL(itemTriggered(const QModelIndex&)),
+            this, SLOT(triggerItem(const QModelIndex&)));
+    connect(m_controller, SIGNAL(selectionChanged()),
+            this, SLOT(emitSelectionChangedSignal()));
+    connect(m_controller, SIGNAL(activated()),
+            this, SLOT(requestActivation()));
+
     createView();
 
     m_iconSize = K3Icon::SizeMedium;
@@ -137,16 +153,12 @@ DolphinView::~DolphinView()
 void DolphinView::setUrl(const KUrl& url)
 {
     m_urlNavigator->setUrl(url);
+    m_controller->setUrl(url);
 }
 
 const KUrl& DolphinView::url() const
 {
     return m_urlNavigator->url();
-}
-
-void DolphinView::requestActivation()
-{
-    mainWindow()->setActiveView(this);
 }
 
 bool DolphinView::isActive() const
@@ -371,12 +383,7 @@ bool DolphinView::isZoomOutPossible() const
 void DolphinView::setSorting(Sorting sorting)
 {
     if (sorting != this->sorting()) {
-        ViewProperties props(url());
-        props.setSorting(sorting);
-
-        m_proxyModel->setSorting(sorting);
-
-        emit sortingChanged(sorting);
+        updateSorting(sorting);
     }
 }
 
@@ -388,12 +395,7 @@ DolphinView::Sorting DolphinView::sorting() const
 void DolphinView::setSortOrder(Qt::SortOrder order)
 {
     if (sortOrder() != order) {
-        ViewProperties props(url());
-        props.setSortOrder(order);
-
-        m_proxyModel->setSortOrder(order);
-
-        emit sortOrderChanged(order);
+        updateSortOrder(order);
     }
 }
 
@@ -482,12 +484,6 @@ KFileItem* DolphinView::fileItem(const QModelIndex index) const
 {
     const QModelIndex dirModelIndex = m_proxyModel->mapToSource(index);
     return m_dirModel->itemForIndex(dirModelIndex);
-}
-
-void DolphinView::openContextMenu(KFileItem* fileInfo, const QPoint& pos)
-{
-    DolphinContextMenu contextMenu(this, fileInfo, pos);
-    contextMenu.open();
 }
 
 void DolphinView::rename(const KUrl& source, const QString& newName)
@@ -829,6 +825,11 @@ void DolphinView::updateStatusBar()
     }
 }
 
+void DolphinView::requestActivation()
+{
+    m_mainWindow->setActiveView(this);
+}
+
 void DolphinView::changeNameFilter(const QString& nameFilter)
 {
     // The name filter of KDirLister does a 'hard' filtering, which
@@ -854,6 +855,39 @@ void DolphinView::changeNameFilter(const QString& nameFilter)
 #endif
 }
 
+void DolphinView::openContextMenu(const QPoint& pos, const QPoint& globalPos)
+{
+    KFileItem* item = 0;
+
+    const QModelIndex index = itemView()->indexAt(pos);
+    if (index.isValid()) {
+        item = fileItem(index);
+    }
+
+    DolphinContextMenu contextMenu(this, item, globalPos);
+    contextMenu.open();
+}
+
+void DolphinView::updateSorting(DolphinView::Sorting sorting)
+{
+    ViewProperties props(url());
+    props.setSorting(sorting);
+
+    m_proxyModel->setSorting(sorting);
+
+    emit sortingChanged(sorting);
+}
+
+void DolphinView::updateSortOrder(Qt::SortOrder order)
+{
+    ViewProperties props(url());
+    props.setSortOrder(order);
+
+    m_proxyModel->setSortOrder(order);
+
+    emit sortOrderChanged(order);
+}
+
 void DolphinView::createView()
 {
     // delete current view
@@ -872,22 +906,17 @@ void DolphinView::createView()
     // ... and recreate it representing the current mode
     switch (m_mode) {
         case IconsView:
-            m_iconsView = new DolphinIconsView(this);
-            m_iconsView->setViewMode(QListView::IconMode);
-            m_iconsView->setSpacing(32);
+            m_iconsView = new DolphinIconsView(this, m_controller);
             view = m_iconsView;
-            // TODO: read out view settings
             break;
 
         case DetailsView:
-            m_detailsView = new DolphinDetailsView(this);
+            m_detailsView = new DolphinDetailsView(this, m_controller);
             view = m_detailsView;
-            // TODO: read out view settings
             break;
     }
 
     view->setModel(m_proxyModel);
-
     view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     KFileItemDelegate* delegate = new KFileItemDelegate(this);
@@ -895,13 +924,10 @@ void DolphinView::createView()
     view->setItemDelegate(delegate);
 
     new KMimeTypeResolver(view, m_dirModel);
-
-    connect(view, SIGNAL(clicked(const QModelIndex&)),
-            this, SLOT(triggerItem(const QModelIndex&)));
-    connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
-            this, SLOT(emitSelectionChangedSignal()));
-
     m_topLayout->insertWidget(1, view);
+
+    connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
+            m_controller, SLOT(indicateSelectionChange()));
 }
 
 int DolphinView::columnIndex(Sorting sorting) const

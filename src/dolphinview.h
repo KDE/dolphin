@@ -36,6 +36,7 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
+class DolphinController;
 class FilterBar;
 class KUrl;
 class KDirModel;
@@ -120,7 +121,10 @@ public:
     /** Returns the current active URL. */
     const KUrl& url() const;
 
-    void requestActivation();
+    /**
+     * Returns true if the view is active and hence all actions are
+     * applied to this view.
+     */
     bool isActive() const;
 
     /**
@@ -238,13 +242,6 @@ public:
     KFileItem* fileItem(const QModelIndex index) const;
 
     /**
-     * Opens the context menu for the item indicated by \a fileInfo
-     * on the position \a pos. If 0 is passed for the file info, a context
-     * menu for the viewport is opened.
-     */
-    void openContextMenu(KFileItem* fileInfo, const QPoint& pos);
-
-    /**
      * Renames the filename of the source URL by the new file name.
      * If the new file name already exists, a dialog is opened which
      * asks the user to enter a new name.
@@ -348,6 +345,12 @@ public slots:
      */
     void updateStatusBar();
 
+    /**
+     * Requests the main window to set this view as active view, which
+     * means that all actions are applied to this view.
+     */
+    void requestActivation();
+
 signals:
     /** Is emitted if URL of the view has been changed to \a url. */
     void urlChanged(const KUrl& url);
@@ -427,6 +430,20 @@ private slots:
      */
     void changeNameFilter(const QString& nameFilter);
 
+    void openContextMenu(const QPoint& pos, const QPoint& globalPos);
+
+    /**
+     * Updates the view properties of the current URL to the
+     * sorting given by \a sorting.
+     */
+    void updateSorting(DolphinView::Sorting sorting);
+
+    /**
+     * Updates the view properties of the current URL to the
+     * sort order given by \a order.
+     */
+    void updateSortOrder(Qt::SortOrder order);
+
 private:
     void startDirLister(const KUrl& url, bool reload = false);
 
@@ -477,6 +494,7 @@ private:
     QVBoxLayout* m_topLayout;
     UrlNavigator* m_urlNavigator;
 
+    DolphinController* m_controller;
     DolphinIconsView* m_iconsView;
     DolphinDetailsView* m_detailsView;
 
