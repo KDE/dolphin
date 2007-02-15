@@ -2,18 +2,6 @@
 Exec=digikam --download-from %u
 Icon=digikam
 Name=Open in Digikam
-Name[bg]=Отваряне в Digikam
-Name[da]=Åbn med Digikam
-Name[de]=In Digikam öffnen
-Name[el]=Άνοιγμα στο Digikam
-Name[es]=Abrir en Digikam
-Name[et]=Ava Digikamis
-Name[ga]=Oscail i Digikam
-Name[ja]=Digikam で開く
-Name[nl]=Openen in Digikam
-Name[pt]=Abrir no Digikam
-Name[pt_BR]=Abrir no Digikam
-Name[sv]=Öppna med Digikam
 
 [Desktop Entry]
 Actions=OpenDigikam;

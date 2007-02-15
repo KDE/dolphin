@@ -6,18 +6,6 @@
 ServiceTypes=image/*
 Actions=convToJPEG;convToPNG;convToGIF;convToTIF;
 X-KDE-Submenu=Convert To
-X-KDE-Submenu[bg]=Преобразуване в
-X-KDE-Submenu[da]=Konvertér til
-X-KDE-Submenu[de]=Konvertieren als
-X-KDE-Submenu[el]=Μετατροπή σε
-X-KDE-Submenu[es]=Convertir a
-X-KDE-Submenu[et]=Teisendamine
-X-KDE-Submenu[ga]=Tiontaigh Go
-X-KDE-Submenu[ja]=変換
-X-KDE-Submenu[nl]=Converteren naar
-X-KDE-Submenu[pt]=Converter Para
-X-KDE-Submenu[pt_BR]=Converter Para
-X-KDE-Submenu[sv]=Konvertera till
 TryExec=convert
 
 [Desktop Action convToJPEG]
@@ -32,7 +20,6 @@ Exec=convert %f "`echo %f | perl -pe 's/\.[^.]+$//'`.png"
 
 [Desktop Action convToTIF]
 Name=TIF
-Name[nl]=TIFF
 Icon=image
 Exec=convert %f "`echo %f | perl -pe 's/\.[^.]+$//'`.tif"
 

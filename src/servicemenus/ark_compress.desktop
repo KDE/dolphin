@@ -6,16 +6,5 @@ Actions=compressHere
 
 [Desktop Action compressHere]
 Name=Compress Here
-Name[bg]=Компресиране тук
-Name[da]=Komprimér her
-Name[de]=Hier komprimieren
-Name[el]=Συμπίεση εδώ
-Name[es]=Comprimir aquí
-Name[et]=Paki siia
-Name[ja]=ここに圧縮
-Name[nl]=Hier comprimeren
-Name[pt]=Comprimir Aqui
-Name[pt_BR]=Comprimir Aqui
-Name[sv]=Komprimera här
 Exec=ark --add-to %u %u.tar.gz
 Icon=ark

@@ -6,18 +6,6 @@ Actions=extractHere
 
 [Desktop Action extractHere]
 Name=Extract Here
-Name[bg]=Извличане тук
-Name[br]=Eztennañ Amañ
-Name[da]=Pak ud her
-Name[de]=Hier entpacken
-Name[el]=Εξαγωγή εδώ
-Name[es]=Extraer aquí
-Name[et]=Paki lahti siia
-Name[ja]=ここに展開
-Name[nl]=Hier uitpakken
-Name[pt]=Extrair Aqui
-Name[pt_BR]=Extrair Aqui
-Name[sv]=Packa upp här
 Exec=ark --extract-to %d %u
 Icon=ark
 

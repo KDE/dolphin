@@ -1,25 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Dolphin
-Name[bg]=Делфин
-Name[br]=Daofin
-Name[ga]=Deilf
 Exec=dolphin %i %m -caption "%c"
 Icon=dolphin
 Type=Application
 DocPath=dolphin/dolphin.html
 Categories=System;FileManager;
 GenericName=File Manager
-GenericName[bg]=Файлов мениджър
-GenericName[br]=Merour restroù
-GenericName[da]=Filhåndtering
-GenericName[de]=Dateiverwaltung
-GenericName[el]=Διαχειριστής αρχείων
-GenericName[es]=Administrador de archivos
-GenericName[et]=Failihaldur
-GenericName[ja]=ファイルマネージャ
-GenericName[nl]=Bestandsbeheerder
-GenericName[pt]=Gestor de Ficheiros
-GenericName[pt_BR]=Gerenciador de Arquivos
-GenericName[sv]=Filhanterare
 Terminal=false

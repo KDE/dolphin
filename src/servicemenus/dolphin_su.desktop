@@ -5,16 +5,5 @@ Actions=DolphinSU;
 [Desktop Action DolphinSU]
 ServiceTypes=inode/directory
 Name=Open as Root
-Name[bg]=Отваряне като администратор
-Name[da]=Åbn som systemadministrator
-Name[de]=Als Systemverwalter öffnen
-Name[el]=Άνοιγμα ως υπερχρήστης
-Name[es]=Abrir como root
-Name[et]=Ava administraatorina
-Name[ja]=root として開く
-Name[nl]=Als root openen
-Name[pt]=Abrir como 'Root'
-Name[pt_BR]=Abrir como Root
-Name[sv]=Öppna som systemadministratör
 Icon=dolphin
 Exec=kdesu -c 'dolphin %U'

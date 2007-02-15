@@ -5,50 +5,15 @@ X-KDE-Submenu=Amarok
 
 [Desktop Action appendToPlaylist]
 Name=Append to Playlist
-Name[bg]=Добавяне към списъка
-Name[br]=Ouzhpennañ d'ar roll tonioù
-Name[da]=Tilføj til spillelisten
-Name[de]=An Wiedergabeliste anhängen
-Name[el]=Προσθήκη στη λίστα αναπαραγωγής
-Name[es]=Añadir a la lista de reproducción
-Name[et]=Lisa esitusnimekirja
-Name[ja]=プレイリストに追加
-Name[nl]=Aan afspeellijst toevoegen
-Name[pt]=Adicionar à Lista de Reprodução
-Name[pt_BR]=Adicionar à Lista de Reprodução
-Name[sv]=Lägg till i spellistan
 Icon=amarok
 Exec=amarok -e %U
 
 [Desktop Action appendAndPlay]
 Name=Append & Play
-Name[bg]=Добавяне и изпълнение
-Name[br]=Ouzhpennañ ha seniñ
-Name[da]=Tilføj og spil
-Name[de]=Anhängen & abspielen
-Name[el]=Προσθήκη & αναπαραγωγή
-Name[es]=Añadir y reproducir
-Name[et]=Lisa ja esita
-Name[ja]=追加して再生
-Name[nl]=Toevoegen en afspelen
-Name[pt]=Adicionar e Reproduzir
-Name[pt_BR]=Adicionar e Reproduzir
-Name[sv]=Lägg till och spela
 Icon=amarok
 Exec=dcop amarok playlist playMedia %U
 
 [Desktop Action queueTrack]
 Name=Queue Track
-Name[bg]=Поставяне на опашката
-Name[da]=Sæt spor i kø
-Name[de]=Stück in Warteschlange einstellen
-Name[el]=Τοποθέτηση στην ουρά
-Name[es]=Encolar pista
-Name[et]=Pala järjekorda
-Name[ja]=トラックをキュー
-Name[nl]=Track in wachtrij plaatsen
-Name[pt]=Colocar a Faixa em Espera
-Name[pt_BR]=Enfileirar Trilha
-Name[sv]=Köa spår
 Icon=amarok
 Exec=amarok --queue %U
