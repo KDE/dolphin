@@ -112,8 +112,10 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     m_proxyModel->setSourceModel(m_dirModel);
 
     m_controller = new DolphinController(this);
-    connect(m_controller, SIGNAL(requestContextMenu(const QPoint&, const QPoint&)),
-            this, SLOT(openContextMenu(const QPoint&, const QPoint&)));
+    connect(m_controller, SIGNAL(requestContextMenu(const QPoint&)),
+            this, SLOT(openContextMenu(const QPoint&)));
+    connect(m_controller, SIGNAL(urlsDropped(const KUrl::List&, const QPoint&)),
+            this, SLOT(dropUrls(const KUrl::List&, const QPoint&)));
     connect(m_controller, SIGNAL(sortingChanged(DolphinView::Sorting)),
             this, SLOT(updateSorting(DolphinView::Sorting)));
     connect(m_controller, SIGNAL(sortOrderChanged(Qt::SortOrder)),
@@ -855,7 +857,7 @@ void DolphinView::changeNameFilter(const QString& nameFilter)
 #endif
 }
 
-void DolphinView::openContextMenu(const QPoint& pos, const QPoint& globalPos)
+void DolphinView::openContextMenu(const QPoint& pos)
 {
     KFileItem* item = 0;
 
@@ -864,8 +866,27 @@ void DolphinView::openContextMenu(const QPoint& pos, const QPoint& globalPos)
         item = fileItem(index);
     }
 
-    DolphinContextMenu contextMenu(this, item, globalPos);
+    DolphinContextMenu contextMenu(this, item);
     contextMenu.open();
+}
+
+void DolphinView::dropUrls(const KUrl::List& urls,
+                           const QPoint& pos)
+{
+    KFileItem* directory = 0;
+    const QModelIndex index = itemView()->indexAt(pos);
+    if (index.isValid()) {
+        KFileItem* item = fileItem(index);
+        assert(item != 0);
+        if (item->isDir()) {
+            // the URLs are dropped above a directory
+            directory = item;
+        }
+    }
+
+    const KUrl& destination = (directory == 0) ? url() :
+                                                 directory->url();
+    m_mainWindow->dropUrls(urls, destination);
 }
 
 void DolphinView::updateSorting(DolphinView::Sorting sorting)

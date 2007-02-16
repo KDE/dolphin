@@ -430,7 +430,20 @@ private slots:
      */
     void changeNameFilter(const QString& nameFilter);
 
-    void openContextMenu(const QPoint& pos, const QPoint& globalPos);
+    /**
+     * Opens the context menu on position \a pos. The position
+     * is used to check whether the context menu is related to an
+     * item or to the viewport.
+     */
+    void openContextMenu(const QPoint& pos);
+
+    /**
+     * Drops the URLs \a urls at the position \a pos.
+     * The position is used to check whether the dropping
+     * is done above an item or above the viewport.
+     */
+    void dropUrls(const KUrl::List& urls,
+                  const QPoint& pos);
 
     /**
      * Updates the view properties of the current URL to the

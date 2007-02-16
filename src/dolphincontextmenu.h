@@ -57,11 +57,9 @@ public:
      * @fileInfo  Pointer to the file item the context menu
      *            is applied. If 0 is passed, the context menu
      *            is above the viewport.
-     * @pos       Position of the upper left edge of the context menu.
      */
     DolphinContextMenu(DolphinView* parent,
-                       KFileItem* fileInfo,
-                       const QPoint& pos);
+                       KFileItem* fileInfo);
 
     virtual ~DolphinContextMenu();
 
@@ -104,7 +102,6 @@ private:
 
     DolphinView* m_dolphinView;
     KFileItem* m_fileInfo;
-    QPoint m_pos;
 
     struct Entry {
         int type;

@@ -56,10 +56,12 @@ public:
     void setUrl(const KUrl& url) { m_url = url; }
     const KUrl& url() const { return m_url; }
 
-    void triggerContextMenuRequest(const QPoint& pos,
-                                   const QPoint& globalPos);
+    void triggerContextMenuRequest(const QPoint& pos);
 
     void triggerActivation();
+
+    void indicateDroppedUrls(const KUrl::List& urls,
+                             const QPoint& pos);
 
     void indicateSortingChange(DolphinView::Sorting sorting);
 
@@ -76,16 +78,23 @@ signals:
      *                  context menu should be opened. It is recommended
      *                  to get the corresponding model index from
      *                  this position.
-     * @param globalPos Global position where the context menu should
-     *                  be opened.
      */
-    void requestContextMenu(const QPoint& pos,
-                            const QPoint& globalPos);
+    void requestContextMenu(const QPoint& pos);
 
     /**
      * Is emitted if the view has been activated by e. g. a mouse click.
      */
     void activated();
+
+    /**
+     * Is emitted if the URLs \a urls have been dropped.
+     * @param pos Position relative to the view widget where the
+     *            dropping has been done. It is recommended
+     *            to get the corresponding model index from
+     *            this position to find out the destination.
+     */
+    void urlsDropped(const KUrl::List& urls,
+                     const QPoint& pos);
 
     /** Is emitted if the sorting has been changed to \a sorting. */
     void sortingChanged(DolphinView::Sorting sorting);

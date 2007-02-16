@@ -91,8 +91,7 @@ QStyleOptionViewItem DolphinDetailsView::viewOptions() const
 void DolphinDetailsView::contextMenuEvent(QContextMenuEvent* event)
 {
     QTreeView::contextMenuEvent(event);
-    m_controller->triggerContextMenuRequest(event->pos(),
-                                            event->globalPos());
+    m_controller->triggerContextMenuRequest(event->pos());
 }
 
 void DolphinDetailsView::mouseReleaseEvent(QMouseEvent* event)
@@ -110,18 +109,14 @@ void DolphinDetailsView::dragEnterEvent(QDragEnterEvent* event)
 
 void DolphinDetailsView::dropEvent(QDropEvent* event)
 {
-    QTreeView::dropEvent(event);
-    // TODO: temporary deactivated until DolphinController will support this
-
-    /*const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
-    if (!urls.isEmpty()) {
+    const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
+    if (urls.isEmpty() || (event->source() == this)) {
+        QTreeView::dropEvent(event);
+    }
+    else {
         event->acceptProposedAction();
-
-        // TODO: handle dropping above a directory
-
-        const KUrl& destination = m_controller->url();
-        m_controller->emitDropUrlsSignal(urls, destination);
-    }*/
+        m_controller->indicateDroppedUrls(urls, event->pos());
+    }
 }
 
 void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)

@@ -65,8 +65,7 @@ QStyleOptionViewItem DolphinIconsView::viewOptions() const
 void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)
 {
     QListView::contextMenuEvent(event);
-    m_controller->triggerContextMenuRequest(event->pos(),
-                                            event->globalPos());
+    m_controller->triggerContextMenuRequest(event->pos());
 }
 
 void DolphinIconsView::mouseReleaseEvent(QMouseEvent* event)
@@ -84,31 +83,14 @@ void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
 
 void DolphinIconsView::dropEvent(QDropEvent* event)
 {
-    QListView::dropEvent(event);
-    // TODO: temporary deactivated until DolphinController will support this
-
-    /*    KFileItem* directory = 0;
-    bool dropIntoDirectory = false;
-    const QModelIndex index = indexAt(event->pos());
-    if (index.isValid()) {
-        KFileItem* item = m_dolphinView->fileItem(index);
-        assert(item != 0);
-        dropIntoDirectory = item->isDir();
-        if (dropIntoDirectory) {
-            directory = item;
-        }
-    }
-
     const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
-    if (urls.isEmpty() || (event->source() == this) && !dropIntoDirectory) {
+    if (urls.isEmpty() || (event->source() == this)) {
         QListView::dropEvent(event);
     }
     else {
         event->acceptProposedAction();
-        const KUrl& destination = (directory == 0) ? m_dolphinView->url() :
-                                                     directory->url();
-        m_dolphinView->mainWindow()->dropUrls(urls, destination);
-    }*/
+        m_controller->indicateDroppedUrls(urls, event->pos());
+    }
 }
 
 #include "dolphiniconsview.moc"

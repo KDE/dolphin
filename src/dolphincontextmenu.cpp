@@ -46,11 +46,9 @@
 #include <QDir>
 
 DolphinContextMenu::DolphinContextMenu(DolphinView* parent,
-                                       KFileItem* fileInfo,
-                                       const QPoint& pos) :
+                                       KFileItem* fileInfo) :
    m_dolphinView(parent),
-   m_fileInfo(fileInfo),
-   m_pos(pos)
+   m_fileInfo(fileInfo)
 {
 }
 
@@ -104,7 +102,7 @@ void DolphinContextMenu::openViewportContextMenu()
 
     QAction* propertiesAction = popup->addAction(i18n("Properties..."));
 
-    QAction* activatedAction = popup->exec(m_pos);
+    QAction* activatedAction = popup->exec(QCursor::pos());
     if (activatedAction == propertiesAction) {
         new KPropertiesDialog(dolphin->activeView()->url());
     }
@@ -185,7 +183,7 @@ void DolphinContextMenu::openItemContextMenu()
     QAction* propertiesAction = dolphin->actionCollection()->action("properties");
     popup->addAction(propertiesAction);
 
-    QAction* activatedAction = popup->exec(m_pos);
+    QAction* activatedAction = popup->exec(QCursor::pos());
 
     if ((bookmarkAction!= 0) && (activatedAction == bookmarkAction)) {
         const KUrl selectedUrl(m_fileInfo->url());

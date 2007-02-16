@@ -28,17 +28,23 @@ DolphinController::~DolphinController()
 {
 }
 
-void DolphinController::triggerContextMenuRequest(const QPoint& pos,
-                                                  const QPoint& globalPos)
+void DolphinController::triggerContextMenuRequest(const QPoint& pos)
 {
     emit activated();
-    emit requestContextMenu(pos, globalPos);
+    emit requestContextMenu(pos);
 }
 
 void DolphinController::triggerActivation()
 {
     emit activated();
 }
+
+void DolphinController::indicateDroppedUrls(const KUrl::List& urls,
+                                            const QPoint& pos)
+{
+    emit urlsDropped(urls, pos);
+}
+
 
 void DolphinController::indicateSortingChange(DolphinView::Sorting sorting)
 {
