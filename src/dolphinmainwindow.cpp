@@ -173,7 +173,7 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
         else if (activatedAction == linkAction) {
             action = Qt::LinkAction;
         }
-        else if (activatedAction == cancelAction) {
+        else {
             return;
         }
     }
