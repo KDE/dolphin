@@ -32,27 +32,20 @@
 #include "dolphinmainwindow.h"
 
 
-UrlButton::UrlButton(UrlNavigator* parent)
-: QPushButton(parent),
-  m_displayHint(0),
-  m_urlNavigator(parent)
+UrlButton::UrlButton(UrlNavigator* parent) :
+    QPushButton(parent),
+    m_displayHint(0),
+    m_urlNavigator(parent)
 {
     setFocusPolicy(Qt::NoFocus);
     setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
     setMinimumHeight(parent->minimumHeight());
 
-    connect(this, SIGNAL(clicked()), parent, SLOT(slotRequestActivation()));
-    connect(parent->dolphinView()->mainWindow(), SIGNAL(activeViewChanged()),
-            this, SLOT(update()));
+    connect(this, SIGNAL(clicked()), parent, SLOT(requestActivation()));
 }
 
 UrlButton::~UrlButton()
 {
-}
-
-UrlNavigator* UrlButton::urlNavigator() const
-{
-    return m_urlNavigator;
 }
 
 void UrlButton::setDisplayHintEnabled(DisplayHint hint,

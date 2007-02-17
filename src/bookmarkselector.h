@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at)                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -35,7 +34,6 @@ class KUrl;
  * inside the bookmark selector.
  *
  * @see UrlNavigator
- * @author Peter Penz <peter.penz@gmx.at>
  */
 class BookmarkSelector : public UrlButton
 {
@@ -74,9 +72,9 @@ public:
 signals:
     /**
      * Is send when a bookmark has been activated by the user.
-     * @param index Index of the selected bookmark.
+     * @param url URL of the selected bookmark.
      */
-    void bookmarkActivated(int index);
+    void bookmarkActivated(const KUrl& url);
 
 protected:
     /**
@@ -94,6 +92,7 @@ private slots:
 
 private:
     int m_selectedIndex;
+    UrlNavigator* m_urlNavigator;
     Q3PopupMenu* m_bookmarksMenu;
 
 };

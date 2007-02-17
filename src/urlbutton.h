@@ -44,7 +44,7 @@ public:
     explicit UrlButton(UrlNavigator* parent);
     virtual ~UrlButton();
 
-    UrlNavigator* urlNavigator() const;
+    UrlNavigator* urlNavigator() const { return m_urlNavigator; }
 
 protected:
     enum DisplayHint {

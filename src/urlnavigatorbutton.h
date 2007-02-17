@@ -20,16 +20,10 @@
 #ifndef UrlNAVIGATORBUTTON_H
 #define UrlNAVIGATORBUTTON_H
 
-#include <qstringlist.h>
-#include <QEvent>
-#include <QDragLeaveEvent>
-#include <QDropEvent>
-#include <QDragEnterEvent>
-
 #include <kio/global.h>
-
 #include <urlbutton.h>
 
+class KJob;
 class KUrl;
 class UrlNavigator;
 class QPainter;
@@ -52,7 +46,7 @@ class UrlNavigatorButton : public UrlButton
     Q_OBJECT
 
 public:
-    explicit UrlNavigatorButton(int index, UrlNavigator* parent = 0);
+    explicit UrlNavigatorButton(int index, UrlNavigator* parent);
     virtual ~UrlNavigatorButton();
     void setIndex(int index);
     int index() const { return m_index; }
@@ -80,6 +74,7 @@ private:
     int arrowWidth() const;
     bool isTextClipped() const;
 
+private:
     int m_index;
     QTimer* m_popupDelay;
     KIO::Job* m_listJob;

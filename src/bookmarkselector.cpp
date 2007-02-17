@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at)                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,6 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
+#include "bookmarkselector.h"
 
 #include <assert.h>
 #include <q3popupmenu.h>
@@ -28,15 +28,13 @@
 #include <kglobalsettings.h>
 #include <kbookmarkmanager.h>
 
-#include "bookmarkselector.h"
 #include "dolphinsettings.h"
-#include "dolphinview.h"
-#include "dolphinmainwindow.h"
 #include "urlnavigator.h"
 
 BookmarkSelector::BookmarkSelector(UrlNavigator* parent) :
     UrlButton(parent),
-    m_selectedIndex(0)
+    m_selectedIndex(0),
+    m_urlNavigator(parent)
 {
     setFocusPolicy(Qt::NoFocus);
 
@@ -113,7 +111,7 @@ QSize BookmarkSelector::sizeHint() const
     return QSize(height, height);
 }
 
-void BookmarkSelector::paintEvent(QPaintEvent* event)
+void BookmarkSelector::paintEvent(QPaintEvent* /*event*/)
 {
     QPainter painter(this);
 
@@ -134,10 +132,7 @@ void BookmarkSelector::paintEvent(QPaintEvent* event)
     }
 
     // dimm the colors if the parent view does not have the focus
-    const DolphinView* parentView = urlNavigator()->dolphinView();
-    const DolphinMainWindow* dolphin = parentView->mainWindow();
-
-    const bool isActive = (dolphin->activeView() == parentView);
+    const bool isActive = m_urlNavigator->isActive();
     if (!isActive) {
         QColor dimmColor(palette().brush(QPalette::Background).color());
         foregroundColor = mixColors(foregroundColor, dimmColor);
@@ -168,10 +163,9 @@ void BookmarkSelector::slotBookmarkActivated(int index)
 {
     m_selectedIndex = index;
 
-    KBookmark bookmark = selectedBookmark();
+    const KBookmark bookmark = selectedBookmark();
     setPixmap(SmallIcon(bookmark.icon()));
-
-    emit bookmarkActivated(index);
+    emit bookmarkActivated(bookmark.url());
 }
 
 #include "bookmarkselector.moc"

@@ -42,7 +42,6 @@ class KFileItem;
 class KUrlComboBox;
 
 class BookmarkSelector;
-class DolphinView;
 class ProtocolCombo;
 
 /**
@@ -103,15 +102,8 @@ public:
         int m_contentsY;
     };
 
-    UrlNavigator(const KUrl& url, DolphinView* dolphinView);
+    UrlNavigator(const KUrl& url, QWidget* parent);
     virtual ~UrlNavigator();
-
-    /**
-     * Sets the current active Url.
-     * The signals UrlNavigator::urlChanged and UrlNavigator::historyChanged
-     * are submitted.
-     */
-    void setUrl(const KUrl& url);
 
     /** Returns the current active Url. */
     const KUrl& url() const;
@@ -167,11 +159,74 @@ public:
      */
     void editUrl(bool editOrBrowse); //TODO: switch to an enum
 
-    DolphinView* dolphinView() const;
+    /**
+     * Set the URL navigator to the active mode, if \a active
+     * is true. The active mode is default. Using the URL navigator
+     * in the inactive mode is useful when having split views,
+     * where the inactive view is indicated by a an inactive URL
+     * navigator visually.
+     */
+    void setActive(bool active);
+
+    /**
+     * Returns true, if the URL navigator is in the active mode.
+     * @see UrlNavigator::setActive()
+     */
+    bool isActive() const { return m_active; }
+
+    /**
+     * Handles the dropping of the URLs \a urls to the given
+     * destination \a destination and emits the signal urlsDropped.
+     */
+    void dropUrls(const KUrl::List& urls,
+                  const KUrl& destination);
+
+public slots:
+    /**
+     * Sets the current active URL.
+     * The signals UrlNavigator::urlChanged and UrlNavigator::historyChanged
+     * are submitted.
+     */
+    void setUrl(const KUrl& url);
+
+    /**
+     * Activates the URL navigator (UrlNavigator::isActive() will return true)
+     * and emits the signal 'activationChanged()'.
+     */
+    void requestActivation();
+
+    /**
+     * Stores the coordinates of the contents into
+     * the current history element.
+     */
+    void storeContentsPosition(int x, int y);
 
 signals:
+    /**
+     * Is emitted, if the URL navigator has been activated by
+     * a user interaction.
+     */
+    void activated();
+
+    /**
+     * Is emitted, if the URL has been changed e. g. by
+     * the user.
+     * @see setUrl()
+     */
     void urlChanged(const KUrl& url);
+
+    /**
+     * Is emitted, if the history has been changed. Usually
+     * the history is changed if a new URL has been selected.
+     */
     void historyChanged();
+
+    /**
+     * Is emitted if the URLs \a urls have been dropped
+     * to the destination \a destination.
+     */
+    void urlsDropped(const KUrl::List& urls,
+                     const KUrl& destination);
 
 protected:
     /** If the Escape key is pressed, the navigation bar should switch
@@ -183,18 +238,7 @@ private slots:
     void slotUrlActivated(const KUrl& url);
     void slotRemoteHostActivated();
     void slotProtocolChanged(const QString& protocol);
-
-    void slotRequestActivation();
-    void slotBookmarkActivated(int index);
-
     void slotRedirection(const KUrl&, const KUrl&);
-
-    /**
-     * Stores the coordinates of the moved content into
-     * the current history element. Is usually triggered
-     * by the signal 'contentsMoved' emitted by DolphinView.
-     */
-    void slotContentsMoved(int x, int y);
 
     /**
      * Switches the navigation bar between the editable and noneditable
@@ -204,8 +248,8 @@ private slots:
     void slotClicked();
 
 private:
+    bool m_active;
     int m_historyIndex;
-    DolphinView* m_dolphinView;
     Q3ValueList<HistoryElem> m_history;
     QCheckBox* m_toggleButton;
     BookmarkSelector* m_bookmarkSelector;

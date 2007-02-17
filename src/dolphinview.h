@@ -327,11 +327,6 @@ public:
     /** Reloads the current directory. */
     void reload();
 
-    /**
-     * Declare this View as the activeview of the mainWindow()
-     */
-    void declareViewActive();
-
 public slots:
     /**
      * Popups the filter bar above the status bar if \a show is true.
@@ -446,6 +441,12 @@ private slots:
                   const QPoint& pos);
 
     /**
+     * Drops the URLs \a urls at the
+     * destination \a destination.
+     */
+    void dropUrls(const KUrl::List& urls,
+                  const KUrl& destination);
+    /**
      * Updates the view properties of the current URL to the
      * sorting given by \a sorting.
      */
@@ -462,6 +463,12 @@ private slots:
      * of the viewport as parameters.
      */
     void emitContentsMoved();
+
+    /**
+     * Updates the activation state of the view by checking whether
+     * the currently active view is this view.
+     */
+    void updateActivationState();
 
 private:
     void startDirLister(const KUrl& url, bool reload = false);

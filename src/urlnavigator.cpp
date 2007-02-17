@@ -34,6 +34,7 @@
 #include <qsizepolicy.h>
 #include <qtooltip.h>
 //Added by qt3to4:
+#include <QDir>
 #include <Q3ValueList>
 #include <QKeyEvent>
 #include <QCheckBox>
@@ -42,6 +43,7 @@
 #include <kactioncollection.h>
 #include <kiconloader.h>
 #include <kio/job.h>
+#include <kfileitem.h>
 #include <klocale.h>
 #include <kprotocolinfo.h>
 #include <kurl.h>
@@ -51,24 +53,21 @@
 #include <kvbox.h>
 
 #include "bookmarkselector.h"
-#include "dolphinmainwindow.h"
 #include "dolphinsettings.h"
-#include "dolphinstatusbar.h"
-#include "dolphinview.h"
 #include "generalsettings.h"
 #include "protocolcombo.h"
 #include "urlnavigatorbutton.h"
 
-UrlNavigator::HistoryElem::HistoryElem()
- :  m_url(),
+UrlNavigator::HistoryElem::HistoryElem() :
+    m_url(),
     m_currentFileName(),
     m_contentsX(0),
     m_contentsY(0)
 {
 }
 
-UrlNavigator::HistoryElem::HistoryElem(const KUrl& url)
- :  m_url(url),
+UrlNavigator::HistoryElem::HistoryElem(const KUrl& url) :
+    m_url(url),
     m_currentFileName(),
     m_contentsX(0),
     m_contentsY(0)
@@ -80,10 +79,10 @@ UrlNavigator::HistoryElem::~HistoryElem()
 }
 
 UrlNavigator::UrlNavigator(const KUrl& url,
-                           DolphinView* dolphinView) :
-    KHBox(dolphinView),
+                           QWidget* parent) :
+    KHBox(parent),
+    m_active(true),
     m_historyIndex(0),
-    m_dolphinView(dolphinView),
     m_protocols(0),
     m_protocolSeparator(0),
     m_host(0)
@@ -105,8 +104,8 @@ UrlNavigator::UrlNavigator(const KUrl& url,
     }
 
     m_bookmarkSelector = new BookmarkSelector(this);
-    connect(m_bookmarkSelector, SIGNAL(bookmarkActivated(int)),
-            this, SLOT(slotBookmarkActivated(int)));
+    connect(m_bookmarkSelector, SIGNAL(bookmarkActivated(const KUrl&)),
+            this, SLOT(setUrl(const KUrl&)));
 
     m_pathBox = new KUrlComboBox(KUrlComboBox::Directories, true, this);
 
@@ -119,76 +118,13 @@ UrlNavigator::UrlNavigator(const KUrl& url,
     connect(m_pathBox, SIGNAL(urlActivated(const KUrl&)),
             this, SLOT(slotUrlActivated(const KUrl&)));
 
-    connect(dolphinView, SIGNAL(contentsMoved(int, int)),
-            this, SLOT(slotContentsMoved(int, int)));
-    connect(dolphinView, SIGNAL(redirection(const KUrl&, const KUrl&)),
-            this, SLOT(slotRedirection(const KUrl&, const KUrl&)));
-/*    connect(dolphinView, SIGNAL(redirection(const KUrl&)),
-            this, SLOT(slotRedirection(const KUrl&)));*/
+    //connect(dolphinView, SIGNAL(redirection(const KUrl&, const KUrl&)),
+    //        this, SLOT(slotRedirection(const KUrl&, const KUrl&)));
     updateContent();
 }
 
 UrlNavigator::~UrlNavigator()
 {
-}
-
-void UrlNavigator::setUrl(const KUrl& url)
-{
-    QString urlStr(url.pathOrUrl());
-    //kDebug() << "setUrl(" << url << ")" << endl;
-    if ( urlStr.length() > 0 && urlStr.at(0) == '~') {
-        // replace '~' by the home directory
-        urlStr.remove(0, 1);
-        urlStr.insert(0, QDir::home().path());
-    }
-
-    const KUrl transformedUrl(urlStr);
-
-    if (m_historyIndex > 0) {
-        // Check whether the previous element of the history has the same Url.
-        // If yes, just go forward instead of inserting a duplicate history
-        // element.
-        const KUrl& nextUrl = m_history[m_historyIndex - 1].url();
-        if (transformedUrl == nextUrl) {
-            goForward();
-//             kDebug() << "goin' forward in history" << endl;
-            return;
-        }
-    }
-
-    const KUrl& currUrl = m_history[m_historyIndex].url();
-    if (currUrl == transformedUrl) {
-        // don't insert duplicate history elements
-//         kDebug() << "currUrl == transformedUrl" << endl;
-        return;
-    }
-
-    updateHistoryElem();
-
-    const Q3ValueListIterator<UrlNavigator::HistoryElem> it = m_history.at(m_historyIndex);
-    m_history.insert(it, HistoryElem(transformedUrl));
-
-    updateContent();
-
-    emit urlChanged(transformedUrl);
-    emit historyChanged();
-
-    // Prevent an endless growing of the history: remembering
-    // the last 100 Urls should be enough...
-    if (m_historyIndex > 100) {
-        m_history.erase(m_history.begin());
-        --m_historyIndex;
-    }
-
-/*    kDebug() << "history starting ====================" << endl;
-    int i = 0;
-    for (QValueListIterator<UrlNavigator::HistoryElem> it = m_history.begin();
-         it != m_history.end();
-         ++it, ++i)
-    {
-        kDebug() << i << ": " << (*it).url() << endl;
-    }
-    kDebug() << "history done ========================" << endl;*/
 }
 
 const KUrl& UrlNavigator::url() const
@@ -273,9 +209,95 @@ void UrlNavigator::editUrl(bool editOrBrowse)
     }
 }
 
-DolphinView* UrlNavigator::dolphinView() const
+void UrlNavigator::setActive(bool active)
 {
-    return m_dolphinView;
+    if (active != m_active) {
+        m_active = active;
+        update();
+        if (active) {
+            emit activated();
+        }
+    }
+}
+
+void UrlNavigator::dropUrls(const KUrl::List& urls,
+                            const KUrl& destination)
+{
+    kDebug() << "------------------- URLS dropped" << endl;
+    emit urlsDropped(urls, destination);
+}
+
+void UrlNavigator::setUrl(const KUrl& url)
+{
+    QString urlStr(url.pathOrUrl());
+    //kDebug() << "setUrl(" << url << ")" << endl;
+    if ( urlStr.length() > 0 && urlStr.at(0) == '~') {
+        // replace '~' by the home directory
+        urlStr.remove(0, 1);
+        urlStr.insert(0, QDir::home().path());
+    }
+
+    const KUrl transformedUrl(urlStr);
+
+    if (m_historyIndex > 0) {
+        // Check whether the previous element of the history has the same Url.
+        // If yes, just go forward instead of inserting a duplicate history
+        // element.
+        const KUrl& nextUrl = m_history[m_historyIndex - 1].url();
+        if (transformedUrl == nextUrl) {
+            goForward();
+//             kDebug() << "goin' forward in history" << endl;
+            return;
+        }
+    }
+
+    const KUrl& currUrl = m_history[m_historyIndex].url();
+    if (currUrl == transformedUrl) {
+        // don't insert duplicate history elements
+//         kDebug() << "currUrl == transformedUrl" << endl;
+        return;
+    }
+
+    updateHistoryElem();
+
+    const Q3ValueListIterator<UrlNavigator::HistoryElem> it = m_history.at(m_historyIndex);
+    m_history.insert(it, HistoryElem(transformedUrl));
+
+    updateContent();
+
+    emit urlChanged(transformedUrl);
+    emit historyChanged();
+
+    // Prevent an endless growing of the history: remembering
+    // the last 100 Urls should be enough...
+    if (m_historyIndex > 100) {
+        m_history.erase(m_history.begin());
+        --m_historyIndex;
+    }
+
+/*    kDebug() << "history starting ====================" << endl;
+    int i = 0;
+    for (QValueListIterator<UrlNavigator::HistoryElem> it = m_history.begin();
+         it != m_history.end();
+         ++it, ++i)
+    {
+        kDebug() << i << ": " << (*it).url() << endl;
+    }
+    kDebug() << "history done ========================" << endl;*/
+
+    requestActivation();
+}
+
+void UrlNavigator::requestActivation()
+{
+    kDebug() << "--------------------------- request activation" << endl;
+    setActive(true);
+}
+
+void UrlNavigator::storeContentsPosition(int x, int y)
+{
+    m_history[m_historyIndex].setContentsX(x);
+    m_history[m_historyIndex].setContentsY(y);
 }
 
 void UrlNavigator::keyReleaseEvent(QKeyEvent* event)
@@ -399,20 +421,6 @@ void UrlNavigator::slotProtocolChanged(const QString& protocol)
     }
 }
 
-void UrlNavigator::slotRequestActivation()
-{
-    m_dolphinView->requestActivation();
-}
-
-void UrlNavigator::slotBookmarkActivated(int index)
-{
-    m_dolphinView->statusBar()->clear();
-    m_dolphinView->requestActivation();
-
-    KBookmark bookmark = DolphinSettings::instance().bookmark(index);
-    m_dolphinView->setUrl(bookmark.url());
-}
-
 void UrlNavigator::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
 {
 // kDebug() << "received redirection to " << newUrl << endl;
@@ -426,12 +434,6 @@ kDebug() << "received redirection from " << oldUrl << " to " << newUrl << endl;
     m_urls.append(newUrl);*/
 }
 
-void UrlNavigator::slotContentsMoved(int x, int y)
-{
-    m_history[m_historyIndex].setContentsX(x);
-    m_history[m_historyIndex].setContentsY(y);
-}
-
 void UrlNavigator::slotClicked()
 {
     if (isUrlEditable()) {
@@ -440,7 +442,7 @@ void UrlNavigator::slotClicked()
     }
     else {
         setUrl(m_pathBox->currentText());
-        m_dolphinView->setFocus();
+        emit requestActivation();
     }
 }
 
@@ -451,8 +453,6 @@ void UrlNavigator::updateHistoryElem()
     if (item != 0) {
         m_history[m_historyIndex].setCurrentFileName(item->name());
     }
-    m_history[m_historyIndex].setContentsX(m_dolphinView->contentsX());
-    m_history[m_historyIndex].setContentsY(m_dolphinView->contentsY());
 }
 
 void UrlNavigator::updateContent()
@@ -470,22 +470,26 @@ void UrlNavigator::updateContent()
 
     m_toggleButton->setToolTip(QString());
     QString path(url().pathOrUrl());
-    const QAction* action = dolphinView()->mainWindow()->actionCollection()->action("editable_location");
+
+    // TODO: prevent accessing the DolphinMainWindow out from this scope
+    //const QAction* action = dolphinView()->mainWindow()->actionCollection()->action("editable_location");
     // TODO: registry of default shortcuts
-    QString shortcut = action? action->shortcut().toString() : "Ctrl+L";
+    //QString shortcut = action? action->shortcut().toString() : "Ctrl+L";
+    const QString shortcut = "Ctrl+L";
+
     if (m_toggleButton->isChecked()) {
         delete m_protocols; m_protocols = 0;
         delete m_protocolSeparator; m_protocolSeparator = 0;
         delete m_host; m_host = 0;
 
-        m_toggleButton->setToolTip(i18n("Browse (%1, Escape)",shortcut));
+        m_toggleButton->setToolTip(i18n("Browse (%1, Escape)", shortcut));
 
         setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
         m_pathBox->show();
         m_pathBox->setUrl(url());
     }
     else {
-        m_toggleButton->setToolTip(i18n("Edit location (%1)",shortcut));
+        m_toggleButton->setToolTip(i18n("Edit location (%1)", shortcut));
 
         setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         m_pathBox->hide();

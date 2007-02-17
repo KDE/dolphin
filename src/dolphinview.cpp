@@ -79,9 +79,18 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     m_topLayout->setSpacing(0);
     m_topLayout->setMargin(0);
 
+    connect(m_mainWindow, SIGNAL(activeViewChanged()),
+            this, SLOT(updateActivationState()));
+
     m_urlNavigator = new UrlNavigator(url, this);
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(loadDirectory(const KUrl&)));
+    connect(m_urlNavigator, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&)),
+            this, SLOT(dropUrls(const KUrl::List&, const KUrl&)));
+    connect(m_urlNavigator, SIGNAL(activated()),
+            this, SLOT(requestActivation()));
+    connect(this, SIGNAL(contentsMoved(int, int)),
+            m_urlNavigator, SLOT(storeContentsPosition(int, int)));
 
     m_statusBar = new DolphinStatusBar(this);
 
@@ -165,7 +174,7 @@ const KUrl& DolphinView::url() const
 
 bool DolphinView::isActive() const
 {
-    return (mainWindow()->activeView() == this);
+    return m_mainWindow->activeView() == this;
 }
 
 void DolphinView::setMode(Mode mode)
@@ -554,11 +563,6 @@ void DolphinView::reload()
     startDirLister(m_urlNavigator->url(), true);
 }
 
-void DolphinView::declareViewActive()
-{
-    mainWindow()->setActiveView( this );
-}
-
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)
 {
     QWidget::mouseReleaseEvent(event);
@@ -886,8 +890,15 @@ void DolphinView::dropUrls(const KUrl::List& urls,
 
     const KUrl& destination = (directory == 0) ? url() :
                                                  directory->url();
+    dropUrls(urls, destination);
+}
+
+void DolphinView::dropUrls(const KUrl::List& urls,
+                           const KUrl& destination)
+{
     m_mainWindow->dropUrls(urls, destination);
 }
+
 
 void DolphinView::updateSorting(DolphinView::Sorting sorting)
 {
@@ -912,6 +923,11 @@ void DolphinView::updateSortOrder(Qt::SortOrder order)
 void DolphinView::emitContentsMoved()
 {
     emit contentsMoved(contentsX(), contentsY());
+}
+
+void DolphinView::updateActivationState()
+{
+    m_urlNavigator->setActive(isActive());
 }
 
 void DolphinView::createView()

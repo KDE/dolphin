@@ -702,6 +702,7 @@ void DolphinMainWindow::toggleSplitView()
             setActiveView(m_view[PrimaryIdx]);
         }
     }
+    emit activeViewChanged();
 }
 
 void DolphinMainWindow::reloadView()

@@ -19,32 +19,26 @@
  ***************************************************************************/
 
 #include "urlnavigatorbutton.h"
-#include <qcursor.h>
-#include <qfontmetrics.h>
-#include <qpainter.h>
-#include <qtimer.h>
-#include <qtooltip.h>
-//Added by qt3to4:
-#include <QDropEvent>
-#include <QDragLeaveEvent>
-#include <Q3PopupMenu>
-#include <QEvent>
-#include <QDragEnterEvent>
 
-#include <kglobalsettings.h>
-#include <kiconloader.h>
-#include <kio/jobclasses.h>
-#include <klocale.h>
-#include <kurl.h>
 #include <assert.h>
 
 #include "urlnavigator.h"
-#include "dolphinview.h"
-#include "dolphinmainwindow.h"
+
+#include <kglobalsettings.h>
+#include <kiconloader.h>
+#include <kio/job.h>
+#include <kio/jobclasses.h>
+#include <klocale.h>
+#include <kurl.h>
+
+#include <Q3PopupMenu>
+#include <QPainter>
+#include <QTimer>
 
 UrlNavigatorButton::UrlNavigatorButton(int index, UrlNavigator* parent) :
     UrlButton(parent),
     m_index(-1),
+    m_popupDelay(0),
     m_listJob(0)
 {
     setAcceptDrops(true);
@@ -117,10 +111,7 @@ void UrlNavigatorButton::paintEvent(QPaintEvent* event)
     }
 
     // dimm the colors if the parent view does not have the focus
-    const DolphinView* parentView = urlNavigator()->dolphinView();
-    const DolphinMainWindow* dolphin = parentView->mainWindow();
-
-    const bool isActive = (dolphin->activeView() == parentView);
+    const bool isActive = urlNavigator()->isActive();
     if (!isActive) {
         QColor dimmColor(palette().brush(QPalette::Background).color());
         foregroundColor = mixColors(foregroundColor, dimmColor);
@@ -218,8 +209,7 @@ void UrlNavigatorButton::dropEvent(QDropEvent* event)
         QString path(urlNavigator()->url().prettyUrl());
         path = path.section('/', 0, m_index + 2);
 
-        DolphinMainWindow* win = urlNavigator()->dolphinView()->mainWindow();
-        win->dropUrls(urls, KUrl(path));
+        urlNavigator()->dropUrls(urls, KUrl(path));
 
         setDisplayHintEnabled(DraggedHint, false);
         update();
@@ -251,9 +241,7 @@ void UrlNavigatorButton::updateNavigatorUrl()
         return;
     }
 
-    UrlNavigator* navigator = urlNavigator();
-    assert(navigator != 0);
-    navigator->setUrl(navigator->url(m_index));
+    urlNavigator()->setUrl(urlNavigator()->url(m_index));
 }
 
 void UrlNavigatorButton::startPopupDelay()
@@ -300,7 +288,7 @@ void UrlNavigatorButton::entriesList(KIO::Job* job, const KIO::UDSEntryList& ent
     KIO::UDSEntryList::const_iterator itEnd = entries.constEnd();
     while (it != itEnd) {
         QString name;
-        bool isDir = false;
+        //bool isDir = false;
         KIO::UDSEntry entry = *it;
 
         /* KDE3 reference:
