@@ -19,17 +19,19 @@
 
 #include "bookmarkselector.h"
 
+#include "dolphinsettings.h"
+#include "urlnavigator.h"
+
 #include <assert.h>
-#include <q3popupmenu.h>
-#include <qpainter.h>
-#include <qpixmap.h>
 
 #include <kiconloader.h>
 #include <kglobalsettings.h>
 #include <kbookmarkmanager.h>
+#include <kmenu.h>
+#include <kdebug.h>
 
-#include "dolphinsettings.h"
-#include "urlnavigator.h"
+#include <QPainter>
+#include <QPixmap>
 
 BookmarkSelector::BookmarkSelector(UrlNavigator* parent) :
     UrlButton(parent),
@@ -38,15 +40,17 @@ BookmarkSelector::BookmarkSelector(UrlNavigator* parent) :
 {
     setFocusPolicy(Qt::NoFocus);
 
-    m_bookmarksMenu = new Q3PopupMenu(this);
+    m_bookmarksMenu = new KMenu(this);
 
     KBookmarkGroup root = DolphinSettings::instance().bookmarkManager()->root();
     KBookmark bookmark = root.first();
     int i = 0;
     while (!bookmark.isNull()) {
-        m_bookmarksMenu->insertItem(MainBarIcon(bookmark.icon()),
-                                    bookmark.text(),
-                                    i);
+        QAction* action = new QAction(MainBarIcon(bookmark.icon()),
+                                      bookmark.text(),
+                                      this);
+        action->setData(i);
+        m_bookmarksMenu->addAction(action);
         if (i == m_selectedIndex) {
             QPixmap pixmap = SmallIcon(bookmark.icon());
             setIcon(QIcon(pixmap));
@@ -57,8 +61,8 @@ BookmarkSelector::BookmarkSelector(UrlNavigator* parent) :
         ++i;
     }
 
-    connect(m_bookmarksMenu, SIGNAL(activated(int)),
-            this, SLOT(slotBookmarkActivated(int)));
+    connect(m_bookmarksMenu, SIGNAL(triggered(QAction*)),
+            this, SLOT(activateBookmark(QAction*)));
 
     setMenu(m_bookmarksMenu);
 }
@@ -159,9 +163,10 @@ void BookmarkSelector::paintEvent(QPaintEvent* /*event*/)
     painter.drawPixmap(x, y, pixmap);
 }
 
-void BookmarkSelector::slotBookmarkActivated(int index)
+void BookmarkSelector::activateBookmark(QAction* action)
 {
-    m_selectedIndex = index;
+    assert(action != 0);
+    m_selectedIndex = action->data().toInt();
 
     const KBookmark bookmark = selectedBookmark();
     setPixmap(SmallIcon(bookmark.icon()));

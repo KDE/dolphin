@@ -24,7 +24,7 @@
 #include <urlbutton.h>
 
 class UrlNavigator;
-class Q3PopupMenu;
+class KMenu;
 class KUrl;
 
 /**
@@ -85,15 +85,15 @@ protected:
 
 private slots:
     /**
-     * Updates the selected index and the icon if a bookmark
-     * has been activated by the user.
+     * Updates the selected index and the icon to the bookmark
+     * which is indicated by the triggered action \a action.
      */
-    void slotBookmarkActivated(int index);
+    void activateBookmark(QAction* action);
 
 private:
     int m_selectedIndex;
     UrlNavigator* m_urlNavigator;
-    Q3PopupMenu* m_bookmarksMenu;
+    KMenu* m_bookmarksMenu;
 
 };
 
