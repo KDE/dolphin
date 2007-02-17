@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
+
 #ifndef VIEWPROPERTIESDIALOG_H
 #define VIEWPROPERTIESDIALOG_H
 
@@ -31,9 +32,9 @@ class DolphinView;
 /**
  * @brief Dialog for changing the current view properties of a directory.
  *
- * It is possible to specify the view mode and whether hidden files
- * should be shown. The properties can be assigned to the current folder,
- * recursively to all sub folders or to all folders.
+ * It is possible to specify the view mode, the sorting order, whether hidden files
+ * and previews should be shown. The properties can be assigned to the current folder,
+ * or recursively to all sub folders.
  */
 class ViewPropertiesDialog : public KDialog
 {
@@ -63,7 +64,8 @@ private:
     QComboBox* m_sortOrder;
     QCheckBox* m_showPreview;
     QCheckBox* m_showHiddenFiles;
-    QCheckBox* m_applyToSubFolders;
+    QRadioButton* m_applyToCurrentFolder;
+    QRadioButton* m_applyToSubFolders;
     QCheckBox* m_useAsDefault;
 
     void applyViewProperties();

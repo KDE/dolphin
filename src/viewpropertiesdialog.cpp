@@ -26,11 +26,13 @@
 #include "generalsettings.h"
 #include "viewproperties.h"
 
+#include <assert.h>
+
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kmessagebox.h>
-#include <assert.h>
 
+#include <QButtonGroup>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QGridLayout>
@@ -49,6 +51,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_sortOrder(0),
     m_showPreview(0),
     m_showHiddenFiles(0),
+    m_applyToCurrentFolder(0),
     m_applyToSubFolders(0),
     m_useAsDefault(0)
 {
@@ -127,11 +130,28 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     // Only show the following settings if the view properties are remembered
     // for each directory:
     if (!DolphinSettings::instance().generalSettings()->globalViewProps()) {
-        m_applyToSubFolders = new QCheckBox(i18n("Apply changes to all sub folders"), main);
-        m_useAsDefault = new QCheckBox(i18n("Use as default"), main);
-        topLayout->addWidget(m_applyToSubFolders);
+        // create 'Apply view properties to:' group
+        QGroupBox* applyBox = new QGroupBox(i18n("Apply view properties to:"), main);
+
+        m_applyToCurrentFolder = new QRadioButton(i18n("Current folder"), applyBox);
+        m_applyToCurrentFolder->setChecked(true);
+        m_applyToSubFolders = new QRadioButton(i18n("Current folder including all sub folders"), applyBox);
+
+        QButtonGroup* applyGroup = new QButtonGroup(this);
+        applyGroup->addButton(m_applyToCurrentFolder);
+        applyGroup->addButton(m_applyToSubFolders);
+
+        QVBoxLayout* applyBoxLayout = new QVBoxLayout(applyBox);
+        applyBoxLayout->addWidget(m_applyToCurrentFolder);
+        applyBoxLayout->addWidget(m_applyToSubFolders);
+
+        m_useAsDefault = new QCheckBox(i18n("Use as default for new folders"), main);
+
+        topLayout->addWidget(applyBox);
         topLayout->addWidget(m_useAsDefault);
 
+        connect(m_applyToCurrentFolder, SIGNAL(clicked()),
+                this, SLOT(markAsDirty()));
         connect(m_applyToSubFolders, SIGNAL(clicked()),
                 this, SLOT(markAsDirty()));
         connect(m_useAsDefault, SIGNAL(clicked()),
