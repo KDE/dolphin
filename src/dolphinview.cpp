@@ -951,18 +951,6 @@ void DolphinView::createView()
             m_controller, SLOT(indicateSelectionChange()));
 }
 
-int DolphinView::columnIndex(Sorting sorting) const
-{
-    int index = 0;
-    switch (sorting) {
-        case SortByName: index = KDirModel::Name; break;
-        case SortBySize: index = KDirModel::Size; break;
-        case SortByDate: index = KDirModel::ModifiedTime; break;
-        default: assert(false);
-    }
-    return index;
-}
-
 void DolphinView::selectAll(QItemSelectionModel::SelectionFlags flags)
 {
     QItemSelectionModel* selectionModel = itemView()->selectionModel();

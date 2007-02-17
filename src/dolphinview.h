@@ -479,11 +479,6 @@ private:
     void createView();
 
     /**
-     * Returns the column index used in the KDirModel depending on \a sorting.
-     */
-    int columnIndex(Sorting sorting) const;
-
-    /**
      * Selects all items by using the selection flags \a flags. This is a helper
      * method for the slots DolphinView::selectAll() and DolphinView::invertSelection().
      */
