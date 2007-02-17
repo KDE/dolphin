@@ -272,7 +272,6 @@ void UrlNavigator::setUrl(const KUrl& url)
 
 void UrlNavigator::requestActivation()
 {
-    kDebug() << "--------------------------- request activation" << endl;
     setActive(true);
 }
 

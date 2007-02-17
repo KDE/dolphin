@@ -45,6 +45,7 @@ UrlNavigatorButton::UrlNavigatorButton(int index, UrlNavigator* parent) :
     connect(this, SIGNAL(clicked()), this, SLOT(updateNavigatorUrl()));
 
     m_popupDelay = new QTimer(this);
+    m_popupDelay->setSingleShot(true);
     connect(m_popupDelay, SIGNAL(timeout()), this, SLOT(startListJob()));
     connect(this, SIGNAL(pressed()), this, SLOT(startPopupDelay()));
 }
@@ -235,6 +236,8 @@ void UrlNavigatorButton::dragLeaveEvent(QDragLeaveEvent* event)
 
 void UrlNavigatorButton::updateNavigatorUrl()
 {
+    stopPopupDelay();
+
     if (m_index < 0) {
         return;
     }
@@ -244,18 +247,17 @@ void UrlNavigatorButton::updateNavigatorUrl()
 
 void UrlNavigatorButton::startPopupDelay()
 {
-    if (m_popupDelay->isActive() || m_listJob || m_index < 0) {
+    if (m_popupDelay->isActive() || (m_listJob != 0) || (m_index < 0)) {
         return;
     }
 
-    m_popupDelay->setSingleShot(true);
     m_popupDelay->start(300);
 }
 
 void UrlNavigatorButton::stopPopupDelay()
 {
     m_popupDelay->stop();
-    if (m_listJob) {
+    if (m_listJob != 0) {
         m_listJob->kill();
         m_listJob = 0;
     }
@@ -263,7 +265,7 @@ void UrlNavigatorButton::stopPopupDelay()
 
 void UrlNavigatorButton::startListJob()
 {
-    if (m_listJob) {
+    if (m_listJob != 0) {
         return;
     }
 
