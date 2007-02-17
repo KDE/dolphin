@@ -909,6 +909,11 @@ void DolphinView::updateSortOrder(Qt::SortOrder order)
     emit sortOrderChanged(order);
 }
 
+void DolphinView::emitContentsMoved()
+{
+    emit contentsMoved(contentsX(), contentsY());
+}
+
 void DolphinView::createView()
 {
     // delete current view
@@ -949,6 +954,10 @@ void DolphinView::createView()
 
     connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
             m_controller, SLOT(indicateSelectionChange()));
+    connect(view->verticalScrollBar(), SIGNAL(valueChanged(int)),
+            this, SLOT(emitContentsMoved()));
+    connect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
+            this, SLOT(emitContentsMoved()));
 }
 
 void DolphinView::selectAll(QItemSelectionModel::SelectionFlags flags)

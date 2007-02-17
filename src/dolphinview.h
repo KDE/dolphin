@@ -457,6 +457,12 @@ private slots:
      */
     void updateSortOrder(Qt::SortOrder order);
 
+    /**
+     * Emits the signal contentsMoved with the current coordinates
+     * of the viewport as parameters.
+     */
+    void emitContentsMoved();
+
 private:
     void startDirLister(const KUrl& url, bool reload = false);
 
