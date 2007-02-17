@@ -30,6 +30,7 @@
 #include <assert.h>
 
 #include <kfileitem.h>
+#include <kicon.h>
 #include <klocale.h>
 #include <kprotocolinfo.h>
 #include <kurlcombobox.h>
@@ -37,12 +38,12 @@
 
 #include <QApplication>
 #include <QClipboard>
-#include <QCheckBox>
 #include <QDir>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
 #include <QMouseEvent>
+#include <QPushButton>
 
 UrlNavigator::HistoryElem::HistoryElem() :
     m_url(),
@@ -82,9 +83,14 @@ UrlNavigator::UrlNavigator(const KUrl& url,
     m_history.prepend(HistoryElem(url));
 
     QFontMetrics fontMetrics(font());
-    setMinimumHeight(fontMetrics.height() + 8);
+    setMinimumHeight(fontMetrics.height() + 10);
 
-    m_toggleButton = new QCheckBox();
+    // intialize toggle button which switches between the breadcrumb view
+    // and the traditional view
+    m_toggleButton = new QPushButton();
+    m_toggleButton->setCheckable(true);
+    m_toggleButton->setFlat(true);
+    m_toggleButton->setIcon(KIcon("locationbar_erase")); // TODO: is just a placeholder icon
     m_toggleButton->setFocusPolicy(Qt::NoFocus);
     m_toggleButton->setMinimumHeight(minimumHeight());
     connect(m_toggleButton, SIGNAL(clicked()),
@@ -93,10 +99,12 @@ UrlNavigator::UrlNavigator(const KUrl& url,
         m_toggleButton->toggle();
     }
 
+    // initialize the bookmark selector
     m_bookmarkSelector = new BookmarkSelector(this);
     connect(m_bookmarkSelector, SIGNAL(bookmarkActivated(const KUrl&)),
             this, SLOT(setUrl(const KUrl&)));
 
+    // initialize the path box of the traditional view
     m_pathBox = new KUrlComboBox(KUrlComboBox::Directories, true, this);
 
     KUrlCompletion* kurlCompletion = new KUrlCompletion(KUrlCompletion::DirCompletion);

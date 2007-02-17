@@ -26,11 +26,11 @@
 #include <QWidget>
 #include <QLinkedList>
 
-class QCheckBox;
 class QHBoxLayout;
 class QLabel;
 class QLineEdit;
 class QMouseEvent;
+class QPushButton;
 
 class KUrl;
 class KFileItem;
@@ -294,7 +294,7 @@ private:
     QHBoxLayout* m_layout;
 
     QLinkedList<HistoryElem> m_history;
-    QCheckBox* m_toggleButton;
+    QPushButton* m_toggleButton;
     BookmarkSelector* m_bookmarkSelector;
     KUrlComboBox* m_pathBox;
     ProtocolCombo* m_protocols;

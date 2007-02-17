@@ -37,7 +37,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
 
     // TODO: read out settings
     setViewMode(QListView::IconMode);
-    setSpacing(32);
+    setGridSize(QSize(128, 96));
 
     connect(this, SIGNAL(clicked(const QModelIndex&)),
             controller, SLOT(triggerItem(const QModelIndex&)));
