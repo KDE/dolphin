@@ -35,10 +35,14 @@
 #include <kurlcombobox.h>
 #include <kurlcompletion.h>
 
-#include <QDir>
+#include <QApplication>
+#include <QClipboard>
 #include <QCheckBox>
+#include <QDir>
+#include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QMouseEvent>
 
 UrlNavigator::HistoryElem::HistoryElem() :
     m_url(),
@@ -62,21 +66,24 @@ UrlNavigator::HistoryElem::~HistoryElem()
 
 UrlNavigator::UrlNavigator(const KUrl& url,
                            QWidget* parent) :
-    KHBox(parent),
+    QWidget(parent),
     m_active(true),
     m_historyIndex(0),
+    m_layout(0),
     m_protocols(0),
     m_protocolSeparator(0),
     m_host(0)
 {
+    m_layout = new QHBoxLayout();
+    m_layout->setSpacing(0);
+    m_layout->setMargin(0);
+
     m_history.prepend(HistoryElem(url));
 
     QFontMetrics fontMetrics(font());
     setMinimumHeight(fontMetrics.height() + 8);
 
-    m_toggleButton = new QCheckBox(this);
-    //m_toggleButton->setFlat(true);
-    //m_toggleButton->setToggleButton(true);
+    m_toggleButton = new QCheckBox();
     m_toggleButton->setFocusPolicy(Qt::NoFocus);
     m_toggleButton->setMinimumHeight(minimumHeight());
     connect(m_toggleButton, SIGNAL(clicked()),
@@ -102,6 +109,19 @@ UrlNavigator::UrlNavigator(const KUrl& url,
 
     //connect(dolphinView, SIGNAL(redirection(const KUrl&, const KUrl&)),
     //        this, SLOT(slotRedirection(const KUrl&, const KUrl&)));
+
+    // Append a filler widget at the end, which automatically resizes to the
+    // maximum available width. This assures that the URL navigator uses the
+    // whole width, so that the clipboard content can be dropped.
+    QWidget* filler = new QWidget();
+    filler->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+
+    m_layout->addWidget(m_toggleButton);
+    m_layout->addWidget(m_bookmarkSelector);
+    m_layout->addWidget(m_pathBox);
+    m_layout->addWidget(filler);
+    setLayout(m_layout);
+
     updateContent();
 }
 
@@ -284,10 +304,23 @@ void UrlNavigator::storeContentsPosition(int x, int y)
 
 void UrlNavigator::keyReleaseEvent(QKeyEvent* event)
 {
-    KHBox::keyReleaseEvent(event);
+    QWidget::keyReleaseEvent(event);
     if (isUrlEditable() && (event->key() == Qt::Key_Escape)) {
         setUrlEditable(false);
     }
+}
+
+void UrlNavigator::mouseReleaseEvent(QMouseEvent* event)
+{
+    if (event->button() == Qt::MidButton) {
+        QClipboard* clipboard = QApplication::clipboard();
+        const QMimeData* mimeData = clipboard->mimeData();
+        if (mimeData->hasText()) {
+            const QString text = mimeData->text();
+            setUrl(KUrl(text));
+        }
+    }
+    QWidget::mouseReleaseEvent(event);
 }
 
 void UrlNavigator::slotReturnPressed(const QString& text)
@@ -467,7 +500,7 @@ void UrlNavigator::updateContent()
     else {
         m_toggleButton->setToolTip(i18n("Edit location (%1)", shortcut));
 
-        setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         m_pathBox->hide();
 
         // get the data from the currently selected bookmark
@@ -525,7 +558,9 @@ void UrlNavigator::updateContent()
 
                 if (!m_host) {
                     m_protocolSeparator = new QLabel("://", this);
+                    appendWidget(m_protocolSeparator);
                     m_host = new QLineEdit(hostText, this);
+                    appendWidget(m_host);
 
                     connect(m_host, SIGNAL(lostFocus()),
                             this, SLOT(slotRemoteHostActivated()));
@@ -591,6 +626,7 @@ void UrlNavigator::updateButtons(const QString& path, int startIndex)
             UrlNavigatorButton* button = 0;
             if (createButton) {
                 button = new UrlNavigatorButton(idx, this);
+                appendWidget(button);
             }
             else {
                 button = *it;
@@ -633,6 +669,11 @@ void UrlNavigator::deleteButtons()
         ++it;
     }
     m_navButtons.erase(itBegin, itEnd);
+}
+
+void UrlNavigator::appendWidget(QWidget* widget)
+{
+    m_layout->insertWidget(m_layout->count() - 1, widget);
 }
 
 #include "urlnavigator.moc"

@@ -22,13 +22,15 @@
 #ifndef URLNAVIGATOR_H
 #define URLNAVIGATOR_H
 
-#include <khbox.h>
 #include <kurl.h>
+#include <QWidget>
 #include <QLinkedList>
 
+class QCheckBox;
+class QHBoxLayout;
 class QLabel;
 class QLineEdit;
-class QCheckBox;
+class QMouseEvent;
 
 class KUrl;
 class KFileItem;
@@ -58,7 +60,7 @@ class ProtocolCombo;
 
 typedef QLinkedList<KUrl> UrlStack;
 
-class UrlNavigator : public KHBox
+class UrlNavigator : public QWidget
 {
     Q_OBJECT
 
@@ -221,9 +223,17 @@ signals:
                      const KUrl& destination);
 
 protected:
-    /** If the Escape key is pressed, the navigation bar should switch
-        to the browse mode. */
+    /**
+     * If the Escape key is pressed, the navigation bar should switch
+     * to the browse mode.
+     */
     virtual void keyReleaseEvent(QKeyEvent* event);
+
+    /**
+     * Paste the clipboard content as URL, if the middle mouse
+     * button has been clicked.
+     */
+    virtual void mouseReleaseEvent(QMouseEvent* event);
 
 private slots:
     void slotReturnPressed(const QString& text);
@@ -270,9 +280,19 @@ private:
      */
     void deleteButtons();
 
+    /**
+     * Appends the widget at the end of the URL navigator. It is assured
+     * that the filler widget remains as last widget to fill the remaining
+     * width.
+     */
+    void appendWidget(QWidget* widget);
+
 private:
     bool m_active;
     int m_historyIndex;
+
+    QHBoxLayout* m_layout;
+
     QLinkedList<HistoryElem> m_history;
     QCheckBox* m_toggleButton;
     BookmarkSelector* m_bookmarkSelector;
