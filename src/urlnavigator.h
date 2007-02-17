@@ -243,11 +243,11 @@ private slots:
     void slotRedirection(const KUrl&, const KUrl&);
 
     /**
-     * Switches the navigation bar between the editable and noneditable
-     * state (see setUrlEditable()) and is connected to the clicked signal
+     * Switches the navigation bar between the breadcrumb view and the
+     * traditional view (see setUrlEditable()) and is connected to the clicked signal
      * of the navigation bar button.
      */
-    void slotClicked();
+    void switchView();
 
 private:
     /**
@@ -301,6 +301,7 @@ private:
     QLabel* m_protocolSeparator;
     QLineEdit* m_host;
     QLinkedList<UrlNavigatorButton*> m_navButtons;
+    QWidget* m_filler;
     //UrlStack m_urls;
 };
 

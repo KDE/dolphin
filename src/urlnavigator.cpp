@@ -72,7 +72,8 @@ UrlNavigator::UrlNavigator(const KUrl& url,
     m_layout(0),
     m_protocols(0),
     m_protocolSeparator(0),
-    m_host(0)
+    m_host(0),
+    m_filler(0)
 {
     m_layout = new QHBoxLayout();
     m_layout->setSpacing(0);
@@ -87,7 +88,7 @@ UrlNavigator::UrlNavigator(const KUrl& url,
     m_toggleButton->setFocusPolicy(Qt::NoFocus);
     m_toggleButton->setMinimumHeight(minimumHeight());
     connect(m_toggleButton, SIGNAL(clicked()),
-            this, SLOT(slotClicked()));
+            this, SLOT(switchView()));
     if (DolphinSettings::instance().generalSettings()->editableUrl()) {
         m_toggleButton->toggle();
     }
@@ -113,13 +114,13 @@ UrlNavigator::UrlNavigator(const KUrl& url,
     // Append a filler widget at the end, which automatically resizes to the
     // maximum available width. This assures that the URL navigator uses the
     // whole width, so that the clipboard content can be dropped.
-    QWidget* filler = new QWidget();
-    filler->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    m_filler = new QWidget();
+    m_filler->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
     m_layout->addWidget(m_toggleButton);
     m_layout->addWidget(m_bookmarkSelector);
     m_layout->addWidget(m_pathBox);
-    m_layout->addWidget(filler);
+    m_layout->addWidget(m_filler);
     setLayout(m_layout);
 
     updateContent();
@@ -194,7 +195,7 @@ void UrlNavigator::setUrlEditable(bool editable)
 {
     if (isUrlEditable() != editable) {
         m_toggleButton->toggle();
-        slotClicked();
+        switchView();
     }
 }
 
@@ -421,7 +422,9 @@ void UrlNavigator::slotProtocolChanged(const QString& protocol)
     else {
         if (!m_host) {
             m_protocolSeparator = new QLabel("://", this);
+            appendWidget(m_protocolSeparator);
             m_host = new QLineEdit(this);
+            appendWidget(m_host);
 
             connect(m_host, SIGNAL(lostFocus()),
                     this, SLOT(slotRemoteHostActivated()));
@@ -450,16 +453,16 @@ kDebug() << "received redirection from " << oldUrl << " to " << newUrl << endl;
     m_urls.append(newUrl);*/
 }
 
-void UrlNavigator::slotClicked()
+void UrlNavigator::switchView()
 {
+    updateContent();
     if (isUrlEditable()) {
         m_pathBox->setFocus();
-        updateContent();
     }
     else {
         setUrl(m_pathBox->currentText());
-        emit requestActivation();
     }
+    emit requestActivation();
 }
 
 void UrlNavigator::updateHistoryElem()
@@ -490,6 +493,7 @@ void UrlNavigator::updateContent()
         delete m_protocolSeparator; m_protocolSeparator = 0;
         delete m_host; m_host = 0;
         deleteButtons();
+        m_filler->hide();
 
         m_toggleButton->setToolTip(i18n("Browse (%1, Escape)", shortcut));
 
@@ -502,6 +506,7 @@ void UrlNavigator::updateContent()
 
         setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         m_pathBox->hide();
+        m_filler->show();
 
         // get the data from the currently selected bookmark
         KBookmark bookmark = m_bookmarkSelector->selectedBookmark();
@@ -541,6 +546,7 @@ void UrlNavigator::updateContent()
             if (!m_protocols) {
                 deleteButtons();
                 m_protocols = new ProtocolCombo(protocol, this);
+                appendWidget(m_protocols);
                 connect(m_protocols, SIGNAL(activated(const QString&)),
                         this, SLOT(slotProtocolChanged(const QString&)));
             }
