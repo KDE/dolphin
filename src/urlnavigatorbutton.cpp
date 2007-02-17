@@ -24,15 +24,13 @@
 
 #include "urlnavigator.h"
 
-#include <kglobalsettings.h>
-#include <kiconloader.h>
 #include <kio/job.h>
 #include <kio/jobclasses.h>
-#include <klocale.h>
-#include <kurl.h>
+#include <kglobalsettings.h>
+#include <kmenu.h>
 
-#include <Q3PopupMenu>
 #include <QPainter>
+#include <QPaintEvent>
 #include <QTimer>
 
 UrlNavigatorButton::UrlNavigatorButton(int index, UrlNavigator* parent) :
@@ -269,7 +267,7 @@ void UrlNavigatorButton::startListJob()
         return;
     }
 
-    KUrl url = urlNavigator()->url(m_index);
+    const KUrl& url = urlNavigator()->url(m_index);
     m_listJob = KIO::listDir(url, false, false);
     m_subdirs.clear(); // just to be ++safe
 
@@ -336,20 +334,22 @@ void UrlNavigatorButton::listJobFinished(KJob* job)
 
     setDisplayHintEnabled(PopupActiveHint, true);
     update(); // ensure the button is drawn highlighted
-    Q3PopupMenu* dirsMenu = new Q3PopupMenu(this);
-    //setMenu(dirsMenu);
+
+    KMenu* dirsMenu = new KMenu(this);
     QStringList::const_iterator it = m_subdirs.constBegin();
     QStringList::const_iterator itEnd = m_subdirs.constEnd();
     int i = 0;
     while (it != itEnd) {
-        dirsMenu->insertItem(*it, i);
+        QAction* action = new QAction(*it, this);
+        action->setData(i);
+        dirsMenu->addAction(action);
         ++it;
         ++i;
     }
 
-    int result = dirsMenu->exec(urlNavigator()->mapToGlobal(geometry().bottomLeft()));
-
-    if (result != -1) {
+    const QAction* action = dirsMenu->exec(urlNavigator()->mapToGlobal(geometry().bottomLeft()));
+    if (action != 0) {
+        const int result = action->data().toInt();
         KUrl url = urlNavigator()->url(m_index);
         url.addPath(m_subdirs[result]);
         urlNavigator()->setUrl(url);
@@ -358,6 +358,8 @@ void UrlNavigatorButton::listJobFinished(KJob* job)
     m_listJob = 0;
     m_subdirs.clear();
     delete dirsMenu;
+    dirsMenu = 0;
+
     setDisplayHintEnabled(PopupActiveHint, false);
 }
 

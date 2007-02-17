@@ -17,8 +17,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
-#ifndef UrlNAVIGATORBUTTON_H
-#define UrlNAVIGATORBUTTON_H
+
+#ifndef URLNAVIGATORBUTTON_H
+#define URLNAVIGATORBUTTON_H
 
 #include <kio/global.h>
 #include <urlbutton.h>
@@ -27,6 +28,7 @@ class KJob;
 class KUrl;
 class UrlNavigator;
 class QPainter;
+class QPaintEvent;
 
 namespace KIO
 {

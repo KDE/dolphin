@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at)                  *
+ *   Copyright (C) 2006 by Peter Penz (<peter.penz@gmx.at>)                *
  *   Copyright (C) 2006 by Aaron J. Seigo (<aseigo@kde.org>)               *
  *   Copyright (C) 2006 by Patrice Tremblay                                *
  *                                                                         *
@@ -21,42 +21,24 @@
 
 #include "urlnavigator.h"
 
-#include <assert.h>
-
-#include <qcombobox.h>
-#include <qfont.h>
-#include <qlabel.h>
-#include <q3listbox.h>
-#include <qlineedit.h>
-#include <qobject.h>
-#include <q3popupmenu.h>
-#include <qpushbutton.h>
-#include <qsizepolicy.h>
-#include <qtooltip.h>
-//Added by qt3to4:
-#include <QDir>
-#include <Q3ValueList>
-#include <QKeyEvent>
-#include <QCheckBox>
-
-#include <kaction.h>
-#include <kactioncollection.h>
-#include <kiconloader.h>
-#include <kio/job.h>
-#include <kfileitem.h>
-#include <klocale.h>
-#include <kprotocolinfo.h>
-#include <kurl.h>
-#include <kurlcombobox.h>
-#include <kurlcompletion.h>
-#include <kbookmarkmanager.h>
-#include <kvbox.h>
-
 #include "bookmarkselector.h"
 #include "dolphinsettings.h"
 #include "generalsettings.h"
 #include "protocolcombo.h"
 #include "urlnavigatorbutton.h"
+
+#include <assert.h>
+
+#include <kfileitem.h>
+#include <klocale.h>
+#include <kprotocolinfo.h>
+#include <kurlcombobox.h>
+#include <kurlcompletion.h>
+
+#include <QDir>
+#include <QCheckBox>
+#include <QLabel>
+#include <QLineEdit>
 
 UrlNavigator::HistoryElem::HistoryElem() :
     m_url(),
@@ -130,7 +112,9 @@ UrlNavigator::~UrlNavigator()
 const KUrl& UrlNavigator::url() const
 {
     assert(!m_history.empty());
-    return m_history[m_historyIndex].url();
+    QLinkedList<HistoryElem>::const_iterator it = m_history.begin();
+    it += m_historyIndex;
+    return (*it).url();
 }
 
 KUrl UrlNavigator::url(int index) const
@@ -147,7 +131,7 @@ KUrl UrlNavigator::url(int index) const
     return path;
 }
 
-const Q3ValueList<UrlNavigator::HistoryElem>& UrlNavigator::history(int& index) const
+const QLinkedList<UrlNavigator::HistoryElem>& UrlNavigator::history(int& index) const
 {
     index = m_historyIndex;
     return m_history;
@@ -243,7 +227,9 @@ void UrlNavigator::setUrl(const KUrl& url)
         // Check whether the previous element of the history has the same Url.
         // If yes, just go forward instead of inserting a duplicate history
         // element.
-        const KUrl& nextUrl = m_history[m_historyIndex - 1].url();
+        QLinkedList<HistoryElem>::const_iterator it = m_history.begin();
+        it += m_historyIndex - 1;
+        const KUrl& nextUrl = (*it).url();
         if (transformedUrl == nextUrl) {
             goForward();
 //             kDebug() << "goin' forward in history" << endl;
@@ -251,7 +237,8 @@ void UrlNavigator::setUrl(const KUrl& url)
         }
     }
 
-    const KUrl& currUrl = m_history[m_historyIndex].url();
+    QLinkedList<HistoryElem>::iterator it = m_history.begin() + m_historyIndex;
+    const KUrl& currUrl = (*it).url();
     if (currUrl == transformedUrl) {
         // don't insert duplicate history elements
 //         kDebug() << "currUrl == transformedUrl" << endl;
@@ -259,8 +246,6 @@ void UrlNavigator::setUrl(const KUrl& url)
     }
 
     updateHistoryElem();
-
-    const Q3ValueListIterator<UrlNavigator::HistoryElem> it = m_history.at(m_historyIndex);
     m_history.insert(it, HistoryElem(transformedUrl));
 
     updateContent();
@@ -296,8 +281,9 @@ void UrlNavigator::requestActivation()
 
 void UrlNavigator::storeContentsPosition(int x, int y)
 {
-    m_history[m_historyIndex].setContentsX(x);
-    m_history[m_historyIndex].setContentsY(y);
+    QLinkedList<HistoryElem>::iterator it = m_history.begin() + m_historyIndex;
+    (*it).setContentsX(x);
+    (*it).setContentsY(y);
 }
 
 void UrlNavigator::keyReleaseEvent(QKeyEvent* event)
@@ -391,8 +377,9 @@ void UrlNavigator::slotProtocolChanged(const QString& protocol)
     url.setProtocol(protocol);
     //url.setPath(KProtocolInfo::protocolClass(protocol) == ":local" ? "/" : "");
     url.setPath("/");
-    Q3ValueList<QWidget*>::const_iterator it = m_navButtons.constBegin();
-    while (it != m_navButtons.constEnd()) {
+    QLinkedList<QWidget*>::const_iterator it = m_navButtons.begin();
+    const QLinkedList<QWidget*>::const_iterator itEnd = m_navButtons.end();
+    while (it != itEnd) {
         (*it)->close();
         (*it)->deleteLater();
         ++it;
@@ -451,15 +438,17 @@ void UrlNavigator::updateHistoryElem()
     assert(m_historyIndex >= 0);
     const KFileItem* item = 0; // TODO: m_dolphinView->currentFileItem();
     if (item != 0) {
-        m_history[m_historyIndex].setCurrentFileName(item->name());
+        QLinkedList<HistoryElem>::iterator it = m_history.begin() + m_historyIndex;
+        (*it).setCurrentFileName(item->name());
     }
 }
 
 void UrlNavigator::updateContent()
 {
     // delete all existing Url navigator buttons
-    Q3ValueList<QWidget*>::const_iterator it = m_navButtons.constBegin();
-    while (it != m_navButtons.constEnd()) {
+    QLinkedList<QWidget*>::const_iterator it = m_navButtons.begin();
+    const QLinkedList<QWidget*>::const_iterator itEnd = m_navButtons.end();
+    while (it != itEnd) {
         (*it)->close();
         (*it)->deleteLater();
         ++it;

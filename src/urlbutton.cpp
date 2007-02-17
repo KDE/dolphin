@@ -19,18 +19,7 @@
  ***************************************************************************/
 
 #include "urlnavigatorbutton.h"
-#include <kurl.h>
-#include <qtooltip.h>
-#include <qcursor.h>
-#include <qfontmetrics.h>
-//Added by qt3to4:
-#include <QEvent>
-#include <kiconloader.h>
-#include <klocale.h>
-
 #include "urlnavigator.h"
-#include "dolphinmainwindow.h"
-
 
 UrlButton::UrlButton(UrlNavigator* parent) :
     QPushButton(parent),

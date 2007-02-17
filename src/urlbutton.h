@@ -33,8 +33,6 @@ class QPainter;
  *
  * Each button of the URL navigator contains an URL, which
  * is set as soon as the button has been clicked.
-*
- * @author Peter Penz
  */
 class UrlButton : public QPushButton
 {

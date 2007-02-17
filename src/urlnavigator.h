@@ -1,40 +1,33 @@
-/**************************************************************************
-*   Copyright (C) 2006 by Peter Penz                                      *
-*   peter.penz@gmx.at                                                     *
-*                                                                         *
-*   This program is free software; you can redistribute it and/or modify  *
-*   it under the terms of the GNU General Public License as published by  *
-*   the Free Software Foundation; either version 2 of the License, or     *
-*   (at your option) any later version.                                   *
-*                                                                         *
-*   This program is distributed in the hope that it will be useful,       *
-*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-*   GNU General Public License for more details.                          *
-*                                                                         *
-*   You should have received a copy of the GNU General Public License     *
-*   along with this program; if not, write to the                         *
-*   Free Software Foundation, Inc.,                                       *
-*   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
-***************************************************************************/
+/***************************************************************************
+ *   Copyright (C) 2006 by Peter Penz (<peter.penz@gmx.at>)                *
+ *   Copyright (C) 2006 by Aaron J. Seigo (<aseigo@kde.org>)               *
+ *   Copyright (C) 2006 by Patrice Tremblay                                *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ ***************************************************************************/
 
-#ifndef UrlNAVIGATOR_H
-#define UrlNAVIGATOR_H
+#ifndef URLNAVIGATOR_H
+#define URLNAVIGATOR_H
 
-
-//Added by qt3to4:
-#include <QLabel>
-#include <Q3ValueList>
-#include <QKeyEvent>
-#include <Q3PopupMenu>
+#include <khbox.h>
 #include <kurl.h>
-#include <qstring.h>
-#include <kvbox.h>
+#include <QLinkedList>
 
-class QComboBox;
 class QLabel;
 class QLineEdit;
-class Q3PopupMenu;
 class QCheckBox;
 
 class KUrl;
@@ -45,26 +38,24 @@ class BookmarkSelector;
 class ProtocolCombo;
 
 /**
- * @brief Navigation bar which contains the current shown Url.
+ * @brief Navigation bar which contains the current shown URL.
  *
- * The Url navigator offers two modes:
+ * The URL navigator offers two modes:
  * - Editable:     Represents the 'classic' mode, where the current Url
  *                 is editable inside a line editor.
- * - Non editable: The Url is represented by a number of buttons, where
- *                 clicking on a button results in activating the Url
+ * - Non editable: The URL is represented by a number of buttons, where
+ *                 clicking on a button results in activating the URL
  *                 the button represents. This mode also supports drag
  *                 and drop of items.
  *
  * The mode can be changed by a toggle button located on the left side of
  * the navigator.
  *
- * The Url navigator also remembers the Url history and allows to go
+ * The URL navigator also remembers the URL history and allows to go
  * back and forward within this history.
- *
- * @author Peter Penz
 */
 
-typedef Q3ValueList<KUrl> UrlStack;
+typedef QLinkedList<KUrl> UrlStack;
 
 class UrlNavigator : public KHBox
 {
@@ -117,7 +108,7 @@ public:
      * @param index     Output parameter which indicates the current
      *                  index of the location.
      */
-    const Q3ValueList<HistoryElem>& history(int& index) const;
+    const QLinkedList<HistoryElem>& history(int& index) const;
 
     /**
      * Goes back one step in the Url history. The signals
@@ -250,14 +241,14 @@ private slots:
 private:
     bool m_active;
     int m_historyIndex;
-    Q3ValueList<HistoryElem> m_history;
+    QLinkedList<HistoryElem> m_history;
     QCheckBox* m_toggleButton;
     BookmarkSelector* m_bookmarkSelector;
     KUrlComboBox* m_pathBox;
     ProtocolCombo* m_protocols;
     QLabel* m_protocolSeparator;
     QLineEdit* m_host;
-    Q3ValueList<QWidget*> m_navButtons;
+    QLinkedList<QWidget*> m_navButtons;
     //UrlStack m_urls;
 
     /**
