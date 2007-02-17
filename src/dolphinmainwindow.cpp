@@ -161,7 +161,7 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
                                               i18n("&Link Here") + "\t" + seq);
 
         popup.addSeparator();
-        QAction* cancelAction = popup.addAction(KIcon("stop"), i18n("Cancel"));
+        popup.addAction(KIcon("stop"), i18n("Cancel"));
 
         QAction* activatedAction = popup.exec(QCursor::pos());
         if (activatedAction == moveAction) {
@@ -767,8 +767,6 @@ void DolphinMainWindow::toggleEditLocation()
 
 void DolphinMainWindow::editLocation()
 {
-    KToggleAction* action = static_cast<KToggleAction*>(actionCollection()->action("editable_location"));
-    action->setChecked(true);
     m_activeView->setUrlEditable(true);
 }
 
@@ -998,8 +996,8 @@ void DolphinMainWindow::setupActions()
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteItems()));
 
     QAction* properties = actionCollection()->addAction("properties");
-    properties->setText(i18n("Propert&ies"));
-    properties->setShortcut(Qt::Key_Alt | Qt::Key_Return);
+    properties->setText(i18n("Properties"));
+    properties->setShortcut(Qt::ALT | Qt::Key_Return);
     connect(properties, SIGNAL(triggered()), this, SLOT(properties()));
 
     KStandardAction::quit(this, SLOT(quit()), actionCollection());
@@ -1090,7 +1088,7 @@ void DolphinMainWindow::setupActions()
 
     KToggleAction* showHiddenFiles = actionCollection()->add<KToggleAction>("show_hidden_files");
     showHiddenFiles->setText(i18n("Show Hidden Files"));
-    //showHiddenFiles->setShortcut(Qt::ALT | Qt::Key_      KDE4-TODO: what Qt-Key represents '.'?
+    showHiddenFiles->setShortcut(Qt::ALT | Qt::Key_Period);
     connect(showHiddenFiles, SIGNAL(triggered()), this, SLOT(toggleShowHiddenFiles()));
 
     KToggleAction* split = actionCollection()->add<KToggleAction>("split_view");
@@ -1110,12 +1108,15 @@ void DolphinMainWindow::setupActions()
     stop->setIcon(KIcon("stop"));
     connect(stop, SIGNAL(triggered()), this, SLOT(stopLoading()));
 
+    // TODO: the URL navigator must emit a signal if the editable state has been
+    // changed, so that the corresponding showFullLocation action is updated. Also
+    // the naming "Show full Location" is currently confusing...
     KToggleAction* showFullLocation = actionCollection()->add<KToggleAction>("editable_location");
     showFullLocation->setText(i18n("Show Full Location"));
     showFullLocation->setShortcut(Qt::CTRL | Qt::Key_L);
     connect(showFullLocation, SIGNAL(triggered()), this, SLOT(toggleEditLocation()));
 
-    KToggleAction* editLocation = actionCollection()->add<KToggleAction>("edit_location");
+    QAction* editLocation = actionCollection()->addAction("edit_location");
     editLocation->setText(i18n("Edit Location"));
     editLocation->setShortcut(Qt::Key_F6);
     connect(editLocation, SIGNAL(triggered()), this, SLOT(editLocation()));
@@ -1273,6 +1274,10 @@ void DolphinMainWindow::updateViewActions()
 
     KToggleAction* splitAction = static_cast<KToggleAction*>(actionCollection()->action("split_view"));
     splitAction->setChecked(m_view[SecondaryIdx] != 0);
+
+    KToggleAction* editableLocactionAction =
+        static_cast<KToggleAction*>(actionCollection()->action("editable_location"));
+    editableLocactionAction->setChecked(m_activeView->isUrlEditable());
 }
 
 void DolphinMainWindow::updateGoActions()
