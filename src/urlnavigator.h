@@ -35,13 +35,14 @@ class KFileItem;
 class KUrlComboBox;
 
 class BookmarkSelector;
+class UrlNavigatorButton;
 class ProtocolCombo;
 
 /**
  * @brief Navigation bar which contains the current shown URL.
  *
  * The URL navigator offers two modes:
- * - Editable:     Represents the 'classic' mode, where the current Url
+ * - Editable:     Represents the 'classic' mode, where the current URL
  *                 is editable inside a line editor.
  * - Non editable: The URL is represented by a number of buttons, where
  *                 clicking on a button results in activating the URL
@@ -63,9 +64,9 @@ class UrlNavigator : public KHBox
 
 public:
     /**
-     * @brief Represents the history element of an Url.
+     * @brief Represents the history element of an URL.
      *
-     * A history element contains the Url, the name of the current file
+     * A history element contains the URL, the name of the current file
      * (the 'current file' is the file where the cursor is located) and
      * the x- and y-position of the content.
      */
@@ -96,14 +97,14 @@ public:
     UrlNavigator(const KUrl& url, QWidget* parent);
     virtual ~UrlNavigator();
 
-    /** Returns the current active Url. */
+    /** Returns the current active URL. */
     const KUrl& url() const;
 
-    /** Returns the portion of the current active Url up to the button at index. */
+    /** Returns the portion of the current active URL up to the button at index. */
     KUrl url(int index) const;
 
     /**
-     * Returns the complete Url history. The index 0 indicates the oldest
+     * Returns the complete URL history. The index 0 indicates the oldest
      * history element.
      * @param index     Output parameter which indicates the current
      *                  index of the location.
@@ -111,35 +112,35 @@ public:
     const QLinkedList<HistoryElem>& history(int& index) const;
 
     /**
-     * Goes back one step in the Url history. The signals
+     * Goes back one step in the URL history. The signals
      * UrlNavigator::urlChanged and UrlNavigator::historyChanged
      * are submitted.
      */
     void goBack();
 
     /**
-     * Goes forward one step in the Url history. The signals
+     * Goes forward one step in the URL history. The signals
      * UrlNavigator::urlChanged and UrlNavigator::historyChanged
      * are submitted.
      */
     void goForward();
 
     /**
-     * Goes up one step of the Url path. The signals
+     * Goes up one step of the URL path. The signals
      * UrlNavigator::urlChanged and UrlNavigator::historyChanged
      * are submitted.
      */
     void goUp();
 
     /**
-     * Goes to the home Url. The signals UrlNavigator::urlChanged
+     * Goes to the home URL. The signals UrlNavigator::urlChanged
      * and UrlNavigator::historyChanged are submitted.
      */
     void goHome();
 
     /**
-     * @return True, if the Url is editable by the user within a line editor.
-     *         If false is returned, each part of the Url is presented by a button
+     * @return True, if the URL is editable by the user within a line editor.
+     *         If false is returned, each part of the URL is presented by a button
      *         for fast navigation.
      */
     bool isUrlEditable() const;
@@ -239,18 +240,6 @@ private slots:
     void slotClicked();
 
 private:
-    bool m_active;
-    int m_historyIndex;
-    QLinkedList<HistoryElem> m_history;
-    QCheckBox* m_toggleButton;
-    BookmarkSelector* m_bookmarkSelector;
-    KUrlComboBox* m_pathBox;
-    ProtocolCombo* m_protocols;
-    QLabel* m_protocolSeparator;
-    QLineEdit* m_host;
-    QLinkedList<QWidget*> m_navButtons;
-    //UrlStack m_urls;
-
     /**
      * Allows to edit the Url of the navigation bar if \a editable
      * is true. If \a editable is false, each part of
@@ -264,6 +253,35 @@ private:
      */
     void updateHistoryElem();
     void updateContent();
+
+    /**
+     * Updates all buttons to have one button for each part of the
+     * path \a path. Existing buttons, which are available by m_navButtons,
+     * are reused if possible. If the path is longer, new buttons will be
+     * created, if the path is shorter, the remaining buttons will be deleted.
+     * @param startIndex    Start index of path part (/), where the buttons
+     *                      should be created for each following part.
+     */
+    void updateButtons(const QString& path, int startIndex);
+
+    /**
+     * Deletes all URL navigator buttons. m_navButtons is
+     * empty after this operation.
+     */
+    void deleteButtons();
+
+private:
+    bool m_active;
+    int m_historyIndex;
+    QLinkedList<HistoryElem> m_history;
+    QCheckBox* m_toggleButton;
+    BookmarkSelector* m_bookmarkSelector;
+    KUrlComboBox* m_pathBox;
+    ProtocolCombo* m_protocols;
+    QLabel* m_protocolSeparator;
+    QLineEdit* m_host;
+    QLinkedList<UrlNavigatorButton*> m_navButtons;
+    //UrlStack m_urls;
 };
 
 #endif

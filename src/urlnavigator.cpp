@@ -186,9 +186,7 @@ bool UrlNavigator::isUrlEditable() const
 void UrlNavigator::editUrl(bool editOrBrowse)
 {
     setUrlEditable(editOrBrowse);
-
-    if (editOrBrowse)
-    {
+    if (editOrBrowse) {
         m_pathBox->setFocus();
     }
 }
@@ -207,7 +205,6 @@ void UrlNavigator::setActive(bool active)
 void UrlNavigator::dropUrls(const KUrl::List& urls,
                             const KUrl& destination)
 {
-    kDebug() << "------------------- URLS dropped" << endl;
     emit urlsDropped(urls, destination);
 }
 
@@ -314,7 +311,7 @@ void UrlNavigator::slotReturnPressed(const QString& text)
     m_pathBox->setUrls(urls, KUrlComboBox::RemoveBottom);
 
     setUrl(typedUrl);
-    // The Url might have been adjusted by UrlNavigator::setUrl(), hence
+    // The URL might have been adjusted by UrlNavigator::setUrl(), hence
     // synchronize the result in the path box.
     m_pathBox->setUrl(url());
 }
@@ -377,8 +374,8 @@ void UrlNavigator::slotProtocolChanged(const QString& protocol)
     url.setProtocol(protocol);
     //url.setPath(KProtocolInfo::protocolClass(protocol) == ":local" ? "/" : "");
     url.setPath("/");
-    QLinkedList<QWidget*>::const_iterator it = m_navButtons.begin();
-    const QLinkedList<QWidget*>::const_iterator itEnd = m_navButtons.end();
+    QLinkedList<UrlNavigatorButton*>::const_iterator it = m_navButtons.begin();
+    const QLinkedList<UrlNavigatorButton*>::const_iterator itEnd = m_navButtons.end();
     while (it != itEnd) {
         (*it)->close();
         (*it)->deleteLater();
@@ -445,16 +442,6 @@ void UrlNavigator::updateHistoryElem()
 
 void UrlNavigator::updateContent()
 {
-    // delete all existing Url navigator buttons
-    QLinkedList<QWidget*>::const_iterator it = m_navButtons.begin();
-    const QLinkedList<QWidget*>::const_iterator itEnd = m_navButtons.end();
-    while (it != itEnd) {
-        (*it)->close();
-        (*it)->deleteLater();
-        ++it;
-    }
-    m_navButtons.clear();
-
     m_bookmarkSelector->updateSelection(url());
 
     m_toggleButton->setToolTip(QString());
@@ -470,6 +457,7 @@ void UrlNavigator::updateContent()
         delete m_protocols; m_protocols = 0;
         delete m_protocolSeparator; m_protocolSeparator = 0;
         delete m_host; m_host = 0;
+        deleteButtons();
 
         m_toggleButton->setToolTip(i18n("Browse (%1, Escape)", shortcut));
 
@@ -482,7 +470,6 @@ void UrlNavigator::updateContent()
 
         setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         m_pathBox->hide();
-        QString dir_name;
 
         // get the data from the currently selected bookmark
         KBookmark bookmark = m_bookmarkSelector->selectedBookmark();
@@ -504,8 +491,8 @@ void UrlNavigator::updateContent()
         }
         const uint len = bookmarkPath.length();
 
-        // calculate the start point for the Url navigator buttons by counting
-        // the slashs inside the bookmark Url
+        // calculate the start point for the URL navigator buttons by counting
+        // the slashs inside the bookmark URL
         int slashCount = 0;
         for (uint i = 0; i < len; ++i) {
             if (bookmarkPath.at(i) == QChar('/')) {
@@ -520,6 +507,7 @@ void UrlNavigator::updateContent()
         if (!url().isLocalFile() && bookmark.isNull()) {
             QString protocol = url().protocol();
             if (!m_protocols) {
+                deleteButtons();
                 m_protocols = new ProtocolCombo(protocol, this);
                 connect(m_protocols, SIGNAL(activated(const QString&)),
                         this, SLOT(slotProtocolChanged(const QString&)));
@@ -529,12 +517,10 @@ void UrlNavigator::updateContent()
             }
             m_protocols->show();
 
-            if (KProtocolInfo::protocolClass(protocol) != ":local")
-            {
+            if (KProtocolInfo::protocolClass(protocol) != ":local") {
                 QString hostText = url().host();
 
-                if (!url().user().isEmpty())
-                {
+                if (!url().user().isEmpty()) {
                     hostText = url().user() + "@" + hostText;
                 }
 
@@ -567,39 +553,87 @@ void UrlNavigator::updateContent()
             }
         }
 
-        // create Url navigator buttons
-        int idx = slashCount;
-        bool hasNext = true;
-        do {
-            dir_name = path.section('/', idx, idx);
-            const bool isFirstButton = (idx == slashCount);
-            hasNext = isFirstButton || !dir_name.isEmpty();
-            if (hasNext) {
-                UrlNavigatorButton* button = new UrlNavigatorButton(idx, this);
-                if (isFirstButton) {
-                    // the first Url navigator button should get the name of the
-                    // bookmark instead of the directory name
-                    QString text = bookmark.text();
-                    if (text.isEmpty()) {
-                        if (url().isLocalFile())
-                        {
-                            text = i18n("Custom Path");
-                        }
-                        else
-                        {
-                            delete button;
-                            ++idx;
-                            continue;
-                        }
+        updateButtons(path, slashCount);
+    }
+}
+
+void UrlNavigator::updateButtons(const QString& path, int startIndex)
+{
+    QLinkedList<UrlNavigatorButton*>::iterator it = m_navButtons.begin();
+    const QLinkedList<UrlNavigatorButton*>::const_iterator itEnd = m_navButtons.end();
+    bool createButton = false;
+
+    int idx = startIndex;
+    bool hasNext = true;
+    do {
+        createButton = (it == itEnd);
+
+        const QString dirName = path.section('/', idx, idx);
+        const bool isFirstButton = (idx == startIndex);
+        hasNext = isFirstButton || !dirName.isEmpty();
+        if (hasNext) {
+            QString text;
+            if (isFirstButton) {
+                // the first URL navigator button should get the name of the
+                // bookmark instead of the directory name
+                const KBookmark bookmark = m_bookmarkSelector->selectedBookmark();
+                text = bookmark.text();
+                if (text.isEmpty()) {
+                    if (url().isLocalFile()) {
+                        text = i18n("Custom Path");
                     }
-                    button->setText(text);
+                    else {
+                        ++idx;
+                        continue;
+                    }
                 }
+            }
+
+            UrlNavigatorButton* button = 0;
+            if (createButton) {
+                button = new UrlNavigatorButton(idx, this);
+            }
+            else {
+                button = *it;
+                button->setIndex(idx);
+            }
+
+            if (isFirstButton) {
+                button->setText(text);
+            }
+
+            if (createButton) {
                 button->show();
                 m_navButtons.append(button);
-                ++idx;
             }
-        } while (hasNext);
+            else {
+                ++it;
+            }
+            ++idx;
+        }
+    } while (hasNext);
+
+    // delete buttons which are not used anymore
+    QLinkedList<UrlNavigatorButton*>::iterator itBegin = it;
+    while (it != itEnd) {
+        (*it)->close();
+        (*it)->deleteLater();
+        ++it;
     }
+    m_navButtons.erase(itBegin, m_navButtons.end());
+}
+
+void UrlNavigator::deleteButtons()
+{
+    QLinkedList<UrlNavigatorButton*>::iterator itBegin = m_navButtons.begin();
+    QLinkedList<UrlNavigatorButton*>::iterator itEnd = m_navButtons.end();
+    QLinkedList<UrlNavigatorButton*>::iterator it = itBegin;
+    while (it != itEnd) {
+        (*it)->close();
+        (*it)->deleteLater();
+        ++it;
+    }
+    m_navButtons.erase(itBegin, itEnd);
 }
 
 #include "urlnavigator.moc"
