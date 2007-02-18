@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz (<peter.penz@gmx.at>)                *
+ *   Copyright (C) 2006 by Aaron J. Seigo (<aseigo@kde.org>)               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -52,7 +52,8 @@ ViewProperties::ViewProperties(const KUrl& url) :
     // We try and save it to a file in the directory being viewed.
     // If the directory is not writable by the user or the directory is not local,
     // we store the properties information in a local file.
-    const bool useGlobalViewProps = DolphinSettings::instance().generalSettings()->globalViewProps();
+    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    const bool useGlobalViewProps = settings->globalViewProps();
     if (useGlobalViewProps) {
         m_filepath = destinationDir("global");
     }
@@ -66,7 +67,26 @@ ViewProperties::ViewProperties(const KUrl& url) :
         m_filepath = destinationDir("remote") + m_filepath;
     }
 
-    m_node = new ViewPropertySettings(KSharedConfig::openConfig(m_filepath + FILE_NAME));
+    const QString file(m_filepath + FILE_NAME);
+    m_node = new ViewPropertySettings(KSharedConfig::openConfig(file));
+
+    kDebug() << "------------------ global timestamp: " << settings->viewPropsTimestamp() << endl;
+
+    const bool useDefaultProps = !useGlobalViewProps &&
+                                 (!QFileInfo(file).exists() ||
+                                  (m_node->timestamp() < settings->viewPropsTimestamp()));
+    if (useDefaultProps) {
+        // If the .directory file does not exist or the timestamp is too old,
+        // use the values from the global .directory file instead, which acts
+        // as default view for new folders in this case.
+        settings->setGlobalViewProps(true);
+
+        ViewProperties defaultProps(url);
+        setDirProperties(defaultProps);
+
+        settings->setGlobalViewProps(false);
+        m_changedProps = false;
+    }
 }
 
 ViewProperties::~ViewProperties()
@@ -184,12 +204,12 @@ QString ViewProperties::destinationDir(const QString& subDir) const
     return KStandardDirs::locateLocal("data", basePath);
 }
 
-ViewProperties::ViewProperties(const ViewProperties& props)
+ViewProperties::ViewProperties(const ViewProperties& /*props*/)
 {
     assert(false);
 }
 
-ViewProperties& ViewProperties::operator = (const ViewProperties& props)
+ViewProperties& ViewProperties::operator = (const ViewProperties& /*props*/)
 {
     assert(false);
 }

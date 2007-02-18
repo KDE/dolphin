@@ -66,6 +66,7 @@ private:
     QCheckBox* m_showHiddenFiles;
     QRadioButton* m_applyToCurrentFolder;
     QRadioButton* m_applyToSubFolders;
+    QRadioButton* m_applyToAllFolders;
     QCheckBox* m_useAsDefault;
 
     void applyViewProperties();

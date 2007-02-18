@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz (<peter.penz@gmx.at>)                *
+ *   Copyright (C) 2006 by Aaron J. Seigo (<aseigo@kde.org>)               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -33,9 +33,9 @@ class QFile;
  * @brief Maintains the view properties like 'view mode' or
  *        'show hidden files' for a directory.
  *
- * The view properties are automatically stored inside the directory inside
- * the hidden file '.directory'. To read out the view properties
- * just construct an instance by passing the URL of the directory:
+ * The view properties are automatically stored as part of the file
+ * .directory inside the corresponding path. To read out the view properties
+ * just construct an instance by passing the path of the directory:
  *
  * \code
  * ViewProperties props(KUrl("/home/peter/Documents"));
@@ -45,6 +45,10 @@ class QFile;
  *
  * When modifying a view property, the '.directory' file is automatically updated
  * inside the destructor.
+ *
+ * If no .directory file is available or the global view mode is turned on
+ * (see GeneralSettings::globalViewMode()), the values from the global .directory file
+ * are used for initialization.
  */
 class ViewProperties
 {

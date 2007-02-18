@@ -28,9 +28,13 @@
 
 #include <assert.h>
 
+#include <kcomponentdata.h>
 #include <klocale.h>
 #include <kiconloader.h>
+#include <kio/netaccess.h>
 #include <kmessagebox.h>
+#include <kstandarddirs.h>
+#include <kurl.h>
 
 #include <QButtonGroup>
 #include <QCheckBox>
@@ -136,14 +140,17 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
         m_applyToCurrentFolder = new QRadioButton(i18n("Current folder"), applyBox);
         m_applyToCurrentFolder->setChecked(true);
         m_applyToSubFolders = new QRadioButton(i18n("Current folder including all sub folders"), applyBox);
+        m_applyToAllFolders = new QRadioButton(i18n("All folders"),applyBox);
 
         QButtonGroup* applyGroup = new QButtonGroup(this);
         applyGroup->addButton(m_applyToCurrentFolder);
         applyGroup->addButton(m_applyToSubFolders);
+        applyGroup->addButton(m_applyToAllFolders);
 
         QVBoxLayout* applyBoxLayout = new QVBoxLayout(applyBox);
         applyBoxLayout->addWidget(m_applyToCurrentFolder);
         applyBoxLayout->addWidget(m_applyToSubFolders);
+        applyBoxLayout->addWidget(m_applyToAllFolders);
 
         m_useAsDefault = new QCheckBox(i18n("Use as default for new folders"), main);
 
@@ -153,6 +160,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
         connect(m_applyToCurrentFolder, SIGNAL(clicked()),
                 this, SLOT(markAsDirty()));
         connect(m_applyToSubFolders, SIGNAL(clicked()),
+                this, SLOT(markAsDirty()));
+        connect(m_applyToAllFolders, SIGNAL(clicked()),
                 this, SLOT(markAsDirty()));
         connect(m_useAsDefault, SIGNAL(clicked()),
                 this, SLOT(markAsDirty()));
@@ -238,6 +247,27 @@ void ViewPropertiesDialog::applyViewProperties()
         info->show();
     }
 
+    const bool applyToAllFolders = m_isDirty &&
+                                   (m_applyToAllFolders != 0) &&
+                                   m_applyToAllFolders->isChecked();
+    if (applyToAllFolders) {
+        const QString text(i18n("The view properties of all folders will be changed. Do you want to continue?"));
+        if (KMessageBox::questionYesNo(this, text) == KMessageBox::No) {
+            return;
+        }
+
+        // Updating the global view properties time stamp in the general settings makes
+        // all existing viewproperties invalid, as they have a smaller time stamp.
+        GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+        settings->setViewPropsTimestamp(QDateTime::currentDateTime());
+
+        // This is also a good chance to make a cleanup of all mirrored view properties:
+        QString basePath = KGlobal::mainComponent().componentName();
+        basePath.append("/view_properties/");
+        const QString mirroredViewProps = KStandardDirs::locateLocal("data", basePath);
+        KIO::NetAccess::del(mirroredViewProps, this);
+    }
+
     m_viewProps->save();
 
     m_dolphinView->setMode(m_viewProps->viewMode());
@@ -248,7 +278,20 @@ void ViewPropertiesDialog::applyViewProperties()
 
     m_isDirty = false;
 
-    // TODO: handle m_useAsDefault setting
+    if (m_useAsDefault->isChecked()) {
+        // For directories where no .directory file is available, the .directory
+        // file stored for the global view properties is used as fallback. To update
+        // this file we temporary turn on the global view properties mode.
+        GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+        assert(!settings->globalViewProps());
+
+        settings->setGlobalViewProps(true);
+        ViewProperties defaultProps(m_dolphinView->url());
+        defaultProps.setDirProperties(*m_viewProps);
+        kDebug() << "saving global viewprops" << endl;
+        defaultProps.save();
+        settings->setGlobalViewProps(false);
+    }
 }
 
 #include "viewpropertiesdialog.moc"

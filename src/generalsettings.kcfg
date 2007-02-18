@@ -19,9 +19,12 @@
             <label>Split the view into two panes</label>
             <default>false</default>
         </entry>
-        <entry name="globalViewProps" type="Bool">
+        <entry name="GlobalViewProps" type="Bool">
             <label>Should the view properties used for all directories</label>
             <default>false</default>
+        </entry>
+        <entry name="ViewPropsTimestamp" type="DateTime" >
+            <label>Timestamp since when the view properties are valid</label>
         </entry>
     </group>
 </kcfg>

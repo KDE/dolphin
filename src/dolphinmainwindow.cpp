@@ -883,6 +883,9 @@ void DolphinMainWindow::init()
     // a proper default window size is given at the end of DolphinMainWindow::init().
     GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
     const bool firstRun = generalSettings->firstRun();
+    if (firstRun) {
+        generalSettings->setViewPropsTimestamp(QDateTime::currentDateTime());
+    }
 
     setAcceptDrops(true);
 
