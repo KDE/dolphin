@@ -60,6 +60,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_useAsDefault(0)
 {
     assert(dolphinView != 0);
+    const bool useGlobalViewProps = DolphinSettings::instance().generalSettings()->globalViewProps();
 
     setCaption(i18n("View Properties"));
     setButtons(KDialog::Ok | KDialog::Cancel | KDialog::Apply);
@@ -72,7 +73,10 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     QVBoxLayout* topLayout = new QVBoxLayout();
 
     // create 'Properties' group containing view mode, sorting, sort order and show hidden files
-    QGroupBox* propsBox = new QGroupBox(i18n("Properties"), main);
+    QWidget* propsBox = main;
+    if (!useGlobalViewProps) {
+        propsBox = new QGroupBox(i18n("Properties"), main);
+    }
 
     QLabel* viewModeLabel = new QLabel(i18n("View mode:"), propsBox);
     m_viewMode = new QComboBox(propsBox);
@@ -133,7 +137,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
 
     // Only show the following settings if the view properties are remembered
     // for each directory:
-    if (!DolphinSettings::instance().generalSettings()->globalViewProps()) {
+    if (!useGlobalViewProps) {
         // create 'Apply view properties to:' group
         QGroupBox* applyBox = new QGroupBox(i18n("Apply view properties to:"), main);
 

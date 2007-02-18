@@ -70,8 +70,6 @@ ViewProperties::ViewProperties(const KUrl& url) :
     const QString file(m_filepath + FILE_NAME);
     m_node = new ViewPropertySettings(KSharedConfig::openConfig(file));
 
-    kDebug() << "------------------ global timestamp: " << settings->viewPropsTimestamp() << endl;
-
     const bool useDefaultProps = !useGlobalViewProps &&
                                  (!QFileInfo(file).exists() ||
                                   (m_node->timestamp() < settings->viewPropsTimestamp()));
