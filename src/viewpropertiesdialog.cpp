@@ -266,10 +266,8 @@ void ViewPropertiesDialog::applyViewProperties()
         settings->setViewPropsTimestamp(QDateTime::currentDateTime());
 
         // This is also a good chance to make a cleanup of all mirrored view properties:
-        QString basePath = KGlobal::mainComponent().componentName();
-        basePath.append("/view_properties/");
-        const QString mirroredViewProps = KStandardDirs::locateLocal("data", basePath);
-        KIO::NetAccess::del(mirroredViewProps, this);
+        const KUrl mirroredDir = ViewProperties::mirroredDirectory();
+        KIO::NetAccess::del(mirroredDir, this);
     }
 
     m_viewProps->save();
@@ -292,7 +290,6 @@ void ViewPropertiesDialog::applyViewProperties()
         settings->setGlobalViewProps(true);
         ViewProperties defaultProps(m_dolphinView->url());
         defaultProps.setDirProperties(*m_viewProps);
-        kDebug() << "saving global viewprops" << endl;
         defaultProps.save();
         settings->setGlobalViewProps(false);
     }

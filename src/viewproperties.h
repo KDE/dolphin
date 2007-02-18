@@ -97,6 +97,15 @@ public:
      */
     void save();
 
+    /**
+     * Returns the URL of the directory, where the mirrored view properties
+     * are stored into. Mirrored view properties are used if:
+     * - there is no write access for storing the view properties into
+     *   the original directory
+     * - for non local directories
+     */
+    static KUrl mirroredDirectory();
+
 private:
     /**
      * Returns the destination directory path where the view

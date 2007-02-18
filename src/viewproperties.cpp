@@ -195,6 +195,13 @@ void ViewProperties::save()
     m_changedProps = false;
 }
 
+KUrl ViewProperties::mirroredDirectory()
+{
+    QString basePath = KGlobal::mainComponent().componentName();
+    basePath.append("/view_properties/");
+    return KUrl(KStandardDirs::locateLocal("data", basePath));
+}
+
 QString ViewProperties::destinationDir(const QString& subDir) const
 {
     QString basePath = KGlobal::mainComponent().componentName();
