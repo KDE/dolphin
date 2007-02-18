@@ -47,13 +47,14 @@ class DolphinApplication;
  * @short Main window for Dolphin.
  *
  * Handles the menus, toolbars and Dolphin views.
- *
- * @author Peter Penz <peter.penz@gmx.at>
-*/
+ */
 class DolphinMainWindow: public KMainWindow
 {
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.dolphin.MainWindow")
+    Q_PROPERTY(int id READ getId SCRIPTABLE true)
     friend class DolphinApplication;
+
 public:
     virtual ~DolphinMainWindow();
 
@@ -96,6 +97,20 @@ public:
      * with other menus (e. g. a context menu).
      */
     KNewMenu* newMenu() const { return m_newMenu; }
+
+public slots:
+    /**
+     * Returns the main windows ID, mainly used throught DBus.
+     */
+    int getId() const { return m_id; }
+
+    /**
+     * Changes the URL of the current active DolphinView to \a url.
+     */
+    void changeUrl(const QString& url);
+
+    /** Stores all settings and quits Dolphin. */
+    void quit();
 
 signals:
     /**
@@ -146,9 +161,6 @@ private slots:
      * like name, size and permissions.
      */
     void properties();
-
-    /** Stores all settings and quits Dolphin. */
-    void quit();
 
     /**
      * Shows the error information of the job \a job
@@ -338,7 +350,7 @@ private slots:
     void openNewMainWindow();
 
 private:
-    DolphinMainWindow();
+    DolphinMainWindow(int id);
     void init();
     void loadSettings();
 
@@ -392,6 +404,7 @@ private:
     KNewMenu* m_newMenu;
     QSplitter* m_splitter;
     DolphinView* m_activeView;
+    int m_id;
 
     DolphinView* m_view[SecondaryIdx + 1];
 

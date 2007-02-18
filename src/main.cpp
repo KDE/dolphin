@@ -24,12 +24,26 @@
 #include <kcmdlineargs.h>
 #include <klocale.h>
 #include <krun.h>
+#include <QDBusInterface>
+#include <QDBusReply>
 
 static KCmdLineOptions options[] =
 {
     { "+[Url]", I18N_NOOP( "Document to open" ), 0 },
     KCmdLineLastOption
 };
+
+void openWindow(DolphinApplication* app, const QString& url = QString())
+{
+    if (app != 0) {
+        app->openWindow(url);
+        return;
+    }
+
+    static QDBusInterface dbusIface("org.kde.dolphin", "/dolphin/Application", "",
+                                    QDBusConnection::connectToBus(QDBusConnection::SessionBus, "session_bus"));
+    QDBusReply<int> reply = dbusIface.call("openWindow", url);
+}
 
 int main(int argc, char **argv)
 {
@@ -53,8 +67,10 @@ int main(int argc, char **argv)
 
     KCmdLineArgs::init(argc, argv, &about);
     KCmdLineArgs::addCmdLineOptions(options);
-
-    DolphinApplication app;
+    DolphinApplication *app = 0;
+    if (DolphinApplication::start()) {
+        app = new DolphinApplication();
+    }
 
 
 #warning TODO, SessionManagement
@@ -68,18 +84,17 @@ int main(int argc, char **argv)
     } else {
 #endif
 
-        KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
-        if (args->count() > 0) {
-            for (int i = 0; i < args->count(); ++i) {
-                DolphinMainWindow *win = app.createMainWindow();
-                win->activeView()->setUrl(args->url(i));
-                win->show();
-            }
-        } else {
-            DolphinMainWindow* mainWin = app.createMainWindow();
-            mainWin->show();
+    KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
+    if (args->count() > 0) {
+        for (int i = 0; i < args->count(); ++i) {
+            openWindow(app, args->arg(i));
         }
-        args->clear();
-    
-    return app.exec();
+    }
+    else {
+        openWindow(app);
+    }
+    args->clear();
+    if (app != 0) {
+        return app->exec();
+    }
 }

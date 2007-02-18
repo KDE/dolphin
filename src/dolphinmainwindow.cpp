@@ -36,6 +36,7 @@
 #include "generalsettings.h"
 #include "viewpropertiesdialog.h"
 #include "viewproperties.h"
+#include "mainwindowadaptor.h"
 
 #include <kaction.h>
 #include <kactioncollection.h>
@@ -70,15 +71,19 @@
 #include <QSplitter>
 #include <QDockWidget>
 
-DolphinMainWindow::DolphinMainWindow() :
+DolphinMainWindow::DolphinMainWindow(int id) :
     KMainWindow(0),
     m_newMenu(0),
     m_splitter(0),
-    m_activeView(0)
+    m_activeView(0),
+    m_id(id)
 {
     setObjectName("Dolphin");
     m_view[PrimaryIdx] = 0;
     m_view[SecondaryIdx] = 0;
+
+    new MainWindowAdaptor(this);
+    QDBusConnection::sessionBus().registerObject(QString("/dolphin/MainWindow%1").arg(m_id), this);
 
     KonqUndoManager::incRef();
 
@@ -229,6 +234,13 @@ void DolphinMainWindow::refreshViews()
 
     updateViewActions();
     emit activeViewChanged();
+}
+
+void DolphinMainWindow::changeUrl(const QString& url)
+{
+    if (activeView() != 0) {
+        activeView()->setUrl(KUrl(url));
+    }
 }
 
 void DolphinMainWindow::slotViewModeChanged()

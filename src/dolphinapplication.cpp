@@ -21,8 +21,15 @@
 #include "dolphinapplication.h"
 #include "dolphinmainwindow.h"
 
-DolphinApplication::DolphinApplication()
+#include <applicationadaptor.h>
+#include <kurl.h>
+#include <QDBusConnection>
+
+DolphinApplication::DolphinApplication() :
+    m_lastId(0)
 {
+    new ApplicationAdaptor(this);
+    QDBusConnection::sessionBus().registerObject("/dolphin/Application", this);
 }
 
 DolphinApplication::~DolphinApplication()
@@ -40,11 +47,22 @@ DolphinApplication* DolphinApplication::app()
 
 DolphinMainWindow* DolphinApplication::createMainWindow()
 {
-    DolphinMainWindow* mainWindow = new DolphinMainWindow();
+    DolphinMainWindow* mainWindow = new DolphinMainWindow(m_lastId);
+    ++m_lastId;
     mainWindow->init();
 
     m_mainWindows.append(mainWindow);
     return mainWindow;
+}
+
+int DolphinApplication::openWindow(const QString& url)
+{
+    DolphinMainWindow* win = createMainWindow();
+    if ((win->activeView() != 0) && !url.isEmpty()) {
+        win->activeView()->setUrl(KUrl(url));
+    }
+    win->show();
+    return win->getId();
 }
 
 void DolphinApplication::removeMainWindow(DolphinMainWindow* mainWindow)

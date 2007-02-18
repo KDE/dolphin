@@ -56,6 +56,12 @@ kde4_add_kcfg_files(dolphin_SRCS
    iconsmodesettings.kcfgc
    detailsmodesettings.kcfgc )
 
+qt4_add_dbus_adaptor(dolphin_SRCS
+   org.kde.dolphin.Application.xml
+   dolphinapplication.h DolphinApplication)
+qt4_add_dbus_adaptor(dolphin_SRCS
+   org.kde.dolphin.MainWindow.xml
+   dolphinmainwindow.h DolphinMainWindow)
 kde4_add_executable(dolphin ${dolphin_SRCS})
 
 target_link_libraries(dolphin  ${KDE4_KDECORE_LIBS} ${KDE4_KDEPRINT_LIBS} konq )

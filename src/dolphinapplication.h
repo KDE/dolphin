@@ -22,7 +22,7 @@
 #ifndef _DOLPHIN_APPLICATION_H
 #define _DOLPHIN_APPLICATION_H
 
-#include <kapplication.h>
+#include <kuniqueapplication.h>
 
 class DolphinMainWindow;
 
@@ -32,9 +32,10 @@ class DolphinMainWindow;
  * we will delete on application exit.
  */
 
-class DolphinApplication : public KApplication
+class DolphinApplication : public KUniqueApplication
 {
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.dolphin.Application")
     friend class DolphinMainWindow;
 
 public:
@@ -50,12 +51,16 @@ public:
     DolphinMainWindow* createMainWindow();
     void refreshMainWindows();
 
+public slots:
+    int openWindow(const QString& url);
+
 protected:
     /** Called by the DolphinMainWindow to deregister. */
     void removeMainWindow(DolphinMainWindow* mainWindow);
 
 private:
     QList<DolphinMainWindow*> m_mainWindows;
+    int m_lastId;
 };
 
 #endif
