@@ -317,8 +317,7 @@ QList<QAction*> DolphinContextMenu::insertActionItems(KMenu* popup,
         QStringList entries = dir.entryList(QDir::Files);
 
         for (QStringList::ConstIterator entryIt = entries.begin(); entryIt != entries.end(); ++entryIt) {
-            KConfig cfg(*dirIt + *entryIt, KConfig::OnlyLocal);
-            cfg.setDesktopGroup();
+            KConfigGroup cfg(KSharedConfig::openConfig( *dirIt + *entryIt, KConfig::OnlyLocal), "Desktop Entry" );
             if ((cfg.hasKey("Actions") || cfg.hasKey("X-KDE-GetActionMenu")) && cfg.hasKey("ServiceTypes")) {
                 //const QStringList types = cfg.readListEntry("ServiceTypes");
                 QStringList types;
