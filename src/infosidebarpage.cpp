@@ -452,7 +452,7 @@ void InfoSidebarPage::insertActions()
         QStringList entries = dir.entryList(QStringList("*.desktop"), QDir::Files);
 
         for (QStringList::ConstIterator entryIt = entries.begin(); entryIt != entries.end(); ++entryIt) {
-            KConfig cfg(*dirIt + *entryIt, KConfig::OnlyLocals);
+            KConfig cfg(*dirIt + *entryIt, KConfig::OnlyLocal);
             cfg.setDesktopGroup();
             if ((cfg.hasKey("Actions") || cfg.hasKey("X-KDE-GetActionMenu")) && cfg.hasKey("ServiceTypes")) {
                 const QStringList types = cfg.readEntry("ServiceTypes", QStringList(), ',');
