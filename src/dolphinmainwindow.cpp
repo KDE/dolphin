@@ -590,7 +590,7 @@ void DolphinMainWindow::updatePasteAction()
             pasteAction->setText(i18n("Paste 1 File"));
         }
         else {
-            pasteAction->setText(i18n("Paste %1 Files").arg(count));
+            pasteAction->setText(i18n("Paste %1 Files", count));
         }
     }
     else {

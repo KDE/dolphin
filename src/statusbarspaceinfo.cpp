@@ -91,7 +91,7 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
         }
         painter.drawRect(QRect(left, barTop + 2, right, barHeight - 1));
 
-        text = i18n("%1% of %2 used", QString::number(100 - (int)(100.0 * m_kBAvailable / m_kBSize)), KIO::convertSizeFromKiB(m_kBSize));
+        text = i18n("%1% of %2 used", 100 - (int)(100.0 * m_kBAvailable / m_kBSize), KIO::convertSizeFromKiB(m_kBSize));
     }
     else {
         if (m_gettingSize) {
