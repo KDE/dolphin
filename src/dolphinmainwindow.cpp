@@ -360,28 +360,28 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
 
 void DolphinMainWindow::saveProperties(KConfig* config)
 {
-    config->setGroup("Primary view");
-    config->writeEntry("Url", m_view[PrimaryIdx]->url().url());
-    config->writeEntry("Editable Url", m_view[PrimaryIdx]->isUrlEditable());
+    KConfigGroup primaryView = config->group("Primary view");
+    primaryView.writeEntry("Url", m_view[PrimaryIdx]->url().url());
+    primaryView.writeEntry("Editable Url", m_view[PrimaryIdx]->isUrlEditable());
     if (m_view[SecondaryIdx] != 0) {
-        config->setGroup("Secondary view");
-        config->writeEntry("Url", m_view[SecondaryIdx]->url().url());
-        config->writeEntry("Editable Url", m_view[SecondaryIdx]->isUrlEditable());
+        KConfigGroup secondaryView = config->group("Secondary view");
+        secondaryView.writeEntry("Url", m_view[SecondaryIdx]->url().url());
+        secondaryView.writeEntry("Editable Url", m_view[SecondaryIdx]->isUrlEditable());
     }
 }
 
 void DolphinMainWindow::readProperties(KConfig* config)
 {
-    config->setGroup("Primary view");
-    m_view[PrimaryIdx]->setUrl(config->readEntry("Url"));
-    m_view[PrimaryIdx]->setUrlEditable(config->readEntry("Editable Url", false));
+    const KConfigGroup primaryView = config->group("Primary view");
+    m_view[PrimaryIdx]->setUrl(primaryView.readEntry("Url"));
+    m_view[PrimaryIdx]->setUrlEditable(primaryView.readEntry("Editable Url", false));
     if (config->hasGroup("Secondary view")) {
-        config->setGroup("Secondary view");
+        const KConfigGroup secondaryView = config->group("Secondary view");
         if (m_view[SecondaryIdx] == 0) {
             toggleSplitView();
         }
-        m_view[SecondaryIdx]->setUrl(config->readEntry("Url"));
-        m_view[SecondaryIdx]->setUrlEditable(config->readEntry("Editable Url", false));
+        m_view[SecondaryIdx]->setUrl(secondaryView.readEntry("Url"));
+        m_view[SecondaryIdx]->setUrlEditable(secondaryView.readEntry("Editable Url", false));
     }
     else if (m_view[SecondaryIdx] != 0) {
         toggleSplitView();
