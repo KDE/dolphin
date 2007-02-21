@@ -25,7 +25,7 @@
 #include <kurl.h>
 #include <qdatetime.h>
 
-#include "directoryviewpropertysettings.h"
+#include "dolphin_directoryviewpropertysettings.h"
 
 class QFile;
 

@@ -33,7 +33,7 @@
 #include "dolphinsettings.h"
 #include "bookmarkssidebarpage.h"
 #include "infosidebarpage.h"
-#include "generalsettings.h"
+#include "dolphin_generalsettings.h"
 #include "viewpropertiesdialog.h"
 #include "viewproperties.h"
 #include "mainwindowadaptor.h"

@@ -30,9 +30,9 @@
 #include <klocale.h>
 #include <kstandarddirs.h>
 
-#include "generalsettings.h"
-#include "iconsmodesettings.h"
-#include "detailsmodesettings.h"
+#include "dolphin_generalsettings.h"
+#include "dolphin_iconsmodesettings.h"
+#include "dolphin_detailsmodesettings.h"
 
 #include <Q3IconView>
 

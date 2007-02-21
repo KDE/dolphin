@@ -21,7 +21,7 @@
 #include "generalviewsettingspage.h"
 #include "dolphinmainwindow.h"
 #include "dolphinsettings.h"
-#include "generalsettings.h"
+#include "dolphin_generalsettings.h"
 #include "viewproperties.h"
 
 #include <assert.h>

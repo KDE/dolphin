@@ -23,7 +23,7 @@
 #include "dolphinview.h"
 #include "dolphinsettings.h"
 #include "dolphinsortfilterproxymodel.h"
-#include "generalsettings.h"
+#include "dolphin_generalsettings.h"
 #include "viewproperties.h"
 
 #include <assert.h>

@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 #include "iconsviewsettingspage.h"
-#include "iconsmodesettings.h"
+#include "dolphin_iconsmodesettings.h"
 #include "dolphinsettings.h"
 #include "pixmapviewer.h"
 

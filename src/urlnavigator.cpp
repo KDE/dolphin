@@ -23,7 +23,7 @@
 
 #include "bookmarkselector.h"
 #include "dolphinsettings.h"
-#include "generalsettings.h"
+#include "dolphin_generalsettings.h"
 #include "protocolcombo.h"
 #include "urlnavigatorbutton.h"
 

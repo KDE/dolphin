@@ -34,7 +34,7 @@
 #include <q3groupbox.h>
 #include <kvbox.h>
 #include "dolphinsettings.h"
-#include "detailsmodesettings.h"
+#include "dolphin_detailsmodesettings.h"
 #include "dolphindetailsview.h"
 
 DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,

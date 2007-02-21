@@ -40,7 +40,7 @@
 #include "dolphinsettings.h"
 #include "dolphinmainwindow.h"
 #include "dolphinview.h"
-#include "generalsettings.h"
+#include "dolphin_generalsettings.h"
 
 GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin,QWidget* parent) :
     SettingsPageBase(parent),
