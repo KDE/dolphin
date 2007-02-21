@@ -1,0 +1,4 @@
+File=dolphin_detailsmodesettings.kcfg
+ClassName=DetailsModeSettings
+Singleton=false 
+Mutators=true

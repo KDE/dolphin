@@ -1,4 +1,4 @@
-File=directoryviewpropertysettings.kcfg
+File=dolphin_directoryviewpropertysettings.kcfg
 Singleton=false
 ClassName=ViewPropertySettings
 Mutators=true
