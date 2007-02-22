@@ -20,18 +20,25 @@
 
 #include "metadataloader.h"
 
+#ifdef HAVE_NEPOMUK
 #include <kmetadata/kmetadata.h>
+#endif
+
 #include <kurl.h>
 #include <QString>
 
 MetadataLoader::MetadataLoader()
 {
+#ifdef HAVE_NEPOMUK
     if (Nepomuk::KMetaData::ResourceManager::instance()->init()) {
         m_up = false;
         Nepomuk::KMetaData::ResourceManager::instance()->setAutoSync(false);
     } else {
         m_up = true;
     }
+#else
+    m_up = true;
+#endif
 }
 
 MetadataLoader::~MetadataLoader()
@@ -44,15 +51,19 @@ bool MetadataLoader::storageUp() {
 
 QString MetadataLoader::getAnnotation(const KUrl& file)
 {
+#ifdef HAVE_NEPOMUK
     if(m_up)
         return Nepomuk::KMetaData::File(file.url()).getAnnotation();
     else
+#endif
         return QString();
 }
 
 void MetadataLoader::setAnnotation(const KUrl& file, const QString& annotation)
 {
+#ifdef HAVE_NEPOMUK
     if(m_up)
         Nepomuk::KMetaData::File(file.url()).setAnnotation(annotation);
+#endif
 }
 
