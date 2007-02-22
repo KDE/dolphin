@@ -36,6 +36,7 @@
 #include "dolphin_generalsettings.h"
 #include "viewpropertiesdialog.h"
 #include "viewproperties.h"
+#include "metadataloader.h"
 #include "mainwindowadaptor.h"
 
 #include <kaction.h>
@@ -952,6 +953,9 @@ void DolphinMainWindow::init()
         // assure a proper default size if Dolphin runs the first time
         resize(640, 480);
     }
+    
+    if (!DolphinApplication::app()->metadataLoader()->storageUp())
+        activeView()->statusBar()->setMessage(i18n("Failed to contact Nepomuk service, annotation and tagging are disabled."), DolphinStatusBar::Error);
 }
 
 void DolphinMainWindow::loadSettings()

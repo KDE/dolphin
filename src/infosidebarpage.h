@@ -48,6 +48,7 @@ class QLabel;
 class KVBox;
 class Q3Grid;
 class PixmapViewer;
+class MetadataLoader;
 
 /**
  * @brief Prototype for a information sidebar.
@@ -113,6 +114,12 @@ private slots:
      */
     void startService(int index);
 
+    /**
+     * Opens a dialog to change the annotation of the currently selected
+     * file(s).
+     */
+    void changeAnnotation();
+
 private:
     /**
      * Connects to signals from the currently active Dolphin view to get
@@ -149,6 +156,16 @@ private:
      */
     void insertActions();
 
+    /**
+     * Show the annotation of a file in the sidebar.
+     */
+    void showAnnotation(const KUrl& file);
+    
+    /**
+     * Show the annotations of multiple files in the sidebar.
+     */
+    void showAnnotations(const KUrl::List& files);
+    
     bool m_multipleSelection;
     bool m_pendingPreview;
     QTimer* m_timer;
@@ -158,13 +175,16 @@ private:
     PixmapViewer* m_preview;
     QLabel* m_name;
 
-    int m_currInfoLineIdx;
-    Q3Grid* m_infoGrid;
-    Q3PtrList<QLabel> m_infoWidgets;       // TODO: use children() from QObject instead
+    QString m_infoLines;
+    QLabel* m_infos;
 
     KVBox* m_actionBox;
     Q3PtrList<QWidget> m_actionWidgets;    // TODO: use children() from QObject instead
     Q3ValueVector<KDEDesktopMimeType::Service> m_actionsVector;
+
+    QLabel* m_annotationLabel;
+    QPushButton* m_annotationButton;//Move to sthing sexy visually
+    MetadataLoader* m_metadata;
 };
 
 // TODO #1: move to SidebarPage?

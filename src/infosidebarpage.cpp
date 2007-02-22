@@ -36,6 +36,7 @@
 #include <Q3ValueList>
 #include <QEvent>
 #include <Q3VBoxLayout>
+#include <QInputDialog>
 
 #include <kbookmarkmanager.h>
 #include <klocale.h>
@@ -48,8 +49,10 @@
 #include <kvbox.h>
 
 #include "dolphinmainwindow.h"
+#include "dolphinapplication.h"
 #include "pixmapviewer.h"
 #include "dolphinsettings.h"
+#include "metadataloader.h"
 
 InfoSidebarPage::InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent) :
     SidebarPage(mainWindow, parent),
@@ -58,9 +61,8 @@ InfoSidebarPage::InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent)
     m_timer(0),
     m_preview(0),
     m_name(0),
-    m_currInfoLineIdx(0),
-    m_infoGrid(0),
-    m_actionBox(0)
+    m_infos(0),
+    m_metadata(DolphinApplication::app()->metadataLoader())
 {
     const int spacing = KDialog::spacingHint();
 
@@ -68,7 +70,7 @@ InfoSidebarPage::InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent)
     connect(m_timer, SIGNAL(timeout()),
             this, SLOT(slotTimeout()));
 
-    Q3VBoxLayout* layout = new Q3VBoxLayout(this);
+    QVBoxLayout* layout = new QVBoxLayout;
     layout->setSpacing(spacing);
 
     // preview
@@ -88,11 +90,26 @@ InfoSidebarPage::InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent)
     sep1->setFixedHeight(1);
 
     // general information
-    m_infoGrid = new Q3Grid(2, this);
-    m_infoGrid->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    m_infos = new QLabel(this);
+    m_infos->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+    m_infos->setTextFormat(Qt::RichText);
+
+    // annotation
+    if (m_metadata->storageUp()) {
+        m_annotationLabel = new QLabel(this);
+        m_annotationLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        m_annotationLabel->setTextFormat(Qt::RichText);
+        m_annotationLabel->setWordWrap(true);
+        m_annotationButton = new QPushButton("", this);
+        m_annotationButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        connect(m_annotationButton, SIGNAL(released()), this, SLOT(changeAnnotation()));
+    }
 
     QWidget* sep2 = new Q3HGroupBox(this);  // TODO: check whether default widget exist for this?
     sep2->setFixedHeight(1);
+
+    QWidget* sep3 = new Q3HGroupBox(this);  // TODO: check whether default widget exist for this?
+    sep3->setFixedHeight(1);
 
     // actions
     m_actionBox = new KVBox(this);
@@ -106,11 +123,16 @@ InfoSidebarPage::InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent)
     layout->addWidget(m_preview);
     layout->addWidget(m_name);
     layout->addWidget(sep1);
-    layout->addWidget(m_infoGrid);
+    layout->addWidget(m_infos);
     layout->addWidget(sep2);
+    if (m_metadata->storageUp()) {
+        layout->addWidget(m_annotationLabel);
+        layout->addWidget(m_annotationButton);
+        layout->addWidget(sep3);
+    }
     layout->addWidget(m_actionBox);
     layout->addWidget(dummy);
-
+    setLayout(layout);
     connect(mainWindow, SIGNAL(selectionChanged()),
             this, SLOT(showItemInfo()));
 
@@ -281,10 +303,6 @@ void InfoSidebarPage::cancelRequest()
 
 void InfoSidebarPage::createMetaInfo()
 {
-    // To prevent a flickering it's important to reuse available
-    // labels instead of deleting them and recreate them afterwards.
-    // The methods beginInfoLines(), addInfoLine() and endInfoLines()
-    // take care of this.
     beginInfoLines();
     DolphinView* view = mainWindow()->activeView();
     if (!view->hasSelection()) {
@@ -294,56 +312,47 @@ void InfoSidebarPage::createMetaInfo()
         if (fileItem.isDir()) {
             addInfoLine(i18n("Type:"), i18n("Directory"));
         }
-        else {
-            addInfoLine(i18n("Type:"), fileItem.mimeComment());
+        showAnnotation(m_shownUrl);
+    }
+    else if (view->selectedItems().count() == 1) {
+        KFileItem* fileItem = view->selectedItems()[0];
+        addInfoLine(i18n("Type:"), fileItem->mimeComment());
 
-            QString sizeText(KIO::convertSize(fileItem.size()));
-            addInfoLine(i18n("Size:"), sizeText);
-            addInfoLine(i18n("Modified:"), fileItem.timeString());
+        QString sizeText(KIO::convertSize(fileItem->size()));
+        addInfoLine(i18n("Size:"), sizeText);
+        addInfoLine(i18n("Modified:"), fileItem->timeString());
 
-            const KFileMetaInfo& metaInfo = fileItem.metaInfo();
-            if (metaInfo.isValid()) {
-                QStringList keys = metaInfo.supportedKeys();
-                for (QStringList::Iterator it = keys.begin(); it != keys.end(); ++it) {
-                    if (showMetaInfo(*it)) {
-                        KFileMetaInfoItem metaInfoItem = metaInfo.item(*it);
-                        addInfoLine(*it, metaInfoItem.string());
-                    }
+        const KFileMetaInfo& metaInfo = fileItem->metaInfo();
+        if (metaInfo.isValid()) {
+            QStringList keys = metaInfo.supportedKeys();
+            for (QStringList::Iterator it = keys.begin(); it != keys.end(); ++it) {
+                if (showMetaInfo(*it)) {
+                    KFileMetaInfoItem metaInfoItem = metaInfo.item(*it);
+                    addInfoLine(*it, metaInfoItem.string());
                 }
             }
         }
+        showAnnotation(fileItem->url());
+    }
+    else {
+        showAnnotations(view->selectedItems().urlList());
+        unsigned long int totSize = 0;
+        foreach(KFileItem* item, view->selectedItems()) {
+            totSize += item->size(); //FIXME what to do with directories ? (same with the one-item-selected-code), item->size() does not return the size of the content : not very instinctive for users
+        }
+        addInfoLine(i18n("Total size:"), KIO::convertSize(totSize));
     }
     endInfoLines();
 }
 
 void InfoSidebarPage::beginInfoLines()
 {
-    m_currInfoLineIdx = 0;
+    m_infoLines = QString("");
 }
 
 void InfoSidebarPage::endInfoLines()
 {
-    if (m_currInfoLineIdx <= 0) {
-        return;
-    }
-
-    // remove labels which have not been used
-    if (m_currInfoLineIdx < static_cast<int>(m_infoWidgets.count())) {
-        Q3PtrListIterator<QLabel> deleteIter(m_infoWidgets);
-        deleteIter += m_currInfoLineIdx;
-
-        QWidget* widget = 0;
-        int removeCount = 0;
-        while ((widget = deleteIter.current()) != 0) {
-            widget->close();
-            widget->deleteLater();
-            ++deleteIter;
-            ++removeCount;
-        }
-        for (int i = 0; i < removeCount; ++i) {
-            m_infoWidgets.removeLast();
-        }
-    }
+    m_infos->setText(m_infoLines);
 }
 
 bool InfoSidebarPage::showMetaInfo(const QString& key) const
@@ -386,34 +395,9 @@ bool InfoSidebarPage::showMetaInfo(const QString& key) const
 
 void InfoSidebarPage::addInfoLine(const QString& labelText, const QString& infoText)
 {
-    QString labelStr("<b>");
-    labelStr.append(labelText);
-    labelStr.append("</b>&nbsp;");
-
-    const int count = m_infoWidgets.count();
-    if (m_currInfoLineIdx < count - 1) {
-        // reuse available labels
-        m_infoWidgets.at(m_currInfoLineIdx++)->setText(labelStr);
-        m_infoWidgets.at(m_currInfoLineIdx++)->setText(infoText);
-    }
-    else {
-        // no labels are available anymore, hence create 2 new ones
-        QLabel* label = new QLabel(labelStr, m_infoGrid);
-        label->setTextFormat(Qt::RichText);
-        label->setAlignment(Qt::AlignRight |
-                            Qt::AlignTop);
-        label->show();
-        m_infoWidgets.append(label);
-
-        QLabel* info = new QLabel(infoText, m_infoGrid);
-        info->setTextFormat(Qt::RichText);
-        info->setAlignment(Qt::AlignTop);
-        info->setWordWrap(true);
-        info->show();
-        m_infoWidgets.append(info);
-
-        m_currInfoLineIdx += 2;
-    }
+    if (!m_infoLines.isEmpty())
+        m_infoLines += "<br/>";
+    m_infoLines += QString("<b>%1</b> %2").arg(labelText).arg(infoText);
 }
 
 void InfoSidebarPage::insertActions()
@@ -532,6 +516,72 @@ void InfoSidebarPage::insertActions()
                 }
             }
         }
+    }
+}
+
+void InfoSidebarPage::showAnnotation(const KUrl& file)
+{
+    if(m_metadata->storageUp()) {
+        QString text = m_metadata->getAnnotation(file);
+        if (!text.isEmpty()) {
+            m_annotationLabel->show();
+            m_annotationLabel->setText(QString("<b>%1</b> :<br/>%2").arg(i18n("Annotation")).arg(text));
+            m_annotationButton->setText(i18n("Change annotation"));
+        } else {
+            m_annotationLabel->hide();
+            m_annotationButton->setText(i18n("Annotate file"));
+        }
+    }
+}
+
+void InfoSidebarPage::showAnnotations(const KUrl::List& files)
+{
+    static unsigned int maxShownAnnot = 3;
+    if (m_metadata->storageUp()) {
+        bool hasAnnotation = false;
+        unsigned int annotateNum = 0;
+        QString firsts("<b>%1 :</b><br/>");
+        firsts.arg(i18n("Annotations"));
+        foreach (KUrl file, files) {
+            QString annotation = m_metadata->getAnnotation(file);
+            if (!annotation.isEmpty()) {
+                hasAnnotation = true;
+                if(annotateNum < maxShownAnnot) {
+                    firsts += m_annotationLabel->fontMetrics().elidedText(QString("<b>%1</b> : %2<br/>").arg(file.fileName()).arg(annotation), Qt::ElideRight, width());
+                    annotateNum++;
+                }
+            }
+        }
+        if (hasAnnotation) {
+            m_annotationLabel->show();
+            m_annotationLabel->setText(firsts);
+        } else m_annotationLabel->hide();
+        m_annotationButton->setText(hasAnnotation ? i18n("Change annotations") : i18n("Annotate files"));
+    }
+}
+
+void InfoSidebarPage::changeAnnotation()
+{
+    bool ok = false;
+    KUrl::List files(mainWindow()->activeView()->selectedItems().urlList());
+    QString name, old;
+    if (files.isEmpty()) {
+        files << m_shownUrl;
+    }
+    else if (files.count() == 1) {
+        name = files[0].url();
+        old = m_metadata->getAnnotation(files[0]);
+    }
+    else {
+        name = QString("%1 files").arg(files.count());
+        old = QString();
+    }
+    QString text = QInputDialog::getText(this, "Annotate", QString("Set annotation for %1").arg(name), QLineEdit::Normal, old, &ok);//FIXME temporary, must move to a real dialog
+    if(ok) {
+        foreach(KUrl file, files) {
+            m_metadata->setAnnotation(file, text);
+        }
+        showAnnotation(files[0]);
     }
 }
 

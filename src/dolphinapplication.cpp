@@ -20,6 +20,7 @@
 
 #include "dolphinapplication.h"
 #include "dolphinmainwindow.h"
+#include "metadataloader.h"
 
 #include <applicationadaptor.h>
 #include <kurl.h>
@@ -55,6 +56,12 @@ DolphinMainWindow* DolphinApplication::createMainWindow()
     return mainWindow;
 }
 
+MetadataLoader* DolphinApplication::metadataLoader()
+{
+    static MetadataLoader loader;
+    return &loader;
+}
+
 int DolphinApplication::openWindow(const QString& url)
 {
     DolphinMainWindow* win = createMainWindow();
@@ -62,6 +69,7 @@ int DolphinApplication::openWindow(const QString& url)
         win->activeView()->setUrl(KUrl(url));
     }
     win->show();
+    //TODO find how to raise a window (as if we've launched a new dolphin process)
     return win->getId();
 }
 

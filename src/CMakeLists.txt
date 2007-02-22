@@ -33,6 +33,7 @@ set(dolphin_SRCS
    iconsviewsettingspage.cpp
    infosidebarpage.cpp
    main.cpp
+   metadataloader.cpp
    protocolcombo.cpp
    pixmapviewer.cpp
    renamedialog.cpp
@@ -64,7 +65,7 @@ qt4_add_dbus_adaptor(dolphin_SRCS
    dolphinmainwindow.h DolphinMainWindow)
 kde4_add_executable(dolphin ${dolphin_SRCS})
 
-target_link_libraries(dolphin  ${KDE4_KDECORE_LIBS} ${KDE4_KDEPRINT_LIBS} konq )
+target_link_libraries(dolphin  ${KDE4_KDECORE_LIBS} ${KDE4_KDEPRINT_LIBS} konq kmetadata)
 
 install(TARGETS dolphin DESTINATION ${BIN_INSTALL_DIR})
 

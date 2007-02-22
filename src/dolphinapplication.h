@@ -25,6 +25,7 @@
 #include <kuniqueapplication.h>
 
 class DolphinMainWindow;
+class MetadataLoader;
 
 /**
  * @brief Holds the application data which can be accessed.
@@ -50,6 +51,11 @@ public:
      */
     DolphinMainWindow* createMainWindow();
     void refreshMainWindows();
+
+    /**
+     * Returns the metadata loader.
+     */
+    MetadataLoader* metadataLoader();
 
 public slots:
     int openWindow(const QString& url);
