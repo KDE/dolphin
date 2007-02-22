@@ -98,7 +98,7 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
             text = i18n("Getting size...");
         }
         else {
-            text = QString::null;
+            text = QString();
             QTimer::singleShot(0, this, SLOT(hide()));
         }
     }

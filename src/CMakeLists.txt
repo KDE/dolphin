@@ -4,7 +4,6 @@ add_subdirectory( servicemenus )
 
 include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${KDE4_INCLUDE_DIR} ${QT_INCLUDES}  )
 
-
 ########### next target ###############
 
 set(dolphin_SRCS
@@ -64,8 +63,16 @@ qt4_add_dbus_adaptor(dolphin_SRCS
    org.kde.dolphin.MainWindow.xml
    dolphinmainwindow.h DolphinMainWindow)
 kde4_add_executable(dolphin ${dolphin_SRCS})
-
-#set(KDE4_KMETADATA kmetadata)
+# find Nepomuk's libkmetadata
+find_path(KMETADATA_INCLUDE_DIR NAMES kmetadata/kmetadata.h PATHS ${KDE4_INCLUDE_DIR})
+find_library(KMETADATA_LIBRARY NAMES kmetadata PATHS ${KDE4_LIB_DIR})
+if(KMETADATA_INCLUDE_DIR AND KMETADATA_LIBRARY)
+set(KDE4_KMETADATA kmetadata)
+set(HAVE_KMETADATA 1)
+else(KMETADATA_INCLUDE_DIR AND KMETADATA_LIBRARY)
+set(KDE4_KMETADATA "")
+endif(KMETADATA_INCLUDE_DIR AND KMETADATA_LIBRARY)
+configure_file(config-kmetadata.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kmetadata.h )
 target_link_libraries(dolphin  ${KDE4_KDECORE_LIBS} ${KDE4_KDEPRINT_LIBS} ${KDE4_KMETADATA} konq)
 
 install(TARGETS dolphin DESTINATION ${BIN_INSTALL_DIR})

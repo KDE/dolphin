@@ -18,9 +18,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include <config-kmetadata.h>
+
 #include "metadataloader.h"
 
-#ifdef HAVE_NEPOMUK
+#ifdef HAVE_KMETADATA
 #include <kmetadata/kmetadata.h>
 #endif
 
@@ -29,7 +31,7 @@
 
 MetadataLoader::MetadataLoader()
 {
-#ifdef HAVE_NEPOMUK
+#ifdef HAVE_KMETADATA
     if (Nepomuk::KMetaData::ResourceManager::instance()->init()) {
         m_up = false;
         Nepomuk::KMetaData::ResourceManager::instance()->setAutoSync(false);
@@ -37,7 +39,7 @@ MetadataLoader::MetadataLoader()
         m_up = true;
     }
 #else
-    m_up = true;
+    m_up = false;
 #endif
 }
 
@@ -51,7 +53,7 @@ bool MetadataLoader::storageUp() {
 
 QString MetadataLoader::getAnnotation(const KUrl& file)
 {
-#ifdef HAVE_NEPOMUK
+#ifdef HAVE_KMETADATA
     if(m_up)
         return Nepomuk::KMetaData::File(file.url()).getAnnotation();
     else
@@ -61,7 +63,7 @@ QString MetadataLoader::getAnnotation(const KUrl& file)
 
 void MetadataLoader::setAnnotation(const KUrl& file, const QString& annotation)
 {
-#ifdef HAVE_NEPOMUK
+#ifdef HAVE_KMETADATA
     if(m_up)
         Nepomuk::KMetaData::File(file.url()).setAnnotation(annotation);
 #endif

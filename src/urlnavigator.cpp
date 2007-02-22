@@ -343,7 +343,7 @@ void UrlNavigator::slotReturnPressed(const QString& text)
 
     KUrl typedUrl(text);
     if (typedUrl.hasPass()) {
-        typedUrl.setPass(QString::null);
+        typedUrl.setPass(QString());
     }
 
     QStringList urls = m_pathBox->urls();
@@ -567,7 +567,7 @@ void UrlNavigator::updateContent()
                 QString hostText = url().host();
 
                 if (!url().user().isEmpty()) {
-                    hostText = url().user() + "@" + hostText;
+                    hostText = url().user() + '@' + hostText;
                 }
 
                 if (!m_host) {

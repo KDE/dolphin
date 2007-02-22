@@ -125,7 +125,7 @@ void DolphinStatusBar::setProgress(int percent)
     const QString& defaultText = m_messageLabel->defaultText();
     const QString msg(m_messageLabel->text());
     if ((percent == 0) && !msg.isEmpty()) {
-        setMessage(QString::null, Default);
+        setMessage(QString(), Default);
     }
     else if ((percent == 100) && (msg != defaultText)) {
         setMessage(defaultText, Default);

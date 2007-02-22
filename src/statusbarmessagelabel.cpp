@@ -303,7 +303,7 @@ bool StatusBarMessageLabel::showPendingMessage()
 
 void StatusBarMessageLabel::reset()
 {
-    m_text = QString::null;
+    m_text.clear();
     m_type = DolphinStatusBar::Default;
 }
 

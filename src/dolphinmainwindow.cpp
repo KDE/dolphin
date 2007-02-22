@@ -19,6 +19,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
+#include <config-kmetadata.h>
 #include "dolphinmainwindow.h"
 
 #include <assert.h>
@@ -154,17 +155,17 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
         QString seq = QKeySequence(Qt::ShiftModifier).toString();
         seq.chop(1); // chop superfluous '+'
         QAction* moveAction = popup.addAction(KIcon("goto"),
-                                              i18n("&Move Here") + "\t" + seq);
+                                              i18n("&Move Here") + '\t' + seq);
 
         seq = QKeySequence(Qt::ControlModifier).toString();
         seq.chop(1);
         QAction* copyAction = popup.addAction(KIcon("editcopy"),
-                                              i18n("&Copy Here") + "\t" + seq);
+                                              i18n("&Copy Here") + '\t' + seq);
 
         seq = QKeySequence(Qt::ControlModifier + Qt::ShiftModifier).toString();
         seq.chop(1);
         QAction* linkAction = popup.addAction(KIcon("www"),
-                                              i18n("&Link Here") + "\t" + seq);
+                                              i18n("&Link Here") + '\t' + seq);
 
         popup.addSeparator();
         popup.addAction(KIcon("stop"), i18n("Cancel"));
@@ -428,7 +429,7 @@ void DolphinMainWindow::deleteItems()
 
     const bool del = KMessageBox::warningContinueCancel(this,
                                                         text,
-                                                        QString::null,
+                                                        QString(),
                                                         KGuiItem(i18n("Delete"), KIcon("editdelete"))
                                                        ) == KMessageBox::Continue;
     if (del) {
@@ -953,9 +954,10 @@ void DolphinMainWindow::init()
         // assure a proper default size if Dolphin runs the first time
         resize(640, 480);
     }
-    
+    #ifdef HAVE_KMETADATA
     if (!DolphinApplication::app()->metadataLoader()->storageUp())
         activeView()->statusBar()->setMessage(i18n("Failed to contact Nepomuk service, annotation and tagging are disabled."), DolphinStatusBar::Error);
+    #endif
 }
 
 void DolphinMainWindow::loadSettings()

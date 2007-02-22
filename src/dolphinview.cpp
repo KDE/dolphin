@@ -654,7 +654,7 @@ void DolphinView::updateProgress(int percent)
 void DolphinView::updateItemCount()
 {
     if (m_showProgress) {
-        m_statusBar->setProgressText(QString::null);
+        m_statusBar->setProgressText(QString());
         m_statusBar->setProgress(100);
         m_showProgress = false;
     }

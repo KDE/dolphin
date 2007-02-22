@@ -83,7 +83,7 @@ EditBookmarkDialog::EditBookmarkDialog(const QString& title,
     // create icon widgets
     new QLabel(i18n("Icon:"), grid);
     m_iconName = icon;
-    m_iconButton = new QPushButton(SmallIcon(m_iconName), QString::null, grid);
+    m_iconButton = new QPushButton(SmallIcon(m_iconName), QString(), grid);
     m_iconButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     connect(m_iconButton, SIGNAL(clicked()),
             this, SLOT(selectIcon()));
@@ -103,7 +103,7 @@ EditBookmarkDialog::EditBookmarkDialog(const QString& title,
     m_location = new QLineEdit(url.prettyUrl(), locationBox);
     m_location->setMinimumWidth(320);
 
-    QPushButton* selectLocationButton = new QPushButton(SmallIcon("folder"), QString::null, locationBox);
+    QPushButton* selectLocationButton = new QPushButton(SmallIcon("folder"), QString(), locationBox);
     selectLocationButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     connect(selectLocationButton, SIGNAL(clicked()),
             this, SLOT(selectLocation()));
