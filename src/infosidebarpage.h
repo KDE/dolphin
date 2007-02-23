@@ -128,11 +128,12 @@ private:
     void connectToActiveView();
 
     /**
-     * Checks whether the current Url is repesented by a bookmark. If yes,
+     * Checks whether the an Url is repesented by a bookmark. If yes,
      * then the bookmark icon and name are shown instead of a preview.
      * @return True, if the Url represents exactly a bookmark.
+     * @param url The url to check.
      */
-    bool applyBookmark();
+    bool applyBookmark(const KUrl& url);
 
     /** Assures that any pending item information request is cancelled. */
     void cancelRequest();

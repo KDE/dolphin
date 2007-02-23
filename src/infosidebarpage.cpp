@@ -178,10 +178,14 @@ void InfoSidebarPage::showItemInfo()
     // show the preview...
     DolphinView* view = mainWindow()->activeView();
     const KFileItemList selectedItems = view->selectedItems();
+    KUrl file;
     if (selectedItems.count() > 1) {
         m_multipleSelection = true;
+    } else if(selectedItems.count() == 0) {
+        file = m_shownUrl;
+    } else {
+        file = selectedItems[0]->url();
     }
-
     if (m_multipleSelection) {
         KIconLoader iconLoader;
         QPixmap icon = iconLoader.loadIcon("exec",
@@ -190,10 +194,10 @@ void InfoSidebarPage::showItemInfo()
         m_preview->setPixmap(icon);
         m_name->setText(i18n("%1 items selected",selectedItems.count()));
     }
-    else if (!applyBookmark()) {
+    else if (!applyBookmark(file)) {
         // try to get a preview pixmap from the item...
         KUrl::List list;
-        list.append(m_shownUrl);
+        list.append(file);
 
         m_pendingPreview = true;
         m_preview->setPixmap(QPixmap());
@@ -213,7 +217,7 @@ void InfoSidebarPage::showItemInfo()
                 this, SLOT(slotPreviewFailed(const KFileItem*)));
 
         QString text("<b>");
-        text.append(m_shownUrl.fileName());
+        text.append(file.fileName());
         text.append("</b>");
         m_name->setText(text);
     }
@@ -231,7 +235,7 @@ void InfoSidebarPage::slotTimeout()
 void InfoSidebarPage::slotPreviewFailed(const KFileItem* item)
 {
     m_pendingPreview = false;
-    if (!applyBookmark()) {
+    if (!applyBookmark(item->url())) {
         m_preview->setPixmap(item->pixmap(K3Icon::SizeEnormous));
     }
 }
@@ -271,12 +275,12 @@ void InfoSidebarPage::connectToActiveView()
     showItemInfo();
 }
 
-bool InfoSidebarPage::applyBookmark()
+bool InfoSidebarPage::applyBookmark(const KUrl& url)
 {
     KBookmarkGroup root = DolphinSettings::instance().bookmarkManager()->root();
     KBookmark bookmark = root.first();
     while (!bookmark.isNull()) {
-        if (m_shownUrl.equals(bookmark.url(), KUrl::CompareWithoutTrailingSlash)) {
+        if (url.equals(bookmark.url(), KUrl::CompareWithoutTrailingSlash)) {
             QString text("<b>");
             text.append(bookmark.text());
             text.append("</b>");
@@ -536,18 +540,17 @@ void InfoSidebarPage::showAnnotation(const KUrl& file)
 
 void InfoSidebarPage::showAnnotations(const KUrl::List& files)
 {
-    static unsigned int maxShownAnnot = 3;
+    static unsigned int maxShownAnnot = 3; //The maximum number of show annotations when selecting multiple files
     if (m_metadata->storageUp()) {
         bool hasAnnotation = false;
         unsigned int annotateNum = 0;
-        QString firsts("<b>%1 :</b><br/>");
-        firsts.arg(i18n("Annotations"));
+        QString firsts = QString("<b>%1 :</b><br/>").arg(i18n("Annotations"));
         foreach (KUrl file, files) {
             QString annotation = m_metadata->getAnnotation(file);
             if (!annotation.isEmpty()) {
                 hasAnnotation = true;
                 if(annotateNum < maxShownAnnot) {
-                    firsts += m_annotationLabel->fontMetrics().elidedText(QString("<b>%1</b> : %2<br/>").arg(file.fileName()).arg(annotation), Qt::ElideRight, width());
+                    firsts += m_annotationLabel->fontMetrics().elidedText(QString("<b>%1</b> : %2<br/>").arg(file.fileName()).arg(annotation), Qt::ElideRight, width());//FIXME not really the good method, does not handle resizing ...
                     annotateNum++;
                 }
             }
