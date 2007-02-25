@@ -47,13 +47,14 @@ public:
 private slots:
     void selectHomeUrl();
     void useCurrentLocation();
-    void useDefaulLocation();
+    void useDefaultLocation();
 
 private:
     DolphinMainWindow* m_mainWindow;
     QLineEdit* m_homeUrl;
     QCheckBox* m_startSplit;
     QCheckBox* m_startEditable;
+    QCheckBox* m_showDeleteCommand;
 };
 
 #endif

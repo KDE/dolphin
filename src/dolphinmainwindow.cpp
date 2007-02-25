@@ -994,10 +994,11 @@ void DolphinMainWindow::setupActions()
     connect(menu, SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
 
-    QAction* action = actionCollection()->addAction("new_window");
-    action->setIcon(KIcon("window_new"));
-    action->setText(i18n("New &Window"));
-    connect(action, SIGNAL(triggered()), this, SLOT(openNewMainWindow()));
+    QAction* newWindow = actionCollection()->addAction("new_window");
+    newWindow->setIcon(KIcon("window_new"));
+    newWindow->setText(i18n("New &Window"));
+    newWindow->setShortcut(Qt::CTRL | Qt::Key_N);
+    connect(newWindow, SIGNAL(triggered()), this, SLOT(openNewMainWindow()));
 
     QAction* rename = actionCollection()->addAction("rename");
     rename->setText(i18n("Rename"));
@@ -1012,7 +1013,7 @@ void DolphinMainWindow::setupActions()
 
     QAction* deleteAction = actionCollection()->addAction("delete");
     deleteAction->setText(i18n("Delete"));
-    deleteAction->setShortcut(Qt::ALT | Qt::Key_Delete);
+    deleteAction->setShortcut(Qt::SHIFT | Qt::Key_Delete);
     deleteAction->setIcon(KIcon("editdelete"));
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteItems()));
 

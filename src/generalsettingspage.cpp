@@ -20,26 +20,22 @@
 
 #include "generalsettingspage.h"
 
-#include <qlayout.h>
-//Added by qt3to4:
-#include <Q3VBoxLayout>
 #include <kdialog.h>
-#include <qlabel.h>
-#include <qlineedit.h>
-
-#include <q3grid.h>
-#include <q3groupbox.h>
-#include <klocale.h>
-#include <qcheckbox.h>
-#include <q3buttongroup.h>
-#include <qpushbutton.h>
 #include <kfiledialog.h>
-#include <qradiobutton.h>
+#include <klocale.h>
 #include <kvbox.h>
+
+#include <QCheckBox>
+#include <QGroupBox>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QRadioButton>
 
 #include "dolphinsettings.h"
 #include "dolphinmainwindow.h"
 #include "dolphinview.h"
+
 #include "dolphin_generalsettings.h"
 
 GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin,QWidget* parent) :
@@ -47,29 +43,20 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin,QWidget* par
     m_mainWindow(mainWin),
     m_homeUrl(0),
     m_startSplit(0),
-    m_startEditable(0)
+    m_startEditable(0),
+    m_showDeleteCommand(0)
 {
-    Q3VBoxLayout* topLayout = new Q3VBoxLayout(this, 2, KDialog::spacingHint());
-
     const int spacing = KDialog::spacingHint();
-    const int margin = KDialog::marginHint();
-    const QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
 
+    QVBoxLayout* topLayout = new QVBoxLayout(this);
     KVBox* vBox = new KVBox(this);
-    vBox->setSizePolicy(sizePolicy);
     vBox->setSpacing(spacing);
-    vBox->setMargin(margin);
-    vBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
 
-    // create 'Home Url' editor
-    Q3GroupBox* homeGroup = new Q3GroupBox(1, Qt::Horizontal, i18n("Home Folder"), vBox);
-    homeGroup->setSizePolicy(sizePolicy);
-    homeGroup->setMargin(margin);
+    // create 'Home URL' editor
+    QGroupBox* homeBox = new QGroupBox(i18n("Home folder"), vBox);
 
-    KHBox* homeUrlBox = new KHBox(homeGroup);
-    homeUrlBox->setSizePolicy(sizePolicy);
+    KHBox* homeUrlBox = new KHBox(homeBox);
     homeUrlBox->setSpacing(spacing);
 
     new QLabel(i18n("Location:"), homeUrlBox);
@@ -79,15 +66,19 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin,QWidget* par
     connect(selectHomeUrlButton, SIGNAL(clicked()),
             this, SLOT(selectHomeUrl()));
 
-    KHBox* buttonBox = new KHBox(homeGroup);
-    buttonBox->setSizePolicy(sizePolicy);
+    KHBox* buttonBox = new KHBox(homeBox);
     buttonBox->setSpacing(spacing);
+
     QPushButton* useCurrentButton = new QPushButton(i18n("Use current location"), buttonBox);
     connect(useCurrentButton, SIGNAL(clicked()),
             this, SLOT(useCurrentLocation()));
     QPushButton* useDefaultButton = new QPushButton(i18n("Use default location"), buttonBox);
     connect(useDefaultButton, SIGNAL(clicked()),
-            this, SLOT(useDefaulLocation()));
+            this, SLOT(useDefaultLocation()));
+
+    QVBoxLayout* homeBoxLayout = new QVBoxLayout(homeBox);
+    homeBoxLayout->addWidget(homeUrlBox);
+    homeBoxLayout->addWidget(buttonBox);
 
     QGroupBox* startBox = new QGroupBox(i18n("Start"), vBox);
 
@@ -102,6 +93,10 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin,QWidget* par
     QVBoxLayout* startBoxLayout = new QVBoxLayout(startBox);
     startBoxLayout->addWidget(m_startSplit);
     startBoxLayout->addWidget(m_startEditable);
+
+    m_showDeleteCommand = new QCheckBox(i18n("Show the command 'Delete' in context menu"), vBox);
+    // TODO: use global config like in Konqueror or is this a custom setting for Dolphin?
+    m_showDeleteCommand->setChecked(settings->showDeleteCommand());
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -128,6 +123,7 @@ void GeneralSettingsPage::applySettings()
 
     settings->setSplitView(m_startSplit->isChecked());
     settings->setEditableUrl(m_startEditable->isChecked());
+    settings->setShowDeleteCommand(m_showDeleteCommand->isChecked());
 }
 
 void GeneralSettingsPage::selectHomeUrl()
@@ -145,7 +141,7 @@ void GeneralSettingsPage::useCurrentLocation()
     m_homeUrl->setText(view->url().prettyUrl());
 }
 
-void GeneralSettingsPage::useDefaulLocation()
+void GeneralSettingsPage::useDefaultLocation()
 {
     m_homeUrl->setText("file://" + QDir::homePath());
 }

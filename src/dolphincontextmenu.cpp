@@ -25,6 +25,8 @@
 #include "dolphinview.h"
 #include "editbookmarkdialog.h"
 
+#include "dolphin_generalsettings.h"
+
 #include <assert.h>
 
 #include <kactioncollection.h>
@@ -151,13 +153,18 @@ void DolphinContextMenu::openItemContextMenu()
     QAction* renameAction = dolphin->actionCollection()->action("rename");
     popup->addAction(renameAction);
 
-    // insert 'Move to Trash' for local Urls, otherwise insert 'Delete'
+    // insert 'Move to Trash' and (optionally) 'Delete'
+    bool showDeleteCommand = DolphinSettings::instance().generalSettings()->showDeleteCommand();
     const KUrl& url = dolphin->activeView()->url();
     if (url.isLocalFile()) {
         QAction* moveToTrashAction = dolphin->actionCollection()->action("move_to_trash");
         popup->addAction(moveToTrashAction);
     }
     else {
+        showDeleteCommand = true;
+    }
+
+    if (showDeleteCommand) {
         QAction* deleteAction = dolphin->actionCollection()->action("delete");
         popup->addAction(deleteAction);
     }
