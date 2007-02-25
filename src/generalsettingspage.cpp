@@ -95,8 +95,9 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin,QWidget* par
     startBoxLayout->addWidget(m_startEditable);
 
     m_showDeleteCommand = new QCheckBox(i18n("Show the command 'Delete' in context menu"), vBox);
-    // TODO: use global config like in Konqueror or is this a custom setting for Dolphin?
-    m_showDeleteCommand->setChecked(settings->showDeleteCommand());
+    const KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
+    const KConfigGroup kdeConfig(globalConfig, "KDE");
+    m_showDeleteCommand->setChecked(kdeConfig.readEntry("ShowDeleteCommand", false));
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -123,7 +124,11 @@ void GeneralSettingsPage::applySettings()
 
     settings->setSplitView(m_startSplit->isChecked());
     settings->setEditableUrl(m_startEditable->isChecked());
-    settings->setShowDeleteCommand(m_showDeleteCommand->isChecked());
+
+    KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
+    KConfigGroup kdeConfig(globalConfig, "KDE");
+    kdeConfig.writeEntry("ShowDeleteCommand", m_showDeleteCommand->isChecked());
+    kdeConfig.sync();
 }
 
 void GeneralSettingsPage::selectHomeUrl()

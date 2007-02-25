@@ -23,10 +23,6 @@
             <label>Should the view properties used for all directories</label>
             <default>false</default>
         </entry>
-        <entry name="ShowDeleteCommand" type="Bool">
-            <label>Should the command 'Delete' be shown in the context menu</label>
-            <default>false</default>
-        </entry>
         <entry name="ViewPropsTimestamp" type="DateTime" >
             <label>Timestamp since when the view properties are valid</label>
         </entry>

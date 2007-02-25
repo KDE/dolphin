@@ -25,8 +25,6 @@
 #include "dolphinview.h"
 #include "editbookmarkdialog.h"
 
-#include "dolphin_generalsettings.h"
-
 #include <assert.h>
 
 #include <kactioncollection.h>
@@ -154,7 +152,9 @@ void DolphinContextMenu::openItemContextMenu()
     popup->addAction(renameAction);
 
     // insert 'Move to Trash' and (optionally) 'Delete'
-    bool showDeleteCommand = DolphinSettings::instance().generalSettings()->showDeleteCommand();
+    const KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
+    const KConfigGroup kdeConfig(globalConfig, "KDE");
+    bool showDeleteCommand = kdeConfig.readEntry("ShowDeleteCommand", false);
     const KUrl& url = dolphin->activeView()->url();
     if (url.isLocalFile()) {
         QAction* moveToTrashAction = dolphin->actionCollection()->action("move_to_trash");
