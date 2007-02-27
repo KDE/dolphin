@@ -21,6 +21,7 @@
 #define DOLPHINICONSVIEW_H
 
 #include <QListView>
+#include <QStyleOptionViewItem>
 
 class DolphinController;
 class DolphinView;
@@ -48,6 +49,7 @@ protected:
 
 private:
     DolphinController* m_controller;
+    QStyleOptionViewItem m_viewOptions;
 };
 
 #endif

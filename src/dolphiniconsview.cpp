@@ -20,6 +20,9 @@
 #include "dolphiniconsview.h"
 
 #include "dolphincontroller.h"
+#include "dolphinsettings.h"
+
+#include "dolphin_iconsmodesettings.h"
 
 #include <assert.h>
 #include <kdirmodel.h>
@@ -32,15 +35,29 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     m_controller(controller)
 {
     assert(controller != 0);
-
     setResizeMode(QListView::Adjust);
-
-    // TODO: read out settings
-    setViewMode(QListView::IconMode);
-    setGridSize(QSize(128, 96));
 
     connect(this, SIGNAL(clicked(const QModelIndex&)),
             controller, SLOT(triggerItem(const QModelIndex&)));
+
+    // apply the icons mode settings to the widget
+    const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+    assert(settings != 0);
+
+    if (settings->arrangement() == QListView::TopToBottom) {
+        setViewMode(QListView::IconMode);
+    }
+    else {
+        setViewMode(QListView::ListMode);
+    }
+
+    setGridSize(QSize(settings->gridWidth(), settings->gridHeight()));
+    setSpacing(settings->gridSpacing());
+
+    m_viewOptions = QListView::viewOptions();
+    m_viewOptions.font = QFont(settings->fontFamily(), settings->fontSize());
+    const int iconSize = settings->iconSize();
+    m_viewOptions.decorationSize = QSize(iconSize, iconSize);
 }
 
 DolphinIconsView::~DolphinIconsView()
@@ -49,17 +66,7 @@ DolphinIconsView::~DolphinIconsView()
 
 QStyleOptionViewItem DolphinIconsView::viewOptions() const
 {
-    return QListView::viewOptions();
-
-    // TODO: the view options should been read from the settings;
-    // the following code is just for testing...
-    //QStyleOptionViewItem options = QListView::viewOptions();
-    //options.decorationAlignment = Qt::AlignRight;
-    //options.decorationPosition = QStyleOptionViewItem::Right;
-    //options.decorationSize = QSize(100, 100);
-    //options.showDecorationSelected = true;
-    //options.state = QStyle::State_MouseOver;
-    //return options;
+    return m_viewOptions;
 }
 
 void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)

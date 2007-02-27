@@ -4,10 +4,11 @@
     <kcfgfile name="dolphinrc"/>
     <include>kiconloader.h</include>
     <include>kglobalsettings.h</include>
+    <include>QListView</include>
     <group name="IconsMode">
-        <entry name="Arrangement" type="String">
+        <entry name="Arrangement" type="Int">
             <label>Arrangement</label>
-            <default>LeftToRight</default>
+            <default code="true">QListView::TopToBottom</default>
         </entry>
         <entry name="FontFamily" type="String">
             <label>Font family</label>
@@ -19,11 +20,11 @@
         </entry>
         <entry name="GridHeight" type="Int">
             <label>Grid height</label>
-            <default code="true">K3Icon::SizeMedium</default>
+            <default code="true">96</default>
         </entry>
         <entry name="GridWidth" type="Int">
             <label>Grid width</label>
-            <default>0</default>
+            <default>128</default>
         </entry>
         <entry name="GridSpacing" type="Int">
             <label>Grid spacing</label>

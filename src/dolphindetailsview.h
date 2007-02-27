@@ -22,6 +22,7 @@
 #define DOLPHINDETAILSVIEW_H
 
 #include <dolphinview.h>
+#include <QStyleOptionViewItem>
 #include <QTreeView>
 
 class DolphinController;
@@ -72,6 +73,7 @@ private slots:
 
 private:
     DolphinController* m_controller;
+    QStyleOptionViewItem m_viewOptions;
 };
 
 #endif

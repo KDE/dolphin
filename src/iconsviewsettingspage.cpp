@@ -38,8 +38,10 @@
 #include <klocale.h>
 #include <kvbox.h>
 
+#include <QListView>
+
 #define GRID_SPACING_BASE 8
-#define GRID_SPACING_INC 12
+#define GRID_SPACING_INC 24
 
 IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
                                              QWidget* parent) :
@@ -148,7 +150,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     gridGroup->setSizePolicy(sizePolicy);
     gridGroup->setMargin(margin);
 
-    const bool leftToRightArrangement = (settings->arrangement() == "LeftToRight");
+    const bool leftToRightArrangement = (settings->arrangement() == QListView::LeftToRight);
     new QLabel(i18n("Arrangement:"), gridGroup);
     m_arrangementBox = new QComboBox(gridGroup);
     m_arrangementBox->addItem(i18n("Left to right"));
@@ -193,11 +195,26 @@ void IconsViewSettingsPage::applySettings()
 
     const int fontSize = m_fontSizeBox->value();
 
-    QString arrangement = (m_arrangementBox->currentIndex() == 0) ?
-                          "LeftToRight" :
-                          "TopToBottom";
+    const int arrangement = (m_arrangementBox->currentIndex() == 0) ?
+                            QListView::LeftToRight :
+                            QListView::TopToBottom;
+
     settings->setArrangement(arrangement);
-    //DolphinSettings::instance().calculateGridSize(m_textWidthBox->currentIndex());
+
+    // TODO: this is just a very rough testing code to calculate the grid
+    // width and height
+    int gridWidth = defaultSize;
+    int gridHeight = defaultSize;
+    if (arrangement == QListView::TopToBottom) {
+        gridWidth += 96;
+        gridHeight += 64;
+    }
+    else {
+        gridWidth += 256;
+    }
+
+    settings->setGridWidth(gridWidth);
+    settings->setGridHeight(gridHeight);
 
     settings->setFontFamily(m_fontFamilyBox->currentFont().family());
     settings->setFontSize(fontSize);

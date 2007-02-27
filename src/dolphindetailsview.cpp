@@ -21,8 +21,11 @@
 #include "dolphindetailsview.h"
 
 #include "dolphincontroller.h"
+#include "dolphinsettings.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "viewproperties.h"
+
+#include "dolphin_detailsmodesettings.h"
 
 #include <assert.h>
 #include <kdirmodel.h>
@@ -53,6 +56,15 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
 
     connect(this, SIGNAL(clicked(const QModelIndex&)),
             controller, SLOT(triggerItem(const QModelIndex&)));
+
+   // apply the details mode settings to the widget
+    const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
+    assert(settings != 0);
+
+    m_viewOptions = QTreeView::viewOptions();
+    m_viewOptions.font = QFont(settings->fontFamily(), settings->fontSize());
+    const int iconSize = settings->iconSize();
+    m_viewOptions.decorationSize = QSize(iconSize, iconSize);
 }
 
 DolphinDetailsView::~DolphinDetailsView()
@@ -75,17 +87,7 @@ bool DolphinDetailsView::event(QEvent* event)
 }
 QStyleOptionViewItem DolphinDetailsView::viewOptions() const
 {
-    return QTreeView::viewOptions();
-
-    // TODO: the view options should been read from the settings;
-    // the following code is just for testing...
-    //QStyleOptionViewItem options = QTreeView::viewOptions();
-    //options.decorationAlignment = Qt::AlignRight;
-    //options.decorationPosition = QStyleOptionViewItem::Right;
-    //options.decorationSize = QSize(100, 100);
-    //options.showDecorationSelected = true;
-    //options.state = QStyle::State_MouseOver;
-    //return options;
+    return m_viewOptions;
 }
 
 void DolphinDetailsView::contextMenuEvent(QContextMenuEvent* event)
