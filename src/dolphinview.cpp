@@ -700,10 +700,11 @@ void DolphinView::generatePreviews(const KFileItemList& items)
 
 void DolphinView::showPreview(const KFileItem* item, const QPixmap& pixmap)
 {
-    const QModelIndex idx = m_dirModel->indexForItem(item);
-    Q_ASSERT(idx.isValid());
-    Q_ASSERT(idx.column() == 0);
-    m_dirModel->setData(idx, pixmap, Qt::DecorationRole);
+    Q_ASSERT(item != 0);
+    const QModelIndex idx = m_dirModel->indexForItem(*item);
+    if (idx.isValid() && (idx.column() == 0)) {
+        m_dirModel->setData(idx, pixmap, Qt::DecorationRole);
+    }
 }
 
 void DolphinView::restoreContentsPos()
