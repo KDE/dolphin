@@ -25,6 +25,7 @@
 
 class DolphinMainWindow;
 class QRadioButton;
+class QSlider;
 
 /**
  * @brief Represents the page from the Dolphin Settings which allows
@@ -49,6 +50,7 @@ private:
     DolphinMainWindow* m_mainWindow;
     QRadioButton* m_localProps;
     QRadioButton* m_globalProps;
+    QSlider* m_maxPreviewSize;
 };
 
 #endif
