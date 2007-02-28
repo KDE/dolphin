@@ -405,6 +405,19 @@ private slots:
     void updateItemCount();
 
     /**
+     * Generates a preview image for each file item in \a items.
+     * The current preview settings (maximum size, 'Show Preview' menu)
+     * are respected.
+     */
+    void generatePreviews(const KFileItemList& items);
+
+    /**
+     * Replaces the icon of the item \a item by the preview pixmap
+     * \a pixmap.
+     */
+    void showPreview(const KFileItem* item, const QPixmap& pixmap);
+
+    /**
      * Restores the x- and y-position of the contents if the
      * current view is part of the history.
      */

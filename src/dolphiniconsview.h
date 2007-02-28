@@ -47,6 +47,13 @@ protected:
     virtual void dragEnterEvent(QDragEnterEvent* event);
     virtual void dropEvent(QDropEvent* event);
 
+private slots:
+    /**
+     * Updates the size of the grid
+     * depending on the state of \a showPreview.
+     */
+    void updateGridSize(bool showPreview);
+
 private:
     DolphinController* m_controller;
     QStyleOptionViewItem m_viewOptions;

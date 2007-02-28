@@ -20,7 +20,8 @@
 #include "dolphincontroller.h"
 
 DolphinController::DolphinController(QObject* parent) :
-    QObject(parent)
+    QObject(parent),
+    m_showPreview(false)
 {
 }
 
@@ -54,6 +55,14 @@ void DolphinController::indicateSortingChange(DolphinView::Sorting sorting)
 void DolphinController::indicateSortOrderChange(Qt::SortOrder order)
 {
     emit sortOrderChanged(order);
+}
+
+void DolphinController::setShowPreview(bool showPreview)
+{
+    if (m_showPreview != showPreview) {
+        m_showPreview = showPreview;
+        emit showPreviewChanged(showPreview);
+    }
 }
 
 void DolphinController::triggerItem(const QModelIndex& index)

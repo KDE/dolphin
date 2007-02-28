@@ -33,6 +33,7 @@
 #include <klocale.h>
 #include <kio/netaccess.h>
 #include <kio/renamedialog.h>
+#include <kio/previewjob.h>
 #include <kmimetyperesolver.h>
 #include <konq_operations.h>
 #include <kurl.h>
@@ -108,6 +109,8 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
             this, SLOT(updateStatusBar()));
     connect(m_dirLister, SIGNAL(completed()),
             this, SLOT(updateItemCount()));
+    connect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
+            this, SLOT(generatePreviews(const KFileItemList&)));
     connect(m_dirLister, SIGNAL(infoMessage(const QString&)),
             this, SLOT(showInfoMessage(const QString&)));
     connect(m_dirLister, SIGNAL(errorMessage(const QString&)),
@@ -204,15 +207,15 @@ void DolphinView::setShowPreview(bool show)
     ViewProperties props(m_urlNavigator->url());
     props.setShowPreview(show);
 
-    // TODO: wait until previews are possible with KFileItemDelegate
+    m_controller->setShowPreview(show);
 
     emit showPreviewChanged();
+    reload();
 }
 
 bool DolphinView::showPreview() const
 {
-    // TODO: wait until previews are possible with KFileItemDelegate
-    return true;
+    return m_controller->showPreview();
 }
 
 void DolphinView::setShowHiddenFiles(bool show)
@@ -456,7 +459,7 @@ KFileItemList DolphinView::selectedItems() const
 
     // Our view has a selection, we will map them back to the DirModel
     // and then fill the KFileItemList.
-    assert((view != 0) && (view->selectionModel() != 0));
+    Q_ASSERT((view != 0) && (view->selectionModel() != 0));
 
     const QItemSelection selection = m_proxyModel->mapSelectionToSource(view->selectionModel()->selection());
     KFileItemList itemList;
@@ -464,7 +467,7 @@ KFileItemList DolphinView::selectedItems() const
     const QModelIndexList indexList = selection.indexes();
     QModelIndexList::const_iterator end = indexList.end();
     for (QModelIndexList::const_iterator it = indexList.begin(); it != end; ++it) {
-        assert((*it).isValid());
+        Q_ASSERT((*it).isValid());
 
         KFileItem* item = m_dirModel->itemForIndex(*it);
         if (item != 0) {
@@ -603,7 +606,11 @@ void DolphinView::loadDirectory(const KUrl& url)
         emit sortOrderChanged(sortOrder);
     }
 
-    // TODO: handle previews (props.showPreview())
+    const bool showPreview = props.showPreview();
+    if (showPreview != m_controller->showPreview()) {
+        m_controller->setShowPreview(showPreview);
+        emit showPreviewChanged();
+    }
 
     startDirLister(url);
     emit urlChanged(url);
@@ -680,6 +687,23 @@ void DolphinView::updateItemCount()
     updateStatusBar();
 
     QTimer::singleShot(0, this, SLOT(restoreContentsPos()));
+}
+
+void DolphinView::generatePreviews(const KFileItemList& items)
+{
+    if (m_controller->showPreview()) {
+        KIO::PreviewJob* job = KIO::filePreview(items, 128);
+        connect(job, SIGNAL(gotPreview(const KFileItem*, const QPixmap&)),
+                this, SLOT(showPreview(const KFileItem*, const QPixmap&)));
+    }
+}
+
+void DolphinView::showPreview(const KFileItem* item, const QPixmap& pixmap)
+{
+    const QModelIndex idx = m_dirModel->indexForItem(item);
+    Q_ASSERT(idx.isValid());
+    Q_ASSERT(idx.column() == 0);
+    m_dirModel->setData(idx, pixmap, Qt::DecorationRole);
 }
 
 void DolphinView::restoreContentsPos()
@@ -991,7 +1015,7 @@ void DolphinView::selectAll(QItemSelectionModel::SelectionFlags flags)
 
 QAbstractItemView* DolphinView::itemView() const
 {
-    assert((m_iconsView == 0) || (m_detailsView == 0));
+    Q_ASSERT((m_iconsView == 0) || (m_detailsView == 0));
     if (m_detailsView != 0) {
         return m_detailsView;
     }

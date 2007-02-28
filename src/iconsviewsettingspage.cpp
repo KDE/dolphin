@@ -184,9 +184,7 @@ void IconsViewSettingsPage::applySettings()
     const int defaultSize = iconSize(m_iconSizeSlider->value());
     settings->setIconSize(defaultSize);
 
-    int previewSize = //(m_mode == DolphinIconsView::Previews) ?
-                      //iconSize(m_previewSizeSlider->value()) :
-                      defaultSize;
+    int previewSize = iconSize(m_previewSizeSlider->value());
     if (previewSize < defaultSize) {
         // assure that the preview size is never smaller than the icon size
         previewSize = defaultSize;

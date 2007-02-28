@@ -250,6 +250,13 @@ void DolphinMainWindow::slotViewModeChanged()
     updateViewActions();
 }
 
+void DolphinMainWindow::slowShowPreviewChanged()
+{
+    KToggleAction* showPreviewAction =
+        static_cast<KToggleAction*>(actionCollection()->action("show_preview"));
+    showPreviewAction->setChecked(m_activeView->showPreview());
+}
+
 void DolphinMainWindow::slotShowHiddenFilesChanged()
 {
     KToggleAction* showHiddenFilesAction =
@@ -1290,6 +1297,10 @@ void DolphinMainWindow::updateViewActions()
         static_cast<KToggleAction*>(actionCollection()->action("show_filter_bar"));
     showFilterBarAction->setChecked(m_activeView->isFilterBarVisible());
 
+    KToggleAction* showPreviewAction =
+        static_cast<KToggleAction*>(actionCollection()->action("show_preview"));
+    showPreviewAction->setChecked(m_activeView->showPreview());
+
     KToggleAction* showHiddenFilesAction =
         static_cast<KToggleAction*>(actionCollection()->action("show_hidden_files"));
     showHiddenFilesAction->setChecked(m_activeView->showHiddenFiles());
@@ -1337,6 +1348,8 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
     DolphinView* view = m_view[viewIndex];
     connect(view, SIGNAL(modeChanged()),
             this, SLOT(slotViewModeChanged()));
+    connect(view, SIGNAL(showPreviewChanged()),
+            this, SLOT(slowShowPreviewChanged()));
     connect(view, SIGNAL(showHiddenFilesChanged()),
             this, SLOT(slotShowHiddenFilesChanged()));
     connect(view, SIGNAL(sortingChanged(DolphinView::Sorting)),

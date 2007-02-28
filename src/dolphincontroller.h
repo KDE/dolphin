@@ -67,6 +67,9 @@ public:
 
     void indicateSortOrderChange(Qt::SortOrder order);
 
+    void setShowPreview(bool showPreview);
+    bool showPreview() const { return m_showPreview; }
+
 public slots:
     void triggerItem(const QModelIndex& index);
     void indicateSelectionChange();
@@ -103,6 +106,12 @@ signals:
     void sortOrderChanged(Qt::SortOrder order);
 
     /**
+     * Is emitted if the state for showing previews has been
+     * changed to \a showPreview.
+     */
+    void showPreviewChanged(bool showPreview);
+
+    /**
      * Is emitted if the item with the index \a index should be triggered.
      * Usually triggering on a directory opens the directory, triggering
      * on a file opens the corresponding application.
@@ -113,6 +122,7 @@ signals:
     void selectionChanged();
 
 private:
+    bool m_showPreview;
     KUrl m_url;
 };
 

@@ -34,24 +34,24 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     QListView(parent),
     m_controller(controller)
 {
-    assert(controller != 0);
+    Q_ASSERT(controller != 0);
     setViewMode(QListView::IconMode);
     setResizeMode(QListView::Adjust);
 
     connect(this, SIGNAL(clicked(const QModelIndex&)),
             controller, SLOT(triggerItem(const QModelIndex&)));
+    connect(controller, SIGNAL(showPreviewChanged(bool)),
+            this, SLOT(updateGridSize(bool)));
 
     // apply the icons mode settings to the widget
     const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    assert(settings != 0);
+    Q_ASSERT(settings != 0);
 
-    setGridSize(QSize(settings->gridWidth(), settings->gridHeight()));
     setSpacing(settings->gridSpacing());
 
     m_viewOptions = QListView::viewOptions();
     m_viewOptions.font = QFont(settings->fontFamily(), settings->fontSize());
-    const int iconSize = settings->iconSize();
-    m_viewOptions.decorationSize = QSize(iconSize, iconSize);
+    updateGridSize(controller->showPreview());
 
     if (settings->arrangement() == QListView::TopToBottom) {
         setFlow(QListView::LeftToRight);
@@ -101,6 +101,30 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
         event->acceptProposedAction();
         m_controller->indicateDroppedUrls(urls, event->pos());
     }
+}
+
+void DolphinIconsView::updateGridSize(bool showPreview)
+{
+    const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+    Q_ASSERT(settings != 0);
+
+    int gridWidth = settings->gridWidth();
+    int gridHeight = settings->gridHeight();
+    int size = settings->iconSize();
+
+    if (showPreview) {
+        const int previewSize = settings->previewSize();
+        const int diff = previewSize - size;
+        Q_ASSERT(diff >= 0);
+        gridWidth += diff;
+        gridHeight += diff;
+
+        size = previewSize;
+     }
+
+
+    m_viewOptions.decorationSize = QSize(size, size);
+    setGridSize(QSize(gridWidth, gridHeight));
 }
 
 #include "dolphiniconsview.moc"

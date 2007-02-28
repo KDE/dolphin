@@ -319,6 +319,9 @@ private slots:
     /** Updates the state of all 'View' menu actions. */
     void slotViewModeChanged();
 
+    /** Updates the state of the 'Show preview' menu action. */
+    void slowShowPreviewChanged();
+
     /** Updates the state of the 'Show hidden files' menu action. */
     void slotShowHiddenFilesChanged();
 

@@ -57,7 +57,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     connect(this, SIGNAL(clicked(const QModelIndex&)),
             controller, SLOT(triggerItem(const QModelIndex&)));
 
-   // apply the details mode settings to the widget
+    // apply the details mode settings to the widget
     const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
     assert(settings != 0);
 
