@@ -130,7 +130,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
 
     new QLabel(i18n("Number of lines:"), textGroup);
     m_textlinesCountBox = new QSpinBox(1, 5, 1, textGroup);
-    m_textlinesCountBox->setValue(settings->numberOfTexlines());
+    m_textlinesCountBox->setValue(settings->numberOfTextlines());
 
     new QLabel(i18n("Text width:"), textGroup);
     m_textWidthBox = new QComboBox(textGroup);
@@ -140,11 +140,12 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
 
     new QLabel(i18n("Additional information:"), textGroup);
     m_additionalInfo = new QComboBox(textGroup);
-    m_additionalInfo->addItem(i18n("No Information"));
-    m_additionalInfo->addItem(i18n("MIME Type"));
-    m_additionalInfo->addItem(i18n("Size"));
-    m_additionalInfo->addItem(i18n("Date"));
-    m_additionalInfo->setCurrentIndex(settings->additionalInfo());
+    m_additionalInfo->addItem(i18n("No Information"), KFileItemDelegate::NoInformation);
+    m_additionalInfo->addItem(i18n("MIME Type"), KFileItemDelegate::FriendlyMimeType);
+    m_additionalInfo->addItem(i18n("Size"), KFileItemDelegate::Size);
+    m_additionalInfo->addItem(i18n("Date"), KFileItemDelegate::ModificationTime);
+    const int index = m_additionalInfo->findData(settings->additionalInfo());
+    m_additionalInfo->setCurrentIndex(index);
 
     Q3GroupBox* gridGroup = new Q3GroupBox(2, Qt::Horizontal, i18n("Grid"), this);
     gridGroup->setSizePolicy(sizePolicy);
@@ -216,7 +217,9 @@ void IconsViewSettingsPage::applySettings()
 
     settings->setFontFamily(m_fontFamilyBox->currentFont().family());
     settings->setFontSize(fontSize);
-    settings->setNumberOfTexlines(m_textlinesCountBox->value());
+    settings->setNumberOfTextlines(m_textlinesCountBox->value());
+    const int index = m_additionalInfo->currentIndex();
+    settings->setAdditionalInfo(m_additionalInfo->itemData(index).toInt());
 
     settings->setGridSpacing(GRID_SPACING_BASE +
                              m_gridSpacingBox->currentIndex() * GRID_SPACING_INC);

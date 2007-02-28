@@ -2,8 +2,9 @@
 <!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
 <kcfg>
     <kcfgfile name="dolphinrc"/>
-    <include>kiconloader.h</include>
+    <include>kfileitemdelegate.h</include>
     <include>kglobalsettings.h</include>
+    <include>kiconloader.h</include>
     <include>QListView</include>
     <group name="IconsMode">
         <entry name="Arrangement" type="Int">
@@ -33,7 +34,7 @@
             <label>Icon size</label>
             <default code="true">K3Icon::SizeMedium</default>
         </entry>
-        <entry name="NumberOfTexlines" type="Int">
+        <entry name="NumberOfTextlines" type="Int">
             <label>Number of textlines</label>
             <default>2</default>
         </entry>
@@ -47,7 +48,7 @@
         </entry>
         <entry name="AdditionalInfo" type="Int">
             <label>Additional information</label>
-            <default>0</default>
+            <default code="true">KFileItemDelegate::FriendlyMimeType</default>
         </entry>
     </group>
 </kcfg>

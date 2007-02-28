@@ -29,6 +29,8 @@
 
 #include <assert.h>
 #include <kdirmodel.h>
+#include <kfileitemdelegate.h>
+
 #include <QHeaderView>
 
 DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* controller) :
@@ -65,6 +67,9 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     m_viewOptions.font = QFont(settings->fontFamily(), settings->fontSize());
     const int iconSize = settings->iconSize();
     m_viewOptions.decorationSize = QSize(iconSize, iconSize);
+
+    KFileItemDelegate* delegate = new KFileItemDelegate(parent);
+    setItemDelegate(delegate);
 }
 
 DolphinDetailsView::~DolphinDetailsView()

@@ -986,10 +986,6 @@ void DolphinView::createView()
     view->setModel(m_proxyModel);
     view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    KFileItemDelegate* delegate = new KFileItemDelegate(this);
-    delegate->setAdditionalInformation(KFileItemDelegate::FriendlyMimeType);
-    view->setItemDelegate(delegate);
-
     new KMimeTypeResolver(view, m_dirModel);
     m_topLayout->insertWidget(1, view);
 
