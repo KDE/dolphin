@@ -81,6 +81,25 @@ bool DolphinDetailsView::event(QEvent* event)
         headerView->setStretchLastSection(false);
         headerView->setResizeMode(QHeaderView::ResizeToContents);
         headerView->setResizeMode(0, QHeaderView::Stretch);
+
+        // hide columns if this is indicated by the settings
+        const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
+        assert(settings != 0);
+        if (!settings->showDate()) {
+            hideColumn(KDirModel::ModifiedTime);
+        }
+
+        if (!settings->showPermissions()) {
+            hideColumn(KDirModel::Permissions);
+        }
+
+        if (!settings->showOwner()) {
+            hideColumn(KDirModel::Owner);
+        }
+
+        if (!settings->showGroup()) {
+            hideColumn(KDirModel::Group);
+        }
     }
 
     return QTreeView::event(event);
