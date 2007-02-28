@@ -54,11 +54,11 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     m_viewOptions.decorationSize = QSize(iconSize, iconSize);
 
     if (settings->arrangement() == QListView::TopToBottom) {
-        setFlow(QListView::TopToBottom);
+        setFlow(QListView::LeftToRight);
         m_viewOptions.decorationPosition = QStyleOptionViewItem::Top;
     }
     else {
-        setFlow(QListView::LeftToRight);
+        setFlow(QListView::TopToBottom);
         m_viewOptions.decorationPosition = QStyleOptionViewItem::Left;
     }
 }
