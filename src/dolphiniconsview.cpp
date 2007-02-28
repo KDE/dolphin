@@ -35,6 +35,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     m_controller(controller)
 {
     assert(controller != 0);
+    setViewMode(QListView::IconMode);
     setResizeMode(QListView::Adjust);
 
     connect(this, SIGNAL(clicked(const QModelIndex&)),
@@ -44,13 +45,6 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     assert(settings != 0);
 
-    if (settings->arrangement() == QListView::TopToBottom) {
-        setViewMode(QListView::IconMode);
-    }
-    else {
-        setViewMode(QListView::ListMode);
-    }
-
     setGridSize(QSize(settings->gridWidth(), settings->gridHeight()));
     setSpacing(settings->gridSpacing());
 
@@ -58,6 +52,15 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     m_viewOptions.font = QFont(settings->fontFamily(), settings->fontSize());
     const int iconSize = settings->iconSize();
     m_viewOptions.decorationSize = QSize(iconSize, iconSize);
+
+    if (settings->arrangement() == QListView::TopToBottom) {
+        setFlow(QListView::TopToBottom);
+        m_viewOptions.decorationPosition = QStyleOptionViewItem::Top;
+    }
+    else {
+        setFlow(QListView::LeftToRight);
+        m_viewOptions.decorationPosition = QStyleOptionViewItem::Left;
+    }
 }
 
 DolphinIconsView::~DolphinIconsView()
