@@ -928,7 +928,7 @@ void DolphinMainWindow::init()
 
     setupActions();
 
-    const KUrl& homeUrl = root.first().url();
+    const KUrl& homeUrl = settings.generalSettings()->homeUrl();
     setCaption(homeUrl.fileName());
     ViewProperties props(homeUrl);
     m_view[PrimaryIdx] = new DolphinView(this,
