@@ -27,7 +27,6 @@
 
 #include "dolphin_detailsmodesettings.h"
 
-#include <assert.h>
 #include <kdirmodel.h>
 #include <kfileitemdelegate.h>
 
@@ -37,7 +36,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     QTreeView(parent),
     m_controller(controller)
 {
-    assert(controller != 0);
+    Q_ASSERT(controller != 0);
 
     setAcceptDrops(true);
     setRootIsDecorated(false);
@@ -59,14 +58,18 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     connect(this, SIGNAL(clicked(const QModelIndex&)),
             controller, SLOT(triggerItem(const QModelIndex&)));
 
+    connect(controller, SIGNAL(zoomIn()),
+            this, SLOT(zoomIn()));
+    connect(controller, SIGNAL(zoomOut()),
+            this, SLOT(zoomOut()));
+
     // apply the details mode settings to the widget
     const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    assert(settings != 0);
+    Q_ASSERT(settings != 0);
 
     m_viewOptions = QTreeView::viewOptions();
     m_viewOptions.font = QFont(settings->fontFamily(), settings->fontSize());
-    const int iconSize = settings->iconSize();
-    m_viewOptions.decorationSize = QSize(iconSize, iconSize);
+    updateDecorationSize();
 
     KFileItemDelegate* delegate = new KFileItemDelegate(parent);
     setItemDelegate(delegate);
@@ -89,7 +92,7 @@ bool DolphinDetailsView::event(QEvent* event)
 
         // hide columns if this is indicated by the settings
         const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-        assert(settings != 0);
+        Q_ASSERT(settings != 0);
         if (!settings->showDate()) {
             hideColumn(KDirModel::ModifiedTime);
         }
@@ -165,6 +168,58 @@ void DolphinDetailsView::synchronizeSortingState(int column)
     const Qt::SortOrder sortOrder = header()->sortIndicatorOrder();
     m_controller->indicateSortingChange(sorting);
     m_controller->indicateSortOrderChange(sortOrder);
+}
+
+void DolphinDetailsView::zoomIn()
+{
+    if (isZoomInPossible()) {
+        DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
+        // TODO: get rid of K3Icon sizes
+        switch (settings->iconSize()) {
+            case K3Icon::SizeSmall:  settings->setIconSize(K3Icon::SizeMedium); break;
+            case K3Icon::SizeMedium: settings->setIconSize(K3Icon::SizeLarge); break;
+            default: Q_ASSERT(false); break;
+        }
+        updateDecorationSize();
+    }
+}
+
+void DolphinDetailsView::zoomOut()
+{
+    if (isZoomOutPossible()) {
+        DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
+        // TODO: get rid of K3Icon sizes
+        switch (settings->iconSize()) {
+            case K3Icon::SizeLarge:  settings->setIconSize(K3Icon::SizeMedium); break;
+            case K3Icon::SizeMedium: settings->setIconSize(K3Icon::SizeSmall); break;
+            default: Q_ASSERT(false); break;
+        }
+        updateDecorationSize();
+    }
+}
+
+bool DolphinDetailsView::isZoomInPossible() const
+{
+    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
+    return settings->iconSize() < K3Icon::SizeLarge;
+}
+
+bool DolphinDetailsView::isZoomOutPossible() const
+{
+    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
+    return settings->iconSize() > K3Icon::SizeSmall;
+}
+
+void DolphinDetailsView::updateDecorationSize()
+{
+    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
+    const int iconSize = settings->iconSize();
+    m_viewOptions.decorationSize = QSize(iconSize, iconSize);
+
+    m_controller->setZoomInPossible(isZoomInPossible());
+    m_controller->setZoomOutPossible(isZoomOutPossible());
+
+    doItemsLayout();
 }
 
 #include "dolphindetailsview.moc"

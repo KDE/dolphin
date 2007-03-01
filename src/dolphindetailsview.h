@@ -69,7 +69,22 @@ private slots:
      * with the current state of the details view.
      * @param column Index of the current sorting column.
      */
-     void synchronizeSortingState(int column);
+    void synchronizeSortingState(int column);
+
+    void zoomIn();
+    void zoomOut();
+
+private:
+    bool isZoomInPossible() const;
+    bool isZoomOutPossible() const;
+
+    /**
+     * Updates the size of the decoration dependent on the
+     * icon size of the DetailsModeSettings. The controller
+     * will get informed about possible zoom in/zoom out
+     * operations.
+     */
+    void updateDecorationSize();
 
 private:
     DolphinController* m_controller;
