@@ -152,6 +152,10 @@ void DolphinIconsView::zoomIn()
         else {
             const int iconSize = increasedIconSize(settings->iconSize());
             settings->setIconSize(iconSize);
+            if (settings->previewSize() < iconSize) {
+                // assure that the preview size is always >= the icon size
+                settings->setPreviewSize(iconSize);
+            }
         }
 
         updateGridSize(showPreview);
@@ -167,6 +171,10 @@ void DolphinIconsView::zoomOut()
         if (showPreview) {
             const int previewSize = decreasedIconSize(settings->previewSize());
             settings->setPreviewSize(previewSize);
+            if (settings->iconSize() > previewSize) {
+                // assure that the icon size is always <= the preview size
+                settings->setIconSize(previewSize);
+            }
         }
         else {
             const int iconSize = decreasedIconSize(settings->iconSize());
