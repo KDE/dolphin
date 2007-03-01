@@ -204,12 +204,13 @@ void IconsViewSettingsPage::applySettings()
     // width and height
     int gridWidth = defaultSize;
     int gridHeight = defaultSize;
+    const int textSizeIndex = m_textWidthBox->currentIndex();
     if (arrangement == QListView::TopToBottom) {
-        gridWidth += 96;
+        gridWidth += 96 + textSizeIndex * 32;
         gridHeight += 64;
     }
     else {
-        gridWidth += 256;
+        gridWidth += 128 + textSizeIndex * 64;
     }
 
     settings->setGridWidth(gridWidth);
