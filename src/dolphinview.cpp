@@ -376,22 +376,22 @@ bool DolphinView::isUrlEditable() const
 
 void DolphinView::zoomIn()
 {
-    //itemEffectsManager()->zoomIn();
+    m_controller->triggerZoomIn();
 }
 
 void DolphinView::zoomOut()
 {
-    //itemEffectsManager()->zoomOut();
+    m_controller->triggerZoomOut();
 }
 
 bool DolphinView::isZoomInPossible() const
 {
-    return false; //itemEffectsManager()->isZoomInPossible();
+    return m_controller->isZoomInPossible();
 }
 
 bool DolphinView::isZoomOutPossible() const
 {
-    return false; //itemEffectsManager()->isZoomOutPossible();
+    return m_controller->isZoomOutPossible();
 }
 
 void DolphinView::setSorting(Sorting sorting)

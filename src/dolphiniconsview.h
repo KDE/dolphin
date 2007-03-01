@@ -54,6 +54,19 @@ private slots:
      */
     void updateGridSize(bool showPreview);
 
+    void zoomIn();
+    void zoomOut();
+
+private:
+    bool isZoomInPossible() const;
+    bool isZoomOutPossible() const;
+
+    /** Returns the increased icon size for the size \a size. */
+    int increasedIconSize(int size) const;
+
+    /** Returns the decreased icon size for the size \a size. */
+    int decreasedIconSize(int size) const;
+
 private:
     DolphinController* m_controller;
     QStyleOptionViewItem m_viewOptions;

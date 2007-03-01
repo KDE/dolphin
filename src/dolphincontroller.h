@@ -70,6 +70,14 @@ public:
     void setShowPreview(bool showPreview);
     bool showPreview() const { return m_showPreview; }
 
+    void triggerZoomIn();
+    void setZoomInPossible(bool possible) { m_zoomInPossible = possible; }
+    bool isZoomInPossible() const { return m_zoomInPossible; }
+
+    void triggerZoomOut();
+    void setZoomOutPossible(bool possible) { m_zoomOutPossible = possible; }
+    bool isZoomOutPossible() const { return m_zoomOutPossible; }
+
 public slots:
     void triggerItem(const QModelIndex& index);
     void indicateSelectionChange();
@@ -121,8 +129,16 @@ signals:
     /** Is emitted if the selection has been changed by the user. */
     void selectionChanged();
 
+    /** Is emitted if the view should zoom in. */
+    void zoomIn();
+
+    /** Is emitted if the view should zoom out. */
+    void zoomOut();
+
 private:
     bool m_showPreview;
+    bool m_zoomInPossible;
+    bool m_zoomOutPossible;
     KUrl m_url;
 };
 

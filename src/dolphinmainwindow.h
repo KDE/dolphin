@@ -320,7 +320,7 @@ private slots:
     void slotViewModeChanged();
 
     /** Updates the state of the 'Show preview' menu action. */
-    void slowShowPreviewChanged();
+    void slotShowPreviewChanged();
 
     /** Updates the state of the 'Show hidden files' menu action. */
     void slotShowHiddenFilesChanged();

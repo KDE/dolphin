@@ -21,7 +21,9 @@
 
 DolphinController::DolphinController(QObject* parent) :
     QObject(parent),
-    m_showPreview(false)
+    m_showPreview(false),
+    m_zoomInPossible(false),
+    m_zoomOutPossible(false)
 {
 }
 
@@ -63,6 +65,16 @@ void DolphinController::setShowPreview(bool showPreview)
         m_showPreview = showPreview;
         emit showPreviewChanged(showPreview);
     }
+}
+
+void DolphinController::triggerZoomIn()
+{
+    emit zoomIn();
+}
+
+void DolphinController::triggerZoomOut()
+{
+    emit zoomOut();
 }
 
 void DolphinController::triggerItem(const QModelIndex& index)

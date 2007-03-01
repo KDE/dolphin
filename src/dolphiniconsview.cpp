@@ -24,7 +24,6 @@
 
 #include "dolphin_iconsmodesettings.h"
 
-#include <assert.h>
 #include <kdirmodel.h>
 #include <kfileitem.h>
 #include <kfileitemdelegate.h>
@@ -43,15 +42,18 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
             controller, SLOT(triggerItem(const QModelIndex&)));
     connect(controller, SIGNAL(showPreviewChanged(bool)),
             this, SLOT(updateGridSize(bool)));
+    connect(controller, SIGNAL(zoomIn()),
+            this, SLOT(zoomIn()));
+    connect(controller, SIGNAL(zoomOut()),
+            this, SLOT(zoomOut()));
 
     // apply the icons mode settings to the widget
     const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     Q_ASSERT(settings != 0);
 
-    setSpacing(settings->gridSpacing());
-
     m_viewOptions = QListView::viewOptions();
     m_viewOptions.font = QFont(settings->fontFamily(), settings->fontSize());
+
     updateGridSize(controller->showPreview());
 
     if (settings->arrangement() == QListView::TopToBottom) {
@@ -132,6 +134,91 @@ void DolphinIconsView::updateGridSize(bool showPreview)
 
     m_viewOptions.decorationSize = QSize(size, size);
     setGridSize(QSize(gridWidth, gridHeight));
+
+    m_controller->setZoomInPossible(isZoomInPossible());
+    m_controller->setZoomOutPossible(isZoomOutPossible());
+}
+
+void DolphinIconsView::zoomIn()
+{
+    if (isZoomInPossible()) {
+        IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+
+        const bool showPreview = m_controller->showPreview();
+        if (showPreview) {
+            const int previewSize = increasedIconSize(settings->previewSize());
+            settings->setPreviewSize(previewSize);
+        }
+        else {
+            const int iconSize = increasedIconSize(settings->iconSize());
+            settings->setIconSize(iconSize);
+        }
+
+        updateGridSize(showPreview);
+    }
+}
+
+void DolphinIconsView::zoomOut()
+{
+    if (isZoomOutPossible()) {
+        IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+
+        const bool showPreview = m_controller->showPreview();
+        if (showPreview) {
+            const int previewSize = decreasedIconSize(settings->previewSize());
+            settings->setPreviewSize(previewSize);
+        }
+        else {
+            const int iconSize = decreasedIconSize(settings->iconSize());
+            settings->setIconSize(iconSize);
+        }
+
+        updateGridSize(showPreview);
+    }
+}
+
+bool DolphinIconsView::isZoomInPossible() const
+{
+    IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+    const int size = m_controller->showPreview() ? settings->previewSize() : settings->iconSize();
+    return size < K3Icon::SizeEnormous;
+}
+
+bool DolphinIconsView::isZoomOutPossible() const
+{
+    IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+    const int size = m_controller->showPreview() ? settings->previewSize() : settings->iconSize();
+    return size > K3Icon::SizeSmall;
+}
+
+int DolphinIconsView::increasedIconSize(int size) const
+{
+    // TODO: get rid of K3Icon sizes
+    int incSize = 0;
+    switch (size) {
+        case K3Icon::SizeSmall:       incSize = K3Icon::SizeSmallMedium; break;
+        case K3Icon::SizeSmallMedium: incSize = K3Icon::SizeMedium; break;
+        case K3Icon::SizeMedium:      incSize = K3Icon::SizeLarge; break;
+        case K3Icon::SizeLarge:       incSize = K3Icon::SizeHuge; break;
+        case K3Icon::SizeHuge:        incSize = K3Icon::SizeEnormous; break;
+        default: Q_ASSERT(false); break;
+    }
+    return incSize;
+}
+
+int DolphinIconsView::decreasedIconSize(int size) const
+{
+    // TODO: get rid of K3Icon sizes
+    int decSize = 0;
+    switch (size) {
+        case K3Icon::SizeSmallMedium: decSize = K3Icon::SizeSmall; break;
+        case K3Icon::SizeMedium: decSize = K3Icon::SizeSmallMedium; break;
+        case K3Icon::SizeLarge: decSize = K3Icon::SizeMedium; break;
+        case K3Icon::SizeHuge: decSize = K3Icon::SizeLarge; break;
+        case K3Icon::SizeEnormous: decSize = K3Icon::SizeHuge; break;
+        default: Q_ASSERT(false); break;
+    }
+    return decSize;
 }
 
 #include "dolphiniconsview.moc"

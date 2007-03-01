@@ -250,11 +250,11 @@ void DolphinMainWindow::slotViewModeChanged()
     updateViewActions();
 }
 
-void DolphinMainWindow::slowShowPreviewChanged()
+void DolphinMainWindow::slotShowPreviewChanged()
 {
-    KToggleAction* showPreviewAction =
-        static_cast<KToggleAction*>(actionCollection()->action("show_preview"));
-    showPreviewAction->setChecked(m_activeView->showPreview());
+    // It is not enough to update the 'Show Preview' action, also
+    // the 'Zoom In' and 'Zoom Out' actions must be adapted.
+    updateViewActions();
 }
 
 void DolphinMainWindow::slotShowHiddenFilesChanged()
@@ -329,6 +329,7 @@ void DolphinMainWindow::slotHistoryChanged()
 void DolphinMainWindow::slotUrlChanged(const KUrl& url)
 {
     updateEditActions();
+    updateViewActions();
     updateGoActions();
     setCaption(url.fileName());
 }
@@ -1349,7 +1350,7 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
     connect(view, SIGNAL(modeChanged()),
             this, SLOT(slotViewModeChanged()));
     connect(view, SIGNAL(showPreviewChanged()),
-            this, SLOT(slowShowPreviewChanged()));
+            this, SLOT(slotShowPreviewChanged()));
     connect(view, SIGNAL(showHiddenFilesChanged()),
             this, SLOT(slotShowHiddenFilesChanged()));
     connect(view, SIGNAL(sortingChanged(DolphinView::Sorting)),
