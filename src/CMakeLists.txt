@@ -40,6 +40,7 @@ set(dolphin_SRCS
    sidebarpage.cpp
    statusbarspaceinfo.cpp
    statusbarmessagelabel.cpp
+   treeviewsidebarpage.cpp
    urlbutton.cpp
    urlnavigator.cpp
    urlnavigatorbutton.cpp

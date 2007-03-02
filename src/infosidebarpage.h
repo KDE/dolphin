@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef _INFOSIDEBARPAGE_H_
-#define _INFOSIDEBARPAGE_H_
+#ifndef INFOSIDEBARPAGE_H
+#define INFOSIDEBARPAGE_H
 
 #include <sidebarpage.h>
 
@@ -60,7 +60,7 @@ class InfoSidebarPage : public SidebarPage
 	Q_OBJECT
 
 public:
-    explicit InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent=0);
+    explicit InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent = 0);
     virtual ~InfoSidebarPage();
 
 protected:
@@ -161,12 +161,12 @@ private:
      * Show the annotation of a file in the sidebar.
      */
     void showAnnotation(const KUrl& file);
-    
+
     /**
      * Show the annotations of multiple files in the sidebar.
      */
     void showAnnotations(const KUrl::List& files);
-    
+
     bool m_multipleSelection;
     bool m_pendingPreview;
     QTimer* m_timer;
@@ -218,4 +218,4 @@ private:
     int m_index;
 };
 
-#endif // _INFOSIDEBARPAGE_H_
+#endif // INFOSIDEBARPAGE_H

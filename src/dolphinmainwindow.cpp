@@ -24,21 +24,21 @@
 
 #include <assert.h>
 
+#include "bookmarkssidebarpage.h"
 #include "dolphinapplication.h"
 #include "dolphinnewmenu.h"
 #include "dolphinsettings.h"
 #include "dolphinsettingsdialog.h"
 #include "dolphinstatusbar.h"
-#include "dolphinapplication.h"
-#include "urlnavigator.h"
-#include "dolphinsettings.h"
-#include "bookmarkssidebarpage.h"
 #include "infosidebarpage.h"
-#include "dolphin_generalsettings.h"
-#include "viewpropertiesdialog.h"
-#include "viewproperties.h"
 #include "metadataloader.h"
 #include "mainwindowadaptor.h"
+#include "treeviewsidebarpage.h"
+#include "urlnavigator.h"
+#include "viewpropertiesdialog.h"
+#include "viewproperties.h"
+
+#include "dolphin_generalsettings.h"
 
 #include <kaction.h>
 #include <kactioncollection.h>
@@ -1191,6 +1191,10 @@ void DolphinMainWindow::setupActions()
 
 void DolphinMainWindow::setupDockWidgets()
 {
+    // TODO: there's a lot copy/paste code here. Provide a generic approach
+    // after the dock concept has been finalized.
+
+    // setup "Bookmarks"
     QDockWidget* shortcutsDock = new QDockWidget(i18n("Bookmarks"));
     shortcutsDock->setObjectName("bookmarksDock");
     shortcutsDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -1201,6 +1205,7 @@ void DolphinMainWindow::setupDockWidgets()
 
     addDockWidget(Qt::LeftDockWidgetArea, shortcutsDock);
 
+    // setup "Information"
     QDockWidget* infoDock = new QDockWidget(i18n("Information"));
     infoDock->setObjectName("infoDock");
     infoDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -1210,6 +1215,17 @@ void DolphinMainWindow::setupDockWidgets()
     actionCollection()->addAction("show_info_panel", infoDock->toggleViewAction());
 
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
+
+    // setup "Tree View"
+    QDockWidget* treeViewDock = new QDockWidget(i18n("Folders")); // TODO: naming?
+    treeViewDock->setObjectName("treeViewDock");
+    treeViewDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    treeViewDock->setWidget(new TreeViewSidebarPage(this));
+
+    treeViewDock->toggleViewAction()->setText(i18n("Show Folders Panel"));
+    actionCollection()->addAction("show_folders_panel", treeViewDock->toggleViewAction());
+
+    addDockWidget(Qt::LeftDockWidgetArea, treeViewDock);
 }
 
 void DolphinMainWindow::updateHistory()

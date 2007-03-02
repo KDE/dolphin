@@ -1,5 +1,4 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Cvetoslav Ludmiloff <ludmiloff@gmail.com>       *
  *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -15,42 +14,52 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef _SIDEBARPAGE_H_
-#define _SIDEBARPAGE_H_
+#ifndef TREEVIEWSIDEBARPAGE_H
+#define TREEVIEWSIDEBARPAGE_H
 
-#include <qwidget.h>
+#include <sidebarpage.h>
 
-class DolphinMainWindow;
-class Sidebar;
+class KDirLister;
+class KDirModel;
+class KUrl;
+class QTreeView;
 
 /**
- * @brief Base widget for all pages that can be embedded into the Sidebar.
- *
- * TODO
+ * @brief
  */
-class SidebarPage : public QWidget
+class TreeViewSidebarPage : public SidebarPage
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-    explicit SidebarPage(DolphinMainWindow* mainwindow, QWidget* parent=0);
-    virtual ~SidebarPage();
-
-protected slots:
-    /**
-     * Is invoked whenever the active view from Dolphin has been changed.
-     * The active view can be retrieved by mainWindow()->activeView();
-     */
-    virtual void activeViewChanged();
+    TreeViewSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent = 0);
+    virtual ~TreeViewSidebarPage();
 
 protected:
-    DolphinMainWindow* mainWindow() const;
+    /** @see SidebarPage::activeViewChanged() */
+    virtual void activeViewChanged();
+
+private slots:
+    /**
+     * Updates the current position inside the tree to
+     * \a url.
+     */
+    void updatePosition(const KUrl& url);
 
 private:
-    DolphinMainWindow *m_mainWindow;
+    /**
+     * Connects to signals from the currently active Dolphin view to get
+     * informed about highlighting changes.
+     */
+    void connectToActiveView();
+
+private:
+    KDirLister* m_dirLister;
+    KDirModel* m_dirModel;
+    QTreeView* m_treeView;
 };
 
-#endif // _SIDEBARPAGE_H_
+#endif // BOOKMARKSSIDEBARPAGE_H

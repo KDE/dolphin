@@ -20,7 +20,7 @@
 #include "sidebarpage.h"
 #include "dolphinmainwindow.h"
 
-SidebarPage::SidebarPage(DolphinMainWindow *mainWindow, QWidget* parent) :
+SidebarPage::SidebarPage(DolphinMainWindow* mainWindow, QWidget* parent) :
     QWidget(parent),
     m_mainWindow(mainWindow)
 {

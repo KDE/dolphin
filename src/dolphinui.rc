@@ -43,6 +43,7 @@
     <text>Panels</text>
     <Action name="show_bookmarks_panel" />
     <Action name="show_info_panel" />
+    <Action name="show_folders_panel" />
    </Menu>
    <Menu name="navigation_bar">
     <text>Navigation Bar</text>
