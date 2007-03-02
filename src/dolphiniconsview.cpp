@@ -38,6 +38,8 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     setViewMode(QListView::IconMode);
     setResizeMode(QListView::Adjust);
 
+    viewport()->setAttribute(Qt::WA_Hover);
+
     connect(this, SIGNAL(clicked(const QModelIndex&)),
             controller, SLOT(triggerItem(const QModelIndex&)));
     connect(controller, SIGNAL(showPreviewChanged(bool)),
