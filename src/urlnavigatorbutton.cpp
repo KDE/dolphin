@@ -270,7 +270,7 @@ void UrlNavigatorButton::startListJob()
     }
 
     const KUrl& url = urlNavigator()->url(m_index);
-    m_listJob = KIO::listDir(url, false, false);
+    m_listJob = KIO::listDir(url, false, urlNavigator()->showHiddenFiles());
     m_subdirs.clear(); // just to be ++safe
 
     connect(m_listJob, SIGNAL(entries(KIO::Job*, const KIO::UDSEntryList &)),
@@ -286,6 +286,8 @@ void UrlNavigatorButton::entriesList(KIO::Job* job, const KIO::UDSEntryList& ent
 
     KIO::UDSEntryList::const_iterator it = entries.constBegin();
     KIO::UDSEntryList::const_iterator itEnd = entries.constEnd();
+
+    bool showHidden = urlNavigator()->showHiddenFiles();
     while (it != itEnd) {
         QString name;
         //bool isDir = false;
@@ -314,7 +316,11 @@ void UrlNavigatorButton::entriesList(KIO::Job* job, const KIO::UDSEntryList& ent
         */
 
         if (entry.isDir()) {
-            m_subdirs.append(entry.stringValue(KIO::UDS_NAME));
+            QString dir = entry.stringValue(KIO::UDS_NAME);
+
+            if (!showHidden || (dir != "." && dir != "..")) {
+                m_subdirs.append(entry.stringValue(KIO::UDS_NAME));
+            }
         }
 
         ++it;

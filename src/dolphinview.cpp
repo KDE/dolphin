@@ -84,6 +84,7 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
             this, SLOT(updateActivationState()));
 
     m_urlNavigator = new UrlNavigator(url, this);
+    m_urlNavigator->setShowHiddenFiles(showHiddenFiles);
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(loadDirectory(const KUrl&)));
     connect(m_urlNavigator, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&)),
@@ -229,6 +230,7 @@ void DolphinView::setShowHiddenFiles(bool show)
     props.save();
 
     m_dirLister->setShowingDotFiles(show);
+    m_urlNavigator->setShowHiddenFiles(show);
 
     emit showHiddenFilesChanged();
 

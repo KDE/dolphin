@@ -69,6 +69,7 @@ UrlNavigator::UrlNavigator(const KUrl& url,
                            QWidget* parent) :
     QWidget(parent),
     m_active(true),
+    m_showHiddenFiles(false),
     m_historyIndex(0),
     m_layout(0),
     m_protocols(0),
@@ -229,6 +230,11 @@ void UrlNavigator::setActive(bool active)
             emit activated();
         }
     }
+}
+
+void UrlNavigator::setShowHiddenFiles( bool show )
+{
+    m_showHiddenFiles = show;
 }
 
 void UrlNavigator::dropUrls(const KUrl::List& urls,

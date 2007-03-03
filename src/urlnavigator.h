@@ -169,6 +169,16 @@ public:
     bool isActive() const { return m_active; }
 
     /**
+     * Sets whether or not to show hidden files in lists
+     */
+    void setShowHiddenFiles( bool show );
+
+    /**
+     * Returns true if the URL navigator is set to show hidden files
+     */
+    bool showHiddenFiles() { return m_showHiddenFiles; }
+
+    /**
      * Handles the dropping of the URLs \a urls to the given
      * destination \a destination and emits the signal urlsDropped.
      */
@@ -289,6 +299,7 @@ private:
 
 private:
     bool m_active;
+    bool m_showHiddenFiles;
     int m_historyIndex;
 
     QHBoxLayout* m_layout;
