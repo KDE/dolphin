@@ -19,6 +19,7 @@
 
 #include "treeviewsidebarpage.h"
 
+#include "bookmarkselector.h"
 #include "dolphinmainwindow.h"
 #include "dolphinview.h"
 
@@ -76,12 +77,20 @@ void TreeViewSidebarPage::activeViewChanged()
 
 void TreeViewSidebarPage::updatePosition(const KUrl& url)
 {
+    KUrl baseUrl = BookmarkSelector::baseBookmark(url).url();
+    if (m_dirLister->url() != baseUrl) {
+        m_dirLister->stop();
+        m_dirLister->openUrl(baseUrl);
+    }
+
+    // TODO: open sub folders to be synchronous to 'url'
 }
 
 void TreeViewSidebarPage::connectToActiveView()
 {
     DolphinView* view = mainWindow()->activeView();
-    m_dirLister->openUrl(view->url(), true);
+    m_dirLister->stop();
+    m_dirLister->openUrl(view->url());
     connect(view, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(updatePosition(const KUrl&)));
 }

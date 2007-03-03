@@ -73,31 +73,12 @@ BookmarkSelector::~BookmarkSelector()
 
 void BookmarkSelector::updateSelection(const KUrl& url)
 {
-    KBookmarkGroup root = DolphinSettings::instance().bookmarkManager()->root();
-    KBookmark bookmark = root.first();
-
-    int maxLength = 0;
-    m_selectedIndex = -1;
-
-    // Search the bookmark which is equal to the Url or at least is a parent Url.
-    // If there are more than one possible parent Url candidates, choose the bookmark
-    // which covers the bigger range of the Url.
-    int i = 0;
-    while (!bookmark.isNull()) {
-        const KUrl bookmarkUrl = bookmark.url();
-        if (bookmarkUrl.isParentOf(url)) {
-            const int length = bookmarkUrl.prettyUrl().length();
-            if (length > maxLength) {
-                m_selectedIndex = i;
-                setIcon(SmallIcon(bookmark.icon()));
-                maxLength = length;
-            }
-        }
-        bookmark = root.next(bookmark);
-        ++i;
+    m_selectedIndex = baseBookmarkIndex(url);
+    if (m_selectedIndex >= 0) {
+        KBookmark bookmark = DolphinSettings::instance().bookmark(m_selectedIndex);
+        setIcon(SmallIcon(bookmark.icon()));
     }
-
-    if (m_selectedIndex < 0) {
+    else {
         // No bookmark has been found which matches to the given Url. Show
         // a generic folder icon as pixmap for indication:
         setIcon(SmallIcon("folder"));
@@ -113,6 +94,12 @@ QSize BookmarkSelector::sizeHint() const
 {
     const int height = UrlButton::sizeHint().height();
     return QSize(height, height);
+}
+
+KBookmark BookmarkSelector::baseBookmark(const KUrl& url)
+{
+    const int index = baseBookmarkIndex(url);
+    return DolphinSettings::instance().bookmark(index);
 }
 
 void BookmarkSelector::paintEvent(QPaintEvent* /*event*/)
@@ -171,6 +158,35 @@ void BookmarkSelector::activateBookmark(QAction* action)
     const KBookmark bookmark = selectedBookmark();
     setPixmap(SmallIcon(bookmark.icon()));
     emit bookmarkActivated(bookmark.url());
+}
+
+int BookmarkSelector::baseBookmarkIndex(const KUrl& url)
+{
+    int index = -1;  // return value
+
+    KBookmarkGroup root = DolphinSettings::instance().bookmarkManager()->root();
+    KBookmark bookmark = root.first();
+
+    int maxLength = 0;
+
+    // Search the bookmark which is equal to the Url or at least is a parent Url.
+    // If there are more than one possible parent Url candidates, choose the bookmark
+    // which covers the bigger range of the Url.
+    int i = 0;
+    while (!bookmark.isNull()) {
+        const KUrl bookmarkUrl = bookmark.url();
+        if (bookmarkUrl.isParentOf(url)) {
+            const int length = bookmarkUrl.prettyUrl().length();
+            if (length > maxLength) {
+                index = i;
+                maxLength = length;
+            }
+        }
+        bookmark = root.next(bookmark);
+        ++i;
+    }
+
+    return index;
 }
 
 #include "bookmarkselector.moc"

@@ -49,11 +49,11 @@ public:
     virtual ~BookmarkSelector();
 
     /**
-     * Updates the selection dependent from the given Url \a url. The
-     * Url must not match exactly to one of the available bookmarks:
-     * The bookmark which is equal to the Url or at least is a parent Url
-     * is selected. If there are more than one possible parent Url candidates,
-     * the bookmark which covers the bigger range of the Url is selected.
+     * Updates the selection dependent from the given URL \a url. The
+     * URL must not match exactly to one of the available bookmarks:
+     * The bookmark which is equal to the URL or at least is a parent URL
+     * is selected. If there are more than one possible parent URL candidates,
+     * the bookmark which covers the bigger range of the URL is selected.
      */
     void updateSelection(const KUrl& url);
 
@@ -68,6 +68,22 @@ public:
 
     /** @see QWidget::sizeHint() */
     virtual QSize sizeHint() const;
+
+    /**
+     * Returns the base bookmark for the URL \a url.
+     * The base bookmark is defined as bookmark which is equal to
+     * the URL or at least is a parent URL. If there are more than
+     * one possible parent URL candidates, the bookmark which covers
+     * the bigger range of the URL is returned.
+     *
+     * Example: the url is '/home/peter/Documents/Music. Available
+     * bookmarks are:
+     * - /home/peter
+     * - /home/peter/Documents
+     *
+     * The base URL will be '/home/peter/Documents'.
+     */
+    static KBookmark baseBookmark(const KUrl& url);
 
 signals:
     /**
@@ -89,6 +105,9 @@ private slots:
      * which is indicated by the triggered action \a action.
      */
     void activateBookmark(QAction* action);
+
+private:
+    static int baseBookmarkIndex(const KUrl& url);
 
 private:
     int m_selectedIndex;
