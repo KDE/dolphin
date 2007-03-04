@@ -73,7 +73,9 @@ int main(int argc, char **argv)
     }
 
 
+#ifdef __GNUC__
 #warning TODO, SessionManagement
+#endif
 #if 0
     if (false /* KDE4-TODO: app.isSessionRestored() */) {
         int n = 1;

@@ -208,13 +208,3 @@ QString ViewProperties::destinationDir(const QString& subDir) const
     basePath.append("/view_properties/").append(subDir);
     return KStandardDirs::locateLocal("data", basePath);
 }
-
-ViewProperties::ViewProperties(const ViewProperties& /*props*/)
-{
-    assert(false);
-}
-
-ViewProperties& ViewProperties::operator = (const ViewProperties& /*props*/)
-{
-    assert(false);
-}
