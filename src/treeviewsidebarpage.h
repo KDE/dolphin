@@ -25,6 +25,8 @@
 class KDirLister;
 class KDirModel;
 class KUrl;
+
+class QModelIndex;
 class QTreeView;
 
 /**
@@ -42,12 +44,21 @@ protected:
     /** @see SidebarPage::activeViewChanged() */
     virtual void activeViewChanged();
 
+    /** @see QWidget::showEvent() */
+    virtual void showEvent(QShowEvent* event);
+
 private slots:
     /**
-     * Updates the current position inside the tree to
+     * Updates the current selection inside the tree to
      * \a url.
      */
-    void updatePosition(const KUrl& url);
+    void updateSelection(const KUrl& url);
+
+    /**
+     * Updates the URL of the active view to the URL
+     * which is given by the item with the index \a index.
+     */
+    void updateViewUrl(const QModelIndex& index);
 
 private:
     /**

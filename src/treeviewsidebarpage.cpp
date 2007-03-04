@@ -26,6 +26,8 @@
 #include "kdirlister.h"
 #include "kdirmodel.h"
 
+#include <QHeaderView>
+#include <QItemSelectionModel>
 #include <QTreeView>
 #include <QVBoxLayout>
 
@@ -50,6 +52,7 @@ TreeViewSidebarPage::TreeViewSidebarPage(DolphinMainWindow* mainWindow,
 
     m_treeView = new QTreeView(this);
     m_treeView->setModel(m_dirModel);
+    m_treeView->setSelectionMode(QAbstractItemView::SingleSelection);
 
     // hide all columns except of the 'Name' column
     m_treeView->hideColumn(KDirModel::Size);
@@ -57,11 +60,13 @@ TreeViewSidebarPage::TreeViewSidebarPage(DolphinMainWindow* mainWindow,
     m_treeView->hideColumn(KDirModel::Permissions);
     m_treeView->hideColumn(KDirModel::Owner);
     m_treeView->hideColumn(KDirModel::Group);
+    m_treeView->header()->hide();
+
+    connect(m_treeView, SIGNAL(clicked(const QModelIndex&)),
+            this, SLOT(updateViewUrl(const QModelIndex&)));
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->addWidget(m_treeView);
-
-    connectToActiveView();
 }
 
 TreeViewSidebarPage::~TreeViewSidebarPage()
@@ -75,24 +80,64 @@ void TreeViewSidebarPage::activeViewChanged()
     connectToActiveView();
 }
 
-void TreeViewSidebarPage::updatePosition(const KUrl& url)
+void TreeViewSidebarPage::showEvent(QShowEvent* event)
 {
+    SidebarPage::showEvent(event);
+    connectToActiveView();
+}
+
+void TreeViewSidebarPage::updateSelection(const KUrl& url)
+{
+    // adjust the root of the tree to the base bookmark
     KUrl baseUrl = BookmarkSelector::baseBookmark(url).url();
     if (m_dirLister->url() != baseUrl) {
         m_dirLister->stop();
         m_dirLister->openUrl(baseUrl);
     }
 
-    // TODO: open sub folders to be synchronous to 'url'
+    // select the folder which contains the given url
+
+    // TODO: check how Konqi does it before reinventing the wheel. The directory
+    // must already be loaded _before_ the index can be retrieved by
+    // KDirModel::indexForItem().
+    QItemSelectionModel* selModel = m_treeView->selectionModel();
+    selModel->clearSelection();
+
+    KFileItem item(S_IFDIR, KFileItem::Unknown, url);
+    const QModelIndex index = m_dirModel->indexForItem(item);
+    if (index.isValid()) {
+        m_treeView->scrollTo(index);
+        m_treeView->setExpanded(index, true);
+
+        selModel->setCurrentIndex(index, QItemSelectionModel::Select);
+    }
+}
+
+void TreeViewSidebarPage::updateViewUrl(const QModelIndex& index)
+{
+    KFileItem* item = m_dirModel->itemForIndex(index);
+    if (item != 0) {
+        const KUrl& url = item->url();
+        mainWindow()->activeView()->setUrl(url);
+    }
 }
 
 void TreeViewSidebarPage::connectToActiveView()
 {
+    const QWidget* parent = parentWidget();
+    if ((parent == 0) || parent->isHidden()) {
+        return;
+    }
+
     DolphinView* view = mainWindow()->activeView();
+    const KUrl& url = view->url();
+
     m_dirLister->stop();
-    m_dirLister->openUrl(view->url());
+    m_dirLister->openUrl(url);
     connect(view, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(updatePosition(const KUrl&)));
+            this, SLOT(updateSelection(const KUrl&)));
+
+    updateSelection(url);
 }
 
 #include "treeviewsidebarpage.moc"
