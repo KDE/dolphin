@@ -1226,6 +1226,12 @@ void DolphinMainWindow::setupDockWidgets()
     actionCollection()->addAction("show_folders_panel", treeViewDock->toggleViewAction());
 
     addDockWidget(Qt::LeftDockWidgetArea, treeViewDock);
+
+    const bool firstRun = DolphinSettings::instance().generalSettings()->firstRun();
+    if (firstRun) {
+        infoDock->hide();
+        treeViewDock->hide();
+    }
 }
 
 void DolphinMainWindow::updateHistory()
