@@ -20,6 +20,7 @@
 #ifndef TREEVIEWSIDEBARPAGE_H
 #define TREEVIEWSIDEBARPAGE_H
 
+#include <kurl.h>
 #include <sidebarpage.h>
 
 class KDirLister;
@@ -30,7 +31,11 @@ class QModelIndex;
 class QTreeView;
 
 /**
- * @brief
+ * @brief Shows a tree view of the directories starting from
+ *        the currently selected bookmark.
+ *
+ * The tree view is always synchronized with the currently active view
+ * from the main window.
  */
 class TreeViewSidebarPage : public SidebarPage
 {
@@ -55,10 +60,17 @@ private slots:
     void updateSelection(const KUrl& url);
 
     /**
-     * Updates the URL of the active view to the URL
+     * Expands the tree in a way that the item with the URL m_selectedUrl
+     * gets visible. Is called by TreeViewSidebarPage::updateSelection()
+     * if the dir lister has been completed.
+     */
+    void expandSelectionParent();
+
+    /**
+     * Updates the active view to the URL
      * which is given by the item with the index \a index.
      */
-    void updateViewUrl(const QModelIndex& index);
+    void updateActiveView(const QModelIndex& index);
 
 private:
     /**
@@ -71,6 +83,7 @@ private:
     KDirLister* m_dirLister;
     KDirModel* m_dirModel;
     QTreeView* m_treeView;
+    KUrl m_selectedUrl;
 };
 
 #endif // BOOKMARKSSIDEBARPAGE_H
