@@ -30,7 +30,7 @@ class QHBoxLayout;
 class QLabel;
 class QLineEdit;
 class QMouseEvent;
-class QPushButton;
+class QToolButton;
 
 class KUrl;
 class KFileItem;
@@ -305,7 +305,7 @@ private:
     QHBoxLayout* m_layout;
 
     QLinkedList<HistoryElem> m_history;
-    QPushButton* m_toggleButton;
+    QToolButton* m_toggleButton;
     BookmarkSelector* m_bookmarkSelector;
     KUrlComboBox* m_pathBox;
     ProtocolCombo* m_protocols;

@@ -43,7 +43,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QMouseEvent>
-#include <QPushButton>
+#include <QToolButton>
 
 UrlNavigator::HistoryElem::HistoryElem() :
     m_url(),
@@ -88,9 +88,9 @@ UrlNavigator::UrlNavigator(const KUrl& url,
 
     // intialize toggle button which switches between the breadcrumb view
     // and the traditional view
-    m_toggleButton = new QPushButton();
+    m_toggleButton = new QToolButton();
     m_toggleButton->setCheckable(true);
-    m_toggleButton->setFlat(true);
+    m_toggleButton->setAutoRaise(true);
     m_toggleButton->setIcon(KIcon("locationbar_erase")); // TODO: is just a placeholder icon
     m_toggleButton->setFocusPolicy(Qt::NoFocus);
     m_toggleButton->setMinimumHeight(minimumHeight());
