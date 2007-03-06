@@ -2,6 +2,7 @@
 Exec=digikam --download-from %u
 Icon=digikam
 Name=Open in Digikam
+Name[x-test]=xxOpen in Digikamxx
 
 [Desktop Entry]
 Actions=OpenDigikam;

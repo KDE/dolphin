@@ -6,5 +6,6 @@ Actions=compressHere
 
 [Desktop Action compressHere]
 Name=Compress Here
+Name[x-test]=xxCompress Herexx
 Exec=ark --add-to %u %u.tar.gz
 Icon=ark

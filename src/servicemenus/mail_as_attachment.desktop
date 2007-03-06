@@ -5,5 +5,6 @@ Actions=mail_as_attachment
 
 [Desktop Action mail_as_attachment]
 Name=Mail as Attachment...
+Name[x-test]=xxMail as Attachment...xx
 Icon=mail_send
 Exec=kmail --attach %U

@@ -1,10 +1,12 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Dolphin
+Name[x-test]=xxDolphinxx
 Exec=dolphin %i %m -caption "%c"
 Icon=dolphin
 Type=Application
 DocPath=dolphin/dolphin.html
 Categories=System;FileManager;
 GenericName=File Manager
+GenericName[x-test]=xxFile Managerxx
 Terminal=false

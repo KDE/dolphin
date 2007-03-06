@@ -2,15 +2,18 @@
 ServiceTypes=image/jpeg
 Actions=jpegRot90;jpegRot270;jpegFlipV;jpegFlipH;
 X-KDE-Submenu=Transform Image
+X-KDE-Submenu[x-test]=xxTransform Imagexx
 X-KDE-Require=Write
 
 [Desktop Action jpegRot90]
 Name=Rotate Clockwise
+Name[x-test]=xxRotate Clockwisexx
 Icon=rotate_cw
 Exec=jpegorient +90 %F
 
 [Desktop Action jpegRot270]
 Name=Rotate Counter-Clockwise
+Name[x-test]=xxRotate Counter-Clockwisexx
 Icon=rotate_ccw
 Exec=jpegorient +270 %F
 
@@ -21,10 +24,12 @@ Exec=jpegorient +270 %F
 
 [Desktop Action jpegFlipV]
 Name=Flip Vertically
+Name[x-test]=xxFlip Verticallyxx
 Icon=2uparrow
 Exec=jpegorient v %F
 
 [Desktop Action jpegFlipH]
 Name=Flip Horizontally
+Name[x-test]=xxFlip Horizontallyxx
 Icon=2rightarrow
 Exec=jpegorient h %F
