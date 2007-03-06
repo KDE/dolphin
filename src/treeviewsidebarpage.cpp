@@ -92,14 +92,14 @@ void TreeViewSidebarPage::showEvent(QShowEvent* event)
 
 void TreeViewSidebarPage::updateSelection(const KUrl& url)
 {
-    if ((url == m_selectedUrl) || !url.isValid()) {
+    if (!url.isValid() || (url == m_selectedUrl)) {
         return;
     }
 
     m_selectedUrl = url;
 
     // adjust the root of the tree to the base bookmark
-    KUrl baseUrl = BookmarkSelector::baseBookmark(url).url();
+    const KUrl baseUrl = BookmarkSelector::baseBookmark(url).url();
     if (m_dirLister->url() != baseUrl) {
         m_dirLister->stop();
         m_dirLister->openUrl(baseUrl);
@@ -109,7 +109,7 @@ void TreeViewSidebarPage::updateSelection(const KUrl& url)
     QItemSelectionModel* selModel = m_treeView->selectionModel();
     selModel->clearSelection();
 
-    KFileItem item(S_IFDIR, KFileItem::Unknown, url);
+    const KFileItem item(S_IFDIR, KFileItem::Unknown, url);
     const QModelIndex index = m_dirModel->indexForItem(item);
     if (index.isValid()) {
         // the item with the given URL is already part of the model
@@ -137,13 +137,13 @@ void TreeViewSidebarPage::expandSelectionParent()
                this, SLOT(expandSelectionParent()));
 
     // expand the parent folder of the selected item
-    KFileItem parentItem(S_IFDIR, KFileItem::Unknown, m_selectedUrl.upUrl());
+    const KFileItem parentItem(S_IFDIR, KFileItem::Unknown, m_selectedUrl.upUrl());
     QModelIndex index = m_dirModel->indexForItem(parentItem);
     if (index.isValid()) {
         m_treeView->setExpanded(index, true);
 
         // select the item and assure that the item is visible
-        KFileItem selectedItem(S_IFDIR, KFileItem::Unknown, m_selectedUrl);
+        const KFileItem selectedItem(S_IFDIR, KFileItem::Unknown, m_selectedUrl);
         index = m_dirModel->indexForItem(selectedItem);
         if (index.isValid()) {
             m_treeView->scrollTo(index);
@@ -156,7 +156,7 @@ void TreeViewSidebarPage::expandSelectionParent()
 
 void TreeViewSidebarPage::updateActiveView(const QModelIndex& index)
 {
-    KFileItem* item = m_dirModel->itemForIndex(index);
+    const KFileItem* item = m_dirModel->itemForIndex(index);
     if (item != 0) {
         const KUrl& url = item->url();
         mainWindow()->activeView()->setUrl(url);
@@ -170,7 +170,7 @@ void TreeViewSidebarPage::connectToActiveView()
         return;
     }
 
-    DolphinView* view = mainWindow()->activeView();
+    const DolphinView* view = mainWindow()->activeView();
     const KUrl& url = view->url();
 
     connect(view, SIGNAL(urlChanged(const KUrl&)),
