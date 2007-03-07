@@ -2,22 +2,26 @@
 ServiceTypes=application/asx,audio/*
 Actions=appendToPlaylist;appendAndPlay;queueTrack;
 X-KDE-Submenu=Amarok
+X-KDE-Submenu[el]=AmaroK
 X-KDE-Submenu[x-test]=xxAmarokxx
 
 [Desktop Action appendToPlaylist]
 Name=Append to Playlist
+Name[el]=Προσθήκη στη λίστα
 Name[x-test]=xxAppend to Playlistxx
 Icon=amarok
 Exec=amarok -e %U
 
 [Desktop Action appendAndPlay]
 Name=Append & Play
+Name[el]=Προσθήκη & αναπαραγωγή
 Name[x-test]=xxAppend & Playxx
 Icon=amarok
 Exec=dcop amarok playlist playMedia %U
 
 [Desktop Action queueTrack]
 Name=Queue Track
+Name[el]=Κομμάτι σε αναμονή
 Name[x-test]=xxQueue Trackxx
 Icon=amarok
 Exec=amarok --queue %U

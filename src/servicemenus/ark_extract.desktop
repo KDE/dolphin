@@ -6,6 +6,7 @@ Actions=extractHere
 
 [Desktop Action extractHere]
 Name=Extract Here
+Name[el]=Αποσυμπίεση εδώ
 Name[x-test]=xxExtract Herexx
 Exec=ark --extract-to %d %u
 Icon=ark

@@ -5,6 +5,7 @@ Actions=DolphinSU;
 [Desktop Action DolphinSU]
 ServiceTypes=inode/directory
 Name=Open as Root
+Name[el]=Άνοιγμα ως υπερχρήστης
 Name[x-test]=xxOpen as Rootxx
 Icon=dolphin
 Exec=kdesu -c 'dolphin %U'

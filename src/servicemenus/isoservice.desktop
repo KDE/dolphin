@@ -5,8 +5,10 @@ ServiceTypes=inode/blockdevice,application/x-iso
 
 [Desktop Action OpenISO]
 Comment=ISO9660 View
+Comment[el]=Προβολή ISO9660
 Comment[x-test]=xxISO9660 Viewxx
 Icon=cd
 Name=ISO9660 View
+Name[el]=Προβολή ISO9660
 Name[x-test]=xxISO9660 Viewxx
 Exec=
