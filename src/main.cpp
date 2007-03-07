@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 {
     KAboutData about("dolphin",
                      I18N_NOOP("Dolphin"),
-                     "0.8.0",
+                     "0.9.0",
                      I18N_NOOP("File Manager"),
                      KAboutData::License_GPL,
                      "(C) 2006 Peter Penz");
