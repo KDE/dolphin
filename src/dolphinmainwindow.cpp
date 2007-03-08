@@ -154,12 +154,12 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
 
         QString seq = QKeySequence(Qt::ShiftModifier).toString();
         seq.chop(1); // chop superfluous '+'
-        QAction* moveAction = popup.addAction(KIcon("goto"),
+        QAction* moveAction = popup.addAction(KIcon("goto-page"),
                                               i18n("&Move Here") + '\t' + seq);
 
         seq = QKeySequence(Qt::ControlModifier).toString();
         seq.chop(1);
-        QAction* copyAction = popup.addAction(KIcon("editcopy"),
+        QAction* copyAction = popup.addAction(KIcon("edit-copy"),
                                               i18n("&Copy Here") + '\t' + seq);
 
         seq = QKeySequence(Qt::ControlModifier + Qt::ShiftModifier).toString();
@@ -168,7 +168,7 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
                                               i18n("&Link Here") + '\t' + seq);
 
         popup.addSeparator();
-        popup.addAction(KIcon("stop"), i18n("Cancel"));
+        popup.addAction(KIcon("process-stop"), i18n("Cancel"));
 
         QAction* activatedAction = popup.exec(QCursor::pos());
         if (activatedAction == moveAction) {
@@ -438,7 +438,7 @@ void DolphinMainWindow::deleteItems()
     const bool del = KMessageBox::warningContinueCancel(this,
                                                         text,
                                                         QString(),
-                                                        KGuiItem(i18n("Delete"), KIcon("editdelete"))
+                                                        KGuiItem(i18n("Delete"), KIcon("edit-delete"))
                                                        ) == KMessageBox::Continue;
     if (del) {
         KIO::Job* job = KIO::del(list);
@@ -919,11 +919,11 @@ void DolphinMainWindow::init()
     assert(manager != 0);
     KBookmarkGroup root = manager->root();
     if (root.first().isNull()) {
-        root.addBookmark(manager, i18n("Home"), settings.generalSettings()->homeUrl(), "folder_home");
+        root.addBookmark(manager, i18n("Home"), settings.generalSettings()->homeUrl(), "user-home");
         root.addBookmark(manager, i18n("Storage Media"), KUrl("media:/"), "blockdevice");
-        root.addBookmark(manager, i18n("Network"), KUrl("remote:/"), "network_local");
+        root.addBookmark(manager, i18n("Network"), KUrl("remote:/"), "network-workgroup");
         root.addBookmark(manager, i18n("Root"), KUrl("/"), "folder_red");
-        root.addBookmark(manager, i18n("Trash"), KUrl("trash:/"), "trashcan_full");
+        root.addBookmark(manager, i18n("Trash"), KUrl("trash:/"), "user-trash-full");
     }
 
     setupActions();
@@ -998,12 +998,12 @@ void DolphinMainWindow::setupActions()
     m_newMenu = new DolphinNewMenu(this);
     KMenu* menu = m_newMenu->menu();
     menu->setTitle(i18n("Create New..."));
-    menu->setIcon(SmallIcon("filenew"));
+    menu->setIcon(SmallIcon("document-new"));
     connect(menu, SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
 
     QAction* newWindow = actionCollection()->addAction("new_window");
-    newWindow->setIcon(KIcon("window_new"));
+    newWindow->setIcon(KIcon("window-new"));
     newWindow->setText(i18n("New &Window"));
     newWindow->setShortcut(Qt::CTRL | Qt::Key_N);
     connect(newWindow, SIGNAL(triggered()), this, SLOT(openNewMainWindow()));
@@ -1015,14 +1015,14 @@ void DolphinMainWindow::setupActions()
 
     QAction* moveToTrash = actionCollection()->addAction("move_to_trash");
     moveToTrash->setText(i18n("Move to Trash"));
-    moveToTrash->setIcon(KIcon("edittrash"));
+    moveToTrash->setIcon(KIcon("edit-trash"));
     moveToTrash->setShortcut(QKeySequence::Delete);
     connect(moveToTrash, SIGNAL(triggered()), this, SLOT(moveToTrash()));
 
     QAction* deleteAction = actionCollection()->addAction("delete");
     deleteAction->setText(i18n("Delete"));
     deleteAction->setShortcut(Qt::SHIFT | Qt::Key_Delete);
-    deleteAction->setIcon(KIcon("editdelete"));
+    deleteAction->setIcon(KIcon("edit-delete"));
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteItems()));
 
     QAction* properties = actionCollection()->addAction("properties");
@@ -1069,7 +1069,7 @@ void DolphinMainWindow::setupActions()
     KToggleAction* detailsView = actionCollection()->add<KToggleAction>("details");
     detailsView->setText(i18n("Details"));
     detailsView->setShortcut(Qt::CTRL | Qt::Key_2);
-    detailsView->setIcon(KIcon("view_text"));
+    detailsView->setIcon(KIcon("fileview-text"));
     connect(detailsView, SIGNAL(triggered()), this, SLOT(setDetailsView()));
 
     QActionGroup* viewModeGroup = new QActionGroup(this);
@@ -1130,12 +1130,12 @@ void DolphinMainWindow::setupActions()
     QAction* reload = actionCollection()->addAction("reload");
     reload->setText(i18n("Reload"));
     reload->setShortcut(Qt::Key_F5);
-    reload->setIcon(KIcon("reload"));
+    reload->setIcon(KIcon("view-refresh"));
     connect(reload, SIGNAL(triggered()), this, SLOT(reloadView()));
 
     QAction* stop = actionCollection()->addAction("stop");
     stop->setText(i18n("Stop"));
-    stop->setIcon(KIcon("stop"));
+    stop->setIcon(KIcon("process-stop"));
     connect(stop, SIGNAL(triggered()), this, SLOT(stopLoading()));
 
     // TODO: the URL navigator must emit a signal if the editable state has been
@@ -1171,7 +1171,7 @@ void DolphinMainWindow::setupActions()
     QAction* findFile = actionCollection()->addAction("find_file");
     findFile->setText(i18n("Find File..."));
     findFile->setShortcut(Qt::Key_F);
-    findFile->setIcon(KIcon("filefind"));
+    findFile->setIcon(KIcon("file-find"));
     connect(findFile, SIGNAL(triggered()), this, SLOT(findFile()));
 
     KToggleAction* showFilterBar = actionCollection()->add<KToggleAction>("show_filter_bar");

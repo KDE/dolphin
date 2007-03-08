@@ -110,12 +110,12 @@ void BookmarksSidebarPage::slotContextMenuRequested(Q3ListBoxItem* item,
 
     Q3PopupMenu* popup = new Q3PopupMenu();
     if (item == 0) {
-        popup->insertItem(SmallIcon("filenew"), i18n("Add Bookmark..."), addID);
+        popup->insertItem(SmallIcon("document-new"), i18n("Add Bookmark..."), addID);
     }
     else {
-        popup->insertItem(SmallIcon("filenew"), i18n("Insert Bookmark..."), insertID);
+        popup->insertItem(SmallIcon("document-new"), i18n("Insert Bookmark..."), insertID);
         popup->insertItem(SmallIcon("edit"), i18n("Edit..."), editID);
-        popup->insertItem(SmallIcon("editdelete"), i18n("Delete"), deleteID);
+        popup->insertItem(SmallIcon("edit-delete"), i18n("Delete"), deleteID);
     }
 
     KBookmarkManager* manager = DolphinSettings::instance().bookmarkManager();

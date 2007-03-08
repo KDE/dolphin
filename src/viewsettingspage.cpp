@@ -53,7 +53,7 @@ ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
 
     // initialize 'Details' tab
     m_detailsPage = new DetailsViewSettingsPage(mainWindow, tabWidget);
-    tabWidget->addTab(m_detailsPage, SmallIcon("view_text"), i18n("Details"));
+    tabWidget->addTab(m_detailsPage, SmallIcon("fileview-text"), i18n("Details"));
 
     topLayout->addWidget(tabWidget, 0, 0 );
 }

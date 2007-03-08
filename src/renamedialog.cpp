@@ -35,7 +35,7 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
     setButtons(Ok|Cancel);
     setDefaultButton(Ok);
 
-    setButtonGuiItem(Ok, KGuiItem(i18n("Rename"), "apply"));
+    setButtonGuiItem(Ok, KGuiItem(i18n("Rename"), "dialog-apply"));
 
     QWidget *page = new QWidget(this);
     setMainWidget(page);

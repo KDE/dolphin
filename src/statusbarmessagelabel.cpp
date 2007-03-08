@@ -93,7 +93,7 @@ void StatusBarMessageLabel::setMessage(const QString& text,
             break;
 
         case DolphinStatusBar::Information:
-            iconName = "info";
+            iconName = "document-properties";
             m_closeButton->hide();
             break;
 

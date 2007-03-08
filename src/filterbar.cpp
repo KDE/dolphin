@@ -54,7 +54,7 @@ FilterBar::FilterBar(QWidget* parent) :
 
     m_close = new QToolButton(this);
     m_close->setAutoRaise(true);
-    m_close->setIcon(QIcon(SmallIcon("fileclose")));
+    m_close->setIcon(QIcon(SmallIcon("window-close")));
     hLayout->addWidget(m_close);
     hLayout->addSpacing(gap);
 
