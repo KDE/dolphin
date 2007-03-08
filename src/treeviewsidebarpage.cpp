@@ -124,7 +124,7 @@ void TreeViewSidebarPage::updateSelection(const KUrl& url)
                 this, SLOT(expandSelectionParent()));
 
         KUrl parentUrl = url.upUrl();
-        while (parentUrl != baseUrl) {
+        while (!parentUrl.isParentOf(baseUrl)) {
             m_dirLister->openUrl(parentUrl, true, false);
             parentUrl = parentUrl.upUrl();
         }
