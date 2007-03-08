@@ -516,6 +516,12 @@ private:
      */
     QAbstractItemView* itemView() const;
 
+    /**
+     * Returns true if the index is valid and represents
+     * the column KDirModel::Name.
+     */
+    bool isValidNameIndex(const QModelIndex& index) const;
+
 private:
     bool m_showProgress;
     Mode m_mode;

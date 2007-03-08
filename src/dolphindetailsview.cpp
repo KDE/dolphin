@@ -42,6 +42,9 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     setRootIsDecorated(false);
     setSortingEnabled(true);
     setUniformRowHeights(true);
+    setSelectionBehavior(SelectItems);
+
+    viewport()->setAttribute(Qt::WA_Hover);
 
     const ViewProperties props(controller->url());
     setSortIndicatorSection(props.sorting());

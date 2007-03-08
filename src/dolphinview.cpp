@@ -622,6 +622,10 @@ void DolphinView::loadDirectory(const KUrl& url)
 
 void DolphinView::triggerItem(const QModelIndex& index)
 {
+    if (!isValidNameIndex(index)) {
+        return;
+    }
+
     const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
     if ((modifier & Qt::ShiftModifier) || (modifier & Qt::ControlModifier)) {
         // items are selected by the user, hence don't trigger the
@@ -893,7 +897,7 @@ void DolphinView::openContextMenu(const QPoint& pos)
     KFileItem* item = 0;
 
     const QModelIndex index = itemView()->indexAt(pos);
-    if (index.isValid()) {
+    if (isValidNameIndex(index)) {
         item = fileItem(index);
     }
 
@@ -906,7 +910,7 @@ void DolphinView::dropUrls(const KUrl::List& urls,
 {
     KFileItem* directory = 0;
     const QModelIndex index = itemView()->indexAt(pos);
-    if (index.isValid()) {
+    if (isValidNameIndex(index)) {
         KFileItem* item = fileItem(index);
         assert(item != 0);
         if (item->isDir()) {
@@ -1019,6 +1023,11 @@ QAbstractItemView* DolphinView::itemView() const
         return m_detailsView;
     }
     return m_iconsView;
+}
+
+bool DolphinView::isValidNameIndex(const QModelIndex& index) const
+{
+    return index.isValid() && (index.column() == KDirModel::Name);
 }
 
 #include "dolphinview.moc"
