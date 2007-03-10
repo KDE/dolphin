@@ -55,7 +55,7 @@ QString MetadataLoader::getAnnotation(const KUrl& file)
 {
 #ifdef HAVE_KMETADATA
     if(m_up)
-        return Nepomuk::KMetaData::File(file.url()).getAnnotation();
+        return Nepomuk::KMetaData::File(file.url()).getComment();
     else
 #endif
         return QString();
@@ -65,7 +65,7 @@ void MetadataLoader::setAnnotation(const KUrl& file, const QString& annotation)
 {
 #ifdef HAVE_KMETADATA
     if(m_up)
-        Nepomuk::KMetaData::File(file.url()).setAnnotation(annotation);
+        Nepomuk::KMetaData::File(file.url()).setComment(annotation);
 #endif
 }
 
