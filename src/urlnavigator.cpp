@@ -246,6 +246,14 @@ void UrlNavigator::dropUrls(const KUrl::List& urls,
 void UrlNavigator::setUrl(const KUrl& url)
 {
     QString urlStr(url.pathOrUrl());
+
+    // TODO: a patch has been submitted by Filip Brcic which adjusts
+    // the URL for tar and zip files. See https://bugs.kde.org/show_bug.cgi?id=142781
+    // for details. The URL navigator part of the patch has not been committed yet,
+    // as the URL navigator will be subject of change and
+    // we might think of a more generic approach to check the protocol + MIME type for
+    // this use case.
+
     //kDebug() << "setUrl(" << url << ")" << endl;
     if ( urlStr.length() > 0 && urlStr.at(0) == '~') {
         // replace '~' by the home directory

@@ -638,32 +638,41 @@ void DolphinView::triggerItem(const QModelIndex& index)
         return;
     }
 
-    if (item->isDir()) {
-        // Prefer the local path over the URL. This assures that the
-        // volume space information is correct. Assuming that the URL is media:/sda1,
-        // and the local path is /windows/C: For the URL the space info is related
-        // to the root partition (and hence wrong) and for the local path the space
-        // info is related to the windows partition (-> correct).
-        const QString localPath(item->localPath());
-        if (localPath.isEmpty()) {
-            setUrl(item->url());
-        }
-        else {
-            setUrl(KUrl(localPath));
-        }
+    // Prefer the local path over the URL. This assures that the
+    // volume space information is correct. Assuming that the URL is media:/sda1,
+    // and the local path is /windows/C: For the URL the space info is related
+    // to the root partition (and hence wrong) and for the local path the space
+    // info is related to the windows partition (-> correct).
+    const QString localPath(item->localPath());
+    KUrl url;
+    if (localPath.isEmpty()) {
+        url = item->url();
     }
-    else if (item->isFile() && item->mimeTypePtr()->is("application/x-zip")) {
-        // allow to browse through ZIP files
-        const QString localPath(item->localPath());
-        KUrl url;
-        if (localPath.isEmpty()) {
-            url = item->url();
+    else {
+        url = localPath;
+    }
+
+    if (item->isDir()) {
+        setUrl(url);
+    }
+    else if (item->isFile()) {
+        // allow to browse through ZIP and tar files
+        KMimeType::Ptr mime = item->mimeTypePtr();
+        if (mime->is("application/x-zip")) {
+            url.setProtocol("zip");
+            setUrl(url);
+        }
+        else if (mime->is("application/x-tar") ||
+                 mime->is("application/x-tarz") ||
+                 mime->is("application/x-tbz") ||
+                 mime->is("application/x-tgz") ||
+                 mime->is("application/x-tzo")) {
+            url.setProtocol("tar");
+            setUrl(url);
         }
         else {
-            url = localPath;
+            item->run();
         }
-        url.setProtocol("zip");
-        setUrl(url);
     }
     else {
         item->run();
