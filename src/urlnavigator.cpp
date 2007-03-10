@@ -91,7 +91,7 @@ UrlNavigator::UrlNavigator(const KUrl& url,
     m_toggleButton = new QToolButton();
     m_toggleButton->setCheckable(true);
     m_toggleButton->setAutoRaise(true);
-    m_toggleButton->setIcon(KIcon("locationbar_erase")); // TODO: is just a placeholder icon
+    m_toggleButton->setIcon(KIcon("editinput")); // TODO: is just a placeholder icon (?)
     m_toggleButton->setFocusPolicy(Qt::NoFocus);
     m_toggleButton->setMinimumHeight(minimumHeight());
     connect(m_toggleButton, SIGNAL(clicked()),

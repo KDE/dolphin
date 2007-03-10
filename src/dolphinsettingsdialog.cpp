@@ -44,7 +44,7 @@ DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
 
     m_viewSettingsPage = new ViewSettingsPage(mainWindow, this);
     KPageWidgetItem* viewSettingsFrame = addPage(m_viewSettingsPage, i18n("View Modes"));
-    viewSettingsFrame->setIcon(KIcon("view_choose"));
+    viewSettingsFrame->setIcon(KIcon("view-choose"));
 
     m_bookmarksSettingsPage = new BookmarksSettingsPage(mainWindow, this);
     KPageWidgetItem* bookmarksSettingsFrame = addPage(m_bookmarksSettingsPage, i18n("Bookmarks"));

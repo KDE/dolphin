@@ -919,11 +919,11 @@ void DolphinMainWindow::init()
     assert(manager != 0);
     KBookmarkGroup root = manager->root();
     if (root.first().isNull()) {
-        root.addBookmark(manager, i18n("Home"), settings.generalSettings()->homeUrl(), "user-home");
-        root.addBookmark(manager, i18n("Storage Media"), KUrl("media:/"), "blockdevice");
-        root.addBookmark(manager, i18n("Network"), KUrl("remote:/"), "network-workgroup");
-        root.addBookmark(manager, i18n("Root"), KUrl("/"), "folder_red");
-        root.addBookmark(manager, i18n("Trash"), KUrl("trash:/"), "user-trash-full");
+        root.addBookmark(manager, i18n("Home"), settings.generalSettings()->homeUrl(), "folder-home");
+        root.addBookmark(manager, i18n("Storage Media"), KUrl("media:/"), "hdd-mount");
+        root.addBookmark(manager, i18n("Network"), KUrl("remote:/"), "network-local");
+        root.addBookmark(manager, i18n("Root"), KUrl("/"), "folder-red");
+        root.addBookmark(manager, i18n("Trash"), KUrl("trash:/"), "user-trash");
     }
 
     setupActions();
@@ -1063,7 +1063,7 @@ void DolphinMainWindow::setupActions()
     KToggleAction* iconsView = actionCollection()->add<KToggleAction>("icons");
     iconsView->setText(i18n("Icons"));
     iconsView->setShortcut(Qt::CTRL | Qt::Key_1);
-    iconsView->setIcon(KIcon("view_icon"));
+    iconsView->setIcon(KIcon("view-icon"));
     connect(iconsView, SIGNAL(triggered()), this, SLOT(setIconsView()));
 
     KToggleAction* detailsView = actionCollection()->add<KToggleAction>("details");
@@ -1113,7 +1113,8 @@ void DolphinMainWindow::setupActions()
     connect(sortDescending, SIGNAL(triggered()), this, SLOT(toggleSortOrder()));
 
     KToggleAction* showPreview = actionCollection()->add<KToggleAction>("show_preview");
-    showPreview->setText(i18n("Show Preview"));
+    showPreview->setText(i18n("Preview"));
+    showPreview->setIcon(KIcon("thumbnail-show"));
     connect(showPreview, SIGNAL(triggered()), this, SLOT(togglePreview()));
 
     KToggleAction* showHiddenFiles = actionCollection()->add<KToggleAction>("show_hidden_files");
@@ -1122,9 +1123,9 @@ void DolphinMainWindow::setupActions()
     connect(showHiddenFiles, SIGNAL(triggered()), this, SLOT(toggleShowHiddenFiles()));
 
     KToggleAction* split = actionCollection()->add<KToggleAction>("split_view");
-    split->setText(i18n("Split View"));
+    split->setText(i18n("Split"));
     split->setShortcut(Qt::Key_F10);
-    split->setIcon(KIcon("view_left_right"));
+    split->setIcon(KIcon("view-left-right"));
     connect(split, SIGNAL(triggered()), this, SLOT(toggleSplitView()));
 
     QAction* reload = actionCollection()->addAction("reload");

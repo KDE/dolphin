@@ -97,7 +97,7 @@ void DolphinContextMenu::openViewportContextMenu()
     popup->addMenu(viewModeMenu);
     popup->addSeparator();
 
-    QAction* bookmarkAction = popup->addAction(i18n("Bookmark this folder"));
+    QAction* bookmarkAction = popup->addAction(KIcon("bookmark-folder"), i18n("Bookmark this folder"));
     popup->addSeparator();
 
     QAction* propertiesAction = popup->addAction(i18n("Properties..."));
@@ -174,7 +174,7 @@ void DolphinContextMenu::openItemContextMenu()
     // urls contains only one item, i.e. no multiple selection made
     QAction* bookmarkAction = 0;
     if (m_fileInfo->isDir() && (urls.count() == 1)) {
-        bookmarkAction = popup->addAction(i18n("Bookmark this folder"));
+        bookmarkAction = popup->addAction(KIcon("bookmark-folder"), i18n("Bookmark this folder"));
     }
 
     // Insert 'Open With...' sub menu
