@@ -652,6 +652,19 @@ void DolphinView::triggerItem(const QModelIndex& index)
             setUrl(KUrl(localPath));
         }
     }
+    else if (item->isFile() && item->mimeTypePtr()->is("application/x-zip")) {
+        // allow to browse through ZIP files
+        const QString localPath(item->localPath());
+        KUrl url;
+        if (localPath.isEmpty()) {
+            url = item->url();
+        }
+        else {
+            url = localPath;
+        }
+        url.setProtocol("zip");
+        setUrl(url);
+    }
     else {
         item->run();
     }
