@@ -26,16 +26,11 @@
 #include <qtimer.h>
 #include <qpushbutton.h>
 
-#include <q3vgroupbox.h>
 #include <q3popupmenu.h>
 #include <qpainter.h>
 #include <qfontmetrics.h>
-#include <q3grid.h>
-#include <q3hgroupbox.h>
-//Added by qt3to4:
 #include <Q3ValueList>
 #include <QEvent>
-#include <Q3VBoxLayout>
 #include <QInputDialog>
 
 #include <kbookmarkmanager.h>
@@ -47,6 +42,7 @@
 #include <kglobalsettings.h>
 #include <kfilemetainfo.h>
 #include <kvbox.h>
+#include <kseparator.h>
 
 #include "dolphinmainwindow.h"
 #include "dolphinapplication.h"
@@ -86,15 +82,17 @@ InfoSidebarPage::InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent)
     m_name->setMinimumHeight(fontMetrics.height() * 3);
     m_name->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
 
-    QWidget* sep1 = new Q3HGroupBox(this);  // TODO: check whether default widget exist for this?
-    sep1->setFixedHeight(1);
+    KSeparator* sep1 = new KSeparator(this);
 
     // general information
     m_infos = new QLabel(this);
     m_infos->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     m_infos->setTextFormat(Qt::RichText);
 
+    KSeparator* sep2 = new KSeparator(this);
+
     // annotation
+    KSeparator* sep3 = 0;
     if (m_metadata->storageUp()) {
         m_annotationLabel = new QLabel(this);
         m_annotationLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -103,13 +101,8 @@ InfoSidebarPage::InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent)
         m_annotationButton = new QPushButton("", this);
         m_annotationButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         connect(m_annotationButton, SIGNAL(released()), this, SLOT(changeAnnotation()));
+        sep3 = new KSeparator(this);
     }
-
-    QWidget* sep2 = new Q3HGroupBox(this);  // TODO: check whether default widget exist for this?
-    sep2->setFixedHeight(1);
-
-    QWidget* sep3 = new Q3HGroupBox(this);  // TODO: check whether default widget exist for this?
-    sep3->setFixedHeight(1);
 
     // actions
     m_actionBox = new KVBox(this);
@@ -608,6 +601,7 @@ ServiceButton::~ServiceButton()
 
 void ServiceButton::paintEvent(QPaintEvent* event)
 {
+    Q_UNUSED(event);
     QPainter painter(this);
     const int buttonWidth  = width();
     const int buttonHeight = height();
