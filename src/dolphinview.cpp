@@ -23,6 +23,7 @@
 #include <assert.h>
 
 #include <QApplication>
+#include <QClipboard>
 #include <QDropEvent>
 #include <QItemSelectionModel>
 #include <QMouseEvent>
@@ -31,10 +32,12 @@
 #include <kdirmodel.h>
 #include <kfileitemdelegate.h>
 #include <klocale.h>
+#include <kiconeffect.h>
 #include <kio/netaccess.h>
 #include <kio/renamedialog.h>
 #include <kio/previewjob.h>
 #include <kmimetyperesolver.h>
+#include <konqmimedata.h>
 #include <konq_operations.h>
 #include <kurl.h>
 
@@ -110,6 +113,8 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
             this, SLOT(updateStatusBar()));
     connect(m_dirLister, SIGNAL(completed()),
             this, SLOT(updateItemCount()));
+    connect(m_dirLister, SIGNAL(completed()),
+            this, SLOT(updateCutItems()));
     connect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
             this, SLOT(generatePreviews(const KFileItemList&)));
     connect(m_dirLister, SIGNAL(infoMessage(const QString&)),
@@ -724,6 +729,11 @@ void DolphinView::generatePreviews(const KFileItemList& items)
         connect(job, SIGNAL(gotPreview(const KFileItem*, const QPixmap&)),
                 this, SLOT(showPreview(const KFileItem*, const QPixmap&)));
     }
+
+    const QMimeData* mimeData = QApplication::clipboard()->mimeData();
+    if (KonqMimeData::decodeIsCutSelection(mimeData)) {
+        QTimer::singleShot(1000, this, SLOT(applyCutEffect()));
+    }
 }
 
 void DolphinView::showPreview(const KFileItem* item, const QPixmap& pixmap)
@@ -731,7 +741,15 @@ void DolphinView::showPreview(const KFileItem* item, const QPixmap& pixmap)
     Q_ASSERT(item != 0);
     const QModelIndex idx = m_dirModel->indexForItem(*item);
     if (idx.isValid() && (idx.column() == 0)) {
-        m_dirModel->setData(idx, pixmap, Qt::DecorationRole);
+        const QMimeData* mimeData = QApplication::clipboard()->mimeData();
+        if (KonqMimeData::decodeIsCutSelection(mimeData) && isCutItem(*item)) {
+            KIconEffect iconEffect;
+            QPixmap cutPixmap = iconEffect.apply(pixmap, K3Icon::Desktop, K3Icon::DisabledState);
+            m_dirModel->setData(idx, cutPixmap, Qt::DecorationRole);
+        }
+        else {
+            m_dirModel->setData(idx, pixmap, Qt::DecorationRole);
+        }
     }
 }
 
@@ -887,6 +905,31 @@ void DolphinView::updateStatusBar()
 void DolphinView::requestActivation()
 {
     m_mainWindow->setActiveView(this);
+}
+
+void DolphinView::updateCutItems()
+{
+    const QMimeData* mimeData = QApplication::clipboard()->mimeData();
+    if (!KonqMimeData::decodeIsCutSelection(mimeData)) {
+        return;
+    }
+
+    KFileItemList items(m_dirLister->items());
+    KFileItemList::const_iterator it = items.begin();
+    const KFileItemList::const_iterator end = items.end();
+    while (it != end) {
+        KFileItem* item = *it;
+        if (isCutItem(*item)) {
+            QPixmap pixmap = item->pixmap(0);
+            KIconEffect iconEffect;
+            pixmap = iconEffect.apply(pixmap, K3Icon::Desktop, K3Icon::DisabledState);
+            const QModelIndex idx = m_dirModel->indexForItem(*item);
+            if (idx.isValid()) {
+                m_dirModel->setData(idx, pixmap, Qt::DecorationRole);
+            }
+        }
+        ++it;
+    }
 }
 
 void DolphinView::changeNameFilter(const QString& nameFilter)
@@ -1050,6 +1093,24 @@ QAbstractItemView* DolphinView::itemView() const
 bool DolphinView::isValidNameIndex(const QModelIndex& index) const
 {
     return index.isValid() && (index.column() == KDirModel::Name);
+}
+
+bool DolphinView::isCutItem(const KFileItem& item) const
+{
+    const QMimeData* mimeData = QApplication::clipboard()->mimeData();
+    const KUrl::List cutUrls = KUrl::List::fromMimeData(mimeData);
+
+    const KUrl& itemUrl = item.url();
+    KUrl::List::const_iterator it = cutUrls.begin();
+    const KUrl::List::const_iterator end = cutUrls.end();
+    while (it != end){
+        if (*it == itemUrl) {
+            return true;
+        }
+        ++it;
+    }
+
+    return false;
 }
 
 #include "dolphinview.moc"

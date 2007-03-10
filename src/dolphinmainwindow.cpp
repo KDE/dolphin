@@ -528,11 +528,32 @@ void DolphinMainWindow::undo()
 
 void DolphinMainWindow::cut()
 {
+    QClipboard* clipboard = QApplication::clipboard();
+    const QMimeData* currentMimeData = clipboard->mimeData();
+    const bool hadCutSelection = KonqMimeData::decodeIsCutSelection(currentMimeData);
+
     QMimeData* mimeData = new QMimeData();
     const KUrl::List kdeUrls = m_activeView->selectedUrls();
     const KUrl::List mostLocalUrls;
     KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, true);
     QApplication::clipboard()->setMimeData(mimeData);
+
+    if (hadCutSelection) {
+        // If an old cut selection has been applied, the view must
+        // be reloaded to get the original icons of the items without an
+        // applied item effect.
+        m_view[PrimaryIdx]->reload();
+        if (m_view[SecondaryIdx] != 0) {
+            m_view[SecondaryIdx]->reload();
+        }
+    }
+    else {
+        // apply an item effect for the icons of all cut items
+        m_view[PrimaryIdx]->updateCutItems();
+        if (m_view[SecondaryIdx] != 0) {
+            m_view[SecondaryIdx]->updateCutItems();
+        }
+    }
 }
 
 void DolphinMainWindow::copy()

@@ -346,6 +346,9 @@ public slots:
      */
     void requestActivation();
 
+    /** Applies an item effect to all cut items of the clipboard. */
+    void updateCutItems();
+
 signals:
     /** Is emitted if URL of the view has been changed to \a url. */
     void urlChanged(const KUrl& url);
@@ -521,6 +524,12 @@ private:
      * the column KDirModel::Name.
      */
     bool isValidNameIndex(const QModelIndex& index) const;
+
+    /**
+     * Returns true, if the item \a item has been cut into
+     * the clipboard.
+     */
+    bool isCutItem(const KFileItem& item) const;
 
 private:
     bool m_showProgress;
