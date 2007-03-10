@@ -595,13 +595,7 @@ void DolphinMainWindow::updatePasteAction()
     if (!urls.isEmpty()) {
         pasteAction->setEnabled(true);
 
-        const int count = urls.count();
-        if (count == 1) {
-            pasteAction->setText(i18n("Paste 1 File"));
-        }
-        else {
-            pasteAction->setText(i18n("Paste %1 Files", count));
-        }
+        pasteAction->setText(i18np("Paste One File", "Paste %1 Files", urls.count()));
     }
     else {
         pasteAction->setEnabled(false);
