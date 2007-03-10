@@ -42,6 +42,8 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
 
     connect(this, SIGNAL(clicked(const QModelIndex&)),
             controller, SLOT(triggerItem(const QModelIndex&)));
+    connect(this, SIGNAL(activated(const QModelIndex&)),
+            controller, SLOT(triggerItem(const QModelIndex&)));
     connect(controller, SIGNAL(showPreviewChanged(bool)),
             this, SLOT(updateGridSize(bool)));
     connect(controller, SIGNAL(zoomIn()),

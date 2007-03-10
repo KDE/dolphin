@@ -60,6 +60,8 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
 
     connect(this, SIGNAL(clicked(const QModelIndex&)),
             controller, SLOT(triggerItem(const QModelIndex&)));
+    connect(this, SIGNAL(activated(const QModelIndex&)),
+            controller, SLOT(triggerItem(const QModelIndex&)));
 
     connect(controller, SIGNAL(zoomIn()),
             this, SLOT(zoomIn()));
