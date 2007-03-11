@@ -14,78 +14,63 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef ICONSVIEWSETTINGSPAGE_H
-#define ICONSVIEWSETTINGSPAGE_H
+#ifndef ICONSIZEDIALOG_H
+#define ICONSIZEDIALOG_H
 
-#include <dolphiniconsview.h>
-#include <kvbox.h>
+#include <kdialog.h>
 
-class DolphinMainWindow;
 class QSlider;
-class QComboBox;
-class QCheckBox;
-class QPushButton;
-class QSpinBox;
-class QFontComboBox;
+class PixmapViewer;
 
 /**
- * @brief Tab page for the 'Icons Mode' and 'Previews Mode' settings
- * of the Dolphin settings dialog.
+ * @brief Allows to adjust the size for icons and previews.
  *
- * Allows to set:
- * - icon size
- * - preview size
- * - text width
- * - grid spacing
- * - font family
- * - font size
- * - number of text lines
- * - arrangement
- *
- * @see DolphinIconsViewSettings
+ * Default usage:
+ * \code
+ *  IconSizeDialog dialog(this);
+ *  if (dialog.exec() == QDialog::Accepted) {
+ *      const int iconSize = dialog.iconSize();
+ *      const int previewSize = dialog.previewSize();
+ *      // ...
+ *  }
+ * \endcode
  */
-class IconsViewSettingsPage : public KVBox
+class IconSizeDialog : public KDialog
 {
     Q_OBJECT
 
 public:
-    IconsViewSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
-    virtual ~IconsViewSettingsPage();
+    explicit IconSizeDialog(QWidget* parent);
+    virtual ~IconSizeDialog();
 
-    /**
-     * Applies the settings for the icons view.
-     * The settings are persisted automatically when
-     * closing Dolphin.
-     */
-    void applySettings();
+    int iconSize() const { return m_iconSize; }
+    int previewSize() const { return m_previewSize; }
+
+protected slots:
+    virtual void slotButtonClicked(int button);
 
 private slots:
-    void openIconSizeDialog();
+    void updateIconSize(int value);
+    void updatePreviewSize(int value);
 
 private:
-    /**
-     * Adjusts the selection of the text width combo box dependant
-     * from the grid width and grid height settings.
-     */
-    void adjustTextWidthSelection();
+    /** Returns the icon size for the given slider value. */
+    int iconSize(int sliderValue) const;
+
+    /** Returns the slider value for the given icon size. */
+    int sliderValue(int iconSize) const;
 
 private:
-    DolphinMainWindow* m_mainWindow;
     int m_iconSize;
     int m_previewSize;
 
-    QPushButton* m_iconSizeButton;
-    QComboBox* m_textWidthBox;
-    QFontComboBox* m_fontFamilyBox;
-    QSpinBox* m_fontSizeBox;
-    QSpinBox* m_textlinesCountBox;
-    QComboBox* m_additionalInfo;
-
-    QComboBox* m_arrangementBox;
-    QComboBox* m_gridSpacingBox;
+    QSlider* m_iconSizeSlider;
+    PixmapViewer* m_iconSizeViewer;
+    QSlider* m_previewSizeSlider;
+    PixmapViewer* m_previewSizeViewer;
 };
 
 #endif

@@ -29,6 +29,7 @@ set(dolphin_SRCS
    filterbar.cpp
    generalsettingspage.cpp
    generalviewsettingspage.cpp
+   iconsizedialog.cpp
    iconsviewsettingspage.cpp
    infosidebarpage.cpp
    main.cpp

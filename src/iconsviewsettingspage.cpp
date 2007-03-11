@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,11 +18,12 @@
  ***************************************************************************/
 
 #include "iconsviewsettingspage.h"
-#include "dolphin_iconsmodesettings.h"
+
 #include "dolphinsettings.h"
+#include "iconsizedialog.h"
 #include "pixmapviewer.h"
 
-#include <assert.h>
+#include "dolphin_iconsmodesettings.h"
 
 #include <qlabel.h>
 #include <qslider.h>
@@ -38,6 +38,7 @@
 #include <klocale.h>
 #include <kvbox.h>
 
+#include <QPushButton>
 #include <QListView>
 
 #define GRID_SPACING_BASE 8
@@ -47,8 +48,9 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
                                              QWidget* parent) :
     KVBox(parent),
     m_mainWindow(mainWindow),
-    m_iconSizeSlider(0),
-    m_previewSizeSlider(0),
+    m_iconSize(0),
+    m_previewSize(0),
+    m_iconSizeButton(0),
     m_textWidthBox(0),
     m_fontFamilyBox(0),
     m_fontSizeBox(0),
@@ -65,56 +67,17 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     setMargin(margin);
 
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    assert(settings != 0);
+    Q_ASSERT(settings != 0);
+    m_iconSize = settings->iconSize();
+    m_previewSize = settings->previewSize();
 
     KHBox* sizesLayout = new KHBox(this);
     sizesLayout->setSpacing(spacing);
     sizesLayout->setSizePolicy(sizePolicy);
 
-    // create 'Icon Size' group including slider and preview
-    Q3GroupBox* iconSizeGroup = new Q3GroupBox(2, Qt::Vertical, i18n("Icon Size"), sizesLayout);
-    iconSizeGroup->setSizePolicy(sizePolicy);
-    iconSizeGroup->setMargin(margin);
-
-    const QColor iconBackgroundColor(KGlobalSettings::baseColor());
-
-    KHBox* iconSizeVBox = new KHBox(iconSizeGroup);
-    iconSizeVBox->setSpacing(spacing);
-    new QLabel(i18n("Small"), iconSizeVBox);
-    m_iconSizeSlider = new QSlider(0, 5, 1, 0,  Qt::Horizontal, iconSizeVBox);
-    m_iconSizeSlider->setValue(sliderValue(settings->iconSize()));
-    m_iconSizeSlider->setTickmarks(QSlider::TicksBelow);
-    connect(m_iconSizeSlider, SIGNAL(valueChanged(int)),
-            this, SLOT(slotIconSizeChanged(int)));
-    new QLabel(i18n("Large"), iconSizeVBox);
-
-    m_iconSizeViewer = new PixmapViewer(iconSizeGroup);
-    m_iconSizeViewer->setMinimumWidth(K3Icon::SizeEnormous);
-    m_iconSizeViewer->setFixedHeight(K3Icon::SizeEnormous);
-    m_iconSizeViewer->setEraseColor(iconBackgroundColor);
-    slotIconSizeChanged(m_iconSizeSlider->value());
-
-    // create 'Preview Size' group including slider and preview
-    Q3GroupBox* previewSizeGroup = new Q3GroupBox(2, Qt::Vertical, i18n("Preview Size"), sizesLayout);
-    previewSizeGroup->setSizePolicy(sizePolicy);
-    previewSizeGroup->setMargin(margin);
-
-    KHBox* previewSizeVBox = new KHBox(previewSizeGroup);
-    previewSizeVBox->setSpacing(spacing);
-    new QLabel(i18n("Small"), previewSizeVBox);
-    m_previewSizeSlider = new QSlider(0, 5, 1, 0,  Qt::Horizontal, previewSizeVBox);
-    m_previewSizeSlider->setValue(sliderValue(settings->previewSize()));
-    m_previewSizeSlider->setTickmarks(QSlider::TicksBelow);
-    connect(m_previewSizeSlider, SIGNAL(valueChanged(int)),
-            this, SLOT(slotPreviewSizeChanged(int)));
-    new QLabel(i18n("Large"), previewSizeVBox);
-
-    m_previewSizeViewer = new PixmapViewer(previewSizeGroup);
-    m_previewSizeViewer->setMinimumWidth(K3Icon::SizeEnormous);
-    m_previewSizeViewer->setFixedHeight(K3Icon::SizeEnormous);
-    m_previewSizeViewer->setEraseColor(iconBackgroundColor);
-
-    slotPreviewSizeChanged(m_previewSizeSlider->value());
+    m_iconSizeButton = new QPushButton(i18n("Change icon and preview size..."), this);
+    connect(m_iconSizeButton, SIGNAL(clicked()),
+            this, SLOT(openIconSizeDialog()));
 
     Q3GroupBox* textGroup = new Q3GroupBox(2, Qt::Horizontal, i18n("Text"), this);
     textGroup->setSizePolicy(sizePolicy);
@@ -180,17 +143,10 @@ IconsViewSettingsPage::~IconsViewSettingsPage()
 void IconsViewSettingsPage::applySettings()
 {
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    assert(settings != 0);
+    Q_ASSERT(settings != 0);
 
-    const int defaultSize = iconSize(m_iconSizeSlider->value());
-    settings->setIconSize(defaultSize);
-
-    int previewSize = iconSize(m_previewSizeSlider->value());
-    if (previewSize < defaultSize) {
-        // assure that the preview size is never smaller than the icon size
-        previewSize = defaultSize;
-    }
-    settings->setPreviewSize(previewSize);
+    settings->setIconSize(m_iconSize);
+    settings->setPreviewSize(m_previewSize);
 
     const int fontSize = m_fontSizeBox->value();
 
@@ -202,6 +158,7 @@ void IconsViewSettingsPage::applySettings()
 
     // TODO: this is just a very rough testing code to calculate the grid
     // width and height
+    const int defaultSize = settings->iconSize();
     int gridWidth = defaultSize;
     int gridHeight = defaultSize;
     const int textSizeIndex = m_textWidthBox->currentIndex();
@@ -226,65 +183,21 @@ void IconsViewSettingsPage::applySettings()
                              m_gridSpacingBox->currentIndex() * GRID_SPACING_INC);
 }
 
-void IconsViewSettingsPage::slotIconSizeChanged(int value)
+void IconsViewSettingsPage::openIconSizeDialog()
 {
-    KIconLoader iconLoader;
-    m_iconSizeViewer->setPixmap(iconLoader.loadIcon("folder", K3Icon::Desktop, iconSize(value)));
-
-    if (m_previewSizeSlider != 0) {
-        int previewSizeValue = m_previewSizeSlider->value();
-        if (previewSizeValue < value) {
-            // assure that the preview size is never smaller than the icon size
-            previewSizeValue = value;
-        }
-        slotPreviewSizeChanged(previewSizeValue);
+    IconSizeDialog dialog(this);
+    if (dialog.exec() == QDialog::Accepted) {
+        m_iconSize = dialog.iconSize();
+        m_previewSize = dialog.previewSize();
     }
 }
 
-void IconsViewSettingsPage::slotPreviewSizeChanged(int value)
-{
-    KIconLoader iconLoader;
-    const int iconSizeValue = m_iconSizeSlider->value();
-    if (value < iconSizeValue) {
-        // assure that the preview size is never smaller than the icon size
-        value = iconSizeValue;
-    }
-    m_previewSizeViewer->setPixmap(iconLoader.loadIcon("preview", K3Icon::Desktop, iconSize(value)));
-}
 
-int IconsViewSettingsPage::iconSize(int sliderValue) const
-{
-    int size = K3Icon::SizeMedium;
-    switch (sliderValue) {
-        case 0: size = K3Icon::SizeSmall; break;
-        case 1: size = K3Icon::SizeSmallMedium; break;
-        case 2: size = K3Icon::SizeMedium; break;
-        case 3: size = K3Icon::SizeLarge; break;
-        case 4: size = K3Icon::SizeHuge; break;
-        case 5: size = K3Icon::SizeEnormous; break;
-    }
-    return size;
-}
-
-int IconsViewSettingsPage::sliderValue(int iconSize) const
-{
-    int value = 0;
-    switch (iconSize) {
-        case K3Icon::SizeSmall: value = 0; break;
-        case K3Icon::SizeSmallMedium: value = 1; break;
-        case K3Icon::SizeMedium: value = 2; break;
-        case K3Icon::SizeLarge: value = 3; break;
-        case K3Icon::SizeHuge: value = 4; break;
-        case K3Icon::SizeEnormous: value = 5; break;
-        default: break;
-    }
-    return value;
-}
 
 void IconsViewSettingsPage::adjustTextWidthSelection()
 {
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    assert(settings != 0);
+    Q_ASSERT(settings != 0);
     //m_textWidthBox->setCurrentIndex(DolphinSettings::instance().textWidthHint());
 }
 
