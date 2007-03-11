@@ -163,6 +163,20 @@ Qt::SortOrder ViewProperties::sortOrder() const
     return static_cast<Qt::SortOrder>(m_node->sortOrder());
 }
 
+void ViewProperties::setAdditionalInfo(KFileItemDelegate::AdditionalInformation info)
+{
+    if (m_node->additionalInfo() != info) {
+        m_node->setAdditionalInfo(info);
+        updateTimeStamp();
+    }
+}
+
+KFileItemDelegate::AdditionalInformation ViewProperties::additionalInfo() const
+{
+    return static_cast<KFileItemDelegate::AdditionalInformation>(m_node->additionalInfo());
+}
+
+
 void ViewProperties::setDirProperties(const ViewProperties& props)
 {
     setViewMode(props.viewMode());
@@ -170,6 +184,7 @@ void ViewProperties::setDirProperties(const ViewProperties& props)
     setShowHiddenFiles(props.showHiddenFiles());
     setSorting(props.sorting());
     setSortOrder(props.sortOrder());
+    setAdditionalInfo(props.additionalInfo());
 }
 
 void ViewProperties::setAutoSaveEnabled(bool autoSave)

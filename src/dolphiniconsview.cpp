@@ -69,12 +69,6 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
         setFlow(QListView::TopToBottom);
         m_viewOptions.decorationPosition = QStyleOptionViewItem::Left;
     }
-
-    KFileItemDelegate* delegate = new KFileItemDelegate(parent);
-    const KFileItemDelegate::AdditionalInformation info =
-        static_cast<KFileItemDelegate::AdditionalInformation>(settings->additionalInfo());
-    delegate->setAdditionalInformation(info);
-    setItemDelegate(delegate);
 }
 
 DolphinIconsView::~DolphinIconsView()

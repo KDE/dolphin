@@ -53,6 +53,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_viewMode(0),
     m_sorting(0),
     m_sortOrder(0),
+    m_additionalInfo(0),
     m_showPreview(0),
     m_showHiddenFiles(0),
     m_applyToCurrentFolder(0),
@@ -102,6 +103,15 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     const int sortOrderIdx = (m_viewProps->sortOrder() == Qt::Ascending) ? 0 : 1;
     m_sortOrder->setCurrentIndex(sortOrderIdx);
 
+    QLabel* additionalInfoLabel = new QLabel(i18n("Additional information:"), propsBox);
+    m_additionalInfo = new QComboBox(propsBox);
+    m_additionalInfo->addItem(i18n("No Information"), KFileItemDelegate::NoInformation);
+    m_additionalInfo->addItem(i18n("MIME Type"), KFileItemDelegate::FriendlyMimeType);
+    m_additionalInfo->addItem(i18n("Size"), KFileItemDelegate::Size);
+    m_additionalInfo->addItem(i18n("Date"), KFileItemDelegate::ModificationTime);
+    const int addInfoIndex = m_additionalInfo->findData(m_viewProps->additionalInfo());
+    m_additionalInfo->setCurrentIndex(addInfoIndex);
+
     m_showPreview = new QCheckBox(i18n("Show preview"), propsBox);
     m_showPreview->setChecked(m_viewProps->showPreview());
 
@@ -116,8 +126,10 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     propsBoxLayout->addWidget(m_sorting, 1, 1);
     propsBoxLayout->addWidget(sortOrderLabel, 2, 0);
     propsBoxLayout->addWidget(m_sortOrder, 2, 1);
-    propsBoxLayout->addWidget(m_showPreview, 3, 0);
-    propsBoxLayout->addWidget(m_showHiddenFiles, 4, 0);
+    propsBoxLayout->addWidget(additionalInfoLabel, 3, 0);
+    propsBoxLayout->addWidget(m_additionalInfo, 3, 1);
+    propsBoxLayout->addWidget(m_showPreview, 4, 0);
+    propsBoxLayout->addWidget(m_showHiddenFiles, 5, 0);
 
     topLayout->addWidget(propsBox);
 
@@ -127,6 +139,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
             this, SLOT(slotSortingChanged(int)));
     connect(m_sortOrder, SIGNAL(activated(int)),
             this, SLOT(slotSortOrderChanged(int)));
+    connect(m_additionalInfo, SIGNAL(activated(int)),
+            this, SLOT(slotAdditionalInfoChanged(int)));
     connect(m_showPreview, SIGNAL(clicked()),
             this, SLOT(slotShowPreviewChanged()));
     connect(m_showHiddenFiles, SIGNAL(clicked()),
@@ -211,6 +225,19 @@ void ViewPropertiesDialog::slotSortOrderChanged(int index)
 {
     Qt::SortOrder sortOrder = (index == 0) ? Qt::Ascending : Qt::Descending;
     m_viewProps->setSortOrder(sortOrder);
+    m_isDirty = true;
+}
+
+void ViewPropertiesDialog::slotAdditionalInfoChanged(int index)
+{
+    KFileItemDelegate::AdditionalInformation info = KFileItemDelegate::NoInformation;
+    switch (index) {
+        case 1:  info = KFileItemDelegate::FriendlyMimeType; break;
+        case 2:  info = KFileItemDelegate::Size; break;
+        case 3:  info = KFileItemDelegate::ModificationTime; break;
+        default: break;
+    }
+    m_viewProps->setAdditionalInfo(info);
     m_isDirty = true;
 }
 

@@ -82,7 +82,6 @@ private:
     QFontComboBox* m_fontFamilyBox;
     QSpinBox* m_fontSizeBox;
     QSpinBox* m_textlinesCountBox;
-    QComboBox* m_additionalInfo;
 
     QComboBox* m_arrangementBox;
     QComboBox* m_gridSpacingBox;

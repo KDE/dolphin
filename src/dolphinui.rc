@@ -32,6 +32,13 @@
     <Separator/>
     <Action name="descending" />
    </Menu>
+   <Menu name="additional_info">
+    <text>Additional Information</text>
+    <Action name="clear_info" />
+    <Action name="show_mime_info" />
+    <Action name="show_size_info" />
+    <Action name="show_date_info" />
+   </Menu>
    <Action name="show_preview" />
    <Action name="show_hidden_files" />
    <Separator/>

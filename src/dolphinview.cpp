@@ -71,6 +71,7 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     m_controller(0),
     m_iconsView(0),
     m_detailsView(0),
+    m_fileItemDelegate(0),
     m_filterBar(0),
     m_statusBar(0),
     m_dirModel(0),
@@ -425,6 +426,22 @@ Qt::SortOrder DolphinView::sortOrder() const
     return m_proxyModel->sortOrder();
 }
 
+void DolphinView::setAdditionalInfo(KFileItemDelegate::AdditionalInformation info)
+{
+    ViewProperties props(m_urlNavigator->url());
+    props.setAdditionalInfo(info);
+
+    m_fileItemDelegate->setAdditionalInformation(info);
+
+    emit additionalInfoChanged(info);
+    reload();
+}
+
+KFileItemDelegate::AdditionalInformation DolphinView::additionalInfo() const
+{
+    return m_fileItemDelegate->additionalInformation();
+}
+
 void DolphinView::goBack()
 {
     m_urlNavigator->goBack();
@@ -611,6 +628,13 @@ void DolphinView::loadDirectory(const KUrl& url)
     if (sortOrder != m_proxyModel->sortOrder()) {
         m_proxyModel->setSortOrder(sortOrder);
         emit sortOrderChanged(sortOrder);
+    }
+
+    KFileItemDelegate::AdditionalInformation info = props.additionalInfo();
+    if (info != m_fileItemDelegate->additionalInformation()) {
+        m_fileItemDelegate->setAdditionalInformation(info);
+
+        emit additionalInfoChanged(info);
     }
 
     const bool showPreview = props.showPreview();
@@ -1045,6 +1069,7 @@ void DolphinView::createView()
         view->deleteLater();
         m_iconsView = 0;
         m_detailsView = 0;
+        m_fileItemDelegate = 0;
     }
 
     assert(m_iconsView == 0);
@@ -1062,6 +1087,10 @@ void DolphinView::createView()
             view = m_detailsView;
             break;
     }
+
+
+    m_fileItemDelegate = new KFileItemDelegate(view);
+    view->setItemDelegate(m_fileItemDelegate);
 
     view->setModel(m_proxyModel);
     view->setSelectionMode(QAbstractItemView::ExtendedSelection);

@@ -242,6 +242,21 @@ private slots:
     void toggleSortOrder();
 
     /**
+     * Clears any additional information for an item except for the
+     * name and the icon.
+     */
+    void clearInfo();
+
+    /** Shows the MIME type as additional information for the item. */
+    void showMimeInfo();
+
+    /** Shows the size as additional information for the item. */
+    void showSizeInfo();
+
+    /** Shows the date as additional information for the item. */
+    void showDateInfo();
+
+    /**
      * Switches between one and two views:
      * If one view is visible, it will get split into two views.
      * If already two views are visible, the nonactivated view gets closed.
@@ -330,6 +345,9 @@ private slots:
 
     /** Updates the state of the 'Sort Ascending/Descending' action. */
     void slotSortOrderChanged(Qt::SortOrder order);
+
+    /** Updates the state of the 'Additional Information' actions. */
+    void slotAdditionalInfoChanged(KFileItemDelegate::AdditionalInformation info);
 
     /** Updates the state of the 'Edit' menu actions. */
     void slotSelectionChanged();

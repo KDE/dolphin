@@ -303,6 +303,31 @@ void DolphinMainWindow::slotSortOrderChanged(Qt::SortOrder order)
     descending->setChecked(sortDescending);
 }
 
+void DolphinMainWindow::slotAdditionalInfoChanged(KFileItemDelegate::AdditionalInformation info)
+{
+    QAction* action = 0;
+    switch (info) {
+        case KFileItemDelegate::FriendlyMimeType:
+            action = actionCollection()->action("show_mime_info");
+            break;
+        case KFileItemDelegate::Size:
+            action = actionCollection()->action("show_size_info");
+            break;
+        case KFileItemDelegate::ModificationTime:
+            action = actionCollection()->action("show_date_info");
+            break;
+        case KFileItemDelegate::NoInformation:
+        default:
+            action = actionCollection()->action("clear_info");
+            break;
+    }
+
+    if (action != 0) {
+        KToggleAction* toggleAction = static_cast<KToggleAction*>(action);
+        toggleAction->setChecked(true);
+    }
+}
+
 void DolphinMainWindow::slotSelectionChanged()
 {
     updateEditActions();
@@ -702,6 +727,29 @@ void DolphinMainWindow::toggleSortOrder()
                                 Qt::Descending :
                                 Qt::Ascending;
     m_activeView->setSortOrder(order);
+}
+
+void DolphinMainWindow::clearInfo()
+{
+    m_activeView->setAdditionalInfo(KFileItemDelegate::NoInformation);
+}
+
+void DolphinMainWindow::showMimeInfo()
+{
+    clearStatusBar();
+    m_activeView->setAdditionalInfo(KFileItemDelegate::FriendlyMimeType);
+}
+
+void DolphinMainWindow::showSizeInfo()
+{
+    clearStatusBar();
+    m_activeView->setAdditionalInfo(KFileItemDelegate::Size);
+}
+
+void DolphinMainWindow::showDateInfo()
+{
+    clearStatusBar();
+    m_activeView->setAdditionalInfo(KFileItemDelegate::ModificationTime);
 }
 
 void DolphinMainWindow::toggleSplitView()
@@ -1127,6 +1175,28 @@ void DolphinMainWindow::setupActions()
     sortDescending->setText(i18n("Descending"));
     connect(sortDescending, SIGNAL(triggered()), this, SLOT(toggleSortOrder()));
 
+    KToggleAction* clearInfo = actionCollection()->add<KToggleAction>("clear_info");
+    clearInfo->setText(i18n("No Information"));
+    connect(clearInfo, SIGNAL(triggered()), this, SLOT(clearInfo()));
+
+    KToggleAction* showMimeInfo = actionCollection()->add<KToggleAction>("show_mime_info");
+    showMimeInfo->setText(i18n("MIME Type"));
+    connect(showMimeInfo, SIGNAL(triggered()), this, SLOT(showMimeInfo()));
+
+    KToggleAction* showSizeInfo = actionCollection()->add<KToggleAction>("show_size_info");
+    showSizeInfo->setText(i18n("Size"));
+    connect(showSizeInfo, SIGNAL(triggered()), this, SLOT(showSizeInfo()));
+
+    KToggleAction* showDateInfo = actionCollection()->add<KToggleAction>("show_date_info");
+    showDateInfo->setText(i18n("Date"));
+    connect(showDateInfo, SIGNAL(triggered()), this, SLOT(showDateInfo()));
+
+    QActionGroup* infoGroup = new QActionGroup(this);
+    infoGroup->addAction(clearInfo);
+    infoGroup->addAction(showMimeInfo);
+    infoGroup->addAction(showSizeInfo);
+    infoGroup->addAction(showDateInfo);
+
     KToggleAction* showPreview = actionCollection()->add<KToggleAction>("show_preview");
     showPreview->setText(i18n("Preview"));
     showPreview->setIcon(KIcon("thumbnail-show"));
@@ -1331,6 +1401,7 @@ void DolphinMainWindow::updateViewActions()
 
     slotSortingChanged(m_activeView->sorting());
     slotSortOrderChanged(m_activeView->sortOrder());
+    slotAdditionalInfoChanged(m_activeView->additionalInfo());
 
     KToggleAction* showFilterBarAction =
         static_cast<KToggleAction*>(actionCollection()->action("show_filter_bar"));
@@ -1395,6 +1466,8 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
             this, SLOT(slotSortingChanged(DolphinView::Sorting)));
     connect(view, SIGNAL(sortOrderChanged(Qt::SortOrder)),
             this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
+    connect(view, SIGNAL(additionalInfoChanged(KFileItemDelegate::AdditionalInformation)),
+            this, SLOT(slotAdditionalInfoChanged(KFileItemDelegate::AdditionalInformation)));
     connect(view, SIGNAL(selectionChanged()),
             this, SLOT(slotSelectionChanged()));
     connect(view, SIGNAL(showFilterBarChanged(bool)),

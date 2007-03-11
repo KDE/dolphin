@@ -2,7 +2,6 @@
 <!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
 <kcfg>
     <kcfgfile name="dolphinrc"/>
-    <include>kfileitemdelegate.h</include>
     <include>kglobalsettings.h</include>
     <include>kiconloader.h</include>
     <include>QListView</include>
@@ -45,10 +44,6 @@
         <entry name="PreviewSize" type="Int">
             <label>Preview size</label>
             <default code="true">K3Icon::SizeLarge</default>
-        </entry>
-        <entry name="AdditionalInfo" type="Int">
-            <label>Additional information</label>
-            <default code="true">KFileItemDelegate::FriendlyMimeType</default>
         </entry>
     </group>
 </kcfg>

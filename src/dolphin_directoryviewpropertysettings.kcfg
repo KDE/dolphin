@@ -3,6 +3,7 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+    <include>kfileitemdelegate.h</include>
 
 <kcfgfile arg="true" />
     <group name="Settings">
@@ -41,6 +42,11 @@
             <default code="true">Qt::Ascending</default>
             <min code="true">Qt::Ascending</min>
             <max code="true">Qt::Descending</max>
+        </entry>
+
+        <entry name="AdditionalInfo" type="Int">
+            <label>Additional information</label>
+            <default code="true">KFileItemDelegate::NoInformation</default>
         </entry>
 
         <entry name="Timestamp" type="DateTime" >

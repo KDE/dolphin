@@ -24,6 +24,7 @@
 
 #include <kparts/part.h>
 #include <kfileitem.h>
+#include <kfileitemdelegate.h>
 #include <kfileiconview.h>
 #include <kio/job.h>
 
@@ -38,6 +39,7 @@
 
 class DolphinController;
 class FilterBar;
+class KFileItemDelegate;
 class KUrl;
 class KDirModel;
 class UrlNavigator;
@@ -301,6 +303,12 @@ public:
     /** Returns the current used sort order (Qt::Ascending or Qt::Descending). */
     Qt::SortOrder sortOrder() const;
 
+    /** Sets the additional information which should be shown for the items. */
+    void setAdditionalInfo(KFileItemDelegate::AdditionalInformation info);
+
+    /** Returns the additional information which should be shown for the items. */
+    KFileItemDelegate::AdditionalInformation additionalInfo() const;
+
     /** Refreshs the view settings by reading out the stored settings. */
     void refreshSettings();
 
@@ -370,6 +378,9 @@ signals:
 
     /** Is emitted if the sort order (ascending or descending) has been changed. */
     void sortOrderChanged(Qt::SortOrder order);
+
+    /** Is emitted if the addtional information for an item has been changed. */
+    void additionalInfoChanged(KFileItemDelegate::AdditionalInformation info);
 
     /**
      * Is emitted if information of an item is requested to be shown e. g. in the sidebar.
@@ -546,6 +557,7 @@ private:
     DolphinController* m_controller;
     DolphinIconsView* m_iconsView;
     DolphinDetailsView* m_detailsView;
+    KFileItemDelegate* m_fileItemDelegate;
 
     FilterBar* m_filterBar;
     DolphinStatusBar* m_statusBar;

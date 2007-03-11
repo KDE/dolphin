@@ -77,9 +77,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     m_viewOptions = QTreeView::viewOptions();
     m_viewOptions.font = QFont(settings->fontFamily(), settings->fontSize());
     updateDecorationSize();
-
-    KFileItemDelegate* delegate = new KFileItemDelegate(parent);
-    setItemDelegate(delegate);
 }
 
 DolphinDetailsView::~DolphinDetailsView()
