@@ -80,7 +80,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
 
     QLabel* viewModeLabel = new QLabel(i18n("View mode:"), propsBox);
     m_viewMode = new QComboBox(propsBox);
-    m_viewMode->addItem(SmallIcon("view_icon"), i18n("Icons"));
+    m_viewMode->addItem(SmallIcon("view-icon"), i18n("Icons"));
     m_viewMode->addItem(SmallIcon("fileview-text"), i18n("Details"));
     const int index = static_cast<int>(m_viewProps->viewMode());
     m_viewMode->setCurrentIndex(index);
