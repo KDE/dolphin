@@ -303,6 +303,7 @@ void ViewPropertiesDialog::applyViewProperties()
     m_dolphinView->setMode(m_viewProps->viewMode());
     m_dolphinView->setSorting(m_viewProps->sorting());
     m_dolphinView->setSortOrder(m_viewProps->sortOrder());
+    m_dolphinView->setAdditionalInfo(m_viewProps->additionalInfo());
     m_dolphinView->setShowPreview(m_viewProps->showPreview());
     m_dolphinView->setShowHiddenFiles(m_viewProps->showHiddenFiles());
 
