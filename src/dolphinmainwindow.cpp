@@ -325,6 +325,10 @@ void DolphinMainWindow::slotAdditionalInfoChanged(KFileItemDelegate::AdditionalI
     if (action != 0) {
         KToggleAction* toggleAction = static_cast<KToggleAction*>(action);
         toggleAction->setChecked(true);
+
+        QActionGroup* group = toggleAction->actionGroup();
+        Q_ASSERT(group != 0);
+        group->setEnabled(m_activeView->mode() == DolphinView::IconsView);
     }
 }
 

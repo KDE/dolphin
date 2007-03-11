@@ -513,7 +513,7 @@ private:
     QString selectionStatusBarText() const;
 
     /**
-     * Creates a new view representing the given view mode (DolphinView::viewMode()).
+     * Creates a new view representing the given view mode (DolphinView::mode()).
      * The current view will get deleted.
      */
     void createView();

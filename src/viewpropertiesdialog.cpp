@@ -26,8 +26,6 @@
 #include "dolphin_generalsettings.h"
 #include "viewproperties.h"
 
-#include <assert.h>
-
 #include <kcomponentdata.h>
 #include <klocale.h>
 #include <kiconloader.h>
@@ -60,7 +58,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_applyToSubFolders(0),
     m_useAsDefault(0)
 {
-    assert(dolphinView != 0);
+    Q_ASSERT(dolphinView != 0);
     const bool useGlobalViewProps = DolphinSettings::instance().generalSettings()->globalViewProps();
 
     setCaption(i18n("View Properties"));
@@ -111,6 +109,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_additionalInfo->addItem(i18n("Date"), KFileItemDelegate::ModificationTime);
     const int addInfoIndex = m_additionalInfo->findData(m_viewProps->additionalInfo());
     m_additionalInfo->setCurrentIndex(addInfoIndex);
+    m_additionalInfo->setEnabled(m_viewProps->viewMode() == DolphinView::IconsView);
 
     m_showPreview = new QCheckBox(i18n("Show preview"), propsBox);
     m_showPreview->setChecked(m_viewProps->showPreview());
@@ -209,9 +208,11 @@ void ViewPropertiesDialog::slotApply()
 
 void ViewPropertiesDialog::slotViewModeChanged(int index)
 {
-    assert((index >= 0) && (index <= 2));
+    Q_ASSERT((index >= 0) && (index <= 1));
     m_viewProps->setViewMode(static_cast<DolphinView::Mode>(index));
     m_isDirty = true;
+
+    m_additionalInfo->setEnabled(m_viewProps->viewMode() == DolphinView::IconsView);
 }
 
 void ViewPropertiesDialog::slotSortingChanged(int index)
@@ -312,7 +313,7 @@ void ViewPropertiesDialog::applyViewProperties()
         // file stored for the global view properties is used as fallback. To update
         // this file we temporary turn on the global view properties mode.
         GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-        assert(!settings->globalViewProps());
+        Q_ASSERT(!settings->globalViewProps());
 
         settings->setGlobalViewProps(true);
         ViewProperties defaultProps(m_dolphinView->url());
