@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,12 +20,15 @@
 #ifndef SIDEBARTREEVIEW_H
 #define SIDEBARTREEVIEW_H
 
+#include <kurl.h>
 #include <QTreeView>
 
 class DolphinMainWindow;
 
 /**
- * @brief
+ * @brief Tree view widget which is used for the sidebar panel.
+ *
+ * @see TreeViewSidebarPage
  */
 class SidebarTreeView : public QTreeView
 {
@@ -35,6 +37,17 @@ class SidebarTreeView : public QTreeView
 public:
     explicit SidebarTreeView(DolphinMainWindow* mainWindow, QWidget* parent = 0);
     virtual ~SidebarTreeView();
+
+signals:
+   /**
+     * Is emitted if the URLs \a urls have been dropped.
+     * @param pos Position relative to the tree view where the
+     *            dropping has been done. It is recommended
+     *            to get the corresponding model index from
+     *            this position to find out the destination.
+     */
+    void urlsDropped(const KUrl::List& urls,
+                     const QPoint& pos);
 
 protected:
     virtual bool event(QEvent* event);

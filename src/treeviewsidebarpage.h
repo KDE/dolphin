@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -25,7 +25,6 @@
 
 class KDirLister;
 class KDirModel;
-class KUrl;
 
 class DolphinSortFilterProxyModel;
 class SidebarTreeView;
@@ -73,6 +72,12 @@ private slots:
      */
     void updateActiveView(const QModelIndex& index);
 
+    /**
+     * Is emitted if the URLs \a urls have been dropped
+     * to the position \a pos. */
+    void dropUrls(const KUrl::List& urls,
+                  const QPoint& pos);
+
 private:
     /**
      * Connects to signals from the currently active Dolphin view to get
@@ -88,4 +93,4 @@ private:
     KUrl m_selectedUrl;
 };
 
-#endif // BOOKMARKSSIDEBARPAGE_H
+#endif // TREEVIEWSIDEBARPAGE_H

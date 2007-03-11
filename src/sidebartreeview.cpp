@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -78,7 +77,7 @@ void SidebarTreeView::dropEvent(QDropEvent* event)
     }
     else {
         event->acceptProposedAction();
-        //m_controller->indicateDroppedUrls(urls, event->pos());
+        emit urlsDropped(urls, event->pos());
     }
 }
 
