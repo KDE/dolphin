@@ -9,5 +9,6 @@ DocPath=dolphin/dolphin.html
 Categories=System;FileManager;
 GenericName=File Manager
 GenericName[el]=Διαχειριστής αρχείων
+GenericName[ja]=ファイルマネージャ
 GenericName[x-test]=xxFile Managerxx
 Terminal=false
