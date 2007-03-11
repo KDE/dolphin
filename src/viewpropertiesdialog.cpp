@@ -104,7 +104,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     QLabel* additionalInfoLabel = new QLabel(i18n("Additional information:"), propsBox);
     m_additionalInfo = new QComboBox(propsBox);
     m_additionalInfo->addItem(i18n("No Information"), KFileItemDelegate::NoInformation);
-    m_additionalInfo->addItem(i18n("MIME Type"), KFileItemDelegate::FriendlyMimeType);
+    m_additionalInfo->addItem(i18n("Type"), KFileItemDelegate::FriendlyMimeType);
     m_additionalInfo->addItem(i18n("Size"), KFileItemDelegate::Size);
     m_additionalInfo->addItem(i18n("Date"), KFileItemDelegate::ModificationTime);
     const int addInfoIndex = m_additionalInfo->findData(m_viewProps->additionalInfo());

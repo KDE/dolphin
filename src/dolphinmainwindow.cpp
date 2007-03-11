@@ -1184,7 +1184,7 @@ void DolphinMainWindow::setupActions()
     connect(clearInfo, SIGNAL(triggered()), this, SLOT(clearInfo()));
 
     KToggleAction* showMimeInfo = actionCollection()->add<KToggleAction>("show_mime_info");
-    showMimeInfo->setText(i18n("MIME Type"));
+    showMimeInfo->setText(i18n("Type"));
     connect(showMimeInfo, SIGNAL(triggered()), this, SLOT(showMimeInfo()));
 
     KToggleAction* showSizeInfo = actionCollection()->add<KToggleAction>("show_size_info");
