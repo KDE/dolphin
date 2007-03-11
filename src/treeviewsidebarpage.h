@@ -74,9 +74,9 @@ private slots:
 
     /**
      * Is emitted if the URLs \a urls have been dropped
-     * to the position \a pos. */
+     * to the index \a index. */
     void dropUrls(const KUrl::List& urls,
-                  const QPoint& pos);
+                  const QModelIndex& index);
 
 private:
     /**

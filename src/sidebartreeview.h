@@ -40,14 +40,11 @@ public:
 
 signals:
    /**
-     * Is emitted if the URLs \a urls have been dropped.
-     * @param pos Position relative to the tree view where the
-     *            dropping has been done. It is recommended
-     *            to get the corresponding model index from
-     *            this position to find out the destination.
+     * Is emitted if the URLs \a urls have been dropped to
+     * the index \a index.
      */
     void urlsDropped(const KUrl::List& urls,
-                     const QPoint& pos);
+                     const QModelIndex& index);
 
 protected:
     virtual bool event(QEvent* event);

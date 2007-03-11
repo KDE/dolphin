@@ -449,12 +449,12 @@ private slots:
     void openContextMenu(const QPoint& pos);
 
     /**
-     * Drops the URLs \a urls at the position \a pos.
-     * The position is used to check whether the dropping
-     * is done above an item or above the viewport.
+     * Drops the URLs \a urls to the index \a index. \a source
+     * indicates the widget where the dragging has been started from.
      */
     void dropUrls(const KUrl::List& urls,
-                  const QPoint& pos);
+                  const QModelIndex& index,
+                  QWidget* source);
 
     /**
      * Drops the URLs \a urls at the

@@ -78,8 +78,8 @@ TreeViewSidebarPage::TreeViewSidebarPage(DolphinMainWindow* mainWindow,
 
     connect(m_treeView, SIGNAL(clicked(const QModelIndex&)),
             this, SLOT(updateActiveView(const QModelIndex&)));
-    connect(m_treeView, SIGNAL(urlsDropped(const KUrl::List&, const QPoint&)),
-            this, SLOT(dropUrls(const KUrl::List&, const QPoint&)));
+    connect(m_treeView, SIGNAL(urlsDropped(const KUrl::List&, const QModelIndex&)),
+            this, SLOT(dropUrls(const KUrl::List&, const QModelIndex&)));
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->addWidget(m_treeView);
@@ -202,9 +202,8 @@ void TreeViewSidebarPage::updateActiveView(const QModelIndex& index)
 }
 
 void TreeViewSidebarPage::dropUrls(const KUrl::List& urls,
-                                   const QPoint& pos)
+                                   const QModelIndex& index)
 {
-    const QModelIndex index = m_treeView->indexAt(pos);
     if (index.isValid()) {
 #if defined(USE_PROXY_MODEL)
         const QModelIndex& dirIndex = m_proxyModel->mapToSource(index);

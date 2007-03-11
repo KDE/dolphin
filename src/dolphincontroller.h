@@ -61,7 +61,8 @@ public:
     void triggerActivation();
 
     void indicateDroppedUrls(const KUrl::List& urls,
-                             const QPoint& pos);
+                             const QModelIndex& index,
+                             QWidget* source);
 
     void indicateSortingChange(DolphinView::Sorting sorting);
 
@@ -98,14 +99,13 @@ signals:
     void activated();
 
     /**
-     * Is emitted if the URLs \a urls have been dropped.
-     * @param pos Position relative to the view widget where the
-     *            dropping has been done. It is recommended
-     *            to get the corresponding model index from
-     *            this position to find out the destination.
+     * Is emitted if the URLs \a urls have been dropped to the index
+     * \a index. \a source indicates the widget where the dragging has
+     * been started from.
      */
     void urlsDropped(const KUrl::List& urls,
-                     const QPoint& pos);
+                     const QModelIndex& index,
+                     QWidget* source);
 
     /** Is emitted if the sorting has been changed to \a sorting. */
     void sortingChanged(DolphinView::Sorting sorting);

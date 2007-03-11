@@ -29,6 +29,7 @@
 #include <kfileitemdelegate.h>
 
 #include <QAbstractProxyModel>
+#include <QPoint>
 
 DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controller) :
     QListView(parent),
@@ -107,13 +108,13 @@ void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
 void DolphinIconsView::dropEvent(QDropEvent* event)
 {
     const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
-    if (urls.isEmpty() || (event->source() == this)) {
-        QListView::dropEvent(event);
-    }
-    else {
+    if (!urls.isEmpty()) {
+        m_controller->indicateDroppedUrls(urls,
+                                          indexAt(event->pos()),
+                                          event->source());
         event->acceptProposedAction();
-        m_controller->indicateDroppedUrls(urls, event->pos());
     }
+    QListView::dropEvent(event);
 }
 
 void DolphinIconsView::updateGridSize(bool showPreview)

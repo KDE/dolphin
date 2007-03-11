@@ -43,6 +43,8 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     setSortingEnabled(true);
     setUniformRowHeights(true);
     setSelectionBehavior(SelectItems);
+    setDragDropMode(QAbstractItemView::DragDrop);
+    setDropIndicatorShown(false);
 
     viewport()->setAttribute(Qt::WA_Hover);
 
@@ -145,13 +147,13 @@ void DolphinDetailsView::dragEnterEvent(QDragEnterEvent* event)
 void DolphinDetailsView::dropEvent(QDropEvent* event)
 {
     const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
-    if (urls.isEmpty() || (event->source() == this)) {
-        QTreeView::dropEvent(event);
-    }
-    else {
+    if (!urls.isEmpty()) {
         event->acceptProposedAction();
-        m_controller->indicateDroppedUrls(urls, event->pos());
+        m_controller->indicateDroppedUrls(urls,
+                                          indexAt(event->pos()),
+                                          event->source());
     }
+    QTreeView::dropEvent(event);
 }
 
 void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)

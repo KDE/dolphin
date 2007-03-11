@@ -77,7 +77,10 @@ void SidebarTreeView::dropEvent(QDropEvent* event)
     }
     else {
         event->acceptProposedAction();
-        emit urlsDropped(urls, event->pos());
+        const QModelIndex index = indexAt(event->pos());
+        if (index.isValid()) {
+            emit urlsDropped(urls, index);
+        }
     }
 }
 

@@ -132,8 +132,8 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     m_controller = new DolphinController(this);
     connect(m_controller, SIGNAL(requestContextMenu(const QPoint&)),
             this, SLOT(openContextMenu(const QPoint&)));
-    connect(m_controller, SIGNAL(urlsDropped(const KUrl::List&, const QPoint&)),
-            this, SLOT(dropUrls(const KUrl::List&, const QPoint&)));
+    connect(m_controller, SIGNAL(urlsDropped(const KUrl::List&, const QModelIndex&, QWidget*)),
+            this, SLOT(dropUrls(const KUrl::List&, const QModelIndex&, QWidget*)));
     connect(m_controller, SIGNAL(sortingChanged(DolphinView::Sorting)),
             this, SLOT(updateSorting(DolphinView::Sorting)));
     connect(m_controller, SIGNAL(sortOrderChanged(Qt::SortOrder)),
@@ -971,10 +971,10 @@ void DolphinView::openContextMenu(const QPoint& pos)
 }
 
 void DolphinView::dropUrls(const KUrl::List& urls,
-                           const QPoint& pos)
+                           const QModelIndex& index,
+                           QWidget* source)
 {
     KFileItem* directory = 0;
-    const QModelIndex index = itemView()->indexAt(pos);
     if (isValidNameIndex(index)) {
         KFileItem* item = fileItem(index);
         assert(item != 0);
@@ -984,8 +984,17 @@ void DolphinView::dropUrls(const KUrl::List& urls,
         }
     }
 
+    if ((directory == 0) && (source == itemView())) {
+        // The dropping is done into the same viewport where
+        // the dragging has been started. Just ignore this...
+        return;
+    }
+
     const KUrl& destination = (directory == 0) ? url() :
                                                  directory->url();
+
+    kDebug() << "DolphinView::dropUrls() - destination: " << destination.prettyUrl() << endl;
+
     dropUrls(urls, destination);
 }
 
