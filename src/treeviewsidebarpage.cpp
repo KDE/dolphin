@@ -21,21 +21,30 @@
 
 #include "bookmarkselector.h"
 #include "dolphinmainwindow.h"
+#include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
+#include "sidebartreeview.h"
 
-#include "kdirlister.h"
-#include "kdirmodel.h"
+#include <kdirlister.h>
+#include <kdirmodel.h>
+#include <kfileitem.h>
 
 #include <QHeaderView>
 #include <QItemSelectionModel>
 #include <QTreeView>
 #include <QVBoxLayout>
 
+// TODO: currently when using a proxy model the strange effect occurs
+// that items get duplicated. Activate the following define to have the proxy
+// model:
+//#define USE_PROXY_MODEL
+
 TreeViewSidebarPage::TreeViewSidebarPage(DolphinMainWindow* mainWindow,
                                          QWidget* parent) :
     SidebarPage(mainWindow, parent),
     m_dirLister(0),
     m_dirModel(0),
+    m_proxyModel(0),
     m_treeView(0),
     m_selectedUrl()
 {
@@ -50,19 +59,22 @@ TreeViewSidebarPage::TreeViewSidebarPage(DolphinMainWindow* mainWindow,
 
     m_dirModel = new KDirModel();
     m_dirModel->setDirLister(m_dirLister);
+    m_dirModel->setDropsAllowed(KDirModel::DropOnDirectory);
 
-    m_treeView = new QTreeView(this);
+
+#if defined(USE_PROXY_MODEL)
+    m_proxyModel = new DolphinSortFilterProxyModel(this);
+    m_proxyModel->setSourceModel(m_dirModel);
+
+    m_treeView = new SidebarTreeView(mainWindow, this);
+    m_treeView->setModel(m_proxyModel);
+
+    m_proxyModel->setSorting(DolphinView::SortByName);
+    m_proxyModel->setSortOrder(Qt::Ascending);
+#else
+    m_treeView = new SidebarTreeView(mainWindow, this);
     m_treeView->setModel(m_dirModel);
-    m_treeView->setSelectionMode(QAbstractItemView::SingleSelection);
-    m_treeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
-    // hide all columns except of the 'Name' column
-    m_treeView->hideColumn(KDirModel::Size);
-    m_treeView->hideColumn(KDirModel::ModifiedTime);
-    m_treeView->hideColumn(KDirModel::Permissions);
-    m_treeView->hideColumn(KDirModel::Owner);
-    m_treeView->hideColumn(KDirModel::Group);
-    m_treeView->header()->hide();
+#endif
 
     connect(m_treeView, SIGNAL(clicked(const QModelIndex&)),
             this, SLOT(updateActiveView(const QModelIndex&)));
@@ -110,11 +122,18 @@ void TreeViewSidebarPage::updateSelection(const KUrl& url)
     selModel->clearSelection();
 
     const KFileItem item(S_IFDIR, KFileItem::Unknown, url);
+
     const QModelIndex index = m_dirModel->indexForItem(item);
     if (index.isValid()) {
+#if defined(USE_PROXY_MODEL)
         // the item with the given URL is already part of the model
+        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(index);
+        m_treeView->scrollTo(proxyIndex);
+        selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
+#else
         m_treeView->scrollTo(index);
         selModel->setCurrentIndex(index, QItemSelectionModel::Select);
+#endif
     }
     else {
         // The item with the given URL is not loaded by the model yet. Iterate
@@ -140,23 +159,42 @@ void TreeViewSidebarPage::expandSelectionParent()
     const KFileItem parentItem(S_IFDIR, KFileItem::Unknown, m_selectedUrl.upUrl());
     QModelIndex index = m_dirModel->indexForItem(parentItem);
     if (index.isValid()) {
+#if defined(USE_PROXY_MODEL)
+        QModelIndex proxyIndex = m_proxyModel->mapFromSource(index);
+        m_treeView->setExpanded(proxyIndex, true);
+#else
         m_treeView->setExpanded(index, true);
+#endif
 
         // select the item and assure that the item is visible
         const KFileItem selectedItem(S_IFDIR, KFileItem::Unknown, m_selectedUrl);
         index = m_dirModel->indexForItem(selectedItem);
         if (index.isValid()) {
+#if defined(USE_PROXY_MODEL)
+            proxyIndex = m_proxyModel->mapFromSource(index);
+            m_treeView->scrollTo(proxyIndex);
+
+            QItemSelectionModel* selModel = m_treeView->selectionModel();
+            selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
+#else
             m_treeView->scrollTo(index);
 
             QItemSelectionModel* selModel = m_treeView->selectionModel();
             selModel->setCurrentIndex(index, QItemSelectionModel::Select);
+#endif
+
         }
     }
 }
 
 void TreeViewSidebarPage::updateActiveView(const QModelIndex& index)
 {
+#if defined(USE_PROXY_MODEL)
+    const QModelIndex& dirIndex = m_proxyModel->mapToSource(index);
+    const KFileItem* item = m_dirModel->itemForIndex(dirIndex);
+#else
     const KFileItem* item = m_dirModel->itemForIndex(index);
+#endif
     if (item != 0) {
         const KUrl& url = item->url();
         mainWindow()->activeView()->setUrl(url);

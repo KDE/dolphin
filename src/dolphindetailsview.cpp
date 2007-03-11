@@ -117,6 +117,7 @@ bool DolphinDetailsView::event(QEvent* event)
 
     return QTreeView::event(event);
 }
+
 QStyleOptionViewItem DolphinDetailsView::viewOptions() const
 {
     return m_viewOptions;

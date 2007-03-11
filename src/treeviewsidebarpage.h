@@ -27,8 +27,9 @@ class KDirLister;
 class KDirModel;
 class KUrl;
 
+class DolphinSortFilterProxyModel;
+class SidebarTreeView;
 class QModelIndex;
-class QTreeView;
 
 /**
  * @brief Shows a tree view of the directories starting from
@@ -82,7 +83,8 @@ private:
 private:
     KDirLister* m_dirLister;
     KDirModel* m_dirModel;
-    QTreeView* m_treeView;
+    DolphinSortFilterProxyModel* m_proxyModel;
+    SidebarTreeView* m_treeView;
     KUrl m_selectedUrl;
 };
 
