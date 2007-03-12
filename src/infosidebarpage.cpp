@@ -325,7 +325,7 @@ void InfoSidebarPage::createMetaInfo()
             for (QStringList::Iterator it = keys.begin(); it != keys.end(); ++it) {
                 if (showMetaInfo(*it)) {
                     KFileMetaInfoItem metaInfoItem = metaInfo.item(*it);
-                    addInfoLine(*it, metaInfoItem.string());
+                    addInfoLine(*it, metaInfoItem.value().toString());
                 }
             }
         }
