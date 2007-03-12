@@ -756,7 +756,7 @@ void DolphinView::generatePreviews(const KFileItemList& items)
 
     const QMimeData* mimeData = QApplication::clipboard()->mimeData();
     if (KonqMimeData::decodeIsCutSelection(mimeData)) {
-        QTimer::singleShot(1000, this, SLOT(applyCutEffect()));
+        QTimer::singleShot(0, this, SLOT(applyCutEffect()));
     }
 }
 
