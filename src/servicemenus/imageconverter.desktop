@@ -7,6 +7,7 @@ ServiceTypes=image/*
 Actions=convToJPEG;convToPNG;convToGIF;convToTIF;
 X-KDE-Submenu=Convert To
 X-KDE-Submenu[el]=Μετατροπή σε
+X-KDE-Submenu[nds]=Ümwanneln na
 X-KDE-Submenu[x-test]=xxConvert Toxx
 TryExec=convert
 

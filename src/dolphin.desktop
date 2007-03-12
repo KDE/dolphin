@@ -10,5 +10,6 @@ Categories=System;FileManager;
 GenericName=File Manager
 GenericName[el]=Διαχειριστής αρχείων
 GenericName[ja]=ファイルマネージャ
+GenericName[nds]=Dateipleger
 GenericName[x-test]=xxFile Managerxx
 Terminal=false

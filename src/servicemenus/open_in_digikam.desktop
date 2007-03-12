@@ -3,6 +3,7 @@ Exec=digikam --download-from %u
 Icon=digikam
 Name=Open in Digikam
 Name[el]=Άνοιγμα στο Digikam
+Name[nds]=Mit Digikam opmaken
 Name[x-test]=xxOpen in Digikamxx
 
 [Desktop Entry]

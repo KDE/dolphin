@@ -6,6 +6,7 @@ Actions=DolphinSU;
 ServiceTypes=inode/directory
 Name=Open as Root
 Name[el]=Άνοιγμα ως υπερχρήστης
+Name[nds]=As Systeempleger opmaken
 Name[x-test]=xxOpen as Rootxx
 Icon=dolphin
 Exec=kdesu -c 'dolphin %U'

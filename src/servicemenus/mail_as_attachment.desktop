@@ -6,6 +6,7 @@ Actions=mail_as_attachment
 [Desktop Action mail_as_attachment]
 Name=Mail as Attachment...
 Name[el]=Αποστολή ως συνημμένο
+Name[nds]=As Nettpost-Bilaag sennen...
 Name[x-test]=xxMail as Attachment...xx
 Icon=mail_send
 Exec=kmail --attach %U
