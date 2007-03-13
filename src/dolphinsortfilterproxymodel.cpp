@@ -66,7 +66,7 @@ void DolphinSortFilterProxyModel::setSorting(DolphinView::Sorting sorting)
 {
     // Update the sort column by mapping DolpginView::Sorting to
     // KDirModel::ModelColumns. We will keep the sortOrder.
-    Q_ASSERT(static_cast<int>(sorting) >= 0 && static_cast<int>(sorting) <= dolphinMapSize);
+    Q_ASSERT(static_cast<int>(sorting) >= 0 && static_cast<int>(sorting) < dolphinMapSize);
     sort(dolphinViewToDirModelColumn[static_cast<int>(sorting)],
          m_sortOrder );
 }
@@ -81,7 +81,7 @@ void DolphinSortFilterProxyModel::sort(int column, Qt::SortOrder sortOrder)
 {
     m_sortColumn = column;
     m_sortOrder = sortOrder;
-    m_sorting = (column >= 0) && (column <= dolphinMapSize) ?
+    m_sorting = (column >= 0) && (column < dolphinMapSize) ?
                 dirModelColumnToDolphinView[column]  :
                 DolphinView::SortByName;
     QSortFilterProxyModel::sort(column, sortOrder);
