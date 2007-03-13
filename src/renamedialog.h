@@ -54,10 +54,13 @@ public:
     virtual ~RenameDialog();
 
     /**
-     * Returns the new name of the items. If the returned string is not empty,
-     * then it is assured that the string contains exactly one character #,
-     * which should be replaced by ascending numbers. An empty string indicates
-     * that the user has removed the # character.
+     * Returns the new name of the items. If more than one
+     * item should be renamed, then it is assured that the # character
+     * is part of the returned string. If the returned string is empty,
+     * then RenameDialog::errorString() should be used to show the reason
+     * of having an empty string (e. g. if the # character has
+     * been deleted by the user, although more then one item should be
+     * renamed).
      */
     const QString& newName() const { return m_newName; }
 
@@ -70,6 +73,7 @@ protected slots:
     virtual void slotButtonClicked(int button);
 
 private:
+    bool m_renameOneItem;
     KLineEdit* m_lineEdit;
     QString m_newName;
     QString m_errorString;

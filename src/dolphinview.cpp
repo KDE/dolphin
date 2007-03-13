@@ -265,45 +265,31 @@ void DolphinView::renameSelectedItems()
         }
         else {
             // TODO: check how this can be integrated into KonqUndoManager/KonqOperations
-
-            //UndoManager& undoMan = UndoManager::instance();
-            //undoMan.beginMacro();
-
+            // as one operation instead of n rename operations like it is done now...
             Q_ASSERT(newName.contains('#'));
-
-            const int urlsCount = urls.count();
 
             // iterate through all selected items and rename them...
             const int replaceIndex = newName.indexOf('#');
             Q_ASSERT(replaceIndex >= 0);
-            for (int i = 0; i < urlsCount; ++i) {
-                const KUrl& source = urls[i];
+            int index = 1;
+
+            KUrl::List::const_iterator it = urls.begin();
+            KUrl::List::const_iterator end = urls.end();
+            while (it != end) {
+                const KUrl& oldUrl = *it;
                 QString number;
-                number.setNum(i + 1);
+                number.setNum(index++);
 
                 QString name(newName);
                 name.replace(replaceIndex, 1, number);
 
-                if (source.fileName() != name) {
-                    KUrl dest(source.upUrl());
-                    dest.addPath(name);
-
-                    const bool destExists = KIO::NetAccess::exists(dest, false, view);
-                    if (destExists) {
-                        view->statusBar()->setMessage(i18n("Renaming failed (item '%1' already exists).",name),
-                                                      DolphinStatusBar::Error);
-                        break;
-                    }
-                    else if (KIO::NetAccess::file_move(source, dest)) {
-                        // TODO: From the users point of view he executed one 'rename n files' operation,
-                        // but internally we store it as n 'rename 1 file' operations for the undo mechanism.
-                        //DolphinCommand command(DolphinCommand::Rename, source, dest);
-                        //undoMan.addCommand(command);
-                    }
+                if (oldUrl.fileName() != name) {
+                    KUrl newUrl(oldUrl.upUrl());
+                    newUrl.addPath(name);
+                    m_mainWindow->rename(oldUrl, newUrl);
                 }
+                ++it;
             }
-
-            //undoMan.endMacro();
         }
     }
     else {
@@ -311,8 +297,9 @@ void DolphinView::renameSelectedItems()
         // renaming mechanism from the views.
         Q_ASSERT(urls.count() == 1);
 
-        // TODO: until KFileItemDelegate supports editing, use the the Dolphin
-        // rename dialog as temporary workaround:
+        // TODO: Think about using KFileItemDelegate as soon as it supports editing.
+        // Currently the RenameDialog is used, but I'm not sure whether inline renaming
+        // is a benefit for the user at all -> let's wait for some input first...
         RenameDialog dialog(urls);
         if (dialog.exec() == QDialog::Rejected) {
             return;

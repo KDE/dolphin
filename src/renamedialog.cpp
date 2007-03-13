@@ -26,9 +26,17 @@
 #include <QVBoxLayout>
 
 RenameDialog::RenameDialog(const KUrl::List& items) :
-    KDialog()
+    KDialog(),
+    m_renameOneItem(false)
 {
-    setCaption(i18n("Rename Items"));
+    const QSize minSize = minimumSize();
+    setMinimumSize(QSize(320, minSize.height()));
+
+    const int itemCount = items.count();
+    Q_ASSERT(itemCount >= 1);
+    m_renameOneItem = (itemCount == 1);
+
+    setCaption(m_renameOneItem ? i18n("Rename Item") : i18n("Rename Items"));
     setButtons(Ok|Cancel);
     setDefaultButton(Ok);
 
@@ -40,16 +48,19 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
     QVBoxLayout* topLayout = new QVBoxLayout(page);
     topLayout->setMargin(KDialog::marginHint());
 
-    const int itemCount = items.count();
-    QLabel* editLabel = new QLabel(i18n("Rename the %1 selected items to:", itemCount),
-                                   page);
+    QLabel* editLabel = 0;
+    if (m_renameOneItem) {
+        const KUrl& url = items.first();
+        editLabel = new QLabel(i18n("Rename the item '%1' to:", url.fileName()),
+                               page);
+    }
+    else {
+        editLabel = new QLabel(i18n("Rename the %1 selected items to:", itemCount),
+                               page);
+    }
 
     m_lineEdit = new KLineEdit(page);
-    m_newName = i18n("New name #");
-
-    // TODO: reactivate assertion as soon as KFileItemDelegate supports renaming of
-    // single items
-    //Q_ASSERT(itemCount > 1);
+    m_newName = m_renameOneItem ? i18n("New name") : i18n("New name #");
 
     QString postfix(items[0].prettyUrl().section('.',1));
     if (postfix.length() > 0) {
@@ -66,19 +77,25 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
         }
     }
 
-    const int selectionLength = m_newName.length();
+    int selectionLength = m_newName.length();
+    if (!m_renameOneItem) {
+        --selectionLength; // don't select the # character
+    }
+
     if (postfix.length() > 0) {
         m_newName.append(postfix);
     }
     m_lineEdit->setText(m_newName);
-    m_lineEdit->setSelection(0, selectionLength - 1);
+    m_lineEdit->setSelection(0, selectionLength);
     m_lineEdit->setFocus();
-
-    QLabel* infoLabel = new QLabel(i18n("(# will be replaced by ascending numbers)"), page);
 
     topLayout->addWidget(editLabel);
     topLayout->addWidget(m_lineEdit);
-    topLayout->addWidget(infoLabel);
+
+    if (!m_renameOneItem) {
+        QLabel* infoLabel = new QLabel(i18n("(# will be replaced by ascending numbers)"), page);
+        topLayout->addWidget(infoLabel);
+    }
 }
 
 RenameDialog::~RenameDialog()
@@ -87,12 +104,12 @@ RenameDialog::~RenameDialog()
 
 void RenameDialog::slotButtonClicked(int button)
 {
-    if (button==Ok) {
+    if (button == Ok) {
         m_newName = m_lineEdit->text();
         if (m_newName.isEmpty()) {
             m_errorString = i18n("The new name is empty. A name with at least one character must be entered.");
         }
-        else if (m_newName.contains('#') != 1) {
+        else if (!m_renameOneItem && m_newName.contains('#') != 1) {
             m_newName.truncate(0);
             m_errorString = i18n("The name must contain exactly one # character.");
         }

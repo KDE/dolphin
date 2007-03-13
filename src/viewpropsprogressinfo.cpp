@@ -44,7 +44,10 @@ ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
     m_applyViewPropsJob(0),
     m_timer(0)
 {
-    setCaption(i18n("Applying view properties"));
+    const QSize minSize = minimumSize();
+    setMinimumSize(QSize(320, minSize.height()));
+
+    setCaption(i18n("Applying View Properties"));
     setButtons(KDialog::Cancel);
 
     m_viewProps = new ViewProperties(dir);
