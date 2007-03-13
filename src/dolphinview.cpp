@@ -1067,6 +1067,7 @@ void DolphinView::createView()
         m_topLayout->removeWidget(view);
         view->close();
         view->deleteLater();
+        view = 0;
         m_iconsView = 0;
         m_detailsView = 0;
         m_fileItemDelegate = 0;
@@ -1088,6 +1089,7 @@ void DolphinView::createView()
             break;
     }
 
+    assert(view != 0);
 
     m_fileItemDelegate = new KFileItemDelegate(view);
     view->setItemDelegate(m_fileItemDelegate);
