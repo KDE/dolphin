@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at)                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,14 +18,12 @@
  ***************************************************************************/
 
 #include "renamedialog.h"
-#include <klocale.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <q3vbox.h>
-//Added by qt3to4:
-#include <Q3VBoxLayout>
-#include <assert.h>
+
 #include <klineedit.h>
+#include <klocale.h>
+
+#include <QLabel>
+#include <QVBoxLayout>
 
 RenameDialog::RenameDialog(const KUrl::List& items) :
     KDialog()
@@ -37,19 +34,23 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
 
     setButtonGuiItem(Ok, KGuiItem(i18n("Rename"), "dialog-apply"));
 
-    QWidget *page = new QWidget(this);
+    QWidget* page = new QWidget(this);
     setMainWidget(page);
 
-    Q3VBoxLayout* topLayout = new Q3VBoxLayout(page, 0, spacingHint());
+    QVBoxLayout* topLayout = new QVBoxLayout(page);
     topLayout->setMargin(KDialog::marginHint());
 
     const int itemCount = items.count();
-    QLabel* editLabel = new QLabel(i18n("Rename the %1 selected items to:",itemCount),
+    QLabel* editLabel = new QLabel(i18n("Rename the %1 selected items to:", itemCount),
                                    page);
 
     m_lineEdit = new KLineEdit(page);
     m_newName = i18n("New name #");
-    assert(itemCount > 1);
+
+    // TODO: reactivate assertion as soon as KFileItemDelegate supports renaming of
+    // single items
+    //Q_ASSERT(itemCount > 1);
+
     QString postfix(items[0].prettyUrl().section('.',1));
     if (postfix.length() > 0) {
         // The first item seems to have a postfix (e. g. 'jpg' or 'txt'). Now
@@ -88,8 +89,12 @@ void RenameDialog::slotButtonClicked(int button)
 {
     if (button==Ok) {
         m_newName = m_lineEdit->text();
-        if (m_newName.contains('#') != 1) {
+        if (m_newName.isEmpty()) {
+            m_errorString = i18n("The new name is empty. A name with at least one character must be entered.");
+        }
+        else if (m_newName.contains('#') != 1) {
             m_newName.truncate(0);
+            m_errorString = i18n("The name must contain exactly one # character.");
         }
     }
 

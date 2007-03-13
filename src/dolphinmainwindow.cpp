@@ -22,8 +22,6 @@
 #include <config-kmetadata.h>
 #include "dolphinmainwindow.h"
 
-#include <assert.h>
-
 #include "bookmarkssidebarpage.h"
 #include "dolphinapplication.h"
 #include "dolphinnewmenu.h"
@@ -58,6 +56,7 @@
 #include <kmenu.h>
 #include <kmessagebox.h>
 #include <konqmimedata.h>
+#include <konq_operations.h>
 #include <kpropertiesdialog.h>
 #include <kprotocolinfo.h>
 #include <ktoggleaction.h>
@@ -106,7 +105,7 @@ DolphinMainWindow::~DolphinMainWindow()
 
 void DolphinMainWindow::setActiveView(DolphinView* view)
 {
-    assert((view == m_view[PrimaryIdx]) || (view == m_view[SecondaryIdx]));
+    Q_ASSERT((view == m_view[PrimaryIdx]) || (view == m_view[SecondaryIdx]));
     if (m_activeView == view) {
         return;
     }
@@ -203,6 +202,12 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
     }
 }
 
+void DolphinMainWindow::rename(const KUrl& oldUrl, const KUrl& newUrl)
+{
+    KonqOperations::rename(this, oldUrl, newUrl);
+    m_undoCommandTypes.append(KonqUndoManager::RENAME);
+}
+
 void DolphinMainWindow::refreshViews()
 {
     const bool split = DolphinSettings::instance().generalSettings()->splitView();
@@ -232,7 +237,7 @@ void DolphinMainWindow::refreshViews()
     }
 
     m_activeView = isPrimaryViewActive ? m_view[PrimaryIdx] : m_view[SecondaryIdx];
-    assert(m_activeView != 0);
+    Q_ASSERT(m_activeView != 0);
 
     updateViewActions();
     emit activeViewChanged();
@@ -336,7 +341,7 @@ void DolphinMainWindow::slotSelectionChanged()
 {
     updateEditActions();
 
-    assert(m_view[PrimaryIdx] != 0);
+    Q_ASSERT(m_view[PrimaryIdx] != 0);
     int selectedUrlsCount = m_view[PrimaryIdx]->selectedUrls().count();
     if (m_view[SecondaryIdx] != 0) {
         selectedUrlsCount += m_view[SecondaryIdx]->selectedUrls().count();
@@ -444,7 +449,7 @@ void DolphinMainWindow::moveToTrash()
     clearStatusBar();
     const KUrl::List selectedUrls = m_activeView->selectedUrls();
     KonqOperations::del(this, KonqOperations::TRASH, selectedUrls);
-    m_undoOperations.append(KonqOperations::TRASH);
+    m_undoCommandTypes.append(KonqUndoManager::TRASH);
 }
 
 void DolphinMainWindow::deleteItems()
@@ -453,7 +458,7 @@ void DolphinMainWindow::deleteItems()
 
     KUrl::List list = m_activeView->selectedUrls();
     const uint itemCount = list.count();
-    assert(itemCount >= 1);
+    Q_ASSERT(itemCount >= 1);
 
     QString text;
     if (itemCount > 1) {
@@ -514,26 +519,36 @@ void DolphinMainWindow::slotUndoAvailable(bool available)
         undoAction->setEnabled(available);
     }
 
-    if (available && (m_undoOperations.count() > 0)) {
-        const KonqOperations::Operation op = m_undoOperations.takeFirst();
+    if (available && (m_undoCommandTypes.count() > 0)) {
+        const KonqUndoManager::CommandType command = m_undoCommandTypes.takeFirst();
         DolphinStatusBar* statusBar = m_activeView->statusBar();
-        switch (op) {
-            case KonqOperations::COPY:
+        switch (command) {
+            case KonqUndoManager::COPY:
                 statusBar->setMessage(i18n("Copy operation completed."),
                                       DolphinStatusBar::OperationCompleted);
                 break;
-            case KonqOperations::MOVE:
+            case KonqUndoManager::MOVE:
                 statusBar->setMessage(i18n("Move operation completed."),
                                       DolphinStatusBar::OperationCompleted);
                 break;
-            case KonqOperations::LINK:
+            case KonqUndoManager::LINK:
                 statusBar->setMessage(i18n("Link operation completed."),
                                       DolphinStatusBar::OperationCompleted);
                 break;
-            case KonqOperations::TRASH:
+            case KonqUndoManager::TRASH:
                 statusBar->setMessage(i18n("Move to trash operation completed."),
                                       DolphinStatusBar::OperationCompleted);
                 break;
+            case KonqUndoManager::RENAME:
+                statusBar->setMessage(i18n("Renaming operation completed."),
+                                      DolphinStatusBar::OperationCompleted);
+                break;
+
+           case KonqUndoManager::MKDIR:
+                statusBar->setMessage(i18n("Created directory."),
+                                      DolphinStatusBar::OperationCompleted);
+                break;
+
             default:
                 break;
         }
@@ -912,7 +927,7 @@ void DolphinMainWindow::compareFiles()
     // - both in the secondary view
     // - one in the primary view and the other in the secondary
     //   view
-    assert(m_view[PrimaryIdx] != 0);
+    Q_ASSERT(m_view[PrimaryIdx] != 0);
 
     KUrl urlA;
     KUrl urlB;
@@ -920,9 +935,9 @@ void DolphinMainWindow::compareFiles()
 
     switch (urls.count()) {
         case 0: {
-            assert(m_view[SecondaryIdx] != 0);
+            Q_ASSERT(m_view[SecondaryIdx] != 0);
             urls = m_view[SecondaryIdx]->selectedUrls();
-            assert(urls.count() == 2);
+            Q_ASSERT(urls.count() == 2);
             urlA = urls[0];
             urlB = urls[1];
             break;
@@ -930,9 +945,9 @@ void DolphinMainWindow::compareFiles()
 
         case 1: {
             urlA = urls[0];
-            assert(m_view[SecondaryIdx] != 0);
+            Q_ASSERT(m_view[SecondaryIdx] != 0);
             urls = m_view[SecondaryIdx]->selectedUrls();
-            assert(urls.count() == 1);
+            Q_ASSERT(urls.count() == 1);
             urlB = urls[0];
             break;
         }
@@ -946,7 +961,7 @@ void DolphinMainWindow::compareFiles()
         default: {
             // may not happen: compareFiles may only get invoked if 2
             // files are selected
-            assert(false);
+            Q_ASSERT(false);
         }
     }
 
@@ -983,7 +998,7 @@ void DolphinMainWindow::init()
     DolphinSettings& settings = DolphinSettings::instance();
 
     KBookmarkManager* manager = settings.bookmarkManager();
-    assert(manager != 0);
+    Q_ASSERT(manager != 0);
     KBookmarkGroup root = manager->root();
     if (root.first().isNull()) {
         root.addBookmark(manager, i18n("Home"), settings.generalSettings()->homeUrl(), "folder-home");
@@ -1437,19 +1452,19 @@ void DolphinMainWindow::updateGoActions()
 void DolphinMainWindow::copyUrls(const KUrl::List& source, const KUrl& dest)
 {
     KonqOperations::copy(this, KonqOperations::COPY, source, dest);
-    m_undoOperations.append(KonqOperations::COPY);
+    m_undoCommandTypes.append(KonqUndoManager::COPY);
 }
 
 void DolphinMainWindow::moveUrls(const KUrl::List& source, const KUrl& dest)
 {
     KonqOperations::copy(this, KonqOperations::MOVE, source, dest);
-    m_undoOperations.append(KonqOperations::MOVE);
+    m_undoCommandTypes.append(KonqUndoManager::MOVE);
 }
 
 void DolphinMainWindow::linkUrls(const KUrl::List& source, const KUrl& dest)
 {
     KonqOperations::copy(this, KonqOperations::LINK, source, dest);
-    m_undoOperations.append(KonqOperations::LINK);
+    m_undoCommandTypes.append(KonqUndoManager::LINK);
 }
 
 void DolphinMainWindow::clearStatusBar()
@@ -1489,7 +1504,7 @@ DolphinMainWindow::UndoUiInterface::UndoUiInterface(DolphinMainWindow* mainWin) 
     KonqUndoManager::UiInterface(mainWin),
     m_mainWin(mainWin)
 {
-    assert(m_mainWin != 0);
+    Q_ASSERT(m_mainWin != 0);
 }
 
 DolphinMainWindow::UndoUiInterface::~UndoUiInterface()

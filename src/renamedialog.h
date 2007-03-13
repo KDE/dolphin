@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at)                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,7 +21,8 @@
 
 #include <kdialog.h>
 #include <kurl.h>
-#include <qstring.h>
+
+#include <QString>
 
 class KLineEdit;
 
@@ -35,10 +35,15 @@ class KLineEdit;
  * RenameDialog dialog(...);
  * if (dialog.exec() == QDialog::Accepted) {
  *     const QString& newName = dialog.newName();
- *     // ... rename items corresponding to the new name
+ *     if (newName.isEmpty()) {
+ *         // an invalid name has been chosen, use
+ *         // dialog.errorString() to tell the user about this
+ *     }
+ *     else {
+ *         // rename items corresponding to the new name
+ *     }
  * }
  * \endcode
- * @author Peter Penz
  */
 class RenameDialog : public KDialog
 {
@@ -56,12 +61,18 @@ public:
      */
     const QString& newName() const { return m_newName; }
 
+    /**
+     * Returns the error string, if Dialog::newName() returned an empty string.
+     */
+    const QString& errorString() const { return m_errorString; }
+
 protected slots:
     virtual void slotButtonClicked(int button);
 
 private:
     KLineEdit* m_lineEdit;
     QString m_newName;
+    QString m_errorString;
 };
 
 #endif

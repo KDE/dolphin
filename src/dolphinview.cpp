@@ -20,8 +20,6 @@
 
 #include "dolphinview.h"
 
-#include <assert.h>
-
 #include <QApplication>
 #include <QClipboard>
 #include <QDropEvent>
@@ -250,6 +248,7 @@ bool DolphinView::showHiddenFiles() const
 
 void DolphinView::renameSelectedItems()
 {
+    DolphinView* view = mainWindow()->activeView();
     const KUrl::List urls = selectedUrls();
     if (urls.count() > 1) {
         // More than one item has been selected for renaming. Open
@@ -259,10 +258,9 @@ void DolphinView::renameSelectedItems()
             return;
         }
 
-        DolphinView* view = mainWindow()->activeView();
         const QString& newName = dialog.newName();
         if (newName.isEmpty()) {
-            view->statusBar()->setMessage(i18n("The new item name is invalid."),
+            view->statusBar()->setMessage(dialog.errorString(),
                                           DolphinStatusBar::Error);
         }
         else {
@@ -271,13 +269,13 @@ void DolphinView::renameSelectedItems()
             //UndoManager& undoMan = UndoManager::instance();
             //undoMan.beginMacro();
 
-            assert(newName.contains('#'));
+            Q_ASSERT(newName.contains('#'));
 
             const int urlsCount = urls.count();
 
             // iterate through all selected items and rename them...
             const int replaceIndex = newName.indexOf('#');
-            assert(replaceIndex >= 0);
+            Q_ASSERT(replaceIndex >= 0);
             for (int i = 0; i < urlsCount; ++i) {
                 const KUrl& source = urls[i];
                 QString number;
@@ -311,28 +309,26 @@ void DolphinView::renameSelectedItems()
     else {
         // Only one item has been selected for renaming. Use the custom
         // renaming mechanism from the views.
-        assert(urls.count() == 1);
-        // TODO:
-        /*if (m_mode == DetailsView) {
-            Q3ListViewItem* item = m_iconsView->firstChild();
-            while (item != 0) {
-                if (item->isSelected()) {
-                    m_iconsView->rename(item, DolphinDetailsView::NameColumn);
-                    break;
-                }
-                item = item->nextSibling();
-            }
+        Q_ASSERT(urls.count() == 1);
+
+        // TODO: until KFileItemDelegate supports editing, use the the Dolphin
+        // rename dialog as temporary workaround:
+        RenameDialog dialog(urls);
+        if (dialog.exec() == QDialog::Rejected) {
+            return;
+        }
+
+        const QString& newName = dialog.newName();
+        if (newName.isEmpty()) {
+            view->statusBar()->setMessage(dialog.errorString(),
+                                          DolphinStatusBar::Error);
         }
         else {
-            KFileIconViewItem* item = static_cast<KFileIconViewItem*>(m_iconsView->firstItem());
-            while (item != 0) {
-                if (item->isSelected()) {
-                    item->rename();
-                    break;
-                }
-                item = static_cast<KFileIconViewItem*>(item->nextItem());
-            }
-        }*/
+            const KUrl& oldUrl = urls.first();
+            KUrl newUrl = oldUrl.upUrl();
+            newUrl.addPath(newName);
+            m_mainWindow->rename(oldUrl, newUrl);
+        }
     }
 }
 
@@ -894,7 +890,7 @@ QString DolphinView::selectionStatusBarText() const
 
 void DolphinView::showFilterBar(bool show)
 {
-    assert(m_filterBar != 0);
+    Q_ASSERT(m_filterBar != 0);
     if (show) {
         m_filterBar->show();
     }
@@ -1001,7 +997,7 @@ void DolphinView::dropUrls(const KUrl::List& urls,
     KFileItem* directory = 0;
     if (isValidNameIndex(index)) {
         KFileItem* item = fileItem(index);
-        assert(item != 0);
+        Q_ASSERT(item != 0);
         if (item->isDir()) {
             // the URLs are dropped above a directory
             directory = item;
@@ -1073,8 +1069,8 @@ void DolphinView::createView()
         m_fileItemDelegate = 0;
     }
 
-    assert(m_iconsView == 0);
-    assert(m_detailsView == 0);
+    Q_ASSERT(m_iconsView == 0);
+    Q_ASSERT(m_detailsView == 0);
 
     // ... and recreate it representing the current mode
     switch (m_mode) {
@@ -1089,7 +1085,7 @@ void DolphinView::createView()
             break;
     }
 
-    assert(view != 0);
+    Q_ASSERT(view != 0);
 
     m_fileItemDelegate = new KFileItemDelegate(view);
     view->setItemDelegate(m_fileItemDelegate);

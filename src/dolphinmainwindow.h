@@ -26,7 +26,6 @@
 
 #include <kmainwindow.h>
 #include <ksortablelist.h>
-#include <konq_operations.h>
 #include <konq_undo.h>
 
 #include <QList>
@@ -73,18 +72,21 @@ public:
     DolphinView* activeView() const { return m_activeView; }
 
     /**
-     * Handles the dropping of Urls to the given
+     * Handles the dropping of URLs to the given
      * destination. A context menu with the options
      * 'Move Here', 'Copy Here', 'Link Here' and
      * 'Cancel' is offered to the user.
-     * @param urls        List of Urls which have been
+     * @param urls        List of URLs which have been
      *                    dropped.
-     * @param destination Destination Url, where the
-     *                    list or Urls should be moved,
+     * @param destination Destination URL, where the
+     *                    list or URLs should be moved,
      *                    copied or linked to.
      */
     void dropUrls(const KUrl::List& urls,
                   const KUrl& destination);
+
+    /** Renames the item represented by \a oldUrl to \a newUrl. */
+    void rename(const KUrl& oldUrl, const KUrl& newUrl);
 
     /**
      * Refreshs the views of the main window by recreating them dependent from
@@ -146,7 +148,10 @@ private slots:
     /** Updates the 'Create New...' sub menu. */
     void updateNewMenu();
 
-    /** Renames the selected item of the active view. */
+    /**
+     * Let the user input a name for the selected item(s) and trigger
+     * a renaming afterwards.
+     */
     void rename();
 
     /** Moves the selected items of the active view to the trash. */
@@ -307,16 +312,16 @@ private slots:
      */
     void adjustViewProperties();
 
-    /** Goes back on step of the Url history. */
+    /** Goes back on step of the URL history. */
     void goBack();
 
-    /** Goes forward one step of the Url history. */
+    /** Goes forward one step of the URL history. */
     void goForward();
 
-    /** Goes up one hierarchy of the current Url. */
+    /** Goes up one hierarchy of the current URL. */
     void goUp();
 
-    /** Goes to the home Url. */
+    /** Goes to the home URL. */
     void goHome();
 
     /** Opens a terminal for the current shown directory. */
@@ -360,7 +365,7 @@ private slots:
 
     /**
      * Updates the caption of the main window and the state
-     * of all menu actions which depend from a changed Url.
+     * of all menu actions which depend from a changed URL.
      */
     void slotUrlChanged(const KUrl& url);
 
@@ -430,7 +435,7 @@ private:
     DolphinView* m_view[SecondaryIdx + 1];
 
     /// remember pending undo operations until they are finished
-    QList<KonqOperations::Operation> m_undoOperations;
+    QList<KonqUndoManager::CommandType> m_undoCommandTypes;
 };
 
 #endif // _DOLPHIN_H_
