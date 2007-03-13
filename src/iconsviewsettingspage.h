@@ -24,12 +24,12 @@
 #include <kvbox.h>
 
 class DolphinMainWindow;
+class KFontRequester;
 class QSlider;
 class QComboBox;
 class QCheckBox;
 class QPushButton;
 class QSpinBox;
-class QFontComboBox;
 
 /**
  * @brief Tab page for the 'Icons Mode' and 'Previews Mode' settings
@@ -40,8 +40,7 @@ class QFontComboBox;
  * - preview size
  * - text width
  * - grid spacing
- * - font family
- * - font size
+ * - font
  * - number of text lines
  * - arrangement
  *
@@ -79,8 +78,7 @@ private:
 
     QPushButton* m_iconSizeButton;
     QComboBox* m_textWidthBox;
-    QFontComboBox* m_fontFamilyBox;
-    QSpinBox* m_fontSizeBox;
+    KFontRequester* m_fontRequester;
     QSpinBox* m_textlinesCountBox;
 
     QComboBox* m_arrangementBox;

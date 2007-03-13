@@ -19,20 +19,22 @@
  ***************************************************************************/
 
 #include "detailsviewsettingspage.h"
+
 #include <qcheckbox.h>
+#include <kfontrequester.h>
 #include <klocale.h>
 #include <kdialog.h>
 #include <qfontcombobox.h>
 #include <qspinbox.h>
 #include <qlabel.h>
 #include <q3grid.h>
-#include <assert.h>
 #include <q3buttongroup.h>
 #include <qradiobutton.h>
 #include <qcombobox.h>
 #include <q3groupbox.h>
 #include <q3groupbox.h>
 #include <kvbox.h>
+
 #include "dolphinsettings.h"
 #include "dolphin_detailsmodesettings.h"
 #include "dolphindetailsview.h"
@@ -47,7 +49,8 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
     m_groupBox(0),
     m_smallIconSize(0),
     m_mediumIconSize(0),
-    m_largeIconSize(0)
+    m_largeIconSize(0),
+    m_fontRequester(0)
 {
     const int spacing = KDialog::spacingHint();
     const int margin = KDialog::marginHint();
@@ -57,7 +60,7 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
     setMargin(margin);
 
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    assert(settings != 0);
+    Q_ASSERT(settings != 0);
 
     // create "Columns" properties
     Q3GroupBox* columnsGroup = new Q3GroupBox(4, Qt::Vertical, i18n("Columns"), this);
@@ -98,31 +101,24 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
             m_smallIconSize->setChecked(true);
     }
 
-    //new QLabel(i18n("Icon size:"), iconGroup);
-    //m_iconSizeBox = new QComboBox(iconGroup);
-    //m_iconSizeBox->insertItem(i18n("Small"));
-    //m_iconSizeBox->insertItem(i18n("Medium"));
-    //m_iconSizeBox->insertItem(i18n("Large"));
-
     // create "Text" properties
     Q3GroupBox* textGroup = new Q3GroupBox(2, Qt::Horizontal, i18n("Text"), this);
     textGroup->setSizePolicy(sizePolicy);
     textGroup->setMargin(margin);
 
-    new QLabel(i18n("Font family:"), textGroup);
-    m_fontFamilyBox = new QFontComboBox(textGroup);
-    m_fontFamilyBox->setCurrentFont(settings->fontFamily());
-
-    new QLabel(i18n("Font size:"), textGroup);
-    m_fontSizeBox = new QSpinBox(6, 99, 1, textGroup);
-    m_fontSizeBox->setValue(settings->fontSize());
+    new QLabel(i18n("Font:"), textGroup);
+    m_fontRequester = new KFontRequester(textGroup);
+    QFont font(settings->fontFamily(),
+               settings->fontSize());
+    font.setItalic(settings->italicFont());
+    font.setBold(settings->boldFont());
+    m_fontRequester->setFont(font);
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
     // is not stretched vertically.
     new QWidget(this);
 }
-
 
 DetailsViewSettingsPage::~DetailsViewSettingsPage()
 {
@@ -131,7 +127,7 @@ DetailsViewSettingsPage::~DetailsViewSettingsPage()
 void DetailsViewSettingsPage::applySettings()
 {
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    assert(settings != 0);
+    Q_ASSERT(settings != 0);
 
     settings->setShowDate(m_dateBox->isChecked());
     settings->setShowPermissions(m_permissionsBox->isChecked());
@@ -147,8 +143,11 @@ void DetailsViewSettingsPage::applySettings()
     }
     settings->setIconSize(iconSize);
 
-    settings->setFontFamily(m_fontFamilyBox->currentFont().family());
-    settings->setFontSize(m_fontSizeBox->value());
+    const QFont font = m_fontRequester->font();
+    settings->setFontFamily(font.family());
+    settings->setFontSize(font.pointSize());
+    settings->setItalicFont(font.italic());
+    settings->setBoldFont(font.bold());
 }
 
 #include "detailsviewsettingspage.moc"

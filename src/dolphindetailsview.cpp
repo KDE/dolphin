@@ -75,7 +75,12 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     Q_ASSERT(settings != 0);
 
     m_viewOptions = QTreeView::viewOptions();
-    m_viewOptions.font = QFont(settings->fontFamily(), settings->fontSize());
+
+    QFont font(settings->fontFamily(), settings->fontSize());
+    font.setItalic(settings->italicFont());
+    font.setBold(settings->boldFont());
+    m_viewOptions.font = font;
+
     updateDecorationSize();
 }
 

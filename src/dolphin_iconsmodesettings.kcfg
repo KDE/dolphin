@@ -18,7 +18,15 @@
             <label>Font size</label>
             <default code="true">KGlobalSettings::generalFont().pointSize()</default>
         </entry>
-        <entry name="GridHeight" type="Int">
+        <entry name="ItalicFont" type="Bool">
+            <label>Italic</label>
+            <default>false</default>
+        </entry>
+         <entry name="BoldFont" type="Bool">
+            <label>Bold</label>
+            <default>false</default>
+        </entry>
+       <entry name="GridHeight" type="Int">
             <label>Grid height</label>
             <default code="true">96</default>
         </entry>

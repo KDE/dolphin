@@ -32,6 +32,7 @@
 #include <qspinbox.h>
 #include <qfontcombobox.h>
 
+#include <kfontrequester.h>
 #include <kiconloader.h>
 #include <kdialog.h>
 #include <kglobalsettings.h>
@@ -52,8 +53,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     m_previewSize(0),
     m_iconSizeButton(0),
     m_textWidthBox(0),
-    m_fontFamilyBox(0),
-    m_fontSizeBox(0),
+    m_fontRequester(0),
     m_textlinesCountBox(0),
     m_arrangementBox(0),
     m_gridSpacingBox(0)
@@ -82,13 +82,13 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     textGroup->setSizePolicy(sizePolicy);
     textGroup->setMargin(margin);
 
-    new QLabel(i18n("Font family:"), textGroup);
-    m_fontFamilyBox = new QFontComboBox(textGroup);
-    m_fontFamilyBox->setCurrentFont(settings->fontFamily());
-
-    new QLabel(i18n("Font size:"), textGroup);
-    m_fontSizeBox = new QSpinBox(6, 99, 1, textGroup);
-    m_fontSizeBox->setValue(settings->fontSize());
+    new QLabel(i18n("Font:"), textGroup);
+    m_fontRequester = new KFontRequester(textGroup);
+    QFont font(settings->fontFamily(),
+               settings->fontSize());
+    font.setItalic(settings->italicFont());
+    font.setBold(settings->boldFont());
+    m_fontRequester->setFont(font);
 
     new QLabel(i18n("Number of lines:"), textGroup);
     m_textlinesCountBox = new QSpinBox(1, 5, 1, textGroup);
@@ -138,7 +138,8 @@ void IconsViewSettingsPage::applySettings()
     settings->setIconSize(m_iconSize);
     settings->setPreviewSize(m_previewSize);
 
-    const int fontSize = m_fontSizeBox->value();
+    const QFont font = m_fontRequester->font();
+    const int fontSize = font.pointSize();
 
     const int arrangement = (m_arrangementBox->currentIndex() == 0) ?
                             QListView::LeftToRight :
@@ -163,8 +164,11 @@ void IconsViewSettingsPage::applySettings()
     settings->setGridWidth(gridWidth);
     settings->setGridHeight(gridHeight);
 
-    settings->setFontFamily(m_fontFamilyBox->currentFont().family());
+    settings->setFontFamily(font.family());
     settings->setFontSize(fontSize);
+    settings->setItalicFont(font.italic());
+    settings->setBoldFont(font.bold());
+
     settings->setNumberOfTextlines(m_textlinesCountBox->value());
 
     settings->setGridSpacing(GRID_SPACING_BASE +

@@ -24,15 +24,15 @@
 #include <kvbox.h>
 
 class DolphinMainWindow;
+class KFontRequester;
 class QCheckBox;
-class QFontComboBox;
 class QSpinBox;
 class QComboBox;
 class QRadioButton;
 
 /**
  * @brief Represents the page from the Dolphin Settings which allows
- * to modify the settings for the details view.
+ *        to modify the settings for the details view.
  */
 class DetailsViewSettingsPage : public KVBox
 {
@@ -58,9 +58,7 @@ private:
     QRadioButton* m_smallIconSize;
     QRadioButton* m_mediumIconSize;
     QRadioButton* m_largeIconSize;
-
-    QFontComboBox* m_fontFamilyBox;
-    QSpinBox* m_fontSizeBox;
+    KFontRequester* m_fontRequester;
 };
 
 #endif
