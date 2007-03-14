@@ -63,10 +63,6 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     m_iconSize = settings->iconSize();
     m_previewSize = settings->previewSize();
 
-    KHBox* sizesLayout = new KHBox(this);
-    sizesLayout->setSpacing(spacing);
-    sizesLayout->setSizePolicy(sizePolicy);
-
     m_iconSizeButton = new QPushButton(i18n("Change icon and preview size..."), this);
     connect(m_iconSizeButton, SIGNAL(clicked()),
             this, SLOT(openIconSizeDialog()));

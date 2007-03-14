@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,24 +19,21 @@
 
 #include "detailsviewsettingspage.h"
 
-#include <qcheckbox.h>
-#include <kfontrequester.h>
-#include <klocale.h>
-#include <kdialog.h>
-#include <qfontcombobox.h>
-#include <qspinbox.h>
-#include <qlabel.h>
-#include <q3grid.h>
-#include <q3buttongroup.h>
-#include <qradiobutton.h>
-#include <qcombobox.h>
-#include <q3groupbox.h>
-#include <q3groupbox.h>
-#include <kvbox.h>
-
 #include "dolphinsettings.h"
 #include "dolphin_detailsmodesettings.h"
-#include "dolphindetailsview.h"
+
+#include <kdialog.h>
+#include <kfontrequester.h>
+#include <klocale.h>
+
+#include <QButtonGroup>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QGroupBox>
+#include <QGridLayout>
+#include <QLabel>
+#include <QRadioButton>
+#include <QSpinBox>
 
 DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
                                                  QWidget* parent) :
@@ -63,30 +59,34 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
     Q_ASSERT(settings != 0);
 
     // create "Columns" properties
-    Q3GroupBox* columnsGroup = new Q3GroupBox(4, Qt::Vertical, i18n("Columns"), this);
-    columnsGroup->setSizePolicy(sizePolicy);
-    columnsGroup->setMargin(margin);
+    QGroupBox* columnsBox = new QGroupBox(i18n("Columns"), this);
+    columnsBox->setSizePolicy(sizePolicy);
 
-    KHBox* visibleColumnsLayout = new KHBox(columnsGroup);
-    m_dateBox = new QCheckBox(i18n("Date"), visibleColumnsLayout);
+    m_dateBox = new QCheckBox(i18n("Date"), this);
     m_dateBox->setChecked(settings->showDate());
 
-    m_permissionsBox = new QCheckBox(i18n("Permissions"), visibleColumnsLayout);
+    m_permissionsBox = new QCheckBox(i18n("Permissions"), this);
     m_permissionsBox->setChecked(settings->showPermissions());
 
-    m_ownerBox = new QCheckBox(i18n("Owner"), visibleColumnsLayout);
+    m_ownerBox = new QCheckBox(i18n("Owner"), this);
     m_ownerBox->setChecked(settings->showOwner());
 
-    m_groupBox = new QCheckBox(i18n("Group"), visibleColumnsLayout);
+    m_groupBox = new QCheckBox(i18n("Group"), this);
     m_groupBox->setChecked(settings->showGroup());
 
+    QHBoxLayout* columnsLayout = new QHBoxLayout(columnsBox);
+    columnsLayout->addWidget(m_dateBox);
+    columnsLayout->addWidget(m_permissionsBox);
+    columnsLayout->addWidget(m_ownerBox);
+    columnsLayout->addWidget(m_groupBox);
+
     // Create "Icon" properties
-    Q3ButtonGroup* iconSizeGroup = new Q3ButtonGroup(3, Qt::Horizontal, i18n("Icon Size"), this);
-    iconSizeGroup->setSizePolicy(sizePolicy);
-    iconSizeGroup->setMargin(margin);
-    m_smallIconSize  = new QRadioButton(i18n("Small"), iconSizeGroup);
-    m_mediumIconSize = new QRadioButton(i18n("Medium"), iconSizeGroup);
-    m_largeIconSize  = new QRadioButton(i18n("Large"), iconSizeGroup);
+    QGroupBox* iconSizeBox = new QGroupBox(i18n("Icon Size"), this);
+    iconSizeBox->setSizePolicy(sizePolicy);
+
+    m_smallIconSize  = new QRadioButton(i18n("Small"), this);
+    m_mediumIconSize = new QRadioButton(i18n("Medium"), this);
+    m_largeIconSize  = new QRadioButton(i18n("Large"), this);
     switch (settings->iconSize()) {
         case K3Icon::SizeLarge:
             m_largeIconSize->setChecked(true);
@@ -101,18 +101,31 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
             m_smallIconSize->setChecked(true);
     }
 
-    // create "Text" properties
-    Q3GroupBox* textGroup = new Q3GroupBox(2, Qt::Horizontal, i18n("Text"), this);
-    textGroup->setSizePolicy(sizePolicy);
-    textGroup->setMargin(margin);
+    QButtonGroup* iconSizeGroup = new QButtonGroup(this);
+    iconSizeGroup->addButton(m_smallIconSize);
+    iconSizeGroup->addButton(m_mediumIconSize);
+    iconSizeGroup->addButton(m_largeIconSize);
 
-    new QLabel(i18n("Font:"), textGroup);
-    m_fontRequester = new KFontRequester(textGroup);
+    QHBoxLayout* iconSizeLayout = new QHBoxLayout(iconSizeBox);
+    iconSizeLayout->addWidget(m_smallIconSize);
+    iconSizeLayout->addWidget(m_mediumIconSize);
+    iconSizeLayout->addWidget(m_largeIconSize);
+
+    // create "Text" properties
+    QGroupBox* textBox = new QGroupBox(i18n("Text"), this);
+    textBox->setSizePolicy(sizePolicy);
+
+    QLabel* fontLabel = new QLabel(i18n("Font:"), textBox);
+    m_fontRequester = new KFontRequester(textBox);
     QFont font(settings->fontFamily(),
                settings->fontSize());
     font.setItalic(settings->italicFont());
     font.setBold(settings->boldFont());
     m_fontRequester->setFont(font);
+
+    QHBoxLayout* textLayout = new QHBoxLayout(textBox);
+    textLayout->addWidget(fontLabel);
+    textLayout->addWidget(m_fontRequester);
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout

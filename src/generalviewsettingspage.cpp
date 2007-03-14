@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -24,8 +23,6 @@
 #include "dolphin_generalsettings.h"
 #include "viewproperties.h"
 
-#include <assert.h>
-
 #include <QLabel>
 #include <QGroupBox>
 #include <QRadioButton>
@@ -48,7 +45,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
     m_maxPreviewSize(0)
 {
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    assert(settings != 0);
+    Q_ASSERT(settings != 0);
 
     const int spacing = KDialog::spacingHint();
     const int margin = KDialog::marginHint();
@@ -133,7 +130,7 @@ void GeneralViewSettingsPage::applySettings()
     const bool useGlobalProps = m_globalProps->isChecked();
 
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    assert(settings != 0);
+    Q_ASSERT(settings != 0);
     settings->setGlobalViewProps(useGlobalProps);
 
     if (useGlobalProps) {
