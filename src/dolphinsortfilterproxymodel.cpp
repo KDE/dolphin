@@ -89,7 +89,7 @@ void DolphinSortFilterProxyModel::sort(int column, Qt::SortOrder sortOrder)
 
 DolphinView::Sorting DolphinSortFilterProxyModel::sortingForColumn(int column)
 {
-    if ((column >= 0) && (column <= dolphinMapSize)) {
+    if ((column >= 0) && (column < dolphinMapSize)) {
         return dirModelColumnToDolphinView[column];
     }
     return DolphinView::SortByName;
