@@ -28,7 +28,7 @@
         </entry>
        <entry name="GridHeight" type="Int">
             <label>Grid height</label>
-            <default code="true">96</default>
+            <default code="true">K3Icon::SizeMedium + (KGlobalSettings::generalFont().pointSize() * 6)</default>
         </entry>
         <entry name="GridWidth" type="Int">
             <label>Grid width</label>
@@ -36,6 +36,7 @@
         </entry>
         <entry name="GridSpacing" type="Int">
             <label>Grid spacing</label>
+            <default>8</default>
         </entry>
         <entry name="IconSize" type="Int">
             <label>Icon size</label>
@@ -51,7 +52,7 @@
         </entry>
         <entry name="PreviewSize" type="Int">
             <label>Preview size</label>
-            <default code="true">K3Icon::SizeLarge</default>
+            <default code="true">K3Icon::SizeHuge</default>
         </entry>
     </group>
 </kcfg>

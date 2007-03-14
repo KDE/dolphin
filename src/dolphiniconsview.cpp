@@ -128,12 +128,11 @@ void DolphinIconsView::updateGridSize(bool showPreview)
         const int previewSize = settings->previewSize();
         const int diff = previewSize - size;
         Q_ASSERT(diff >= 0);
-        gridWidth += diff;
+        gridWidth  += diff;
         gridHeight += diff;
 
         size = previewSize;
-     }
-
+    }
 
     m_viewOptions.decorationSize = QSize(size, size);
     setGridSize(QSize(gridWidth, gridHeight));
@@ -147,19 +146,27 @@ void DolphinIconsView::zoomIn()
     if (isZoomInPossible()) {
         IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
 
+        const int oldIconSize = settings->iconSize();
+        int newIconSize = oldIconSize;
+
         const bool showPreview = m_controller->showPreview();
         if (showPreview) {
             const int previewSize = increasedIconSize(settings->previewSize());
             settings->setPreviewSize(previewSize);
         }
         else {
-            const int iconSize = increasedIconSize(settings->iconSize());
-            settings->setIconSize(iconSize);
-            if (settings->previewSize() < iconSize) {
+            newIconSize = increasedIconSize(oldIconSize);
+            settings->setIconSize(newIconSize);
+            if (settings->previewSize() < newIconSize) {
                 // assure that the preview size is always >= the icon size
-                settings->setPreviewSize(iconSize);
+                settings->setPreviewSize(newIconSize);
             }
         }
+
+        // increase also the grid size
+        const int diff = newIconSize - oldIconSize;
+        settings->setGridWidth(settings->gridWidth() + diff);
+        settings->setGridHeight(settings->gridHeight() + diff);
 
         updateGridSize(showPreview);
     }
@@ -170,19 +177,28 @@ void DolphinIconsView::zoomOut()
     if (isZoomOutPossible()) {
         IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
 
+        const int oldIconSize = settings->iconSize();
+        int newIconSize = oldIconSize;
+
         const bool showPreview = m_controller->showPreview();
         if (showPreview) {
             const int previewSize = decreasedIconSize(settings->previewSize());
             settings->setPreviewSize(previewSize);
             if (settings->iconSize() > previewSize) {
                 // assure that the icon size is always <= the preview size
-                settings->setIconSize(previewSize);
+                newIconSize = previewSize;
+                settings->setIconSize(newIconSize);
             }
         }
         else {
-            const int iconSize = decreasedIconSize(settings->iconSize());
-            settings->setIconSize(iconSize);
+            newIconSize = decreasedIconSize(settings->iconSize());
+            settings->setIconSize(newIconSize);
         }
+
+        // decrease also the grid size
+        const int diff = oldIconSize - newIconSize;
+        settings->setGridWidth(settings->gridWidth() - diff);
+        settings->setGridHeight(settings->gridHeight() - diff);
 
         updateGridSize(showPreview);
     }

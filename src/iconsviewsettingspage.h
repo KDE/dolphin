@@ -25,10 +25,10 @@
 
 class DolphinMainWindow;
 class KFontRequester;
-class QSlider;
 class QComboBox;
 class QCheckBox;
 class QPushButton;
+class QSlider;
 class QSpinBox;
 
 /**
@@ -65,13 +65,16 @@ private slots:
     void openIconSizeDialog();
 
 private:
-    /**
-     * Adjusts the selection of the text width combo box dependant
-     * from the grid width and grid height settings.
-     */
-    void adjustTextWidthSelection();
+    enum
+    {
+        GridSpacingBase =   8,
+        GridSpacingInc  =  24,
+        LeftToRightBase = 128,
+        LeftToRightInc  =  64,
+        TopToBottomBase =  96,
+        TopToBottomInc  =  32
+    };
 
-private:
     DolphinMainWindow* m_mainWindow;
     int m_iconSize;
     int m_previewSize;

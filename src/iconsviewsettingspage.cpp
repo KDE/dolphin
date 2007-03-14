@@ -21,29 +21,22 @@
 
 #include "dolphinsettings.h"
 #include "iconsizedialog.h"
-#include "pixmapviewer.h"
 
 #include "dolphin_iconsmodesettings.h"
 
-#include <qlabel.h>
-#include <qslider.h>
-#include <q3buttongroup.h>
-#include <qradiobutton.h>
-#include <qspinbox.h>
-#include <qfontcombobox.h>
-
+#include <kdialog.h>
 #include <kfontrequester.h>
 #include <kiconloader.h>
-#include <kdialog.h>
 #include <kglobalsettings.h>
 #include <klocale.h>
-#include <kvbox.h>
 
-#include <QPushButton>
+#include <QComboBox>
+#include <QGroupBox>
+#include <QLabel>
 #include <QListView>
-
-#define GRID_SPACING_BASE 8
-#define GRID_SPACING_INC 24
+#include <QPushButton>
+#include <QSpinBox>
+#include <QGridLayout>
 
 IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
                                              QWidget* parent) :
@@ -78,11 +71,12 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     connect(m_iconSizeButton, SIGNAL(clicked()),
             this, SLOT(openIconSizeDialog()));
 
-    Q3GroupBox* textGroup = new Q3GroupBox(2, Qt::Horizontal, i18n("Text"), this);
+    // create 'Text' group for selecting the font, the number of lines
+    // and the text width
+    QGroupBox* textGroup = new QGroupBox(i18n("Text"), this);
     textGroup->setSizePolicy(sizePolicy);
-    textGroup->setMargin(margin);
 
-    new QLabel(i18n("Font:"), textGroup);
+    QLabel* fontLabel = new QLabel(i18n("Font:"), textGroup);
     m_fontRequester = new KFontRequester(textGroup);
     QFont font(settings->fontFamily(),
                settings->fontSize());
@@ -90,40 +84,63 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     font.setBold(settings->boldFont());
     m_fontRequester->setFont(font);
 
-    new QLabel(i18n("Number of lines:"), textGroup);
+    QLabel* textlinesCountLabel = new QLabel(i18n("Number of lines:"), textGroup);
     m_textlinesCountBox = new QSpinBox(1, 5, 1, textGroup);
     m_textlinesCountBox->setValue(settings->numberOfTextlines());
 
-    new QLabel(i18n("Text width:"), textGroup);
+    QLabel* textWidthLabel = new QLabel(i18n("Text width:"), textGroup);
     m_textWidthBox = new QComboBox(textGroup);
     m_textWidthBox->addItem(i18n("Small"));
     m_textWidthBox->addItem(i18n("Medium"));
     m_textWidthBox->addItem(i18n("Large"));
 
-    Q3GroupBox* gridGroup = new Q3GroupBox(2, Qt::Horizontal, i18n("Grid"), this);
-    gridGroup->setSizePolicy(sizePolicy);
-    gridGroup->setMargin(margin);
-
     const bool leftToRightArrangement = (settings->arrangement() == QListView::LeftToRight);
-    new QLabel(i18n("Arrangement:"), gridGroup);
+    int textWidthIndex = 0;
+    const int remainingWidth = settings->gridWidth() - settings->iconSize();
+    if (leftToRightArrangement) {
+        textWidthIndex = (remainingWidth - LeftToRightBase) / LeftToRightInc;
+    }
+    else {
+        textWidthIndex = (remainingWidth - TopToBottomBase) / TopToBottomInc;
+    }
+
+    m_textWidthBox->setCurrentIndex(textWidthIndex);
+
+    QGridLayout* textGroupLayout = new QGridLayout(textGroup);
+    textGroupLayout->addWidget(fontLabel, 0, 0);
+    textGroupLayout->addWidget(m_fontRequester, 0, 1);
+    textGroupLayout->addWidget(textlinesCountLabel, 1, 0);
+    textGroupLayout->addWidget(m_textlinesCountBox, 1, 1);
+    textGroupLayout->addWidget(textWidthLabel, 2, 0);
+    textGroupLayout->addWidget(m_textWidthBox, 2, 1);
+
+    // create the 'Grid' group for selecting the arrangement and the grid spacing
+    QGroupBox* gridGroup = new QGroupBox(i18n("Grid"), this);
+    gridGroup->setSizePolicy(sizePolicy);
+
+    QLabel* arrangementLabel = new QLabel(i18n("Arrangement:"), gridGroup);
     m_arrangementBox = new QComboBox(gridGroup);
     m_arrangementBox->addItem(i18n("Left to right"));
     m_arrangementBox->addItem(i18n("Top to bottom"));
     m_arrangementBox->setCurrentIndex(leftToRightArrangement ? 0 : 1);
 
-    new QLabel(i18n("Grid spacing:"), gridGroup);
+    QLabel* gridSpacingLabel = new QLabel(i18n("Grid spacing:"), gridGroup);
     m_gridSpacingBox = new QComboBox(gridGroup);
     m_gridSpacingBox->addItem(i18n("Small"));
     m_gridSpacingBox->addItem(i18n("Medium"));
     m_gridSpacingBox->addItem(i18n("Large"));
-    m_gridSpacingBox->setCurrentIndex((settings->gridSpacing() - GRID_SPACING_BASE) / GRID_SPACING_INC);
+    m_gridSpacingBox->setCurrentIndex((settings->gridSpacing() - GridSpacingBase) / GridSpacingInc);
+
+    QGridLayout* gridGroupLayout = new QGridLayout(gridGroup);
+    gridGroupLayout->addWidget(arrangementLabel, 0, 0);
+    gridGroupLayout->addWidget(m_arrangementBox, 0, 1);
+    gridGroupLayout->addWidget(gridSpacingLabel, 1, 0);
+    gridGroupLayout->addWidget(m_gridSpacingBox, 1, 1);
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
     // is not stretched vertically.
     new QWidget(this);
-
-    adjustTextWidthSelection();
 }
 
 IconsViewSettingsPage::~IconsViewSettingsPage()
@@ -144,21 +161,18 @@ void IconsViewSettingsPage::applySettings()
     const int arrangement = (m_arrangementBox->currentIndex() == 0) ?
                             QListView::LeftToRight :
                             QListView::TopToBottom;
-
     settings->setArrangement(arrangement);
 
-    // TODO: this is just a very rough testing code to calculate the grid
-    // width and height
     const int defaultSize = settings->iconSize();
     int gridWidth = defaultSize;
     int gridHeight = defaultSize;
     const int textSizeIndex = m_textWidthBox->currentIndex();
     if (arrangement == QListView::TopToBottom) {
-        gridWidth += 96 + textSizeIndex * 32;
-        gridHeight += 64;
+        gridWidth += TopToBottomBase + textSizeIndex * TopToBottomInc;
+        gridHeight += fontSize * 6;
     }
     else {
-        gridWidth += 128 + textSizeIndex * 64;
+        gridWidth += LeftToRightBase + textSizeIndex * LeftToRightInc;
     }
 
     settings->setGridWidth(gridWidth);
@@ -171,8 +185,8 @@ void IconsViewSettingsPage::applySettings()
 
     settings->setNumberOfTextlines(m_textlinesCountBox->value());
 
-    settings->setGridSpacing(GRID_SPACING_BASE +
-                             m_gridSpacingBox->currentIndex() * GRID_SPACING_INC);
+    settings->setGridSpacing(GridSpacingBase +
+                             m_gridSpacingBox->currentIndex() * GridSpacingInc);
 }
 
 void IconsViewSettingsPage::openIconSizeDialog()
@@ -182,15 +196,6 @@ void IconsViewSettingsPage::openIconSizeDialog()
         m_iconSize = dialog.iconSize();
         m_previewSize = dialog.previewSize();
     }
-}
-
-
-
-void IconsViewSettingsPage::adjustTextWidthSelection()
-{
-    IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    Q_ASSERT(settings != 0);
-    //m_textWidthBox->setCurrentIndex(DolphinSettings::instance().textWidthHint());
 }
 
 #include "iconsviewsettingspage.moc"
