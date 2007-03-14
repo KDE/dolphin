@@ -519,7 +519,7 @@ void InfoSidebarPage::insertActions()
 void InfoSidebarPage::showAnnotation(const KUrl& file)
 {
     if(m_metadata->storageUp()) {
-        QString text = m_metadata->getAnnotation(file);
+        QString text = m_metadata->annotation(file);
         if (!text.isEmpty()) {
             m_annotationLabel->show();
             m_annotationLabel->setText(QString("<b>%1</b> :<br/>%2").arg(i18n("Annotation")).arg(text));
@@ -533,16 +533,16 @@ void InfoSidebarPage::showAnnotation(const KUrl& file)
 
 void InfoSidebarPage::showAnnotations(const KUrl::List& files)
 {
-    static unsigned int maxShownAnnot = 3; //The maximum number of show annotations when selecting multiple files
     if (m_metadata->storageUp()) {
         bool hasAnnotation = false;
         unsigned int annotateNum = 0;
         QString firsts = QString("<b>%1 :</b><br/>").arg(i18n("Annotations"));
         foreach (KUrl file, files) {
-            QString annotation = m_metadata->getAnnotation(file);
+            QString annotation = m_metadata->annotation(file);
             if (!annotation.isEmpty()) {
                 hasAnnotation = true;
-                if(annotateNum < maxShownAnnot) {
+                if (annotateNum < 3) {
+                    // don't show more than 3 annotations
                     firsts += m_annotationLabel->fontMetrics().elidedText(QString("<b>%1</b> : %2<br/>").arg(file.fileName()).arg(annotation), Qt::ElideRight, width());//FIXME not really the good method, does not handle resizing ...
                     annotateNum++;
                 }
@@ -551,7 +551,10 @@ void InfoSidebarPage::showAnnotations(const KUrl::List& files)
         if (hasAnnotation) {
             m_annotationLabel->show();
             m_annotationLabel->setText(firsts);
-        } else m_annotationLabel->hide();
+        }
+        else {
+            m_annotationLabel->hide();
+        }
         m_annotationButton->setText(hasAnnotation ? i18n("Change annotations") : i18n("Annotate files"));
     }
 }
@@ -566,7 +569,7 @@ void InfoSidebarPage::changeAnnotation()
     }
     else if (files.count() == 1) {
         name = files[0].url();
-        old = m_metadata->getAnnotation(files[0]);
+        old = m_metadata->annotation(files[0]);
     }
     else {
         name = QString("%1 files").arg(files.count());

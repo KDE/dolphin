@@ -21,11 +21,6 @@
 #ifndef METADATALOADER_H
 #define METADATALOADER_H
 
-namespace Nempomuk {
-namespace Backbone {
-    class Registry;
-}
-}
 class KUrl;
 class QString;
 
@@ -39,15 +34,15 @@ class MetadataLoader
 {
 friend class DolphinApplication;
 public:
-        ~MetadataLoader();
-        bool storageUp();
+    ~MetadataLoader();
+    bool storageUp();
 
-        QString getAnnotation(const KUrl& file);
-        void setAnnotation(const KUrl& file, const QString& annotation);
+    QString annotation(const KUrl& file);
+    void setAnnotation(const KUrl& file, const QString& annotation);
 
 private:
-        MetadataLoader();
-        bool m_up;
+    MetadataLoader();
+    bool m_up;
 };
 
 

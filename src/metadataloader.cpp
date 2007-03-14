@@ -35,7 +35,8 @@ MetadataLoader::MetadataLoader()
     if (Nepomuk::KMetaData::ResourceManager::instance()->init()) {
         m_up = false;
         Nepomuk::KMetaData::ResourceManager::instance()->setAutoSync(false);
-    } else {
+    }
+    else {
         m_up = true;
     }
 #else
@@ -51,7 +52,7 @@ bool MetadataLoader::storageUp() {
     return m_up;
 }
 
-QString MetadataLoader::getAnnotation(const KUrl& file)
+QString MetadataLoader::annotation(const KUrl& file)
 {
 #ifdef HAVE_KMETADATA
     if(m_up)
@@ -64,8 +65,9 @@ QString MetadataLoader::getAnnotation(const KUrl& file)
 void MetadataLoader::setAnnotation(const KUrl& file, const QString& annotation)
 {
 #ifdef HAVE_KMETADATA
-    if(m_up)
+    if (m_up) {
         Nepomuk::KMetaData::File(file.url()).setComment(annotation);
+    }
 #endif
 }
 
