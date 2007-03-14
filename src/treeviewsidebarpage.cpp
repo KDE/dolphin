@@ -82,6 +82,7 @@ TreeViewSidebarPage::TreeViewSidebarPage(DolphinMainWindow* mainWindow,
             this, SLOT(dropUrls(const KUrl::List&, const QModelIndex&)));
 
     QVBoxLayout* layout = new QVBoxLayout(this);
+    layout->setMargin(0);
     layout->addWidget(m_treeView);
 }
 

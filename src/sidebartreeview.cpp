@@ -36,6 +36,7 @@ SidebarTreeView::SidebarTreeView(DolphinMainWindow* mainWindow,
     setSelectionMode(QAbstractItemView::SingleSelection);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSortingEnabled(true);
+    setFrameStyle(QFrame::NoFrame);
 
     viewport()->setAttribute(Qt::WA_Hover);
 
