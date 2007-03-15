@@ -19,8 +19,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef _DOLPHIN_MAINWINDOW_H_
-#define _DOLPHIN_MAINWINDOW_H_
+#ifndef DOLPHIN_MAINWINDOW_H
+#define DOLPHIN_MAINWINDOW_H
 
 #include "dolphinview.h"
 
@@ -30,16 +30,10 @@
 
 #include <QList>
 
-class KNewMenu;
-class KPrinter;
-class KUrl;
-class QLineEdit;
-class KHBox;
-class Q3IconViewItem;
-class QSplitter;
-class KAction;
-class UrlNavigator;
 class DolphinApplication;
+class KNewMenu;
+class KUrl;
+class QSplitter;
 
 /**
  * @short Main window for Dolphin.
@@ -437,5 +431,5 @@ private:
     QList<KonqUndoManager::CommandType> m_undoCommandTypes;
 };
 
-#endif // _DOLPHIN_H_
+#endif // DOLPHIN_MAINWINDOW_H
 
