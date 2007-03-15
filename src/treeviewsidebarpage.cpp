@@ -20,6 +20,7 @@
 #include "treeviewsidebarpage.h"
 
 #include "bookmarkselector.h"
+#include "dolphincontextmenu.h"
 #include "dolphinmainwindow.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
@@ -101,6 +102,56 @@ void TreeViewSidebarPage::showEvent(QShowEvent* event)
 {
     SidebarPage::showEvent(event);
     connectToActiveView();
+}
+
+void TreeViewSidebarPage::contextMenuEvent(QContextMenuEvent* event)
+{
+    SidebarPage::contextMenuEvent(event);
+
+    // TODO: temporary deactivate the following code, as the wrong
+    // selection of cut/copy/paste actions is very confusing:
+    return;
+
+    KFileItem* item = 0;
+
+    const QModelIndex index = m_treeView->indexAt(event->pos());
+    if (!index.isValid()) {
+        // only open a context menu above a directory item
+        return;
+    }
+
+#if defined(USE_PROXY_MODEL)
+    const QModelIndex dirModelIndex = m_proxyModel->mapToSource(index);
+    item = m_dirModel->itemForIndex(dirModelIndex);
+#else
+    item = m_dirModel->itemForIndex(index);
+#endif
+
+#if defined(USE_PROXY_MODEL)
+    const QItemSelection selection = m_proxyModel->mapSelectionToSource(
+                                                   m_treeView->selectionModel()->selection());
+#else
+    const QItemSelection selection = m_treeView->selectionModel()->selection();
+#endif
+
+    KFileItemList selectedItems;
+
+    const QModelIndexList indexList = selection.indexes();
+    QModelIndexList::const_iterator end = indexList.end();
+    for (QModelIndexList::const_iterator it = indexList.begin(); it != end; ++it) {
+        Q_ASSERT((*it).isValid());
+
+        KFileItem* item = m_dirModel->itemForIndex(*it);
+        if (item != 0) {
+            selectedItems.append(item);
+        }
+    }
+
+    DolphinContextMenu contextMenu(mainWindow(),
+                                   item,
+                                   m_dirLister->url(),
+                                   selectedItems);
+    contextMenu.open();
 }
 
 void TreeViewSidebarPage::updateSelection(const KUrl& url)

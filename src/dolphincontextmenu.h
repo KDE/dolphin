@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,22 +20,22 @@
 #ifndef DOLPHINCONTEXTMENU_H
 #define DOLPHINCONTEXTMENU_H
 
+#include <kdedesktopmimetype.h>
+#include <kfileitem.h>
+#include <kservice.h>
+#include <kurl.h>
+
 #include <QString>
 #include <QVector>
 
-#include <kservice.h>
-#include <kpropertiesdialog.h>
-#include <kdedesktopmimetype.h>
-
 class KMenu;
 class KFileItem;
-class QPoint;
-class QWidget;
-class DolphinView;
+class QAction;
+class DolphinMainWindow;
 
 /**
  * @brief Represents the context menu which appears when doing a right
- * click on an item or the viewport of the file manager.
+ *        click on an item or the viewport of the file manager.
  *
  * Beside static menu entries (e. g. 'Paste' or 'Properties') two
  * dynamic sub menus are shown when opening a context menu above
@@ -45,21 +44,25 @@ class DolphinView;
  *                open items of the given MIME type.
  * - 'Actions':   Contains all actions which can be applied to the
  *                given item.
- *
- *	@author Peter Penz <peter.penz@gmx.at>
  */
 class DolphinContextMenu
 {
 public:
     /**
-     * @parent    Pointer to the dolphin view the context menu
-     *            belongs to.
-     * @fileInfo  Pointer to the file item the context menu
-     *            is applied. If 0 is passed, the context menu
-     *            is above the viewport.
+     * @parent        Pointer to the main window the context menu
+     *                belongs to.
+     * @fileInfo      Pointer to the file item the context menu
+     *                is applied. If 0 is passed, the context menu
+     *                is above the viewport.
+     * @baseUrl       Base URL of the viewport where the context menu
+     *                should be opened.
+     * @selectedItems Selected items where the actions of the context menu
+     *                are applied.
      */
-    DolphinContextMenu(DolphinView* parent,
-                       KFileItem* fileInfo);
+    DolphinContextMenu(DolphinMainWindow* parent,
+                       KFileItem* fileInfo,
+                       const KUrl& baseUrl,
+                       KFileItemList selectedItems);
 
     virtual ~DolphinContextMenu();
 
@@ -120,8 +123,11 @@ private:
         TrashContext = 2
     };
 
-    DolphinView* m_dolphinView;
+    DolphinMainWindow* m_mainWindow;
     KFileItem* m_fileInfo;
+    KUrl m_baseUrl;
+    KFileItemList m_selectedItems;
+    KUrl::List m_selectedUrls;
     int m_context;
 };
 

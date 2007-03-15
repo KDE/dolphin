@@ -45,37 +45,38 @@
 
 #include <QDir>
 
-DolphinContextMenu::DolphinContextMenu(DolphinView* parent,
-                                       KFileItem* fileInfo) :
-   m_dolphinView(parent),
-   m_fileInfo(fileInfo),
-   m_context(NoContext)
+DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
+                                       KFileItem* fileInfo,
+                                       const KUrl& baseUrl,
+                                       KFileItemList selectedItems) :
+    m_mainWindow(parent),
+    m_fileInfo(fileInfo),
+    m_baseUrl(baseUrl),
+    m_selectedItems(selectedItems),
+    m_context(NoContext)
 {
+    // The context menu either accesses the URLs of the selected items
+    // or the items itself. To increase the performance the URLs are cached.
+    KFileItemList::const_iterator it = selectedItems.begin();
+    const KFileItemList::const_iterator end = selectedItems.end();
+    while (it != end) {
+        KFileItem* item = *it;
+        m_selectedUrls.append(item->url());
+        ++it;
+    }
 }
 
 void DolphinContextMenu::open()
 {
     // get the context information
-    const KUrl& url = m_dolphinView->url();
-    if (url.protocol() == "trash") {
+    if (m_baseUrl.protocol() == "trash") {
         m_context |= TrashContext;
     }
 
     if (m_fileInfo != 0) {
         m_context |= ItemContext;
-
         // TODO: handle other use cases like devices + desktop files
-        /*
-        const KUrl::List urls = m_dolphinView->selectedUrls();
-
-        KUrl::List::const_iterator it = urls.begin();
-        KUrl::List::const_iterator end = urls.end();
-        while (it != end) {
-            const KUrl& url = *it;
-
-            ++it;
-        }*/
-    }
+   }
 
     // open the corresponding popup for the context
     if (m_context & TrashContext) {
@@ -103,26 +104,25 @@ void DolphinContextMenu::openTrashContextMenu()
 {
     Q_ASSERT(m_context & TrashContext);
 
-    KMenu* popup = new KMenu(m_dolphinView);
+    KMenu* popup = new KMenu(m_mainWindow);
 
     QAction* emptyTrashAction = new QAction(KIcon("user-trash"), i18n("Emtpy Trash"), popup);
     KConfig trashConfig("trashrc", KConfig::OnlyLocal);
     emptyTrashAction->setEnabled(!trashConfig.group("Status").readEntry("Empty", true));
     popup->addAction(emptyTrashAction);
 
-    DolphinMainWindow* mainWindow = m_dolphinView->mainWindow();
-    QAction* propertiesAction = mainWindow->actionCollection()->action("properties");
+    QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
     popup->addAction(propertiesAction);
 
     if (popup->exec(QCursor::pos()) == emptyTrashAction) {
         const QString text(i18n("Do you really want to empty the Trash? All items will get deleted."));
-        const bool del = KMessageBox::warningContinueCancel(mainWindow,
+        const bool del = KMessageBox::warningContinueCancel(m_mainWindow,
                                                             text,
                                                             QString(),
                                                             KGuiItem(i18n("Empty Trash"), KIcon("user-trash"))
                                                             ) == KMessageBox::Continue;
         if (del) {
-            KonqOperations::emptyTrash(m_dolphinView);
+            KonqOperations::emptyTrash(m_mainWindow);
         }
     }
 
@@ -134,21 +134,19 @@ void DolphinContextMenu::openTrashItemContextMenu()
     Q_ASSERT(m_context & TrashContext);
     Q_ASSERT(m_context & ItemContext);
 
-    KMenu* popup = new KMenu(m_dolphinView);
+    KMenu* popup = new KMenu(m_mainWindow);
 
-    DolphinMainWindow* mainWindow = m_dolphinView->mainWindow();
-    QAction* restoreAction = new QAction(i18n("Restore"), m_dolphinView);
+    QAction* restoreAction = new QAction(i18n("Restore"), m_mainWindow);
     popup->addAction(restoreAction);
 
-    QAction* deleteAction = mainWindow->actionCollection()->action("delete");
+    QAction* deleteAction = m_mainWindow->actionCollection()->action("delete");
     popup->addAction(deleteAction);
 
-    QAction* propertiesAction = mainWindow->actionCollection()->action("properties");
+    QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
     popup->addAction(propertiesAction);
 
     if (popup->exec(QCursor::pos()) == restoreAction) {
-        const KUrl::List urls = m_dolphinView->selectedUrls();
-        KonqOperations::restoreTrashedItems(urls, m_dolphinView);
+        KonqOperations::restoreTrashedItems(m_selectedUrls, m_mainWindow);
     }
 
     popup->deleteLater();
@@ -158,15 +156,12 @@ void DolphinContextMenu::openItemContextMenu()
 {
     Q_ASSERT(m_fileInfo != 0);
 
-    KMenu* popup = new KMenu(m_dolphinView);
+    KMenu* popup = new KMenu(m_mainWindow);
     insertDefaultItemActions(popup);
-
-    DolphinMainWindow* mainWindow = m_dolphinView->mainWindow();
-    const KUrl::List urls = m_dolphinView->selectedUrls();
 
     // insert 'Bookmark this folder' entry if exactly one item is selected
     QAction* bookmarkAction = 0;
-    if (m_fileInfo->isDir() && (urls.count() == 1)) {
+    if (m_fileInfo->isDir() && (m_selectedUrls.count() == 1)) {
         bookmarkAction = popup->addAction(KIcon("bookmark-folder"), i18n("Bookmark this folder"));
     }
 
@@ -180,7 +175,7 @@ void DolphinContextMenu::openItemContextMenu()
     popup->addSeparator();
 
     // insert 'Properties...' entry
-    QAction* propertiesAction = mainWindow->actionCollection()->action("properties");
+    QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
     popup->addAction(propertiesAction);
 
     QAction* activatedAction = popup->exec(QCursor::pos());
@@ -201,18 +196,18 @@ void DolphinContextMenu::openItemContextMenu()
     else if (serviceActions.contains(activatedAction)) {
         // one of the 'Actions' items has been selected
         int id = serviceActions.indexOf(activatedAction);
-        KDEDesktopMimeType::executeService(urls, actionsVector[id]);
+        KDEDesktopMimeType::executeService(m_selectedUrls, actionsVector[id]);
     }
     else if (openWithActions.contains(activatedAction)) {
         // one of the 'Open With' items has been selected
         if (openWithActions.last() == activatedAction) {
             // the item 'Other...' has been selected
-            KRun::displayOpenWithDialog(urls, m_dolphinView);
+            KRun::displayOpenWithDialog(m_selectedUrls, m_mainWindow);
         }
         else {
             int id = openWithActions.indexOf(activatedAction);
             KService::Ptr servicePtr = openWithVector[id];
-            KRun::run(*servicePtr, urls, m_dolphinView);
+            KRun::run(*servicePtr, m_selectedUrls, m_mainWindow);
         }
     }
 
@@ -224,29 +219,28 @@ void DolphinContextMenu::openItemContextMenu()
 void DolphinContextMenu::openViewportContextMenu()
 {
     Q_ASSERT(m_fileInfo == 0);
-    DolphinMainWindow* mainWindow = m_dolphinView->mainWindow();
-    KMenu* popup = new KMenu(m_dolphinView);
+    KMenu* popup = new KMenu(m_mainWindow);
 
     // setup 'Create New' menu
-    KNewMenu* newMenu = mainWindow->newMenu();
+    KNewMenu* newMenu = m_mainWindow->newMenu();
     newMenu->slotCheckUpToDate();
-    newMenu->setPopupFiles(m_dolphinView->url());
+    newMenu->setPopupFiles(m_baseUrl);
     popup->addMenu(newMenu->menu());
     popup->addSeparator();
 
-    QAction* pasteAction = mainWindow->actionCollection()->action(KStandardAction::stdName(KStandardAction::Paste));
+    QAction* pasteAction = m_mainWindow->actionCollection()->action(KStandardAction::stdName(KStandardAction::Paste));
     popup->addAction(pasteAction);
 
     // setup 'View Mode' menu
     KMenu* viewModeMenu = new KMenu(i18n("View Mode"));
 
-    QAction* iconsMode = mainWindow->actionCollection()->action("icons");
+    QAction* iconsMode = m_mainWindow->actionCollection()->action("icons");
     viewModeMenu->addAction(iconsMode);
 
-    QAction* detailsMode = mainWindow->actionCollection()->action("details");
+    QAction* detailsMode = m_mainWindow->actionCollection()->action("details");
     viewModeMenu->addAction(detailsMode);
 
-    QAction* previewsMode = mainWindow->actionCollection()->action("previews");
+    QAction* previewsMode = m_mainWindow->actionCollection()->action("previews");
     viewModeMenu->addAction(previewsMode);
 
     popup->addMenu(viewModeMenu);
@@ -259,10 +253,10 @@ void DolphinContextMenu::openViewportContextMenu()
 
     QAction* activatedAction = popup->exec(QCursor::pos());
     if (activatedAction == propertiesAction) {
-        new KPropertiesDialog(mainWindow->activeView()->url());
+        new KPropertiesDialog(m_mainWindow->activeView()->url());
     }
     else if (activatedAction == bookmarkAction) {
-        const KUrl& url = mainWindow->activeView()->url();
+        const KUrl& url = m_mainWindow->activeView()->url();
         KBookmark bookmark = EditBookmarkDialog::getBookmark(i18n("Add folder as bookmark"),
                                                              url.fileName(),
                                                              url,
@@ -282,9 +276,6 @@ void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
 {
     Q_ASSERT(popup != 0);
 
-    DolphinMainWindow* mainWindow = m_dolphinView->mainWindow();
-    const KUrl::List urls = m_dolphinView->selectedUrls();
-
     // insert 'Cut', 'Copy' and 'Paste'
     const KStandardAction::StandardAction actionNames[] = {
         KStandardAction::Cut,
@@ -294,7 +285,7 @@ void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
 
     const int count = sizeof(actionNames) / sizeof(KStandardAction::StandardAction);
     for (int i = 0; i < count; ++i) {
-        QAction* action = mainWindow->actionCollection()->action(KStandardAction::stdName(actionNames[i]));
+        QAction* action = m_mainWindow->actionCollection()->action(KStandardAction::stdName(actionNames[i]));
         if (action != 0) {
             popup->addAction(action);
         }
@@ -302,16 +293,16 @@ void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
     popup->addSeparator();
 
     // insert 'Rename'
-    QAction* renameAction = mainWindow->actionCollection()->action("rename");
+    QAction* renameAction = m_mainWindow->actionCollection()->action("rename");
     popup->addAction(renameAction);
 
     // insert 'Move to Trash' and (optionally) 'Delete'
     const KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
     const KConfigGroup kdeConfig(globalConfig, "KDE");
     bool showDeleteCommand = kdeConfig.readEntry("ShowDeleteCommand", false);
-    const KUrl& url = mainWindow->activeView()->url();
+    const KUrl& url = m_mainWindow->activeView()->url();
     if (url.isLocalFile()) {
-        QAction* moveToTrashAction = mainWindow->actionCollection()->action("move_to_trash");
+        QAction* moveToTrashAction = m_mainWindow->actionCollection()->action("move_to_trash");
         popup->addAction(moveToTrashAction);
     }
     else {
@@ -319,7 +310,7 @@ void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
     }
 
     if (showDeleteCommand) {
-        QAction* deleteAction = mainWindow->actionCollection()->action("delete");
+        QAction* deleteAction = m_mainWindow->actionCollection()->action("delete");
         popup->addAction(deleteAction);
     }
 }
@@ -336,12 +327,10 @@ QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
     // are listed which are registered to open the item. As last entry "Other..." will be
     // attached which allows to select a custom application. If no applications are registered
     // no sub menu is created at all, only "Open With..." will be offered.
-    const KFileItemList list = m_dolphinView->selectedItems();
-
     bool insertOpenWithItems = true;
     const QString contextMimeType(m_fileInfo->mimetype());
 
-    QListIterator<KFileItem*> mimeIt(list);
+    QListIterator<KFileItem*> mimeIt(m_selectedItems);
     while (insertOpenWithItems && mimeIt.hasNext()) {
         KFileItem* item = mimeIt.next();
         insertOpenWithItems = (contextMimeType == item->mimetype());
@@ -433,9 +422,7 @@ QList<QAction*> DolphinContextMenu::insertActionItems(KMenu* popup,
                     if ((*it) == "all/allfiles") {
                         // The service type is valid for all files, but not for directories.
                         // Check whether the selected items only consist of files...
-                        const KFileItemList list = m_dolphinView->selectedItems();
-
-                        QListIterator<KFileItem*> mimeIt(list);
+                        QListIterator<KFileItem*> mimeIt(m_selectedItems);
                         insert = true;
                         while (insert && mimeIt.hasNext()) {
                             KFileItem* item = mimeIt.next();
@@ -447,9 +434,7 @@ QList<QAction*> DolphinContextMenu::insertActionItems(KMenu* popup,
                         // Check whether the MIME types of all selected files match
                         // to the mimetype of the service action. As soon as one MIME
                         // type does not match, no service menu is shown at all.
-                        const KFileItemList list = m_dolphinView->selectedItems();
-
-                        QListIterator<KFileItem*> mimeIt(list);
+                        QListIterator<KFileItem*> mimeIt(m_selectedItems);
                         insert = true;
                         while (insert && mimeIt.hasNext()) {
                             KFileItem* item = mimeIt.next();

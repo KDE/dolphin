@@ -973,7 +973,10 @@ void DolphinView::openContextMenu(const QPoint& pos)
         item = fileItem(index);
     }
 
-    DolphinContextMenu contextMenu(this, item);
+    DolphinContextMenu contextMenu(m_mainWindow,
+                                   item,
+                                   url(),
+                                   selectedItems());
     contextMenu.open();
 }
 
