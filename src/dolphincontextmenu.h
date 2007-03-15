@@ -67,8 +67,12 @@ public:
     void open();
 
 private:
-    void openViewportContextMenu();
+    void openTrashContextMenu();
+    void openTrashItemContextMenu();
     void openItemContextMenu();
+    void openViewportContextMenu();
+
+    void insertDefaultItemActions(KMenu* popup);
 
     /**
      * Inserts the 'Open With...' submenu to \a popup.
@@ -100,9 +104,7 @@ private:
     bool containsEntry(const KMenu* menu,
                        const QString& entryName) const;
 
-    DolphinView* m_dolphinView;
-    KFileItem* m_fileInfo;
-
+private:
     struct Entry {
         int type;
         QString name;
@@ -111,6 +113,16 @@ private:
         QString icon;
         QString comment;
     };
+
+    enum ContextType {
+        NoContext = 0,
+        ItemContext = 1,
+        TrashContext = 2
+    };
+
+    DolphinView* m_dolphinView;
+    KFileItem* m_fileInfo;
+    int m_context;
 };
 
 #endif

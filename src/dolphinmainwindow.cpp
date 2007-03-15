@@ -204,6 +204,7 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
 
 void DolphinMainWindow::rename(const KUrl& oldUrl, const KUrl& newUrl)
 {
+    clearStatusBar();
     KonqOperations::rename(this, oldUrl, newUrl);
     m_undoCommandTypes.append(KonqUndoManager::RENAME);
 }
@@ -456,17 +457,29 @@ void DolphinMainWindow::deleteItems()
 {
     clearStatusBar();
 
+    // TODO: if KonqOperations::askDeleteConfirmation() would indicate when
+    // the operation has been finished, this method should be used.
+
     KUrl::List list = m_activeView->selectedUrls();
     const uint itemCount = list.count();
     Q_ASSERT(itemCount >= 1);
 
     QString text;
     if (itemCount > 1) {
-        text = i18n("Do you really want to delete the %1 selected items?",itemCount);
+        text = i18n("Do you really want to delete the %1 selected items?", itemCount);
     }
     else {
         const KUrl& url = list.first();
-        text = i18n("Do you really want to delete '%1'?",url.fileName());
+        QString itemName;
+        if (url.protocol() == "trash" ) {
+            itemName = url.path();
+            // TODO: check comment in konq_undo.cc in the method askDeleteConfirmation()
+            itemName.remove(QRegExp("^/[0-9]*-"));
+        }
+        else {
+           itemName = url.pathOrUrl();
+        }
+        text = i18n("Do you really want to delete '%1'?", itemName);
     }
 
     const bool del = KMessageBox::warningContinueCancel(this,
@@ -544,7 +557,7 @@ void DolphinMainWindow::slotUndoAvailable(bool available)
                                       DolphinStatusBar::OperationCompleted);
                 break;
 
-           case KonqUndoManager::MKDIR:
+            case KonqUndoManager::MKDIR:
                 statusBar->setMessage(i18n("Created directory."),
                                       DolphinStatusBar::OperationCompleted);
                 break;
