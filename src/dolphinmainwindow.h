@@ -34,7 +34,6 @@ class KNewMenu;
 class KPrinter;
 class KUrl;
 class QLineEdit;
-class KFileIconView;
 class KHBox;
 class Q3IconViewItem;
 class QSplitter;
