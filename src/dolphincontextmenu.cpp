@@ -48,21 +48,23 @@
 DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
                                        KFileItem* fileInfo,
                                        const KUrl& baseUrl,
-                                       KFileItemList selectedItems) :
+                                       ViewType viewType) :
     m_mainWindow(parent),
     m_fileInfo(fileInfo),
     m_baseUrl(baseUrl),
-    m_selectedItems(selectedItems),
+    m_viewType(viewType),
     m_context(NoContext)
 {
-    // The context menu either accesses the URLs of the selected items
-    // or the items itself. To increase the performance the URLs are cached.
-    KFileItemList::const_iterator it = selectedItems.begin();
-    const KFileItemList::const_iterator end = selectedItems.end();
-    while (it != end) {
-        KFileItem* item = *it;
-        m_selectedUrls.append(item->url());
-        ++it;
+    if (viewType == ItemsView) {
+        // The context menu either accesses the URLs of the selected items
+        // or the items itself. To increase the performance both lists are cached.
+        DolphinView* view = m_mainWindow->activeView();
+        m_selectedUrls = view->selectedUrls();
+        m_selectedItems = view->selectedItems();
+    }
+    else if (fileInfo != 0) {
+        m_selectedUrls.append(fileInfo->url());
+        m_selectedItems.append(fileInfo);
     }
 }
 
@@ -157,12 +159,16 @@ void DolphinContextMenu::openItemContextMenu()
     Q_ASSERT(m_fileInfo != 0);
 
     KMenu* popup = new KMenu(m_mainWindow);
-    insertDefaultItemActions(popup);
+    if (m_viewType == ItemsView) {
+        insertDefaultItemActions(popup);
+    }
+
+    popup->addSeparator();
 
     // insert 'Bookmark this folder' entry if exactly one item is selected
     QAction* bookmarkAction = 0;
     if (m_fileInfo->isDir() && (m_selectedUrls.count() == 1)) {
-        bookmarkAction = popup->addAction(KIcon("bookmark-folder"), i18n("Bookmark this folder"));
+        bookmarkAction = popup->addAction(KIcon("bookmark-folder"), i18n("Bookmark folder"));
     }
 
     // Insert 'Open With...' sub menu
@@ -174,9 +180,11 @@ void DolphinContextMenu::openItemContextMenu()
     const QList<QAction*> serviceActions = insertActionItems(popup, actionsVector);
     popup->addSeparator();
 
-    // insert 'Properties...' entry
-    QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
-    popup->addAction(propertiesAction);
+    if (m_viewType == ItemsView) {
+        // insert 'Properties...' entry
+        QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
+        popup->addAction(propertiesAction);
+    }
 
     QAction* activatedAction = popup->exec(QCursor::pos());
 
@@ -277,19 +285,12 @@ void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
     Q_ASSERT(popup != 0);
 
     // insert 'Cut', 'Copy' and 'Paste'
-    const KStandardAction::StandardAction actionNames[] = {
-        KStandardAction::Cut,
-        KStandardAction::Copy,
-        KStandardAction::Paste
-    };
-
-    const int count = sizeof(actionNames) / sizeof(KStandardAction::StandardAction);
-    for (int i = 0; i < count; ++i) {
-        QAction* action = m_mainWindow->actionCollection()->action(KStandardAction::stdName(actionNames[i]));
-        if (action != 0) {
-            popup->addAction(action);
-        }
-    }
+    QAction* cutAction   = m_mainWindow->actionCollection()->action(KStandardAction::stdName(KStandardAction::Cut));
+    QAction* copyAction  = m_mainWindow->actionCollection()->action(KStandardAction::stdName(KStandardAction::Copy));
+    QAction* pasteAction = m_mainWindow->actionCollection()->action(KStandardAction::stdName(KStandardAction::Paste));
+    popup->addAction(cutAction);
+    popup->addAction(copyAction);
+    popup->addAction(pasteAction);
     popup->addSeparator();
 
     // insert 'Rename'
@@ -354,7 +355,7 @@ QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
                 const QString appName((*it)->name());
                 if (!containsEntry(openWithMenu, appName)) {
                     const KIcon icon((*it)->icon());
-                    QAction *action = openWithMenu->addAction(icon, appName);
+                    QAction* action = openWithMenu->addAction(icon, appName);
                     openWithVector.append(*it);
                     openWithActions << action;
                 }
@@ -364,7 +365,6 @@ QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
             QAction* action = openWithMenu->addAction(i18n("&Other..."));
 
             openWithActions << action;
-            popup->addSeparator();
             popup->addMenu(openWithMenu);
         }
         else {
@@ -378,7 +378,6 @@ QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
     else {
         // At least one of the selected items has a different MIME type. In this case
         // just show a disabled "Open With..." entry.
-        popup->addSeparator();
         QAction* action = popup->addAction(i18n("Open With..."));
         action->setEnabled(false);
     }

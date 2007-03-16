@@ -48,6 +48,12 @@ class DolphinMainWindow;
 class DolphinContextMenu
 {
 public:
+    enum ViewType
+    {
+        ItemsView,
+        SidebarView
+    };
+
     /**
      * @parent        Pointer to the main window the context menu
      *                belongs to.
@@ -56,13 +62,12 @@ public:
      *                is above the viewport.
      * @baseUrl       Base URL of the viewport where the context menu
      *                should be opened.
-     * @selectedItems Selected items where the actions of the context menu
-     *                are applied.
+     * @viewType      On which view type is the context menu shown.
      */
     DolphinContextMenu(DolphinMainWindow* parent,
                        KFileItem* fileInfo,
                        const KUrl& baseUrl,
-                       KFileItemList selectedItems);
+                       ViewType viewType = ItemsView);
 
     virtual ~DolphinContextMenu();
 
@@ -128,6 +133,7 @@ private:
     KUrl m_baseUrl;
     KFileItemList m_selectedItems;
     KUrl::List m_selectedUrls;
+    ViewType m_viewType;
     int m_context;
 };
 
