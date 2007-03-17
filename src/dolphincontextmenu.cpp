@@ -366,7 +366,8 @@ void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
     const KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
     const KConfigGroup kdeConfig(globalConfig, "KDE");
     bool showDeleteCommand = kdeConfig.readEntry("ShowDeleteCommand", false);
-    const KUrl& url = m_mainWindow->activeView()->url();
+    const KUrl& url = insertSidebarActions ? m_fileInfo->url():
+                                             m_mainWindow->activeView()->url();
     if (url.isLocalFile()) {
         QAction* moveToTrashAction = 0;
         if (insertSidebarActions) {
@@ -374,7 +375,7 @@ void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
             connect(moveToTrashAction, SIGNAL(triggered()), this, SLOT(moveToTrash()));
         }
         else {
-            collection->action("move_to_trash");
+            moveToTrashAction = collection->action("move_to_trash");
         }
         popup->addAction(moveToTrashAction);
     }
@@ -389,7 +390,7 @@ void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
             connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteItem()));
         }
         else {
-            collection->action("delete");
+            deleteAction = collection->action("delete");
         }
         popup->addAction(deleteAction);
     }
