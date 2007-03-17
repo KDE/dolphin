@@ -95,7 +95,7 @@ public:
 
 public slots:
     /**
-     * Returns the main windows ID, mainly used throught DBus.
+     * Returns the main window ID used through DBus.
      */
     int getId() const { return m_id; }
 
