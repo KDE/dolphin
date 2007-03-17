@@ -36,6 +36,7 @@
 #include <kmessagebox.h>
 #include <kmimetypetrader.h>
 #include <knewmenu.h>
+#include <konqmimedata.h>
 #include <konq_operations.h>
 #include <klocale.h>
 #include <kpropertiesdialog.h>
@@ -43,6 +44,8 @@
 #include <kstandardaction.h>
 #include <kstandarddirs.h>
 
+#include <QApplication>
+#include <QClipboard>
 #include <QDir>
 
 DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
@@ -104,17 +107,36 @@ void DolphinContextMenu::open()
 
 void DolphinContextMenu::cut()
 {
-    // TODO
+    QMimeData* mimeData = new QMimeData();
+    KUrl::List kdeUrls;
+    kdeUrls.append(m_fileInfo->url());
+    KonqMimeData::populateMimeData(mimeData, kdeUrls, KUrl::List(), true);
+    QApplication::clipboard()->setMimeData(mimeData);
 }
 
 void DolphinContextMenu::copy()
 {
-    // TODO
+    QMimeData* mimeData = new QMimeData();
+    KUrl::List kdeUrls;
+    kdeUrls.append(m_fileInfo->url());
+    KonqMimeData::populateMimeData(mimeData, kdeUrls, KUrl::List(), false);
+    QApplication::clipboard()->setMimeData(mimeData);
 }
 
 void DolphinContextMenu::paste()
 {
-    // TODO
+    QClipboard* clipboard = QApplication::clipboard();
+    const QMimeData* mimeData = clipboard->mimeData();
+
+    const KUrl::List source = KUrl::List::fromMimeData(mimeData);
+    const KUrl& dest = m_fileInfo->url();
+    if (KonqMimeData::decodeIsCutSelection(mimeData)) {
+        KonqOperations::copy(m_mainWindow, KonqOperations::MOVE, source, dest);
+        clipboard->clear();
+    }
+    else {
+        KonqOperations::copy(m_mainWindow, KonqOperations::COPY, source, dest);
+    }
 }
 
 void DolphinContextMenu::rename()
