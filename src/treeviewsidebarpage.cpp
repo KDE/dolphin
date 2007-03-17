@@ -121,6 +121,7 @@ void TreeViewSidebarPage::contextMenuEvent(QContextMenuEvent* event)
     KFileItem* item = m_dirModel->itemForIndex(index);
 #endif
 
+    mainWindow()->activeView()->clearSelection();
     DolphinContextMenu contextMenu(mainWindow(),
                                    item,
                                    m_dirLister->url(),

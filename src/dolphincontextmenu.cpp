@@ -68,6 +68,10 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     }
 }
 
+DolphinContextMenu::~DolphinContextMenu()
+{
+}
+
 void DolphinContextMenu::open()
 {
     // get the context information
@@ -98,8 +102,39 @@ void DolphinContextMenu::open()
     }
 }
 
-DolphinContextMenu::~DolphinContextMenu()
+void DolphinContextMenu::cut()
 {
+    // TODO
+}
+
+void DolphinContextMenu::copy()
+{
+    // TODO
+}
+
+void DolphinContextMenu::paste()
+{
+    // TODO
+}
+
+void DolphinContextMenu::rename()
+{
+    // TODO
+}
+
+void DolphinContextMenu::moveToTrash()
+{
+    // TODO
+}
+
+void DolphinContextMenu::deleteItem()
+{
+    // TODO
+}
+
+void DolphinContextMenu::showProperties()
+{
+    new KPropertiesDialog(m_fileInfo->url());
 }
 
 void DolphinContextMenu::openTrashContextMenu()
@@ -159,9 +194,7 @@ void DolphinContextMenu::openItemContextMenu()
     Q_ASSERT(m_fileInfo != 0);
 
     KMenu* popup = new KMenu(m_mainWindow);
-    if (m_viewType == ItemsView) {
-        insertDefaultItemActions(popup);
-    }
+    insertDefaultItemActions(popup);
 
     popup->addSeparator();
 
@@ -180,11 +213,16 @@ void DolphinContextMenu::openItemContextMenu()
     const QList<QAction*> serviceActions = insertActionItems(popup, actionsVector);
     popup->addSeparator();
 
-    if (m_viewType == ItemsView) {
-        // insert 'Properties...' entry
-        QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
-        popup->addAction(propertiesAction);
+    // insert 'Properties...' entry
+    QAction* propertiesAction = 0;
+    if (m_viewType == SidebarView) {
+        propertiesAction = new QAction(i18n("Properties..."), this);
+        connect(this, SIGNAL(triggered()), this, SLOT(showProperties()));
     }
+    else {
+        propertiesAction = m_mainWindow->actionCollection()->action("properties");
+    }
+    popup->addAction(propertiesAction);
 
     QAction* activatedAction = popup->exec(QCursor::pos());
 
@@ -283,18 +321,45 @@ void DolphinContextMenu::openViewportContextMenu()
 void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
 {
     Q_ASSERT(popup != 0);
+    const KActionCollection* collection = m_mainWindow->actionCollection();
+    const bool insertSidebarActions = (m_viewType == SidebarView);
 
     // insert 'Cut', 'Copy' and 'Paste'
-    QAction* cutAction   = m_mainWindow->actionCollection()->action(KStandardAction::stdName(KStandardAction::Cut));
-    QAction* copyAction  = m_mainWindow->actionCollection()->action(KStandardAction::stdName(KStandardAction::Copy));
-    QAction* pasteAction = m_mainWindow->actionCollection()->action(KStandardAction::stdName(KStandardAction::Paste));
+    QAction* cutAction = 0;
+    QAction* copyAction = 0;
+    QAction* pasteAction = 0;
+    if (insertSidebarActions) {
+        cutAction   = new QAction(KIcon("edit-cut"), i18n("Cut"), this);
+        connect(cutAction, SIGNAL(triggered()), this, SLOT(cut()));
+
+        copyAction  = new QAction(KIcon("edit-copy"), i18n("Copy"), this);
+        connect(copyAction, SIGNAL(triggered()), this, SLOT(copy()));
+
+        const QAction* menuPasteAction = collection->action(KStandardAction::stdName(KStandardAction::Paste));
+        pasteAction = new QAction(KIcon("edit-paste"), menuPasteAction->text(), this);
+        pasteAction->setEnabled(menuPasteAction->isEnabled());
+        connect(pasteAction, SIGNAL(triggered()), this, SLOT(paste()));
+    }
+    else {
+        cutAction   = collection->action(KStandardAction::stdName(KStandardAction::Cut));
+        copyAction  = collection->action(KStandardAction::stdName(KStandardAction::Copy));
+        pasteAction = collection->action(KStandardAction::stdName(KStandardAction::Paste));
+    }
+
     popup->addAction(cutAction);
     popup->addAction(copyAction);
     popup->addAction(pasteAction);
     popup->addSeparator();
 
     // insert 'Rename'
-    QAction* renameAction = m_mainWindow->actionCollection()->action("rename");
+    QAction* renameAction = 0;
+    if (insertSidebarActions) {
+        renameAction = new QAction(i18n("Rename"), this);
+        connect(renameAction, SIGNAL(triggered()), this, SLOT(paste()));
+    }
+    else {
+        collection->action("rename");
+    }
     popup->addAction(renameAction);
 
     // insert 'Move to Trash' and (optionally) 'Delete'
@@ -303,7 +368,14 @@ void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
     bool showDeleteCommand = kdeConfig.readEntry("ShowDeleteCommand", false);
     const KUrl& url = m_mainWindow->activeView()->url();
     if (url.isLocalFile()) {
-        QAction* moveToTrashAction = m_mainWindow->actionCollection()->action("move_to_trash");
+        QAction* moveToTrashAction = 0;
+        if (insertSidebarActions) {
+            moveToTrashAction = new QAction(KIcon("edit-trash"), i18n("Move To Trash"), this);
+            connect(moveToTrashAction, SIGNAL(triggered()), this, SLOT(moveToTrash()));
+        }
+        else {
+            collection->action("move_to_trash");
+        }
         popup->addAction(moveToTrashAction);
     }
     else {
@@ -311,7 +383,14 @@ void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
     }
 
     if (showDeleteCommand) {
-        QAction* deleteAction = m_mainWindow->actionCollection()->action("delete");
+        QAction* deleteAction = 0;
+        if (insertSidebarActions) {
+            deleteAction = new QAction(KIcon("edit-delete"), i18n("Delete"), this);
+            connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteItem()));
+        }
+        else {
+            collection->action("delete");
+        }
         popup->addAction(deleteAction);
     }
 }
@@ -536,3 +615,5 @@ bool DolphinContextMenu::containsEntry(const KMenu* menu,
 
     return false;
 }
+
+#include "dolphincontextmenu.moc"

@@ -25,6 +25,7 @@
 #include <kservice.h>
 #include <kurl.h>
 
+#include <QObject>
 #include <QString>
 #include <QVector>
 
@@ -45,8 +46,10 @@ class DolphinMainWindow;
  * - 'Actions':   Contains all actions which can be applied to the
  *                given item.
  */
-class DolphinContextMenu
+class DolphinContextMenu : public QObject
 {
+    Q_OBJECT
+
 public:
     enum ViewType
     {
@@ -73,6 +76,28 @@ public:
 
     /** Opens the context menu modal. */
     void open();
+
+private slots:
+    /** Cuts the item m_fileInfo. */
+    void cut();
+
+    /** Copies the item m_fileInfo. */
+    void copy();
+
+    /** Paste the clipboard to m_fileInfo. */
+    void paste();
+
+    /** Renames the item m_fileInfo. */
+    void rename();
+
+    /** Moves the item m_fileInfo to the trash. */
+    void moveToTrash();
+
+    /** Deletes the item m_fileInfo. */
+    void deleteItem();
+
+    /** Shows the properties of the item m_fileInfo. */
+    void showProperties();
 
 private:
     void openTrashContextMenu();

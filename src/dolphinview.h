@@ -219,10 +219,10 @@ public:
      */
     const QLinkedList<UrlNavigator::HistoryElem> urlHistory(int& index) const;
 
-    /**
-     * Returns true, if at least one item is selected.
-     */
+    /** Returns true, if at least one item is selected. */
     bool hasSelection() const;
+
+    void clearSelection();
 
     /**
      * Returns the selected items. The list is empty if no item has been
@@ -250,7 +250,6 @@ public:
      */
     void rename(const KUrl& source, const QString& newName);
 
-    /** Returns the status bar of the view. */
     DolphinStatusBar* statusBar() const;
 
     /**

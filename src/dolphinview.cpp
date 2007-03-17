@@ -460,6 +460,11 @@ bool DolphinView::hasSelection() const
     return itemView()->selectionModel()->hasSelection();
 }
 
+void DolphinView::clearSelection()
+{
+    itemView()->selectionModel()->clear();
+}
+
 KFileItemList DolphinView::selectedItems() const
 {
     const QAbstractItemView* view = itemView();
