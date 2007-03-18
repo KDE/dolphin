@@ -380,7 +380,7 @@ void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
         connect(renameAction, SIGNAL(triggered()), this, SLOT(paste()));
     }
     else {
-        collection->action("rename");
+        renameAction = collection->action("rename");
     }
     popup->addAction(renameAction);
 
