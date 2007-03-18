@@ -377,7 +377,7 @@ void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
     QAction* renameAction = 0;
     if (insertSidebarActions) {
         renameAction = new QAction(i18n("Rename"), this);
-        connect(renameAction, SIGNAL(triggered()), this, SLOT(paste()));
+        connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
     }
     else {
         renameAction = collection->action("rename");
