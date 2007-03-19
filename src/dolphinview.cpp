@@ -59,6 +59,7 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
                          bool showHiddenFiles) :
     QWidget(parent),
     m_showProgress(false),
+    m_blockContentsMovedSignal(false),
     m_mode(mode),
     m_iconSize(0),
     m_folderCount(0),
@@ -731,6 +732,7 @@ void DolphinView::updateItemCount()
 
     updateStatusBar();
 
+    m_blockContentsMovedSignal = false;
     QTimer::singleShot(0, this, SLOT(restoreContentsPos()));
 }
 
@@ -821,6 +823,7 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
         m_statusBar->setProgress(0);
     }
 
+    m_blockContentsMovedSignal = true;
     m_dirLister->stop();
     m_dirLister->openUrl(url, false, reload);
 }
@@ -1000,8 +1003,6 @@ void DolphinView::dropUrls(const KUrl::List& urls,
     const KUrl& destination = (directory == 0) ? url() :
                                                  directory->url();
 
-    kDebug() << "DolphinView::dropUrls() - destination: " << destination.prettyUrl() << endl;
-
     dropUrls(urls, destination);
 }
 
@@ -1034,7 +1035,9 @@ void DolphinView::updateSortOrder(Qt::SortOrder order)
 
 void DolphinView::emitContentsMoved()
 {
-    emit contentsMoved(contentsX(), contentsY());
+    if (!m_blockContentsMovedSignal) {
+        emit contentsMoved(contentsX(), contentsY());
+    }
 }
 
 void DolphinView::updateActivationState()

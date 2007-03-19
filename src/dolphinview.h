@@ -543,6 +543,7 @@ private:
 
 private:
     bool m_showProgress;
+    bool m_blockContentsMovedSignal;
     Mode m_mode;
 
     int m_iconSize;
