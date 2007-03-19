@@ -741,11 +741,6 @@ void DolphinView::generatePreviews(const KFileItemList& items)
         connect(job, SIGNAL(gotPreview(const KFileItem*, const QPixmap&)),
                 this, SLOT(showPreview(const KFileItem*, const QPixmap&)));
     }
-
-    const QMimeData* mimeData = QApplication::clipboard()->mimeData();
-    if (KonqMimeData::decodeIsCutSelection(mimeData)) {
-        QTimer::singleShot(0, this, SLOT(applyCutEffect()));
-    }
 }
 
 void DolphinView::showPreview(const KFileItem* item, const QPixmap& pixmap)
