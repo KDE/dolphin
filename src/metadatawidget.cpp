@@ -126,8 +126,10 @@ void MetaDataWidget::setFile( const KUrl& url )
 
 void MetaDataWidget::setFiles( const KUrl::List urls )
 {
+#ifdef HAVE_KMETADATA
     // FIXME: support multiple files
     setFile( urls.first() );
+#endif
 }
 
 
