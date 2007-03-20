@@ -44,8 +44,11 @@
 #include <kglobalsettings.h>
 #include <kfilemetainfo.h>
 #include <kvbox.h>
-#include <kratingwidget.h>
 #include <kseparator.h>
+
+#ifdef HAVE_KMETADATA
+#include <kratingwidget.h>
+#endif
 
 #include "dolphinmainwindow.h"
 #include "dolphinapplication.h"
