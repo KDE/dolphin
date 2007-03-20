@@ -157,7 +157,6 @@ bool MetaDataWidget::eventFilter( QObject* obj, QEvent* event )
             d->loadComment( d->editComment->toPlainText() );
         }
         else if ( event->type() == QEvent::FocusIn ) {
-            qDebug() << "JKGHLKGLKHÖLKJHLÖ" << endl;
             d->editComment->setFontItalic( false );
             if ( d->file.getComment().isEmpty() )
                 d->editComment->setText( QString() );
