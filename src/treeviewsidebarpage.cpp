@@ -148,9 +148,7 @@ void TreeViewSidebarPage::updateSelection(const KUrl& url)
     QItemSelectionModel* selModel = m_treeView->selectionModel();
     selModel->clearSelection();
 
-    const KFileItem item(S_IFDIR, KFileItem::Unknown, url);
-
-    const QModelIndex index = m_dirModel->indexForItem(item);
+    const QModelIndex index = m_dirModel->indexForUrl(url);
     if (index.isValid()) {
 #if defined(USE_PROXY_MODEL)
         // the item with the given URL is already part of the model
@@ -183,8 +181,12 @@ void TreeViewSidebarPage::expandSelectionParent()
                this, SLOT(expandSelectionParent()));
 
     // expand the parent folder of the selected item
-    const KFileItem parentItem(S_IFDIR, KFileItem::Unknown, m_selectedUrl.upUrl());
-    QModelIndex index = m_dirModel->indexForItem(parentItem);
+    KUrl parentUrl = m_selectedUrl.upUrl();
+    if (!m_dirLister->url().isParentOf(parentUrl)) {
+        return;
+    }
+
+    QModelIndex index = m_dirModel->indexForUrl(parentUrl);
     if (index.isValid()) {
 #if defined(USE_PROXY_MODEL)
         QModelIndex proxyIndex = m_proxyModel->mapFromSource(index);
@@ -194,8 +196,7 @@ void TreeViewSidebarPage::expandSelectionParent()
 #endif
 
         // select the item and assure that the item is visible
-        const KFileItem selectedItem(S_IFDIR, KFileItem::Unknown, m_selectedUrl);
-        index = m_dirModel->indexForItem(selectedItem);
+        index = m_dirModel->indexForUrl(m_selectedUrl);
         if (index.isValid()) {
 #if defined(USE_PROXY_MODEL)
             proxyIndex = m_proxyModel->mapFromSource(index);
@@ -209,7 +210,6 @@ void TreeViewSidebarPage::expandSelectionParent()
             QItemSelectionModel* selModel = m_treeView->selectionModel();
             selModel->setCurrentIndex(index, QItemSelectionModel::Select);
 #endif
-
         }
     }
 }
