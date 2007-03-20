@@ -753,11 +753,11 @@ void DolphinView::showPreview(const KFileItem* item, const QPixmap& pixmap)
         const QMimeData* mimeData = QApplication::clipboard()->mimeData();
         if (KonqMimeData::decodeIsCutSelection(mimeData) && isCutItem(*item)) {
             KIconEffect iconEffect;
-            QPixmap cutPixmap = iconEffect.apply(pixmap, K3Icon::Desktop, K3Icon::DisabledState);
-            m_dirModel->setData(idx, cutPixmap, Qt::DecorationRole);
+            const QPixmap cutPixmap = iconEffect.apply(pixmap, K3Icon::Desktop, K3Icon::DisabledState);
+            m_dirModel->setData(idx, QIcon(cutPixmap), Qt::DecorationRole);
         }
         else {
-            m_dirModel->setData(idx, pixmap, Qt::DecorationRole);
+            m_dirModel->setData(idx, QIcon(pixmap), Qt::DecorationRole);
         }
     }
 }
@@ -930,12 +930,15 @@ void DolphinView::updateCutItems()
     while (it != end) {
         KFileItem* item = *it;
         if (isCutItem(*item)) {
-            QPixmap pixmap = item->pixmap(0);
-            KIconEffect iconEffect;
-            pixmap = iconEffect.apply(pixmap, K3Icon::Desktop, K3Icon::DisabledState);
             const QModelIndex idx = m_dirModel->indexForItem(*item);
-            if (idx.isValid()) {
-                m_dirModel->setData(idx, pixmap, Qt::DecorationRole);
+            const QVariant value = m_dirModel->data(idx, Qt::DecorationRole);
+            if (value.type() == QVariant::Icon) {
+                const QIcon icon(qvariant_cast<QIcon>(value));
+                KIconEffect iconEffect;
+                const QPixmap pixmap = iconEffect.apply(icon.pixmap(128, 128),
+                                                        K3Icon::Desktop,
+                                                        K3Icon::DisabledState);
+                m_dirModel->setData(idx, QIcon(pixmap), Qt::DecorationRole);
             }
         }
         ++it;
