@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Oscar Blumberg                                  *
- *   o.blumberg@robertlan.eu.org                                           *
+ *   Copyright (C) 2007 by Sebastian Trueg <trueg@kde.org>                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -15,59 +14,53 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <config-kmetadata.h>
+#ifndef METADATA_WIDGET_H
+#define METADATA_WIDGET_H
 
-#include "metadataloader.h"
-
-#ifdef HAVE_KMETADATA
-#include <kmetadata/kmetadata.h>
-#endif
+#include <QWidget>
 
 #include <kurl.h>
-#include <QString>
 
-MetadataLoader::MetadataLoader()
+
+class MetaDataWidget : public QWidget
 {
-#ifdef HAVE_KMETADATA
-    if (Nepomuk::KMetaData::ResourceManager::instance()->init()) {
-        m_up = false;
-        Nepomuk::KMetaData::ResourceManager::instance()->setAutoSync(false);
-    }
-    else {
-        m_up = true;
-    }
-#else
-    m_up = false;
+    Q_OBJECT
+
+public:
+    MetaDataWidget( QWidget* parent = 0 );
+    ~MetaDataWidget();
+
+    /**
+     * \return true if the KMetaData system could be found and initialized.
+     * false if KMetaData was not available at compile time or if it has not
+     * been initialized properly.
+     */
+    static bool metaDataAvailable();
+    
+public Q_SLOTS:
+    void setFile( const KUrl& url );
+    void setFiles( const KUrl::List urls );
+
+signals:
+    /**
+     * This signal gets emitted if the metadata for the set file was changed on the
+     * outside. NOT IMPLEMENTED YET.
+     */
+    void metaDataChanged();
+
+private Q_SLOTS:
+    void slotCommentChanged();
+    void slotRatingChanged( int r );
+
+protected:
+    bool eventFilter( QObject* obj, QEvent* event );
+
+private:
+    class Private;
+    Private* d;
+};
+
 #endif
-}
-
-MetadataLoader::~MetadataLoader()
-{
-}
-
-bool MetadataLoader::storageUp() {
-    return m_up;
-}
-
-QString MetadataLoader::annotation(const KUrl& file)
-{
-#ifdef HAVE_KMETADATA
-    if(m_up)
-        return Nepomuk::KMetaData::File(file.url()).getComment();
-    else
-#endif
-        return QString();
-}
-
-void MetadataLoader::setAnnotation(const KUrl& file, const QString& annotation)
-{
-#ifdef HAVE_KMETADATA
-    if (m_up) {
-        Nepomuk::KMetaData::File(file.url()).setComment(annotation);
-    }
-#endif
-}
-

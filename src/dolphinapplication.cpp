@@ -20,7 +20,6 @@
 
 #include "dolphinapplication.h"
 #include "dolphinmainwindow.h"
-#include "metadataloader.h"
 
 #include <applicationadaptor.h>
 #include <kurl.h>
@@ -54,12 +53,6 @@ DolphinMainWindow* DolphinApplication::createMainWindow()
 
     m_mainWindows.append(mainWindow);
     return mainWindow;
-}
-
-MetadataLoader* DolphinApplication::metadataLoader()
-{
-    static MetadataLoader loader;
-    return &loader;
 }
 
 int DolphinApplication::openWindow(const QString& url)

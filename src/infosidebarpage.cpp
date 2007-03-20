@@ -17,6 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
+#include <config-kmetadata.h>
+
 #include "infosidebarpage.h"
 #include <assert.h>
 
@@ -42,13 +44,14 @@
 #include <kglobalsettings.h>
 #include <kfilemetainfo.h>
 #include <kvbox.h>
+#include <kratingwidget.h>
 #include <kseparator.h>
 
 #include "dolphinmainwindow.h"
 #include "dolphinapplication.h"
 #include "pixmapviewer.h"
 #include "dolphinsettings.h"
-#include "metadataloader.h"
+#include "metadatawidget.h"
 
 InfoSidebarPage::InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent) :
     SidebarPage(mainWindow, parent),
@@ -57,8 +60,7 @@ InfoSidebarPage::InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent)
     m_timer(0),
     m_preview(0),
     m_name(0),
-    m_infos(0),
-    m_metadata(DolphinApplication::app()->metadataLoader())
+    m_infos(0)
 {
     const int spacing = KDialog::spacingHint();
 
@@ -91,18 +93,10 @@ InfoSidebarPage::InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent)
 
     KSeparator* sep2 = new KSeparator(this);
 
-    // annotation
-    KSeparator* sep3 = 0;
-    if (m_metadata->storageUp()) {
-        m_annotationLabel = new QLabel(this);
-        m_annotationLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-        m_annotationLabel->setTextFormat(Qt::RichText);
-        m_annotationLabel->setWordWrap(true);
-        m_annotationButton = new QPushButton("", this);
-        m_annotationButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-        connect(m_annotationButton, SIGNAL(released()), this, SLOT(changeAnnotation()));
-        sep3 = new KSeparator(this);
-    }
+    if ( MetaDataWidget::metaDataAvailable() )
+        m_metadataWidget = new MetaDataWidget( this );
+    else
+        m_metadataWidget = 0;
 
     // actions
     m_actionBox = new KVBox(this);
@@ -118,10 +112,9 @@ InfoSidebarPage::InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent)
     layout->addWidget(sep1);
     layout->addWidget(m_infos);
     layout->addWidget(sep2);
-    if (m_metadata->storageUp()) {
-        layout->addWidget(m_annotationLabel);
-        layout->addWidget(m_annotationButton);
-        layout->addWidget(sep3);
+    if ( m_metadataWidget ) {
+        layout->addWidget( m_metadataWidget );
+        layout->addWidget( new KSeparator( this ) );
     }
     layout->addWidget(m_actionBox);
     layout->addWidget(dummy);
@@ -309,7 +302,8 @@ void InfoSidebarPage::createMetaInfo()
         if (fileItem.isDir()) {
             addInfoLine(i18n("Type:"), i18n("Directory"));
         }
-        showAnnotation(m_shownUrl);
+        if ( MetaDataWidget::metaDataAvailable() )
+            m_metadataWidget->setFile( fileItem.url() );
     }
     else if (view->selectedItems().count() == 1) {
         KFileItem* fileItem = view->selectedItems()[0];
@@ -329,10 +323,11 @@ void InfoSidebarPage::createMetaInfo()
                 }
             }
         }
-        showAnnotation(fileItem->url());
+        if ( MetaDataWidget::metaDataAvailable() )
+            m_metadataWidget->setFile( fileItem->url() );
     }
     else {
-        showAnnotations(view->selectedItems().urlList());
+        m_metadataWidget->setFiles( view->selectedItems().urlList() );
         unsigned long int totSize = 0;
         foreach(KFileItem* item, view->selectedItems()) {
             totSize += item->size(); //FIXME what to do with directories ? (same with the one-item-selected-code), item->size() does not return the size of the content : not very instinctive for users
@@ -516,73 +511,7 @@ void InfoSidebarPage::insertActions()
     }
 }
 
-void InfoSidebarPage::showAnnotation(const KUrl& file)
-{
-    if(m_metadata->storageUp()) {
-        QString text = m_metadata->annotation(file);
-        if (!text.isEmpty()) {
-            m_annotationLabel->show();
-            m_annotationLabel->setText(QString("<b>%1</b> :<br/>%2").arg(i18n("Annotation")).arg(text));
-            m_annotationButton->setText(i18n("Change annotation"));
-        } else {
-            m_annotationLabel->hide();
-            m_annotationButton->setText(i18n("Annotate file"));
-        }
-    }
-}
 
-void InfoSidebarPage::showAnnotations(const KUrl::List& files)
-{
-    if (m_metadata->storageUp()) {
-        bool hasAnnotation = false;
-        unsigned int annotateNum = 0;
-        QString firsts = QString("<b>%1 :</b><br/>").arg(i18n("Annotations"));
-        foreach (KUrl file, files) {
-            QString annotation = m_metadata->annotation(file);
-            if (!annotation.isEmpty()) {
-                hasAnnotation = true;
-                if (annotateNum < 3) {
-                    // don't show more than 3 annotations
-                    firsts += m_annotationLabel->fontMetrics().elidedText(QString("<b>%1</b> : %2<br/>").arg(file.fileName()).arg(annotation), Qt::ElideRight, width());//FIXME not really the good method, does not handle resizing ...
-                    annotateNum++;
-                }
-            }
-        }
-        if (hasAnnotation) {
-            m_annotationLabel->show();
-            m_annotationLabel->setText(firsts);
-        }
-        else {
-            m_annotationLabel->hide();
-        }
-        m_annotationButton->setText(hasAnnotation ? i18n("Change annotations") : i18n("Annotate files"));
-    }
-}
-
-void InfoSidebarPage::changeAnnotation()
-{
-    bool ok = false;
-    KUrl::List files(mainWindow()->activeView()->selectedItems().urlList());
-    QString name, old;
-    if (files.isEmpty()) {
-        files << m_shownUrl;
-    }
-    else if (files.count() == 1) {
-        name = files[0].url();
-        old = m_metadata->annotation(files[0]);
-    }
-    else {
-        name = QString("%1 files").arg(files.count());
-        old = QString();
-    }
-    QString text = QInputDialog::getText(this, "Annotate", QString("Set annotation for %1").arg(name), QLineEdit::Normal, old, &ok);//FIXME temporary, must move to a real dialog
-    if(ok) {
-        foreach(KUrl file, files) {
-            m_metadata->setAnnotation(file, text);
-        }
-        showAnnotation(files[0]);
-    }
-}
 
 ServiceButton::ServiceButton(const QIcon& icon,
                              const QString& text,

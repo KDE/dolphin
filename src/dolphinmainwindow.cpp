@@ -29,7 +29,7 @@
 #include "dolphinsettingsdialog.h"
 #include "dolphinstatusbar.h"
 #include "infosidebarpage.h"
-#include "metadataloader.h"
+#include "metadatawidget.h"
 #include "mainwindowadaptor.h"
 #include "treeviewsidebarpage.h"
 #include "urlnavigator.h"
@@ -1058,7 +1058,7 @@ void DolphinMainWindow::init()
         resize(640, 480);
     }
     #ifdef HAVE_KMETADATA
-    if (!DolphinApplication::app()->metadataLoader()->storageUp())
+    if ( !MetaDataWidget::metaDataAvailable() )
         activeView()->statusBar()->setMessage(i18n("Failed to contact Nepomuk service, annotation and tagging are disabled."), DolphinStatusBar::Error);
     #endif
 }

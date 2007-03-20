@@ -1,0 +1,165 @@
+/***************************************************************************
+ *   Copyright (C) 2007 by Sebastian Trueg <trueg@kde.org>                 *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
+ ***************************************************************************/
+
+#include <config-kmetadata.h>
+
+#include "metadatawidget.h"
+
+#include <klocale.h>
+
+#include <QLabel>
+#include <QGridLayout>
+#include <QTextEdit>
+
+#ifdef HAVE_KMETADATA
+#include <kmetadatatagwidget.h>
+#include <kmetadata/resourcemanager.h>
+#include <kmetadata/file.h>
+#include <kratingwidget.h>
+#include <kmetadatatagwidget.h>
+#endif
+
+
+bool MetaDataWidget::metaDataAvailable()
+{
+#ifdef HAVE_KMETADATA
+    return !Nepomuk::KMetaData::ResourceManager::instance()->init();
+#else
+    return false;
+#endif
+}
+
+
+class MetaDataWidget::Private
+{
+public:
+    void loadComment( const QString& comment ) {
+        editComment->blockSignals( true );
+        if ( comment.isEmpty() ) {
+            editComment->setFontItalic( true );
+            editComment->setText( i18n( "Click to add comment..." ) );
+        }
+        else {
+            editComment->setFontItalic( false );
+            editComment->setText( comment );
+        }
+        editComment->blockSignals( false );
+    }
+
+    KUrl fileUrl;
+
+#ifdef HAVE_KMETADATA
+    Nepomuk::KMetaData::File file;
+
+    QTextEdit* editComment;
+    KRatingWidget* ratingWidget;
+    Nepomuk::KMetaData::TagWidget* tagWidget;
+#endif
+};
+
+
+MetaDataWidget::MetaDataWidget( QWidget* parent )
+    : QWidget( parent )
+{
+    d = new Private;
+
+#ifdef HAVE_KMETADATA
+    d->editComment = new QTextEdit( this );
+    d->tagWidget = new Nepomuk::KMetaData::TagWidget( this );
+    d->ratingWidget = new KRatingWidget( this );
+    connect( d->ratingWidget, SIGNAL(ratingChanged(int)), this, SLOT(slotRatingChanged(int)) );
+    connect( d->editComment, SIGNAL( textChanged() ), this, SLOT( slotCommentChanged() ) );
+
+    QVBoxLayout* lay = new QVBoxLayout( this );
+    lay->setMargin( 0 );
+    QHBoxLayout* hbox = new QHBoxLayout;
+    hbox->addWidget( new QLabel( i18n( "Rating:" ), this ) );
+    hbox->addStretch( 1 );
+    hbox->addWidget( d->ratingWidget );
+    lay->addLayout( hbox );
+    lay->addWidget( d->editComment );
+    hbox = new QHBoxLayout;
+    hbox->addWidget( new QLabel( i18n( "Tags:" ), this ) );
+    hbox->addWidget( d->tagWidget, 1 );
+    lay->addLayout( hbox );
+
+    d->editComment->installEventFilter( this );
+    d->editComment->viewport()->installEventFilter( this );
+#endif
+}
+
+
+MetaDataWidget::~MetaDataWidget()
+{
+    delete d;
+}
+
+
+void MetaDataWidget::setFile( const KUrl& url )
+{
+#ifdef HAVE_KMETADATA
+    d->fileUrl = url;
+    d->file = Nepomuk::KMetaData::File( url.url() );
+    d->file.setLocation( url.url() );
+    d->ratingWidget->setRating( d->file.getRating() );
+    d->tagWidget->setTaggedResource( d->file );
+    d->loadComment( d->file.getComment() );
+#endif
+}
+
+
+void MetaDataWidget::setFiles( const KUrl::List urls )
+{
+    // FIXME: support multiple files
+    setFile( urls.first() );
+}
+
+
+void MetaDataWidget::slotCommentChanged()
+{
+    d->file.setComment( d->editComment->toPlainText() );
+}
+
+
+void MetaDataWidget::slotRatingChanged( int r )
+{
+    d->file.setRating( r );
+}
+
+
+bool MetaDataWidget::eventFilter( QObject* obj, QEvent* event )
+{
+    if (  obj == d->editComment->viewport()
+          || obj == d->editComment ) {
+        if ( event->type() == QEvent::FocusOut ) {
+            // make sure the info text is displayed again
+            d->loadComment( d->editComment->toPlainText() );
+        }
+        else if ( event->type() == QEvent::FocusIn ) {
+            qDebug() << "JKGHLKGLKHÖLKJHLÖ" << endl;
+            d->editComment->setFontItalic( false );
+            if ( d->file.getComment().isEmpty() )
+                d->editComment->setText( QString() );
+        }
+    }
+
+    return QWidget::eventFilter( obj, event );
+}
+
+#include "metadatawidget.moc"
