@@ -676,14 +676,14 @@ void DolphinView::triggerItem(const QModelIndex& index)
     else if (item->isFile()) {
         // allow to browse through ZIP and tar files
         KMimeType::Ptr mime = item->mimeTypePtr();
-        if (mime->is("application/x-zip")) {
+        if (mime->is("application/zip")) {
             url.setProtocol("zip");
             setUrl(url);
         }
         else if (mime->is("application/x-tar") ||
                  mime->is("application/x-tarz") ||
-                 mime->is("application/x-tbz") ||
-                 mime->is("application/x-tgz") ||
+                 mime->is("application/x-bzip-compressed-tar") ||
+                 mime->is("application/x-compressed-tar") ||
                  mime->is("application/x-tzo")) {
             url.setProtocol("tar");
             setUrl(url);
