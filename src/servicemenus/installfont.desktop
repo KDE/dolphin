@@ -1,5 +1,5 @@
 [Desktop Entry]
-ServiceTypes=application/x-font-ttf,application/x-font-type1,application/x-font-speedo,application/x-font-bdf,application/x-font-pcf,application/x-font-snf,application/x-font-otf,application/x-font-ttc,application/x-afm
+ServiceTypes=application/x-font-ttf,application/x-font-type1,application/x-font-speedo,application/x-font-bdf,application/x-font-pcf,application/x-font-snf,application/x-font-otf,application/x-font-ttf,application/x-font-afm
 Actions=installFont;
 
 X-SuSE-translate=true

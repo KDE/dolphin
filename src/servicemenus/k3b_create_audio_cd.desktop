@@ -1,7 +1,7 @@
 [Desktop Entry]
 Actions=CreateK3bAudioProject;
 Encoding=UTF-8
-ServiceTypes=audio/x-mp3,audio/x-vorbis,application/x-ogg,audio/x-mp2,audio/x-mpegurl,audio/x-wav,media/blankcd
+ServiceTypes=audio/mpeg,audio/x-vorbis+ogg,application/ogg,audio/x-mp2,audio/x-mpegurl,audio/x-wav,media/blankcd
 
 X-SuSE-translate=true
 X-SuSE-translate=true

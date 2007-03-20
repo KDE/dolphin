@@ -1,7 +1,7 @@
 [Desktop Entry]
 Actions=WriteCdImage;
 Encoding=UTF-8
-ServiceTypes=application/x-iso,inode/ISO-image
+ServiceTypes=application/x-cd-image,inode/ISO-image
 
 X-SuSE-translate=true
 X-SuSE-translate=true
