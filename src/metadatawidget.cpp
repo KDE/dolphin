@@ -133,18 +133,23 @@ void MetaDataWidget::setFiles( const KUrl::List urls )
 
 void MetaDataWidget::slotCommentChanged()
 {
+#ifdef HAVE_KMETADATA
     d->file.setComment( d->editComment->toPlainText() );
+#endif
 }
 
 
 void MetaDataWidget::slotRatingChanged( int r )
 {
+#ifdef HAVE_KMETADATA
     d->file.setRating( r );
+#endif
 }
 
 
 bool MetaDataWidget::eventFilter( QObject* obj, QEvent* event )
 {
+#ifdef HAVE_KMETADATA
     if (  obj == d->editComment->viewport()
           || obj == d->editComment ) {
         if ( event->type() == QEvent::FocusOut ) {
@@ -158,6 +163,7 @@ bool MetaDataWidget::eventFilter( QObject* obj, QEvent* event )
                 d->editComment->setText( QString() );
         }
     }
+#endif
 
     return QWidget::eventFilter( obj, event );
 }
