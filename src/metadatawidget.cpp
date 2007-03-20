@@ -49,6 +49,7 @@ bool MetaDataWidget::metaDataAvailable()
 class MetaDataWidget::Private
 {
 public:
+#ifdef HAVE_KMETADATA
     void loadComment( const QString& comment ) {
         editComment->blockSignals( true );
         if ( comment.isEmpty() ) {
@@ -64,7 +65,6 @@ public:
 
     KUrl fileUrl;
 
-#ifdef HAVE_KMETADATA
     Nepomuk::KMetaData::File file;
 
     QTextEdit* editComment;
