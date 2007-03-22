@@ -23,7 +23,7 @@
 #include "iconsviewsettingspage.h"
 #include "detailsviewsettingspage.h"
 
-#include <Q3VBoxLayout>
+#include <QVBoxLayout>
 #include <QTabWidget>
 #include <QLayout>
 #include <QLabel>
@@ -39,7 +39,9 @@ ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
     m_iconsPage(0),
     m_detailsPage(0)
 {
-    Q3VBoxLayout* topLayout = new Q3VBoxLayout(this, 0, KDialog::spacingHint());
+    QVBoxLayout* topLayout = new QVBoxLayout(this);
+    topLayout->setMargin(0);
+    topLayout->setSpacing(KDialog::spacingHint()));
 
     QTabWidget* tabWidget = new QTabWidget(this);
 

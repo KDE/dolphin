@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <q3popupmenu.h>
+#include <QMenu>
 
 #include <kdebug.h>
 #include <kprotocolinfo.h>
@@ -34,7 +34,7 @@ ProtocolCombo::ProtocolCombo(const QString& protocol, UrlNavigator* parent)
     qSort(m_protocols);
     QStringList::iterator it = m_protocols.begin();
     QStringList::iterator itEnd = m_protocols.end();
-    Q3PopupMenu* menu = new Q3PopupMenu(this);
+    QMenu* menu = new QMenu(this);
     while (it != itEnd)
     {
         //kDebug() << "info for " << *it << " "
