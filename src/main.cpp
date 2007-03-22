@@ -19,13 +19,10 @@
  ***************************************************************************/
 
 #include "dolphinapplication.h"
-#include "dolphinmainwindow.h"
+
 #include <kaboutdata.h>
 #include <kcmdlineargs.h>
 #include <klocale.h>
-#include <krun.h>
-#include <QDBusInterface>
-#include <QDBusReply>
 
 static KCmdLineOptions options[] =
 {
@@ -56,10 +53,11 @@ int main(int argc, char **argv)
     KCmdLineArgs::init(argc, argv, &about);
     KCmdLineArgs::addCmdLineOptions(options);
 
-    DolphinApplication* app = 0;
-    if (DolphinApplication::start()) {
-        app = new DolphinApplication();
+    if (!DolphinApplication::start()) {
+        return 0;
+    }
 
+    DolphinApplication app;
 #ifdef __GNUC__
 #warning TODO, SessionManagement
 #endif
@@ -72,11 +70,5 @@ int main(int argc, char **argv)
         }
     } else {
 #endif
-        return app->exec();
-    }
-
-    static QDBusInterface dbusIface("org.kde.dolphin", "/dolphin/Application", "",
-                                    QDBusConnection::connectToBus(QDBusConnection::SessionBus, "session_bus"));
-    dbusIface.call("openWindow");
-    return 0;
+    return app.exec();
 }
