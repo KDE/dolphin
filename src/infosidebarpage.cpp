@@ -28,10 +28,9 @@
 #include <qtimer.h>
 #include <qpushbutton.h>
 
-#include <q3popupmenu.h>
+#include <qmenu.h>
 #include <qpainter.h>
 #include <qfontmetrics.h>
-#include <Q3ValueList>
 #include <QEvent>
 #include <QInputDialog>
 
@@ -243,9 +242,11 @@ void InfoSidebarPage::startService(int index)
     DolphinView* view = mainWindow()->activeView();
     if (view->hasSelection()) {
         KUrl::List selectedUrls = view->selectedUrls();
+        // TODO: Use "at()" as soon as executeService is fixed to take a const param (BIC)
         KDEDesktopMimeType::executeService(selectedUrls, m_actionsVector[index]);
     }
     else {
+        // TODO: likewise
         KDEDesktopMimeType::executeService(m_shownUrl, m_actionsVector[index]);
     }
 }
@@ -397,17 +398,14 @@ void InfoSidebarPage::addInfoLine(const QString& labelText, const QString& infoT
 
 void InfoSidebarPage::insertActions()
 {
-    // delete all existing action widgets
-    // TODO: just use children() from QObject...
-    Q3PtrListIterator<QWidget> deleteIter(m_actionWidgets);
+    QListIterator<QPushButton*> deleteIter(m_actionBox->findChildren<QPushButton*>());
     QWidget* widget = 0;
-    while ((widget = deleteIter.current()) != 0) {
+    while (deleteIter.hasNext()) {
+        widget = deleteIter.next();
         widget->close();
         widget->deleteLater();
-        ++deleteIter;
     }
 
-    m_actionWidgets.clear();
     m_actionsVector.clear();
 
     int actionsIndex = 0;
@@ -469,10 +467,10 @@ void InfoSidebarPage::insertActions()
 
                     if (insert) {
                         const QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
-                        Q3PopupMenu* popup = 0;
+                        QMenu* popup = 0;
                         if (!submenuName.isEmpty()) {
                             // create a sub menu containing all actions
-                            popup = new Q3PopupMenu();
+                            popup = new QMenu();
                             connect(popup, SIGNAL(activated(int)),
                                     this, SLOT(startService(int)));
 
@@ -480,14 +478,13 @@ void InfoSidebarPage::insertActions()
                             button->setFlat(true);
                             button->setMenu(popup);
                             button->show();
-                            m_actionWidgets.append(button);
                         }
 
-                        Q3ValueList<KDEDesktopMimeType::Service> userServices =
+                        QList<KDEDesktopMimeType::Service> userServices =
                             KDEDesktopMimeType::userDefinedServices(*dirIt + *entryIt, true);
 
                         // iterate through all actions and add them to a widget
-                        Q3ValueList<KDEDesktopMimeType::Service>::Iterator serviceIt;
+                        QList<KDEDesktopMimeType::Service>::Iterator serviceIt;
                         for (serviceIt = userServices.begin(); serviceIt != userServices.end(); ++serviceIt) {
                             KDEDesktopMimeType::Service service = (*serviceIt);
                             if (popup == 0) {
@@ -497,7 +494,6 @@ void InfoSidebarPage::insertActions()
                                                                           actionsIndex);
                                 connect(button, SIGNAL(requestServiceStart(int)),
                                         this, SLOT(startService(int)));
-                                m_actionWidgets.append(button);
                                 button->show();
                             }
                             else {

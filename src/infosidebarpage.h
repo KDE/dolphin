@@ -22,13 +22,11 @@
 
 #include <sidebarpage.h>
 
-#include <q3valuevector.h>
 #include <qpushbutton.h>
-//Added by qt3to4:
 #include <QPixmap>
 #include <QEvent>
 #include <QLabel>
-#include <Q3PtrList>
+#include <QList>
 
 #include <kurl.h>
 #include <kmimetype.h>
@@ -164,8 +162,7 @@ private:
     QLabel* m_infos;
 
     KVBox* m_actionBox;
-    Q3PtrList<QWidget> m_actionWidgets;    // TODO: use children() from QObject instead
-    Q3ValueVector<KDEDesktopMimeType::Service> m_actionsVector;
+    QVector<KDEDesktopMimeType::Service> m_actionsVector;
 
     MetaDataWidget* m_metadataWidget;
 };
