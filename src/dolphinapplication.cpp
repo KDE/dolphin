@@ -22,6 +22,7 @@
 #include "dolphinmainwindow.h"
 
 #include <applicationadaptor.h>
+#include <kcmdlineargs.h>
 #include <kurl.h>
 #include <QDBusConnection>
 
@@ -55,17 +56,6 @@ DolphinMainWindow* DolphinApplication::createMainWindow()
     return mainWindow;
 }
 
-int DolphinApplication::openWindow(const QString& url)
-{
-    DolphinMainWindow* win = createMainWindow();
-    if ((win->activeView() != 0) && !url.isEmpty()) {
-        win->activeView()->setUrl(KUrl(url));
-    }
-    win->show();
-    //TODO find how to raise a window (as if we've launched a new dolphin process)
-    return win->getId();
-}
-
 void DolphinApplication::removeMainWindow(DolphinMainWindow* mainWindow)
 {
     m_mainWindows.removeAll(mainWindow);
@@ -76,6 +66,36 @@ void DolphinApplication::refreshMainWindows()
     for (int i = 0; i < m_mainWindows.count(); ++i) {
         m_mainWindows[i]->refreshViews();
     }
+}
+
+
+int DolphinApplication::newInstance()
+{
+    int exitValue = KUniqueApplication::newInstance();
+
+    KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
+    if (args->count() > 0) {
+        for (int i = 0; i < args->count(); ++i) {
+            openWindow(args->arg(i));
+        }
+    }
+    else {
+        openWindow(QString());
+    }
+
+    args->clear();
+
+    return exitValue;
+}
+
+int DolphinApplication::openWindow(const QString& url)
+{
+    DolphinMainWindow* win = createMainWindow();
+    if ((win->activeView() != 0) && !url.isEmpty()) {
+        win->activeView()->setUrl(KUrl(url));
+    }
+    win->show();
+    return win->getId();
 }
 
 #include "dolphinapplication.moc"

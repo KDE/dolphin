@@ -51,6 +51,9 @@ public:
     DolphinMainWindow* createMainWindow();
     void refreshMainWindows();
 
+    /** @see KUniqueApplication::newInstance(). */
+    virtual int newInstance();
+
 public slots:
     int openWindow(const QString& url);
 

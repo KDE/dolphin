@@ -33,18 +33,6 @@ static KCmdLineOptions options[] =
     KCmdLineLastOption
 };
 
-void openWindow(DolphinApplication* app, const QString& url = QString())
-{
-    if (app != 0) {
-        app->openWindow(url);
-        return;
-    }
-
-    static QDBusInterface dbusIface("org.kde.dolphin", "/dolphin/Application", "",
-                                    QDBusConnection::connectToBus(QDBusConnection::SessionBus, "session_bus"));
-    QDBusReply<int> reply = dbusIface.call("openWindow", url);
-}
-
 int main(int argc, char **argv)
 {
     KAboutData about("dolphin",
@@ -67,11 +55,10 @@ int main(int argc, char **argv)
 
     KCmdLineArgs::init(argc, argv, &about);
     KCmdLineArgs::addCmdLineOptions(options);
-    DolphinApplication *app = 0;
+
+    DolphinApplication* app = 0;
     if (DolphinApplication::start()) {
         app = new DolphinApplication();
-    }
-
 
 #ifdef __GNUC__
 #warning TODO, SessionManagement
@@ -85,18 +72,11 @@ int main(int argc, char **argv)
         }
     } else {
 #endif
-
-    KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
-    if (args->count() > 0) {
-        for (int i = 0; i < args->count(); ++i) {
-            openWindow(app, args->arg(i));
-        }
-    }
-    else {
-        openWindow(app);
-    }
-    args->clear();
-    if (app != 0) {
         return app->exec();
     }
+
+    static QDBusInterface dbusIface("org.kde.dolphin", "/dolphin/Application", "",
+                                    QDBusConnection::connectToBus(QDBusConnection::SessionBus, "session_bus"));
+    dbusIface.call("openWindow");
+    return 0;
 }
