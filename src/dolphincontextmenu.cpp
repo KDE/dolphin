@@ -165,7 +165,7 @@ void DolphinContextMenu::openTrashContextMenu()
 
     KMenu* popup = new KMenu(m_mainWindow);
 
-    QAction* emptyTrashAction = new QAction(KIcon("user-trash"), i18n("Emtpy Trash"), popup);
+    QAction* emptyTrashAction = new QAction(KIcon("emptytrash"), i18n("Emtpy Trash"), popup);
     KConfig trashConfig("trashrc", KConfig::OnlyLocal);
     emptyTrashAction->setEnabled(!trashConfig.group("Status").readEntry("Empty", true));
     popup->addAction(emptyTrashAction);
