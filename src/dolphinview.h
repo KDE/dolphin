@@ -353,9 +353,6 @@ public slots:
      */
     void requestActivation();
 
-    /** Applies an item effect to all cut items of the clipboard. */
-    void updateCutItems();
-
 signals:
     /** Is emitted if URL of the view has been changed to \a url. */
     void urlChanged(const KUrl& url);
@@ -496,6 +493,9 @@ private slots:
      */
     void updateActivationState();
 
+    /** Applies an item effect to all cut items of the clipboard. */
+    void updateCutItems();
+
 private:
     void startDirLister(const KUrl& url, bool reload = false);
 
@@ -541,7 +541,19 @@ private:
      */
     bool isCutItem(const KFileItem& item) const;
 
+    /** Applies an item effect to all cut items. */
+    void applyCutItemEffect();
+
 private:
+    /**
+     * Remembers the original pixmap for an item before
+     * the cut effect is applied.
+     */
+    struct CutItem {
+        KUrl url;
+        QPixmap pixmap;
+    };
+
     bool m_showProgress;
     bool m_blockContentsMovedSignal;
     Mode m_mode;
@@ -565,6 +577,8 @@ private:
     KDirModel* m_dirModel;
     DolphinDirLister* m_dirLister;
     DolphinSortFilterProxyModel* m_proxyModel;
+
+    QList<CutItem> m_cutItemsCache;
 };
 
 #endif // _DOLPHINVIEW_H_
