@@ -331,7 +331,8 @@ void InfoSidebarPage::createMetaInfo()
             m_metadataWidget->setFile( fileItem->url() );
     }
     else {
-        m_metadataWidget->setFiles( view->selectedItems().urlList() );
+        if ( MetaDataWidget::metaDataAvailable() )
+            m_metadataWidget->setFiles( view->selectedItems().urlList() );
         unsigned long int totSize = 0;
         foreach(KFileItem* item, view->selectedItems()) {
             totSize += item->size(); //FIXME what to do with directories ? (same with the one-item-selected-code), item->size() does not return the size of the content : not very instinctive for users
