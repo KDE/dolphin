@@ -77,6 +77,7 @@ X-SuSE-translate=true
 X-SuSE-translate=true
 [Desktop Action MediaRealFolder]
 Name=Open Medium System Folder
+Name[csb]=Systemòwi katalog
 Name[el]=άνοιγμα του φακέλου συστήματος μέσων
 Name[nds]=Systeem-Medienorner opmaken
 Name[x-test]=xxOpen Medium System Folderxx
