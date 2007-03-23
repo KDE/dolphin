@@ -77,9 +77,8 @@ public:
 MetaDataWidget::MetaDataWidget( QWidget* parent )
     : QWidget( parent )
 {
-    d = new Private;
-
 #ifdef HAVE_KMETADATA
+    d = new Private;
     d->editComment = new QTextEdit( this );
     d->tagWidget = new Nepomuk::KMetaData::TagWidget( this );
     d->ratingWidget = new KRatingWidget( this );
@@ -101,6 +100,8 @@ MetaDataWidget::MetaDataWidget( QWidget* parent )
 
     d->editComment->installEventFilter( this );
     d->editComment->viewport()->installEventFilter( this );
+#else
+    d=0L;    
 #endif
 }
 
