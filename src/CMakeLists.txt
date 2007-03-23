@@ -6,6 +6,34 @@ include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${KDE4_INCLUDE_DIR} ${QT_INCLUD
 
 ########### next target ###############
 
+set(dolphinprivate_LIB_SRCS
+	dolphincontroller.cpp
+	dolphindetailsview.cpp
+	dolphiniconsview.cpp
+	dolphinsettings.cpp
+	viewproperties.cpp
+	dolphinsortfilterproxymodel.cpp
+	)
+
+kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
+   dolphin_directoryviewpropertysettings.kcfgc 
+   dolphin_detailsmodesettings.kcfgc
+   dolphin_iconsmodesettings.kcfgc
+   dolphin_generalsettings.kcfgc)
+
+
+kde4_automoc(${dolphinprivate_LIB_SRCS})
+
+kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
+
+target_link_libraries(dolphinprivate ${KDE4_KDEUI_LIBS} konq)
+
+set_target_properties(dolphinprivate PROPERTIES VERSION 1.0.0 SOVERSION 1 )
+install(TARGETS dolphinprivate  DESTINATION ${LIB_INSTALL_DIR} )
+
+
+##########################################
+
 set(dolphin_SRCS
    applyviewpropsjob.cpp
    bookmarkselector.cpp
@@ -13,17 +41,12 @@ set(dolphin_SRCS
    bookmarkssidebarpage.cpp
    detailsviewsettingspage.cpp
    dolphinapplication.cpp
-   dolphincontroller.cpp
    dolphinmainwindow.cpp
    dolphinnewmenu.cpp
    dolphinview.cpp
    dolphinstatusbar.cpp
    dolphindirlister.cpp
-   dolphindetailsview.cpp
-   dolphiniconsview.cpp
-   dolphinsettings.cpp
    dolphincontextmenu.cpp
-   dolphinsortfilterproxymodel.cpp
    dolphinsettingsdialog.cpp
    editbookmarkdialog.cpp
    filterbar.cpp
@@ -47,17 +70,10 @@ set(dolphin_SRCS
    urlnavigator.cpp
    urlnavigatorbutton.cpp
    viewpropertiesdialog.cpp
-   viewproperties.cpp
    viewsettingspage.cpp
    viewpropsprogressinfo.cpp )
 
 kde4_automoc(${dolphin_SRCS})
-
-kde4_add_kcfg_files(dolphin_SRCS
-   dolphin_directoryviewpropertysettings.kcfgc
-   dolphin_generalsettings.kcfgc
-   dolphin_iconsmodesettings.kcfgc
-   dolphin_detailsmodesettings.kcfgc )
 
 qt4_add_dbus_adaptor(dolphin_SRCS
    org.kde.dolphin.Application.xml
@@ -77,7 +93,7 @@ else(KMETADATA_INCLUDE_DIR AND KMETADATA_LIBRARY)
 set(KDE4_KMETADATA "")
 endif(KMETADATA_INCLUDE_DIR AND KMETADATA_LIBRARY AND KMETADATA_TOOLS_LIBRARY)
 configure_file(config-kmetadata.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kmetadata.h )
-target_link_libraries(dolphin  ${KDE4_KDECORE_LIBS} ${KDE4_KDEPRINT_LIBS} ${KDE4_KMETADATA} konq)
+target_link_libraries(dolphin  ${KDE4_KDECORE_LIBS} ${KDE4_KDEPRINT_LIBS} ${KDE4_KMETADATA} konq dolphinprivate)
 
 install(TARGETS dolphin DESTINATION ${BIN_INSTALL_DIR})
 

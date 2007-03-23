@@ -21,6 +21,8 @@
 #ifndef DOLPHINSETTINGS_H
 #define DOLPHINSETTINGS_H
 
+#include <libdolphin_export.h>
+
 class KBookmark;
 class KBookmarkManager;
 class GeneralSettings;
@@ -38,7 +40,7 @@ class DetailsModeSettings;
  * - bookmarks
  * - properties for icons and details view
  */
-class DolphinSettings {
+class LIBDOLPHIN_EXPORT DolphinSettings {
 public:
     static DolphinSettings& instance();
 

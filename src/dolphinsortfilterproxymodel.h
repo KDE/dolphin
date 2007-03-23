@@ -22,6 +22,7 @@
 
 #include <QSortFilterProxyModel>
 #include <dolphinview.h>
+#include <libdolphin_export.h>
 
 /**
  * @brief Acts as proxy model for KDirModel to sort and filter
@@ -38,7 +39,7 @@
  *
  * It is assured that directories are always sorted before files.
  */
-class DolphinSortFilterProxyModel : public QSortFilterProxyModel
+class LIBDOLPHIN_EXPORT DolphinSortFilterProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 

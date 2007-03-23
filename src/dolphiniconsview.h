@@ -22,6 +22,7 @@
 
 #include <QListView>
 #include <QStyleOptionViewItem>
+#include <libdolphin_export.h>
 
 class DolphinController;
 class DolphinView;
@@ -32,7 +33,7 @@ class DolphinView;
  * It is also possible that instead of the icon a preview of the item
  * content is shown.
  */
-class DolphinIconsView : public QListView
+class LIBDOLPHIN_EXPORT DolphinIconsView : public QListView
 {
     Q_OBJECT
 

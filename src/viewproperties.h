@@ -25,7 +25,7 @@
 #include <kfileitemdelegate.h>
 #include <kurl.h>
 #include <qdatetime.h>
-
+#include <libdolphin_export.h>
 #include "dolphin_directoryviewpropertysettings.h"
 
 class QFile;
@@ -51,7 +51,7 @@ class QFile;
  * (see GeneralSettings::globalViewMode()), the values from the global .directory file
  * are used for initialization.
  */
-class ViewProperties
+class LIBDOLPHIN_EXPORT ViewProperties
 {
 public:
     explicit ViewProperties(const KUrl& url);

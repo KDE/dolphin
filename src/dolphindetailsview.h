@@ -24,6 +24,7 @@
 #include <dolphinview.h>
 #include <QStyleOptionViewItem>
 #include <QTreeView>
+#include <libdolphin_export.h>
 
 class DolphinController;
 
@@ -35,7 +36,7 @@ class DolphinController;
  * that full available width of the view is used by stretching the width
  * of the name column.
  */
-class DolphinDetailsView : public QTreeView
+class LIBDOLPHIN_EXPORT DolphinDetailsView : public QTreeView
 {
     Q_OBJECT
 

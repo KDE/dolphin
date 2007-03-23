@@ -23,6 +23,7 @@
 #include <dolphinview.h>
 #include <kurl.h>
 #include <QObject>
+#include <libdolphin_export.h>
 
 class KUrl;
 class QModelIndex;
@@ -45,7 +46,7 @@ class QPoint;
  * when an item should be triggered and a lot more. The controller emits the corresponding signals
  * so that the receiver may react on those changes.
  */
-class DolphinController : public QObject
+class LIBDOLPHIN_EXPORT DolphinController : public QObject
 {
     Q_OBJECT
 
