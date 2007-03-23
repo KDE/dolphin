@@ -27,7 +27,7 @@
 #include <Q3VBoxLayout>
 #include <QPaintEvent>
 #include <assert.h>
-#include <q3popupmenu.h>
+#include <kmenu.h>
 
 #include <kbookmark.h>
 #include <kbookmarkmanager.h>
@@ -108,22 +108,28 @@ void BookmarksSidebarPage::slotContextMenuRequested(Q3ListBoxItem* item,
     const int deleteID = 3;
     const int addID = 4;
 
-    Q3PopupMenu* popup = new Q3PopupMenu();
+    KMenu* popup = new KMenu();
     if (item == 0) {
-        popup->insertItem(SmallIcon("document-new"), i18n("Add Bookmark..."), addID);
+        QAction *action = popup->addAction(SmallIcon("document-new"), i18n("Add Bookmark..."));
+	action->setData(addID);
     }
     else {
-        popup->insertItem(SmallIcon("document-new"), i18n("Insert Bookmark..."), insertID);
-        popup->insertItem(SmallIcon("edit"), i18n("Edit..."), editID);
-        popup->insertItem(SmallIcon("edit-delete"), i18n("Delete"), deleteID);
+        QAction *action = popup->addAction(SmallIcon("document-new"), i18n("Insert Bookmark..."));
+	action->setData(insertID);
+        action = popup->addAction(SmallIcon("edit"), i18n("Edit..."));
+	action->setData(editID);
+        action = popup->addAction(SmallIcon("edit-delete"), i18n("Delete"));
+	action->setData(deleteID);
+
     }
 
     KBookmarkManager* manager = DolphinSettings::instance().bookmarkManager();
     KBookmarkGroup root = manager->root();
     const int index = m_bookmarksList->index(m_bookmarksList->selectedItem());
-
-    const int result = popup->exec(pos);
-    switch (result) {
+    QAction *result = popup->exec(pos);
+    if( result)
+    {
+    switch(result->data().toInt()) {
         case insertID: {
             KBookmark newBookmark = EditBookmarkDialog::getBookmark(i18n("Insert Bookmark"),
                                                                     "New bookmark",
@@ -182,7 +188,7 @@ void BookmarksSidebarPage::slotContextMenuRequested(Q3ListBoxItem* item,
 
         default: break;
     }
-
+   }
     delete popup;
     popup = 0;
 
