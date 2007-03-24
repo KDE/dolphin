@@ -51,17 +51,17 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
     QLabel* editLabel = 0;
     if (m_renameOneItem) {
         const KUrl& url = items.first();
-        editLabel = new QLabel(i18n("Rename the item '%1' to:", url.fileName()),
+        m_newName = url.fileName();
+        editLabel = new QLabel(i18n("Rename the item '%1' to:", m_newName),
                                page);
     }
     else {
+        m_newName = i18n("New name #");
         editLabel = new QLabel(i18n("Rename the %1 selected items to:", itemCount),
                                page);
     }
 
     m_lineEdit = new KLineEdit(page);
-    m_newName = m_renameOneItem ? i18n("New name") : i18n("New name #");
-
     QString postfix(items[0].prettyUrl().section('.',1));
     if (postfix.length() > 0) {
         // The first item seems to have a postfix (e. g. 'jpg' or 'txt'). Now
@@ -82,9 +82,16 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
         --selectionLength; // don't select the # character
     }
 
-    if (postfix.length() > 0) {
-        m_newName.append(postfix);
+    const int postfixLength = postfix.length();
+    if (postfixLength > 0) {
+        if (m_renameOneItem) {
+            selectionLength -= postfixLength;
+        }
+        else {
+            m_newName.append(postfix);
+        }
     }
+
     m_lineEdit->setText(m_newName);
     m_lineEdit->setSelection(0, selectionLength);
     m_lineEdit->setFocus();
