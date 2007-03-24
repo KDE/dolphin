@@ -36,7 +36,7 @@ class QTimer;
 /**
  * @brief Represents a message text label as part of the status bar.
  *
- * Dependant from the given type automatically a corresponding icon
+ * Dependent from the given type automatically a corresponding icon
  * is shown in front of the text. For message texts having the type
  * DolphinStatusBar::Error a dynamic color blending is done to get the
  * attention from the user.

@@ -61,20 +61,19 @@ StatusBarMessageLabel::~StatusBarMessageLabel()
 void StatusBarMessageLabel::setMessage(const QString& text,
                                        DolphinStatusBar::Type type)
 {
-    if (m_type == DolphinStatusBar::Error) {
-        // If an error is shown currently, other error messages get queued.
-        // Non-error messages are ignored if there are pending error messages.
-        if (type == DolphinStatusBar::Error) {
-            m_pendingMessages.append(text);
-            return;
-        }
-        if ((m_state != Default) || !m_pendingMessages.isEmpty()) {
-            return;
-        }
-    }
-
     if ((text == m_text) && (type == m_type)) {
         return;
+    }
+
+    if (m_type == DolphinStatusBar::Error) {
+        if (type == DolphinStatusBar::Error) {
+            m_pendingMessages.insert(0, m_text);
+        }
+        else if ((m_state != Default) || !m_pendingMessages.isEmpty()) {
+            // a non-error message should not be shown, as there
+            // are other pending error messages in the queue
+            return;
+        }
     }
 
     m_text = text;
