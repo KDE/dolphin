@@ -55,11 +55,9 @@ void TreeViewContextMenu::open()
     connect(copyAction, SIGNAL(triggered()), this, SLOT(copy()));
 
     QAction* pasteAction = new QAction(KIcon("edit-paste"), i18n("Paste"), this);
-
-    QClipboard* clipboard = QApplication::clipboard();
-    const QMimeData* mimeData = clipboard->mimeData();
-    const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData);
-    pasteAction->setEnabled(sourceUrls.isEmpty());
+    const QMimeData* mimeData = QApplication::clipboard()->mimeData();
+    const KUrl::List pasteData = KUrl::List::fromMimeData(mimeData);
+    pasteAction->setEnabled(!pasteData.isEmpty());
     connect(pasteAction, SIGNAL(triggered()), this, SLOT(paste()));
 
     popup->addAction(cutAction);
