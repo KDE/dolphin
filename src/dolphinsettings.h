@@ -40,7 +40,7 @@ class DetailsModeSettings;
  * - bookmarks
  * - properties for icons and details view
  */
-class LIBDOLPHIN_EXPORT DolphinSettings {
+class LIBDOLPHINPRIVATE_EXPORT DolphinSettings {
 public:
     static DolphinSettings& instance();
 

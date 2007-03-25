@@ -36,5 +36,16 @@
 # endif
 #endif
 
+#ifdef MAKE_DOLPHINPRIVATE_LIB
+# define LIBDOLPHINPRIVATE_EXPORT KDE_EXPORT
+#else
+# ifdef Q_OS_WIN
+#  define LIBDOLPHINPRIVATE_EXPORT KDE_IMPORT
+# else
+#  define LIBDOLPHINPRIVATE_EXPORT KDE_EXPORT
+# endif
+#endif
+
+
 #endif
 

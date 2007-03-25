@@ -51,7 +51,7 @@ class QFile;
  * (see GeneralSettings::globalViewMode()), the values from the global .directory file
  * are used for initialization.
  */
-class LIBDOLPHIN_EXPORT ViewProperties
+class LIBDOLPHINPRIVATE_EXPORT ViewProperties
 {
 public:
     explicit ViewProperties(const KUrl& url);

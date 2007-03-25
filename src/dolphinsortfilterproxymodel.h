@@ -39,7 +39,7 @@
  *
  * It is assured that directories are always sorted before files.
  */
-class LIBDOLPHIN_EXPORT DolphinSortFilterProxyModel : public QSortFilterProxyModel
+class LIBDOLPHINPRIVATE_EXPORT DolphinSortFilterProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 

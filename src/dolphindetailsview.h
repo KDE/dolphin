@@ -36,7 +36,7 @@ class DolphinController;
  * that full available width of the view is used by stretching the width
  * of the name column.
  */
-class LIBDOLPHIN_EXPORT DolphinDetailsView : public QTreeView
+class LIBDOLPHINPRIVATE_EXPORT DolphinDetailsView : public QTreeView
 {
     Q_OBJECT
 

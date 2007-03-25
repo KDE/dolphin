@@ -46,7 +46,7 @@ class QPoint;
  * when an item should be triggered and a lot more. The controller emits the corresponding signals
  * so that the receiver may react on those changes.
  */
-class LIBDOLPHIN_EXPORT DolphinController : public QObject
+class LIBDOLPHINPRIVATE_EXPORT DolphinController : public QObject
 {
     Q_OBJECT
 

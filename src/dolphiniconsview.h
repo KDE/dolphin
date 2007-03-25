@@ -33,7 +33,7 @@ class DolphinView;
  * It is also possible that instead of the icon a preview of the item
  * content is shown.
  */
-class LIBDOLPHIN_EXPORT DolphinIconsView : public QListView
+class LIBDOLPHINPRIVATE_EXPORT DolphinIconsView : public QListView
 {
     Q_OBJECT
 
