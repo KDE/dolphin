@@ -150,15 +150,19 @@ const KUrl& UrlNavigator::url() const
 KUrl UrlNavigator::url(int index) const
 {
     assert(index >= 0);
-    QString path(url().pathOrUrl());
-    path = path.section('/', 0, index);
+    // keep scheme, hostname etc. maybe we will need this in the future
+    // for e.g. browsing ftp repositories.
+    QString pre(((QUrl)url()).toString(QUrl::RemovePath));
+    QString path(url().path());
 
-    if ( path.length() >= 1 && path.at(path.length()-1) != '/')
-    {
-        path.append('/');
+    if (!path.isEmpty()) {
+        if (index == 0) //prevent the last "/" from being stripped
+            path = "/"; //or we end up with an empty path
+        else
+            path = path.section('/', 0, index);
     }
 
-    return path;
+    return KUrl(pre + path);
 }
 
 const QLinkedList<UrlNavigator::HistoryElem>& UrlNavigator::history(int& index) const
