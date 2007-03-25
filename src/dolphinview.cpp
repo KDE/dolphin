@@ -164,8 +164,6 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     m_topLayout->addWidget(itemView());
     m_topLayout->addWidget(m_filterBar);
     m_topLayout->addWidget(m_statusBar);
-
-    loadDirectory(m_urlNavigator->url());
 }
 
 DolphinView::~DolphinView()
@@ -596,6 +594,10 @@ DolphinMainWindow* DolphinView::mainWindow() const
 
 void DolphinView::loadDirectory(const KUrl& url)
 {
+    if(!isActive()) {
+        requestActivation();
+    }
+
     const ViewProperties props(url);
 
     const Mode mode = props.viewMode();
@@ -793,7 +795,7 @@ void DolphinView::showErrorMessage(const QString& msg)
 
 void DolphinView::emitSelectionChangedSignal()
 {
-    emit selectionChanged();
+    emit selectionChanged(DolphinView::selectedItems());
 }
 
 void DolphinView::closeFilterBar()
@@ -922,6 +924,27 @@ void DolphinView::requestActivation()
     m_mainWindow->setActiveView(this);
 }
 
+void DolphinView::changeSelection(const KFileItemList& selection)
+{
+    clearSelection();
+    if (selection.isEmpty()) {
+        return;
+    }
+    KUrl baseUrl = url();
+    KUrl url;
+    QItemSelection new_selection;
+    foreach (KFileItem* item, selection) {
+        url = item->url().upUrl();
+        if (baseUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
+            QModelIndex index = m_proxyModel->mapFromSource(m_dirModel->indexForItem(*item));
+            new_selection.select(index, index);
+        }
+    }
+    itemView()->selectionModel()->select(new_selection,
+                                         QItemSelectionModel::ClearAndSelect
+                                         | QItemSelectionModel::Current);
+}
+
 void DolphinView::changeNameFilter(const QString& nameFilter)
 {
     // The name filter of KDirLister does a 'hard' filtering, which
@@ -1021,6 +1044,10 @@ void DolphinView::emitContentsMoved()
 void DolphinView::updateActivationState()
 {
     m_urlNavigator->setActive(isActive());
+    if(isActive()) {
+        emit urlChanged(url());
+        emit selectionChanged(selectedItems());
+    }
 }
 
 void DolphinView::updateCutItems()

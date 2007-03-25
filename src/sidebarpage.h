@@ -21,36 +21,61 @@
 #ifndef _SIDEBARPAGE_H_
 #define _SIDEBARPAGE_H_
 
-#include <qwidget.h>
-
-class DolphinMainWindow;
-class Sidebar;
+#include <QWidget>
+#include <kurl.h>
+#include <kfileitem.h>
 
 /**
  * @brief Base widget for all pages that can be embedded into the Sidebar.
  *
- * TODO
  */
 class SidebarPage : public QWidget
 {
 	Q_OBJECT
-
 public:
-    explicit SidebarPage(DolphinMainWindow* mainwindow, QWidget* parent=0);
+    explicit SidebarPage(QWidget* parent=0);
     virtual ~SidebarPage();
 
-protected slots:
+public slots:
     /**
-     * Is invoked whenever the active view from Dolphin has been changed.
-     * The active view can be retrieved by mainWindow()->activeView();
+     * This is invoked every time the folder being displayed in the
+     * file-management views changes.
      */
-    virtual void activeViewChanged();
+	virtual void setUrl(const KUrl& url);
+
+    /**
+     * This is invoked to inform the sidebar that the user has selected a new
+     * set of files.
+     */
+    virtual void setSelection(const KFileItemList& selection);
+
+signals:
+    /**
+     * This signal is emited when the sidebar requests an URL-change in the
+     * currently active file-management view. The view is not requested to
+     * accept this change, if it is accepted the sidebar will be informed via
+     * the setUrl() slot.
+     */
+    void changeUrl(const KUrl& url);
+
+    /**
+     * This signal is emitted when the sidebar requests a change in the
+     * current selection. The file-management view recieving this signal is
+     * not required to select all listed files, limiting the selection to
+     * e.g. the current folder. The new selection will be reported via the
+     * setSelection slot.
+     */
+    void changeSelection(const KFileItemList& selection);
+
+    /**
+     * This signal is emitted whenever a drop action on this widget needs the
+     * MainWindow's attention.
+     */
+    void urlsDropped(const KUrl::List& urls, const KUrl& destination);
 
 protected:
-    DolphinMainWindow* mainWindow() const;
-
-private:
-    DolphinMainWindow *m_mainWindow;
+    KUrl m_url;
+    KFileItemList m_currentSelection;
 };
 
 #endif // _SIDEBARPAGE_H_

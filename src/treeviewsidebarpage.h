@@ -42,13 +42,16 @@ class TreeViewSidebarPage : public SidebarPage
     Q_OBJECT
 
 public:
-    TreeViewSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent = 0);
+    TreeViewSidebarPage(QWidget* parent = 0);
     virtual ~TreeViewSidebarPage();
 
-protected:
-    /** @see SidebarPage::activeViewChanged() */
-    virtual void activeViewChanged();
+public slots:
+    /**
+     * Changes the current selection inside the tree to \a url.
+     */
+    void setUrl(const KUrl& url);
 
+protected:
     /** @see QWidget::showEvent() */
     virtual void showEvent(QShowEvent* event);
 
@@ -56,12 +59,6 @@ protected:
     virtual void contextMenuEvent(QContextMenuEvent* event);
 
 private slots:
-    /**
-     * Updates the current selection inside the tree to
-     * \a url.
-     */
-    void updateSelection(const KUrl& url);
-
     /**
      * Expands the tree in a way that the item with the URL m_selectedUrl
      * gets visible. Is called by TreeViewSidebarPage::updateSelection()
@@ -82,18 +79,10 @@ private slots:
                   const QModelIndex& index);
 
 private:
-    /**
-     * Connects to signals from the currently active Dolphin view to get
-     * informed about highlighting changes.
-     */
-    void connectToActiveView();
-
-private:
     KDirLister* m_dirLister;
     KDirModel* m_dirModel;
     DolphinSortFilterProxyModel* m_proxyModel;
     SidebarTreeView* m_treeView;
-    KUrl m_selectedUrl;
 };
 
 #endif // TREEVIEWSIDEBARPAGE_H

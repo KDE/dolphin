@@ -244,11 +244,21 @@ void DolphinMainWindow::refreshViews()
     emit activeViewChanged();
 }
 
-void DolphinMainWindow::changeUrl(const QString& url)
+void DolphinMainWindow::changeUrl(const KUrl& url)
 {
     if (activeView() != 0) {
-        activeView()->setUrl(KUrl(url));
+        activeView()->setUrl(url);
+        updateEditActions();
+        updateViewActions();
+        updateGoActions();
+        setCaption(url.fileName());
+        emit urlChanged(url);
     }
+}
+
+void DolphinMainWindow::changeSelection(const KFileItemList& selection)
+{
+    activeView()->changeSelection(selection);
 }
 
 void DolphinMainWindow::slotViewModeChanged()
@@ -338,7 +348,7 @@ void DolphinMainWindow::slotAdditionalInfoChanged(KFileItemDelegate::AdditionalI
     }
 }
 
-void DolphinMainWindow::slotSelectionChanged()
+void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
 {
     updateEditActions();
 
@@ -353,20 +363,12 @@ void DolphinMainWindow::slotSelectionChanged()
 
     m_activeView->updateStatusBar();
 
-    emit selectionChanged();
+    emit selectionChanged(selection);
 }
 
 void DolphinMainWindow::slotHistoryChanged()
 {
     updateHistory();
-}
-
-void DolphinMainWindow::slotUrlChanged(const KUrl& url)
-{
-    updateEditActions();
-    updateViewActions();
-    updateGoActions();
-    setCaption(url.fileName());
 }
 
 void DolphinMainWindow::updateFilterBarAction(bool show)
@@ -776,6 +778,7 @@ void DolphinMainWindow::toggleSplitView()
         connectViewSignals(SecondaryIdx);
         m_splitter->addWidget(m_view[SecondaryIdx]);
         m_splitter->setSizes(QList<int>() << newWidth << newWidth);
+        m_view[SecondaryIdx]->reload();
         m_view[SecondaryIdx]->show();
     }
     else {
@@ -1010,10 +1013,11 @@ void DolphinMainWindow::init()
                                          homeUrl,
                                          props.viewMode(),
                                          props.showHiddenFiles());
-    connectViewSignals(PrimaryIdx);
-    m_view[PrimaryIdx]->show();
 
     m_activeView = m_view[PrimaryIdx];
+    connectViewSignals(PrimaryIdx);
+    m_view[PrimaryIdx]->reload();
+    m_view[PrimaryIdx]->show();
 
     setCentralWidget(m_splitter);
     setupDockWidgets();
@@ -1040,6 +1044,8 @@ void DolphinMainWindow::init()
     if ( !MetaDataWidget::metaDataAvailable() )
         activeView()->statusBar()->setMessage(i18n("Failed to contact Nepomuk service, annotation and tagging are disabled."), DolphinStatusBar::Error);
     #endif
+
+    emit urlChanged(homeUrl);
 }
 
 void DolphinMainWindow::loadSettings()
@@ -1292,37 +1298,45 @@ void DolphinMainWindow::setupDockWidgets()
     // after the dock concept has been finalized.
 
     // setup "Bookmarks"
-    QDockWidget* shortcutsDock = new QDockWidget(i18n("Bookmarks"));
+    QDockWidget* shortcutsDock = new QDockWidget(i18n("Bookmarks"), this);
     shortcutsDock->setObjectName("bookmarksDock");
     shortcutsDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    shortcutsDock->setWidget(new BookmarksSidebarPage(this));
+    SidebarPage* shortcutsWidget = new BookmarksSidebarPage(shortcutsDock);
+    shortcutsDock->setWidget(shortcutsWidget);
+
 
     shortcutsDock->toggleViewAction()->setText(i18n("Show Bookmarks Panel"));
     actionCollection()->addAction("show_bookmarks_panel", shortcutsDock->toggleViewAction());
 
     addDockWidget(Qt::LeftDockWidgetArea, shortcutsDock);
+    connectSidebarPage(shortcutsWidget);
 
     // setup "Information"
-    QDockWidget* infoDock = new QDockWidget(i18n("Information"));
+    QDockWidget* infoDock = new QDockWidget(i18n("Information"), this);
     infoDock->setObjectName("infoDock");
     infoDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    infoDock->setWidget(new InfoSidebarPage(this));
+    SidebarPage* infoWidget = new InfoSidebarPage(infoDock);
+    infoDock->setWidget(infoWidget);
+
 
     infoDock->toggleViewAction()->setText(i18n("Show Information Panel"));
     actionCollection()->addAction("show_info_panel", infoDock->toggleViewAction());
 
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
+    connectSidebarPage(infoWidget);
 
     // setup "Tree View"
     QDockWidget* treeViewDock = new QDockWidget(i18n("Folders")); // TODO: naming?
     treeViewDock->setObjectName("treeViewDock");
     treeViewDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    treeViewDock->setWidget(new TreeViewSidebarPage(this));
+    TreeViewSidebarPage* treeWidget = new TreeViewSidebarPage(treeViewDock);
+    treeViewDock->setWidget(treeWidget);
 
     treeViewDock->toggleViewAction()->setText(i18n("Show Folders Panel"));
     actionCollection()->addAction("show_folders_panel", treeViewDock->toggleViewAction());
 
     addDockWidget(Qt::LeftDockWidgetArea, treeViewDock);
+    connectSidebarPage(treeWidget);
 
     const bool firstRun = DolphinSettings::instance().generalSettings()->firstRun();
     if (firstRun) {
@@ -1479,17 +1493,32 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
             this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
     connect(view, SIGNAL(additionalInfoChanged(KFileItemDelegate::AdditionalInformation)),
             this, SLOT(slotAdditionalInfoChanged(KFileItemDelegate::AdditionalInformation)));
-    connect(view, SIGNAL(selectionChanged()),
-            this, SLOT(slotSelectionChanged()));
+    connect(view, SIGNAL(selectionChanged(KFileItemList)),
+            this, SLOT(slotSelectionChanged(KFileItemList)));
     connect(view, SIGNAL(showFilterBarChanged(bool)),
             this, SLOT(updateFilterBarAction(bool)));
+    connect(view, SIGNAL(urlChanged(KUrl)),
+            this, SLOT(changeUrl(KUrl)));
 
     const UrlNavigator* navigator = view->urlNavigator();
     connect(navigator, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(slotUrlChanged(const KUrl&)));
+            this, SLOT(changeUrl(const KUrl&)));
     connect(navigator, SIGNAL(historyChanged()),
             this, SLOT(slotHistoryChanged()));
+}
+void DolphinMainWindow::connectSidebarPage(SidebarPage* page)
+{
+    connect(page, SIGNAL(changeUrl(KUrl)),
+            this, SLOT(changeUrl(KUrl)));
+    connect(page, SIGNAL(changeSelection(KFileItemList)),
+            this, SLOT(changeSelection(KFileItemList)));
+    connect(page, SIGNAL(urlsDropped(KUrl::List,KUrl)),
+            this, SLOT(dropUrls(KUrl::List,KUrl)));
 
+    connect(this, SIGNAL(urlChanged(KUrl)),
+            page, SLOT(setUrl(KUrl)));
+     connect(this, SIGNAL(selectionChanged(KFileItemList)),
+             page, SLOT(setSelection(KFileItemList)));
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface(DolphinMainWindow* mainWin) :

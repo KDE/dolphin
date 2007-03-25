@@ -19,11 +19,12 @@
 #ifndef _BOOKMARKSSIDEBARPAGE_H_
 #define _BOOKMARKSSIDEBARPAGE_H_
 
-#include <sidebarpage.h>
 #include <q3listbox.h>
 //Added by qt3to4:
 #include <QPaintEvent>
 #include <QPixmap>
+
+#include "sidebarpage.h"
 
 class KUrl;
 class BookmarksListBox;
@@ -41,12 +42,11 @@ class BookmarksSidebarPage : public SidebarPage
         Q_OBJECT
 
 public:
-    BookmarksSidebarPage(DolphinMainWindow *mainWindow, QWidget* parent=0);
+    BookmarksSidebarPage(QWidget* parent=0);
     virtual ~BookmarksSidebarPage();
 
-protected:
-    /** @see SidebarPage::activeViewChanged() */
-    virtual void activeViewChanged();
+public slots:
+	void setUrl(const KUrl& url);
 
 private slots:
     /** Fills the listbox with the bookmarks stored in DolphinSettings. */
@@ -61,12 +61,6 @@ private slots:
     /** @see QListBox::slotContextMenuRequested */
     void slotContextMenuRequested(Q3ListBoxItem* item, const QPoint& pos);
 
-    /**
-     * Is invoked whenever the Url of the active view has been changed. Adjusts
-     * the selection of the listbox to the bookmark which is part of the current Url.
-     */
-    void slotUrlChanged(const KUrl& url);
-
 private:
     /**
      * Updates the selection dependent from the given Url \a url. The
@@ -76,12 +70,6 @@ private:
      * the bookmark which covers the bigger range of the Url is selected.
      */
     void adjustSelection(const KUrl& url);
-
-    /**
-     * Connects to signals from the currently active Dolphin view to get
-     * informed about Url and bookmark changes.
-     */
-    void connectToActiveView();
 
     BookmarksListBox* m_bookmarksList;
 };

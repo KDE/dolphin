@@ -16,7 +16,7 @@ set(dolphinprivate_LIB_SRCS
 	)
 
 kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
-   dolphin_directoryviewpropertysettings.kcfgc 
+   dolphin_directoryviewpropertysettings.kcfgc
    dolphin_detailsmodesettings.kcfgc
    dolphin_iconsmodesettings.kcfgc
    dolphin_generalsettings.kcfgc)
@@ -64,6 +64,7 @@ set(dolphin_SRCS
    sidebarpage.cpp
    statusbarspaceinfo.cpp
    statusbarmessagelabel.cpp
+   treeviewcontextmenu.cpp
    treeviewsidebarpage.cpp
    sidebartreeview.cpp
    urlbutton.cpp

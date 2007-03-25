@@ -44,7 +44,6 @@ class QPainter;
 class KFileItem;
 class QLabel;
 class KVBox;
-class Q3Grid;
 class PixmapViewer;
 class MetaDataWidget;
 
@@ -58,12 +57,12 @@ class InfoSidebarPage : public SidebarPage
 	Q_OBJECT
 
 public:
-    explicit InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent = 0);
+    explicit InfoSidebarPage(QWidget* parent = 0);
     virtual ~InfoSidebarPage();
 
-protected:
-    /** @see SidebarPage::activeViewChanged() */
-    virtual void activeViewChanged();
+public slots:
+    void setUrl(const KUrl& url);
+    void setSelection(const KFileItemList& selection);
 
 private slots:
     /**
@@ -73,14 +72,6 @@ private slots:
      * @see InfoSidebarPage::showItemInfo()
      */
     void requestDelayedItemInfo(const KUrl& url);
-
-    /**
-     * Does a request of information for the item of the given Url and
-     * provides default actions.
-     *
-     * @see InfoSidebarPage::showItemInfo()
-     */
-    void requestItemInfo(const KUrl& url);
 
     /**
      * Shows the information for the item of the Url which has been provided by
@@ -113,12 +104,6 @@ private slots:
     void startService(int index);
 
 private:
-    /**
-     * Connects to signals from the currently active Dolphin view to get
-     * informed about highlighting changes.
-     */
-    void connectToActiveView();
-
     /**
      * Checks whether the an Url is repesented by a bookmark. If yes,
      * then the bookmark icon and name are shown instead of a preview.
@@ -154,6 +139,7 @@ private:
     QTimer* m_timer;
     KUrl m_shownUrl;
     KUrl m_urlCandidate;
+	KFileItemList m_currentSelection;
 
     PixmapViewer* m_preview;
     QLabel* m_name;

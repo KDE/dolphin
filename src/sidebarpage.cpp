@@ -18,26 +18,29 @@
  ***************************************************************************/
 
 #include "sidebarpage.h"
-#include "dolphinmainwindow.h"
+#include <QWidget>
+#include <kfileitem.h>
+#include <kurl.h>
 
-SidebarPage::SidebarPage(DolphinMainWindow* mainWindow, QWidget* parent) :
+SidebarPage::SidebarPage(QWidget* parent) :
     QWidget(parent),
-    m_mainWindow(mainWindow)
+    m_url(KUrl()),
+    m_currentSelection(KFileItemList())
 {
-    connect(mainWindow, SIGNAL(activeViewChanged()),
-            this, SLOT(activeViewChanged()));
 }
 
 SidebarPage::~SidebarPage()
 {
 }
 
-void SidebarPage::activeViewChanged()
+void SidebarPage::setUrl(const KUrl& url)
 {
+    m_url = url;
 }
 
-DolphinMainWindow* SidebarPage::mainWindow() const {
-    return m_mainWindow;
+void SidebarPage::setSelection(const KFileItemList& selection)
+{
+    m_currentSelection = selection;
 }
 
 #include "sidebarpage.moc"

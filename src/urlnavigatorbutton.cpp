@@ -152,27 +152,19 @@ void UrlNavigatorButton::paintEvent(QPaintEvent* event)
 
     const bool clipped = isTextClipped();
     const int align = clipped ? Qt::AlignVCenter : Qt::AlignCenter;
-    painter.drawText(QRect(0, 0, textWidth, buttonHeight), align, text());
-
+    const QRect textRect(0, 0, textWidth, buttonHeight);
     if (clipped) {
-        // Blend the right area of the text with the background, as the
-        // text is clipped.
-        // TODO: use alpha blending in Qt4 instead of drawing the text that often
-        const int blendSteps = 16;
+        QLinearGradient gradient(textRect.topLeft(), textRect.topRight());
+        gradient.setColorAt(0.8, foregroundColor);
+        gradient.setColorAt(1.0, backgroundColor);
 
-        QColor blendColor(backgroundColor);
-        const int redInc   = (foregroundColor.red()   - backgroundColor.red())   / blendSteps;
-        const int greenInc = (foregroundColor.green() - backgroundColor.green()) / blendSteps;
-        const int blueInc  = (foregroundColor.blue()  - backgroundColor.blue())  / blendSteps;
-        for (int i = 0; i < blendSteps; ++i) {
-            painter.setClipRect(QRect(textWidth - i, 0, 1, buttonHeight));
-            painter.setPen(blendColor);
-            painter.drawText(QRect(0, 0, textWidth, buttonHeight), align, text());
-
-            blendColor.setRgb(blendColor.red()   + redInc,
-                              blendColor.green() + greenInc,
-                              blendColor.blue()  + blueInc);
-        }
+        QPen pen;
+        pen.setBrush(QBrush(gradient));
+        painter.setPen(pen);
+        painter.drawText(textRect, align, text());
+    }
+    else {
+        painter.drawText(textRect, align, text());
     }
 }
 

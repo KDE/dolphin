@@ -51,12 +51,6 @@ class DolphinContextMenu : public QObject
     Q_OBJECT
 
 public:
-    enum ViewType
-    {
-        ItemsView,
-        SidebarView
-    };
-
     /**
      * @parent        Pointer to the main window the context menu
      *                belongs to.
@@ -69,35 +63,12 @@ public:
      */
     DolphinContextMenu(DolphinMainWindow* parent,
                        KFileItem* fileInfo,
-                       const KUrl& baseUrl,
-                       ViewType viewType = ItemsView);
+                       const KUrl& baseUrl);
 
     virtual ~DolphinContextMenu();
 
     /** Opens the context menu modal. */
     void open();
-
-private slots:
-    /** Cuts the item m_fileInfo. */
-    void cut();
-
-    /** Copies the item m_fileInfo. */
-    void copy();
-
-    /** Paste the clipboard to m_fileInfo. */
-    void paste();
-
-    /** Renames the item m_fileInfo. */
-    void rename();
-
-    /** Moves the item m_fileInfo to the trash. */
-    void moveToTrash();
-
-    /** Deletes the item m_fileInfo. */
-    void deleteItem();
-
-    /** Shows the properties of the item m_fileInfo. */
-    void showProperties();
 
 private:
     void openTrashContextMenu();
@@ -158,7 +129,6 @@ private:
     KUrl m_baseUrl;
     KFileItemList m_selectedItems;
     KUrl::List m_selectedUrls;
-    ViewType m_viewType;
     int m_context;
 };
 

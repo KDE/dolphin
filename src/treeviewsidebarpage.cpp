@@ -20,11 +20,11 @@
 #include "treeviewsidebarpage.h"
 
 #include "bookmarkselector.h"
-#include "dolphincontextmenu.h"
 #include "dolphinmainwindow.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
 #include "sidebartreeview.h"
+#include "treeviewcontextmenu.h"
 
 #include <kdirlister.h>
 #include <kdirmodel.h>
@@ -40,17 +40,13 @@
 // model:
 //#define USE_PROXY_MODEL
 
-TreeViewSidebarPage::TreeViewSidebarPage(DolphinMainWindow* mainWindow,
-                                         QWidget* parent) :
-    SidebarPage(mainWindow, parent),
+TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
+    SidebarPage(parent),
     m_dirLister(0),
     m_dirModel(0),
     m_proxyModel(0),
-    m_treeView(0),
-    m_selectedUrl()
+    m_treeView(0)
 {
-    Q_ASSERT(mainWindow != 0);
-
     m_dirLister = new KDirLister();
     m_dirLister->setDirOnlyMode(true);
     m_dirLister->setAutoUpdate(true);
@@ -67,13 +63,13 @@ TreeViewSidebarPage::TreeViewSidebarPage(DolphinMainWindow* mainWindow,
     m_proxyModel = new DolphinSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_dirModel);
 
-    m_treeView = new SidebarTreeView(mainWindow, this);
+    m_treeView = new SidebarTreeView(this);
     m_treeView->setModel(m_proxyModel);
 
     m_proxyModel->setSorting(DolphinView::SortByName);
     m_proxyModel->setSortOrder(Qt::Ascending);
 #else
-    m_treeView = new SidebarTreeView(mainWindow, this);
+    m_treeView = new SidebarTreeView(this);
     m_treeView->setModel(m_dirModel);
 #endif
 
@@ -93,49 +89,13 @@ TreeViewSidebarPage::~TreeViewSidebarPage()
     m_dirLister = 0;
 }
 
-void TreeViewSidebarPage::activeViewChanged()
+void TreeViewSidebarPage::setUrl(const KUrl& url)
 {
-    connectToActiveView();
-}
-
-void TreeViewSidebarPage::showEvent(QShowEvent* event)
-{
-    SidebarPage::showEvent(event);
-    connectToActiveView();
-}
-
-void TreeViewSidebarPage::contextMenuEvent(QContextMenuEvent* event)
-{
-    SidebarPage::contextMenuEvent(event);
-
-    const QModelIndex index = m_treeView->indexAt(event->pos());
-    if (!index.isValid()) {
-        // only open a context menu above a directory item
+    if (!url.isValid() || (url == m_url)) {
         return;
     }
 
-#if defined(USE_PROXY_MODEL)
-    const QModelIndex dirModelIndex = m_proxyModel->mapToSource(index);
-    KFileItem* item = m_dirModel->itemForIndex(dirModelIndex);
-#else
-    KFileItem* item = m_dirModel->itemForIndex(index);
-#endif
-
-    mainWindow()->activeView()->clearSelection();
-    DolphinContextMenu contextMenu(mainWindow(),
-                                   item,
-                                   m_dirLister->url(),
-                                   DolphinContextMenu::SidebarView);
-    contextMenu.open();
-}
-
-void TreeViewSidebarPage::updateSelection(const KUrl& url)
-{
-    if (!url.isValid() || (url == m_selectedUrl)) {
-        return;
-    }
-
-    m_selectedUrl = url;
+    m_url = url;
 
     // adjust the root of the tree to the base bookmark
     const KUrl baseUrl = BookmarkSelector::baseBookmark(url).url();
@@ -173,6 +133,34 @@ void TreeViewSidebarPage::updateSelection(const KUrl& url)
             parentUrl = parentUrl.upUrl();
         }
     }
+
+}
+
+void TreeViewSidebarPage::showEvent(QShowEvent* event)
+{
+    SidebarPage::showEvent(event);
+}
+
+void TreeViewSidebarPage::contextMenuEvent(QContextMenuEvent* event)
+{
+    SidebarPage::contextMenuEvent(event);
+
+    const QModelIndex index = m_treeView->indexAt(event->pos());
+    if (!index.isValid()) {
+        // only open a context menu above a directory item
+        return;
+    }
+
+#if defined(USE_PROXY_MODEL)
+    const QModelIndex dirModelIndex = m_proxyModel->mapToSource(index);
+    KFileItem* item = m_dirModel->itemForIndex(dirModelIndex);
+#else
+    KFileItem* item = m_dirModel->itemForIndex(index);
+#endif
+
+    emit changeSelection(KFileItemList());
+    TreeViewContextMenu contextMenu(this, item);
+    contextMenu.open();
 }
 
 void TreeViewSidebarPage::expandSelectionParent()
@@ -181,7 +169,7 @@ void TreeViewSidebarPage::expandSelectionParent()
                this, SLOT(expandSelectionParent()));
 
     // expand the parent folder of the selected item
-    KUrl parentUrl = m_selectedUrl.upUrl();
+    KUrl parentUrl = m_url.upUrl();
     if (!m_dirLister->url().isParentOf(parentUrl)) {
         return;
     }
@@ -196,7 +184,7 @@ void TreeViewSidebarPage::expandSelectionParent()
 #endif
 
         // select the item and assure that the item is visible
-        index = m_dirModel->indexForUrl(m_selectedUrl);
+        index = m_dirModel->indexForUrl(m_url);
         if (index.isValid()) {
 #if defined(USE_PROXY_MODEL)
             proxyIndex = m_proxyModel->mapFromSource(index);
@@ -224,7 +212,7 @@ void TreeViewSidebarPage::updateActiveView(const QModelIndex& index)
 #endif
     if (item != 0) {
         const KUrl& url = item->url();
-        mainWindow()->activeView()->setUrl(url);
+        emit changeUrl(url);
     }
 }
 
@@ -240,25 +228,9 @@ void TreeViewSidebarPage::dropUrls(const KUrl::List& urls,
 #endif
         Q_ASSERT(item != 0);
         if (item->isDir()) {
-            mainWindow()->dropUrls(urls, item->url());
+            emit urlsDropped(urls, item->url());
         }
     }
-}
-
-void TreeViewSidebarPage::connectToActiveView()
-{
-    const QWidget* parent = parentWidget();
-    if ((parent == 0) || parent->isHidden()) {
-        return;
-    }
-
-    const DolphinView* view = mainWindow()->activeView();
-    const KUrl& url = view->url();
-
-    connect(view, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(updateSelection(const KUrl&)));
-
-    updateSelection(url);
 }
 
 #include "treeviewsidebarpage.moc"

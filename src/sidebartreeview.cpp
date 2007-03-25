@@ -26,10 +26,8 @@
 #include <QDropEvent>
 #include <QHeaderView>
 
-SidebarTreeView::SidebarTreeView(DolphinMainWindow* mainWindow,
-                                 QWidget* parent) :
-    QTreeView(parent),
-    m_mainWindow(mainWindow)
+SidebarTreeView::SidebarTreeView(QWidget* parent) :
+    QTreeView(parent)
 {
     setAcceptDrops(true);
     setUniformRowHeights(true);

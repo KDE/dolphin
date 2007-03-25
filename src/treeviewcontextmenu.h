@@ -17,38 +17,64 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef SIDEBARTREEVIEW_H
-#define SIDEBARTREEVIEW_H
+#ifndef TREEVIEWCONTEXTMENU_H
+#define TREEVIEWCONTEXTMENU_H
 
-#include <kurl.h>
-#include <QTreeView>
+#include <QObject>
+
+class KMenu;
+class KFileItem;
+class QAction;
 
 /**
- * @brief Tree view widget which is used for the sidebar panel.
- *
- * @see TreeViewSidebarPage
+ * @brief Represents the context menu which appears when doing a right
+ *        click on an item of the treeview.
  */
-class SidebarTreeView : public QTreeView
+class TreeViewContextMenu : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit SidebarTreeView(QWidget* parent = 0);
-    virtual ~SidebarTreeView();
-
-signals:
-   /**
-     * Is emitted if the URLs \a urls have been dropped to
-     * the index \a index.
+    /**
+     * @parent        Pointer to the parent widget the context menu
+     *                belongs to.
+     * @fileInfo      Pointer to the file item the context menu
+     *                is applied. If 0 is passed, the context menu
+     *                is above the viewport.
      */
-    void urlsDropped(const KUrl::List& urls,
-                     const QModelIndex& index);
+    TreeViewContextMenu(QWidget* parent,
+                        KFileItem* fileInfo);
 
-protected:
-    virtual bool event(QEvent* event);
-    virtual void dragEnterEvent(QDragEnterEvent* event);
-    virtual void dropEvent(QDropEvent* event);
+    virtual ~TreeViewContextMenu();
 
+    /** Opens the context menu modal. */
+    void open();
+
+private slots:
+    /** Cuts the item m_fileInfo. */
+    void cut();
+
+    /** Copies the item m_fileInfo. */
+    void copy();
+
+    /** Paste the clipboard to m_fileInfo. */
+    void paste();
+
+    /** Renames the item m_fileInfo. */
+    void rename();
+
+    /** Moves the item m_fileInfo to the trash. */
+    void moveToTrash();
+
+    /** Deletes the item m_fileInfo. */
+    void deleteItem();
+
+    /** Shows the properties of the item m_fileInfo. */
+    void showProperties();
+
+private:
+    QWidget* m_parent;
+    KFileItem* m_fileInfo;
 };
 
 #endif

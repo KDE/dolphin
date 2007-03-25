@@ -36,11 +36,10 @@
 #include <klocale.h>
 
 #include "dolphinsettings.h"
-#include "dolphinmainwindow.h"
 #include "editbookmarkdialog.h"
 
-BookmarksSidebarPage::BookmarksSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent) :
-    SidebarPage(mainWindow, parent)
+BookmarksSidebarPage::BookmarksSidebarPage(QWidget* parent) :
+    SidebarPage(parent)
 {
     Q3VBoxLayout* layout = new Q3VBoxLayout(this);
     m_bookmarksList = new BookmarksListBox(this);
@@ -63,9 +62,12 @@ BookmarksSidebarPage::~BookmarksSidebarPage()
 {
 }
 
-void BookmarksSidebarPage::activeViewChanged()
+void BookmarksSidebarPage::setUrl(const KUrl& url)
 {
-    connectToActiveView();
+    if (!m_url.equals(url, KUrl::CompareWithoutTrailingSlash)) {
+        m_url = url;
+        adjustSelection(m_url);
+    }
 }
 
 void BookmarksSidebarPage::updateBookmarks()
@@ -85,8 +87,6 @@ void BookmarksSidebarPage::updateBookmarks()
 
         bookmark = root.next(bookmark);
     }
-
-    connectToActiveView();
 }
 
 void BookmarksSidebarPage::slotMouseButtonClicked(int button, Q3ListBoxItem* item)
@@ -97,7 +97,7 @@ void BookmarksSidebarPage::slotMouseButtonClicked(int button, Q3ListBoxItem* ite
 
     const int index = m_bookmarksList->index(item);
     KBookmark bookmark = DolphinSettings::instance().bookmark(index);
-    mainWindow()->activeView()->setUrl(bookmark.url());
+    emit changeUrl(bookmark.url());
 }
 
 void BookmarksSidebarPage::slotContextMenuRequested(Q3ListBoxItem* item,
@@ -191,9 +191,6 @@ void BookmarksSidebarPage::slotContextMenuRequested(Q3ListBoxItem* item,
    }
     delete popup;
     popup = 0;
-
-    DolphinView* view = mainWindow()->activeView();
-    adjustSelection(view->url());
 }
 
 
@@ -237,19 +234,6 @@ void BookmarksSidebarPage::adjustSelection(const KUrl& url)
         m_bookmarksList->setSelected(selectedIndex, true);
     }
     m_bookmarksList->blockSignals(block);
-}
-
-void BookmarksSidebarPage::slotUrlChanged(const KUrl& url)
-{
-    adjustSelection(url);
-}
-
-void BookmarksSidebarPage::connectToActiveView()
-{
-    DolphinView* view = mainWindow()->activeView();
-    adjustSelection(view->url());
-    connect(view, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(slotUrlChanged(const KUrl&)));
 }
 
 BookmarksListBox::BookmarksListBox(QWidget* parent) :

@@ -353,6 +353,14 @@ public slots:
      */
     void requestActivation();
 
+    /**
+     * Request of a selection change. The view will do its best to accomodate
+     * the request, but it is not guaranteed that all items in \a selection
+     * will actually get selected. The view will e.g. not select items which
+     * are not in the currently displayed folder.
+     */
+    void changeSelection(const KFileItemList& selection);
+
 signals:
     /** Is emitted if URL of the view has been changed to \a url. */
     void urlChanged(const KUrl& url);
@@ -388,11 +396,9 @@ signals:
     void contentsMoved(int x, int y);
 
     /**
-     * Is emitted whenever the selection has been changed. The current selection can
-     * be retrieved by mainWindow()->activeView()->selectedItems() or by
-     * mainWindow()->activeView()->selectedUrls().
+     * Is emitted whenever the selection has been changed.
      */
-    void selectionChanged();
+    void selectionChanged(const KFileItemList& selection);
 
     /**
      * Is emitted whenever the filter bar has been turned show or hidden.

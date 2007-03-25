@@ -20,19 +20,18 @@
 #include <config-kmetadata.h>
 
 #include "infosidebarpage.h"
-#include <assert.h>
 
-#include <qlayout.h>
-#include <qpixmap.h>
-#include <qlabel.h>
-#include <qtimer.h>
-#include <qpushbutton.h>
-
-#include <qmenu.h>
-#include <qpainter.h>
-#include <qfontmetrics.h>
+#include <QLayout>
+#include <QPixmap>
+#include <QLabel>
+#include <QTimer>
+#include <QPushButton>
+#include <QMenu>
+#include <QPainter>
+#include <QFontMetrics>
 #include <QEvent>
 #include <QInputDialog>
+#include <QDir>
 
 #include <kbookmarkmanager.h>
 #include <klocale.h>
@@ -44,22 +43,22 @@
 #include <kfilemetainfo.h>
 #include <kvbox.h>
 #include <kseparator.h>
+#include <kiconloader.h>
 
 #ifdef HAVE_KMETADATA
 #include <kratingwidget.h>
 #endif
 
-#include "dolphinmainwindow.h"
-#include "dolphinapplication.h"
 #include "pixmapviewer.h"
 #include "dolphinsettings.h"
 #include "metadatawidget.h"
 
-InfoSidebarPage::InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent) :
-    SidebarPage(mainWindow, parent),
-    m_multipleSelection(false),
+InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
+    SidebarPage(parent),
+    m_multipleSelection(false), //TODO:check if I'm needed
     m_pendingPreview(false),
     m_timer(0),
+    m_currentSelection(KFileItemList()),
     m_preview(0),
     m_name(0),
     m_infos(0)
@@ -121,19 +120,27 @@ InfoSidebarPage::InfoSidebarPage(DolphinMainWindow* mainWindow, QWidget* parent)
     layout->addWidget(m_actionBox);
     layout->addWidget(dummy);
     setLayout(layout);
-    connect(mainWindow, SIGNAL(selectionChanged()),
-            this, SLOT(showItemInfo()));
-
-    connectToActiveView();
 }
 
 InfoSidebarPage::~InfoSidebarPage()
 {
 }
 
-void InfoSidebarPage::activeViewChanged()
+void InfoSidebarPage::setUrl(const KUrl& url)
 {
-    connectToActiveView();
+    if (!m_shownUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
+        cancelRequest();
+        m_shownUrl = url;
+        showItemInfo();
+    }
+}
+
+void InfoSidebarPage::setSelection(const KFileItemList& selection)
+{
+    cancelRequest();
+    m_currentSelection = selection;
+    m_multipleSelection = (m_currentSelection.size() > 1);
+    showItemInfo();
 }
 
 void InfoSidebarPage::requestDelayedItemInfo(const KUrl& url)
@@ -147,29 +154,13 @@ void InfoSidebarPage::requestDelayedItemInfo(const KUrl& url)
     }
 }
 
-void InfoSidebarPage::requestItemInfo(const KUrl& url)
-{
-    cancelRequest();
-
-    if (!url.isEmpty() && !m_multipleSelection) {
-        m_shownUrl = url;
-        showItemInfo();
-    }
-}
-
 void InfoSidebarPage::showItemInfo()
 {
     cancelRequest();
 
-    m_multipleSelection = false;
-
-    // show the preview...
-    DolphinView* view = mainWindow()->activeView();
-    const KFileItemList selectedItems = view->selectedItems();
+    KFileItemList selectedItems = m_currentSelection;
     KUrl file;
-    if (selectedItems.count() > 1) {
-        m_multipleSelection = true;
-    } else if(selectedItems.count() == 0) {
+    if(selectedItems.count() == 0) {
         file = m_shownUrl;
     } else {
         file = selectedItems[0]->url();
@@ -228,9 +219,10 @@ void InfoSidebarPage::slotPreviewFailed(const KFileItem* item)
     }
 }
 
-void InfoSidebarPage::gotPreview(const KFileItem* /* item */,
+void InfoSidebarPage::gotPreview(const KFileItem* item,
                                  const QPixmap& pixmap)
 {
+    Q_UNUSED(item);
     if (m_pendingPreview) {
         m_preview->setPixmap(pixmap);
         m_pendingPreview = false;
@@ -239,30 +231,14 @@ void InfoSidebarPage::gotPreview(const KFileItem* /* item */,
 
 void InfoSidebarPage::startService(int index)
 {
-    DolphinView* view = mainWindow()->activeView();
-    if (view->hasSelection()) {
-        KUrl::List selectedUrls = view->selectedUrls();
+    if (m_currentSelection.count() > 0) {
         // TODO: Use "at()" as soon as executeService is fixed to take a const param (BIC)
-        KDEDesktopMimeType::executeService(selectedUrls, m_actionsVector[index]);
+        KDEDesktopMimeType::executeService(m_currentSelection.urlList(), m_actionsVector[index]);
     }
     else {
         // TODO: likewise
         KDEDesktopMimeType::executeService(m_shownUrl, m_actionsVector[index]);
     }
-}
-
-void InfoSidebarPage::connectToActiveView()
-{
-    cancelRequest();
-
-    DolphinView* view = mainWindow()->activeView();
-    connect(view, SIGNAL(requestItemInfo(const KUrl&)),
-            this, SLOT(requestDelayedItemInfo(const KUrl&)));
-    connect(view, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(requestItemInfo(const KUrl&)));
-
-    m_shownUrl = view->url();
-    showItemInfo();
 }
 
 bool InfoSidebarPage::applyBookmark(const KUrl& url)
@@ -298,8 +274,7 @@ void InfoSidebarPage::cancelRequest()
 void InfoSidebarPage::createMetaInfo()
 {
     beginInfoLines();
-    DolphinView* view = mainWindow()->activeView();
-    if (!view->hasSelection()) {
+    if(m_currentSelection.size() == 0) {
         KFileItem fileItem(S_IFDIR, KFileItem::Unknown, m_shownUrl);
         fileItem.refresh();
 
@@ -309,8 +284,8 @@ void InfoSidebarPage::createMetaInfo()
         if ( MetaDataWidget::metaDataAvailable() )
             m_metadataWidget->setFile( fileItem.url() );
     }
-    else if (view->selectedItems().count() == 1) {
-        KFileItem* fileItem = view->selectedItems()[0];
+    else if (m_currentSelection.count() == 1) {
+        KFileItem* fileItem = m_currentSelection.at(0);
         addInfoLine(i18n("Type:"), fileItem->mimeComment());
 
         QString sizeText(KIO::convertSize(fileItem->size()));
@@ -332,9 +307,9 @@ void InfoSidebarPage::createMetaInfo()
     }
     else {
         if ( MetaDataWidget::metaDataAvailable() )
-            m_metadataWidget->setFiles( view->selectedItems().urlList() );
+            m_metadataWidget->setFiles( m_currentSelection.urlList() );
         unsigned long int totSize = 0;
-        foreach(KFileItem* item, view->selectedItems()) {
+        foreach(KFileItem* item, m_currentSelection) {
             totSize += item->size(); //FIXME what to do with directories ? (same with the one-item-selected-code), item->size() does not return the size of the content : not very instinctive for users
         }
         addInfoLine(i18n("Total size:"), KIO::convertSize(totSize));
@@ -415,7 +390,7 @@ void InfoSidebarPage::insertActions()
     // of KFileItems. If no selection is given, a temporary KFileItem
     // by the given Url 'url' is created and added to the list.
     KFileItem fileItem(S_IFDIR, KFileItem::Unknown, m_shownUrl);
-    KFileItemList itemList = mainWindow()->activeView()->selectedItems();
+    KFileItemList itemList = m_currentSelection;
     if (itemList.isEmpty()) {
         fileItem.refresh();
         itemList.append(&fileItem);

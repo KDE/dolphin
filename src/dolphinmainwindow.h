@@ -23,6 +23,7 @@
 #define DOLPHIN_MAINWINDOW_H
 
 #include "dolphinview.h"
+#include "sidebarpage.h"
 
 #include <kmainwindow.h>
 #include <ksortablelist.h>
@@ -64,20 +65,6 @@ public:
      */
     DolphinView* activeView() const { return m_activeView; }
 
-    /**
-     * Handles the dropping of URLs to the given
-     * destination. A context menu with the options
-     * 'Move Here', 'Copy Here', 'Link Here' and
-     * 'Cancel' is offered to the user.
-     * @param urls        List of URLs which have been
-     *                    dropped.
-     * @param destination Destination URL, where the
-     *                    list or URLs should be moved,
-     *                    copied or linked to.
-     */
-    void dropUrls(const KUrl::List& urls,
-                  const KUrl& destination);
-
     /** Renames the item represented by \a oldUrl to \a newUrl. */
     void rename(const KUrl& oldUrl, const KUrl& newUrl);
 
@@ -95,14 +82,35 @@ public:
 
 public slots:
     /**
+     * Handles the dropping of URLs to the given
+     * destination. A context menu with the options
+     * 'Move Here', 'Copy Here', 'Link Here' and
+     * 'Cancel' is offered to the user.
+     * @param urls        List of URLs which have been
+     *                    dropped.
+     * @param destination Destination URL, where the
+     *                    list or URLs should be moved,
+     *                    copied or linked to.
+     */
+    void dropUrls(const KUrl::List& urls,
+                  const KUrl& destination);
+
+    /**
      * Returns the main window ID used through DBus.
      */
     int getId() const { return m_id; }
 
     /**
-     * Changes the URL of the current active DolphinView to \a url.
+     * Inform all affected dolphin components (sidebars, views) of an URL
+     * change.
      */
-    void changeUrl(const QString& url);
+    void changeUrl(const KUrl& url);
+
+    /**
+     * Inform all affected dolphin components that a selection change is
+     * requested.
+     */
+    void changeSelection(const KFileItemList& selection);
 
     /** Stores all settings and quits Dolphin. */
     void quit();
@@ -115,10 +123,16 @@ signals:
     void activeViewChanged();
 
     /**
-     * Is send if the selection of the currently active view has
+     * Is sent if the selection of the currently active view has
      * been changed.
      */
-    void selectionChanged();
+    void selectionChanged(const KFileItemList& selection);
+
+    /**
+     * Is sent if the url of the currently active view has
+     * been changed.
+     */
+    void urlChanged(const KUrl& url);
 
 protected:
     /** @see QMainWindow::closeEvent */
@@ -348,19 +362,13 @@ private slots:
     void slotAdditionalInfoChanged(KFileItemDelegate::AdditionalInformation info);
 
     /** Updates the state of the 'Edit' menu actions. */
-    void slotSelectionChanged();
+    void slotSelectionChanged(const KFileItemList& selection);
 
     /**
      * Updates the state of the 'Back' and 'Forward' menu
      * actions corresponding the the current history.
      */
     void slotHistoryChanged();
-
-    /**
-     * Updates the caption of the main window and the state
-     * of all menu actions which depend from a changed URL.
-     */
-    void slotUrlChanged(const KUrl& url);
 
     /** Updates the state of the 'Show filter bar' menu action. */
     void updateFilterBarAction(bool show);
@@ -392,6 +400,11 @@ private:
      * time a DolphinView has been created.
      */
     void connectViewSignals(int viewIndex);
+
+    /**
+     * Helper function to connect all signal/slots of the given \sidebar.
+     */
+    void connectSidebarPage(SidebarPage* sidebar);
 
 private:
     /**
