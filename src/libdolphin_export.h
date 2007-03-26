@@ -26,16 +26,6 @@
 /* needed, because e.g. Q_OS_UNIX is so frequently used */
 #include <QtCore/qglobal.h>
 
-#ifdef MAKE_DOLPHIN_LIB
-# define LIBDOLPHIN_EXPORT KDE_EXPORT
-#else
-# ifdef Q_OS_WIN
-#  define LIBDOLPHIN_EXPORT KDE_IMPORT
-# else
-#  define LIBDOLPHIN_EXPORT KDE_EXPORT
-# endif
-#endif
-
 #ifdef MAKE_DOLPHINPRIVATE_LIB
 # define LIBDOLPHINPRIVATE_EXPORT KDE_EXPORT
 #else
