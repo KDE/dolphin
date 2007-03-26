@@ -233,11 +233,11 @@ void InfoSidebarPage::startService(int index)
 {
     if (m_currentSelection.count() > 0) {
         // TODO: Use "at()" as soon as executeService is fixed to take a const param (BIC)
-        KDEDesktopMimeType::executeService(m_currentSelection.urlList(), m_actionsVector[index]);
+        KDesktopFileActions::executeService(m_currentSelection.urlList(), m_actionsVector[index]);
     }
     else {
         // TODO: likewise
-        KDEDesktopMimeType::executeService(m_shownUrl, m_actionsVector[index]);
+        KDesktopFileActions::executeService(m_shownUrl, m_actionsVector[index]);
     }
 }
 
@@ -456,13 +456,13 @@ void InfoSidebarPage::insertActions()
                             button->show();
                         }
 
-                        QList<KDEDesktopMimeType::Service> userServices =
-                            KDEDesktopMimeType::userDefinedServices(*dirIt + *entryIt, true);
+                        QList<KDesktopFileActions::Service> userServices =
+                            KDesktopFileActions::userDefinedServices(*dirIt + *entryIt, true);
 
                         // iterate through all actions and add them to a widget
-                        QList<KDEDesktopMimeType::Service>::Iterator serviceIt;
+                        QList<KDesktopFileActions::Service>::Iterator serviceIt;
                         for (serviceIt = userServices.begin(); serviceIt != userServices.end(); ++serviceIt) {
-                            KDEDesktopMimeType::Service service = (*serviceIt);
+                            KDesktopFileActions::Service service = (*serviceIt);
                             if (popup == 0) {
                                 ServiceButton* button = new ServiceButton(KIcon(service.m_strIcon),
                                                                           service.m_strName,

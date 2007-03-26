@@ -20,7 +20,7 @@
 #ifndef DOLPHINCONTEXTMENU_H
 #define DOLPHINCONTEXTMENU_H
 
-#include <kdedesktopmimetype.h>
+#include <kdesktopfileactions.h>
 #include <kfileitem.h>
 #include <kservice.h>
 #include <kurl.h>
@@ -99,7 +99,7 @@ private:
      *                       services.
      */
     QList<QAction*> insertActionItems(KMenu* popup,
-                                      QVector<KDEDesktopMimeType::Service>& actionsVector);
+                                      QVector<KDesktopFileActions::Service>& actionsVector);
 
     /**
      * Returns true, if 'menu' contains already

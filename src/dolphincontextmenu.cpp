@@ -170,7 +170,7 @@ void DolphinContextMenu::openItemContextMenu()
     const QList<QAction*> openWithActions = insertOpenWithItems(popup, openWithVector);
 
     // Insert 'Actions' sub menu
-    QVector<KDEDesktopMimeType::Service> actionsVector;
+    QVector<KDesktopFileActions::Service> actionsVector;
     const QList<QAction*> serviceActions = insertActionItems(popup, actionsVector);
     popup->addSeparator();
 
@@ -196,7 +196,7 @@ void DolphinContextMenu::openItemContextMenu()
     else if (serviceActions.contains(activatedAction)) {
         // one of the 'Actions' items has been selected
         int id = serviceActions.indexOf(activatedAction);
-        KDEDesktopMimeType::executeService(m_selectedUrls, actionsVector[id]);
+        KDesktopFileActions::executeService(m_selectedUrls, actionsVector[id]);
     }
     else if (openWithActions.contains(activatedAction)) {
         // one of the 'Open With' items has been selected
@@ -380,7 +380,7 @@ QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
 }
 
 QList<QAction*> DolphinContextMenu::insertActionItems(KMenu* popup,
-                                                      QVector<KDEDesktopMimeType::Service>& actionsVector)
+                                                      QVector<KDesktopFileActions::Service>& actionsVector)
 {
     // Parts of the following code have been taken
     // from the class KonqOperations located in
@@ -449,12 +449,12 @@ QList<QAction*> DolphinContextMenu::insertActionItems(KMenu* popup,
                             actionsMenu->addMenu(menu);
                         }
 
-                        Q3ValueList<KDEDesktopMimeType::Service> userServices =
-                            KDEDesktopMimeType::userDefinedServices(*dirIt + *entryIt, true);
+                        Q3ValueList<KDesktopFileActions::Service> userServices =
+                            KDesktopFileActions::userDefinedServices(*dirIt + *entryIt, true);
 
-                        Q3ValueList<KDEDesktopMimeType::Service>::Iterator serviceIt;
+                        Q3ValueList<KDesktopFileActions::Service>::Iterator serviceIt;
                         for (serviceIt = userServices.begin(); serviceIt != userServices.end(); ++serviceIt) {
-                            KDEDesktopMimeType::Service service = (*serviceIt);
+                            KDesktopFileActions::Service service = (*serviceIt);
                             if (!service.m_strIcon.isEmpty()) {
                                 QAction* action = menu->addAction(SmallIcon(service.m_strIcon),
                                                                   service.m_strName);

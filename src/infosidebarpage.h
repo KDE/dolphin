@@ -30,7 +30,7 @@
 
 #include <kurl.h>
 #include <kmimetype.h>
-#include <kdedesktopmimetype.h>
+#include <kdesktopfileactions.h>
 #include <kvbox.h>
 
 namespace KIO {
@@ -148,7 +148,7 @@ private:
     QLabel* m_infos;
 
     KVBox* m_actionBox;
-    QVector<KDEDesktopMimeType::Service> m_actionsVector;
+    QVector<KDesktopFileActions::Service> m_actionsVector;
 
     MetaDataWidget* m_metadataWidget;
 };
