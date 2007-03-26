@@ -6,7 +6,9 @@ Actions=extractHere
 
 [Desktop Action extractHere]
 Name=Extract Here
+Name[de]=Hier entpacken
 Name[el]=Αποσυμπίεση εδώ
+Name[ja]=ここに展開
 Name[nds]=Hier ruttrecken
 Name[x-test]=xxExtract Herexx
 Exec=ark --extract-to %d %u

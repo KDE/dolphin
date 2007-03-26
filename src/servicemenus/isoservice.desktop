@@ -5,12 +5,16 @@ ServiceTypes=inode/blockdevice,application/x-cd-image
 
 [Desktop Action OpenISO]
 Comment=ISO9660 View
+Comment[de]=ISO9660-Ansicht
 Comment[el]=Προβολή ISO9660
+Comment[ja]=ISO9660 ビュー
 Comment[nds]=ISO9660-Ansicht
 Comment[x-test]=xxISO9660 Viewxx
 Icon=cd
 Name=ISO9660 View
+Name[de]=ISO9660-Ansicht
 Name[el]=Προβολή ISO9660
+Name[ja]=ISO9660 ビュー
 Name[nds]=ISO9660-Ansicht
 Name[x-test]=xxISO9660 Viewxx
 Exec=

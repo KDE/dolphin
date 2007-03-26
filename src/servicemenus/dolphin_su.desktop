@@ -5,7 +5,9 @@ Actions=DolphinSU;
 [Desktop Action DolphinSU]
 ServiceTypes=inode/directory
 Name=Open as Root
+Name[de]=Als Systemverwalter öffnen
 Name[el]=Άνοιγμα ως υπερχρήστης
+Name[ja]=root 権限で開く
 Name[nds]=As Systeempleger opmaken
 Name[x-test]=xxOpen as Rootxx
 Icon=dolphin

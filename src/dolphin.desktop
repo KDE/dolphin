@@ -9,6 +9,7 @@ DocPath=dolphin/dolphin.html
 Categories=System;FileManager;
 GenericName=File Manager
 GenericName[csb]=Menedżer lopków
+GenericName[de]=Dateimanager
 GenericName[el]=Διαχειριστής αρχείων
 GenericName[ja]=ファイルマネージャ
 GenericName[nds]=Dateipleger

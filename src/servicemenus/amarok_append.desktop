@@ -7,7 +7,9 @@ X-KDE-Submenu[x-test]=xxAmarokxx
 
 [Desktop Action appendToPlaylist]
 Name=Append to Playlist
+Name[de]=An Wiedergabeliste anhängen
 Name[el]=Προσθήκη στη λίστα
+Name[ja]=プレイリストに追加
 Name[nds]=Na Afspeellist anhangen
 Name[x-test]=xxAppend to Playlistxx
 Icon=amarok
@@ -15,7 +17,9 @@ Exec=amarok -e %U
 
 [Desktop Action appendAndPlay]
 Name=Append & Play
+Name[de]=Anhängen und abs&pielen
 Name[el]=Προσθήκη & αναπαραγωγή
+Name[ja]=追加して再生
 Name[nds]=Anhangen un Afspelen
 Name[x-test]=xxAppend & Playxx
 Icon=amarok
@@ -23,7 +27,9 @@ Exec=dcop amarok playlist playMedia %U
 
 [Desktop Action queueTrack]
 Name=Queue Track
+Name[de]=Stück in Warteschlange einstellen
 Name[el]=Κομμάτι σε αναμονή
+Name[ja]=トラックをキュー
 Name[nds]=Stück inregen
 Name[x-test]=xxQueue Trackxx
 Icon=amarok

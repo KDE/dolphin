@@ -6,7 +6,9 @@ Actions=compressHere
 
 [Desktop Action compressHere]
 Name=Compress Here
+Name[de]=Hier komprimieren
 Name[el]=Συμπίεση εδώ
+Name[ja]=ここに圧縮
 Name[nds]=Hier komprimeren
 Name[x-test]=xxCompress Herexx
 Exec=ark --add-to %u %u.tar.gz
