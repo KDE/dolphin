@@ -211,14 +211,6 @@ public:
      */
     void setUrlEditable(bool editable);
 
-    /**
-     * Returns the complete URL history. The index 0 indicates the oldest
-     * history element.
-     * @param index     Output parameter which indicates the current
-     *                  index of the location.
-     */
-    const QList<UrlNavigator::HistoryElem> urlHistory(int& index) const;
-
     /** Returns true, if at least one item is selected. */
     bool hasSelection() const;
 

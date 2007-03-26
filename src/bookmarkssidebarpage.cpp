@@ -196,41 +196,20 @@ void BookmarksSidebarPage::slotContextMenuRequested(Q3ListBoxItem* item,
 
 void BookmarksSidebarPage::adjustSelection(const KUrl& url)
 {
-    // TODO (remarked in dolphin/TODO): the following code is quite equal
-    // to BookmarkSelector::updateSelection().
-
     KBookmarkGroup root = DolphinSettings::instance().bookmarkManager()->root();
-    KBookmark bookmark = root.first();
-
-    int maxLength = 0;
-    int selectedIndex = -1;
-
-    // Search the bookmark which is equal to the Url or at least is a parent Url.
-    // If there are more than one possible parent Url candidates, choose the bookmark
-    // which covers the bigger range of the Url.
-    int i = 0;
-    while (!bookmark.isNull()) {
-        const KUrl bookmarkUrl = bookmark.url();
-        if (bookmarkUrl.isParentOf(url)) {
-            const int length = bookmarkUrl.prettyUrl().length();
-            if (length > maxLength) {
-                selectedIndex = i;
-                maxLength = length;
-            }
-        }
-        bookmark = root.next(bookmark);
-        ++i;
-    }
+    KBookmark bookmark = root.closestBookmark(url);
 
     const bool block = m_bookmarksList->signalsBlocked();
     m_bookmarksList->blockSignals(true);
-    if (selectedIndex < 0) {
+    if (bookmark.isNull()) {
         // no bookmark matches, hence deactivate any selection
         const int currentIndex = m_bookmarksList->index(m_bookmarksList->selectedItem());
         m_bookmarksList->setSelected(currentIndex, false);
     }
     else {
         // select the bookmark which is part of the current Url
+        // TODO when porting to QListWidget, use the address as item data?
+        int selectedIndex = bookmark.address().mid(1).toInt(); // convert "/5" to 5.
         m_bookmarksList->setSelected(selectedIndex, true);
     }
     m_bookmarksList->blockSignals(block);

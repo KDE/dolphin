@@ -166,10 +166,14 @@ KUrl UrlNavigator::url(int index) const
     return newurl;
 }
 
-const QList<UrlNavigator::HistoryElem>& UrlNavigator::history(int& index) const
+UrlNavigator::HistoryElem UrlNavigator::currentHistoryItem() const
 {
-    index = m_historyIndex;
-    return m_history;
+    return m_history[m_historyIndex];
+}
+
+int UrlNavigator::historySize() const
+{
+    return m_history.count();
 }
 
 void UrlNavigator::goBack()

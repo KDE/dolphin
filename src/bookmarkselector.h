@@ -63,22 +63,6 @@ public:
     /** @see QWidget::sizeHint() */
     virtual QSize sizeHint() const;
 
-    /**
-     * Returns the base bookmark for the URL \a url.
-     * The base bookmark is defined as bookmark which is equal to
-     * the URL or at least is a parent URL. If there are more than
-     * one possible parent URL candidates, the bookmark which covers
-     * the bigger range of the URL is returned.
-     *
-     * Example: the url is '/home/peter/Documents/Music. Available
-     * bookmarks are:
-     * - /home/peter
-     * - /home/peter/Documents
-     *
-     * The base URL will be '/home/peter/Documents'.
-     */
-    static KBookmark baseBookmark(KBookmarkManager* bookmarkManager, const KUrl& url);
-
 signals:
     /**
      * Is send when a bookmark has been activated by the user.

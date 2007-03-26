@@ -22,7 +22,7 @@
 #define URLNAVIGATORBUTTON_H
 
 #include <kio/global.h>
-#include <urlbutton.h>
+#include "urlbutton.h"
 
 class KJob;
 class KUrl;

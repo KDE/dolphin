@@ -58,10 +58,7 @@ class ProtocolCombo;
  *
  * The URL navigator also remembers the URL history and allows to go
  * back and forward within this history.
-*/
-
-//typedef QList<KUrl> UrlStack;
-
+ */
 class UrlNavigator : public QWidget
 {
     Q_OBJECT
@@ -107,13 +104,16 @@ public:
     /** Returns the portion of the current active URL up to the button at index. */
     KUrl url(int index) const;
 
+    /** Returns the amount of items in the history */
+    int historySize() const;
+
     /**
-     * Returns the complete URL history. The index 0 indicates the oldest
+     * Returns one item out of the history. The index 0 indicates the oldest
      * history element.
      * @param index     Output parameter which indicates the current
      *                  index of the location.
      */
-    const QList<HistoryElem>& history(int& index) const;
+    HistoryElem currentHistoryItem() const;
 
     /**
      * Goes back one step in the URL history. The signals
@@ -315,7 +315,6 @@ private:
     QLineEdit* m_host;
     QLinkedList<UrlNavigatorButton*> m_navButtons;
     QWidget* m_filler;
-    //UrlStack m_urls;
 };
 
 #endif

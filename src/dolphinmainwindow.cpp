@@ -1348,11 +1348,10 @@ void DolphinMainWindow::setupDockWidgets()
 void DolphinMainWindow::updateHistory()
 {
     int index = 0;
-    const QList<UrlNavigator::HistoryElem> list = m_activeView->urlHistory(index);
 
     QAction* backAction = actionCollection()->action("go_back");
     if (backAction != 0) {
-        backAction->setEnabled(index < static_cast<int>(list.count()) - 1);
+        backAction->setEnabled(index < m_activeView->urlNavigator()->historySize() - 1);
     }
 
     QAction* forwardAction = actionCollection()->action("go_forward");

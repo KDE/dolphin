@@ -75,7 +75,7 @@ BookmarkSelector::~BookmarkSelector()
 
 void BookmarkSelector::updateSelection(const KUrl& url)
 {
-    KBookmark bookmark = baseBookmark(m_bookmarkManager, url);
+    KBookmark bookmark = m_bookmarkManager->root().closestBookmark(url);
     if (!bookmark.isNull()) {
         m_selectedAddress = bookmark.address();
         setIcon(SmallIcon(bookmark.icon()));
@@ -97,34 +97,6 @@ QSize BookmarkSelector::sizeHint() const
 {
     const int height = UrlButton::sizeHint().height();
     return QSize(height, height);
-}
-
-KBookmark BookmarkSelector::baseBookmark(KBookmarkManager* bookmarkManager, const KUrl& url)
-{
-    const KBookmarkGroup root = bookmarkManager->root();
-    KBookmark bookmark = root.first();
-    KBookmark foundBookmark;
-
-    int maxLength = 0;
-
-    // Search the bookmark which is equal to the Url or at least is a parent Url.
-    // If there are more than one possible parent Url candidates, choose the bookmark
-    // which covers the bigger range of the Url.
-    int i = 0;
-    while (!bookmark.isNull()) {
-        const KUrl bookmarkUrl = bookmark.url();
-        if (bookmarkUrl.isParentOf(url)) {
-            const int length = bookmarkUrl.prettyUrl().length();
-            if (length > maxLength) {
-                foundBookmark = bookmark;
-                maxLength = length;
-            }
-        }
-        bookmark = root.next(bookmark);
-        ++i;
-    }
-
-    return foundBookmark;
 }
 
 void BookmarkSelector::paintEvent(QPaintEvent* /*event*/)
