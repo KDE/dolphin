@@ -217,7 +217,7 @@ public:
      * @param index     Output parameter which indicates the current
      *                  index of the location.
      */
-    const QLinkedList<UrlNavigator::HistoryElem> urlHistory(int& index) const;
+    const QList<UrlNavigator::HistoryElem> urlHistory(int& index) const;
 
     /** Returns true, if at least one item is selected. */
     bool hasSelection() const;

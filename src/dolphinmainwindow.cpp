@@ -1348,7 +1348,7 @@ void DolphinMainWindow::setupDockWidgets()
 void DolphinMainWindow::updateHistory()
 {
     int index = 0;
-    const QLinkedList<UrlNavigator::HistoryElem> list = m_activeView->urlHistory(index);
+    const QList<UrlNavigator::HistoryElem> list = m_activeView->urlHistory(index);
 
     QAction* backAction = actionCollection()->action("go_back");
     if (backAction != 0) {

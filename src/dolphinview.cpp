@@ -453,7 +453,7 @@ void DolphinView::setUrlEditable(bool editable)
     m_urlNavigator->editUrl(editable);
 }
 
-const QLinkedList<UrlNavigator::HistoryElem> DolphinView::urlHistory(int& index) const
+const QList<UrlNavigator::HistoryElem> DolphinView::urlHistory(int& index) const
 {
     return m_urlNavigator->history(index);
 }
@@ -771,15 +771,14 @@ void DolphinView::showPreview(const KFileItem* item, const QPixmap& pixmap)
 void DolphinView::restoreContentsPos()
 {
     int index = 0;
-    const QLinkedList<UrlNavigator::HistoryElem> history = urlHistory(index);
+    const QList<UrlNavigator::HistoryElem> history = urlHistory(index);
     if (!history.isEmpty()) {
         QAbstractItemView* view = itemView();
         // TODO: view->setCurrentItem(history[index].currentFileName());
 
-        QLinkedList<UrlNavigator::HistoryElem>::const_iterator it = history.begin();
-        it += index;
-        view->horizontalScrollBar()->setValue((*it).contentsX());
-        view->verticalScrollBar()->setValue((*it).contentsY());
+        const UrlNavigator::HistoryElem& it = history[index];
+        view->horizontalScrollBar()->setValue(it.contentsX());
+        view->verticalScrollBar()->setValue(it.contentsY());
     }
 }
 

@@ -24,6 +24,7 @@
 
 #include <kurl.h>
 #include <QWidget>
+#include <QList>
 #include <QLinkedList>
 
 class QHBoxLayout;
@@ -58,7 +59,7 @@ class ProtocolCombo;
  * back and forward within this history.
 */
 
-typedef QLinkedList<KUrl> UrlStack;
+//typedef QList<KUrl> UrlStack;
 
 class UrlNavigator : public QWidget
 {
@@ -111,7 +112,7 @@ public:
      * @param index     Output parameter which indicates the current
      *                  index of the location.
      */
-    const QLinkedList<HistoryElem>& history(int& index) const;
+    const QList<HistoryElem>& history(int& index) const;
 
     /**
      * Goes back one step in the URL history. The signals
@@ -304,7 +305,7 @@ private:
 
     QHBoxLayout* m_layout;
 
-    QLinkedList<HistoryElem> m_history;
+    QList<HistoryElem> m_history;
     QToolButton* m_toggleButton;
     BookmarkSelector* m_bookmarkSelector;
     KUrlComboBox* m_pathBox;

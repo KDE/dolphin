@@ -142,9 +142,7 @@ UrlNavigator::~UrlNavigator()
 const KUrl& UrlNavigator::url() const
 {
     assert(!m_history.empty());
-    QLinkedList<HistoryElem>::const_iterator it = m_history.begin();
-    it += m_historyIndex;
-    return (*it).url();
+    return m_history[m_historyIndex].url();
 }
 
 KUrl UrlNavigator::url(int index) const
@@ -167,7 +165,7 @@ KUrl UrlNavigator::url(int index) const
     return newurl;
 }
 
-const QLinkedList<UrlNavigator::HistoryElem>& UrlNavigator::history(int& index) const
+const QList<UrlNavigator::HistoryElem>& UrlNavigator::history(int& index) const
 {
     index = m_historyIndex;
     return m_history;
@@ -273,26 +271,22 @@ void UrlNavigator::setUrl(const KUrl& url)
         // Check whether the previous element of the history has the same Url.
         // If yes, just go forward instead of inserting a duplicate history
         // element.
-        QLinkedList<HistoryElem>::const_iterator it = m_history.begin();
-        it += m_historyIndex - 1;
-        const KUrl& nextUrl = (*it).url();
-        if (transformedUrl == nextUrl) {
+        HistoryElem& prevHistoryElem = m_history[m_historyIndex - 1];
+        if (transformedUrl == prevHistoryElem.url()) {
             goForward();
 //             kDebug() << "goin' forward in history" << endl;
             return;
         }
     }
 
-    QLinkedList<HistoryElem>::iterator it = m_history.begin() + m_historyIndex;
-    const KUrl& currUrl = (*it).url();
-    if (currUrl == transformedUrl) {
+    if (this->url() == transformedUrl) {
         // don't insert duplicate history elements
-//         kDebug() << "currUrl == transformedUrl" << endl;
+//         kDebug() << "current url == transformedUrl" << endl;
         return;
     }
 
     updateHistoryElem();
-    m_history.insert(it, HistoryElem(transformedUrl));
+    m_history.insert(m_historyIndex, HistoryElem(transformedUrl));
 
     updateContent();
 
@@ -302,7 +296,7 @@ void UrlNavigator::setUrl(const KUrl& url)
     // Prevent an endless growing of the history: remembering
     // the last 100 Urls should be enough...
     if (m_historyIndex > 100) {
-        m_history.erase(m_history.begin());
+        m_history.removeFirst();
         --m_historyIndex;
     }
 
@@ -326,9 +320,9 @@ void UrlNavigator::requestActivation()
 
 void UrlNavigator::storeContentsPosition(int x, int y)
 {
-    QLinkedList<HistoryElem>::iterator it = m_history.begin() + m_historyIndex;
-    (*it).setContentsX(x);
-    (*it).setContentsY(y);
+    HistoryElem& hist = m_history[m_historyIndex];
+    hist.setContentsX(x);
+    hist.setContentsY(y);
 }
 
 void UrlNavigator::keyReleaseEvent(QKeyEvent* event)
@@ -498,8 +492,8 @@ void UrlNavigator::updateHistoryElem()
     assert(m_historyIndex >= 0);
     const KFileItem* item = 0; // TODO: m_dolphinView->currentFileItem();
     if (item != 0) {
-        QLinkedList<HistoryElem>::iterator it = m_history.begin() + m_historyIndex;
-        (*it).setCurrentFileName(item->name());
+        HistoryElem& hist = m_history[m_historyIndex];
+        hist.setCurrentFileName(item->name());
     }
 }
 
