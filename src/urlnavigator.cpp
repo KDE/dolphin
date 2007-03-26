@@ -152,7 +152,8 @@ KUrl UrlNavigator::url(int index) const
     assert(index >= 0);
     // keep scheme, hostname etc. maybe we will need this in the future
     // for e.g. browsing ftp repositories.
-    QString pre(((QUrl)url()).toString(QUrl::RemovePath));
+    KUrl newurl(url());
+    newurl.setPath(QString());
     QString path(url().path());
 
     if (!path.isEmpty()) {
@@ -162,7 +163,8 @@ KUrl UrlNavigator::url(int index) const
             path = path.section('/', 0, index);
     }
 
-    return KUrl(pre + path);
+    newurl.setPath(path);
+    return newurl;
 }
 
 const QLinkedList<UrlNavigator::HistoryElem>& UrlNavigator::history(int& index) const
