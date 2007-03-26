@@ -20,21 +20,15 @@
 
 #include "dolphinsettings.h"
 
-#include <assert.h>
-#include <qdir.h>
-
 #include <kbookmark.h>
 #include <kbookmarkmanager.h>
 #include <kcomponentdata.h>
-#include <kicontheme.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
 
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
 #include "dolphin_detailsmodesettings.h"
-
-#include <Q3IconView>
 
 DolphinSettings& DolphinSettings::instance()
 {

@@ -281,37 +281,12 @@ void UrlNavigatorButton::entriesList(KIO::Job* job, const KIO::UDSEntryList& ent
 
     bool showHidden = urlNavigator()->showHiddenFiles();
     while (it != itEnd) {
-        QString name;
-        //bool isDir = false;
-        KIO::UDSEntry entry = *it;
-
-        /* KDE3 reference:
-            KIO::UDSEntry::const_iterator atomIt = entry.constBegin();
-            KIO::UDSEntry::const_iterator atomEndIt = entry.constEnd();
-
-            while (atomIt != atomEndIt) {
-            switch ((*atomIt).m_uds) {
-                case KIO::UDS_NAME:
-                    name = (*atomIt).m_str;
-                    break;
-                case KIO::UDS_FILE_TYPE:
-                    isDir = S_ISDIR((*atomIt).m_long);
-                    break;
-                default:
-                    break;
-            }
-            ++atomIt;
-         }
-         if (isDir) {
-             m_subdirs.append(name);
-         }
-        */
-
+        const KIO::UDSEntry entry = *it;
         if (entry.isDir()) {
-            QString dir = entry.stringValue(KIO::UDS_NAME);
+            QString name = entry.stringValue(KIO::UDS_NAME);
 
-            if (!showHidden || (dir != "." && dir != "..")) {
-                m_subdirs.append(entry.stringValue(KIO::UDS_NAME));
+            if (!showHidden || (name != "." && name != "..")) {
+                m_subdirs.append(name);
             }
         }
 

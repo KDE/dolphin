@@ -19,8 +19,6 @@
 #ifndef PROTOCOLCOMBO_H
 #define PROTOCOLCOMBO_H
 
-//#include <qcombobox.h>
-#include "urlbutton.h"
 #include "urlnavigatorbutton.h"
 
 class UrlNavigator;

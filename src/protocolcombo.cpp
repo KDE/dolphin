@@ -42,6 +42,9 @@ ProtocolCombo::ProtocolCombo(const QString& protocol, UrlNavigator* parent)
         //TODO: wow this is ugly. or .. is it? ;) we need a way to determine
         //      if a protocol is appropriate for use in a file manager. hum!
         //if (KProtocolInfo::capabilities(*it).findIndex("filemanager") == -1)
+
+        // DF: why not just supportsListing?
+
         if (KProtocolInfo::protocolClass(*it) == ":" ||
             !KProtocolManager::supportsWriting(*it))
         {
