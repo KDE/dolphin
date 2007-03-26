@@ -27,6 +27,7 @@
 #include <QList>
 #include <QLinkedList>
 
+class KBookmarkManager;
 class QHBoxLayout;
 class QLabel;
 class QLineEdit;
@@ -97,7 +98,7 @@ public:
         int m_contentsY;
     };
 
-    UrlNavigator(const KUrl& url, QWidget* parent);
+    UrlNavigator(KBookmarkManager* bookmarkManager, const KUrl& url, QWidget* parent);
     virtual ~UrlNavigator();
 
     /** Returns the current active URL. */

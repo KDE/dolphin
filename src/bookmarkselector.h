@@ -44,7 +44,7 @@ public:
      * @param parent Parent widget where the bookmark selector
      *               is embedded into.
      */
-    BookmarkSelector(UrlNavigator* parent);
+    BookmarkSelector(UrlNavigator* parent, KBookmarkManager* bookmarkManager);
 
     virtual ~BookmarkSelector();
 
@@ -56,12 +56,6 @@ public:
      * the bookmark which covers the bigger range of the URL is selected.
      */
     void updateSelection(const KUrl& url);
-
-    /**
-     * Returns the index of the selected bookmark. To get
-     * the bookmark, use BookmarkSelector::selectedBookmark().
-     */
-    int selectedIndex() const { return m_selectedIndex; }
 
     /** Returns the selected bookmark. */
     KBookmark selectedBookmark() const;
@@ -83,7 +77,7 @@ public:
      *
      * The base URL will be '/home/peter/Documents'.
      */
-    static KBookmark baseBookmark(const KUrl& url);
+    static KBookmark baseBookmark(KBookmarkManager* bookmarkManager, const KUrl& url);
 
 signals:
     /**
@@ -107,13 +101,10 @@ private slots:
     void activateBookmark(QAction* action);
 
 private:
-    static int baseBookmarkIndex(const KUrl& url);
-
-private:
-    int m_selectedIndex;
+    QString m_selectedAddress;
     UrlNavigator* m_urlNavigator;
     KMenu* m_bookmarksMenu;
-
+    KBookmarkManager* m_bookmarkManager;
 };
 
 #endif

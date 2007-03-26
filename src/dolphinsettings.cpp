@@ -47,18 +47,7 @@ DolphinSettings& DolphinSettings::instance()
 
 KBookmark DolphinSettings::bookmark(int index) const
 {
-    int i = 0;
-    KBookmarkGroup root = bookmarkManager()->root();
-    KBookmark bookmark = root.first();
-    while (!bookmark.isNull()) {
-        if (i == index) {
-            return bookmark;
-        }
-        ++i;
-        bookmark = root.next(bookmark);
-    }
-
-    return KBookmark();
+    return bookmarkManager()->findByAddress( QString('/')+QString::number(index) );
 }
 
 KBookmarkManager* DolphinSettings::bookmarkManager() const

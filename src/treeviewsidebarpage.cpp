@@ -34,6 +34,7 @@
 #include <QItemSelectionModel>
 #include <QTreeView>
 #include <QVBoxLayout>
+#include "dolphinsettings.h"
 
 // TODO: currently when using a proxy model the strange effect occurs
 // that items get duplicated. Activate the following define to have the proxy
@@ -98,7 +99,7 @@ void TreeViewSidebarPage::setUrl(const KUrl& url)
     m_url = url;
 
     // adjust the root of the tree to the base bookmark
-    const KUrl baseUrl = BookmarkSelector::baseBookmark(url).url();
+    const KUrl baseUrl = BookmarkSelector::baseBookmark(DolphinSettings::instance().bookmarkManager(), url).url();
     if (m_dirLister->url() != baseUrl) {
         m_dirLister->stop();
         m_dirLister->openUrl(baseUrl);

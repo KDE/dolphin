@@ -65,7 +65,8 @@ UrlNavigator::HistoryElem::~HistoryElem()
 {
 }
 
-UrlNavigator::UrlNavigator(const KUrl& url,
+UrlNavigator::UrlNavigator(KBookmarkManager* bookmarkManager,
+                           const KUrl& url,
                            QWidget* parent) :
     QWidget(parent),
     m_active(true),
@@ -101,7 +102,7 @@ UrlNavigator::UrlNavigator(const KUrl& url,
     }
 
     // initialize the bookmark selector
-    m_bookmarkSelector = new BookmarkSelector(this);
+    m_bookmarkSelector = new BookmarkSelector(this, bookmarkManager);
     connect(m_bookmarkSelector, SIGNAL(bookmarkActivated(const KUrl&)),
             this, SLOT(setUrl(const KUrl&)));
 
@@ -532,7 +533,6 @@ void UrlNavigator::updateContent()
 
         // get the data from the currently selected bookmark
         KBookmark bookmark = m_bookmarkSelector->selectedBookmark();
-        //int bookmarkIndex = m_bookmarkSelector->selectedIndex();
 
         QString bookmarkPath;
         if (bookmark.isNull()) {

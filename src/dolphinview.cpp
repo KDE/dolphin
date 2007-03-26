@@ -51,6 +51,7 @@
 #include "renamedialog.h"
 #include "urlnavigator.h"
 #include "viewproperties.h"
+#include "dolphinsettings.h"
 
 DolphinView::DolphinView(DolphinMainWindow* mainWindow,
                          QWidget* parent,
@@ -90,7 +91,7 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     connect(clipboard, SIGNAL(dataChanged()),
             this, SLOT(updateCutItems()));
 
-    m_urlNavigator = new UrlNavigator(url, this);
+    m_urlNavigator = new UrlNavigator(DolphinSettings::instance().bookmarkManager(), url, this);
     m_urlNavigator->setShowHiddenFiles(showHiddenFiles);
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(loadDirectory(const KUrl&)));
