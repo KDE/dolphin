@@ -25,7 +25,6 @@
 #include <kparts/part.h>
 #include <kfileitem.h>
 #include <kfileitemdelegate.h>
-#include <kfileiconview.h>
 #include <kio/job.h>
 
 #include <urlnavigator.h>

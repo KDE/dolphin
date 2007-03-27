@@ -62,7 +62,7 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin,QWidget* par
     new QLabel(i18n("Location:"), homeUrlBox);
     m_homeUrl = new QLineEdit(settings->homeUrl(), homeUrlBox);
 
-    QPushButton* selectHomeUrlButton = new QPushButton(SmallIcon("folder"), QString(), homeUrlBox);
+    QPushButton* selectHomeUrlButton = new QPushButton(KIcon("folder"), QString(), homeUrlBox);
     connect(selectHomeUrlButton, SIGNAL(clicked()),
             this, SLOT(selectHomeUrl()));
 

@@ -22,8 +22,6 @@
 #include "urlnavigator.h"
 
 #include "bookmarkselector.h"
-#include "dolphinsettings.h"
-#include "dolphin_generalsettings.h"
 #include "protocolcombo.h"
 #include "urlnavigatorbutton.h"
 
@@ -90,13 +88,6 @@ public:
     void switchView();
 
     /**
-     * Allows to edit the Url of the navigation bar if \a editable
-     * is true. If \a editable is false, each part of
-     * the Url is presented by a button for a fast navigation.
-     */
-    void setUrlEditable(bool editable);
-
-    /**
      * Updates the history element with the current file item
      * and the contents position.
      */
@@ -135,6 +126,7 @@ public:
     QLineEdit* m_host;
     QLinkedList<UrlNavigatorButton*> m_navButtons;
     QWidget* m_filler;
+    QString m_homeUrl;
     UrlNavigator* q;
 };
 
@@ -197,14 +189,6 @@ UrlNavigator::Private::Private(UrlNavigator* q, KBookmarkManager* bookmarkManage
 void UrlNavigator::Private::appendWidget(QWidget* widget)
 {
     m_layout->insertWidget(m_layout->count() - 1, widget);
-}
-
-void UrlNavigator::Private::setUrlEditable(bool editable)
-{
-    if (q->isUrlEditable() != editable) {
-        m_toggleButton->toggle();
-        switchView();
-    }
 }
 
 void UrlNavigator::Private::slotReturnPressed(const QString& text)
@@ -572,10 +556,6 @@ UrlNavigator::UrlNavigator(KBookmarkManager* bookmarkManager,
     QFontMetrics fontMetrics(font());
     setMinimumHeight(fontMetrics.height() + 10);
 
-    if (DolphinSettings::instance().generalSettings()->editableUrl()) {
-        d->m_toggleButton->toggle();
-    }
-
     setLayout(d->m_layout);
 
     d->updateContent();
@@ -652,7 +632,10 @@ void UrlNavigator::goUp()
 
 void UrlNavigator::goHome()
 {
-    setUrl(DolphinSettings::instance().generalSettings()->homeUrl());
+    if (d->m_homeUrl.isEmpty())
+        setUrl(QDir::homePath());
+    else
+        setUrl(d->m_homeUrl);
 }
 
 bool UrlNavigator::isUrlEditable() const
@@ -660,11 +643,11 @@ bool UrlNavigator::isUrlEditable() const
     return d->m_toggleButton->isChecked();
 }
 
-void UrlNavigator::editUrl(bool editOrBrowse)
+void UrlNavigator::setUrlEditable(bool editable)
 {
-    d->setUrlEditable(editOrBrowse);
-    if (editOrBrowse) {
-        d->m_pathBox->setFocus();
+    if (isUrlEditable() != editable) {
+        d->m_toggleButton->toggle();
+        d->switchView();
     }
 }
 
@@ -705,7 +688,7 @@ void UrlNavigator::setUrl(const KUrl& url)
     if ( urlStr.length() > 0 && urlStr.at(0) == '~') {
         // replace '~' by the home directory
         urlStr.remove(0, 1);
-        urlStr.insert(0, QDir::home().path());
+        urlStr.insert(0, QDir::homePath());
     }
 
     const KUrl transformedUrl(urlStr);
@@ -772,7 +755,7 @@ void UrlNavigator::keyReleaseEvent(QKeyEvent* event)
 {
     QWidget::keyReleaseEvent(event);
     if (isUrlEditable() && (event->key() == Qt::Key_Escape)) {
-        d->setUrlEditable(false);
+        setUrlEditable(false);
     }
 }
 
@@ -797,6 +780,11 @@ bool UrlNavigator::isActive() const
 bool UrlNavigator::showHiddenFiles() const
 {
     return d->m_showHiddenFiles;
+}
+
+void UrlNavigator::setHomeUrl(const QString& homeUrl)
+{
+    d->m_homeUrl = homeUrl;
 }
 
 #include "urlnavigator.moc"

@@ -26,6 +26,8 @@
 #include <QItemSelectionModel>
 #include <QMouseEvent>
 #include <QVBoxLayout>
+#include <QTimer>
+#include <QScrollBar>
 
 #include <kdirmodel.h>
 #include <kfileitemdelegate.h>
@@ -53,6 +55,7 @@
 #include "urlnavigator.h"
 #include "viewproperties.h"
 #include "dolphinsettings.h"
+#include "dolphin_generalsettings.h"
 
 DolphinView::DolphinView(DolphinMainWindow* mainWindow,
                          QWidget* parent,
@@ -94,6 +97,8 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
             this, SLOT(updateCutItems()));
 
     m_urlNavigator = new UrlNavigator(DolphinSettings::instance().bookmarkManager(), url, this);
+    m_urlNavigator->setUrlEditable(DolphinSettings::instance().generalSettings()->editableUrl());
+    m_urlNavigator->setHomeUrl(DolphinSettings::instance().generalSettings()->homeUrl());
     m_urlNavigator->setShowHiddenFiles(showHiddenFiles);
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(loadDirectory(const KUrl&)));
@@ -342,7 +347,6 @@ DolphinStatusBar* DolphinView::statusBar() const
 
 int DolphinView::contentsX() const
 {
-
     return itemView()->horizontalScrollBar()->value();
 }
 
@@ -453,7 +457,7 @@ void DolphinView::goHome()
 
 void DolphinView::setUrlEditable(bool editable)
 {
-    m_urlNavigator->editUrl(editable);
+    m_urlNavigator->setUrlEditable(editable);
 }
 
 bool DolphinView::hasSelection() const

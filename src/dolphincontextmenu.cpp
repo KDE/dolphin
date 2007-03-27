@@ -47,6 +47,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QDir>
+#include <Q3ValueList>
 
 DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
                                        KFileItem* fileInfo,

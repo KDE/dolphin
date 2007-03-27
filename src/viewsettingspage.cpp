@@ -47,15 +47,15 @@ ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
 
     // initialize 'General' tab
     m_generalPage = new GeneralViewSettingsPage(mainWindow, tabWidget);
-    tabWidget->addTab(m_generalPage, SmallIcon("view-choose"), i18n("General"));
+    tabWidget->addTab(m_generalPage, KIcon("view-choose"), i18n("General"));
 
     // initialize 'Icons' tab
     m_iconsPage = new IconsViewSettingsPage(mainWindow, tabWidget);
-    tabWidget->addTab(m_iconsPage, SmallIcon("view-icon"), i18n("Icons"));
+    tabWidget->addTab(m_iconsPage, KIcon("view-icon"), i18n("Icons"));
 
     // initialize 'Details' tab
     m_detailsPage = new DetailsViewSettingsPage(mainWindow, tabWidget);
-    tabWidget->addTab(m_detailsPage, SmallIcon("fileview-text"), i18n("Details"));
+    tabWidget->addTab(m_detailsPage, KIcon("fileview-text"), i18n("Details"));
 
     topLayout->addWidget(tabWidget, 0, 0 );
 }

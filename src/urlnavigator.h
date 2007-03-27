@@ -24,7 +24,6 @@
 
 #include <kurl.h>
 #include <QWidget>
-#include <QList>
 
 class KBookmarkManager;
 class QMouseEvent;
@@ -130,6 +129,11 @@ public:
     void goHome();
 
     /**
+     * Sets the home URL used by goHome().
+     */
+    void setHomeUrl(const QString& homeUrl);
+
+    /**
      * @return True, if the URL is editable by the user within a line editor.
      *         If false is returned, each part of the URL is presented by a button
      *         for fast navigation.
@@ -137,16 +141,18 @@ public:
     bool isUrlEditable() const;
 
     /**
-     * Switches to the edit mode and assures that the keyboard focus
-     * is assigned.
+     * Allows to edit the URL of the navigation bar if \a editable
+     * is true, and sets the focus accordingly.
+     * If \a editable is false, each part of
+     * the URL is presented by a button for a fast navigation.
      */
-    void editUrl(bool editOrBrowse); //TODO: switch to an enum
+    void setUrlEditable(bool editable);
 
     /**
      * Set the URL navigator to the active mode, if \a active
      * is true. The active mode is default. Using the URL navigator
      * in the inactive mode is useful when having split views,
-     * where the inactive view is indicated by a an inactive URL
+     * where the inactive view is indicated by an inactive URL
      * navigator visually.
      */
     void setActive(bool active);

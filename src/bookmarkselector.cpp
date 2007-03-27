@@ -31,6 +31,7 @@
 
 #include <QPainter>
 #include <QPixmap>
+#include <kicon.h>
 
 BookmarkSelector::BookmarkSelector(UrlNavigator* parent, KBookmarkManager* bookmarkManager) :
     UrlButton(parent),
@@ -84,7 +85,7 @@ void BookmarkSelector::updateSelection(const KUrl& url)
         m_selectedAddress = QString();
         // No bookmark has been found which matches to the given Url. Show
         // a generic folder icon as pixmap for indication:
-        setIcon(SmallIcon("folder"));
+        setIcon(KIcon("folder"));
     }
 }
 

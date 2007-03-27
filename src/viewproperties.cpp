@@ -22,6 +22,7 @@
 
 #include <QDateTime>
 #include <QFile>
+#include <QFileInfo>
 
 #include <kcomponentdata.h>
 #include <klocale.h>

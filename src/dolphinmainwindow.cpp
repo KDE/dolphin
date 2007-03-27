@@ -1083,7 +1083,7 @@ void DolphinMainWindow::setupActions()
     m_newMenu = new DolphinNewMenu(this);
     KMenu* menu = m_newMenu->menu();
     menu->setTitle(i18n("Create New..."));
-    menu->setIcon(SmallIcon("document-new"));
+    menu->setIcon(KIcon("document-new"));
     connect(menu, SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
 

@@ -110,15 +110,15 @@ void BookmarksSidebarPage::slotContextMenuRequested(Q3ListBoxItem* item,
 
     KMenu* popup = new KMenu();
     if (item == 0) {
-        QAction *action = popup->addAction(SmallIcon("document-new"), i18n("Add Bookmark..."));
+        QAction *action = popup->addAction(KIcon("document-new"), i18n("Add Bookmark..."));
 	action->setData(addID);
     }
     else {
-        QAction *action = popup->addAction(SmallIcon("document-new"), i18n("Insert Bookmark..."));
+        QAction *action = popup->addAction(KIcon("document-new"), i18n("Insert Bookmark..."));
 	action->setData(insertID);
-        action = popup->addAction(SmallIcon("edit"), i18n("Edit..."));
+        action = popup->addAction(KIcon("edit"), i18n("Edit..."));
 	action->setData(editID);
-        action = popup->addAction(SmallIcon("edit-delete"), i18n("Delete"));
+        action = popup->addAction(KIcon("edit-delete"), i18n("Delete"));
 	action->setData(deleteID);
 
     }
