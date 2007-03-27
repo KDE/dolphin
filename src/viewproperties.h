@@ -118,7 +118,7 @@ private:
      */
     QString destinationDir(const QString& subDir) const;
 
-    Q_DISABLE_COPY(ViewProperties);
+    Q_DISABLE_COPY(ViewProperties)
 
 private:
     bool m_changedProps;
