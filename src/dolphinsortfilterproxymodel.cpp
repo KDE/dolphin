@@ -55,7 +55,6 @@ DolphinSortFilterProxyModel::DolphinSortFilterProxyModel(QObject* parent) :
     // sort by the user visible string for now
     setSortRole(Qt::DisplayRole);
     setSortCaseSensitivity(Qt::CaseInsensitive);
-    sort(KDirModel::Name, Qt::Ascending);
 }
 
 DolphinSortFilterProxyModel::~DolphinSortFilterProxyModel()
@@ -68,7 +67,7 @@ void DolphinSortFilterProxyModel::setSorting(DolphinView::Sorting sorting)
     // KDirModel::ModelColumns. We will keep the sortOrder.
     Q_ASSERT(static_cast<int>(sorting) >= 0 && static_cast<int>(sorting) < dolphinMapSize);
     sort(dolphinViewToDirModelColumn[static_cast<int>(sorting)],
-         m_sortOrder );
+         m_sortOrder);
 }
 
 void DolphinSortFilterProxyModel::setSortOrder(Qt::SortOrder sortOrder)
@@ -85,6 +84,18 @@ void DolphinSortFilterProxyModel::sort(int column, Qt::SortOrder sortOrder)
                 dirModelColumnToDolphinView[column]  :
                 DolphinView::SortByName;
     QSortFilterProxyModel::sort(column, sortOrder);
+}
+
+bool DolphinSortFilterProxyModel::hasChildren(const QModelIndex& parent) const
+{
+    const QModelIndex sourceParent = mapToSource(parent);
+    return sourceModel()->hasChildren(sourceParent);
+}
+
+bool DolphinSortFilterProxyModel::canFetchMore(const QModelIndex& parent) const
+{
+    const QModelIndex sourceParent = mapToSource(parent);
+    return sourceModel()->canFetchMore(sourceParent);
 }
 
 DolphinView::Sorting DolphinSortFilterProxyModel::sortingForColumn(int column)

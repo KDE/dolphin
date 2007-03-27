@@ -62,6 +62,12 @@ public:
     virtual void sort(int column,
                       Qt::SortOrder order = Qt::AscendingOrder);
 
+    /** Reimplemented from QAbstractItemModel. Returns true for directories. */
+    virtual bool hasChildren(const QModelIndex& parent = QModelIndex()) const;
+
+    /** Reimplemented from QAbstractItemModel. Returns true for empty directories. */
+    virtual bool canFetchMore(const QModelIndex& parent) const;
+
     /**
      * Helper method to get the DolphinView::Sorting type for a given
      * column \a column. If the column is smaller 0 or greater than the
