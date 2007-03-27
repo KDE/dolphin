@@ -457,7 +457,7 @@ QList<QAction*> DolphinContextMenu::insertActionItems(KMenu* popup,
                         for (serviceIt = userServices.begin(); serviceIt != userServices.end(); ++serviceIt) {
                             KDesktopFileActions::Service service = (*serviceIt);
                             if (!service.m_strIcon.isEmpty()) {
-                                QAction* action = menu->addAction(SmallIcon(service.m_strIcon),
+                                QAction* action = menu->addAction(KIcon(service.m_strIcon),
                                                                   service.m_strName);
                                 serviceActions << action;
                             }

@@ -79,7 +79,7 @@ void BookmarkSelector::updateSelection(const KUrl& url)
     KBookmark bookmark = m_bookmarkManager->root().closestBookmark(url);
     if (!bookmark.isNull()) {
         m_selectedAddress = bookmark.address();
-        setIcon(SmallIcon(bookmark.icon()));
+        setIcon(KIcon(bookmark.icon()));
     }
     else {
         m_selectedAddress = QString();
