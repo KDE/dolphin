@@ -232,6 +232,9 @@ private slots:
     /** The current active view is switched to the details mode. */
     void setDetailsView();
 
+    /** The current active view is switched to the column mode. */
+    void setColumnView();
+
     /** The sorting of the current view should be done by the name. */
     void sortByName();
 

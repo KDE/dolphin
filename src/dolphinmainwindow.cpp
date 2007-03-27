@@ -704,6 +704,11 @@ void DolphinMainWindow::setDetailsView()
     m_activeView->setMode(DolphinView::DetailsView);
 }
 
+void DolphinMainWindow::setColumnView()
+{
+    m_activeView->setMode(DolphinView::ColumnView);
+}
+
 void DolphinMainWindow::sortByName()
 {
     m_activeView->setSorting(DolphinView::SortByName);
@@ -1152,9 +1157,16 @@ void DolphinMainWindow::setupActions()
     detailsView->setIcon(KIcon("fileview-text"));
     connect(detailsView, SIGNAL(triggered()), this, SLOT(setDetailsView()));
 
+    KToggleAction* columnView = actionCollection()->add<KToggleAction>("columns");
+    columnView->setText(i18n("Columns"));
+    columnView->setShortcut(Qt::CTRL | Qt::Key_3);
+    columnView->setIcon(KIcon("view-tree"));
+    connect(columnView, SIGNAL(triggered()), this, SLOT(setColumnView()));
+
     QActionGroup* viewModeGroup = new QActionGroup(this);
     viewModeGroup->addAction(iconsView);
     viewModeGroup->addAction(detailsView);
+    viewModeGroup->addAction(columnView);
 
     KToggleAction* sortByName = actionCollection()->add<KToggleAction>("by_name");
     sortByName->setText(i18n("By Name"));
@@ -1413,6 +1425,9 @@ void DolphinMainWindow::updateViewActions()
             break;
         case DolphinView::DetailsView:
             action = actionCollection()->action("details");
+            break;
+        case DolphinView::ColumnView:
+            action = actionCollection()->action("columns");
             break;
         default:
             break;

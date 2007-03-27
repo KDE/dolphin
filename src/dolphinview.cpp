@@ -39,6 +39,7 @@
 #include <konq_operations.h>
 #include <kurl.h>
 
+#include "dolphincolumnview.h"
 #include "dolphincontroller.h"
 #include "dolphinstatusbar.h"
 #include "dolphinmainwindow.h"
@@ -71,6 +72,7 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     m_controller(0),
     m_iconsView(0),
     m_detailsView(0),
+    m_columnView(0),
     m_fileItemDelegate(0),
     m_filterBar(0),
     m_statusBar(0),
@@ -597,7 +599,16 @@ void DolphinView::loadDirectory(const KUrl& url)
     const ViewProperties props(url);
 
     const Mode mode = props.viewMode();
-    if (m_mode != mode) {
+    bool changeMode = (m_mode != mode);
+    if (changeMode && isColumnViewActive()) {
+        // The column view is active. Only change the
+        // mode if the current URL is no child of the column view.
+        if (m_dirLister->url().isParentOf(url)) {
+            changeMode = false;
+        }
+    }
+
+    if (changeMode) {
         m_mode = mode;
         createView();
         emit modeChanged();
@@ -824,7 +835,15 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
     m_cutItemsCache.clear();
     m_blockContentsMovedSignal = true;
     m_dirLister->stop();
-    m_dirLister->openUrl(url, false, reload);
+
+    bool keepOldDirs = isColumnViewActive();
+    if (keepOldDirs && !m_dirLister->url().isParentOf(url)) {
+        // The current URL is not a child of the dir lister
+        // URL. This may happen when e. g. a bookmark has been selected
+        // and hence the view must be reset.
+        keepOldDirs = false;
+    }
+    m_dirLister->openUrl(url, keepOldDirs, reload);
 }
 
 QString DolphinView::defaultStatusBarText() const
@@ -1072,11 +1091,13 @@ void DolphinView::createView()
         view = 0;
         m_iconsView = 0;
         m_detailsView = 0;
+        m_columnView = 0;
         m_fileItemDelegate = 0;
     }
 
     Q_ASSERT(m_iconsView == 0);
     Q_ASSERT(m_detailsView == 0);
+    Q_ASSERT(m_columnView == 0);
 
     // ... and recreate it representing the current mode
     switch (m_mode) {
@@ -1088,6 +1109,11 @@ void DolphinView::createView()
         case DetailsView:
             m_detailsView = new DolphinDetailsView(this, m_controller);
             view = m_detailsView;
+            break;
+
+        case ColumnView:
+            m_columnView = new DolphinColumnView(this, m_controller);
+            view = m_columnView;
             break;
     }
 
@@ -1125,10 +1151,13 @@ void DolphinView::selectAll(QItemSelectionModel::SelectionFlags flags)
 
 QAbstractItemView* DolphinView::itemView() const
 {
-    Q_ASSERT((m_iconsView == 0) || (m_detailsView == 0));
     if (m_detailsView != 0) {
         return m_detailsView;
     }
+    else if (m_columnView != 0) {
+        return m_columnView;
+    }
+
     return m_iconsView;
 }
 

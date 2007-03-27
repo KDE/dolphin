@@ -43,6 +43,7 @@ class KFileItemDelegate;
 class KUrl;
 class KDirModel;
 class UrlNavigator;
+class DolphinColumnView;
 class DolphinDetailsView;
 class DolphinDirLister;
 class DolphinIconsView;
@@ -58,11 +59,12 @@ class ViewProperties;
  * @short Represents a view for the directory content
  *        including the navigation bar, filter bar and status bar.
  *
- * View modes for icons and details are supported. Currently
+ * View modes for icons, details and columns are supported. Currently
  * Dolphin allows to have up to two views inside the main window.
  *
  * @see DolphinIconsView
  * @see DolphinDetailsView
+ * @see DolphinColumnView
  * @see UrlNavigator
  * @see DolphinStatusBar
  */
@@ -90,7 +92,12 @@ public:
          * for date, group and permissions.
          */
         DetailsView = 1,
-        MaxModeEnum = DetailsView
+
+        /**
+         * Each folder is shown in a separate column.
+         */
+        ColumnView = 2,
+        MaxModeEnum = ColumnView
     };
 
     /** Defines the sort order for the items of a directory. */
@@ -542,6 +549,13 @@ private:
     /** Applies an item effect to all cut items. */
     void applyCutItemEffect();
 
+    /**
+     * Returns true, if the ColumnView is activated. As the column view
+     * requires some special handling for iterating through directories,
+     * this method has been introduced for convenience.
+     */
+    bool isColumnViewActive() const { return m_columnView != 0; }
+
 private:
     /**
      * Remembers the original pixmap for an item before
@@ -567,6 +581,7 @@ private:
     DolphinController* m_controller;
     DolphinIconsView* m_iconsView;
     DolphinDetailsView* m_detailsView;
+    DolphinColumnView* m_columnView;
     KFileItemDelegate* m_fileItemDelegate;
 
     FilterBar* m_filterBar;

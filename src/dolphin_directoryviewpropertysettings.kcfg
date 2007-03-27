@@ -17,7 +17,7 @@
     <group name="Dolphin">
         <entry name="ViewMode" type="Int" >
             <label>View Mode</label>
-            <whatsthis>This option controls the style of the view. Currently supported values include icons (0) and details (1) views.</whatsthis>
+            <whatsthis>This option controls the style of the view. Currently supported values include icons (0), details (1) and column (2) views.</whatsthis>
             <default>DolphinView::IconsView</default>
             <min>0</min>
             <max code="true">DolphinView::MaxModeEnum</max>
