@@ -55,6 +55,7 @@ DolphinSortFilterProxyModel::DolphinSortFilterProxyModel(QObject* parent) :
     // sort by the user visible string for now
     setSortRole(Qt::DisplayRole);
     setSortCaseSensitivity(Qt::CaseInsensitive);
+    sort(KDirModel::Name, Qt::Ascending);
 }
 
 DolphinSortFilterProxyModel::~DolphinSortFilterProxyModel()
