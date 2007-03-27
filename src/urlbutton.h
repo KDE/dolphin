@@ -21,12 +21,11 @@
 #ifndef URLBUTTON_H
 #define URLBUTTON_H
 
-#include <QEvent>
 #include <QPushButton>
 
 class KUrl;
+class QEvent;
 class UrlNavigator;
-class QPainter;
 
 /**
  * @brief Base class for buttons of the URL navigator.

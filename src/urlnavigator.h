@@ -50,37 +50,6 @@ class UrlNavigator : public QWidget
     Q_OBJECT
 
 public:
-    /**
-     * @brief Represents the history element of an URL.
-     *
-     * A history element contains the URL, the name of the current file
-     * (the 'current file' is the file where the cursor is located) and
-     * the x- and y-position of the content.
-     */
-    class HistoryElem {
-    public:
-        HistoryElem();
-        HistoryElem(const KUrl& url);
-        ~HistoryElem(); // non virtual
-
-        const KUrl& url() const { return m_url; }
-
-        void setCurrentFileName(const QString& name) { m_currentFileName = name; }
-        const QString& currentFileName() const { return m_currentFileName; }
-
-        void setContentsX(int x) { m_contentsX = x; }
-        int contentsX() const { return m_contentsX; }
-
-        void setContentsY(int y) { m_contentsY = y; }
-        int contentsY() const { return m_contentsY; }
-
-    private:
-        KUrl m_url;
-        QString m_currentFileName;
-        int m_contentsX;
-        int m_contentsY;
-    };
-
     UrlNavigator(KBookmarkManager* bookmarkManager, const KUrl& url, QWidget* parent);
     virtual ~UrlNavigator();
 
@@ -93,13 +62,8 @@ public:
     /** Returns the amount of items in the history */
     int historySize() const;
 
-    /**
-     * Returns one item out of the history. The index 0 indicates the oldest
-     * history element.
-     * @param index     Output parameter which indicates the current
-     *                  index of the location.
-     */
-    HistoryElem currentHistoryItem() const;
+    /** Returns the saved position from the history */
+    QPoint savedPosition() const;
 
     /**
      * Goes back one step in the URL history. The signals

@@ -781,12 +781,13 @@ void DolphinView::showPreview(const KFileItem* item, const QPixmap& pixmap)
 
 void DolphinView::restoreContentsPos()
 {
-    UrlNavigator::HistoryElem historyItem = m_urlNavigator->currentHistoryItem();
-    if (!historyItem.url().isEmpty()) {
+    KUrl currentUrl = m_urlNavigator->url();
+    if (!currentUrl.isEmpty()) {
         QAbstractItemView* view = itemView();
-        // TODO: view->setCurrentItem(historyItem.currentFileName());
-        view->horizontalScrollBar()->setValue(historyItem.contentsX());
-        view->verticalScrollBar()->setValue(historyItem.contentsY());
+        // TODO: view->setCurrentItem(m_urlNavigator->currentFileName());
+        QPoint pos = m_urlNavigator->savedPosition();
+        view->horizontalScrollBar()->setValue(pos.x());
+        view->verticalScrollBar()->setValue(pos.y());
     }
 }
 

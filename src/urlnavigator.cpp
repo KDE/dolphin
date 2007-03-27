@@ -44,7 +44,38 @@
 #include <QMouseEvent>
 #include <QToolButton>
 
-UrlNavigator::HistoryElem::HistoryElem() :
+/**
+ * @brief Represents the history element of an URL.
+ *
+ * A history element contains the URL, the name of the current file
+ * (the 'current file' is the file where the cursor is located) and
+ * the x- and y-position of the content.
+ */
+class HistoryElem {
+public:
+    HistoryElem();
+    HistoryElem(const KUrl& url);
+    ~HistoryElem(); // non virtual
+
+    const KUrl& url() const { return m_url; }
+
+    void setCurrentFileName(const QString& name) { m_currentFileName = name; }
+    const QString& currentFileName() const { return m_currentFileName; }
+
+    void setContentsX(int x) { m_contentsX = x; }
+    int contentsX() const { return m_contentsX; }
+
+    void setContentsY(int y) { m_contentsY = y; }
+    int contentsY() const { return m_contentsY; }
+
+private:
+    KUrl m_url;
+    QString m_currentFileName;
+    int m_contentsX;
+    int m_contentsY;
+};
+
+HistoryElem::HistoryElem() :
     m_url(),
     m_currentFileName(),
     m_contentsX(0),
@@ -52,7 +83,7 @@ UrlNavigator::HistoryElem::HistoryElem() :
 {
 }
 
-UrlNavigator::HistoryElem::HistoryElem(const KUrl& url) :
+HistoryElem::HistoryElem(const KUrl& url) :
     m_url(url),
     m_currentFileName(),
     m_contentsX(0),
@@ -60,7 +91,7 @@ UrlNavigator::HistoryElem::HistoryElem(const KUrl& url) :
 {
 }
 
-UrlNavigator::HistoryElem::~HistoryElem()
+HistoryElem::~HistoryElem()
 {
 }
 
@@ -592,9 +623,10 @@ KUrl UrlNavigator::url(int index) const
     return newurl;
 }
 
-UrlNavigator::HistoryElem UrlNavigator::currentHistoryItem() const
+QPoint UrlNavigator::savedPosition() const
 {
-    return d->m_history[d->m_historyIndex];
+    const HistoryElem& histElem = d->m_history[d->m_historyIndex];
+    return QPoint( histElem.contentsX(), histElem.contentsY() );
 }
 
 int UrlNavigator::historySize() const
