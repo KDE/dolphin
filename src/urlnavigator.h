@@ -25,22 +25,9 @@
 #include <kurl.h>
 #include <QWidget>
 #include <QList>
-#include <QLinkedList>
 
 class KBookmarkManager;
-class QHBoxLayout;
-class QLabel;
-class QLineEdit;
 class QMouseEvent;
-class QToolButton;
-
-class KUrl;
-class KFileItem;
-class KUrlComboBox;
-
-class BookmarkSelector;
-class UrlNavigatorButton;
-class ProtocolCombo;
 
 /**
  * @brief Navigation bar which contains the current shown URL.
@@ -168,7 +155,7 @@ public:
      * Returns true, if the URL navigator is in the active mode.
      * @see UrlNavigator::setActive()
      */
-    bool isActive() const { return m_active; }
+    bool isActive() const;
 
     /**
      * Sets whether or not to show hidden files in lists
@@ -178,7 +165,7 @@ public:
     /**
      * Returns true if the URL navigator is set to show hidden files
      */
-    bool showHiddenFiles() { return m_showHiddenFiles; }
+    bool showHiddenFiles() const; // TODO rename, looks like a verb
 
     /**
      * Handles the dropping of the URLs \a urls to the given
@@ -247,74 +234,18 @@ protected:
      */
     virtual void mouseReleaseEvent(QMouseEvent* event);
 
-private slots:
-    void slotReturnPressed(const QString& text);
-    void slotUrlActivated(const KUrl& url);
-    void slotRemoteHostActivated();
-    void slotProtocolChanged(const QString& protocol);
-    void slotRedirection(const KUrl&, const KUrl&);
-
-    /**
-     * Switches the navigation bar between the breadcrumb view and the
-     * traditional view (see setUrlEditable()) and is connected to the clicked signal
-     * of the navigation bar button.
-     */
-    void switchView();
+private:
+    Q_PRIVATE_SLOT(d, void slotReturnPressed(const QString& text))
+    Q_PRIVATE_SLOT(d, void slotRemoteHostActivated())
+    Q_PRIVATE_SLOT(d, void slotProtocolChanged(const QString& protocol))
+    Q_PRIVATE_SLOT(d, void switchView())
+    //Q_PRIVATE_SLOT(d, void slotRedirection(const KUrl&, const KUrl&))
 
 private:
-    /**
-     * Allows to edit the Url of the navigation bar if \a editable
-     * is true. If \a editable is false, each part of
-     * the Url is presented by a button for a fast navigation.
-     */
-    void setUrlEditable(bool editable);
+    class Private;
+    Private* const d;
 
-    /**
-     * Updates the history element with the current file item
-     * and the contents position.
-     */
-    void updateHistoryElem();
-    void updateContent();
-
-    /**
-     * Updates all buttons to have one button for each part of the
-     * path \a path. Existing buttons, which are available by m_navButtons,
-     * are reused if possible. If the path is longer, new buttons will be
-     * created, if the path is shorter, the remaining buttons will be deleted.
-     * @param startIndex    Start index of path part (/), where the buttons
-     *                      should be created for each following part.
-     */
-    void updateButtons(const QString& path, int startIndex);
-
-    /**
-     * Deletes all URL navigator buttons. m_navButtons is
-     * empty after this operation.
-     */
-    void deleteButtons();
-
-    /**
-     * Appends the widget at the end of the URL navigator. It is assured
-     * that the filler widget remains as last widget to fill the remaining
-     * width.
-     */
-    void appendWidget(QWidget* widget);
-
-private:
-    bool m_active;
-    bool m_showHiddenFiles;
-    int m_historyIndex;
-
-    QHBoxLayout* m_layout;
-
-    QList<HistoryElem> m_history;
-    QToolButton* m_toggleButton;
-    BookmarkSelector* m_bookmarkSelector;
-    KUrlComboBox* m_pathBox;
-    ProtocolCombo* m_protocols;
-    QLabel* m_protocolSeparator;
-    QLineEdit* m_host;
-    QLinkedList<UrlNavigatorButton*> m_navButtons;
-    QWidget* m_filler;
+    Q_DISABLE_COPY( UrlNavigator )
 };
 
 #endif
