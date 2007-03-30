@@ -841,17 +841,29 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
     m_blockContentsMovedSignal = true;
     m_dirLister->stop();
 
+    bool openDir = true;
     bool keepOldDirs = isColumnViewActive() && !reload;
     if (keepOldDirs) {
-        const KUrl& dirListerUrl = m_dirLister->url();
-        if ((dirListerUrl == url) || !m_dirLister->url().isParentOf(url)) {
-            // The current URL is not a child of the dir lister
-            // URL. This may happen when e. g. a bookmark has been selected
-            // and hence the view must be reset.
-            keepOldDirs = false;
+        if (m_dirLister->directories().contains(url)) {
+            // The dir lister contains the directory already, so
+            // KDirLister::openUrl() may not been invoked twice.
+            m_dirLister->updateDirectory(url);
+            openDir = false;
+        }
+        else {
+            const KUrl& dirListerUrl = m_dirLister->url();
+            if ((dirListerUrl == url) || !m_dirLister->url().isParentOf(url)) {
+                // The current URL is not a child of the dir lister
+                // URL. This may happen when e. g. a bookmark has been selected
+                // and hence the view must be reset.
+                keepOldDirs = false;
+            }
         }
     }
-    m_dirLister->openUrl(url, keepOldDirs, reload);
+
+    if (openDir) {
+        m_dirLister->openUrl(url, keepOldDirs, reload);
+    }
 }
 
 QString DolphinView::defaultStatusBarText() const
