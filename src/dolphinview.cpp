@@ -842,9 +842,22 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
     m_dirLister->stop();
 
     bool openDir = true;
-    bool keepOldDirs = isColumnViewActive() && !reload;
+    bool keepOldDirs = isColumnViewActive();
     if (keepOldDirs) {
-        if (m_dirLister->directories().contains(url)) {
+        if (reload) {
+            keepOldDirs = false;
+
+            const KUrl& dirListerUrl = m_dirLister->url();
+            if (dirListerUrl.isValid()) {
+                const KUrl::List dirs = m_dirLister->directories();
+                KUrl url;
+                foreach (url, dirs) {
+                    m_dirLister->updateDirectory(url);
+                }
+                openDir = false;
+            }
+        }
+        else if (m_dirLister->directories().contains(url)) {
             // The dir lister contains the directory already, so
             // KDirLister::openUrl() may not been invoked twice.
             m_dirLister->updateDirectory(url);
