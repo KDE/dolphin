@@ -43,8 +43,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
             controller, SLOT(triggerItem(const QModelIndex&)));
     connect(this, SIGNAL(activated(const QModelIndex&)),
             controller, SLOT(triggerItem(const QModelIndex&)));
-    connect(controller, SIGNAL(showPreviewChanged(bool)),
-            this, SLOT(updateGridSize(bool)));
     connect(controller, SIGNAL(zoomIn()),
             this, SLOT(zoomIn()));
     connect(controller, SIGNAL(zoomOut()),
