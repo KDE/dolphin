@@ -35,6 +35,7 @@
 #include "urlnavigator.h"
 #include "viewpropertiesdialog.h"
 #include "viewproperties.h"
+#include "kfileplacesmodel.h"
 
 #include "dolphin_generalsettings.h"
 
@@ -1332,6 +1333,15 @@ void DolphinMainWindow::setupDockWidgets()
         infoDock->hide();
         treeViewDock->hide();
     }
+
+    // FIXME: To merge with the current bookmark sidebar
+    QDockWidget *placesDock = new QDockWidget(i18n("Places"));
+    placesDock->setObjectName("placesDock");
+    placesDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    QListView *listView = new QListView(placesDock);
+    placesDock->setWidget(listView);
+    listView->setModel(new KFilePlacesModel(listView));
+    addDockWidget(Qt::LeftDockWidgetArea, placesDock);
 }
 
 void DolphinMainWindow::updateHistory()

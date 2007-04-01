@@ -37,6 +37,8 @@ install(TARGETS dolphinprivate  DESTINATION ${LIB_INSTALL_DIR} )
 
 set(dolphin_SRCS
    applyviewpropsjob.cpp
+   kfileplacesmodel.cpp
+   kfileplacesitem.cpp
    bookmarkselector.cpp
    bookmarkssettingspage.cpp
    bookmarkssidebarpage.cpp
