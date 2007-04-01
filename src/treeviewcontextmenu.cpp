@@ -21,6 +21,7 @@
 #include "treeviewcontextmenu.h"
 
 #include <kiconloader.h>
+#include <kio/deletejob.h>
 #include <kmenu.h>
 #include <konqmimedata.h>
 #include <konq_operations.h>
@@ -158,10 +159,14 @@ void TreeViewContextMenu::moveToTrash()
 
 void TreeViewContextMenu::deleteItem()
 {
-    KonqOperations::askDeleteConfirmation(m_fileInfo->url(),
-                                          KonqOperations::DEL,
-                                          KonqOperations::FORCE_CONFIRMATION,
-                                          m_parent);
+    const KUrl& url = m_fileInfo->url();
+    const bool del = KonqOperations::askDeleteConfirmation(url,
+                                                           KonqOperations::DEL,
+                                                           KonqOperations::FORCE_CONFIRMATION,
+                                                           m_parent);
+    if (del) {
+        KIO::del(url);
+    }
 }
 
 void TreeViewContextMenu::showProperties()
