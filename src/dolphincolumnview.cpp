@@ -37,6 +37,11 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
 {
     Q_ASSERT(controller != 0);
 
+    setAcceptDrops(true);
+    setSelectionBehavior(SelectItems);
+    setDragDropMode(QAbstractItemView::DragDrop);
+    setDropIndicatorShown(false);
+
     viewport()->setAttribute(Qt::WA_Hover);
 
     connect(this, SIGNAL(clicked(const QModelIndex&)),
