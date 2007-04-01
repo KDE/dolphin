@@ -16,6 +16,7 @@ set(dolphinprivate_LIB_SRCS
 	)
 
 kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
+   dolphin_columnmodesettings.kcfgc
    dolphin_directoryviewpropertysettings.kcfgc
    dolphin_detailsmodesettings.kcfgc
    dolphin_iconsmodesettings.kcfgc
@@ -39,6 +40,7 @@ set(dolphin_SRCS
    bookmarkselector.cpp
    bookmarkssettingspage.cpp
    bookmarkssidebarpage.cpp
+   columnviewsettingspage.cpp
    detailsviewsettingspage.cpp
    dolphinapplication.cpp
    dolphincolumnview.cpp
@@ -103,7 +105,7 @@ install(TARGETS dolphin DESTINATION ${BIN_INSTALL_DIR})
 ########### install files ###############
 
 install( FILES  dolphin.desktop DESTINATION ${XDG_APPS_DIR} )
-install( FILES  dolphin_directoryviewpropertysettings.kcfg dolphin_generalsettings.kcfg dolphin_iconsmodesettings.kcfg dolphin_detailsmodesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
+install( FILES  dolphin_directoryviewpropertysettings.kcfg dolphin_generalsettings.kcfg dolphin_columnmodesettings.kcfg dolphin_iconsmodesettings.kcfg dolphin_detailsmodesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
 install( FILES  dolphinui.rc DESTINATION ${DATA_INSTALL_DIR}/dolphin )
 
 kde4_install_icons( ${ICON_INSTALL_DIR} )

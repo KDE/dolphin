@@ -23,11 +23,12 @@
 
 #include <libdolphin_export.h>
 
-class KBookmark;
-class KBookmarkManager;
+class ColumnModeSettings;
+class DetailsModeSettings;
 class GeneralSettings;
 class IconsModeSettings;
-class DetailsModeSettings;
+class KBookmark;
+class KBookmarkManager;
 
 /**
  * @brief Manages and stores all settings from Dolphin.
@@ -47,6 +48,7 @@ public:
     GeneralSettings* generalSettings() const { return m_generalSettings; }
     IconsModeSettings* iconsModeSettings() const { return m_iconsModeSettings; }
     DetailsModeSettings* detailsModeSettings() const { return m_detailsModeSettings; }
+    ColumnModeSettings* columnModeSettings() const { return m_columnModeSettings; }
 
     KBookmarkManager* bookmarkManager() const;
 
@@ -66,6 +68,7 @@ private:
     GeneralSettings* m_generalSettings;
     IconsModeSettings* m_iconsModeSettings;
     DetailsModeSettings* m_detailsModeSettings;
+    ColumnModeSettings* m_columnModeSettings;
 };
 
 #endif

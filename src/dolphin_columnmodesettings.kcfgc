@@ -1,0 +1,4 @@
+File=dolphin_columnmodesettings.kcfg
+ClassName=ColumnModeSettings
+Singleton=false
+Mutators=true

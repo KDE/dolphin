@@ -26,9 +26,10 @@
 #include <klocale.h>
 #include <kstandarddirs.h>
 
+#include "dolphin_columnmodesettings.h"
+#include "dolphin_detailsmodesettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
-#include "dolphin_detailsmodesettings.h"
 
 DolphinSettings& DolphinSettings::instance()
 {
@@ -41,7 +42,7 @@ DolphinSettings& DolphinSettings::instance()
 
 KBookmark DolphinSettings::bookmark(int index) const
 {
-    return bookmarkManager()->findByAddress( QString('/')+QString::number(index) );
+    return bookmarkManager()->findByAddress(QString('/') + QString::number(index));
 }
 
 KBookmarkManager* DolphinSettings::bookmarkManager() const
@@ -58,6 +59,7 @@ void DolphinSettings::save()
     m_generalSettings->writeConfig();
     m_iconsModeSettings->writeConfig();
     m_detailsModeSettings->writeConfig();
+    m_columnModeSettings->writeConfig();
 
     QString basePath = KGlobal::mainComponent().componentName();
     basePath.append("/bookmarks.xml");
@@ -72,6 +74,7 @@ DolphinSettings::DolphinSettings()
     m_generalSettings = new GeneralSettings();
     m_iconsModeSettings = new IconsModeSettings();
     m_detailsModeSettings = new DetailsModeSettings();
+    m_columnModeSettings = new ColumnModeSettings();
 }
 
 DolphinSettings::~DolphinSettings()
@@ -84,4 +87,7 @@ DolphinSettings::~DolphinSettings()
 
     delete m_detailsModeSettings;
     m_detailsModeSettings = 0;
+
+    delete m_columnModeSettings;
+    m_columnModeSettings = 0;
 }

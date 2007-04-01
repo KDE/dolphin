@@ -81,6 +81,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_viewMode = new QComboBox(propsBox);
     m_viewMode->addItem(KIcon("view-icon"), i18n("Icons"));
     m_viewMode->addItem(KIcon("fileview-text"), i18n("Details"));
+    m_viewMode->addItem(KIcon("view-tree"), i18n("Column"));
     const int index = static_cast<int>(m_viewProps->viewMode());
     m_viewMode->setCurrentIndex(index);
 
@@ -208,7 +209,6 @@ void ViewPropertiesDialog::slotApply()
 
 void ViewPropertiesDialog::slotViewModeChanged(int index)
 {
-    Q_ASSERT((index >= 0) && (index <= 1));
     m_viewProps->setViewMode(static_cast<DolphinView::Mode>(index));
     m_isDirty = true;
 

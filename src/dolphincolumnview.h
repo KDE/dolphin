@@ -53,6 +53,14 @@ private:
     bool isZoomInPossible() const;
     bool isZoomOutPossible() const;
 
+    /**
+     * Updates the size of the decoration dependent on the
+     * icon size of the ColumnModeSettings. The controller
+     * will get informed about possible zoom in/zoom out
+     * operations.
+     */
+    void updateDecorationSize();
+
 private:
     DolphinController* m_controller;
     QStyleOptionViewItem m_viewOptions;

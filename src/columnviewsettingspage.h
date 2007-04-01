@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -15,42 +14,46 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
-#ifndef VIEWSETTINGSPAGE_H
-#define VIEWSETTINGSPAGE_H
 
-#include <qwidget.h>
-#include <settingspagebase.h>
+#ifndef COLUMNVIEWSETTINGSPAGE_H
+#define COLUMNVIEWSETTINGSPAGE_H
 
-class ColumnViewSettingsPage;
+#include <kvbox.h>
+
 class DolphinMainWindow;
-class GeneralViewSettingsPage;
-class IconsViewSettingsPage;
-class DetailsViewSettingsPage;
+class KFontRequester;
+class QCheckBox;
+class QSpinBox;
+class QComboBox;
+class QRadioButton;
 
 /**
- * @brief Page for the 'View' settings of the Dolphin settings dialog.
- *
- * The views settings allow to set the properties for the icons mode,
- * the details mode and the column mode.
+ * @brief Represents the page from the Dolphin Settings which allows
+ *        to modify the settings for the details view.
  */
-class ViewSettingsPage : public SettingsPageBase
+class ColumnViewSettingsPage : public KVBox
 {
     Q_OBJECT
 
 public:
-    ViewSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
-    virtual ~ViewSettingsPage();
+    ColumnViewSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
+    virtual ~ColumnViewSettingsPage();
 
-    /** @see SettingsPageBase::applySettings */
-    virtual void applySettings();
+    /**
+     * Applies the settings for the details view.
+     * The settings are persisted automatically when
+     * closing Dolphin.
+     */
+    void applySettings();
 
 private:
-    GeneralViewSettingsPage* m_generalPage;
-    IconsViewSettingsPage* m_iconsPage;
-    DetailsViewSettingsPage* m_detailsPage;
-    ColumnViewSettingsPage* m_columnPage;
+    DolphinMainWindow* m_mainWindow;
+    QRadioButton* m_smallIconSize;
+    QRadioButton* m_mediumIconSize;
+    QRadioButton* m_largeIconSize;
+    KFontRequester* m_fontRequester;
 };
 
 #endif

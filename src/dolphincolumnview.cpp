@@ -22,7 +22,7 @@
 #include "dolphincontroller.h"
 #include "dolphinsettings.h"
 
-//#include "dolphin_iconsmodesettings.h"
+#include "dolphin_columnmodesettings.h"
 
 #include <kdirmodel.h>
 #include <kfileitem.h>
@@ -48,27 +48,18 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     connect(controller, SIGNAL(zoomOut()),
             this, SLOT(zoomOut()));
 
-    // apply the icons mode settings to the widget
-    //const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    //Q_ASSERT(settings != 0);
+   // apply the column mode settings to the widget
+    const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+    Q_ASSERT(settings != 0);
 
     m_viewOptions = QColumnView::viewOptions();
 
-    /*QFont font(settings->fontFamily(), settings->fontSize());
+    QFont font(settings->fontFamily(), settings->fontSize());
     font.setItalic(settings->italicFont());
     font.setBold(settings->boldFont());
     m_viewOptions.font = font;
 
-    updateGridSize(controller->showPreview());
-
-    if (settings->arrangement() == QColumnView::TopToBottom) {
-        setFlow(QColumnView::LeftToRight);
-        m_viewOptions.decorationPosition = QStyleOptionViewItem::Top;
-    }
-    else {
-        setFlow(QColumnView::TopToBottom);
-        m_viewOptions.decorationPosition = QStyleOptionViewItem::Left;
-    }*/
+    updateDecorationSize();
 }
 
 DolphinColumnView::~DolphinColumnView()
@@ -113,20 +104,54 @@ void DolphinColumnView::dropEvent(QDropEvent* event)
 
 void DolphinColumnView::zoomIn()
 {
+    if (isZoomInPossible()) {
+        ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+        // TODO: get rid of K3Icon sizes
+        switch (settings->iconSize()) {
+            case K3Icon::SizeSmall:  settings->setIconSize(K3Icon::SizeMedium); break;
+            case K3Icon::SizeMedium: settings->setIconSize(K3Icon::SizeLarge); break;
+            default: Q_ASSERT(false); break;
+        }
+        updateDecorationSize();
+    }
 }
 
 void DolphinColumnView::zoomOut()
 {
+   if (isZoomOutPossible()) {
+        ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+        // TODO: get rid of K3Icon sizes
+        switch (settings->iconSize()) {
+            case K3Icon::SizeLarge:  settings->setIconSize(K3Icon::SizeMedium); break;
+            case K3Icon::SizeMedium: settings->setIconSize(K3Icon::SizeSmall); break;
+            default: Q_ASSERT(false); break;
+        }
+        updateDecorationSize();
+    }
 }
 
 bool DolphinColumnView::isZoomInPossible() const
 {
-    return false;
+    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+    return settings->iconSize() < K3Icon::SizeLarge;
 }
 
 bool DolphinColumnView::isZoomOutPossible() const
 {
-    return false;
+    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+    return settings->iconSize() > K3Icon::SizeSmall;
+}
+
+void DolphinColumnView::updateDecorationSize()
+{
+    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+    const int iconSize = settings->iconSize();
+    m_viewOptions.decorationSize = QSize(iconSize, iconSize);
+
+    m_controller->setZoomInPossible(isZoomInPossible());
+    m_controller->setZoomOutPossible(isZoomOutPossible());
+
+    doItemsLayout();
 }
 
 #include "dolphincolumnview.moc"

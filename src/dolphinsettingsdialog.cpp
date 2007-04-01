@@ -33,6 +33,9 @@ DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
     KPageDialog(),
     m_mainWindow(mainWindow)
 {
+    const QSize minSize = minimumSize();
+    setMinimumSize(QSize(512, minSize.height()));
+
     setFaceType( List);
     setCaption(i18n("Dolphin Preferences"));
     setButtons(Ok|Apply|Cancel);

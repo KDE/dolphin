@@ -19,9 +19,11 @@
  ***************************************************************************/
 
 #include "viewsettingspage.h"
+
+#include "columnviewsettingspage.h"
+#include "detailsviewsettingspage.h"
 #include "generalviewsettingspage.h"
 #include "iconsviewsettingspage.h"
-#include "detailsviewsettingspage.h"
 
 #include <QVBoxLayout>
 #include <QTabWidget>
@@ -37,7 +39,8 @@ ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
     SettingsPageBase(parent),
     m_generalPage(0),
     m_iconsPage(0),
-    m_detailsPage(0)
+    m_detailsPage(0),
+    m_columnPage(0)
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     topLayout->setMargin(0);
@@ -57,7 +60,11 @@ ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
     m_detailsPage = new DetailsViewSettingsPage(mainWindow, tabWidget);
     tabWidget->addTab(m_detailsPage, KIcon("fileview-text"), i18n("Details"));
 
-    topLayout->addWidget(tabWidget, 0, 0 );
+    // initialize 'Column' tab
+    m_columnPage = new ColumnViewSettingsPage(mainWindow, tabWidget);
+    tabWidget->addTab(m_columnPage, KIcon("view-tree"), i18n("Column"));
+
+    topLayout->addWidget(tabWidget, 0, 0);
 }
 
 ViewSettingsPage::~ViewSettingsPage()
@@ -69,6 +76,7 @@ void ViewSettingsPage::applySettings()
     m_generalPage->applySettings();
     m_iconsPage->applySettings();
     m_detailsPage->applySettings();
+    m_columnPage->applySettings();
 }
 
 #include "viewsettingspage.moc"
