@@ -27,6 +27,8 @@
 #include <klocale.h>
 #include <kpropertiesdialog.h>
 
+#include "renamedialog.h"
+
 #include <QApplication>
 #include <QClipboard>
 
@@ -137,17 +139,29 @@ void TreeViewContextMenu::paste()
 
 void TreeViewContextMenu::rename()
 {
-    // TODO
+    const KUrl& oldUrl = m_fileInfo->url();
+    RenameDialog dialog(oldUrl);
+    if (dialog.exec() == QDialog::Accepted) {
+        const QString& newName = dialog.newName();
+        if (!newName.isEmpty()) {
+            KUrl newUrl = oldUrl.upUrl();
+            newUrl.addPath(newName);
+            KonqOperations::rename(m_parent, oldUrl, newUrl);
+        }
+    }
 }
 
 void TreeViewContextMenu::moveToTrash()
 {
-    // TODO
+    KonqOperations::del(m_parent, KonqOperations::TRASH, m_fileInfo->url());
 }
 
 void TreeViewContextMenu::deleteItem()
 {
-    // TODO
+    KonqOperations::askDeleteConfirmation(m_fileInfo->url(),
+                                          KonqOperations::DEL,
+                                          KonqOperations::FORCE_CONFIRMATION,
+                                          m_parent);
 }
 
 void TreeViewContextMenu::showProperties()
