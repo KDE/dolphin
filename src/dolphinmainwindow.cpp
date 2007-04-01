@@ -460,36 +460,12 @@ void DolphinMainWindow::deleteItems()
 {
     clearStatusBar();
 
-    // TODO: if KonqOperations::askDeleteConfirmation() would indicate when
-    // the operation has been finished, this method should be used.
+    const KUrl::List list = m_activeView->selectedUrls();
+    const bool del = KonqOperations::askDeleteConfirmation(list,
+                                                           KonqOperations::DEL,
+                                                           KonqOperations::FORCE_CONFIRMATION,
+                                                           this);
 
-    KUrl::List list = m_activeView->selectedUrls();
-    const uint itemCount = list.count();
-    Q_ASSERT(itemCount >= 1);
-
-    QString text;
-    if (itemCount > 1) {
-        text = i18n("Do you really want to delete the %1 selected items?", itemCount);
-    }
-    else {
-        const KUrl& url = list.first();
-        QString itemName;
-        if (url.protocol() == "trash" ) {
-            itemName = url.path();
-            // TODO: check comment in konq_undo.cc in the method askDeleteConfirmation()
-            itemName.remove(QRegExp("^/[0-9]*-"));
-        }
-        else {
-           itemName = url.pathOrUrl();
-        }
-        text = i18n("Do you really want to delete '%1'?", itemName);
-    }
-
-    const bool del = KMessageBox::warningContinueCancel(this,
-                                                        text,
-                                                        QString(),
-                                                        KGuiItem(i18n("Delete"), KIcon("edit-delete"))
-                                                       ) == KMessageBox::Continue;
     if (del) {
         KIO::Job* job = KIO::del(list);
         connect(job, SIGNAL(result(KJob*)),
