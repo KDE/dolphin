@@ -306,9 +306,6 @@ public:
     /** Returns the additional information which should be shown for the items. */
     KFileItemDelegate::AdditionalInformation additionalInfo() const;
 
-    /** Refreshs the view settings by reading out the stored settings. */
-    void refreshSettings();
-
     /** Returns the UrlNavigator of the view for read access. */
     const UrlNavigator* urlNavigator() const { return m_urlNavigator; }
 

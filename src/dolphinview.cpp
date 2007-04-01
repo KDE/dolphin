@@ -355,11 +355,6 @@ int DolphinView::contentsY() const
     return itemView()->verticalScrollBar()->value();
 }
 
-void DolphinView::refreshSettings()
-{
-    startDirLister(m_urlNavigator->url());
-}
-
 void DolphinView::emitRequestItemInfo(const KUrl& url)
 {
     emit requestItemInfo(url);

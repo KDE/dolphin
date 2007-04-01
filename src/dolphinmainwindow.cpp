@@ -233,6 +233,7 @@ void DolphinMainWindow::refreshViews()
                                         props.viewMode(),
                                         props.showHiddenFiles());
             connectViewSignals(i);
+            m_view[i]->reload();
             m_view[i]->show();
         }
     }
