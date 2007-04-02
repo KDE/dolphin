@@ -295,8 +295,8 @@ void DolphinView::renameSelectedItems()
                 name.replace(replaceIndex, 1, number);
 
                 if (oldUrl.fileName() != name) {
-                    KUrl newUrl(oldUrl.upUrl());
-                    newUrl.addPath(name);
+                    KUrl newUrl = oldUrl;
+                    newUrl.setFileName(name);
                     m_mainWindow->rename(oldUrl, newUrl);
                 }
                 ++it;
@@ -323,8 +323,8 @@ void DolphinView::renameSelectedItems()
         }
         else {
             const KUrl& oldUrl = urls.first();
-            KUrl newUrl = oldUrl.upUrl();
-            newUrl.addPath(newName);
+            KUrl newUrl = oldUrl;
+            newUrl.setFileName(newName);
             m_mainWindow->rename(oldUrl, newUrl);
         }
     }

@@ -145,8 +145,8 @@ void TreeViewContextMenu::rename()
     if (dialog.exec() == QDialog::Accepted) {
         const QString& newName = dialog.newName();
         if (!newName.isEmpty()) {
-            KUrl newUrl = oldUrl.upUrl();
-            newUrl.addPath(newName);
+            KUrl newUrl = oldUrl;
+            newUrl.setFileName(newName);
             KonqOperations::rename(m_parent, oldUrl, newUrl);
         }
     }
