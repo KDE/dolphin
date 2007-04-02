@@ -36,6 +36,7 @@
 #include "viewpropertiesdialog.h"
 #include "viewproperties.h"
 #include "kfileplacesmodel.h"
+#include "kfileplacesview.h"
 
 #include "dolphin_generalsettings.h"
 
@@ -1338,10 +1339,14 @@ void DolphinMainWindow::setupDockWidgets()
     QDockWidget *placesDock = new QDockWidget(i18n("Places"));
     placesDock->setObjectName("placesDock");
     placesDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    QListView *listView = new QListView(placesDock);
+    KFilePlacesView *listView = new KFilePlacesView(placesDock);
     placesDock->setWidget(listView);
     listView->setModel(new KFilePlacesModel(listView));
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
+    connect(listView, SIGNAL(urlChanged(KUrl)),
+            this, SLOT(changeUrl(KUrl)));
+    connect(this, SIGNAL(urlChanged(KUrl)),
+            listView, SLOT(setUrl(KUrl)));
 }
 
 void DolphinMainWindow::updateHistory()

@@ -39,6 +39,7 @@ set(dolphin_SRCS
    applyviewpropsjob.cpp
    kfileplacesmodel.cpp
    kfileplacesitem.cpp
+   kfileplacesview.cpp
    bookmarkselector.cpp
    bookmarkssettingspage.cpp
    bookmarkssidebarpage.cpp
