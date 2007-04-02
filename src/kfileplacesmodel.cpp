@@ -81,7 +81,7 @@ KFilePlacesModel::~KFilePlacesModel()
 
 KUrl KFilePlacesModel::url(const QModelIndex &index) const
 {
-    return KUrl(data(index, UrlRole).toString());
+    return KUrl(data(index, UrlRole).toUrl());
 }
 
 bool KFilePlacesModel::mountNeeded(const QModelIndex &index) const
