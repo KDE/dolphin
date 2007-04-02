@@ -89,6 +89,16 @@ bool KFilePlacesModel::mountNeeded(const QModelIndex &index) const
     return data(index, MountNeededRole).toBool();
 }
 
+KIcon KFilePlacesModel::icon(const QModelIndex &index) const
+{
+    return KIcon(data(index, Qt::DecorationRole).value<QIcon>());
+}
+
+QString KFilePlacesModel::text(const QModelIndex &index) const
+{
+    return data(index, Qt::DisplayRole).toString();
+}
+
 QVariant KFilePlacesModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())

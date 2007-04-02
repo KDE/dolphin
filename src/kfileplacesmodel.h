@@ -23,6 +23,7 @@
 
 #include <QAbstractItemModel>
 #include <kurl.h>
+#include <kicon.h>
 
 /**
  * This class is a list view model. Each entry represents a "place"
@@ -44,6 +45,8 @@ public:
 
     KUrl url(const QModelIndex &index) const;
     bool mountNeeded(const QModelIndex &index) const;
+    KIcon icon(const QModelIndex &index) const;
+    QString text(const QModelIndex &index) const;
 
     /**
      * @brief Get a visible data based on Qt role for the given index.
