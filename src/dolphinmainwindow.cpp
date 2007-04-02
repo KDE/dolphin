@@ -464,7 +464,7 @@ void DolphinMainWindow::deleteItems()
     const KUrl::List list = m_activeView->selectedUrls();
     const bool del = KonqOperations::askDeleteConfirmation(list,
                                                            KonqOperations::DEL,
-                                                           KonqOperations::FORCE_CONFIRMATION,
+                                                           KonqOperations::DEFAULT_CONFIRMATION,
                                                            this);
 
     if (del) {
