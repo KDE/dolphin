@@ -32,7 +32,7 @@
 #include "metadatawidget.h"
 #include "mainwindowadaptor.h"
 #include "treeviewsidebarpage.h"
-#include "urlnavigator.h"
+#include "kurlnavigator.h"
 #include "viewpropertiesdialog.h"
 #include "viewproperties.h"
 #include "kfileplacesmodel.h"
@@ -1506,7 +1506,7 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
     connect(view, SIGNAL(urlChanged(KUrl)),
             this, SLOT(changeUrl(KUrl)));
 
-    const UrlNavigator* navigator = view->urlNavigator();
+    const KUrlNavigator* navigator = view->urlNavigator();
     connect(navigator, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(changeUrl(const KUrl&)));
     connect(navigator, SIGNAL(historyChanged()),

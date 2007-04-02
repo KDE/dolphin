@@ -27,7 +27,7 @@
 #include <kfileitemdelegate.h>
 #include <kio/job.h>
 
-#include <urlnavigator.h>
+#include <kurlnavigator.h>
 
 #include <QDropEvent>
 #include <QLinkedList>
@@ -41,7 +41,7 @@ class FilterBar;
 class KFileItemDelegate;
 class KUrl;
 class KDirModel;
-class UrlNavigator;
+class KUrlNavigator;
 class DolphinColumnView;
 class DolphinDetailsView;
 class DolphinDirLister;
@@ -64,7 +64,7 @@ class ViewProperties;
  * @see DolphinIconsView
  * @see DolphinDetailsView
  * @see DolphinColumnView
- * @see UrlNavigator
+ * @see KUrlNavigator
  * @see DolphinStatusBar
  */
 class DolphinView : public QWidget
@@ -121,7 +121,7 @@ public:
 
     /**
      * Sets the current active URL.
-     * The signals UrlNavigator::urlChanged() and UrlNavigator::historyChanged()
+     * The signals KUrlNavigator::urlChanged() and KUrlNavigator::historyChanged()
      * are emitted.
      */
     void setUrl(const KUrl& url);
@@ -185,28 +185,28 @@ public:
 
     /**
      * Goes back one step in the URL history. The signals
-     * UrlNavigator::urlChanged() and UrlNavigator::historyChanged()
+     * KUrlNavigator::urlChanged() and KUrlNavigator::historyChanged()
      * are submitted.
      */
     void goBack();
 
     /**
      * Goes forward one step in the Url history. The signals
-     * UrlNavigator::urlChanged() and UrlNavigator::historyChanged()
+     * KUrlNavigator::urlChanged() and KUrlNavigator::historyChanged()
      * are submitted.
      */
     void goForward();
 
     /**
      * Goes up one step of the Url path. The signals
-     * UrlNavigator::urlChanged() and UrlNavigator::historyChanged()
+     * KUrlNavigator::urlChanged() and KUrlNavigator::historyChanged()
      * are submitted.
      */
     void goUp();
 
     /**
-     * Goes to the home URL. The signals UrlNavigator::urlChanged()
-     * and UrlNavigator::historyChanged() are submitted.
+     * Goes to the home URL. The signals KUrlNavigator::urlChanged()
+     * and KUrlNavigator::historyChanged() are submitted.
      */
     void goHome();
 
@@ -266,7 +266,7 @@ public:
 
     /**
      * Returns true, if the URL shown by the navigation bar is editable.
-     * @see UrlNavigator
+     * @see KUrlNavigator
      */
     bool isUrlEditable() const;
 
@@ -306,8 +306,8 @@ public:
     /** Returns the additional information which should be shown for the items. */
     KFileItemDelegate::AdditionalInformation additionalInfo() const;
 
-    /** Returns the UrlNavigator of the view for read access. */
-    const UrlNavigator* urlNavigator() const { return m_urlNavigator; }
+    /** Returns the KUrlNavigator of the view for read access. */
+    const KUrlNavigator* urlNavigator() const { return m_urlNavigator; }
 
     /**
      * Triggers to request user information for the item given
@@ -572,7 +572,7 @@ private:
 
     DolphinMainWindow* m_mainWindow;
     QVBoxLayout* m_topLayout;
-    UrlNavigator* m_urlNavigator;
+    KUrlNavigator* m_urlNavigator;
 
     DolphinController* m_controller;
     DolphinIconsView* m_iconsView;

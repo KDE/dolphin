@@ -23,12 +23,12 @@
 #include <kprotocolinfo.h>
 #include <kprotocolmanager.h>
 
-#include "protocolcombo.h"
+#include "kprotocolcombo_p.h"
 
 const static int customProtocolIndex = 0;
 
-ProtocolCombo::ProtocolCombo(const QString& protocol, UrlNavigator* parent)
-    : UrlNavigatorButton(-1, parent),
+KProtocolCombo::KProtocolCombo(const QString& protocol, KUrlNavigator* parent)
+    : KUrlNavigatorButton(-1, parent),
       m_protocols(KProtocolInfo::protocols())
 {
     qSort(m_protocols);
@@ -80,7 +80,7 @@ ProtocolCombo::ProtocolCombo(const QString& protocol, UrlNavigator* parent)
 
 // #include <kurl.h>
 // #include "urlnavigator.h"
-void ProtocolCombo::setProtocol(const QString& protocol)
+void KProtocolCombo::setProtocol(const QString& protocol)
 {
     setText(protocol);
 //    if (KProtocolInfo::isKnownProtocol(protocol))
@@ -96,7 +96,7 @@ void ProtocolCombo::setProtocol(const QString& protocol)
 //     }
 }
 
-void ProtocolCombo::setProtocol(int index)
+void KProtocolCombo::setProtocol(int index)
 {
     if (index < 0 || index > m_protocols.count())
     {
@@ -110,9 +110,9 @@ kDebug() << "setProtocol " << index << " " << protocol << endl;
 /*    */
 }
 
-QString ProtocolCombo::currentProtocol() const
+QString KProtocolCombo::currentProtocol() const
 {
     return text(); //currentText();
 }
 
-#include "protocolcombo.moc"
+#include "kprotocolcombo_p.moc"

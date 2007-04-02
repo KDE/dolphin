@@ -40,7 +40,7 @@ set(dolphin_SRCS
    kfileplacesmodel.cpp
    kfileplacesitem.cpp
    kfileplacesview.cpp
-   bookmarkselector.cpp
+   kfileplacesselector.cpp
    bookmarkssettingspage.cpp
    bookmarkssidebarpage.cpp
    columnviewsettingspage.cpp
@@ -63,7 +63,7 @@ set(dolphin_SRCS
    infosidebarpage.cpp
    main.cpp
    metadatawidget.cpp
-   protocolcombo.cpp
+   kprotocolcombo.cpp
    pixmapviewer.cpp
    renamedialog.cpp
    settingspagebase.cpp
@@ -73,9 +73,9 @@ set(dolphin_SRCS
    treeviewcontextmenu.cpp
    treeviewsidebarpage.cpp
    sidebartreeview.cpp
-   urlbutton.cpp
-   urlnavigator.cpp
-   urlnavigatorbutton.cpp
+   kurlbutton.cpp
+   kurlnavigator.cpp
+   kurlnavigatorbutton.cpp
    viewpropertiesdialog.cpp
    viewsettingspage.cpp
    viewpropsprogressinfo.cpp )

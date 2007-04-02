@@ -2,6 +2,7 @@
  *   Copyright (C) 2006 by Peter Penz (<peter.penz@gmx.at>)                *
  *   Copyright (C) 2006 by Aaron J. Seigo (<aseigo@kde.org>)               *
  *   Copyright (C) 2006 by Patrice Tremblay                                *
+ *   Copyright (C) 2007 by Kevin Ottens (ervin@kde.org)                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,8 +20,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef URLNAVIGATOR_H
-#define URLNAVIGATOR_H
+#ifndef KURLNAVIGATOR_H
+#define KURLNAVIGATOR_H
 
 #include <kurl.h>
 #include <QWidget>
@@ -45,13 +46,13 @@ class QMouseEvent;
  * The URL navigator also remembers the URL history and allows to go
  * back and forward within this history.
  */
-class UrlNavigator : public QWidget
+class KUrlNavigator : public QWidget
 {
     Q_OBJECT
 
 public:
-    UrlNavigator(KFilePlacesModel* placesModel, const KUrl& url, QWidget* parent);
-    virtual ~UrlNavigator();
+    KUrlNavigator(KFilePlacesModel* placesModel, const KUrl& url, QWidget* parent);
+    virtual ~KUrlNavigator();
 
     /** Returns the current active URL. */
     const KUrl& url() const;
@@ -215,7 +216,7 @@ private:
     class Private;
     Private* const d;
 
-    Q_DISABLE_COPY( UrlNavigator )
+    Q_DISABLE_COPY( KUrlNavigator )
 };
 
 #endif

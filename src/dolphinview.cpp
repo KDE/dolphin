@@ -53,7 +53,7 @@
 #include "dolphincontextmenu.h"
 #include "filterbar.h"
 #include "renamedialog.h"
-#include "urlnavigator.h"
+#include "kurlnavigator.h"
 #include "viewproperties.h"
 #include "dolphinsettings.h"
 #include "dolphin_generalsettings.h"
@@ -97,7 +97,7 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     connect(clipboard, SIGNAL(dataChanged()),
             this, SLOT(updateCutItems()));
 
-    m_urlNavigator = new UrlNavigator(new KFilePlacesModel(this), url, this);
+    m_urlNavigator = new KUrlNavigator(new KFilePlacesModel(this), url, this);
     m_urlNavigator->setUrlEditable(DolphinSettings::instance().generalSettings()->editableUrl());
     m_urlNavigator->setHomeUrl(DolphinSettings::instance().generalSettings()->homeUrl());
     m_urlNavigator->setShowHiddenFiles(showHiddenFiles);

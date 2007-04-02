@@ -18,14 +18,14 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef URLBUTTON_H
-#define URLBUTTON_H
+#ifndef KURLBUTTON_P_H
+#define KURLBUTTON_P_H
 
 #include <QPushButton>
 
 class KUrl;
 class QEvent;
-class UrlNavigator;
+class KUrlNavigator;
 
 /**
  * @brief Base class for buttons of the URL navigator.
@@ -33,15 +33,15 @@ class UrlNavigator;
  * Each button of the URL navigator contains an URL, which
  * is set as soon as the button has been clicked.
  */
-class UrlButton : public QPushButton
+class KUrlButton : public QPushButton
 {
     Q_OBJECT
 
 public:
-    explicit UrlButton(UrlNavigator* parent);
-    virtual ~UrlButton();
+    explicit KUrlButton(KUrlNavigator* parent);
+    virtual ~KUrlButton();
 
-    UrlNavigator* urlNavigator() const { return m_urlNavigator; }
+    KUrlNavigator* urlNavigator() const { return m_urlNavigator; }
 
 protected:
     enum DisplayHint {
@@ -61,7 +61,7 @@ protected:
 
 private:
     int m_displayHint;
-    UrlNavigator* m_urlNavigator;
+    KUrlNavigator* m_urlNavigator;
 };
 
 #endif

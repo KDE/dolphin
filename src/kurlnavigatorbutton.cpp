@@ -18,11 +18,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "urlnavigatorbutton.h"
+#include "kurlnavigatorbutton_p.h"
 
 #include <assert.h>
 
-#include "urlnavigator.h"
+#include "kurlnavigator.h"
 
 #include <kio/job.h>
 #include <kio/jobclasses.h>
@@ -33,8 +33,8 @@
 #include <QPaintEvent>
 #include <QTimer>
 
-UrlNavigatorButton::UrlNavigatorButton(int index, UrlNavigator* parent) :
-    UrlButton(parent),
+KUrlNavigatorButton::KUrlNavigatorButton(int index, KUrlNavigator* parent) :
+    KUrlButton(parent),
     m_index(-1),
     m_popupDelay(0),
     m_listJob(0)
@@ -50,11 +50,11 @@ UrlNavigatorButton::UrlNavigatorButton(int index, UrlNavigator* parent) :
     connect(this, SIGNAL(pressed()), this, SLOT(startPopupDelay()));
 }
 
-UrlNavigatorButton::~UrlNavigatorButton()
+KUrlNavigatorButton::~KUrlNavigatorButton()
 {
 }
 
-void UrlNavigatorButton::setIndex(int index)
+void KUrlNavigatorButton::setIndex(int index)
 {
     m_index = index;
 
@@ -82,13 +82,13 @@ void UrlNavigatorButton::setIndex(int index)
     update();
 }
 
-QSize UrlNavigatorButton::sizeHint() const
+QSize KUrlNavigatorButton::sizeHint() const
 {
     const int width = fontMetrics().width(text()) + (arrowWidth() * 4);
-    return QSize(width, UrlButton::sizeHint().height());
+    return QSize(width, KUrlButton::sizeHint().height());
 }
 
-void UrlNavigatorButton::paintEvent(QPaintEvent* event)
+void KUrlNavigatorButton::paintEvent(QPaintEvent* event)
 {
     QPainter painter(this);
     painter.setClipRect(event->rect());
@@ -168,9 +168,9 @@ void UrlNavigatorButton::paintEvent(QPaintEvent* event)
     }
 }
 
-void UrlNavigatorButton::enterEvent(QEvent* event)
+void KUrlNavigatorButton::enterEvent(QEvent* event)
 {
-    UrlButton::enterEvent(event);
+    KUrlButton::enterEvent(event);
 
     // if the text is clipped due to a small window width, the text should
     // be shown as tooltip
@@ -179,13 +179,13 @@ void UrlNavigatorButton::enterEvent(QEvent* event)
     }
 }
 
-void UrlNavigatorButton::leaveEvent(QEvent* event)
+void KUrlNavigatorButton::leaveEvent(QEvent* event)
 {
-    UrlButton::leaveEvent(event);
+    KUrlButton::leaveEvent(event);
     setToolTip(QString());
 }
 
-void UrlNavigatorButton::dropEvent(QDropEvent* event)
+void KUrlNavigatorButton::dropEvent(QDropEvent* event)
 {
     if (m_index < 0) {
         return;
@@ -207,7 +207,7 @@ void UrlNavigatorButton::dropEvent(QDropEvent* event)
     }
 }
 
-void UrlNavigatorButton::dragEnterEvent(QDragEnterEvent* event)
+void KUrlNavigatorButton::dragEnterEvent(QDragEnterEvent* event)
 {
     if (event->mimeData()->hasUrls()) {
         setDisplayHintEnabled(DraggedHint, true);
@@ -217,16 +217,16 @@ void UrlNavigatorButton::dragEnterEvent(QDragEnterEvent* event)
     }
 }
 
-void UrlNavigatorButton::dragLeaveEvent(QDragLeaveEvent* event)
+void KUrlNavigatorButton::dragLeaveEvent(QDragLeaveEvent* event)
 {
-    UrlButton::dragLeaveEvent(event);
+    KUrlButton::dragLeaveEvent(event);
 
     setDisplayHintEnabled(DraggedHint, false);
     update();
 }
 
 
-void UrlNavigatorButton::updateNavigatorUrl()
+void KUrlNavigatorButton::updateNavigatorUrl()
 {
     stopPopupDelay();
 
@@ -237,7 +237,7 @@ void UrlNavigatorButton::updateNavigatorUrl()
     urlNavigator()->setUrl(urlNavigator()->url(m_index));
 }
 
-void UrlNavigatorButton::startPopupDelay()
+void KUrlNavigatorButton::startPopupDelay()
 {
     if (m_popupDelay->isActive() || (m_listJob != 0) || (m_index < 0)) {
         return;
@@ -246,7 +246,7 @@ void UrlNavigatorButton::startPopupDelay()
     m_popupDelay->start(300);
 }
 
-void UrlNavigatorButton::stopPopupDelay()
+void KUrlNavigatorButton::stopPopupDelay()
 {
     m_popupDelay->stop();
     if (m_listJob != 0) {
@@ -255,7 +255,7 @@ void UrlNavigatorButton::stopPopupDelay()
     }
 }
 
-void UrlNavigatorButton::startListJob()
+void KUrlNavigatorButton::startListJob()
 {
     if (m_listJob != 0) {
         return;
@@ -270,7 +270,7 @@ void UrlNavigatorButton::startListJob()
     connect(m_listJob, SIGNAL(result(KJob*)), this, SLOT(listJobFinished(KJob*)));
 }
 
-void UrlNavigatorButton::entriesList(KIO::Job* job, const KIO::UDSEntryList& entries)
+void KUrlNavigatorButton::entriesList(KIO::Job* job, const KIO::UDSEntryList& entries)
 {
     if (job != m_listJob) {
         return;
@@ -296,7 +296,7 @@ void UrlNavigatorButton::entriesList(KIO::Job* job, const KIO::UDSEntryList& ent
     m_subdirs.sort();
 }
 
-void UrlNavigatorButton::listJobFinished(KJob* job)
+void KUrlNavigatorButton::listJobFinished(KJob* job)
 {
     if (job != m_listJob) {
         return;
@@ -338,7 +338,7 @@ void UrlNavigatorButton::listJobFinished(KJob* job)
     setDisplayHintEnabled(PopupActiveHint, false);
 }
 
-int UrlNavigatorButton::arrowWidth() const
+int KUrlNavigatorButton::arrowWidth() const
 {
     int width = (height() / 2) - 7;
     if (width < 4) {
@@ -347,7 +347,7 @@ int UrlNavigatorButton::arrowWidth() const
     return width;
 }
 
-bool UrlNavigatorButton::isTextClipped() const
+bool KUrlNavigatorButton::isTextClipped() const
 {
     int availableWidth = width();
     if (!isDisplayHintEnabled(ActivatedHint)) {
@@ -358,4 +358,4 @@ bool UrlNavigatorButton::isTextClipped() const
     return fontMetrics.width(text()) >= availableWidth;
 }
 
-#include "urlnavigatorbutton.moc"
+#include "kurlnavigatorbutton_p.moc"

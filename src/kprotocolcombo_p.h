@@ -16,22 +16,22 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
-#ifndef PROTOCOLCOMBO_H
-#define PROTOCOLCOMBO_H
+#ifndef KPROTOCOLCOMBO_P_H
+#define KPROTOCOLCOMBO_P_H
 
-#include "urlnavigatorbutton.h"
+#include "kurlnavigatorbutton_p.h"
 
-class UrlNavigator;
+class KUrlNavigator;
 
 /**
  * A combobox listing available protocols
  */
-class ProtocolCombo : public UrlNavigatorButton
+class KProtocolCombo : public KUrlNavigatorButton
 {
     Q_OBJECT
 
     public:
-        explicit ProtocolCombo(const QString& protocol, UrlNavigator* parent = 0);
+        explicit KProtocolCombo(const QString& protocol, KUrlNavigator* parent = 0);
 
         QString currentProtocol() const;
 

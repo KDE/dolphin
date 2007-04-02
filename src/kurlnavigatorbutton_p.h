@@ -18,15 +18,15 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef URLNAVIGATORBUTTON_H
-#define URLNAVIGATORBUTTON_H
+#ifndef KURLNAVIGATORBUTTON_P_H
+#define KURLNAVIGATORBUTTON_P_H
 
 #include <kio/global.h>
-#include "urlbutton.h"
+#include "kurlbutton_p.h"
 
 class KJob;
 class KUrl;
-class UrlNavigator;
+class KUrlNavigator;
 class QPainter;
 class QPaintEvent;
 
@@ -43,13 +43,13 @@ namespace KIO
  * to copy, move or link the dropped items to the URL part indicated by
  * the button.
  */
-class UrlNavigatorButton : public UrlButton
+class KUrlNavigatorButton : public KUrlButton
 {
     Q_OBJECT
 
 public:
-    explicit UrlNavigatorButton(int index, UrlNavigator* parent);
-    virtual ~UrlNavigatorButton();
+    explicit KUrlNavigatorButton(int index, KUrlNavigator* parent);
+    virtual ~KUrlNavigatorButton();
     void setIndex(int index);
     int index() const { return m_index; }
 

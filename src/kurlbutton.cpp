@@ -18,10 +18,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "urlnavigatorbutton.h"
-#include "urlnavigator.h"
+#include "kurlbutton_p.h"
 
-UrlButton::UrlButton(UrlNavigator* parent) :
+#include "kurlnavigator.h"
+
+KUrlButton::KUrlButton(KUrlNavigator* parent) :
     QPushButton(parent),
     m_displayHint(0),
     m_urlNavigator(parent)
@@ -33,11 +34,11 @@ UrlButton::UrlButton(UrlNavigator* parent) :
     connect(this, SIGNAL(clicked()), parent, SLOT(requestActivation()));
 }
 
-UrlButton::~UrlButton()
+KUrlButton::~KUrlButton()
 {
 }
 
-void UrlButton::setDisplayHintEnabled(DisplayHint hint,
+void KUrlButton::setDisplayHintEnabled(DisplayHint hint,
                                       bool enable)
 {
     if (enable) {
@@ -49,26 +50,26 @@ void UrlButton::setDisplayHintEnabled(DisplayHint hint,
     update();
 }
 
-bool UrlButton::isDisplayHintEnabled(DisplayHint hint) const
+bool KUrlButton::isDisplayHintEnabled(DisplayHint hint) const
 {
     return (m_displayHint & hint) > 0;
 }
 
-void UrlButton::enterEvent(QEvent* event)
+void KUrlButton::enterEvent(QEvent* event)
 {
     QPushButton::enterEvent(event);
     setDisplayHintEnabled(EnteredHint, true);
     update();
 }
 
-void UrlButton::leaveEvent(QEvent* event)
+void KUrlButton::leaveEvent(QEvent* event)
 {
     QPushButton::leaveEvent(event);
     setDisplayHintEnabled(EnteredHint, false);
     update();
 }
 
-QColor UrlButton::mixColors(const QColor& c1,
+QColor KUrlButton::mixColors(const QColor& c1,
                             const QColor& c2) const
 {
     const int red   = (c1.red()   + c2.red())   / 2;
@@ -77,4 +78,4 @@ QColor UrlButton::mixColors(const QColor& c1,
     return QColor(red, green, blue);
 }
 
-#include "urlbutton.moc"
+#include "kurlbutton_p.moc"

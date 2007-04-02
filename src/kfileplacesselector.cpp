@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at)                  *
+ *   Copyright (C) 2007 by Kevin Ottens (ervin@kde.org)                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,9 +18,9 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "bookmarkselector.h"
+#include "kfileplacesselector_p.h"
 
-#include "urlnavigator.h"
+#include "kurlnavigator.h"
 
 #include <assert.h>
 
@@ -33,8 +34,8 @@
 #include <QPixmap>
 #include <kicon.h>
 
-BookmarkSelector::BookmarkSelector(UrlNavigator* parent, KFilePlacesModel* placesModel) :
-    UrlButton(parent),
+KFilePlacesSelector::KFilePlacesSelector(KUrlNavigator* parent, KFilePlacesModel* placesModel) :
+    KUrlButton(parent),
     m_selectedItem(-1),
     m_urlNavigator(parent),
     m_placesModel(placesModel)
@@ -55,11 +56,11 @@ BookmarkSelector::BookmarkSelector(UrlNavigator* parent, KFilePlacesModel* place
     setMenu(m_placesMenu);
 }
 
-BookmarkSelector::~BookmarkSelector()
+KFilePlacesSelector::~KFilePlacesSelector()
 {
 }
 
-void BookmarkSelector::updateMenu()
+void KFilePlacesSelector::updateMenu()
 {
     m_placesMenu->clear();
 
@@ -81,7 +82,7 @@ void BookmarkSelector::updateMenu()
     }
 }
 
-void BookmarkSelector::updateSelection(const KUrl& url)
+void KFilePlacesSelector::updateSelection(const KUrl& url)
 {
     QModelIndex index = m_placesModel->closestItem(url);
 
@@ -97,7 +98,7 @@ void BookmarkSelector::updateSelection(const KUrl& url)
     }
 }
 
-KUrl BookmarkSelector::selectedPlaceUrl() const
+KUrl KFilePlacesSelector::selectedPlaceUrl() const
 {
     QModelIndex index = m_placesModel->index(m_selectedItem, 0);
 
@@ -107,7 +108,7 @@ KUrl BookmarkSelector::selectedPlaceUrl() const
         return KUrl();
 }
 
-QString BookmarkSelector::selectedPlaceText() const
+QString KFilePlacesSelector::selectedPlaceText() const
 {
     QModelIndex index = m_placesModel->index(m_selectedItem, 0);
 
@@ -117,13 +118,13 @@ QString BookmarkSelector::selectedPlaceText() const
         return QString();
 }
 
-QSize BookmarkSelector::sizeHint() const
+QSize KFilePlacesSelector::sizeHint() const
 {
-    const int height = UrlButton::sizeHint().height();
+    const int height = KUrlButton::sizeHint().height();
     return QSize(height, height);
 }
 
-void BookmarkSelector::paintEvent(QPaintEvent* /*event*/)
+void KFilePlacesSelector::paintEvent(QPaintEvent* /*event*/)
 {
     QPainter painter(this);
 
@@ -171,7 +172,7 @@ void BookmarkSelector::paintEvent(QPaintEvent* /*event*/)
     painter.drawPixmap(x, y, pixmap);
 }
 
-void BookmarkSelector::activatePlace(QAction* action)
+void KFilePlacesSelector::activatePlace(QAction* action)
 {
     assert(action != 0);
     m_selectedItem = action->data().toInt();
@@ -184,5 +185,5 @@ void BookmarkSelector::activatePlace(QAction* action)
     }
 }
 
-#include "bookmarkselector.moc"
+#include "kfileplacesselector_p.moc"
 

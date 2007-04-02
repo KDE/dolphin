@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at)                  *
+ *   Copyright (C) 2007 by Kevin Ottens (ervin@kde.org)                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,14 +18,14 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef BOOKMARKSELECTOR_H
-#define BOOKMARKSELECTOR_H
+#ifndef KFILEPLACESSELECTOR_P_H
+#define KFILEPLACESSELECTOR_P_H
 
-#include <urlbutton.h>
+#include "kurlbutton_p.h"
 #include <kurl.h>
 
 class KFilePlacesModel;
-class UrlNavigator;
+class KUrlNavigator;
 class KMenu;
 
 /**
@@ -35,7 +36,7 @@ class KMenu;
  *
  * @see UrlNavigator
  */
-class BookmarkSelector : public UrlButton
+class KFilePlacesSelector : public KUrlButton
 {
     Q_OBJECT
 
@@ -44,9 +45,9 @@ public:
      * @param parent Parent widget where the bookmark selector
      *               is embedded into.
      */
-    BookmarkSelector(UrlNavigator* parent, KFilePlacesModel* placesModel);
+    KFilePlacesSelector(KUrlNavigator* parent, KFilePlacesModel* placesModel);
 
-    virtual ~BookmarkSelector();
+    virtual ~KFilePlacesSelector();
 
     /**
      * Updates the selection dependent from the given URL \a url. The
@@ -90,7 +91,7 @@ private slots:
 
 private:
     int m_selectedItem;
-    UrlNavigator* m_urlNavigator;
+    KUrlNavigator* m_urlNavigator;
     KMenu* m_placesMenu;
     KFilePlacesModel* m_placesModel;
 };
