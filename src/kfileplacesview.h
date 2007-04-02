@@ -19,8 +19,6 @@
 #ifndef KFILEPLACESVIEW_H
 #define KFILEPLACESVIEW_H
 
-#include <kdelibs_export.h>
-
 #include <QListView>
 
 #include <kurl.h>
@@ -30,7 +28,7 @@ class QAbstractItemModel;
 /**
  * This class allows to display a KFilePlacesModel.
  */
-class KIO_EXPORT KFilePlacesView : public QListView
+class /*KIO_EXPORT*/ KFilePlacesView : public QListView
 {
     Q_OBJECT
 public:
