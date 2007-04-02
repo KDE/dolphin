@@ -25,7 +25,7 @@
 
 #include <kiconloader.h>
 #include <kglobalsettings.h>
-#include <kbookmarkmanager.h>
+#include <kfileplacesmodel.h>
 #include <kmenu.h>
 #include <kdebug.h>
 
@@ -33,65 +33,88 @@
 #include <QPixmap>
 #include <kicon.h>
 
-BookmarkSelector::BookmarkSelector(UrlNavigator* parent, KBookmarkManager* bookmarkManager) :
+BookmarkSelector::BookmarkSelector(UrlNavigator* parent, KFilePlacesModel* placesModel) :
     UrlButton(parent),
-    m_selectedAddress(),
+    m_selectedItem(-1),
     m_urlNavigator(parent),
-    m_bookmarkManager(bookmarkManager)
+    m_placesModel(placesModel)
 {
     setFocusPolicy(Qt::NoFocus);
 
-    m_bookmarksMenu = new KMenu(this);
+    m_placesMenu = new KMenu(this);
 
-    KBookmarkGroup root = m_bookmarkManager->root();
-    KBookmark bookmark = root.first();
-    int i = 0;
-    while (!bookmark.isNull()) {
-        QAction* action = new QAction(MainBarIcon(bookmark.icon()),
-                                      bookmark.text(),
-                                      this);
-        m_bookmarksMenu->addAction(action);
-        QString address = QChar('/');
-        address += QString::number(i);
-        action->setData(address);
-        if (address == m_selectedAddress) {
-            QPixmap pixmap = SmallIcon(bookmark.icon());
-            setIcon(QIcon(pixmap));
-            setIconSize(pixmap.size());
-            setMinimumWidth(pixmap.width() + 2);
-        }
-        bookmark = root.next(bookmark);
-        ++i;
-    }
+    updateMenu();
 
-    connect(m_bookmarksMenu, SIGNAL(triggered(QAction*)),
-            this, SLOT(activateBookmark(QAction*)));
+    connect(m_placesModel, SIGNAL(rowsInserted(const QModelIndex&, int, int)),
+            this, SLOT(updateMenu()));
+    connect(m_placesModel, SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
+            this, SLOT(updateMenu()));
+    connect(m_placesMenu, SIGNAL(triggered(QAction*)),
+            this, SLOT(activatePlace(QAction*)));
 
-    setMenu(m_bookmarksMenu);
+    setMenu(m_placesMenu);
 }
 
 BookmarkSelector::~BookmarkSelector()
 {
 }
 
+void BookmarkSelector::updateMenu()
+{
+    m_placesMenu->clear();
+
+    for (int i=0; i<m_placesModel->rowCount(); ++i) {
+        QModelIndex index = m_placesModel->index(i, 0);
+        QAction* action = new QAction(m_placesModel->icon(index),
+                                      m_placesModel->text(index),
+                                      m_placesMenu);
+        m_placesMenu->addAction(action);
+
+        action->setData(i);
+
+        if (i == m_selectedItem) {
+            //QPixmap pixmap = SmallIcon(bookmark.icon());
+            setIcon(m_placesModel->icon(index));
+            //setIconSize(pixmap.size());
+            //setMinimumWidth(pixmap.width() + 2);
+        }
+    }
+}
+
 void BookmarkSelector::updateSelection(const KUrl& url)
 {
-    KBookmark bookmark = m_bookmarkManager->root().closestBookmark(url);
-    if (!bookmark.isNull()) {
-        m_selectedAddress = bookmark.address();
-        setIcon(KIcon(bookmark.icon()));
+    QModelIndex index = m_placesModel->closestItem(url);
+
+    if (index.isValid()) {
+        m_selectedItem = index.row();
+        setIcon(m_placesModel->icon(index));
     }
     else {
-        m_selectedAddress = QString();
+        m_selectedItem = -1;
         // No bookmark has been found which matches to the given Url. Show
         // a generic folder icon as pixmap for indication:
         setIcon(KIcon("folder"));
     }
 }
 
-KBookmark BookmarkSelector::selectedBookmark() const
+KUrl BookmarkSelector::selectedPlaceUrl() const
 {
-    return m_bookmarkManager->findByAddress(m_selectedAddress);
+    QModelIndex index = m_placesModel->index(m_selectedItem, 0);
+
+    if (index.isValid())
+        return m_placesModel->url(index);
+    else
+        return KUrl();
+}
+
+QString BookmarkSelector::selectedPlaceText() const
+{
+    QModelIndex index = m_placesModel->index(m_selectedItem, 0);
+
+    if (index.isValid())
+        return m_placesModel->text(index);
+    else
+        return QString();
 }
 
 QSize BookmarkSelector::sizeHint() const
@@ -148,14 +171,17 @@ void BookmarkSelector::paintEvent(QPaintEvent* /*event*/)
     painter.drawPixmap(x, y, pixmap);
 }
 
-void BookmarkSelector::activateBookmark(QAction* action)
+void BookmarkSelector::activatePlace(QAction* action)
 {
     assert(action != 0);
-    m_selectedAddress = action->data().toString();
+    m_selectedItem = action->data().toInt();
 
-    const KBookmark bookmark = selectedBookmark();
-    setPixmap(SmallIcon(bookmark.icon()));
-    emit bookmarkActivated(bookmark.url());
+    QModelIndex index = m_placesModel->index(m_selectedItem, 0);
+
+    if (index.isValid()) {
+        setIcon(m_placesModel->icon(index));
+        emit placeActivated(m_placesModel->url(index));
+    }
 }
 
 #include "bookmarkselector.moc"

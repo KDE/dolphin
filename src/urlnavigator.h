@@ -25,7 +25,7 @@
 #include <kurl.h>
 #include <QWidget>
 
-class KBookmarkManager;
+class KFilePlacesModel;
 class QMouseEvent;
 
 /**
@@ -50,7 +50,7 @@ class UrlNavigator : public QWidget
     Q_OBJECT
 
 public:
-    UrlNavigator(KBookmarkManager* bookmarkManager, const KUrl& url, QWidget* parent);
+    UrlNavigator(KFilePlacesModel* placesModel, const KUrl& url, QWidget* parent);
     virtual ~UrlNavigator();
 
     /** Returns the current active URL. */

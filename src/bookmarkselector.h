@@ -20,12 +20,12 @@
 #ifndef BOOKMARKSELECTOR_H
 #define BOOKMARKSELECTOR_H
 
-#include <kbookmark.h>
 #include <urlbutton.h>
+#include <kurl.h>
 
+class KFilePlacesModel;
 class UrlNavigator;
 class KMenu;
-class KUrl;
 
 /**
  * @brief Allows to select a bookmark from a popup menu.
@@ -44,7 +44,7 @@ public:
      * @param parent Parent widget where the bookmark selector
      *               is embedded into.
      */
-    BookmarkSelector(UrlNavigator* parent, KBookmarkManager* bookmarkManager);
+    BookmarkSelector(UrlNavigator* parent, KFilePlacesModel* placesModel);
 
     virtual ~BookmarkSelector();
 
@@ -58,7 +58,9 @@ public:
     void updateSelection(const KUrl& url);
 
     /** Returns the selected bookmark. */
-    KBookmark selectedBookmark() const;
+    KUrl selectedPlaceUrl() const;
+    /** Returns the selected bookmark. */
+    QString selectedPlaceText() const;
 
     /** @see QWidget::sizeHint() */
     virtual QSize sizeHint() const;
@@ -66,9 +68,9 @@ public:
 signals:
     /**
      * Is send when a bookmark has been activated by the user.
-     * @param url URL of the selected bookmark.
+     * @param url URL of the selected place.
      */
-    void bookmarkActivated(const KUrl& url);
+    void placeActivated(const KUrl& url);
 
 protected:
     /**
@@ -82,13 +84,15 @@ private slots:
      * Updates the selected index and the icon to the bookmark
      * which is indicated by the triggered action \a action.
      */
-    void activateBookmark(QAction* action);
+    void activatePlace(QAction* action);
+
+    void updateMenu();
 
 private:
-    QString m_selectedAddress;
+    int m_selectedItem;
     UrlNavigator* m_urlNavigator;
-    KMenu* m_bookmarksMenu;
-    KBookmarkManager* m_bookmarkManager;
+    KMenu* m_placesMenu;
+    KFilePlacesModel* m_placesModel;
 };
 
 #endif

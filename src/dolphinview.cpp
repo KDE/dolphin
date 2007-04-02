@@ -31,6 +31,7 @@
 
 #include <kdirmodel.h>
 #include <kfileitemdelegate.h>
+#include <kfileplacesmodel.h>
 #include <klocale.h>
 #include <kiconeffect.h>
 #include <kio/netaccess.h>
@@ -96,7 +97,7 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     connect(clipboard, SIGNAL(dataChanged()),
             this, SLOT(updateCutItems()));
 
-    m_urlNavigator = new UrlNavigator(DolphinSettings::instance().bookmarkManager(), url, this);
+    m_urlNavigator = new UrlNavigator(new KFilePlacesModel(this), url, this);
     m_urlNavigator->setUrlEditable(DolphinSettings::instance().generalSettings()->editableUrl());
     m_urlNavigator->setHomeUrl(DolphinSettings::instance().generalSettings()->homeUrl());
     m_urlNavigator->setShowHiddenFiles(showHiddenFiles);

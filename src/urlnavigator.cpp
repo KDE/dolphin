@@ -98,7 +98,7 @@ HistoryElem::~HistoryElem()
 class UrlNavigator::Private
 {
 public:
-    Private(UrlNavigator* q, KBookmarkManager* bookmarkManager);
+    Private(UrlNavigator* q, KFilePlacesModel* placesModel);
 
     void slotReturnPressed(const QString&);
     void slotRemoteHostActivated();
@@ -162,7 +162,7 @@ public:
 };
 
 
-UrlNavigator::Private::Private(UrlNavigator* q, KBookmarkManager* bookmarkManager)
+UrlNavigator::Private::Private(UrlNavigator* q, KFilePlacesModel* placesModel)
     :
     m_active(true),
     m_showHiddenFiles(false),
@@ -189,8 +189,8 @@ UrlNavigator::Private::Private(UrlNavigator* q, KBookmarkManager* bookmarkManage
             q, SLOT(switchView()));
 
     // initialize the bookmark selector
-    m_bookmarkSelector = new BookmarkSelector(q, bookmarkManager);
-    connect(m_bookmarkSelector, SIGNAL(bookmarkActivated(const KUrl&)),
+    m_bookmarkSelector = new BookmarkSelector(q, placesModel);
+    connect(m_bookmarkSelector, SIGNAL(placeActivated(const KUrl&)),
             q, SLOT(setUrl(const KUrl&)));
 
     // initialize the path box of the traditional view
@@ -403,39 +403,39 @@ void UrlNavigator::Private::updateContent()
         m_filler->show();
 
         // get the data from the currently selected bookmark
-        KBookmark bookmark = m_bookmarkSelector->selectedBookmark();
+        KUrl placeUrl = m_bookmarkSelector->selectedPlaceUrl();
 
-        QString bookmarkPath;
-        if (bookmark.isNull()) {
-            // No bookmark is a part of the current Url.
-            // The following code tries to guess the bookmark
+        QString placePath;
+        if (!placeUrl.isValid()) {
+            // No place is a part of the current Url.
+            // The following code tries to guess the place
             // path. E. g. "fish://root@192.168.0.2/var/lib" writes
-            // "fish://root@192.168.0.2" to 'bookmarkPath', which leads to the
+            // "fish://root@192.168.0.2" to 'placePath', which leads to the
             // navigation indication 'Custom Path > var > lib".
             int idx = path.indexOf(QString("//"));
             idx = path.indexOf("/", (idx < 0) ? 0 : idx + 2);
-            bookmarkPath = (idx < 0) ? path : path.left(idx);
+            placePath = (idx < 0) ? path : path.left(idx);
         }
         else {
-            bookmarkPath = bookmark.url().pathOrUrl();
+            placePath = placeUrl.pathOrUrl();
         }
-        const uint len = bookmarkPath.length();
+        const uint len = placePath.length();
 
         // calculate the start point for the URL navigator buttons by counting
-        // the slashs inside the bookmark URL
+        // the slashs inside the place URL
         int slashCount = 0;
         for (uint i = 0; i < len; ++i) {
-            if (bookmarkPath.at(i) == QChar('/')) {
+            if (placePath.at(i) == QChar('/')) {
                 ++slashCount;
             }
         }
-        if ((len > 0) && bookmarkPath.at(len - 1) == QChar('/')) {
+        if ((len > 0) && placePath.at(len - 1) == QChar('/')) {
             assert(slashCount > 0);
             --slashCount;
         }
 
         const KUrl currentUrl = q->url();
-        if (!currentUrl.isLocalFile() && bookmark.isNull()) {
+        if (!currentUrl.isLocalFile() && !placeUrl.isValid()) {
             QString protocol = currentUrl.protocol();
             if (!m_protocols) {
                 deleteButtons();
@@ -511,9 +511,9 @@ void UrlNavigator::Private::updateButtons(const QString& path, int startIndex)
             QString text;
             if (isFirstButton) {
                 // the first URL navigator button should get the name of the
-                // bookmark instead of the directory name
-                const KBookmark bookmark = m_bookmarkSelector->selectedBookmark();
-                text = bookmark.text();
+                // place instead of the directory name
+                const KUrl placeUrl = m_bookmarkSelector->selectedPlaceUrl();
+                text = m_bookmarkSelector->selectedPlaceText();
                 if (text.isEmpty()) {
                     if (currentUrl.isLocalFile()) {
                         text = i18n("Custom Path");
@@ -576,11 +576,11 @@ void UrlNavigator::Private::deleteButtons()
 ////
 
 
-UrlNavigator::UrlNavigator(KBookmarkManager* bookmarkManager,
+UrlNavigator::UrlNavigator(KFilePlacesModel* placesModel,
                            const KUrl& url,
                            QWidget* parent) :
     QWidget(parent),
-    d( new Private(this, bookmarkManager) )
+    d( new Private(this, placesModel) )
 {
     d->m_history.prepend(HistoryElem(url));
 
