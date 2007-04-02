@@ -151,9 +151,9 @@ QModelIndex KFilePlacesModel::closestItem(const KUrl &url) const
         KUrl itemUrl;
 
         if (item->isDevice()) {
-            itemUrl = KUrl(d->deviceData(item->deviceIndex(), UrlRole).toString());
+            itemUrl = KUrl(d->deviceData(item->deviceIndex(), UrlRole).toUrl());
         } else {
-            itemUrl = KUrl(d->bookmarkData(item->bookmarkAddress(), UrlRole).toString());
+            itemUrl = KUrl(d->bookmarkData(item->bookmarkAddress(), UrlRole).toUrl());
         }
 
         if (itemUrl.isParentOf(url)) {
@@ -184,7 +184,7 @@ QVariant KFilePlacesModel::Private::bookmarkData(const QString &address, int rol
     case Qt::DecorationRole:
         return KIcon(bookmark.icon());
     case UrlRole:
-        return bookmark.url();
+        return QUrl(bookmark.url());
     case MountNeededRole:
         return false;
     default:
@@ -198,7 +198,7 @@ QVariant KFilePlacesModel::Private::deviceData(const QPersistentModelIndex &inde
         switch (role)
         {
         case UrlRole:
-            return KUrl(deviceModel->deviceForIndex(index).as<Solid::Volume>()->mountPoint());
+            return QUrl(KUrl(deviceModel->deviceForIndex(index).as<Solid::Volume>()->mountPoint()));
         case MountNeededRole:
             return !deviceModel->deviceForIndex(index).as<Solid::Volume>()->isMounted();
         default:
