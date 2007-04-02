@@ -134,7 +134,7 @@ int KFilePlacesModel::rowCount(const QModelIndex &parent) const
 int KFilePlacesModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    // We only know 1 information for a particualiar entry
+    // We only know 1 piece of information for a particular entry
     return 1;
 }
 
