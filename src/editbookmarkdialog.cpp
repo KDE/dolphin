@@ -123,7 +123,7 @@ void EditBookmarkDialog::selectIcon()
 void EditBookmarkDialog::selectLocation()
 {
     const QString location(m_location->text());
-    KUrl url(KFileDialog::getExistingUrl(location));
+    KUrl url(KFileDialog::getExistingDirectoryUrl(location));
     if (!url.isEmpty()) {
         m_location->setText(url.prettyUrl());
     }

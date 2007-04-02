@@ -134,7 +134,7 @@ void GeneralSettingsPage::applySettings()
 void GeneralSettingsPage::selectHomeUrl()
 {
     const QString homeUrl(m_homeUrl->text());
-    KUrl url(KFileDialog::getExistingUrl(homeUrl));
+    KUrl url(KFileDialog::getExistingDirectoryUrl(homeUrl));
     if (!url.isEmpty()) {
         m_homeUrl->setText(url.prettyUrl());
     }
