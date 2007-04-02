@@ -37,10 +37,6 @@ install(TARGETS dolphinprivate  DESTINATION ${LIB_INSTALL_DIR} )
 
 set(dolphin_SRCS
    applyviewpropsjob.cpp
-   kfileplacesmodel.cpp
-   kfileplacesitem.cpp
-   kfileplacesview.cpp
-   kfileplacesselector.cpp
    bookmarkssettingspage.cpp
    bookmarkssidebarpage.cpp
    columnviewsettingspage.cpp
@@ -63,7 +59,6 @@ set(dolphin_SRCS
    infosidebarpage.cpp
    main.cpp
    metadatawidget.cpp
-   kprotocolcombo.cpp
    pixmapviewer.cpp
    renamedialog.cpp
    settingspagebase.cpp
@@ -73,9 +68,6 @@ set(dolphin_SRCS
    treeviewcontextmenu.cpp
    treeviewsidebarpage.cpp
    sidebartreeview.cpp
-   kurlbutton.cpp
-   kurlnavigator.cpp
-   kurlnavigatorbutton.cpp
    viewpropertiesdialog.cpp
    viewsettingspage.cpp
    viewpropsprogressinfo.cpp )
@@ -100,7 +92,7 @@ else(KMETADATA_INCLUDE_DIR AND KMETADATA_LIBRARY)
 set(KDE4_KMETADATA "")
 endif(KMETADATA_INCLUDE_DIR AND KMETADATA_LIBRARY AND KMETADATA_TOOLS_LIBRARY)
 configure_file(config-kmetadata.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kmetadata.h )
-target_link_libraries(dolphin  ${KDE4_KDECORE_LIBS} ${KDE4_KDEPRINT_LIBS} ${KDE4_KMETADATA} konq dolphinprivate)
+target_link_libraries(dolphin  ${KDE4_KDECORE_LIBS} ${KDE4_KDEPRINT_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KMETADATA} konq dolphinprivate)
 
 install(TARGETS dolphin DESTINATION ${BIN_INSTALL_DIR})
 
