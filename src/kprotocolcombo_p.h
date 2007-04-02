@@ -30,20 +30,20 @@ class KProtocolCombo : public KUrlNavigatorButton
 {
     Q_OBJECT
 
-    public:
-        explicit KProtocolCombo(const QString& protocol, KUrlNavigator* parent = 0);
+public:
+    explicit KProtocolCombo(const QString& protocol, KUrlNavigator* parent = 0);
 
-        QString currentProtocol() const;
+    QString currentProtocol() const;
 
-    public slots:
-        void setProtocol(const QString& protocol);
-        void setProtocol(int index);
+public Q_SLOTS:
+    void setProtocol(const QString& protocol);
+    void setProtocol(int index);
 
-    signals:
-        void activated(const QString& protocol);
+Q_SIGNALS:
+    void activated(const QString& protocol);
 
-    private:
-        QStringList m_protocols;
+private:
+    QStringList m_protocols;
 };
 
 #endif

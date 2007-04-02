@@ -66,7 +66,7 @@ public:
     /** @see QWidget::sizeHint() */
     virtual QSize sizeHint() const;
 
-signals:
+Q_SIGNALS:
     /**
      * Is send when a bookmark has been activated by the user.
      * @param url URL of the selected place.
@@ -80,7 +80,7 @@ protected:
      */
     virtual void paintEvent(QPaintEvent* event);
 
-private slots:
+private Q_SLOTS:
     /**
      * Updates the selected index and the icon to the bookmark
      * which is indicated by the triggered action \a action.

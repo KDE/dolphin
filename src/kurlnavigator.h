@@ -145,7 +145,7 @@ public:
     void dropUrls(const KUrl::List& urls,
                   const KUrl& destination);
 
-public slots:
+public Q_SLOTS:
     /**
      * Sets the current active URL.
      * The signals UrlNavigator::urlChanged and UrlNavigator::historyChanged
@@ -165,7 +165,7 @@ public slots:
      */
     void storeContentsPosition(int x, int y);
 
-signals:
+Q_SIGNALS:
     /**
      * Is emitted, if the URL navigator has been activated by
      * a user interaction.
