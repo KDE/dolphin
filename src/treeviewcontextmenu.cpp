@@ -159,14 +159,7 @@ void TreeViewContextMenu::moveToTrash()
 
 void TreeViewContextMenu::deleteItem()
 {
-    const KUrl& url = m_fileInfo->url();
-    const bool del = KonqOperations::askDeleteConfirmation(url,
-                                                           KonqOperations::DEL,
-                                                           KonqOperations::FORCE_CONFIRMATION,
-                                                           m_parent);
-    if (del) {
-        KIO::del(url);
-    }
+    KonqOperations::del(m_parent, KonqOperations::DEL, m_fileInfo->url());
 }
 
 void TreeViewContextMenu::showProperties()
