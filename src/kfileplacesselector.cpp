@@ -64,7 +64,8 @@ void KFilePlacesSelector::updateMenu()
 {
     m_placesMenu->clear();
 
-    for (int i=0; i<m_placesModel->rowCount(); ++i) {
+    const int rowCount = m_placesModel->rowCount();
+    for (int i=0; i<rowCount; ++i) {
         QModelIndex index = m_placesModel->index(i, 0);
         QAction* action = new QAction(m_placesModel->icon(index),
                                       m_placesModel->text(index),
