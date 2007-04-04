@@ -48,14 +48,14 @@ DolphinSortFilterProxyModel::DolphinSortFilterProxyModel(QObject* parent) :
     QSortFilterProxyModel(parent),
     m_sortColumn(0),
     m_sorting(DolphinView::SortByName),
-    m_sortOrder(Qt::Ascending)
+    m_sortOrder(Qt::AscendingOrder)
 {
     setDynamicSortFilter(true);
 
     // sort by the user visible string for now
     setSortRole(Qt::DisplayRole);
     setSortCaseSensitivity(Qt::CaseInsensitive);
-    sort(KDirModel::Name, Qt::Ascending);
+    sort(KDirModel::Name, Qt::AscendingOrder);
 }
 
 DolphinSortFilterProxyModel::~DolphinSortFilterProxyModel()

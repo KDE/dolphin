@@ -318,7 +318,7 @@ void DolphinMainWindow::slotSortingChanged(DolphinView::Sorting sorting)
 void DolphinMainWindow::slotSortOrderChanged(Qt::SortOrder order)
 {
     KToggleAction* descending = static_cast<KToggleAction*>(actionCollection()->action("descending"));
-    const bool sortDescending = (order == Qt::Descending);
+    const bool sortDescending = (order == Qt::DescendingOrder);
     descending->setChecked(sortDescending);
 }
 
@@ -720,9 +720,9 @@ void DolphinMainWindow::sortByGroup()
 
 void DolphinMainWindow::toggleSortOrder()
 {
-    const Qt::SortOrder order = (m_activeView->sortOrder() == Qt::Ascending) ?
-                                Qt::Descending :
-                                Qt::Ascending;
+    const Qt::SortOrder order = (m_activeView->sortOrder() == Qt::AscendingOrder) ?
+                                Qt::DescendingOrder :
+                                Qt::AscendingOrder;
     m_activeView->setSortOrder(order);
 }
 

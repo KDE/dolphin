@@ -61,7 +61,7 @@ TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
     m_treeView->setModel(m_proxyModel);
 
     m_proxyModel->setSorting(DolphinView::SortByName);
-    m_proxyModel->setSortOrder(Qt::Ascending);
+    m_proxyModel->setSortOrder(Qt::AscendingOrder);
 
     connect(m_treeView, SIGNAL(clicked(const QModelIndex&)),
             this, SLOT(updateActiveView(const QModelIndex&)));

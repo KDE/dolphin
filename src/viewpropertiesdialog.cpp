@@ -91,7 +91,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_sortOrder = new QComboBox(sortingBox);
     m_sortOrder->addItem(i18n("Ascending"));
     m_sortOrder->addItem(i18n("Descending"));
-    const int sortOrderIdx = (m_viewProps->sortOrder() == Qt::Ascending) ? 0 : 1;
+    const int sortOrderIdx = (m_viewProps->sortOrder() == Qt::AscendingOrder) ? 0 : 1;
     m_sortOrder->setCurrentIndex(sortOrderIdx);
 
     m_sorting = new QComboBox(sortingBox);
@@ -228,7 +228,7 @@ void ViewPropertiesDialog::slotSortingChanged(int index)
 
 void ViewPropertiesDialog::slotSortOrderChanged(int index)
 {
-    Qt::SortOrder sortOrder = (index == 0) ? Qt::Ascending : Qt::Descending;
+    Qt::SortOrder sortOrder = (index == 0) ? Qt::AscendingOrder : Qt::DescendingOrder;
     m_viewProps->setSortOrder(sortOrder);
     m_isDirty = true;
 }

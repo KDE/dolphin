@@ -39,9 +39,9 @@
 
         <entry name="SortOrder" type="Int" >
             <label>Order to sort files in</label>
-            <default code="true">Qt::Ascending</default>
-            <min code="true">Qt::Ascending</min>
-            <max code="true">Qt::Descending</max>
+            <default code="true">Qt::AscendingOrder</default>
+            <min code="true">Qt::AscendingOrder</min>
+            <max code="true">Qt::DescendingOrder</max>
         </entry>
 
         <entry name="AdditionalInfo" type="Int">
