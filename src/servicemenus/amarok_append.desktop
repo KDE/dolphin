@@ -12,6 +12,7 @@ Name[el]=Προσθήκη στη λίστα
 Name[ja]=プレイリストに追加
 Name[nds]=Na Afspeellist anhangen
 Name[x-test]=xxAppend to Playlistxx
+Name[zh_TW]=附加到播放清單
 Icon=amarok
 Exec=amarok -e %U
 
@@ -22,6 +23,7 @@ Name[el]=Προσθήκη & αναπαραγωγή
 Name[ja]=追加して再生
 Name[nds]=Anhangen un Afspelen
 Name[x-test]=xxAppend & Playxx
+Name[zh_TW]=附加並播放
 Icon=amarok
 Exec=dcop amarok playlist playMedia %U
 
@@ -32,5 +34,6 @@ Name[el]=Κομμάτι σε αναμονή
 Name[ja]=トラックをキュー
 Name[nds]=Stück inregen
 Name[x-test]=xxQueue Trackxx
+Name[zh_TW]=佇列追蹤
 Icon=amarok
 Exec=amarok --queue %U
