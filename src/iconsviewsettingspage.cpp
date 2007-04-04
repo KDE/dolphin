@@ -37,6 +37,7 @@
 #include <QPushButton>
 #include <QSpinBox>
 #include <QGridLayout>
+#include <QtDebug>
 
 IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
                                              QWidget* parent) :
@@ -99,6 +100,9 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     else {
         textWidthIndex = (remainingWidth - TopToBottomBase) / TopToBottomInc;
     }
+    // ensure that chosen index is always valid
+    textWidthIndex = qMax(textWidthIndex,0); 
+    textWidthIndex = qMin(textWidthIndex,m_textWidthBox->count()-1);
 
     m_textWidthBox->setCurrentIndex(textWidthIndex);
 
