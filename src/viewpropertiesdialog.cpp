@@ -86,7 +86,15 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_viewMode->setCurrentIndex(index);
 
     QLabel* sortingLabel = new QLabel(i18n("Sorting:"), propsBox);
-    m_sorting = new QComboBox(propsBox);
+    QWidget* sortingBox = new QWidget(propsBox);
+
+    m_sortOrder = new QComboBox(sortingBox);
+    m_sortOrder->addItem(i18n("Ascending"));
+    m_sortOrder->addItem(i18n("Descending"));
+    const int sortOrderIdx = (m_viewProps->sortOrder() == Qt::Ascending) ? 0 : 1;
+    m_sortOrder->setCurrentIndex(sortOrderIdx);
+
+    m_sorting = new QComboBox(sortingBox);
     m_sorting->addItem("By Name");
     m_sorting->addItem("By Size");
     m_sorting->addItem("By Date");
@@ -95,12 +103,11 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_sorting->addItem("By Group");
     m_sorting->setCurrentIndex(m_viewProps->sorting());
 
-    QLabel* sortOrderLabel = new QLabel(i18n("Sort order:"), propsBox);
-    m_sortOrder = new QComboBox(propsBox);
-    m_sortOrder->addItem(i18n("Ascending"));
-    m_sortOrder->addItem(i18n("Descending"));
-    const int sortOrderIdx = (m_viewProps->sortOrder() == Qt::Ascending) ? 0 : 1;
-    m_sortOrder->setCurrentIndex(sortOrderIdx);
+    QHBoxLayout* sortingLayout = new QHBoxLayout();
+    sortingLayout->setMargin(0);
+    sortingLayout->addWidget(m_sortOrder);
+    sortingLayout->addWidget(m_sorting);
+    sortingBox->setLayout(sortingLayout);
 
     QLabel* additionalInfoLabel = new QLabel(i18n("Additional information:"), propsBox);
     m_additionalInfo = new QComboBox(propsBox);
@@ -121,15 +128,12 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     QGridLayout* propsBoxLayout = new QGridLayout(propsBox);
     propsBoxLayout->addWidget(viewModeLabel, 0, 0);
     propsBoxLayout->addWidget(m_viewMode, 0, 1);
-    propsBoxLayout->addWidget(m_sorting, 1, 1);
     propsBoxLayout->addWidget(sortingLabel, 1, 0);
-    propsBoxLayout->addWidget(m_sorting, 1, 1);
-    propsBoxLayout->addWidget(sortOrderLabel, 2, 0);
-    propsBoxLayout->addWidget(m_sortOrder, 2, 1);
-    propsBoxLayout->addWidget(additionalInfoLabel, 3, 0);
-    propsBoxLayout->addWidget(m_additionalInfo, 3, 1);
-    propsBoxLayout->addWidget(m_showPreview, 4, 0);
-    propsBoxLayout->addWidget(m_showHiddenFiles, 5, 0);
+    propsBoxLayout->addWidget(sortingBox, 1, 1);
+    propsBoxLayout->addWidget(additionalInfoLabel, 2, 0);
+    propsBoxLayout->addWidget(m_additionalInfo, 2, 1);
+    propsBoxLayout->addWidget(m_showPreview, 3, 0);
+    propsBoxLayout->addWidget(m_showHiddenFiles, 4, 0);
 
     topLayout->addWidget(propsBox);
 
