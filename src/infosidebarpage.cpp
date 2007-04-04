@@ -103,10 +103,6 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     m_actionBox = new KVBox(this);
     m_actionBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
-    // Add a dummy widget with no restriction regarding a vertical resizing.
-    // This assures that information is always top aligned.
-    QWidget* dummy = new QWidget(this);
-
     layout->addItem(new QSpacerItem(spacing, spacing, QSizePolicy::Preferred, QSizePolicy::Fixed));
     layout->addWidget(m_preview);
     layout->addWidget(m_name);
@@ -118,7 +114,8 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
         layout->addWidget( new KSeparator( this ) );
     }
     layout->addWidget(m_actionBox);
-    layout->addWidget(dummy);
+    // ensure that widgets in the information side bar are aligned towards the top
+    layout->addStretch(1);
     setLayout(layout);
 }
 
