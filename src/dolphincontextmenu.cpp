@@ -160,10 +160,10 @@ void DolphinContextMenu::openItemContextMenu()
 
     popup->addSeparator();
 
-    // insert 'Bookmark this folder' entry if exactly one item is selected
+    // insert 'Bookmark This Folder' entry if exactly one item is selected
     QAction* bookmarkAction = 0;
     if (m_fileInfo->isDir() && (m_selectedUrls.count() == 1)) {
-        bookmarkAction = popup->addAction(KIcon("bookmark-folder"), i18n("Bookmark folder"));
+        bookmarkAction = popup->addAction(KIcon("bookmark-folder"), i18n("Bookmark Folder..."));
     }
 
     // Insert 'Open With...' sub menu
@@ -183,7 +183,7 @@ void DolphinContextMenu::openItemContextMenu()
 
     if ((bookmarkAction!= 0) && (activatedAction == bookmarkAction)) {
         const KUrl selectedUrl(m_fileInfo->url());
-        KBookmark bookmark = EditBookmarkDialog::getBookmark(i18n("Add folder as bookmark"),
+        KBookmark bookmark = EditBookmarkDialog::getBookmark(i18n("Add Folder as Bookmark"),
                                                              selectedUrl.fileName(),
                                                              selectedUrl,
                                                              "bookmark");
@@ -247,10 +247,10 @@ void DolphinContextMenu::openViewportContextMenu()
     popup->addMenu(viewModeMenu);
     popup->addSeparator();
 
-    QAction* bookmarkAction = popup->addAction(KIcon("bookmark-folder"), i18n("Bookmark this folder"));
+    QAction* bookmarkAction = popup->addAction(KIcon("bookmark-folder"), i18n("Bookmark This Folder..."));
     popup->addSeparator();
 
-    QAction* propertiesAction = popup->addAction(i18n("Properties..."));
+    QAction* propertiesAction = popup->addAction(i18n("Properties"));
 
     QAction* activatedAction = popup->exec(QCursor::pos());
     if (activatedAction == propertiesAction) {
@@ -258,7 +258,7 @@ void DolphinContextMenu::openViewportContextMenu()
     }
     else if (activatedAction == bookmarkAction) {
         const KUrl& url = m_mainWindow->activeView()->url();
-        KBookmark bookmark = EditBookmarkDialog::getBookmark(i18n("Add folder as bookmark"),
+        KBookmark bookmark = EditBookmarkDialog::getBookmark(i18n("Add Folder as Bookmark"),
                                                              url.fileName(),
                                                              url,
                                                              "bookmark");

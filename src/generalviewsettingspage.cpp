@@ -56,8 +56,8 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
 
     QGroupBox* propsBox = new QGroupBox(i18n("View Properties"), this);
 
-    m_localProps = new QRadioButton(i18n("Remember view properties for each folder."), propsBox);
-    m_globalProps = new QRadioButton(i18n("Use common view properties for all folders."), propsBox);
+    m_localProps = new QRadioButton(i18n("Remember view properties for each folder"), propsBox);
+    m_globalProps = new QRadioButton(i18n("Use common view properties for all folders"), propsBox);
     if (settings->globalViewProps()) {
         m_globalProps->setChecked(true);
     }

@@ -156,8 +156,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     // Only show the following settings if the view properties are remembered
     // for each directory:
     if (!useGlobalViewProps) {
-        // create 'Apply view properties to:' group
-        QGroupBox* applyBox = new QGroupBox(i18n("Apply view properties to:"), main);
+        // create 'Apply View Properties To' group
+        QGroupBox* applyBox = new QGroupBox(i18n("Apply View Properties To"), main);
 
         m_applyToCurrentFolder = new QRadioButton(i18n("Current folder"), applyBox);
         m_applyToCurrentFolder->setChecked(true);

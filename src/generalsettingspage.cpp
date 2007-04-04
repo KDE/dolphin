@@ -54,7 +54,7 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin,QWidget* par
     vBox->setSpacing(spacing);
 
     // create 'Home URL' editor
-    QGroupBox* homeBox = new QGroupBox(i18n("Home folder"), vBox);
+    QGroupBox* homeBox = new QGroupBox(i18n("Home Folder"), vBox);
 
     KHBox* homeUrlBox = new KHBox(homeBox);
     homeUrlBox->setSpacing(spacing);
@@ -69,10 +69,10 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin,QWidget* par
     KHBox* buttonBox = new KHBox(homeBox);
     buttonBox->setSpacing(spacing);
 
-    QPushButton* useCurrentButton = new QPushButton(i18n("Use current location"), buttonBox);
+    QPushButton* useCurrentButton = new QPushButton(i18n("Use Current Location"), buttonBox);
     connect(useCurrentButton, SIGNAL(clicked()),
             this, SLOT(useCurrentLocation()));
-    QPushButton* useDefaultButton = new QPushButton(i18n("Use default location"), buttonBox);
+    QPushButton* useDefaultButton = new QPushButton(i18n("Use Default Location"), buttonBox);
     connect(useDefaultButton, SIGNAL(clicked()),
             this, SLOT(useDefaultLocation()));
 

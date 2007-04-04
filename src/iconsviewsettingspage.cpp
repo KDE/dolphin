@@ -64,7 +64,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     m_iconSize = settings->iconSize();
     m_previewSize = settings->previewSize();
 
-    m_iconSizeButton = new QPushButton(i18n("Change icon and preview size..."), this);
+    m_iconSizeButton = new QPushButton(i18n("Change Icon && Preview Size..."), this);
     connect(m_iconSizeButton, SIGNAL(clicked()),
             this, SLOT(openIconSizeDialog()));
 
@@ -120,8 +120,8 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
 
     QLabel* arrangementLabel = new QLabel(i18n("Arrangement:"), gridGroup);
     m_arrangementBox = new QComboBox(gridGroup);
-    m_arrangementBox->addItem(i18n("Left to right"));
-    m_arrangementBox->addItem(i18n("Top to bottom"));
+    m_arrangementBox->addItem(i18n("Left to Right"));
+    m_arrangementBox->addItem(i18n("Top to Bottom"));
     m_arrangementBox->setCurrentIndex(leftToRightArrangement ? 0 : 1);
 
     QLabel* gridSpacingLabel = new QLabel(i18n("Grid spacing:"), gridGroup);

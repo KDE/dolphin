@@ -69,7 +69,7 @@ void TreeViewContextMenu::open()
     popup->addSeparator();
 
     // insert 'Rename'
-    QAction* renameAction = new QAction(i18n("Rename"), this);
+    QAction* renameAction = new QAction(i18n("Rename..."), this);
     connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
     popup->addAction(renameAction);
 

@@ -50,7 +50,7 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
 
     const int spacing = KDialog::spacingHint();
 
-    setCaption(i18n("Change Icon and Preview Size"));
+    setCaption(i18n("Change Icon & Preview Size"));
     setButtons(Ok|Cancel);
     setDefaultButton(Ok);
 

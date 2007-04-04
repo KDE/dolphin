@@ -1061,7 +1061,7 @@ void DolphinMainWindow::setupActions()
     // setup 'File' menu
     m_newMenu = new DolphinNewMenu(this);
     KMenu* menu = m_newMenu->menu();
-    menu->setTitle(i18n("Create New..."));
+    menu->setTitle(i18n("Create New"));
     menu->setIcon(KIcon("document-new"));
     connect(menu, SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
@@ -1073,7 +1073,7 @@ void DolphinMainWindow::setupActions()
     connect(newWindow, SIGNAL(triggered()), this, SLOT(openNewMainWindow()));
 
     QAction* rename = actionCollection()->addAction("rename");
-    rename->setText(i18n("Rename"));
+    rename->setText(i18n("Rename..."));
     rename->setShortcut(Qt::Key_F2);
     connect(rename, SIGNAL(triggered()), this, SLOT(rename()));
 
