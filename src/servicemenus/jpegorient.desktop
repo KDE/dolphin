@@ -39,6 +39,7 @@ Exec=jpegorient +270 %F
 
 [Desktop Action jpegFlipV]
 Name=Flip Vertically
+Name[de]=Vertikal spiegeln
 Name[el]=Αναστροφή κατακόρυφα
 Name[ja]=上下反転
 Name[nds]=Pielliek ümdreihen
@@ -49,6 +50,7 @@ Exec=jpegorient v %F
 
 [Desktop Action jpegFlipH]
 Name=Flip Horizontally
+Name[de]=Horizontal spiegeln
 Name[el]=Αναστροφή οριζόντια
 Name[ja]=左右反転
 Name[nds]=Waagrecht ümdreihen
