@@ -100,7 +100,6 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     m_urlNavigator = new KUrlNavigator(new KFilePlacesModel(this), url, this);
     m_urlNavigator->setUrlEditable(DolphinSettings::instance().generalSettings()->editableUrl());
     m_urlNavigator->setHomeUrl(DolphinSettings::instance().generalSettings()->homeUrl());
-    m_urlNavigator->setShowHiddenFiles(showHiddenFiles);
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(loadDirectory(const KUrl&)));
     connect(m_urlNavigator, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&)),
@@ -108,7 +107,7 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     connect(m_urlNavigator, SIGNAL(activated()),
             this, SLOT(requestActivation()));
     connect(this, SIGNAL(contentsMoved(int, int)),
-            m_urlNavigator, SLOT(storeContentsPosition(int, int)));
+            m_urlNavigator, SLOT(savePosition(int, int)));
 
     m_statusBar = new DolphinStatusBar(this);
 
@@ -246,8 +245,6 @@ void DolphinView::setShowHiddenFiles(bool show)
     props.save();
 
     m_dirLister->setShowingDotFiles(show);
-    m_urlNavigator->setShowHiddenFiles(show);
-
     emit showHiddenFilesChanged();
 
     reload();
