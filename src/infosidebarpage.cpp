@@ -33,7 +33,7 @@
 #include <QInputDialog>
 #include <QDir>
 
-#include <kbookmarkmanager.h>
+#include <kfileplacesmodel.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <kio/previewjob.h>
@@ -240,23 +240,21 @@ void InfoSidebarPage::startService(int index)
 
 bool InfoSidebarPage::applyBookmark(const KUrl& url)
 {
-    KBookmarkGroup root = DolphinSettings::instance().bookmarkManager()->root();
-    KBookmark bookmark = root.first();
-    while (!bookmark.isNull()) {
-        if (url.equals(bookmark.url(), KUrl::CompareWithoutTrailingSlash)) {
+    KFilePlacesModel *placesModel = DolphinSettings::instance().placesModel();
+    int count = placesModel->rowCount();
+
+    for (int i=0; i<count; ++i) {
+        QModelIndex index = placesModel->index(i, 0);
+
+        if (url.equals(placesModel->url(index), KUrl::CompareWithoutTrailingSlash)) {
             QString text("<b>");
-            text.append(bookmark.text());
+            text.append(placesModel->text(index));
             text.append("</b>");
             m_name->setText(text);
 
-            KIconLoader iconLoader;
-            QPixmap icon = iconLoader.loadIcon(bookmark.icon(),
-                                               K3Icon::NoGroup,
-                                               K3Icon::SizeEnormous);
-            m_preview->setPixmap(icon);
+            m_preview->setPixmap(placesModel->icon(index).pixmap(128, 128));
             return true;
         }
-        bookmark = root.next(bookmark);
     }
 
     return false;

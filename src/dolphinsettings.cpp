@@ -20,8 +20,7 @@
 
 #include "dolphinsettings.h"
 
-#include <kbookmark.h>
-#include <kbookmarkmanager.h>
+#include <kfileplacesmodel.h>
 #include <kcomponentdata.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
@@ -40,33 +39,12 @@ DolphinSettings& DolphinSettings::instance()
     return *instance;
 }
 
-KBookmark DolphinSettings::bookmark(int index) const
-{
-    return bookmarkManager()->findByAddress(QString('/') + QString::number(index));
-}
-
-KBookmarkManager* DolphinSettings::bookmarkManager() const
-{
-    QString basePath = KGlobal::mainComponent().componentName();
-    basePath.append("/bookmarks.xml");
-    const QString file = KStandardDirs::locateLocal("data", basePath);
-
-    return KBookmarkManager::managerForFile(file, "dolphin", false);
-}
-
 void DolphinSettings::save()
 {
     m_generalSettings->writeConfig();
     m_iconsModeSettings->writeConfig();
     m_detailsModeSettings->writeConfig();
     m_columnModeSettings->writeConfig();
-
-    QString basePath = KGlobal::mainComponent().componentName();
-    basePath.append("/bookmarks.xml");
-    const QString file = KStandardDirs::locateLocal( "data", basePath);
-
-    KBookmarkManager* manager = KBookmarkManager::managerForFile(file, "dolphin", false);
-    manager->save(false);
 }
 
 DolphinSettings::DolphinSettings()
@@ -75,6 +53,7 @@ DolphinSettings::DolphinSettings()
     m_iconsModeSettings = new IconsModeSettings();
     m_detailsModeSettings = new DetailsModeSettings();
     m_columnModeSettings = new ColumnModeSettings();
+    m_placesModel = new KFilePlacesModel();
 }
 
 DolphinSettings::~DolphinSettings()
@@ -90,4 +69,7 @@ DolphinSettings::~DolphinSettings()
 
     delete m_columnModeSettings;
     m_columnModeSettings = 0;
+
+    delete m_placesModel;
+    m_placesModel = 0;
 }

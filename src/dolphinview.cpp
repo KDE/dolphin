@@ -97,7 +97,7 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     connect(clipboard, SIGNAL(dataChanged()),
             this, SLOT(updateCutItems()));
 
-    m_urlNavigator = new KUrlNavigator(new KFilePlacesModel(this), url, this);
+    m_urlNavigator = new KUrlNavigator(DolphinSettings::instance().placesModel(), url, this);
     m_urlNavigator->setUrlEditable(DolphinSettings::instance().generalSettings()->editableUrl());
     m_urlNavigator->setHomeUrl(DolphinSettings::instance().generalSettings()->homeUrl());
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),

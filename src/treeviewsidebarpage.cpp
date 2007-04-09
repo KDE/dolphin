@@ -19,13 +19,13 @@
 
 #include "treeviewsidebarpage.h"
 
-#include "kbookmarkmanager.h"
 #include "dolphinmainwindow.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
 #include "sidebartreeview.h"
 #include "treeviewcontextmenu.h"
 
+#include <kfileplacesmodel.h>
 #include <kdirlister.h>
 #include <kdirmodel.h>
 #include <kfileitem.h>
@@ -88,8 +88,8 @@ void TreeViewSidebarPage::setUrl(const KUrl& url)
     m_url = url;
 
     // adjust the root of the tree to the base bookmark
-    KBookmarkManager* bookmarkManager = DolphinSettings::instance().bookmarkManager();
-    const KUrl baseUrl = bookmarkManager->root().closestBookmark(url).url();
+    KFilePlacesModel *placesModel = DolphinSettings::instance().placesModel();
+    const KUrl baseUrl = placesModel->url(placesModel->closestItem(url));
     if (m_dirLister->url() != baseUrl) {
         m_dirLister->stop();
         m_dirLister->openUrl(baseUrl);

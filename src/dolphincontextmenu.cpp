@@ -23,11 +23,9 @@
 #include "dolphinmainwindow.h"
 #include "dolphinsettings.h"
 #include "dolphinview.h"
-#include "editbookmarkdialog.h"
 
 #include <kactioncollection.h>
-#include <kbookmarkmanager.h>
-#include <kbookmark.h>
+#include <kfileplacesmodel.h>
 #include <kdesktopfile.h>
 #include <kglobal.h>
 #include <kiconloader.h>
@@ -183,15 +181,9 @@ void DolphinContextMenu::openItemContextMenu()
 
     if ((bookmarkAction!= 0) && (activatedAction == bookmarkAction)) {
         const KUrl selectedUrl(m_fileInfo->url());
-        KBookmark bookmark = EditBookmarkDialog::getBookmark(i18n("Add Folder as Bookmark"),
-                                                             selectedUrl.fileName(),
-                                                             selectedUrl,
-                                                             "bookmark");
-        if (!bookmark.isNull()) {
-            KBookmarkManager* manager = DolphinSettings::instance().bookmarkManager();
-            KBookmarkGroup root = manager->root();
-            root.addBookmark(manager, bookmark);
-            manager->emitChanged(root);
+        if (selectedUrl.isValid()) {
+            DolphinSettings::instance().placesModel()->addPlace(selectedUrl.fileName(),
+                                                                selectedUrl);
         }
     }
     else if (serviceActions.contains(activatedAction)) {
@@ -258,15 +250,8 @@ void DolphinContextMenu::openViewportContextMenu()
     }
     else if (activatedAction == bookmarkAction) {
         const KUrl& url = m_mainWindow->activeView()->url();
-        KBookmark bookmark = EditBookmarkDialog::getBookmark(i18n("Add Folder as Bookmark"),
-                                                             url.fileName(),
-                                                             url,
-                                                             "bookmark");
-        if (!bookmark.isNull()) {
-            KBookmarkManager* manager = DolphinSettings::instance().bookmarkManager();
-            KBookmarkGroup root = manager->root();
-            root.addBookmark(manager, bookmark);
-            manager->emitChanged(root);
+        if (url.isValid()) {
+            DolphinSettings::instance().placesModel()->addPlace(url.fileName(), url);
         }
     }
 

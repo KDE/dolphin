@@ -22,7 +22,6 @@
 #include <config-kmetadata.h>
 #include "dolphinmainwindow.h"
 
-#include "bookmarkssidebarpage.h"
 #include "dolphinapplication.h"
 #include "dolphinnewmenu.h"
 #include "dolphinsettings.h"
@@ -42,7 +41,6 @@
 
 #include <kaction.h>
 #include <kactioncollection.h>
-#include <kbookmarkmanager.h>
 #include <kconfig.h>
 #include <kdesktopfile.h>
 #include <kdeversion.h>
@@ -976,17 +974,6 @@ void DolphinMainWindow::init()
 
     DolphinSettings& settings = DolphinSettings::instance();
 
-    KBookmarkManager* manager = settings.bookmarkManager();
-    Q_ASSERT(manager != 0);
-    KBookmarkGroup root = manager->root();
-    if (root.first().isNull()) {
-        root.addBookmark(manager, i18n("Home"), settings.generalSettings()->homeUrl(), "folder-home");
-        root.addBookmark(manager, i18n("Storage Media"), KUrl("media:/"), "hdd-mount");
-        root.addBookmark(manager, i18n("Network"), KUrl("remote:/"), "network-local");
-        root.addBookmark(manager, i18n("Root"), KUrl("/"), "folder-red");
-        root.addBookmark(manager, i18n("Trash"), KUrl("trash:/"), "user-trash");
-    }
-
     setupActions();
 
     const KUrl& homeUrl = settings.generalSettings()->homeUrl();
@@ -1288,20 +1275,6 @@ void DolphinMainWindow::setupDockWidgets()
     // TODO: there's a lot copy/paste code here. Provide a generic approach
     // after the dock concept has been finalized.
 
-    // setup "Bookmarks"
-    QDockWidget* shortcutsDock = new QDockWidget(i18n("Bookmarks"), this);
-    shortcutsDock->setObjectName("bookmarksDock");
-    shortcutsDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    SidebarPage* shortcutsWidget = new BookmarksSidebarPage(shortcutsDock);
-    shortcutsDock->setWidget(shortcutsWidget);
-
-
-    shortcutsDock->toggleViewAction()->setText(i18n("Show Bookmarks Panel"));
-    actionCollection()->addAction("show_bookmarks_panel", shortcutsDock->toggleViewAction());
-
-    addDockWidget(Qt::LeftDockWidgetArea, shortcutsDock);
-    connectSidebarPage(shortcutsWidget);
-
     // setup "Information"
     QDockWidget* infoDock = new QDockWidget(i18n("Information"), this);
     infoDock->setObjectName("infoDock");
@@ -1335,13 +1308,12 @@ void DolphinMainWindow::setupDockWidgets()
         treeViewDock->hide();
     }
 
-    // FIXME: To merge with the current bookmark sidebar
     QDockWidget *placesDock = new QDockWidget(i18n("Places"));
     placesDock->setObjectName("placesDock");
     placesDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     KFilePlacesView *listView = new KFilePlacesView(placesDock);
     placesDock->setWidget(listView);
-    listView->setModel(new KFilePlacesModel(listView));
+    listView->setModel(DolphinSettings::instance().placesModel());
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
     connect(listView, SIGNAL(urlChanged(KUrl)),
             this, SLOT(changeUrl(KUrl)));

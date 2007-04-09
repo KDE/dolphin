@@ -23,7 +23,6 @@
 #include <kicon.h>
 #include "generalsettingspage.h"
 #include "viewsettingspage.h"
-#include "bookmarkssettingspage.h"
 #include "dolphinapplication.h"
 #include "dolphinmainwindow.h"
 //Added by qt3to4:
@@ -48,10 +47,6 @@ DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
     m_viewSettingsPage = new ViewSettingsPage(mainWindow, this);
     KPageWidgetItem* viewSettingsFrame = addPage(m_viewSettingsPage, i18n("View Modes"));
     viewSettingsFrame->setIcon(KIcon("view-choose"));
-
-    m_bookmarksSettingsPage = new BookmarksSettingsPage(mainWindow, this);
-    KPageWidgetItem* bookmarksSettingsFrame = addPage(m_bookmarksSettingsPage, i18n("Bookmarks"));
-    bookmarksSettingsFrame->setIcon(KIcon("bookmark"));
 }
 
 DolphinSettingsDialog::~DolphinSettingsDialog()
@@ -70,7 +65,6 @@ void DolphinSettingsDialog::applySettings()
 {
     m_generalSettingsPage->applySettings();
     m_viewSettingsPage->applySettings();
-    m_bookmarksSettingsPage->applySettings();
     DolphinApplication::app()->refreshMainWindows();
 }
 

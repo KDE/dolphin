@@ -29,7 +29,7 @@ kde4_automoc(${dolphinprivate_LIB_SRCS})
 
 kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
 
-target_link_libraries(dolphinprivate ${KDE4_KDEUI_LIBS} konq)
+target_link_libraries(dolphinprivate ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} konq)
 
 set_target_properties(dolphinprivate PROPERTIES VERSION 1.0.0 SOVERSION 1 )
 install(TARGETS dolphinprivate  DESTINATION ${LIB_INSTALL_DIR} )
@@ -39,8 +39,6 @@ install(TARGETS dolphinprivate  DESTINATION ${LIB_INSTALL_DIR} )
 
 set(dolphin_SRCS
    applyviewpropsjob.cpp
-   bookmarkssettingspage.cpp
-   bookmarkssidebarpage.cpp
    columnviewsettingspage.cpp
    detailsviewsettingspage.cpp
    dolphinapplication.cpp
@@ -52,7 +50,6 @@ set(dolphin_SRCS
    dolphindirlister.cpp
    dolphincontextmenu.cpp
    dolphinsettingsdialog.cpp
-   editbookmarkdialog.cpp
    filterbar.cpp
    generalsettingspage.cpp
    generalviewsettingspage.cpp

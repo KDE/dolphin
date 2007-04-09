@@ -24,7 +24,6 @@
 #include <kpagedialog.h>
 class GeneralSettingsPage;
 class ViewSettingsPage;
-class BookmarksSettingsPage;
 class DolphinMainWindow;
 
 /**
@@ -49,7 +48,6 @@ private:
     DolphinMainWindow* m_mainWindow;
     GeneralSettingsPage* m_generalSettingsPage;
     ViewSettingsPage* m_viewSettingsPage;
-    BookmarksSettingsPage* m_bookmarksSettingsPage;
 
     void applySettings();
 };

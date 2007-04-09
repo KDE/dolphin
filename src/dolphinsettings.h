@@ -27,8 +27,7 @@ class ColumnModeSettings;
 class DetailsModeSettings;
 class GeneralSettings;
 class IconsModeSettings;
-class KBookmark;
-class KBookmarkManager;
+class KFilePlacesModel;
 
 /**
  * @brief Manages and stores all settings from Dolphin.
@@ -49,13 +48,7 @@ public:
     IconsModeSettings* iconsModeSettings() const { return m_iconsModeSettings; }
     DetailsModeSettings* detailsModeSettings() const { return m_detailsModeSettings; }
     ColumnModeSettings* columnModeSettings() const { return m_columnModeSettings; }
-
-    KBookmarkManager* bookmarkManager() const;
-
-    // TODO: should this really belong here or get moved to a derived KBookmarkManager?
-    // Dolphin uses some lists where an index is given and the corresponding bookmark
-    // should get retrieved...
-    KBookmark bookmark(int index) const;
+    KFilePlacesModel* placesModel() const { return m_placesModel; }
 
     /** @see DolphinSettingsBase::save */
     virtual void save();
@@ -69,6 +62,7 @@ private:
     IconsModeSettings* m_iconsModeSettings;
     DetailsModeSettings* m_detailsModeSettings;
     ColumnModeSettings* m_columnModeSettings;
+    KFilePlacesModel* m_placesModel;
 };
 
 #endif
