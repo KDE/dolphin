@@ -54,14 +54,14 @@
 #include "metadatawidget.h"
 
 InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
-    SidebarPage(parent),
-    m_multipleSelection(false), //TODO:check if I'm needed
-    m_pendingPreview(false),
-    m_timer(0),
-    m_currentSelection(KFileItemList()),
-    m_preview(0),
-    m_name(0),
-    m_infos(0)
+        SidebarPage(parent),
+        m_multipleSelection(false), //TODO:check if I'm needed
+        m_pendingPreview(false),
+        m_timer(0),
+        m_currentSelection(KFileItemList()),
+        m_preview(0),
+        m_name(0),
+        m_infos(0)
 {
     const int spacing = KDialog::spacingHint();
 
@@ -94,8 +94,8 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
 
     KSeparator* sep2 = new KSeparator(this);
 
-    if ( MetaDataWidget::metaDataAvailable() )
-        m_metadataWidget = new MetaDataWidget( this );
+    if (MetaDataWidget::metaDataAvailable())
+        m_metadataWidget = new MetaDataWidget(this);
     else
         m_metadataWidget = 0;
 
@@ -109,9 +109,9 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     layout->addWidget(sep1);
     layout->addWidget(m_infos);
     layout->addWidget(sep2);
-    if ( m_metadataWidget ) {
-        layout->addWidget( m_metadataWidget );
-        layout->addWidget( new KSeparator( this ) );
+    if (m_metadataWidget) {
+        layout->addWidget(m_metadataWidget);
+        layout->addWidget(new KSeparator(this));
     }
     layout->addWidget(m_actionBox);
     // ensure that widgets in the information side bar are aligned towards the top
@@ -120,8 +120,7 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
 }
 
 InfoSidebarPage::~InfoSidebarPage()
-{
-}
+{}
 
 void InfoSidebarPage::setUrl(const KUrl& url)
 {
@@ -157,7 +156,7 @@ void InfoSidebarPage::showItemInfo()
 
     KFileItemList selectedItems = m_currentSelection;
     KUrl file;
-    if(selectedItems.count() == 0) {
+    if (selectedItems.count() == 0) {
         file = m_shownUrl;
     } else {
         file = selectedItems[0]->url();
@@ -168,9 +167,8 @@ void InfoSidebarPage::showItemInfo()
                                            K3Icon::NoGroup,
                                            K3Icon::SizeEnormous);
         m_preview->setPixmap(icon);
-        m_name->setText(i18n("%1 items selected",selectedItems.count()));
-    }
-    else if (!applyBookmark(file)) {
+        m_name->setText(i18n("%1 items selected", selectedItems.count()));
+    } else if (!applyBookmark(file)) {
         // try to get a preview pixmap from the item...
         KUrl::List list;
         list.append(file);
@@ -231,8 +229,7 @@ void InfoSidebarPage::startService(int index)
     if (m_currentSelection.count() > 0) {
         // TODO: Use "at()" as soon as executeService is fixed to take a const param (BIC)
         KDesktopFileActions::executeService(m_currentSelection.urlList(), m_actionsVector[index]);
-    }
-    else {
+    } else {
         // TODO: likewise
         KDesktopFileActions::executeService(m_shownUrl, m_actionsVector[index]);
     }
@@ -243,7 +240,7 @@ bool InfoSidebarPage::applyBookmark(const KUrl& url)
     KFilePlacesModel *placesModel = DolphinSettings::instance().placesModel();
     int count = placesModel->rowCount();
 
-    for (int i=0; i<count; ++i) {
+    for (int i = 0; i < count; ++i) {
         QModelIndex index = placesModel->index(i, 0);
 
         if (url.equals(placesModel->url(index), KUrl::CompareWithoutTrailingSlash)) {
@@ -269,17 +266,16 @@ void InfoSidebarPage::cancelRequest()
 void InfoSidebarPage::createMetaInfo()
 {
     beginInfoLines();
-    if(m_currentSelection.size() == 0) {
+    if (m_currentSelection.size() == 0) {
         KFileItem fileItem(S_IFDIR, KFileItem::Unknown, m_shownUrl);
         fileItem.refresh();
 
         if (fileItem.isDir()) {
             addInfoLine(i18n("Type:"), i18n("Directory"));
         }
-        if ( MetaDataWidget::metaDataAvailable() )
-            m_metadataWidget->setFile( fileItem.url() );
-    }
-    else if (m_currentSelection.count() == 1) {
+        if (MetaDataWidget::metaDataAvailable())
+            m_metadataWidget->setFile(fileItem.url());
+    } else if (m_currentSelection.count() == 1) {
         KFileItem* fileItem = m_currentSelection.at(0);
         addInfoLine(i18n("Type:"), fileItem->mimeComment());
 
@@ -297,12 +293,11 @@ void InfoSidebarPage::createMetaInfo()
                 }
             }
         }
-        if ( MetaDataWidget::metaDataAvailable() )
-            m_metadataWidget->setFile( fileItem->url() );
-    }
-    else {
-        if ( MetaDataWidget::metaDataAvailable() )
-            m_metadataWidget->setFiles( m_currentSelection.urlList() );
+        if (MetaDataWidget::metaDataAvailable())
+            m_metadataWidget->setFile(fileItem->url());
+    } else {
+        if (MetaDataWidget::metaDataAvailable())
+            m_metadataWidget->setFiles(m_currentSelection.urlList());
         unsigned long int totSize = 0;
         foreach(KFileItem* item, m_currentSelection) {
             totSize += item->size(); //FIXME what to do with directories ? (same with the one-item-selected-code), item->size() does not return the size of the content : not very instinctive for users
@@ -326,19 +321,19 @@ bool InfoSidebarPage::showMetaInfo(const QString& key) const
 {
     // sorted list of keys, where it's data should be shown
     static const char* keys[] = {
-        "Album",
-        "Artist",
-        "Author",
-        "Bitrate",
-        "Date",
-        "Dimensions",
-        "Genre",
-        "Length",
-        "Lines",
-        "Pages",
-        "Title",
-        "Words"
-    };
+                                    "Album",
+                                    "Artist",
+                                    "Author",
+                                    "Bitrate",
+                                    "Date",
+                                    "Dimensions",
+                                    "Genre",
+                                    "Length",
+                                    "Lines",
+                                    "Pages",
+                                    "Title",
+                                    "Words"
+                                };
 
     // do a binary search for the key...
     int top = 0;
@@ -348,11 +343,9 @@ bool InfoSidebarPage::showMetaInfo(const QString& key) const
         const int result = key.compare(keys[middle]);
         if (result < 0) {
             bottom = middle - 1;
-        }
-        else if (result > 0) {
+        } else if (result > 0) {
             top = middle + 1;
-        }
-        else {
+        } else {
             return true;
         }
     }
@@ -400,7 +393,7 @@ void InfoSidebarPage::insertActions()
         QStringList entries = dir.entryList(QStringList("*.desktop"), QDir::Files);
 
         for (QStringList::ConstIterator entryIt = entries.begin(); entryIt != entries.end(); ++entryIt) {
-            KConfigGroup cfg(KSharedConfig::openConfig( *dirIt + *entryIt, KConfig::OnlyLocal ), "Desktop Entry" );
+            KConfigGroup cfg(KSharedConfig::openConfig(*dirIt + *entryIt, KConfig::OnlyLocal), "Desktop Entry");
             if ((cfg.hasKey("Actions") || cfg.hasKey("X-KDE-GetActionMenu")) && cfg.hasKey("ServiceTypes")) {
                 const QStringList types = cfg.readEntry("ServiceTypes", QStringList(), ',');
                 for (QStringList::ConstIterator it = types.begin(); it != types.end(); ++it) {
@@ -437,7 +430,7 @@ void InfoSidebarPage::insertActions()
                     }
 
                     if (insert) {
-                        const QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
+                        const QString submenuName = cfg.readEntry("X-KDE-Submenu");
                         QMenu* popup = 0;
                         if (!submenuName.isEmpty()) {
                             // create a sub menu containing all actions
@@ -460,14 +453,13 @@ void InfoSidebarPage::insertActions()
                             KDesktopFileActions::Service service = (*serviceIt);
                             if (popup == 0) {
                                 ServiceButton* button = new ServiceButton(KIcon(service.m_strIcon),
-                                                                          service.m_strName,
-                                                                          m_actionBox,
-                                                                          actionsIndex);
+                                                        service.m_strName,
+                                                        m_actionBox,
+                                                        actionsIndex);
                                 connect(button, SIGNAL(requestServiceStart(int)),
                                         this, SLOT(startService(int)));
                                 button->show();
-                            }
-                            else {
+                            } else {
                                 popup->insertItem(KIcon(service.m_strIcon), service.m_strName, actionsIndex);
                             }
 
@@ -487,9 +479,9 @@ ServiceButton::ServiceButton(const QIcon& icon,
                              const QString& text,
                              QWidget* parent,
                              int index) :
-    QPushButton(icon, text, parent),
-    m_hover(false),
-    m_index(index)
+        QPushButton(icon, text, parent),
+        m_hover(false),
+        m_index(index)
 {
     setEraseColor(palette().brush(QPalette::Background).color());
     setFocusPolicy(Qt::NoFocus);
@@ -498,8 +490,7 @@ ServiceButton::ServiceButton(const QIcon& icon,
 }
 
 ServiceButton::~ServiceButton()
-{
-}
+{}
 
 void ServiceButton::paintEvent(QPaintEvent* event)
 {
@@ -513,8 +504,7 @@ void ServiceButton::paintEvent(QPaintEvent* event)
     if (m_hover) {
         backgroundColor = KGlobalSettings::highlightColor();
         foregroundColor = KGlobalSettings::highlightedTextColor();
-    }
-    else {
+    } else {
         backgroundColor = palette().brush(QPalette::Background).color();
         foregroundColor = KGlobalSettings::buttonTextColor();
     }

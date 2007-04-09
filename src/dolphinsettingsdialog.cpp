@@ -29,15 +29,15 @@
 #include <QFrame>
 
 DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
-    KPageDialog(),
-    m_mainWindow(mainWindow)
+        KPageDialog(),
+        m_mainWindow(mainWindow)
 {
     const QSize minSize = minimumSize();
     setMinimumSize(QSize(512, minSize.height()));
 
-    setFaceType( List);
+    setFaceType(List);
     setCaption(i18n("Dolphin Preferences"));
-    setButtons(Ok|Apply|Cancel);
+    setButtons(Ok | Apply | Cancel);
     setDefaultButton(Ok);
 
     m_generalSettingsPage = new GeneralSettingsPage(mainWindow, this);
@@ -50,12 +50,11 @@ DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
 }
 
 DolphinSettingsDialog::~DolphinSettingsDialog()
-{
-}
+{}
 
 void DolphinSettingsDialog::slotButtonClicked(int button)
 {
-    if (button==Ok || button==Apply) {
+    if (button == Ok || button == Apply) {
         applySettings();
     }
     KPageDialog::slotButtonClicked(button);

@@ -46,8 +46,14 @@ public:
     explicit IconSizeDialog(QWidget* parent);
     virtual ~IconSizeDialog();
 
-    int iconSize() const { return m_iconSize; }
-    int previewSize() const { return m_previewSize; }
+    int iconSize() const
+    {
+        return m_iconSize;
+    }
+    int previewSize() const
+    {
+        return m_previewSize;
+    }
 
 protected slots:
     virtual void slotButtonClicked(int button);

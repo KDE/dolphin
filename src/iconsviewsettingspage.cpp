@@ -40,17 +40,17 @@
 #include <QtDebug>
 
 IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
-                                             QWidget* parent) :
-    KVBox(parent),
-    m_mainWindow(mainWindow),
-    m_iconSize(0),
-    m_previewSize(0),
-    m_iconSizeButton(0),
-    m_textWidthBox(0),
-    m_fontRequester(0),
-    m_textlinesCountBox(0),
-    m_arrangementBox(0),
-    m_gridSpacingBox(0)
+        QWidget* parent) :
+        KVBox(parent),
+        m_mainWindow(mainWindow),
+        m_iconSize(0),
+        m_previewSize(0),
+        m_iconSizeButton(0),
+        m_textWidthBox(0),
+        m_fontRequester(0),
+        m_textlinesCountBox(0),
+        m_arrangementBox(0),
+        m_gridSpacingBox(0)
 {
     const int spacing = KDialog::spacingHint();
     const int margin = KDialog::marginHint();
@@ -96,13 +96,12 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     const int remainingWidth = settings->gridWidth() - settings->iconSize();
     if (leftToRightArrangement) {
         textWidthIndex = (remainingWidth - LeftToRightBase) / LeftToRightInc;
-    }
-    else {
+    } else {
         textWidthIndex = (remainingWidth - TopToBottomBase) / TopToBottomInc;
     }
     // ensure that chosen index is always valid
-    textWidthIndex = qMax(textWidthIndex,0); 
-    textWidthIndex = qMin(textWidthIndex,m_textWidthBox->count()-1);
+    textWidthIndex = qMax(textWidthIndex, 0);
+    textWidthIndex = qMin(textWidthIndex, m_textWidthBox->count() - 1);
 
     m_textWidthBox->setCurrentIndex(textWidthIndex);
 
@@ -144,8 +143,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
 }
 
 IconsViewSettingsPage::~IconsViewSettingsPage()
-{
-}
+{}
 
 void IconsViewSettingsPage::applySettings()
 {
@@ -170,8 +168,7 @@ void IconsViewSettingsPage::applySettings()
     if (arrangement == QListView::TopToBottom) {
         gridWidth += TopToBottomBase + textSizeIndex * TopToBottomInc;
         gridHeight += fontSize * 6;
-    }
-    else {
+    } else {
         gridWidth += LeftToRightBase + textSizeIndex * LeftToRightInc;
     }
 

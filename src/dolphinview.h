@@ -72,12 +72,12 @@ class DolphinView : public QWidget
     Q_OBJECT
 
 public:
-	/**
-     * Defines the view mode for a directory. The view mode
-     * can be defined when constructing a DolphinView. The
-     * view mode is automatically updated if the directory itself
-     * defines a view mode (see class ViewProperties for details).
-     */
+    /**
+        * Defines the view mode for a directory. The view mode
+        * can be defined when constructing a DolphinView. The
+        * view mode is automatically updated if the directory itself
+        * defines a view mode (see class ViewProperties for details).
+        */
     enum Mode
     {
         /**
@@ -307,7 +307,10 @@ public:
     KFileItemDelegate::AdditionalInformation additionalInfo() const;
 
     /** Returns the KUrlNavigator of the view for read access. */
-    const KUrlNavigator* urlNavigator() const { return m_urlNavigator; }
+    const KUrlNavigator* urlNavigator() const
+    {
+        return m_urlNavigator;
+    }
 
     /**
      * Triggers to request user information for the item given
@@ -550,14 +553,18 @@ private:
      * requires some special handling for iterating through directories,
      * this method has been introduced for convenience.
      */
-    bool isColumnViewActive() const { return m_columnView != 0; }
+    bool isColumnViewActive() const
+    {
+        return m_columnView != 0;
+    }
 
 private:
     /**
      * Remembers the original pixmap for an item before
      * the cut effect is applied.
      */
-    struct CutItem {
+    struct CutItem
+    {
         KUrl url;
         QPixmap pixmap;
     };

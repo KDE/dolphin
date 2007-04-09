@@ -33,8 +33,9 @@
 #include <kdesktopfileactions.h>
 #include <kvbox.h>
 
-namespace KIO {
-    class Job;
+namespace KIO
+{
+class Job;
 }
 
 class QPixmap;
@@ -54,7 +55,7 @@ class MetaDataWidget;
  */
 class InfoSidebarPage : public SidebarPage
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
     explicit InfoSidebarPage(QWidget* parent = 0);
@@ -139,7 +140,7 @@ private:
     QTimer* m_timer;
     KUrl m_shownUrl;
     KUrl m_urlCandidate;
-	KFileItemList m_currentSelection;
+    KFileItemList m_currentSelection;
 
     PixmapViewer* m_preview;
     QLabel* m_name;

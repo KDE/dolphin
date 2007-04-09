@@ -63,26 +63,26 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
                          const KUrl& url,
                          Mode mode,
                          bool showHiddenFiles) :
-    QWidget(parent),
-    m_showProgress(false),
-    m_blockContentsMovedSignal(false),
-    m_mode(mode),
-    m_iconSize(0),
-    m_folderCount(0),
-    m_fileCount(0),
-    m_mainWindow(mainWindow),
-    m_topLayout(0),
-    m_urlNavigator(0),
-    m_controller(0),
-    m_iconsView(0),
-    m_detailsView(0),
-    m_columnView(0),
-    m_fileItemDelegate(0),
-    m_filterBar(0),
-    m_statusBar(0),
-    m_dirModel(0),
-    m_dirLister(0),
-    m_proxyModel(0)
+        QWidget(parent),
+        m_showProgress(false),
+        m_blockContentsMovedSignal(false),
+        m_mode(mode),
+        m_iconSize(0),
+        m_folderCount(0),
+        m_fileCount(0),
+        m_mainWindow(mainWindow),
+        m_topLayout(0),
+        m_urlNavigator(0),
+        m_controller(0),
+        m_iconsView(0),
+        m_detailsView(0),
+        m_columnView(0),
+        m_fileItemDelegate(0),
+        m_filterBar(0),
+        m_statusBar(0),
+        m_dirModel(0),
+        m_dirLister(0),
+        m_proxyModel(0)
 {
     hide();
     setFocusPolicy(Qt::StrongFocus);
@@ -164,7 +164,7 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     m_filterBar = new FilterBar(this);
     m_filterBar->hide();
     connect(m_filterBar, SIGNAL(filterChanged(const QString&)),
-           this, SLOT(changeNameFilter(const QString&)));
+            this, SLOT(changeNameFilter(const QString&)));
     connect(m_filterBar, SIGNAL(closeRequest()),
             this, SLOT(closeFilterBar()));
 
@@ -271,8 +271,7 @@ void DolphinView::renameSelectedItems()
         if (newName.isEmpty()) {
             view->statusBar()->setMessage(dialog.errorString(),
                                           DolphinStatusBar::Error);
-        }
-        else {
+        } else {
             // TODO: check how this can be integrated into KonqUndoManager/KonqOperations
             // as one operation instead of n rename operations like it is done now...
             Q_ASSERT(newName.contains('#'));
@@ -300,8 +299,7 @@ void DolphinView::renameSelectedItems()
                 ++it;
             }
         }
-    }
-    else {
+    } else {
         // Only one item has been selected for renaming. Use the custom
         // renaming mechanism from the views.
         Q_ASSERT(urls.count() == 1);
@@ -318,8 +316,7 @@ void DolphinView::renameSelectedItems()
         if (newName.isEmpty()) {
             view->statusBar()->setMessage(dialog.errorString(),
                                           DolphinStatusBar::Error);
-        }
-        else {
+        } else {
             const KUrl& oldUrl = urls.first();
             KUrl newUrl = oldUrl;
             newUrl.setFileName(newName);
@@ -360,7 +357,7 @@ void DolphinView::emitRequestItemInfo(const KUrl& url)
 
 bool DolphinView::isFilterBarVisible() const
 {
-  return m_filterBar->isVisible();
+    return m_filterBar->isVisible();
 }
 
 bool DolphinView::isUrlEditable() const
@@ -522,8 +519,8 @@ void DolphinView::rename(const KUrl& source, const QString& newName)
     dest.addPath(newName);
 
     const bool destExists = KIO::NetAccess::exists(dest,
-                                                   false,
-                                                   mainWindow()->activeView());
+                            false,
+                            mainWindow()->activeView());
     if (destExists) {
         // the destination already exists, hence ask the user
         // how to proceed...
@@ -533,25 +530,24 @@ void DolphinView::rename(const KUrl& source, const QString& newName)
                                        dest.path(),
                                        KIO::M_OVERWRITE);
         switch (renameDialog.exec()) {
-            case KIO::R_OVERWRITE:
-                // the destination should be overwritten
-                ok = KIO::NetAccess::file_move(source, dest, -1, true);
-                break;
+        case KIO::R_OVERWRITE:
+            // the destination should be overwritten
+            ok = KIO::NetAccess::file_move(source, dest, -1, true);
+            break;
 
-            case KIO::R_RENAME: {
-                // a new name for the destination has been used
-                KUrl newDest(renameDialog.newDestUrl());
-                ok = KIO::NetAccess::file_move(source, newDest);
-                break;
-            }
-
-            default:
-                // the renaming operation has been canceled
-                reload();
-                return;
+        case KIO::R_RENAME: {
+            // a new name for the destination has been used
+            KUrl newDest(renameDialog.newDestUrl());
+            ok = KIO::NetAccess::file_move(source, newDest);
+            break;
         }
-    }
-    else {
+
+        default:
+            // the renaming operation has been canceled
+            reload();
+            return;
+        }
+    } else {
         // no destination exists, hence just move the file to
         // do the renaming
         ok = KIO::NetAccess::file_move(source, dest);
@@ -559,13 +555,12 @@ void DolphinView::rename(const KUrl& source, const QString& newName)
 
     const QString destFileName = dest.fileName();
     if (ok) {
-        m_statusBar->setMessage(i18n("Renamed file '%1' to '%2'.",source.fileName(), destFileName),
+        m_statusBar->setMessage(i18n("Renamed file '%1' to '%2'.", source.fileName(), destFileName),
                                 DolphinStatusBar::OperationCompleted);
 
         KonqOperations::rename(this, source, destFileName);
-    }
-    else {
-        m_statusBar->setMessage(i18n("Renaming of file '%1' to '%2' failed.",source.fileName(), destFileName),
+    } else {
+        m_statusBar->setMessage(i18n("Renaming of file '%1' to '%2' failed.", source.fileName(), destFileName),
                                 DolphinStatusBar::Error);
         reload();
     }
@@ -589,7 +584,7 @@ DolphinMainWindow* DolphinView::mainWindow() const
 
 void DolphinView::loadDirectory(const KUrl& url)
 {
-    if(!isActive()) {
+    if (!isActive()) {
         requestActivation();
     }
 
@@ -675,34 +670,29 @@ void DolphinView::triggerItem(const QModelIndex& index)
     KUrl url;
     if (localPath.isEmpty()) {
         url = item->url();
-    }
-    else {
+    } else {
         url = localPath;
     }
 
     if (item->isDir()) {
         setUrl(url);
-    }
-    else if (item->isFile()) {
+    } else if (item->isFile()) {
         // allow to browse through ZIP and tar files
         KMimeType::Ptr mime = item->mimeTypePtr();
         if (mime->is("application/zip")) {
             url.setProtocol("zip");
             setUrl(url);
-        }
-        else if (mime->is("application/x-tar") ||
-                 mime->is("application/x-tarz") ||
-                 mime->is("application/x-bzip-compressed-tar") ||
-                 mime->is("application/x-compressed-tar") ||
-                 mime->is("application/x-tzo")) {
+        } else if (mime->is("application/x-tar") ||
+                   mime->is("application/x-tarz") ||
+                   mime->is("application/x-bzip-compressed-tar") ||
+                   mime->is("application/x-compressed-tar") ||
+                   mime->is("application/x-tzo")) {
             url.setProtocol("tar");
             setUrl(url);
-        }
-        else {
+        } else {
             item->run();
         }
-    }
-    else {
+    } else {
         item->run();
     }
 }
@@ -733,8 +723,7 @@ void DolphinView::updateItemCount()
         KFileItem* item = *it;
         if (item->isDir()) {
             ++m_folderCount;
-        }
-        else {
+        } else {
             ++m_fileCount;
         }
         ++it;
@@ -765,8 +754,7 @@ void DolphinView::showPreview(const KFileItem* item, const QPixmap& pixmap)
             KIconEffect iconEffect;
             const QPixmap cutPixmap = iconEffect.apply(pixmap, K3Icon::Desktop, K3Icon::DisabledState);
             m_dirModel->setData(idx, QIcon(cutPixmap), Qt::DecorationRole);
-        }
-        else {
+        } else {
             m_dirModel->setData(idx, QIcon(pixmap), Qt::DecorationRole);
         }
     }
@@ -811,9 +799,8 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
         const QString location(url.pathOrUrl());
         if (location.isEmpty()) {
             m_statusBar->setMessage(i18n("The location is empty."), DolphinStatusBar::Error);
-        }
-        else {
-            m_statusBar->setMessage(i18n("The location '%1' is invalid.",location),
+        } else {
+            m_statusBar->setMessage(i18n("The location '%1' is invalid.", location),
                                     DolphinStatusBar::Error);
         }
         return;
@@ -844,19 +831,17 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
             if (dirListerUrl.isValid()) {
                 const KUrl::List dirs = m_dirLister->directories();
                 KUrl url;
-                foreach (url, dirs) {
+                foreach(url, dirs) {
                     m_dirLister->updateDirectory(url);
                 }
                 openDir = false;
             }
-        }
-        else if (m_dirLister->directories().contains(url)) {
+        } else if (m_dirLister->directories().contains(url)) {
             // The dir lister contains the directory already, so
             // KDirLister::openUrl() may not been invoked twice.
             m_dirLister->updateDirectory(url);
             openDir = false;
-        }
-        else {
+        } else {
             const KUrl& dirListerUrl = m_dirLister->url();
             if ((dirListerUrl == url) || !m_dirLister->url().isParentOf(url)) {
                 // The current URL is not a child of the dir lister
@@ -895,12 +880,11 @@ QString DolphinView::selectionStatusBarText() const
     KIO::filesize_t byteSize = 0;
     KFileItemList::const_iterator it = list.begin();
     const KFileItemList::const_iterator end = list.end();
-    while (it != end){
+    while (it != end) {
         KFileItem* item = *it;
         if (item->isDir()) {
             ++folderCount;
-        }
-        else {
+        } else {
             ++fileCount;
             byteSize += item->size();
         }
@@ -927,8 +911,7 @@ void DolphinView::showFilterBar(bool show)
     Q_ASSERT(m_filterBar != 0);
     if (show) {
         m_filterBar->show();
-    }
-    else {
+    } else {
         m_filterBar->hide();
     }
 }
@@ -970,7 +953,7 @@ void DolphinView::changeSelection(const KFileItemList& selection)
     KUrl baseUrl = url();
     KUrl url;
     QItemSelection new_selection;
-    foreach (KFileItem* item, selection) {
+    foreach(KFileItem* item, selection) {
         url = item->url().upUrl();
         if (baseUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
             QModelIndex index = m_proxyModel->mapFromSource(m_dirModel->indexForItem(*item));
@@ -1003,7 +986,7 @@ void DolphinView::changeNameFilter(const QString& nameFilter)
     m_dirLister->setNameFilter(adjustedFilter);
     m_dirLister->emitChanges();
 #else
-    m_proxyModel->setFilterRegExp( nameFilter );
+    m_proxyModel->setFilterRegExp(nameFilter);
 #endif
 }
 
@@ -1041,7 +1024,7 @@ void DolphinView::dropUrls(const KUrl::List& urls,
     }
 
     const KUrl& destination = (directory == 0) ? url() :
-                                                 directory->url();
+                              directory->url();
     dropUrls(urls, destination);
 }
 
@@ -1081,7 +1064,7 @@ void DolphinView::emitContentsMoved()
 void DolphinView::updateActivationState()
 {
     m_urlNavigator->setActive(isActive());
-    if(isActive()) {
+    if (isActive()) {
         emit urlChanged(url());
         emit selectionChanged(selectedItems());
     }
@@ -1127,20 +1110,20 @@ void DolphinView::createView()
 
     // ... and recreate it representing the current mode
     switch (m_mode) {
-        case IconsView:
-            m_iconsView = new DolphinIconsView(this, m_controller);
-            view = m_iconsView;
-            break;
+    case IconsView:
+        m_iconsView = new DolphinIconsView(this, m_controller);
+        view = m_iconsView;
+        break;
 
-        case DetailsView:
-            m_detailsView = new DolphinDetailsView(this, m_controller);
-            view = m_detailsView;
-            break;
+    case DetailsView:
+        m_detailsView = new DolphinDetailsView(this, m_controller);
+        view = m_detailsView;
+        break;
 
-        case ColumnView:
-            m_columnView = new DolphinColumnView(this, m_controller);
-            view = m_columnView;
-            break;
+    case ColumnView:
+        m_columnView = new DolphinColumnView(this, m_controller);
+        view = m_columnView;
+        break;
     }
 
     Q_ASSERT(view != 0);
@@ -1169,7 +1152,7 @@ void DolphinView::selectAll(QItemSelectionModel::SelectionFlags flags)
 
     const QModelIndex topLeft = itemModel->index(0, 0);
     const QModelIndex bottomRight = itemModel->index(itemModel->rowCount() - 1,
-                                                     itemModel->columnCount() - 1);
+                                    itemModel->columnCount() - 1);
 
     QItemSelection selection(topLeft, bottomRight);
     selectionModel->select(selection, flags);
@@ -1179,8 +1162,7 @@ QAbstractItemView* DolphinView::itemView() const
 {
     if (m_detailsView != 0) {
         return m_detailsView;
-    }
-    else if (m_columnView != 0) {
+    } else if (m_columnView != 0) {
         return m_columnView;
     }
 
@@ -1200,7 +1182,7 @@ bool DolphinView::isCutItem(const KFileItem& item) const
     const KUrl& itemUrl = item.url();
     KUrl::List::const_iterator it = cutUrls.begin();
     const KUrl::List::const_iterator end = cutUrls.end();
-    while (it != end){
+    while (it != end) {
         if (*it == itemUrl) {
             return true;
         }

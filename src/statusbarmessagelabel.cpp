@@ -34,13 +34,13 @@
 #include <QTimer>
 
 StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
-    QWidget(parent),
-    m_type(DolphinStatusBar::Default),
-    m_state(Default),
-    m_illumination(0),
-    m_minTextHeight(-1),
-    m_timer(0),
-    m_closeButton(0)
+        QWidget(parent),
+        m_type(DolphinStatusBar::Default),
+        m_state(Default),
+        m_illumination(0),
+        m_minTextHeight(-1),
+        m_timer(0),
+        m_closeButton(0)
 {
     setMinimumHeight(K3Icon::SizeSmall);
 
@@ -55,8 +55,7 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
 }
 
 StatusBarMessageLabel::~StatusBarMessageLabel()
-{
-}
+{}
 
 void StatusBarMessageLabel::setMessage(const QString& text,
                                        DolphinStatusBar::Type type)
@@ -68,8 +67,7 @@ void StatusBarMessageLabel::setMessage(const QString& text,
     if (m_type == DolphinStatusBar::Error) {
         if (type == DolphinStatusBar::Error) {
             m_pendingMessages.insert(0, m_text);
-        }
-        else if ((m_state != Default) || !m_pendingMessages.isEmpty()) {
+        } else if ((m_state != Default) || !m_pendingMessages.isEmpty()) {
             // a non-error message should not be shown, as there
             // are other pending error messages in the queue
             return;
@@ -86,29 +84,29 @@ void StatusBarMessageLabel::setMessage(const QString& text,
     const char* iconName = 0;
     QPixmap pixmap;
     switch (type) {
-        case DolphinStatusBar::OperationCompleted:
-            iconName = "ok";
-            m_closeButton->hide();
-            break;
+    case DolphinStatusBar::OperationCompleted:
+        iconName = "ok";
+        m_closeButton->hide();
+        break;
 
-        case DolphinStatusBar::Information:
-            iconName = "document-properties";
-            m_closeButton->hide();
-            break;
+    case DolphinStatusBar::Information:
+        iconName = "document-properties";
+        m_closeButton->hide();
+        break;
 
-        case DolphinStatusBar::Error:
-            iconName = "error";
-            m_timer->start(100);
-            m_state = Illuminate;
+    case DolphinStatusBar::Error:
+        iconName = "error";
+        m_timer->start(100);
+        m_state = Illuminate;
 
-            updateCloseButtonPosition();
-            m_closeButton->show();
-            break;
+        updateCloseButtonPosition();
+        m_closeButton->show();
+        break;
 
-        case DolphinStatusBar::Default:
-        default:
-            m_closeButton->hide();
-            break;
+    case DolphinStatusBar::Default:
+    default:
+        m_closeButton->hide();
+        break;
     }
 
     m_pixmap = (iconName == 0) ? QPixmap() : SmallIcon(iconName);
@@ -176,41 +174,39 @@ void StatusBarMessageLabel::resizeEvent(QResizeEvent* event)
 void StatusBarMessageLabel::timerDone()
 {
     switch (m_state) {
-        case Illuminate: {
-            // increase the illumination
-            if (m_illumination < 100) {
-                m_illumination += 20;
-                update();
-            }
-            else {
-                m_state = Illuminated;
-                m_timer->start(5000);
-            }
-            break;
+    case Illuminate: {
+        // increase the illumination
+        if (m_illumination < 100) {
+            m_illumination += 20;
+            update();
+        } else {
+            m_state = Illuminated;
+            m_timer->start(5000);
         }
+        break;
+    }
 
-        case Illuminated: {
-            // start desaturation
-            m_state = Desaturate;
-            m_timer->start(100);
-            break;
+    case Illuminated: {
+        // start desaturation
+        m_state = Desaturate;
+        m_timer->start(100);
+        break;
+    }
+
+    case Desaturate: {
+        // desaturate
+        if (m_illumination > 0) {
+            m_illumination -= 5;
+            update();
+        } else {
+            m_state = Default;
+            m_timer->stop();
         }
+        break;
+    }
 
-        case Desaturate: {
-            // desaturate
-            if (m_illumination > 0) {
-                m_illumination -= 5;
-                update();
-            }
-            else {
-                m_state = Default;
-                m_timer->stop();
-            }
-            break;
-        }
-
-        default:
-            break;
+    default:
+        break;
     }
 }
 
@@ -224,8 +220,8 @@ void StatusBarMessageLabel::assureVisibleText()
     // needed for having a fully visible text
     QFontMetrics fontMetrics(font());
     const QRect bounds(fontMetrics.boundingRect(0, 0, availableTextWidth(), height(),
-                                                Qt::AlignVCenter | Qt::TextWordWrap,
-                                                m_text));
+                       Qt::AlignVCenter | Qt::TextWordWrap,
+                       m_text));
     int requiredHeight = bounds.height();
     if (requiredHeight < m_minTextHeight) {
         requiredHeight = m_minTextHeight;
@@ -244,8 +240,7 @@ void StatusBarMessageLabel::assureVisibleText()
         }
         setMinimumHeight(minHeight);
         updateGeometry();
-    }
-    else if (minHeight > requiredHeight) {
+    } else if (minHeight > requiredHeight) {
         minHeight -= gap;
         if (minHeight < requiredHeight) {
             minHeight = requiredHeight;

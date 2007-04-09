@@ -27,7 +27,7 @@
 #include <QDBusConnection>
 
 DolphinApplication::DolphinApplication() :
-    m_lastId(0)
+        m_lastId(0)
 {
     new ApplicationAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/dolphin/Application", this);
@@ -78,8 +78,7 @@ int DolphinApplication::newInstance()
         for (int i = 0; i < args->count(); ++i) {
             openWindow(args->arg(i));
         }
-    }
-    else {
+    } else {
         openWindow(QString());
     }
 

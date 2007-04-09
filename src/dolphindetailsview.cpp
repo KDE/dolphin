@@ -33,8 +33,8 @@
 #include <QHeaderView>
 
 DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* controller) :
-    QTreeView(parent),
-    m_controller(controller)
+        QTreeView(parent),
+        m_controller(controller)
 {
     Q_ASSERT(controller != 0);
 
@@ -85,8 +85,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
 }
 
 DolphinDetailsView::~DolphinDetailsView()
-{
-}
+{}
 
 bool DolphinDetailsView::event(QEvent* event)
 {
@@ -186,9 +185,9 @@ void DolphinDetailsView::zoomIn()
         DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
         // TODO: get rid of K3Icon sizes
         switch (settings->iconSize()) {
-            case K3Icon::SizeSmall:  settings->setIconSize(K3Icon::SizeMedium); break;
-            case K3Icon::SizeMedium: settings->setIconSize(K3Icon::SizeLarge); break;
-            default: Q_ASSERT(false); break;
+        case K3Icon::SizeSmall:  settings->setIconSize(K3Icon::SizeMedium); break;
+        case K3Icon::SizeMedium: settings->setIconSize(K3Icon::SizeLarge); break;
+        default: Q_ASSERT(false); break;
         }
         updateDecorationSize();
     }
@@ -200,9 +199,9 @@ void DolphinDetailsView::zoomOut()
         DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
         // TODO: get rid of K3Icon sizes
         switch (settings->iconSize()) {
-            case K3Icon::SizeLarge:  settings->setIconSize(K3Icon::SizeMedium); break;
-            case K3Icon::SizeMedium: settings->setIconSize(K3Icon::SizeSmall); break;
-            default: Q_ASSERT(false); break;
+        case K3Icon::SizeLarge:  settings->setIconSize(K3Icon::SizeMedium); break;
+        case K3Icon::SizeMedium: settings->setIconSize(K3Icon::SizeSmall); break;
+        default: Q_ASSERT(false); break;
         }
         updateDecorationSize();
     }

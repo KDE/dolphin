@@ -62,7 +62,10 @@ public:
      */
     ApplyViewPropsJob(const KUrl& dir, const ViewProperties& viewProps);
     virtual ~ApplyViewPropsJob();
-    int progress() const { return m_progress; }
+    int progress() const
+    {
+        return m_progress;
+    }
 
 private:
     void startNextJob(const KUrl & url);

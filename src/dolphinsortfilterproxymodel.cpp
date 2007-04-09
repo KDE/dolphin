@@ -25,30 +25,32 @@
 #include <kfileitem.h>
 
 static const int dolphinMapSize = 6;
-static int dolphinViewToDirModelColumn[] = {
-    KDirModel::Name,         // DolphinView::SortByName
-    KDirModel::Size,         // DolphinView::SortBySize
-    KDirModel::ModifiedTime, // DolphinView::SortByDate
-    KDirModel::Permissions,  // DolphinView::SortByPermissions
-    KDirModel::Owner,        // DolphinView::SortByOwner
-    KDirModel::Group         // DolphinView::SortByGroup
-};
+static int dolphinViewToDirModelColumn[] =
+    {
+        KDirModel::Name,         // DolphinView::SortByName
+        KDirModel::Size,         // DolphinView::SortBySize
+        KDirModel::ModifiedTime, // DolphinView::SortByDate
+        KDirModel::Permissions,  // DolphinView::SortByPermissions
+        KDirModel::Owner,        // DolphinView::SortByOwner
+        KDirModel::Group         // DolphinView::SortByGroup
+    };
 
-static DolphinView::Sorting dirModelColumnToDolphinView[] = {
-    DolphinView::SortByName,        // KDirModel::Name
-    DolphinView::SortBySize,        // KDirModel::Size
-    DolphinView::SortByDate,        // KDirModel::ModifiedTime
-    DolphinView::SortByPermissions, // KDirModel::Permissions
-    DolphinView::SortByOwner,       // KDirModel::Owner
-    DolphinView::SortByGroup        // KDirModel::Group
-};
+static DolphinView::Sorting dirModelColumnToDolphinView[] =
+    {
+        DolphinView::SortByName,        // KDirModel::Name
+        DolphinView::SortBySize,        // KDirModel::Size
+        DolphinView::SortByDate,        // KDirModel::ModifiedTime
+        DolphinView::SortByPermissions, // KDirModel::Permissions
+        DolphinView::SortByOwner,       // KDirModel::Owner
+        DolphinView::SortByGroup        // KDirModel::Group
+    };
 
 
 DolphinSortFilterProxyModel::DolphinSortFilterProxyModel(QObject* parent) :
-    QSortFilterProxyModel(parent),
-    m_sortColumn(0),
-    m_sorting(DolphinView::SortByName),
-    m_sortOrder(Qt::AscendingOrder)
+        QSortFilterProxyModel(parent),
+        m_sortColumn(0),
+        m_sorting(DolphinView::SortByName),
+        m_sortOrder(Qt::AscendingOrder)
 {
     setDynamicSortFilter(true);
 
@@ -59,8 +61,7 @@ DolphinSortFilterProxyModel::DolphinSortFilterProxyModel(QObject* parent) :
 }
 
 DolphinSortFilterProxyModel::~DolphinSortFilterProxyModel()
-{
-}
+{}
 
 void DolphinSortFilterProxyModel::setSorting(DolphinView::Sorting sorting)
 {
@@ -108,7 +109,7 @@ DolphinView::Sorting DolphinSortFilterProxyModel::sortingForColumn(int column)
 }
 
 bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
-                                           const QModelIndex& right) const
+        const QModelIndex& right) const
 {
     KDirModel* dirModel = static_cast<KDirModel*>(sourceModel());
 
@@ -134,7 +135,7 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
         const QString rightStr = rightData.toString();
 
         return sortCaseSensitivity() ? (naturalCompare(leftStr, rightStr) < 0) :
-                                       (naturalCompare(leftStr.toLower(), rightStr.toLower()) < 0);
+               (naturalCompare(leftStr.toLower(), rightStr.toLower()) < 0);
     }
 
     // We have set a SortRole and trust the ProxyModel to do
@@ -143,7 +144,7 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
 }
 
 int DolphinSortFilterProxyModel::naturalCompare(const QString& a,
-                                                const QString& b)
+        const QString& b)
 {
     // This method chops the input a and b into pieces of
     // digits and non-digits (a1.05 becomes a | 1 | . | 05)
@@ -193,24 +194,19 @@ int DolphinSortFilterProxyModel::naturalCompare(const QString& a,
             while (1) {
                 if (!currA->isDigit() && !currB->isDigit()) {
                     break;
-                }
-                else if (!currA->isDigit()) {
+                } else if (!currA->isDigit()) {
                     return -1;
-                }
-                else if (!currB->isDigit()) {
-                    return +1;
-                }
-                else if (*currA < *currB ) {
+                } else if (!currB->isDigit()) {
+                    return + 1;
+                } else if (*currA < *currB) {
                     return -1;
-                }
-                else if (*currA > *currB) {
-                    return +1;
+                } else if (*currA > *currB) {
+                    return + 1;
                 }
                 ++currA;
                 ++currB;
             }
-        }
-        else {
+        } else {
             // No digit-sequence starts with 0 -> assume we are looking at some integer
             // do right aligned comparison.
             //
@@ -225,18 +221,14 @@ int DolphinSortFilterProxyModel::naturalCompare(const QString& a,
                         return weight;
                     }
                     break;
-                }
-                else if (!currA->isDigit()) {
+                } else if (!currA->isDigit()) {
                     return -1;
-                }
-                else if (!currB->isDigit()) {
-                    return +1;
-                }
-                else if ((*currA < *currB) && (weight == 0)) {
+                } else if (!currB->isDigit()) {
+                    return + 1;
+                } else if ((*currA < *currB) && (weight == 0)) {
                     weight = -1;
-                }
-                else if ((*currA > *currB) && (weight == 0)) {
-                    weight = +1;
+                } else if ((*currA > *currB) && (weight == 0)) {
+                    weight = + 1;
                 }
                 ++currA;
                 ++currB;
@@ -251,7 +243,7 @@ int DolphinSortFilterProxyModel::naturalCompare(const QString& a,
         return 0;
     }
 
-    return currA->isNull() ? -1 : +1;
+    return currA->isNull() ? -1 : + 1;
 }
 
 #include "dolphinsortfilterproxymodel.moc"

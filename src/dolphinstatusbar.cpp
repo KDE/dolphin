@@ -31,11 +31,11 @@
 #include <kvbox.h>
 
 DolphinStatusBar::DolphinStatusBar(DolphinView* parent) :
-    KHBox(parent),
-    m_messageLabel(0),
-    m_spaceInfo(0),
-    m_progressBar(0),
-    m_progress(100)
+        KHBox(parent),
+        m_messageLabel(0),
+        m_spaceInfo(0),
+        m_progressBar(0),
+        m_progress(100)
 {
     setSpacing(4);
 
@@ -65,8 +65,7 @@ DolphinStatusBar::DolphinStatusBar(DolphinView* parent) :
 
 
 DolphinStatusBar::~DolphinStatusBar()
-{
-}
+{}
 
 void DolphinStatusBar::setMessage(const QString& msg,
                                   Type type)
@@ -105,8 +104,7 @@ void DolphinStatusBar::setProgress(int percent)
 {
     if (percent < 0) {
         percent = 0;
-    }
-    else if (percent > 100) {
+    } else if (percent > 100) {
         percent = 100;
     }
 
@@ -126,8 +124,7 @@ void DolphinStatusBar::setProgress(int percent)
     const QString msg(m_messageLabel->text());
     if ((percent == 0) && !msg.isEmpty()) {
         setMessage(QString(), Default);
-    }
-    else if ((percent == 100) && (msg != defaultText)) {
+    } else if ((percent == 100) && (msg != defaultText)) {
         setMessage(defaultText, Default);
     }
 }
@@ -163,8 +160,7 @@ void DolphinStatusBar::updateProgressInfo()
             m_progressText->show();
             m_progressBar->show();
         }
-    }
-    else {
+    } else {
         // hide the progress information and show the space information
         m_progressText->hide();
         m_progressBar->hide();
@@ -191,8 +187,7 @@ void DolphinStatusBar::showSpaceInfo()
         if (isProgressBarVisible || (widthGap > 0)) {
             m_spaceInfo->hide();
         }
-    }
-    else if (widthGap + m_spaceInfo->width() <= 0) {
+    } else if (widthGap + m_spaceInfo->width() <= 0) {
         m_spaceInfo->show();
     }
 }

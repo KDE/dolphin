@@ -37,10 +37,10 @@ public:
     virtual ~SidebarTreeView();
 
 signals:
-   /**
-     * Is emitted if the URLs \a urls have been dropped to
-     * the index \a index.
-     */
+    /**
+      * Is emitted if the URLs \a urls have been dropped to
+      * the index \a index.
+      */
     void urlsDropped(const KUrl::List& urls,
                      const QModelIndex& index);
 

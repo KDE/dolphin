@@ -34,15 +34,13 @@
 #include <QClipboard>
 
 TreeViewContextMenu::TreeViewContextMenu(QWidget* parent,
-                                         KFileItem* fileInfo) :
-    m_parent(parent),
-    m_fileInfo(fileInfo)
-{
-}
+        KFileItem* fileInfo) :
+        m_parent(parent),
+        m_fileInfo(fileInfo)
+{}
 
 TreeViewContextMenu::~TreeViewContextMenu()
-{
-}
+{}
 
 void TreeViewContextMenu::open()
 {
@@ -82,8 +80,7 @@ void TreeViewContextMenu::open()
         QAction* moveToTrashAction = new QAction(KIcon("edit-trash"), i18n("Move To Trash"), this);
         connect(moveToTrashAction, SIGNAL(triggered()), this, SLOT(moveToTrash()));
         popup->addAction(moveToTrashAction);
-    }
-    else {
+    } else {
         showDeleteCommand = true;
     }
 
@@ -132,8 +129,7 @@ void TreeViewContextMenu::paste()
     if (KonqMimeData::decodeIsCutSelection(mimeData)) {
         KonqOperations::copy(m_parent, KonqOperations::MOVE, source, dest);
         clipboard->clear();
-    }
-    else {
+    } else {
         KonqOperations::copy(m_parent, KonqOperations::COPY, source, dest);
     }
 }

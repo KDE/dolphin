@@ -39,7 +39,10 @@ public:
     explicit PixmapViewer(QWidget* parent);
     virtual ~PixmapViewer();
     void setPixmap(const QPixmap& pixmap);
-    const QPixmap& pixmap() const { return m_pixmap; }
+    const QPixmap& pixmap() const
+    {
+        return m_pixmap;
+    }
 
 protected:
     virtual void paintEvent(QPaintEvent* event);

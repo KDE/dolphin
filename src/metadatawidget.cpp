@@ -50,17 +50,17 @@ class MetaDataWidget::Private
 {
 public:
 #ifdef HAVE_KMETADATA
-    void loadComment( const QString& comment ) {
-        editComment->blockSignals( true );
-        if ( comment.isEmpty() ) {
-            editComment->setFontItalic( true );
-            editComment->setText( i18n( "Click to add comment..." ) );
+    void loadComment(const QString& comment)
+    {
+        editComment->blockSignals(true);
+        if (comment.isEmpty()) {
+            editComment->setFontItalic(true);
+            editComment->setText(i18n("Click to add comment..."));
+        } else {
+            editComment->setFontItalic(false);
+            editComment->setText(comment);
         }
-        else {
-            editComment->setFontItalic( false );
-            editComment->setText( comment );
-        }
-        editComment->blockSignals( false );
+        editComment->blockSignals(false);
     }
 
     KUrl fileUrl;
@@ -74,34 +74,34 @@ public:
 };
 
 
-MetaDataWidget::MetaDataWidget( QWidget* parent )
-    : QWidget( parent )
+MetaDataWidget::MetaDataWidget(QWidget* parent)
+        : QWidget(parent)
 {
 #ifdef HAVE_KMETADATA
     d = new Private;
-    d->editComment = new QTextEdit( this );
-    d->tagWidget = new Nepomuk::KMetaData::TagWidget( this );
-    d->ratingWidget = new KRatingWidget( this );
-    connect( d->ratingWidget, SIGNAL(ratingChanged(int)), this, SLOT(slotRatingChanged(int)) );
-    connect( d->editComment, SIGNAL( textChanged() ), this, SLOT( slotCommentChanged() ) );
+    d->editComment = new QTextEdit(this);
+    d->tagWidget = new Nepomuk::KMetaData::TagWidget(this);
+    d->ratingWidget = new KRatingWidget(this);
+    connect(d->ratingWidget, SIGNAL(ratingChanged(int)), this, SLOT(slotRatingChanged(int)));
+    connect(d->editComment, SIGNAL(textChanged()), this, SLOT(slotCommentChanged()));
 
-    QVBoxLayout* lay = new QVBoxLayout( this );
-    lay->setMargin( 0 );
+    QVBoxLayout* lay = new QVBoxLayout(this);
+    lay->setMargin(0);
     QHBoxLayout* hbox = new QHBoxLayout;
-    hbox->addWidget( new QLabel( i18n( "Rating:" ), this ) );
-    hbox->addStretch( 1 );
-    hbox->addWidget( d->ratingWidget );
-    lay->addLayout( hbox );
-    lay->addWidget( d->editComment );
+    hbox->addWidget(new QLabel(i18n("Rating:"), this));
+    hbox->addStretch(1);
+    hbox->addWidget(d->ratingWidget);
+    lay->addLayout(hbox);
+    lay->addWidget(d->editComment);
     hbox = new QHBoxLayout;
-    hbox->addWidget( new QLabel( i18n( "Tags:" ), this ) );
-    hbox->addWidget( d->tagWidget, 1 );
-    lay->addLayout( hbox );
+    hbox->addWidget(new QLabel(i18n("Tags:"), this));
+    hbox->addWidget(d->tagWidget, 1);
+    lay->addLayout(hbox);
 
-    d->editComment->installEventFilter( this );
-    d->editComment->viewport()->installEventFilter( this );
+    d->editComment->installEventFilter(this);
+    d->editComment->viewport()->installEventFilter(this);
 #else
-    d=0L;    
+    d = 0L;
 #endif
 }
 
@@ -112,24 +112,24 @@ MetaDataWidget::~MetaDataWidget()
 }
 
 
-void MetaDataWidget::setFile( const KUrl& url )
+void MetaDataWidget::setFile(const KUrl& url)
 {
 #ifdef HAVE_KMETADATA
     d->fileUrl = url;
-    d->file = Nepomuk::KMetaData::File( url.url() );
-    d->file.setLocation( url.url() );
-    d->ratingWidget->setRating( d->file.getRating() );
-    d->tagWidget->setTaggedResource( d->file );
-    d->loadComment( d->file.getComment() );
+    d->file = Nepomuk::KMetaData::File(url.url());
+    d->file.setLocation(url.url());
+    d->ratingWidget->setRating(d->file.getRating());
+    d->tagWidget->setTaggedResource(d->file);
+    d->loadComment(d->file.getComment());
 #endif
 }
 
 
-void MetaDataWidget::setFiles( const KUrl::List urls )
+void MetaDataWidget::setFiles(const KUrl::List urls)
 {
 #ifdef HAVE_KMETADATA
     // FIXME: support multiple files
-    setFile( urls.first() );
+    setFile(urls.first());
 #endif
 }
 
@@ -137,37 +137,36 @@ void MetaDataWidget::setFiles( const KUrl::List urls )
 void MetaDataWidget::slotCommentChanged()
 {
 #ifdef HAVE_KMETADATA
-    d->file.setComment( d->editComment->toPlainText() );
+    d->file.setComment(d->editComment->toPlainText());
 #endif
 }
 
 
-void MetaDataWidget::slotRatingChanged( int r )
+void MetaDataWidget::slotRatingChanged(int r)
 {
 #ifdef HAVE_KMETADATA
-    d->file.setRating( r );
+    d->file.setRating(r);
 #endif
 }
 
 
-bool MetaDataWidget::eventFilter( QObject* obj, QEvent* event )
+bool MetaDataWidget::eventFilter(QObject* obj, QEvent* event)
 {
 #ifdef HAVE_KMETADATA
-    if (  obj == d->editComment->viewport()
-          || obj == d->editComment ) {
-        if ( event->type() == QEvent::FocusOut ) {
+    if (obj == d->editComment->viewport()
+            || obj == d->editComment) {
+        if (event->type() == QEvent::FocusOut) {
             // make sure the info text is displayed again
-            d->loadComment( d->editComment->toPlainText() );
-        }
-        else if ( event->type() == QEvent::FocusIn ) {
-            d->editComment->setFontItalic( false );
-            if ( d->file.getComment().isEmpty() )
-                d->editComment->setText( QString() );
+            d->loadComment(d->editComment->toPlainText());
+        } else if (event->type() == QEvent::FocusIn) {
+            d->editComment->setFontItalic(false);
+            if (d->file.getComment().isEmpty())
+                d->editComment->setText(QString());
         }
     }
 #endif
 
-    return QWidget::eventFilter( obj, event );
+    return QWidget::eventFilter(obj, event);
 }
 
 #include "metadatawidget.moc"

@@ -48,10 +48,16 @@ public:
     virtual ~DolphinSortFilterProxyModel();
 
     void setSorting(DolphinView::Sorting sorting);
-    DolphinView::Sorting sorting() const { return m_sorting; }
+    DolphinView::Sorting sorting() const
+    {
+        return m_sorting;
+    }
 
     void setSortOrder(Qt::SortOrder sortOrder);
-    Qt::SortOrder sortOrder() const { return m_sortOrder; }
+    Qt::SortOrder sortOrder() const
+    {
+        return m_sortOrder;
+    }
 
     /**
      * @reimplemented, @internal

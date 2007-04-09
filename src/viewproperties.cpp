@@ -37,9 +37,9 @@
 #define FILE_NAME "/.directory"
 
 ViewProperties::ViewProperties(const KUrl& url) :
-      m_changedProps(false),
-      m_autoSave(true),
-      m_node(0)
+        m_changedProps(false),
+        m_autoSave(true),
+        m_node(0)
 {
     KUrl cleanUrl(url);
     cleanUrl.cleanPath();
@@ -57,14 +57,12 @@ ViewProperties::ViewProperties(const KUrl& url) :
     const bool useGlobalViewProps = settings->globalViewProps();
     if (useGlobalViewProps) {
         m_filepath = destinationDir("global");
-    }
-    else if (cleanUrl.isLocalFile()) {
+    } else if (cleanUrl.isLocalFile()) {
         const QFileInfo info(m_filepath);
         if (!info.isWritable()) {
             m_filepath = destinationDir("local") + m_filepath;
         }
-    }
-    else {
+    } else {
         m_filepath = destinationDir("remote") + m_filepath;
     }
 

@@ -37,7 +37,8 @@ class QTimer;
  * The statusbar allows to show messages and progress
  * information.
  */
-class DolphinStatusBar : public KHBox {
+class DolphinStatusBar : public KHBox
+{
     Q_OBJECT
 
 public:
@@ -93,7 +94,10 @@ public:
      * operations.
      */
     void setProgress(int percent);
-    int progress() const { return m_progress; }
+    int progress() const
+    {
+        return m_progress;
+    }
 
     /**
      * Clears the message text of the status bar by replacing

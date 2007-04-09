@@ -36,7 +36,7 @@ class KJob;
  */
 class DolphinNewMenu : public KNewMenu
 {
-Q_OBJECT
+    Q_OBJECT
 
 public:
     DolphinNewMenu(DolphinMainWindow* mainWin);

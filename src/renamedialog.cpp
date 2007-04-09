@@ -26,8 +26,8 @@
 #include <QVBoxLayout>
 
 RenameDialog::RenameDialog(const KUrl::List& items) :
-    KDialog(),
-    m_renameOneItem(false)
+        KDialog(),
+        m_renameOneItem(false)
 {
     const QSize minSize = minimumSize();
     setMinimumSize(QSize(320, minSize.height()));
@@ -37,7 +37,7 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
     m_renameOneItem = (itemCount == 1);
 
     setCaption(m_renameOneItem ? i18n("Rename Item") : i18n("Rename Items"));
-    setButtons(Ok|Cancel);
+    setButtons(Ok | Cancel);
     setDefaultButton(Ok);
 
     setButtonGuiItem(Ok, KGuiItem(i18n("Rename"), "dialog-apply"));
@@ -54,15 +54,14 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
         m_newName = url.fileName();
         editLabel = new QLabel(i18n("Rename the item '%1' to:", m_newName),
                                page);
-    }
-    else {
+    } else {
         m_newName = i18n("New name #");
         editLabel = new QLabel(i18n("Rename the %1 selected items to:", itemCount),
                                page);
     }
 
     m_lineEdit = new KLineEdit(page);
-    QString postfix(items[0].prettyUrl().section('.',1));
+    QString postfix(items[0].prettyUrl().section('.', 1));
     if (postfix.length() > 0) {
         // The first item seems to have a postfix (e. g. 'jpg' or 'txt'). Now
         // check whether all other items have the same postfix. If this is the
@@ -86,8 +85,7 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
     if (postfixLength > 0) {
         if (m_renameOneItem) {
             selectionLength -= postfixLength;
-        }
-        else {
+        } else {
             m_newName.append(postfix);
         }
     }
@@ -106,8 +104,7 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
 }
 
 RenameDialog::~RenameDialog()
-{
-}
+{}
 
 void RenameDialog::slotButtonClicked(int button)
 {
@@ -115,8 +112,7 @@ void RenameDialog::slotButtonClicked(int button)
         m_newName = m_lineEdit->text();
         if (m_newName.isEmpty()) {
             m_errorString = i18n("The new name is empty. A name with at least one character must be entered.");
-        }
-        else if (!m_renameOneItem && m_newName.contains('#') != 1) {
+        } else if (!m_renameOneItem && m_newName.contains('#') != 1) {
             m_newName.truncate(0);
             m_errorString = i18n("The name must contain exactly one # character.");
         }

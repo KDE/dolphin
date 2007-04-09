@@ -21,13 +21,11 @@
 #include "settingspagebase.h"
 
 SettingsPageBase::SettingsPageBase(QWidget* parent) :
-    QWidget(parent)
-{
-}
+        QWidget(parent)
+{}
 
 SettingsPageBase::~SettingsPageBase()
-{
-}
+{}
 
 
 #include "settingspagebase.moc"

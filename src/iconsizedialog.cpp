@@ -34,13 +34,13 @@
 #include <QVBoxLayout>
 
 IconSizeDialog::IconSizeDialog(QWidget* parent) :
-    KDialog(parent),
-    m_iconSize(0),
-    m_previewSize(0),
-    m_iconSizeSlider(0),
-    m_iconSizeViewer(0),
-    m_previewSizeSlider(0),
-    m_previewSizeViewer(0)
+        KDialog(parent),
+        m_iconSize(0),
+        m_previewSize(0),
+        m_iconSizeSlider(0),
+        m_iconSizeViewer(0),
+        m_previewSizeSlider(0),
+        m_previewSizeViewer(0)
 
 {
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
@@ -51,7 +51,7 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
     const int spacing = KDialog::spacingHint();
 
     setCaption(i18n("Change Icon & Preview Size"));
-    setButtons(Ok|Cancel);
+    setButtons(Ok | Cancel);
     setDefaultButton(Ok);
 
     QWidget* main = new QWidget();
@@ -112,8 +112,7 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
 }
 
 IconSizeDialog::~IconSizeDialog()
-{
-}
+{}
 
 void IconSizeDialog::slotButtonClicked(int button)
 {
@@ -160,12 +159,12 @@ int IconSizeDialog::iconSize(int sliderValue) const
 {
     int size = K3Icon::SizeMedium;
     switch (sliderValue) {
-        case 0: size = K3Icon::SizeSmall; break;
-        case 1: size = K3Icon::SizeSmallMedium; break;
-        case 2: size = K3Icon::SizeMedium; break;
-        case 3: size = K3Icon::SizeLarge; break;
-        case 4: size = K3Icon::SizeHuge; break;
-        case 5: size = K3Icon::SizeEnormous; break;
+    case 0: size = K3Icon::SizeSmall; break;
+    case 1: size = K3Icon::SizeSmallMedium; break;
+    case 2: size = K3Icon::SizeMedium; break;
+    case 3: size = K3Icon::SizeLarge; break;
+    case 4: size = K3Icon::SizeHuge; break;
+    case 5: size = K3Icon::SizeEnormous; break;
     }
     return size;
 }
@@ -174,13 +173,13 @@ int IconSizeDialog::sliderValue(int iconSize) const
 {
     int value = 0;
     switch (iconSize) {
-        case K3Icon::SizeSmall:       value = 0; break;
-        case K3Icon::SizeSmallMedium: value = 1; break;
-        case K3Icon::SizeMedium:      value = 2; break;
-        case K3Icon::SizeLarge:       value = 3; break;
-        case K3Icon::SizeHuge:        value = 4; break;
-        case K3Icon::SizeEnormous:    value = 5; break;
-        default: break;
+    case K3Icon::SizeSmall:       value = 0; break;
+    case K3Icon::SizeSmallMedium: value = 1; break;
+    case K3Icon::SizeMedium:      value = 2; break;
+    case K3Icon::SizeLarge:       value = 3; break;
+    case K3Icon::SizeHuge:        value = 4; break;
+    case K3Icon::SizeEnormous:    value = 5; break;
+    default: break;
     }
     return value;
 }

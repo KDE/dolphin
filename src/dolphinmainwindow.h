@@ -51,19 +51,22 @@ class DolphinMainWindow: public KMainWindow
 public:
     virtual ~DolphinMainWindow();
 
-	/**
-     * Activates the given view, which means that
-     * all menu actions are applied to this view. When
-     * having a split view setup the nonactive view
-     * is usually shown in darker colors.
-     */
+    /**
+        * Activates the given view, which means that
+        * all menu actions are applied to this view. When
+        * having a split view setup the nonactive view
+        * is usually shown in darker colors.
+        */
     void setActiveView(DolphinView* view);
 
     /**
      * Returns the currently active view. See
      * DolphinMainWindow::setActiveView() for more details.
      */
-    DolphinView* activeView() const { return m_activeView; }
+    DolphinView* activeView() const
+    {
+        return m_activeView;
+    }
 
     /** Renames the item represented by \a oldUrl to \a newUrl. */
     void rename(const KUrl& oldUrl, const KUrl& newUrl);
@@ -78,7 +81,10 @@ public:
      * Returns the 'Create New...' sub menu which also can be shared
      * with other menus (e. g. a context menu).
      */
-    KNewMenu* newMenu() const { return m_newMenu; }
+    KNewMenu* newMenu() const
+    {
+        return m_newMenu;
+    }
 
 public slots:
     /**
@@ -98,7 +104,10 @@ public slots:
     /**
      * Returns the main window ID used through DBus.
      */
-    int getId() const { return m_id; }
+    int getId() const
+    {
+        return m_id;
+    }
 
     /**
      * Inform all affected dolphin components (sidebars, views) of an URL
@@ -425,7 +434,7 @@ private:
      * assures that all errors are shown in the status bar of Dolphin
      * instead as modal error dialog with an OK button.
      */
-    class UndoUiInterface : public KonqUndoManager::UiInterface
+class UndoUiInterface : public KonqUndoManager::UiInterface
     {
     public:
         UndoUiInterface(DolphinMainWindow* mainWin);

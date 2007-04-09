@@ -30,10 +30,10 @@
 #include <kio/job.h>
 
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
-    QWidget(parent),
-    m_gettingSize(false),
-    m_kBSize(0),
-    m_kBAvailable(0)
+        QWidget(parent),
+        m_gettingSize(false),
+        m_kBSize(0),
+        m_kBAvailable(0)
 {
     setMinimumWidth(200);
 
@@ -45,8 +45,7 @@ StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
 }
 
 StatusBarSpaceInfo::~StatusBarSpaceInfo()
-{
-}
+{}
 
 void StatusBarSpaceInfo::setUrl(const KUrl& url)
 {
@@ -83,7 +82,7 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
         painter.setPen(Qt::NoPen);
         painter.setBrush(progressColor(backgrColor));
         int usedWidth = barWidth - static_cast<int>((m_kBAvailable *
-                                                    static_cast<float>(barWidth)) / m_kBSize);
+                        static_cast<float>(barWidth)) / m_kBSize);
         const int left = 1;
         int right = usedWidth - widthDec;
         if (right < left) {
@@ -92,12 +91,10 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
         painter.drawRect(QRect(left, barTop + 2, right, barHeight - 1));
 
         text = i18n("%1% of %2 used", 100 - (int)(100.0 * m_kBAvailable / m_kBSize), KIO::convertSizeFromKiB(m_kBSize));
-    }
-    else {
+    } else {
         if (m_gettingSize) {
             text = i18n("Getting size...");
-        }
-        else {
+        } else {
             text = QString();
             QTimer::singleShot(0, this, SLOT(hide()));
         }
@@ -112,9 +109,9 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
 
 
 void StatusBarSpaceInfo::slotFoundMountPoint(const unsigned long& kBSize,
-                                             const unsigned long& /* kBUsed */,
-                                             const unsigned long& kBAvailable,
-                                             const QString& /* mountPoint */)
+        const unsigned long& /* kBUsed */,
+        const unsigned long& kBAvailable,
+        const QString& /* mountPoint */)
 {
     m_gettingSize = false;
     m_kBSize = kBSize;
@@ -150,11 +147,11 @@ void StatusBarSpaceInfo::refresh()
     connect(job, SIGNAL(foundMountPoint(const unsigned long&,
                                         const unsigned long&,
                                         const unsigned long&,
-                                        const QString& )),
+                                        const QString&)),
             this, SLOT(slotFoundMountPoint(const unsigned long&,
                                            const unsigned long&,
                                            const unsigned long&,
-                                           const QString& )));
+                                           const QString&)));
     connect(job, SIGNAL(done()),
             this, SLOT(showResult()));
 

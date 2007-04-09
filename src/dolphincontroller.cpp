@@ -20,16 +20,14 @@
 #include "dolphincontroller.h"
 
 DolphinController::DolphinController(QObject* parent) :
-    QObject(parent),
-    m_showPreview(false),
-    m_zoomInPossible(false),
-    m_zoomOutPossible(false)
-{
-}
+        QObject(parent),
+        m_showPreview(false),
+        m_zoomInPossible(false),
+        m_zoomOutPossible(false)
+{}
 
 DolphinController::~DolphinController()
-{
-}
+{}
 
 void DolphinController::triggerContextMenuRequest(const QPoint& pos)
 {
@@ -43,8 +41,8 @@ void DolphinController::triggerActivation()
 }
 
 void DolphinController::indicateDroppedUrls(const KUrl::List& urls,
-                                            const QModelIndex& index,
-                                            QWidget* source)
+        const QModelIndex& index,
+        QWidget* source)
 {
     emit urlsDropped(urls, index, source);
 }

@@ -62,12 +62,18 @@ public:
      * been deleted by the user, although more then one item should be
      * renamed).
      */
-    const QString& newName() const { return m_newName; }
+    const QString& newName() const
+    {
+        return m_newName;
+    }
 
     /**
      * Returns the error string, if Dialog::newName() returned an empty string.
      */
-    const QString& errorString() const { return m_errorString; }
+    const QString& errorString() const
+    {
+        return m_errorString;
+    }
 
 protected slots:
     virtual void slotButtonClicked(int button);

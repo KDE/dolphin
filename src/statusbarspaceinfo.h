@@ -42,7 +42,10 @@ public:
     virtual ~StatusBarSpaceInfo();
 
     void setUrl(const KUrl& url);
-    const KUrl& url() const { return m_url; }
+    const KUrl& url() const
+    {
+        return m_url;
+    }
 
 protected:
     /** @see QWidget::paintEvent() */

@@ -54,8 +54,14 @@ public:
     explicit DolphinController(QObject* parent);
     virtual ~DolphinController();
 
-    void setUrl(const KUrl& url) { m_url = url; }
-    const KUrl& url() const { return m_url; }
+    void setUrl(const KUrl& url)
+    {
+        m_url = url;
+    }
+    const KUrl& url() const
+    {
+        return m_url;
+    }
 
     void triggerContextMenuRequest(const QPoint& pos);
 
@@ -70,15 +76,30 @@ public:
     void indicateSortOrderChange(Qt::SortOrder order);
 
     void setShowPreview(bool showPreview);
-    bool showPreview() const { return m_showPreview; }
+    bool showPreview() const
+    {
+        return m_showPreview;
+    }
 
     void triggerZoomIn();
-    void setZoomInPossible(bool possible) { m_zoomInPossible = possible; }
-    bool isZoomInPossible() const { return m_zoomInPossible; }
+    void setZoomInPossible(bool possible)
+    {
+        m_zoomInPossible = possible;
+    }
+    bool isZoomInPossible() const
+    {
+        return m_zoomInPossible;
+    }
 
     void triggerZoomOut();
-    void setZoomOutPossible(bool possible) { m_zoomOutPossible = possible; }
-    bool isZoomOutPossible() const { return m_zoomOutPossible; }
+    void setZoomOutPossible(bool possible)
+    {
+        m_zoomOutPossible = possible;
+    }
+    bool isZoomOutPossible() const
+    {
+        return m_zoomOutPossible;
+    }
 
 public slots:
     void triggerItem(const QModelIndex& index);

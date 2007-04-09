@@ -32,8 +32,8 @@
 #include <QPoint>
 
 DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* controller) :
-    QColumnView(parent),
-    m_controller(controller)
+        QColumnView(parent),
+        m_controller(controller)
 {
     Q_ASSERT(controller != 0);
 
@@ -53,7 +53,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     connect(controller, SIGNAL(zoomOut()),
             this, SLOT(zoomOut()));
 
-   // apply the column mode settings to the widget
+    // apply the column mode settings to the widget
     const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
     Q_ASSERT(settings != 0);
 
@@ -68,8 +68,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
 }
 
 DolphinColumnView::~DolphinColumnView()
-{
-}
+{}
 
 QStyleOptionViewItem DolphinColumnView::viewOptions() const
 {
@@ -113,9 +112,9 @@ void DolphinColumnView::zoomIn()
         ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
         // TODO: get rid of K3Icon sizes
         switch (settings->iconSize()) {
-            case K3Icon::SizeSmall:  settings->setIconSize(K3Icon::SizeMedium); break;
-            case K3Icon::SizeMedium: settings->setIconSize(K3Icon::SizeLarge); break;
-            default: Q_ASSERT(false); break;
+        case K3Icon::SizeSmall:  settings->setIconSize(K3Icon::SizeMedium); break;
+        case K3Icon::SizeMedium: settings->setIconSize(K3Icon::SizeLarge); break;
+        default: Q_ASSERT(false); break;
         }
         updateDecorationSize();
     }
@@ -123,13 +122,13 @@ void DolphinColumnView::zoomIn()
 
 void DolphinColumnView::zoomOut()
 {
-   if (isZoomOutPossible()) {
+    if (isZoomOutPossible()) {
         ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
         // TODO: get rid of K3Icon sizes
         switch (settings->iconSize()) {
-            case K3Icon::SizeLarge:  settings->setIconSize(K3Icon::SizeMedium); break;
-            case K3Icon::SizeMedium: settings->setIconSize(K3Icon::SizeSmall); break;
-            default: Q_ASSERT(false); break;
+        case K3Icon::SizeLarge:  settings->setIconSize(K3Icon::SizeMedium); break;
+        case K3Icon::SizeMedium: settings->setIconSize(K3Icon::SizeSmall); break;
+        default: Q_ASSERT(false); break;
         }
         updateDecorationSize();
     }

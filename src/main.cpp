@@ -25,10 +25,11 @@
 #include <klocale.h>
 
 static KCmdLineOptions options[] =
-{
-    { "+[Url]", I18N_NOOP( "Document to open" ), 0 },
-    KCmdLineLastOption
-};
+    {
+        { "+[Url]", I18N_NOOP("Document to open"), 0
+        },
+        KCmdLineLastOption
+    };
 
 int main(int argc, char **argv)
 {
@@ -64,11 +65,11 @@ int main(int argc, char **argv)
 #if 0
     if (false /* KDE4-TODO: app.isSessionRestored() */) {
         int n = 1;
-        while (KMainWindow::canBeRestored(n)){
+        while (KMainWindow::canBeRestored(n)) {
             Dolphin::mainWin().restore(n);
             ++n;
         }
     } else {
 #endif
-    return app.exec();
-}
+        return app.exec();
+    }

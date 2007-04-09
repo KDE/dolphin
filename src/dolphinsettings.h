@@ -40,15 +40,31 @@ class KFilePlacesModel;
  * - bookmarks
  * - properties for icons and details view
  */
-class LIBDOLPHINPRIVATE_EXPORT DolphinSettings {
+class LIBDOLPHINPRIVATE_EXPORT DolphinSettings
+{
 public:
     static DolphinSettings& instance();
 
-    GeneralSettings* generalSettings() const { return m_generalSettings; }
-    IconsModeSettings* iconsModeSettings() const { return m_iconsModeSettings; }
-    DetailsModeSettings* detailsModeSettings() const { return m_detailsModeSettings; }
-    ColumnModeSettings* columnModeSettings() const { return m_columnModeSettings; }
-    KFilePlacesModel* placesModel() const { return m_placesModel; }
+    GeneralSettings* generalSettings() const
+    {
+        return m_generalSettings;
+    }
+    IconsModeSettings* iconsModeSettings() const
+    {
+        return m_iconsModeSettings;
+    }
+    DetailsModeSettings* detailsModeSettings() const
+    {
+        return m_detailsModeSettings;
+    }
+    ColumnModeSettings* columnModeSettings() const
+    {
+        return m_columnModeSettings;
+    }
+    KFilePlacesModel* placesModel() const
+    {
+        return m_placesModel;
+    }
 
     /** @see DolphinSettingsBase::save */
     virtual void save();

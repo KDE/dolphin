@@ -32,8 +32,8 @@
 #include <QPoint>
 
 DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controller) :
-    QListView(parent),
-    m_controller(controller)
+        QListView(parent),
+        m_controller(controller)
 {
     Q_ASSERT(controller != 0);
     setViewMode(QListView::IconMode);
@@ -68,16 +68,14 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     if (settings->arrangement() == QListView::TopToBottom) {
         setFlow(QListView::LeftToRight);
         m_viewOptions.decorationPosition = QStyleOptionViewItem::Top;
-    }
-    else {
+    } else {
         setFlow(QListView::TopToBottom);
         m_viewOptions.decorationPosition = QStyleOptionViewItem::Left;
     }
 }
 
 DolphinIconsView::~DolphinIconsView()
-{
-}
+{}
 
 QStyleOptionViewItem DolphinIconsView::viewOptions() const
 {
@@ -153,8 +151,7 @@ void DolphinIconsView::zoomIn()
         if (showPreview) {
             const int previewSize = increasedIconSize(settings->previewSize());
             settings->setPreviewSize(previewSize);
-        }
-        else {
+        } else {
             newIconSize = increasedIconSize(oldIconSize);
             settings->setIconSize(newIconSize);
             if (settings->previewSize() < newIconSize) {
@@ -189,8 +186,7 @@ void DolphinIconsView::zoomOut()
                 newIconSize = previewSize;
                 settings->setIconSize(newIconSize);
             }
-        }
-        else {
+        } else {
             newIconSize = decreasedIconSize(settings->iconSize());
             settings->setIconSize(newIconSize);
         }
@@ -223,12 +219,12 @@ int DolphinIconsView::increasedIconSize(int size) const
     // TODO: get rid of K3Icon sizes
     int incSize = 0;
     switch (size) {
-        case K3Icon::SizeSmall:       incSize = K3Icon::SizeSmallMedium; break;
-        case K3Icon::SizeSmallMedium: incSize = K3Icon::SizeMedium; break;
-        case K3Icon::SizeMedium:      incSize = K3Icon::SizeLarge; break;
-        case K3Icon::SizeLarge:       incSize = K3Icon::SizeHuge; break;
-        case K3Icon::SizeHuge:        incSize = K3Icon::SizeEnormous; break;
-        default: Q_ASSERT(false); break;
+    case K3Icon::SizeSmall:       incSize = K3Icon::SizeSmallMedium; break;
+    case K3Icon::SizeSmallMedium: incSize = K3Icon::SizeMedium; break;
+    case K3Icon::SizeMedium:      incSize = K3Icon::SizeLarge; break;
+    case K3Icon::SizeLarge:       incSize = K3Icon::SizeHuge; break;
+    case K3Icon::SizeHuge:        incSize = K3Icon::SizeEnormous; break;
+    default: Q_ASSERT(false); break;
     }
     return incSize;
 }
@@ -238,12 +234,12 @@ int DolphinIconsView::decreasedIconSize(int size) const
     // TODO: get rid of K3Icon sizes
     int decSize = 0;
     switch (size) {
-        case K3Icon::SizeSmallMedium: decSize = K3Icon::SizeSmall; break;
-        case K3Icon::SizeMedium: decSize = K3Icon::SizeSmallMedium; break;
-        case K3Icon::SizeLarge: decSize = K3Icon::SizeMedium; break;
-        case K3Icon::SizeHuge: decSize = K3Icon::SizeLarge; break;
-        case K3Icon::SizeEnormous: decSize = K3Icon::SizeHuge; break;
-        default: Q_ASSERT(false); break;
+    case K3Icon::SizeSmallMedium: decSize = K3Icon::SizeSmall; break;
+    case K3Icon::SizeMedium: decSize = K3Icon::SizeSmallMedium; break;
+    case K3Icon::SizeLarge: decSize = K3Icon::SizeMedium; break;
+    case K3Icon::SizeHuge: decSize = K3Icon::SizeLarge; break;
+    case K3Icon::SizeEnormous: decSize = K3Icon::SizeHuge; break;
+    default: Q_ASSERT(false); break;
     }
     return decSize;
 }

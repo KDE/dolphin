@@ -36,17 +36,17 @@
 #include <QSpinBox>
 
 DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
-                                                 QWidget* parent) :
-    KVBox(parent),
-    m_mainWindow(mainWindow),
-    m_dateBox(0),
-    m_permissionsBox(0),
-    m_ownerBox(0),
-    m_groupBox(0),
-    m_smallIconSize(0),
-    m_mediumIconSize(0),
-    m_largeIconSize(0),
-    m_fontRequester(0)
+        QWidget* parent) :
+        KVBox(parent),
+        m_mainWindow(mainWindow),
+        m_dateBox(0),
+        m_permissionsBox(0),
+        m_ownerBox(0),
+        m_groupBox(0),
+        m_smallIconSize(0),
+        m_mediumIconSize(0),
+        m_largeIconSize(0),
+        m_fontRequester(0)
 {
     const int spacing = KDialog::spacingHint();
     const int margin = KDialog::marginHint();
@@ -88,17 +88,17 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
     m_mediumIconSize = new QRadioButton(i18n("Medium"), this);
     m_largeIconSize  = new QRadioButton(i18n("Large"), this);
     switch (settings->iconSize()) {
-        case K3Icon::SizeLarge:
-            m_largeIconSize->setChecked(true);
-            break;
+    case K3Icon::SizeLarge:
+        m_largeIconSize->setChecked(true);
+        break;
 
-        case K3Icon::SizeMedium:
-            m_mediumIconSize->setChecked(true);
-            break;
+    case K3Icon::SizeMedium:
+        m_mediumIconSize->setChecked(true);
+        break;
 
-        case K3Icon::SizeSmall:
-        default:
-            m_smallIconSize->setChecked(true);
+    case K3Icon::SizeSmall:
+    default:
+        m_smallIconSize->setChecked(true);
     }
 
     QButtonGroup* iconSizeGroup = new QButtonGroup(this);
@@ -134,8 +134,7 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
 }
 
 DetailsViewSettingsPage::~DetailsViewSettingsPage()
-{
-}
+{}
 
 void DetailsViewSettingsPage::applySettings()
 {
@@ -150,8 +149,7 @@ void DetailsViewSettingsPage::applySettings()
     int iconSize = K3Icon::SizeSmall;
     if (m_mediumIconSize->isChecked()) {
         iconSize = K3Icon::SizeMedium;
-    }
-    else if (m_largeIconSize->isChecked()) {
+    } else if (m_largeIconSize->isChecked()) {
         iconSize = K3Icon::SizeLarge;
     }
     settings->setIconSize(iconSize);

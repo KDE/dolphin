@@ -27,7 +27,7 @@
 #include <QHeaderView>
 
 SidebarTreeView::SidebarTreeView(QWidget* parent) :
-    QTreeView(parent)
+        QTreeView(parent)
 {
     setAcceptDrops(true);
     setUniformRowHeights(true);
@@ -43,8 +43,7 @@ SidebarTreeView::SidebarTreeView(QWidget* parent) :
 }
 
 SidebarTreeView::~SidebarTreeView()
-{
-}
+{}
 
 bool SidebarTreeView::event(QEvent* event)
 {
@@ -73,8 +72,7 @@ void SidebarTreeView::dropEvent(QDropEvent* event)
     const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
     if (urls.isEmpty() || (event->source() == this)) {
         QTreeView::dropEvent(event);
-    }
-    else {
+    } else {
         event->acceptProposedAction();
         const QModelIndex index = indexAt(event->pos());
         if (index.isValid()) {

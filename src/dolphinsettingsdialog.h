@@ -34,7 +34,8 @@ class DolphinMainWindow;
  *
  * @author Peter Penz <peter.penz@gmx.at>
  */
-class DolphinSettingsDialog : public KPageDialog {
+class DolphinSettingsDialog : public KPageDialog
+{
     Q_OBJECT
 
 public:

@@ -38,13 +38,13 @@
 
 #include "dolphin_generalsettings.h"
 
-GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin,QWidget* parent) :
-    SettingsPageBase(parent),
-    m_mainWindow(mainWin),
-    m_homeUrl(0),
-    m_startSplit(0),
-    m_startEditable(0),
-    m_showDeleteCommand(0)
+GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* parent) :
+        SettingsPageBase(parent),
+        m_mainWindow(mainWin),
+        m_homeUrl(0),
+        m_startSplit(0),
+        m_startEditable(0),
+        m_showDeleteCommand(0)
 {
     const int spacing = KDialog::spacingHint();
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
@@ -109,8 +109,7 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin,QWidget* par
 
 
 GeneralSettingsPage::~GeneralSettingsPage()
-{
-}
+{}
 
 void GeneralSettingsPage::applySettings()
 {

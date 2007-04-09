@@ -27,22 +27,19 @@
 #include <kio/job.h>
 
 DolphinNewMenu::DolphinNewMenu(DolphinMainWindow* mainWin) :
-    KNewMenu(mainWin->actionCollection(), mainWin, "create_new"),
-    m_mainWin(mainWin)
-{
-}
+        KNewMenu(mainWin->actionCollection(), mainWin, "create_new"),
+        m_mainWin(mainWin)
+{}
 
 DolphinNewMenu::~DolphinNewMenu()
-{
-}
+{}
 
 void DolphinNewMenu::slotResult(KJob* job)
 {
     if (job->error()) {
         DolphinStatusBar* statusBar = m_mainWin->activeView()->statusBar();
         statusBar->setMessage(job->errorString(), DolphinStatusBar::Error);
-    }
-    else {
+    } else {
         KNewMenu::slotResult(job);
     }
 }

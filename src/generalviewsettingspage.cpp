@@ -37,12 +37,12 @@
 #include <khbox.h>
 
 GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
-                                                 QWidget* parent) :
-    KVBox(parent),
-    m_mainWindow(mainWindow),
-    m_localProps(0),
-    m_globalProps(0),
-    m_maxPreviewSize(0)
+        QWidget* parent) :
+        KVBox(parent),
+        m_mainWindow(mainWindow),
+        m_localProps(0),
+        m_globalProps(0),
+        m_maxPreviewSize(0)
 {
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     Q_ASSERT(settings != 0);
@@ -60,8 +60,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
     m_globalProps = new QRadioButton(i18n("Use common view properties for all folders"), propsBox);
     if (settings->globalViewProps()) {
         m_globalProps->setChecked(true);
-    }
-    else {
+    } else {
         m_localProps->setChecked(true);
     }
 
@@ -90,8 +89,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
     int maxMByteSize = maxByteSize / (1024 * 1024);
     if (maxMByteSize < 1) {
         maxMByteSize = 1;
-    }
-    else if (maxMByteSize > max) {
+    } else if (maxMByteSize > max) {
         maxMByteSize = max;
     }
     m_maxPreviewSize->setValue(maxMByteSize);
@@ -119,8 +117,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
 
 
 GeneralViewSettingsPage::~GeneralViewSettingsPage()
-{
-}
+{}
 
 void GeneralViewSettingsPage::applySettings()
 {

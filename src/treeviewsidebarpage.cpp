@@ -37,11 +37,11 @@
 #include "dolphinsettings.h"
 
 TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
-    SidebarPage(parent),
-    m_dirLister(0),
-    m_dirModel(0),
-    m_proxyModel(0),
-    m_treeView(0)
+        SidebarPage(parent),
+        m_dirLister(0),
+        m_dirModel(0),
+        m_proxyModel(0),
+        m_treeView(0)
 {
     m_dirLister = new KDirLister();
     m_dirLister->setDirOnlyMode(true);
@@ -105,8 +105,7 @@ void TreeViewSidebarPage::setUrl(const KUrl& url)
         const QModelIndex proxyIndex = m_proxyModel->mapFromSource(index);
         m_treeView->scrollTo(proxyIndex);
         selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
-    }
-    else {
+    } else {
         // The item with the given URL is not loaded by the model yet. Iterate
         // backward to the base URL and trigger the loading of the items for
         // each hierarchy level.

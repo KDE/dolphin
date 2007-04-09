@@ -44,19 +44,19 @@
 #include <QVBoxLayout>
 
 ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
-    KDialog(dolphinView),
-    m_isDirty(false),
-    m_dolphinView(dolphinView),
-    m_viewProps(0),
-    m_viewMode(0),
-    m_sorting(0),
-    m_sortOrder(0),
-    m_additionalInfo(0),
-    m_showPreview(0),
-    m_showHiddenFiles(0),
-    m_applyToCurrentFolder(0),
-    m_applyToSubFolders(0),
-    m_useAsDefault(0)
+        KDialog(dolphinView),
+        m_isDirty(false),
+        m_dolphinView(dolphinView),
+        m_viewProps(0),
+        m_viewMode(0),
+        m_sorting(0),
+        m_sortOrder(0),
+        m_additionalInfo(0),
+        m_showPreview(0),
+        m_showHiddenFiles(0),
+        m_applyToCurrentFolder(0),
+        m_applyToSubFolders(0),
+        m_useAsDefault(0)
 {
     Q_ASSERT(dolphinView != 0);
     const bool useGlobalViewProps = DolphinSettings::instance().generalSettings()->globalViewProps();
@@ -162,7 +162,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
         m_applyToCurrentFolder = new QRadioButton(i18n("Current folder"), applyBox);
         m_applyToCurrentFolder->setChecked(true);
         m_applyToSubFolders = new QRadioButton(i18n("Current folder including all sub folders"), applyBox);
-        m_applyToAllFolders = new QRadioButton(i18n("All folders"),applyBox);
+        m_applyToAllFolders = new QRadioButton(i18n("All folders"), applyBox);
 
         QButtonGroup* applyGroup = new QButtonGroup(this);
         applyGroup->addButton(m_applyToCurrentFolder);
@@ -237,10 +237,10 @@ void ViewPropertiesDialog::slotAdditionalInfoChanged(int index)
 {
     KFileItemDelegate::AdditionalInformation info = KFileItemDelegate::NoInformation;
     switch (index) {
-        case 1:  info = KFileItemDelegate::FriendlyMimeType; break;
-        case 2:  info = KFileItemDelegate::Size; break;
-        case 3:  info = KFileItemDelegate::ModificationTime; break;
-        default: break;
+    case 1:  info = KFileItemDelegate::FriendlyMimeType; break;
+    case 2:  info = KFileItemDelegate::Size; break;
+    case 3:  info = KFileItemDelegate::ModificationTime; break;
+    default: break;
     }
     m_viewProps->setAdditionalInfo(info);
     m_isDirty = true;
@@ -277,8 +277,8 @@ void ViewPropertiesDialog::applyViewProperties()
         }
 
         ViewPropsProgressInfo* info = new ViewPropsProgressInfo(m_dolphinView,
-                                                                m_dolphinView->url(),
-                                                                *m_viewProps);
+                                      m_dolphinView->url(),
+                                      *m_viewProps);
         info->setWindowModality(Qt::NonModal);
         info->show();
     }

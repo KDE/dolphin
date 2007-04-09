@@ -109,7 +109,8 @@ private:
                        const QString& entryName) const;
 
 private:
-    struct Entry {
+    struct Entry
+    {
         int type;
         QString name;
         QString filePath;     // empty for separator
@@ -118,7 +119,8 @@ private:
         QString comment;
     };
 
-    enum ContextType {
+    enum ContextType
+    {
         NoContext = 0,
         ItemContext = 1,
         TrashContext = 2

@@ -30,7 +30,7 @@ class MetaDataWidget : public QWidget
     Q_OBJECT
 
 public:
-    MetaDataWidget( QWidget* parent = 0 );
+    MetaDataWidget(QWidget* parent = 0);
     ~MetaDataWidget();
 
     /**
@@ -39,10 +39,10 @@ public:
      * been initialized properly.
      */
     static bool metaDataAvailable();
-    
+
 public Q_SLOTS:
-    void setFile( const KUrl& url );
-    void setFiles( const KUrl::List urls );
+    void setFile(const KUrl& url);
+    void setFiles(const KUrl::List urls);
 
 signals:
     /**
@@ -53,10 +53,10 @@ signals:
 
 private Q_SLOTS:
     void slotCommentChanged();
-    void slotRatingChanged( int r );
+    void slotRatingChanged(int r);
 
 protected:
-    bool eventFilter( QObject* obj, QEvent* event );
+    bool eventFilter(QObject* obj, QEvent* event);
 
 private:
     class Private;

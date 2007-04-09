@@ -51,15 +51,30 @@ public:
 
     void setMessage(const QString& text, DolphinStatusBar::Type type);
 
-    DolphinStatusBar::Type type() const { return m_type; }
-    const QString& text() const { return m_text; }
+    DolphinStatusBar::Type type() const
+    {
+        return m_type;
+    }
+    const QString& text() const
+    {
+        return m_text;
+    }
 
-    void setDefaultText(const QString& text) { m_defaultText = text; }
-    const QString& defaultText() const { return m_defaultText; }
+    void setDefaultText(const QString& text)
+    {
+        m_defaultText = text;
+    }
+    const QString& defaultText() const
+    {
+        return m_defaultText;
+    }
 
     // TODO: maybe a better approach is possible with the size hint
     void setMinimumTextHeight(int min);
-    int minimumTextHeight() const { return m_minTextHeight; }
+    int minimumTextHeight() const
+    {
+        return m_minTextHeight;
+    }
 
     /**
      * Returns the gap of the width of the current set text to the
@@ -116,14 +131,18 @@ private:
     void reset();
 
 private:
-    enum State {
+    enum State
+    {
         Default,
         Illuminate,
         Illuminated,
         Desaturate
     };
 
-    enum { GeometryTimeout = 100 };
+    enum
+    {
+        GeometryTimeout = 100
+    };
 
     DolphinStatusBar::Type m_type;
     State m_state;
@@ -140,7 +159,10 @@ private:
                      const QColor& c2,
                      int percent) const;
 
-    int borderGap() const { return 2; }
+    int borderGap() const
+    {
+        return 2;
+    }
 };
 
 #endif

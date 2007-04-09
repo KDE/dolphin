@@ -31,9 +31,9 @@
  */
 class SidebarPage : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-    explicit SidebarPage(QWidget* parent=0);
+    explicit SidebarPage(QWidget* parent = 0);
     virtual ~SidebarPage();
 
 public slots:
@@ -41,7 +41,7 @@ public slots:
      * This is invoked every time the folder being displayed in the
      * file-management views changes.
      */
-	virtual void setUrl(const KUrl& url);
+    virtual void setUrl(const KUrl& url);
 
     /**
      * This is invoked to inform the sidebar that the user has selected a new

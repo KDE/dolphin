@@ -23,15 +23,13 @@
 #include <kurl.h>
 
 SidebarPage::SidebarPage(QWidget* parent) :
-    QWidget(parent),
-    m_url(KUrl()),
-    m_currentSelection(KFileItemList())
-{
-}
+        QWidget(parent),
+        m_url(KUrl()),
+        m_currentSelection(KFileItemList())
+{}
 
 SidebarPage::~SidebarPage()
-{
-}
+{}
 
 void SidebarPage::setUrl(const KUrl& url)
 {

@@ -28,10 +28,10 @@
 
 ApplyViewPropsJob::ApplyViewPropsJob(const KUrl& dir,
                                      const ViewProperties& viewProps) :
-    KIO::Job(false),
-    m_viewProps(0),
-    m_progress(0),
-    m_dir(dir)
+        KIO::Job(false),
+        m_viewProps(0),
+        m_progress(0),
+        m_dir(dir)
 {
     m_viewProps = new ViewProperties(dir);
     m_viewProps->setViewMode(viewProps.viewMode());
@@ -69,7 +69,7 @@ void ApplyViewPropsJob::slotEntries(KIO::Job*, const KIO::UDSEntryList& list)
     for (; it != end; ++it) {
         const KIO::UDSEntry& entry = *it;
         const QString name = entry.stringValue(KIO::UDS_NAME);
-        if ((name != ".") && (name != ".." ) && entry.isDir()) {
+        if ((name != ".") && (name != "..") && entry.isDir()) {
             ++m_progress;
 
             KUrl url(m_dir);
@@ -86,8 +86,8 @@ void ApplyViewPropsJob::slotEntries(KIO::Job*, const KIO::UDSEntryList& list)
 void ApplyViewPropsJob::slotResult(KJob* job)
 {
     if (job->error()) {
-        setError( job->error() );
-        setErrorText( job->errorText() );
+        setError(job->error());
+        setErrorText(job->errorText());
     }
     emitResult();
 }
