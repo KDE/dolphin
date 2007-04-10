@@ -165,6 +165,24 @@ public:
     bool showHiddenFiles() const;
 
     /**
+     * Summarizes all sorted items by their category \a categorized
+     * is true.
+     * If the view properties should be remembered for each directory
+     * (GeneralSettings::globalViewProps() returns false), then the
+     * categorized sorting setting will be be stored automatically.
+     */
+    void setCategorizedSorting(bool categorized);
+    bool categorizedSorting() const;
+
+    /**
+     * Returns true, if the categorized sorting is supported by the current
+     * used mode (see DolphinView::setMode()). Currently only DolphinView::IconsView
+     * supports categorizations. To check whether the categorized
+     * sorting is set, use DolphinView::categorizedSorting().
+     */
+    bool supportsCategorizedSorting() const;
+
+    /**
      * Triggers the renaming of the currently selected items, where
      * the user must input a new name for the items.
      */
@@ -374,6 +392,9 @@ signals:
 
     /** Is emitted if the 'show hidden files' property has been changed. */
     void showHiddenFilesChanged();
+
+    /** Is emitted if the 'categorized sorting' property has been changed. */
+    void categorizedSortingChanged();
 
     /** Is emitted if the sorting by name, size or date has been changed. */
     void sortingChanged(DolphinView::Sorting sorting);

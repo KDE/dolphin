@@ -275,6 +275,14 @@ void DolphinMainWindow::slotShowHiddenFilesChanged()
     showHiddenFilesAction->setChecked(m_activeView->showHiddenFiles());
 }
 
+void DolphinMainWindow::slotCategorizedSortingChanged()
+{
+    KToggleAction* categorizedSortingAction =
+        static_cast<KToggleAction*>(actionCollection()->action("categorized"));
+    categorizedSortingAction->setChecked(m_activeView->categorizedSorting());
+    categorizedSortingAction->setEnabled(m_activeView->supportsCategorizedSorting());
+}
+
 void DolphinMainWindow::slotSortingChanged(DolphinView::Sorting sorting)
 {
     QAction* action = 0;
@@ -712,6 +720,12 @@ void DolphinMainWindow::toggleSortOrder()
                                 Qt::DescendingOrder :
                                 Qt::AscendingOrder;
     m_activeView->setSortOrder(order);
+}
+
+void DolphinMainWindow::toggleSortCategorization()
+{
+    const bool categorizedSorting = m_activeView->categorizedSorting();
+    m_activeView->setCategorizedSorting(!categorizedSorting);
 }
 
 void DolphinMainWindow::clearInfo()
@@ -1157,6 +1171,10 @@ void DolphinMainWindow::setupActions()
     sortDescending->setText(i18n("Descending"));
     connect(sortDescending, SIGNAL(triggered()), this, SLOT(toggleSortOrder()));
 
+    KToggleAction* sortCategorized = actionCollection()->add<KToggleAction>("categorized");
+    sortCategorized->setText(i18n("Categorized"));
+    connect(sortCategorized, SIGNAL(triggered()), this, SLOT(toggleSortCategorization()));
+
     KToggleAction* clearInfo = actionCollection()->add<KToggleAction>("clear_info");
     clearInfo->setText(i18n("No Information"));
     connect(clearInfo, SIGNAL(triggered()), this, SLOT(clearInfo()));
@@ -1391,6 +1409,7 @@ void DolphinMainWindow::updateViewActions()
 
     slotSortingChanged(m_activeView->sorting());
     slotSortOrderChanged(m_activeView->sortOrder());
+    slotCategorizedSortingChanged();
     slotAdditionalInfoChanged(m_activeView->additionalInfo());
 
     KToggleAction* showFilterBarAction =
@@ -1452,6 +1471,8 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
             this, SLOT(slotShowPreviewChanged()));
     connect(view, SIGNAL(showHiddenFilesChanged()),
             this, SLOT(slotShowHiddenFilesChanged()));
+    connect(view, SIGNAL(categorizedSortingChanged()),
+            this, SLOT(slotCategorizedSortingChanged()));
     connect(view, SIGNAL(sortingChanged(DolphinView::Sorting)),
             this, SLOT(slotSortingChanged(DolphinView::Sorting)));
     connect(view, SIGNAL(sortOrderChanged(Qt::SortOrder)),

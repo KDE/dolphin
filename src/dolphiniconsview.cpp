@@ -19,7 +19,6 @@
 
 #include "dolphiniconsview.h"
 
-#include "dolphinitemcategorizer.h"
 #include "dolphincontroller.h"
 #include "dolphinsettings.h"
 #include "dolphinitemcategorizer.h"
@@ -35,8 +34,7 @@
 
 DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controller) :
         KListView(parent),
-        m_controller(controller),
-        m_itemCategorizer(0)
+        m_controller(controller)
 {
     Q_ASSERT(controller != 0);
     setViewMode(QListView::IconMode);
@@ -75,17 +73,10 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
         setFlow(QListView::TopToBottom);
         m_viewOptions.decorationPosition = QStyleOptionViewItem::Left;
     }
-
-    m_itemCategorizer = new DolphinItemCategorizer();
-    // setItemCategorizer(m_itemCategorizer);
 }
 
 DolphinIconsView::~DolphinIconsView()
-{
-    setItemCategorizer(0);
-    delete m_itemCategorizer;
-    m_itemCategorizer = 0;
-}
+{}
 
 QStyleOptionViewItem DolphinIconsView::viewOptions() const
 {

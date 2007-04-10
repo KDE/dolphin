@@ -131,6 +131,20 @@ void ViewProperties::setShowHiddenFiles(bool show)
     }
 }
 
+void ViewProperties::setCategorizedSorting(bool categorized)
+{
+    if (m_node->categorizedSorting() != categorized) {
+        m_node->setCategorizedSorting(categorized);
+        updateTimeStamp();
+    }
+}
+
+bool ViewProperties::categorizedSorting() const
+{
+    return m_node->categorizedSorting();
+}
+
+
 bool ViewProperties::showHiddenFiles() const
 {
     return m_node->showHiddenFiles();
@@ -181,6 +195,7 @@ void ViewProperties::setDirProperties(const ViewProperties& props)
     setViewMode(props.viewMode());
     setShowPreview(props.showPreview());
     setShowHiddenFiles(props.showHiddenFiles());
+    setCategorizedSorting(props.categorizedSorting());
     setSorting(props.sorting());
     setSortOrder(props.sortOrder());
     setAdditionalInfo(props.additionalInfo());

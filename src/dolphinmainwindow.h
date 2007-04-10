@@ -265,6 +265,9 @@ private slots:
     /** Switches between an ascending and descending sorting order. */
     void toggleSortOrder();
 
+    /** Switches between sorting by categories or not. */
+    void toggleSortCategorization();
+
     /**
      * Clears any additional information for an item except for the
      * name and the icon.
@@ -363,6 +366,9 @@ private slots:
 
     /** Updates the state of the 'Show hidden files' menu action. */
     void slotShowHiddenFilesChanged();
+
+    /** Updates the state of the 'Categorized sorting' menu action. */
+    void slotCategorizedSortingChanged();
 
     /** Updates the state of the 'Sort by' actions. */
     void slotSortingChanged(DolphinView::Sorting sorting);

@@ -29,6 +29,12 @@
             <default>false</default>
         </entry>
 
+        <entry name="CategorizedSorting" type="Bool" >
+            <label>Categorized Sorting</label>
+            <whatsthis>When this option is enabled, the sorted items get summarized by their category.</whatsthis>
+            <default>false</default>
+        </entry>
+
         <entry name="Sorting" type="Int" >
             <label>Sort files by</label>
             <whatsthis>This option defines which attribute (name, size, date, etc) sorting is performed on.</whatsthis>

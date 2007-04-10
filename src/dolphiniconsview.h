@@ -73,7 +73,6 @@ private:
 private:
     DolphinController* m_controller;
     QStyleOptionViewItem m_viewOptions;
-    DolphinItemCategorizer* m_itemCategorizer;
 };
 
 #endif

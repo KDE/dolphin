@@ -51,6 +51,7 @@
 #include "dolphindetailsview.h"
 #include "dolphiniconsview.h"
 #include "dolphincontextmenu.h"
+#include "dolphinitemcategorizer.h"
 #include "filterbar.h"
 #include "renamedialog.h"
 #include "kurlnavigator.h"
@@ -253,6 +254,44 @@ void DolphinView::setShowHiddenFiles(bool show)
 bool DolphinView::showHiddenFiles() const
 {
     return m_dirLister->showingDotFiles();
+}
+
+void DolphinView::setCategorizedSorting(bool categorized)
+{
+    if (!supportsCategorizedSorting() || (categorized == categorizedSorting())) {
+        return;
+    }
+
+    Q_ASSERT(m_iconsView != 0);
+    if (categorized) {
+        Q_ASSERT(m_iconsView->itemCategorizer() == 0);
+        m_iconsView->setItemCategorizer(new DolphinItemCategorizer());
+    } else {
+        KItemCategorizer* categorizer = m_iconsView->itemCategorizer();
+        m_iconsView->setItemCategorizer(0);
+        delete categorizer;
+    }
+
+    ViewProperties props(m_urlNavigator->url());
+    props.setCategorizedSorting(categorized);
+    props.save();
+
+    emit categorizedSortingChanged();
+}
+
+bool DolphinView::categorizedSorting() const
+{
+    if (!supportsCategorizedSorting()) {
+        return false;
+    }
+
+    Q_ASSERT(m_iconsView != 0);
+    return m_iconsView->itemCategorizer() != 0;
+}
+
+bool DolphinView::supportsCategorizedSorting() const
+{
+    return m_iconsView != 0;
 }
 
 void DolphinView::renameSelectedItems()
@@ -610,6 +649,22 @@ void DolphinView::loadDirectory(const KUrl& url)
     if (showHiddenFiles != m_dirLister->showingDotFiles()) {
         m_dirLister->setShowingDotFiles(showHiddenFiles);
         emit showHiddenFilesChanged();
+    }
+
+    const bool categorized = props.categorizedSorting();
+    if (categorized != categorizedSorting()) {
+        if (supportsCategorizedSorting()) {
+            Q_ASSERT(m_iconsView != 0);
+            if (categorized) {
+                Q_ASSERT(m_iconsView->itemCategorizer() == 0);
+                m_iconsView->setItemCategorizer(new DolphinItemCategorizer());
+            } else {
+                KItemCategorizer* categorizer = m_iconsView->itemCategorizer();
+                m_iconsView->setItemCategorizer(0);
+                delete categorizer;
+            }
+        }
+        emit categorizedSortingChanged();
     }
 
     const DolphinView::Sorting sorting = props.sorting();
@@ -1096,6 +1151,11 @@ void DolphinView::createView()
     if (view != 0) {
         m_topLayout->removeWidget(view);
         view->close();
+        if (view == m_iconsView) {
+            KItemCategorizer* categorizer = m_iconsView->itemCategorizer();
+            m_iconsView->setItemCategorizer(0);
+            delete categorizer;
+        }
         view->deleteLater();
         view = 0;
         m_iconsView = 0;

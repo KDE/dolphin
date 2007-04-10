@@ -32,6 +32,7 @@
     <Action name="by_group" />
     <Separator/>
     <Action name="descending" />
+    <Action name="categorized" />
    </Menu>
    <Menu name="additional_info">
     <text>Additional Information</text>
