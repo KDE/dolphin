@@ -28,7 +28,7 @@
 
 ApplyViewPropsJob::ApplyViewPropsJob(const KUrl& dir,
                                      const ViewProperties& viewProps) :
-        KIO::Job(false),
+        KIO::Job(),
         m_viewProps(0),
         m_progress(0),
         m_dir(dir)
