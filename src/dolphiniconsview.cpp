@@ -19,8 +19,10 @@
 
 #include "dolphiniconsview.h"
 
+#include "dolphinitemcategorizer.h"
 #include "dolphincontroller.h"
 #include "dolphinsettings.h"
+#include "dolphinitemcategorizer.h"
 
 #include "dolphin_iconsmodesettings.h"
 
@@ -32,8 +34,9 @@
 #include <QPoint>
 
 DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controller) :
-        QListView(parent),
-        m_controller(controller)
+        KListView(parent),
+        m_controller(controller),
+        m_itemCategorizer(0)
 {
     Q_ASSERT(controller != 0);
     setViewMode(QListView::IconMode);
@@ -56,7 +59,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     Q_ASSERT(settings != 0);
 
-    m_viewOptions = QListView::viewOptions();
+    m_viewOptions = KListView::viewOptions();
 
     QFont font(settings->fontFamily(), settings->fontSize());
     font.setItalic(settings->italicFont());
@@ -72,10 +75,17 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
         setFlow(QListView::TopToBottom);
         m_viewOptions.decorationPosition = QStyleOptionViewItem::Left;
     }
+
+    m_itemCategorizer = new DolphinItemCategorizer();
+    // setItemCategorizer(m_itemCategorizer);
 }
 
 DolphinIconsView::~DolphinIconsView()
-{}
+{
+    setItemCategorizer(0);
+    delete m_itemCategorizer;
+    m_itemCategorizer = 0;
+}
 
 QStyleOptionViewItem DolphinIconsView::viewOptions() const
 {
@@ -84,13 +94,13 @@ QStyleOptionViewItem DolphinIconsView::viewOptions() const
 
 void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)
 {
-    QListView::contextMenuEvent(event);
+    KListView::contextMenuEvent(event);
     m_controller->triggerContextMenuRequest(event->pos());
 }
 
 void DolphinIconsView::mouseReleaseEvent(QMouseEvent* event)
 {
-    QListView::mouseReleaseEvent(event);
+    KListView::mouseReleaseEvent(event);
     m_controller->triggerActivation();
 }
 
@@ -110,7 +120,7 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
                                           event->source());
         event->acceptProposedAction();
     }
-    QListView::dropEvent(event);
+    KListView::dropEvent(event);
 }
 
 void DolphinIconsView::updateGridSize(bool showPreview)

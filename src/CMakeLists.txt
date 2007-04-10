@@ -9,20 +9,22 @@ add_definitions (-DQT3_SUPPORT)
 ########### next target ###############
 
 set(dolphinprivate_LIB_SRCS
-	dolphincontroller.cpp
-	dolphindetailsview.cpp
-	dolphiniconsview.cpp
-	dolphinsettings.cpp
-	viewproperties.cpp
-	dolphinsortfilterproxymodel.cpp
-	)
+    dolphincontroller.cpp
+    dolphindetailsview.cpp
+    dolphiniconsview.cpp
+    dolphinitemcategorizer.cpp
+    klistview.cpp
+    dolphinsettings.cpp
+    viewproperties.cpp
+    dolphinsortfilterproxymodel.cpp
+    )
 
 kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
-   dolphin_columnmodesettings.kcfgc
-   dolphin_directoryviewpropertysettings.kcfgc
-   dolphin_detailsmodesettings.kcfgc
-   dolphin_iconsmodesettings.kcfgc
-   dolphin_generalsettings.kcfgc)
+    dolphin_columnmodesettings.kcfgc
+    dolphin_directoryviewpropertysettings.kcfgc
+    dolphin_detailsmodesettings.kcfgc
+    dolphin_iconsmodesettings.kcfgc
+    dolphin_generalsettings.kcfgc)
 
 
 kde4_automoc(${dolphinprivate_LIB_SRCS})
@@ -101,5 +103,9 @@ install(TARGETS dolphin DESTINATION ${BIN_INSTALL_DIR})
 install( FILES  dolphin.desktop DESTINATION ${XDG_APPS_DIR} )
 install( FILES  dolphin_directoryviewpropertysettings.kcfg dolphin_generalsettings.kcfg dolphin_columnmodesettings.kcfg dolphin_iconsmodesettings.kcfg dolphin_detailsmodesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
 install( FILES  dolphinui.rc DESTINATION ${DATA_INSTALL_DIR}/dolphin )
+install( FILES
+    klistview.h
+    kitemcategorizer.h
+    DESTINATION ${INCLUDE_INSTALL_DIR})
 
 kde4_install_icons( ${ICON_INSTALL_DIR} )
