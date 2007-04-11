@@ -866,9 +866,9 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
     // the directory loading progress information has the lowest priority.
     const QString progressText(m_statusBar->progressText());
     m_showProgress = progressText.isEmpty() ||
-                     (progressText == i18n("Loading directory..."));
+                     (progressText == i18n("Loading folder..."));
     if (m_showProgress) {
-        m_statusBar->setProgressText(i18n("Loading directory..."));
+        m_statusBar->setProgressText(i18n("Loading folder..."));
         m_statusBar->setProgress(0);
     }
 

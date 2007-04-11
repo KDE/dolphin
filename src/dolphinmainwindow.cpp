@@ -538,7 +538,7 @@ void DolphinMainWindow::slotUndoAvailable(bool available)
             break;
 
         case KonqUndoManager::MKDIR:
-            statusBar->setMessage(i18n("Created directory."),
+            statusBar->setMessage(i18n("Created folder."),
                                   DolphinStatusBar::OperationCompleted);
             break;
 
