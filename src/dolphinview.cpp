@@ -102,7 +102,7 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     m_urlNavigator->setUrlEditable(DolphinSettings::instance().generalSettings()->editableUrl());
     m_urlNavigator->setHomeUrl(DolphinSettings::instance().generalSettings()->homeUrl());
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(loadDirectory(const KUrl&)));
+            this, SLOT(changeDirectory(const KUrl&)));
     connect(m_urlNavigator, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&)),
             this, SLOT(dropUrls(const KUrl::List&, const KUrl&)));
     connect(m_urlNavigator, SIGNAL(activated()),
@@ -607,7 +607,9 @@ void DolphinView::rename(const KUrl& source, const QString& newName)
 
 void DolphinView::reload()
 {
-    startDirLister(m_urlNavigator->url(), true);
+    const KUrl& url = m_urlNavigator->url();
+    changeDirectory(url);
+    startDirLister(url, true);
 }
 
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)
@@ -621,7 +623,7 @@ DolphinMainWindow* DolphinView::mainWindow() const
     return m_mainWindow;
 }
 
-void DolphinView::loadDirectory(const KUrl& url)
+void DolphinView::changeDirectory(const KUrl& url)
 {
     if (!isActive()) {
         requestActivation();

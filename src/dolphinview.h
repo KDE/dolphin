@@ -429,7 +429,7 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent* event);
 
 private slots:
-    void loadDirectory(const KUrl& kurl);
+    void changeDirectory(const KUrl& url);
     void triggerItem(const QModelIndex& index);
     void updateProgress(int percent);
 
