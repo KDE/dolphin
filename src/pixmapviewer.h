@@ -21,8 +21,8 @@
 #ifndef PIXMAPVIEWER_H
 #define PIXMAPVIEWER_H
 
-#include <qwidget.h>
-#include <qpixmap.h>
+#include <QtGui/QWidget>
+#include <QtGui/QPixmap>
 //Added by qt3to4:
 #include <QPaintEvent>
 

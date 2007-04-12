@@ -20,7 +20,7 @@
 #ifndef VIEWSETTINGSPAGE_H
 #define VIEWSETTINGSPAGE_H
 
-#include <qwidget.h>
+#include <QtGui/QWidget>
 #include <settingspagebase.h>
 
 class ColumnViewSettingsPage;

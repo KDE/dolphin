@@ -22,7 +22,7 @@
 
 #include <sidebarpage.h>
 
-#include <qpushbutton.h>
+#include <QtGui/QPushButton>
 #include <QPixmap>
 #include <QEvent>
 #include <QLabel>

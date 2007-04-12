@@ -21,7 +21,7 @@
 #define STATUSBARSPACEINFO_H
 
 #include <kurl.h>
-#include <qcolor.h>
+#include <QtGui/QColor>
 
 #include <QPaintEvent>
 #include <QWidget>

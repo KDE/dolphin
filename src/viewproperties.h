@@ -24,7 +24,7 @@
 #include <dolphinview.h>
 #include <kfileitemdelegate.h>
 #include <kurl.h>
-#include <qdatetime.h>
+#include <QtCore/QDate>
 #include <libdolphin_export.h>
 #include "dolphin_directoryviewpropertysettings.h"
 

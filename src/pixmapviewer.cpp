@@ -22,7 +22,7 @@
 
 #include <kglobalsettings.h>
 #include <kiconloader.h>
-#include <qpainter.h>
+#include <QtGui/QPainter>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QPaintEvent>
