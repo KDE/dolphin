@@ -1492,6 +1492,7 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
     connect(navigator, SIGNAL(historyChanged()),
             this, SLOT(slotHistoryChanged()));
 }
+
 void DolphinMainWindow::connectSidebarPage(SidebarPage* page)
 {
     connect(page, SIGNAL(changeUrl(KUrl)),
@@ -1508,14 +1509,15 @@ void DolphinMainWindow::connectSidebarPage(SidebarPage* page)
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface(DolphinMainWindow* mainWin) :
-        KonqUndoManager::UiInterface(mainWin),
-        m_mainWin(mainWin)
+    KonqUndoManager::UiInterface(mainWin),
+    m_mainWin(mainWin)
 {
     Q_ASSERT(m_mainWin != 0);
 }
 
 DolphinMainWindow::UndoUiInterface::~UndoUiInterface()
-{}
+{
+}
 
 void DolphinMainWindow::UndoUiInterface::jobError(KIO::Job* job)
 {
