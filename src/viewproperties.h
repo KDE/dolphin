@@ -22,14 +22,11 @@
 #define VIEWPROPERTIES_H
 
 #include <dolphinview.h>
-#include <kfileitemdelegate.h>
 #include <kurl.h>
-#include <QtCore/QDate>
 #include <libdolphin_export.h>
-#include "dolphin_directoryviewpropertysettings.h"
 
 class QFile;
-
+class ViewPropertySettings;
 /**
  * @brief Maintains the view properties like 'view mode' or
  *        'show hidden files' for a directory.

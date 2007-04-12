@@ -31,6 +31,7 @@
 
 #include "viewproperties.h"
 #include "dolphinsettings.h"
+#include "dolphin_directoryviewpropertysettings.h"
 #include "dolphin_generalsettings.h"
 
 #define FILE_NAME "/.directory"
