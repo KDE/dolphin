@@ -21,10 +21,10 @@
 #define STATUSBARSPACEINFO_H
 
 #include <kurl.h>
-#include <QtGui/QColor>
 
-#include <QPaintEvent>
-#include <QWidget>
+#include <QtGui/QColor>
+#include <QtGui/QPaintEvent>
+#include <QtGui/QWidget>
 
 class KDiskFreeSp;
 class QTimer;

@@ -20,22 +20,21 @@
 
 #include "pixmapviewer.h"
 
-#include <kglobalsettings.h>
 #include <kiconloader.h>
 #include <QtGui/QPainter>
-//Added by qt3to4:
-#include <QPixmap>
-#include <QPaintEvent>
+#include <QtGui/QPixmap>
+#include <QtGui/QPaintEvent>
 
 PixmapViewer::PixmapViewer(QWidget* parent) :
-        QWidget(parent)
+    QWidget(parent)
 {
     setMinimumWidth(K3Icon::SizeEnormous);
     setMinimumWidth(K3Icon::SizeEnormous);
 }
 
 PixmapViewer::~PixmapViewer()
-{}
+{
+}
 
 void PixmapViewer::setPixmap(const QPixmap& pixmap)
 {

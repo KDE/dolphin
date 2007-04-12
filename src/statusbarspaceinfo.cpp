@@ -20,9 +20,9 @@
 
 #include "statusbarspaceinfo.h"
 
-#include <QPainter>
-#include <QPaintEvent>
-#include <QTimer>
+#include <QtCore/QTimer>
+#include <QtGui/QPainter>
+#include <QtGui/QPaintEvent>
 
 #include <kglobalsettings.h>
 #include <kdiskfreesp.h>
@@ -30,10 +30,10 @@
 #include <kio/job.h>
 
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
-        QWidget(parent),
-        m_gettingSize(false),
-        m_kBSize(0),
-        m_kBAvailable(0)
+    QWidget(parent),
+    m_gettingSize(false),
+    m_kBSize(0),
+    m_kBAvailable(0)
 {
     setMinimumWidth(200);
 
@@ -45,7 +45,8 @@ StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
 }
 
 StatusBarSpaceInfo::~StatusBarSpaceInfo()
-{}
+{
+}
 
 void StatusBarSpaceInfo::setUrl(const KUrl& url)
 {
@@ -109,10 +110,13 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
 
 
 void StatusBarSpaceInfo::slotFoundMountPoint(const unsigned long& kBSize,
-        const unsigned long& /* kBUsed */,
-        const unsigned long& kBAvailable,
-        const QString& /* mountPoint */)
+                                             const unsigned long& kBUsed,
+                                             const unsigned long& kBAvailable,
+                                             const QString& mountPoint)
 {
+    Q_UNUSED(kBUsed);
+    Q_UNUSED(mountPoint);
+
     m_gettingSize = false;
     m_kBSize = kBSize;
     m_kBAvailable = kBAvailable;

@@ -23,8 +23,8 @@
 
 #include <QtGui/QWidget>
 #include <QtGui/QPixmap>
-//Added by qt3to4:
-#include <QPaintEvent>
+
+class QPaintEvent;
 
 /**
  * @brief Widget which shows a pixmap centered inside the boundaries.
