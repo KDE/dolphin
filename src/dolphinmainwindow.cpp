@@ -394,17 +394,6 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
 
     settings.save();
 
-    // TODO: I assume there will be a generic way in KDE 4 to store the docks
-    // of the main window. In the meantime they are stored manually:
-    QString filename = KStandardDirs::locateLocal("data", KGlobal::mainComponent().componentName());
-    filename.append("/panels_layout");
-    QFile file(filename);
-    if (file.open(QIODevice::WriteOnly)) {
-        QByteArray data = saveState();
-        file.write(data);
-        file.close();
-    }
-
     KMainWindow::closeEvent(event);
 }
 
@@ -1031,17 +1020,6 @@ void DolphinMainWindow::loadSettings()
     }
 
     updateViewActions();
-
-    // TODO: I assume there will be a generic way in KDE 4 to restore the docks
-    // of the main window. In the meantime they are restored manually (see also
-    // DolphinMainWindow::closeEvent() for more details):
-    QString filename = KStandardDirs::locateLocal("data", KGlobal::mainComponent().componentName());   filename.append("/panels_layout");
-    QFile file(filename);
-    if (file.open(QIODevice::ReadOnly)) {
-        QByteArray data = file.readAll();
-        restoreState(data);
-        file.close();
-    }
 }
 
 void DolphinMainWindow::setupActions()
@@ -1281,7 +1259,7 @@ void DolphinMainWindow::setupDockWidgets()
     // after the dock concept has been finalized.
 
     // setup "Information"
-    QDockWidget* infoDock = new QDockWidget(i18n("Information"), this);
+    QDockWidget* infoDock = new QDockWidget(i18n("Information"));
     infoDock->setObjectName("infoDock");
     infoDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     SidebarPage* infoWidget = new InfoSidebarPage(infoDock);
