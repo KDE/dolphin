@@ -21,12 +21,12 @@
 #ifndef __KITEMCATEGORIZER_H__
 #define __KITEMCATEGORIZER_H__
 
-#include <kdeui_export.h>
+#include <libdolphin_export.h>
 
 class QString;
 class QModelIndex;
 
-class KDEUI_EXPORT KItemCategorizer
+class LIBDOLPHINPRIVATE_EXPORT KItemCategorizer
 {
 public:
     KItemCategorizer()

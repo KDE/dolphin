@@ -22,7 +22,6 @@
 
 #include <QColumnView>
 #include <QStyleOptionViewItem>
-#include <libdolphin_export.h>
 
 class DolphinController;
 class DolphinView;
@@ -30,7 +29,7 @@ class DolphinView;
 /**
  * @brief TODO
  */
-class LIBDOLPHINPRIVATE_EXPORT DolphinColumnView : public QColumnView
+class DolphinColumnView : public QColumnView
 {
     Q_OBJECT
 

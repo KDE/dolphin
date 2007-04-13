@@ -23,11 +23,11 @@
 
 #include <QListView>
 
-#include <kdeui_export.h>
+#include <libdolphin_export.h>
 
 class KItemCategorizer;
 
-class KDEUI_EXPORT KListView
+class LIBDOLPHINPRIVATE_EXPORT KListView
     : public QListView
 {
     Q_OBJECT
