@@ -64,26 +64,27 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
                          const KUrl& url,
                          Mode mode,
                          bool showHiddenFiles) :
-        QWidget(parent),
-        m_showProgress(false),
-        m_blockContentsMovedSignal(false),
-        m_mode(mode),
-        m_iconSize(0),
-        m_folderCount(0),
-        m_fileCount(0),
-        m_mainWindow(mainWindow),
-        m_topLayout(0),
-        m_urlNavigator(0),
-        m_controller(0),
-        m_iconsView(0),
-        m_detailsView(0),
-        m_columnView(0),
-        m_fileItemDelegate(0),
-        m_filterBar(0),
-        m_statusBar(0),
-        m_dirModel(0),
-        m_dirLister(0),
-        m_proxyModel(0)
+    QWidget(parent),
+    m_showProgress(false),
+    m_blockContentsMovedSignal(false),
+    m_mode(mode),
+    m_iconSize(0),
+    m_folderCount(0),
+    m_fileCount(0),
+    m_mainWindow(mainWindow),
+    m_topLayout(0),
+    m_urlNavigator(0),
+    m_controller(0),
+    m_iconsView(0),
+    m_detailsView(0),
+    m_columnView(0),
+    m_fileItemDelegate(0),
+    m_filterBar(0),
+    m_statusBar(0),
+    m_dirModel(0),
+    m_dirLister(0),
+    m_proxyModel(0),
+    m_previewJob(0)
 {
     hide();
     setFocusPolicy(Qt::StrongFocus);
@@ -177,6 +178,11 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
 
 DolphinView::~DolphinView()
 {
+    if (m_previewJob != 0) {
+        m_previewJob->doKill();
+        m_previewJob = 0;
+    }
+
     delete m_dirLister;
     m_dirLister = 0;
 }
@@ -796,9 +802,14 @@ void DolphinView::updateItemCount()
 void DolphinView::generatePreviews(const KFileItemList& items)
 {
     if (m_controller->showPreview()) {
-        KIO::PreviewJob* job = KIO::filePreview(items, 128);
-        connect(job, SIGNAL(gotPreview(const KFileItem*, const QPixmap&)),
+        if (m_previewJob != 0) {
+            m_previewJob->doKill();
+        }
+        m_previewJob = KIO::filePreview(items, 128);
+        connect(m_previewJob, SIGNAL(gotPreview(const KFileItem*, const QPixmap&)),
                 this, SLOT(showPreview(const KFileItem*, const QPixmap&)));
+        connect(m_previewJob, SIGNAL(result(KJob*)),
+                this, SLOT(slotPreviewResult(KJob*)));
     }
 }
 
@@ -878,6 +889,11 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
     m_cutItemsCache.clear();
     m_blockContentsMovedSignal = true;
     m_dirLister->stop();
+
+    if (m_previewJob != 0) {
+        m_previewJob->doKill();
+        m_previewJob = 0;
+    }
 
     bool openDir = true;
     bool keepOldDirs = isColumnViewActive();
@@ -1145,6 +1161,12 @@ void DolphinView::updateCutItems()
 
     // ... and apply an item effect to all currently cut items
     applyCutItemEffect();
+}
+
+void DolphinView::slotPreviewResult(KJob* job)
+{
+    Q_UNUSED(job);
+    m_previewJob = 0;
 }
 
 void DolphinView::createView()
