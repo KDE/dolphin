@@ -1234,7 +1234,7 @@ void DolphinMainWindow::setupActions()
 
     QAction* findFile = actionCollection()->addAction("find_file");
     findFile->setText(i18n("Find File..."));
-    findFile->setShortcut(Qt::Key_F);
+    findFile->setShortcut(Qt::CTRL | Qt::Key_F);
     findFile->setIcon(KIcon("file-find"));
     connect(findFile, SIGNAL(triggered()), this, SLOT(findFile()));
 
