@@ -223,6 +223,7 @@ void DolphinView::setShowPreview(bool show)
 {
     ViewProperties props(m_urlNavigator->url());
     props.setShowPreview(show);
+    props.save();
 
     m_controller->setShowPreview(show);
 
