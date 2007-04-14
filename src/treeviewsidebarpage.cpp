@@ -87,8 +87,6 @@ void TreeViewSidebarPage::setUrl(const KUrl& url)
 
     m_url = url;
 
-    kDebug() << "-------------- Treeview: url = " << url << endl;
-
     // adjust the root of the tree to the base bookmark
     KFilePlacesModel* placesModel = DolphinSettings::instance().placesModel();
     KUrl baseUrl = placesModel->url(placesModel->closestItem(url));
