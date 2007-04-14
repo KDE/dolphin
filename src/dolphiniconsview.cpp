@@ -33,8 +33,8 @@
 #include <QPoint>
 
 DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controller) :
-        KListView(parent),
-        m_controller(controller)
+    KListView(parent),
+    m_controller(controller)
 {
     Q_ASSERT(controller != 0);
     setViewMode(QListView::IconMode);
@@ -58,6 +58,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     Q_ASSERT(settings != 0);
 
     m_viewOptions = KListView::viewOptions();
+    m_viewOptions.showDecorationSelected = true;
 
     QFont font(settings->fontFamily(), settings->fontSize());
     font.setItalic(settings->italicFont());
@@ -76,7 +77,8 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
 }
 
 DolphinIconsView::~DolphinIconsView()
-{}
+{
+}
 
 QStyleOptionViewItem DolphinIconsView::viewOptions() const
 {
