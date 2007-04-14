@@ -83,8 +83,7 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     m_statusBar(0),
     m_dirModel(0),
     m_dirLister(0),
-    m_proxyModel(0),
-    m_previewJob(0)
+    m_proxyModel(0)
 {
     hide();
     setFocusPolicy(Qt::StrongFocus);
@@ -178,11 +177,6 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
 
 DolphinView::~DolphinView()
 {
-    if (m_previewJob != 0) {
-        m_previewJob->doKill();
-        m_previewJob = 0;
-    }
-
     delete m_dirLister;
     m_dirLister = 0;
 }
@@ -802,20 +796,21 @@ void DolphinView::updateItemCount()
 void DolphinView::generatePreviews(const KFileItemList& items)
 {
     if (m_controller->showPreview()) {
-        if (m_previewJob != 0) {
-            m_previewJob->doKill();
-        }
-        m_previewJob = KIO::filePreview(items, 128);
-        connect(m_previewJob, SIGNAL(gotPreview(const KFileItem*, const QPixmap&)),
+        KIO::PreviewJob* job = KIO::filePreview(items, 128);
+        connect(job, SIGNAL(gotPreview(const KFileItem*, const QPixmap&)),
                 this, SLOT(showPreview(const KFileItem*, const QPixmap&)));
-        connect(m_previewJob, SIGNAL(result(KJob*)),
-                this, SLOT(slotPreviewResult(KJob*)));
     }
 }
 
 void DolphinView::showPreview(const KFileItem* item, const QPixmap& pixmap)
 {
     Q_ASSERT(item != 0);
+    if (item->url().directory() != m_dirLister->url().path()) {
+        // the preview job is still working on items of an older URL, hence
+        // the item is not part of the directory model anymore
+        return;
+    }
+
     const QModelIndex idx = m_dirModel->indexForItem(*item);
     if (idx.isValid() && (idx.column() == 0)) {
         const QMimeData* mimeData = QApplication::clipboard()->mimeData();
@@ -889,11 +884,6 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
     m_cutItemsCache.clear();
     m_blockContentsMovedSignal = true;
     m_dirLister->stop();
-
-    if (m_previewJob != 0) {
-        m_previewJob->doKill();
-        m_previewJob = 0;
-    }
 
     bool openDir = true;
     bool keepOldDirs = isColumnViewActive();
@@ -1161,12 +1151,6 @@ void DolphinView::updateCutItems()
 
     // ... and apply an item effect to all currently cut items
     applyCutItemEffect();
-}
-
-void DolphinView::slotPreviewResult(KJob* job)
-{
-    Q_UNUSED(job);
-    m_previewJob = 0;
 }
 
 void DolphinView::createView()

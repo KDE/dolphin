@@ -54,11 +54,6 @@ class QPainter;
 class QTimer;
 class ViewProperties;
 
-namespace KIO
-{
-    class PreviewJob;
-}
-
 /**
  * @short Represents a view for the directory content
  *        including the navigation bar, filter bar and status bar.
@@ -526,9 +521,6 @@ private slots:
     /** Applies an item effect to all cut items of the clipboard. */
     void updateCutItems();
 
-    /** Is invoked when the preview job has been finished. */
-    void slotPreviewResult(KJob* job);
-
 private:
     void startDirLister(const KUrl& url, bool reload = false);
 
@@ -622,8 +614,6 @@ private:
     KDirModel* m_dirModel;
     DolphinDirLister* m_dirLister;
     DolphinSortFilterProxyModel* m_proxyModel;
-
-    KIO::PreviewJob* m_previewJob;
 
     QList<CutItem> m_cutItemsCache;
 };
