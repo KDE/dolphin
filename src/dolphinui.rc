@@ -50,7 +50,7 @@
    <Separator/>
    <Menu name="panels">
     <text>Panels</text>
-    <Action name="show_bookmarks_panel" />
+    <Action name="show_places_panel" />
     <Action name="show_info_panel" />
     <Action name="show_folders_panel" />
    </Menu>

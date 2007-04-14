@@ -1265,7 +1265,6 @@ void DolphinMainWindow::setupDockWidgets()
     SidebarPage* infoWidget = new InfoSidebarPage(infoDock);
     infoDock->setWidget(infoWidget);
 
-
     infoDock->toggleViewAction()->setText(i18n("Show Information Panel"));
     actionCollection()->addAction("show_info_panel", infoDock->toggleViewAction());
 
@@ -1273,7 +1272,7 @@ void DolphinMainWindow::setupDockWidgets()
     connectSidebarPage(infoWidget);
 
     // setup "Tree View"
-    QDockWidget* treeViewDock = new QDockWidget(i18n("Folders")); // TODO: naming?
+    QDockWidget* treeViewDock = new QDockWidget(i18n("Folders"));
     treeViewDock->setObjectName("treeViewDock");
     treeViewDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     TreeViewSidebarPage* treeWidget = new TreeViewSidebarPage(treeViewDock);
@@ -1297,6 +1296,10 @@ void DolphinMainWindow::setupDockWidgets()
     KFilePlacesView *listView = new KFilePlacesView(placesDock);
     placesDock->setWidget(listView);
     listView->setModel(DolphinSettings::instance().placesModel());
+
+    placesDock->toggleViewAction()->setText(i18n("Show Places Panel"));
+    actionCollection()->addAction("show_places_panel", placesDock->toggleViewAction());
+
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
     connect(listView, SIGNAL(urlChanged(KUrl)),
             this, SLOT(changeUrl(KUrl)));
