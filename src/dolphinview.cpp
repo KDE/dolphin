@@ -225,8 +225,9 @@ void DolphinView::setShowPreview(bool show)
     props.setShowPreview(show);
 
     m_controller->setShowPreview(show);
-
     emit showPreviewChanged();
+
+    startDirLister(m_urlNavigator->url(), true);
 }
 
 bool DolphinView::showPreview() const
@@ -242,12 +243,11 @@ void DolphinView::setShowHiddenFiles(bool show)
 
     ViewProperties props(m_urlNavigator->url());
     props.setShowHiddenFiles(show);
-    props.save();
 
     m_dirLister->setShowingDotFiles(show);
     emit showHiddenFilesChanged();
 
-    reload();
+    startDirLister(m_urlNavigator->url(), true);
 }
 
 bool DolphinView::showHiddenFiles() const
@@ -455,7 +455,7 @@ void DolphinView::setAdditionalInfo(KFileItemDelegate::AdditionalInformation inf
     m_fileItemDelegate->setAdditionalInformation(info);
 
     emit additionalInfoChanged(info);
-    reload();
+    startDirLister(m_urlNavigator->url(), true);
 }
 
 KFileItemDelegate::AdditionalInformation DolphinView::additionalInfo() const
@@ -582,7 +582,6 @@ void DolphinView::rename(const KUrl& source, const QString& newName)
 
         default:
             // the renaming operation has been canceled
-            reload();
             return;
         }
     } else {
@@ -600,7 +599,6 @@ void DolphinView::rename(const KUrl& source, const QString& newName)
     } else {
         m_statusBar->setMessage(i18n("Renaming of file '%1' to '%2' failed.", source.fileName(), destFileName),
                                 DolphinStatusBar::Error);
-        reload();
     }
 }
 
