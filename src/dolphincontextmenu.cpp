@@ -226,6 +226,9 @@ void DolphinContextMenu::openViewportContextMenu()
     QAction* detailsMode = m_mainWindow->actionCollection()->action("details");
     viewModeMenu->addAction(detailsMode);
 
+    QAction* columnsMode = m_mainWindow->actionCollection()->action("columns");
+    viewModeMenu->addAction(columnsMode);
+
     QAction* previewsMode = m_mainWindow->actionCollection()->action("previews");
     viewModeMenu->addAction(previewsMode);
 
