@@ -205,6 +205,14 @@ void DolphinView::setMode(Mode mode)
 
     m_mode = mode;
 
+    if (isColumnViewActive()) {
+        // When changing the mode in the column view, it makes sense
+        // to go back to the root URL of the column view automatically.
+        // Otherwise there it would not be possible to turn off the column view
+        // without focusing the first column.
+        setUrl(m_dirLister->url());
+    }
+
     ViewProperties props(m_urlNavigator->url());
     props.setViewMode(m_mode);
 
