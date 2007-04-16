@@ -24,12 +24,20 @@
 #include <QtGui/QPainter>
 #include <QtGui/QPixmap>
 #include <QtGui/QPaintEvent>
+#include <QtDebug>
 
 PixmapViewer::PixmapViewer(QWidget* parent) :
     QWidget(parent)
+   ,m_animationStep(0)
 {
     setMinimumWidth(K3Icon::SizeEnormous);
     setMinimumWidth(K3Icon::SizeEnormous);
+
+    static const int ANIMATION_DURATION = 750;
+    m_animation.setDuration(ANIMATION_DURATION);
+
+    connect( &m_animation , SIGNAL(valueChanged(qreal)) , this , SLOT(update()) );
+    connect( &m_animation , SIGNAL(finished()) , this , SLOT(finishTransition()) );
 }
 
 PixmapViewer::~PixmapViewer()
@@ -38,8 +46,34 @@ PixmapViewer::~PixmapViewer()
 
 void PixmapViewer::setPixmap(const QPixmap& pixmap)
 {
-    m_pixmap = pixmap;
-    update();
+    if ( pixmap.isNull() )
+        return;
+
+    m_pendingPixmap = pixmap;
+
+    if ( m_animation.state() == QTimeLine::NotRunning )
+        beginTransition();
+}
+
+void PixmapViewer::beginTransition()
+{
+    Q_ASSERT( !m_pendingPixmap.isNull() );
+    Q_ASSERT( m_nextPixmap.isNull() );
+
+    m_nextPixmap = m_pendingPixmap;
+    m_pendingPixmap = QPixmap();
+    m_animation.start(); 
+}
+
+void PixmapViewer::finishTransition()
+{
+    m_pixmap = m_nextPixmap;
+    m_nextPixmap = QPixmap();
+
+    if ( !m_pendingPixmap.isNull() )
+    {
+        beginTransition();
+    }
 }
 
 void PixmapViewer::paintEvent(QPaintEvent* event)
@@ -50,7 +84,22 @@ void PixmapViewer::paintEvent(QPaintEvent* event)
     painter.begin(this);
     const int x = (width() - m_pixmap.width()) / 2;
     const int y = (height() - m_pixmap.height()) / 2;
-    painter.drawPixmap(x, y, m_pixmap);
+
+    if ( !m_nextPixmap.isNull() )
+    {
+        const int nextPixmapX = (width() - m_nextPixmap.width()) / 2;
+        const int nextPixmapY = (height() - m_nextPixmap.height()) / 2;
+
+        painter.setOpacity( 1 - m_animation.currentValue() );
+        painter.drawPixmap(x, y, m_pixmap);
+        painter.setOpacity( m_animation.currentValue() );
+        painter.drawPixmap(nextPixmapX,nextPixmapY,m_nextPixmap);
+    }
+    else
+    {
+        painter.drawPixmap(x, y, m_pixmap);
+    }
+
     painter.end();
 }
 
