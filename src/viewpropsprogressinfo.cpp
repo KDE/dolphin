@@ -29,20 +29,19 @@
 
 #include <assert.h>
 #include <klocale.h>
-#include <kurl.h>
 #include <kio/jobclasses.h>
 
 ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
-        const KUrl& dir,
-        const ViewProperties& viewProps) :
-        KDialog(parent),
-        m_dir(dir),
-        m_viewProps(0),
-        m_label(0),
-        m_progressBar(0),
-        m_dirSizeJob(0),
-        m_applyViewPropsJob(0),
-        m_timer(0)
+                                             const KUrl& dir,
+                                             const ViewProperties& viewProps) :
+    KDialog(parent),
+    m_dir(dir),
+    m_viewProps(0),
+    m_label(0),
+    m_progressBar(0),
+    m_dirSizeJob(0),
+    m_applyViewPropsJob(0),
+    m_timer(0)
 {
     const QSize minSize = minimumSize();
     setMinimumSize(QSize(320, minSize.height()));

@@ -22,10 +22,10 @@
 
 #include <kdialog.h>
 #include <kio/directorysizejob.h>
+#include <kurl.h>
 
 class ApplyViewPropsJob;
 class KJob;
-class KUrl;
 class QLabel;
 class QProgressBar;
 class QTimer;
@@ -65,7 +65,7 @@ private slots:
     void cancelApplying();
 
 private:
-    const KUrl& m_dir;
+    KUrl m_dir;
     ViewProperties* m_viewProps;
 
     QLabel* m_label;
