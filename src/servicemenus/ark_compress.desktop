@@ -10,6 +10,7 @@ Name[de]=Hier komprimieren
 Name[el]=Συμπίεση εδώ
 Name[ja]=ここに圧縮
 Name[nds]=Hier komprimeren
+Name[sv]=Komprimera här
 Name[x-test]=xxCompress Herexx
 Name[zh_TW]=在此壓縮
 Exec=ark --add-to %u %u.tar.gz

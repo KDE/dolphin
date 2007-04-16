@@ -10,6 +10,7 @@ Name[de]=Hier entpacken
 Name[el]=Αποσυμπίεση εδώ
 Name[ja]=ここに展開
 Name[nds]=Hier ruttrecken
+Name[sv]=Packa upp här
 Name[x-test]=xxExtract Herexx
 Name[zh_TW]=在此解開
 Exec=ark --extract-to %d %u
