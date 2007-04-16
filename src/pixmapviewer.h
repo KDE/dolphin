@@ -48,14 +48,9 @@ public:
 protected:
     virtual void paintEvent(QPaintEvent* event);
 
-private slots:
-    void beginTransition();
-    void finishTransition();
-
 private:
     QPixmap m_pixmap;
-    QPixmap m_nextPixmap;
-    QPixmap m_pendingPixmap;
+    QPixmap m_oldPixmap;
     QTimeLine m_animation;
     int m_animationStep;
 };
