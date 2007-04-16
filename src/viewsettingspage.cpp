@@ -62,7 +62,7 @@ ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
 
     // initialize 'Column' tab
     m_columnPage = new ColumnViewSettingsPage(mainWindow, tabWidget);
-    tabWidget->addTab(m_columnPage, KIcon("view-tree"), i18n("Column"));
+    tabWidget->addTab(m_columnPage, KIcon("fileview-column"), i18n("Column"));
 
     topLayout->addWidget(tabWidget, 0, 0);
 }

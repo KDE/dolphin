@@ -1105,7 +1105,7 @@ void DolphinMainWindow::setupActions()
     KToggleAction* columnView = actionCollection()->add<KToggleAction>("columns");
     columnView->setText(i18n("Columns"));
     columnView->setShortcut(Qt::CTRL | Qt::Key_3);
-    columnView->setIcon(KIcon("view-tree"));
+    columnView->setIcon(KIcon("fileview-column"));
     connect(columnView, SIGNAL(triggered()), this, SLOT(setColumnView()));
 
     QActionGroup* viewModeGroup = new QActionGroup(this);

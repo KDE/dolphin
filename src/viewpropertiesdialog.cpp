@@ -82,7 +82,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_viewMode = new QComboBox(propsBox);
     m_viewMode->addItem(KIcon("view-icon"), i18n("Icons"));
     m_viewMode->addItem(KIcon("fileview-text"), i18n("Details"));
-    m_viewMode->addItem(KIcon("view-tree"), i18n("Column"));
+    m_viewMode->addItem(KIcon("fileview-column"), i18n("Column"));
     const int index = static_cast<int>(m_viewProps->viewMode());
     m_viewMode->setCurrentIndex(index);
 
