@@ -25,7 +25,7 @@
 #include "dolphinview.h"
 #include "sidebarpage.h"
 
-#include <kmainwindow.h>
+#include <kxmlguiwindow.h>
 #include <ksortablelist.h>
 #include <konq_undo.h>
 
@@ -41,7 +41,7 @@ class QSplitter;
  *
  * Handles the menus, toolbars and Dolphin views.
  */
-class DolphinMainWindow: public KMainWindow
+class DolphinMainWindow: public KXmlGuiWindow
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.dolphin.MainWindow")

@@ -73,7 +73,7 @@
 #include <QDockWidget>
 
 DolphinMainWindow::DolphinMainWindow(int id) :
-        KMainWindow(0),
+        KXmlGuiWindow(0),
         m_newMenu(0),
         m_splitter(0),
         m_activeView(0),
@@ -394,7 +394,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
 
     settings.save();
 
-    KMainWindow::closeEvent(event);
+    KXmlGuiWindow::closeEvent(event);
 }
 
 void DolphinMainWindow::saveProperties(KConfig* config)
