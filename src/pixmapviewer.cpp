@@ -65,11 +65,12 @@ void PixmapViewer::paintEvent(QPaintEvent* event)
     const int x = (width()  - scaledWidth ) / 2;
     const int y = (height() - scaledHeight) / 2;
 
-    if (m_oldPixmap.width() > m_pixmap.width()) {
-        painter.drawPixmap(x, y, m_oldPixmap.scaled(scaledWidth, scaledHeight));
-    } else {
-        painter.drawPixmap(x, y, m_pixmap.scaled(scaledWidth, scaledHeight));
-    }
+    const QPixmap& largePixmap = (m_oldPixmap.width() > m_pixmap.width()) ? m_oldPixmap : m_pixmap;
+    const QPixmap scaledPixmap = largePixmap.scaled(scaledWidth,
+                                                    scaledHeight,
+                                                    Qt::IgnoreAspectRatio,
+                                                    Qt::SmoothTransformation);
+    painter.drawPixmap(x, y, scaledPixmap);
 }
 
 #include "pixmapviewer.moc"
