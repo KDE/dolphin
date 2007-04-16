@@ -58,7 +58,6 @@ private:
     QPixmap m_pendingPixmap;
     QTimeLine m_animation;
     int m_animationStep;
-
 };
 
 
