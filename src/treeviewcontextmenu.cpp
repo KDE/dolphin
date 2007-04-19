@@ -92,8 +92,8 @@ void TreeViewContextMenu::open()
 
     popup->addSeparator();
 
-    // insert 'Properties...' entry
-    QAction* propertiesAction = new QAction(i18n("Properties..."), this);
+    // insert 'Properties' entry
+    QAction* propertiesAction = new QAction(i18n("Properties"), this);
     connect(this, SIGNAL(triggered()), this, SLOT(showProperties()));
     popup->addAction(propertiesAction);
 
