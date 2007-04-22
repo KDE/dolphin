@@ -129,10 +129,16 @@ void InfoSidebarPage::setUrl(const KUrl& url)
 
 void InfoSidebarPage::setSelection(const KFileItemList& selection)
 {
-    cancelRequest();
+    // TODO: deactivated the following code, as it has side effects. To
+    // reproduce start Dolphin and open a folder -> the URL navigator gets
+    // reset. First guess: it seems that a setUrl signal is emitted
+    // by the following code
+
+    Q_UNUSED(selection);
+    /*cancelRequest();
     m_currentSelection = selection;
     m_multipleSelection = (m_currentSelection.size() > 1);
-    showItemInfo();
+    showItemInfo();*/
 }
 
 void InfoSidebarPage::requestDelayedItemInfo(const KUrl& url)

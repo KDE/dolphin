@@ -1274,7 +1274,6 @@ void DolphinMainWindow::setupDockWidgets()
 
     // TODO: temporary deactivated info sidebar because of some minor side effects
 
-    /*
     QDockWidget* infoDock = new QDockWidget(i18n("Information"));
     infoDock->setObjectName("infoDock");
     infoDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -1285,7 +1284,7 @@ void DolphinMainWindow::setupDockWidgets()
     actionCollection()->addAction("show_info_panel", infoDock->toggleViewAction());
 
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
-    connectSidebarPage(infoWidget);*/
+    connectSidebarPage(infoWidget);
 
     // setup "Tree View"
     QDockWidget* treeViewDock = new QDockWidget(i18n("Folders"));
@@ -1302,7 +1301,7 @@ void DolphinMainWindow::setupDockWidgets()
 
     const bool firstRun = DolphinSettings::instance().generalSettings()->firstRun();
     if (firstRun) {
-        //infoDock->hide();
+        infoDock->hide();
         treeViewDock->hide();
     }
 
