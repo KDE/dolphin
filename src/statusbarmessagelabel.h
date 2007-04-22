@@ -25,7 +25,7 @@
 
 #include <QList>
 #include <QPixmap>
-#include <QString>
+
 #include <QWidget>
 
 class QPaintEvent;

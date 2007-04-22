@@ -26,7 +26,7 @@
 #include <kurl.h>
 
 #include <QObject>
-#include <QString>
+
 #include <QVector>
 
 class KMenu;

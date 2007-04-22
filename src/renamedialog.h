@@ -22,7 +22,7 @@
 #include <kdialog.h>
 #include <kurl.h>
 
-#include <QString>
+
 
 class KLineEdit;
 
