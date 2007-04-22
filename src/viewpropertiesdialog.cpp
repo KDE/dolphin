@@ -85,6 +85,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_viewMode->addItem(KIcon("fileview-column"), i18n("Column"));
     const int index = static_cast<int>(m_viewProps->viewMode());
     m_viewMode->setCurrentIndex(index);
+    const bool iconsViewEnabled = (index == DolphinView::IconsView);
 
     QLabel* sortingLabel = new QLabel(i18n("Sorting:"), propsBox);
     QWidget* sortingBox = new QWidget(propsBox);
@@ -99,6 +100,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_categorizedSorting->addItem(i18n("Uncategorized"));
     m_categorizedSorting->addItem(i18n("Categorized"));
     m_categorizedSorting->setCurrentIndex(m_viewProps->categorizedSorting() ? 1 : 0);
+    m_categorizedSorting->setEnabled(iconsViewEnabled);
 
     m_sorting = new QComboBox(sortingBox);
     m_sorting->addItem("By Name");
@@ -107,6 +109,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_sorting->addItem("By Permissions");
     m_sorting->addItem("By Owner");
     m_sorting->addItem("By Group");
+    m_sorting->addItem("By Type");
     m_sorting->setCurrentIndex(m_viewProps->sorting());
 
     QHBoxLayout* sortingLayout = new QHBoxLayout();
@@ -124,7 +127,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_additionalInfo->addItem(i18n("Date"), KFileItemDelegate::ModificationTime);
     const int addInfoIndex = m_additionalInfo->findData(m_viewProps->additionalInfo());
     m_additionalInfo->setCurrentIndex(addInfoIndex);
-    m_additionalInfo->setEnabled(m_viewProps->viewMode() == DolphinView::IconsView);
+    m_additionalInfo->setEnabled(iconsViewEnabled);
 
     m_showPreview = new QCheckBox(i18n("Show preview"), propsBox);
     m_showPreview->setChecked(m_viewProps->showPreview());

@@ -116,6 +116,10 @@ bool DolphinDetailsView::event(QEvent* event)
         if (!settings->showGroup()) {
             hideColumn(KDirModel::Group);
         }
+
+        if (!settings->showType()) {
+            hideColumn(KDirModel::Type);
+        }
     }
 
     return QTreeView::event(event);

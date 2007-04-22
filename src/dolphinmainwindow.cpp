@@ -305,6 +305,8 @@ void DolphinMainWindow::slotSortingChanged(DolphinView::Sorting sorting)
     case DolphinView::SortByGroup:
         action = actionCollection()->action("by_group");
         break;
+    case DolphinView::SortByType:
+        action = actionCollection()->action("by_type");
     default:
         break;
     }
@@ -701,6 +703,11 @@ void DolphinMainWindow::sortByOwner()
 void DolphinMainWindow::sortByGroup()
 {
     m_activeView->setSorting(DolphinView::SortByGroup);
+}
+
+void DolphinMainWindow::sortByType()
+{
+    m_activeView->setSorting(DolphinView::SortByType);
 }
 
 void DolphinMainWindow::toggleSortOrder()
@@ -1137,6 +1144,10 @@ void DolphinMainWindow::setupActions()
     sortByGroup->setText(i18n("By Group"));
     connect(sortByGroup, SIGNAL(triggered()), this, SLOT(sortByGroup()));
 
+    KToggleAction* sortByType = actionCollection()->add<KToggleAction>("by_type");
+    sortByType->setText(i18n("By Type"));
+    connect(sortByType, SIGNAL(triggered()), this, SLOT(sortByType()));
+
     QActionGroup* sortGroup = new QActionGroup(this);
     sortGroup->addAction(sortByName);
     sortGroup->addAction(sortBySize);
@@ -1144,6 +1155,7 @@ void DolphinMainWindow::setupActions()
     sortGroup->addAction(sortByPermissions);
     sortGroup->addAction(sortByOwner);
     sortGroup->addAction(sortByGroup);
+    sortGroup->addAction(sortByType);
 
     KToggleAction* sortDescending = actionCollection()->add<KToggleAction>("descending");
     sortDescending->setText(i18n("Descending"));
@@ -1259,6 +1271,10 @@ void DolphinMainWindow::setupDockWidgets()
     // after the dock concept has been finalized.
 
     // setup "Information"
+
+    // TODO: temporary deactivated info sidebar because of some minor side effects
+
+    /*
     QDockWidget* infoDock = new QDockWidget(i18n("Information"));
     infoDock->setObjectName("infoDock");
     infoDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -1269,7 +1285,7 @@ void DolphinMainWindow::setupDockWidgets()
     actionCollection()->addAction("show_info_panel", infoDock->toggleViewAction());
 
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
-    connectSidebarPage(infoWidget);
+    connectSidebarPage(infoWidget);*/
 
     // setup "Tree View"
     QDockWidget* treeViewDock = new QDockWidget(i18n("Folders"));
@@ -1286,7 +1302,7 @@ void DolphinMainWindow::setupDockWidgets()
 
     const bool firstRun = DolphinSettings::instance().generalSettings()->firstRun();
     if (firstRun) {
-        infoDock->hide();
+        //infoDock->hide();
         treeViewDock->hide();
     }
 

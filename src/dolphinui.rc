@@ -30,6 +30,7 @@
     <Action name="by_permissions" />
     <Action name="by_owner" />
     <Action name="by_group" />
+    <Action name="by_type" />
     <Separator/>
     <Action name="descending" />
     <Action name="categorized" />

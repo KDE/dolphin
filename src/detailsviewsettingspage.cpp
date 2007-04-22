@@ -36,17 +36,17 @@
 #include <QSpinBox>
 
 DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
-        QWidget* parent) :
-        KVBox(parent),
-        m_mainWindow(mainWindow),
-        m_dateBox(0),
-        m_permissionsBox(0),
-        m_ownerBox(0),
-        m_groupBox(0),
-        m_smallIconSize(0),
-        m_mediumIconSize(0),
-        m_largeIconSize(0),
-        m_fontRequester(0)
+                                                 QWidget* parent) :
+    KVBox(parent),
+    m_mainWindow(mainWindow),
+    m_dateBox(0),
+    m_permissionsBox(0),
+    m_ownerBox(0),
+    m_groupBox(0),
+    m_smallIconSize(0),
+    m_mediumIconSize(0),
+    m_largeIconSize(0),
+    m_fontRequester(0)
 {
     const int spacing = KDialog::spacingHint();
     const int margin = KDialog::marginHint();
@@ -74,11 +74,15 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
     m_groupBox = new QCheckBox(i18n("Group"), this);
     m_groupBox->setChecked(settings->showGroup());
 
+    m_typeBox = new QCheckBox(i18n("Type"), this);
+    m_typeBox->setChecked(settings->showType());
+
     QHBoxLayout* columnsLayout = new QHBoxLayout(columnsBox);
     columnsLayout->addWidget(m_dateBox);
     columnsLayout->addWidget(m_permissionsBox);
     columnsLayout->addWidget(m_ownerBox);
     columnsLayout->addWidget(m_groupBox);
+    columnsLayout->addWidget(m_typeBox);
 
     // Create "Icon" properties
     QGroupBox* iconSizeBox = new QGroupBox(i18n("Icon Size"), this);
@@ -134,7 +138,8 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
 }
 
 DetailsViewSettingsPage::~DetailsViewSettingsPage()
-{}
+{
+}
 
 void DetailsViewSettingsPage::applySettings()
 {
@@ -145,6 +150,7 @@ void DetailsViewSettingsPage::applySettings()
     settings->setShowPermissions(m_permissionsBox->isChecked());
     settings->setShowOwner(m_ownerBox->isChecked());
     settings->setShowGroup(m_groupBox->isChecked());
+    settings->setShowType(m_typeBox->isChecked());
 
     int iconSize = K3Icon::SizeSmall;
     if (m_mediumIconSize->isChecked()) {

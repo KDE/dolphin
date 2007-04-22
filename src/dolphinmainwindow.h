@@ -262,6 +262,9 @@ private slots:
     /** The sorting of the current view should be done by the group. */
     void sortByGroup();
 
+    /** The sorting of the current view should be done by the type. */
+    void sortByType();
+
     /** Switches between an ascending and descending sorting order. */
     void toggleSortOrder();
 

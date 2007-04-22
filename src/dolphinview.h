@@ -108,7 +108,8 @@ public:
         SortByPermissions,
         SortByOwner,
         SortByGroup,
-        MaxSortEnum = SortByGroup
+        SortByType,
+        MaxSortEnum = SortByType
     };
 
     DolphinView(DolphinMainWindow* mainwindow,

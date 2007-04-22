@@ -54,6 +54,7 @@ bool SidebarTreeView::event(QEvent* event)
         hideColumn(KDirModel::Permissions);
         hideColumn(KDirModel::Owner);
         hideColumn(KDirModel::Group);
+        hideColumn(KDirModel::Type);
         header()->hide();
     }
 

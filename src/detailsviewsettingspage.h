@@ -54,6 +54,7 @@ private:
     QCheckBox* m_permissionsBox;
     QCheckBox* m_ownerBox;
     QCheckBox* m_groupBox;
+    QCheckBox* m_typeBox;
     QRadioButton* m_smallIconSize;
     QRadioButton* m_mediumIconSize;
     QRadioButton* m_largeIconSize;

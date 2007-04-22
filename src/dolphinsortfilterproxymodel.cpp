@@ -24,26 +24,28 @@
 #include <kdirmodel.h>
 #include <kfileitem.h>
 
-static const int dolphinMapSize = 6;
+static const int dolphinMapSize = 7;
 static int dolphinViewToDirModelColumn[] =
-    {
-        KDirModel::Name,         // DolphinView::SortByName
-        KDirModel::Size,         // DolphinView::SortBySize
-        KDirModel::ModifiedTime, // DolphinView::SortByDate
-        KDirModel::Permissions,  // DolphinView::SortByPermissions
-        KDirModel::Owner,        // DolphinView::SortByOwner
-        KDirModel::Group         // DolphinView::SortByGroup
-    };
+{
+    KDirModel::Name,         // DolphinView::SortByName
+    KDirModel::Size,         // DolphinView::SortBySize
+    KDirModel::ModifiedTime, // DolphinView::SortByDate
+    KDirModel::Permissions,  // DolphinView::SortByPermissions
+    KDirModel::Owner,        // DolphinView::SortByOwner
+    KDirModel::Group,        // DolphinView::SortByGroup
+    KDirModel::Type          // DolphinView::SortByType
+};
 
 static DolphinView::Sorting dirModelColumnToDolphinView[] =
-    {
-        DolphinView::SortByName,        // KDirModel::Name
-        DolphinView::SortBySize,        // KDirModel::Size
-        DolphinView::SortByDate,        // KDirModel::ModifiedTime
-        DolphinView::SortByPermissions, // KDirModel::Permissions
-        DolphinView::SortByOwner,       // KDirModel::Owner
-        DolphinView::SortByGroup        // KDirModel::Group
-    };
+{
+    DolphinView::SortByName,        // KDirModel::Name
+    DolphinView::SortBySize,        // KDirModel::Size
+    DolphinView::SortByDate,        // KDirModel::ModifiedTime
+    DolphinView::SortByPermissions, // KDirModel::Permissions
+    DolphinView::SortByOwner,       // KDirModel::Owner
+    DolphinView::SortByGroup,       // KDirModel::Group
+    DolphinView::SortByType         // KDirModel::Type
+};
 
 
 DolphinSortFilterProxyModel::DolphinSortFilterProxyModel(QObject* parent) :

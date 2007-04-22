@@ -45,5 +45,9 @@
             <label>Show size</label>
             <default>false</default>
         </entry>
+        <entry name="ShowType" type="Bool">
+            <label>Show type</label>
+            <default>false</default>
+        </entry>
     </group>
 </kcfg>
