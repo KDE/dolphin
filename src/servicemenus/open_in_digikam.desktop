@@ -2,6 +2,7 @@
 Exec=digikam --download-from %u
 Icon=digikam
 Name=Open in Digikam
+Name[csb]=Òtemkni w Digikam
 Name[de]=Mit Digikam öffnen
 Name[el]=Άνοιγμα στο Digikam
 Name[ja]=Digikam で開く

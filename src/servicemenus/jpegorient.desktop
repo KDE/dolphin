@@ -2,6 +2,7 @@
 ServiceTypes=image/jpeg
 Actions=jpegRot90;jpegRot270;jpegFlipV;jpegFlipH;
 X-KDE-Submenu=Transform Image
+X-KDE-Submenu[csb]=Przesztôłcë òbrôzk
 X-KDE-Submenu[de]=Bild umwandeln
 X-KDE-Submenu[el]=Μετασχηματισμός εικόνας
 X-KDE-Submenu[ja]=画像を変形
@@ -13,6 +14,7 @@ X-KDE-Require=Write
 
 [Desktop Action jpegRot90]
 Name=Rotate Clockwise
+Name[csb]=Òbrócë zgódno z czérënkã wskôzów zédżera
 Name[de]=Rechts drehen
 Name[el]=Περιστροφή με τη Φορά του Ρολογιού
 Name[ja]=時計回りに回転
@@ -25,6 +27,7 @@ Exec=jpegorient +90 %F
 
 [Desktop Action jpegRot270]
 Name=Rotate Counter-Clockwise
+Name[csb]=Òbrócë promcëmno do wskôzów zédżera
 Name[de]=Links drehen
 Name[el]=Περιστροφή ανάποδα από τη Φορά του Ρολογιού
 Name[ja]=反時計回りに回転
@@ -42,6 +45,7 @@ Exec=jpegorient +270 %F
 
 [Desktop Action jpegFlipV]
 Name=Flip Vertically
+Name[csb]=Òbrócë wertikalno
 Name[de]=Vertikal spiegeln
 Name[el]=Αναστροφή κατακόρυφα
 Name[ja]=上下反転
@@ -54,6 +58,7 @@ Exec=jpegorient v %F
 
 [Desktop Action jpegFlipH]
 Name=Flip Horizontally
+Name[csb]=Òbrocë hòrizontalno
 Name[de]=Horizontal spiegeln
 Name[el]=Αναστροφή οριζόντια
 Name[ja]=左右反転

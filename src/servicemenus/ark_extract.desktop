@@ -6,6 +6,7 @@ Actions=extractHere
 
 [Desktop Action extractHere]
 Name=Extract Here
+Name[csb]=Rozpakùjë tuwò
 Name[de]=Hier entpacken
 Name[el]=Αποσυμπίεση εδώ
 Name[ja]=ここに展開
