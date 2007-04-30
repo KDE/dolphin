@@ -25,7 +25,8 @@
 #include <QtGui/QPaintEvent>
 
 #include <kglobalsettings.h>
-#include <kdiskfreesp.h>
+#include <kdiskfreespace.h>
+#include <kmountpoint.h>
 #include <klocale.h>
 #include <kio/job.h>
 
@@ -121,15 +122,6 @@ void StatusBarSpaceInfo::slotFoundMountPoint(const unsigned long& kBSize,
     m_kBSize = kBSize;
     m_kBAvailable = kBAvailable;
 
-    // Bypass a the issue (?) of KDiskFreeSp that for protocols like
-    // FTP, SMB the size of root partition is returned.
-    // TODO: check whether KDiskFreeSp is buggy or Dolphin uses it in a wrong way
-    const QString protocol(m_url.protocol());
-    if (!protocol.isEmpty() && (protocol != "file")) {
-        m_kBSize = 0;
-        m_kBAvailable = 0;
-    }
-
     update();
 }
 
@@ -141,13 +133,19 @@ void StatusBarSpaceInfo::showResult()
 
 void StatusBarSpaceInfo::refresh()
 {
-    m_gettingSize = true;
     m_kBSize = 0;
     m_kBAvailable = 0;
 
-    const QString mountPoint(KIO::findPathMountPoint(m_url.path()));
+    // KDiskFreeSpace is for local paths only
+    if (!m_url.isLocalFile())
+        return;
 
-    KDiskFreeSp* job = new KDiskFreeSp(this);
+    m_gettingSize = true;
+    KMountPoint::Ptr mp = KMountPoint::currentMountPoints().findByPath(m_url.path());
+    if (!mp)
+        return;
+
+    KDiskFreeSpace* job = new KDiskFreeSpace(this);
     connect(job, SIGNAL(foundMountPoint(const unsigned long&,
                                         const unsigned long&,
                                         const unsigned long&,
@@ -159,7 +157,7 @@ void StatusBarSpaceInfo::refresh()
     connect(job, SIGNAL(done()),
             this, SLOT(showResult()));
 
-    job->readDF(mountPoint);
+    job->readDF(mp->mountPoint());
 }
 
 QColor StatusBarSpaceInfo::progressColor(const QColor& bgColor) const
