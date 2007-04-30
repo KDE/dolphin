@@ -30,7 +30,7 @@
 #ifdef HAVE_KMETADATA
 #include <kmetadatatagwidget.h>
 #include <kmetadata/resourcemanager.h>
-#include <kmetadata/file.h>
+#include <kmetadata/resource.h>
 #include <kratingwidget.h>
 #include <kmetadatatagwidget.h>
 #endif
@@ -65,7 +65,7 @@ public:
 
     KUrl fileUrl;
 
-    Nepomuk::KMetaData::File file;
+    Nepomuk::KMetaData::Resource file;
 
     QTextEdit* editComment;
     KRatingWidget* ratingWidget;
@@ -115,9 +115,10 @@ MetaDataWidget::~MetaDataWidget()
 void MetaDataWidget::setFile(const KUrl& url)
 {
 #ifdef HAVE_KMETADATA
+    // FIXME: replace with KMetaData::File once we have it again
     d->fileUrl = url;
-    d->file = Nepomuk::KMetaData::File(url.url());
-    d->file.setLocation(url.url());
+    d->file = Nepomuk::KMetaData::Resource(url.url());
+//    d->file.setLocation(url.url());
     d->ratingWidget->setRating(d->file.getRating());
     d->tagWidget->setTaggedResource(d->file);
     d->loadComment(d->file.getComment());
