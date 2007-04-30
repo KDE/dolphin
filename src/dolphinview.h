@@ -451,7 +451,7 @@ private slots:
      * Replaces the icon of the item \a item by the preview pixmap
      * \a pixmap.
      */
-    void showPreview(const KFileItem* item, const QPixmap& pixmap);
+    void showPreview(const KFileItem& item, const QPixmap& pixmap);
 
     /**
      * Restores the x- and y-position of the contents if the

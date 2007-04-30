@@ -187,10 +187,10 @@ void InfoSidebarPage::showItemInfo()
                                                 false);
         job->setIgnoreMaximumSize(true);
 
-        connect(job, SIGNAL(gotPreview(const KFileItem*, const QPixmap&)),
-                this, SLOT(gotPreview(const KFileItem*, const QPixmap&)));
-        connect(job, SIGNAL(failed(const KFileItem*)),
-                this, SLOT(slotPreviewFailed(const KFileItem*)));
+        connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
+                this, SLOT(gotPreview(const KFileItem&, const QPixmap&)));
+        connect(job, SIGNAL(failed(const KFileItem&)),
+                this, SLOT(slotPreviewFailed(const KFileItem&)));
 
         QString text("<b>");
         text.append(file.fileName());
@@ -208,15 +208,15 @@ void InfoSidebarPage::slotTimeout()
     showItemInfo();
 }
 
-void InfoSidebarPage::slotPreviewFailed(const KFileItem* item)
+void InfoSidebarPage::slotPreviewFailed(const KFileItem& item)
 {
     m_pendingPreview = false;
-    if (!applyBookmark(item->url())) {
-        m_preview->setPixmap(item->pixmap(K3Icon::SizeEnormous));
+    if (!applyBookmark(item.url())) {
+        m_preview->setPixmap(item.pixmap(K3Icon::SizeEnormous));
     }
 }
 
-void InfoSidebarPage::gotPreview(const KFileItem* item,
+void InfoSidebarPage::gotPreview(const KFileItem& item,
                                  const QPixmap& pixmap)
 {
     Q_UNUSED(item);

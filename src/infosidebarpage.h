@@ -90,13 +90,13 @@ private slots:
      * Is invoked if no preview is available for the item. In this
      * case the icon will be shown.
      */
-    void slotPreviewFailed(const KFileItem* item);
+    void slotPreviewFailed(const KFileItem& item);
 
     /**
      * Is invoked if a preview is available for the item. The preview
      * \a pixmap is shown inside the info page.
      */
-    void gotPreview(const KFileItem* item, const QPixmap& pixmap);
+    void gotPreview(const KFileItem& item, const QPixmap& pixmap);
 
     /**
      * Starts the service of m_actionsVector with the index \index on

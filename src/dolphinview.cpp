@@ -801,24 +801,24 @@ void DolphinView::generatePreviews(const KFileItemList& items)
 {
     if (m_controller->showPreview()) {
         KIO::PreviewJob* job = KIO::filePreview(items, 128);
-        connect(job, SIGNAL(gotPreview(const KFileItem*, const QPixmap&)),
-                this, SLOT(showPreview(const KFileItem*, const QPixmap&)));
+        connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
+                this, SLOT(showPreview(const KFileItem&, const QPixmap&)));
     }
 }
 
-void DolphinView::showPreview(const KFileItem* item, const QPixmap& pixmap)
+void DolphinView::showPreview(const KFileItem& item, const QPixmap& pixmap)
 {
     Q_ASSERT(item != 0);
-    if (item->url().directory() != m_dirLister->url().path()) {
+    if (item.url().directory() != m_dirLister->url().path()) {
         // the preview job is still working on items of an older URL, hence
         // the item is not part of the directory model anymore
         return;
     }
 
-    const QModelIndex idx = m_dirModel->indexForItem(*item);
+    const QModelIndex idx = m_dirModel->indexForItem(item);
     if (idx.isValid() && (idx.column() == 0)) {
         const QMimeData* mimeData = QApplication::clipboard()->mimeData();
-        if (KonqMimeData::decodeIsCutSelection(mimeData) && isCutItem(*item)) {
+        if (KonqMimeData::decodeIsCutSelection(mimeData) && isCutItem(item)) {
             KIconEffect iconEffect;
             const QPixmap cutPixmap = iconEffect.apply(pixmap, K3Icon::Desktop, K3Icon::DisabledState);
             m_dirModel->setData(idx, QIcon(cutPixmap), Qt::DecorationRole);
