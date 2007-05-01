@@ -28,11 +28,11 @@
 #include <QTextEdit>
 
 #ifdef HAVE_KMETADATA
-#include <kmetadatatagwidget.h>
+#include <kmetadata/kmetadatatagwidget.h>
 #include <kmetadata/resourcemanager.h>
 #include <kmetadata/resource.h>
-#include <kratingwidget.h>
-#include <kmetadatatagwidget.h>
+#include <kmetadata/kratingwidget.h>
+#include <kmetadata/kmetadatatagwidget.h>
 #endif
 
 
