@@ -8,6 +8,7 @@ Type=Application
 DocPath=dolphin/dolphin.html
 Categories=System;FileManager;
 GenericName=File Manager
+GenericName[be]=Кіраўнік файлаў
 GenericName[csb]=Menedżer lopków
 GenericName[de]=Dateimanager
 GenericName[el]=Διαχειριστής αρχείων
