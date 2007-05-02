@@ -14,5 +14,3 @@ Name[zh_TW]=在 Digikam 中開啟
 [Desktop Entry]
 Actions=OpenDigikam;
 ServiceTypes=media/gphoto2camera,media/camera_mounted,media/camera_unmounted
-
-X-SuSE-translate=true
