@@ -83,9 +83,11 @@ qt4_add_dbus_adaptor(dolphin_SRCS
    dolphinmainwindow.h DolphinMainWindow)
 kde4_add_executable(dolphin ${dolphin_SRCS})
 
-set(HAVE_KMETADATA 1)
+find_package(KMetaData)
+macro_bool_to_01(KMetaData_FOUND HAVE_KMETADATA)
+
 configure_file(config-kmetadata.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kmetadata.h )
-target_link_libraries(dolphin  ${KDE4_KDECORE_LIBS} ${KDE4_KDEPRINT_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KMETADATA_LIBS} konq dolphinprivate)
+target_link_libraries(dolphin  ${KDE4_KDECORE_LIBS} ${KDE4_KDEPRINT_LIBS} ${KDE4_KFILE_LIBS} ${KMETADATA_LIBRARIES} konq dolphinprivate)
 
 install(TARGETS dolphin DESTINATION ${BIN_INSTALL_DIR})
 
