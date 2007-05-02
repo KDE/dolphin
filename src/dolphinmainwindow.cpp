@@ -1267,13 +1267,7 @@ void DolphinMainWindow::setupActions()
 
 void DolphinMainWindow::setupDockWidgets()
 {
-    // TODO: there's a lot copy/paste code here. Provide a generic approach
-    // after the dock concept has been finalized.
-
     // setup "Information"
-
-    // TODO: temporary deactivated info sidebar because of some minor side effects
-
     QDockWidget* infoDock = new QDockWidget(i18n("Information"));
     infoDock->setObjectName("infoDock");
     infoDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -1284,7 +1278,8 @@ void DolphinMainWindow::setupDockWidgets()
     actionCollection()->addAction("show_info_panel", infoDock->toggleViewAction());
 
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
-    connectSidebarPage(infoWidget);
+    connect(this, SIGNAL(urlChanged(KUrl)),
+            infoWidget, SLOT(setUrl(KUrl)));
 
     // setup "Tree View"
     QDockWidget* treeViewDock = new QDockWidget(i18n("Folders"));
@@ -1297,7 +1292,14 @@ void DolphinMainWindow::setupDockWidgets()
     actionCollection()->addAction("show_folders_panel", treeViewDock->toggleViewAction());
 
     addDockWidget(Qt::LeftDockWidgetArea, treeViewDock);
-    connectSidebarPage(treeWidget);
+    connect(this, SIGNAL(urlChanged(KUrl)),
+            treeWidget, SLOT(setUrl(KUrl)));
+    connect(treeWidget, SIGNAL(changeUrl(KUrl)),
+            this, SLOT(changeUrl(KUrl)));
+    connect(treeWidget, SIGNAL(changeSelection(KFileItemList)),
+            this, SLOT(changeSelection(KFileItemList)));
+    connect(treeWidget, SIGNAL(urlsDropped(KUrl::List, KUrl)),
+            this, SLOT(dropUrls(KUrl::List, KUrl)));
 
     const bool firstRun = DolphinSettings::instance().generalSettings()->firstRun();
     if (firstRun) {
@@ -1487,21 +1489,6 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
             this, SLOT(changeUrl(const KUrl&)));
     connect(navigator, SIGNAL(historyChanged()),
             this, SLOT(slotHistoryChanged()));
-}
-
-void DolphinMainWindow::connectSidebarPage(SidebarPage* page)
-{
-    connect(page, SIGNAL(changeUrl(KUrl)),
-            this, SLOT(changeUrl(KUrl)));
-    connect(page, SIGNAL(changeSelection(KFileItemList)),
-            this, SLOT(changeSelection(KFileItemList)));
-    connect(page, SIGNAL(urlsDropped(KUrl::List, KUrl)),
-            this, SLOT(dropUrls(KUrl::List, KUrl)));
-
-    connect(this, SIGNAL(urlChanged(KUrl)),
-            page, SLOT(setUrl(KUrl)));
-    connect(this, SIGNAL(selectionChanged(KFileItemList)),
-            page, SLOT(setSelection(KFileItemList)));
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface(DolphinMainWindow* mainWin) :

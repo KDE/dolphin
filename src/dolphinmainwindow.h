@@ -422,11 +422,6 @@ private:
      */
     void connectViewSignals(int viewIndex);
 
-    /**
-     * Helper function to connect all signal/slots of the given \sidebar.
-     */
-    void connectSidebarPage(SidebarPage* sidebar);
-
 private:
     /**
      * DolphinMainWindowsupports only one or two views, which
