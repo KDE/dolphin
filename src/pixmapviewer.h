@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -30,14 +29,38 @@ class QPaintEvent;
 /**
  * @brief Widget which shows a pixmap centered inside the boundaries.
  *
- * @see IconsViewSettingsPage
- * @author Peter Penz <peter.penz@gmx.at>
+ * When the pixmap is changed, a smooth transition is done from the old pixmap
+ * to the new pixmap.
  */
 class PixmapViewer : public QWidget
 {
     Q_OBJECT
+
 public:
-    explicit PixmapViewer(QWidget* parent);
+    enum Transition
+    {
+        /** No transition is done when the pixmap is changed. */
+        NoTransition,
+
+        /**
+         * The old pixmap is replaced by the new pixmap and the size is
+         * adjusted smoothly to the size of the new pixmap.
+         */
+        DefaultTransition,
+
+        /**
+         * If the old pixmap and the new pixmap have the same content, but
+         * a different size it is recommended to use Transition::SizeTransition
+         * instead of Transition::DefaultTransition. In this case it is assured
+         * that the larger pixmap is used for downscaling, which leads
+         * to an improved scaling output.
+         */
+        SizeTransition
+    };
+
+    explicit PixmapViewer(QWidget* parent,
+                          Transition transition = DefaultTransition);
+
     virtual ~PixmapViewer();
     void setPixmap(const QPixmap& pixmap);
     const QPixmap& pixmap() const
@@ -52,6 +75,7 @@ private:
     QPixmap m_pixmap;
     QPixmap m_oldPixmap;
     QTimeLine m_animation;
+    Transition m_transition;
     int m_animationStep;
 };
 

@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -25,8 +24,9 @@
 #include <QtGui/QPixmap>
 #include <QtGui/QPaintEvent>
 
-PixmapViewer::PixmapViewer(QWidget* parent) :
+PixmapViewer::PixmapViewer(QWidget* parent, Transition transition) :
     QWidget(parent),
+    m_transition(transition),
     m_animationStep(0)
 {
     setMinimumWidth(K3Icon::SizeEnormous);
@@ -48,8 +48,11 @@ void PixmapViewer::setPixmap(const QPixmap& pixmap)
 
     m_oldPixmap = m_pixmap.isNull() ? pixmap : m_pixmap;
     m_pixmap = pixmap;
+    update();
 
-    m_animation.start();
+    if (m_transition != NoTransition) {
+        m_animation.start();
+    }
 }
 
 void PixmapViewer::paintEvent(QPaintEvent* event)
@@ -65,7 +68,9 @@ void PixmapViewer::paintEvent(QPaintEvent* event)
     const int x = (width()  - scaledWidth ) / 2;
     const int y = (height() - scaledHeight) / 2;
 
-    const QPixmap& largePixmap = (m_oldPixmap.width() > m_pixmap.width()) ? m_oldPixmap : m_pixmap;
+    const bool useOldPixmap = (m_transition == SizeTransition) &&
+                              (m_oldPixmap.width() > m_pixmap.width());
+    const QPixmap& largePixmap = useOldPixmap ? m_oldPixmap : m_pixmap;
     const QPixmap scaledPixmap = largePixmap.scaled(scaledWidth,
                                                     scaledHeight,
                                                     Qt::IgnoreAspectRatio,

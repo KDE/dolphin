@@ -72,7 +72,7 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
             this, SLOT(updateIconSize(int)));
     new QLabel(i18n("Large"), iconSizeHBox);
 
-    m_iconSizeViewer = new PixmapViewer(iconSizeBox);
+    m_iconSizeViewer = new PixmapViewer(iconSizeBox, PixmapViewer::SizeTransition);
     m_iconSizeViewer->setMinimumWidth(K3Icon::SizeEnormous);
     m_iconSizeViewer->setFixedHeight(K3Icon::SizeEnormous);
     m_iconSizeViewer->setEraseColor(iconBackgroundColor);
@@ -95,7 +95,7 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
             this, SLOT(updatePreviewSize(int)));
     new QLabel(i18n("Large"), previewSizeHBox);
 
-    m_previewSizeViewer = new PixmapViewer(previewSizeBox);
+    m_previewSizeViewer = new PixmapViewer(previewSizeBox, PixmapViewer::SizeTransition);
     m_previewSizeViewer->setMinimumWidth(K3Icon::SizeEnormous);
     m_previewSizeViewer->setFixedHeight(K3Icon::SizeEnormous);
     m_previewSizeViewer->setEraseColor(iconBackgroundColor);
