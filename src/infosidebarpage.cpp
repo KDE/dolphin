@@ -111,7 +111,8 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
 }
 
 InfoSidebarPage::~InfoSidebarPage()
-{}
+{
+}
 
 void InfoSidebarPage::setUrl(const KUrl& url)
 {
@@ -124,16 +125,10 @@ void InfoSidebarPage::setUrl(const KUrl& url)
 
 void InfoSidebarPage::setSelection(const KFileItemList& selection)
 {
-    // TODO: deactivated the following code, as it has side effects. To
-    // reproduce start Dolphin and open a folder -> the URL navigator gets
-    // reset. First guess: it seems that a setUrl signal is emitted
-    // by the following code
-
-    Q_UNUSED(selection);
-    /*cancelRequest();
+    cancelRequest();
     m_currentSelection = selection;
     m_multipleSelection = (m_currentSelection.size() > 1);
-    showItemInfo();*/
+    showItemInfo();
 }
 
 void InfoSidebarPage::requestDelayedItemInfo(const KUrl& url)
@@ -183,9 +178,9 @@ void InfoSidebarPage::showItemInfo()
         job->setIgnoreMaximumSize(true);
 
         connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
-                this, SLOT(gotPreview(const KFileItem&, const QPixmap&)));
+                this, SLOT(showPreview(const KFileItem&, const QPixmap&)));
         connect(job, SIGNAL(failed(const KFileItem&)),
-                this, SLOT(slotPreviewFailed(const KFileItem&)));
+                this, SLOT(showIcon(const KFileItem&)));
 
         QString text("<b>");
         text.append(file.fileName());
@@ -202,7 +197,7 @@ void InfoSidebarPage::slotTimeout()
     showItemInfo();
 }
 
-void InfoSidebarPage::slotPreviewFailed(const KFileItem& item)
+void InfoSidebarPage::showIcon(const KFileItem& item)
 {
     m_pendingPreview = false;
     if (!applyBookmark(item.url())) {
@@ -210,8 +205,8 @@ void InfoSidebarPage::slotPreviewFailed(const KFileItem& item)
     }
 }
 
-void InfoSidebarPage::gotPreview(const KFileItem& item,
-                                 const QPixmap& pixmap)
+void InfoSidebarPage::showPreview(const KFileItem& item,
+                                  const QPixmap& pixmap)
 {
     Q_UNUSED(item);
     if (m_pendingPreview) {
@@ -222,7 +217,7 @@ void InfoSidebarPage::gotPreview(const KFileItem& item,
 
 bool InfoSidebarPage::applyBookmark(const KUrl& url)
 {
-    KFilePlacesModel *placesModel = DolphinSettings::instance().placesModel();
+    KFilePlacesModel* placesModel = DolphinSettings::instance().placesModel();
     int count = placesModel->rowCount();
 
     for (int i = 0; i < count; ++i) {
@@ -258,8 +253,9 @@ void InfoSidebarPage::createMetaInfo()
         if (fileItem.isDir()) {
             addInfoLine(i18n("Type:"), i18n("Directory"));
         }
-        if (MetaDataWidget::metaDataAvailable())
+        if (MetaDataWidget::metaDataAvailable()) {
             m_metadataWidget->setFile(fileItem.url());
+        }
     } else if (m_currentSelection.count() == 1) {
         KFileItem* fileItem = m_currentSelection.at(0);
         addInfoLine(i18n("Type:"), fileItem->mimeComment());
@@ -278,11 +274,14 @@ void InfoSidebarPage::createMetaInfo()
                 }
             }
         }
-        if (MetaDataWidget::metaDataAvailable())
+        if (MetaDataWidget::metaDataAvailable()) {
             m_metadataWidget->setFile(fileItem->url());
+        }
     } else {
-        if (MetaDataWidget::metaDataAvailable())
+        if (MetaDataWidget::metaDataAvailable()) {
             m_metadataWidget->setFiles(m_currentSelection.urlList());
+        }
+
         unsigned long int totSize = 0;
         foreach(KFileItem* item, m_currentSelection) {
             totSize += item->size(); //FIXME what to do with directories ? (same with the one-item-selected-code), item->size() does not return the size of the content : not very instinctive for users
@@ -340,8 +339,9 @@ bool InfoSidebarPage::showMetaInfo(const QString& key) const
 
 void InfoSidebarPage::addInfoLine(const QString& labelText, const QString& infoText)
 {
-    if (!m_infoLines.isEmpty())
+    if (!m_infoLines.isEmpty()) {
         m_infoLines += "<br/>";
+    }
     m_infoLines += QString("<b>%1</b> %2").arg(labelText).arg(infoText);
 }
 

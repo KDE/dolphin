@@ -1280,6 +1280,8 @@ void DolphinMainWindow::setupDockWidgets()
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
     connect(this, SIGNAL(urlChanged(KUrl)),
             infoWidget, SLOT(setUrl(KUrl)));
+    connect(this, SIGNAL(selectionChanged(KFileItemList)),
+            infoWidget, SLOT(setSelection(KFileItemList)));
 
     // setup "Tree View"
     QDockWidget* treeViewDock = new QDockWidget(i18n("Folders"));

@@ -90,13 +90,13 @@ private slots:
      * Is invoked if no preview is available for the item. In this
      * case the icon will be shown.
      */
-    void slotPreviewFailed(const KFileItem& item);
+    void showIcon(const KFileItem& item);
 
     /**
      * Is invoked if a preview is available for the item. The preview
      * \a pixmap is shown inside the info page.
      */
-    void gotPreview(const KFileItem& item, const QPixmap& pixmap);
+    void showPreview(const KFileItem& item, const QPixmap& pixmap);
 
 private:
     /**
@@ -124,6 +124,7 @@ private:
      */
     bool showMetaInfo(const QString& key) const;
 
+private:
     bool m_multipleSelection;
     bool m_pendingPreview;
     QTimer* m_timer;
