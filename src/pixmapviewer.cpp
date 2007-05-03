@@ -50,7 +50,9 @@ void PixmapViewer::setPixmap(const QPixmap& pixmap)
     m_pixmap = pixmap;
     update();
 
-    if (m_transition != NoTransition) {
+    const bool animate = (m_transition != NoTransition) &&
+                         (m_pixmap.size() != m_oldPixmap.size());
+    if (animate) {
         m_animation.start();
     }
 }
