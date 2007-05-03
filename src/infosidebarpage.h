@@ -35,7 +35,7 @@
 
 namespace KIO
 {
-class Job;
+    class Job;
 }
 
 class QPixmap;
@@ -98,12 +98,6 @@ private slots:
      */
     void gotPreview(const KFileItem& item, const QPixmap& pixmap);
 
-    /**
-     * Starts the service of m_actionsVector with the index \index on
-     * the shown Url (or the selected items if available).
-     */
-    void startService(int index);
-
 private:
     /**
      * Checks whether the an Url is repesented by a bookmark. If yes,
@@ -130,11 +124,6 @@ private:
      */
     bool showMetaInfo(const QString& key) const;
 
-    /**
-     * Inserts the available actions to the info page for the given item.
-     */
-    void insertActions();
-
     bool m_multipleSelection;
     bool m_pendingPreview;
     QTimer* m_timer;
@@ -148,40 +137,7 @@ private:
     QString m_infoLines;
     QLabel* m_infos;
 
-    KVBox* m_actionBox;
-    QVector<KDesktopFileActions::Service> m_actionsVector;
-
     MetaDataWidget* m_metadataWidget;
-};
-
-// TODO #1: move to SidebarPage?
-// TODO #2: quite same button from the optical point of view as UrlNavigatorButton
-// -> provide helper class or common base class
-class ServiceButton : public QPushButton
-{
-    Q_OBJECT
-
-public:
-    ServiceButton(const QIcon& icon,
-                  const QString& text,
-                  QWidget* parent,
-                  int index);
-    virtual ~ServiceButton();
-
-signals:
-    void requestServiceStart(int index);
-
-protected:
-    virtual void paintEvent(QPaintEvent* event);
-    virtual void enterEvent(QEvent* event);
-    virtual void leaveEvent(QEvent* event);
-
-private slots:
-    void slotReleased();
-
-private:
-    bool m_hover;
-    int m_index;
 };
 
 #endif // INFOSIDEBARPAGE_H

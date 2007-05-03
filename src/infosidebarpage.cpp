@@ -50,14 +50,15 @@
 #include "metadatawidget.h"
 
 InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
-        SidebarPage(parent),
-        m_multipleSelection(false), //TODO:check if I'm needed
-        m_pendingPreview(false),
-        m_timer(0),
-        m_currentSelection(KFileItemList()),
-        m_preview(0),
-        m_name(0),
-        m_infos(0)
+    SidebarPage(parent),
+    m_multipleSelection(false), //TODO: check if I'm needed
+    m_pendingPreview(false),
+    m_timer(0),
+    m_currentSelection(KFileItemList()),
+    m_preview(0),
+    m_name(0),
+    m_infos(0),
+    m_metadataWidget(0)
 {
     const int spacing = KDialog::spacingHint();
 
@@ -90,14 +91,9 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
 
     KSeparator* sep2 = new KSeparator(this);
 
-    if (MetaDataWidget::metaDataAvailable())
+    if (MetaDataWidget::metaDataAvailable()) {
         m_metadataWidget = new MetaDataWidget(this);
-    else
-        m_metadataWidget = 0;
-
-    // actions
-    m_actionBox = new KVBox(this);
-    m_actionBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    }
 
     layout->addItem(new QSpacerItem(spacing, spacing, QSizePolicy::Preferred, QSizePolicy::Fixed));
     layout->addWidget(m_preview);
@@ -109,7 +105,6 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
         layout->addWidget(m_metadataWidget);
         layout->addWidget(new KSeparator(this));
     }
-    layout->addWidget(m_actionBox);
     // ensure that widgets in the information side bar are aligned towards the top
     layout->addStretch(1);
     setLayout(layout);
@@ -199,7 +194,6 @@ void InfoSidebarPage::showItemInfo()
     }
 
     createMetaInfo();
-    insertActions();
 }
 
 void InfoSidebarPage::slotTimeout()
@@ -223,17 +217,6 @@ void InfoSidebarPage::gotPreview(const KFileItem& item,
     if (m_pendingPreview) {
         m_preview->setPixmap(pixmap);
         m_pendingPreview = false;
-    }
-}
-
-void InfoSidebarPage::startService(int index)
-{
-    if (m_currentSelection.count() > 0) {
-        // TODO: Use "at()" as soon as executeService is fixed to take a const param (BIC)
-        KDesktopFileActions::executeService(m_currentSelection.urlList(), m_actionsVector[index]);
-    } else {
-        // TODO: likewise
-        KDesktopFileActions::executeService(m_shownUrl, m_actionsVector[index]);
     }
 }
 
@@ -311,7 +294,7 @@ void InfoSidebarPage::createMetaInfo()
 
 void InfoSidebarPage::beginInfoLines()
 {
-    m_infoLines = QString("");
+    m_infoLines = QString();
 }
 
 void InfoSidebarPage::endInfoLines()
@@ -360,222 +343,6 @@ void InfoSidebarPage::addInfoLine(const QString& labelText, const QString& infoT
     if (!m_infoLines.isEmpty())
         m_infoLines += "<br/>";
     m_infoLines += QString("<b>%1</b> %2").arg(labelText).arg(infoText);
-}
-
-void InfoSidebarPage::insertActions()
-{
-    QListIterator<QPushButton*> deleteIter(m_actionBox->findChildren<QPushButton*>());
-    QWidget* widget = 0;
-    while (deleteIter.hasNext()) {
-        widget = deleteIter.next();
-        widget->close();
-        widget->deleteLater();
-    }
-
-    m_actionsVector.clear();
-
-    int actionsIndex = 0;
-
-    // The algorithm for searching the available actions works on a list
-    // of KFileItems. If no selection is given, a temporary KFileItem
-    // by the given Url 'url' is created and added to the list.
-    KFileItem fileItem(S_IFDIR, KFileItem::Unknown, m_shownUrl);
-    KFileItemList itemList = m_currentSelection;
-    if (itemList.isEmpty()) {
-        fileItem.refresh();
-        itemList.append(&fileItem);
-    }
-
-    // 'itemList' contains now all KFileItems, where an item information should be shown.
-    // TODO: the following algorithm is quite equal to DolphinContextMenu::insertActionItems().
-    // It's open yet whether they should be merged or whether they have to work slightly different.
-    QStringList dirs = KGlobal::dirs()->findDirs("data", "dolphin/servicemenus/");
-    for (QStringList::ConstIterator dirIt = dirs.begin(); dirIt != dirs.end(); ++dirIt) {
-        QDir dir(*dirIt);
-        QStringList entries = dir.entryList(QStringList("*.desktop"), QDir::Files);
-
-        for (QStringList::ConstIterator entryIt = entries.begin(); entryIt != entries.end(); ++entryIt) {
-            KConfigGroup cfg(KSharedConfig::openConfig(*dirIt + *entryIt, KConfig::OnlyLocal), "Desktop Entry");
-            if ((cfg.hasKey("Actions") || cfg.hasKey("X-KDE-GetActionMenu")) && cfg.hasKey("ServiceTypes")) {
-                const QStringList types = cfg.readEntry("ServiceTypes", QStringList(), ',');
-                for (QStringList::ConstIterator it = types.begin(); it != types.end(); ++it) {
-                    // check whether the mime type is equal or whether the
-                    // mimegroup (e. g. image/*) is supported
-
-                    bool insert = false;
-                    if ((*it) == "all/allfiles") {
-                        // The service type is valid for all files, but not for directories.
-                        // Check whether the selected items only consist of files...
-                        QListIterator<KFileItem*> mimeIt(itemList);
-                        insert = true;
-                        while (insert && mimeIt.hasNext()) {
-                            KFileItem* item = mimeIt.next();
-                            insert = !item->isDir();
-                        }
-                    }
-
-                    if (!insert) {
-                        // Check whether the MIME types of all selected files match
-                        // to the mimetype of the service action. As soon as one MIME
-                        // type does not match, no service menu is shown at all.
-                        QListIterator<KFileItem*> mimeIt(itemList);
-                        insert = true;
-                        while (insert && mimeIt.hasNext()) {
-                            KFileItem* item = mimeIt.next();
-                            const QString mimeType(item->mimetype());
-                            const QString mimeGroup(mimeType.left(mimeType.indexOf('/')));
-
-                            insert  = (*it == mimeType) ||
-                                      ((*it).right(1) == "*") &&
-                                      ((*it).left((*it).indexOf('/')) == mimeGroup);
-                        }
-                    }
-
-                    if (insert) {
-                        const QString submenuName = cfg.readEntry("X-KDE-Submenu");
-                        QMenu* popup = 0;
-                        if (!submenuName.isEmpty()) {
-                            // create a sub menu containing all actions
-                            popup = new QMenu();
-                            connect(popup, SIGNAL(activated(int)),
-                                    this, SLOT(startService(int)));
-
-                            QPushButton* button = new QPushButton(submenuName, m_actionBox);
-                            button->setFlat(true);
-                            button->setMenu(popup);
-                            button->show();
-                        }
-
-                        QList<KDesktopFileActions::Service> userServices =
-                            KDesktopFileActions::userDefinedServices(*dirIt + *entryIt, true);
-
-                        // iterate through all actions and add them to a widget
-                        QList<KDesktopFileActions::Service>::Iterator serviceIt;
-                        for (serviceIt = userServices.begin(); serviceIt != userServices.end(); ++serviceIt) {
-                            KDesktopFileActions::Service service = (*serviceIt);
-                            if (popup == 0) {
-                                ServiceButton* button = new ServiceButton(KIcon(service.m_strIcon),
-                                                        service.m_strName,
-                                                        m_actionBox,
-                                                        actionsIndex);
-                                connect(button, SIGNAL(requestServiceStart(int)),
-                                        this, SLOT(startService(int)));
-                                button->show();
-                            } else {
-                                popup->insertItem(KIcon(service.m_strIcon), service.m_strName, actionsIndex);
-                            }
-
-                            m_actionsVector.append(service);
-                            ++actionsIndex;
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-
-
-ServiceButton::ServiceButton(const QIcon& icon,
-                             const QString& text,
-                             QWidget* parent,
-                             int index) :
-        QPushButton(icon, text, parent),
-        m_hover(false),
-        m_index(index)
-{
-    setEraseColor(palette().brush(QPalette::Background).color());
-    setFocusPolicy(Qt::NoFocus);
-    connect(this, SIGNAL(released()),
-            this, SLOT(slotReleased()));
-}
-
-ServiceButton::~ServiceButton()
-{}
-
-void ServiceButton::paintEvent(QPaintEvent* event)
-{
-    Q_UNUSED(event);
-    QPainter painter(this);
-    const int buttonWidth  = width();
-    const int buttonHeight = height();
-
-    QColor backgroundColor;
-    QColor foregroundColor;
-    if (m_hover) {
-        backgroundColor = KGlobalSettings::highlightColor();
-        foregroundColor = KGlobalSettings::highlightedTextColor();
-    } else {
-        backgroundColor = palette().brush(QPalette::Background).color();
-        foregroundColor = KGlobalSettings::buttonTextColor();
-    }
-
-    // draw button background
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(backgroundColor);
-    painter.drawRect(0, 0, buttonWidth, buttonHeight);
-
-    const int spacing = KDialog::spacingHint();
-
-    // draw icon
-    int x = spacing;
-    const int y = (buttonHeight - K3Icon::SizeSmall) / 2;
-    const QIcon &set = icon();
-    if (!set.isNull()) {
-        painter.drawPixmap(x, y, set.pixmap(QIcon::Small, QIcon::Normal));
-    }
-    x += K3Icon::SizeSmall + spacing;
-
-    // draw text
-    painter.setPen(foregroundColor);
-
-    const int textWidth = buttonWidth - x;
-    QFontMetrics fontMetrics(font());
-    const bool clipped = fontMetrics.width(text()) >= textWidth;
-    //const int align = clipped ? Qt::AlignVCenter : Qt::AlignCenter;
-    painter.drawText(QRect(x, 0, textWidth, buttonHeight), Qt::AlignVCenter, text());
-
-    if (clipped) {
-        // Blend the right area of the text with the background, as the
-        // text is clipped.
-        // TODO #1: use alpha blending in Qt4 instead of drawing the text that often
-        // TODO #2: same code as in UrlNavigatorButton::drawButton() -> provide helper class?
-        const int blendSteps = 16;
-
-        QColor blendColor(backgroundColor);
-        const int redInc   = (foregroundColor.red()   - backgroundColor.red())   / blendSteps;
-        const int greenInc = (foregroundColor.green() - backgroundColor.green()) / blendSteps;
-        const int blueInc  = (foregroundColor.blue()  - backgroundColor.blue())  / blendSteps;
-        for (int i = 0; i < blendSteps; ++i) {
-            painter.setClipRect(QRect(x + textWidth - i, 0, 1, buttonHeight));
-            painter.setPen(blendColor);
-            painter.drawText(QRect(x, 0, textWidth, buttonHeight), Qt::AlignVCenter, text());
-
-            blendColor.setRgb(blendColor.red()   + redInc,
-                              blendColor.green() + greenInc,
-                              blendColor.blue()  + blueInc);
-        }
-    }
-}
-
-void ServiceButton::enterEvent(QEvent* event)
-{
-    QPushButton::enterEvent(event);
-    m_hover = true;
-    update();
-}
-
-void ServiceButton::leaveEvent(QEvent* event)
-{
-    QPushButton::leaveEvent(event);
-    m_hover = false;
-    update();
-}
-
-void ServiceButton::slotReleased()
-{
-    emit requestServiceStart(m_index);
 }
 
 #include "infosidebarpage.moc"
