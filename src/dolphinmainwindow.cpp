@@ -950,9 +950,7 @@ void DolphinMainWindow::compareFiles()
 
 void DolphinMainWindow::editSettings()
 {
-    // TODO: make a static method for opening the settings dialog
-    DolphinSettingsDialog dlg(this);
-    dlg.exec();
+    DolphinSettingsDialog::instance(this).exec();
 }
 
 void DolphinMainWindow::init()

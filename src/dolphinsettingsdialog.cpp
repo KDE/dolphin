@@ -25,12 +25,31 @@
 #include "viewsettingspage.h"
 #include "dolphinapplication.h"
 #include "dolphinmainwindow.h"
-//Added by qt3to4:
-#include <QFrame>
+
+DolphinSettingsDialog& DolphinSettingsDialog::instance(DolphinMainWindow* mainWindow)
+{
+    static DolphinSettingsDialog* instance = 0;
+    if (instance == 0) {
+        instance = new DolphinSettingsDialog(mainWindow);
+    }
+    return *instance;
+}
+
+DolphinSettingsDialog::~DolphinSettingsDialog()
+{
+}
+
+void DolphinSettingsDialog::slotButtonClicked(int button)
+{
+    if (button == Ok || button == Apply) {
+        applySettings();
+    }
+    KPageDialog::slotButtonClicked(button);
+}
 
 DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
-        KPageDialog(),
-        m_mainWindow(mainWindow)
+    KPageDialog(),
+    m_mainWindow(mainWindow)
 {
     const QSize minSize = minimumSize();
     setMinimumSize(QSize(512, minSize.height()));
@@ -47,17 +66,6 @@ DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
     m_viewSettingsPage = new ViewSettingsPage(mainWindow, this);
     KPageWidgetItem* viewSettingsFrame = addPage(m_viewSettingsPage, i18n("View Modes"));
     viewSettingsFrame->setIcon(KIcon("view-choose"));
-}
-
-DolphinSettingsDialog::~DolphinSettingsDialog()
-{}
-
-void DolphinSettingsDialog::slotButtonClicked(int button)
-{
-    if (button == Ok || button == Apply) {
-        applySettings();
-    }
-    KPageDialog::slotButtonClicked(button);
 }
 
 void DolphinSettingsDialog::applySettings()

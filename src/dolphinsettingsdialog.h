@@ -39,18 +39,20 @@ class DolphinSettingsDialog : public KPageDialog
     Q_OBJECT
 
 public:
-    explicit DolphinSettingsDialog(DolphinMainWindow* mainWindow);
+    static DolphinSettingsDialog& instance(DolphinMainWindow* mainWindow);
     virtual ~DolphinSettingsDialog();
 
 protected slots:
     virtual void slotButtonClicked(int button);
 
 private:
+    DolphinSettingsDialog(DolphinMainWindow* mainWindow);
+    void applySettings();
+
+private:
     DolphinMainWindow* m_mainWindow;
     GeneralSettingsPage* m_generalSettingsPage;
     ViewSettingsPage* m_viewSettingsPage;
-
-    void applySettings();
 };
 
 #endif
