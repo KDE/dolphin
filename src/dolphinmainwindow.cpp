@@ -950,7 +950,8 @@ void DolphinMainWindow::compareFiles()
 
 void DolphinMainWindow::editSettings()
 {
-    DolphinSettingsDialog::instance(this).exec();
+    DolphinSettingsDialog dialog(this);
+    dialog.exec();
 }
 
 void DolphinMainWindow::init()
