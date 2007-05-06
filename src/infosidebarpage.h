@@ -63,6 +63,10 @@ public slots:
     virtual void setUrl(const KUrl& url);
     virtual void setSelection(const KFileItemList& selection);
 
+protected:
+    /** @see QWidget::showEvent() */
+    virtual void showEvent(QShowEvent* event);
+
 private slots:
     /**
      * Does a delayed request of information for the item of the given Url and

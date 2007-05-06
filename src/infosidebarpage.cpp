@@ -130,6 +130,12 @@ void InfoSidebarPage::setSelection(const KFileItemList& selection)
     showItemInfo();
 }
 
+void InfoSidebarPage::showEvent(QShowEvent* event)
+{
+    SidebarPage::showEvent(event);
+    showItemInfo();
+}
+
 void InfoSidebarPage::requestDelayedItemInfo(const KUrl& url)
 {
     cancelRequest();
@@ -143,6 +149,10 @@ void InfoSidebarPage::requestDelayedItemInfo(const KUrl& url)
 
 void InfoSidebarPage::showItemInfo()
 {
+    if (!isVisible()) {
+        return;
+    }
+
     cancelRequest();
 
     const KFileItemList& selectedItems = selection();
