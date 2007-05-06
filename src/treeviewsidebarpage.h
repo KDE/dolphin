@@ -79,6 +79,9 @@ private slots:
                   const QModelIndex& index);
 
 private:
+    void loadTree(const KUrl& url);
+
+private:
     KDirLister* m_dirLister;
     KDirModel* m_dirModel;
     DolphinSortFilterProxyModel* m_proxyModel;

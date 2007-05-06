@@ -86,50 +86,18 @@ void TreeViewSidebarPage::setUrl(const KUrl& url)
     }
 
     SidebarPage::setUrl(url);
-
-    // adjust the root of the tree to the base bookmark
-    KFilePlacesModel* placesModel = DolphinSettings::instance().placesModel();
-    KUrl baseUrl = placesModel->url(placesModel->closestItem(url));
-    if (!baseUrl.isValid()) {
-        // it's possible that no closest item is available and hence an
-        // empty URL is returned
-        baseUrl = url;
-    }
-
-    if (m_dirLister->url() != baseUrl) {
-        m_dirLister->stop();
-        m_dirLister->openUrl(baseUrl);
-    }
-
-    // select the folder which contains the given URL
-    QItemSelectionModel* selModel = m_treeView->selectionModel();
-    selModel->clearSelection();
-
-    const QModelIndex index = m_dirModel->indexForUrl(url);
-    if (index.isValid()) {
-        // the item with the given URL is already part of the model
-        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(index);
-        m_treeView->scrollTo(proxyIndex);
-        selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
-    } else {
-        // The item with the given URL is not loaded by the model yet. Iterate
-        // backward to the base URL and trigger the loading of the items for
-        // each hierarchy level.
-        connect(m_dirLister, SIGNAL(completed()),
-                this, SLOT(expandSelectionParent()));
-
-        KUrl parentUrl = url.upUrl();
-        while (!parentUrl.isParentOf(baseUrl)) {
-            m_dirLister->openUrl(parentUrl, true, false);
-            parentUrl = parentUrl.upUrl();
-        }
-    }
-
+    // TODO: it makes only sense to load the tree if the TreeViewSidebarPage
+    // is visible, but currently an assertion is triggered in KDirModel when hiding
+    // the tree view, changing to a complete different hierarchy and showing it again.
+    //if (isVisible()) {
+        loadTree(url);
+    //}
 }
 
 void TreeViewSidebarPage::showEvent(QShowEvent* event)
 {
     SidebarPage::showEvent(event);
+    loadTree(url());
 }
 
 void TreeViewSidebarPage::contextMenuEvent(QContextMenuEvent* event)
@@ -197,6 +165,47 @@ void TreeViewSidebarPage::dropUrls(const KUrl::List& urls,
         Q_ASSERT(item != 0);
         if (item->isDir()) {
             emit urlsDropped(urls, item->url());
+        }
+    }
+}
+
+void TreeViewSidebarPage::loadTree(const KUrl& url)
+{
+    // adjust the root of the tree to the base bookmark
+    KFilePlacesModel* placesModel = DolphinSettings::instance().placesModel();
+    KUrl baseUrl = placesModel->url(placesModel->closestItem(url));
+    if (!baseUrl.isValid()) {
+        // it's possible that no closest item is available and hence an
+        // empty URL is returned
+        baseUrl = url;
+    }
+
+    if (m_dirLister->url() != baseUrl) {
+        m_dirLister->stop();
+        m_dirLister->openUrl(baseUrl);
+    }
+
+    // select the folder which contains the given URL
+    QItemSelectionModel* selModel = m_treeView->selectionModel();
+    selModel->clearSelection();
+
+    const QModelIndex index = m_dirModel->indexForUrl(url);
+    if (index.isValid()) {
+        // the item with the given URL is already part of the model
+        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(index);
+        m_treeView->scrollTo(proxyIndex);
+        selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
+    } else {
+        // The item with the given URL is not loaded by the model yet. Iterate
+        // backward to the base URL and trigger the loading of the items for
+        // each hierarchy level.
+        connect(m_dirLister, SIGNAL(completed()),
+                this, SLOT(expandSelectionParent()));
+
+        KUrl parentUrl = url.upUrl();
+        while (!parentUrl.isParentOf(baseUrl)) {
+            m_dirLister->openUrl(parentUrl, true, false);
+            parentUrl = parentUrl.upUrl();
         }
     }
 }
