@@ -66,6 +66,7 @@ set(dolphin_SRCS
    sidebarpage.cpp
    statusbarspaceinfo.cpp
    statusbarmessagelabel.cpp
+   terminalsidebarpage.cpp
    treeviewcontextmenu.cpp
    treeviewsidebarpage.cpp
    sidebartreeview.cpp

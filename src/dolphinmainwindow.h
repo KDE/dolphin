@@ -309,10 +309,10 @@ private slots:
     void toggleShowHiddenFiles();
 
     /**
-     * Switches between showing and hiding of the filter bar dependent
+     * Toggles between showing and hiding of the filter bar dependent
      * from the current state of the 'Show Filter Bar' menu toggle action.
      */
-    void showFilterBar();
+    void toggleFilterBarVisibility();
 
     /** Increases the size of the current set view mode. */
     void zoomIn();
@@ -348,9 +348,6 @@ private slots:
 
     /** Goes to the home URL. */
     void goHome();
-
-    /** Opens a terminal for the current shown directory. */
-    void openTerminal();
 
     /** Opens KFind for the current shown directory. */
     void findFile();

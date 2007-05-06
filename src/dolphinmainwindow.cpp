@@ -30,6 +30,7 @@
 #include "infosidebarpage.h"
 #include "metadatawidget.h"
 #include "mainwindowadaptor.h"
+#include "terminalsidebarpage.h"
 #include "treeviewsidebarpage.h"
 #include "kurlnavigator.h"
 #include "viewpropertiesdialog.h"
@@ -813,7 +814,7 @@ void DolphinMainWindow::toggleShowHiddenFiles()
     m_activeView->setShowHiddenFiles(show);
 }
 
-void DolphinMainWindow::showFilterBar()
+void DolphinMainWindow::toggleFilterBarVisibility()
 {
     const KToggleAction* showFilterBarAction =
         static_cast<KToggleAction*>(actionCollection()->action("show_filter_bar"));
@@ -877,15 +878,6 @@ void DolphinMainWindow::goHome()
 {
     clearStatusBar();
     m_activeView->goHome();
-}
-
-void DolphinMainWindow::openTerminal()
-{
-    QString command("konsole --workdir \"");
-    command.append(m_activeView->url().path());
-    command.append('\"');
-
-    KRun::runCommand(command, "Konsole", "konsole");
 }
 
 void DolphinMainWindow::findFile()
@@ -1237,12 +1229,6 @@ void DolphinMainWindow::setupActions()
     KStandardAction::home(this, SLOT(goHome()), actionCollection());
 
     // setup 'Tools' menu
-    QAction* openTerminal = actionCollection()->addAction("open_terminal");
-    openTerminal->setText(i18n("Open Terminal"));
-    openTerminal->setShortcut(Qt::Key_F4);
-    openTerminal->setIcon(KIcon("konsole"));
-    connect(openTerminal, SIGNAL(triggered()), this, SLOT(openTerminal()));
-
     QAction* findFile = actionCollection()->addAction("find_file");
     findFile->setText(i18n("Find File..."));
     findFile->setShortcut(Qt::CTRL | Qt::Key_F);
@@ -1252,7 +1238,7 @@ void DolphinMainWindow::setupActions()
     KToggleAction* showFilterBar = actionCollection()->add<KToggleAction>("show_filter_bar");
     showFilterBar->setText(i18n("Show Filter Bar"));
     showFilterBar->setShortcut(Qt::Key_Slash);
-    connect(showFilterBar, SIGNAL(triggered()), this, SLOT(showFilterBar()));
+    connect(showFilterBar, SIGNAL(triggered()), this, SLOT(toggleFilterBarVisibility()));
 
     QAction* compareFiles = actionCollection()->addAction("compare_files");
     compareFiles->setText(i18n("Compare Files"));
@@ -1273,7 +1259,7 @@ void DolphinMainWindow::setupDockWidgets()
     SidebarPage* infoWidget = new InfoSidebarPage(infoDock);
     infoDock->setWidget(infoWidget);
 
-    infoDock->toggleViewAction()->setText(i18n("Show Information Panel"));
+    infoDock->toggleViewAction()->setText(i18n("Information"));
     actionCollection()->addAction("show_info_panel", infoDock->toggleViewAction());
 
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
@@ -1289,7 +1275,7 @@ void DolphinMainWindow::setupDockWidgets()
     TreeViewSidebarPage* treeWidget = new TreeViewSidebarPage(treeViewDock);
     treeViewDock->setWidget(treeWidget);
 
-    treeViewDock->toggleViewAction()->setText(i18n("Show Folders Panel"));
+    treeViewDock->toggleViewAction()->setText(i18n("Folders"));
     actionCollection()->addAction("show_folders_panel", treeViewDock->toggleViewAction());
 
     addDockWidget(Qt::LeftDockWidgetArea, treeViewDock);
@@ -1302,10 +1288,25 @@ void DolphinMainWindow::setupDockWidgets()
     connect(treeWidget, SIGNAL(urlsDropped(KUrl::List, KUrl)),
             this, SLOT(dropUrls(KUrl::List, KUrl)));
 
+    // setup "Terminal"
+    QDockWidget* terminalDock = new QDockWidget(i18n("Terminal"));
+    terminalDock->setObjectName("terminalDock");
+    terminalDock->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+    SidebarPage* terminalWidget = new TerminalSidebarPage(terminalDock);
+    terminalDock->setWidget(terminalWidget);
+
+    terminalDock->toggleViewAction()->setText(i18n("Terminal"));
+    actionCollection()->addAction("show_terminal_panel", terminalDock->toggleViewAction());
+
+    addDockWidget(Qt::RightDockWidgetArea, terminalDock);
+    connect(this, SIGNAL(urlChanged(KUrl)),
+            terminalWidget, SLOT(setUrl(KUrl)));
+
     const bool firstRun = DolphinSettings::instance().generalSettings()->firstRun();
     if (firstRun) {
         infoDock->hide();
         treeViewDock->hide();
+        terminalDock->hide();
     }
 
     QDockWidget *placesDock = new QDockWidget(i18n("Places"));
