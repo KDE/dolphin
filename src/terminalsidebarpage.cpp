@@ -42,6 +42,7 @@ void TerminalSidebarPage::setUrl(const KUrl& url)
 {
     SidebarPage::setUrl(url);
     // TODO: synchronize terminal
+    // m_terminal->showShellInDir(...);
 }
 
 void TerminalSidebarPage::showEvent(QShowEvent* event)
@@ -50,9 +51,13 @@ void TerminalSidebarPage::showEvent(QShowEvent* event)
         KLibFactory* factory = KLibLoader::self()->factory("libkonsolepart");
         KParts::Part* part = static_cast<KParts::Part*>(factory->create(this, "KParts::ReadOnlyPart"));
         if (part != 0) {
-            m_terminal = part->widget();
-            m_layout->addWidget(m_terminal);
+            m_layout->addWidget(part->widget());
         }
+
+        // TODO: port to KDE4
+        //TerminalInterface* m_terminal = static_cast<TerminalInterface*>(part->qt_cast("TerminalInterface"));
+        // like this?
+        //m_terminal = qobject_cast<TerminalInterface*>(part);
     }
     SidebarPage::showEvent(event);
 }

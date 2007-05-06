@@ -22,6 +22,7 @@
 
 #include <sidebarpage.h>
 
+class TerminalInterface;
 class QVBoxLayout;
 
 /**
@@ -46,7 +47,7 @@ protected:
 
 private:
     QVBoxLayout* m_layout;
-    QWidget* m_terminal;
+    TerminalInterface* m_terminal;
 };
 
 #endif // TERMINALSIDEBARPAGE_H
