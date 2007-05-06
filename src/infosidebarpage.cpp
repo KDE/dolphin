@@ -54,7 +54,6 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     m_multipleSelection(false), //TODO: check if I'm needed
     m_pendingPreview(false),
     m_timer(0),
-    m_currentSelection(KFileItemList()),
     m_preview(0),
     m_name(0),
     m_infos(0),
@@ -126,8 +125,8 @@ void InfoSidebarPage::setUrl(const KUrl& url)
 void InfoSidebarPage::setSelection(const KFileItemList& selection)
 {
     cancelRequest();
-    m_currentSelection = selection;
-    m_multipleSelection = (m_currentSelection.size() > 1);
+    SidebarPage::setSelection(selection);
+    m_multipleSelection = (selection.size() > 1);
     showItemInfo();
 }
 
@@ -146,7 +145,8 @@ void InfoSidebarPage::showItemInfo()
 {
     cancelRequest();
 
-    KFileItemList selectedItems = m_currentSelection;
+    const KFileItemList& selectedItems = selection();
+
     KUrl file;
     if (selectedItems.count() == 0) {
         file = m_shownUrl;
@@ -246,7 +246,8 @@ void InfoSidebarPage::cancelRequest()
 void InfoSidebarPage::createMetaInfo()
 {
     beginInfoLines();
-    if (m_currentSelection.size() == 0) {
+    const KFileItemList& selectedItems = selection();
+    if (selectedItems.size() == 0) {
         KFileItem fileItem(S_IFDIR, KFileItem::Unknown, m_shownUrl);
         fileItem.refresh();
 
@@ -256,8 +257,8 @@ void InfoSidebarPage::createMetaInfo()
         if (MetaDataWidget::metaDataAvailable()) {
             m_metadataWidget->setFile(fileItem.url());
         }
-    } else if (m_currentSelection.count() == 1) {
-        KFileItem* fileItem = m_currentSelection.at(0);
+    } else if (selectedItems.count() == 1) {
+        KFileItem* fileItem = selectedItems.at(0);
         addInfoLine(i18n("Type:"), fileItem->mimeComment());
 
         QString sizeText(KIO::convertSize(fileItem->size()));
@@ -279,11 +280,11 @@ void InfoSidebarPage::createMetaInfo()
         }
     } else {
         if (MetaDataWidget::metaDataAvailable()) {
-            m_metadataWidget->setFiles(m_currentSelection.urlList());
+            m_metadataWidget->setFiles(selectedItems.urlList());
         }
 
         unsigned long int totSize = 0;
-        foreach(KFileItem* item, m_currentSelection) {
+        foreach(KFileItem* item, selectedItems) {
             totSize += item->size(); //FIXME what to do with directories ? (same with the one-item-selected-code), item->size() does not return the size of the content : not very instinctive for users
         }
         addInfoLine(i18n("Total size:"), KIO::convertSize(totSize));

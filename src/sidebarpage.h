@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2006 by Cvetoslav Ludmiloff <ludmiloff@gmail.com>       *
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -27,7 +27,6 @@
 
 /**
  * @brief Base widget for all pages that can be embedded into the Sidebar.
- *
  */
 class SidebarPage : public QWidget
 {
@@ -36,16 +35,22 @@ public:
     explicit SidebarPage(QWidget* parent = 0);
     virtual ~SidebarPage();
 
+    /** Returns the current set URL of the active Dolphin view. */
+    const KUrl& url() const;
+
+    /** Returns the current selected items of the active Dolphin view. */
+    const KFileItemList& selection() const;
+
 public slots:
     /**
      * This is invoked every time the folder being displayed in the
-     * file-management views changes.
+     * active Dolphin view changes.
      */
     virtual void setUrl(const KUrl& url);
 
     /**
      * This is invoked to inform the sidebar that the user has selected a new
-     * set of files.
+     * set of items.
      */
     virtual void setSelection(const KFileItemList& selection);
 
@@ -73,7 +78,7 @@ signals:
      */
     void urlsDropped(const KUrl::List& urls, const KUrl& destination);
 
-protected:
+private:
     KUrl m_url;
     KFileItemList m_currentSelection;
 };

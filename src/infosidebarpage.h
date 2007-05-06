@@ -49,9 +49,7 @@ class PixmapViewer;
 class MetaDataWidget;
 
 /**
- * @brief Prototype for a information sidebar.
- *
- * Will be exchanged in future releases by pluggable sidebar pages...
+ * @brief Sidebar for showing meta information of one ore more selected items.
  */
 class InfoSidebarPage : public SidebarPage
 {
@@ -62,8 +60,8 @@ public:
     virtual ~InfoSidebarPage();
 
 public slots:
-    void setUrl(const KUrl& url);
-    void setSelection(const KFileItemList& selection);
+    virtual void setUrl(const KUrl& url);
+    virtual void setSelection(const KFileItemList& selection);
 
 private slots:
     /**
@@ -130,7 +128,6 @@ private:
     QTimer* m_timer;
     KUrl m_shownUrl;
     KUrl m_urlCandidate;
-    KFileItemList m_currentSelection;
 
     PixmapViewer* m_preview;
     QLabel* m_name;

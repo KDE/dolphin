@@ -49,7 +49,7 @@ public slots:
     /**
      * Changes the current selection inside the tree to \a url.
      */
-    void setUrl(const KUrl& url);
+    virtual void setUrl(const KUrl& url);
 
 protected:
     /** @see QWidget::showEvent() */

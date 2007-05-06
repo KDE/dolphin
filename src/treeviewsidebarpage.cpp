@@ -81,11 +81,11 @@ TreeViewSidebarPage::~TreeViewSidebarPage()
 
 void TreeViewSidebarPage::setUrl(const KUrl& url)
 {
-    if (!url.isValid() || (url == m_url)) {
+    if (!url.isValid() || (url == SidebarPage::url())) {
         return;
     }
 
-    m_url = url;
+    SidebarPage::setUrl(url);
 
     // adjust the root of the tree to the base bookmark
     KFilePlacesModel* placesModel = DolphinSettings::instance().placesModel();
@@ -156,7 +156,7 @@ void TreeViewSidebarPage::expandSelectionParent()
                this, SLOT(expandSelectionParent()));
 
     // expand the parent folder of the selected item
-    KUrl parentUrl = m_url.upUrl();
+    KUrl parentUrl = url().upUrl();
     if (!m_dirLister->url().isParentOf(parentUrl)) {
         return;
     }
@@ -167,7 +167,7 @@ void TreeViewSidebarPage::expandSelectionParent()
         m_treeView->setExpanded(proxyIndex, true);
 
         // select the item and assure that the item is visible
-        index = m_dirModel->indexForUrl(m_url);
+        index = m_dirModel->indexForUrl(url());
         if (index.isValid()) {
             proxyIndex = m_proxyModel->mapFromSource(index);
             m_treeView->scrollTo(proxyIndex);

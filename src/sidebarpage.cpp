@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2006 by Cvetoslav Ludmiloff <ludmiloff@gmail.com>       *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -23,13 +24,25 @@
 #include <kurl.h>
 
 SidebarPage::SidebarPage(QWidget* parent) :
-        QWidget(parent),
-        m_url(KUrl()),
-        m_currentSelection(KFileItemList())
-{}
+    QWidget(parent),
+    m_url(KUrl()),
+    m_currentSelection(KFileItemList())
+{
+}
 
 SidebarPage::~SidebarPage()
-{}
+{
+}
+
+const KUrl& SidebarPage::url() const
+{
+    return m_url;
+}
+
+const KFileItemList& SidebarPage::selection() const
+{
+    return m_currentSelection;
+}
 
 void SidebarPage::setUrl(const KUrl& url)
 {
