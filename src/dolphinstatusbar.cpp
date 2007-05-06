@@ -31,11 +31,11 @@
 #include <kvbox.h>
 
 DolphinStatusBar::DolphinStatusBar(DolphinView* parent) :
-        KHBox(parent),
-        m_messageLabel(0),
-        m_spaceInfo(0),
-        m_progressBar(0),
-        m_progress(100)
+    KHBox(parent),
+    m_messageLabel(0),
+    m_spaceInfo(0),
+    m_progressBar(0),
+    m_progress(100)
 {
     setSpacing(4);
 

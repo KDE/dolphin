@@ -73,11 +73,11 @@
 #include <QDockWidget>
 
 DolphinMainWindow::DolphinMainWindow(int id) :
-        KXmlGuiWindow(0),
-        m_newMenu(0),
-        m_splitter(0),
-        m_activeView(0),
-        m_id(id)
+    KXmlGuiWindow(0),
+    m_newMenu(0),
+    m_splitter(0),
+    m_activeView(0),
+    m_id(id)
 {
     setObjectName("Dolphin");
     m_view[PrimaryIdx] = 0;

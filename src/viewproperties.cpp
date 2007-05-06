@@ -37,9 +37,9 @@
 #define FILE_NAME "/.directory"
 
 ViewProperties::ViewProperties(const KUrl& url) :
-        m_changedProps(false),
-        m_autoSave(true),
-        m_node(0)
+    m_changedProps(false),
+    m_autoSave(true),
+    m_node(0)
 {
     KUrl cleanUrl(url);
     cleanUrl.cleanPath();

@@ -44,20 +44,20 @@
 #include <QVBoxLayout>
 
 ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
-        KDialog(dolphinView),
-        m_isDirty(false),
-        m_dolphinView(dolphinView),
-        m_viewProps(0),
-        m_viewMode(0),
-        m_sorting(0),
-        m_sortOrder(0),
-        m_categorizedSorting(0),
-        m_additionalInfo(0),
-        m_showPreview(0),
-        m_showHiddenFiles(0),
-        m_applyToCurrentFolder(0),
-        m_applyToSubFolders(0),
-        m_useAsDefault(0)
+    KDialog(dolphinView),
+    m_isDirty(false),
+    m_dolphinView(dolphinView),
+    m_viewProps(0),
+    m_viewMode(0),
+    m_sorting(0),
+    m_sortOrder(0),
+    m_categorizedSorting(0),
+    m_additionalInfo(0),
+    m_showPreview(0),
+    m_showHiddenFiles(0),
+    m_applyToCurrentFolder(0),
+    m_applyToSubFolders(0),
+    m_useAsDefault(0)
 {
     Q_ASSERT(dolphinView != 0);
     const bool useGlobalViewProps = DolphinSettings::instance().generalSettings()->globalViewProps();

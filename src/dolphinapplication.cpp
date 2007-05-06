@@ -27,7 +27,7 @@
 #include <QDBusConnection>
 
 DolphinApplication::DolphinApplication() :
-        m_lastId(0)
+    m_lastId(0)
 {
     new ApplicationAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/dolphin/Application", this);

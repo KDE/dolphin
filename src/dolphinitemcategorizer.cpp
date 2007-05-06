@@ -28,11 +28,13 @@
 #include <QSortFilterProxyModel>
 
 DolphinItemCategorizer::DolphinItemCategorizer() :
-        KItemCategorizer()
-{}
+    KItemCategorizer()
+{
+}
 
 DolphinItemCategorizer::~DolphinItemCategorizer()
-{}
+{
+}
 
 QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
                                                 int sortRole)

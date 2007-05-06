@@ -37,11 +37,11 @@
 #include "dolphinsettings.h"
 
 TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
-        SidebarPage(parent),
-        m_dirLister(0),
-        m_dirModel(0),
-        m_proxyModel(0),
-        m_treeView(0)
+    SidebarPage(parent),
+    m_dirLister(0),
+    m_dirModel(0),
+    m_proxyModel(0),
+    m_treeView(0)
 {
     m_dirLister = new KDirLister();
     m_dirLister->setDirOnlyMode(true);

@@ -49,10 +49,10 @@ static DolphinView::Sorting dirModelColumnToDolphinView[] =
 
 
 DolphinSortFilterProxyModel::DolphinSortFilterProxyModel(QObject* parent) :
-        QSortFilterProxyModel(parent),
-        m_sortColumn(0),
-        m_sorting(DolphinView::SortByName),
-        m_sortOrder(Qt::AscendingOrder)
+    QSortFilterProxyModel(parent),
+    m_sortColumn(0),
+    m_sorting(DolphinView::SortByName),
+    m_sortOrder(Qt::AscendingOrder)
 {
     setDynamicSortFilter(true);
 

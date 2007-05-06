@@ -32,8 +32,8 @@
 #include <QPoint>
 
 DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* controller) :
-        QColumnView(parent),
-        m_controller(controller)
+    QColumnView(parent),
+    m_controller(controller)
 {
     Q_ASSERT(controller != 0);
 
@@ -73,7 +73,8 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
 }
 
 DolphinColumnView::~DolphinColumnView()
-{}
+{
+}
 
 QStyleOptionViewItem DolphinColumnView::viewOptions() const
 {

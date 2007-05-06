@@ -27,7 +27,7 @@
 #include <QHeaderView>
 
 SidebarTreeView::SidebarTreeView(QWidget* parent) :
-        QTreeView(parent)
+    QTreeView(parent)
 {
     setAcceptDrops(true);
     setUniformRowHeights(true);

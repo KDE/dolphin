@@ -36,13 +36,13 @@
 #include <QSpinBox>
 
 ColumnViewSettingsPage::ColumnViewSettingsPage(DolphinMainWindow* mainWindow,
-        QWidget* parent) :
-        KVBox(parent),
-        m_mainWindow(mainWindow),
-        m_smallIconSize(0),
-        m_mediumIconSize(0),
-        m_largeIconSize(0),
-        m_fontRequester(0)
+                                               QWidget* parent) :
+    KVBox(parent),
+    m_mainWindow(mainWindow),
+    m_smallIconSize(0),
+    m_mediumIconSize(0),
+    m_largeIconSize(0),
+    m_fontRequester(0)
 {
     const int spacing = KDialog::spacingHint();
     const int margin = KDialog::marginHint();
@@ -108,7 +108,8 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(DolphinMainWindow* mainWindow,
 }
 
 ColumnViewSettingsPage::~ColumnViewSettingsPage()
-{}
+{
+}
 
 void ColumnViewSettingsPage::applySettings()
 {

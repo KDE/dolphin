@@ -37,12 +37,12 @@
 #include <khbox.h>
 
 GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
-        QWidget* parent) :
-        KVBox(parent),
-        m_mainWindow(mainWindow),
-        m_localProps(0),
-        m_globalProps(0),
-        m_maxPreviewSize(0)
+                                                 QWidget* parent) :
+    KVBox(parent),
+    m_mainWindow(mainWindow),
+    m_localProps(0),
+    m_globalProps(0),
+    m_maxPreviewSize(0)
 {
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     Q_ASSERT(settings != 0);

@@ -26,8 +26,8 @@
 #include <QVBoxLayout>
 
 RenameDialog::RenameDialog(const KUrl::List& items) :
-        KDialog(),
-        m_renameOneItem(false)
+    KDialog(),
+    m_renameOneItem(false)
 {
     const QSize minSize = minimumSize();
     setMinimumSize(QSize(320, minSize.height()));

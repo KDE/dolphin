@@ -32,7 +32,7 @@
 #include "dolphinmainwindow.h"
 
 FilterBar::FilterBar(QWidget* parent) :
-        QWidget(parent)
+    QWidget(parent)
 {
     const int gap = 3;
 
@@ -65,7 +65,8 @@ FilterBar::FilterBar(QWidget* parent) :
 }
 
 FilterBar::~FilterBar()
-{}
+{
+}
 
 void FilterBar::hideEvent(QHideEvent* event)
 {

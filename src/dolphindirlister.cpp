@@ -22,11 +22,13 @@
 #include <kio/jobclasses.h>
 
 DolphinDirLister::DolphinDirLister() :
-        KDirLister()
-{}
+    KDirLister()
+{
+}
 
 DolphinDirLister::~DolphinDirLister()
-{}
+{
+}
 
 void DolphinDirLister::handleError(KIO::Job* job)
 {

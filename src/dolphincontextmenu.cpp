@@ -50,10 +50,10 @@
 DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
                                        KFileItem* fileInfo,
                                        const KUrl& baseUrl) :
-        m_mainWindow(parent),
-        m_fileInfo(fileInfo),
-        m_baseUrl(baseUrl),
-        m_context(NoContext)
+    m_mainWindow(parent),
+    m_fileInfo(fileInfo),
+    m_baseUrl(baseUrl),
+    m_context(NoContext)
 {
     // The context menu either accesses the URLs of the selected items
     // or the items itself. To increase the performance both lists are cached.

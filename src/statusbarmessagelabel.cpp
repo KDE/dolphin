@@ -34,13 +34,13 @@
 #include <QTimer>
 
 StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
-        QWidget(parent),
-        m_type(DolphinStatusBar::Default),
-        m_state(Default),
-        m_illumination(0),
-        m_minTextHeight(-1),
-        m_timer(0),
-        m_closeButton(0)
+    QWidget(parent),
+    m_type(DolphinStatusBar::Default),
+    m_state(Default),
+    m_illumination(0),
+    m_minTextHeight(-1),
+    m_timer(0),
+    m_closeButton(0)
 {
     setMinimumHeight(K3Icon::SizeSmall);
 

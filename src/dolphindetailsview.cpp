@@ -33,8 +33,8 @@
 #include <QHeaderView>
 
 DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* controller) :
-        QTreeView(parent),
-        m_controller(controller)
+    QTreeView(parent),
+    m_controller(controller)
 {
     Q_ASSERT(controller != 0);
 

@@ -34,13 +34,15 @@
 #include <QClipboard>
 
 TreeViewContextMenu::TreeViewContextMenu(QWidget* parent,
-        KFileItem* fileInfo) :
-        m_parent(parent),
-        m_fileInfo(fileInfo)
-{}
+                                         KFileItem* fileInfo) :
+    m_parent(parent),
+    m_fileInfo(fileInfo)
+{
+}
 
 TreeViewContextMenu::~TreeViewContextMenu()
-{}
+{
+}
 
 void TreeViewContextMenu::open()
 {

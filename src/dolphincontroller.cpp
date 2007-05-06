@@ -20,14 +20,16 @@
 #include "dolphincontroller.h"
 
 DolphinController::DolphinController(QObject* parent) :
-        QObject(parent),
-        m_showPreview(false),
-        m_zoomInPossible(false),
-        m_zoomOutPossible(false)
-{}
+    QObject(parent),
+    m_showPreview(false),
+    m_zoomInPossible(false),
+    m_zoomOutPossible(false)
+{
+}
 
 DolphinController::~DolphinController()
-{}
+{
+}
 
 void DolphinController::triggerContextMenuRequest(const QPoint& pos)
 {

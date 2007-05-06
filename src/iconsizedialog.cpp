@@ -34,14 +34,13 @@
 #include <QVBoxLayout>
 
 IconSizeDialog::IconSizeDialog(QWidget* parent) :
-        KDialog(parent),
-        m_iconSize(0),
-        m_previewSize(0),
-        m_iconSizeSlider(0),
-        m_iconSizeViewer(0),
-        m_previewSizeSlider(0),
-        m_previewSizeViewer(0)
-
+    KDialog(parent),
+    m_iconSize(0),
+    m_previewSize(0),
+    m_iconSizeSlider(0),
+    m_iconSizeViewer(0),
+    m_previewSizeSlider(0),
+    m_previewSizeViewer(0)
 {
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     Q_ASSERT(settings != 0);
@@ -112,7 +111,8 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
 }
 
 IconSizeDialog::~IconSizeDialog()
-{}
+{
+}
 
 void IconSizeDialog::slotButtonClicked(int button)
 {

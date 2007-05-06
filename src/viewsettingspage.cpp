@@ -36,11 +36,11 @@
 
 ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
                                    QWidget* parent) :
-        SettingsPageBase(parent),
-        m_generalPage(0),
-        m_iconsPage(0),
-        m_detailsPage(0),
-        m_columnPage(0)
+    SettingsPageBase(parent),
+    m_generalPage(0),
+    m_iconsPage(0),
+    m_detailsPage(0),
+    m_columnPage(0)
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     topLayout->setMargin(0);
