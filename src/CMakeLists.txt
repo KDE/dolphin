@@ -2,7 +2,8 @@
 add_subdirectory( pics )
 add_subdirectory( servicemenus )
 
-include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${KDE4_INCLUDE_DIR} ${QT_INCLUDES}  )
+include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_SOURCE_DIR}/apps/konsole/src/
+  	)
 
 add_definitions (-DQT3_SUPPORT)
 

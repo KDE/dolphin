@@ -22,7 +22,7 @@
 #include <klibloader.h>
 #include <kde_terminal_interface.h>
 #include <kparts/part.h>
-#include <konsole_part.h>
+#include <Part.h>
 
 #include <QVBoxLayout>
 
@@ -61,7 +61,7 @@ void TerminalSidebarPage::showEvent(QShowEvent* event)
             //     m_terminal = static_cast<TerminalInterface*>(part->qt_cast("TerminalInterface"));
             // which does not work anymore in Qt4. As temporary workaround <konsole_part.h> is
             // included directly:
-            m_terminal = static_cast<TerminalInterface*>(reinterpret_cast<konsolePart*>(part));
+            m_terminal = static_cast<TerminalInterface*>(reinterpret_cast<Konsole::Part*>(part));
         }
     }
     if (m_terminal != 0) {
