@@ -1237,7 +1237,7 @@ void DolphinMainWindow::setupActions()
 
     KToggleAction* showFilterBar = actionCollection()->add<KToggleAction>("show_filter_bar");
     showFilterBar->setText(i18n("Show Filter Bar"));
-    showFilterBar->setShortcut(Qt::Key_Slash);
+    showFilterBar->setShortcut(Qt::CTRL | Qt::Key_I);
     connect(showFilterBar, SIGNAL(triggered()), this, SLOT(toggleFilterBarVisibility()));
 
     QAction* compareFiles = actionCollection()->addAction("compare_files");
