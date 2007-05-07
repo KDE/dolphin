@@ -882,7 +882,7 @@ void DolphinMainWindow::goHome()
 
 void DolphinMainWindow::findFile()
 {
-    KRun::run("kfind", m_activeView->url());
+    KRun::run("kfind", m_activeView->url(), this);
 }
 
 void DolphinMainWindow::compareFiles()
@@ -936,7 +936,7 @@ void DolphinMainWindow::compareFiles()
     command.append("\" \"");
     command.append(urlB.pathOrUrl());
     command.append('\"');
-    KRun::runCommand(command, "Kompare", "kompare");
+    KRun::runCommand(command, "Kompare", "kompare", this);
 
 }
 
