@@ -22,7 +22,6 @@
 #include <klibloader.h>
 #include <kde_terminal_interface.h>
 #include <kparts/part.h>
-#include <Part.h>
 
 #include <QVBoxLayout>
 
@@ -56,12 +55,7 @@ void TerminalSidebarPage::showEvent(QShowEvent* event)
         KParts::Part* part = static_cast<KParts::Part*>(factory->create(this, "KParts::ReadOnlyPart"));
         if (part != 0) {
             m_layout->addWidget(part->widget());
-
-            // TODO: in KDE3 the following code worked:
-            //     m_terminal = static_cast<TerminalInterface*>(part->qt_cast("TerminalInterface"));
-            // which does not work anymore in Qt4. As temporary workaround <konsole_part.h> is
-            // included directly:
-            m_terminal = static_cast<TerminalInterface*>(reinterpret_cast<Konsole::Part*>(part));
+            m_terminal = qobject_cast<TerminalInterface *>(part);
         }
     }
     if (m_terminal != 0) {
