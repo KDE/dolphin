@@ -31,9 +31,14 @@
 #include <kmetadata/kmetadatatagwidget.h>
 #include <kmetadata/resourcemanager.h>
 #include <kmetadata/resource.h>
+#include <kmetadata/variant.h>
 #include <kmetadata/kratingwidget.h>
 #include <kmetadata/kmetadatatagwidget.h>
 #endif
+
+// FIXME: these should be replaced by using KMetaData::File once it is available again
+static const char* s_nfoFile = "http://ont.semanticdesktop.org/2007/03/22/nfo#File";
+static const char* s_nfoFileUrl = "http://ont.semanticdesktop.org/2007/03/22/nfo#fileUrl";
 
 
 bool MetaDataWidget::metaDataAvailable()
@@ -101,7 +106,7 @@ MetaDataWidget::MetaDataWidget(QWidget* parent)
     d->editComment->installEventFilter(this);
     d->editComment->viewport()->installEventFilter(this);
 #else
-    d = 0L;
+    d = 0;
 #endif
 }
 
@@ -117,11 +122,12 @@ void MetaDataWidget::setFile(const KUrl& url)
 #ifdef HAVE_KMETADATA
     // FIXME: replace with KMetaData::File once we have it again
     d->fileUrl = url;
-    d->file = Nepomuk::KMetaData::Resource(url.url());
+    d->file = Nepomuk::KMetaData::Resource(url.url(), s_nfoFile);
 //    d->file.setLocation(url.url());
-    d->ratingWidget->setRating(d->file.getRating());
+    d->file.setProperty( s_nfoFileUrl, url.url() );
+    d->ratingWidget->setRating(d->file.rating());
     d->tagWidget->setTaggedResource(d->file);
-    d->loadComment(d->file.getComment());
+    d->loadComment(d->file.description());
 #endif
 }
 
@@ -138,7 +144,7 @@ void MetaDataWidget::setFiles(const KUrl::List urls)
 void MetaDataWidget::slotCommentChanged()
 {
 #ifdef HAVE_KMETADATA
-    d->file.setComment(d->editComment->toPlainText());
+    d->file.setDescription(d->editComment->toPlainText());
 #endif
 }
 
@@ -161,7 +167,7 @@ bool MetaDataWidget::eventFilter(QObject* obj, QEvent* event)
             d->loadComment(d->editComment->toPlainText());
         } else if (event->type() == QEvent::FocusIn) {
             d->editComment->setFontItalic(false);
-            if (d->file.getComment().isEmpty())
+            if (d->file.description().isEmpty())
                 d->editComment->setText(QString());
         }
     }
