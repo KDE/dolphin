@@ -22,6 +22,7 @@
 #include <klibloader.h>
 #include <kde_terminal_interface.h>
 #include <kparts/part.h>
+#include <konsole_part.h>
 
 #include <QVBoxLayout>
 
@@ -40,9 +41,12 @@ TerminalSidebarPage::~TerminalSidebarPage()
 
 void TerminalSidebarPage::setUrl(const KUrl& url)
 {
-    SidebarPage::setUrl(url);
-    // TODO: synchronize terminal
-    // m_terminal->showShellInDir(...);
+    if (!SidebarPage::url().equals(url, KUrl::CompareWithoutTrailingSlash)) {
+        SidebarPage::setUrl(url);
+        if ((m_terminal != 0) && isVisible()) {
+            m_terminal->showShellInDir(url.path());
+        }
+    }
 }
 
 void TerminalSidebarPage::showEvent(QShowEvent* event)
@@ -52,13 +56,19 @@ void TerminalSidebarPage::showEvent(QShowEvent* event)
         KParts::Part* part = static_cast<KParts::Part*>(factory->create(this, "KParts::ReadOnlyPart"));
         if (part != 0) {
             m_layout->addWidget(part->widget());
-        }
 
-        // TODO: port to KDE4
-        //TerminalInterface* m_terminal = static_cast<TerminalInterface*>(part->qt_cast("TerminalInterface"));
-        // like this?
-        //m_terminal = qobject_cast<TerminalInterface*>(part);
+            // TODO: in KDE3 the following code worked:
+            //     m_terminal = static_cast<TerminalInterface*>(part->qt_cast("TerminalInterface"));
+            // which does not work anymore in Qt4. As temporary workaround <konsole_part.h> is
+            // included directly:
+            m_terminal = static_cast<TerminalInterface*>(reinterpret_cast<konsolePart*>(part));
+        }
     }
+    if (m_terminal != 0) {
+        m_terminal->showShellInDir(url().path());
+        m_terminal->sendInput("clear\n");
+    }
+
     SidebarPage::showEvent(event);
 }
 
