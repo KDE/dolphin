@@ -371,7 +371,7 @@ public slots:
     void requestActivation();
 
     /**
-     * Request of a selection change. The view will do its best to accomodate
+     * Request of a selection change. The view will do its best to accommodate
      * the request, but it is not guaranteed that all items in \a selection
      * will actually get selected. The view will e.g. not select items which
      * are not in the currently displayed folder.

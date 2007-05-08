@@ -38,7 +38,7 @@ public:
     virtual ~DolphinDirLister();
 
 signals:
-    /** Is emitted whenever an error has occured. */
+    /** Is emitted whenever an error has occurred. */
     void errorMessage(const QString& msg);
 
 protected:

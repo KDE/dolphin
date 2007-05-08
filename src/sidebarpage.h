@@ -56,7 +56,7 @@ public slots:
 
 signals:
     /**
-     * This signal is emited when the sidebar requests an URL-change in the
+     * This signal is emitted when the sidebar requests an URL-change in the
      * currently active file-management view. The view is not requested to
      * accept this change, if it is accepted the sidebar will be informed via
      * the setUrl() slot.

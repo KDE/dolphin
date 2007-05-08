@@ -178,7 +178,7 @@ private slots:
 
     /**
      * Opens the properties window for the selected items of the
-     * active view. The properties windows shows informations
+     * active view. The properties windows shows information
      * like name, size and permissions.
      */
     void properties();
