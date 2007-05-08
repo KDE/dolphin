@@ -22,6 +22,7 @@
 #include "dolphinmainwindow.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
+#include "dolphinsettings.h"
 #include "sidebartreeview.h"
 #include "treeviewcontextmenu.h"
 
@@ -34,7 +35,6 @@
 #include <QItemSelectionModel>
 #include <QTreeView>
 #include <QVBoxLayout>
-#include "dolphinsettings.h"
 
 TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
     SidebarPage(parent),
@@ -202,10 +202,19 @@ void TreeViewSidebarPage::loadTree(const KUrl& url)
         connect(m_dirLister, SIGNAL(completed()),
                 this, SLOT(expandSelectionParent()));
 
+        // Implementation note: It is important to remove the trailing slash from
+        // the parent URL, as the directories from the dir lister (KDirLister::directories())
+        // don't have a trailing slash and hence KUrl::List::contains() would fail...
         KUrl parentUrl = url.upUrl();
+        parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
         while (!parentUrl.isParentOf(baseUrl)) {
-            m_dirLister->openUrl(parentUrl, true, false);
+            if (m_dirLister->directories().contains(parentUrl)) {
+                m_dirLister->updateDirectory(parentUrl);
+            } else {
+                m_dirLister->openUrl(parentUrl, true, false);
+            }
             parentUrl = parentUrl.upUrl();
+            parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
         }
     }
 }
