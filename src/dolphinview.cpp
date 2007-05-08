@@ -67,6 +67,7 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     QWidget(parent),
     m_showProgress(false),
     m_blockContentsMovedSignal(false),
+    m_initializeColumnView(false),
     m_mode(mode),
     m_iconSize(0),
     m_folderCount(0),
@@ -650,6 +651,14 @@ void DolphinView::changeDirectory(const KUrl& url)
         m_mode = mode;
         createView();
         emit modeChanged();
+
+        if (m_mode == ColumnView) {
+            // The mode has been changed to the Column View. When starting the dir
+            // lister with DolphinView::startDirLister() it is important to give a
+            // hint that the dir lister may not keep the current directory
+            // although this is the default for showing a hierarchy.
+            m_initializeColumnView = true;
+        }
     }
 
     const bool showHiddenFiles = props.showHiddenFiles();
@@ -896,7 +905,9 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
     m_dirLister->stop();
 
     bool openDir = true;
-    bool keepOldDirs = isColumnViewActive();
+    bool keepOldDirs = isColumnViewActive() && !m_initializeColumnView;
+    m_initializeColumnView = false;
+
     if (keepOldDirs) {
         if (reload) {
             keepOldDirs = false;

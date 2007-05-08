@@ -593,6 +593,7 @@ private:
 
     bool m_showProgress;
     bool m_blockContentsMovedSignal;
+    bool m_initializeColumnView;
     Mode m_mode;
 
     int m_iconSize;
