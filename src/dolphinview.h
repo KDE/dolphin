@@ -29,12 +29,11 @@
 
 #include <kurlnavigator.h>
 
-#include <QDropEvent>
-#include <QLinkedList>
-#include <QListView>
-#include <QMouseEvent>
-#include <QVBoxLayout>
-#include <QWidget>
+#include <QtGui/QKeyEvent>
+#include <QtCore/QLinkedList>
+#include <QtGui/QListView>
+#include <QtGui/QBoxLayout>
+#include <QtGui/QWidget>
 
 class DolphinController;
 class FilterBar;

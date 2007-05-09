@@ -28,8 +28,8 @@
 #include <kfileitem.h>
 #include <kfileitemdelegate.h>
 
-#include <QAbstractProxyModel>
-#include <QPoint>
+#include <QtGui/QAbstractProxyModel>
+#include <QtCore/QPoint>
 
 DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* controller) :
     QColumnView(parent),

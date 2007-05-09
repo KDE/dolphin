@@ -25,7 +25,7 @@
 #include <klocale.h>
 #include <kdirmodel.h>
 
-#include <QSortFilterProxyModel>
+#include <QtGui/QSortFilterProxyModel>
 
 DolphinItemCategorizer::DolphinItemCategorizer() :
     KItemCategorizer()

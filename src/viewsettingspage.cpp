@@ -25,10 +25,10 @@
 #include "generalviewsettingspage.h"
 #include "iconsviewsettingspage.h"
 
-#include <QVBoxLayout>
-#include <QTabWidget>
-#include <QLayout>
-#include <QLabel>
+#include <QtGui/QBoxLayout>
+#include <QtGui/QTabWidget>
+#include <QtGui/QLayout>
+#include <QtGui/QLabel>
 
 #include <kdialog.h>
 #include <klocale.h>

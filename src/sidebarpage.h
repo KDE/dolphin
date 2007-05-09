@@ -21,7 +21,7 @@
 #ifndef _SIDEBARPAGE_H_
 #define _SIDEBARPAGE_H_
 
-#include <QWidget>
+#include <QtGui/QWidget>
 #include <kurl.h>
 #include <kfileitem.h>
 

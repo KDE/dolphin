@@ -30,7 +30,7 @@
 #include <kdirmodel.h>
 #include <kfileitemdelegate.h>
 
-#include <QHeaderView>
+#include <QtGui/QHeaderView>
 
 DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* controller) :
     QTreeView(parent),

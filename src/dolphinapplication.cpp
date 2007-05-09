@@ -24,7 +24,7 @@
 #include <applicationadaptor.h>
 #include <kcmdlineargs.h>
 #include <kurl.h>
-#include <QDBusConnection>
+#include <QtDBus/QDBusConnection>
 
 DolphinApplication::DolphinApplication() :
     m_lastId(0)

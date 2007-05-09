@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 #include "sidebarpage.h"
-#include <QWidget>
+#include <QtGui/QWidget>
 #include <kfileitem.h>
 #include <kurl.h>
 

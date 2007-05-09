@@ -19,10 +19,10 @@
  ***************************************************************************/
 #include "filterbar.h"
 
-#include <QBoxLayout>
-#include <QKeyEvent>
-#include <QLabel>
-#include <QToolButton>
+#include <QtGui/QBoxLayout>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QLabel>
+#include <QtGui/QToolButton>
 
 #include <kdialog.h>
 #include <klocale.h>

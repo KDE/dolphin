@@ -29,7 +29,7 @@
 #include <ksortablelist.h>
 #include <konq_undo.h>
 
-#include <QList>
+#include <QtCore/QList>
 
 class DolphinApplication;
 class KNewMenu;

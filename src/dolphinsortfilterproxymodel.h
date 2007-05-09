@@ -20,7 +20,7 @@
 #ifndef DOLPHINSORTFILTERPROXYMODEL_H
 #define DOLPHINSORTFILTERPROXYMODEL_H
 
-#include <QSortFilterProxyModel>
+#include <QtGui/QSortFilterProxyModel>
 #include <dolphinview.h>
 #include <libdolphin_export.h>
 

@@ -42,10 +42,10 @@
 #include <kstandardaction.h>
 #include <kstandarddirs.h>
 
-#include <QApplication>
-#include <QClipboard>
-#include <QDir>
-#include <Q3ValueList>
+#include <QtGui/QApplication>
+#include <QtGui/QClipboard>
+#include <QtCore/QDir>
+#include <Qt3Support/Q3ValueList>
 
 DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
                                        KFileItem* fileInfo,

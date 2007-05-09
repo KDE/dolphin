@@ -28,10 +28,10 @@
 #include <klocale.h>
 #include <kvbox.h>
 
-#include <QGroupBox>
-#include <QLabel>
-#include <QSlider>
-#include <QVBoxLayout>
+#include <QtGui/QGroupBox>
+#include <QtGui/QLabel>
+#include <QtGui/QSlider>
+#include <QtGui/QBoxLayout>
 
 IconSizeDialog::IconSizeDialog(QWidget* parent) :
     KDialog(parent),

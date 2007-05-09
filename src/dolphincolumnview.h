@@ -20,8 +20,8 @@
 #ifndef DOLPHINCOLUMNVIEW_H
 #define DOLPHINCOLUMNVIEW_H
 
-#include <QColumnView>
-#include <QStyleOptionViewItem>
+#include <QtGui/QColumnView>
+#include <QtGui/QStyleOption>
 
 class DolphinController;
 class DolphinView;

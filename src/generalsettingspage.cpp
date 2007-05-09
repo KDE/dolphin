@@ -25,12 +25,12 @@
 #include <klocale.h>
 #include <kvbox.h>
 
-#include <QCheckBox>
-#include <QGroupBox>
-#include <QLabel>
-#include <QLineEdit>
-#include <QPushButton>
-#include <QRadioButton>
+#include <QtGui/QCheckBox>
+#include <QtGui/QGroupBox>
+#include <QtGui/QLabel>
+#include <QtGui/QLineEdit>
+#include <QtGui/QPushButton>
+#include <QtGui/QRadioButton>
 
 #include "dolphinsettings.h"
 #include "dolphinmainwindow.h"

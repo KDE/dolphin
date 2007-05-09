@@ -22,8 +22,8 @@
 #define DOLPHINDETAILSVIEW_H
 
 #include <dolphinview.h>
-#include <QStyleOptionViewItem>
-#include <QTreeView>
+#include <QtGui/QStyleOption>
+#include <QtGui/QTreeView>
 #include <libdolphin_export.h>
 
 class DolphinController;

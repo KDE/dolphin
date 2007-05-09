@@ -30,8 +30,8 @@
 
 #include "renamedialog.h"
 
-#include <QApplication>
-#include <QClipboard>
+#include <QtGui/QApplication>
+#include <QtGui/QClipboard>
 
 TreeViewContextMenu::TreeViewContextMenu(QWidget* parent,
                                          KFileItem* fileInfo) :

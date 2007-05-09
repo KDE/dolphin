@@ -22,10 +22,10 @@
 #include "applyviewpropsjob.h"
 #include "viewproperties.h"
 
-#include <QLabel>
-#include <QProgressBar>
-#include <QTimer>
-#include <QVBoxLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QProgressBar>
+#include <QtCore/QTimer>
+#include <QtGui/QBoxLayout>
 
 #include <assert.h>
 #include <klocale.h>

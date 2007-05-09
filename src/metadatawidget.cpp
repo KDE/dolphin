@@ -23,9 +23,9 @@
 
 #include <klocale.h>
 
-#include <QLabel>
-#include <QGridLayout>
-#include <QTextEdit>
+#include <QtGui/QLabel>
+#include <QtGui/QGridLayout>
+#include <QtGui/QTextEdit>
 
 #ifdef HAVE_KMETADATA
 #include <kmetadata/kmetadatatagwidget.h>

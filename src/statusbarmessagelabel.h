@@ -23,10 +23,10 @@
 
 #include <dolphinstatusbar.h>
 
-#include <QList>
-#include <QPixmap>
+#include <QtCore/QList>
+#include <QtGui/QPixmap>
 
-#include <QWidget>
+#include <QtGui/QWidget>
 
 class QPaintEvent;
 class QResizeEvent;

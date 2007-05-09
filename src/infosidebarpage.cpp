@@ -21,17 +21,17 @@
 
 #include "infosidebarpage.h"
 
-#include <QLayout>
-#include <QPixmap>
-#include <QLabel>
-#include <QTimer>
-#include <QPushButton>
-#include <QMenu>
-#include <QPainter>
-#include <QFontMetrics>
-#include <QEvent>
-#include <QInputDialog>
-#include <QDir>
+#include <QtGui/QLayout>
+#include <QtGui/QPixmap>
+#include <QtGui/QLabel>
+#include <QtCore/QTimer>
+#include <QtGui/QPushButton>
+#include <QtGui/QMenu>
+#include <QtGui/QPainter>
+#include <QtGui/QFontMetrics>
+#include <QtCore/QEvent>
+#include <QtGui/QInputDialog>
+#include <QtCore/QDir>
 
 #include <kfileplacesmodel.h>
 #include <klocale.h>

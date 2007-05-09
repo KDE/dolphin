@@ -68,10 +68,10 @@
 #include <kstandardaction.h>
 #include <kurl.h>
 
-#include <QCloseEvent>
-#include <QClipboard>
-#include <QSplitter>
-#include <QDockWidget>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QClipboard>
+#include <QtGui/QSplitter>
+#include <QtGui/QDockWidget>
 
 DolphinMainWindow::DolphinMainWindow(int id) :
     KXmlGuiWindow(0),

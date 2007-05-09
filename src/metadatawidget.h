@@ -20,7 +20,7 @@
 #ifndef METADATA_WIDGET_H
 #define METADATA_WIDGET_H
 
-#include <QWidget>
+#include <QtGui/QWidget>
 
 #include <kurl.h>
 

@@ -22,7 +22,7 @@
 #include <kiconloader.h>
 #include <QtGui/QPainter>
 #include <QtGui/QPixmap>
-#include <QtGui/QPaintEvent>
+#include <QtGui/QKeyEvent>
 
 PixmapViewer::PixmapViewer(QWidget* parent, Transition transition) :
     QWidget(parent),

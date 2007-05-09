@@ -20,10 +20,10 @@
 
 // NOTE: rectForIndex() not virtual on QListView !! relevant ?
 
-#include <QPainter>
-#include <QScrollBar>
-#include <QPaintEvent>
-#include <QSortFilterProxyModel>
+#include <QtGui/QPainter>
+#include <QtGui/QScrollBar>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QSortFilterProxyModel>
 
 #include <kdebug.h>
 

@@ -20,7 +20,7 @@
 #ifndef TREEVIEWCONTEXTMENU_H
 #define TREEVIEWCONTEXTMENU_H
 
-#include <QObject>
+#include <QtCore/QObject>
 
 class KMenu;
 class KFileItem;

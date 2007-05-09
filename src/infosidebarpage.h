@@ -23,10 +23,10 @@
 #include <sidebarpage.h>
 
 #include <QtGui/QPushButton>
-#include <QPixmap>
-#include <QEvent>
-#include <QLabel>
-#include <QList>
+#include <QtGui/QPixmap>
+#include <QtCore/QEvent>
+#include <QtGui/QLabel>
+#include <QtCore/QList>
 
 #include <kurl.h>
 #include <kmimetype.h>

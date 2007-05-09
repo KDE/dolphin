@@ -22,8 +22,8 @@
 #include <klineedit.h>
 #include <klocale.h>
 
-#include <QLabel>
-#include <QVBoxLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QBoxLayout>
 
 RenameDialog::RenameDialog(const KUrl::List& items) :
     KDialog(),

@@ -31,10 +31,10 @@
 #include <kdirmodel.h>
 #include <kfileitem.h>
 
-#include <QHeaderView>
-#include <QItemSelectionModel>
-#include <QTreeView>
-#include <QVBoxLayout>
+#include <QtGui/QHeaderView>
+#include <QtGui/QItemSelection>
+#include <QtGui/QTreeView>
+#include <QtGui/QBoxLayout>
 
 TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
     SidebarPage(parent),

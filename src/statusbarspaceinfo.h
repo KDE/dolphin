@@ -23,7 +23,7 @@
 #include <kurl.h>
 
 #include <QtGui/QColor>
-#include <QtGui/QPaintEvent>
+#include <QtGui/QKeyEvent>
 #include <QtGui/QWidget>
 
 class KDiskFreeSp;

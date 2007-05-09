@@ -24,7 +24,7 @@
 #include <kdemacros.h>
 
 /* needed, because e.g. Q_OS_UNIX is so frequently used */
-#include <QtCore/qglobal.h>
+#include <QtCore/QBool>
 
 #ifdef MAKE_DOLPHINPRIVATE_LIB
 # define LIBDOLPHINPRIVATE_EXPORT KDE_EXPORT

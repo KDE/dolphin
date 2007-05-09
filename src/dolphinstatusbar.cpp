@@ -23,9 +23,9 @@
 #include "statusbarmessagelabel.h"
 #include "statusbarspaceinfo.h"
 
-#include <QLabel>
-#include <QProgressBar>
-#include <QTimer>
+#include <QtGui/QLabel>
+#include <QtGui/QProgressBar>
+#include <QtCore/QTimer>
 
 #include <kiconloader.h>
 #include <kvbox.h>

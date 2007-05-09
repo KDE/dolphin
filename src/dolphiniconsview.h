@@ -22,7 +22,7 @@
 
 #include <klistview.h>
 #include <kitemcategorizer.h>
-#include <QStyleOptionViewItem>
+#include <QtGui/QStyleOption>
 #include <libdolphin_export.h>
 
 class DolphinController;

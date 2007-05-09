@@ -30,14 +30,14 @@
 #include <kglobalsettings.h>
 #include <klocale.h>
 
-#include <QComboBox>
-#include <QGroupBox>
-#include <QLabel>
-#include <QListView>
-#include <QPushButton>
-#include <QSpinBox>
-#include <QGridLayout>
-#include <QtDebug>
+#include <QtGui/QComboBox>
+#include <QtGui/QGroupBox>
+#include <QtGui/QLabel>
+#include <QtGui/QListView>
+#include <QtGui/QPushButton>
+#include <QtGui/QSpinBox>
+#include <QtGui/QGridLayout>
+#include <QtCore/QDebug>
 
 IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
                                              QWidget* parent) :

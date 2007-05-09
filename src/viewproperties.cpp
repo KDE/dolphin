@@ -20,9 +20,9 @@
 
 #include <assert.h>
 
-#include <QDateTime>
-#include <QFile>
-#include <QFileInfo>
+#include <QtCore/QDate>
+#include <QtCore/QFile>
+#include <QtCore/QFileInfo>
 
 #include <kcomponentdata.h>
 #include <klocale.h>

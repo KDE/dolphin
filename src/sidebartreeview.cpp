@@ -22,9 +22,8 @@
 #include <kdirmodel.h>
 #include <kfileitemdelegate.h>
 
-#include <QDragEnterEvent>
-#include <QDropEvent>
-#include <QHeaderView>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QHeaderView>
 
 SidebarTreeView::SidebarTreeView(QWidget* parent) :
     QTreeView(parent)

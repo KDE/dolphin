@@ -25,13 +25,12 @@
 #include <kicon.h>
 #include <klocale.h>
 
-#include <QFontMetrics>
-#include <QPainter>
-#include <QPaintEvent>
-#include <QPushButton>
-#include <QPixmap>
-#include <QResizeEvent>
-#include <QTimer>
+#include <QtGui/QFontMetrics>
+#include <QtGui/QPainter>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QPushButton>
+#include <QtGui/QPixmap>
+#include <QtCore/QTimer>
 
 StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
     QWidget(parent),

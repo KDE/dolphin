@@ -23,12 +23,12 @@
 #include "dolphin_generalsettings.h"
 #include "viewproperties.h"
 
-#include <QLabel>
-#include <QGroupBox>
-#include <QRadioButton>
-#include <QSlider>
-#include <QSpinBox>
-#include <QVBoxLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QGroupBox>
+#include <QtGui/QRadioButton>
+#include <QtGui/QSlider>
+#include <QtGui/QSpinBox>
+#include <QtGui/QBoxLayout>
 
 #include <kconfiggroup.h>
 #include <kdialog.h>

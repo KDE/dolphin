@@ -25,9 +25,9 @@
 #include <kservice.h>
 #include <kurl.h>
 
-#include <QObject>
+#include <QtCore/QObject>
 
-#include <QVector>
+#include <QtCore/QVector>
 
 class KMenu;
 class KFileItem;

@@ -34,14 +34,14 @@
 #include <kstandarddirs.h>
 #include <kurl.h>
 
-#include <QButtonGroup>
-#include <QCheckBox>
-#include <QComboBox>
-#include <QGridLayout>
-#include <QGroupBox>
-#include <QLabel>
-#include <QRadioButton>
-#include <QVBoxLayout>
+#include <QtGui/QButtonGroup>
+#include <QtGui/QCheckBox>
+#include <QtGui/QComboBox>
+#include <QtGui/QGridLayout>
+#include <QtGui/QGroupBox>
+#include <QtGui/QLabel>
+#include <QtGui/QRadioButton>
+#include <QtGui/QBoxLayout>
 
 ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     KDialog(dolphinView),

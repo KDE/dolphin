@@ -22,7 +22,7 @@
 
 #include <QtCore/QTimer>
 #include <QtGui/QPainter>
-#include <QtGui/QPaintEvent>
+#include <QtGui/QKeyEvent>
 
 #include <kglobalsettings.h>
 #include <kdiskfreespace.h>

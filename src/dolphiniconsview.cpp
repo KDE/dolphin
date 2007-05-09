@@ -29,8 +29,8 @@
 #include <kfileitem.h>
 #include <kfileitemdelegate.h>
 
-#include <QAbstractProxyModel>
-#include <QPoint>
+#include <QtGui/QAbstractProxyModel>
+#include <QtCore/QPoint>
 
 DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controller) :
     KListView(parent),

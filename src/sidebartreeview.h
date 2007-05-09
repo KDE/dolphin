@@ -21,7 +21,7 @@
 #define SIDEBARTREEVIEW_H
 
 #include <kurl.h>
-#include <QTreeView>
+#include <QtGui/QTreeView>
 
 /**
  * @brief Tree view widget which is used for the sidebar panel.

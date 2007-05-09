@@ -22,7 +22,7 @@
 
 #include <dolphinview.h>
 #include <kurl.h>
-#include <QObject>
+#include <QtCore/QObject>
 #include <libdolphin_export.h>
 
 class KUrl;

@@ -26,14 +26,14 @@
 #include <kfontrequester.h>
 #include <klocale.h>
 
-#include <QButtonGroup>
-#include <QCheckBox>
-#include <QComboBox>
-#include <QGroupBox>
-#include <QGridLayout>
-#include <QLabel>
-#include <QRadioButton>
-#include <QSpinBox>
+#include <QtGui/QButtonGroup>
+#include <QtGui/QCheckBox>
+#include <QtGui/QComboBox>
+#include <QtGui/QGroupBox>
+#include <QtGui/QGridLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QRadioButton>
+#include <QtGui/QSpinBox>
 
 DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
                                                  QWidget* parent) :

@@ -20,14 +20,13 @@
 
 #include "dolphinview.h"
 
-#include <QApplication>
-#include <QClipboard>
-#include <QDropEvent>
-#include <QItemSelectionModel>
-#include <QMouseEvent>
-#include <QVBoxLayout>
-#include <QTimer>
-#include <QScrollBar>
+#include <QtGui/QApplication>
+#include <QtGui/QClipboard>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QItemSelection>
+#include <QtGui/QBoxLayout>
+#include <QtCore/QTimer>
+#include <QtGui/QScrollBar>
 
 #include <kdirmodel.h>
 #include <kfileitemdelegate.h>

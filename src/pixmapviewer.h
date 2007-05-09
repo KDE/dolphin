@@ -22,7 +22,7 @@
 
 #include <QtGui/QWidget>
 #include <QtGui/QPixmap>
-#include <QTimeLine>
+#include <QtCore/QTimeLine>
 
 class QPaintEvent;
 

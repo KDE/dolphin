@@ -23,7 +23,7 @@
 #include <kde_terminal_interface.h>
 #include <kparts/part.h>
 
-#include <QVBoxLayout>
+#include <QtGui/QBoxLayout>
 
 TerminalSidebarPage::TerminalSidebarPage(QWidget* parent) :
     SidebarPage(parent),

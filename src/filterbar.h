@@ -20,7 +20,7 @@
 #ifndef FILTERBAR_H
 #define FILTERBAR_H
 
-#include <QWidget>
+#include <QtGui/QWidget>
 
 class QLabel;
 class QToolButton;

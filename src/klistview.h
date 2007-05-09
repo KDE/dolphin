@@ -21,7 +21,7 @@
 #ifndef __KLISTVIEW_H__
 #define __KLISTVIEW_H__
 
-#include <QListView>
+#include <QtGui/QListView>
 
 #include <libdolphin_export.h>
 
