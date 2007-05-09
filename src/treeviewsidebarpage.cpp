@@ -43,34 +43,6 @@ TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
     m_proxyModel(0),
     m_treeView(0)
 {
-    m_dirLister = new KDirLister();
-    m_dirLister->setDirOnlyMode(true);
-    m_dirLister->setAutoUpdate(true);
-    m_dirLister->setMainWindow(this);
-    m_dirLister->setDelayedMimeTypes(true);
-    m_dirLister->setAutoErrorHandlingEnabled(false, this);
-
-    m_dirModel = new KDirModel();
-    m_dirModel->setDirLister(m_dirLister);
-    m_dirModel->setDropsAllowed(KDirModel::DropOnDirectory);
-
-    m_proxyModel = new DolphinSortFilterProxyModel(this);
-    m_proxyModel->setSourceModel(m_dirModel);
-
-    m_treeView = new SidebarTreeView(this);
-    m_treeView->setModel(m_proxyModel);
-
-    m_proxyModel->setSorting(DolphinView::SortByName);
-    m_proxyModel->setSortOrder(Qt::AscendingOrder);
-
-    connect(m_treeView, SIGNAL(clicked(const QModelIndex&)),
-            this, SLOT(updateActiveView(const QModelIndex&)));
-    connect(m_treeView, SIGNAL(urlsDropped(const KUrl::List&, const QModelIndex&)),
-            this, SLOT(dropUrls(const KUrl::List&, const QModelIndex&)));
-
-    QVBoxLayout* layout = new QVBoxLayout(this);
-    layout->setMargin(0);
-    layout->addWidget(m_treeView);
 }
 
 TreeViewSidebarPage::~TreeViewSidebarPage()
@@ -86,18 +58,51 @@ void TreeViewSidebarPage::setUrl(const KUrl& url)
     }
 
     SidebarPage::setUrl(url);
-    // TODO: it makes only sense to load the tree if the TreeViewSidebarPage
-    // is visible, but currently an assertion is triggered in KDirModel when hiding
-    // the tree view, changing to a complete different hierarchy and showing it again.
-    //if (isVisible()) {
+    if (m_dirLister != 0) {
         loadTree(url);
-    //}
+    }
 }
 
 void TreeViewSidebarPage::showEvent(QShowEvent* event)
 {
-    SidebarPage::showEvent(event);
+    if (m_dirLister == 0) {
+        // Postpone the creating of the dir lister to the first show event.
+        // This assures that no performance and memory overhead is given when the TreeView is not
+        // used at all (see TreeViewSidebarPage::setUrl()).
+        m_dirLister = new KDirLister();
+        m_dirLister->setDirOnlyMode(true);
+        m_dirLister->setAutoUpdate(true);
+        m_dirLister->setMainWindow(this);
+        m_dirLister->setDelayedMimeTypes(true);
+        m_dirLister->setAutoErrorHandlingEnabled(false, this);
+
+        Q_ASSERT(m_dirModel == 0);
+        m_dirModel = new KDirModel();
+        m_dirModel->setDirLister(m_dirLister);
+        m_dirModel->setDropsAllowed(KDirModel::DropOnDirectory);
+
+        Q_ASSERT(m_proxyModel == 0);
+        m_proxyModel = new DolphinSortFilterProxyModel(this);
+        m_proxyModel->setSourceModel(m_dirModel);
+
+        Q_ASSERT(m_treeView == 0);
+        m_treeView = new SidebarTreeView(this);
+        m_treeView->setModel(m_proxyModel);
+        m_proxyModel->setSorting(DolphinView::SortByName);
+        m_proxyModel->setSortOrder(Qt::AscendingOrder);
+
+        connect(m_treeView, SIGNAL(clicked(const QModelIndex&)),
+                this, SLOT(updateActiveView(const QModelIndex&)));
+        connect(m_treeView, SIGNAL(urlsDropped(const KUrl::List&, const QModelIndex&)),
+                this, SLOT(dropUrls(const KUrl::List&, const QModelIndex&)));
+
+        QVBoxLayout* layout = new QVBoxLayout(this);
+        layout->setMargin(0);
+        layout->addWidget(m_treeView);
+    }
+
     loadTree(url());
+    SidebarPage::showEvent(event);
 }
 
 void TreeViewSidebarPage::contextMenuEvent(QContextMenuEvent* event)
@@ -171,6 +176,8 @@ void TreeViewSidebarPage::dropUrls(const KUrl::List& urls,
 
 void TreeViewSidebarPage::loadTree(const KUrl& url)
 {
+    Q_ASSERT(m_dirLister != 0);
+
     // adjust the root of the tree to the base bookmark
     KFilePlacesModel* placesModel = DolphinSettings::instance().placesModel();
     KUrl baseUrl = placesModel->url(placesModel->closestItem(url));
