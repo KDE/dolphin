@@ -206,38 +206,12 @@ void DolphinMainWindow::rename(const KUrl& oldUrl, const KUrl& newUrl)
 
 void DolphinMainWindow::refreshViews()
 {
-    const bool split = DolphinSettings::instance().generalSettings()->splitView();
-    const bool isPrimaryViewActive = (m_activeView == m_view[PrimaryIdx]);
-    KUrl url;
-    for (int i = PrimaryIdx; i <= SecondaryIdx; ++i) {
-        if (m_view[i] != 0) {
-            url = m_view[i]->url();
+    Q_ASSERT(m_view[PrimaryIdx] != 0);
+    m_view[PrimaryIdx]->refresh();
 
-            // delete view instance...
-            m_view[i]->close();
-            m_view[i]->deleteLater();
-            m_view[i] = 0;
-        }
-
-        if (split || (i == PrimaryIdx)) {
-            // ... and recreate it
-            ViewProperties props(url);
-            m_view[i] = new DolphinView(this,
-                                        m_splitter,
-                                        url,
-                                        props.viewMode(),
-                                        props.showHiddenFiles());
-            connectViewSignals(i);
-            m_view[i]->reload();
-            m_view[i]->show();
-        }
+    if (m_view[SecondaryIdx] != 0) {
+        m_view[SecondaryIdx]->refresh();
     }
-
-    m_activeView = isPrimaryViewActive ? m_view[PrimaryIdx] : m_view[SecondaryIdx];
-    Q_ASSERT(m_activeView != 0);
-
-    updateViewActions();
-    emit activeViewChanged();
 }
 
 void DolphinMainWindow::changeUrl(const KUrl& url)

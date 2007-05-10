@@ -617,6 +617,11 @@ void DolphinView::reload()
     startDirLister(url, true);
 }
 
+void DolphinView::refresh()
+{
+    createView();
+}
+
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)
 {
     QWidget::mouseReleaseEvent(event);
