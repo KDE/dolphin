@@ -51,12 +51,8 @@ protected:
     virtual void dropEvent(QDropEvent* event);
 
 private slots:
-    /**
-     * Updates the size of the grid
-     * depending on the state of \a showPreview.
-     */
-    void updateGridSize(bool showPreview);
-
+    void slotShowPreviewChanged(bool show);
+    void slotShowAdditionalInfoChanged(bool show);
     void zoomIn();
     void zoomOut();
 
@@ -70,9 +66,15 @@ private:
     /** Returns the decreased icon size for the size \a size. */
     int decreasedIconSize(int size) const;
 
+    /**
+     * Updates the size of the grid depending on the state
+     * of \a showPreview and \a showAdditionalInfo.
+     */
+    void updateGridSize(bool showPreview, bool showAdditionalInfo);
+
 private:
     DolphinController* m_controller;
-    QStyleOptionViewItem m_viewOptions;
+    QStyleOptionViewItemV2 m_viewOptions;
 };
 
 #endif

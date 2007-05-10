@@ -161,13 +161,15 @@ void IconsViewSettingsPage::applySettings()
                             QListView::TopToBottom;
     settings->setArrangement(arrangement);
 
+    const int numberOfTextlines = m_textlinesCountBox->value();
+
     const int defaultSize = settings->iconSize();
     int gridWidth = defaultSize;
     int gridHeight = defaultSize;
     const int textSizeIndex = m_textWidthBox->currentIndex();
     if (arrangement == QListView::TopToBottom) {
         gridWidth += TopToBottomBase + textSizeIndex * TopToBottomInc;
-        gridHeight += fontSize * 6;
+        gridHeight += fontSize * (2 + numberOfTextlines);
     } else {
         gridWidth += LeftToRightBase + textSizeIndex * LeftToRightInc;
     }
@@ -180,7 +182,7 @@ void IconsViewSettingsPage::applySettings()
     settings->setItalicFont(font.italic());
     settings->setBoldFont(font.bold());
 
-    settings->setNumberOfTextlines(m_textlinesCountBox->value());
+    settings->setNumberOfTextlines(numberOfTextlines);
 
     settings->setGridSpacing(GridSpacingBase +
                              m_gridSpacingBox->currentIndex() * GridSpacingInc);

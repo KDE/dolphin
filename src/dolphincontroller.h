@@ -54,14 +54,8 @@ public:
     explicit DolphinController(QObject* parent);
     virtual ~DolphinController();
 
-    void setUrl(const KUrl& url)
-    {
-        m_url = url;
-    }
-    const KUrl& url() const
-    {
-        return m_url;
-    }
+    inline void setUrl(const KUrl& url);
+    inline const KUrl& url() const;
 
     void triggerContextMenuRequest(const QPoint& pos);
 
@@ -75,31 +69,19 @@ public:
 
     void indicateSortOrderChange(Qt::SortOrder order);
 
-    void setShowPreview(bool showPreview);
-    bool showPreview() const
-    {
-        return m_showPreview;
-    }
+    void setShowPreview(bool show);
+    inline bool showPreview() const;
+
+    void setShowAdditionalInfo(bool show);
+    inline bool showAdditionalInfo() const;
 
     void triggerZoomIn();
-    void setZoomInPossible(bool possible)
-    {
-        m_zoomInPossible = possible;
-    }
-    bool isZoomInPossible() const
-    {
-        return m_zoomInPossible;
-    }
+    inline void setZoomInPossible(bool possible);
+    inline bool isZoomInPossible() const;
 
     void triggerZoomOut();
-    void setZoomOutPossible(bool possible)
-    {
-        m_zoomOutPossible = possible;
-    }
-    bool isZoomOutPossible() const
-    {
-        return m_zoomOutPossible;
-    }
+    inline void setZoomOutPossible(bool possible);
+    inline bool isZoomOutPossible() const;
 
 public slots:
     void triggerItem(const QModelIndex& index);
@@ -137,9 +119,15 @@ signals:
 
     /**
      * Is emitted if the state for showing previews has been
-     * changed to \a showPreview.
+     * changed to \a show.
      */
-    void showPreviewChanged(bool showPreview);
+    void showPreviewChanged(bool show);
+
+    /**
+     * Is emitted if the state for showing additional info has been
+     * changed to \a show.
+     */
+    void showAdditionalInfoChanged(bool show);
 
     /**
      * Is emitted if the item with the index \a index should be triggered.
@@ -159,9 +147,50 @@ signals:
 
 private:
     bool m_showPreview;
+    bool m_showAdditionalInfo;
     bool m_zoomInPossible;
     bool m_zoomOutPossible;
     KUrl m_url;
 };
+
+void DolphinController::setUrl(const KUrl& url)
+{
+    m_url = url;
+}
+
+const KUrl& DolphinController::url() const
+{
+    return m_url;
+}
+
+bool DolphinController::showPreview() const
+{
+    return m_showPreview;
+}
+
+bool DolphinController::showAdditionalInfo() const
+{
+    return m_showAdditionalInfo;
+}
+
+void DolphinController::setZoomInPossible(bool possible)
+{
+    m_zoomInPossible = possible;
+}
+
+bool DolphinController::isZoomInPossible() const
+{
+    return m_zoomInPossible;
+}
+
+void DolphinController::setZoomOutPossible(bool possible)
+{
+    m_zoomOutPossible = possible;
+}
+
+bool DolphinController::isZoomOutPossible() const
+{
+    return m_zoomOutPossible;
+}
 
 #endif

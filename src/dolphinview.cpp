@@ -460,6 +460,7 @@ void DolphinView::setAdditionalInfo(KFileItemDelegate::AdditionalInformation inf
     ViewProperties props(m_urlNavigator->url());
     props.setAdditionalInfo(info);
 
+    m_controller->setShowAdditionalInfo(info != KFileItemDelegate::NoInformation);
     m_fileItemDelegate->setAdditionalInformation(info);
 
     emit additionalInfoChanged(info);
@@ -701,8 +702,8 @@ void DolphinView::changeDirectory(const KUrl& url)
 
     KFileItemDelegate::AdditionalInformation info = props.additionalInfo();
     if (info != m_fileItemDelegate->additionalInformation()) {
+        m_controller->setShowAdditionalInfo(info != KFileItemDelegate::NoInformation);
         m_fileItemDelegate->setAdditionalInformation(info);
-
         emit additionalInfoChanged(info);
     }
 

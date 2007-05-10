@@ -28,7 +28,7 @@
         </entry>
        <entry name="GridHeight" type="Int">
             <label>Grid height</label>
-            <default code="true">K3Icon::SizeMedium + (KGlobalSettings::generalFont().pointSize() * 6)</default>
+            <default code="true">K3Icon::SizeMedium + (KGlobalSettings::generalFont().pointSize() * 3)</default>
         </entry>
         <entry name="GridWidth" type="Int">
             <label>Grid width</label>
@@ -44,7 +44,7 @@
         </entry>
         <entry name="NumberOfTextlines" type="Int">
             <label>Number of textlines</label>
-            <default>2</default>
+            <default>1</default>
         </entry>
         <entry name="Preview" type="Bool">
             <label>Show preview</label>

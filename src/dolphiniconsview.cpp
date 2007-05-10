@@ -52,7 +52,9 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     connect(this, SIGNAL(activated(const QModelIndex&)),
             controller, SLOT(triggerItem(const QModelIndex&)));
     connect(controller, SIGNAL(showPreviewChanged(bool)),
-            this, SLOT(updateGridSize(bool)));
+            this, SLOT(slotShowPreviewChanged(bool)));
+    connect(controller, SIGNAL(showAdditionalInfoChanged(bool)),
+            this, SLOT(slotShowAdditionalInfoChanged(bool)));
     connect(controller, SIGNAL(zoomIn()),
             this, SLOT(zoomIn()));
     connect(controller, SIGNAL(zoomOut()),
@@ -69,8 +71,12 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     font.setItalic(settings->italicFont());
     font.setBold(settings->boldFont());
     m_viewOptions.font = font;
+    if (settings->numberOfTextlines() > 1) {
+        m_viewOptions.textElideMode = Qt::ElideNone;
+        m_viewOptions.features = QStyleOptionViewItemV2::WrapText;
+    }
 
-    updateGridSize(controller->showPreview());
+    updateGridSize(controller->showPreview(), controller->showAdditionalInfo());
 
     if (settings->arrangement() == QListView::TopToBottom) {
         setFlow(QListView::LeftToRight);
@@ -121,30 +127,14 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
     KListView::dropEvent(event);
 }
 
-void DolphinIconsView::updateGridSize(bool showPreview)
+void DolphinIconsView::slotShowPreviewChanged(bool showPreview)
 {
-    const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    Q_ASSERT(settings != 0);
+    updateGridSize(showPreview, m_controller->showAdditionalInfo());
+}
 
-    int gridWidth = settings->gridWidth();
-    int gridHeight = settings->gridHeight();
-    int size = settings->iconSize();
-
-    if (showPreview) {
-        const int previewSize = settings->previewSize();
-        const int diff = previewSize - size;
-        Q_ASSERT(diff >= 0);
-        gridWidth  += diff;
-        gridHeight += diff;
-
-        size = previewSize;
-    }
-
-    m_viewOptions.decorationSize = QSize(size, size);
-    setGridSize(QSize(gridWidth, gridHeight));
-
-    m_controller->setZoomInPossible(isZoomInPossible());
-    m_controller->setZoomOutPossible(isZoomOutPossible());
+void DolphinIconsView::slotShowAdditionalInfoChanged(bool showAdditionalInfo)
+{
+    updateGridSize(m_controller->showPreview(), showAdditionalInfo);
 }
 
 void DolphinIconsView::zoomIn()
@@ -173,7 +163,7 @@ void DolphinIconsView::zoomIn()
         settings->setGridWidth(settings->gridWidth() + diff);
         settings->setGridHeight(settings->gridHeight() + diff);
 
-        updateGridSize(showPreview);
+        updateGridSize(showPreview, m_controller->showAdditionalInfo());
     }
 }
 
@@ -204,7 +194,7 @@ void DolphinIconsView::zoomOut()
         settings->setGridWidth(settings->gridWidth() - diff);
         settings->setGridHeight(settings->gridHeight() - diff);
 
-        updateGridSize(showPreview);
+        updateGridSize(showPreview, m_controller->showAdditionalInfo());
     }
 }
 
@@ -250,6 +240,36 @@ int DolphinIconsView::decreasedIconSize(int size) const
     default: Q_ASSERT(false); break;
     }
     return decSize;
+}
+
+void DolphinIconsView::updateGridSize(bool showPreview, bool showAdditionalInfo)
+{
+    const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+    Q_ASSERT(settings != 0);
+
+    int gridWidth = settings->gridWidth();
+    int gridHeight = settings->gridHeight();
+    int size = settings->iconSize();
+
+    if (showPreview) {
+        const int previewSize = settings->previewSize();
+        const int diff = previewSize - size;
+        Q_ASSERT(diff >= 0);
+        gridWidth  += diff;
+        gridHeight += diff;
+
+        size = previewSize;
+    }
+
+    if (showAdditionalInfo) {
+        gridHeight += m_viewOptions.font.pointSize() * 2;
+    }
+
+    m_viewOptions.decorationSize = QSize(size, size);
+    setGridSize(QSize(gridWidth, gridHeight));
+
+    m_controller->setZoomInPossible(isZoomInPossible());
+    m_controller->setZoomOutPossible(isZoomOutPossible());
 }
 
 #include "dolphiniconsview.moc"

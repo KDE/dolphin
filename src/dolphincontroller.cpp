@@ -22,6 +22,7 @@
 DolphinController::DolphinController(QObject* parent) :
     QObject(parent),
     m_showPreview(false),
+    m_showAdditionalInfo(false),
     m_zoomInPossible(false),
     m_zoomOutPossible(false)
 {
@@ -60,11 +61,19 @@ void DolphinController::indicateSortOrderChange(Qt::SortOrder order)
     emit sortOrderChanged(order);
 }
 
-void DolphinController::setShowPreview(bool showPreview)
+void DolphinController::setShowPreview(bool show)
 {
-    if (m_showPreview != showPreview) {
-        m_showPreview = showPreview;
-        emit showPreviewChanged(showPreview);
+    if (m_showPreview != show) {
+        m_showPreview = show;
+        emit showPreviewChanged(show);
+    }
+}
+
+void DolphinController::setShowAdditionalInfo(bool show)
+{
+    if (m_showAdditionalInfo != show) {
+        m_showAdditionalInfo = show;
+        emit showAdditionalInfoChanged(show);
     }
 }
 
