@@ -92,6 +92,16 @@ void DolphinController::triggerItem(const QModelIndex& index)
     emit itemTriggered(index);
 }
 
+void DolphinController::emitItemEntered(const QModelIndex& index)
+{
+    emit itemEntered(index);
+}
+
+void DolphinController::emitViewportEntered()
+{
+    emit viewportEntered();
+}
+
 void DolphinController::indicateSelectionChange()
 {
     emit selectionChanged();

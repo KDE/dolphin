@@ -46,6 +46,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
 
+    setMouseTracking(true);
     viewport()->setAttribute(Qt::WA_Hover);
 
     const ViewProperties props(controller->url());
@@ -69,7 +70,10 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     }
     connect(this, SIGNAL(activated(const QModelIndex&)),
             controller, SLOT(triggerItem(const QModelIndex&)));
-
+    connect(this, SIGNAL(entered(const QModelIndex&)),
+            controller, SLOT(emitItemEntered(const QModelIndex&)));
+    connect(this, SIGNAL(viewportEntered()),
+            controller, SLOT(emitViewportEntered()));
     connect(controller, SIGNAL(zoomIn()),
             this, SLOT(zoomIn()));
     connect(controller, SIGNAL(zoomOut()),

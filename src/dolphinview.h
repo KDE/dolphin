@@ -528,6 +528,20 @@ private slots:
     /** Applies an item effect to all cut items of the clipboard. */
     void updateCutItems();
 
+    /**
+     * Updates the status bar to show hover information for the
+     * item with the index \a index. If currently other items are selected,
+     * no hover information is shown.
+     * @see DolphinView::clearHoverInformation()
+     */
+    void showHoverInformation(const QModelIndex& index);
+
+    /**
+     * Clears the hover information shown in the status bar.
+     * @see DolphinView::showHoverInformation().
+     */
+    void clearHoverInformation();
+
 private:
     void startDirLister(const KUrl& url, bool reload = false);
 

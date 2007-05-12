@@ -40,6 +40,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     setViewMode(QListView::IconMode);
     setResizeMode(QListView::Adjust);
 
+    setMouseTracking(true);
     viewport()->setAttribute(Qt::WA_Hover);
 
     if (KGlobalSettings::singleClick()) {
@@ -51,6 +52,10 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     }
     connect(this, SIGNAL(activated(const QModelIndex&)),
             controller, SLOT(triggerItem(const QModelIndex&)));
+    connect(this, SIGNAL(entered(const QModelIndex&)),
+            controller, SLOT(emitItemEntered(const QModelIndex&)));
+    connect(this, SIGNAL(viewportEntered()),
+            controller, SLOT(emitViewportEntered()));
     connect(controller, SIGNAL(showPreviewChanged(bool)),
             this, SLOT(slotShowPreviewChanged(bool)));
     connect(controller, SIGNAL(showAdditionalInfoChanged(bool)),

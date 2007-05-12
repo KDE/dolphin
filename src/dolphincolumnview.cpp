@@ -42,6 +42,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
 
+    setMouseTracking(true);
     viewport()->setAttribute(Qt::WA_Hover);
 
     if (KGlobalSettings::singleClick()) {
@@ -53,6 +54,10 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     }
     connect(this, SIGNAL(activated(const QModelIndex&)),
             controller, SLOT(triggerItem(const QModelIndex&)));
+    connect(this, SIGNAL(entered(const QModelIndex&)),
+            controller, SLOT(emitItemEntered(const QModelIndex&)));
+    connect(this, SIGNAL(viewportEntered()),
+            controller, SLOT(emitViewportEntered()));
     connect(controller, SIGNAL(zoomIn()),
             this, SLOT(zoomIn()));
     connect(controller, SIGNAL(zoomOut()),

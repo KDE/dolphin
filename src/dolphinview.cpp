@@ -157,6 +157,10 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
             this, SLOT(emitSelectionChangedSignal()));
     connect(m_controller, SIGNAL(activated()),
             this, SLOT(requestActivation()));
+    connect(m_controller, SIGNAL(itemEntered(const QModelIndex&)),
+            this, SLOT(showHoverInformation(const QModelIndex&)));
+    connect(m_controller, SIGNAL(viewportEntered()),
+            this, SLOT(clearHoverInformation()));
 
     createView();
 
@@ -1178,6 +1182,25 @@ void DolphinView::updateCutItems()
     // ... and apply an item effect to all currently cut items
     applyCutItemEffect();
 }
+
+void DolphinView::showHoverInformation(const QModelIndex& index)
+{
+    if (hasSelection()) {
+        return;
+    }
+
+    const KFileItem* item = fileItem(index);
+    if (item != 0) {
+        m_statusBar->setMessage(item->getStatusBarInfo(), DolphinStatusBar::Default);
+        emit requestItemInfo(item->url());
+    }
+}
+
+void DolphinView::clearHoverInformation()
+{
+    m_statusBar->clear();
+}
+
 
 void DolphinView::createView()
 {

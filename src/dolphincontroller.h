@@ -84,7 +84,23 @@ public:
     inline bool isZoomOutPossible() const;
 
 public slots:
+    /**
+     * Emits the signal itemTriggered(). The method should be invoked by the
+     * controller parent whenever the user has triggered an item. */
     void triggerItem(const QModelIndex& index);
+
+    /**
+     * Emits the signal itemEntered(). The method should be invoked by
+     * the controller parent whenever the mouse cursor is above an item.
+     */
+    void emitItemEntered(const QModelIndex& index);
+
+    /**
+     * Emits the signal viewportEntered(). The method should be invoked by
+     * the controller parent whenever the mouse cursor is above the viewport.
+     */
+    void emitViewportEntered();
+
     void indicateSelectionChange();
 
 signals:
@@ -135,6 +151,17 @@ signals:
      * on a file opens the corresponding application.
      */
     void itemTriggered(const QModelIndex& index);
+
+    /**
+     * Is emitted if the mouse cursor has entered the item
+     * given by \a index.
+     */
+    void itemEntered(const QModelIndex& index);
+
+    /**
+     * Is emitted if the mouse cursor has entered
+     * the viewport. */
+    void viewportEntered();
 
     /** Is emitted if the selection has been changed by the user. */
     void selectionChanged();
