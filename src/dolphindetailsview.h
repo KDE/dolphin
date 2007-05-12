@@ -72,6 +72,15 @@ private slots:
      */
     void synchronizeSortingState(int column);
 
+    /**
+     * Is invoked when the mouse cursor has entered an item. The controller
+     * gets informed to emit the itemEntered() signal if the mouse cursor
+     * is above the name column. Otherwise the controller gets informed
+     * to emit the itemViewportEntered() signal (all other columns should
+     * behave as viewport area).
+     */
+    void slotEntered(const QModelIndex& index);
+
     void zoomIn();
     void zoomOut();
 

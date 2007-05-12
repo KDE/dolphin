@@ -71,7 +71,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     connect(this, SIGNAL(activated(const QModelIndex&)),
             controller, SLOT(triggerItem(const QModelIndex&)));
     connect(this, SIGNAL(entered(const QModelIndex&)),
-            controller, SLOT(emitItemEntered(const QModelIndex&)));
+            this, SLOT(slotEntered(const QModelIndex&)));
     connect(this, SIGNAL(viewportEntered()),
             controller, SLOT(emitViewportEntered()));
     connect(controller, SIGNAL(zoomIn()),
@@ -190,6 +190,18 @@ void DolphinDetailsView::synchronizeSortingState(int column)
     const Qt::SortOrder sortOrder = header()->sortIndicatorOrder();
     m_controller->indicateSortingChange(sorting);
     m_controller->indicateSortOrderChange(sortOrder);
+}
+
+void DolphinDetailsView::slotEntered(const QModelIndex& index)
+{
+    const QPoint pos = viewport()->mapFromGlobal(QCursor::pos());
+    const int nameColumnWidth = header()->sectionSize(KDirModel::Name);
+    if (pos.x() < nameColumnWidth) {
+        m_controller->emitItemEntered(index);
+    }
+    else {
+        m_controller->emitViewportEntered();
+    }
 }
 
 void DolphinDetailsView::zoomIn()
