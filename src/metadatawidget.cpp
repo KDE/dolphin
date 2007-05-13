@@ -33,7 +33,6 @@
 #include <kmetadata/resource.h>
 #include <kmetadata/variant.h>
 #include <kmetadata/kratingwidget.h>
-#include <kmetadata/kmetadatatagwidget.h>
 #endif
 
 // FIXME: these should be replaced by using KMetaData::File once it is available again
