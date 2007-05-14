@@ -77,7 +77,6 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     font.setBold(settings->boldFont());
     m_viewOptions.font = font;
     if (settings->numberOfTextlines() > 1) {
-        m_viewOptions.textElideMode = Qt::ElideNone;
         m_viewOptions.features = QStyleOptionViewItemV2::WrapText;
     }
 
