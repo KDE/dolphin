@@ -122,8 +122,6 @@ void MetaDataWidget::setFile(const KUrl& url)
     // FIXME: replace with KMetaData::File once we have it again
     d->fileUrl = url;
     d->file = Nepomuk::KMetaData::Resource(url.url(), s_nfoFile);
-//    d->file.setLocation(url.url());
-    d->file.setProperty( s_nfoFileUrl, url.url() );
     d->ratingWidget->setRating(d->file.rating());
     d->tagWidget->setTaggedResource(d->file);
     d->loadComment(d->file.description());
@@ -135,7 +133,7 @@ void MetaDataWidget::setFiles(const KUrl::List urls)
 {
 #ifdef HAVE_KMETADATA
     // FIXME: support multiple files
-    setFile(urls.first());
+    setFile( urls.first() );
 #endif
 }
 
@@ -143,7 +141,11 @@ void MetaDataWidget::setFiles(const KUrl::List urls)
 void MetaDataWidget::slotCommentChanged()
 {
 #ifdef HAVE_KMETADATA
-    d->file.setDescription(d->editComment->toPlainText());
+    if ( d->editComment->toPlainText() != d->file.description() ) {
+//    d->file.setLocation(url.url());
+        d->file.setProperty( s_nfoFileUrl, d->fileUrl.url() );
+        d->file.setDescription(d->editComment->toPlainText());
+    }
 #endif
 }
 
@@ -151,7 +153,11 @@ void MetaDataWidget::slotCommentChanged()
 void MetaDataWidget::slotRatingChanged(int r)
 {
 #ifdef HAVE_KMETADATA
-    d->file.setRating(r);
+    if ( r != d->file.rating() ) {
+        //    d->file.setLocation(url.url());
+        d->file.setProperty( s_nfoFileUrl, d->fileUrl.url() );
+        d->file.setRating(r);
+    }
 #endif
 }
 
