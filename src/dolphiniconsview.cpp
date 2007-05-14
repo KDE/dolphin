@@ -76,10 +76,8 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     font.setItalic(settings->italicFont());
     font.setBold(settings->boldFont());
     m_viewOptions.font = font;
-    if (settings->numberOfTextlines() > 1) {
-        m_viewOptions.features = QStyleOptionViewItemV2::WrapText;
-    }
 
+    setWordWrap(settings->numberOfTextlines() > 1);
     updateGridSize(controller->showPreview(), controller->showAdditionalInfo());
 
     if (settings->arrangement() == QListView::TopToBottom) {

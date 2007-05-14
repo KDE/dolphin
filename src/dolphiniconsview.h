@@ -74,7 +74,7 @@ private:
 
 private:
     DolphinController* m_controller;
-    QStyleOptionViewItemV2 m_viewOptions;
+    QStyleOptionViewItem m_viewOptions;
 };
 
 #endif
