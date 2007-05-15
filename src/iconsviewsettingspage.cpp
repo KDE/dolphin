@@ -93,7 +93,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
 
     const bool leftToRightArrangement = (settings->arrangement() == QListView::LeftToRight);
     int textWidthIndex = 0;
-    const int remainingWidth = settings->gridWidth() - settings->iconSize();
+    const int remainingWidth = settings->itemWidth() - settings->iconSize();
     if (leftToRightArrangement) {
         textWidthIndex = (remainingWidth - LeftToRightBase) / LeftToRightInc;
     } else {
@@ -154,7 +154,7 @@ void IconsViewSettingsPage::applySettings()
     settings->setPreviewSize(m_previewSize);
 
     const QFont font = m_fontRequester->font();
-    const int fontSize = font.pointSize();
+    const int fontHeight = QFontMetrics(font).height();
 
     const int arrangement = (m_arrangementBox->currentIndex() == 0) ?
                             QListView::LeftToRight :
@@ -164,21 +164,21 @@ void IconsViewSettingsPage::applySettings()
     const int numberOfTextlines = m_textlinesCountBox->value();
 
     const int defaultSize = settings->iconSize();
-    int gridWidth = defaultSize;
-    int gridHeight = defaultSize;
+    int itemWidth = defaultSize;
+    int itemHeight = defaultSize;
     const int textSizeIndex = m_textWidthBox->currentIndex();
     if (arrangement == QListView::TopToBottom) {
-        gridWidth += TopToBottomBase + textSizeIndex * TopToBottomInc;
-        gridHeight += fontSize * (2 + numberOfTextlines);
+        itemWidth += TopToBottomBase + textSizeIndex * TopToBottomInc;
+        itemHeight += fontHeight * numberOfTextlines + 16;
     } else {
-        gridWidth += LeftToRightBase + textSizeIndex * LeftToRightInc;
+        itemWidth += LeftToRightBase + textSizeIndex * LeftToRightInc;
     }
 
-    settings->setGridWidth(gridWidth);
-    settings->setGridHeight(gridHeight);
+    settings->setItemWidth(itemWidth);
+    settings->setItemHeight(itemHeight);
 
     settings->setFontFamily(font.family());
-    settings->setFontSize(fontSize);
+    settings->setFontSize(font.pointSize());
     settings->setItalicFont(font.italic());
     settings->setBoldFont(font.bold());
 

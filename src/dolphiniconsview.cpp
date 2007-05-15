@@ -162,8 +162,8 @@ void DolphinIconsView::zoomIn()
 
         // increase also the grid size
         const int diff = newIconSize - oldIconSize;
-        settings->setGridWidth(settings->gridWidth() + diff);
-        settings->setGridHeight(settings->gridHeight() + diff);
+        settings->setItemWidth(settings->itemWidth() + diff);
+        settings->setItemHeight(settings->itemHeight() + diff);
 
         updateGridSize(showPreview, m_controller->showAdditionalInfo());
     }
@@ -193,8 +193,8 @@ void DolphinIconsView::zoomOut()
 
         // decrease also the grid size
         const int diff = oldIconSize - newIconSize;
-        settings->setGridWidth(settings->gridWidth() - diff);
-        settings->setGridHeight(settings->gridHeight() - diff);
+        settings->setItemWidth(settings->itemWidth() - diff);
+        settings->setItemHeight(settings->itemHeight() - diff);
 
         updateGridSize(showPreview, m_controller->showAdditionalInfo());
     }
@@ -249,26 +249,31 @@ void DolphinIconsView::updateGridSize(bool showPreview, bool showAdditionalInfo)
     const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     Q_ASSERT(settings != 0);
 
-    int gridWidth = settings->gridWidth();
-    int gridHeight = settings->gridHeight();
+    int itemWidth = settings->itemWidth();
+    int itemHeight = settings->itemHeight();
     int size = settings->iconSize();
 
     if (showPreview) {
         const int previewSize = settings->previewSize();
         const int diff = previewSize - size;
         Q_ASSERT(diff >= 0);
-        gridWidth  += diff;
-        gridHeight += diff;
+        itemWidth  += diff;
+        itemHeight += diff;
 
         size = previewSize;
     }
 
     if (showAdditionalInfo) {
-        gridHeight += m_viewOptions.font.pointSize() * 2;
+        itemHeight += m_viewOptions.font.pointSize() * 2;
     }
 
-    m_viewOptions.decorationSize = QSize(size, size);
-    setGridSize(QSize(gridWidth, gridHeight));
+    // The decoration width indirectly defines the maximum
+    // width for the text wrapping. To use the maximum item width
+    // for text wrapping, it is used as decoration width.
+    m_viewOptions.decorationSize = QSize(itemWidth, size);
+
+    const int spacing = settings->gridSpacing();
+    setGridSize(QSize(itemWidth + spacing, itemHeight + spacing));
 
     m_controller->setZoomInPossible(isZoomInPossible());
     m_controller->setZoomOutPossible(isZoomOutPossible());
