@@ -43,7 +43,7 @@ void TerminalSidebarPage::setUrl(const KUrl& url)
     if (!SidebarPage::url().equals(url, KUrl::CompareWithoutTrailingSlash)) {
         SidebarPage::setUrl(url);
         if ((m_terminal != 0) && isVisible()) {
-            m_terminal->showShellInDir(url.path());
+            m_terminal->sendInput("cd " + url.path() + '\n');
         }
     }
 }
