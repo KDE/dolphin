@@ -97,8 +97,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_sortOrder->setCurrentIndex(sortOrderIdx);
 
     m_categorizedSorting = new QComboBox(sortingBox);
-    m_categorizedSorting->addItem(i18n("Uncategorized"));
-    m_categorizedSorting->addItem(i18n("Categorized"));
+    m_categorizedSorting->addItem(i18n("Ungrouped"));
+    m_categorizedSorting->addItem(i18n("Show in Groups"));
     m_categorizedSorting->setCurrentIndex(m_viewProps->categorizedSorting() ? 1 : 0);
     m_categorizedSorting->setEnabled(iconsViewEnabled);
 

@@ -1127,7 +1127,7 @@ void DolphinMainWindow::setupActions()
     connect(sortDescending, SIGNAL(triggered()), this, SLOT(toggleSortOrder()));
 
     KToggleAction* sortCategorized = actionCollection()->add<KToggleAction>("categorized");
-    sortCategorized->setText(i18n("Categorized"));
+    sortCategorized->setText(i18n("Show in Groups"));
     connect(sortCategorized, SIGNAL(triggered()), this, SLOT(toggleSortCategorization()));
 
     KToggleAction* clearInfo = actionCollection()->add<KToggleAction>("clear_info");
