@@ -76,10 +76,10 @@ int DolphinApplication::newInstance()
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
     if (args->count() > 0) {
         for (int i = 0; i < args->count(); ++i) {
-            openWindow(args->url(i).path());
+            openWindow(args->url(i));
         }
     } else {
-        openWindow(QString());
+        openWindow(KUrl());
     }
 
     args->clear();
@@ -87,11 +87,11 @@ int DolphinApplication::newInstance()
     return exitValue;
 }
 
-int DolphinApplication::openWindow(const QString& url)
+int DolphinApplication::openWindow(const KUrl& url)
 {
     DolphinMainWindow* win = createMainWindow();
-    if ((win->activeView() != 0) && !url.isEmpty()) {
-        win->activeView()->setUrl(KUrl(url));
+    if ((win->activeView() != 0) && url.isValid()) {
+        win->activeView()->setUrl(url);
     }
     win->show();
     return win->getId();

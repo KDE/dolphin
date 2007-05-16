@@ -25,6 +25,7 @@
 #include <kuniqueapplication.h>
 
 class DolphinMainWindow;
+class KUrl;
 
 /**
  * @brief Holds the application data which can be accessed.
@@ -55,7 +56,7 @@ public:
     virtual int newInstance();
 
 public slots:
-    int openWindow(const QString& url);
+    int openWindow(const KUrl& url);
 
 protected:
     /** Called by the DolphinMainWindow to deregister. */
