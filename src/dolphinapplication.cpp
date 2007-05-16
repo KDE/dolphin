@@ -24,6 +24,7 @@
 #include <applicationadaptor.h>
 #include <kcmdlineargs.h>
 #include <kurl.h>
+#include <QDir>
 #include <QtDBus/QDBusConnection>
 
 DolphinApplication::DolphinApplication() :
@@ -89,9 +90,14 @@ int DolphinApplication::newInstance()
 
 int DolphinApplication::openWindow(const QString& url)
 {
+    QString dir = url;
+    if (dir == ".") {
+        dir = QDir::currentPath();
+    }
+
     DolphinMainWindow* win = createMainWindow();
-    if ((win->activeView() != 0) && !url.isEmpty()) {
-        win->activeView()->setUrl(KUrl(url));
+    if ((win->activeView() != 0) && !dir.isEmpty()) {
+        win->activeView()->setUrl(KUrl(dir));
     }
     win->show();
     return win->getId();
