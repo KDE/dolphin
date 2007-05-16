@@ -22,6 +22,7 @@
 #include <klibloader.h>
 #include <kde_terminal_interface.h>
 #include <kparts/part.h>
+#include <kshell.h>
 
 #include <QtGui/QBoxLayout>
 
@@ -43,7 +44,7 @@ void TerminalSidebarPage::setUrl(const KUrl& url)
     if (!SidebarPage::url().equals(url, KUrl::CompareWithoutTrailingSlash)) {
         SidebarPage::setUrl(url);
         if ((m_terminal != 0) && isVisible()) {
-            m_terminal->sendInput("cd " + url.path() + '\n');
+            m_terminal->sendInput("cd " + KShell::quoteArg(url.path()) + '\n');
         }
     }
 }
