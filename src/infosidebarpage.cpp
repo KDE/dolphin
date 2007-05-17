@@ -21,17 +21,18 @@
 
 #include "infosidebarpage.h"
 
-#include <QtGui/QLayout>
-#include <QtGui/QPixmap>
-#include <QtGui/QLabel>
-#include <QtCore/QTimer>
-#include <QtGui/QPushButton>
-#include <QtGui/QMenu>
-#include <QtGui/QPainter>
-#include <QtGui/QFontMetrics>
-#include <QtCore/QEvent>
-#include <QtGui/QInputDialog>
-#include <QtCore/QDir>
+#include <QDir>
+#include <QEvent>
+#include <QFontMetrics>
+#include <QInputDialog>
+#include <QLabel>
+#include <QLayout>
+#include <QMenu>
+#include <QPainter>
+#include <QPixmap>
+#include <QPushButton>
+#include <QResizeEvent>
+#include <QTimer>
 
 #include <kfileplacesmodel.h>
 #include <klocale.h>
@@ -77,18 +78,12 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     m_name = new QLabel(this);
     m_name->setTextFormat(Qt::RichText);
     m_name->setAlignment(m_name->alignment() | Qt::AlignHCenter);
-    QFontMetrics fontMetrics(m_name->font());
-    m_name->setMinimumHeight(fontMetrics.height() * 3);
-    m_name->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
-
-    KSeparator* sep1 = new KSeparator(this);
+    m_name->setWordWrap(true);
 
     // general information
     m_infos = new QLabel(this);
     m_infos->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     m_infos->setTextFormat(Qt::RichText);
-
-    KSeparator* sep2 = new KSeparator(this);
 
     if (MetaDataWidget::metaDataAvailable()) {
         m_metadataWidget = new MetaDataWidget(this);
@@ -97,9 +92,9 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     layout->addItem(new QSpacerItem(spacing, spacing, QSizePolicy::Preferred, QSizePolicy::Fixed));
     layout->addWidget(m_preview);
     layout->addWidget(m_name);
-    layout->addWidget(sep1);
+    layout->addWidget(new KSeparator(this));
     layout->addWidget(m_infos);
-    layout->addWidget(sep2);
+    layout->addWidget(new KSeparator(this));
     if (m_metadataWidget) {
         layout->addWidget(m_metadataWidget);
         layout->addWidget(new KSeparator(this));
@@ -130,12 +125,6 @@ void InfoSidebarPage::setSelection(const KFileItemList& selection)
     showItemInfo();
 }
 
-void InfoSidebarPage::showEvent(QShowEvent* event)
-{
-    SidebarPage::showEvent(event);
-    showItemInfo();
-}
-
 void InfoSidebarPage::requestDelayedItemInfo(const KUrl& url)
 {
     cancelRequest();
@@ -145,6 +134,22 @@ void InfoSidebarPage::requestDelayedItemInfo(const KUrl& url)
         m_timer->setSingleShot(true);
         m_timer->start(300);
     }
+}
+
+void InfoSidebarPage::showEvent(QShowEvent* event)
+{
+    SidebarPage::showEvent(event);
+    showItemInfo();
+}
+
+void InfoSidebarPage::resizeEvent(QResizeEvent* event)
+{
+    // If the item name cannot get wrapped, the maximum width of
+    // the label is increased, so that the width of the information sidebar
+    // gets increased. To prevent this, the maximum width is adjusted to
+    // the current width of the sidebar.
+    m_name->setMaximumWidth(event->size().width() - KDialog::spacingHint() * 4);
+    SidebarPage::resizeEvent(event);
 }
 
 void InfoSidebarPage::showItemInfo()

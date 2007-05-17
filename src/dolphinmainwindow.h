@@ -143,6 +143,12 @@ signals:
      */
     void urlChanged(const KUrl& url);
 
+    /**
+     * Is emitted if information of an item is requested to be shown e. g. in the sidebar.
+     * It the URL is empty, no item information request is pending.
+     */
+    void requestItemInfo(const KUrl& url);
+
 protected:
     /** @see QMainWindow::closeEvent */
     virtual void closeEvent(QCloseEvent* event);
@@ -379,8 +385,14 @@ private slots:
     /** Updates the state of the 'Additional Information' actions. */
     void slotAdditionalInfoChanged(KFileItemDelegate::AdditionalInformation info);
 
-    /** Updates the state of the 'Edit' menu actions. */
+    /**
+     * Updates the state of the 'Edit' menu actions and emits
+     * the signal selectionChanged().
+     */
     void slotSelectionChanged(const KFileItemList& selection);
+
+    /** Emits the signal requestItemInfo(). */
+    void slotRequestItemInfo(const KUrl& url);
 
     /**
      * Updates the state of the 'Back' and 'Forward' menu

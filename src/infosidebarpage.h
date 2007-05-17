@@ -60,24 +60,30 @@ public:
     virtual ~InfoSidebarPage();
 
 public slots:
+    /** @see SidebarPage::setUrl() */
     virtual void setUrl(const KUrl& url);
+
+    /** @see SidebarPage::setSelection() */
     virtual void setSelection(const KFileItemList& selection);
+
+    /**
+     * Does a delayed request of information for the item of the given URL.
+     * If within this delay InfoSidebarPage::setUrl() or InfoSidebarPage::setSelection()
+     * are invoked, then the request will be skipped. Requesting a delayed item information
+     * makes sense when hovering items.
+     */
+    void requestDelayedItemInfo(const KUrl& url);
 
 protected:
     /** @see QWidget::showEvent() */
     virtual void showEvent(QShowEvent* event);
 
+    /** @see QWidget::resizeEvent() */
+    virtual void resizeEvent(QResizeEvent* event);
+
 private slots:
     /**
-     * Does a delayed request of information for the item of the given Url and
-     * provides default actions.
-     *
-     * @see InfoSidebarPage::showItemInfo()
-     */
-    void requestDelayedItemInfo(const KUrl& url);
-
-    /**
-     * Shows the information for the item of the Url which has been provided by
+     * Shows the information for the item of the URL which has been provided by
      * InfoSidebarPage::requestItemInfo() and provides default actions.
      */
     void showItemInfo();
@@ -102,9 +108,9 @@ private slots:
 
 private:
     /**
-     * Checks whether the an Url is repesented by a bookmark. If yes,
+     * Checks whether the an URL is repesented by a bookmark. If yes,
      * then the bookmark icon and name are shown instead of a preview.
-     * @return True, if the Url represents exactly a bookmark.
+     * @return True, if the URL represents exactly a bookmark.
      * @param url The url to check.
      */
     bool applyBookmark(const KUrl& url);
