@@ -31,6 +31,7 @@
 #include <kdirmodel.h>
 #include <kfileitemdelegate.h>
 #include <kfileplacesmodel.h>
+#include <kglobalsettings.h>
 #include <klocale.h>
 #include <kiconeffect.h>
 #include <kio/netaccess.h>
@@ -1159,10 +1160,23 @@ void DolphinView::emitContentsMoved()
 void DolphinView::updateActivationState()
 {
     m_urlNavigator->setActive(isActive());
+
+    QColor color = KGlobalSettings::baseColor();
     if (isActive()) {
         emit urlChanged(url());
         emit selectionChanged(selectedItems());
+    } else {
+        // darken the background if the view is inactive
+        // TODO: does not work for a black background
+        color = color.darker(105);
     }
+
+    QWidget* viewport = itemView()->viewport();
+    QPalette palette;
+    palette.setColor(viewport->backgroundRole(), color);
+    viewport->setPalette(palette);
+
+    update();
 }
 
 void DolphinView::updateCutItems()

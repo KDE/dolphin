@@ -733,7 +733,7 @@ void DolphinMainWindow::toggleSplitView()
                                                m_view[PrimaryIdx]->mode(),
                                                m_view[PrimaryIdx]->showHiddenFiles());
         connectViewSignals(SecondaryIdx);
-        m_splitter->addWidget(m_view[SecondaryIdx]);
+        m_splitter->insertWidget(0, m_view[SecondaryIdx]);
         m_splitter->setSizes(QList<int>() << newWidth << newWidth);
         m_view[SecondaryIdx]->reload();
         m_view[SecondaryIdx]->show();
