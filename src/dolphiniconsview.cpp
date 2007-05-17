@@ -267,10 +267,14 @@ void DolphinIconsView::updateGridSize(bool showPreview, bool showAdditionalInfo)
         itemHeight += m_viewOptions.font.pointSize() * 2;
     }
 
-    // The decoration width indirectly defines the maximum
-    // width for the text wrapping. To use the maximum item width
-    // for text wrapping, it is used as decoration width.
-    m_viewOptions.decorationSize = QSize(itemWidth, size);
+    if (settings->arrangement() == QListView::TopToBottom) {
+        // The decoration width indirectly defines the maximum
+        // width for the text wrapping. To use the maximum item width
+        // for text wrapping, it is used as decoration width.
+        m_viewOptions.decorationSize = QSize(itemWidth, size);
+    } else {
+        m_viewOptions.decorationSize = QSize(size, size);
+    }
 
     const int spacing = settings->gridSpacing();
     setGridSize(QSize(itemWidth + spacing, itemHeight + spacing));
