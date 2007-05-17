@@ -625,6 +625,7 @@ void DolphinView::reload()
 void DolphinView::refresh()
 {
     createView();
+    reload();
 }
 
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)
