@@ -120,14 +120,30 @@ public:
     virtual ~DolphinView();
 
     /**
-     * Sets the current active URL.
-     * The signals KUrlNavigator::urlChanged() and KUrlNavigator::historyChanged()
+     * Sets the current active URL, where all actions are applied. The
+     * URL navigator is synchronized with this URL. The signals
+     * KUrlNavigator::urlChanged() and KUrlNavigator::historyChanged()
      * are emitted.
+     * @see DolphinView::urlNavigator()
      */
     void setUrl(const KUrl& url);
 
-    /** Returns the current active URL. */
+    /**
+     * Returns the current active URL, where all actions are applied.
+     * The URL navigator is synchronized with this URL.
+     */
     const KUrl& url() const;
+
+    /**
+     * Returns the root URL of the view, which is defined as the first
+     * visible path of DolphinView::url(). Usually the root URL is
+     * equal to DolphinView::url(), but in the case of the column view
+     * when 2 columns are shown, the root URL might be:
+     * /home/peter/Documents
+     * and DolphinView::url() might return
+     * /home/peter/Documents/Music/
+     */
+    KUrl rootUrl() const;
 
     /**
      * Returns true if the view is active and hence all actions are

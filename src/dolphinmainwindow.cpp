@@ -207,11 +207,18 @@ void DolphinMainWindow::rename(const KUrl& oldUrl, const KUrl& newUrl)
 void DolphinMainWindow::refreshViews()
 {
     Q_ASSERT(m_view[PrimaryIdx] != 0);
-    m_view[PrimaryIdx]->refresh();
 
+    // remember the current active view, as because of
+    // the refreshing the active view might change to
+    // the secondary view
+    DolphinView* activeView = m_activeView;
+
+    m_view[PrimaryIdx]->refresh();
     if (m_view[SecondaryIdx] != 0) {
         m_view[SecondaryIdx]->refresh();
     }
+
+    setActiveView(activeView);
 }
 
 void DolphinMainWindow::changeUrl(const KUrl& url)
@@ -729,11 +736,11 @@ void DolphinMainWindow::toggleSplitView()
         // create a secondary view
         m_view[SecondaryIdx] = new DolphinView(this,
                                                0,
-                                               m_view[PrimaryIdx]->url(),
+                                               m_view[PrimaryIdx]->rootUrl(),
                                                m_view[PrimaryIdx]->mode(),
                                                m_view[PrimaryIdx]->showHiddenFiles());
         connectViewSignals(SecondaryIdx);
-        m_splitter->insertWidget(0, m_view[SecondaryIdx]);
+        m_splitter->addWidget(m_view[SecondaryIdx]);
         m_splitter->setSizes(QList<int>() << newWidth << newWidth);
         m_view[SecondaryIdx]->reload();
         m_view[SecondaryIdx]->show();
@@ -743,7 +750,6 @@ void DolphinMainWindow::toggleSplitView()
             m_view[SecondaryIdx]->close();
             m_view[SecondaryIdx]->deleteLater();
             m_view[SecondaryIdx] = 0;
-            setActiveView(m_view[PrimaryIdx]);
         } else {
             // The secondary view is active, hence from the users point of view
             // the content of the secondary view should be moved to the primary view.
@@ -753,9 +759,9 @@ void DolphinMainWindow::toggleSplitView()
             delete m_view[PrimaryIdx];
             m_view[PrimaryIdx] = m_view[SecondaryIdx];
             m_view[SecondaryIdx] = 0;
-            setActiveView(m_view[PrimaryIdx]);
         }
     }
+    setActiveView(m_view[PrimaryIdx]);
     emit activeViewChanged();
 }
 

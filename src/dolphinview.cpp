@@ -197,6 +197,11 @@ const KUrl& DolphinView::url() const
     return m_urlNavigator->url();
 }
 
+KUrl DolphinView::rootUrl() const
+{
+    return isColumnViewActive() ? m_dirLister->url() : url();
+}
+
 bool DolphinView::isActive() const
 {
     return m_mainWindow->activeView() == this;
