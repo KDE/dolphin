@@ -34,6 +34,9 @@ SidebarTreeView::SidebarTreeView(QWidget* parent) :
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSortingEnabled(true);
     setFrameStyle(QFrame::NoFrame);
+    setDragDropMode(QAbstractItemView::DragDrop);
+    setDropIndicatorShown(false);
+    setAutoExpandDelay(300);
 
     viewport()->setAttribute(Qt::WA_Hover);
 
@@ -42,7 +45,8 @@ SidebarTreeView::SidebarTreeView(QWidget* parent) :
 }
 
 SidebarTreeView::~SidebarTreeView()
-{}
+{
+}
 
 bool SidebarTreeView::event(QEvent* event)
 {
@@ -65,12 +69,13 @@ void SidebarTreeView::dragEnterEvent(QDragEnterEvent* event)
     if (event->mimeData()->hasUrls()) {
         event->acceptProposedAction();
     }
+    QTreeView::dragEnterEvent(event);
 }
 
 void SidebarTreeView::dropEvent(QDropEvent* event)
 {
     const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
-    if (urls.isEmpty() || (event->source() == this)) {
+    if (urls.isEmpty()) {
         QTreeView::dropEvent(event);
     } else {
         event->acceptProposedAction();
