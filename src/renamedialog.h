@@ -79,6 +79,22 @@ protected slots:
     virtual void slotButtonClicked(int button);
 
 private:
+    /**
+     * Returns the extension string for a filename, which contains all
+     * file extensions. Version numbers like in "cmake-2.4.5" don't count
+     * as file extension. If the version numbers follow after a valid extension, they
+     * are part of the extension string.
+     *
+     * Examples (name -> extension string):
+     * "Image.gif" -> ".gif"
+     * "package.tar.gz" -> ".tar.gz"
+     * "cmake-2.4.5" -> ""
+     * "Image.1.12.gif" -> ".gif"
+     * "Image.tar.1.12.gz" -> ".tar.1.12.gz"
+     */
+    QString extensionString(const QString& name) const;
+
+private:
     bool m_renameOneItem;
     KLineEdit* m_lineEdit;
     QString m_newName;

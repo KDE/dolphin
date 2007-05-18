@@ -61,16 +61,15 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
     }
 
     m_lineEdit = new KLineEdit(page);
-    QString postfix(items[0].prettyUrl().section('.', 1));
-    if (postfix.length() > 0) {
-        // The first item seems to have a postfix (e. g. 'jpg' or 'txt'). Now
-        // check whether all other items have the same postfix. If this is the
-        // case, add this postfix to the name suggestion.
-        postfix.insert(0, '.');
+    QString extension = extensionString(items[0].prettyUrl());
+    if (extension.length() > 0) {
+        // The first item seems to have a extension (e. g. '.jpg' or '.txt'). Now
+        // check whether all other items have the same extension. If this is the
+        // case, add this extension to the name suggestion.
         for (int i = 1; i < itemCount; ++i) {
-            if (!items[i].prettyUrl().contains(postfix)) {
-                // at least one item does not have the same postfix
-                postfix.truncate(0);
+            if (!items[i].prettyUrl().contains(extension)) {
+                // at least one item does not have the same extension
+                extension.truncate(0);
                 break;
             }
         }
@@ -81,12 +80,12 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
         --selectionLength; // don't select the # character
     }
 
-    const int postfixLength = postfix.length();
-    if (postfixLength > 0) {
+    const int extensionLength = extension.length();
+    if (extensionLength > 0) {
         if (m_renameOneItem) {
-            selectionLength -= postfixLength;
+            selectionLength -= extensionLength;
         } else {
-            m_newName.append(postfix);
+            m_newName.append(extension);
         }
     }
 
@@ -119,6 +118,33 @@ void RenameDialog::slotButtonClicked(int button)
     }
 
     KDialog::slotButtonClicked(button);
+}
+
+QString RenameDialog::extensionString(const QString& name) const
+{
+    QString extension;
+    bool foundExtension = false;  // true if at least one valid file extension
+                                  // like "gif", "txt", ... has been found
+
+    QStringList strings = name.split('.');
+    const int size = strings.size();
+    for (int i = 1; i < size; ++i) {
+        const QString& str = strings.at(i);
+        kDebug() << str << endl;
+        if (!foundExtension) {
+            // Sub strings like "9", "12", "99", ... which contain only
+            // numbers don't count as extension. Usually they are version
+            // numbers like in "cmake-2.4.5".
+            bool ok = false;
+            str.toInt(&ok);
+            foundExtension = !ok;
+        }
+        if (foundExtension) {
+            extension += '.' + str;
+        }
+    }
+
+    return extension;
 }
 
 #include "renamedialog.moc"
