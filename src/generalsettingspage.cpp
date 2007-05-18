@@ -45,7 +45,9 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     m_splitView(0),
     m_editableUrl(0),
     m_filterBar(0),
-    m_showDeleteCommand(0)
+    m_showDeleteCommand(0),
+    m_confirmMoveToTrash(0),
+    m_confirmDelete(0)
 {
     const int spacing = KDialog::spacingHint();
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
@@ -63,7 +65,7 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     new QLabel(i18n("Location:"), homeUrlBox);
     m_homeUrl = new QLineEdit(settings->homeUrl(), homeUrlBox);
 
-    QPushButton* selectHomeUrlButton = new QPushButton(KIcon("folder"), QString(), homeUrlBox);
+    QPushButton* selectHomeUrlButton = new QPushButton(KIcon("folder-open"), QString(), homeUrlBox);
     connect(selectHomeUrlButton, SIGNAL(clicked()),
             this, SLOT(selectHomeUrl()));
 
@@ -100,6 +102,23 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     startBoxLayout->addWidget(m_editableUrl);
     startBoxLayout->addWidget(m_filterBar);
 
+    // create 'Ask Confirmation For' group
+    KSharedConfig::Ptr konqConfig = KSharedConfig::openConfig("konquerorrc", KConfig::IncludeGlobals);
+    const KConfigGroup trashConfig(konqConfig, "Trash");
+
+    QGroupBox* confirmBox = new QGroupBox(i18n("Ask Confirmation For"), vBox);
+
+    m_confirmMoveToTrash = new QCheckBox(i18n("Move to trash"), confirmBox);
+    m_confirmMoveToTrash->setChecked(trashConfig.readEntry("ConfirmTrash", false));
+
+    m_confirmDelete = new QCheckBox(i18n("Delete"), confirmBox);
+    m_confirmDelete->setChecked(trashConfig.readEntry("ConfirmDelete", true));
+
+    QVBoxLayout* confirmBoxLayout = new QVBoxLayout(confirmBox);
+    confirmBoxLayout->addWidget(m_confirmMoveToTrash);
+    confirmBoxLayout->addWidget(m_confirmDelete);
+
+    // create 'Show the command 'Delete' in context menu' checkbox
     m_showDeleteCommand = new QCheckBox(i18n("Show the command 'Delete' in context menu"), vBox);
     const KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
     const KConfigGroup kdeConfig(globalConfig, "KDE");
@@ -113,9 +132,9 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     topLayout->addWidget(vBox);
 }
 
-
 GeneralSettingsPage::~GeneralSettingsPage()
-{}
+{
+}
 
 void GeneralSettingsPage::applySettings()
 {
@@ -130,6 +149,11 @@ void GeneralSettingsPage::applySettings()
     settings->setSplitView(m_splitView->isChecked());
     settings->setEditableUrl(m_editableUrl->isChecked());
     settings->setFilterBar(m_filterBar->isChecked());
+
+    KSharedConfig::Ptr konqConfig = KSharedConfig::openConfig("konquerorrc", KConfig::IncludeGlobals);
+    KConfigGroup trashConfig(konqConfig, "Trash");
+    trashConfig.writeEntry("ConfirmTrash", m_confirmMoveToTrash->isChecked());
+    trashConfig.writeEntry("ConfirmDelete", m_confirmDelete->isChecked());
 
     KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
     KConfigGroup kdeConfig(globalConfig, "KDE");
