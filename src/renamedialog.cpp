@@ -130,7 +130,6 @@ QString RenameDialog::extensionString(const QString& name) const
     const int size = strings.size();
     for (int i = 1; i < size; ++i) {
         const QString& str = strings.at(i);
-        kDebug() << str << endl;
         if (!foundExtension) {
             // Sub strings like "9", "12", "99", ... which contain only
             // numbers don't count as extension. Usually they are version
