@@ -139,6 +139,9 @@ void InfoSidebarPage::requestDelayedItemInfo(const KUrl& url)
 void InfoSidebarPage::showEvent(QShowEvent* event)
 {
     SidebarPage::showEvent(event);
+    if (event->spontaneous()) {
+        return;
+    }
     showItemInfo();
 }
 

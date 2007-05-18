@@ -24,7 +24,8 @@
 #include <kparts/part.h>
 #include <kshell.h>
 
-#include <QtGui/QBoxLayout>
+#include <QBoxLayout>
+#include <QShowEvent>
 
 TerminalSidebarPage::TerminalSidebarPage(QWidget* parent) :
     SidebarPage(parent),
@@ -51,6 +52,11 @@ void TerminalSidebarPage::setUrl(const KUrl& url)
 
 void TerminalSidebarPage::showEvent(QShowEvent* event)
 {
+    if (event->spontaneous()) {
+        SidebarPage::showEvent(event);
+        return;
+    }
+
     if (m_terminal == 0) {
         KLibFactory* factory = KLibLoader::self()->factory("libkonsolepart");
         KParts::Part* part = factory ? static_cast<KParts::Part*>(factory->create(this, "KParts::ReadOnlyPart")) : 0;

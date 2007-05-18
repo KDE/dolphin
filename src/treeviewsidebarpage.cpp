@@ -65,6 +65,11 @@ void TreeViewSidebarPage::setUrl(const KUrl& url)
 
 void TreeViewSidebarPage::showEvent(QShowEvent* event)
 {
+    if (event->spontaneous()) {
+        SidebarPage::showEvent(event);
+        return;
+    }
+
     if (m_dirLister == 0) {
         // Postpone the creating of the dir lister to the first show event.
         // This assures that no performance and memory overhead is given when the TreeView is not
