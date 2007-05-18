@@ -86,6 +86,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     } else {
         setFlow(QListView::TopToBottom);
         m_viewOptions.decorationPosition = QStyleOptionViewItem::Left;
+        m_viewOptions.displayAlignment = Qt::AlignLeft | Qt::AlignVCenter;
     }
 }
 
