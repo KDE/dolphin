@@ -409,11 +409,6 @@ int DolphinView::contentsY() const
     return itemView()->verticalScrollBar()->value();
 }
 
-void DolphinView::emitRequestItemInfo(const KUrl& url)
-{
-    emit requestItemInfo(url);
-}
-
 bool DolphinView::isFilterBarVisible() const
 {
     return m_filterBar->isVisible();
@@ -1222,6 +1217,7 @@ void DolphinView::showHoverInformation(const QModelIndex& index)
 void DolphinView::clearHoverInformation()
 {
     m_statusBar->clear();
+    emit requestItemInfo(KUrl());
 }
 
 

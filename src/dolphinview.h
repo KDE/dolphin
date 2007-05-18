@@ -346,14 +346,6 @@ public:
         return m_urlNavigator;
     }
 
-    /**
-     * Triggers to request user information for the item given
-     * by the URL \a url. The signal requestItemInfo is emitted,
-     * which provides a way for widgets to get an indication to update
-     * the item information.
-     */
-    void emitRequestItemInfo(const KUrl& url);
-
     /** Returns true, if the filter bar is visible. */
     bool isFilterBarVisible() const;
 
